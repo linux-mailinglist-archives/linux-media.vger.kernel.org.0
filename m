@@ -2,132 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A237A279C78
-	for <lists+linux-media@lfdr.de>; Sat, 26 Sep 2020 22:52:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 37C2E279CBE
+	for <lists+linux-media@lfdr.de>; Sun, 27 Sep 2020 00:03:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726478AbgIZUwe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Sep 2020 16:52:34 -0400
-Received: from mail-ej1-f67.google.com ([209.85.218.67]:40091 "EHLO
-        mail-ej1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726311AbgIZUwe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Sep 2020 16:52:34 -0400
-Received: by mail-ej1-f67.google.com with SMTP id p15so3201308ejm.7
-        for <linux-media@vger.kernel.org>; Sat, 26 Sep 2020 13:52:33 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=+8Oh61VDkKJm8ATQ6jeOPbqJJMPXYpW1qx7rAsBes8k=;
-        b=A7hla6cBruWJG1xinh2LPAjNYUNMldLStEX1Y6Z3grfhTXL8HfBw0BQh+jokVCSDPw
-         s0tWEaA/uGWMJ5Ygnp1D/Zo2gljR9MGGkdJfTWfTw4tBzQ6Q5HrMeF38x/qcb/IB+f6y
-         TzFkN2rNs9+Um38lhC4nltMkYLSVpyHJV1B7CAzqB5By2w3WqkGXoZfCR+dMMOc/ZAJC
-         gzZYr317jUMcEH5YHZXgDCRzJc2qoU62PQcYpMdxy9bEacEPpZQjnV7/5GW+MnWj68Lj
-         jkKiIH2vs4eUiJCqrJNO7eWRZXvq3zM5Wm+FsNGcL9usUcbnqMJrARAlj0pZtTanlAjs
-         OHWQ==
-X-Gm-Message-State: AOAM530qSOlWfORkDVjjNj6FsCilniiSObjstj8AootXLRPTPzZ0Xc+C
-        atPfoSvboamX+yHIDQ+QZDJD4g==
-X-Google-Smtp-Source: ABdhPJy70ndEkfLf/+WblrSk/UwDwosqtjfmRLEbzIM2w+dXQYJKs0F5avEWRJwBwLIFK8CxgFh61A==
-X-Received: by 2002:a17:907:264c:: with SMTP id ar12mr9129730ejc.80.1601153552469;
-        Sat, 26 Sep 2020 13:52:32 -0700 (PDT)
-Received: from x1-carbon.localdomain (dynamic-2a01-0c22-a405-1400-4d77-6706-ca6f-bab0.c22.pool.telefonica.de. [2a01:c22:a405:1400:4d77:6706:ca6f:bab0])
-        by smtp.gmail.com with ESMTPSA id p1sm5064178edx.4.2020.09.26.13.52.30
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2020 13:52:31 -0700 (PDT)
-From:   gary@apache.org
-Cc:     Gary Yao <gary@apache.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org
-Subject: [PATCH] staging: media: atomisp: clean up block comment style issues
-Date:   Sat, 26 Sep 2020 22:50:58 +0200
-Message-Id: <20200926205103.189041-1-gary@apache.org>
-X-Mailer: git-send-email 2.26.2
+        id S1727529AbgIZWD0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Sep 2020 18:03:26 -0400
+Received: from gofer.mess.org ([88.97.38.141]:35041 "EHLO gofer.mess.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726462AbgIZWDZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 26 Sep 2020 18:03:25 -0400
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 817DB11A001; Sat, 26 Sep 2020 23:03:24 +0100 (BST)
+Date:   Sat, 26 Sep 2020 23:03:24 +0100
+From:   Sean Young <sean@mess.org>
+To:     Michael Zimmermann <sigmaepsilon92@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: ITE8708 on ASUS PN50 uses a 16 byte io region
+Message-ID: <20200926220324.GA30485@gofer.mess.org>
+References: <CAN9vWDL5rK_UCi-dTUG_Si7MbVSB4hVjvhs1-TEgvdGi+ajUvQ@mail.gmail.com>
+ <20200926113038.GA23934@gofer.mess.org>
+ <CAN9vWD+rsg49VzioyGZb7wOiLjmpgM1ku8EEotns2AiQGGTHHg@mail.gmail.com>
+ <20200926133330.GA25499@gofer.mess.org>
+ <CAN9vWDK5EF4-9-SXpMHObEesbU5-2O-dK8j9m4x2gvD5CgfpiQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAN9vWDK5EF4-9-SXpMHObEesbU5-2O-dK8j9m4x2gvD5CgfpiQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Gary Yao <gary@apache.org>
+On Sat, Sep 26, 2020 at 04:18:10PM +0200, Michael Zimmermann wrote:
+> On Sat, Sep 26, 2020 at 3:33 PM Sean Young <sean@mess.org> wrote:
+> >
+> > Hi Michael,
+> >
+> > On Sat, Sep 26, 2020 at 02:32:21PM +0200, Michael Zimmermann wrote:
+> > > The acpi _HID name of the device is "ITE8708" and the device works
+> > > with linux's ITE8708 config.
+> > >
+> > > I can't find any datasheet or even product page for that IC so I don't
+> > > know what footprint to look for when looking at the PCB - none of the
+> > > bigger ICs near the IR sensor have that name on them and the smaller
+> > > ones usually don't have any useful information printed on them.
+> > > Additionally I can only access one side of the PCB because I couldn't
+> > > figure out how to fully disassemble the device yet.
+> >
+> > This is a super i/o device, so this handles stuff like serial ports,
+> > parallel ports, floppy disks. All the legacy stuff you don't need any more.
+> >
+> > There is a coreboot tool which can identify super i/o devices:
+> >
+> >         https://www.coreboot.org/Superiotool
+> >
+> > The super io devices I've seen are about 2cm by 3cm.
+> >
+> > I could find a datasheet for the IT8712F on google.
+> >
+> >
+> > Sean
+> >
+> > PS. Please don't top post.
+> 
+> Hi Sean,
+> 
+> superiotool r4.12-2974-ga32df26ec07
+> Found Aspeed AST2400 (id=0x00) at 0x2e
+> 
+> Which is kinda confusing. So either the superiotool detection is
+> flawed or the PN50 actually has an AST2400 and is programmed to
+> emulate the IR part of an IT8708F.
+> Also, that thing seems beefy enough to be the systems EC, does that seem likely?
 
-Clean up block comment style issues to follow kernel coding style
-and clear checkpatch warnings.
+Strange. To be honest, I don't know.
 
-WARNING: Block comments use * on subsequent lines
-WARNING: Block comments use a trailing */ on a separate line
+So looking at the driver, there are four models supported. They have an
+io_region_size of IT87_IOREG_LENGTH, IT8708_IOREG_LENGTH, and
+IT8709_IOREG_LENGTH. That's 8, 8, and 2. The header file also has a size
+of IT85_IOREG_LENGTH which is 16, but this is not used anywhere.
 
-Signed-off-by: Gary Yao <gary@apache.org>
----
- .../pci/isp/modes/interface/isp_types.h       | 41 +++++++++++--------
- 1 file changed, 23 insertions(+), 18 deletions(-)
+The documentation I can find for one IT85 model is:
 
-diff --git a/drivers/staging/media/atomisp/pci/isp/modes/interface/isp_types.h b/drivers/staging/media/atomisp/pci/isp/modes/interface/isp_types.h
-index ae273c826808..d1c42c77fa50 100644
---- a/drivers/staging/media/atomisp/pci/isp/modes/interface/isp_types.h
-+++ b/drivers/staging/media/atomisp/pci/isp/modes/interface/isp_types.h
-@@ -1,26 +1,29 @@
- /* SPDX-License-Identifier: GPL-2.0 */
--/**
--Support for Intel Camera Imaging ISP subsystem.
--Copyright (c) 2010 - 2015, Intel Corporation.
--
--This program is free software; you can redistribute it and/or modify it
--under the terms and conditions of the GNU General Public License,
--version 2, as published by the Free Software Foundation.
--
--This program is distributed in the hope it will be useful, but WITHOUT
--ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
--FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
--more details.
--*/
-+/*
-+ * Support for Intel Camera Imaging ISP subsystem.
-+ * Copyright (c) 2010 - 2015, Intel Corporation.
-+ *
-+ * This program is free software; you can redistribute it and/or modify it
-+ * under the terms and conditions of the GNU General Public License,
-+ * version 2, as published by the Free Software Foundation.
-+ *
-+ * This program is distributed in the hope it will be useful, but WITHOUT
-+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or
-+ * FITNESS FOR A PARTICULAR PURPOSE.  See the GNU General Public License for
-+ * more details.
-+ */
- 
- #ifndef _ISP_TYPES_H_
- #define _ISP_TYPES_H_
- 
--/* Workaround: hivecc complains about "tag "sh_css_3a_output" already declared"
--   without this extra decl. */
-+/*
-+ * Workaround: hivecc complains about "tag "sh_css_3a_output" already declared"
-+ * without this extra decl.
-+ */
- struct ia_css_3a_output;
- 
--/* Input stream formats, these correspond to the MIPI formats and the way
-+/*
-+ * Input stream formats, these correspond to the MIPI formats and the way
-  * the CSS receiver sends these to the input formatter.
-  * The bit depth of each pixel element is stored in the global variable
-  * isp_bits_per_pixel.
-@@ -37,8 +40,10 @@ enum sh_stream_format {
- };
- 
- struct s_isp_frames {
--	/* global variables that are written to by either the SP or the host,
--	   every ISP binary needs these. */
-+	/*
-+	 * Global variables that are written to by either the SP or the host,
-+	 * every ISP binary needs these.
-+	 */
- 	/* output frame */
- 	char *xmem_base_addr_y;
- 	char *xmem_base_addr_uv;
--- 
-2.26.2
+http://www.recomb-omsk.ru/published/SC/html/scripts/doc/94689_datasheet_IT8512E_F_V0.4.1.pdf
 
+As far as I can make out, if it was this device, the driver wouldn't work
+at all.
+
+I'm thinking the likely explanation is that the DSDT is wrong and we should
+make the change as you originally suggested.
+
+
+Sean
+
+
+> 
+> Thanks
+> Michael
+> >
+> > >
+> > > Thanks
+> > > Michael
+> > >
+> > > On Sat, Sep 26, 2020 at 1:30 PM Sean Young <sean@mess.org> wrote:
+> > > >
+> > > > On Sat, Sep 26, 2020 at 10:22:46AM +0200, Michael Zimmermann wrote:
+> > > > > Hi,
+> > > > >
+> > > > > here's the resource descriptor from my DSDT:
+> > > > > Name (BUF0, ResourceTemplate ()
+> > > > > {
+> > > > >     IO (Decode16,
+> > > > >         0x0000,             // Range Minimum
+> > > > >         0x0000,             // Range Maximum
+> > > > >         0x01,               // Alignment
+> > > > >         0x10,               // Length
+> > > > >         _Y1A)
+> > > > >     IRQNoFlags (_Y1B)
+> > > > >         {}
+> > > > >     DMA (Compatibility, NotBusMaster, Transfer8, )
+> > > > >         {}
+> > > > > })
+> > > > >
+> > > > > As you can see it uses 16 bytes for the IO region while the driver
+> > > > > drivers/media/rc/ite-cir.c expects 8.
+> > > > > I don't see any obvious reason why they do that since they only seem
+> > > > > to write two words in there, and if I edit the DSDT to change the
+> > > > > length from 0x10 to 0x8 the linux driver detects the device properly
+> > > > > it works just fine.
+> > > > >
+> > > > > So is this a bug on ASUS' side or should we just accept longer regions
+> > > > > for the same device type?
+> > > >
+> > > > So looking at the driver, some devices do have an io region of 16 and
+> > > > others expect 8. See the io_region_size field of ite_dev_descs.
+> > > >
+> > > > So for ITE8708 the io_region_size is set to 8. Does your device really
+> > > > have an ITE8708 or is the DSDT wrong?
+> > > >
+> > > >
+> > > > Sean
