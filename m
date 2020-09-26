@@ -2,128 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76D55279998
-	for <lists+linux-media@lfdr.de>; Sat, 26 Sep 2020 15:17:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B2A52799B1
+	for <lists+linux-media@lfdr.de>; Sat, 26 Sep 2020 15:29:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729232AbgIZNRP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Sep 2020 09:17:15 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39106 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726956AbgIZNRM (ORCPT
+        id S1729291AbgIZN3k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 26 Sep 2020 09:29:40 -0400
+Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com ([46.30.210.184]:62906
+        "EHLO mailrelay3-1.pub.mailoutpod1-cph3.one.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725208AbgIZN3k (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Sep 2020 09:17:12 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11631C0613CE
-        for <linux-media@vger.kernel.org>; Sat, 26 Sep 2020 06:17:12 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id a9so2141346wmm.2
-        for <linux-media@vger.kernel.org>; Sat, 26 Sep 2020 06:17:11 -0700 (PDT)
+        Sat, 26 Sep 2020 09:29:40 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=d4WdYnhNduVMb4IQylvNj0b3+xUXtGAllJOGjx+LukM=;
-        b=bu7rNwBBrw/g6/MQUYPv/rJuxs4kAJuSUSGF7HaoBxYmz+CE+8kF5cU7Vk+A9yw9fT
-         2uTqTzH0/a59B/1vQknmTX55axzITAT5Sk1Eml/bFiKnwHjUdhTv0Q+hwWWoD69eTq2r
-         yb7hM4IaJd6RS4hi5svCI3acUoPyo69HIgP2Q=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=d4WdYnhNduVMb4IQylvNj0b3+xUXtGAllJOGjx+LukM=;
-        b=efO2fCleCPqsk6Fo1y1JCJGfgalQajpbl9ea2Msrh+lLpnwcMsbHS3ir7fmN4iPQZF
-         fUob+87EMHeZAP/ssYCxhlGX4rsKA9Do4u3P8ZiVVikOFKafF4hfLVYnJFKR7cb3IMLA
-         Q+qQltNuwZf76LWdkgJADTfMQTUD4mtDbMLfO4TwK7ProADxTG97SigqOJjtnE43e4CV
-         bzWePVWoj3cd/FuOz+s2ukGhpHevAl4gIbFwzcnfsS5VbdOGHGNGAluapbmZQj9+VdY9
-         GKA/s20N6s76DTxjurcEL85979KBxmHhRgyrGcaR9LjHv8M6e0IDOrVscxjlfpcoM4uT
-         BN0A==
-X-Gm-Message-State: AOAM532cLc8TcUZ7eGmOufEnAztbpIEWvb2TeU6xDAnH4XD/R5MmcMXi
-        eWDiLW5ZdJpI5j1Q79JA9/xCgA==
-X-Google-Smtp-Source: ABdhPJzA9zIAszTN7VfMOAdSZYj9TgCEGPni6cWED8LMBF3e0XPhvf2pPLGokCCo/16b8UNSW4Do6Q==
-X-Received: by 2002:a7b:c3c8:: with SMTP id t8mr2589182wmj.101.1601126230700;
-        Sat, 26 Sep 2020 06:17:10 -0700 (PDT)
-Received: from chromium.org (216.131.76.34.bc.googleusercontent.com. [34.76.131.216])
-        by smtp.gmail.com with ESMTPSA id m185sm2768709wmf.5.2020.09.26.06.17.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 26 Sep 2020 06:17:09 -0700 (PDT)
-Date:   Sat, 26 Sep 2020 13:17:08 +0000
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org
-Subject: Re: [PATCH v4 02/10] media: staging: rkisp1: cap: remove unsupported
- formats
-Message-ID: <20200926131708.GE3781977@chromium.org>
-References: <20200901111612.10552-1-dafna.hirschfeld@collabora.com>
- <20200901111612.10552-3-dafna.hirschfeld@collabora.com>
+        d=wedl.one; s=20191106;
+        h=content-transfer-encoding:content-type:mime-version:date:message-id:subject:
+         from:to:from;
+        bh=L1mmUkgohACO5pHr1t7XhI2QAqOEXcOeJM73aWkNvy8=;
+        b=M8GmVV3bplPxDaoDJFu2q9j9vnQsk7IMXm2QzTLBaEz1bG61S8e/kLn+exDvxITh0OsIBc2jiMSZU
+         yTR4khF4lR/mZc15D+5AIe0G3yvLm1TyrrQRGgDMr/i1yuUm9X4Vkj9J8F2FtnP+ZTQ4Cyokqb+/VD
+         b+Xeg6urpLCI40asbFxtMY2S+MdWxvnLolqNoYCT6RzqAAkD2xqVkTw9fn91tS0Jvd1EpQ+gAG99hD
+         ysxYX7eJGiP7idnaN4BeKFeyePFzwBDgVIoFq3T81X61u+MOaLoaQUTHzLlon617wSCKJF/VdaxfH7
+         cKpWk4Tj8HsIurZhqeHNj+irXcGG3sQ==
+X-HalOne-Cookie: ad699c2d8772009731865c71730e81db09610673
+X-HalOne-ID: 51fcef27-fffc-11ea-a7fd-d0431ea8bb03
+Received: from [172.16.1.8] (dyndsl-091-248-120-146.ewe-ip-backbone.de [91.248.120.146])
+        by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
+        id 51fcef27-fffc-11ea-a7fd-d0431ea8bb03;
+        Sat, 26 Sep 2020 13:29:36 +0000 (UTC)
+To:     linux-media@vger.kernel.org
+From:   Webmaster <webmaster@wedl.one>
+Subject: Terratec CINERGY T/C Stick
+Message-ID: <eddb42fa-889c-6653-3db3-113d05350c28@wedl.one>
+Date:   Sat, 26 Sep 2020 15:29:35 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200901111612.10552-3-dafna.hirschfeld@collabora.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: de-DE
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+Hello,
 
-On Tue, Sep 01, 2020 at 01:16:04PM +0200, Dafna Hirschfeld wrote:
-> For Ycbcr packed formats only YUYV can be supported by
-> the driver. This patch removes the other formats.
+https://www.spinics.net/lists/linux-media/msg97580.html
 
-I can see the driver already setting the
-RKISP1_CIF_MI_XTD_FMT_CTRL_*_CB_CR_SWAP register according to the
-uv_swap flag, but it currently does it so only if comp_planes is 2.
-Wouldn't just doing the same if the number of planes is 1 fix the
-support for at least the YVYU format?
+is there any news for the Terratec CINERGY T/C Stick?
 
-Best regards,
-Tomasz
+Is there a chance it will work on Linux?
 
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> Acked-by: Helen Koike <helen.koike@collabora.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  drivers/staging/media/rkisp1/rkisp1-capture.c | 17 -----------------
->  1 file changed, 17 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> index f4d5cc3e2f12..79195e74d995 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> @@ -88,13 +88,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
->  		.fourcc = V4L2_PIX_FMT_YUYV,
->  		.uv_swap = 0,
->  		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
-> -	}, {
-> -		.fourcc = V4L2_PIX_FMT_YVYU,
-> -		.uv_swap = 1,
-> -		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
-> -	}, {
-> -		.fourcc = V4L2_PIX_FMT_VYUY,
-> -		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_YUV422P,
->  		.uv_swap = 0,
-> @@ -197,16 +190,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
->  		.uv_swap = 0,
->  		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
->  		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
-> -	}, {
-> -		.fourcc = V4L2_PIX_FMT_YVYU,
-> -		.uv_swap = 1,
-> -		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
-> -		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
-> -	}, {
-> -		.fourcc = V4L2_PIX_FMT_VYUY,
-> -		.uv_swap = 1,
-> -		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
-> -		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
->  	}, {
->  		.fourcc = V4L2_PIX_FMT_YUV422P,
->  		.uv_swap = 0,
-> -- 
-> 2.17.1
-> 
+
+Linux acer-p256-m 5.4.0-48-generic #52-Ubuntu SMP Thu Sep 10 10:58:49 
+UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+
+dmesg
+[ 1997.939659] usb 2-1: new high-speed USB device number 7 using xhci_hcd
+[ 1998.099840] usb 2-1: New USB device found, idVendor=0ccd, 
+idProduct=5103, bcdDevice= 1.00
+[ 1998.099846] usb 2-1: New USB device strings: Mfr=1, Product=2, 
+SerialNumber=3
+[ 1998.099850] usb 2-1: Product: RTL2841UHIDIR
+[ 1998.099853] usb 2-1: Manufacturer: Realtek
+[ 1998.099856] usb 2-1: SerialNumber: 00000173
+
+lsusb -vvv
+Bus 002 Device 007: ID 0ccd:5103 TerraTec Electronic GmbH RTL2841UHIDIR
+Device Descriptor:
+   bLength                18
+   bDescriptorType         1
+   bcdUSB               2.00
+   bDeviceClass            0
+   bDeviceSubClass         0
+   bDeviceProtocol         0
+   bMaxPacketSize0        64
+   idVendor           0x0ccd TerraTec Electronic GmbH
+   idProduct          0x5103
+   bcdDevice            1.00
+   iManufacturer           1 Realtek
+   iProduct                2 RTL2841UHIDIR
+   iSerial                 3 00000173
+   bNumConfigurations      1
+   Configuration Descriptor:
+     bLength                 9
+     bDescriptorType         2
+     wTotalLength       0x0022
+     bNumInterfaces          2
+     bConfigurationValue     1
+     iConfiguration          4 USB2.0-Bulk&Iso
+     bmAttributes         0x80
+       (Bus Powered)
+     MaxPower              500mA
+     Interface Descriptor:
+       bLength                 9
+       bDescriptorType         4
+       bInterfaceNumber        0
+       bAlternateSetting       0
+       bNumEndpoints           1
+       bInterfaceClass       255 Vendor Specific Class
+       bInterfaceSubClass    255 Vendor Specific Subclass
+       bInterfaceProtocol    255 Vendor Specific Protocol
+       iInterface              5 Bulk-In, Interface
+       Endpoint Descriptor:
+         bLength                 7
+         bDescriptorType         5
+         bEndpointAddress     0x81  EP 1 IN
+         bmAttributes            2
+           Transfer Type            Bulk
+           Synch Type               None
+           Usage Type               Data
+         wMaxPacketSize     0x0200  1x 512 bytes
+         bInterval               0
+     Interface Descriptor:
+       bLength                 9
+       bDescriptorType         4
+       bInterfaceNumber        1
+       bAlternateSetting       0
+       bNumEndpoints           0
+       bInterfaceClass       255 Vendor Specific Class
+       bInterfaceSubClass    255 Vendor Specific Subclass
+       bInterfaceProtocol    255 Vendor Specific Protocol
+       iInterface              5 Bulk-In, Interface
+Device Qualifier (for other device speed):
+   bLength                10
+   bDescriptorType         6
+   bcdUSB               2.00
+   bDeviceClass            0
+   bDeviceSubClass         0
+   bDeviceProtocol         0
+   bMaxPacketSize0        64
+   bNumConfigurations      2
+can't get debug descriptor: Resource temporarily unavailable
+Device Status:     0x0000
+   (Bus Powered)
+
+RTL2840 CCH78S1 GC52
+RTL2832P A6G72S1 GA250
+
+What can I do to help
+Thank you
+Ingo
