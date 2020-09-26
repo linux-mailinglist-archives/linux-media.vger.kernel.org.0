@@ -2,183 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC7B427945F
-	for <lists+linux-media@lfdr.de>; Sat, 26 Sep 2020 00:53:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2FFD27966C
+	for <lists+linux-media@lfdr.de>; Sat, 26 Sep 2020 05:39:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729057AbgIYWxC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 25 Sep 2020 18:53:02 -0400
-Received: from mga14.intel.com ([192.55.52.115]:7170 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726064AbgIYWxB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 25 Sep 2020 18:53:01 -0400
-IronPort-SDR: QbGlwhVlm//DpH00aQrUDeNtU6+8NNhbwA2N8lxeh+ed2+yYT3Ccvq/sV9tCOSTES0O33YvMnT
- MCFWft7SXgtw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9755"; a="160884395"
-X-IronPort-AV: E=Sophos;i="5.77,303,1596524400"; 
-   d="scan'208";a="160884395"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 13:11:29 -0700
-IronPort-SDR: Wv4YOe2jObohQKrRd0YLw2kCB5bLvsVjsTvYWcwb5StO+wGhW9tGM5jEpC3GzIFhEboM66rP8L
- m+rP7HMdGnMw==
-X-IronPort-AV: E=Sophos;i="5.77,303,1596524400"; 
-   d="scan'208";a="349890400"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 25 Sep 2020 13:11:27 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 2BFC820728; Fri, 25 Sep 2020 23:11:25 +0300 (EEST)
-Date:   Fri, 25 Sep 2020 23:11:25 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Stefan Riedmueller <s.riedmueller@phytec.de>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Christian Hemp <c.hemp@phytec.de>,
-        Jan Luebbe <jlu@pengutronix.de>
-Subject: Re: [PATCH 1/5] media: mt9p031: Add support for 8 bit and 10 bit
- formats
-Message-ID: <20200925201125.GX26842@paasikivi.fi.intel.com>
-References: <20200925075029.32181-1-s.riedmueller@phytec.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200925075029.32181-1-s.riedmueller@phytec.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1728051AbgIZDjc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 25 Sep 2020 23:39:32 -0400
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:55629 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726149AbgIZDjc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 25 Sep 2020 23:39:32 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id M13ZkEA3i4gEjM13akegGS; Sat, 26 Sep 2020 05:39:30 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1601091570; bh=DVhZIa3y8Sjs5J7/Ww0mPtlA9NATs9lK5Hvw5JIlMYQ=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=HXEtrzIQfPYt1KiKJ9CvCvMGZy1+I90Hl+vuA/3tjXvK+5G4cWuWvM0FGwr8LnulY
+         vRw9p+YyhTwgTJZdW1A3YTmtT4AHljnYI6zvU1U6b2JmDsw7wQbgaZqtKKKF+bGzWN
+         bujGiSm5kb3bZul6sWgJv6HqdcwFbDr/pLA8twyWbQHWzF3kfPWWla/BiqjRGOa5pH
+         usRtqIPo8rXdun82e/5KjN1Tw1P2ysQJtefRCod7ac7WAW3ZM+kr31IoefEjVHJW4+
+         RuSW8nmyKhyOYZ6BKpUub1wDXjx5gGutW1TxgizMVaBMPo2dkdK8YEIKcrC/EEX6/r
+         LXRTqlmzhbkPw==
+Message-ID: <cafc1405e13c9cf403f280d3287343b3@smtp-cloud9.xs4all.net>
+Date:   Sat, 26 Sep 2020 05:39:29 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfAdR1qwM7Qk+bv3SdnnIqYXLO5AHpq1uPbJLN/GY+6N05j/aBE+WV/+ublDnlBYdgbfKQru+w+Yr+yc16iP2hPDxWuP/v7dPoDggw95IkyYLNIoiN6Dk
+ 0EMeY7SI4XrGP0/K6VzFMnH4TvzZ2QZhdLaVkGgxU8tmNsuQiKM8W3l9cJlAqsrR5iaCqTAGW4us/eUnxk1PPZxlUNy6PZwvfI6JQGHCTOn46MtIBAV00cP9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stefan,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Fri, Sep 25, 2020 at 09:50:25AM +0200, Stefan Riedmueller wrote:
-> From: Christian Hemp <c.hemp@phytec.de>
-> 
-> Aside from 12 bit monochrome or color format the sensor implicitly
-> supports 10 and 8 bit formats as well by simply dropping the
-> corresponding LSBs.
-> 
-> Signed-off-by: Christian Hemp <c.hemp@phytec.de>
-> [jlu@pengutronix.de: simplified by dropping v4l2_colorspace handling]
-> Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
-> Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
-> ---
->  drivers/media/i2c/mt9p031.c | 50 +++++++++++++++++++++++++++++--------
->  1 file changed, 40 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-> index dc23b9ed510a..0002dd299ffa 100644
-> --- a/drivers/media/i2c/mt9p031.c
-> +++ b/drivers/media/i2c/mt9p031.c
-> @@ -116,6 +116,18 @@ enum mt9p031_model {
->  	MT9P031_MODEL_MONOCHROME,
->  };
->  
-> +static const u32 mt9p031_color_fmts[] = {
-> +	MEDIA_BUS_FMT_SGRBG8_1X8,
-> +	MEDIA_BUS_FMT_SGRBG10_1X10,
-> +	MEDIA_BUS_FMT_SGRBG12_1X12,
-> +};
-> +
-> +static const u32 mt9p031_monochrome_fmts[] = {
-> +	MEDIA_BUS_FMT_Y8_1X8,
-> +	MEDIA_BUS_FMT_Y10_1X10,
-> +	MEDIA_BUS_FMT_Y12_1X12,
-> +};
-> +
->  struct mt9p031 {
->  	struct v4l2_subdev subdev;
->  	struct media_pad pad;
-> @@ -138,6 +150,9 @@ struct mt9p031 {
->  	struct v4l2_ctrl *blc_auto;
->  	struct v4l2_ctrl *blc_offset;
->  
-> +	const u32 *fmts;
-> +	int num_fmts;
+Results of the daily build of media_tree:
 
-Unsigned int, please.
+date:			Sat Sep 26 05:00:13 CEST 2020
+media-tree git hash:	01cc2ec6ea044731e939e5e47f7e115b86f49465
+media_build git hash:	efbdeecfc21ff8abcabc84c77fe8dfbefa2d657a
+v4l-utils git hash:	ea16a7ef13a902793a5c2626b0cefc4d956147f3
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: b54e01a7f76260649e5d124db86c575c8650c2f9
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-> +
->  	/* Registers cache */
->  	u16 output_control;
->  	u16 mode2;
-> @@ -148,6 +163,17 @@ static struct mt9p031 *to_mt9p031(struct v4l2_subdev *sd)
->  	return container_of(sd, struct mt9p031, subdev);
->  }
->  
-> +static const u32 mt9p031_find_datafmt(struct mt9p031 *mt9p031, u32 code)
-> +{
-> +	int i;
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-mips: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: WARNINGS
+linux-3.10.108-x86_64: WARNINGS
+linux-3.11.10-i686: WARNINGS
+linux-3.11.10-x86_64: WARNINGS
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: OK
 
-Same here.
+Detailed results are available here:
 
-> +
-> +	for (i = 0; i < mt9p031->num_fmts; i++)
-> +		if (mt9p031->fmts[i] == code)
-> +			return mt9p031->fmts[i];
-> +
-> +	return mt9p031->fmts[mt9p031->num_fmts-1];
-> +}
-> +
->  static int mt9p031_read(struct i2c_client *client, u8 reg)
->  {
->  	return i2c_smbus_read_word_swapped(client, reg);
-> @@ -476,10 +502,11 @@ static int mt9p031_enum_mbus_code(struct v4l2_subdev *subdev,
->  {
->  	struct mt9p031 *mt9p031 = to_mt9p031(subdev);
->  
-> -	if (code->pad || code->index)
-> +	if (code->pad || code->index >= mt9p031->num_fmts)
->  		return -EINVAL;
->  
-> -	code->code = mt9p031->format.code;
-> +	code->code = mt9p031->fmts[code->index];
-> +
->  	return 0;
->  }
->  
-> @@ -573,6 +600,8 @@ static int mt9p031_set_format(struct v4l2_subdev *subdev,
->  	__format->width = __crop->width / hratio;
->  	__format->height = __crop->height / vratio;
->  
-> +	__format->code = mt9p031_find_datafmt(mt9p031, format->format.code);
-> +
->  	format->format = *__format;
->  
->  	return 0;
-> @@ -951,10 +980,7 @@ static int mt9p031_open(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
->  
->  	format = v4l2_subdev_get_try_format(subdev, fh->pad, 0);
->  
-> -	if (mt9p031->model == MT9P031_MODEL_MONOCHROME)
-> -		format->code = MEDIA_BUS_FMT_Y12_1X12;
-> -	else
-> -		format->code = MEDIA_BUS_FMT_SGRBG12_1X12;
-> +	format->code = mt9p031_find_datafmt(mt9p031, 0);
->  
->  	format->width = MT9P031_WINDOW_WIDTH_DEF;
->  	format->height = MT9P031_WINDOW_HEIGHT_DEF;
-> @@ -1121,10 +1147,14 @@ static int mt9p031_probe(struct i2c_client *client,
->  	mt9p031->crop.left = MT9P031_COLUMN_START_DEF;
->  	mt9p031->crop.top = MT9P031_ROW_START_DEF;
->  
-> -	if (mt9p031->model == MT9P031_MODEL_MONOCHROME)
-> -		mt9p031->format.code = MEDIA_BUS_FMT_Y12_1X12;
-> -	else
-> -		mt9p031->format.code = MEDIA_BUS_FMT_SGRBG12_1X12;
-> +	if (mt9p031->model == MT9P031_MODEL_MONOCHROME) {
-> +		mt9p031->fmts = mt9p031_monochrome_fmts;
-> +		mt9p031->num_fmts = ARRAY_SIZE(mt9p031_monochrome_fmts);
-> +	} else {
-> +		mt9p031->fmts = mt9p031_color_fmts;
-> +		mt9p031->num_fmts = ARRAY_SIZE(mt9p031_color_fmts);
-> +	}
-> +	mt9p031->format.code = mt9p031_find_datafmt(mt9p031, 0);
->  
->  	mt9p031->format.width = MT9P031_WINDOW_WIDTH_DEF;
->  	mt9p031->format.height = MT9P031_WINDOW_HEIGHT_DEF;
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
 
--- 
-Kind regards,
+Detailed regression test results are available here:
 
-Sakari Ailus
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
