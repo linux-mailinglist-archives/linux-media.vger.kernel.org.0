@@ -2,175 +2,293 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11887279DC0
-	for <lists+linux-media@lfdr.de>; Sun, 27 Sep 2020 05:35:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8557227A002
+	for <lists+linux-media@lfdr.de>; Sun, 27 Sep 2020 11:17:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729272AbgI0Dfd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 26 Sep 2020 23:35:33 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:59155 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727263AbgI0Dfc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 26 Sep 2020 23:35:32 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id MNTFkJZlw4gEjMNTGkg1TT; Sun, 27 Sep 2020 05:35:30 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1601177730; bh=2wO3BeMGOYexJ22GCfWs0AUictsrTNnNMBfYm0Qn2qI=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=AL685eF/eJcXI18tMP0VvdRivmhv7sAOBEeNPg0U5q1uqY6KYMNTHZXNc48dJiDS0
-         VX9CANmdjzgXX9utU6bwKoHXXG6ZH54k/rTFsCttLJE6l03BrXee5iCgLeI1Wa2HoO
-         3O+ZifeG7uLWdIt0TJJ9aTtVVVeLUt1A7M+mpVbqU5N9DSteZvLU4mPcYyxa3P4u3x
-         bLPQHBUcmi0+Y1di3ASNESsddAwxDwsAsc+BfMksN7wbi7y2xQzOT145eesWhF2ZtX
-         xU8HAWdBfmCC7zV1q5ItECi3M1uHcilQM3Zy1J32Ia0JD/BfGutNpbhU0pbef/3s6U
-         gqF9MdDtq+0EA==
-Message-ID: <e4a162b217d20aa73e05ea75d9f74553@smtp-cloud9.xs4all.net>
-Date:   Sun, 27 Sep 2020 05:35:29 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4wfOnYhfhS+wJ076UkbTTyjMwBRvAnn9AZIe6U3XjVfk5o0KmCjyr6yPHX+SHNw2xBJLd3kvXB83D8EHkAcFF+spuScAhPoH/WBkzXr3X909XxUhd1yM05
- igsIj0yXQGww8wj6Iv6LybIkTI/mjnNpoIO8HzpjxZCeR4eQj4P37mqKXuIZY25y1G2vU8avCcJN56Nfwragy9r9Yr8zXEBu9cx91FCdKmVP7/yYfZLx1Z7o
+        id S1726825AbgI0JRb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Sep 2020 05:17:31 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:54948 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726801AbgI0JR0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 27 Sep 2020 05:17:26 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kMShr-008w3G-QA; Sun, 27 Sep 2020 09:10:56 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kMSqr-00015A-4j; Sun, 27 Sep 2020 09:20:13 +0000
+Date:   Sun, 27 Sep 2020 09:20:12 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1049334653.0.1601198413115@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3232
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+See <https://builder.linuxtv.org/job/media-build/3232/display/redirect>
 
-Results of the daily build of media_tree:
+Changes:
 
-date:			Sun Sep 27 05:00:17 CEST 2020
-media-tree git hash:	e88349437654f9d1b3c144049b9990026f911e56
-media_build git hash:	efbdeecfc21ff8abcabc84c77fe8dfbefa2d657a
-v4l-utils git hash:	53baf567f48eb22085b4a55fd1d9c9d6276e1fe6
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 9.3.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: b54e01a7f76260649e5d124db86c575c8650c2f9
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm-multi: OK
-linux-git-arm64: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.212-i686: ERRORS
-linux-4.4.212-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.212-i686: ERRORS
-linux-4.9.212-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.169-i686: ERRORS
-linux-4.14.169-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.101-i686: ERRORS
-linux-4.19.101-x86_64: ERRORS
-linux-4.20.15-i686: ERRORS
-linux-4.20.15-x86_64: ERRORS
-linux-5.0.15-i686: ERRORS
-linux-5.0.15-x86_64: ERRORS
-linux-5.1.1-i686: ERRORS
-linux-5.1.1-x86_64: ERRORS
-linux-5.2.1-i686: ERRORS
-linux-5.2.1-x86_64: ERRORS
-linux-5.3.1-i686: ERRORS
-linux-5.3.1-x86_64: ERRORS
-linux-5.4.17-i686: ERRORS
-linux-5.4.17-x86_64: ERRORS
-linux-5.5.1-i686: ERRORS
-linux-5.5.1-x86_64: ERRORS
-linux-5.6.1-i686: ERRORS
-linux-5.6.1-x86_64: ERRORS
-linux-5.7.2-i686: ERRORS
-linux-5.7.2-x86_64: ERRORS
-linux-5.8.1-i686: OK
-linux-5.8.1-x86_64: OK
-linux-5.9-rc1-i686: OK
-linux-5.9-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+------------------------------------------
+[...truncated 46.17 KB...]
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-genius-tvgo-a11mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-gotview7135.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-poplar.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hisi-tv-demo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-pad.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-imon-rsc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-iodata-bctv7e.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v1.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-it913x-v2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kaiomy.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-khadas.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-315u.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-pc150u.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-kworld-plus-tv-analog.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-leadtek-y04g0051.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-lme2510.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-manli.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-digitainer.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-medion-x10-or2x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-ii.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-digivox-iii.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-msi-tvanywhere-plus.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nebula.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-nec-terratec-cinergy-xs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-norwood.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-npgtech.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-odroid.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pctv-sedna.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-color.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-grey.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pinnacle-pctv-hd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-mk12.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-002t.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pixelview-new.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-powercolor-real-angel.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-proteus-2309.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-purpletv.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-pv951.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-hauppauge.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-rc6-mce.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-real-audio-220-32-keys.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-reddo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-snapstream-firefly.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-streamzap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tango.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx3mini.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tanix-tx5max.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tbs-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-ts35.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-technisat-usb2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-c-pci.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-s2-hd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-cinergy-xs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-terratec-slim-2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tevii-nec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tivo.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-total-media-in-hand-02.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-trekstor.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-tt-1500.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan-dtv-cab-ci.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-twinhan1027.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-vega-s9x.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-m1f.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-s350.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videomate-tv-pvr.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-videostrong-kii-pro.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-hub.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-wetek-play2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-winfast-usbii-deluxe.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-su3000.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-xbox-dvd.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-x96max.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-zx-irdec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-main.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-ir-raw.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/lirc_dev.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-nec-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc5-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rc6-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-jvc-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sony-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sanyo-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-sharp-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-mce_kbd-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-xmp-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-imon-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir-rcmm-decoder.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ati_remote.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/imon_raw.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ite-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/mceusb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/fintek-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/nuvoton-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ene_ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/redrat3.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/streamzap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/winbond-cir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rc-loopback.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/igorplugusb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/iguanair.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ttusbir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/serial_ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sir_ir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/xbox_remote.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ir_toy.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-adap.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-api.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-notifier.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-pin.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cec-pin-error-inj.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/ch7322.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/seco-cec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/pulse8-cec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/rainshadow-cec.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-fe-tuner.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-i2c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-sram.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-eeprom.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-misc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/flexcop-hw-filter.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146_i2c.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146_core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146_fops.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146_video.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146_hlp.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/saa7146_vbi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smscoreapi.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/sms-cards.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smsendian.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smsir.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smsdvb-main.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/smsdvb-debugfs.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-tpg-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/v4l2-tpg-colors.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-core.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/vb2-trace.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-v4l2.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-memops.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-vmalloc.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-sg.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dvb.o>
+  CC [M]  <https://builder.linuxtv.org/job/media-build/ws/v4l/cx2341x.o>
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-vmalloc.c>: In function 'vb2_vmalloc_dmabuf_ops_attach':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-vmalloc.c>:233:2: error: implicit declaration of function 'for_each_sgtable_sg'; did you mean 'for_each_set_bit'? [-Werror=implicit-function-declaration]
+  for_each_sgtable_sg(sgt, sg, i) {
+  ^~~~~~~~~~~~~~~~~~~
+  for_each_set_bit
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-vmalloc.c>:233:33: error: expected ';' before '{' token
+  for_each_sgtable_sg(sgt, sg, i) {
+                                 ^~
+                                 ;
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-vmalloc.c>:219:8: warning: unused variable 'vaddr' [-Wunused-variable]
+  void *vaddr = buf->vaddr;
+        ^~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-vmalloc.c>: In function 'vb2_vmalloc_dmabuf_ops_detach':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-vmalloc.c>:263:3: error: implicit declaration of function 'dma_unmap_sgtable'; did you mean 'dma_unmap_single'? [-Werror=implicit-function-declaration]
+   dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir, 0);
+   ^~~~~~~~~~~~~~~~~
+   dma_unmap_single
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-vmalloc.c>: In function 'vb2_vmalloc_dmabuf_ops_map':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-vmalloc.c>:293:6: error: implicit declaration of function 'dma_map_sgtable'; did you mean 'dma_get_sgtable'? [-Werror=implicit-function-declaration]
+  if (dma_map_sgtable(db_attach->dev, sgt, dma_dir, 0)) {
+      ^~~~~~~~~~~~~~~
+      dma_get_sgtable
+cc1: some warnings being treated as errors
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-vmalloc.o]> Error 1
+make[5]: *** Waiting for unfinished jobs....
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>: In function 'vb2_dc_get_contiguous_size':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>:61:2: error: implicit declaration of function 'for_each_sgtable_dma_sg'; did you mean 'for_each_node_mask'? [-Werror=implicit-function-declaration]
+  for_each_sgtable_dma_sg(sgt, s, i) {
+  ^~~~~~~~~~~~~~~~~~~~~~~
+  for_each_node_mask
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>:61:36: error: expected ';' before '{' token
+  for_each_sgtable_dma_sg(sgt, s, i) {
+                                    ^~
+                                    ;
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>:59:16: warning: unused variable 'size' [-Wunused-variable]
+  unsigned long size = 0;
+                ^~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>:57:13: warning: unused variable 'expected' [-Wunused-variable]
+  dma_addr_t expected = sg_dma_address(sgt->sgl);
+             ^~~~~~~~
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>:68:1: warning: no return statement in function returning non-void [-Wreturn-type]
+ }
+ ^
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>: In function 'vb2_dc_prepare':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>:106:2: error: implicit declaration of function 'dma_sync_sgtable_for_device'; did you mean 'dma_sync_single_for_device'? [-Werror=implicit-function-declaration]
+  dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+  dma_sync_single_for_device
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>: In function 'vb2_dc_finish':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>:117:2: error: implicit declaration of function 'dma_sync_sgtable_for_cpu'; did you mean 'dma_sync_single_for_cpu'? [-Werror=implicit-function-declaration]
+  dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+  ^~~~~~~~~~~~~~~~~~~~~~~~
+  dma_sync_single_for_cpu
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>: In function 'vb2_dc_dmabuf_ops_detach':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>:283:3: error: implicit declaration of function 'dma_unmap_sgtable'; did you mean 'dma_unmap_single'? [-Werror=implicit-function-declaration]
+   dma_unmap_sgtable(db_attach->dev, sgt, attach->dma_dir,
+   ^~~~~~~~~~~~~~~~~
+   dma_unmap_single
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>: In function 'vb2_dc_dmabuf_ops_map':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.c>:318:6: error: implicit declaration of function 'dma_map_sgtable'; did you mean 'dma_get_sgtable'? [-Werror=implicit-function-declaration]
+  if (dma_map_sgtable(db_attach->dev, sgt, dma_dir,
+      ^~~~~~~~~~~~~~~
+      dma_get_sgtable
+cc1: some warnings being treated as errors
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-contig.o]> Error 1
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-sg.c>: In function 'vb2_dma_sg_alloc':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-sg.c>:151:6: error: implicit declaration of function 'dma_map_sgtable'; did you mean 'dma_get_sgtable'? [-Werror=implicit-function-declaration]
+  if (dma_map_sgtable(buf->dev, sgt, buf->dma_dir,
+      ^~~~~~~~~~~~~~~
+      dma_get_sgtable
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-sg.c>: In function 'vb2_dma_sg_put':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-sg.c>:188:3: error: implicit declaration of function 'dma_unmap_sgtable'; did you mean 'dma_unmap_single'? [-Werror=implicit-function-declaration]
+   dma_unmap_sgtable(buf->dev, sgt, buf->dma_dir,
+   ^~~~~~~~~~~~~~~~~
+   dma_unmap_single
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-sg.c>: In function 'vb2_dma_sg_prepare':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-sg.c>:206:2: error: implicit declaration of function 'dma_sync_sgtable_for_device'; did you mean 'dma_sync_single_for_device'? [-Werror=implicit-function-declaration]
+  dma_sync_sgtable_for_device(buf->dev, sgt, buf->dma_dir);
+  ^~~~~~~~~~~~~~~~~~~~~~~~~~~
+  dma_sync_single_for_device
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-sg.c>: In function 'vb2_dma_sg_finish':
+<https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-sg.c>:214:2: error: implicit declaration of function 'dma_sync_sgtable_for_cpu'; did you mean 'dma_sync_single_for_cpu'? [-Werror=implicit-function-declaration]
+  dma_sync_sgtable_for_cpu(buf->dev, sgt, buf->dma_dir);
+  ^~~~~~~~~~~~~~~~~~~~~~~~
+  dma_sync_single_for_cpu
+cc1: some warnings being treated as errors
+make[5]: *** [/usr/src/linux-headers-4.19.0-5-common/scripts/Makefile.build:314: <https://builder.linuxtv.org/job/media-build/ws/v4l/videobuf2-dma-sg.o]> Error 1
+make[4]: *** [/usr/src/linux-headers-4.19.0-5-common/Makefile:1539: _module_<https://builder.linuxtv.org/job/media-build/ws/v4l]> Error 2
+make[3]: *** [Makefile:146: sub-make] Error 2
+make[2]: *** [Makefile:8: all] Error 2
+make[2]: Leaving directory '/usr/src/linux-headers-4.19.0-5-amd64'
+make[1]: *** [Makefile:53: default] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: all] Error 2
+build failed at ./build line 533
+Build step 'Execute shell' marked build as failure
