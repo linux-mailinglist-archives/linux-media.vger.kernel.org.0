@@ -2,112 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3987027A045
-	for <lists+linux-media@lfdr.de>; Sun, 27 Sep 2020 11:33:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B64027A053
+	for <lists+linux-media@lfdr.de>; Sun, 27 Sep 2020 11:43:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726255AbgI0Jd2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Sep 2020 05:33:28 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:34574 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726239AbgI0Jd2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Sep 2020 05:33:28 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 1BC2D265BB2
-Subject: Re: [PATCH v4 02/10] media: staging: rkisp1: cap: remove unsupported
- formats
-To:     Tomasz Figa <tfiga@chromium.org>
+        id S1726252AbgI0Jnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Sep 2020 05:43:33 -0400
+Received: from mail.kernel.org ([198.145.29.99]:53218 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726149AbgI0Jnd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 27 Sep 2020 05:43:33 -0400
+Received: from coco.lan (ip5f5ad5c3.dynamic.kabel-deutschland.de [95.90.213.195])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D855423899;
+        Sun, 27 Sep 2020 09:43:29 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601199812;
+        bh=yO4LD++4ZyeaPoWRoDVXFsYHuJ8jBIt8Yey5f9snHfc=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=t7QCBm7r7VbXKNiFCkhgXu5hNfCwYL7tBF5GpUMqAtdVTbvI9ssVyBN+/Ya9LDKr9
+         B2t76OgLRtQhFLqkNBuIpVjWKCM+bY+yqz3MRLMLc2vEJhqwn2GUF8Ppk/I7YUotsX
+         +gRM7B+Tb+PMj+jw22r6ige5CQ5HTSSPgHNA64nM=
+Date:   Sun, 27 Sep 2020 11:43:26 +0200
+From:   Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        helen.koike@collabora.com, hverkuil@xs4all.nl
 Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        ezequiel@collabora.com, kernel@collabora.com, dafna3@gmail.com,
         sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org
-References: <20200901111612.10552-1-dafna.hirschfeld@collabora.com>
- <20200901111612.10552-3-dafna.hirschfeld@collabora.com>
- <20200926131708.GE3781977@chromium.org>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <86b5262f-6bb3-7c02-f49e-cbe8edab3490@collabora.com>
-Date:   Sun, 27 Sep 2020 11:33:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        tfiga@chromium.org
+Subject: Re: [PATCH v3 12/12] media: staging: rkisp1: cap: protect access to
+ buf with the spin lock
+Message-ID: <20200927114326.7446d970@coco.lan>
+In-Reply-To: <20200922113402.12442-13-dafna.hirschfeld@collabora.com>
+References: <20200922113402.12442-1-dafna.hirschfeld@collabora.com>
+        <20200922113402.12442-13-dafna.hirschfeld@collabora.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20200926131708.GE3781977@chromium.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Em Tue, 22 Sep 2020 13:34:02 +0200
+Dafna Hirschfeld <dafna.hirschfeld@collabora.com> escreveu:
 
-Am 26.09.20 um 15:17 schrieb Tomasz Figa:
-> Hi Dafna,
+> The function 'rkisp1_stream_start' calls 'rkisp1_set_next_buf'
+> which access the buffers, so the call should be protected by
+> taking the cap->buf.lock.
+> After this patch, all locks are reviewed and commented so remove
+> the TODO item "review and comment every lock"
 > 
-> On Tue, Sep 01, 2020 at 01:16:04PM +0200, Dafna Hirschfeld wrote:
->> For Ycbcr packed formats only YUYV can be supported by
->> the driver. This patch removes the other formats.
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/staging/media/rkisp1/TODO             | 1 -
+>  drivers/staging/media/rkisp1/rkisp1-capture.c | 2 ++
+>  2 files changed, 2 insertions(+), 1 deletion(-)
 > 
-> I can see the driver already setting the
-> RKISP1_CIF_MI_XTD_FMT_CTRL_*_CB_CR_SWAP register according to the
-> uv_swap flag, but it currently does it so only if comp_planes is 2.
-> Wouldn't just doing the same if the number of planes is 1 fix the
-> support for at least the YVYU format?
+> diff --git a/drivers/staging/media/rkisp1/TODO b/drivers/staging/media/rkisp1/TODO
+> index f0c90d1c86a8..9662e9b51c7f 100644
+> --- a/drivers/staging/media/rkisp1/TODO
+> +++ b/drivers/staging/media/rkisp1/TODO
+> @@ -1,6 +1,5 @@
+>  * Fix pad format size for statistics and parameters entities.
+>  * Fix checkpatch errors.
+> -* Review and comment every lock
+>  * Handle quantization
+>  * streaming paths (mainpath and selfpath) check if the other path is streaming
+>  in several places of the code, review this, specially that it doesn't seem it
 
-Hi, Laurent already suggested it and I found out it does not
-work, see: https://patchwork.kernel.org/patch/11471301/
+
+FYI,
+
+There was a trivial context conflict here. Basically, the upstream
+version has this:
+
+
+	 * Add uapi docs. Remember to add documentation of how quantization is handled.
+
+I solved the conflict, but as some patches for rkisp1 got merged
+on a different pull request, and there were some uapi docs at the
+other PR, maybe this would need to be revisited.
 
 Thanks,
-Dafna
-
-> 
-> Best regards,
-> Tomasz
-> 
->>
->> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->> Acked-by: Helen Koike <helen.koike@collabora.com>
->> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
->> ---
->>   drivers/staging/media/rkisp1/rkisp1-capture.c | 17 -----------------
->>   1 file changed, 17 deletions(-)
->>
->> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
->> index f4d5cc3e2f12..79195e74d995 100644
->> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
->> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
->> @@ -88,13 +88,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_mp_fmts[] = {
->>   		.fourcc = V4L2_PIX_FMT_YUYV,
->>   		.uv_swap = 0,
->>   		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
->> -	}, {
->> -		.fourcc = V4L2_PIX_FMT_YVYU,
->> -		.uv_swap = 1,
->> -		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
->> -	}, {
->> -		.fourcc = V4L2_PIX_FMT_VYUY,
->> -		.write_format = RKISP1_MI_CTRL_MP_WRITE_YUVINT,
->>   	}, {
->>   		.fourcc = V4L2_PIX_FMT_YUV422P,
->>   		.uv_swap = 0,
->> @@ -197,16 +190,6 @@ static const struct rkisp1_capture_fmt_cfg rkisp1_sp_fmts[] = {
->>   		.uv_swap = 0,
->>   		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
->>   		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
->> -	}, {
->> -		.fourcc = V4L2_PIX_FMT_YVYU,
->> -		.uv_swap = 1,
->> -		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
->> -		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
->> -	}, {
->> -		.fourcc = V4L2_PIX_FMT_VYUY,
->> -		.uv_swap = 1,
->> -		.write_format = RKISP1_MI_CTRL_SP_WRITE_INT,
->> -		.output_format = RKISP1_MI_CTRL_SP_OUTPUT_YUV422,
->>   	}, {
->>   		.fourcc = V4L2_PIX_FMT_YUV422P,
->>   		.uv_swap = 0,
->> -- 
->> 2.17.1
->>
+Mauro
