@@ -2,265 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0866527A0BB
-	for <lists+linux-media@lfdr.de>; Sun, 27 Sep 2020 14:08:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 451B027A15E
+	for <lists+linux-media@lfdr.de>; Sun, 27 Sep 2020 16:18:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726265AbgI0MIl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Sep 2020 08:08:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51092 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726185AbgI0MIk (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Sep 2020 08:08:40 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 753ACC0613CE
-        for <linux-media@vger.kernel.org>; Sun, 27 Sep 2020 05:08:40 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id i26so4485150ejb.12
-        for <linux-media@vger.kernel.org>; Sun, 27 Sep 2020 05:08:40 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=aQwxp2khrX5Le2TOFyr3STxSb2uowCwAwOEgRX0PH8A=;
-        b=HZxOnxNgmuVNKfemI6Bu5W3Fe3yAsR55UP4RI9068wPESW1SDGo5vUftgy2C8IIf1G
-         qnlku13uN0U2yTbHdpgBTANXp7YRZQhiRai3xRskrcX+x8ayi4zR08633fFwANDC4gZa
-         m1DTfDozn60uGnv8ECD31SWejnqbXyO320nQg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=aQwxp2khrX5Le2TOFyr3STxSb2uowCwAwOEgRX0PH8A=;
-        b=tXq5Up27GPNe5xolpzo6ibktDmxp8Scpsm3sAFm+WV3tyfGyojFwdtKGPjpDbFJ8Yl
-         WNvFS7Gc2OtUwds8oDoGWXaFaa2XAxaHEwZEc2HRnO//WpCJn6d3ea6E8f+cQtZSosUd
-         hJKKC1LsRphkLg2yfHrzpliGufEA/jXTnQbCsgjgE3hHpduMYSKLthzLn7JlJwt78tG1
-         oDu+GCVphNCV5vGlPHCRbPDWI8Rk1UHZVloHPN1rrsRGGrn8OjsjmRJF082rWuELtvbj
-         lpAMS+7rvur1hJwXMoLrXpzex7YwtLe2bP0KU7bcERDfU7CPsF5uuVTJcCoJRIq3Hw/8
-         6Lsg==
-X-Gm-Message-State: AOAM531VH9lWi0vd4SYAnmiK44ApsIsxEo/1NVcpkJn9RtpXa/Kdw6pu
-        qJQBz6RJWxyKUnpzY4BwVkYklXrcyMKfZA==
-X-Google-Smtp-Source: ABdhPJzMhjyucYvLOlqA6w/2YJ1JHphGrWMoFEXVRS8jCw5KI5w5EYAy2holyXixTi585Gk+clZwwA==
-X-Received: by 2002:a17:906:868c:: with SMTP id g12mr10425335ejx.230.1601208518754;
-        Sun, 27 Sep 2020 05:08:38 -0700 (PDT)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com. [209.85.128.41])
-        by smtp.gmail.com with ESMTPSA id g25sm6984612edu.53.2020.09.27.05.08.37
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 27 Sep 2020 05:08:37 -0700 (PDT)
-Received: by mail-wm1-f41.google.com with SMTP id v12so3811454wmh.3
-        for <linux-media@vger.kernel.org>; Sun, 27 Sep 2020 05:08:37 -0700 (PDT)
-X-Received: by 2002:a1c:2d85:: with SMTP id t127mr6702887wmt.22.1601208517256;
- Sun, 27 Sep 2020 05:08:37 -0700 (PDT)
-MIME-Version: 1.0
-References: <771916ba-8045-3f9a-3b62-a2af7b1489de@collabora.com> <78ec2b27-665b-eff7-8c4b-53dac9608a57@collabora.com>
-In-Reply-To: <78ec2b27-665b-eff7-8c4b-53dac9608a57@collabora.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Sun, 27 Sep 2020 14:08:21 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5A=F5BZBM5kt_Kr8SLnA2tef4JiWXRL4rKbUFwAj6A6ZQ@mail.gmail.com>
-Message-ID: <CAAFQd5A=F5BZBM5kt_Kr8SLnA2tef4JiWXRL4rKbUFwAj6A6ZQ@mail.gmail.com>
-Subject: Re: Re: [PATCH v3 04/12] media: staging: rkisp1: params: avoid using
- buffer if params is not streaming
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Helen Koike <helen.koike@collabora.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        dafna Hirschfeld <dafna3@gmail.com>
+        id S1726348AbgI0OSx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Sep 2020 10:18:53 -0400
+Received: from mail-eopbgr120084.outbound.protection.outlook.com ([40.107.12.84]:6444
+        "EHLO FRA01-PR2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726281AbgI0OSx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 27 Sep 2020 10:18:53 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=hYrmTf47mzNFBDOrIKo90rdwbOIbrdw3ojuKJvKFQSEsz4vekNjLRAIf68v9U3n+M2psEt3k9vVA6fOeYjohMQUcf08dDwsVajfSMuZq4ELsrHzozPImjhJYntjKoN/Nh1ToUZScgX0Hd/Galo2pnrKPvluVtr64rdbE/kzR9fM+71ZSdj5CA6vyXyhYyetk9YobjRyydVJvHLiP2bZEAFKuadFb293C4WqguMOUuFym7giWGVOY21GE0L3vlCN6QdLlsrlewsiMha8iQO2cxh3463apfwa5pUJb0b4zk0VW8Ma3y6SMKm8sygCmGvc7ekyK5Idc3v0tQPpheW13rA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s8kGKIMKdIi/Ojl45KHz4W5qlz37KEvFrlG/uTbThvU=;
+ b=d3iFPLdnS04KIPq5z2v6Ejq2EIawdeILebzjpNGkt1UmS95am6z9bCOvQjJFAqD5HBKLHezxl58LxqVYLeTzVyGKZmbUFVO2WkrXkJSjP4rQAZca5BrsGeVJcbVtE8Myrr6OB4O/EhnChHvhVIIuZCFxVmLk2F09iGPP6gZLrkRAQ+iRDW3TFwSuqdeddiiE4WSC0kDGNtjWwT+7jKUoCXIXz1a0QCH9Btad2h3bbBA0l7p9Va5Ap4KLjwV6qFOOwVlSJGfCZ9/SBXZ5HOFgTx6xmVSLDD+qeloedhGjUkpfNeLuevmy/WAM4qYuLa2l2ShovaPfY3ygCe+12ziO9w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=lamsade.dauphine.fr; dmarc=pass action=none
+ header.from=dauphine.fr; dkim=pass header.d=dauphine.fr; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=dauphine.fr;
+ s=selector2;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=s8kGKIMKdIi/Ojl45KHz4W5qlz37KEvFrlG/uTbThvU=;
+ b=a7VekPoWEB2prD6WYhTO0zPhC3MmwkvhiejOroMPbGQkL16KnrEuA3gbWHR32c9/Sedz+nbTx1T/qbOHT2KQ6APYo8HrizAkLnugOd5A+LB7vRFPwT41jfpehvf1VlqSLx+v9ujV2QWGQfFf06JBSHnDGmkkxWkjJiF4RbcUU0k=
+Authentication-Results: vger.kernel.org; dkim=none (message not signed)
+ header.d=none;vger.kernel.org; dmarc=none action=none
+ header.from=dauphine.fr;
+Received: from MR2P264MB0244.FRAP264.PROD.OUTLOOK.COM (2603:10a6:500:9::16) by
+ MR2P264MB0401.FRAP264.PROD.OUTLOOK.COM (2603:10a6:500:a::18) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.3412.26; Sun, 27 Sep 2020 14:18:48 +0000
+Received: from MR2P264MB0244.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::91c4:b3f7:59a8:f55d]) by MR2P264MB0244.FRAP264.PROD.OUTLOOK.COM
+ ([fe80::91c4:b3f7:59a8:f55d%7]) with mapi id 15.20.3412.028; Sun, 27 Sep 2020
+ 14:18:48 +0000
+Message-ID: <935e190390184b8985bd477939ce491731f2489f.camel@dauphine.fr>
+Subject: Failed to query (129) UVC probe control
+From:   Olivier Cailloux <olivier.cailloux@dauphine.fr>
+To:     linux-media@vger.kernel.org
+Date:   Sun, 27 Sep 2020 16:18:43 +0200
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.30.5-1.1 
+Content-Transfer-Encoding: 8bit
+X-ClientProxiedBy: LO2P265CA0016.GBRP265.PROD.OUTLOOK.COM
+ (2603:10a6:600:62::28) To MR2P264MB0244.FRAP264.PROD.OUTLOOK.COM
+ (2603:10a6:500:9::16)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from saucisson (2a01:e35:2e49:2720:18e2:21d:6da8:c492) by LO2P265CA0016.GBRP265.PROD.OUTLOOK.COM (2603:10a6:600:62::28) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.20 via Frontend Transport; Sun, 27 Sep 2020 14:18:47 +0000
+X-Originating-IP: [2a01:e35:2e49:2720:18e2:21d:6da8:c492]
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3fed6836-fff5-4747-c29a-08d862f03ffd
+X-MS-TrafficTypeDiagnostic: MR2P264MB0401:
+X-Microsoft-Antispam-PRVS: <MR2P264MB0401C967636D153B719D9802D2340@MR2P264MB0401.FRAP264.PROD.OUTLOOK.COM>
+X-MS-Oob-TLC-OOBClassifiers: OLM:8273;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: DjIyGKAt3MbB9t0qW6lXYJXXtYY0ase80l/NId1aYQriBaMsZdBJ/kX7xneqel2B6U6kyuJepObLoIX0d6HB77zsoJHxZhf9BAkNaFJBEl/S+KNeJlZFxKO+lLHIvtfRmaHoW26ULX4ki8HWh3VHoer/HS1LTmqCM/asNvg+r/VTNQ/msRik5hUYVUXNzdub6cmZGaaSkSfZ7/K/qnIx/utQKbIucJt5aIbbBXg5l4Ul2jtPh2ocJ550fnsl63I7LFcIJpiQqR8z+IpQH8hwn0KPRWGri7V4rcLGFVGrhkIvchjZg3j5uR8iV+ma7eI3VfI2IWFCYeYt5+7CyNU+j+is/kuoM93iH/iYV4w/PV7FfFoshWw37P6o7mx3z5OOWWkr00K/FTAJ+5d5AdwVsJN9F3CW3M9vUhP6c3tQqhpbku0FZYbDQtl9XdoQR/ZY
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MR2P264MB0244.FRAP264.PROD.OUTLOOK.COM;PTR:;CAT:NONE;SFS:(4636009)(39850400004)(136003)(376002)(346002)(366004)(396003)(83380400001)(66574015)(5660300002)(66556008)(66476007)(66946007)(6666004)(83170400001)(83080400001)(8676002)(786003)(316002)(6486002)(44832011)(8936002)(478600001)(2616005)(966005)(2906002)(36756003)(6916009)(52116002)(6496006)(186003)(16526019);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: 3mt1LsqUTGyIzGPjDpVz8cj3JbHuUZr/HDbzuS8rpX1wZdmZ+5hRmCyqhlPH1in/zhI1UL7RGVitfS9wFhYbEHpgnT1DxPPg64ldMgECtWIYK7KiImmh3v5zYRMpz5yz7lzw7eftVsX3iQ87kIlCS326NUi7o4I58VTiKO7ZfVYTzyp8OSO82xMZM0HYCsWkdHFZOO5BODD0Q/A1vjoHuCpEf0HXyQqN4SlbK5VvOa8dp2IZg25AazvJVT5fHSD0ZLa59qOdIX9elMnMTjftHekWgIYB7lt8+tVVdEmAjGj52PSPru1InaOuqo0BeS4c5wQsbAZeMgSw4JK+hYevqGQKq9JbkeMNmBXAE3ReeaOjcBrJywLa+Z8CeuOMcx+YuBiBpN5y1m9h3tybkCV/RZqE6ePqSORWdu/DbZ2zG0/tQVXMXBbqSfGGDiPXT1TYdj1OzfdLyFFvhhRPAyL6fYWYbwpSxzomi4pCmO8A1EggIZdWh4P1Wy+OjMsLPMUDsCPmq+PHHLLmSf2PbHE+E42iaAI4ZV/qRm1iDHx3hLSxD+OZuSGw4AwENNv78cKdFCUQXKeEN3DAvEWpfxY7HZZgDxYjDKUp44Y0hbPNIr00gSIxekpK8z32Yu8McROK7B+T4Esl8K/cXb6+An07/RJp7TK+AoeWaRXg0JGoWmDzGfwUycm5CwN2RSwWwyxVx1bbcLmU7XZd+QVNxfkuMw==
+X-OriginatorOrg: dauphine.fr
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3fed6836-fff5-4747-c29a-08d862f03ffd
+X-MS-Exchange-CrossTenant-AuthSource: MR2P264MB0244.FRAP264.PROD.OUTLOOK.COM
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Sep 2020 14:18:48.1961
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 81e7c4de-26c9-4531-b076-b70e2d75966e
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: zQyKh41ogOgwMJlYHGy+nUkC9xZa4vKDBqbPMBRet+D/bqGJurl9K5Vj2ZTu2Hu55nG31v33ocN2zREm3PgPufLgX8v3YMl+NxROKazevToEsUXnQ4VMkOr4MjhK9isk
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: MR2P264MB0401
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Sep 27, 2020 at 12:25 PM Dafna Hirschfeld
-<dafna.hirschfeld@collabora.com> wrote:
->
-> Hi,
->
-> Am 25.09.20 um 22:16 schrieb Tomasz Figa:
-> > Hi Dafna,
-> >
-> > On Tue, Sep 22, 2020 at 01:33:54PM +0200, Dafna Hirschfeld wrote:
-> >> Currently, the first buffer queued in the params node is returned
-> >> immediately to userspace and a copy of it is saved in the field
-> >> 'cur_params'. The copy is later used for the first configuration
-> >> when the stream is initiated by one of selfpath/mainpath capture nodes.
-> >
-> > Thank you for the patch. Please see my comments inline.
-> >
-> >>
-> >> There are 3 problems with this implementation:
-> >> - The first params buffer is applied and returned to userspace even if
-> >> userspace never calls to streamon on the params node.
-> >
-> > How is this possible? VB2 doesn't call the .buf_queue callback until streaming is started.
->
-> To my knowledge, userspace can first queue the buffers and after that start
-> the stream by calling 'streamon'.
->
+My “Hercules Dualpix Chat and Show” Webcam (06f8:3007) is on the list
+of UVC supported devices (http://www.ideasonboard.org/uvc/). Yeay!
 
-Yes, that's how the UAPI works, but not the videobuf2 kAPI. It is
-exactly designed in a way to prevent proliferation of similar checks
-across the drivers. Check the implementation of vb2_core_qbuf() [1].
+Alas, uvcvideo fails to “initialize the device”, about 80% of the time.
+I have to unplug and plug it again until it works, sometimes failing
+many times in a row, sometimes with a reboot required. I am unable to
+determine what makes it fail. Perhaps a relevant error given by
+uvcvideo is: “Failed to query (129) UVC probe control : -32 (exp. 26)”,
+in case it rings a bell. (This case reports an identical error: 
+https://sourceforge.net/p/linux-uvc/mailman/message/34454922/, and this
+case reports similar symptoms: 
+https://www.spinics.net/lists/linux-media/msg05303.html, both with a
+different device.)
 
-[1] https://elixir.bootlin.com/linux/latest/source/drivers/media/common/videobuf2/videobuf2-core.c#L1624
+Here is the relevant part of dmesg, when it fails. (I tried with “all
+uvcvideo module traces enabled”, as per the troubleshooting
+instructions, but it does not seem to bring supplementary relevant
+data.)
+[ 8204.297059]  (-> XU 6)
+[ 8204.297061] uvcvideo: Found a valid video chain (1 -> 3).
+[ 8204.297417] uvcvideo: UVC non compliance - GET_DEF(PROBE) not
+supported. Enabling workaround.
+[ 8204.297793] uvcvideo: Failed to query (129) UVC probe control : -32
+(exp. 26).
+[ 8204.297799] uvcvideo: Failed to initialize the device (-5).
+[ 8204.300037] usb 2-3: 3:1: cannot get freq at ep 0x84
+[ 8204.381954] usb 2-3: 3:1: cannot get freq at ep 0x84
+[ 8204.419980] usb 2-3: 3:1: cannot get freq at ep 0x84
+[ 8209.435819] retire_capture_urb: 5003 callbacks suppressed
+[ 8233.273816] usb 2-3: USB disconnect, device number 7
 
-> >
-> >> - If the first params buffer is queued after the stream started on the
-> >> params node then it will return to userspace but will never be used.
-> >
-> > Why?
->
-> The first params buffer is ignored if it is queued after
-> selfpath/mainpath already started to stream.
-> This is because the buffer 'params->cur_params' is applied in function
-> 'rkisp1_params_config_parameter' which is called when streaming
-> from mainpath/selfpath starts.
+After this, my linux system, debian stable, fails (expectedly) to
+recognise the camera, with two browsers (Firefox and Chromium).
 
-Fair enough, thanks. It would make sense to include this in the commit message.
+Here is the relevant part of dmesg, when it succeeds.
+[ 8114.578523]  (-> XU 6)
+[ 8114.578525] uvcvideo: Found a valid video chain (1 -> 3).
+[ 8114.578769] uvcvideo: UVC non compliance - GET_DEF(PROBE) not
+supported. Enabling workaround.
+[ 8114.579687] uvcvideo 2-3:1.0: Entity type for entity Processing 5
+was not initialized!
+[ 8114.579688] uvcvideo 2-3:1.0: Entity type for entity Selector 4 was
+not initialized!
+[ 8114.579690] uvcvideo 2-3:1.0: Entity type for entity Camera 1 was
+not initialized!
+[ 8114.579691] uvcvideo 2-3:1.0: Entity type for entity Guillemot
+Corporation was not initialized!
+[ 8114.579822] input: Hercules Dualpix Chat and Show  as
+/devices/pci0000:00/0000:00:13.2/usb2/2-3/2-3:1.0/input/input19
+[ 8114.579960] uvcvideo: UVC device initialized.
+[ 8114.581789] usb 2-3: 3:1: cannot get freq at ep 0x84
+[ 8114.630633] uvcvideo: uvc_v4l2_open
+[ 8114.630712] uvcvideo: uvc_v4l2_release
+[ 8114.683510] usb 2-3: 3:1: cannot get freq at ep 0x84
+[ 8114.714065] usb 2-3: 3:1: cannot get freq at ep 0x84
+[ 8119.878947] retire_capture_urb: 4996 callbacks suppressed
+[ 8122.507661] uvcvideo: Suspending interface 1
+[ 8122.507664] uvcvideo: Suspending interface 0
+[ 8192.245098] usb 2-3: USB disconnect, device number 6
+After this, the browsers do recognize the webcam (e.g. 
+https://webrtc.github.io/test-pages/src/audio-and-video/).
 
->
-> >
-> >> - The frame_sequence of the first buffer is set to -1 if the main/selfpath
-> >> did not start streaming.
-> >
-> > Indeed, this is invalid. The sequence number should correspond to the
-> > sequence number of the frame that the parameters were applied to, i.e. the
-> > parameter buffer A and the video buffer B dequeued from the CAPTURE node
-> > which contains the first frame processed with the parameters from buffer A
-> > should have the same sequence number.
-> >
-> >>
-> >> A correct implementation is to apply the first params buffer when stream
-> >> is started from mainpath/selfpath and only if params is also streaming.
-> >>
-> >> The patch adds a new function 'rkisp1_params_apply_params_cfg' which takes
-> >> a buffer from the buffers queue, apply it and returns it to userspace.
-> >> The function is called from the irq handler and when main/selfpath stream
-> >> starts - in the function 'rkisp1_params_config_parameter'
-> >>
-> >> Also remove the fields 'cur_params', 'is_first_params' which are no
-> >> more needed.
-> >>
-> >> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> >> Reported-by: kernel test robot <lkp@intel.com>
-> >> Acked-by: Helen Koike <helen.koike@collabora.com>
-> >> ---
-> >> changes since v2:
-> >> declare function 'rkisp1_params_apply_params_cfg' as static
-> >> to fix a warning reported by 'kernel test robot <lkp@intel.com>'
-> >> ---
-> >>   drivers/staging/media/rkisp1/rkisp1-common.h |  4 --
-> >>   drivers/staging/media/rkisp1/rkisp1-params.c | 50 ++++++++------------
-> >>   2 files changed, 20 insertions(+), 34 deletions(-)
-> >>
-> >> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
-> >> index 992d8ec4c448..232bee92d0eb 100644
-> >> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
-> >> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
-> >> @@ -262,10 +262,8 @@ struct rkisp1_stats {
-> >>    * @rkisp1:                pointer to the rkisp1 device
-> >>    * @config_lock:   locks the buffer list 'params' and 'is_streaming'
-> >>    * @params:                queue of rkisp1_buffer
-> >> - * @cur_params:             the first params values from userspace
-> >>    * @vdev_fmt:              v4l2_format of the metadata format
-> >>    * @is_streaming:  device is streaming
-> >> - * @is_first_params:        the first params should take effect immediately
-> >>    * @quantization:  the quantization configured on the isp's src pad
-> >>    * @raw_type:              the bayer pattern on the isp video sink pad
-> >>    */
-> >> @@ -275,10 +273,8 @@ struct rkisp1_params {
-> >>
-> >>      spinlock_t config_lock; /* locks the buffers list 'params' and 'is_streaming' */
-> >>      struct list_head params;
-> >> -    struct rkisp1_params_cfg cur_params;
-> >>      struct v4l2_format vdev_fmt;
-> >>      bool is_streaming;
-> >> -    bool is_first_params;
-> >>
-> >>      enum v4l2_quantization quantization;
-> >>      enum rkisp1_fmt_raw_pat_type raw_type;
-> >> diff --git a/drivers/staging/media/rkisp1/rkisp1-params.c b/drivers/staging/media/rkisp1/rkisp1-params.c
-> >> index ab2deb57b1eb..e8049a50575f 100644
-> >> --- a/drivers/staging/media/rkisp1/rkisp1-params.c
-> >> +++ b/drivers/staging/media/rkisp1/rkisp1-params.c
-> >> @@ -1185,23 +1185,14 @@ static void rkisp1_isp_isr_meas_config(struct rkisp1_params *params,
-> >>      }
-> >>   }
-> >>
-> >> -void rkisp1_params_isr(struct rkisp1_device *rkisp1)
-> >> +static void rkisp1_params_apply_params_cfg(struct rkisp1_params *params,
-> >> +                                       unsigned int frame_sequence)
-> >
-> > Should we call this _locked() since it is expected that the config_lock is
-> > held when called?
->
-> okey, I'll change the name.
->
-> >
-> > To signify such condition, the __must_hold sparse annotation can be used.
-> >
-> >>   {
-> >> -    unsigned int frame_sequence = atomic_read(&rkisp1->isp.frame_sequence);
-> >> -    struct rkisp1_params *params = &rkisp1->params;
-> >>      struct rkisp1_params_cfg *new_params;
-> >>      struct rkisp1_buffer *cur_buf = NULL;
-> >>
-> >> -    spin_lock(&params->config_lock);
-> >> -    if (!params->is_streaming) {
-> >> -            spin_unlock(&params->config_lock);
-> >> -            return;
-> >> -    }
-> >> -
-> >> -    if (list_empty(&params->params)) {
-> >> -            spin_unlock(&params->config_lock);
-> >> +    if (list_empty(&params->params))
-> >>              return;
-> >> -    }
-> >>
-> >>      cur_buf = list_first_entry(&params->params,
-> >>                                 struct rkisp1_buffer, queue);
-> >> @@ -1218,6 +1209,20 @@ void rkisp1_params_isr(struct rkisp1_device *rkisp1)
-> >>
-> >>      cur_buf->vb.sequence = frame_sequence;
-> >>      vb2_buffer_done(&cur_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
-> >> +}
-> >> +
-> >> +void rkisp1_params_isr(struct rkisp1_device *rkisp1)
-> >> +{
-> >> +    unsigned int frame_sequence = atomic_read(&rkisp1->isp.frame_sequence);
-> >> +    struct rkisp1_params *params = &rkisp1->params;
-> >> +
-> >> +    spin_lock(&params->config_lock);
-> >> +    if (!params->is_streaming) {
-> >
-> > Do we need this check? Wouldn't the queue be empty if params is not
-> > streaming?
->
-> Hi,
-> userspace can queue buffers before start streaming or without ever start streaming,
-> so if there are buffers in the queue it does not mean that the params is streaming.
->
+Is hope permitted? Or should I just buy another webcam? Any idea is
+appreciated.
 
-See above.
+-- 
+Olivier
 
-Best regards,
-Tomasz
-
->
->
-> >
-> > Also, if we decide that we need the check, we could replace the private
-> > is_streaming flag with vb2_is_streaming().
->
-> right,
->
->
-> Thanks,
-> Dafna
->
-> >
-> > Best regards,
-> > Tomasz
-> >
