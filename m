@@ -2,119 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 283FF27A282
-	for <lists+linux-media@lfdr.de>; Sun, 27 Sep 2020 21:16:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E6C0627A2E6
+	for <lists+linux-media@lfdr.de>; Sun, 27 Sep 2020 21:47:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726291AbgI0TQR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Sep 2020 15:16:17 -0400
-Received: from asavdk4.altibox.net ([109.247.116.15]:50146 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726255AbgI0TQQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Sep 2020 15:16:16 -0400
-Received: from ravnborg.org (unknown [188.228.123.71])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id C2B8980637;
-        Sun, 27 Sep 2020 21:16:06 +0200 (CEST)
-Date:   Sun, 27 Sep 2020 21:16:05 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     christian.koenig@amd.com, airlied@linux.ie,
-        dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
-        kraxel@redhat.com, tfiga@chromium.org, m.szyprowski@samsung.com,
-        arnd@arndb.de, corbet@lwn.net, linux-doc@vger.kernel.org,
-        jonathanh@nvidia.com, matthew.auld@intel.com,
-        linux+etnaviv@armlinux.org.uk, labbott@redhat.com,
-        linux-media@vger.kernel.org, pawel@osciak.com,
-        intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
-        rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        lmark@codeaurora.org, afd@ti.com, kyungmin.park@samsung.com,
-        robin.murphy@arm.com
-Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
- memory
-Message-ID: <20200927191605.GA237178@ravnborg.org>
-References: <20200925115601.23955-1-tzimmermann@suse.de>
- <20200926071334.GA42915@ravnborg.org>
- <8761e0dd-569e-0ea0-7bc5-25e4f7cb67cc@suse.de>
+        id S1726315AbgI0TrY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Sep 2020 15:47:24 -0400
+Received: from sauhun.de ([88.99.104.3]:38624 "EHLO pokefinder.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726255AbgI0TrY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 27 Sep 2020 15:47:24 -0400
+X-Greylist: delayed 502 seconds by postgrey-1.27 at vger.kernel.org; Sun, 27 Sep 2020 15:47:23 EDT
+Received: from localhost (router.4pisysteme.de [80.79.225.122])
+        by pokefinder.org (Postfix) with ESMTPSA id 556562C0548;
+        Sun, 27 Sep 2020 21:39:00 +0200 (CEST)
+Date:   Sun, 27 Sep 2020 21:39:00 +0200
+From:   Wolfram Sang <wsa@the-dreams.de>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        linux-i2c@vger.kernel.org, "Rafael J. Wysocki" <rafael@kernel.org>,
+        linux-acpi@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v8 0/6] Support running driver's probe for a device
+ powered off
+Message-ID: <20200927193900.GA30711@kunai>
+Mail-Followup-To: Wolfram Sang <wsa@the-dreams.de>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>, linux-i2c@vger.kernel.org,
+        "Rafael J. Wysocki" <rafael@kernel.org>, linux-acpi@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        rajmohan.mani@intel.com,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        linux-media@vger.kernel.org
+References: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
+ <f4b82baa-66b7-464e-fd39-66d2243a05ef@lucaceresoli.net>
+ <20200911130104.GF26842@paasikivi.fi.intel.com>
+ <6dea1206-cfaa-bfc5-d57e-4dcddadc03c7@lucaceresoli.net>
+ <20200914094727.GM26842@paasikivi.fi.intel.com>
+ <20200926123807.GA3781977@chromium.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="wRRV7LY7NUeQGEoC"
 Content-Disposition: inline
-In-Reply-To: <8761e0dd-569e-0ea0-7bc5-25e4f7cb67cc@suse.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=A5ZCwZeG c=1 sm=1 tr=0
-        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
-        a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=GurwE-QF2vAYMD8ieTkA:9
-        a=CjuIK1q_8ugA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <20200926123807.GA3781977@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Thomas.
 
-> > 
-> > struct simap {
-> >        union {
-> >                void __iomem *vaddr_iomem;
-> >                void *vaddr;
-> >        };
-> >        bool is_iomem;
-> > };
-> > 
-> > Where simap is a shorthand for system_iomem_map
-> > And it could al be stuffed into a include/linux/simap.h file.
-> > 
-> > Not totally sold on the simap name - but wanted to come up with
-> > something.
-> 
-> Yes. Others, myself included, have suggested to use a name that does not
-> imply a connection to the dma-buf framework, but no one has come up with
->  a good name.
-> 
-> I strongly dislike simap, as it's entirely non-obvious what it does.
-> dma-buf-map is not actually wrong. The structures represents the mapping
-> of a dma-able buffer in most cases.
-> 
-> > 
-> > With this approach users do not have to pull in dma-buf to use it and
-> > users will not confuse that this is only for dma-buf usage.
-> 
-> There's no need to enable dma-buf. It's all in the header file without
-> dependencies on dma-buf. It's really just the name.
-> 
-> But there's something else to take into account. The whole issue here is
-> that the buffer is disconnected from its originating driver, so we don't
-> know which kind of memory ops we have to use. Thinking about it, I
-> realized that no one else seemed to have this problem until now.
-> Otherwise there would be a solution already. So maybe the dma-buf
-> framework *is* the native use case for this data structure.
+--wRRV7LY7NUeQGEoC
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-We have at least:
-linux/fb.h:
-	union {
-		char __iomem *screen_base;      /* Virtual address */
-		char *screen_buffer;
-	};
 
-Which solve more or less the same problem.
+> I think we might be overly complicating things. IMHO the series as is
+> with the "i2c_" prefix removed from the flags introduced would be
+> reusable as is for any other subsystem that needs it. Of course, for
+> now, the handling of the flag would remain implemented only in the I2C
+> subsystem.
 
- 
-> Anyway, if a better name than dma-buf-map comes in, I'm willing to
-> rename the thing. Otherwise I intend to merge the patchset by the end of
-> the week.
+Just to be clear: you are suggesting to remove "i2c" from the DSD
+binding "i2c-allow-low-power-probe". And you are not talking about
+moving I2C_DRV_FL_ALLOW_LOW_POWER_PROBE to struct device_driver? I
+recall the latter has been NACKed by gkh so far.
 
-Well, the main thing is that I think this shoud be moved away from
-dma-buf. But if indeed dma-buf is the only relevant user in drm then
-I am totally fine with the current naming.
 
-One alternative named that popped up in my head: struct sys_io_map {}
-But again, if this is kept in dma-buf then I am fine with the current
-naming.
+--wRRV7LY7NUeQGEoC
+Content-Type: application/pgp-signature; name="signature.asc"
 
-In other words, if you continue to think this is mostly a dma-buf
-thing all three patches are:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+-----BEGIN PGP SIGNATURE-----
 
-	Sam
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9w6k8ACgkQFA3kzBSg
+Kbbb4Q//cQDDt6R/93qbuDZbbBbKU7yOioGMp1yxGawOohDmpz0uV631alJMoKlv
+5l2nQXyXHInvGZu7fmdwqH4ouAgvHMC7jnEw2lv8DOj6q8ovnukacpme+JjGa1y3
+DYO2CIktDQw1xqUas2B5yu4Qt5D+LgnlMFZN+LUSiYGSAVQdZ+nVbYcwjRNQ59Eq
+T38itwlWGIISRo+5zv3prNb//xtoaITJty6DdBOFvoLQK0vv0UNMqva5zD8+86kA
+BKa9JZPRLzYeWpO5TJlVYw13vGjEl802a1kF6+xUTc63bSrUtUhSDCLnezrzlkW7
+gxJRHwrKYoWuuaRckVA14UNRvnZKMAtpuHToZidgeryEOw+biqzYS4fvlebqkg+w
+oub1xk6svlhzujT06LlW5mr0l5eo9yz1+AFmy0Xr7t9ZkOjhK2W9yoZTR7GF8zJv
+acmwMqTDnINf7hSmVbSfPi6hPamjf8M1LloZB5ej2OcPZ2urCx17bXJGeyzMvtPr
+VsVdE7QJd/JQ1uhvWeU1a9dqh6kCBp9+4my8JIk6BwYP4sbaqftlXLxh0MMm4ANC
+mDKxA4Z75Ifj5h+elH23cOZ9eFFANZJM43BmjLff04XUinlnBXm2YBXEECufQJw7
+OLSs3YqJz1M+yqX74QGxnb+dZgTObyOU99s/Qe2mWRwFcEMOjNE=
+=H98q
+-----END PGP SIGNATURE-----
+
+--wRRV7LY7NUeQGEoC--
