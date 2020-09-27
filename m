@@ -2,141 +2,282 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1D5527A189
-	for <lists+linux-media@lfdr.de>; Sun, 27 Sep 2020 17:08:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B000527A258
+	for <lists+linux-media@lfdr.de>; Sun, 27 Sep 2020 20:36:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726414AbgI0PI3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 27 Sep 2020 11:08:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50608 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726255AbgI0PI3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 27 Sep 2020 11:08:29 -0400
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0635C0613CE;
-        Sun, 27 Sep 2020 08:08:28 -0700 (PDT)
-Received: by mail-pf1-x442.google.com with SMTP id b124so7013134pfg.13;
-        Sun, 27 Sep 2020 08:08:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=5SVq0w/G+BJ0BoVyLc2hLMW/0QGne7FVXE/0ouMIQTk=;
-        b=UAJHbXD4pUnwppm9iqHuRKXE1T9OvaMBWCBVDP3NGuqJaNxJty/AMalHQ4a0dsVH++
-         Plru0DNUbaHjINH3PkT1yubbx+UnOCNSIkhP4g7w57FjlZOsmbLu5QESZTKkUaCy+ISo
-         3d4LXOyOkZn/zIfVkpgKSQ3VJQt45oZoWABEvCCHYhiTRXI2oEblHDqgdTQm+l11/pNU
-         sNZ1XUp6OQ1pfpSP3RyoecxMipmqLcftJEXB62kmmwv/QHyXmR/9rJyT20tgAHIhTWT3
-         6nYBC1CskgWEPkNC/pmsIulyjTD+EWcJRMFdxdqAC0OFxZwjXHZcudLFskQaoP5fg4kR
-         2rRg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=5SVq0w/G+BJ0BoVyLc2hLMW/0QGne7FVXE/0ouMIQTk=;
-        b=T/W2lONbMFNrIGiq/zgUdkNb6gwd4Ubhv1XyQWssiptua47+CDrTc0yjELZQ9CC9sL
-         8yGZecQw3TvSmwt4ZhW0krEgSV3ymhLzKAMBufokNc6RIsrOlSQWMpE/GS9urCAbMTDD
-         HWPH1bX7JR27t6Y8UARtcvgUOpY3p8bS4nsax6PlbdAK+uphEA5jiEcx8GpyReRpEIfY
-         2CbyWc3H68utGmlZD/eWJlpVqqAGu0h6bbjGplkQLjU2i/VvMmp50IL4dqeISbk360vZ
-         1Sl0cwvxJCzasIQzlmN/FDZ2bELIu5qhopjMHAdDGoO0SGu9V9jtsabcaoSGmZpn1Z98
-         Bn8g==
-X-Gm-Message-State: AOAM532IGevs+v95JE3oxwL3gCVW5PjbXBRcaUmIFbwJJA5Qdclo0CZS
-        p1AdooHhHxnpl2MXUpkRPUs=
-X-Google-Smtp-Source: ABdhPJzxBslQerYnkiihEyJMATnZ9dRB/0v/TFlZdW7LYCAdJkD2VYfoNnC1t/1jYTH/LH8AZpPCxw==
-X-Received: by 2002:a62:6147:0:b029:142:2501:34e8 with SMTP id v68-20020a6261470000b0290142250134e8mr7398794pfb.65.1601219308467;
-        Sun, 27 Sep 2020 08:08:28 -0700 (PDT)
-Received: from jordon-HP-15-Notebook-PC.domain.name ([122.167.144.166])
-        by smtp.gmail.com with ESMTPSA id t9sm1384795pgp.90.2020.09.27.08.08.24
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Sun, 27 Sep 2020 08:08:27 -0700 (PDT)
-From:   Souptick Joarder <jrdr.linux@gmail.com>
-To:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        gregkh@linuxfoundation.org, daniel.m.jordan@oracle.com,
-        akpm@linux-foundation.org, walken@google.com, gustavoars@kernel.org
-Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org,
-        Souptick Joarder <jrdr.linux@gmail.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Ira Weiny <ira.weiny@intel.com>,
-        Dan Carpenter <dan.carpenter@oracle.com>
-Subject: [PATCH] media: atomisp: Fixed error handling path
-Date:   Sun, 27 Sep 2020 20:38:04 +0530
-Message-Id: <1601219284-13275-1-git-send-email-jrdr.linux@gmail.com>
-X-Mailer: git-send-email 1.9.1
+        id S1726303AbgI0SgO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 27 Sep 2020 14:36:14 -0400
+Received: from mx2.suse.de ([195.135.220.15]:48610 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726255AbgI0SgO (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 27 Sep 2020 14:36:14 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 5DB8BAD1A;
+        Sun, 27 Sep 2020 18:36:12 +0000 (UTC)
+Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
+ memory
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     christian.koenig@amd.com, airlied@linux.ie,
+        dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+        kraxel@redhat.com, tfiga@chromium.org, m.szyprowski@samsung.com,
+        arnd@arndb.de, corbet@lwn.net, linux-doc@vger.kernel.org,
+        jonathanh@nvidia.com, matthew.auld@intel.com,
+        linux+etnaviv@armlinux.org.uk, labbott@redhat.com,
+        linux-media@vger.kernel.org, pawel@osciak.com,
+        intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
+        rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org,
+        mchehab@kernel.org, gregkh@linuxfoundation.org,
+        lmark@codeaurora.org, afd@ti.com, kyungmin.park@samsung.com,
+        robin.murphy@arm.com
+References: <20200925115601.23955-1-tzimmermann@suse.de>
+ <20200926071334.GA42915@ravnborg.org>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <8761e0dd-569e-0ea0-7bc5-25e4f7cb67cc@suse.de>
+Date:   Sun, 27 Sep 2020 20:36:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <20200926071334.GA42915@ravnborg.org>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="hhzdij9h3h5l7FmCv0soJzCgJCNlXGmQ7"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Inside alloc_user_pages() based on flag value either pin_user_pages()
-or get_user_pages_fast() will be called. However, these API might fail.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--hhzdij9h3h5l7FmCv0soJzCgJCNlXGmQ7
+Content-Type: multipart/mixed; boundary="JSVXy7fTE5UylfGVVSA7JgWciPcmDmtcJ";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Sam Ravnborg <sam@ravnborg.org>
+Cc: christian.koenig@amd.com, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+ kraxel@redhat.com, tfiga@chromium.org, m.szyprowski@samsung.com,
+ arnd@arndb.de, corbet@lwn.net, linux-doc@vger.kernel.org,
+ jonathanh@nvidia.com, matthew.auld@intel.com, linux+etnaviv@armlinux.org.uk,
+ labbott@redhat.com, linux-media@vger.kernel.org, pawel@osciak.com,
+ intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
+ rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org, mchehab@kernel.org,
+ gregkh@linuxfoundation.org, lmark@codeaurora.org, afd@ti.com,
+ kyungmin.park@samsung.com, robin.murphy@arm.com
+Message-ID: <8761e0dd-569e-0ea0-7bc5-25e4f7cb67cc@suse.de>
+Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
+ memory
+References: <20200925115601.23955-1-tzimmermann@suse.de>
+ <20200926071334.GA42915@ravnborg.org>
+In-Reply-To: <20200926071334.GA42915@ravnborg.org>
 
-But free_user_pages() called in error handling path doesn't bother
-about return value and will try to unpin bo->pgnr pages, which is
-incorrect.
+--JSVXy7fTE5UylfGVVSA7JgWciPcmDmtcJ
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
-Fix this by passing the page_nr to free_user_pages(). If page_nr > 0
-pages will be unpinned based on bo->mem_type. This will also take care
-of non error handling path.
+Hi Sam
 
-Fixes: 14a638ab96c5 ("media: atomisp: use pin_user_pages() for memory
-allocation")
-Signed-off-by: Souptick Joarder <jrdr.linux@gmail.com>
-Cc: John Hubbard <jhubbard@nvidia.com>
-Cc: Ira Weiny <ira.weiny@intel.com>
-Cc: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/staging/media/atomisp/pci/hmm/hmm_bo.c | 13 ++++++++-----
- 1 file changed, 8 insertions(+), 5 deletions(-)
+Am 26.09.20 um 09:13 schrieb Sam Ravnborg:
+> Hi Thomas.
+>=20
+> Sorry for chiming in late here, have been offline for a while.
+>=20
+> On Fri, Sep 25, 2020 at 01:55:57PM +0200, Thomas Zimmermann wrote:
+>> Dma-buf provides vmap() and vunmap() for retriving and releasing mappi=
+ngs
+>> of dma-buf memory in kernel address space. The functions operate with =
+plain
+>> addresses and the assumption is that the memory can be accessed with l=
+oad
+>> and store operations. This is not the case on some architectures (e.g.=
+,
+>> sparc64) where I/O memory can only be accessed with dedicated instruct=
+ions.
+>>
+>> This patchset introduces struct dma_buf_map, which contains the addres=
+s of
+>> a buffer and a flag that tells whether system- or I/O-memory instructi=
+ons
+>> are required.
+>=20
+> The whole idea with a struct that can represent both a pointer to syste=
+m
+> memory and io memory is very nice.
+> dma-buf is one user of this but we may/will see other users. So the
+> naming seems of as this should be a concept independent of dma-buf.
+>=20
+> And then the struct definition and all the helpers should be moved away=
 
-diff --git a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-index f13af23..0168f98 100644
---- a/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-+++ b/drivers/staging/media/atomisp/pci/hmm/hmm_bo.c
-@@ -857,16 +857,17 @@ static void free_private_pages(struct hmm_buffer_object *bo,
- 	kfree(bo->page_obj);
- }
- 
--static void free_user_pages(struct hmm_buffer_object *bo)
-+static void free_user_pages(struct hmm_buffer_object *bo,
-+			    unsigned int page_nr)
- {
- 	int i;
- 
- 	hmm_mem_stat.usr_size -= bo->pgnr;
- 
- 	if (bo->mem_type == HMM_BO_MEM_TYPE_PFN) {
--		unpin_user_pages(bo->pages, bo->pgnr);
-+		unpin_user_pages(bo->pages, page_nr);
- 	} else {
--		for (i = 0; i < bo->pgnr; i++)
-+		for (i = 0; i < page_nr; i++)
- 			put_page(bo->pages[i]);
- 	}
- 	kfree(bo->pages);
-@@ -942,6 +943,8 @@ static int alloc_user_pages(struct hmm_buffer_object *bo,
- 		dev_err(atomisp_dev,
- 			"get_user_pages err: bo->pgnr = %d, pgnr actually pinned = %d.\n",
- 			bo->pgnr, page_nr);
-+		if (page_nr < 0)
-+			page_nr = 0;
- 		goto out_of_mem;
- 	}
- 
-@@ -954,7 +957,7 @@ static int alloc_user_pages(struct hmm_buffer_object *bo,
- 
- out_of_mem:
- 
--	free_user_pages(bo);
-+	free_user_pages(bo, page_nr);
- 
- 	return -ENOMEM;
- }
-@@ -1037,7 +1040,7 @@ void hmm_bo_free_pages(struct hmm_buffer_object *bo)
- 	if (bo->type == HMM_BO_PRIVATE)
- 		free_private_pages(bo, &dynamic_pool, &reserved_pool);
- 	else if (bo->type == HMM_BO_USER)
--		free_user_pages(bo);
-+		free_user_pages(bo, bo->pgnr);
- 	else
- 		dev_err(atomisp_dev, "invalid buffer type.\n");
- 	mutex_unlock(&bo->mutex);
--- 
-1.9.1
+> from dma-buf.
+>=20
+> Maybe something like this:
+>=20
+> struct simap {
+>        union {
+>                void __iomem *vaddr_iomem;
+>                void *vaddr;
+>        };
+>        bool is_iomem;
+> };
+>=20
+> Where simap is a shorthand for system_iomem_map
+> And it could al be stuffed into a include/linux/simap.h file.
+>=20
+> Not totally sold on the simap name - but wanted to come up with
+> something.
 
+Yes. Others, myself included, have suggested to use a name that does not
+imply a connection to the dma-buf framework, but no one has come up with
+ a good name.
+
+I strongly dislike simap, as it's entirely non-obvious what it does.
+dma-buf-map is not actually wrong. The structures represents the mapping
+of a dma-able buffer in most cases.
+
+>=20
+> With this approach users do not have to pull in dma-buf to use it and
+> users will not confuse that this is only for dma-buf usage.
+
+There's no need to enable dma-buf. It's all in the header file without
+dependencies on dma-buf. It's really just the name.
+
+But there's something else to take into account. The whole issue here is
+that the buffer is disconnected from its originating driver, so we don't
+know which kind of memory ops we have to use. Thinking about it, I
+realized that no one else seemed to have this problem until now.
+Otherwise there would be a solution already. So maybe the dma-buf
+framework *is* the native use case for this data structure.
+
+Anyway, if a better name than dma-buf-map comes in, I'm willing to
+rename the thing. Otherwise I intend to merge the patchset by the end of
+the week.
+
+Best regards
+Thomas
+
+>=20
+> I am sorry for being late with the feedback.
+>=20
+> 	Sam
+>=20
+>=20
+>> Some background: updating the DRM framebuffer console on sparc64 makes=
+ the
+>> kernel panic. This is because the framebuffer memory cannot be accesse=
+d with
+>> system-memory instructions. We currently employ a workaround in DRM to=
+
+>> address this specific problem. [1]
+>>
+>> To resolve the problem, we'd like to address it at the most common poi=
+nt,
+>> which is the dma-buf framework. The dma-buf mapping ideally knows if I=
+/O
+>> instructions are required and exports this information to it's users. =
+The
+>> new structure struct dma_buf_map stores the buffer address and a flag =
+that
+>> signals I/O memory. Affected users of the buffer (e.g., drivers, frame=
+works)
+>> can then access the memory accordingly.
+>>
+>> This patchset only introduces struct dma_buf_map, and updates struct d=
+ma_buf
+>> and it's interfaces. Further patches can update dma-buf users. For exa=
+mple,
+>> there's a prototype patchset for DRM that fixes the framebuffer proble=
+m. [2]
+>>
+>> Further work: TTM, one of DRM's memory managers, already exports an
+>> is_iomem flag of its own. It could later be switched over to exporting=
+ struct
+>> dma_buf_map, thus simplifying some code. Several DRM drivers expect th=
+eir
+>> fbdev console to operate on I/O memory. These could possibly be switch=
+ed over
+>> to the generic fbdev emulation, as soon as the generic code uses struc=
+t
+>> dma_buf_map.
+>>
+>> v3:
+>> 	* update fastrpc driver (kernel test robot)
+>> 	* expand documentation (Daniel)
+>> 	* move documentation into separate patch
+>> v2:
+>> 	* always clear map parameter in dma_buf_vmap() (Daniel)
+>> 	* include dma-buf-heaps and i915 selftests (kernel test robot)
+>> 	* initialize cma_obj before using it in drm_gem_cma_free_object()
+>> 	  (kernel test robot)
+>>
+>> [1] https://lore.kernel.org/dri-devel/20200725191012.GA434957@ravnborg=
+=2Eorg/
+>> [2] https://lore.kernel.org/dri-devel/20200806085239.4606-1-tzimmerman=
+n@suse.de/
+>>
+>> Thomas Zimmermann (4):
+>>   dma-buf: Add struct dma-buf-map for storing struct dma_buf.vaddr_ptr=
+
+>>   dma-buf: Use struct dma_buf_map in dma_buf_vmap() interfaces
+>>   dma-buf: Use struct dma_buf_map in dma_buf_vunmap() interfaces
+>>   dma-buf: Document struct dma_buf_map
+>>
+>>  Documentation/driver-api/dma-buf.rst          |   9 +
+>>  drivers/dma-buf/dma-buf.c                     |  42 ++--
+>>  drivers/dma-buf/heaps/heap-helpers.c          |  10 +-
+>>  drivers/gpu/drm/drm_gem_cma_helper.c          |  20 +-
+>>  drivers/gpu/drm/drm_gem_shmem_helper.c        |  17 +-
+>>  drivers/gpu/drm/drm_prime.c                   |  15 +-
+>>  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c   |  13 +-
+>>  drivers/gpu/drm/i915/gem/i915_gem_dmabuf.c    |  13 +-
+>>  .../drm/i915/gem/selftests/i915_gem_dmabuf.c  |  18 +-
+>>  .../gpu/drm/i915/gem/selftests/mock_dmabuf.c  |  14 +-
+>>  drivers/gpu/drm/tegra/gem.c                   |  23 ++-
+>>  .../common/videobuf2/videobuf2-dma-contig.c   |  17 +-
+>>  .../media/common/videobuf2/videobuf2-dma-sg.c |  19 +-
+>>  .../common/videobuf2/videobuf2-vmalloc.c      |  21 +-
+>>  drivers/misc/fastrpc.c                        |   6 +-
+>>  include/drm/drm_prime.h                       |   5 +-
+>>  include/linux/dma-buf-map.h                   | 193 +++++++++++++++++=
++
+>>  include/linux/dma-buf.h                       |  11 +-
+>>  18 files changed, 372 insertions(+), 94 deletions(-)
+>>  create mode 100644 include/linux/dma-buf-map.h
+>>
+>> --
+>> 2.28.0
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--JSVXy7fTE5UylfGVVSA7JgWciPcmDmtcJ--
+
+--hhzdij9h3h5l7FmCv0soJzCgJCNlXGmQ7
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9w25oUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOPvQf9H3xIxlKoNjkmNDMgSLtVcoOhqWxL
+rCrmmDXAtxJJ16fx4daY/2Vk8Zxc5B4msQ/Y9JC4uzMT16ZaeOpLcjqS6d4QSNk4
+4tRmIwMcB9Ok6DmxoInzpOxgbvmZ3m2zNBQGOjEwvVXVfBpBeLE0RvoZ3xOsRS2x
+JyHO66Xj7RV5cZXrgWaj2ZRoalKpzJh6wa/3w73ZfELwBLg85eibKenYGwc5fSl5
+asogcXmB5kKBfuLgQojKfNXqCRUAICy21AFAFQ9fwrscGAs3XaRN7J25DP7lBwwp
+/508HXeAuIgJ9ANkdk7kHeJ5S5oKFG8CNAYYsbFvZsgTmUm+uLtnEDh8rQ==
+=Vk2o
+-----END PGP SIGNATURE-----
+
+--hhzdij9h3h5l7FmCv0soJzCgJCNlXGmQ7--
