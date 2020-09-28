@@ -2,83 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A36327B62F
-	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 22:25:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7419227B655
+	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 22:33:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726692AbgI1UZQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Sep 2020 16:25:16 -0400
-Received: from mout02.posteo.de ([185.67.36.142]:43583 "EHLO mout02.posteo.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726409AbgI1UZQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Sep 2020 16:25:16 -0400
-Received: from submission (posteo.de [89.146.220.130]) 
-        by mout02.posteo.de (Postfix) with ESMTPS id F14F22400FC
-        for <linux-media@vger.kernel.org>; Mon, 28 Sep 2020 22:25:13 +0200 (CEST)
-Received: from customer (localhost [127.0.0.1])
-        by submission (posteo.de) with ESMTPSA id 4C0Yt14Pknz6tmJ
-        for <linux-media@vger.kernel.org>; Mon, 28 Sep 2020 22:25:13 +0200 (CEST)
-From:   Stefan von Andrian-Werburg <stefan@andrian.de>
-Subject: Webcam Driver
-To:     linux-media@vger.kernel.org
-Message-ID: <81e0504c-245a-6c81-4be4-498cb5a57140@andrian.de>
-Date:   Mon, 28 Sep 2020 22:25:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726692AbgI1UdZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Sep 2020 16:33:25 -0400
+Received: from fllv0016.ext.ti.com ([198.47.19.142]:49166 "EHLO
+        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726607AbgI1UdZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 28 Sep 2020 16:33:25 -0400
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 08SKXLGN013287;
+        Mon, 28 Sep 2020 15:33:21 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1601325201;
+        bh=t/hP2PNT7fH3omwmKWNOUyNxf0rEpsiIYB3gL/A/KQw=;
+        h=From:To:CC:Subject:Date;
+        b=lb4qUFol/Wc28PSf3PKmUNqESpMvy5W6P2qXsNKLBLQ2ombWynmBBB581mfpMk9FI
+         mJx5vLYu6uFuk+P40Ntdx70cottQCEdB5DRZ/5AWPHGDHdhfbSRNRzDTI9C8OrIdqF
+         U1QwWnanlkJLN9mMTNZMW/0FCESYS6cktY4kcl+4=
+Received: from DFLE112.ent.ti.com (dfle112.ent.ti.com [10.64.6.33])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 08SKXLV6110967
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 28 Sep 2020 15:33:21 -0500
+Received: from DFLE112.ent.ti.com (10.64.6.33) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Mon, 28
+ Sep 2020 15:33:21 -0500
+Received: from fllv0040.itg.ti.com (10.64.41.20) by DFLE112.ent.ti.com
+ (10.64.6.33) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Mon, 28 Sep 2020 15:33:21 -0500
+Received: from NiksLab.india.ti.com (ileax41-snat.itg.ti.com [10.172.224.153])
+        by fllv0040.itg.ti.com (8.15.2/8.15.2) with ESMTP id 08SKXHYw084953;
+        Mon, 28 Sep 2020 15:33:18 -0500
+From:   Nikhil Devshatwar <nikhil.nd@ti.com>
+To:     <linux-firmware@kernel.org>, <linux-media@vger.kernel.org>
+CC:     <dmurphy@ti.com>, <tomi.valkeinen@ti.com>, <bparrot@ti.com>,
+        <nsekhar@ti.com>, <laurent.pinchart@ideasonboard.com>,
+        <nikhil.nd@ti.com>
+Subject: [PATCH 0/1] linux-firmware: Add VPDMA firmware binary
+Date:   Tue, 29 Sep 2020 02:03:02 +0530
+Message-ID: <20200928203303.32178-1-nikhil.nd@ti.com>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: de-DE
+Content-Type: text/plain
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+This patch adds a firmware binary for VPDMA, which is a hardware
+block used in Texas Instrument's VPE (Video Processing Engine)
 
-I am looking for a driver for a webcam with  ID 0735:0269
+Nikhil Devshatwar (1):
+  linux-firmware: Add new VPDMA firmware 1b8.bin
 
-It is listed either as
+ LICENCE.ti-tspa               |  46 ++++++++++++++++++++++++++++++++++
+ WHENCE                        |   8 ++++++
+ ti-connectivity/vpdma-1b8.bin | Bin 0 -> 4002 bytes
+ 3 files changed, 54 insertions(+)
+ create mode 100644 LICENCE.ti-tspa
+ create mode 100644 ti-connectivity/vpdma-1b8.bin
 
-* Asuscom Network HD 1080P
-
-or as
-
-* HD 1080P  PC-Camera, Manufacturer: Sonix Technology Co., Ltd. 
-SerialNumber: SN0001
-
-May you help me out?
-
-Thank you very much and all the best,
-
-Stefan
-
-PS: I received the following protocol:
-
-kernel: [ 2103.968371] uvcvideo: Found UVC 1.00 device HD 1080P 
-PC-Camera (0735:0269)
-kernel: [ 2103.994598] uvcvideo 3-2:1.0: Entity type for entity 
-Extension 4 was not initialized!
-kernel: [ 2103.994603] uvcvideo 3-2:1.0: Entity type for entity 
-Extension 3 was not initialized!
-kernel: [ 2103.994606] uvcvideo 3-2:1.0: Entity type for entity 
-Processing 2 was not initialized!
-kernel: [ 2103.994608] uvcvideo 3-2:1.0: Entity type for entity Camera 1 
-was not initialized!
-kernel: [ 2103.994815] input: HD 1080P PC-Camera: HD 1080P   as 
-/devices/pci0000:00/0000:00:14.0/usb3/3-2/3-2:1.0/input/input14
-kernel: [ 2104.031864] usb 3-2: 3:1: cannot get freq at ep 0x84
-mtp-probe: checking bus 3, device 5: 
-"/sys/devices/pci0000:00/0000:00:14.0/usb3/3-2"
-mtp-probe: bus: 3, device: 5 was not an MTP device
-systemd-udevd[5133]: controlC1: Process '/usr/sbin/alsactl -E 
-HOME=/run/alsa -E XDG_RUNTIME_DIR=/run/alsa/runtime restore 1' failed 
-with exit code 99.
-mtp-probe: checking bus 3, device 5: 
-"/sys/devices/pci0000:00/0000:00:14.0/usb3/3-2"
-mtp-probe: bus: 3, device: 5 was not an MTP device
-kernel: [ 2104.764436] usb 3-2: 3:1: cannot get freq at ep 0x84
-
-
-
-
-
+-- 
+2.17.1
 
