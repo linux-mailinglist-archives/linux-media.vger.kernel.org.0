@@ -2,96 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 081CF27B196
-	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 18:14:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7635C27B226
+	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 18:45:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726752AbgI1QOg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Sep 2020 12:14:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56306 "EHLO
+        id S1726670AbgI1Qo7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Sep 2020 12:44:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726722AbgI1QOY (ORCPT
+        with ESMTP id S1726770AbgI1Qo4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Sep 2020 12:14:24 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3D5AC0613CE
-        for <linux-media@vger.kernel.org>; Mon, 28 Sep 2020 09:14:23 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id a9so1761824wmm.2
-        for <linux-media@vger.kernel.org>; Mon, 28 Sep 2020 09:14:23 -0700 (PDT)
+        Mon, 28 Sep 2020 12:44:56 -0400
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FEEEC0613CF
+        for <linux-media@vger.kernel.org>; Mon, 28 Sep 2020 09:44:56 -0700 (PDT)
+Received: by mail-ej1-x643.google.com with SMTP id i26so9438864ejb.12
+        for <linux-media@vger.kernel.org>; Mon, 28 Sep 2020 09:44:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=ablR3knQp8V4Xus5gSWFEPKLooYQFHbeiNIFj+RtYYY=;
-        b=KntFXjgD2m18dkgK66tvFC4NL+CIMRmAh9CUk377MLEQ/WTyC1lyFWb7bkzcD4vIK+
-         uBNUqPJCtqMBM38BUEpYIgutrA3ErU+xmV8KzMl5TgOGSFRmF/PNwxHEaaW4j2Kv+LBN
-         kNER1mcLg++pXJQBJxr7/8TVEPMvBQRW3kvy1zHLpLWke4ZOZWuFCozTFh4/4IE878T3
-         ddOqHQf64ToPzd1wOg0dFyjPNw52jEryzRshdnVg3iWCmGd1jPUtrFvPz8R1SpFTaZ58
-         UEvfHtZtRutCXIYnvWbzzTp9W9XmxYkChJ70SAXII4eFeSeyualRe1oar1mmql5yV2Dz
-         jQyg==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=O4wMisusw5zksx0GW6HdF+k+feJd8Jhmsn7fgUQP2rg=;
+        b=AXDUg7VQm2DBTse4gsSS7l84FGvg7tqTAk6Usm/0qXjQIl3Sx7LsB3WtpUbIYfbBbk
+         ydmmjNit0LhPwyh6cbpwkQYMnVSmWY72vyw7yfwWH16RqStWc23BeW1PSL+8Z4wMYqjn
+         gYqE9TGTiZtMIMTyR70HtSkBrSHnTZN9G7XC1auAD1/oFuCbIUPPYUn0PCEAsnxsht17
+         DTxF98h3vVM05J3vaxx0U1czbxfKTyGkynZDnSlKoHA+jaCj+YoiAonRi+e8/R+nrI8I
+         +jD8GDK231VaLDXrhjfu7L7d650QfbynIuHv6eyKZsbYwNI+yzR8UmxrRY7aEp+L+rSs
+         sXbw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=ablR3knQp8V4Xus5gSWFEPKLooYQFHbeiNIFj+RtYYY=;
-        b=RIQuVcjxrLv3unCT86BS7DvO3ys+ZRrMYFKSJYhmkFDF6cfUgp3G07QOFYSxROfU1o
-         2Uq/4ApuQj5Pryfew35S6qeq1nZbHVwLAbrKcKs0ieJPOmSAPgH8N+FHtJYwL0gc4RiR
-         ms7C7YIedvv7WGvETOyKyMTv744mn7NGfWrBjj/N0+I3Y+1qIFejTXTtqE20ACjr4ZcC
-         uuhoNpgS+8FZ4VvgsGxKxMQ4Qysr1OOOHaoWigNj53m+XGHk/sbcL6rPgPjUYKcrwmB0
-         8wM/xLsC6Mp+Yqbv9rjNmgHr7sB/Mo94aCud6VU4iow64EQ/tdbevuEVLEVdcWp/MlTO
-         sgIA==
-X-Gm-Message-State: AOAM5300kM4LlCwAC+ZQmmqCZrl4Ow54pOu1qsr8QcPMP+x5dvYvHbNK
-        DXmUYQtfhrcZdybjTvWZH7ST7A==
-X-Google-Smtp-Source: ABdhPJysuvPAxMmaEYUNYctclsXfDWSH9kSRmm+jOZyFHfsdftrc8VmKXkmBX+B1Zm9Y9XBuyoy2gw==
-X-Received: by 2002:a7b:c095:: with SMTP id r21mr2527408wmh.133.1601309662206;
-        Mon, 28 Sep 2020 09:14:22 -0700 (PDT)
-Received: from localhost.localdomain ([2a01:e35:2ec0:82b0:19c2:a71d:5af8:dbf6])
-        by smtp.gmail.com with ESMTPSA id n4sm2004867wrp.61.2020.09.28.09.14.20
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=O4wMisusw5zksx0GW6HdF+k+feJd8Jhmsn7fgUQP2rg=;
+        b=JjcE1i+GYRDxu1ZngagmfAAZbICDL6vTiaYKbhLmjrORvzRaysUacOXiYPHGqnQ9Q8
+         fGruxwMAMBns8DfODm0fF/7rI09FbZDa9CP+42mm9bIlFuNzm+3CRLNy/s8WeVTT5GLP
+         uhGARL4AVupW9PxjfyoLv6VrR3w9S75xhWzLT3XrOmYdcHj0twb2NVbY8x04nbEytCLt
+         5IRobJTcDy6Vcq6KIiQUphQASerlTxVp2kKACHXkWJ8LJWrwiDmVkYZzbOkbi7ZhNaoN
+         2EDY6tc+Xzh6X0czacwUK49T3Kq7JUQbKgR++AFx2P9uRpS+n4mVMXaDi3+PytW7NWZ5
+         hV/g==
+X-Gm-Message-State: AOAM533tABrpweLYOiW/WN6KQSiqXOvFeTmJNAU5+DG620LaBPMCk6tM
+        HqkAAjhiJ8Nx2ESp3Jz50ZBTHjHyWe+QKuZN
+X-Google-Smtp-Source: ABdhPJwkyS+Tqx2QxSXh7hULUfFINZgVFH9lz8QmQ9qr7HLGRVs8KiNRS3tLvld55tjQGtB4y3+Xcg==
+X-Received: by 2002:a17:906:fb84:: with SMTP id lr4mr2605288ejb.282.1601311494510;
+        Mon, 28 Sep 2020 09:44:54 -0700 (PDT)
+Received: from localhost.localdomain ([195.24.90.54])
+        by smtp.gmail.com with ESMTPSA id nh1sm1912594ejb.21.2020.09.28.09.44.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2020 09:14:21 -0700 (PDT)
-From:   Neil Armstrong <narmstrong@baylibre.com>
-To:     hverkuil-cisco@xs4all.nl, khilman@baylibre.com
-Cc:     Neil Armstrong <narmstrong@baylibre.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 4/4] arm64: dts: meson-axg: add GE2D node
-Date:   Mon, 28 Sep 2020 18:14:11 +0200
-Message-Id: <20200928161411.323581-5-narmstrong@baylibre.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20200928161411.323581-1-narmstrong@baylibre.com>
-References: <20200928161411.323581-1-narmstrong@baylibre.com>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Mon, 28 Sep 2020 09:44:53 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Mansur Alisha Shaik <mansur@codeaurora.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH 0/3] Venus dynamic resolution change fixes
+Date:   Mon, 28 Sep 2020 19:44:28 +0300
+Message-Id: <20200928164431.21884-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This adds the node for the GE2D accelerator unit.
+Hi all,
 
-Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
----
- arch/arm64/boot/dts/amlogic/meson-axg.dtsi | 9 +++++++++
- 1 file changed, 9 insertions(+)
+Those three patches are needed to fix setting of LAST buffer flag during
+dynamic-resolution-change state.
 
-diff --git a/arch/arm64/boot/dts/amlogic/meson-axg.dtsi b/arch/arm64/boot/dts/amlogic/meson-axg.dtsi
-index 4559f2173065..5cce5540cec0 100644
---- a/arch/arm64/boot/dts/amlogic/meson-axg.dtsi
-+++ b/arch/arm64/boot/dts/amlogic/meson-axg.dtsi
-@@ -1647,6 +1647,15 @@ dpi_out: endpoint {
- 			};
- 		};
- 
-+		ge2d: ge2d@ff940000 {
-+			compatible = "amlogic,axg-ge2d";
-+			reg = <0x0 0xff940000 0x0 0x10000>;
-+			interrupts = <GIC_SPI 150 IRQ_TYPE_EDGE_RISING>;
-+			clocks = <&clkc CLKID_VAPB>;
-+			resets = <&reset RESET_GE2D>;
-+			reset-names = "core";
-+		};
-+
- 		gic: interrupt-controller@ffc01000 {
- 			compatible = "arm,gic-400";
- 			reg = <0x0 0xffc01000 0 0x1000>,
+The first patch in this series fix the LAST buffer flag setting, the second
+unify the driver behavior no matter the event from firmware is sufficient or
+insufficient resources and the third one is moving the locking from buf_queue
+helper function to encoder and decoder buf_queue vb2 ops.
+
+Comments are welcome!
+
+Stanimir Varbanov (3):
+  venus: vdec: Fix non reliable setting of LAST flag
+  venus: vdec: Make decoder return LAST flag for sufficient event
+  venus: helpers: Lock outside of buffer queue helper
+
+ drivers/media/platform/qcom/venus/core.h    |  5 +-
+ drivers/media/platform/qcom/venus/helpers.c | 15 ++--
+ drivers/media/platform/qcom/venus/vdec.c    | 92 +++++++++++++--------
+ drivers/media/platform/qcom/venus/venc.c    | 11 ++-
+ 4 files changed, 76 insertions(+), 47 deletions(-)
+
 -- 
-2.25.1
+2.17.1
 
