@@ -2,126 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FE5327B142
-	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 17:55:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C831827B15C
+	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 18:05:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726485AbgI1PzO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Sep 2020 11:55:14 -0400
-Received: from bin-mail-out-06.binero.net ([195.74.38.229]:63768 "EHLO
-        bin-mail-out-06.binero.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726420AbgI1PzO (ORCPT
+        id S1726504AbgI1QFb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Sep 2020 12:05:31 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54890 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726344AbgI1QFb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Sep 2020 11:55:14 -0400
-X-Greylist: delayed 362 seconds by postgrey-1.27 at vger.kernel.org; Mon, 28 Sep 2020 11:55:14 EDT
-X-Halon-ID: 22d9aeb2-01a2-11eb-9823-005056917f90
-Authorized-sender: niklas.soderlund@fsdn.se
-Received: from bismarck.berto.se (p54ac52a8.dip0.t-ipconnect.de [84.172.82.168])
-        by bin-vsp-out-02.atm.binero.net (Halon) with ESMTPA
-        id 22d9aeb2-01a2-11eb-9823-005056917f90;
-        Mon, 28 Sep 2020 17:49:10 +0200 (CEST)
-From:   =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+        Mon, 28 Sep 2020 12:05:31 -0400
+Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F98EC061755
+        for <linux-media@vger.kernel.org>; Mon, 28 Sep 2020 09:05:31 -0700 (PDT)
+Received: by mail-lj1-x230.google.com with SMTP id k25so1474679ljg.9
+        for <linux-media@vger.kernel.org>; Mon, 28 Sep 2020 09:05:31 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
+         :content-transfer-encoding;
+        bh=DAiDcX/e96Y0O6GpPPn9vJ5ylAzcQ1h4j6Nv1AG8Pj4=;
+        b=ix+R30FendGN8rWj66uC9zbA6ezW0e8DfJvgq0rulh6f8s92oB31P26U9kWDy045o7
+         uX4TkY6poGwAoEQR275Twyv7FEpFckr+CTQTon3sDycmcgZsdTzgS+UHLAuPN1cktzTy
+         UWHnrgrcs+ZoM/gUch0UmI39UrhncsFAcx0PVYJ+//VRxV5mNRBg6e/Z0BBu6qnooiCW
+         4q2djX/NKlhPivQODaISInGhgvyuUtE/UDsqeLoul0tBTsPLIWfTJvoD0bswMgW9FArN
+         QKdhw7Z+QuiM52d3f6F0FR3tm4XUbVmt3SOmCwM+d9hf/g5f11l8t1BGDzsoUcocxs1l
+         3uvg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition:content-transfer-encoding;
+        bh=DAiDcX/e96Y0O6GpPPn9vJ5ylAzcQ1h4j6Nv1AG8Pj4=;
+        b=KXV7g/+LfWGjaPlaKz3Oei1Fjsk1WakOXzhhgb2/GLhOgQlm2OtEkFswP3UUAt4ZlB
+         Q68qA+hVjn4Pg5sTc4h8q80Ce7uGAcmy9usj6jENDweR5tONc5aqvH8e1hh4RXXhSP3g
+         Ix09eVI0ZX2KLkJoMxT/Mv1wBMawa/Qn5UOr7ZqYT9T/1YXhJazDon1Pwb8H2mI+OYH9
+         tFqIHMltKD9EcspwCHaE0TrRvvffjjP46QjAKsZ1NeVxQjfVnoLfGoVb4NTbNDv9IPZP
+         ZpKgU/kpj6ccI3+q/gY3hGid5OuC1xPACnOHiaIO4tac3qVMdTWBzYvlXHNP0Vwge4Ec
+         cZnw==
+X-Gm-Message-State: AOAM5335q3W+HtL0b/UGFBw6OZxXHy7SIRGmjKRn5DlKCfHVNFHw6Dlt
+        hzNzFwXcVzX1T6KEWS2PmsnQTIA3U71iVQ==
+X-Google-Smtp-Source: ABdhPJzUlhmFC7ogwWvHeP7B7pqZF+ks72w5xnMAad6Stoz+lqQ47R/fy7+pCKq3OkIadCot4Hw3Ig==
+X-Received: by 2002:a2e:5849:: with SMTP id x9mr704691ljd.194.1601309129523;
+        Mon, 28 Sep 2020 09:05:29 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id t15sm127374ljg.139.2020.09.28.09.05.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 28 Sep 2020 09:05:29 -0700 (PDT)
+Date:   Mon, 28 Sep 2020 18:05:28 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
 To:     Helen Koike <helen.koike@collabora.com>,
         Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org,
-        =?UTF-8?q?Niklas=20S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
-Subject: [PATCH] staging: rkisp1: uapi: Do not use BIT() macro
-Date:   Mon, 28 Sep 2020 17:48:48 +0200
-Message-Id: <20200928154848.3882692-1-niklas.soderlund@ragnatech.se>
-X-Mailer: git-send-email 2.28.0
+Cc:     linux-media@vger.kernel.org
+Subject: SPDX header for rkisp1-config.h and headers_install.sh
+Message-ID: <20200928160528.GA996397@oden.dyn.berto.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The BIT() macro is not available to uAPI headers, replace the few usages
-of it by open coding it.
+Hello,
 
-Signed-off-by: Niklas SÃ¶derlund <niklas.soderlund@ragnatech.se>
----
- .../staging/media/rkisp1/uapi/rkisp1-config.h | 44 +++++++++----------
- 1 file changed, 22 insertions(+), 22 deletions(-)
+I'm trying to install the rkisp1-config.h [1] header using 
+scripts/headers_install.sh and get an error,
 
-diff --git a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-index f202182349b4040f..c50b0ccb78987c26 100644
---- a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-+++ b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
-@@ -14,41 +14,41 @@
- #define V4L2_META_FMT_RK_ISP1_STAT_3A  v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A statistics */
- 
- /* Defect Pixel Cluster Detection */
--#define RKISP1_CIF_ISP_MODULE_DPCC		BIT(0)
-+#define RKISP1_CIF_ISP_MODULE_DPCC		(1 << 0)
- /* Black Level Subtraction */
--#define RKISP1_CIF_ISP_MODULE_BLS		BIT(1)
-+#define RKISP1_CIF_ISP_MODULE_BLS		(1 << 1)
- /* Sensor De-gamma */
--#define RKISP1_CIF_ISP_MODULE_SDG		BIT(2)
-+#define RKISP1_CIF_ISP_MODULE_SDG		(1 << 2)
- /* Histogram */
--#define RKISP1_CIF_ISP_MODULE_HST		BIT(3)
-+#define RKISP1_CIF_ISP_MODULE_HST		(1 << 3)
- /* Lens Shade Control */
--#define RKISP1_CIF_ISP_MODULE_LSC		BIT(4)
-+#define RKISP1_CIF_ISP_MODULE_LSC		(1 << 4)
- /* Auto White Balance Gain */
--#define RKISP1_CIF_ISP_MODULE_AWB_GAIN		BIT(5)
-+#define RKISP1_CIF_ISP_MODULE_AWB_GAIN		(1 << 5)
- /* Filter */
--#define RKISP1_CIF_ISP_MODULE_FLT		BIT(6)
-+#define RKISP1_CIF_ISP_MODULE_FLT		(1 << 6)
- /* Bayer Demosaic */
--#define RKISP1_CIF_ISP_MODULE_BDM		BIT(7)
-+#define RKISP1_CIF_ISP_MODULE_BDM		(1 << 7)
- /* Cross Talk */
--#define RKISP1_CIF_ISP_MODULE_CTK		BIT(8)
-+#define RKISP1_CIF_ISP_MODULE_CTK		(1 << 8)
- /* Gamma Out Curve */
--#define RKISP1_CIF_ISP_MODULE_GOC		BIT(9)
-+#define RKISP1_CIF_ISP_MODULE_GOC		(1 << 9)
- /* Color Processing */
--#define RKISP1_CIF_ISP_MODULE_CPROC		BIT(10)
-+#define RKISP1_CIF_ISP_MODULE_CPROC		(1 << 10)
- /* Auto Focus Control */
--#define RKISP1_CIF_ISP_MODULE_AFC		BIT(11)
-+#define RKISP1_CIF_ISP_MODULE_AFC		(1 << 11)
- /* Auto White Balancing */
--#define RKISP1_CIF_ISP_MODULE_AWB		BIT(12)
-+#define RKISP1_CIF_ISP_MODULE_AWB		(1 << 12)
- /* Image Effect */
--#define RKISP1_CIF_ISP_MODULE_IE		BIT(13)
-+#define RKISP1_CIF_ISP_MODULE_IE		(1 << 13)
- /* Auto Exposure Control */
--#define RKISP1_CIF_ISP_MODULE_AEC		BIT(14)
-+#define RKISP1_CIF_ISP_MODULE_AEC		(1 << 14)
- /* Wide Dynamic Range */
--#define RKISP1_CIF_ISP_MODULE_WDR		BIT(15)
-+#define RKISP1_CIF_ISP_MODULE_WDR		(1 << 15)
- /* Denoise Pre-Filter */
--#define RKISP1_CIF_ISP_MODULE_DPF		BIT(16)
-+#define RKISP1_CIF_ISP_MODULE_DPF		(1 << 16)
- /* Denoise Pre-Filter Strength */
--#define RKISP1_CIF_ISP_MODULE_DPF_STRENGTH	BIT(17)
-+#define RKISP1_CIF_ISP_MODULE_DPF_STRENGTH	(1 << 17)
- 
- #define RKISP1_CIF_ISP_CTK_COEFF_MAX            0x100
- #define RKISP1_CIF_ISP_CTK_OFFSET_MAX           0x800
-@@ -123,10 +123,10 @@
- /*
-  * Measurement types
-  */
--#define RKISP1_CIF_ISP_STAT_AWB           BIT(0)
--#define RKISP1_CIF_ISP_STAT_AUTOEXP       BIT(1)
--#define RKISP1_CIF_ISP_STAT_AFM           BIT(2)
--#define RKISP1_CIF_ISP_STAT_HIST          BIT(3)
-+#define RKISP1_CIF_ISP_STAT_AWB           (1 << 0)
-+#define RKISP1_CIF_ISP_STAT_AUTOEXP       (1 << 1)
-+#define RKISP1_CIF_ISP_STAT_AFM           (1 << 2)
-+#define RKISP1_CIF_ISP_STAT_HIST          (1 << 3)
- 
- enum rkisp1_cif_isp_histogram_mode {
- 	RKISP1_CIF_ISP_HISTOGRAM_MODE_DISABLE,
+    $ ./scripts/headers_install.sh drivers/staging/media/rkisp1/uapi/rkisp1-config.h rkisp1-config.h
+    error: drivers/staging/media/rkisp1/uapi/rkisp1-config.h: missing "WITH Linux-syscall-note" for SPDX-License-Identifier
+
+Appending "WITH Linux-syscall-note" string to the SPDX header "solves" 
+the issue but as I'm not the author I feel unqualified to propose such a 
+patch. Maybe you guys can look into it and propose something that works 
+for you while keeping the install script happy?
+
+1. drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+
 -- 
-2.28.0
-
+Regards,
+Niklas Söderlund
