@@ -2,71 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E5C6E27AFC1
-	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 16:12:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95F1227AFDE
+	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 16:18:07 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726466AbgI1OMh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Sep 2020 10:12:37 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37470 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726310AbgI1OMh (ORCPT
+        id S1726504AbgI1OSC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Sep 2020 10:18:02 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:38329 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726327AbgI1OSB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Sep 2020 10:12:37 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A7E7C061755;
-        Mon, 28 Sep 2020 07:12:37 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: aratiu)
-        with ESMTPSA id E2F0C2997F7
-From:   Adrian Ratiu <adrian.ratiu@collabora.com>
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>, kernel@collabora.com,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH] media: v4l2-mem2mem: Fix spurious v4l2_m2m_buf_done
-In-Reply-To: <20200928140334.19070-1-ezequiel@collabora.com>
-References: <20200814071202.25067-9-xia.jiang@mediatek.com>
- <20200928140334.19070-1-ezequiel@collabora.com>
-Date:   Mon, 28 Sep 2020 17:13:52 +0300
-Message-ID: <87imby3s67.fsf@collabora.com>
+        Mon, 28 Sep 2020 10:18:01 -0400
+Received: by mail-ot1-f67.google.com with SMTP id y5so1053038otg.5;
+        Mon, 28 Sep 2020 07:18:01 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=n0SDEJiGHKBMiTQJpDhH++PpVZUE8wCtPQdFHZ2pW3Y=;
+        b=Ka81PzCmBX2fVD7A+82y+0iF4vTzQeEq6t3TycROq/IlHxeD8GqaExZb623uDgA+jT
+         hR9cVsF7rwuJ64i+FfEXMir+MPJKRPuAi/5CNBeAAlPkNJ7sDggQZVzIbOhPX8TNNGyo
+         rAZ416tqqAk80v5ZlrYcEqiAPWs8/OHJMNOg/3mPiXv5xkXhssoHCfTXJC6gVoaVRWGb
+         GnDkXsKwru3004DtcKQ7kWHDl87z1o68OOMXVW4TnXtaUYb77nxrg7KKUYkKrPDduY6V
+         vRjmpkWEH8t0UewNlILHHkeMshqZsBO95L+7BL9JrK+AOdW73Hlr05E0nDiXoxZk+Dc2
+         eBZw==
+X-Gm-Message-State: AOAM532dP78vhbbdYRz1U/4mxx4wugI1Y/9ugc4RmtVcUn3QhdFC/EGj
+        HJjdA1lC3NDfIntJtqlYI6yT9+TkZaRunl0kEPQ=
+X-Google-Smtp-Source: ABdhPJz6eV4I4wC0CrXWH8jkFLr1VayvxIEzXRxTuz0YVtl3qOlZAg+2X0ohUMDuRUAmdp8Am59xUkdBoyfLCAAEtBM=
+X-Received: by 2002:a05:6830:1f16:: with SMTP id u22mr1078670otg.118.1601302680861;
+ Mon, 28 Sep 2020 07:18:00 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; format=flowed
+References: <20200903081550.6012-1-sakari.ailus@linux.intel.com>
+ <f4b82baa-66b7-464e-fd39-66d2243a05ef@lucaceresoli.net> <20200911130104.GF26842@paasikivi.fi.intel.com>
+ <6dea1206-cfaa-bfc5-d57e-4dcddadc03c7@lucaceresoli.net> <20200914094727.GM26842@paasikivi.fi.intel.com>
+ <20200926123807.GA3781977@chromium.org> <20200927193900.GA30711@kunai> <CAAFQd5Be5sUQYtXapcSOu8CVffW2LuLog9qh71-+mxze9WYUVQ@mail.gmail.com>
+In-Reply-To: <CAAFQd5Be5sUQYtXapcSOu8CVffW2LuLog9qh71-+mxze9WYUVQ@mail.gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Mon, 28 Sep 2020 16:17:44 +0200
+Message-ID: <CAJZ5v0hKQNv+qj-7EQ2Dmtk=UamtVKHBXDCjqo-48Qj13yY+cw@mail.gmail.com>
+Subject: Re: [PATCH v8 0/6] Support running driver's probe for a device
+ powered off
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Wolfram Sang <wsa@the-dreams.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>,
+        linux-i2c <linux-i2c@vger.kernel.org>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "Mani, Rajmohan" <rajmohan.mani@intel.com>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thank you Ezequiel,
+On Sun, Sep 27, 2020 at 9:44 PM Tomasz Figa <tfiga@chromium.org> wrote:
+>
+> On Sun, Sep 27, 2020 at 9:39 PM Wolfram Sang <wsa@the-dreams.de> wrote:
+> >
+> >
+> > > I think we might be overly complicating things. IMHO the series as is
+> > > with the "i2c_" prefix removed from the flags introduced would be
+> > > reusable as is for any other subsystem that needs it. Of course, for
+> > > now, the handling of the flag would remain implemented only in the I2C
+> > > subsystem.
+> >
+> > Just to be clear: you are suggesting to remove "i2c" from the DSD
+> > binding "i2c-allow-low-power-probe". And you are not talking about
+> > moving I2C_DRV_FL_ALLOW_LOW_POWER_PROBE to struct device_driver? I
+> > recall the latter has been NACKed by gkh so far.
+> >
+>
+> I'd also drop "I2C_" from "I2C_DRV_FL_ALLOW_LOW_POWER_PROBE", but all
+> the implementation would remain where it is in the code. IOW, I'm just
+> suggesting a naming change to avoid proliferating duplicate flags of
+> the same meaning across subsystems.
 
-Tested-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+But that would indicate that the property was recognized by other
+subsystems which wouldn't be the case, so it would be confusing.
 
-On Mon, 28 Sep 2020, Ezequiel Garcia <ezequiel@collabora.com> 
-wrote:
-> A seemingly bad rebase introduced a spurious v4l2_m2m_buf_done,
-> which releases a buffer twice and therefore triggers a
-> noisy warning on each job:
->
-> WARNING: CPU: 0 PID: 0 at drivers/media/common/videobuf2/videobuf2-core.c:986 vb2_buffer_done+0x208/0x2a0
->
-> Fix it by removing the spurious v4l2_m2m_buf_done.
->
-> Reported-by: Adrian Ratiu <adrian.ratiu@collabora.com>
-> Fixes: 911ea8ec42dea ("media: v4l2-mem2mem: add v4l2_m2m_suspend, v4l2_m2m_resume")
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  drivers/media/v4l2-core/v4l2-mem2mem.c | 1 -
->  1 file changed, 1 deletion(-)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> index f626ba5ee3d9..b221b4e438a1 100644
-> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> @@ -516,7 +516,6 @@ void v4l2_m2m_buf_done_and_job_finish(struct v4l2_m2m_dev *m2m_dev,
->  
->  	if (WARN_ON(!src_buf || !dst_buf))
->  		goto unlock;
-> -	v4l2_m2m_buf_done(src_buf, state);
->  	dst_buf->is_held = src_buf->flags & V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF;
->  	if (!dst_buf->is_held) {
->  		v4l2_m2m_dst_buf_remove(m2m_ctx);
-> -- 
-> 2.27.0
+That's why it cannot be documented as a general property ATM too.
