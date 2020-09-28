@@ -2,317 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E771F27B5C2
-	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 21:54:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EEDAB27B5ED
+	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 22:06:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726621AbgI1Tyx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Sep 2020 15:54:53 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33882 "EHLO
+        id S1726802AbgI1UGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Sep 2020 16:06:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35724 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726590AbgI1Tyx (ORCPT
+        with ESMTP id S1726325AbgI1UGi (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Sep 2020 15:54:53 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14BFAC061755;
-        Mon, 28 Sep 2020 12:54:53 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 8557128DB03
-Message-ID: <9cbd69ac5386c2e2e6e7024416c97efa618a97bf.camel@collabora.com>
-Subject: Re: [PATCH] media: uapi: h264: Add documentation to the interface
- header
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     kernel@collabora.com,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-Date:   Mon, 28 Sep 2020 16:54:44 -0300
-In-Reply-To: <5049b19f-cb31-6e6e-2667-c63b7adf997b@xs4all.nl>
-References: <20200921193851.50752-1-ezequiel@collabora.com>
-         <5049b19f-cb31-6e6e-2667-c63b7adf997b@xs4all.nl>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3-1 
+        Mon, 28 Sep 2020 16:06:38 -0400
+Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 978D8C0613CE
+        for <linux-media@vger.kernel.org>; Mon, 28 Sep 2020 13:06:36 -0700 (PDT)
+Received: by mail-ed1-x541.google.com with SMTP id w1so3240887edr.3
+        for <linux-media@vger.kernel.org>; Mon, 28 Sep 2020 13:06:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=l3/RthoWOUwuzTyUqMkIutkczyzvaZtdBdBX3vl2kfw=;
+        b=igdhPiI8ZUTi0qzKtluflwazu/79pMgWhtOpYJflLX7J3wteUplQRRSQYloDJ+bW/M
+         R4pBThWClqAq755nEHri1H8DfGiKcvYa2Q0LrQuq1ajyHt/NEEkJq9GtlBce3quiVkQ9
+         TLhetOGldD3WyIqrfGXg7KoNdTSXLElpu2bT+hqwaTehSFB5wLEdEubI23LplSO4LeGe
+         vDyBScBIam9awD3FvMKG3EeKF/rVPgknRLnOugV2BYOt+1BSo4v5DnghWyV9KyANG7Ox
+         MIKl68F8gC1vhgDnuN6HZFZ0SHuwRuNwOZ/DMOafHvDBcutY8A58V5UAPiToJCYgiLjT
+         Q1+Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=l3/RthoWOUwuzTyUqMkIutkczyzvaZtdBdBX3vl2kfw=;
+        b=tgvG7Y+2illUVSjzkVnZ9tfk6zhKc05J/lVqZfcUcvceSsVJ3TkLDME9qPR7L9N4pP
+         48eLuFq6l95/vsI52hHNKzeFEuF0HBcQSxm4JgBg3J2C4WMhdCxa0VDoInQpVNkMgfcC
+         JOQ9Rab95lFnZBLggP5A5BXywt5yxfQs+qNEzmKnz/avqmXM2zBZpPOMKTFggSVxuCSD
+         MxbUCxzSFClmlWodbKjUCHE05+Z8MLtuKTTkHnEF6+BOn8Fm7FiToGjFj+Bd8lgrDO6J
+         lyTU++p+ip/mYQ/3kEabE/8PNc4fTvtBI9HD7IRQ0URLFS5eZZ/B0+uBXWTMixctmmz/
+         rs4A==
+X-Gm-Message-State: AOAM5335i5dnf7uWYC0JKVn2a6gLH3MCuPqtJyMqCS/q3r08w/3/nLYW
+        9+hkhvW0rgvqUKtxykhPNtR8vTkJzmgru7ZPqRGPxQ==
+X-Google-Smtp-Source: ABdhPJzkd8lOyD117kZmTAJd38Vp62XqajHUVqn2ZnHvEp5iveEQG9dxwKfDUY7OAmwthEgQguzSjt5wjgFa96SGTNc=
+X-Received: by 2002:a05:6402:2c3:: with SMTP id b3mr3718802edx.213.1601323595273;
+ Mon, 28 Sep 2020 13:06:35 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <3b140eaf883b4666985c0be0db8d53e8@skidata.com> <9444c9375f58436b9e6a0fa3a4088e17@skidata.com>
+ <AM6PR01MB55741EE09532A7C60CD05B71E23F0@AM6PR01MB5574.eurprd01.prod.exchangelabs.com>
+In-Reply-To: <AM6PR01MB55741EE09532A7C60CD05B71E23F0@AM6PR01MB5574.eurprd01.prod.exchangelabs.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Mon, 28 Sep 2020 17:06:24 -0300
+Message-ID: <CAAEAJfDnC5=iomoNivrwKt5th866qMKPY0Tw9i_PfKqsFTm69Q@mail.gmail.com>
+Subject: Re: [PATCH] media: coda: avoid starvation on well-compressed data
+To:     Benjamin Bara - SKIDATA <Benjamin.Bara@skidata.com>
+Cc:     "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
+        "mchehab@kernel.org" <mchehab@kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Richard Leitner - SKIDATA <Richard.Leitner@skidata.com>,
+        "l.stach@pengutronix.de" <l.stach@pengutronix.de>,
+        Chris Healy <cphealy@gmail.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2020-09-24 at 10:29 +0200, Hans Verkuil wrote:
-> Hi Ezequiel,
-> 
-> On 21/09/2020 21:38, Ezequiel Garcia wrote:
-> > In preparation for making the interface public,
-> > document all the structures. Special care is taken to
-> > annotate those fields that depart from the H264 syntax.
-> > 
-> > This commit only adds documentation and doesn't affect
-> > functionality in any way.
-> > 
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > ---
-> >  include/media/h264-ctrls.h | 138 ++++++++++++++++++++++++++++++++++---
-> >  1 file changed, 128 insertions(+), 10 deletions(-)
-> > 
-> > diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
-> > index ec4799154438..afc8e7c05c18 100644
-> > --- a/include/media/h264-ctrls.h
-> > +++ b/include/media/h264-ctrls.h
-> > @@ -46,11 +46,38 @@
-> >  #define V4L2_CTRL_TYPE_H264_DECODE_PARAMS	0x0114
-> >  #define V4L2_CTRL_TYPE_H264_PRED_WEIGHTS	0x0115
-> >  
-> > +/**
-> > + * enum v4l2_mpeg_video_h264_decode_mode - Decoding mode
-> > + *
-> > + * @V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_BASED: indicates that decoding
-> > + * is performed one slice at a time. In this mode,
-> > + * V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS must contain the parsed slice
-> > + * parameters and the OUTPUT buffer must contain a single slice.
-> > + * V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF feature is used
-> > + * in order to support multislice frames.
-> > + * @V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED: indicates that
-> > + * decoding is performed per frame. The OUTPUT buffer must contain
-> > + * all slices and also both fields. This mode is typically supported
-> > + * by device drivers that are able to parse the slice(s) header(s)
-> > + * in hardware. When this mode is selected,
-> > + * V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS is not used.
-> > + */
-> >  enum v4l2_mpeg_video_h264_decode_mode {
-> >  	V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_BASED,
-> >  	V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED,
-> >  };
-> >  
-> > +/**
-> > + * enum v4l2_mpeg_video_h264_start_code - Start code
-> > + *
-> > + * @V4L2_MPEG_VIDEO_H264_START_CODE_NONE: slices are passed
-> > + * to the driver without any start code.
-> > + * @V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B: slices are passed
-> > + * to the driver with an Annex B start code prefix
-> > + * (legal start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001).
-> > + * This mode is typically supported by device drivers that parse
-> > + * the start code in hardware.
-> > + */
-> >  enum v4l2_mpeg_video_h264_start_code {
-> >  	V4L2_MPEG_VIDEO_H264_START_CODE_NONE,
-> >  	V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
-> > @@ -71,6 +98,12 @@ enum v4l2_mpeg_video_h264_start_code {
-> >  #define V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD		0x20
-> >  #define V4L2_H264_SPS_FLAG_DIRECT_8X8_INFERENCE			0x40
-> >  
-> > +/**
-> > + * struct v4l2_ctrl_h264_sps - H264 sequence parameter set
-> > + *
-> > + * All the members on this sequence parameter set structure match the
-> > + * sequence parameter set syntax as specified by the H264 specification.
-> > + */
-> >  struct v4l2_ctrl_h264_sps {
-> >  	__u8 profile_idc;
-> >  	__u8 constraint_set_flags;
-> > @@ -101,6 +134,20 @@ struct v4l2_ctrl_h264_sps {
-> >  #define V4L2_H264_PPS_FLAG_TRANSFORM_8X8_MODE				0x0040
-> >  #define V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT			0x0080
-> >  
-> > +/**
-> > + * struct v4l2_ctrl_h264_pps - H264 picture parameter set
-> > + *
-> > + * Except where noted, all the members on this picture parameter set
-> > + * structure match the sequence parameter set syntax as specified
-> > + * by the H264 specification.
-> > + *
-> > + * In particular, V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT flag
-> > + * has a specific meaning. This flag should be set if a non-flat
-> > + * scaling matrix applies to the picture. In this case, applications
-> > + * are expected to use V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX.
-> > + * This will be the case if SPS scaling_matrix_present_flag or
-> > + * PPS pic_scaling_matrix_present_flag syntax elements are set.
-> 
-> This is a bit confusing. 'This will be the case': what does 'This' refer
-> to?
-> 
+Hi Benjamin,
 
-I see, yes. I'll try to clarify here.
+On Fri, 18 Sep 2020 at 05:35, Benjamin Bara - SKIDATA
+<Benjamin.Bara@skidata.com> wrote:
+>
+> Hi all,
+>
+> there are still cases where the decoder starves.
+> Also, the failure log at the bottom contradicts with the 2x256 bytes assumption.
+> When I increase the threshold to 512 bytes, the respective video (and all my other tests) work.
+>
+> Is it possible that the limitation is 2x512 bytes or is there another "limitation",
+> beside the "two window" one, which is "accidentally fulfilled" with this approach?
+>
+> What do you think about the approach in the patch; is it possible to get it mainline?
+> Any help, feedback, hints or suggestions would be really appreciated!
+>
+> I will do some additional testing to see if the 2x512 threshold finally catches the problem.
+> When I'm done, I will provide a second version of the patch.
+>
 
-> > + */
-> >  struct v4l2_ctrl_h264_pps {
-> >  	__u8 pic_parameter_set_id;
-> >  	__u8 seq_parameter_set_id;
-> > @@ -115,6 +162,18 @@ struct v4l2_ctrl_h264_pps {
-> >  	__u16 flags;
-> >  };
-> >  
-> > +/**
-> > + * struct v4l2_ctrl_h264_scaling_matrix - H264 scaling matrices
-> > + *
-> > + * @scaling_list_4x4: scaling matrix after applying the inverse
-> > + * scanning process. Expected list order is Intra Y, Intra Cb,
-> > + * Intra Cr, Inter Y, Inter Cb, Inter Cr. The values on each
-> > + * scaling list are expected in raster scan order.
-> > + * @scaling_list_8x8: scaling matrix after applying the inverse
-> > + * scanning process. Expected list order is Intra Y, Inter Y,
-> > + * Intra Cb, Inter Cb, Intra Cr, Inter Cr. The values on each
-> > + * scaling list are expected in raster scan order.
-> 
-> The list order is different for the 4x4 and 8x8 matrices. Is that
-> correct?
-> 
-> If it is correct, then there should perhaps be a sentence like this
-> at the start:
-> 
-> "Note that the list order is different for the 4x4 and 8x8 matrices
-> as per the H264 specification."
-> 
-> 
-> (I assume that the order is based on the H264 spec)
-> 
+Thanks for the report. I'm seeing a similar behavior and have been doing
+some experiments with your patch, and trying different solutions as well.
 
-Yes, I'll add this and mention table 7-2 as pointed out by Nicolas.
+My colleague Nicolas pointed out to me that crafting a video
+with serie of black frames in QCIF resolution, would trigger the timeout:
 
-> > + */
-> >  struct v4l2_ctrl_h264_scaling_matrix {
-> >  	__u8 scaling_list_4x4[6][16];
-> >  	__u8 scaling_list_8x8[6][64];
-> > @@ -134,6 +193,12 @@ struct v4l2_h264_weight_factors {
-> >  	 ((pps)->weighted_bipred_idc == 1 && \
-> >  	  (slice)->slice_type == V4L2_H264_SLICE_TYPE_B))
-> >  
-> > +/**
-> > + * struct v4l2_ctrl_h264_pred_weights - Prediction weight table
-> > + *
-> > + * Prediction weight table, which matches the syntax specified
-> > + * by the H264 specification.
-> > + */
-> >  struct v4l2_ctrl_h264_pred_weights {
-> >  	__u16 luma_log2_weight_denom;
-> >  	__u16 chroma_log2_weight_denom;
-> > @@ -153,19 +218,41 @@ struct v4l2_ctrl_h264_pred_weights {
-> >  #define V4L2_H264_BOTTOM_FIELD_REF			0x2
-> >  #define V4L2_H264_FRAME_REF				0x3
-> >  
-> > +/**
-> > + * struct v4l2_h264_reference - H264 picture reference
-> > + *
-> > + * @fields: indicates how the picture is referenced.
-> > + * Valid values are V4L2_H264_{}_REF.
-> > + * @index: index into v4l2_ctrl_h264_decode_params.dpb[].
-> > + */
-> >  struct v4l2_h264_reference {
-> >  	__u8 fields;
-> > -
-> > -	/* Index into v4l2_ctrl_h264_decode_params.dpb[] */
-> >  	__u8 index;
-> >  };
-> >  
-> > +/**
-> > + * struct v4l2_ctrl_h264_slice_params - H264 slice parameters
-> > + *
-> > + * This structure holds the H264 syntax elements that are specified
-> > + * as non-invariant for the slices in a given frame.
-> > + *
-> > + * Slice invariant syntax elements are contained in struct
-> > + * v4l2_ctrl_h264_decode_params. This is done to reduce the API surface
-> > + * on frame-based decoders, where slice header parsing is done by the
-> > + * hardware.
-> > + *
-> > + * Slice invariant syntax elements are specified in specification section
-> > + * "7.4.3 Slice header semantics".
-> > + *
-> > + * Except where noted, the members on this struct match the slice header syntax.
-> > + *
-> > + * @header_bit_size: offset in bits to slice_data() from the beginning of this slice.
-> > + * @ref_pic_list0: reference picture list 0 after applying the per-slice modifications.
-> > + * @ref_pic_list1: reference picture list 1 after applying the per-slice modifications.
-> 
-> There are a lot more fields here that are not mentioned.
-> 
-> In order to prevent the doc checker to issue warnings about undocumented field,
-> I would suggest adding them all, but just keep the description simple:
-> 
-> @slice_type: see H264 specification.
-> 
+gst-launch-1.0 videotestsrc pattern=black num-buffers=300 !
+video/x-raw,format=I420,width=176,height=120 ! avenc_mpeg2video !
+mpegvideoparse ! mpegtsmux ! filesink location=black-qcif-10s.ts
 
-OK.
+We are still doing some tests to see if we can come up with a proper
+solution. I will keep you posted.
 
-> You should also document @reserved since that's obviously not part of the h264 spec.
-> 
-
-OK.
-
-> > + */
-> >  struct v4l2_ctrl_h264_slice_params {
-> > -	/* Offset in bits to slice_data() from the beginning of this slice. */
-> >  	__u32 header_bit_size;
-> > -
-> >  	__u32 first_mb_in_slice;
-> > -
-> >  	__u8 slice_type;
-> >  	__u8 colour_plane_id;
-> >  	__u8 redundant_pic_cnt;
-> > @@ -191,22 +278,55 @@ struct v4l2_ctrl_h264_slice_params {
-> >  #define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM	0x04
-> >  #define V4L2_H264_DPB_ENTRY_FLAG_FIELD		0x08
-> >  
-> > +/**
-> > + * struct v4l2_h264_dpb_entry - H264 decoded picture buffer entry
-> > + *
-> > + * @reference_ts: timestamp of the V4L2 capture buffer to use as reference.
-> > + * The timestamp refers to the timestamp field in struct v4l2_buffer.
-> > + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
-> > + * @pic_num: matches PicNum variable assigned during the reference
-> > + * picture lists construction process.
-> > + * @frame_num: frame identifier which matches frame_num syntax element.
-> > + * @fields: indicates how the DPB entry is referenced. Valid values are
-> > + * V4L2_H264_{}_REF.
-> > + * @top_field_order_cnt: matches TopFieldOrderCnt picture value.
-> > + * @bottom_field_order_cnt: matches BottomFieldOrderCnt picture value.
-> > + * Note that picture field is indicated by v4l2_buffer.field.
-> 
-> @flags and @reserved are missing.
-> 
-> > + */
-> >  struct v4l2_h264_dpb_entry {
-> >  	__u64 reference_ts;
-> >  	__u32 pic_num;
-> >  	__u16 frame_num;
-> >  	__u8 fields;
-> >  	__u8 reserved[5];
-> > -	/* Note that field is indicated by v4l2_buffer.field */
-> >  	__s32 top_field_order_cnt;
-> >  	__s32 bottom_field_order_cnt;
-> > -	__u32 flags; /* V4L2_H264_DPB_ENTRY_FLAG_* */
-> > +	__u32 flags;
-> >  };
-> >  
-> >  #define V4L2_H264_DECODE_PARAM_FLAG_IDR_PIC		0x01
-> >  #define V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC		0x02
-> >  #define V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD	0x04
-> >  
-> > +/**
-> > + * struct v4l2_ctrl_h264_decode_params - H264 decoding parameters
-> > + *
-> > + * @dpb: decoded picture buffer.
-> > + * @nal_ref_idc: slice header syntax element.
-> > + * @frame_num: slice header syntax element.
-> > + * @top_field_order_cnt: matches TopFieldOrderCnt picture value.
-> > + * @bottom_field_order_cnt: matches BottomFieldOrderCnt picture value.
-> > + * Note that picture field is indicated by v4l2_buffer.field.
-> > + * @idr_pic_id: slice header syntax element.
-> > + * @pic_order_cnt_lsb: slice header syntax element.
-> > + * @delta_pic_order_cnt_bottom: slice header syntax element.
-> > + * @delta_pic_order_cnt0: slice header syntax element.
-> > + * @delta_pic_order_cnt1: slice header syntax element.
-> > + * @dec_ref_pic_marking_bit_size: size in bits of dec_ref_pic_marking()
-> > + * syntax element.
-> > + * @pic_order_cnt_bit_size: size in bits of pic order count syntax.
-> > + * @slice_group_change_cycle: slice header syntax element.
-> 
-> @reserved and @flags are missing.
-> 
-
-Yes, I'll address the missing fields and send a v2.
+If you have some (public) bitstream that are known to timeout,
+and that you could share with me, that would be nice, so I could
+have a more complete set of samples.
 
 Thanks,
 Ezequiel
 
+> Many thanks & best regards
+> Benjamin
+>
+> *Failure Log:*
+> [  108.108711] coda 2040000.vpu: 0: active metas:
+> [  108.108716] coda 2040000.vpu: 0: - payload: 4240
+> [  108.108721] coda 2040000.vpu: 0: - payload: 900
+> [  108.108726] coda 2040000.vpu: 0: - payload: 170
+> [  108.108730] coda 2040000.vpu: 0: - payload: 403
+> [  108.108734] coda 2040000.vpu: 0: want to queue: payload: 405
+> [  109.057738] coda 2040000.vpu: CODA PIC_RUN timeout
+>
