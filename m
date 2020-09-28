@@ -2,206 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 77C4C27AC9C
-	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 13:22:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9420A27ACC5
+	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 13:33:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726604AbgI1LW0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Sep 2020 07:22:26 -0400
-Received: from mail-dm6nam12on2046.outbound.protection.outlook.com ([40.107.243.46]:54752
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726477AbgI1LWZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Sep 2020 07:22:25 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FCjLUCAA8XVyDL2KBJHmEi1Zy/SgpeK1LtIXigePlKkqafb6qaZvlR2jMFaw8uElsDnOXJsGimsf8GbF+NfMjb0UYo4SPWGCGumYZ6GGkmBjjpdC2+ie4ANOXZkVCkPcFBnI0Q7/m0TMt4MvJ00o/88irizYYZF54nUx/2KJnPHfMYv38IsinC6ta6a/S49xKJldDOCjuBUMokVDi/4EogPr6XXgnFLFz7WJmIV74VjHYzKxpBYlwWHFBUwxjYRuwsG57xbPWRIGFZXbSDvC7RhFdE87YzkBZkLcFPcrINTCWAswea4m7B/3ngFSOQQCcfpEvEOyc/t2CRRXZqN4Ng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hD8W5ThzNGSBL01HXMBRedFUTKVe6ilyPQyyYKe2xKk=;
- b=fP6As9m0yb5e9Y30h+Zd9gR9v3SMlyoFx7Gk5RNTALfkb15TDlVMPWL6Yb+D4lkqs/tdEHBMPTMoKdWwvNTW+a6V9ppQo9P/TX0Mp5Vzo4cGY8EPShQNt0KtqT+WzbnCUifqzjcvN9JtQiqSAnab3hfTH0sj1wFbCCcyfkKpeWiszizRqIciCboig7c8ds6s2PkSqLqJ1epKPyYNJK442QAReyp4bzzDPED3uWN6MbmaFLm+I7SoN7V85CS6cdKxSRldknukFuGXlcAIobIL/a+uQbytoTYhHooFjKKgKHJZVm5FLK8YNkqcq2rQMmZbBFmBMXUPBPKZWipPxm1iOA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=hD8W5ThzNGSBL01HXMBRedFUTKVe6ilyPQyyYKe2xKk=;
- b=j7JdjJsgyMBQJ0WwPDQ81i5UNk45tcg+b9r1HedEwEOELVLowSBXy30CWi3gYiourig4qSCsCANM1D/n0cMTHA4ASZ5LhxuAMqp/Qkr7pLx1DhE66b3ZkmIPss3Nax5xMbkAfBlKKpQOO//TC2mnF5rA/Hvdzsc1DPZWyWKG4vo=
-Authentication-Results: arm.com; dkim=none (message not signed)
- header.d=none;arm.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB4408.namprd12.prod.outlook.com (2603:10b6:208:26c::14) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.25; Mon, 28 Sep
- 2020 11:22:22 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3412.029; Mon, 28 Sep 2020
- 11:22:22 +0000
-Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
- memory
-To:     Thomas Zimmermann <tzimmermann@suse.de>,
-        Sam Ravnborg <sam@ravnborg.org>
-Cc:     linux-doc@vger.kernel.org, airlied@linux.ie,
-        dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
-        kraxel@redhat.com, afd@ti.com, m.szyprowski@samsung.com,
-        arnd@arndb.de, corbet@lwn.net, jonathanh@nvidia.com,
-        matthew.auld@intel.com, linux+etnaviv@armlinux.org.uk,
-        labbott@redhat.com, linux-media@vger.kernel.org, pawel@osciak.com,
-        intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
-        rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        lmark@codeaurora.org, tfiga@chromium.org,
-        kyungmin.park@samsung.com, robin.murphy@arm.com
-References: <20200925115601.23955-1-tzimmermann@suse.de>
- <20200926071334.GA42915@ravnborg.org>
- <8761e0dd-569e-0ea0-7bc5-25e4f7cb67cc@suse.de>
- <20200927191605.GA237178@ravnborg.org>
- <3f703297-7b4f-dcca-ea56-70b2413a1e3d@amd.com>
- <ef4400a7-397b-e550-7114-1d4238dd36f3@suse.de>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <49c4dcec-cd69-510a-9781-e8fa5fb669f9@amd.com>
-Date:   Mon, 28 Sep 2020 13:22:13 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <ef4400a7-397b-e550-7114-1d4238dd36f3@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
+        id S1726674AbgI1Lcu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Sep 2020 07:32:50 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:48702 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726657AbgI1Lct (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 28 Sep 2020 07:32:49 -0400
+Received: from eucas1p1.samsung.com (unknown [182.198.249.206])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20200928113247euoutp02a03a00c7a4b80854b6d27c3899dd6cb3~470m4gC7l1230312303euoutp02i
+        for <linux-media@vger.kernel.org>; Mon, 28 Sep 2020 11:32:47 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20200928113247euoutp02a03a00c7a4b80854b6d27c3899dd6cb3~470m4gC7l1230312303euoutp02i
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1601292767;
+        bh=+uo/0vdDAtG25qGjp09xK2qh3VzfFRoNQyQxfRdW754=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=YpOdnes0Yjrqe/2nD9pUx4yDJsVEH06XpDI80qW/qBwE3rogv45G29fnEEVF+r6Ee
+         yoyhQHwQ+nPLYtnMvvSJ5ZP53xf/vJXJlkXfIogmz0iAwvbvVdYHGzlvSDwdQqjAn5
+         Z2XpcVUnqsiQu+/SqBz/eQq02REcXoh7I2FTCNF0=
+Received: from eusmges3new.samsung.com (unknown [203.254.199.245]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTP id
+        20200928113246eucas1p202daf455573dc6614f1285c7fcca2757~470mZVS1T1751417514eucas1p2H;
+        Mon, 28 Sep 2020 11:32:46 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges3new.samsung.com (EUCPMTA) with SMTP id BC.8B.06318.ED9C17F5; Mon, 28
+        Sep 2020 12:32:46 +0100 (BST)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20200928113246eucas1p12a4b178ec04da6d0b1448d42861bf78c~470l1yIz31119311193eucas1p1z;
+        Mon, 28 Sep 2020 11:32:46 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20200928113246eusmtrp21d25f691a89ecf6d64b491f43a9cda3d~470l0uE8e1717117171eusmtrp2g;
+        Mon, 28 Sep 2020 11:32:46 +0000 (GMT)
+X-AuditID: cbfec7f5-38bff700000018ae-ae-5f71c9de010c
+Received: from eusmtip2.samsung.com ( [203.254.199.222]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id FC.80.06314.ED9C17F5; Mon, 28
+        Sep 2020 12:32:46 +0100 (BST)
+Received: from [106.210.88.143] (unknown [106.210.88.143]) by
+        eusmtip2.samsung.com (KnoxPortal) with ESMTPA id
+        20200928113244eusmtip2fd0487d5ac28e35d0bf3f6adfb341026~470kVFgvX0454604546eusmtip2a;
+        Mon, 28 Sep 2020 11:32:44 +0000 (GMT)
+Subject: Re: [PATCH 05/18] ARM/dma-mapping: Switch to iommu_dma_ops
+To:     Robin Murphy <robin.murphy@arm.com>, hch@lst.de, joro@8bytes.org,
+        linux@armlinux.org.uk
+Cc:     will@kernel.org, inki.dae@samsung.com, sw0312.kim@samsung.com,
+        kyungmin.park@samsung.com, agross@kernel.org,
+        bjorn.andersson@linaro.org, thierry.reding@gmail.com,
+        jonathanh@nvidia.com, vdumpa@nvidia.com, digetx@gmail.com,
+        matthias.bgg@gmail.com, yong.wu@mediatek.com,
+        geert+renesas@glider.be, magnus.damm@gmail.com, t-kristo@ti.com,
+        s-anna@ti.com, laurent.pinchart@ideasonboard.com,
+        linux-arm-kernel@lists.infradead.org,
+        iommu@lists.linux-foundation.org,
+        linux-samsung-soc@vger.kernel.org, linux-tegra@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <1d4c80ef-db03-3c31-a827-ab047fe9741f@samsung.com>
+Date:   Mon, 28 Sep 2020 13:32:44 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
+        Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <4b51f1685a7ff88b673bf013ca6c27501e52f9b4.1597931876.git.robin.murphy@arm.com>
 Content-Transfer-Encoding: 8bit
 Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: FR2P281CA0028.DEUP281.PROD.OUTLOOK.COM
- (2603:10a6:d10:14::15) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
-MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by FR2P281CA0028.DEUP281.PROD.OUTLOOK.COM (2603:10a6:d10:14::15) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.18 via Frontend Transport; Mon, 28 Sep 2020 11:22:18 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 344bcca5-18b3-4dda-ed79-08d863a0c45f
-X-MS-TrafficTypeDiagnostic: MN2PR12MB4408:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB440857BCFC2C769A76568D5183350@MN2PR12MB4408.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:9508;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: IRUeFrkBXr0H/jOwBHqPHvishB50tqoIEUWeMVTO+hw02PbTm40K1M4nq7IWUIdSB5NWuAKDdulLk4b4Wm40EkIIpaQikrj99GeqTnCQAtumQPQ/pEGm7OEmdOo9vhMyqof7a2SRSr3nDRuX2xi+vdzI1OznvMKwLhjA925OTvJ0T5QfVDI/y+Ny0wQdOf+7zg3uvysQApS8zQ21Fl/0cjrcYJn/l43lUOuBzBi+W8HRpi8pFw+DaThqo08YgCKPJ+2Exnh+Bu2Fg4sOQEtFPZ8RXqepra2IK5fDdS07poduy/QUyHfaLV2xTA/axhcDbu52si9HTP8ra79pFRoxXPWhN352KsJI3LYeIit4w4p+gabNc1wgMGtc/HA+LhEtp6+nWrDQ/aM3uKBGKQobI+Mh5+ebBOOvoGxFaiCufSKeXAUacGx7783HFU0zhvZvXw4e6dqFWRD63pPObzgzCg==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(136003)(376002)(366004)(396003)(39860400002)(6486002)(36756003)(4326008)(86362001)(8936002)(52116002)(478600001)(6666004)(966005)(31696002)(8676002)(83380400001)(2616005)(316002)(66574015)(66946007)(31686004)(66476007)(66556008)(110136005)(16526019)(5660300002)(186003)(2906002)(7416002)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: qGSPofKGJ256FYvsiC1t6pMhAyaJsKnwicKR9y7MycQ38js9z/WvHfjtSoem1bR+lbYjhGZ54CFlDmmF+FZ2j14c2vF9jZaZguOBdM2Z/SsFcU8jm7ej0mTMTFEDQRvWbMQa3QfMRvVe7teKChGXsv37QdrP5V9S8PPV2HJUh8qDzrGn0rXV6y91S0HBVRnZsunU3nPVv72h5G3icpPGPPaW/VpQR3gxMryIj2mCLomPSpK3uq0Wg2pbHichri5uZbueqhq9aKWvS/G0eEdACyRhJDPd/sqvvmIflMxPNQ2naC6AAlrm429TR2f7lAggFZzpXKp+uTL3/FlE44emuNCl/sfJOLGwcQvL6FYi6XG3V49y7yJ+QTNzU1jSlNRpaw+cttjHGbazjsDcW5lYPj4qGPE0srzzh0wFvFqMqHO9HK0NonbSSPUrZys+4NXYfF/Io35ztwRUq3MNlawNDRvf+xEazNqNdn4QUyMHtnHuyc45AopcfXJhiw7T71OP8jpR3d3dk8Ub3wUedrr6c3kkOKMBLZ+zBPE9fOTAalkJ8CH33zCuDLiaAKQ2yfTFl/9w6Q/nTKI3ozWwdBgNoniuLdjS+dYwowxgxT3Ji49zNg5AoEEaOhms6nGJbc9DB/sULA7BR3jCQQgrTWmuLtbxvYg1rH7cAimeZwTpzZspP9PrdyuGI3mbJ9cY6jOHprMu3hifcdy+hKwv3Stw9A==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 344bcca5-18b3-4dda-ed79-08d863a0c45f
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2020 11:22:21.8860
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: OUI07lNO1T0FbvSXW9b82g9qM23oBRcHqu8hT0hOvTAzGUGVEsS+FFwqw2fhcD0B
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB4408
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SbUxTZxTHeXpv7700ltwWDCeiaJppwhKlyMyexIX5sg832RIXzT6ovFj0
+        Dhpo0RacMDc7IIYyRCgx4q0CaTAoRWUFVJAXaSYNLy0ohjHWrRtgCCBiIzph+NbebfLt9z/n
+        f/Kc/8nDEEoPtYbR6rN5g16TqaJk5M2eRc/mP3qPpahfvtiKPRP/kLi/6wmJ7f4JhB8+n6fw
+        JasF4av2exJs8ZWRuKZrOy4UbCQ2Wxtp7M5/TGNzeS2NHRMjUlze5abxcNtFCpc0tkjxcMF9
+        hCsHOyXYvCBQ2HmuA+E/7XMUzi+Mx91PJ6W4Y6lTiisrpilc+6iIwottVSQu7diLC73bsM/S
+        RO6I5ia7qyRcQ1UD4oZH7hNcuXsz1yr8TnPWogtSzlFvpjjvSDvF+X50Sbim2lNcxWgd4u78
+        aqK4wt4ukjtT8ITiSpvrEecavSX5UnFA9skRPlN7nDfEJhySpc+3fHzUE3HCfjnChGoUxYhh
+        gP0IvHe/KEYyRsleQTDgOisRxQKCvtlBqSieIXh6x/9OhAYnOhaWCLFRh2DQ5qZFMY/APXCP
+        DLjC2d0wdn2aCHAEmwRLt5eDJoJtl4LJ4guaKDYOiueKqQDL2QQYr/LSASbZjWAt7w/WV7PJ
+        0NM3TooeBfRemAxyKHsQZuouBZlg10NBi5UQORLGJqsl4qpnQ+Gnoe9F/gxsD81I5HCYcTXT
+        Iq+FN63VwdDAFiD4y3ONFkUJguH8yn8ntoPXs0QFTkawMXCjLVYs74TWcQctXjIMRucU4g5h
+        YLl5nhDLcig6rRTdm0BwXf//2e6hB0QZUgkrkgkr0ggr0gjv361BZD2K5HOMujTeGK/nv9li
+        1OiMOfq0LYezdA707pf3v3Y9v406l1OdiGWQapVc7TyWopRqjhtzdU4EDKGKkO9y9ycr5Uc0
+        uXm8ISvFkJPJG50oiiFVkfJ423SSkk3TZPMZPH+UN/zXlTCha0zoB/Wzb7UxsaZGx6mckyUl
+        f+u+GzuoS7gyNduUsng4ujbxWp52/jfZocSMzyv8cr9sVWvZ1AtbzKvkhqivQr5W1PmifDs/
+        aAjXx5V+ui5ssW99/b6hBPtdV8/u/esi92p/KfIvqF+GbNPcWo6e6syzhKSOxWjVvdnRwurG
+        9g2x+OfZPSrSmK6J+5AwGDVvAb76VTLhAwAA
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Se0hTcRTH+e0+NqPRdU38Ib1YDSJodn20Y9Z6EVyIoAeBPdSGXdRyLne3
+        0giSKaHLxBmVbrbER5aLMs3evhYmOk3UECvTzAVZTo0ssBfpVuB/H875fjgc+EoI2QgVIklO
+        NfKGVG2Kgl5Auv+0Da0dak+LX/fs9yJ4MfqTBHfTBAnOL6MIXn6bpOGqvRDBTWerCAqHC0go
+        bYqGbFsZCbn2GjF0mcfFkGutEEPtaD8F1qYuMfQ9LqEhr6aegr6sHgRF3Y0iyJ220eC61IDg
+        ndNLgzk7HFqmPBQ0/GikoOjiGA0VH3JomHnsICG/YS9kD0bCcGEduWUZ52lxiLhbjluI6+vv
+        IThr11ruke2tmLPnFFNcbXUuzQ32P6W54fNtIq6u4ix3caAKcU9eZdJcdnsTyV3ImqC5/HvV
+        iGsbeCDaHXhQtdGgNxn5FUl6wbhJcYiFMBUbBaqwiCgVG66O3RAWqQjVbDzKpySf5A2hmiOq
+        pMl69YkX8nRnpTwTlQZaUIAEMxG4YfoHYUELJDKmEuGbX8y0f7EEt1/OpPy8GP/qt9D+kBfh
+        /OYpcm6xmNmOX98eI+ZYzsTi6SqnTyaYpxSu9Ib4hUGEz30f8Ak0w2KL1+ILSRkNfu8YFM8x
+        ySix3er2zYOYONyZ9/FfJhC3F3t8bgBzCH+qukr6D6zHjroRws/LcVa9/R8H49eea6ICJLPN
+        023zFNs8xTZPKUVkNZLzJkGXqBNYlaDVCabURFWCXleLZut1//lM3UPUe3efCzESpFgoXedK
+        i5dR2pNChs6FsIRQyKXbutxxMulRbcZp3qCPN5hSeMGFImefsxIhQQn62bKmGuPZSFYNUaw6
+        XB2+HhTB0hym5bCMSdQa+eM8f4I3/PdEkoCQTFROTiVpgsnN5s4jaM99W4nhnnJlREbajes7
+        xBr3KUZ5Xn979c6YvKDrFzpORX0OPfbmj6Sn+2wnnbDNMzK++ivV3FGz9P3Mw9itr4ralHxY
+        nKj8gMf0s2XXqpcFea1lVZN3hjZ4oydSSAZqpWYZFTOyP2Zh/ZWp9DOtvcronc2UghSStOwa
+        wiBo/wJinf+vdAMAAA==
+X-CMS-MailID: 20200928113246eucas1p12a4b178ec04da6d0b1448d42861bf78c
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20200820150917eucas1p258445fb7b4aa1da9fa605d63423aed01
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20200820150917eucas1p258445fb7b4aa1da9fa605d63423aed01
+References: <cover.1597931875.git.robin.murphy@arm.com>
+        <CGME20200820150917eucas1p258445fb7b4aa1da9fa605d63423aed01@eucas1p2.samsung.com>
+        <4b51f1685a7ff88b673bf013ca6c27501e52f9b4.1597931876.git.robin.murphy@arm.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 28.09.20 um 09:37 schrieb Thomas Zimmermann:
-> Hi
->
-> Am 28.09.20 um 08:50 schrieb Christian König:
->> Am 27.09.20 um 21:16 schrieb Sam Ravnborg:
->>> Hi Thomas.
->>>
->>>>> struct simap {
->>>>>          union {
->>>>>                  void __iomem *vaddr_iomem;
->>>>>                  void *vaddr;
->>>>>          };
->>>>>          bool is_iomem;
->>>>> };
->>>>>
->>>>> Where simap is a shorthand for system_iomem_map
->>>>> And it could al be stuffed into a include/linux/simap.h file.
->>>>>
->>>>> Not totally sold on the simap name - but wanted to come up with
->>>>> something.
->>>> Yes. Others, myself included, have suggested to use a name that does not
->>>> imply a connection to the dma-buf framework, but no one has come up with
->>>>    a good name.
->>>>
->>>> I strongly dislike simap, as it's entirely non-obvious what it does.
->>>> dma-buf-map is not actually wrong. The structures represents the mapping
->>>> of a dma-able buffer in most cases.
->>>>
->>>>> With this approach users do not have to pull in dma-buf to use it and
->>>>> users will not confuse that this is only for dma-buf usage.
->>>> There's no need to enable dma-buf. It's all in the header file without
->>>> dependencies on dma-buf. It's really just the name.
->>>>
->>>> But there's something else to take into account. The whole issue here is
->>>> that the buffer is disconnected from its originating driver, so we don't
->>>> know which kind of memory ops we have to use. Thinking about it, I
->>>> realized that no one else seemed to have this problem until now.
->>>> Otherwise there would be a solution already. So maybe the dma-buf
->>>> framework *is* the native use case for this data structure.
->>> We have at least:
->>> linux/fb.h:
->>>      union {
->>>          char __iomem *screen_base;      /* Virtual address */
->>>          char *screen_buffer;
->>>      };
->>>
->>> Which solve more or less the same problem.
-> I thought this was for convenience. The important is_iomem bit is missing.
->
->> I also already noted that in TTM we have exactly the same problem and a
->> whole bunch of helpers to allow operations on those pointers.
-> How do you call this within TTM?
+Hi Robin,
 
-ttm_bus_placement, but I really don't like that name.
+On 20.08.2020 17:08, Robin Murphy wrote:
+> With the IOMMU ops now looking much the same shape as iommu_dma_ops,
+> switch them out in favour of the iommu-dma library, currently enhanced
+> with temporary workarounds that allow it to also sit underneath the
+> arch-specific API. With that in place, we can now start converting the
+> remaining IOMMU drivers and consumers to work with IOMMU API default
+> domains instead.
+>
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 
->
-> The data structure represents a pointer to either system or I/O memory,
-> but not necessatrily device memory. It contains raw data. That would
-> give something like
->
->    struct databuf_map
->    struct databuf_ptr
->    struct dbuf_map
->    struct dbuf_ptr
->
-> My favorite would be dbuf_ptr. It's short and the API names would make
-> sense: dbuf_ptr_clear() for clearing, dbuf_ptr_set_vaddr() to set an
-> address, dbuf_ptr_incr() to increment, etc. Also, the _ptr indicates
-> that it's a single address; not an offset with length.
+I've played a bit longer with this and found that reading the kernel 
+virtual address of the buffers allocated via dma_alloc_attrs() from 
+dma-iommu ops gives trashes from time to time. It took me a while to 
+debug this...
 
-Puh, no idea. All of that doesn't sound like it 100% hits the underlying 
-meaning of the structure.
+Your conversion misses adding arch_dma_prep_coherent() to arch/arm, so 
+the buffers are cleared by the mm allocator, but the caches are NOT 
+flushed for the newly allocated buffers.
 
-Christian.
+This fixes the issue:
 
->
-> Best regards
-> Thomas
->
->> Christian.
->>
->>>   
->>>> Anyway, if a better name than dma-buf-map comes in, I'm willing to
->>>> rename the thing. Otherwise I intend to merge the patchset by the end of
->>>> the week.
->>> Well, the main thing is that I think this shoud be moved away from
->>> dma-buf. But if indeed dma-buf is the only relevant user in drm then
->>> I am totally fine with the current naming.
->>>
->>> One alternative named that popped up in my head: struct sys_io_map {}
->>> But again, if this is kept in dma-buf then I am fine with the current
->>> naming.
->>>
->>> In other words, if you continue to think this is mostly a dma-buf
->>> thing all three patches are:
->>> Acked-by: Sam Ravnborg <sam@ravnborg.org>
->>>
->>>      Sam
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+diff --git a/arch/arm/Kconfig b/arch/arm/Kconfig
+index fec3e59215b8..8b60bcc5b14f 100644
+--- a/arch/arm/Kconfig
++++ b/arch/arm/Kconfig
+@@ -2,6 +2,7 @@
+  config ARM
+         bool
+         default y
++       select ARCH_HAS_DMA_PREP_COHERENT
+         select ARCH_32BIT_OFF_T
+         select ARCH_HAS_BINFMT_FLAT
+         select ARCH_HAS_DEBUG_VIRTUAL if MMU
+diff --git a/arch/arm/mm/dma-mapping.c b/arch/arm/mm/dma-mapping.c
+index ff6c4962161a..6954681b73da 100644
+--- a/arch/arm/mm/dma-mapping.c
++++ b/arch/arm/mm/dma-mapping.c
+@@ -266,6 +266,20 @@ static void __dma_clear_buffer(struct page *page, 
+size_t size, int coherent_flag
+         }
+  }
+
++void arch_dma_prep_coherent(struct page *page, size_t size)
++{
++
++       if (PageHighMem(page)) {
++               phys_addr_t base = __pfn_to_phys(page_to_pfn(page));
++               phys_addr_t end = base + size;
++               outer_flush_range(base, end);
++       } else {
++               void *ptr = page_address(page);
++               dmac_flush_range(ptr, ptr + size);
++               outer_flush_range(__pa(ptr), __pa(ptr) + size);
++       }
++}
++
+  /*
+   * Allocate a DMA buffer for 'dev' of size 'size' using the
+   * specified gfp mask.  Note that 'size' must be page aligned.
+
+I also wonder if it would be better to use per-arch __dma_clear_buffer() 
+instead of setting __GFP_ZERO unconditionally in dma-iommu.c. This 
+should be faster on ARM with highmem...
+
+ > ...
+
+Best regards
+-- 
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
