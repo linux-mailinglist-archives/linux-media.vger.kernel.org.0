@@ -2,83 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C831827B15C
-	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 18:05:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EBCBA27B167
+	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 18:06:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726504AbgI1QFb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Sep 2020 12:05:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54890 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726344AbgI1QFb (ORCPT
+        id S1726504AbgI1QG6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Sep 2020 12:06:58 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:51230 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726420AbgI1QG6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Sep 2020 12:05:31 -0400
-Received: from mail-lj1-x230.google.com (mail-lj1-x230.google.com [IPv6:2a00:1450:4864:20::230])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F98EC061755
-        for <linux-media@vger.kernel.org>; Mon, 28 Sep 2020 09:05:31 -0700 (PDT)
-Received: by mail-lj1-x230.google.com with SMTP id k25so1474679ljg.9
-        for <linux-media@vger.kernel.org>; Mon, 28 Sep 2020 09:05:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:mime-version:content-disposition
-         :content-transfer-encoding;
-        bh=DAiDcX/e96Y0O6GpPPn9vJ5ylAzcQ1h4j6Nv1AG8Pj4=;
-        b=ix+R30FendGN8rWj66uC9zbA6ezW0e8DfJvgq0rulh6f8s92oB31P26U9kWDy045o7
-         uX4TkY6poGwAoEQR275Twyv7FEpFckr+CTQTon3sDycmcgZsdTzgS+UHLAuPN1cktzTy
-         UWHnrgrcs+ZoM/gUch0UmI39UrhncsFAcx0PVYJ+//VRxV5mNRBg6e/Z0BBu6qnooiCW
-         4q2djX/NKlhPivQODaISInGhgvyuUtE/UDsqeLoul0tBTsPLIWfTJvoD0bswMgW9FArN
-         QKdhw7Z+QuiM52d3f6F0FR3tm4XUbVmt3SOmCwM+d9hf/g5f11l8t1BGDzsoUcocxs1l
-         3uvg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
-         :content-disposition:content-transfer-encoding;
-        bh=DAiDcX/e96Y0O6GpPPn9vJ5ylAzcQ1h4j6Nv1AG8Pj4=;
-        b=KXV7g/+LfWGjaPlaKz3Oei1Fjsk1WakOXzhhgb2/GLhOgQlm2OtEkFswP3UUAt4ZlB
-         Q68qA+hVjn4Pg5sTc4h8q80Ce7uGAcmy9usj6jENDweR5tONc5aqvH8e1hh4RXXhSP3g
-         Ix09eVI0ZX2KLkJoMxT/Mv1wBMawa/Qn5UOr7ZqYT9T/1YXhJazDon1Pwb8H2mI+OYH9
-         tFqIHMltKD9EcspwCHaE0TrRvvffjjP46QjAKsZ1NeVxQjfVnoLfGoVb4NTbNDv9IPZP
-         ZpKgU/kpj6ccI3+q/gY3hGid5OuC1xPACnOHiaIO4tac3qVMdTWBzYvlXHNP0Vwge4Ec
-         cZnw==
-X-Gm-Message-State: AOAM5335q3W+HtL0b/UGFBw6OZxXHy7SIRGmjKRn5DlKCfHVNFHw6Dlt
-        hzNzFwXcVzX1T6KEWS2PmsnQTIA3U71iVQ==
-X-Google-Smtp-Source: ABdhPJzUlhmFC7ogwWvHeP7B7pqZF+ks72w5xnMAad6Stoz+lqQ47R/fy7+pCKq3OkIadCot4Hw3Ig==
-X-Received: by 2002:a2e:5849:: with SMTP id x9mr704691ljd.194.1601309129523;
-        Mon, 28 Sep 2020 09:05:29 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id t15sm127374ljg.139.2020.09.28.09.05.28
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2020 09:05:29 -0700 (PDT)
-Date:   Mon, 28 Sep 2020 18:05:28 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Helen Koike <helen.koike@collabora.com>,
+        Mon, 28 Sep 2020 12:06:58 -0400
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id AC49654E;
+        Mon, 28 Sep 2020 18:06:55 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1601309215;
+        bh=A2Mi6So0YOx/3iXxgnqM2HkoFIufYjCzjTOtgvGgVk0=;
+        h=Subject:To:Cc:References:Reply-To:From:Date:In-Reply-To:From;
+        b=ucZq0GtL1pQsdOkBR0F7t1CNNKsumCGUpQHkcgsBPbef1sPf8nxWJJql9SIEjgL14
+         aMLJkkyca6kBKdJ6kqU1J42xmg808ywq+IAVUICZXjO1EKHb23XjRajq9zMXv7OLj8
+         kswEm9yg+nTHj6xVM3Qdr3r0VGTYFFdLi1wRFCnM=
+Subject: Re: [PATCH] staging: rkisp1: uapi: Do not use BIT() macro
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
         Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
 Cc:     linux-media@vger.kernel.org
-Subject: SPDX header for rkisp1-config.h and headers_install.sh
-Message-ID: <20200928160528.GA996397@oden.dyn.berto.se>
+References: <20200928154848.3882692-1-niklas.soderlund@ragnatech.se>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <ab310e21-bd03-e443-5a8c-98157c79f5c1@ideasonboard.com>
+Date:   Mon, 28 Sep 2020 17:06:53 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <20200928154848.3882692-1-niklas.soderlund@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+Hi Niklas,
 
-I'm trying to install the rkisp1-config.h [1] header using 
-scripts/headers_install.sh and get an error,
+On 28/09/2020 16:48, Niklas Söderlund wrote:
+> The BIT() macro is not available to uAPI headers, replace the few usages
+> of it by open coding it.
 
-    $ ./scripts/headers_install.sh drivers/staging/media/rkisp1/uapi/rkisp1-config.h rkisp1-config.h
-    error: drivers/staging/media/rkisp1/uapi/rkisp1-config.h: missing "WITH Linux-syscall-note" for SPDX-License-Identifier
+Ayee. That's a pain.
 
-Appending "WITH Linux-syscall-note" string to the SPDX header "solves" 
-the issue but as I'm not the author I feel unqualified to propose such a 
-patch. Maybe you guys can look into it and propose something that works 
-for you while keeping the install script happy?
+> Signed-off-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> ---
+>  .../staging/media/rkisp1/uapi/rkisp1-config.h | 44 +++++++++----------
+>  1 file changed, 22 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> index f202182349b4040f..c50b0ccb78987c26 100644
+> --- a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> +++ b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> @@ -14,41 +14,41 @@
+>  #define V4L2_META_FMT_RK_ISP1_STAT_3A  v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A statistics */
+>  
+>  /* Defect Pixel Cluster Detection */
+> -#define RKISP1_CIF_ISP_MODULE_DPCC		BIT(0)
+> +#define RKISP1_CIF_ISP_MODULE_DPCC		(1 << 0)
 
-1. drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+These should likely be expressed as unsigned.
 
--- 
-Regards,
-Niklas S�derlund
+						(1U << 0)
+etc.
+
+--
+Kieran
+
+
+>  /* Black Level Subtraction */
+> -#define RKISP1_CIF_ISP_MODULE_BLS		BIT(1)
+> +#define RKISP1_CIF_ISP_MODULE_BLS		(1 << 1)
+>  /* Sensor De-gamma */
+> -#define RKISP1_CIF_ISP_MODULE_SDG		BIT(2)
+> +#define RKISP1_CIF_ISP_MODULE_SDG		(1 << 2)
+>  /* Histogram */
+> -#define RKISP1_CIF_ISP_MODULE_HST		BIT(3)
+> +#define RKISP1_CIF_ISP_MODULE_HST		(1 << 3)
+>  /* Lens Shade Control */
+> -#define RKISP1_CIF_ISP_MODULE_LSC		BIT(4)
+> +#define RKISP1_CIF_ISP_MODULE_LSC		(1 << 4)
+>  /* Auto White Balance Gain */
+> -#define RKISP1_CIF_ISP_MODULE_AWB_GAIN		BIT(5)
+> +#define RKISP1_CIF_ISP_MODULE_AWB_GAIN		(1 << 5)
+>  /* Filter */
+> -#define RKISP1_CIF_ISP_MODULE_FLT		BIT(6)
+> +#define RKISP1_CIF_ISP_MODULE_FLT		(1 << 6)
+>  /* Bayer Demosaic */
+> -#define RKISP1_CIF_ISP_MODULE_BDM		BIT(7)
+> +#define RKISP1_CIF_ISP_MODULE_BDM		(1 << 7)
+>  /* Cross Talk */
+> -#define RKISP1_CIF_ISP_MODULE_CTK		BIT(8)
+> +#define RKISP1_CIF_ISP_MODULE_CTK		(1 << 8)
+>  /* Gamma Out Curve */
+> -#define RKISP1_CIF_ISP_MODULE_GOC		BIT(9)
+> +#define RKISP1_CIF_ISP_MODULE_GOC		(1 << 9)
+>  /* Color Processing */
+> -#define RKISP1_CIF_ISP_MODULE_CPROC		BIT(10)
+> +#define RKISP1_CIF_ISP_MODULE_CPROC		(1 << 10)
+>  /* Auto Focus Control */
+> -#define RKISP1_CIF_ISP_MODULE_AFC		BIT(11)
+> +#define RKISP1_CIF_ISP_MODULE_AFC		(1 << 11)
+>  /* Auto White Balancing */
+> -#define RKISP1_CIF_ISP_MODULE_AWB		BIT(12)
+> +#define RKISP1_CIF_ISP_MODULE_AWB		(1 << 12)
+>  /* Image Effect */
+> -#define RKISP1_CIF_ISP_MODULE_IE		BIT(13)
+> +#define RKISP1_CIF_ISP_MODULE_IE		(1 << 13)
+>  /* Auto Exposure Control */
+> -#define RKISP1_CIF_ISP_MODULE_AEC		BIT(14)
+> +#define RKISP1_CIF_ISP_MODULE_AEC		(1 << 14)
+>  /* Wide Dynamic Range */
+> -#define RKISP1_CIF_ISP_MODULE_WDR		BIT(15)
+> +#define RKISP1_CIF_ISP_MODULE_WDR		(1 << 15)
+>  /* Denoise Pre-Filter */
+> -#define RKISP1_CIF_ISP_MODULE_DPF		BIT(16)
+> +#define RKISP1_CIF_ISP_MODULE_DPF		(1 << 16)
+>  /* Denoise Pre-Filter Strength */
+> -#define RKISP1_CIF_ISP_MODULE_DPF_STRENGTH	BIT(17)
+> +#define RKISP1_CIF_ISP_MODULE_DPF_STRENGTH	(1 << 17)
+>  
+>  #define RKISP1_CIF_ISP_CTK_COEFF_MAX            0x100
+>  #define RKISP1_CIF_ISP_CTK_OFFSET_MAX           0x800
+> @@ -123,10 +123,10 @@
+>  /*
+>   * Measurement types
+>   */
+> -#define RKISP1_CIF_ISP_STAT_AWB           BIT(0)
+> -#define RKISP1_CIF_ISP_STAT_AUTOEXP       BIT(1)
+> -#define RKISP1_CIF_ISP_STAT_AFM           BIT(2)
+> -#define RKISP1_CIF_ISP_STAT_HIST          BIT(3)
+> +#define RKISP1_CIF_ISP_STAT_AWB           (1 << 0)
+> +#define RKISP1_CIF_ISP_STAT_AUTOEXP       (1 << 1)
+> +#define RKISP1_CIF_ISP_STAT_AFM           (1 << 2)
+> +#define RKISP1_CIF_ISP_STAT_HIST          (1 << 3)
+>  
+>  enum rkisp1_cif_isp_histogram_mode {
+>  	RKISP1_CIF_ISP_HISTOGRAM_MODE_DISABLE,
+> 
+
