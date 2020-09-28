@@ -2,169 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A41D527A7DF
-	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 08:50:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B263E27A8CE
+	for <lists+linux-media@lfdr.de>; Mon, 28 Sep 2020 09:38:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726615AbgI1Gut (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Sep 2020 02:50:49 -0400
-Received: from mail-bn8nam11on2060.outbound.protection.outlook.com ([40.107.236.60]:57057
-        "EHLO NAM11-BN8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725294AbgI1Gut (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Sep 2020 02:50:49 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L7bGtQE0xggG4ZIgApP3dyrBzhhxnFcCie64/3YEQa8zpa/HfdH73fWmtR/nHqKBiCllf/NxFjkkpB2M7bO7pDTXRY8FTrpH9JcjesDDC3cf2Dvrvqg8BIICITlPM7rBSP5GLg/O0jLI9pO40AVQfvNncgPhkrYFjGwufzuaj0MZadgMAkJs+J4FSFfHO9BF2bBEDlWqadzxooCTNU4VQKkLGI59fcmzklROomXtDshZqi7PrHbcKSWcTBk4KHiU6AHbMIrPwEwwB23Y0rSi90B+9fYPmvL/+DO4711DeqYBJpn/merH4Cpinf+O6lpRFV60/r0EW7KttG7xG3rUyw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ftfPyK2QiwP8U4uWpbXw7JZVcVkZ4Ljqk4X0LAeVhGo=;
- b=OfBZ7L4a8z0pQNq6o655uf4rpWuVfFLfIsLjz/7L3+P7RhCbtASa92Ws5IBXA4lV2L7dJBYdN23kYUeLvCf6+gRM59jjjwZp+3uoQu/2uj51wcpAgto61M5WtQ1/Z5wsschWyEn57iCYJhxRauLgquYlpvkFiVoXN5d1cMCN2ruyhiboSlZC/vVxGcnpJW83hpT0XkJ3Z9ZTyAnxDSxkbVd3otw+FiCcpXXI97Fdv58nxovDXt2PMd1j9vJ63270cVJ+oTSYGU/DW5Z2/CM+fuMwCnPq1/5g1YS1YJR77tG2wcDgpSmbP8RpkNcgNAGBF2zbFJ7HrRKqMfOnHIcMqQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=ftfPyK2QiwP8U4uWpbXw7JZVcVkZ4Ljqk4X0LAeVhGo=;
- b=ikKREIXvqqSX3oKki54axktxBO7Le+SQW45Js0+JPkvJXoe+W7vq533nyKU+UhA+KmRPBbtGZZfkmnLO/L+f9UAHFl5T246siAigWSWV7EhWvQy4bvQCFPCPKdWoRigmt0SzFoZr+m2czMlS5ln2KKmzRrJqOx4uASZayf6dWg8=
-Authentication-Results: arm.com; dkim=none (message not signed)
- header.d=none;arm.com; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by MN2PR12MB3901.namprd12.prod.outlook.com (2603:10b6:208:16c::27) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.23; Mon, 28 Sep
- 2020 06:50:39 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3412.029; Mon, 28 Sep 2020
- 06:50:39 +0000
+        id S1726605AbgI1Hhz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Sep 2020 03:37:55 -0400
+Received: from mx2.suse.de ([195.135.220.15]:58706 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726522AbgI1Hhz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 28 Sep 2020 03:37:55 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 01189ACF5;
+        Mon, 28 Sep 2020 07:37:54 +0000 (UTC)
 Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
  memory
-To:     Sam Ravnborg <sam@ravnborg.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     airlied@linux.ie, dri-devel@lists.freedesktop.org,
-        thierry.reding@gmail.com, kraxel@redhat.com, tfiga@chromium.org,
-        m.szyprowski@samsung.com, arnd@arndb.de, corbet@lwn.net,
-        linux-doc@vger.kernel.org, jonathanh@nvidia.com,
+To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Sam Ravnborg <sam@ravnborg.org>
+Cc:     linux-doc@vger.kernel.org, airlied@linux.ie,
+        dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+        kraxel@redhat.com, afd@ti.com, m.szyprowski@samsung.com,
+        arnd@arndb.de, corbet@lwn.net, jonathanh@nvidia.com,
         matthew.auld@intel.com, linux+etnaviv@armlinux.org.uk,
         labbott@redhat.com, linux-media@vger.kernel.org, pawel@osciak.com,
         intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
         linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
         rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org,
         mchehab@kernel.org, gregkh@linuxfoundation.org,
-        lmark@codeaurora.org, afd@ti.com, kyungmin.park@samsung.com,
-        robin.murphy@arm.com
+        lmark@codeaurora.org, tfiga@chromium.org,
+        kyungmin.park@samsung.com, robin.murphy@arm.com
 References: <20200925115601.23955-1-tzimmermann@suse.de>
  <20200926071334.GA42915@ravnborg.org>
  <8761e0dd-569e-0ea0-7bc5-25e4f7cb67cc@suse.de>
  <20200927191605.GA237178@ravnborg.org>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <3f703297-7b4f-dcca-ea56-70b2413a1e3d@amd.com>
-Date:   Mon, 28 Sep 2020 08:50:30 +0200
+ <3f703297-7b4f-dcca-ea56-70b2413a1e3d@amd.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <ef4400a7-397b-e550-7114-1d4238dd36f3@suse.de>
+Date:   Mon, 28 Sep 2020 09:37:49 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <20200927191605.GA237178@ravnborg.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM3PR05CA0092.eurprd05.prod.outlook.com
- (2603:10a6:207:1::18) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM3PR05CA0092.eurprd05.prod.outlook.com (2603:10a6:207:1::18) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3412.22 via Frontend Transport; Mon, 28 Sep 2020 06:50:34 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 90e8fe3c-2fb9-4d9f-d4c7-08d8637acf4c
-X-MS-TrafficTypeDiagnostic: MN2PR12MB3901:
-X-Microsoft-Antispam-PRVS: <MN2PR12MB3901950ECAD626023E8C289383350@MN2PR12MB3901.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: OrC3AG0vjlaa7toKvgRe22NR3IxPxIDIX6Myv8OPC8YkVjH28mB4zlzVG90g1gcA8GchPvFDKFTcXVyrVd1y7ygiNKeqbBoDX+42uAyXis1O0RdSdQBmwERqoOfyEcI4XCJCdbcSRyVsTGZGNBSg18cZFmnj/xe24mTFi9nqsZ1jzcNvJ/ZLfLrmmPdBeSpv+cGow4rhzR1l0mqSnPe+Z/ZVmDBFQed/a/A8zzI522JNY5/T1EN+b/8iBtnkhGu2Wo02A8y4+qgkarnCXzv0N4Z++WuBMZCQqseYhnPxWo1P/5Z+sTb0hwqyd6hmYGLVC5B0f1UhYuC8RcVkqw/YfKvvaOuN2vX641Hja+OlDjr94FdT9MNmseJTJSdo+EgHKY1yozVs0/l2DOcKnqFwBPM3U2GD+RrQ9x8YMkFfrFbmd/KLpoRZj+2vbF97ca5z
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(39860400002)(346002)(376002)(366004)(136003)(396003)(7416002)(52116002)(66946007)(83380400001)(5660300002)(31686004)(36756003)(6666004)(110136005)(4326008)(8676002)(31696002)(316002)(16526019)(186003)(6486002)(86362001)(8936002)(2616005)(478600001)(2906002)(66476007)(66556008)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: O+Y0FV2AonwhTb2FTg/L59LjSgF2tLHHcc/FRi4nBCkplmvOrxkjeJo6PE0Zp8m4ylS6hqa5PBYCtZRPakqbvJ4EdircPrWPSiibUcXhrt5rlGg/TBM6c66BoIoPtB8qAKwNL+/pL+HbCCDx+/oQHIsIu0J85RWwFYCeJwAGuVtPT5mTbTk3G1HQJkzcDiaQs83Ohtdp9TEh9hif9b0pJshBDDU1YM+FX6rZv4F6IMktrXhLbQqEmL9me2RZnhIhYxJT7ii4KGrwn7vBEDvDvcEte6TlD7ayznlqJNpSyhLx5bI/rD2JJpiQPq8/o4Bf+rYo/sq1eXWDlU58K0o4nvHxMPffN2JOvSIPKJPhViH8pzdS3vpw/ptCF8b0HewAq+7+L9g8GZFjDxMnXwIto5xLGTxNEw5sl1ViBytitBJJ6+UwktYsuLZ0CIHyF8uN4+L5oP3l4RG5O3POZeeUaIcmJUJ88k9PdVg60kRWykIYf9Sd+rkd5UhSmrtQrl/94lYWgjJUtl232jCT/gc3uP/C8Oo/lMN7cfPxS1XlhI3wH4FY+77WUzO96xrK4jJUtr0hOZMarxBWimL1OPelUPICAppDRYkyxGNjiIqLRIlh/AonVnOul32vmxca5jnbQNyZ2QEhsM7Ro+FHgp1esJqqq2Usoyub3yauxEIUu1pM8vUKaziHRzoD4ZFhtkmEHEWzr7+U4OOds5fV6gHCLQ==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 90e8fe3c-2fb9-4d9f-d4c7-08d8637acf4c
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 28 Sep 2020 06:50:39.1731
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: Y3qVd9zs4iWZBIJuqWgUjOy8glCnqbsoepUdvVX8yNOisW56sMX29eqC6rHlmxHk
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: MN2PR12MB3901
+In-Reply-To: <3f703297-7b4f-dcca-ea56-70b2413a1e3d@amd.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="duxyFgIt2kkaZekNOb8QQHKkIk2VRNfSk"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 27.09.20 um 21:16 schrieb Sam Ravnborg:
-> Hi Thomas.
->
->>> struct simap {
->>>         union {
->>>                 void __iomem *vaddr_iomem;
->>>                 void *vaddr;
->>>         };
->>>         bool is_iomem;
->>> };
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--duxyFgIt2kkaZekNOb8QQHKkIk2VRNfSk
+Content-Type: multipart/mixed; boundary="z2tzVgRJbxjjrmoi3dzP18iYabpUh0fGz";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Sam Ravnborg <sam@ravnborg.org>
+Cc: linux-doc@vger.kernel.org, airlied@linux.ie,
+ dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
+ kraxel@redhat.com, afd@ti.com, m.szyprowski@samsung.com, arnd@arndb.de,
+ corbet@lwn.net, jonathanh@nvidia.com, matthew.auld@intel.com,
+ linux+etnaviv@armlinux.org.uk, labbott@redhat.com,
+ linux-media@vger.kernel.org, pawel@osciak.com,
+ intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
+ rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org, mchehab@kernel.org,
+ gregkh@linuxfoundation.org, lmark@codeaurora.org, tfiga@chromium.org,
+ kyungmin.park@samsung.com, robin.murphy@arm.com
+Message-ID: <ef4400a7-397b-e550-7114-1d4238dd36f3@suse.de>
+Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
+ memory
+References: <20200925115601.23955-1-tzimmermann@suse.de>
+ <20200926071334.GA42915@ravnborg.org>
+ <8761e0dd-569e-0ea0-7bc5-25e4f7cb67cc@suse.de>
+ <20200927191605.GA237178@ravnborg.org>
+ <3f703297-7b4f-dcca-ea56-70b2413a1e3d@amd.com>
+In-Reply-To: <3f703297-7b4f-dcca-ea56-70b2413a1e3d@amd.com>
+
+--z2tzVgRJbxjjrmoi3dzP18iYabpUh0fGz
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 28.09.20 um 08:50 schrieb Christian K=C3=B6nig:
+> Am 27.09.20 um 21:16 schrieb Sam Ravnborg:
+>> Hi Thomas.
+>>
+>>>> struct simap {
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 union {
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 void __iomem *vaddr_iomem;
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0 void *vaddr;
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool is_iomem;
+>>>> };
+>>>>
+>>>> Where simap is a shorthand for system_iomem_map
+>>>> And it could al be stuffed into a include/linux/simap.h file.
+>>>>
+>>>> Not totally sold on the simap name - but wanted to come up with
+>>>> something.
+>>> Yes. Others, myself included, have suggested to use a name that does =
+not
+>>> imply a connection to the dma-buf framework, but no one has come up w=
+ith
+>>> =C2=A0 a good name.
 >>>
->>> Where simap is a shorthand for system_iomem_map
->>> And it could al be stuffed into a include/linux/simap.h file.
+>>> I strongly dislike simap, as it's entirely non-obvious what it does.
+>>> dma-buf-map is not actually wrong. The structures represents the mapp=
+ing
+>>> of a dma-able buffer in most cases.
 >>>
->>> Not totally sold on the simap name - but wanted to come up with
->>> something.
->> Yes. Others, myself included, have suggested to use a name that does not
->> imply a connection to the dma-buf framework, but no one has come up with
->>   a good name.
+>>>> With this approach users do not have to pull in dma-buf to use it an=
+d
+>>>> users will not confuse that this is only for dma-buf usage.
+>>> There's no need to enable dma-buf. It's all in the header file withou=
+t
+>>> dependencies on dma-buf. It's really just the name.
+>>>
+>>> But there's something else to take into account. The whole issue here=
+ is
+>>> that the buffer is disconnected from its originating driver, so we do=
+n't
+>>> know which kind of memory ops we have to use. Thinking about it, I
+>>> realized that no one else seemed to have this problem until now.
+>>> Otherwise there would be a solution already. So maybe the dma-buf
+>>> framework *is* the native use case for this data structure.
+>> We have at least:
+>> linux/fb.h:
+>> =C2=A0=C2=A0=C2=A0=C2=A0union {
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char __iomem *screen_base;=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Virtual address */
+>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char *screen_buffer;
+>> =C2=A0=C2=A0=C2=A0=C2=A0};
 >>
->> I strongly dislike simap, as it's entirely non-obvious what it does.
->> dma-buf-map is not actually wrong. The structures represents the mapping
->> of a dma-able buffer in most cases.
+>> Which solve more or less the same problem.
+
+I thought this was for convenience. The important is_iomem bit is missing=
+=2E
+
+>=20
+> I also already noted that in TTM we have exactly the same problem and a=
+
+> whole bunch of helpers to allow operations on those pointers.
+
+How do you call this within TTM?
+
+The data structure represents a pointer to either system or I/O memory,
+but not necessatrily device memory. It contains raw data. That would
+give something like
+
+  struct databuf_map
+  struct databuf_ptr
+  struct dbuf_map
+  struct dbuf_ptr
+
+My favorite would be dbuf_ptr. It's short and the API names would make
+sense: dbuf_ptr_clear() for clearing, dbuf_ptr_set_vaddr() to set an
+address, dbuf_ptr_incr() to increment, etc. Also, the _ptr indicates
+that it's a single address; not an offset with length.
+
+Best regards
+Thomas
+
+>=20
+> Christian.
+>=20
 >>
->>> With this approach users do not have to pull in dma-buf to use it and
->>> users will not confuse that this is only for dma-buf usage.
->> There's no need to enable dma-buf. It's all in the header file without
->> dependencies on dma-buf. It's really just the name.
+>> =C2=A0
+>>> Anyway, if a better name than dma-buf-map comes in, I'm willing to
+>>> rename the thing. Otherwise I intend to merge the patchset by the end=
+ of
+>>> the week.
+>> Well, the main thing is that I think this shoud be moved away from
+>> dma-buf. But if indeed dma-buf is the only relevant user in drm then
+>> I am totally fine with the current naming.
 >>
->> But there's something else to take into account. The whole issue here is
->> that the buffer is disconnected from its originating driver, so we don't
->> know which kind of memory ops we have to use. Thinking about it, I
->> realized that no one else seemed to have this problem until now.
->> Otherwise there would be a solution already. So maybe the dma-buf
->> framework *is* the native use case for this data structure.
-> We have at least:
-> linux/fb.h:
-> 	union {
-> 		char __iomem *screen_base;      /* Virtual address */
-> 		char *screen_buffer;
-> 	};
->
-> Which solve more or less the same problem.
+>> One alternative named that popped up in my head: struct sys_io_map {}
+>> But again, if this is kept in dma-buf then I am fine with the current
+>> naming.
+>>
+>> In other words, if you continue to think this is mostly a dma-buf
+>> thing all three patches are:
+>> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+>>
+>> =C2=A0=C2=A0=C2=A0=C2=A0Sam
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
-I also already noted that in TTM we have exactly the same problem and a 
-whole bunch of helpers to allow operations on those pointers.
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
-Christian.
 
->
->   
->> Anyway, if a better name than dma-buf-map comes in, I'm willing to
->> rename the thing. Otherwise I intend to merge the patchset by the end of
->> the week.
-> Well, the main thing is that I think this shoud be moved away from
-> dma-buf. But if indeed dma-buf is the only relevant user in drm then
-> I am totally fine with the current naming.
->
-> One alternative named that popped up in my head: struct sys_io_map {}
-> But again, if this is kept in dma-buf then I am fine with the current
-> naming.
->
-> In other words, if you continue to think this is mostly a dma-buf
-> thing all three patches are:
-> Acked-by: Sam Ravnborg <sam@ravnborg.org>
->
-> 	Sam
+--z2tzVgRJbxjjrmoi3dzP18iYabpUh0fGz--
 
+--duxyFgIt2kkaZekNOb8QQHKkIk2VRNfSk
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9xks0UHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOiIgf+MRwLMbmWIUj56GAzO03dFDuIZYk5
+PGLRe0N+ZEg3tB4J3q3r9GWwp9ZqNT+8Lp0Uf62ldHFp0+IXoDLRVzUxlFUwmYSK
+PF9UXiUtZ3mqBQTgf2+da0wPKs2kVna8fFotPw3i9YZuzb6Ek1lWteUApQyNOAY+
+OoND1zDS4U1cyYNTr5ze+kUF9ts/qgwIwD5MBLDpAY0Fw3ltKrwcY7IbHPpI/DE7
+W0HruD7xhGmu19JqePKo7+lIIamGWIXdlMlbYB/fgFGXkyPIu8rzjEa3OZKnzjbG
+zm+b3QTZlW3/Qd3na75b76WSfFTO9rlLF/liNEq/L2AksA2ueQ1+yQWXig==
+=w71+
+-----END PGP SIGNATURE-----
+
+--duxyFgIt2kkaZekNOb8QQHKkIk2VRNfSk--
