@@ -2,18 +2,18 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A75127D01D
-	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 15:58:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F1DA827D029
+	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 15:58:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731033AbgI2N6F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Sep 2020 09:58:05 -0400
+        id S1731226AbgI2N6X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Sep 2020 09:58:23 -0400
 Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:47110 "EHLO
         mail2-relais-roc.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730987AbgI2N57 (ORCPT
+        by vger.kernel.org with ESMTP id S1731030AbgI2N6I (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Sep 2020 09:57:59 -0400
+        Tue, 29 Sep 2020 09:58:08 -0400
 X-IronPort-AV: E=Sophos;i="5.77,318,1596492000"; 
-   d="scan'208";a="470079957"
+   d="scan'208";a="470079958"
 Received: from palace.lip6.fr ([132.227.105.202])
   by mail2-relais-roc.national.inria.fr with ESMTP/TLS/AES256-SHA256; 29 Sep 2020 15:57:41 +0200
 From:   Julia Lawall <Julia.Lawall@inria.fr>
@@ -23,9 +23,9 @@ Cc:     =?UTF-8?q?Valdis=20Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
         Thomas Gleixner <tglx@linutronix.de>,
         kernel-janitors@vger.kernel.org, linux-media@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 11/20] media: ts2020: use semicolons rather than commas to separate statements
-Date:   Tue, 29 Sep 2020 15:14:34 +0200
-Message-Id: <1601385283-26144-12-git-send-email-Julia.Lawall@inria.fr>
+Subject: [PATCH 12/20] media: msp3400: use semicolons rather than commas to separate statements
+Date:   Tue, 29 Sep 2020 15:14:35 +0200
+Message-Id: <1601385283-26144-13-git-send-email-Julia.Lawall@inria.fr>
 X-Mailer: git-send-email 1.9.1
 In-Reply-To: <1601385283-26144-1-git-send-email-Julia.Lawall@inria.fr>
 References: <1601385283-26144-1-git-send-email-Julia.Lawall@inria.fr>
@@ -50,28 +50,37 @@ e2
 Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
 
 ---
- drivers/media/dvb-frontends/ts2020.c |   10 +++++-----
- 1 file changed, 5 insertions(+), 5 deletions(-)
+ drivers/media/i2c/msp3400-kthreads.c |   12 ++++++++----
+ 1 file changed, 8 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/dvb-frontends/ts2020.c b/drivers/media/dvb-frontends/ts2020.c
-index 234607b02edb..3e383912bcfd 100644
---- a/drivers/media/dvb-frontends/ts2020.c
-+++ b/drivers/media/dvb-frontends/ts2020.c
-@@ -569,11 +569,11 @@ static int ts2020_probe(struct i2c_client *client,
- 
- 	/* create regmap */
- 	mutex_init(&dev->regmap_mutex);
--	dev->regmap_config.reg_bits = 8,
--	dev->regmap_config.val_bits = 8,
--	dev->regmap_config.lock = ts2020_regmap_lock,
--	dev->regmap_config.unlock = ts2020_regmap_unlock,
--	dev->regmap_config.lock_arg = dev,
-+	dev->regmap_config.reg_bits = 8;
-+	dev->regmap_config.val_bits = 8;
-+	dev->regmap_config.lock = ts2020_regmap_lock;
-+	dev->regmap_config.unlock = ts2020_regmap_unlock;
-+	dev->regmap_config.lock_arg = dev;
- 	dev->regmap = regmap_init_i2c(client, &dev->regmap_config);
- 	if (IS_ERR(dev->regmap)) {
- 		ret = PTR_ERR(dev->regmap);
+diff --git a/drivers/media/i2c/msp3400-kthreads.c b/drivers/media/i2c/msp3400-kthreads.c
+index 52e506f86de5..ecabc0e1d32e 100644
+--- a/drivers/media/i2c/msp3400-kthreads.c
++++ b/drivers/media/i2c/msp3400-kthreads.c
+@@ -549,8 +549,10 @@ int msp3400c_thread(void *data)
+ 			val = msp_read_dsp(client, 0x1b);
+ 			if (val > 32767)
+ 				val -= 65536;
+-			if (val1 < val)
+-				val1 = val, max1 = i;
++			if (val1 < val) {
++				val1 = val;
++				max1 = i;
++			}
+ 			dev_dbg_lvl(&client->dev, 1, msp_debug,
+ 				"carrier1 val: %5d / %s\n", val, cd[i].name);
+ 		}
+@@ -586,8 +588,10 @@ int msp3400c_thread(void *data)
+ 			val = msp_read_dsp(client, 0x1b);
+ 			if (val > 32767)
+ 				val -= 65536;
+-			if (val2 < val)
+-				val2 = val, max2 = i;
++			if (val2 < val) {
++				val2 = val;
++				max2 = i;
++			}
+ 			dev_dbg_lvl(&client->dev, 1, msp_debug,
+ 				"carrier2 val: %5d / %s\n", val, cd[i].name);
+ 		}
 
