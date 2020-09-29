@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F02C27BB83
-	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 05:26:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 941E827BB89
+	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 05:27:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727186AbgI2D0k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 28 Sep 2020 23:26:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47192 "EHLO
+        id S1727423AbgI2D0r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 28 Sep 2020 23:26:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47204 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726064AbgI2D0k (ORCPT
+        with ESMTP id S1726064AbgI2D0n (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 28 Sep 2020 23:26:40 -0400
-Received: from mail-qt1-x841.google.com (mail-qt1-x841.google.com [IPv6:2607:f8b0:4864:20::841])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64426C061755;
-        Mon, 28 Sep 2020 20:26:39 -0700 (PDT)
-Received: by mail-qt1-x841.google.com with SMTP id o21so2540818qtp.2;
-        Mon, 28 Sep 2020 20:26:39 -0700 (PDT)
+        Mon, 28 Sep 2020 23:26:43 -0400
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDF59C061755;
+        Mon, 28 Sep 2020 20:26:42 -0700 (PDT)
+Received: by mail-qk1-x744.google.com with SMTP id s131so3131869qke.0;
+        Mon, 28 Sep 2020 20:26:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fDjG7NEQ/2ILKI5PkUxUC5PzUlijGLlNbUd6QIudYGo=;
-        b=RQCBW+6m5JDPYfWX7hfSsgCuEVLSaumpYSTXaR2ZGOhpX5bF3JQy9i8JiTxwqSgWC0
-         iMQYjhNyDDesPbZcevrAFc8aARNe2CtdOJ6nW563jIR5MzjJhI3l9o50vQmwHvLFQHL6
-         e055q9vWxcBEzputZM+VmzJhpvMVmY3xY+JmBt43sn5xJKfcvdLNcs88+A+/pd0rVBED
-         Hcm6zxLShDMV27+3M64JeVcPf2EQSEK6te0iZR3Etn9K+xfRz61gihl9DlHVI5A0geIF
-         uX+9ujyBGkHQhHf0u+1m1Q1NjXw8BSnCdWgVWBK+Sm7hY4fwm3JxtDMnTHj/h8afssd+
-         MrHQ==
+        bh=gB0b4jFYCyRLEADpsYe7nZsK+2CqgMiG53egPP7VzKA=;
+        b=arOnTugxtP1U0PgOoM27Pchv2OLb5AT9noazeB3RSH13jqfS5IVRUPmldEy5ER9Iqe
+         hcNQhWwfUPvlIW8F3A5NSYhUSdN13kNd/nXPgpKF7rjkSVw//Xk/QkrR0FiCjU5konzE
+         fA2i8srVrx7jN/bqVSc8figq/jEQqOIAivQPwmXiJYjl5PurubV5v9HdnYZoZJgATS+J
+         pvqM5n8OkAzM0ooYi23Ob2L0tDgEzbHg9im/cK5fuz+S0unYxVP9abaFmm/eKexa44Va
+         OXWMPUEBjeV8mtI7VkBzDP4TpGZsxpNHM4OlYQQmsQwj/b5dq5HkrSYHqoD/og+SxJC2
+         yk9g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fDjG7NEQ/2ILKI5PkUxUC5PzUlijGLlNbUd6QIudYGo=;
-        b=GVe6Pmgukg6lQP9/DZ4ePj1RiqwBNLbj9w2eCbu3Zv1ZHsr/jESjBPu6SfjpyhbUzI
-         IulGsiw6YmwIynHgTuGz4spzsjhwWRz83FVQLWOBpWDXvZlEIigqChNeqYAe9i8YKEWC
-         TZfsbC5rxgpujf0xBJPJFGG9Bzb+8Wtm4C2/MNZ6hCAjSg7AuOEcRKaoqPpXoKsf+Hgk
-         LKRM951CB8YmnkIqtDUOLVOzrhV9y0SNC9j72elzz4eVlaBFVJUFX2hI3jq9VTRp1Azx
-         qejnz3I3XkFtCJuNAX50hfVPPoThJWnafpCKSpo/CW9s/ES4U0mHZuDvt6Q3j6AydrJT
-         0TvQ==
-X-Gm-Message-State: AOAM531QY7YfMCIuvk77L2ksBDK92fS+5PgFEx7uXRjG5VfBzpxMWpJb
-        ZzDfLTGfiVsjhq5tacFKjySxoR6dUPh7yg==
-X-Google-Smtp-Source: ABdhPJwPp7bXOdK3yCgiKvgTClRO3oRE0s5+L0jLTr7KLUo3MMaSBaIOYA5gVQs+Xc6RKPoBNUAqnw==
-X-Received: by 2002:aed:2f01:: with SMTP id l1mr1333835qtd.349.1601349998331;
-        Mon, 28 Sep 2020 20:26:38 -0700 (PDT)
+        bh=gB0b4jFYCyRLEADpsYe7nZsK+2CqgMiG53egPP7VzKA=;
+        b=l7zwo2HRxZk98gawQ9enUhY+ttdLYNhyGcQtM1EAiI6p16NOI6/qmDEi+6opN2mptW
+         ouIC6FMEUPsv6Rk/japPLBjefZpnFb09/N3300/c/UkvrxAxgt0imnxs750Cal8Ir71S
+         eaCzxQacoc2xGQMafjsiN2DMCbLBbOcbesjXZxfuAUB8MhwK3AKbM06O4/9ixqcOEYHz
+         R00Eq4p/QUKLfoQrgRW0bQi9k+CIY6Kpgidcd1YNbBxJ3Jtu8FYnuF111wVGcPfa3Gse
+         oCGr1q76JLj4fAYylnRA2As/upGcGBC6/7R1aucP9knw3qdPUX1gzDsoNUZzyEFYZSAp
+         N6MA==
+X-Gm-Message-State: AOAM532ChDw2rbOL50CWpkGi/XMAFp/mF2cQiVTr1n344H1HHTJSTLWn
+        GZnBQs3yD73zaj1u/j/OniuZEqKdXL76Eg==
+X-Google-Smtp-Source: ABdhPJxKACLipUgmUhjk3X1RUhsj2PHvEZzIU8y1AO8Hs6D480vj36Hl4j9DBkYn5veR0vxIuabUTg==
+X-Received: by 2002:a37:a1cd:: with SMTP id k196mr2518606qke.409.1601350001773;
+        Mon, 28 Sep 2020 20:26:41 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:da15:c0bd:33c1:e2ad])
-        by smtp.gmail.com with ESMTPSA id c40sm4010313qtb.72.2020.09.28.20.26.35
+        by smtp.gmail.com with ESMTPSA id c40sm4010313qtb.72.2020.09.28.20.26.38
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 28 Sep 2020 20:26:37 -0700 (PDT)
+        Mon, 28 Sep 2020 20:26:41 -0700 (PDT)
 From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To:     mchehab+huawei@kernel.org, r.verdejo@samsung.com,
@@ -56,9 +56,9 @@ Cc:     "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>,
         linux-media@vger.kernel.org, skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH WIP 2/6] media: vidtv: psi: add a Network Information Table (NIT)
-Date:   Tue, 29 Sep 2020 00:26:21 -0300
-Message-Id: <20200929032625.1548909-2-dwlsalmeida@gmail.com>
+Subject: [PATCH WIP 3/6] media: vidtv: psi: Implement an Event Information Table (EIT)
+Date:   Tue, 29 Sep 2020 00:26:22 -0300
+Message-Id: <20200929032625.1548909-3-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20200929032625.1548909-1-dwlsalmeida@gmail.com>
 References: <20200929032625.1548909-1-dwlsalmeida@gmail.com>
@@ -70,355 +70,362 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 
-Add a Network Information Table (NIT) as specified in ETSI EN 300 468.
+Implement an Event Information Table (EIT) as per EN 300 468
+5.2.4.
 
-This table conveys information relating to the physical organization of
-the multiplexes carried via a given network and the characteristics of
-the network itself.
+The EIT provides information in chronological order regarding
+the events contained within each service.
 
-It is conveyed in the output of vidtv as packets with TS PID of 0x0010
+For now only present event information is supported.
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- .../driver-api/media/drivers/vidtv.rst        |   6 +-
- .../media/test-drivers/vidtv/vidtv_bridge.c   |   4 +
- .../media/test-drivers/vidtv/vidtv_channel.c  |  61 ++++
- drivers/media/test-drivers/vidtv/vidtv_mux.c  |  17 +
- drivers/media/test-drivers/vidtv/vidtv_mux.h  |   9 +
- drivers/media/test-drivers/vidtv/vidtv_psi.c  | 345 +++++++++++++++++-
- drivers/media/test-drivers/vidtv/vidtv_psi.h  | 119 +++++-
- 7 files changed, 549 insertions(+), 12 deletions(-)
+ .../driver-api/media/drivers/vidtv.rst        |   8 +-
+ .../media/test-drivers/vidtv/vidtv_channel.c  |  73 +++-
+ .../media/test-drivers/vidtv/vidtv_channel.h  |   3 +
+ drivers/media/test-drivers/vidtv/vidtv_mux.c  |  14 +
+ drivers/media/test-drivers/vidtv/vidtv_mux.h  |   2 +
+ drivers/media/test-drivers/vidtv/vidtv_psi.c  | 315 +++++++++++++++++-
+ drivers/media/test-drivers/vidtv/vidtv_psi.h  | 121 ++++++-
+ 7 files changed, 527 insertions(+), 9 deletions(-)
 
 diff --git a/Documentation/driver-api/media/drivers/vidtv.rst b/Documentation/driver-api/media/drivers/vidtv.rst
-index 65115448c52d..2d7ddf676b13 100644
+index 2d7ddf676b13..38c49a3c11a7 100644
 --- a/Documentation/driver-api/media/drivers/vidtv.rst
 +++ b/Documentation/driver-api/media/drivers/vidtv.rst
 @@ -149,11 +149,11 @@ vidtv_psi.[ch]
  	Because the generator is implemented in a separate file, it can be
  	reused elsewhere in the media subsystem.
  
--	Currently vidtv supports working with 3 PSI tables: PAT, PMT and
--	SDT.
-+	Currently vidtv supports working with 4 PSI tables: PAT, PMT,
-+	SDT and NIT.
+-	Currently vidtv supports working with 4 PSI tables: PAT, PMT,
+-	SDT and NIT.
++	Currently vidtv supports working with 5 PSI tables: PAT, PMT,
++	SDT, NIT and EIT.
  
  	The specification for PAT and PMT can be found in *ISO 13818-1:
--	Systems*, while the specification for the SDT can be found in *ETSI
-+	Systems*, while the specification for the SDT, NIT can be found in *ETSI
+-	Systems*, while the specification for the SDT, NIT can be found in *ETSI
++	Systems*, while the specification for the SDT, NIT, EIT can be found in *ETSI
  	EN 300 468: Specification for Service Information (SI) in DVB
  	systems*.
  
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-index 46655e34a332..069e0cf526c2 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-@@ -28,6 +28,8 @@
- //#define MUX_BUF_MIN_SZ
- #define TUNER_DEFAULT_ADDR 0x68
- #define DEMOD_DEFAULT_ADDR 0x60
-+#define VIDTV_DEFAULT_NETWORK_ID 0x744
-+#define VIDTV_DEFAULT_NETWORK_NAME "LinuxTV.org"
+@@ -197,6 +197,8 @@ vidtv_channel.[ch]
  
- /* LNBf fake parameters: ranges used by an Universal (extended) European LNBf */
- #define LNB_CUT_FREQUENCY	11700000
-@@ -166,6 +168,8 @@ static int vidtv_start_streaming(struct vidtv_dvb *dvb)
- 		.si_period_usecs             = si_period_msec * USEC_PER_MSEC,
- 		.pcr_pid                     = pcr_pid,
- 		.transport_stream_id         = VIDTV_DEFAULT_TS_ID,
-+		.network_id                  = VIDTV_DEFAULT_NETWORK_ID,
-+		.network_name                = VIDTV_DEFAULT_NETWORK_NAME,
- 	};
- 	struct device *dev = &dvb->pdev->dev;
- 	u32 mux_buf_sz;
+ 	#. Their programs will be concatenated to populate the PAT
+ 
++ 	#. Their events will be concatenated to populate the EIT
++
+ 	#. For each program in the PAT, a PMT section will be created
+ 
+ 	#. The PMT section for a channel will be assigned its streams.
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_channel.c b/drivers/media/test-drivers/vidtv/vidtv_channel.c
-index 748697a783a9..6137a2b43420 100644
+index 6137a2b43420..daf41df0bd66 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_channel.c
 +++ b/drivers/media/test-drivers/vidtv/vidtv_channel.c
-@@ -279,10 +279,57 @@ vidtv_channel_pmt_match_sections(struct vidtv_channel *channels,
- 	}
+@@ -9,6 +9,7 @@
+  * When vidtv boots, it will create some hardcoded channels.
+  * Their services will be concatenated to populate the SDT.
+  * Their programs will be concatenated to populate the PAT
++ * Their events will be concatenated to populate the EIT
+  * For each program in the PAT, a PMT section will be created
+  * The PMT section for a channel will be assigned its streams.
+  * Every stream will have its corresponding encoder polled to produce TS packets
+@@ -58,6 +59,10 @@ struct vidtv_channel
+ 	const __be32 s302m_fid              = cpu_to_be32(VIDTV_S302M_FORMAT_IDENTIFIER);
+ 	char *name = ENCODING_ISO8859_15 "Beethoven";
+ 	char *provider = ENCODING_ISO8859_15 "LinuxTV.org";
++	char *iso_language_code = ENCODING_ISO8859_15 "eng";
++	char *event_name = ENCODING_ISO8859_15 "Beethoven Music";
++	char *event_text = ENCODING_ISO8859_15 "Beethoven's 5th Symphony";
++	const u16 s302m_beethoven_event_id  = 1;
+ 
+ 	struct vidtv_channel *s302m;
+ 	struct vidtv_s302m_encoder_init_args encoder_args = {};
+@@ -70,7 +75,7 @@ struct vidtv_channel
+ 	if (!s302m->name)
+ 		goto free_s302m;
+ 
+-	s302m->service = vidtv_psi_sdt_service_init(NULL, s302m_service_id);
++	s302m->service = vidtv_psi_sdt_service_init(NULL, s302m_service_id, false, true);
+ 	if (!s302m->service)
+ 		goto free_name;
+ 
+@@ -112,6 +117,13 @@ struct vidtv_channel
+ 	if (!s302m->encoders)
+ 		goto free_streams;
+ 
++	s302m->events = vidtv_psi_eit_event_init(NULL, s302m_beethoven_event_id);
++	s302m->events->descriptor = (struct vidtv_psi_desc *)
++				    vidtv_psi_short_event_desc_init(NULL,
++								    iso_language_code,
++								    event_name,
++								    event_text);
++
+ 	if (head) {
+ 		while (head->next)
+ 			head = head->next;
+@@ -135,6 +147,48 @@ struct vidtv_channel
+ 	return NULL;
  }
  
-+static struct vidtv_psi_desc_service_list_entry
-+*vidtv_channel_build_service_list(struct vidtv_psi_table_sdt_service *s)
++static struct vidtv_psi_table_eit_event
++*vidtv_channel_eit_event_cat_into_new(struct vidtv_mux *m)
 +{
-+	struct vidtv_psi_desc_service_list_entry *curr_e = NULL;
-+	struct vidtv_psi_desc_service_list_entry *head_e = NULL;
-+	struct vidtv_psi_desc_service_list_entry *prev_e = NULL;
-+	struct vidtv_psi_desc *desc = s->descriptor;
-+	struct vidtv_psi_desc_service *s_desc;
++	/* Concatenate the events */
++	const struct vidtv_channel *cur_chnl = m->channels;
 +
-+	while (s) {
-+		while (desc) {
-+			if (s->descriptor->type != SERVICE_DESCRIPTOR)
-+				goto next_desc;
++	struct vidtv_psi_table_eit_event *curr = NULL;
++	struct vidtv_psi_table_eit_event *head = NULL;
++	struct vidtv_psi_table_eit_event *tail = NULL;
 +
-+			s_desc = (struct vidtv_psi_desc_service *)desc;
++	struct vidtv_psi_desc *desc = NULL;
++	u16 event_id;
 +
-+			curr_e = kzalloc(sizeof(*curr_e), GFP_KERNEL);
-+			curr_e->service_id = s->service_id;
-+			curr_e->service_type = s_desc->service_type;
++	if (!cur_chnl)
++		return NULL;
 +
-+			if (!head_e)
-+				head_e = curr_e;
-+			if (prev_e)
-+				prev_e->next = curr_e;
++	while (cur_chnl) {
++		curr = cur_chnl->events;
 +
-+			prev_e = curr_e;
++		if (!curr)
++			dev_warn_ratelimited(m->dev,
++					     "No events found for channel %s\n", cur_chnl->name);
 +
-+next_desc:
-+			desc = desc->next;
++		while (curr) {
++			event_id = be16_to_cpu(curr->event_id);
++			tail = vidtv_psi_eit_event_init(tail, event_id);
++
++			desc = vidtv_psi_desc_clone(curr->descriptor);
++			vidtv_psi_desc_assign(&tail->descriptor, desc);
++
++			if (!head)
++				head = tail;
++
++			curr = curr->next;
 +		}
-+		s = s->next;
++
++		cur_chnl = cur_chnl->next;
 +	}
-+	return head_e;
++
++	return head;
 +}
 +
-+static void vidtv_channel_destroy_service_list(struct vidtv_psi_desc_service_list_entry *e)
-+{
-+	struct vidtv_psi_desc_service_list_entry *tmp;
-+
-+	while (e) {
-+		tmp = e;
-+		e = e->next;
-+		kfree(tmp);
-+	}
-+}
-+
- int vidtv_channel_si_init(struct vidtv_mux *m)
+ static struct vidtv_psi_table_sdt_service
+ *vidtv_channel_sdt_serv_cat_into_new(struct vidtv_mux *m)
  {
+@@ -160,7 +214,10 @@ static struct vidtv_psi_table_sdt_service
+ 
+ 		while (curr) {
+ 			service_id = be16_to_cpu(curr->service_id);
+-			tail = vidtv_psi_sdt_service_init(tail, service_id);
++			tail = vidtv_psi_sdt_service_init(tail,
++							  service_id,
++							  curr->EIT_schedule,
++							  curr->EIT_present_following);
+ 
+ 			desc = vidtv_psi_desc_clone(curr->descriptor);
+ 			if (!desc)
+@@ -330,6 +387,7 @@ int vidtv_channel_si_init(struct vidtv_mux *m)
  	struct vidtv_psi_table_pat_program *programs = NULL;
  	struct vidtv_psi_table_sdt_service *services = NULL;
-+	struct vidtv_psi_desc_service_list_entry *service_list = NULL;
+ 	struct vidtv_psi_desc_service_list_entry *service_list = NULL;
++	struct vidtv_psi_table_eit_event *events = NULL;
  
  	m->si.pat = vidtv_psi_pat_table_init(m->transport_stream_id);
  	if (!m->si.pat)
-@@ -299,6 +346,17 @@ int vidtv_channel_si_init(struct vidtv_mux *m)
+@@ -346,6 +404,10 @@ int vidtv_channel_si_init(struct vidtv_mux *m)
  	if (!services)
  		return -ENOMEM;
  
-+	/* look for a service descriptor for every service */
-+	service_list = vidtv_channel_build_service_list(services);
-+	if (!service_list)
++	events = vidtv_channel_eit_event_cat_into_new(m);
++	if (!events)
 +		return -ENOMEM;
 +
-+	/* use these descriptors to build the NIT */
-+	m->si.nit = vidtv_psi_nit_table_init(m->network_id,
-+					     m->transport_stream_id,
-+					     m->network_name,
-+					     service_list);
+ 	/* look for a service descriptor for every service */
+ 	service_list = vidtv_channel_build_service_list(services);
+ 	if (!service_list)
+@@ -357,12 +419,17 @@ int vidtv_channel_si_init(struct vidtv_mux *m)
+ 					     m->network_name,
+ 					     service_list);
+ 
++	m->si.eit = vidtv_psi_eit_table_init(m->network_id, m->transport_stream_id);
 +
  	/* assemble all programs and assign to PAT */
  	vidtv_psi_pat_program_assign(m->si.pat, programs);
  
-@@ -313,6 +371,8 @@ int vidtv_channel_si_init(struct vidtv_mux *m)
- 					 m->si.pmt_secs,
- 					 m->si.pat->programs);
+ 	/* assemble all services and assign to SDT */
+ 	vidtv_psi_sdt_service_assign(m->si.sdt, services);
  
-+	vidtv_channel_destroy_service_list(service_list);
++	/* assemble all events and assign to EIT */
++	vidtv_psi_eit_event_assign(m->si.eit, events);
 +
- 	return 0;
- }
- 
-@@ -328,6 +388,7 @@ void vidtv_channel_si_destroy(struct vidtv_mux *m)
- 
+ 	m->si.pmt_secs = vidtv_psi_pmt_create_sec_for_each_pat_entry(m->si.pat, m->pcr_pid);
+ 	if (!m->si.pmt_secs)
+ 		return -ENOMEM;
+@@ -389,6 +456,7 @@ void vidtv_channel_si_destroy(struct vidtv_mux *m)
  	kfree(m->si.pmt_secs);
  	vidtv_psi_sdt_table_destroy(m->si.sdt);
-+	vidtv_psi_nit_table_destroy(m->si.nit);
+ 	vidtv_psi_nit_table_destroy(m->si.nit);
++	vidtv_psi_eit_table_destroy(m->si.eit);
  }
  
  int vidtv_channels_init(struct vidtv_mux *m)
+@@ -413,6 +481,7 @@ void vidtv_channels_destroy(struct vidtv_mux *m)
+ 		vidtv_psi_pat_program_destroy(curr->program);
+ 		vidtv_psi_pmt_stream_destroy(curr->streams);
+ 		vidtv_channel_encoder_destroy(curr->encoders);
++		vidtv_psi_eit_event_destroy(curr->events);
+ 
+ 		tmp = curr;
+ 		curr = curr->next;
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_channel.h b/drivers/media/test-drivers/vidtv/vidtv_channel.h
+index d9a0f6fbfd92..4bc2a4c0980d 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_channel.h
++++ b/drivers/media/test-drivers/vidtv/vidtv_channel.h
+@@ -9,6 +9,7 @@
+  * When vidtv boots, it will create some hardcoded channels.
+  * Their services will be concatenated to populate the SDT.
+  * Their programs will be concatenated to populate the PAT
++ * Their events will be concatenated to populate the EIT
+  * For each program in the PAT, a PMT section will be created
+  * The PMT section for a channel will be assigned its streams.
+  * Every stream will have its corresponding encoder polled to produce TS packets
+@@ -45,6 +46,7 @@
+  * Will be concatenated into the PAT.
+  * @streams: A stream loop used to populate the PMT section for 'program'
+  * @encoders: A encoder loop. There must be one encoder for each stream.
++ * @events: Optional event information. This will feed into the EIT.
+  * @next: Optionally chain this channel.
+  */
+ struct vidtv_channel {
+@@ -55,6 +57,7 @@ struct vidtv_channel {
+ 	struct vidtv_psi_table_pat_program *program;
+ 	struct vidtv_psi_table_pmt_stream *streams;
+ 	struct vidtv_encoder *encoders;
++	struct vidtv_psi_table_eit_event *events;
+ 	struct vidtv_channel *next;
+ };
+ 
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.c b/drivers/media/test-drivers/vidtv/vidtv_mux.c
-index 80b28aa75d33..04d7cdfd1cda 100644
+index 04d7cdfd1cda..1aeb6949619b 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_mux.c
 +++ b/drivers/media/test-drivers/vidtv/vidtv_mux.c
-@@ -79,6 +79,9 @@ static int vidtv_mux_pid_ctx_init(struct vidtv_mux *m)
- 	/* push the SDT pid ctx */
- 	if (!vidtv_mux_create_pid_ctx_once(m, VIDTV_SDT_PID))
+@@ -82,6 +82,9 @@ static int vidtv_mux_pid_ctx_init(struct vidtv_mux *m)
+ 	/* push the NIT pid ctx */
+ 	if (!vidtv_mux_create_pid_ctx_once(m, VIDTV_NIT_PID))
  		return -ENOMEM;
-+	/* push the NIT pid ctx */
-+	if (!vidtv_mux_create_pid_ctx_once(m, VIDTV_NIT_PID))
++	/* push the EIT pid ctx */
++	if (!vidtv_mux_create_pid_ctx_once(m, VIDTV_EIT_PID))
 +		return -ENOMEM;
  
  	/* add a ctx for all PMT sections */
  	while (p) {
-@@ -124,10 +127,12 @@ static u32 vidtv_mux_push_si(struct vidtv_mux *m)
- 	struct vidtv_mux_pid_ctx *pat_ctx;
+@@ -128,11 +131,13 @@ static u32 vidtv_mux_push_si(struct vidtv_mux *m)
  	struct vidtv_mux_pid_ctx *pmt_ctx;
  	struct vidtv_mux_pid_ctx *sdt_ctx;
-+	struct vidtv_mux_pid_ctx *nit_ctx;
+ 	struct vidtv_mux_pid_ctx *nit_ctx;
++	struct vidtv_mux_pid_ctx *eit_ctx;
  
  	struct vidtv_psi_pat_write_args pat_args = {};
  	struct vidtv_psi_pmt_write_args pmt_args = {};
  	struct vidtv_psi_sdt_write_args sdt_args = {};
-+	struct vidtv_psi_nit_write_args nit_args = {};
+ 	struct vidtv_psi_nit_write_args nit_args = {};
++	struct vidtv_psi_eit_write_args eit_args = {};
  
  	u32 nbytes; /* the number of bytes written by this function */
  	u16 pmt_pid;
-@@ -135,6 +140,7 @@ static u32 vidtv_mux_push_si(struct vidtv_mux *m)
- 
+@@ -141,6 +146,7 @@ static u32 vidtv_mux_push_si(struct vidtv_mux *m)
  	pat_ctx = vidtv_mux_get_pid_ctx(m, VIDTV_PAT_PID);
  	sdt_ctx = vidtv_mux_get_pid_ctx(m, VIDTV_SDT_PID);
-+	nit_ctx = vidtv_mux_get_pid_ctx(m, VIDTV_NIT_PID);
+ 	nit_ctx = vidtv_mux_get_pid_ctx(m, VIDTV_NIT_PID);
++	eit_ctx = vidtv_mux_get_pid_ctx(m, VIDTV_EIT_PID);
  
  	pat_args.buf                = m->mux_buf;
  	pat_args.offset             = m->mux_buf_offset;
-@@ -176,6 +182,14 @@ static u32 vidtv_mux_push_si(struct vidtv_mux *m)
+@@ -190,6 +196,14 @@ static u32 vidtv_mux_push_si(struct vidtv_mux *m)
  
- 	m->mux_buf_offset += vidtv_psi_sdt_write_into(sdt_args);
+ 	m->mux_buf_offset += vidtv_psi_nit_write_into(nit_args);
  
-+	nit_args.buf                = m->mux_buf;
-+	nit_args.offset             = m->mux_buf_offset;
-+	nit_args.nit                = m->si.nit;
-+	nit_args.buf_sz             = m->mux_buf_sz;
-+	nit_args.continuity_counter = &nit_ctx->cc;
++	eit_args.buf                = m->mux_buf;
++	eit_args.offset             = m->mux_buf_offset;
++	eit_args.eit                = m->si.eit;
++	eit_args.buf_sz             = m->mux_buf_sz;
++	eit_args.continuity_counter = &eit_ctx->cc;
 +
-+	m->mux_buf_offset += vidtv_psi_nit_write_into(nit_args);
++	m->mux_buf_offset += vidtv_psi_eit_write_into(eit_args);
 +
  	nbytes = m->mux_buf_offset - initial_offset;
  
  	m->num_streamed_si++;
-@@ -465,6 +479,8 @@ struct vidtv_mux *vidtv_mux_init(struct dvb_frontend *fe,
- 
- 	m->pcr_pid = args->pcr_pid;
- 	m->transport_stream_id = args->transport_stream_id;
-+	m->network_id = args->network_id;
-+	m->network_name = kstrdup(args->network_name, GFP_KERNEL);
- 	m->priv = args->priv;
- 	m->timing.current_jiffies = get_jiffies_64();
- 
-@@ -502,6 +518,7 @@ void vidtv_mux_destroy(struct vidtv_mux *m)
- 	vidtv_mux_pid_ctx_destroy(m);
- 	vidtv_channel_si_destroy(m);
- 	vidtv_channels_destroy(m);
-+	kfree(m->network_name);
- 	vfree(m->mux_buf);
- 	kfree(m);
- }
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.h b/drivers/media/test-drivers/vidtv/vidtv_mux.h
-index 52d79e3bbc31..50d8e37e77c4 100644
+index 50d8e37e77c4..e186094c4fb7 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_mux.h
 +++ b/drivers/media/test-drivers/vidtv/vidtv_mux.h
-@@ -65,6 +65,7 @@ struct vidtv_mux_si {
- 	struct vidtv_psi_table_pat *pat;
+@@ -59,6 +59,7 @@ struct vidtv_mux_timing {
+  * @pat: The PAT in use by the muxer.
+  * @pmt_secs: The PMT sections in use by the muxer. One for each program in the PAT.
+  * @sdt: The SDT in use by the muxer.
++ * @eit: the EIT in use by the muxer.
+  */
+ struct vidtv_mux_si {
+ 	/* the SI tables */
+@@ -66,6 +67,7 @@ struct vidtv_mux_si {
  	struct vidtv_psi_table_pmt **pmt_secs; /* the PMT sections */
  	struct vidtv_psi_table_sdt *sdt;
-+	struct vidtv_psi_table_nit *nit;
+ 	struct vidtv_psi_table_nit *nit;
++	struct vidtv_psi_table_eit *eit;
  };
  
  /**
-@@ -100,6 +101,8 @@ struct vidtv_mux_pid_ctx {
-  * @pcr_pid: The TS PID used for the PSI packets. All channels will share the
-  * same PCR.
-  * @transport_stream_id: The transport stream ID
-+ * @network_id: The network ID
-+ * @network_name: The network name
-  * @priv: Private data.
-  */
- struct vidtv_mux {
-@@ -129,6 +132,8 @@ struct vidtv_mux {
- 
- 	u16 pcr_pid;
- 	u16 transport_stream_id;
-+	u16 network_id;
-+	char *network_name;
- 	void *priv;
- };
- 
-@@ -143,6 +148,8 @@ struct vidtv_mux {
-  * same PCR.
-  * @transport_stream_id: The transport stream ID
-  * @channels: an optional list of channels to use
-+ * @network_id: The network ID
-+ * @network_name: The network name
-  * @priv: Private data.
-  */
- struct vidtv_mux_init_args {
-@@ -154,6 +161,8 @@ struct vidtv_mux_init_args {
- 	u16 pcr_pid;
- 	u16 transport_stream_id;
- 	struct vidtv_channel *channels;
-+	u16 network_id;
-+	char *network_name;
- 	void *priv;
- };
- 
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-index a24e84adc8ce..5039b56e61ee 100644
+index 5039b56e61ee..e331fc7d8eef 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_psi.c
 +++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-@@ -6,10 +6,6 @@
-  * technically be broken into one or more sections, we do not do this here,
-  * hence 'table' and 'section' are interchangeable for vidtv.
-  *
-- * This code currently supports three tables: PAT, PMT and SDT. These are the
-- * bare minimum to get userspace to recognize our MPEG transport stream. It can
-- * be extended to support more PSI tables in the future.
-- *
-  * Copyright (C) 2020 Daniel W. S. Almeida
-  */
+@@ -27,6 +27,7 @@
+ #define CRC_SIZE_IN_BYTES 4
+ #define MAX_VERSION_NUM 32
+ #define INITIAL_CRC 0xffffffff
++#define ISO_LANGUAGE_CODE_LEN 3
  
-@@ -392,6 +388,75 @@ struct vidtv_psi_desc_registration
+ static const u32 CRC_LUT[256] = {
+ 	/* from libdvbv5 */
+@@ -457,6 +458,51 @@ struct vidtv_psi_desc_service_list
  	return desc;
  }
  
-+struct vidtv_psi_desc_network_name
-+*vidtv_psi_network_name_desc_init(struct vidtv_psi_desc *head, char *network_name)
++struct vidtv_psi_desc_short_event
++*vidtv_psi_short_event_desc_init(struct vidtv_psi_desc *head,
++				 char *iso_language_code,
++				 char *event_name,
++				 char *text)
 +{
-+	struct vidtv_psi_desc_network_name *desc;
-+	u32 network_name_len = network_name ? strlen(network_name) : 0;
++	struct vidtv_psi_desc_short_event *desc;
++	u32 event_name_len = event_name ? strlen(event_name) : 0;
++	u32 text_len =  text ? strlen(text) : 0;
++	u32 iso_len =  iso_language_code ? strlen(iso_language_code) : 0;
 +
 +	desc = kzalloc(sizeof(*desc), GFP_KERNEL);
 +
-+	desc->type = NETWORK_NAME_DESCRIPTOR;
++	desc->type = SHORT_EVENT_DESCRIPTOR;
 +
-+	desc->length = network_name_len;
++	desc->length = sizeof_field(struct vidtv_psi_desc_short_event, iso_language_code)  +
++		       sizeof_field(struct vidtv_psi_desc_short_event, event_name_len)     +
++		       event_name_len +
++		       sizeof_field(struct vidtv_psi_desc_short_event, text_len) +
++		       text_len;
 +
-+	if (network_name && network_name_len)
-+		desc->network_name = kstrdup(network_name, GFP_KERNEL);
++	desc->event_name_len = event_name_len;
++	desc->text_len = text_len;
 +
-+	if (head) {
-+		while (head->next)
-+			head = head->next;
++	if (iso_len < ISO_LANGUAGE_CODE_LEN)
++		iso_language_code = "eng";
 +
-+		head->next = (struct vidtv_psi_desc *)desc;
-+	}
++	desc->iso_language_code = kstrdup(iso_language_code, GFP_KERNEL);
 +
-+	return desc;
-+}
++	if (event_name && event_name_len)
++		desc->event_name = kstrdup(event_name, GFP_KERNEL);
 +
-+struct vidtv_psi_desc_service_list
-+*vidtv_psi_service_list_desc_init(struct vidtv_psi_desc *head,
-+				  struct vidtv_psi_desc_service_list_entry *entry)
-+{
-+	struct vidtv_psi_desc_service_list *desc;
-+	struct vidtv_psi_desc_service_list_entry *curr_e = NULL;
-+	struct vidtv_psi_desc_service_list_entry *head_e = NULL;
-+	struct vidtv_psi_desc_service_list_entry *prev_e = NULL;
-+	u16 length = 0;
-+
-+	desc = kzalloc(sizeof(*desc), GFP_KERNEL);
-+
-+	desc->type = SERVICE_LIST_DESCRIPTOR;
-+
-+	while (entry) {
-+		curr_e = kzalloc(sizeof(*curr_e), GFP_KERNEL);
-+		curr_e->service_id = entry->service_id;
-+		curr_e->service_type = entry->service_type;
-+
-+		length += sizeof(struct vidtv_psi_desc_service_list_entry) -
-+			  sizeof(struct vidtv_psi_desc_service_list_entry *);
-+
-+		if (!head_e)
-+			head_e = curr_e;
-+		if (prev_e)
-+			prev_e->next = curr_e;
-+
-+		prev_e = curr_e;
-+		entry = entry->next;
-+	}
-+
-+	desc->length = length;
-+	desc->service_list = head_e;
++	if (text && text_len)
++		desc->text = kstrdup(text, GFP_KERNEL);
 +
 +	if (head) {
 +		while (head->next)
@@ -433,239 +440,229 @@ index a24e84adc8ce..5039b56e61ee 100644
  struct vidtv_psi_desc *vidtv_psi_desc_clone(struct vidtv_psi_desc *desc)
  {
  	struct vidtv_psi_desc *head = NULL;
-@@ -399,6 +464,8 @@ struct vidtv_psi_desc *vidtv_psi_desc_clone(struct vidtv_psi_desc *desc)
- 	struct vidtv_psi_desc *curr = NULL;
- 
+@@ -466,6 +512,7 @@ struct vidtv_psi_desc *vidtv_psi_desc_clone(struct vidtv_psi_desc *desc)
  	struct vidtv_psi_desc_service *service;
-+	struct vidtv_psi_desc_network_name *desc_network_name;
-+	struct vidtv_psi_desc_service_list *desc_service_list;
+ 	struct vidtv_psi_desc_network_name *desc_network_name;
+ 	struct vidtv_psi_desc_service_list *desc_service_list;
++	struct vidtv_psi_desc_short_event  *desc_short_event;
  
  	while (desc) {
  		switch (desc->type) {
-@@ -411,6 +478,20 @@ struct vidtv_psi_desc *vidtv_psi_desc_clone(struct vidtv_psi_desc *desc)
- 							    service->provider_name);
+@@ -492,6 +539,15 @@ struct vidtv_psi_desc *vidtv_psi_desc_clone(struct vidtv_psi_desc *desc)
+ 								 desc_service_list->service_list);
  		break;
  
-+		case NETWORK_NAME_DESCRIPTOR:
-+			desc_network_name = (struct vidtv_psi_desc_network_name *)desc;
++		case SHORT_EVENT_DESCRIPTOR:
++			desc_short_event = (struct vidtv_psi_desc_short_event *)desc;
 +			curr = (struct vidtv_psi_desc *)
-+			       vidtv_psi_network_name_desc_init(head,
-+								desc_network_name->network_name);
-+		break;
-+
-+		case SERVICE_LIST_DESCRIPTOR:
-+			desc_service_list = (struct vidtv_psi_desc_service_list *)desc;
-+			curr = (struct vidtv_psi_desc *)
-+				vidtv_psi_service_list_desc_init(head,
-+								 desc_service_list->service_list);
++			       vidtv_psi_short_event_desc_init(head,
++							       desc_short_event->iso_language_code,
++							       desc_short_event->event_name,
++							       desc_short_event->text);
 +		break;
 +
  		case REGISTRATION_DESCRIPTOR:
  		default:
  			curr = kzalloc(sizeof(*desc) + desc->length, GFP_KERNEL);
-@@ -437,6 +518,8 @@ void vidtv_psi_desc_destroy(struct vidtv_psi_desc *desc)
- {
- 	struct vidtv_psi_desc *curr = desc;
- 	struct vidtv_psi_desc *tmp  = NULL;
-+	struct vidtv_psi_desc_service_list_entry *sl_entry = NULL;
-+	struct vidtv_psi_desc_service_list_entry *sl_entry_tmp = NULL;
- 
- 	while (curr) {
- 		tmp  = curr;
-@@ -452,6 +535,19 @@ void vidtv_psi_desc_destroy(struct vidtv_psi_desc *desc)
- 			/* nothing to do */
+@@ -548,6 +604,12 @@ void vidtv_psi_desc_destroy(struct vidtv_psi_desc *desc)
+ 			}
  			break;
  
-+		case NETWORK_NAME_DESCRIPTOR:
-+			kfree(((struct vidtv_psi_desc_network_name *)tmp)->network_name);
-+			break;
-+
-+		case SERVICE_LIST_DESCRIPTOR:
-+			sl_entry = ((struct vidtv_psi_desc_service_list *)tmp)->service_list;
-+			while (sl_entry) {
-+				sl_entry_tmp = sl_entry;
-+				sl_entry = sl_entry->next;
-+				kfree(sl_entry_tmp);
-+			}
-+			break;
++		case SHORT_EVENT_DESCRIPTOR:
++			kfree(((struct vidtv_psi_desc_short_event *)tmp)->iso_language_code);
++			kfree(((struct vidtv_psi_desc_short_event *)tmp)->event_name);
++			kfree(((struct vidtv_psi_desc_short_event *)tmp)->text);
++		break;
 +
  		default:
  			pr_warn_ratelimited("Possible leak: not handling descriptor type %d\n",
  					    tmp->type);
-@@ -523,6 +619,7 @@ static u32 vidtv_psi_desc_write_into(struct desc_write_args args)
- 	/* the number of bytes written by this function */
- 	u32 nbytes = 0;
- 	struct psi_write_args psi_args = {};
-+	struct vidtv_psi_desc_service_list_entry *serv_list_entry = NULL;
- 
- 	psi_args.dest_buf = args.dest_buf;
- 	psi_args.from     = &args.desc->type;
-@@ -568,6 +665,28 @@ static u32 vidtv_psi_desc_write_into(struct desc_write_args args)
- 		nbytes += vidtv_psi_ts_psi_write_into(psi_args);
+@@ -687,6 +749,41 @@ static u32 vidtv_psi_desc_write_into(struct desc_write_args args)
+ 		}
  		break;
  
-+	case NETWORK_NAME_DESCRIPTOR:
++	case SHORT_EVENT_DESCRIPTOR:
 +		psi_args.dest_offset = args.dest_offset + nbytes;
-+		psi_args.len = args.desc->length;
-+		psi_args.from = ((struct vidtv_psi_desc_network_name *)args.desc)->network_name;
++		psi_args.len = ISO_LANGUAGE_CODE_LEN;
++		psi_args.from = ((struct vidtv_psi_desc_short_event *)
++				  args.desc)->iso_language_code;
 +
 +		nbytes += vidtv_psi_ts_psi_write_into(psi_args);
-+		break;
 +
-+	case SERVICE_LIST_DESCRIPTOR:
-+		serv_list_entry = ((struct vidtv_psi_desc_service_list *)args.desc)->service_list;
-+		while (serv_list_entry) {
-+			psi_args.dest_offset = args.dest_offset + nbytes;
-+			psi_args.len = sizeof(struct vidtv_psi_desc_service_list_entry) -
-+				       sizeof(struct vidtv_psi_desc_service_list_entry *);
-+			psi_args.from = serv_list_entry;
++		psi_args.dest_offset = args.dest_offset + nbytes;
++		psi_args.len = sizeof_field(struct vidtv_psi_desc_short_event, event_name_len);
++		psi_args.from = &((struct vidtv_psi_desc_short_event *)
++				  args.desc)->event_name_len;
 +
-+			nbytes += vidtv_psi_ts_psi_write_into(psi_args);
++		nbytes += vidtv_psi_ts_psi_write_into(psi_args);
 +
-+			serv_list_entry = serv_list_entry->next;
-+		}
++		psi_args.dest_offset = args.dest_offset + nbytes;
++		psi_args.len = ((struct vidtv_psi_desc_short_event *)args.desc)->event_name_len;
++		psi_args.from = ((struct vidtv_psi_desc_short_event *)args.desc)->event_name;
++
++		nbytes += vidtv_psi_ts_psi_write_into(psi_args);
++
++		psi_args.dest_offset = args.dest_offset + nbytes;
++		psi_args.len = sizeof_field(struct vidtv_psi_desc_short_event, text_len);
++		psi_args.from = &((struct vidtv_psi_desc_short_event *)args.desc)->text_len;
++
++		nbytes += vidtv_psi_ts_psi_write_into(psi_args);
++
++		psi_args.dest_offset = args.dest_offset + nbytes;
++		psi_args.len = ((struct vidtv_psi_desc_short_event *)args.desc)->text_len;
++		psi_args.from = ((struct vidtv_psi_desc_short_event *)args.desc)->text;
++
++		nbytes += vidtv_psi_ts_psi_write_into(psi_args);
++
 +		break;
 +
  	case REGISTRATION_DESCRIPTOR:
  	default:
  		psi_args.dest_offset = args.dest_offset + nbytes;
-@@ -686,7 +805,6 @@ void vidtv_psi_sdt_table_update_sec_len(struct vidtv_psi_table_sdt *sdt)
- 	}
+@@ -1353,7 +1450,9 @@ void vidtv_psi_sdt_table_destroy(struct vidtv_psi_table_sdt *sdt)
  
- 	length += CRC_SIZE_IN_BYTES;
--
- 	vidtv_psi_set_sec_len(&sdt->header, length);
- }
+ struct vidtv_psi_table_sdt_service
+ *vidtv_psi_sdt_service_init(struct vidtv_psi_table_sdt_service *head,
+-			    u16 service_id)
++			    u16 service_id,
++			    bool eit_schedule,
++			    bool eit_present_following)
+ {
+ 	struct vidtv_psi_table_sdt_service *service;
  
-@@ -1344,3 +1462,220 @@ struct vidtv_psi_table_pmt
+@@ -1368,8 +1467,8 @@ struct vidtv_psi_table_sdt_service
+ 	 * corresponding program_map_section
+ 	 */
+ 	service->service_id            = cpu_to_be16(service_id);
+-	service->EIT_schedule          = 0x0;
+-	service->EIT_present_following = 0x0;
++	service->EIT_schedule          = eit_schedule;
++	service->EIT_present_following = eit_present_following;
+ 	service->reserved              = 0x3f;
  
- 	return NULL; /* not found */
+ 	service->bitfield = cpu_to_be16(RUNNING << 13);
+@@ -1679,3 +1778,213 @@ void vidtv_psi_nit_table_destroy(struct vidtv_psi_table_nit *nit)
+ 	vidtv_psi_transport_destroy(nit->transport);
+ 	kfree(nit);
  }
 +
-+static void vidtv_psi_nit_table_update_sec_len(struct vidtv_psi_table_nit *nit)
++void vidtv_psi_eit_table_update_sec_len(struct vidtv_psi_table_eit *eit)
 +{
 +	u16 length = 0;
-+	struct vidtv_psi_table_transport *t = nit->transport;
++	struct vidtv_psi_table_eit_event *e = eit->event;
 +	u16 desc_loop_len;
-+	u16 transport_loop_len = 0;
 +
 +	/*
 +	 * from immediately after 'section_length' until
-+	 * 'network_descriptor_length'
++	 * 'last_table_id'
 +	 */
-+	length += NIT_LEN_UNTIL_NETWORK_DESCRIPTOR_LEN;
++	length += EIT_LEN_UNTIL_LAST_TABLE_ID;
 +
-+	desc_loop_len = vidtv_psi_desc_comp_loop_len(nit->descriptor);
-+	vidtv_psi_set_desc_loop_len(&nit->bitfield, desc_loop_len, 12);
-+
-+	length += desc_loop_len;
-+
-+	length += sizeof_field(struct vidtv_psi_table_nit, bitfield2);
-+
-+	while (t) {
++	while (e) {
 +		/* skip both pointers at the end */
-+		transport_loop_len += sizeof(struct vidtv_psi_table_transport) -
-+				      sizeof(struct vidtv_psi_desc *) -
-+				      sizeof(struct vidtv_psi_table_transport *);
++		length += sizeof(struct vidtv_psi_table_eit_event) -
++			  sizeof(struct vidtv_psi_desc *) -
++			  sizeof(struct vidtv_psi_table_eit_event *);
 +
-+		length += transport_loop_len;
-+
-+		desc_loop_len = vidtv_psi_desc_comp_loop_len(t->descriptor);
-+		vidtv_psi_set_desc_loop_len(&t->bitfield, desc_loop_len, 12);
++		desc_loop_len = vidtv_psi_desc_comp_loop_len(e->descriptor);
++		vidtv_psi_set_desc_loop_len(&e->bitfield, desc_loop_len, 12);
 +
 +		length += desc_loop_len;
 +
-+		t = t->next;
++		e = e->next;
 +	}
 +
-+	// Actually sets the transport stream loop len, maybe rename this function later
-+	vidtv_psi_set_desc_loop_len(&nit->bitfield2, transport_loop_len, 12);
 +	length += CRC_SIZE_IN_BYTES;
 +
-+	vidtv_psi_set_sec_len(&nit->header, length);
++	vidtv_psi_set_sec_len(&eit->header, length);
 +}
 +
-+struct vidtv_psi_table_nit
-+*vidtv_psi_nit_table_init(u16 network_id,
-+			  u16 transport_stream_id,
-+			  char *network_name,
-+			  struct vidtv_psi_desc_service_list_entry *service_list)
++void vidtv_psi_eit_event_assign(struct vidtv_psi_table_eit *eit,
++				struct vidtv_psi_table_eit_event *e)
 +{
-+	struct vidtv_psi_table_nit *nit = kzalloc(sizeof(*nit), GFP_KERNEL);
-+	struct vidtv_psi_table_transport *transport = kzalloc(sizeof(*transport), GFP_KERNEL);
++	if (e == eit->event)
++		return;
++
++	eit->event = e;
++	vidtv_psi_eit_table_update_sec_len(eit);
++
++	if (vidtv_psi_get_sec_len(&eit->header) > EIT_MAX_SECTION_LEN)
++		vidtv_psi_eit_event_assign(eit, NULL);
++
++	vidtv_psi_update_version_num(&eit->header);
++}
++
++struct vidtv_psi_table_eit
++*vidtv_psi_eit_table_init(u16 network_id,
++			  u16 transport_stream_id)
++{
++	struct vidtv_psi_table_eit *eit = kzalloc(sizeof(*eit), GFP_KERNEL);
 +
 +	const u16 SYNTAX = 0x1;
 +	const u16 ONE = 0x1;
 +	const u16 ONES = 0x03;
 +
-+	nit->header.table_id = 0x40; // ACTUAL_NETWORK
++	eit->header.table_id = 0x4e; //actual_transport_stream: present/following
 +
-+	nit->header.bitfield = cpu_to_be16((SYNTAX << 15) | (ONE << 14) | (ONES << 12));
++	eit->header.bitfield = cpu_to_be16((SYNTAX << 15) | (ONE << 14) | (ONES << 12));
 +
-+	nit->header.id = cpu_to_be16(network_id);
-+	nit->header.current_next = ONE;
++	eit->header.id = cpu_to_be16(network_id);
++	eit->header.current_next = ONE;
 +
-+	nit->header.version = 0x1f;
++	eit->header.version = 0x1f;
 +
-+	nit->header.one2  = ONES;
-+	nit->header.section_id   = 0;
-+	nit->header.last_section = 0;
++	eit->header.one2  = ONES;
++	eit->header.section_id   = 0;
++	eit->header.last_section = 0;
 +
-+	nit->bitfield = cpu_to_be16(0xf);
-+	nit->bitfield2 = cpu_to_be16(0xf);
++	eit->transport_id = cpu_to_be16(transport_stream_id);
++	eit->network_id = cpu_to_be16(network_id);
 +
-+	nit->descriptor = (struct vidtv_psi_desc *)
-+			  vidtv_psi_network_name_desc_init(NULL, network_name);
++	eit->last_segment = eit->header.last_section; /* not implemented */
++	eit->last_table_id = eit->header.table_id; /* not implemented */
 +
-+	transport->transport_id = cpu_to_be16(transport_stream_id);
-+	transport->network_id = cpu_to_be16(network_id);
-+	transport->bitfield = cpu_to_be16(0xf);
-+	transport->descriptor = (struct vidtv_psi_desc *)
-+				vidtv_psi_service_list_desc_init(NULL, service_list);
++	vidtv_psi_eit_table_update_sec_len(eit);
 +
-+	nit->transport = transport;
-+
-+	vidtv_psi_nit_table_update_sec_len(nit);
-+
-+	return nit;
++	return eit;
 +}
 +
-+u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args args)
++u32 vidtv_psi_eit_write_into(struct vidtv_psi_eit_write_args args)
 +{
-+	/* the number of bytes written by this function */
-+	u32 nbytes = 0;
++	u32 nbytes  = 0;
 +	u32 crc = INITIAL_CRC;
 +
-+	struct vidtv_psi_desc *table_descriptor     = args.nit->descriptor;
-+	struct vidtv_psi_table_transport *transport = args.nit->transport;
-+	struct vidtv_psi_desc *transport_descriptor = (transport) ?
-+						       args.nit->transport->descriptor :
-+						       NULL;
++	struct vidtv_psi_table_eit_event *event = args.eit->event;
++	struct vidtv_psi_desc *event_descriptor = (args.eit->event) ?
++						   args.eit->event->descriptor :
++						   NULL;
 +
 +	struct header_write_args h_args = {};
 +	struct psi_write_args psi_args  = {};
 +	struct desc_write_args d_args   = {};
 +	struct crc32_write_args c_args  = {};
 +
-+	vidtv_psi_nit_table_update_sec_len(args.nit);
++	vidtv_psi_eit_table_update_sec_len(args.eit);
 +
 +	h_args.dest_buf           = args.buf;
 +	h_args.dest_offset        = args.offset;
-+	h_args.h                  = &args.nit->header;
-+	h_args.pid                = VIDTV_NIT_PID;
++	h_args.h                  = &args.eit->header;
++	h_args.pid                = VIDTV_EIT_PID;
 +	h_args.continuity_counter = args.continuity_counter;
 +	h_args.dest_buf_sz        = args.buf_sz;
 +	h_args.crc                = &crc;
 +
 +	nbytes += vidtv_psi_table_header_write_into(h_args);
 +
-+	/* write the bitfield */
 +	psi_args.dest_buf = args.buf;
-+	psi_args.from     = &args.nit->bitfield;
-+	psi_args.len      = sizeof_field(struct vidtv_psi_table_nit, bitfield);
++	psi_args.from     = &args.eit->transport_id;
++
++	psi_args.len = sizeof_field(struct vidtv_psi_table_eit, transport_id) +
++		       sizeof_field(struct vidtv_psi_table_eit, network_id)   +
++		       sizeof_field(struct vidtv_psi_table_eit, last_segment) +
++		       sizeof_field(struct vidtv_psi_table_eit, last_table_id);
 +
 +	psi_args.dest_offset        = args.offset + nbytes;
-+	psi_args.pid                = VIDTV_NIT_PID;
++	psi_args.pid                = VIDTV_EIT_PID;
 +	psi_args.new_psi_section    = false;
 +	psi_args.continuity_counter = args.continuity_counter;
 +	psi_args.is_crc             = false;
@@ -674,220 +671,191 @@ index a24e84adc8ce..5039b56e61ee 100644
 +
 +	nbytes += vidtv_psi_ts_psi_write_into(psi_args);
 +
-+	while (table_descriptor) {
-+		/* write the descriptors, if any */
-+		d_args.dest_buf           = args.buf;
-+		d_args.dest_offset        = args.offset + nbytes;
-+		d_args.desc               = table_descriptor;
-+		d_args.pid                = VIDTV_NIT_PID;
-+		d_args.continuity_counter = args.continuity_counter;
-+		d_args.dest_buf_sz        = args.buf_sz;
-+		d_args.crc                = &crc;
-+
-+		nbytes += vidtv_psi_desc_write_into(d_args);
-+
-+		table_descriptor = table_descriptor->next;
-+	}
-+
-+	/* write the second bitfield */
-+	psi_args.dest_buf = args.buf;
-+	psi_args.from = &args.nit->bitfield2;
-+	psi_args.len = sizeof_field(struct vidtv_psi_table_nit, bitfield2);
-+	psi_args.dest_offset = args.offset + nbytes;
-+	psi_args.pid = VIDTV_NIT_PID;
-+
-+	nbytes += vidtv_psi_ts_psi_write_into(psi_args);
-+
-+	while (transport) {
-+		/* write the transport sections, if any */
-+		psi_args.from = transport;
-+		psi_args.len  = sizeof_field(struct vidtv_psi_table_transport, transport_id) +
-+				sizeof_field(struct vidtv_psi_table_transport, network_id)   +
-+				sizeof_field(struct vidtv_psi_table_transport, bitfield);
++	while (event) {
++		/* copy the events, if any */
++		psi_args.from = event;
++		/* skip both pointers at the end */
++		psi_args.len = sizeof(struct vidtv_psi_table_eit_event) -
++			       sizeof(struct vidtv_psi_desc *) -
++			       sizeof(struct vidtv_psi_table_eit_event *);
 +		psi_args.dest_offset = args.offset + nbytes;
 +
 +		nbytes += vidtv_psi_ts_psi_write_into(psi_args);
 +
-+		while (transport_descriptor) {
-+			/* write the transport descriptors, if any */
++		event_descriptor = event->descriptor;
++
++		while (event_descriptor) {
++			/* copy the event descriptors, if any */
 +			d_args.dest_buf           = args.buf;
 +			d_args.dest_offset        = args.offset + nbytes;
-+			d_args.desc               = transport_descriptor;
-+			d_args.pid                = VIDTV_NIT_PID;
++			d_args.desc               = event_descriptor;
++			d_args.pid                = VIDTV_EIT_PID;
 +			d_args.continuity_counter = args.continuity_counter;
 +			d_args.dest_buf_sz        = args.buf_sz;
 +			d_args.crc                = &crc;
 +
 +			nbytes += vidtv_psi_desc_write_into(d_args);
 +
-+			transport_descriptor = transport_descriptor->next;
++			event_descriptor = event_descriptor->next;
 +		}
 +
-+		transport = transport->next;
++		event = event->next;
 +	}
 +
 +	c_args.dest_buf           = args.buf;
 +	c_args.dest_offset        = args.offset + nbytes;
 +	c_args.crc                = cpu_to_be32(crc);
-+	c_args.pid                = VIDTV_NIT_PID;
++	c_args.pid                = VIDTV_EIT_PID;
 +	c_args.continuity_counter = args.continuity_counter;
 +	c_args.dest_buf_sz        = args.buf_sz;
 +
-+	/* Write the CRC32 at the end */
++	/* Write the CRC at the end */
 +	nbytes += table_section_crc32_write_into(c_args);
 +
 +	return nbytes;
 +}
 +
-+static void vidtv_psi_transport_destroy(struct vidtv_psi_table_transport *t)
++struct vidtv_psi_table_eit_event
++*vidtv_psi_eit_event_init(struct vidtv_psi_table_eit_event *head, u16 event_id)
 +{
-+	struct vidtv_psi_table_transport *curr_t = t;
-+	struct vidtv_psi_table_transport *tmp_t  = NULL;
++	struct vidtv_psi_table_eit_event *e = kzalloc(sizeof(*e), GFP_KERNEL);
++	const u8 DURATION_ONE_HOUR[] = {1, 0, 0};
 +
-+	while (curr_t) {
-+		tmp_t  = curr_t;
-+		curr_t = curr_t->next;
-+		vidtv_psi_desc_destroy(tmp_t->descriptor);
-+		kfree(tmp_t);
++	e->event_id = cpu_to_be16(event_id);
++	memset(e->start_time, 0xff, sizeof(e->start_time)); //todo: 0xff means 'unspecified'
++	memcpy(e->duration, DURATION_ONE_HOUR, sizeof(e->duration)); //todo, default to this for now
++
++	e->bitfield = cpu_to_be16(RUNNING << 13);
++
++	if (head) {
++		while (head->next)
++			head = head->next;
++
++		head->next = e;
++	}
++
++	return e;
++}
++
++void vidtv_psi_eit_event_destroy(struct vidtv_psi_table_eit_event *e)
++{
++	struct vidtv_psi_table_eit_event *curr_e = e;
++	struct vidtv_psi_table_eit_event *tmp_e  = NULL;
++
++	while (curr_e) {
++		tmp_e  = curr_e;
++		curr_e = curr_e->next;
++		vidtv_psi_desc_destroy(tmp_e->descriptor);
++		kfree(tmp_e);
 +	}
 +}
 +
-+void vidtv_psi_nit_table_destroy(struct vidtv_psi_table_nit *nit)
++void vidtv_psi_eit_table_destroy(struct vidtv_psi_table_eit *eit)
 +{
-+	vidtv_psi_desc_destroy(nit->descriptor);
-+	vidtv_psi_transport_destroy(nit->transport);
-+	kfree(nit);
++	vidtv_psi_eit_event_destroy(eit->event);
++	kfree(eit);
 +}
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.h b/drivers/media/test-drivers/vidtv/vidtv_psi.h
-index e31b4885ee6b..1022474f9805 100644
+index 1022474f9805..67ccb2bcdcee 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_psi.h
 +++ b/drivers/media/test-drivers/vidtv/vidtv_psi.h
-@@ -6,10 +6,6 @@
-  * technically be broken into one or more sections, we do not do this here,
-  * hence 'table' and 'section' are interchangeable for vidtv.
-  *
-- * This code currently supports three tables: PAT, PMT and SDT. These are the
-- * bare minimum to get userspace to recognize our MPEG transport stream. It can
-- * be extended to support more PSI tables in the future.
-- *
-  * Copyright (C) 2020 Daniel W. S. Almeida
-  */
- 
-@@ -26,12 +22,16 @@
- #define PAT_LEN_UNTIL_LAST_SECTION_NUMBER 5
+@@ -23,16 +23,20 @@
  #define PMT_LEN_UNTIL_PROGRAM_INFO_LENGTH 9
  #define SDT_LEN_UNTIL_RESERVED_FOR_FUTURE_USE 8
-+#define NIT_LEN_UNTIL_NETWORK_DESCRIPTOR_LEN 7
+ #define NIT_LEN_UNTIL_NETWORK_DESCRIPTOR_LEN 7
++#define EIT_LEN_UNTIL_LAST_TABLE_ID 11
  #define MAX_SECTION_LEN 1021
++#define EIT_MAX_SECTION_LEN 4093 /* see ETSI 300 468 v.1.10.1 p. 26 */
  #define VIDTV_PAT_PID 0 /* mandated by the specs */
  #define VIDTV_SDT_PID 0x0011 /* mandated by the specs */
-+#define VIDTV_NIT_PID 0x0010 /* mandated by the specs */
+ #define VIDTV_NIT_PID 0x0010 /* mandated by the specs */
++#define VIDTV_EIT_PID 0x0012 /*mandated by the specs */
  
  enum vidtv_psi_descriptors {
  	REGISTRATION_DESCRIPTOR	= 0x05, /* See ISO/IEC 13818-1 section 2.6.8 */
-+	NETWORK_NAME_DESCRIPTOR = 0x40, /* See ETSI EN 300 468 section 6.2.27 */
-+	SERVICE_LIST_DESCRIPTOR = 0x41, /* See ETSI EN 300 468 section 6.2.35 */
+ 	NETWORK_NAME_DESCRIPTOR = 0x40, /* See ETSI EN 300 468 section 6.2.27 */
+ 	SERVICE_LIST_DESCRIPTOR = 0x41, /* See ETSI EN 300 468 section 6.2.35 */
  	SERVICE_DESCRIPTOR = 0x48, /* See ETSI EN 300 468 section 6.2.33 */
++	SHORT_EVENT_DESCRIPTOR = 0x4d, /* See ETSI EN 300 468 section 6.2.37 */
  };
  
-@@ -89,6 +89,34 @@ struct vidtv_psi_desc_registration {
- 	u8 additional_identification_info[];
+ enum vidtv_psi_stream_types {
+@@ -117,6 +121,27 @@ struct vidtv_psi_desc_service_list {
+ 	struct vidtv_psi_desc_service_list_entry *service_list;
  } __packed;
  
 +/**
-+ * struct vidtv_psi_desc_network_name - A network name descriptor
-+ * see ETSI EN 300 468 v1.15.1 section 6.2.27
++ * struct vidtv_psi_desc_short_event - A short event descriptor
++ * see ETSI EN 300 468 v1.15.1 section 6.2.37
 + */
-+struct vidtv_psi_desc_network_name {
++struct vidtv_psi_desc_short_event {
 +	struct vidtv_psi_desc *next;
 +	u8 type;
 +	u8 length;
-+	char *network_name;
++	char *iso_language_code;
++	u8 event_name_len;
++	char *event_name;
++	u8 text_len;
++	char *text;
 +} __packed;
 +
-+struct vidtv_psi_desc_service_list_entry {
-+	__be16 service_id;
-+	u8 service_type;
-+	struct vidtv_psi_desc_service_list_entry *next;
-+}__packed;
-+
-+/**
-+ * struct vidtv_psi_desc_service_list - A service list descriptor
-+ * see ETSI EN 300 468 v1.15.1 section 6.2.35
-+ */
-+struct vidtv_psi_desc_service_list {
-+	struct vidtv_psi_desc *next;
-+	u8 type;
-+	u8 length;
-+	struct vidtv_psi_desc_service_list_entry *service_list;
-+} __packed;
++struct vidtv_psi_desc_short_event
++*vidtv_psi_short_event_desc_init(struct vidtv_psi_desc *head,
++				 char *iso_language_code,
++				 char *event_name,
++				 char *text);
 +
  /**
   * struct vidtv_psi_table_header - A header that is present for all PSI tables.
   */
-@@ -289,6 +317,13 @@ struct vidtv_psi_desc_registration
- 				  u8 *additional_ident_info,
- 				  u32 additional_info_len);
+@@ -343,7 +368,9 @@ struct vidtv_psi_table_sdt *vidtv_psi_sdt_table_init(u16 transport_stream_id);
  
-+struct vidtv_psi_desc_network_name
-+*vidtv_psi_network_name_desc_init(struct vidtv_psi_desc *head, char* network_name);
-+
-+struct vidtv_psi_desc_service_list
-+*vidtv_psi_service_list_desc_init(struct vidtv_psi_desc *head,
-+				  struct vidtv_psi_desc_service_list_entry *entry);
-+
- struct vidtv_psi_table_pat_program
- *vidtv_psi_pat_program_init(struct vidtv_psi_table_pat_program *head,
- 			    u16 service_id,
-@@ -573,4 +608,80 @@ struct vidtv_psi_table_pmt *vidtv_psi_find_pmt_sec(struct vidtv_psi_table_pmt **
- u16 vidtv_psi_get_pat_program_pid(struct vidtv_psi_table_pat_program *p);
- u16 vidtv_psi_pmt_stream_get_elem_pid(struct vidtv_psi_table_pmt_stream *s);
+ struct vidtv_psi_table_sdt_service*
+ vidtv_psi_sdt_service_init(struct vidtv_psi_table_sdt_service *head,
+-			   u16 service_id);
++			   u16 service_id,
++			   bool eit_schedule,
++			   bool eit_present_following);
+ 
+ void
+ vidtv_psi_desc_destroy(struct vidtv_psi_desc *desc);
+@@ -684,4 +711,96 @@ u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args args);
+ 
+ void vidtv_psi_nit_table_destroy(struct vidtv_psi_table_nit *nit);
  
 +/**
-+ * struct vidtv_psi_table_transport - A entry in the TS loop for the NIT and/or other tables.
-+ * See ETSI 300 468 section 5.2.1
-+ * @transport_id: The TS ID being described
-+ * @network_id: The network_id that contains the TS ID
-+ * @bitfield: Contains the descriptor loop length
-+ * @descriptor: A descriptor loop
-+ * @next: Pointer to the next entry
-+ *
++ * struct vidtv_psi_desc_short_event - A short event descriptor
++ * see ETSI EN 300 468 v1.15.1 section 6.2.37
 + */
-+struct vidtv_psi_table_transport {
++struct vidtv_psi_table_eit_event {
++	__be16 event_id;
++	u8 start_time[5];
++	u8 duration[3];
++	__be16 bitfield; /* desc_length: 12, free_CA_mode: 1, running_status: 1 */
++	struct vidtv_psi_desc *descriptor;
++	struct vidtv_psi_table_eit_event *next;
++} __packed;
++
++/*
++ * struct vidtv_psi_table_eit - A Event Information Table (EIT)
++ * See ETSI 300 468 section 5.2.4
++ */
++struct vidtv_psi_table_eit {
++	struct vidtv_psi_table_header header;
 +	__be16 transport_id;
 +	__be16 network_id;
-+	__be16 bitfield; /* desc_len: 12, reserved: 4 */
-+	struct vidtv_psi_desc *descriptor;
-+	struct vidtv_psi_table_transport *next;
++	u8 last_segment;
++	u8 last_table_id;
++	struct vidtv_psi_table_eit_event *event;
 +} __packed;
 +
-+/**
-+ * struct vidtv_psi_table_nit - A Network Information Table (NIT). See ETSI 300
-+ * 468 section 5.2.1
-+ * @header: A PSI table header
-+ * @bitfield: Contains the network descriptor length
-+ * @descriptor: A descriptor loop describing the network
-+ * @bitfield2: Contains the transport stream loop length
-+ * @transport: The transport stream loop
-+ *
-+ */
-+struct vidtv_psi_table_nit {
-+	struct vidtv_psi_table_header header;
-+	__be16 bitfield; /* network_desc_len: 12, reserved:4 */
-+	struct vidtv_psi_desc *descriptor;
-+	__be16 bitfield2; /* ts_loop_len: 12, reserved: 4 */
-+	struct vidtv_psi_table_transport *transport;
-+} __packed;
-+
-+struct vidtv_psi_table_nit
-+*vidtv_psi_nit_table_init(u16 network_id,
-+			  u16 transport_stream_id,
-+			  char *network_name,
-+			  struct vidtv_psi_desc_service_list_entry *service_list);
++struct vidtv_psi_table_eit
++*vidtv_psi_eit_table_init(u16 network_id,
++			  u16 transport_stream_id);
 +
 +
 +/**
-+ * struct vidtv_psi_nit_write_args - Arguments for writing a NIT section
++ * struct vidtv_psi_eit_write_args - Arguments for writing an EIT section
 + * @buf: The destination buffer.
 + * @offset: The offset into the destination buffer.
 + * @nit: A pointer to the NIT
@@ -895,29 +863,57 @@ index e31b4885ee6b..1022474f9805 100644
 + * @continuity_counter: A pointer to the CC. Incremented on every new packet.
 + *
 + */
-+struct vidtv_psi_nit_write_args {
++struct vidtv_psi_eit_write_args {
 +	char *buf;
 +	u32 offset;
-+	struct vidtv_psi_table_nit *nit;
++	struct vidtv_psi_table_eit *eit;
 +	u32 buf_sz;
 +	u8 *continuity_counter;
 +};
 +
 +/**
-+ * vidtv_psi_nit_write_into - Write NIT as MPEG-TS packets into a buffer.
++ * vidtv_psi_eit_write_into - Write EIT as MPEG-TS packets into a buffer.
 + * @args: an instance of struct vidtv_psi_nit_write_args
 + *
-+ * This function writes the MPEG TS packets for a NIT table into a buffer.
-+ * Calling code will usually generate the NIT via a call to its init function
++ * This function writes the MPEG TS packets for a EIT table into a buffer.
++ * Calling code will usually generate the EIT via a call to its init function
 + * and thus is responsible for freeing it.
 + *
 + * Return: The number of bytes written into the buffer. This is NOT
-+ * equal to the size of the NIT, since more space is needed for TS headers during TS
++ * equal to the size of the EIT, since more space is needed for TS headers during TS
 + * encapsulation.
 + */
-+u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args args);
++u32 vidtv_psi_eit_write_into(struct vidtv_psi_eit_write_args args);
 +
-+void vidtv_psi_nit_table_destroy(struct vidtv_psi_table_nit *nit);
++void vidtv_psi_eit_table_destroy(struct vidtv_psi_table_eit *eit);
++
++/**
++ * vidtv_psi_eit_table_update_sec_len - Recompute and update the EIT section length.
++ * @eit: The EIT whose length is to be updated.
++ *
++ * This will traverse the table and accumulate the length of its components,
++ * which is then used to replace the 'section_length' field.
++ *
++ * If section_length > EIT_MAX_SECTION_LEN, the operation fails.
++ */
++void vidtv_psi_eit_table_update_sec_len(struct vidtv_psi_table_eit *eit);
++
++/**
++ * vidtv_psi_eit_event_assign - Assigns the event loop to the EIT.
++ * @eit: The EIT to assign to.
++ * @e: The event loop
++ *
++ * This will free the previous event loop in the table.
++ * This will assign ownership of the stream loop to the table, i.e. the table
++ * will free this stream loop when a call to its destroy function is made.
++ */
++void vidtv_psi_eit_event_assign(struct vidtv_psi_table_eit *eit,
++				struct vidtv_psi_table_eit_event *e);
++
++struct vidtv_psi_table_eit_event
++*vidtv_psi_eit_event_init(struct vidtv_psi_table_eit_event *head, u16 event_id);
++
++void vidtv_psi_eit_event_destroy(struct vidtv_psi_table_eit_event *e);
 +
  #endif // VIDTV_PSI_H
 -- 
