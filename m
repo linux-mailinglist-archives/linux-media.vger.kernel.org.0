@@ -2,94 +2,79 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B707927D09A
-	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 16:06:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B04327D1CE
+	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 16:51:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728599AbgI2OGv convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 29 Sep 2020 10:06:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33528 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727328AbgI2OGv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Sep 2020 10:06:51 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 62E8FC061755
-        for <linux-media@vger.kernel.org>; Tue, 29 Sep 2020 07:06:51 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1kNGHF-0008Ih-G2; Tue, 29 Sep 2020 16:06:45 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1kNGHE-0001LI-Gy; Tue, 29 Sep 2020 16:06:44 +0200
-Message-ID: <71e129112af93a3ba618e8046313cd4b3871a7a8.camel@pengutronix.de>
-Subject: Re: [PATCH 01/20] media: coda: use semicolons rather than commas to
- separate statements
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Julia Lawall <Julia.Lawall@inria.fr>
-Cc:     Valdis =?UTF-8?Q?Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
-        Joe Perches <joe@perches.com>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        kernel-janitors@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Date:   Tue, 29 Sep 2020 16:06:44 +0200
-In-Reply-To: <1601385283-26144-2-git-send-email-Julia.Lawall@inria.fr>
-References: <1601385283-26144-1-git-send-email-Julia.Lawall@inria.fr>
-         <1601385283-26144-2-git-send-email-Julia.Lawall@inria.fr>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        id S1729396AbgI2OvG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Sep 2020 10:51:06 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50744 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727328AbgI2OvF (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 29 Sep 2020 10:51:05 -0400
+Received: from coco.lan (ip5f5ad5bc.dynamic.kabel-deutschland.de [95.90.213.188])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 8986220757;
+        Tue, 29 Sep 2020 14:51:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601391065;
+        bh=awysxynaEavNiWkrMGoJ+3iohFJphxuf/7dxcqFCIyo=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=f4hRlWNYxTccQq+r+tsxPYLadqK1OIVMbsyRxTAK3G0ejuwPPAPb/V7VqZxgvajDj
+         9TsgJdxgGMGQrp1Ilx+8MLgnawlEa+I+shZiggODhd4LxWwrc9fj8CKBxbrVDsyxtp
+         UFUBuO4paZX+zwwiqf4MVl3xmX6w2zXHM7jk4KTs=
+Date:   Tue, 29 Sep 2020 16:51:00 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+Cc:     "r.verdejo@samsung.com" <r.verdejo@samsung.com>,
+        "nicolas@ndufresne.ca" <nicolas@ndufresne.ca>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "skhan@linuxfoundation.org" <skhan@linuxfoundation.org>,
+        "linux-kernel-mentees@lists.linuxfoundation.org" 
+        <linux-kernel-mentees@lists.linuxfoundation.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: Re: [PATCH WIP 1/6] media: vidtv: extract the initial CRC value to
+ into a #define
+Message-ID: <20200929165100.4483625c@coco.lan>
+In-Reply-To: <8397580E-7905-4B02-B9F5-C3B09794A742@getmailspring.com>
+References: <20200929071918.15c018ac@coco.lan>
+        <8397580E-7905-4B02-B9F5-C3B09794A742@getmailspring.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2020-09-29 at 15:14 +0200, Julia Lawall wrote:
-> Replace commas with semicolons.  Commas introduce unnecessary
-> variability in the code structure and are hard to see.  What is done
-> is essentially described by the following Coccinelle semantic patch
-> (http://coccinelle.lip6.fr/):
-> 
-> // <smpl>
-> @@ expression e1,e2; @@
-> e1
-> -,
-> +;
-> e2
-> ... when any
-> // </smpl>
-> 
-> Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
-> 
-> ---
->  drivers/media/platform/coda/coda-common.c |    2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-> index eeba6c060981..1bb16cc0a823 100644
-> --- a/drivers/media/platform/coda/coda-common.c
-> +++ b/drivers/media/platform/coda/coda-common.c
-> @@ -2861,7 +2861,7 @@ static int coda_register_device(struct coda_dev *dev, int i)
->  	strscpy(vfd->name, dev->devtype->vdevs[i]->name, sizeof(vfd->name));
->  	vfd->fops	= &coda_fops;
->  	vfd->ioctl_ops	= &coda_ioctl_ops;
-> -	vfd->release	= video_device_release_empty,
-> +	vfd->release	= video_device_release_empty;
->  	vfd->lock	= &dev->dev_mutex;
->  	vfd->v4l2_dev	= &dev->v4l2_dev;
->  	vfd->vfl_dir	= VFL_DIR_M2M;
-> 
-> 
+Em Tue, 29 Sep 2020 06:30:56 -0300
+"Daniel W. S. Almeida" <dwlsalmeida@gmail.com> escreveu:
 
-Thank you,
+> Hi Mauro!
+> 
+> > Next time, please add a patch 0, specially when you tag something as
+> > WIP, or RFC.  
+> 
+> Sorry about that :)
+> 
+> These are almost good but I came across some weird kasan output.
+> 
+> Can you test this series in a kernel with kasan instrumentation turned on?
+> 
+> Should apply just fine on top of your latest changes in mchehab-experimental/vidtv
 
-Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+I'm currently focusing preparing some things for the merge window.
 
-regards
-Philipp
+I can try to test them after it.
+
+Btw, before testing those patches, you should test with KASAN and
+with the memory leak detector if everything is being de-allocated
+when the drivers are removed from the memory.
+
+If you find something wrong there, I suggest you to fix the
+found issues before applying the new NIT and EDT tables support,
+as it may help to check what it could be happening after the
+patches.
+
+Thanks,
+Mauro
