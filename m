@@ -2,294 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 58AEF27CCF5
-	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 14:40:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9FCE227CEBC
+	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 15:14:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729230AbgI2LOi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Sep 2020 07:14:38 -0400
-Received: from mx2.suse.de ([195.135.220.15]:50984 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729018AbgI2LO1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Sep 2020 07:14:27 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id E7A71AB91;
-        Tue, 29 Sep 2020 11:14:25 +0000 (UTC)
-Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
- memory
-To:     =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>
-Cc:     linux-doc@vger.kernel.org, airlied@linux.ie,
-        dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
-        kraxel@redhat.com, tfiga@chromium.org,
-        Sam Ravnborg <sam@ravnborg.org>, m.szyprowski@samsung.com,
-        arnd@arndb.de, corbet@lwn.net, jonathanh@nvidia.com,
-        matthew.auld@intel.com, linux+etnaviv@armlinux.org.uk,
-        labbott@redhat.com, linux-media@vger.kernel.org, pawel@osciak.com,
-        intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
-        rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org,
-        mchehab@kernel.org, gregkh@linuxfoundation.org,
-        lmark@codeaurora.org, afd@ti.com, kyungmin.park@samsung.com,
-        robin.murphy@arm.com
-References: <20200925115601.23955-1-tzimmermann@suse.de>
- <20200926071334.GA42915@ravnborg.org>
- <8761e0dd-569e-0ea0-7bc5-25e4f7cb67cc@suse.de>
- <20200927191605.GA237178@ravnborg.org>
- <3f703297-7b4f-dcca-ea56-70b2413a1e3d@amd.com>
- <ef4400a7-397b-e550-7114-1d4238dd36f3@suse.de>
- <49c4dcec-cd69-510a-9781-e8fa5fb669f9@amd.com>
- <20200929091445.GI438822@phenom.ffwll.local>
- <774e382e-6e60-450c-ee88-bd9ea2916fb4@amd.com>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <e0a1e44b-7cc4-a540-09c5-b0f5cd175dd5@suse.de>
-Date:   Tue, 29 Sep 2020 13:14:21 +0200
+        id S1729847AbgI2NNf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Sep 2020 09:13:35 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:34362 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729840AbgI2NNe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 29 Sep 2020 09:13:34 -0400
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E96B914E1;
+        Tue, 29 Sep 2020 15:13:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1601385211;
+        bh=n2iRCMs/QtwooVsuPE9H4U8K59HSf/NYM/tiuP3JpFY=;
+        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
+        b=oQWioeoAEhaYOoCbjib4ixu/v7PazPCj582F84pqb67yDMfQq7RLVjdaS5bAVRgWX
+         M2pDbYhJBDsv4BN1UO/l7eRYj+sgK49ZywV79fqY1bevGEWn2Cn/MsO+csu1EsTym2
+         90CBmlsuUqxtlw+r8B4xI4wURXf00BD6E2gj/ywQ=
+Subject: Re: [PATCH v2] staging: rkisp1: uapi: Do not use BIT() macro
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media@vger.kernel.org
+References: <20200928210250.4085465-1-niklas.soderlund@ragnatech.se>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Organization: Ideas on Board
+Message-ID: <9aa399da-f2bb-20b1-a1cb-cddddfaaf7c1@ideasonboard.com>
+Date:   Tue, 29 Sep 2020 14:13:28 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <774e382e-6e60-450c-ee88-bd9ea2916fb4@amd.com>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="d5wa8tFJrIhLAHa5BlZ56tvfg9VRjdx9F"
+In-Reply-To: <20200928210250.4085465-1-niklas.soderlund@ragnatech.se>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---d5wa8tFJrIhLAHa5BlZ56tvfg9VRjdx9F
-Content-Type: multipart/mixed; boundary="a8ukwTSd2RU62nvcRGK5k5EFPVkAWoTMu";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
- Daniel Vetter <daniel@ffwll.ch>
-Cc: linux-doc@vger.kernel.org, airlied@linux.ie,
- dri-devel@lists.freedesktop.org, thierry.reding@gmail.com,
- kraxel@redhat.com, tfiga@chromium.org, Sam Ravnborg <sam@ravnborg.org>,
- m.szyprowski@samsung.com, arnd@arndb.de, corbet@lwn.net,
- jonathanh@nvidia.com, matthew.auld@intel.com, linux+etnaviv@armlinux.org.uk,
- labbott@redhat.com, linux-media@vger.kernel.org, pawel@osciak.com,
- intel-gfx@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
- linaro-mm-sig@lists.linaro.org, thomas.hellstrom@intel.com,
- rodrigo.vivi@intel.com, linux-tegra@vger.kernel.org, mchehab@kernel.org,
- gregkh@linuxfoundation.org, lmark@codeaurora.org, afd@ti.com,
- kyungmin.park@samsung.com, robin.murphy@arm.com
-Message-ID: <e0a1e44b-7cc4-a540-09c5-b0f5cd175dd5@suse.de>
-Subject: Re: [PATCH v3 0/4] dma-buf: Flag vmap'ed memory as system or I/O
- memory
-References: <20200925115601.23955-1-tzimmermann@suse.de>
- <20200926071334.GA42915@ravnborg.org>
- <8761e0dd-569e-0ea0-7bc5-25e4f7cb67cc@suse.de>
- <20200927191605.GA237178@ravnborg.org>
- <3f703297-7b4f-dcca-ea56-70b2413a1e3d@amd.com>
- <ef4400a7-397b-e550-7114-1d4238dd36f3@suse.de>
- <49c4dcec-cd69-510a-9781-e8fa5fb669f9@amd.com>
- <20200929091445.GI438822@phenom.ffwll.local>
- <774e382e-6e60-450c-ee88-bd9ea2916fb4@amd.com>
-In-Reply-To: <774e382e-6e60-450c-ee88-bd9ea2916fb4@amd.com>
+Hi Niklas,
 
---a8ukwTSd2RU62nvcRGK5k5EFPVkAWoTMu
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+On 28/09/2020 22:02, Niklas Söderlund wrote:
+> The BIT() macro is not available to uAPI headers, replace the few usages
+> of it by open coding it.
+> 
+> Signed-off-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+> Acked-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+> * Changes since v1
+> - Use (1U << N) instead of (1 << N) as suggested by Kieran.
 
+Well, in that case you can have one of these :-D
 
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-Am 29.09.20 um 13:09 schrieb Christian K=C3=B6nig:
-> Am 29.09.20 um 11:14 schrieb Daniel Vetter:
->> On Mon, Sep 28, 2020 at 01:22:13PM +0200, Christian K=C3=B6nig wrote:
->>> Am 28.09.20 um 09:37 schrieb Thomas Zimmermann:
->>>> Hi
->>>>
->>>> Am 28.09.20 um 08:50 schrieb Christian K=C3=B6nig:
->>>>> Am 27.09.20 um 21:16 schrieb Sam Ravnborg:
->>>>>> Hi Thomas.
->>>>>>
->>>>>>>> struct simap {
->>>>>>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 union {
->>>>>>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void __iomem *vaddr_iomem;
->>>>>>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
-=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 void *vaddr;
->>>>>>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 };
->>>>>>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 bool is_iomem;=
+> ---
+>  .../staging/media/rkisp1/uapi/rkisp1-config.h | 44 +++++++++----------
+>  1 file changed, 22 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> index f202182349b4040f..432cb6be55b4706f 100644
+> --- a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> +++ b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> @@ -14,41 +14,41 @@
+>  #define V4L2_META_FMT_RK_ISP1_STAT_3A  v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A statistics */
+>  
+>  /* Defect Pixel Cluster Detection */
+> -#define RKISP1_CIF_ISP_MODULE_DPCC		BIT(0)
+> +#define RKISP1_CIF_ISP_MODULE_DPCC		(1U << 0)
+>  /* Black Level Subtraction */
+> -#define RKISP1_CIF_ISP_MODULE_BLS		BIT(1)
+> +#define RKISP1_CIF_ISP_MODULE_BLS		(1U << 1)
+>  /* Sensor De-gamma */
+> -#define RKISP1_CIF_ISP_MODULE_SDG		BIT(2)
+> +#define RKISP1_CIF_ISP_MODULE_SDG		(1U << 2)
+>  /* Histogram */
+> -#define RKISP1_CIF_ISP_MODULE_HST		BIT(3)
+> +#define RKISP1_CIF_ISP_MODULE_HST		(1U << 3)
+>  /* Lens Shade Control */
+> -#define RKISP1_CIF_ISP_MODULE_LSC		BIT(4)
+> +#define RKISP1_CIF_ISP_MODULE_LSC		(1U << 4)
+>  /* Auto White Balance Gain */
+> -#define RKISP1_CIF_ISP_MODULE_AWB_GAIN		BIT(5)
+> +#define RKISP1_CIF_ISP_MODULE_AWB_GAIN		(1U << 5)
+>  /* Filter */
+> -#define RKISP1_CIF_ISP_MODULE_FLT		BIT(6)
+> +#define RKISP1_CIF_ISP_MODULE_FLT		(1U << 6)
+>  /* Bayer Demosaic */
+> -#define RKISP1_CIF_ISP_MODULE_BDM		BIT(7)
+> +#define RKISP1_CIF_ISP_MODULE_BDM		(1U << 7)
+>  /* Cross Talk */
+> -#define RKISP1_CIF_ISP_MODULE_CTK		BIT(8)
+> +#define RKISP1_CIF_ISP_MODULE_CTK		(1U << 8)
+>  /* Gamma Out Curve */
+> -#define RKISP1_CIF_ISP_MODULE_GOC		BIT(9)
+> +#define RKISP1_CIF_ISP_MODULE_GOC		(1U << 9)
+>  /* Color Processing */
+> -#define RKISP1_CIF_ISP_MODULE_CPROC		BIT(10)
+> +#define RKISP1_CIF_ISP_MODULE_CPROC		(1U << 10)
+>  /* Auto Focus Control */
+> -#define RKISP1_CIF_ISP_MODULE_AFC		BIT(11)
+> +#define RKISP1_CIF_ISP_MODULE_AFC		(1U << 11)
+>  /* Auto White Balancing */
+> -#define RKISP1_CIF_ISP_MODULE_AWB		BIT(12)
+> +#define RKISP1_CIF_ISP_MODULE_AWB		(1U << 12)
+>  /* Image Effect */
+> -#define RKISP1_CIF_ISP_MODULE_IE		BIT(13)
+> +#define RKISP1_CIF_ISP_MODULE_IE		(1U << 13)
+>  /* Auto Exposure Control */
+> -#define RKISP1_CIF_ISP_MODULE_AEC		BIT(14)
+> +#define RKISP1_CIF_ISP_MODULE_AEC		(1U << 14)
+>  /* Wide Dynamic Range */
+> -#define RKISP1_CIF_ISP_MODULE_WDR		BIT(15)
+> +#define RKISP1_CIF_ISP_MODULE_WDR		(1U << 15)
+>  /* Denoise Pre-Filter */
+> -#define RKISP1_CIF_ISP_MODULE_DPF		BIT(16)
+> +#define RKISP1_CIF_ISP_MODULE_DPF		(1U << 16)
+>  /* Denoise Pre-Filter Strength */
+> -#define RKISP1_CIF_ISP_MODULE_DPF_STRENGTH	BIT(17)
+> +#define RKISP1_CIF_ISP_MODULE_DPF_STRENGTH	(1U << 17)
+>  
+>  #define RKISP1_CIF_ISP_CTK_COEFF_MAX            0x100
+>  #define RKISP1_CIF_ISP_CTK_OFFSET_MAX           0x800
+> @@ -123,10 +123,10 @@
+>  /*
+>   * Measurement types
+>   */
+> -#define RKISP1_CIF_ISP_STAT_AWB           BIT(0)
+> -#define RKISP1_CIF_ISP_STAT_AUTOEXP       BIT(1)
+> -#define RKISP1_CIF_ISP_STAT_AFM           BIT(2)
+> -#define RKISP1_CIF_ISP_STAT_HIST          BIT(3)
+> +#define RKISP1_CIF_ISP_STAT_AWB           (1U << 0)
+> +#define RKISP1_CIF_ISP_STAT_AUTOEXP       (1U << 1)
+> +#define RKISP1_CIF_ISP_STAT_AFM           (1U << 2)
+> +#define RKISP1_CIF_ISP_STAT_HIST          (1U << 3)
+>  
+>  enum rkisp1_cif_isp_histogram_mode {
+>  	RKISP1_CIF_ISP_HISTOGRAM_MODE_DISABLE,
+> 
 
->>>>>>>> };
->>>>>>>>
->>>>>>>> Where simap is a shorthand for system_iomem_map
->>>>>>>> And it could al be stuffed into a include/linux/simap.h file.
->>>>>>>>
->>>>>>>> Not totally sold on the simap name - but wanted to come up with
->>>>>>>> something.
->>>>>>> Yes. Others, myself included, have suggested to use a name that
->>>>>>> does not
->>>>>>> imply a connection to the dma-buf framework, but no one has come
->>>>>>> up with
->>>>>>> =C2=A0 =C2=A0 a good name.
->>>>>>>
->>>>>>> I strongly dislike simap, as it's entirely non-obvious what it do=
-es.
->>>>>>> dma-buf-map is not actually wrong. The structures represents the
->>>>>>> mapping
->>>>>>> of a dma-able buffer in most cases.
->>>>>>>
->>>>>>>> With this approach users do not have to pull in dma-buf to use
->>>>>>>> it and
->>>>>>>> users will not confuse that this is only for dma-buf usage.
->>>>>>> There's no need to enable dma-buf. It's all in the header file
->>>>>>> without
->>>>>>> dependencies on dma-buf. It's really just the name.
->>>>>>>
->>>>>>> But there's something else to take into account. The whole issue
->>>>>>> here is
->>>>>>> that the buffer is disconnected from its originating driver, so
->>>>>>> we don't
->>>>>>> know which kind of memory ops we have to use. Thinking about it, =
-I
->>>>>>> realized that no one else seemed to have this problem until now.
->>>>>>> Otherwise there would be a solution already. So maybe the dma-buf=
-
->>>>>>> framework *is* the native use case for this data structure.
->>>>>> We have at least:
->>>>>> linux/fb.h:
->>>>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0union {
->>>>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char __iomem *sc=
-reen_base;=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 /* Virtual address */
->>>>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 char *screen_buf=
-fer;
->>>>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0};
->>>>>>
->>>>>> Which solve more or less the same problem.
->>>> I thought this was for convenience. The important is_iomem bit is
->>>> missing.
->>>>
->>>>> I also already noted that in TTM we have exactly the same problem
->>>>> and a
->>>>> whole bunch of helpers to allow operations on those pointers.
->>>> How do you call this within TTM?
->>> ttm_bus_placement, but I really don't like that name.
->>>
->>>> The data structure represents a pointer to either system or I/O memo=
-ry,
->>>> but not necessatrily device memory. It contains raw data. That would=
-
->>>> give something like
->>>>
->>>> =C2=A0=C2=A0=C2=A0 struct databuf_map
->>>> =C2=A0=C2=A0=C2=A0 struct databuf_ptr
->>>> =C2=A0=C2=A0=C2=A0 struct dbuf_map
->>>> =C2=A0=C2=A0=C2=A0 struct dbuf_ptr
->>>>
->>>> My favorite would be dbuf_ptr. It's short and the API names would ma=
-ke
->>>> sense: dbuf_ptr_clear() for clearing, dbuf_ptr_set_vaddr() to set an=
-
->>>> address, dbuf_ptr_incr() to increment, etc. Also, the _ptr indicates=
-
->>>> that it's a single address; not an offset with length.
->>> Puh, no idea. All of that doesn't sound like it 100% hits the underly=
-ing
->>> meaning of the structure.
->> Imo first let's merge this and then second with more users we might co=
-me
->> up with a better name. And cocci is fairly good at large-scale rename,=
- to
->> the point where we manged to rename struct fence to struct dma_fence.
->=20
-> Agreed, renaming things later on is easy if somebody comes up with
-> something better.
->=20
-> But blocking a necessary technical change just because of the naming is=
-
-> usually not a good idea.
-
-OK, merged now.
-
-Best regards
-Thomas
-
->=20
-> Christian.
->=20
->>
->> Also this entire thread here imo shows that we haven't yet figured out=
-
->> the
->> perfect name anyway, and I don't think it's worth it to hold this up
->> because of this bikeshed :-)
->>
->> Cheers, Daniel
->>
->>> Christian.
->>>
->>>> Best regards
->>>> Thomas
->>>>
->>>>> Christian.
->>>>>
->>>>>>> Anyway, if a better name than dma-buf-map comes in, I'm willing t=
-o
->>>>>>> rename the thing. Otherwise I intend to merge the patchset by the=
-
->>>>>>> end of
->>>>>>> the week.
->>>>>> Well, the main thing is that I think this shoud be moved away from=
-
->>>>>> dma-buf. But if indeed dma-buf is the only relevant user in drm th=
-en
->>>>>> I am totally fine with the current naming.
->>>>>>
->>>>>> One alternative named that popped up in my head: struct sys_io_map=
- {}
->>>>>> But again, if this is kept in dma-buf then I am fine with the curr=
-ent
->>>>>> naming.
->>>>>>
->>>>>> In other words, if you continue to think this is mostly a dma-buf
->>>>>> thing all three patches are:
->>>>>> Acked-by: Sam Ravnborg <sam@ravnborg.org>
->>>>>>
->>>>>> =C2=A0 =C2=A0=C2=A0=C2=A0=C2=A0Sam
->>>>> _______________________________________________
->>>>> dri-devel mailing list
->>>>> dri-devel@lists.freedesktop.org
->>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3A%2F%2=
-Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=3D02%7C0=
-1%7Cchristian.koenig%40amd.com%7C71c630a7ca1d48476eed08d864581e4f%7C3dd89=
-61fe4884e608e11a82d994e183d%7C0%7C0%7C637369676925032848&amp;sdata=3DCsek=
-zASvj2lY%2B74FIiLc9B5QG7AHma8B2M5y8Cassj4%3D&amp;reserved=3D0
->>>>>
->=20
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---a8ukwTSd2RU62nvcRGK5k5EFPVkAWoTMu--
-
---d5wa8tFJrIhLAHa5BlZ56tvfg9VRjdx9F
-Content-Type: application/pgp-signature; name="signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9zFw0UHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiPYbgf/bmBu+Gd3NpzkT8pFUN1dRsahSqM5
-n0jwfOUWm491Spj9p1NPJo6DgG9hQl3Xwl3SxWtnbRqGxsZeLtxfzw4cvjDeNrW3
-wJAsATiswp7uI0wpNKRlw2WuljpdMza59woaOiSICGN9UfHBycPF0ALZL3QT7FrZ
-2cUGmBIxGQUrJUlTJtoZdMwMIzzWBDlpA/Sd0Tw3SSjgnsxvgEFCUcThng4v06OK
-E1hJZDkMqLOJ9+mGs3EAflFGWlSYSwsxRn8N7FEodbWcn0fIcgfCejjGF9IE8C1D
-9oiz4Mia2tdQ41izsnW4djv6OCOne/Zjp8TPjtFa8eDFNEMa05VPpzI+8g==
-=hFdN
------END PGP SIGNATURE-----
-
---d5wa8tFJrIhLAHa5BlZ56tvfg9VRjdx9F--
