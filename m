@@ -2,39 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E135C27D3CA
-	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 18:45:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A61A27D3D5
+	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 18:46:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729519AbgI2Qo7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Sep 2020 12:44:59 -0400
-Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:1717 "EHLO
+        id S1730051AbgI2QqJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Sep 2020 12:46:09 -0400
+Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:1808 "EHLO
         mail2-relais-roc.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728531AbgI2Qo7 (ORCPT
+        by vger.kernel.org with ESMTP id S1728299AbgI2QqJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Sep 2020 12:44:59 -0400
+        Tue, 29 Sep 2020 12:46:09 -0400
 X-IronPort-AV: E=Sophos;i="5.77,319,1596492000"; 
-   d="scan'208";a="470117611"
+   d="scan'208";a="470117825"
 Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 18:44:57 +0200
-Date:   Tue, 29 Sep 2020 18:44:57 +0200 (CEST)
+  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 18:46:06 +0200
+Date:   Tue, 29 Sep 2020 18:46:06 +0200 (CEST)
 From:   Julia Lawall <julia.lawall@inria.fr>
 X-X-Sender: jll@hadrien
-To:     Joe Perches <joe@perches.com>
-cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Malcolm Priestley <tvboxspy@gmail.com>,
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         =?UTF-8?Q?Valdis_Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
+        Joe Perches <joe@perches.com>,
         Thomas Gleixner <tglx@linutronix.de>,
-        kernel-janitors@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/20] media: lmedm04: use semicolons rather than commas
+        kernel-janitors@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 04/20] media: saa7134: use semicolons rather than commas
  to separate statements
-In-Reply-To: <c79b36c12c978d38f3ad89b1c659871a@perches.com>
-Message-ID: <alpine.DEB.2.22.394.2009291843560.2808@hadrien>
-References: <1601385283-26144-1-git-send-email-Julia.Lawall@inria.fr> <1601385283-26144-11-git-send-email-Julia.Lawall@inria.fr> <8d73748e-be82-4c30-4550-b5f4eecb3055@wanadoo.fr> <c79b36c12c978d38f3ad89b1c659871a@perches.com>
+In-Reply-To: <8a2e3c47-76d1-f959-fb7c-3a02641a57e2@wanadoo.fr>
+Message-ID: <alpine.DEB.2.22.394.2009291845160.2808@hadrien>
+References: <1601385283-26144-1-git-send-email-Julia.Lawall@inria.fr> <1601385283-26144-5-git-send-email-Julia.Lawall@inria.fr> <8a2e3c47-76d1-f959-fb7c-3a02641a57e2@wanadoo.fr>
 User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-647752560-1601397897=:2808"
+Content-Type: multipart/mixed; boundary="8323329-400160347-1601397967=:2808"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -42,64 +41,63 @@ X-Mailing-List: linux-media@vger.kernel.org
   This message is in MIME format.  The first part should be readable text,
   while the remaining parts are likely unreadable without MIME-aware tools.
 
---8323329-647752560-1601397897=:2808
-Content-Type: text/plain; charset=UTF-8
+--8323329-400160347-1601397967=:2808
+Content-Type: text/plain; charset=utf-8
 Content-Transfer-Encoding: 8BIT
 
 
 
-On Tue, 29 Sep 2020, Joe Perches wrote:
+On Tue, 29 Sep 2020, Christophe JAILLET wrote:
 
-> On 2020-09-29 09:00, Christophe JAILLET wrote:
-> > Le 29/09/2020 à 15:14, Julia Lawall a écrit :
-> > > Replace commas with semicolons.  Commas introduce unnecessary
-> > > variability in the code structure and are hard to see.  What is done
-> > > is essentially described by the following Coccinelle semantic patch
-> > > (http://coccinelle.lip6.fr/):
-> > >
-> > > // <smpl>
-> > > @@ expression e1,e2; @@
-> > > e1
-> > > -,
-> > > +;
-> > > e2
-> > > ... when any
-> > > // </smpl>
-> > >
-> > > Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
-> > >
-> > > ---
-> > >   drivers/media/usb/dvb-usb-v2/lmedm04.c |    2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/usb/dvb-usb-v2/lmedm04.c
-> > > b/drivers/media/usb/dvb-usb-v2/lmedm04.c
-> > > index 5a7a9522d46d..9ddda8d68ee0 100644
-> > > --- a/drivers/media/usb/dvb-usb-v2/lmedm04.c
-> > > +++ b/drivers/media/usb/dvb-usb-v2/lmedm04.c
-> > > @@ -391,7 +391,7 @@ static int lme2510_int_read(struct dvb_usb_adapter
-> > > *adap)
-> > >   	ep = usb_pipe_endpoint(d->udev, lme_int->lme_urb->pipe);
-> > >     	if (usb_endpoint_type(&ep->desc) == USB_ENDPOINT_XFER_BULK)
-> > > -		lme_int->lme_urb->pipe = usb_rcvbulkpipe(d->udev, 0xa),
-> > > +		lme_int->lme_urb->pipe = usb_rcvbulkpipe(d->udev, 0xa);
-> > >     	usb_submit_urb(lme_int->lme_urb, GFP_ATOMIC);
-> > >   	info("INT Interrupt Service Started");
-> > >
-> > >
-> > Ouch!
+> Le 29/09/2020 à 15:14, Julia Lawall a écrit :
+> > Replace commas with semicolons.  Commas introduce unnecessary
+> > variability in the code structure and are hard to see.  What is done
+> > is essentially described by the following Coccinelle semantic patch
+> > (http://coccinelle.lip6.fr/):
 > >
-> > This one looks like a real issue!
->
->
-> Julia?  Did you do this one by hand?  This actually changes logic which I did
-> not expectthe cocci script to do.
+> > // <smpl>
+> > @@ expression e1,e2; @@
+> > e1
+> > -,
+> > +;
+> > e2
+> > ... when any
+> > // </smpl>
+> >
+> > Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
+> >
+> > ---
+> >   drivers/media/pci/saa7134/saa7134-video.c |    7 +++++--
+> >   1 file changed, 5 insertions(+), 2 deletions(-)
+> >
+> > diff --git a/drivers/media/pci/saa7134/saa7134-video.c
+> > b/drivers/media/pci/saa7134/saa7134-video.c
+> > index 9a6a6b68f8e3..2ca963b04b3f 100644
+> > --- a/drivers/media/pci/saa7134/saa7134-video.c
+> > +++ b/drivers/media/pci/saa7134/saa7134-video.c
+> > @@ -868,8 +868,11 @@ static int buffer_activate(struct saa7134_dev *dev,
+> >   		lines_uv = dev->height >> dev->fmt->vshift;
+> >   		base2    = base + bpl * dev->height;
+> >   		base3    = base2 + bpl_uv * lines_uv;
+> > -		if (dev->fmt->uvswap)
+> > -			tmp = base2, base2 = base3, base3 = tmp;
+> > +		if (dev->fmt->uvswap) {
+> > +			tmp = base2;
+> > +			base2 = base3;
+> > +			base3 = tmp;
+> > +		}
+> >   		video_dbg("uv: bpl=%ld lines=%ld base2/3=%ld/%ld\n",
+> >   			bpl_uv,lines_uv,base2,base3);
+> >   		if (V4L2_FIELD_HAS_BOTH(dev->field)) {
+> >
+> >
+> Hi,
+> this could be turned into a simpler:
+>    swap(base2, base3);
 
-No, I didn't do it by hand.  Did you already send this one?  Maybe I
-should resend it with a more informative log message.
+Yes.  The conclusion is probably that it could be worth searching for swap
+opportunities after this.  There are a lot of patches to send on these
+commas, and I would rather not deviate to something else...
 
 julia
-
-> > CJ
->
---8323329-647752560-1601397897=:2808--
+--8323329-400160347-1601397967=:2808--
