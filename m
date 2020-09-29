@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 709B027C175
-	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 11:41:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 779C227C182
+	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 11:43:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727755AbgI2Jky (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Sep 2020 05:40:54 -0400
-Received: from mga02.intel.com ([134.134.136.20]:56934 "EHLO mga02.intel.com"
+        id S1727887AbgI2Jni (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Sep 2020 05:43:38 -0400
+Received: from mga06.intel.com ([134.134.136.31]:60896 "EHLO mga06.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727700AbgI2Jkx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Sep 2020 05:40:53 -0400
-IronPort-SDR: j7gfkvoGoSW3HZTdBv07G7akGY7No88qdNQmX/SZBl6B4mlGlr8S5gDsjr2wLe2kuZew0U9B18
- QfqC+RyjayGA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9758"; a="149810430"
+        id S1727698AbgI2Jni (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 29 Sep 2020 05:43:38 -0400
+IronPort-SDR: DpmdmpR2lLfoLZxB+Xdy9FwIrvjsmBah1zk8mXEu5yA2kfV9Dnr1e4fSA6ffO9nRWY5WSRgy0r
+ d4f1NoyCtS2w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9758"; a="223742650"
 X-IronPort-AV: E=Sophos;i="5.77,318,1596524400"; 
-   d="scan'208";a="149810430"
+   d="scan'208";a="223742650"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 02:40:52 -0700
-IronPort-SDR: /VJGhAI/awo1uw4sQ20g9MN8byzWtf7ZzBdoFu4aj+e9hLKild4FKTy+FxWCJpxcjQ9ANjVXZ8
- 8dOj7SaGag3Q==
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 02:43:37 -0700
+IronPort-SDR: WD+qoWE6LnEug60anhMsY7vQb4O4gTo65GPfZn61dErp8MTX4B/kTRUq4L18GR2r2Fb8ixAJRC
+ l/GNr7w3c9mg==
 X-IronPort-AV: E=Sophos;i="5.77,318,1596524400"; 
-   d="scan'208";a="338562828"
+   d="scan'208";a="307697837"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 02:40:48 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 02:43:33 -0700
 Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 75317204FD; Tue, 29 Sep 2020 12:40:46 +0300 (EEST)
-Date:   Tue, 29 Sep 2020 12:40:46 +0300
+        id C5BB2204FD; Tue, 29 Sep 2020 12:43:00 +0300 (EEST)
+Date:   Tue, 29 Sep 2020 12:43:00 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -43,7 +43,7 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
 Subject: Re: [PATCH v4 1/4] dt-bindings: media: imx258: add bindings for
  IMX258 sensor
-Message-ID: <20200929094046.GH26842@paasikivi.fi.intel.com>
+Message-ID: <20200929094300.GI26842@paasikivi.fi.intel.com>
 References: <20200923152129.21736-1-krzk@kernel.org>
  <20200929091512.GF26842@paasikivi.fi.intel.com>
  <CAJKOXPfRnMg2sUO8dd8CRrwyQFNr-9HN5-QV7Uy4YTVrRJosWQ@mail.gmail.com>
@@ -88,15 +88,8 @@ On Tue, Sep 29, 2020 at 11:18:46AM +0200, Krzysztof Kozlowski wrote:
 > be part of the bindings. Also it's not a real problem - the driver
 > just calls clk_get_rate().
 
-How is the rate determined? I mean, many ISPs or CSI-2 receivers that
-provide the clock are also capable of using a variety of frequencies. But
-only one can be used on the platform in general.
-
-Where does it come from if it's not in DT?
-
-Using another frequency generally leads to failure later on as the desired
-link frequency likely is not available for a random external clock
-frequency.
+Btw. we also have this nowadays:
+Documentation/driver-api/media/camera-sensor.rst .
 
 -- 
 Sakari Ailus
