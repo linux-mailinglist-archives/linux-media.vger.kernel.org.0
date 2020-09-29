@@ -2,125 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29A9C27C194
-	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 11:46:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A7D0E27C23A
+	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 12:19:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728054AbgI2Jqm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Sep 2020 05:46:42 -0400
-Received: from mail-ej1-f67.google.com ([209.85.218.67]:42521 "EHLO
-        mail-ej1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727740AbgI2Jqm (ORCPT
+        id S1725774AbgI2KTz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Sep 2020 06:19:55 -0400
+Received: from aserp2120.oracle.com ([141.146.126.78]:37732 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725497AbgI2KTz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Sep 2020 05:46:42 -0400
-Received: by mail-ej1-f67.google.com with SMTP id q13so14039631ejo.9;
-        Tue, 29 Sep 2020 02:46:40 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=5nWv42Ih42N2NRVG8MQhIrrPCYfOCsYTrczhveDJBnc=;
-        b=FC0L4dITgIc8QQ4W9S4eR5FiNCly0KqK5dYN1AR0Aganaxh+r0OacdUzDG8EbmqBxP
-         wEln4FBuWx+c2LmnJlZxsuOdcklQBKBaVtK/KrIBkla9DlGbVLoaq/1EU0+7mAOmbjSZ
-         29JvrbZnD2qQlFTMnXF0k7CNRev1PeMzz8f+go59AVPn3FWuOmZfeftDmWsxb7/4F4PL
-         46VD4yonq1Xf8UGvYI2F4GVNmPLCagvy7r2jwPQst9aE3rQfJhtMR++5jPpG2leXZgRO
-         K/C0cwEy9zEqgBkOXyTz3vRjkssseib80s0jIhDJnGGIp2K7ZYKL7n+d0I/rPftSfQXz
-         Bm4Q==
-X-Gm-Message-State: AOAM532VMpeS1nNh6zixwMyLBkZ4uetX9wjq7n8CVRrIEWAkbq69sdq0
-        zEKzBJ6CZKTBE9brj6yZT+DBIY/O8HpA/Q==
-X-Google-Smtp-Source: ABdhPJw1hpwhNC3rQ/oGOS8jzFlP0SaAObmpGtctW3hXetAzfkJI/GW1bHdNVmPi10NuZ+Id7P2tZQ==
-X-Received: by 2002:a17:906:b88e:: with SMTP id hb14mr2840343ejb.543.1601372799559;
-        Tue, 29 Sep 2020 02:46:39 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.194])
-        by smtp.googlemail.com with ESMTPSA id x6sm4663845ejf.59.2020.09.29.02.46.37
-        (version=TLS1_2 cipher=ECDHE-ECDSA-CHACHA20-POLY1305 bits=256/256);
-        Tue, 29 Sep 2020 02:46:38 -0700 (PDT)
-Date:   Tue, 29 Sep 2020 11:46:36 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: Re: [PATCH v4 1/4] dt-bindings: media: imx258: add bindings for
- IMX258 sensor
-Message-ID: <20200929094636.GA11333@kozik-lap>
-References: <20200923152129.21736-1-krzk@kernel.org>
- <20200929091512.GF26842@paasikivi.fi.intel.com>
- <CAJKOXPfRnMg2sUO8dd8CRrwyQFNr-9HN5-QV7Uy4YTVrRJosWQ@mail.gmail.com>
- <20200929094046.GH26842@paasikivi.fi.intel.com>
+        Tue, 29 Sep 2020 06:19:55 -0400
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08TAFVSk114388;
+        Tue, 29 Sep 2020 10:19:53 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
+ bh=A5ZqCj7WMvHdn1u3efSOKcSsZKJQJ7jOeeGuOBrk24g=;
+ b=C1Ku4OsKn68+rsnuGx1otOPJuVvTv0XFxUNH/Etj8WMmJh0xbXoknTweZTXO/L0ElBhR
+ ClequsRorLvOQaBWh2cGSPAneVA8ldV9sODe5oAtfRKFqH+h1e03awXq4VjQiIxpvd5G
+ 24/cB/sHIOXnHz8g0W17TSHwUHLoe3xL4D533OK+MopxqGqcFWSNwtFj1+JO1jHzGfyy
+ +4vZ3Bd1roufzMzgrmgNTraYaEOeH4NUWUK7LFiwy3o7bMahRrTIZIE7mRd5VidoYyxt
+ ScMGwf1oe2TQ9moFk5Y3gZ5uBtZ/bRFd5dDVFqyVy/4fbwz1lmvwRXGvDaaj4VAzfR0V fw== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by aserp2120.oracle.com with ESMTP id 33swkksvcb-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 29 Sep 2020 10:19:53 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 08TAJB8a121054;
+        Tue, 29 Sep 2020 10:19:52 GMT
+Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
+        by aserp3030.oracle.com with ESMTP id 33uv2dnr0g-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Tue, 29 Sep 2020 10:19:52 +0000
+Received: from abhmp0009.oracle.com (abhmp0009.oracle.com [141.146.116.15])
+        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 08TAJmHu013418;
+        Tue, 29 Sep 2020 10:19:48 GMT
+Received: from mwanda (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Tue, 29 Sep 2020 03:19:47 -0700
+Date:   Tue, 29 Sep 2020 13:19:42 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     wu000273@umn.edu
+Cc:     linux-media@vger.kernel.org
+Subject: [bug report] media: ti-vpe: Fix a missing check and reference count
+ leak
+Message-ID: <20200929101942.GA490864@mwanda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20200929094046.GH26842@paasikivi.fi.intel.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9758 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 spamscore=0 adultscore=0
+ suspectscore=3 malwarescore=0 bulkscore=0 mlxlogscore=999 mlxscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009290090
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9758 signatures=668680
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 mlxscore=0 phishscore=0
+ suspectscore=3 mlxlogscore=999 clxscore=1011 priorityscore=1501
+ impostorscore=0 lowpriorityscore=0 bulkscore=0 spamscore=0 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2006250000
+ definitions=main-2009290090
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 12:40:46PM +0300, Sakari Ailus wrote:
-> On Tue, Sep 29, 2020 at 11:18:46AM +0200, Krzysztof Kozlowski wrote:
-> > On Tue, 29 Sep 2020 at 11:15, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> > >
-> > > Hi Krzysztof,
-> > >
-> > > On Wed, Sep 23, 2020 at 05:21:26PM +0200, Krzysztof Kozlowski wrote:
-> > > > Add bindings for the IMX258 camera sensor.  The bindings, just like the
-> > > > driver, are quite limited, e.g. do not support regulator supplies.
-> > > >
-> > > > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > > >
-> > > > ---
-> > > >
-> > > > Changes since v3:
-> > > > 1. Document also two lane setup.
-> > > >
-> > > > Changes since v2:
-> > > > 1. Remove clock-frequency, add reset GPIOs, add supplies.
-> > >
-> > > Oops. I missed this one.
-> > >
-> > > How does the driver know the appropriate clock frequency for the platform
-> > > if it's not in DT? The sensor supports a range of frequencies, not a single
-> > > frequency.
-> > >
-> > > Could you add clock-frequency back?
-> > 
-> > Not really, it was removed on Rob's request. The bindings do not
-> > describe driver's behavior so how the driver gets frequency should not
-> > be part of the bindings. Also it's not a real problem - the driver
-> > just calls clk_get_rate().
-> 
-> How is the rate determined? I mean, many ISPs or CSI-2 receivers that
-> provide the clock are also capable of using a variety of frequencies. But
-> only one can be used on the platform in general.
+Hello Qiushi Wu,
 
-Having "clock-frequency" property in DTS did not solve that. It has no
-effect on actual frequency.
+The patch 7dae2aaaf432: "media: ti-vpe: Fix a missing check and
+reference count leak" from Jun 14, 2020, leads to the following
+static checker warning:
 
-> 
-> Where does it come from if it's not in DT?
+	drivers/media/platform/ti-vpe/vpe.c:2478 vpe_runtime_get()
+	warn: pm_runtime_get_sync() also returns 1 on success
 
-The frequency is either chosen by consumer (imx258) or pre-assigned from
-DT, but not with "clock-frequency" property. There are generic
-properties for this: assigned-clocks, assigned-clock-rates and
-assigned-clock-parents.
+drivers/media/platform/ti-vpe/vpe.c
+  2470  static int vpe_runtime_get(struct platform_device *pdev)
+  2471  {
+  2472          int r;
+  2473  
+  2474          dev_dbg(&pdev->dev, "vpe_runtime_get\n");
+  2475  
+  2476          r = pm_runtime_get_sync(&pdev->dev);
+  2477          WARN_ON(r < 0);
+  2478          if (r)
+  2479                  pm_runtime_put_noidle(&pdev->dev);
 
-These properties should be added to DTS if additionalProperties is
-false, which is the case here... so I could add them. My DTS anyway does
-not use them, as the clock is generated internally on a camera board so
-I don't have a control over it.
+The pm_runtime_get_sync() function is tricky because it can return
+either zero or one on the success path.  (So this patch can break the
+success path.)
 
-Best regards,
-Krzysztof
+  2480          return r < 0 ? r : 0;
+  2481  }
 
-
-> 
-> Using another frequency generally leads to failure later on as the desired
-> link frequency likely is not available for a random external clock
-> frequency.
+regards,
+dan carpenter
