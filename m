@@ -2,102 +2,76 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BB6D27D404
-	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 18:57:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B7D3327D426
+	for <lists+linux-media@lfdr.de>; Tue, 29 Sep 2020 19:10:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729699AbgI2Q5H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 29 Sep 2020 12:57:07 -0400
-Received: from mail2-relais-roc.national.inria.fr ([192.134.164.83]:42859 "EHLO
-        mail2-relais-roc.national.inria.fr" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728933AbgI2Q5H (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 29 Sep 2020 12:57:07 -0400
-X-IronPort-AV: E=Sophos;i="5.77,319,1596492000"; 
-   d="scan'208";a="470119051"
-Received: from abo-173-121-68.mrs.modulonet.fr (HELO hadrien) ([85.68.121.173])
-  by mail2-relais-roc.national.inria.fr with ESMTP/TLS/DHE-RSA-AES256-GCM-SHA384; 29 Sep 2020 18:56:50 +0200
-Date:   Tue, 29 Sep 2020 18:56:49 +0200 (CEST)
-From:   Julia Lawall <julia.lawall@inria.fr>
-X-X-Sender: jll@hadrien
-To:     Joe Perches <joe@perches.com>
-cc:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
-        Malcolm Priestley <tvboxspy@gmail.com>,
-        =?UTF-8?Q?Valdis_Kl=C4=93tnieks?= <valdis.kletnieks@vt.edu>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        kernel-janitors@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 10/20] media: lmedm04: use semicolons rather than commas
- to separate statements
-In-Reply-To: <c79b36c12c978d38f3ad89b1c659871a@perches.com>
-Message-ID: <alpine.DEB.2.22.394.2009291855580.2808@hadrien>
-References: <1601385283-26144-1-git-send-email-Julia.Lawall@inria.fr> <1601385283-26144-11-git-send-email-Julia.Lawall@inria.fr> <8d73748e-be82-4c30-4550-b5f4eecb3055@wanadoo.fr> <c79b36c12c978d38f3ad89b1c659871a@perches.com>
-User-Agent: Alpine 2.22 (DEB 394 2020-01-19)
+        id S1728514AbgI2RJ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 29 Sep 2020 13:09:59 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47692 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725554AbgI2RJ6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 29 Sep 2020 13:09:58 -0400
+Received: from coco.lan (ip5f5ad5bc.dynamic.kabel-deutschland.de [95.90.213.188])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CCFF4208B8;
+        Tue, 29 Sep 2020 17:09:56 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601399398;
+        bh=ZHM5fQUcs3Ofyh4Bqos2YQUudJmgsF5M4oKOEmYRqJE=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=dQubT9C8mD0703do9azZagfnOelLHEKHsglnjAGKFf+ltrzWZS1Lfu5uVsUYFTxeU
+         8CWQzZ6p1xtX12HmVqtXDEy9c/E2mH6pQhBzsDc4I7KRuNZz5ehj7sYD/vjg2MBtt8
+         D3arV+JHh5F1jjACfEqeN1mImorydXizV1wmjLYo=
+Date:   Tue, 29 Sep 2020 19:09:53 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Malcolm Priestley <tvboxspy@gmail.com>
+Cc:     Joe Perches <joe@perches.com>, LKML <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Julia Lawall <julia.lawall@lip6.fr>
+Subject: Re: [likely PATCH] media: lmedm04: Fix misuse of comma
+Message-ID: <20200929190953.2f621541@coco.lan>
+In-Reply-To: <d4b13e5d-6c97-2594-0ca6-346bb2129b88@gmail.com>
+References: <e6cd92faf09722fe729a7de03e7bde592f62499c.camel@perches.com>
+        <d4b13e5d-6c97-2594-0ca6-346bb2129b88@gmail.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/mixed; boundary="8323329-1035064695-1601398610=:2808"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-  This message is in MIME format.  The first part should be readable text,
-  while the remaining parts are likely unreadable without MIME-aware tools.
+Em Mon, 24 Aug 2020 21:01:12 +0100
+Malcolm Priestley <tvboxspy@gmail.com> escreveu:
 
---8323329-1035064695-1601398610=:2808
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+> Good catch the interrupt URB is not running because usb_submit_urb is tangled with it.
+> 
+> It only really affects signal strength.
 
+Yeah, that indeed sounds to be a real bug.
 
+> 
+> add
+> 
+> Fixes: 15e1ce33182d ("[media] lmedm04: Fix usb_submit_urb BOGUS urb xfer, pipe 1 != type 3 in interrupt urb")
+> Cc: <stable@vger.kernel.org>
+> 
+> Regards
+> 
+> 
+> Malcolm
 
-On Tue, 29 Sep 2020, Joe Perches wrote:
+That's said, while here, it sounds weird to use GFP_ATOMIC instead
+of GFP_KERNEL for the URB submissions. 
 
-> On 2020-09-29 09:00, Christophe JAILLET wrote:
-> > Le 29/09/2020 à 15:14, Julia Lawall a écrit :
-> > > Replace commas with semicolons.  Commas introduce unnecessary
-> > > variability in the code structure and are hard to see.  What is done
-> > > is essentially described by the following Coccinelle semantic patch
-> > > (http://coccinelle.lip6.fr/):
-> > >
-> > > // <smpl>
-> > > @@ expression e1,e2; @@
-> > > e1
-> > > -,
-> > > +;
-> > > e2
-> > > ... when any
-> > > // </smpl>
-> > >
-> > > Signed-off-by: Julia Lawall <Julia.Lawall@inria.fr>
-> > >
-> > > ---
-> > >   drivers/media/usb/dvb-usb-v2/lmedm04.c |    2 +-
-> > >   1 file changed, 1 insertion(+), 1 deletion(-)
-> > >
-> > > diff --git a/drivers/media/usb/dvb-usb-v2/lmedm04.c
-> > > b/drivers/media/usb/dvb-usb-v2/lmedm04.c
-> > > index 5a7a9522d46d..9ddda8d68ee0 100644
-> > > --- a/drivers/media/usb/dvb-usb-v2/lmedm04.c
-> > > +++ b/drivers/media/usb/dvb-usb-v2/lmedm04.c
-> > > @@ -391,7 +391,7 @@ static int lme2510_int_read(struct dvb_usb_adapter
-> > > *adap)
-> > >   	ep = usb_pipe_endpoint(d->udev, lme_int->lme_urb->pipe);
-> > >     	if (usb_endpoint_type(&ep->desc) == USB_ENDPOINT_XFER_BULK)
-> > > -		lme_int->lme_urb->pipe = usb_rcvbulkpipe(d->udev, 0xa),
-> > > +		lme_int->lme_urb->pipe = usb_rcvbulkpipe(d->udev, 0xa);
-> > >     	usb_submit_urb(lme_int->lme_urb, GFP_ATOMIC);
-> > >   	info("INT Interrupt Service Started");
-> > >
-> > >
-> > Ouch!
-> >
-> > This one looks like a real issue!
->
->
-> Julia?  Did you do this one by hand?  This actually changes logic which I did
-> not expectthe cocci script to do.
+Malcolm,
 
-Joe already submitted this patch so please ignore my version:
+if you still have the hardware for testing, could you please
+check if replacing them by GFP_KERNEL will work?
 
-https://lkml.org/lkml/2020/8/23/178
+Thanks!
+Mauro
 
-julia
---8323329-1035064695-1601398610=:2808--
+Thanks,
+Mauro
