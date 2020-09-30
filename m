@@ -2,145 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49FCF27E7D5
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 13:45:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B63BC27E7E9
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 13:53:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729322AbgI3Lpo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 07:45:44 -0400
-Received: from mga07.intel.com ([134.134.136.100]:57312 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725776AbgI3Lpk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 07:45:40 -0400
-IronPort-SDR: jSf/wI54As06nlC8Y7nN1NQgQ0CFcfvX00a7DUwMEw8psTxJPhMi2hV/x8/dlmmKxlJLz4bdGn
- KVSLuA9wVhDg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9759"; a="226572529"
-X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; 
-   d="scan'208";a="226572529"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2020 04:45:34 -0700
-IronPort-SDR: uxqs9CHThJukvG6Ul9PCkD+sHZL+L4tNH90Neuemx0IqnR9TY2Ult9AxGr9cEeRtH9k4hbwVO9
- IOo2JlEjfDhg==
-X-IronPort-AV: E=Sophos;i="5.77,322,1596524400"; 
-   d="scan'208";a="415692174"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Sep 2020 04:45:31 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 78C8120330; Wed, 30 Sep 2020 14:45:29 +0300 (EEST)
-Date:   Wed, 30 Sep 2020 14:45:29 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Subject: Re: [PATCH v6 1/3] media: i2c: ov772x: Parse endpoint properties
-Message-ID: <20200930114529.GM26842@paasikivi.fi.intel.com>
-References: <20200917174224.11430-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20200917174224.11430-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        id S1728430AbgI3Lxd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 07:53:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37246 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725776AbgI3Lxd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 30 Sep 2020 07:53:33 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E591C0613D0
+        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 04:53:33 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id j2so1459291wrx.7
+        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 04:53:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3zdVvKUiJ3XeC/vkqQQH/4KWS4wblWtvBCpqUTc2vCY=;
+        b=TCiL/Ow2l394SQAIf9E+NXOjWbI+WiUZG7czSxAutmvCNiJtnVGmyAKFcrIxA3P6TG
+         iem9fGPWkXCjpFIzTsrLgfR626HY6Dh7O/ew2TTQLIy2ZNIHCeNp9b7Wl+HJk1EWv1Gj
+         vqmTiip3ypcHhHa8hHcZCjbold9Ay6FWuC+t710keQKAnwnO7wWEs1lWQMUfMxNLsT/Z
+         4mqvNWl0iEMvmKTsL/IRlRGh3Vl5KqJVxNjhMsOf2+m8p6v6ks5w4zXOyQaTezHxih6U
+         Tgca1XosUIDPyHpReL6b1b1BJyH95NW2xkoyok6wGBC3xiSwPzTDPZH8AQSERNh9bCe2
+         Gj4Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=3zdVvKUiJ3XeC/vkqQQH/4KWS4wblWtvBCpqUTc2vCY=;
+        b=VZBrEGGSDWJMXMVKBpsdJ+Cr3qXpDS0os4d6nu67YFAjM/ns0ZQoUovrfI+dbD4/zH
+         KYITq1g1To+DJUBtY2+kvl4aE7ku2gLVIK98YhnpC3pxkcfsldi90XASc1oAP/MzxbAS
+         vuZxVA/kyrAijIr2V4fueAPYl4ewpg0eZZ0d7w/iCljGzl/eJFWXxeKffnJDGCUqIMOM
+         Engfx/oFsTo9ZCj/IPJfJTUOJpLBmmr8C4ep5zZrgLFNRpE9yBh+albrbHajM17krTGc
+         nzLDet4beknqtUe6VCYMGGwtaQbIiGZeet2KSDL7+k6gpDY0UhV5zm6uxEF3/OJV11P6
+         igpA==
+X-Gm-Message-State: AOAM533RnVgaFzU7sCo2Ne0Fsy6AvvmVBYab1gkdpKNbavSurOVtOVMQ
+        1/psTgAWq89gy9GY1dhJSgmMPA==
+X-Google-Smtp-Source: ABdhPJynAyzrltVOO76tuR2J6MDfUIbi/vTOpYZLQJ7fsMqXMDV/uBFWBXb2toRs7bpZsX3qQln9GA==
+X-Received: by 2002:a5d:554c:: with SMTP id g12mr2743183wrw.294.1601466811718;
+        Wed, 30 Sep 2020 04:53:31 -0700 (PDT)
+Received: from alex-xps13.baylibre.local (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
+        by smtp.gmail.com with ESMTPSA id s12sm2222353wmd.20.2020.09.30.04.53.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2020 04:53:30 -0700 (PDT)
+From:   Alexandre Bailon <abailon@baylibre.com>
+To:     linux-remoteproc@vger.kernel.org
+Cc:     ohad@wizery.com, bjorn.andersson@linaro.org,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        jstephan@baylibre.com, stephane.leprovost@mediatek.com,
+        gpain@baylibre.com, mturquette@baylibre.com,
+        Alexandre Bailon <abailon@baylibre.com>
+Subject: [RFC PATCH 0/4] Add a RPMsg driver to support AI Processing Unit (APU)
+Date:   Wed, 30 Sep 2020 13:53:46 +0200
+Message-Id: <20200930115350.5272-1-abailon@baylibre.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200917174224.11430-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Prabhakar,
+This adds a RPMsg driver that implements communication between the CPU and an
+APU.
+This uses VirtIO buffer to exchange messages but for sharing data, this uses
+a dmabuf, mapped to be shared between CPU (userspace) and APU.
+The driver is relatively generic, and should work with any SoC implementing
+hardware accelerator for AI if they use support remoteproc and VirtIO.
 
-On Thu, Sep 17, 2020 at 06:42:22PM +0100, Lad Prabhakar wrote:
-> Parse endpoint properties using v4l2_fwnode_endpoint_alloc_parse()
-> to determine the bus type and store it in the driver structure.
-> 
-> Set bus_type to V4L2_MBUS_PARALLEL as it's the only supported one
-> 
-> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> ---
->  drivers/media/i2c/ov772x.c | 34 ++++++++++++++++++++++++++++++++++
->  1 file changed, 34 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-> index 2cc6a678069a..f61a3f09ad64 100644
-> --- a/drivers/media/i2c/ov772x.c
-> +++ b/drivers/media/i2c/ov772x.c
-> @@ -31,6 +31,7 @@
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-device.h>
->  #include <media/v4l2-event.h>
-> +#include <media/v4l2-fwnode.h>
->  #include <media/v4l2-image-sizes.h>
->  #include <media/v4l2-subdev.h>
->  
-> @@ -434,6 +435,7 @@ struct ov772x_priv {
->  #ifdef CONFIG_MEDIA_CONTROLLER
->  	struct media_pad pad;
->  #endif
-> +	enum v4l2_mbus_type		  bus_type;
->  };
->  
->  /*
-> @@ -1348,6 +1350,34 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
->  	.pad	= &ov772x_subdev_pad_ops,
->  };
->  
-> +static int ov772x_parse_dt(struct i2c_client *client,
-> +			   struct ov772x_priv *priv)
-> +{
-> +	struct v4l2_fwnode_endpoint bus_cfg;
-> +	struct fwnode_handle *ep;
-> +	int ret;
-> +
-> +	ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
-> +					    NULL);
-> +	if (!ep) {
-> +		dev_err(&client->dev, "Endpoint node not found\n");
-> +		return -EINVAL;
-> +	}
-> +
-> +	bus_cfg.bus_type = V4L2_MBUS_PARALLEL;
+For the people interested by the firmware or userspace library,
+the sources are available here:
+https://github.com/BayLibre/open-amp/tree/v2020.01-mtk/apps/examples/apu
 
-Please zero the entire struct, i.e. do this assignment in the declaration.
+Alexandre Bailon (3):
+  Add a RPMSG driver for the APU in the mt8183
+  rpmsg: apu_rpmsg: update the way to store IOMMU mapping
+  rpmsg: apu_rpmsg: Add an IOCTL to request IOMMU mapping
 
-You can also use v4l2_fwnode_endpoint_parse() if you're not using the link
-frequencies --- sensor drivers generally should but you could only add them
-as optional at this point (out of scope of this patch).
+Julien STEPHAN (1):
+  rpmsg: apu_rpmsg: Add support for async apu request
 
-> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
-> +	if (ret)
-> +		goto error_fwnode_put;
-> +
-> +	priv->bus_type = bus_cfg.bus_type;
-> +	v4l2_fwnode_endpoint_free(&bus_cfg);
-> +
-> +error_fwnode_put:
-> +	fwnode_handle_put(ep);
-> +
-> +	return ret;
-> +}
-> +
->  /*
->   * i2c_driver function
->   */
-> @@ -1415,6 +1445,10 @@ static int ov772x_probe(struct i2c_client *client)
->  		goto error_clk_put;
->  	}
->  
-> +	ret = ov772x_parse_dt(client, priv);
-> +	if (ret)
-> +		goto error_clk_put;
-> +
->  	ret = ov772x_video_probe(priv);
->  	if (ret < 0)
->  		goto error_gpio_put;
-> -- 
-> 2.17.1
-> 
+ drivers/rpmsg/Kconfig          |   9 +
+ drivers/rpmsg/Makefile         |   1 +
+ drivers/rpmsg/apu_rpmsg.c      | 752 +++++++++++++++++++++++++++++++++
+ drivers/rpmsg/apu_rpmsg.h      |  52 +++
+ include/uapi/linux/apu_rpmsg.h |  47 +++
+ 5 files changed, 861 insertions(+)
+ create mode 100644 drivers/rpmsg/apu_rpmsg.c
+ create mode 100644 drivers/rpmsg/apu_rpmsg.h
+ create mode 100644 include/uapi/linux/apu_rpmsg.h
 
 -- 
-Sakari Ailus
+2.26.2
+
