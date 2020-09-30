@@ -2,156 +2,223 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5AEA27F229
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 21:01:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A336F27F347
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 22:19:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729506AbgI3TA2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 15:00:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46792 "EHLO
+        id S1730404AbgI3UTR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 16:19:17 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59010 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728270AbgI3TA2 (ORCPT
+        with ESMTP id S1730009AbgI3UTR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 15:00:28 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F734C061755
-        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 12:00:28 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id b22so3427935lfs.13
-        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 12:00:28 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=tpch0HuGxQ4hJf3MyUCHFMD3IGaCixlPFv0CwfDrP3Q=;
-        b=km975ICQULHNI4i7XkhW2/hnw95IjC7FBNJi8seg+amNEm9vWwHVFZ+bQm6lBA9gkc
-         lwQjjvdxVKEf5i9HCHW28Wxe3tGXFp760hUKLhankvDW0+dAfVHlVZBvVna5i9XhZVWh
-         /nZW+ybvqauBv6Pzq02NYkar7zwmOXVw1JEUuKbHjSAAVkSc6whBmG7DVVblcvjEdTh9
-         +7cj5otkBBpVik2227csiNW6upKJ48i3VXgSPNIvoVXKsvJPJ92Q/QJcSQY7QuGUuj86
-         H2QZVRzu9NQbvDebp5Y0T0il5yWOfm+6aYFpEQ5wR6KklVg33TgBc2qPNETw5mHgf514
-         2tFQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=tpch0HuGxQ4hJf3MyUCHFMD3IGaCixlPFv0CwfDrP3Q=;
-        b=eaL61vpUHY0aqn3qVORq55fU/hqc1BJfUD5AoTs5tTHwuYv90WUIdTB6Ja1wi2M1a2
-         9XM0he4fYV2SP+2QBTjtK0AAyHvgETdX4fsVJYNn+8ZfU3dq8a9d5Q223ogps6QRLPY5
-         4TcbShqt6PK4ANwyhHzPa9wREPWsbLbHIsTTY/LoDe5v+XXEuXmmG7VBLKnXuCRzoeS8
-         7eUXVPd/aljUP6PVuGsLtaBVPkr+3fr3kzBAqqFR1gG901c7wPaFH2vozQRbkBwxr/xB
-         AVbWyawQsr6Oc/eAyD1XEnWn+tuTcsatmHFt/kg85yqPAWD97ttvf3pXz0DQTobQFmoK
-         0yCw==
-X-Gm-Message-State: AOAM533dy5BFBeHTN6bOQXpxs8c6mnsxKo8EeejR5aQ4syWplzk2/8Ys
-        M7bUAhIbFJJCQwm/cLrwIavHXg==
-X-Google-Smtp-Source: ABdhPJwp2mMQOdQUBP+f4gn4rO1RrCbu0j3qOHYld96vTvOsjlXuFUuzAwiIoSeokLeDLyYNAuioJA==
-X-Received: by 2002:a19:6b17:: with SMTP id d23mr1470644lfa.190.1601492426616;
-        Wed, 30 Sep 2020 12:00:26 -0700 (PDT)
-Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id 82sm283459lfo.173.2020.09.30.12.00.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 12:00:25 -0700 (PDT)
-Date:   Wed, 30 Sep 2020 21:00:25 +0200
-From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
-        <niklas.soderlund@ragnatech.se>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, mchehab@kernel.org,
-        tfiga@chromium.org
-Subject: Re: [PATCH v3 09/10] media: rkisp1: cap: simplify the link
- validation by compering the media bus code
-Message-ID: <20200930190025.GH1516931@oden.dyn.berto.se>
-References: <20200723132014.4597-1-dafna.hirschfeld@collabora.com>
- <20200723132014.4597-10-dafna.hirschfeld@collabora.com>
+        Wed, 30 Sep 2020 16:19:17 -0400
+Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BEE46C061755;
+        Wed, 30 Sep 2020 13:19:16 -0700 (PDT)
+Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 22859634C87;
+        Wed, 30 Sep 2020 23:19:00 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     devicetree@vger.kernel.org
+Subject: [RESEND PATCH 000/100] Linux CCS driver
+Date:   Wed, 30 Sep 2020 23:19:07 +0300
+Message-Id: <20200930201914.31377-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200723132014.4597-10-dafna.hirschfeld@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+Hi folks,
 
-This commit is not just a simplification but a change of behavior.  The 
-change is for the better but it broke capture of NV12 and NV21 formats 
-in libcamera unexpectedly.
+I'm just resending the DT binding patches while cc'ing the devicetree
+list. The entire set is here:
 
-The issue at hand is that libcamera when configuring the pipeline 
-retrieves the mbus code for the ISP (rkisp1_isp) source pad (2) and then 
-propagates it to the resizer (rkisp_resizer_{main,self}path) sink pad 
-(0) and then to the resizers source pad (1). Effectively propagating 
-MEDIA_BUS_FMT_YUYV8_2X8 for all formats.
+<URL:https://lore.kernel.org/linux-media/20200930152858.8471-1-sakari.ailus@linux.intel.com/T/#t>
 
-At this point if the video node (main or self) is configured with a 
-YUV420 format (NV12, NV21, etc) and with this change applied the link 
-validation will fail as MEDIA_BUS_FMT_YUYV8_1_5X8 !=  
-MEDIA_BUS_FMT_YUYV8_2X8. Given the nature of how link validation is 
-implemented it's VIDIOC_QBUF that returns a -EPIPE when it fails and 
-libcamera lockup the capture session.
+The entire set converts the existing SMIA driver into a MIPI CCS driver
+while maintaining compatibility with existing SMIA compliant devices. MIPI
+CCS is the current standard, hence the rename.
 
-I will submit a fix for this to libcamera to bring it in sync with this 
-change.
+Sakari Ailus (100):
+  smiapp: Add CCS register definitions and limits
+  smiapp: Use CCS register flags
+  smiapp: Calculate CCS limit offsets and limit buffer size
+  smiapp: Remove macros for defining registers, merge definitions
+  smiapp: Add macros for accessing CCS registers
+  smiapp: Use MIPI CCS version and manufacturer ID information
+  smiapp: Read CCS limit values
+  smiapp: Switch to CCS limits
+  smiapp: Obtain frame descriptor from CCS limits
+  smiapp: Use CCS limits in reading data format descriptors
+  smiapp: Use CCS limits in reading binning capabilities
+  smiapp: Use CCS registers
+  smiapp: Remove quirk function for writing a single 8-bit register
+  smiapp: Rename register access functions
+  smiapp: Internal rename to CCS
+  smiapp: Differentiate CCS sensors from SMIA in subdev naming
+  smiapp: Rename as "ccs"
+  ccs: Remove profile concept
+  ccs: Give all subdevs a function
+  dt-bindings: Add vendor prefix for MIPI Alliance
+  dt-bindings: nokia,smia: Fix link-frequencies documentation
+  dt-bindings: nokia,smia: Make vana-supply optional
+  dt-bindings: nokia,smia: Convert to YAML
+  dt-bindings: nokia,smia: Use better active polarity for reset
+  dt-bindings: Amend SMIA bindings with MIPI CCS support
+  dt-bindings: Add bus-type for C-PHY support
+  ccs: Request for "reset" GPIO
+  ccs: Add "mipi,ccs" compatible string
+  ccs: Remove the I²C ID table
+  ccs: Remove remaining support for platform data
+  ccs: Make hwcfg part of the device specific struct
+  ccs: Add CCS static data parser library
+  ccs: Combine revision number major and minor into one
+  ccs: Read CCS static data from firmware binaries
+  ccs: Stop reading arrays after the first zero
+  ccs: The functions to get compose or crop rectangle never return NULL
+  ccs: Replace somewhat harsh internal checks based on BUG with WARN_ON
+  ccs: Refactor register reading a little
+  ccs: Make real to integer number conversion optional
+  ccs: Move limit value real to integer conversion from read to access
+    time
+  ccs: Read ireal numbers correctly
+  smiapp-pll: Rename as ccs-pll
+  ccs: Change my e-mail address
+  ccs: Add support for manufacturer regs from sensor and module files
+  ccs: Use static data read-only registers
+  ccs: Clean up runtime PM usage
+  ccs: Wrap long lines, unwrap short ones
+  ccs: Add device compatible identifiers for telling SMIA and CCS apart
+  ccs: Use longer pre-I²C sleep for CCS compliant devices
+  ccs-pll: Don't use div_u64 to divide a 32-bit number
+  ccs-pll: Split limits and PLL configuration into front and back parts
+  ccs-pll: Use correct VT divisor for calculating VT SYS divisor
+  ccs-pll: End search if there are no better values available
+  ccs-pll: Remove parallel bus support
+  ccs-pll: Differentiate between CSI-2 D-PHY and C-PHY
+  ccs-pll: Move the flags field down, away from 8-bit fields
+  ccs-pll: Document the structs in the header as well as the function
+  ccs-pll: Use the BIT macro
+  ccs-pll: Begin calculation from OP system clock frequency
+  ccs-pll: Fix condition for pre-PLL divider lower bound
+  ccs-pll: Avoid overflow in pre-PLL divisor lower bound search
+  ccs-pll: Fix comment on check against maximum PLL multiplier
+  ccs-pll: Fix check for PLL multiplier upper bound
+  ccs-pll: Use explicit 32-bit unsigned type
+  ccs-pll: Add support for lane speed model
+  ccs: Add support for lane speed model
+  ccs-pll: Add support for decoupled OP domain calculation
+  ccs-pll: Add support for extended input PLL clock divider
+  ccs-pll: Support two cycles per pixel on OP domain
+  ccs-pll: Add support flexible OP PLL pixel clock divider
+  ccs-pll: Add sanity checks
+  ccs-pll: Add C-PHY support
+  ccs-pll: Split off VT subtree calculation
+  ccs-pll: Check for derating and overrating, support non-derating
+    sensors
+  ccs-pll: Better separate OP and VT sub-tree calculation
+  ccs-pll: Print relevant information on PLL tree
+  ccs-pll: Rework bounds checks
+  ccs-pll: Make VT divisors 16-bit
+  ccs-pll: Fix VT post-PLL divisor calculation
+  ccs-pll: Separate VT divisor limit calculation from the rest
+  ccs-pll: Add trivial dual PLL support
+  ccs: Dual PLL support
+  ccs-pll: Add support for DDR OP system and pixel clocks
+  ccs: Add support for DDR OP SYS and OP PIX clocks
+  ccs: Print written register values
+  ccs-pll: Print pixel rates
+  ccs: Add support for obtaining C-PHY configuration from firmware
+  ccs: Add digital gain support
+  ccs: Add support for old-style SMIA digital gain
+  ccs: Remove analogue gain field
+  ccs: Only add analogue gain control if the device supports it
+  v4l: Add user control base for CCS controls
+  v4l: uapi: Add controls for analogue gain constants
+  ccs: Add support for analogue gain coefficient controls
+  v4l: uapi: Add controls for CCS alternative analogue gain
+  ccs: Add support for alternate analogue global gain
+  ccs: Add debug prints for MSR registers
+  v4l: uapi: Add CCS controls for correction configuration and
+    capabilities
+  ccs: Add shading correction and luminance correction level controls
+  smiapp: Add CCS ACPI device ID
 
-Would it be possible to ask that future changes to the rkisp1 driver be 
-tested with libcamera so we can track and update both the kernel and 
-user-space components of this driver at the same time and avoid nasty 
-surprises? :-)
-
-On 2020-07-23 15:20:13 +0200, Dafna Hirschfeld wrote:
-> The capture has a mapping of the mbus code needed for each pixelformat.
-> This can be used to simplify the link validation by comparing the mbus
-> code in the capture with the code in the resizer.
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> ---
->  drivers/staging/media/rkisp1/rkisp1-capture.c | 18 ++++--------------
->  1 file changed, 4 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> index 4dabd07a3da9..a5e2521577dd 100644
-> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> @@ -1255,22 +1255,11 @@ static int rkisp1_capture_link_validate(struct media_link *link)
->  	struct v4l2_subdev *sd =
->  		media_entity_to_v4l2_subdev(link->source->entity);
->  	struct rkisp1_capture *cap = video_get_drvdata(vdev);
-> -	struct rkisp1_isp *isp = &cap->rkisp1->isp;
-> -	u8 isp_pix_enc = isp->src_fmt->pixel_enc;
-> -	u8 cap_pix_enc = cap->pix.info->pixel_enc;
-> +	const struct rkisp1_capture_fmt_cfg *fmt =
-> +		rkisp1_find_fmt_cfg(cap, cap->pix.fmt.pixelformat);
->  	struct v4l2_subdev_format sd_fmt;
->  	int ret;
->  
-> -	if (cap_pix_enc != isp_pix_enc &&
-> -	    !(isp_pix_enc == V4L2_PIXEL_ENC_YUV &&
-> -	      cap_pix_enc == V4L2_PIXEL_ENC_RGB)) {
-> -		dev_err(cap->rkisp1->dev,
-> -			"format type mismatch in link '%s:%d->%s:%d'\n",
-> -			link->source->entity->name, link->source->index,
-> -			link->sink->entity->name, link->sink->index);
-> -		return -EPIPE;
-> -	}
-> -
->  	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
->  	sd_fmt.pad = link->source->index;
->  	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &sd_fmt);
-> @@ -1278,7 +1267,8 @@ static int rkisp1_capture_link_validate(struct media_link *link)
->  		return ret;
->  
->  	if (sd_fmt.format.height != cap->pix.fmt.height ||
-> -	    sd_fmt.format.width != cap->pix.fmt.width)
-> +	    sd_fmt.format.width != cap->pix.fmt.width ||
-> +	    sd_fmt.format.code != fmt->mbus)
->  		return -EPIPE;
->  
->  	return 0;
-> -- 
-> 2.17.1
-> 
+ .../bindings/media/i2c/mipi,ccs.yaml          |  164 +
+ .../bindings/media/i2c/nokia,smia.txt         |   66 -
+ .../devicetree/bindings/vendor-prefixes.yaml  |    2 +
+ MAINTAINERS                                   |   20 +-
+ drivers/media/i2c/Kconfig                     |    4 +-
+ drivers/media/i2c/Makefile                    |    4 +-
+ drivers/media/i2c/ccs-pll.c                   |  885 ++++
+ drivers/media/i2c/ccs-pll.h                   |  211 +
+ drivers/media/i2c/ccs/Kconfig                 |   11 +
+ drivers/media/i2c/ccs/Makefile                |    6 +
+ drivers/media/i2c/ccs/ccs-core.c              | 3665 +++++++++++++++++
+ drivers/media/i2c/ccs/ccs-data-defs.h         |  215 +
+ drivers/media/i2c/ccs/ccs-data.c              |  949 +++++
+ drivers/media/i2c/ccs/ccs-data.h              |  116 +
+ drivers/media/i2c/ccs/ccs-limits.c            |  239 ++
+ drivers/media/i2c/ccs/ccs-limits.h            |  258 ++
+ drivers/media/i2c/ccs/ccs-os.h                |   15 +
+ .../smiapp-quirk.c => ccs/ccs-quirk.c}        |  105 +-
+ .../smiapp-quirk.h => ccs/ccs-quirk.h}        |   54 +-
+ drivers/media/i2c/ccs/ccs-reg-access.c        |  417 ++
+ drivers/media/i2c/ccs/ccs-reg-access.h        |   42 +
+ drivers/media/i2c/ccs/ccs-regs.h              |  953 +++++
+ .../media/i2c/{smiapp/smiapp.h => ccs/ccs.h}  |  183 +-
+ drivers/media/i2c/ccs/smiapp-reg-defs.h       |  582 +++
+ drivers/media/i2c/smiapp-pll.c                |  482 ---
+ drivers/media/i2c/smiapp-pll.h                |   99 -
+ drivers/media/i2c/smiapp/Kconfig              |   10 -
+ drivers/media/i2c/smiapp/Makefile             |    6 -
+ drivers/media/i2c/smiapp/smiapp-core.c        | 3173 --------------
+ drivers/media/i2c/smiapp/smiapp-limits.c      |  118 -
+ drivers/media/i2c/smiapp/smiapp-limits.h      |  114 -
+ drivers/media/i2c/smiapp/smiapp-reg-defs.h    |  489 ---
+ drivers/media/i2c/smiapp/smiapp-reg.h         |  116 -
+ drivers/media/i2c/smiapp/smiapp-regs.c        |  261 --
+ drivers/media/i2c/smiapp/smiapp-regs.h        |   36 -
+ include/uapi/linux/ccs.h                      |   21 +
+ include/uapi/linux/v4l2-controls.h            |    6 +
+ 37 files changed, 8939 insertions(+), 5158 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/mipi,ccs.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/nokia,smia.txt
+ create mode 100644 drivers/media/i2c/ccs-pll.c
+ create mode 100644 drivers/media/i2c/ccs-pll.h
+ create mode 100644 drivers/media/i2c/ccs/Kconfig
+ create mode 100644 drivers/media/i2c/ccs/Makefile
+ create mode 100644 drivers/media/i2c/ccs/ccs-core.c
+ create mode 100644 drivers/media/i2c/ccs/ccs-data-defs.h
+ create mode 100644 drivers/media/i2c/ccs/ccs-data.c
+ create mode 100644 drivers/media/i2c/ccs/ccs-data.h
+ create mode 100644 drivers/media/i2c/ccs/ccs-limits.c
+ create mode 100644 drivers/media/i2c/ccs/ccs-limits.h
+ create mode 100644 drivers/media/i2c/ccs/ccs-os.h
+ rename drivers/media/i2c/{smiapp/smiapp-quirk.c => ccs/ccs-quirk.c} (63%)
+ rename drivers/media/i2c/{smiapp/smiapp-quirk.h => ccs/ccs-quirk.h} (53%)
+ create mode 100644 drivers/media/i2c/ccs/ccs-reg-access.c
+ create mode 100644 drivers/media/i2c/ccs/ccs-reg-access.h
+ create mode 100644 drivers/media/i2c/ccs/ccs-regs.h
+ rename drivers/media/i2c/{smiapp/smiapp.h => ccs/ccs.h} (53%)
+ create mode 100644 drivers/media/i2c/ccs/smiapp-reg-defs.h
+ delete mode 100644 drivers/media/i2c/smiapp-pll.c
+ delete mode 100644 drivers/media/i2c/smiapp-pll.h
+ delete mode 100644 drivers/media/i2c/smiapp/Kconfig
+ delete mode 100644 drivers/media/i2c/smiapp/Makefile
+ delete mode 100644 drivers/media/i2c/smiapp/smiapp-core.c
+ delete mode 100644 drivers/media/i2c/smiapp/smiapp-limits.c
+ delete mode 100644 drivers/media/i2c/smiapp/smiapp-limits.h
+ delete mode 100644 drivers/media/i2c/smiapp/smiapp-reg-defs.h
+ delete mode 100644 drivers/media/i2c/smiapp/smiapp-reg.h
+ delete mode 100644 drivers/media/i2c/smiapp/smiapp-regs.c
+ delete mode 100644 drivers/media/i2c/smiapp/smiapp-regs.h
+ create mode 100644 include/uapi/linux/ccs.h
 
 -- 
-Regards,
-Niklas S�derlund
+2.27.0
+
