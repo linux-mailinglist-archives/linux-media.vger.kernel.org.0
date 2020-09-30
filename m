@@ -2,69 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2DBE27ECE4
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 17:31:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 46DA327ECE7
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 17:31:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730965AbgI3PaN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 11:30:13 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42240 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730966AbgI3P3H (ORCPT
+        id S1731166AbgI3PaP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 11:30:15 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:44650 "EHLO
+        hillosipuli.retiisi.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730923AbgI3P3G (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 11:29:07 -0400
-Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF773C0613D0
-        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 08:29:06 -0700 (PDT)
+        Wed, 30 Sep 2020 11:29:06 -0400
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id D0C83634CC0
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id E260E634CC1
         for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 18:28:48 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH 029/100] =?UTF-8?q?ccs:=20Remove=20the=20I=C2=B2C=20ID=20t?= =?UTF-8?q?able?=
-Date:   Wed, 30 Sep 2020 18:27:47 +0300
-Message-Id: <20200930152858.8471-30-sakari.ailus@linux.intel.com>
+Subject: [PATCH 030/100] ccs: Remove remaining support for platform data
+Date:   Wed, 30 Sep 2020 18:27:48 +0300
+Message-Id: <20200930152858.8471-31-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200930152858.8471-1-sakari.ailus@linux.intel.com>
 References: <20200930152858.8471-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The I²C ID table is no longer needed; remove it.
+No need to support platform data; remove support for conveying hardware
+configuration that way.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ccs/ccs-core.c | 7 -------
- 1 file changed, 7 deletions(-)
+ drivers/media/i2c/ccs/ccs-core.c | 3 ---
+ 1 file changed, 3 deletions(-)
 
 diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 7cdd81e3bb6e..ddcdd7098a1f 100644
+index ddcdd7098a1f..610a2d22a5ca 100644
 --- a/drivers/media/i2c/ccs/ccs-core.c
 +++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -3242,12 +3242,6 @@ static const struct of_device_id ccs_of_table[] = {
- };
- MODULE_DEVICE_TABLE(of, ccs_of_table);
+@@ -2854,9 +2854,6 @@ static struct ccs_hwconfig *ccs_get_hwconfig(struct device *dev)
+ 	int i;
+ 	int rval;
  
--static const struct i2c_device_id ccs_id_table[] = {
--	{ SMIAPP_NAME, 0 },
--	{ },
--};
--MODULE_DEVICE_TABLE(i2c, ccs_id_table);
+-	if (!fwnode)
+-		return dev->platform_data;
 -
- static const struct dev_pm_ops ccs_pm_ops = {
- 	SET_SYSTEM_SLEEP_PM_OPS(ccs_suspend, ccs_resume)
- 	SET_RUNTIME_PM_OPS(ccs_power_off, ccs_power_on, NULL)
-@@ -3261,7 +3255,6 @@ static struct i2c_driver ccs_i2c_driver = {
- 	},
- 	.probe_new = ccs_probe,
- 	.remove	= ccs_remove,
--	.id_table = ccs_id_table,
- };
- 
- static int ccs_module_init(void)
+ 	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+ 	if (!ep)
+ 		return NULL;
 -- 
 2.27.0
 
