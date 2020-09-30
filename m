@@ -2,90 +2,88 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 509A727EA4F
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 15:51:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EE5327EAE6
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 16:26:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730296AbgI3Nvb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 09:51:31 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55410 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728235AbgI3Nvb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 09:51:31 -0400
-Received: from mail-pg1-x52b.google.com (mail-pg1-x52b.google.com [IPv6:2607:f8b0:4864:20::52b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D399C061755
-        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 06:51:31 -0700 (PDT)
-Received: by mail-pg1-x52b.google.com with SMTP id g29so1162695pgl.2
-        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 06:51:31 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:from:date:message-id:subject:to:cc
-         :content-transfer-encoding;
-        bh=CQukQSDtZgTOOmy/BAQjSISsmEnMa6EXW1598ppKbt4=;
-        b=YYbPRTJy+SWb04YszYad6ITkrlhbUDAUhUdq8SQUqG+ozLsam1AiEQTolpYCiw4y/x
-         v5QMbWsXR2O8hQU09svlHf3K7iAFPpSzrwI/lVsCWupoBrA5tRhPdsljb6Qq54HHqCCi
-         os0GuidCBj9BcLA1/K73LhkDBeaFblyYAoX36/1kKaNEtNylQFAo2wQgsz503g7R+EBj
-         a+G4vLHt8JNfpgbRgoda9Kr+DbsMTuiTk+Asin+dc6JrNrcVmtoWTtXn90sLrJfZZdir
-         NgHSe1yHjBU+3jhAohgeM3Dlfh+Dv00DSj4JJ0j2xTkURQtmdFKpLKn2UfRtv91q/eki
-         raoQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc
-         :content-transfer-encoding;
-        bh=CQukQSDtZgTOOmy/BAQjSISsmEnMa6EXW1598ppKbt4=;
-        b=oZSt4FtSiG0/GHjcyx/HR1wxVPTjuVjFEYN/hwSfu2/VUub6jNcD1QaM4mqQ9B0r29
-         oeLF1wWzbXK0DciK7Uh5cHV5QQ3y7AXrpw/cbtcfduGyLJaH3ujE3ycbig5b1iw4ullf
-         KjpqSe15/NsZbDr7apXKo8JDp1ZdidFPZFa9ttkQ6uPwbHqKUhjQQWY8eS99k+kwsK07
-         cHbYCA25pJdgiM6++fJYps5iFfsVCeYC9G9j/zYbzKpwc2C+oEHuJwnGFCZWiCeM0918
-         A7L+jxoxf4VyVHXKT52boU1BU9eooSt2EnIUazcGJjctdZ2i0+YzqfOY1yqo64+vE4OE
-         9kIQ==
-X-Gm-Message-State: AOAM530PuNGqn40X1bsNfXsWCVOzFB8uFReRVm4J6nPNx6L8C8g7h/Us
-        sUBp2TWfMgWExPF0x6vyuoZ/1tElQTe0paqFacI=
-X-Google-Smtp-Source: ABdhPJy++QDuHnQtO4TyF5Wh4bTBCHtXkhltcRiK91HACoXKEr/6h679O9DyZ4M3AHG7L3wQMK0DuW1/RQK4Anuo2fo=
-X-Received: by 2002:aa7:81d5:0:b029:142:2501:39fa with SMTP id
- c21-20020aa781d50000b0290142250139famr2610921pfn.73.1601473890876; Wed, 30
- Sep 2020 06:51:30 -0700 (PDT)
+        id S1730567AbgI3O0h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 10:26:37 -0400
+Received: from mail.kernel.org ([198.145.29.99]:39358 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730231AbgI3O0g (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 30 Sep 2020 10:26:36 -0400
+Received: from kernel.org (unknown [87.71.73.56])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4FE0F20754;
+        Wed, 30 Sep 2020 14:26:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601475995;
+        bh=Fl0gWvmfXmejHi4EkMTsQTZGLiXma9CtfTHw7weRdJQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=KjiTNGFe5eTBdlXhF/NHplwtol5FYNLNxilPqKQv6JM7qzFpC1oscmHw8w7JZ6bPS
+         DMKgScFLDkfuKtoCeOjffSJqprhEpbZkmUsXsiby6BhkBtcft1Fr0y1KDRK6Jmh86a
+         QzcATOFg5nZHWWzlf7PwQmBO1ehMJBH5Itwvqrpk=
+Date:   Wed, 30 Sep 2020 17:26:24 +0300
+From:   Mike Rapoport <rppt@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        =?iso-8859-1?Q?Andr=E9?= Almeida <andrealmeid@collabora.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Eric Biggers <ebiggers@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Moritz Fischer <mdf@kernel.org>,
+        Puranjay Mohan <puranjay12@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Satya Tangirala <satyat@google.com>,
+        Takashi Iwai <tiwai@suse.com>, Tom Rix <trix@redhat.com>,
+        alsa-devel@alsa-project.org, linux-fpga@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v4 22/52] docs: get rid of :c:type explicit declarations
+ for structs
+Message-ID: <20200930142624.GM2142832@kernel.org>
+References: <cover.1601467849.git.mchehab+huawei@kernel.org>
+ <f74a2b4e1c8c475b5a053f5edd9da5a818be4b1f.1601467849.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 30 Sep 2020 16:51:10 +0300
-Message-ID: <CAHp75Vfx+GUkSmCFD5BRLThkWwLcZDx=9p4yody29p+kqd525g@mail.gmail.com>
-Subject: atomisp doesn't compile
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f74a2b4e1c8c475b5a053f5edd9da5a818be4b1f.1601467849.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Mauro.
-
-What is the status of AtomISP? It's already been a few days that it
-doesn't compile in Linux Next.
-
-
-  CC [M]  drivers/staging/media/atomisp/pci/sh_css.o
-.../drivers/staging/media/atomisp/pci/sh_css.c: In function =E2=80=98start_=
-binary=E2=80=99:
-.../drivers/staging/media/atomisp/pci/sh_css.c:1384:6: error: =E2=80=98stre=
-am=E2=80=99
-undeclared (first use in this function); did you mean =E2=80=98strim=E2=80=
-=99?
-1384 |  if (stream->reconfigure_css_rx) {
-     |      ^~~~~~
-     |      strim
-.../drivers/staging/media/atomisp/pci/sh_css.c:1384:6: note: each
-undeclared identifier is reported only once for each function it
-appears in
-.../drivers/staging/media/atomisp/pci/sh_css.c: In function
-=E2=80=98load_preview_binaries=E2=80=99:
-.../drivers/staging/media/atomisp/pci/sh_css.c:2967:38: error:
-=E2=80=98continuous=E2=80=99 undeclared (first use in this function)
-2967 |   need_isp_copy_binary =3D !online && !continuous;
-     |                                      ^~~~~~~~~~
-
+On Wed, Sep 30, 2020 at 03:24:45PM +0200, Mauro Carvalho Chehab wrote:
+> The :c:type:`foo` only works properly with structs before
+> Sphinx 3.x.
+> 
+> On Sphinx 3.x, structs should now be declared using the
+> .. c:struct, and referenced via :c:struct tag.
+> 
+> As we now have the automarkup.py macro, that automatically
+> convert:
+> 	struct foo
+> 
+> into cross-references, let's get rid of that, solving
+> several warnings when building docs with Sphinx 3.x.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
 ...
+>  Documentation/vm/ksm.rst                      |  2 +-
+>  Documentation/vm/memory-model.rst             |  6 ++---
+>  mm/ksm.c                                      |  2 +-
+>  mm/memblock.c                                 |  4 ++--
 
---=20
-With Best Regards,
-Andy Shevchenko
+Reviewed-by: Mike Rapoport <rppt@linux.ibm.com>
+
+>  30 files changed, 93 insertions(+), 93 deletions(-)
+> 
