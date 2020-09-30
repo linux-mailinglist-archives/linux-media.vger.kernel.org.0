@@ -2,69 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C8D227F0EF
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 19:57:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C5AEA27F229
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 21:01:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727468AbgI3R5F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 13:57:05 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14199 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725372AbgI3R5E (ORCPT
+        id S1729506AbgI3TA2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 15:00:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46792 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728270AbgI3TA2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 13:57:04 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f74c68a0001>; Wed, 30 Sep 2020 10:55:22 -0700
-Received: from [10.2.161.235] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 30 Sep
- 2020 17:57:03 +0000
-Subject: Re: [PATCH v1 2/2] media: tegra-video: Allow building driver with
- COMPILE_TEST
-To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
-CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
-        <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
-        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>
-References: <1601434958-29305-1-git-send-email-skomatineni@nvidia.com>
- <1601434958-29305-3-git-send-email-skomatineni@nvidia.com>
- <20200930173442.GC12964@qmqm.qmqm.pl>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <515ed18f-3849-3f36-78f5-916e40e1501b@nvidia.com>
-Date:   Wed, 30 Sep 2020 10:59:56 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 30 Sep 2020 15:00:28 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F734C061755
+        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 12:00:28 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id b22so3427935lfs.13
+        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 12:00:28 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=tpch0HuGxQ4hJf3MyUCHFMD3IGaCixlPFv0CwfDrP3Q=;
+        b=km975ICQULHNI4i7XkhW2/hnw95IjC7FBNJi8seg+amNEm9vWwHVFZ+bQm6lBA9gkc
+         lwQjjvdxVKEf5i9HCHW28Wxe3tGXFp760hUKLhankvDW0+dAfVHlVZBvVna5i9XhZVWh
+         /nZW+ybvqauBv6Pzq02NYkar7zwmOXVw1JEUuKbHjSAAVkSc6whBmG7DVVblcvjEdTh9
+         +7cj5otkBBpVik2227csiNW6upKJ48i3VXgSPNIvoVXKsvJPJ92Q/QJcSQY7QuGUuj86
+         H2QZVRzu9NQbvDebp5Y0T0il5yWOfm+6aYFpEQ5wR6KklVg33TgBc2qPNETw5mHgf514
+         2tFQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=tpch0HuGxQ4hJf3MyUCHFMD3IGaCixlPFv0CwfDrP3Q=;
+        b=eaL61vpUHY0aqn3qVORq55fU/hqc1BJfUD5AoTs5tTHwuYv90WUIdTB6Ja1wi2M1a2
+         9XM0he4fYV2SP+2QBTjtK0AAyHvgETdX4fsVJYNn+8ZfU3dq8a9d5Q223ogps6QRLPY5
+         4TcbShqt6PK4ANwyhHzPa9wREPWsbLbHIsTTY/LoDe5v+XXEuXmmG7VBLKnXuCRzoeS8
+         7eUXVPd/aljUP6PVuGsLtaBVPkr+3fr3kzBAqqFR1gG901c7wPaFH2vozQRbkBwxr/xB
+         AVbWyawQsr6Oc/eAyD1XEnWn+tuTcsatmHFt/kg85yqPAWD97ttvf3pXz0DQTobQFmoK
+         0yCw==
+X-Gm-Message-State: AOAM533dy5BFBeHTN6bOQXpxs8c6mnsxKo8EeejR5aQ4syWplzk2/8Ys
+        M7bUAhIbFJJCQwm/cLrwIavHXg==
+X-Google-Smtp-Source: ABdhPJwp2mMQOdQUBP+f4gn4rO1RrCbu0j3qOHYld96vTvOsjlXuFUuzAwiIoSeokLeDLyYNAuioJA==
+X-Received: by 2002:a19:6b17:: with SMTP id d23mr1470644lfa.190.1601492426616;
+        Wed, 30 Sep 2020 12:00:26 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id 82sm283459lfo.173.2020.09.30.12.00.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 30 Sep 2020 12:00:25 -0700 (PDT)
+Date:   Wed, 30 Sep 2020 21:00:25 +0200
+From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
+        <niklas.soderlund@ragnatech.se>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, mchehab@kernel.org,
+        tfiga@chromium.org
+Subject: Re: [PATCH v3 09/10] media: rkisp1: cap: simplify the link
+ validation by compering the media bus code
+Message-ID: <20200930190025.GH1516931@oden.dyn.berto.se>
+References: <20200723132014.4597-1-dafna.hirschfeld@collabora.com>
+ <20200723132014.4597-10-dafna.hirschfeld@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20200930173442.GC12964@qmqm.qmqm.pl>
-Content-Type: text/plain; charset="iso-8859-2"; format=flowed
-Content-Transfer-Encoding: quoted-printable
-Content-Language: en-US
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1601488522; bh=1+zI+9FOTgFghS9LidSO0Q3MfBnPNIrwHYASCdluZW0=;
-        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-         Content-Language:X-Originating-IP:X-ClientProxiedBy;
-        b=iXnYvRVqWufqZcP3tevl8usR4BCPiMpVf66NJJwkhzJfvTsNQWnbc+DHGM/3tj7SF
-         WNOjUIQdUh9SkGyMeXWG/Ff+TCUkYBBKUUwwbP2sjxvDJ9K1UXD98stdfUB+CY5RX2
-         AMjey5Lu99hGHZJDcB0TBd8Mi5xskvT06KN+PFZl10F/gzxF0Lop9K9Oiqp+vWW3Xn
-         FObWK6VYnz56jn0/EVU1I2ucqf8Xki3q8faPy6yDgvYUM0eFUJbll4Zypg6H8yctjB
-         eA2ykDBk3Kvp3umLJA2pAzxxxfAMUyomEq1urQzwx0A6+T8TJoLMer+gi8p+VKciwP
-         tt0Y/b6Uo7CrQ==
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200723132014.4597-10-dafna.hirschfeld@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Dafna,
 
-On 9/30/20 10:34 AM, Micha=B3 Miros=B3aw wrote:
-> On Tue, Sep 29, 2020 at 08:02:38PM -0700, Sowjanya Komatineni wrote:
->> This patch adds COMPILE_TEST option to Kconfig to allow building
->> it with COMPILE_TEST option.
-> Does it build without TEGRA_HOST1X selected? Isn't the previous patch
-> enough to allow the build with COMPILE_TEST?
->
-> Best Regards,
-> Micha=B3 Miros=B3aw
+This commit is not just a simplification but a change of behavior.  The 
+change is for the better but it broke capture of NV12 and NV21 formats 
+in libcamera unexpectedly.
 
-No, it does not build without selecting CONFIG_TEGRA_HOST1X along with=20
-CONFIG_VIDEO_TEGRA
+The issue at hand is that libcamera when configuring the pipeline 
+retrieves the mbus code for the ISP (rkisp1_isp) source pad (2) and then 
+propagates it to the resizer (rkisp_resizer_{main,self}path) sink pad 
+(0) and then to the resizers source pad (1). Effectively propagating 
+MEDIA_BUS_FMT_YUYV8_2X8 for all formats.
 
+At this point if the video node (main or self) is configured with a 
+YUV420 format (NV12, NV21, etc) and with this change applied the link 
+validation will fail as MEDIA_BUS_FMT_YUYV8_1_5X8 !=  
+MEDIA_BUS_FMT_YUYV8_2X8. Given the nature of how link validation is 
+implemented it's VIDIOC_QBUF that returns a -EPIPE when it fails and 
+libcamera lockup the capture session.
+
+I will submit a fix for this to libcamera to bring it in sync with this 
+change.
+
+Would it be possible to ask that future changes to the rkisp1 driver be 
+tested with libcamera so we can track and update both the kernel and 
+user-space components of this driver at the same time and avoid nasty 
+surprises? :-)
+
+On 2020-07-23 15:20:13 +0200, Dafna Hirschfeld wrote:
+> The capture has a mapping of the mbus code needed for each pixelformat.
+> This can be used to simplify the link validation by comparing the mbus
+> code in the capture with the code in the resizer.
+> 
+> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> ---
+>  drivers/staging/media/rkisp1/rkisp1-capture.c | 18 ++++--------------
+>  1 file changed, 4 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> index 4dabd07a3da9..a5e2521577dd 100644
+> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
+> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> @@ -1255,22 +1255,11 @@ static int rkisp1_capture_link_validate(struct media_link *link)
+>  	struct v4l2_subdev *sd =
+>  		media_entity_to_v4l2_subdev(link->source->entity);
+>  	struct rkisp1_capture *cap = video_get_drvdata(vdev);
+> -	struct rkisp1_isp *isp = &cap->rkisp1->isp;
+> -	u8 isp_pix_enc = isp->src_fmt->pixel_enc;
+> -	u8 cap_pix_enc = cap->pix.info->pixel_enc;
+> +	const struct rkisp1_capture_fmt_cfg *fmt =
+> +		rkisp1_find_fmt_cfg(cap, cap->pix.fmt.pixelformat);
+>  	struct v4l2_subdev_format sd_fmt;
+>  	int ret;
+>  
+> -	if (cap_pix_enc != isp_pix_enc &&
+> -	    !(isp_pix_enc == V4L2_PIXEL_ENC_YUV &&
+> -	      cap_pix_enc == V4L2_PIXEL_ENC_RGB)) {
+> -		dev_err(cap->rkisp1->dev,
+> -			"format type mismatch in link '%s:%d->%s:%d'\n",
+> -			link->source->entity->name, link->source->index,
+> -			link->sink->entity->name, link->sink->index);
+> -		return -EPIPE;
+> -	}
+> -
+>  	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>  	sd_fmt.pad = link->source->index;
+>  	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &sd_fmt);
+> @@ -1278,7 +1267,8 @@ static int rkisp1_capture_link_validate(struct media_link *link)
+>  		return ret;
+>  
+>  	if (sd_fmt.format.height != cap->pix.fmt.height ||
+> -	    sd_fmt.format.width != cap->pix.fmt.width)
+> +	    sd_fmt.format.width != cap->pix.fmt.width ||
+> +	    sd_fmt.format.code != fmt->mbus)
+>  		return -EPIPE;
+>  
+>  	return 0;
+> -- 
+> 2.17.1
+> 
+
+-- 
+Regards,
+Niklas Söderlund
