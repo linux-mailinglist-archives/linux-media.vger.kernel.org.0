@@ -2,57 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9E66C27F0AB
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 19:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C8D227F0EF
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 19:57:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725892AbgI3Rlm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 13:41:42 -0400
-Received: from rere.qmqm.pl ([91.227.64.183]:25740 "EHLO rere.qmqm.pl"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725385AbgI3Rll (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 13:41:41 -0400
-X-Greylist: delayed 416 seconds by postgrey-1.27 at vger.kernel.org; Wed, 30 Sep 2020 13:41:41 EDT
-Received: from remote.user (localhost [127.0.0.1])
-        by rere.qmqm.pl (Postfix) with ESMTPSA id 4C1k0M5vrGz6R;
-        Wed, 30 Sep 2020 19:34:43 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
-        t=1601487284; bh=MN8lFR//QgRpimjyUq48atVSm9u5I81XroQCcweQiHY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=kJzM0i5fUyBnV+x92SF2lmMSEIo/AOd+qQztIo9bnHT8p/Fa92d7Vw018H2gUE6lF
-         NsCj543U+XXKHHGbA6qFw1FEV+D9maSobBpl+LJAfHX0LqqKJZVieqQD3i4L6rsMcs
-         aErHjE4extRAyZt1uc0N+rJWHie49rVx8D5c2815F/psihvCN4igHqqssqC/9kPKKF
-         nHkf6Kf615lPG1gh1jtF5QrAHgE7D2u1+lVPC2DY14YAfep0bXNY6vOfX1aKeZMu+X
-         n/WFPKMyTgnnBH1xzoUbbxL6DXvSACd+mGXc6lAo/SM93HlG65vsRrSb3gtVTveuoQ
-         KdgnxSJiTzVYA==
-X-Virus-Status: Clean
-X-Virus-Scanned: clamav-milter 0.102.4 at mail
-Date:   Wed, 30 Sep 2020 19:34:42 +0200
-From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>
-Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, hverkuil@xs4all.nl,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-tegra@vger.kernel.org
+        id S1727468AbgI3R5F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 13:57:05 -0400
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:14199 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725372AbgI3R5E (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 30 Sep 2020 13:57:04 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f74c68a0001>; Wed, 30 Sep 2020 10:55:22 -0700
+Received: from [10.2.161.235] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 30 Sep
+ 2020 17:57:03 +0000
 Subject: Re: [PATCH v1 2/2] media: tegra-video: Allow building driver with
  COMPILE_TEST
-Message-ID: <20200930173442.GC12964@qmqm.qmqm.pl>
+To:     =?UTF-8?B?TWljaGHFgiBNaXJvc8WCYXc=?= <mirq-linux@rere.qmqm.pl>
+CC:     <thierry.reding@gmail.com>, <jonathanh@nvidia.com>,
+        <hverkuil@xs4all.nl>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>, <linux-tegra@vger.kernel.org>
 References: <1601434958-29305-1-git-send-email-skomatineni@nvidia.com>
  <1601434958-29305-3-git-send-email-skomatineni@nvidia.com>
+ <20200930173442.GC12964@qmqm.qmqm.pl>
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+Message-ID: <515ed18f-3849-3f36-78f5-916e40e1501b@nvidia.com>
+Date:   Wed, 30 Sep 2020 10:59:56 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-2
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <1601434958-29305-3-git-send-email-skomatineni@nvidia.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20200930173442.GC12964@qmqm.qmqm.pl>
+Content-Type: text/plain; charset="iso-8859-2"; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1601488522; bh=1+zI+9FOTgFghS9LidSO0Q3MfBnPNIrwHYASCdluZW0=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+         Content-Language:X-Originating-IP:X-ClientProxiedBy;
+        b=iXnYvRVqWufqZcP3tevl8usR4BCPiMpVf66NJJwkhzJfvTsNQWnbc+DHGM/3tj7SF
+         WNOjUIQdUh9SkGyMeXWG/Ff+TCUkYBBKUUwwbP2sjxvDJ9K1UXD98stdfUB+CY5RX2
+         AMjey5Lu99hGHZJDcB0TBd8Mi5xskvT06KN+PFZl10F/gzxF0Lop9K9Oiqp+vWW3Xn
+         FObWK6VYnz56jn0/EVU1I2ucqf8Xki3q8faPy6yDgvYUM0eFUJbll4Zypg6H8yctjB
+         eA2ykDBk3Kvp3umLJA2pAzxxxfAMUyomEq1urQzwx0A6+T8TJoLMer+gi8p+VKciwP
+         tt0Y/b6Uo7CrQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 08:02:38PM -0700, Sowjanya Komatineni wrote:
-> This patch adds COMPILE_TEST option to Kconfig to allow building
-> it with COMPILE_TEST option.
 
-Does it build without TEGRA_HOST1X selected? Isn't the previous patch
-enough to allow the build with COMPILE_TEST?
+On 9/30/20 10:34 AM, Micha=B3 Miros=B3aw wrote:
+> On Tue, Sep 29, 2020 at 08:02:38PM -0700, Sowjanya Komatineni wrote:
+>> This patch adds COMPILE_TEST option to Kconfig to allow building
+>> it with COMPILE_TEST option.
+> Does it build without TEGRA_HOST1X selected? Isn't the previous patch
+> enough to allow the build with COMPILE_TEST?
+>
+> Best Regards,
+> Micha=B3 Miros=B3aw
 
-Best Regards,
-Micha³ Miros³aw
+No, it does not build without selecting CONFIG_TEGRA_HOST1X along with=20
+CONFIG_VIDEO_TEGRA
+
