@@ -2,175 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9EF3F27E5BC
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 11:55:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7344B27E696
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 12:28:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728695AbgI3Jzr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 05:55:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47344 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725776AbgI3Jzq (ORCPT
+        id S1729243AbgI3K2R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 06:28:17 -0400
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:55650 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728500AbgI3K2Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 05:55:46 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 94AE9C061755
-        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 02:55:46 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id z4so1069257wrr.4
-        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 02:55:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=QnJosaKk+6UlgjPbZmsy+2/c8gwAv95gBGvvrsjNxEg=;
-        b=eT9cqWNgDxAhVmLEzVeN5IAAnwRLaybn8Mw9iEkk16/nBoIH2EO+om9rA1o9iTl2A+
-         b3pC94nsrkanU9ZVS+jp50g4xt7tyJV8pijzVboQKo0nr+Ph6t1pgySRTqV1BDcss6hH
-         ys1OUca6Z1XZq45Hy8JxEIia8LP5mrsHYGJtY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=QnJosaKk+6UlgjPbZmsy+2/c8gwAv95gBGvvrsjNxEg=;
-        b=n8XOfhTy+WusGvY5Xjk9zg29tHSV5gcux8g+wE+yy7xUDSsMIdlfKezlK5F4VQj1RJ
-         Gf/OKl3Lf6BfAggb4UuACq98/EsrxXXt+V7k6W0nL7VJ2IWvZHcT9/QUwYBmthFNttAs
-         dYzrJWh4lBa4q5BO3niD8fFQJLWsTkG0vloCLs9ujCHV4yZ9xP6IedmpAcex54syzwRP
-         TNJiFw569YHSJ4Kjx3d8alyooEllWIWz0/esVXdvW5K8wpn3n8LwLn0eHQJelg6S3mb0
-         2q2yx20xSNGnJvBvDXbt/lCaZPmJyS7HjujO+sX2KWsQcCwxHlNaQwIebsb8jGVqVaZb
-         BZ4A==
-X-Gm-Message-State: AOAM531TOKAcP63bCPiIDGO6TtFxjEftVCwC6MmzklJ8RuO4vI5lpt2T
-        Tsuqb8ruAoCNC5uD5Bd9gNNs0Q==
-X-Google-Smtp-Source: ABdhPJzwgGtmE4gHk7un+VHQGLY1/OmHMFNtHzY+QeRZgyppjz9cdlSzmPs669vfGphmd66u+lMFrw==
-X-Received: by 2002:adf:edd2:: with SMTP id v18mr2173577wro.242.1601459745199;
-        Wed, 30 Sep 2020 02:55:45 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id x10sm1832792wmi.37.2020.09.30.02.55.43
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 02:55:44 -0700 (PDT)
-Date:   Wed, 30 Sep 2020 11:55:42 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>
-Cc:     Jason Ekstrand <jason@jlekstrand.net>,
-        Chenbo Feng <fengc@google.com>, daniels@collabora.com,
-        daniel.vetter@ffwll.ch, jajones@nvidia.com,
-        linux-kernel@vger.kernel.org, Greg Hackmann <ghackmann@google.com>,
-        linaro-mm-sig@lists.linaro.org, hoegsberg@google.com,
-        dri-devel@lists.freedesktop.org, jessehall@google.com,
-        airlied@redhat.com, christian.koenig@amd.com,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 3/3] RFC: dma-buf: Add an API for importing and exporting
- sync files (v5)
-Message-ID: <20200930095542.GY438822@phenom.ffwll.local>
-Mail-Followup-To: Michel =?iso-8859-1?Q?D=E4nzer?= <michel@daenzer.net>,
-        Jason Ekstrand <jason@jlekstrand.net>,
-        Chenbo Feng <fengc@google.com>, daniels@collabora.com,
-        jajones@nvidia.com, linux-kernel@vger.kernel.org,
-        Greg Hackmann <ghackmann@google.com>,
-        linaro-mm-sig@lists.linaro.org, hoegsberg@google.com,
-        dri-devel@lists.freedesktop.org, jessehall@google.com,
-        airlied@redhat.com, christian.koenig@amd.com,
-        linux-media@vger.kernel.org
-References: <20200311034351.1275197-3-jason@jlekstrand.net>
- <20200317212115.419358-1-jason@jlekstrand.net>
- <64eed158-22a8-10a7-7686-c972f8542649@daenzer.net>
+        Wed, 30 Sep 2020 06:28:16 -0400
+Received: from relay12.mail.gandi.net (unknown [217.70.178.232])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 876BF3B815C;
+        Wed, 30 Sep 2020 10:27:04 +0000 (UTC)
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 03CA7200005;
+        Wed, 30 Sep 2020 10:26:40 +0000 (UTC)
+Date:   Wed, 30 Sep 2020 12:30:37 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v6 1/3] media: i2c: ov772x: Parse endpoint properties
+Message-ID: <20200930103037.putcmd7sjyaut6lr@uno.localdomain>
+References: <20200917174224.11430-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200917174224.11430-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <64eed158-22a8-10a7-7686-c972f8542649@daenzer.net>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20200917174224.11430-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Sep 30, 2020 at 11:39:06AM +0200, Michel Dänzer wrote:
-> On 2020-03-17 10:21 p.m., Jason Ekstrand wrote:
-> > Explicit synchronization is the future.  At least, that seems to be what
-> > most userspace APIs are agreeing on at this point.  However, most of our
-> > Linux APIs (both userspace and kernel UAPI) are currently built around
-> > implicit synchronization with dma-buf.  While work is ongoing to change
-> > many of the userspace APIs and protocols to an explicit synchronization
-> > model, switching over piecemeal is difficult due to the number of
-> > potential components involved.  On the kernel side, many drivers use
-> > dma-buf including GPU (3D/compute), display, v4l, and others.  In
-> > userspace, we have X11, several Wayland compositors, 3D drivers, compute
-> > drivers (OpenCL etc.), media encode/decode, and the list goes on.
-> > 
-> > This patch provides a path forward by allowing userspace to manually
-> > manage the fences attached to a dma-buf.  Alternatively, one can think
-> > of this as making dma-buf's implicit synchronization simply a carrier
-> > for an explicit fence.  This is accomplished by adding two IOCTLs to
-> > dma-buf for importing and exporting a sync file to/from the dma-buf.
-> > This way a userspace component which is uses explicit synchronization,
-> > such as a Vulkan driver, can manually set the write fence on a buffer
-> > before handing it off to an implicitly synchronized component such as a
-> > Wayland compositor or video encoder.  In this way, each of the different
-> > components can be upgraded to an explicit synchronization model one at a
-> > time as long as the userspace pieces connecting them are aware of it and
-> > import/export fences at the right times.
-> > 
-> > There is a potential race condition with this API if userspace is not
-> > careful.  A typical use case for implicit synchronization is to wait for
-> > the dma-buf to be ready, use it, and then signal it for some other
-> > component.  Because a sync_file cannot be created until it is guaranteed
-> > to complete in finite time, userspace can only signal the dma-buf after
-> > it has already submitted the work which uses it to the kernel and has
-> > received a sync_file back.  There is no way to atomically submit a
-> > wait-use-signal operation.  This is not, however, really a problem with
-> > this API so much as it is a problem with explicit synchronization
-> > itself.  The way this is typically handled is to have very explicit
-> > ownership transfer points in the API or protocol which ensure that only
-> > one component is using it at any given time.  Both X11 (via the PRESENT
-> > extension) and Wayland provide such ownership transfer points via
-> > explicit present and idle messages.
-> > 
-> > The decision was intentionally made in this patch to make the import and
-> > export operations IOCTLs on the dma-buf itself rather than as a DRM
-> > IOCTL.  This makes it the import/export operation universal across all
-> > components which use dma-buf including GPU, display, v4l, and others.
-> > It also means that a userspace component can do the import/export
-> > without access to the DRM fd which may be tricky to get in cases where
-> > the client communicates with DRM via a userspace API such as OpenGL or
-> > Vulkan.  At a future date we may choose to add direct import/export APIs
-> > to components such as drm_syncobj to avoid allocating a file descriptor
-> > and going through two ioctls.  However, that seems to be something of a
-> > micro-optimization as import/export operations are likely to happen at a
-> > rate of a few per frame of rendered or decoded video.
-> > 
-> > v2 (Jason Ekstrand):
-> >   - Use a wrapper dma_fence_array of all fences including the new one
-> >     when importing an exclusive fence.
-> > 
-> > v3 (Jason Ekstrand):
-> >   - Lock around setting shared fences as well as exclusive
-> >   - Mark SIGNAL_SYNC_FILE as a read-write ioctl.
-> >   - Initialize ret to 0 in dma_buf_wait_sync_file
-> > 
-> > v4 (Jason Ekstrand):
-> >   - Use the new dma_resv_get_singleton helper
-> > 
-> > v5 (Jason Ekstrand):
-> >   - Rename the IOCTLs to import/export rather than wait/signal
-> >   - Drop the WRITE flag and always get/set the exclusive fence
-> > 
-> > Signed-off-by: Jason Ekstrand <jason@jlekstrand.net>
-> 
-> What's the status of this? DMA_BUF_IOCTL_EXPORT_SYNC_FILE would be useful
-> for Wayland compositors to wait for client buffers to become ready without
-> being prone to getting delayed by later HW access to them, so it would be
-> nice to merge that at least (if DMA_BUF_IOCTL_IMPORT_SYNC_FILE is still
-> controversial).
+Hi
 
-I think the missing bits are just the usual stuff
-- igt testcases
-- userspace using the new ioctls
-- review of the entire pile
+On Thu, Sep 17, 2020 at 06:42:22PM +0100, Lad Prabhakar wrote:
+> Parse endpoint properties using v4l2_fwnode_endpoint_alloc_parse()
+> to determine the bus type and store it in the driver structure.
+>
+> Set bus_type to V4L2_MBUS_PARALLEL as it's the only supported one
+>
+> Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 
-I don't think there's any fundamental objections aside from "no one ever
-pushed this over the finish line".
+Looks good!
 
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+   j
+
+> ---
+>  drivers/media/i2c/ov772x.c | 34 ++++++++++++++++++++++++++++++++++
+>  1 file changed, 34 insertions(+)
+>
+> diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
+> index 2cc6a678069a..f61a3f09ad64 100644
+> --- a/drivers/media/i2c/ov772x.c
+> +++ b/drivers/media/i2c/ov772x.c
+> @@ -31,6 +31,7 @@
+>  #include <media/v4l2-ctrls.h>
+>  #include <media/v4l2-device.h>
+>  #include <media/v4l2-event.h>
+> +#include <media/v4l2-fwnode.h>
+>  #include <media/v4l2-image-sizes.h>
+>  #include <media/v4l2-subdev.h>
+>
+> @@ -434,6 +435,7 @@ struct ov772x_priv {
+>  #ifdef CONFIG_MEDIA_CONTROLLER
+>  	struct media_pad pad;
+>  #endif
+> +	enum v4l2_mbus_type		  bus_type;
+>  };
+>
+>  /*
+> @@ -1348,6 +1350,34 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
+>  	.pad	= &ov772x_subdev_pad_ops,
+>  };
+>
+> +static int ov772x_parse_dt(struct i2c_client *client,
+> +			   struct ov772x_priv *priv)
+> +{
+> +	struct v4l2_fwnode_endpoint bus_cfg;
+> +	struct fwnode_handle *ep;
+> +	int ret;
+> +
+> +	ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
+> +					    NULL);
+> +	if (!ep) {
+> +		dev_err(&client->dev, "Endpoint node not found\n");
+> +		return -EINVAL;
+> +	}
+> +
+> +	bus_cfg.bus_type = V4L2_MBUS_PARALLEL;
+> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> +	if (ret)
+> +		goto error_fwnode_put;
+> +
+> +	priv->bus_type = bus_cfg.bus_type;
+> +	v4l2_fwnode_endpoint_free(&bus_cfg);
+> +
+> +error_fwnode_put:
+> +	fwnode_handle_put(ep);
+> +
+> +	return ret;
+> +}
+> +
+>  /*
+>   * i2c_driver function
+>   */
+> @@ -1415,6 +1445,10 @@ static int ov772x_probe(struct i2c_client *client)
+>  		goto error_clk_put;
+>  	}
+>
+> +	ret = ov772x_parse_dt(client, priv);
+> +	if (ret)
+> +		goto error_clk_put;
+> +
+>  	ret = ov772x_video_probe(priv);
+>  	if (ret < 0)
+>  		goto error_gpio_put;
+> --
+> 2.17.1
+>
