@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49D1127ECA4
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 17:30:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74CCD27ECB6
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 17:30:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731069AbgI3P3Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 11:29:16 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:44648 "EHLO
+        id S1728729AbgI3P3a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 11:29:30 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:44636 "EHLO
         hillosipuli.retiisi.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731054AbgI3P3P (ORCPT
+        with ESMTP id S1731056AbgI3P3Q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 11:29:15 -0400
+        Wed, 30 Sep 2020 11:29:16 -0400
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 7C7BC634CF8
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 8E661634CF9
         for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 18:28:53 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH 085/100] ccs: Print written register values
-Date:   Wed, 30 Sep 2020 18:28:43 +0300
-Message-Id: <20200930152858.8471-86-sakari.ailus@linux.intel.com>
+Subject: [PATCH 086/100] ccs-pll: Print pixel rates
+Date:   Wed, 30 Sep 2020 18:28:44 +0300
+Message-Id: <20200930152858.8471-87-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200930152858.8471-1-sakari.ailus@linux.intel.com>
 References: <20200930152858.8471-1-sakari.ailus@linux.intel.com>
@@ -29,28 +29,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This helps debugging register writes.
+Print pixel rates on CSI-2 bus as well as in pixel array as the variation
+allowed in PLL capabilities makes this non-trivial to figure out
+otherwise.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ccs/ccs-reg-access.c | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/media/i2c/ccs-pll.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/media/i2c/ccs/ccs-reg-access.c b/drivers/media/i2c/ccs/ccs-reg-access.c
-index 02af2b0abdaf..2025e9ab6e91 100644
---- a/drivers/media/i2c/ccs/ccs-reg-access.c
-+++ b/drivers/media/i2c/ccs/ccs-reg-access.c
-@@ -338,6 +338,10 @@ int ccs_write_addr_no_quirk(struct ccs_sensor *sensor, u32 reg, u32 val)
- 	put_unaligned_be16(CCS_REG_ADDR(reg), data);
- 	put_unaligned_be32(val << (8 * (sizeof(val) - len)), data + 2);
+diff --git a/drivers/media/i2c/ccs-pll.c b/drivers/media/i2c/ccs-pll.c
+index cec811bb37a4..6abb6943ce3f 100644
+--- a/drivers/media/i2c/ccs-pll.c
++++ b/drivers/media/i2c/ccs-pll.c
+@@ -119,6 +119,11 @@ static void print_pll(struct device *dev, struct ccs_pll *pll)
+ 		}
+ 	}
  
-+	dev_dbg(&client->dev, "writing reg 0x%4.4x value 0x%*.*x (%u)\n",
-+		CCS_REG_ADDR(reg), ccs_reg_width(reg) << 1,
-+		ccs_reg_width(reg) << 1, val, val);
++	dev_dbg(dev, "pixel rate in pixel array:\t%u\n",
++		pll->pixel_rate_pixel_array);
++	dev_dbg(dev, "pixel rate on CSI-2 bus:\t%u\n",
++		pll->pixel_rate_csi);
 +
- 	r = ccs_write_retry(client, &msg);
- 	if (r)
- 		dev_err(&client->dev,
+ 	dev_dbg(dev, "flags%s%s%s%s%s%s%s%s%s\n",
+ 		pll->flags & PLL_FL(LANE_SPEED_MODEL) ? " lane-speed" : "",
+ 		pll->flags & PLL_FL(LINK_DECOUPLED) ? " link-decoupled" : "",
 -- 
 2.27.0
 
