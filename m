@@ -2,86 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1231127EBAA
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 17:01:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 39FC227EBAF
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 17:01:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728729AbgI3PBI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 11:01:08 -0400
-Received: from mail.kernel.org ([198.145.29.99]:56974 "EHLO mail.kernel.org"
+        id S1730633AbgI3PBZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 11:01:25 -0400
+Received: from mx2.suse.de ([195.135.220.15]:35026 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725799AbgI3PBI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 11:01:08 -0400
-Received: from mail.kernel.org (ip5f5ad5c4.dynamic.kabel-deutschland.de [95.90.213.196])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id DC5A52076B;
-        Wed, 30 Sep 2020 15:01:07 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601478068;
-        bh=aE04Gn+SHVdidjsY0sHGoYsJR2y/ODqMgSn6wdS7TGg=;
-        h=From:To:Cc:Subject:Date:From;
-        b=dKL70A8wHqaVQtOnqtIR4clcWzMdcI+3oXKAghV5w578Y+XAHqAzE9JsPPOifAqf/
-         4Mr5Qaw5T1zQGbcvOYAy2dnKqcXQbzmUmHSSSTBRLkeBOGvZ4Q5q1JIFnsm2bYcib8
-         DqTwM91Urf7FcKEC2DbzE2SY6VZ9qvr+NdMgUESg=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kNdbN-001Yhh-81; Wed, 30 Sep 2020 17:01:05 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Andy Shevchenko" <andy.shevchenko@gmail.com>,
+        id S1725799AbgI3PBZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 30 Sep 2020 11:01:25 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 6426AAB92;
+        Wed, 30 Sep 2020 15:01:23 +0000 (UTC)
+Date:   Wed, 30 Sep 2020 17:01:21 +0200
+Message-ID: <s5h7dsbgvge.wl-tiwai@suse.de>
+From:   Takashi Iwai <tiwai@suse.de>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        "Alexander A. Klimov" <grandmaster@al2klimov.de>,
+        =?UTF-8?B?QW5kcsOp?= Almeida <andrealmeid@collabora.com>,
+        "Theodore Y. Ts'o" <tytso@mit.edu>,
+        Alexandru Ardelean <alexandru.ardelean@analog.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Anshuman Khandual <anshuman.khandual@arm.com>,
+        Eric Biggers <ebiggers@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>, Jens Axboe <axboe@kernel.dk>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
-Subject: [PATCH v2] media: atomisp: fixes a breakage due to a cleanup patch
-Date:   Wed, 30 Sep 2020 17:01:03 +0200
-Message-Id: <9e5f813977bcc53a65bf719658ad73f933e6270e.1601478042.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+        Mike Rapoport <rppt@kernel.org>,
+        Moritz Fischer <mdf@kernel.org>,
+        Puranjay Mohan <puranjay12@gmail.com>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Satya Tangirala <satyat@google.com>,
+        Takashi Iwai <tiwai@suse.com>, Tom Rix <trix@redhat.com>,
+        alsa-devel@alsa-project.org, linux-fpga@vger.kernel.org,
+        linux-fscrypt@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mm@kvack.org
+Subject: Re: [PATCH v4 22/52] docs: get rid of :c:type explicit declarations for structs
+In-Reply-To: <f74a2b4e1c8c475b5a053f5edd9da5a818be4b1f.1601467849.git.mchehab+huawei@kernel.org>
+References: <cover.1601467849.git.mchehab+huawei@kernel.org>
+        <f74a2b4e1c8c475b5a053f5edd9da5a818be4b1f.1601467849.git.mchehab+huawei@kernel.org>
+User-Agent: Wanderlust/2.15.9 (Almost Unreal) SEMI/1.14.6 (Maruoka)
+ FLIM/1.14.9 (=?UTF-8?B?R29qxY0=?=) APEL/10.8 Emacs/25.3
+ (x86_64-suse-linux-gnu) MULE/6.0 (HANACHIRUSATO)
+MIME-Version: 1.0 (generated by SEMI 1.14.6 - "Maruoka")
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-A temporary var needed for building with ISP2400 was removed
-by accident on a cleanup patch.
+On Wed, 30 Sep 2020 15:24:45 +0200,
+Mauro Carvalho Chehab wrote:
+> 
+> The :c:type:`foo` only works properly with structs before
+> Sphinx 3.x.
+> 
+> On Sphinx 3.x, structs should now be declared using the
+> .. c:struct, and referenced via :c:struct tag.
+> 
+> As we now have the automarkup.py macro, that automatically
+> convert:
+> 	struct foo
+> 
+> into cross-references, let's get rid of that, solving
+> several warnings when building docs with Sphinx 3.x.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Fix the breakage.
-
-Fixes: 852a53a02cf0 ("media: atomisp: get rid of unused vars")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
-
-v2: fixed a typo at comment: ISP2401 -> ISP2400
-
- drivers/staging/media/atomisp/pci/sh_css.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
-
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index e8c5caf3dfe6..8e4e82a97098 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -1365,7 +1365,6 @@ start_binary(struct ia_css_pipe *pipe,
- {
- 	assert(pipe);
- 	/* Acceleration uses firmware, the binary thus can be NULL */
--	/* assert(binary != NULL); */
- 
- 	if (binary)
- 		sh_css_metrics_start_binary(&binary->metrics);
-@@ -1381,7 +1380,7 @@ start_binary(struct ia_css_pipe *pipe,
- #endif
- 
- #if !defined(ISP2401)
--	if (stream->reconfigure_css_rx) {
-+	if (pipe->stream->reconfigure_css_rx) {
- 		ia_css_isys_rx_configure(&pipe->stream->csi_rx_config,
- 					 pipe->stream->config.mode);
- 		stream->reconfigure_css_rx = false;
--- 
-2.26.2
+For the sound part:
+  Reviewed-by: Takashi Iwai <tiwai@suse.de>
 
 
+thanks,
+
+Takashi
