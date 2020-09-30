@@ -2,306 +2,310 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EDB427E34A
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 10:05:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 19DF227E38E
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 10:19:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728358AbgI3IFs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 04:05:48 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:44580 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728169AbgI3IFs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 04:05:48 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: gtucker)
-        with ESMTPSA id 2C31B29AF80
-Subject: Re: media/master bisection:
- v4l2-compliance-vivid.Format-ioctls-Input-3.VIDIOC_TRY_FMT on
- qemu_arm-virt-gicv3
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-References: <5f72d499.1c69fb81.81d5b.6937@mx.google.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        kernelci-results@groups.io
-From:   Guillaume Tucker <guillaume.tucker@collabora.com>
-Message-ID: <ebd6520a-85c3-c955-ee16-88e0c6995855@collabora.com>
-Date:   Wed, 30 Sep 2020 09:05:42 +0100
+        id S1728149AbgI3ITN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 04:19:13 -0400
+Received: from mx2.suse.de ([195.135.220.15]:54848 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725535AbgI3ITM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 30 Sep 2020 04:19:12 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 76E42AFDC;
+        Wed, 30 Sep 2020 08:19:10 +0000 (UTC)
+Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
+ type conversion
+To:     christian.koenig@amd.com, maarten.lankhorst@linux.intel.com,
+        mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch,
+        sam@ravnborg.org, alexander.deucher@amd.com, kraxel@redhat.com,
+        l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+        christian.gmeiner@gmail.com, inki.dae@samsung.com,
+        jy0922.shim@samsung.com, sw0312.kim@samsung.com,
+        kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
+        yuq825@gmail.com, bskeggs@redhat.com, robh@kernel.org,
+        tomeu.vizoso@collabora.com, steven.price@arm.com,
+        alyssa.rosenzweig@collabora.com, hjc@rock-chips.com,
+        heiko@sntech.de, hdegoede@redhat.com, sean@poorly.run,
+        eric@anholt.net, oleksandr_andrushchenko@epam.com,
+        ray.huang@amd.com, sumit.semwal@linaro.org,
+        emil.velikov@collabora.com, luben.tuikov@amd.com, apaneers@amd.com,
+        linus.walleij@linaro.org, melissa.srw@gmail.com,
+        chris@chris-wilson.co.uk, miaoqinglang@huawei.com
+Cc:     linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+        amd-gfx@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, linux-rockchip@lists.infradead.org,
+        dri-devel@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+        spice-devel@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+References: <20200929151437.19717-1-tzimmermann@suse.de>
+ <20200929151437.19717-3-tzimmermann@suse.de>
+ <8fad0114-064a-4ed5-c21d-d1b4294de0a1@amd.com>
+ <2614314a-81f7-4722-c400-68d90e48e09a@suse.de>
+ <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Message-ID: <07972ada-9135-3743-a86b-487f610c509f@suse.de>
+Date:   Wed, 30 Sep 2020 10:19:03 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <5f72d499.1c69fb81.81d5b.6937@mx.google.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="2tnNmM6Gncu4Z9HVjsD6XejU6DShIRxes"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Please see the bisection report below about a regression in
-v4l2-compliance on vivid.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--2tnNmM6Gncu4Z9HVjsD6XejU6DShIRxes
+Content-Type: multipart/mixed; boundary="8reR6qmzfsBdHGMj2V1Scdvi6KHFIuvgk";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: christian.koenig@amd.com, maarten.lankhorst@linux.intel.com,
+ mripard@kernel.org, airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
+ alexander.deucher@amd.com, kraxel@redhat.com, l.stach@pengutronix.de,
+ linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
+ inki.dae@samsung.com, jy0922.shim@samsung.com, sw0312.kim@samsung.com,
+ kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
+ yuq825@gmail.com, bskeggs@redhat.com, robh@kernel.org,
+ tomeu.vizoso@collabora.com, steven.price@arm.com,
+ alyssa.rosenzweig@collabora.com, hjc@rock-chips.com, heiko@sntech.de,
+ hdegoede@redhat.com, sean@poorly.run, eric@anholt.net,
+ oleksandr_andrushchenko@epam.com, ray.huang@amd.com,
+ sumit.semwal@linaro.org, emil.velikov@collabora.com, luben.tuikov@amd.com,
+ apaneers@amd.com, linus.walleij@linaro.org, melissa.srw@gmail.com,
+ chris@chris-wilson.co.uk, miaoqinglang@huawei.com
+Cc: linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
+ nouveau@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
+ amd-gfx@lists.freedesktop.org, virtualization@lists.linux-foundation.org,
+ linaro-mm-sig@lists.linaro.org, linux-rockchip@lists.infradead.org,
+ dri-devel@lists.freedesktop.org, xen-devel@lists.xenproject.org,
+ spice-devel@lists.freedesktop.org, linux-arm-kernel@lists.infradead.org,
+ linux-media@vger.kernel.org
+Message-ID: <07972ada-9135-3743-a86b-487f610c509f@suse.de>
+Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
+ type conversion
+References: <20200929151437.19717-1-tzimmermann@suse.de>
+ <20200929151437.19717-3-tzimmermann@suse.de>
+ <8fad0114-064a-4ed5-c21d-d1b4294de0a1@amd.com>
+ <2614314a-81f7-4722-c400-68d90e48e09a@suse.de>
+ <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
+In-Reply-To: <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
 
-Reports aren't automatically sent to the public while we're
-trialing new bisection features on kernelci.org but this one
-looks valid.
+--8reR6qmzfsBdHGMj2V1Scdvi6KHFIuvgk
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
+
+Hi
+
+Am 30.09.20 um 10:05 schrieb Christian K=C3=B6nig:
+> Am 29.09.20 um 19:49 schrieb Thomas Zimmermann:
+>> Hi Christian
+>>
+>> Am 29.09.20 um 17:35 schrieb Christian K=C3=B6nig:
+>>> Am 29.09.20 um 17:14 schrieb Thomas Zimmermann:
+>>>> The new helper ttm_kmap_obj_to_dma_buf() extracts address and locati=
+on
+>>>> from and instance of TTM's kmap_obj and initializes struct dma_buf_m=
+ap
+>>>> with these values. Helpful for TTM-based drivers.
+>>> We could completely drop that if we use the same structure inside TTM=
+ as
+>>> well.
+>>>
+>>> Additional to that which driver is going to use this?
+>> As Daniel mentioned, it's in patch 3. The TTM-based drivers will
+>> retrieve the pointer via this function.
+>>
+>> I do want to see all that being more tightly integrated into TTM, but
+>> not in this series. This one is about fixing the bochs-on-sparc64
+>> problem for good. Patch 7 adds an update to TTM to the DRM TODO list.
+>=20
+> I should have asked which driver you try to fix here :)
+>=20
+> In this case just keep the function inside bochs and only fix it there.=
+
+>=20
+> All other drivers can be fixed when we generally pump this through TTM.=
 
 
-The full results for v4l2-compliance on vivid for
-v5.9-rc4-471-gc0c8db7bc953 show 22 individual test case
-regressions which might all be due to a single issue:
+Did you take a look at patch 3? This function will be used by VRAM
+helpers, nouveau, radeon, amdgpu and qxl. If we don't put it here, we
+have to duplicate the functionality in each if these drivers. Bochs
+itself uses VRAM helpers and doesn't touch the function directly.
 
-  https://kernelci.org/test/plan/id/5f728c108b008d61f4bf9db7/
+Best regards
+Thomas
 
-For comparison, this is the results from the previous revision in
-the media tree:
+>=20
+> Regards,
+> Christian.
+>=20
+>> Best regards
+>> Thomas
+>>
+>>> Regards,
+>>> Christian.
+>>>
+>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>>>> ---
+>>>> =C2=A0 include/drm/ttm/ttm_bo_api.h | 24 ++++++++++++++++++++++++
+>>>> =C2=A0 include/linux/dma-buf-map.h=C2=A0 | 20 ++++++++++++++++++++
+>>>> =C2=A0 2 files changed, 44 insertions(+)
+>>>>
+>>>> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/ttm/ttm_bo_a=
+pi.h
+>>>> index c96a25d571c8..62d89f05a801 100644
+>>>> --- a/include/drm/ttm/ttm_bo_api.h
+>>>> +++ b/include/drm/ttm/ttm_bo_api.h
+>>>> @@ -34,6 +34,7 @@
+>>>> =C2=A0 #include <drm/drm_gem.h>
+>>>> =C2=A0 #include <drm/drm_hashtab.h>
+>>>> =C2=A0 #include <drm/drm_vma_manager.h>
+>>>> +#include <linux/dma-buf-map.h>
+>>>> =C2=A0 #include <linux/kref.h>
+>>>> =C2=A0 #include <linux/list.h>
+>>>> =C2=A0 #include <linux/wait.h>
+>>>> @@ -486,6 +487,29 @@ static inline void *ttm_kmap_obj_virtual(struct=
 
-  https://kernelci.org/test/plan/id/5f6b44ddea4abb1888bf9db4/
+>>>> ttm_bo_kmap_obj *map,
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 return map->virtual;
+>>>> =C2=A0 }
+>>>> =C2=A0 +/**
+>>>> + * ttm_kmap_obj_to_dma_buf_map
+>>>> + *
+>>>> + * @kmap: A struct ttm_bo_kmap_obj returned from ttm_bo_kmap.
+>>>> + * @map: Returns the mapping as struct dma_buf_map
+>>>> + *
+>>>> + * Converts struct ttm_bo_kmap_obj to struct dma_buf_map. If the me=
+mory
+>>>> + * is not mapped, the returned mapping is initialized to NULL.
+>>>> + */
+>>>> +static inline void ttm_kmap_obj_to_dma_buf_map(struct ttm_bo_kmap_o=
+bj
+>>>> *kmap,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 struct dma_buf_map *map)
+>>>> +{
+>>>> +=C2=A0=C2=A0=C2=A0 bool is_iomem;
+>>>> +=C2=A0=C2=A0=C2=A0 void *vaddr =3D ttm_kmap_obj_virtual(kmap, &is_i=
+omem);
+>>>> +
+>>>> +=C2=A0=C2=A0=C2=A0 if (!vaddr)
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_buf_map_clear(map);
+>>>> +=C2=A0=C2=A0=C2=A0 else if (is_iomem)
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_buf_map_set_vaddr_io=
+mem(map, (void __force __iomem *)vaddr);
+>>>> +=C2=A0=C2=A0=C2=A0 else
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 dma_buf_map_set_vaddr(ma=
+p, vaddr);
+>>>> +}
+>>>> +
+>>>> =C2=A0 /**
+>>>> =C2=A0=C2=A0 * ttm_bo_kmap
+>>>> =C2=A0=C2=A0 *
+>>>> diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map=
+=2Eh
+>>>> index fd1aba545fdf..2e8bbecb5091 100644
+>>>> --- a/include/linux/dma-buf-map.h
+>>>> +++ b/include/linux/dma-buf-map.h
+>>>> @@ -45,6 +45,12 @@
+>>>> =C2=A0=C2=A0 *
+>>>> =C2=A0=C2=A0 *=C2=A0=C2=A0=C2=A0 dma_buf_map_set_vaddr(&map. 0xdeadb=
+eaf);
+>>>> =C2=A0=C2=A0 *
+>>>> + * To set an address in I/O memory, use dma_buf_map_set_vaddr_iomem=
+().
+>>>> + *
+>>>> + * .. code-block:: c
+>>>> + *
+>>>> + *=C2=A0=C2=A0=C2=A0 dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);=
 
-Also worth noting is that the v4l2-compliance test suite was
-updated on Friday 25th, in-between the revisions mentioned above.
-So the issue might have been present earlier but not detected.
+>>>> + *
+>>>> =C2=A0=C2=A0 * Test if a mapping is valid with either dma_buf_map_is=
+_set() or
+>>>> =C2=A0=C2=A0 * dma_buf_map_is_null().
+>>>> =C2=A0=C2=A0 *
+>>>> @@ -118,6 +124,20 @@ static inline void dma_buf_map_set_vaddr(struct=
 
-Hope this helps!
+>>>> dma_buf_map *map, void *vaddr)
+>>>> =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 map->is_iomem =3D false;
+>>>> =C2=A0 }
+>>>> =C2=A0 +/**
+>>>> + * dma_buf_map_set_vaddr_iomem - Sets a dma-buf mapping structure t=
+o
+>>>> an address in I/O memory
+>>>> + * @map:=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 The dma-buf mapp=
+ing structure
+>>>> + * @vaddr_iomem:=C2=A0=C2=A0=C2=A0 An I/O-memory address
+>>>> + *
+>>>> + * Sets the address and the I/O-memory flag.
+>>>> + */
+>>>> +static inline void dma_buf_map_set_vaddr_iomem(struct dma_buf_map *=
+map,
+>>>> +=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=
+=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=
+=C2=A0=C2=A0 void __iomem *vaddr_iomem)
+>>>> +{
+>>>> +=C2=A0=C2=A0=C2=A0 map->vaddr_iomem =3D vaddr_iomem;
+>>>> +=C2=A0=C2=A0=C2=A0 map->is_iomem =3D true;
+>>>> +}
+>>>> +
+>>>> =C2=A0 /**
+>>>> =C2=A0=C2=A0 * dma_buf_map_is_equal - Compares two dma-buf mapping s=
+tructures
+>>>> for equality
+>>>> =C2=A0=C2=A0 * @lhs:=C2=A0=C2=A0=C2=A0 The dma-buf mapping structure=
 
-Thanks,
-Guillaume
+>>> _______________________________________________
+>>> dri-devel mailing list
+>>> dri-devel@lists.freedesktop.org
+>>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>>
+>> _______________________________________________
+>> amd-gfx mailing list
+>> amd-gfx@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/amd-gfx
+>=20
+>=20
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
-On 29/09/2020 07:30, KernelCI bot wrote:
-> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-> * This automated bisection report was sent to you on the basis  *
-> * that you may be involved with the breaking commit it has      *
-> * found.  No manual investigation has been done to verify it,   *
-> * and the root cause of the problem may be somewhere else.      *
-> *                                                               *
-> * If you do send a fix, please include this trailer:            *
-> *   Reported-by: "kernelci.org bot" <bot@kernelci.org>          *
-> *                                                               *
-> * Hope this helps!                                              *
-> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
-> 
-> media/master bisection: v4l2-compliance-vivid.Format-ioctls-Input-3.VIDIOC_TRY_FMT on qemu_arm-virt-gicv3
-> 
-> Summary:
->   Start:      c0c8db7bc953 media: MAINTAINERS: remove Maxime Jourdan as maintainer of Amlogic VDEC
->   Plain log:  https://storage.kernelci.org/media/master/v5.9-rc4-471-gc0c8db7bc953/arm/multi_v7_defconfig+virtualvideo/gcc-8/lab-collabora/v4l2-compliance-vivid-qemu_arm-virt-gicv3.txt
->   HTML log:   https://storage.kernelci.org/media/master/v5.9-rc4-471-gc0c8db7bc953/arm/multi_v7_defconfig+virtualvideo/gcc-8/lab-collabora/v4l2-compliance-vivid-qemu_arm-virt-gicv3.html
->   Result:     2f491463497a media: vivid: Add support to the CSC API
-> 
-> Checks:
->   revert:     PASS
->   verify:     PASS
-> 
-> Parameters:
->   Tree:       media
->   URL:        https://git.linuxtv.org/media_tree.git
->   Branch:     master
->   Target:     qemu_arm-virt-gicv3
->   CPU arch:   arm
->   Lab:        lab-collabora
->   Compiler:   gcc-8
->   Config:     multi_v7_defconfig+virtualvideo
->   Test case:  v4l2-compliance-vivid.Format-ioctls-Input-3.VIDIOC_TRY_FMT
-> 
-> Breaking commit found:
-> 
-> -------------------------------------------------------------------------------
-> commit 2f491463497ad43bc06968a334747c6b6b20fc74
-> Author: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> Date:   Thu Aug 27 21:46:09 2020 +0200
-> 
->     media: vivid: Add support to the CSC API
->     
->     The CSC API (Colorspace conversion) allows userspace to try
->     to configure the colorspace, transfer function, Y'CbCr/HSV encoding
->     and the quantization for capture devices. This patch adds support
->     to the CSC API in vivid.
->     Using the CSC API, userspace is allowed to do the following:
->     
->     - Set the colorspace.
->     - Set the xfer_func.
->     - Set the ycbcr_enc function for YUV formats.
->     - Set the hsv_enc function for HSV formats
->     - Set the quantization for YUV and RGB formats.
->     
->     Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->     Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->     Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> 
-> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> index e94beef008c8..eadf28ab1e39 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
-> @@ -560,6 +560,7 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->  	unsigned factor = 1;
->  	unsigned w, h;
->  	unsigned p;
-> +	bool user_set_csc = !!(mp->flags & V4L2_PIX_FMT_FLAG_SET_CSC);
->  
->  	fmt = vivid_get_format(dev, mp->pixelformat);
->  	if (!fmt) {
-> @@ -633,13 +634,30 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
->  			(fmt->bit_depth[p] / fmt->vdownsampling[p])) /
->  			(fmt->bit_depth[0] / fmt->vdownsampling[0]);
->  
-> -	mp->colorspace = vivid_colorspace_cap(dev);
-> -	if (fmt->color_enc == TGP_COLOR_ENC_HSV)
-> -		mp->hsv_enc = vivid_hsv_enc_cap(dev);
-> -	else
-> +	if (!user_set_csc || !v4l2_is_colorspace_valid(mp->colorspace))
-> +		mp->colorspace = vivid_colorspace_cap(dev);
-> +
-> +	if (!user_set_csc || !v4l2_is_xfer_func_valid(mp->xfer_func))
-> +		mp->xfer_func = vivid_xfer_func_cap(dev);
-> +
-> +	if (fmt->color_enc == TGP_COLOR_ENC_HSV) {
-> +		if (!user_set_csc || !v4l2_is_hsv_enc_valid(mp->hsv_enc))
-> +			mp->hsv_enc = vivid_hsv_enc_cap(dev);
-> +	} else if (fmt->color_enc == TGP_COLOR_ENC_YCBCR) {
-> +		if (!user_set_csc || !v4l2_is_ycbcr_enc_valid(mp->ycbcr_enc))
-> +			mp->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
-> +	} else {
->  		mp->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
-> -	mp->xfer_func = vivid_xfer_func_cap(dev);
-> -	mp->quantization = vivid_quantization_cap(dev);
-> +	}
-> +
-> +	if (fmt->color_enc == TGP_COLOR_ENC_YCBCR ||
-> +	    fmt->color_enc == TGP_COLOR_ENC_RGB) {
-> +		if (!user_set_csc || !v4l2_is_quant_valid(mp->quantization))
-> +			mp->quantization = vivid_quantization_cap(dev);
-> +	} else {
-> +		mp->quantization = vivid_quantization_cap(dev);
-> +	}
-> +
->  	memset(mp->reserved, 0, sizeof(mp->reserved));
->  	return 0;
->  }
-> @@ -769,6 +787,14 @@ int vivid_s_fmt_vid_cap(struct file *file, void *priv,
->  	if (vivid_is_sdtv_cap(dev))
->  		dev->tv_field_cap = mp->field;
->  	tpg_update_mv_step(&dev->tpg);
-> +	dev->tpg.colorspace = mp->colorspace;
-> +	dev->tpg.xfer_func = mp->xfer_func;
-> +	if (dev->fmt_cap->color_enc == TGP_COLOR_ENC_YCBCR)
-> +		dev->tpg.ycbcr_enc = mp->ycbcr_enc;
-> +	else
-> +		dev->tpg.hsv_enc = mp->hsv_enc;
-> +	dev->tpg.quantization = mp->quantization;
-> +
->  	return 0;
->  }
->  
-> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-common.c b/drivers/media/test-drivers/vivid/vivid-vid-common.c
-> index 76b0be670ebb..19701fe72030 100644
-> --- a/drivers/media/test-drivers/vivid/vivid-vid-common.c
-> +++ b/drivers/media/test-drivers/vivid/vivid-vid-common.c
-> @@ -920,6 +920,31 @@ int vivid_enum_fmt_vid(struct file *file, void  *priv,
->  	fmt = &vivid_formats[f->index];
->  
->  	f->pixelformat = fmt->fourcc;
-> +
-> +	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE &&
-> +	    f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-> +		return 0;
-> +	/*
-> +	 * For capture devices, we support the CSC API.
-> +	 * We allow userspace to:
-> +	 * 1. set the colorspace
-> +	 * 2. set the xfer_func
-> +	 * 3. set the ycbcr_enc on YUV formats
-> +	 * 4. set the hsv_enc on HSV formats
-> +	 * 5. set the quantization on YUV and RGB formats
-> +	 */
-> +	f->flags |= V4L2_FMT_FLAG_CSC_COLORSPACE;
-> +	f->flags |= V4L2_FMT_FLAG_CSC_XFER_FUNC;
-> +
-> +	if (fmt->color_enc == TGP_COLOR_ENC_YCBCR) {
-> +		f->flags |= V4L2_FMT_FLAG_CSC_YCBCR_ENC;
-> +		f->flags |= V4L2_FMT_FLAG_CSC_QUANTIZATION;
-> +	} else if (fmt->color_enc == TGP_COLOR_ENC_HSV) {
-> +		f->flags |= V4L2_FMT_FLAG_CSC_HSV_ENC;
-> +	} else if (fmt->color_enc == TGP_COLOR_ENC_RGB) {
-> +		f->flags |= V4L2_FMT_FLAG_CSC_QUANTIZATION;
-> +	}
-> +
->  	return 0;
->  }
->  
-> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
-> index 150ee16ebd81..a3083529b698 100644
-> --- a/include/media/v4l2-common.h
-> +++ b/include/media/v4l2-common.h
-> @@ -539,4 +539,33 @@ static inline void v4l2_buffer_set_timestamp(struct v4l2_buffer *buf,
->  	buf->timestamp.tv_usec = ts.tv_nsec / NSEC_PER_USEC;
->  }
->  
-> +static inline bool v4l2_is_colorspace_valid(__u32 colorspace)
-> +{
-> +	return colorspace > V4L2_COLORSPACE_DEFAULT &&
-> +	       colorspace <= V4L2_COLORSPACE_DCI_P3;
-> +}
-> +
-> +static inline bool v4l2_is_xfer_func_valid(__u32 xfer_func)
-> +{
-> +	return xfer_func > V4L2_XFER_FUNC_DEFAULT &&
-> +	       xfer_func <= V4L2_XFER_FUNC_SMPTE2084;
-> +}
-> +
-> +static inline bool v4l2_is_ycbcr_enc_valid(__u8 ycbcr_enc)
-> +{
-> +	return ycbcr_enc > V4L2_YCBCR_ENC_DEFAULT &&
-> +	       ycbcr_enc <= V4L2_YCBCR_ENC_SMPTE240M;
-> +}
-> +
-> +static inline bool v4l2_is_hsv_enc_valid(__u8 hsv_enc)
-> +{
-> +	return hsv_enc == V4L2_HSV_ENC_180 || hsv_enc == V4L2_HSV_ENC_256;
-> +}
-> +
-> +static inline bool v4l2_is_quant_valid(__u8 quantization)
-> +{
-> +	return quantization == V4L2_QUANTIZATION_FULL_RANGE ||
-> +	       quantization == V4L2_QUANTIZATION_LIM_RANGE;
-> +}
-> +
->  #endif /* V4L2_COMMON_H_ */
-> -------------------------------------------------------------------------------
-> 
-> 
-> Git bisection log:
-> 
-> -------------------------------------------------------------------------------
-> git bisect start
-> # good: [01cc2ec6ea044731e939e5e47f7e115b86f49465] media: atomisp: cleanup __printf() atributes on printk messages
-> git bisect good 01cc2ec6ea044731e939e5e47f7e115b86f49465
-> # bad: [c0c8db7bc95397f32fe60ff8b07c746a69fb22de] media: MAINTAINERS: remove Maxime Jourdan as maintainer of Amlogic VDEC
-> git bisect bad c0c8db7bc95397f32fe60ff8b07c746a69fb22de
-> # bad: [aaffa0126a111d65f4028c503c76192d4cc93277] media: rcar-vin: Fix a reference count leak.
-> git bisect bad aaffa0126a111d65f4028c503c76192d4cc93277
-> # bad: [25d8cf786d34b5167f2c01e092eeedcb0ae58628] media: staging: rkisp1: rsz: set flags to 0 in enum_mbus_code cb
-> git bisect bad 25d8cf786d34b5167f2c01e092eeedcb0ae58628
-> # good: [327296920f9dedfc6ba4ef8f5a686c9667c65f38] media: mtk-vcodec: venc: set OUTPUT buffers field to V4L2_FIELD_NONE
-> git bisect good 327296920f9dedfc6ba4ef8f5a686c9667c65f38
-> # good: [21d387b8d372f859d9e87fdcc7c3b4a432737f4d] media: mx2_emmaprp: Fix memleak in emmaprp_probe
-> git bisect good 21d387b8d372f859d9e87fdcc7c3b4a432737f4d
-> # good: [b38c73ca1c213bbf8a872b334a6bb835becfaba5] media: v4l2: add support for colorspace conversion API (CSC) for video capture
-> git bisect good b38c73ca1c213bbf8a872b334a6bb835becfaba5
-> # bad: [62aacfa9bf93f94f6949338e0c7a2ed4c4bd2c2a] media: v4l2: extend the CSC API to subdevice.
-> git bisect bad 62aacfa9bf93f94f6949338e0c7a2ed4c4bd2c2a
-> # bad: [2f491463497ad43bc06968a334747c6b6b20fc74] media: vivid: Add support to the CSC API
-> git bisect bad 2f491463497ad43bc06968a334747c6b6b20fc74
-> # first bad commit: [2f491463497ad43bc06968a334747c6b6b20fc74] media: vivid: Add support to the CSC API
-> -------------------------------------------------------------------------------
-> 
-> 
-> -=-=-=-=-=-=-=-=-=-=-=-
-> Groups.io Links: You receive all messages sent to this group.
-> View/Reply Online (#1739): https://groups.io/g/kernelci-results/message/1739
-> Mute This Topic: https://groups.io/mt/77191137/924702
-> Group Owner: kernelci-results+owner@groups.io
-> Unsubscribe: https://groups.io/g/kernelci-results/unsub [guillaume.tucker@collabora.com]
-> -=-=-=-=-=-=-=-=-=-=-=-
-> 
-> 
+--8reR6qmzfsBdHGMj2V1Scdvi6KHFIuvgk--
 
+--2tnNmM6Gncu4Z9HVjsD6XejU6DShIRxes
+Content-Type: application/pgp-signature; name="signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl90P3oUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiOhVQf/Yv+6gFInXQVuqEi1ESWHgMw3t7Q2
+cnUg/6thxYVeLkIYdhhbnWBJbHFuwrDriJIad46Ptb3IeoigYaKbFF3ugYhvPkyl
+Z9cLTYI023ZIe5VDgdIavfx82kfG2SYDn95MF4he62lWk+Wqf0sTr2ZtSmX5qoec
+0fkWrJu3aTwroDjJoUIfrysvpX0px5Oyee+wVT7pZgcL59ltLz+GTDWVJqLePjS3
+q8gRTYBP118NUnDY7V7GsUTg6VXUJf+IwYIO3GIhcq8tw835SzJx9wzOKQ7zVXxF
+X8+of5BnSn43BGnzP9KkXwoVR647nGNPwin8wqtDISLp1MjHvRP1sc3pWg==
+=0pMc
+-----END PGP SIGNATURE-----
+
+--2tnNmM6Gncu4Z9HVjsD6XejU6DShIRxes--
