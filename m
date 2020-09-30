@@ -2,198 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 756E027E7F0
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 13:53:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 90EF727E85B
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 14:20:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729677AbgI3Lxo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 07:53:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37290 "EHLO
+        id S1728235AbgI3MUH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 08:20:07 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41320 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729674AbgI3Lxn (ORCPT
+        with ESMTP id S1725776AbgI3MUH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 07:53:43 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0797C0613D6
-        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 04:53:38 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id s12so1449173wrw.11
-        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 04:53:38 -0700 (PDT)
+        Wed, 30 Sep 2020 08:20:07 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43B83C061755;
+        Wed, 30 Sep 2020 05:20:07 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id x20so1107334ybs.8;
+        Wed, 30 Sep 2020 05:20:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Qfj+TClPlVYbpelD2YZsoi79IQBZqKkdlSt5zFsjIAs=;
-        b=XsLsT1M+AlmtzTtVzfmpzEdnlyNhgSN9Vm8/VlqSDOFx3bzC+XKoQ6tfO8635GE2tB
-         K4vNvrMU0OcJbL5ljhMpoGtOKhgbOkp5FrOVTy+N0F82YWhBZHVCuDVdyGRE1fg1PgGn
-         jzTp9PjGVE07lHazWB3jPXMvDMVbJU+/5UQOaU5HwqXr3dI68pK7GE043+co0vkKxtw+
-         bpmODmoZ0zaZTG5p5ikahzCupx34VdUhGSItgXN754D+DE0eO5hlStfSH5xPGlO9LqwD
-         kKr6RQDtIOXnWwTkySeNkk2hKiAqaWuGQT2si3rGDyPrmvi2QX8DxX5HrBD4MxCEz4hG
-         BrDw==
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=8OY3SIpBqhs9ShdUb/W0izWrW0fchBVg7nzJdv4eq1A=;
+        b=iQxZnZUaCriMamuxwJyeFSRHA+SDnZKrPyar0weotpP7rJaMOJrG+YS8mQv8cVUiT/
+         FXxtqoiX4Z2pToh3Xjwg0+OpOb4Z4vSKOjU2wQW5J7685ZVhdiU/RbASQv9NrG9leN5j
+         v3vvlY+qjmubNkIayoOX9IKPSKftKNk3keEAtjWe9mL0QNp2hmjU7gGkuO8EWwDucNLK
+         x8pSRvXo9aedhvroxrVgv2fzNj6Vqpplbmkw+PcijC/r5HXYKpP7A6b//uSDyYXS5o7I
+         06+1C18yQTUKAcHGOL7rGwmFaToqeOukEAPysDB5AAbV9F/RmMPpX6esyJ+P/7LcT15Z
+         kwhA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Qfj+TClPlVYbpelD2YZsoi79IQBZqKkdlSt5zFsjIAs=;
-        b=M0wLs2QMvcPJm0FvQlssQ+Xl7Wyt31XgbyWpNiq2hSHTZCdUyQE5+bU04JeXwyhrOz
-         Bydujts6t628lD7Kbv4j+yLi1UpMuErQQlMmb3gXj29uize3KGihCWiZl2gfLwb0S4mC
-         OOpx75g9eTFdxEdvY+OojgZRymKRWeLvSRt5GunEgnnZmVEIT/fvHL3DhuUhpvbxebqD
-         594ncmdQS5z77O9iv9I0LlpWuK2FUcuMBK3vj8Bekle/1B6J63g4Tu4WSfeiCAD4ZmzT
-         JDXSJnE3MFaXKX8d+opu6ghP9wYAiEr+ApgaXcUFiQWBoxAOCkBli+fNVaPxf94zGq0m
-         QCtg==
-X-Gm-Message-State: AOAM530PcNLVuri3PF+hapvBlNkeyqZjW6MPjws0f9knLL20/Zssx1t1
-        dhTQO/5Uy6AGUfRpKH9bw+V6Bt78J4fIF+lh
-X-Google-Smtp-Source: ABdhPJxX79nVu9DHdEnVM3doUa5RIopeAThnQgQyTX9yOm+uhr5xThuu8COX5hYqqQapikbSC/0cAQ==
-X-Received: by 2002:adf:fd8c:: with SMTP id d12mr2696721wrr.283.1601466817417;
-        Wed, 30 Sep 2020 04:53:37 -0700 (PDT)
-Received: from alex-xps13.baylibre.local (laubervilliers-658-1-213-31.w90-63.abo.wanadoo.fr. [90.63.244.31])
-        by smtp.gmail.com with ESMTPSA id s12sm2222353wmd.20.2020.09.30.04.53.36
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 04:53:36 -0700 (PDT)
-From:   Alexandre Bailon <abailon@baylibre.com>
-To:     linux-remoteproc@vger.kernel.org
-Cc:     ohad@wizery.com, bjorn.andersson@linaro.org,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        jstephan@baylibre.com, stephane.leprovost@mediatek.com,
-        gpain@baylibre.com, mturquette@baylibre.com,
-        Alexandre Bailon <abailon@baylibre.com>
-Subject: [RFC PATCH 4/4] rpmsg: apu_rpmsg: Add an IOCTL to request IOMMU mapping
-Date:   Wed, 30 Sep 2020 13:53:50 +0200
-Message-Id: <20200930115350.5272-5-abailon@baylibre.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20200930115350.5272-1-abailon@baylibre.com>
-References: <20200930115350.5272-1-abailon@baylibre.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=8OY3SIpBqhs9ShdUb/W0izWrW0fchBVg7nzJdv4eq1A=;
+        b=ap35dzbyKfqRrB1en9PcY3SdQDcqT9iXRaAIOltGG/uCMaAxTvN1d5nzTxFvpMVlKs
+         QhjNDy8QUumCa/LVGEE6ETPmBgS1wgeva+zIlkPAe50MiijKTBX0XtOVZZpr6/cD4y2i
+         96WeckoT5qtMqZyuu1fZ1hB/S7FXwkPD0P6FAkQftV8avXMgJ8GCVAWobUEoqJrrvZu3
+         N/k2N1ILEkDEWQZTP7J8ovUXHYh/dvkpWEclA9hbWGWAEzTk8hS6uRxOoeqbGx2hw3YF
+         8f9xkMEzHEJ8fna8CZA0w6LKsYlL599L4nZXP60epOZP1Br1+pMbikcRqFTAIA21DlfE
+         NIew==
+X-Gm-Message-State: AOAM533uRkQRAIpIQGgbK6kVzLY37AzxJfp86fugPi59vJAOLaCj+Fbv
+        /NqVc5OQSwwNfHBsYUnPC52KHqNfOiRfhT18Sj6IO8CfeUBqK+Dv
+X-Google-Smtp-Source: ABdhPJxdagDPrgQuFVssAP+5cHQ8RgYlZRk4xuLfdA0tNOgUrr1u4oTxJcW98Uw0ZpK3xYXpXHaGzWY9/bAZavEBy40=
+X-Received: by 2002:a25:e811:: with SMTP id k17mr2590001ybd.401.1601468406510;
+ Wed, 30 Sep 2020 05:20:06 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20200917174224.11430-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+ <20200917174224.11430-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20200930114529.GM26842@paasikivi.fi.intel.com>
+In-Reply-To: <20200930114529.GM26842@paasikivi.fi.intel.com>
+From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Date:   Wed, 30 Sep 2020 13:19:40 +0100
+Message-ID: <CA+V-a8t5piG4a0C2BKgsZii6EB7te=GUeRCmfcPhdm+hAuV7Ng@mail.gmail.com>
+Subject: Re: [PATCH v6 1/3] media: i2c: ov772x: Parse endpoint properties
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Biju Das <biju.das.jz@bp.renesas.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently, the kernel is automatically doing an IOMMU memory mapping.
-But we want to do it automatically for two reasons:
-- to reduce the overhead of each APU operation
-- to get the device address and use it as input for an operation
-This adds 2 IOCTL to manually IOMMU map and unmap memory.
+HI Sakari,
 
-Signed-off-by: Alexandre Bailon <abailon@baylibre.com>
----
- drivers/rpmsg/apu_rpmsg.c      | 52 ++++++++++++++++++++++++++++++----
- include/uapi/linux/apu_rpmsg.h |  7 +++++
- 2 files changed, 53 insertions(+), 6 deletions(-)
+Thank you for the review.
 
-diff --git a/drivers/rpmsg/apu_rpmsg.c b/drivers/rpmsg/apu_rpmsg.c
-index 343bd08a859a..4c064feddf5a 100644
---- a/drivers/rpmsg/apu_rpmsg.c
-+++ b/drivers/rpmsg/apu_rpmsg.c
-@@ -114,7 +114,7 @@ static int apu_rpmsg_callback(struct rpmsg_device *rpdev, void *data, int count,
- }
- 
- static struct apu_buffer *apu_device_memory_map(struct rpmsg_apu *apu,
--		uint32_t fd, struct rpmsg_request *rpmsg_req)
-+						uint32_t fd)
- {
- 	struct rpmsg_device *rpdev = apu->rpdev;
- 	struct apu_buffer *buffer;
-@@ -129,10 +129,6 @@ static struct apu_buffer *apu_device_memory_map(struct rpmsg_apu *apu,
- 	list_for_each_entry(buffer, &apu->buffers, node) {
- 		if (buffer->fd == fd) {
- 			kref_get(&buffer->refcount);
--			if (rpmsg_req)
--				list_add(&buffer->req_node,
--					 &rpmsg_req->buffers);
--
- 			return buffer;
- 		}
- 	}
-@@ -230,6 +226,44 @@ static void apu_device_memory_unmap(struct kref *ref)
- 	kfree(buffer);
- }
- 
-+static int apu_iommu_mmap_ioctl(struct rpmsg_apu *apu, void __user *argp)
-+{
-+	struct apu_iommu_mmap apu_iommu_mmap;
-+	struct apu_buffer *buffer;
-+	int ret;
-+
-+	if (copy_from_user(&apu_iommu_mmap, argp, sizeof(apu_iommu_mmap)))
-+		return -EFAULT;
-+
-+	buffer = apu_device_memory_map(apu, apu_iommu_mmap.fd);
-+	if (!buffer)
-+		return -ENOMEM;
-+
-+	apu_iommu_mmap.da = buffer->iova;
-+	if (copy_to_user(argp, &apu_iommu_mmap, sizeof(apu_iommu_mmap)))
-+		ret = -EFAULT;
-+
-+	return 0;
-+}
-+
-+static int apu_iommu_munmap_ioctl(struct rpmsg_apu *apu, void __user *argp)
-+{
-+	u32 fd;
-+	struct apu_buffer *buffer, *tmp;
-+
-+	if (copy_from_user(&fd, argp, sizeof(fd)))
-+		return -EFAULT;
-+
-+	list_for_each_entry_safe(buffer, tmp, &apu->buffers, node) {
-+		if (buffer->fd == fd) {
-+			kref_put(&buffer->refcount, apu_device_memory_unmap);
-+			return 0;
-+		}
-+	}
-+
-+	return -EINVAL;
-+}
-+
- static int apu_send_request(struct rpmsg_apu *apu,
- 			    struct apu_request *req)
- {
-@@ -266,7 +300,7 @@ static int apu_send_request(struct rpmsg_apu *apu,
- 
- 	INIT_LIST_HEAD(&rpmsg_req->buffers);
- 	for (i = 0; i < req->count; i++) {
--		buffer = apu_device_memory_map(apu, fd[i], rpmsg_req);
-+		buffer = apu_device_memory_map(apu, fd[i]);
- 		if (IS_ERR(buffer)) {
- 			ret = PTR_ERR(buffer);
- 			goto err_free_memory;
-@@ -417,6 +451,12 @@ static long rpmsg_eptdev_ioctl(struct file *fp, unsigned int cmd,
- 		}
- 		spin_unlock_irqrestore(&apu->ctx_lock, flags);
- 
-+		break;
-+	case APU_IOMMU_MMAP:
-+		ret = apu_iommu_mmap_ioctl(apu, argp);
-+		break;
-+	case APU_IOMMU_MUNMAP:
-+		ret = apu_iommu_munmap_ioctl(apu, argp);
- 		break;
- 	default:
- 		ret = -EINVAL;
-diff --git a/include/uapi/linux/apu_rpmsg.h b/include/uapi/linux/apu_rpmsg.h
-index f61207520254..e9b841dcbcb4 100644
---- a/include/uapi/linux/apu_rpmsg.h
-+++ b/include/uapi/linux/apu_rpmsg.h
-@@ -31,10 +31,17 @@ struct apu_request {
- 	__u8 data[0];
- };
- 
-+struct apu_iommu_mmap {
-+	__u32 fd;
-+	__u32 da;
-+};
-+
- /* Send synchronous request to an APU */
- 
- #define APU_SEND_REQ_IOCTL		_IOW(0xb7, 0x2, struct apu_request)
- #define APU_GET_NEXT_AVAILABLE_IOCTL	_IOR(0xb7, 0x3, __u16)
- #define APU_GET_RESP			_IOWR(0xb7, 0x4, struct apu_request)
-+#define APU_IOMMU_MMAP			_IOWR(0xb7, 0x5, struct apu_iommu_mmap)
-+#define APU_IOMMU_MUNMAP		_IOWR(0xb7, 0x6, __u32)
- 
- #endif
--- 
-2.26.2
+On Wed, Sep 30, 2020 at 12:45 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
+>
+> Hi Prabhakar,
+>
+> On Thu, Sep 17, 2020 at 06:42:22PM +0100, Lad Prabhakar wrote:
+> > Parse endpoint properties using v4l2_fwnode_endpoint_alloc_parse()
+> > to determine the bus type and store it in the driver structure.
+> >
+> > Set bus_type to V4L2_MBUS_PARALLEL as it's the only supported one
+> >
+> > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> > ---
+> >  drivers/media/i2c/ov772x.c | 34 ++++++++++++++++++++++++++++++++++
+> >  1 file changed, 34 insertions(+)
+> >
+> > diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
+> > index 2cc6a678069a..f61a3f09ad64 100644
+> > --- a/drivers/media/i2c/ov772x.c
+> > +++ b/drivers/media/i2c/ov772x.c
+> > @@ -31,6 +31,7 @@
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-device.h>
+> >  #include <media/v4l2-event.h>
+> > +#include <media/v4l2-fwnode.h>
+> >  #include <media/v4l2-image-sizes.h>
+> >  #include <media/v4l2-subdev.h>
+> >
+> > @@ -434,6 +435,7 @@ struct ov772x_priv {
+> >  #ifdef CONFIG_MEDIA_CONTROLLER
+> >       struct media_pad pad;
+> >  #endif
+> > +     enum v4l2_mbus_type               bus_type;
+> >  };
+> >
+> >  /*
+> > @@ -1348,6 +1350,34 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
+> >       .pad    = &ov772x_subdev_pad_ops,
+> >  };
+> >
+> > +static int ov772x_parse_dt(struct i2c_client *client,
+> > +                        struct ov772x_priv *priv)
+> > +{
+> > +     struct v4l2_fwnode_endpoint bus_cfg;
+> > +     struct fwnode_handle *ep;
+> > +     int ret;
+> > +
+> > +     ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
+> > +                                         NULL);
+> > +     if (!ep) {
+> > +             dev_err(&client->dev, "Endpoint node not found\n");
+> > +             return -EINVAL;
+> > +     }
+> > +
+> > +     bus_cfg.bus_type = V4L2_MBUS_PARALLEL;
+>
+> Please zero the entire struct, i.e. do this assignment in the declaration.
+>
+Agreed, but instead at the declaration I would prefer here as below,
+since patch 2/3 has a comment related to backward compatibility with
+the bindings. Is this OK with you ?
+    bus_cfg = (struct v4l2_fwnode_endpoint)
+          { .bus_type = V4L2_MBUS_PARALLEL };
 
+> You can also use v4l2_fwnode_endpoint_parse() if you're not using the link
+> frequencies --- sensor drivers generally should but you could only add them
+> as optional at this point (out of scope of this patch).
+>
+will stick with this for now :)
+
+Cheers,
+Prabhakar
