@@ -2,27 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FB3427ED01
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 17:31:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 44CD127ECFF
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 17:31:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731203AbgI3Paj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 11:30:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42200 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730198AbgI3P3A (ORCPT
+        id S1731202AbgI3Pag (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 11:30:36 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:44632 "EHLO
+        hillosipuli.retiisi.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725892AbgI3P3B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 11:29:00 -0400
-Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6436C0613D1
-        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 08:29:00 -0700 (PDT)
+        Wed, 30 Sep 2020 11:29:01 -0400
+X-Greylist: delayed 2446 seconds by postgrey-1.27 at vger.kernel.org; Wed, 30 Sep 2020 11:29:00 EDT
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 2CA35634C8C
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 3E27A634C8D
         for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 18:28:46 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH 002/100] smiapp: Use CCS register flags
-Date:   Wed, 30 Sep 2020 18:27:20 +0300
-Message-Id: <20200930152858.8471-3-sakari.ailus@linux.intel.com>
+Subject: [PATCH 003/100] smiapp: Calculate CCS limit offsets and limit buffer size
+Date:   Wed, 30 Sep 2020 18:27:21 +0300
+Message-Id: <20200930152858.8471-4-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200930152858.8471-1-sakari.ailus@linux.intel.com>
 References: <20200930152858.8471-1-sakari.ailus@linux.intel.com>
@@ -32,121 +30,80 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the CCS register flags instead of the old smia flags. The
-new flags include the register width information that was separate from
-the register flags previously.
+Calculate the limit offsets and the size of the limit buffer. CCS limits
+are read into this buffer, and the offsets are helpful in accessing the
+information in it.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/smiapp/smiapp-reg-defs.h |  8 ++++----
- drivers/media/i2c/smiapp/smiapp-regs.c     | 20 +++++++++++++-------
- drivers/media/i2c/smiapp/smiapp-regs.h     | 13 ++++---------
- 3 files changed, 21 insertions(+), 20 deletions(-)
+ drivers/media/i2c/smiapp/smiapp-core.c | 40 +++++++++++++++++++++++++-
+ 1 file changed, 39 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/i2c/smiapp/smiapp-reg-defs.h b/drivers/media/i2c/smiapp/smiapp-reg-defs.h
-index 865488befc09..ec574007908b 100644
---- a/drivers/media/i2c/smiapp/smiapp-reg-defs.h
-+++ b/drivers/media/i2c/smiapp/smiapp-reg-defs.h
-@@ -7,11 +7,11 @@
-  * Copyright (C) 2011--2012 Nokia Corporation
-  * Contact: Sakari Ailus <sakari.ailus@iki.fi>
-  */
--#define SMIAPP_REG_MK_U8(r) ((SMIAPP_REG_8BIT << 16) | (r))
--#define SMIAPP_REG_MK_U16(r) ((SMIAPP_REG_16BIT << 16) | (r))
--#define SMIAPP_REG_MK_U32(r) ((SMIAPP_REG_32BIT << 16) | (r))
-+#define SMIAPP_REG_MK_U8(r)	(r)
-+#define SMIAPP_REG_MK_U16(r)	(CCS_FL_16BIT | (r))
-+#define SMIAPP_REG_MK_U32(r)	(CCS_FL_32BIT | (r))
+diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
+index 105ef29152e8..47e983e9cd87 100644
+--- a/drivers/media/i2c/smiapp/smiapp-core.c
++++ b/drivers/media/i2c/smiapp/smiapp-core.c
+@@ -27,6 +27,7 @@
+ #include <media/v4l2-fwnode.h>
+ #include <media/v4l2-device.h>
  
--#define SMIAPP_REG_MK_F32(r) (SMIAPP_REG_FLAG_FLOAT | (SMIAPP_REG_32BIT << 16) | (r))
-+#define SMIAPP_REG_MK_F32(r)	(CCS_FL_FLOAT_IREAL | CCS_FL_32BIT | (r))
++#include "ccs-limits.h"
+ #include "smiapp.h"
  
- #define SMIAPP_REG_U16_MODEL_ID					SMIAPP_REG_MK_U16(0x0000)
- #define SMIAPP_REG_U8_REVISION_NUMBER_MAJOR			SMIAPP_REG_MK_U8(0x0002)
-diff --git a/drivers/media/i2c/smiapp/smiapp-regs.c b/drivers/media/i2c/smiapp/smiapp-regs.c
-index 1b58b7c6c839..904054d303ba 100644
---- a/drivers/media/i2c/smiapp/smiapp-regs.c
-+++ b/drivers/media/i2c/smiapp/smiapp-regs.c
-@@ -133,6 +133,16 @@ static int ____smiapp_read_8only(struct smiapp_sensor *sensor, u16 reg,
- 	return 0;
- }
+ #define SMIAPP_ALIGN_DIM(dim, flags)	\
+@@ -34,6 +35,11 @@
+ 	 ? ALIGN((dim), 2)		\
+ 	 : (dim) & ~1)
  
-+unsigned int ccs_reg_width(u32 reg)
-+{
-+	if (reg & CCS_FL_16BIT)
-+		return sizeof(uint16_t);
-+	if (reg & CCS_FL_32BIT)
-+		return sizeof(uint32_t);
-+
-+	return sizeof(uint8_t);
-+}
++struct ccs_limit_offset {
++	u16	lim;
++	u16	info;
++} ccs_limit_offsets[CCS_L_LAST + 1];
 +
  /*
-  * Read a 8/16/32-bit i2c register.  The value is returned in 'val'.
-  * Returns zero if successful, or non-zero otherwise.
-@@ -141,13 +151,9 @@ static int __smiapp_read(struct smiapp_sensor *sensor, u32 reg, u32 *val,
- 			 bool only8)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
--	u8 len = SMIAPP_REG_WIDTH(reg);
-+	unsigned int len = ccs_reg_width(reg);
- 	int rval;
+  * smiapp_module_idents - supported camera modules
+  */
+@@ -3166,7 +3172,39 @@ static struct i2c_driver smiapp_i2c_driver = {
+ 	.id_table = smiapp_id_table,
+ };
  
--	if (len != SMIAPP_REG_8BIT && len != SMIAPP_REG_16BIT
--	    && len != SMIAPP_REG_32BIT)
--		return -EINVAL;
--
- 	if (!only8)
- 		rval = ____smiapp_read(sensor, SMIAPP_REG_ADDR(reg), len, val);
- 	else
-@@ -156,7 +162,7 @@ static int __smiapp_read(struct smiapp_sensor *sensor, u32 reg, u32 *val,
- 	if (rval < 0)
- 		return rval;
- 
--	if (reg & SMIAPP_REG_FLAG_FLOAT)
-+	if (reg & CCS_FL_FLOAT_IREAL)
- 		*val = float_to_u32_mul_1000000(client, *val);
- 
- 	return 0;
-@@ -204,7 +210,7 @@ int smiapp_write_no_quirk(struct smiapp_sensor *sensor, u32 reg, u32 val)
- 	struct i2c_msg msg;
- 	unsigned char data[6];
- 	unsigned int retries;
--	u8 len = SMIAPP_REG_WIDTH(reg);
-+	unsigned int len = ccs_reg_width(reg);
- 	int r;
- 
- 	if (len > sizeof(data) - 2)
-diff --git a/drivers/media/i2c/smiapp/smiapp-regs.h b/drivers/media/i2c/smiapp/smiapp-regs.h
-index 8fda6ed5668c..7223f5f89109 100644
---- a/drivers/media/i2c/smiapp/smiapp-regs.h
-+++ b/drivers/media/i2c/smiapp/smiapp-regs.h
-@@ -14,16 +14,9 @@
- #include <linux/i2c.h>
- #include <linux/types.h>
- 
--#define SMIAPP_REG_ADDR(reg)		((u16)reg)
--#define SMIAPP_REG_WIDTH(reg)		((u8)(reg >> 16))
--#define SMIAPP_REG_FLAGS(reg)		((u8)(reg >> 24))
--
--/* Use upper 8 bits of the type field for flags */
--#define SMIAPP_REG_FLAG_FLOAT		(1 << 24)
-+#include "ccs-regs.h"
- 
--#define SMIAPP_REG_8BIT			1
--#define SMIAPP_REG_16BIT		2
--#define SMIAPP_REG_32BIT		4
-+#define SMIAPP_REG_ADDR(reg)		((u16)reg)
- 
- struct smiapp_sensor;
- 
-@@ -33,4 +26,6 @@ int smiapp_read_8only(struct smiapp_sensor *sensor, u32 reg, u32 *val);
- int smiapp_write_no_quirk(struct smiapp_sensor *sensor, u32 reg, u32 val);
- int smiapp_write(struct smiapp_sensor *sensor, u32 reg, u32 val);
- 
-+unsigned int ccs_reg_width(u32 reg);
+-module_i2c_driver(smiapp_i2c_driver);
++static int smiapp_module_init(void)
++{
++	unsigned int i, l;
 +
- #endif
++	for (i = 0, l = 0; ccs_limits[i].size && l < CCS_L_LAST; i++) {
++		if (!(ccs_limits[i].flags & CCS_L_FL_SAME_REG)) {
++			ccs_limit_offsets[l + 1].lim =
++				ALIGN(ccs_limit_offsets[l].lim +
++				      ccs_limits[i].size,
++				      ccs_reg_width(ccs_limits[i + 1].reg));
++			ccs_limit_offsets[l].info = i;
++			l++;
++		} else {
++			ccs_limit_offsets[l].lim += ccs_limits[i].size;
++		}
++	}
++
++	if (WARN_ON(ccs_limits[i].size))
++		return -EINVAL;
++
++	if (WARN_ON(l != CCS_L_LAST))
++		return -EINVAL;
++
++	return i2c_register_driver(THIS_MODULE, &smiapp_i2c_driver);
++}
++
++static void smiapp_module_cleanup(void)
++{
++	i2c_del_driver(&smiapp_i2c_driver);
++}
++
++module_init(smiapp_module_init);
++module_exit(smiapp_module_cleanup);
+ 
+ MODULE_AUTHOR("Sakari Ailus <sakari.ailus@iki.fi>");
+ MODULE_DESCRIPTION("Generic SMIA/SMIA++ camera module driver");
 -- 
 2.27.0
 
