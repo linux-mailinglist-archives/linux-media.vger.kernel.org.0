@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B40EB27ECBB
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 17:30:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DC4527ECBC
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 17:30:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725823AbgI3P3f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 11:29:35 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:44636 "EHLO
+        id S1731005AbgI3P3g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 11:29:36 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:44648 "EHLO
         hillosipuli.retiisi.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731005AbgI3P3O (ORCPT
+        with ESMTP id S1731035AbgI3P3O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Wed, 30 Sep 2020 11:29:14 -0400
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 90D9B634CEF
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id BD4F2634C8C
         for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 18:28:52 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH 074/100] ccs-pll: Check for derating and overrating, support non-derating sensors
-Date:   Wed, 30 Sep 2020 18:28:32 +0300
-Message-Id: <20200930152858.8471-75-sakari.ailus@linux.intel.com>
+Subject: [PATCH 076/100] ccs-pll: Print relevant information on PLL tree
+Date:   Wed, 30 Sep 2020 18:28:34 +0300
+Message-Id: <20200930152858.8471-77-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20200930152858.8471-1-sakari.ailus@linux.intel.com>
 References: <20200930152858.8471-1-sakari.ailus@linux.intel.com>
@@ -29,154 +29,114 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Some sensors support derating (VT domain speed faster than OP) or
-overrating (VT domain speed slower than OP). While this was supported for
-the driver, the hardware support for the feature was never verified. Do
-that now, and for those devices without that support, VT and OP speeds
-have to match.
+Print information on PLL tree configuration based on the flags. This also
+adds support for printing dual PLL trees, and better separates between OP
+and VT PLL trees.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ccs-pll.c      | 84 +++++++++++++++++++++-----------
- drivers/media/i2c/ccs-pll.h      |  2 +
- drivers/media/i2c/ccs/ccs-core.c |  7 +++
- 3 files changed, 64 insertions(+), 29 deletions(-)
+ drivers/media/i2c/ccs-pll.c | 85 ++++++++++++++++++++++++++++---------
+ 1 file changed, 66 insertions(+), 19 deletions(-)
 
 diff --git a/drivers/media/i2c/ccs-pll.c b/drivers/media/i2c/ccs-pll.c
-index 34e372b0bb84..b474c7e81385 100644
+index 41e2ba72bce1..cff6b377ed84 100644
 --- a/drivers/media/i2c/ccs-pll.c
 +++ b/drivers/media/i2c/ccs-pll.c
-@@ -142,6 +142,18 @@ static int check_all_bounds(struct device *dev,
- 			lim->vt_bk.max_pix_clk_freq_hz,
- 			"vt_pix_clk_freq_hz");
- 
-+	if (!(pll->flags & CCS_PLL_FLAG_FIFO_DERATING) &&
-+	    pll->pixel_rate_pixel_array > pll->pixel_rate_csi) {
-+		dev_dbg(dev, "device does not support derating\n");
-+		return -EINVAL;
-+	}
-+
-+	if (!(pll->flags & CCS_PLL_FLAG_FIFO_OVERRATING) &&
-+	    pll->pixel_rate_pixel_array < pll->pixel_rate_csi) {
-+		dev_dbg(dev, "device does not support overrating\n");
-+		return -EINVAL;
-+	}
-+
- 	return rval;
+@@ -56,28 +56,75 @@ static int bounds_check(struct device *dev, uint32_t val,
+ 	return -EINVAL;
  }
  
-@@ -163,37 +175,51 @@ __ccs_pll_calculate_vt(struct device *dev, const struct ccs_pll_limits *lim,
- 	uint32_t min_sys_div, max_sys_div;
+-static void print_pll(struct device *dev, struct ccs_pll *pll)
++#define PLL_OP 1
++#define PLL_VT 2
++
++static const char *pll_string(unsigned int which)
+ {
+-	dev_dbg(dev, "pre_pll_clk_div\t%u\n",  pll->vt_fr.pre_pll_clk_div);
+-	dev_dbg(dev, "pll_multiplier \t%u\n",  pll->vt_fr.pll_multiplier);
+-	if (!(pll->flags & CCS_PLL_FLAG_NO_OP_CLOCKS)) {
+-		dev_dbg(dev, "op_sys_clk_div \t%u\n", pll->op_bk.sys_clk_div);
+-		dev_dbg(dev, "op_pix_clk_div \t%u\n", pll->op_bk.pix_clk_div);
++	switch (which) {
++	case PLL_OP:
++		return "op";
++	case PLL_VT:
++		return "vt";
+ 	}
+-	dev_dbg(dev, "vt_sys_clk_div \t%u\n",  pll->vt_bk.sys_clk_div);
+-	dev_dbg(dev, "vt_pix_clk_div \t%u\n",  pll->vt_bk.pix_clk_div);
+-
+-	dev_dbg(dev, "ext_clk_freq_hz \t%u\n", pll->ext_clk_freq_hz);
+-	dev_dbg(dev, "pll_ip_clk_freq_hz \t%u\n", pll->vt_fr.pll_ip_clk_freq_hz);
+-	dev_dbg(dev, "pll_op_clk_freq_hz \t%u\n", pll->vt_fr.pll_op_clk_freq_hz);
+-	if (!(pll->flags & CCS_PLL_FLAG_NO_OP_CLOCKS)) {
+-		dev_dbg(dev, "op_sys_clk_freq_hz \t%u\n",
+-			pll->op_bk.sys_clk_freq_hz);
+-		dev_dbg(dev, "op_pix_clk_freq_hz \t%u\n",
+-			pll->op_bk.pix_clk_freq_hz);
++
++	return NULL;
++}
++
++#define PLL_FL(f) CCS_PLL_FLAG_##f
++
++static void print_pll(struct device *dev, struct ccs_pll *pll)
++{
++	const struct {
++		struct ccs_pll_branch_fr *fr;
++		struct ccs_pll_branch_bk *bk;
++		unsigned int which;
++	} branches[] = {
++		{ &pll->vt_fr, &pll->vt_bk, PLL_VT },
++		{ NULL, &pll->op_bk, PLL_OP }
++	}, *br;
++	unsigned int i;
++
++	dev_dbg(dev, "ext_clk_freq_hz\t\t%u\n", pll->ext_clk_freq_hz);
++
++	for (i = 0, br = branches; i < ARRAY_SIZE(branches); i++, br++) {
++		const char *s = pll_string(br->which);
++
++		if (br->which == PLL_VT) {
++			dev_dbg(dev, "%s_pre_pll_clk_div\t\t%u\n",  s,
++				br->fr->pre_pll_clk_div);
++			dev_dbg(dev, "%s_pll_multiplier\t\t%u\n",  s,
++				br->fr->pll_multiplier);
++
++			dev_dbg(dev, "%s_pll_ip_clk_freq_hz\t%u\n", s,
++				br->fr->pll_ip_clk_freq_hz);
++			dev_dbg(dev, "%s_pll_op_clk_freq_hz\t%u\n", s,
++				br->fr->pll_op_clk_freq_hz);
++		}
++
++		if (!(pll->flags & CCS_PLL_FLAG_NO_OP_CLOCKS) ||
++		    br->which == PLL_VT) {
++			dev_dbg(dev, "%s_sys_clk_div\t\t%u\n",  s,
++				br->bk->sys_clk_div);
++			dev_dbg(dev, "%s_pix_clk_div\t\t%u\n", s,
++				br->bk->pix_clk_div);
++
++			dev_dbg(dev, "%s_sys_clk_freq_hz\t%u\n", s,
++				br->bk->sys_clk_freq_hz);
++			dev_dbg(dev, "%s_pix_clk_freq_hz\t%u\n", s,
++				br->bk->pix_clk_freq_hz);
++		}
+ 	}
+-	dev_dbg(dev, "vt_sys_clk_freq_hz \t%u\n", pll->vt_bk.sys_clk_freq_hz);
+-	dev_dbg(dev, "vt_pix_clk_freq_hz \t%u\n", pll->vt_bk.pix_clk_freq_hz);
++
++	dev_dbg(dev, "flags%s%s%s%s%s%s\n",
++		pll->flags & PLL_FL(LANE_SPEED_MODEL) ? " lane-speed" : "",
++		pll->flags & PLL_FL(LINK_DECOUPLED) ? " link-decoupled" : "",
++		pll->flags & PLL_FL(EXT_IP_PLL_DIVIDER) ?
++		" ext-ip-pll-divider" : "",
++		pll->flags & PLL_FL(FLEXIBLE_OP_PIX_CLK_DIV) ?
++		" flexible-op-pix-div" : "",
++		pll->flags & PLL_FL(FIFO_DERATING) ? " fifo-derating" : "",
++		pll->flags & PLL_FL(FIFO_OVERRATING) ? " fifo-overrating" : "");
+ }
  
- 	/*
--	 * Some sensors perform analogue binning and some do this
--	 * digitally. The ones doing this digitally can be roughly be
--	 * found out using this formula. The ones doing this digitally
--	 * should run at higher clock rate, so smaller divisor is used
--	 * on video timing side.
-+	 * Find out whether a sensor supports derating. If it does not, VT and
-+	 * OP domains are required to run at the same pixel rate.
- 	 */
--	if (lim->min_line_length_pck_bin > lim->min_line_length_pck
--	    / pll->binning_horizontal)
--		vt_op_binning_div = pll->binning_horizontal;
--	else
--		vt_op_binning_div = 1;
--	dev_dbg(dev, "vt_op_binning_div: %u\n", vt_op_binning_div);
-+	if (!(pll->flags & CCS_PLL_FLAG_FIFO_DERATING)) {
-+		min_vt_div =
-+			op_pll_bk->sys_clk_div * op_pll_bk->pix_clk_div
-+			* pll->vt_lanes * phy_const
-+			/ pll->op_lanes / PHY_CONST_DIV;
-+	} else {
-+		/*
-+		 * Some sensors perform analogue binning and some do this
-+		 * digitally. The ones doing this digitally can be roughly be
-+		 * found out using this formula. The ones doing this digitally
-+		 * should run at higher clock rate, so smaller divisor is used
-+		 * on video timing side.
-+		 */
-+		if (lim->min_line_length_pck_bin > lim->min_line_length_pck
-+		    / pll->binning_horizontal)
-+			vt_op_binning_div = pll->binning_horizontal;
-+		else
-+			vt_op_binning_div = 1;
-+		dev_dbg(dev, "vt_op_binning_div: %u\n", vt_op_binning_div);
- 
--	/*
--	 * Profile 2 supports vt_pix_clk_div E [4, 10]
--	 *
--	 * Horizontal binning can be used as a base for difference in
--	 * divisors. One must make sure that horizontal blanking is
--	 * enough to accommodate the CSI-2 sync codes.
--	 *
--	 * Take scaling factor and number of VT lanes into account as well.
--	 *
--	 * Find absolute limits for the factor of vt divider.
--	 */
--	dev_dbg(dev, "scale_m: %u\n", pll->scale_m);
--	min_vt_div = DIV_ROUND_UP(pll->bits_per_pixel * op_pll_bk->sys_clk_div
--				  * pll->scale_n * pll->vt_lanes * phy_const,
--				  (pll->flags & CCS_PLL_FLAG_LANE_SPEED_MODEL ?
--				   pll->csi2.lanes : 1)
--				  * vt_op_binning_div * pll->scale_m
--				  * PHY_CONST_DIV);
-+		/*
-+		 * Profile 2 supports vt_pix_clk_div E [4, 10]
-+		 *
-+		 * Horizontal binning can be used as a base for difference in
-+		 * divisors. One must make sure that horizontal blanking is
-+		 * enough to accommodate the CSI-2 sync codes.
-+		 *
-+		 * Take scaling factor and number of VT lanes into account as well.
-+		 *
-+		 * Find absolute limits for the factor of vt divider.
-+		 */
-+		dev_dbg(dev, "scale_m: %u\n", pll->scale_m);
-+		min_vt_div =
-+			DIV_ROUND_UP(pll->bits_per_pixel
-+				     * op_pll_bk->sys_clk_div * pll->scale_n
-+				     * pll->vt_lanes * phy_const,
-+				     (pll->flags &
-+				      CCS_PLL_FLAG_LANE_SPEED_MODEL ?
-+				      pll->csi2.lanes : 1)
-+				     * vt_op_binning_div * pll->scale_m
-+				     * PHY_CONST_DIV);
-+	}
- 
- 	/* Find smallest and biggest allowed vt divisor. */
- 	dev_dbg(dev, "min_vt_div: %u\n", min_vt_div);
-diff --git a/drivers/media/i2c/ccs-pll.h b/drivers/media/i2c/ccs-pll.h
-index 0c25c5f5d4e4..9ba738ea7006 100644
---- a/drivers/media/i2c/ccs-pll.h
-+++ b/drivers/media/i2c/ccs-pll.h
-@@ -27,6 +27,8 @@
- #define CCS_PLL_FLAG_LINK_DECOUPLED				BIT(3)
- #define CCS_PLL_FLAG_EXT_IP_PLL_DIVIDER				BIT(4)
- #define CCS_PLL_FLAG_FLEXIBLE_OP_PIX_CLK_DIV			BIT(5)
-+#define CCS_PLL_FLAG_FIFO_DERATING				BIT(6)
-+#define CCS_PLL_FLAG_FIFO_OVERRATING				BIT(7)
- 
- /**
-  * struct ccs_pll_branch_fr - CCS PLL configuration (front)
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 5d0011e51913..ace2844b5798 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -3203,6 +3203,13 @@ static int ccs_probe(struct i2c_client *client)
- 	if (CCS_LIM(sensor, CLOCK_TREE_PLL_CAPABILITY) &
- 	    CCS_CLOCK_TREE_PLL_CAPABILITY_FLEXIBLE_OP_PIX_CLK_DIV)
- 		sensor->pll.flags |= CCS_PLL_FLAG_FLEXIBLE_OP_PIX_CLK_DIV;
-+	if (CCS_LIM(sensor, FIFO_SUPPORT_CAPABILITY) &
-+	    CCS_FIFO_SUPPORT_CAPABILITY_DERATING)
-+		sensor->pll.flags |= CCS_PLL_FLAG_FIFO_DERATING;
-+	if (CCS_LIM(sensor, FIFO_SUPPORT_CAPABILITY) &
-+	    CCS_FIFO_SUPPORT_CAPABILITY_DERATING_OVERRATING)
-+		sensor->pll.flags |= CCS_PLL_FLAG_FIFO_DERATING |
-+				     CCS_PLL_FLAG_FIFO_OVERRATING;
- 	sensor->pll.op_bits_per_lane = CCS_LIM(sensor, OP_BITS_PER_LANE);
- 	sensor->pll.ext_clk_freq_hz = sensor->hwcfg.ext_clk;
- 	sensor->pll.scale_n = CCS_LIM(sensor, SCALER_N_MIN);
+ static int check_all_bounds(struct device *dev,
 -- 
 2.27.0
 
