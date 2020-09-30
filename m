@@ -2,205 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A792E27DFAC
-	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 06:46:36 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 21FEC27E13B
+	for <lists+linux-media@lfdr.de>; Wed, 30 Sep 2020 08:36:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725786AbgI3Eqf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 00:46:35 -0400
-Received: from m42-4.mailgun.net ([69.72.42.4]:26090 "EHLO m42-4.mailgun.net"
+        id S1728329AbgI3Ggm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 02:36:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59274 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725372AbgI3Eqf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 00:46:35 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1601441194; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=A3rhz6VOuxhz1gApk6ziXDpUvE+cY9p88hAOu1BpWd4=;
- b=WnoomW5k/3nqtkHcT/PooTTNyeHrRQcRJV/F02GUdAPwb2yz6X1+gCfiszylQZK3OdYia18j
- gvSE80P5Ocw/YG0eqDIlrpnC/CCF7vKilHbmYwqlaha7OWRmx/1DqjegmsSs3GS9IQkLVdwX
- O2OaAFcdjsBbElPLGoxBDQ4OG2w=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-west-2.postgun.com with SMTP id
- 5f740da019fe605f25eb03f4 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 30 Sep 2020 04:46:24
- GMT
-Sender: cgoldswo=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 35D6DC43385; Wed, 30 Sep 2020 04:46:24 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        id S1727599AbgI3GgH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 30 Sep 2020 02:36:07 -0400
+Received: from mail.kernel.org (ip5f5ad5c4.dynamic.kabel-deutschland.de [95.90.213.196])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: cgoldswo)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id BAD36C433C8;
-        Wed, 30 Sep 2020 04:46:22 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1DFD82075F;
+        Wed, 30 Sep 2020 06:36:06 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601447766;
+        bh=LhZCTorWgRAPqNW3nrFAAebOGXKRprPBrjQJqI6Zz6k=;
+        h=From:To:Cc:Subject:Date:From;
+        b=hLE55PtDImVghfSrFfBE9lp1evnzJjzixWmI31JLFMDkIJnDAiPB9SP6aUP7yXlKs
+         ug3BdE3FWXUP+nkA4lKqX29CQ/4HekMfx1fWDBYa2j6GMYPnxua1qMfroRQRYzXLng
+         ccSkxQBGr+vtF9UtGO347Ty2R4lazFf2mErLRjh8=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kNVid-001QmM-P1; Wed, 30 Sep 2020 08:36:03 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Antti Palosaari <crope@iki.fi>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Randy Dunlap <rdunlap@infradead.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 0/9] Address several issues when building media docs with Sphinx 3.x
+Date:   Wed, 30 Sep 2020 08:35:53 +0200
+Message-Id: <cover.1601447236.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8;
- format=flowed
 Content-Transfer-Encoding: 8bit
-Date:   Tue, 29 Sep 2020 21:46:22 -0700
-From:   Chris Goldsworthy <cgoldswo@codeaurora.org>
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     lkml <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [RFC][PATCH 5/6] dma-buf: system_heap: Add pagepool support to
- system heap
-In-Reply-To: <20200926042453.67517-6-john.stultz@linaro.org>
-References: <20200926042453.67517-1-john.stultz@linaro.org>
- <20200926042453.67517-6-john.stultz@linaro.org>
-Message-ID: <1e109a138c86be7b06e20cb30a243fc7@codeaurora.org>
-X-Sender: cgoldswo@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-09-25 21:24, John Stultz wrote:
-> Reuse/abuse the pagepool code from the network code to speed
-> up allocation performance.
-> 
-> This is similar to the ION pagepool usage, but tries to
-> utilize generic code instead of a custom implementation.
-> 
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Liam Mark <lmark@codeaurora.org>
-> Cc: Laura Abbott <labbott@kernel.org>
-> Cc: Brian Starkey <Brian.Starkey@arm.com>
-> Cc: Hridya Valsaraju <hridya@google.com>
-> Cc: Suren Baghdasaryan <surenb@google.com>
-> Cc: Sandeep Patil <sspatil@google.com>
-> Cc: Ørjan Eide <orjan.eide@arm.com>
-> Cc: Robin Murphy <robin.murphy@arm.com>
-> Cc: Ezequiel Garcia <ezequiel@collabora.com>
-> Cc: Simon Ser <contact@emersion.fr>
-> Cc: James Jones <jajones@nvidia.com>
-> Cc: linux-media@vger.kernel.org
-> Cc: dri-devel@lists.freedesktop.org
-> Signed-off-by: John Stultz <john.stultz@linaro.org>
-> ---
->  drivers/dma-buf/heaps/Kconfig       |  1 +
->  drivers/dma-buf/heaps/system_heap.c | 32 +++++++++++++++++++++++++----
->  2 files changed, 29 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/dma-buf/heaps/Kconfig 
-> b/drivers/dma-buf/heaps/Kconfig
-> index a5eef06c4226..f13cde4321b1 100644
-> --- a/drivers/dma-buf/heaps/Kconfig
-> +++ b/drivers/dma-buf/heaps/Kconfig
-> @@ -1,6 +1,7 @@
->  config DMABUF_HEAPS_SYSTEM
->  	bool "DMA-BUF System Heap"
->  	depends on DMABUF_HEAPS
-> +	select PAGE_POOL
->  	help
->  	  Choose this option to enable the system dmabuf heap. The system 
-> heap
->  	  is backed by pages from the buddy allocator. If in doubt, say Y.
-> diff --git a/drivers/dma-buf/heaps/system_heap.c
-> b/drivers/dma-buf/heaps/system_heap.c
-> index 882a632e9bb7..9f57b4c8ae69 100644
-> --- a/drivers/dma-buf/heaps/system_heap.c
-> +++ b/drivers/dma-buf/heaps/system_heap.c
-> @@ -20,6 +20,7 @@
->  #include <linux/scatterlist.h>
->  #include <linux/slab.h>
->  #include <linux/vmalloc.h>
-> +#include <net/page_pool.h>
-> 
->  struct dma_heap *sys_heap;
-> 
-> @@ -46,6 +47,7 @@ struct dma_heap_attachment {
->  static gfp_t order_flags[] = {HIGH_ORDER_GFP, LOW_ORDER_GFP, 
-> LOW_ORDER_GFP};
->  static const unsigned int orders[] = {8, 4, 0};
->  #define NUM_ORDERS ARRAY_SIZE(orders)
-> +struct page_pool *pools[NUM_ORDERS];
-> 
->  static struct sg_table *dup_sg_table(struct sg_table *table)
->  {
-> @@ -264,13 +266,17 @@ static void system_heap_dma_buf_release(struct
-> dma_buf *dmabuf)
->  	struct system_heap_buffer *buffer = dmabuf->priv;
->  	struct sg_table *table;
->  	struct scatterlist *sg;
-> -	int i;
-> +	int i, j;
-> 
->  	table = &buffer->sg_table;
->  	for_each_sg(table->sgl, sg, table->nents, i) {
->  		struct page *page = sg_page(sg);
-> 
-> -		__free_pages(page, compound_order(page));
-> +		for (j = 0; j < NUM_ORDERS; j++) {
-> +			if (compound_order(page) == orders[j])
-> +				break;
-> +		}
-> +		page_pool_put_full_page(pools[j], page, false);
->  	}
->  	sg_free_table(table);
->  	kfree(buffer);
-> @@ -300,8 +306,7 @@ static struct page
-> *alloc_largest_available(unsigned long size,
->  			continue;
->  		if (max_order < orders[i])
->  			continue;
-> -
-> -		page = alloc_pages(order_flags[i], orders[i]);
-> +		page = page_pool_alloc_pages(pools[i], order_flags[i]);
->  		if (!page)
->  			continue;
->  		return page;
-> @@ -406,6 +411,25 @@ static const struct dma_heap_ops system_heap_ops = 
-> {
->  static int system_heap_create(void)
->  {
->  	struct dma_heap_export_info exp_info;
-> +	int i;
-> +
-> +	for (i = 0; i < NUM_ORDERS; i++) {
-> +		struct page_pool_params pp;
-> +
-> +		memset(&pp, 0, sizeof(pp));
-> +		pp.order = orders[i];
-> +		pp.dma_dir = DMA_BIDIRECTIONAL;
-> +		pools[i] = page_pool_create(&pp);
-> +
-> +		if (IS_ERR(pools[i])) {
-> +			int j;
-> +
-> +			pr_err("%s: page pool creation failed!\n", __func__);
-> +			for (j = 0; j < i; j++)
-> +				page_pool_destroy(pools[j]);
-> +			return PTR_ERR(pools[i]);
-> +		}
-> +	}
-> 
->  	exp_info.name = "system";
->  	exp_info.ops = &system_heap_ops;
+The C domain parser was re-written on Sphinx 3.x.
 
-This is cool, I didn't know about this pooling code under /net/core.  
-Nice and compact.
+It is now a lot more pedantic than on past versions, and has
+specific macros for addressing C namespaces and documenting
+data types, like c:struct, c:enum, c:macro, etc.
+
+I'm currently working on addressing the issues upstream,  as
+some changes at the documentation build system are needed
+(mainly kernel-doc and cdomain.py).
+
+Yet, there are several simple issues at the media documentation 
+that can easily be fixed without requiring any changes at the
+documentation build system.
+
+While Sphinx < 3.x doesn't print any warnings, I suspect that
+most issues addressed here will provide either duplicated
+cross-references and/or produce wrong output.
+
+This series address those.
+
+As there's no change at the documentation content
+(just format tags were changed), my plan is to apply this series
+either later today or tomorrow. 
+
+Mauro Carvalho Chehab (9):
+  media: camera-sensor.rst: fix a doc build warning
+  media: glossary.rst: use the right case for glossary entries
+  media: docs: ipu3.rst: rely at automarkup extension
+  media: dvb-frontends: remove a clone of a kernel-doc markup at
+    zd1301_demod.h
+  media: v4l2-subdev.rst: get rid of a duplicatd kernel-doc markup
+  media: cec-core.rst: fix warnings with Sphinx 3.0+
+  media: v4l2-subdev.h: fix a kernel-doc markup
+  media: hist-v4l2.rst: remove struct duplication
+  media: hist-v4l2.rst: remove :c:`type` from structs and enums
+
+ Documentation/admin-guide/media/ipu3.rst      |  38 +--
+ .../driver-api/media/camera-sensor.rst        |   2 +-
+ Documentation/driver-api/media/cec-core.rst   |  62 ++---
+ .../driver-api/media/v4l2-subdev.rst          |   2 -
+ .../userspace-api/media/glossary.rst          |  20 +-
+ .../userspace-api/media/v4l/hist-v4l2.rst     | 239 ++++++++----------
+ drivers/media/dvb-frontends/zd1301_demod.h    |   6 -
+ include/media/v4l2-subdev.h                   |   2 +-
+ 8 files changed, 162 insertions(+), 209 deletions(-)
 
 -- 
-The Qualcomm Innovation Center, Inc.
-The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
-Forum,
-a Linux Foundation Collaborative Project
+2.26.2
+
+
