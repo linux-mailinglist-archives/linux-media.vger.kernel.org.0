@@ -2,168 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDA0C280A83
-	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 00:49:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D1E35280B35
+	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 01:13:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727713AbgJAWtc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Oct 2020 18:49:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50416 "EHLO
+        id S2387683AbgJAXMh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Oct 2020 19:12:37 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54088 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727053AbgJAWtc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Oct 2020 18:49:32 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 106D2C0613D0
-        for <linux-media@vger.kernel.org>; Thu,  1 Oct 2020 15:49:32 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 73C3160;
-        Fri,  2 Oct 2020 00:49:30 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1601592570;
-        bh=OP/AUTxqeUSjWCSHatWGUFe+FToXfkMNCnG3WuHvToQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=K22PqLHvw4uKnHTTZXVJvtxF47Tjoig/FknYI2sJ2qd4nKaFHJJ3pvEyXXzKnQwum
-         KGm7tJx/3jh7rxmEdXL7KFPdXOS1utTREBzAx7ngOP33jn6MmEI8mQrWfKYnFihi9+
-         shpRg/VkgadadMQIWY1MzrCquLQ9od5H7zNJACLs=
-Date:   Fri, 2 Oct 2020 01:48:53 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        linux-media@vger.kernel.org, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com, mchehab@kernel.org,
-        tfiga@chromium.org
-Subject: Re: [PATCH v3 09/10] media: rkisp1: cap: simplify the link
- validation by compering the media bus code
-Message-ID: <20201001224853.GF3722@pendragon.ideasonboard.com>
-References: <20200723132014.4597-1-dafna.hirschfeld@collabora.com>
- <20200723132014.4597-10-dafna.hirschfeld@collabora.com>
- <20200930190025.GH1516931@oden.dyn.berto.se>
- <20201001020325.GJ5689@pendragon.ideasonboard.com>
- <9724beba-21dc-63b4-5eea-90922b7f1968@collabora.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <9724beba-21dc-63b4-5eea-90922b7f1968@collabora.com>
+        with ESMTP id S2387640AbgJAXMO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Oct 2020 19:12:14 -0400
+Received: from mail-wm1-x336.google.com (mail-wm1-x336.google.com [IPv6:2a00:1450:4864:20::336])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3539C0613E3
+        for <linux-media@vger.kernel.org>; Thu,  1 Oct 2020 16:12:13 -0700 (PDT)
+Received: by mail-wm1-x336.google.com with SMTP id e2so357274wme.1
+        for <linux-media@vger.kernel.org>; Thu, 01 Oct 2020 16:12:13 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:subject:date:message-id;
+        bh=RilB0sLyopNSleOFSASFAums5syvHqEljZsZmvQUhag=;
+        b=V8CkvytMD/1M9UHQ9uOPPwbRl6rrjH2A2A9eWl2w3K4NpcfcYnb87cUeTo3ZfZHFRm
+         Z1qXH9rGsKpSeWBQlYAiJvOqEoeAgofpaeTMC0OqU2J2GiDWt8BH1VjDfUrLqy+vxxcl
+         /egH3T5trujQgrzGP+fgjYhDHkASRTNLNar3/ktxW9twDmI0zoV1uO16GKfgW8/xQpA0
+         BRRagWKnx8OQdWP0tAdRCyrrJKdpWr83k5UggRxwMTe3de77iUdlwQBemfzSRS8XXDKs
+         yVz/Dmis5vlZSklHfGHfYOP1faJ/WL4/YV1zq+R6/seFIBRrG0+rj1BZ5/IUR6bhWQqT
+         xpGA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:subject:date:message-id;
+        bh=RilB0sLyopNSleOFSASFAums5syvHqEljZsZmvQUhag=;
+        b=niNJvf7rtPKBOjjQspmLHNro1LZT6qBPIElGsKXT9+rSJIo3AfiZDgrsSUhTub60jA
+         M3wzBE7xAAmMcfbXFHpohpJCHhJF687e1Yk92HV/DhXKrXKuP++mwe0pEO54K9vBwG7k
+         Sywf6NRf8OzSW9xTaeRgBZDmcT+/Q6IzmZVZuixQziYfdf7J9tFF3KLcLSLDL+tw+8US
+         /OQOYAYNhRLPuUS/r2tSI9u7N2pBaf38O0VWerwgv503eJLBmjmhVZRi5Z+04br8ORMB
+         x+L/u/r0S9WN6mJKU6g9lQk1jVv/0S5wybfD7+0MQasFg41Vn2H6335yj8mdHG3IqOrJ
+         zEaA==
+X-Gm-Message-State: AOAM532M0JPdplYs0GyliyxEisQdj3u2/oAf+i/O3cHz/fz/iC410PZa
+        gAfrBQefZYd++XXkrtP6Z+yOjBT1OFYDZkvc
+X-Google-Smtp-Source: ABdhPJx6aDWN3NUPA8GOy9AMmyCBArvarusg7eYjHCpML5E/+qPM/RkzvwyoJzxSgQv61nU0/wJVoQ==
+X-Received: by 2002:a1c:f311:: with SMTP id q17mr353523wmq.168.1601593932171;
+        Thu, 01 Oct 2020 16:12:12 -0700 (PDT)
+Received: from localhost.localdomain ([195.24.90.54])
+        by smtp.gmail.com with ESMTPSA id s19sm7487698wmc.0.2020.10.01.16.12.10
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 01 Oct 2020 16:12:11 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL for v5.10] Venus dt-binding changes
+Date:   Fri,  2 Oct 2020 02:11:36 +0300
+Message-Id: <20201001231136.23963-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+Hi Mauro,
 
-On Thu, Oct 01, 2020 at 09:36:07PM +0200, Dafna Hirschfeld wrote:
-> Am 01.10.20 um 04:03 schrieb Laurent Pinchart:
-> > On Wed, Sep 30, 2020 at 09:00:25PM +0200, Niklas Söderlund wrote:
-> >> Hi Dafna,
-> >>
-> >> This commit is not just a simplification but a change of behavior.  The
-> >> change is for the better but it broke capture of NV12 and NV21 formats
-> >> in libcamera unexpectedly.
-> >>
-> >> The issue at hand is that libcamera when configuring the pipeline
-> >> retrieves the mbus code for the ISP (rkisp1_isp) source pad (2) and then
-> >> propagates it to the resizer (rkisp_resizer_{main,self}path) sink pad
-> >> (0) and then to the resizers source pad (1). Effectively propagating
-> >> MEDIA_BUS_FMT_YUYV8_2X8 for all formats.
-> >>
-> >> At this point if the video node (main or self) is configured with a
-> >> YUV420 format (NV12, NV21, etc) and with this change applied the link
-> >> validation will fail as MEDIA_BUS_FMT_YUYV8_1_5X8 !=
-> >> MEDIA_BUS_FMT_YUYV8_2X8. Given the nature of how link validation is
-> >> implemented it's VIDIOC_QBUF that returns a -EPIPE when it fails and
-> >> libcamera lockup the capture session.
-> > 
-> > I would be very, very surprised is the hardware really used YUYV8_1_5X8.
-> > YUYV8_1X16 is a much more likely bus format between the resizer and the
-> > DMA engine, as well as between the ISP and the resizer.
-> 
-> Format YUYV8_1X16 is for downsampling of 4:2:2, but the resizer has the ability
-> to downsample to 4:2:0.
-> I see there is also format YDYUYDYV8_1X16 for 4:2:0
-> maybe this is what I should set?
-> 
-> Actually according to the TRM the resizer send the stream to the DMA
-> engine through two separated buses, one for luma and one for chroma.
+This is a dt-binding change which was forgotten and it corresponds to a
+driver change [1] already queued up in media_tree. Without this DT binding
+changes the DT binding checks will produce errors.
 
-In which document is this documented ? Is this two 8-bit buses side by
-side ?
+Please pull for v5.10.
 
-Looking at the registers, the output formats are controlled by the
-global MI_CTRL register, common to both the main and self paths, which
-should correspond to the DMA engine. I think it would make sense to
-model this at the video node level, and hardcode YUYV8_1X16 between the
-resizer and the video node.
+[1] 9a538b83612c ("media: venus: core: Add support for opp tables/perf voting")
 
-> >> I will submit a fix for this to libcamera to bring it in sync with this
-> >> change.
-> >>
-> >> Would it be possible to ask that future changes to the rkisp1 driver be
-> >> tested with libcamera so we can track and update both the kernel and
-> >> user-space components of this driver at the same time and avoid nasty
-> >> surprises? :-)
-> > 
-> > I strongly second this. Drivers that are supported in libcamera should
-> > be tested with libcamera to catch regressions, for any chance submitted
-> > to the kernel.
-> 
-> I can run several 'cam' commands with different formats and dimensions to
-> find regressions. I currently have unit test only in v4l-utils.
+The following changes since commit eb5f6b8ee9e4fcdda3807aff02a3df2d7ca51bbf:
 
-That would be great :-) We will work on a test suite for higher-level
-tests (something similar to the Android CTS) at some point, which should
-also help catching regressions.
+  media: atomisp: fixes build breakage for ISP2400 due to a cleanup (2020-10-01 13:17:26 +0200)
 
-> >> On 2020-07-23 15:20:13 +0200, Dafna Hirschfeld wrote:
-> >>> The capture has a mapping of the mbus code needed for each pixelformat.
-> >>> This can be used to simplify the link validation by comparing the mbus
-> >>> code in the capture with the code in the resizer.
-> >>>
-> >>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> >>> ---
-> >>>   drivers/staging/media/rkisp1/rkisp1-capture.c | 18 ++++--------------
-> >>>   1 file changed, 4 insertions(+), 14 deletions(-)
-> >>>
-> >>> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> >>> index 4dabd07a3da9..a5e2521577dd 100644
-> >>> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-> >>> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-> >>> @@ -1255,22 +1255,11 @@ static int rkisp1_capture_link_validate(struct media_link *link)
-> >>>   	struct v4l2_subdev *sd =
-> >>>   		media_entity_to_v4l2_subdev(link->source->entity);
-> >>>   	struct rkisp1_capture *cap = video_get_drvdata(vdev);
-> >>> -	struct rkisp1_isp *isp = &cap->rkisp1->isp;
-> >>> -	u8 isp_pix_enc = isp->src_fmt->pixel_enc;
-> >>> -	u8 cap_pix_enc = cap->pix.info->pixel_enc;
-> >>> +	const struct rkisp1_capture_fmt_cfg *fmt =
-> >>> +		rkisp1_find_fmt_cfg(cap, cap->pix.fmt.pixelformat);
-> >>>   	struct v4l2_subdev_format sd_fmt;
-> >>>   	int ret;
-> >>>   
-> >>> -	if (cap_pix_enc != isp_pix_enc &&
-> >>> -	    !(isp_pix_enc == V4L2_PIXEL_ENC_YUV &&
-> >>> -	      cap_pix_enc == V4L2_PIXEL_ENC_RGB)) {
-> >>> -		dev_err(cap->rkisp1->dev,
-> >>> -			"format type mismatch in link '%s:%d->%s:%d'\n",
-> >>> -			link->source->entity->name, link->source->index,
-> >>> -			link->sink->entity->name, link->sink->index);
-> >>> -		return -EPIPE;
-> >>> -	}
-> >>> -
-> >>>   	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
-> >>>   	sd_fmt.pad = link->source->index;
-> >>>   	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &sd_fmt);
-> >>> @@ -1278,7 +1267,8 @@ static int rkisp1_capture_link_validate(struct media_link *link)
-> >>>   		return ret;
-> >>>   
-> >>>   	if (sd_fmt.format.height != cap->pix.fmt.height ||
-> >>> -	    sd_fmt.format.width != cap->pix.fmt.width)
-> >>> +	    sd_fmt.format.width != cap->pix.fmt.width ||
-> >>> +	    sd_fmt.format.code != fmt->mbus)
-> >>>   		return -EPIPE;
-> >>>   
-> >>>   	return 0;
+are available in the Git repository at:
 
--- 
-Regards,
+  git://linuxtv.org/svarbanov/media_tree.git tags/venus-for-v5.10-part3
 
-Laurent Pinchart
+for you to fetch changes up to 647b880ce3f000bea15a0466bf8a0d28fa16e90c:
+
+  dt-bindings: media: venus: Add an optional power domain for perf voting (2020-10-02 01:08:57 +0300)
+
+----------------------------------------------------------------
+Venus updates for v5.10 part3
+
+----------------------------------------------------------------
+Rajendra Nayak (1):
+      dt-bindings: media: venus: Add an optional power domain for perf voting
+
+ Documentation/devicetree/bindings/media/qcom,sc7180-venus.yaml    | 6 +++++-
+ Documentation/devicetree/bindings/media/qcom,sdm845-venus-v2.yaml | 6 +++++-
+ 2 files changed, 10 insertions(+), 2 deletions(-)
