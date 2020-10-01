@@ -2,112 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A8D1027FD03
-	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 12:13:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 864A127FE36
+	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 13:17:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731893AbgJAKNs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Oct 2020 06:13:48 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:42085 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730378AbgJAKNs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 1 Oct 2020 06:13:48 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id NvaokUdeeTHgxNvarklyyc; Thu, 01 Oct 2020 12:13:46 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1601547226; bh=zeDFG4xpXoR5x7Uwo4zkLiZiGIr9MfeeoXbyaFZiwEI=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=CWv8f1y6GqzXJJLyjxfCu3E45uqU4ZlAnrFybYlIZHuTyscWdzZLgjSGptlBoFQQF
-         JxB5eBlI2GgPB8E7JbFVQCzbcnlzANVXIrW2D4eoNmz0lADIoTHFW6oNkiqoZm5YtB
-         TJxEtZTwcpuq7T+lYLVcyOMKji2pwDQv0+x3UEjdE7aA9HBa4qPq3txIalmgMhzuo8
-         fP9+EPn0gCgOGyff7qWDU351+nrmB11BrQyP6bwmr8uCWKJdB9RIwU7JgEzN1lfnNy
-         nU+/QivqVC3MGD8XFY+f3W08S6Rn/spunnn5PPWcY4HaiCbvH6BURfKWPti1MQQTFL
-         ARs+u35fQBXqA==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] Fix V4L2_COLORSPACE_470_SYSTEM_BG description
-Message-ID: <83ce00ac-4688-f2f9-1e8c-00bd4ccab96c@xs4all.nl>
-Date:   Thu, 1 Oct 2020 12:13:42 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1731791AbgJALRS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Oct 2020 07:17:18 -0400
+Received: from mail.kernel.org ([198.145.29.99]:45400 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731243AbgJALRS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 1 Oct 2020 07:17:18 -0400
+Received: from mail.kernel.org (ip5f5ad5d2.dynamic.kabel-deutschland.de [95.90.213.210])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 2D2D0208B6;
+        Thu,  1 Oct 2020 11:17:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601551037;
+        bh=o3EbE74hz2T8t1GJ/NdLtSBGVB6g4WdhQQVmKWNfpZY=;
+        h=From:To:Cc:Subject:Date:From;
+        b=V5xs9xV77aOCb/iYqYip/P17aEWk/SN/EmNWCdAQiLD7aon559p1jIPlWNgA/SNnn
+         0nhQzzDe7A0ogPn269L8XSWlu+TrhNV7pjN9TUhhPTpTKpxaI9VYmE1F0wpl41YDqv
+         1ZNXk/07+hz86huloLxUApOKjogj6AWbZcYp730A=
+Received: from mchehab by mail.kernel.org with local (Exim 4.94)
+        (envelope-from <mchehab@kernel.org>)
+        id 1kNwaI-006Odu-9I; Thu, 01 Oct 2020 13:17:14 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Andy Shevchenko" <andy.shevchenko@gmail.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH v3] media: atomisp: fixes build breakage for ISP2400 due to a cleanup
+Date:   Thu,  1 Oct 2020 13:17:13 +0200
+Message-Id: <490e5002c3fea266524c31e1a94853dca9c3286c.1601551027.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfEyrJBNXfm68G9UGGe8SHInMWVKpIhHA8/3FUF7U5F+P7/fuEPITw/IzQe8BCAi5WshKx4X60e3S9zTFqiWhLgPyFWUIO8yToh2LSPo2True4tGV+Wtk
- aAFopoRabDMxX18P2WNDyJvGrXFFiytrs7ozD59VWdlmIi+6QSx/QepM7Gx2nfu+rcAGbF2EQLIwTg==
+Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The description of the V4L2_COLORSPACE_470_SYSTEM_BG stated that it was
-superseded by SMPTE 170M. That is incorrect. The probably root cause of this
-is that the HDMI standard does not support this colorspace and, unless otherwise
-signaled, will fall back to SMPTE 170M for SDTV.
+A temporary var needed for building with ISP2400 was removed
+by accident on a cleanup patch.
 
-However, EBU Tech. 3321 states that sources should signal Rec. 709 as the
-colorimetry when using HDMI since the difference between Rec. 709 and Tech. 3213
-are negligible.
+Fix the breakage.
 
-Update the text accordingly.
-
-Also drop a spurious " at the end of the Tech 3213 title in the bibliography.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Fixes: 852a53a02cf0 ("media: atomisp: get rid of unused vars")
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
-diff --git a/Documentation/userspace-api/media/v4l/biblio.rst b/Documentation/userspace-api/media/v4l/biblio.rst
-index 7869b6f6ff72..64d241daf63c 100644
---- a/Documentation/userspace-api/media/v4l/biblio.rst
-+++ b/Documentation/userspace-api/media/v4l/biblio.rst
-@@ -270,7 +270,17 @@ EBU Tech 3213
- =============
+ drivers/staging/media/atomisp/pci/sh_css.c | 14 +++++++++++---
+ 1 file changed, 11 insertions(+), 3 deletions(-)
 
-
--:title:     E.B.U. Standard for Chromaticity Tolerances for Studio Monitors"
-+:title:     E.B.U. Standard for Chromaticity Tolerances for Studio Monitors
-+
-+:author:    European Broadcast Union (http://www.ebu.ch)
-+
-+.. _tech3321:
-+
-+EBU Tech 3321
-+=============
-+
-+
-+:title:     E.B.U. guidelines for Consumer Flat Panel Displays (FPDs)
-
- :author:    European Broadcast Union (http://www.ebu.ch)
-
-diff --git a/Documentation/userspace-api/media/v4l/colorspaces-details.rst b/Documentation/userspace-api/media/v4l/colorspaces-details.rst
-index 014e7c9fc655..126f66482a0d 100644
---- a/Documentation/userspace-api/media/v4l/colorspaces-details.rst
-+++ b/Documentation/userspace-api/media/v4l/colorspaces-details.rst
-@@ -674,8 +674,9 @@ Colorspace EBU Tech. 3213 (V4L2_COLORSPACE_470_SYSTEM_BG)
- =========================================================
-
- The :ref:`tech3213` standard defines the colorspace used by PAL/SECAM
--in 1975. In practice this colorspace is obsolete and SMPTE 170M should
--be used instead. The default transfer function is
-+in 1975. Note that this colorspace is not supported by the HDMI interface.
-+Instead :ref:`tech3321` recommends that Rec. 709 is used instead for HDMI.
-+The default transfer function is
- ``V4L2_XFER_FUNC_709``. The default Y'CbCr encoding is
- ``V4L2_YCBCR_ENC_601``. The default Y'CbCr quantization is limited
- range. The chromaticities of the primary colors and the white reference
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index b2bc83f37024..58357712cb7e 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -223,9 +223,7 @@ enum v4l2_colorspace {
- 	V4L2_COLORSPACE_470_SYSTEM_M  = 5,
-
- 	/*
--	 * EBU Tech 3213 PAL/SECAM colorspace. This only makes sense when
--	 * dealing with really old PAL/SECAM recordings. Superseded by
--	 * SMPTE 170M.
-+	 * EBU Tech 3213 PAL/SECAM colorspace.
- 	 */
- 	V4L2_COLORSPACE_470_SYSTEM_BG = 6,
+diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
+index e8c5caf3dfe6..ddee04c8248d 100644
+--- a/drivers/staging/media/atomisp/pci/sh_css.c
++++ b/drivers/staging/media/atomisp/pci/sh_css.c
+@@ -1365,7 +1365,6 @@ start_binary(struct ia_css_pipe *pipe,
+ {
+ 	assert(pipe);
+ 	/* Acceleration uses firmware, the binary thus can be NULL */
+-	/* assert(binary != NULL); */
+ 
+ 	if (binary)
+ 		sh_css_metrics_start_binary(&binary->metrics);
+@@ -1381,10 +1380,10 @@ start_binary(struct ia_css_pipe *pipe,
+ #endif
+ 
+ #if !defined(ISP2401)
+-	if (stream->reconfigure_css_rx) {
++	if (pipe->stream->reconfigure_css_rx) {
+ 		ia_css_isys_rx_configure(&pipe->stream->csi_rx_config,
+ 					 pipe->stream->config.mode);
+-		stream->reconfigure_css_rx = false;
++		pipe->stream->reconfigure_css_rx = false;
+ 	}
+ #endif
+ }
+@@ -2820,6 +2819,8 @@ load_preview_binaries(struct ia_css_pipe *pipe) {
+ 	bool need_isp_copy_binary = false;
+ #ifdef ISP2401
+ 	bool sensor = false;
++#else
++	bool continuous;
+ #endif
+ 	/* preview only have 1 output pin now */
+ 	struct ia_css_frame_info *pipe_out_info = &pipe->output_info[0];
+@@ -2833,6 +2834,8 @@ load_preview_binaries(struct ia_css_pipe *pipe) {
+ 	online = pipe->stream->config.online;
+ #ifdef ISP2401
+ 	sensor = pipe->stream->config.mode == IA_CSS_INPUT_MODE_SENSOR;
++#else
++	continuous = pipe->stream->config.continuous;
+ #endif
+ 
+ 	if (mycs->preview_binary.info)
+@@ -5987,6 +5990,8 @@ static int load_primary_binaries(
+ 	bool need_ldc = false;
+ #ifdef ISP2401
+ 	bool sensor = false;
++#else
++	bool memory, continuous;
+ #endif
+ 	struct ia_css_frame_info prim_in_info,
+ 		       prim_out_info,
+@@ -6009,6 +6014,9 @@ static int load_primary_binaries(
+ 	online = pipe->stream->config.online;
+ #ifdef ISP2401
+ 	sensor = (pipe->stream->config.mode == IA_CSS_INPUT_MODE_SENSOR);
++#else
++	memory = pipe->stream->config.mode == IA_CSS_INPUT_MODE_MEMORY;
++	continuous = pipe->stream->config.continuous;
+ #endif
+ 
+ 	mycs = &pipe->pipe_settings.capture;
+-- 
+2.26.2
 
