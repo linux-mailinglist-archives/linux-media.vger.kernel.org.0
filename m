@@ -2,251 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54C772804DD
-	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 19:13:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E445D280525
+	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 19:28:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732865AbgJARNW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Oct 2020 13:13:22 -0400
-Received: from mga05.intel.com ([192.55.52.43]:61016 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732507AbgJARNV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 1 Oct 2020 13:13:21 -0400
-IronPort-SDR: tyHoZWCq/HfwZv8i8Tk3DvsLAsqxkFuX5YuAtKv+jg3oWRoANNNwYDnBnIgjS+KPI8UXU/PEso
- wiv90D2FnEVA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9761"; a="247519929"
-X-IronPort-AV: E=Sophos;i="5.77,324,1596524400"; 
-   d="scan'208";a="247519929"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Oct 2020 10:13:10 -0700
-IronPort-SDR: bVhAW+6KzD/BGf4M7merliUa+wBTxMKADk+V1p+Ju/4lS5DhxYiRFz+tUt9UPhr2+czFF4rx+N
- P99QMilzflyg==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,324,1596524400"; 
-   d="scan'208";a="308707842"
-Received: from lkp-server02.sh.intel.com (HELO de448af6ea1b) ([10.239.97.151])
-  by orsmga003.jf.intel.com with ESMTP; 01 Oct 2020 10:13:08 -0700
-Received: from kbuild by de448af6ea1b with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kO28h-0000fh-GV; Thu, 01 Oct 2020 17:13:07 +0000
-Date:   Fri, 02 Oct 2020 01:12:38 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- cae045f495d259122cfa18a87c65a2b12fbdcbb2
-Message-ID: <5f760e06.7AaBD6dcvNNw14Gt%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1732918AbgJAR2J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Oct 2020 13:28:09 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57294 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732287AbgJAR2J (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Oct 2020 13:28:09 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D434EC0613E2
+        for <linux-media@vger.kernel.org>; Thu,  1 Oct 2020 10:28:08 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id 13so242953wmf.0
+        for <linux-media@vger.kernel.org>; Thu, 01 Oct 2020 10:28:08 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:references:from:message-id:date:user-agent:mime-version
+         :in-reply-to:content-transfer-encoding:content-language;
+        bh=1M4RAfm7Ka56hTVARaFbgr0VJN7Hux9S4garFliWQrQ=;
+        b=of5jzw3PMgufI53qBrC2IN+3pkDwsZMmS8MapDtIqs/jRJVAtRNIK5NaDLJTzFRu6O
+         EYphTukdKvGCSmMzQwdDNTvjyg55U1+uhs4sZ7UDsqRMrfW+bdIRVAeso5kctUQ3PPmO
+         fTtG7v30wu0HPu+/UspUI3agEHuhSkt+y6qOQYSr+8OqjcVQUHBPsPKO3GDsih2xLp+r
+         VXbby1N/7G0XvD+/BVHbNUwjJVhsoHD5W33pcDGbhV709XEYe5Bn4+eqeuSsh6lRVOlm
+         ntz4ZoUrHhH02HsIwi2Gu/8kiNiJqlqJvyX8lRrJG5U4Ab2lfTUwML+OwasgOQzqTn3E
+         f6jg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=1M4RAfm7Ka56hTVARaFbgr0VJN7Hux9S4garFliWQrQ=;
+        b=kK2CaBHFDKgxMfSWgI0DTfTxUQoFV7+6O6FnfJiOnD2m5ja5xfOVUHku1fYIRdaTnp
+         JOOdfBINrNbGyFp675Nmo1ZxlfkXloBSmqUK8feGfSF6qBCwTQjaf1XAREabWDwBMmf6
+         ETZx8akveXqfCrKQ5voPguGNOzCjLRExainwBvK0nPe8aIqJd5FYQymmBNIkkH7qRFE1
+         S0iRW87IWFwSJcF5oF3PzWWum7U65CiGFAfDIKpEkpgS6Msx4i5H2FBKxNICRGyj8/N+
+         meVd2EzCiSo3fGsuvtF5sNmMcgsvwO8Qm8BsdR0hc/QaD0chgV9HVkIAWROwZHvfbu6Z
+         RDfw==
+X-Gm-Message-State: AOAM532bmxAEctUpvnYSVC1NUroQArPGhihPyF7IPtlsGPp6viDazKlY
+        iRuoWO6ze5dHLA0xtaYwcPlqZYTzmhmvdg==
+X-Google-Smtp-Source: ABdhPJwyVDVxYje8TjchORDThAw8Nf2lyrEVVWCNGUtzSKY/wsPFwtKzJsKQK/RU/wWZQIwlAkVZlA==
+X-Received: by 2002:a7b:ce89:: with SMTP id q9mr1060628wmj.65.1601573286992;
+        Thu, 01 Oct 2020 10:28:06 -0700 (PDT)
+Received: from ?IPv6:2001:861:3a81:3690:b885:8dcf:f8c6:7841? ([2001:861:3a81:3690:b885:8dcf:f8c6:7841])
+        by smtp.gmail.com with ESMTPSA id k6sm827843wmf.30.2020.10.01.10.28.05
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 01 Oct 2020 10:28:06 -0700 (PDT)
+Subject: Re: [RFC PATCH 0/4] Add a RPMsg driver to support AI Processing Unit
+ (APU)
+To:     linux-remoteproc@vger.kernel.org, ohad@wizery.com,
+        gpain@baylibre.com, stephane.leprovost@mediatek.com,
+        jstephan@baylibre.com, linux-kernel@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        mturquette@baylibre.com, bjorn.andersson@linaro.org,
+        christian.koenig@amd.com, linux-media@vger.kernel.org
+References: <20200930115350.5272-1-abailon@baylibre.com>
+ <20201001084856.GC438822@phenom.ffwll.local>
+From:   Alexandre Bailon <abailon@baylibre.com>
+Message-ID: <8e4bb739-c3b3-d790-e8e3-dd5df2d6f869@baylibre.com>
+Date:   Thu, 1 Oct 2020 19:28:27 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+In-Reply-To: <20201001084856.GC438822@phenom.ffwll.local>
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: cae045f495d259122cfa18a87c65a2b12fbdcbb2  media: hist-v4l2.rst: remove :c:`type` from structs and enums
+Hi Daniel,
 
-elapsed time: 1431m
+On 10/1/20 10:48 AM, Daniel Vetter wrote:
+> On Wed, Sep 30, 2020 at 01:53:46PM +0200, Alexandre Bailon wrote:
+>> This adds a RPMsg driver that implements communication between the CPU and an
+>> APU.
+>> This uses VirtIO buffer to exchange messages but for sharing data, this uses
+>> a dmabuf, mapped to be shared between CPU (userspace) and APU.
+>> The driver is relatively generic, and should work with any SoC implementing
+>> hardware accelerator for AI if they use support remoteproc and VirtIO.
+>>
+>> For the people interested by the firmware or userspace library,
+>> the sources are available here:
+>> https://github.com/BayLibre/open-amp/tree/v2020.01-mtk/apps/examples/apu
+> Since this has open userspace (from a very cursory look), and smells very
+> much like an acceleration driver, and seems to use dma-buf for memory
+> management: Why is this not just a drm driver?
 
-configs tested: 187
-configs skipped: 3
+I have never though to DRM since for me it was only a RPMsg driver.
+I don't know well DRM. Could you tell me how you would do it so I could 
+have a look ?
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Thanks,
+Alexandre
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-powerpc                          g5_defconfig
-arm                           u8500_defconfig
-powerpc                     sbc8548_defconfig
-powerpc                    gamecube_defconfig
-mips                          rb532_defconfig
-arm                       aspeed_g4_defconfig
-powerpc                   motionpro_defconfig
-sh                         ap325rxa_defconfig
-powerpc                     sequoia_defconfig
-mips                    maltaup_xpa_defconfig
-h8300                            allyesconfig
-arm                         shannon_defconfig
-arm                  colibri_pxa300_defconfig
-mips                          ath25_defconfig
-sh                        edosk7705_defconfig
-powerpc                 mpc8540_ads_defconfig
-powerpc                 linkstation_defconfig
-c6x                         dsk6455_defconfig
-powerpc64                        alldefconfig
-arm                          gemini_defconfig
-mips                malta_qemu_32r6_defconfig
-mips                          malta_defconfig
-riscv                             allnoconfig
-arm                              alldefconfig
-mips                         tb0287_defconfig
-arm                       cns3420vb_defconfig
-arm                        realview_defconfig
-arm                         assabet_defconfig
-mips                       rbtx49xx_defconfig
-csky                                defconfig
-m68k                             allmodconfig
-alpha                               defconfig
-powerpc                 canyonlands_defconfig
-mips                          ath79_defconfig
-c6x                        evmc6457_defconfig
-powerpc                     asp8347_defconfig
-arm                         mv78xx0_defconfig
-arm                           tegra_defconfig
-sh                           se7619_defconfig
-mips                        bcm63xx_defconfig
-nds32                            alldefconfig
-nios2                         10m50_defconfig
-powerpc                     rainier_defconfig
-xtensa                       common_defconfig
-sh                           sh2007_defconfig
-powerpc                  iss476-smp_defconfig
-powerpc                 mpc832x_rdb_defconfig
-arm                          simpad_defconfig
-microblaze                    nommu_defconfig
-arm                          pcm027_defconfig
-sh                              ul2_defconfig
-arm                        oxnas_v6_defconfig
-mips                         rt305x_defconfig
-mips                           ip28_defconfig
-arm                          pxa3xx_defconfig
-sh                ecovec24-romimage_defconfig
-sh                   secureedge5410_defconfig
-powerpc                 mpc8315_rdb_defconfig
-powerpc                 mpc837x_mds_defconfig
-xtensa                           alldefconfig
-arm                         nhk8815_defconfig
-arm                         bcm2835_defconfig
-powerpc                      mgcoge_defconfig
-powerpc                  storcenter_defconfig
-microblaze                      mmu_defconfig
-m68k                             allyesconfig
-s390                       zfcpdump_defconfig
-powerpc                       ppc64_defconfig
-powerpc                      ppc6xx_defconfig
-powerpc                     taishan_defconfig
-arm                           spitz_defconfig
-h8300                               defconfig
-powerpc                    mvme5100_defconfig
-arc                            hsdk_defconfig
-m68k                           sun3_defconfig
-arm                          pxa910_defconfig
-sh                     magicpanelr2_defconfig
-powerpc                    sam440ep_defconfig
-sh                          sdk7786_defconfig
-xtensa                          iss_defconfig
-powerpc                      ppc44x_defconfig
-sh                 kfr2r09-romimage_defconfig
-arm                           stm32_defconfig
-h8300                            alldefconfig
-sh                           se7750_defconfig
-m68k                            q40_defconfig
-arm                        multi_v5_defconfig
-arm                          lpd270_defconfig
-arm                        trizeps4_defconfig
-powerpc                      chrp32_defconfig
-x86_64                              defconfig
-mips                      loongson3_defconfig
-powerpc                      makalu_defconfig
-arm                       imx_v6_v7_defconfig
-arc                    vdk_hs38_smp_defconfig
-mips                        bcm47xx_defconfig
-arm                             pxa_defconfig
-arm                         hackkit_defconfig
-sh                          rsk7269_defconfig
-m68k                         apollo_defconfig
-arm                              zx_defconfig
-sh                           se7343_defconfig
-arm                            dove_defconfig
-mips                        nlm_xlr_defconfig
-mips                        jmr3927_defconfig
-powerpc                      katmai_defconfig
-powerpc                           allnoconfig
-nios2                               defconfig
-riscv                            alldefconfig
-arm                         palmz72_defconfig
-xtensa                  audio_kc705_defconfig
-powerpc                     ksi8560_defconfig
-sh                        sh7785lcr_defconfig
-sh                          rsk7203_defconfig
-sh                   sh7724_generic_defconfig
-sh                             espt_defconfig
-arm                          iop32x_defconfig
-powerpc                 mpc837x_rdb_defconfig
-sh                      rts7751r2d1_defconfig
-sh                           se7724_defconfig
-arc                        nsim_700_defconfig
-c6x                        evmc6474_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                                defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-i386                 randconfig-a003-20200930
-i386                 randconfig-a002-20200930
-i386                 randconfig-a006-20200930
-i386                 randconfig-a005-20200930
-i386                 randconfig-a004-20200930
-i386                 randconfig-a001-20200930
-x86_64               randconfig-a015-20200930
-x86_64               randconfig-a013-20200930
-x86_64               randconfig-a012-20200930
-x86_64               randconfig-a016-20200930
-x86_64               randconfig-a014-20200930
-x86_64               randconfig-a011-20200930
-i386                 randconfig-a011-20200930
-i386                 randconfig-a015-20200930
-i386                 randconfig-a012-20200930
-i386                 randconfig-a014-20200930
-i386                 randconfig-a016-20200930
-i386                 randconfig-a013-20200930
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a001-20200930
-x86_64               randconfig-a005-20200930
-x86_64               randconfig-a003-20200930
-x86_64               randconfig-a004-20200930
-x86_64               randconfig-a002-20200930
-x86_64               randconfig-a006-20200930
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+> -Daniel
+>
+>> Alexandre Bailon (3):
+>>    Add a RPMSG driver for the APU in the mt8183
+>>    rpmsg: apu_rpmsg: update the way to store IOMMU mapping
+>>    rpmsg: apu_rpmsg: Add an IOCTL to request IOMMU mapping
+>>
+>> Julien STEPHAN (1):
+>>    rpmsg: apu_rpmsg: Add support for async apu request
+>>
+>>   drivers/rpmsg/Kconfig          |   9 +
+>>   drivers/rpmsg/Makefile         |   1 +
+>>   drivers/rpmsg/apu_rpmsg.c      | 752 +++++++++++++++++++++++++++++++++
+>>   drivers/rpmsg/apu_rpmsg.h      |  52 +++
+>>   include/uapi/linux/apu_rpmsg.h |  47 +++
+>>   5 files changed, 861 insertions(+)
+>>   create mode 100644 drivers/rpmsg/apu_rpmsg.c
+>>   create mode 100644 drivers/rpmsg/apu_rpmsg.h
+>>   create mode 100644 include/uapi/linux/apu_rpmsg.h
+>>
+>> -- 
+>> 2.26.2
+>>
+>> _______________________________________________
+>> dri-devel mailing list
+>> dri-devel@lists.freedesktop.org
+>> https://lists.freedesktop.org/mailman/listinfo/dri-devel
