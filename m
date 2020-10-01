@@ -2,157 +2,221 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9974127FC06
-	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 10:56:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 73FF127FC33
+	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 11:07:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731733AbgJAI43 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Oct 2020 04:56:29 -0400
-Received: from mickerik.phytec.de ([195.145.39.210]:61418 "EHLO
+        id S1731067AbgJAJHC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Oct 2020 05:07:02 -0400
+Received: from mickerik.phytec.de ([195.145.39.210]:61710 "EHLO
         mickerik.phytec.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725894AbgJAI41 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Oct 2020 04:56:27 -0400
+        with ESMTP id S1725894AbgJAJHB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Oct 2020 05:07:01 -0400
 DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a1; c=relaxed/simple;
-        q=dns/txt; i=@phytec.de; t=1601542584; x=1604134584;
+        q=dns/txt; i=@phytec.de; t=1601543220; x=1604135220;
         h=From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
         Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
         Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
         List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=5qfhGBDJtYEDB90Yi1ULKFgAmOXz1vGdko1Qk2XBSVQ=;
-        b=jm8fPaLndm5Anl6vqnzaO1DOwwI+kC196Mt8JllmtTcH0eExuQ28DXG3u0CmewZ7
-        J6dokyr80KnRsia398H0aSXJhIDc4eOTAych/tfyZ4jg1aWflNfECcIq2NnxmNhi
-        DBqDbCrFsXTXFbM8eFnrCLs0UENu4OByxlt6AAgxPGo=;
-X-AuditID: c39127d2-269ff70000001c25-45-5f7599b87717
+        bh=pWZQ1NVUR4MU+7W9B3yIXLTmCn3vjuY13WnbA4zRH4g=;
+        b=GNClneuFKkgCJgYUzmsmTncZDtdYDCT7okKCkdJtr4JAU9LpDjHPBugiuMkCIL0s
+        Am0YZ+3Jt2DUPM2X+ESZPY03YbL4vICYw6FCa3J0lZmpU2v3xp0hgh9AXE3fqrBw
+        f/mKSixX8iRZnvwW2SiD29kqAMwcNzdW58MmUcnWH9Y=;
+X-AuditID: c39127d2-253ff70000001c25-c6-5f759c345d5c
 Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
-        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 08.2E.07205.8B9957F5; Thu,  1 Oct 2020 10:56:24 +0200 (CEST)
+        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 29.3E.07205.43C957F5; Thu,  1 Oct 2020 11:07:00 +0200 (CEST)
 Received: from [172.16.23.108] ([172.16.23.108])
           by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-          with ESMTP id 2020100110562434-533353 ;
-          Thu, 1 Oct 2020 10:56:24 +0200 
-Subject: Re: [PATCH v2 3/5] media: mt9p031: Implement [gs]_register debug
- calls
+          with ESMTP id 2020100111070054-533442 ;
+          Thu, 1 Oct 2020 11:07:00 +0200 
+Subject: Re: [PATCH v2 1/5] media: mt9p031: Add support for 8 bit and 10 bit
+ formats
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+        Christian Hemp <c.hemp@phytec.de>,
+        Jan Luebbe <jlu@pengutronix.de>
 References: <20200930105133.139981-1-s.riedmueller@phytec.de>
- <20200930105133.139981-3-s.riedmueller@phytec.de>
- <20200930113831.GG5689@pendragon.ideasonboard.com>
+ <20200930114231.GH5689@pendragon.ideasonboard.com>
 From:   =?UTF-8?Q?Stefan_Riedm=c3=bcller?= <s.riedmueller@phytec.de>
-Message-ID: <289d5897-424f-326f-0bc1-c9a1b79284c3@phytec.de>
-Date:   Thu, 1 Oct 2020 10:56:24 +0200
+Message-ID: <eacb7df5-bc68-3047-b893-4c1ba4975278@phytec.de>
+Date:   Thu, 1 Oct 2020 11:07:00 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200930113831.GG5689@pendragon.ideasonboard.com>
+In-Reply-To: <20200930114231.GH5689@pendragon.ideasonboard.com>
 X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 01.10.2020 10:56:24,
+ 01.10.2020 11:07:00,
         Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 01.10.2020 10:56:24,
-        Serialize complete at 01.10.2020 10:56:24
+ 01.10.2020 11:07:00,
+        Serialize complete at 01.10.2020 11:07:00
 X-TNEFEvaluated: 1
 Content-Transfer-Encoding: 7bit
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Language: en-US
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrBLMWRmVeSWpSXmKPExsWyRoCBS3fHzNJ4g5l7JSz2HrvAYtE5cQm7
-        xeVdc9gsejZsZbVYtukPk8WnLd+YHNg8ZnfMZPXYtKqTzWPeyUCPFSv/M3l83iQXwBrFZZOS
-        mpNZllqkb5fAlbFwfxNTwXOxirUtF5kbGJcJdTFyckgImEj0Xl3H0sXIxSEksI1RoufuZnaQ
-        hJDAaUaJWdsdQWxhgUCJjWdvgsVFBCwkehdNZwRpYBY4zihxcdEyVojuZYwSR/98ZwWpYhNw
-        klh8voOti5GDg1fARmL+EksQk0VAReL1iWoQU1QgUmLnDkuQYl4BQYmTM5+wgNicAvYS/z5d
-        YwKZKCHQyCTx5fgJNohDhSROLz7LDGIzC8hLbH87B8o2k5i3+SGULS5x68l8pgmMQrOQzJ2F
-        pGUWkpZZSFoWMLKsYhTKzUzOTi3KzNYryKgsSU3WS0ndxAiMjcMT1S/tYOyb43GIkYmD8RCj
-        BAezkgjvocSSeCHelMTKqtSi/Pii0pzU4kOM0hwsSuK8G3hLwoQE0hNLUrNTUwtSi2CyTByc
-        Ug2M6oFmHbKd65TKK9cI7K5NmMg67fZXu23vzaxYdp6c+ofRy3NL5saYTxNnufOHTv/A2VUl
-        Nnm29dbeXPZJk40LLOcq5jQ/vcTP7C7ccWDFg40qF92tdnRJHYpvu63ToTdpl8ON6aK+igun
-        eO2fpFKm9y9323HvEq2G/fly62ZaSR2T3L97ri+vEktxRqKhFnNRcSIAsepuqHsCAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrKLMWRmVeSWpSXmKPExsWyRoCBS9dkTmm8wZnJqhZf58xjteicuITd
+        4vKuOWwWPRu2slos2/SHyeLTlm9MDmwesztmsnpsWtXJ5jHvZKBH/18Dj8+b5AJYo7hsUlJz
+        MstSi/TtErgy2qbvYy54r1HR+d2igfGfQhcjJ4eEgInE5inH2EFsIYFtjBLT/xR1MXIB2acZ
+        JeaeXszUxcjBISwQJrH7hSBIjYiAhUTvoumMIDXMArcYJf7cWMcK0VwkcfXVGjYQm03ASWLx
+        +Q42kF5eARuJczdrQcIsAioSL9bdYAEJiwpESuzcYQkS5hUQlDg58wkLiM0pYC/xsWsTM8h4
+        CYFGJok1Tw+xQtwpJHF68VlmEJtZQF5i+9s5ULaZxLzND6FscYlbT+YzTWAUmoVk7iwkLbOQ
+        tMxC0rKAkWUVo1BuZnJ2alFmtl5BRmVJarJeSuomRmBUHJ6ofmkHY98cj0OMTByMhxglOJiV
+        RHgPJZbEC/GmJFZWpRblxxeV5qQWH2KU5mBREufdwFsSJiSQnliSmp2aWpBaBJNl4uCUamDs
+        OuxnyKf249n7lsWf1LSr/AWm+2UGdxhWH9mx4YSVJYOTtvCs0Huc7+fvLd2+belOx2y/7TFc
+        EfVL/tmofmM8cj3F3yNr76avz67zyZed2+wx6d2kNV7s1r0urMsenCoQdLkrcDZ07mfPyfUO
+        B5eturfm+h2/IhGFPt+EczXVu69ftuXtetmixFKckWioxVxUnAgAy6ET7HgCAAA=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Laurent,
 
-On 30.09.20 13:38, Laurent Pinchart wrote:
+On 30.09.20 13:42, Laurent Pinchart wrote:
 > Hi Stefan,
 > 
 > Thank you for the patch.
 > 
-> On Wed, Sep 30, 2020 at 12:51:31PM +0200, Stefan Riedmueller wrote:
->> From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+> On Wed, Sep 30, 2020 at 12:51:29PM +0200, Stefan Riedmueller wrote:
+>> From: Christian Hemp <c.hemp@phytec.de>
 >>
->> Implement g_register and s_register v4l2_subdev_core_ops to access
->> camera register directly from userspace for debug purposes.
+>> Aside from 12 bit monochrome or color format the sensor implicitly
+>> supports 10 and 8 bit formats as well by simply dropping the
+>> corresponding LSBs.
 > 
-> As the name of the operations imply, this is meant for debug purpose
-> only. They are however prone to be abused to configure the sensor from
-> userspace in production, which isn't a direction we want to take.
-> What's your use case for this ?  I'd rather drop this patch and see the
-> driver extended with support for more controls if needed
+> That's not how it should work though. If you set the format on
+> MEDIA_BUS_FMT_SGRBG8_1X8 through the pipeline for instance, you will end
+> up capturing the 8 LSB, not the 8 MSB.
+> 
+> What's your use case for this ?
 
-thanks for your feedback.
+I use this sensor in combination with an i.MX 6 and i.MX 6UL. When the 
+sensor is connected with 12 bit (or 10 bit on the i.MX 6UL) and I set 
+MEDIA_BUS_FMT_SGRBG8_1X8 through the pipeline the CSI interface drops the 
+unused 4 LSB (or 2 LSB on the i.MX 6UL) so I get the 8 MSB from my 12 bit 
+sensor.
 
-I get your point. I myself solely use these operations for debugging 
-purposes but I'm aware that others like to abuse them.
+Does this clarify things? Maybe the description in the commit message is not 
+accurate enough or did I get something wrong?
 
-I thought I send it anyway since for me the DEBUG config is enough to 
-signalize that these operations are not to be used with a productive system. 
-But I'm OK with dropping this patch if you think it might send the wrong signal.
-
-Regards,
+Thanks,
 Stefan
 
 > 
->> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
+>> Signed-off-by: Christian Hemp <c.hemp@phytec.de>
+>> [jlu@pengutronix.de: simplified by dropping v4l2_colorspace handling]
+>> Signed-off-by: Jan Luebbe <jlu@pengutronix.de>
 >> Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
 >> ---
->> No changes in v2
+>> Changes in v2:
+>>   - Use unsigned int for num_fmts and loop variable in find_datafmt
+>>   - Remove superfluous const qualifier from find_datafmt
 >> ---
->>   drivers/media/i2c/mt9p031.c | 28 ++++++++++++++++++++++++++++
->>   1 file changed, 28 insertions(+)
+>>   drivers/media/i2c/mt9p031.c | 50 +++++++++++++++++++++++++++++--------
+>>   1 file changed, 40 insertions(+), 10 deletions(-)
 >>
 >> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
->> index b4c042f418c1..de36025260a8 100644
+>> index dc23b9ed510a..2e6671ef877c 100644
 >> --- a/drivers/media/i2c/mt9p031.c
 >> +++ b/drivers/media/i2c/mt9p031.c
->> @@ -703,6 +703,30 @@ static int mt9p031_restore_blc(struct mt9p031 *mt9p031)
+>> @@ -116,6 +116,18 @@ enum mt9p031_model {
+>>   	MT9P031_MODEL_MONOCHROME,
+>>   };
+>>   
+>> +static const u32 mt9p031_color_fmts[] = {
+>> +	MEDIA_BUS_FMT_SGRBG8_1X8,
+>> +	MEDIA_BUS_FMT_SGRBG10_1X10,
+>> +	MEDIA_BUS_FMT_SGRBG12_1X12,
+>> +};
+>> +
+>> +static const u32 mt9p031_monochrome_fmts[] = {
+>> +	MEDIA_BUS_FMT_Y8_1X8,
+>> +	MEDIA_BUS_FMT_Y10_1X10,
+>> +	MEDIA_BUS_FMT_Y12_1X12,
+>> +};
+>> +
+>>   struct mt9p031 {
+>>   	struct v4l2_subdev subdev;
+>>   	struct media_pad pad;
+>> @@ -138,6 +150,9 @@ struct mt9p031 {
+>>   	struct v4l2_ctrl *blc_auto;
+>>   	struct v4l2_ctrl *blc_offset;
+>>   
+>> +	const u32 *fmts;
+>> +	unsigned int num_fmts;
+>> +
+>>   	/* Registers cache */
+>>   	u16 output_control;
+>>   	u16 mode2;
+>> @@ -148,6 +163,17 @@ static struct mt9p031 *to_mt9p031(struct v4l2_subdev *sd)
+>>   	return container_of(sd, struct mt9p031, subdev);
+>>   }
+>>   
+>> +static u32 mt9p031_find_datafmt(struct mt9p031 *mt9p031, u32 code)
+>> +{
+>> +	unsigned int i;
+>> +
+>> +	for (i = 0; i < mt9p031->num_fmts; i++)
+>> +		if (mt9p031->fmts[i] == code)
+>> +			return mt9p031->fmts[i];
+>> +
+>> +	return mt9p031->fmts[mt9p031->num_fmts-1];
+>> +}
+>> +
+>>   static int mt9p031_read(struct i2c_client *client, u8 reg)
+>>   {
+>>   	return i2c_smbus_read_word_swapped(client, reg);
+>> @@ -476,10 +502,11 @@ static int mt9p031_enum_mbus_code(struct v4l2_subdev *subdev,
+>>   {
+>>   	struct mt9p031 *mt9p031 = to_mt9p031(subdev);
+>>   
+>> -	if (code->pad || code->index)
+>> +	if (code->pad || code->index >= mt9p031->num_fmts)
+>>   		return -EINVAL;
+>>   
+>> -	code->code = mt9p031->format.code;
+>> +	code->code = mt9p031->fmts[code->index];
+>> +
 >>   	return 0;
 >>   }
 >>   
->> +#ifdef CONFIG_VIDEO_ADV_DEBUG
->> +static int mt9p031_g_register(struct v4l2_subdev *sd,
->> +			      struct v4l2_dbg_register *reg)
->> +{
->> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
->> +	int ret;
->> +
->> +	ret = mt9p031_read(client, reg->reg);
->> +	if (ret < 0)
->> +		return ret;
->> +
->> +	reg->val = ret;
->> +	return 0;
->> +}
->> +
->> +static int mt9p031_s_register(struct v4l2_subdev *sd,
->> +			      struct v4l2_dbg_register const *reg)
->> +{
->> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
->> +
->> +	return mt9p031_write(client, reg->reg, reg->val);
->> +}
->> +#endif
->> +
->>   static int mt9p031_s_ctrl(struct v4l2_ctrl *ctrl)
->>   {
->>   	struct mt9p031 *mt9p031 =
->> @@ -1000,6 +1024,10 @@ static int mt9p031_close(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
+>> @@ -573,6 +600,8 @@ static int mt9p031_set_format(struct v4l2_subdev *subdev,
+>>   	__format->width = __crop->width / hratio;
+>>   	__format->height = __crop->height / vratio;
 >>   
->>   static const struct v4l2_subdev_core_ops mt9p031_subdev_core_ops = {
->>   	.s_power        = mt9p031_set_power,
->> +#ifdef CONFIG_VIDEO_ADV_DEBUG
->> +	.s_register	= mt9p031_s_register,
->> +	.g_register	= mt9p031_g_register,
->> +#endif
->>   };
+>> +	__format->code = mt9p031_find_datafmt(mt9p031, format->format.code);
+>> +
+>>   	format->format = *__format;
 >>   
->>   static const struct v4l2_subdev_video_ops mt9p031_subdev_video_ops = {
+>>   	return 0;
+>> @@ -951,10 +980,7 @@ static int mt9p031_open(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
+>>   
+>>   	format = v4l2_subdev_get_try_format(subdev, fh->pad, 0);
+>>   
+>> -	if (mt9p031->model == MT9P031_MODEL_MONOCHROME)
+>> -		format->code = MEDIA_BUS_FMT_Y12_1X12;
+>> -	else
+>> -		format->code = MEDIA_BUS_FMT_SGRBG12_1X12;
+>> +	format->code = mt9p031_find_datafmt(mt9p031, 0);
+>>   
+>>   	format->width = MT9P031_WINDOW_WIDTH_DEF;
+>>   	format->height = MT9P031_WINDOW_HEIGHT_DEF;
+>> @@ -1121,10 +1147,14 @@ static int mt9p031_probe(struct i2c_client *client,
+>>   	mt9p031->crop.left = MT9P031_COLUMN_START_DEF;
+>>   	mt9p031->crop.top = MT9P031_ROW_START_DEF;
+>>   
+>> -	if (mt9p031->model == MT9P031_MODEL_MONOCHROME)
+>> -		mt9p031->format.code = MEDIA_BUS_FMT_Y12_1X12;
+>> -	else
+>> -		mt9p031->format.code = MEDIA_BUS_FMT_SGRBG12_1X12;
+>> +	if (mt9p031->model == MT9P031_MODEL_MONOCHROME) {
+>> +		mt9p031->fmts = mt9p031_monochrome_fmts;
+>> +		mt9p031->num_fmts = ARRAY_SIZE(mt9p031_monochrome_fmts);
+>> +	} else {
+>> +		mt9p031->fmts = mt9p031_color_fmts;
+>> +		mt9p031->num_fmts = ARRAY_SIZE(mt9p031_color_fmts);
+>> +	}
+>> +	mt9p031->format.code = mt9p031_find_datafmt(mt9p031, 0);
+>>   
+>>   	mt9p031->format.width = MT9P031_WINDOW_WIDTH_DEF;
+>>   	mt9p031->format.height = MT9P031_WINDOW_HEIGHT_DEF;
 > 
