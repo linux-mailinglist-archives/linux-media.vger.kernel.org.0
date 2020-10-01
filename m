@@ -2,123 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 864A127FE36
-	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 13:17:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D091E27FED1
+	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 14:14:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731791AbgJALRS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Oct 2020 07:17:18 -0400
-Received: from mail.kernel.org ([198.145.29.99]:45400 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731243AbgJALRS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 1 Oct 2020 07:17:18 -0400
-Received: from mail.kernel.org (ip5f5ad5d2.dynamic.kabel-deutschland.de [95.90.213.210])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2D2D0208B6;
-        Thu,  1 Oct 2020 11:17:17 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601551037;
-        bh=o3EbE74hz2T8t1GJ/NdLtSBGVB6g4WdhQQVmKWNfpZY=;
-        h=From:To:Cc:Subject:Date:From;
-        b=V5xs9xV77aOCb/iYqYip/P17aEWk/SN/EmNWCdAQiLD7aon559p1jIPlWNgA/SNnn
-         0nhQzzDe7A0ogPn269L8XSWlu+TrhNV7pjN9TUhhPTpTKpxaI9VYmE1F0wpl41YDqv
-         1ZNXk/07+hz86huloLxUApOKjogj6AWbZcYp730A=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kNwaI-006Odu-9I; Thu, 01 Oct 2020 13:17:14 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Andy Shevchenko" <andy.shevchenko@gmail.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: [PATCH v3] media: atomisp: fixes build breakage for ISP2400 due to a cleanup
-Date:   Thu,  1 Oct 2020 13:17:13 +0200
-Message-Id: <490e5002c3fea266524c31e1a94853dca9c3286c.1601551027.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
+        id S1731999AbgJAMOf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Oct 2020 08:14:35 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:33783 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731767AbgJAMOf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 1 Oct 2020 08:14:35 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id NxThkVIdGTHgxNxTkkn95K; Thu, 01 Oct 2020 14:14:32 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1601554472; bh=jBrsdt/0uhjskCFZDWBaY0MDr2G2BowqvVjCa64nkNc=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=pqVIpo/onhAMrGuhDn9N3RdwHdig0MP1o6ydDjNrn+t6nb/IwFq+2QJMm5XxvBqhp
+         LNlUnLPXcnbU3wsEFLPSV8/m77Iu5KF5ScPRYadG3wTIM+TFCmmMtIYY0AIaY1xprd
+         RjY/DfaQQMzdZzv8OKHyWC4Whkfd54elm25uA/gL2GhPvYhjAoA/mQVfiv+XSj4fBD
+         BRKm7W11MFwnKBRCt1BtsMo65prZPk0KMIGZ0dU6DQVc3vwQI+sAGuqSpnOLYQcTah
+         QJWqVnvG2mSFd2Bp9OKTKR8x2Bl3jYD0E6CSvfBY87zqdyZ9XPt6G7NZhBkHqjiIM+
+         VHQDrkptB6jDQ==
+To:     Michael Tretter <m.tretter@pengutronix.de>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: allegro-dvt: ready to move to mainline?
+Message-ID: <608e0878-aaa2-425f-f453-8bf78d3e8fbe@xs4all.nl>
+Date:   Thu, 1 Oct 2020 14:14:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
-To:     unlisted-recipients:; (no To-header on input)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfAUVUQGm7CH1VvbJKEfRV6JETe5OWnsjnjBBi0G2gb+PR3HX0tyfE42qT+AtJurDLkgajq9fHiwpv8riffStb7p/V0PfFOi+YzMYLtgAl9eQWtSre0hl
+ nbVcFgY0mgCTCYswbUKsj1ehhqOmxipAmuW1XbujL1c1qooz59sO8CWdnSss66JgYL3UDYX99T6VVIWy3HlZhNa9BxKSQek5LP0=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-A temporary var needed for building with ISP2400 was removed
-by accident on a cleanup patch.
+Hi Michael,
 
-Fix the breakage.
+What is the status of this staging driver? The stateful encoder spec is now finalized,
+so is there anything else that blocks this driver from being moved out of staging?
 
-Fixes: 852a53a02cf0 ("media: atomisp: get rid of unused vars")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- drivers/staging/media/atomisp/pci/sh_css.c | 14 +++++++++++---
- 1 file changed, 11 insertions(+), 3 deletions(-)
+Regards,
 
-diff --git a/drivers/staging/media/atomisp/pci/sh_css.c b/drivers/staging/media/atomisp/pci/sh_css.c
-index e8c5caf3dfe6..ddee04c8248d 100644
---- a/drivers/staging/media/atomisp/pci/sh_css.c
-+++ b/drivers/staging/media/atomisp/pci/sh_css.c
-@@ -1365,7 +1365,6 @@ start_binary(struct ia_css_pipe *pipe,
- {
- 	assert(pipe);
- 	/* Acceleration uses firmware, the binary thus can be NULL */
--	/* assert(binary != NULL); */
- 
- 	if (binary)
- 		sh_css_metrics_start_binary(&binary->metrics);
-@@ -1381,10 +1380,10 @@ start_binary(struct ia_css_pipe *pipe,
- #endif
- 
- #if !defined(ISP2401)
--	if (stream->reconfigure_css_rx) {
-+	if (pipe->stream->reconfigure_css_rx) {
- 		ia_css_isys_rx_configure(&pipe->stream->csi_rx_config,
- 					 pipe->stream->config.mode);
--		stream->reconfigure_css_rx = false;
-+		pipe->stream->reconfigure_css_rx = false;
- 	}
- #endif
- }
-@@ -2820,6 +2819,8 @@ load_preview_binaries(struct ia_css_pipe *pipe) {
- 	bool need_isp_copy_binary = false;
- #ifdef ISP2401
- 	bool sensor = false;
-+#else
-+	bool continuous;
- #endif
- 	/* preview only have 1 output pin now */
- 	struct ia_css_frame_info *pipe_out_info = &pipe->output_info[0];
-@@ -2833,6 +2834,8 @@ load_preview_binaries(struct ia_css_pipe *pipe) {
- 	online = pipe->stream->config.online;
- #ifdef ISP2401
- 	sensor = pipe->stream->config.mode == IA_CSS_INPUT_MODE_SENSOR;
-+#else
-+	continuous = pipe->stream->config.continuous;
- #endif
- 
- 	if (mycs->preview_binary.info)
-@@ -5987,6 +5990,8 @@ static int load_primary_binaries(
- 	bool need_ldc = false;
- #ifdef ISP2401
- 	bool sensor = false;
-+#else
-+	bool memory, continuous;
- #endif
- 	struct ia_css_frame_info prim_in_info,
- 		       prim_out_info,
-@@ -6009,6 +6014,9 @@ static int load_primary_binaries(
- 	online = pipe->stream->config.online;
- #ifdef ISP2401
- 	sensor = (pipe->stream->config.mode == IA_CSS_INPUT_MODE_SENSOR);
-+#else
-+	memory = pipe->stream->config.mode == IA_CSS_INPUT_MODE_MEMORY;
-+	continuous = pipe->stream->config.continuous;
- #endif
- 
- 	mycs = &pipe->pipe_settings.capture;
--- 
-2.26.2
-
+	Hans
