@@ -2,39 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B5FD27FA3C
-	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 09:27:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E40327FA42
+	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 09:27:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731440AbgJAH1H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1731465AbgJAH1H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 1 Oct 2020 03:27:07 -0400
-Received: from mail.kernel.org ([198.145.29.99]:43044 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:43082 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725878AbgJAH1G (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1731332AbgJAH1G (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Thu, 1 Oct 2020 03:27:06 -0400
 Received: from mail.kernel.org (ip5f5ad5d2.dynamic.kabel-deutschland.de [95.90.213.210])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1774F2158C;
+        by mail.kernel.org (Postfix) with ESMTPSA id 22CF8216C4;
         Thu,  1 Oct 2020 07:27:04 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601537224;
-        bh=dgEaL2JsoF3hcpYTbUL7lBsIxnA10aOJeq1dKme8b5g=;
-        h=From:To:Cc:Subject:Date:From;
-        b=TpfLnVXnJ90dfE+xkOfKcgSF55gSGdt2w/yDKYoxU2kd9RIEtJFalKzStbBM4zguw
-         VMa0sqwpL9OBCE9FonmEARTm6FLjB6YaYSQ2gf7uPmmQBfHNJYcbVjKHln14x6Iafm
-         M2qlKf/wUwtwmSKvW1AbjiXYKj+ROjO/D9rOamYA=
+        bh=ZkRvmmUO3UpDhUA6dixjwbMXz48sS5Z7eMJxkWTqN1s=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=KKOWGZsZ6PDLOFmPpVXFzPmqUXnliAz5Ij1sxzwFmW9O1R+NmrcSm/cWMp6sB/3Wq
+         p1KUemoLdB3eTWKWf6I8USrmZW5QqglBoQBBYm15SjfSKyG0FMLcv5q+lN5HPaKjQR
+         Hqn2QUYONbe/sPZ+6G3sOchj02aSa7VADeOY9Plg=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kNszV-002VRH-UY; Thu, 01 Oct 2020 09:27:01 +0200
+        id 1kNszW-002VRJ-03; Thu, 01 Oct 2020 09:27:02 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 1/4] media: vidtv: reorganize includes
-Date:   Thu,  1 Oct 2020 09:26:57 +0200
-Message-Id: <88bc90c42a8af0921b11190c22181cdffc99dc7c.1601537213.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 2/4] media: vidtv: add error checks
+Date:   Thu,  1 Oct 2020 09:26:58 +0200
+Message-Id: <9116e3a99cd7fd818b8f59db3f00d46400b6c73c.1601537213.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
+In-Reply-To: <88bc90c42a8af0921b11190c22181cdffc99dc7c.1601537213.git.mchehab+huawei@kernel.org>
+References: <88bc90c42a8af0921b11190c22181cdffc99dc7c.1601537213.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
@@ -43,374 +45,510 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-- Place the includes on alphabetical order;
-- get rid of asm/byteorder.h;
-- add bug.h at vidtv_s302m.c, as it is needed by
-  inux/fixp-arith.h
+Currently, there are not checks if something gets bad during
+memory allocation: it will simply use NULL pointers and
+crash.
+
+Add error path at the logic which allocates memory for the
+MPEG-TS generator code, propagating the errors up to the
+vidtv_bridge. Now, if something wents bad, start_streaming
+will return an error that userspace can detect:
+
+	ERROR    DMX_SET_PES_FILTER failed (PID = 0x2000): 12 Cannot allocate memory
+
+and the driver doesn't crash.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../media/test-drivers/vidtv/vidtv_bridge.c   |  8 +++----
- .../media/test-drivers/vidtv/vidtv_bridge.h   |  2 ++
- .../media/test-drivers/vidtv/vidtv_channel.c  |  8 +++----
- .../media/test-drivers/vidtv/vidtv_channel.h  |  3 ++-
- .../media/test-drivers/vidtv/vidtv_demod.c    |  1 +
- .../media/test-drivers/vidtv/vidtv_demod.h    |  1 +
- drivers/media/test-drivers/vidtv/vidtv_mux.c  | 18 ++++++++--------
- drivers/media/test-drivers/vidtv/vidtv_mux.h  |  3 ++-
- drivers/media/test-drivers/vidtv/vidtv_pes.c  |  1 -
- drivers/media/test-drivers/vidtv/vidtv_pes.h  |  1 -
- drivers/media/test-drivers/vidtv/vidtv_psi.c  | 11 +++++-----
- drivers/media/test-drivers/vidtv/vidtv_psi.h  |  1 -
- .../media/test-drivers/vidtv/vidtv_s302m.c    | 21 +++++++++----------
- .../media/test-drivers/vidtv/vidtv_s302m.h    |  1 -
- drivers/media/test-drivers/vidtv/vidtv_ts.c   |  5 ++---
- drivers/media/test-drivers/vidtv/vidtv_ts.h   |  1 -
- .../media/test-drivers/vidtv/vidtv_tuner.c    |  5 +++--
- .../media/test-drivers/vidtv/vidtv_tuner.h    |  1 +
- 18 files changed, 46 insertions(+), 46 deletions(-)
+ .../media/test-drivers/vidtv/vidtv_bridge.c   |  2 +
+ .../media/test-drivers/vidtv/vidtv_channel.c  | 58 +++++++++++++++++--
+ .../media/test-drivers/vidtv/vidtv_channel.h  |  4 +-
+ drivers/media/test-drivers/vidtv/vidtv_mux.c  | 55 +++++++++++++-----
+ drivers/media/test-drivers/vidtv/vidtv_psi.c  | 40 ++++++++++---
+ .../media/test-drivers/vidtv/vidtv_s302m.c    | 14 ++++-
+ 6 files changed, 143 insertions(+), 30 deletions(-)
 
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.c b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-index 74b054947bbe..fb533c2dd351 100644
+index fb533c2dd351..b76c1c1ff7c0 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_bridge.c
 +++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.c
-@@ -9,20 +9,20 @@
-  * Copyright (C) 2020 Daniel W. S. Almeida
-  */
+@@ -181,6 +181,8 @@ static int vidtv_start_streaming(struct vidtv_dvb *dvb)
  
-+#include <linux/dev_printk.h>
- #include <linux/moduleparam.h>
- #include <linux/mutex.h>
- #include <linux/platform_device.h>
--#include <linux/dev_printk.h>
- #include <linux/time.h>
- #include <linux/types.h>
- #include <linux/workqueue.h>
+ 	dvb->streaming = true;
+ 	dvb->mux = vidtv_mux_init(dvb->fe[0], dev, mux_args);
++	if (!dvb->mux)
++		return -ENOMEM;
+ 	vidtv_mux_start_thread(dvb->mux);
  
- #include "vidtv_bridge.h"
-+#include "vidtv_common.h"
- #include "vidtv_demod.h"
--#include "vidtv_tuner.h"
--#include "vidtv_ts.h"
- #include "vidtv_mux.h"
--#include "vidtv_common.h"
-+#include "vidtv_ts.h"
-+#include "vidtv_tuner.h"
- 
- //#define MUX_BUF_MAX_SZ
- //#define MUX_BUF_MIN_SZ
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_bridge.h b/drivers/media/test-drivers/vidtv/vidtv_bridge.h
-index 78fe8472fa37..a85068bffd0f 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_bridge.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_bridge.h
-@@ -20,9 +20,11 @@
- #include <linux/i2c.h>
- #include <linux/platform_device.h>
- #include <linux/types.h>
-+
- #include <media/dmxdev.h>
- #include <media/dvb_demux.h>
- #include <media/dvb_frontend.h>
-+
- #include "vidtv_mux.h"
- 
- /**
+ 	dev_dbg_ratelimited(dev, "Started streaming\n");
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_channel.c b/drivers/media/test-drivers/vidtv/vidtv_channel.c
-index f2b97cf08e87..28a675a4f367 100644
+index 28a675a4f367..748697a783a9 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_channel.c
 +++ b/drivers/media/test-drivers/vidtv/vidtv_channel.c
-@@ -18,16 +18,16 @@
-  * Copyright (C) 2020 Daniel W. S. Almeida
-  */
+@@ -56,43 +56,61 @@ struct vidtv_channel
+ 	const u16 s302m_program_pid         = 0x101; /* packet id for PMT*/
+ 	const u16 s302m_es_pid              = 0x111; /* packet id for the ES */
+ 	const __be32 s302m_fid              = cpu_to_be32(VIDTV_S302M_FORMAT_IDENTIFIER);
+-
+ 	char *name = ENCODING_ISO8859_15 "Beethoven";
+ 	char *provider = ENCODING_ISO8859_15 "LinuxTV.org";
  
--#include <linux/types.h>
--#include <linux/slab.h>
- #include <linux/dev_printk.h>
- #include <linux/ratelimit.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
+-	struct vidtv_channel *s302m = kzalloc(sizeof(*s302m), GFP_KERNEL);
++	struct vidtv_channel *s302m;
+ 	struct vidtv_s302m_encoder_init_args encoder_args = {};
  
- #include "vidtv_channel.h"
--#include "vidtv_psi.h"
-+#include "vidtv_common.h"
- #include "vidtv_encoder.h"
- #include "vidtv_mux.h"
--#include "vidtv_common.h"
-+#include "vidtv_psi.h"
- #include "vidtv_s302m.h"
++	s302m = kzalloc(sizeof(*s302m), GFP_KERNEL);
++	if (!s302m)
++		return NULL;
++
+ 	s302m->name = kstrdup(name, GFP_KERNEL);
++	if (!s302m->name)
++		goto free_s302m;
  
- static void vidtv_channel_encoder_destroy(struct vidtv_encoder *e)
+ 	s302m->service = vidtv_psi_sdt_service_init(NULL, s302m_service_id);
++	if (!s302m->service)
++		goto free_name;
+ 
+ 	s302m->service->descriptor = (struct vidtv_psi_desc *)
+ 				     vidtv_psi_service_desc_init(NULL,
+ 								 DIGITAL_TELEVISION_SERVICE,
+ 								 name,
+ 								 provider);
++	if (!s302m->service->descriptor)
++		goto free_service;
+ 
+ 	s302m->transport_stream_id = transport_stream_id;
+ 
+ 	s302m->program = vidtv_psi_pat_program_init(NULL,
+ 						    s302m_service_id,
+ 						    s302m_program_pid);
++	if (!s302m->program)
++		goto free_service;
+ 
+ 	s302m->program_num = s302m_program_num;
+ 
+ 	s302m->streams = vidtv_psi_pmt_stream_init(NULL,
+ 						   STREAM_PRIVATE_DATA,
+ 						   s302m_es_pid);
++	if (!s302m->streams)
++		goto free_program;
+ 
+ 	s302m->streams->descriptor = (struct vidtv_psi_desc *)
+ 				     vidtv_psi_registration_desc_init(NULL,
+ 								      s302m_fid,
+ 								      NULL,
+ 								      0);
++	if (!s302m->streams->descriptor)
++		goto free_streams;
++
+ 	encoder_args.es_pid = s302m_es_pid;
+ 
+ 	s302m->encoders = vidtv_s302m_encoder_init(encoder_args);
++	if (!s302m->encoders)
++		goto free_streams;
+ 
+ 	if (head) {
+ 		while (head->next)
+@@ -102,6 +120,19 @@ struct vidtv_channel
+ 	}
+ 
+ 	return s302m;
++
++free_streams:
++	vidtv_psi_pmt_stream_destroy(s302m->streams);
++free_program:
++	vidtv_psi_pat_program_destroy(s302m->program);
++free_service:
++	vidtv_psi_sdt_service_destroy(s302m->service);
++free_name:
++	kfree(s302m->name);
++free_s302m:
++	kfree(s302m);
++
++	return NULL;
+ }
+ 
+ static struct vidtv_psi_table_sdt_service
+@@ -132,6 +163,8 @@ static struct vidtv_psi_table_sdt_service
+ 			tail = vidtv_psi_sdt_service_init(tail, service_id);
+ 
+ 			desc = vidtv_psi_desc_clone(curr->descriptor);
++			if (!desc)
++				return NULL;
+ 			vidtv_psi_desc_assign(&tail->descriptor, desc);
+ 
+ 			if (!head)
+@@ -246,17 +279,25 @@ vidtv_channel_pmt_match_sections(struct vidtv_channel *channels,
+ 	}
+ }
+ 
+-void vidtv_channel_si_init(struct vidtv_mux *m)
++int vidtv_channel_si_init(struct vidtv_mux *m)
+ {
+ 	struct vidtv_psi_table_pat_program *programs = NULL;
+ 	struct vidtv_psi_table_sdt_service *services = NULL;
+ 
+ 	m->si.pat = vidtv_psi_pat_table_init(m->transport_stream_id);
++	if (!m->si.pat)
++		return -ENOMEM;
+ 
+ 	m->si.sdt = vidtv_psi_sdt_table_init(m->transport_stream_id);
++	if (!m->si.sdt)
++		return -ENOMEM;
+ 
+ 	programs = vidtv_channel_pat_prog_cat_into_new(m);
++	if (!programs)
++		return -ENOMEM;
+ 	services = vidtv_channel_sdt_serv_cat_into_new(m);
++	if (!services)
++		return -ENOMEM;
+ 
+ 	/* assemble all programs and assign to PAT */
+ 	vidtv_psi_pat_program_assign(m->si.pat, programs);
+@@ -265,10 +306,14 @@ void vidtv_channel_si_init(struct vidtv_mux *m)
+ 	vidtv_psi_sdt_service_assign(m->si.sdt, services);
+ 
+ 	m->si.pmt_secs = vidtv_psi_pmt_create_sec_for_each_pat_entry(m->si.pat, m->pcr_pid);
++	if (!m->si.pmt_secs)
++		return -ENOMEM;
+ 
+ 	vidtv_channel_pmt_match_sections(m->channels,
+ 					 m->si.pmt_secs,
+ 					 m->si.pat->programs);
++
++	return 0;
+ }
+ 
+ void vidtv_channel_si_destroy(struct vidtv_mux *m)
+@@ -285,10 +330,15 @@ void vidtv_channel_si_destroy(struct vidtv_mux *m)
+ 	vidtv_psi_sdt_table_destroy(m->si.sdt);
+ }
+ 
+-void vidtv_channels_init(struct vidtv_mux *m)
++int vidtv_channels_init(struct vidtv_mux *m)
+ {
+ 	/* this is the place to add new 'channels' for vidtv */
+ 	m->channels = vidtv_channel_s302m_init(NULL, m->transport_stream_id);
++
++	if (!m->channels)
++		return -ENOMEM;
++
++	return 0;
+ }
+ 
+ void vidtv_channels_destroy(struct vidtv_mux *m)
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_channel.h b/drivers/media/test-drivers/vidtv/vidtv_channel.h
-index 2c3cba4313b0..93a436a27824 100644
+index 93a436a27824..d9a0f6fbfd92 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_channel.h
 +++ b/drivers/media/test-drivers/vidtv/vidtv_channel.h
-@@ -22,9 +22,10 @@
- #define VIDTV_CHANNEL_H
- 
- #include <linux/types.h>
--#include "vidtv_psi.h"
-+
- #include "vidtv_encoder.h"
- #include "vidtv_mux.h"
-+#include "vidtv_psi.h"
+@@ -62,14 +62,14 @@ struct vidtv_channel {
+  * vidtv_channel_si_init - Init the PSI tables from the channels in the mux
+  * @m: The mux containing the channels.
+  */
+-void vidtv_channel_si_init(struct vidtv_mux *m);
++int vidtv_channel_si_init(struct vidtv_mux *m);
+ void vidtv_channel_si_destroy(struct vidtv_mux *m);
  
  /**
-  * struct vidtv_channel - A 'channel' abstraction
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_demod.c b/drivers/media/test-drivers/vidtv/vidtv_demod.c
-index eba7fe1a1b48..63ac55b81f39 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_demod.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_demod.c
-@@ -19,6 +19,7 @@
- #include <linux/slab.h>
- #include <linux/string.h>
- #include <linux/workqueue.h>
-+
- #include <media/dvb_frontend.h>
- 
- #include "vidtv_demod.h"
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_demod.h b/drivers/media/test-drivers/vidtv/vidtv_demod.h
-index 87651b0193e6..ab84044f33ba 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_demod.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_demod.h
-@@ -12,6 +12,7 @@
- #define VIDTV_DEMOD_H
- 
- #include <linux/dvb/frontend.h>
-+
- #include <media/dvb_frontend.h>
- 
- /**
+  * vidtv_channels_init - Init hardcoded, fake 'channels'.
+  * @m: The mux to store the channels into.
+  */
+-void vidtv_channels_init(struct vidtv_mux *m);
++int vidtv_channels_init(struct vidtv_mux *m);
+ struct vidtv_channel
+ *vidtv_channel_s302m_init(struct vidtv_channel *head, u16 transport_stream_id);
+ void vidtv_channels_destroy(struct vidtv_mux *m);
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.c b/drivers/media/test-drivers/vidtv/vidtv_mux.c
-index 082740ae9d44..b7223f3a2c9d 100644
+index b7223f3a2c9d..9086edd45252 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_mux.c
 +++ b/drivers/media/test-drivers/vidtv/vidtv_mux.c
-@@ -12,23 +12,23 @@
-  * Copyright (C) 2020 Daniel W. S. Almeida
-  */
+@@ -47,33 +47,38 @@ static struct vidtv_mux_pid_ctx
+ 	struct vidtv_mux_pid_ctx *ctx;
  
--#include <linux/types.h>
--#include <linux/slab.h>
-+#include <linux/delay.h>
-+#include <linux/dev_printk.h>
- #include <linux/jiffies.h>
- #include <linux/kernel.h>
--#include <linux/dev_printk.h>
-+#include <linux/math64.h>
- #include <linux/ratelimit.h>
--#include <linux/delay.h>
-+#include <linux/slab.h>
-+#include <linux/types.h>
- #include <linux/vmalloc.h>
--#include <linux/math64.h>
- 
--#include "vidtv_mux.h"
--#include "vidtv_ts.h"
--#include "vidtv_pes.h"
--#include "vidtv_encoder.h"
- #include "vidtv_channel.h"
- #include "vidtv_common.h"
-+#include "vidtv_encoder.h"
-+#include "vidtv_mux.h"
-+#include "vidtv_pes.h"
- #include "vidtv_psi.h"
-+#include "vidtv_ts.h"
- 
- static struct vidtv_mux_pid_ctx
- *vidtv_mux_get_pid_ctx(struct vidtv_mux *m, u16 pid)
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.h b/drivers/media/test-drivers/vidtv/vidtv_mux.h
-index 2caa60623e97..08138c80398a 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_mux.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_mux.h
-@@ -15,9 +15,10 @@
- #ifndef VIDTV_MUX_H
- #define VIDTV_MUX_H
- 
--#include <linux/types.h>
- #include <linux/hashtable.h>
-+#include <linux/types.h>
- #include <linux/workqueue.h>
+ 	ctx = vidtv_mux_get_pid_ctx(m, pid);
+-
+ 	if (ctx)
+-		goto end;
++		return ctx;
 +
- #include <media/dvb_frontend.h>
++	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
++	if (!ctx)
++		return NULL;
  
- #include "vidtv_psi.h"
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_pes.c b/drivers/media/test-drivers/vidtv/vidtv_pes.c
-index 1c75f88070e9..102352d398ed 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_pes.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_pes.c
-@@ -16,7 +16,6 @@
- #include <linux/types.h>
- #include <linux/printk.h>
- #include <linux/ratelimit.h>
--#include <asm/byteorder.h>
+-	ctx      = kzalloc(sizeof(*ctx), GFP_KERNEL);
+ 	ctx->pid = pid;
+ 	ctx->cc  = 0;
+ 	hash_add(m->pid_ctx, &ctx->h, pid);
  
- #include "vidtv_pes.h"
- #include "vidtv_common.h"
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_pes.h b/drivers/media/test-drivers/vidtv/vidtv_pes.h
-index 0ea9e863024d..a152693233a9 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_pes.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_pes.h
-@@ -14,7 +14,6 @@
- #ifndef VIDTV_PES_H
- #define VIDTV_PES_H
+-end:
+ 	return ctx;
+ }
  
--#include <asm/byteorder.h>
- #include <linux/types.h>
+-static void vidtv_mux_pid_ctx_init(struct vidtv_mux *m)
++static int vidtv_mux_pid_ctx_init(struct vidtv_mux *m)
+ {
+ 	struct vidtv_psi_table_pat_program *p = m->si.pat->program;
+ 	u16 pid;
  
- #include "vidtv_common.h"
+ 	hash_init(m->pid_ctx);
+ 	/* push the pcr pid ctx */
+-	vidtv_mux_create_pid_ctx_once(m, m->pcr_pid);
+-	/* push the null packet pid ctx */
+-	vidtv_mux_create_pid_ctx_once(m, TS_NULL_PACKET_PID);
++	if (!vidtv_mux_create_pid_ctx_once(m, m->pcr_pid))
++		return -ENOMEM;
++	/* push the NULL packet pid ctx */
++	if (!vidtv_mux_create_pid_ctx_once(m, TS_NULL_PACKET_PID))
++		return -ENOMEM;
+ 	/* push the PAT pid ctx */
+-	vidtv_mux_create_pid_ctx_once(m, VIDTV_PAT_PID);
++	if (!vidtv_mux_create_pid_ctx_once(m, VIDTV_PAT_PID))
++		return -ENOMEM;
+ 	/* push the SDT pid ctx */
+-	vidtv_mux_create_pid_ctx_once(m, VIDTV_SDT_PID);
++	if (!vidtv_mux_create_pid_ctx_once(m, VIDTV_SDT_PID))
++		return -ENOMEM;
+ 
+ 	/* add a ctx for all PMT sections */
+ 	while (p) {
+@@ -81,6 +86,8 @@ static void vidtv_mux_pid_ctx_init(struct vidtv_mux *m)
+ 		vidtv_mux_create_pid_ctx_once(m, pid);
+ 		p = p->next;
+ 	}
++
++	return 0;
+ }
+ 
+ static void vidtv_mux_pid_ctx_destroy(struct vidtv_mux *m)
+@@ -429,7 +436,11 @@ struct vidtv_mux *vidtv_mux_init(struct dvb_frontend *fe,
+ 				 struct device *dev,
+ 				 struct vidtv_mux_init_args args)
+ {
+-	struct vidtv_mux *m = kzalloc(sizeof(*m), GFP_KERNEL);
++	struct vidtv_mux *m;
++
++	m = kzalloc(sizeof(*m), GFP_KERNEL);
++	if (!m)
++		return NULL;
+ 
+ 	m->dev = dev;
+ 	m->fe = fe;
+@@ -441,6 +452,9 @@ struct vidtv_mux *vidtv_mux_init(struct dvb_frontend *fe,
+ 	m->on_new_packets_available_cb = args.on_new_packets_available_cb;
+ 
+ 	m->mux_buf = vzalloc(args.mux_buf_sz);
++	if (!m->mux_buf)
++		goto free_mux;
++
+ 	m->mux_buf_sz = args.mux_buf_sz;
+ 
+ 	m->pcr_pid = args.pcr_pid;
+@@ -451,16 +465,29 @@ struct vidtv_mux *vidtv_mux_init(struct dvb_frontend *fe,
+ 	if (args.channels)
+ 		m->channels = args.channels;
+ 	else
+-		vidtv_channels_init(m);
++		if (vidtv_channels_init(m) < 0)
++			goto free_mux_buf;
+ 
+ 	/* will alloc data for pmt_sections after initializing pat */
+-	vidtv_channel_si_init(m);
++	if (vidtv_channel_si_init(m) < 0)
++		goto free_channels;
+ 
+ 	INIT_WORK(&m->mpeg_thread, vidtv_mux_tick);
+ 
+-	vidtv_mux_pid_ctx_init(m);
++	if (vidtv_mux_pid_ctx_init(m) < 0)
++		goto free_channel_si;
+ 
+ 	return m;
++
++free_channel_si:
++	vidtv_channel_si_destroy(m);
++free_channels:
++	vidtv_channels_destroy(m);
++free_mux_buf:
++	vfree(m->mux_buf);
++free_mux:
++	kfree(m);
++	return NULL;
+ }
+ 
+ void vidtv_mux_destroy(struct vidtv_mux *m)
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-index 82cf67dd27c0..0e58cbc79fb2 100644
+index 0e58cbc79fb2..3151b300a91b 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_psi.c
 +++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-@@ -15,18 +15,17 @@
+@@ -325,6 +325,8 @@ struct vidtv_psi_desc_service *vidtv_psi_service_desc_init(struct vidtv_psi_desc
+ 	u32 provider_name_len = provider_name ? strlen(provider_name) : 0;
  
- #define pr_fmt(fmt) KBUILD_MODNAME ":%s, %d: " fmt, __func__, __LINE__
+ 	desc = kzalloc(sizeof(*desc), GFP_KERNEL);
++	if (!desc)
++		return NULL;
  
--#include <linux/kernel.h>
--#include <linux/types.h>
--#include <linux/slab.h>
- #include <linux/crc32.h>
--#include <linux/string.h>
-+#include <linux/kernel.h>
- #include <linux/printk.h>
- #include <linux/ratelimit.h>
-+#include <linux/slab.h>
- #include <linux/string.h>
--#include <asm/byteorder.h>
-+#include <linux/string.h>
-+#include <linux/types.h>
+ 	desc->type = SERVICE_DESCRIPTOR;
  
--#include "vidtv_psi.h"
- #include "vidtv_common.h"
-+#include "vidtv_psi.h"
- #include "vidtv_ts.h"
+@@ -364,6 +366,8 @@ struct vidtv_psi_desc_registration
+ 	struct vidtv_psi_desc_registration *desc;
  
- #define CRC_SIZE_IN_BYTES 4
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.h b/drivers/media/test-drivers/vidtv/vidtv_psi.h
-index 3f962cc78278..e31b4885ee6b 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_psi.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_psi.h
-@@ -17,7 +17,6 @@
- #define VIDTV_PSI_H
+ 	desc = kzalloc(sizeof(*desc) + sizeof(format_id) + additional_info_len, GFP_KERNEL);
++	if (!desc)
++		return NULL;
  
- #include <linux/types.h>
--#include <asm/byteorder.h>
+ 	desc->type = REGISTRATION_DESCRIPTOR;
  
- /*
-  * all section lengths start immediately after the 'section_length' field
+@@ -410,11 +414,12 @@ struct vidtv_psi_desc *vidtv_psi_desc_clone(struct vidtv_psi_desc *desc)
+ 		default:
+ 			curr = kzalloc(sizeof(*desc) + desc->length, GFP_KERNEL);
+ 			memcpy(curr, desc, sizeof(*desc) + desc->length);
+-		break;
+-	}
++		}
+ 
+-		if (curr)
+-			curr->next = NULL;
++		if (!curr)
++			return NULL;
++
++		curr->next = NULL;
+ 		if (!head)
+ 			head = curr;
+ 		if (prev)
+@@ -693,6 +698,8 @@ vidtv_psi_pat_program_init(struct vidtv_psi_table_pat_program *head,
+ 	const u16 RESERVED = 0x07;
+ 
+ 	program = kzalloc(sizeof(*program), GFP_KERNEL);
++	if (!program)
++		return NULL;
+ 
+ 	program->service_id = cpu_to_be16(service_id);
+ 
+@@ -754,11 +761,15 @@ vidtv_psi_pat_program_assign(struct vidtv_psi_table_pat *pat,
+ 
+ struct vidtv_psi_table_pat *vidtv_psi_pat_table_init(u16 transport_stream_id)
+ {
+-	struct vidtv_psi_table_pat *pat = kzalloc(sizeof(*pat), GFP_KERNEL);
++	struct vidtv_psi_table_pat *pat;
+ 	const u16 SYNTAX = 0x1;
+ 	const u16 ZERO = 0x0;
+ 	const u16 ONES = 0x03;
+ 
++	pat = kzalloc(sizeof(*pat), GFP_KERNEL);
++	if (!pat)
++		return NULL;
++
+ 	pat->header.table_id = 0x0;
+ 
+ 	pat->header.bitfield = cpu_to_be16((SYNTAX << 15) | (ZERO << 14) | (ONES << 12));
+@@ -858,6 +869,8 @@ vidtv_psi_pmt_stream_init(struct vidtv_psi_table_pmt_stream *head,
+ 	u16 desc_loop_len;
+ 
+ 	stream = kzalloc(sizeof(*stream), GFP_KERNEL);
++	if (!stream)
++		return NULL;
+ 
+ 	stream->type = stream_type;
+ 
+@@ -932,7 +945,7 @@ u16 vidtv_psi_pmt_get_pid(struct vidtv_psi_table_pmt *section,
+ struct vidtv_psi_table_pmt *vidtv_psi_pmt_table_init(u16 program_number,
+ 						     u16 pcr_pid)
+ {
+-	struct vidtv_psi_table_pmt *pmt = kzalloc(sizeof(*pmt), GFP_KERNEL);
++	struct vidtv_psi_table_pmt *pmt;
+ 	const u16 SYNTAX = 0x1;
+ 	const u16 ZERO = 0x0;
+ 	const u16 ONES = 0x03;
+@@ -940,6 +953,10 @@ struct vidtv_psi_table_pmt *vidtv_psi_pmt_table_init(u16 program_number,
+ 	const u16 RESERVED2 = 0x0f;
+ 	u16 desc_loop_len;
+ 
++	pmt = kzalloc(sizeof(*pmt), GFP_KERNEL);
++	if (!pmt)
++		return NULL;
++
+ 	if (!pcr_pid)
+ 		pcr_pid = 0x1fff;
+ 
+@@ -1079,14 +1096,17 @@ void vidtv_psi_pmt_table_destroy(struct vidtv_psi_table_pmt *pmt)
+ 
+ struct vidtv_psi_table_sdt *vidtv_psi_sdt_table_init(u16 transport_stream_id)
+ {
+-	struct vidtv_psi_table_sdt *sdt = kzalloc(sizeof(*sdt), GFP_KERNEL);
++	struct vidtv_psi_table_sdt *sdt;
+ 	const u16 SYNTAX = 0x1;
+ 	const u16 ONE = 0x1;
+ 	const u16 ONES = 0x03;
+ 	const u16 RESERVED = 0xff;
+ 
++	sdt  = kzalloc(sizeof(*sdt), GFP_KERNEL);
++	if (!sdt)
++		return NULL;
++
+ 	sdt->header.table_id = 0x42;
+-
+ 	sdt->header.bitfield = cpu_to_be16((SYNTAX << 15) | (ONE << 14) | (ONES << 12));
+ 
+ 	/*
+@@ -1219,6 +1239,8 @@ struct vidtv_psi_table_sdt_service
+ 	struct vidtv_psi_table_sdt_service *service;
+ 
+ 	service = kzalloc(sizeof(*service), GFP_KERNEL);
++	if (!service)
++		return NULL;
+ 
+ 	/*
+ 	 * ETSI 300 468: this is a 16bit field which serves as a label to
+@@ -1292,6 +1314,8 @@ vidtv_psi_pmt_create_sec_for_each_pat_entry(struct vidtv_psi_table_pat *pat, u16
+ 	pmt_secs = kcalloc(pat->programs,
+ 			   sizeof(struct vidtv_psi_table_pmt *),
+ 			   GFP_KERNEL);
++	if (!pmt_secs)
++		return NULL;
+ 
+ 	while (program) {
+ 		pmt_secs[i] = vidtv_psi_pmt_table_init(be16_to_cpu(program->service_id), pcr_pid);
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-index a447ccbd68d5..95c5b7bfd491 100644
+index 95c5b7bfd491..6e5e72ce90d0 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
 +++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-@@ -17,23 +17,22 @@
+@@ -144,7 +144,11 @@ static const struct tone_duration beethoven_5th_symphony[] = {
  
- #define pr_fmt(fmt) KBUILD_MODNAME ":%s, %d: " fmt, __func__, __LINE__
- 
--#include <linux/types.h>
--#include <linux/slab.h>
-+#include <linux/bug.h>
- #include <linux/crc32.h>
--#include <linux/vmalloc.h>
--#include <linux/string.h>
--#include <linux/kernel.h>
-+#include <linux/fixp-arith.h>
- #include <linux/jiffies.h>
-+#include <linux/kernel.h>
-+#include <linux/math64.h>
- #include <linux/printk.h>
- #include <linux/ratelimit.h>
--#include <linux/fixp-arith.h>
-+#include <linux/slab.h>
-+#include <linux/string.h>
-+#include <linux/types.h>
-+#include <linux/vmalloc.h>
- 
--#include <linux/math64.h>
--#include <asm/byteorder.h>
--
--#include "vidtv_s302m.h"
--#include "vidtv_encoder.h"
- #include "vidtv_common.h"
-+#include "vidtv_encoder.h"
-+#include "vidtv_s302m.h"
- 
- #define S302M_SAMPLING_RATE_HZ 48000
- #define PES_PRIVATE_STREAM_1 0xbd  /* PES: private_stream_1 */
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.h b/drivers/media/test-drivers/vidtv/vidtv_s302m.h
-index eca5e3150ede..eafe457e761d 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_s302m.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.h
-@@ -19,7 +19,6 @@
- #define VIDTV_S302M_H
- 
- #include <linux/types.h>
--#include <asm/byteorder.h>
- 
- #include "vidtv_encoder.h"
- 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.c b/drivers/media/test-drivers/vidtv/vidtv_ts.c
-index 190b9e4438dc..ca4bb9c40b78 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_ts.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_ts.c
-@@ -9,14 +9,13 @@
- 
- #define pr_fmt(fmt) KBUILD_MODNAME ":%s, %d: " fmt, __func__, __LINE__
- 
-+#include <linux/math64.h>
- #include <linux/printk.h>
- #include <linux/ratelimit.h>
- #include <linux/types.h>
--#include <linux/math64.h>
--#include <asm/byteorder.h>
- 
--#include "vidtv_ts.h"
- #include "vidtv_common.h"
-+#include "vidtv_ts.h"
- 
- static u32 vidtv_ts_write_pcr_bits(u8 *to, u32 to_offset, u64 pcr)
+ static struct vidtv_access_unit *vidtv_s302m_access_unit_init(struct vidtv_access_unit *head)
  {
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_ts.h b/drivers/media/test-drivers/vidtv/vidtv_ts.h
-index 83dcc9183b45..6b989a2c1433 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_ts.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_ts.h
-@@ -11,7 +11,6 @@
- #define VIDTV_TS_H
- 
- #include <linux/types.h>
--#include <asm/byteorder.h>
- 
- #define TS_SYNC_BYTE 0x47
- #define TS_PACKET_LEN 188
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_tuner.c b/drivers/media/test-drivers/vidtv/vidtv_tuner.c
-index 9bc49e099f65..14b6bc902ee1 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_tuner.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_tuner.c
-@@ -13,11 +13,12 @@
- #include <linux/errno.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
-+#include <linux/printk.h>
-+#include <linux/ratelimit.h>
- #include <linux/slab.h>
- #include <linux/types.h>
+-	struct vidtv_access_unit *au = kzalloc(sizeof(*au), GFP_KERNEL);
++	struct vidtv_access_unit *au;
 +
- #include <media/dvb_frontend.h>
--#include <linux/printk.h>
--#include <linux/ratelimit.h>
++	au = kzalloc(sizeof(*au), GFP_KERNEL);
++	if (!au)
++		return NULL;
  
- #include "vidtv_tuner.h"
+ 	if (head) {
+ 		while (head->next)
+@@ -439,9 +443,13 @@ static u32 vidtv_s302m_clear(struct vidtv_encoder *e)
+ struct vidtv_encoder
+ *vidtv_s302m_encoder_init(struct vidtv_s302m_encoder_init_args args)
+ {
+-	struct vidtv_encoder *e = kzalloc(sizeof(*e), GFP_KERNEL);
++	struct vidtv_encoder *e;
+ 	u32 priv_sz = sizeof(struct vidtv_s302m_ctx);
  
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_tuner.h b/drivers/media/test-drivers/vidtv/vidtv_tuner.h
-index 8455b2d564b3..fd55346a5c87 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_tuner.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_tuner.h
-@@ -11,6 +11,7 @@
- #define VIDTV_TUNER_H
- 
- #include <linux/types.h>
++	e = kzalloc(sizeof(*e), GFP_KERNEL);
++	if (!e)
++		return NULL;
 +
- #include <media/dvb_frontend.h>
+ 	e->id = S302M;
  
- #define NUM_VALID_TUNER_FREQS 8
+ 	if (args.name)
+@@ -460,6 +468,8 @@ struct vidtv_encoder
+ 
+ 	e->is_video_encoder = false;
+ 	e->ctx = kzalloc(priv_sz, GFP_KERNEL);
++	if (!e->ctx)
++		return NULL;
+ 
+ 	e->encode = vidtv_s302m_encode;
+ 	e->clear = vidtv_s302m_clear;
 -- 
 2.26.2
 
