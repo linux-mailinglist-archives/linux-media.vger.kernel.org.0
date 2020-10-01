@@ -2,220 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88BB42809E1
-	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 00:08:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDA0C280A83
+	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 00:49:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733117AbgJAWH7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Oct 2020 18:07:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43992 "EHLO
+        id S1727713AbgJAWtc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Oct 2020 18:49:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50416 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726731AbgJAWH4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Oct 2020 18:07:56 -0400
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D15C5C0613D0
-        for <linux-media@vger.kernel.org>; Thu,  1 Oct 2020 15:07:54 -0700 (PDT)
-Received: by mail-oi1-x243.google.com with SMTP id x69so1946oia.8
-        for <linux-media@vger.kernel.org>; Thu, 01 Oct 2020 15:07:54 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=DTsNkTRKBFGiT3RnxqZet+e/40+acfLy05o3xQ2l+Jk=;
-        b=aIR4I+0sBlNa3HSvx1eZnX3VRUlq2nZJCCPjELSWgEO/0HvnarH6GN/9/l4L8lCTVY
-         Nu8RN/zvEY8WYHB7mMSiRF5p56z7dklm5ZfpjGbjrRdte7TTPgaD62XFFUmjgkgP8rVZ
-         dVyFISlOu2Q22Kot4krNb4RRdEyX3QqoJBane5oI0QT5JT9MSp5kqfjKo3e5tnmESdby
-         DtDDccIGRn76SbXAKheT0SFV1hn7BfQ9MqKX7JoEN1b8UrJlCqET+UkVsLrVSkO+6x81
-         vErLl4xayHwrPjhYKw/1dA2rAb2lq4sNE5h/4OMvayGCqtS+/b8XRUBcTxOJjcbtshfv
-         BfQw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=DTsNkTRKBFGiT3RnxqZet+e/40+acfLy05o3xQ2l+Jk=;
-        b=FlFaHfn8MAp02ZjceOaBtBMe6UJoafQmlKl/VZaZMRNswLyZLnX++cFs6o9/X8SBBC
-         oFj9YHU0uXzhpzP0D61THQ6RtSybFOE9doeJxzPA8ZBszON1+DkfoLLf6E8bYF28beDn
-         NZKZuvqllaGiwiKjIzlFptdiaiAn19rF4I5qutrydqP3dXGaZZzOqaR7iNziCeMaRrYd
-         3sqBcSpJ/bcgIANLmfTRQo9ObApG8EspDP6uhbZFzj7r+6UXRuCyvhBf+1uJ0/zws2Kk
-         NQOQNJ9X42mDsTwYIPMdd5IXjJnTxA/HeBBveeIb0tvf3kLGsSypJsFYQJHNgZHZfFl3
-         GJWQ==
-X-Gm-Message-State: AOAM530SxIxhRfOz5ays4yD9H0ynx4ksoQyGE/rrurD5mRUMMhvH6ocS
-        BluhG8mplRU5h52UIQDuFgO1AhA7uYBEIxujOTewHw==
-X-Google-Smtp-Source: ABdhPJytLfO0smIK/xEv6VzJQe4myTsLm8ipjd0O6CWHheM/Dyq/BY10cueJ7Vwo1iCD6z7vzAM7/RY4nBV8/6B0afg=
-X-Received: by 2002:a54:4d88:: with SMTP id y8mr1380233oix.97.1601590074016;
- Thu, 01 Oct 2020 15:07:54 -0700 (PDT)
+        with ESMTP id S1727053AbgJAWtc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Oct 2020 18:49:32 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 106D2C0613D0
+        for <linux-media@vger.kernel.org>; Thu,  1 Oct 2020 15:49:32 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 73C3160;
+        Fri,  2 Oct 2020 00:49:30 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1601592570;
+        bh=OP/AUTxqeUSjWCSHatWGUFe+FToXfkMNCnG3WuHvToQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=K22PqLHvw4uKnHTTZXVJvtxF47Tjoig/FknYI2sJ2qd4nKaFHJJ3pvEyXXzKnQwum
+         KGm7tJx/3jh7rxmEdXL7KFPdXOS1utTREBzAx7ngOP33jn6MmEI8mQrWfKYnFihi9+
+         shpRg/VkgadadMQIWY1MzrCquLQ9od5H7zNJACLs=
+Date:   Fri, 2 Oct 2020 01:48:53 +0300
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
+        linux-media@vger.kernel.org, helen.koike@collabora.com,
+        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
+        dafna3@gmail.com, sakari.ailus@linux.intel.com, mchehab@kernel.org,
+        tfiga@chromium.org
+Subject: Re: [PATCH v3 09/10] media: rkisp1: cap: simplify the link
+ validation by compering the media bus code
+Message-ID: <20201001224853.GF3722@pendragon.ideasonboard.com>
+References: <20200723132014.4597-1-dafna.hirschfeld@collabora.com>
+ <20200723132014.4597-10-dafna.hirschfeld@collabora.com>
+ <20200930190025.GH1516931@oden.dyn.berto.se>
+ <20201001020325.GJ5689@pendragon.ideasonboard.com>
+ <9724beba-21dc-63b4-5eea-90922b7f1968@collabora.com>
 MIME-Version: 1.0
-References: <20200926042453.67517-1-john.stultz@linaro.org>
- <20200926042453.67517-6-john.stultz@linaro.org> <1e109a138c86be7b06e20cb30a243fc7@codeaurora.org>
-In-Reply-To: <1e109a138c86be7b06e20cb30a243fc7@codeaurora.org>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Thu, 1 Oct 2020 15:07:42 -0700
-Message-ID: <CALAqxLWv+Uz_mPUtx8TzfEvKHk7kp0XS5XLX6qyW6tqacGZU5g@mail.gmail.com>
-Subject: Re: [RFC][PATCH 5/6] dma-buf: system_heap: Add pagepool support to
- system heap
-To:     Chris Goldsworthy <cgoldswo@codeaurora.org>
-Cc:     lkml <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <9724beba-21dc-63b4-5eea-90922b7f1968@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Sep 29, 2020 at 9:46 PM Chris Goldsworthy
-<cgoldswo@codeaurora.org> wrote:
->
-> On 2020-09-25 21:24, John Stultz wrote:
-> > Reuse/abuse the pagepool code from the network code to speed
-> > up allocation performance.
-> >
-> > This is similar to the ION pagepool usage, but tries to
-> > utilize generic code instead of a custom implementation.
-> >
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: Liam Mark <lmark@codeaurora.org>
-> > Cc: Laura Abbott <labbott@kernel.org>
-> > Cc: Brian Starkey <Brian.Starkey@arm.com>
-> > Cc: Hridya Valsaraju <hridya@google.com>
-> > Cc: Suren Baghdasaryan <surenb@google.com>
-> > Cc: Sandeep Patil <sspatil@google.com>
-> > Cc: =C3=98rjan Eide <orjan.eide@arm.com>
-> > Cc: Robin Murphy <robin.murphy@arm.com>
-> > Cc: Ezequiel Garcia <ezequiel@collabora.com>
-> > Cc: Simon Ser <contact@emersion.fr>
-> > Cc: James Jones <jajones@nvidia.com>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Signed-off-by: John Stultz <john.stultz@linaro.org>
-> > ---
-> >  drivers/dma-buf/heaps/Kconfig       |  1 +
-> >  drivers/dma-buf/heaps/system_heap.c | 32 +++++++++++++++++++++++++----
-> >  2 files changed, 29 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/dma-buf/heaps/Kconfig
-> > b/drivers/dma-buf/heaps/Kconfig
-> > index a5eef06c4226..f13cde4321b1 100644
-> > --- a/drivers/dma-buf/heaps/Kconfig
-> > +++ b/drivers/dma-buf/heaps/Kconfig
-> > @@ -1,6 +1,7 @@
-> >  config DMABUF_HEAPS_SYSTEM
-> >       bool "DMA-BUF System Heap"
-> >       depends on DMABUF_HEAPS
-> > +     select PAGE_POOL
-> >       help
-> >         Choose this option to enable the system dmabuf heap. The system
-> > heap
-> >         is backed by pages from the buddy allocator. If in doubt, say Y=
-.
-> > diff --git a/drivers/dma-buf/heaps/system_heap.c
-> > b/drivers/dma-buf/heaps/system_heap.c
-> > index 882a632e9bb7..9f57b4c8ae69 100644
-> > --- a/drivers/dma-buf/heaps/system_heap.c
-> > +++ b/drivers/dma-buf/heaps/system_heap.c
-> > @@ -20,6 +20,7 @@
-> >  #include <linux/scatterlist.h>
-> >  #include <linux/slab.h>
-> >  #include <linux/vmalloc.h>
-> > +#include <net/page_pool.h>
-> >
-> >  struct dma_heap *sys_heap;
-> >
-> > @@ -46,6 +47,7 @@ struct dma_heap_attachment {
-> >  static gfp_t order_flags[] =3D {HIGH_ORDER_GFP, LOW_ORDER_GFP,
-> > LOW_ORDER_GFP};
-> >  static const unsigned int orders[] =3D {8, 4, 0};
-> >  #define NUM_ORDERS ARRAY_SIZE(orders)
-> > +struct page_pool *pools[NUM_ORDERS];
-> >
-> >  static struct sg_table *dup_sg_table(struct sg_table *table)
-> >  {
-> > @@ -264,13 +266,17 @@ static void system_heap_dma_buf_release(struct
-> > dma_buf *dmabuf)
-> >       struct system_heap_buffer *buffer =3D dmabuf->priv;
-> >       struct sg_table *table;
-> >       struct scatterlist *sg;
-> > -     int i;
-> > +     int i, j;
-> >
-> >       table =3D &buffer->sg_table;
-> >       for_each_sg(table->sgl, sg, table->nents, i) {
-> >               struct page *page =3D sg_page(sg);
-> >
-> > -             __free_pages(page, compound_order(page));
-> > +             for (j =3D 0; j < NUM_ORDERS; j++) {
-> > +                     if (compound_order(page) =3D=3D orders[j])
-> > +                             break;
-> > +             }
-> > +             page_pool_put_full_page(pools[j], page, false);
-> >       }
-> >       sg_free_table(table);
-> >       kfree(buffer);
-> > @@ -300,8 +306,7 @@ static struct page
-> > *alloc_largest_available(unsigned long size,
-> >                       continue;
-> >               if (max_order < orders[i])
-> >                       continue;
-> > -
-> > -             page =3D alloc_pages(order_flags[i], orders[i]);
-> > +             page =3D page_pool_alloc_pages(pools[i], order_flags[i]);
-> >               if (!page)
-> >                       continue;
-> >               return page;
-> > @@ -406,6 +411,25 @@ static const struct dma_heap_ops system_heap_ops =
-=3D
-> > {
-> >  static int system_heap_create(void)
-> >  {
-> >       struct dma_heap_export_info exp_info;
-> > +     int i;
-> > +
-> > +     for (i =3D 0; i < NUM_ORDERS; i++) {
-> > +             struct page_pool_params pp;
-> > +
-> > +             memset(&pp, 0, sizeof(pp));
-> > +             pp.order =3D orders[i];
-> > +             pp.dma_dir =3D DMA_BIDIRECTIONAL;
-> > +             pools[i] =3D page_pool_create(&pp);
-> > +
-> > +             if (IS_ERR(pools[i])) {
-> > +                     int j;
-> > +
-> > +                     pr_err("%s: page pool creation failed!\n", __func=
-__);
-> > +                     for (j =3D 0; j < i; j++)
-> > +                             page_pool_destroy(pools[j]);
-> > +                     return PTR_ERR(pools[i]);
-> > +             }
-> > +     }
-> >
-> >       exp_info.name =3D "system";
-> >       exp_info.ops =3D &system_heap_ops;
->
-> This is cool, I didn't know about this pooling code under /net/core.
-> Nice and compact.
+Hi Dafna,
 
-Oh, bummer. I just realized when allocating w/ __GFP_ZERO from the
-page-pool, the logic doesn't actually clear pages when pulling from
-the cache.
-So unfortunately this is what accounts for much of the performance
-benefit I was seeing with this approach, so I'll have to retract my
-claim on the performance gain with this. :(
+On Thu, Oct 01, 2020 at 09:36:07PM +0200, Dafna Hirschfeld wrote:
+> Am 01.10.20 um 04:03 schrieb Laurent Pinchart:
+> > On Wed, Sep 30, 2020 at 09:00:25PM +0200, Niklas Söderlund wrote:
+> >> Hi Dafna,
+> >>
+> >> This commit is not just a simplification but a change of behavior.  The
+> >> change is for the better but it broke capture of NV12 and NV21 formats
+> >> in libcamera unexpectedly.
+> >>
+> >> The issue at hand is that libcamera when configuring the pipeline
+> >> retrieves the mbus code for the ISP (rkisp1_isp) source pad (2) and then
+> >> propagates it to the resizer (rkisp_resizer_{main,self}path) sink pad
+> >> (0) and then to the resizers source pad (1). Effectively propagating
+> >> MEDIA_BUS_FMT_YUYV8_2X8 for all formats.
+> >>
+> >> At this point if the video node (main or self) is configured with a
+> >> YUV420 format (NV12, NV21, etc) and with this change applied the link
+> >> validation will fail as MEDIA_BUS_FMT_YUYV8_1_5X8 !=
+> >> MEDIA_BUS_FMT_YUYV8_2X8. Given the nature of how link validation is
+> >> implemented it's VIDIOC_QBUF that returns a -EPIPE when it fails and
+> >> libcamera lockup the capture session.
+> > 
+> > I would be very, very surprised is the hardware really used YUYV8_1_5X8.
+> > YUYV8_1X16 is a much more likely bus format between the resizer and the
+> > DMA engine, as well as between the ISP and the resizer.
+> 
+> Format YUYV8_1X16 is for downsampling of 4:2:2, but the resizer has the ability
+> to downsample to 4:2:0.
+> I see there is also format YDYUYDYV8_1X16 for 4:2:0
+> maybe this is what I should set?
+> 
+> Actually according to the TRM the resizer send the stream to the DMA
+> engine through two separated buses, one for luma and one for chroma.
 
-I've got a first pass at zeroing the pages we put into the pool, but
-the numbers are not so great just yet so I've got some further work to
-do.
+In which document is this documented ? Is this two 8-bit buses side by
+side ?
 
-thanks
--john
+Looking at the registers, the output formats are controlled by the
+global MI_CTRL register, common to both the main and self paths, which
+should correspond to the DMA engine. I think it would make sense to
+model this at the video node level, and hardcode YUYV8_1X16 between the
+resizer and the video node.
+
+> >> I will submit a fix for this to libcamera to bring it in sync with this
+> >> change.
+> >>
+> >> Would it be possible to ask that future changes to the rkisp1 driver be
+> >> tested with libcamera so we can track and update both the kernel and
+> >> user-space components of this driver at the same time and avoid nasty
+> >> surprises? :-)
+> > 
+> > I strongly second this. Drivers that are supported in libcamera should
+> > be tested with libcamera to catch regressions, for any chance submitted
+> > to the kernel.
+> 
+> I can run several 'cam' commands with different formats and dimensions to
+> find regressions. I currently have unit test only in v4l-utils.
+
+That would be great :-) We will work on a test suite for higher-level
+tests (something similar to the Android CTS) at some point, which should
+also help catching regressions.
+
+> >> On 2020-07-23 15:20:13 +0200, Dafna Hirschfeld wrote:
+> >>> The capture has a mapping of the mbus code needed for each pixelformat.
+> >>> This can be used to simplify the link validation by comparing the mbus
+> >>> code in the capture with the code in the resizer.
+> >>>
+> >>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> >>> ---
+> >>>   drivers/staging/media/rkisp1/rkisp1-capture.c | 18 ++++--------------
+> >>>   1 file changed, 4 insertions(+), 14 deletions(-)
+> >>>
+> >>> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> >>> index 4dabd07a3da9..a5e2521577dd 100644
+> >>> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
+> >>> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> >>> @@ -1255,22 +1255,11 @@ static int rkisp1_capture_link_validate(struct media_link *link)
+> >>>   	struct v4l2_subdev *sd =
+> >>>   		media_entity_to_v4l2_subdev(link->source->entity);
+> >>>   	struct rkisp1_capture *cap = video_get_drvdata(vdev);
+> >>> -	struct rkisp1_isp *isp = &cap->rkisp1->isp;
+> >>> -	u8 isp_pix_enc = isp->src_fmt->pixel_enc;
+> >>> -	u8 cap_pix_enc = cap->pix.info->pixel_enc;
+> >>> +	const struct rkisp1_capture_fmt_cfg *fmt =
+> >>> +		rkisp1_find_fmt_cfg(cap, cap->pix.fmt.pixelformat);
+> >>>   	struct v4l2_subdev_format sd_fmt;
+> >>>   	int ret;
+> >>>   
+> >>> -	if (cap_pix_enc != isp_pix_enc &&
+> >>> -	    !(isp_pix_enc == V4L2_PIXEL_ENC_YUV &&
+> >>> -	      cap_pix_enc == V4L2_PIXEL_ENC_RGB)) {
+> >>> -		dev_err(cap->rkisp1->dev,
+> >>> -			"format type mismatch in link '%s:%d->%s:%d'\n",
+> >>> -			link->source->entity->name, link->source->index,
+> >>> -			link->sink->entity->name, link->sink->index);
+> >>> -		return -EPIPE;
+> >>> -	}
+> >>> -
+> >>>   	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> >>>   	sd_fmt.pad = link->source->index;
+> >>>   	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &sd_fmt);
+> >>> @@ -1278,7 +1267,8 @@ static int rkisp1_capture_link_validate(struct media_link *link)
+> >>>   		return ret;
+> >>>   
+> >>>   	if (sd_fmt.format.height != cap->pix.fmt.height ||
+> >>> -	    sd_fmt.format.width != cap->pix.fmt.width)
+> >>> +	    sd_fmt.format.width != cap->pix.fmt.width ||
+> >>> +	    sd_fmt.format.code != fmt->mbus)
+> >>>   		return -EPIPE;
+> >>>   
+> >>>   	return 0;
+
+-- 
+Regards,
+
+Laurent Pinchart
