@@ -2,183 +2,223 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B032F280061
-	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 15:44:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65AD32801A0
+	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 16:49:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732229AbgJANow (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Oct 2020 09:44:52 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:50081 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732020AbgJANow (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 1 Oct 2020 09:44:52 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id Nyt4ko7ba4gEjNyt7kpqIN; Thu, 01 Oct 2020 15:44:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1601559889; bh=/2md+tOc4iU6VmP/EUZ7iASBcQZZ99VyMH4tXE5O6Z0=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=KlDSnejmrRbVR5Hj/p5Iplcr+il0BVIFFbURL/grDSbHcht8+I+sYyKUsuXKh0836
-         Mzz6pAv2XXztzYOxO1W5IBd2eYFcGk5jJKLngqeAdjgKWbVjXze5cgW/N1pGfREUHC
-         R4mlCXLLmJBxhlQP+l7t8nGxch9R4MJUc8NwWGJzmauyFgxNL0oqhZCuSpC9FQB7Xo
-         Fml3ihjp50PzS9Qph6naPI66O2CbwmfhfB29YiGyL8C7HAyOF1HPtx6MJKZeB0t5Eb
-         RT+IDavHQqeIsDVgq1juKYTIZGfUw9kgiXau62ldv8AQgDYLhkhp2MdneP+1y4KT/4
-         l+/nSL4uZV0EA==
-Subject: Re: [PATCH/RFC 13/16] media: v4l2: Add 10-, 12- and 16-bpc BGR
- formats
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Dylan Yip <dylany@xilinx.com>, Vishal Sagar <vsagar@xilinx.com>
-References: <20200923024333.920-1-laurent.pinchart@ideasonboard.com>
- <20200923024333.920-14-laurent.pinchart@ideasonboard.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <8ebbcde2-9c3c-9b65-c7dd-60e0fc973ee9@xs4all.nl>
-Date:   Thu, 1 Oct 2020 15:44:46 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1732410AbgJAOt0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Oct 2020 10:49:26 -0400
+Received: from m42-4.mailgun.net ([69.72.42.4]:58134 "EHLO m42-4.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732147AbgJAOtZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 1 Oct 2020 10:49:25 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1601563764; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=2kvF58kigGFmHtXjNh7v0zXrE9xY+Y5LVaWwGb72IkM=;
+ b=lDtQ+zhKX2CfEXw7m6pDlYf1/qhBQYGGBjuLRk/FON0qJzTVbXlxBZrpd/f4vE12XB24k4CP
+ CFXcdyN79XRQvPDEVm5R1KVkneoLNSTusf6/u17q/LxCM0nphy9s6EfarW5RFlTw/jqrhCUv
+ TmtJJa5am2wWTjn1dyT/krZgNtM=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
+ 5f75ec6c0ae65af4a26951ae (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 01 Oct 2020 14:49:16
+ GMT
+Sender: cgoldswo=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 9ADE3C433FE; Thu,  1 Oct 2020 14:49:15 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: cgoldswo)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 2F37BC433CA;
+        Thu,  1 Oct 2020 14:49:14 +0000 (UTC)
 MIME-Version: 1.0
-In-Reply-To: <20200923024333.920-14-laurent.pinchart@ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfPhAFgNX2mnQWrVcuAtKb8GRoHAvWJUkCs9IQdgdwZttCIVJccSSDzkBymTr0uLNssNcJFMIKPi/dITanaTZv70jnVbzm2dTzKxSo93NY19PQ0olu1nr
- cE51IGD5syzQkPtFxOky4+TlGc9ErFvfFLoBW+EKfAH6hOnoYqjuZzvBS+qysMWPli/ZVK4usWRdyvqqbeG2sRNNk6z95KNhRt3akMtc420PUcSyqtOYW5FK
- MO+iLI9vr1dhSij68s4W1+c3El8q6BFzBXgypHrAXoL8qX7vHZKFF3wybAcJ3yO+Xp78Dngl3Xi4ErGwmCTkw4itI3qXdWunlRC1S6nGRkw=
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+Date:   Thu, 01 Oct 2020 07:49:14 -0700
+From:   Chris Goldsworthy <cgoldswo@codeaurora.org>
+To:     John Stultz <john.stultz@linaro.org>
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [RFC][PATCH 5/6] dma-buf: system_heap: Add pagepool support to
+ system heap
+In-Reply-To: <1e109a138c86be7b06e20cb30a243fc7@codeaurora.org>
+References: <20200926042453.67517-1-john.stultz@linaro.org>
+ <20200926042453.67517-6-john.stultz@linaro.org>
+ <1e109a138c86be7b06e20cb30a243fc7@codeaurora.org>
+Message-ID: <ef00c83a9be572a1f9319b818de71266@codeaurora.org>
+X-Sender: cgoldswo@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/09/2020 04:43, Laurent Pinchart wrote:
-> Add three new pixel formats that store RGB data in BGR order with 10, 12
-> and 16 bits per component. They are used by the Xilinx Video Frame
-> Buffer Read/Write IP cores.
+On 2020-09-29 21:46, Chris Goldsworthy wrote:
+> On 2020-09-25 21:24, John Stultz wrote:
+>> Reuse/abuse the pagepool code from the network code to speed
+>> up allocation performance.
+>> 
+>> This is similar to the ION pagepool usage, but tries to
+>> utilize generic code instead of a custom implementation.
+>> 
+>> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+>> Cc: Liam Mark <lmark@codeaurora.org>
+>> Cc: Laura Abbott <labbott@kernel.org>
+>> Cc: Brian Starkey <Brian.Starkey@arm.com>
+>> Cc: Hridya Valsaraju <hridya@google.com>
+>> Cc: Suren Baghdasaryan <surenb@google.com>
+>> Cc: Sandeep Patil <sspatil@google.com>
+>> Cc: Ørjan Eide <orjan.eide@arm.com>
+>> Cc: Robin Murphy <robin.murphy@arm.com>
+>> Cc: Ezequiel Garcia <ezequiel@collabora.com>
+>> Cc: Simon Ser <contact@emersion.fr>
+>> Cc: James Jones <jajones@nvidia.com>
+>> Cc: linux-media@vger.kernel.org
+>> Cc: dri-devel@lists.freedesktop.org
+>> Signed-off-by: John Stultz <john.stultz@linaro.org>
+>> ---
+>>  drivers/dma-buf/heaps/Kconfig       |  1 +
+>>  drivers/dma-buf/heaps/system_heap.c | 32 
+>> +++++++++++++++++++++++++----
+>>  2 files changed, 29 insertions(+), 4 deletions(-)
+>> 
+>> diff --git a/drivers/dma-buf/heaps/Kconfig 
+>> b/drivers/dma-buf/heaps/Kconfig
+>> index a5eef06c4226..f13cde4321b1 100644
+>> --- a/drivers/dma-buf/heaps/Kconfig
+>> +++ b/drivers/dma-buf/heaps/Kconfig
+>> @@ -1,6 +1,7 @@
+>>  config DMABUF_HEAPS_SYSTEM
+>>  	bool "DMA-BUF System Heap"
+>>  	depends on DMABUF_HEAPS
+>> +	select PAGE_POOL
+>>  	help
+>>  	  Choose this option to enable the system dmabuf heap. The system 
+>> heap
+>>  	  is backed by pages from the buddy allocator. If in doubt, say Y.
+>> diff --git a/drivers/dma-buf/heaps/system_heap.c
+>> b/drivers/dma-buf/heaps/system_heap.c
+>> index 882a632e9bb7..9f57b4c8ae69 100644
+>> --- a/drivers/dma-buf/heaps/system_heap.c
+>> +++ b/drivers/dma-buf/heaps/system_heap.c
+>> @@ -20,6 +20,7 @@
+>>  #include <linux/scatterlist.h>
+>>  #include <linux/slab.h>
+>>  #include <linux/vmalloc.h>
+>> +#include <net/page_pool.h>
+>> 
+>>  struct dma_heap *sys_heap;
+>> 
+>> @@ -46,6 +47,7 @@ struct dma_heap_attachment {
+>>  static gfp_t order_flags[] = {HIGH_ORDER_GFP, LOW_ORDER_GFP, 
+>> LOW_ORDER_GFP};
+>>  static const unsigned int orders[] = {8, 4, 0};
+>>  #define NUM_ORDERS ARRAY_SIZE(orders)
+>> +struct page_pool *pools[NUM_ORDERS];
+>> 
+>>  static struct sg_table *dup_sg_table(struct sg_table *table)
+>>  {
+>> @@ -264,13 +266,17 @@ static void system_heap_dma_buf_release(struct
+>> dma_buf *dmabuf)
+>>  	struct system_heap_buffer *buffer = dmabuf->priv;
+>>  	struct sg_table *table;
+>>  	struct scatterlist *sg;
+>> -	int i;
+>> +	int i, j;
+>> 
+>>  	table = &buffer->sg_table;
+>>  	for_each_sg(table->sgl, sg, table->nents, i) {
+>>  		struct page *page = sg_page(sg);
+>> 
+>> -		__free_pages(page, compound_order(page));
+>> +		for (j = 0; j < NUM_ORDERS; j++) {
+>> +			if (compound_order(page) == orders[j])
+>> +				break;
+>> +		}
+>> +		page_pool_put_full_page(pools[j], page, false);
+>>  	}
+>>  	sg_free_table(table);
+>>  	kfree(buffer);
+>> @@ -300,8 +306,7 @@ static struct page
+>> *alloc_largest_available(unsigned long size,
+>>  			continue;
+>>  		if (max_order < orders[i])
+>>  			continue;
+>> -
+>> -		page = alloc_pages(order_flags[i], orders[i]);
+>> +		page = page_pool_alloc_pages(pools[i], order_flags[i]);
+>>  		if (!page)
+>>  			continue;
+>>  		return page;
+>> @@ -406,6 +411,25 @@ static const struct dma_heap_ops system_heap_ops 
+>> = {
+>>  static int system_heap_create(void)
+>>  {
+>>  	struct dma_heap_export_info exp_info;
+>> +	int i;
+>> +
+>> +	for (i = 0; i < NUM_ORDERS; i++) {
+>> +		struct page_pool_params pp;
+>> +
+>> +		memset(&pp, 0, sizeof(pp));
+>> +		pp.order = orders[i];
+>> +		pp.dma_dir = DMA_BIDIRECTIONAL;
+
+Hey John,
+
+Correct me if I'm wrong, but I think that in order for pp.dma_dir to be 
+used in either page_pool_alloc_pages() or page_pool_put_full_page(), we 
+need to at least have PP_FLAG_DMA_MAP set (to have 
+page_pool_dma_sync_for_device() called, PP_FLAG_DMA_SYNC_DEV should also 
+be set I think).  I think you'd also need to to have pp->dev set.  Are 
+we setting dma_dir with the intention of doing the necessary CMOs before 
+we start using the page?
+
+Thanks,
+
+Chris.
+
+>> +		pools[i] = page_pool_create(&pp);
+>> +
+>> +		if (IS_ERR(pools[i])) {
+>> +			int j;
+>> +
+>> +			pr_err("%s: page pool creation failed!\n", __func__);
+>> +			for (j = 0; j < i; j++)
+>> +				page_pool_destroy(pools[j]);
+>> +			return PTR_ERR(pools[i]);
+>> +		}
+>> +	}
+>> 
+>>  	exp_info.name = "system";
+>>  	exp_info.ops = &system_heap_ops;
 > 
-> The nomenclature for these new formats follows the 8- and 16-bpp RGB
-> formats and the DRM format naming conventions, which differs from the
-> 24- and 32-bpp RGB formats in V4L2.
-> 
-> As the number of bits per pixel grows quite large, a table with one
-> column per bit would be difficult to read. These formats are thus
-> described with one column per byte.
-> 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
->  .../userspace-api/media/v4l/pixfmt-rgb.rst    | 68 +++++++++++++++++++
->  include/uapi/linux/videodev2.h                |  5 ++
->  2 files changed, 73 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> index 32bfd68af425..2e81d448177e 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
-> @@ -1087,6 +1087,74 @@ order of components as seen in a 24- or 32-bit little endian word.
->      \endgroup
->  
->  
-> +More Than 8 Bits Per Component
-> +==============================
-> +
-> +These formats store an RGB triplet in four bytes or more. Similarly to the 8-
-> +and 16-bpp formats, they are named based on the order of the RGB components as
-> +seen in a word, which is then stored in memory in little endian byte order, and
-> +on the number of bits for each component.
-> +
-> +.. raw:: latex
-> +
-> +    \begingroup
-> +    \tiny
-> +    \setlength{\tabcolsep}{2pt}
-> +
-> +.. tabularcolumns:: |p{2.8cm}|p{2.0cm}|p{2.0cm}|p{2.0cm}|p{2.0cm}|p{2.0cm}|p{2.0cm}|p{2.0cm}|
-> +
-> +
-> +.. flat-table:: RGB Formats With More Than 8 Bits Per Component
-> +    :stub-columns: 0
-> +
-> +    * - Identifier
-> +      - Code
-> +      - Byte 0 in memory
-> +      - Byte 1
-> +      - Byte 2
-> +      - Byte 3
-> +      - Byte 4
-> +      - Byte 5
-> +    * .. _V4L2-PIX-FMT-XBGR2101010:
-> +
-> +      - ``V4L2_PIX_FMT_XBGR2101010``
+> This is cool, I didn't know about this pooling code under /net/core.
+> Nice and compact.
 
-How about naming this: 'X2B10G10R10'. That makes it easier to understand the
-number of bits assigned to each pixel component.
-
-An alternative (but more verbose) would be: XBGR_2_10_10_10.
-
-> +      - 'XB30'
-> +
-> +      - R\ :sub:`7-0`
-> +      - G\ :sub:`5-0` R\ :sub:`9-8`
-> +      - B\ :sub:`3-0` G\ :sub:`9-6`
-> +      - `-`\ :sub:`1-0` B\ :sub:`9-4`
-> +
-> +      -
-> +    * .. _V4L2-PIX-FMT-XBGR4121212:
-> +
-> +      - ``V4L2_PIX_FMT_XBGR4121212``
-
-X4B12G12R12
-
-> +      - 'XB36'
-> +
-> +      - R\ :sub:`7-0`
-> +      - G\ :sub:`3-0` R\ :sub:`11-8`
-> +      - G\ :sub:`11-4`
-> +      - B\ :sub:`7-0`
-> +      - `-`\ :sub:`3-0` B\ :sub:`11-8`
-> +
-> +      -
-> +    * .. _V4L2-PIX-FMT-BGR161616:
-> +
-> +      - ``V4L2_PIX_FMT_BGR161616``
-
-B16G16R16
-
-Regards,
-
-	Hans
-
-> +      - 'XB48'
-> +
-> +      - R\ :sub:`7-0`
-> +      - R\ :sub:`15-8`
-> +      - G\ :sub:`7-0`
-> +      - G\ :sub:`15-8`
-> +      - B\ :sub:`7-0`
-> +      - B\ :sub:`15-8`
-> +
-> +.. raw:: latex
-> +
-> +    \endgroup
-> +
-> +
->  Deprecated RGB Formats
->  ======================
->  
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 3f5f1cf8d1c0..9181e44c20db 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -561,6 +561,11 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_ARGB32  v4l2_fourcc('B', 'A', '2', '4') /* 32  ARGB-8-8-8-8  */
->  #define V4L2_PIX_FMT_XRGB32  v4l2_fourcc('B', 'X', '2', '4') /* 32  XRGB-8-8-8-8  */
->  
-> +/* RGB formats (more than 8 bits per component) */
-> +#define V4L2_PIX_FMT_XBGR2101010 v4l2_fourcc('X', 'B', '3', '0') /* 32  XBGR-2-10-10-10 */
-> +#define V4L2_PIX_FMT_XBGR4121212 v4l2_fourcc('X', 'B', '3', '6') /* 40  XBGR-4-12-12-12 */
-> +#define V4L2_PIX_FMT_BGR161616 v4l2_fourcc('X', 'B', '4', '8') /* 48  BGR-16-16-16 */
-> +
->  /* Grey formats */
->  #define V4L2_PIX_FMT_GREY    v4l2_fourcc('G', 'R', 'E', 'Y') /*  8  Greyscale     */
->  #define V4L2_PIX_FMT_Y4      v4l2_fourcc('Y', '0', '4', ' ') /*  4  Greyscale     */
-> 
-
+-- 
+The Qualcomm Innovation Center, Inc.
+The Qualcomm Innovation Center, Inc. is a member of the Code Aurora 
+Forum,
+a Linux Foundation Collaborative Project
