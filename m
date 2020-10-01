@@ -2,253 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E005E27F73A
-	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 03:22:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A936B27F771
+	for <lists+linux-media@lfdr.de>; Thu,  1 Oct 2020 03:32:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730841AbgJABWU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 30 Sep 2020 21:22:20 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49716 "EHLO
+        id S1730245AbgJABcq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 30 Sep 2020 21:32:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51440 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730829AbgJABWE (ORCPT
+        with ESMTP id S1725823AbgJABcq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 30 Sep 2020 21:22:04 -0400
-Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCFE8C061755
-        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 18:22:04 -0700 (PDT)
-Received: by mail-pj1-x1042.google.com with SMTP id v14so928840pjd.4
-        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 18:22:04 -0700 (PDT)
+        Wed, 30 Sep 2020 21:32:46 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B04E3C0613D1
+        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 18:32:45 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id s13so1266575wmh.4
+        for <linux-media@vger.kernel.org>; Wed, 30 Sep 2020 18:32:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=iykkjgQ2zEilsAYb25Oiu9fvwjjl039POyRBKs3+JVs=;
-        b=sRCpZJu0ngw1dkSkZBTu+JNMJFBCS9quxA7f49WCZeKRdthWNBrWQmcK44uYaoVDUm
-         MBJAkE1sLjU3wZ7MO21Lvong9b3wiwGiTRAjCM7Wmzbv0gwNXyLptvZ7BvggioYZFQg9
-         TwfcPqtMy1+7JvSS0193XtJDUcC3XiaAeua9QBJ5iXWa552vP+YfB7uLOAcgMeeebYwI
-         3YDNQrpdn7UgIwWl8IrZKNFukU//OULdNQvK2hceoBohxRKSganWLfoE0CMyltWcDNt5
-         M80ThdTByb5CX8gNLPFNA0G6v9rl0HcFGRI2fcg6/J1Lg1p9iMsV1Uq9wZNML39DXUyk
-         9amw==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=taNiUPgBuzMtfz2VM9oZBpI+WyEOvFg81s4+iAbTStM=;
+        b=CwCHnsvdzIMqvRK5CFoVqMi2xm6rngci01pOEOfHnTg9zi+FMu48ewMHQ4f9GUvs1G
+         Sa3KEzZo3Nier4Ns/sniD3VMZEjuSWh4jlGj7O0mLUtfnTSInogDw7Y3qhsdrOHkL2Wi
+         p1WYVCOreYiBMPWWUlbQHiq2CjBFZ87CF1U4nlecGHxRUfEK8woSkswBtdiqrZloKg6r
+         5Qhpftb+yNjI9dmiumHFq+/8cHRU043gMY2lfMaN+ql2TS9zd3ZanMYHBwFLf8BSLT6B
+         Ww7Cu7buIFAfmFv6A+YutaPsmBuBIAwzeAIgri7QfsVgjMCKcaOhQXXy6Zl+oJTP1tH4
+         Ts7g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=iykkjgQ2zEilsAYb25Oiu9fvwjjl039POyRBKs3+JVs=;
-        b=r3YTo5EifELzDEepj84xmYvP5DZhJWsi/pR0fAkSuMy/dX/zd0lMXntctmvuTPPstS
-         hXpHW9G++4JnPZPVsMglf/smGtiQfHXqqFa1NiG3WtardrGdyGX7b/z5JAlXEFqBL1kK
-         QahQ/+uGS3VzcDQOKMmRHiG6FQOwPPFV9RUV7UziLbkfoEZ4v7xQRpCrXZ/Z8UMRoZ5D
-         T9POS+NtGvj/qaymA6KQ4OC+OyA44rxkgpRChLLDBC+DfBLZqW0NeAwNyyYcOSoejOli
-         60d4c6V2meKQYg9gOAgUj2xLrDKbmtHHV0y7Hflv5xzakTW/1mtbJ6xl7d/fACTuI4BF
-         L9Yw==
-X-Gm-Message-State: AOAM532qZS33T/eiWnlcUGyL+M766+KySmppK96dVfRjAy47tr9EZU3n
-        kYA2ubNFDwg3bBg+PRe2Ut19YQ==
-X-Google-Smtp-Source: ABdhPJzQHrrOZJj4XNEhnUWUqQA8nROXHxb9gvlg9wZaBc4JCEFl7Z24Na9GkT1QihA9kpnNMDS9Kw==
-X-Received: by 2002:a17:90b:1050:: with SMTP id gq16mr5152246pjb.234.1601515324285;
-        Wed, 30 Sep 2020 18:22:04 -0700 (PDT)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id s187sm4229372pfc.134.2020.09.30.18.22.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 30 Sep 2020 18:22:03 -0700 (PDT)
-From:   John Stultz <john.stultz@linaro.org>
-To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: [PATCH v2 6/6] dma-buf: heaps: Skip sync if not mapped
-Date:   Thu,  1 Oct 2020 01:21:51 +0000
-Message-Id: <20201001012151.21149-7-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201001012151.21149-1-john.stultz@linaro.org>
-References: <20201001012151.21149-1-john.stultz@linaro.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=taNiUPgBuzMtfz2VM9oZBpI+WyEOvFg81s4+iAbTStM=;
+        b=XQ495xvaTzqSWQ9kMcLGqAaj5MnYE5JDl0PN4yS5RBnMB4yJULHtneFxgmR2iEAHNn
+         z4WOI/1rVKcNFxr9JzavE1BXc/sVwIJuLZ6w3lMx2nG2Ai4LYsQ+s5PLqXxpVDbDCNjk
+         An3sOFILNH//mQ7nw9UBHzrufYRcn1dWMLrrx21/8G5+8TNm4BZuk6KrKqPNUvQfGhI0
+         9TxaWeW2YkMxlJgNXjQT2Rwh3Ljp7DjVXDF+S8JoUwy0uohQcVf+Ah8XsD1Q84wid4EH
+         tjHGIskGLQS1BcZdlxE4cWOz1h9s4kFd9lh5nrYl1VHjc9v4Jdj9ghAuXClfjVFeGIHN
+         S8Dg==
+X-Gm-Message-State: AOAM531c0ttzmZxsT1MRQ3cRSeZgug3I688NHPflIIy4gOhho9DCEGXs
+        YGEffDft/utyCORyfyjMyxqRgA==
+X-Google-Smtp-Source: ABdhPJwriYyFKzwZP52UTFmcet3nKi89GTuVOFxGrQE5RbDCMNt7v0uDBdMs+Y8opRk47bniQ9+I6w==
+X-Received: by 2002:a1c:4604:: with SMTP id t4mr5608525wma.156.1601515964155;
+        Wed, 30 Sep 2020 18:32:44 -0700 (PDT)
+Received: from [192.168.1.7] ([195.24.90.54])
+        by smtp.googlemail.com with ESMTPSA id h1sm5998328wrx.33.2020.09.30.18.32.42
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 30 Sep 2020 18:32:43 -0700 (PDT)
+Subject: Re: [PATCH 2/2] venus: venc: fix handlig of S_SELECTION and
+ G_SELECTION
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Dikshita Agarwal <dikshita@codeaurora.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        Vikash Garodia <vgarodia@codeaurora.org>
+References: <1600968674-11559-1-git-send-email-dikshita@codeaurora.org>
+ <1600968674-11559-3-git-send-email-dikshita@codeaurora.org>
+ <CAAFQd5CTyjagd7grrCkret2WnvoLHQk83fg+1QPK+V1NbhKTvw@mail.gmail.com>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <b977eb27-9646-1c73-5acb-c3a74460e426@linaro.org>
+Date:   Thu, 1 Oct 2020 04:32:41 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAFQd5CTyjagd7grrCkret2WnvoLHQk83fg+1QPK+V1NbhKTvw@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch is basically a port of Ørjan Eide's similar patch for ION
- https://lore.kernel.org/lkml/20200414134629.54567-1-orjan.eide@arm.com/
+Hi Tomasz,
 
-Only sync the sg-list of dma-buf heap attachment when the attachment
-is actually mapped on the device.
+On 9/25/20 11:55 PM, Tomasz Figa wrote:
+> Hi Dikshita, Stanimir,
+> 
+> On Thu, Sep 24, 2020 at 7:31 PM Dikshita Agarwal
+> <dikshita@codeaurora.org> wrote:
+>>
+>> From: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>>
+>> - return correct width and height for G_SELECTION
+>> - if requested rectangle wxh doesn't match with capture port wxh
+>>   adjust the rectangle to supported wxh.
+>>
+>> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+>> ---
+>>  drivers/media/platform/qcom/venus/venc.c | 20 ++++++++++++--------
+>>  1 file changed, 12 insertions(+), 8 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+>> index 7d2aaa8..a2cc12d 100644
+>> --- a/drivers/media/platform/qcom/venus/venc.c
+>> +++ b/drivers/media/platform/qcom/venus/venc.c
+>> @@ -463,13 +463,13 @@ static int venc_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>>         switch (s->target) {
+>>         case V4L2_SEL_TGT_CROP_DEFAULT:
+>>         case V4L2_SEL_TGT_CROP_BOUNDS:
+>> -               s->r.width = inst->width;
+>> -               s->r.height = inst->height;
+>> -               break;
+>> -       case V4L2_SEL_TGT_CROP:
+>>                 s->r.width = inst->out_width;
+>>                 s->r.height = inst->out_height;
+>>                 break;
+>> +       case V4L2_SEL_TGT_CROP:
+>> +               s->r.width = inst->width;
+>> +               s->r.height = inst->height;
+>> +               break;
+>>         default:
+>>                 return -EINVAL;
+>>         }inter
+>> @@ -490,10 +490,14 @@ static int venc_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
+>>
+>>         switch (s->target) {
+>>         case V4L2_SEL_TGT_CROP:
+>> -               if (s->r.width != inst->out_width ||
+>> -                   s->r.height != inst->out_height ||
+>> -                   s->r.top != 0 || s->r.left != 0)
+>> -                       return -EINVAL;
+>> +               if (s->r.width != inst->width ||
+>> +                   s->r.height != inst->height ||
+>> +                   s->r.top != 0 || s->r.left != 0) {
+>> +                       s->r.top = 0;
+>> +                       s->r.left = 0;
+>> +                       s->r.width = inst->width;
+>> +                       s->r.height = inst->height;
+> 
+> What's the point of exposing the selection API if no selection can
+> actually be done?
 
-dma-bufs may be synced at any time. It can be reached from user space
-via DMA_BUF_IOCTL_SYNC, so there are no guarantees from callers on when
-syncs may be attempted, and dma_buf_end_cpu_access() and
-dma_buf_begin_cpu_access() may not be paired.
+If someone can guarantee that dropping of s_selection will not break
+userspace applications I'm fine with removing it.
 
-Since the sg_list's dma_address isn't set up until the buffer is used
-on the device, and dma_map_sg() is called on it, the dma_address will be
-NULL if sync is attempted on the dma-buf before it's mapped on a device.
+I implemented g/s_selection with the idea to add crop functionality
+later because with current firmware interface it needs more work.
 
-Before v5.0 (commit 55897af63091 ("dma-direct: merge swiotlb_dma_ops
-into the dma_direct code")) this was a problem as the dma-api (at least
-the swiotlb_dma_ops on arm64) would use the potentially invalid
-dma_address. How that failed depended on how the device handled physical
-address 0. If 0 was a valid address to physical ram, that page would get
-flushed a lot, while the actual pages in the buffer would not get synced
-correctly. While if 0 is an invalid physical address it may cause a
-fault and trigger a crash.
-
-In v5.0 this was incidentally fixed by commit 55897af63091 ("dma-direct:
-merge swiotlb_dma_ops into the dma_direct code"), as this moved the
-dma-api to use the page pointer in the sg_list, and (for Ion buffers at
-least) this will always be valid if the sg_list exists at all.
-
-But, this issue is re-introduced in v5.3 with
-commit 449fa54d6815 ("dma-direct: correct the physical addr in
-dma_direct_sync_sg_for_cpu/device") moves the dma-api back to the old
-behaviour and picks the dma_address that may be invalid.
-
-dma-buf core doesn't ensure that the buffer is mapped on the device, and
-thus have a valid sg_list, before calling the exporter's
-begin_cpu_access.
-
-Logic and commit message originally by: Ørjan Eide <orjan.eide@arm.com>
-
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: Ørjan Eide <orjan.eide@arm.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Ezequiel Garcia <ezequiel@collabora.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: James Jones <jajones@nvidia.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: John Stultz <john.stultz@linaro.org>
----
- drivers/dma-buf/heaps/cma_heap.c    | 10 ++++++++++
- drivers/dma-buf/heaps/system_heap.c | 10 ++++++++++
- 2 files changed, 20 insertions(+)
-
-diff --git a/drivers/dma-buf/heaps/cma_heap.c b/drivers/dma-buf/heaps/cma_heap.c
-index 4f20f07872e5..e19320f52063 100644
---- a/drivers/dma-buf/heaps/cma_heap.c
-+++ b/drivers/dma-buf/heaps/cma_heap.c
-@@ -44,6 +44,7 @@ struct dma_heap_attachment {
- 	struct device *dev;
- 	struct sg_table table;
- 	struct list_head list;
-+	bool mapped;
- };
- 
- static int cma_heap_attach(struct dma_buf *dmabuf,
-@@ -68,6 +69,7 @@ static int cma_heap_attach(struct dma_buf *dmabuf,
- 
- 	a->dev = attachment->dev;
- 	INIT_LIST_HEAD(&a->list);
-+	a->mapped = false;
- 
- 	attachment->priv = a;
- 
-@@ -101,6 +103,7 @@ static struct sg_table *cma_heap_map_dma_buf(struct dma_buf_attachment *attachme
- 	if (!dma_map_sg(attachment->dev, table->sgl, table->nents,
- 			direction))
- 		table = ERR_PTR(-ENOMEM);
-+	a->mapped = true;
- 	return table;
- }
- 
-@@ -108,6 +111,9 @@ static void cma_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
- 				   struct sg_table *table,
- 				   enum dma_data_direction direction)
- {
-+	struct dma_heap_attachment *a = attachment->priv;
-+
-+	a->mapped = false;
- 	dma_unmap_sg(attachment->dev, table->sgl, table->nents, direction);
- }
- 
-@@ -122,6 +128,8 @@ static int cma_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
- 
- 	mutex_lock(&buffer->lock);
- 	list_for_each_entry(a, &buffer->attachments, list) {
-+		if (!a->mapped)
-+			continue;
- 		dma_sync_sg_for_cpu(a->dev, a->table.sgl, a->table.nents,
- 				    direction);
- 	}
-@@ -141,6 +149,8 @@ static int cma_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
- 
- 	mutex_lock(&buffer->lock);
- 	list_for_each_entry(a, &buffer->attachments, list) {
-+		if (!a->mapped)
-+			continue;
- 		dma_sync_sg_for_device(a->dev, a->table.sgl, a->table.nents,
- 				       direction);
- 	}
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index f30904345cce..c0d051203300 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -38,6 +38,7 @@ struct dma_heap_attachment {
- 	struct device *dev;
- 	struct sg_table *table;
- 	struct list_head list;
-+	bool mapped;
- };
- 
- #define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
-@@ -94,6 +95,7 @@ static int system_heap_attach(struct dma_buf *dmabuf,
- 	a->table = table;
- 	a->dev = attachment->dev;
- 	INIT_LIST_HEAD(&a->list);
-+	a->mapped = false;
- 
- 	attachment->priv = a;
- 
-@@ -128,6 +130,7 @@ static struct sg_table *system_heap_map_dma_buf(struct dma_buf_attachment *attac
- 	if (!dma_map_sg(attachment->dev, table->sgl, table->nents, direction))
- 		return ERR_PTR(-ENOMEM);
- 
-+	a->mapped = true;
- 	return table;
- }
- 
-@@ -135,6 +138,9 @@ static void system_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
- 				      struct sg_table *table,
- 				      enum dma_data_direction direction)
- {
-+	struct dma_heap_attachment *a = attachment->priv;
-+
-+	a->mapped = false;
- 	dma_unmap_sg(attachment->dev, table->sgl, table->nents, direction);
- }
- 
-@@ -150,6 +156,8 @@ static int system_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
- 		invalidate_kernel_vmap_range(buffer->vaddr, buffer->len);
- 
- 	list_for_each_entry(a, &buffer->attachments, list) {
-+		if (!a->mapped)
-+			continue;
- 		dma_sync_sg_for_cpu(a->dev, a->table->sgl, a->table->nents,
- 				    direction);
- 	}
-@@ -170,6 +178,8 @@ static int system_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
- 		flush_kernel_vmap_range(buffer->vaddr, buffer->len);
- 
- 	list_for_each_entry(a, &buffer->attachments, list) {
-+		if (!a->mapped)
-+			continue;
- 		dma_sync_sg_for_device(a->dev, a->table->sgl, a->table->nents,
- 				       direction);
- 	}
 -- 
-2.17.1
-
+regards,
+Stan
