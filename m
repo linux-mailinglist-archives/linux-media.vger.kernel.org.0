@@ -2,100 +2,152 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EEF3280E07
-	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 09:29:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 13AD5280E81
+	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 10:07:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725995AbgJBH3k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Oct 2020 03:29:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46478 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725961AbgJBH3k (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Oct 2020 03:29:40 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F10DFC0613D0
-        for <linux-media@vger.kernel.org>; Fri,  2 Oct 2020 00:29:39 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id q9so576691wmj.2
-        for <linux-media@vger.kernel.org>; Fri, 02 Oct 2020 00:29:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=8b0A6cXXySZhzyN5vJ2Th5CBcTNhmIXs1uixYeN5QOM=;
-        b=mRthvD9jldWVFcQxcApLdq669hQ7gJ+iLMf/7Jl4No9DFN7pKcLMun4KIoZTIUHmVW
-         R2vmH7E6c96YE6CsBYwe0AgI6juP9i9NsMiRRp2xNwY9U4RFOq8A0tbl2dZpg6o1yBmS
-         2A+tTrQMN1RQqgYJuQmL8HNKB8ECXCLDJokbOk/kr+b0VTVPCU07dcfpEUBs5LHeOdKk
-         ds0d7V4sJE7HcBmyzzItmIc+F5TPrueiWBD3ajDMUREC9qQa6VIli85EIWYPQ/GBGNLv
-         L1Qg0Z2P/CP4vhQtrnTl+q4p5YAG7ovxYzL6r5mp94pPUHL8NRu7FFFJ8SvgXn+qnZhp
-         hilQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=8b0A6cXXySZhzyN5vJ2Th5CBcTNhmIXs1uixYeN5QOM=;
-        b=N1PJkt1CoI/0PCLbjyX2XdbVJWAxJBDiKrj1Ubp5nhu9G/NX5xVeLthVm//9soJw7d
-         0wRvs5qOZgdye77Dx1OqmqAigaK7h5LGImTwHZUoQvJMec+mb/zxmb+uhVPpDe40SGvB
-         yztXLPgW3cPW7hOe99cVBGUZoEMnZoGBJmSU8ejEdRpR48Dr0IQLHFXcBPRihvWZ381z
-         RWYmeZVb0A6eNmZI9HJzR2yPnGJNvqQCmp1vqVqck668gFr5Ow+nPV3b93p034fwZhfz
-         jqa0dQvvo/vkHu6AHTZuMgIWP1yHu27rhHm1ij1soz/HhbXzMaBRDvK/b61xH4DedoYu
-         m9wg==
-X-Gm-Message-State: AOAM530W/DNYEEMtuQ/IR1ELZHlJ9uGc0r30Tpn94tsLxOTKEldh7YNN
-        L9gKhSpd9uPhFMy3tieOVK4HRg==
-X-Google-Smtp-Source: ABdhPJxlZTVdC2vl0+I0B15YyaTJHOc4myEO0ink3TwTawN+cuMksKZ7ziID/vZSj4p6GfyURyDNdQ==
-X-Received: by 2002:a1c:18e:: with SMTP id 136mr1260091wmb.22.1601623778699;
-        Fri, 02 Oct 2020 00:29:38 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id e18sm710930wrx.50.2020.10.02.00.29.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2020 00:29:38 -0700 (PDT)
-Date:   Fri, 2 Oct 2020 09:29:36 +0200
-From:   LABBE Corentin <clabbe@baylibre.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/2] zoran: fix smatch warning
-Message-ID: <20201002072936.GE15586@Red>
-References: <20200928132831.1587872-1-hverkuil-cisco@xs4all.nl>
- <20200928132831.1587872-2-hverkuil-cisco@xs4all.nl>
+        id S1726356AbgJBIHB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Oct 2020 04:07:01 -0400
+Received: from m42-4.mailgun.net ([69.72.42.4]:59310 "EHLO m42-4.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726352AbgJBIHA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 2 Oct 2020 04:07:00 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1601626020; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=DpzPdf9SuGFakeKDAP+tZzUbDX47U9mv46HDpRpFsVQ=;
+ b=NIE0O48AgVsbNaPZCxU7kQLyDmXfdt4QydeD4CWrXN5huGszeLdCsnPEDpaa9QX8ofJVa5BB
+ SRWwwmG7w/tzjUZzqVp6LZQgg8bHCkz5rz9r4cRxd7nGanwenJbCzJROptFQIJwfpgP/eRk4
+ wWC8NJKkDTb4LkL0uAqgoYNxCWg=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
+ 5f76df83e89f7b4c7851d2c4 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 02 Oct 2020 08:06:27
+ GMT
+Sender: saiprakash.ranjan=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id E318CC433FF; Fri,  2 Oct 2020 08:06:26 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: saiprakash.ranjan)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1B4F1C433CA;
+        Fri,  2 Oct 2020 08:06:26 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20200928132831.1587872-2-hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 02 Oct 2020 13:36:26 +0530
+From:   Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
+To:     Robin Murphy <robin.murphy@arm.com>
+Cc:     stanimir.varbanov@linaro.org, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-arm-msm-owner@vger.kernel.org
+Subject: Re: [PATCH] media: venus: core: Drop local dma_parms
+In-Reply-To: <e5384b296a0af099dc502572752df149127b7947.1599167568.git.robin.murphy@arm.com>
+References: <e5384b296a0af099dc502572752df149127b7947.1599167568.git.robin.murphy@arm.com>
+Message-ID: <cdd56444b0d7faf9358370f821a10846@codeaurora.org>
+X-Sender: saiprakash.ranjan@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Sep 28, 2020 at 03:28:30PM +0200, Hans Verkuil wrote:
-> drivers/staging/media/zoran/zoran_device.c:941 zoran_irq() warn: inconsistent indenting
+Hi Robin,
+
+On 2020-09-04 02:44, Robin Murphy wrote:
+> Since commit 9495b7e92f71 ("driver core: platform: Initialize dma_parms
+> for platform devices"), struct platform_device already provides a
+> dma_parms structure, so we can save allocating another one.
 > 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Also the DMA segment size is simply a size, not a bitmask.
+> 
+> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
 > ---
->  drivers/staging/media/zoran/zoran_device.c | 8 ++++----
->  1 file changed, 4 insertions(+), 4 deletions(-)
+>  drivers/media/platform/qcom/venus/core.c | 8 +-------
+>  1 file changed, 1 insertion(+), 7 deletions(-)
 > 
-> diff --git a/drivers/staging/media/zoran/zoran_device.c b/drivers/staging/media/zoran/zoran_device.c
-> index 1fe91e16658b..ecd6c5293a87 100644
-> --- a/drivers/staging/media/zoran/zoran_device.c
-> +++ b/drivers/staging/media/zoran/zoran_device.c
-> @@ -938,10 +938,10 @@ irqreturn_t zoran_irq(int irq, void *dev_id)
->  				pci_err(zr->pci_dev, "JPG IRQ when not in good mode\n");
->  				return IRQ_HANDLED;
->  			}
-> -		zr->frame_num++;
-> -		zoran_reap_stat_com(zr);
-> -		zoran_feed_stat_com(zr);
-> -		return IRQ_HANDLED;
-> +			zr->frame_num++;
-> +			zoran_reap_stat_com(zr);
-> +			zoran_feed_stat_com(zr);
-> +			return IRQ_HANDLED;
->  		}
->  		/* unused interrupts */
->  	}
-> -- 
-> 2.28.0
+> diff --git a/drivers/media/platform/qcom/venus/core.c
+> b/drivers/media/platform/qcom/venus/core.c
+> index 203c6538044f..2fa9275d75ff 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -226,13 +226,7 @@ static int venus_probe(struct platform_device 
+> *pdev)
+>  	if (ret)
+>  		return ret;
 > 
+> -	if (!dev->dma_parms) {
+> -		dev->dma_parms = devm_kzalloc(dev, sizeof(*dev->dma_parms),
+> -					      GFP_KERNEL);
+> -		if (!dev->dma_parms)
+> -			return -ENOMEM;
+> -	}
+> -	dma_set_max_seg_size(dev, DMA_BIT_MASK(32));
+> +	dma_set_max_seg_size(dev, UINT_MAX);
+> 
+>  	INIT_LIST_HEAD(&core->instances);
+>  	mutex_init(&core->lock);
 
-Hello
+This reintroduced dma api debug warning which the original commit was
+addressing or rather thought it addressed.
 
-Acked-by: Corentin Labbe <clabbe@baylibre.com>
+  DMA-API: qcom-venus aa00000.video-codec: mapping sg segment longer than 
+device claims to support [len=4194304] [max=65536]
+  WARNING: CPU: 3 PID: 5365 at kernel/dma/debug.c:1225 
+debug_dma_map_sg+0x1ac/0x2c8
+  <...>
+  pstate: 60400009 (nZCv daif +PAN -UAO)
+  pc : debug_dma_map_sg+0x1ac/0x2c8
+  lr : debug_dma_map_sg+0x1ac/0x2c8
+  sp : ffffff8016517850
+  x29: ffffff8016517860 x28: 0000000000010000
+  x27: 00000000ffffffff x26: ffffff80da45eb00
+  x25: ffffffd03c465000 x24: ffffffd03b3c1000
+  x23: ffffff803e262d80 x22: ffffff80d9a0d010
+  x21: 0000000000000001 x20: 0000000000000001
+  x19: 0000000000000001 x18: 00000000ffff0a10
+  x17: ffffffd03b84a000 x16: 0000000000000037
+  x15: ffffffd03a950610 x14: 0000000000000001
+  x13: 0000000000000000 x12: 00000000a3b31442
+  x11: 0000000000000000 x10: dfffffd000000001
+  x9 : f544368f90c5ee00 x8 : f544368f90c5ee00
+  x7 : ffffffd03af5d570 x6 : 0000000000000000
+  x5 : 0000000000000080 x4 : 0000000000000001
+  x3 : ffffffd03a9174b0 x2 : 0000000000000001
+  x1 : 0000000000000008 x0 : 000000000000007a
+  Call trace:
+   debug_dma_map_sg+0x1ac/0x2c8
+   vb2_dma_sg_alloc+0x274/0x2f4 [videobuf2_dma_sg]
+   __vb2_queue_alloc+0x14c/0x3b0 [videobuf2_common]
+   vb2_core_reqbufs+0x234/0x374 [videobuf2_common]
+   vb2_reqbufs+0x4c/0x64 [videobuf2_v4l2]
+   v4l2_m2m_reqbufs+0x50/0x84 [v4l2_mem2mem]
+   v4l2_m2m_ioctl_reqbufs+0x2c/0x38 [v4l2_mem2mem]
+   v4l_reqbufs+0x4c/0x5c
+   __video_do_ioctl+0x2cc/0x3e0
+   video_usercopy+0x3b0/0x910
+   video_ioctl2+0x38/0x48
+   v4l2_ioctl+0x6c/0x80
+   do_video_ioctl+0xb54/0x2708
+   v4l2_compat_ioctl32+0x5c/0xcc
+   __se_compat_sys_ioctl+0x100/0x2064
+   __arm64_compat_sys_ioctl+0x20/0x2c
+   el0_svc_common+0xa8/0x178
+   el0_svc_compat_handler+0x2c/0x40
+   el0_svc_compat+0x8/0x10
 
-Thanks
+Thanks,
+Sai
+
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
+member
+of Code Aurora Forum, hosted by The Linux Foundation
