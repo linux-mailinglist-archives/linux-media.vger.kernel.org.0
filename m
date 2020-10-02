@@ -2,114 +2,311 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75E8F28186C
-	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 18:57:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2CB1B281900
+	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 19:18:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388219AbgJBQ5L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Oct 2020 12:57:11 -0400
-Received: from relmlor2.renesas.com ([210.160.252.172]:22687 "EHLO
-        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725991AbgJBQ5L (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 2 Oct 2020 12:57:11 -0400
-X-IronPort-AV: E=Sophos;i="5.77,328,1596466800"; 
-   d="scan'208";a="58562623"
-Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie6.idc.renesas.com with ESMTP; 03 Oct 2020 01:57:09 +0900
-Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id D08894007F4C;
-        Sat,  3 Oct 2020 01:57:07 +0900 (JST)
-From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Cc:     linux-kernel@vger.kernel.org,
-        Prabhakar <prabhakar.csengg@gmail.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v7 3/3] media: i2c: ov772x: Add test pattern control
-Date:   Fri,  2 Oct 2020 17:56:56 +0100
-Message-Id: <20201002165656.16744-4-prabhakar.mahadev-lad.rj@bp.renesas.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201002165656.16744-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
-References: <20201002165656.16744-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+        id S2388161AbgJBRSA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Oct 2020 13:18:00 -0400
+Received: from mga05.intel.com ([192.55.52.43]:28727 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726017AbgJBRSA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 2 Oct 2020 13:18:00 -0400
+IronPort-SDR: 5uABbU5ClEmjBuHlI3l9o/poNpQx9JZEVFCyVoY3klnNcC4tGw66TnTi5gJ8Dzv1uXpUvOt4aG
+ EzfgXOPeUATg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9762"; a="247773416"
+X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
+   d="scan'208";a="247773416"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 10:17:59 -0700
+IronPort-SDR: 1bFyCcX6V31nzhKA0i6IUvo4mWLe6MNZFywGqUNtAB9EKYoZWPdJ8sK5I812SZaoD4HXfyG10m
+ pvW63CGI2DMA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
+   d="scan'208";a="458687457"
+Received: from lkp-server02.sh.intel.com (HELO 404f47266ee4) ([10.239.97.151])
+  by orsmga004.jf.intel.com with ESMTP; 02 Oct 2020 10:17:58 -0700
+Received: from kbuild by 404f47266ee4 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kOOgv-00003z-G4; Fri, 02 Oct 2020 17:17:57 +0000
+Date:   Sat, 03 Oct 2020 01:17:31 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ eb5f6b8ee9e4fcdda3807aff02a3df2d7ca51bbf
+Message-ID: <5f7760ab.qc33a/fj7/hUOcjF%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for test pattern control supported by the sensor.
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: eb5f6b8ee9e4fcdda3807aff02a3df2d7ca51bbf  media: atomisp: fixes build breakage for ISP2400 due to a cleanup
 
-Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+elapsed time: 1778m
+
+configs tested: 247
+configs skipped: 3
+
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+sh                          landisk_defconfig
+sh                             sh03_defconfig
+arm64                            alldefconfig
+powerpc                 mpc832x_mds_defconfig
+powerpc                     rainier_defconfig
+m68k                        mvme147_defconfig
+powerpc                    socrates_defconfig
+mips                         bigsur_defconfig
+arm                  colibri_pxa270_defconfig
+powerpc64                        alldefconfig
+arm                          gemini_defconfig
+mips                malta_qemu_32r6_defconfig
+mips                          malta_defconfig
+arm                              alldefconfig
+riscv                             allnoconfig
+um                           x86_64_defconfig
+powerpc                        warp_defconfig
+powerpc                         wii_defconfig
+mips                        nlm_xlr_defconfig
+mips                       lemote2f_defconfig
+alpha                               defconfig
+mips                         tb0287_defconfig
+arm                       cns3420vb_defconfig
+arm                        realview_defconfig
+csky                                defconfig
+arm                         assabet_defconfig
+mips                       rbtx49xx_defconfig
+m68k                          hp300_defconfig
+arc                      axs103_smp_defconfig
+csky                             alldefconfig
+sh                            shmin_defconfig
+powerpc                        cell_defconfig
+riscv                    nommu_k210_defconfig
+sh                          rsk7203_defconfig
+mips                malta_kvm_guest_defconfig
+sh                           se7724_defconfig
+xtensa                    smp_lx200_defconfig
+arm                     am200epdkit_defconfig
+powerpc                 mpc834x_mds_defconfig
+powerpc                    ge_imp3a_defconfig
+sh                          polaris_defconfig
+m68k                          atari_defconfig
+mips                          ath79_defconfig
+xtensa                  cadence_csp_defconfig
+c6x                        evmc6457_defconfig
+powerpc                     asp8347_defconfig
+arm                         mv78xx0_defconfig
+arm                           tegra_defconfig
+sh                           se7619_defconfig
+mips                        bcm63xx_defconfig
+nds32                            alldefconfig
+nios2                         10m50_defconfig
+xtensa                       common_defconfig
+sh                           sh2007_defconfig
+powerpc                  iss476-smp_defconfig
+mips                     cu1830-neo_defconfig
+arm                            mmp2_defconfig
+powerpc                    gamecube_defconfig
+arm                          simpad_defconfig
+mips                  cavium_octeon_defconfig
+arm                             mxs_defconfig
+mips                             allyesconfig
+microblaze                          defconfig
+arm                         bcm2835_defconfig
+powerpc                          g5_defconfig
+arm                         vf610m4_defconfig
+sh                           se7343_defconfig
+powerpc                           allnoconfig
+xtensa                generic_kc705_defconfig
+alpha                            alldefconfig
+powerpc                    mvme5100_defconfig
+sh                            titan_defconfig
+riscv                               defconfig
+powerpc                     mpc512x_defconfig
+mips                           xway_defconfig
+ia64                          tiger_defconfig
+powerpc                 canyonlands_defconfig
+arc                     nsimosci_hs_defconfig
+arm                        trizeps4_defconfig
+powerpc                   motionpro_defconfig
+powerpc                 mpc837x_mds_defconfig
+xtensa                           alldefconfig
+arm                         nhk8815_defconfig
+sh                           se7722_defconfig
+sh                           se7751_defconfig
+mips                      malta_kvm_defconfig
+s390                       zfcpdump_defconfig
+powerpc                       ppc64_defconfig
+powerpc                     taishan_defconfig
+arm                           spitz_defconfig
+h8300                               defconfig
+powerpc                      ppc6xx_defconfig
+sh                   sh7770_generic_defconfig
+sparc                       sparc32_defconfig
+mips                          ath25_defconfig
+sh                          kfr2r09_defconfig
+m68k                        m5407c3_defconfig
+riscv                    nommu_virt_defconfig
+mips                     decstation_defconfig
+m68k                             allmodconfig
+arm                             rpc_defconfig
+powerpc                 mpc836x_rdk_defconfig
+parisc                              defconfig
+sh                              ul2_defconfig
+powerpc                     kilauea_defconfig
+powerpc                      makalu_defconfig
+arm                        multi_v7_defconfig
+arm                           efm32_defconfig
+arm                   milbeaut_m10v_defconfig
+h8300                            alldefconfig
+arm                           viper_defconfig
+powerpc                     akebono_defconfig
+arm                            zeus_defconfig
+arm                         socfpga_defconfig
+mips                            ar7_defconfig
+xtensa                         virt_defconfig
+arm                        clps711x_defconfig
+mips                          rb532_defconfig
+arm                        multi_v5_defconfig
+powerpc                     kmeter1_defconfig
+powerpc                      chrp32_defconfig
+arm                           stm32_defconfig
+x86_64                              defconfig
+mips                      loongson3_defconfig
+h8300                     edosk2674_defconfig
+sh                                  defconfig
+arm                           omap1_defconfig
+mips                   sb1250_swarm_defconfig
+arm                    vt8500_v6_v7_defconfig
+powerpc                     mpc5200_defconfig
+powerpc                      pcm030_defconfig
+powerpc                       eiger_defconfig
+arm                         axm55xx_defconfig
+m68k                        m5307c3_defconfig
+xtensa                  audio_kc705_defconfig
+powerpc                          allmodconfig
+microblaze                      mmu_defconfig
+c6x                        evmc6678_defconfig
+nios2                               defconfig
+riscv                            alldefconfig
+arm                         palmz72_defconfig
+powerpc                     ksi8560_defconfig
+sh                        sh7785lcr_defconfig
+sh                   sh7724_generic_defconfig
+sh                             espt_defconfig
+arm                          iop32x_defconfig
+powerpc                 mpc837x_rdb_defconfig
+powerpc                 mpc8313_rdb_defconfig
+s390                             alldefconfig
+arm                          pxa910_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allyesconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+x86_64               randconfig-a004-20201002
+x86_64               randconfig-a001-20201002
+x86_64               randconfig-a002-20201002
+x86_64               randconfig-a005-20201002
+x86_64               randconfig-a003-20201002
+x86_64               randconfig-a006-20201002
+i386                 randconfig-a003-20200930
+i386                 randconfig-a002-20200930
+i386                 randconfig-a006-20200930
+i386                 randconfig-a005-20200930
+i386                 randconfig-a004-20200930
+i386                 randconfig-a001-20200930
+i386                 randconfig-a006-20201002
+i386                 randconfig-a005-20201002
+i386                 randconfig-a001-20201002
+i386                 randconfig-a004-20201002
+i386                 randconfig-a003-20201002
+i386                 randconfig-a002-20201002
+x86_64               randconfig-a015-20200930
+x86_64               randconfig-a013-20200930
+x86_64               randconfig-a012-20200930
+x86_64               randconfig-a016-20200930
+x86_64               randconfig-a014-20200930
+x86_64               randconfig-a011-20200930
+x86_64               randconfig-a012-20201001
+x86_64               randconfig-a015-20201001
+x86_64               randconfig-a014-20201001
+x86_64               randconfig-a013-20201001
+x86_64               randconfig-a011-20201001
+x86_64               randconfig-a016-20201001
+i386                 randconfig-a014-20201002
+i386                 randconfig-a013-20201002
+i386                 randconfig-a015-20201002
+i386                 randconfig-a016-20201002
+i386                 randconfig-a011-20201002
+i386                 randconfig-a012-20201002
+i386                 randconfig-a011-20200930
+i386                 randconfig-a015-20200930
+i386                 randconfig-a012-20200930
+i386                 randconfig-a014-20200930
+i386                 randconfig-a016-20200930
+i386                 randconfig-a013-20200930
+riscv                            allyesconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a001-20200930
+x86_64               randconfig-a005-20200930
+x86_64               randconfig-a003-20200930
+x86_64               randconfig-a004-20200930
+x86_64               randconfig-a002-20200930
+x86_64               randconfig-a006-20200930
+x86_64               randconfig-a004-20201001
+x86_64               randconfig-a001-20201001
+x86_64               randconfig-a002-20201001
+x86_64               randconfig-a003-20201001
+x86_64               randconfig-a005-20201001
+x86_64               randconfig-a006-20201001
+x86_64               randconfig-a012-20201002
+x86_64               randconfig-a015-20201002
+x86_64               randconfig-a014-20201002
+x86_64               randconfig-a013-20201002
+x86_64               randconfig-a011-20201002
+x86_64               randconfig-a016-20201002
+
 ---
- drivers/media/i2c/ov772x.c | 17 ++++++++++++++++-
- 1 file changed, 16 insertions(+), 1 deletion(-)
-
-diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-index 6b46ad493bf7..b7e10c34ef59 100644
---- a/drivers/media/i2c/ov772x.c
-+++ b/drivers/media/i2c/ov772x.c
-@@ -227,7 +227,7 @@
- 
- /* COM3 */
- #define SWAP_MASK       (SWAP_RGB | SWAP_YUV | SWAP_ML)
--#define IMG_MASK        (VFLIP_IMG | HFLIP_IMG)
-+#define IMG_MASK        (VFLIP_IMG | HFLIP_IMG | SCOLOR_TEST)
- 
- #define VFLIP_IMG       0x80	/* Vertical flip image ON/OFF selection */
- #define HFLIP_IMG       0x40	/* Horizontal mirror image ON/OFF selection */
-@@ -425,6 +425,7 @@ struct ov772x_priv {
- 	const struct ov772x_win_size     *win;
- 	struct v4l2_ctrl		 *vflip_ctrl;
- 	struct v4l2_ctrl		 *hflip_ctrl;
-+	unsigned int			  test_pattern;
- 	/* band_filter = COM8[5] ? 256 - BDBASE : 0 */
- 	struct v4l2_ctrl		 *band_filter_ctrl;
- 	unsigned int			  fps;
-@@ -540,6 +541,11 @@ static const struct ov772x_win_size ov772x_win_sizes[] = {
- 	},
- };
- 
-+static const char * const ov772x_test_pattern_menu[] = {
-+	"Disabled",
-+	"Vertical Color Bar Type 1",
-+};
-+
- /*
-  * frame rate settings lists
-  */
-@@ -809,6 +815,9 @@ static int ov772x_s_ctrl(struct v4l2_ctrl *ctrl)
- 		}
- 
- 		return ret;
-+	case V4L2_CID_TEST_PATTERN:
-+		priv->test_pattern = ctrl->val;
-+		return 0;
- 	}
- 
- 	return -EINVAL;
-@@ -1107,6 +1116,8 @@ static int ov772x_set_params(struct ov772x_priv *priv,
- 		val ^= VFLIP_IMG;
- 	if (priv->hflip_ctrl->val)
- 		val ^= HFLIP_IMG;
-+	if (priv->test_pattern)
-+		val |= SCOLOR_TEST;
- 
- 	ret = regmap_update_bits(priv->regmap, COM3, SWAP_MASK | IMG_MASK, val);
- 	if (ret < 0)
-@@ -1442,6 +1453,10 @@ static int ov772x_probe(struct i2c_client *client)
- 	priv->band_filter_ctrl = v4l2_ctrl_new_std(&priv->hdl, &ov772x_ctrl_ops,
- 						   V4L2_CID_BAND_STOP_FILTER,
- 						   0, 256, 1, 0);
-+	v4l2_ctrl_new_std_menu_items(&priv->hdl, &ov772x_ctrl_ops,
-+				     V4L2_CID_TEST_PATTERN,
-+				     ARRAY_SIZE(ov772x_test_pattern_menu) - 1,
-+				     0, 0, ov772x_test_pattern_menu);
- 	priv->subdev.ctrl_handler = &priv->hdl;
- 	if (priv->hdl.error) {
- 		ret = priv->hdl.error;
--- 
-2.17.1
-
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
