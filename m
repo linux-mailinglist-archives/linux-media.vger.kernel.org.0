@@ -2,311 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2CB1B281900
-	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 19:18:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 62E23281911
+	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 19:21:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388161AbgJBRSA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Oct 2020 13:18:00 -0400
-Received: from mga05.intel.com ([192.55.52.43]:28727 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726017AbgJBRSA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 2 Oct 2020 13:18:00 -0400
-IronPort-SDR: 5uABbU5ClEmjBuHlI3l9o/poNpQx9JZEVFCyVoY3klnNcC4tGw66TnTi5gJ8Dzv1uXpUvOt4aG
- EzfgXOPeUATg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9762"; a="247773416"
-X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
-   d="scan'208";a="247773416"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Oct 2020 10:17:59 -0700
-IronPort-SDR: 1bFyCcX6V31nzhKA0i6IUvo4mWLe6MNZFywGqUNtAB9EKYoZWPdJ8sK5I812SZaoD4HXfyG10m
- pvW63CGI2DMA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,328,1596524400"; 
-   d="scan'208";a="458687457"
-Received: from lkp-server02.sh.intel.com (HELO 404f47266ee4) ([10.239.97.151])
-  by orsmga004.jf.intel.com with ESMTP; 02 Oct 2020 10:17:58 -0700
-Received: from kbuild by 404f47266ee4 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kOOgv-00003z-G4; Fri, 02 Oct 2020 17:17:57 +0000
-Date:   Sat, 03 Oct 2020 01:17:31 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- eb5f6b8ee9e4fcdda3807aff02a3df2d7ca51bbf
-Message-ID: <5f7760ab.qc33a/fj7/hUOcjF%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1726386AbgJBRVc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Oct 2020 13:21:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53096 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726096AbgJBRVc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Oct 2020 13:21:32 -0400
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FE55C0613D0
+        for <linux-media@vger.kernel.org>; Fri,  2 Oct 2020 10:21:30 -0700 (PDT)
+Received: by mail-lj1-x242.google.com with SMTP id u4so1802014ljd.10
+        for <linux-media@vger.kernel.org>; Fri, 02 Oct 2020 10:21:30 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=2iZGylx+IMxw24vz93JQndmzV1ZcGsBJvqq6zhiZKOE=;
+        b=QaZKf1srUMPpf9V92TqfmLETDZzyCMQ9i3Oc5tV5BS4nsjrL6CvajI7QrDB2rZqgq/
+         ZTiITlaLZJ7WuuyryQZG4Dmoh3aH+hdzK08sU/nXtJKfJBNBBjV3C5Xp31xjcopdYOpK
+         bfXsUL5vh3zy3UJrIew5h6bm2DwW6N0Un5gCdK0qB4f/6WGtuMvdBWIP93pw0m4HwqWN
+         qPbPWkK+obYuxmf6EWwSVkclU1HzBYEh8AWDQYqPD2qiIePvOy8wHGMMzm9kswZYCLmL
+         9w5exiihdL6R5QuscmN2DJLEjIeITGnartgLwiIvsp4ud6LNPhFtUTGN7zqNlPQNBW/N
+         im6g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=2iZGylx+IMxw24vz93JQndmzV1ZcGsBJvqq6zhiZKOE=;
+        b=NBDBo1tiF3ooTiSf+MKoa9Kn5w+qj2XaADPEtLkseFUoRi4lL2IF0GgECNrkRJY8Ma
+         uSE2Jlm0UdATePTVxUThF5jbw/HQqgHS1zQSrRbe2hdJR8d3HRTyKo7PGgY44ApVpRu4
+         HXmS+DvcyHxBSauLdf9LtZDDCRNNp8pX+lNrFZ983OcXqf7cDCd7GvdIGV9ermwa2wOS
+         cEwMeW8BFWFYS5LB0fIQ39ab39sHfaYTKsMfuIyg9wbuqoft7Dq6azlRBMqvyBwr8Ef+
+         rbEjxyvuWFlnHDDhp/8dQvFSsXdTbCeO3Lw/un7ZwlMTspoZsztCF2D4TPFPlMXnW46C
+         vzTw==
+X-Gm-Message-State: AOAM533bf5Tip4rnw0POjdm8zMZQc66ZM+WOCwearix6OS1ejTLFj1A0
+        pQgisdrG55TArHuU0xrsZ7VWug==
+X-Google-Smtp-Source: ABdhPJzEC58VCPM5rFLKvlNoMJkcm7S7xcheN3SvxZY2cqNHfc7oxCLi50MIV0cD5TDiOB7n1eAsVA==
+X-Received: by 2002:a2e:b8d1:: with SMTP id s17mr967453ljp.222.1601659288631;
+        Fri, 02 Oct 2020 10:21:28 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id 138sm410659lfl.241.2020.10.02.10.21.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2020 10:21:28 -0700 (PDT)
+Date:   Fri, 2 Oct 2020 19:21:27 +0200
+From:   Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        jmondi@jmondi.org
+Subject: Re: [PATCH 4/5] v4l2-fwnode: Rework v4l2_fwnode_endpoint_parse
+ documentation
+Message-ID: <20201002172127.csprbr2tf3dki3lq@oden.dyn.berto.se>
+References: <20200930144811.16612-1-sakari.ailus@linux.intel.com>
+ <20200930144811.16612-5-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20200930144811.16612-5-sakari.ailus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: eb5f6b8ee9e4fcdda3807aff02a3df2d7ca51bbf  media: atomisp: fixes build breakage for ISP2400 due to a cleanup
+Hi Sakari,
 
-elapsed time: 1778m
+Thanks for your patch.
 
-configs tested: 247
-configs skipped: 3
+On 2020-09-30 17:48:10 +0300, Sakari Ailus wrote:
+> Rework the documentation of v4l2_fwnode_endpoint_parse for better
+> readability, usefulness and correctness.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-sh                          landisk_defconfig
-sh                             sh03_defconfig
-arm64                            alldefconfig
-powerpc                 mpc832x_mds_defconfig
-powerpc                     rainier_defconfig
-m68k                        mvme147_defconfig
-powerpc                    socrates_defconfig
-mips                         bigsur_defconfig
-arm                  colibri_pxa270_defconfig
-powerpc64                        alldefconfig
-arm                          gemini_defconfig
-mips                malta_qemu_32r6_defconfig
-mips                          malta_defconfig
-arm                              alldefconfig
-riscv                             allnoconfig
-um                           x86_64_defconfig
-powerpc                        warp_defconfig
-powerpc                         wii_defconfig
-mips                        nlm_xlr_defconfig
-mips                       lemote2f_defconfig
-alpha                               defconfig
-mips                         tb0287_defconfig
-arm                       cns3420vb_defconfig
-arm                        realview_defconfig
-csky                                defconfig
-arm                         assabet_defconfig
-mips                       rbtx49xx_defconfig
-m68k                          hp300_defconfig
-arc                      axs103_smp_defconfig
-csky                             alldefconfig
-sh                            shmin_defconfig
-powerpc                        cell_defconfig
-riscv                    nommu_k210_defconfig
-sh                          rsk7203_defconfig
-mips                malta_kvm_guest_defconfig
-sh                           se7724_defconfig
-xtensa                    smp_lx200_defconfig
-arm                     am200epdkit_defconfig
-powerpc                 mpc834x_mds_defconfig
-powerpc                    ge_imp3a_defconfig
-sh                          polaris_defconfig
-m68k                          atari_defconfig
-mips                          ath79_defconfig
-xtensa                  cadence_csp_defconfig
-c6x                        evmc6457_defconfig
-powerpc                     asp8347_defconfig
-arm                         mv78xx0_defconfig
-arm                           tegra_defconfig
-sh                           se7619_defconfig
-mips                        bcm63xx_defconfig
-nds32                            alldefconfig
-nios2                         10m50_defconfig
-xtensa                       common_defconfig
-sh                           sh2007_defconfig
-powerpc                  iss476-smp_defconfig
-mips                     cu1830-neo_defconfig
-arm                            mmp2_defconfig
-powerpc                    gamecube_defconfig
-arm                          simpad_defconfig
-mips                  cavium_octeon_defconfig
-arm                             mxs_defconfig
-mips                             allyesconfig
-microblaze                          defconfig
-arm                         bcm2835_defconfig
-powerpc                          g5_defconfig
-arm                         vf610m4_defconfig
-sh                           se7343_defconfig
-powerpc                           allnoconfig
-xtensa                generic_kc705_defconfig
-alpha                            alldefconfig
-powerpc                    mvme5100_defconfig
-sh                            titan_defconfig
-riscv                               defconfig
-powerpc                     mpc512x_defconfig
-mips                           xway_defconfig
-ia64                          tiger_defconfig
-powerpc                 canyonlands_defconfig
-arc                     nsimosci_hs_defconfig
-arm                        trizeps4_defconfig
-powerpc                   motionpro_defconfig
-powerpc                 mpc837x_mds_defconfig
-xtensa                           alldefconfig
-arm                         nhk8815_defconfig
-sh                           se7722_defconfig
-sh                           se7751_defconfig
-mips                      malta_kvm_defconfig
-s390                       zfcpdump_defconfig
-powerpc                       ppc64_defconfig
-powerpc                     taishan_defconfig
-arm                           spitz_defconfig
-h8300                               defconfig
-powerpc                      ppc6xx_defconfig
-sh                   sh7770_generic_defconfig
-sparc                       sparc32_defconfig
-mips                          ath25_defconfig
-sh                          kfr2r09_defconfig
-m68k                        m5407c3_defconfig
-riscv                    nommu_virt_defconfig
-mips                     decstation_defconfig
-m68k                             allmodconfig
-arm                             rpc_defconfig
-powerpc                 mpc836x_rdk_defconfig
-parisc                              defconfig
-sh                              ul2_defconfig
-powerpc                     kilauea_defconfig
-powerpc                      makalu_defconfig
-arm                        multi_v7_defconfig
-arm                           efm32_defconfig
-arm                   milbeaut_m10v_defconfig
-h8300                            alldefconfig
-arm                           viper_defconfig
-powerpc                     akebono_defconfig
-arm                            zeus_defconfig
-arm                         socfpga_defconfig
-mips                            ar7_defconfig
-xtensa                         virt_defconfig
-arm                        clps711x_defconfig
-mips                          rb532_defconfig
-arm                        multi_v5_defconfig
-powerpc                     kmeter1_defconfig
-powerpc                      chrp32_defconfig
-arm                           stm32_defconfig
-x86_64                              defconfig
-mips                      loongson3_defconfig
-h8300                     edosk2674_defconfig
-sh                                  defconfig
-arm                           omap1_defconfig
-mips                   sb1250_swarm_defconfig
-arm                    vt8500_v6_v7_defconfig
-powerpc                     mpc5200_defconfig
-powerpc                      pcm030_defconfig
-powerpc                       eiger_defconfig
-arm                         axm55xx_defconfig
-m68k                        m5307c3_defconfig
-xtensa                  audio_kc705_defconfig
-powerpc                          allmodconfig
-microblaze                      mmu_defconfig
-c6x                        evmc6678_defconfig
-nios2                               defconfig
-riscv                            alldefconfig
-arm                         palmz72_defconfig
-powerpc                     ksi8560_defconfig
-sh                        sh7785lcr_defconfig
-sh                   sh7724_generic_defconfig
-sh                             espt_defconfig
-arm                          iop32x_defconfig
-powerpc                 mpc837x_rdb_defconfig
-powerpc                 mpc8313_rdb_defconfig
-s390                             alldefconfig
-arm                          pxa910_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                                defconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-x86_64               randconfig-a004-20201002
-x86_64               randconfig-a001-20201002
-x86_64               randconfig-a002-20201002
-x86_64               randconfig-a005-20201002
-x86_64               randconfig-a003-20201002
-x86_64               randconfig-a006-20201002
-i386                 randconfig-a003-20200930
-i386                 randconfig-a002-20200930
-i386                 randconfig-a006-20200930
-i386                 randconfig-a005-20200930
-i386                 randconfig-a004-20200930
-i386                 randconfig-a001-20200930
-i386                 randconfig-a006-20201002
-i386                 randconfig-a005-20201002
-i386                 randconfig-a001-20201002
-i386                 randconfig-a004-20201002
-i386                 randconfig-a003-20201002
-i386                 randconfig-a002-20201002
-x86_64               randconfig-a015-20200930
-x86_64               randconfig-a013-20200930
-x86_64               randconfig-a012-20200930
-x86_64               randconfig-a016-20200930
-x86_64               randconfig-a014-20200930
-x86_64               randconfig-a011-20200930
-x86_64               randconfig-a012-20201001
-x86_64               randconfig-a015-20201001
-x86_64               randconfig-a014-20201001
-x86_64               randconfig-a013-20201001
-x86_64               randconfig-a011-20201001
-x86_64               randconfig-a016-20201001
-i386                 randconfig-a014-20201002
-i386                 randconfig-a013-20201002
-i386                 randconfig-a015-20201002
-i386                 randconfig-a016-20201002
-i386                 randconfig-a011-20201002
-i386                 randconfig-a012-20201002
-i386                 randconfig-a011-20200930
-i386                 randconfig-a015-20200930
-i386                 randconfig-a012-20200930
-i386                 randconfig-a014-20200930
-i386                 randconfig-a016-20200930
-i386                 randconfig-a013-20200930
-riscv                            allyesconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                               rhel-8.3
-x86_64                                  kexec
+> ---
+>  include/media/v4l2-fwnode.h | 62 ++++++++++++++++++++++++-------------
+>  1 file changed, 40 insertions(+), 22 deletions(-)
+> 
+> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
+> index 0f9a768b1a8d..0c28dc11e829 100644
+> --- a/include/media/v4l2-fwnode.h
+> +++ b/include/media/v4l2-fwnode.h
+> @@ -219,17 +219,26 @@ struct v4l2_fwnode_connector {
+>   * @vep: pointer to the V4L2 fwnode data structure
+>   *
+>   * This function parses the V4L2 fwnode endpoint specific parameters from the
+> - * firmware. The caller is responsible for assigning @vep.bus_type to a valid
+> - * media bus type. The caller may also set the default configuration for the
+> - * endpoint --- a configuration that shall be in line with the DT binding
+> - * documentation. Should a device support multiple bus types, the caller may
+> - * call this function once the correct type is found --- with a default
+> - * configuration valid for that type.
+> - *
+> - * It is also allowed to set @vep.bus_type to V4L2_MBUS_UNKNOWN. USING THIS
+> - * FEATURE REQUIRES "bus-type" PROPERTY IN DT BINDINGS. For old drivers,
+> - * guessing @vep.bus_type between CSI-2 D-PHY, parallel and BT.656 busses is
+> - * supported. NEVER RELY ON GUESSING @vep.bus_type IN NEW DRIVERS!
+> + * firmware. There are two ways to use this function, either by letting it
+> + * obtain the type of the bus (by setting the @vep.bus_type field to
+> + * V4L2_MBUS_UNKNOWN) or specifying the bus type explicitly to one of the &enum
+> + * v4l2_mbus_type types.
+> + *
+> + * When @vep.bus_type is V4L2_MBUS_UNKNOWN, the function will use the "bus-type"
+> + * property to determine the type when it is available. The caller is
+> + * responsible for validating the contents of @vep.bus_type field after the call
+> + * returns.
+> + *
+> + * As a deprecated functionality to support older DT bindings without "bus-type"
+> + * property for devices that support multiple types, if the "bus-type" property
+> + * does not exist, the function will attempt to guess the type based on the
+> + * endpoint properties available. NEVER RELY ON GUESSING THE BUS TYPE IN NEW
+> + * DRIVERS OR BINDINGS.
+> + *
+> + * It is also possible to set @vep.bus_type corresponding to an actual bus. In
+> + * this case the function will only attempt to parse properties related to this
+> + * bus, and it will return an error if the value of the "bus-type" property
+> + * corresponds to a different bus.
+>   *
+>   * The caller is required to initialise all fields of @vep.
+>   *
+> @@ -263,17 +272,26 @@ void v4l2_fwnode_endpoint_free(struct v4l2_fwnode_endpoint *vep);
+>   * @vep: pointer to the V4L2 fwnode data structure
+>   *
+>   * This function parses the V4L2 fwnode endpoint specific parameters from the
+> - * firmware. The caller is responsible for assigning @vep.bus_type to a valid
+> - * media bus type. The caller may also set the default configuration for the
+> - * endpoint --- a configuration that shall be in line with the DT binding
+> - * documentation. Should a device support multiple bus types, the caller may
+> - * call this function once the correct type is found --- with a default
+> - * configuration valid for that type.
+> - *
+> - * It is also allowed to set @vep.bus_type to V4L2_MBUS_UNKNOWN. USING THIS
+> - * FEATURE REQUIRES "bus-type" PROPERTY IN DT BINDINGS. For old drivers,
+> - * guessing @vep.bus_type between CSI-2 D-PHY, parallel and BT.656 busses is
+> - * supported. NEVER RELY ON GUESSING @vep.bus_type IN NEW DRIVERS!
+> + * firmware. There are two ways to use this function, either by letting it
+> + * obtain the type of the bus (by setting the @vep.bus_type field to
+> + * V4L2_MBUS_UNKNOWN) or specifying the bus type explicitly to one of the &enum
+> + * v4l2_mbus_type types.
+> + *
+> + * When @vep.bus_type is V4L2_MBUS_UNKNOWN, the function will use the "bus-type"
+> + * property to determine the type when it is available. The caller is
+> + * responsible for validating the contents of @vep.bus_type field after the call
+> + * returns.
+> + *
+> + * As a deprecated functionality to support older DT bindings without "bus-type"
+> + * property for devices that support multiple types, if the "bus-type" property
+> + * does not exist, the function will attempt to guess the type based on the
+> + * endpoint properties available. NEVER RELY ON GUESSING THE BUS TYPE IN NEW
+> + * DRIVERS OR BINDINGS.
+> + *
+> + * It is also possible to set @vep.bus_type corresponding to an actual bus. In
+> + * this case the function will only attempt to parse properties related to this
+> + * bus, and it will return an error if the value of the "bus-type" property
+> + * corresponds to a different bus.
+>   *
+>   * The caller is required to initialise all fields of @vep.
+>   *
+> -- 
+> 2.27.0
+> 
+> 
 
-clang tested configs:
-x86_64               randconfig-a001-20200930
-x86_64               randconfig-a005-20200930
-x86_64               randconfig-a003-20200930
-x86_64               randconfig-a004-20200930
-x86_64               randconfig-a002-20200930
-x86_64               randconfig-a006-20200930
-x86_64               randconfig-a004-20201001
-x86_64               randconfig-a001-20201001
-x86_64               randconfig-a002-20201001
-x86_64               randconfig-a003-20201001
-x86_64               randconfig-a005-20201001
-x86_64               randconfig-a006-20201001
-x86_64               randconfig-a012-20201002
-x86_64               randconfig-a015-20201002
-x86_64               randconfig-a014-20201002
-x86_64               randconfig-a013-20201002
-x86_64               randconfig-a011-20201002
-x86_64               randconfig-a016-20201002
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+-- 
+Regards,
+Niklas Söderlund
