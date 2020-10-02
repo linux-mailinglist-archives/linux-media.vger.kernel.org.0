@@ -2,183 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B080D280DDC
-	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 09:04:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A35A4280DFB
+	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 09:19:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726270AbgJBHE6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Oct 2020 03:04:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42688 "EHLO
+        id S1726364AbgJBHTm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Oct 2020 03:19:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725948AbgJBHE5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Oct 2020 03:04:57 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82EE2C0613D0
-        for <linux-media@vger.kernel.org>; Fri,  2 Oct 2020 00:04:57 -0700 (PDT)
-Received: from [IPv6:2003:c7:cf13:ec00:987c:fa6c:93a9:1dfa] (p200300c7cf13ec00987cfa6c93a91dfa.dip0.t-ipconnect.de [IPv6:2003:c7:cf13:ec00:987c:fa6c:93a9:1dfa])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6107B29AD54;
-        Fri,  2 Oct 2020 08:04:55 +0100 (BST)
-Subject: Re: [PATCH v3 09/10] media: rkisp1: cap: simplify the link validation
- by compering the media bus code
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        linux-media@vger.kernel.org, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com, mchehab@kernel.org,
-        tfiga@chromium.org
-References: <20200723132014.4597-1-dafna.hirschfeld@collabora.com>
- <20200723132014.4597-10-dafna.hirschfeld@collabora.com>
- <20200930190025.GH1516931@oden.dyn.berto.se>
- <20201001020325.GJ5689@pendragon.ideasonboard.com>
- <9724beba-21dc-63b4-5eea-90922b7f1968@collabora.com>
- <20201001224853.GF3722@pendragon.ideasonboard.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <041a7de0-5338-a227-8b3a-bd29d2862f36@collabora.com>
-Date:   Fri, 2 Oct 2020 09:04:52 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        with ESMTP id S1725971AbgJBHTm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Oct 2020 03:19:42 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C9D8C0613E2
+        for <linux-media@vger.kernel.org>; Fri,  2 Oct 2020 00:19:40 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id t17so570499wmi.4
+        for <linux-media@vger.kernel.org>; Fri, 02 Oct 2020 00:19:40 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=eXLkoTCaKkFzFdlCQExpbf/UPZPndY4duZvrptt9aDU=;
+        b=vvg+Cl0WFinXG8SxGVzQBrunVpw0ikon3TeHvCRD5uw2L2gv7zfDPJ1aNJqL4+N31S
+         jrMHKFu7awaakD0lMU6rdwjFwqMPwXMirstXdU5RGUZvIFccD8AIouYxLgFwOoG9hz1x
+         xO93UbD34EuKmsoJxtFJ8GZmEViwj4FgJYE2q6Eb6uHjKljqL+TcRcBa+ilM6E61Rur+
+         gJuzv+d7rcqHQ+9jgeazY7vq3IgtI/bqEG1c+QcbVBjbjmbjYZKKCjNfueMlzkhym9Rk
+         i0ttEZtjjOidV/1SDRkTi3LrEvV72x7jBpW42RXSjy2ctTMQ2LrygsWqayHX4rWfvFLV
+         X3qQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=eXLkoTCaKkFzFdlCQExpbf/UPZPndY4duZvrptt9aDU=;
+        b=lrZbmtiRAn2U9+WZelbYPJKwiF3BaXuYQljgduubngJEL2ijqB3UcS3baDh7IzNaAO
+         Wx+SuDnFtrQSquTiwXpvm2vaW0f3vp05LBw+XSizIieR1bXvXO2FG/rqM1KUWO6+N7ep
+         iqZre749ag3DLgXrgkEYC5O0PgZDYJGj7uE6o5zFz16m8J+5gEmQMdama7b7evHNbAa9
+         QeW8asNqki2TNYXQhebJa/MtR6ZYcq1TUO0cGIGK5+EHvevXUo00J2ptxVPs82tRmVir
+         Qdz3Uc4GyXdg3cFaycBhebjFCCexNjG3ODDTYqLKJiMTasrWLyl9JmpW/u57+qkrqBtY
+         JVrA==
+X-Gm-Message-State: AOAM533FqK1cUjvhcT+u8lTwhXsck4d+wEukUGg8dfB3l80dYQO39pod
+        /KCVCKwqQtLmbFj7PiaxLpdm8A==
+X-Google-Smtp-Source: ABdhPJw6UdK6EvbrCZR9oI7Y/lj0ixmOJb1GySty9GkBuhkr6xkCMVcUsziw1dtnOiTiE13IAzjMWA==
+X-Received: by 2002:a1c:f619:: with SMTP id w25mr1209094wmc.62.1601623178852;
+        Fri, 02 Oct 2020 00:19:38 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id v204sm757860wmg.20.2020.10.02.00.19.37
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 02 Oct 2020 00:19:38 -0700 (PDT)
+Date:   Fri, 2 Oct 2020 09:19:36 +0200
+From:   LABBE Corentin <clabbe@baylibre.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
+        mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH 2/3] media: zoran: get rid of an unused var
+Message-ID: <20201002071936.GB15586@Red>
+References: <21fd8f12edb27d269eefdbea172aa3a80e2aa6ce.1601544491.git.mchehab+huawei@kernel.org>
+ <0425a08a629f50f05159f6c458e0942bf62a7792.1601544491.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20201001224853.GF3722@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <0425a08a629f50f05159f6c458e0942bf62a7792.1601544491.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
-
-
-Am 02.10.20 um 00:48 schrieb Laurent Pinchart:
-> Hi Dafna,
+On Thu, Oct 01, 2020 at 11:28:14AM +0200, Mauro Carvalho Chehab wrote:
+> The jpeg_error in lowercase is not used anywhere. Drop it.
 > 
-> On Thu, Oct 01, 2020 at 09:36:07PM +0200, Dafna Hirschfeld wrote:
->> Am 01.10.20 um 04:03 schrieb Laurent Pinchart:
->>> On Wed, Sep 30, 2020 at 09:00:25PM +0200, Niklas Söderlund wrote:
->>>> Hi Dafna,
->>>>
->>>> This commit is not just a simplification but a change of behavior.  The
->>>> change is for the better but it broke capture of NV12 and NV21 formats
->>>> in libcamera unexpectedly.
->>>>
->>>> The issue at hand is that libcamera when configuring the pipeline
->>>> retrieves the mbus code for the ISP (rkisp1_isp) source pad (2) and then
->>>> propagates it to the resizer (rkisp_resizer_{main,self}path) sink pad
->>>> (0) and then to the resizers source pad (1). Effectively propagating
->>>> MEDIA_BUS_FMT_YUYV8_2X8 for all formats.
->>>>
->>>> At this point if the video node (main or self) is configured with a
->>>> YUV420 format (NV12, NV21, etc) and with this change applied the link
->>>> validation will fail as MEDIA_BUS_FMT_YUYV8_1_5X8 !=
->>>> MEDIA_BUS_FMT_YUYV8_2X8. Given the nature of how link validation is
->>>> implemented it's VIDIOC_QBUF that returns a -EPIPE when it fails and
->>>> libcamera lockup the capture session.
->>>
->>> I would be very, very surprised is the hardware really used YUYV8_1_5X8.
->>> YUYV8_1X16 is a much more likely bus format between the resizer and the
->>> DMA engine, as well as between the ISP and the resizer.
->>
->> Format YUYV8_1X16 is for downsampling of 4:2:2, but the resizer has the ability
->> to downsample to 4:2:0.
->> I see there is also format YDYUYDYV8_1X16 for 4:2:0
->> maybe this is what I should set?
->>
->> Actually according to the TRM the resizer send the stream to the DMA
->> engine through two separated buses, one for luma and one for chroma.
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  drivers/staging/media/zoran/zoran.h | 1 -
+>  1 file changed, 1 deletion(-)
 > 
-> In which document is this documented ? Is this two 8-bit buses side by
-> side ?
-
-here: https://rockchip.fr/RK3288%20TRM/rk3288-chapter-31-image-signal-processing-(isp).pdf
-
-It is described that there is a splitter component before the
-resizer. The diagram shows that those two separate streams are also
-sent further to the DMA engine.
-
+> diff --git a/drivers/staging/media/zoran/zoran.h b/drivers/staging/media/zoran/zoran.h
+> index 7217a64fe59b..945502becd60 100644
+> --- a/drivers/staging/media/zoran/zoran.h
+> +++ b/drivers/staging/media/zoran/zoran.h
+> @@ -264,7 +264,6 @@ struct zoran {
+>  
+>  	/* Additional stuff for testing */
+>  	unsigned int ghost_int;
+> -	int jpeg_error;
+>  	int intr_counter_GIRQ1;
+>  	int intr_counter_GIRQ0;
+>  	int intr_counter_CodRepIRQ;
+> -- 
+> 2.26.2
 > 
-> Looking at the registers, the output formats are controlled by the
-> global MI_CTRL register, common to both the main and self paths, which
-> should correspond to the DMA engine. I think it would make sense to
-> model this at the video node level, and hardcode YUYV8_1X16 between the
-> resizer and the video node.
 
-Ok, I can change the mbus code. Is there a difference from userspace point of
-view? If userspace wants to stream YUV 4:2:0, he should set the pixelformat on
-the video node and should only care that the resizer and the video node agree
-on the mbus code.
+Acked-by: Corentin Labbe <clabbe@baylibre.com>
 
-Thanks,
-Dafna
-
-> 
->>>> I will submit a fix for this to libcamera to bring it in sync with this
->>>> change.
->>>>
->>>> Would it be possible to ask that future changes to the rkisp1 driver be
->>>> tested with libcamera so we can track and update both the kernel and
->>>> user-space components of this driver at the same time and avoid nasty
->>>> surprises? :-)
->>>
->>> I strongly second this. Drivers that are supported in libcamera should
->>> be tested with libcamera to catch regressions, for any chance submitted
->>> to the kernel.
->>
->> I can run several 'cam' commands with different formats and dimensions to
->> find regressions. I currently have unit test only in v4l-utils.
-> 
-> That would be great :-) We will work on a test suite for higher-level
-> tests (something similar to the Android CTS) at some point, which should
-> also help catching regressions.
-> 
->>>> On 2020-07-23 15:20:13 +0200, Dafna Hirschfeld wrote:
->>>>> The capture has a mapping of the mbus code needed for each pixelformat.
->>>>> This can be used to simplify the link validation by comparing the mbus
->>>>> code in the capture with the code in the resizer.
->>>>>
->>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>>> ---
->>>>>    drivers/staging/media/rkisp1/rkisp1-capture.c | 18 ++++--------------
->>>>>    1 file changed, 4 insertions(+), 14 deletions(-)
->>>>>
->>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
->>>>> index 4dabd07a3da9..a5e2521577dd 100644
->>>>> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
->>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
->>>>> @@ -1255,22 +1255,11 @@ static int rkisp1_capture_link_validate(struct media_link *link)
->>>>>    	struct v4l2_subdev *sd =
->>>>>    		media_entity_to_v4l2_subdev(link->source->entity);
->>>>>    	struct rkisp1_capture *cap = video_get_drvdata(vdev);
->>>>> -	struct rkisp1_isp *isp = &cap->rkisp1->isp;
->>>>> -	u8 isp_pix_enc = isp->src_fmt->pixel_enc;
->>>>> -	u8 cap_pix_enc = cap->pix.info->pixel_enc;
->>>>> +	const struct rkisp1_capture_fmt_cfg *fmt =
->>>>> +		rkisp1_find_fmt_cfg(cap, cap->pix.fmt.pixelformat);
->>>>>    	struct v4l2_subdev_format sd_fmt;
->>>>>    	int ret;
->>>>>    
->>>>> -	if (cap_pix_enc != isp_pix_enc &&
->>>>> -	    !(isp_pix_enc == V4L2_PIXEL_ENC_YUV &&
->>>>> -	      cap_pix_enc == V4L2_PIXEL_ENC_RGB)) {
->>>>> -		dev_err(cap->rkisp1->dev,
->>>>> -			"format type mismatch in link '%s:%d->%s:%d'\n",
->>>>> -			link->source->entity->name, link->source->index,
->>>>> -			link->sink->entity->name, link->sink->index);
->>>>> -		return -EPIPE;
->>>>> -	}
->>>>> -
->>>>>    	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
->>>>>    	sd_fmt.pad = link->source->index;
->>>>>    	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &sd_fmt);
->>>>> @@ -1278,7 +1267,8 @@ static int rkisp1_capture_link_validate(struct media_link *link)
->>>>>    		return ret;
->>>>>    
->>>>>    	if (sd_fmt.format.height != cap->pix.fmt.height ||
->>>>> -	    sd_fmt.format.width != cap->pix.fmt.width)
->>>>> +	    sd_fmt.format.width != cap->pix.fmt.width ||
->>>>> +	    sd_fmt.format.code != fmt->mbus)
->>>>>    		return -EPIPE;
->>>>>    
->>>>>    	return 0;
-> 
+Thanks
