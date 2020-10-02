@@ -2,167 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62E23281911
-	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 19:21:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AADC3281916
+	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 19:22:06 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726386AbgJBRVc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Oct 2020 13:21:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53096 "EHLO
+        id S1726813AbgJBRWG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Oct 2020 13:22:06 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53186 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726096AbgJBRVc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Oct 2020 13:21:32 -0400
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3FE55C0613D0
-        for <linux-media@vger.kernel.org>; Fri,  2 Oct 2020 10:21:30 -0700 (PDT)
-Received: by mail-lj1-x242.google.com with SMTP id u4so1802014ljd.10
-        for <linux-media@vger.kernel.org>; Fri, 02 Oct 2020 10:21:30 -0700 (PDT)
+        with ESMTP id S1726175AbgJBRWF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Oct 2020 13:22:05 -0400
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83269C0613D0
+        for <linux-media@vger.kernel.org>; Fri,  2 Oct 2020 10:22:05 -0700 (PDT)
+Received: by mail-lf1-x144.google.com with SMTP id m5so2783653lfp.7
+        for <linux-media@vger.kernel.org>; Fri, 02 Oct 2020 10:22:05 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=2iZGylx+IMxw24vz93JQndmzV1ZcGsBJvqq6zhiZKOE=;
-        b=QaZKf1srUMPpf9V92TqfmLETDZzyCMQ9i3Oc5tV5BS4nsjrL6CvajI7QrDB2rZqgq/
-         ZTiITlaLZJ7WuuyryQZG4Dmoh3aH+hdzK08sU/nXtJKfJBNBBjV3C5Xp31xjcopdYOpK
-         bfXsUL5vh3zy3UJrIew5h6bm2DwW6N0Un5gCdK0qB4f/6WGtuMvdBWIP93pw0m4HwqWN
-         qPbPWkK+obYuxmf6EWwSVkclU1HzBYEh8AWDQYqPD2qiIePvOy8wHGMMzm9kswZYCLmL
-         9w5exiihdL6R5QuscmN2DJLEjIeITGnartgLwiIvsp4ud6LNPhFtUTGN7zqNlPQNBW/N
-         im6g==
+        bh=O/LalO+XkPSdurD5Da6ggjXoRPyLmkjltFDRihZ1iro=;
+        b=1MsY8SdNRho02OeG5Dmob+Hyl9AMm8RCxEv+I+id1H6gwdX6/61EYdea5I6fVcXVYV
+         ADLK7tJg8Nm+dr7GHH8rzs4Bkeo9bX+D8NaGWAZbI8cOwV+5eRW18Wsb7Z3FKFxnz4N2
+         UdDgch38RK7GFdH5/vKJTIaqDQjlYr1UEbcHlQVNKeB4+AjePxLlvyoux73PsHdzavPu
+         sAUseBy2HVMqMQiyJ7L05zKm4ja8cs84I1MGdLR8TP3euIyjsWhrExH6dtv+6f06pVdY
+         EwshgPTIifOmhlTKCTi93jUgdCZzd/7j2c4wDEiE8judokvFg6ye6vNEf35tjC/SVKHc
+         +f2g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=2iZGylx+IMxw24vz93JQndmzV1ZcGsBJvqq6zhiZKOE=;
-        b=NBDBo1tiF3ooTiSf+MKoa9Kn5w+qj2XaADPEtLkseFUoRi4lL2IF0GgECNrkRJY8Ma
-         uSE2Jlm0UdATePTVxUThF5jbw/HQqgHS1zQSrRbe2hdJR8d3HRTyKo7PGgY44ApVpRu4
-         HXmS+DvcyHxBSauLdf9LtZDDCRNNp8pX+lNrFZ983OcXqf7cDCd7GvdIGV9ermwa2wOS
-         cEwMeW8BFWFYS5LB0fIQ39ab39sHfaYTKsMfuIyg9wbuqoft7Dq6azlRBMqvyBwr8Ef+
-         rbEjxyvuWFlnHDDhp/8dQvFSsXdTbCeO3Lw/un7ZwlMTspoZsztCF2D4TPFPlMXnW46C
-         vzTw==
-X-Gm-Message-State: AOAM533bf5Tip4rnw0POjdm8zMZQc66ZM+WOCwearix6OS1ejTLFj1A0
-        pQgisdrG55TArHuU0xrsZ7VWug==
-X-Google-Smtp-Source: ABdhPJzEC58VCPM5rFLKvlNoMJkcm7S7xcheN3SvxZY2cqNHfc7oxCLi50MIV0cD5TDiOB7n1eAsVA==
-X-Received: by 2002:a2e:b8d1:: with SMTP id s17mr967453ljp.222.1601659288631;
-        Fri, 02 Oct 2020 10:21:28 -0700 (PDT)
+        bh=O/LalO+XkPSdurD5Da6ggjXoRPyLmkjltFDRihZ1iro=;
+        b=YAzsURnNB5p5CeI/QYfdO6shM1oKnqCzeW12CKpp1JxpSUjJRSWU+NjcWUe5WCrXyf
+         PCKJHjcq0I70jHNtZ68MD5GHMGqF/2775FAgPeyoeRkgx09h0Sk+EMdL0ec3mtK2/ku1
+         qbMKmzBA/5eNZRupkWRQkxdGCRtLbRzy2v1FzTZYrPT2uvbbEIb/AqJTQvyxiqFuY31q
+         wXSsNUwbVInm13AMfJeWfonZYv1CSY86VPANNUJepq8ULUMSbDVh81uGGqMZ6OFKc+EQ
+         ma5cJuV0znqaSu+bFBFZ8bGxE0eeh0QKkuPFgeeSssaxY0oF/dtJgcf6GZ4qiO3v+ajI
+         KI9Q==
+X-Gm-Message-State: AOAM533Tkx9F9fcZqIDFk5+lGiXheyAFAktyLyIJ5TPNWbuaHSG5yuHF
+        +ker2hfh7XLSF4ol6ogtqWpN6pXulYAqew==
+X-Google-Smtp-Source: ABdhPJwK7E9AtSmCqZ4KyGRI+Mf9h8C+n+bR7cMhq7hhtzdAMqJR8/vkt5OYLx/fp2S6bILf6l+4ng==
+X-Received: by 2002:a05:6512:318d:: with SMTP id i13mr1210938lfe.184.1601659323948;
+        Fri, 02 Oct 2020 10:22:03 -0700 (PDT)
 Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id 138sm410659lfl.241.2020.10.02.10.21.28
+        by smtp.gmail.com with ESMTPSA id b19sm418428lfg.232.2020.10.02.10.22.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2020 10:21:28 -0700 (PDT)
-Date:   Fri, 2 Oct 2020 19:21:27 +0200
+        Fri, 02 Oct 2020 10:22:03 -0700 (PDT)
+Date:   Fri, 2 Oct 2020 19:22:02 +0200
 From:   Niklas =?utf-8?Q?S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
         jmondi@jmondi.org
-Subject: Re: [PATCH 4/5] v4l2-fwnode: Rework v4l2_fwnode_endpoint_parse
- documentation
-Message-ID: <20201002172127.csprbr2tf3dki3lq@oden.dyn.berto.se>
+Subject: Re: [PATCH 5/5] v4l2-fwnode: Say it's fine to use
+ v4l2_fwnode_endpoint_parse
+Message-ID: <20201002172202.ytvvmghelo4oajwb@oden.dyn.berto.se>
 References: <20200930144811.16612-1-sakari.ailus@linux.intel.com>
- <20200930144811.16612-5-sakari.ailus@linux.intel.com>
+ <20200930144811.16612-6-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20200930144811.16612-5-sakari.ailus@linux.intel.com>
+In-Reply-To: <20200930144811.16612-6-sakari.ailus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Sakari,
 
-Thanks for your patch.
+Thanks for your work.
 
-On 2020-09-30 17:48:10 +0300, Sakari Ailus wrote:
-> Rework the documentation of v4l2_fwnode_endpoint_parse for better
-> readability, usefulness and correctness.
+On 2020-09-30 17:48:11 +0300, Sakari Ailus wrote:
+> Earlier it was expected that there would be more variable size endpoint
+> properties and that most if not all drivers would need them. For that
+> reason it was expected also that v4l2_fwnode_endpoint_parse would no
+> longer be needed.
+> 
+> What actually happened that not all drivers require "link-frequencies",
+> the only variable size media endpoint property without a small upper
+> limit. Therefore drivers that do not need that information are fine using
+> v4l2_fwnode_endpoint_parse. So don't tell drivers to use
+> v4l2_fwnode_endpoint_alloc_parse in all cases.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
 Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
 
 > ---
->  include/media/v4l2-fwnode.h | 62 ++++++++++++++++++++++++-------------
->  1 file changed, 40 insertions(+), 22 deletions(-)
+>  include/media/v4l2-fwnode.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> index 0f9a768b1a8d..0c28dc11e829 100644
+> index 0c28dc11e829..cbd872e59f8e 100644
 > --- a/include/media/v4l2-fwnode.h
 > +++ b/include/media/v4l2-fwnode.h
-> @@ -219,17 +219,26 @@ struct v4l2_fwnode_connector {
->   * @vep: pointer to the V4L2 fwnode data structure
+> @@ -245,8 +245,8 @@ struct v4l2_fwnode_connector {
+>   * The function does not change the V4L2 fwnode endpoint state if it fails.
 >   *
->   * This function parses the V4L2 fwnode endpoint specific parameters from the
-> - * firmware. The caller is responsible for assigning @vep.bus_type to a valid
-> - * media bus type. The caller may also set the default configuration for the
-> - * endpoint --- a configuration that shall be in line with the DT binding
-> - * documentation. Should a device support multiple bus types, the caller may
-> - * call this function once the correct type is found --- with a default
-> - * configuration valid for that type.
-> - *
-> - * It is also allowed to set @vep.bus_type to V4L2_MBUS_UNKNOWN. USING THIS
-> - * FEATURE REQUIRES "bus-type" PROPERTY IN DT BINDINGS. For old drivers,
-> - * guessing @vep.bus_type between CSI-2 D-PHY, parallel and BT.656 busses is
-> - * supported. NEVER RELY ON GUESSING @vep.bus_type IN NEW DRIVERS!
-> + * firmware. There are two ways to use this function, either by letting it
-> + * obtain the type of the bus (by setting the @vep.bus_type field to
-> + * V4L2_MBUS_UNKNOWN) or specifying the bus type explicitly to one of the &enum
-> + * v4l2_mbus_type types.
-> + *
-> + * When @vep.bus_type is V4L2_MBUS_UNKNOWN, the function will use the "bus-type"
-> + * property to determine the type when it is available. The caller is
-> + * responsible for validating the contents of @vep.bus_type field after the call
-> + * returns.
-> + *
-> + * As a deprecated functionality to support older DT bindings without "bus-type"
-> + * property for devices that support multiple types, if the "bus-type" property
-> + * does not exist, the function will attempt to guess the type based on the
-> + * endpoint properties available. NEVER RELY ON GUESSING THE BUS TYPE IN NEW
-> + * DRIVERS OR BINDINGS.
-> + *
-> + * It is also possible to set @vep.bus_type corresponding to an actual bus. In
-> + * this case the function will only attempt to parse properties related to this
-> + * bus, and it will return an error if the value of the "bus-type" property
-> + * corresponds to a different bus.
+>   * NOTE: This function does not parse properties the size of which is variable
+> - * without a low fixed limit. Please use v4l2_fwnode_endpoint_alloc_parse() in
+> - * new drivers instead.
+> + * without a low fixed limit. Please use v4l2_fwnode_endpoint_alloc_parse() if
+> + * you need properties of variable size.
 >   *
->   * The caller is required to initialise all fields of @vep.
->   *
-> @@ -263,17 +272,26 @@ void v4l2_fwnode_endpoint_free(struct v4l2_fwnode_endpoint *vep);
->   * @vep: pointer to the V4L2 fwnode data structure
->   *
->   * This function parses the V4L2 fwnode endpoint specific parameters from the
-> - * firmware. The caller is responsible for assigning @vep.bus_type to a valid
-> - * media bus type. The caller may also set the default configuration for the
-> - * endpoint --- a configuration that shall be in line with the DT binding
-> - * documentation. Should a device support multiple bus types, the caller may
-> - * call this function once the correct type is found --- with a default
-> - * configuration valid for that type.
-> - *
-> - * It is also allowed to set @vep.bus_type to V4L2_MBUS_UNKNOWN. USING THIS
-> - * FEATURE REQUIRES "bus-type" PROPERTY IN DT BINDINGS. For old drivers,
-> - * guessing @vep.bus_type between CSI-2 D-PHY, parallel and BT.656 busses is
-> - * supported. NEVER RELY ON GUESSING @vep.bus_type IN NEW DRIVERS!
-> + * firmware. There are two ways to use this function, either by letting it
-> + * obtain the type of the bus (by setting the @vep.bus_type field to
-> + * V4L2_MBUS_UNKNOWN) or specifying the bus type explicitly to one of the &enum
-> + * v4l2_mbus_type types.
-> + *
-> + * When @vep.bus_type is V4L2_MBUS_UNKNOWN, the function will use the "bus-type"
-> + * property to determine the type when it is available. The caller is
-> + * responsible for validating the contents of @vep.bus_type field after the call
-> + * returns.
-> + *
-> + * As a deprecated functionality to support older DT bindings without "bus-type"
-> + * property for devices that support multiple types, if the "bus-type" property
-> + * does not exist, the function will attempt to guess the type based on the
-> + * endpoint properties available. NEVER RELY ON GUESSING THE BUS TYPE IN NEW
-> + * DRIVERS OR BINDINGS.
-> + *
-> + * It is also possible to set @vep.bus_type corresponding to an actual bus. In
-> + * this case the function will only attempt to parse properties related to this
-> + * bus, and it will return an error if the value of the "bus-type" property
-> + * corresponds to a different bus.
->   *
->   * The caller is required to initialise all fields of @vep.
->   *
+>   * Return: %0 on success or a negative error code on failure:
+>   *	   %-ENOMEM on memory allocation failure
 > -- 
 > 2.27.0
 > 
