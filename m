@@ -2,152 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 13AD5280E81
-	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 10:07:02 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 043C0280F75
+	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 11:05:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726356AbgJBIHB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Oct 2020 04:07:01 -0400
-Received: from m42-4.mailgun.net ([69.72.42.4]:59310 "EHLO m42-4.mailgun.net"
+        id S1726240AbgJBJFg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Oct 2020 05:05:36 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38160 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726352AbgJBIHA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 2 Oct 2020 04:07:00 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1601626020; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=DpzPdf9SuGFakeKDAP+tZzUbDX47U9mv46HDpRpFsVQ=;
- b=NIE0O48AgVsbNaPZCxU7kQLyDmXfdt4QydeD4CWrXN5huGszeLdCsnPEDpaa9QX8ofJVa5BB
- SRWwwmG7w/tzjUZzqVp6LZQgg8bHCkz5rz9r4cRxd7nGanwenJbCzJROptFQIJwfpgP/eRk4
- wWC8NJKkDTb4LkL0uAqgoYNxCWg=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-east-1.postgun.com with SMTP id
- 5f76df83e89f7b4c7851d2c4 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 02 Oct 2020 08:06:27
- GMT
-Sender: saiprakash.ranjan=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id E318CC433FF; Fri,  2 Oct 2020 08:06:26 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        id S1726029AbgJBJFf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 2 Oct 2020 05:05:35 -0400
+Received: from coco.lan (ip5f5ad59f.dynamic.kabel-deutschland.de [95.90.213.159])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        (Authenticated sender: saiprakash.ranjan)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 1B4F1C433CA;
-        Fri,  2 Oct 2020 08:06:26 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 64030205F4;
+        Fri,  2 Oct 2020 09:05:34 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601629535;
+        bh=B5ydxcI0C7Q3whs4Y3vR8dN5tdcr247DfpB2Z8S9NRg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ca8htCYTK1Ypgmjk5OxhEv4lRWqiYofL6whXQLAFUygSrvjNC9kSrrTKPkGcmBTct
+         tY085WfhIWUK6QoYPT8Ub0hBMpH/UAeBQ4ahsr4URL3jdFh0LGL5SEupambZv4JcfC
+         yv2MvhARS+EMQF+FtrbRqRbl/TP9qkUa8ohc2aaE=
+Date:   Fri, 2 Oct 2020 11:05:31 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     LABBE Corentin <clabbe@baylibre.com>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2] zoran: fix sparse warnings
+Message-ID: <20201002110531.62774d96@coco.lan>
+In-Reply-To: <20201002072909.GD15586@Red>
+References: <20200928132831.1587872-1-hverkuil-cisco@xs4all.nl>
+        <20200928132831.1587872-3-hverkuil-cisco@xs4all.nl>
+        <20201002072909.GD15586@Red>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-Date:   Fri, 02 Oct 2020 13:36:26 +0530
-From:   Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     stanimir.varbanov@linaro.org, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-arm-msm-owner@vger.kernel.org
-Subject: Re: [PATCH] media: venus: core: Drop local dma_parms
-In-Reply-To: <e5384b296a0af099dc502572752df149127b7947.1599167568.git.robin.murphy@arm.com>
-References: <e5384b296a0af099dc502572752df149127b7947.1599167568.git.robin.murphy@arm.com>
-Message-ID: <cdd56444b0d7faf9358370f821a10846@codeaurora.org>
-X-Sender: saiprakash.ranjan@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Robin,
+Em Fri, 2 Oct 2020 09:29:09 +0200
+LABBE Corentin <clabbe@baylibre.com> escreveu:
 
-On 2020-09-04 02:44, Robin Murphy wrote:
-> Since commit 9495b7e92f71 ("driver core: platform: Initialize dma_parms
-> for platform devices"), struct platform_device already provides a
-> dma_parms structure, so we can save allocating another one.
+> On Mon, Sep 28, 2020 at 03:28:31PM +0200, Hans Verkuil wrote:
+> > The output is not fully supported yet, so some ops are
+> > commented out. Also comment out the corresponding callbacks to prevent
+> > these sparse warnings:
+> > 
+> > drivers/staging/media/zoran/zoran_driver.c:656:12: warning: 'zoran_s_output' defined but not used [-Wunused-function]
+> >   656 | static int zoran_s_output(struct file *file, void *__fh, unsigned int output)
+> >       |            ^~~~~~~~~~~~~~
+> > drivers/staging/media/zoran/zoran_driver.c:649:12: warning: 'zoran_g_output' defined but not used [-Wunused-function]
+> >   649 | static int zoran_g_output(struct file *file, void *__fh, unsigned int *output)
+> >       |            ^~~~~~~~~~~~~~
+> > drivers/staging/media/zoran/zoran_driver.c:635:12: warning: 'zoran_enum_output' defined but not used [-Wunused-function]
+> >   635 | static int zoran_enum_output(struct file *file, void *__fh,
+> >       |            ^~~~~~~~~~~~~~~~~
+> > drivers/staging/media/zoran/zoran_driver.c:302:12: warning: 'zoran_enum_fmt_vid_overlay' defined but not used [-Wunused-function]
+> >   302 | static int zoran_enum_fmt_vid_overlay(struct file *file, void *__fh,
+> >       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+> > drivers/staging/media/zoran/zoran_driver.c:294:12: warning: 'zoran_enum_fmt_vid_out' defined but not used [-Wunused-function]
+> >   294 | static int zoran_enum_fmt_vid_out(struct file *file, void *__fh,
+> >       |            ^~~~~~~~~~~~~~~~~~~~~~
+> > 
+> > Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> > ---  
 > 
-> Also the DMA segment size is simply a size, not a bitmask.
+> Hello
 > 
-> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
-> ---
->  drivers/media/platform/qcom/venus/core.c | 8 +-------
->  1 file changed, 1 insertion(+), 7 deletions(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.c
-> b/drivers/media/platform/qcom/venus/core.c
-> index 203c6538044f..2fa9275d75ff 100644
-> --- a/drivers/media/platform/qcom/venus/core.c
-> +++ b/drivers/media/platform/qcom/venus/core.c
-> @@ -226,13 +226,7 @@ static int venus_probe(struct platform_device 
-> *pdev)
->  	if (ret)
->  		return ret;
-> 
-> -	if (!dev->dma_parms) {
-> -		dev->dma_parms = devm_kzalloc(dev, sizeof(*dev->dma_parms),
-> -					      GFP_KERNEL);
-> -		if (!dev->dma_parms)
-> -			return -ENOMEM;
-> -	}
-> -	dma_set_max_seg_size(dev, DMA_BIT_MASK(32));
-> +	dma_set_max_seg_size(dev, UINT_MAX);
-> 
->  	INIT_LIST_HEAD(&core->instances);
->  	mutex_init(&core->lock);
+> What about using "ifdef CONFIG_ZORAN_OUTPUT" instead of "ifdef 0"
+> Otherwise:
+> Acked-by: Corentin Labbe <clabbe@baylibre.com>
 
-This reintroduced dma api debug warning which the original commit was
-addressing or rather thought it addressed.
-
-  DMA-API: qcom-venus aa00000.video-codec: mapping sg segment longer than 
-device claims to support [len=4194304] [max=65536]
-  WARNING: CPU: 3 PID: 5365 at kernel/dma/debug.c:1225 
-debug_dma_map_sg+0x1ac/0x2c8
-  <...>
-  pstate: 60400009 (nZCv daif +PAN -UAO)
-  pc : debug_dma_map_sg+0x1ac/0x2c8
-  lr : debug_dma_map_sg+0x1ac/0x2c8
-  sp : ffffff8016517850
-  x29: ffffff8016517860 x28: 0000000000010000
-  x27: 00000000ffffffff x26: ffffff80da45eb00
-  x25: ffffffd03c465000 x24: ffffffd03b3c1000
-  x23: ffffff803e262d80 x22: ffffff80d9a0d010
-  x21: 0000000000000001 x20: 0000000000000001
-  x19: 0000000000000001 x18: 00000000ffff0a10
-  x17: ffffffd03b84a000 x16: 0000000000000037
-  x15: ffffffd03a950610 x14: 0000000000000001
-  x13: 0000000000000000 x12: 00000000a3b31442
-  x11: 0000000000000000 x10: dfffffd000000001
-  x9 : f544368f90c5ee00 x8 : f544368f90c5ee00
-  x7 : ffffffd03af5d570 x6 : 0000000000000000
-  x5 : 0000000000000080 x4 : 0000000000000001
-  x3 : ffffffd03a9174b0 x2 : 0000000000000001
-  x1 : 0000000000000008 x0 : 000000000000007a
-  Call trace:
-   debug_dma_map_sg+0x1ac/0x2c8
-   vb2_dma_sg_alloc+0x274/0x2f4 [videobuf2_dma_sg]
-   __vb2_queue_alloc+0x14c/0x3b0 [videobuf2_common]
-   vb2_core_reqbufs+0x234/0x374 [videobuf2_common]
-   vb2_reqbufs+0x4c/0x64 [videobuf2_v4l2]
-   v4l2_m2m_reqbufs+0x50/0x84 [v4l2_mem2mem]
-   v4l2_m2m_ioctl_reqbufs+0x2c/0x38 [v4l2_mem2mem]
-   v4l_reqbufs+0x4c/0x5c
-   __video_do_ioctl+0x2cc/0x3e0
-   video_usercopy+0x3b0/0x910
-   video_ioctl2+0x38/0x48
-   v4l2_ioctl+0x6c/0x80
-   do_video_ioctl+0xb54/0x2708
-   v4l2_compat_ioctl32+0x5c/0xcc
-   __se_compat_sys_ioctl+0x100/0x2064
-   __arm64_compat_sys_ioctl+0x20/0x2c
-   el0_svc_common+0xa8/0x178
-   el0_svc_compat_handler+0x2c/0x40
-   el0_svc_compat+0x8/0x10
+No. Better to keep #ifdef 0, a this has a higher chance of being
+noticed when the driver moves out of staging.
 
 Thanks,
-Sai
-
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a 
-member
-of Code Aurora Forum, hosted by The Linux Foundation
+Mauro
