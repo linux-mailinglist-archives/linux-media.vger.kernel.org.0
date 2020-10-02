@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFA8C281E34
-	for <lists+linux-media@lfdr.de>; Sat,  3 Oct 2020 00:23:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C32F281E38
+	for <lists+linux-media@lfdr.de>; Sat,  3 Oct 2020 00:23:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725763AbgJBWXe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Oct 2020 18:23:34 -0400
-Received: from relmlor1.renesas.com ([210.160.252.171]:56531 "EHLO
-        relmlie5.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725283AbgJBWXe (ORCPT
+        id S1725788AbgJBWXi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Oct 2020 18:23:38 -0400
+Received: from relmlor2.renesas.com ([210.160.252.172]:27896 "EHLO
+        relmlie6.idc.renesas.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725283AbgJBWXh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 2 Oct 2020 18:23:34 -0400
+        Fri, 2 Oct 2020 18:23:37 -0400
 X-IronPort-AV: E=Sophos;i="5.77,329,1596466800"; 
-   d="scan'208";a="58790184"
+   d="scan'208";a="58574391"
 Received: from unknown (HELO relmlir5.idc.renesas.com) ([10.200.68.151])
-  by relmlie5.idc.renesas.com with ESMTP; 03 Oct 2020 07:23:32 +0900
+  by relmlie6.idc.renesas.com with ESMTP; 03 Oct 2020 07:23:35 +0900
 Received: from localhost.localdomain (unknown [10.226.36.204])
-        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 1161940062C6;
-        Sat,  3 Oct 2020 07:23:30 +0900 (JST)
+        by relmlir5.idc.renesas.com (Postfix) with ESMTP id 49E2140062C6;
+        Sat,  3 Oct 2020 07:23:33 +0900 (JST)
 From:   Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
 To:     Jacopo Mondi <jacopo@jmondi.org>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -28,68 +28,93 @@ Cc:     linux-kernel@vger.kernel.org,
         Prabhakar <prabhakar.csengg@gmail.com>,
         Biju Das <biju.das.jz@bp.renesas.com>,
         Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-Subject: [PATCH v8 0/3] media: i2c: ov772x: Enable BT.656 mode and test pattern support
-Date:   Fri,  2 Oct 2020 23:23:20 +0100
-Message-Id: <20201002222323.21736-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: [PATCH v8 1/3] media: i2c: ov772x: Parse endpoint properties
+Date:   Fri,  2 Oct 2020 23:23:21 +0100
+Message-Id: <20201002222323.21736-2-prabhakar.mahadev-lad.rj@bp.renesas.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201002222323.21736-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
+References: <20201002222323.21736-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi All,
+Parse endpoint properties using v4l2_fwnode_endpoint_alloc_parse()
+to determine the bus type and store it in the driver structure.
 
-This patch series adds support for BT.656 mode in the ov772x sensor
-and also enables color bar test pattern control.
+Set bus_type to V4L2_MBUS_PARALLEL as it's the only supported one
 
-Cheers,
-Prabhakar
+Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+---
+ drivers/media/i2c/ov772x.c | 34 ++++++++++++++++++++++++++++++++++
+ 1 file changed, 34 insertions(+)
 
-V7->v8
-* Fixed review comments pointed by Sakari
-
-v6->v7
-* Fixed review comments pointed by Sakari
-* Included Ack from Jacopo
-
-v5->v6
-* Introduced new function ov772x_parse_dt()
-* Moved the backward compatibility comment from 1/3 to 2/3
-
-v4->v5:
-* Put the ep instance back using fwnode_handle_put()
-* Renamed BT656 to BT.656
-* Correctly handled backward compatibility case falling
-  back to parallel mode.
-
-v3->v4:
-* New patch 1/3 to fallback in parallel mode.
-* Switched to v4l2_fwnode_endpoint_alloc_parse() for parsing the ep.
-* Dropped support for pdat for test pattern control.
-* DT documentation patches [1].
-
-v2->v3:
-* Dropped DT binding documentation patch as this is handled by Jacopo.
-* Fixed review comments pointed by Jacopo.
-
-v2:
- https://patchwork.kernel.org/project/linux-renesas-soc/
- list/?series=328133
-
- v1:
-https://patchwork.kernel.org/project/linux-renesas-soc/
-list/?series=323807
-
-[1] https://patchwork.kernel.org/project/
-    linux-renesas-soc/list/?series=346809
-
-Lad Prabhakar (3):
-  media: i2c: ov772x: Parse endpoint properties
-  media: i2c: ov772x: Add support for BT.656 mode
-  media: i2c: ov772x: Add test pattern control
-
- drivers/media/i2c/ov772x.c | 71 +++++++++++++++++++++++++++++++++++++-
- 1 file changed, 70 insertions(+), 1 deletion(-)
-
+diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
+index 2cc6a678069a..afe2446dfb68 100644
+--- a/drivers/media/i2c/ov772x.c
++++ b/drivers/media/i2c/ov772x.c
+@@ -31,6 +31,7 @@
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-event.h>
++#include <media/v4l2-fwnode.h>
+ #include <media/v4l2-image-sizes.h>
+ #include <media/v4l2-subdev.h>
+ 
+@@ -434,6 +435,7 @@ struct ov772x_priv {
+ #ifdef CONFIG_MEDIA_CONTROLLER
+ 	struct media_pad pad;
+ #endif
++	enum v4l2_mbus_type		  bus_type;
+ };
+ 
+ /*
+@@ -1348,6 +1350,34 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
+ 	.pad	= &ov772x_subdev_pad_ops,
+ };
+ 
++static int ov772x_parse_dt(struct i2c_client *client,
++			   struct ov772x_priv *priv)
++{
++	struct v4l2_fwnode_endpoint bus_cfg = {
++		.bus_type = V4L2_MBUS_PARALLEL
++	};
++	struct fwnode_handle *ep;
++	int ret;
++
++	ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
++	if (!ep) {
++		dev_err(&client->dev, "Endpoint node not found\n");
++		return -EINVAL;
++	}
++
++	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
++	if (ret)
++		goto error_fwnode_put;
++
++	priv->bus_type = bus_cfg.bus_type;
++	v4l2_fwnode_endpoint_free(&bus_cfg);
++
++error_fwnode_put:
++	fwnode_handle_put(ep);
++
++	return ret;
++}
++
+ /*
+  * i2c_driver function
+  */
+@@ -1415,6 +1445,10 @@ static int ov772x_probe(struct i2c_client *client)
+ 		goto error_clk_put;
+ 	}
+ 
++	ret = ov772x_parse_dt(client, priv);
++	if (ret)
++		goto error_clk_put;
++
+ 	ret = ov772x_video_probe(priv);
+ 	if (ret < 0)
+ 		goto error_gpio_put;
 -- 
 2.17.1
 
