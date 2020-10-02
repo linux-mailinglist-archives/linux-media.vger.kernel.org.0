@@ -2,114 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B330280DFE
-	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 09:21:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF574280E06
+	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 09:29:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726278AbgJBHVX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Oct 2020 03:21:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45202 "EHLO
+        id S1725971AbgJBH3P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Oct 2020 03:29:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46412 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725961AbgJBHVV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Oct 2020 03:21:21 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85E84C0613D0
-        for <linux-media@vger.kernel.org>; Fri,  2 Oct 2020 00:21:19 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id k10so585099wru.6
-        for <linux-media@vger.kernel.org>; Fri, 02 Oct 2020 00:21:19 -0700 (PDT)
+        with ESMTP id S1725961AbgJBH3P (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Oct 2020 03:29:15 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8C729C0613D0
+        for <linux-media@vger.kernel.org>; Fri,  2 Oct 2020 00:29:13 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id t17so597444wmi.4
+        for <linux-media@vger.kernel.org>; Fri, 02 Oct 2020 00:29:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=baylibre-com.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=w4PVlPcr7dpTEG2yTeexZo3mfBgC1LUTIE3TVKKqTC0=;
-        b=IsAFPt3bvZYHfV+35NPHHU3k0vBqpZQJDx3q4QHSMyu8MkYuSqsoYTAQVpH5pHDiq4
-         7Ox0cVqXMR1M/KyJrcxTxUWxWmVvsvM+jkboUDoK96PuvSrMd4M39JfI2P5qpsTaGmAQ
-         W+IZZwGAh+8i2XECczaHk4P/G0zDn8/hPbT554DKt8b9sYjxNCug4gK5NBGOeuDROI86
-         huv4E8++P2ep9ndFj0QayT1DEdH7V3SuMvnI7hl6Q0iAxQSR8nGHW+TkW8kw7kvFyqCe
-         h6XGCFzI768Q7+bbhvkFo+5Aqs9U2ZcLvcXxya0LSu/kdLJL2pTbzK2prcjbYfkks4Kk
-         LZdw==
+        bh=kxd5hzhSDcN4ctz6x2RvCSqugHcxeJokIp27D5KED8k=;
+        b=B1DIGQUMc7+3/rlgvop1/eqvnYSOOQfhfMAPwIaY4gzMUg50fSaVRwcJWcPOdTE9cq
+         UZHoEun0TjDbYNyf+8rO+Lj27dIHSYuBVamN2t4s9zVQpPoOnBEtI88c8g43zE1a1Ioc
+         mbg1nfv5J58vxx5A8tBhOLdGoWN/ghmAPjXD5kPLFSbtQxA8pIqR+C0FxcmUW/R2zDUZ
+         Dw4sZ2Bylpo8YaJv5YC1MTC0uqHzPJWZDlRkKqaVzGuw0Yg+AMI7sk3uGnHMfSsd9cUw
+         dw8VZxago/g4Ufq7K+NilI8xct1iV3iPAkgnWuf2yHWOrsDRVbAz+psEcYiREPun8h+B
+         XXHA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=w4PVlPcr7dpTEG2yTeexZo3mfBgC1LUTIE3TVKKqTC0=;
-        b=ThUoHIjXhGhadtC77AqzhQrkr6mrNnsgaFispveEC3Zp2qlyTJc+m1/T8tgjOigbHZ
-         gTLXTd0/Ruc52QhJLoLxw2JPsRvTIjzbprrMA8Ttqu1OPL79jSt64zRILhqqJpNNjsUk
-         w+uf6vYTsappDvaik53SUNxu4yRCCht2/ZVawZ8OzvtWoip3lkIaunFR6q07fjVD4xcV
-         WIfDJ41nKnilHVs7zzFxZ685W7jL5aNsD44DfB/Z6Zg80tYbwSb4A0oF7AaInguXSg6d
-         ISkU0tjKgVDc+0sNTeDu2FhYq2OF6qCSy7vC5uKqv9v0nntzbx4QYjT3KlwV/sRwu8+v
-         GAjw==
-X-Gm-Message-State: AOAM533ESsqJ+dAOR6Lwa1D5IpIjeX4Yw601NVv60fQ46YgwKCloa1q+
-        iFSTsp6seK+GrTbJW0jtO9Ti6g==
-X-Google-Smtp-Source: ABdhPJwFbDdME2xRypUZW1NmvccNMBIbMBry74SzvCzSLK32Q1LWoYuaZIflqgo4RWeBsSympZu2fQ==
-X-Received: by 2002:adf:e74d:: with SMTP id c13mr1306972wrn.45.1601623278234;
-        Fri, 02 Oct 2020 00:21:18 -0700 (PDT)
+        bh=kxd5hzhSDcN4ctz6x2RvCSqugHcxeJokIp27D5KED8k=;
+        b=qb7nobCudjQIcNk0NQnqRaENXg51Qa5IA+TX0gaCvaZ38Cu+FsBIanF+gTPs4AMUmi
+         zy1pDgBBREbPuxmWp+pPODuD5ldSP+rNT1JM5bNNZS32mPhJbIE9eGgD0rQiA8QP2itp
+         OalV8T77VSd/bxcNv2EaDYTLc84lkFQy8KKgocIiu3b0gDCz0w4VdrsTrwH7QzBxnDXo
+         szePHg+vKZDpXNqDNPS82sSyMP0Qw5x07Twq3oAdiNl5hSfIG94jshtnkqCaH2AguOLb
+         AFJrHCVczNYBRFu/1qW091ivGiQHoteY3hya2oSJHG6QgFhhbwo1stcAEf//ScFsMimd
+         zpdw==
+X-Gm-Message-State: AOAM533rxajVOR+JWZGLAbdNaiErmpaI9t9d7L03I66uiaOyTo9MkTv1
+        Oxhtf/8btVOR2qBBNhFt/RAi3D3gLHOxbQ==
+X-Google-Smtp-Source: ABdhPJy9OCzhBBKjp2R5hEJN2JoMk7fUbFNjVX5zkpxDghCWcCoBQI2k5ccU3pfiArmrrxhwG6Yq6w==
+X-Received: by 2002:a1c:5458:: with SMTP id p24mr1257937wmi.160.1601623752185;
+        Fri, 02 Oct 2020 00:29:12 -0700 (PDT)
 Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id m10sm756826wmi.9.2020.10.02.00.21.17
+        by smtp.googlemail.com with ESMTPSA id x17sm758230wrg.57.2020.10.02.00.29.11
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 02 Oct 2020 00:21:17 -0700 (PDT)
-Date:   Fri, 2 Oct 2020 09:21:15 +0200
+        Fri, 02 Oct 2020 00:29:11 -0700 (PDT)
+Date:   Fri, 2 Oct 2020 09:29:09 +0200
 From:   LABBE Corentin <clabbe@baylibre.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        mjpeg-users@lists.sourceforge.net
-Subject: Re: [PATCH 3/3] media: zoran: fix mixed case on vars
-Message-ID: <20201002072115.GC15586@Red>
-References: <21fd8f12edb27d269eefdbea172aa3a80e2aa6ce.1601544491.git.mchehab+huawei@kernel.org>
- <5e09ed2cc5cacfac0653089fc976be3409f0fa9d.1601544491.git.mchehab+huawei@kernel.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2] zoran: fix sparse warnings
+Message-ID: <20201002072909.GD15586@Red>
+References: <20200928132831.1587872-1-hverkuil-cisco@xs4all.nl>
+ <20200928132831.1587872-3-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <5e09ed2cc5cacfac0653089fc976be3409f0fa9d.1601544491.git.mchehab+huawei@kernel.org>
+In-Reply-To: <20200928132831.1587872-3-hverkuil-cisco@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 01, 2020 at 11:28:15AM +0200, Mauro Carvalho Chehab wrote:
-> Use this small script to replace CamelCase and wrong case
-> on vars:
+On Mon, Sep 28, 2020 at 03:28:31PM +0200, Hans Verkuil wrote:
+> The output is not fully supported yet, so some ops are
+> commented out. Also comment out the corresponding callbacks to prevent
+> these sparse warnings:
 > 
-> <script>
-> FILES=$(find "$1" -type f|grep -e '.c$' -e '.h$')
-> CAMEL_VARS=$(cat tags|perl -ne 'print "$1\n" if (m/^(\w*[A-Z]\w*[a-z]\w*)\s/)')
-> for i in $CAMEL_VARS; do
->         new=$(perl -e '
->                 my $s = $ARGV[0];
->                 $s =~ s{([^a-zA-Z]?)([A-Z]*)([A-Z])([a-z]?)}{
->                         my $fc = pos($s)==0;
->                         my ($p0,$p1,$p2,$p3) = ($1,lc$2,lc$3,$4);
->                         my $t = $p0 || $fc ? $p0 : '_';
->                         $t .= $p3 ? $p1 ? "${p1}_$p2$p3" : "$p2$p3" : "$p1$p2";
->                         $t;
->                 }ge;
->                 print $s;' "$i")
->         for j in $FILES; do
->                 sed -E "s,\b$i\b,$new,g" -i $j
->         done
-> done
-> for i in $(git grep "#define zr" drivers/staging/media/zoran/*.[ch]|perl -ne 'print "$1\n" if (m/#define\s+(zr\S+)/)'); do j=$(echo $i|tr [a-z] [A-Z]); sed "s,\b$i\b,$j,g" -i drivers/staging/media/zoran/*.[ch]; done
-> </script>
+> drivers/staging/media/zoran/zoran_driver.c:656:12: warning: 'zoran_s_output' defined but not used [-Wunused-function]
+>   656 | static int zoran_s_output(struct file *file, void *__fh, unsigned int output)
+>       |            ^~~~~~~~~~~~~~
+> drivers/staging/media/zoran/zoran_driver.c:649:12: warning: 'zoran_g_output' defined but not used [-Wunused-function]
+>   649 | static int zoran_g_output(struct file *file, void *__fh, unsigned int *output)
+>       |            ^~~~~~~~~~~~~~
+> drivers/staging/media/zoran/zoran_driver.c:635:12: warning: 'zoran_enum_output' defined but not used [-Wunused-function]
+>   635 | static int zoran_enum_output(struct file *file, void *__fh,
+>       |            ^~~~~~~~~~~~~~~~~
+> drivers/staging/media/zoran/zoran_driver.c:302:12: warning: 'zoran_enum_fmt_vid_overlay' defined but not used [-Wunused-function]
+>   302 | static int zoran_enum_fmt_vid_overlay(struct file *file, void *__fh,
+>       |            ^~~~~~~~~~~~~~~~~~~~~~~~~~
+> drivers/staging/media/zoran/zoran_driver.c:294:12: warning: 'zoran_enum_fmt_vid_out' defined but not used [-Wunused-function]
+>   294 | static int zoran_enum_fmt_vid_out(struct file *file, void *__fh,
+>       |            ^~~~~~~~~~~~~~~~~~~~~~
 > 
-> This should solve almost all warnings reported by checkpatch.pl
-> in strict mode.
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 > ---
->  drivers/staging/media/zoran/videocodec.h   |   2 +-
->  drivers/staging/media/zoran/zoran.h        |  30 +--
->  drivers/staging/media/zoran/zoran_card.c   |  52 ++---
->  drivers/staging/media/zoran/zoran_device.c | 242 ++++++++++-----------
->  drivers/staging/media/zoran/zoran_driver.c |  94 ++++----
->  drivers/staging/media/zoran/zr36016.c      |  14 +-
->  drivers/staging/media/zoran/zr36050.c      |   2 +-
->  drivers/staging/media/zoran/zr36057.h      | 122 +++++------
->  drivers/staging/media/zoran/zr36060.c      |  76 +++----
->  drivers/staging/media/zoran/zr36060.h      |  66 +++---
->  10 files changed, 350 insertions(+), 350 deletions(-)
 
+Hello
+
+What about using "ifdef CONFIG_ZORAN_OUTPUT" instead of "ifdef 0"
+Otherwise:
 Acked-by: Corentin Labbe <clabbe@baylibre.com>
 
-Thanks
+Regards
