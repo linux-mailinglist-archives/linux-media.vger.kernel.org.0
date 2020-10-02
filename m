@@ -2,460 +2,326 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F89D28153E
-	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 16:32:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2680D28155F
+	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 16:37:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388083AbgJBOcr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Oct 2020 10:32:47 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:50237 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387919AbgJBOcr (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 2 Oct 2020 10:32:47 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id OM6zkdmibTHgxOM72k0ef4; Fri, 02 Oct 2020 16:32:44 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1601649165; bh=OBKdwRR+8ara8mmMXgh6Qp1+CsYWpLsNm1wUlQAoelI=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=rbK+QVMC/1Tp64bN07fz+3tGH5qWbmxVVgvVluSNc2OuUoT3Y3YjDgu1/nPta7pzb
-         LSqpiy5iG7bM2F0UvgQ63j6GkwVN7LyIP0A6OGK2PAeI4UlP61qaAqH2M9nGfXE9gs
-         XCNPWhdCqf2Rs7kDM3Nwx6mu2RB8au0mOcN5mnniBeiH9OqK+o0FcWdFF2srho7o8S
-         AZ94VqLkA7HTyc0QK+Rvf/+9Gblru8zSL7H/hkDYTSuASNoxvk/Jel+tQzxkI4bIh0
-         qj98pywapT0kOKe0VQ9Qs6y71MQz17xEiyzxnKYLZGkgZdIRopTqrfK9GJHkAY9s1w
-         Ioiw8weuLtGuw==
-Subject: Re: [PATCH 0/8] media: v4l2: simplify compat ioctl handling
-To:     Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
-        mchehab@kernel.org
-Cc:     hch@lst.de, linux-kernel@vger.kernel.org
-References: <20200917152823.1241599-1-arnd@arndb.de>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <cbbed130-3329-85a5-f360-3537391c1569@xs4all.nl>
-Date:   Fri, 2 Oct 2020 16:32:41 +0200
+        id S2388030AbgJBOha (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Oct 2020 10:37:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55742 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726017AbgJBOha (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Oct 2020 10:37:30 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BB039C0613D0;
+        Fri,  2 Oct 2020 07:37:29 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: gtucker)
+        with ESMTPSA id 2404A29DD8E
+Subject: Re: media/master bisection:
+ v4l2-compliance-vivid.Format-ioctls-Input-3.VIDIOC_TRY_FMT on
+ qemu_arm-virt-gicv3
+From:   Guillaume Tucker <guillaume.tucker@collabora.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        kernelci-results@groups.io, kernelci@groups.io
+References: <5f72d499.1c69fb81.81d5b.6937@mx.google.com>
+ <ebd6520a-85c3-c955-ee16-88e0c6995855@collabora.com>
+Message-ID: <43e028e9-f0ea-90a9-6a64-388a6bac1c8c@collabora.com>
+Date:   Fri, 2 Oct 2020 15:37:24 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20200917152823.1241599-1-arnd@arndb.de>
+In-Reply-To: <ebd6520a-85c3-c955-ee16-88e0c6995855@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfLefJsCDG8ET1o3Di6l0z+V4qHB44VhEKwHxMQU1rFPTfCiOPY2a95Dl75RAOw9YdFHlZThhTfI6IQ3QCZe7OWO9iZV4NCbtAxdyzF7x76ognpCckO62
- foNm8nCjVPgmY7rRMhsSnlqmlwRSgnceO7gcu7EtC/rYwEamHAKurcA+3M+RwFZd/VaZSpy1JQEf6sr+X26+YqhtBPQA1sk/+1aT7Trr7TTl+MBe9sDpN/ft
- E3q08ktFolxsLneN0egS0+b4MSYWkLRVYHAlziLJA06tU46ppg4m+pmYCahcYaEY
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Arnd,
-
-On 17/09/2020 17:28, Arnd Bergmann wrote:
-> I have a series to remove all uses of compat_alloc_user_space()
-> and copy_in_user() from the kernel, this is the part of it that
-> involves the v4l2 compat code.
+On 30/09/2020 09:05, Guillaume Tucker wrote:
+> Please see the bisection report below about a regression in
+> v4l2-compliance on vivid.
 > 
-> The resulting code is significantly shorter and arguably more
-> readable, but I have not done any testing beyond compilation on
-> it, so at the minimum this first needs to pass the test suite
-> for both native and compat users space.
+> Reports aren't automatically sent to the public while we're
+> trialing new bisection features on kernelci.org but this one
+> looks valid.
 > 
-> Given the complexity of the code, I am fairly sure that there
-> are bugs I missed.
 > 
-> Please review and test if possible.
+> The full results for v4l2-compliance on vivid for
+> v5.9-rc4-471-gc0c8db7bc953 show 22 individual test case
+> regressions which might all be due to a single issue:
+> 
+>   https://kernelci.org/test/plan/id/5f728c108b008d61f4bf9db7/
+> 
+> For comparison, this is the results from the previous revision in
+> the media tree:
+> 
+>   https://kernelci.org/test/plan/id/5f6b44ddea4abb1888bf9db4/
+> 
+> Also worth noting is that the v4l2-compliance test suite was
+> updated on Friday 25th, in-between the revisions mentioned above.
+> So the issue might have been present earlier but not detected.
 
-While testing I found a lot of bugs. Below is a patch that sits on top
-of your series and fixes all the bugs:
+Turns out, it needed yet another update.  The failures were all
+due to the fact that the v4l2-compliance version being used on
+kernelci.org was lagging by a few days behind the media/master
+branch.
 
-- put_v4l2_standard32: typo: p64->index -> p64->id
-- get_v4l2_plane32: typo: p64 -> plane32
-		    typo: duplicate bytesused: the 2nd should be 'length'
-- put_v4l2_plane32: typo: duplicate bytesused: the 2nd should be 'length'
-- get_v4l2_buffer32/get_v4l2_buffer32_time32: missing compat_ptr for vb32.m.userptr
-- get_v4l2_buffer32/get_v4l2_buffer32_time32: drop querybuf bool
-- put_v4l2_buffer32/put_v4l2_buffer32_time32: add uintptr_t cast for vb->m.userptr
-- get_v4l2_ext_controls32: typo: error_idx -> request_fd
-- put_v4l2_ext_controls32: typo: error_idx -> request_fd
-- v4l2_compat_translate_cmd: missing case VIDIOC_CREATE_BUFS32
-- v4l2_compat_translate_cmd: #ifdef CONFIG_COMPAT_32BIT_TIME for
-  case VIDIOC_DQEVENT32_TIME32 and return VIDIOC_DQEVENT
-- v4l2_compat_put_user: #ifdef CONFIG_COMPAT_32BIT_TIME for case VIDIOC_DQEVENT32_TIME32
-- v4l2_compat_get_array_args: typo: p64 -> b64
-- v4l2_compat_put_array_args: typo: p64 -> b64
-- video_get_user: make sure INFO_FL_CLEAR_MASK is honored, also when in_compat_syscall()
-- video_usercopy: err = v4l2_compat_put_array_args overwrote the original ioctl err value.
-  Handle this correctly.
+It's a pretty rare issue, but it would be nice to have a way to
+avoid that.  On the KernelCI side of things, we should start
+monitoring tests and rebuild them automatically rather than on a
+fixed weekly basis.  On the kernel side of things, it would help
+if the tests were updated _before_ the changes were applied to
+the branch as otherwise there would still be a window for this
+kind of issue to occur.
 
-I've tested this as well with the y2038 compat mode (i686 with 64-bit time_t)
-and that too works fine.
+Generally speaking, what do you think would be the best way to
+fit the KernelCI v4l2-compliance test cycles into the media
+subsystem workflow?
 
-Regards,
+Best wishes,
+Guillaume
 
-	Hans
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-index d20c36ab01b4..e8c823776de0 100644
---- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-+++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-@@ -258,7 +258,7 @@ static int put_v4l2_standard32(struct v4l2_standard *p64,
- 			       struct v4l2_standard32 __user *p32)
- {
- 	if (put_user(p64->index, &p32->index) ||
--	    put_user(p64->index, &p32->id) ||
-+	    put_user(p64->id, &p32->id) ||
- 	    copy_to_user(p32->name, p64->name, sizeof(p32->name)) ||
- 	    copy_to_user(&p32->frameperiod, &p64->frameperiod,
- 			 sizeof(p32->frameperiod)) ||
-@@ -358,10 +358,10 @@ static int get_v4l2_plane32(struct v4l2_plane *p64,
+> On 29/09/2020 07:30, KernelCI bot wrote:
+>> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+>> * This automated bisection report was sent to you on the basis  *
+>> * that you may be involved with the breaking commit it has      *
+>> * found.  No manual investigation has been done to verify it,   *
+>> * and the root cause of the problem may be somewhere else.      *
+>> *                                                               *
+>> * If you do send a fix, please include this trailer:            *
+>> *   Reported-by: "kernelci.org bot" <bot@kernelci.org>          *
+>> *                                                               *
+>> * Hope this helps!                                              *
+>> * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *
+>>
+>> media/master bisection: v4l2-compliance-vivid.Format-ioctls-Input-3.VIDIOC_TRY_FMT on qemu_arm-virt-gicv3
+>>
+>> Summary:
+>>   Start:      c0c8db7bc953 media: MAINTAINERS: remove Maxime Jourdan as maintainer of Amlogic VDEC
+>>   Plain log:  https://storage.kernelci.org/media/master/v5.9-rc4-471-gc0c8db7bc953/arm/multi_v7_defconfig+virtualvideo/gcc-8/lab-collabora/v4l2-compliance-vivid-qemu_arm-virt-gicv3.txt
+>>   HTML log:   https://storage.kernelci.org/media/master/v5.9-rc4-471-gc0c8db7bc953/arm/multi_v7_defconfig+virtualvideo/gcc-8/lab-collabora/v4l2-compliance-vivid-qemu_arm-virt-gicv3.html
+>>   Result:     2f491463497a media: vivid: Add support to the CSC API
+>>
+>> Checks:
+>>   revert:     PASS
+>>   verify:     PASS
+>>
+>> Parameters:
+>>   Tree:       media
+>>   URL:        https://git.linuxtv.org/media_tree.git
+>>   Branch:     master
+>>   Target:     qemu_arm-virt-gicv3
+>>   CPU arch:   arm
+>>   Lab:        lab-collabora
+>>   Compiler:   gcc-8
+>>   Config:     multi_v7_defconfig+virtualvideo
+>>   Test case:  v4l2-compliance-vivid.Format-ioctls-Input-3.VIDIOC_TRY_FMT
+>>
+>> Breaking commit found:
+>>
+>> -------------------------------------------------------------------------------
+>> commit 2f491463497ad43bc06968a334747c6b6b20fc74
+>> Author: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> Date:   Thu Aug 27 21:46:09 2020 +0200
+>>
+>>     media: vivid: Add support to the CSC API
+>>     
+>>     The CSC API (Colorspace conversion) allows userspace to try
+>>     to configure the colorspace, transfer function, Y'CbCr/HSV encoding
+>>     and the quantization for capture devices. This patch adds support
+>>     to the CSC API in vivid.
+>>     Using the CSC API, userspace is allowed to do the following:
+>>     
+>>     - Set the colorspace.
+>>     - Set the xfer_func.
+>>     - Set the ycbcr_enc function for YUV formats.
+>>     - Set the hsv_enc function for HSV formats
+>>     - Set the quantization for YUV and RGB formats.
+>>     
+>>     Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>     Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+>>     Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>>
+>> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-cap.c b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+>> index e94beef008c8..eadf28ab1e39 100644
+>> --- a/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+>> +++ b/drivers/media/test-drivers/vivid/vivid-vid-cap.c
+>> @@ -560,6 +560,7 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
+>>  	unsigned factor = 1;
+>>  	unsigned w, h;
+>>  	unsigned p;
+>> +	bool user_set_csc = !!(mp->flags & V4L2_PIX_FMT_FLAG_SET_CSC);
+>>  
+>>  	fmt = vivid_get_format(dev, mp->pixelformat);
+>>  	if (!fmt) {
+>> @@ -633,13 +634,30 @@ int vivid_try_fmt_vid_cap(struct file *file, void *priv,
+>>  			(fmt->bit_depth[p] / fmt->vdownsampling[p])) /
+>>  			(fmt->bit_depth[0] / fmt->vdownsampling[0]);
+>>  
+>> -	mp->colorspace = vivid_colorspace_cap(dev);
+>> -	if (fmt->color_enc == TGP_COLOR_ENC_HSV)
+>> -		mp->hsv_enc = vivid_hsv_enc_cap(dev);
+>> -	else
+>> +	if (!user_set_csc || !v4l2_is_colorspace_valid(mp->colorspace))
+>> +		mp->colorspace = vivid_colorspace_cap(dev);
+>> +
+>> +	if (!user_set_csc || !v4l2_is_xfer_func_valid(mp->xfer_func))
+>> +		mp->xfer_func = vivid_xfer_func_cap(dev);
+>> +
+>> +	if (fmt->color_enc == TGP_COLOR_ENC_HSV) {
+>> +		if (!user_set_csc || !v4l2_is_hsv_enc_valid(mp->hsv_enc))
+>> +			mp->hsv_enc = vivid_hsv_enc_cap(dev);
+>> +	} else if (fmt->color_enc == TGP_COLOR_ENC_YCBCR) {
+>> +		if (!user_set_csc || !v4l2_is_ycbcr_enc_valid(mp->ycbcr_enc))
+>> +			mp->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
+>> +	} else {
+>>  		mp->ycbcr_enc = vivid_ycbcr_enc_cap(dev);
+>> -	mp->xfer_func = vivid_xfer_func_cap(dev);
+>> -	mp->quantization = vivid_quantization_cap(dev);
+>> +	}
+>> +
+>> +	if (fmt->color_enc == TGP_COLOR_ENC_YCBCR ||
+>> +	    fmt->color_enc == TGP_COLOR_ENC_RGB) {
+>> +		if (!user_set_csc || !v4l2_is_quant_valid(mp->quantization))
+>> +			mp->quantization = vivid_quantization_cap(dev);
+>> +	} else {
+>> +		mp->quantization = vivid_quantization_cap(dev);
+>> +	}
+>> +
+>>  	memset(mp->reserved, 0, sizeof(mp->reserved));
+>>  	return 0;
+>>  }
+>> @@ -769,6 +787,14 @@ int vivid_s_fmt_vid_cap(struct file *file, void *priv,
+>>  	if (vivid_is_sdtv_cap(dev))
+>>  		dev->tv_field_cap = mp->field;
+>>  	tpg_update_mv_step(&dev->tpg);
+>> +	dev->tpg.colorspace = mp->colorspace;
+>> +	dev->tpg.xfer_func = mp->xfer_func;
+>> +	if (dev->fmt_cap->color_enc == TGP_COLOR_ENC_YCBCR)
+>> +		dev->tpg.ycbcr_enc = mp->ycbcr_enc;
+>> +	else
+>> +		dev->tpg.hsv_enc = mp->hsv_enc;
+>> +	dev->tpg.quantization = mp->quantization;
+>> +
+>>  	return 0;
+>>  }
+>>  
+>> diff --git a/drivers/media/test-drivers/vivid/vivid-vid-common.c b/drivers/media/test-drivers/vivid/vivid-vid-common.c
+>> index 76b0be670ebb..19701fe72030 100644
+>> --- a/drivers/media/test-drivers/vivid/vivid-vid-common.c
+>> +++ b/drivers/media/test-drivers/vivid/vivid-vid-common.c
+>> @@ -920,6 +920,31 @@ int vivid_enum_fmt_vid(struct file *file, void  *priv,
+>>  	fmt = &vivid_formats[f->index];
+>>  
+>>  	f->pixelformat = fmt->fourcc;
+>> +
+>> +	if (f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE &&
+>> +	    f->type != V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+>> +		return 0;
+>> +	/*
+>> +	 * For capture devices, we support the CSC API.
+>> +	 * We allow userspace to:
+>> +	 * 1. set the colorspace
+>> +	 * 2. set the xfer_func
+>> +	 * 3. set the ycbcr_enc on YUV formats
+>> +	 * 4. set the hsv_enc on HSV formats
+>> +	 * 5. set the quantization on YUV and RGB formats
+>> +	 */
+>> +	f->flags |= V4L2_FMT_FLAG_CSC_COLORSPACE;
+>> +	f->flags |= V4L2_FMT_FLAG_CSC_XFER_FUNC;
+>> +
+>> +	if (fmt->color_enc == TGP_COLOR_ENC_YCBCR) {
+>> +		f->flags |= V4L2_FMT_FLAG_CSC_YCBCR_ENC;
+>> +		f->flags |= V4L2_FMT_FLAG_CSC_QUANTIZATION;
+>> +	} else if (fmt->color_enc == TGP_COLOR_ENC_HSV) {
+>> +		f->flags |= V4L2_FMT_FLAG_CSC_HSV_ENC;
+>> +	} else if (fmt->color_enc == TGP_COLOR_ENC_RGB) {
+>> +		f->flags |= V4L2_FMT_FLAG_CSC_QUANTIZATION;
+>> +	}
+>> +
+>>  	return 0;
+>>  }
+>>  
+>> diff --git a/include/media/v4l2-common.h b/include/media/v4l2-common.h
+>> index 150ee16ebd81..a3083529b698 100644
+>> --- a/include/media/v4l2-common.h
+>> +++ b/include/media/v4l2-common.h
+>> @@ -539,4 +539,33 @@ static inline void v4l2_buffer_set_timestamp(struct v4l2_buffer *buf,
+>>  	buf->timestamp.tv_usec = ts.tv_nsec / NSEC_PER_USEC;
+>>  }
+>>  
+>> +static inline bool v4l2_is_colorspace_valid(__u32 colorspace)
+>> +{
+>> +	return colorspace > V4L2_COLORSPACE_DEFAULT &&
+>> +	       colorspace <= V4L2_COLORSPACE_DCI_P3;
+>> +}
+>> +
+>> +static inline bool v4l2_is_xfer_func_valid(__u32 xfer_func)
+>> +{
+>> +	return xfer_func > V4L2_XFER_FUNC_DEFAULT &&
+>> +	       xfer_func <= V4L2_XFER_FUNC_SMPTE2084;
+>> +}
+>> +
+>> +static inline bool v4l2_is_ycbcr_enc_valid(__u8 ycbcr_enc)
+>> +{
+>> +	return ycbcr_enc > V4L2_YCBCR_ENC_DEFAULT &&
+>> +	       ycbcr_enc <= V4L2_YCBCR_ENC_SMPTE240M;
+>> +}
+>> +
+>> +static inline bool v4l2_is_hsv_enc_valid(__u8 hsv_enc)
+>> +{
+>> +	return hsv_enc == V4L2_HSV_ENC_180 || hsv_enc == V4L2_HSV_ENC_256;
+>> +}
+>> +
+>> +static inline bool v4l2_is_quant_valid(__u8 quantization)
+>> +{
+>> +	return quantization == V4L2_QUANTIZATION_FULL_RANGE ||
+>> +	       quantization == V4L2_QUANTIZATION_LIM_RANGE;
+>> +}
+>> +
+>>  #endif /* V4L2_COMMON_H_ */
+>> -------------------------------------------------------------------------------
+>>
+>>
+>> Git bisection log:
+>>
+>> -------------------------------------------------------------------------------
+>> git bisect start
+>> # good: [01cc2ec6ea044731e939e5e47f7e115b86f49465] media: atomisp: cleanup __printf() atributes on printk messages
+>> git bisect good 01cc2ec6ea044731e939e5e47f7e115b86f49465
+>> # bad: [c0c8db7bc95397f32fe60ff8b07c746a69fb22de] media: MAINTAINERS: remove Maxime Jourdan as maintainer of Amlogic VDEC
+>> git bisect bad c0c8db7bc95397f32fe60ff8b07c746a69fb22de
+>> # bad: [aaffa0126a111d65f4028c503c76192d4cc93277] media: rcar-vin: Fix a reference count leak.
+>> git bisect bad aaffa0126a111d65f4028c503c76192d4cc93277
+>> # bad: [25d8cf786d34b5167f2c01e092eeedcb0ae58628] media: staging: rkisp1: rsz: set flags to 0 in enum_mbus_code cb
+>> git bisect bad 25d8cf786d34b5167f2c01e092eeedcb0ae58628
+>> # good: [327296920f9dedfc6ba4ef8f5a686c9667c65f38] media: mtk-vcodec: venc: set OUTPUT buffers field to V4L2_FIELD_NONE
+>> git bisect good 327296920f9dedfc6ba4ef8f5a686c9667c65f38
+>> # good: [21d387b8d372f859d9e87fdcc7c3b4a432737f4d] media: mx2_emmaprp: Fix memleak in emmaprp_probe
+>> git bisect good 21d387b8d372f859d9e87fdcc7c3b4a432737f4d
+>> # good: [b38c73ca1c213bbf8a872b334a6bb835becfaba5] media: v4l2: add support for colorspace conversion API (CSC) for video capture
+>> git bisect good b38c73ca1c213bbf8a872b334a6bb835becfaba5
+>> # bad: [62aacfa9bf93f94f6949338e0c7a2ed4c4bd2c2a] media: v4l2: extend the CSC API to subdevice.
+>> git bisect bad 62aacfa9bf93f94f6949338e0c7a2ed4c4bd2c2a
+>> # bad: [2f491463497ad43bc06968a334747c6b6b20fc74] media: vivid: Add support to the CSC API
+>> git bisect bad 2f491463497ad43bc06968a334747c6b6b20fc74
+>> # first bad commit: [2f491463497ad43bc06968a334747c6b6b20fc74] media: vivid: Add support to the CSC API
+>> -------------------------------------------------------------------------------
+>>
+>>
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>> Groups.io Links: You receive all messages sent to this group.
+>> View/Reply Online (#1739): https://groups.io/g/kernelci-results/message/1739
+>> Mute This Topic: https://groups.io/mt/77191137/924702
+>> Group Owner: kernelci-results+owner@groups.io
+>> Unsubscribe: https://groups.io/g/kernelci-results/unsub [guillaume.tucker@collabora.com]
+>> -=-=-=-=-=-=-=-=-=-=-=-
+>>
+>>
+> 
 
- 	memset(p64, 0, sizeof(*p64));
- 	*p64 = (struct v4l2_plane) {
--		.bytesused	= p64->bytesused,
--		.length		= p64->bytesused,
-+		.bytesused	= plane32.bytesused,
-+		.length		= plane32.length,
- 		.m		= m,
--		.data_offset	= p64->data_offset,
-+		.data_offset	= plane32.data_offset,
- 	};
-
- 	return 0;
-@@ -376,7 +376,7 @@ static int put_v4l2_plane32(struct v4l2_plane *p64,
- 	memset(&plane32, 0, sizeof(plane32));
- 	plane32 = (struct v4l2_plane32) {
- 		.bytesused	= p64->bytesused,
--		.length		= p64->bytesused,
-+		.length		= p64->length,
- 		.data_offset	= p64->data_offset,
- 	};
-
-@@ -400,8 +400,7 @@ static int put_v4l2_plane32(struct v4l2_plane *p64,
- }
-
- static int get_v4l2_buffer32(struct v4l2_buffer *vb,
--			     struct v4l2_buffer32 __user *arg,
--			     bool querybuf)
-+			     struct v4l2_buffer32 __user *arg)
- {
- 	struct v4l2_buffer32 vb32;
-
-@@ -431,7 +430,7 @@ static int get_v4l2_buffer32(struct v4l2_buffer *vb,
- 		vb->m.offset = vb32.m.offset;
- 		break;
- 	case V4L2_MEMORY_USERPTR:
--		vb->m.userptr = vb32.m.userptr;
-+		vb->m.userptr = (unsigned long)compat_ptr(vb32.m.userptr);
- 		break;
- 	case V4L2_MEMORY_DMABUF:
- 		vb->m.fd = vb32.m.fd;
-@@ -442,16 +441,12 @@ static int get_v4l2_buffer32(struct v4l2_buffer *vb,
- 		vb->m.planes = (void __force *)
- 				compat_ptr(vb32.m.planes);
-
--	if (querybuf)
--		vb->request_fd = 0;
--
- 	return 0;
- }
-
- #ifdef CONFIG_COMPAT_32BIT_TIME
- static int get_v4l2_buffer32_time32(struct v4l2_buffer *vb,
--				    struct v4l2_buffer32_time32 __user *arg,
--				    bool querybuf)
-+				    struct v4l2_buffer32_time32 __user *arg)
- {
- 	struct v4l2_buffer32_time32 vb32;
-
-@@ -479,7 +474,7 @@ static int get_v4l2_buffer32_time32(struct v4l2_buffer *vb,
- 		vb->m.offset = vb32.m.offset;
- 		break;
- 	case V4L2_MEMORY_USERPTR:
--		vb->m.userptr = vb32.m.userptr;
-+		vb->m.userptr = (unsigned long)compat_ptr(vb32.m.userptr);
- 		break;
- 	case V4L2_MEMORY_DMABUF:
- 		vb->m.fd = vb32.m.fd;
-@@ -489,8 +484,6 @@ static int get_v4l2_buffer32_time32(struct v4l2_buffer *vb,
- 	if (V4L2_TYPE_IS_MULTIPLANAR(vb->type))
- 		vb->m.planes = (void __force *)
- 				compat_ptr(vb32.m.planes);
--	if (querybuf)
--		vb->request_fd = 0;
-
- 	return 0;
- }
-@@ -524,7 +517,7 @@ static int put_v4l2_buffer32(struct v4l2_buffer *vb,
- 		vb32.m.offset = vb->m.offset;
- 		break;
- 	case V4L2_MEMORY_USERPTR:
--		vb32.m.userptr = vb->m.userptr;
-+		vb32.m.userptr = (uintptr_t)(vb->m.userptr);
- 		break;
- 	case V4L2_MEMORY_DMABUF:
- 		vb32.m.fd = vb->m.fd;
-@@ -568,7 +561,7 @@ static int put_v4l2_buffer32_time32(struct v4l2_buffer *vb,
- 		vb32.m.offset = vb->m.offset;
- 		break;
- 	case V4L2_MEMORY_USERPTR:
--		vb32.m.userptr = vb->m.userptr;
-+		vb32.m.userptr = (uintptr_t)(vb->m.userptr);
- 		break;
- 	case V4L2_MEMORY_DMABUF:
- 		vb32.m.fd = vb->m.fd;
-@@ -722,7 +715,7 @@ static int get_v4l2_ext_controls32(struct v4l2_ext_controls *p64,
- 		.which		= ec32.which,
- 		.count		= ec32.count,
- 		.error_idx	= ec32.error_idx,
--		.request_fd	= ec32.error_idx,
-+		.request_fd	= ec32.request_fd,
- 		.reserved[0]	= ec32.reserved[0],
- 		.controls	= (void __force *)compat_ptr(ec32.controls),
- 	};
-@@ -740,7 +733,7 @@ static int put_v4l2_ext_controls32(struct v4l2_ext_controls *p64,
- 		.which		= p64->which,
- 		.count		= p64->count,
- 		.error_idx	= p64->error_idx,
--		.request_fd	= p64->error_idx,
-+		.request_fd	= p64->request_fd,
- 		.reserved[0]	= p64->reserved[0],
- 		.controls	= (uintptr_t)p64->controls,
- 	};
-@@ -910,8 +903,10 @@ unsigned int v4l2_compat_translate_cmd(unsigned int cmd)
- 		return VIDIOC_QBUF;
- 	case VIDIOC_DQBUF32:
- 		return VIDIOC_DQBUF;
-+	case VIDIOC_CREATE_BUFS32:
-+		return VIDIOC_CREATE_BUFS;
- 	case VIDIOC_G_EXT_CTRLS32:
--		return	VIDIOC_G_EXT_CTRLS;
-+		return VIDIOC_G_EXT_CTRLS;
- 	case VIDIOC_S_EXT_CTRLS32:
- 		return VIDIOC_S_EXT_CTRLS;
- 	case VIDIOC_TRY_EXT_CTRLS32:
-@@ -929,8 +924,10 @@ unsigned int v4l2_compat_translate_cmd(unsigned int cmd)
- #ifdef CONFIG_X86_64
- 	case VIDIOC_DQEVENT32:
- 		return VIDIOC_DQEVENT;
-+#ifdef CONFIG_COMPAT_32BIT_TIME
- 	case VIDIOC_DQEVENT32_TIME32:
--		return VIDIOC_DQEVENT_TIME32;
-+		return VIDIOC_DQEVENT;
-+#endif
- #endif
- 	}
- 	return cmd;
-@@ -951,15 +948,13 @@ int v4l2_compat_get_user(void __user *arg, void *parg, unsigned int cmd)
- 	case VIDIOC_QBUF32_TIME32:
- 	case VIDIOC_DQBUF32_TIME32:
- 	case VIDIOC_PREPARE_BUF32_TIME32:
--		return get_v4l2_buffer32_time32(parg, arg,
--					cmd == VIDIOC_QUERYBUF32_TIME32);
-+		return get_v4l2_buffer32_time32(parg, arg);
- #endif
- 	case VIDIOC_QUERYBUF32:
- 	case VIDIOC_QBUF32:
- 	case VIDIOC_DQBUF32:
- 	case VIDIOC_PREPARE_BUF32:
--		return get_v4l2_buffer32(parg, arg,
--					cmd == VIDIOC_QUERYBUF32);
-+		return get_v4l2_buffer32(parg, arg);
-
- 	case VIDIOC_G_EXT_CTRLS32:
- 	case VIDIOC_S_EXT_CTRLS32:
-@@ -1025,8 +1020,10 @@ int v4l2_compat_put_user(void __user *arg, void *parg, unsigned int cmd)
- #ifdef CONFIG_X86_64
- 	case VIDIOC_DQEVENT32:
- 		return put_v4l2_event32(parg, arg);
-+#ifdef CONFIG_COMPAT_32BIT_TIME
- 	case VIDIOC_DQEVENT32_TIME32:
- 		return put_v4l2_event32_time32(parg, arg);
-+#endif
- #endif
- 	}
- 	return 0;
-@@ -1073,9 +1070,10 @@ int v4l2_compat_get_array_args(struct file *file, void *mbuf,
- 		struct v4l2_buffer *b64 = arg;
- 		struct v4l2_plane *p64 = mbuf;
- 		struct v4l2_plane32 __user *p32 = user_ptr;
--		u32 num_planes = p64->length;
-
- 		if (V4L2_TYPE_IS_MULTIPLANAR(b64->type)) {
-+			u32 num_planes = b64->length;
-+
- 			if (num_planes == 0)
- 				return 0;
-
-@@ -1161,9 +1159,10 @@ int v4l2_compat_put_array_args(struct file *file, void __user *user_ptr,
- 		struct v4l2_buffer *b64 = arg;
- 		struct v4l2_plane *p64 = mbuf;
- 		struct v4l2_plane32 __user *p32 = user_ptr;
--		u32 num_planes = p64->length;
-
- 		if (V4L2_TYPE_IS_MULTIPLANAR(b64->type)) {
-+			u32 num_planes = b64->length;
-+
- 			if (num_planes == 0)
- 				return 0;
-
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index 114eaa79b6f5..aacb13b8f0a9 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -3133,7 +3133,8 @@ static int video_get_user(void __user *arg, void *parg,
- 			  unsigned int real_cmd, unsigned int cmd,
- 			  bool *always_copy)
- {
--	unsigned int n = _IOC_SIZE(cmd);
-+	unsigned int n = _IOC_SIZE(real_cmd);
-+	int err = 0;
-
- 	if (!(_IOC_DIR(cmd) & _IOC_WRITE)) {
- 		/* read-only ioctl */
-@@ -3141,70 +3142,64 @@ static int video_get_user(void __user *arg, void *parg,
- 		return 0;
- 	}
-
--	if (cmd == real_cmd) {
--		/*
--		 * In some cases, only a few fields are used as input,
--		 * i.e. when the app sets "index" and then the driver
--		 * fills in the rest of the structure for the thing
--		 * with that index.  We only need to copy up the first
--		 * non-input field.
--		 */
--		if (v4l2_is_known_ioctl(cmd)) {
--			u32 flags = v4l2_ioctls[_IOC_NR(cmd)].flags;
--
--			if (flags & INFO_FL_CLEAR_MASK)
--				n = (flags & INFO_FL_CLEAR_MASK) >> 16;
--			*always_copy = flags & INFO_FL_ALWAYS_COPY;
--		}
--
--		if (copy_from_user(parg, (void __user *)arg, n))
--			return -EFAULT;
-+	/*
-+	 * In some cases, only a few fields are used as input,
-+	 * i.e. when the app sets "index" and then the driver
-+	 * fills in the rest of the structure for the thing
-+	 * with that index.  We only need to copy up the first
-+	 * non-input field.
-+	 */
-+	if (v4l2_is_known_ioctl(real_cmd)) {
-+		u32 flags = v4l2_ioctls[_IOC_NR(real_cmd)].flags;
-
--		/* zero out anything we don't copy from userspace */
--		if (n < _IOC_SIZE(cmd))
--			memset((u8 *)parg + n, 0, _IOC_SIZE(cmd) - n);
--		return 0;
-+		if (flags & INFO_FL_CLEAR_MASK)
-+			n = (flags & INFO_FL_CLEAR_MASK) >> 16;
-+		*always_copy = flags & INFO_FL_ALWAYS_COPY;
- 	}
-
--	if (in_compat_syscall())
--		return v4l2_compat_get_user(arg, parg, cmd);
--
--	switch (cmd) {
-+	if (cmd == real_cmd) {
-+		if (copy_from_user(parg, (void __user *)arg, n))
-+			err = -EFAULT;
-+	} else if (in_compat_syscall()) {
-+		err = v4l2_compat_get_user(arg, parg, cmd);
-+	} else {
-+		switch (cmd) {
- #ifdef CONFIG_COMPAT_32BIT_TIME
--	case VIDIOC_QUERYBUF_TIME32:
--	case VIDIOC_QBUF_TIME32:
--	case VIDIOC_DQBUF_TIME32:
--	case VIDIOC_PREPARE_BUF_TIME32: {
--		struct v4l2_buffer_time32 vb32;
--		struct v4l2_buffer *vb = parg;
--
--		if (copy_from_user(&vb32, arg, sizeof(vb32)))
--			return -EFAULT;
--
--		*vb = (struct v4l2_buffer) {
--			.index		= vb32.index,
--			.type		= vb32.type,
--			.bytesused	= vb32.bytesused,
--			.flags		= vb32.flags,
--			.field		= vb32.field,
--			.timestamp.tv_sec	= vb32.timestamp.tv_sec,
--			.timestamp.tv_usec	= vb32.timestamp.tv_usec,
--			.timecode	= vb32.timecode,
--			.sequence	= vb32.sequence,
--			.memory		= vb32.memory,
--			.m.userptr	= vb32.m.userptr,
--			.length		= vb32.length,
--			.request_fd	= vb32.request_fd,
--		};
--
--		if (cmd == VIDIOC_QUERYBUF_TIME32)
--			vb->request_fd = 0;
--
--		break;
--	}
-+		case VIDIOC_QUERYBUF_TIME32:
-+		case VIDIOC_QBUF_TIME32:
-+		case VIDIOC_DQBUF_TIME32:
-+		case VIDIOC_PREPARE_BUF_TIME32: {
-+			struct v4l2_buffer_time32 vb32;
-+			struct v4l2_buffer *vb = parg;
-+
-+			if (copy_from_user(&vb32, arg, sizeof(vb32)))
-+				return -EFAULT;
-+
-+			*vb = (struct v4l2_buffer) {
-+				.index		= vb32.index,
-+					.type		= vb32.type,
-+					.bytesused	= vb32.bytesused,
-+					.flags		= vb32.flags,
-+					.field		= vb32.field,
-+					.timestamp.tv_sec	= vb32.timestamp.tv_sec,
-+					.timestamp.tv_usec	= vb32.timestamp.tv_usec,
-+					.timecode	= vb32.timecode,
-+					.sequence	= vb32.sequence,
-+					.memory		= vb32.memory,
-+					.m.userptr	= vb32.m.userptr,
-+					.length		= vb32.length,
-+					.request_fd	= vb32.request_fd,
-+			};
-+			break;
-+		}
- #endif
-+		}
- 	}
--	return 0;
-+
-+	/* zero out anything we don't copy from userspace */
-+	if (!err && n < _IOC_SIZE(real_cmd))
-+		memset((u8 *)parg + n, 0, _IOC_SIZE(real_cmd) - n);
-+	return err;
- }
-
- static int video_put_user(void __user *arg, void *parg,
-@@ -3357,12 +3352,17 @@ video_usercopy(struct file *file, unsigned int orig_cmd, unsigned long arg,
-
- 	if (has_array_args) {
- 		*kernel_ptr = (void __force *)user_ptr;
--		if (in_compat_syscall())
--			err = v4l2_compat_put_array_args(file, user_ptr, mbuf,
--							 array_size, orig_cmd,
--							 parg);
--		else if (copy_to_user(user_ptr, mbuf, array_size))
-+		if (in_compat_syscall()) {
-+			int put_err;
-+
-+			put_err = v4l2_compat_put_array_args(file, user_ptr, mbuf,
-+							     array_size, orig_cmd,
-+							     parg);
-+			if (put_err)
-+				err = put_err;
-+		} else if (copy_to_user(user_ptr, mbuf, array_size)) {
- 			err = -EFAULT;
-+		}
- 		goto out_array_args;
- 	}
- 	/*
