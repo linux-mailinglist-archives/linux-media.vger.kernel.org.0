@@ -2,39 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3046028110D
-	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 13:13:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AD39128112F
+	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 13:28:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387712AbgJBLNp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Oct 2020 07:13:45 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:48406 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726223AbgJBLNp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Oct 2020 07:13:45 -0400
-Received: from [IPv6:2003:c7:cf13:ec00:987c:fa6c:93a9:1dfa] (p200300c7cf13ec00987cfa6c93a91dfa.dip0.t-ipconnect.de [IPv6:2003:c7:cf13:ec00:987c:fa6c:93a9:1dfa])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: dafna)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D020329DB76;
-        Fri,  2 Oct 2020 12:13:42 +0100 (BST)
-Subject: Re: [PATCH v3 3/9] media: vimc: Add usage count to subdevices
-To:     Kaaira Gupta <kgupta@es.iitr.ac.in>,
-        Helen Koike <helen.koike@collabora.com>,
-        Shuah Khan <skhan@linuxfoundation.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>
-Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>
-References: <20200819180442.11630-1-kgupta@es.iitr.ac.in>
- <20200819180442.11630-4-kgupta@es.iitr.ac.in>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <1eaac956-4836-38a4-496f-c26b9f4224de@collabora.com>
-Date:   Fri, 2 Oct 2020 13:13:40 +0200
+        id S1726176AbgJBL2A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Oct 2020 07:28:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54810 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725964AbgJBL2A (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Oct 2020 07:28:00 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E8F5C0613D0
+        for <linux-media@vger.kernel.org>; Fri,  2 Oct 2020 04:27:59 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id e11so913443wme.0
+        for <linux-media@vger.kernel.org>; Fri, 02 Oct 2020 04:27:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=nZaxcsHwMmqRPsyL6ppaPkTXtNppFwnVLVfBNIDn8RA=;
+        b=LpZo9hsKVHJ/d3LgWdx2dR41bi0OJrzJHno8HKljIBBcT05uCIqKgnRUpcXxOKr9VT
+         ICFFsTreZQX+y6q/d8z0ATkO2MGzW6QgUL4StOUpo6yBckf7mB8MhvZY4elJw9jwSG+i
+         f6/hePK8HjwEDDLfAJqV9YSXPsLeYiFGvFGJGGn1aZA0v9zqS24LP00zrA/tlsFFz0Wt
+         2ECtUR98SSQFGoOzn5hSyzZ8ZMRUSu5u+U6KW2GhD7R+GrT5x7vJJWihJ7dpJ2XYfH+4
+         HAqYIAq4MkV6LNg4/xFfucK5VrSMj7GJO9e10hJWXghygWCam9ykYGd47q6CVC41Pcka
+         pJSQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=nZaxcsHwMmqRPsyL6ppaPkTXtNppFwnVLVfBNIDn8RA=;
+        b=jsZwWM0KeDSvR93DGKsiuBd95TllICTPMl3SwOmOrSB7n9JF2ExVCC6j0d6/7C2/ax
+         qqjav449QAdG2x9VeLJmLYMVXKL2KoyWLV7TqGoI8bq23gOUK+KlOYbhyQp3O8QfWmHi
+         09LRTtocr0UgiiWV/sMYHwRqFIAJ/86gUpuWijU3MiHFeYsiDyObohIiW0fhYNM/D3HQ
+         ztZf18AxDRbTYAlJTj6mhDEFxFOphsSa8u3S2FHx29BvaTVyt+js4Yu1pk7WaS4FcfBx
+         F4wC4YHL3AMHUNbFbyzL73hjQ3+bC/qeZ8zr+FLjNgbvz2EEeQT9gXTAZQF7j1XMRWH6
+         XVFw==
+X-Gm-Message-State: AOAM5308MivwVWCT1rmEuo5tStMxt6Yus2W/WUbTk9ZnN9s5DAoZt9lp
+        yLyIRdur1vx5S7i8e1vWuYNP5w==
+X-Google-Smtp-Source: ABdhPJwzF6SLRHc3X27XrYXf2pJ/zyKCxeMIfZkKvKSF7aEcnbg1geeQMMFSeNwWSBugDYWKmZiGjw==
+X-Received: by 2002:a7b:cb8c:: with SMTP id m12mr2497325wmi.12.1601638077797;
+        Fri, 02 Oct 2020 04:27:57 -0700 (PDT)
+Received: from [192.168.1.7] ([195.24.90.54])
+        by smtp.googlemail.com with ESMTPSA id k4sm1522245wrx.51.2020.10.02.04.27.55
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 02 Oct 2020 04:27:57 -0700 (PDT)
+Subject: Re: [PATCH] media: venus: core: Drop local dma_parms
+To:     Sai Prakash Ranjan <saiprakash.ranjan@codeaurora.org>,
+        Robin Murphy <robin.murphy@arm.com>
+Cc:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-arm-msm-owner@vger.kernel.org
+References: <e5384b296a0af099dc502572752df149127b7947.1599167568.git.robin.murphy@arm.com>
+ <cdd56444b0d7faf9358370f821a10846@codeaurora.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <a2f96ef5-1e67-7bc7-39e1-448b2196aef1@linaro.org>
+Date:   Fri, 2 Oct 2020 14:27:54 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20200819180442.11630-4-kgupta@es.iitr.ac.in>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <cdd56444b0d7faf9358370f821a10846@codeaurora.org>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -43,185 +71,96 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 
-Am 19.08.20 um 20:04 schrieb Kaaira Gupta:
-> From: Niklas Söderlund <niklas.soderlund@ragnatech.se>
+On 10/2/20 11:06 AM, Sai Prakash Ranjan wrote:
+> Hi Robin,
 > 
-> Prepare for multiple video streams from the same sensor by adding a use
-> counter to vimc_ent_device. The counter is increased for every s_stream(1)
-> and decremented for every s_stream(0) call.
+> On 2020-09-04 02:44, Robin Murphy wrote:
+>> Since commit 9495b7e92f71 ("driver core: platform: Initialize dma_parms
+>> for platform devices"), struct platform_device already provides a
+>> dma_parms structure, so we can save allocating another one.
+>>
+>> Also the DMA segment size is simply a size, not a bitmask.
+>>
+>> Signed-off-by: Robin Murphy <robin.murphy@arm.com>
+>> ---
+>>  drivers/media/platform/qcom/venus/core.c | 8 +-------
+>>  1 file changed, 1 insertion(+), 7 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/core.c
+>> b/drivers/media/platform/qcom/venus/core.c
+>> index 203c6538044f..2fa9275d75ff 100644
+>> --- a/drivers/media/platform/qcom/venus/core.c
+>> +++ b/drivers/media/platform/qcom/venus/core.c
+>> @@ -226,13 +226,7 @@ static int venus_probe(struct platform_device *pdev)
+>>      if (ret)
+>>          return ret;
+>>
+>> -    if (!dev->dma_parms) {
+>> -        dev->dma_parms = devm_kzalloc(dev, sizeof(*dev->dma_parms),
+>> -                          GFP_KERNEL);
+>> -        if (!dev->dma_parms)
+>> -            return -ENOMEM;
+>> -    }
+>> -    dma_set_max_seg_size(dev, DMA_BIT_MASK(32));
+>> +    dma_set_max_seg_size(dev, UINT_MAX);
+>>
+>>      INIT_LIST_HEAD(&core->instances);
+>>      mutex_init(&core->lock);
 > 
-> The subdevice stream is not started or stopped unless the usage count go
-> from 0 to 1 (started) or from 1 to 0 (stopped). This allows for multiple
-> s_stream() calls to try to either start or stop the device while only
-> the first/last call will actually effect the state of the device.
+> This reintroduced dma api debug warning which the original commit was
+> addressing or rather thought it addressed.
 > 
-> Initialise and increment use_count for capture as well, as use_count
-> will be used in subsequent patches for starting process_frame as well.
+>  DMA-API: qcom-venus aa00000.video-codec: mapping sg segment longer than
+> device claims to support [len=4194304] [max=65536]
+>  WARNING: CPU: 3 PID: 5365 at kernel/dma/debug.c:1225
+> debug_dma_map_sg+0x1ac/0x2c8
+>  <...>
+>  pstate: 60400009 (nZCv daif +PAN -UAO)
+>  pc : debug_dma_map_sg+0x1ac/0x2c8
+>  lr : debug_dma_map_sg+0x1ac/0x2c8
+>  sp : ffffff8016517850
+>  x29: ffffff8016517860 x28: 0000000000010000
+>  x27: 00000000ffffffff x26: ffffff80da45eb00
+>  x25: ffffffd03c465000 x24: ffffffd03b3c1000
+>  x23: ffffff803e262d80 x22: ffffff80d9a0d010
+>  x21: 0000000000000001 x20: 0000000000000001
+>  x19: 0000000000000001 x18: 00000000ffff0a10
+>  x17: ffffffd03b84a000 x16: 0000000000000037
+>  x15: ffffffd03a950610 x14: 0000000000000001
+>  x13: 0000000000000000 x12: 00000000a3b31442
+>  x11: 0000000000000000 x10: dfffffd000000001
+>  x9 : f544368f90c5ee00 x8 : f544368f90c5ee00
+>  x7 : ffffffd03af5d570 x6 : 0000000000000000
+>  x5 : 0000000000000080 x4 : 0000000000000001
+>  x3 : ffffffd03a9174b0 x2 : 0000000000000001
+>  x1 : 0000000000000008 x0 : 000000000000007a
+>  Call trace:
+>   debug_dma_map_sg+0x1ac/0x2c8
+>   vb2_dma_sg_alloc+0x274/0x2f4 [videobuf2_dma_sg]
+>   __vb2_queue_alloc+0x14c/0x3b0 [videobuf2_common]
+>   vb2_core_reqbufs+0x234/0x374 [videobuf2_common]
+>   vb2_reqbufs+0x4c/0x64 [videobuf2_v4l2]
+>   v4l2_m2m_reqbufs+0x50/0x84 [v4l2_mem2mem]
+>   v4l2_m2m_ioctl_reqbufs+0x2c/0x38 [v4l2_mem2mem]
+>   v4l_reqbufs+0x4c/0x5c
+>   __video_do_ioctl+0x2cc/0x3e0
+>   video_usercopy+0x3b0/0x910
+>   video_ioctl2+0x38/0x48
+>   v4l2_ioctl+0x6c/0x80
+>   do_video_ioctl+0xb54/0x2708
+>   v4l2_compat_ioctl32+0x5c/0xcc
+>   __se_compat_sys_ioctl+0x100/0x2064
+>   __arm64_compat_sys_ioctl+0x20/0x2c
+>   el0_svc_common+0xa8/0x178
+>   el0_svc_compat_handler+0x2c/0x40
+>   el0_svc_compat+0x8/0x10
 > 
-> [Kaaira: moved use_count to vimc entity device instead of declaring it
-> for each subdevice, used use_count for capture as well and rebased
-> the patch on current HEAD of master to help with the current series]
+> Thanks,
+> Sai
 > 
-> Signed-off-by: Niklas Söderlund <niklas.soderlund@ragnatech.se>
-> Signed-off-by: Kaaira Gupta <kgupta@es.iitr.ac.in>
 
-Hi,
-maybe incrementing/decrementing the usage count can be
-done from the streamer code instead of
-the s_stream of each entity?
+Do you have the mentioned above commit when you see this warning ?
 
-Thanks,
-Dafna
-
-> ---
->   drivers/media/test-drivers/vimc/vimc-capture.c | 3 +++
->   drivers/media/test-drivers/vimc/vimc-common.h  | 2 ++
->   drivers/media/test-drivers/vimc/vimc-debayer.c | 7 +++++++
->   drivers/media/test-drivers/vimc/vimc-scaler.c  | 7 +++++++
->   drivers/media/test-drivers/vimc/vimc-sensor.c  | 6 ++++++
->   5 files changed, 25 insertions(+)
-> 
-> diff --git a/drivers/media/test-drivers/vimc/vimc-capture.c b/drivers/media/test-drivers/vimc/vimc-capture.c
-> index a8cbb8e4d5ba..93418cb5a139 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-capture.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-capture.c
-> @@ -243,6 +243,7 @@ static int vimc_cap_start_streaming(struct vb2_queue *vq, unsigned int count)
->   	struct media_entity *entity = &vcap->vdev.entity;
->   	int ret;
->   
-> +	atomic_inc(&vcap->ved.use_count);
->   	vcap->sequence = 0;
->   
->   	/* Start the media pipeline */
-> @@ -270,6 +271,7 @@ static void vimc_cap_stop_streaming(struct vb2_queue *vq)
->   {
->   	struct vimc_cap_device *vcap = vb2_get_drv_priv(vq);
->   
-> +	atomic_dec(&vcap->ved.use_count);
->   	vimc_streamer_s_stream(&vcap->stream, &vcap->ved, 0);
->   
->   	/* Stop the media pipeline */
-> @@ -424,6 +426,7 @@ static struct vimc_ent_device *vimc_cap_add(struct vimc_device *vimc,
->   	vcap->vdev.entity.name = vcfg_name;
->   	vcap->vdev.entity.function = MEDIA_ENT_F_IO_V4L;
->   	vcap->pad.flags = MEDIA_PAD_FL_SINK;
-> +	atomic_set(&vcap->ved.use_count, 0);
->   	ret = media_entity_pads_init(&vcap->vdev.entity,
->   				     1, &vcap->pad);
->   	if (ret)
-> diff --git a/drivers/media/test-drivers/vimc/vimc-common.h b/drivers/media/test-drivers/vimc/vimc-common.h
-> index 287d66edff49..c214f5ec7818 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-common.h
-> +++ b/drivers/media/test-drivers/vimc/vimc-common.h
-> @@ -85,6 +85,7 @@ struct vimc_pix_map {
->    *
->    * @dev:		a pointer of the device struct of the driver
->    * @ent:		the pointer to struct media_entity for the node
-> + * @use_count:		a count to show the number of streams entity is part of
->    * @get_frame:		callback that sends a frame processed by the entity
->    * @process_frame:	callback that processes a frame
->    * @vdev_get_format:	callback that returns the current format a pad, used
-> @@ -102,6 +103,7 @@ struct vimc_pix_map {
->   struct vimc_ent_device {
->   	struct device *dev;
->   	struct media_entity *ent;
-> +	atomic_t use_count;
->   	void * (*get_frame)(struct vimc_ent_device *ved);
->   	int (*process_frame)(struct vimc_ent_device *ved);
->   	void (*vdev_get_format)(struct vimc_ent_device *ved,
-> diff --git a/drivers/media/test-drivers/vimc/vimc-debayer.c b/drivers/media/test-drivers/vimc/vimc-debayer.c
-> index f61e6e8899ac..60c4c0ec2030 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-debayer.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-debayer.c
-> @@ -343,6 +343,9 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
->   		const struct vimc_pix_map *vpix;
->   		unsigned int frame_size;
->   
-> +		if (atomic_inc_return(&vdeb->ved.use_count) != 1)
-> +			return 0;
-> +
->   		if (vdeb->src_frame)
->   			return 0;
->   
-> @@ -368,6 +371,9 @@ static int vimc_deb_s_stream(struct v4l2_subdev *sd, int enable)
->   			return -ENOMEM;
->   
->   	} else {
-> +		if (atomic_dec_return(&vdeb->ved.use_count) != 0)
-> +			return 0;
-> +
->   		if (!vdeb->src_frame)
->   			return 0;
->   
-> @@ -608,6 +614,7 @@ static struct vimc_ent_device *vimc_deb_add(struct vimc_device *vimc,
->   	vdeb->ved.get_frame = vimc_deb_get_frame;
->   	vdeb->ved.dev = vimc->mdev.dev;
->   	vdeb->mean_win_size = vimc_deb_ctrl_mean_win_size.def;
-> +	atomic_set(&vdeb->ved.use_count, 0);
->   
->   	/* Initialize the frame format */
->   	vdeb->sink_fmt = sink_fmt_default;
-> diff --git a/drivers/media/test-drivers/vimc/vimc-scaler.c b/drivers/media/test-drivers/vimc/vimc-scaler.c
-> index 347f9cd4a168..d511e1f2152d 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-scaler.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-scaler.c
-> @@ -340,6 +340,9 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
->   		const struct vimc_pix_map *vpix;
->   		unsigned int frame_size;
->   
-> +		if (atomic_inc_return(&vsca->ved.use_count) != 1)
-> +			return 0;
-> +
->   		if (vsca->src_frame)
->   			return 0;
->   
-> @@ -363,6 +366,9 @@ static int vimc_sca_s_stream(struct v4l2_subdev *sd, int enable)
->   			return -ENOMEM;
->   
->   	} else {
-> +		if (atomic_dec_return(&vsca->ved.use_count) != 0)
-> +			return 0;
-> +
->   		if (!vsca->src_frame)
->   			return 0;
->   
-> @@ -518,6 +524,7 @@ static struct vimc_ent_device *vimc_sca_add(struct vimc_device *vimc,
->   	vsca->ved.process_frame = vimc_sca_process_frame;
->   	vsca->ved.get_frame = vimc_sca_get_frame;
->   	vsca->ved.dev = vimc->mdev.dev;
-> +	atomic_set(&vsca->ved.use_count, 0);
->   
->   	/* Initialize the frame format */
->   	vsca->sink_fmt = sink_fmt_default;
-> diff --git a/drivers/media/test-drivers/vimc/vimc-sensor.c b/drivers/media/test-drivers/vimc/vimc-sensor.c
-> index 32a2c39de2cd..ced8ef06b01e 100644
-> --- a/drivers/media/test-drivers/vimc/vimc-sensor.c
-> +++ b/drivers/media/test-drivers/vimc/vimc-sensor.c
-> @@ -256,6 +256,9 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
->   		const struct vimc_pix_map *vpix;
->   		unsigned int frame_size;
->   
-> +		if (atomic_inc_return(&vsen->ved.use_count) != 1)
-> +			return 0;
-> +
->   		vsen->start_stream_ts = ktime_get_ns();
->   
->   		/* Calculate the frame size */
-> @@ -275,6 +278,8 @@ static int vimc_sen_s_stream(struct v4l2_subdev *sd, int enable)
->   		vimc_sen_tpg_s_format(vsen);
->   
->   	} else {
-> +		if (atomic_dec_return(&vsen->ved.use_count) != 0)
-> +			return 0;
->   
->   		vfree(vsen->frame);
->   		vsen->frame = NULL;
-> @@ -437,6 +442,7 @@ static struct vimc_ent_device *vimc_sen_add(struct vimc_device *vimc,
->   	vsen->ved.process_frame = vimc_sen_process_frame;
->   	vsen->ved.get_frame = vimc_sen_get_frame;
->   	vsen->ved.dev = vimc->mdev.dev;
-> +	atomic_set(&vsen->ved.use_count, 0);
->   
->   	/* Initialize the frame format */
->   	vsen->mbus_format = fmt_default;
-> 
+-- 
+regards,
+Stan
