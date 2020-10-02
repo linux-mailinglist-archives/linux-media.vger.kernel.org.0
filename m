@@ -2,135 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A4AE280B82
-	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 02:07:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B4513280C87
+	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 05:42:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733254AbgJBAHW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 1 Oct 2020 20:07:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34450 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731525AbgJBAHV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 1 Oct 2020 20:07:21 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E70CCC0613D0;
-        Thu,  1 Oct 2020 17:07:20 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 73CD660;
-        Fri,  2 Oct 2020 02:07:19 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1601597239;
-        bh=j39Dc4gxTEr5923S3VEYL4W8+mB8WnwjUqvF4w7uLkE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=klOMwCfrkrmY7xdrSVeHZ+kpcwGMUTAeNIIY6S0ZLQGcoJtQRG4Mz/vv4+/ipMh74
-         zJyIHZQx1gkG8ZTcLoJY6yAuNltU/Kmj4TYgTreomkSFxA6bqFTOkazbDillAPyRG9
-         sdJaUIhMpbQAUbSxVbUyPbdyGfFH5advDh1uUiFw=
-Date:   Fri, 2 Oct 2020 03:06:42 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Stefan =?utf-8?Q?Riedm=C3=BCller?= <s.riedmueller@phytec.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-Subject: Re: [PATCH v2 3/5] media: mt9p031: Implement [gs]_register debug
- calls
-Message-ID: <20201002000642.GL3722@pendragon.ideasonboard.com>
-References: <20200930105133.139981-1-s.riedmueller@phytec.de>
- <20200930105133.139981-3-s.riedmueller@phytec.de>
- <20200930113831.GG5689@pendragon.ideasonboard.com>
- <289d5897-424f-326f-0bc1-c9a1b79284c3@phytec.de>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <289d5897-424f-326f-0bc1-c9a1b79284c3@phytec.de>
+        id S2387498AbgJBDmB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 1 Oct 2020 23:42:01 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:37811 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727780AbgJBDmB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 1 Oct 2020 23:42:01 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id OBxFkrPqF4gEjOBxGkqpOt; Fri, 02 Oct 2020 05:41:58 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1601610118; bh=gb3GZIhUP+x63SrHgJBaZyFvGva4pmpCRRqk+dAlmW4=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=AIIOtqjSiS8jSulCFOmY5cL46blNPM77GuudguCRrScLrZzifYFkejv2XvguqXYAi
+         YNABzlMOHskn/Qb+AiIyO5CZZioVFfgpMveIE3j88tpYNM2eFaZB0pHb+iMYixQ8UR
+         T1VCSXvTO3E4kyjefFmEcXcnQAwR0TvVXhsiwMlmkVnAvNRWjFW25aQl4Rr3vSfPOB
+         F3GHYiVM9yinSLLTZ4ovk8lbFItUx2UzuflYoH8oIxNEKN0805c0r9WsSYAQ6k0FFS
+         oqp2a80xnpWsblGhUeG/jeh5CjxqfeheTospRwmsIvnKv8brwgMyDwJbPSDAQ7KThE
+         uQqnTZfRejsag==
+Message-ID: <660dbb1add8e73ebef38e04f8b82edfa@smtp-cloud9.xs4all.net>
+Date:   Fri, 02 Oct 2020 05:41:57 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4wfOgkmladv0RrslXlgfEChkIwX27fEvUaLSk2FLpGAZMh3HxWzzvzsM4bt5I5LXRBvFUiI6u4JZp4ZkiC1Bh4qUkqboyskHHSqvyGB1H0QrLDmJEnJrb4
+ zYdIriRgV7ZEuSj//WDjMQVzG+CauoZlV7AttN85msWytq3OV6ZQLCps1n5cKzn+Pnos7XJBnuzeyDzYZSAFk8HlL4gwq/WAlqNgZIZNsH27LKun6PuEdeah
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stefan,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Thu, Oct 01, 2020 at 10:56:24AM +0200, Stefan Riedmüller wrote:
-> On 30.09.20 13:38, Laurent Pinchart wrote:
-> > On Wed, Sep 30, 2020 at 12:51:31PM +0200, Stefan Riedmueller wrote:
-> >> From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-> >>
-> >> Implement g_register and s_register v4l2_subdev_core_ops to access
-> >> camera register directly from userspace for debug purposes.
-> > 
-> > As the name of the operations imply, this is meant for debug purpose
-> > only. They are however prone to be abused to configure the sensor from
-> > userspace in production, which isn't a direction we want to take.
-> > What's your use case for this ?  I'd rather drop this patch and see the
-> > driver extended with support for more controls if needed
-> 
-> thanks for your feedback.
-> 
-> I get your point. I myself solely use these operations for debugging 
-> purposes but I'm aware that others like to abuse them.
-> 
-> I thought I send it anyway since for me the DEBUG config is enough to 
-> signalize that these operations are not to be used with a productive system. 
-> But I'm OK with dropping this patch if you think it might send the wrong signal.
+Results of the daily build of media_tree:
 
-I'd rather avoid this patch due to the risk of abuse if it's OK with
-you.
+date:			Fri Oct  2 05:00:10 CEST 2020
+media-tree git hash:	eb5f6b8ee9e4fcdda3807aff02a3df2d7ca51bbf
+media_build git hash:	2a08e22a168a40407c561f17e386229abc582c3a
+v4l-utils git hash:	4736edbed8fb012951bf3f5f7ef4d9135fbf7622
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: be532d092c27668a9f378beb433e7d5a0286735f
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-> >> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-> >> Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
-> >> ---
-> >> No changes in v2
-> >> ---
-> >>   drivers/media/i2c/mt9p031.c | 28 ++++++++++++++++++++++++++++
-> >>   1 file changed, 28 insertions(+)
-> >>
-> >> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-> >> index b4c042f418c1..de36025260a8 100644
-> >> --- a/drivers/media/i2c/mt9p031.c
-> >> +++ b/drivers/media/i2c/mt9p031.c
-> >> @@ -703,6 +703,30 @@ static int mt9p031_restore_blc(struct mt9p031 *mt9p031)
-> >>   	return 0;
-> >>   }
-> >>   
-> >> +#ifdef CONFIG_VIDEO_ADV_DEBUG
-> >> +static int mt9p031_g_register(struct v4l2_subdev *sd,
-> >> +			      struct v4l2_dbg_register *reg)
-> >> +{
-> >> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> >> +	int ret;
-> >> +
-> >> +	ret = mt9p031_read(client, reg->reg);
-> >> +	if (ret < 0)
-> >> +		return ret;
-> >> +
-> >> +	reg->val = ret;
-> >> +	return 0;
-> >> +}
-> >> +
-> >> +static int mt9p031_s_register(struct v4l2_subdev *sd,
-> >> +			      struct v4l2_dbg_register const *reg)
-> >> +{
-> >> +	struct i2c_client *client = v4l2_get_subdevdata(sd);
-> >> +
-> >> +	return mt9p031_write(client, reg->reg, reg->val);
-> >> +}
-> >> +#endif
-> >> +
-> >>   static int mt9p031_s_ctrl(struct v4l2_ctrl *ctrl)
-> >>   {
-> >>   	struct mt9p031 *mt9p031 =
-> >> @@ -1000,6 +1024,10 @@ static int mt9p031_close(struct v4l2_subdev *subdev, struct v4l2_subdev_fh *fh)
-> >>   
-> >>   static const struct v4l2_subdev_core_ops mt9p031_subdev_core_ops = {
-> >>   	.s_power        = mt9p031_set_power,
-> >> +#ifdef CONFIG_VIDEO_ADV_DEBUG
-> >> +	.s_register	= mt9p031_s_register,
-> >> +	.g_register	= mt9p031_g_register,
-> >> +#endif
-> >>   };
-> >>   
-> >>   static const struct v4l2_subdev_video_ops mt9p031_subdev_video_ops = {
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.212-i686: ERRORS
+linux-4.4.212-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.212-i686: ERRORS
+linux-4.9.212-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.169-i686: ERRORS
+linux-4.14.169-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
 
--- 
-Regards,
+Detailed results are available here:
 
-Laurent Pinchart
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
