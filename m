@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8369D281DB2
-	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 23:32:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3AF4C281DB7
+	for <lists+linux-media@lfdr.de>; Fri,  2 Oct 2020 23:34:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725767AbgJBVcc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 2 Oct 2020 17:32:32 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35616 "EHLO
+        id S1725616AbgJBVei (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 2 Oct 2020 17:34:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35942 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725355AbgJBVcc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Oct 2020 17:32:32 -0400
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E78E0C0613D0;
-        Fri,  2 Oct 2020 14:32:31 -0700 (PDT)
-Received: by mail-yb1-xb43.google.com with SMTP id x8so2140921ybe.12;
-        Fri, 02 Oct 2020 14:32:31 -0700 (PDT)
+        with ESMTP id S1725355AbgJBVei (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 2 Oct 2020 17:34:38 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BD36C0613D0;
+        Fri,  2 Oct 2020 14:34:38 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id v60so2146706ybi.10;
+        Fri, 02 Oct 2020 14:34:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=rkImxgEV4ZxqqECNqgTwDWjz/+rLkxNsLMNkoaMOLs4=;
-        b=L07pXv3NP06yPJ4JEuSeKkOAsvlGcvlubatzQ11VFu0xh72mXfp2X/bq1DAoDKglPr
-         gwe9uVGV84MucyUdtfDvJXO//O868yX4U8hfukPK36HpDPnH89tWjHXVnsOPIx3PDNem
-         X5io2xWxXqtEa9UcCPOfTPMLBb2OrV4jjgxwrX1aYnyQsOxO1/D8VCL+pgdkMSSqfkWh
-         6Gt745FiGChEGHix95MVwYogOqGUW85oZyHgy+Ho15vMDCDW6/n/o6KLKjTf3EcFcPR2
-         eLaFVmazyYL6EM5NEgNO6+1AjIiyW6Wx0zqiHYBHxPN8aZf0dQEeRxooOj/w66wIO5gp
-         +Eig==
+        bh=K7r5m3tkpGosvDOLsPsFAxv4/KP2aIslKzF4+30ISEA=;
+        b=QTRbgb1CVaW6Bc+gFPjgxzLqSk9S0LCsg428otJCFxH3GsT0KBk1w48xu6cs8KsNga
+         qkfAoGckwCHqQgw7ZLbzJX/y1m4IWvX9Xi6PLV2F392sm0Y8nqyavAQ58IMX01GLW5LL
+         OHE5G3tLm/9G6WYJrqqgEIJESK4tZr23bx/wSsP7b1x4tiPTNmOMgnKgC4fg4c3+YF8M
+         5M2h84Yl+SuFwNyWdOHdq1ZlyAn2LmsaSoqAqMO1tMcjFTgSZQV49+dV2PYZn/rQkMjL
+         LyX6Jp45XHiDSlPlGzal/ROxekY5+PDUqOlxEt/jJ3ipWPf+gPQDWX9B18R8G8L7fS4Y
+         Sekg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=rkImxgEV4ZxqqECNqgTwDWjz/+rLkxNsLMNkoaMOLs4=;
-        b=CmQi6KHiCeD3VAH+qRq5eCTDA9mFnPF62POLQUqcPDWo9wVy/bx5Vta6kdrzi9vOrC
-         ckeHC4WowCwTEurOlhyH7Bs2m+4FwvT0Ez/E4HZrSIR92YkWkFnTDTmwpk3p1pkZBAcd
-         B0jVmocWUJQpXBTW1KwDFkdFwY4lCDN9b0H2X2DOzIpLSPOvcACpZcOzMW3d5F7SrsM3
-         TCVRSDduCb9OGfasQTrXRCm2nu3nusVOF8/F+RHfdEZPZV/5ZzPMEhCQZxepJ4NHyUC+
-         73Rv5wpFjzq165QjJi54qqA3CRUoD3CnfidUeKQhsG7KJ0R8++rOeODno0fhd855FwOH
-         77JA==
-X-Gm-Message-State: AOAM532blOC4hkKTt60lhCHNbORqHlFfL+HPIQ1Svb/vEiWDOAh6Ff0s
-        EV279Hya2jLf3GDqww2BzLgT8f7smpnyHQeMP1I=
-X-Google-Smtp-Source: ABdhPJz6UF2KdRE5KeTgQqFTNG62CMf7iFk7yd/Lr9QXnI1hmndSyworjFOf9cZdaCrwrVtUi2TkXaI5RsEdr3u0bLg=
-X-Received: by 2002:a25:344c:: with SMTP id b73mr5204877yba.127.1601674351171;
- Fri, 02 Oct 2020 14:32:31 -0700 (PDT)
+        bh=K7r5m3tkpGosvDOLsPsFAxv4/KP2aIslKzF4+30ISEA=;
+        b=XsL1MLjO51ri8tcv/iQM8NUffu88r8oavqGAdCN4qC8MwHm1VpeFF5EVX5a5PoMEy7
+         cxbv1lGEahK535rAKe2ztoAJEfTFf4CuqTncZ/DKhxQPkQbmSSYpt2JpYqvJBaevYV2M
+         y9mKvzVifbDGu3z73TzZtVUhaWE1fMYBn4U/mplHIfss+NCnzKEpSmwTWddCmfVqLL/q
+         lLi9qN6oDeDrv/+x8kGOVRTC+jOxcpNqRZDHPNMwhw9iRoqTZmLCA2SX7Lzz23wBGZAv
+         LcBj6iHZTJrMVUgKqA/tuNUuBP56VQZ4tal/0LnwczcAl4Q6E+sb3i13Nk07/FRl4/vr
+         HFYA==
+X-Gm-Message-State: AOAM530hl7zJoXOwDuNSuwbx/EvN7NoR06jzTc2b+LZy4DeAdGTCOSrD
+        /HpziGGD9waN25GH5lq8Xuw3juT/JZoLH8kpl7M=
+X-Google-Smtp-Source: ABdhPJxY2w05rKf8JxYi13IJTdM+neAhcheCc9/vDDZ9EYyNBuu2QSi+RfAroGe1tIiBdmGnzCi2QGx6CWVT3nN7S9s=
+X-Received: by 2002:a25:cb45:: with SMTP id b66mr5324771ybg.25.1601674477440;
+ Fri, 02 Oct 2020 14:34:37 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201002165656.16744-1-prabhakar.mahadev-lad.rj@bp.renesas.com>
- <20201002165656.16744-4-prabhakar.mahadev-lad.rj@bp.renesas.com> <20201002211311.GX26842@paasikivi.fi.intel.com>
-In-Reply-To: <20201002211311.GX26842@paasikivi.fi.intel.com>
+ <20201002165656.16744-2-prabhakar.mahadev-lad.rj@bp.renesas.com> <20201002211236.GW26842@paasikivi.fi.intel.com>
+In-Reply-To: <20201002211236.GW26842@paasikivi.fi.intel.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Fri, 2 Oct 2020 22:32:05 +0100
-Message-ID: <CA+V-a8v3cLOe=vRSdPd91VGRxEwbrgmRrvYdfBPRNVPMvsQ0gw@mail.gmail.com>
-Subject: Re: [PATCH v7 3/3] media: i2c: ov772x: Add test pattern control
+Date:   Fri, 2 Oct 2020 22:34:11 +0100
+Message-ID: <CA+V-a8vmyDpt88uVd6FxDcTmXiLOV8-neRNk0OO9Pv7Cj5czww@mail.gmail.com>
+Subject: Re: [PATCH v7 1/3] media: i2c: ov772x: Parse endpoint properties
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
         Jacopo Mondi <jacopo@jmondi.org>,
@@ -68,93 +68,65 @@ Hi Sakari,
 
 Thank you for the review.
 
-On Fri, Oct 2, 2020 at 10:13 PM Sakari Ailus
+On Fri, Oct 2, 2020 at 10:12 PM Sakari Ailus
 <sakari.ailus@linux.intel.com> wrote:
 >
-> On Fri, Oct 02, 2020 at 05:56:56PM +0100, Lad Prabhakar wrote:
-> > Add support for test pattern control supported by the sensor.
+> Hi Prabhakar,
+>
+> On Fri, Oct 02, 2020 at 05:56:54PM +0100, Lad Prabhakar wrote:
+> > Parse endpoint properties using v4l2_fwnode_endpoint_alloc_parse()
+> > to determine the bus type and store it in the driver structure.
+> >
+> > Set bus_type to V4L2_MBUS_PARALLEL as it's the only supported one
 > >
 > > Signed-off-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> > Reviewed-by: Biju Das <biju.das.jz@bp.renesas.com>
-> > Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+> > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 > > ---
-> >  drivers/media/i2c/ov772x.c | 17 ++++++++++++++++-
-> >  1 file changed, 16 insertions(+), 1 deletion(-)
+> >  drivers/media/i2c/ov772x.c | 33 +++++++++++++++++++++++++++++++++
+> >  1 file changed, 33 insertions(+)
 > >
 > > diff --git a/drivers/media/i2c/ov772x.c b/drivers/media/i2c/ov772x.c
-> > index 6b46ad493bf7..b7e10c34ef59 100644
+> > index 2cc6a678069a..b56f8d7609e6 100644
 > > --- a/drivers/media/i2c/ov772x.c
 > > +++ b/drivers/media/i2c/ov772x.c
-> > @@ -227,7 +227,7 @@
+> > @@ -31,6 +31,7 @@
+> >  #include <media/v4l2-ctrls.h>
+> >  #include <media/v4l2-device.h>
+> >  #include <media/v4l2-event.h>
+> > +#include <media/v4l2-fwnode.h>
+> >  #include <media/v4l2-image-sizes.h>
+> >  #include <media/v4l2-subdev.h>
 > >
-> >  /* COM3 */
-> >  #define SWAP_MASK       (SWAP_RGB | SWAP_YUV | SWAP_ML)
-> > -#define IMG_MASK        (VFLIP_IMG | HFLIP_IMG)
-> > +#define IMG_MASK        (VFLIP_IMG | HFLIP_IMG | SCOLOR_TEST)
-> >
-> >  #define VFLIP_IMG       0x80 /* Vertical flip image ON/OFF selection */
-> >  #define HFLIP_IMG       0x40 /* Horizontal mirror image ON/OFF selection */
-> > @@ -425,6 +425,7 @@ struct ov772x_priv {
-> >       const struct ov772x_win_size     *win;
-> >       struct v4l2_ctrl                 *vflip_ctrl;
-> >       struct v4l2_ctrl                 *hflip_ctrl;
-> > +     unsigned int                      test_pattern;
->
-> Alignment.
->
-> You can get away with one or possibly two but three is too many in such a
-> small number of lines. :-)
->
-It's aligned as per structure members (non pointers)
-
-Cheers
-Prabhakar
-
-> >       /* band_filter = COM8[5] ? 256 - BDBASE : 0 */
-> >       struct v4l2_ctrl                 *band_filter_ctrl;
-> >       unsigned int                      fps;
-> > @@ -540,6 +541,11 @@ static const struct ov772x_win_size ov772x_win_sizes[] = {
-> >       },
+> > @@ -434,6 +435,7 @@ struct ov772x_priv {
+> >  #ifdef CONFIG_MEDIA_CONTROLLER
+> >       struct media_pad pad;
+> >  #endif
+> > +     enum v4l2_mbus_type               bus_type;
 > >  };
 > >
-> > +static const char * const ov772x_test_pattern_menu[] = {
-> > +     "Disabled",
-> > +     "Vertical Color Bar Type 1",
-> > +};
-> > +
 > >  /*
-> >   * frame rate settings lists
-> >   */
-> > @@ -809,6 +815,9 @@ static int ov772x_s_ctrl(struct v4l2_ctrl *ctrl)
-> >               }
+> > @@ -1348,6 +1350,33 @@ static const struct v4l2_subdev_ops ov772x_subdev_ops = {
+> >       .pad    = &ov772x_subdev_pad_ops,
+> >  };
 > >
-> >               return ret;
-> > +     case V4L2_CID_TEST_PATTERN:
-> > +             priv->test_pattern = ctrl->val;
-> > +             return 0;
-> >       }
-> >
-> >       return -EINVAL;
-> > @@ -1107,6 +1116,8 @@ static int ov772x_set_params(struct ov772x_priv *priv,
-> >               val ^= VFLIP_IMG;
-> >       if (priv->hflip_ctrl->val)
-> >               val ^= HFLIP_IMG;
-> > +     if (priv->test_pattern)
-> > +             val |= SCOLOR_TEST;
-> >
-> >       ret = regmap_update_bits(priv->regmap, COM3, SWAP_MASK | IMG_MASK, val);
-> >       if (ret < 0)
-> > @@ -1442,6 +1453,10 @@ static int ov772x_probe(struct i2c_client *client)
-> >       priv->band_filter_ctrl = v4l2_ctrl_new_std(&priv->hdl, &ov772x_ctrl_ops,
-> >                                                  V4L2_CID_BAND_STOP_FILTER,
-> >                                                  0, 256, 1, 0);
-> > +     v4l2_ctrl_new_std_menu_items(&priv->hdl, &ov772x_ctrl_ops,
-> > +                                  V4L2_CID_TEST_PATTERN,
-> > +                                  ARRAY_SIZE(ov772x_test_pattern_menu) - 1,
-> > +                                  0, 0, ov772x_test_pattern_menu);
-> >       priv->subdev.ctrl_handler = &priv->hdl;
-> >       if (priv->hdl.error) {
-> >               ret = priv->hdl.error;
+> > +static int ov772x_parse_dt(struct i2c_client *client,
+> > +                        struct ov772x_priv *priv)
+> > +{
+> > +     struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = V4L2_MBUS_PARALLEL };
 >
-> --
-> Sakari Ailus
+> This one gets over 80.
+>
+Argh I need to adjust my checkpatch script
+
+> > +     struct fwnode_handle *ep;
+> > +     int ret;
+> > +
+> > +     ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev),
+> > +                                         NULL);
+>
+> And this needs no newline.
+>
+Agreed.
+
+Cheers,
+Prabhakar
