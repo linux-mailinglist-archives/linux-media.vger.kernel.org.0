@@ -2,156 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76BD728272C
-	for <lists+linux-media@lfdr.de>; Sun,  4 Oct 2020 00:44:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ED957282744
+	for <lists+linux-media@lfdr.de>; Sun,  4 Oct 2020 00:52:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725982AbgJCWoj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Oct 2020 18:44:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41092 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725931AbgJCWoj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Oct 2020 18:44:39 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A09E1C0613D0
-        for <linux-media@vger.kernel.org>; Sat,  3 Oct 2020 15:44:39 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id ds1so103581pjb.5
-        for <linux-media@vger.kernel.org>; Sat, 03 Oct 2020 15:44:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:subject:date:message-id:in-reply-to:references:mime-version
-         :content-transfer-encoding;
-        bh=vQAokBEj20y8i6bpc3pIuIOLRwMaUyJNGYhF/oqnuvU=;
-        b=Q8Rv2QmoPC8gDn+nklL1DEEJGmzfW7tvdtNtLJZbV4sBTczxspxTONqBgztM0OcA6E
-         H76q3+aC7Vn80XT4tOCm1zSRxqPN9GJHolXOhv7m0ibe3rqmp7a2fwdcQIe4Ml6i5GQc
-         AjoVGwdj8s7RgGIZJM7BEyDlzFJoD2gU8rugA3PRCeI7XTXrF2cXLB+oamiFBMpnRM/j
-         MQe3SrtaOm/Bss1Wvm9ho3zxD25GBmBmXDOHyGei8n4uu0Em5YMraWif1JN2L7BoFc50
-         yprgBG6MCywzUj0y1b0cD9K3DlewV738q/RT0HnUgQI6C6O8ejGchhpl0cBUybtOU1uR
-         5/3g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=vQAokBEj20y8i6bpc3pIuIOLRwMaUyJNGYhF/oqnuvU=;
-        b=fFOCkRkQmbXOmSjCEAXLje9LnuGhfNS481y9xCZ8L1H8CVDYz5R7i3Ir8MMH/Zw6iC
-         Jx45uuLfzfq+imq8tG/4cv6j8vdsuojLIW/+VP+s6mkLrXh0kFQZJXVijwFfTUmkC+cs
-         TZfUw2pUytJxBNLDt0oD71t98I8WGmL4LGdsdb5BkhCAJiJ5UEW3uIKjMFjeMgJEi2Tk
-         NWrChokQDBEuKwgs4G/E3OszQWAzRziAnMB3coWHMYJuwU6YWOhgM9vTtz4WQIP/UVMm
-         rZyggI7JN8nrnMpk9MXFjX0EZoR6XachEqxLUIGnJmSf3zhJPeWO3y8ow4TT6ydM6Z2q
-         /aJQ==
-X-Gm-Message-State: AOAM531qYpgw16C4ejKbgP8FsOQg9IA6g0VFeAKXfTsXUZhML+5ze8pT
-        zDlrBDjAXBLKgveQ4eiOqjhdJ599RhNzjg==
-X-Google-Smtp-Source: ABdhPJyLxhCETbSHVxoYOe3G1/4gsyR6we8ufjPdtWKGsQl9E+cHP3ZkKOSTSb8VwLQE6Lzg8QX32g==
-X-Received: by 2002:a17:90b:4003:: with SMTP id ie3mr8779942pjb.1.1601765078845;
-        Sat, 03 Oct 2020 15:44:38 -0700 (PDT)
-Received: from mangix-trapnet.lan ([2001:470:1f05:79e::a89])
-        by smtp.gmail.com with ESMTPSA id l10sm5777777pgp.25.2020.10.03.15.44.37
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2020 15:44:38 -0700 (PDT)
-From:   Rosen Penev <rosenp@gmail.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH 2/2] clang-tidy: add a bunch of const
-Date:   Sat,  3 Oct 2020 15:44:35 -0700
-Message-Id: <20201003224435.37725-2-rosenp@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201003224435.37725-1-rosenp@gmail.com>
-References: <20201003224435.37725-1-rosenp@gmail.com>
+        id S1726073AbgJCWwn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Oct 2020 18:52:43 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:11170 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726027AbgJCWwm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Oct 2020 18:52:42 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f7900800000>; Sat, 03 Oct 2020 15:51:44 -0700
+Received: from [10.2.58.214] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 3 Oct
+ 2020 22:52:32 +0000
+Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+CC:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
+ <20201002175303.390363-2-daniel.vetter@ffwll.ch>
+ <cb56763e-4fda-a783-03ae-7f749ec55981@nvidia.com>
+ <CAKMK7uGzZ2dBe040vP1BJmQ7cuhj_OQHL0ncyz5XyUcb=bPjmg@mail.gmail.com>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <f5130c7f-eebe-7b21-62b8-68f08212b106@nvidia.com>
+Date:   Sat, 3 Oct 2020 15:52:32 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKMK7uGzZ2dBe040vP1BJmQ7cuhj_OQHL0ncyz5XyUcb=bPjmg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1601765504; bh=5ppvHLUO/9fbIncZBsX0QRcDvjgd285ERncHZH+jBTQ=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=Ji1FUw05hePaqwM1D5cwu0YizjaQWb5Mp458Rnbz7PTao0aGPynwrhOclhjCKrJU0
+         TuxSCKhpy2o33ZbQ6qctuVu+ZH6TjebLlAv44xr1m5C0eM5O/KFwFMsP29suyi4HxU
+         7niB1RXiaToj7nlQHwVmz22ekwMcQmAfv1SQB4LhZWP2ztwPzMu0Jo22dFhBC9TRtB
+         cXXl6qFqoXI2Qrn049sPT6pv80tx1yV3OVUJgOrgdkV8M6TTcCMzJ+5wIKXAUWpm9T
+         x/g3UL5urU1erhjCn4JTTyUhitwG8XonVuxdQJYZPMYoqax5wISjFnhnUnAkLbQ+KR
+         1GnsY+nrXhBJQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Found with cppcoreguidelines-interfaces-global-init
+On 10/3/20 2:45 AM, Daniel Vetter wrote:
+> On Sat, Oct 3, 2020 at 12:39 AM John Hubbard <jhubbard@nvidia.com> wrote:
+>>
+>> On 10/2/20 10:53 AM, Daniel Vetter wrote:
+>>> For $reasons I've stumbled over this code and I'm not sure the change
+>>> to the new gup functions in 55a650c35fea ("mm/gup: frame_vector:
+>>> convert get_user_pages() --> pin_user_pages()") was entirely correct.
+>>>
+>>> This here is used for long term buffers (not just quick I/O) like
+>>> RDMA, and John notes this in his patch. But I thought the rule for
+>>> these is that they need to add FOLL_LONGTERM, which John's patch
+>>> didn't do.
+>>
+>> Yep. The earlier gup --> pup conversion patches were intended to not
+>> have any noticeable behavior changes, and FOLL_LONGTERM, with it's
+>> special cases and such, added some risk that I wasn't ready to take
+>> on yet. Also, FOLL_LONGTERM rules are only *recently* getting firmed
+>> up. So there was some doubt at least in my mind, about which sites
+>> should have it.
+>>
+>> But now that we're here, I think it's really good that you've brought
+>> this up. It's definitely time to add FOLL_LONGTERM wherever it's missing.
+> 
+> So should I keep this patch, or will it collide with a series you're working on?
 
-Signed-off-by: Rosen Penev <rosenp@gmail.com>
----
- lib/libv4lconvert/processing/autogain.c              | 2 +-
- lib/libv4lconvert/processing/gamma.c                 | 2 +-
- lib/libv4lconvert/processing/libv4lprocessing-priv.h | 6 +++---
- lib/libv4lconvert/processing/libv4lprocessing.c      | 2 +-
- lib/libv4lconvert/processing/whitebalance.c          | 2 +-
- utils/cec-compliance/cec-test.cpp                    | 2 +-
- 6 files changed, 8 insertions(+), 8 deletions(-)
+It doesn't collide with anything on my end yet, because I've been slow to
+pick up on the need for changing callsites to add FOLL_LONGTERM. :)
 
-diff --git a/lib/libv4lconvert/processing/autogain.c b/lib/libv4lconvert/processing/autogain.c
-index 7b4f91f7c..aef06b057 100644
---- a/lib/libv4lconvert/processing/autogain.c
-+++ b/lib/libv4lconvert/processing/autogain.c
-@@ -213,6 +213,6 @@ static int autogain_calculate_lookup_tables(
- 	return 0;
- }
- 
--struct v4lprocessing_filter autogain_filter = {
-+const struct v4lprocessing_filter autogain_filter = {
- 	autogain_active, autogain_calculate_lookup_tables
- };
-diff --git a/lib/libv4lconvert/processing/gamma.c b/lib/libv4lconvert/processing/gamma.c
-index 73129637e..d65068f03 100644
---- a/lib/libv4lconvert/processing/gamma.c
-+++ b/lib/libv4lconvert/processing/gamma.c
-@@ -57,6 +57,6 @@ static int gamma_calculate_lookup_tables(
- 	return 1;
- }
- 
--struct v4lprocessing_filter gamma_filter = {
-+const struct v4lprocessing_filter gamma_filter = {
- 	gamma_active, gamma_calculate_lookup_tables
- };
-diff --git a/lib/libv4lconvert/processing/libv4lprocessing-priv.h b/lib/libv4lconvert/processing/libv4lprocessing-priv.h
-index e4a29dd92..9f0b74934 100644
---- a/lib/libv4lconvert/processing/libv4lprocessing-priv.h
-+++ b/lib/libv4lconvert/processing/libv4lprocessing-priv.h
-@@ -61,8 +61,8 @@ struct v4lprocessing_filter {
- 			unsigned char *buf, const struct v4l2_format *fmt);
- };
- 
--extern struct v4lprocessing_filter whitebalance_filter;
--extern struct v4lprocessing_filter autogain_filter;
--extern struct v4lprocessing_filter gamma_filter;
-+extern const struct v4lprocessing_filter whitebalance_filter;
-+extern const struct v4lprocessing_filter autogain_filter;
-+extern const struct v4lprocessing_filter gamma_filter;
- 
- #endif
-diff --git a/lib/libv4lconvert/processing/libv4lprocessing.c b/lib/libv4lconvert/processing/libv4lprocessing.c
-index b061f5041..cbe5a8393 100644
---- a/lib/libv4lconvert/processing/libv4lprocessing.c
-+++ b/lib/libv4lconvert/processing/libv4lprocessing.c
-@@ -27,7 +27,7 @@
- #include "libv4lprocessing-priv.h"
- #include "../libv4lconvert-priv.h" /* for PIX_FMT defines */
- 
--static struct v4lprocessing_filter *filters[] = {
-+static const struct v4lprocessing_filter *filters[] = {
- 	&whitebalance_filter,
- 	&autogain_filter,
- 	&gamma_filter,
-diff --git a/lib/libv4lconvert/processing/whitebalance.c b/lib/libv4lconvert/processing/whitebalance.c
-index c74069ae2..367dcb7ff 100644
---- a/lib/libv4lconvert/processing/whitebalance.c
-+++ b/lib/libv4lconvert/processing/whitebalance.c
-@@ -205,6 +205,6 @@ static int whitebalance_calculate_lookup_tables(
- 	return 0; /* Should never happen */
- }
- 
--struct v4lprocessing_filter whitebalance_filter = {
-+const struct v4lprocessing_filter whitebalance_filter = {
- 	whitebalance_active, whitebalance_calculate_lookup_tables
- };
-diff --git a/utils/cec-compliance/cec-test.cpp b/utils/cec-compliance/cec-test.cpp
-index 8633171a0..8a9ea2afe 100644
---- a/utils/cec-compliance/cec-test.cpp
-+++ b/utils/cec-compliance/cec-test.cpp
-@@ -1414,7 +1414,7 @@ static struct remote_subtest post_test_subtests[] = {
- };
- 
- 
--static struct remote_test tests[] = {
-+static const struct remote_test tests[] = {
- 	test_case("Core",
- 		  TAG_CORE,
- 		  core_subtests),
+And it looks like that's actually a problem, because:
+
+> 
+> Also with the firmed up rules, correct that I can also drop the
+> vma_is_fsdax check when the FOLL_LONGTERM flag is set?
+
+That's the right direction to go *in general*, but I see that the
+pin_user_pages code is still a bit stuck in the past. And this patch
+won't actually work, with or without that vma_is_fsdax() check.
+Because:
+
+get_vaddr_frames(FOLL_LONGTERM)
+    pin_user_pages_locked()
+	if (WARN_ON_ONCE(gup_flags & FOLL_LONGTERM))
+		return -EINVAL;
+
+
+So, again, pin_user_pages*() is at least partly behind the times here.
+I can jump in and start fixing it up, but it depends on what you and
+Oded and others are planning? Note: there is a particular combination of
+dax and locking that we have to still avoid, within gup.c. That's
+already covered, but needs to continue to be covered when we enable
+FOLL_LONGTERM in the remaining pin_user_pages*() calling paths.
+
+
+
+thanks,
 -- 
-2.26.2
-
+John Hubbard
+NVIDIA
