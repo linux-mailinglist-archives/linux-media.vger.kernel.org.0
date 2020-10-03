@@ -2,116 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1229A282352
-	for <lists+linux-media@lfdr.de>; Sat,  3 Oct 2020 11:48:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8891A2823CD
+	for <lists+linux-media@lfdr.de>; Sat,  3 Oct 2020 13:22:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725764AbgJCJsy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Oct 2020 05:48:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35454 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725681AbgJCJsy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Oct 2020 05:48:54 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF9B0C0613D0
-        for <linux-media@vger.kernel.org>; Sat,  3 Oct 2020 02:48:52 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id k15so4367904wrn.10
-        for <linux-media@vger.kernel.org>; Sat, 03 Oct 2020 02:48:52 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=to:from:subject:message-id:date:user-agent:mime-version
-         :content-language:content-transfer-encoding;
-        bh=NPLK7php6gd5q1nGrm86vNUGuvyB4QsaucbK0XhFoRs=;
-        b=EpfP2AL8Ku+8X5lL++o3EQLGtvcg5jFMpzEKqwwJWTKDHhvBt6T+Gthk63BGz/G0DG
-         66f/vuNFyNkW1V3upflBHDQkGDgEsxNyvYJu7EeHS0jZFzRt2Sdm2qYIp1ic8FXcS+0T
-         ncU4hb22TqZMV+siITnMir5aU9EdwUDYbarjeBDUcLuIMBzl6PzjepugnVilweZAACiP
-         bNdR9B4ioWVoRhZBZEAmlERCum+RiO6jHt2xfHWkndVtbYlKDSKqyZQp5aB17tSyn5Yn
-         1s1GJ4+WAztXwRInMECB+79i0bUfpOMH9lhu3HtLq7J+BKplvqolYEVBEnjjkoYPHKSY
-         iICg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
-         :mime-version:content-language:content-transfer-encoding;
-        bh=NPLK7php6gd5q1nGrm86vNUGuvyB4QsaucbK0XhFoRs=;
-        b=BlyXzxC2kdLRBF0ZPrlcAOQ5rEPsquAET3YxkAdfSmTOa4LQ3hnkh5wX/miUSYaU1w
-         0J0AaC/qfD3BVNPAwEShDNLH8Z84wOGpIR9M4R5X0+amUn/jaYlMukhTXvNOmy2106q3
-         Tyy90l1aOdxyvZLR/pWYNr/s5gpGGddBxzMi82xhwebVwmgPYMb8wc41PkX3sMTVp18v
-         g1ZXofeR1NLYyU1RNgw4rU6+WoNuy/xfuggEDBX52UB+vvCkjc76LrbDLrinxRU0MREf
-         7U6cpD6geJmV9hJ1MwFmgBxZfNZCVn8YWI3kHWLAUO+OpLLqI7zINV1UdSTQfD3fKWpM
-         ZPzQ==
-X-Gm-Message-State: AOAM530o8z8YnlWy836VWX9ybO4PBjZK8UQ6y5AlmI3vC9fH3Uo/jzjg
-        +7qNk8DySQaEoloSQJAfMRaG+LeCPOY=
-X-Google-Smtp-Source: ABdhPJxbe89W9BeiE5YeAQ2qHrbuzUz89YwkTaw2yl+exL9Z+9ZWkM6GN4BWB3p5nub5gyCoBKlq6w==
-X-Received: by 2002:a5d:444b:: with SMTP id x11mr7414966wrr.402.1601718531219;
-        Sat, 03 Oct 2020 02:48:51 -0700 (PDT)
-Received: from [192.168.43.227] ([185.69.145.159])
-        by smtp.gmail.com with ESMTPSA id u17sm5318109wri.45.2020.10.03.02.48.50
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 03 Oct 2020 02:48:50 -0700 (PDT)
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Malcolm Priestley <tvboxspy@gmail.com>
-Subject: [PATCH] media: lmedm04: Remove lme2510_kill_urb function.
-Message-ID: <569c15d7-3e16-1e0c-d300-76f638e0eadb@gmail.com>
-Date:   Sat, 3 Oct 2020 10:48:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.1
+        id S1725775AbgJCLW1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Oct 2020 07:22:27 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:41671 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725768AbgJCLW0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 3 Oct 2020 07:22:26 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id OfZekjIBgTHgxOfZhk6bEB; Sat, 03 Oct 2020 13:22:23 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1601724143; bh=SrIug3qpOAiuSFr6U/yS7Rn0eFN46Emp41MwllPybCQ=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=lIEZoRG5CjtoeoEGPkLY/BIIasiZFbFulBjKPxpLjT+IpicVyZDErY75NewaGbHPc
+         Qs/B3vZ8qEYRVyAgVcca3wvfUSKKQK2YLyys9BAdQwRc/ERAyXE1qpgxc31u8jSZLu
+         EO6VyPvRaQBKeM11Rgdy9m+uOSJFCa3uOC82qjS7g94z2CVb4kFmZGA56LpSjDv3Fc
+         ZHjbMmQ/4Sd7AcMUGXNAOBgLq+qO4BXZILehJKGCeMTh5qCzqLnnPyN/W6pbWQElp6
+         8lGctRToXbv3dnwMbMm8dRPxkP2TmEEjDElxUcfUMSHg9L85hJxTqRL6QIWgf0/skv
+         KTes3GM/39rCA==
+Subject: Re: [PATCH 2/3] media: mtk-vcodec: add missing put_device() call in
+ mtk_vcodec_init_dec_pm()
+To:     Yu Kuai <yukuai3@huawei.com>, tiffany.lin@mediatek.com,
+        andrew-ct.chen@mediatek.com, mchehab@kernel.org,
+        matthias.bgg@gmail.com
+Cc:     linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        yi.zhang@huawei.com
+References: <20200924081802.1061024-1-yukuai3@huawei.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <f155ec8b-9036-55b4-2624-a042b6e26866@xs4all.nl>
+Date:   Sat, 3 Oct 2020 13:19:34 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20200924081802.1061024-1-yukuai3@huawei.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4wfJuldRTWhFqMmLPFuJSzU6XO6AcWXdH+xgdSGhNL9Iuz8Y9k8ajM8u1BN4mGtyFF5ZIEqQLmb3tapojSVpcHG56c/vQPXPK3ki9mw2qOzMXpJBboPsaw
+ rNGssIMs1rGBwTUqaYOxdibW/AopGfHIuMaqBoCvpm+G7ZY4/u7hlMKPTUnMVtyQ23mfhqA6GbYSQoNwi8FPKWBWWyAqNjy0LWvhs+wogDotBhbdXRm/8Np+
+ 6brEA6w1YVztWW5fYPIOkISbehcGG2VfWG5f3KPIrynfoekCaw39M5qNQj0ncWtshCsDzH1OkdF6TOqxovOBd0N4xMvhmcHUWFZpzWXz5xEQ6Z2442ObyW7/
+ jjQGRFdSWasQ4vhek+wG8N9sTJxPji9H3isACSv/+9csZlBw99BNFv8f8y6UDfQeRYFgUnkiHmBwuzx9/exGDoqdmI3d8rQmYvIuwCTFyrvr+ekD2/OdM7o8
+ MY/DlpN7DR3foEyq9pExlzFMKIkB9A20JACAnqSsScAeo9MH97ZpCiy3oAE=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From fcc79b4b8eae97bc989b200e56004f1ed3bb62f8 Mon Sep 17 00:00:00 2001
-From: Malcolm Priestley <tvboxspy@gmail.com>
-Date: Mon, 24 Aug 2020 22:42:23 +0100
-Subject: [PATCH] media: lmedm04: Remove lme2510_kill_urb function.
+On 24/09/2020 10:18, Yu Kuai wrote:
+> if of_find_device_by_node() succeed, mtk_vcodec_init_dec_pm() doesn't have
+> a corresponding put_device(). Thus add jump target to fix the exception
+> handling for this function implementation.
+> 
+> Fixes: 590577a4e525 ("[media] vcodec: mediatek: Add Mediatek V4L2 Video Decoder Driver")
+> Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+> ---
+>  .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c    | 18 ++++++++++++------
+>  1 file changed, 12 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> index 5a6ec8fb52da..01e680ede9bd 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c
+> @@ -48,11 +48,14 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+>  		dec_clk->clk_info = devm_kcalloc(&pdev->dev,
+>  			dec_clk->clk_num, sizeof(*clk_info),
+>  			GFP_KERNEL);
+> -		if (!dec_clk->clk_info)
+> -			return -ENOMEM;
+> +		if (!dec_clk->clk_info) {
+> +			ret = -ENOMEM;
+> +			goto put_device;
+> +		}
+>  	} else {
+>  		mtk_v4l2_err("Failed to get vdec clock count");
+> -		return -EINVAL;
+> +		ret = -EINVAL;
+> +		goto put_device;
+>  	}
+>  
+>  	for (i = 0; i < dec_clk->clk_num; i++) {
+> @@ -61,19 +64,22 @@ int mtk_vcodec_init_dec_pm(struct mtk_vcodec_dev *mtkdev)
+>  			"clock-names", i, &clk_info->clk_name);
+>  		if (ret) {
+>  			mtk_v4l2_err("Failed to get clock name id = %d", i);
+> -			return ret;
+> +			goto put_device;
+>  		}
+>  		clk_info->vcodec_clk = devm_clk_get(&pdev->dev,
+>  			clk_info->clk_name);
+>  		if (IS_ERR(clk_info->vcodec_clk)) {
+>  			mtk_v4l2_err("devm_clk_get (%d)%s fail", i,
+>  				clk_info->clk_name);
+> -			return PTR_ERR(clk_info->vcodec_clk);
+> +			ret = PTR_ERR(clk_info->vcodec_clk);
+> +			goto put_device;
+>  		}
+>  	}
+>  
+>  	pm_runtime_enable(&pdev->dev);
+> -
+> +	return 0;
+> +put_device:
+> +	put_device(pm->larbvdec);
+>  	return ret;
+>  }
+>  
+> 
 
-This function is not necessary and largely a remnant of
-dvb-usb workaround and is now controlled by dvb-usb-v2.
+A similar question as with the previous patch: shouldn't there be a
+put_device(pm->larbvdec); in the mtk_vcodec_release_dec_pm() function?
 
-Signed-off-by: Malcolm Priestley <tvboxspy@gmail.com>
----
- drivers/media/usb/dvb-usb-v2/lmedm04.c | 19 -------------------
- 1 file changed, 19 deletions(-)
+Same for the next patch.
 
-diff --git a/drivers/media/usb/dvb-usb-v2/lmedm04.c b/drivers/media/usb/dvb-usb-v2/lmedm04.c
-index 0f5a1eed5ea9..d0672aed3bfe 100644
---- a/drivers/media/usb/dvb-usb-v2/lmedm04.c
-+++ b/drivers/media/usb/dvb-usb-v2/lmedm04.c
-@@ -751,20 +751,6 @@ static const char *lme_firmware_switch(struct dvb_usb_device *d, int cold)
- 	return fw_lme;
- }
- 
--static int lme2510_kill_urb(struct usb_data_stream *stream)
--{
--	int i;
--
--	for (i = 0; i < stream->urbs_submitted; i++) {
--		deb_info(3, "killing URB no. %d.", i);
--		/* stop the URB */
--		usb_kill_urb(stream->urb_list[i]);
--	}
--	stream->urbs_submitted = 0;
--
--	return 0;
--}
--
- static struct tda10086_config tda10086_config = {
- 	.demod_address = 0x0e,
- 	.invert = 0,
-@@ -1198,11 +1184,6 @@ static int lme2510_get_rc_config(struct dvb_usb_device *d,
- static void lme2510_exit(struct dvb_usb_device *d)
- {
- 	struct lme2510_state *st = d->priv;
--	struct dvb_usb_adapter *adap = &d->adapter[0];
--
--	if (adap != NULL) {
--		lme2510_kill_urb(&adap->stream);
--	}
- 
- 	if (st->lme_urb) {
- 		usb_kill_urb(st->lme_urb);
--- 
-2.27.0
+Regards,
+
+	Hans
