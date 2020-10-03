@@ -2,132 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B502228240A
-	for <lists+linux-media@lfdr.de>; Sat,  3 Oct 2020 14:13:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C2C7728240B
+	for <lists+linux-media@lfdr.de>; Sat,  3 Oct 2020 14:16:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725811AbgJCMNJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Oct 2020 08:13:09 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:54833 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725770AbgJCMNJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 3 Oct 2020 08:13:09 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id OgOkkjRDFTHgxOgOnk6gtn; Sat, 03 Oct 2020 14:13:04 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1601727184; bh=K+2GsuL91ohpYMnzFFC2m+x0TETxoYXGwyCPABbVTTU=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=cStmxuGaBfsJJwuUhRw/WpSkhxR8gP6/DKhzqXQbFcaHMLcJtiWZapHWLI4qe48qb
-         kuaehB3k19ENvMrC5Yj8ksw810IqShoodP00y/um+qMezHG5I8XtKAkYhmzvO1Pu91
-         QEDkJPA8otX+shToco1GDDaEtNfGDy4AY1Uaftt3GK7rWpT8LGJT6H0NbMEDH43AOO
-         9WHC8UXrZHJRruPZmWgunVcjB6cBUlQvKolMEUWOR3/qSlaerviRnJzviC32fqjihO
-         XtMxalPDJBpTMZNnxs1qmVqPgS8dKUAwaioZAFhAIvOWjE9cL/0mJHxvZyN7BnRIhR
-         uSe6GPz8g2YfQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Julia Lawall <Julia.Lawall@lip6.fr>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.11] Various fixes
-Message-ID: <6b4d935f-89fd-7256-e123-d470fed2beb9@xs4all.nl>
-Date:   Sat, 3 Oct 2020 14:12:22 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1725781AbgJCMQL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Oct 2020 08:16:11 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:52496 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725770AbgJCMQL (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 3 Oct 2020 08:16:11 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kOgM3-000O7t-Rq; Sat, 03 Oct 2020 12:09:35 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kOgVC-0003pq-Mr; Sat, 03 Oct 2020 12:19:02 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT FIXES FOR v5.10] Four fixes for 5.10. (#67702)
+Date:   Sat,  3 Oct 2020 12:19:02 +0000
+Message-Id: <20201003121902.14701-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <b9bad957-0074-a141-bd89-0b291fc6e1d3@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4wfOwZA7P1pOFr94fNqWdRFMXtRmZ8nqzaTaxmInsg9uSBEyyZP7X2QHKFMUIuJs2v4foU1Tvku0lO5DXkWk7udGWDMF+MOY/esKiwXPuySFsYT6mWVOwK
- 44Ltcv64s9lfomVp24KfBaM3IKna+bDxkGAVGw00wwayyNZ5bAcd90h5L7lTvy35k1G+2eC2yyhDa8oJMIKAfc1zo+Pi1Tv/Qfo=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit eb5f6b8ee9e4fcdda3807aff02a3df2d7ca51bbf:
+From: builder@linuxtv.org
 
-  media: atomisp: fixes build breakage for ISP2400 due to a cleanup (2020-10-01 13:17:26 +0200)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/b9bad957-0074-a141-bd89-0b291fc6e1d3@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/71002/
+Build time: 00:16:33
+Link: https://lore.kernel.org/linux-media/b9bad957-0074-a141-bd89-0b291fc6e1d3@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Sat 03 Oct 2020 11:34:55 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.11a
+Summary: got 2/4 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to ab9b1faac78ff59b10dc6e48336b5c77fd9cd22b:
+Error/warnings:
 
-  vivid: fix (partially) timing issues (2020-10-03 14:04:53 +0200)
+patches/0001-usbtv-Fix-refcounting-mixup.patch:
 
-----------------------------------------------------------------
-Tag branch
+    allyesconfig: return code #0:
+	../drivers/media/usb/em28xx/em28xx-video.c: ../drivers/media/usb/em28xx/em28xx-video.c:2856 em28xx_v4l2_init() parse error: turning off implications after 60 seconds
 
-----------------------------------------------------------------
-Colin Ian King (1):
-      media: zoran: fix spelling mistake and make error message more meaningful
+patches/0003-staging-rkisp1-uapi-Do-not-use-BIT-macro.patch:
 
-Dafna Hirschfeld (1):
-      media: staging: rkisp1: remove TODO item to document quantization handling
+   checkpatch.pl:
+	$ cat patches/0003-staging-rkisp1-uapi-Do-not-use-BIT-macro.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:29: CHECK: Prefer using the BIT macro
+	-:32: CHECK: Prefer using the BIT macro
+	-:35: CHECK: Prefer using the BIT macro
+	-:38: CHECK: Prefer using the BIT macro
+	-:41: CHECK: Prefer using the BIT macro
+	-:44: CHECK: Prefer using the BIT macro
+	-:47: CHECK: Prefer using the BIT macro
+	-:50: CHECK: Prefer using the BIT macro
+	-:53: CHECK: Prefer using the BIT macro
+	-:56: CHECK: Prefer using the BIT macro
+	-:59: CHECK: Prefer using the BIT macro
+	-:62: CHECK: Prefer using the BIT macro
+	-:65: CHECK: Prefer using the BIT macro
+	-:68: CHECK: Prefer using the BIT macro
+	-:71: CHECK: Prefer using the BIT macro
+	-:74: CHECK: Prefer using the BIT macro
+	-:77: CHECK: Prefer using the BIT macro
+	-:80: CHECK: Prefer using the BIT macro
+	-:92: CHECK: Prefer using the BIT macro
+	-:93: CHECK: Prefer using the BIT macro
+	-:94: CHECK: Prefer using the BIT macro
+	-:95: CHECK: Prefer using the BIT macro
 
-Ezequiel Garcia (1):
-      media: uapi: h264: Add documentation to the interface header
 
-Hans Verkuil (2):
-      Fix V4L2_COLORSPACE_470_SYSTEM_BG description
-      vivid: fix (partially) timing issues
+Error #512 when building PDF docs
 
-Julia Lawall (19):
-      media: coda: use semicolons rather than commas to separate statements
-      media: em28xx-audio: use semicolons rather than commas to separate statements
-      media: rtl28xxu: use semicolons rather than commas to separate statements
-      media: saa7134: use semicolons rather than commas to separate statements
-      media: m88ds3103: use semicolons rather than commas to separate statements
-      media: gspca: ov534-ov772x: use semicolons rather than commas to separate statements
-      media: s3c-camif: use semicolons rather than commas to separate statements
-      media: sun4i-csi: use semicolons rather than commas to separate statements
-      media: pvrusb2: use semicolons rather than commas to separate statements
-      media: ts2020: use semicolons rather than commas to separate statements
-      media: msp3400: use semicolons rather than commas to separate statements
-      media: radio-sf16fmr2: use semicolons rather than commas to separate statements
-      media: mt2060: use semicolons rather than commas to separate statements
-      media: au0828: use semicolons rather than commas to separate statements
-      media: dvbsky: use semicolons rather than commas to separate statements
-      media: dib0700: use semicolons rather than commas to separate statements
-      media: rtl2832: use semicolons rather than commas to separate statements
-      media: exynos4-is: use semicolons rather than commas to separate statements
-      media: bttv: use semicolons rather than commas to separate statements
-
-Niklas Söderlund (1):
-      rcar-vin: Remove redundant compatible values
-
-YueHaibing (1):
-      media: marvell-ccic: Fix -Wunused-function warnings
-
- Documentation/userspace-api/media/v4l/biblio.rst              |  12 ++-
- Documentation/userspace-api/media/v4l/colorspaces-details.rst |   5 +-
- drivers/media/dvb-frontends/m88ds3103.c                       |   6 +-
- drivers/media/dvb-frontends/rtl2832.c                         |  14 +--
- drivers/media/dvb-frontends/ts2020.c                          |  10 +-
- drivers/media/i2c/msp3400-kthreads.c                          |  12 ++-
- drivers/media/pci/bt8xx/bttv-cards.c                          |   6 +-
- drivers/media/pci/saa7134/saa7134-video.c                     |   7 +-
- drivers/media/platform/coda/coda-common.c                     |   2 +-
- drivers/media/platform/exynos4-is/fimc-core.c                 |   6 +-
- drivers/media/platform/marvell-ccic/mmp-driver.c              |   4 +-
- drivers/media/platform/rcar-vin/rcar-core.c                   |  16 ----
- drivers/media/platform/s3c-camif/camif-core.c                 |   6 +-
- drivers/media/platform/sunxi/sun4i-csi/sun4i_v4l2.c           |   2 +-
- drivers/media/radio/radio-sf16fmr2.c                          |   2 +-
- drivers/media/test-drivers/vivid/vivid-kthread-cap.c          |   6 +-
- drivers/media/test-drivers/vivid/vivid-kthread-out.c          |   6 +-
- drivers/media/test-drivers/vivid/vivid-kthread-touch.c        |   6 +-
- drivers/media/test-drivers/vivid/vivid-sdr-cap.c              |   6 +-
- drivers/media/tuners/mt2060.c                                 |   2 +-
- drivers/media/usb/au0828/au0828-video.c                       |   2 +-
- drivers/media/usb/dvb-usb-v2/dvbsky.c                         |  22 ++---
- drivers/media/usb/dvb-usb-v2/rtl28xxu.c                       |   4 +-
- drivers/media/usb/dvb-usb/dib0700_devices.c                   |   4 +-
- drivers/media/usb/em28xx/em28xx-audio.c                       |  14 +--
- drivers/media/usb/gspca/ov534.c                               |  12 +--
- drivers/media/usb/pvrusb2/pvrusb2-devattr.c                   |   2 +-
- drivers/staging/media/rkisp1/TODO                             |   1 -
- drivers/staging/media/zoran/zoran_driver.c                    |   2 +-
- include/media/h264-ctrls.h                                    | 195 ++++++++++++++++++++++++++++++++++++--
- include/uapi/linux/videodev2.h                                |   4 +-
- 31 files changed, 293 insertions(+), 105 deletions(-)
