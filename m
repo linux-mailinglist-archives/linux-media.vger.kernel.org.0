@@ -2,157 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 390AA28234F
-	for <lists+linux-media@lfdr.de>; Sat,  3 Oct 2020 11:46:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1229A282352
+	for <lists+linux-media@lfdr.de>; Sat,  3 Oct 2020 11:48:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725782AbgJCJqD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Oct 2020 05:46:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35024 "EHLO
+        id S1725764AbgJCJsy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Oct 2020 05:48:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35454 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725730AbgJCJqD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Oct 2020 05:46:03 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C7C8C0613E7
-        for <linux-media@vger.kernel.org>; Sat,  3 Oct 2020 02:46:03 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id q21so3839786ota.8
-        for <linux-media@vger.kernel.org>; Sat, 03 Oct 2020 02:46:03 -0700 (PDT)
+        with ESMTP id S1725681AbgJCJsy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Oct 2020 05:48:54 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF9B0C0613D0
+        for <linux-media@vger.kernel.org>; Sat,  3 Oct 2020 02:48:52 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id k15so4367904wrn.10
+        for <linux-media@vger.kernel.org>; Sat, 03 Oct 2020 02:48:52 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=WmsHZ3xTqss6S86de6F2+GmRY4pwh6QmzDJN/bVYlUo=;
-        b=hDibXoHAY2NY8DYQlETzpK27wX4ATsoMa5kzy1M2/palInn8ZKnTsfX9OAvCBMHLJ7
-         UTXJhzhKn4fSMh0ypNeHIZ7V603V9nGrHtFMY58a+YAo7uy+FISml44C4EG7POAXsSK5
-         tta54lMbGSCYR/621NNEVOBJzs4fvGGa04aCQ=
+        d=gmail.com; s=20161025;
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-language:content-transfer-encoding;
+        bh=NPLK7php6gd5q1nGrm86vNUGuvyB4QsaucbK0XhFoRs=;
+        b=EpfP2AL8Ku+8X5lL++o3EQLGtvcg5jFMpzEKqwwJWTKDHhvBt6T+Gthk63BGz/G0DG
+         66f/vuNFyNkW1V3upflBHDQkGDgEsxNyvYJu7EeHS0jZFzRt2Sdm2qYIp1ic8FXcS+0T
+         ncU4hb22TqZMV+siITnMir5aU9EdwUDYbarjeBDUcLuIMBzl6PzjepugnVilweZAACiP
+         bNdR9B4ioWVoRhZBZEAmlERCum+RiO6jHt2xfHWkndVtbYlKDSKqyZQp5aB17tSyn5Yn
+         1s1GJ4+WAztXwRInMECB+79i0bUfpOMH9lhu3HtLq7J+BKplvqolYEVBEnjjkoYPHKSY
+         iICg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=WmsHZ3xTqss6S86de6F2+GmRY4pwh6QmzDJN/bVYlUo=;
-        b=qvCRgcBwSdCYSq4wqw+9tQGs/9b56AS78zK33P5EVAGE4J/wZqeVVMtemwe4j2i2Qa
-         APyjC1Njmp+VuMhOvdpJaagk41JSFY24u4VaQ099gs8IQmbc1oCW/wcwUuS3S2T68fu/
-         T3VilS7VSwnZX6iMluYK6637t1hbkI7LxIVgzf2MXY8E5ExpbxnPpNX9W5dgwJLULXXo
-         /7kt8I+dJ+jyFTwEIZV06nnI7qj54cUxtAPnP/8+qTtZmV+hYx/7stqpAlouW0xgzdEV
-         uhCwisSLzaN8CsB4N9a3/iHjpxm1/AFASjz3p2U6h3RO76mUUdChY0ckEaM6gDkUUt+y
-         Ia6Q==
-X-Gm-Message-State: AOAM53271a9USfG1TLP7DV56+XJmRT+7PTfiaGwqIDOIH3T6Y70csGFQ
-        Vz/CPx0VvJcsO2sRPB3NLvLn9ppSHg/eEKtJeZo6Mg==
-X-Google-Smtp-Source: ABdhPJx7DZsiJzsUZCobrpWxpW+51JFbUQoJiBR48TvpUyFl0hMBEePfLwnrqOzsuokwHF8YWn4ObJWhXDnnLDo1YzY=
-X-Received: by 2002:a9d:4b99:: with SMTP id k25mr5004991otf.281.1601718362705;
- Sat, 03 Oct 2020 02:46:02 -0700 (PDT)
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-language:content-transfer-encoding;
+        bh=NPLK7php6gd5q1nGrm86vNUGuvyB4QsaucbK0XhFoRs=;
+        b=BlyXzxC2kdLRBF0ZPrlcAOQ5rEPsquAET3YxkAdfSmTOa4LQ3hnkh5wX/miUSYaU1w
+         0J0AaC/qfD3BVNPAwEShDNLH8Z84wOGpIR9M4R5X0+amUn/jaYlMukhTXvNOmy2106q3
+         Tyy90l1aOdxyvZLR/pWYNr/s5gpGGddBxzMi82xhwebVwmgPYMb8wc41PkX3sMTVp18v
+         g1ZXofeR1NLYyU1RNgw4rU6+WoNuy/xfuggEDBX52UB+vvCkjc76LrbDLrinxRU0MREf
+         7U6cpD6geJmV9hJ1MwFmgBxZfNZCVn8YWI3kHWLAUO+OpLLqI7zINV1UdSTQfD3fKWpM
+         ZPzQ==
+X-Gm-Message-State: AOAM530o8z8YnlWy836VWX9ybO4PBjZK8UQ6y5AlmI3vC9fH3Uo/jzjg
+        +7qNk8DySQaEoloSQJAfMRaG+LeCPOY=
+X-Google-Smtp-Source: ABdhPJxbe89W9BeiE5YeAQ2qHrbuzUz89YwkTaw2yl+exL9Z+9ZWkM6GN4BWB3p5nub5gyCoBKlq6w==
+X-Received: by 2002:a5d:444b:: with SMTP id x11mr7414966wrr.402.1601718531219;
+        Sat, 03 Oct 2020 02:48:51 -0700 (PDT)
+Received: from [192.168.43.227] ([185.69.145.159])
+        by smtp.gmail.com with ESMTPSA id u17sm5318109wri.45.2020.10.03.02.48.50
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 03 Oct 2020 02:48:50 -0700 (PDT)
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Malcolm Priestley <tvboxspy@gmail.com>
+Subject: [PATCH] media: lmedm04: Remove lme2510_kill_urb function.
+Message-ID: <569c15d7-3e16-1e0c-d300-76f638e0eadb@gmail.com>
+Date:   Sat, 3 Oct 2020 10:48:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.1
 MIME-Version: 1.0
-References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
- <20201002175303.390363-2-daniel.vetter@ffwll.ch> <cb56763e-4fda-a783-03ae-7f749ec55981@nvidia.com>
-In-Reply-To: <cb56763e-4fda-a783-03ae-7f749ec55981@nvidia.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Sat, 3 Oct 2020 11:45:51 +0200
-Message-ID: <CAKMK7uGzZ2dBe040vP1BJmQ7cuhj_OQHL0ncyz5XyUcb=bPjmg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Oct 3, 2020 at 12:39 AM John Hubbard <jhubbard@nvidia.com> wrote:
->
-> On 10/2/20 10:53 AM, Daniel Vetter wrote:
-> > For $reasons I've stumbled over this code and I'm not sure the change
-> > to the new gup functions in 55a650c35fea ("mm/gup: frame_vector:
-> > convert get_user_pages() --> pin_user_pages()") was entirely correct.
-> >
-> > This here is used for long term buffers (not just quick I/O) like
-> > RDMA, and John notes this in his patch. But I thought the rule for
-> > these is that they need to add FOLL_LONGTERM, which John's patch
-> > didn't do.
->
-> Yep. The earlier gup --> pup conversion patches were intended to not
-> have any noticeable behavior changes, and FOLL_LONGTERM, with it's
-> special cases and such, added some risk that I wasn't ready to take
-> on yet. Also, FOLL_LONGTERM rules are only *recently* getting firmed
-> up. So there was some doubt at least in my mind, about which sites
-> should have it.
->
-> But now that we're here, I think it's really good that you've brought
-> this up. It's definitely time to add FOLL_LONGTERM wherever it's missing.
+From fcc79b4b8eae97bc989b200e56004f1ed3bb62f8 Mon Sep 17 00:00:00 2001
+From: Malcolm Priestley <tvboxspy@gmail.com>
+Date: Mon, 24 Aug 2020 22:42:23 +0100
+Subject: [PATCH] media: lmedm04: Remove lme2510_kill_urb function.
 
-So should I keep this patch, or will it collide with a series you're workin=
-g on?
+This function is not necessary and largely a remnant of
+dvb-usb workaround and is now controlled by dvb-usb-v2.
 
-Also with the firmed up rules, correct that I can also drop the
-vma_is_fsdax check when the FOLL_LONGTERM flag is set?
+Signed-off-by: Malcolm Priestley <tvboxspy@gmail.com>
+---
+ drivers/media/usb/dvb-usb-v2/lmedm04.c | 19 -------------------
+ 1 file changed, 19 deletions(-)
 
-Thanks, Daniel
-
->
-> thanks,
-> --
-> John Hubbard
-> NVIDIA
->
-> >
-> > There is already a dax specific check (added in b7f0554a56f2 ("mm:
-> > fail get_vaddr_frames() for filesystem-dax mappings")), so this seems
-> > like the prudent thing to do.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: John Hubbard <jhubbard@nvidia.com>
-> > Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-> > Cc: Jan Kara <jack@suse.cz>
-> > Cc: Dan Williams <dan.j.williams@intel.com>
-> > Cc: linux-mm@kvack.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-samsung-soc@vger.kernel.org
-> > Cc: linux-media@vger.kernel.org
-> > ---
-> > Hi all,
-> >
-> > I stumbled over this and figured typing this patch can't hurt. Really
-> > just to maybe learn a few things about how gup/pup is supposed to be
-> > used (we have a bit of that in drivers/gpu), this here isn't really
-> > ralated to anything I'm doing.
-> >
-> > I'm also wondering whether the explicit dax check should be removed,
-> > since FOLL_LONGTERM should take care of that already.
-> > -Daniel
-> > ---
-> >   mm/frame_vector.c | 2 +-
-> >   1 file changed, 1 insertion(+), 1 deletion(-)
-> >
-> > diff --git a/mm/frame_vector.c b/mm/frame_vector.c
-> > index 5d34c9047e9c..3507e09cb3ff 100644
-> > --- a/mm/frame_vector.c
-> > +++ b/mm/frame_vector.c
-> > @@ -35,7 +35,7 @@ int get_vaddr_frames(unsigned long start, unsigned in=
-t nr_frames,
-> >   {
-> >       struct mm_struct *mm =3D current->mm;
-> >       struct vm_area_struct *vma;
-> > -     unsigned int gup_flags =3D FOLL_WRITE | FOLL_FORCE;
-> > +     unsigned int gup_flags =3D FOLL_WRITE | FOLL_FORCE | FOLL_LONGTER=
-M;
-> >       int ret =3D 0;
-> >       int err;
-> >       int locked;
-> >
->
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+diff --git a/drivers/media/usb/dvb-usb-v2/lmedm04.c b/drivers/media/usb/dvb-usb-v2/lmedm04.c
+index 0f5a1eed5ea9..d0672aed3bfe 100644
+--- a/drivers/media/usb/dvb-usb-v2/lmedm04.c
++++ b/drivers/media/usb/dvb-usb-v2/lmedm04.c
+@@ -751,20 +751,6 @@ static const char *lme_firmware_switch(struct dvb_usb_device *d, int cold)
+ 	return fw_lme;
+ }
+ 
+-static int lme2510_kill_urb(struct usb_data_stream *stream)
+-{
+-	int i;
+-
+-	for (i = 0; i < stream->urbs_submitted; i++) {
+-		deb_info(3, "killing URB no. %d.", i);
+-		/* stop the URB */
+-		usb_kill_urb(stream->urb_list[i]);
+-	}
+-	stream->urbs_submitted = 0;
+-
+-	return 0;
+-}
+-
+ static struct tda10086_config tda10086_config = {
+ 	.demod_address = 0x0e,
+ 	.invert = 0,
+@@ -1198,11 +1184,6 @@ static int lme2510_get_rc_config(struct dvb_usb_device *d,
+ static void lme2510_exit(struct dvb_usb_device *d)
+ {
+ 	struct lme2510_state *st = d->priv;
+-	struct dvb_usb_adapter *adap = &d->adapter[0];
+-
+-	if (adap != NULL) {
+-		lme2510_kill_urb(&adap->stream);
+-	}
+ 
+ 	if (st->lme_urb) {
+ 		usb_kill_urb(st->lme_urb);
+-- 
+2.27.0
