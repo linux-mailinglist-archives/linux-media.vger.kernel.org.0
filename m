@@ -2,97 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFABC282BA0
-	for <lists+linux-media@lfdr.de>; Sun,  4 Oct 2020 18:00:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 58EBC282BA4
+	for <lists+linux-media@lfdr.de>; Sun,  4 Oct 2020 18:05:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725929AbgJDQAg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Oct 2020 12:00:36 -0400
-Received: from mail.kernel.org ([198.145.29.99]:37812 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725825AbgJDQAg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 4 Oct 2020 12:00:36 -0400
-Received: from mail.kernel.org (ip5f5ad5a6.dynamic.kabel-deutschland.de [95.90.213.166])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 32B7B206C1;
-        Sun,  4 Oct 2020 16:00:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601827235;
-        bh=7ffqmwDcNKq4pWlTL0AOzTA9uCl5ZE31pG3i8SCLvKM=;
-        h=From:To:Cc:Subject:Date:From;
-        b=uFKswsHeB63Uvpt3WKgSqQEoBSFe5mIBCVnNEoEJTxAVxB0KON+h9SroHmjcwlIzl
-         44HPpR2+5Lzv+SIgqSTPvVvDGsfNQROYPWZlQltc5Y9DlgnoyAZCE3kU/sWp8IjVbn
-         UAVQaVC/BMwfh21+BOoFjU24fJztwOrSx5OW/2d4=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kP6R6-00056H-Ab; Sun, 04 Oct 2020 18:00:32 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Corentin Labbe <clabbe@baylibre.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh@kernel.org>, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, mjpeg-users@lists.sourceforge.net
-Subject: [PATCH] media: zoran.rst: place it at the right place this time
-Date:   Sun,  4 Oct 2020 18:00:30 +0200
-Message-Id: <0cef13d883e4644b4cf9b521d3f3e45355e60566.1601827201.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
+        id S1725927AbgJDQFB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Oct 2020 12:05:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58780 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725825AbgJDQFB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Oct 2020 12:05:01 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2068C0613CE
+        for <linux-media@vger.kernel.org>; Sun,  4 Oct 2020 09:05:00 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id e2so6383598wme.1
+        for <linux-media@vger.kernel.org>; Sun, 04 Oct 2020 09:05:00 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YUAliNzUxEV3fGqBNzaKM0Sdb1oaRVBPRykSh+Rv6kc=;
+        b=ncd8tqSVhw3Rko9aFtRbVyTuZXIRhZnGmsEqE4CIgWVIBa8hdQ/saBKHZAz1OTRaze
+         VIIcGsJgohPkyZ04+5IhO1p0Pb9TppQvYZONVu5rrpikA6I/Cj2Bk/SMqdPL3j5tS18y
+         Ec9z7cY/7OblHur2iOdHZWyWGpvEJmYHbxLPCNlaKdSTAoSay7Y0pffTOyMuk3StxCAP
+         VxVMY8tEtdwIpF8AMlQLWww1pDYmCr8Ubhl5YrJTREXTir6oM+8S84ZQo/5LkDqLpWnW
+         vQgZQIsmm9ibXHw64DzVa8ERchqVEE24Vx2I4UUXYEsLqqMYuWnszr1VnperZ5Q8J18W
+         Wszg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=YUAliNzUxEV3fGqBNzaKM0Sdb1oaRVBPRykSh+Rv6kc=;
+        b=c9oXI1Z+9gfga73uEfSDoylHS7KFRbLQrtdu25jC/0x9yM+cqw6ZtGJ41lwKNX8ANn
+         AhTADq8F/kJbQDLs2qcl99JNAYUxi5g0V7lEBdeeT6OoNTiFKr6c4j9IXFxXhbxCbWQL
+         qboNJW6ybv3FxPZd23QHFKgiJNic8287JgDUyvJVN/Fq47Umn51DClaKLISNOLhUETJ+
+         qaP7M4Fx4fXSqFI3oRl9UYhxGPtWO04huQyNYqhC+/BtC/spu54/WoFA9JynniAeSqt0
+         M1YZBdJAG3QW+nTOXF+fhYlMQ78AlFyTajKHnbmK2sLyHQiCo+b1P7u750kShk4Lya4b
+         G7DA==
+X-Gm-Message-State: AOAM531I71lXbUX3OqXj3ATKkTzHnj3nA5kXpSwk7FaoNpURmhJrkTZo
+        URRBGCL4UrhlOsRS3GsXJODwN0tXI05zPw==
+X-Google-Smtp-Source: ABdhPJzmIv41wO8zPfqRrgAbtDzEk7r9hDrRhJcLEt2uK29/TwvMcAuGIiydI81MpMFpJs3oCtKoJg==
+X-Received: by 2002:a1c:4006:: with SMTP id n6mr2850281wma.46.1601827499261;
+        Sun, 04 Oct 2020 09:04:59 -0700 (PDT)
+Received: from basti.fritz.box (p200300d1ff3ff900fb4ff0aa470a9f8b.dip0.t-ipconnect.de. [2003:d1:ff3f:f900:fb4f:f0aa:470a:9f8b])
+        by smtp.gmail.com with ESMTPSA id s11sm9137709wrt.43.2020.10.04.09.04.58
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Oct 2020 09:04:58 -0700 (PDT)
+From:   Sebastian Fricke <sebastian.fricke.linux@gmail.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl,
+        Sebastian Fricke <sebastian.fricke.linux@gmail.com>
+Subject: [PATCH v4l-utils] README: Update build requirements for debian
+Date:   Sun,  4 Oct 2020 18:04:39 +0200
+Message-Id: <20201004160439.23425-1-sebastian.fricke.linux@gmail.com>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I was too quick moving zoran.rst... it ends that the original
-patch didn't do the right thing and forgot to update the files
-that references it.
+The current set of required packages was not sufficient to complete the
+`make`, after following the usual route of:
+`sudo apt-get install debhelper dh-autoreconf autotools-dev\
+                      autoconf-archive doxygen graphviz libasound2-dev\
+                      libtool libjpeg-dev qtbase5-dev libqt5opengl5-dev\
+                      libudev-dev libx11-dev pkg-config udev make gcc git`
+`./bootstrap.sh`
+`./configure`
+`make`
 
-Fix it.
+The following error was presented:
+`moc: could not find a Qt installation of ''`
 
-Fixes: 6b90346919d4 ("media: zoran: move documentation file to the right place")
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Fix this issue by adding the `qt5-default` package to the list of
+requirements.
+
+Fixes: 8d2093a8a4bc43622cd68aeb85fb2b817de55993
+
+Tested on: Debian version: Debian GNU/Linux 10 & Debian GNU/Linux 9
+(Buster & Stretch(inside of a lxc container))
+Additionally, I tested to build on a fresh VM, where I faced the same
+problem.
+
+Signed-off-by: Sebastian Fricke <sebastian.fricke.linux@gmail.com>
 ---
- .../driver-api/media/drivers/{v4l-drivers => }/zoran.rst        | 0
- MAINTAINERS                                                     | 2 +-
- drivers/staging/media/zoran/Kconfig                             | 2 +-
- 3 files changed, 2 insertions(+), 2 deletions(-)
- rename Documentation/driver-api/media/drivers/{v4l-drivers => }/zoran.rst (100%)
+ README | 7 +++----
+ 1 file changed, 3 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/driver-api/media/drivers/v4l-drivers/zoran.rst b/Documentation/driver-api/media/drivers/zoran.rst
-similarity index 100%
-rename from Documentation/driver-api/media/drivers/v4l-drivers/zoran.rst
-rename to Documentation/driver-api/media/drivers/zoran.rst
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ba5eb1dff9c2..7a12633747c8 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -19247,7 +19247,7 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- W:	http://mjpeg.sourceforge.net/driver-zoran/
- Q:	https://patchwork.linuxtv.org/project/linux-media/list/
--F:	Documentation/media/v4l-drivers/zoran.rst
-+F:	Documentation/driver-api/media/drivers/zoran.rst
- F:	drivers/staging/media/zoran/
+diff --git a/README b/README
+index 75823e2d..a7759171 100644
+--- a/README
++++ b/README
+@@ -29,10 +29,9 @@ each distro.
  
- ZPOOL COMPRESSED PAGE STORAGE API
-diff --git a/drivers/staging/media/zoran/Kconfig b/drivers/staging/media/zoran/Kconfig
-index 492507030276..7874842033ca 100644
---- a/drivers/staging/media/zoran/Kconfig
-+++ b/drivers/staging/media/zoran/Kconfig
-@@ -8,7 +8,7 @@ config VIDEO_ZORAN
- 	  36057/36067 PCI controller chipset. This includes the Iomega
- 	  Buz, Pinnacle DC10+ and the Linux Media Labs LML33. There is
- 	  a driver homepage at <http://mjpeg.sf.net/driver-zoran/>. For
--	  more information, check <file:Documentation/media/v4l-drivers/zoran.rst>.
-+	  more information, check <file:Documentation/driver-api/media/drivers/zoran.rst>.
+ On Debian and derivated distributions, you need to install the following
+ packages with apt-get or aptitude:
+-	debhelper dh-autoreconf autotools-dev autoconf-archive
+-        doxygen graphviz libasound2-dev
+-	libtool libjpeg-dev qtbase5-dev libqt5opengl5-dev libudev-dev libx11-dev
+-	pkg-config udev make gcc git
++    debhelper dh-autoreconf autotools-dev autoconf-archive doxygen graphviz
++    libasound2-dev libtool libjpeg-dev qtbase5-dev qt5-default
++    libqt5opengl5-dev libudev-dev libx11-dev pkg-config udev make gcc git
  
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called zr36067.
+ 
+ On Fedora, the package list for a minimal install with dnf or yum is:
 -- 
-2.26.2
+2.20.1
 
