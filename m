@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D9562829A4
-	for <lists+linux-media@lfdr.de>; Sun,  4 Oct 2020 10:36:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D07E42829A5
+	for <lists+linux-media@lfdr.de>; Sun,  4 Oct 2020 10:37:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725840AbgJDIgN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Oct 2020 04:36:13 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54028 "EHLO
+        id S1725868AbgJDIhh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Oct 2020 04:37:37 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:54052 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725825AbgJDIgN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Oct 2020 04:36:13 -0400
+        with ESMTP id S1725825AbgJDIhh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Oct 2020 04:37:37 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 90F4F2A2;
-        Sun,  4 Oct 2020 10:36:11 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B8F162A2;
+        Sun,  4 Oct 2020 10:37:35 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1601800571;
-        bh=A9WNi4JRjUcAqg1PTcdYJAHcI2Q+uBwBwILSgY+FHL8=;
+        s=mail; t=1601800655;
+        bh=HBVcGpLUfbA9yNNqF2L/tQAHa9fxKVmhRIYZoVek6FU=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=anrGiQyuIWSuokYrC4Vo3u9O4fwbT/AOPZsQiZ6xniefhxFWU7+UXQtQIVVqOXIiC
-         1NR0kZBS+1jYbZtS43ktUVRQ28Zh2t6TmFIxJjVQNOUW6Y5oRbXY5SPf9+KQfoC/WY
-         CnkkLehH+yxD11VMozj8uNEGLR3ccDyeWzkDlIfw=
-Date:   Sun, 4 Oct 2020 11:35:33 +0300
+        b=kBkcdahjWMAODJ07Wx4obA7BoyBnUdJWf2TgCzPvWYYWorNOGQ47+RZcBPvJJUTpf
+         1dkMtCsQimp05+lfIZGxqKAYsx33bnpDssCBQ8Ep3qpTJV8bD+yAwQh0YVkv7t/sD2
+         jW3P3JDU5Lx0l5dYdAAdYJL4pykONILRRdUxzuew=
+Date:   Sun, 4 Oct 2020 11:36:57 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org, jmondi@jmondi.org
-Subject: Re: [PATCH 2/5] v4l2-fwnode: v4l2_fwnode_endpoint_parse caller must
- init vep argument
-Message-ID: <20201004083533.GC3938@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 3/5] v4l2-fwnode: Don't zero parts of struct
+ v4l2_fwnode_endpoint anymore
+Message-ID: <20201004083657.GD3938@pendragon.ideasonboard.com>
 References: <20200930144811.16612-1-sakari.ailus@linux.intel.com>
- <20200930144811.16612-3-sakari.ailus@linux.intel.com>
+ <20200930144811.16612-4-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200930144811.16612-3-sakari.ailus@linux.intel.com>
+In-Reply-To: <20200930144811.16612-4-sakari.ailus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -42,53 +42,44 @@ Hi Sakari,
 
 Thank you for the patch.
 
-On Wed, Sep 30, 2020 at 05:48:08PM +0300, Sakari Ailus wrote:
-> Document that the caller of v4l2_fwnode_endpoint_parse() must init the
-> fields of struct v4l2_fwnode_endpoint (vep argument) fields.
+On Wed, Sep 30, 2020 at 05:48:09PM +0300, Sakari Ailus wrote:
+> Don't zero parts of the vep argument to v4l2_fwnode_endpoint_parse()
+> anymore as this can no longer be done while still supporting defaults on
+> multiple bus types.
 > 
-> It used to be that the fields were zeroed by v4l2_fwnode_endpoint_parse
-> when bus type was set to V4L2_MBUS_UNKNOWN but with commit bb4bba9232fc
-> that no longer makes sense.
-> 
-> Fixes: bb4bba9232fc ("media: v4l2-fwnode: Make bus configuration a struct")
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  include/media/v4l2-fwnode.h | 4 ++++
->  1 file changed, 4 insertions(+)
-> 
-> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> index c09074276543..0f9a768b1a8d 100644
-> --- a/include/media/v4l2-fwnode.h
-> +++ b/include/media/v4l2-fwnode.h
-> @@ -231,6 +231,8 @@ struct v4l2_fwnode_connector {
->   * guessing @vep.bus_type between CSI-2 D-PHY, parallel and BT.656 busses is
->   * supported. NEVER RELY ON GUESSING @vep.bus_type IN NEW DRIVERS!
->   *
-> + * The caller is required to initialise all fields of @vep.
-
-Would it make sense to explicitly state that fields should be zeroed if
-no specific value is desired ? Maybe
-
- * The caller is required to initialise all fields of @vep, either with
- * explicitly values, or by zeroing them.
-
-Apart from that,
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
-> + *
->   * The function does not change the V4L2 fwnode endpoint state if it fails.
->   *
->   * NOTE: This function does not parse properties the size of which is variable
-> @@ -273,6 +275,8 @@ void v4l2_fwnode_endpoint_free(struct v4l2_fwnode_endpoint *vep);
->   * guessing @vep.bus_type between CSI-2 D-PHY, parallel and BT.656 busses is
->   * supported. NEVER RELY ON GUESSING @vep.bus_type IN NEW DRIVERS!
->   *
-> + * The caller is required to initialise all fields of @vep.
-> + *
->   * The function does not change the V4L2 fwnode endpoint state if it fails.
->   *
->   * v4l2_fwnode_endpoint_alloc_parse() has two important differences to
+> ---
+>  drivers/media/v4l2-core/v4l2-fwnode.c | 12 ------------
+>  1 file changed, 12 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-fwnode.c b/drivers/media/v4l2-core/v4l2-fwnode.c
+> index dfc53d11053f..44dd04b05e29 100644
+> --- a/drivers/media/v4l2-core/v4l2-fwnode.c
+> +++ b/drivers/media/v4l2-core/v4l2-fwnode.c
+> @@ -416,20 +416,8 @@ static int __v4l2_fwnode_endpoint_parse(struct fwnode_handle *fwnode,
+>  	enum v4l2_mbus_type mbus_type;
+>  	int rval;
+>  
+> -	if (vep->bus_type == V4L2_MBUS_UNKNOWN) {
+> -		/* Zero fields from bus union to until the end */
+> -		memset(&vep->bus, 0,
+> -		       sizeof(*vep) - offsetof(typeof(*vep), bus));
+> -	}
+> -
+>  	pr_debug("===== begin parsing endpoint %pfw\n", fwnode);
+>  
+> -	/*
+> -	 * Zero the fwnode graph endpoint memory in case we don't end up parsing
+> -	 * the endpoint.
+> -	 */
+> -	memset(&vep->base, 0, sizeof(vep->base));
+> -
+>  	fwnode_property_read_u32(fwnode, "bus-type", &bus_type);
+>  	pr_debug("fwnode video bus type %s (%u), mbus type %s (%u)\n",
+>  		 v4l2_fwnode_bus_type_to_string(bus_type), bus_type,
 
 -- 
 Regards,
