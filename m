@@ -2,134 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 256AE282760
-	for <lists+linux-media@lfdr.de>; Sun,  4 Oct 2020 01:24:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CFB20282873
+	for <lists+linux-media@lfdr.de>; Sun,  4 Oct 2020 05:43:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726116AbgJCXYo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 3 Oct 2020 19:24:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47286 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726108AbgJCXYo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 3 Oct 2020 19:24:44 -0400
-Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1921EC0613E7
-        for <linux-media@vger.kernel.org>; Sat,  3 Oct 2020 16:24:44 -0700 (PDT)
-Received: by mail-qt1-x842.google.com with SMTP id o21so6121413qtp.2
-        for <linux-media@vger.kernel.org>; Sat, 03 Oct 2020 16:24:44 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=g/bWRDC83HBwg01UsDzSfM2jl4/c+/+0WDuMbz3L3vY=;
-        b=Wt75KKGYlyB3SVZh+R6kN1ac9Vs1rLb3FsriPknSZPm+rurem+iWpgZgJn4OjhxTGZ
-         9UwOdbqn0IcWxz+SXlFiwb4+rjtb+FIwhhqFqQCCHCvfa+S2U6Kl8NLkXIpYAhA/a10W
-         r/rLG3s+ms3GT5JJgD+ISxGasTSiyNYlo6eShkO1GzrSNpTK/YeaG5lgDrFWf6poASEm
-         HB67uKceG7Zv3GOVEaWOpYkegB/R/AxePvPSKebeq4LE2/szG8/0SQsD2yphB471fLtE
-         A3BPhFHCM7s2bOPhwoXpknrKjY/J2CP+KFTRaSIylcr9nsqahczax8dmHfThNO+XSHbg
-         6rGw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=g/bWRDC83HBwg01UsDzSfM2jl4/c+/+0WDuMbz3L3vY=;
-        b=sNqfXn7qbfJyeit8+vKOOkbox5HLT7sRps1Z7YRh0ad+sFLljQNQAkWqudaefr7V5v
-         EBhdPCIOkbRAtYY74reF25KmpCJ1z02GkmZ3zEwRfI59X/pA3WKrT+E/o+gfl6zgnFTO
-         MsJdRQxfa7TpZZX4SE11OnsVhdHG3MRIuf/5UVSm1bBo+qBDucKvTUPGc9TY//wcBn+O
-         GFKC8Lp0Latg3v3OoEOw4TfjbD3oHu7UZuAvo8h8fz5S2rEBcG5+6hWz4QuLO7E5NVOu
-         l02r4jqatuURbXzmBln7PWrOu2Hd1q7pBEpDkDMYt6deZpjWrhmMjsTquByqFCBoiSgd
-         taTA==
-X-Gm-Message-State: AOAM532RWVlm7G/92eQeK/7f+5NWQ1pKPJcWv+BcUqDk+5jjaVscrsB8
-        EaI8stn+2QKO7rb2FsJU5yNhRA==
-X-Google-Smtp-Source: ABdhPJz+EnEtdlsIy9dnMqFENsfi2yM5N7tbJ9Hj1Iht+h6SFBydHWolNKH2FPE4uwkGjBxQdXBxaQ==
-X-Received: by 2002:aed:3b72:: with SMTP id q47mr2051233qte.347.1601767483069;
-        Sat, 03 Oct 2020 16:24:43 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id a52sm4343504qtc.22.2020.10.03.16.24.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 03 Oct 2020 16:24:42 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kOqtN-0075j4-EX; Sat, 03 Oct 2020 20:24:41 -0300
-Date:   Sat, 3 Oct 2020 20:24:41 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
-Message-ID: <20201003232441.GO9916@ziepe.ca>
-References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
- <20201002175303.390363-2-daniel.vetter@ffwll.ch>
- <cb56763e-4fda-a783-03ae-7f749ec55981@nvidia.com>
- <CAKMK7uGzZ2dBe040vP1BJmQ7cuhj_OQHL0ncyz5XyUcb=bPjmg@mail.gmail.com>
- <f5130c7f-eebe-7b21-62b8-68f08212b106@nvidia.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f5130c7f-eebe-7b21-62b8-68f08212b106@nvidia.com>
+        id S1726295AbgJDDnK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 3 Oct 2020 23:43:10 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:34293 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726263AbgJDDnK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 3 Oct 2020 23:43:10 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id Ouuykm168THgxOuuzk7uI4; Sun, 04 Oct 2020 05:43:05 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1601782985; bh=Wh0n0TXYzM7gZHEkHZCUmLSOLJVzyNKOr1IasITCrCc=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=dIaeNsVscl/JlnXDx/57DF275NlxA9X6t//jx/ixuVuGkhuWOp6ktVOgrhANLEMpO
+         QeFQpWRRO4RP4JbSs12hAxaJ0bv+/lgzKV2GCgQUgOIjiEAdcedXV2oGD/q4ArofLs
+         HGwxN1u256bREk3EvAEK0RFnKpuURO34DcjxiLYhdyoDCPq55wwhCsKGj9s9u0RIlm
+         mI7SIWqyzFQlPwGwSZxPFnvE1cMO41SS3LAV01CtuCYICvJvtMqCl7r60MpbNx3hEt
+         FyX5lgiPMVaBBCWN6L4TJlDsC3oavpi6/6D26qdVgeDV4OAgDRLVyFmDvsM3kWMGtZ
+         PNUJPqBY4IqIw==
+Message-ID: <27ffb8154d98b102b4846847d56d2002@smtp-cloud8.xs4all.net>
+Date:   Sun, 04 Oct 2020 05:42:36 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfCvReLqrLQzs/sA49+H6QlwLL2dDmzhqUkhSsee9rP2eb61mb5+txzG2bKIdSMAgT/k5jTsSXlXdRYANwVVNTdIr3p4yVnPHn7fC+AR/Ntx7HMlgRB4I
+ PDVuqkwCma32PwcTVTyFls2Xyk8FEXFU+cJMLgEhMJL4ERD9HwFsxiQ2LEFuOJ4px2WkLFw98mPCrpu5mUwAu2lrMdhPD63Ph2gl7ds3Gg7PWHmCuO3TFe60
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Oct 03, 2020 at 03:52:32PM -0700, John Hubbard wrote:
-> On 10/3/20 2:45 AM, Daniel Vetter wrote:
-> > On Sat, Oct 3, 2020 at 12:39 AM John Hubbard <jhubbard@nvidia.com> wrote:
-> > > 
-> > > On 10/2/20 10:53 AM, Daniel Vetter wrote:
-> > > > For $reasons I've stumbled over this code and I'm not sure the change
-> > > > to the new gup functions in 55a650c35fea ("mm/gup: frame_vector:
-> > > > convert get_user_pages() --> pin_user_pages()") was entirely correct.
-> > > > 
-> > > > This here is used for long term buffers (not just quick I/O) like
-> > > > RDMA, and John notes this in his patch. But I thought the rule for
-> > > > these is that they need to add FOLL_LONGTERM, which John's patch
-> > > > didn't do.
-> > > 
-> > > Yep. The earlier gup --> pup conversion patches were intended to not
-> > > have any noticeable behavior changes, and FOLL_LONGTERM, with it's
-> > > special cases and such, added some risk that I wasn't ready to take
-> > > on yet. Also, FOLL_LONGTERM rules are only *recently* getting firmed
-> > > up. So there was some doubt at least in my mind, about which sites
-> > > should have it.
-> > > 
-> > > But now that we're here, I think it's really good that you've brought
-> > > this up. It's definitely time to add FOLL_LONGTERM wherever it's missing.
-> > 
-> > So should I keep this patch, or will it collide with a series you're working on?
-> 
-> It doesn't collide with anything on my end yet, because I've been slow to
-> pick up on the need for changing callsites to add FOLL_LONGTERM. :)
-> 
-> And it looks like that's actually a problem, because:
-> 
-> > 
-> > Also with the firmed up rules, correct that I can also drop the
-> > vma_is_fsdax check when the FOLL_LONGTERM flag is set?
-> 
-> That's the right direction to go *in general*, but I see that the
-> pin_user_pages code is still a bit stuck in the past. And this patch
-> won't actually work, with or without that vma_is_fsdax() check.
-> Because:
-> 
-> get_vaddr_frames(FOLL_LONGTERM)
->    pin_user_pages_locked()
-> 	if (WARN_ON_ONCE(gup_flags & FOLL_LONGTERM))
-> 		return -EINVAL;
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-There is no particular reason this code needs to have the mm sem at
-that point.
+Results of the daily build of media_tree:
 
-It should call pin_user_pages_fast() and only if that fails get the mmap
-lock and extract the VMA to do broken hackery.
+date:			Sun Oct  4 05:00:13 CEST 2020
+media-tree git hash:	eb5f6b8ee9e4fcdda3807aff02a3df2d7ca51bbf
+media_build git hash:	494ceb265192c754bdf3c726bb21b4c7f92cd8d6
+v4l-utils git hash:	749309117723ee4795d16ce4f744e4b099e4979a
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 9.3.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: be532d092c27668a9f378beb433e7d5a0286735f
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Jason
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.212-i686: OK
+linux-4.4.212-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.212-i686: OK
+linux-4.9.212-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.169-i686: OK
+linux-4.14.169-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.101-i686: OK
+linux-4.19.101-x86_64: OK
+linux-4.20.15-i686: OK
+linux-4.20.15-x86_64: OK
+linux-5.0.15-i686: OK
+linux-5.0.15-x86_64: OK
+linux-5.1.1-i686: OK
+linux-5.1.1-x86_64: OK
+linux-5.2.1-i686: OK
+linux-5.2.1-x86_64: OK
+linux-5.3.1-i686: OK
+linux-5.3.1-x86_64: OK
+linux-5.4.17-i686: OK
+linux-5.4.17-x86_64: OK
+linux-5.5.1-i686: OK
+linux-5.5.1-x86_64: OK
+linux-5.6.1-i686: OK
+linux-5.6.1-x86_64: OK
+linux-5.7.2-i686: OK
+linux-5.7.2-x86_64: OK
+linux-5.8.1-i686: OK
+linux-5.8.1-x86_64: OK
+linux-5.9-rc1-i686: OK
+linux-5.9-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
