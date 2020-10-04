@@ -2,38 +2,41 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 215A22829A6
-	for <lists+linux-media@lfdr.de>; Sun,  4 Oct 2020 10:40:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 77DD42829AB
+	for <lists+linux-media@lfdr.de>; Sun,  4 Oct 2020 10:42:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725830AbgJDIkx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Oct 2020 04:40:53 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:54088 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725825AbgJDIkx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Oct 2020 04:40:53 -0400
+        id S1725917AbgJDIm3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Oct 2020 04:42:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47738 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725825AbgJDIm3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Oct 2020 04:42:29 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3C01DC0613CE
+        for <linux-media@vger.kernel.org>; Sun,  4 Oct 2020 01:42:29 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D806B2A2;
-        Sun,  4 Oct 2020 10:40:51 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 615D02A2;
+        Sun,  4 Oct 2020 10:42:26 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1601800852;
-        bh=Qeo5gmyB9R1jBo0KmhVegGk2RLOrvia8g9u/Pf0cvto=;
+        s=mail; t=1601800946;
+        bh=mWqRu5GhNfStYGdAHYYaDhBTWfjISH90HPLkeF27rZI=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TuOP3nQmrgSoJRc7pak/6Y5ECOKfqjwz9VIGBqAR5ZAGFJKbltW+M7WMH3DDHIDpp
-         /NVFvemV/u7xzWp2ZhGBC5p3P3y6PUBDrlKtgk/zrBrQcvavl5R+bzW81+2UIG4MDk
-         UazZOtyFpx5T+SX6s9/PtcgWyQwWBy/UIhG6bzgk=
-Date:   Sun, 4 Oct 2020 11:40:13 +0300
+        b=JhRVBug+pBFxuLmilNr+SfJidprDr08m2Z5ggOAB0tH1Y5obSkftEJ4/4BYZFnR31
+         KZKWQXKo48PG2ff1XScQrTElafeqXktjjteWG79TKCvr3sKS9EbvlfwOzuQ/KKeBRb
+         Ih7W73SvSN/JkBKYEiyKfuEv8y049UivrbBGIqS0=
+Date:   Sun, 4 Oct 2020 11:41:48 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org, jmondi@jmondi.org
-Subject: Re: [PATCH 4/5] v4l2-fwnode: Rework v4l2_fwnode_endpoint_parse
- documentation
-Message-ID: <20201004084013.GE3938@pendragon.ideasonboard.com>
+Subject: Re: [PATCH 5/5] v4l2-fwnode: Say it's fine to use
+ v4l2_fwnode_endpoint_parse
+Message-ID: <20201004084148.GF3938@pendragon.ideasonboard.com>
 References: <20200930144811.16612-1-sakari.ailus@linux.intel.com>
- <20200930144811.16612-5-sakari.ailus@linux.intel.com>
+ <20200930144811.16612-6-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200930144811.16612-5-sakari.ailus@linux.intel.com>
+In-Reply-To: <20200930144811.16612-6-sakari.ailus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -42,102 +45,43 @@ Hi Sakari,
 
 Thank you for the patch.
 
-On Wed, Sep 30, 2020 at 05:48:10PM +0300, Sakari Ailus wrote:
-> Rework the documentation of v4l2_fwnode_endpoint_parse for better
-> readability, usefulness and correctness.
+On Wed, Sep 30, 2020 at 05:48:11PM +0300, Sakari Ailus wrote:
+> Earlier it was expected that there would be more variable size endpoint
+> properties and that most if not all drivers would need them. For that
+> reason it was expected also that v4l2_fwnode_endpoint_parse would no
+> longer be needed.
+> 
+> What actually happened that not all drivers require "link-frequencies",
+> the only variable size media endpoint property without a small upper
+> limit. Therefore drivers that do not need that information are fine using
+> v4l2_fwnode_endpoint_parse. So don't tell drivers to use
+> v4l2_fwnode_endpoint_alloc_parse in all cases.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > ---
->  include/media/v4l2-fwnode.h | 62 ++++++++++++++++++++++++-------------
->  1 file changed, 40 insertions(+), 22 deletions(-)
+>  include/media/v4l2-fwnode.h | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> index 0f9a768b1a8d..0c28dc11e829 100644
+> index 0c28dc11e829..cbd872e59f8e 100644
 > --- a/include/media/v4l2-fwnode.h
 > +++ b/include/media/v4l2-fwnode.h
-> @@ -219,17 +219,26 @@ struct v4l2_fwnode_connector {
->   * @vep: pointer to the V4L2 fwnode data structure
+> @@ -245,8 +245,8 @@ struct v4l2_fwnode_connector {
+>   * The function does not change the V4L2 fwnode endpoint state if it fails.
 >   *
->   * This function parses the V4L2 fwnode endpoint specific parameters from the
-> - * firmware. The caller is responsible for assigning @vep.bus_type to a valid
-> - * media bus type. The caller may also set the default configuration for the
-> - * endpoint --- a configuration that shall be in line with the DT binding
-> - * documentation. Should a device support multiple bus types, the caller may
-> - * call this function once the correct type is found --- with a default
-> - * configuration valid for that type.
-> - *
-> - * It is also allowed to set @vep.bus_type to V4L2_MBUS_UNKNOWN. USING THIS
-> - * FEATURE REQUIRES "bus-type" PROPERTY IN DT BINDINGS. For old drivers,
-> - * guessing @vep.bus_type between CSI-2 D-PHY, parallel and BT.656 busses is
-> - * supported. NEVER RELY ON GUESSING @vep.bus_type IN NEW DRIVERS!
-> + * firmware. There are two ways to use this function, either by letting it
-> + * obtain the type of the bus (by setting the @vep.bus_type field to
-> + * V4L2_MBUS_UNKNOWN) or specifying the bus type explicitly to one of the &enum
-> + * v4l2_mbus_type types.
-> + *
-> + * When @vep.bus_type is V4L2_MBUS_UNKNOWN, the function will use the "bus-type"
-> + * property to determine the type when it is available. The caller is
-> + * responsible for validating the contents of @vep.bus_type field after the call
-> + * returns.
+>   * NOTE: This function does not parse properties the size of which is variable
+> - * without a low fixed limit. Please use v4l2_fwnode_endpoint_alloc_parse() in
+> - * new drivers instead.
+> + * without a low fixed limit. Please use v4l2_fwnode_endpoint_alloc_parse() if
+> + * you need properties of variable size.
 
-As an additional improvement, I wonder if it would make sense to turn
-the bus types into a bit flag, to let the caller tell which bus types it
-supports. Or maybe that would be overkill ?
+Shouldn't we explicitly mention link-frequencies ? "properties the size
+of which is variable without a low fixed limit" is not very clear for a
+casual reader.
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> + *
-> + * As a deprecated functionality to support older DT bindings without "bus-type"
-> + * property for devices that support multiple types, if the "bus-type" property
-> + * does not exist, the function will attempt to guess the type based on the
-> + * endpoint properties available. NEVER RELY ON GUESSING THE BUS TYPE IN NEW
-> + * DRIVERS OR BINDINGS.
-> + *
-> + * It is also possible to set @vep.bus_type corresponding to an actual bus. In
-> + * this case the function will only attempt to parse properties related to this
-> + * bus, and it will return an error if the value of the "bus-type" property
-> + * corresponds to a different bus.
 >   *
->   * The caller is required to initialise all fields of @vep.
->   *
-> @@ -263,17 +272,26 @@ void v4l2_fwnode_endpoint_free(struct v4l2_fwnode_endpoint *vep);
->   * @vep: pointer to the V4L2 fwnode data structure
->   *
->   * This function parses the V4L2 fwnode endpoint specific parameters from the
-> - * firmware. The caller is responsible for assigning @vep.bus_type to a valid
-> - * media bus type. The caller may also set the default configuration for the
-> - * endpoint --- a configuration that shall be in line with the DT binding
-> - * documentation. Should a device support multiple bus types, the caller may
-> - * call this function once the correct type is found --- with a default
-> - * configuration valid for that type.
-> - *
-> - * It is also allowed to set @vep.bus_type to V4L2_MBUS_UNKNOWN. USING THIS
-> - * FEATURE REQUIRES "bus-type" PROPERTY IN DT BINDINGS. For old drivers,
-> - * guessing @vep.bus_type between CSI-2 D-PHY, parallel and BT.656 busses is
-> - * supported. NEVER RELY ON GUESSING @vep.bus_type IN NEW DRIVERS!
-> + * firmware. There are two ways to use this function, either by letting it
-> + * obtain the type of the bus (by setting the @vep.bus_type field to
-> + * V4L2_MBUS_UNKNOWN) or specifying the bus type explicitly to one of the &enum
-> + * v4l2_mbus_type types.
-> + *
-> + * When @vep.bus_type is V4L2_MBUS_UNKNOWN, the function will use the "bus-type"
-> + * property to determine the type when it is available. The caller is
-> + * responsible for validating the contents of @vep.bus_type field after the call
-> + * returns.
-> + *
-> + * As a deprecated functionality to support older DT bindings without "bus-type"
-> + * property for devices that support multiple types, if the "bus-type" property
-> + * does not exist, the function will attempt to guess the type based on the
-> + * endpoint properties available. NEVER RELY ON GUESSING THE BUS TYPE IN NEW
-> + * DRIVERS OR BINDINGS.
-> + *
-> + * It is also possible to set @vep.bus_type corresponding to an actual bus. In
-> + * this case the function will only attempt to parse properties related to this
-> + * bus, and it will return an error if the value of the "bus-type" property
-> + * corresponds to a different bus.
->   *
->   * The caller is required to initialise all fields of @vep.
->   *
+>   * Return: %0 on success or a negative error code on failure:
+>   *	   %-ENOMEM on memory allocation failure
 
 -- 
 Regards,
