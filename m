@@ -2,64 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F548282BD8
-	for <lists+linux-media@lfdr.de>; Sun,  4 Oct 2020 18:43:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 793EB282C0A
+	for <lists+linux-media@lfdr.de>; Sun,  4 Oct 2020 19:47:17 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726082AbgJDQnC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Oct 2020 12:43:02 -0400
-Received: from mailrelay3-1.pub.mailoutpod1-cph3.one.com ([46.30.210.184]:49672
-        "EHLO mailrelay3-1.pub.mailoutpod1-cph3.one.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726077AbgJDQnC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 4 Oct 2020 12:43:02 -0400
+        id S1726145AbgJDRq7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Oct 2020 13:46:59 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46066 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726132AbgJDRq5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Oct 2020 13:46:57 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05916C0613CF
+        for <linux-media@vger.kernel.org>; Sun,  4 Oct 2020 10:46:55 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id y15so6538862wmi.0
+        for <linux-media@vger.kernel.org>; Sun, 04 Oct 2020 10:46:55 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=wedl.one; s=20191106;
-        h=content-transfer-encoding:content-type:in-reply-to:mime-version:date:
-         message-id:references:to:from:subject:from;
-        bh=YsWommNeCZA/BCM1jUJ6ohR3pB9eWoz//Yds422JWR8=;
-        b=AtyHjQYhBMlg2XPXA0gD0UWeWTzCVykjmLVGCEFawufDei/N3oYZok/Z29o2iMsSWPBYBc2suMK2P
-         6yEzkRVAujGpz4goNDVtiO8jzVNewShIBAWDD4wRrIiXvZaeAcPFIhnGpbcT97rpr0rnxjNGAYYlMh
-         ItIS00H5WZ68oF97CdHHO+arfq9lYRGIN30X06C+FaE6rdFsu3PmtAAd6TyEsmUR11kLdceTvW8ma1
-         1eWLdj1YXSEFRGgpeWt8QHJjMWXRTu0m6WxEuPEh4euGpEN95a5Ysd3gdf6Z0thAEjfts5jelsA6Sk
-         mOy4rMjfO8F32Xl5egnx6irA4SUVQYw==
-X-HalOne-Cookie: 51ee2edaba552be41cb0d3579cff60ed1b0d7b82
-X-HalOne-ID: a9193504-0660-11eb-a800-d0431ea8bb03
-Received: from [172.16.1.8] (dyndsl-091-096-130-080.ewe-ip-backbone.de [91.96.130.80])
-        by mailrelay3.pub.mailoutpod1-cph3.one.com (Halon) with ESMTPSA
-        id a9193504-0660-11eb-a800-d0431ea8bb03;
-        Sun, 04 Oct 2020 16:42:59 +0000 (UTC)
-Subject: Maxim MAX3543 DVB Tuner
-From:   Webmaster <webmaster@wedl.one>
-To:     linux-media@vger.kernel.org
-References: <eddb42fa-889c-6653-3db3-113d05350c28@wedl.one>
-Message-ID: <c3fd2bf2-dc5d-105d-1ecb-91b2f97a0c00@wedl.one>
-Date:   Sun, 4 Oct 2020 18:42:58 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xZb9ZPx925o3OtV1iHv7jgcfUYkClsADhGTqG4VVBZQ=;
+        b=a1lT+kITTxZoMYdlrn0a8YZ3eYwhdfwvsNwzaM5mcrFlgcCQLKHacFtLl/AO7nxwo6
+         ZUhHhyOFJc0byw3/WZvqOtnfHy08gpGybBDq2bdzhiPsyL2sYugYTPqcTdfaZYeMA2/Y
+         I2NuCbM5zP1rUMOr0c5CiPBIk8Q58rv8gbuW8CUGCAozutPVsRMHvY8rAsAtlPF35zsW
+         89uRb2tPzTanOqpoBOiNHSFHtbY2z9DfibF9RVKHW2OYVi0dfdCWT7E22UVxNaOK1Trv
+         X9NJxwdHQGPfE117H+M0EV5MzLlA+GhDstlV+cuVaGVfl7A/DZjDgl7RFG4l5DaWIwmT
+         P/Aw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xZb9ZPx925o3OtV1iHv7jgcfUYkClsADhGTqG4VVBZQ=;
+        b=WQR6lZQ7vwef40Q6Nr36Re3UrxtpgaOj0tDQoaLMoDKrzmvxVUn2iTdryrICC6bh9d
+         y97zn3hnuk631SOaPH8GDQ8GVpE35b5Up7KWqR2QgrGpQKCMgky2bwp6KWARTelEoATh
+         7jmljcZs9bR990yyHgWku0QGyE7Lo/JoVA83N3P7yNMsV40a3+yzy1IRAK5lnjYmpuO+
+         NImgmsJCpknkMCpQgjq8l1arL1wsgpvXziZ7eJTReMZW+oekJX6s5FTF8hUCiHSNkWMg
+         Li4Jk5G+59joD2eyDjR4n2muoBgvoMiTf8BtwNPksjk7kpYn17oJzf8t0RVIUWFqR5Cd
+         S36Q==
+X-Gm-Message-State: AOAM531wg/IvbKtNXzKDnBssvFO9L5K+zptsaEIZrb1yXMQpac0IV734
+        nT6CeRqMqNYcu6iN6TtscTmiYw==
+X-Google-Smtp-Source: ABdhPJybmll9TQHS7y1+8M8alBfioU4eEPKn3U3aBe/VWg01Vh0UPrN1YKNOb9nvmW4dZhhLG9O4fA==
+X-Received: by 2002:a1c:6004:: with SMTP id u4mr5348656wmb.44.1601833614456;
+        Sun, 04 Oct 2020 10:46:54 -0700 (PDT)
+Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
+        by smtp.googlemail.com with ESMTPSA id y23sm6259129wra.55.2020.10.04.10.46.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 04 Oct 2020 10:46:53 -0700 (PDT)
+Date:   Sun, 4 Oct 2020 19:46:51 +0200
+From:   LABBE Corentin <clabbe@baylibre.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linuxarm@huawei.com, mauro.chehab@huawei.com,
+        "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        mjpeg-users@lists.sourceforge.net
+Subject: Re: [PATCH 1/4] media: zoran: move documentation file to the right
+ place
+Message-ID: <20201004174651.GA28143@Red>
+References: <6b90346919d42ffc7c3ad283bfca2825b238147a.1601714147.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <eddb42fa-889c-6653-3db3-113d05350c28@wedl.one>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <6b90346919d42ffc7c3ad283bfca2825b238147a.1601714147.git.mchehab+huawei@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Sat, Oct 03, 2020 at 10:41:54AM +0200, Mauro Carvalho Chehab wrote:
+> The zoran revert patch misplaced the Zoran doc file. Move it to
+> the right place.
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> ---
+>  Documentation/driver-api/media/drivers/index.rst                 | 1 +
+>  .../{media => driver-api/media/drivers}/v4l-drivers/zoran.rst    | 0
+>  2 files changed, 1 insertion(+)
+>  rename Documentation/{media => driver-api/media/drivers}/v4l-drivers/zoran.rst (100%)
+> 
+> diff --git a/Documentation/driver-api/media/drivers/index.rst b/Documentation/driver-api/media/drivers/index.rst
+> index 5f340cfdb4cc..eb7011782863 100644
+> --- a/Documentation/driver-api/media/drivers/index.rst
+> +++ b/Documentation/driver-api/media/drivers/index.rst
+> @@ -25,6 +25,7 @@ Video4Linux (V4L) drivers
+>  	sh_mobile_ceu_camera
+>  	tuners
+>  	vimc-devel
+> +	zoran
+>  
+>  
+>  Digital TV drivers
+> diff --git a/Documentation/media/v4l-drivers/zoran.rst b/Documentation/driver-api/media/drivers/v4l-drivers/zoran.rst
+> similarity index 100%
+> rename from Documentation/media/v4l-drivers/zoran.rst
+> rename to Documentation/driver-api/media/drivers/v4l-drivers/zoran.rst
+> -- 
+> 2.26.2
+> 
 
-Is it possible to get the DVB tuner MAX3543 to work in the current kernel?
+Hello
 
-https://www.maximintegrated.com/en/products/comms/wireless-rf/MAX3543.html
+Acked-by: Corentin Labbe <clabbe@baylibre.com>
 
-There were drivers for the 3.0.0 and 3.2.0 kernels
-
-https://github.com/ambrosa/DVB-Realtek-RTL2832U-2.2.2-10tuner-mod_kernel-3.0.0
-
-Unfortunately, I have no experience with driver programming.
-
-I can test with 2 USB devices with MAX3543 RTL2840 RTL2832P X7251M50 inside
-
-Ingo
-
-
-
+Thanks
