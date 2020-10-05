@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17BBE283077
-	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 08:55:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E829283117
+	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 09:46:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725873AbgJEGzU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Oct 2020 02:55:20 -0400
-Received: from mga06.intel.com ([134.134.136.31]:51662 "EHLO mga06.intel.com"
+        id S1725919AbgJEHqZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Oct 2020 03:46:25 -0400
+Received: from mga14.intel.com ([192.55.52.115]:39270 "EHLO mga14.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725869AbgJEGzT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 5 Oct 2020 02:55:19 -0400
-IronPort-SDR: T/jPfnZgD+voXJ6rP6bBk8MfCRAwH5LV9suOg4Gq/urTZ/F7byFfAmVi4mo+vMPcWFluKvmjnv
- kHfipiB6TwNA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9764"; a="224961761"
+        id S1725895AbgJEHqZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 5 Oct 2020 03:46:25 -0400
+IronPort-SDR: x51AE5q9HisF32dfjfs6iT7fIUKg1UgCzcfN9WbzuorcoMmRriH5dj2lx70ZwjoSHbKs3iT7Tm
+ j495DpjQZTfg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9764"; a="162587750"
 X-IronPort-AV: E=Sophos;i="5.77,338,1596524400"; 
-   d="scan'208";a="224961761"
+   d="scan'208";a="162587750"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2020 23:55:12 -0700
-IronPort-SDR: cJxkWtCekEwiln79KrPzN9tx9OyGnNLL0wYniCTRcD5i89awUfUVj3DdsBh988tVeyNRIlbBCo
- KRUEOGd7ZTFQ==
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2020 00:46:20 -0700
+IronPort-SDR: B4oKUSmtWnzh4iDkFdLUso5nl4SMcnpHsEMivSqHbVWFYekZa7vtBl7cdhZwTSdGPv7RuqmX4o
+ WTL9/QbbJfgQ==
 X-IronPort-AV: E=Sophos;i="5.77,338,1596524400"; 
-   d="scan'208";a="515893226"
+   d="scan'208";a="417036571"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Oct 2020 23:55:11 -0700
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2020 00:46:18 -0700
 Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 49DB6205CA; Mon,  5 Oct 2020 09:55:05 +0300 (EEST)
-Date:   Mon, 5 Oct 2020 09:55:05 +0300
+        id E079E205CA; Mon,  5 Oct 2020 10:46:15 +0300 (EEST)
+Date:   Mon, 5 Oct 2020 10:46:15 +0300
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, jmondi@jmondi.org
+Cc:     linux-media@vger.kernel.org
 Subject: Re: [PATCH 5/5] v4l2-fwnode: Say it's fine to use
  v4l2_fwnode_endpoint_parse
-Message-ID: <20201005065505.GB26842@paasikivi.fi.intel.com>
+Message-ID: <20201005074615.GC26842@paasikivi.fi.intel.com>
 References: <20200930144811.16612-1-sakari.ailus@linux.intel.com>
  <20200930144811.16612-6-sakari.ailus@linux.intel.com>
  <20201004084148.GF3938@pendragon.ideasonboard.com>
@@ -86,7 +86,11 @@ On Sun, Oct 04, 2020 at 11:41:48AM +0300, Laurent Pinchart wrote:
 > of which is variable without a low fixed limit" is not very clear for a
 > casual reader.
 
-I can add that, sure.
+I'll use this in v2:
+
++ * NOTE: This function does not parse "link-frequencies" property as its size is
++ * not known in advance. Please use v4l2_fwnode_endpoint_alloc_parse() if you
++ * need properties of variable size.
 
 -- 
 Sakari Ailus
