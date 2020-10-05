@@ -2,115 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 501A0283B18
-	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 17:40:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32A89283C62
+	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 18:24:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728689AbgJEPjh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Oct 2020 11:39:37 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42716 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727972AbgJEPjW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 5 Oct 2020 11:39:22 -0400
-Received: from earth.universe (dyndsl-095-033-158-146.ewe-ip-backbone.de [95.33.158.146])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1CD5C2085B;
-        Mon,  5 Oct 2020 15:39:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1601912361;
-        bh=YDa9qgcYN/rLvsHl7wxHnDzXxyPxrajJMh139W2bTQc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=Yt3ruZa68573tch0c/Ho1ALzHfCpTDMLesbdlPmWRDYNKB50IT55EoZp87fsRkzgz
-         7+6j5JNoNjJ3AsqOjA1un0djegx8x339kHr5uakI101R3J4o5G+KgoyioglXZXg5dL
-         Bxy38eyfhsJbMySPsKZTFlatV3r6LR8AuCR8oLYA=
-Received: by earth.universe (Postfix, from userid 1000)
-        id 1CDCB3C0C87; Mon,  5 Oct 2020 17:39:19 +0200 (CEST)
-Date:   Mon, 5 Oct 2020 17:39:19 +0200
-From:   Sebastian Reichel <sre@kernel.org>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, Ulf Hansson <ulf.hansson@linaro.org>,
-        linux-iio@vger.kernel.org, linux-pci@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org, alsa-devel@alsa-project.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>, linux-clk@vger.kernel.org,
-        linux-leds@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-rockchip@lists.infradead.org, linux-serial@vger.kernel.org,
-        linux-mips@vger.kernel.org, Guenter Roeck <linux@roeck-us.net>,
-        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-gpio@vger.kernel.org, Mark Brown <broonie@kernel.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        openipmi-developer@lists.sourceforge.net,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        linux-hwmon@vger.kernel.org, Stephen Boyd <sboyd@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-usb@vger.kernel.org, linux-mmc@vger.kernel.org,
-        Liam Girdwood <lgirdwood@gmail.com>, linux-spi@vger.kernel.org,
-        Vinod Koul <vkoul@kernel.org>, netdev@vger.kernel.org,
-        Baolin Wang <baolin.wang7@gmail.com>,
-        Shawn Guo <shawnguo@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jonathan Cameron <jic23@kernel.org>
-Subject: Re: [PATCH] dt-bindings: Another round of adding missing
- 'additionalProperties'
-Message-ID: <20201005153919.llmcjbz4hiqvzd4x@earth.universe>
-References: <20201002234143.3570746-1-robh@kernel.org>
+        id S1728048AbgJEQYe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Oct 2020 12:24:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57436 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726638AbgJEQYe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Oct 2020 12:24:34 -0400
+Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5D74C0613CE;
+        Mon,  5 Oct 2020 09:24:33 -0700 (PDT)
+Received: by mail-ua1-x942.google.com with SMTP id z19so2705066uap.2;
+        Mon, 05 Oct 2020 09:24:33 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=qBumfCmhAXhY6hDQgspF9hUMTgcwdq6ZvwLFthSZGKg=;
+        b=FqgucgTbGuny7Ms/SWPL4HahrbIIvGxOn4Zb1JCVFIdVq4oFzJnG9Lig/ZJD+lJ+s/
+         7z5Ew6VOel/j/DPaKaY8Jgffv6XMOZaMxJCjTrMXLNdF2CaHsuCV6nvK9fVzLtPe18k8
+         XsJEIS3GSofDUIgLWpDbum1ae6IhdzyjabIq3rnE+7canVicUVSzryoQIQhj5QzGc8/m
+         J+al3GNCZWv8cH4ug3+omqfo0SzAMOuN5lczBQb+eteSlN2bQlPdPGD+y9JpdQEkaLDX
+         pbE9eKwoz5hm3AFBibyPly+JHhDSawWQRCUH6CC/4UWeVpIl2mI4uoiI3KNB/AlGrQLL
+         wzyg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=qBumfCmhAXhY6hDQgspF9hUMTgcwdq6ZvwLFthSZGKg=;
+        b=EeTv7+D/6Bd8OxRsHYLhU5pWix21qEYNTa0ocESNrnClgyFrp6T0bxIhpjlg+pTKbS
+         eN13ZgpeeCt/2iPQXc18KK9TsFg+e27poqA5M5Gne6CLNcl5Poq9lYCSFkQ+UcopKWF+
+         hURgRiFsS2h0pcBSC4jRrJUA7x79CCTlhKUkymyrRefI60dJUcHaVXWSWbZAc2ywuPGr
+         +VYN6HMv8lnMs3NF6vwCrVopAGZLtaxQ9AQcXZZk2+2sgLiQ7Eg9TtDCDpIy6y5ZxmmJ
+         3aI5vwsV12SQJywc7tkPv160uQQp0juWw84z3hp/L51fjZMxNqMBxXxR4SLN2oSHk4Gg
+         ITmQ==
+X-Gm-Message-State: AOAM530+Bk58WWnqXZpyod4Q5L+B5lt+UTF7PeLolDYaou6aof8/4mkS
+        ZSpE8y3BN8hIXvMmav2rff7kH0biwdCEOqP1/I+PZg5QVuqCurHe
+X-Google-Smtp-Source: ABdhPJznyMapjDMGbUJSAUPrB5hWXc5IE1Vq0Zi5rWJZl03TsE1S3clOeekLVUiAwcemyucFJg5Cj3CY5Fd3yEzo76Y=
+X-Received: by 2002:a9f:3f46:: with SMTP id i6mr449424uaj.31.1601915072945;
+ Mon, 05 Oct 2020 09:24:32 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="ruzfmjzmyxibtjj5"
-Content-Disposition: inline
-In-Reply-To: <20201002234143.3570746-1-robh@kernel.org>
+References: <20201004192152.3298573-1-robdclark@gmail.com>
+In-Reply-To: <20201004192152.3298573-1-robdclark@gmail.com>
+From:   =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@gmail.com>
+Date:   Mon, 5 Oct 2020 18:24:21 +0200
+Message-ID: <CAOeoa-d4-KyuVjwPCBcau6yp6sxeeHN4K0cQzZ=H+OQVgHsLFw@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 00/14] drm/msm: de-struct_mutex-ification
+To:     Rob Clark <robdclark@gmail.com>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        Rob Clark <robdclark@chromium.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <linux-arm-msm@vger.kernel.org>,
+        Sharat Masetty <smasetty@codeaurora.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>, Eric Anholt <eric@anholt.net>,
+        Jordan Crouse <jcrouse@codeaurora.org>,
+        Ben Dooks <ben.dooks@codethink.co.uk>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <freedreno@lists.freedesktop.org>,
+        Emil Velikov <emil.velikov@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Sun, Oct 4, 2020 at 9:21 PM Rob Clark <robdclark@gmail.com> wrote:
+>
+> From: Rob Clark <robdclark@chromium.org>
+>
+> This doesn't remove *all* the struct_mutex, but it covers the worst
+> of it, ie. shrinker/madvise/free/retire.  The submit path still uses
+> struct_mutex, but it still needs *something* serialize a portion of
+> the submit path, and lock_stat mostly just shows the lock contention
+> there being with other submits.  And there are a few other bits of
+> struct_mutex usage in less critical paths (debugfs, etc).  But this
+> seems like a reasonable step in the right direction.
 
---ruzfmjzmyxibtjj5
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+What a great patch set. Daniel has some good points and nothing that
+requires big changes, but on the other hand, I'm not sure it's
+something that needs to block this set either.
 
-On Fri, Oct 02, 2020 at 06:41:43PM -0500, Rob Herring wrote:
-> Another round of wack-a-mole. The json-schema default is additional
-> unknown properties are allowed, but for DT all properties should be
-> defined.
->=20
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
->=20
-> I'll take this thru the DT tree.
->=20
->  [...]
->  .../bindings/power/supply/cw2015_battery.yaml |  2 ++
->  .../bindings/power/supply/rohm,bd99954.yaml   |  8 ++++++++
-> [...]
+Either way, for the series
 
-Acked-by: Sebastian Reichel <sre@kernel.org>
+Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
 
--- Sebastian
-
---ruzfmjzmyxibtjj5
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQIzBAABCgAdFiEE72YNB0Y/i3JqeVQT2O7X88g7+poFAl97PhAACgkQ2O7X88g7
-+pqkbg/9HQHD97P7Thh0rG2tNf/oTuwqdbqpGz8XffiIbWso3SaAukPavFc/b34T
-Bhf9ldAe4Jy7Sz8qDavKYO8qMWOF8av5Je5ajNG3fFmRAO28Jz1vcRsxn7JiTvlU
-SnlrNgxMlppGfzCt59G/IH6GyJVUVhZduf1HhaterbutugRNLE6LKY85rtwPlCR6
-d4+sJE+gKYJmNhxj1XYyVrXoWQs22IA8nJggb2g2l5nHfFolffKHFRXTX5Ax7WFL
-vhm/uSgz/4T9RyObm3lx4ODSSZqC3oc1E0DR3jf97rWH6xGUVFuJoAtE5ZpS5AJt
-uC3k2QQJ8mCt5fUA+khtnS4DIsF07uOzd5Hbex8NcXiFnlO/9GYWlmGXxlAnhdrk
-vSk8jlPgslc4xKpae1y8DFQiMndd9+1g0b4ZOJ6RnhaNpnOoFOIIPmC2ViRnQ8/0
-kv5w7Hop2CIxAYj3Jk1IzlmtbmJeQt39ya7uHNJhV2ISd8P3AmrkcNedPd8OV7MO
-7DrV+n/aKjH2gLYX0+377iH59APbluDQd64e+iDir2L5PP4BWXmyMOGqZ+Od7ScJ
-YT7hlpoKPVwZ1lqta77S7LDpYrRtyv8Ce5EsFineimEc1b4N51GTMh6lDPIGVcXz
-Xa1GC6kpGXU9Cx39fOb5K64cnrJ5Whplgiyv+4xd1suU1q25CZM=
-=XHTx
------END PGP SIGNATURE-----
-
---ruzfmjzmyxibtjj5--
+> Rob Clark (14):
+>   drm/msm: Use correct drm_gem_object_put() in fail case
+>   drm/msm: Drop chatty trace
+>   drm/msm: Move update_fences()
+>   drm/msm: Add priv->mm_lock to protect active/inactive lists
+>   drm/msm: Document and rename preempt_lock
+>   drm/msm: Protect ring->submits with it's own lock
+>   drm/msm: Refcount submits
+>   drm/msm: Remove obj->gpu
+>   drm/msm: Drop struct_mutex from the retire path
+>   drm/msm: Drop struct_mutex in free_object() path
+>   drm/msm: remove msm_gem_free_work
+>   drm/msm: drop struct_mutex in madvise path
+>   drm/msm: Drop struct_mutex in shrinker path
+>   drm/msm: Don't implicit-sync if only a single ring
+>
+>  drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |  4 +-
+>  drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 12 +--
+>  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     |  4 +-
+>  drivers/gpu/drm/msm/msm_debugfs.c         |  7 ++
+>  drivers/gpu/drm/msm/msm_drv.c             | 15 +---
+>  drivers/gpu/drm/msm/msm_drv.h             | 19 +++--
+>  drivers/gpu/drm/msm/msm_gem.c             | 76 ++++++------------
+>  drivers/gpu/drm/msm/msm_gem.h             | 53 +++++++++----
+>  drivers/gpu/drm/msm/msm_gem_shrinker.c    | 58 ++------------
+>  drivers/gpu/drm/msm/msm_gem_submit.c      | 17 ++--
+>  drivers/gpu/drm/msm/msm_gpu.c             | 96 ++++++++++++++---------
+>  drivers/gpu/drm/msm/msm_gpu.h             |  5 +-
+>  drivers/gpu/drm/msm/msm_ringbuffer.c      |  3 +-
+>  drivers/gpu/drm/msm/msm_ringbuffer.h      | 13 ++-
+>  14 files changed, 188 insertions(+), 194 deletions(-)
+>
+> --
+> 2.26.2
+>
+> _______________________________________________
+> Freedreno mailing list
+> Freedreno@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/freedreno
