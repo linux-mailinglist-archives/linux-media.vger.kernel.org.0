@@ -2,133 +2,220 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32A89283C62
-	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 18:24:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E1097283F5C
+	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 21:13:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728048AbgJEQYe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Oct 2020 12:24:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57436 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726638AbgJEQYe (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Oct 2020 12:24:34 -0400
-Received: from mail-ua1-x942.google.com (mail-ua1-x942.google.com [IPv6:2607:f8b0:4864:20::942])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5D74C0613CE;
-        Mon,  5 Oct 2020 09:24:33 -0700 (PDT)
-Received: by mail-ua1-x942.google.com with SMTP id z19so2705066uap.2;
-        Mon, 05 Oct 2020 09:24:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qBumfCmhAXhY6hDQgspF9hUMTgcwdq6ZvwLFthSZGKg=;
-        b=FqgucgTbGuny7Ms/SWPL4HahrbIIvGxOn4Zb1JCVFIdVq4oFzJnG9Lig/ZJD+lJ+s/
-         7z5Ew6VOel/j/DPaKaY8Jgffv6XMOZaMxJCjTrMXLNdF2CaHsuCV6nvK9fVzLtPe18k8
-         XsJEIS3GSofDUIgLWpDbum1ae6IhdzyjabIq3rnE+7canVicUVSzryoQIQhj5QzGc8/m
-         J+al3GNCZWv8cH4ug3+omqfo0SzAMOuN5lczBQb+eteSlN2bQlPdPGD+y9JpdQEkaLDX
-         pbE9eKwoz5hm3AFBibyPly+JHhDSawWQRCUH6CC/4UWeVpIl2mI4uoiI3KNB/AlGrQLL
-         wzyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qBumfCmhAXhY6hDQgspF9hUMTgcwdq6ZvwLFthSZGKg=;
-        b=EeTv7+D/6Bd8OxRsHYLhU5pWix21qEYNTa0ocESNrnClgyFrp6T0bxIhpjlg+pTKbS
-         eN13ZgpeeCt/2iPQXc18KK9TsFg+e27poqA5M5Gne6CLNcl5Poq9lYCSFkQ+UcopKWF+
-         hURgRiFsS2h0pcBSC4jRrJUA7x79CCTlhKUkymyrRefI60dJUcHaVXWSWbZAc2ywuPGr
-         +VYN6HMv8lnMs3NF6vwCrVopAGZLtaxQ9AQcXZZk2+2sgLiQ7Eg9TtDCDpIy6y5ZxmmJ
-         3aI5vwsV12SQJywc7tkPv160uQQp0juWw84z3hp/L51fjZMxNqMBxXxR4SLN2oSHk4Gg
-         ITmQ==
-X-Gm-Message-State: AOAM530+Bk58WWnqXZpyod4Q5L+B5lt+UTF7PeLolDYaou6aof8/4mkS
-        ZSpE8y3BN8hIXvMmav2rff7kH0biwdCEOqP1/I+PZg5QVuqCurHe
-X-Google-Smtp-Source: ABdhPJznyMapjDMGbUJSAUPrB5hWXc5IE1Vq0Zi5rWJZl03TsE1S3clOeekLVUiAwcemyucFJg5Cj3CY5Fd3yEzo76Y=
-X-Received: by 2002:a9f:3f46:: with SMTP id i6mr449424uaj.31.1601915072945;
- Mon, 05 Oct 2020 09:24:32 -0700 (PDT)
+        id S1728569AbgJETMf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Oct 2020 15:12:35 -0400
+Received: from mga01.intel.com ([192.55.52.88]:36703 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729227AbgJETMd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 5 Oct 2020 15:12:33 -0400
+IronPort-SDR: KJnE7gPl1ketHrrjeZjXBx+HRoPWUI3VmqLQbTVmkEIIetegqmbhYk4f4GZSX86gQMVy6+Rcj9
+ hQaBTfcStqKg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9765"; a="181645312"
+X-IronPort-AV: E=Sophos;i="5.77,340,1596524400"; 
+   d="scan'208";a="181645312"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2020 12:08:51 -0700
+IronPort-SDR: yCkjNZ09aF9z0J5PlnfUVuqBVModuoAyXY3WOttp7i3FehXVpzKv9AxmEYRjM1A96G5aG3wA9R
+ lZsj+uKYqKwA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,340,1596524400"; 
+   d="scan'208";a="526280872"
+Received: from lkp-server02.sh.intel.com (HELO b5ae2f167493) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 05 Oct 2020 10:18:54 -0700
+Received: from kbuild by b5ae2f167493 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kPU8L-0000tK-4n; Mon, 05 Oct 2020 17:18:45 +0000
+Date:   Tue, 06 Oct 2020 01:18:34 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD REGRESSION
+ 463c43fcd97e493d8a17242f4f000c86fe642ed6
+Message-ID: <5f7b556a.S1MBm96BUiyBc4qI%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-References: <20201004192152.3298573-1-robdclark@gmail.com>
-In-Reply-To: <20201004192152.3298573-1-robdclark@gmail.com>
-From:   =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@gmail.com>
-Date:   Mon, 5 Oct 2020 18:24:21 +0200
-Message-ID: <CAOeoa-d4-KyuVjwPCBcau6yp6sxeeHN4K0cQzZ=H+OQVgHsLFw@mail.gmail.com>
-Subject: Re: [Freedreno] [PATCH 00/14] drm/msm: de-struct_mutex-ification
-To:     Rob Clark <robdclark@gmail.com>
-Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
-        Rob Clark <robdclark@chromium.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Jonathan Marek <jonathan@marek.ca>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <linux-arm-msm@vger.kernel.org>,
-        Sharat Masetty <smasetty@codeaurora.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>, Eric Anholt <eric@anholt.net>,
-        Jordan Crouse <jcrouse@codeaurora.org>,
-        Ben Dooks <ben.dooks@codethink.co.uk>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        AngeloGioacchino Del Regno <kholk11@gmail.com>,
-        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
-        <freedreno@lists.freedesktop.org>,
-        Emil Velikov <emil.velikov@collabora.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Oct 4, 2020 at 9:21 PM Rob Clark <robdclark@gmail.com> wrote:
->
-> From: Rob Clark <robdclark@chromium.org>
->
-> This doesn't remove *all* the struct_mutex, but it covers the worst
-> of it, ie. shrinker/madvise/free/retire.  The submit path still uses
-> struct_mutex, but it still needs *something* serialize a portion of
-> the submit path, and lock_stat mostly just shows the lock contention
-> there being with other submits.  And there are a few other bits of
-> struct_mutex usage in less critical paths (debugfs, etc).  But this
-> seems like a reasonable step in the right direction.
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: 463c43fcd97e493d8a17242f4f000c86fe642ed6  Merge tag 'v5.9-rc7' into patchwork
 
-What a great patch set. Daniel has some good points and nothing that
-requires big changes, but on the other hand, I'm not sure it's
-something that needs to block this set either.
+Error/Warning in current branch:
 
-Either way, for the series
+drivers/media/platform/fsl-viu.c:253:2: error: implicit declaration of function 'out_be32' [-Werror=implicit-function-declaration]
+drivers/media/platform/fsl-viu.c:266:15: error: implicit declaration of function 'in_be32' [-Werror=implicit-function-declaration]
+drivers/remoteproc/mtk_scp.c:645:34: warning: unused variable 'mtk_scp_of_match' [-Wunused-const-variable]
 
-Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
+Error/Warning ids grouped by kconfigs:
 
-> Rob Clark (14):
->   drm/msm: Use correct drm_gem_object_put() in fail case
->   drm/msm: Drop chatty trace
->   drm/msm: Move update_fences()
->   drm/msm: Add priv->mm_lock to protect active/inactive lists
->   drm/msm: Document and rename preempt_lock
->   drm/msm: Protect ring->submits with it's own lock
->   drm/msm: Refcount submits
->   drm/msm: Remove obj->gpu
->   drm/msm: Drop struct_mutex from the retire path
->   drm/msm: Drop struct_mutex in free_object() path
->   drm/msm: remove msm_gem_free_work
->   drm/msm: drop struct_mutex in madvise path
->   drm/msm: Drop struct_mutex in shrinker path
->   drm/msm: Don't implicit-sync if only a single ring
->
->  drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |  4 +-
->  drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 12 +--
->  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     |  4 +-
->  drivers/gpu/drm/msm/msm_debugfs.c         |  7 ++
->  drivers/gpu/drm/msm/msm_drv.c             | 15 +---
->  drivers/gpu/drm/msm/msm_drv.h             | 19 +++--
->  drivers/gpu/drm/msm/msm_gem.c             | 76 ++++++------------
->  drivers/gpu/drm/msm/msm_gem.h             | 53 +++++++++----
->  drivers/gpu/drm/msm/msm_gem_shrinker.c    | 58 ++------------
->  drivers/gpu/drm/msm/msm_gem_submit.c      | 17 ++--
->  drivers/gpu/drm/msm/msm_gpu.c             | 96 ++++++++++++++---------
->  drivers/gpu/drm/msm/msm_gpu.h             |  5 +-
->  drivers/gpu/drm/msm/msm_ringbuffer.c      |  3 +-
->  drivers/gpu/drm/msm/msm_ringbuffer.h      | 13 ++-
->  14 files changed, 188 insertions(+), 194 deletions(-)
->
-> --
-> 2.26.2
->
-> _______________________________________________
-> Freedreno mailing list
-> Freedreno@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/freedreno
+gcc_recent_errors
+`-- m68k-randconfig-r032-20201005
+    |-- drivers-media-platform-fsl-viu.c:error:implicit-declaration-of-function-in_be32
+    `-- drivers-media-platform-fsl-viu.c:error:implicit-declaration-of-function-out_be32
+
+clang_recent_errors
+`-- x86_64-randconfig-a015-20201004
+    `-- drivers-remoteproc-mtk_scp.c:warning:unused-variable-mtk_scp_of_match
+
+elapsed time: 1835m
+
+configs tested: 142
+configs skipped: 2
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+h8300                       h8s-sim_defconfig
+sh                         ap325rxa_defconfig
+ia64                                defconfig
+powerpc                 mpc832x_mds_defconfig
+sh                            shmin_defconfig
+h8300                            allyesconfig
+sh                        sh7763rdp_defconfig
+powerpc                     sbc8548_defconfig
+mips                      maltasmvp_defconfig
+mips                           ci20_defconfig
+arm                        shmobile_defconfig
+powerpc                    socrates_defconfig
+mips                        jmr3927_defconfig
+arm                         vf610m4_defconfig
+arm                        neponset_defconfig
+mips                           ip22_defconfig
+mips                           ip28_defconfig
+powerpc                     rainier_defconfig
+mips                          ath25_defconfig
+arm                          lpd270_defconfig
+arm                          pxa3xx_defconfig
+m68k                       m5208evb_defconfig
+arm                         s5pv210_defconfig
+arm                            hisi_defconfig
+powerpc                   currituck_defconfig
+sh                           se7780_defconfig
+arm                          gemini_defconfig
+sh                ecovec24-romimage_defconfig
+ia64                        generic_defconfig
+sh                   sh7770_generic_defconfig
+i386                             alldefconfig
+microblaze                          defconfig
+powerpc                        icon_defconfig
+mips                          rm200_defconfig
+mips                      bmips_stb_defconfig
+powerpc                          g5_defconfig
+arm                           spitz_defconfig
+h8300                            alldefconfig
+arm                              zx_defconfig
+sh                               j2_defconfig
+powerpc                        fsp2_defconfig
+m68k                           sun3_defconfig
+arm                       omap2plus_defconfig
+m68k                            q40_defconfig
+mips                     decstation_defconfig
+openrisc                    or1ksim_defconfig
+nds32                               defconfig
+nios2                         10m50_defconfig
+sh                   secureedge5410_defconfig
+alpha                            allyesconfig
+riscv                    nommu_k210_defconfig
+arm                            pleb_defconfig
+sh                             espt_defconfig
+arm                            dove_defconfig
+sh                           se7619_defconfig
+ia64                             allmodconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+xtensa                           allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a004-20201004
+x86_64               randconfig-a002-20201004
+x86_64               randconfig-a001-20201004
+x86_64               randconfig-a003-20201004
+x86_64               randconfig-a005-20201004
+x86_64               randconfig-a006-20201004
+i386                 randconfig-a006-20201004
+i386                 randconfig-a005-20201004
+i386                 randconfig-a001-20201004
+i386                 randconfig-a004-20201004
+i386                 randconfig-a003-20201004
+i386                 randconfig-a002-20201004
+i386                 randconfig-a006-20201005
+i386                 randconfig-a005-20201005
+i386                 randconfig-a001-20201005
+i386                 randconfig-a004-20201005
+i386                 randconfig-a003-20201005
+i386                 randconfig-a002-20201005
+x86_64               randconfig-a012-20201005
+x86_64               randconfig-a015-20201005
+x86_64               randconfig-a014-20201005
+x86_64               randconfig-a013-20201005
+x86_64               randconfig-a011-20201005
+x86_64               randconfig-a016-20201005
+i386                 randconfig-a014-20201004
+i386                 randconfig-a015-20201004
+i386                 randconfig-a013-20201004
+i386                 randconfig-a016-20201004
+i386                 randconfig-a011-20201004
+i386                 randconfig-a012-20201004
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a004-20201005
+x86_64               randconfig-a002-20201005
+x86_64               randconfig-a001-20201005
+x86_64               randconfig-a003-20201005
+x86_64               randconfig-a005-20201005
+x86_64               randconfig-a006-20201005
+x86_64               randconfig-a012-20201004
+x86_64               randconfig-a015-20201004
+x86_64               randconfig-a014-20201004
+x86_64               randconfig-a013-20201004
+x86_64               randconfig-a011-20201004
+x86_64               randconfig-a016-20201004
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
