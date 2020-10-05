@@ -2,119 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC9E7283E12
-	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 20:16:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9F73283E18
+	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 20:16:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727614AbgJESQ0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Oct 2020 14:16:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46488 "EHLO
+        id S1727812AbgJESQu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Oct 2020 14:16:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46548 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727320AbgJESQ0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Oct 2020 14:16:26 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E065DC0613A7
-        for <linux-media@vger.kernel.org>; Mon,  5 Oct 2020 11:16:24 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id s66so9555631otb.2
-        for <linux-media@vger.kernel.org>; Mon, 05 Oct 2020 11:16:24 -0700 (PDT)
+        with ESMTP id S1727261AbgJESQr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Oct 2020 14:16:47 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80E0FC0613A8
+        for <linux-media@vger.kernel.org>; Mon,  5 Oct 2020 11:16:45 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id n2so9647938oij.1
+        for <linux-media@vger.kernel.org>; Mon, 05 Oct 2020 11:16:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=o2+egbzisCjaq6nT3TbPZNwblZFYsu8ELcSxPmHmJLs=;
-        b=J0+Lgox+Zl9MR/XcCJjFK6iKg91x1iw1K/lYf26aRsAWa8kYykCWy7QLhvJYCZo/rI
-         85l/kYnB3V0HE1AMuIcpmFW5+WsQgw3xUFa+j7WIrU1oW0leAypRqp05SrgmM9EUXOaD
-         hCEkIII06FI//qIehI2esTVFpziKPwVbJXmP0=
+        bh=FN2AJgQesBFrflJe0AntQ7YnHAZ/BkQQlGgu8HacbQA=;
+        b=g6/KKyKk/tBCaMaj97Lm7iHrYxg7bJ29XQV8IhKUtxpXBMElnA0Mbv+lpKUShMIfHO
+         MqqLNs2Ci3XA+tHIPwb3KdmMIDgXvYMIh2Gq+/uts7XqiK36dJTgztw6Syp+RG3BsD5T
+         Ppy21BbMDLHOP8TA62tHInwCRD/lrYW410N2c=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=o2+egbzisCjaq6nT3TbPZNwblZFYsu8ELcSxPmHmJLs=;
-        b=ayMWX6nty7plEj9C89kHt51QINXhCKSu+YZwkBUfQ0uPn4d4H5b6QpG4fK9w4dzELT
-         97XTfI/HF5Qaww73VdPrARe9I12Aq9U4Bkwibtq9fQ2UW8rRFrd9958wRGobQyrXx9o9
-         OQ+7NOXnJRantUH4414e233Ya6VTsVcwnmgBRJj5azEM6VzIQGuOnZhFtPFOAtTPCoGj
-         sJ/zz48d3B7CNVZcQ3DvlP4hdZS1nOQ0K8NRUersI8I58M4z7KcF1o4yWMX5sQjg1JFR
-         jQIG6srZPjYvU7Oys8/7KiOy8HcTTjUtCSTiQLYNfS7qaHrEVdW/7H9Jkvczv9egDU5v
-         91bg==
-X-Gm-Message-State: AOAM531apFPUAGoU1thKdBE53YrrKF3iweUn/lmndQh209NDQDOENt+2
-        6M5WZ9Dzn5hWmvWCbV2ILy0cqzrSe6GRso9k4iID1A==
-X-Google-Smtp-Source: ABdhPJw1WdHFszqHjMyHkkFFS0NFpEwjo9cLd/GAkbhzhWZSM2RoYOtYwo36XdXuPtVVYQY/y+MJINm3GzBdV6PWwoE=
-X-Received: by 2002:a05:6830:1647:: with SMTP id h7mr392769otr.281.1601921784105;
- Mon, 05 Oct 2020 11:16:24 -0700 (PDT)
+        bh=FN2AJgQesBFrflJe0AntQ7YnHAZ/BkQQlGgu8HacbQA=;
+        b=CYtLQW6M1dRj2z7v73BS4aUjlTxoYtJe80y8l25SpTKzjWQN3h4/+r0X8Hb/EnM8Ao
+         h3PuK64S0jCzYlv07uMa4Zl8eq7u+4xCxc9I7YFSJ4Tr/X9coAzBcVgYb9o1uy8Ijsfg
+         QbbK05h4W0mrL9wzyIT/z4KPBzoG3VztY8YCgMLZBoZZBohMnolUnvoCUoGr3b8JFl7X
+         71ido9Tv16ta/MjtfrQzL8T/kwmKucavrDCUWS3ohUTlNgEYyQSLRNS3xZkOn+Uv4Jww
+         KOwhYpxIDpAgdZ2OuPU3kIYK8d3L6wjzP0+7B+bK0vogJlcHFo0HnQKOYM8CCegm62yZ
+         q5rQ==
+X-Gm-Message-State: AOAM530I6QGOytGYKiqwUg4YQ8uayE0WX87fgDuvRrqVqer7C4SdnORc
+        8QXQrcsMjE02NpgluD5VHbWFnNVNWjHa8NY/ntTJRA==
+X-Google-Smtp-Source: ABdhPJwE3O5vPlLIwwOdbL49TN4HbzWmZ5VHe6jljPtrdxkXMqN7oaPXtHoRcyjt74oM3jMzJ1cKkFt4Dx3tnDQvQtA=
+X-Received: by 2002:aca:c6cc:: with SMTP id w195mr345570oif.101.1601921804728;
+ Mon, 05 Oct 2020 11:16:44 -0700 (PDT)
 MIME-Version: 1.0
-References: <0-v1-447bb60c11dd+174-frame_vec_fix_jgg@nvidia.com>
- <20201005175308.GI4225@quack2.suse.cz> <20201005175746.GA4734@nvidia.com>
-In-Reply-To: <20201005175746.GA4734@nvidia.com>
+References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
+ <20201002175303.390363-2-daniel.vetter@ffwll.ch> <20201002180603.GL9916@ziepe.ca>
+ <CAKMK7uGF+y-r4swLXmodhduRMy0NPa=ASBY8JOXS_g=9Rq9XQw@mail.gmail.com>
+ <20201002233118.GM9916@ziepe.ca> <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
+ <20201004125059.GP9916@ziepe.ca> <CAKMK7uF0AfuYGsHzKXhF=k-mAW=Wx_APf9fY9M9ormnwypoxZA@mail.gmail.com>
+ <20201005172854.GA5177@ziepe.ca>
+In-Reply-To: <20201005172854.GA5177@ziepe.ca>
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Mon, 5 Oct 2020 20:16:12 +0200
-Message-ID: <CAKMK7uHom6FGgsarnYRaW25Ta4cfrap+GMKgz27Y7bRYFUnmUw@mail.gmail.com>
+Date:   Mon, 5 Oct 2020 20:16:33 +0200
+Message-ID: <CAKMK7uFzxWF7V=7vkeNC-8shsPZRgdz9fYTsn0ayENv2BpnFEg@mail.gmail.com>
 Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
-To:     Jason Gunthorpe <jgg@nvidia.com>
-Cc:     Jan Kara <jack@suse.cz>, andrew Morton <akpm@linux-foundation.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Mauro Carvalho Chehab <mchehab@osg.samsung.com>,
-        Mel Gorman <mgorman@suse.de>, stable <stable@vger.kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        John Hubbard <jhubbard@nvidia.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
         LKML <linux-kernel@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
         Dan Williams <dan.j.williams@intel.com>,
+        Linux MM <linux-mm@kvack.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Inki Dae <inki.dae@samsung.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
         linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
         "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
+        <linux-media@vger.kernel.org>, Oded Gabbay <oded.gabbay@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 5, 2020 at 7:58 PM Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Mon, Oct 5, 2020 at 7:28 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 >
-> On Mon, Oct 05, 2020 at 07:53:08PM +0200, Jan Kara wrote:
-> > On Mon 05-10-20 14:38:54, Jason Gunthorpe wrote:
-> > > When get_vaddr_frames() does its hacky follow_pfn() loop it should never
-> > > be allowed to extract a struct page from a normal VMA. This could allow a
-> > > serious use-after-free problem on any kernel memory.
+> On Sun, Oct 04, 2020 at 06:09:29PM +0200, Daniel Vetter wrote:
+> > On Sun, Oct 4, 2020 at 2:51 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 > > >
-> > > Restrict this to only work on VMA's with one of VM_IO | VM_PFNMAP
-> > > set. This limits the use-after-free problem to only IO memory, which while
-> > > still serious, is an improvement.
+> > > On Sat, Oct 03, 2020 at 11:40:22AM +0200, Daniel Vetter wrote:
 > > >
-> > > Cc: stable@vger.kernel.org
-> > > Fixes: 8025e5ddf9c1 ("[media] mm: Provide new get_vaddr_frames() helper")
-> > > Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
-> > >  mm/frame_vector.c | 4 ++++
-> > >  1 file changed, 4 insertions(+)
+> > > > > That leaves the only interesting places as vb2_dc_get_userptr() and
+> > > > > vb2_vmalloc_get_userptr() which both completely fail to follow the
+> > > > > REQUIRED behavior in the function's comment about checking PTEs. It
+> > > > > just DMA maps them. Badly broken.
+> > > > >
+> > > > > Guessing this hackery is for some embedded P2P DMA transfer?
+> > > >
+> > > > Yeah, see also the follow_pfn trickery in
+> > > > videobuf_dma_contig_user_get(), I think this is fully intentional and
+> > > > userspace abi we can't break :-/
 > > >
-> > > diff --git a/mm/frame_vector.c b/mm/frame_vector.c
-> > > index 10f82d5643b6de..26cb20544b6c37 100644
-> > > +++ b/mm/frame_vector.c
-> > > @@ -99,6 +99,10 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
-> > >             if (ret >= nr_frames || start < vma->vm_end)
-> > >                     break;
-> > >             vma = find_vma_intersection(mm, start, start + 1);
-> > > +           if (!(vma->vm_flags & (VM_IO | VM_PFNMAP))) {
-> > > +                   ret = -EINVAL;
-> > > +                   goto out;
-> > > +           }
-> > >     } while (vma && vma->vm_flags & (VM_IO | VM_PFNMAP));
+> > > We don't need to break uABI, it just needs to work properly in the
+> > > kernel:
+> > >
+> > >   vma = find_vma_intersection()
+> > >   dma_buf = dma_buf_get_from_vma(vma)
+> > >   sg = dma_buf_p2p_dma_map(dma_buf)
+> > >   [.. do dma ..]
+> > >   dma_buf_unmap(sg)
+> > >   dma_buf_put(dma_buf)
+> > >
+> > > It is as we discussed before, dma buf needs to be discoverable from a
+> > > VMA, at least for users doing this kind of stuff.
 > >
-> > Hum, I fail to see how this helps. If vma has no VM_IO or VM_PFNMAP flag,
-> > we'd exit the loop (to out: label) anyway due to the loop termination
-> > condition and why not return the frames we already have? Furthermore
-> > find_vma_intersection() can return NULL which would oops in your check
-> > then. What am I missing?
+> > I'm not a big fan of magic behaviour like this, there's more to
+> > dma-buf buffer sharing than just "how do I get at the backing
+> > storage". Thus far we've done everything rather explicitly. Plus with
+> > exynos and habanalabs converted there's only v4l left over, and that
+> > has a proper dma-buf import path already.
 >
-> Oh, nothing, you are right. It just didn't read naturally because
-> hitting the wrong kind of VMA should be an error condition :\
+> Well, any VA approach like this has to access some backing refcount
+> via the VMA. Not really any way to avoid something like that
+>
+> > > A VM flag doesn't help - we need to introduce some kind of lifetime,
+> > > and that has to be derived from the VMA. It needs data not just a flag
+> >
+> > I don't want to make it work, I just want to make it fail. Rough idea
+> > I have in mind is to add a follow_pfn_longterm, for all callers which
+> > aren't either synchronized through mmap_sem or an mmu_notifier.
+>
+> follow_pfn() doesn't work outside the pagetable locks or mmu notifier
+> protection. Can't be fixed.
+>
+> We only have a few users:
+>
+> arch/s390/pci/pci_mmio.c:       ret = follow_pfn(vma, user_addr, pfn);
+> drivers/media/v4l2-core/videobuf-dma-contig.c:          ret = follow_pfn(vma, user_address, &this_pfn);
+> drivers/vfio/vfio_iommu_type1.c:        ret = follow_pfn(vma, vaddr, pfn);
+> drivers/vfio/vfio_iommu_type1.c:                ret = follow_pfn(vma, vaddr, pfn);
+> mm/frame_vector.c:                      err = follow_pfn(vma, start, &nums[ret]);
+> virt/kvm/kvm_main.c:    r = follow_pfn(vma, addr, &pfn);
+> virt/kvm/kvm_main.c:            r = follow_pfn(vma, addr, &pfn);
+>
+> VFIO is broken like media, but I saw patches fixing the vfio cases
+> using the VMA and a vfio specific refcount.
+>
+> media & frame_vector we are talking about here.
+>
+> kvm is some similar hack added for P2P DMA, see commit
+> add6a0cd1c5ba51b201e1361b05a5df817083618. It might be protected by notifiers..
 
-Afaik these mmio maps should all be VM_DONTEXPAND (or at least the
-ones in drivers/gpu are all), so not sure why we need the loop here.
-But maybe there's some drivers that don't set that, or have other
-funny things going on with userspace piecing the mmap together, and
-I'm not going to audit them all :-)
+Yeah my thinking is that kvm (and I think also vfio, also seems to
+have mmu notifier nearby) are ok because of the mmu notiifer. Assuming
+that one works correctly.
+
+> s390 looks broken too, needs to hold the page table locks.
+
+Hm yeah I guess that looks fairly reasonable to fix too.
+
+> So, the answer really is that s390 and media need fixing, and this API
+> should go away (or become kvm specific)
+
+I'm still not clear how you want fo fix this, since your vma->dma_buf
+idea is kinda a decade long plan and so just not going to happen:
+- v4l used this mostly (afaik the lore at least) for buffer sharing
+with v4l itself, and also a bit with fbdev. Neither even has any
+dma-buf exporter code as-is.
+- like I said, there's no central dma-buf instance, it was fairly
+intentionally create as an all-to-all abstraction. Which means you
+either have to roll out a vm_ops->gimme_the_dmabuf or, even more work,
+refactor all the dma-buf exporters to go through the same things
+- even where we have dma-buf, most mmaps of buffer objects aren't a
+dma-buf. Those  are only set up when userspace explicitly asks for
+one, so we'd also need to change the mmap code of all drivers involved
+to make sure the dma-buf is always created when we do any kind of
+mmap.
+
+I don't see that as a realistic thing to ever happen, and meanwhile we
+can't leave the gap open for a few years.
+
+> > If this really breaks anyone's use-case we can add a tainting kernel
+> > option which re-enables this (we've done something similar for
+> > phys_addr_t based buffer sharing in fbdev, entirely unfixable since
+> > the other driver has to just blindly trust that what userspace
+> > passes around is legit). This here isn't unfixable, but if v4l
+> > people want to keep it without a big "security hole here" sticker,
+> > they should do the work, not me :-)
+>
+> This seems fairly reasonable..
+>
+> So after frame_vec is purged and we have the one caller in media, move
+> all this stuff to media and taint the kernel if it goes down the
+> follow_pfn path
+
+Yeah I think moving frame_vec back to media sounds like a good idea,
+it should stop new users like habanalbas/exynos from popping up at
+least. It's follow_pfn that freaks me out more.
 -Daniel
--- 
+
+-Daniel
+--
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
