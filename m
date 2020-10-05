@@ -2,85 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF37828327B
-	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 10:49:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A2A07283291
+	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 10:52:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726004AbgJEItF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Oct 2020 04:49:05 -0400
-Received: from mga04.intel.com ([192.55.52.120]:64418 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725880AbgJEItF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 5 Oct 2020 04:49:05 -0400
-IronPort-SDR: uGqchOwkkklW18mwUVMcEfMwBogu42Fes3tt+3VBsoX9WmLasEjfx/GztLD7TqgKp2igAozXaI
- nqD9+C9sSpKQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9764"; a="160739423"
-X-IronPort-AV: E=Sophos;i="5.77,338,1596524400"; 
-   d="scan'208";a="160739423"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2020 01:48:58 -0700
-IronPort-SDR: UPd8fX2UVZGZuWU587nv6Y5qXeQGSdpctqkoRfk2qW9uO47f/ntw6qFjqksYNiLg5cgddKIsE+
- j4TNDqJjK8VA==
-X-IronPort-AV: E=Sophos;i="5.77,338,1596524400"; 
-   d="scan'208";a="515922828"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2020 01:48:54 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 741AF205CA; Mon,  5 Oct 2020 11:48:52 +0300 (EEST)
-Date:   Mon, 5 Oct 2020 11:48:52 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        id S1725917AbgJEIwD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Oct 2020 04:52:03 -0400
+Received: from mickerik.phytec.de ([195.145.39.210]:45670 "EHLO
+        mickerik.phytec.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725885AbgJEIwD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Oct 2020 04:52:03 -0400
+DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a1; c=relaxed/simple;
+        q=dns/txt; i=@phytec.de; t=1601887921; x=1604479921;
+        h=From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
+        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
+        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
+        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=rIiIosLA4VGrYp/A3KE5JPx8OOQgdFYeqoT8ZArhhc8=;
+        b=GjumZ8wsuQzZI+aaUWrGO0KTk5mvZlbZaTvUAAcjlvyzpuqJ25dj3X2F7bwwjEPu
+        Kw62E0KlvfnpYSU413J6Kod+FT2ZBp5mTYV/N/ePYcTxBrJHYK5DmmeWNiQ3O6iF
+        vk99cgS/pcT3bK5j57+IDpt/tBtyFyySRNVEsdHE+N8=;
+X-AuditID: c39127d2-269ff70000001c25-dd-5f7adeb17a13
+Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
+        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 19.3A.07205.1BEDA7F5; Mon,  5 Oct 2020 10:52:01 +0200 (CEST)
+Received: from [172.16.23.108] ([172.16.23.108])
+          by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
+          with ESMTP id 2020100510520110-551248 ;
+          Mon, 5 Oct 2020 10:52:01 +0200 
+Subject: Re: [PATCH v2 4/5] media: mt9p031: Make pixel clock polarity
+ configurable by DT
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v2] media: mtk-vcodec: fix builds when remoteproc is
- disabled
-Message-ID: <20201005084852.GD26842@paasikivi.fi.intel.com>
-References: <20201004122234.802044-1-acourbot@chromium.org>
+        Christian Hemp <c.hemp@phytec.de>
+References: <20200930105133.139981-1-s.riedmueller@phytec.de>
+ <20200930105133.139981-4-s.riedmueller@phytec.de>
+ <20201001161031.GP26842@paasikivi.fi.intel.com>
+ <20201001161111.GQ26842@paasikivi.fi.intel.com>
+From:   =?UTF-8?Q?Stefan_Riedm=c3=bcller?= <s.riedmueller@phytec.de>
+Message-ID: <1121fe39-2965-0782-85cc-2dcb9996b978@phytec.de>
+Date:   Mon, 5 Oct 2020 10:52:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201004122234.802044-1-acourbot@chromium.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201001161111.GQ26842@paasikivi.fi.intel.com>
+X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
+ 05.10.2020 10:52:01,
+        Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
+ 05.10.2020 10:52:01,
+        Serialize complete at 05.10.2020 10:52:01
+X-TNEFEvaluated: 1
+Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFrrLLMWRmVeSWpSXmKPExsWyRoCBS3fjvap4g9+zeSw6Jy5ht7i8aw6b
+        Rc+GrawWyzb9YbL4tOUbkwOrx+yOmawem1Z1snnMOxno8XmTXABLFJdNSmpOZllqkb5dAlfG
+        s1V2BRNYK95t2cfawDiZpYuRk0NCwETi+sQVjF2MXBxCAtsYJe4vWMAGkhASOM0ocXtKBogt
+        LBAlcXjBOtYuRg4OEQF9iUkPzEDqmQUOMUo0dM5mh2i+yiixasUpZpAGNgEnicXnO8AG8QrY
+        SMz5CdLMycEioCJx8sk5dpBBogKREjt3WEKUCEqcnPkE7CBOoPKzPxcwQhzXyCSxdL0RhC0k
+        cXrxWbDxzALyEtvfzoGyzSTmbX4IZYtL3Hoyn2kCo9AsJGNnIWmZhaRlFpKWBYwsqxiFcjOT
+        s1OLMrP1CjIqS1KT9VJSNzECo+DwRPVLOxj75ngcYmTiYAR6moNZSYRXL6wiXog3JbGyKrUo
+        P76oNCe1+BCjNAeLkjjvBt6SMCGB9MSS1OzU1ILUIpgsEwenVANj/4Sv8o/8VRuYUyWWHm/g
+        ls+z0zVNeJSc/67VS6/wrqrNhlnswSxyVzVXF7GqPuM+VfHTX+1KcCqfzrHIT/bLK0punjJ3
+        NmCZckxGlE+j7zPXTa2vr+XOPHy8hrmk7kzNombH3Eusf6uV2e0ZhZnsQ1QUTYP5oh4+WV1S
+        lZgQse+Nf/pZHiWW4oxEQy3mouJEADj9DCdwAgAA
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Alexandre,
+Hi Sakari,
 
-On Sun, Oct 04, 2020 at 09:22:34PM +0900, Alexandre Courbot wrote:
-> The addition of MT8183 support added a dependency on the SCP remoteproc
-> module. However the initial patch used the "select" Kconfig directive,
-> which may result in the SCP module to not be compiled if remoteproc was
-> disabled. In such a case, mtk-vcodec would try to link against
-> non-existent SCP symbols. "select" was clearly misused here as explained
-> in kconfig-language.txt.
+On 01.10.20 18:11, Sakari Ailus wrote:
+> On Thu, Oct 01, 2020 at 07:10:31PM +0300, Sakari Ailus wrote:
+>>> @@ -1079,6 +1094,9 @@ mt9p031_get_pdata(struct i2c_client *client)
+>>>   	of_property_read_u32(np, "input-clock-frequency", &pdata->ext_freq);
+>>>   	of_property_read_u32(np, "pixel-clock-frequency", &pdata->target_freq);
+>>>   
+>>> +	pdata->pixclk_pol = !!(endpoint.bus.parallel.flags &
+>>> +			       V4L2_MBUS_PCLK_SAMPLE_RISING);
+>>
+>> Could you document this in DT bindings? And the default, too.
 > 
-> Replace this by a "depends" directive on at least one of the VPU and
-> SCP modules, to allow the driver to be compiled as long as one of these
-> is enabled, and adapt the code to support this new scenario.
-> 
-> Also adapt the Kconfig text to explain the extra requirements for MT8173
-> and MT8183.
-> 
-> Reported-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
+> Please make it a separate patch.
 
-Thanks for the patch!
+Sure, I'll send a separate patch for the DT bindings.
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-
-I wonder if this driver suffers from similar object lifetime management
-issues than V4L2 and MC do, albeit not related to either. Say, what happens
-if you unbind the other device while mtk-vcodec is in use?
-
--- 
 Regards,
+Stefan
 
-Sakari Ailus
+> 
