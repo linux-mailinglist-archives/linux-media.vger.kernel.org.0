@@ -2,237 +2,284 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45D38282D23
-	for <lists+linux-media@lfdr.de>; Sun,  4 Oct 2020 21:21:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 24FD0282F13
+	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 05:32:47 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726755AbgJDTVo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 4 Oct 2020 15:21:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60514 "EHLO
+        id S1725870AbgJEDcp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 4 Oct 2020 23:32:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726713AbgJDTVf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Oct 2020 15:21:35 -0400
-Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DE7EC0613CE;
-        Sun,  4 Oct 2020 12:21:35 -0700 (PDT)
-Received: by mail-pg1-x542.google.com with SMTP id m34so4330936pgl.9;
-        Sun, 04 Oct 2020 12:21:35 -0700 (PDT)
+        with ESMTP id S1725845AbgJEDcp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 4 Oct 2020 23:32:45 -0400
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0C58DC0613CE
+        for <linux-media@vger.kernel.org>; Sun,  4 Oct 2020 20:32:45 -0700 (PDT)
+Received: by mail-oi1-x241.google.com with SMTP id x14so7448364oic.9
+        for <linux-media@vger.kernel.org>; Sun, 04 Oct 2020 20:32:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=bvgK4u82bAyvmLcb1xV4zW9ZRosaPzo7Ro9rB88uZpw=;
-        b=ofZAEfvfh8t1vznoy1eMEzfJNtT51uN1eqHEdUNZZF2XCyOISMqnMSt9iGAymBkYJ6
-         OReDh6nmpyaSeoep3kHHJHmvTuVVu/cT4A/Ig81/FTn9aY78ns7Af8iuMfQkvopF0Wsg
-         dYzRG8fNOWbOQQoURIBzhVdMhp+ur3eGpbwlqgIRW1EesJz90TDCM8cwpoZ/KKyFmxPi
-         DJnTQ+qRG0DpWj5DXS1YLfXmWxGMyB2JDh0G9ca3MCooBUBbLA5JcpQKp88956t44m6a
-         M7xuso8lV3k2U61P0RypNKvWj7ihmkcIB/dLvASEkMl/axDNPx4heJF53YNzhyygy/mk
-         qcvA==
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sf78nyT0NmBrjFhF/2XhwPPL+2uXLT33f/t1fNeaDec=;
+        b=gf6+m4YWcBDxmSk0HBWtr60eVrFKnlCIg1M+DUXpz8nlr/ohLVLU/207vqgDr+49g0
+         iS1TpFNq2LRcBUUHcHVmIv4gb0HxIG605sOJ9gyZ39vPIDLFdftlWCFnDj2iRVNrtbur
+         JpgPQEKniFedzMmyz3pNnLPa5hYrOoJ+mqvYU=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=bvgK4u82bAyvmLcb1xV4zW9ZRosaPzo7Ro9rB88uZpw=;
-        b=De7f6ox4fLbqmsBLlZE6c0/oyKgYfBIeqBxupAw9be5pMp+30fBzAi3qguaLSKdtBE
-         ltDRmqbX6QlayUJGssvp+35byj04Z9P716E+rvP08XaGBkJVcQcfnCACkObPLVOsLR1X
-         ZY8pGb/BEFZBk285sHvuBFuEmdf01Xxo4CuAVzjp3rBZEG7SCYlaokKIc19fwvEMPZOc
-         v7VmXj9zCfLNZtn+Yzjh65jSby62qGbCUdbLuJ3Wu9p5pj+k6vCZiI2pHkKF8Zhzae6W
-         gsy7JH7XQ3z0XEPpEtSTIbuPyHwAqVwdVr9SwL4VOR7dex4UXNBHmGWytbDolL/ZU5yR
-         0mEQ==
-X-Gm-Message-State: AOAM533hV0NZw1rararqL0Ey1jokqU0iC9lvRuBbRXB4Dgo2fAHXjEaU
-        JQLSYi5aNf9sAOD5b9LXago=
-X-Google-Smtp-Source: ABdhPJz09/i+2Wvqqf8XiOcUyAb17zQupk0PEwwUc6Pj2OeVvWLdUTNDay5FX1WDau4Gd0Ws7QGjBA==
-X-Received: by 2002:a63:d242:: with SMTP id t2mr11411995pgi.47.1601839294703;
-        Sun, 04 Oct 2020 12:21:34 -0700 (PDT)
-Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
-        by smtp.gmail.com with ESMTPSA id ie13sm8103444pjb.5.2020.10.04.12.21.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 04 Oct 2020 12:21:33 -0700 (PDT)
-From:   Rob Clark <robdclark@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     Rob Clark <robdclark@chromium.org>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
-        freedreno@lists.freedesktop.org (open list:DRM DRIVER FOR MSM ADRENO
-        GPU), linux-kernel@vger.kernel.org (open list),
-        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
-        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
-        FRAMEWORK)
-Subject: [PATCH 12/14] drm/msm: drop struct_mutex in madvise path
-Date:   Sun,  4 Oct 2020 12:21:44 -0700
-Message-Id: <20201004192152.3298573-13-robdclark@gmail.com>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201004192152.3298573-1-robdclark@gmail.com>
-References: <20201004192152.3298573-1-robdclark@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sf78nyT0NmBrjFhF/2XhwPPL+2uXLT33f/t1fNeaDec=;
+        b=f0B6sdz9TDd+MIEranRBjZ1enbXu570PImQAISvwBY+SE65AObIpikcm3HA/i5oTZe
+         jXlxKu3QqdkWN1rNw5n0zhv/1Q0NNJ9hSD9DdztAoGzOMFFn7DyL/wrELW5Vpt3RvKRD
+         ufnuD24n8NTL3ZTeEsBobm1vm49Awzk59Y/YiokRQQQoNpYWRiMUuoqT4jp8J/v2bNAZ
+         XXRs1byLh3CxVxsnZiKLDZPTYveF6i/X2Z6nDmAncQfN8kzE4J8ldK+Y/hZgy9McHPyR
+         V6pRqjnNsGVm2asabYnKAJogSBGhms04ozXyS6PcLGa3beZfZozsuQVkabS6SvE1mezw
+         K5MA==
+X-Gm-Message-State: AOAM531QgLIeSpo+wt6oqUgfLoClZcABOlowdonEBpPhxu2VxNNAr1Dd
+        6Mlff/gN2+lqo4zw+kYZg0WOJs9GXSkSMTA5
+X-Google-Smtp-Source: ABdhPJxS0WnyXh3Ym8nlXdT8ziMAapDEvBXAV3z34IkPOEnkAAIo4DPZ804J9OwgcE+bFEmnCjYy+A==
+X-Received: by 2002:aca:170a:: with SMTP id j10mr2700082oii.82.1601868764085;
+        Sun, 04 Oct 2020 20:32:44 -0700 (PDT)
+Received: from mail-ot1-f53.google.com (mail-ot1-f53.google.com. [209.85.210.53])
+        by smtp.gmail.com with ESMTPSA id 187sm2037913oie.42.2020.10.04.20.32.43
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 04 Oct 2020 20:32:43 -0700 (PDT)
+Received: by mail-ot1-f53.google.com with SMTP id 60so7334191otw.3
+        for <linux-media@vger.kernel.org>; Sun, 04 Oct 2020 20:32:43 -0700 (PDT)
+X-Received: by 2002:a9d:6445:: with SMTP id m5mr9828746otl.36.1601868762506;
+ Sun, 04 Oct 2020 20:32:42 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201004122234.802044-1-acourbot@chromium.org>
+In-Reply-To: <20201004122234.802044-1-acourbot@chromium.org>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Mon, 5 Oct 2020 12:32:30 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MXbTRBBsqcKi-hUtw+pYTVrM2WXBBrEzeTyqqO=B3vuYw@mail.gmail.com>
+Message-ID: <CAPBb6MXbTRBBsqcKi-hUtw+pYTVrM2WXBBrEzeTyqqO=B3vuYw@mail.gmail.com>
+Subject: Re: [PATCH v2] media: mtk-vcodec: fix builds when remoteproc is disabled
+To:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomasz Figa <tfiga@chromium.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Randy Dunlap <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Rob Clark <robdclark@chromium.org>
+On Sun, Oct 4, 2020 at 9:22 PM Alexandre Courbot <acourbot@chromium.org> wrote:
+>
+> The addition of MT8183 support added a dependency on the SCP remoteproc
+> module. However the initial patch used the "select" Kconfig directive,
+> which may result in the SCP module to not be compiled if remoteproc was
+> disabled. In such a case, mtk-vcodec would try to link against
+> non-existent SCP symbols. "select" was clearly misused here as explained
+> in kconfig-language.txt.
+>
+> Replace this by a "depends" directive on at least one of the VPU and
+> SCP modules, to allow the driver to be compiled as long as one of these
+> is enabled, and adapt the code to support this new scenario.
+>
+> Also adapt the Kconfig text to explain the extra requirements for MT8173
+> and MT8183.
+>
+> Reported-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
 
-The obj->lock is sufficient for what we need.
+Forgot to send the changelog, so here it is:
 
-This *does* have the implication that userspace can try to shoot
-themselves in the foot by racing madvise(DONTNEED) with submit.  But
-the result will be about the same if they did madvise(DONTNEED) before
-the submit ioctl, ie. they might not get want they want if they race
-with shrinker.  But iova fault handling is robust enough, and userspace
-is only shooting it's own foot.
+Changes since v1:
+* Added Acked-by from Randy.
+* Fixed typo in Kconfig description.
 
-Signed-off-by: Rob Clark <robdclark@chromium.org>
----
- drivers/gpu/drm/msm/msm_drv.c          | 11 ++------
- drivers/gpu/drm/msm/msm_gem.c          |  6 ++--
- drivers/gpu/drm/msm/msm_gem.h          | 38 ++++++++++++++++++--------
- drivers/gpu/drm/msm/msm_gem_shrinker.c |  4 +--
- 4 files changed, 32 insertions(+), 27 deletions(-)
-
-diff --git a/drivers/gpu/drm/msm/msm_drv.c b/drivers/gpu/drm/msm/msm_drv.c
-index e766c1f45045..d2488816ce48 100644
---- a/drivers/gpu/drm/msm/msm_drv.c
-+++ b/drivers/gpu/drm/msm/msm_drv.c
-@@ -906,14 +906,9 @@ static int msm_ioctl_gem_madvise(struct drm_device *dev, void *data,
- 		return -EINVAL;
- 	}
- 
--	ret = mutex_lock_interruptible(&dev->struct_mutex);
--	if (ret)
--		return ret;
--
- 	obj = drm_gem_object_lookup(file, args->handle);
- 	if (!obj) {
--		ret = -ENOENT;
--		goto unlock;
-+		return -ENOENT;
- 	}
- 
- 	ret = msm_gem_madvise(obj, args->madv);
-@@ -922,10 +917,8 @@ static int msm_ioctl_gem_madvise(struct drm_device *dev, void *data,
- 		ret = 0;
- 	}
- 
--	drm_gem_object_put_locked(obj);
-+	drm_gem_object_put(obj);
- 
--unlock:
--	mutex_unlock(&dev->struct_mutex);
- 	return ret;
- }
- 
-diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_gem.c
-index 5e75d644ce41..9cdac4f7228c 100644
---- a/drivers/gpu/drm/msm/msm_gem.c
-+++ b/drivers/gpu/drm/msm/msm_gem.c
-@@ -639,8 +639,6 @@ int msm_gem_madvise(struct drm_gem_object *obj, unsigned madv)
- 
- 	mutex_lock(&msm_obj->lock);
- 
--	WARN_ON(!mutex_is_locked(&obj->dev->struct_mutex));
--
- 	if (msm_obj->madv != __MSM_MADV_PURGED)
- 		msm_obj->madv = madv;
- 
-@@ -657,7 +655,7 @@ void msm_gem_purge(struct drm_gem_object *obj, enum msm_gem_lock subclass)
- 	struct msm_gem_object *msm_obj = to_msm_bo(obj);
- 
- 	WARN_ON(!mutex_is_locked(&dev->struct_mutex));
--	WARN_ON(!is_purgeable(msm_obj));
-+	WARN_ON(!is_purgeable(msm_obj, subclass));
- 	WARN_ON(obj->import_attach);
- 
- 	mutex_lock_nested(&msm_obj->lock, subclass);
-@@ -749,7 +747,7 @@ void msm_gem_active_get(struct drm_gem_object *obj, struct msm_gpu *gpu)
- 	struct msm_drm_private *priv = obj->dev->dev_private;
- 
- 	might_sleep();
--	WARN_ON(msm_obj->madv != MSM_MADV_WILLNEED);
-+	WARN_ON(msm_gem_madv(msm_obj, OBJ_LOCK_NORMAL) != MSM_MADV_WILLNEED);
- 
- 	if (!atomic_fetch_inc(&msm_obj->active_count)) {
- 		mutex_lock(&priv->mm_lock);
-diff --git a/drivers/gpu/drm/msm/msm_gem.h b/drivers/gpu/drm/msm/msm_gem.h
-index e98a8004813b..bb8aa6b1b254 100644
---- a/drivers/gpu/drm/msm/msm_gem.h
-+++ b/drivers/gpu/drm/msm/msm_gem.h
-@@ -97,18 +97,6 @@ static inline bool is_active(struct msm_gem_object *msm_obj)
- 	return atomic_read(&msm_obj->active_count);
- }
- 
--static inline bool is_purgeable(struct msm_gem_object *msm_obj)
--{
--	WARN_ON(!mutex_is_locked(&msm_obj->base.dev->struct_mutex));
--	return (msm_obj->madv == MSM_MADV_DONTNEED) && msm_obj->sgt &&
--			!msm_obj->base.dma_buf && !msm_obj->base.import_attach;
--}
--
--static inline bool is_vunmapable(struct msm_gem_object *msm_obj)
--{
--	return (msm_obj->vmap_count == 0) && msm_obj->vaddr;
--}
--
- /* The shrinker can be triggered while we hold objA->lock, and need
-  * to grab objB->lock to purge it.  Lockdep just sees these as a single
-  * class of lock, so we use subclasses to teach it the difference.
-@@ -125,6 +113,32 @@ enum msm_gem_lock {
- 	OBJ_LOCK_SHRINKER,
- };
- 
-+/* Use this helper to read msm_obj->madv when msm_obj->lock not held: */
-+static inline unsigned
-+msm_gem_madv(struct msm_gem_object *msm_obj, enum msm_gem_lock subclass)
-+{
-+	unsigned madv;
-+
-+	mutex_lock_nested(&msm_obj->lock, subclass);
-+	madv = msm_obj->madv;
-+	mutex_unlock(&msm_obj->lock);
-+
-+	return madv;
-+}
-+
-+static inline bool
-+is_purgeable(struct msm_gem_object *msm_obj, enum msm_gem_lock subclass)
-+{
-+	return (msm_gem_madv(msm_obj, subclass) == MSM_MADV_DONTNEED) &&
-+			msm_obj->sgt && !msm_obj->base.dma_buf &&
-+			!msm_obj->base.import_attach;
-+}
-+
-+static inline bool is_vunmapable(struct msm_gem_object *msm_obj)
-+{
-+	return (msm_obj->vmap_count == 0) && msm_obj->vaddr;
-+}
-+
- void msm_gem_purge(struct drm_gem_object *obj, enum msm_gem_lock subclass);
- void msm_gem_vunmap(struct drm_gem_object *obj, enum msm_gem_lock subclass);
- 
-diff --git a/drivers/gpu/drm/msm/msm_gem_shrinker.c b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-index c41b84a3a484..39a1b5327267 100644
---- a/drivers/gpu/drm/msm/msm_gem_shrinker.c
-+++ b/drivers/gpu/drm/msm/msm_gem_shrinker.c
-@@ -54,7 +54,7 @@ msm_gem_shrinker_count(struct shrinker *shrinker, struct shrink_control *sc)
- 	mutex_lock(&priv->mm_lock);
- 
- 	list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
--		if (is_purgeable(msm_obj))
-+		if (is_purgeable(msm_obj, OBJ_LOCK_SHRINKER))
- 			count += msm_obj->base.size >> PAGE_SHIFT;
- 	}
- 
-@@ -84,7 +84,7 @@ msm_gem_shrinker_scan(struct shrinker *shrinker, struct shrink_control *sc)
- 	list_for_each_entry(msm_obj, &priv->inactive_list, mm_list) {
- 		if (freed >= sc->nr_to_scan)
- 			break;
--		if (is_purgeable(msm_obj)) {
-+		if (is_purgeable(msm_obj, OBJ_LOCK_SHRINKER)) {
- 			msm_gem_purge(&msm_obj->base, OBJ_LOCK_SHRINKER);
- 			freed += msm_obj->base.size >> PAGE_SHIFT;
- 		}
--- 
-2.26.2
-
+> ---
+>  drivers/media/platform/Kconfig                | 10 +--
+>  .../media/platform/mtk-vcodec/mtk_vcodec_fw.c | 72 ++++++++++++-------
+>  2 files changed, 54 insertions(+), 28 deletions(-)
+>
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index a3cb104956d5..98eb62e49ec2 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -253,14 +253,16 @@ config VIDEO_MEDIATEK_VCODEC
+>         depends on MTK_IOMMU || COMPILE_TEST
+>         depends on VIDEO_DEV && VIDEO_V4L2
+>         depends on ARCH_MEDIATEK || COMPILE_TEST
+> +       depends on VIDEO_MEDIATEK_VPU || MTK_SCP
+>         select VIDEOBUF2_DMA_CONTIG
+>         select V4L2_MEM2MEM_DEV
+> -       select VIDEO_MEDIATEK_VPU
+> -       select MTK_SCP
+>         help
+>             Mediatek video codec driver provides HW capability to
+> -           encode and decode in a range of video formats
+> -           This driver rely on VPU driver to communicate with VPU.
+> +           encode and decode in a range of video formats on MT8173
+> +           and MT8183.
+> +
+> +           Note that support for MT8173 requires VIDEO_MEDIATEK_VPU to
+> +           also be selected. Support for MT8183 depends on MTK_SCP.
+>
+>             To compile this driver as modules, choose M here: the
+>             modules will be called mtk-vcodec-dec and mtk-vcodec-enc.
+> diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
+> index 6c2a2568d844..23a80027a8fb 100644
+> --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
+> +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c
+> @@ -13,6 +13,7 @@ struct mtk_vcodec_fw_ops {
+>                             mtk_vcodec_ipi_handler handler, const char *name, void *priv);
+>         int (*ipi_send)(struct mtk_vcodec_fw *fw, int id, void *buf,
+>                         unsigned int len, unsigned int wait);
+> +       void (*release)(struct mtk_vcodec_fw *fw);
+>  };
+>
+>  struct mtk_vcodec_fw {
+> @@ -22,6 +23,8 @@ struct mtk_vcodec_fw {
+>         struct mtk_scp *scp;
+>  };
+>
+> +#if IS_ENABLED(CONFIG_VIDEO_MEDIATEK_VPU)
+> +
+>  static int mtk_vcodec_vpu_load_firmware(struct mtk_vcodec_fw *fw)
+>  {
+>         return vpu_load_firmware(fw->pdev);
+> @@ -64,6 +67,27 @@ static int mtk_vcodec_vpu_ipi_send(struct mtk_vcodec_fw *fw, int id, void *buf,
+>         return vpu_ipi_send(fw->pdev, id, buf, len);
+>  }
+>
+> +static void mtk_vcodec_vpu_release(struct mtk_vcodec_fw *fw)
+> +{
+> +       put_device(&fw->pdev->dev);
+> +}
+> +
+> +static void mtk_vcodec_vpu_reset_handler(void *priv)
+> +{
+> +       struct mtk_vcodec_dev *dev = priv;
+> +       struct mtk_vcodec_ctx *ctx;
+> +
+> +       mtk_v4l2_err("Watchdog timeout!!");
+> +
+> +       mutex_lock(&dev->dev_mutex);
+> +       list_for_each_entry(ctx, &dev->ctx_list, list) {
+> +               ctx->state = MTK_STATE_ABORT;
+> +               mtk_v4l2_debug(0, "[%d] Change to state MTK_STATE_ABORT",
+> +                              ctx->id);
+> +       }
+> +       mutex_unlock(&dev->dev_mutex);
+> +}
+> +
+>  static const struct mtk_vcodec_fw_ops mtk_vcodec_vpu_msg = {
+>         .load_firmware = mtk_vcodec_vpu_load_firmware,
+>         .get_vdec_capa = mtk_vcodec_vpu_get_vdec_capa,
+> @@ -71,8 +95,13 @@ static const struct mtk_vcodec_fw_ops mtk_vcodec_vpu_msg = {
+>         .map_dm_addr = mtk_vcodec_vpu_map_dm_addr,
+>         .ipi_register = mtk_vcodec_vpu_set_ipi_register,
+>         .ipi_send = mtk_vcodec_vpu_ipi_send,
+> +       .release = mtk_vcodec_vpu_release,
+>  };
+>
+> +#endif  /* IS_ENABLED(CONFIG_VIDEO_MEDIATEK_VPU) */
+> +
+> +#if IS_ENABLED(CONFIG_MTK_SCP)
+> +
+>  static int mtk_vcodec_scp_load_firmware(struct mtk_vcodec_fw *fw)
+>  {
+>         return rproc_boot(scp_get_rproc(fw->scp));
+> @@ -107,6 +136,11 @@ static int mtk_vcodec_scp_ipi_send(struct mtk_vcodec_fw *fw, int id, void *buf,
+>         return scp_ipi_send(fw->scp, id, buf, len, wait);
+>  }
+>
+> +static void mtk_vcodec_scp_release(struct mtk_vcodec_fw *fw)
+> +{
+> +       scp_put(fw->scp);
+> +}
+> +
+>  static const struct mtk_vcodec_fw_ops mtk_vcodec_rproc_msg = {
+>         .load_firmware = mtk_vcodec_scp_load_firmware,
+>         .get_vdec_capa = mtk_vcodec_scp_get_vdec_capa,
+> @@ -114,23 +148,10 @@ static const struct mtk_vcodec_fw_ops mtk_vcodec_rproc_msg = {
+>         .map_dm_addr = mtk_vcodec_vpu_scp_dm_addr,
+>         .ipi_register = mtk_vcodec_scp_set_ipi_register,
+>         .ipi_send = mtk_vcodec_scp_ipi_send,
+> +       .release = mtk_vcodec_scp_release,
+>  };
+>
+> -static void mtk_vcodec_reset_handler(void *priv)
+> -{
+> -       struct mtk_vcodec_dev *dev = priv;
+> -       struct mtk_vcodec_ctx *ctx;
+> -
+> -       mtk_v4l2_err("Watchdog timeout!!");
+> -
+> -       mutex_lock(&dev->dev_mutex);
+> -       list_for_each_entry(ctx, &dev->ctx_list, list) {
+> -               ctx->state = MTK_STATE_ABORT;
+> -               mtk_v4l2_debug(0, "[%d] Change to state MTK_STATE_ABORT",
+> -                              ctx->id);
+> -       }
+> -       mutex_unlock(&dev->dev_mutex);
+> -}
+> +#endif  /* IS_ENABLED(CONFIG_MTK_SCP) */
+>
+>  struct mtk_vcodec_fw *mtk_vcodec_fw_select(struct mtk_vcodec_dev *dev,
+>                                            enum mtk_vcodec_fw_type type,
+> @@ -143,16 +164,22 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_select(struct mtk_vcodec_dev *dev,
+>
+>         switch (type) {
+>         case VPU:
+> +#if IS_ENABLED(CONFIG_VIDEO_MEDIATEK_VPU)
+>                 ops = &mtk_vcodec_vpu_msg;
+>                 fw_pdev = vpu_get_plat_device(dev->plat_dev);
+>                 if (!fw_pdev) {
+>                         mtk_v4l2_err("firmware device is not ready");
+>                         return ERR_PTR(-EINVAL);
+>                 }
+> -               vpu_wdt_reg_handler(fw_pdev, mtk_vcodec_reset_handler,
+> +               vpu_wdt_reg_handler(fw_pdev, mtk_vcodec_vpu_reset_handler,
+>                                     dev, rst_id);
+>                 break;
+> +#else
+> +               mtk_v4l2_err("no VPU support in this kernel");
+> +               return ERR_PTR(-ENODEV);
+> +#endif
+>         case SCP:
+> +#if IS_ENABLED(CONFIG_MTK_SCP)
+>                 ops = &mtk_vcodec_rproc_msg;
+>                 scp = scp_get(dev->plat_dev);
+>                 if (!scp) {
+> @@ -160,6 +187,10 @@ struct mtk_vcodec_fw *mtk_vcodec_fw_select(struct mtk_vcodec_dev *dev,
+>                         return ERR_PTR(-EPROBE_DEFER);
+>                 }
+>                 break;
+> +#else
+> +               mtk_v4l2_err("no SCP support in this kernel");
+> +               return ERR_PTR(-ENODEV);
+> +#endif
+>         default:
+>                 mtk_v4l2_err("invalid vcodec fw type");
+>                 return ERR_PTR(-EINVAL);
+> @@ -180,14 +211,7 @@ EXPORT_SYMBOL_GPL(mtk_vcodec_fw_select);
+>
+>  void mtk_vcodec_fw_release(struct mtk_vcodec_fw *fw)
+>  {
+> -       switch (fw->type) {
+> -       case VPU:
+> -               put_device(&fw->pdev->dev);
+> -               break;
+> -       case SCP:
+> -               scp_put(fw->scp);
+> -               break;
+> -       }
+> +       fw->ops->release(fw);
+>  }
+>  EXPORT_SYMBOL_GPL(mtk_vcodec_fw_release);
+>
+> --
+> 2.28.0.806.g8561365e88-goog
+>
