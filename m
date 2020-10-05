@@ -2,104 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 66E3A283D5B
-	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 19:35:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 53853283DA2
+	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 19:39:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726935AbgJERff (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Oct 2020 13:35:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40130 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725973AbgJERff (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Oct 2020 13:35:35 -0400
-Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9485FC0613CE
-        for <linux-media@vger.kernel.org>; Mon,  5 Oct 2020 10:35:33 -0700 (PDT)
-Received: by mail-qk1-x741.google.com with SMTP id d20so12908074qka.5
-        for <linux-media@vger.kernel.org>; Mon, 05 Oct 2020 10:35:33 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=dKlbhuywYV4trrm533av5g+rTKLjmfZBMKtZHffEpfg=;
-        b=Ogo60Itj+Op78dH8jXVJTtV1hFSvseMGAPGjIPJsWqBdL7wrA/UqdSqhsRz6b6AZDM
-         I9lloFYxDZt04k/RrwXKkkLdJMtxhJtNbj12+kE6LDkefxEQsCuRyrXoqt5kaQaq6WYb
-         TAJSecm4UNC7SEcfUU6PY9R+QlVJxVh8DUZlIM8VVCjCl2LyiL/ccw9cwG5QMQ2xTI44
-         Tsx7MrXatCC9vxW+HHqRf4BEp5WLpvB6gW+CUVpFiZvvvlnoDb5wXthNwJdpMlarLbeU
-         y3GuwL2OQtzoT2TdhVV09xynxfFdakx3hgKX1AnIaRavPLMbXV35KK2VeBNdbDGcrEVO
-         zBrg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dKlbhuywYV4trrm533av5g+rTKLjmfZBMKtZHffEpfg=;
-        b=Dt2bNKfm9dUCPK5sKaASUrIGc5CvyyhnTduaOzR2S1/KWKKmqtmOMv7R+CGrT4RzVX
-         Wo4fZ+MmHpFlgAD0dfD7aOzO6e3hCZIUpeBs+H46ryUpY/LW6CgCzp2MPzXj+czqVA9h
-         i0mhqhQGFumqntX9GUQRmfIaj0B5WalPAkKzRpfa9dKWsZ5U9nxVoH8Wt9J8IyjkEufS
-         GKGPnaQrwyc/Ng71yVcesgchZtqCI5GMoxWfa5XaYg78KbQmqRNqL7PdKrVOKuYSh3pv
-         cvlhNXB2GlQLdtY5UAcL8II0e6qGTOxI0Wn8ZswMeGDoWfqtkbkenmEoyA4yo/c1E3M2
-         Nthg==
-X-Gm-Message-State: AOAM5302e+CPxLqKyGuIeSJqEhCh+qKsg6bnMNLGlNoUK6Hbvs6HF8JS
-        DiUzzcuu8vKjjsvcepWeaepvIw==
-X-Google-Smtp-Source: ABdhPJxqFhDsb/GS5ATRJ1dE6t/BFvds0ofvMeomDoUgmoopjs8lj4GVNFEIhuceI6nxBgwZWdG7Tg==
-X-Received: by 2002:a37:9e87:: with SMTP id h129mr1161317qke.276.1601919332852;
-        Mon, 05 Oct 2020 10:35:32 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id c13sm320627qtq.5.2020.10.05.10.35.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2020 10:35:32 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kPUOZ-00020z-L7; Mon, 05 Oct 2020 14:35:31 -0300
-Date:   Mon, 5 Oct 2020 14:35:31 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     John Hubbard <jhubbard@nvidia.com>,
+        id S1729176AbgJERjN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Oct 2020 13:39:13 -0400
+Received: from nat-hk.nvidia.com ([203.18.50.4]:21375 "EHLO nat-hk.nvidia.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727033AbgJERjN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 5 Oct 2020 13:39:13 -0400
+Received: from HKMAIL102.nvidia.com (Not Verified[10.18.92.9]) by nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f7b5a3e0000>; Tue, 06 Oct 2020 01:39:10 +0800
+Received: from HKMAIL103.nvidia.com (10.18.16.12) by HKMAIL102.nvidia.com
+ (10.18.16.11) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 5 Oct
+ 2020 17:38:58 +0000
+Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.104)
+ by HKMAIL103.nvidia.com (10.18.16.12) with Microsoft SMTP Server (TLS) id
+ 15.0.1473.3 via Frontend Transport; Mon, 5 Oct 2020 17:38:58 +0000
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=jW8m/vx134I9COQ6t6Kr7JRTQESbBCkEuzc1wgrwxR0gB0y7/1zeWxRrW9L+vrtMdYcqke/tKQaa3RzjvoqUprvU+FP5mzd2r10+48m0xZitmuVNHNAfPLGfVf22aeL9byyGjeM321TodvP29OGOhQWVgQCMtTLOEMfD/ZB1af3P0oZEREKxB+9eDCkmzp3rHDk0GDYstiyLkXuznTVTBxQZu9Et+BsKQm0YPprBPLm1hyO31Nc8MZIobIxFRC9IccGQoqs7E/IYMqUfcxaQHjAHpsrECCPKbPGU8r6Cb44u0m7oohtzn4QN9J/W09NhyXKSYOmWeRQgMB1Xb+hpAA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=fSYl5KD7934AouZDNUKobCCSeGROG8RmBta0PxNC5ew=;
+ b=AyfWItsk0TOyFTxKRfB6+wbl7GR3LkEC4l2QTjkMZ7XFKyWLXpCVFGIvuFggiGmEBW3VDEwiyG4cIsVAWpZ9t5Tt7/fMLIyGiurEYy5XBwe3OlFB3FUlKcpBps+YXJT57Dcysz2hpv5ck1BsErmSExXMCx+JwpfguCRXYkYGNq5ovnBmUo9EAXbb8UU6CcpK2GAi5J/ouGyvDy8kjHjKWprq6Imq2TmhPwLHIoFHACQb65r3pfsmu9jNEgbJHUkQ2LQW/O8m76NQjH3FKtJwhN/HJuk7jueo4zBLFdb46JDVhpbEVnsBZ9iQWW36MsxCLeycZ9+23uhCuzz4d2zv5w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
+ dkim=pass header.d=nvidia.com; arc=none
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
+ by DM6PR12MB3833.namprd12.prod.outlook.com (2603:10b6:5:1cf::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.32; Mon, 5 Oct
+ 2020 17:38:56 +0000
+Received: from DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
+ ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3433.044; Mon, 5 Oct 2020
+ 17:38:56 +0000
+From:   Jason Gunthorpe <jgg@nvidia.com>
+To:     andrew Morton <akpm@linux-foundation.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>, <linux-mm@kvack.org>
+CC:     Hans Verkuil <hans.verkuil@cisco.com>, Jan Kara <jack@suse.cz>,
+        "Mauro Carvalho Chehab" <mchehab@osg.samsung.com>,
+        Mel Gorman <mgorman@suse.de>, <stable@vger.kernel.org>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        John Hubbard <jhubbard@nvidia.com>,
         DRI Development <dri-devel@lists.freedesktop.org>,
         LKML <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
         Dan Williams <dan.j.williams@intel.com>,
-        Linux MM <linux-mm@kvack.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
         <linux-media@vger.kernel.org>
 Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
-Message-ID: <20201005173531.GB5177@ziepe.ca>
-References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
- <20201002175303.390363-2-daniel.vetter@ffwll.ch>
- <cb56763e-4fda-a783-03ae-7f749ec55981@nvidia.com>
- <CAKMK7uGzZ2dBe040vP1BJmQ7cuhj_OQHL0ncyz5XyUcb=bPjmg@mail.gmail.com>
- <f5130c7f-eebe-7b21-62b8-68f08212b106@nvidia.com>
- <20201003232441.GO9916@ziepe.ca>
- <CAKMK7uFjGDiWMD+KeEFziY-nqWy_FtCpn0rekb70yVLaxzJHjA@mail.gmail.com>
+Date:   Mon, 5 Oct 2020 14:38:54 -0300
+Message-ID: <0-v1-447bb60c11dd+174-frame_vec_fix_jgg@nvidia.com>
+Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain
+X-ClientProxiedBy: MN2PR15CA0058.namprd15.prod.outlook.com
+ (2603:10b6:208:237::27) To DM6PR12MB3834.namprd12.prod.outlook.com
+ (2603:10b6:5:14a::12)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAKMK7uFjGDiWMD+KeEFziY-nqWy_FtCpn0rekb70yVLaxzJHjA@mail.gmail.com>
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from mlx.ziepe.ca (156.34.48.30) by MN2PR15CA0058.namprd15.prod.outlook.com (2603:10b6:208:237::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.34 via Frontend Transport; Mon, 5 Oct 2020 17:38:55 +0000
+Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1kPURq-0003yS-3O; Mon, 05 Oct 2020 14:38:54 -0300
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1601919550; bh=EBBzMnzHdglFg4fc6Q+vYu+a20ACUXFYGuuOSwtJCqE=;
+        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:From:To:
+         CC:Subject:Date:Message-ID:Content-Transfer-Encoding:Content-Type:
+         X-ClientProxiedBy:MIME-Version:
+         X-MS-Exchange-MessageSentRepresentingType;
+        b=C65HOUx2sQwA0Z9I/HyXi7Zoe3KWz2BvP970C8OBm0crjJnTlAQ9SwKEK9gCZ2JuJ
+         xsMHNVefxVm4z0kcNHciCuL3fCUmbzQfF0nmTHZMz3tur14QYYvpOLexv6QGM/VZYv
+         KoSBZo72nEDtXB7fLlMqU2qXAr98pxbePnvJ9c/QsofRl1hs/Kc0hj4At+mY/00pGF
+         5iJ15jO/Yg+195FUsBtZ9nyQbHi745UfgTQ3xdsFePRU9fE511l5uxZTQRVFMAIATu
+         K2smzSXW5xmuHxphoHyhxOye2XS0aTl6UiSK+ucwxNoILLw7aNa/Q4IdswsUHnMgL1
+         9gj6ae060YOrQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Oct 04, 2020 at 01:20:31PM +0200, Daniel Vetter wrote:
+When get_vaddr_frames() does its hacky follow_pfn() loop it should never
+be allowed to extract a struct page from a normal VMA. This could allow a
+serious use-after-free problem on any kernel memory.
 
-> Yeah I think that works. I tried understanding gup.c code a bit more,
-> and it looks like FOLL_LONGTERM only works for the pup_fast variant
-> right now? All others seem to have this comment that it's somehow
-> incompatible with FAULT_FLAG_ALLOW_RETRY and daxfs. But grepping
-> around for that didn't show up anything, at least not nearby dax code.
-> For my understanding of all this, what's the hiccup there?
+Restrict this to only work on VMA's with one of VM_IO | VM_PFNMAP
+set. This limits the use-after-free problem to only IO memory, which while
+still serious, is an improvement.
 
-IIRC it needs the VMA and various other flows can't return the vma
-list becuse they unlock the mmap_sem will running
+Cc: stable@vger.kernel.org
+Fixes: 8025e5ddf9c1 ("[media] mm: Provide new get_vaddr_frames() helper")
+Signed-off-by: Jason Gunthorpe <jgg@nvidia.com>
+---
+ mm/frame_vector.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
-> For plans, I only started this for a bit of my own learning, but I
-> think I'll respin with the following changes:
-> - convert exynos and habanalabs to pin_user_pages_fast directly,
-> instead of going through this frame-vector detour
+diff --git a/mm/frame_vector.c b/mm/frame_vector.c
+index 10f82d5643b6de..26cb20544b6c37 100644
+--- a/mm/frame_vector.c
++++ b/mm/frame_vector.c
+@@ -99,6 +99,10 @@ int get_vaddr_frames(unsigned long start, unsigned int n=
+r_frames,
+ 		if (ret >=3D nr_frames || start < vma->vm_end)
+ 			break;
+ 		vma =3D find_vma_intersection(mm, start, start + 1);
++		if (!(vma->vm_flags & (VM_IO | VM_PFNMAP))) {
++			ret =3D -EINVAL;
++			goto out;
++		}
+ 	} while (vma && vma->vm_flags & (VM_IO | VM_PFNMAP));
+ out:
+ 	if (locked)
+--=20
+2.28.0
 
-+1
-
-Jason
