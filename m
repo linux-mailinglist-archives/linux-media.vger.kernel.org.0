@@ -2,139 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16C87283F17
-	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 20:54:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 83FE6284019
+	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 22:03:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729224AbgJESy3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Oct 2020 14:54:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52400 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728944AbgJESy2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Oct 2020 14:54:28 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAAA5C0613A7
-        for <linux-media@vger.kernel.org>; Mon,  5 Oct 2020 11:54:27 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id l4so6193115ota.7
-        for <linux-media@vger.kernel.org>; Mon, 05 Oct 2020 11:54:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=riuDo1IoXfibXlfR95ykbMPthEQRl10/UIOttc6DAlc=;
-        b=OPEUVmyk+vRCYMZLowcoJCe66KrXHU7rFzOGuwvpAWzjQt85t26GeiBNJSVlLLjdvw
-         IPvkPM1oH6EvZKjVxvy+zdz/tX3xjNAE+ZPS2bki4mizwYxgbHlbrh2rQasAL+fFyYAY
-         b+JjR1NWVmVC0VwtGmMDFoA2fjzgOz0Zifv98=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=riuDo1IoXfibXlfR95ykbMPthEQRl10/UIOttc6DAlc=;
-        b=qEIbPJYsI1Vc8W5tjIf9hoT52rf08L707mlKUelrWZEZxjyremZB0xFQzSlvzhXHFY
-         5RyoiHrYm6y9GiqH7FdRF9w4a4FbJNyJcH/wXC9yfBJeO8OzePkX8HEXA0D8FM5Q+hn+
-         bIdNGyeotid+OhDnHB/Iy0/Qhe7Yb8YzXAtPMwsLmjSs4U6YM0n9V8YKYs/v8DDZBckR
-         PyyzhIlS7mNNY6DthJ2R0M7erYzqD36lBXpvarPAMjHqya450a5kyzr3XcJN5T73Rbjk
-         T4/a3OOWVoQxCH238Q2XQtlpXPuB9UPnCzocBwGEYCHc+gHmHTwf3/Kc/Gdkgld2W0cB
-         b8LA==
-X-Gm-Message-State: AOAM531Lh8m5CKVptsYXGgMQ/GOV9DdPgpHmBowmA1lv/09/4Naasyd2
-        3184URzOICR3xozM+ZrIl3gUDYiIUwVZQacjLtNydQ==
-X-Google-Smtp-Source: ABdhPJy2iw+CknXeuJOFUrqB9oxUe8+tYDJ+itV1cU93c0kTfuWKEYCQyo751DNTn5DqrD42UQCpOE2tQNA/FTrVskw=
-X-Received: by 2002:a05:6830:1647:: with SMTP id h7mr493595otr.281.1601924066976;
- Mon, 05 Oct 2020 11:54:26 -0700 (PDT)
+        id S1729584AbgJEUDE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Oct 2020 16:03:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:59932 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729424AbgJEUDD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 5 Oct 2020 16:03:03 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4F4C920848;
+        Mon,  5 Oct 2020 20:03:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601928181;
+        bh=LDBMzSKRgXu0amszn1omwesfIy1frb2RvkSUHKCGJBk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=DbgBQYYNY8Z0bctQfKlo46vuzwcO7cAJTUA6WI13L1pEYpu6vA8L99qk3PZzFWPH2
+         fgJHuHFAkVTZdQ53sCs+i/L1PeWZsSHlt6UaHeg3IMRhnUNJ4vPDlRp6puBpdniGsC
+         UK6eoAqXgECVDuSR5AsDUKOCMwvFsyrqkopv5GUw=
+Date:   Mon, 5 Oct 2020 21:01:58 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Albert Ou <aou@eecs.berkeley.edu>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>, dmaengine@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Jens Axboe <axboe@kernel.dk>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Marc Zyngier <maz@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Richard Weinberger <richard@nod.at>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-can@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-watchdog@vger.kernel.org
+Subject: Re: [PATCH 1/4] dt-bindings: Add missing 'unevaluatedProperties'
+Message-ID: <20201005200158.GG5139@sirena.org.uk>
+References: <20201005183830.486085-1-robh@kernel.org>
+ <20201005183830.486085-2-robh@kernel.org>
 MIME-Version: 1.0
-References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
- <20201002175303.390363-2-daniel.vetter@ffwll.ch> <20201002180603.GL9916@ziepe.ca>
- <CAKMK7uGF+y-r4swLXmodhduRMy0NPa=ASBY8JOXS_g=9Rq9XQw@mail.gmail.com>
- <20201002233118.GM9916@ziepe.ca> <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
- <20201004125059.GP9916@ziepe.ca> <CAKMK7uF0AfuYGsHzKXhF=k-mAW=Wx_APf9fY9M9ormnwypoxZA@mail.gmail.com>
- <20201005172854.GA5177@ziepe.ca> <CAKMK7uFzxWF7V=7vkeNC-8shsPZRgdz9fYTsn0ayENv2BpnFEg@mail.gmail.com>
- <20201005183704.GC5177@ziepe.ca>
-In-Reply-To: <20201005183704.GC5177@ziepe.ca>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Mon, 5 Oct 2020 20:54:15 +0200
-Message-ID: <CAKMK7uH97Yb2JFviG_ynGC1hbQ69h9hcyFVFd2PFYHCDzfBN6g@mail.gmail.com>
-Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Pawel Osciak <pawel@osciak.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Inki Dae <inki.dae@samsung.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Oded Gabbay <oded.gabbay@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="E69HUUNAyIJqGpVn"
+Content-Disposition: inline
+In-Reply-To: <20201005183830.486085-2-robh@kernel.org>
+X-Cookie: Most of your faults are not your fault.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 5, 2020 at 8:37 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Mon, Oct 05, 2020 at 08:16:33PM +0200, Daniel Vetter wrote:
->
-> > > kvm is some similar hack added for P2P DMA, see commit
-> > > add6a0cd1c5ba51b201e1361b05a5df817083618. It might be protected by notifiers..
-> >
-> > Yeah my thinking is that kvm (and I think also vfio, also seems to
-> > have mmu notifier nearby) are ok because of the mmu notiifer. Assuming
-> > that one works correctly.
->
-> vfio doesn't have a notifier, Alex was looking to add a vfio private
-> scheme in the vma->private_data:
->
-> https://lore.kernel.org/kvm/159017449210.18853.15037950701494323009.stgit@gimli.home/
->
-> Guess it never happened.
 
-I was mislead by the mmu notifier in drivers/vfio/vfio.c. But looking
-closer, that's only used by some drivers, I guess to make sure their
-device pagetables are kept in sync with reality. And not to make sure
-the vfio pfn view is kept in sync with reality.
+--E69HUUNAyIJqGpVn
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-This could get real nasty I think.
+On Mon, Oct 05, 2020 at 01:38:27PM -0500, Rob Herring wrote:
+> This doesn't yet do anything in the tools, but make it explicit so we can
+> check either 'unevaluatedProperties' or 'additionalProperties' is present
+> in schemas.
 
-> > > So, the answer really is that s390 and media need fixing, and this API
-> > > should go away (or become kvm specific)
-> >
-> > I'm still not clear how you want fo fix this, since your vma->dma_buf
-> > idea is kinda a decade long plan and so just not going to happen:
->
-> Well, it doesn't mean we have to change every part of dma_buf to
-> participate in this. Just the bits media cares about. Or maybe it is
-> some higher level varient on top of dma_buf.
->
-> Or don't use dma_buf for this, add a new object that just provides
-> refcounts and P2P DMA connection for IO pfn ranges..
+Acked-by: Mark Brown <broonie@kernel.org>
 
-So good news is, I dug some layers deeper in v4l, and there's only 2
-users which do actually handle pfn and don't immediately convert to a
-pages array:
-- videbuf-dma-contig.c. Luckily videobuf 1 is deprecated since
-forever, so I think we might get away with either just breaking this,
-or at least tainting kernels and hiding it behind a nasty Kconfig.
-This only uses follow_pfn, which we need to keep anyway for vfio in
-the unsafe variant :-/
-- videbuf2-vmalloc.c Digging through history this was added to support
-import of v4l buffers from drivers that needed contig memory. And way
-back before CMA, that meant carveout memory not backed by struct page
-*. That should now all have struct pages and be managed by CMA (since
-videbuf2-dma-contig.c just uses dma_alloc_coherent underneath), so I
-think we can just switch to pin_user_pages(FOLL_LONGTERM here too).
+--E69HUUNAyIJqGpVn
+Content-Type: application/pgp-signature; name="signature.asc"
 
-iow I think I can outright delete the frame vector stuff.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl97e7UACgkQJNaLcl1U
+h9Cm0Af/WUxMT7VSA2xsxQr5K/rX2H6z1aD4Hr9f+lQLJCFBiUYhNvb9mQnNDvLq
+GQeaW1Z1gDtmjIiEOvan3CP1ZUF3VENvyt8orPUmES76eFXx7xEyryHHut1YFimr
+3LEvyKzDAcn3KGj/wv37knBc5sifrmqjF+Y1eYYZD6yKKVPbgpA7kKZ0EAqOLxiv
+/FbGoxWGWbB7Vfyaboo2dDw/SyuwkZ9+0pr+IhFWbCjIjgkeUq0v857luuRCJMxH
+GyPjPkM7+KaeIBbXlY1hRHLTKKbBL7G+dXQ16uS4Ny/DYIf8LXyitPDAfosxQisG
+FhLawubQBH3MNzD5RRYvcLznUaJJJA==
+=+I0x
+-----END PGP SIGNATURE-----
+
+--E69HUUNAyIJqGpVn--
