@@ -2,167 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECF26283646
-	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 15:09:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 239402836AF
+	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 15:36:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726096AbgJENJM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Oct 2020 09:09:12 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42428 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725931AbgJENJM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Oct 2020 09:09:12 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id C8CC73B;
-        Mon,  5 Oct 2020 15:09:10 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1601903351;
-        bh=k2ECIvZvPTjoE1vAeB2yuA9QhPH79Ws/P2EgIz5p7b8=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=t1w+6DUSfFhtCxX4+dC8E2wd0DDuCAxr7PaqNIuU1VyPwRmDsUqUg30EQdfFIud0e
-         lpzOFr91TGxbA9oMhzLqeQXtTo+L6eXqimQxRegFC6VdInPMn2Fm4zjqsp8vuJR//X
-         pwld8mVxcwdtJozn89HuiPXYBiOnAFDm2a5mXTUU=
-Date:   Mon, 5 Oct 2020 16:08:31 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Stefan =?utf-8?Q?Riedm=C3=BCller?= <s.riedmueller@phytec.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Dirk Bender <d.bender@phytec.de>
-Subject: Re: [PATCH v2 5/5] media: mt9p031: Fix corrupted frame after
- restarting stream
-Message-ID: <20201005130831.GR3931@pendragon.ideasonboard.com>
-References: <20200930105133.139981-1-s.riedmueller@phytec.de>
- <20200930105133.139981-5-s.riedmueller@phytec.de>
- <20201002000549.GK3722@pendragon.ideasonboard.com>
- <3c8853a6-de34-014d-d10a-d6a55083c4bf@phytec.de>
+        id S1725973AbgJENgw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Oct 2020 09:36:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43134 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725914AbgJENgw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 5 Oct 2020 09:36:52 -0400
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com [209.85.167.182])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5ADA720774;
+        Mon,  5 Oct 2020 13:36:51 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601905011;
+        bh=ZIFB3rgf26rt5j5jyMIodGOuMafdvBhjlRX/3PIzwfs=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=y/aOCBZPeKbzI6w2BUZ53/alYwBumqxwqs9wxTEyFpDNSe7+Iqeu3PBeqs13z2h/U
+         LLziP3TdpkgaDBOgepVjvTyhxQqmYA108Oqo9avokmWyd8d24JD7hrLjIUJLhyxhXU
+         9SKToKrwm/l3AAw/bUfH4XNk3HooI8RTrykqWRTk=
+Received: by mail-oi1-f182.google.com with SMTP id t77so5217265oie.4;
+        Mon, 05 Oct 2020 06:36:51 -0700 (PDT)
+X-Gm-Message-State: AOAM53068eSIuuFbikfCmeP/6EPee1OPcWK/6YWLSLw8Bd3AYveW4blf
+        xtdE3+xkLwdAEQgLRdO85cn05uddb0NwxLiWpQ==
+X-Google-Smtp-Source: ABdhPJyGs5QRZXi2qUMhyXkN0ZTEB+WjvBFpuxhQAOv16pvutHt7q3CX0sNVLLFIy9B+jn4ovbMkwFpiJqg2gYBlnEQ=
+X-Received: by 2002:a05:6808:10e:: with SMTP id b14mr9024261oie.152.1601905010756;
+ Mon, 05 Oct 2020 06:36:50 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3c8853a6-de34-014d-d10a-d6a55083c4bf@phytec.de>
+References: <20200922190807.6830-1-qiangqing.zhang@nxp.com>
+ <20200922190807.6830-2-qiangqing.zhang@nxp.com> <20200929155201.GA665464@bogus>
+ <20201003084656.GA29917@gofer.mess.org>
+In-Reply-To: <20201003084656.GA29917@gofer.mess.org>
+From:   Rob Herring <robh@kernel.org>
+Date:   Mon, 5 Oct 2020 08:36:39 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqKEqG_Xous_gf=t9LTY8ZGzwcCYNjMDEGt8bA17JUgW-g@mail.gmail.com>
+Message-ID: <CAL_JsqKEqG_Xous_gf=t9LTY8ZGzwcCYNjMDEGt8bA17JUgW-g@mail.gmail.com>
+Subject: Re: [PATCH V3 1/2] bindings: media: gpio-ir-receiver: add
+ linux,autosuspend-period property
+To:     Sean Young <sean@mess.org>
+Cc:     Joakim Zhang <qiangqing.zhang@nxp.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        NXP Linux Team <linux-imx@nxp.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Stefan,
+On Sat, Oct 3, 2020 at 3:46 AM Sean Young <sean@mess.org> wrote:
+>
+> On Tue, Sep 29, 2020 at 10:52:01AM -0500, Rob Herring wrote:
+> > On Wed, Sep 23, 2020 at 03:08:06AM +0800, Joakim Zhang wrote:
+> > > Add linux,autosuspend-period property for gpio ir receiver. Some cpuidle
+> > > systems wake from idle may take a bit long time, for such case, need
+> > > disable cpuidle temporarily.
+> > >
+> > > Signed-off-by: Joakim Zhang <qiangqing.zhang@nxp.com>
+> > > ---
+> > > ChangeLogs:
+> > > V1->V2:
+> > >     * New add.
+> > > V2->V3:
+> > >     * linux,autosuspend-period = 125; -> linux,autosuspend-period = <125>;
+> > > ---
+> > >  Documentation/devicetree/bindings/media/gpio-ir-receiver.txt | 3 +++
+> > >  1 file changed, 3 insertions(+)
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/gpio-ir-receiver.txt b/Documentation/devicetree/bindings/media/gpio-ir-receiver.txt
+> > > index 58261fb7b408..e1447c9b0e26 100644
+> > > --- a/Documentation/devicetree/bindings/media/gpio-ir-receiver.txt
+> > > +++ b/Documentation/devicetree/bindings/media/gpio-ir-receiver.txt
+> > > @@ -7,6 +7,8 @@ Required properties:
+> > >  Optional properties:
+> > >     - linux,rc-map-name: see rc.txt file in the same
+> > >       directory.
+> > > +        - linux,autosuspend-period: autosuspend delay time,
+> > > +          the unit is milisecond.
+> >
+> > What makes this linux specific?
+>
+> Good point. "linux,autosuspend-period" does not say what is being
+> suspended either. How about "cpuidle-suspend-period" instead?
 
-On Mon, Oct 05, 2020 at 11:28:21AM +0200, Stefan Riedmüller wrote:
-> On 02.10.20 02:05, Laurent Pinchart wrote:
-> > On Wed, Sep 30, 2020 at 12:51:33PM +0200, Stefan Riedmueller wrote:
-> >> From: Dirk Bender <d.bender@phytec.de>
-> >>
-> >> To prevent corrupted frames after starting and stopping the sensor it's
-> > 
-> > s/it's/its/
-> 
-> thanks, I'll fix that.
-> 
-> >> datasheet specifies a specific pause sequence to follow:
-> >>
-> >> Stopping:
-> >> 	Set Pause_Restart Bit -> Set Restart Bit -> Set Chip_Enable Off
-> >>
-> >> Restarting:
-> >> 	Set Chip_Enable On -> Clear Pause_Restart Bit
-> >>
-> >> The Restart Bit is cleared automatically and must not be cleared
-> >> manually as this would cause undefined behavior.
-> >>
-> >> Signed-off-by: Dirk Bender <d.bender@phytec.de>
-> >> Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
-> >> ---
-> >> No changes in v2
-> >> ---
-> >>   drivers/media/i2c/mt9p031.c | 25 +++++++++++++++++++++++++
-> >>   1 file changed, 25 insertions(+)
-> >>
-> >> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
-> >> index d10457361e6c..d59f66e3dcf3 100644
-> >> --- a/drivers/media/i2c/mt9p031.c
-> >> +++ b/drivers/media/i2c/mt9p031.c
-> >> @@ -80,6 +80,8 @@
-> >>   #define		MT9P031_PIXEL_CLOCK_SHIFT(n)		((n) << 8)
-> >>   #define		MT9P031_PIXEL_CLOCK_DIVIDE(n)		((n) << 0)
-> >>   #define MT9P031_FRAME_RESTART				0x0b
-> >> +#define		MT9P031_FRAME_RESTART_SET		(1 << 0)
-> >> +#define		MT9P031_FRAME_PAUSE_RESTART_SET		(1 << 1)
-> > 
-> > The fields are named Restart and Pause_Restart, I would drop _SET. Could
-> > you also sort them from MSB to LSB as for the other registers ? Using
-> > BIT() would be good too, although this could be done as an additional
-> > patch to convert all the existing macros.
-> 
-> I'll do that. Also I will rename the register to MT9P031_RESTART and the 
-> bits to MT9P031_FRAME_RESTART and MT9P031_FRAME_PAUSE_RESTART.
-> 
-> >>   #define MT9P031_SHUTTER_DELAY				0x0c
-> >>   #define MT9P031_RST					0x0d
-> >>   #define		MT9P031_RST_ENABLE			1
-> >> @@ -483,9 +485,25 @@ static int mt9p031_set_params(struct mt9p031 *mt9p031)
-> >>   static int mt9p031_s_stream(struct v4l2_subdev *subdev, int enable)
-> >>   {
-> >>   	struct mt9p031 *mt9p031 = to_mt9p031(subdev);
-> >> +	struct i2c_client *client = v4l2_get_subdevdata(subdev);
-> >> +	int val;
-> >>   	int ret;
-> >>   
-> >>   	if (!enable) {
-> >> +		val = mt9p031_read(client, MT9P031_FRAME_RESTART);
-> > 
-> > Do you need to read the register ? Can't you write
-> > MT9P031_FRAME_PAUSE_RESTART_SET and then MT9P031_FRAME_PAUSE_RESTART_SET
-> > | MT9P031_FRAME_RESTART_SET ? And actually, can't we just write both
-> > bits in one go, do we need two writes ?
-> 
-> I think you're right we don't necessarily need to read the registers. The 
-> only other bit is not used by the driver.
-> 
-> But I think we do need two separate writes, at least that is what the 
-> datasheet states.
-> 
-> So I would drop the read but keep both write, ok?
+'cpuidle' is a Linuxism. And you also need a unit suffix.
 
-That's fine with me if required, although I don't see where this is
-indicated in the datasheet, but I may have missed it.
+I'm not clear on how autosuspend which is generally how long a
+peripheral is idle before runtime suspending it relates to this which
+seems to be concerned with cpu wakeup latency. I'm assuming you need
+to wake up within a certain time period to capture GPIO edges. Don't
+you know what this time would be based on IR data rates and can
+provide that constraint to cpuidle?
 
-> >> +
-> >> +		/* enable pause restart */
-> >> +		val |= MT9P031_FRAME_PAUSE_RESTART_SET;
-> >> +		ret = mt9p031_write(client, MT9P031_FRAME_RESTART, val);
-> >> +		if (ret < 0)
-> >> +			return ret;
-> >> +
-> >> +		/* enable restart + keep pause restart set */
-> >> +		val |= MT9P031_FRAME_RESTART_SET;
-> >> +		ret = mt9p031_write(client, MT9P031_FRAME_RESTART, val);
-> >> +		if (ret < 0)
-> >> +			return ret;
-> >> +
-> >>   		/* Stop sensor readout */
-> >>   		ret = mt9p031_set_output_control(mt9p031,
-> >>   						 MT9P031_OUTPUT_CONTROL_CEN, 0);
-> >> @@ -505,6 +523,13 @@ static int mt9p031_s_stream(struct v4l2_subdev *subdev, int enable)
-> >>   	if (ret < 0)
-> >>   		return ret;
-> >>   
-> >> +	val = mt9p031_read(client, MT9P031_FRAME_RESTART);
-> >> +	/* disable reset + pause restart */
-> >> +	val &= ~MT9P031_FRAME_PAUSE_RESTART_SET;
-> > 
-> > Same here, I think you can simply write MT9P031_FRAME_PAUSE_RESTART_SET.
-> 
-> I'll drop the read here as well. But I need to make sure, that the Restart 
-> Bit is not cleared manually here.
-> 
-> >> +	ret = mt9p031_write(client, MT9P031_FRAME_RESTART, val);
-> >> +	if (ret < 0)
-> >> +		return ret;
-> >> +
-> >>   	return mt9p031_pll_enable(mt9p031);
-> >>   }
-> >>   
+Also, we can set autosuspend times from sysfs. Why do you need to do
+this from DT?
 
--- 
-Regards,
-
-Laurent Pinchart
+Rob
