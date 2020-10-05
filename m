@@ -2,101 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DCA8283436
-	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 12:50:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 52F64283486
+	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 13:01:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726123AbgJEKuq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Oct 2020 06:50:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33740 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725905AbgJEKup (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Oct 2020 06:50:45 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 904DCC0613A8
-        for <linux-media@vger.kernel.org>; Mon,  5 Oct 2020 03:50:45 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id n15so3239688wrq.2
-        for <linux-media@vger.kernel.org>; Mon, 05 Oct 2020 03:50:45 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=M2zjVVLnmwFQgT7Kn7CpiF/4Y0RRRZlogY57D59OL1Q=;
-        b=azTf+aCmxMcqsH4Q4OfDxJ0dGV/q88u03C/J+CGqrLXxLnSr1TDFyK7CNHb19lKJBQ
-         zdh/JJy7p5benO94gyyJT53xEev17bUpps4y4pLsUM0aIMQXsK6FQJLPFv5W7TzYRvHu
-         OFW8pRS5yIuyHvkfEY3Pnzy+Fq6iHIGUuZxZRj8D+eKJ9PaDqkhlZxc2oyoEmf/ZvXKY
-         E5lvDFa1vXAlioPuUeqqcLraDukoJYrnCW5ogg44vvIoeY+0vd2hcLBRtxdhkc7ikxky
-         AQA5dBAT7nSQxMVmoVhbGiBeVkjV6s3Xstr3TfpbY5u8dAAP736uCK/nE+PX+wRAYmqA
-         mqEg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=M2zjVVLnmwFQgT7Kn7CpiF/4Y0RRRZlogY57D59OL1Q=;
-        b=Ne6rfxW8WfYYCM8odaERu75xwVSLlwMZgJtZqbf12DtHqxa/+bWjsNnBO/bF2/D4Bq
-         JS/SEZSRS+5UHl8967nwd2hRKfszD1wQ6lxk+JkCYXXv94TChHnQgUm9zhXah/qh8NC/
-         P+2oXc2X4UhcxBMA+mkMChP0JA0HpUwdtYXikYPQTznJavzxRik65TFNwToajcmpIHXw
-         jMnmYlK+pAK+keDXulhQmcn+VfDRDocGGIxh49Kgfy1oCMl2+8gM/hR5wfDT7RT287pf
-         3VR2wa5pvPSw7+nolObPFLgDUfjVVhXoGqj6v63vkMkW6A8rbt35mUA1a3dM7fPGHWuZ
-         anoQ==
-X-Gm-Message-State: AOAM533yYzgUodeLygRrCCbWLeFUlIkpHArUU3EvnCBBpvDB18ZvB7vh
-        WwVXlVCRJAyoYuI2foIOQDgaSw==
-X-Google-Smtp-Source: ABdhPJyEPRxZd10VmSgHtfqoF+IWeXOoAoyzPP9zyjZ+55dwWBSUiJ1xTTKQhGeCWZvHzXjTlfeNWg==
-X-Received: by 2002:a5d:62d0:: with SMTP id o16mr2426402wrv.388.1601895044152;
-        Mon, 05 Oct 2020 03:50:44 -0700 (PDT)
-Received: from Red ([2a01:cb1d:3d5:a100:264b:feff:fe03:2806])
-        by smtp.googlemail.com with ESMTPSA id m13sm12871557wrr.74.2020.10.05.03.50.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 05 Oct 2020 03:50:43 -0700 (PDT)
-Date:   Mon, 5 Oct 2020 12:50:41 +0200
-From:   LABBE Corentin <clabbe@baylibre.com>
-To:     Colin King <colin.king@canonical.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        id S1726235AbgJELB1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Oct 2020 07:01:27 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50218 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725891AbgJELB1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 5 Oct 2020 07:01:27 -0400
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 831DF20578;
+        Mon,  5 Oct 2020 11:01:25 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1601895686;
+        bh=zT1ggZQfYdTWKaaKhhfthWc1Wmu2z51MEgqhMdjk+B0=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=SD/Qgw9FIMuzORoe+m+VTXdFP3akbnWWNU81Odi9c5GKdU7J+GKmby2c8netpfgmA
+         adZ1oHsaoFEdzavqQfYQskxWQibYcQ5HrNcWX5oNl7SvediEUDK9mfzz+po5gPOLGv
+         GYaHousl0JgdpMqFSA4SRgxVcsLFkSnV03Ue+OnE=
+Date:   Mon, 5 Oct 2020 12:00:22 +0100
+From:   Mark Brown <broonie@kernel.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Baolin Wang <baolin.wang7@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, kernel-janitors@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH][next] media: zoran: fix spelling mistake and make error
- message more meaningful
-Message-ID: <20201005105041.GB29306@Red>
-References: <20201002101620.86156-1-colin.king@canonical.com>
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        linux-clk@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-spi@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-iio@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-leds@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-mips@vger.kernel.org, linux-mmc@vger.kernel.org,
+        netdev@vger.kernel.org, linux-pci@vger.kernel.org,
+        linux-pm@vger.kernel.org, linux-remoteproc@vger.kernel.org,
+        linux-serial@vger.kernel.org, alsa-devel@alsa-project.org,
+        linux-usb@vger.kernel.org
+Subject: Re: [PATCH] dt-bindings: Another round of adding missing
+ 'additionalProperties'
+Message-ID: <20201005110022.GB5139@sirena.org.uk>
+References: <20201002234143.3570746-1-robh@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6sX45UoQRIJXqkqR"
 Content-Disposition: inline
-In-Reply-To: <20201002101620.86156-1-colin.king@canonical.com>
+In-Reply-To: <20201002234143.3570746-1-robh@kernel.org>
+X-Cookie: Most of your faults are not your fault.
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 02, 2020 at 11:16:20AM +0100, Colin King wrote:
-> From: Colin Ian King <colin.king@canonical.com>
-> 
-> There is a spelling mistake in a pci_err error message. Fix this and
-> make the error message a little more meaningful.
-> 
-> Signed-off-by: Colin Ian King <colin.king@canonical.com>
-> ---
->  drivers/staging/media/zoran/zoran_driver.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/staging/media/zoran/zoran_driver.c b/drivers/staging/media/zoran/zoran_driver.c
-> index 808196ea5b81..d9f8b21edf6a 100644
-> --- a/drivers/staging/media/zoran/zoran_driver.c
-> +++ b/drivers/staging/media/zoran/zoran_driver.c
-> @@ -666,7 +666,7 @@ static int zoran_g_selection(struct file *file, void *__fh, struct v4l2_selectio
->  
->  	if (sel->type != V4L2_BUF_TYPE_VIDEO_OUTPUT &&
->  	    sel->type != V4L2_BUF_TYPE_VIDEO_CAPTURE) {
-> -		pci_err(zr->pci_dev, "%s invalid combinaison\n", __func__);
-> +		pci_err(zr->pci_dev, "%s invalid selection type combination\n", __func__);
->  		return -EINVAL;
->  	}
->  
-> -- 
-> 2.27.0
-> 
 
-Hello
+--6sX45UoQRIJXqkqR
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 
-Acked-by: Corentin Labbe <clabbe@baylibre.com>
+On Fri, Oct 02, 2020 at 06:41:43PM -0500, Rob Herring wrote:
 
-Thanks
+> Another round of wack-a-mole. The json-schema default is additional
+> unknown properties are allowed, but for DT all properties should be
+> defined.
+
+Acked-by: Mark Brown <broonie@kernel.org>
+
+--6sX45UoQRIJXqkqR
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl96/MYACgkQJNaLcl1U
+h9DVIAf/YahMxzxRA1HRo6CR552Pzfu8pWuFTeWzZTi4iIVW4oR/TUvjaBuMBAZF
+jIi3Kk2yR9lW+bCaPvUIjXsdB31S0iHgXORKR9ByRsx4fZS4MC/x9KFlv/v5dziQ
+nMO+lF+vyZQrYQrfwQmBJ5JdbeM9r2Oh+tUBcsKZkPsvg10glGuisr1mO1CEaEuL
+zcz31MfKpdGbLUEOlPzruZ5uNt0/FHU6FxOusAGW9lkYx+c7GjNWtdDh8h7gzd1n
+SzrDKnBlTWCZ+Owy2r9hJS6ow+fIjoYDT+Xtp6AvrSk9oJ6hggQ6NyxPpesZWbKV
+3Kfe7+KGLuHI4AMEU0u/czJWmNdEJw==
+=5yDb
+-----END PGP SIGNATURE-----
+
+--6sX45UoQRIJXqkqR--
