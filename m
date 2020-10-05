@@ -2,170 +2,170 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CFC228335C
-	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 11:33:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48A4728336D
+	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 11:36:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726182AbgJEJdC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Oct 2020 05:33:02 -0400
-Received: from mickerik.phytec.de ([195.145.39.210]:46672 "EHLO
-        mickerik.phytec.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725960AbgJEJdC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Oct 2020 05:33:02 -0400
-DKIM-Signature: v=1; a=rsa-sha256; d=phytec.de; s=a1; c=relaxed/simple;
-        q=dns/txt; i=@phytec.de; t=1601890380; x=1604482380;
-        h=From:Sender:Reply-To:Subject:Date:Message-ID:To:Cc:MIME-Version:Content-Type:
-        Content-Transfer-Encoding:Content-ID:Content-Description:Resent-Date:Resent-From:
-        Resent-Sender:Resent-To:Resent-Cc:Resent-Message-ID:In-Reply-To:References:List-Id:
-        List-Help:List-Unsubscribe:List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=3g9qJ3jB6lFu8Y8mWj71/itdfPcgvmUT15aqWIiynjo=;
-        b=gL14o5csde3K9dUaVdR4M1vPewOJaiB0p3pKLHAVg0Hs4LButVYhzsfawHGaZ1/1
-        LDLMOBddueOwYHFKUTONI4Y2Y7/xAAuCykXoN1qVHt/rdXhk0LcxjmO5O9Y4u7aT
-        ll6LuJLZAEPdRhjqABEkGm6F+3hYtiHufNfKJrK5yf0=;
-X-AuditID: c39127d2-253ff70000001c25-93-5f7ae84cff5b
-Received: from idefix.phytec.de (Unknown_Domain [172.16.0.10])
-        by mickerik.phytec.de (PHYTEC Mail Gateway) with SMTP id 62.7A.07205.C48EA7F5; Mon,  5 Oct 2020 11:33:00 +0200 (CEST)
-Received: from [172.16.23.108] ([172.16.23.108])
-          by idefix.phytec.de (IBM Domino Release 9.0.1FP7)
-          with ESMTP id 2020100511330012-551545 ;
-          Mon, 5 Oct 2020 11:33:00 +0200 
-Subject: Re: [PATCH v2 3/5] media: mt9p031: Implement [gs]_register debug
- calls
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
-References: <20200930105133.139981-1-s.riedmueller@phytec.de>
- <20200930105133.139981-3-s.riedmueller@phytec.de>
- <20200930113831.GG5689@pendragon.ideasonboard.com>
- <289d5897-424f-326f-0bc1-c9a1b79284c3@phytec.de>
- <20201002000642.GL3722@pendragon.ideasonboard.com>
-From:   =?UTF-8?Q?Stefan_Riedm=c3=bcller?= <s.riedmueller@phytec.de>
-Message-ID: <18667602-f5b6-afa3-0c99-558299c4efb9@phytec.de>
-Date:   Mon, 5 Oct 2020 11:33:00 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1726064AbgJEJg2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Oct 2020 05:36:28 -0400
+Received: from lhrrgout.huawei.com ([185.176.76.210]:2954 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725919AbgJEJg1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 5 Oct 2020 05:36:27 -0400
+Received: from lhreml710-chm.china.huawei.com (unknown [172.18.7.107])
+        by Forcepoint Email with ESMTP id 094B3ABD20918B3B41D5;
+        Mon,  5 Oct 2020 10:36:23 +0100 (IST)
+Received: from localhost (10.52.124.175) by lhreml710-chm.china.huawei.com
+ (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Mon, 5 Oct 2020
+ 10:36:21 +0100
+Date:   Mon, 5 Oct 2020 10:34:36 +0100
+From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
+To:     Rob Herring <robh@kernel.org>
+CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
+        "Thierry Reding" <thierry.reding@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        "Baolin Wang" <baolin.wang7@gmail.com>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        "Vinod Koul" <vkoul@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        <linux-clk@vger.kernel.org>, <dri-devel@lists.freedesktop.org>,
+        <linux-spi@vger.kernel.org>, <linux-gpio@vger.kernel.org>,
+        <linux-hwmon@vger.kernel.org>, <linux-iio@vger.kernel.org>,
+        <openipmi-developer@lists.sourceforge.net>,
+        <linux-leds@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-rockchip@lists.infradead.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        <linux-mips@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
+        <netdev@vger.kernel.org>, <linux-pci@vger.kernel.org>,
+        <linux-pm@vger.kernel.org>, <linux-remoteproc@vger.kernel.org>,
+        <linux-serial@vger.kernel.org>, <alsa-devel@alsa-project.org>,
+        <linux-usb@vger.kernel.org>
+Subject: Re: [PATCH] dt-bindings: Another round of adding missing
+ 'additionalProperties'
+Message-ID: <20201005093436.00004913@Huawei.com>
+In-Reply-To: <20201002234143.3570746-1-robh@kernel.org>
+References: <20201002234143.3570746-1-robh@kernel.org>
+Organization: Huawei Technologies Research and Development (UK) Ltd.
+X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
 MIME-Version: 1.0
-In-Reply-To: <20201002000642.GL3722@pendragon.ideasonboard.com>
-X-MIMETrack: Itemize by SMTP Server on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 05.10.2020 11:33:00,
-        Serialize by Router on Idefix/Phytec(Release 9.0.1FP7|August  17, 2016) at
- 05.10.2020 11:33:00
-X-TNEFEvaluated: 1
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFnrFLMWRmVeSWpSXmKPExsWyRoCBS9fnRVW8wfWfvBZ7j11gseicuITd
-        4vKuOWwWPRu2slos2/SHyeLTlm9MDmwesztmsnpsWtXJ5jHvZKDHipX/mTw+b5ILYI3isklJ
-        zcksSy3St0vgyrh39g5bwUTpivt73jI1MHaLdTFyckgImEjc+LSVtYuRi0NIYBujxO6F71hA
-        EkICpxkleuaXgNjCAoESG8/eZAexRQQsJHoXTWcEaWAWOM4ocXHRMqjuPiaJU+d3MoFUsQk4
-        SSw+38EGYvMK2EjsbFvPDGKzCKhITO19AdTNwSEqECmxc4clRImgxMmZT8AWcwrYS0xefZEF
-        ZKaEwBVGiTPnl7NAnCokcXrxWbA5zAJmEvM2P4SyxSVuPZnPBGFrSyxb+Jp5AqPQLCRzZyFp
-        mYWkZRaSlgWMLKsYhXIzk7NTizKz9QoyKktSk/VSUjcxAuPj8ET1SzsY++Z4HGJk4mA8xCjB
-        wawkwqsXVhEvxJuSWFmVWpQfX1Sak1p8iFGag0VJnHcDb0mYkEB6YklqdmpqQWoRTJaJg1Oq
-        gTFV+4bn+4N3VX6rFJe90KjO/KcWYCRwIVxp2xzxjuemMpbLpwTMjtwY223jvPKX7JNSHr4f
-        LTl5rZ1Vl2ZsK1u2Udp4gcnli6vEG/coGDHe8vIzfuG4bRfT/yPvSix2+D7a1PzjRNkE7rNB
-        niyKNye/DQq3mMgZUHnvz/RNZgqqbBe1z/K3NSuxFGckGmoxFxUnAgBjrjn5fQIAAA==
+Content-Type: text/plain; charset="US-ASCII"
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.52.124.175]
+X-ClientProxiedBy: lhreml730-chm.china.huawei.com (10.201.108.81) To
+ lhreml710-chm.china.huawei.com (10.201.108.61)
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Fri, 2 Oct 2020 18:41:43 -0500
+Rob Herring <robh@kernel.org> wrote:
 
-On 02.10.20 02:06, Laurent Pinchart wrote:
-> Hi Stefan,
->=20
-> On Thu, Oct 01, 2020 at 10:56:24AM +0200, Stefan Riedm=C3=BCller wrote:
->> On 30.09.20 13:38, Laurent Pinchart wrote:
->>> On Wed, Sep 30, 2020 at 12:51:31PM +0200, Stefan Riedmueller wrote:
->>>> From: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
->>>>
->>>> Implement g=5Fregister and s=5Fregister v4l2=5Fsubdev=5Fcore=5Fops to =
-access
->>>> camera register directly from userspace for debug purposes.
->>>
->>> As the name of the operations imply, this is meant for debug purpose
->>> only. They are however prone to be abused to configure the sensor from
->>> userspace in production, which isn't a direction we want to take.
->>> What's your use case for this ?  I'd rather drop this patch and see the
->>> driver extended with support for more controls if needed
->>
->> thanks for your feedback.
->>
->> I get your point. I myself solely use these operations for debugging
->> purposes but I'm aware that others like to abuse them.
->>
->> I thought I send it anyway since for me the DEBUG config is enough to
->> signalize that these operations are not to be used with a productive sys=
-tem.
->> But I'm OK with dropping this patch if you think it might send the wrong=
- signal.
->=20
-> I'd rather avoid this patch due to the risk of abuse if it's OK with
-> you.
+> Another round of wack-a-mole. The json-schema default is additional
+> unknown properties are allowed, but for DT all properties should be
+> defined.
+> 
+> Cc: Thierry Reding <thierry.reding@gmail.com>
+> Cc: Linus Walleij <linus.walleij@linaro.org>
+> Cc: Stephen Boyd <sboyd@kernel.org>
+> Cc: Shawn Guo <shawnguo@kernel.org>
+> Cc: Bjorn Andersson <bjorn.andersson@linaro.org>
+> Cc: Baolin Wang <baolin.wang7@gmail.com>
+> Cc: Guenter Roeck <linux@roeck-us.net>
+> Cc: Jonathan Cameron <jic23@kernel.org>
+> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+> Cc: Lee Jones <lee.jones@linaro.org>
+> Cc: Ulf Hansson <ulf.hansson@linaro.org>
+> Cc: "David S. Miller" <davem@davemloft.net>
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: Vinod Koul <vkoul@kernel.org>
+> Cc: Liam Girdwood <lgirdwood@gmail.com>
+> Cc: Mark Brown <broonie@kernel.org>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Daniel Lezcano <daniel.lezcano@linaro.org>
+> Cc: linux-clk@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-spi@vger.kernel.org
+> Cc: linux-gpio@vger.kernel.org
+> Cc: linux-hwmon@vger.kernel.org
+> Cc: linux-iio@vger.kernel.org
+> Cc: openipmi-developer@lists.sourceforge.net
+> Cc: linux-leds@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linux-rockchip@lists.infradead.org
+> Cc: linux-stm32@st-md-mailman.stormreply.com
+> Cc: linux-mips@vger.kernel.org
+> Cc: linux-mmc@vger.kernel.org
+> Cc: netdev@vger.kernel.org
+> Cc: linux-pci@vger.kernel.org
+> Cc: linux-pm@vger.kernel.org
+> Cc: linux-remoteproc@vger.kernel.org
+> Cc: linux-serial@vger.kernel.org
+> Cc: alsa-devel@alsa-project.org
+> Cc: linux-usb@vger.kernel.org
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
 
-Yes, that's fine. I will drop it in v3.
+Hi Rob,
 
-Regards,
-Stefan
+Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> # for iio
 
->=20
->>>> Signed-off-by: Enrico Scholz <enrico.scholz@sigma-chemnitz.de>
->>>> Signed-off-by: Stefan Riedmueller <s.riedmueller@phytec.de>
->>>> ---
->>>> No changes in v2
->>>> ---
->>>>    drivers/media/i2c/mt9p031.c | 28 ++++++++++++++++++++++++++++
->>>>    1 file changed, 28 insertions(+)
->>>>
->>>> diff --git a/drivers/media/i2c/mt9p031.c b/drivers/media/i2c/mt9p031.c
->>>> index b4c042f418c1..de36025260a8 100644
->>>> --- a/drivers/media/i2c/mt9p031.c
->>>> +++ b/drivers/media/i2c/mt9p031.c
->>>> @@ -703,6 +703,30 @@ static int mt9p031=5Frestore=5Fblc(struct mt9p031=
- *mt9p031)
->>>>    	return 0;
->>>>    }
->>>>   =20
->>>> +#ifdef CONFIG=5FVIDEO=5FADV=5FDEBUG
->>>> +static int mt9p031=5Fg=5Fregister(struct v4l2=5Fsubdev *sd,
->>>> +			      struct v4l2=5Fdbg=5Fregister *reg)
->>>> +{
->>>> +	struct i2c=5Fclient *client =3D v4l2=5Fget=5Fsubdevdata(sd);
->>>> +	int ret;
->>>> +
->>>> +	ret =3D mt9p031=5Fread(client, reg->reg);
->>>> +	if (ret < 0)
->>>> +		return ret;
->>>> +
->>>> +	reg->val =3D ret;
->>>> +	return 0;
->>>> +}
->>>> +
->>>> +static int mt9p031=5Fs=5Fregister(struct v4l2=5Fsubdev *sd,
->>>> +			      struct v4l2=5Fdbg=5Fregister const *reg)
->>>> +{
->>>> +	struct i2c=5Fclient *client =3D v4l2=5Fget=5Fsubdevdata(sd);
->>>> +
->>>> +	return mt9p031=5Fwrite(client, reg->reg, reg->val);
->>>> +}
->>>> +#endif
->>>> +
->>>>    static int mt9p031=5Fs=5Fctrl(struct v4l2=5Fctrl *ctrl)
->>>>    {
->>>>    	struct mt9p031 *mt9p031 =3D
->>>> @@ -1000,6 +1024,10 @@ static int mt9p031=5Fclose(struct v4l2=5Fsubdev=
- *subdev, struct v4l2=5Fsubdev=5Ffh *fh)
->>>>   =20
->>>>    static const struct v4l2=5Fsubdev=5Fcore=5Fops mt9p031=5Fsubdev=5Fc=
-ore=5Fops =3D {
->>>>    	.s=5Fpower        =3D mt9p031=5Fset=5Fpower,
->>>> +#ifdef CONFIG=5FVIDEO=5FADV=5FDEBUG
->>>> +	.s=5Fregister	=3D mt9p031=5Fs=5Fregister,
->>>> +	.g=5Fregister	=3D mt9p031=5Fg=5Fregister,
->>>> +#endif
->>>>    };
->>>>   =20
->>>>    static const struct v4l2=5Fsubdev=5Fvideo=5Fops mt9p031=5Fsubdev=5F=
-video=5Fops =3D {
->=20
+
+However, one of these made me wonder if the binding was simply wrong...
+(definitely highlights why we should have additionalProperties: false
+where ever possible).
+
+...
+
+
+> diff --git a/Documentation/devicetree/bindings/iio/imu/invensense,icm42600.yaml b/Documentation/devicetree/bindings/iio/imu/invensense,icm42600.yaml
+> index abd8d25e1136..4c1c083d0e92 100644
+> --- a/Documentation/devicetree/bindings/iio/imu/invensense,icm42600.yaml
+> +++ b/Documentation/devicetree/bindings/iio/imu/invensense,icm42600.yaml
+> @@ -47,11 +47,17 @@ properties:
+>    vddio-supply:
+>      description: Regulator that provides power to the bus
+>  
+> +  spi-max-frequency: true
+> +  spi-cpha: true
+> +  spi-cpol: true
+
+It isn't completely unheard of for a device to operate in multiple SPI modes, but
+it does seem to be fairly unusual.  I took a look at the datasheet and at least
+from the provided timing diagrams, these are both required in SPI mode.
+
+http://invensense.tdk.com/wp-content/uploads/2020/09/DS-000292-ICM-42605-v1.5.pdf
+
+That doesn't make the binding wrong as such, but we could be tighter in checking this!
+
+I'll add this to my list to take a closer look at sometime soonish.
+
+Thanks.
+
+Jonathan
+
+> +
+>  required:
+>    - compatible
+>    - reg
+>    - interrupts
+>  
+> +additionalProperties: false
+> +
+>  examples:
+>    - |
+
