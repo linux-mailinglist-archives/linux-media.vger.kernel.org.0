@@ -2,95 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3E829283117
-	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 09:46:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 95E83283149
+	for <lists+linux-media@lfdr.de>; Mon,  5 Oct 2020 10:01:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725919AbgJEHqZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Oct 2020 03:46:25 -0400
-Received: from mga14.intel.com ([192.55.52.115]:39270 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725895AbgJEHqZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 5 Oct 2020 03:46:25 -0400
-IronPort-SDR: x51AE5q9HisF32dfjfs6iT7fIUKg1UgCzcfN9WbzuorcoMmRriH5dj2lx70ZwjoSHbKs3iT7Tm
- j495DpjQZTfg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9764"; a="162587750"
-X-IronPort-AV: E=Sophos;i="5.77,338,1596524400"; 
-   d="scan'208";a="162587750"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2020 00:46:20 -0700
-IronPort-SDR: B4oKUSmtWnzh4iDkFdLUso5nl4SMcnpHsEMivSqHbVWFYekZa7vtBl7cdhZwTSdGPv7RuqmX4o
- WTL9/QbbJfgQ==
-X-IronPort-AV: E=Sophos;i="5.77,338,1596524400"; 
-   d="scan'208";a="417036571"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2020 00:46:18 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id E079E205CA; Mon,  5 Oct 2020 10:46:15 +0300 (EEST)
-Date:   Mon, 5 Oct 2020 10:46:15 +0300
+        id S1725915AbgJEIBS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Oct 2020 04:01:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35666 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725895AbgJEIBS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Oct 2020 04:01:18 -0400
+Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C5B27C0613CE
+        for <linux-media@vger.kernel.org>; Mon,  5 Oct 2020 01:01:17 -0700 (PDT)
+Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 3A7B6634C87;
+        Mon,  5 Oct 2020 11:00:42 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 5/5] v4l2-fwnode: Say it's fine to use
- v4l2_fwnode_endpoint_parse
-Message-ID: <20201005074615.GC26842@paasikivi.fi.intel.com>
-References: <20200930144811.16612-1-sakari.ailus@linux.intel.com>
- <20200930144811.16612-6-sakari.ailus@linux.intel.com>
- <20201004084148.GF3938@pendragon.ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, jacopo@jmondi.org,
+        niklas.soderlund@ragnatech.se
+Subject: [PATCH v2 0/5] V4L2 fwnode fixes, improvements and cleanups
+Date:   Mon,  5 Oct 2020 11:01:10 +0300
+Message-Id: <20201005080115.8875-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201004084148.GF3938@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Oct 04, 2020 at 11:41:48AM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Wed, Sep 30, 2020 at 05:48:11PM +0300, Sakari Ailus wrote:
-> > Earlier it was expected that there would be more variable size endpoint
-> > properties and that most if not all drivers would need them. For that
-> > reason it was expected also that v4l2_fwnode_endpoint_parse would no
-> > longer be needed.
-> > 
-> > What actually happened that not all drivers require "link-frequencies",
-> > the only variable size media endpoint property without a small upper
-> > limit. Therefore drivers that do not need that information are fine using
-> > v4l2_fwnode_endpoint_parse. So don't tell drivers to use
-> > v4l2_fwnode_endpoint_alloc_parse in all cases.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  include/media/v4l2-fwnode.h | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> > 
-> > diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> > index 0c28dc11e829..cbd872e59f8e 100644
-> > --- a/include/media/v4l2-fwnode.h
-> > +++ b/include/media/v4l2-fwnode.h
-> > @@ -245,8 +245,8 @@ struct v4l2_fwnode_connector {
-> >   * The function does not change the V4L2 fwnode endpoint state if it fails.
-> >   *
-> >   * NOTE: This function does not parse properties the size of which is variable
-> > - * without a low fixed limit. Please use v4l2_fwnode_endpoint_alloc_parse() in
-> > - * new drivers instead.
-> > + * without a low fixed limit. Please use v4l2_fwnode_endpoint_alloc_parse() if
-> > + * you need properties of variable size.
-> 
-> Shouldn't we explicitly mention link-frequencies ? "properties the size
-> of which is variable without a low fixed limit" is not very clear for a
-> casual reader.
+Hi all,
 
-I'll use this in v2:
+This small set improves V4L2 fwnode framework in small but in an important
+ways. In particular:
 
-+ * NOTE: This function does not parse "link-frequencies" property as its size is
-+ * not known in advance. Please use v4l2_fwnode_endpoint_alloc_parse() if you
-+ * need properties of variable size.
+- Default parameters are no longer zeroed for V4L2_MBUS_UNKNOWN --- this
+  makes defaults for multiple bus types actually working, so it's a bugfix
+
+- Don't tell to use v4l2_fwnode_endpoint_alloc_parse in all drivers;
+  v4l2_fwnode_endpoint_parse is just as good if the device doesn't need
+  link-frequencies.
+
+- Rewrite v4l2_fwnode_endpoint(_alloc)_parse documentation
+
+Laurent: I believe this addresses your request to parse multiple bus types
+with a single call to v4l2_fwnode_endpoint_(alloc_)parse --- please see
+the 4th patch. You don't really need to tell the default, but the caller
+will need to check the result is one of the known types. But as the caller
+very probably needs to do some work based on the bus type right afterwards
+this is hardly an actual burden for drivers.
+
+since v1:
+
+- Add note (Laurent's text) on either zeroing or using explicit values in
+  vep argument.
+
+- Say v4l2_fwnode_endpoint_parse does not parse "link-frequencies" (rather
+  than omenous properties with low fixed limit in length).
+
+Sakari Ailus (5):
+  adv748x: Zero entire struct v4l2_fwnode_endpoint
+  v4l2-fwnode: v4l2_fwnode_endpoint_parse caller must init vep argument
+  v4l2-fwnode: Don't zero parts of struct v4l2_fwnode_endpoint anymore
+  v4l2-fwnode: Rework v4l2_fwnode_endpoint_parse documentation
+  v4l2-fwnode: Say it's fine to use v4l2_fwnode_endpoint_parse
+
+ drivers/media/i2c/adv748x/adv748x-core.c |  3 +-
+ drivers/media/v4l2-core/v4l2-fwnode.c    | 12 ----
+ include/media/v4l2-fwnode.h              | 74 ++++++++++++++++--------
+ 3 files changed, 50 insertions(+), 39 deletions(-)
 
 -- 
-Sakari Ailus
+2.27.0
+
