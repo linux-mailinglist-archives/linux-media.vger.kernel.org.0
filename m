@@ -2,100 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 03E2A28483A
-	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 10:17:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 03F42284860
+	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 10:22:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726002AbgJFIRZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Oct 2020 04:17:25 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34790 "EHLO
+        id S1726012AbgJFIWz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Oct 2020 04:22:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35642 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725939AbgJFIRZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Oct 2020 04:17:25 -0400
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D367FC061755;
-        Tue,  6 Oct 2020 01:17:24 -0700 (PDT)
-Received: by mail-lf1-x143.google.com with SMTP id h6so7247420lfj.3;
-        Tue, 06 Oct 2020 01:17:24 -0700 (PDT)
+        with ESMTP id S1726002AbgJFIWy (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Oct 2020 04:22:54 -0400
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 64A6EC0613DC
+        for <linux-media@vger.kernel.org>; Tue,  6 Oct 2020 01:22:54 -0700 (PDT)
+Received: by mail-wr1-x444.google.com with SMTP id z1so12398343wrt.3
+        for <linux-media@vger.kernel.org>; Tue, 06 Oct 2020 01:22:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:cc:subject:message-id:mime-version:content-disposition;
-        bh=/5MZorYI2P0RKQFIhOL/pMZNAYxxGQrsvDlS9cE+MSg=;
-        b=hHGVYNKFgsbXf6BSP2zJVrgvHO+lgO41/moTuU8ZGZh/hHlFaqd8AjQh1GFPoFlS5o
-         tsDMWyuXpVsXWZLCZeOawdr1Er+8tBDRG48sbNTtN2qjPPEYsFfa/Xk7ngdZBjgcpcZz
-         v238pEKj70l9C67p3DqzLqo89mHoofzkSU6j1lFUo5AHVPT+xm+5pSLBFrOTYOQhIvpm
-         j+48xsSHCzTLc3EpI/ez8QjGYgefesW32yHLnHtvHXfIv2dGQtr1GX9LiQLOyX6Uk6NL
-         ao8GdtIpMa74tLr4INqJLawE02uJ3ACJMCbkpFJfQttKmzCpUBtjcGDUnBwkjwCY/NLk
-         86Gg==
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=gQZ92N8EMr7LGVwcFgd0mzk1VK6749oG4otqf+GLMOc=;
+        b=zz0oXuy8DvLu/oqK9eyLFeY6GHKr0NNTLe+2Dc/x+LalYxQQw6uANkSbT/JLx0kvFw
+         JsFeeLTos6PMTBn+7hMGtQhoLWEqq+QuVUSBlZUX0ftSWK1YjyFRCOSMOBqz5D6MKAf1
+         trjhFyJHYmtSCLJ5XHzS7cF0NIB/qannWZC+J0hX6vMT6mPQvXUmjZ455nksyYjcFU+P
+         Sjl2xSWKvUjPg0CnAC82f7nU5/tWpx/auKHYNX85Ug+b+OjV7o89Jn5KftNigXVWbulQ
+         oiixrU7pMYnJfnHsL1qk6QIXkuIzWdHeWBqffLu7TxlUGZ9S3im+iPRnZpD+Am2dPSXN
+         L+mA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:cc:subject:message-id:mime-version
-         :content-disposition;
-        bh=/5MZorYI2P0RKQFIhOL/pMZNAYxxGQrsvDlS9cE+MSg=;
-        b=meJkZ8XmfsMuUAogqP2aXLEu4cKwWqCEnCJT9ketuolAHKuxW2O6LXVDQUjDtCtcPQ
-         IPWkJghgykK8WSidAWFYMNKWrpe6AEaB3qvEWXeR+PASj2QynoXNpWWqPK08CSKgHx3n
-         NyTFyDXQ2Bikpng7wDLoC0OSkRHP+D/dBmRf6T/69e/FHJ77ErIB/CV/7dBBpGL7kmOV
-         lOlOUnNNL3GFyf+4FQBjqSY5xy1TDOYh+3EIMSGN04Nd3CQe2qjcP4NTnjjhX7FN8/ae
-         QP/qMwQGJzDkRnxw5VK5JXQsDNWvJ1Db7iq8OZeHBZmIvBbcpepGSWdDotfkKWe4oKJb
-         s2wg==
-X-Gm-Message-State: AOAM530GaquJoQXiv5aG9DGArkOCSHiW8AQeBpql5P1OC3rZ1xkwQy4U
-        /mR8FNDAsY7OmXRmOxq79FFF73GknC0jId9e
-X-Google-Smtp-Source: ABdhPJxQimuHzq3/8Xf77sWdNqHg8ZOT15eczQ4oIcyib3hE2EWEjmwdE3UKs4a4EtVsyr1UeSOvCA==
-X-Received: by 2002:ac2:5506:: with SMTP id j6mr96173lfk.290.1601972243056;
-        Tue, 06 Oct 2020 01:17:23 -0700 (PDT)
-Received: from linux ([185.17.130.172])
-        by smtp.gmail.com with ESMTPSA id z23sm497984lfe.238.2020.10.06.01.17.21
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 06 Oct 2020 01:17:22 -0700 (PDT)
-Date:   Tue, 6 Oct 2020 10:17:21 +0200
-From:   Leonid Kushnir <leonf008@gmail.com>
-Cc:     mchehab@kernel.org, sakari.ailus@linux.intel.com,
-        gregkh@linuxfoundation.org, leonf008@gmail.com,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=gQZ92N8EMr7LGVwcFgd0mzk1VK6749oG4otqf+GLMOc=;
+        b=Dfn77MTWXzbotHJ9Jvxg5rnYebMqaUjIsQ/NVk6qiHnJ2mx/lWJ9Dn30cAXYi/Cf3i
+         iwPT2eisKpa770A92Wesi+dt6w8M9inXMgDexzRyDAWdlbafKLxJvWVs1QlZGqBckfvp
+         tdTTBKHZlsCXqrMBTAChkiWNxiWZcq8DmUAK9VtSSe4Kbj+djxj7fNkAQxnV3ItaLXVw
+         QqasSrsOQZ53Y7r6E6cBMdlupEKtROseGBeFi3WYCMCmH2H8tfJYl0vmxthhfvsloxgJ
+         jGG11/q+Pb5i9cNWY88zCL4oPzBY6OfUZ8MLjLgXhqOHqUed80+v2xWwyrLG1M1bgoos
+         AS+w==
+X-Gm-Message-State: AOAM533idmwlWYlXa1WtO9/CEKz63lV+8XC09TJbGLhBrAbr5cl5soK3
+        vxlzZnxGpw9X7nE80gNXFuaVSw==
+X-Google-Smtp-Source: ABdhPJxneCP/XHEIGTuaYnepMY95XJGJWgT/9+OwKrX8AbsmbSuGbQwcSXMgWa3UoshUsl19yJaa5g==
+X-Received: by 2002:adf:fa52:: with SMTP id y18mr3564855wrr.264.1601972572464;
+        Tue, 06 Oct 2020 01:22:52 -0700 (PDT)
+Received: from [192.168.86.34] (cpc86377-aztw32-2-0-cust226.18-1.cable.virginm.net. [92.233.226.227])
+        by smtp.googlemail.com with ESMTPSA id v17sm3056116wrc.23.2020.10.06.01.22.49
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Tue, 06 Oct 2020 01:22:51 -0700 (PDT)
+Subject: Re: [PATCH 4/4] dt-bindings: Explicitly allow additional properties
+ in common schemas
+To:     Rob Herring <robh@kernel.org>, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 2/2] media: staging: atomisp: Removed else branch in function
-Message-ID: <20201006081721.GA35979@linux>
+Cc:     Albert Ou <aou@eecs.berkeley.edu>,
+        Alessandro Zummo <a.zummo@towertech.it>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Daniel Lezcano <daniel.lezcano@linaro.org>,
+        "David S. Miller" <davem@davemloft.net>, dmaengine@vger.kernel.org,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        dri-devel@lists.freedesktop.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jakub Kicinski <kuba@kernel.org>,
+        Jason Cooper <jason@lakedaemon.net>,
+        Jens Axboe <axboe@kernel.dk>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Marc Kleine-Budde <mkl@pengutronix.de>,
+        Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Palmer Dabbelt <palmer@dabbelt.com>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Pavel Machek <pavel@ucw.cz>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Richard Weinberger <richard@nod.at>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sebastian Reichel <sre@kernel.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Vivien Didelot <vivien.didelot@gmail.com>,
+        Wim Van Sebroeck <wim@linux-watchdog.org>,
+        Wolfgang Grandegger <wg@grandegger.com>,
+        Zhang Rui <rui.zhang@intel.com>,
+        linux-arm-kernel@lists.infradead.org, linux-can@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org,
+        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
+        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-watchdog@vger.kernel.org
+References: <20201005183830.486085-1-robh@kernel.org>
+ <20201005183830.486085-5-robh@kernel.org>
+From:   Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
+Message-ID: <9d2a9da4-d28d-dcf0-2b43-66e28b6b8dec@linaro.org>
+Date:   Tue, 6 Oct 2020 09:22:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:60.0) Gecko/20100101
+ Thunderbird/60.8.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-To:     unlisted-recipients:; (no To-header on input)
+In-Reply-To: <20201005183830.486085-5-robh@kernel.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This patch fixes the checkpatch.pl warning :
 
-WARNING: else is not generally useful after a break or return
 
-Expressions under 'else' branch in function 'gc0310_s_power' are
-executed whenever the exppression in 'if' is False. Otherwise, return
-from function occurs. Therefore, there is no need in 'else', and it has
-been removed.
+On 05/10/2020 19:38, Rob Herring wrote:
+> In order to add meta-schema checks for additional/unevaluatedProperties
+> being present, all schema need to make this explicit. As common/shared
+> schema are included by other schemas, they should always allow for
+> additionalProperties.
+> 
+> Signed-off-by: Rob Herring<robh@kernel.org>
+> 
+>   Documentation/devicetree/bindings/nvmem/nvmem-consumer.yaml  | 2 ++
+>   Documentation/devicetree/bindings/nvmem/nvmem.yaml           | 2 ++
 
-Signed-off-by: Leonid Kushnir <leonf008@gmail.com>
----
- drivers/staging/media/atomisp/i2c/atomisp-gc0310.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+for nvmem parts,
 
-diff --git a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-index 6be3ee1d93a5..8201c15b5769 100644
---- a/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-+++ b/drivers/staging/media/atomisp/i2c/atomisp-gc0310.c
-@@ -874,11 +874,10 @@ static int gc0310_s_power(struct v4l2_subdev *sd, int on)
- 
- 	if (on == 0)
- 		return power_down(sd);
--	else {
--		ret = power_up(sd);
--		if (!ret)
--			return gc0310_init(sd);
--	}
-+	ret = power_up(sd);
-+	if (!ret)
-+		return gc0310_init(sd);
-+
- 	return ret;
- }
- 
--- 
-2.25.1
+Acked-by: Srinivas Kandagatla <srinivas.kandagatla@linaro.org>
 
+thanks,
+srini
