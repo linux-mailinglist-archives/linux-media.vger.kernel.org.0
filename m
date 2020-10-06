@@ -2,143 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8AD90284C41
-	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 15:09:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A01F284C46
+	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 15:09:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725995AbgJFNJC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Oct 2020 09:09:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51526 "EHLO
+        id S1725996AbgJFNJc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Oct 2020 09:09:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725902AbgJFNJC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Oct 2020 09:09:02 -0400
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1ED7BC0613D1
-        for <linux-media@vger.kernel.org>; Tue,  6 Oct 2020 06:09:02 -0700 (PDT)
-Received: by mail-ot1-x343.google.com with SMTP id q21so12180981ota.8
-        for <linux-media@vger.kernel.org>; Tue, 06 Oct 2020 06:09:02 -0700 (PDT)
+        with ESMTP id S1725943AbgJFNJb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Oct 2020 09:09:31 -0400
+Received: from mail-vk1-xa44.google.com (mail-vk1-xa44.google.com [IPv6:2607:f8b0:4864:20::a44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9B8A9C061755
+        for <linux-media@vger.kernel.org>; Tue,  6 Oct 2020 06:09:31 -0700 (PDT)
+Received: by mail-vk1-xa44.google.com with SMTP id c63so2493831vkb.7
+        for <linux-media@vger.kernel.org>; Tue, 06 Oct 2020 06:09:31 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=UIz7Ad1d8jfXlfMTcB0ZtI9qf0HUQ6fuKIJszWhIC+E=;
-        b=LIcR3mxlTUwN2cQS3JOV9OT3XWZSqNM8o2MXOXJGnXBlTjosIunp2xH+4xIx4TFcmX
-         bz9ZNBvOE+IWnnYFj2cRXRANjLRbYjiHsrPwgqT5Esz03Yaa5NJcAVZ84y6FBycdg5nl
-         9BP1OZjIaAgLdnUyieEXrQHDpl2wkajyftiXI=
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=CPgpmnj9Ri3tTNBL+Ot+OCAFsdQxMhwjVh6k+4Dt51M=;
+        b=Uh6+WSMgZ4p4zcvyQjSIhU0vW/zEJhYRwlbHJuLLTQawo3cC8gNnvkUfph294znHjv
+         pUIa4xqzwW84xRT05HIOk2rXqXTPeVu9hlGExcywj1DaQn6Tcc05gCbDmNODClgJMN6j
+         vAw6/lzauIcWb73xFtqHOs7/CEbWsk7JIPULOPTgzDLe5sYapkEUyc6EuMX7wnM9WbSp
+         wa+qsmHQ6ovaaJvhurkTEW4ioS7WotSiuojcgtTopplvMdcTIjsQ7047JxlCbTTqmi/j
+         sfmSfJ6Ay4+4kH0dsorO05ooMIBq7RXxoDpkF47NHYmF49R8N8tTCsL74Q0++a8JExGl
+         cZJA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=UIz7Ad1d8jfXlfMTcB0ZtI9qf0HUQ6fuKIJszWhIC+E=;
-        b=SnHy6xagDD31o0F3C+RR/Y1Sq1iwGlq1m6AItVbdlu1wnWFdZji4/VnLjGuXZ0sa7w
-         HouOvNr04vwpy07KqpaGK0rd7qWqy0rNgEeKPpsEMePFn+49oFH/IMoUqig+W6DaOTCx
-         3OG6lK/IlAoEY2HOOUpGKygOmrZM6Grzslq6IznT0VTDSqLDmLWXYzqAF0gh6htjugwQ
-         nlMLSXb5jJheVZoHOxrYC67NZn7fDhgrK6ntS89pLuRX5n7GONJOzt7TZx6vQwHt9M2t
-         jwybJU9v5KnglFiKrSbDbNbJA7UzDeuGT2sJyZeWoTWuJMJYplujuZ2BIkbWMQt29ZU6
-         YOuQ==
-X-Gm-Message-State: AOAM531n5XWGqsw9gQDWtGVL85oUUg8ZihLyWkUsD5Dpv/39ZN3HxjBE
-        qt/S+ODMc72KQq8ScvrUKFII9pATkdp7+vtdz3dU7w==
-X-Google-Smtp-Source: ABdhPJzw1inwN+t+5foZtK0ezcoJPSOeTr206jyI3Yd7SrQuqlq6reZ+PEoA/n663vRpZhATnphV37mf6s0WcQ5NNFs=
-X-Received: by 2002:a05:6830:1647:: with SMTP id h7mr2992253otr.281.1601989741473;
- Tue, 06 Oct 2020 06:09:01 -0700 (PDT)
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=CPgpmnj9Ri3tTNBL+Ot+OCAFsdQxMhwjVh6k+4Dt51M=;
+        b=WjN4rFPHntmEJSvp2bn7oq3SIe4FfrzGNB1aqexUwL8Y+GzTcFhMK9TaVjRpjNTEA2
+         O3RiMOU6GTKXbEuq8wt3VtytWKblxHCs+w04JVgmt4tm1a0jf+rUZ5AHpp8Y4xwkROJ2
+         zmhTrXzHktXEVsbJ+wrflO6Drj1wWct5GvFu7V3ZXjO75k0eSXrPXivKXQQ428QOx2uE
+         er27mXbhR0cGqhb3HpwbhcWp2tsu86DlIUCKVbHPU9ERoePbhf9G2eDvivrvOTl97y97
+         9XlBsd79rEcrDAxky23aahBsdp6BKvond5QcmovLqaacPYD7bZhA+8cofBH6XWZPC5RR
+         muSA==
+X-Gm-Message-State: AOAM531JQQsuaxy6G90DB2gB0j6hePm4slam6NIjvsJ0EWgkL58HGcKo
+        j3QHTuA0/WqPiF1uxaeOo744qCZhg5AQB4J7Aq0=
+X-Google-Smtp-Source: ABdhPJyja+DUGY21NdR/cuqtn7m0ET3ooMMJz8aIuQGcDkbAE5qPTPYu9GTwYhRlKD3IdzMZsVDdAhNAkqeXrtdrN48=
+X-Received: by 2002:a1f:964c:: with SMTP id y73mr3051316vkd.8.1601989769469;
+ Tue, 06 Oct 2020 06:09:29 -0700 (PDT)
 MIME-Version: 1.0
-References: <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
- <20201004125059.GP9916@ziepe.ca> <CAKMK7uF0AfuYGsHzKXhF=k-mAW=Wx_APf9fY9M9ormnwypoxZA@mail.gmail.com>
- <20201005172854.GA5177@ziepe.ca> <CAKMK7uFzxWF7V=7vkeNC-8shsPZRgdz9fYTsn0ayENv2BpnFEg@mail.gmail.com>
- <20201005183704.GC5177@ziepe.ca> <CAKMK7uH97Yb2JFviG_ynGC1hbQ69h9hcyFVFd2PFYHCDzfBN6g@mail.gmail.com>
- <CAKMK7uHRxK3yNrvX=+n-XpSv7PDCz8w+mwof3pkUUJq3TpmiuQ@mail.gmail.com>
- <20201005234104.GD5177@ziepe.ca> <CAKMK7uHt=kD=njZvMULy-k-bY4emn=u8__t7etQDq3_WUL7VAw@mail.gmail.com>
- <20201006122655.GG5177@ziepe.ca>
-In-Reply-To: <20201006122655.GG5177@ziepe.ca>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Tue, 6 Oct 2020 15:08:50 +0200
-Message-ID: <CAKMK7uEsVOopEuWrjXOh+pjo=XZXkVf6Y6sC7WD7zr+t=rBdZg@mail.gmail.com>
-Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Pawel Osciak <pawel@osciak.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Inki Dae <inki.dae@samsung.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Oded Gabbay <oded.gabbay@gmail.com>
+Received: by 2002:ab0:3774:0:0:0:0:0 with HTTP; Tue, 6 Oct 2020 06:09:29 -0700 (PDT)
+Reply-To: mr_mohammadahmed62@yahoo.com
+From:   Mohammad Ahmed <mohammad.ahmed17177@gmail.com>
+Date:   Tue, 6 Oct 2020 06:09:29 -0700
+Message-ID: <CAMY_373jrBuE8THumoVD6Xh0CYOO+n9ZSb6bebG0yA1BP1uheA@mail.gmail.com>
+Subject: GREETINGS FROM MR.MOHAMMAD AHMED / CAN I TRUST YOU?
+To:     undisclosed-recipients:;
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 6, 2020 at 2:26 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Tue, Oct 06, 2020 at 08:23:23AM +0200, Daniel Vetter wrote:
-> > On Tue, Oct 6, 2020 at 1:41 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > >
-> > > On Tue, Oct 06, 2020 at 12:43:31AM +0200, Daniel Vetter wrote:
-> > >
-> > > > > iow I think I can outright delete the frame vector stuff.
-> > > >
-> > > > Ok this doesn't work, because dma_mmap always uses a remap_pfn_range,
-> > > > which is a VM_IO | VM_PFNMAP vma and so even if it's cma backed and
-> > > > not a carveout, we can't get the pages.
-> > >
-> > > If CMA memory has struct pages it probably should be mmap'd with
-> > > different flags, and the lifecycle of the CMA memory needs to respect
-> > > the struct page refcount?
-> >
-> > I guess yes and no. The problem is if there's pagecache in the cma
-> > region, pup(FOLL_LONGTERM) needs to first migrate those pages out of
-> > the cma range. Because all normal page allocation in cma regions must
-> > be migratable at all times.
->
-> Eh? Then how are we doing follow_pfn() on this stuff and not being
-> completely broken?
->
-> The entire point of this framevec API is to pin the memory and
-> preventing it from moving around.
->
-> Sounds like it is fundamentally incompatible with CMA. Why is
-> something trying to mix the two?
+My Dear Friend.
 
-I think the assumption way back when this started is that any VM_IO |
-VM_PFNMAP vma is perma-pinned because it's just a piece of carveout.
-Of course this ignored that it could also be a piece of iomem and
-peer2peer dma doens't Just Work, so could result in all kinds of
-hilarity and hw exceptions. But no leaks. Well, if you assume that the
-ownership of a device never changes after you've booted the system.
+Greetings,
 
-But now we have dynamic gpu memory management, a bunch of subsystems
-that fully support revoke semantics (in a subsystem specific way), and
-CMA trying really hard to make the old carveouts useable for the
-system at large when the memory isn't needed by the device. So all
-these assumptions behind follow_pfn are out of the window, and
-follow_pfn is pretty much broken.
+My name is Mr. Mohammad Ahmed , the account manager in charge of audit
+Foreign Remittance Unit, bank  in Burkina Faso, It is true that we
+have not meet each other in person, but I strongly believe in trust
+and friendship in every business. As I am contacting you independently
+of my investigation and no one is informed of this communication.
 
-What's worse I noticed that even for static pfnmaps (for userspace
-drivers) we now revoke access to those mmaps. For example implemented
-for /dev/mem in 3234ac664a87 ("/dev/mem: Revoke mappings when a driver
-claims the region"). Which means follow_pfn isn't even working
-correctly anymore for that case, and it's all pretty much broken.
+My reason for contacting you is to transfer an abandoned sum of
+$13.5million Dollars immediately to your private account. The money
+has been here in our Bank lying dormant for years now without anybody
+coming for the claim of it.
 
-> > This is actually worse than the gpu case I had in mind, where at most
-> > you can sneak access other gpu buffers. With cma you should be able to
-> > get at arbitrary pagecache (well anything that's GFP_MOVEABLE really).
-> > Nice :-(
->
-> Ah, we have a winner :\
+The funds belong to our Late deceased Customer Mr.Cemil Bullent Ciner
+who perished along with her family in the Plane Crash since 15 years
+ago The Banking laws here does not allow such money to stay more than
+10 years, that is the reason why I need your Cooperation in
+transferring the money to your bank account so that we can use it to
+secure the future of our both families because I don't want the money
+to be recalled to the bank treasury as unclaimed fund.
 
-Cheers, Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+My dear you will provide account for transfer of the fund in your
+favor by our bank management and once the fund transferred into your
+account 50% from the total sum is for you and 50% for me and do not
+entertain any atom for fear for the transaction will be done legal and
+official without any problem.
+
+By indicating your interest I will send you the full details on how
+the business will be executed. Please keep this proposal as a top
+secret and delete if you are not interested. My position as the chief
+auditor in this bank guarantees the successful execution of this
+(deal) transaction.
+
+1)your full name.....
+2) sex.....
+3) age.....
+4) country.....
+5)passport or photo.....
+6)occupation.....
+7) personal Mobile number.....
+8)Home &office address.....
+9) Your marital status........
+
+Thanks.
+
+Mr.Mohammad Ahmed.
