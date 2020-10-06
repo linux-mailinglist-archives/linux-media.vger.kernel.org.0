@@ -2,119 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1B43284A0D
-	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 12:02:37 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FCFA284A6F
+	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 12:44:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726482AbgJFKCb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Oct 2020 06:02:31 -0400
-Received: from lhrrgout.huawei.com ([185.176.76.210]:2959 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725939AbgJFKC3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 6 Oct 2020 06:02:29 -0400
-Received: from lhreml710-chm.china.huawei.com (unknown [172.18.7.106])
-        by Forcepoint Email with ESMTP id 339F145D8CC503B2B5EB;
-        Tue,  6 Oct 2020 11:02:25 +0100 (IST)
-Received: from localhost (10.52.123.13) by lhreml710-chm.china.huawei.com
- (10.201.108.61) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1913.5; Tue, 6 Oct 2020
- 11:02:22 +0100
-Date:   Tue, 6 Oct 2020 11:00:36 +0100
-From:   Jonathan Cameron <Jonathan.Cameron@Huawei.com>
-To:     Rob Herring <robh@kernel.org>
-CC:     <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        "Andrew Lunn" <andrew@lunn.ch>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        <dmaengine@vger.kernel.org>,
-        "Dmitry Torokhov" <dmitry.torokhov@gmail.com>,
-        <dri-devel@lists.freedesktop.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        "Lars-Peter Clausen" <lars@metafoo.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        "Marc Zyngier" <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
-        "Mathieu Poirier" <mathieu.poirier@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        "MyungJoo Ham" <myungjoo.ham@samsung.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        "Paul Walmsley" <paul.walmsley@sifive.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        "Peter Meerwald-Stadler" <pmeerw@pmeerw.net>,
-        Richard Weinberger <richard@nod.at>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        "Thomas Bogendoerfer" <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Vignesh Raghavendra" <vigneshr@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        "Wim Van Sebroeck" <wim@linux-watchdog.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-can@vger.kernel.org>, <linux-clk@vger.kernel.org>,
-        <linux-gpio@vger.kernel.org>, <linux-hwmon@vger.kernel.org>,
-        <linux-i2c@vger.kernel.org>, <linux-ide@vger.kernel.org>,
-        <linux-iio@vger.kernel.org>, <linux-input@vger.kernel.org>,
-        <linux-leds@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-mips@vger.kernel.org>, <linux-mmc@vger.kernel.org>,
-        <linux-mtd@lists.infradead.org>, <linux-pci@vger.kernel.org>,
-        <linux-pm@vger.kernel.org>, <linux-pwm@vger.kernel.org>,
-        <linux-riscv@lists.infradead.org>, <linux-rtc@vger.kernel.org>,
-        <linux-serial@vger.kernel.org>, <linux-spi@vger.kernel.org>,
-        <linux-usb@vger.kernel.org>, <linux-watchdog@vger.kernel.org>
-Subject: Re: [PATCH 4/4] dt-bindings: Explicitly allow additional properties
- in common schemas
-Message-ID: <20201006100036.00007ec7@Huawei.com>
-In-Reply-To: <20201005183830.486085-5-robh@kernel.org>
-References: <20201005183830.486085-1-robh@kernel.org>
-        <20201005183830.486085-5-robh@kernel.org>
-Organization: Huawei Technologies Research and Development (UK) Ltd.
-X-Mailer: Claws Mail 3.17.4 (GTK+ 2.24.32; i686-w64-mingw32)
+        id S1725977AbgJFKoN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Oct 2020 06:44:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57444 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725891AbgJFKoK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Oct 2020 06:44:10 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F235C061755
+        for <linux-media@vger.kernel.org>; Tue,  6 Oct 2020 03:44:25 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 0D47628B999
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>, cphealy@gmail.com,
+        Benjamin.Bara@skidata.com, l.stach@pengutronix.de,
+        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com
+Subject: [PATCH 0/6] CODA timeout fix & assorted changes
+Date:   Tue,  6 Oct 2020 07:44:08 -0300
+Message-Id: <20201006104414.67984-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset="US-ASCII"
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.52.123.13]
-X-ClientProxiedBy: lhreml716-chm.china.huawei.com (10.201.108.67) To
- lhreml710-chm.china.huawei.com (10.201.108.61)
-X-CFilter-Loop: Reflected
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 5 Oct 2020 13:38:30 -0500
-Rob Herring <robh@kernel.org> wrote:
+Hi all,
 
-> In order to add meta-schema checks for additional/unevaluatedProperties
-> being present, all schema need to make this explicit. As common/shared
-> schema are included by other schemas, they should always allow for
-> additionalProperties.
-> 
-> Signed-off-by: Rob Herring <robh@kernel.org>
+The main motivation for this series is to address a PIC_RUN
+timeout, which we managed to link with a hardware bitstream
+buffer underrun condition.
 
->  Documentation/devicetree/bindings/iio/common.yaml            | 2 ++
-For IIO
+Upon further investigation we discovered that the underrun
+was produced by a subtle issue in the way buffer_meta's were
+being tracked.
 
-Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com>
->  ...
+The issue is fixed by patch "5/6 coda: coda_buffer_meta housekeeping fix".
 
+Patches 1 to 4 are mostly cleanups and minor cosmetic changes.
+
+Finally, while testing with corrupted bitstreams we realized
+the driver was logging too verbosely, so patch 6 addresses
+this by introducing a private control to read an macroblock-error
+counter.
+
+These patches have been tested against media's upstream
+and v5.4-based, on i.MX6 (Wandboard) with H.264 and MPEG-2
+streams.
+
+In particular, this series manages to fix the PIC_RUN
+timeout reported by Benjamin Bara [1].
+
+I believe this timeout can be systematically reproduced with
+a video containing small black frames, which can be generated with:
+
+gst-launch-1.0 videotestsrc pattern=black num-buffers=300 ! \
+video/x-raw,format=I420,width=176,height=120 ! avenc_mpeg2video ! \
+mpegvideoparse ! mpegtsmux ! filesink location=black-qcif-10s.ts
+
+Reviews and feedback are appreciated, as always.
+
+[1] https://lkml.org/lkml/2020/8/21/495
+
+Ezequiel Garcia (6):
+  coda: Remove redundant ctx->initialized setting
+  coda: Simplify H.264 small buffer padding logic
+  coda: Clarify device registered log
+  coda: Clarify interrupt registered name
+  coda: coda_buffer_meta housekeeping fix
+  coda: Add a V4L2 user for control concealed MB (ERR_MB)
+
+ MAINTAINERS                               |  1 +
+ drivers/media/platform/coda/coda-bit.c    | 67 +++++++++++++++--------
+ drivers/media/platform/coda/coda-common.c | 55 ++++++++++++++++---
+ drivers/media/platform/coda/coda.h        |  3 +
+ include/media/drv-intf/coda.h             | 13 +++++
+ include/uapi/linux/v4l2-controls.h        |  4 ++
+ 6 files changed, 113 insertions(+), 30 deletions(-)
+ create mode 100644 include/media/drv-intf/coda.h
+
+-- 
+2.27.0
 
