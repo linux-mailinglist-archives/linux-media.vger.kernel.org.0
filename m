@@ -2,66 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 313072851C5
-	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 20:41:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7939F2852AA
+	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 21:50:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726820AbgJFSl2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Oct 2020 14:41:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46284 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726796AbgJFSl2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Oct 2020 14:41:28 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA4BCC0613D2
-        for <linux-media@vger.kernel.org>; Tue,  6 Oct 2020 11:41:27 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id u21so19135598eja.2
-        for <linux-media@vger.kernel.org>; Tue, 06 Oct 2020 11:41:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=C8GBCgQbcL72bHfuvAY+Zdl7rDxtS++c+cKqr1GrZYs=;
-        b=DjuJ/p24mQDEl/vbTYnWHBbmgNI9BSc0YKBExESfRytQ6pfYduML0M70l4DO6jipI2
-         zaX+9OrKjTaumELrIGwrKGRM2EXzuMkBrJnSRljYKOHVmkQ6E/cLd3MK4KvQ8oAnqJbm
-         UpxCAUlOuV7STQXFSNMIEdRxiwdEW36wXZThR9e6+j6jXEVPG/GcIb7QBPh9EiTy7Tu3
-         8GhHeU4/UQhsP5UREXADAaMQ2TaQeTtuRgxCYGYxoRhYGaWu0PwEr++ETasnNHi+M2k4
-         j3FoRYxuc5fexqm8AS9165nxSRcnGJezi56zpM2HsiZcbEp+jCVj0TvMO8izM05Sz+VK
-         Scrg==
+        id S1726566AbgJFTuN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Oct 2020 15:50:13 -0400
+Received: from mail-ot1-f66.google.com ([209.85.210.66]:44187 "EHLO
+        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725943AbgJFTuM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Oct 2020 15:50:12 -0400
+Received: by mail-ot1-f66.google.com with SMTP id a2so13417059otr.11;
+        Tue, 06 Oct 2020 12:50:12 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=C8GBCgQbcL72bHfuvAY+Zdl7rDxtS++c+cKqr1GrZYs=;
-        b=jtLN9RKs2Ine9o7XHYcy4Oy770NX3D3ijARUQZoAZXyod9a9ywuTl2lDIVVaPc0voV
-         LSVn1h4pyRqPGqwKjZM4tlRddKx10RigP2Z7dxrKV7OUs06B69WmJE9YW+hpzlK58KkU
-         C7fd0E2xPVhg29/E0U7k1H3evjMVqROqqyCKOvgGttoAD7F6ZEeL/+tO69wEIZOPkrOJ
-         No3WxAnwHuY1Og2xVEec2bWp2ku/G++ug/kXjmlti96EU0X2Z0+r6uz95OUicvG2aFjP
-         YN74nkF3jU7UKZXnkn9LOxPr9S4XKoVAnFbWw3tj0QoWtMCoQ1qJmHy9+gc7itYe2kKZ
-         SeEQ==
-X-Gm-Message-State: AOAM5317Mol3msWbQo5hw4WBPNHJbI6bKiFmPrBLirOOcude35ukaest
-        XZTnz3rjYNoSlVlvN2Efzz0UPdmOFGshwEMwL90=
-X-Google-Smtp-Source: ABdhPJwxxh6PGu/CiD43ih/QOxChqReyXCVpm+S5i7eBm5XszzzFBNZYupRSu3v7y35kr7/OJFx65zzal/TZxdtBGKc=
-X-Received: by 2002:a17:906:a51:: with SMTP id x17mr945268ejf.137.1602009686244;
- Tue, 06 Oct 2020 11:41:26 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=C2VdEx1qgxUjYGallz1CvIXMTJLqrZbwLPUfqsl53aQ=;
+        b=a+AyPfswJlYnGWV1ExdT1LksSLDpFgyTlY1iLuPvMtcI6EiBw9UlyO4jdx5SJ8GAT9
+         Jhhm+9Q6OpaZkWR0cqQszhwiGJJH8I/ngklK/cF8+zPpgVoB9MHZ0L2e31+Q+JcS5bXf
+         6w0/5Yl0oAStLMuJxjbODN5gm7oLe15TZBjBj0NSgpkLkmrAAgromBUdwgotlXA9kWp5
+         75s7/2SgtLaT8S3YtdtsBiGYloTyVUVYdyhh/yuStD2YCCg1m0BpHg0OLbPMCfmYvkDZ
+         71+tdIAkSe9wJtizzQiSE7C1UyNnJUpqCjCiSF+yy3t7JnELlpDAy2sjDHQSZGqFM2n9
+         B+6g==
+X-Gm-Message-State: AOAM530X+QelDIwR8Jxw1/3CbgPDWJhZ6GzBIXemZHpDm+pCnKSof0Mk
+        DSFdiIWI8DKqsEKfGPl7n/zWne34muII
+X-Google-Smtp-Source: ABdhPJw9yaRSS5uQ2iC7X/JRpm+DTYvg/NaIxLusFM/1IVfbYNZsG4u4IqxpNqGotE7EhktQ8pW3aA==
+X-Received: by 2002:a9d:4cd:: with SMTP id 71mr3745830otm.276.1602013811958;
+        Tue, 06 Oct 2020 12:50:11 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id r62sm1701429oih.12.2020.10.06.12.50.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2020 12:50:11 -0700 (PDT)
+Received: (nullmailer pid 2720710 invoked by uid 1000);
+        Tue, 06 Oct 2020 19:50:10 -0000
+Date:   Tue, 6 Oct 2020 14:50:10 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
+Subject: Re: [RESEND PATCH 020/100] dt-bindings: Add vendor prefix for MIPI
+ Alliance
+Message-ID: <20201006195010.GA2718573@bogus>
+References: <20200930201914.31377-1-sakari.ailus@linux.intel.com>
+ <20200930201914.31377-2-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
-Received: by 2002:a17:906:bc55:0:0:0:0 with HTTP; Tue, 6 Oct 2020 11:41:24
- -0700 (PDT)
-Reply-To: mfdp@tlen.pl
-From:   Mr Bill T Winters <missfavourkip@gmail.com>
-Date:   Tue, 6 Oct 2020 11:41:24 -0700
-Message-ID: <CAJc0UUnUJvey7LoCQ_rsx28BKJ4u1pYKARah2rS2M9ttjqHKkg@mail.gmail.com>
-Subject: Good Morning!
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20200930201914.31377-2-sakari.ailus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-Greetings,
-I Mr Bill T, did you Receive the (FUND), that was paid to you?
-Let me know with your full name:...  immediately,
+On Wed, Sep 30, 2020 at 11:19:08PM +0300, Sakari Ailus wrote:
+> Add a vendor prefix for MIPI Alliance, Inc.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  Documentation/devicetree/bindings/vendor-prefixes.yaml | 2 ++
+>  1 file changed, 2 insertions(+)
 
-Sincerely Yours, Respectfully,
+I guess based on the irc discussion, this is withdrawn.
 
-Mr Bill T Winters,
-Group Chief Executive Officer & Executive Director,
+> 
+> diff --git a/Documentation/devicetree/bindings/vendor-prefixes.yaml b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> index 63996ab03521..f16b53909e6e 100644
+> --- a/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> +++ b/Documentation/devicetree/bindings/vendor-prefixes.yaml
+> @@ -663,6 +663,8 @@ patternProperties:
+>      description: Miniand Tech
+>    "^minix,.*":
+>      description: MINIX Technology Ltd.
+> +  "^mipi,.*":
+> +    description: MIPI Alliance, Inc.
+>    "^miramems,.*":
+>      description: MiraMEMS Sensing Technology Co., Ltd.
+>    "^mitsubishi,.*":
+> -- 
+> 2.27.0
+> 
