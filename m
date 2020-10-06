@@ -2,41 +2,40 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 397CE284D08
-	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 16:05:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 298BE284D32
+	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 16:06:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726830AbgJFOFY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Oct 2020 10:05:24 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33180 "EHLO mail.kernel.org"
+        id S1727028AbgJFOGa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Oct 2020 10:06:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33338 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726335AbgJFOD4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 6 Oct 2020 10:03:56 -0400
+        id S1726329AbgJFODz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 6 Oct 2020 10:03:55 -0400
 Received: from mail.kernel.org (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E44C821707;
+        by mail.kernel.org (Postfix) with ESMTPSA id E2377216C4;
         Tue,  6 Oct 2020 14:03:53 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1601993034;
-        bh=22a5l6Hf0yUtyosId6lhXH3QUxL5aOgd9d9m1cYYZrE=;
+        bh=zJOxucCXGY+/g1Zhqy7+Iy3zmsjOu4tR8o67hpj1+5I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=kfPXUCLGo9nkP3cqt+44w9mXXEwTmKUvDM1Hc0mf2WdQw+yDsQ5rU89ka6XHjFND/
-         uKroLEYclvhdIZYtVT1m4wIepf4GL78uF08JS6+lKgSrpKoevAjC+UI5lfY0tm8eWs
-         jh97sKjaod/0+deoe/fYorvuA1FdZcSJuNG/0djc=
+        b=keiG42hEDM+kG0OyoJohJ5Cwg+jQUAXWeJnTk8PrLDN5hivBKS1T1vd6bQR0dJy3Y
+         Uzsal3tDwnmlfIrofbuLIVv+QFMN8I5IaFJs1JyJsZfOboyYLBucl2IJtubBRSILwd
+         i7ovhSsVTtLQMD9K55LsfyvKMP6dLYfAgT7+U0QU=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1kPnZH-0019FF-Qa; Tue, 06 Oct 2020 16:03:51 +0200
+        id 1kPnZH-0019FJ-S0; Tue, 06 Oct 2020 16:03:51 +0200
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
         Jonathan Corbet <corbet@lwn.net>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v5 16/52] media: docs: make MC documents more compatible with Sphinx 3.1+
-Date:   Tue,  6 Oct 2020 16:03:13 +0200
-Message-Id: <95ac29f9f59a4e3afe0d5b460cfcecbc4a310bd5.1601992016.git.mchehab+huawei@kernel.org>
+        Sean Young <sean@mess.org>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH v5 17/52] media: docs: make RC documents more compatible with Sphinx 3.1+
+Date:   Tue,  6 Oct 2020 16:03:14 +0200
+Message-Id: <289d90177e2f69209aa26739c5c008bd215c1e23.1601992016.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.26.2
 In-Reply-To: <cover.1601992016.git.mchehab+huawei@kernel.org>
 References: <cover.1601992016.git.mchehab+huawei@kernel.org>
@@ -53,653 +52,621 @@ be re-written, in order to use the new c domain notation.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- .../media/mediactl/media-func-close.rst            | 10 +++-------
- .../media/mediactl/media-func-ioctl.rst            | 10 +++-------
- .../media/mediactl/media-func-open.rst             | 10 +++-------
- .../media/mediactl/media-ioc-device-info.rst       | 13 ++++---------
- .../media/mediactl/media-ioc-enum-entities.rst     | 11 ++++-------
- .../media/mediactl/media-ioc-enum-links.rst        | 13 ++++---------
- .../media/mediactl/media-ioc-g-topology.rst        | 14 ++++----------
- .../media/mediactl/media-ioc-request-alloc.rst     | 11 +++++------
- .../media/mediactl/media-ioc-setup-link.rst        | 10 ++++------
- .../media/mediactl/media-request-ioc-queue.rst     |  7 +++----
- .../media/mediactl/media-request-ioc-reinit.rst    |  8 ++++----
- .../userspace-api/media/mediactl/request-api.rst   |  5 +++--
- .../media/mediactl/request-func-close.rst          |  8 ++------
- .../media/mediactl/request-func-ioctl.rst          |  8 ++------
- .../media/mediactl/request-func-poll.rst           | 12 ++++--------
- 15 files changed, 52 insertions(+), 98 deletions(-)
+ .../userspace-api/media/rc/lirc-get-features.rst   |  9 ++++-----
+ .../userspace-api/media/rc/lirc-get-rec-mode.rst   | 12 +++++++-----
+ .../media/rc/lirc-get-rec-resolution.rst           |  8 ++++----
+ .../userspace-api/media/rc/lirc-get-send-mode.rst  | 14 +++++++-------
+ .../userspace-api/media/rc/lirc-get-timeout.rst    | 13 +++++++------
+ Documentation/userspace-api/media/rc/lirc-read.rst | 10 +++-------
+ .../media/rc/lirc-set-measure-carrier-mode.rst     |  8 ++++----
+ .../media/rc/lirc-set-rec-carrier-range.rst        |  6 ++++--
+ .../media/rc/lirc-set-rec-carrier.rst              |  8 ++++----
+ .../media/rc/lirc-set-rec-timeout-reports.rst      |  8 ++++----
+ .../media/rc/lirc-set-rec-timeout.rst              | 13 +++++++------
+ .../media/rc/lirc-set-send-carrier.rst             |  8 ++++----
+ .../media/rc/lirc-set-send-duty-cycle.rst          |  8 ++++----
+ .../media/rc/lirc-set-transmitter-mask.rst         |  8 ++++----
+ .../media/rc/lirc-set-wideband-receiver.rst        |  8 ++++----
+ .../userspace-api/media/rc/lirc-write.rst          |  7 ++-----
+ 16 files changed, 73 insertions(+), 75 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/mediactl/media-func-close.rst b/Documentation/userspace-api/media/mediactl/media-func-close.rst
-index ec571b34ce69..8ac2443e76c1 100644
---- a/Documentation/userspace-api/media/mediactl/media-func-close.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-func-close.rst
+diff --git a/Documentation/userspace-api/media/rc/lirc-get-features.rst b/Documentation/userspace-api/media/rc/lirc-get-features.rst
+index 6846ae99848c..66a243dbd437 100644
+--- a/Documentation/userspace-api/media/rc/lirc-get-features.rst
++++ b/Documentation/userspace-api/media/rc/lirc-get-features.rst
 @@ -1,4 +1,5 @@
  .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
++.. c:namespace:: RC
  
- .. _media-func-close:
+ .. _lirc_get_features:
  
-@@ -11,7 +12,6 @@ Name
- 
- media-close - Close a media device
- 
--
+@@ -14,8 +15,9 @@ LIRC_GET_FEATURES - Get the underlying hardware device's features
  Synopsis
  ========
  
-@@ -19,16 +19,13 @@ Synopsis
- 
-     #include <unistd.h>
- 
--
- .. c:function:: int close( int fd )
--    :name: mc-close
+-.. c:function:: int ioctl( int fd, LIRC_GET_FEATURES, __u32 *features)
+-    :name: LIRC_GET_FEATURES
++.. c:macro:: LIRC_GET_FEATURES
++
++``int ioctl(int fd, LIRC_GET_FEATURES, __u32 *features)``
  
  Arguments
  =========
+@@ -26,11 +28,9 @@ Arguments
+ ``features``
+     Bitmask with the LIRC features.
  
- ``fd``
--    File descriptor returned by :c:func:`open() <mc-open>`.
 -
-+    File descriptor returned by :c:func:`open()`.
- 
  Description
  ===========
-@@ -36,11 +33,10 @@ Description
- Closes the media device. Resources associated with the file descriptor
- are freed. The device configuration remain unchanged.
+ 
+-
+ Get the underlying hardware device's features. If a driver does not
+ announce support of certain features, calling of the corresponding ioctls
+ is undefined.
+@@ -184,7 +184,6 @@ LIRC features
+ 
+     Unused. Kept just to avoid breaking uAPI.
  
 -
  Return Value
  ============
  
--:ref:`close() <media-func-close>` returns 0 on success. On error, -1 is returned, and
-+:c:func:`close()` returns 0 on success. On error, -1 is returned, and
- ``errno`` is set appropriately. Possible error codes are:
- 
- EBADF
-diff --git a/Documentation/userspace-api/media/mediactl/media-func-ioctl.rst b/Documentation/userspace-api/media/mediactl/media-func-ioctl.rst
-index 35ed549bec0e..9e9a838f4795 100644
---- a/Documentation/userspace-api/media/mediactl/media-func-ioctl.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-func-ioctl.rst
+diff --git a/Documentation/userspace-api/media/rc/lirc-get-rec-mode.rst b/Documentation/userspace-api/media/rc/lirc-get-rec-mode.rst
+index e8f397a87331..188478ed1233 100644
+--- a/Documentation/userspace-api/media/rc/lirc-get-rec-mode.rst
++++ b/Documentation/userspace-api/media/rc/lirc-get-rec-mode.rst
 @@ -1,4 +1,5 @@
  .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
++.. c:namespace:: RC
  
- .. _media-func-ioctl:
- 
-@@ -11,7 +12,6 @@ Name
- 
- media-ioctl - Control a media device
- 
--
+ .. _lirc_get_rec_mode:
+ .. _lirc_set_rec_mode:
+@@ -15,11 +16,13 @@ LIRC_GET_REC_MODE/LIRC_SET_REC_MODE - Get/set current receive mode.
  Synopsis
  ========
  
-@@ -19,15 +19,13 @@ Synopsis
+-.. c:function:: int ioctl( int fd, LIRC_GET_REC_MODE, __u32 *mode)
+-	:name: LIRC_GET_REC_MODE
++.. c:macro:: LIRC_GET_REC_MODE
  
-     #include <sys/ioctl.h>
- 
--
--.. c:function:: int ioctl( int fd, int request, void *argp )
--    :name: mc-ioctl
-+``int ioctl(int fd, int request, void *argp)``
- 
- Arguments
- =========
- 
- ``fd``
--    File descriptor returned by :c:func:`open() <mc-open>`.
-+    File descriptor returned by :c:func:`open()`.
- 
- ``request``
-     Media ioctl request code as defined in the media.h header file, for
-@@ -36,7 +34,6 @@ Arguments
- ``argp``
-     Pointer to a request-specific structure.
- 
--
- Description
- ===========
- 
-@@ -52,7 +49,6 @@ their parameters are located in the media.h header file. All media ioctl
- requests, their respective function and parameters are specified in
- :ref:`media-user-func`.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/mediactl/media-func-open.rst b/Documentation/userspace-api/media/mediactl/media-func-open.rst
-index 2c2595157ea3..24487cb0a308 100644
---- a/Documentation/userspace-api/media/mediactl/media-func-open.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-func-open.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
- 
- .. _media-func-open:
- 
-@@ -11,7 +12,6 @@ Name
- 
- media-open - Open a media device
- 
--
- Synopsis
- ========
- 
-@@ -19,9 +19,7 @@ Synopsis
- 
-     #include <fcntl.h>
- 
--
- .. c:function:: int open( const char *device_name, int flags )
--    :name: mc-open
+-.. c:function:: int ioctl( int fd, LIRC_SET_REC_MODE, __u32 *mode)
+-	:name: LIRC_SET_REC_MODE
++``int ioctl(int fd, LIRC_GET_REC_MODE, __u32 *mode)``
++
++.. c:macro:: LIRC_SET_REC_MODE
++
++``int ioctl(int fd, LIRC_SET_REC_MODE, __u32 *mode)``
  
  Arguments
  =========
-@@ -33,11 +31,10 @@ Arguments
-     Open flags. Access mode must be either ``O_RDONLY`` or ``O_RDWR``.
-     Other flags have no effect.
- 
--
- Description
- ===========
- 
--To open a media device applications call :ref:`open() <media-func-open>` with the
-+To open a media device applications call :c:func:`open()` with the
- desired device name. The function has no side effects; the device
- configuration remain unchanged.
- 
-@@ -45,11 +42,10 @@ When the device is opened in read-only mode, attempts to modify its
- configuration will result in an error, and ``errno`` will be set to
- EBADF.
- 
--
- Return Value
- ============
- 
--:ref:`open() <func-open>` returns the new file descriptor on success. On error,
-+:c:func:`open()` returns the new file descriptor on success. On error,
- -1 is returned, and ``errno`` is set appropriately. Possible error codes
- are:
- 
-diff --git a/Documentation/userspace-api/media/mediactl/media-ioc-device-info.rst b/Documentation/userspace-api/media/mediactl/media-ioc-device-info.rst
-index cde1ddfc0bfb..0c4c5d2cfcb2 100644
---- a/Documentation/userspace-api/media/mediactl/media-ioc-device-info.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-ioc-device-info.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
- 
- .. _media_ioc_device_info:
- 
-@@ -11,24 +12,22 @@ Name
- 
- MEDIA_IOC_DEVICE_INFO - Query device information
- 
--
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, MEDIA_IOC_DEVICE_INFO, struct media_device_info *argp )
--    :name: MEDIA_IOC_DEVICE_INFO
-+.. c:macro:: MEDIA_IOC_DEVICE_INFO
- 
-+``int ioctl(int fd, MEDIA_IOC_DEVICE_INFO, struct media_device_info *argp)``
- 
- Arguments
- =========
- 
- ``fd``
--    File descriptor returned by :ref:`open() <media-func-open>`.
-+    File descriptor returned by :c:func:`open()`.
- 
- ``argp``
-     Pointer to struct :c:type:`media_device_info`.
- 
--
- Description
- ===========
- 
-@@ -38,7 +37,6 @@ a struct :c:type:`media_device_info`. The driver
- fills the structure and returns the information to the application. The
- ioctl never fails.
- 
--
- .. c:type:: media_device_info
- 
- .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
-@@ -48,7 +46,6 @@ ioctl never fails.
+@@ -47,7 +50,6 @@ Return Value
+     :header-rows:  0
      :stub-columns: 0
-     :widths:       1 1 2
  
 -
-     *  -  char
-        -  ``driver``\ [16]
-        -  Name of the driver implementing the media API as a NUL-terminated
-@@ -94,7 +91,6 @@ ioctl never fails.
-        -  Reserved for future extensions. Drivers and applications must set
- 	  this array to zero.
+     -  .. row 1
  
--
- The ``serial`` and ``bus_info`` fields can be used to distinguish
- between multiple instances of otherwise identical hardware. The serial
- number takes precedence when provided and can be assumed to be unique.
-@@ -102,7 +98,6 @@ If the serial number is an empty string, the ``bus_info`` field can be
- used instead. The ``bus_info`` field is guaranteed to be unique, but can
- vary across reboots or device unplug/replug.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/mediactl/media-ioc-enum-entities.rst b/Documentation/userspace-api/media/mediactl/media-ioc-enum-entities.rst
-index 93e35f198f47..92dd8ecd538c 100644
---- a/Documentation/userspace-api/media/mediactl/media-ioc-enum-entities.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-ioc-enum-entities.rst
+        -  ``ENODEV``
+diff --git a/Documentation/userspace-api/media/rc/lirc-get-rec-resolution.rst b/Documentation/userspace-api/media/rc/lirc-get-rec-resolution.rst
+index 3f08aa7c24a9..e29445c5ce16 100644
+--- a/Documentation/userspace-api/media/rc/lirc-get-rec-resolution.rst
++++ b/Documentation/userspace-api/media/rc/lirc-get-rec-resolution.rst
 @@ -1,4 +1,5 @@
  .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
++.. c:namespace:: RC
  
- .. _media_ioc_enum_entities:
+ .. _lirc_get_rec_resolution:
  
-@@ -11,24 +12,22 @@ Name
- 
- MEDIA_IOC_ENUM_ENTITIES - Enumerate entities and their properties
- 
--
+@@ -14,8 +15,9 @@ LIRC_GET_REC_RESOLUTION - Obtain the value of receive resolution, in microsecond
  Synopsis
  ========
  
--.. c:function:: int ioctl( int fd, MEDIA_IOC_ENUM_ENTITIES, struct media_entity_desc *argp )
--    :name: MEDIA_IOC_ENUM_ENTITIES
-+.. c:macro:: MEDIA_IOC_ENUM_ENTITIES
- 
-+``int ioctl(int fd, MEDIA_IOC_ENUM_ENTITIES, struct media_entity_desc *argp)``
+-.. c:function:: int ioctl( int fd, LIRC_GET_REC_RESOLUTION, __u32 *microseconds)
+-    :name: LIRC_GET_REC_RESOLUTION
++.. c:macro:: LIRC_GET_REC_RESOLUTION
++
++``int ioctl(int fd, LIRC_GET_REC_RESOLUTION, __u32 *microseconds)``
  
  Arguments
  =========
- 
- ``fd``
--    File descriptor returned by :ref:`open() <media-func-open>`.
-+    File descriptor returned by :c:func:`open()`.
- 
- ``argp``
-     Pointer to struct :c:type:`media_entity_desc`.
+@@ -26,7 +28,6 @@ Arguments
+ ``microseconds``
+     Resolution, in microseconds.
  
 -
  Description
  ===========
  
-@@ -49,7 +48,6 @@ Entity IDs can be non-contiguous. Applications must *not* try to
- enumerate entities by calling MEDIA_IOC_ENUM_ENTITIES with increasing
- id's until they get an error.
- 
--
- .. c:type:: media_entity_desc
- 
- .. tabularcolumns:: |p{1.5cm}|p{1.7cm}|p{1.6cm}|p{1.5cm}|p{11.2cm}|
-@@ -136,7 +134,6 @@ id's until they get an error.
-     *  - }
-        -
+@@ -38,7 +39,6 @@ This ioctl returns the integer value with such resolution, with can be
+ used by userspace applications like lircd to automatically adjust the
+ tolerance value.
  
 -
  Return Value
  ============
  
-diff --git a/Documentation/userspace-api/media/mediactl/media-ioc-enum-links.rst b/Documentation/userspace-api/media/mediactl/media-ioc-enum-links.rst
-index f3e94c7b5dc3..3bc98a6a2ec5 100644
---- a/Documentation/userspace-api/media/mediactl/media-ioc-enum-links.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-ioc-enum-links.rst
+diff --git a/Documentation/userspace-api/media/rc/lirc-get-send-mode.rst b/Documentation/userspace-api/media/rc/lirc-get-send-mode.rst
+index f93b30c92193..77472fb5608a 100644
+--- a/Documentation/userspace-api/media/rc/lirc-get-send-mode.rst
++++ b/Documentation/userspace-api/media/rc/lirc-get-send-mode.rst
 @@ -1,4 +1,5 @@
  .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
++.. c:namespace:: RC
  
- .. _media_ioc_enum_links:
- 
-@@ -11,24 +12,22 @@ Name
- 
- MEDIA_IOC_ENUM_LINKS - Enumerate all pads and links for a given entity
- 
--
+ .. _lirc_get_send_mode:
+ .. _lirc_set_send_mode:
+@@ -15,11 +16,13 @@ LIRC_GET_SEND_MODE/LIRC_SET_SEND_MODE - Get/set current transmit mode.
  Synopsis
  ========
  
--.. c:function:: int ioctl( int fd, MEDIA_IOC_ENUM_LINKS, struct media_links_enum *argp )
--    :name: MEDIA_IOC_ENUM_LINKS
-+.. c:macro:: MEDIA_IOC_ENUM_LINKS
+-.. c:function:: int ioctl( int fd, LIRC_GET_SEND_MODE, __u32 *mode )
+-    :name: LIRC_GET_SEND_MODE
++.. c:macro:: LIRC_GET_SEND_MODE
  
-+``int ioctl(int fd, MEDIA_IOC_ENUM_LINKS, struct media_links_enum *argp)``
+-.. c:function:: int ioctl( int fd, LIRC_SET_SEND_MODE, __u32 *mode )
+-    :name: LIRC_SET_SEND_MODE
++``int ioctl(int fd, LIRC_GET_SEND_MODE, __u32 *mode)``
++
++.. c:macro:: LIRC_SET_SEND_MODE
++
++``int ioctl(int fd, LIRC_SET_SEND_MODE, __u32 *mode)``
  
  Arguments
  =========
- 
- ``fd``
--    File descriptor returned by :ref:`open() <media-func-open>`.
-+    File descriptor returned by :c:func:`open()`.
- 
- ``argp``
-     Pointer to struct :c:type:`media_links_enum`.
+@@ -30,7 +33,6 @@ Arguments
+ ``mode``
+     The mode used for transmitting.
  
 -
  Description
  ===========
  
-@@ -53,7 +52,6 @@ outbound links can be retrieved with :ref:`MEDIA_IOC_ENUM_ENTITIES`.
- Only forward links that originate at one of the entity's source pads are
- returned during the enumeration process.
- 
--
- .. c:type:: media_links_enum
- 
- .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
-@@ -82,7 +80,6 @@ returned during the enumeration process.
-        -  Reserved for future extensions. Drivers and applications must set
-           the array to zero.
- 
--
- .. c:type:: media_pad_desc
- 
- .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
-@@ -110,7 +107,6 @@ returned during the enumeration process.
-           the array to zero.
- 
- 
--
- .. c:type:: media_link_desc
- 
- .. tabularcolumns:: |p{4.4cm}|p{4.4cm}|p{8.7cm}|
-@@ -137,7 +133,6 @@ returned during the enumeration process.
-        -  Reserved for future extensions. Drivers and applications must set
-           the array to zero.
- 
--
+@@ -44,14 +46,12 @@ modes the driver supports.
  Return Value
  ============
  
-diff --git a/Documentation/userspace-api/media/mediactl/media-ioc-g-topology.rst b/Documentation/userspace-api/media/mediactl/media-ioc-g-topology.rst
-index 9b7d2296b7fd..8f8b3b586edd 100644
---- a/Documentation/userspace-api/media/mediactl/media-ioc-g-topology.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-ioc-g-topology.rst
+-
+ .. tabularcolumns:: |p{2.5cm}|p{15.0cm}|
+ 
+ .. flat-table::
+     :header-rows:  0
+     :stub-columns: 0
+ 
+-
+     -  .. row 1
+ 
+        -  ``ENODEV``
+diff --git a/Documentation/userspace-api/media/rc/lirc-get-timeout.rst b/Documentation/userspace-api/media/rc/lirc-get-timeout.rst
+index ec191a383d75..f5f3e06d6206 100644
+--- a/Documentation/userspace-api/media/rc/lirc-get-timeout.rst
++++ b/Documentation/userspace-api/media/rc/lirc-get-timeout.rst
 @@ -1,4 +1,5 @@
  .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
++.. c:namespace:: RC
  
- .. _media_ioc_g_topology:
- 
-@@ -11,24 +12,22 @@ Name
- 
- MEDIA_IOC_G_TOPOLOGY - Enumerate the graph topology and graph element properties
- 
--
+ .. _lirc_get_min_timeout:
+ .. _lirc_get_max_timeout:
+@@ -16,11 +17,13 @@ range for IR receive.
  Synopsis
  ========
  
--.. c:function:: int ioctl( int fd, MEDIA_IOC_G_TOPOLOGY, struct media_v2_topology *argp )
--    :name: MEDIA_IOC_G_TOPOLOGY
-+.. c:macro:: MEDIA_IOC_G_TOPOLOGY
+-.. c:function:: int ioctl( int fd, LIRC_GET_MIN_TIMEOUT, __u32 *timeout)
+-    :name: LIRC_GET_MIN_TIMEOUT
++.. c:macro:: LIRC_GET_MIN_TIMEOUT
  
-+``int ioctl(int fd, MEDIA_IOC_G_TOPOLOGY, struct media_v2_topology *argp)``
+-.. c:function:: int ioctl( int fd, LIRC_GET_MAX_TIMEOUT, __u32 *timeout)
+-    :name: LIRC_GET_MAX_TIMEOUT
++``int ioctl(int fd, LIRC_GET_MIN_TIMEOUT, __u32 *timeout)``
++
++.. c:macro:: LIRC_GET_MAX_TIMEOUT
++
++``int ioctl(int fd, LIRC_GET_MAX_TIMEOUT, __u32 *timeout)``
  
  Arguments
  =========
- 
- ``fd``
--    File descriptor returned by :ref:`open() <media-func-open>`.
-+    File descriptor returned by :c:func:`open()`.
- 
- ``argp``
-     Pointer to struct :c:type:`media_v2_topology`.
+@@ -31,7 +34,6 @@ Arguments
+ ``timeout``
+     Timeout, in microseconds.
  
 -
  Description
  ===========
  
-@@ -120,7 +119,6 @@ desired arrays with the media graph elements.
- 	  converted to a 64-bits integer. It can be zero. if zero, the ioctl
- 	  won't store the links. It will just update ``num_links``
- 
--
- .. tabularcolumns:: |p{1.6cm}|p{3.2cm}|p{12.7cm}|
- 
- .. c:type:: media_v2_entity
-@@ -158,7 +156,6 @@ desired arrays with the media graph elements.
-        -  Reserved for future extensions. Drivers and applications must set
- 	  this array to zero.
- 
--
- .. tabularcolumns:: |p{1.6cm}|p{3.2cm}|p{12.7cm}|
- 
- .. c:type:: media_v2_interface
-@@ -192,7 +189,6 @@ desired arrays with the media graph elements.
-        -  Used only for device node interfaces. See
- 	  :c:type:`media_v2_intf_devnode` for details.
- 
--
- .. tabularcolumns:: |p{1.6cm}|p{3.2cm}|p{12.7cm}|
- 
- .. c:type:: media_v2_intf_devnode
-@@ -245,7 +241,6 @@ desired arrays with the media graph elements.
-        -  Reserved for future extensions. Drivers and applications must set
- 	  this array to zero.
- 
--
- .. tabularcolumns:: |p{1.6cm}|p{3.2cm}|p{12.7cm}|
- 
- .. c:type:: media_v2_link
-@@ -282,7 +277,6 @@ desired arrays with the media graph elements.
-        -  Reserved for future extensions. Drivers and applications must set
- 	  this array to zero.
+@@ -47,7 +49,6 @@ that can be set.
+    both ioctls will return the same value even though the timeout
+    cannot be changed via :ref:`LIRC_SET_REC_TIMEOUT`.
  
 -
  Return Value
  ============
  
-diff --git a/Documentation/userspace-api/media/mediactl/media-ioc-request-alloc.rst b/Documentation/userspace-api/media/mediactl/media-ioc-request-alloc.rst
-index ea05ff0c5382..9195b4b8bf20 100644
---- a/Documentation/userspace-api/media/mediactl/media-ioc-request-alloc.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-ioc-request-alloc.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
- 
- .. _media_ioc_request_alloc:
- 
-@@ -11,24 +12,22 @@ Name
- 
- MEDIA_IOC_REQUEST_ALLOC - Allocate a request
- 
--
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, MEDIA_IOC_REQUEST_ALLOC, int *argp )
--    :name: MEDIA_IOC_REQUEST_ALLOC
-+.. c:macro:: MEDIA_IOC_REQUEST_ALLOC
- 
-+``int ioctl(int fd, MEDIA_IOC_REQUEST_ALLOC, int *argp)``
- 
- Arguments
- =========
- 
- ``fd``
--    File descriptor returned by :ref:`open() <media-func-open>`.
-+    File descriptor returned by :c:func:`open()`.
- 
- ``argp``
-     Pointer to an integer.
- 
--
- Description
- ===========
- 
-@@ -51,7 +50,7 @@ Finally, the file descriptor can be :ref:`polled <request-func-poll>` to wait
- for the request to complete.
- 
- The request will remain allocated until all the file descriptors associated
--with it are closed by :ref:`close() <request-func-close>` and the driver no
-+with it are closed by :c:func:`close()` and the driver no
- longer uses the request internally. See also
- :ref:`here <media-request-life-time>` for more information.
- 
-diff --git a/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst b/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
-index e2aa51015783..23208300cb61 100644
---- a/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-ioc-setup-link.rst
+diff --git a/Documentation/userspace-api/media/rc/lirc-read.rst b/Documentation/userspace-api/media/rc/lirc-read.rst
+index b94a349bd99e..d589560214f4 100644
+--- a/Documentation/userspace-api/media/rc/lirc-read.rst
++++ b/Documentation/userspace-api/media/rc/lirc-read.rst
 @@ -1,4 +1,5 @@
  .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
++.. c:namespace:: RC
  
- .. _media_ioc_setup_link:
- 
-@@ -11,24 +12,22 @@ Name
- 
- MEDIA_IOC_SETUP_LINK - Modify the properties of a link
- 
--
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int fd, MEDIA_IOC_SETUP_LINK, struct media_link_desc *argp )
--    :name: MEDIA_IOC_SETUP_LINK
-+.. c:macro:: MEDIA_IOC_SETUP_LINK
- 
-+``int ioctl(int fd, MEDIA_IOC_SETUP_LINK, struct media_link_desc *argp)``
- 
- Arguments
- =========
- 
- ``fd``
--    File descriptor returned by :ref:`open() <media-func-open>`.
-+    File descriptor returned by :c:func:`open()`.
- 
- ``argp``
-     Pointer to struct :c:type:`media_link_desc`.
- 
--
- Description
- ===========
- 
-@@ -53,7 +52,6 @@ non-dynamic link will return an ``EBUSY`` error code.
- If the specified link can't be found the driver returns with an ``EINVAL``
- error code.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/mediactl/media-request-ioc-queue.rst b/Documentation/userspace-api/media/mediactl/media-request-ioc-queue.rst
-index ca1b33196242..04b33db2bb45 100644
---- a/Documentation/userspace-api/media/mediactl/media-request-ioc-queue.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-request-ioc-queue.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
- 
- .. _media_request_ioc_queue:
- 
-@@ -11,13 +12,12 @@ Name
- 
- MEDIA_REQUEST_IOC_QUEUE - Queue a request
- 
--
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int request_fd, MEDIA_REQUEST_IOC_QUEUE )
--    :name: MEDIA_REQUEST_IOC_QUEUE
-+.. c:macro:: MEDIA_REQUEST_IOC_QUEUE
- 
-+``int ioctl(int request_fd, MEDIA_REQUEST_IOC_QUEUE)``
- 
- Arguments
- =========
-@@ -25,7 +25,6 @@ Arguments
- ``request_fd``
-     File descriptor returned by :ref:`MEDIA_IOC_REQUEST_ALLOC`.
- 
--
- Description
- ===========
- 
-diff --git a/Documentation/userspace-api/media/mediactl/media-request-ioc-reinit.rst b/Documentation/userspace-api/media/mediactl/media-request-ioc-reinit.rst
-index cfd503bdef70..57567b87b985 100644
---- a/Documentation/userspace-api/media/mediactl/media-request-ioc-reinit.rst
-+++ b/Documentation/userspace-api/media/mediactl/media-request-ioc-reinit.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
- 
- .. _media_request_ioc_reinit:
- 
-@@ -11,13 +12,12 @@ Name
- 
- MEDIA_REQUEST_IOC_REINIT - Re-initialize a request
- 
--
- Synopsis
- ========
- 
--.. c:function:: int ioctl( int request_fd, MEDIA_REQUEST_IOC_REINIT )
--    :name: MEDIA_REQUEST_IOC_REINIT
-+.. c:macro:: MEDIA_REQUEST_IOC_REINIT
- 
-+``int ioctl(int request_fd, MEDIA_REQUEST_IOC_REINIT)``
- 
- Arguments
- =========
-@@ -33,7 +33,7 @@ this request ioctl can be used to re-initialize a previously allocated
- request.
- 
- Re-initializing a request will clear any existing data from the request.
--This avoids having to :ref:`close() <request-func-close>` a completed
-+This avoids having to :c:func:`close()` a completed
- request and allocate a new request. Instead the completed request can just
- be re-initialized and it is ready to be used again.
- 
-diff --git a/Documentation/userspace-api/media/mediactl/request-api.rst b/Documentation/userspace-api/media/mediactl/request-api.rst
-index c0fa4dbb2b28..6c4cbd9f08a5 100644
---- a/Documentation/userspace-api/media/mediactl/request-api.rst
-+++ b/Documentation/userspace-api/media/mediactl/request-api.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
- 
- .. _media-request-api:
- 
-@@ -93,7 +94,7 @@ regardless of whether a request is in use or not.
-    Setting the same control through a request and also directly can lead to
-    undefined behavior!
- 
--User-space can :ref:`poll() <request-func-poll>` a request file descriptor in
-+User-space can :c:func:`poll()` a request file descriptor in
- order to wait until the request completes. A request is considered complete
- once all its associated buffers are available for dequeuing and all the
- associated controls have been updated with the values at the time of completion.
-@@ -115,7 +116,7 @@ Recycling and Destruction
- -------------------------
- 
- Finally, a completed request can either be discarded or be reused. Calling
--:ref:`close() <request-func-close>` on a request file descriptor will make
-+:c:func:`close()` on a request file descriptor will make
- that file descriptor unusable and the request will be freed once it is no
- longer in use by the kernel. That is, if the request is queued and then the
- file descriptor is closed, then it won't be freed until the driver completed
-diff --git a/Documentation/userspace-api/media/mediactl/request-func-close.rst b/Documentation/userspace-api/media/mediactl/request-func-close.rst
-index 04e00bb9defd..f4b8eb385ad7 100644
---- a/Documentation/userspace-api/media/mediactl/request-func-close.rst
-+++ b/Documentation/userspace-api/media/mediactl/request-func-close.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC.request
- 
- .. _request-func-close:
+ .. _lirc-read:
  
 @@ -11,7 +12,6 @@ Name
  
- request-close - Close a request file descriptor
+ lirc-read - Read from a LIRC device
+ 
+-
+ Synopsis
+ ========
+ 
+@@ -19,10 +19,7 @@ Synopsis
+ 
+     #include <unistd.h>
+ 
+-
+ .. c:function:: ssize_t read( int fd, void *buf, size_t count )
+-    :name: lirc-read
+-
+ 
+ Arguments
+ =========
+@@ -39,9 +36,9 @@ Arguments
+ Description
+ ===========
+ 
+-:ref:`read() <lirc-read>` attempts to read up to ``count`` bytes from file
++:c:func:`read()` attempts to read up to ``count`` bytes from file
+ descriptor ``fd`` into the buffer starting at ``buf``.  If ``count`` is zero,
+-:ref:`read() <lirc-read>` returns zero and has no other results. If ``count``
++:c:func:`read()` returns zero and has no other results. If ``count``
+ is greater than ``SSIZE_MAX``, the result is unspecified.
+ 
+ The exact format of the data depends on what :ref:`lirc_modes` a driver
+@@ -59,7 +56,6 @@ by hardware decoders. The :c:type:`rc_proto` member is set to the
+ used for transmission, and ``scancode`` to the decoded scancode,
+ and the ``keycode`` set to the keycode or ``KEY_RESERVED``.
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/rc/lirc-set-measure-carrier-mode.rst b/Documentation/userspace-api/media/rc/lirc-set-measure-carrier-mode.rst
+index 820d6bf28c1c..9bf9811a905a 100644
+--- a/Documentation/userspace-api/media/rc/lirc-set-measure-carrier-mode.rst
++++ b/Documentation/userspace-api/media/rc/lirc-set-measure-carrier-mode.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: RC
+ 
+ .. _lirc_set_measure_carrier_mode:
+ 
+@@ -14,8 +15,9 @@ LIRC_SET_MEASURE_CARRIER_MODE - enable or disable measure mode
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, LIRC_SET_MEASURE_CARRIER_MODE, __u32 *enable )
+-    :name: LIRC_SET_MEASURE_CARRIER_MODE
++.. c:macro:: LIRC_SET_MEASURE_CARRIER_MODE
++
++``int ioctl(int fd, LIRC_SET_MEASURE_CARRIER_MODE, __u32 *enable)``
+ 
+ Arguments
+ =========
+@@ -27,7 +29,6 @@ Arguments
+     enable = 1 means enable measure mode, enable = 0 means disable measure
+     mode.
+ 
+-
+ Description
+ ===========
+ 
+@@ -37,7 +38,6 @@ Enable or disable measure mode. If enabled, from the next key
+ press on, the driver will send ``LIRC_MODE2_FREQUENCY`` packets. By
+ default this should be turned off.
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/rc/lirc-set-rec-carrier-range.rst b/Documentation/userspace-api/media/rc/lirc-set-rec-carrier-range.rst
+index e33e6a320b7a..530bc223930a 100644
+--- a/Documentation/userspace-api/media/rc/lirc-set-rec-carrier-range.rst
++++ b/Documentation/userspace-api/media/rc/lirc-set-rec-carrier-range.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: RC
+ 
+ .. _lirc_set_rec_carrier_range:
+ 
+@@ -15,8 +16,9 @@ IR receive.
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, LIRC_SET_REC_CARRIER_RANGE, __u32 *frequency )
+-    :name: LIRC_SET_REC_CARRIER_RANGE
++.. c:macro:: LIRC_SET_REC_CARRIER_RANGE
++
++``int ioctl(int fd, LIRC_SET_REC_CARRIER_RANGE, __u32 *frequency)``
+ 
+ Arguments
+ =========
+diff --git a/Documentation/userspace-api/media/rc/lirc-set-rec-carrier.rst b/Documentation/userspace-api/media/rc/lirc-set-rec-carrier.rst
+index a6784d5e59c8..28c928f1cc14 100644
+--- a/Documentation/userspace-api/media/rc/lirc-set-rec-carrier.rst
++++ b/Documentation/userspace-api/media/rc/lirc-set-rec-carrier.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: RC
+ 
+ .. _lirc_set_rec_carrier:
+ 
+@@ -11,12 +12,12 @@ Name
+ 
+ LIRC_SET_REC_CARRIER - Set carrier used to modulate IR receive.
+ 
+-
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, LIRC_SET_REC_CARRIER, __u32 *frequency )
+-    :name: LIRC_SET_REC_CARRIER
++.. c:macro:: LIRC_SET_REC_CARRIER
++
++``int ioctl(int fd, LIRC_SET_REC_CARRIER, __u32 *frequency)``
+ 
+ Arguments
+ =========
+@@ -37,7 +38,6 @@ Set receive carrier used to modulate IR PWM pulses and spaces.
+    If called together with :ref:`LIRC_SET_REC_CARRIER_RANGE`, this ioctl
+    sets the upper bound frequency that will be recognized by the device.
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/rc/lirc-set-rec-timeout-reports.rst b/Documentation/userspace-api/media/rc/lirc-set-rec-timeout-reports.rst
+index 55be65df7d5a..83e7155c5796 100644
+--- a/Documentation/userspace-api/media/rc/lirc-set-rec-timeout-reports.rst
++++ b/Documentation/userspace-api/media/rc/lirc-set-rec-timeout-reports.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: RC
+ 
+ .. _lirc_set_rec_timeout_reports:
+ 
+@@ -14,8 +15,9 @@ LIRC_SET_REC_TIMEOUT_REPORTS - enable or disable timeout reports for IR receive
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, LIRC_SET_REC_TIMEOUT_REPORTS, __u32 *enable )
+-    :name: LIRC_SET_REC_TIMEOUT_REPORTS
++.. c:macro:: LIRC_SET_REC_TIMEOUT_REPORTS
++
++``int ioctl(int fd, LIRC_SET_REC_TIMEOUT_REPORTS, __u32 *enable)``
+ 
+ Arguments
+ =========
+@@ -27,7 +29,6 @@ Arguments
+     enable = 1 means enable timeout report, enable = 0 means disable timeout
+     reports.
+ 
+-
+ Description
+ ===========
+ 
+@@ -40,7 +41,6 @@ should be turned off.
+ 
+    This ioctl is only valid for :ref:`LIRC_MODE_MODE2 <lirc-mode-mode2>`.
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/rc/lirc-set-rec-timeout.rst b/Documentation/userspace-api/media/rc/lirc-set-rec-timeout.rst
+index e91a0daecde6..8f3f9adf54ab 100644
+--- a/Documentation/userspace-api/media/rc/lirc-set-rec-timeout.rst
++++ b/Documentation/userspace-api/media/rc/lirc-set-rec-timeout.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: RC
+ 
+ .. _lirc_set_rec_timeout:
+ .. _lirc_get_rec_timeout:
+@@ -15,11 +16,13 @@ LIRC_GET_REC_TIMEOUT/LIRC_SET_REC_TIMEOUT - Get/set the integer value for IR ina
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, LIRC_GET_REC_TIMEOUT, __u32 *timeout )
+-    :name: LIRC_GET_REC_TIMEOUT
++.. c:macro:: LIRC_GET_REC_TIMEOUT
+ 
+-.. c:function:: int ioctl( int fd, LIRC_SET_REC_TIMEOUT, __u32 *timeout )
+-    :name: LIRC_SET_REC_TIMEOUT
++``int ioctl(int fd, LIRC_GET_REC_TIMEOUT, __u32 *timeout)``
++
++.. c:macro:: LIRC_SET_REC_TIMEOUT
++
++``int ioctl(int fd, LIRC_SET_REC_TIMEOUT, __u32 *timeout)``
+ 
+ Arguments
+ =========
+@@ -30,7 +33,6 @@ Arguments
+ ``timeout``
+     Timeout, in microseconds.
+ 
+-
+ Description
+ ===========
+ 
+@@ -45,7 +47,6 @@ given value should be set.
+ 
+    The range of supported timeout is given by :ref:`LIRC_GET_MIN_TIMEOUT`.
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/rc/lirc-set-send-carrier.rst b/Documentation/userspace-api/media/rc/lirc-set-send-carrier.rst
+index e199aac7d8e0..e3810ba58746 100644
+--- a/Documentation/userspace-api/media/rc/lirc-set-send-carrier.rst
++++ b/Documentation/userspace-api/media/rc/lirc-set-send-carrier.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: RC
+ 
+ .. _lirc_set_send_carrier:
+ 
+@@ -11,12 +12,12 @@ Name
+ 
+ LIRC_SET_SEND_CARRIER - Set send carrier used to modulate IR TX.
+ 
+-
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, LIRC_SET_SEND_CARRIER, __u32 *frequency )
+-    :name: LIRC_SET_SEND_CARRIER
++.. c:macro:: LIRC_SET_SEND_CARRIER
++
++``int ioctl(int fd, LIRC_SET_SEND_CARRIER, __u32 *frequency)``
+ 
+ Arguments
+ =========
+@@ -32,7 +33,6 @@ Description
+ 
+ Set send carrier used to modulate IR PWM pulses and spaces.
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/rc/lirc-set-send-duty-cycle.rst b/Documentation/userspace-api/media/rc/lirc-set-send-duty-cycle.rst
+index a9074f4fb058..52a072529af9 100644
+--- a/Documentation/userspace-api/media/rc/lirc-set-send-duty-cycle.rst
++++ b/Documentation/userspace-api/media/rc/lirc-set-send-duty-cycle.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: RC
+ 
+ .. _lirc_set_send_duty_cycle:
+ 
+@@ -15,8 +16,9 @@ IR transmit.
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, LIRC_SET_SEND_DUTY_CYCLE, __u32 *duty_cycle)
+-    :name: LIRC_SET_SEND_DUTY_CYCLE
++.. c:macro:: LIRC_SET_SEND_DUTY_CYCLE
++
++``int ioctl(int fd, LIRC_SET_SEND_DUTY_CYCLE, __u32 *duty_cycle)``
+ 
+ Arguments
+ =========
+@@ -28,7 +30,6 @@ Arguments
+     Duty cicle, describing the pulse width in percent (from 1 to 99) of
+     the total cycle. Values 0 and 100 are reserved.
+ 
+-
+ Description
+ ===========
+ 
+@@ -38,7 +39,6 @@ Currently, no special meaning is defined for 0 or 100, but this
+ could be used to switch off carrier generation in the future, so
+ these values should be reserved.
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/rc/lirc-set-transmitter-mask.rst b/Documentation/userspace-api/media/rc/lirc-set-transmitter-mask.rst
+index 1f5527427281..68f4cc2e3ae3 100644
+--- a/Documentation/userspace-api/media/rc/lirc-set-transmitter-mask.rst
++++ b/Documentation/userspace-api/media/rc/lirc-set-transmitter-mask.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: RC
+ 
+ .. _lirc_set_transmitter_mask:
+ 
+@@ -14,8 +15,9 @@ LIRC_SET_TRANSMITTER_MASK - Enables send codes on a given set of transmitters
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, LIRC_SET_TRANSMITTER_MASK, __u32 *mask )
+-    :name: LIRC_SET_TRANSMITTER_MASK
++.. c:macro:: LIRC_SET_TRANSMITTER_MASK
++
++``int ioctl(int fd, LIRC_SET_TRANSMITTER_MASK, __u32 *mask)``
+ 
+ Arguments
+ =========
+@@ -26,7 +28,6 @@ Arguments
+ ``mask``
+     Mask with channels to enable tx. Channel 0 is the least significant bit.
+ 
+-
+ Description
+ ===========
+ 
+@@ -42,7 +43,6 @@ When an invalid bit mask is given, i.e. a bit is set, even though the device
+ does not have so many transitters, then this ioctl returns the number of
+ available transitters and does nothing otherwise.
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/rc/lirc-set-wideband-receiver.rst b/Documentation/userspace-api/media/rc/lirc-set-wideband-receiver.rst
+index 2c43b620b3f3..be5321c4a91f 100644
+--- a/Documentation/userspace-api/media/rc/lirc-set-wideband-receiver.rst
++++ b/Documentation/userspace-api/media/rc/lirc-set-wideband-receiver.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: RC
+ 
+ .. _lirc_set_wideband_receiver:
+ 
+@@ -14,8 +15,9 @@ LIRC_SET_WIDEBAND_RECEIVER - enable wide band receiver.
+ Synopsis
+ ========
+ 
+-.. c:function:: int ioctl( int fd, LIRC_SET_WIDEBAND_RECEIVER, __u32 *enable )
+-    :name: LIRC_SET_WIDEBAND_RECEIVER
++.. c:macro:: LIRC_SET_WIDEBAND_RECEIVER
++
++``int ioctl(int fd, LIRC_SET_WIDEBAND_RECEIVER, __u32 *enable)``
+ 
+ Arguments
+ =========
+@@ -27,7 +29,6 @@ Arguments
+     enable = 1 means enable wideband receiver, enable = 0 means disable
+     wideband receiver.
+ 
+-
+ Description
+ ===========
+ 
+@@ -47,7 +48,6 @@ reduced range of reception.
+     carrier reports. Trying to disable wide band receiver while carrier
+     reports are active will do nothing.
+ 
+-
+ Return Value
+ ============
+ 
+diff --git a/Documentation/userspace-api/media/rc/lirc-write.rst b/Documentation/userspace-api/media/rc/lirc-write.rst
+index 421de2cfa4ca..c1c3230d4fd6 100644
+--- a/Documentation/userspace-api/media/rc/lirc-write.rst
++++ b/Documentation/userspace-api/media/rc/lirc-write.rst
+@@ -1,4 +1,5 @@
+ .. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
++.. c:namespace:: RC
+ 
+ .. _lirc-write:
+ 
+@@ -11,7 +12,6 @@ Name
+ 
+ lirc-write - Write to a LIRC device
  
 -
  Synopsis
@@ -710,135 +677,28 @@ index 04e00bb9defd..f4b8eb385ad7 100644
      #include <unistd.h>
  
 -
- .. c:function:: int close( int fd )
--    :name: req-close
+ .. c:function:: ssize_t write( int fd, void *buf, size_t count )
+-    :name: lirc-write
  
  Arguments
  =========
-@@ -29,7 +27,6 @@ Arguments
- ``fd``
-     File descriptor returned by :ref:`MEDIA_IOC_REQUEST_ALLOC`.
- 
--
+@@ -38,7 +36,7 @@ Arguments
  Description
  ===========
  
-@@ -38,11 +35,10 @@ are freed once all file descriptors associated with the request are closed
- and the driver has completed the request.
- See :ref:`here <media-request-life-time>` for more information.
+-:ref:`write() <lirc-write>` writes up to ``count`` bytes to the device
++:c:func:`write()` writes up to ``count`` bytes to the device
+ referenced by the file descriptor ``fd`` from the buffer starting at
+ ``buf``.
+ 
+@@ -64,7 +62,6 @@ for the protocol or the scancode is not valid for the specified protocol,
+ ``EINVAL`` is returned. The write function blocks until the scancode
+ is transmitted by the hardware.
  
 -
  Return Value
  ============
  
--:ref:`close() <request-func-close>` returns 0 on success. On error, -1 is
-+:c:func:`close()` returns 0 on success. On error, -1 is
- returned, and ``errno`` is set appropriately. Possible error codes are:
- 
- EBADF
-diff --git a/Documentation/userspace-api/media/mediactl/request-func-ioctl.rst b/Documentation/userspace-api/media/mediactl/request-func-ioctl.rst
-index 1e1c5edb860c..4fb3d2ef32d1 100644
---- a/Documentation/userspace-api/media/mediactl/request-func-ioctl.rst
-+++ b/Documentation/userspace-api/media/mediactl/request-func-ioctl.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
- 
- .. _request-func-ioctl:
- 
-@@ -11,7 +12,6 @@ Name
- 
- request-ioctl - Control a request file descriptor
- 
--
- Synopsis
- ========
- 
-@@ -19,9 +19,7 @@ Synopsis
- 
-     #include <sys/ioctl.h>
- 
--
--.. c:function:: int ioctl( int fd, int cmd, void *argp )
--    :name: req-ioctl
-+``int ioctl(int fd, int cmd, void *argp)``
- 
- Arguments
- =========
-@@ -36,7 +34,6 @@ Arguments
- ``argp``
-     Pointer to a request-specific structure.
- 
--
- Description
- ===========
- 
-@@ -52,7 +49,6 @@ their parameters are located in the media.h header file. All request ioctl
- commands, their respective function and parameters are specified in
- :ref:`media-user-func`.
- 
--
- Return Value
- ============
- 
-diff --git a/Documentation/userspace-api/media/mediactl/request-func-poll.rst b/Documentation/userspace-api/media/mediactl/request-func-poll.rst
-index 92947213d3d5..ce0043dbe7da 100644
---- a/Documentation/userspace-api/media/mediactl/request-func-poll.rst
-+++ b/Documentation/userspace-api/media/mediactl/request-func-poll.rst
-@@ -1,4 +1,5 @@
- .. SPDX-License-Identifier: GPL-2.0 OR GFDL-1.1-no-invariants-or-later
-+.. c:namespace:: MC
- 
- .. _request-func-poll:
- 
-@@ -11,7 +12,6 @@ Name
- 
- request-poll - Wait for some event on a file descriptor
- 
--
- Synopsis
- ========
- 
-@@ -19,9 +19,7 @@ Synopsis
- 
-     #include <sys/poll.h>
- 
--
- .. c:function:: int poll( struct pollfd *ufds, unsigned int nfds, int timeout )
--   :name: request-poll
- 
- Arguments
- =========
-@@ -35,14 +33,13 @@ Arguments
- ``timeout``
-    Timeout to wait for events
- 
--
- Description
- ===========
- 
--With the :c:func:`poll() <request-func-poll>` function applications can wait
-+With the :c:func:`poll()` function applications can wait
- for a request to complete.
- 
--On success :c:func:`poll() <request-func-poll>` returns the number of file
-+On success :c:func:`poll()` returns the number of file
- descriptors that have been selected (that is, file descriptors for which the
- ``revents`` field of the respective struct :c:type:`pollfd`
- is non-zero). Request file descriptor set the ``POLLPRI`` flag in ``revents``
-@@ -53,11 +50,10 @@ set appropriately.
- Attempting to poll for a request that is not yet queued will
- set the ``POLLERR`` flag in ``revents``.
- 
--
- Return Value
- ============
- 
--On success, :c:func:`poll() <request-func-poll>` returns the number of
-+On success, :c:func:`poll()` returns the number of
- structures which have non-zero ``revents`` fields, or zero if the call
- timed out. On error -1 is returned, and the ``errno`` variable is set
- appropriately:
 -- 
 2.26.2
 
