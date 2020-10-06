@@ -2,168 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 952FF284439
-	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 05:22:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FB3B284442
+	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 05:24:44 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726667AbgJFDWi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 5 Oct 2020 23:22:38 -0400
-Received: from mga12.intel.com ([192.55.52.136]:61200 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725917AbgJFDWi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 5 Oct 2020 23:22:38 -0400
-IronPort-SDR: xN80ggBTnk2s+KXO5FLY7yVwonqfKLMFI5Dsw5rLSNdum/UJ7p63JInxyAbq1eH0K7h0pQ1xPo
- 9GHCc5F2dmaw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9765"; a="143719515"
-X-IronPort-AV: E=Sophos;i="5.77,341,1596524400"; 
-   d="scan'208";a="143719515"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Oct 2020 20:22:38 -0700
-IronPort-SDR: pT9iXre9Jqwzyx6zuAsQfhPx3bEqXFkkKIL4mEgKcjLdyNe/mSG7p/dE9kOIGIjWcNDXUHh7nL
- p+PQlh7fGJ4g==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,341,1596524400"; 
-   d="scan'208";a="516925277"
-Received: from orsmsx605.amr.corp.intel.com ([10.22.229.18])
-  by fmsmga006.fm.intel.com with ESMTP; 05 Oct 2020 20:22:38 -0700
-Received: from orsmsx601.amr.corp.intel.com (10.22.229.14) by
- ORSMSX605.amr.corp.intel.com (10.22.229.18) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1713.5; Mon, 5 Oct 2020 20:22:37 -0700
-Received: from ORSEDG601.ED.cps.intel.com (10.7.248.6) by
- orsmsx601.amr.corp.intel.com (10.22.229.14) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1713.5
- via Frontend Transport; Mon, 5 Oct 2020 20:22:37 -0700
-Received: from NAM12-DM6-obe.outbound.protection.outlook.com (104.47.59.175)
- by edgegateway.intel.com (134.134.137.102) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.1.1713.5; Mon, 5 Oct 2020 20:22:36 -0700
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=L7SOiFVvGrR7qknaGfJN4oEbHNnrThsI1CqSWTxhK1TxID/sBBlVzHxxoiY4lubuYd48Gg1++YtpCjulXVclWok4CsmSFSOoy1F2DRVnZvOVJXNb4VRcZlUuSrzeyFpAh55b7j71P4TKVA4DEUc7ODTwOu38m1buWjDPu0QcxSCSNCs0SKelG1wcgFJ12JQE1e757nwGSG5wNocPqrB9ALm806Ut/QkOxhNjW3sq/nnzJHsghppW2Su6SIVUMZl5dUa/Q5daY5mfuYn1VjA9frA5MycjHDav09gJb7QeQOMg079yzlvRZwibgLLuNPJ8N7d4hHqdId+tdtPPSSc06w==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AZap2kNmkNjjsAX8NYdCnIdKSaEleSyKfqVRQHLJT1I=;
- b=HDZToB+j+xKraHNyzMWQ4ZCCDY2KQHIXo1wsxw2Ece7Eo1LRAxSKmV97UkoUYehNkxTGbW7xA9By9x3eebNG0QL/h+fscjT5yX+WTJ9kdQVeeeClh6Ud3LNVJ+HmZJLW4/gB8dbCygkUhBKGBnIMN1YHjhgPb8CXzJhMmqNWDBti6yeLXq+4IU77QzgYIcp85nNBf9rX9Lel5rJRlypAnvCQoAJ2JoR0I4oJ4txNn9EHvoY5AAtHMhh+J/zh6zphXi5pJzsNfIyzlYpOZGKQTw7iaV3aYjuhYPQM+vSZkTqIh41y5Y01KeLqO36vD2CpKGWU3tcUQr8e2s90fdDkuw==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=intel.com; dmarc=pass action=none header.from=intel.com;
- dkim=pass header.d=intel.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=intel.onmicrosoft.com;
- s=selector2-intel-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=AZap2kNmkNjjsAX8NYdCnIdKSaEleSyKfqVRQHLJT1I=;
- b=BOXApySzXgSD7xmzTO0cwAF3s+RlOezurgeO6oVuIhFl+aK+ZJcOynkUHL6IoCH08CQU7XZ0+6qRCqAxx2KV64X3LN7XhxQpdoIQnktmw6V3EQ19hjiYu+iA1zEjK2SVstnMHm5Me8ZuU4a6f9qUga4Xt8FlfDAhCf1s87KFGrM=
-Received: from DM6PR11MB3995.namprd11.prod.outlook.com (2603:10b6:5:6::12) by
- DM6PR11MB3292.namprd11.prod.outlook.com (2603:10b6:5:5a::21) with Microsoft
- SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
- 15.20.3433.32; Tue, 6 Oct 2020 03:22:35 +0000
-Received: from DM6PR11MB3995.namprd11.prod.outlook.com
- ([fe80::28b7:f26f:9894:1a21]) by DM6PR11MB3995.namprd11.prod.outlook.com
- ([fe80::28b7:f26f:9894:1a21%3]) with mapi id 15.20.3433.045; Tue, 6 Oct 2020
- 03:22:35 +0000
-From:   "Cao, Bingbu" <bingbu.cao@intel.com>
-To:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Subject: RE: [PATCH] media: ov2740: select regmap
-Thread-Topic: [PATCH] media: ov2740: select regmap
-Thread-Index: AQHWlsbwPyG+AAYGwUOM+lO0BRzte6mJ8jCw
-Date:   Tue, 6 Oct 2020 03:22:35 +0000
-Message-ID: <DM6PR11MB3995D488E86C6AD842AF090E990D0@DM6PR11MB3995.namprd11.prod.outlook.com>
-References: <20200930011322.97179-1-sergey.senozhatsky@gmail.com>
-In-Reply-To: <20200930011322.97179-1-sergey.senozhatsky@gmail.com>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-dlp-product: dlpe-windows
-dlp-reaction: no-action
-dlp-version: 11.5.1.3
-authentication-results: gmail.com; dkim=none (message not signed)
- header.d=none;gmail.com; dmarc=none action=none header.from=intel.com;
-x-originating-ip: [192.198.147.207]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-correlation-id: caa0805f-ec47-4a90-a8a6-08d869a71210
-x-ms-traffictypediagnostic: DM6PR11MB3292:
-x-microsoft-antispam-prvs: <DM6PR11MB3292D30CF983F6E5EE0B426F990D0@DM6PR11MB3292.namprd11.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:765;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: NYwTt022RG0KTrSjlFG55mNgrhlmDc+vhxd10x1ZF0up0o8IZ+ByNWN8PJK+Gva7VY8CjpMJktCVGIVSl8UVfK2qXlG3np2ktL/flciEOvMYkscekDNEO8M0S+odlAKRrJPVG6tURughxUo/f3q0aU4npOVCt2mgXLDqfH8gXcSnQb0z20wQ+kSUUeYvY3G5XMkk2Xf3NrqqY9BUNpdWItm3YZL6bG0HPRrLgkNcJZ7HYl8u5cF5r2k1mrBAGVX2K8WqYHp5NLIklb2xElRMxBUDsgC1OEHUE1sHdW4AZ9a8NTLUJ4To29VJMADzxncoI+mx6WoPeESYp9JNfHIQHQ==
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:DM6PR11MB3995.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(346002)(396003)(39860400002)(366004)(136003)(376002)(71200400001)(8676002)(76116006)(2906002)(53546011)(52536014)(6506007)(66476007)(33656002)(66556008)(66446008)(64756008)(66946007)(478600001)(8936002)(186003)(5660300002)(4326008)(86362001)(83380400001)(316002)(55016002)(54906003)(26005)(7696005)(9686003)(110136005);DIR:OUT;SFP:1102;
-x-ms-exchange-antispam-messagedata: xha+yTBokBYuRdekTmdfmppjbCXRwGjlLV5APqhd5JfguJVCQBhkoOkTiPDPrBbczzMqmQbfStwWiZaneaFIdqSAUhMne0whlhPN/macQfWFlL78PEb8onlJz66b9NGpArKEcAR9MLJ/C6rR4P38BX//bnTLzvNtx+1ukt6yEgf6ysymEdgu3NkLQEhqX7skjBBH9r/60RUFYHwyVHg2IxtTc5rYO9RchcwcMSPB02bGp4NrKgOvvle1imGTTdVA6Z5peGzCnbCDMOAmNlacHyTZ11uFBzq5MbdkgSlWlLJ1MgA2EYo8BsfGl0qYSj2NLa8wYWyRaWiycN4krzbdDWcZZLUd8BsE9uSafSNzBzh4AJsUbq1yqQ7StcHz+GdODlkSGwCl2hdDNuNV5HhAH3gokZ1wrY3lfC9W+JRw0p8fuvHFiNoFMhSKRmNlPQs2bwN2K09PL+B2oxwMgSdb6qjU7Jfsgn72GXW5qVAPUK+s2z83qcNbSaoGWrgY0+b9lVt+7uRI+DrC4B2R8uVv/mT1Nq/vWn69rcrmYz+EvGMCm/F5Dia+eoyKo5fmwCv73IEnYw1+TF6MZWtKtoEVxs+fW49n66iMnpW2UM6yLSfAneGkt6vfQkAk8cj7LGNs32Z4NFfPojdYQzCKfFBerQ==
-x-ms-exchange-transport-forked: True
-Content-Type: text/plain; charset="us-ascii"
-Content-Transfer-Encoding: quoted-printable
+        id S1726830AbgJFDYO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 5 Oct 2020 23:24:14 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46032 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725917AbgJFDYO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 5 Oct 2020 23:24:14 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6309AC0613CE;
+        Mon,  5 Oct 2020 20:24:14 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id w5so11745353wrp.8;
+        Mon, 05 Oct 2020 20:24:14 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=gm5Rf54gYnkxJnrNPTvtfxE73fL5jd+U+PmQSMJsRvc=;
+        b=VZyb7PmpfJgybAomaVGcyJCByMa//i6iSgwkSgK+x1NvOl016eP/UXi506QBBORKTi
+         tCGJ/E76dAYPiXqNrZrcErB7Q0xU10hnaOt03I7zxUaU9GF3j2X2NsQ6wYncvNlW2SWl
+         HIEGE1PDKdy+6AbcACmRbTJTquq8RUUuZg7EQjXnUKSEnyO1qqiQKH2PIxexqvEWF8p4
+         5t7mKf1AWrQpG7txzTW454PA3VnGCs5h2D4yiORRiHTNTImQ9ZBXVSNk0Y7bjBPEUSf9
+         ZGPV+OscToCX1ucGwRfs6q9vRP9iFwGykbHytukPTA7zVhlBcSGVNMcBKkEFJxzNWUBN
+         +prg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=gm5Rf54gYnkxJnrNPTvtfxE73fL5jd+U+PmQSMJsRvc=;
+        b=DvKctZcmAkdvCCEiPDORA7VHep4lYRjP7X5PYcpZ/ccvApWR84MgcwkIorilswS9Jg
+         LDh/mjhPMexLybMWM5JXOj0/XWW2XS2Yfnv1NA1fuMdPYGFpFEr+TGYvNtTELoKpNN7b
+         Y+R6s/e7RAr/jSyIg9l9gjTxR0+INIvHKe4ptpccvnBmpX/Jxp6WzLkwZdThCk1H9B4O
+         ZkaXGFeukGzh92klQH0gAqtlggiPW+aZrws3guJqDe5gdX0/rVHhTwabTskcajRQacfk
+         JOMvlLHemGKCyGo+Y3JQK3oexFP5GVPPk70T685Qv5CT2IGI5CL8yqIs1jXYG7vkuE9b
+         NuUg==
+X-Gm-Message-State: AOAM533oCk0UMlPonrPHBCqk5872w+SIlnoWLf+eZE9f6024CCIw/XIK
+        RiQW7C6XfZRUQZBETgfdRQt1YdM1pa31gJsQozPFzAz5JQI=
+X-Google-Smtp-Source: ABdhPJxMU6rAehG8uhyB/PTRpKBwU9ZZkYETuLsP9OyIut+i8rZ6MfrGcCOTvVIDW1IHzfNQuBUG9yIDHp1ndNOzhHM=
+X-Received: by 2002:a5d:640d:: with SMTP id z13mr2345446wru.28.1601954652929;
+ Mon, 05 Oct 2020 20:24:12 -0700 (PDT)
 MIME-Version: 1.0
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: DM6PR11MB3995.namprd11.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: caa0805f-ec47-4a90-a8a6-08d869a71210
-X-MS-Exchange-CrossTenant-originalarrivaltime: 06 Oct 2020 03:22:35.5072
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 46c98d88-e344-4ed4-8496-4ed7712e255d
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: epEuPEeRu9uyzR4k17WPI37XQjN9CctccEvzj+AaPKlyHno7/3GO5rfjHoSEuQi7n2VtlevWmGsBWwe3Gk7Rmw==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: DM6PR11MB3292
-X-OriginatorOrg: intel.com
+References: <20201004192152.3298573-1-robdclark@gmail.com> <CAOeoa-d4-KyuVjwPCBcau6yp6sxeeHN4K0cQzZ=H+OQVgHsLFw@mail.gmail.com>
+ <CAKMK7uHeZptOKWKTanBB_c2ek2emNjs9fFCbTwgafS19rL1sww@mail.gmail.com>
+In-Reply-To: <CAKMK7uHeZptOKWKTanBB_c2ek2emNjs9fFCbTwgafS19rL1sww@mail.gmail.com>
+From:   Rob Clark <robdclark@gmail.com>
+Date:   Mon, 5 Oct 2020 20:25:21 -0700
+Message-ID: <CAF6AEGu9riswKODKuftqtxkaM=qz9CmFoVgLn1j=yCJ-TuDXLA@mail.gmail.com>
+Subject: Re: [Freedreno] [PATCH 00/14] drm/msm: de-struct_mutex-ification
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     =?UTF-8?Q?Kristian_H=C3=B8gsberg?= <hoegsberg@gmail.com>,
+        Rob Clark <robdclark@chromium.org>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <freedreno@lists.freedesktop.org>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        Jonathan Marek <jonathan@marek.ca>,
+        "open list:DRM DRIVER FOR MSM ADRENO GPU" 
+        <linux-arm-msm@vger.kernel.org>,
+        Sharat Masetty <smasetty@codeaurora.org>,
+        open list <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Ben Dooks <ben.dooks@codethink.co.uk>,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sergey, thanks for your patch.
+On Mon, Oct 5, 2020 at 11:20 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+>
+> On Mon, Oct 5, 2020 at 6:24 PM Kristian H=C3=B8gsberg <hoegsberg@gmail.co=
+m> wrote:
+> >
+> > On Sun, Oct 4, 2020 at 9:21 PM Rob Clark <robdclark@gmail.com> wrote:
+> > >
+> > > From: Rob Clark <robdclark@chromium.org>
+> > >
+> > > This doesn't remove *all* the struct_mutex, but it covers the worst
+> > > of it, ie. shrinker/madvise/free/retire.  The submit path still uses
+> > > struct_mutex, but it still needs *something* serialize a portion of
+> > > the submit path, and lock_stat mostly just shows the lock contention
+> > > there being with other submits.  And there are a few other bits of
+> > > struct_mutex usage in less critical paths (debugfs, etc).  But this
+> > > seems like a reasonable step in the right direction.
+> >
+> > What a great patch set. Daniel has some good points and nothing that
+> > requires big changes, but on the other hand, I'm not sure it's
+> > something that needs to block this set either.
+>
+> Personally I'd throw the lockdep priming on top to make sure this
+> stays correct (it's 3 lines), but yes imo this is all good to go. Just
+> figured I'll sprinkle the latest in terms of gem locking over the
+> series while it's here :-)
 
-Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+Yeah, I'll defn throw the lockdep priming into v2.. and I've got using
+obj->resv for locking on the todo list but looks like enough churn
+that it will probably be it's own series (but seems like there is room
+to introduce some lock/unlock helpers that don't really change
+anything but make an obj->lock transition easier)
 
-________________________
-BRs, =20
-Bingbu Cao                         =20
+BR,
+-R
 
-
-> -----Original Message-----
-> From: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-> Sent: Wednesday, September 30, 2020 9:13 AM
-> To: Mauro Carvalho Chehab <mchehab@kernel.org>; Cao, Bingbu
-> <bingbu.cao@intel.com>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>; linux-media@vger.kernel.=
-org;
-> linux-kernel@vger.kernel.org; Sergey Senozhatsky
-> <sergey.senozhatsky@gmail.com>
-> Subject: [PATCH] media: ov2740: select regmap
->=20
-> Fix OV2740 build breakage by selecting REGMAP_I2C config:
->=20
-> ov2740.c:1011:23: error: variable has incomplete type 'struct regmap_conf=
-ig'
->         struct regmap_config regmap_config =3D { };
->                              ^
-> ov2740.c:1011:9: note: forward declaration of 'struct regmap_config'
->         struct regmap_config regmap_config =3D { };
->                ^
-> ov2740.c:1028:11: error: implicit declaration of function
-> 'devm_regmap_init_i2c'
->         regmap =3D devm_regmap_init_i2c(client, &regmap_config);
->=20
-> Signed-off-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-> ---
->  drivers/media/i2c/Kconfig | 1 +
->  1 file changed, 1 insertion(+)
->=20
-> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig index
-> 878f66ef2719..c64326ca331c 100644
-> --- a/drivers/media/i2c/Kconfig
-> +++ b/drivers/media/i2c/Kconfig
-> @@ -877,6 +877,7 @@ config VIDEO_OV2740
->  	select MEDIA_CONTROLLER
->  	select VIDEO_V4L2_SUBDEV_API
->  	select V4L2_FWNODE
-> +	select REGMAP_I2C
->  	help
->  	  This is a Video4Linux2 sensor driver for the OmniVision
->  	  OV2740 camera.
+> -Daniel
+>
+> > Either way, for the series
+> >
+> > Reviewed-by: Kristian H. Kristensen <hoegsberg@google.com>
+> >
+> > > Rob Clark (14):
+> > >   drm/msm: Use correct drm_gem_object_put() in fail case
+> > >   drm/msm: Drop chatty trace
+> > >   drm/msm: Move update_fences()
+> > >   drm/msm: Add priv->mm_lock to protect active/inactive lists
+> > >   drm/msm: Document and rename preempt_lock
+> > >   drm/msm: Protect ring->submits with it's own lock
+> > >   drm/msm: Refcount submits
+> > >   drm/msm: Remove obj->gpu
+> > >   drm/msm: Drop struct_mutex from the retire path
+> > >   drm/msm: Drop struct_mutex in free_object() path
+> > >   drm/msm: remove msm_gem_free_work
+> > >   drm/msm: drop struct_mutex in madvise path
+> > >   drm/msm: Drop struct_mutex in shrinker path
+> > >   drm/msm: Don't implicit-sync if only a single ring
+> > >
+> > >  drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |  4 +-
+> > >  drivers/gpu/drm/msm/adreno/a5xx_preempt.c | 12 +--
+> > >  drivers/gpu/drm/msm/adreno/a6xx_gpu.c     |  4 +-
+> > >  drivers/gpu/drm/msm/msm_debugfs.c         |  7 ++
+> > >  drivers/gpu/drm/msm/msm_drv.c             | 15 +---
+> > >  drivers/gpu/drm/msm/msm_drv.h             | 19 +++--
+> > >  drivers/gpu/drm/msm/msm_gem.c             | 76 ++++++------------
+> > >  drivers/gpu/drm/msm/msm_gem.h             | 53 +++++++++----
+> > >  drivers/gpu/drm/msm/msm_gem_shrinker.c    | 58 ++------------
+> > >  drivers/gpu/drm/msm/msm_gem_submit.c      | 17 ++--
+> > >  drivers/gpu/drm/msm/msm_gpu.c             | 96 ++++++++++++++-------=
+--
+> > >  drivers/gpu/drm/msm/msm_gpu.h             |  5 +-
+> > >  drivers/gpu/drm/msm/msm_ringbuffer.c      |  3 +-
+> > >  drivers/gpu/drm/msm/msm_ringbuffer.h      | 13 ++-
+> > >  14 files changed, 188 insertions(+), 194 deletions(-)
+> > >
+> > > --
+> > > 2.26.2
+> > >
+> > > _______________________________________________
+> > > Freedreno mailing list
+> > > Freedreno@lists.freedesktop.org
+> > > https://lists.freedesktop.org/mailman/listinfo/freedreno
+> > _______________________________________________
+> > dri-devel mailing list
+> > dri-devel@lists.freedesktop.org
+> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>
+>
+>
 > --
-> 2.28.0
-
+> Daniel Vetter
+> Software Engineer, Intel Corporation
+> http://blog.ffwll.ch
