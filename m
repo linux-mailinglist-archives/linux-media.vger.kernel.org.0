@@ -2,71 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2BB2C285167
-	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 20:13:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 313072851C5
+	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 20:41:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726777AbgJFSNj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Oct 2020 14:13:39 -0400
-Received: from smtprelay0120.hostedemail.com ([216.40.44.120]:44622 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1725925AbgJFSNi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 6 Oct 2020 14:13:38 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay03.hostedemail.com (Postfix) with ESMTP id C308F837F24D;
-        Tue,  6 Oct 2020 18:13:37 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1539:1593:1594:1711:1730:1747:1777:1792:2393:2559:2562:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:3871:3872:3874:4321:4823:5007:8660:10004:10226:10400:10848:11232:11658:11914:12297:12740:12760:12895:13019:13069:13148:13230:13311:13357:13439:14659:14721:21080:21451:21627:21939:21990:30012:30054:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:62,LUA_SUMMARY:none
-X-HE-Tag: light72_11076f4271c8
-X-Filterd-Recvd-Size: 1709
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf03.hostedemail.com (Postfix) with ESMTPA;
-        Tue,  6 Oct 2020 18:13:35 +0000 (UTC)
-Message-ID: <9a065558a24de42395d1175798f05272b07311c2.camel@perches.com>
-Subject: Re: [PATCH 2/2] media: staging: atomisp: Removed else branch in
- function
-From:   Joe Perches <joe@perches.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>,
-        Leonid Kushnir <leonf008@gmail.com>
-Cc:     devel@driverdev.osuosl.org, gregkh@linuxfoundation.org,
-        linux-kernel@vger.kernel.org, sakari.ailus@linux.intel.com,
-        mchehab@kernel.org, linux-media@vger.kernel.org
-Date:   Tue, 06 Oct 2020 11:13:34 -0700
-In-Reply-To: <20201006180410.GH4282@kadam>
-References: <20201006081721.GA35979@linux> <20201006180410.GH4282@kadam>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        id S1726820AbgJFSl2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Oct 2020 14:41:28 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46284 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726796AbgJFSl2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Oct 2020 14:41:28 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BA4BCC0613D2
+        for <linux-media@vger.kernel.org>; Tue,  6 Oct 2020 11:41:27 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id u21so19135598eja.2
+        for <linux-media@vger.kernel.org>; Tue, 06 Oct 2020 11:41:27 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:reply-to:from:date:message-id:subject:to;
+        bh=C8GBCgQbcL72bHfuvAY+Zdl7rDxtS++c+cKqr1GrZYs=;
+        b=DjuJ/p24mQDEl/vbTYnWHBbmgNI9BSc0YKBExESfRytQ6pfYduML0M70l4DO6jipI2
+         zaX+9OrKjTaumELrIGwrKGRM2EXzuMkBrJnSRljYKOHVmkQ6E/cLd3MK4KvQ8oAnqJbm
+         UpxCAUlOuV7STQXFSNMIEdRxiwdEW36wXZThR9e6+j6jXEVPG/GcIb7QBPh9EiTy7Tu3
+         8GhHeU4/UQhsP5UREXADAaMQ2TaQeTtuRgxCYGYxoRhYGaWu0PwEr++ETasnNHi+M2k4
+         j3FoRYxuc5fexqm8AS9165nxSRcnGJezi56zpM2HsiZcbEp+jCVj0TvMO8izM05Sz+VK
+         Scrg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
+         :subject:to;
+        bh=C8GBCgQbcL72bHfuvAY+Zdl7rDxtS++c+cKqr1GrZYs=;
+        b=jtLN9RKs2Ine9o7XHYcy4Oy770NX3D3ijARUQZoAZXyod9a9ywuTl2lDIVVaPc0voV
+         LSVn1h4pyRqPGqwKjZM4tlRddKx10RigP2Z7dxrKV7OUs06B69WmJE9YW+hpzlK58KkU
+         C7fd0E2xPVhg29/E0U7k1H3evjMVqROqqyCKOvgGttoAD7F6ZEeL/+tO69wEIZOPkrOJ
+         No3WxAnwHuY1Og2xVEec2bWp2ku/G++ug/kXjmlti96EU0X2Z0+r6uz95OUicvG2aFjP
+         YN74nkF3jU7UKZXnkn9LOxPr9S4XKoVAnFbWw3tj0QoWtMCoQ1qJmHy9+gc7itYe2kKZ
+         SeEQ==
+X-Gm-Message-State: AOAM5317Mol3msWbQo5hw4WBPNHJbI6bKiFmPrBLirOOcude35ukaest
+        XZTnz3rjYNoSlVlvN2Efzz0UPdmOFGshwEMwL90=
+X-Google-Smtp-Source: ABdhPJwxxh6PGu/CiD43ih/QOxChqReyXCVpm+S5i7eBm5XszzzFBNZYupRSu3v7y35kr7/OJFx65zzal/TZxdtBGKc=
+X-Received: by 2002:a17:906:a51:: with SMTP id x17mr945268ejf.137.1602009686244;
+ Tue, 06 Oct 2020 11:41:26 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Received: by 2002:a17:906:bc55:0:0:0:0 with HTTP; Tue, 6 Oct 2020 11:41:24
+ -0700 (PDT)
+Reply-To: mfdp@tlen.pl
+From:   Mr Bill T Winters <missfavourkip@gmail.com>
+Date:   Tue, 6 Oct 2020 11:41:24 -0700
+Message-ID: <CAJc0UUnUJvey7LoCQ_rsx28BKJ4u1pYKARah2rS2M9ttjqHKkg@mail.gmail.com>
+Subject: Good Morning!
+To:     undisclosed-recipients:;
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2020-10-06 at 21:04 +0300, Dan Carpenter wrote:
-> Code should generally do "error handling" instead of "success handling".
+-- 
+Greetings,
+I Mr Bill T, did you Receive the (FUND), that was paid to you?
+Let me know with your full name:...  immediately,
 
-Maybe something to add to coding-style
-(in '6} Functions' maybe?)...
+Sincerely Yours, Respectfully,
 
-> That way the success path is always indented one tab and the error path
-> is indented two tabs.  I like to say that the call and the error handling
-> are part of the same thing, but with success handling, it's like
-> do the call, do more stuff, go back to the error handling from the
-> earlier call.
-[]
-> Anyway, TLDR, please write it like this:
-> 
-> 	if (on == 0)
->  		return power_down(sd);
-> 
-> 	ret = power_up(sd);
-> 	if (ret)
-> 		return ret;
-> 
-> 	return gc0310_init(sd);
-
-Much nicer, thanks for taking the time to write it.
-
-
-
+Mr Bill T Winters,
+Group Chief Executive Officer & Executive Director,
