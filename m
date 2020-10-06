@@ -2,99 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 123C7284B34
-	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 13:57:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B677B284B99
+	for <lists+linux-media@lfdr.de>; Tue,  6 Oct 2020 14:26:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726258AbgJFL5e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 6 Oct 2020 07:57:34 -0400
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19012 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726074AbgJFL5d (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Oct 2020 07:57:33 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f7c5b410002>; Tue, 06 Oct 2020 04:55:45 -0700
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 6 Oct
- 2020 11:57:18 +0000
-Received: from NAM10-MW2-obe.outbound.protection.outlook.com (104.47.55.109)
- by HQMAIL109.nvidia.com (172.20.187.15) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Tue, 6 Oct 2020 11:57:18 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FPG7x1C9aHiFlVkU7jSnFEPbuv75OKrOiECkrUZb9Go3OR3ayH/+Dx/Lp6Igi+B6OfYpqQLaGiyJ2HxKzlBtg31KG//UhiejJbuKKyvFgfoY/sCMaIDzgtLOLxih9zRvL5wDmMzcXLBIJXKyxNZj/ufsfjqSnh1pZjmlU23MTKLk+ykhyE3ruE56HpTXwVIUVnnrS/QR4PUddvdvNjicEGm9l1CqHUd0z//jfsSZ5cEazZ2oQbyBMK6Icc3hw4JJULkSHriDtmDqAcskmcbIb+rOqEYg5CH3TfqGzfIf9TcKiU3LA54tmbMeVPvHkMedm9aL7Dh9dJh5lnHatO6Gng==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=fJiWt16Yi/JhKDcw0JSkaASE3VXpV2da6RFfJ9PDyMw=;
- b=UXApHv0DGJYPQtEUZ9phujGGIlcpFiEPbOMpQ60dJYAff77Z1VIN1OB6N2E3z+pzQUMpKy+IxgHREEpmtqCxqcW0zz1G1ARFLRhKo5aBs6qsc7I4axgXJeov+ynV2ur7wxZLtow32uVq2YRcJgoL5CA9dVX3FS3Vv4GFxvw8GbEohwAWHfF56UQhqyhSO/5kW8qTpecQGJMGOygaYxAQFfePqk8mptZGX+s0pUFc48pxxcm5F7kpafGcV5TzfF04PaNlf4n6RwjP6v110bNTISwLaBV5tCCg4Bfy23sXmQtoSxYVXCQEQMMNnrGF6h3doHXM+tmkM4tZPoMSOe+xmg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM5PR12MB1242.namprd12.prod.outlook.com (2603:10b6:3:6d::18) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3433.35; Tue, 6 Oct
- 2020 11:57:16 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3433.044; Tue, 6 Oct 2020
- 11:57:16 +0000
-Date:   Tue, 6 Oct 2020 08:57:14 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Andrew Morton <akpm@linux-foundation.org>
-CC:     Daniel Vetter <daniel.vetter@ffwll.ch>, <linux-mm@kvack.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>, Jan Kara <jack@suse.cz>,
-        Mauro Carvalho Chehab <mchehab@osg.samsung.com>,
-        Mel Gorman <mgorman@suse.de>, <stable@vger.kernel.org>,
-        Vlastimil Babka <vbabka@suse.cz>,
-        John Hubbard <jhubbard@nvidia.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
+        id S1726362AbgJFM05 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 6 Oct 2020 08:26:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45050 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726335AbgJFM05 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 6 Oct 2020 08:26:57 -0400
+Received: from mail-qk1-x741.google.com (mail-qk1-x741.google.com [IPv6:2607:f8b0:4864:20::741])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 47598C0613D2
+        for <linux-media@vger.kernel.org>; Tue,  6 Oct 2020 05:26:57 -0700 (PDT)
+Received: by mail-qk1-x741.google.com with SMTP id w12so16365331qki.6
+        for <linux-media@vger.kernel.org>; Tue, 06 Oct 2020 05:26:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=xBjl3ijOtmAZHKFY2Q8VHDVWCHXszRzYVrHWQVZx7Tk=;
+        b=SN4g7TUIcZiG8gkjZ1H/2y7nSkf/356q8TN46sZv42cMGw257ggPHqEIxcAVaP+JLI
+         3COaYblkwqSkvZ3VvGo2aUITxO8n/evEej4R7WiuDd7vx54iTJcM3rODUcbY6fWaVTW4
+         EVA/uoMKZADbRpGktJwSEyKjfdPmW4OZ5Pgj9gbyiUAeVG9BSCNrYKIVLMh5QYABE1hs
+         w1jTd6DwqzNWx+JVVeImewGQMVDM8zVSKQkPPfvZMzsDUJL1mfqV3Q9BDqZ118Hyt26G
+         gkZ1HAOD9Z0OMFKclpgVIarkGX2NI41znNb9Xowm3HI01KbpOjvjgZDdADe5bWIp/JNN
+         qaaQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=xBjl3ijOtmAZHKFY2Q8VHDVWCHXszRzYVrHWQVZx7Tk=;
+        b=VjY/ba6LX4/igXIj1HZDgw8VO5+jKEf/9Ml11mFQWqJPbYXpt+dbPWO6LK6YD3kXLh
+         QbvkNaVYOT9WFidfJM667ihO4myuHT0sXkAldRg574OawT9D1fXGPyxW6Ve9ayypVPhx
+         fsSIJqqbb/8pPOGr5eYNA/KJ/zXm5twS3/C4Q5HFcch1i/c6Ci4S80wg+jh1zVe5Z1bC
+         kmP7W3N3D9bBtkyRdoR9kULXUQXTmuapR+8YXPTFNZiJoLLbOLDOmbxQ018H6sSvrZJX
+         qQYOawopbVv0TTGtGF7P7DQ6XXXDu519kLJs/6mub1AwIYE/uVTsTOswHp/sjDDPFoyh
+         Dh3w==
+X-Gm-Message-State: AOAM533hTBm1jX63RV4sbhnEltnbPnjB5NP5u/5HMsSZBzKc7INSycJ+
+        g/lItBsyNBPHJ1PxNA4ku0IVCg==
+X-Google-Smtp-Source: ABdhPJw5uBK6Jg1qFL06jjeM7TFRlowFnJJ0b29ROqLVECyy9T+v9Aj67lt6n4PC1ZTOH3f53Rrkvg==
+X-Received: by 2002:a37:2c06:: with SMTP id s6mr4947152qkh.55.1601987216328;
+        Tue, 06 Oct 2020 05:26:56 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id m67sm2358458qkf.98.2020.10.06.05.26.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 06 Oct 2020 05:26:55 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1kPm3T-000W9Y-2O; Tue, 06 Oct 2020 09:26:55 -0300
+Date:   Tue, 6 Oct 2020 09:26:55 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
         LKML <linux-kernel@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
         Dan Williams <dan.j.williams@intel.com>,
+        Linux MM <linux-mm@kvack.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Inki Dae <inki.dae@samsung.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
         linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        <linux-media@vger.kernel.org>
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Oded Gabbay <oded.gabbay@gmail.com>
 Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
-Message-ID: <20201006115714.GE4734@nvidia.com>
-References: <0-v1-447bb60c11dd+174-frame_vec_fix_jgg@nvidia.com>
- <20201005174747.GA15803@nvidia.com>
- <20201005203600.9b0ccb43b9b3a2fc44814d2f@linux-foundation.org>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20201005203600.9b0ccb43b9b3a2fc44814d2f@linux-foundation.org>
-X-ClientProxiedBy: MN2PR12CA0032.namprd12.prod.outlook.com
- (2603:10b6:208:a8::45) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+Message-ID: <20201006122655.GG5177@ziepe.ca>
+References: <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
+ <20201004125059.GP9916@ziepe.ca>
+ <CAKMK7uF0AfuYGsHzKXhF=k-mAW=Wx_APf9fY9M9ormnwypoxZA@mail.gmail.com>
+ <20201005172854.GA5177@ziepe.ca>
+ <CAKMK7uFzxWF7V=7vkeNC-8shsPZRgdz9fYTsn0ayENv2BpnFEg@mail.gmail.com>
+ <20201005183704.GC5177@ziepe.ca>
+ <CAKMK7uH97Yb2JFviG_ynGC1hbQ69h9hcyFVFd2PFYHCDzfBN6g@mail.gmail.com>
+ <CAKMK7uHRxK3yNrvX=+n-XpSv7PDCz8w+mwof3pkUUJq3TpmiuQ@mail.gmail.com>
+ <20201005234104.GD5177@ziepe.ca>
+ <CAKMK7uHt=kD=njZvMULy-k-bY4emn=u8__t7etQDq3_WUL7VAw@mail.gmail.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (156.34.48.30) by MN2PR12CA0032.namprd12.prod.outlook.com (2603:10b6:208:a8::45) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3455.21 via Frontend Transport; Tue, 6 Oct 2020 11:57:15 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1kPlak-000Vj8-Q0; Tue, 06 Oct 2020 08:57:14 -0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1601985345; bh=fJiWt16Yi/JhKDcw0JSkaASE3VXpV2da6RFfJ9PDyMw=;
-        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
-         From:To:CC:Subject:Message-ID:References:Content-Type:
-         Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-         X-MS-Exchange-MessageSentRepresentingType;
-        b=hbgEq5G/FhgikUvx5VO/xZOQvyn+8E/KEB4ReX7u7jcIlrljp0CjRnf7kD3wqjBmK
-         As44aTsyzBCYb0Ir4pweq37i2hGGkPWp1atR9W0Y+j3xo0Idjg60arCs74qjYQEtZk
-         xbyg4h56Dft9lldjxR7jPG5m9V0bGc+sVgwpTbKnJlJF/TZvH15wUwBf7xGlvpJ9VG
-         +jVEJD6xaLP4fFZDs/L/e+gCfYJkO8Q07HTXPUGuQXntuSndXYXYgDrSq+3E32+ivC
-         u2Z/vJeipzMj52nj/IGsYzvi5WekfbmNI7ZecFxsUXdKwQPxP2XEXD9m6DbA0XPJM2
-         kVgLHGlib4XZg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uHt=kD=njZvMULy-k-bY4emn=u8__t7etQDq3_WUL7VAw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 05, 2020 at 08:36:00PM -0700, Andrew Morton wrote:
-> On Mon, 5 Oct 2020 14:47:47 -0300 Jason Gunthorpe <jgg@nvidia.com> wrote:
+On Tue, Oct 06, 2020 at 08:23:23AM +0200, Daniel Vetter wrote:
+> On Tue, Oct 6, 2020 at 1:41 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >
+> > On Tue, Oct 06, 2020 at 12:43:31AM +0200, Daniel Vetter wrote:
+> >
+> > > > iow I think I can outright delete the frame vector stuff.
+> > >
+> > > Ok this doesn't work, because dma_mmap always uses a remap_pfn_range,
+> > > which is a VM_IO | VM_PFNMAP vma and so even if it's cma backed and
+> > > not a carveout, we can't get the pages.
+> >
+> > If CMA memory has struct pages it probably should be mmap'd with
+> > different flags, and the lifecycle of the CMA memory needs to respect
+> > the struct page refcount?
 > 
-> > Andrew please let me know if you need a resend
-> 
-> Andrew is rather confused.
-> 
-> Can we please identify the minimal patch(es) which are needed for 5.9
-> and -stable? 
+> I guess yes and no. The problem is if there's pagecache in the cma
+> region, pup(FOLL_LONGTERM) needs to first migrate those pages out of
+> the cma range. Because all normal page allocation in cma regions must
+> be migratable at all times.
 
-Please ignore this one, it was sent in haste
+Eh? Then how are we doing follow_pfn() on this stuff and not being
+completely broken?
 
-Sorry,
+The entire point of this framevec API is to pin the memory and
+preventing it from moving around. 
+
+Sounds like it is fundamentally incompatible with CMA. Why is
+something trying to mix the two?
+
+> This is actually worse than the gpu case I had in mind, where at most
+> you can sneak access other gpu buffers. With cma you should be able to
+> get at arbitrary pagecache (well anything that's GFP_MOVEABLE really).
+> Nice :-(
+
+Ah, we have a winner :\
+
 Jason
