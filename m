@@ -2,129 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7141228617D
-	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 16:46:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C0DD286179
+	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 16:46:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728642AbgJGOqd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 10:46:33 -0400
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:21262 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728535AbgJGOqc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 7 Oct 2020 10:46:32 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 097EcLIO014811;
-        Wed, 7 Oct 2020 16:46:18 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type; s=STMicroelectronics;
- bh=0ww46gAvj+EiZ/AlkZkeMPgpi28kal1j8TD/B+QpY1A=;
- b=ObW0blPyRYfZnm68cGkLQUU1eDndidNt6mLxMp3ysFbIDNx5PbLiGatti1xmqA3DNnG9
- eQrEf5ONGVzlXUJGbjI8K8FmK3vGrkYjlf8bTijrBrcBMPUGIWQUqItu3vdYiztauDFn
- Q1B0dR17rOZqfBtJOcwRb3cLEkOLnku8/aeg+q85ibK9WMTM+fLpLqnyyyQNe+/yPDUJ
- aPAe+Rm4COq/vmMl5Wfpcw67TIZtdL7xufsKU0oHcDeE3FPv59VGVyBbtZFg0CxBowzN
- nEDr3Jd0Z0iBjsU4L4wAv5cYXXX82ATA5sZ4NytAnVe8H/PFe08ahA7+QJdmvN11pGf5 Yg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 3402tjw7pb-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Wed, 07 Oct 2020 16:46:18 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id A1CF6100034;
-        Wed,  7 Oct 2020 16:46:17 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag1node1.st.com [10.75.127.1])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 9070F2B4D24;
-        Wed,  7 Oct 2020 16:46:17 +0200 (CEST)
-Received: from localhost (10.75.127.46) by SFHDAG1NODE1.st.com (10.75.127.1)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 7 Oct 2020 16:46:17
- +0200
-From:   Hugues Fruchet <hugues.fruchet@st.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Alain Volmat <alain.volmat@st.com>
-Subject: [PATCH] media: ov5640: fix MIPI power sequence
-Date:   Wed, 7 Oct 2020 16:43:18 +0200
-Message-ID: <1602081798-17548-2-git-send-email-hugues.fruchet@st.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1602081798-17548-1-git-send-email-hugues.fruchet@st.com>
-References: <1602081798-17548-1-git-send-email-hugues.fruchet@st.com>
+        id S1728696AbgJGOqM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 10:46:12 -0400
+Received: from mga11.intel.com ([192.55.52.93]:55094 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728641AbgJGOqM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 7 Oct 2020 10:46:12 -0400
+IronPort-SDR: zMP886sSVrL4NKTfn/y+0Kd0F6MOtMS/n3Xiyr/1BplZ53IagtifNMpctzRG9ACyoY/VnSptdB
+ ifQtmbssAiJA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9767"; a="161568974"
+X-IronPort-AV: E=Sophos;i="5.77,347,1596524400"; 
+   d="scan'208";a="161568974"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2020 07:46:11 -0700
+IronPort-SDR: 8JjyQQ2FMrv5i+nepNnY8+J6EP7chhXwrMiRJJHDttgBQfYl2Lvdh2vTqzWQ4dYoZ5MSDV4nV7
+ 2/Ecsy7o9Pog==
+X-IronPort-AV: E=Sophos;i="5.77,347,1596524400"; 
+   d="scan'208";a="418718975"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 07 Oct 2020 07:46:10 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id A7891207B6; Wed,  7 Oct 2020 17:46:08 +0300 (EEST)
+Date:   Wed, 7 Oct 2020 17:46:08 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 026/106] dt-bindings: mipi-ccs: Add bus-type for C-PHY
+ support
+Message-ID: <20201007144608.GM26842@paasikivi.fi.intel.com>
+References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
+ <20201007084505.25761-8-sakari.ailus@linux.intel.com>
+ <20201007135225.GA125839@bogus>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.46]
-X-ClientProxiedBy: SFHDAG6NODE2.st.com (10.75.127.17) To SFHDAG1NODE1.st.com
- (10.75.127.1)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-10-07_09:2020-10-06,2020-10-07 signatures=0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201007135225.GA125839@bogus>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-fixes: b1751ae652fb ("media: i2c: ov5640: Separate out mipi configuration from s_power")
+Hi Rob,
 
-Fix ov5640_write_reg()return value unchecked at power off.
-Reformat code to keep register access below the register description.
+On Wed, Oct 07, 2020 at 08:52:25AM -0500, Rob Herring wrote:
+> On Wed, 07 Oct 2020 11:45:03 +0300, Sakari Ailus wrote:
+> > The bus-type property is required for C-PHY support. Add it, including
+> > values for CCP2 and CSI-2 D-PHY.
+> > 
+> > Also require the bus-type property. Effectively all new sensors are MIPI
+> > D-PHY or C-PHY that cannot be told apart without the bus-type property.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  .../devicetree/bindings/media/i2c/mipi-ccs.yaml          | 9 +++++++++
+> >  1 file changed, 9 insertions(+)
+> > 
+> 
+> 
+> My bot found errors running 'make dt_binding_check' on your patch:
+> 
+> Traceback (most recent call last):
+>   File "/usr/local/bin/dt-extract-example", line 45, in <module>
+>     binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
+>   File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 343, in load
+>     return constructor.get_single_data()
+>   File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 111, in get_single_data
+>     node = self.composer.get_single_node()
+>   File "_ruamel_yaml.pyx", line 706, in _ruamel_yaml.CParser.get_single_node
+>   File "_ruamel_yaml.pyx", line 724, in _ruamel_yaml.CParser._compose_document
+>   File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+>   File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+>   File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+>   File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+>   File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+>   File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+>   File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+>   File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+>   File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+>   File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+>   File "_ruamel_yaml.pyx", line 773, in _ruamel_yaml.CParser._compose_node
+>   File "_ruamel_yaml.pyx", line 852, in _ruamel_yaml.CParser._compose_sequence_node
+>   File "_ruamel_yaml.pyx", line 904, in _ruamel_yaml.CParser._parse_next_event
+> ruamel.yaml.scanner.ScannerError: while scanning a plain scalar
+>   in "<unicode string>", line 89, column 13
+> found a tab character that violates indentation
+>   in "<unicode string>", line 90, column 1
+> make[1]: *** [Documentation/devicetree/bindings/Makefile:18: Documentation/devicetree/bindings/media/i2c/mipi-ccs.example.dts] Error 1
+> make[1]: *** Deleting file 'Documentation/devicetree/bindings/media/i2c/mipi-ccs.example.dts'
+> make[1]: *** Waiting for unfinished jobs....
+> ./Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml:  while scanning a plain scalar
+>   in "<unicode string>", line 89, column 13
+> found a tab character that violates indentation
+>   in "<unicode string>", line 90, column 1
+> /builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml: ignoring, error parsing file
+> warning: no schema found in file: ./Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+> make: *** [Makefile:1366: dt_binding_check] Error 2
+> 
+> 
+> See https://patchwork.ozlabs.org/patch/1377845
+> 
+> If you already ran 'make dt_binding_check' and didn't see the above
+> error(s), then make sure dt-schema is up to date:
+> 
+> pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
+> 
+> Please check and re-submit.
 
-Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
-Change-Id: I12db67c416c3d63eadee400a3c89aaf48c5b1469
----
- drivers/media/i2c/ov5640.c | 17 ++++++-----------
- 1 file changed, 6 insertions(+), 11 deletions(-)
+I tested this but somehow I managed to change it after testing it. :-)
 
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 8d0254d..f34e62e 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -1940,14 +1940,6 @@ static int ov5640_set_power_mipi(struct ov5640_dev *sensor, bool on)
- {
- 	int ret;
- 
--	if (!on) {
--		/* Reset MIPI bus settings to their default values. */
--		ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x58);
--		ov5640_write_reg(sensor, OV5640_REG_MIPI_CTRL00, 0x04);
--		ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT00, 0x00);
--		return 0;
--	}
--
- 	/*
- 	 * Power up MIPI HS Tx and LS Rx; 2 data lanes mode
- 	 *
-@@ -1958,7 +1950,8 @@ static int ov5640_set_power_mipi(struct ov5640_dev *sensor, bool on)
- 	 * [3] = 0	: Power up MIPI LS Rx
- 	 * [2] = 0	: MIPI interface disabled
- 	 */
--	ret = ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x40);
-+	ret = ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00,
-+			       on ? 0x40 : 0x58);
- 	if (ret)
- 		return ret;
- 
-@@ -1969,7 +1962,8 @@ static int ov5640_set_power_mipi(struct ov5640_dev *sensor, bool on)
- 	 * [5] = 1	: Gate clock when 'no packets'
- 	 * [2] = 1	: MIPI bus in LP11 when 'no packets'
- 	 */
--	ret = ov5640_write_reg(sensor, OV5640_REG_MIPI_CTRL00, 0x24);
-+	ret = ov5640_write_reg(sensor, OV5640_REG_MIPI_CTRL00,
-+			       on ? 0x24 : 0x04);
- 	if (ret)
- 		return ret;
- 
-@@ -1981,7 +1975,8 @@ static int ov5640_set_power_mipi(struct ov5640_dev *sensor, bool on)
- 	 * [5] = 1	: MIPI data lane 1 in LP11 when 'sleeping'
- 	 * [4] = 1	: MIPI clock lane in LP11 when 'sleeping'
- 	 */
--	ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT00, 0x70);
-+	ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT00,
-+			       on ? 0x70 : 0x00);
- 	if (ret)
- 		return ret;
- 
+I'll resend in a moment.
+
 -- 
-2.7.4
+Kind regards,
 
+Sakari Ailus
