@@ -2,145 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A89552866A7
-	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 20:14:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04A7E28678A
+	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 20:41:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728836AbgJGSOW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 14:14:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38588 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727237AbgJGSOT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 14:14:19 -0400
-Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com [IPv6:2607:f8b0:4864:20::c42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9AF58C0613D4
-        for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 11:14:17 -0700 (PDT)
-Received: by mail-oo1-xc42.google.com with SMTP id g8so859717oov.0
-        for <linux-media@vger.kernel.org>; Wed, 07 Oct 2020 11:14:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=cQRYAtP+xjx5WuekS6OE0CV7kqmxj7BYflzO3gWdvvE=;
-        b=lyjVFBq/8C4cx1xV9ChTXnV40ihqdqpwLDP0hKiWG7wMCAY1kcUxadTiFEkVrngi/w
-         V9y6TiR2NUPQYfn7qatcnS2KH2rC4iURG1Imt+VcjCPG3gMt13p5HinunxSiaAfYb6mn
-         oHrygbKnexw8amjrZlMfKtPR5lb/S9ssQU4cU=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=cQRYAtP+xjx5WuekS6OE0CV7kqmxj7BYflzO3gWdvvE=;
-        b=sinDpU6rbg7XaZ6LYqSkKWIKKQZkvqJOqcj9/nPAfcQ9KHnnPaWXGoF5oQ33h9Vtlc
-         P8fuFE3+IYkYxwsdEUjHCS2E1//+QP978pmX2CByRAwthgwJZKMbKL+0mFqHdWXPgdnf
-         3x7OUKDPa6v3MvxR7TCJZOkki3/SPunM/ja1dwJnu19BpBDK9/4kn8H6mok0ZdUVk2a3
-         alMRhPSJ3WcroN11gnWO5Erhbwz7q4WGj5E2o4O6JepdcBo4KQzF2YrpfUcCFwcJBu7C
-         KVYpj3pY1oTYeUUW++La+WMRhzFgY1Ym9S39u07nWsG90aSL0LGTce8NEL9tlXKi4B8F
-         3w1w==
-X-Gm-Message-State: AOAM5308tsPjSeoEjKWc8AppAwn9cgN8wMoXTk0G0InLy0ZRRV6VciLG
-        vc56zJwvWLAL/CFjFzGrJhcmlznBgRCCvpSMR2oidA==
-X-Google-Smtp-Source: ABdhPJzjOjAMzRbSVSt+lqfvvsdq1EBjj80477iZlPA7zPuN7ej1AyuyFSKWwEDM91Ycyft1zzLM1yCXh0Q5piW4a7o=
-X-Received: by 2002:a4a:e592:: with SMTP id o18mr2831112oov.28.1602094456975;
- Wed, 07 Oct 2020 11:14:16 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
- <20201007164426.1812530-14-daniel.vetter@ffwll.ch> <20201007173911.GX5177@ziepe.ca>
-In-Reply-To: <20201007173911.GX5177@ziepe.ca>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed, 7 Oct 2020 20:14:06 +0200
-Message-ID: <CAKMK7uEbAAJPPmv1yM_-V24Xg=S=NWxs2Yhi51kb-4AZLbFTTg@mail.gmail.com>
-Subject: Re: [PATCH 13/13] vfio/type1: Mark follow_pfn as unsafe
-To:     Jason Gunthorpe <jgg@ziepe.ca>
+        id S1727376AbgJGSlf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 14:41:35 -0400
+Received: from mail.kernel.org ([198.145.29.99]:47980 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726197AbgJGSle (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 7 Oct 2020 14:41:34 -0400
+Received: from localhost (170.sub-72-107-125.myvzw.com [72.107.125.170])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7E5DE2168B;
+        Wed,  7 Oct 2020 18:41:33 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602096093;
+        bh=jybj9lxB9HDSUiFTDfX0tbqIYHCI2WD8V2Srcj/Y2q0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:From;
+        b=fvTSDoaSFaR5f+GW+1VfPgc/eLGyZstXFPM0Pbbd72KBA+ecoTEtBddTdYZhtlYj3
+         bsFSSKkvJi72PjhGp9tmM7ZEtUUSjRP9PU6yME2u3FWvCct89TVsvj/po3TnsMWfeR
+         J1+3vx2h0ip+tE/J1MK3LQud3yRzf+O7RxgCuZrk=
+Date:   Wed, 7 Oct 2020 13:41:31 -0500
+From:   Bjorn Helgaas <helgaas@kernel.org>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
         LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, linux-s390@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-s390@vger.kernel.org,
         Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
         Kees Cook <keescook@chromium.org>,
         Dan Williams <dan.j.williams@intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         John Hubbard <jhubbard@nvidia.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
+        linux-pci@vger.kernel.org
+Subject: Re: [PATCH 10/13] PCI: revoke mappings like devmem
+Message-ID: <20201007184131.GA3259154@bjorn-Precision-5520>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201007164426.1812530-11-daniel.vetter@ffwll.ch>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 7, 2020 at 7:39 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Wed, Oct 07, 2020 at 06:44:26PM +0200, Daniel Vetter wrote:
-> > The code seems to stuff these pfns into iommu pts (or something like
-> > that, I didn't follow), but there's no mmu_notifier to ensure that
-> > access is synchronized with pte updates.
-> >
-> > Hence mark these as unsafe. This means that with
-> > CONFIG_STRICT_FOLLOW_PFN, these will be rejected.
-> >
-> > Real fix is to wire up an mmu_notifier ... somehow. Probably means any
-> > invalidate is a fatal fault for this vfio device, but then this
-> > shouldn't ever happen if userspace is reasonable.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > Cc: Kees Cook <keescook@chromium.org>
-> > Cc: Dan Williams <dan.j.williams@intel.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: John Hubbard <jhubbard@nvidia.com>
-> > Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-> > Cc: Jan Kara <jack@suse.cz>
-> > Cc: Dan Williams <dan.j.williams@intel.com>
-> > Cc: linux-mm@kvack.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-samsung-soc@vger.kernel.org
-> > Cc: linux-media@vger.kernel.org
-> > Cc: Alex Williamson <alex.williamson@redhat.com>
-> > Cc: Cornelia Huck <cohuck@redhat.com>
-> > Cc: kvm@vger.kernel.org
-> > ---
-> >  drivers/vfio/vfio_iommu_type1.c | 4 ++--
-> >  1 file changed, 2 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_=
-type1.c
-> > index 5fbf0c1f7433..a4d53f3d0a35 100644
-> > --- a/drivers/vfio/vfio_iommu_type1.c
-> > +++ b/drivers/vfio/vfio_iommu_type1.c
-> > @@ -421,7 +421,7 @@ static int follow_fault_pfn(struct vm_area_struct *=
-vma, struct mm_struct *mm,
-> >  {
-> >       int ret;
-> >
-> > -     ret =3D follow_pfn(vma, vaddr, pfn);
-> > +     ret =3D unsafe_follow_pfn(vma, vaddr, pfn);
-> >       if (ret) {
-> >               bool unlocked =3D false;
-> >
-> > @@ -435,7 +435,7 @@ static int follow_fault_pfn(struct vm_area_struct *=
-vma, struct mm_struct *mm,
-> >               if (ret)
-> >                       return ret;
-> >
-> > -             ret =3D follow_pfn(vma, vaddr, pfn);
-> > +             ret =3D unsafe_follow_pfn(vma, vaddr, pfn);
-> >       }
->
-> This is actually being commonly used, so it needs fixing.
->
-> When I talked to Alex about this last we had worked out a patch series
-> that adds a test on vm_ops that the vma came from vfio in the first
-> place. The VMA's created by VFIO are 'safe' as the PTEs are never changed=
-.
+Capitalize subject, like other patches in this series and previous
+drivers/pci history.
 
-Hm, but wouldn't need that the semi-nasty vma_open trick to make sure
-that vma doesn't untimely disappear? Or is the idea to look up the
-underlying vfio object, and refcount that directly?
--Daniel
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On Wed, Oct 07, 2020 at 06:44:23PM +0200, Daniel Vetter wrote:
+> Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims
+> the region") /dev/kmem zaps ptes when the kernel requests exclusive
+> acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, this is
+> the default for all driver uses.
+> 
+> Except there's two more ways to access pci bars: sysfs and proc mmap
+> support. Let's plug that hole.
+
+s/pci/PCI/ in commit logs and comments.
+
+> For revoke_devmem() to work we need to link our vma into the same
+> address_space, with consistent vma->vm_pgoff. ->pgoff is already
+> adjusted, because that's how (io_)remap_pfn_range works, but for the
+> mapping we need to adjust vma->vm_file->f_mapping. Usually that's done
+> at ->open time, but that's a bit tricky here with all the entry points
+> and arch code. So instead create a fake file and adjust vma->vm_file.
+> 
+> Note this only works for ARCH_GENERIC_PCI_MMAP_RESOURCE. But that
+> seems to be a subset of architectures support STRICT_DEVMEM, so we
+> should be good.
+> 
+> The only difference in access checks left is that sysfs pci mmap does
+> not check for CAP_RAWIO. But I think that makes some sense compared to
+> /dev/mem and proc, where one file gives you access to everything and
+> no ownership applies.
+
+> --- a/drivers/char/mem.c
+> +++ b/drivers/char/mem.c
+> @@ -810,6 +810,7 @@ static loff_t memory_lseek(struct file *file, loff_t offset, int orig)
+>  }
+>  
+>  static struct inode *devmem_inode;
+> +static struct vfsmount *devmem_vfs_mount;
+>  
+>  #ifdef CONFIG_IO_STRICT_DEVMEM
+>  void revoke_devmem(struct resource *res)
+> @@ -843,6 +844,20 @@ void revoke_devmem(struct resource *res)
+>  
+>  	unmap_mapping_range(inode->i_mapping, res->start, resource_size(res), 1);
+>  }
+> +
+> +struct file *devmem_getfile(void)
+> +{
+> +	struct file *file;
+> +
+> +	file = alloc_file_pseudo(devmem_inode, devmem_vfs_mount, "devmem",
+> +				 O_RDWR, &kmem_fops);
+> +	if (IS_ERR(file))
+> +		return NULL;
+> +
+> +	file->f_mapping = devmem_indoe->i_mapping;
+
+"devmem_indoe"?  Obviously not compiled, I guess?
+
+> --- a/include/linux/ioport.h
+> +++ b/include/linux/ioport.h
+> @@ -304,8 +304,10 @@ struct resource *request_free_mem_region(struct resource *base,
+>  
+>  #ifdef CONFIG_IO_STRICT_DEVMEM
+>  void revoke_devmem(struct resource *res);
+> +struct file *devm_getfile(void);
+>  #else
+>  static inline void revoke_devmem(struct resource *res) { };
+> +static inline struct file *devmem_getfile(void) { return NULL; };
+
+I guess these names are supposed to match?
+
+>  #endif
+>  
+>  #endif /* __ASSEMBLY__ */
+> -- 
+> 2.28.0
+> 
