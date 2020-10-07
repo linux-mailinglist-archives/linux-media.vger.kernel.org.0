@@ -2,58 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D46372867EC
-	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 21:00:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2D924286838
+	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 21:25:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728119AbgJGTA0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 15:00:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45782 "EHLO
+        id S1728241AbgJGTZF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 15:25:05 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49658 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726371AbgJGTAZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 15:00:25 -0400
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C62FDC0613D2
-        for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 12:00:25 -0700 (PDT)
-Received: by mail-qv1-xf44.google.com with SMTP id de3so1785900qvb.5
-        for <linux-media@vger.kernel.org>; Wed, 07 Oct 2020 12:00:25 -0700 (PDT)
+        with ESMTP id S1728207AbgJGTZE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 15:25:04 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C11B3C0613D5
+        for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 12:25:02 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id m128so3666108oig.7
+        for <linux-media@vger.kernel.org>; Wed, 07 Oct 2020 12:25:02 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=gwCbc+E55rt8fvg0Z5RrVkUNpQiUldF+rgqAtNMU+jY=;
-        b=cMpNZVJG4K3eU3P6Jrd5CX0FOMJ/Il/vK4/7K8PoeJK7lgtOlsvjUxgy6GDWgBQ9D2
-         Aw5daoxRX/jrMpwNlaXAoNbojcae9A3GOXghtCpRVV9HiqHG68GEdYZUDKJSzv88i+3p
-         aFkcGAX3Swzr2MMkwPQxIHr1Vh0HtpCatuWCeA2XXODcHpk/xTpMM82sPz7LoWoj7YYW
-         Luz6GqqQzWzkcXY5HEYy6sj4zsu7Bc3sA+CDzGGX0SAXYkf0OGAbHVxxlJGYn7JBpuJm
-         7XOCU2H2Wb2aAXJ06fg5h12CT15LqHGmR1WX6xifpDWK1MH5EARIEabM4b4xkoRgWTA0
-         GO+A==
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=BZRP/YEUZ8RoSb8Ypgb3DGxVhdoAtHRN1N0p0L0pWpA=;
+        b=IfegH4nwN/o6kcQDvfu01nenDUeNQgBkda4/dhczUdP0kMFXcvE572DUDzf1wvqGpa
+         nyp1a/D73Mflnvnu40XfTC32OrNKnzCHp2mvGEYcnzK1KJ6+dezHuXb9vC5VNmLGIhTb
+         kwAV9e9OpEVj4sQ6ggzRYYm32tqaPtdzoptpI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=gwCbc+E55rt8fvg0Z5RrVkUNpQiUldF+rgqAtNMU+jY=;
-        b=kmjv1gcr2J0jPlQJ+wcAx9259Ue9Jjr/eRPh8ycBTxnr2/5jVmh5xsrkcuydvBmVbj
-         NSYLRFocTqL2waCabXtMO0OPdIVsfzqjVRXgp6baew+gG32P4+APEvdGB3NqPpVytdwB
-         KIeWLAo4P+aE5QYULddWAUguqje+mHPLb59/WU64XcgHRtWU97Us/Xv6QIO+82Fc/dYE
-         b0jdxloxbdn8PFZHoNsWso5IA9HCA/ED70trg8B1A4xuguwVU09fh28AhWDp2+wby1oh
-         UaBSL2U8UQ1vhGZC6gAFNwJg5ZZVRBoICwaVYoi1M+EL6tgDGOxZrklsAxPFMGIl1Och
-         8Ogg==
-X-Gm-Message-State: AOAM533pxHffmafj+M46QP14BHEWQUXz3z1Pq9XO6Hdf3gPMdJrpVR+F
-        kvGecWNbKA3dYvVhivxtpRO8EA==
-X-Google-Smtp-Source: ABdhPJzTPvAeI7la8FWGJoa8jqCaN28XQwmJorKlewk43J8Zj2TVezuTxCVG7tggprHbo9uup+dLjQ==
-X-Received: by 2002:a0c:9d03:: with SMTP id m3mr4454155qvf.54.1602097224984;
-        Wed, 07 Oct 2020 12:00:24 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id v65sm2143675qkb.88.2020.10.07.12.00.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2020 12:00:24 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kQEfn-001EwU-Q3; Wed, 07 Oct 2020 16:00:23 -0300
-Date:   Wed, 7 Oct 2020 16:00:23 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BZRP/YEUZ8RoSb8Ypgb3DGxVhdoAtHRN1N0p0L0pWpA=;
+        b=se8gSA0hyxt+kk3kTDw47hUQlsGQNig+QsH6MC/GYHCm1/t5bTeQknqv/UvE0+1Sxi
+         xP1OTF4cWnllae2y3RE+ce5kQXa8bDlitz7sOIezTK1Hl2uKTpNKwKRFH6QTBbL3FNcf
+         04PKoCzg9HsiS0b7qTRXGvT99eH5wPJt0CwP7PNtvoxlLGTNnXZRbdpqQACnSEPeVpHe
+         RtP6xZbXoFNx3sdfyocHm1ZE/Lv4Cd6GygvlJ3ifkVPBrV3Wy+iQzddPOIiySJpkSXw2
+         3Gd4SBm8QEoK04vCacK5TSdrsaBLjxBJ90jjCaVXP+eZ8Bgfde1/lVoi60UPgFZMth4X
+         tZIA==
+X-Gm-Message-State: AOAM533JI87bwy8Pcmbmj688ub3pxDLXM8qWozOQfDYZatjtwhCqv9n6
+        eMbtMKh9aFWRiid/voEunGC9yFy/uLQ4VlbhgVb4Rw==
+X-Google-Smtp-Source: ABdhPJzhvBCanKpF9yHYf4rPvV3OgJoXcQ8bSZqPwzVGdWv0uBGdiJso5tL8awsEi+dW1GpdYavbUXQPpc/1p2uOTug=
+X-Received: by 2002:aca:6083:: with SMTP id u125mr2929990oib.14.1602098701967;
+ Wed, 07 Oct 2020 12:25:01 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201007164426.1812530-11-daniel.vetter@ffwll.ch> <20201007184131.GA3259154@bjorn-Precision-5520>
+In-Reply-To: <20201007184131.GA3259154@bjorn-Precision-5520>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Wed, 7 Oct 2020 21:24:49 +0200
+Message-ID: <CAKMK7uEi-PaoP2mSgg-aub49gctjTbwW6-X4nuRLnv1uzTh9dQ@mail.gmail.com>
+Subject: Re: [PATCH 10/13] PCI: revoke mappings like devmem
+To:     Bjorn Helgaas <helgaas@kernel.org>
 Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
         LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
         Linux MM <linux-mm@kvack.org>,
@@ -62,111 +56,108 @@ Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
         "open list:DMA BUFFER SHARING FRAMEWORK" 
         <linux-media@vger.kernel.org>, linux-s390@vger.kernel.org,
         Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
         Kees Cook <keescook@chromium.org>,
         Dan Williams <dan.j.williams@intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         John Hubbard <jhubbard@nvidia.com>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH 11/13] mm: add unsafe_follow_pfn
-Message-ID: <20201007190023.GA5177@ziepe.ca>
-References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
- <20201007164426.1812530-12-daniel.vetter@ffwll.ch>
- <20201007173647.GW5177@ziepe.ca>
- <CAKMK7uE9sbK_tGhJbsnHgD9rOnx-dr=2xmpMw7RvvvpPLnjVVA@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAKMK7uE9sbK_tGhJbsnHgD9rOnx-dr=2xmpMw7RvvvpPLnjVVA@mail.gmail.com>
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
+        Linux PCI <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 07, 2020 at 08:10:34PM +0200, Daniel Vetter wrote:
-> On Wed, Oct 7, 2020 at 7:36 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+On Wed, Oct 7, 2020 at 8:41 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
+> Capitalize subject, like other patches in this series and previous
+> drivers/pci history.
+>
+> On Wed, Oct 07, 2020 at 06:44:23PM +0200, Daniel Vetter wrote:
+> > Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims
+> > the region") /dev/kmem zaps ptes when the kernel requests exclusive
+> > acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, this is
+> > the default for all driver uses.
 > >
-> > On Wed, Oct 07, 2020 at 06:44:24PM +0200, Daniel Vetter wrote:
-> > > Way back it was a reasonable assumptions that iomem mappings never
-> > > change the pfn range they point at. But this has changed:
-> > >
-> > > - gpu drivers dynamically manage their memory nowadays, invalidating
-> > > ptes with unmap_mapping_range when buffers get moved
-> > >
-> > > - contiguous dma allocations have moved from dedicated carvetouts to
-> > > cma regions. This means if we miss the unmap the pfn might contain
-> > > pagecache or anon memory (well anything allocated with GFP_MOVEABLE)
-> > >
-> > > - even /dev/mem now invalidates mappings when the kernel requests that
-> > > iomem region when CONFIG_IO_STRICT_DEVMEM is set, see 3234ac664a87
-> > > ("/dev/mem: Revoke mappings when a driver claims the region")
-> > >
-> > > Accessing pfns obtained from ptes without holding all the locks is
-> > > therefore no longer a good idea.
-> > >
-> > > Unfortunately there's some users where this is not fixable (like v4l
-> > > userptr of iomem mappings) or involves a pile of work (vfio type1
-> > > iommu). For now annotate these as unsafe and splat appropriately.
-> > >
-> > > This patch adds an unsafe_follow_pfn, which later patches will then
-> > > roll out to all appropriate places.
-> > >
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > > Cc: Kees Cook <keescook@chromium.org>
-> > > Cc: Dan Williams <dan.j.williams@intel.com>
-> > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > Cc: John Hubbard <jhubbard@nvidia.com>
-> > > Cc: Jérôme Glisse <jglisse@redhat.com>
-> > > Cc: Jan Kara <jack@suse.cz>
-> > > Cc: Dan Williams <dan.j.williams@intel.com>
-> > > Cc: linux-mm@kvack.org
-> > > Cc: linux-arm-kernel@lists.infradead.org
-> > > Cc: linux-samsung-soc@vger.kernel.org
-> > > Cc: linux-media@vger.kernel.org
-> > > Cc: kvm@vger.kernel.org
-> > >  include/linux/mm.h |  2 ++
-> > >  mm/memory.c        | 32 +++++++++++++++++++++++++++++++-
-> > >  mm/nommu.c         | 17 +++++++++++++++++
-> > >  security/Kconfig   | 13 +++++++++++++
-> > >  4 files changed, 63 insertions(+), 1 deletion(-)
+> > Except there's two more ways to access pci bars: sysfs and proc mmap
+> > support. Let's plug that hole.
+>
+> s/pci/PCI/ in commit logs and comments.
+>
+> > For revoke_devmem() to work we need to link our vma into the same
+> > address_space, with consistent vma->vm_pgoff. ->pgoff is already
+> > adjusted, because that's how (io_)remap_pfn_range works, but for the
+> > mapping we need to adjust vma->vm_file->f_mapping. Usually that's done
+> > at ->open time, but that's a bit tricky here with all the entry points
+> > and arch code. So instead create a fake file and adjust vma->vm_file.
 > >
-> > Makes sense to me.
+> > Note this only works for ARCH_GENERIC_PCI_MMAP_RESOURCE. But that
+> > seems to be a subset of architectures support STRICT_DEVMEM, so we
+> > should be good.
 > >
-> > I wonder if we could change the original follow_pfn to require the
-> > ptep and then lockdep_assert_held() it against the page table lock?
-> 
-> The safe variant with the pagetable lock is follow_pte_pmd. The only
-> way to make follow_pfn safe is if you have an mmu notifier and
-> corresponding retry logic. That is not covered by lockdep (it would
-> splat if we annotate the retry side), so I'm not sure how you'd check
-> for that?
+> > The only difference in access checks left is that sysfs pci mmap does
+> > not check for CAP_RAWIO. But I think that makes some sense compared to
+> > /dev/mem and proc, where one file gives you access to everything and
+> > no ownership applies.
+>
+> > --- a/drivers/char/mem.c
+> > +++ b/drivers/char/mem.c
+> > @@ -810,6 +810,7 @@ static loff_t memory_lseek(struct file *file, loff_t offset, int orig)
+> >  }
+> >
+> >  static struct inode *devmem_inode;
+> > +static struct vfsmount *devmem_vfs_mount;
+> >
+> >  #ifdef CONFIG_IO_STRICT_DEVMEM
+> >  void revoke_devmem(struct resource *res)
+> > @@ -843,6 +844,20 @@ void revoke_devmem(struct resource *res)
+> >
+> >       unmap_mapping_range(inode->i_mapping, res->start, resource_size(res), 1);
+> >  }
+> > +
+> > +struct file *devmem_getfile(void)
+> > +{
+> > +     struct file *file;
+> > +
+> > +     file = alloc_file_pseudo(devmem_inode, devmem_vfs_mount, "devmem",
+> > +                              O_RDWR, &kmem_fops);
+> > +     if (IS_ERR(file))
+> > +             return NULL;
+> > +
+> > +     file->f_mapping = devmem_indoe->i_mapping;
+>
+> "devmem_indoe"?  Obviously not compiled, I guess?
 
-Right OK.
+Yeah apologies, I forgot to compile this with CONFIG_IO_STRICT_DEVMEM
+set. The entire series is more rfc about the overall problem really, I
+need to also figure out how to even this this somehow. I guess there's
+nothing really ready made here?
+-Daniel
 
-> Checking for ptep lock doesn't work here, since the one leftover safe
-> user of this (kvm) doesn't need that at all, because it has the mmu
-> notifier.
+> > --- a/include/linux/ioport.h
+> > +++ b/include/linux/ioport.h
+> > @@ -304,8 +304,10 @@ struct resource *request_free_mem_region(struct resource *base,
+> >
+> >  #ifdef CONFIG_IO_STRICT_DEVMEM
+> >  void revoke_devmem(struct resource *res);
+> > +struct file *devm_getfile(void);
+> >  #else
+> >  static inline void revoke_devmem(struct resource *res) { };
+> > +static inline struct file *devmem_getfile(void) { return NULL; };
+>
+> I guess these names are supposed to match?
+>
+> >  #endif
+> >
+> >  #endif /* __ASSEMBLY__ */
+> > --
+> > 2.28.0
+> >
 
-Ah, so a better name and/or function kdoc for follow_pfn is probably a
-good iead in this patch as well.
 
-> So I think we're as good as it gets, since I really have no idea how
-> to make sure follow_pfn callers do have an mmu notifier registered.
 
-Yah, can't be done. Most mmu notifier users should be using
-hmm_range_fault anyhow, kvm is really very special here.
- 
-> I've followed the few other CONFIG_STRICT_FOO I've seen, which are all
-> explicit enables and default to "do not break uapi, damn the
-> (security) bugs". Which is I think how this should be done. It is in
-> the security section though, so hopefully competent distros will
-> enable this all.
-
-I thought the strict ones were more general and less clear security
-worries, not bugs like this.
-
-This is "allow a user triggerable use after free bug to exist in the
-kernel"
-
-Jason
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
