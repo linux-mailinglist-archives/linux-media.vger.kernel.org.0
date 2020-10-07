@@ -2,67 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C5182285B1E
-	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 10:47:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 195C7285AC2
+	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 10:45:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728119AbgJGIrD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 04:47:03 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:57058 "EHLO
+        id S1727915AbgJGIpO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 04:45:14 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:56950 "EHLO
         hillosipuli.retiisi.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727984AbgJGIqI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 04:46:08 -0400
+        with ESMTP id S1727536AbgJGIpM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 04:45:12 -0400
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 52ED3634CD7
-        for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 11:45:19 +0300 (EEST)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id E8A28634C90;
+        Wed,  7 Oct 2020 11:44:24 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH v2 048/106] ccs: Clean up runtime PM usage
-Date:   Wed,  7 Oct 2020 11:45:01 +0300
-Message-Id: <20201007084557.25843-41-sakari.ailus@linux.intel.com>
+Cc:     devicetree@vger.kernel.org
+Subject: [PATCH v2 025/106] dt-bindings: nokia,smia: Amend SMIA bindings with MIPI CCS support
+Date:   Wed,  7 Oct 2020 11:45:02 +0300
+Message-Id: <20201007084505.25761-7-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201007084557.25843-1-sakari.ailus@linux.intel.com>
+In-Reply-To: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
 References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
- <20201007084557.25843-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If pm_runtime_get_sync() fails, there's no need to set the device active
-again. Also, in the same case to return the usage_count to zero,
-pm_runtime_put_noidle() is enough.
+Amend the existing SMIA bindings by adding MIPI CCS support, with separate
+compatible strings for CCS 1.0 and CCS 1.1. Rename the old bindings
+accordingly as CCS is the current standard.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ccs/ccs-core.c | 7 ++-----
- 1 file changed, 2 insertions(+), 5 deletions(-)
+ .../i2c/{nokia,smia.yaml => mipi-ccs.yaml}    | 23 ++++++++++++++-----
+ MAINTAINERS                                   |  2 +-
+ 2 files changed, 18 insertions(+), 7 deletions(-)
+ rename Documentation/devicetree/bindings/media/i2c/{nokia,smia.yaml => mipi-ccs.yaml} (81%)
 
-diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 6c2f18abc921..b762f16531df 100644
---- a/drivers/media/i2c/ccs/ccs-core.c
-+++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -1619,8 +1619,6 @@ static int ccs_pm_get_init(struct ccs_sensor *sensor)
+diff --git a/Documentation/devicetree/bindings/media/i2c/nokia,smia.yaml b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+similarity index 81%
+rename from Documentation/devicetree/bindings/media/i2c/nokia,smia.yaml
+rename to Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+index 47df08338a42..a386ee246956 100644
+--- a/Documentation/devicetree/bindings/media/i2c/nokia,smia.yaml
++++ b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+@@ -1,26 +1,37 @@
+ # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+ # Copyright (C) 2014--2020 Intel Corporation
  
- 	rval = pm_runtime_get_sync(&client->dev);
- 	if (rval < 0) {
--		if (rval != -EBUSY && rval != -EAGAIN)
--			pm_runtime_set_active(&client->dev);
- 		pm_runtime_put_noidle(&client->dev);
+-$id: http://devicetree.org/schemas/media/i2c/nokia,smia.yaml#
++$id: http://devicetree.org/schemas/media/i2c/mipi-ccs.yaml#
+ $schema: http://devicetree.org/meta-schemas/core.yaml#
  
- 		return rval;
-@@ -2836,9 +2834,8 @@ static int __maybe_unused ccs_suspend(struct device *dev)
+-title: SMIA/SMIA++ sensor
++title: MIPI CCS, SMIA++ and SMIA compliant camera sensors
  
- 	rval = pm_runtime_get_sync(dev);
- 	if (rval < 0) {
--		if (rval != -EBUSY && rval != -EAGAIN)
--			pm_runtime_set_active(&client->dev);
--		pm_runtime_put(dev);
-+		pm_runtime_put_noidle(dev);
+ maintainers:
+   - Sakari Ailus <sakari.ailus@linux.intel.com>
+ 
+ description:
+ 
++  CCS (Camera Command Set) is a raw Bayer camera sensor standard defined by the
++  MIPI Alliance; see
++  <URL:https://www.mipi.org/specifications/camera-command-set>.
 +
- 		return -EAGAIN;
- 	}
+   SMIA (Standard Mobile Imaging Architecture) is an image sensor standard
+   defined jointly by Nokia and ST. SMIA++, defined by Nokia, is an extension of
+-  that. These definitions are valid for both types of sensors.
++  that.
  
+   More detailed documentation can be found in
+   Documentation/devicetree/bindings/media/video-interfaces.txt .
+ 
+ properties:
+   compatible:
+-    const: nokia,smia
++    oneOf:
++      - items:
++        - const: mipi-ccs-1.1
++        - const: mipi-ccs
++      - items:
++        - const: mipi-ccs-1.0
++        - const: mipi-ccs
++      - const: nokia,smia
+ 
+   reg:
+     maxItems: 1
+@@ -89,14 +100,14 @@ examples:
+         clock-frequency = <400000>;
+ 
+         camera-sensor@10 {
+-            compatible = "nokia,smia";
++            compatible = "mipi-ccs-1.0", "mipi-ccs";
+             reg = <0x10>;
+             reset-gpios = <&gpio3 20 GPIO_ACTIVE_LOW>;
+             vana-supply = <&vaux3>;
+             clocks = <&omap3_isp 0>;
+             clock-frequency = <9600000>;
+             port {
+-                smiapp_ep: endpoint {
++                ccs_ep: endpoint {
+                     data-lanes = <1 2>;
+                     remote-endpoint = <&csi2a_ep>;
+                     link-frequencies = /bits/ 64 <199200000 210000000
+diff --git a/MAINTAINERS b/MAINTAINERS
+index ec99e94e2273..135d41b823a4 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -11564,7 +11564,7 @@ MIPI CCS, SMIA AND SMIA++ IMAGE SENSOR DRIVER
+ M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+-F:	Documentation/devicetree/bindings/media/i2c/nokia,smia.yaml
++F:	Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+ F:	drivers/media/i2c/ccs/
+ F:	drivers/media/i2c/smiapp-pll.c
+ F:	drivers/media/i2c/smiapp-pll.h
 -- 
 2.27.0
 
