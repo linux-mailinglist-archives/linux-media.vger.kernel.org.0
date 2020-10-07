@@ -2,80 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80C80286246
-	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 17:38:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 197D428630A
+	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 18:03:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727724AbgJGPhz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 11:37:55 -0400
-Received: from mout.kundenserver.de ([212.227.17.10]:55951 "EHLO
-        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726504AbgJGPhy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 11:37:54 -0400
-Received: from mail-qt1-f182.google.com ([209.85.160.182]) by
- mrelayeu.kundenserver.de (mreue107 [212.227.15.145]) with ESMTPSA (Nemesis)
- id 1Md66H-1kzWSo1MsV-00aDYM; Wed, 07 Oct 2020 17:37:53 +0200
-Received: by mail-qt1-f182.google.com with SMTP id 10so2208624qtx.12;
-        Wed, 07 Oct 2020 08:37:52 -0700 (PDT)
-X-Gm-Message-State: AOAM5329ei+keLtl2h4V4yEhmN32GdqjZ0Y3eBiFKWrv98HnNIIZoX1O
-        5jFLb7d81+t464sRK3euOsQujMRUZF/v3Ugn6EE=
-X-Google-Smtp-Source: ABdhPJz1UVvdnvYbeBpkWMxqxLtjj8co5Lbs7eY9E/m3oUp5zJUn8Q+Zu+P5QH4HKcr9UjsA/z0soG9AFQZi8lXMrJ8=
-X-Received: by 2002:ac8:7cba:: with SMTP id z26mr2055142qtv.7.1602085072021;
- Wed, 07 Oct 2020 08:37:52 -0700 (PDT)
+        id S1728981AbgJGQDD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 12:03:03 -0400
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:32504 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728968AbgJGQDD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 7 Oct 2020 12:03:03 -0400
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 097FqHOv002178;
+        Wed, 7 Oct 2020 18:02:52 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=snx0Oa29078S9y9lMCQN0QJqA70oMqn0JX8nnG1uIiA=;
+ b=0aJcimBLb8uJkvEtylFHqEekUjiwQDJ1mT0kMku3f3qouIbV+PJ7I3PzXNfouKcqAs6V
+ cHqS+Jpy+o+/6DEssPI7nQhTngOf7oQH3LNVpZGGqoMXoqNKtoSs5bQGOxVzU2t8O/rf
+ 4deaof5EGfPSrsY6QBBxfQLB3iWD46iEshkp//gecM9WFrMmFOyxW5fJBkDXaswxgid8
+ AtuUFJOn6ucb6rT5WxXVgHSKSrpGxLoxNRXOwGMa2lpROTeXOBQc4Tml5ytSnih+pXEn
+ NoISfkQ/UXSHvyxEZDNWb1Mj0m6MFXLzhg5xylxi9nxaYq3XsJoDrcr6yH6zwOgOH7d9 ig== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 3402tjwktd-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Wed, 07 Oct 2020 18:02:52 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 4A6F4100034;
+        Wed,  7 Oct 2020 18:02:52 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag1node1.st.com [10.75.127.1])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 3967C2BA2C6;
+        Wed,  7 Oct 2020 18:02:52 +0200 (CEST)
+Received: from localhost (10.75.127.44) by SFHDAG1NODE1.st.com (10.75.127.1)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 7 Oct 2020 18:02:24
+ +0200
+From:   Hugues Fruchet <hugues.fruchet@st.com>
+To:     Etienne Carriere <etienne.carriere@st.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Alain Volmat <alain.volmat@st.com>,
+        Yannick Fertre <yannick.fertre@st.com>,
+        Philippe CORNU <philippe.cornu@st.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>
+Subject: [PATCH] media: stm32-dcmi: don't print an error on probe deferral
+Date:   Wed, 7 Oct 2020 18:02:10 +0200
+Message-ID: <1602086530-24646-1-git-send-email-hugues.fruchet@st.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20201007141702.655724-1-arnd@arndb.de> <20201007141812.GA1578@lst.de>
-In-Reply-To: <20201007141812.GA1578@lst.de>
-From:   Arnd Bergmann <arnd@arndb.de>
-Date:   Wed, 7 Oct 2020 17:37:35 +0200
-X-Gmail-Original-Message-ID: <CAK8P3a38xRc602Sm2mRQQ2h5qp2r8znXBjzdfV2MWK33T21fSA@mail.gmail.com>
-Message-ID: <CAK8P3a38xRc602Sm2mRQQ2h5qp2r8znXBjzdfV2MWK33T21fSA@mail.gmail.com>
-Subject: Re: [PATCH] media: atomisp: stop compiling compat_ioctl32 code
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-X-Provags-ID: V03:K1:Rgqw1hrHw3LKh2n/Z45AFazItlGr31bW2b1C6rbEu7Ia6XO3Vmj
- JGTn5JUiV5qwVT+8Zf4PLbWzfiQmDMVbrawS8uqb3Yptu/pQs08HxRFVp6b6dqqHWqrlhL6
- e56Ka44Fr7CUcaCNG5IbE0006QYoDYQwEfCt2wx0+NAVef9I4kSjO23B7JEzL3qBu1RcAfG
- bAr3iX9wNvpGSu5jfiUXw==
-X-Spam-Flag: NO
-X-UI-Out-Filterresults: notjunk:1;V03:K0:Ajare0/6oxw=:4Szm3wqIQuNyiYzFPtSlaW
- nuj+z3nYwUTGJvxLI4WyDlJSrpvLTxKwbnPbCFSxbopIphsL03GztzU3/RllLtnzIEuHfXUJU
- TMFoUtUCI23y72FMI3HgE6v+nnMNurY4Gu2jPsKb9ZaK3eQtAhPIHmmTzv5Wn6ZxobCyWW67X
- JqPiIsDKXBQsV3zO+oGlECYrQPQhUBbWBmyT7SoH3ZRVcEV13QY48/TYyt/b1ULivinj5USRv
- RBImUUS3MSRJkHhaPpQ8QlD4NJpdSSCvjEh4jWv0EMLrg0VSjWI5i316Vw6CQQI/Kqmqrduzs
- +euKK8pcCbMZbqjBnDDGfJ5m5DGhENO25qpqrO1T+shre68DxHbH2i/3YNIukVF11+o/rk7z4
- Qe1p7kPLMbBk3p7ACNmwMkRhlTpefJ5CBfkxh//JWDsfEswiDTSGdnB5ontbMCJ0HIKIyBBpF
- KweTR8gz/n04GJP1Iao+VWLO2Ch4TlJ/qrfi95Ge3Nb9V5q7lZ10RgOXC8kyMShY6/gUcPIur
- 3RAgPrbELxcC/8rFJydbEGtr5ntnvOb3VtMO5AfTTsM8LD4FCaFYebfYLI901qU3J2bv35lFm
- 6J1meYrTCrzZTN0L7Z/u/tfgpz9G199LYsusNuFA3iXPUsgz4UP5VbYJSz1ZgJG2z+uVb/T5R
- Rl/2urQ1fGYAsSHWbx9zOKOKdRXNOurqCMroyYY6Qveq/uQVQipFGEd+48bTaGd5r6V52a4IA
- ZrGaCFiOI5/mO8M6UKytk54ZWdA5AZC47rpygyPFj/6vAA5fzASoyyzjqG3aqQfhJW2D+Ui0V
- 29ypfX0xRr3dKV9Uq5MdNWsiYZDfNboE3SRPFLyNouSgWNdPB0Fn84gf77AhoI/vNNWBnK5
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG7NODE3.st.com (10.75.127.21) To SFHDAG1NODE1.st.com
+ (10.75.127.1)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-10-07_10:2020-10-06,2020-10-07 signatures=0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 7, 2020 at 4:18 PM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Wed, Oct 07, 2020 at 04:16:39PM +0200, Arnd Bergmann wrote:
-> > Alternatively, the entire file could just be removed, since anyone
-> > willing to restore the functionality can equally well just look up
-> > the contents in the git history if needed.
->
-> I suspect that is the right thing.  Note that given that the driver
-> is only in staging anyway, the right thing to do would be to change
-> the ioctl ABI to be more compat friendly to start with.
+From: Etienne Carriere <etienne.carriere@st.com>
 
-Ok, I sent that as v2 now.
+Change stm32-dcmi driver to not print an error message when the
+device probe operation is deferred.
 
-I wonder how many of those 56 ioctl commands in the driver are
-actually used in practice. Is there a public repository for the
-matching user space? Is it required to even use the driver
-or is it otherwise compatible with normal v4l2 applications?
+Signed-off-by: Etienne Carriere <etienne.carriere@st.com>
+Acked-by: Hugues Fruchet <hugues.fruchet@st.com>
+Tested-by: Alexandre TORGUE <alexandre.torgue@st.com>
+---
+ drivers/media/platform/stm32/stm32-dcmi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
-     Arnd
+diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
+index fd1c41c..720534e 100644
+--- a/drivers/media/platform/stm32/stm32-dcmi.c
++++ b/drivers/media/platform/stm32/stm32-dcmi.c
+@@ -1851,7 +1851,9 @@ static int dcmi_probe(struct platform_device *pdev)
+ 
+ 	dcmi->rstc = devm_reset_control_get_exclusive(&pdev->dev, NULL);
+ 	if (IS_ERR(dcmi->rstc)) {
+-		dev_err(&pdev->dev, "Could not get reset control\n");
++		if (PTR_ERR(dcmi->rstc) != -EPROBE_DEFER)
++			dev_err(&pdev->dev, "Could not get reset control\n");
++
+ 		return PTR_ERR(dcmi->rstc);
+ 	}
+ 
+-- 
+2.7.4
+
