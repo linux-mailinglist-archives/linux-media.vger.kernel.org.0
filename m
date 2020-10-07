@@ -2,26 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ECC7285B2A
-	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 10:47:16 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6176285B32
+	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 10:47:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727908AbgJGIqD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 04:46:03 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35022 "EHLO
+        id S1727958AbgJGIrV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 04:47:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35024 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727937AbgJGIqB (ORCPT
+        with ESMTP id S1727935AbgJGIqB (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 04:46:01 -0400
 Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7661EC0613D2
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79421C0613D3
         for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 01:46:00 -0700 (PDT)
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 137D3634C8F
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 25DF8634C90
         for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 11:45:16 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH v2 006/106] smiapp: Use MIPI CCS version and manufacturer ID information
-Date:   Wed,  7 Oct 2020 11:44:26 +0300
-Message-Id: <20201007084557.25843-6-sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 007/106] smiapp: Read CCS limit values
+Date:   Wed,  7 Oct 2020 11:44:27 +0300
+Message-Id: <20201007084557.25843-7-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201007084557.25843-1-sakari.ailus@linux.intel.com>
 References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
@@ -32,249 +32,282 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Read MIPI CCS manufacturer and version information, and use the CCS IDs
-over SMIA whenever they are set.
+Read limit and capability values into a driver allocated buffer. This will
+later replace (most of) the existing SMIA limits.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/smiapp/smiapp-core.c | 76 +++++++++++++++++++-------
- drivers/media/i2c/smiapp/smiapp.h      | 20 ++++---
- 2 files changed, 68 insertions(+), 28 deletions(-)
+ drivers/media/i2c/smiapp/smiapp-core.c | 177 ++++++++++++++++++++++++-
+ drivers/media/i2c/smiapp/smiapp.h      |   4 +
+ 2 files changed, 176 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
-index 47e983e9cd87..10900ac4aa1a 100644
+index 10900ac4aa1a..42df98740445 100644
 --- a/drivers/media/i2c/smiapp/smiapp-core.c
 +++ b/drivers/media/i2c/smiapp/smiapp-core.c
-@@ -2356,9 +2356,14 @@ smiapp_sysfs_ident_read(struct device *dev, struct device_attribute *attr,
- 	struct smiapp_sensor *sensor = to_smiapp_sensor(subdev);
- 	struct smiapp_module_info *minfo = &sensor->minfo;
+@@ -28,6 +28,7 @@
+ #include <media/v4l2-device.h>
  
--	return snprintf(buf, PAGE_SIZE, "%2.2x%4.4x%2.2x\n",
--			minfo->manufacturer_id, minfo->model_id,
--			minfo->revision_number_major) + 1;
-+	if (minfo->mipi_manufacturer_id)
-+		return snprintf(buf, PAGE_SIZE, "%4.4x%4.4x%2.2x\n",
-+				minfo->mipi_manufacturer_id, minfo->model_id,
-+				minfo->revision_number_major) + 1;
-+	else
-+		return snprintf(buf, PAGE_SIZE, "%2.2x%4.4x%2.2x\n",
-+				minfo->smia_manufacturer_id, minfo->model_id,
-+				minfo->revision_number_major) + 1;
+ #include "ccs-limits.h"
++#include "ccs-regs.h"
+ #include "smiapp.h"
+ 
+ #define SMIAPP_ALIGN_DIM(dim, flags)	\
+@@ -102,6 +103,164 @@ static int smiapp_read_all_smia_limits(struct smiapp_sensor *sensor)
+ 	return 0;
  }
  
- static DEVICE_ATTR(ident, S_IRUGO, smiapp_sysfs_ident_read, NULL);
-@@ -2377,8 +2382,11 @@ static int smiapp_identify_module(struct smiapp_sensor *sensor)
- 	minfo->name = SMIAPP_NAME;
- 
- 	/* Module info */
--	rval = smiapp_read_8only(sensor, SMIAPP_REG_U8_MANUFACTURER_ID,
--				 &minfo->manufacturer_id);
-+	rval = ccs_read(sensor, MODULE_MANUFACTURER_ID,
-+			&minfo->mipi_manufacturer_id);
-+	if (!rval && !minfo->mipi_manufacturer_id)
-+		rval = smiapp_read_8only(sensor, SMIAPP_REG_U8_MANUFACTURER_ID,
-+					 &minfo->smia_manufacturer_id);
- 	if (!rval)
- 		rval = smiapp_read_8only(sensor, SMIAPP_REG_U16_MODEL_ID,
- 					 &minfo->model_id);
-@@ -2404,9 +2412,12 @@ static int smiapp_identify_module(struct smiapp_sensor *sensor)
- 
- 	/* Sensor info */
- 	if (!rval)
-+		rval = ccs_read(sensor, SENSOR_MANUFACTURER_ID,
-+				&minfo->sensor_mipi_manufacturer_id);
-+	if (!rval && !minfo->sensor_mipi_manufacturer_id)
- 		rval = smiapp_read_8only(sensor,
- 					 SMIAPP_REG_U8_SENSOR_MANUFACTURER_ID,
--					 &minfo->sensor_manufacturer_id);
-+					 &minfo->sensor_smia_manufacturer_id);
- 	if (!rval)
- 		rval = smiapp_read_8only(sensor,
- 					 SMIAPP_REG_U16_SENSOR_MODEL_ID,
-@@ -2422,9 +2433,11 @@ static int smiapp_identify_module(struct smiapp_sensor *sensor)
- 
- 	/* SMIA */
- 	if (!rval)
-+		rval = ccs_read(sensor, MIPI_CCS_VERSION, &minfo->ccs_version);
-+	if (!rval && !minfo->ccs_version)
- 		rval = smiapp_read_8only(sensor, SMIAPP_REG_U8_SMIA_VERSION,
- 					 &minfo->smia_version);
--	if (!rval)
-+	if (!rval && !minfo->ccs_version)
- 		rval = smiapp_read_8only(sensor, SMIAPP_REG_U8_SMIAPP_VERSION,
- 					 &minfo->smiapp_version);
- 
-@@ -2433,38 +2446,62 @@ static int smiapp_identify_module(struct smiapp_sensor *sensor)
- 		return -ENODEV;
++static void ccs_assign_limit(void *ptr, unsigned int width, u32 val)
++{
++	switch (width) {
++	case sizeof(u8):
++		*(u8 *)ptr = val;
++		break;
++	case sizeof(u16):
++		*(u16 *)ptr = val;
++		break;
++	case sizeof(u32):
++		*(u32 *)ptr = val;
++		break;
++	}
++}
++
++static int ccs_limit_ptr(struct smiapp_sensor *sensor, unsigned int limit,
++			 unsigned int offset, void **__ptr)
++{
++	const struct ccs_limit *linfo;
++
++	if (WARN_ON(limit >= CCS_L_LAST))
++		return -EINVAL;
++
++	linfo = &ccs_limits[ccs_limit_offsets[limit].info];
++
++	if (WARN_ON(!sensor->ccs_limits) ||
++	    WARN_ON(offset + ccs_reg_width(linfo->reg) >
++		    ccs_limit_offsets[limit + 1].lim))
++		return -EINVAL;
++
++	*__ptr = sensor->ccs_limits + ccs_limit_offsets[limit].lim + offset;
++
++	return 0;
++}
++
++void ccs_replace_limit(struct smiapp_sensor *sensor,
++		       unsigned int limit, unsigned int offset, u32 val)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
++	const struct ccs_limit *linfo;
++	void *ptr;
++	int ret;
++
++	ret = ccs_limit_ptr(sensor, limit, offset, &ptr);
++	if (ret)
++		return;
++
++	linfo = &ccs_limits[ccs_limit_offsets[limit].info];
++
++	dev_dbg(&client->dev, "quirk: 0x%8.8x \"%s\" %u = %d, 0x%x\n",
++		linfo->reg, linfo->name, offset, val, val);
++
++	ccs_assign_limit(ptr, ccs_reg_width(linfo->reg), val);
++}
++
++static u32 ccs_get_limit(struct smiapp_sensor *sensor,
++			 unsigned int limit, unsigned int offset)
++{
++	void *ptr;
++	int ret;
++
++	ret = ccs_limit_ptr(sensor, limit, offset, &ptr);
++	if (ret)
++		return 0;
++
++	switch (ccs_reg_width(ccs_limits[ccs_limit_offsets[limit].info].reg)) {
++	case sizeof(u8):
++		return *(u8 *)ptr;
++	case sizeof(u16):
++		return *(u16 *)ptr;
++	case sizeof(u32):
++		return *(u32 *)ptr;
++	}
++
++	WARN_ON(1);
++
++	return 0;
++}
++
++#define CCS_LIM(sensor, limit) \
++	ccs_get_limit(sensor, CCS_L_##limit, 0)
++
++#define CCS_LIM_AT(sensor, limit, offset)	\
++	ccs_get_limit(sensor, CCS_L_##limit, CCS_L_##limit##_OFFSET(offset))
++
++static int ccs_read_all_limits(struct smiapp_sensor *sensor)
++{
++	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
++	void *ptr, *alloc, *end;
++	unsigned int i, l;
++	int ret;
++
++	kfree(sensor->ccs_limits);
++	sensor->ccs_limits = NULL;
++
++	alloc = kzalloc(ccs_limit_offsets[CCS_L_LAST].lim, GFP_KERNEL);
++	if (!alloc)
++		return -ENOMEM;
++
++	end = alloc + ccs_limit_offsets[CCS_L_LAST].lim;
++
++	for (i = 0, l = 0, ptr = alloc; ccs_limits[i].size; i++) {
++		u32 reg = ccs_limits[i].reg;
++		unsigned int width = ccs_reg_width(reg);
++		unsigned int j;
++
++		if (l == CCS_L_LAST) {
++			dev_err(&client->dev,
++				"internal error --- end of limit array\n");
++			ret = -EINVAL;
++			goto out_err;
++		}
++
++		for (j = 0; j < ccs_limits[i].size / width;
++		     j++, reg += width, ptr += width) {
++			u32 val;
++
++			ret = smiapp_read(sensor, reg, &val);
++			if (ret)
++				goto out_err;
++
++			if (ptr + width > end) {
++				dev_err(&client->dev,
++					"internal error --- no room for regs\n");
++				ret = -EINVAL;
++				goto out_err;
++			}
++
++			ccs_assign_limit(ptr, width, val);
++
++			dev_dbg(&client->dev, "0x%8.8x \"%s\" = %u, 0x%x\n",
++				reg, ccs_limits[i].name, val, val);
++		}
++
++		if (ccs_limits[i].flags & CCS_L_FL_SAME_REG)
++			continue;
++
++		l++;
++		ptr = alloc + ccs_limit_offsets[l].lim;
++	}
++
++	if (l != CCS_L_LAST) {
++		dev_err(&client->dev,
++			"internal error --- insufficient limits\n");
++		ret = -EINVAL;
++		goto out_err;
++	}
++
++	sensor->ccs_limits = alloc;
++
++	return 0;
++
++out_err:
++	kfree(alloc);
++
++	return ret;
++}
++
+ static int smiapp_read_frame_fmt(struct smiapp_sensor *sensor)
+ {
+ 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+@@ -2970,10 +3129,14 @@ static int smiapp_probe(struct i2c_client *client)
+ 		goto out_power_off;
  	}
  
--	dev_dbg(&client->dev, "module 0x%2.2x-0x%4.4x\n",
--		minfo->manufacturer_id, minfo->model_id);
-+	if (minfo->mipi_manufacturer_id)
-+		dev_dbg(&client->dev, "MIPI CCS module 0x%4.4x-0x%4.4x\n",
-+			minfo->mipi_manufacturer_id, minfo->model_id);
-+	else
-+		dev_dbg(&client->dev, "SMIA module 0x%2.2x-0x%4.4x\n",
-+			minfo->smia_manufacturer_id, minfo->model_id);
- 
- 	dev_dbg(&client->dev,
- 		"module revision 0x%2.2x-0x%2.2x date %2.2d-%2.2d-%2.2d\n",
- 		minfo->revision_number_major, minfo->revision_number_minor,
- 		minfo->module_year, minfo->module_month, minfo->module_day);
- 
--	dev_dbg(&client->dev, "sensor 0x%2.2x-0x%4.4x\n",
--		minfo->sensor_manufacturer_id, minfo->sensor_model_id);
-+	if (minfo->sensor_mipi_manufacturer_id)
-+		dev_dbg(&client->dev, "MIPI CCS sensor 0x%4.4x-0x%4.4x\n",
-+			minfo->sensor_mipi_manufacturer_id,
-+			minfo->sensor_model_id);
-+	else
-+		dev_dbg(&client->dev, "SMIA sensor 0x%2.2x-0x%4.4x\n",
-+			minfo->sensor_smia_manufacturer_id,
-+			minfo->sensor_model_id);
- 
- 	dev_dbg(&client->dev,
- 		"sensor revision 0x%2.2x firmware version 0x%2.2x\n",
- 		minfo->sensor_revision_number, minfo->sensor_firmware_version);
- 
--	dev_dbg(&client->dev, "smia version %2.2d smiapp version %2.2d\n",
--		minfo->smia_version, minfo->smiapp_version);
-+	if (minfo->ccs_version)
-+		dev_dbg(&client->dev, "MIPI CCS version %u.%u",
-+			(minfo->ccs_version & CCS_MIPI_CCS_VERSION_MAJOR_MASK)
-+			>> CCS_MIPI_CCS_VERSION_MAJOR_SHIFT,
-+			(minfo->ccs_version & CCS_MIPI_CCS_VERSION_MINOR_MASK));
-+	else
-+		dev_dbg(&client->dev,
-+			"smia version %2.2d smiapp version %2.2d\n",
-+			minfo->smia_version, minfo->smiapp_version);
++	rval = ccs_read_all_limits(sensor);
++	if (rval)
++		goto out_power_off;
++
+ 	rval = smiapp_read_frame_fmt(sensor);
+ 	if (rval) {
+ 		rval = -ENODEV;
+-		goto out_power_off;
++		goto out_free_ccs_limits;
+ 	}
  
  	/*
- 	 * Some modules have bad data in the lvalues below. Hope the
- 	 * rvalues have better stuff. The lvalues are module
- 	 * parameters whereas the rvalues are sensor parameters.
- 	 */
--	if (!minfo->manufacturer_id && !minfo->model_id) {
--		minfo->manufacturer_id = minfo->sensor_manufacturer_id;
-+	if (minfo->sensor_smia_manufacturer_id &&
-+	    !minfo->smia_manufacturer_id && !minfo->model_id) {
-+		minfo->smia_manufacturer_id =
-+			minfo->sensor_smia_manufacturer_id;
- 		minfo->model_id = minfo->sensor_model_id;
- 		minfo->revision_number_major = minfo->sensor_revision_number;
+@@ -2997,7 +3160,7 @@ static int smiapp_probe(struct i2c_client *client)
+ 	rval = smiapp_call_quirk(sensor, limits);
+ 	if (rval) {
+ 		dev_err(&client->dev, "limits quirks failed\n");
+-		goto out_power_off;
++		goto out_free_ccs_limits;
  	}
  
- 	for (i = 0; i < ARRAY_SIZE(smiapp_module_idents); i++) {
--		if (smiapp_module_idents[i].manufacturer_id
--		    != minfo->manufacturer_id)
-+		if (smiapp_module_idents[i].mipi_manufacturer_id &&
-+		    smiapp_module_idents[i].mipi_manufacturer_id
-+		    != minfo->mipi_manufacturer_id)
-+			continue;
-+		if (smiapp_module_idents[i].smia_manufacturer_id &&
-+		    smiapp_module_idents[i].smia_manufacturer_id
-+		    != minfo->smia_manufacturer_id)
- 			continue;
- 		if (smiapp_module_idents[i].model_id != minfo->model_id)
- 			continue;
-@@ -2488,9 +2525,8 @@ static int smiapp_identify_module(struct smiapp_sensor *sensor)
- 		dev_warn(&client->dev,
- 			 "no quirks for this module; let's hope it's fully compliant\n");
+ 	if (SMIA_LIM(sensor, BINNING_CAPABILITY)) {
+@@ -3007,7 +3170,7 @@ static int smiapp_probe(struct i2c_client *client)
+ 				   SMIAPP_REG_U8_BINNING_SUBTYPES, &val);
+ 		if (rval < 0) {
+ 			rval = -ENODEV;
+-			goto out_power_off;
++			goto out_free_ccs_limits;
+ 		}
+ 		sensor->nbinning_subtypes = min_t(u8, val,
+ 						  SMIAPP_BINNING_SUBTYPES);
+@@ -3017,7 +3180,7 @@ static int smiapp_probe(struct i2c_client *client)
+ 				sensor, SMIAPP_REG_U8_BINNING_TYPE_n(i), &val);
+ 			if (rval < 0) {
+ 				rval = -ENODEV;
+-				goto out_power_off;
++				goto out_free_ccs_limits;
+ 			}
+ 			sensor->binning_subtypes[i] =
+ 				*(struct smiapp_binning_subtype *)&val;
+@@ -3033,7 +3196,7 @@ static int smiapp_probe(struct i2c_client *client)
+ 	if (device_create_file(&client->dev, &dev_attr_ident) != 0) {
+ 		dev_err(&client->dev, "sysfs ident entry creation failed\n");
+ 		rval = -ENOENT;
+-		goto out_power_off;
++		goto out_free_ccs_limits;
+ 	}
  
--	dev_dbg(&client->dev, "the sensor is called %s, ident %2.2x%4.4x%2.2x\n",
--		minfo->name, minfo->manufacturer_id, minfo->model_id,
--		minfo->revision_number_major);
-+	dev_dbg(&client->dev, "the sensor is called %s\n",
-+		minfo->name);
+ 	if (sensor->minfo.smiapp_version &&
+@@ -3150,6 +3313,9 @@ static int smiapp_probe(struct i2c_client *client)
+ out_cleanup:
+ 	smiapp_cleanup(sensor);
+ 
++out_free_ccs_limits:
++	kfree(sensor->ccs_limits);
++
+ out_power_off:
+ 	smiapp_power_off(&client->dev);
+ 	mutex_destroy(&sensor->mutex);
+@@ -3176,6 +3342,7 @@ static int smiapp_remove(struct i2c_client *client)
+ 	}
+ 	smiapp_cleanup(sensor);
+ 	mutex_destroy(&sensor->mutex);
++	kfree(sensor->ccs_limits);
  
  	return 0;
  }
 diff --git a/drivers/media/i2c/smiapp/smiapp.h b/drivers/media/i2c/smiapp/smiapp.h
-index 7cef97db7f47..b1d0e3d71630 100644
+index b1d0e3d71630..08ca1b3d1b2f 100644
 --- a/drivers/media/i2c/smiapp/smiapp.h
 +++ b/drivers/media/i2c/smiapp/smiapp.h
-@@ -91,8 +91,9 @@ struct smiapp_quirk;
- #define SMIAPP_MODULE_IDENT_FLAG_REV_LE		(1 << 0)
+@@ -228,6 +228,7 @@ struct smiapp_sensor {
+ 	struct clk *ext_clk;
+ 	struct gpio_desc *xshutdown;
+ 	u32 limits[SMIAPP_LIMIT_LAST];
++	void *ccs_limits;
+ 	u8 nbinning_subtypes;
+ 	struct smiapp_binning_subtype binning_subtypes[SMIAPP_BINNING_SUBTYPES];
+ 	u32 mbus_frame_fmts;
+@@ -281,4 +282,7 @@ struct smiapp_sensor {
+ #define to_smiapp_sensor(_sd)	\
+ 	(to_smiapp_subdev(_sd)->sensor)
  
- struct smiapp_module_ident {
--	u8 manufacturer_id;
-+	u16 mipi_manufacturer_id;
- 	u16 model_id;
-+	u8 smia_manufacturer_id;
- 	u8 revision_number_major;
- 
- 	u8 flags;
-@@ -102,7 +103,8 @@ struct smiapp_module_ident {
- };
- 
- struct smiapp_module_info {
--	u32 manufacturer_id;
-+	u32 smia_manufacturer_id;
-+	u32 mipi_manufacturer_id;
- 	u32 model_id;
- 	u32 revision_number_major;
- 	u32 revision_number_minor;
-@@ -111,13 +113,15 @@ struct smiapp_module_info {
- 	u32 module_month;
- 	u32 module_day;
- 
--	u32 sensor_manufacturer_id;
-+	u32 sensor_smia_manufacturer_id;
-+	u32 sensor_mipi_manufacturer_id;
- 	u32 sensor_model_id;
- 	u32 sensor_revision_number;
- 	u32 sensor_firmware_version;
- 
- 	u32 smia_version;
- 	u32 smiapp_version;
-+	u32 ccs_version;
- 
- 	u32 smiapp_profile;
- 
-@@ -126,7 +130,7 @@ struct smiapp_module_info {
- };
- 
- #define SMIAPP_IDENT_FQ(manufacturer, model, rev, fl, _name, _quirk)	\
--	{ .manufacturer_id = manufacturer,				\
-+	{ .smia_manufacturer_id = manufacturer,				\
- 	  .model_id = model,						\
- 	  .revision_number_major = rev,					\
- 	  .flags = fl,							\
-@@ -134,7 +138,7 @@ struct smiapp_module_info {
- 	  .quirk = _quirk, }
- 
- #define SMIAPP_IDENT_LQ(manufacturer, model, rev, _name, _quirk)	\
--	{ .manufacturer_id = manufacturer,				\
-+	{ .smia_manufacturer_id = manufacturer,				\
- 	  .model_id = model,						\
- 	  .revision_number_major = rev,					\
- 	  .flags = SMIAPP_MODULE_IDENT_FLAG_REV_LE,			\
-@@ -142,14 +146,14 @@ struct smiapp_module_info {
- 	  .quirk = _quirk, }
- 
- #define SMIAPP_IDENT_L(manufacturer, model, rev, _name)			\
--	{ .manufacturer_id = manufacturer,				\
-+	{ .smia_manufacturer_id = manufacturer,				\
- 	  .model_id = model,						\
- 	  .revision_number_major = rev,					\
- 	  .flags = SMIAPP_MODULE_IDENT_FLAG_REV_LE,			\
- 	  .name = _name, }
- 
- #define SMIAPP_IDENT_Q(manufacturer, model, rev, _name, _quirk)		\
--	{ .manufacturer_id = manufacturer,				\
-+	{ .smia_manufacturer_id = manufacturer,				\
- 	  .model_id = model,						\
- 	  .revision_number_major = rev,					\
- 	  .flags = 0,							\
-@@ -157,7 +161,7 @@ struct smiapp_module_info {
- 	  .quirk = _quirk, }
- 
- #define SMIAPP_IDENT(manufacturer, model, rev, _name)			\
--	{ .manufacturer_id = manufacturer,				\
-+	{ .smia_manufacturer_id = manufacturer,				\
- 	  .model_id = model,						\
- 	  .revision_number_major = rev,					\
- 	  .flags = 0,							\
++void ccs_replace_limit(struct smiapp_sensor *sensor,
++		       unsigned int limit, unsigned int offset, u32 val);
++
+ #endif /* __SMIAPP_PRIV_H_ */
 -- 
 2.27.0
 
