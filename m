@@ -2,100 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 59710285CF5
-	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 12:35:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1097D285CF6
+	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 12:35:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727741AbgJGKfz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 06:35:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51994 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727737AbgJGKfz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 06:35:55 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0245BC061755
-        for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 03:35:55 -0700 (PDT)
+        id S1727749AbgJGKf6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 06:35:58 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:46282 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727737AbgJGKf5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 06:35:57 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 3FB4228A747
+        with ESMTPSA id AD7ED29C191
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
         Philipp Zabel <p.zabel@pengutronix.de>, cphealy@gmail.com,
         Benjamin.Bara@skidata.com, l.stach@pengutronix.de,
         Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com
-Subject: [PATCH v2 0/6] CODA timeout fix & assorted changes
-Date:   Wed,  7 Oct 2020 07:35:38 -0300
-Message-Id: <20201007103544.22807-1-ezequiel@collabora.com>
+Subject: [PATCH v2 1/6] coda: Remove redundant ctx->initialized setting
+Date:   Wed,  7 Oct 2020 07:35:39 -0300
+Message-Id: <20201007103544.22807-2-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201007103544.22807-1-ezequiel@collabora.com>
+References: <20201007103544.22807-1-ezequiel@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+The ctx->initialized flag is set in __coda_decoder_seq_init,
+so it's redundant to set it in coda_dec_seq_init_work.
+Remove the redundant set, which allows to simplify the
+implementation quite a bit.
 
-The main motivation for this series is to address a PIC_RUN
-timeout, which we managed to link with a hardware bitstream
-buffer underrun condition.
+This change shouldn't affect functionality as it's just
+cosmetics.
 
-Upon further investigation we discovered that the underrun
-was produced by a subtle issue in the way buffer_meta's were
-being tracked.
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ drivers/media/platform/coda/coda-bit.c | 12 ++----------
+ 1 file changed, 2 insertions(+), 10 deletions(-)
 
-The issue is fixed by patch "5/6 coda: coda_buffer_meta housekeeping fix".
-
-Patches 1 to 4 are mostly cleanups and minor cosmetic changes.
-
-Finally, while testing with corrupted bitstreams we realized
-the driver was logging too verbosely, so patch 6 addresses
-this by introducing a private control to read an macroblock-error
-counter.
-
-These patches have been tested against media's upstream
-and v5.4-based, on i.MX6 (Wandboard) with H.264 and MPEG-2
-streams.
-
-In particular, this series manages to fix the PIC_RUN
-timeout reported by Benjamin Bara [1].
-
-I believe this timeout can be systematically reproduced with
-a video containing small black frames, which can be generated with:
-
-gst-launch-1.0 videotestsrc pattern=black num-buffers=300 ! \
-video/x-raw,format=I420,width=176,height=120 ! avenc_mpeg2video ! \
-mpegvideoparse ! mpegtsmux ! filesink location=black-qcif-10s.ts
-
-Reviews and feedback are appreciated, as always.
-
-[1] https://lkml.org/lkml/2020/8/21/495
-
-Changelog
----------
-
-v2:
-* Keep the error MB message, but move it to coda_dbg(1, ctx).
-* Add per-device rate limitting for the error MB message.
-* Rename V4L2_CID_CODA_ERR_MB description.
-* s/__coda_decoder_drop_used_metas/coda_decoder_drop_used_metas
-
-Ezequiel Garcia (6):
-  coda: Remove redundant ctx->initialized setting
-  coda: Simplify H.264 small buffer padding logic
-  coda: Clarify device registered log
-  coda: Clarify interrupt registered name
-  coda: coda_buffer_meta housekeeping fix
-  coda: Add a V4L2 user for control error macroblocks count
-
- MAINTAINERS                               |  1 +
- drivers/media/platform/coda/coda-bit.c    | 72 ++++++++++++++++-------
- drivers/media/platform/coda/coda-common.c | 57 +++++++++++++++---
- drivers/media/platform/coda/coda.h        |  5 ++
- include/media/drv-intf/coda.h             | 13 ++++
- include/uapi/linux/v4l2-controls.h        |  4 ++
- 6 files changed, 122 insertions(+), 30 deletions(-)
- create mode 100644 include/media/drv-intf/coda.h
-
+diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
+index bf75927bac4e..aa0a47c34413 100644
+--- a/drivers/media/platform/coda/coda-bit.c
++++ b/drivers/media/platform/coda/coda-bit.c
+@@ -2005,21 +2005,13 @@ static void coda_dec_seq_init_work(struct work_struct *work)
+ 	struct coda_ctx *ctx = container_of(work,
+ 					    struct coda_ctx, seq_init_work);
+ 	struct coda_dev *dev = ctx->dev;
+-	int ret;
+ 
+ 	mutex_lock(&ctx->buffer_mutex);
+ 	mutex_lock(&dev->coda_mutex);
+ 
+-	if (ctx->initialized == 1)
+-		goto out;
+-
+-	ret = __coda_decoder_seq_init(ctx);
+-	if (ret < 0)
+-		goto out;
+-
+-	ctx->initialized = 1;
++	if (!ctx->initialized)
++		__coda_decoder_seq_init(ctx);
+ 
+-out:
+ 	mutex_unlock(&dev->coda_mutex);
+ 	mutex_unlock(&ctx->buffer_mutex);
+ }
 -- 
 2.27.0
 
