@@ -2,265 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4A5AE285CFC
-	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 12:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2C7D285D1E
+	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 12:47:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727993AbgJGKgR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 06:36:17 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:46332 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727828AbgJGKgR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 06:36:17 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 130A329C191
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Philipp Zabel <p.zabel@pengutronix.de>, cphealy@gmail.com,
-        Benjamin.Bara@skidata.com, l.stach@pengutronix.de,
-        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com
-Subject: [PATCH v2 6/6] coda: Add a V4L2 user for control error macroblocks count
-Date:   Wed,  7 Oct 2020 07:35:44 -0300
-Message-Id: <20201007103544.22807-7-ezequiel@collabora.com>
-X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201007103544.22807-1-ezequiel@collabora.com>
-References: <20201007103544.22807-1-ezequiel@collabora.com>
+        id S1727898AbgJGKrP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 06:47:15 -0400
+Received: from mailout2.w1.samsung.com ([210.118.77.12]:52608 "EHLO
+        mailout2.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726942AbgJGKrO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 06:47:14 -0400
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout2.w1.samsung.com (KnoxPortal) with ESMTP id 20201007104713euoutp026a349068e02ec8d29eb2c9ccfd121b84~7sAYueR8E2345223452euoutp020
+        for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 10:47:13 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout2.w1.samsung.com 20201007104713euoutp026a349068e02ec8d29eb2c9ccfd121b84~7sAYueR8E2345223452euoutp020
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1602067633;
+        bh=E5XERvvgz2kHeHngJGLKNS1MxI488JkYoBjaEOnm4F0=;
+        h=Subject:To:Cc:From:Date:In-Reply-To:References:From;
+        b=LWM9hhbFLBQZw9NeZcCu74FRkXPQ+DXk1L64bWyE0gfQavvukQ3aK7nEY6+oeK2+r
+         F3FU/ubHqVIWc3Y1KacSRmxqrhIP8kgA2Q46SEaukpDsDjpgZA0TUTe0DK41CQfvTK
+         Gid85XkZ852hx3oQWRrs9b80m6f2nRITktStiISE=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20201007104712eucas1p15a76d78779d57144160e51c36d83d24e~7sAYLFOLh3224932249eucas1p1I;
+        Wed,  7 Oct 2020 10:47:12 +0000 (GMT)
+Received: from eucas1p2.samsung.com ( [182.198.249.207]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id ED.76.06456.0BC9D7F5; Wed,  7
+        Oct 2020 11:47:12 +0100 (BST)
+Received: from eusmtrp1.samsung.com (unknown [182.198.249.138]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTPA id
+        20201007104711eucas1p1a1b0945d6b12e3260b210dfcb5756ab9~7sAXtthzZ0030400304eucas1p11;
+        Wed,  7 Oct 2020 10:47:11 +0000 (GMT)
+Received: from eusmgms1.samsung.com (unknown [182.198.249.179]) by
+        eusmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20201007104711eusmtrp1487b9ffe41a58ec6aaec5d6c86578d4d~7sAXs58Da2859428594eusmtrp1b;
+        Wed,  7 Oct 2020 10:47:11 +0000 (GMT)
+X-AuditID: cbfec7f2-7efff70000001938-2a-5f7d9cb05c38
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms1.samsung.com (EUCPMTA) with SMTP id 66.4B.06314.FAC9D7F5; Wed,  7
+        Oct 2020 11:47:11 +0100 (BST)
+Received: from [106.210.88.143] (unknown [106.210.88.143]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20201007104710eusmtip191849209bf06805c0437d3901896f954~7sAWmUm-z2861128611eusmtip1e;
+        Wed,  7 Oct 2020 10:47:10 +0000 (GMT)
+Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Pawel Osciak <pawel@osciak.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Inki Dae <inki.dae@samsung.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Oded Gabbay <oded.gabbay@gmail.com>
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <d2f8e8a7-614d-18c8-9e2a-c604e5e54ce6@samsung.com>
+Date:   Wed, 7 Oct 2020 12:47:10 +0200
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
+        Gecko/20100101 Thunderbird/78.3.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA02SaUwTURSF8zrTmQEtPiqGqxKXxrglinXLSzSKxujERKO/XBLBKiOgbLaA
+        4EpoIIDgAhpqqYJ1QQgIomBFWUQUTZFVCSg7GIuxIosaIUEZxoV/3z333LxzksdRSjMzg/ML
+        DBG0gRp/FeNIF774WbMkz3TKa1lk6XRiys1mSMrlWkSud7ZSJKPqLkXefOtjSFL7BZqkpuhl
+        5IrhJRojm4zc+2Bmia2tjiavoz6zJL+7UU4aikwMScgrkJO27F9yYqgpkZFa23s5uWT/yRJD
+        ci9DBqNHGY9pfGpkHc0Xf0+n+UfGVpa/8aRXxucPJLH8S8MIzbefrZTx92+e4RP1Xxi+e7iX
+        4ftK3jL8uQdZiK9Kr2D5wfxZfMHge3rHlL2Oa70Ff78wQeu+br+j7+OWbCbY5hB+se08FYls
+        bDxy4ACvhAR92Tgr8R0EjRkh8chxjIcQxNSflUnDIILE6tx/Fz3vfsilRQaCFx+LaWnoQ/BQ
+        3ywXXVMxgetpMTKRXfBWiK2IQaKJwo8YKLRYkLhgsBri7fGMyAq8DtqtDWM6x9F4HtRYtovy
+        NHwArLVRrGRxhldXemiRHfBOiEpLGWcKz4aHdhMlsSu860kbjw24g4O8iq+MFHsTFNuj//BU
+        +FT54E8dN7AmJ9DSgR5BZ3UOKw0JCBqiDEhyrYGW6mFGTEfhRZBb5C7JG+BW3Be5KAN2gia7
+        sxTCCZIKUyhJVkBsjFJyzwdj5d1/zz6tracuIJVxQjXjhDrGCXWM/99NR3QWchVCdQE+gk4d
+        KBxbqtME6EIDfZYeDArIR2M/1zpaOWBB3+oPlCPMIdVkxe6jJ72Uck2YLiKgHAFHqVwUG19b
+        PZUKb03EcUEb5KUN9Rd05WgmR6tcFSvMvfuU2EcTIhwRhGBB+3cr4xxmRKLV3W1Tou1pTudP
+        +F6zHfQwx3kbB0jpzT0FJnbmClwRFPR8zq9VpV1Xk3e5Z4282eaxwHvhJxfr6by49YdGh04l
+        VrcOdI34hlS5po9oLNrwV2a1Z//KnOW7Gz22qDuDyyZ9z/g8fLipcXP/nLlF/V0dzW63N1vK
+        rHa/iMy6Dz53nmXWq2idr0a9mNLqNL8BDaTifLUDAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Sa0hTYRjHec9tZ9HwOBXfLMpGFATNjtfXsBHSh0NUdPmQZbVO86Cic7kz
+        7ULR0jKZt7SLOpfaxSKTypndtCjTVNR0XioyJ6XFDE1ILO1iba7Abz+e5/97Hh54aFx+l/Sj
+        45MMgj6JT1RQ84i2meaBVbctx9Sr+yqCkeV2FYUKz3cBdOn9AI6ut9/CUe/kOIUKBs8QqKQw
+        HUPFRS3ASQ4MVX+8LEEOu41AHWmjEmQdekWinkcWCmXfqSWRveoPiYo6n2Coy9FPonNj0xJU
+        dHaEQhOnZqh1PlyJ0UZwj7+VE9xD84CEu1I/gnHWrwUSrqXoJ8ENZjVjXM3V41xO+heKG/ox
+        QnHjT/ooLvduJeDayxsl3IR1MVc70U9s8diljNDrUgyCf5xONKxVRLMoUMmGI2VgcLiSDQrb
+        syYwRBGgiogREuNTBX2Aap8yru5dFXXAIT2Ub8/DjcAhMQEpDZlgOPz2O+liOVMB4NNyhbu+
+        CLZeMJJu9oK/XpkoE5jnzIwB6Lj4YbbhxSB4qSwDc7E3swFmNmYAVwhn6ig4bc0j3UYhDjOs
+        pbPrKIaFpjHXKCktY1RwsK3HadA0wSyDnQ82u8o+zH6Y1X0Oc0c8YWvxMOFiKbMVppUVzjLO
+        hMLSmve4m5fA+2OWf+wL3w6XYWeA3DxHN89RzHMU8xylHBCVwFtIEbWxWpFVirxWTEmKVWp0
+        Witwfsy9F9M1D0B39fYGwNBAMV8WlXxULSf5VPGwtgFAGld4yyI72vbKZTH84SOCXqfWpyQK
+        YgMIcd6Wj/v5aHTO/0syqNkQNgyFs2FBYUGhSOEry2Se7ZYzsbxBSBCEA4L+v4fRUj8jKMOW
+        V7/ceXr0yuqhqZtRibaVGt1v+/aKutSa+uiWiNxk1vuNZ8ynnX6PgNC7bbDFH2V0LjU2Fay3
+        TUleF7ffODFu8+nY9PxzzlXNpKGY68/NTI5G+fwCu/9JS1ZIQnZTdT3/zmOjSbbwmCovUkoc
+        VHVPi1Ats15P6F2huWbfoSDEOJ5dietF/i8Y0zPsRwMAAA==
+X-CMS-MailID: 20201007104711eucas1p1a1b0945d6b12e3260b210dfcb5756ab9
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20201003094038eucas1p12aaafe0f52a7747bc2ba95ccb91d1651
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20201003094038eucas1p12aaafe0f52a7747bc2ba95ccb91d1651
+References: <20201002175303.390363-1-daniel.vetter@ffwll.ch>
+        <20201002175303.390363-2-daniel.vetter@ffwll.ch>
+        <20201002180603.GL9916@ziepe.ca>
+        <CAKMK7uGF+y-r4swLXmodhduRMy0NPa=ASBY8JOXS_g=9Rq9XQw@mail.gmail.com>
+        <20201002233118.GM9916@ziepe.ca>
+        <CGME20201003094038eucas1p12aaafe0f52a7747bc2ba95ccb91d1651@eucas1p1.samsung.com>
+        <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-To avoid potentially overflowing the kernel logs in the case
-of corrupted streams, this commit replaces an error log with
-a per-stream counter to be read through a driver-specific
-control.
+Hi Daniel,
 
-Applications can read the per-stream accumulated
-error macroblocks count.
+On 03.10.2020 11:40, Daniel Vetter wrote:
+>> After he three places above should use pin_user_pages_fast(), then
+>> this whole broken API should be moved into videobuf2-memops.c and a
+>> big fat "THIS DOESN'T WORK" stuck on it.
+>>
+>> videobuf2 should probably use P2P DMA buf for this instead.
+> Yup this should be done with dma_buf instead, and v4l has that.
 
-The error message is moved to the driver-specific debug log,
-and rate-limitting is added to make sure it doesn't
-spam the log.
+Yes, V4L2 has dma_buf support NOW. That days, using so called V4L2 
+USERPTR method was the only way to achieve zero copy buffer sharing 
+between devices, so this is just a historical baggage. I've been 
+actively involved in implementing that. I've tried to make it secure as 
+much as possible assuming the limitation of that approach. With a few 
+assumptions it works fine. Buffers are refcounted both by the 
+vm_ops->open or by incrementing the refcount of the vm->file. This 
+basically works with any sane driver, which doesn't free the mmaped 
+buffer until the file is released. This is true for V4L2 and FBdev devices.
 
-Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
----
- MAINTAINERS                               |  1 +
- drivers/media/platform/coda/coda-bit.c    |  9 +++--
- drivers/media/platform/coda/coda-common.c | 42 +++++++++++++++++++++++
- drivers/media/platform/coda/coda.h        |  4 +++
- include/media/drv-intf/coda.h             | 13 +++++++
- include/uapi/linux/v4l2-controls.h        |  4 +++
- 6 files changed, 70 insertions(+), 3 deletions(-)
- create mode 100644 include/media/drv-intf/coda.h
+This API is considered as deprecated in V4L2 world, so I think 
+supporting this hack can be removed one day as nowadays userspace should 
+use dma buf.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index ba5eb1dff9c2..4c7a59a4dda3 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -4334,6 +4334,7 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	Documentation/devicetree/bindings/media/coda.txt
- F:	drivers/media/platform/coda/
-+F:	include/media/drv-intf/coda.h
- 
- CODE OF CONDUCT
- M:	Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
-index 919b36d753ec..dca6d1ee5744 100644
---- a/drivers/media/platform/coda/coda-bit.c
-+++ b/drivers/media/platform/coda/coda-bit.c
-@@ -13,6 +13,7 @@
- #include <linux/kernel.h>
- #include <linux/log2.h>
- #include <linux/platform_device.h>
-+#include <linux/ratelimit.h>
- #include <linux/reset.h>
- #include <linux/slab.h>
- #include <linux/videodev2.h>
-@@ -2369,9 +2370,11 @@ static void coda_finish_decode(struct coda_ctx *ctx)
- 	}
- 
- 	err_mb = coda_read(dev, CODA_RET_DEC_PIC_ERR_MB);
--	if (err_mb > 0)
--		v4l2_err(&dev->v4l2_dev,
--			 "errors in %d macroblocks\n", err_mb);
-+	if (err_mb > 0) {
-+		if (__ratelimit(&dev->err_mb_rs))
-+			coda_dbg(1, ctx, "errors in %d macroblocks\n", err_mb);
-+		ctx->err_mb += err_mb;
-+	}
- 
- 	if (dev->devtype->product == CODA_HX4 ||
- 	    dev->devtype->product == CODA_7541) {
-diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-index 487dd653b24a..498563bc9a66 100644
---- a/drivers/media/platform/coda/coda-common.c
-+++ b/drivers/media/platform/coda/coda-common.c
-@@ -26,8 +26,10 @@
- #include <linux/videodev2.h>
- #include <linux/of.h>
- #include <linux/platform_data/media/coda.h>
-+#include <linux/ratelimit.h>
- #include <linux/reset.h>
- 
-+#include <media/drv-intf/coda.h>
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-event.h>
-@@ -2062,6 +2064,7 @@ static int coda_start_streaming(struct vb2_queue *q, unsigned int count)
- 	if (q_data_dst->fourcc == V4L2_PIX_FMT_JPEG)
- 		ctx->params.gop_size = 1;
- 	ctx->gopcounter = ctx->params.gop_size - 1;
-+	ctx->err_mb = 0;
- 
- 	ret = ctx->ops->start_streaming(ctx);
- 	if (ctx->inst_type == CODA_INST_DECODER) {
-@@ -2162,6 +2165,22 @@ static const struct vb2_ops coda_qops = {
- 	.wait_finish		= vb2_ops_wait_finish,
- };
- 
-+static int coda_g_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct coda_ctx *ctx =
-+			container_of(ctrl->handler, struct coda_ctx, ctrls);
-+	switch (ctrl->id) {
-+	case V4L2_CID_CODA_ERR_MB:
-+		ctrl->val = ctx->err_mb;
-+		break;
-+	default:
-+		coda_dbg(1, ctx, "Invalid control, id=%d, val=%d\n",
-+			 ctrl->id, ctrl->val);
-+		return -EINVAL;
-+	}
-+	return 0;
-+}
-+
- static int coda_s_ctrl(struct v4l2_ctrl *ctrl)
- {
- 	const char * const *val_names = v4l2_ctrl_get_menu(ctrl->id);
-@@ -2291,6 +2310,10 @@ static int coda_s_ctrl(struct v4l2_ctrl *ctrl)
- 	return 0;
- }
- 
-+static const struct v4l2_ctrl_ops coda_err_mb_ctrl_ops = {
-+	.g_volatile_ctrl = coda_g_ctrl,
-+};
-+
- static const struct v4l2_ctrl_ops coda_ctrl_ops = {
- 	.s_ctrl = coda_s_ctrl,
- };
-@@ -2462,6 +2485,16 @@ static void coda_decode_ctrls(struct coda_ctx *ctx)
- 		ctx->mpeg4_level_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
- }
- 
-+static const struct v4l2_ctrl_config coda_err_mb_ctrl_config = {
-+	.ops	= &coda_err_mb_ctrl_ops,
-+	.id	= V4L2_CID_CODA_ERR_MB,
-+	.name	= "Error macroblocks count",
-+	.type	= V4L2_CTRL_TYPE_INTEGER,
-+	.min	= 0,
-+	.max	= 0xffffffff,
-+	.step	= 1,
-+};
-+
- static int coda_ctrls_setup(struct coda_ctx *ctx)
- {
- 	v4l2_ctrl_handler_init(&ctx->ctrls, 2);
-@@ -2484,6 +2517,14 @@ static int coda_ctrls_setup(struct coda_ctx *ctx)
- 				  1, 1, 1, 1);
- 		if (ctx->cvd->src_formats[0] == V4L2_PIX_FMT_H264)
- 			coda_decode_ctrls(ctx);
-+
-+		ctx->err_mb_ctrl = v4l2_ctrl_new_custom(&ctx->ctrls,
-+						&coda_err_mb_ctrl_config,
-+						NULL);
-+		if (ctx->err_mb_ctrl)
-+			ctx->err_mb_ctrl->flags |=
-+				V4L2_CTRL_FLAG_READ_ONLY |
-+				V4L2_CTRL_FLAG_VOLATILE;
- 	}
- 
- 	if (ctx->ctrls.error) {
-@@ -3202,6 +3243,7 @@ static int coda_probe(struct platform_device *pdev)
- 	if (ret)
- 		return ret;
- 
-+	ratelimit_default_init(&dev->err_mb_rs);
- 	mutex_init(&dev->dev_mutex);
- 	mutex_init(&dev->coda_mutex);
- 	ida_init(&dev->ida);
-diff --git a/drivers/media/platform/coda/coda.h b/drivers/media/platform/coda/coda.h
-index e53f7a65d532..517c47e6e1b3 100644
---- a/drivers/media/platform/coda/coda.h
-+++ b/drivers/media/platform/coda/coda.h
-@@ -17,6 +17,7 @@
- #include <linux/mutex.h>
- #include <linux/kfifo.h>
- #include <linux/videodev2.h>
-+#include <linux/ratelimit.h>
- 
- #include <media/v4l2-ctrls.h>
- #include <media/v4l2-device.h>
-@@ -92,6 +93,7 @@ struct coda_dev {
- 	struct v4l2_m2m_dev	*m2m_dev;
- 	struct ida		ida;
- 	struct dentry		*debugfs_root;
-+	struct ratelimit_state	err_mb_rs;
- };
- 
- struct coda_codec {
-@@ -242,6 +244,7 @@ struct coda_ctx {
- 	struct v4l2_ctrl		*mpeg2_level_ctrl;
- 	struct v4l2_ctrl		*mpeg4_profile_ctrl;
- 	struct v4l2_ctrl		*mpeg4_level_ctrl;
-+	struct v4l2_ctrl		*err_mb_ctrl;
- 	struct v4l2_fh			fh;
- 	int				gopcounter;
- 	int				runcounter;
-@@ -274,6 +277,7 @@ struct coda_ctx {
- 	struct dentry			*debugfs_entry;
- 	bool				use_bit;
- 	bool				use_vdoa;
-+	unsigned int			err_mb;
- 	struct vdoa_ctx			*vdoa;
- 	/*
- 	 * wakeup mutex used to serialize encoder stop command and finish_run,
-diff --git a/include/media/drv-intf/coda.h b/include/media/drv-intf/coda.h
-new file mode 100644
-index 000000000000..1d767bec4c4a
---- /dev/null
-+++ b/include/media/drv-intf/coda.h
-@@ -0,0 +1,13 @@
-+/* SPDX-License-Identifier: GPL-2.0-only */
-+
-+#ifndef VIDEO_CODA_INTF_H
-+#define VIDEO_CODA_INTF_H
-+
-+#include <linux/types.h>
-+#include <linux/videodev2.h>
-+
-+enum coda_ctrl_id {
-+	V4L2_CID_CODA_ERR_MB = (V4L2_CID_USER_CODA_BASE + 0),
-+};
-+
-+#endif /* VIDEO_CODA_INTF_H */
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index a184c4939438..b4481d9579e7 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -198,6 +198,10 @@ enum v4l2_colorfx {
-  */
- #define V4L2_CID_USER_ATMEL_ISC_BASE		(V4L2_CID_USER_BASE + 0x10c0)
- 
-+/* The base for the CODA driver controls.
-+ * We reserve 16 controls for this driver. */
-+#define V4L2_CID_USER_CODA_BASE			(V4L2_CID_USER_BASE + 0x10e0)
-+
- /* MPEG-class control IDs */
- /* The MPEG controls are applicable to all codec controls
-  * and the 'MPEG' part of the define is historical */
+ > ...
+
+Best regards
 -- 
-2.27.0
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
 
