@@ -2,120 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 12B5928605C
-	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 15:42:39 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 69B99286076
+	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 15:52:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728460AbgJGNmg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 09:42:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52582 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728177AbgJGNmg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 09:42:36 -0400
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 72024C061755
-        for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 06:42:36 -0700 (PDT)
-Received: by mail-qv1-xf44.google.com with SMTP id cv1so1139397qvb.2
-        for <linux-media@vger.kernel.org>; Wed, 07 Oct 2020 06:42:36 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=bm7Nux/xb6SXj9ZR29eQsCeZolUUGIlGA/3pCXOWnqY=;
-        b=oRN0ouP+3GVYiwbPUcOxPk+cVTMSfi6e6xB/kp+ZpPLA+3QEn3FltuYnLYp3IbMyT4
-         XLTyLwYzH3ifqaZnXaU/ZWFyM48epTsFUjsHkhU0idcCtjI43xlPcUDIQI5i97qJQ1Z/
-         hmWU0XhKPvhi2J7X6OI+NOkn5m1fjar7B+5a/IGgH6kfN1aHK788jThYwphFUhnE71h5
-         QymuBRmevVtIbPPsb8/x5Mk95uTwIXwCIbZATz13huzt0//nPIRFE0pqbC5dvTfYdelP
-         5WCCE51W2P5JcKqcJp27ijUk9DzYAmgp+0NhYYdt4Crdv5HPqfR+eWr9bpKdWw5SdwKY
-         eKWQ==
+        id S1728498AbgJGNw1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 09:52:27 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:34752 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728177AbgJGNw1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 09:52:27 -0400
+Received: by mail-ot1-f68.google.com with SMTP id d28so2292210ote.1;
+        Wed, 07 Oct 2020 06:52:27 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=bm7Nux/xb6SXj9ZR29eQsCeZolUUGIlGA/3pCXOWnqY=;
-        b=nECLizvPKOTSIHduj8/uB/YWvPxU+4sepXm0tqCCQcc2NtHZ7/LI2cbeQicmDI8g32
-         ILxRZbEygsV7OdNuzpSgnpNyJzAD9CWnWgzZBWyzq+ZhKds5R6RiUaizEXS16S7cjKJy
-         jrlbXjDzCvV+Q8FvXzRkFRd6LjjwABMjRYOsWtp8k2Mk/tt9LbnHzwXLst39RHAk55m2
-         g/SJQCbU1e0O8trrgR9gWZ7jj6l9D0+2BHOtYYrHxR+oDGaaBGqVNXU58Vz/+El4oM+w
-         Dc1+xzE/DlSFWg5RxCs5hiEIx4EWs67dS/vUdjEZB/ZLRVcnyzT8Osr7ZfvPNlSiQSg3
-         zulw==
-X-Gm-Message-State: AOAM5314glQwvnBMbaNoev456oHWerC62FwT/xnh32zlKSJC1p18VmtY
-        qwvUVgcGqwu2dUUGE0G12nLFPg==
-X-Google-Smtp-Source: ABdhPJwsa8h0AE9bNg84UqMhO3s2DHUlgwedfs5Hzzp4d+UxHAd3U8iQNwNgaZByIN+Ca7e6aXxfNA==
-X-Received: by 2002:a0c:e2c1:: with SMTP id t1mr3148068qvl.35.1602078155592;
-        Wed, 07 Oct 2020 06:42:35 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id b9sm1325969qka.86.2020.10.07.06.42.34
+        bh=gA7DS7kOecIZ6RJAOmqIqCf/U4XbVhrJ3QCudoJwBgE=;
+        b=e069FapJY8qnyMYEqtkMYC2NuoTKSAlFKH79elSlqVyIxhMWnMeXeNaGB34lVPLV6T
+         nO1kvpbL+4+fdVb2FvFLCN0fDfAeeun9zSGzzwr5TJlfhlYQOaW7HSU82Np42I7Etn1J
+         SGlxOSLsUWbC1bT/1F/Ax0CWjRE0lVwVrrlDhpA9R8ixih7zhLncv/hEtt+UVoTTs2DC
+         rQfQn6Yp0DCOz0xbi6zegDisdxZGQkIdraPrtW91sGxEkVSHdxH+i87eMdmxefkOG+PQ
+         VX1szcGGP08Y8MThwkUaagwNLbB2Tzf4S5kITwMBs7j+FMyYySbumFMJ48rX399lkLql
+         IvZQ==
+X-Gm-Message-State: AOAM533V7WomGWLZluvsMtQJmU5qN2VUlyLZZRqyX9JgXLe5T4BDty1d
+        2UZuRq9WCi2/RWlNVss80U3sO3weWbPB
+X-Google-Smtp-Source: ABdhPJzhwrPz1f45PvWAazbi0bvs8lyFSAWAvbQSYXlKPUjkg6gW44SwmWhyYF/b1CpX/o3Aq+gwkw==
+X-Received: by 2002:a9d:6649:: with SMTP id q9mr1981441otm.286.1602078746535;
+        Wed, 07 Oct 2020 06:52:26 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id l25sm1750472otb.4.2020.10.07.06.52.25
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 07 Oct 2020 06:42:34 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kQ9iE-000uYh-A3; Wed, 07 Oct 2020 10:42:34 -0300
-Date:   Wed, 7 Oct 2020 10:42:34 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        Pawel Osciak <pawel@osciak.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Inki Dae <inki.dae@samsung.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, Oded Gabbay <oded.gabbay@gmail.com>
-Subject: Re: [PATCH 2/2] mm/frame-vec: use FOLL_LONGTERM
-Message-ID: <20201007134234.GR5177@ziepe.ca>
-References: <CGME20201003094038eucas1p12aaafe0f52a7747bc2ba95ccb91d1651@eucas1p1.samsung.com>
- <CAKMK7uFP-XQHUPYeRhPx7tjvjARQiF-os9z9jx6WANV6sgSf6g@mail.gmail.com>
- <d2f8e8a7-614d-18c8-9e2a-c604e5e54ce6@samsung.com>
- <CAKMK7uF+a1PSn+e-6F+YhkSXn9vC7etS-z0AFBMCU+Vzb2PwqA@mail.gmail.com>
- <725819e9-4f07-3f04-08f8-b6180406b339@samsung.com>
- <20201007124409.GN5177@ziepe.ca>
- <CAAFQd5D0ahP-3hp_vGEmJ2cyBOMXeW9HX5yKaVPcQTsFwwOE8Q@mail.gmail.com>
- <CAKMK7uG3fds79Yf9VhMstnJ2+UHYUEVdODkoOvtwFC28_+T6RA@mail.gmail.com>
- <20201007130610.GP5177@ziepe.ca>
- <CAAFQd5CH8ytmwfd_AD0e9C92xkW3fRPmqvi9_4UN6pw-y3f-sg@mail.gmail.com>
+        Wed, 07 Oct 2020 06:52:25 -0700 (PDT)
+Received: (nullmailer pid 126506 invoked by uid 1000);
+        Wed, 07 Oct 2020 13:52:25 -0000
+Date:   Wed, 7 Oct 2020 08:52:25 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 026/106] dt-bindings: mipi-ccs: Add bus-type for C-PHY
+ support
+Message-ID: <20201007135225.GA125839@bogus>
+References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
+ <20201007084505.25761-8-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAAFQd5CH8ytmwfd_AD0e9C92xkW3fRPmqvi9_4UN6pw-y3f-sg@mail.gmail.com>
+In-Reply-To: <20201007084505.25761-8-sakari.ailus@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 07, 2020 at 03:34:01PM +0200, Tomasz Figa wrote:
+On Wed, 07 Oct 2020 11:45:03 +0300, Sakari Ailus wrote:
+> The bus-type property is required for C-PHY support. Add it, including
+> values for CCP2 and CSI-2 D-PHY.
+> 
+> Also require the bus-type property. Effectively all new sensors are MIPI
+> D-PHY or C-PHY that cannot be told apart without the bus-type property.
+> 
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  .../devicetree/bindings/media/i2c/mipi-ccs.yaml          | 9 +++++++++
+>  1 file changed, 9 insertions(+)
+> 
 
-> I think the userptr zero-copy hack should be able to go away indeed,
-> given that we now have CMA that allows having carveouts backed by
-> struct pages and having the memory represented as DMA-buf normally.
 
-This also needs to figure out how to get references to CMA pages out
-of a VMA. IIRC Daniel said these are not pinnable?
+My bot found errors running 'make dt_binding_check' on your patch:
 
-> How about the regular userptr use case, though?
+Traceback (most recent call last):
+  File "/usr/local/bin/dt-extract-example", line 45, in <module>
+    binding = yaml.load(open(args.yamlfile, encoding='utf-8').read())
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/main.py", line 343, in load
+    return constructor.get_single_data()
+  File "/usr/local/lib/python3.8/dist-packages/ruamel/yaml/constructor.py", line 111, in get_single_data
+    node = self.composer.get_single_node()
+  File "_ruamel_yaml.pyx", line 706, in _ruamel_yaml.CParser.get_single_node
+  File "_ruamel_yaml.pyx", line 724, in _ruamel_yaml.CParser._compose_document
+  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+  File "_ruamel_yaml.pyx", line 775, in _ruamel_yaml.CParser._compose_node
+  File "_ruamel_yaml.pyx", line 889, in _ruamel_yaml.CParser._compose_mapping_node
+  File "_ruamel_yaml.pyx", line 773, in _ruamel_yaml.CParser._compose_node
+  File "_ruamel_yaml.pyx", line 852, in _ruamel_yaml.CParser._compose_sequence_node
+  File "_ruamel_yaml.pyx", line 904, in _ruamel_yaml.CParser._parse_next_event
+ruamel.yaml.scanner.ScannerError: while scanning a plain scalar
+  in "<unicode string>", line 89, column 13
+found a tab character that violates indentation
+  in "<unicode string>", line 90, column 1
+make[1]: *** [Documentation/devicetree/bindings/Makefile:18: Documentation/devicetree/bindings/media/i2c/mipi-ccs.example.dts] Error 1
+make[1]: *** Deleting file 'Documentation/devicetree/bindings/media/i2c/mipi-ccs.example.dts'
+make[1]: *** Waiting for unfinished jobs....
+./Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml:  while scanning a plain scalar
+  in "<unicode string>", line 89, column 13
+found a tab character that violates indentation
+  in "<unicode string>", line 90, column 1
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml: ignoring, error parsing file
+warning: no schema found in file: ./Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+make: *** [Makefile:1366: dt_binding_check] Error 2
 
-Just call pin_user_pages(), that is the easy case.
 
-> Is your intention to drop get_vaddr_frames() or we could still keep
-> using it and if vec->is_pfns is true:
+See https://patchwork.ozlabs.org/patch/1377845
 
-get_vaddr_frames() is dangerous, I would like it to go away.
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure dt-schema is up to date:
 
-> a) if CONFIG_VIDEO_LEGACY_PFN_USERPTR is set, taint the kernel
-> b) otherwise just undo and fail?
+pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
 
-For the CONFIG_VIDEO_LEGACY_PFN_USERPTR case all the follow_pfn
-related code in get_vaddr_frames() shold move back into media and be
-hidden under this config.
+Please check and re-submit.
 
-Jason
