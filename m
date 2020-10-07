@@ -2,184 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 47960286857
-	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 21:33:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 285D628686A
+	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 21:38:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728291AbgJGTdV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 15:33:21 -0400
-Received: from z5.mailgun.us ([104.130.96.5]:12226 "EHLO z5.mailgun.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728270AbgJGTdV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 7 Oct 2020 15:33:21 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1602099200; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=fRcWPobA2wPZBFDePlMJ/eyWKggBDekfCZ/qz5wXYKc=;
- b=CVvolVrTFyQv7wvB5dF9GnpOEIsIvp4iMJ6SdKq2imKZBfJpzOR3DsW3q8u+wDspLMh95fPJ
- O+ws4he/PkTtKuHrqC4FnVY2rlie7DZc7uVN22NRxPOFyNK1/yOnTZjYFuApUpBVWYj66IYY
- lyHTrScW+2/svbuDJR91eq2tIbA=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n03.prod.us-east-1.postgun.com with SMTP id
- 5f7e17ffbfed2afaa6d13e96 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 07 Oct 2020 19:33:19
- GMT
-Sender: vgarodia=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id D65B5C433F1; Wed,  7 Oct 2020 19:33:18 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: vgarodia)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id B04A9C433CA;
-        Wed,  7 Oct 2020 19:33:13 +0000 (UTC)
+        id S1728186AbgJGTiz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 15:38:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51814 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727958AbgJGTiz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 15:38:55 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4CB98C0613D5
+        for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 12:38:55 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id f10so3337147otb.6
+        for <linux-media@vger.kernel.org>; Wed, 07 Oct 2020 12:38:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=LsElbMcFzN96yl2Sl/ziA41uXCCImdpCgv4KLFFd2jg=;
+        b=JEKQ8k7fkmwZeYrlUlz3G8hZps3ExQiyKA2OwomgnwTekQBi+F0d7wOTziCheDkGKC
+         Sop2Gdre551T94df2v7y1eMTnQHiWe0yUTDZjm+ZgzFXM8oxuELLqSnmw/X2wHY81Oiq
+         NO4qJN6wk378wM9u+QS2uUvJPNszvveexmpPQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=LsElbMcFzN96yl2Sl/ziA41uXCCImdpCgv4KLFFd2jg=;
+        b=aj9JriGpjsFYk6tk4/oYIEewb6QjVg3V9DHukVV46p7IQwBerwTCWAMIrN3bBvlO0h
+         Mkh+Q0APhFA3+adCaXjxisHxObl0xdZGGnDdqR02H70ZGGbqR0QHp+Cvst1aF+kLVbQY
+         UUMBeL9+IG8UlshnA5AGy/oPk1RSsIxRUm5BAbs95+JlRLbt8i83P6+CYvR8SjQzm1MU
+         eq4S7wCNH3ssloyaEGolv24xzCqikFBTMVqkxZbk4DnwSKTBAD+uD8pSl2l3xYLuOuQW
+         TL1S0QGA9zQae6gS/hxPzhrNCJ9367robVLSFGCMTwd33KcLV9soKIG5lzu449LVYMvT
+         gPng==
+X-Gm-Message-State: AOAM530SvwBiJsISmq/mz1/FyHb60n4v3Hvd4E7AYSU2odiADsrLUE5Q
+        BkSjGG5Q1AKk/gjtHkgA8lmyKJlAoPEILsSr07AXvw==
+X-Google-Smtp-Source: ABdhPJzDeUcXRqAYmdWYWg9wJA+fWIrvGfY9TAWXYdC/GYct5kjchJ6t7F5Fbz0UZkTJcUSkSz7+OQDzNSm6p86bNJU=
+X-Received: by 2002:a05:6830:1c3c:: with SMTP id f28mr3008000ote.188.1602099533763;
+ Wed, 07 Oct 2020 12:38:53 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Thu, 08 Oct 2020 01:03:13 +0530
-From:   vgarodia@codeaurora.org
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Dikshita Agarwal <dikshita@codeaurora.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>
-Subject: Re: [PATCH 2/2] venus: venc: fix handlig of S_SELECTION and
- G_SELECTION
-In-Reply-To: <CAAFQd5BdeG44SmT4xhrarsmgnFc-1LCdoFwz=XXYsLdHcMyz-Q@mail.gmail.com>
-References: <1600968674-11559-1-git-send-email-dikshita@codeaurora.org>
- <1600968674-11559-3-git-send-email-dikshita@codeaurora.org>
- <CAAFQd5CTyjagd7grrCkret2WnvoLHQk83fg+1QPK+V1NbhKTvw@mail.gmail.com>
- <b977eb27-9646-1c73-5acb-c3a74460e426@linaro.org>
- <CAAFQd5BdeG44SmT4xhrarsmgnFc-1LCdoFwz=XXYsLdHcMyz-Q@mail.gmail.com>
-Message-ID: <89783dd42e698593d30dc0f37b52cf73@codeaurora.org>
-X-Sender: vgarodia@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
+ <20201007164426.1812530-12-daniel.vetter@ffwll.ch> <20201007173647.GW5177@ziepe.ca>
+ <CAKMK7uE9sbK_tGhJbsnHgD9rOnx-dr=2xmpMw7RvvvpPLnjVVA@mail.gmail.com> <20201007190023.GA5177@ziepe.ca>
+In-Reply-To: <20201007190023.GA5177@ziepe.ca>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Wed, 7 Oct 2020 21:38:42 +0200
+Message-ID: <CAKMK7uHNV7di+J10_JyLY6ctdsAGNnGhF7qrFzRCWFnXsQSEwQ@mail.gmail.com>
+Subject: Re: [PATCH 11/13] mm: add unsafe_follow_pfn
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, linux-s390@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+On Wed, Oct 7, 2020 at 9:00 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Wed, Oct 07, 2020 at 08:10:34PM +0200, Daniel Vetter wrote:
+> > On Wed, Oct 7, 2020 at 7:36 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > >
+> > > On Wed, Oct 07, 2020 at 06:44:24PM +0200, Daniel Vetter wrote:
+> > > > Way back it was a reasonable assumptions that iomem mappings never
+> > > > change the pfn range they point at. But this has changed:
+> > > >
+> > > > - gpu drivers dynamically manage their memory nowadays, invalidatin=
+g
+> > > > ptes with unmap_mapping_range when buffers get moved
+> > > >
+> > > > - contiguous dma allocations have moved from dedicated carvetouts t=
+o
+> > > > cma regions. This means if we miss the unmap the pfn might contain
+> > > > pagecache or anon memory (well anything allocated with GFP_MOVEABLE=
+)
+> > > >
+> > > > - even /dev/mem now invalidates mappings when the kernel requests t=
+hat
+> > > > iomem region when CONFIG_IO_STRICT_DEVMEM is set, see 3234ac664a87
+> > > > ("/dev/mem: Revoke mappings when a driver claims the region")
+> > > >
+> > > > Accessing pfns obtained from ptes without holding all the locks is
+> > > > therefore no longer a good idea.
+> > > >
+> > > > Unfortunately there's some users where this is not fixable (like v4=
+l
+> > > > userptr of iomem mappings) or involves a pile of work (vfio type1
+> > > > iommu). For now annotate these as unsafe and splat appropriately.
+> > > >
+> > > > This patch adds an unsafe_follow_pfn, which later patches will then
+> > > > roll out to all appropriate places.
+> > > >
+> > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > > > Cc: Kees Cook <keescook@chromium.org>
+> > > > Cc: Dan Williams <dan.j.williams@intel.com>
+> > > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > > Cc: John Hubbard <jhubbard@nvidia.com>
+> > > > Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
+> > > > Cc: Jan Kara <jack@suse.cz>
+> > > > Cc: Dan Williams <dan.j.williams@intel.com>
+> > > > Cc: linux-mm@kvack.org
+> > > > Cc: linux-arm-kernel@lists.infradead.org
+> > > > Cc: linux-samsung-soc@vger.kernel.org
+> > > > Cc: linux-media@vger.kernel.org
+> > > > Cc: kvm@vger.kernel.org
+> > > >  include/linux/mm.h |  2 ++
+> > > >  mm/memory.c        | 32 +++++++++++++++++++++++++++++++-
+> > > >  mm/nommu.c         | 17 +++++++++++++++++
+> > > >  security/Kconfig   | 13 +++++++++++++
+> > > >  4 files changed, 63 insertions(+), 1 deletion(-)
+> > >
+> > > Makes sense to me.
+> > >
+> > > I wonder if we could change the original follow_pfn to require the
+> > > ptep and then lockdep_assert_held() it against the page table lock?
+> >
+> > The safe variant with the pagetable lock is follow_pte_pmd. The only
+> > way to make follow_pfn safe is if you have an mmu notifier and
+> > corresponding retry logic. That is not covered by lockdep (it would
+> > splat if we annotate the retry side), so I'm not sure how you'd check
+> > for that?
+>
+> Right OK.
+>
+> > Checking for ptep lock doesn't work here, since the one leftover safe
+> > user of this (kvm) doesn't need that at all, because it has the mmu
+> > notifier.
+>
+> Ah, so a better name and/or function kdoc for follow_pfn is probably a
+> good iead in this patch as well.
 
-On 2020-10-01 20:47, Tomasz Figa wrote:
-> On Thu, Oct 1, 2020 at 3:32 AM Stanimir Varbanov
-> <stanimir.varbanov@linaro.org> wrote:
->> 
->> Hi Tomasz,
->> 
->> On 9/25/20 11:55 PM, Tomasz Figa wrote:
->> > Hi Dikshita, Stanimir,
->> >
->> > On Thu, Sep 24, 2020 at 7:31 PM Dikshita Agarwal
->> > <dikshita@codeaurora.org> wrote:
->> >>
->> >> From: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> >>
->> >> - return correct width and height for G_SELECTION
->> >> - if requested rectangle wxh doesn't match with capture port wxh
->> >>   adjust the rectangle to supported wxh.
->> >>
->> >> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
->> >> ---
->> >>  drivers/media/platform/qcom/venus/venc.c | 20 ++++++++++++--------
->> >>  1 file changed, 12 insertions(+), 8 deletions(-)
->> >>
->> >> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
->> >> index 7d2aaa8..a2cc12d 100644
->> >> --- a/drivers/media/platform/qcom/venus/venc.c
->> >> +++ b/drivers/media/platform/qcom/venus/venc.c
->> >> @@ -463,13 +463,13 @@ static int venc_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
->> >>         switch (s->target) {
->> >>         case V4L2_SEL_TGT_CROP_DEFAULT:
->> >>         case V4L2_SEL_TGT_CROP_BOUNDS:
->> >> -               s->r.width = inst->width;
->> >> -               s->r.height = inst->height;
->> >> -               break;
->> >> -       case V4L2_SEL_TGT_CROP:
->> >>                 s->r.width = inst->out_width;
->> >>                 s->r.height = inst->out_height;
->> >>                 break;
->> >> +       case V4L2_SEL_TGT_CROP:
->> >> +               s->r.width = inst->width;
->> >> +               s->r.height = inst->height;
->> >> +               break;
->> >>         default:
->> >>                 return -EINVAL;
->> >>         }inter
->> >> @@ -490,10 +490,14 @@ static int venc_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
->> >>
->> >>         switch (s->target) {
->> >>         case V4L2_SEL_TGT_CROP:
->> >> -               if (s->r.width != inst->out_width ||
->> >> -                   s->r.height != inst->out_height ||
->> >> -                   s->r.top != 0 || s->r.left != 0)
->> >> -                       return -EINVAL;
->> >> +               if (s->r.width != inst->width ||
->> >> +                   s->r.height != inst->height ||
->> >> +                   s->r.top != 0 || s->r.left != 0) {
->> >> +                       s->r.top = 0;
->> >> +                       s->r.left = 0;
->> >> +                       s->r.width = inst->width;
->> >> +                       s->r.height = inst->height;
->> >
->> > What's the point of exposing the selection API if no selection can
->> > actually be done?
->> 
->> If someone can guarantee that dropping of s_selection will not break
->> userspace applications I'm fine with removing it.
-> 
-> Indeed the specification could be made more clear about this. The
-> visible rectangle configuration is described as optional, so I'd
-> consider the capability to be optional as well.
-> 
-> Of course it doesn't change the fact that something that is optional
-> in the API may be mandatory for some specific integrations, like
-> Chrome OS or Android.
-> 
->> 
->> I implemented g/s_selection with the idea to add crop functionality
->> later because with current firmware interface it needs more work.
-> 
-> I suggested one thing internally, but not sure if it was understood 
-> correctly:
-> 
-> Most of the encoders only support partial cropping, with the rectangle
-> limited to top = 0 and left = 0, in other words, only setting the
-> visible width and height. This can be easily implemented on most of
-> the hardware, even those that don't have dedicated cropping
-> capability, by configuring the hardware as follows:
-> 
-> stride = CAPTURE format width (or bytesperline)
-> width = CROP width
-> height = CROP height
+I did change that already to mention that you need an mmu notifier,
+and that follow_pte_pmd respectively unsafe_follow_pfn are the
+alternatives. Do you want more or something else here?
 
-Assuming the bitstream height and width would be configured with capture 
-plane
-setting (s_fmt), configuring the crop as height/width would indicate to 
-venus
-hardware as scaling. To distinguish scaling with crop, firmware needs to 
-be
-configured separately indicating crop rectangle.
+Note that I left the kerneldoc for the nommu.c case unchanged, since
+without an mmu all bets are off anyway.
 
-> I believe Android requires the hardware to support stride and AFAIK
-> this hardware is also commonly used on Android, so perhaps it's
-> possible to achieve the above without any firmware changes?
+> > So I think we're as good as it gets, since I really have no idea how
+> > to make sure follow_pfn callers do have an mmu notifier registered.
+>
+> Yah, can't be done. Most mmu notifier users should be using
+> hmm_range_fault anyhow, kvm is really very special here.
 
-Yes, the hardware is used and also supported in android. The interface 
-to configure
-crop rectangle to firmware is via extradata. This extradata info is 
-passed from v4l2
-clients via a separate plane in v4l2 buffer. The extradata payload is 
-passed to
-firmware as is and the firmware parses it to know if crop, roi, etc.
+We could pass an mmu notifier to follow_pfn and check that it has a
+registration for vma->vm_mm, but that feels like overkill when kvm is
+the only legit user for this.
 
-> Best regards,
-> Tomasz
+> > I've followed the few other CONFIG_STRICT_FOO I've seen, which are all
+> > explicit enables and default to "do not break uapi, damn the
+> > (security) bugs". Which is I think how this should be done. It is in
+> > the security section though, so hopefully competent distros will
+> > enable this all.
+>
+> I thought the strict ones were more general and less clear security
+> worries, not bugs like this.
+>
+> This is "allow a user triggerable use after free bug to exist in the
+> kernel"
+
+Since at most you get at GFP_MOVEABLE stuff I'm not sure you can use
+this to pull the kernel over the table. Maybe best way is if you get a
+gpu pagetable somehow into your pfn and then use that to access
+abitrary stuff, but there's still an iommu. I think leveraging this is
+going to be very tricky, and pretty much has to be device or driver
+specific somehow.
+-Daniel
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
