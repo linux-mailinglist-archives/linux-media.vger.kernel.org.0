@@ -2,115 +2,165 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3EF30286893
-	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 21:47:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC70728689E
+	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 21:53:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728509AbgJGTrz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 15:47:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53206 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727655AbgJGTrv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 15:47:51 -0400
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32250C0613D4
-        for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 12:47:50 -0700 (PDT)
-Received: by mail-oi1-x241.google.com with SMTP id u126so3690236oif.13
-        for <linux-media@vger.kernel.org>; Wed, 07 Oct 2020 12:47:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=orhfCBuFEmd+KVAmHbcaixIkjSSik8aIdF2Y5AlSlTI=;
-        b=HqHL85aeU7x4vZRr8aFR2YVRrwspH04y26fUbXHdW1zHn9JiRP4t6c+95tolblKSFE
-         g6rmEte7OQz0vHT+Gxy0F+wmZQx2vj40nuDXq6VEJEgecoLqF0as8JHJF/ZRBUJmFjHz
-         fkLaTYyh9AGF6bz08/AxSynt04XwHMSoqg8zg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=orhfCBuFEmd+KVAmHbcaixIkjSSik8aIdF2Y5AlSlTI=;
-        b=a6cQmjRpqkPQhsHq2dQUIjfhE/X8b5FmFfV13jRKy7jkKHOb8m3fdKEJldqclzcjUC
-         gc6rDDNnIrUYqTd9/iSJKoJlc1VzAPj7q3+Ys35MGfqj6CKtoSSLSx0xRJ715bxC/WIQ
-         Vm9i4cxDTohDR2htqFDtE75FLfTG4G+ToM0sHQBRFYLqsDDWmMtXnJFjsKBKrPIP4Auh
-         S0GV43FYKs9u3zF8M7EbUpf/haJkYPWD3w0Co3h9MC3BP4Lqg7t+2dN2cvOMYGDrAGyF
-         3bwnBoVvBoRiYc7g7cPaI2e3t5Z+b0MUg6BAXuDGkXlPeekDGOVjLag100KMUobuW7HN
-         yREA==
-X-Gm-Message-State: AOAM5300IWVVIr+yvbLSyI2iUGJ0vsP7DHG4TH32yeUbgiW2biVgOa1a
-        OyGn+2LAC3iGH/jgyytrQ7YTfT8L1tnw/TddND7U7w==
-X-Google-Smtp-Source: ABdhPJxToTx3ndOy1U0dVrBcYAKX9wm3X1TZHa+mGhrb1Py/rD32WJ5mouUCMFv7wj7Vm8hLjOzC1v6C7W/A3Mayy3I=
-X-Received: by 2002:aca:6083:: with SMTP id u125mr2978051oib.14.1602100069344;
- Wed, 07 Oct 2020 12:47:49 -0700 (PDT)
+        id S1728476AbgJGTxS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 15:53:18 -0400
+Received: from m42-4.mailgun.net ([69.72.42.4]:42152 "EHLO m42-4.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727827AbgJGTxS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 7 Oct 2020 15:53:18 -0400
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1602100397; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=y/Hs4nN28QIPh7k57IFR93DTFtO3KcbPd/P4OgQym4s=;
+ b=MiV4aB37vAEFnuWmA+BtxenghxTOj/ERzjU6qnvuVj+8SJf01DW+iR+qNQXOnJSHP1FIVJLs
+ AOcPLMOxbtZA4D/9QOfwAwEAmyC3oSV4GRO0msGuveFJLkAukIIupeEbwNe+lGYTmXEnQjCr
+ 0Juf3QKLIq2A+2jXb65wzIiXl1E=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 5f7e1cadd63768e57be386d1 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 07 Oct 2020 19:53:17
+ GMT
+Sender: vgarodia=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 322DFC433F1; Wed,  7 Oct 2020 19:53:16 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: vgarodia)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 73E20C433C8;
+        Wed,  7 Oct 2020 19:53:15 +0000 (UTC)
 MIME-Version: 1.0
-References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
- <20201007164426.1812530-11-daniel.vetter@ffwll.ch> <CAPcyv4hBL68A7CZa+YnooufDH2tevoxrx32DTJMQ6OHRnec7QQ@mail.gmail.com>
-In-Reply-To: <CAPcyv4hBL68A7CZa+YnooufDH2tevoxrx32DTJMQ6OHRnec7QQ@mail.gmail.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed, 7 Oct 2020 21:47:37 +0200
-Message-ID: <CAKMK7uFoxiPdjO-yhd-mKqumnTpjcENEReb1sOYhOwRRCL0wpQ@mail.gmail.com>
-Subject: Re: [PATCH 10/13] PCI: revoke mappings like devmem
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
-        Linux PCI <linux-pci@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Thu, 08 Oct 2020 01:23:15 +0530
+From:   vgarodia@codeaurora.org
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Alexandre Courbot <acourbot@chromium.org>,
+        Mansur Alisha Shaik <mansur@codeaurora.org>
+Subject: Re: [PATCH 2/3] venus: vdec: Make decoder return LAST flag for
+ sufficient event
+In-Reply-To: <20200928164431.21884-3-stanimir.varbanov@linaro.org>
+References: <20200928164431.21884-1-stanimir.varbanov@linaro.org>
+ <20200928164431.21884-3-stanimir.varbanov@linaro.org>
+Message-ID: <5a823acc60d4c5cace1d2562adc548ff@codeaurora.org>
+X-Sender: vgarodia@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 7, 2020 at 9:33 PM Dan Williams <dan.j.williams@intel.com> wrote:
->
-> On Wed, Oct 7, 2020 at 11:11 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> >
-> > Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims
-> > the region") /dev/kmem zaps ptes when the kernel requests exclusive
-> > acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, this is
-> > the default for all driver uses.
-> >
-> > Except there's two more ways to access pci bars: sysfs and proc mmap
-> > support. Let's plug that hole.
->
-> Ooh, yes, lets.
->
-> > For revoke_devmem() to work we need to link our vma into the same
-> > address_space, with consistent vma->vm_pgoff. ->pgoff is already
-> > adjusted, because that's how (io_)remap_pfn_range works, but for the
-> > mapping we need to adjust vma->vm_file->f_mapping. Usually that's done
-> > at ->open time, but that's a bit tricky here with all the entry points
-> > and arch code. So instead create a fake file and adjust vma->vm_file.
->
-> I don't think you want to share the devmem inode for this, this should
-> be based off the sysfs inode which I believe there is already only one
-> instance per resource. In contrast /dev/mem can have multiple inodes
-> because anyone can just mknod a new character device file, the same
-> problem does not exist for sysfs.
+Hi Stan,
 
-But then I need to find the right one, plus I also need to find the
-right one for the procfs side. That gets messy, and I already have no
-idea how to really test this. Shared address_space is the same trick
-we're using in drm (where we have multiple things all pointing to the
-same underlying resources, through different files), and it gets the
-job done. So that's why I figured the shared address_space is the
-cleaner solution since then unmap_mapping_range takes care of
-iterating over all vma for us. I guess I could reimplement that logic
-with our own locking and everything in revoke_devmem, but feels a bit
-silly. But it would also solve the problem of having mutliple
-different mknod of /dev/kmem with different address_space behind them.
-Also because of how remap_pfn_range works, all these vma do use the
-same pgoff already anyway.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+On 2020-09-28 22:14, Stanimir Varbanov wrote:
+> This makes the decoder to behaives equally for sufficient and
+behaves
+
+> insufficient events. After this change the LAST buffer flag will be set
+> when the new resolution (in dynamic-resolution-change state) is smaller
+> then the old bitstream resolution.
+> 
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  drivers/media/platform/qcom/venus/vdec.c | 41 ++++++++++++++++--------
+>  1 file changed, 27 insertions(+), 14 deletions(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c
+> b/drivers/media/platform/qcom/venus/vdec.c
+> index c11bdf3ca21b..c006401255dc 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -634,6 +634,7 @@ static int vdec_output_conf(struct venus_inst 
+> *inst)
+>  {
+>  	struct venus_core *core = inst->core;
+>  	struct hfi_enable en = { .enable = 1 };
+> +	struct hfi_buffer_requirements bufreq;
+>  	u32 width = inst->out_width;
+>  	u32 height = inst->out_height;
+>  	u32 out_fmt, out2_fmt;
+> @@ -709,6 +710,22 @@ static int vdec_output_conf(struct venus_inst 
+> *inst)
+>  	}
+> 
+>  	if (IS_V3(core) || IS_V4(core)) {
+> +		ret = venus_helper_get_bufreq(inst, HFI_BUFFER_OUTPUT, &bufreq);
+> +		if (ret)
+> +			return ret;
+> +
+> +		if (bufreq.size > inst->output_buf_size)
+> +			return -EINVAL;
+> +
+> +		if (inst->dpb_fmt) {
+> +			ret = venus_helper_get_bufreq(inst, HFI_BUFFER_OUTPUT2, &bufreq);
+> +			if (ret)
+> +				return ret;
+> +
+> +			if (bufreq.size > inst->output2_buf_size)
+> +				return -EINVAL;
+> +		}
+> +
+>  		if (inst->output2_buf_size) {
+>  			ret = venus_helper_set_bufsize(inst,
+>  						       inst->output2_buf_size,
+> @@ -1327,19 +1344,15 @@ static void vdec_event_change(struct venus_inst 
+> *inst,
+>  	dev_dbg(dev, VDBGM "event %s sufficient resources (%ux%u)\n",
+>  		sufficient ? "" : "not", ev_data->width, ev_data->height);
+> 
+> -	if (sufficient) {
+> -		hfi_session_continue(inst);
+> -	} else {
+> -		switch (inst->codec_state) {
+> -		case VENUS_DEC_STATE_INIT:
+> -			inst->codec_state = VENUS_DEC_STATE_CAPTURE_SETUP;
+> -			break;
+> -		case VENUS_DEC_STATE_DECODING:
+> -			inst->codec_state = VENUS_DEC_STATE_DRC;
+> -			break;
+> -		default:
+> -			break;
+> -		}
+> +	switch (inst->codec_state) {
+> +	case VENUS_DEC_STATE_INIT:
+> +		inst->codec_state = VENUS_DEC_STATE_CAPTURE_SETUP;
+> +		break;
+> +	case VENUS_DEC_STATE_DECODING:
+> +		inst->codec_state = VENUS_DEC_STATE_DRC;
+
+Video firmware would raise reconfig event to driver even for cases like
+interlace detection, color space change in the bitstream. If not with 
+this patch,
+we can optimize by sending reconfig event only for resolution and 
+bitdepth update,
+in a followup patch.
+
+> +		break;
+> +	default:
+> +		break;
+>  	}
+> 
+>  	/*
+> @@ -1348,7 +1361,7 @@ static void vdec_event_change(struct venus_inst 
+> *inst,
+>  	 * itself doesn't mark the last decoder output buffer with HFI EOS 
+> flag.
+>  	 */
+> 
+> -	if (!sufficient && inst->codec_state == VENUS_DEC_STATE_DRC) {
+> +	if (inst->codec_state == VENUS_DEC_STATE_DRC) {
+>  		struct vb2_v4l2_buffer *last;
+>  		int ret;
