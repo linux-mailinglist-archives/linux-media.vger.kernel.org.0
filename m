@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E9F33285AD7
-	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 10:46:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EDC5F285B2B
+	for <lists+linux-media@lfdr.de>; Wed,  7 Oct 2020 10:47:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727979AbgJGIqG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 04:46:06 -0400
-Received: from retiisi.org.uk ([95.216.213.190]:57056 "EHLO
+        id S1728128AbgJGIrN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 04:47:13 -0400
+Received: from retiisi.org.uk ([95.216.213.190]:57058 "EHLO
         hillosipuli.retiisi.eu" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727954AbgJGIqD (ORCPT
+        with ESMTP id S1727953AbgJGIqD (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 04:46:03 -0400
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 59EE2634C89
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 6BF00634C8C
         for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 11:45:17 +0300 (EEST)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
-Subject: [PATCH v2 019/106] ccs: Give all subdevs a function
-Date:   Wed,  7 Oct 2020 11:44:39 +0300
-Message-Id: <20201007084557.25843-19-sakari.ailus@linux.intel.com>
+Subject: [PATCH v2 027/106] ccs: Request for "reset" GPIO
+Date:   Wed,  7 Oct 2020 11:44:40 +0300
+Message-Id: <20201007084557.25843-20-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201007084557.25843-1-sakari.ailus@linux.intel.com>
 References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
@@ -29,54 +29,79 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This removes a warning at driver probe time telling that one or two
-entities have no function set. The function used for both the binner and
-scaler is the scaler.
+The DT bindings documented "reset-gpios" property but the driver never
+made use of it. Instead it used a GPIO called "xshutdown", with apprently
+wrong polarity.
+
+Fix this by requesting "reset" GPIO with the right polarity first, and if
+that fails, then request "xshutdown" GPIO with the old polarity. This way
+it works for new users as expected while if someone, somewhere, depended
+on "xshutdown" GPIO, that continues to work as well.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ccs/ccs-core.c | 14 ++++++++------
- 1 file changed, 8 insertions(+), 6 deletions(-)
+ drivers/media/i2c/ccs/ccs-core.c | 14 ++++++++++++--
+ drivers/media/i2c/ccs/ccs.h      |  1 +
+ 2 files changed, 13 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index 22050d33f0e8..1880ed31845e 100644
+index 1880ed31845e..775037ce361f 100644
 --- a/drivers/media/i2c/ccs/ccs-core.c
 +++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -2685,7 +2685,7 @@ static void ccs_cleanup(struct ccs_sensor *sensor)
+@@ -1295,6 +1295,7 @@ static int ccs_power_on(struct device *dev)
+ 	}
+ 	usleep_range(1000, 1000);
  
- static void ccs_create_subdev(struct ccs_sensor *sensor,
- 			      struct ccs_subdev *ssd, const char *name,
--			      unsigned short num_pads)
-+			      unsigned short num_pads, u32 function)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
++	gpiod_set_value(sensor->reset, 0);
+ 	gpiod_set_value(sensor->xshutdown, 1);
  
-@@ -2696,6 +2696,7 @@ static void ccs_create_subdev(struct ccs_sensor *sensor,
- 		v4l2_subdev_init(&ssd->sd, &ccs_ops);
+ 	sleep = SMIAPP_RESET_DELAY(sensor->hwcfg->ext_clk);
+@@ -1381,6 +1382,7 @@ static int ccs_power_on(struct device *dev)
+ 	return 0;
  
- 	ssd->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	ssd->sd.entity.function = function;
- 	ssd->sensor = sensor;
+ out_cci_addr_fail:
++	gpiod_set_value(sensor->reset, 1);
+ 	gpiod_set_value(sensor->xshutdown, 0);
+ 	clk_disable_unprepare(sensor->ext_clk);
  
- 	ssd->npads = num_pads;
-@@ -3123,11 +3124,12 @@ static int ccs_probe(struct i2c_client *client)
- 	sensor->pll.ext_clk_freq_hz = sensor->hwcfg->ext_clk;
- 	sensor->pll.scale_n = CCS_LIM(sensor, SCALER_N_MIN);
+@@ -1407,6 +1409,7 @@ static int ccs_power_off(struct device *dev)
+ 	if (sensor->hwcfg->i2c_addr_alt)
+ 		ccs_write(sensor, SOFTWARE_RESET, CCS_SOFTWARE_RESET_ON);
  
--	ccs_create_subdev(sensor, sensor->scaler, " scaler", 2);
--	ccs_create_subdev(sensor, sensor->binner, " binner", 2);
--	ccs_create_subdev(sensor, sensor->pixel_array, " pixel_array", 1);
--
--	sensor->pixel_array->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+	ccs_create_subdev(sensor, sensor->scaler, " scaler", 2,
-+			  MEDIA_ENT_F_CAM_SENSOR);
-+	ccs_create_subdev(sensor, sensor->binner, " binner", 2,
-+			  MEDIA_ENT_F_PROC_VIDEO_SCALER);
-+	ccs_create_subdev(sensor, sensor->pixel_array, " pixel_array", 1,
-+			  MEDIA_ENT_F_PROC_VIDEO_SCALER);
++	gpiod_set_value(sensor->reset, 1);
+ 	gpiod_set_value(sensor->xshutdown, 0);
+ 	clk_disable_unprepare(sensor->ext_clk);
+ 	usleep_range(5000, 5000);
+@@ -3008,8 +3011,15 @@ static int ccs_probe(struct i2c_client *client)
+ 		return -EINVAL;
+ 	}
  
- 	rval = ccs_init_controls(sensor);
- 	if (rval < 0)
+-	sensor->xshutdown = devm_gpiod_get_optional(&client->dev, "xshutdown",
+-						    GPIOD_OUT_LOW);
++	sensor->reset = devm_gpiod_get_optional(&client->dev, "reset",
++						GPIOD_OUT_HIGH);
++	if (IS_ERR(sensor->reset))
++		return PTR_ERR(sensor->reset);
++	/* Support old users that may have used "xshutdown" property. */
++	if (!sensor->reset)
++		sensor->xshutdown = devm_gpiod_get_optional(&client->dev,
++							    "xshutdown",
++							    GPIOD_OUT_LOW);
+ 	if (IS_ERR(sensor->xshutdown))
+ 		return PTR_ERR(sensor->xshutdown);
+ 
+diff --git a/drivers/media/i2c/ccs/ccs.h b/drivers/media/i2c/ccs/ccs.h
+index 8933f3d40fa5..bfe39e02f5e9 100644
+--- a/drivers/media/i2c/ccs/ccs.h
++++ b/drivers/media/i2c/ccs/ccs.h
+@@ -219,6 +219,7 @@ struct ccs_sensor {
+ 	struct regulator *vana;
+ 	struct clk *ext_clk;
+ 	struct gpio_desc *xshutdown;
++	struct gpio_desc *reset;
+ 	void *ccs_limits;
+ 	u8 nbinning_subtypes;
+ 	struct ccs_binning_subtype binning_subtypes[CCS_LIM_BINNING_SUB_TYPE_MAX_N + 1];
 -- 
 2.27.0
 
