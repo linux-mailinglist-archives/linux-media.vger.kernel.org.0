@@ -2,130 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A78A2286B33
-	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 00:48:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A6DF0286B72
+	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 01:21:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728930AbgJGWsk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 18:48:40 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:38265 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727353AbgJGWsi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 18:48:38 -0400
-X-Greylist: delayed 500 seconds by postgrey-1.27 at vger.kernel.org; Wed, 07 Oct 2020 18:48:33 EDT
-X-Originating-IP: 90.65.88.165
-Received: from localhost (lfbn-lyo-1-1908-165.w90-65.abo.wanadoo.fr [90.65.88.165])
-        (Authenticated sender: alexandre.belloni@bootlin.com)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id D577D1BF203;
-        Wed,  7 Oct 2020 22:48:27 +0000 (UTC)
-Date:   Thu, 8 Oct 2020 00:48:27 +0200
-From:   Alexandre Belloni <alexandre.belloni@bootlin.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Albert Ou <aou@eecs.berkeley.edu>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Daniel Lezcano <daniel.lezcano@linaro.org>,
-        "David S. Miller" <davem@davemloft.net>, dmaengine@vger.kernel.org,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        dri-devel@lists.freedesktop.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Jason Cooper <jason@lakedaemon.net>,
-        Jens Axboe <axboe@kernel.dk>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Marc Kleine-Budde <mkl@pengutronix.de>,
-        Marc Zyngier <maz@kernel.org>, Mark Brown <broonie@kernel.org>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Palmer Dabbelt <palmer@dabbelt.com>,
-        Paul Walmsley <paul.walmsley@sifive.com>,
-        Pavel Machek <pavel@ucw.cz>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        Richard Weinberger <richard@nod.at>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sebastian Reichel <sre@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Thomas Bogendoerfer <tsbogend@alpha.franken.de>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Viresh Kumar <vireshk@kernel.org>,
-        Vivien Didelot <vivien.didelot@gmail.com>,
-        Wim Van Sebroeck <wim@linux-watchdog.org>,
-        Wolfgang Grandegger <wg@grandegger.com>,
-        Zhang Rui <rui.zhang@intel.com>,
-        linux-arm-kernel@lists.infradead.org, linux-can@vger.kernel.org,
-        linux-clk@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input@vger.kernel.org, linux-leds@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-mips@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-pci@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-pwm@vger.kernel.org, linux-riscv@lists.infradead.org,
-        linux-rtc@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-spi@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-watchdog@vger.kernel.org
-Subject: Re: [PATCH 1/4] dt-bindings: Add missing 'unevaluatedProperties'
-Message-ID: <20201007224827.GK2804081@piout.net>
-References: <20201005183830.486085-1-robh@kernel.org>
- <20201005183830.486085-2-robh@kernel.org>
+        id S1727914AbgJGXVU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 19:21:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57884 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727253AbgJGXVU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 19:21:20 -0400
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0D829C0613D4
+        for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 16:21:20 -0700 (PDT)
+Received: by mail-qt1-x842.google.com with SMTP id t9so2743293qtp.9
+        for <linux-media@vger.kernel.org>; Wed, 07 Oct 2020 16:21:19 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=wKVq0v36o1OseOTfSiRENpilMLoRQr0K5VZe4J2K3Kc=;
+        b=eonGoy0XmwUCVUGspJnsew+Xt7VaOYXBvCVLNfKebMnycQvmW3AnbQjz9lSZk+oJTt
+         dhvuV/v/cnVlxITNMU9OjuXLMypWJUZ21uT0gYOxQ8d5Ns6agyhkSgI250TcvBKPkqcq
+         eDXVSqeP187Kj7hX9ZW21soQCHyKtnnpRD86xF4iV4vIsAEXErr5M7nS61S+a1iD/LIb
+         LoT/Oje5p+16A0FP2LPQqK7+AMDx5byuewUWnk+LOvBmW6M8aHFUXTPUZju1RP8UOXu8
+         sLtKGSyXFXzBShaXLdlI6xM43DeuV6UnkYTmZJGaAH/xG5nThTf8qdvy8p02SSq+yIph
+         +DKQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=wKVq0v36o1OseOTfSiRENpilMLoRQr0K5VZe4J2K3Kc=;
+        b=phQvdQU9wzaYgROHsTuFxGVv6nKwZjx/iTaoIintOWeKwhmlzA59TiTgHe/GXFninG
+         BhBkDFv1Y81tqK4+sCRtBn+6r4eKXsV1xWRqZhku+wP0PboE5tcBm0eVd/dQRzgTEFIl
+         WqLAVilHm1/wUj03Xahm3OOFCt7mag1t15DDH7td075IsDzXlj9Vyzeqhgzx688E2r9J
+         0TrEWhbX4PYkcm7yu/9gg1eVjlwNIik9uG81ff/IJtoxmcFtlRl4IqPSlz+sTVgKw813
+         +zmj07qZ38RkDea5dxxR7KN9FsdXpCu6sEo/+mY0ORXgLlPEivsgL+CNh09CB/v9VtaE
+         Zukw==
+X-Gm-Message-State: AOAM5315oC50gW/Vp0IWkANbHMZ+gfMAUDDqPigGut8hcvz2z41cSjfH
+        zsxKmnynk8jPZ0pkVG8WotoizA==
+X-Google-Smtp-Source: ABdhPJyQZRi/LW8n5yhULmf0Fru5TIwyRzoLwr2XtdSWRnkxdnVhvqGusX2Dk2zCuTvGMQkdks5bXg==
+X-Received: by 2002:ac8:5bd0:: with SMTP id b16mr5601331qtb.296.1602112879011;
+        Wed, 07 Oct 2020 16:21:19 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id z26sm1881713qki.40.2020.10.07.16.21.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 07 Oct 2020 16:21:18 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1kQIkH-001IkZ-3z; Wed, 07 Oct 2020 20:21:17 -0300
+Date:   Wed, 7 Oct 2020 20:21:17 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, linux-s390@vger.kernel.org,
+        Dan Williams <dan.j.williams@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Rik van Riel <riel@redhat.com>,
+        Benjamin Herrensmidt <benh@kernel.crashing.org>,
+        Dave Airlie <airlied@linux.ie>,
+        Hugh Dickins <hugh@veritas.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
+        Daniel Vetter <daniel.vetter@intel.com>
+Subject: Re: [PATCH 07/13] mm: close race in generic_access_phys
+Message-ID: <20201007232117.GB5177@ziepe.ca>
+References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
+ <20201007164426.1812530-8-daniel.vetter@ffwll.ch>
+ <20201007172746.GU5177@ziepe.ca>
+ <CAKMK7uH3P-6zs5MVceFD7872owqtcktqsTaQAOKNyaBg4_w=aA@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201005183830.486085-2-robh@kernel.org>
+In-Reply-To: <CAKMK7uH3P-6zs5MVceFD7872owqtcktqsTaQAOKNyaBg4_w=aA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Wed, Oct 07, 2020 at 08:01:42PM +0200, Daniel Vetter wrote:
+> I think it'd fix the bug, until someone wires ->access up for
+> drivers/gpu, or the next subsystem. This is also just for ptrace, so
+> we really don't care when we stall the vm badly and other silly
+> things. So I figured the somewhat ugly, but full generic solution is
+> the better one, so that people who want to be able to ptrace
+> read/write their iomem mmaps can just sprinkle this wherever they feel
+> like.
+> 
+> But yeah if we go with most minimal fix, i.e. only trying to fix the
+> current users, then your thing should work and is simpler. But it
+> leaves the door open for future problems.
 
-On 05/10/2020 13:38:27-0500, Rob Herring wrote:
-> diff --git a/Documentation/devicetree/bindings/rtc/ingenic,rtc.yaml b/Documentation/devicetree/bindings/rtc/ingenic,rtc.yaml
-> index bc2c7e53a28e..60e93e86ad9d 100644
-> --- a/Documentation/devicetree/bindings/rtc/ingenic,rtc.yaml
-> +++ b/Documentation/devicetree/bindings/rtc/ingenic,rtc.yaml
-> @@ -68,6 +68,8 @@ required:
->    - clocks
->    - clock-names
->  
-> +unevaluatedProperties: false
+The only other idea I had was to fully make the 'vma of __iomem
+memory' some generic utility, completely take over the vm_ops.
 
-This one could be additionalProperties: false after adding start-year to
-the properties
+We did something like this in RDMA, what I found was even just
+implementing mmap() using the kernel helpers turned out to be pretty
+tricky, many drivers did it wrong in small ways.
 
-> +
->  examples:
->    - |
->      #include <dt-bindings/clock/jz4740-cgu.h>
-> diff --git a/Documentation/devicetree/bindings/rtc/s3c-rtc.yaml b/Documentation/devicetree/bindings/rtc/s3c-rtc.yaml
-> index 76bbf8b7555b..d51b236939bf 100644
-> --- a/Documentation/devicetree/bindings/rtc/s3c-rtc.yaml
-> +++ b/Documentation/devicetree/bindings/rtc/s3c-rtc.yaml
-> @@ -74,6 +74,8 @@ allOf:
->            items:
->              - const: rtc
->  
-> +unevaluatedProperties: false
-
-This one can be simply additionalProperties: false
-
-
--- 
-Alexandre Belloni, Bootlin
-Embedded Linux and Kernel engineering
-https://bootlin.com
+Jason
