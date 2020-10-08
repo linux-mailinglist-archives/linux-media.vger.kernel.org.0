@@ -2,55 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 912D4286F78
-	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 09:31:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41121286FD7
+	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 09:50:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727155AbgJHHbu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Oct 2020 03:31:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48404 "EHLO
+        id S1728108AbgJHHuI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Oct 2020 03:50:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725849AbgJHHbu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 03:31:50 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C66F0C0613D4
-        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 00:31:49 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id n2so5396289oij.1
-        for <linux-media@vger.kernel.org>; Thu, 08 Oct 2020 00:31:49 -0700 (PDT)
+        with ESMTP id S1728181AbgJHHuI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 03:50:08 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 789B0C0613D6
+        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 00:50:07 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id l16so4842821eds.3
+        for <linux-media@vger.kernel.org>; Thu, 08 Oct 2020 00:50:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
+        d=intel-com.20150623.gappssmtp.com; s=20150623;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ogkw1NmOSWleETzvxYwVZZIizSINMS0qQkiw0aowwRQ=;
-        b=dAa4UrodoeKqvvGBic2n/ikfUtGXIrA84JDvhHoeTG0wQyvzwM6zRb58ASAp90bOAP
-         Z0Gq9W2/rAIbo9tt/Rdw3PX+Bn1vOefBbbpajIIFIeMsYr0JsELM1frkf/Q6RzY+4q6w
-         KwDjwJvmHbSV+DyPoGD+FRH2axWgRzr70NSco=
+        bh=grdLjPbma4xWpmrd4kIhxHd3k84viXKhZjuHjyaNtUE=;
+        b=OpyjCwq7o157Xb/2yloDuUEV/w+tdNn7bUkqj6LGjYZdXbdkHQlqz4Xs0Zg4Edt33w
+         0nqk5otSDvrBFIDqX3NWTcYGdyooPoOy++oKoeLN7+9FcA3Y2j9gM2FY12udB5BbTLzF
+         o4Fgw3h+eUO3zgDHQ6b7I7KPL5f+fMHf9I0lTVCozAWjOJH1Lu9JW2FcOGR5M99QQ9cG
+         2z2FugDTtkLvyx7A5kfM8jqHqXj/RdTCprPD7XpZha+SBgeMVVhbtPHFs1tz0HiaUe6C
+         BI4I++Hc0Q/c9P8rPs6vNR5tBGxtF7FZ8cn1qblN1zBUwaF08Qp+hX6dqbT1VyZULWij
+         t42Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ogkw1NmOSWleETzvxYwVZZIizSINMS0qQkiw0aowwRQ=;
-        b=TDdUlpvmuCwjXNtQGNYSBmHe+NQeHRy875Jro4oJ55+i8dtStD2MaE4ziS6+m0sFMw
-         MMvbyKGemikg7Zz90xGJ1JpcdLi2+2d0cEXsGGS21p5kOp1ctbC44V+o2mmsIDsGxI3Z
-         4f95zTHOAXT5RlYh/EOKGbIhBDiL95HtTtx/dNkj4vMOSSTHfX8EPo+VO7LPwLEjkbCS
-         irdwK8bUaM8YZcQStyHxD8q6fALvnsFu9GjYjMsGbVilrVvvWqHDIF5vn3fY3UH5hq6g
-         NemwzkN/CfAFRQSS2k4AIWVQoZf7EqmugmCOIall5jV+M2Q8T/eYcGLRnf4tYkwQzfen
-         11Xw==
-X-Gm-Message-State: AOAM533hyxygLNqkpzTifignA8gqF/U9snUSkYJHJiTsj4B44SwMpe+b
-        iUScPhQD6RCp8HOh45CY1LOfwMSzbi0C/bPuOk0bTA==
-X-Google-Smtp-Source: ABdhPJx491RwkFJI9puzs4morldhkHhy8TQN885mw0wtSqvJNbvAlJbcViFwT+IWX3hheU/oD67HmER0Hab3kMQkGCo=
-X-Received: by 2002:aca:6083:: with SMTP id u125mr4379406oib.14.1602142309051;
- Thu, 08 Oct 2020 00:31:49 -0700 (PDT)
+        bh=grdLjPbma4xWpmrd4kIhxHd3k84viXKhZjuHjyaNtUE=;
+        b=R2I2bBWGCCn4VYjZx3MOLoD+yo4zx2m7qXbouEZKblwcMmFtxnpAtcyc8yzv2XXbRh
+         aV1DNgSy7sXL2yaD5amV4LDwHlwR/QZLjdm7an3xPF7o8vFBWRFkBVX9hru3Z+h+aNNF
+         rPSe9s/gOH7vR1BIfH78wWRYfTY1KeE7B74Iuv4sCj4+bDLJ18JvaIcT8yPdcrAesA8h
+         n6j3C6xDgj3BrQ4MJ9ApaxaSd4BJ4KGzripqgaWWDY9mgIzjSA6vf4NAbh/ixamO0OrP
+         lFEsiKpsJFHdOpmprVwHJ40DQ8HVWhp2jFOdGO4ioNz9iyFi50ltvA3dy7XQjuJ9eEd+
+         k4TA==
+X-Gm-Message-State: AOAM5324zalNmuKi/hqcJ0aoHDLXHVYMneuoOd35+WY0bV39FdMVJ++W
+        INs62K18a/eDw0MolvzWrcsyDUr+SkqzDtpxSihx+A==
+X-Google-Smtp-Source: ABdhPJysuJa5L2PxuxTzTLWSnwn1TbnDhi3QjUi/pDReBeAUTyUIbYuBaOL8Vyczi/qAthRLw4c82m5S1UkBlboYvQw=
+X-Received: by 2002:aa7:cd1a:: with SMTP id b26mr960294edw.97.1602143405978;
+ Thu, 08 Oct 2020 00:50:05 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
  <20201007164426.1812530-11-daniel.vetter@ffwll.ch> <CAPcyv4hBL68A7CZa+YnooufDH2tevoxrx32DTJMQ6OHRnec7QQ@mail.gmail.com>
  <20201007232448.GC5177@ziepe.ca>
 In-Reply-To: <20201007232448.GC5177@ziepe.ca>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Thu, 8 Oct 2020 09:31:37 +0200
-Message-ID: <CAKMK7uF6pdQScwcihBq+9BZ7bSrNXimi-ddN8w7zg2ANhSduWw@mail.gmail.com>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Thu, 8 Oct 2020 00:49:54 -0700
+Message-ID: <CAPcyv4jA9fe40r_2SfrCtOaeE85V88TA3NNQZOmQMNj=MdsPyw@mail.gmail.com>
 Subject: Re: [PATCH 10/13] PCI: revoke mappings like devmem
 To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Dan Williams <dan.j.williams@intel.com>,
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
         DRI Development <dri-devel@lists.freedesktop.org>,
         LKML <linux-kernel@vger.kernel.org>,
         KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
@@ -70,7 +73,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 8, 2020 at 1:24 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+On Wed, Oct 7, 2020 at 4:25 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 >
 > On Wed, Oct 07, 2020 at 12:33:06PM -0700, Dan Williams wrote:
 > > On Wed, Oct 7, 2020 at 11:11 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
@@ -101,18 +104,23 @@ On Thu, Oct 8, 2020 at 1:24 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 >
 > The inode does not come from the filesystem char/mem.c creates a
 > singular anon inode in devmem_init_inode()
->
+
+That's not quite right, An inode does come from the filesystem I just
+arranged for that inode's i_mapping to be set to a common instance.
+
 > Seems OK to use this more widely, but it feels a bit weird to live in
 > char/memory.c.
->
+
+Sure, now that more users have arrived it should move somewhere common.
+
 > This is what got me thinking maybe this needs to be a bit bigger
 > generic infrastructure - eg enter this scheme from fops mmap and
 > everything else is in mm/user_iomem.c
 
-Yeah moving it to iomem and renaming it to have an iomem_prefix
-instead of devmem sounds like a good idea.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+It still requires every file that can map physical memory to have its
+->open fop do
+
+       inode->i_mapping = devmem_inode->i_mapping;
+       filp->f_mapping = inode->i_mapping;
+
+I don't see how you can centralize that part.
