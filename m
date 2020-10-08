@@ -2,553 +2,700 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C5D428711F
-	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 11:00:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D89F0287161
+	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 11:25:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726655AbgJHJAa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Oct 2020 05:00:30 -0400
-Received: from mx2.suse.de ([195.135.220.15]:59682 "EHLO mx2.suse.de"
+        id S1726078AbgJHJZS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Oct 2020 05:25:18 -0400
+Received: from mx2.suse.de ([195.135.220.15]:51188 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725802AbgJHJA3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Oct 2020 05:00:29 -0400
+        id S1725852AbgJHJZS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Oct 2020 05:25:18 -0400
 X-Virus-Scanned: by amavisd-new at test-mx.suse.de
 Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id DE3E3AF4D;
-        Thu,  8 Oct 2020 09:00:25 +0000 (UTC)
-Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
- type conversion
-To:     Daniel Vetter <daniel@ffwll.ch>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc:     Dave Airlie <airlied@linux.ie>,
-        Nouveau Dev <nouveau@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "Wilson, Chris" <chris@chris-wilson.co.uk>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Huang Rui <ray.huang@amd.com>,
-        Gerd Hoffmann <kraxel@redhat.com>, Qiang Yu <yuq825@gmail.com>,
+        by mx2.suse.de (Postfix) with ESMTP id 522EEB237;
+        Thu,  8 Oct 2020 09:25:15 +0000 (UTC)
+Subject: Re: [PATCH v3 6/7] drm/fb_helper: Support framebuffers in I/O memory
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Dave Airlie <airlied@linux.ie>,
         Sam Ravnborg <sam@ravnborg.org>,
-        Emil Velikov <emil.velikov@collabora.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        lima@lists.freedesktop.org,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Lucas Stach <l.stach@pengutronix.de>,
         Russell King <linux+etnaviv@armlinux.org.uk>,
-        "open list:DRM DRIVER FOR QXL VIRTUAL GPU" 
-        <spice-devel@lists.freedesktop.org>,
-        Ben Skeggs <bskeggs@redhat.com>,
-        The etnaviv authors <etnaviv@lists.freedesktop.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Kukjin Kim <kgene@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Qiang Yu <yuq825@gmail.com>, Ben Skeggs <bskeggs@redhat.com>,
+        Rob Herring <robh@kernel.org>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Steven Price <steven.price@arm.com>,
+        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Sandy Huang <hjc@rock-chips.com>,
+        =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
         Hans de Goede <hdegoede@redhat.com>,
-        "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
+        Sean Paul <sean@poorly.run>, "Anholt, Eric" <eric@anholt.net>,
+        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+        Huang Rui <ray.huang@amd.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        Luben Tuikov <luben.tuikov@amd.com>, apaneers@amd.com,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Melissa Wen <melissa.srw@gmail.com>,
+        "Wilson, Chris" <chris@chris-wilson.co.uk>,
+        Qinglang Miao <miaoqinglang@huawei.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
         "open list:VIRTIO CORE, NET..." 
         <virtualization@lists.linux-foundation.org>,
-        Sean Paul <sean@poorly.run>, apaneers@amd.com,
+        The etnaviv authors <etnaviv@lists.freedesktop.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Qinglang Miao <miaoqinglang@huawei.com>,
-        Kukjin Kim <kgene@kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        lima@lists.freedesktop.org,
+        Nouveau Dev <nouveau@lists.freedesktop.org>,
+        "open list:DRM DRIVER FOR QXL VIRTUAL GPU" 
+        <spice-devel@lists.freedesktop.org>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
         "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
+        <linux-media@vger.kernel.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
 References: <20200929151437.19717-1-tzimmermann@suse.de>
- <20200929151437.19717-3-tzimmermann@suse.de>
- <8fad0114-064a-4ed5-c21d-d1b4294de0a1@amd.com>
- <2614314a-81f7-4722-c400-68d90e48e09a@suse.de>
- <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
- <07972ada-9135-3743-a86b-487f610c509f@suse.de>
- <b569b7e3-68f0-edcc-c8f4-170e9042d348@gmail.com>
- <20200930094712.GW438822@phenom.ffwll.local>
- <8479d0aa-3826-4f37-0109-55daca515793@amd.com>
- <CAKMK7uH0U36NG8w98i0x6HVGeogiwnYDRiKquLW-8znLa7-0yg@mail.gmail.com>
- <20201002095830.GH438822@phenom.ffwll.local>
- <5bf40546-8da9-1649-22da-a982f1e8d9c3@suse.de>
- <CAKMK7uEu0vwiG9Uz0_Ysyus0ZAF-1HNxvPZjcG3xZS=gkKgJLw@mail.gmail.com>
- <26ac0446-9e16-1ca1-7407-3d0cd7125e0e@suse.de>
- <09d634d0-f20a-e9a9-d8d2-b50e8aaf156f@amd.com>
- <CAKMK7uEPn=q1J50koveE+b49r=SE0eh5nTrxWOVRN2grdyNPTA@mail.gmail.com>
+ <20200929151437.19717-7-tzimmermann@suse.de>
+ <20201002180500.GM438822@phenom.ffwll.local>
+ <CAKMK7uFVHrqBh1sqQHR56vp2JS77XoCs232B5mkJXXpLhgLW8Q@mail.gmail.com>
 From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <5c0dc0bf-b4ca-db84-708e-74a5b033018f@suse.de>
-Date:   Thu, 8 Oct 2020 11:00:21 +0200
+Message-ID: <ffc4b2de-ff97-210f-0ae4-f2f85a27f59b@suse.de>
+Date:   Thu, 8 Oct 2020 11:25:13 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uEPn=q1J50koveE+b49r=SE0eh5nTrxWOVRN2grdyNPTA@mail.gmail.com>
+In-Reply-To: <CAKMK7uFVHrqBh1sqQHR56vp2JS77XoCs232B5mkJXXpLhgLW8Q@mail.gmail.com>
 Content-Type: multipart/signed; micalg=pgp-sha256;
  protocol="application/pgp-signature";
- boundary="1RRRYtJ6APQmd6LeI1KMPbGtdio7fZVjb"
+ boundary="wSkQnhyu1s6mke5MwMEXxiMF0P61mkAgk"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---1RRRYtJ6APQmd6LeI1KMPbGtdio7fZVjb
-Content-Type: multipart/mixed; boundary="jDFbYBZf8kdKgUAVGHXxfA7MPXZztPeOO";
+--wSkQnhyu1s6mke5MwMEXxiMF0P61mkAgk
+Content-Type: multipart/mixed; boundary="9SInwHdMlT9HJ8SWW0YhlKXr6GBVVNNex";
  protected-headers="v1"
 From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>,
- =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Cc: Dave Airlie <airlied@linux.ie>,
- Nouveau Dev <nouveau@lists.freedesktop.org>,
- dri-devel <dri-devel@lists.freedesktop.org>,
- "Wilson, Chris" <chris@chris-wilson.co.uk>,
- Melissa Wen <melissa.srw@gmail.com>, Huang Rui <ray.huang@amd.com>,
- Gerd Hoffmann <kraxel@redhat.com>, Qiang Yu <yuq825@gmail.com>,
- Sam Ravnborg <sam@ravnborg.org>, Emil Velikov <emil.velikov@collabora.com>,
- linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
- Joonyoung Shim <jy0922.shim@samsung.com>, lima@lists.freedesktop.org,
- Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
- Krzysztof Kozlowski <krzk@kernel.org>, Steven Price <steven.price@arm.com>,
- "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
- Luben Tuikov <luben.tuikov@amd.com>,
- Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+ Maxime Ripard <mripard@kernel.org>, Dave Airlie <airlied@linux.ie>,
+ Sam Ravnborg <sam@ravnborg.org>, Alex Deucher <alexander.deucher@amd.com>,
+ =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+ Gerd Hoffmann <kraxel@redhat.com>, Lucas Stach <l.stach@pengutronix.de>,
  Russell King <linux+etnaviv@armlinux.org.uk>,
- "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
- <spice-devel@lists.freedesktop.org>, Ben Skeggs <bskeggs@redhat.com>,
- The etnaviv authors <etnaviv@lists.freedesktop.org>,
- "moderated list:DMA BUFFER SHARING FRAMEWORK"
- <linaro-mm-sig@lists.linaro.org>, Hans de Goede <hdegoede@redhat.com>,
- "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
- "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
- Sean Paul <sean@poorly.run>, apaneers@amd.com,
- Linux ARM <linux-arm-kernel@lists.infradead.org>,
- amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ Christian Gmeiner <christian.gmeiner@gmail.com>,
+ Inki Dae <inki.dae@samsung.com>, Joonyoung Shim <jy0922.shim@samsung.com>,
+ Seung-Woo Kim <sw0312.kim@samsung.com>,
+ Kyungmin Park <kyungmin.park@samsung.com>, Kukjin Kim <kgene@kernel.org>,
+ Krzysztof Kozlowski <krzk@kernel.org>, Qiang Yu <yuq825@gmail.com>,
+ Ben Skeggs <bskeggs@redhat.com>, Rob Herring <robh@kernel.org>,
  Tomeu Vizoso <tomeu.vizoso@collabora.com>,
- Seung-Woo Kim <sw0312.kim@samsung.com>, Sandy Huang <hjc@rock-chips.com>,
- Kyungmin Park <kyungmin.park@samsung.com>,
- Qinglang Miao <miaoqinglang@huawei.com>, Kukjin Kim <kgene@kernel.org>,
- Alex Deucher <alexander.deucher@amd.com>,
- "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-Message-ID: <5c0dc0bf-b4ca-db84-708e-74a5b033018f@suse.de>
-Subject: Re: [PATCH v3 2/7] drm/ttm: Add ttm_kmap_obj_to_dma_buf_map() for
- type conversion
+ Steven Price <steven.price@arm.com>,
+ Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+ Sandy Huang <hjc@rock-chips.com>, =?UTF-8?Q?Heiko_St=c3=bcbner?=
+ <heiko@sntech.de>, Hans de Goede <hdegoede@redhat.com>,
+ Sean Paul <sean@poorly.run>, "Anholt, Eric" <eric@anholt.net>,
+ Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
+ Huang Rui <ray.huang@amd.com>, Sumit Semwal <sumit.semwal@linaro.org>,
+ Emil Velikov <emil.velikov@collabora.com>,
+ Luben Tuikov <luben.tuikov@amd.com>, apaneers@amd.com,
+ Linus Walleij <linus.walleij@linaro.org>, Melissa Wen
+ <melissa.srw@gmail.com>, "Wilson, Chris" <chris@chris-wilson.co.uk>,
+ Qinglang Miao <miaoqinglang@huawei.com>,
+ dri-devel <dri-devel@lists.freedesktop.org>,
+ amd-gfx list <amd-gfx@lists.freedesktop.org>,
+ "open list:VIRTIO CORE, NET..." <virtualization@lists.linux-foundation.org>,
+ The etnaviv authors <etnaviv@lists.freedesktop.org>,
+ Linux ARM <linux-arm-kernel@lists.infradead.org>,
+ linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+ lima@lists.freedesktop.org, Nouveau Dev <nouveau@lists.freedesktop.org>,
+ "open list:DRM DRIVER FOR QXL VIRTUAL GPU"
+ <spice-devel@lists.freedesktop.org>,
+ "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+ "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
+ "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+ "moderated list:DMA BUFFER SHARING FRAMEWORK"
+ <linaro-mm-sig@lists.linaro.org>
+Message-ID: <ffc4b2de-ff97-210f-0ae4-f2f85a27f59b@suse.de>
+Subject: Re: [PATCH v3 6/7] drm/fb_helper: Support framebuffers in I/O memory
 References: <20200929151437.19717-1-tzimmermann@suse.de>
- <20200929151437.19717-3-tzimmermann@suse.de>
- <8fad0114-064a-4ed5-c21d-d1b4294de0a1@amd.com>
- <2614314a-81f7-4722-c400-68d90e48e09a@suse.de>
- <8a84f62b-33f3-f44c-52af-c859a0e0d1fb@gmail.com>
- <07972ada-9135-3743-a86b-487f610c509f@suse.de>
- <b569b7e3-68f0-edcc-c8f4-170e9042d348@gmail.com>
- <20200930094712.GW438822@phenom.ffwll.local>
- <8479d0aa-3826-4f37-0109-55daca515793@amd.com>
- <CAKMK7uH0U36NG8w98i0x6HVGeogiwnYDRiKquLW-8znLa7-0yg@mail.gmail.com>
- <20201002095830.GH438822@phenom.ffwll.local>
- <5bf40546-8da9-1649-22da-a982f1e8d9c3@suse.de>
- <CAKMK7uEu0vwiG9Uz0_Ysyus0ZAF-1HNxvPZjcG3xZS=gkKgJLw@mail.gmail.com>
- <26ac0446-9e16-1ca1-7407-3d0cd7125e0e@suse.de>
- <09d634d0-f20a-e9a9-d8d2-b50e8aaf156f@amd.com>
- <CAKMK7uEPn=q1J50koveE+b49r=SE0eh5nTrxWOVRN2grdyNPTA@mail.gmail.com>
-In-Reply-To: <CAKMK7uEPn=q1J50koveE+b49r=SE0eh5nTrxWOVRN2grdyNPTA@mail.gmail.com>
+ <20200929151437.19717-7-tzimmermann@suse.de>
+ <20201002180500.GM438822@phenom.ffwll.local>
+ <CAKMK7uFVHrqBh1sqQHR56vp2JS77XoCs232B5mkJXXpLhgLW8Q@mail.gmail.com>
+In-Reply-To: <CAKMK7uFVHrqBh1sqQHR56vp2JS77XoCs232B5mkJXXpLhgLW8Q@mail.gmail.com>
 
---jDFbYBZf8kdKgUAVGHXxfA7MPXZztPeOO
+--9SInwHdMlT9HJ8SWW0YhlKXr6GBVVNNex
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: quoted-printable
 
 Hi
 
-Am 07.10.20 um 16:30 schrieb Daniel Vetter:
-> On Wed, Oct 7, 2020 at 3:25 PM Christian K=C3=B6nig <christian.koenig@a=
-md.com> wrote:
+Am 02.10.20 um 20:44 schrieb Daniel Vetter:
+> On Fri, Oct 2, 2020 at 8:05 PM Daniel Vetter <daniel@ffwll.ch> wrote:
 >>
->> Am 07.10.20 um 15:20 schrieb Thomas Zimmermann:
->>> Hi
+>> On Tue, Sep 29, 2020 at 05:14:36PM +0200, Thomas Zimmermann wrote:
+>>> At least sparc64 requires I/O-specific access to framebuffers. This
+>>> patch updates the fbdev console accordingly.
 >>>
->>> Am 07.10.20 um 15:10 schrieb Daniel Vetter:
->>>> On Wed, Oct 7, 2020 at 2:57 PM Thomas Zimmermann <tzimmermann@suse.d=
-e> wrote:
->>>>> Hi
->>>>>
->>>>> Am 02.10.20 um 11:58 schrieb Daniel Vetter:
->>>>>> On Wed, Sep 30, 2020 at 02:51:46PM +0200, Daniel Vetter wrote:
->>>>>>> On Wed, Sep 30, 2020 at 2:34 PM Christian K=C3=B6nig
->>>>>>> <christian.koenig@amd.com> wrote:
->>>>>>>> Am 30.09.20 um 11:47 schrieb Daniel Vetter:
->>>>>>>>> On Wed, Sep 30, 2020 at 10:34:31AM +0200, Christian K=C3=B6nig =
-wrote:
->>>>>>>>>> Am 30.09.20 um 10:19 schrieb Thomas Zimmermann:
->>>>>>>>>>> Hi
->>>>>>>>>>>
->>>>>>>>>>> Am 30.09.20 um 10:05 schrieb Christian K=C3=B6nig:
->>>>>>>>>>>> Am 29.09.20 um 19:49 schrieb Thomas Zimmermann:
->>>>>>>>>>>>> Hi Christian
->>>>>>>>>>>>>
->>>>>>>>>>>>> Am 29.09.20 um 17:35 schrieb Christian K=C3=B6nig:
->>>>>>>>>>>>>> Am 29.09.20 um 17:14 schrieb Thomas Zimmermann:
->>>>>>>>>>>>>>> The new helper ttm_kmap_obj_to_dma_buf() extracts address=
- and location
->>>>>>>>>>>>>>> from and instance of TTM's kmap_obj and initializes struc=
-t dma_buf_map
->>>>>>>>>>>>>>> with these values. Helpful for TTM-based drivers.
->>>>>>>>>>>>>> We could completely drop that if we use the same structure=
- inside TTM as
->>>>>>>>>>>>>> well.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>> Additional to that which driver is going to use this?
->>>>>>>>>>>>> As Daniel mentioned, it's in patch 3. The TTM-based drivers=
- will
->>>>>>>>>>>>> retrieve the pointer via this function.
->>>>>>>>>>>>>
->>>>>>>>>>>>> I do want to see all that being more tightly integrated int=
-o TTM, but
->>>>>>>>>>>>> not in this series. This one is about fixing the bochs-on-s=
-parc64
->>>>>>>>>>>>> problem for good. Patch 7 adds an update to TTM to the DRM =
-TODO list.
->>>>>>>>>>>> I should have asked which driver you try to fix here :)
->>>>>>>>>>>>
->>>>>>>>>>>> In this case just keep the function inside bochs and only fi=
-x it there.
->>>>>>>>>>>>
->>>>>>>>>>>> All other drivers can be fixed when we generally pump this t=
-hrough TTM.
->>>>>>>>>>> Did you take a look at patch 3? This function will be used by=
- VRAM
->>>>>>>>>>> helpers, nouveau, radeon, amdgpu and qxl. If we don't put it =
-here, we
->>>>>>>>>>> have to duplicate the functionality in each if these drivers.=
- Bochs
->>>>>>>>>>> itself uses VRAM helpers and doesn't touch the function direc=
-tly.
->>>>>>>>>> Ah, ok can we have that then only in the VRAM helpers?
->>>>>>>>>>
->>>>>>>>>> Alternative you could go ahead and use dma_buf_map in ttm_bo_k=
-map_obj
->>>>>>>>>> directly and drop the hack with the TTM_BO_MAP_IOMEM_MASK.
->>>>>>>>>>
->>>>>>>>>> What I want to avoid is to have another conversion function in=
- TTM because
->>>>>>>>>> what happens here is that we already convert from ttm_bus_plac=
-ement to
->>>>>>>>>> ttm_bo_kmap_obj and then to dma_buf_map.
->>>>>>>>> Hm I'm not really seeing how that helps with a gradual conversi=
-on of
->>>>>>>>> everything over to dma_buf_map and assorted helpers for access?=
- There's
->>>>>>>>> too many places in ttm drivers where is_iomem and related stuff=
- is used to
->>>>>>>>> be able to convert it all in one go. An intermediate state with=
- a bunch of
->>>>>>>>> conversions seems fairly unavoidable to me.
->>>>>>>> Fair enough. I would just have started bottom up and not top dow=
-n.
->>>>>>>>
->>>>>>>> Anyway feel free to go ahead with this approach as long as we ca=
-n remove
->>>>>>>> the new function again when we clean that stuff up for good.
->>>>>>> Yeah I guess bottom up would make more sense as a refactoring. Bu=
-t the
->>>>>>> main motivation to land this here is to fix the __mmio vs normal
->>>>>>> memory confusion in the fbdev emulation helpers for sparc (and
->>>>>>> anything else that needs this). Hence the top down approach for
->>>>>>> rolling this out.
->>>>>> Ok I started reviewing this a bit more in-depth, and I think this =
-is a bit
->>>>>> too much of a de-tour.
->>>>>>
->>>>>> Looking through all the callers of ttm_bo_kmap almost everyone map=
-s the
->>>>>> entire object. Only vmwgfx uses to map less than that. Also, every=
-one just
->>>>>> immediately follows up with converting that full object map into a=
-
->>>>>> pointer.
->>>>>>
->>>>>> So I think what we really want here is:
->>>>>> - new function
->>>>>>
->>>>>> int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *=
-map);
->>>>>>
->>>>>>    _vmap name since that's consistent with both dma_buf functions =
-and
->>>>>>    what's usually used to implement this. Outside of the ttm world=
- kmap
->>>>>>    usually just means single-page mappings using kmap() or it's io=
-mem
->>>>>>    sibling io_mapping_map* so rather confusing name for a function=
- which
->>>>>>    usually is just used to set up a vmap of the entire buffer.
->>>>>>
->>>>>> - a helper which can be used for the drm_gem_object_funcs vmap/vun=
-map
->>>>>>    functions for all ttm drivers. We should be able to make this f=
-ully
->>>>>>    generic because a) we now have dma_buf_map and b) drm_gem_objec=
-t is
->>>>>>    embedded in the ttm_bo, so we can upcast for everyone who's bot=
-h a ttm
->>>>>>    and gem driver.
->>>>>>
->>>>>>    This is maybe a good follow-up, since it should allow us to dit=
-ch quite
->>>>>>    a bit of the vram helper code for this more generic stuff. I al=
-so might
->>>>>>    have missed some special-cases here, but from a quick look ever=
-ything
->>>>>>    just pins the buffer to the current location and that's it.
->>>>>>
->>>>>>    Also this obviously requires Christian's generic ttm_bo_pin rew=
-ork
->>>>>>    first.
->>>>>>
->>>>>> - roll the above out to drivers.
->>>>>>
->>>>>> Christian/Thomas, thoughts on this?
->>>>> I agree on the goals, but what is the immediate objective here?
->>>>>
->>>>> Adding ttm_bo_vmap() does not work out easily, as struct ttm_bo_kma=
-p_obj
->>>>> is a central part of the internals of TTM. struct ttm_bo_kmap_obj h=
-as
->>>>> more internal state that struct dma_buf_map, so they are not easily=
-
->>>>> convertible either. What you propose seems to require a reimplement=
-ation
->>>>> of the existing ttm_bo_kmap() code. That is it's own patch series.
->>>>>
->>>>> I'd rather go with some variant of the existing patch and add
->>>>> ttm_bo_vmap() in a follow-up.
->>>> ttm_bo_vmap would simply wrap what you currently open-code as
->>>> ttm_bo_kmap + ttm_kmap_obj_to_dma_buf_map. Removing ttm_kmap_obj wou=
-ld
->>>> be a much later step. Why do you think adding ttm_bo_vmap is not
->>>> possible?
->>> The calls to ttm_bo_kmap/_kunmap() require an instance of struct
->>> ttm_bo_kmap_obj that is stored in each driver's private bo structure
->>> (e.g., struct drm_gem_vram_object, struct radeon_bo, etc). When I mad=
-e
->>> patch 3, I flirted with the idea of unifying the driver's _vmap code =
-in
->>> a shared helper, but I couldn't find a simple way of doing it. That's=
-
->>> why it's open-coded in the first place.
+>>> For drivers with direct access to the framebuffer memory, the callbac=
+k
+>>> functions in struct fb_ops test for the type of memory and call the r=
+sp
+>>> fb_sys_ of fb_cfb_ functions.
+>>>
+>>> For drivers that employ a shadow buffer, fbdev's blit function retrie=
+ves
+>>> the framebuffer address as struct dma_buf_map, and uses dma_buf_map
+>>> interfaces to access the buffer.
+>>>
+>>> The bochs driver on sparc64 uses a workaround to flag the framebuffer=
+ as
+>>> I/O memory and avoid a HW exception. With the introduction of struct
+>>> dma_buf_map, this is not required any longer. The patch removes the r=
+sp
+>>> code from both, bochs and fbdev.
+>>>
+>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
 >=20
-> Yeah we'd need a ttm_bo_vunmap I guess to make this work. Which
-> shouldn't be more than a few lines, but maybe too much to do in this
-> series.
+> Argh, I accidentally hit send before finishing this ...
 >=20
->> Well that makes kind of sense. Keep in mind that ttm_bo_kmap is
->> currently way to complicated.
+>>> ---
+>>>  drivers/gpu/drm/bochs/bochs_kms.c |   1 -
+>>>  drivers/gpu/drm/drm_fb_helper.c   | 217 ++++++++++++++++++++++++++++=
+--
+>>>  include/drm/drm_mode_config.h     |  12 --
+>>>  include/linux/dma-buf-map.h       |  72 ++++++++--
+>>>  4 files changed, 265 insertions(+), 37 deletions(-)
+>>>
+>>> diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/boch=
+s/bochs_kms.c
+>>> index 13d0d04c4457..853081d186d5 100644
+>>> --- a/drivers/gpu/drm/bochs/bochs_kms.c
+>>> +++ b/drivers/gpu/drm/bochs/bochs_kms.c
+>>> @@ -151,7 +151,6 @@ int bochs_kms_init(struct bochs_device *bochs)
+>>>       bochs->dev->mode_config.preferred_depth =3D 24;
+>>>       bochs->dev->mode_config.prefer_shadow =3D 0;
+>>>       bochs->dev->mode_config.prefer_shadow_fbdev =3D 1;
+>>> -     bochs->dev->mode_config.fbdev_use_iomem =3D true;
+>>>       bochs->dev->mode_config.quirk_addfb_prefer_host_byte_order =3D =
+true;
+>>>
+>>>       bochs->dev->mode_config.funcs =3D &bochs_mode_funcs;
+>>> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb=
+_helper.c
+>>> index 343a292f2c7c..f345a314a437 100644
+>>> --- a/drivers/gpu/drm/drm_fb_helper.c
+>>> +++ b/drivers/gpu/drm/drm_fb_helper.c
+>>> @@ -388,24 +388,22 @@ static void drm_fb_helper_resume_worker(struct =
+work_struct *work)
+>>>  }
+>>>
+>>>  static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_h=
+elper,
+>>> -                                       struct drm_clip_rect *clip)
+>>> +                                       struct drm_clip_rect *clip,
+>>> +                                       struct dma_buf_map *dst)
+>>>  {
+>>>       struct drm_framebuffer *fb =3D fb_helper->fb;
+>>>       unsigned int cpp =3D fb->format->cpp[0];
+>>>       size_t offset =3D clip->y1 * fb->pitches[0] + clip->x1 * cpp;
+>>>       void *src =3D fb_helper->fbdev->screen_buffer + offset;
+>>> -     void *dst =3D fb_helper->buffer->map.vaddr + offset;
+>>>       size_t len =3D (clip->x2 - clip->x1) * cpp;
+>>>       unsigned int y;
+>>>
+>>> -     for (y =3D clip->y1; y < clip->y2; y++) {
+>>> -             if (!fb_helper->dev->mode_config.fbdev_use_iomem)
+>>> -                     memcpy(dst, src, len);
+>>> -             else
+>>> -                     memcpy_toio((void __iomem *)dst, src, len);
+>>> +     dma_buf_map_incr(dst, offset); /* go to first pixel within clip=
+ rect */
+>>>
+>>> +     for (y =3D clip->y1; y < clip->y2; y++) {
+>>> +             dma_buf_map_memcpy_to(dst, src, len);
+>>> +             dma_buf_map_incr(dst, fb->pitches[0]);
+>>>               src +=3D fb->pitches[0];
+>>> -             dst +=3D fb->pitches[0];
+>>>       }
+>>>  }
+>>>
+>>> @@ -433,8 +431,9 @@ static void drm_fb_helper_dirty_work(struct work_=
+struct *work)
+>>>                       ret =3D drm_client_buffer_vmap(helper->buffer, =
+&map);
+>>>                       if (ret)
+>>>                               return;
+>>> -                     drm_fb_helper_dirty_blit_real(helper, &clip_cop=
+y);
+>>> +                     drm_fb_helper_dirty_blit_real(helper, &clip_cop=
+y, &map);
+>>>               }
+>>> +
+>>>               if (helper->fb->funcs->dirty)
+>>>                       helper->fb->funcs->dirty(helper->fb, NULL, 0, 0=
+,
+>>>                                                &clip_copy, 1);
+>>> @@ -771,6 +770,136 @@ void drm_fb_helper_sys_imageblit(struct fb_info=
+ *info,
+>>>  }
+>>>  EXPORT_SYMBOL(drm_fb_helper_sys_imageblit);
+>>>
+>>> +static ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __u=
+ser *buf,
+>>> +                                   size_t count, loff_t *ppos)
+>>> +{
+>>> +     unsigned long p =3D *ppos;
+>>> +     u8 *dst;
+>>> +     u8 __iomem *src;
+>>> +     int c, err =3D 0;
+>>> +     unsigned long total_size;
+>>> +     unsigned long alloc_size;
+>>> +     ssize_t ret =3D 0;
+>>> +
+>>> +     if (info->state !=3D FBINFO_STATE_RUNNING)
+>>> +             return -EPERM;
+>>> +
+>>> +     total_size =3D info->screen_size;
+>>> +
+>>> +     if (total_size =3D=3D 0)
+>>> +             total_size =3D info->fix.smem_len;
+>>> +
+>>> +     if (p >=3D total_size)
+>>> +             return 0;
+>>> +
+>>> +     if (count >=3D total_size)
+>>> +             count =3D total_size;
+>>> +
+>>> +     if (count + p > total_size)
+>>> +             count =3D total_size - p;
+>>> +
+>>> +     src =3D (u8 __iomem *)(info->screen_base + p);
+>>> +
+>>> +     alloc_size =3D min(count, PAGE_SIZE);
+>>> +
+>>> +     dst =3D kmalloc(alloc_size, GFP_KERNEL);
+>>> +     if (!dst)
+>>> +             return -ENOMEM;
+>>> +
+>>> +     while (count) {
+>>> +             c =3D min(count, alloc_size);
+>>> +
+>>> +             memcpy_fromio(dst, src, c);
+>>> +             if (copy_to_user(buf, dst, c)) {
+>>> +                     err =3D -EFAULT;
+>>> +                     break;
+>>> +             }
+>>> +
+>>> +             src +=3D c;
+>>> +             *ppos +=3D c;
+>>> +             buf +=3D c;
+>>> +             ret +=3D c;
+>>> +             count -=3D c;
+>>> +     }
+>>> +
+>>> +     kfree(dst);
+>>> +
+>>> +     if (err)
+>>> +             return err;
+>>> +
+>>> +     return ret;
+>>> +}
+>>> +
+>>> +static ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const c=
+har __user *buf,
+>>> +                                    size_t count, loff_t *ppos)
+>>> +{
+>>> +     unsigned long p =3D *ppos;
+>>> +     u8 *src;
+>>> +     u8 __iomem *dst;
+>>> +     int c, err =3D 0;
+>>> +     unsigned long total_size;
+>>> +     unsigned long alloc_size;
+>>> +     ssize_t ret =3D 0;
+>>> +
+>>> +     if (info->state !=3D FBINFO_STATE_RUNNING)
+>>> +             return -EPERM;
+>>> +
+>>> +     total_size =3D info->screen_size;
+>>> +
+>>> +     if (total_size =3D=3D 0)
+>>> +             total_size =3D info->fix.smem_len;
+>>> +
+>>> +     if (p > total_size)
+>>> +             return -EFBIG;
+>>> +
+>>> +     if (count > total_size) {
+>>> +             err =3D -EFBIG;
+>>> +             count =3D total_size;
+>>> +     }
+>>> +
+>>> +     if (count + p > total_size) {
+>>> +             /*
+>>> +              * The framebuffer is too small. We do the
+>>> +              * copy operation, but return an error code
+>>> +              * afterwards. Taken from fbdev.
+>>> +              */
+>>> +             if (!err)
+>>> +                     err =3D -ENOSPC;
+>>> +             count =3D total_size - p;
+>>> +     }
+>>> +
+>>> +     alloc_size =3D min(count, PAGE_SIZE);
+>>> +
+>>> +     src =3D kmalloc(alloc_size, GFP_KERNEL);
+>>> +     if (!src)
+>>> +             return -ENOMEM;
+>>> +
+>>> +     dst =3D (u8 __iomem *)(info->screen_base + p);
+>>> +
+>>> +     while (count) {
+>>> +             c =3D min(count, alloc_size);
+>>> +
+>>> +             if (copy_from_user(src, buf, c)) {
+>>> +                     err =3D -EFAULT;
+>>> +                     break;
+>>> +             }
+>>> +             memcpy_toio(dst, src, c);
+>>> +
+>>> +             dst +=3D c;
+>>> +             *ppos +=3D c;
+>>> +             buf +=3D c;
+>>> +             ret +=3D c;
+>>> +             count -=3D c;
+>>> +     }
+>>> +
+>>> +     kfree(src);
+>>> +
+>>> +     if (err)
+>>> +             return err;
+>>> +
+>>> +     return ret;
+>>> +}
 >=20
-> Yeah, simplifying this into a ttm_bo_vmap on one side, and a simple
-> 1-page kmap helper on the other should help a lot.
+> The duplication is a bit annoying here, but can't really be avoided. I
+> do think though we should maybe go a bit further, and have drm
+> implementations of this stuff instead of following fbdev concepts as
+> closely as possible. So here roughly:
+>=20
+> - if we have a shadow fb, construct a dma_buf_map for that, otherwise
+> take the one from the driver
+> - have a full generic implementation using that one directly (and
+> checking size limits against the underlying gem buffer)
+> - ideally also with some testcases in the fbdev testcase we have (very
+> bare-bones right now) in igt
+>=20
+> But I'm not really sure whether that's worth all the trouble. It's
+> just that the fbdev-ness here in this copied code sticks out a lot :-)
+>=20
+>>> +
+>>>  /**
+>>>   * drm_fb_helper_cfb_fillrect - wrapper around cfb_fillrect
+>>>   * @info: fbdev registered by the helper
+>>> @@ -2043,6 +2172,66 @@ static int drm_fbdev_fb_mmap(struct fb_info *i=
+nfo, struct vm_area_struct *vma)
+>>>               return -ENODEV;
+>>>  }
+>>>
+>>> +static ssize_t drm_fbdev_fb_read(struct fb_info *info, char __user *=
+buf,
+>>> +                              size_t count, loff_t *ppos)
+>>> +{
+>>> +     struct drm_fb_helper *fb_helper =3D info->par;
+>>> +     struct drm_client_buffer *buffer =3D fb_helper->buffer;
+>>> +
+>>> +     if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem=
+)
+>>> +             return drm_fb_helper_sys_read(info, buf, count, ppos);
+>>> +     else
+>>> +             return drm_fb_helper_cfb_read(info, buf, count, ppos);
+>>> +}
+>>> +
+>>> +static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char _=
+_user *buf,
+>>> +                               size_t count, loff_t *ppos)
+>>> +{
+>>> +     struct drm_fb_helper *fb_helper =3D info->par;
+>>> +     struct drm_client_buffer *buffer =3D fb_helper->buffer;
+>>> +
+>>> +     if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem=
+)
+>>> +             return drm_fb_helper_sys_write(info, buf, count, ppos);=
 
-I'm not too happy about the plan, but I'll send out something like this
-in the next iteration.
+>>> +     else
+>>> +             return drm_fb_helper_cfb_write(info, buf, count, ppos);=
+
+>>> +}
+>>> +
+>>> +static void drm_fbdev_fb_fillrect(struct fb_info *info,
+>>> +                               const struct fb_fillrect *rect)
+>>> +{
+>>> +     struct drm_fb_helper *fb_helper =3D info->par;
+>>> +     struct drm_client_buffer *buffer =3D fb_helper->buffer;
+>>> +
+>>> +     if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem=
+)
+>>> +             drm_fb_helper_sys_fillrect(info, rect);
+>>> +     else
+>>> +             drm_fb_helper_cfb_fillrect(info, rect);
+>>> +}
+>>> +
+>>> +static void drm_fbdev_fb_copyarea(struct fb_info *info,
+>>> +                               const struct fb_copyarea *area)
+>>> +{
+>>> +     struct drm_fb_helper *fb_helper =3D info->par;
+>>> +     struct drm_client_buffer *buffer =3D fb_helper->buffer;
+>>> +
+>>> +     if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem=
+)
+>>> +             drm_fb_helper_sys_copyarea(info, area);
+>>> +     else
+>>> +             drm_fb_helper_cfb_copyarea(info, area);
+>>> +}
+>>> +
+>>> +static void drm_fbdev_fb_imageblit(struct fb_info *info,
+>>> +                                const struct fb_image *image)
+>>> +{
+>>> +     struct drm_fb_helper *fb_helper =3D info->par;
+>>> +     struct drm_client_buffer *buffer =3D fb_helper->buffer;
+>>> +
+>>> +     if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem=
+)
+>>> +             drm_fb_helper_sys_imageblit(info, image);
+>>> +     else
+>>> +             drm_fb_helper_cfb_imageblit(info, image);
+>>> +}
+>=20
+> I think a todo.rst entry to make the new generic functions the real one=
+s, and
+> drivers not using the sys/cfb ones anymore would be a good addition.
+> It's kinda covered by the move to the generic helpers, but maybe we
+> can convert a few more drivers over to these here. Would also allow us
+> to maybe flatten the code a bit and use more of the dma_buf_map stuff
+> directly (instead of reusing crusty fbdev code written 20 years ago or
+> so).
+
+I wouldn't mind doing our own thing, but dma_buf_map is not a good fit
+here. Mostly because the _cfb_ code first does a reads from I/O to
+system memory, and then copies to userspace. The _sys_ functions copy
+directly to userspace. (Same for write, but in the other direction.)
+
+There's some code at the top and bottom of these functions that could be
+shared. If we want to share the copy loops, we'd probably end up with
+additional memcpys in the _sys_ case.
 
 Best regards
 Thomas
 
+>=20
+>>> +
+>>>  static const struct fb_ops drm_fbdev_fb_ops =3D {
+>>>       .owner          =3D THIS_MODULE,
+>>>       DRM_FB_HELPER_DEFAULT_OPS,
+>>> @@ -2050,11 +2239,11 @@ static const struct fb_ops drm_fbdev_fb_ops =3D=
+ {
+>>>       .fb_release     =3D drm_fbdev_fb_release,
+>>>       .fb_destroy     =3D drm_fbdev_fb_destroy,
+>>>       .fb_mmap        =3D drm_fbdev_fb_mmap,
+>>> -     .fb_read        =3D drm_fb_helper_sys_read,
+>>> -     .fb_write       =3D drm_fb_helper_sys_write,
+>>> -     .fb_fillrect    =3D drm_fb_helper_sys_fillrect,
+>>> -     .fb_copyarea    =3D drm_fb_helper_sys_copyarea,
+>>> -     .fb_imageblit   =3D drm_fb_helper_sys_imageblit,
+>>> +     .fb_read        =3D drm_fbdev_fb_read,
+>>> +     .fb_write       =3D drm_fbdev_fb_write,
+>>> +     .fb_fillrect    =3D drm_fbdev_fb_fillrect,
+>>> +     .fb_copyarea    =3D drm_fbdev_fb_copyarea,
+>>> +     .fb_imageblit   =3D drm_fbdev_fb_imageblit,
+>>>  };
+>>>
+>>>  static struct fb_deferred_io drm_fbdev_defio =3D {
+>>> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_con=
+fig.h
+>>> index 5ffbb4ed5b35..ab424ddd7665 100644
+>>> --- a/include/drm/drm_mode_config.h
+>>> +++ b/include/drm/drm_mode_config.h
+>>> @@ -877,18 +877,6 @@ struct drm_mode_config {
+>>>        */
+>>>       bool prefer_shadow_fbdev;
+>>>
+>>> -     /**
+>>> -      * @fbdev_use_iomem:
+>>> -      *
+>>> -      * Set to true if framebuffer reside in iomem.
+>>> -      * When set to true memcpy_toio() is used when copying the fram=
+ebuffer in
+>>> -      * drm_fb_helper.drm_fb_helper_dirty_blit_real().
+>>> -      *
+>>> -      * FIXME: This should be replaced with a per-mapping is_iomem
+>>> -      * flag (like ttm does), and then used everywhere in fbdev code=
+=2E
+>>> -      */
+>>> -     bool fbdev_use_iomem;
+>>> -
+>>>       /**
+>>>        * @quirk_addfb_prefer_xbgr_30bpp:
+>>>        *
+>>> diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.=
+h
+>=20
+> I think the below should be split out as a prep patch.
+>=20
+>>> index 2e8bbecb5091..6ca0f304dda2 100644
+>>> --- a/include/linux/dma-buf-map.h
+>>> +++ b/include/linux/dma-buf-map.h
+>>> @@ -32,6 +32,14 @@
+>>>   * accessing the buffer. Use the returned instance and the helper fu=
+nctions
+>>>   * to access the buffer's memory in the correct way.
+>>>   *
+>>> + * The type :c:type:`struct dma_buf_map <dma_buf_map>` and its helpe=
+rs are
+>>> + * actually independent from the dma-buf infrastructure. When sharin=
+g buffers
+>>> + * among devices, drivers have to know the location of the memory to=
+ access
+>>> + * the buffers in a safe way. :c:type:`struct dma_buf_map <dma_buf_m=
+ap>`
+>>> + * solves this problem for dma-buf and its users. If other drivers o=
+r
+>>> + * sub-systems require similar functionality, the type could be gene=
+ralized
+>>> + * and moved to a more prominent header file.
+>>> + *
+>>>   * Open-coding access to :c:type:`struct dma_buf_map <dma_buf_map>` =
+is
+>>>   * considered bad style. Rather then accessing its fields directly, =
+use one
+>>>   * of the provided helper functions, or implement your own. For exam=
+ple,
+>>> @@ -51,6 +59,14 @@
+>>>   *
+>>>   *   dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);
+>>>   *
+>>> + * Instances of struct dma_buf_map do not have to be cleaned up, but=
+
+>>> + * can be cleared to NULL with dma_buf_map_clear(). Cleared mappings=
+
+>>> + * always refer to system memory.
+>>> + *
+>>> + * .. code-block:: c
+>>> + *
+>>> + *   dma_buf_map_clear(&map);
+>>> + *
+>>>   * Test if a mapping is valid with either dma_buf_map_is_set() or
+>>>   * dma_buf_map_is_null().
+>>>   *
+>>> @@ -73,17 +89,19 @@
+>>>   *   if (dma_buf_map_is_equal(&sys_map, &io_map))
+>>>   *           // always false
+>>>   *
+>>> - * Instances of struct dma_buf_map do not have to be cleaned up, but=
+
+>>> - * can be cleared to NULL with dma_buf_map_clear(). Cleared mappings=
+
+>>> - * always refer to system memory.
+>>> + * A set up instance of struct dma_buf_map can be used to access or =
+manipulate
+>>> + * the buffer memory. Depending on the location of the memory, the p=
+rovided
+>>> + * helpers will pick the correct operations. Data can be copied into=
+ the memory
+>>> + * with dma_buf_map_memcpy_to(). The address can be manipulated with=
+
+>>> + * dma_buf_map_incr().
+>>>   *
+>>> - * The type :c:type:`struct dma_buf_map <dma_buf_map>` and its helpe=
+rs are
+>>> - * actually independent from the dma-buf infrastructure. When sharin=
+g buffers
+>>> - * among devices, drivers have to know the location of the memory to=
+ access
+>>> - * the buffers in a safe way. :c:type:`struct dma_buf_map <dma_buf_m=
+ap>`
+>>> - * solves this problem for dma-buf and its users. If other drivers o=
+r
+>>> - * sub-systems require similar functionality, the type could be gene=
+ralized
+>>> - * and moved to a more prominent header file.
+>>> + * .. code-block:: c
+>>> + *
+>>> + *   const void *src =3D ...; // source buffer
+>>> + *   size_t len =3D ...; // length of src
+>>> + *
+>>> + *   dma_buf_map_memcpy_to(&map, src, len);
+>>> + *   dma_buf_map_incr(&map, len); // go to first byte after the memc=
+py
+>>>   */
+>>>
+>>>  /**
+>>> @@ -210,4 +228,38 @@ static inline void dma_buf_map_clear(struct dma_=
+buf_map *map)
+>>>       }
+>>>  }
+>>>
+>>> +/**
+>>> + * dma_buf_map_memcpy_to - Memcpy into dma-buf mapping
+>>> + * @dst:     The dma-buf mapping structure
+>>> + * @src:     The source buffer
+>>> + * @len:     The number of byte in src
+>>> + *
+>>> + * Copies data into a dma-buf mapping. The source buffer is in syste=
+m
+>>> + * memory. Depending on the buffer's location, the helper picks the =
+correct
+>>> + * method of accessing the memory.
+>>> + */
+>>> +static inline void dma_buf_map_memcpy_to(struct dma_buf_map *dst, co=
+nst void *src, size_t len)
+>>> +{
+>>> +     if (dst->is_iomem)
+>>> +             memcpy_toio(dst->vaddr_iomem, src, len);
+>>> +     else
+>>> +             memcpy(dst->vaddr, src, len);
+>>> +}
+>>> +
+>>> +/**
+>>> + * dma_buf_map_incr - Increments the address stored in a dma-buf map=
+ping
+>>> + * @map:     The dma-buf mapping structure
+>>> + * @incr:    The number of bytes to increment
+>>> + *
+>>> + * Increments the address stored in a dma-buf mapping. Depending on =
+the
+>>> + * buffer's location, the correct value will be updated.
+>>> + */
+>>> +static inline void dma_buf_map_incr(struct dma_buf_map *map, size_t =
+incr)
+>>> +{
+>>> +     if (map->is_iomem)
+>>> +             map->vaddr_iomem +=3D incr;
+>>> +     else
+>>> +             map->vaddr +=3D incr;
+>>> +}
+>>> +
+>>>  #endif /* __DMA_BUF_MAP_H__ */
+>>> --
+>>> 2.28.0
+>=20
+> Aside from the details I think looks all reasonable.
 > -Daniel
->=20
->>
->> Christian.
->>
->>>
->>> Best regards
->>> Thomas
->>>
->>>> -Daniel
->>>>
->>>>
->>>>> Best regards
->>>>> Thomas
->>>>>
->>>>>> I think for the immediate need of rolling this out for vram helper=
-s and
->>>>>> fbdev code we should be able to do this, but just postpone the dri=
-ver wide
->>>>>> roll-out for now.
->>>>>>
->>>>>> Cheers, Daniel
->>>>>>
->>>>>>> -Daniel
->>>>>>>
->>>>>>>> Christian.
->>>>>>>>
->>>>>>>>> -Daniel
->>>>>>>>>
->>>>>>>>>> Thanks,
->>>>>>>>>> Christian.
->>>>>>>>>>
->>>>>>>>>>> Best regards
->>>>>>>>>>> Thomas
->>>>>>>>>>>
->>>>>>>>>>>> Regards,
->>>>>>>>>>>> Christian.
->>>>>>>>>>>>
->>>>>>>>>>>>> Best regards
->>>>>>>>>>>>> Thomas
->>>>>>>>>>>>>
->>>>>>>>>>>>>> Regards,
->>>>>>>>>>>>>> Christian.
->>>>>>>>>>>>>>
->>>>>>>>>>>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->>>>>>>>>>>>>>> ---
->>>>>>>>>>>>>>>      include/drm/ttm/ttm_bo_api.h | 24 ++++++++++++++++++=
-++++++
->>>>>>>>>>>>>>>      include/linux/dma-buf-map.h  | 20 ++++++++++++++++++=
-++
->>>>>>>>>>>>>>>      2 files changed, 44 insertions(+)
->>>>>>>>>>>>>>>
->>>>>>>>>>>>>>> diff --git a/include/drm/ttm/ttm_bo_api.h b/include/drm/t=
-tm/ttm_bo_api.h
->>>>>>>>>>>>>>> index c96a25d571c8..62d89f05a801 100644
->>>>>>>>>>>>>>> --- a/include/drm/ttm/ttm_bo_api.h
->>>>>>>>>>>>>>> +++ b/include/drm/ttm/ttm_bo_api.h
->>>>>>>>>>>>>>> @@ -34,6 +34,7 @@
->>>>>>>>>>>>>>>      #include <drm/drm_gem.h>
->>>>>>>>>>>>>>>      #include <drm/drm_hashtab.h>
->>>>>>>>>>>>>>>      #include <drm/drm_vma_manager.h>
->>>>>>>>>>>>>>> +#include <linux/dma-buf-map.h>
->>>>>>>>>>>>>>>      #include <linux/kref.h>
->>>>>>>>>>>>>>>      #include <linux/list.h>
->>>>>>>>>>>>>>>      #include <linux/wait.h>
->>>>>>>>>>>>>>> @@ -486,6 +487,29 @@ static inline void *ttm_kmap_obj_vir=
-tual(struct
->>>>>>>>>>>>>>> ttm_bo_kmap_obj *map,
->>>>>>>>>>>>>>>          return map->virtual;
->>>>>>>>>>>>>>>      }
->>>>>>>>>>>>>>>      +/**
->>>>>>>>>>>>>>> + * ttm_kmap_obj_to_dma_buf_map
->>>>>>>>>>>>>>> + *
->>>>>>>>>>>>>>> + * @kmap: A struct ttm_bo_kmap_obj returned from ttm_bo_=
-kmap.
->>>>>>>>>>>>>>> + * @map: Returns the mapping as struct dma_buf_map
->>>>>>>>>>>>>>> + *
->>>>>>>>>>>>>>> + * Converts struct ttm_bo_kmap_obj to struct dma_buf_map=
-=2E If the memory
->>>>>>>>>>>>>>> + * is not mapped, the returned mapping is initialized to=
- NULL.
->>>>>>>>>>>>>>> + */
->>>>>>>>>>>>>>> +static inline void ttm_kmap_obj_to_dma_buf_map(struct tt=
-m_bo_kmap_obj
->>>>>>>>>>>>>>> *kmap,
->>>>>>>>>>>>>>> +                           struct dma_buf_map *map)
->>>>>>>>>>>>>>> +{
->>>>>>>>>>>>>>> +    bool is_iomem;
->>>>>>>>>>>>>>> +    void *vaddr =3D ttm_kmap_obj_virtual(kmap, &is_iomem=
-);
->>>>>>>>>>>>>>> +
->>>>>>>>>>>>>>> +    if (!vaddr)
->>>>>>>>>>>>>>> +        dma_buf_map_clear(map);
->>>>>>>>>>>>>>> +    else if (is_iomem)
->>>>>>>>>>>>>>> +        dma_buf_map_set_vaddr_iomem(map, (void __force _=
-_iomem *)vaddr);
->>>>>>>>>>>>>>> +    else
->>>>>>>>>>>>>>> +        dma_buf_map_set_vaddr(map, vaddr);
->>>>>>>>>>>>>>> +}
->>>>>>>>>>>>>>> +
->>>>>>>>>>>>>>>      /**
->>>>>>>>>>>>>>>       * ttm_bo_kmap
->>>>>>>>>>>>>>>       *
->>>>>>>>>>>>>>> diff --git a/include/linux/dma-buf-map.h b/include/linux/=
-dma-buf-map.h
->>>>>>>>>>>>>>> index fd1aba545fdf..2e8bbecb5091 100644
->>>>>>>>>>>>>>> --- a/include/linux/dma-buf-map.h
->>>>>>>>>>>>>>> +++ b/include/linux/dma-buf-map.h
->>>>>>>>>>>>>>> @@ -45,6 +45,12 @@
->>>>>>>>>>>>>>>       *
->>>>>>>>>>>>>>>       *    dma_buf_map_set_vaddr(&map. 0xdeadbeaf);
->>>>>>>>>>>>>>>       *
->>>>>>>>>>>>>>> + * To set an address in I/O memory, use dma_buf_map_set_=
-vaddr_iomem().
->>>>>>>>>>>>>>> + *
->>>>>>>>>>>>>>> + * .. code-block:: c
->>>>>>>>>>>>>>> + *
->>>>>>>>>>>>>>> + *    dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);
->>>>>>>>>>>>>>> + *
->>>>>>>>>>>>>>>       * Test if a mapping is valid with either dma_buf_ma=
-p_is_set() or
->>>>>>>>>>>>>>>       * dma_buf_map_is_null().
->>>>>>>>>>>>>>>       *
->>>>>>>>>>>>>>> @@ -118,6 +124,20 @@ static inline void dma_buf_map_set_v=
-addr(struct
->>>>>>>>>>>>>>> dma_buf_map *map, void *vaddr)
->>>>>>>>>>>>>>>          map->is_iomem =3D false;
->>>>>>>>>>>>>>>      }
->>>>>>>>>>>>>>>      +/**
->>>>>>>>>>>>>>> + * dma_buf_map_set_vaddr_iomem - Sets a dma-buf mapping =
-structure to
->>>>>>>>>>>>>>> an address in I/O memory
->>>>>>>>>>>>>>> + * @map:        The dma-buf mapping structure
->>>>>>>>>>>>>>> + * @vaddr_iomem:    An I/O-memory address
->>>>>>>>>>>>>>> + *
->>>>>>>>>>>>>>> + * Sets the address and the I/O-memory flag.
->>>>>>>>>>>>>>> + */
->>>>>>>>>>>>>>> +static inline void dma_buf_map_set_vaddr_iomem(struct dm=
-a_buf_map *map,
->>>>>>>>>>>>>>> +                           void __iomem *vaddr_iomem)
->>>>>>>>>>>>>>> +{
->>>>>>>>>>>>>>> +    map->vaddr_iomem =3D vaddr_iomem;
->>>>>>>>>>>>>>> +    map->is_iomem =3D true;
->>>>>>>>>>>>>>> +}
->>>>>>>>>>>>>>> +
->>>>>>>>>>>>>>>      /**
->>>>>>>>>>>>>>>       * dma_buf_map_is_equal - Compares two dma-buf mappi=
-ng structures
->>>>>>>>>>>>>>> for equality
->>>>>>>>>>>>>>>       * @lhs:    The dma-buf mapping structure
->>>>>>>>>>>>>> _______________________________________________
->>>>>>>>>>>>>> dri-devel mailing list
->>>>>>>>>>>>>> dri-devel@lists.freedesktop.org
->>>>>>>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttp=
-s%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=
-=3D02%7C01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b=
-8%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sda=
-ta=3DHdHOA%2F1VcIX%2F7YtfYTiAqYEvw7Ag%2FS%2BxS5VwJKOv5y0%3D&amp;reserved=3D=
-0
->>>>>>>>>>>>> _______________________________________________
->>>>>>>>>>>>> amd-gfx mailing list
->>>>>>>>>>>>> amd-gfx@lists.freedesktop.org
->>>>>>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps=
-%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=3D=
-02%7C01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7=
-C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3D=
-H%2B5HKCsTrksRV2EyEiFGSTyS79jsWCmJimSMoJYusx8%3D&amp;reserved=3D0
->>>>>>>>>>>> _______________________________________________
->>>>>>>>>>>> dri-devel mailing list
->>>>>>>>>>>> dri-devel@lists.freedesktop.org
->>>>>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%=
-3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=3D=
-02%7C01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7=
-C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3D=
-HdHOA%2F1VcIX%2F7YtfYTiAqYEvw7Ag%2FS%2BxS5VwJKOv5y0%3D&amp;reserved=3D0
->>>>>>>>>>>>
->>>>>>>>>>> _______________________________________________
->>>>>>>>>>> amd-gfx mailing list
->>>>>>>>>>> amd-gfx@lists.freedesktop.org
->>>>>>>>>>> https://nam11.safelinks.protection.outlook.com/?url=3Dhttps%3=
-A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Famd-gfx&amp;data=3D02=
-%7C01%7Cchristian.koenig%40amd.com%7C472c3d655a61411deb6708d86525d1b8%7C3=
-dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637370560438965013&amp;sdata=3D=
-H%2B5HKCsTrksRV2EyEiFGSTyS79jsWCmJimSMoJYusx8%3D&amp;reserved=3D0
->>>>>>>
->>>>>>> --
->>>>>>> Daniel Vetter
->>>>>>> Software Engineer, Intel Corporation
->>>>>>> http://blog.ffwll.ch
->>>>> --
->>>>> Thomas Zimmermann
->>>>> Graphics Driver Developer
->>>>> SUSE Software Solutions Germany GmbH
->>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
->>>>> (HRB 36809, AG N=C3=BCrnberg)
->>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
->>>>>
->>>>
->>
->=20
 >=20
 
 --=20
@@ -560,23 +707,23 @@ Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
 Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 
 
---jDFbYBZf8kdKgUAVGHXxfA7MPXZztPeOO--
+--9SInwHdMlT9HJ8SWW0YhlKXr6GBVVNNex--
 
---1RRRYtJ6APQmd6LeI1KMPbGtdio7fZVjb
+--wSkQnhyu1s6mke5MwMEXxiMF0P61mkAgk
 Content-Type: application/pgp-signature; name="signature.asc"
 Content-Description: OpenPGP digital signature
 Content-Disposition: attachment; filename="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9+1SUUHHR6aW1tZXJt
-YW5uQHN1c2UuZGUACgkQaA3BHVMLeiNwWAf/Z6wurJbb9OHAKU2vC2UR7c+Pe4lu
-/ZDIyVbUQzqpuG6kUt56Ei9bxPOuvbzMeimdkcpxCZHJn+R/yC2/0V4kzm8vHdV3
-CPCdGSSWYEw52VeWQQLuibonRRB0BrCrCBm3pjfxh6S1cYhmDIHP7+wpTuNGLgE9
-7MFOn5/KrTbDEeZdbrbgOBRbGPvUWdVAIeqLxWKBxveDEVjlvonQ3HxmFa8Gfjiv
-bRSIkCJBGC1Idnddu8kE1hJKiftVE7aT/mOQeU4uGe+8laj9QvS9O3kZrWY2sfGX
-KyENY1fBryoXsnEQQIcl3vy5ZELHlD0XHZnUf0kYnbjnXSY8mXdI2BSuMg==
-=s7Qc
+iQFIBAEBCAAyFiEEchf7rIzpz2NEoWjlaA3BHVMLeiMFAl9+2vkUHHR6aW1tZXJt
+YW5uQHN1c2UuZGUACgkQaA3BHVMLeiMmeAgAqwVo45DghrkjdBwYPmX4OVZnRERj
+XUMMDFUfWoPmn1NUUVpBZmoS1/yVaB9U2asvyKAzBbPlcOgc+rk0jDE2LamWDzJH
+jai4oxop9bFlBbyU70iWTvtfaJ8mNDCw9TB+jxY9hl4ikbxvs1eqEmHfHl5BkbK4
+UM2tr+YOafQimRZqkLEA38LXzzpOlDfuO5LGot4VjyJ0TBL4W1/ph4sq8riK6ion
+Rs7v9ywaMnDsNgCQ+yqK1SB+rDNUWc8SdOlal/y21OpyOz2b/zSyFAHE+Hqu5WSk
+PtIQE26Mf0QpKSucONsOKip49UzGa5cdbdzNqDOl4inpYHbyEF30+l6c9A==
+=so2q
 -----END PGP SIGNATURE-----
 
---1RRRYtJ6APQmd6LeI1KMPbGtdio7fZVjb--
+--wSkQnhyu1s6mke5MwMEXxiMF0P61mkAgk--
