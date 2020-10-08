@@ -2,163 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 158D5286F49
-	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 09:23:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 912D4286F78
+	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 09:31:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727046AbgJHHX1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Oct 2020 03:23:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47094 "EHLO
+        id S1727155AbgJHHbu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Oct 2020 03:31:50 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48404 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726103AbgJHHX1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 03:23:27 -0400
-Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com [IPv6:2607:f8b0:4864:20::c41])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B615FC0613D2
-        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 00:23:26 -0700 (PDT)
-Received: by mail-oo1-xc41.google.com with SMTP id c4so1248372oou.6
-        for <linux-media@vger.kernel.org>; Thu, 08 Oct 2020 00:23:26 -0700 (PDT)
+        with ESMTP id S1725849AbgJHHbu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 03:31:50 -0400
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C66F0C0613D4
+        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 00:31:49 -0700 (PDT)
+Received: by mail-oi1-x242.google.com with SMTP id n2so5396289oij.1
+        for <linux-media@vger.kernel.org>; Thu, 08 Oct 2020 00:31:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Ui8WkZ8ZsqWNVKFISnxizxdl1xBQtE0ojtcqIbBf85o=;
-        b=OLHQfD6clKQWUqpmaAK9RMlR/tsEUgzWlL24nlPViG1Rk9p8LHmyCmM7/5WLHXKEvu
-         lI/irRP+aq5gBsvKA49uJgztAy930tPikm27PGApe4JTRXsGR0g3qvfoDhdKCEoe0v+J
-         hUX2iSsNsi3+8JirFm0OBhWG4fOImFFw/17nk=
+        bh=ogkw1NmOSWleETzvxYwVZZIizSINMS0qQkiw0aowwRQ=;
+        b=dAa4UrodoeKqvvGBic2n/ikfUtGXIrA84JDvhHoeTG0wQyvzwM6zRb58ASAp90bOAP
+         Z0Gq9W2/rAIbo9tt/Rdw3PX+Bn1vOefBbbpajIIFIeMsYr0JsELM1frkf/Q6RzY+4q6w
+         KwDjwJvmHbSV+DyPoGD+FRH2axWgRzr70NSco=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Ui8WkZ8ZsqWNVKFISnxizxdl1xBQtE0ojtcqIbBf85o=;
-        b=lhaWwzpGPxRWFei3Kt5KqmPq6k0eKKkz6jCEmI8exi31T95mSkruBS6b8q45RuNyMM
-         KzzCGPdtE86tVv1vwMTBmWSv/LIbs6LvoIN7NP87r93TIlqi+Tdyj7222KtUgg16ImKC
-         F5vNREfyHiIhNk6k6ij1Q5q3QZM3c71xhcbmnq71WJKQ0iyjAYHwRKsswdSoR0ddqKJh
-         WHDqWsJvIsY/lCTI6H91MlQiSjEzkZV5FVp8Ns6+QeE5ZSzNqcocQXkueoHKXHCql+O6
-         XPVSeysYC+qo9qGPKxW+0QfW39PT6f35njRN3f0TFUAgKexeZh2cfXY7JSVY0CW4eyUp
-         Tv/A==
-X-Gm-Message-State: AOAM531hXcoe2B70RgT30hvATCHlzqdiVe4stG4Aty5+p0pX/d15lKAK
-        Ev73y7BVqDe7jS+sDvNvOkobkSV6wGQL+eZpBMD4/A==
-X-Google-Smtp-Source: ABdhPJy3F0IZWGCXcT7DTnuCU2t5bEV1GI8WhdMxAAqDMxgLl6e5j0szfklCmFBV9PnPK7/VfntIN7R+bRVO1DC8GEg=
-X-Received: by 2002:a4a:c011:: with SMTP id v17mr4481557oop.89.1602141806038;
- Thu, 08 Oct 2020 00:23:26 -0700 (PDT)
+        bh=ogkw1NmOSWleETzvxYwVZZIizSINMS0qQkiw0aowwRQ=;
+        b=TDdUlpvmuCwjXNtQGNYSBmHe+NQeHRy875Jro4oJ55+i8dtStD2MaE4ziS6+m0sFMw
+         MMvbyKGemikg7Zz90xGJ1JpcdLi2+2d0cEXsGGS21p5kOp1ctbC44V+o2mmsIDsGxI3Z
+         4f95zTHOAXT5RlYh/EOKGbIhBDiL95HtTtx/dNkj4vMOSSTHfX8EPo+VO7LPwLEjkbCS
+         irdwK8bUaM8YZcQStyHxD8q6fALvnsFu9GjYjMsGbVilrVvvWqHDIF5vn3fY3UH5hq6g
+         NemwzkN/CfAFRQSS2k4AIWVQoZf7EqmugmCOIall5jV+M2Q8T/eYcGLRnf4tYkwQzfen
+         11Xw==
+X-Gm-Message-State: AOAM533hyxygLNqkpzTifignA8gqF/U9snUSkYJHJiTsj4B44SwMpe+b
+        iUScPhQD6RCp8HOh45CY1LOfwMSzbi0C/bPuOk0bTA==
+X-Google-Smtp-Source: ABdhPJx491RwkFJI9puzs4morldhkHhy8TQN885mw0wtSqvJNbvAlJbcViFwT+IWX3hheU/oD67HmER0Hab3kMQkGCo=
+X-Received: by 2002:aca:6083:: with SMTP id u125mr4379406oib.14.1602142309051;
+ Thu, 08 Oct 2020 00:31:49 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
- <20201007164426.1812530-8-daniel.vetter@ffwll.ch> <852a74ec-339b-4c7f-9e29-b9736111849a@nvidia.com>
-In-Reply-To: <852a74ec-339b-4c7f-9e29-b9736111849a@nvidia.com>
+ <20201007164426.1812530-11-daniel.vetter@ffwll.ch> <CAPcyv4hBL68A7CZa+YnooufDH2tevoxrx32DTJMQ6OHRnec7QQ@mail.gmail.com>
+ <20201007232448.GC5177@ziepe.ca>
+In-Reply-To: <20201007232448.GC5177@ziepe.ca>
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Thu, 8 Oct 2020 09:23:14 +0200
-Message-ID: <CAKMK7uEa1+f+34qeLo9F3-SvYpOKtGmQ+8sDtbEBmFeXkCx9mw@mail.gmail.com>
-Subject: Re: [PATCH 07/13] mm: close race in generic_access_phys
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        Linux MM <linux-mm@kvack.org>,
+Date:   Thu, 8 Oct 2020 09:31:37 +0200
+Message-ID: <CAKMK7uF6pdQScwcihBq+9BZ7bSrNXimi-ddN8w7zg2ANhSduWw@mail.gmail.com>
+Subject: Re: [PATCH 10/13] PCI: revoke mappings like devmem
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
         linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>, linux-s390@vger.kernel.org,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dan Williams <dan.j.williams@intel.com>,
+        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
         Kees Cook <keescook@chromium.org>,
-        Rik van Riel <riel@redhat.com>,
-        Benjamin Herrensmidt <benh@kernel.crashing.org>,
-        Dave Airlie <airlied@linux.ie>,
-        Hugh Dickins <hugh@veritas.com>,
         Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
         =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Daniel Vetter <daniel.vetter@intel.com>
+        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
+        Linux PCI <linux-pci@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 8, 2020 at 2:44 AM John Hubbard <jhubbard@nvidia.com> wrote:
+On Thu, Oct 8, 2020 at 1:24 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 >
-> On 10/7/20 9:44 AM, Daniel Vetter wrote:
-> > Way back it was a reasonable assumptions that iomem mappings never
-> > change the pfn range they point at. But this has changed:
+> On Wed, Oct 07, 2020 at 12:33:06PM -0700, Dan Williams wrote:
+> > On Wed, Oct 7, 2020 at 11:11 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > >
+> > > Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims
+> > > the region") /dev/kmem zaps ptes when the kernel requests exclusive
+> > > acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, this is
+> > > the default for all driver uses.
+> > >
+> > > Except there's two more ways to access pci bars: sysfs and proc mmap
+> > > support. Let's plug that hole.
 > >
-> > - gpu drivers dynamically manage their memory nowadays, invalidating
-> >    ptes with unmap_mapping_range when buffers get moved
+> > Ooh, yes, lets.
 > >
-> > - contiguous dma allocations have moved from dedicated carvetouts to
+> > >
+> > > For revoke_devmem() to work we need to link our vma into the same
+> > > address_space, with consistent vma->vm_pgoff. ->pgoff is already
+> > > adjusted, because that's how (io_)remap_pfn_range works, but for the
+> > > mapping we need to adjust vma->vm_file->f_mapping. Usually that's done
+> > > at ->open time, but that's a bit tricky here with all the entry points
+> > > and arch code. So instead create a fake file and adjust vma->vm_file.
+> >
+> > I don't think you want to share the devmem inode for this, this should
+> > be based off the sysfs inode which I believe there is already only one
+> > instance per resource. In contrast /dev/mem can have multiple inodes
+> > because anyone can just mknod a new character device file, the same
+> > problem does not exist for sysfs.
 >
-> s/carvetouts/carveouts/
+> The inode does not come from the filesystem char/mem.c creates a
+> singular anon inode in devmem_init_inode()
 >
-> >    cma regions. This means if we miss the unmap the pfn might contain
-> >    pagecache or anon memory (well anything allocated with GFP_MOVEABLE)
-> >
-> > - even /dev/mem now invalidates mappings when the kernel requests that
-> >    iomem region when CONFIG_IO_STRICT_DEVMEM is set, see 3234ac664a87
-> >    ("/dev/mem: Revoke mappings when a driver claims the region")
+> Seems OK to use this more widely, but it feels a bit weird to live in
+> char/memory.c.
 >
-> Thanks for putting these references into the log, it's very helpful.
-> ...
-> > diff --git a/mm/memory.c b/mm/memory.c
-> > index fcfc4ca36eba..8d467e23b44e 100644
-> > --- a/mm/memory.c
-> > +++ b/mm/memory.c
-> > @@ -4873,28 +4873,68 @@ int follow_phys(struct vm_area_struct *vma,
-> >       return ret;
-> >   }
-> >
-> > +/**
-> > + * generic_access_phys - generic implementation for iomem mmap access
-> > + * @vma: the vma to access
-> > + * @addr: userspace addres, not relative offset within @vma
-> > + * @buf: buffer to read/write
-> > + * @len: length of transfer
-> > + * @write: set to FOLL_WRITE when writing, otherwise reading
-> > + *
-> > + * This is a generic implementation for &vm_operations_struct.access for an
-> > + * iomem mapping. This callback is used by access_process_vm() when the @vma is
-> > + * not page based.
-> > + */
-> >   int generic_access_phys(struct vm_area_struct *vma, unsigned long addr,
-> >                       void *buf, int len, int write)
-> >   {
-> >       resource_size_t phys_addr;
-> >       unsigned long prot = 0;
-> >       void __iomem *maddr;
-> > +     pte_t *ptep, pte;
-> > +     spinlock_t *ptl;
-> >       int offset = addr & (PAGE_SIZE-1);
-> > +     int ret = -EINVAL;
-> > +
-> > +     if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
-> > +             return -EINVAL;
-> > +
-> > +retry:
-> > +     if (follow_pte(vma->vm_mm, addr, &ptep, &ptl))
-> > +             return -EINVAL;
-> > +     pte = *ptep;
-> > +     pte_unmap_unlock(ptep, ptl);
-> >
-> > -     if (follow_phys(vma, addr, write, &prot, &phys_addr))
-> > +     prot = pgprot_val(pte_pgprot(pte));
-> > +     phys_addr = (resource_size_t)pte_pfn(pte) << PAGE_SHIFT;
-> > +
-> > +     if ((write & FOLL_WRITE) && !pte_write(pte))
-> >               return -EINVAL;
-> >
-> >       maddr = ioremap_prot(phys_addr, PAGE_ALIGN(len + offset), prot);
-> >       if (!maddr)
-> >               return -ENOMEM;
-> >
-> > +     if (follow_pte(vma->vm_mm, addr, &ptep, &ptl))
-> > +             goto out_unmap;
-> > +
-> > +     if (pte_same(pte, *ptep)) {
->
->
-> The ioremap area is something I'm sorta new to, so a newbie question:
-> is it possible for the same pte to already be there, ever? If so, we
-> be stuck in an infinite loop here.  I'm sure that's not the case, but
-> it's not yet obvious to me why it's impossible. Resource reservations
-> maybe?
+> This is what got me thinking maybe this needs to be a bit bigger
+> generic infrastructure - eg enter this scheme from fops mmap and
+> everything else is in mm/user_iomem.c
 
-It's just buggy, it should be !pte_same. And I need to figure out how
-to test this I guess.
+Yeah moving it to iomem and renaming it to have an iomem_prefix
+instead of devmem sounds like a good idea.
 -Daniel
 -- 
 Daniel Vetter
