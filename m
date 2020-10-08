@@ -2,97 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 48A5A287472
-	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 14:41:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B6D5E2874A0
+	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 14:58:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730086AbgJHMlw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Oct 2020 08:41:52 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39984 "EHLO
+        id S1730149AbgJHM6Y convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 8 Oct 2020 08:58:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730062AbgJHMlv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 08:41:51 -0400
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9014BC0613D4
-        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 05:41:51 -0700 (PDT)
-Received: by mail-pg1-x544.google.com with SMTP id n9so4176763pgf.9
-        for <linux-media@vger.kernel.org>; Thu, 08 Oct 2020 05:41:51 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=urluBRAZhemlAGNYR9JHz7//XtKVwD7KOsOnuK3XEvE=;
-        b=i93YgqfP2Qs8dlAx7dyQ+W0IRG7pAxhJwW9+eRHcvMVYP3djMki+CGM6zO0EVJGk6K
-         IbQzLSWJO3N1l0EX9JrKSfHEa7utNqIB47jME7UstUYw4VjXJ3eqfisu2Lv5k6vC2Rji
-         RXYD2ZA+lWznWQWoRqSMqejEaxBGkz94802iEmzJd0MCBP2cDlv790XzP6x1cW1hFd/9
-         VynwcCRsd9uDLYGf7l4gaVrI2jMIq7IhzjCPA4DTCHUEEBJWY9srCgIimdgBAYkzeSSZ
-         OrD77ImZWUgTRcr1HoKIi9uUAfbiDRf/QR54E/fTvbFXgKqiTQNN+jJNb/teyHBDz9PA
-         L6Zg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=urluBRAZhemlAGNYR9JHz7//XtKVwD7KOsOnuK3XEvE=;
-        b=ANAeMGGklqy/S4vm04+GJtIeFCYAEStwrKDFTNVrm15Rxsn74IRz2oIFWoA53+aUoe
-         lqQEtfz/v8QdmYing2NZbVo5AaKwGkuywwNuY+2uKcMSFnqbkTFQXZv62z0I/rBX0/wu
-         OeJTouAIa+fNNltvkrChxOKpcUiJA5CJGf+H0nEcgqbH1ryE6boD0IcnfkG3DYATrYrV
-         o6zTMVKCB3JGX9PCFdwptFIiG8OPBRST5iCueMIJx4/PFEJ7Nk13utmXgvxYK3LWaIg7
-         DdQJhAyweXGkUD4tiHxrsahYE4UlovLyWi9z3leDVflf38H/Xp7Uzcjuf53Q9iJmw8q1
-         tpvw==
-X-Gm-Message-State: AOAM531yTOLHYZMjqeceb5sQ8YGf/BDDx9U+vTtcuZebIUR8ZfA7oVtB
-        f+GfsFzapLdeHlIbvKE4bXfTfA==
-X-Google-Smtp-Source: ABdhPJxnQ64uysYsu/F9BjeJkE2gf+57wvTrXl8yFyGGP/X1izZlhvOyXG/ViriTgaaOJPI9vrc0XQ==
-X-Received: by 2002:a17:90a:6787:: with SMTP id o7mr8072496pjj.125.1602160910911;
-        Thu, 08 Oct 2020 05:41:50 -0700 (PDT)
-Received: from ziepe.ca ([206.223.160.26])
-        by smtp.gmail.com with ESMTPSA id k11sm7411830pjs.18.2020.10.08.05.41.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 08 Oct 2020 05:41:49 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kQVEx-001U2l-UT; Thu, 08 Oct 2020 09:41:47 -0300
-Date:   Thu, 8 Oct 2020 09:41:47 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
-        Linux PCI <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH 10/13] PCI: revoke mappings like devmem
-Message-ID: <20201008124147.GD5177@ziepe.ca>
-References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
- <20201007164426.1812530-11-daniel.vetter@ffwll.ch>
- <CAPcyv4hBL68A7CZa+YnooufDH2tevoxrx32DTJMQ6OHRnec7QQ@mail.gmail.com>
- <20201007232448.GC5177@ziepe.ca>
- <CAPcyv4jA9fe40r_2SfrCtOaeE85V88TA3NNQZOmQMNj=MdsPyw@mail.gmail.com>
+        with ESMTP id S1729722AbgJHM6Y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 08:58:24 -0400
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E6ADC061755
+        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 05:58:24 -0700 (PDT)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kQVUz-0005iB-Ev; Thu, 08 Oct 2020 14:58:21 +0200
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kQVUy-0003XU-9a; Thu, 08 Oct 2020 14:58:20 +0200
+Message-ID: <a87446cfd9eac5ac92d7f948f18b9fc6611eda26.camel@pengutronix.de>
+Subject: Re: [PATCHv2 1/3] s5k5baf: drop 'data' field in struct s5k5baf_fw
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org
+Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
+        Sylwester Nawrocki <snawrocki@kernel.org>
+Date:   Thu, 08 Oct 2020 14:58:20 +0200
+In-Reply-To: <20201008115913.3579973-2-hverkuil-cisco@xs4all.nl>
+References: <20201008115913.3579973-1-hverkuil-cisco@xs4all.nl>
+         <20201008115913.3579973-2-hverkuil-cisco@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPcyv4jA9fe40r_2SfrCtOaeE85V88TA3NNQZOmQMNj=MdsPyw@mail.gmail.com>
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 08, 2020 at 12:49:54AM -0700, Dan Williams wrote:
-
-> > This is what got me thinking maybe this needs to be a bit bigger
-> > generic infrastructure - eg enter this scheme from fops mmap and
-> > everything else is in mm/user_iomem.c
+On Thu, 2020-10-08 at 13:59 +0200, Hans Verkuil wrote:
+> struct s5k5baf_fw ends with this:
 > 
-> It still requires every file that can map physical memory to have its
-> ->open fop do
+>        struct {
+>                u16 id;
+>                u16 offset;
+>        } seq[0];
+>        u16 data[];
+> };
+> 
+> which is rather confusing and can cause gcc warnings:
+> 
+> s5k5baf.c: In function 's5k5baf_load_setfile.isra':
+> s5k5baf.c:390:13: warning: array subscript 65535 is outside the bounds of an interior zero-length array 'struct <anonymous>[0]' [-Wzero-length-bounds]
+>   390 |   if (f->seq[i].offset + d <= end)
+>       |       ~~~~~~^~~
+> 
+> It turns out that 'data[]' is used in only one place and it can
+> easily be replaced by &fw->seq[0].id and 'seq[0]' can be replaced by
+> 'seq[]'.
+> 
+> This is both more readable and solved that warnings.
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> Cc: Kyungmin Park <kyungmin.park@samsung.com>
+> Cc: Sylwester Nawrocki <snawrocki@kernel.org>
+> ---
+>  drivers/media/i2c/s5k5baf.c | 5 ++---
+>  1 file changed, 2 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
+> index 42584a088273..ec6f22efe19a 100644
+> --- a/drivers/media/i2c/s5k5baf.c
+> +++ b/drivers/media/i2c/s5k5baf.c
+> @@ -280,8 +280,7 @@ struct s5k5baf_fw {
+>  	struct {
+>  		u16 id;
+>  		u16 offset;
+> -	} seq[0];
+> -	u16 data[];
+> +	} seq[];
+>  };
+>  
+>  struct s5k5baf {
+> @@ -563,7 +562,7 @@ static u16 *s5k5baf_fw_get_seq(struct s5k5baf *state, u16 seq_id)
+>  	if (fw == NULL)
+>  		return NULL;
+>  
+> -	data = fw->data + 2 * fw->count;
+> +	data = &fw->seq[0].id + 2 * fw->count;
 
-Common infrastructure would have to create a dummy struct file at mmap
-time with the global inode and attach that to the VMA.
+Would it make sense to make this
 
-Jason
++	data = &fw->seq[fw->count];
+
+or
+
++	data = fw->seq + fw->count;
+
+instead?
+
+regards
+Philipp
