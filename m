@@ -2,175 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DC33286D36
-	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 05:38:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5F2DA286DE1
+	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 07:04:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727605AbgJHDir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 23:38:47 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:37671 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726400AbgJHDir (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 7 Oct 2020 23:38:47 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id QMlOk9NAKTHgxQMlQkGfus; Thu, 08 Oct 2020 05:38:44 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1602128324; bh=0EbxzpD/LNf0II+ine4BhPovzjjdzSJLgpnW1Nz/vEU=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=XtzYNCQ3LYwuk6c8VWt14o4aFGw6UsaCGLyc+7uOjDNXXSYlBzT4oSs6PtNo7pnkx
-         knnTuZx3MUywkUxTHkLSvDrCbLiGdyrhewlhSlYtH7JCWsuOdm7X6JK3za0usQeBx3
-         HiEUeP/ib/3AWcyviK1DG3B3kEVvOj9HOQh+2C59HnVQ0fMD6inaQd1hUpWXs1OUKN
-         pif5di5I3gxDXddfg2CHIWfruGSDcehTNhXkSIx0Mgsx+cOsRIkgdVMVX7QTRP+stY
-         v9Jkp56c5lepZdmdPTBHxP8zR8G+r9rpI2Y4PZoQTizouHwEudJavvuIgun3fNpNXc
-         PKwSObCGjeDNw==
-Message-ID: <d4f3b033fdd32d317a269f0fe758f3af@smtp-cloud8.xs4all.net>
-Date:   Thu, 08 Oct 2020 05:38:42 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfInzGSioisDuxg4EYbACnyKoYrFR0Q6UK6szjQyXd26/+/KIQfm+YpVQQUM1WDtBvdEjB2O7PlxuomMF6uvwymXcaegbxnOjZO/ttULi99P856rRjB1G
- sUqzEnQXIDV+PMT+YSroKQ31xjrcgg5Nb/5fhI3QWpdOCQBHJAwbBX98rGdLfk+y3ZzZ6JKwbQkvA9oUP4OZypLFwo09hQRRknSgqTmic2whyxbLObh7xLhz
+        id S1728383AbgJHFEA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Oct 2020 01:04:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53882 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726148AbgJHFD7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 01:03:59 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7873FC0613D2
+        for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 22:03:57 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id e20so3967230otj.11
+        for <linux-media@vger.kernel.org>; Wed, 07 Oct 2020 22:03:57 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=y4J6xZLLT7X+F7OLOzqqVjMYajEePxtfk9UzEIVuZt0=;
+        b=kPUNcT6En9JIRrz2QtGnFe3Selq9hqXUXprs+7y6un8lFV/TiArK5U3JSZO6nA0HXc
+         EU4OZInvsC8NfhGrNcJXbKRwIFPmMl52gGu1MbN1wkmVtqNJXZnkisUPsHD1g8cpTvTP
+         /vYBDakKhR3/pdkBfiqsry4OoWqlMvulH6vI0ZzHJz2wwj3Xt3EF7CsCwU6oleYGE1xW
+         Mn+9FWxvPmlHuAGmHkToJ27FQbxcncnyjXun8PnvmbTdM9TevYBPVs8KoHB/UKiPru74
+         oGLab6xbAPZlonR8LD/jDVDjWC/ksf7nTNlNEazWJtI7qa74TS+7TctEknxblIXbVaAW
+         cXvQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=y4J6xZLLT7X+F7OLOzqqVjMYajEePxtfk9UzEIVuZt0=;
+        b=DbI6y7AowNqX34Q2rswXkLPLkD6NHfQAP2IJDj49AsUN/ZHyzFDO4SMD+JTS50QDb+
+         tw8SW8jt+BoV0KTtTGjJFV9c2z8e3BE5pY1M8xu8jnZ2mUeLTKq9zldcLat2TXxN3k1Q
+         jazRUZtFCKRGqUIh/8xECgdqSAGlGoPUs4TqKBCDaDGt+qY9CM0GvJ2gqLt3A2VjJXCS
+         5+FLf69JKAbNLk5h6aqosSF/pykpLfm6tifInAMCdhbrgU2vxwgzOncBGcQ4SjKMD2Wh
+         V+eRo964WeFwC8N69ihFo+YWweoFvFIq+2YByjaHcXoSHdGg5lvxSRlAiTjZUwHtkgAY
+         KMEA==
+X-Gm-Message-State: AOAM532K8eWKh1m7F9OQKxoyQMgwIgzz6QwsBZBSTBGqdSrM0qiujskb
+        c/HSZw6kCfnQg5k+lP5w3bNgGUysm36c/bBSPhPGww==
+X-Google-Smtp-Source: ABdhPJz3Gy6/xfKW2fu6IJ5k2Afzci///E5IEtsLrgMBtd+osJAFKkvJwdqpsc7KPM9P0mBGYQzaZrz31q723RwT+C0=
+X-Received: by 2002:a05:6830:196:: with SMTP id q22mr3771201ota.221.1602133436666;
+ Wed, 07 Oct 2020 22:03:56 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201003040257.62768-1-john.stultz@linaro.org>
+ <20201003040257.62768-8-john.stultz@linaro.org> <20201005134528.GA11644@infradead.org>
+In-Reply-To: <20201005134528.GA11644@infradead.org>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Wed, 7 Oct 2020 22:03:43 -0700
+Message-ID: <CALAqxLWSq3szE40hC_m-qpOOH1193jYLOT1_ZZh-eW9U0gnG8w@mail.gmail.com>
+Subject: Re: [PATCH v3 7/7] dma-buf: system_heap: Add a system-uncached heap
+ re-using the system heap
+To:     Christoph Hellwig <hch@infradead.org>
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        "??rjan Eide" <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Mon, Oct 5, 2020 at 6:45 AM Christoph Hellwig <hch@infradead.org> wrote:
+>
+> How is this going to deal with VIVT caches?
 
-Results of the daily build of media_tree:
+Hrm. That's a good question.   I'm not sure I totally have my head
+around it but, I guess we could make sure to call
+invalidate_kernel_vmap_range() in begin_cpu_access()  and
+flush_kernel_vmap_range() in end_cpu_access() rather then exiting out
+early as we do now?
 
-date:			Thu Oct  8 05:00:12 CEST 2020
-media-tree git hash:	463c43fcd97e493d8a17242f4f000c86fe642ed6
-media_build git hash:	e0136eadb6f4c24b7f8fcb50ef4d4d5ffb2af31d
-v4l-utils git hash:	28df3d403be3d7769d7b10cda3e372a0dbbfa410
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 9783287347a0d95925f345313520f04869f439ab
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Unless you have better guidance?
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-powerpc64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: WARNINGS
-linux-3.10.108-x86_64: WARNINGS
-linux-3.11.10-i686: WARNINGS
-linux-3.11.10-x86_64: WARNINGS
-linux-3.12.74-i686: WARNINGS
-linux-3.12.74-x86_64: WARNINGS
-linux-3.13.11-i686: WARNINGS
-linux-3.13.11-x86_64: WARNINGS
-linux-3.14.79-i686: WARNINGS
-linux-3.14.79-x86_64: WARNINGS
-linux-3.15.10-i686: WARNINGS
-linux-3.15.10-x86_64: WARNINGS
-linux-3.16.81-i686: WARNINGS
-linux-3.16.81-x86_64: WARNINGS
-linux-3.17.8-i686: WARNINGS
-linux-3.17.8-x86_64: WARNINGS
-linux-3.18.136-i686: WARNINGS
-linux-3.18.136-x86_64: WARNINGS
-linux-3.19.8-i686: WARNINGS
-linux-3.19.8-x86_64: WARNINGS
-linux-4.0.9-i686: WARNINGS
-linux-4.0.9-x86_64: WARNINGS
-linux-4.1.52-i686: WARNINGS
-linux-4.1.52-x86_64: WARNINGS
-linux-4.2.8-i686: WARNINGS
-linux-4.2.8-x86_64: WARNINGS
-linux-4.3.6-i686: WARNINGS
-linux-4.3.6-x86_64: WARNINGS
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: WARNINGS
-linux-4.5.7-x86_64: WARNINGS
-linux-4.6.7-i686: WARNINGS
-linux-4.6.7-x86_64: WARNINGS
-linux-4.7.10-i686: WARNINGS
-linux-4.7.10-x86_64: WARNINGS
-linux-4.8.17-i686: WARNINGS
-linux-4.8.17-x86_64: WARNINGS
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: WARNINGS
-linux-4.10.17-x86_64: WARNINGS
-linux-4.11.12-i686: WARNINGS
-linux-4.11.12-x86_64: WARNINGS
-linux-4.12.14-i686: WARNINGS
-linux-4.12.14-x86_64: WARNINGS
-linux-4.13.16-i686: WARNINGS
-linux-4.13.16-x86_64: WARNINGS
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: WARNINGS
-linux-4.15.18-x86_64: WARNINGS
-linux-4.16.18-i686: WARNINGS
-linux-4.16.18-x86_64: WARNINGS
-linux-4.17.19-i686: WARNINGS
-linux-4.17.19-x86_64: WARNINGS
-linux-4.18.20-i686: WARNINGS
-linux-4.18.20-x86_64: WARNINGS
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: WARNINGS
-linux-4.20.17-x86_64: WARNINGS
-linux-5.0.21-i686: WARNINGS
-linux-5.0.21-x86_64: WARNINGS
-linux-5.1.21-i686: WARNINGS
-linux-5.1.21-x86_64: WARNINGS
-linux-5.2.21-i686: WARNINGS
-linux-5.2.21-x86_64: WARNINGS
-linux-5.3.18-i686: WARNINGS
-linux-5.3.18-x86_64: WARNINGS
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: WARNINGS
-linux-5.5.19-x86_64: WARNINGS
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9-rc7-i686: OK
-linux-5.9-rc7-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: OK
-smatch: OK
+Worse case we could check CONFIG_CPU_CACHE_VIVT and not register the
+system-uncached heap.
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+thanks
+-john
