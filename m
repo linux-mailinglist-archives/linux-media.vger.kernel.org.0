@@ -2,130 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E0384287595
-	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 16:02:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5D092875AA
+	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 16:09:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730363AbgJHOCY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Oct 2020 10:02:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52454 "EHLO
+        id S1730474AbgJHOJT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Oct 2020 10:09:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53510 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730346AbgJHOCY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 10:02:24 -0400
-Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com [IPv6:2607:f8b0:4864:20::c42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70EBAC0613D2
-        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 07:02:24 -0700 (PDT)
-Received: by mail-oo1-xc42.google.com with SMTP id c25so821650ooe.13
-        for <linux-media@vger.kernel.org>; Thu, 08 Oct 2020 07:02:24 -0700 (PDT)
+        with ESMTP id S1730471AbgJHOJT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 10:09:19 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91112C0613D2
+        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 07:09:18 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id e17so6751047wru.12
+        for <linux-media@vger.kernel.org>; Thu, 08 Oct 2020 07:09:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yenzkprhIaKxWbr2VJ0f4x7nZ8oedYumsvtw0Q63bhc=;
-        b=T/F+9ugs9rwmmfHmsaWXgPVU+ZLZGE7aRbGo6abeIkJ2KlStetQV5E3qMEneK1KC5g
-         aa/PUFFCgJ+HfO2PctHrEeUPIE9FkviDtYwHjalO75CiSYhhkqK2cHBK0PNraeB2KTT1
-         XUwmePtJrsHx9PaegeUiHttSPqq/IlFZBVR1o=
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=elZJD7XRgqQldYOtQwrqdR/qGnh8Wpkk/pfQRzrmtYM=;
+        b=enBpRbP+Y+vrFIYrWPQNxBnkuaMmg25PgrMBeow6OQNpTFvPzN+XBpA5OiRQs3FnpH
+         yn2sjyj5Z/cKTHqfztw85EqTF/+tUnU7Ggylp9H+9saopjbyB39hup7iipRvTm1N8QkU
+         4hcPZCQBIGwlfCroWRjBD48VJcP3UF4X4GYKQ=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yenzkprhIaKxWbr2VJ0f4x7nZ8oedYumsvtw0Q63bhc=;
-        b=QP0mSD91/rg9MNjWvUfBApylZsXH7pphvqlo3WwWDoLCItf2mn6EnEKzhJH1oDVUbO
-         xQs3mYhbjsHtCePwGrKUD+GIT2d8NSNgEE62u6it/1balzquxKGc6WRcQj3tNxkPCKZc
-         006NjxxWH3pOoky/Fa7a1VmmAI/g9vXJiyMSeOlZrMeE3yrYKcWWBWvUbNDYBqh4t733
-         GrJ6gtHluXEctS6REplwhjaRqchcFG7k9QkABQpbePhcAAxmr8RFZgKMPZX50VTqSipH
-         sBl/wtGIZrfr4CtU7g6w9+pAJ7ahS/BgANjefcn9JOnrazP3rUBLpg4+IF5hq15UPYt1
-         CNoA==
-X-Gm-Message-State: AOAM532bFBWMzptQKePY7cIl03Few/K4Bs8DhG9t0na3He7yfHuHKVhr
-        nW5r7mbjwC+dUJOrV3cIGSgEu3qWDRJZbg==
-X-Google-Smtp-Source: ABdhPJxd/Y5GNpUCDyOM1Hp5EF/5oJv3kGH6olfi/h1DxkAe/UUz7aetwB60frIP162xy/OJ253KJw==
-X-Received: by 2002:a4a:4c92:: with SMTP id a140mr5579737oob.32.1602165743217;
-        Thu, 08 Oct 2020 07:02:23 -0700 (PDT)
-Received: from mail-oo1-f54.google.com (mail-oo1-f54.google.com. [209.85.161.54])
-        by smtp.gmail.com with ESMTPSA id g11sm4093961otl.12.2020.10.08.07.02.21
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 08 Oct 2020 07:02:22 -0700 (PDT)
-Received: by mail-oo1-f54.google.com with SMTP id c4so1482353oou.6
-        for <linux-media@vger.kernel.org>; Thu, 08 Oct 2020 07:02:21 -0700 (PDT)
-X-Received: by 2002:a4a:da53:: with SMTP id f19mr5590822oou.38.1602165741077;
- Thu, 08 Oct 2020 07:02:21 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=elZJD7XRgqQldYOtQwrqdR/qGnh8Wpkk/pfQRzrmtYM=;
+        b=SkrkM8jUncEVVAiYXgT6n2ReqXb3nqef1SEYIByF7mWRaI48xYqA24gAX/L0jBZjHz
+         6BxKPI8vBlCI+u09PCANZvuKMrxW6i5BW7kavbZVeV9fSPdnLucag10EvUyLeO8roTIj
+         rFOqH3jL337ThLLYehCHgZiKAHbzEF1Edhj5bg0JEU6DlnHHJxCyHOX71RZKBrggDkRo
+         lI98ZyXN1IuFEAtnEvoL45g99Wc6vGp+yQNcoP6po1lILnz4weB8Rwd9lw4M515OExVW
+         B2Xx/mwtzlB6cFpZ0Yol4erZY4o1M+3zXto/+h6nyu/AgOMmryCnJSYN6e0eTQpKxf6S
+         HPAA==
+X-Gm-Message-State: AOAM532elHdFq2MzVTbWu3GRrRPQ2lrQmZYh4ujWpjlnlv4J5qgasqBc
+        RHHYM3FD2Q3CNuFVdzwEaxevgQ==
+X-Google-Smtp-Source: ABdhPJxnvjHp0B8DifTQr62vFQPdmb3m15u0GYpDuxfNs6OohHQD8sm0hL1lDYa4JXvQgG/WhvcUCQ==
+X-Received: by 2002:a5d:4802:: with SMTP id l2mr9290612wrq.282.1602166157191;
+        Thu, 08 Oct 2020 07:09:17 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id b200sm7777009wme.44.2020.10.08.07.09.15
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Oct 2020 07:09:16 -0700 (PDT)
+Date:   Thu, 8 Oct 2020 16:09:14 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Christian =?iso-8859-1?Q?K=F6nig?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, chris@chris-wilson.co.uk,
+        airlied@redhat.com, akpm@linux-foundation.org, daniel@ffwll.ch,
+        sumit.semwal@linaro.org
+Subject: Re: [PATCH 2/4] drm/prime: document that use the page array is
+ deprecated
+Message-ID: <20201008140914.GF438822@phenom.ffwll.local>
+Mail-Followup-To: Christian =?iso-8859-1?Q?K=F6nig?= <ckoenig.leichtzumerken@gmail.com>,
+        linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, chris@chris-wilson.co.uk,
+        airlied@redhat.com, akpm@linux-foundation.org,
+        sumit.semwal@linaro.org
+References: <20201008112342.9394-1-christian.koenig@amd.com>
+ <20201008112342.9394-2-christian.koenig@amd.com>
 MIME-Version: 1.0
-References: <20201004122234.802044-1-acourbot@chromium.org>
- <c3e1c20a-7729-9f48-ce66-41e67f195fc7@xs4all.nl> <cda40a8e-4dd2-5fd7-c5ff-8b048475164b@xs4all.nl>
-In-Reply-To: <cda40a8e-4dd2-5fd7-c5ff-8b048475164b@xs4all.nl>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Thu, 8 Oct 2020 23:02:08 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MX8rFZU=9Pd5o0mqQ6pf+1oQYzk=D0WiR93_S3FUG7jJw@mail.gmail.com>
-Message-ID: <CAPBb6MX8rFZU=9Pd5o0mqQ6pf+1oQYzk=D0WiR93_S3FUG7jJw@mail.gmail.com>
-Subject: Re: [PATCH v2] media: mtk-vcodec: fix builds when remoteproc is disabled
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Randy Dunlap <rdunlap@infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201008112342.9394-2-christian.koenig@amd.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans, thanks for taking the time to look at this!
+On Thu, Oct 08, 2020 at 01:23:40PM +0200, Christian König wrote:
+> We have reoccurring requests on this so better document that
+> this approach doesn't work and dma_buf_mmap() needs to be used instead.
+> 
+> Signed-off-by: Christian König <christian.koenig@amd.com>
+> ---
+>  drivers/gpu/drm/drm_prime.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+> 
+> diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
+> index 4910c446db83..16fa2bfc271e 100644
+> --- a/drivers/gpu/drm/drm_prime.c
+> +++ b/drivers/gpu/drm/drm_prime.c
+> @@ -956,7 +956,7 @@ EXPORT_SYMBOL(drm_gem_prime_import);
+>  /**
+>   * drm_prime_sg_to_page_addr_arrays - convert an sg table into a page array
+>   * @sgt: scatter-gather table to convert
+> - * @pages: optional array of page pointers to store the page array in
+> + * @pages: deprecated array of page pointers to store the page array in
+>   * @addrs: optional array to store the dma bus address of each page
+>   * @max_entries: size of both the passed-in arrays
+>   *
+> @@ -965,6 +965,11 @@ EXPORT_SYMBOL(drm_gem_prime_import);
+>   *
+>   * Drivers can use this in their &drm_driver.gem_prime_import_sg_table
+>   * implementation.
+> + *
+> + * Specifying the pages array is deprecated and strongly discouraged for new
+> + * drivers. The pages array is only useful for page faults and those can
+> + * corrupt fields in the struct page if they are not handled by the exporting
+> + * driver.
+>   */
 
-On Thu, Oct 8, 2020 at 10:12 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
->
-> On 08/10/2020 15:07, Hans Verkuil wrote:
-> > Hi Alexandre,
-> >
-> > On 04/10/2020 14:22, Alexandre Courbot wrote:
-> >> The addition of MT8183 support added a dependency on the SCP remoteproc
-> >> module. However the initial patch used the "select" Kconfig directive,
-> >> which may result in the SCP module to not be compiled if remoteproc was
-> >> disabled. In such a case, mtk-vcodec would try to link against
-> >> non-existent SCP symbols. "select" was clearly misused here as explained
-> >> in kconfig-language.txt.
-> >>
-> >> Replace this by a "depends" directive on at least one of the VPU and
-> >> SCP modules, to allow the driver to be compiled as long as one of these
-> >> is enabled, and adapt the code to support this new scenario.
-> >>
-> >> Also adapt the Kconfig text to explain the extra requirements for MT8173
-> >> and MT8183.
-> >>
-> >> Reported-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> >> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> >> Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
-> >> ---
-> >>  drivers/media/platform/Kconfig                | 10 +--
-> >>  .../media/platform/mtk-vcodec/mtk_vcodec_fw.c | 72 ++++++++++++-------
-> >>  2 files changed, 54 insertions(+), 28 deletions(-)
-> >>
-> >> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> >> index a3cb104956d5..98eb62e49ec2 100644
-> >> --- a/drivers/media/platform/Kconfig
-> >> +++ b/drivers/media/platform/Kconfig
-> >> @@ -253,14 +253,16 @@ config VIDEO_MEDIATEK_VCODEC
-> >>      depends on MTK_IOMMU || COMPILE_TEST
-> >>      depends on VIDEO_DEV && VIDEO_V4L2
-> >>      depends on ARCH_MEDIATEK || COMPILE_TEST
-> >> +    depends on VIDEO_MEDIATEK_VPU || MTK_SCP
-> >
-> > Close, but no cigar.
-> >
-> > If VIDEO_MEDIATEK_VPU=y and MTK_SCP=m, then VIDEO_MEDIATEK_VCODEC can be configured
-> > to y, and then it won't be able to find the scp_ functions.
-> >
-> > To be honest, I'm not sure how to solve this.
->
-> Found it. Add this:
->
->         depends on MTK_SCP || !MTK_SCP
->         depends on VIDEO_MEDIATEK_VPU || !VIDEO_MEDIATEK_VPU
->
-> Ugly as hell, but it appears to be the correct incantation for this.
+I'd make this a _lot_ stronger: Aside from amdgpu and radeon all drivers
+using this only need it for the pages array. Imo just open-code the sg
+table walking loop in amdgpu/radeon (it's really not much code), and then
+drop the dma_addr_t parameter from this function here (it's set to NULL by
+everyone else).
 
-But doesn't it mean that the driver can be compiled if !MTK_SCP and
-!VIDEO_MEDIATEK_VPU? That's the one case we want to avoid.
+And then deprecate this entire function here with a big warning that a)
+dma_buf_map_attachment is allowed to leave the struct page pointers NULL
+and b) this breaks mmap, users must call dma_buf_mmap instead.
+
+Also maybe make it an uppercase DEPRECATED or something like that :-)
+-Daniel
+
+>  int drm_prime_sg_to_page_addr_arrays(struct sg_table *sgt, struct page **pages,
+>  				     dma_addr_t *addrs, int max_entries)
+> -- 
+> 2.17.1
+> 
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
