@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C889928707E
-	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 10:10:07 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EB26287089
+	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 10:13:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728590AbgJHIKG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Oct 2020 04:10:06 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54618 "EHLO
+        id S1728504AbgJHINS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Oct 2020 04:13:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55112 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728513AbgJHIKG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 04:10:06 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0E5BBC0613D6
-        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 01:10:06 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id f37so4681935otf.12
-        for <linux-media@vger.kernel.org>; Thu, 08 Oct 2020 01:10:06 -0700 (PDT)
+        with ESMTP id S1728004AbgJHINS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 04:13:18 -0400
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55240C0613D2
+        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 01:13:18 -0700 (PDT)
+Received: by mail-ot1-x344.google.com with SMTP id 60so4760805otw.3
+        for <linux-media@vger.kernel.org>; Thu, 08 Oct 2020 01:13:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=wCjCa64MStwiq1yR7OaeNvk7N1NN2BleqQckjLbhNYU=;
-        b=C53LylVZwMO0g2+JAqtSBtMgpBv+ulmsaRO6I2h41YCH/cKnnJ2tt3EfS3lZw6Rhw0
-         MUO4icylwPq5djGkpDWWyO5lhz5aT49NTtxjLsnsfxd1PvP6W6t98VP0roBxwIJCy+Bl
-         vpajr9+5TXFrcHadQv/pRUWTQ9v7fI3MyQ+kM=
+        bh=6GE5pSnNRg0KlyvewB9QKOrrd6/Nut8BwJvyodyZJd4=;
+        b=hMW7zxgBaxDt7Z8CMDWn3cCXSOY5QqOrFQ/uoN1baUlAIhOFYy+4SzujzZvv4Ur9FN
+         onPuYsY03fgo4HL/In06Uiy/3ynGYwzwiQV3wfZ6whnso50XlzhHTRy/QZJCTuip3uEr
+         ueKV+xdznXeh2dJB78HPK0Klt6lkMJnLUSyGA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=wCjCa64MStwiq1yR7OaeNvk7N1NN2BleqQckjLbhNYU=;
-        b=HYTccjNDpoQt/S/oEQaRk6iUYFiaIGL48I0YoPHpeH+E6VeRsg6rs966M2jVYKLJk2
-         IWp4P8bduDDkd7YM59wp+8AflVA4BzeqJoWyzZHfbgCM21py/6ddyeEi9b0YDRNHlbLq
-         x9J0mwYLi5clqzDP3b25PNY7+SxFj2pKJJBOWQSUo4sJGS0k0pAZwnAT1fPk6ZSxGumD
-         mt/br2hPzsbB0p7dKy4abRloCAVtTcOCtJ2C8O2Q3gy+Ji7UB4UUVOLrVgvL1I/eRS7V
-         yzs72LF9fGMdh09xWle8UKQb2RLPvfEfpIrzGdnHnso9st9Wv/ga+QzrO+6UpmDHPNAN
-         Lbvg==
-X-Gm-Message-State: AOAM531BGHMf8bFj/34GyNvnv/Xvjjvq8i40DgOo3vuszyntNmCJy34N
-        jI4ojqyEftXR1kFBofLlZHDVxtTuuBjLbf8rg/AU0g==
-X-Google-Smtp-Source: ABdhPJz2Aux80kUsEM7YHCXCuraur5IrUAmiithdZ9pp1HS0einrpaKxMEfTYuxGd6kEaO0zfYuPyPuQ741ZEEETeSg=
-X-Received: by 2002:a05:6830:1e56:: with SMTP id e22mr4190355otj.303.1602144605250;
- Thu, 08 Oct 2020 01:10:05 -0700 (PDT)
+        bh=6GE5pSnNRg0KlyvewB9QKOrrd6/Nut8BwJvyodyZJd4=;
+        b=rz6JGXE+ULW+sXfRKFRdYnQ5ZJzkePHRbc+yBb/AeBZbdomwoS/IdCxL1WpWo4XjRb
+         rnlwU86By9C1fmN/EBjWFcQLJgUWos13TmEQepawwbImMT6/UpzsVmvigUGWsNnFESOn
+         W+qskoQaavweAm4ZEdkjvEhvZ7riLFmnbUyGMXXH8l45jTrKW3Obg+GCp6gpE9Rpsbmc
+         kaLnvRTW4Zy/GZ6OPO3ZstRnMo+jjk416zZGFSKIdcqdICdvhqEIORnXbNV2Q1hmRMS+
+         exrmvGwJwNrVV5mjrMXh29TtQRbzAquvJmv4guI7kP6fgIl6GSMdKWU/7VOfyOzq+Tsf
+         fFQQ==
+X-Gm-Message-State: AOAM531DXiZYSUVVsYoevoLduu3Stc80Qh8Ksd9nW6RJ0NQKrcV3qHGo
+        mA2X6iKjIAbOcWDHsbbhrCwNxRDHEbQMBXyN+Dd7Tg==
+X-Google-Smtp-Source: ABdhPJzi+1LyDtM+RDWyhibTLQ/9o198dN3ibfXFnaztfI6BQhE6ckMA8Uych0T6Rb8ANf5SnQ1gmeZGjO89xISEbKU=
+X-Received: by 2002:a05:6830:1647:: with SMTP id h7mr4572127otr.281.1602144797647;
+ Thu, 08 Oct 2020 01:13:17 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
  <20201007164426.1812530-11-daniel.vetter@ffwll.ch> <CAPcyv4hBL68A7CZa+YnooufDH2tevoxrx32DTJMQ6OHRnec7QQ@mail.gmail.com>
- <CAKMK7uFoxiPdjO-yhd-mKqumnTpjcENEReb1sOYhOwRRCL0wpQ@mail.gmail.com>
- <CAPcyv4jGxsB5so8mKqYrsn2CEc7nO2yPvzZZ_mvM_-R=BZfKHg@mail.gmail.com> <CAPcyv4iN1q0LUVTO6igMKPe-8hnR5ULF+mBnWy6bdXfY2M6YmA@mail.gmail.com>
-In-Reply-To: <CAPcyv4iN1q0LUVTO6igMKPe-8hnR5ULF+mBnWy6bdXfY2M6YmA@mail.gmail.com>
+ <20201007232448.GC5177@ziepe.ca> <CAPcyv4jA9fe40r_2SfrCtOaeE85V88TA3NNQZOmQMNj=MdsPyw@mail.gmail.com>
+In-Reply-To: <CAPcyv4jA9fe40r_2SfrCtOaeE85V88TA3NNQZOmQMNj=MdsPyw@mail.gmail.com>
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Thu, 8 Oct 2020 10:09:54 +0200
-Message-ID: <CAKMK7uEETcQrPBC=4URQZtD73nA9MvQpBx-TOv95bdwzNOOA2g@mail.gmail.com>
+Date:   Thu, 8 Oct 2020 10:13:06 +0200
+Message-ID: <CAKMK7uHg48-fTR1L78p7q5vxD=Kgr_fBEj1pDLaYeuvTGSSFig@mail.gmail.com>
 Subject: Re: [PATCH 10/13] PCI: revoke mappings like devmem
 To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
         LKML <linux-kernel@vger.kernel.org>,
         KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
         Linux ARM <linux-arm-kernel@lists.infradead.org>,
@@ -59,7 +59,6 @@ Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
         "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
         linux-s390 <linux-s390@vger.kernel.org>,
         Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
         Kees Cook <keescook@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
         John Hubbard <jhubbard@nvidia.com>,
@@ -71,86 +70,66 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 8, 2020 at 12:29 AM Dan Williams <dan.j.williams@intel.com> wrote:
+On Thu, Oct 8, 2020 at 9:50 AM Dan Williams <dan.j.williams@intel.com> wrote:
 >
-> On Wed, Oct 7, 2020 at 3:23 PM Dan Williams <dan.j.williams@intel.com> wrote:
+> On Wed, Oct 7, 2020 at 4:25 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 > >
-> > On Wed, Oct 7, 2020 at 12:49 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > On Wed, Oct 07, 2020 at 12:33:06PM -0700, Dan Williams wrote:
+> > > On Wed, Oct 7, 2020 at 11:11 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
+> > > >
+> > > > Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims
+> > > > the region") /dev/kmem zaps ptes when the kernel requests exclusive
+> > > > acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, this is
+> > > > the default for all driver uses.
+> > > >
+> > > > Except there's two more ways to access pci bars: sysfs and proc mmap
+> > > > support. Let's plug that hole.
 > > >
-> > > On Wed, Oct 7, 2020 at 9:33 PM Dan Williams <dan.j.williams@intel.com> wrote:
-> > > >
-> > > > On Wed, Oct 7, 2020 at 11:11 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > > >
-> > > > > Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims
-> > > > > the region") /dev/kmem zaps ptes when the kernel requests exclusive
-> > > > > acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, this is
-> > > > > the default for all driver uses.
-> > > > >
-> > > > > Except there's two more ways to access pci bars: sysfs and proc mmap
-> > > > > support. Let's plug that hole.
-> > > >
-> > > > Ooh, yes, lets.
-> > > >
-> > > > > For revoke_devmem() to work we need to link our vma into the same
-> > > > > address_space, with consistent vma->vm_pgoff. ->pgoff is already
-> > > > > adjusted, because that's how (io_)remap_pfn_range works, but for the
-> > > > > mapping we need to adjust vma->vm_file->f_mapping. Usually that's done
-> > > > > at ->open time, but that's a bit tricky here with all the entry points
-> > > > > and arch code. So instead create a fake file and adjust vma->vm_file.
-> > > >
-> > > > I don't think you want to share the devmem inode for this, this should
-> > > > be based off the sysfs inode which I believe there is already only one
-> > > > instance per resource. In contrast /dev/mem can have multiple inodes
-> > > > because anyone can just mknod a new character device file, the same
-> > > > problem does not exist for sysfs.
+> > > Ooh, yes, lets.
 > > >
-> > > But then I need to find the right one, plus I also need to find the
-> > > right one for the procfs side. That gets messy, and I already have no
-> > > idea how to really test this. Shared address_space is the same trick
-> > > we're using in drm (where we have multiple things all pointing to the
-> > > same underlying resources, through different files), and it gets the
-> > > job done. So that's why I figured the shared address_space is the
-> > > cleaner solution since then unmap_mapping_range takes care of
-> > > iterating over all vma for us. I guess I could reimplement that logic
-> > > with our own locking and everything in revoke_devmem, but feels a bit
-> > > silly. But it would also solve the problem of having mutliple
-> > > different mknod of /dev/kmem with different address_space behind them.
-> > > Also because of how remap_pfn_range works, all these vma do use the
-> > > same pgoff already anyway.
+> > > >
+> > > > For revoke_devmem() to work we need to link our vma into the same
+> > > > address_space, with consistent vma->vm_pgoff. ->pgoff is already
+> > > > adjusted, because that's how (io_)remap_pfn_range works, but for the
+> > > > mapping we need to adjust vma->vm_file->f_mapping. Usually that's done
+> > > > at ->open time, but that's a bit tricky here with all the entry points
+> > > > and arch code. So instead create a fake file and adjust vma->vm_file.
+> > >
+> > > I don't think you want to share the devmem inode for this, this should
+> > > be based off the sysfs inode which I believe there is already only one
+> > > instance per resource. In contrast /dev/mem can have multiple inodes
+> > > because anyone can just mknod a new character device file, the same
+> > > problem does not exist for sysfs.
 > >
-> > True, remap_pfn_range() makes sure that ->pgoff is an absolute
-> > physical address offset for all use cases. So you might be able to
-> > just point proc_bus_pci_open() at the shared devmem address space. For
-> > sysfs it's messier. I think you would need to somehow get the inode
-> > from kernfs_fop_open() to adjust its address space, but only if the
-> > bin_file will ultimately be used for PCI memory.
+> > The inode does not come from the filesystem char/mem.c creates a
+> > singular anon inode in devmem_init_inode()
+>
+> That's not quite right, An inode does come from the filesystem I just
+> arranged for that inode's i_mapping to be set to a common instance.
+>
+> > Seems OK to use this more widely, but it feels a bit weird to live in
+> > char/memory.c.
+>
+> Sure, now that more users have arrived it should move somewhere common.
+>
+> > This is what got me thinking maybe this needs to be a bit bigger
+> > generic infrastructure - eg enter this scheme from fops mmap and
+> > everything else is in mm/user_iomem.c
+>
+> It still requires every file that can map physical memory to have its
+> ->open fop do
+>
+>        inode->i_mapping = devmem_inode->i_mapping;
+>        filp->f_mapping = inode->i_mapping;
+>
+> I don't see how you can centralize that part.
 
-Just read the code  a bit more, and for proc it's impossible. There's
-only a single file, and before you mmap it you have to call a few
-ioctl to select the right pci resource on that device you want to
-mmap. Which includes legacy ioport stuff, and at least for now those
-don't get revoked (maybe they should, but I'm looking at iomem here
-now). Setting the mapping too early in ->open means that on
-architectures which can do ioport as mmaps (not many, but powerpc is
-among them) we'd shoot down these mmaps too.
-
-Looking at the code there's the generic implementation, which consults
-pci_iobar_pfn. And the only other implementation for sparc looks
-similar, they separate iomem vs ioport through different pfn. So I
-think this should indeed work.
-
-> To me this seems like a new sysfs_create_bin_file() flavor that
-> registers the file with the common devmem address_space.
-
-Hm I think we could just add a i_mapping member to bin_attributes and
-let the normal open code set that up for us. That should work.
-mmapable binary sysfs file is already a similar special case.
+btw, why are you setting inode->i_mapping? The inode is already
+published, changing that looks risky. And I don't think it's needed,
+vma_link() only looks at filp->f_mapping, and in our drm_open() we
+only set that one.
 -Daniel
-
-
-
-
---
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
