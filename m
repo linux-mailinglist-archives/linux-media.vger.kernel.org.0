@@ -2,134 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1EB26287089
-	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 10:13:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CDF932870AC
+	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 10:29:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728504AbgJHINS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Oct 2020 04:13:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55112 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728004AbgJHINS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 04:13:18 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55240C0613D2
-        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 01:13:18 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id 60so4760805otw.3
-        for <linux-media@vger.kernel.org>; Thu, 08 Oct 2020 01:13:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=6GE5pSnNRg0KlyvewB9QKOrrd6/Nut8BwJvyodyZJd4=;
-        b=hMW7zxgBaxDt7Z8CMDWn3cCXSOY5QqOrFQ/uoN1baUlAIhOFYy+4SzujzZvv4Ur9FN
-         onPuYsY03fgo4HL/In06Uiy/3ynGYwzwiQV3wfZ6whnso50XlzhHTRy/QZJCTuip3uEr
-         ueKV+xdznXeh2dJB78HPK0Klt6lkMJnLUSyGA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=6GE5pSnNRg0KlyvewB9QKOrrd6/Nut8BwJvyodyZJd4=;
-        b=rz6JGXE+ULW+sXfRKFRdYnQ5ZJzkePHRbc+yBb/AeBZbdomwoS/IdCxL1WpWo4XjRb
-         rnlwU86By9C1fmN/EBjWFcQLJgUWos13TmEQepawwbImMT6/UpzsVmvigUGWsNnFESOn
-         W+qskoQaavweAm4ZEdkjvEhvZ7riLFmnbUyGMXXH8l45jTrKW3Obg+GCp6gpE9Rpsbmc
-         kaLnvRTW4Zy/GZ6OPO3ZstRnMo+jjk416zZGFSKIdcqdICdvhqEIORnXbNV2Q1hmRMS+
-         exrmvGwJwNrVV5mjrMXh29TtQRbzAquvJmv4guI7kP6fgIl6GSMdKWU/7VOfyOzq+Tsf
-         fFQQ==
-X-Gm-Message-State: AOAM531DXiZYSUVVsYoevoLduu3Stc80Qh8Ksd9nW6RJ0NQKrcV3qHGo
-        mA2X6iKjIAbOcWDHsbbhrCwNxRDHEbQMBXyN+Dd7Tg==
-X-Google-Smtp-Source: ABdhPJzi+1LyDtM+RDWyhibTLQ/9o198dN3ibfXFnaztfI6BQhE6ckMA8Uych0T6Rb8ANf5SnQ1gmeZGjO89xISEbKU=
-X-Received: by 2002:a05:6830:1647:: with SMTP id h7mr4572127otr.281.1602144797647;
- Thu, 08 Oct 2020 01:13:17 -0700 (PDT)
+        id S1726058AbgJHI3m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Oct 2020 04:29:42 -0400
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:9446 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726013AbgJHI3m (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Oct 2020 04:29:42 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0988SVIk030027;
+        Thu, 8 Oct 2020 10:29:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=CzJpxpQsy8dBXJbMz5Q3XvimthE2GoowmBHHI93M5dc=;
+ b=sjOCCx1WIau+cYHsS6948MBcsYHmtR0KUayvIOLYCUvT29VyXOK/Zzy8lZXIJPgPqSh4
+ NnaW9QBKXjGD/bqBB/Qt397j52T8P5P3Q3eR9u+aCe8+EjzUK4tr3vy/5pJlLReDTqaC
+ DRvNxU0ccqqgL22zBKC9s1skqQ0HmAJd09PscfnpkhZrPQPrd7rZSqavPhXa9Ze9B0jm
+ IFaNUrrJLv6Q6twa78+WZG49V1n50MuBT4WqYC6TsMkq5e0o/fTjqhzACIFK/SjxSDs/
+ Em57PRd0750zuMNDUgk5zb+PwzYF9R7O+xVK/rP14oCQVS+BShnw8beFUIGm14gATPJu 2A== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 3402tjshmm-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 08 Oct 2020 10:29:27 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 9AFBF10002A;
+        Thu,  8 Oct 2020 10:29:26 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag1node1.st.com [10.75.127.1])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 869262AC6E9;
+        Thu,  8 Oct 2020 10:29:26 +0200 (CEST)
+Received: from localhost (10.75.127.47) by SFHDAG1NODE1.st.com (10.75.127.1)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 8 Oct 2020 10:29:25
+ +0200
+From:   Hugues Fruchet <hugues.fruchet@st.com>
+To:     Steve Longerbeam <slongerbeam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Alain Volmat <alain.volmat@st.com>
+Subject: [PATCH v3] media: ov5640: add support of 160x120 resolution
+Date:   Thu, 8 Oct 2020 10:29:16 +0200
+Message-ID: <1602145756-4354-1-git-send-email-hugues.fruchet@st.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-References: <20201007164426.1812530-1-daniel.vetter@ffwll.ch>
- <20201007164426.1812530-11-daniel.vetter@ffwll.ch> <CAPcyv4hBL68A7CZa+YnooufDH2tevoxrx32DTJMQ6OHRnec7QQ@mail.gmail.com>
- <20201007232448.GC5177@ziepe.ca> <CAPcyv4jA9fe40r_2SfrCtOaeE85V88TA3NNQZOmQMNj=MdsPyw@mail.gmail.com>
-In-Reply-To: <CAPcyv4jA9fe40r_2SfrCtOaeE85V88TA3NNQZOmQMNj=MdsPyw@mail.gmail.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Thu, 8 Oct 2020 10:13:06 +0200
-Message-ID: <CAKMK7uHg48-fTR1L78p7q5vxD=Kgr_fBEj1pDLaYeuvTGSSFig@mail.gmail.com>
-Subject: Re: [PATCH 10/13] PCI: revoke mappings like devmem
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
-        Linux PCI <linux-pci@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.47]
+X-ClientProxiedBy: SFHDAG2NODE2.st.com (10.75.127.5) To SFHDAG1NODE1.st.com
+ (10.75.127.1)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-10-08_04:2020-10-08,2020-10-08 signatures=0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 8, 2020 at 9:50 AM Dan Williams <dan.j.williams@intel.com> wrote:
->
-> On Wed, Oct 7, 2020 at 4:25 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Wed, Oct 07, 2020 at 12:33:06PM -0700, Dan Williams wrote:
-> > > On Wed, Oct 7, 2020 at 11:11 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > >
-> > > > Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims
-> > > > the region") /dev/kmem zaps ptes when the kernel requests exclusive
-> > > > acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, this is
-> > > > the default for all driver uses.
-> > > >
-> > > > Except there's two more ways to access pci bars: sysfs and proc mmap
-> > > > support. Let's plug that hole.
-> > >
-> > > Ooh, yes, lets.
-> > >
-> > > >
-> > > > For revoke_devmem() to work we need to link our vma into the same
-> > > > address_space, with consistent vma->vm_pgoff. ->pgoff is already
-> > > > adjusted, because that's how (io_)remap_pfn_range works, but for the
-> > > > mapping we need to adjust vma->vm_file->f_mapping. Usually that's done
-> > > > at ->open time, but that's a bit tricky here with all the entry points
-> > > > and arch code. So instead create a fake file and adjust vma->vm_file.
-> > >
-> > > I don't think you want to share the devmem inode for this, this should
-> > > be based off the sysfs inode which I believe there is already only one
-> > > instance per resource. In contrast /dev/mem can have multiple inodes
-> > > because anyone can just mknod a new character device file, the same
-> > > problem does not exist for sysfs.
-> >
-> > The inode does not come from the filesystem char/mem.c creates a
-> > singular anon inode in devmem_init_inode()
->
-> That's not quite right, An inode does come from the filesystem I just
-> arranged for that inode's i_mapping to be set to a common instance.
->
-> > Seems OK to use this more widely, but it feels a bit weird to live in
-> > char/memory.c.
->
-> Sure, now that more users have arrived it should move somewhere common.
->
-> > This is what got me thinking maybe this needs to be a bit bigger
-> > generic infrastructure - eg enter this scheme from fops mmap and
-> > everything else is in mm/user_iomem.c
->
-> It still requires every file that can map physical memory to have its
-> ->open fop do
->
->        inode->i_mapping = devmem_inode->i_mapping;
->        filp->f_mapping = inode->i_mapping;
->
-> I don't see how you can centralize that part.
+Add support of 160x120 resolution.
 
-btw, why are you setting inode->i_mapping? The inode is already
-published, changing that looks risky. And I don't think it's needed,
-vma_link() only looks at filp->f_mapping, and in our drm_open() we
-only set that one.
--Daniel
+Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+---
+version 3:
+  - fix wrong array affectation
+
+version 2:
+  - fix missing max framerate
+
+ drivers/media/i2c/ov5640.c | 26 +++++++++++++++++++++++++-
+ 1 file changed, 25 insertions(+), 1 deletion(-)
+
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index 8d0254d..40d6983 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -98,7 +98,8 @@
+ #define OV5640_REG_AVG_READOUT		0x56a1
+ 
+ enum ov5640_mode_id {
+-	OV5640_MODE_QCIF_176_144 = 0,
++	OV5640_MODE_QQVGA_160_120 = 0,
++	OV5640_MODE_QCIF_176_144,
+ 	OV5640_MODE_QVGA_320_240,
+ 	OV5640_MODE_VGA_640_480,
+ 	OV5640_MODE_NTSC_720_480,
+@@ -416,6 +417,24 @@ static const struct reg_value ov5640_setting_QVGA_320_240[] = {
+ 	{0x3824, 0x02, 0, 0}, {0x5001, 0xa3, 0, 0},
+ };
+ 
++static const struct reg_value ov5640_setting_QQVGA_160_120[] = {
++	{0x3c07, 0x08, 0, 0},
++	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
++	{0x3814, 0x31, 0, 0},
++	{0x3815, 0x31, 0, 0}, {0x3800, 0x00, 0, 0}, {0x3801, 0x00, 0, 0},
++	{0x3802, 0x00, 0, 0}, {0x3803, 0x04, 0, 0}, {0x3804, 0x0a, 0, 0},
++	{0x3805, 0x3f, 0, 0}, {0x3806, 0x07, 0, 0}, {0x3807, 0x9b, 0, 0},
++	{0x3810, 0x00, 0, 0},
++	{0x3811, 0x10, 0, 0}, {0x3812, 0x00, 0, 0}, {0x3813, 0x06, 0, 0},
++	{0x3618, 0x00, 0, 0}, {0x3612, 0x29, 0, 0}, {0x3708, 0x64, 0, 0},
++	{0x3709, 0x52, 0, 0}, {0x370c, 0x03, 0, 0}, {0x3a02, 0x03, 0, 0},
++	{0x3a03, 0xd8, 0, 0}, {0x3a08, 0x01, 0, 0}, {0x3a09, 0x27, 0, 0},
++	{0x3a0a, 0x00, 0, 0}, {0x3a0b, 0xf6, 0, 0}, {0x3a0e, 0x03, 0, 0},
++	{0x3a0d, 0x04, 0, 0}, {0x3a14, 0x03, 0, 0}, {0x3a15, 0xd8, 0, 0},
++	{0x4001, 0x02, 0, 0}, {0x4004, 0x02, 0, 0},
++	{0x4407, 0x04, 0, 0}, {0x5001, 0xa3, 0, 0},
++};
++
+ static const struct reg_value ov5640_setting_QCIF_176_144[] = {
+ 	{0x3c07, 0x08, 0, 0},
+ 	{0x3c09, 0x1c, 0, 0}, {0x3c0a, 0x9c, 0, 0}, {0x3c0b, 0x40, 0, 0},
+@@ -552,6 +571,11 @@ static const struct ov5640_mode_info ov5640_mode_init_data = {
+ 
+ static const struct ov5640_mode_info
+ ov5640_mode_data[OV5640_NUM_MODES] = {
++	{OV5640_MODE_QQVGA_160_120, SUBSAMPLING,
++	 160, 1896, 120, 984,
++	 ov5640_setting_QQVGA_160_120,
++	 ARRAY_SIZE(ov5640_setting_QQVGA_160_120),
++	 OV5640_30_FPS},
+ 	{OV5640_MODE_QCIF_176_144, SUBSAMPLING,
+ 	 176, 1896, 144, 984,
+ 	 ov5640_setting_QCIF_176_144,
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.7.4
+
