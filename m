@@ -2,95 +2,94 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BECA2871F3
-	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 11:50:30 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 41E99287273
+	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 12:22:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729337AbgJHJuY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Oct 2020 05:50:24 -0400
-Received: from z5.mailgun.us ([104.130.96.5]:55476 "EHLO z5.mailgun.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725887AbgJHJuX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Oct 2020 05:50:23 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1602150623; h=Message-ID: Subject: Cc: To: From: Date:
- Content-Transfer-Encoding: Content-Type: MIME-Version: Sender;
- bh=nWdMd8MZpUYyOsN0kzXo+k8AyVDvs4bqcIXdBl3u4uM=; b=CR1RzWu8XE0S1q5CUEjtuY5tQghpTKN60wZthP3BdsPiIv0beNwu+YOOY5Qu3FuQ5ptxsKPX
- ADjWq/kDaZezdtZZtBk+KxQCbURlvoruxlh5O5tJhrFG/gPkW0ce1xBtDGN4fzVJdgAc7pfI
- wi1oFWg3c6of+gM6DVYcK5Y5VZo=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n07.prod.us-west-2.postgun.com with SMTP id
- 5f7ee0de06d81bc48d174274 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Thu, 08 Oct 2020 09:50:22
- GMT
-Sender: asitshah=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id B3A23C43385; Thu,  8 Oct 2020 09:50:22 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: asitshah)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 48117C433CA;
-        Thu,  8 Oct 2020 09:50:22 +0000 (UTC)
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Thu, 08 Oct 2020 15:20:22 +0530
-From:   asitshah@codeaurora.org
-To:     linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
-        mchehab@infradead.org, linux-media@vger.kernel.org,
-        stanimir.varbanov@linaro.org, linux-media-owner@vger.kernel.org
-Cc:     vgarodia@codeaurora.org, dikshita@codeaurora.org
-Subject: Update venus firmware files for v5.4
-Message-ID: <290a085b0fb686ce6aacbd02be560e52@codeaurora.org>
-X-Sender: asitshah@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+        id S1729419AbgJHKVx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Oct 2020 06:21:53 -0400
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:21776 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729325AbgJHKVx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 06:21:53 -0400
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 08 Oct 2020 03:21:52 -0700
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 08 Oct 2020 03:21:50 -0700
+X-QCInternal: smtphost
+Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 08 Oct 2020 15:51:32 +0530
+Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
+        id 6372350C1; Thu,  8 Oct 2020 15:51:31 +0530 (IST)
+From:   Dikshita Agarwal <dikshita@codeaurora.org>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        ezequiel@collabora.com, stanimir.varbanov@linaro.org,
+        vgarodia@codeaurora.org, majja@codeaurora.org,
+        Dikshita Agarwal <dikshita@codeaurora.org>
+Subject: [PATCH] media: v4l2-ctrl: Add base layer priority id control.
+Date:   Thu,  8 Oct 2020 15:51:20 +0530
+Message-Id: <1602152480-3930-1-git-send-email-dikshita@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Team,
+This control indicates the priority id to be applied
+to base layer.
 
-Please include updated Venus Firmware bins for v5.4.
+Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+---
+ Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 9 +++++++++
+ drivers/media/v4l2-core/v4l2-ctrls.c                      | 1 +
+ include/uapi/linux/v4l2-controls.h                        | 1 +
+ 3 files changed, 11 insertions(+)
 
-Snapshot of pull request is as below, let me know if anything is 
-missing.
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+index 690b066..264fb83 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+@@ -1251,6 +1251,15 @@ enum v4l2_mpeg_video_h264_entropy_mode -
+     Force a key frame for the next queued buffer. Applicable to
+     encoders. This is a general, codec-agnostic keyframe control.
+ 
++``V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITYID (integer)``
++	Specifies a priority identifier for the NAL unit,
++	which will be applied to base layer.
++	By default this value is set to 0 for base layer.
++	And the next layer will have priority ID assigned as 1,2,3 and so on.
++	Video encode can't decide the priority id to be applied to a layer
++	so this has to come from client.
++	Valid Range: from 0 to 63
++
+ .. _v4l2-mpeg-video-h264-cpb-size:
+ 
+ ``V4L2_CID_MPEG_VIDEO_H264_CPB_SIZE (integer)``
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index 9296294..ec78510 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -958,6 +958,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:		return "Vertical MV Search Range";
+ 	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:		return "Repeat Sequence Header";
+ 	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:		return "Force Key Frame";
++	case V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITYID:		return "Base Layer Priority ID"
+ 	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:		return "MPEG-2 Slice Parameters";
+ 	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION:		return "MPEG-2 Quantization Matrices";
+ 	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:			return "FWHT Stateless Parameters";
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index b869b54..9ed3e39 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -415,6 +415,7 @@ enum v4l2_mpeg_video_multi_slice_mode {
+ #define V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE		(V4L2_CID_MPEG_BASE+227)
+ #define V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE		(V4L2_CID_MPEG_BASE+228)
+ #define V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME		(V4L2_CID_MPEG_BASE+229)
++#define V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITYID	(V4L2_CID_MPEG_BASE+230)
+ 
+ /* CIDs for the MPEG-2 Part 2 (H.262) codec */
+ #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_MPEG_BASE+270)
+-- 
+1.9.1
 
->>>>>> 
-
-The following changes since commit 
-00a84c516078defb76fbd57543b8d5c674a9a2be:
-
-   linux-firmware: Update AMD SEV firmware (2020-09-16 08:01:44 -0400)
-
-are available in the git repository at:
-
-   https://github.com/shahasit/video-linux-firmware/tree/master
-
-for you to fetch changes up to a09b728b77f5e3b335ff85c6c729248e0121f02c:
-
-   qcom : updated venus firmware files for v5.4 (2020-10-08 15:07:59 
-+0530)
-
-----------------------------------------------------------------
-Asit Shah (1):
-       qcom : updated venus firmware files for v5.4
-
-  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
-  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
-  qcom/venus-5.4/venus.b02 | Bin 870812 -> 873100 bytes
-  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
-  qcom/venus-5.4/venus.mbn | Bin 916924 -> 919212 bytes
-  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
-  6 files changed, 0 insertions(+), 0 deletions(-)
-
-Regards,
-Asit
