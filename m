@@ -2,109 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6D5E2874A0
-	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 14:58:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC1462874C9
+	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 15:04:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730149AbgJHM6Y convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 8 Oct 2020 08:58:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42568 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729722AbgJHM6Y (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 08:58:24 -0400
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E6ADC061755
-        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 05:58:24 -0700 (PDT)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1kQVUz-0005iB-Ev; Thu, 08 Oct 2020 14:58:21 +0200
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1kQVUy-0003XU-9a; Thu, 08 Oct 2020 14:58:20 +0200
-Message-ID: <a87446cfd9eac5ac92d7f948f18b9fc6611eda26.camel@pengutronix.de>
-Subject: Re: [PATCHv2 1/3] s5k5baf: drop 'data' field in struct s5k5baf_fw
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org
-Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
-        Sylwester Nawrocki <snawrocki@kernel.org>
-Date:   Thu, 08 Oct 2020 14:58:20 +0200
-In-Reply-To: <20201008115913.3579973-2-hverkuil-cisco@xs4all.nl>
-References: <20201008115913.3579973-1-hverkuil-cisco@xs4all.nl>
-         <20201008115913.3579973-2-hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        id S1730229AbgJHNEw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Oct 2020 09:04:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38668 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730154AbgJHNEw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 8 Oct 2020 09:04:52 -0400
+Received: from localhost (p54b3300d.dip0.t-ipconnect.de [84.179.48.13])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A4DFD2083B;
+        Thu,  8 Oct 2020 13:04:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602162291;
+        bh=ASgWedu6TAR+2NxULnjFNczobY3wsbEPfYsc85da2JI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=bu1MZEzncti+rh2+k6qNinYOcjHRVm734X7vio/bcaXfQCod9zhiiyfbe0VBU6HLN
+         1Y1l9ZJZ94ZV0M3dHKLaxMCAv4pKMnS/juPWXptW56fPYlVNswvb2W7nsB0RKBgM9C
+         rL4pP3g+NhXrDCE/HpTkIQCSh+DHA8SLm9YX7Fc8=
+Date:   Thu, 8 Oct 2020 15:04:47 +0200
+From:   Wolfram Sang <wsa@kernel.org>
+To:     Roja Rani Yarubandi <rojay@codeaurora.org>
+Cc:     swboyd@chromium.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, akashast@codeaurora.org,
+        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        vkaur@codeaurora.org, pyarlaga@codeaurora.org,
+        rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH V5 1/3] soc: qcom: geni: Remove "iova" check
+Message-ID: <20201008130447.GD897@ninjato>
+References: <20201001084425.23117-1-rojay@codeaurora.org>
+ <20201001084425.23117-2-rojay@codeaurora.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="6WlEvdN9Dv0WHSBl"
+Content-Disposition: inline
+In-Reply-To: <20201001084425.23117-2-rojay@codeaurora.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2020-10-08 at 13:59 +0200, Hans Verkuil wrote:
-> struct s5k5baf_fw ends with this:
-> 
->        struct {
->                u16 id;
->                u16 offset;
->        } seq[0];
->        u16 data[];
-> };
-> 
-> which is rather confusing and can cause gcc warnings:
-> 
-> s5k5baf.c: In function 's5k5baf_load_setfile.isra':
-> s5k5baf.c:390:13: warning: array subscript 65535 is outside the bounds of an interior zero-length array 'struct <anonymous>[0]' [-Wzero-length-bounds]
->   390 |   if (f->seq[i].offset + d <= end)
->       |       ~~~~~~^~~
-> 
-> It turns out that 'data[]' is used in only one place and it can
-> easily be replaced by &fw->seq[0].id and 'seq[0]' can be replaced by
-> 'seq[]'.
-> 
-> This is both more readable and solved that warnings.
-> 
-> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> Cc: Sylwester Nawrocki <snawrocki@kernel.org>
-> ---
->  drivers/media/i2c/s5k5baf.c | 5 ++---
->  1 file changed, 2 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
-> index 42584a088273..ec6f22efe19a 100644
-> --- a/drivers/media/i2c/s5k5baf.c
-> +++ b/drivers/media/i2c/s5k5baf.c
-> @@ -280,8 +280,7 @@ struct s5k5baf_fw {
->  	struct {
->  		u16 id;
->  		u16 offset;
-> -	} seq[0];
-> -	u16 data[];
-> +	} seq[];
->  };
->  
->  struct s5k5baf {
-> @@ -563,7 +562,7 @@ static u16 *s5k5baf_fw_get_seq(struct s5k5baf *state, u16 seq_id)
->  	if (fw == NULL)
->  		return NULL;
->  
-> -	data = fw->data + 2 * fw->count;
-> +	data = &fw->seq[0].id + 2 * fw->count;
 
-Would it make sense to make this
+--6WlEvdN9Dv0WHSBl
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-+	data = &fw->seq[fw->count];
+On Thu, Oct 01, 2020 at 02:14:23PM +0530, Roja Rani Yarubandi wrote:
+> Remove "iova" check from geni_se_tx_dma_unprep and geni_se_rx_dma_unprep
+> fucntions as invalidating with dma_mapping_error() is enough.
+>=20
+> Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
 
-or
+Applied to for-next, thanks!
 
-+	data = fw->seq + fw->count;
+The other patches need updates, it seems.
 
-instead?
 
-regards
-Philipp
+--6WlEvdN9Dv0WHSBl
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQIzBAABCgAdFiEEOZGx6rniZ1Gk92RdFA3kzBSgKbYFAl9/Dm8ACgkQFA3kzBSg
+KbYeVA//Y6rXaoICwSJU8D3g9fDiYZFl8NleWfxdukOlyBzvFtS9xXg6QQ8Ba0o7
+oPo8rqQe4q7nOTWxtO8p4t2riSamZGbq2R95slgxGKh/zpZ1aGh8Dize/cnxr7/m
+jR97jqQHW5V/F+qSYzgyejgqt59WqmB+5zWUyYurf+zTjlPTnpHLjAY6vpOn/Ifn
+ybPqsPTnuod8uxLuk9nAtd3IyB+mByMGo8ipCbnudAZK6ebde0DBAAZH9InFmPmW
+2Ba+zuf5+GV54WTv5YL1Qu0aTKXaQPK/0mvobu3z8D7c6gbrwNAJaX9eJzufTO1Z
+ubLFJnRZ8nSP9uWX12NVwqKgpiPxReyb8L5bwuyJfh+8ZmmKy+77ZLLR4b5lSOOu
+hGZvPsvE8v95ju0QlkbJXMc8rZU56rstJmw2kWAOOmTJnXoT/dcC4KAPqRW9L3m9
+/HYiRYMpgaOADWqsaS35ViQmn4uG/3hzaU1tHGcKnPhVUOxdfyLHx3w2rEDWkCSc
+489Mm63+B6xSkGLAjlR425ZIHUKnrCyhZ15zJn+/XH3fetATHu1sghE3oMHh9L6B
+c4xeYug4AeowRf7YOJ0yEAtfS15gZrJXmV+j6o8ac/934jHOgv3SP/VTWni87Oiq
+Xn0mfxBApf/sNBqziH04jG5GrSJoRCMemhJsEKtFRjK7aSy7ag8=
+=zSze
+-----END PGP SIGNATURE-----
+
+--6WlEvdN9Dv0WHSBl--
