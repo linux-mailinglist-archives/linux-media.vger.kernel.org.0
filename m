@@ -2,80 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A219286C90
-	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 04:00:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DC33286D36
+	for <lists+linux-media@lfdr.de>; Thu,  8 Oct 2020 05:38:48 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727663AbgJHCAj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 7 Oct 2020 22:00:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54078 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726009AbgJHCAj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 7 Oct 2020 22:00:39 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D7CDC061755
-        for <linux-media@vger.kernel.org>; Wed,  7 Oct 2020 19:00:38 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3A5CF9DA;
-        Thu,  8 Oct 2020 04:00:35 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1602122435;
-        bh=c550arwsSu14YLdVsMS4RP7J0ekD19h/FwPelCw7/MQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hJwy+r8we08yCtD2Aog25f7OFTjvpy5ZtjcRfXxLeJOS9q3xFbqemoL/9N/hmMUEO
-         Hykq8WhPy4R0x8jZPV/87Y32FGZDetTzwK/IA886wxViK2m5GZEWFW2TxX172Fy+ux
-         K2bbeYET6Yg6RgQQJppMeUNhJvUcsWd7m/TuxgIQ=
-Date:   Thu, 8 Oct 2020 04:59:53 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     John Cox <jc@kynesim.co.uk>
-Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
-Subject: Re: [PATCH] media: videobuf2: Fix length check for single plane
- dmabuf queueing
-Message-ID: <20201008015953.GA28158@pendragon.ideasonboard.com>
-References: <gh5kef5bkeel3o6b2dkgc2dfagu9klj4c0@4ax.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <gh5kef5bkeel3o6b2dkgc2dfagu9klj4c0@4ax.com>
+        id S1727605AbgJHDir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 7 Oct 2020 23:38:47 -0400
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:37671 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726400AbgJHDir (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 7 Oct 2020 23:38:47 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id QMlOk9NAKTHgxQMlQkGfus; Thu, 08 Oct 2020 05:38:44 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1602128324; bh=0EbxzpD/LNf0II+ine4BhPovzjjdzSJLgpnW1Nz/vEU=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=XtzYNCQ3LYwuk6c8VWt14o4aFGw6UsaCGLyc+7uOjDNXXSYlBzT4oSs6PtNo7pnkx
+         knnTuZx3MUywkUxTHkLSvDrCbLiGdyrhewlhSlYtH7JCWsuOdm7X6JK3za0usQeBx3
+         HiEUeP/ib/3AWcyviK1DG3B3kEVvOj9HOQh+2C59HnVQ0fMD6inaQd1hUpWXs1OUKN
+         pif5di5I3gxDXddfg2CHIWfruGSDcehTNhXkSIx0Mgsx+cOsRIkgdVMVX7QTRP+stY
+         v9Jkp56c5lepZdmdPTBHxP8zR8G+r9rpI2Y4PZoQTizouHwEudJavvuIgun3fNpNXc
+         PKwSObCGjeDNw==
+Message-ID: <d4f3b033fdd32d317a269f0fe758f3af@smtp-cloud8.xs4all.net>
+Date:   Thu, 08 Oct 2020 05:38:42 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfInzGSioisDuxg4EYbACnyKoYrFR0Q6UK6szjQyXd26/+/KIQfm+YpVQQUM1WDtBvdEjB2O7PlxuomMF6uvwymXcaegbxnOjZO/ttULi99P856rRjB1G
+ sUqzEnQXIDV+PMT+YSroKQ31xjrcgg5Nb/5fhI3QWpdOCQBHJAwbBX98rGdLfk+y3ZzZ6JKwbQkvA9oUP4OZypLFwo09hQRRknSgqTmic2whyxbLObh7xLhz
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi John,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Thank you for the patch.
+Results of the daily build of media_tree:
 
-On Wed, Jun 17, 2020 at 02:21:52PM +0100, John Cox wrote:
-> Check against length in v4l2_buffer rather than vb2_buffer when the
-> buffer is a dmabuf. This makes the single plane test the same as the
-> existing multiplanar test.
-> 
-> Signed-off-by: John Cox <jc@kynesim.co.uk>
-> ---
->  drivers/media/common/videobuf2/videobuf2-v4l2.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> index e652f4318284..731c7c99c971 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> @@ -114,7 +114,8 @@ static int __verify_length(struct vb2_buffer *vb, const struct v4l2_buffer *b)
->                                 return -EINVAL;
->                 }
->         } else {
-> -               length = (b->memory == VB2_MEMORY_USERPTR)
-> +               length = (b->memory == VB2_MEMORY_USERPTR ||
-> +                         b->memory == VB2_MEMORY_DMABUF)
->                         ? b->length : vb->planes[0].length;
+date:			Thu Oct  8 05:00:12 CEST 2020
+media-tree git hash:	463c43fcd97e493d8a17242f4f000c86fe642ed6
+media_build git hash:	e0136eadb6f4c24b7f8fcb50ef4d4d5ffb2af31d
+v4l-utils git hash:	28df3d403be3d7769d7b10cda3e372a0dbbfa410
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 9783287347a0d95925f345313520f04869f439ab
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-I don't think this is correct, as it breaks DMABUF import. For USERPTR
-the length needs to be passed by userspace, but for DMABUF, we allow
-userspace to set length to 0, and use the length retrieved from the
-dma_buf. With this change, b->length is 0, and the check fails.
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: WARNINGS
+linux-3.10.108-x86_64: WARNINGS
+linux-3.11.10-i686: WARNINGS
+linux-3.11.10-x86_64: WARNINGS
+linux-3.12.74-i686: WARNINGS
+linux-3.12.74-x86_64: WARNINGS
+linux-3.13.11-i686: WARNINGS
+linux-3.13.11-x86_64: WARNINGS
+linux-3.14.79-i686: WARNINGS
+linux-3.14.79-x86_64: WARNINGS
+linux-3.15.10-i686: WARNINGS
+linux-3.15.10-x86_64: WARNINGS
+linux-3.16.81-i686: WARNINGS
+linux-3.16.81-x86_64: WARNINGS
+linux-3.17.8-i686: WARNINGS
+linux-3.17.8-x86_64: WARNINGS
+linux-3.18.136-i686: WARNINGS
+linux-3.18.136-x86_64: WARNINGS
+linux-3.19.8-i686: WARNINGS
+linux-3.19.8-x86_64: WARNINGS
+linux-4.0.9-i686: WARNINGS
+linux-4.0.9-x86_64: WARNINGS
+linux-4.1.52-i686: WARNINGS
+linux-4.1.52-x86_64: WARNINGS
+linux-4.2.8-i686: WARNINGS
+linux-4.2.8-x86_64: WARNINGS
+linux-4.3.6-i686: WARNINGS
+linux-4.3.6-x86_64: WARNINGS
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: WARNINGS
+linux-4.5.7-x86_64: WARNINGS
+linux-4.6.7-i686: WARNINGS
+linux-4.6.7-x86_64: WARNINGS
+linux-4.7.10-i686: WARNINGS
+linux-4.7.10-x86_64: WARNINGS
+linux-4.8.17-i686: WARNINGS
+linux-4.8.17-x86_64: WARNINGS
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: WARNINGS
+linux-4.10.17-x86_64: WARNINGS
+linux-4.11.12-i686: WARNINGS
+linux-4.11.12-x86_64: WARNINGS
+linux-4.12.14-i686: WARNINGS
+linux-4.12.14-x86_64: WARNINGS
+linux-4.13.16-i686: WARNINGS
+linux-4.13.16-x86_64: WARNINGS
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: WARNINGS
+linux-4.15.18-x86_64: WARNINGS
+linux-4.16.18-i686: WARNINGS
+linux-4.16.18-x86_64: WARNINGS
+linux-4.17.19-i686: WARNINGS
+linux-4.17.19-x86_64: WARNINGS
+linux-4.18.20-i686: WARNINGS
+linux-4.18.20-x86_64: WARNINGS
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: WARNINGS
+linux-4.20.17-x86_64: WARNINGS
+linux-5.0.21-i686: WARNINGS
+linux-5.0.21-x86_64: WARNINGS
+linux-5.1.21-i686: WARNINGS
+linux-5.1.21-x86_64: WARNINGS
+linux-5.2.21-i686: WARNINGS
+linux-5.2.21-x86_64: WARNINGS
+linux-5.3.18-i686: WARNINGS
+linux-5.3.18-x86_64: WARNINGS
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: WARNINGS
+linux-5.5.19-x86_64: WARNINGS
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9-rc7-i686: OK
+linux-5.9-rc7-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
+sparse: OK
+smatch: OK
 
-> 
->                 if (b->bytesused > length)
+Detailed results are available here:
 
--- 
-Regards,
+http://www.xs4all.nl/~hverkuil/logs/Thursday.log
 
-Laurent Pinchart
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
