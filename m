@@ -2,137 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2A702888EF
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 14:37:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E45782888DA
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 14:34:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733207AbgJIMhb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 08:37:31 -0400
-Received: from mail.kernel.org ([198.145.29.99]:48512 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725852AbgJIMhb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Oct 2020 08:37:31 -0400
-Received: from coco.lan (ip5f5ad5d0.dynamic.kabel-deutschland.de [95.90.213.208])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id E09B7206BE;
-        Fri,  9 Oct 2020 12:37:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602247050;
-        bh=ruiGPoaea6akiTHS+AvFSiqq7lSiUQn1p22q5WNA1W0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=wSJCIxYl4F1jPbJncw+V2h9y4FuE4LpMRU+tKrXF5utyqs5uMgts7afTuLBBRKYAr
-         9YH6N1saYfI0AZj6UgTF6HO2LEUi/3X8iseC4ywPkN0VC2VLOj6D9SUZBOHZPx53Oi
-         C8BqC/PANqTv9j0OylEQJGHm8asglolwe8J3aDiU=
-Date:   Fri, 9 Oct 2020 14:37:23 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-s390@vger.kernel.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Linus Torvalds <torvalds@linux-foundation.org>
-Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
-Message-ID: <20201009143723.45609bfb@coco.lan>
-In-Reply-To: <20201009122111.GN5177@ziepe.ca>
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
-        <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
-        <20201009123421.67a80d72@coco.lan>
-        <20201009122111.GN5177@ziepe.ca>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1731820AbgJIMdy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 08:33:54 -0400
+Received: from szxga07-in.huawei.com ([45.249.212.35]:47746 "EHLO huawei.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1730598AbgJIMdy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Oct 2020 08:33:54 -0400
+Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.60])
+        by Forcepoint Email with ESMTP id 4F3A95143872931FB34E;
+        Fri,  9 Oct 2020 20:33:51 +0800 (CST)
+Received: from huawei.com (10.175.127.227) by DGGEMS414-HUB.china.huawei.com
+ (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Fri, 9 Oct 2020
+ 20:33:41 +0800
+From:   Yu Kuai <yukuai3@huawei.com>
+To:     <rick.chang@mediatek.com>, <bin.liu@mediatek.com>,
+        <mchehab@kernel.org>, <matthias.bgg@gmail.com>,
+        <tiffany.lin@mediatek.com>, <andrew-ct.chen@mediatek.com>,
+        <tfiga@chromium.org>, <xia.jiang@mediatek.com>,
+        <hverkuil-cisco@xs4all.nl>, <jcliang@chromium.org>,
+        <minghsiu.tsai@mediatek.com>
+CC:     <linux-media@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <yukuai3@huawei.com>,
+        <yi.zhang@huawei.com>
+Subject: [PATCH V2 0/7] patches to add missing put_device() call 
+Date:   Fri, 9 Oct 2020 20:37:57 +0800
+Message-ID: <20201009123804.3977562-1-yukuai3@huawei.com>
+X-Mailer: git-send-email 2.25.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 7BIT
+Content-Type:   text/plain; charset=US-ASCII
+X-Originating-IP: [10.175.127.227]
+X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 9 Oct 2020 09:21:11 -0300
-Jason Gunthorpe <jgg@ziepe.ca> escreveu:
+changes in V2:
+ - add several patches suggested by Hans
 
-> On Fri, Oct 09, 2020 at 12:34:21PM +0200, Mauro Carvalho Chehab wrote:
-> > Hi,
-> > 
-> > Em Fri,  9 Oct 2020 09:59:26 +0200
-> > Daniel Vetter <daniel.vetter@ffwll.ch> escreveu:
-> >   
-> > > Way back it was a reasonable assumptions that iomem mappings never
-> > > change the pfn range they point at. But this has changed:
-> > > 
-> > > - gpu drivers dynamically manage their memory nowadays, invalidating
-> > > ptes with unmap_mapping_range when buffers get moved
-> > > 
-> > > - contiguous dma allocations have moved from dedicated carvetouts to
-> > > cma regions. This means if we miss the unmap the pfn might contain
-> > > pagecache or anon memory (well anything allocated with GFP_MOVEABLE)
-> > > 
-> > > - even /dev/mem now invalidates mappings when the kernel requests that
-> > > iomem region when CONFIG_IO_STRICT_DEVMEM is set, see 3234ac664a87
-> > > ("/dev/mem: Revoke mappings when a driver claims the region")
-> > > 
-> > > Accessing pfns obtained from ptes without holding all the locks is
-> > > therefore no longer a good idea.
-> > > 
-> > > Unfortunately there's some users where this is not fixable (like v4l
-> > > userptr of iomem mappings) or involves a pile of work (vfio type1
-> > > iommu). For now annotate these as unsafe and splat appropriately.
-> > > 
-> > > This patch adds an unsafe_follow_pfn, which later patches will then
-> > > roll out to all appropriate places.  
-> > 
-> > NACK, as this breaks an existing userspace API on media.  
-> 
-> It doesn't break it. You get a big warning the thing is broken and it
-> keeps working.
-> 
-> We can't leave such a huge security hole open - it impacts other
-> subsystems, distros need to be able to run in a secure mode.
+Yu Kuai (7):
+  media: platform: add missing put_device() call in mtk_jpeg_clk_init()
+  media: platform: add missing put_device() call in mtk_jpeg_probe()
+  media: platform: add missing put_device() call in mtk_jpeg_remove()
+  media: mtk-vcodec: add missing put_device() call in
+    mtk_vcodec_init_dec_pm()
+  media: mtk-vcodec: add missing put_device() call in
+    mtk_vcodec_release_dec_pm()
+  media: mtk-vcodec: add missing put_device() call in
+    mtk_vcodec_init_enc_pm()
+  media: mtk-vcodec: add missing put_device() call in
+    mtk_vcodec_release_enc_pm()
 
-Well, if distros disable it, then apps will break.
+ .../media/platform/mtk-jpeg/mtk_jpeg_core.c   |  3 ++
+ .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 19 +++++++++----
+ .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 28 ++++++++++++++-----
+ 3 files changed, 37 insertions(+), 13 deletions(-)
 
-> > While I agree that using the userptr on media is something that
-> > new drivers may not support, as DMABUF is a better way of
-> > handling it, changing this for existing ones is a big no, 
-> > as it may break usersapace.  
-> 
-> media community needs to work to fix this, not pretend it is OK to
-> keep going as-is.
+-- 
+2.25.4
 
-> Dealing with security issues is the one case where an uABI break might
-> be acceptable.
-> 
-> If you want to NAK it then you need to come up with the work to do
-> something here correctly that will support the old drivers without the
-> kernel taint.
-> 
-> Unfortunately making things uncomfortable for the subsystem is the big
-> hammer the core kernel needs to use to actually get this security work
-> done by those responsible.
-
-
-I'm not pretending that this is ok. Just pointing that the approach
-taken is NOT OK.
-
-I'm not a mm/ expert, but, from what I understood from Daniel's patch
-description is that this is unsafe *only if*  __GFP_MOVABLE is used.
-
-Well, no drivers inside the media subsystem uses such flag, although
-they may rely on some infrastructure that could be using it behind
-the bars.
-
-If this is the case, the proper fix seems to have a GFP_NOT_MOVABLE 
-flag that it would be denying the core mm code to set __GFP_MOVABLE.
-
-Please let address the issue on this way, instead of broken an
-userspace API that it is there since 1991.
-
-Thanks,
-Mauro
