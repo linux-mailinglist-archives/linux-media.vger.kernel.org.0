@@ -2,57 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C396288EAC
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 18:21:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 97D41288EB4
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 18:23:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389523AbgJIQVt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 12:21:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42788 "EHLO
+        id S2389492AbgJIQXI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 12:23:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42986 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389296AbgJIQVt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 12:21:49 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E397C0613D2
-        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 09:21:49 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id k8so7293138pfk.2
-        for <linux-media@vger.kernel.org>; Fri, 09 Oct 2020 09:21:49 -0700 (PDT)
+        with ESMTP id S2388719AbgJIQXH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 12:23:07 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9242C0613D2
+        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 09:23:07 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id bb1so4689481plb.2
+        for <linux-media@vger.kernel.org>; Fri, 09 Oct 2020 09:23:07 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=ZAVNk7w8MrsrtZfuqVq+66u2qWDVQuk2yZXxQPV1wK4=;
-        b=Hje6fTLbyaQMHmvoS4uxCv/W8BXOhC0ZPbFmt4j4C0cBhYo7QZCUXSEPpQ9NouEeZ+
-         mOFwDLtsprqysyWJcjYu9Tw84IlWaw9zHqXACDWZbDhBrjOeTmFhT1BCxPDRCqZOYxrk
-         YR7592yEI8e/ykLp+CR/BbsXoueD0+QbYpFS5sC+1rWfDb987QPb0fhCq4pyawqv+vPR
-         mIr4dQT7duquep5xe3CZfw+nZQfyPCD8bpaQKE2QuaKMPSGpjpsKuPg8YoaXxmPzix5v
-         o000eO02lMcDaDPIQCtmpOrAx1rZXSh2x38UAJdKRS8bt/ekWJ/MvrqjJQ7901ZFdInj
-         WzUQ==
+        bh=8TE4U+VKbEi0E1ShyWEMbfLAHd1qUQl+rTJSQl6GsOw=;
+        b=WhPWdEqZ/ETrgVw503UXhofOA2QT1Ovuf8yl8CDhTtSiFfc+cqw+T5R/ne3ff0/k/j
+         fNx2aCOIdgia7F0Pk73yoNb+cRNut3XufZfn2vEuymPc1896z9BftA528Iruc6CUDRBi
+         ZBjA77YqTtattS2Hq1XsHaVfnfq2pRg6CRbE8Vouc1uh5dOOJ806hmhPCVKM4RSDpi0s
+         ChF9z0thKogfdJi0AMIuVigUJXPf3Re3uYjsOLh1ePaqnkiH6NJ5DMzYVUxLJX4C2fsq
+         /1YE1PH7vLaiYcpjCqbMc7oQuruMLQuCQhWzWGU4JjGK3FwZJ6wzAsb4Cx6OSvUCX0z/
+         7n6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=ZAVNk7w8MrsrtZfuqVq+66u2qWDVQuk2yZXxQPV1wK4=;
-        b=fIBV7JyXsSjwTSXK0YSwPQL5M85CWrVICv4zznEfvtLVush+eUbsSxwzbQe/b7g8Kh
-         rp2Tj/FUIHjCMOPG3uQmOB3xd8m14zHBxesdjzkTNg82awj5b5bHKMBEboEuFXaDw1yg
-         t0BfUAe3fYpMVkwkVN/qXulleK4wlCNP1NDJfcPPHqQMZxANEUYmgQ3ckHUEztw+Owif
-         tky8Q8defHYbYxiN5c/APCp0DOe7ufC7JXK9Y8zO30HbY7YSdvFT+6gXRr6h7sXlIUca
-         hAqynNjg1cBT16FomsKuxsDVjbLq3WoctL7UtQaIs4uTPq65QUPEl5PpXSCSLiSm3pmv
-         BFHw==
-X-Gm-Message-State: AOAM533m3w3GP/NaiVHZn2NiToozzXPEwzp63JAGkzfdV1ueRaYAX/wE
-        1pghmeLWf5rWxijCHUsZpAvJebXIQ1Ltvq7/Dm0V+VHJ2zAdiA==
-X-Google-Smtp-Source: ABdhPJw9WY513ghxhrMpAEYz+w2NtJS+DNfe/Pam3C05I9tCS8BluaQlr6JuepnHEu1Ny49gvtEm935vJMdxSaihKH4=
-X-Received: by 2002:aa7:81d5:0:b029:142:2501:39fa with SMTP id
- c21-20020aa781d50000b0290142250139famr13208558pfn.73.1602260508697; Fri, 09
- Oct 2020 09:21:48 -0700 (PDT)
+        bh=8TE4U+VKbEi0E1ShyWEMbfLAHd1qUQl+rTJSQl6GsOw=;
+        b=tCYuDC3GEPivN/HBQPqPjhGZoKDlalx2cMtLbsX3p4V05KMYDXcZUfYD60nnliifNQ
+         IOO4hhx0ytwL2rv416cTCOU7ndr/vELDRHVzulLrqIdH7HNHiK+X9KUACQ97Na03lX/+
+         Ezfnx8R9eW+cBwPIQA3wBckhcQSb8dwFYyCnVHt8bthfITzI/T7tJL/3C8jl6dqqpUde
+         kvjM7jv/SDh1sBpILxx6Bi4MDAAdN8Qp264qS0tNJw+VBBMxpS7eBZoO7ZiqA1nQotGu
+         IP5Uq79DwZLPTXXC/80ylNxTs5PyJIzrObSQ8B8CP+kNDm/HRy6jKYLRy5tSzkKnEMsE
+         CUtQ==
+X-Gm-Message-State: AOAM532GnmBjLOX5osU+4goo6Z+PccshXwF4jQtq44JVD0xjQIAyNhFi
+        vNug6gbEeiCrIF83hJylzI4PdYbwjiGtALdddBc=
+X-Google-Smtp-Source: ABdhPJy4J1q5e5rAQqohDn9AnNAHkJXsvtmdHg9v5pybUiWA7VxFjwcLTDj/HsC1HmBAzH2JnyR+YIgaBjke5/CIs2o=
+X-Received: by 2002:a17:902:aa8a:b029:d3:c9dd:77d1 with SMTP id
+ d10-20020a170902aa8ab02900d3c9dd77d1mr13105498plr.0.1602260587510; Fri, 09
+ Oct 2020 09:23:07 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201009150756.3397-1-sakari.ailus@linux.intel.com> <20201009150756.3397-5-sakari.ailus@linux.intel.com>
-In-Reply-To: <20201009150756.3397-5-sakari.ailus@linux.intel.com>
+References: <20201009150756.3397-1-sakari.ailus@linux.intel.com> <20201009150827.GJ6413@valkosipuli.retiisi.org.uk>
+In-Reply-To: <20201009150827.GJ6413@valkosipuli.retiisi.org.uk>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 9 Oct 2020 19:22:38 +0300
-Message-ID: <CAHp75Vf=KCMTysgCYt2xeF4x-bfM4Zpy_thLPnysuN+QBMkc2w@mail.gmail.com>
-Subject: Re: [PATCH 4/5] ipu3-cio2: Validate mbus format in setting subdev format
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+Date:   Fri, 9 Oct 2020 19:23:57 +0300
+Message-ID: <CAHp75VeK9O4OMaeBHU04LrMq06oKe-UppYsd4OZHNvDwp5S5fQ@mail.gmail.com>
+Subject: Re: [PATCH 0/5] ipu3-cio2 format fixes
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Tsuchiya Yuto <kitakar@gmail.com>,
         Bingbu Cao <bingbu.cao@intel.com>,
         Yong Zhi <yong.zhi@intel.com>,
@@ -63,75 +64,36 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 9, 2020 at 6:10 PM Sakari Ailus
-<sakari.ailus@linux.intel.com> wrote:
+On Fri, Oct 9, 2020 at 6:11 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
 >
-> Validate media bus code, width and height when setting the subdev format.
+> On Fri, Oct 09, 2020 at 06:07:51PM +0300, Sakari Ailus wrote:
+> > Hello all,
+> >
+> > This set addresses most notable subdev format related issues, namely the
+> > sub-device sink format being unaccessible. The result of accessing it
+> > varied from oopses to crashes.
+> >
+> > since v1:
+> >
+> > - Validate try format, too
+> >
+> > - Set field in subdev format to V4L2_FIELD_NONE
+> >
+> > - Add a comment explaining the lock
+> >
+> > - Make values that should be unsigned, unsigned
 >
-> This effectively reworks how setting subdev format is implemented in the
-> driver.
+> This is obviously v2. v1 is here:
 
-Does it make it dependent on patch 3/5?
-Or maybe you can use min_t() and update to min() in a separate patch?
+v2 is good enough, but few nit-picks here and there. In any case
+Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-> Fixes: c2a6a07afe4a ("media: intel-ipu3: cio2: add new MIPI-CSI2 driver")
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 28 ++++++++++++++++--------
->  1 file changed, 19 insertions(+), 9 deletions(-)
 >
-> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> index 9c7b527a8800..9726091c9985 100644
-> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> @@ -1257,6 +1257,9 @@ static int cio2_subdev_set_fmt(struct v4l2_subdev *sd,
->                                struct v4l2_subdev_format *fmt)
->  {
->         struct cio2_queue *q = container_of(sd, struct cio2_queue, subdev);
-> +       struct v4l2_mbus_framefmt *mbus;
-> +       u32 mbus_code = fmt->format.code;
-> +       unsigned int i;
+> <URL:https://lore.kernel.org/linux-media/20201008204747.26320-1-sakari.ailus@linux.intel.com/T/#t>
 >
->         /*
->          * Only allow setting sink pad format;
-> @@ -1265,18 +1268,25 @@ static int cio2_subdev_set_fmt(struct v4l2_subdev *sd,
->         if (fmt->pad == CIO2_PAD_SOURCE)
->                 return cio2_subdev_get_fmt(sd, cfg, fmt);
->
-> -       mutex_lock(&q->subdev_lock);
-> +       if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> +               mbus = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
-> +       else
-> +               mbus = &q->subdev_fmt;
->
-> -       if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-> -               *v4l2_subdev_get_try_format(sd, cfg, fmt->pad) = fmt->format;
-> -       } else {
-> -               /* It's the sink, allow changing frame size */
-> -               q->subdev_fmt.width = fmt->format.width;
-> -               q->subdev_fmt.height = fmt->format.height;
-> -               q->subdev_fmt.code = fmt->format.code;
-> -               fmt->format = q->subdev_fmt;
-> +       fmt->format.code = formats[0].mbus_code;
-> +
-> +       for (i = 0; i < ARRAY_SIZE(formats); i++) {
-> +               if (formats[i].mbus_code == fmt->format.code) {
-> +                       fmt->format.code = mbus_code;
-> +                       break;
-> +               }
->         }
->
-> +       fmt->format.width = min(fmt->format.width, CIO2_IMAGE_MAX_WIDTH);
-> +       fmt->format.height = min(fmt->format.height, CIO2_IMAGE_MAX_LENGTH);
-> +
-> +       mutex_lock(&q->subdev_lock);
-> +       *mbus = fmt->format;
->         mutex_unlock(&q->subdev_lock);
->
->         return 0;
 > --
-> 2.27.0
->
+> Sakari Ailus
+
 
 
 -- 
