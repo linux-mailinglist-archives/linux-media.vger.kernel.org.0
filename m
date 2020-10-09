@@ -2,175 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C95592880BF
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 05:38:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BCD8C288111
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 06:16:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731509AbgJIDiw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Oct 2020 23:38:52 -0400
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:46727 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731508AbgJIDiv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 8 Oct 2020 23:38:51 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id QjF2kFJCaTHgxQjF3kJ3o4; Fri, 09 Oct 2020 05:38:49 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1602214729; bh=2mfSZDElngauGcWWsECKacM5DPmsyUPP31QfTRWa74A=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=bdT90H+NctI44olFwjTXPV2OPuvgtffGVY9/p0h7qI3b+jxgwsnlIB1vA1/MZumw7
-         Aicz/8fCoSGFa2DcN683GfIvQ1Hd42M82qHorUv0NunTm6uiw2NlS223vQbBi5XXJu
-         ETz79mqZqB4OD0cYqy6DAUCGle+mKxPP/dGxvBydSj0iET14D439l/P9W3+90ipx0H
-         PLjbf43EWj0pQZMcVHubcSpV+Tex4YnLWfDZ9ucxzBIEObCfbcXkwCxmA2T6Z50Y5L
-         R+nTkNecOY/qC+4h52KIbavi4qNbzh0uiF4HMAwRQfvF24YYw9438fwd6BWDARv98J
-         /qgbhYjuqemJA==
-Message-ID: <0954a4d713d6d97fa9af4caa6fa60990@smtp-cloud8.xs4all.net>
-Date:   Fri, 09 Oct 2020 05:38:47 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfAG6h2vVOkv09TZH7TaIm0mfoPdaTad4DrKivhcjIr9CKQK06iayuvvGvGec5SLG4ucuuqE49KUINXpwppfbZhkG1iqRIzSpKg4AjrKMygY4D/Cgf77y
- FmbI/lkyBTgquicx8Wz+P7abZqb3wTwrFLu5RW0AS01Zo8Pnbh1tvwUS31tSmcM+7ZfRZTIgr1fMkCeBAsZUSnoVhAZbqqUI/BodJ/zsli2I8ROm0FbjnLLb
+        id S1729235AbgJIEQg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 00:16:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43350 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725900AbgJIEQg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 00:16:36 -0400
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E49FC0613D2;
+        Thu,  8 Oct 2020 21:16:36 -0700 (PDT)
+Received: by mail-ed1-x542.google.com with SMTP id p13so7971939edi.7;
+        Thu, 08 Oct 2020 21:16:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=AfwAzZgxUctq+B9Xwm5LEy7q5lioBZycU4ewFeC4ZrU=;
+        b=YeuI3ZU/Q95zGksRh/xPkTQuaKMozCNBWHj+oL9M9Y/jIEAET0+TVTnhYDk17L2ESl
+         Po3EAv7LSh0BdfZTBahj4Xy1jjUYO1LgqavXAlxotKM6x+sABn4BgRaGhKgoKq7D/APk
+         FPr4i7RJkARmVt7oApHNvPtTRqrVTzYm6ZfV2QIAjAzQQiaRJdkfQoOGNNAYKyftMofW
+         wb7IZkuTzm4cW9umXnEb5EiXn4h5X6ibsIHURgefnDZfCJ4mTXNZpOmimAKfdGTTTi+a
+         tn/HA+9zLa2CEgg8sWAgZyRejGA8nWgbKoIoEZkA//EKEpMAi/lEmqsvvRmFjDDKi7ro
+         HHuA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=AfwAzZgxUctq+B9Xwm5LEy7q5lioBZycU4ewFeC4ZrU=;
+        b=hSXVJQ2Vn7Zzjp8uz50w+J9mXDJwGeNyl0Jb0VScbCzeeWJVVm5Yupf9QRCJcuIRRM
+         fMS24+cTZTMQIZLslA55S36sSGkHFR3bTGeYcYSQDC/cQuwBR8ia0C12m1wASQNC3wlq
+         F5Fog+a2m/UfacKZ9aaTdcnC1Fwt+pDNnNkWg9rEouv3hWPZZF4AMpiG5Mc6Lje/kClS
+         5gaT0YbgWh5dJGLGhCxHJ7xOAn4ztk0pBAqbOH+TSAXkrfK5Gl99XC2b6bl/LW9ARnpv
+         4A+GZoeDXh3lx1kXOXjVrW4n2kgTRtAsmYgPeEuH7TZlp6vjnUKXp6JHBtS8iqUYzytt
+         16WA==
+X-Gm-Message-State: AOAM532KnLQ2AFdsdZL5P2wCaMUT31CvyplKglNuSXEMq2Nsje68ci/M
+        XOtWZqRqPBMceNWCUzNqEyoVeSqJGMPbMg==
+X-Google-Smtp-Source: ABdhPJyANwK4YJx0wVZaHj0CcX+4bLk3AB9hNGwkbJnRsWUmnv9UXC5XoaoqXKNU7nhJfS7T4UP/uw==
+X-Received: by 2002:a05:6402:10d5:: with SMTP id p21mr12751645edu.14.1602216994860;
+        Thu, 08 Oct 2020 21:16:34 -0700 (PDT)
+Received: from felia.fritz.box ([2001:16b8:2d6e:f600:80f1:4ea4:2130:b98])
+        by smtp.gmail.com with ESMTPSA id o11sm5415265edw.80.2020.10.08.21.16.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 08 Oct 2020 21:16:34 -0700 (PDT)
+From:   Lukas Bulwahn <lukas.bulwahn@gmail.com>
+To:     Corentin Labbe <clabbe@baylibre.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        mjpeg-users@lists.sourceforge.net, linux-media@vger.kernel.org
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        devel@driverdev.osuosl.org, Joe Perches <joe@perches.com>,
+        Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+        Pia Eichinger <pia.eichinger@st.oth-regensburg.de>,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Lukas Bulwahn <lukas.bulwahn@gmail.com>
+Subject: [PATCH] MAINTAINERS: rectify ZR36067 VIDEO FOR LINUX DRIVER section
+Date:   Fri,  9 Oct 2020 06:16:21 +0200
+Message-Id: <20201009041621.17513-1-lukas.bulwahn@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Commit 754f0f1ba8d9 ("media: MAINTAINERS: change maintainer of the zoran
+driver") added a new section in MAINTAINERS with an invalid file entry
+and at the wrong place for alphabetic ordering.
 
-Results of the daily build of media_tree:
+Hence, ./scripts/get_maintainer.pl --self-test=patterns complains:
 
-date:			Fri Oct  9 05:00:22 CEST 2020
-media-tree git hash:	c386e0797d26a32e354daf4480c5d40165db66a1
-media_build git hash:	e0136eadb6f4c24b7f8fcb50ef4d4d5ffb2af31d
-v4l-utils git hash:	28df3d403be3d7769d7b10cda3e372a0dbbfa410
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 9783287347a0d95925f345313520f04869f439ab
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+  warning: no file matches  F:  Documentation/media/v4l-drivers/zoran.rst
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9-rc7-i686: OK
-linux-5.9-rc7-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
-virtme-32: OK: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 0
-sparse: OK
-smatch: OK
+Point the file entry to the right location and move the section to the
+right place in MAINTAINERS.
 
-Detailed results are available here:
+Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
+---
+applies cleanly on next-20201008
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+Corentin, please ack.
+Mauro, please pick this minor non-urgent cleanup patch into your -next tree.
 
-Detailed regression test results are available here:
+ MAINTAINERS | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+diff --git a/MAINTAINERS b/MAINTAINERS
+index 239ae2425cf8..6879ca545677 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -19412,6 +19412,13 @@ T:	git git://git.kernel.org/pub/scm/linux/kernel/git/dlemoal/zonefs.git
+ F:	Documentation/filesystems/zonefs.rst
+ F:	fs/zonefs/
+ 
++ZPOOL COMPRESSED PAGE STORAGE API
++M:	Dan Streetman <ddstreet@ieee.org>
++L:	linux-mm@kvack.org
++S:	Maintained
++F:	include/linux/zpool.h
++F:	mm/zpool.c
++
+ ZR36067 VIDEO FOR LINUX DRIVER
+ M:	Corentin Labbe <clabbe@baylibre.com>
+ L:	mjpeg-users@lists.sourceforge.net
+@@ -19419,16 +19426,9 @@ L:	linux-media@vger.kernel.org
+ S:	Maintained
+ W:	http://mjpeg.sourceforge.net/driver-zoran/
+ Q:	https://patchwork.linuxtv.org/project/linux-media/list/
+-F:	Documentation/media/v4l-drivers/zoran.rst
++F:	Documentation/driver-api/media/drivers/v4l-drivers/zoran.rst
+ F:	drivers/staging/media/zoran/
+ 
+-ZPOOL COMPRESSED PAGE STORAGE API
+-M:	Dan Streetman <ddstreet@ieee.org>
+-L:	linux-mm@kvack.org
+-S:	Maintained
+-F:	include/linux/zpool.h
+-F:	mm/zpool.c
+-
+ ZRAM COMPRESSED RAM BLOCK DEVICE DRVIER
+ M:	Minchan Kim <minchan@kernel.org>
+ M:	Nitin Gupta <ngupta@vflare.org>
+-- 
+2.17.1
 
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
