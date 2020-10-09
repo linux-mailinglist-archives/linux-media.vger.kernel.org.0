@@ -2,29 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ABCF9287FC5
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 03:05:42 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 89163287FCC
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 03:10:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728703AbgJIBFl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Oct 2020 21:05:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42128 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726348AbgJIBFl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 21:05:41 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4E9BC0613D2
-        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 18:05:40 -0700 (PDT)
+        id S1729251AbgJIBKM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Oct 2020 21:10:12 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49428 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726766AbgJIBKM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 21:10:12 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4838559E;
-        Fri,  9 Oct 2020 03:05:39 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5103859E;
+        Fri,  9 Oct 2020 03:10:10 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1602205539;
-        bh=77MvvXC/iqjJHodikpSn8B9ibAjdrZV11eLQsEvucAg=;
+        s=mail; t=1602205810;
+        bh=p0hHHIx6qzlcSyG770MajdHIEcnIzA5/NG25FjGQPHE=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=EXXCVFqYdjr11iv0uTM4QEPGPdx28D3TDjh1sSQ/RmYgiIdHUs0XULgVC9LhO/NhL
-         tOEuUZ2XDR8K9AxADXsrCICGj77/QOMLugbW8t9brw7lk3tuwz4ZBhKJD223k+A8Q+
-         DQ/tH6Y31wSD0+ldmXbxqkmMybIlhE0IDYTQl4VE=
-Date:   Fri, 9 Oct 2020 04:04:56 +0300
+        b=XWEF1qn60p0xH3W3Ocwk8JB4T7AVHzuokxhHC7MKwxpl/XUvLrchszAEgJb+F8Kl0
+         8JsB3jh2UCpQFdFNIjT/RzdBFPLFT1FRn+o/zba3FEvQL4obXkNv86sqexsX95MC9x
+         Z4mAv6Qvy6lEgCrH45opUYomDmx9LCAY/nJgZbAU=
+Date:   Fri, 9 Oct 2020 04:09:27 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     linux-media@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
@@ -32,15 +29,15 @@ Cc:     linux-media@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
         Bingbu Cao <bingbu.cao@intel.com>,
         Tian Shu Qiu <tian.shu.qiu@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 03/10] media: ipu2-cio2: Replace custom definition
- with PAGE_SIZE
-Message-ID: <20201009010456.GF12857@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 07/10] media: ipu3-cio2: Get rid of pci_set_master()
+ duplication
+Message-ID: <20201009010927.GG12857@pendragon.ideasonboard.com>
 References: <20200817160734.12402-1-andriy.shevchenko@linux.intel.com>
- <20200817160734.12402-3-andriy.shevchenko@linux.intel.com>
+ <20200817160734.12402-7-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200817160734.12402-3-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20200817160734.12402-7-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -49,146 +46,65 @@ Hi Andy,
 
 Thank you for the patch.
 
-On Mon, Aug 17, 2020 at 07:07:26PM +0300, Andy Shevchenko wrote:
-> It's quite unlikely that another page size will be supported,
-> but in any case there is still an inconsistency between custom
-> page size definition and generic macros used in the driver.
-> 
-> Switch over to the generic PAGE_SIZE for sake of the consistency.
+On Mon, Aug 17, 2020 at 07:07:30PM +0300, Andy Shevchenko wrote:
+> It's unclear why driver repeats the code from PCI core.
+> Drop it for good.
 
-Is this conceptually correct though ? Does the CIO2 have an intrinsic
-page size, or do pages here always refer to system memory pages ? In the
-latter case the change is good, otherwise a separate macro seems best.
+You may want to mention that pci_set_master() is already called by the
+cio2_pci_probe().
+
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
-> v2: no change
->  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 30 ++++++++++--------------
->  drivers/media/pci/intel/ipu3/ipu3-cio2.h |  1 -
->  2 files changed, 13 insertions(+), 18 deletions(-)
+> v2: new patch
+>  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 26 +++++-------------------
+>  1 file changed, 5 insertions(+), 21 deletions(-)
 > 
 > diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> index a89cb3c7e0dc..0cb5461bfb1e 100644
+> index 7bcde3ba8f6e..57310d7874ce 100644
 > --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
 > +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> @@ -96,12 +96,12 @@ static inline u32 cio2_bytesperline(const unsigned int width)
->  static void cio2_fbpt_exit_dummy(struct cio2_device *cio2)
+> @@ -1711,24 +1711,6 @@ static void cio2_queues_exit(struct cio2_device *cio2)
+>  
+>  /**************** PCI interface ****************/
+>  
+> -static int cio2_pci_config_setup(struct pci_dev *dev)
+> -{
+> -	u16 pci_command;
+> -	int r = pci_enable_msi(dev);
+> -
+> -	if (r) {
+> -		dev_err(&dev->dev, "failed to enable MSI (%d)\n", r);
+> -		return r;
+> -	}
+> -
+> -	pci_read_config_word(dev, PCI_COMMAND, &pci_command);
+> -	pci_command |= PCI_COMMAND_MEMORY | PCI_COMMAND_MASTER |
+> -		PCI_COMMAND_INTX_DISABLE;
+> -	pci_write_config_word(dev, PCI_COMMAND, pci_command);
+> -
+> -	return 0;
+> -}
+> -
+>  static int cio2_pci_probe(struct pci_dev *pci_dev,
+>  			  const struct pci_device_id *id)
 >  {
->  	if (cio2->dummy_lop) {
-> -		dma_free_coherent(&cio2->pci_dev->dev, CIO2_PAGE_SIZE,
-> +		dma_free_coherent(&cio2->pci_dev->dev, PAGE_SIZE,
->  				  cio2->dummy_lop, cio2->dummy_lop_bus_addr);
->  		cio2->dummy_lop = NULL;
+> @@ -1774,9 +1756,11 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
+>  		return -ENODEV;
 >  	}
->  	if (cio2->dummy_page) {
-> -		dma_free_coherent(&cio2->pci_dev->dev, CIO2_PAGE_SIZE,
-> +		dma_free_coherent(&cio2->pci_dev->dev, PAGE_SIZE,
->  				  cio2->dummy_page, cio2->dummy_page_bus_addr);
->  		cio2->dummy_page = NULL;
->  	}
-> @@ -111,12 +111,10 @@ static int cio2_fbpt_init_dummy(struct cio2_device *cio2)
->  {
->  	unsigned int i;
 >  
-> -	cio2->dummy_page = dma_alloc_coherent(&cio2->pci_dev->dev,
-> -					      CIO2_PAGE_SIZE,
-> +	cio2->dummy_page = dma_alloc_coherent(&cio2->pci_dev->dev, PAGE_SIZE,
->  					      &cio2->dummy_page_bus_addr,
->  					      GFP_KERNEL);
-> -	cio2->dummy_lop = dma_alloc_coherent(&cio2->pci_dev->dev,
-> -					     CIO2_PAGE_SIZE,
-> +	cio2->dummy_lop = dma_alloc_coherent(&cio2->pci_dev->dev, PAGE_SIZE,
->  					     &cio2->dummy_lop_bus_addr,
->  					     GFP_KERNEL);
->  	if (!cio2->dummy_page || !cio2->dummy_lop) {
-> @@ -161,7 +159,7 @@ static void cio2_fbpt_entry_init_dummy(struct cio2_device *cio2,
+> -	r = cio2_pci_config_setup(pci_dev);
+> -	if (r)
+> -		return -ENODEV;
+> +	r = pci_enable_msi(pci_dev);
+> +	if (r) {
+> +		dev_err(&pci_dev->dev, "failed to enable MSI (%d)\n", r);
+> +		return r;
+> +	}
 >  
->  	entry[0].first_entry.first_page_offset = 0;
->  	entry[1].second_entry.num_of_pages = CIO2_LOP_ENTRIES * CIO2_MAX_LOPS;
-> -	entry[1].second_entry.last_page_available_bytes = CIO2_PAGE_SIZE - 1;
-> +	entry[1].second_entry.last_page_available_bytes = PAGE_SIZE - 1;
->  
->  	for (i = 0; i < CIO2_MAX_LOPS; i++)
->  		entry[i].lop_page_addr = cio2->dummy_lop_bus_addr >> PAGE_SHIFT;
-> @@ -182,25 +180,24 @@ static void cio2_fbpt_entry_init_buf(struct cio2_device *cio2,
->  	entry[0].first_entry.first_page_offset = b->offset;
->  	remaining = length + entry[0].first_entry.first_page_offset;
->  	entry[1].second_entry.num_of_pages =
-> -		DIV_ROUND_UP(remaining, CIO2_PAGE_SIZE);
-> +		DIV_ROUND_UP(remaining, PAGE_SIZE);
->  	/*
->  	 * last_page_available_bytes has the offset of the last byte in the
->  	 * last page which is still accessible by DMA. DMA cannot access
->  	 * beyond this point. Valid range for this is from 0 to 4095.
->  	 * 0 indicates 1st byte in the page is DMA accessible.
-> -	 * 4095 (CIO2_PAGE_SIZE - 1) means every single byte in the last page
-> +	 * 4095 (PAGE_SIZE - 1) means every single byte in the last page
->  	 * is available for DMA transfer.
->  	 */
->  	entry[1].second_entry.last_page_available_bytes =
->  			(remaining & ~PAGE_MASK) ?
-> -				(remaining & ~PAGE_MASK) - 1 :
-> -				CIO2_PAGE_SIZE - 1;
-> +				(remaining & ~PAGE_MASK) - 1 : PAGE_SIZE - 1;
->  	/* Fill FBPT */
->  	remaining = length;
->  	i = 0;
->  	while (remaining > 0) {
->  		entry->lop_page_addr = b->lop_bus_addr[i] >> PAGE_SHIFT;
-> -		remaining -= CIO2_LOP_ENTRIES * CIO2_PAGE_SIZE;
-> +		remaining -= CIO2_LOP_ENTRIES * PAGE_SIZE;
->  		entry++;
->  		i++;
->  	}
-> @@ -840,7 +837,7 @@ static int cio2_vb2_buf_init(struct vb2_buffer *vb)
->  	struct device *dev = &cio2->pci_dev->dev;
->  	struct cio2_buffer *b =
->  		container_of(vb, struct cio2_buffer, vbb.vb2_buf);
-> -	unsigned int pages = DIV_ROUND_UP(vb->planes[0].length, CIO2_PAGE_SIZE);
-> +	unsigned int pages = DIV_ROUND_UP(vb->planes[0].length, PAGE_SIZE);
->  	unsigned int lops = DIV_ROUND_UP(pages + 1, CIO2_LOP_ENTRIES);
->  	struct sg_table *sg;
->  	struct sg_dma_page_iter sg_iter;
-> @@ -855,7 +852,7 @@ static int cio2_vb2_buf_init(struct vb2_buffer *vb)
->  	memset(b->lop, 0, sizeof(b->lop));
->  	/* Allocate LOP table */
->  	for (i = 0; i < lops; i++) {
-> -		b->lop[i] = dma_alloc_coherent(dev, CIO2_PAGE_SIZE,
-> +		b->lop[i] = dma_alloc_coherent(dev, PAGE_SIZE,
->  					       &b->lop_bus_addr[i], GFP_KERNEL);
->  		if (!b->lop[i])
->  			goto fail;
-> @@ -885,8 +882,7 @@ static int cio2_vb2_buf_init(struct vb2_buffer *vb)
->  	return 0;
->  fail:
->  	while (i--)
-> -		dma_free_coherent(dev, CIO2_PAGE_SIZE,
-> -				  b->lop[i], b->lop_bus_addr[i]);
-> +		dma_free_coherent(dev, PAGE_SIZE, b->lop[i], b->lop_bus_addr[i]);
->  	return -ENOMEM;
->  }
->  
-> @@ -976,7 +972,7 @@ static void cio2_vb2_buf_cleanup(struct vb2_buffer *vb)
->  	/* Free LOP table */
->  	for (i = 0; i < CIO2_MAX_LOPS; i++) {
->  		if (b->lop[i])
-> -			dma_free_coherent(&cio2->pci_dev->dev, CIO2_PAGE_SIZE,
-> +			dma_free_coherent(&cio2->pci_dev->dev, PAGE_SIZE,
->  					  b->lop[i], b->lop_bus_addr[i]);
->  	}
->  }
-> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.h b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> index a64a829acc34..549b08f88f0c 100644
-> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> @@ -392,7 +392,6 @@ struct cio2_device {
->  					 sizeof(struct cio2_fbpt_entry))
->  
->  #define CIO2_FBPT_SUBENTRY_UNIT		4
-> -#define CIO2_PAGE_SIZE			4096
->  
->  /* cio2 fbpt first_entry ctrl status */
->  #define CIO2_FBPT_CTRL_VALID		BIT(0)
+>  	r = cio2_fbpt_init_dummy(cio2);
+>  	if (r)
 
 -- 
 Regards,
