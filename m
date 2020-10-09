@@ -2,451 +2,343 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92605288EDC
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 18:28:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E5C6C288F4A
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 18:58:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389797AbgJIQ2C (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 12:28:02 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43754 "EHLO
+        id S2389922AbgJIQ5q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 12:57:46 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48342 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389144AbgJIQ2B (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 12:28:01 -0400
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CC784C0613D2
-        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 09:28:01 -0700 (PDT)
-Received: by mail-oo1-xc43.google.com with SMTP id w7so2500913oow.7
-        for <linux-media@vger.kernel.org>; Fri, 09 Oct 2020 09:28:01 -0700 (PDT)
+        with ESMTP id S2389529AbgJIQ5q (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 12:57:46 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4B03C0613D2
+        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 09:57:45 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id j136so10504016wmj.2
+        for <linux-media@vger.kernel.org>; Fri, 09 Oct 2020 09:57:45 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=FwD9qRck80aaS6hcwpVV+fGUUTa5tO1fSET+ZcHE9T8=;
-        b=bQX4adCPHglu9tPk5eecC53IQeTGWv+EUOVCyYKo9uvRy4oEYH0nD+gAP2w+5nnP8B
-         QlzdPV/9xf4H6eRw2kVrCXVQjh3aPSPtgDAAPdcSWJc1Spe5MOovBjYVYLXz0p3Oh4nT
-         ofg2Zh9gTRaOVUMmYlegSOiljWKzfcI4G7PRY=
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=0pLn82IbgQV35wH4ma+k0406StKvwf+W3mj4bGhZifE=;
+        b=PkNBVdrvO/SF2HUY/SBKzGH/JIbyGv1X7JVHwyRp2NMGmrRwPiJ8YO5KTnNxVs/DTR
+         h+yXL8eb2mq4/cn2Dwt59h04BZYPDMJfUrNOEQpyRhv358eWBm8iMQ4wuE8aH+K/XoWv
+         VQPgSPuQrV1mjqwCbrtPywjhk1nkKWI7znRiE=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=FwD9qRck80aaS6hcwpVV+fGUUTa5tO1fSET+ZcHE9T8=;
-        b=DMhhjbD/ZBcCK6r7jzD/xgziPDI21ivxoC4qecztsUpdM2L0Uyb7Z3M+2jFszlc9f3
-         ZEN5ZsmBHpX+feKS4/3H1GUc32l17wLKt589tAuO3QAIfHy1Tb6dzC6W5hoTe+Y289JB
-         6umVmup7YLTUsPKtx8VJvFkXmNCkBX7DUQe30b7526iGJ9JXTU2bpzoARVrzsWVMJ/sZ
-         6zLmtAt7z9gd/r/GqBGwHhiKK4SZh2ciSpdFAELbddnYDMeGcWS1LsHLnl19b6Z+R48B
-         fYut6xHybhV4IkL5jhxOs9a5QiDKYljOfHnWqE5uPsDgkvNL+ZG56cU9mmyLftdbScD3
-         WRqA==
-X-Gm-Message-State: AOAM533H4CdZ4miijDPHd0bzTFnYyld10LPcXzTrdKmcHPeEgrofUXI8
-        nf9O98enmBO7cIlzUH0Fy5HF+uD+1koY66klPF66Tg==
-X-Google-Smtp-Source: ABdhPJzdQbwMUYb0ZFQJ3kLnpydd0XpR/r7Yz1OrUQs9NEMEBiryzok72FhSC53llTTytdAIzIrW3/i8SCIpf4/IZNY=
-X-Received: by 2002:a4a:c011:: with SMTP id v17mr9630277oop.89.1602260880414;
- Fri, 09 Oct 2020 09:28:00 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201009150342.1979-1-christian.koenig@amd.com>
- <20201009150342.1979-6-christian.koenig@amd.com> <20201009162444.GO438822@phenom.ffwll.local>
-In-Reply-To: <20201009162444.GO438822@phenom.ffwll.local>
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=0pLn82IbgQV35wH4ma+k0406StKvwf+W3mj4bGhZifE=;
+        b=GQgXdE+JSK5Naf6huQUwiUJT7o+kl+tPKJC0LgK76qfEQsCz1ZgtLp56Jy7dRmmi3R
+         iYSKl05PWpvevLSSBNP+X11JVZN97rBsVvgA+ss594/gCShFEVUdKxIRfkkLSqwIb43J
+         ACBlXkLThJ89EEkTcmCz3HD4E2qEDm/sBD3JnCXOXaDgRbb3FczxdTbnnRGM3hvr0iXW
+         880UC3/W+qvCl8nWYWfqwpxqRG+0dpSWWftmo7pW+OSbrfPBUnKlohkqZ1k/3GpsZZdU
+         rlwjbJlOoKxxbY8ba9/mGtpnWX3sAYLs78CzVDVgseggwC867KnPSJAVDma1hWQZPXUs
+         pnhw==
+X-Gm-Message-State: AOAM530uCOa8HMNPTu4IGpHrQSph5MkSfAiNoTn4ABhNGV7SGncBRV3p
+        axJnlTOy8jFpBM9Lk/77EiahZQ==
+X-Google-Smtp-Source: ABdhPJzWm2EDClZGBoeRp2koRpZWB9TbXgl54u2KDWSi+G0UmCpXfa0O1HJTk/LTlflMGH/BrzAI9Q==
+X-Received: by 2002:a1c:9ad0:: with SMTP id c199mr15291080wme.54.1602262664449;
+        Fri, 09 Oct 2020 09:57:44 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id n10sm12381658wmk.7.2020.10.09.09.57.42
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2020 09:57:43 -0700 (PDT)
+Date:   Fri, 9 Oct 2020 18:57:40 +0200
 From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Fri, 9 Oct 2020 18:27:49 +0200
-Message-ID: <CAKMK7uHNEcXNHHiJZu=7+YK2OpFULSpo7pYNvOavzR6xXe0MAQ@mail.gmail.com>
-Subject: Re: [PATCH 6/6] drm/prime: document that use the page array is
- deprecated v2
-To:     =?UTF-8?Q?Christian_K=C3=B6nig?= <ckoenig.leichtzumerken@gmail.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     Linux MM <linux-mm@kvack.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        "Wilson, Chris" <chris@chris-wilson.co.uk>,
-        Dave Airlie <airlied@redhat.com>,
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-s390@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
         Andrew Morton <akpm@linux-foundation.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Matthew Wilcox <willy@infradead.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
+        Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v2 06/17] media: videobuf2: Move frame_vector into media
+ subsystem
+Message-ID: <20201009165740.GP438822@phenom.ffwll.local>
+Mail-Followup-To: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-s390@vger.kernel.org, John Hubbard <jhubbard@nvidia.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Dan Williams <dan.j.williams@intel.com>
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-7-daniel.vetter@ffwll.ch>
+ <20201009121417.115db7d9@coco.lan>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201009121417.115db7d9@coco.lan>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 9, 2020 at 6:24 PM Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Fri, Oct 09, 2020 at 05:03:42PM +0200, Christian K=C3=B6nig wrote:
-> > We have reoccurring requests on this so better document that
-> > this approach doesn't work and dma_buf_mmap() needs to be used instead.
-> >
-> > v2: split it into two functions
-> >
-> > Signed-off-by: Christian K=C3=B6nig <christian.koenig@amd.com>
->
-> Patches 3-5:
->
-> Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
->
-> This one looks good, but you have it on a strange baseline. This doesn't
-> contain the sg walking fixes from Marek, so reintroduces the bugs.
-> Probably need to request a backmerge chain, first of -rc8 into drm-next,
-> and then that into drm-misc-next.
+On Fri, Oct 09, 2020 at 12:14:17PM +0200, Mauro Carvalho Chehab wrote:
+> Em Fri,  9 Oct 2020 09:59:23 +0200
+> Daniel Vetter <daniel.vetter@ffwll.ch> escreveu:
+> 
+> > It's the only user. This also garbage collects the CONFIG_FRAME_VECTOR
+> > symbol from all over the tree (well just one place, somehow omap media
+> > driver still had this in its Kconfig, despite not using it).
+> > 
+> > Reviewed-by: John Hubbard <jhubbard@nvidia.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > Cc: Pawel Osciak <pawel@osciak.com>
+> > Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+> > Cc: Kyungmin Park <kyungmin.park@samsung.com>
+> > Cc: Tomasz Figa <tfiga@chromium.org>
+> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: John Hubbard <jhubbard@nvidia.com>
+> > Cc: Jérôme Glisse <jglisse@redhat.com>
+> > Cc: Jan Kara <jack@suse.cz>
+> > Cc: Dan Williams <dan.j.williams@intel.com>
+> > Cc: linux-mm@kvack.org
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Cc: linux-samsung-soc@vger.kernel.org
+> > Cc: linux-media@vger.kernel.org
+> > Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> > ---
+> >  drivers/media/common/videobuf2/Kconfig        |  1 -
+> >  drivers/media/common/videobuf2/Makefile       |  1 +
+> >  .../media/common/videobuf2}/frame_vector.c    |  2 +
+> >  drivers/media/platform/omap/Kconfig           |  1 -
+> >  include/linux/mm.h                            | 42 -------------------
+> >  include/media/videobuf2-core.h                | 42 +++++++++++++++++++
+> >  mm/Kconfig                                    |  3 --
+> >  mm/Makefile                                   |  1 -
+> >  8 files changed, 45 insertions(+), 48 deletions(-)
+> >  rename {mm => drivers/media/common/videobuf2}/frame_vector.c (99%)
+> > 
+> > diff --git a/drivers/media/common/videobuf2/Kconfig b/drivers/media/common/videobuf2/Kconfig
+> > index edbc99ebba87..d2223a12c95f 100644
+> > --- a/drivers/media/common/videobuf2/Kconfig
+> > +++ b/drivers/media/common/videobuf2/Kconfig
+> > @@ -9,7 +9,6 @@ config VIDEOBUF2_V4L2
+> >  
+> >  config VIDEOBUF2_MEMOPS
+> >  	tristate
+> > -	select FRAME_VECTOR
+> >  
+> >  config VIDEOBUF2_DMA_CONTIG
+> >  	tristate
+> > diff --git a/drivers/media/common/videobuf2/Makefile b/drivers/media/common/videobuf2/Makefile
+> > index 77bebe8b202f..54306f8d096c 100644
+> > --- a/drivers/media/common/videobuf2/Makefile
+> > +++ b/drivers/media/common/videobuf2/Makefile
+> > @@ -1,5 +1,6 @@
+> >  # SPDX-License-Identifier: GPL-2.0
+> >  videobuf2-common-objs := videobuf2-core.o
+> > +videobuf2-common-objs += frame_vector.o
+> >  
+> >  ifeq ($(CONFIG_TRACEPOINTS),y)
+> >    videobuf2-common-objs += vb2-trace.o
+> > diff --git a/mm/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+> > similarity index 99%
+> > rename from mm/frame_vector.c
+> > rename to drivers/media/common/videobuf2/frame_vector.c
+> > index d44779e56313..2b0b97761d15 100644
+> > --- a/mm/frame_vector.c
+> > +++ b/drivers/media/common/videobuf2/frame_vector.c
+> > @@ -8,6 +8,8 @@
+> >  #include <linux/pagemap.h>
+> >  #include <linux/sched.h>
+> >  
+> > +#include <media/videobuf2-core.h>
+> > +
+> 
+> See my comment below...
+> 
+> >  /**
+> >   * get_vaddr_frames() - map virtual addresses to pfns
+> >   * @start:	starting user address
+> > diff --git a/drivers/media/platform/omap/Kconfig b/drivers/media/platform/omap/Kconfig
+> > index f73b5893220d..de16de46c0f4 100644
+> > --- a/drivers/media/platform/omap/Kconfig
+> > +++ b/drivers/media/platform/omap/Kconfig
+> > @@ -12,6 +12,5 @@ config VIDEO_OMAP2_VOUT
+> >  	depends on VIDEO_V4L2
+> >  	select VIDEOBUF2_DMA_CONTIG
+> >  	select OMAP2_VRFB if ARCH_OMAP2 || ARCH_OMAP3
+> > -	select FRAME_VECTOR
+> >  	help
+> >  	  V4L2 Display driver support for OMAP2/3 based boards.
+> > diff --git a/include/linux/mm.h b/include/linux/mm.h
+> > index 16b799a0522c..acd60fbf1a5a 100644
+> > --- a/include/linux/mm.h
+> > +++ b/include/linux/mm.h
+> > @@ -1743,48 +1743,6 @@ int account_locked_vm(struct mm_struct *mm, unsigned long pages, bool inc);
+> >  int __account_locked_vm(struct mm_struct *mm, unsigned long pages, bool inc,
+> >  			struct task_struct *task, bool bypass_rlim);
+> >  
+> > -/* Container for pinned pfns / pages */
+> > -struct frame_vector {
+> > -	unsigned int nr_allocated;	/* Number of frames we have space for */
+> > -	unsigned int nr_frames;	/* Number of frames stored in ptrs array */
+> > -	bool got_ref;		/* Did we pin pages by getting page ref? */
+> > -	bool is_pfns;		/* Does array contain pages or pfns? */
+> > -	void *ptrs[];		/* Array of pinned pfns / pages. Use
+> > -				 * pfns_vector_pages() or pfns_vector_pfns()
+> > -				 * for access */
+> > -};
+> > -
+> > -struct frame_vector *frame_vector_create(unsigned int nr_frames);
+> > -void frame_vector_destroy(struct frame_vector *vec);
+> > -int get_vaddr_frames(unsigned long start, unsigned int nr_pfns,
+> > -		     unsigned int gup_flags, struct frame_vector *vec);
+> > -void put_vaddr_frames(struct frame_vector *vec);
+> > -int frame_vector_to_pages(struct frame_vector *vec);
+> > -void frame_vector_to_pfns(struct frame_vector *vec);
+> > -
+> > -static inline unsigned int frame_vector_count(struct frame_vector *vec)
+> > -{
+> > -	return vec->nr_frames;
+> > -}
+> > -
+> > -static inline struct page **frame_vector_pages(struct frame_vector *vec)
+> > -{
+> > -	if (vec->is_pfns) {
+> > -		int err = frame_vector_to_pages(vec);
+> > -
+> > -		if (err)
+> > -			return ERR_PTR(err);
+> > -	}
+> > -	return (struct page **)(vec->ptrs);
+> > -}
+> > -
+> > -static inline unsigned long *frame_vector_pfns(struct frame_vector *vec)
+> > -{
+> > -	if (!vec->is_pfns)
+> > -		frame_vector_to_pfns(vec);
+> > -	return (unsigned long *)(vec->ptrs);
+> > -}
+> > -
+> >  struct kvec;
+> >  int get_kernel_pages(const struct kvec *iov, int nr_pages, int write,
+> >  			struct page **pages);
+> > diff --git a/include/media/videobuf2-core.h b/include/media/videobuf2-core.h
+> > index bbb3f26fbde9..a2e75ca0334f 100644
+> > --- a/include/media/videobuf2-core.h
+> > +++ b/include/media/videobuf2-core.h
+> > @@ -1254,4 +1254,46 @@ bool vb2_request_object_is_buffer(struct media_request_object *obj);
+> >   */
+> >  unsigned int vb2_request_buffer_cnt(struct media_request *req);
+> >  
+> > +/* Container for pinned pfns / pages in frame_vector.c */
+> > +struct frame_vector {
+> > +	unsigned int nr_allocated;	/* Number of frames we have space for */
+> > +	unsigned int nr_frames;	/* Number of frames stored in ptrs array */
+> > +	bool got_ref;		/* Did we pin pages by getting page ref? */
+> > +	bool is_pfns;		/* Does array contain pages or pfns? */
+> > +	void *ptrs[];		/* Array of pinned pfns / pages. Use
+> > +				 * pfns_vector_pages() or pfns_vector_pfns()
+> > +				 * for access */
+> > +};
+> > +
+> > +struct frame_vector *frame_vector_create(unsigned int nr_frames);
+> > +void frame_vector_destroy(struct frame_vector *vec);
+> > +int get_vaddr_frames(unsigned long start, unsigned int nr_pfns,
+> > +		     unsigned int gup_flags, struct frame_vector *vec);
+> > +void put_vaddr_frames(struct frame_vector *vec);
+> > +int frame_vector_to_pages(struct frame_vector *vec);
+> > +void frame_vector_to_pfns(struct frame_vector *vec);
+> > +
+> > +static inline unsigned int frame_vector_count(struct frame_vector *vec)
+> > +{
+> > +	return vec->nr_frames;
+> > +}
+> > +
+> > +static inline struct page **frame_vector_pages(struct frame_vector *vec)
+> > +{
+> > +	if (vec->is_pfns) {
+> > +		int err = frame_vector_to_pages(vec);
+> > +
+> > +		if (err)
+> > +			return ERR_PTR(err);
+> > +	}
+> > +	return (struct page **)(vec->ptrs);
+> > +}
+> > +
+> > +static inline unsigned long *frame_vector_pfns(struct frame_vector *vec)
+> > +{
+> > +	if (!vec->is_pfns)
+> > +		frame_vector_to_pfns(vec);
+> > +	return (unsigned long *)(vec->ptrs);
+> > +}
+> > +
+> >  #endif /* _MEDIA_VIDEOBUF2_CORE_H */
+> 
+> Please place those into a include/media/frame_vector.h file, instead of
+> merging it directly at vb2 core header.
+> 
+> Then include the new header at videobuf2-core.h and at frame_vector.c.
 
-Marek's patch is in drm-next, so just needs a backmerge into drm-misc-next.
+Makes sense, I'll do that for v3.
 
-Thomas, can you pls do that? We need 0552daac2d18f
+> With such changes:
+> 
+> Acked-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-I'll wait for the next round for patches 1&2 since Jason seems to have
-found a small issue with them.
+Thanks for taking a look.
 -Daniel
 
->
-> Everything else in here lgtm.
-> -Daniel
->
->
->
-> > ---
-> >  drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c     |  9 ++-
-> >  drivers/gpu/drm/drm_prime.c                 | 67 +++++++++++++++------
-> >  drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  3 +-
-> >  drivers/gpu/drm/msm/msm_gem.c               |  2 +-
-> >  drivers/gpu/drm/nouveau/nouveau_bo.c        |  5 +-
-> >  drivers/gpu/drm/radeon/radeon_ttm.c         |  9 ++-
-> >  drivers/gpu/drm/vgem/vgem_drv.c             |  3 +-
-> >  drivers/gpu/drm/vkms/vkms_gem.c             |  2 +-
-> >  drivers/gpu/drm/xen/xen_drm_front_gem.c     |  4 +-
-> >  include/drm/drm_prime.h                     |  7 ++-
-> >  10 files changed, 69 insertions(+), 42 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c b/drivers/gpu/drm/=
-amd/amdgpu/amdgpu_ttm.c
-> > index ac463e706b19..6a65490de391 100644
-> > --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ttm.c
-> > @@ -1011,8 +1011,8 @@ static int amdgpu_ttm_tt_pin_userptr(struct ttm_b=
-o_device *bdev,
-> >               goto release_sg;
-> >
-> >       /* convert SG to linear array of pages and dma addresses */
-> > -     drm_prime_sg_to_page_addr_arrays(ttm->sg, NULL, gtt->ttm.dma_addr=
-ess,
-> > -                                      ttm->num_pages);
-> > +     drm_prime_sg_to_dma_addr_array(ttm->sg, gtt->ttm.dma_address,
-> > +                                    ttm->num_pages);
-> >
-> >       return 0;
-> >
-> > @@ -1345,9 +1345,8 @@ static int amdgpu_ttm_tt_populate(struct ttm_bo_d=
-evice *bdev,
-> >                       ttm->sg =3D sgt;
-> >               }
-> >
-> > -             drm_prime_sg_to_page_addr_arrays(ttm->sg, NULL,
-> > -                                              gtt->ttm.dma_address,
-> > -                                              ttm->num_pages);
-> > +             drm_prime_sg_to_dma_addr_array(ttm->sg, gtt->ttm.dma_addr=
-ess,
-> > +                                            ttm->num_pages);
-> >               ttm_tt_set_populated(ttm);
-> >               return 0;
-> >       }
-> > diff --git a/drivers/gpu/drm/drm_prime.c b/drivers/gpu/drm/drm_prime.c
-> > index 4910c446db83..8b750c074494 100644
-> > --- a/drivers/gpu/drm/drm_prime.c
-> > +++ b/drivers/gpu/drm/drm_prime.c
-> > @@ -954,27 +954,25 @@ struct drm_gem_object *drm_gem_prime_import(struc=
-t drm_device *dev,
-> >  EXPORT_SYMBOL(drm_gem_prime_import);
-> >
-> >  /**
-> > - * drm_prime_sg_to_page_addr_arrays - convert an sg table into a page =
-array
-> > + * drm_prime_sg_to_page_array - convert an sg table into a page array
-> >   * @sgt: scatter-gather table to convert
-> > - * @pages: optional array of page pointers to store the page array in
-> > - * @addrs: optional array to store the dma bus address of each page
-> > - * @max_entries: size of both the passed-in arrays
-> > + * @pages: array of page pointers to store the pages in
-> > + * @max_entries: size of the passed-in array
-> >   *
-> > - * Exports an sg table into an array of pages and addresses. This is c=
-urrently
-> > - * required by the TTM driver in order to do correct fault handling.
-> > + * Exports an sg table into an array of pages.
-> >   *
-> > - * Drivers can use this in their &drm_driver.gem_prime_import_sg_table
-> > - * implementation.
-> > + * This function is deprecated and strongly discouraged to be used.
-> > + * The page array is only useful for page faults and those can corrupt=
- fields
-> > + * in the struct page if they are not handled by the exporting driver.
-> >   */
-> > -int drm_prime_sg_to_page_addr_arrays(struct sg_table *sgt, struct page=
- **pages,
-> > -                                  dma_addr_t *addrs, int max_entries)
-> > +int __deprecated drm_prime_sg_to_page_array(struct sg_table *sgt,
-> > +                                         struct page **pages,
-> > +                                         int max_entries)
-> >  {
-> >       unsigned count;
-> >       struct scatterlist *sg;
-> >       struct page *page;
-> >       u32 page_len, page_index;
-> > -     dma_addr_t addr;
-> > -     u32 dma_len, dma_index;
-> >
-> >       /*
-> >        * Scatterlist elements contains both pages and DMA addresses, bu=
-t
-> > @@ -984,14 +982,11 @@ int drm_prime_sg_to_page_addr_arrays(struct sg_ta=
-ble *sgt, struct page **pages,
-> >        * described by the sg_dma_address(sg).
-> >        */
-> >       page_index =3D 0;
-> > -     dma_index =3D 0;
-> >       for_each_sg(sgt->sgl, sg, sgt->nents, count) {
-> >               page_len =3D sg->length;
-> >               page =3D sg_page(sg);
-> > -             dma_len =3D sg_dma_len(sg);
-> > -             addr =3D sg_dma_address(sg);
-> >
-> > -             while (pages && page_len > 0) {
-> > +             while (page_len > 0) {
-> >                       if (WARN_ON(page_index >=3D max_entries))
-> >                               return -1;
-> >                       pages[page_index] =3D page;
-> > @@ -999,7 +994,43 @@ int drm_prime_sg_to_page_addr_arrays(struct sg_tab=
-le *sgt, struct page **pages,
-> >                       page_len -=3D PAGE_SIZE;
-> >                       page_index++;
-> >               }
-> > -             while (addrs && dma_len > 0) {
-> > +     }
-> > +     return 0;
-> > +}
-> > +EXPORT_SYMBOL(drm_prime_sg_to_page_array);
-> > +
-> > +/**
-> > + * drm_prime_sg_to_dma_addr_array - convert an sg table into a dma add=
-r array
-> > + * @sgt: scatter-gather table to convert
-> > + * @addrs: array to store the dma bus address of each page
-> > + * @max_entries: size of both the passed-in arrays
-> > + *
-> > + * Exports an sg table into an array of addresses.
-> > + *
-> > + * Drivers should use this in their &drm_driver.gem_prime_import_sg_ta=
-ble
->
-> s/should/can/
->
-> There's no requirement, if your driver just handles everything as an sgt
-> there's no conversion needed.
->
-> > + * implementation.
-> > + */
-> > +int drm_prime_sg_to_dma_addr_array(struct sg_table *sgt, dma_addr_t *a=
-ddrs,
-> > +                                int max_entries)
-> > +{
-> > +     struct scatterlist *sg;
-> > +     u32 dma_len, dma_index;
-> > +     dma_addr_t addr;
-> > +     unsigned count;
-> > +
-> > +     /*
-> > +      * Scatterlist elements contains both pages and DMA addresses, bu=
-t
-> > +      * one shoud not assume 1:1 relation between them. The sg->length=
- is
-> > +      * the size of the physical memory chunk described by the sg->pag=
-e,
-> > +      * while sg_dma_len(sg) is the size of the DMA (IO virtual) chunk
-> > +      * described by the sg_dma_address(sg).
-> > +      */
-> > +     dma_index =3D 0;
-> > +     for_each_sg(sgt->sgl, sg, sgt->nents, count) {
-> > +             dma_len =3D sg_dma_len(sg);
-> > +             addr =3D sg_dma_address(sg);
-> > +
-> > +             while (dma_len > 0) {
-> >                       if (WARN_ON(dma_index >=3D max_entries))
-> >                               return -1;
-> >                       addrs[dma_index] =3D addr;
-> > @@ -1010,7 +1041,7 @@ int drm_prime_sg_to_page_addr_arrays(struct sg_ta=
-ble *sgt, struct page **pages,
-> >       }
-> >       return 0;
-> >  }
-> > -EXPORT_SYMBOL(drm_prime_sg_to_page_addr_arrays);
-> > +EXPORT_SYMBOL(drm_prime_sg_to_dma_addr_array);
-> >
-> >  /**
-> >   * drm_prime_gem_destroy - helper to clean up a PRIME-imported GEM obj=
-ect
-> > diff --git a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c b/drivers/gpu/=
-drm/etnaviv/etnaviv_gem_prime.c
-> > index 135fbff6fecf..8c04b8e8054c 100644
-> > --- a/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> > +++ b/drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c
-> > @@ -133,8 +133,7 @@ struct drm_gem_object *etnaviv_gem_prime_import_sg_=
-table(struct drm_device *dev,
-> >               goto fail;
-> >       }
-> >
-> > -     ret =3D drm_prime_sg_to_page_addr_arrays(sgt, etnaviv_obj->pages,
-> > -                                            NULL, npages);
-> > +     ret =3D drm_prime_sg_to_page_array(sgt, etnaviv_obj->pages, npage=
-s);
-> >       if (ret)
-> >               goto fail;
-> >
-> > diff --git a/drivers/gpu/drm/msm/msm_gem.c b/drivers/gpu/drm/msm/msm_ge=
-m.c
-> > index a71f42870d5e..616b87641740 100644
-> > --- a/drivers/gpu/drm/msm/msm_gem.c
-> > +++ b/drivers/gpu/drm/msm/msm_gem.c
-> > @@ -1174,7 +1174,7 @@ struct drm_gem_object *msm_gem_import(struct drm_=
-device *dev,
-> >               goto fail;
-> >       }
-> >
-> > -     ret =3D drm_prime_sg_to_page_addr_arrays(sgt, msm_obj->pages, NUL=
-L, npages);
-> > +     ret =3D drm_prime_sg_to_page_array(sgt, msm_obj->pages, npages);
-> >       if (ret) {
-> >               mutex_unlock(&msm_obj->lock);
-> >               goto fail;
-> > diff --git a/drivers/gpu/drm/nouveau/nouveau_bo.c b/drivers/gpu/drm/nou=
-veau/nouveau_bo.c
-> > index e378bb491688..835edd74ef59 100644
-> > --- a/drivers/gpu/drm/nouveau/nouveau_bo.c
-> > +++ b/drivers/gpu/drm/nouveau/nouveau_bo.c
-> > @@ -1299,9 +1299,8 @@ nouveau_ttm_tt_populate(struct ttm_bo_device *bde=
-v,
-> >               return 0;
-> >
-> >       if (slave && ttm->sg) {
-> > -             drm_prime_sg_to_page_addr_arrays(ttm->sg, NULL,
-> > -                                              ttm_dma->dma_address,
-> > -                                              ttm->num_pages);
-> > +             drm_prime_sg_to_dma_addr_array(ttm->sg, ttm_dma->dma_addr=
-ess,
-> > +                                            ttm->num_pages);
-> >               ttm_tt_set_populated(ttm);
-> >               return 0;
-> >       }
-> > diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/rade=
-on/radeon_ttm.c
-> > index 4b92cdbcd29b..7997e4564576 100644
-> > --- a/drivers/gpu/drm/radeon/radeon_ttm.c
-> > +++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-> > @@ -474,8 +474,8 @@ static int radeon_ttm_tt_pin_userptr(struct ttm_bo_=
-device *bdev, struct ttm_tt *
-> >       if (r)
-> >               goto release_sg;
-> >
-> > -     drm_prime_sg_to_page_addr_arrays(ttm->sg, NULL, gtt->ttm.dma_addr=
-ess,
-> > -                                      ttm->num_pages);
-> > +     drm_prime_sg_to_dma_addr_array(ttm->sg, gtt->ttm.dma_address,
-> > +                                    ttm->num_pages);
-> >
-> >       return 0;
-> >
-> > @@ -642,9 +642,8 @@ static int radeon_ttm_tt_populate(struct ttm_bo_dev=
-ice *bdev,
-> >       }
-> >
-> >       if (slave && ttm->sg) {
-> > -             drm_prime_sg_to_page_addr_arrays(ttm->sg, NULL,
-> > -                                              gtt->ttm.dma_address,
-> > -                                              ttm->num_pages);
-> > +             drm_prime_sg_to_dma_addr_array(ttm->sg, gtt->ttm.dma_addr=
-ess,
-> > +                                            ttm->num_pages);
-> >               ttm_tt_set_populated(ttm);
-> >               return 0;
-> >       }
-> > diff --git a/drivers/gpu/drm/vgem/vgem_drv.c b/drivers/gpu/drm/vgem/vge=
-m_drv.c
-> > index ea0eecae5153..e505e5a291b3 100644
-> > --- a/drivers/gpu/drm/vgem/vgem_drv.c
-> > +++ b/drivers/gpu/drm/vgem/vgem_drv.c
-> > @@ -356,8 +356,7 @@ static struct drm_gem_object *vgem_prime_import_sg_=
-table(struct drm_device *dev,
-> >       }
-> >
-> >       obj->pages_pin_count++; /* perma-pinned */
-> > -     drm_prime_sg_to_page_addr_arrays(obj->table, obj->pages, NULL,
-> > -                                     npages);
-> > +     drm_prime_sg_to_page_array(obj->table, obj->pages, npages);
-> >       return &obj->base;
-> >  }
-> >
-> > diff --git a/drivers/gpu/drm/vkms/vkms_gem.c b/drivers/gpu/drm/vkms/vkm=
-s_gem.c
-> > index 19a0e260a4df..a2ff21f47101 100644
-> > --- a/drivers/gpu/drm/vkms/vkms_gem.c
-> > +++ b/drivers/gpu/drm/vkms/vkms_gem.c
-> > @@ -256,6 +256,6 @@ vkms_prime_import_sg_table(struct drm_device *dev,
-> >               return ERR_PTR(-ENOMEM);
-> >       }
-> >
-> > -     drm_prime_sg_to_page_addr_arrays(sg, obj->pages, NULL, npages);
-> > +     drm_prime_sg_to_page_array(sg, obj->pages, npages);
-> >       return &obj->gem;
-> >  }
-> > diff --git a/drivers/gpu/drm/xen/xen_drm_front_gem.c b/drivers/gpu/drm/=
-xen/xen_drm_front_gem.c
-> > index f3830a0d1808..f4150ddfc5e2 100644
-> > --- a/drivers/gpu/drm/xen/xen_drm_front_gem.c
-> > +++ b/drivers/gpu/drm/xen/xen_drm_front_gem.c
-> > @@ -220,8 +220,8 @@ xen_drm_front_gem_import_sg_table(struct drm_device=
- *dev,
-> >
-> >       xen_obj->sgt_imported =3D sgt;
-> >
-> > -     ret =3D drm_prime_sg_to_page_addr_arrays(sgt, xen_obj->pages,
-> > -                                            NULL, xen_obj->num_pages);
-> > +     ret =3D drm_prime_sg_to_page_array(sgt, xen_obj->pages,
-> > +                                      xen_obj->num_pages);
-> >       if (ret < 0)
-> >               return ERR_PTR(ret);
-> >
-> > diff --git a/include/drm/drm_prime.h b/include/drm/drm_prime.h
-> > index 093f760cc131..4bda9ab3a3bb 100644
-> > --- a/include/drm/drm_prime.h
-> > +++ b/include/drm/drm_prime.h
-> > @@ -103,8 +103,9 @@ struct drm_gem_object *drm_gem_prime_import(struct =
-drm_device *dev,
-> >
-> >  void drm_prime_gem_destroy(struct drm_gem_object *obj, struct sg_table=
- *sg);
-> >
-> > -int drm_prime_sg_to_page_addr_arrays(struct sg_table *sgt, struct page=
- **pages,
-> > -                                  dma_addr_t *addrs, int max_pages);
+> 
+> > diff --git a/mm/Kconfig b/mm/Kconfig
+> > index 6c974888f86f..da6c943fe9f1 100644
+> > --- a/mm/Kconfig
+> > +++ b/mm/Kconfig
+> > @@ -815,9 +815,6 @@ config DEVICE_PRIVATE
+> >  	  memory; i.e., memory that is only accessible from the device (or
+> >  	  group of devices). You likely also want to select HMM_MIRROR.
+> >  
+> > -config FRAME_VECTOR
+> > -	bool
 > > -
-> > +int drm_prime_sg_to_page_array(struct sg_table *sgt, struct page **pag=
-es,
-> > +                            int max_pages);
-> > +int drm_prime_sg_to_dma_addr_array(struct sg_table *sgt, dma_addr_t *a=
-ddrs,
-> > +                                int max_pages);
-> >
-> >  #endif /* __DRM_PRIME_H__ */
-> > --
-> > 2.17.1
-> >
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
+> >  config ARCH_USES_HIGH_VMA_FLAGS
+> >  	bool
+> >  config ARCH_HAS_PKEYS
+> > diff --git a/mm/Makefile b/mm/Makefile
+> > index d5649f1c12c0..a025fd6c6afd 100644
+> > --- a/mm/Makefile
+> > +++ b/mm/Makefile
+> > @@ -111,7 +111,6 @@ obj-$(CONFIG_PAGE_EXTENSION) += page_ext.o
+> >  obj-$(CONFIG_CMA_DEBUGFS) += cma_debug.o
+> >  obj-$(CONFIG_USERFAULTFD) += userfaultfd.o
+> >  obj-$(CONFIG_IDLE_PAGE_TRACKING) += page_idle.o
+> > -obj-$(CONFIG_FRAME_VECTOR) += frame_vector.o
+> >  obj-$(CONFIG_DEBUG_PAGE_REF) += debug_page_ref.o
+> >  obj-$(CONFIG_HARDENED_USERCOPY) += usercopy.o
+> >  obj-$(CONFIG_PERCPU_STATS) += percpu-stats.o
+> 
+> 
+> 
+> Thanks,
+> Mauro
 
-
-
---=20
+-- 
 Daniel Vetter
 Software Engineer, Intel Corporation
 http://blog.ffwll.ch
