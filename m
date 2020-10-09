@@ -2,76 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61EEC2888D3
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 14:34:29 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D9B7B2888FF
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 14:40:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387495AbgJIMeH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 08:34:07 -0400
-Received: from szxga06-in.huawei.com ([45.249.212.32]:47858 "EHLO huawei.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1731368AbgJIMeB (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Oct 2020 08:34:01 -0400
-Received: from DGGEMS414-HUB.china.huawei.com (unknown [172.30.72.58])
-        by Forcepoint Email with ESMTP id 57E1DFF1D6040988F781;
-        Fri,  9 Oct 2020 20:33:56 +0800 (CST)
-Received: from huawei.com (10.175.127.227) by DGGEMS414-HUB.china.huawei.com
- (10.3.19.214) with Microsoft SMTP Server id 14.3.487.0; Fri, 9 Oct 2020
- 20:33:48 +0800
-From:   Yu Kuai <yukuai3@huawei.com>
-To:     <rick.chang@mediatek.com>, <bin.liu@mediatek.com>,
-        <mchehab@kernel.org>, <matthias.bgg@gmail.com>,
-        <tiffany.lin@mediatek.com>, <andrew-ct.chen@mediatek.com>,
-        <tfiga@chromium.org>, <xia.jiang@mediatek.com>,
-        <hverkuil-cisco@xs4all.nl>, <jcliang@chromium.org>,
-        <minghsiu.tsai@mediatek.com>
-CC:     <linux-media@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <yukuai3@huawei.com>,
-        <yi.zhang@huawei.com>
-Subject: [PATCH 7/7] media: mtk-vcodec: add missing put_device() call in mtk_vcodec_release_enc_pm()
-Date:   Fri, 9 Oct 2020 20:38:04 +0800
-Message-ID: <20201009123804.3977562-8-yukuai3@huawei.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20201009123804.3977562-1-yukuai3@huawei.com>
-References: <20201009123804.3977562-1-yukuai3@huawei.com>
+        id S2387568AbgJIMjz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 08:39:55 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49180 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725852AbgJIMjz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Oct 2020 08:39:55 -0400
+Received: from coco.lan (ip5f5ad5d0.dynamic.kabel-deutschland.de [95.90.213.208])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 85AD3222B8;
+        Fri,  9 Oct 2020 12:39:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602247193;
+        bh=ruA15GjB/fFH2gJQRaoGIXfNQO5QPyDiPzMmJhWfrxQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ebPwE13hJTyu7GU7hqGujNTcQ3SJtz+JCoKsDWHQbhtRGSTdSLTjnjECptwHYqY3q
+         MKQ41Y6J0y7haidc1ZWrDQLUW0A2sUpIAG5O9TanLsaA0fGLcNuObliZM9g/MbS7s+
+         gKoB0ZuFxhI8SXftz7+Nxh4xSbD62xyIpNDeilOA=
+Date:   Fri, 9 Oct 2020 14:39:47 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-s390@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
+Message-ID: <20201009143947.751c5eb1@coco.lan>
+In-Reply-To: <20201009143723.45609bfb@coco.lan>
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+        <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
+        <20201009123421.67a80d72@coco.lan>
+        <20201009122111.GN5177@ziepe.ca>
+        <20201009143723.45609bfb@coco.lan>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.127.227]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-mtk_vcodec_release_enc_pm() will be called in two places:
+Em Fri, 9 Oct 2020 14:37:23 +0200
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-a. mtk_vcodec_init_enc_pm() succeed while mtk_vcodec_probe() return error.
-b. mtk_vcodec_enc_remove().
+> Em Fri, 9 Oct 2020 09:21:11 -0300
+> Jason Gunthorpe <jgg@ziepe.ca> escreveu:
+> 
+> > On Fri, Oct 09, 2020 at 12:34:21PM +0200, Mauro Carvalho Chehab wrote:  
+> > > Hi,
+> > > 
+> > > Em Fri,  9 Oct 2020 09:59:26 +0200
+> > > Daniel Vetter <daniel.vetter@ffwll.ch> escreveu:
+> > >     
+> > > > Way back it was a reasonable assumptions that iomem mappings never
+> > > > change the pfn range they point at. But this has changed:
+> > > > 
+> > > > - gpu drivers dynamically manage their memory nowadays, invalidating
+> > > > ptes with unmap_mapping_range when buffers get moved
+> > > > 
+> > > > - contiguous dma allocations have moved from dedicated carvetouts to
+> > > > cma regions. This means if we miss the unmap the pfn might contain
+> > > > pagecache or anon memory (well anything allocated with GFP_MOVEABLE)
+> > > > 
+> > > > - even /dev/mem now invalidates mappings when the kernel requests that
+> > > > iomem region when CONFIG_IO_STRICT_DEVMEM is set, see 3234ac664a87
+> > > > ("/dev/mem: Revoke mappings when a driver claims the region")
+> > > > 
+> > > > Accessing pfns obtained from ptes without holding all the locks is
+> > > > therefore no longer a good idea.
+> > > > 
+> > > > Unfortunately there's some users where this is not fixable (like v4l
+> > > > userptr of iomem mappings) or involves a pile of work (vfio type1
+> > > > iommu). For now annotate these as unsafe and splat appropriately.
+> > > > 
+> > > > This patch adds an unsafe_follow_pfn, which later patches will then
+> > > > roll out to all appropriate places.    
+> > > 
+> > > NACK, as this breaks an existing userspace API on media.    
+> > 
+> > It doesn't break it. You get a big warning the thing is broken and it
+> > keeps working.
+> > 
+> > We can't leave such a huge security hole open - it impacts other
+> > subsystems, distros need to be able to run in a secure mode.  
+> 
+> Well, if distros disable it, then apps will break.
+> 
+> > > While I agree that using the userptr on media is something that
+> > > new drivers may not support, as DMABUF is a better way of
+> > > handling it, changing this for existing ones is a big no, 
+> > > as it may break usersapace.    
+> > 
+> > media community needs to work to fix this, not pretend it is OK to
+> > keep going as-is.  
+> 
+> > Dealing with security issues is the one case where an uABI break might
+> > be acceptable.
+> > 
+> > If you want to NAK it then you need to come up with the work to do
+> > something here correctly that will support the old drivers without the
+> > kernel taint.
+> > 
+> > Unfortunately making things uncomfortable for the subsystem is the big
+> > hammer the core kernel needs to use to actually get this security work
+> > done by those responsible.  
+> 
+> 
+> I'm not pretending that this is ok. Just pointing that the approach
+> taken is NOT OK.
+> 
+> I'm not a mm/ expert, but, from what I understood from Daniel's patch
+> description is that this is unsafe *only if*  __GFP_MOVABLE is used.
+> 
+> Well, no drivers inside the media subsystem uses such flag, although
+> they may rely on some infrastructure that could be using it behind
+> the bars.
+> 
+> If this is the case, the proper fix seems to have a GFP_NOT_MOVABLE 
+> flag that it would be denying the core mm code to set __GFP_MOVABLE.
+> 
+> Please let address the issue on this way, instead of broken an
+> userspace API that it is there since 1991.
 
-In both cases put_device() call is needed, since of_find_device_by_node()
-was called in mtk_vcodec_init_enc_pm() previously.
+In time: I meant to say 1998.
 
-Thus add put_devices() call in mtk_vcodec_release_enc_pm()
-
-Signed-off-by: Yu Kuai <yukuai3@huawei.com>
----
- drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-index 1a047c25679f..3b7c54d6aa8f 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c
-@@ -108,6 +108,8 @@ int mtk_vcodec_init_enc_pm(struct mtk_vcodec_dev *mtkdev)
- 
- void mtk_vcodec_release_enc_pm(struct mtk_vcodec_dev *mtkdev)
- {
-+	put_device(mtkdev->pm.larbvenclt);
-+	put_device(mtkdev->pm.larbvenc);
- }
- 
- 
--- 
-2.25.4
-
+Thanks,
+Mauro
