@@ -2,55 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1036A288EA1
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 18:19:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C396288EAC
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 18:21:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389410AbgJIQSv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 12:18:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42326 "EHLO
+        id S2389523AbgJIQVt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 12:21:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42788 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388719AbgJIQSu (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 12:18:50 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E73B0C0613D2
-        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 09:18:50 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id o8so4684972pll.4
-        for <linux-media@vger.kernel.org>; Fri, 09 Oct 2020 09:18:50 -0700 (PDT)
+        with ESMTP id S2389296AbgJIQVt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 12:21:49 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E397C0613D2
+        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 09:21:49 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id k8so7293138pfk.2
+        for <linux-media@vger.kernel.org>; Fri, 09 Oct 2020 09:21:49 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=97UkOARAdyG+LuQkG7K93ljW7t/yTyNus/0P/j4y9g8=;
-        b=JtleW7r3H/vj5BxRqR9LtddhNODRgTFQelhD05c3nRzvy0F4B6mltaxhCCs+l2jtwt
-         +NU6wpUaLCd2Z+iMqCJP7Mzl6+slsSW96KL7cgwk8HqliHByfGCQAI9i6Gn7rHZgEMUa
-         jFKEvCaniurwKBYk12haG7f5H6g8ZkP/kE2Rfokt3NcVu5b6kRNLzpI8XEZ5fG4pdV9D
-         KFwUeIlGLEXiD6F8C3qEJ6glfOZMBQ3BR7JZ7hJ3JBDrUihPW+AfIq2aixBp+LgAp2z1
-         gOiw9OKz41EV4znSe4V6MqF3o84AOgSGpxms+QY2s78ZByLKK/33ypQXBLZrDhatKH8O
-         7cVw==
+        bh=ZAVNk7w8MrsrtZfuqVq+66u2qWDVQuk2yZXxQPV1wK4=;
+        b=Hje6fTLbyaQMHmvoS4uxCv/W8BXOhC0ZPbFmt4j4C0cBhYo7QZCUXSEPpQ9NouEeZ+
+         mOFwDLtsprqysyWJcjYu9Tw84IlWaw9zHqXACDWZbDhBrjOeTmFhT1BCxPDRCqZOYxrk
+         YR7592yEI8e/ykLp+CR/BbsXoueD0+QbYpFS5sC+1rWfDb987QPb0fhCq4pyawqv+vPR
+         mIr4dQT7duquep5xe3CZfw+nZQfyPCD8bpaQKE2QuaKMPSGpjpsKuPg8YoaXxmPzix5v
+         o000eO02lMcDaDPIQCtmpOrAx1rZXSh2x38UAJdKRS8bt/ekWJ/MvrqjJQ7901ZFdInj
+         WzUQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=97UkOARAdyG+LuQkG7K93ljW7t/yTyNus/0P/j4y9g8=;
-        b=qvcXfWEzuhpZEXFyktmk4vY17UD20Q5mbloRq2LumO3LONKBsURJFZIj+1/conygBv
-         Xmi61zdqUa+XMkE+M1nPIjJTwHgWG//QjKHYw8LZrt1Rj0c5PFsbLzIR4dxn8hURY2dR
-         KbsU3ciOrF9ajxqxTvTXYEmcuEVk4EMPQ4OreqHWqRTQHesIk2m5/IGI2NXUo0muZ3OJ
-         T6xwd0ee1Rz4U/+TR+9Ln/J70xod1HB/gluutGSpXZQsdqfRCitDSxOsJgtJ7wJyEyQr
-         fnnwUf5absJHlXDWnHHDuniOlFTePOr1TYivpSnRd3HpcYcOOcgPV6ZbxsYYKrcPj9CA
-         ltqw==
-X-Gm-Message-State: AOAM530eQnwMw+/4UQ/L1Me01in1r9IQ/EdOl49L/LrKZ42OsMvdXy88
-        myiuOxK6G7E8vuOy7vBsQEDqIqZTqVDZocnIEMQ=
-X-Google-Smtp-Source: ABdhPJyv9RMUXyAYOpM1YTzH05tgBfGzWWBGV01ij4eR3r4SqM/ARCPd0lwVEmuO55TKtWTvUc9PXUrtgB3bSCdpvhs=
-X-Received: by 2002:a17:902:ea8c:b029:d2:8abd:c8de with SMTP id
- x12-20020a170902ea8cb02900d28abdc8demr13228529plb.21.1602260330457; Fri, 09
- Oct 2020 09:18:50 -0700 (PDT)
+        bh=ZAVNk7w8MrsrtZfuqVq+66u2qWDVQuk2yZXxQPV1wK4=;
+        b=fIBV7JyXsSjwTSXK0YSwPQL5M85CWrVICv4zznEfvtLVush+eUbsSxwzbQe/b7g8Kh
+         rp2Tj/FUIHjCMOPG3uQmOB3xd8m14zHBxesdjzkTNg82awj5b5bHKMBEboEuFXaDw1yg
+         t0BfUAe3fYpMVkwkVN/qXulleK4wlCNP1NDJfcPPHqQMZxANEUYmgQ3ckHUEztw+Owif
+         tky8Q8defHYbYxiN5c/APCp0DOe7ufC7JXK9Y8zO30HbY7YSdvFT+6gXRr6h7sXlIUca
+         hAqynNjg1cBT16FomsKuxsDVjbLq3WoctL7UtQaIs4uTPq65QUPEl5PpXSCSLiSm3pmv
+         BFHw==
+X-Gm-Message-State: AOAM533m3w3GP/NaiVHZn2NiToozzXPEwzp63JAGkzfdV1ueRaYAX/wE
+        1pghmeLWf5rWxijCHUsZpAvJebXIQ1Ltvq7/Dm0V+VHJ2zAdiA==
+X-Google-Smtp-Source: ABdhPJw9WY513ghxhrMpAEYz+w2NtJS+DNfe/Pam3C05I9tCS8BluaQlr6JuepnHEu1Ny49gvtEm935vJMdxSaihKH4=
+X-Received: by 2002:aa7:81d5:0:b029:142:2501:39fa with SMTP id
+ c21-20020aa781d50000b0290142250139famr13208558pfn.73.1602260508697; Fri, 09
+ Oct 2020 09:21:48 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201009150756.3397-1-sakari.ailus@linux.intel.com> <20201009150756.3397-3-sakari.ailus@linux.intel.com>
-In-Reply-To: <20201009150756.3397-3-sakari.ailus@linux.intel.com>
+References: <20201009150756.3397-1-sakari.ailus@linux.intel.com> <20201009150756.3397-5-sakari.ailus@linux.intel.com>
+In-Reply-To: <20201009150756.3397-5-sakari.ailus@linux.intel.com>
 From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Fri, 9 Oct 2020 19:19:40 +0300
-Message-ID: <CAHp75VeU4pFCDP2AZVTCuAY+dv0L-=cR2Qo0ggaEU1vr68sgXA@mail.gmail.com>
-Subject: Re: [PATCH 2/5] ipu3-cio2: Serialise access to pad format
+Date:   Fri, 9 Oct 2020 19:22:38 +0300
+Message-ID: <CAHp75Vf=KCMTysgCYt2xeF4x-bfM4Zpy_thLPnysuN+QBMkc2w@mail.gmail.com>
+Subject: Re: [PATCH 4/5] ipu3-cio2: Validate mbus format in setting subdev format
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
         Tsuchiya Yuto <kitakar@gmail.com>,
@@ -66,9 +66,72 @@ X-Mailing-List: linux-media@vger.kernel.org
 On Fri, Oct 9, 2020 at 6:10 PM Sakari Ailus
 <sakari.ailus@linux.intel.com> wrote:
 >
-> Pad format can be accessed from user space. Serialise access to it.
+> Validate media bus code, width and height when setting the subdev format.
+>
+> This effectively reworks how setting subdev format is implemented in the
+> driver.
 
-Same nit-picks as per v1, feel free to ignore it.
+Does it make it dependent on patch 3/5?
+Or maybe you can use min_t() and update to min() in a separate patch?
+
+> Fixes: c2a6a07afe4a ("media: intel-ipu3: cio2: add new MIPI-CSI2 driver")
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 28 ++++++++++++++++--------
+>  1 file changed, 19 insertions(+), 9 deletions(-)
+>
+> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> index 9c7b527a8800..9726091c9985 100644
+> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> @@ -1257,6 +1257,9 @@ static int cio2_subdev_set_fmt(struct v4l2_subdev *sd,
+>                                struct v4l2_subdev_format *fmt)
+>  {
+>         struct cio2_queue *q = container_of(sd, struct cio2_queue, subdev);
+> +       struct v4l2_mbus_framefmt *mbus;
+> +       u32 mbus_code = fmt->format.code;
+> +       unsigned int i;
+>
+>         /*
+>          * Only allow setting sink pad format;
+> @@ -1265,18 +1268,25 @@ static int cio2_subdev_set_fmt(struct v4l2_subdev *sd,
+>         if (fmt->pad == CIO2_PAD_SOURCE)
+>                 return cio2_subdev_get_fmt(sd, cfg, fmt);
+>
+> -       mutex_lock(&q->subdev_lock);
+> +       if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+> +               mbus = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
+> +       else
+> +               mbus = &q->subdev_fmt;
+>
+> -       if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> -               *v4l2_subdev_get_try_format(sd, cfg, fmt->pad) = fmt->format;
+> -       } else {
+> -               /* It's the sink, allow changing frame size */
+> -               q->subdev_fmt.width = fmt->format.width;
+> -               q->subdev_fmt.height = fmt->format.height;
+> -               q->subdev_fmt.code = fmt->format.code;
+> -               fmt->format = q->subdev_fmt;
+> +       fmt->format.code = formats[0].mbus_code;
+> +
+> +       for (i = 0; i < ARRAY_SIZE(formats); i++) {
+> +               if (formats[i].mbus_code == fmt->format.code) {
+> +                       fmt->format.code = mbus_code;
+> +                       break;
+> +               }
+>         }
+>
+> +       fmt->format.width = min(fmt->format.width, CIO2_IMAGE_MAX_WIDTH);
+> +       fmt->format.height = min(fmt->format.height, CIO2_IMAGE_MAX_LENGTH);
+> +
+> +       mutex_lock(&q->subdev_lock);
+> +       *mbus = fmt->format;
+>         mutex_unlock(&q->subdev_lock);
+>
+>         return 0;
+> --
+> 2.27.0
+>
 
 
 -- 
