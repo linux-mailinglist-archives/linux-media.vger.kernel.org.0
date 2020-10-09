@@ -2,58 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C87B2888BC
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 14:31:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E2A702888EF
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 14:37:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733219AbgJIMbM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 08:31:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35040 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731782AbgJIMbM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 08:31:12 -0400
-Received: from mail-qt1-x843.google.com (mail-qt1-x843.google.com [IPv6:2607:f8b0:4864:20::843])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55014C0613D6
-        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 05:31:12 -0700 (PDT)
-Received: by mail-qt1-x843.google.com with SMTP id o21so7755622qtp.2
-        for <linux-media@vger.kernel.org>; Fri, 09 Oct 2020 05:31:12 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=K8oqjNwy1IItwzS5nAtnJfKoqbYdlnvHoUJ/yQIxMlE=;
-        b=cdaBlGmBZL4cakXZlvJuZERmIRIX6jD7dwzimgC10KWdoWEXxqnVyCAO2D0RVxCrE3
-         SiHI343vdap2cRRglH6ua6mGWuo7/fxfox6RkGqmDhIsAnKFSeohUX9VYGJSKAwhIU6B
-         2TcxKC37KpT1QUH/a9OmlQtDEo327+kakIXLdXGqBOKFhRN4BS67JiDu+bvG4a5CPI+r
-         pqcyhIAj+gFL2/lmzDWusy4E62ErCo67w+IagQCo+gX4l+6CaOr61WFu2i1yy0l+Wgf3
-         xGuhQ4gDKh6os3wK0BjatM5g2y6nWPQvLIHBtHwaCM52uhc/sKGK0XWe8qKcZr9st8fm
-         fLCQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=K8oqjNwy1IItwzS5nAtnJfKoqbYdlnvHoUJ/yQIxMlE=;
-        b=eeU87hMvi6ExAAw6LUX5S1tBFSjRU1moJwbQYYGCzEEykXWMDTixqDfbADvIEKoxmd
-         2N6MqYIfXxGHTNZ8xribgw9ziZpiVDOKXrtvbA13Nw3nP+360/A5bVE2JbAflCSMzXE+
-         W/+4HQolSO7WhhKdfH6N+plOeVVuIxM8Nm5ZqfC3ysqU2ivK7Ec93h4dT2EyAywo/ejI
-         qELQZs8WVfNxQscEBHAZVgwA2ggqqz4L0gJzqn38JVI/YUpHGMDaU4x0hHABySLd4p7r
-         a+OxOjYLTyZJCTm1ScOCIqvW31gZrsdr1qWRGJj7tflQXIh7i6kVA6vnyi+VpE570mkO
-         5Zkg==
-X-Gm-Message-State: AOAM532jfgSziua/L6ITmdbPuKpdXSBJVogIioQHtNquRldLjdebmulJ
-        1ICQV3ifIbKrHy0NNYPFfFi+2g==
-X-Google-Smtp-Source: ABdhPJxG8zCIXDditfEGKgb8JSFeGI61awPyS7AMuV2YFh9LkEtvSTVL1XgAfKTEjxIzUEviyqvgUw==
-X-Received: by 2002:ac8:d8d:: with SMTP id s13mr12568868qti.42.1602246671500;
-        Fri, 09 Oct 2020 05:31:11 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id g1sm6069368qtp.74.2020.10.09.05.31.10
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 05:31:10 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kQrYD-001xsF-Sz; Fri, 09 Oct 2020 09:31:09 -0300
-Date:   Fri, 9 Oct 2020 09:31:09 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        id S1733207AbgJIMhb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 08:37:31 -0400
+Received: from mail.kernel.org ([198.145.29.99]:48512 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725852AbgJIMhb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Oct 2020 08:37:31 -0400
+Received: from coco.lan (ip5f5ad5d0.dynamic.kabel-deutschland.de [95.90.213.208])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E09B7206BE;
+        Fri,  9 Oct 2020 12:37:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602247050;
+        bh=ruiGPoaea6akiTHS+AvFSiqq7lSiUQn1p22q5WNA1W0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=wSJCIxYl4F1jPbJncw+V2h9y4FuE4LpMRU+tKrXF5utyqs5uMgts7afTuLBBRKYAr
+         9YH6N1saYfI0AZj6UgTF6HO2LEUi/3X8iseC4ywPkN0VC2VLOj6D9SUZBOHZPx53Oi
+         C8BqC/PANqTv9j0OylEQJGHm8asglolwe8J3aDiU=
+Date:   Fri, 9 Oct 2020 14:37:23 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
         LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
         linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
         linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
@@ -63,43 +37,102 @@ Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
         Dan Williams <dan.j.williams@intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         John Hubbard <jhubbard@nvidia.com>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>, Arnd Bergmann <arnd@arndb.de>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        David Hildenbrand <david@redhat.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-Subject: Re: [PATCH v2 14/17] resource: Move devmem revoke code to resource
- framework
-Message-ID: <20201009123109.GO5177@ziepe.ca>
+        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
+        Linus Torvalds <torvalds@linux-foundation.org>
+Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
+Message-ID: <20201009143723.45609bfb@coco.lan>
+In-Reply-To: <20201009122111.GN5177@ziepe.ca>
 References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-15-daniel.vetter@ffwll.ch>
+        <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
+        <20201009123421.67a80d72@coco.lan>
+        <20201009122111.GN5177@ziepe.ca>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201009075934.3509076-15-daniel.vetter@ffwll.ch>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 09, 2020 at 09:59:31AM +0200, Daniel Vetter wrote:
+Em Fri, 9 Oct 2020 09:21:11 -0300
+Jason Gunthorpe <jgg@ziepe.ca> escreveu:
 
-> +struct address_space *iomem_get_mapping(void)
-> +{
-> +	return iomem_inode->i_mapping;
+> On Fri, Oct 09, 2020 at 12:34:21PM +0200, Mauro Carvalho Chehab wrote:
+> > Hi,
+> > 
+> > Em Fri,  9 Oct 2020 09:59:26 +0200
+> > Daniel Vetter <daniel.vetter@ffwll.ch> escreveu:
+> >   
+> > > Way back it was a reasonable assumptions that iomem mappings never
+> > > change the pfn range they point at. But this has changed:
+> > > 
+> > > - gpu drivers dynamically manage their memory nowadays, invalidating
+> > > ptes with unmap_mapping_range when buffers get moved
+> > > 
+> > > - contiguous dma allocations have moved from dedicated carvetouts to
+> > > cma regions. This means if we miss the unmap the pfn might contain
+> > > pagecache or anon memory (well anything allocated with GFP_MOVEABLE)
+> > > 
+> > > - even /dev/mem now invalidates mappings when the kernel requests that
+> > > iomem region when CONFIG_IO_STRICT_DEVMEM is set, see 3234ac664a87
+> > > ("/dev/mem: Revoke mappings when a driver claims the region")
+> > > 
+> > > Accessing pfns obtained from ptes without holding all the locks is
+> > > therefore no longer a good idea.
+> > > 
+> > > Unfortunately there's some users where this is not fixable (like v4l
+> > > userptr of iomem mappings) or involves a pile of work (vfio type1
+> > > iommu). For now annotate these as unsafe and splat appropriately.
+> > > 
+> > > This patch adds an unsafe_follow_pfn, which later patches will then
+> > > roll out to all appropriate places.  
+> > 
+> > NACK, as this breaks an existing userspace API on media.  
+> 
+> It doesn't break it. You get a big warning the thing is broken and it
+> keeps working.
+> 
+> We can't leave such a huge security hole open - it impacts other
+> subsystems, distros need to be able to run in a secure mode.
 
-This should pair an acquire with the release below
+Well, if distros disable it, then apps will break.
 
-> +	/*
-> +	 * Publish /dev/mem initialized.
-> +	 * Pairs with smp_load_acquire() in revoke_iomem().
-> +	 */
-> +	smp_store_release(&iomem_inode, inode);
+> > While I agree that using the userptr on media is something that
+> > new drivers may not support, as DMABUF is a better way of
+> > handling it, changing this for existing ones is a big no, 
+> > as it may break usersapace.  
+> 
+> media community needs to work to fix this, not pretend it is OK to
+> keep going as-is.
 
-However, this seems abnormal, initcalls rarely do this kind of stuff
-with global data..
+> Dealing with security issues is the one case where an uABI break might
+> be acceptable.
+> 
+> If you want to NAK it then you need to come up with the work to do
+> something here correctly that will support the old drivers without the
+> kernel taint.
+> 
+> Unfortunately making things uncomfortable for the subsystem is the big
+> hammer the core kernel needs to use to actually get this security work
+> done by those responsible.
 
-The kernel crashes if this fs_initcall is raced with
-iomem_get_mapping() due to the unconditional dereference, so I think
-it can be safely switched to a simple assignment.
 
-Jason
+I'm not pretending that this is ok. Just pointing that the approach
+taken is NOT OK.
+
+I'm not a mm/ expert, but, from what I understood from Daniel's patch
+description is that this is unsafe *only if*  __GFP_MOVABLE is used.
+
+Well, no drivers inside the media subsystem uses such flag, although
+they may rely on some infrastructure that could be using it behind
+the bars.
+
+If this is the case, the proper fix seems to have a GFP_NOT_MOVABLE 
+flag that it would be denying the core mm code to set __GFP_MOVABLE.
+
+Please let address the issue on this way, instead of broken an
+userspace API that it is there since 1991.
+
+Thanks,
+Mauro
