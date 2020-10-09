@@ -2,48 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E85B02884B0
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 10:02:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4DF992884B3
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 10:02:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732705AbgJIIB6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 04:01:58 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49470 "EHLO
+        id S1732337AbgJIICA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 04:02:00 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49462 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732709AbgJIIAM (ORCPT
+        with ESMTP id S1732706AbgJIIAM (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 04:00:12 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83256C0613E0
-        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 00:59:57 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id 13so8866508wmf.0
-        for <linux-media@vger.kernel.org>; Fri, 09 Oct 2020 00:59:57 -0700 (PDT)
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 362DAC0613E4
+        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 00:59:59 -0700 (PDT)
+Received: by mail-wm1-x344.google.com with SMTP id q5so8901464wmq.0
+        for <linux-media@vger.kernel.org>; Fri, 09 Oct 2020 00:59:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=L2oZv7vxEZZWtTO3C1Lp0XtxkN66QV3fUnWxu78Rh38=;
-        b=bKzq2hZGOXu0fkRVuHIJG2XdpMLBMLxx8G3yFQUHXKyWtYO+OHOAhvEMdWtfddJPky
-         lUh2trsfuVCq/RGQTrV1pHhiifcSTHeUjmS3vMPfONOs+Ca+ALkk3BA4oWopUBar7jBe
-         WASwfm88dJqsT9h2tML16LqS2STnW0TBm//DA=
+        bh=uX5hiQf2/6+JGMu7ibulF4yjLrHkS7bzKXomqQaTHWE=;
+        b=LUs8gW8poh/U88b/yPCV1unTccMuHSzIpHlM9z2+BrGZRpT9/SgX900ntWxsVp0THA
+         6pATcrsdZsxLyB+PObFVC/LN2SqZ3pUmcbdagnolKeMah/pcR69O+r6i8uxjKGpoKgMW
+         IouGPHyDlnYWeMW6lK51rglfKepWnaslSuqQY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=L2oZv7vxEZZWtTO3C1Lp0XtxkN66QV3fUnWxu78Rh38=;
-        b=YHwfsV+CQwVVsZFzzc62LLswQMaNU493r5IYkb0dgAmLhm2zbt3+Wn+A0SYUi6mCLa
-         NB92hJjTC6nV4USKPo6/W49O0qSvA2zD483Tst+dlh0IUObPos1e8iVu5T9v0JpMa7aq
-         qJm7PlM3JrxUCdqDQZfnzwlw5CNt+HY5rqRELLmS/H/uXzilV6bfiQ18t1R91pQxfL+S
-         V3bpcvYZ6Mm93QwnxHsg8MPvboer7xtOQIr588sWUsTFggaHE7FS3BrmPO1i9Cf1l7Sc
-         DJGyuEu/hczaHu23rGTBMwC22MyjJeD8z3G+brkaiidTqEhzRaArYHlIBb57xBZJsweO
-         u0fw==
-X-Gm-Message-State: AOAM533Dg+VoJgxx5Cqdz1xyycnYxkLZdOsNiW820cInNjHHZ9c2lTP5
-        ymILjiD6drbJPHnwnfUgfleq+Q==
-X-Google-Smtp-Source: ABdhPJzG3BYXEMIUcMAsDOoP86h0w2yTKkQt8nM1pRPVArdkv8JKqITJk6zo5uSkNezo/eZMOHu0cw==
-X-Received: by 2002:a1c:8057:: with SMTP id b84mr12530132wmd.116.1602230396240;
-        Fri, 09 Oct 2020 00:59:56 -0700 (PDT)
+        bh=uX5hiQf2/6+JGMu7ibulF4yjLrHkS7bzKXomqQaTHWE=;
+        b=SetmA9usF+6D2pQ1+fpKo/+t1Rqi58JJuVIMOun9FIChg6u69yiKHwFsDpgZ0PQW25
+         ltcsK8i9zXYpDyim54jwVrmLual4SFk3i92qAyBHPYyoxezBF6FaLGaDIiPNhQCpuCAK
+         LZTvCVxLOZxTtx3bql3JAR886ai01KRvDWARJgyBnCVCxNhQz8SEWtrnSuzEXuS+DEyT
+         AdZiT08uzr1qOPwwlDCVfIbuws1sDxe3oySH14kY+DOzNWEhFfMmdRpDZ+6+HwT7dJfr
+         H0NGHlgHqh+FN6TcLFO1wjebafo8FffhAQwGfPm+17thrSax3RgaBAELWWvlJaDVSBuZ
+         RSwg==
+X-Gm-Message-State: AOAM530jftFwaWjkNytPPGAvfV6WGnbo6ebH3zDtQzaOWLHX+3/1GqSD
+        k+MLZNULbFvFytssIXTlRxUKzg==
+X-Google-Smtp-Source: ABdhPJzgf8p51mqg8LMpEmZ8q3ui41jSdEp5wqDSyAI+GdHX93E/LMoGG5UPxz3MA259SCYbT0mGJw==
+X-Received: by 2002:a7b:c14f:: with SMTP id z15mr13474049wmi.73.1602230397816;
+        Fri, 09 Oct 2020 00:59:57 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id u17sm11634118wri.45.2020.10.09.00.59.54
+        by smtp.gmail.com with ESMTPSA id u17sm11634118wri.45.2020.10.09.00.59.56
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 09 Oct 2020 00:59:55 -0700 (PDT)
+        Fri, 09 Oct 2020 00:59:57 -0700 (PDT)
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
 To:     DRI Development <dri-devel@lists.freedesktop.org>,
         LKML <linux-kernel@vger.kernel.org>
@@ -65,9 +65,9 @@ Cc:     kvm@vger.kernel.org, linux-mm@kvack.org,
         Moti Haimovski <mhaimovski@habana.ai>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
         Pawel Piskorski <ppiskorski@habana.ai>
-Subject: [PATCH v2 03/17] misc/habana: Stop using frame_vector helpers
-Date:   Fri,  9 Oct 2020 09:59:20 +0200
-Message-Id: <20201009075934.3509076-4-daniel.vetter@ffwll.ch>
+Subject: [PATCH v2 04/17] misc/habana: Use FOLL_LONGTERM for userptr
+Date:   Fri,  9 Oct 2020 09:59:21 +0200
+Message-Id: <20201009075934.3509076-5-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
 References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
@@ -78,8 +78,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-All we need are a pages array, pin_user_pages_fast can give us that
-directly. Plus this avoids the entire raw pfn side of get_vaddr_frames.
+These are persistent, not just for the duration of a dma operation.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Jason Gunthorpe <jgg@ziepe.ca>
@@ -100,133 +99,24 @@ Cc: Moti Haimovski <mhaimovski@habana.ai>
 Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
 Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
 Cc: Pawel Piskorski <ppiskorski@habana.ai>
---
-v2: Use unpin_user_pages_dirty_lock (John)
 ---
- drivers/misc/habanalabs/Kconfig             |  1 -
- drivers/misc/habanalabs/common/habanalabs.h |  3 +-
- drivers/misc/habanalabs/common/memory.c     | 49 ++++++++-------------
- 3 files changed, 20 insertions(+), 33 deletions(-)
+ drivers/misc/habanalabs/common/memory.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/misc/habanalabs/Kconfig b/drivers/misc/habanalabs/Kconfig
-index 8eb5d38c618e..2f04187f7167 100644
---- a/drivers/misc/habanalabs/Kconfig
-+++ b/drivers/misc/habanalabs/Kconfig
-@@ -6,7 +6,6 @@
- config HABANA_AI
- 	tristate "HabanaAI accelerators (habanalabs)"
- 	depends on PCI && HAS_IOMEM
--	select FRAME_VECTOR
- 	select DMA_SHARED_BUFFER
- 	select GENERIC_ALLOCATOR
- 	select HWMON
-diff --git a/drivers/misc/habanalabs/common/habanalabs.h b/drivers/misc/habanalabs/common/habanalabs.h
-index edbd627b29d2..c1b3ad613b15 100644
---- a/drivers/misc/habanalabs/common/habanalabs.h
-+++ b/drivers/misc/habanalabs/common/habanalabs.h
-@@ -881,7 +881,8 @@ struct hl_ctx_mgr {
- struct hl_userptr {
- 	enum vm_type_t		vm_type; /* must be first */
- 	struct list_head	job_node;
--	struct frame_vector	*vec;
-+	struct page		**pages;
-+	unsigned int		npages;
- 	struct sg_table		*sgt;
- 	enum dma_data_direction dir;
- 	struct list_head	debugfs_list;
 diff --git a/drivers/misc/habanalabs/common/memory.c b/drivers/misc/habanalabs/common/memory.c
-index 5ff4688683fd..327b64479f97 100644
+index 327b64479f97..767d3644c033 100644
 --- a/drivers/misc/habanalabs/common/memory.c
 +++ b/drivers/misc/habanalabs/common/memory.c
-@@ -1281,45 +1281,41 @@ static int get_user_memory(struct hl_device *hdev, u64 addr, u64 size,
- 		return -EFAULT;
- 	}
- 
--	userptr->vec = frame_vector_create(npages);
--	if (!userptr->vec) {
-+	userptr->pages = kvmalloc_array(npages, sizeof(*userptr->pages),
-+					GFP_KERNEL);
-+	if (!userptr->pages) {
- 		dev_err(hdev->dev, "Failed to create frame vector\n");
+@@ -1288,7 +1288,8 @@ static int get_user_memory(struct hl_device *hdev, u64 addr, u64 size,
  		return -ENOMEM;
  	}
  
--	rc = get_vaddr_frames(start, npages, FOLL_FORCE | FOLL_WRITE,
--				userptr->vec);
-+	rc = pin_user_pages_fast(start, npages, FOLL_FORCE | FOLL_WRITE,
-+				 userptr->pages);
+-	rc = pin_user_pages_fast(start, npages, FOLL_FORCE | FOLL_WRITE,
++	rc = pin_user_pages_fast(start, npages,
++				 FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
+ 				 userptr->pages);
  
  	if (rc != npages) {
- 		dev_err(hdev->dev,
- 			"Failed to map host memory, user ptr probably wrong\n");
- 		if (rc < 0)
--			goto destroy_framevec;
-+			goto destroy_pages;
-+		npages = rc;
- 		rc = -EFAULT;
--		goto put_framevec;
--	}
--
--	if (frame_vector_to_pages(userptr->vec) < 0) {
--		dev_err(hdev->dev,
--			"Failed to translate frame vector to pages\n");
--		rc = -EFAULT;
--		goto put_framevec;
-+		goto put_pages;
- 	}
-+	userptr->npages = npages;
- 
- 	rc = sg_alloc_table_from_pages(userptr->sgt,
--					frame_vector_pages(userptr->vec),
--					npages, offset, size, GFP_ATOMIC);
-+				       userptr->pages,
-+				       npages, offset, size, GFP_ATOMIC);
- 	if (rc < 0) {
- 		dev_err(hdev->dev, "failed to create SG table from pages\n");
--		goto put_framevec;
-+		goto put_pages;
- 	}
- 
- 	return 0;
- 
--put_framevec:
--	put_vaddr_frames(userptr->vec);
--destroy_framevec:
--	frame_vector_destroy(userptr->vec);
-+put_pages:
-+	unpin_user_pages(userptr->pages, npages);
-+destroy_pages:
-+	kvfree(userptr->pages);
- 	return rc;
- }
- 
-@@ -1405,8 +1401,6 @@ int hl_pin_host_memory(struct hl_device *hdev, u64 addr, u64 size,
-  */
- void hl_unpin_host_memory(struct hl_device *hdev, struct hl_userptr *userptr)
- {
--	struct page **pages;
--
- 	hl_debugfs_remove_userptr(hdev, userptr);
- 
- 	if (userptr->dma_mapped)
-@@ -1414,15 +1408,8 @@ void hl_unpin_host_memory(struct hl_device *hdev, struct hl_userptr *userptr)
- 							userptr->sgt->nents,
- 							userptr->dir);
- 
--	pages = frame_vector_pages(userptr->vec);
--	if (!IS_ERR(pages)) {
--		int i;
--
--		for (i = 0; i < frame_vector_count(userptr->vec); i++)
--			set_page_dirty_lock(pages[i]);
--	}
--	put_vaddr_frames(userptr->vec);
--	frame_vector_destroy(userptr->vec);
-+	unpin_user_pages_dirty_lock(userptr->pages, userptr->npages, true);
-+	kvfree(userptr->pages);
- 
- 	list_del(&userptr->job_node);
- 
 -- 
 2.28.0
 
