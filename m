@@ -2,367 +2,348 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89FA5288FE5
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 19:18:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 47B55288FF7
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 19:27:53 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732999AbgJIRSQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 13:18:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51424 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730023AbgJIRRX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 13:17:23 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A69BC0613D2
-        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 10:17:23 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id B1422539;
-        Fri,  9 Oct 2020 19:17:21 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1602263841;
-        bh=MVImGGq5EL+NsmvBBuHRHfFtynAGCWzG7Dl160K26so=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=OmG7fSq3xjz7ZSUtaQOSUGRpbYNME5jxeP5vDVJpmMunNL2sXQt23WGzfjHx5/oCf
-         tTytJpA6F+IGH53i68Dzb1g3K8tsSkUaC035lbRIzZp6fCSCXKUo3ui0ofDoEGnHr0
-         LXcb7zjHVQhjg7gbJqSJeWr+PW46x3RIH5G1kilQ=
-Date:   Fri, 9 Oct 2020 20:16:38 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Tsuchiya Yuto <kitakar@gmail.com>,
-        bingbu.cao@intel.com, Yong Zhi <yong.zhi@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>
-Subject: Re: [PATCH 3/5] ipu3-cio2: Use unsigned values where appropriate
-Message-ID: <20201009171638.GB24849@pendragon.ideasonboard.com>
-References: <20201009150756.3397-1-sakari.ailus@linux.intel.com>
- <20201009150756.3397-4-sakari.ailus@linux.intel.com>
+        id S1732937AbgJIR13 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 13:27:29 -0400
+Received: from mga05.intel.com ([192.55.52.43]:45005 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1732999AbgJIR1V (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Oct 2020 13:27:21 -0400
+IronPort-SDR: UUoL+TryC36xcMj/Td4i22MLwCo5lz43zjK1YI2nJW2zlA4UkupzJgWufr4ACK1Qrg8JQIiEYA
+ L1RuEWSSRUaQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9769"; a="250210908"
+X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; 
+   d="scan'208";a="250210908"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 10:27:18 -0700
+IronPort-SDR: 2rqgGawRJFcHyFYwA8vJdgttnNsjad7YK9gcAg20JhgkJay9y+dRllMcskAqoJ0lhvdZivgATs
+ 49Xv7qjsbfpg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,355,1596524400"; 
+   d="scan'208";a="312620147"
+Received: from lkp-server02.sh.intel.com (HELO 80eb06af76cf) ([10.239.97.151])
+  by orsmga003.jf.intel.com with ESMTP; 09 Oct 2020 10:27:16 -0700
+Received: from kbuild by 80eb06af76cf with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kQwAl-0000eE-Gi; Fri, 09 Oct 2020 17:27:15 +0000
+Date:   Sat, 10 Oct 2020 01:26:39 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ c386e0797d26a32e354daf4480c5d40165db66a1
+Message-ID: <5f809d4f.ZcsUoLb8gjftFKNP%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201009150756.3397-4-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: c386e0797d26a32e354daf4480c5d40165db66a1  media: dvb-frontends/drxk_hard.c: fix uninitialized variable warning
 
-Thank you for the patch.
+elapsed time: 1748m
 
-On Fri, Oct 09, 2020 at 06:07:54PM +0300, Sakari Ailus wrote:
-> Use unsigned values for width, height, bit shifts and registers,
-> effectively for all definitions that are not signed.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/pci/intel/ipu3/ipu3-cio2.h | 156 +++++++++++------------
->  1 file changed, 78 insertions(+), 78 deletions(-)
-> 
-> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.h b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> index 146492383aa5..7650d7998a3f 100644
-> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> @@ -13,20 +13,20 @@
->  #define CIO2_PCI_BAR					0
->  #define CIO2_DMA_MASK					DMA_BIT_MASK(39)
->  
-> -#define CIO2_IMAGE_MAX_WIDTH				4224
-> -#define CIO2_IMAGE_MAX_LENGTH				3136
-> +#define CIO2_IMAGE_MAX_WIDTH				4224U
-> +#define CIO2_IMAGE_MAX_LENGTH				3136U
->  
->  /* 32MB = 8xFBPT_entry */
->  #define CIO2_MAX_LOPS					8
->  #define CIO2_MAX_BUFFERS			(PAGE_SIZE / 16 / CIO2_MAX_LOPS)
->  #define CIO2_LOP_ENTRIES			(PAGE_SIZE / sizeof(u32))
->  
-> -#define CIO2_PAD_SINK					0
-> -#define CIO2_PAD_SOURCE					1
-> -#define CIO2_PADS					2
-> +#define CIO2_PAD_SINK					0U
-> +#define CIO2_PAD_SOURCE					1U
-> +#define CIO2_PADS					2U
+configs tested: 284
+configs skipped: 3
 
-I would have done this only for values that are meant to be used in
-arithmetic expressions, such as CIO2_IMAGE_MAX_WIDTH and
-CIO2_IMAGE_MAX_LENGTH. Up to you.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+riscv                    nommu_virt_defconfig
+powerpc                      katmai_defconfig
+mips                      loongson3_defconfig
+s390                                defconfig
+arm                  colibri_pxa300_defconfig
+m68k                       m5475evb_defconfig
+mips                      fuloong2e_defconfig
+arm                          exynos_defconfig
+powerpc                  mpc885_ads_defconfig
+mips                      bmips_stb_defconfig
+arm                      footbridge_defconfig
+s390                       zfcpdump_defconfig
+m68k                       m5208evb_defconfig
+powerpc                    mvme5100_defconfig
+mips                        jmr3927_defconfig
+mips                       rbtx49xx_defconfig
+arm                            u300_defconfig
+arm                            lart_defconfig
+m68k                          atari_defconfig
+powerpc                     pseries_defconfig
+arc                     nsimosci_hs_defconfig
+sh                        sh7757lcr_defconfig
+sh                         ap325rxa_defconfig
+powerpc                 xes_mpc85xx_defconfig
+m68k                        m5307c3_defconfig
+arm                             mxs_defconfig
+h8300                               defconfig
+xtensa                generic_kc705_defconfig
+sh                   secureedge5410_defconfig
+sh                        apsh4ad0a_defconfig
+arm                       multi_v4t_defconfig
+m68k                           sun3_defconfig
+powerpc                 mpc832x_mds_defconfig
+arm                        mvebu_v5_defconfig
+arm                           omap1_defconfig
+mips                   sb1250_swarm_defconfig
+m68k                          hp300_defconfig
+arc                    vdk_hs38_smp_defconfig
+sparc64                          alldefconfig
+arm                     am200epdkit_defconfig
+arm                        magician_defconfig
+powerpc                      ppc44x_defconfig
+sh                          rsk7203_defconfig
+sh                 kfr2r09-romimage_defconfig
+c6x                        evmc6678_defconfig
+powerpc                      ppc64e_defconfig
+powerpc                        warp_defconfig
+arc                          axs101_defconfig
+powerpc                 mpc8540_ads_defconfig
+mips                         bigsur_defconfig
+arm                       imx_v6_v7_defconfig
+i386                             allyesconfig
+arm                           corgi_defconfig
+arc                      axs103_smp_defconfig
+arm                         s3c6400_defconfig
+arm                       mainstone_defconfig
+mips                             allyesconfig
+powerpc                     ep8248e_defconfig
+powerpc                        fsp2_defconfig
+sh                           se7343_defconfig
+sh                          polaris_defconfig
+arm                           sama5_defconfig
+powerpc                      bamboo_defconfig
+sh                         ecovec24_defconfig
+arm                        clps711x_defconfig
+arm                       aspeed_g5_defconfig
+arm                              zx_defconfig
+sh                          r7785rp_defconfig
+powerpc                     kilauea_defconfig
+arm                           efm32_defconfig
+powerpc                 mpc8560_ads_defconfig
+arm                             rpc_defconfig
+m68k                          sun3x_defconfig
+mips                      pistachio_defconfig
+arm                          moxart_defconfig
+powerpc                         ps3_defconfig
+arm                           h3600_defconfig
+powerpc                     mpc512x_defconfig
+parisc                           allyesconfig
+mips                     cu1830-neo_defconfig
+powerpc                 mpc832x_rdb_defconfig
+m68k                             allmodconfig
+sh                   rts7751r2dplus_defconfig
+powerpc                        icon_defconfig
+sh                          landisk_defconfig
+mips                     decstation_defconfig
+sparc                               defconfig
+arm                       netwinder_defconfig
+arm                          ep93xx_defconfig
+powerpc                   motionpro_defconfig
+sparc64                             defconfig
+arc                        nsim_700_defconfig
+arm                        multi_v7_defconfig
+powerpc                       maple_defconfig
+i386                             alldefconfig
+powerpc                 mpc834x_itx_defconfig
+powerpc                     powernv_defconfig
+powerpc                      mgcoge_defconfig
+sh                          kfr2r09_defconfig
+powerpc                     tqm5200_defconfig
+powerpc                  storcenter_defconfig
+sh                        dreamcast_defconfig
+m68k                       m5275evb_defconfig
+riscv                             allnoconfig
+powerpc                     ppa8548_defconfig
+openrisc                    or1ksim_defconfig
+sh                          rsk7201_defconfig
+sh                           se7724_defconfig
+sh                           sh2007_defconfig
+sh                        sh7785lcr_defconfig
+arm                         cm_x300_defconfig
+powerpc                      walnut_defconfig
+mips                     loongson1b_defconfig
+mips                      malta_kvm_defconfig
+sh                           se7721_defconfig
+arc                     haps_hs_smp_defconfig
+sh                          r7780mp_defconfig
+um                             i386_defconfig
+powerpc                     tqm8548_defconfig
+parisc                           alldefconfig
+powerpc                      obs600_defconfig
+riscv                               defconfig
+sh                             shx3_defconfig
+arm                       spear13xx_defconfig
+mips                 decstation_r4k_defconfig
+mips                           gcw0_defconfig
+nios2                         3c120_defconfig
+xtensa                              defconfig
+openrisc                 simple_smp_defconfig
+sh                        edosk7705_defconfig
+sh                           se7712_defconfig
+mips                         mpc30x_defconfig
+powerpc                      makalu_defconfig
+arm                         mv78xx0_defconfig
+arm                         assabet_defconfig
+mips                          ath25_defconfig
+powerpc                      pcm030_defconfig
+xtensa                    xip_kc705_defconfig
+arm                          pcm027_defconfig
+sh                         microdev_defconfig
+arm                            xcep_defconfig
+parisc                generic-32bit_defconfig
+microblaze                    nommu_defconfig
+mips                           rs90_defconfig
+powerpc                       holly_defconfig
+arm                      pxa255-idp_defconfig
+sparc                       sparc32_defconfig
+h8300                            alldefconfig
+arm                           viper_defconfig
+powerpc                      chrp32_defconfig
+arm                         lpc18xx_defconfig
+powerpc                 mpc8313_rdb_defconfig
+mips                      pic32mzda_defconfig
+arm                         s5pv210_defconfig
+x86_64                              defconfig
+powerpc                   currituck_defconfig
+arm                           tegra_defconfig
+mips                            gpr_defconfig
+arm                          collie_defconfig
+arm                         nhk8815_defconfig
+arm                       aspeed_g4_defconfig
+arm                        spear3xx_defconfig
+openrisc                         alldefconfig
+arm                          pxa168_defconfig
+arc                        vdk_hs38_defconfig
+arm                        trizeps4_defconfig
+mips                           ip28_defconfig
+m68k                         apollo_defconfig
+powerpc                      ppc6xx_defconfig
+arm                    vt8500_v6_v7_defconfig
+mips                        qi_lb60_defconfig
+c6x                        evmc6472_defconfig
+sh                     sh7710voipgw_defconfig
+m68k                          multi_defconfig
+mips                         tb0219_defconfig
+sh                          urquell_defconfig
+ia64                        generic_defconfig
+ia64                             alldefconfig
+arm                        oxnas_v6_defconfig
+h8300                     edosk2674_defconfig
+sh                             espt_defconfig
+arm                   milbeaut_m10v_defconfig
+mips                    maltaup_xpa_defconfig
+arm                         bcm2835_defconfig
+arm                        shmobile_defconfig
+powerpc                      arches_defconfig
+powerpc                    gamecube_defconfig
+powerpc                     ksi8560_defconfig
+arm                     eseries_pxa_defconfig
+m68k                          amiga_defconfig
+mips                           xway_defconfig
+sh                              ul2_defconfig
+sh                          lboxre2_defconfig
+mips                       capcella_defconfig
+powerpc                       eiger_defconfig
+powerpc                     kmeter1_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+sparc                            allyesconfig
+i386                                defconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a004-20201008
+x86_64               randconfig-a003-20201008
+x86_64               randconfig-a005-20201008
+x86_64               randconfig-a001-20201008
+x86_64               randconfig-a002-20201008
+x86_64               randconfig-a006-20201008
+i386                 randconfig-a006-20201008
+i386                 randconfig-a005-20201008
+i386                 randconfig-a001-20201008
+i386                 randconfig-a004-20201008
+i386                 randconfig-a002-20201008
+i386                 randconfig-a003-20201008
+i386                 randconfig-a006-20201009
+i386                 randconfig-a005-20201009
+i386                 randconfig-a001-20201009
+i386                 randconfig-a004-20201009
+i386                 randconfig-a002-20201009
+i386                 randconfig-a003-20201009
+x86_64               randconfig-a012-20201009
+x86_64               randconfig-a015-20201009
+x86_64               randconfig-a013-20201009
+x86_64               randconfig-a014-20201009
+x86_64               randconfig-a011-20201009
+x86_64               randconfig-a016-20201009
+i386                 randconfig-a015-20201009
+i386                 randconfig-a013-20201009
+i386                 randconfig-a014-20201009
+i386                 randconfig-a016-20201009
+i386                 randconfig-a011-20201009
+i386                 randconfig-a012-20201009
+i386                 randconfig-a015-20201008
+i386                 randconfig-a013-20201008
+i386                 randconfig-a014-20201008
+i386                 randconfig-a016-20201008
+i386                 randconfig-a011-20201008
+i386                 randconfig-a012-20201008
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                               rhel-8.3
+x86_64                                  kexec
 
->  
-> -#define CIO2_NUM_DMA_CHAN				20
-> -#define CIO2_NUM_PORTS					4 /* DPHYs */
-> +#define CIO2_NUM_DMA_CHAN				20U
-> +#define CIO2_NUM_PORTS					4U /* DPHYs */
->  
->  /* 1 for each sensor */
->  #define CIO2_QUEUES					CIO2_NUM_PORTS
-> @@ -66,12 +66,12 @@
->  #define CIO2_REG_MIPIBE_FORCE_RAW8	(CIO2_REG_MIPIBE_BASE + 0x20)
->  #define CIO2_REG_MIPIBE_FORCE_RAW8_ENABLE		BIT(0)
->  #define CIO2_REG_MIPIBE_FORCE_RAW8_USE_TYPEID		BIT(1)
-> -#define CIO2_REG_MIPIBE_FORCE_RAW8_TYPEID_SHIFT		2
-> +#define CIO2_REG_MIPIBE_FORCE_RAW8_TYPEID_SHIFT		2U
->  
->  #define CIO2_REG_MIPIBE_IRQ_STATUS	(CIO2_REG_MIPIBE_BASE + 0x24)
->  #define CIO2_REG_MIPIBE_IRQ_CLEAR	(CIO2_REG_MIPIBE_BASE + 0x28)
->  #define CIO2_REG_MIPIBE_GLOBAL_LUT_DISREGARD (CIO2_REG_MIPIBE_BASE + 0x68)
-> -#define CIO2_MIPIBE_GLOBAL_LUT_DISREGARD		1
-> +#define CIO2_MIPIBE_GLOBAL_LUT_DISREGARD		1U
->  #define CIO2_REG_MIPIBE_PKT_STALL_STATUS (CIO2_REG_MIPIBE_BASE + 0x6c)
->  #define CIO2_REG_MIPIBE_PARSE_GSP_THROUGH_LP_LUT_REG_IDX \
->  					(CIO2_REG_MIPIBE_BASE + 0x70)
-> @@ -79,10 +79,10 @@
->  				       (CIO2_REG_MIPIBE_BASE + 0x74 + 4 * (vc))
->  #define CIO2_REG_MIPIBE_LP_LUT_ENTRY(m)	/* m = 0..15 */ \
->  					(CIO2_REG_MIPIBE_BASE + 0x84 + 4 * (m))
-> -#define CIO2_MIPIBE_LP_LUT_ENTRY_DISREGARD		1
-> -#define CIO2_MIPIBE_LP_LUT_ENTRY_SID_SHIFT		1
-> -#define CIO2_MIPIBE_LP_LUT_ENTRY_VC_SHIFT		5
-> -#define CIO2_MIPIBE_LP_LUT_ENTRY_FORMAT_TYPE_SHIFT	7
-> +#define CIO2_MIPIBE_LP_LUT_ENTRY_DISREGARD		1U
-> +#define CIO2_MIPIBE_LP_LUT_ENTRY_SID_SHIFT		1U
-> +#define CIO2_MIPIBE_LP_LUT_ENTRY_VC_SHIFT		5U
-> +#define CIO2_MIPIBE_LP_LUT_ENTRY_FORMAT_TYPE_SHIFT	7U
->  
->  /* base register: CIO2_REG_PIPE_BASE(pipe) * CIO2_REG_IRQCTRL_BASE */
->  /* IRQ registers are 18-bit wide, see cio2_irq_error for bit definitions */
-> @@ -113,31 +113,31 @@
->  #define CIO2_CGC_ROSC_DCGE				BIT(12)
->  #define CIO2_CGC_XOSC_DCGE				BIT(13)
->  #define CIO2_CGC_FLIS_DCGE				BIT(14)
-> -#define CIO2_CGC_CLKGATE_HOLDOFF_SHIFT			20
-> -#define CIO2_CGC_CSI_CLKGATE_HOLDOFF_SHIFT		24
-> +#define CIO2_CGC_CLKGATE_HOLDOFF_SHIFT			20U
-> +#define CIO2_CGC_CSI_CLKGATE_HOLDOFF_SHIFT		24U
->  #define CIO2_REG_D0I3C					0x1408
->  #define CIO2_D0I3C_I3					BIT(2)	/* Set D0I3 */
->  #define CIO2_D0I3C_RR					BIT(3)	/* Restore? */
->  #define CIO2_REG_SWRESET				0x140c
-> -#define CIO2_SWRESET_SWRESET				1
-> +#define CIO2_SWRESET_SWRESET				1U
->  #define CIO2_REG_SENSOR_ACTIVE				0x1410
->  #define CIO2_REG_INT_STS				0x1414
->  #define CIO2_REG_INT_STS_EXT_OE				0x1418
-> -#define CIO2_INT_EXT_OE_DMAOE_SHIFT			0
-> +#define CIO2_INT_EXT_OE_DMAOE_SHIFT			0U
->  #define CIO2_INT_EXT_OE_DMAOE_MASK			0x7ffff
-> -#define CIO2_INT_EXT_OE_OES_SHIFT			24
-> +#define CIO2_INT_EXT_OE_OES_SHIFT			24U
->  #define CIO2_INT_EXT_OE_OES_MASK	(0xf << CIO2_INT_EXT_OE_OES_SHIFT)
->  #define CIO2_REG_INT_EN					0x1420
->  #define CIO2_REG_INT_EN_IRQ				(1 << 24)
-> -#define CIO2_REG_INT_EN_IOS(dma)	(1 << (((dma) >> 1) + 12))
-> +#define CIO2_REG_INT_EN_IOS(dma)	(1U << (((dma) >> 1U) + 12U))
->  /*
->   * Interrupt on completion bit, Eg. DMA 0-3 maps to bit 0-3,
->   * DMA4 & DMA5 map to bit 4 ... DMA18 & DMA19 map to bit 11 Et cetera
->   */
-> -#define CIO2_INT_IOC(dma)	(1 << ((dma) < 4 ? (dma) : ((dma) >> 1) + 2))
-> +#define CIO2_INT_IOC(dma)	(1U << ((dma) < 4U ? (dma) : ((dma) >> 1U) + 2U))
->  #define CIO2_INT_IOC_SHIFT				0
->  #define CIO2_INT_IOC_MASK		(0x7ff << CIO2_INT_IOC_SHIFT)
-> -#define CIO2_INT_IOS_IOLN(dma)		(1 << (((dma) >> 1) + 12))
-> +#define CIO2_INT_IOS_IOLN(dma)		(1U << (((dma) >> 1U) + 12U))
->  #define CIO2_INT_IOS_IOLN_SHIFT				12
->  #define CIO2_INT_IOS_IOLN_MASK		(0x3ff << CIO2_INT_IOS_IOLN_SHIFT)
->  #define CIO2_INT_IOIE					BIT(22)
-> @@ -145,32 +145,32 @@
->  #define CIO2_INT_IOIRQ					BIT(24)
->  #define CIO2_REG_INT_EN_EXT_OE				0x1424
->  #define CIO2_REG_DMA_DBG				0x1448
-> -#define CIO2_REG_DMA_DBG_DMA_INDEX_SHIFT		0
-> +#define CIO2_REG_DMA_DBG_DMA_INDEX_SHIFT		0U
->  #define CIO2_REG_PBM_ARB_CTRL				0x1460
-> -#define CIO2_PBM_ARB_CTRL_LANES_DIV			0 /* 4-4-2-2 lanes */
-> -#define CIO2_PBM_ARB_CTRL_LANES_DIV_SHIFT		0
-> +#define CIO2_PBM_ARB_CTRL_LANES_DIV			0U /* 4-4-2-2 lanes */
-> +#define CIO2_PBM_ARB_CTRL_LANES_DIV_SHIFT		0U
->  #define CIO2_PBM_ARB_CTRL_LE_EN				BIT(7)
-> -#define CIO2_PBM_ARB_CTRL_PLL_POST_SHTDN		2
-> -#define CIO2_PBM_ARB_CTRL_PLL_POST_SHTDN_SHIFT		8
-> -#define CIO2_PBM_ARB_CTRL_PLL_AHD_WK_UP			480
-> -#define CIO2_PBM_ARB_CTRL_PLL_AHD_WK_UP_SHIFT		16
-> +#define CIO2_PBM_ARB_CTRL_PLL_POST_SHTDN		2U
-> +#define CIO2_PBM_ARB_CTRL_PLL_POST_SHTDN_SHIFT		8U
-> +#define CIO2_PBM_ARB_CTRL_PLL_AHD_WK_UP			480U
-> +#define CIO2_PBM_ARB_CTRL_PLL_AHD_WK_UP_SHIFT		16U
->  #define CIO2_REG_PBM_WMCTRL1				0x1464
-> -#define CIO2_PBM_WMCTRL1_MIN_2CK_SHIFT			0
-> -#define CIO2_PBM_WMCTRL1_MID1_2CK_SHIFT			8
-> -#define CIO2_PBM_WMCTRL1_MID2_2CK_SHIFT			16
-> +#define CIO2_PBM_WMCTRL1_MIN_2CK_SHIFT			0U
-> +#define CIO2_PBM_WMCTRL1_MID1_2CK_SHIFT			8U
-> +#define CIO2_PBM_WMCTRL1_MID2_2CK_SHIFT			16U
->  #define CIO2_PBM_WMCTRL1_TS_COUNT_DISABLE		BIT(31)
->  #define CIO2_PBM_WMCTRL1_MIN_2CK	(4 << CIO2_PBM_WMCTRL1_MIN_2CK_SHIFT)
->  #define CIO2_PBM_WMCTRL1_MID1_2CK	(16 << CIO2_PBM_WMCTRL1_MID1_2CK_SHIFT)
->  #define CIO2_PBM_WMCTRL1_MID2_2CK	(21 << CIO2_PBM_WMCTRL1_MID2_2CK_SHIFT)
->  #define CIO2_REG_PBM_WMCTRL2				0x1468
-> -#define CIO2_PBM_WMCTRL2_HWM_2CK			40
-> -#define CIO2_PBM_WMCTRL2_HWM_2CK_SHIFT			0
-> -#define CIO2_PBM_WMCTRL2_LWM_2CK			22
-> -#define CIO2_PBM_WMCTRL2_LWM_2CK_SHIFT			8
-> -#define CIO2_PBM_WMCTRL2_OBFFWM_2CK			2
-> -#define CIO2_PBM_WMCTRL2_OBFFWM_2CK_SHIFT		16
-> -#define CIO2_PBM_WMCTRL2_TRANSDYN			1
-> -#define CIO2_PBM_WMCTRL2_TRANSDYN_SHIFT			24
-> +#define CIO2_PBM_WMCTRL2_HWM_2CK			40U
-> +#define CIO2_PBM_WMCTRL2_HWM_2CK_SHIFT			0U
-> +#define CIO2_PBM_WMCTRL2_LWM_2CK			22U
-> +#define CIO2_PBM_WMCTRL2_LWM_2CK_SHIFT			8U
-> +#define CIO2_PBM_WMCTRL2_OBFFWM_2CK			2U
-> +#define CIO2_PBM_WMCTRL2_OBFFWM_2CK_SHIFT		16U
-> +#define CIO2_PBM_WMCTRL2_TRANSDYN			1U
-> +#define CIO2_PBM_WMCTRL2_TRANSDYN_SHIFT			24U
->  #define CIO2_PBM_WMCTRL2_DYNWMEN			BIT(28)
->  #define CIO2_PBM_WMCTRL2_OBFF_MEM_EN			BIT(29)
->  #define CIO2_PBM_WMCTRL2_OBFF_CPU_EN			BIT(30)
-> @@ -178,12 +178,12 @@
->  #define CIO2_REG_PBM_TS_COUNT				0x146c
->  #define CIO2_REG_PBM_FOPN_ABORT				0x1474
->  /* below n = 0..3 */
-> -#define CIO2_PBM_FOPN_ABORT(n)				(0x1 << 8 * (n))
-> -#define CIO2_PBM_FOPN_FORCE_ABORT(n)			(0x2 << 8 * (n))
-> -#define CIO2_PBM_FOPN_FRAMEOPEN(n)			(0x8 << 8 * (n))
-> +#define CIO2_PBM_FOPN_ABORT(n)				(0x1 << 8U * (n))
-> +#define CIO2_PBM_FOPN_FORCE_ABORT(n)			(0x2 << 8U * (n))
-> +#define CIO2_PBM_FOPN_FRAMEOPEN(n)			(0x8 << 8U * (n))
->  #define CIO2_REG_LTRCTRL				0x1480
->  #define CIO2_LTRCTRL_LTRDYNEN				BIT(16)
-> -#define CIO2_LTRCTRL_LTRSTABLETIME_SHIFT		8
-> +#define CIO2_LTRCTRL_LTRSTABLETIME_SHIFT		8U
->  #define CIO2_LTRCTRL_LTRSTABLETIME_MASK			0xff
->  #define CIO2_LTRCTRL_LTRSEL1S3				BIT(7)
->  #define CIO2_LTRCTRL_LTRSEL1S2				BIT(6)
-> @@ -195,28 +195,28 @@
->  #define CIO2_LTRCTRL_LTRSEL2S0				BIT(0)
->  #define CIO2_REG_LTRVAL23				0x1484
->  #define CIO2_REG_LTRVAL01				0x1488
-> -#define CIO2_LTRVAL02_VAL_SHIFT				0
-> -#define CIO2_LTRVAL02_SCALE_SHIFT			10
-> -#define CIO2_LTRVAL13_VAL_SHIFT				16
-> -#define CIO2_LTRVAL13_SCALE_SHIFT			26
-> +#define CIO2_LTRVAL02_VAL_SHIFT				0U
-> +#define CIO2_LTRVAL02_SCALE_SHIFT			10U
-> +#define CIO2_LTRVAL13_VAL_SHIFT				16U
-> +#define CIO2_LTRVAL13_SCALE_SHIFT			26U
->  
-> -#define CIO2_LTRVAL0_VAL				175
-> +#define CIO2_LTRVAL0_VAL				175U
->  /* Value times 1024 ns */
-> -#define CIO2_LTRVAL0_SCALE				2
-> -#define CIO2_LTRVAL1_VAL				90
-> -#define CIO2_LTRVAL1_SCALE				2
-> -#define CIO2_LTRVAL2_VAL				90
-> -#define CIO2_LTRVAL2_SCALE				2
-> -#define CIO2_LTRVAL3_VAL				90
-> -#define CIO2_LTRVAL3_SCALE				2
-> +#define CIO2_LTRVAL0_SCALE				2U
-> +#define CIO2_LTRVAL1_VAL				90U
-> +#define CIO2_LTRVAL1_SCALE				2U
-> +#define CIO2_LTRVAL2_VAL				90U
-> +#define CIO2_LTRVAL2_SCALE				2U
-> +#define CIO2_LTRVAL3_VAL				90U
-> +#define CIO2_LTRVAL3_SCALE				2U
->  
->  #define CIO2_REG_CDMABA(n)		(0x1500 + 0x10 * (n))	/* n = 0..19 */
->  #define CIO2_REG_CDMARI(n)		(0x1504 + 0x10 * (n))
-> -#define CIO2_CDMARI_FBPT_RP_SHIFT			0
-> +#define CIO2_CDMARI_FBPT_RP_SHIFT			0U
->  #define CIO2_CDMARI_FBPT_RP_MASK			0xff
->  #define CIO2_REG_CDMAC0(n)		(0x1508 + 0x10 * (n))
-> -#define CIO2_CDMAC0_FBPT_LEN_SHIFT			0
-> -#define CIO2_CDMAC0_FBPT_WIDTH_SHIFT			8
-> +#define CIO2_CDMAC0_FBPT_LEN_SHIFT			0U
-> +#define CIO2_CDMAC0_FBPT_WIDTH_SHIFT			8U
->  #define CIO2_CDMAC0_FBPT_NS				BIT(25)
->  #define CIO2_CDMAC0_DMA_INTR_ON_FS			BIT(26)
->  #define CIO2_CDMAC0_DMA_INTR_ON_FE			BIT(27)
-> @@ -225,12 +225,12 @@
->  #define CIO2_CDMAC0_DMA_EN				BIT(30)
->  #define CIO2_CDMAC0_DMA_HALTED				BIT(31)
->  #define CIO2_REG_CDMAC1(n)		(0x150c + 0x10 * (n))
-> -#define CIO2_CDMAC1_LINENUMINT_SHIFT			0
-> -#define CIO2_CDMAC1_LINENUMUPDATE_SHIFT			16
-> +#define CIO2_CDMAC1_LINENUMINT_SHIFT			0U
-> +#define CIO2_CDMAC1_LINENUMUPDATE_SHIFT			16U
->  /* n = 0..3 */
->  #define CIO2_REG_PXM_PXF_FMT_CFG0(n)	(0x1700 + 0x30 * (n))
-> -#define CIO2_PXM_PXF_FMT_CFG_SID0_SHIFT			0
-> -#define CIO2_PXM_PXF_FMT_CFG_SID1_SHIFT			16
-> +#define CIO2_PXM_PXF_FMT_CFG_SID0_SHIFT			0U
-> +#define CIO2_PXM_PXF_FMT_CFG_SID1_SHIFT			16U
->  #define CIO2_PXM_PXF_FMT_CFG_PCK_64B			(0 << 0)
->  #define CIO2_PXM_PXF_FMT_CFG_PCK_32B			(1 << 0)
->  #define CIO2_PXM_PXF_FMT_CFG_BPP_08			(0 << 2)
-> @@ -249,27 +249,27 @@
->  #define CIO2_PXM_PXF_FMT_CFG_PSWAP4_2ND_BD		(1 << 10)
->  #define CIO2_REG_INT_STS_EXT_IE				0x17e4
->  #define CIO2_REG_INT_EN_EXT_IE				0x17e8
-> -#define CIO2_INT_EXT_IE_ECC_RE(n)			(0x01 << (8 * (n)))
-> -#define CIO2_INT_EXT_IE_DPHY_NR(n)			(0x02 << (8 * (n)))
-> -#define CIO2_INT_EXT_IE_ECC_NR(n)			(0x04 << (8 * (n)))
-> -#define CIO2_INT_EXT_IE_CRCERR(n)			(0x08 << (8 * (n)))
-> -#define CIO2_INT_EXT_IE_INTERFRAMEDATA(n)		(0x10 << (8 * (n)))
-> -#define CIO2_INT_EXT_IE_PKT2SHORT(n)			(0x20 << (8 * (n)))
-> -#define CIO2_INT_EXT_IE_PKT2LONG(n)			(0x40 << (8 * (n)))
-> -#define CIO2_INT_EXT_IE_IRQ(n)				(0x80 << (8 * (n)))
-> +#define CIO2_INT_EXT_IE_ECC_RE(n)			(0x01 << (8U * (n)))
-> +#define CIO2_INT_EXT_IE_DPHY_NR(n)			(0x02 << (8U * (n)))
-> +#define CIO2_INT_EXT_IE_ECC_NR(n)			(0x04 << (8U * (n)))
-> +#define CIO2_INT_EXT_IE_CRCERR(n)			(0x08 << (8U * (n)))
-> +#define CIO2_INT_EXT_IE_INTERFRAMEDATA(n)		(0x10 << (8U * (n)))
-> +#define CIO2_INT_EXT_IE_PKT2SHORT(n)			(0x20 << (8U * (n)))
-> +#define CIO2_INT_EXT_IE_PKT2LONG(n)			(0x40 << (8U * (n)))
-> +#define CIO2_INT_EXT_IE_IRQ(n)				(0x80 << (8U * (n)))
->  #define CIO2_REG_PXM_FRF_CFG(n)				(0x1720 + 0x30 * (n))
->  #define CIO2_PXM_FRF_CFG_FNSEL				BIT(0)
->  #define CIO2_PXM_FRF_CFG_FN_RST				BIT(1)
->  #define CIO2_PXM_FRF_CFG_ABORT				BIT(2)
-> -#define CIO2_PXM_FRF_CFG_CRC_TH_SHIFT			3
-> +#define CIO2_PXM_FRF_CFG_CRC_TH_SHIFT			3U
->  #define CIO2_PXM_FRF_CFG_MSK_ECC_DPHY_NR		BIT(8)
->  #define CIO2_PXM_FRF_CFG_MSK_ECC_RE			BIT(9)
->  #define CIO2_PXM_FRF_CFG_MSK_ECC_DPHY_NE		BIT(10)
-> -#define CIO2_PXM_FRF_CFG_EVEN_ODD_MODE_SHIFT		11
-> +#define CIO2_PXM_FRF_CFG_EVEN_ODD_MODE_SHIFT		11U
->  #define CIO2_PXM_FRF_CFG_MASK_CRC_THRES			BIT(13)
->  #define CIO2_PXM_FRF_CFG_MASK_CSI_ACCEPT		BIT(14)
->  #define CIO2_PXM_FRF_CFG_CIOHC_FS_MODE			BIT(15)
-> -#define CIO2_PXM_FRF_CFG_CIOHC_FRST_FRM_SHIFT		16
-> +#define CIO2_PXM_FRF_CFG_CIOHC_FRST_FRM_SHIFT		16U
->  #define CIO2_REG_PXM_SID2BID0(n)			(0x1724 + 0x30 * (n))
->  #define CIO2_FB_HPLL_FREQ				0x2
->  #define CIO2_ISCLK_RATIO				0xc
-> @@ -278,14 +278,14 @@
->  
->  #define CIO2_INT_EN_EXT_OE_MASK				0x8f0fffff
->  
-> -#define CIO2_CGC_CLKGATE_HOLDOFF			3
-> -#define CIO2_CGC_CSI_CLKGATE_HOLDOFF			5
-> +#define CIO2_CGC_CLKGATE_HOLDOFF			3U
-> +#define CIO2_CGC_CSI_CLKGATE_HOLDOFF			5U
->  
->  #define CIO2_PXM_FRF_CFG_CRC_TH				16
->  
->  #define CIO2_INT_EN_EXT_IE_MASK				0xffffffff
->  
-> -#define CIO2_DMA_CHAN					0
-> +#define CIO2_DMA_CHAN					0U
->  
->  #define CIO2_CSIRX_DLY_CNT_CLANE_IDX			-1
->  
-> @@ -302,8 +302,8 @@
->  #define CIO2_CSIRX_DLY_CNT_TERMEN_DEFAULT		0x4
->  #define CIO2_CSIRX_DLY_CNT_SETTLE_DEFAULT		0x570
->  
-> -#define CIO2_PMCSR_OFFSET				4
-> -#define CIO2_PMCSR_D0D3_SHIFT				2
-> +#define CIO2_PMCSR_OFFSET				4U
-> +#define CIO2_PMCSR_D0D3_SHIFT				2U
->  #define CIO2_PMCSR_D3					0x3
->  
->  struct cio2_csi2_timing {
+clang tested configs:
+x86_64               randconfig-a004-20201009
+x86_64               randconfig-a003-20201009
+x86_64               randconfig-a005-20201009
+x86_64               randconfig-a001-20201009
+x86_64               randconfig-a002-20201009
+x86_64               randconfig-a006-20201009
+x86_64               randconfig-a012-20201008
+x86_64               randconfig-a015-20201008
+x86_64               randconfig-a013-20201008
+x86_64               randconfig-a014-20201008
+x86_64               randconfig-a011-20201008
+x86_64               randconfig-a016-20201008
 
--- 
-Regards,
-
-Laurent Pinchart
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
