@@ -2,29 +2,26 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 24D61287FF0
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 03:19:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 59CE6287FF4
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 03:20:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726432AbgJIBTK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 8 Oct 2020 21:19:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44210 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725997AbgJIBTK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 21:19:10 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D29C7C0613D2
-        for <linux-media@vger.kernel.org>; Thu,  8 Oct 2020 18:19:09 -0700 (PDT)
+        id S1727327AbgJIBUc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 8 Oct 2020 21:20:32 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:49512 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725997AbgJIBUc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 8 Oct 2020 21:20:32 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 50F0959E;
-        Fri,  9 Oct 2020 03:19:08 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2449059E;
+        Fri,  9 Oct 2020 03:20:30 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1602206348;
-        bh=iVe+QLpm4TeurCHcZt5bU8wwMLU14ksJjsscS+xiOKM=;
+        s=mail; t=1602206430;
+        bh=aMnWBi+cArULsSCGxNMbr2pYvZGzh2dmUDGUvV4/N7Q=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qcgRT6C2lrdCgiBAH8xziMIUOLZetN5zUUg8xihfazDufWjQ8l/jpMTZw5LNMNq9t
-         lC/3LqaXgZK6y5qzEtHFk/D42BP46E0v6Rki+nQP45NIuLaMMGuF3BVnYdjpCDMeBH
-         RkvYS11zaCwxxABZDQHSMgixrocHb2+LbR9dH2tQ=
-Date:   Fri, 9 Oct 2020 04:18:25 +0300
+        b=QhQt0i+gR9ck0k2xSfoscCh61fD+kRbLwnEwAHUUb11ehly6qORbG6faoR1ur/ttK
+         /RjLSX0r8Zr0CSt3heedBTa0zh00aNLRJLO5sWXdd+zwUketqnvVrMnjyz17myUjh8
+         /H/SErY7OvIcyU3wvMNbcalcJd/KpX6baFlZbUOU=
+Date:   Fri, 9 Oct 2020 04:19:47 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     linux-media@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
@@ -32,15 +29,14 @@ Cc:     linux-media@vger.kernel.org, Yong Zhi <yong.zhi@intel.com>,
         Bingbu Cao <bingbu.cao@intel.com>,
         Tian Shu Qiu <tian.shu.qiu@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>
-Subject: Re: [PATCH v2 08/10] media: ipu3-cio2: Drop bogus check and error
- message
-Message-ID: <20201009011825.GJ12857@pendragon.ideasonboard.com>
+Subject: Re: [PATCH v2 09/10] media: ipu3-cio2: Drop useless assignments
+Message-ID: <20201009011947.GK12857@pendragon.ideasonboard.com>
 References: <20200817160734.12402-1-andriy.shevchenko@linux.intel.com>
- <20200817160734.12402-8-andriy.shevchenko@linux.intel.com>
+ <20200817160734.12402-9-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20200817160734.12402-8-andriy.shevchenko@linux.intel.com>
+In-Reply-To: <20200817160734.12402-9-andriy.shevchenko@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -49,47 +45,45 @@ Hi Andy,
 
 Thank you for the patch.
 
-On Mon, Aug 17, 2020 at 07:07:31PM +0300, Andy Shevchenko wrote:
-> pcim_iomap_table() won't fail if previous pcim_iomap_regions() hasn't.
-> Since we check pcim_iomap_regions() for failure the check close to
-> pcim_iomap_table() is bogus and not needed.
+On Mon, Aug 17, 2020 at 07:07:32PM +0300, Andy Shevchenko wrote:
+> There are assignments inside the functions which are useless.
+> Drop them for good.
 > 
 > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 > ---
 > v2: new patch
->  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 9 +--------
->  1 file changed, 1 insertion(+), 8 deletions(-)
+>  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 > 
 > diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> index 57310d7874ce..f5c27c1aa9a2 100644
+> index f5c27c1aa9a2..f3ec2d62cace 100644
 > --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
 > +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> @@ -1715,7 +1715,6 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
->  			  const struct pci_device_id *id)
+> @@ -1979,8 +1979,8 @@ static int __maybe_unused cio2_suspend(struct device *dev)
+>  static int __maybe_unused cio2_resume(struct device *dev)
 >  {
->  	struct cio2_device *cio2;
-> -	void __iomem *const *iomap;
->  	int r;
+>  	struct cio2_device *cio2 = dev_get_drvdata(dev);
+> -	int r = 0;
+>  	struct cio2_queue *q = cio2->cur_queue;
+> +	int r;
 >  
->  	cio2 = devm_kzalloc(&pci_dev->dev, sizeof(*cio2), GFP_KERNEL);
-> @@ -1738,13 +1737,7 @@ static int cio2_pci_probe(struct pci_dev *pci_dev,
->  		return -ENODEV;
->  	}
+>  	dev_dbg(dev, "cio2 resume\n");
+>  	if (!cio2->streaming)
+> @@ -2007,7 +2007,7 @@ static const struct dev_pm_ops cio2_pm_ops = {
 >  
-> -	iomap = pcim_iomap_table(pci_dev);
-> -	if (!iomap) {
-> -		dev_err(&pci_dev->dev, "failed to iomap table\n");
-> -		return -ENODEV;
-> -	}
-> -
-> -	cio2->base = iomap[CIO2_PCI_BAR];
-> +	cio2->base = pcim_iomap_table(pci_dev)[CIO2_PCI_BAR];
+>  static const struct pci_device_id cio2_pci_id_table[] = {
+>  	{ PCI_DEVICE(PCI_VENDOR_ID_INTEL, CIO2_PCI_ID) },
+> -	{ 0 }
+> +	{ }
 
-pcim_iomap_table() can return NULL if devres_alloc() runs out of memory.
+This change is good but doesn't really match the commit message. You may
+want to update it. With this addressed,
 
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+>  };
 >  
->  	pci_set_drvdata(pci_dev, cio2);
->  
+>  MODULE_DEVICE_TABLE(pci, cio2_pci_id_table);
 
 -- 
 Regards,
