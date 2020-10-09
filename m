@@ -2,66 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0AB80288C44
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 17:09:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 42842288C52
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 17:14:40 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388914AbgJIPJV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 11:09:21 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59564 "EHLO
+        id S2389156AbgJIPOV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 11:14:21 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60338 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732056AbgJIPJU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 11:09:20 -0400
-Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AECC0C0613D2
-        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 08:09:20 -0700 (PDT)
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id C6A54634C87;
-        Fri,  9 Oct 2020 18:08:27 +0300 (EEST)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kQu0R-0002AG-K4; Fri, 09 Oct 2020 18:08:27 +0300
-Date:   Fri, 9 Oct 2020 18:08:27 +0300
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Tsuchiya Yuto <kitakar@gmail.com>,
-        bingbu.cao@intel.com, Yong Zhi <yong.zhi@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        laurent.pinchart@ideasonboard.com
-Subject: Re: [PATCH 0/5] ipu3-cio2 format fixes
-Message-ID: <20201009150827.GJ6413@valkosipuli.retiisi.org.uk>
-References: <20201009150756.3397-1-sakari.ailus@linux.intel.com>
+        with ESMTP id S2388579AbgJIPOU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 11:14:20 -0400
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80FE3C0613D2
+        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 08:14:20 -0700 (PDT)
+Received: by mail-qv1-xf42.google.com with SMTP id j3so4901108qvi.7
+        for <linux-media@vger.kernel.org>; Fri, 09 Oct 2020 08:14:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=d5tRJ9PpcVIuucKEk9PjSNEdnKeyXjPzYCqe74ejgpM=;
+        b=Zn8X4w0/OSkhz1OuZv5cn9hAzblt5Hz2mscK1C8WJ1JcDT5nIpUMpSMLResc3MFIeJ
+         GYAwP5W+J0Fxn2Md7iAQTDLSGl8qafxyhc+wXW+psUrtfS5wngK5J1ar+PSV3qeK2Nj5
+         0m6G/dAXHeQgo5p2oWl5wszCZy8X++skWa3fLZ38pZcn+TFZhh2cIuqy4at1AIMSl2Rj
+         sRITU+dZXxiE1XajWjAvISGvD4aFphoRP21auU1OzDipxnqXLk9pmk/qYrzNztspn4bq
+         ia3DCQaNq81q+PGYCObzRoeKRHiP/S327EfmURD1pAthONNzdj/rwgMutzPgFDspy8uM
+         keMg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=d5tRJ9PpcVIuucKEk9PjSNEdnKeyXjPzYCqe74ejgpM=;
+        b=IVlOqZ/VPrmsv1TYb8UieRpP3gyhcC9mY6120yzyo72EboptP9n2wNzAp1OB5o56vv
+         hF98sSDcSKhhj+Y+4wGv3enZEkBEGl0h/ZHQHcIKLWDbK/t085PoWTveAegonIt16Gdw
+         GOWuL54u/iLmBRh50zQ5MhYw8vJ335BaZnT/D74yXSzm0SAqxlP3lK6vULdek3IZH7U0
+         MFIv/ddygTZyJ7noaqpx+I0dtvPQM49fWD1mq5MxuHRMzuNTzan8B3ctuhBKx4ykiQco
+         vMJgKj6rQLA4SEc3aBpZPRtTfeZrDg0QTsD9PIT9bC8abwJuLhJEjNBjCk3saVZT72Ho
+         qfHg==
+X-Gm-Message-State: AOAM530Y1apJDUMqNT7k3DzyrZXRmQqDL6V7bWbOXC1QnjE/rVQSucOd
+        7O8Mjc+HLnp9j+rffd7gnBU2ow==
+X-Google-Smtp-Source: ABdhPJxKiahJdvTtsQaQo417yOupHNeidai5L3YpYKdnVDmVTqBZN9rm1cv4o5Miumg1ehkWBKEPgQ==
+X-Received: by 2002:a0c:cd0e:: with SMTP id b14mr13194813qvm.3.1602256459739;
+        Fri, 09 Oct 2020 08:14:19 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id s15sm6329516qkj.21.2020.10.09.08.14.18
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 09 Oct 2020 08:14:19 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1kQu66-0020X4-DL; Fri, 09 Oct 2020 12:14:18 -0300
+Date:   Fri, 9 Oct 2020 12:14:18 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Christian =?utf-8?B?S8O2bmln?= <ckoenig.leichtzumerken@gmail.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, chris@chris-wilson.co.uk,
+        airlied@redhat.com, akpm@linux-foundation.org, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, willy@infradead.org, jhubbard@nvidia.com
+Subject: Re: [PATCH 2/6] mm: introduce vma_set_file function v3
+Message-ID: <20201009151418.GW5177@ziepe.ca>
+References: <20201009150342.1979-1-christian.koenig@amd.com>
+ <20201009150342.1979-2-christian.koenig@amd.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201009150756.3397-1-sakari.ailus@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201009150342.1979-2-christian.koenig@amd.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 09, 2020 at 06:07:51PM +0300, Sakari Ailus wrote:
-> Hello all,
-> 
-> This set addresses most notable subdev format related issues, namely the
-> sub-device sink format being unaccessible. The result of accessing it
-> varied from oopses to crashes.
-> 
-> since v1:
-> 
-> - Validate try format, too
-> 
-> - Set field in subdev format to V4L2_FIELD_NONE
-> 
-> - Add a comment explaining the lock
-> 
-> - Make values that should be unsigned, unsigned
+On Fri, Oct 09, 2020 at 05:03:38PM +0200, Christian König wrote:
+> +/*
+> + * Change backing file, only valid to use during initial VMA setup.
+> + */
+> +void vma_set_file(struct vm_area_struct *vma, struct file *file)
+> +{
+> +	if (file)
+> +	        get_file(file);
+> +
+> +	swap(vma->vm_file, file);
+> +
+> +	if (file)
+> +		fput(file);
+> +}
 
-This is obviously v2. v1 is here:
+fput crashes when file is NULL so the error handling after
+unmap_and_free_vma: can't handle this case, similarly vm_file can't be
+NULL either.
 
-<URL:https://lore.kernel.org/linux-media/20201008204747.26320-1-sakari.ailus@linux.intel.com/T/#t>
+So just simply:
 
--- 
-Sakari Ailus
+ swap(vma->vm_file, file);
+ get_file(vma->vm_file);
+ fput(file);
+ 
+Will do?
+
+Just let it crash if any of them are wrongly NULL.
+
+Jason
