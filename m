@@ -2,251 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2F69288682
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 12:02:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E695288693
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 12:11:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387446AbgJIKBy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 06:01:54 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40114 "EHLO
+        id S2387505AbgJIKLE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 06:11:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41532 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387438AbgJIKBw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 06:01:52 -0400
-Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com [IPv6:2607:f8b0:4864:20::c44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FE4DC0613D5
-        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 03:01:52 -0700 (PDT)
-Received: by mail-oo1-xc44.google.com with SMTP id h8so2225337ooc.12
-        for <linux-media@vger.kernel.org>; Fri, 09 Oct 2020 03:01:52 -0700 (PDT)
+        with ESMTP id S1726357AbgJIKLE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 06:11:04 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ECCBBC0613D2
+        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 03:11:03 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id k8so6463206pfk.2
+        for <linux-media@vger.kernel.org>; Fri, 09 Oct 2020 03:11:03 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=ftHJzNt4bERnNP+SIXIGo56JCvpL8TcP22nYSQKOV5k=;
-        b=UzMeV+rwKkunQlHgHNSlVY990btw6GRORlFmsAYBx1gPA8SEXpEqpXIa8uGJFLzTQw
-         b8BMC7q8QXr1fDrrdZMhmylgPVoMLs2HnzRpCUYwl2q2F4u0Dr/m3fS3LlJ3o6+Ejdce
-         Wcj4zRQKhHrsGCyXRc5pfd4UfW1pvcEdIaWfc=
+         :cc;
+        bh=aFqhfHah1U4rC9Pp6iE88Smqcg7KSYKglut8QfDEHzo=;
+        b=WeHlKTleujY4mocNNoAzfOHsnKHEbbNcdj55HP2jitQ3guf5Y8eXZzWUwDzJnrSP2R
+         ptiImgVjPfkZNNlNLMmKzaxY9n9HckbQ+xTT/JBErk7O5ig0FHNNZlqx0oDzUZbsJR7d
+         sbj160aETx8Z9Q1SYyRAhCe/Xysb6tx8Rd8ijQmH8i2r8s972XYC5OgaVzLF2Druiog6
+         D2Fy1DXK2RX8PBw9fNkZ/dkq7aLEcxHS15LSWTEiTGK9ZIlNZ+D1yu0kcXF78ikX1UDx
+         iP27pUJVQD4Zk97p/Bj6hfaJ21tsZQ3TjmUaBio5YwriACeSiTJdvtJCWMKR0Kart8Fl
+         VrkQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=ftHJzNt4bERnNP+SIXIGo56JCvpL8TcP22nYSQKOV5k=;
-        b=su62xTShB3axruisUcssdBwP31mqxkP8XjQiXwwt8l06phlif7arNCy+oJqeggIeOw
-         Y+zYo8SX1siHh40GY6DpppzqWL1xAhga0q1Y+EJ3lmusV7X4tOgWQr6wnz0wmAI9xAte
-         cBKzp1Akm4LC3vrcp4rqNCyhoDQeG07BzqTvREfvjEsNMNL8MLJxKmRX/ybZqngf+sxB
-         x6SJfp/mg9EFyIUQNhOVYpQzX8rVO8OKujh9m9hk6LnAt/XltZ2xMygFLNPdMN90owi0
-         O/kAGmCj0ZaJzbvc85Qj58DpJzUIZ9paDt/BB9nb8D84UGG8QRneDlp7E5trspHxfBUr
-         aZXg==
-X-Gm-Message-State: AOAM5336hYl9jHFKQ9AJAZ+j8VF1ENX7XlxmxxokYZXQeHGogYu3Dh3y
-        iWe1BlKMF0ZpcUSAeT2S1gPGb4trEhtg46vdO0u1og==
-X-Google-Smtp-Source: ABdhPJyck/sz2r8nAE1vOQ+mmU8ZRo9mJI1evvAL5G2Nq41icTgyJhGztZHNyIlc3HZk+r5jBb8vWdtCG7CV4AmWN/U=
-X-Received: by 2002:a4a:e592:: with SMTP id o18mr8337874oov.28.1602237711175;
- Fri, 09 Oct 2020 03:01:51 -0700 (PDT)
+         :message-id:subject:to:cc;
+        bh=aFqhfHah1U4rC9Pp6iE88Smqcg7KSYKglut8QfDEHzo=;
+        b=A956e+/ejashbou+JsrpnWim8oCkWiTKEB6Dw/QnEf7CWG9J8wy2xepjn6eF1YnEJF
+         sjVG784HRl5B0GtYUvTuw2dvhmqu9ZIAMJ7n+VyMwsLn7pOty0v1tX1sN2VvDiN8GgqY
+         4mTqH043gh7qIGzd93Acnf91BB8uxQ0xCuKjX0QWhdi8Ia4G2Kv7KJR+jDdrNc3Rcz56
+         XE1w6G0YXoD1BKuyOtpJiyzC9Zdeg1rRvJIGdNwb7qZBhTJW1NAcwR2hNCN/ZJdds93/
+         gHY05xUxnk27qWxnSMdyj5/lKF7K5uIGCOUGnS/FbHtLwkpfwCmyPV6ajP3zx2QCc6Sb
+         vOXQ==
+X-Gm-Message-State: AOAM533Wr/dw4BNEuDk8xZvAl+uOIASZcNJeYBNroKAhk3nbSITgALBs
+        OXHREROwq8d6g2ObFqHIBU90ZJ/Y/WtIK4xWlIg=
+X-Google-Smtp-Source: ABdhPJzI2RpE33pCq9TI2N2/CL00lyzSa2rZVDy63n5yX8lA6TQZd8dt7O2icol9iIFDvqB0E05s99KDYigapmJYwvc=
+X-Received: by 2002:a17:90b:305:: with SMTP id ay5mr3541381pjb.129.1602238263384;
+ Fri, 09 Oct 2020 03:11:03 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-18-daniel.vetter@ffwll.ch> <20201009094750.GQ6112@intel.com>
-In-Reply-To: <20201009094750.GQ6112@intel.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Fri, 9 Oct 2020 12:01:39 +0200
-Message-ID: <CAKMK7uH3o3hnRkTDqr93PR=wuRejpty+AbyMacoEFDDb6OgJeQ@mail.gmail.com>
-Subject: Re: [PATCH v2 17/17] drm/i915: Properly request PCI BARs
-To:     =?UTF-8?B?VmlsbGUgU3lyasOkbMOk?= <ville.syrjala@linux.intel.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
-        KVM list <kvm@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
+References: <20200817160734.12402-1-andriy.shevchenko@linux.intel.com>
+ <20200817160734.12402-2-andriy.shevchenko@linux.intel.com> <20201009010042.GE12857@pendragon.ideasonboard.com>
+In-Reply-To: <20201009010042.GE12857@pendragon.ideasonboard.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Fri, 9 Oct 2020 13:11:53 +0300
+Message-ID: <CAHp75VcF53SDrHgD++q-tRCaUyw5ofsNk12Quz7Zqt9_D6n5Aw@mail.gmail.com>
+Subject: Re: [PATCH v2 02/10] media: ipu3-cio2: Introduce CIO2_LOP_ENTRIES constant
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 9, 2020 at 11:47 AM Ville Syrj=C3=A4l=C3=A4
-<ville.syrjala@linux.intel.com> wrote:
->
-> On Fri, Oct 09, 2020 at 09:59:34AM +0200, Daniel Vetter wrote:
-> > When trying to test my CONFIG_IO_STRICT_DEVMEM changes I realized they
-> > do nothing for i915. Because i915 doesn't request any regions, like
-> > pretty much all drm pci drivers. I guess this is some very old
-> > remnants from the userspace modesetting days, when we wanted to
-> > co-exist with the fbdev driver. Which usually requested these
-> > resources.
-> >
-> > But makes me wonder why the pci subsystem doesn't just request
-> > resource automatically when we map a bar and a pci driver is bound?
-> >
-> > Knowledge about which pci bars we need kludged together from
-> > intel_uncore.c and intel_gtt.c from i915 and intel-gtt.c over in the
-> > fake agp driver.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > Cc: Kees Cook <keescook@chromium.org>
-> > Cc: Dan Williams <dan.j.williams@intel.com>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: John Hubbard <jhubbard@nvidia.com>
-> > Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-> > Cc: Jan Kara <jack@suse.cz>
-> > Cc: Dan Williams <dan.j.williams@intel.com>
-> > Cc: linux-mm@kvack.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-samsung-soc@vger.kernel.org
-> > Cc: linux-media@vger.kernel.org
-> > Cc: Bjorn Helgaas <bhelgaas@google.com>
-> > Cc: linux-pci@vger.kernel.org
-> > ---
-> >  drivers/gpu/drm/i915/intel_uncore.c | 25 +++++++++++++++++++++++--
-> >  1 file changed, 23 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915=
-/intel_uncore.c
-> > index 54e201fdeba4..ce39049d8919 100644
-> > --- a/drivers/gpu/drm/i915/intel_uncore.c
-> > +++ b/drivers/gpu/drm/i915/intel_uncore.c
-> > @@ -1692,10 +1692,13 @@ static int uncore_mmio_setup(struct intel_uncor=
-e *uncore)
-> >       struct pci_dev *pdev =3D i915->drm.pdev;
-> >       int mmio_bar;
-> >       int mmio_size;
-> > +     int bar_selection;
->
-> Signed bitmasks always make me uneasy. But looks like
-> that's what it is in the pci api. So meh.
-
-Yeah it's surprising.
-
-> > +     int ret;
-> >
-> >       mmio_bar =3D IS_GEN(i915, 2) ? 1 : 0;
-> > +     bar_selection =3D BIT (2) | BIT(mmio_bar);
->                            ^
-> spurious space
->
-> That's also not correct for gen2 I think.
->
-> gen2:
-> 0 =3D GMADR
-> 1 =3D MMADR
-> 2 =3D IOBAR
->
-> gen3:
-> 0 =3D MMADR
-> 1 =3D IOBAR
-> 2 =3D GMADR
-> 3 =3D GTTADR
->
-> gen4+:
-> 0+1 =3D GTTMMADR
-> 2+3 =3D GMADR
-> 4 =3D IOBAR
->
-> Maybe we should just have an explicit list of bars like that in a
-> comment?
->
-> I'd also suggest sucking this bitmask calculation into a small helper
-> so you can reuse it for the release.
-
-tbh I just hacked this up for testing. Given how almost no other drm
-driver does this, I'm wondering whether we should or not.
-
-Also the only reason why I didn't just use the pci_request_regions
-helper is to avoid the vga ioport range, since that's managed by
-vgaarbiter.
-
-So I think if we go for this for real we should:
-- register the vga ioport range in the vgaarbiter
-- have a pci_request_iomem_regions helper that grabs all mem bars
-- roll that out to all drm pci drivers
-
-Or something like that. The other complication is when we resize the
-iobar. So not really sure what to do here.
--Daniel
-
->
-> >       /*
-> > -      * Before gen4, the registers and the GTT are behind different BA=
-Rs.
-> > +      * On gen3 the registers and the GTT are behind different BARs.
-> >        * However, from gen4 onwards, the registers and the GTT are shar=
-ed
-> >        * in the same BAR, so we want to restrict this ioremap from
-> >        * clobbering the GTT which we want ioremap_wc instead. Fortunate=
-ly,
-> > @@ -1703,6 +1706,8 @@ static int uncore_mmio_setup(struct intel_uncore =
-*uncore)
-> >        * generations up to Ironlake.
-> >        * For dgfx chips register range is expanded to 4MB.
-> >        */
-> > +     if (INTEL_GEN(i915) =3D=3D 3)
-> > +             bar_selection |=3D BIT(3);
-> >       if (INTEL_GEN(i915) < 5)
-> >               mmio_size =3D 512 * 1024;
-> >       else if (IS_DGFX(i915))
-> > @@ -1710,8 +1715,15 @@ static int uncore_mmio_setup(struct intel_uncore=
- *uncore)
-> >       else
-> >               mmio_size =3D 2 * 1024 * 1024;
-> >
-> > +     ret =3D pci_request_selected_regions(pdev, bar_selection, "i915")=
-;
-> > +     if (ret < 0) {
-> > +             drm_err(&i915->drm, "failed to request pci bars\n");
-> > +             return ret;
-> > +     }
-> > +
-> >       uncore->regs =3D pci_iomap(pdev, mmio_bar, mmio_size);
-> >       if (uncore->regs =3D=3D NULL) {
-> > +             pci_release_selected_regions(pdev, bar_selection);
-> >               drm_err(&i915->drm, "failed to map registers\n");
-> >               return -EIO;
-> >       }
-> > @@ -1721,9 +1733,18 @@ static int uncore_mmio_setup(struct intel_uncore=
- *uncore)
-> >
-> >  static void uncore_mmio_cleanup(struct intel_uncore *uncore)
-> >  {
-> > -     struct pci_dev *pdev =3D uncore->i915->drm.pdev;
-> > +     struct drm_i915_private *i915 =3D uncore->i915;
-> > +     struct pci_dev *pdev =3D i915->drm.pdev;
-> > +     int mmio_bar;
-> > +     int bar_selection;
-> > +
-> > +     mmio_bar =3D IS_GEN(i915, 2) ? 1 : 0;
-> > +     bar_selection =3D BIT (2) | BIT(mmio_bar);
-> > +     if (INTEL_GEN(i915) =3D=3D 3)
-> > +             bar_selection |=3D BIT(3);
-> >
-> >       pci_iounmap(pdev, uncore->regs);
-> > +     pci_release_selected_regions(pdev, bar_selection);
-> >  }
-> >
-> >  void intel_uncore_init_early(struct intel_uncore *uncore,
-> > --
-> > 2.28.0
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
-> --
-> Ville Syrj=C3=A4l=C3=A4
-> Intel
+On Fri, Oct 9, 2020 at 4:10 AM Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+> On Mon, Aug 17, 2020 at 07:07:25PM +0300, Andy Shevchenko wrote:
+> > This constant is used in several places in the code, define it
+> > for better maintenance.
 
 
+> >  #define CIO2_MAX_BUFFERS                     (PAGE_SIZE / 16 / CIO2_MAX_LOPS)
+> > +#define CIO2_LOP_ENTRIES                     (PAGE_SIZE / sizeof(u32))
+>
+> Shouldn't this be CIO2_PAGE_SIZE instead of PAGE_SIZE ?
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I don't think it makes sense to define this. Then you need to define
+all others as well and they will be the same as for the CPU/MMU. As I
+explained in another patch it's quite unlikely that these two will be
+different.
+
+-- 
+With Best Regards,
+Andy Shevchenko
