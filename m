@@ -2,162 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AF40288717
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 12:40:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D9FE288721
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 12:42:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387747AbgJIKkQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 06:40:16 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46058 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725979AbgJIKkP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 9 Oct 2020 06:40:15 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B2FCC0613D2
-        for <linux-media@vger.kernel.org>; Fri,  9 Oct 2020 03:40:15 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id BA7BC539;
-        Fri,  9 Oct 2020 12:40:12 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1602240012;
-        bh=PqbODTrBE8wGQdG17mWpDVlg7eqLk9tFXKhRlqahTgA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=vfQUFtjOKlWYIpVZOpn+d8Ibgcr76xONKVuySpmWRU2PsIv4P5TIilDjErBy8BFII
-         jopDIiPAG/Y0L/HyfOAhfmHvTXRd5sXMUxvnjtSH8kg+fj7Z59kdFXm1ZZX2FiQfHn
-         PWg5V1Jn76sVr735KVBU9l8nWGkdVzDhUfFP0YpI=
-Date:   Fri, 9 Oct 2020 13:39:29 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, Tsuchiya Yuto <kitakar@gmail.com>,
-        bingbu.cao@intel.com, Yong Zhi <yong.zhi@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>
-Subject: Re: [PATCH 2/3] ipu3-cio2: Serialise access to pad format
-Message-ID: <20201009103929.GA3935@pendragon.ideasonboard.com>
-References: <20201008204747.26320-1-sakari.ailus@linux.intel.com>
- <20201008204747.26320-3-sakari.ailus@linux.intel.com>
- <20201009004412.GB12857@pendragon.ideasonboard.com>
- <20201009094347.GQ26842@paasikivi.fi.intel.com>
+        id S2387773AbgJIKmC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 06:42:02 -0400
+Received: from mga17.intel.com ([192.55.52.151]:53580 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387763AbgJIKmC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Oct 2020 06:42:02 -0400
+IronPort-SDR: WrvfIwYBRrG7Sd5TxuGgMevs8BNLVe53ACF5mgUoU7eO18SzhxMkZjdOMC+w7+aqtrDa7/Ju31
+ F5+AYR8WmFmA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9768"; a="145334129"
+X-IronPort-AV: E=Sophos;i="5.77,354,1596524400"; 
+   d="scan'208";a="145334129"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 03:42:01 -0700
+IronPort-SDR: D5eqKzTjS4VWkdDx7L10EJhvpJmbWpaNFT2AjYNswUUzxVgophba1dI0Vl4ciDLSRhrLHR2HwJ
+ Z2f9ybtMlUDw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,354,1596524400"; 
+   d="scan'208";a="316996829"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+  by orsmga006.jf.intel.com with SMTP; 09 Oct 2020 03:41:55 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Fri, 09 Oct 2020 13:41:54 +0300
+Date:   Fri, 9 Oct 2020 13:41:54 +0300
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
+        KVM list <kvm@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        Linux MM <linux-mm@kvack.org>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v2 17/17] drm/i915: Properly request PCI BARs
+Message-ID: <20201009104154.GR6112@intel.com>
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-18-daniel.vetter@ffwll.ch>
+ <20201009094750.GQ6112@intel.com>
+ <CAKMK7uH3o3hnRkTDqr93PR=wuRejpty+AbyMacoEFDDb6OgJeQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20201009094347.GQ26842@paasikivi.fi.intel.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKMK7uH3o3hnRkTDqr93PR=wuRejpty+AbyMacoEFDDb6OgJeQ@mail.gmail.com>
+X-Patchwork-Hint: comment
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-On Fri, Oct 09, 2020 at 12:43:47PM +0300, Sakari Ailus wrote:
-> On Fri, Oct 09, 2020 at 03:44:12AM +0300, Laurent Pinchart wrote:
-> > On Thu, Oct 08, 2020 at 11:47:46PM +0300, Sakari Ailus wrote:
-> > > Pad format can be accessed from user space. Serialise access to it.
-> > > 
-> > > Fixes: c2a6a07afe4a ("media: intel-ipu3: cio2: add new MIPI-CSI2 driver")
-> > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+On Fri, Oct 09, 2020 at 12:01:39PM +0200, Daniel Vetter wrote:
+> On Fri, Oct 9, 2020 at 11:47 AM Ville Syrjälä
+> <ville.syrjala@linux.intel.com> wrote:
+> >
+> > On Fri, Oct 09, 2020 at 09:59:34AM +0200, Daniel Vetter wrote:
+> > > When trying to test my CONFIG_IO_STRICT_DEVMEM changes I realized they
+> > > do nothing for i915. Because i915 doesn't request any regions, like
+> > > pretty much all drm pci drivers. I guess this is some very old
+> > > remnants from the userspace modesetting days, when we wanted to
+> > > co-exist with the fbdev driver. Which usually requested these
+> > > resources.
+> > >
+> > > But makes me wonder why the pci subsystem doesn't just request
+> > > resource automatically when we map a bar and a pci driver is bound?
+> > >
+> > > Knowledge about which pci bars we need kludged together from
+> > > intel_uncore.c and intel_gtt.c from i915 and intel-gtt.c over in the
+> > > fake agp driver.
+> > >
+> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > > Cc: Kees Cook <keescook@chromium.org>
+> > > Cc: Dan Williams <dan.j.williams@intel.com>
+> > > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > > Cc: John Hubbard <jhubbard@nvidia.com>
+> > > Cc: Jérôme Glisse <jglisse@redhat.com>
+> > > Cc: Jan Kara <jack@suse.cz>
+> > > Cc: Dan Williams <dan.j.williams@intel.com>
+> > > Cc: linux-mm@kvack.org
+> > > Cc: linux-arm-kernel@lists.infradead.org
+> > > Cc: linux-samsung-soc@vger.kernel.org
+> > > Cc: linux-media@vger.kernel.org
+> > > Cc: Bjorn Helgaas <bhelgaas@google.com>
+> > > Cc: linux-pci@vger.kernel.org
 > > > ---
-> > >  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 11 +++++++++++
-> > >  drivers/media/pci/intel/ipu3/ipu3-cio2.h |  1 +
-> > >  2 files changed, 12 insertions(+)
-> > > 
-> > > diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> > > index afa472026ba4..9c7b527a8800 100644
-> > > --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> > > +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> > > @@ -1233,11 +1233,15 @@ static int cio2_subdev_get_fmt(struct v4l2_subdev *sd,
-> > >  {
-> > >  	struct cio2_queue *q = container_of(sd, struct cio2_queue, subdev);
-> > >  
-> > > +	mutex_lock(&q->subdev_lock);
-> > > +
-> > >  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> > >  		fmt->format = *v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
-> > >  	else
-> > >  		fmt->format = q->subdev_fmt;
-> > >  
-> > > +	mutex_unlock(&q->subdev_lock);
-> > > +
-> > >  	return 0;
-> > >  }
-> > >  
-> > > @@ -1261,6 +1265,8 @@ static int cio2_subdev_set_fmt(struct v4l2_subdev *sd,
-> > >  	if (fmt->pad == CIO2_PAD_SOURCE)
-> > >  		return cio2_subdev_get_fmt(sd, cfg, fmt);
-> > >  
-> > > +	mutex_lock(&q->subdev_lock);
-> > > +
-> > >  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-> > >  		*v4l2_subdev_get_try_format(sd, cfg, fmt->pad) = fmt->format;
-> > >  	} else {
-> > > @@ -1271,6 +1277,8 @@ static int cio2_subdev_set_fmt(struct v4l2_subdev *sd,
-> > >  		fmt->format = q->subdev_fmt;
-> > >  	}
-> > 
-> > Not a candidate for this patch, but this should restrict the pixel
-> > format and size to supported values.
+> > >  drivers/gpu/drm/i915/intel_uncore.c | 25 +++++++++++++++++++++++--
+> > >  1 file changed, 23 insertions(+), 2 deletions(-)
+> > >
+> > > diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+> > > index 54e201fdeba4..ce39049d8919 100644
+> > > --- a/drivers/gpu/drm/i915/intel_uncore.c
+> > > +++ b/drivers/gpu/drm/i915/intel_uncore.c
+> > > @@ -1692,10 +1692,13 @@ static int uncore_mmio_setup(struct intel_uncore *uncore)
+> > >       struct pci_dev *pdev = i915->drm.pdev;
+> > >       int mmio_bar;
+> > >       int mmio_size;
+> > > +     int bar_selection;
+> >
+> > Signed bitmasks always make me uneasy. But looks like
+> > that's what it is in the pci api. So meh.
 > 
-> Yes.
+> Yeah it's surprising.
 > 
-> > 
-> > >  
-> > > +	mutex_unlock(&q->subdev_lock);
-> > > +
-> > >  	return 0;
-> > >  }
-> > >  
-> > > @@ -1529,6 +1537,7 @@ static int cio2_queue_init(struct cio2_device *cio2, struct cio2_queue *q)
-> > >  
-> > >  	/* Initialize miscellaneous variables */
-> > >  	mutex_init(&q->lock);
-> > > +	mutex_init(&q->subdev_lock);
-> > >  
-> > >  	/* Initialize formats to default values */
-> > >  	fmt = &q->subdev_fmt;
-> > > @@ -1646,6 +1655,7 @@ static int cio2_queue_init(struct cio2_device *cio2, struct cio2_queue *q)
-> > >  	cio2_fbpt_exit(q, &cio2->pci_dev->dev);
-> > >  fail_fbpt:
-> > >  	mutex_destroy(&q->lock);
-> > > +	mutex_destroy(&q->subdev_lock);
-> > >  
-> > >  	return r;
-> > >  }
-> > > @@ -1658,6 +1668,7 @@ static void cio2_queue_exit(struct cio2_device *cio2, struct cio2_queue *q)
-> > >  	media_entity_cleanup(&q->subdev.entity);
-> > >  	cio2_fbpt_exit(q, &cio2->pci_dev->dev);
-> > >  	mutex_destroy(&q->lock);
-> > > +	mutex_destroy(&q->subdev_lock);
-> > >  }
-> > >  
-> > >  static int cio2_queues_init(struct cio2_device *cio2)
-> > > diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.h b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> > > index 549b08f88f0c..df0247326a1d 100644
-> > > --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> > > +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
-> > > @@ -335,6 +335,7 @@ struct cio2_queue {
-> > >  
-> > >  	/* Subdev, /dev/v4l-subdevX */
-> > >  	struct v4l2_subdev subdev;
-> > > +	struct mutex subdev_lock;
-> > 
-> > Can you add a small comment to tell which field(s) this lock protects ?
+> > > +     int ret;
+> > >
+> > >       mmio_bar = IS_GEN(i915, 2) ? 1 : 0;
+> > > +     bar_selection = BIT (2) | BIT(mmio_bar);
+> >                            ^
+> > spurious space
+> >
+> > That's also not correct for gen2 I think.
+> >
+> > gen2:
+> > 0 = GMADR
+> > 1 = MMADR
+> > 2 = IOBAR
+> >
+> > gen3:
+> > 0 = MMADR
+> > 1 = IOBAR
+> > 2 = GMADR
+> > 3 = GTTADR
+> >
+> > gen4+:
+> > 0+1 = GTTMMADR
+> > 2+3 = GMADR
+> > 4 = IOBAR
+> >
+> > Maybe we should just have an explicit list of bars like that in a
+> > comment?
+> >
+> > I'd also suggest sucking this bitmask calculation into a small helper
+> > so you can reuse it for the release.
 > 
-> How about:
+> tbh I just hacked this up for testing. Given how almost no other drm
+> driver does this, I'm wondering whether we should or not.
 > 
-> 	/* Serialise access to subdev_fmt field */
+> Also the only reason why I didn't just use the pci_request_regions
+> helper is to avoid the vga ioport range, since that's managed by
+> vgaarbiter.
 
-That's perfect :-)
+VGA io range isn't part of any bar. Or do you mean just the io decode
+enable bit in the pci command register? That should be just a matter
+or pci_enable_device() vs. pci_enable_device_mem() I think. So nothing
+to do with which bars we've requested IIRC.
 
-> Currently it's just that, but I feel locking in this driver would generally
-> benefit from refactoring. That can wait a little though as it's not an
-> acute problem.
+> 
+> So I think if we go for this for real we should:
+> - register the vga ioport range in the vgaarbiter
+> - have a pci_request_iomem_regions helper that grabs all mem bars
+> - roll that out to all drm pci drivers
+> 
+> Or something like that. The other complication is when we resize the
+> iobar. So not really sure what to do here.
 
-Sure.
-
-> > Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > 
-> > >  	struct media_pad subdev_pads[CIO2_PADS];
-> > >  	struct v4l2_mbus_framefmt subdev_fmt;
-> > >  	atomic_t frame_sequence;
+We resize it?
 
 -- 
-Regards,
-
-Laurent Pinchart
+Ville Syrjälä
+Intel
