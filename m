@@ -2,119 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 875BA288647
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 11:45:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 67C3D288653
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 11:48:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733217AbgJIJo5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 05:44:57 -0400
-Received: from mga14.intel.com ([192.55.52.115]:29682 "EHLO mga14.intel.com"
+        id S1733242AbgJIJr7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 05:47:59 -0400
+Received: from mga09.intel.com ([134.134.136.24]:44973 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733208AbgJIJo5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Oct 2020 05:44:57 -0400
-IronPort-SDR: T1ck9MC7/ANn85KQ9LkeYcGsaROvObqCFosfr3qnUVpNOK2MlDspPLJ4LfjFz0NBXZgO4DS1PH
- w9luCBOwx6dg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9768"; a="164675669"
+        id S1733239AbgJIJr7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Oct 2020 05:47:59 -0400
+IronPort-SDR: TT5eHq9C9NfcP3rTT4Lx/9biR7QcRrZnSVekCQ7QtdeIJSOO8fRk30zJcwBUnEvVg79MdnKxCQ
+ Tgfne2NKF2Hg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9768"; a="165579189"
 X-IronPort-AV: E=Sophos;i="5.77,354,1596524400"; 
-   d="scan'208";a="164675669"
+   d="scan'208";a="165579189"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 02:44:56 -0700
-IronPort-SDR: AoWPURPwB90XQ5kBLv1HE3iucP15G0yU6v1Nktkg8RUAKxmezdqK8DkDAfs2qui9Dro2Cs0GP4
- 1Rta98ftAYZQ==
+Received: from fmsmga008.fm.intel.com ([10.253.24.58])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 02:47:57 -0700
+IronPort-SDR: pPywwhoQ8IZ0oqnSyAy7Si9u7fhcqFsuiRTRfdjMWfQODPzT5+PsDTX8QsBMudIyk2KOf3VcKr
+ TS88VD5e6ZZA==
+X-ExtLoop1: 1
 X-IronPort-AV: E=Sophos;i="5.77,354,1596524400"; 
-   d="scan'208";a="345015270"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 02:44:54 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 91A4920728; Fri,  9 Oct 2020 12:44:52 +0300 (EEST)
-Date:   Fri, 9 Oct 2020 12:44:52 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-media@vger.kernel.org, Tsuchiya Yuto <kitakar@gmail.com>,
-        bingbu.cao@intel.com, Yong Zhi <yong.zhi@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>
-Subject: Re: [PATCH 3/3] ipu3-cio2: Only allow setting valid mbus codes
-Message-ID: <20201009094452.GR26842@paasikivi.fi.intel.com>
-References: <20201008204747.26320-1-sakari.ailus@linux.intel.com>
- <20201008204747.26320-4-sakari.ailus@linux.intel.com>
- <20201009004949.GC12857@pendragon.ideasonboard.com>
+   d="scan'208";a="298385120"
+Received: from stinkbox.fi.intel.com (HELO stinkbox) ([10.237.72.174])
+  by fmsmga008.fm.intel.com with SMTP; 09 Oct 2020 02:47:51 -0700
+Received: by stinkbox (sSMTP sendmail emulation); Fri, 09 Oct 2020 12:47:50 +0300
+Date:   Fri, 9 Oct 2020 12:47:50 +0300
+From:   Ville =?iso-8859-1?Q?Syrj=E4l=E4?= <ville.syrjala@linux.intel.com>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, linux-s390@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org, Jan Kara <jack@suse.cz>,
+        Kees Cook <keescook@chromium.org>, kvm@vger.kernel.org,
+        Jason Gunthorpe <jgg@ziepe.ca>, linux-pci@vger.kernel.org,
+        linux-mm@kvack.org,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        John Hubbard <jhubbard@nvidia.com>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 17/17] drm/i915: Properly request PCI BARs
+Message-ID: <20201009094750.GQ6112@intel.com>
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-18-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
-In-Reply-To: <20201009004949.GC12857@pendragon.ideasonboard.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201009075934.3509076-18-daniel.vetter@ffwll.ch>
+X-Patchwork-Hint: comment
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On Fri, Oct 09, 2020 at 09:59:34AM +0200, Daniel Vetter wrote:
+> When trying to test my CONFIG_IO_STRICT_DEVMEM changes I realized they
+> do nothing for i915. Because i915 doesn't request any regions, like
+> pretty much all drm pci drivers. I guess this is some very old
+> remnants from the userspace modesetting days, when we wanted to
+> co-exist with the fbdev driver. Which usually requested these
+> resources.
+> 
+> But makes me wonder why the pci subsystem doesn't just request
+> resource automatically when we map a bar and a pci driver is bound?
+> 
+> Knowledge about which pci bars we need kludged together from
+> intel_uncore.c and intel_gtt.c from i915 and intel-gtt.c over in the
+> fake agp driver.
+> 
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: John Hubbard <jhubbard@nvidia.com>
+> Cc: Jérôme Glisse <jglisse@redhat.com>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: linux-mm@kvack.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-samsung-soc@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: linux-pci@vger.kernel.org
+> ---
+>  drivers/gpu/drm/i915/intel_uncore.c | 25 +++++++++++++++++++++++--
+>  1 file changed, 23 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/gpu/drm/i915/intel_uncore.c b/drivers/gpu/drm/i915/intel_uncore.c
+> index 54e201fdeba4..ce39049d8919 100644
+> --- a/drivers/gpu/drm/i915/intel_uncore.c
+> +++ b/drivers/gpu/drm/i915/intel_uncore.c
+> @@ -1692,10 +1692,13 @@ static int uncore_mmio_setup(struct intel_uncore *uncore)
+>  	struct pci_dev *pdev = i915->drm.pdev;
+>  	int mmio_bar;
+>  	int mmio_size;
+> +	int bar_selection;
 
-On Fri, Oct 09, 2020 at 03:49:49AM +0300, Laurent Pinchart wrote:
-> Hi Sakari,
-> 
-> Thank you for the patch.
-> 
-> On Thu, Oct 08, 2020 at 11:47:47PM +0300, Sakari Ailus wrote:
-> > Check the mbus code provided by the user is one of those the driver
-> > supports. Ignore the code in set_fmt otherwise.
-> 
-> You're reading my mind :-)
-> 
-> The code shouldn't be ignored though, when an unsupported code is set,
-> it's best to use a fixed default code instead to make the driver
-> behaviour as stateless as possible.
+Signed bitmasks always make me uneasy. But looks like
+that's what it is in the pci api. So meh.
 
-I can change it to that, yes.
+> +	int ret;
+>  
+>  	mmio_bar = IS_GEN(i915, 2) ? 1 : 0;
+> +	bar_selection = BIT (2) | BIT(mmio_bar);
+                           ^
+spurious space			   
 
-> 
-> > Fixes: c2a6a07afe4a ("media: intel-ipu3: cio2: add new MIPI-CSI2 driver")
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 9 ++++++++-
-> >  1 file changed, 8 insertions(+), 1 deletion(-)
-> > 
-> > diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> > index 9c7b527a8800..2ea6313e00b0 100644
-> > --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> > +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> > @@ -1270,10 +1270,17 @@ static int cio2_subdev_set_fmt(struct v4l2_subdev *sd,
-> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-> >  		*v4l2_subdev_get_try_format(sd, cfg, fmt->pad) = fmt->format;
-> >  	} else {
-> > +		unsigned int i;
-> > +
-> >  		/* It's the sink, allow changing frame size */
-> >  		q->subdev_fmt.width = fmt->format.width;
-> >  		q->subdev_fmt.height = fmt->format.height;
-> > -		q->subdev_fmt.code = fmt->format.code;
-> > +		for (i = 0; i < ARRAY_SIZE(formats); i++) {
-> > +			if (formats[i].mbus_code == fmt->format.code) {
-> > +				q->subdev_fmt.code = fmt->format.code;
-> > +				break;
-> > +			}
-> > +		}
-> >  		fmt->format = q->subdev_fmt;
-> 
-> This should equally apply to the TRY format, we should accept an
-> unsupported code. I'd rework the code as follows:
-> 
-> 	v4l2_mbus_framefmt *format;
-> 
-> 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
-> 		format = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
-> 	else
-> 		format = &q->subdev_fmt;
-> 
-> (this can be done outside of the mutex-protected section) and then
-> operate on format unconditionally.
+That's also not correct for gen2 I think.
 
-Agreed.
+gen2:
+0 = GMADR
+1 = MMADR
+2 = IOBAR
 
-> Note that we should also allow changing the field and colorspace
-> information.
+gen3:
+0 = MMADR
+1 = IOBAR
+2 = GMADR
+3 = GTTADR
 
-Indeed.
+gen4+:
+0+1 = GTTMMADR
+2+3 = GMADR
+4 = IOBAR
+
+Maybe we should just have an explicit list of bars like that in a
+comment?
+
+I'd also suggest sucking this bitmask calculation into a small helper
+so you can reuse it for the release.
+
+>  	/*
+> -	 * Before gen4, the registers and the GTT are behind different BARs.
+> +	 * On gen3 the registers and the GTT are behind different BARs.
+>  	 * However, from gen4 onwards, the registers and the GTT are shared
+>  	 * in the same BAR, so we want to restrict this ioremap from
+>  	 * clobbering the GTT which we want ioremap_wc instead. Fortunately,
+> @@ -1703,6 +1706,8 @@ static int uncore_mmio_setup(struct intel_uncore *uncore)
+>  	 * generations up to Ironlake.
+>  	 * For dgfx chips register range is expanded to 4MB.
+>  	 */
+> +	if (INTEL_GEN(i915) == 3)
+> +		bar_selection |= BIT(3);
+>  	if (INTEL_GEN(i915) < 5)
+>  		mmio_size = 512 * 1024;
+>  	else if (IS_DGFX(i915))
+> @@ -1710,8 +1715,15 @@ static int uncore_mmio_setup(struct intel_uncore *uncore)
+>  	else
+>  		mmio_size = 2 * 1024 * 1024;
+>  
+> +	ret = pci_request_selected_regions(pdev, bar_selection, "i915");
+> +	if (ret < 0) {
+> +		drm_err(&i915->drm, "failed to request pci bars\n");
+> +		return ret;
+> +	}
+> +
+>  	uncore->regs = pci_iomap(pdev, mmio_bar, mmio_size);
+>  	if (uncore->regs == NULL) {
+> +		pci_release_selected_regions(pdev, bar_selection);
+>  		drm_err(&i915->drm, "failed to map registers\n");
+>  		return -EIO;
+>  	}
+> @@ -1721,9 +1733,18 @@ static int uncore_mmio_setup(struct intel_uncore *uncore)
+>  
+>  static void uncore_mmio_cleanup(struct intel_uncore *uncore)
+>  {
+> -	struct pci_dev *pdev = uncore->i915->drm.pdev;
+> +	struct drm_i915_private *i915 = uncore->i915;
+> +	struct pci_dev *pdev = i915->drm.pdev;
+> +	int mmio_bar;
+> +	int bar_selection;
+> +
+> +	mmio_bar = IS_GEN(i915, 2) ? 1 : 0;
+> +	bar_selection = BIT (2) | BIT(mmio_bar);
+> +	if (INTEL_GEN(i915) == 3)
+> +		bar_selection |= BIT(3);
+>  
+>  	pci_iounmap(pdev, uncore->regs);
+> +	pci_release_selected_regions(pdev, bar_selection);
+>  }
+>  
+>  void intel_uncore_init_early(struct intel_uncore *uncore,
+> -- 
+> 2.28.0
+> 
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
 
 -- 
-Sakari Ailus
+Ville Syrjälä
+Intel
