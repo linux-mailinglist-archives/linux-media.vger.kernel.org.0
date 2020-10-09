@@ -2,72 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D28B2885D3
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 11:16:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B9AB28863C
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 11:43:57 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732712AbgJIJQV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 05:16:21 -0400
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:34445 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731262AbgJIJQV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Oct 2020 05:16:21 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id QoVckGijFTHgxQoVfkJdrV; Fri, 09 Oct 2020 11:16:19 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1602234979; bh=nNmzWT+aol5wqTc1iV3II4rfiwXpoRUzZajJ5opaHF8=;
-        h=From:Subject:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=f92YVMzVwOxXrBloXnZZ5zhLYwjIqlgKKh7bfq5G1lqkapfQTebiVlR+G4Xy5ktM0
-         IY2zPDv9uzh2csqkPQpv61wpO5XPenAsxkepSFS4y6IRE+64vezFUNDWWX16y9kaZl
-         AY6C7ixs4g3vmxL4d0Y7dUWngv7guFmTe4VxA/FfWymbGPC4kk6NznPDM34mffzvIf
-         hzPipkw0H24cld6JG7DSM1MaJIXx/siE9Faqo0TbIF2OYAl7PwWrAiHwFyRoiF066T
-         wSgo8tBDeipVZ5TdntAD9hRGOay1ACBBGpBEP1+UzqZtQa7XlxMPiOA/WWhDYcSoR4
-         E20++CcOJLGEw==
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [PATCH] cec-core: first mark device unregistered, then wake up fhs
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Message-ID: <77df9930-f50a-be6d-0d12-04e44cc350b0@xs4all.nl>
-Date:   Fri, 9 Oct 2020 11:16:16 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1733177AbgJIJnx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 05:43:53 -0400
+Received: from mga11.intel.com ([192.55.52.93]:56759 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731745AbgJIJnw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 9 Oct 2020 05:43:52 -0400
+IronPort-SDR: J5p2hHSsiXwaeQazh/jdR34aZgE/1wvzYz4fTqDLQRf+wRJAh7ExrdomYP0SWmaZXIsfOYJAex
+ Efr/wbkao66Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9768"; a="162003095"
+X-IronPort-AV: E=Sophos;i="5.77,354,1596524400"; 
+   d="scan'208";a="162003095"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 02:43:51 -0700
+IronPort-SDR: 5JBFgGu1U2QF1q4VZo6/nyl5voMsdZWEeWzOJ/zPvTjyWnIvQ6gRNip1p3MniR0gx7Crs33von
+ OpJO8FH6/sUQ==
+X-IronPort-AV: E=Sophos;i="5.77,354,1596524400"; 
+   d="scan'208";a="312494444"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Oct 2020 02:43:49 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id C7A3D20728; Fri,  9 Oct 2020 12:43:47 +0300 (EEST)
+Date:   Fri, 9 Oct 2020 12:43:47 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org, Tsuchiya Yuto <kitakar@gmail.com>,
+        bingbu.cao@intel.com, Yong Zhi <yong.zhi@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>
+Subject: Re: [PATCH 2/3] ipu3-cio2: Serialise access to pad format
+Message-ID: <20201009094347.GQ26842@paasikivi.fi.intel.com>
+References: <20201008204747.26320-1-sakari.ailus@linux.intel.com>
+ <20201008204747.26320-3-sakari.ailus@linux.intel.com>
+ <20201009004412.GB12857@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4wfJep8NAaKDAHd6mGQ2+DtZ4liw2PPGdWKLJNPOmhk/oz4R9XkZo++ygJ4fvBYpm2VY80TAeigNFdN5uFu0wpmDa4a351BzZ5r8o0tEusESA5d+79+Bt9
- YU91zzhgsUqP5HvRj6sWQBKFgmgfZWh9HG4YsEvoqAJjF0AUIYLu3wG5glFWu4Uz9nk7ElzisChTow==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201009004412.GB12857@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If a CEC device node is unregistered, then it should be marked as
-unregistered before waking up any filehandles that are waiting for
-an event.
+Hi Laurent,
 
-This ensures that there is no race condition where an application can
-call CEC_DQEVENT and have the ioctl return 0 instead of ENODEV.
+On Fri, Oct 09, 2020 at 03:44:12AM +0300, Laurent Pinchart wrote:
+> Hi Sakari,
+> 
+> Thank you for the patch.
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
----
-diff --git a/drivers/media/cec/core/cec-core.c b/drivers/media/cec/core/cec-core.c
-index ece236291f35..551689d371a7 100644
---- a/drivers/media/cec/core/cec-core.c
-+++ b/drivers/media/cec/core/cec-core.c
-@@ -166,12 +166,12 @@ static void cec_devnode_unregister(struct cec_adapter *adap)
- 		mutex_unlock(&devnode->lock);
- 		return;
- 	}
-+	devnode->registered = false;
-+	devnode->unregistered = true;
+Thanks for the review!
 
- 	list_for_each_entry(fh, &devnode->fhs, list)
- 		wake_up_interruptible(&fh->wait);
+> 
+> On Thu, Oct 08, 2020 at 11:47:46PM +0300, Sakari Ailus wrote:
+> > Pad format can be accessed from user space. Serialise access to it.
+> > 
+> > Fixes: c2a6a07afe4a ("media: intel-ipu3: cio2: add new MIPI-CSI2 driver")
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 11 +++++++++++
+> >  drivers/media/pci/intel/ipu3/ipu3-cio2.h |  1 +
+> >  2 files changed, 12 insertions(+)
+> > 
+> > diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> > index afa472026ba4..9c7b527a8800 100644
+> > --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> > +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> > @@ -1233,11 +1233,15 @@ static int cio2_subdev_get_fmt(struct v4l2_subdev *sd,
+> >  {
+> >  	struct cio2_queue *q = container_of(sd, struct cio2_queue, subdev);
+> >  
+> > +	mutex_lock(&q->subdev_lock);
+> > +
+> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY)
+> >  		fmt->format = *v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
+> >  	else
+> >  		fmt->format = q->subdev_fmt;
+> >  
+> > +	mutex_unlock(&q->subdev_lock);
+> > +
+> >  	return 0;
+> >  }
+> >  
+> > @@ -1261,6 +1265,8 @@ static int cio2_subdev_set_fmt(struct v4l2_subdev *sd,
+> >  	if (fmt->pad == CIO2_PAD_SOURCE)
+> >  		return cio2_subdev_get_fmt(sd, cfg, fmt);
+> >  
+> > +	mutex_lock(&q->subdev_lock);
+> > +
+> >  	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> >  		*v4l2_subdev_get_try_format(sd, cfg, fmt->pad) = fmt->format;
+> >  	} else {
+> > @@ -1271,6 +1277,8 @@ static int cio2_subdev_set_fmt(struct v4l2_subdev *sd,
+> >  		fmt->format = q->subdev_fmt;
+> >  	}
+> 
+> Not a candidate for this patch, but this should restrict the pixel
+> format and size to supported values.
 
--	devnode->registered = false;
--	devnode->unregistered = true;
- 	mutex_unlock(&devnode->lock);
+Yes.
 
- 	mutex_lock(&adap->lock);
+> 
+> >  
+> > +	mutex_unlock(&q->subdev_lock);
+> > +
+> >  	return 0;
+> >  }
+> >  
+> > @@ -1529,6 +1537,7 @@ static int cio2_queue_init(struct cio2_device *cio2, struct cio2_queue *q)
+> >  
+> >  	/* Initialize miscellaneous variables */
+> >  	mutex_init(&q->lock);
+> > +	mutex_init(&q->subdev_lock);
+> >  
+> >  	/* Initialize formats to default values */
+> >  	fmt = &q->subdev_fmt;
+> > @@ -1646,6 +1655,7 @@ static int cio2_queue_init(struct cio2_device *cio2, struct cio2_queue *q)
+> >  	cio2_fbpt_exit(q, &cio2->pci_dev->dev);
+> >  fail_fbpt:
+> >  	mutex_destroy(&q->lock);
+> > +	mutex_destroy(&q->subdev_lock);
+> >  
+> >  	return r;
+> >  }
+> > @@ -1658,6 +1668,7 @@ static void cio2_queue_exit(struct cio2_device *cio2, struct cio2_queue *q)
+> >  	media_entity_cleanup(&q->subdev.entity);
+> >  	cio2_fbpt_exit(q, &cio2->pci_dev->dev);
+> >  	mutex_destroy(&q->lock);
+> > +	mutex_destroy(&q->subdev_lock);
+> >  }
+> >  
+> >  static int cio2_queues_init(struct cio2_device *cio2)
+> > diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.h b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
+> > index 549b08f88f0c..df0247326a1d 100644
+> > --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.h
+> > +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.h
+> > @@ -335,6 +335,7 @@ struct cio2_queue {
+> >  
+> >  	/* Subdev, /dev/v4l-subdevX */
+> >  	struct v4l2_subdev subdev;
+> > +	struct mutex subdev_lock;
+> 
+> Can you add a small comment to tell which field(s) this lock protects ?
 
+How about:
+
+	/* Serialise access to subdev_fmt field */
+
+Currently it's just that, but I feel locking in this driver would generally
+benefit from refactoring. That can wait a little though as it's not an
+acute problem.
+
+> 
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> >  	struct media_pad subdev_pads[CIO2_PADS];
+> >  	struct v4l2_mbus_framefmt subdev_fmt;
+> >  	atomic_t frame_sequence;
+> 
+> -- 
+> Regards,
+> 
+> Laurent Pinchart
+
+-- 
+Sakari Ailus
