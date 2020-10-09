@@ -2,63 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 635322889B1
-	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 15:24:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 285AC2889F6
+	for <lists+linux-media@lfdr.de>; Fri,  9 Oct 2020 15:45:58 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388421AbgJINYe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 9 Oct 2020 09:24:34 -0400
-Received: from sonic305-20.consmr.mail.ir2.yahoo.com ([77.238.177.82]:46116
-        "EHLO sonic305-20.consmr.mail.ir2.yahoo.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388405AbgJINYe (ORCPT
+        id S1732677AbgJINp4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 9 Oct 2020 09:45:56 -0400
+Received: from sonic317-26.consmr.mail.bf2.yahoo.com ([74.6.129.81]:46360 "EHLO
+        sonic317-26.consmr.mail.bf2.yahoo.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1731368AbgJINp4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 9 Oct 2020 09:24:34 -0400
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602249872; bh=hhYdV+RvZ5cQalrM5qsGc9GvgTW3zJDtVTOtIyZ6u/w=; h=Date:From:Reply-To:Subject:References:From:Subject; b=U1pti9/FFMM2M012u4txGT74kkaBxb7PWRHesjXOs/MP6FotiYXjK8DCnD79p7X99kk6wnTQkhbx6ea8wjt+8g0gFpnI+yEAM1OuhIDnvkRUJfiLMaUgDE41lFXF1XHNAUpyniHv96h8k2ezsSR9x8sjs7nPu838dH/EmshoylXsnLhVCE9gIvTgDEA41Otrj9KxvI9FqTVcopIt8jpAurUAiWSPyVm4GZYZuO4xgLX2qAd5oX2ze8RgmZoZ9LyC4a5cReB+DgT+q7ar53qLso9j7ILCCxK2uABxNcyUGcIs6o2FZfci789YgkRwKJbxlduhENmlHtauSb3+biUZVQ==
-X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602249872; bh=wQr4QK2zrGvY4wRPuCI0flQOnxXWZC2csHYu1A5LSBZ=; h=Date:From:Subject; b=Fc7YoykgTPLfmUXHFGZ4ovqSuhvDJugrQU4xfkQ/RPhIgvySC8NA4LJkzGLB8SOZMWjmY/axWHmBoE0ZSRRuaEOloW3NLouXYcpY/q8oiY8tSYzpuhfiWkJs+R47oxERaselmF0Biqii37n17rV5OKT0zQHxZo6sJ4vou9IevUtC3rnfaJ4avJLAA65bxybUUR+0WNAkwIToztTQVW/QhD+Nl7uUxZhBZBUravsJOGWPYd1S0YMVTpONvcph3h7kBaSco4IX0yAIecqteitH2Lg7Ic5Nz7fxyATq0nLDcR7q0CcjJ9/RHjTfgbS6U+4FXZqXspfDViWQ5gTvsMyrgg==
-X-YMail-OSG: 5Naz1hkVM1nzglpK_TeRTR0EZkvaokQcBLuugPm8T4dxUJG9JgNmDFtdxHISmLi
- m2cR8CI5g3k2y1e7f68RRbPp2G_p6SN6kpxsoCWM6Ilao6mHtlqI6JU80y3l4Cmu6z7zCKWf1vLi
- 1YJgdvS6Q7o5OYtyQVr0XPx2wOrQVY3eABYdUSG4kqcGf3lmPoye7avkb7mHnpVOY0yMiHvgh5ku
- 5VF_0QWIMMIIRherS8GYmPWD9vphOUxzbAR_c.eagieDMjh3rpXcj_AS3bAb072n_MuJLcOrurq8
- vSu_.KDFA6n0wOc7.024V73AqNRX8HWUIGPPxQKhkJgdfecVkcAWZ8cPlpY0SoM5J8yYw055utRV
- xnTzd2.GGb4rNJf9tRkcXUOFh9LsKtPQYSEvO05NM7ScSjEOjjwSgIhx5u_a743nL.GWTFEk6uEZ
- aP.Q39zMknDk4qJSfKRiAFuoRKjmxOt03qZYVhfb0WiRwy.YvvmNHh9P60hOJITpTmERzGC5W3qD
- Qdhw9pqSIkHjWIexuNY.QGHp0HhPfbjMmri9hYyTlgKpo9asxKSiPXpDiR.r.MqOMyrgJ_degwQx
- 0G9UQ9VOVfwjRq38gl2iwabboMVZNnYsFaCklNjGsRm.OnzmDG.jwHTYUwDeDPeNyPfEpbbHoDkE
- TVFcpxLPkBNXWYjWgZPQKbtaRDaKNCqM9V0o8X5GzMpI2tn1k9FDp30DSlvWCeMhXuIN5JXEr_TZ
- _E7C6Qfu54rG0j_sdbcBnw75Zi8_HGmJ0TPhwxCup8EUaJ.9RkLUBAmIhM.fORenfZjqvtbsxlNJ
- zRkXq3DsWlTn14TwenNzjvuma.JfDrLa_xFoJ99IH32QYNtpeCSJMBD8GhWDtlKvkTTs3QkKSLcI
- pO5KGLpXwi7WVKrnwD7Mcv_GpQM.tXamQSMEzW.Eb31zyc8hqFv_P5uPNQxWw6Rnm_stGky4K4oU
- KctfBPSH98Q6P7vNizchJTn1glCYda1Y61OUaYspD8b.noz2bGz7ZU0gQqd4Z84qZy7R.ltbjUba
- 5d2ym5E_6ouHtnDTLwnZAJWd30lksC8cL2EiEjLZezON1D9wIf3WsHAt1MLXu1dWBtIPeo6g1k.J
- PQJMWLuk31R8I_koNh1w5DhX8uTl2asShty0PYYPUVNX_AvLGYK4dD35U3PenrAPIf2lb8k.bZ0P
- qSpN0XliB8fWS00jd5QWEGOh_s_cQlDe8CA02Tf9e4n.5uFONJ9lM1chscLNwzEPJNSbVnTTGRrG
- nOmNrIAyk81u3g5SF.71o_g461jDsNjSN8lM04lFLseHC4YHEI4vD0rMwUNG2qOGxN464OFc2vUZ
- udkEx6E71O4MlAdNJaZKJKs9EyqSZFR6.7aGdYFNpPx0IVjpJ02pFI6GcGenAnBCWg9p1Ho3qsOn
- Dzv_uMpkiEQrR2xIEGUp0tfzI4f98TEt8OyaJespuAo3fNOU-
-Received: from sonic.gate.mail.ne1.yahoo.com by sonic305.consmr.mail.ir2.yahoo.com with HTTP; Fri, 9 Oct 2020 13:24:32 +0000
-Date:   Fri, 9 Oct 2020 13:24:27 +0000 (UTC)
-From:   Ibrahim Bello <mribrahimbello3@gmail.com>
-Reply-To: ibrahimbello749@gmail.com
-Message-ID: <1531445888.1775168.1602249867917@mail.yahoo.com>
-Subject: GREETINGS
+        Fri, 9 Oct 2020 09:45:56 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602251155; bh=vwEPMXxlnKui2A6anShyb2NpJ3D8JWCHQa2USlPuv/A=; h=Date:From:Reply-To:Subject:References:From:Subject; b=cc8FR290OYH3wnyVyTJ2hIUyAZeHznuB47E6UBhpBFCJCylmw2i/CZxcqKJCFNOhepsXy/Rlm+MZudZ6LOIL8xfVTR/y9t04Pum1pPGJrDWn+8J1a/rp4Q7JC3VbjoW5OYFr5iQKsjtagwZd8GowqhrUFzjNiH8TSU0yRwM4oHIzHmGxyKu9x7HSLWzxSrrjD3R6ilpANHTA+pqjbjfQFzaIvkFliVgoCtlgKDS7cbEdwE7sy6JnUvbd14nVPkZ8K+8G20AlpQniwG0MmOFtK52N1sjnnTyWFHfRgDGI3+cuLLVndwz2bqjhfRemfwG+gtKhS2gjbtgMTm6qrYELEg==
+X-SONIC-DKIM-SIGN: v=1; a=rsa-sha256; c=relaxed/relaxed; d=yahoo.com; s=s2048; t=1602251155; bh=GwhrInnx3caoAhAKcM0+KPxtak9OKmOMyZAGL6d7eg4=; h=Date:From:Subject; b=tMwYr1ZQ00MOeTIqHRcEaOMlyzIy86rmHrm2fuOGIfjmp+KyBBPpW8IJcdXr64RpUSwtk4Zkjw/dk4O0D9mgH4doKOW880dTHKHdjUKninYOGlNaJm6oY0loiaJF+pgFly/kzVdOwove+spIndT8uDv2RjXSWpavEcsSS10TS/1IR4zhDm7RuvP2R2pxQnVuVv3aCJep3/Zy9kcGdyywBBjABCMFAaHBHBi6Kco+DDcglBD2Pu7+qERzyGf8n+3CLnWOOkT2alQYkOya98JhfVQSmCVR+bdS3NWqbwcZf0sp6qkLDUpMRfOvhEFyXq3zESLBYG1HKTq9jxLG48jrTQ==
+X-YMail-OSG: tFBslsMVM1lklpwzDt5RjIvwdLS2x1f.ly8b_twEvlFC0gsCOHUZ9f2GBtc_EOK
+ 1j1djofjmi6oi8F6CJw7O_E85lvtjsiGoAdy5R1uRvYPo28Js.c_6_1EG7hDLcAdJu2EwbpQSh4X
+ fA0gVRDqXVj0lMTmFD83rk9XP3D9Elyb6asTT8tSUDRkxrXksy_DN6gg50Mmk.dAyOvNg.Xo_1GP
+ vElWwoyCh5vZDCTRfosAhrCqJ6ceyFyQgmsYlbsNx.84wPl_7Rhr0LTDwXwEoY9KfTEFVfpEP3Ga
+ PHZX.D42sNSV_lYFTJZoDBJBHnR2q0Bv7YwEPv2KGtIOLFSJKf7ogIWGfHxEVmpYEkEcYAyVP4Jm
+ jTeoLunN_33arG_ea3Lw1od.DjO26MtrN9p6u28TyVjL4ieFk2BmYB6L1uM72P8U9AmUFRt5723Z
+ HuJ0201w3XWctJlr_oar5GFgb8GDdh.VI0cyQaZQcaL1SaE5adXBjpSGLqP5le3T36XQOBPtuiaS
+ XdrGyt.qukgz1c1r9W3iVltiywdTQ2YfTL3FOyG1otRAZ3yL_GnKFO0IY8yfw68F3Uw347NAouip
+ fNh9rMVLbWkLMpi2z2pJlhVL0Mzpg1AcIUKoluz2t4r2tKZ6gC8XHlCFNgVRjWhwKTmYNf1cvbKM
+ I341xbk9vt2AkytJC4NQvOtPicVx8wCokl3rYNJB.NEudgtxBHXiUGaeexqlMerBYoZBwGZJVIzc
+ oQPOuhs16POPpUIT6Fn4wKHIBSrLOebt9Keyi9nQNSsa4Q_4x.8ED84AJ_hKaOL2MpIJ5i4WSzyc
+ LIKdWKvRZmFK.ST6HJAKPPymTZdrTQHJG2s7vgECMqjLcqCE7hbngg_moREM.ND9Euopep8ZZk6d
+ t3sjhyyvzi5NX84QjFVapBygIZChcq3KDBUgwY0UTFp5Kq6lDaLGz9A_ww6cVhcaMV8TLXOv2Q9B
+ ovZNmz0PdI4ohjaDflB7aaCphs1dJSF8LOQ60RykLB4cp5k_E718DtMmsQxZQ8AwrgzcC7U0cIqC
+ RKdQrCbk_jAB1NRMtJY6dydr.E7uUrIsXDHA1y4HnkwEvNs5PKilPUofSr18TKHnJl3egRXFPpq.
+ KhR5s2fx9reB8Z1EA64i6LEY195rKAjF0GDlsxEQP2uSlAZnAStCE8Jc0JeVjIFkHm.bCI5wZXqw
+ TRgA8xTyx2S8qMsnRPDBUhDO3suhVpqfPeRe8lgEY66sfkky56pB8e90ehwi5rlgVF4p5ckRxbRo
+ fejn3YZ7JYT8UL06Q_vHWn89bzJJ26IaCIXqcN9s4q7l8E7F0bs.V2RRvRj8s77lxWxnj5cm.Bpa
+ 5Lurl5P81SJfIorIB3tb1s98ewVKEWaoKmRiyT_BFWoCfAyizrAj2dxHDQRmgfDyG57_Cgk9M3un
+ Jwgp8XsAoir.Cjg7DADngE5kNp5So.RuG.ipYqh0Tsu1idIDOvk8-
+Received: from sonic.gate.mail.ne1.yahoo.com by sonic317.consmr.mail.bf2.yahoo.com with HTTP; Fri, 9 Oct 2020 13:45:55 +0000
+Date:   Fri, 9 Oct 2020 13:45:52 +0000 (UTC)
+From:   Elisabeth John <elisabethj451@gmail.com>
+Reply-To: elisabethj451@gmail.com
+Message-ID: <671309797.719219.1602251152248@mail.yahoo.com>
+Subject: Greetings My Dear,
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 7bit
-References: <1531445888.1775168.1602249867917.ref@mail.yahoo.com>
-X-Mailer: WebService/1.1.16795 YMailNodin Mozilla/5.0 (Windows NT 5.1; rv:47.0) Gecko/20100101 Firefox/47.0
+References: <671309797.719219.1602251152248.ref@mail.yahoo.com>
+X-Mailer: WebService/1.1.16795 YMailNodin Mozilla/5.0 (Windows NT 6.1; rv:81.0) Gecko/20100101 Firefox/81.0
 To:     unlisted-recipients:; (no To-header on input)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Greetings,
 
-I know that this mail will come to you as a surprise as we have never met before, but need not to worry as I am contacting you independently of my investigation and no one is informed of this communication. I need your urgent assistance in transferring the sum of $11,300,000.00 USD immediately to your private account.The money has been here in our Bank lying dormant for years now without anybody coming for the claim of it.
+Greetings My Dear,
 
-I want to release the money to you as the relative to our deceased customer (the account owner) who died a long with his supposed NEXT OF KIN since 16th October 2005. The Banking laws here does not allow such money to stay more than 14 years, because the money will be recalled to the Bank treasury account as unclaimed fund.
+I sent this mail praying it will found you in a good condition of health, since I myself are in a very critical health condition in which I sleep every night without knowing if I may be alive to see the next day. I am Mrs.Elisabeth John a widow suffering from long time illness. I have some funds I inherited from my late husband, the sum of ($11,000,000.00, Eleven Million Dollars) my Doctor told me recently that I have serious sickness which is cancer problem. What disturbs me most is my stroke sickness. Having known my condition, I decided to donate this fund to a good person that will utilize it the way i am going to instruct herein. I need a very honest and God.
 
-By indicating your interest I will send you the full details on how the business will be executed.
+fearing person who can claim this money and use it for Charity works, for orphanages, widows and also build schools for less privileges that will be named after my late husband if possible and to promote the word of God and the effort that the house of God is maintained. I do not want a situation where this money will be used in an ungodly manner. That's why I'm taking this decision. I'm not afraid of death so I know where I'm going. I accept this decision because I do not have any child who will inherit this money after I die. Please I want your sincerely and urgent answer to know if you will be able to execute this project, and I will give you more information on how the fund will be transferred to your bank account. I am waiting for your reply.
 
-Please respond urgently and delete if you are not interested.
-
-Best Regards,
-Mr.Ibrahim Bello
+May God Bless you,
+Mrs.Elisabeth John.
