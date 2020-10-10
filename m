@@ -2,120 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8FF62289F9F
-	for <lists+linux-media@lfdr.de>; Sat, 10 Oct 2020 11:43:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C585128A028
+	for <lists+linux-media@lfdr.de>; Sat, 10 Oct 2020 13:20:31 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729359AbgJJJmz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Oct 2020 05:42:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52542 "EHLO
+        id S1729949AbgJJLQT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Oct 2020 07:16:19 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39676 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726384AbgJJIog (ORCPT
+        with ESMTP id S1729300AbgJJKY7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Oct 2020 04:44:36 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 415EAC0613D0
-        for <linux-media@vger.kernel.org>; Sat, 10 Oct 2020 01:20:51 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id v19so11781643edx.9
-        for <linux-media@vger.kernel.org>; Sat, 10 Oct 2020 01:20:51 -0700 (PDT)
+        Sat, 10 Oct 2020 06:24:59 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 96117C0613D0
+        for <linux-media@vger.kernel.org>; Sat, 10 Oct 2020 02:07:13 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id i2so9305732pgh.7
+        for <linux-media@vger.kernel.org>; Sat, 10 Oct 2020 02:07:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eLmaaj3iKZVEqsQAFIpav43sO2/Ep3xsAfBHMAnXMEg=;
-        b=J3mvLbuw9M6Ei3FzSEvMNI6uCQSjYoFGv3bXb3QNX/1PUyTROZdwO9cwH3IWaRz3vG
-         fNqdySg7c8UpmiEQ/o00/YOnt55AxUkwAsYYPxsWcZwaCzpuXlt2xWSatrv6sHLHxAdl
-         w7C2xCnDXNu/x33SJgAunie+lcuakXtrSsJdd2ON2cYniuRBmVQ0eumoJ3pdRcU+bQzc
-         BQav4599GyCKpIOFF8c0c4Aggnl1lepxArWachdxIE/hWseNANA4wX0VM0BhCrhbK1SO
-         KPDZb0NtO6gkGP5SCKCaflqQr/pcr+jf7PdSsjFAfMeIE7k6QsaacKK/n7SAz1H+q2qn
-         09AQ==
+        d=gmail.com; s=20161025;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=sjsQjOMpsNgi4gHvVRM7zEGmj+yOgNSt/gxniEOfOl4=;
+        b=hMzXxjOYkvCTexiMNV0cjkSLb93t16DCPLeWUe4AK/wdMvNKedBDr3N/IGwyFUVKv2
+         njjU92P7+NH87J6Q8UprxEQ4BCjQQHJuyudF2pRcEAOWqtOQgFZPy41lPfSaKHUAyIcb
+         szktytp/ojfjLwYB5vY8Qv4q4QzPjfshSjT3E+3R6D25P7qOlAyzrglTqa3LFVJvjfWy
+         Aqjv4TjgTUo2Y9X1/+WRJDlLbK0DQHt945cM5GgSSRQzkhF9QTBz8ivXu3wGUoK2Pxao
+         YAskT82YbCISJrwaCnxtttXZ9n4mjE6DriTa8mUmm+y92npzi+G3YTXRH3xNpFLQwZjv
+         aIqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eLmaaj3iKZVEqsQAFIpav43sO2/Ep3xsAfBHMAnXMEg=;
-        b=MJfrMQWcJeqEzEzMrmOGi8chpebxPv2PBvorRuaS6pt/tN9Sovsa+NxfZo66oxAH/u
-         t3Rhshfxs477wxKdq1H5nM4ydEyzNMrN9uXPmAqYbPQ+8lqPfE20fBeWAVprcTinmmHw
-         zoph/fYgQlPyHBbvjq1Zq09RFao8zUd4h285/B79YRxpChrBPciyqUavpp4lmMfM2pqO
-         XDd32EhbbJLdUG40lRW4Bz21J9aWu+UKE8n9XBV6IJpvDk/2aIOZX809SwMb77De5lqe
-         aD4xf7A7A0VgorFHg89g2uqYwNnWp/C0XaYnQfWNzLw3uTy+Oa3ad5ubT991uSp4sQH0
-         mTSw==
-X-Gm-Message-State: AOAM531ODDZTk7MGUSznKC6tjjc/xNT/FIvtd99EHhDmyoutq3zewZvM
-        IEdyX6nld8u2H8v1wyPMf66bnl/91MLS9Yuxakpz6w==
-X-Google-Smtp-Source: ABdhPJz8WPgoUtyDToLR4Ug+AK9eDkG5mFeVAAytYzM7URqMvaypVfT/M644VVOT0/iTsiUgUFERE3wkJeWjDT6gm0o=
-X-Received: by 2002:a50:fd83:: with SMTP id o3mr3433840edt.17.1602318049859;
- Sat, 10 Oct 2020 01:20:49 -0700 (PDT)
-MIME-Version: 1.0
-References: <1602244675-8785-1-git-send-email-kuhanh.murugasen.krishnan@intel.com>
- <1602244675-8785-2-git-send-email-kuhanh.murugasen.krishnan@intel.com> <20201009221516.GR438822@phenom.ffwll.local>
-In-Reply-To: <20201009221516.GR438822@phenom.ffwll.local>
-From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Date:   Sat, 10 Oct 2020 05:20:38 -0300
-Message-ID: <CAAEAJfAv5P52aXf9DAm5_7zZhT=J4MmFrda6VQnhwKdbEtPmtg@mail.gmail.com>
-Subject: Re: [PATCH v1 1/4] drm: Add Keem Bay VPU codec DRM
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     kuhanh.murugasen.krishnan@intel.com,
-        Greg KH <gregkh@linuxfoundation.org>, mgross@linux.intel.com,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Jonas Karlman <jonas@kwiboo.se>
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=sjsQjOMpsNgi4gHvVRM7zEGmj+yOgNSt/gxniEOfOl4=;
+        b=oOBA7y8XNE8iQMtuDIF/HU6bcDI1wynnFDKOEBiiBWNj6zbooeYfGMkR0IklgemP//
+         Y2rIfaYreNObvzqYSKkjtv5Jsar6/8FxstokgGjaFq2olcByjksMiDLQ89j+ic6lYURM
+         RIOcaldL577qX85Y9Sxm3VJ5BrmWSNzoAsvM1FExGeO2tjVymKWQcEu3UWMQYtYrZ0LX
+         npXRhP+M1nQvI7FiKXVJAQBVio91knBrinY4MNVzDr9zwpPR9/NTgVMF58hWG9v2mV4i
+         v7gPnYwoZGdmUKTpauiFqjC1KiHRHNrGsJVVtBNZHe1390SZiWEFc4Hq6yVUVzV9LsUs
+         ILCA==
+X-Gm-Message-State: AOAM530fHaCIkuHYIo8ApgF12KDFfv9DvpjDUiKE8bBXnmrQSzz3s9jx
+        BVbjVmcLdE+MRBLseS7D+f0=
+X-Google-Smtp-Source: ABdhPJzZgwrvomBuP29FaILMIrvaPnDXAI6i7Kj25vuyshBym9Fbc0v6SxB9jaPMv5zrvf8sZsM2Zw==
+X-Received: by 2002:a17:90a:bf03:: with SMTP id c3mr9455544pjs.65.1602320832926;
+        Sat, 10 Oct 2020 02:07:12 -0700 (PDT)
+Received: from [192.168.1.59] (i60-35-254-237.s41.a020.ap.plala.or.jp. [60.35.254.237])
+        by smtp.gmail.com with ESMTPSA id 204sm13684127pfz.74.2020.10.10.02.07.10
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 10 Oct 2020 02:07:12 -0700 (PDT)
+Message-ID: <4b15b4a4d81352bd38a45897fba846f350689d0a.camel@gmail.com>
+Subject: Re: ipu3-cio2 causes hang on getting topology when
+ GCC_PLUGIN_STRUCTLEAK_BYREF=y
+From:   Tsuchiya Yuto <kitakar@gmail.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Yong Zhi <yong.zhi@intel.com>, Bingbu Cao <bingbu.cao@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>
+Date:   Sat, 10 Oct 2020 18:07:08 +0900
+In-Reply-To: <20201008205317.GP26842@paasikivi.fi.intel.com>
+References: <3667ce6d9323a9b313d161ea6800f9fb68809356.camel@gmail.com>
+         <20201008205317.GP26842@paasikivi.fi.intel.com>
 Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello everyone,
+On Thu, 2020-10-08 at 23:53 +0300, Sakari Ailus wrote:
+> Hi Tsuchiya,
+> 
+> On Thu, Oct 08, 2020 at 10:17:03PM +0900, Tsuchiya Yuto wrote:
+> > Hi, I'm one of the people who are trying to get ipu3 cameras working on
+> > regular PCs that came with Windows OS.
+> > 
+> > I found that the ipu3-cio2 driver causes the kernel to hang on getting
+> > device topology (like "media-ctl -p -d /dev/media0" or capturing images
+> > with libcamera) when the kernel option "Initialize kernel stack variables
+> > at function entry" is above "strong" ("CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF=y").
+> > 
+> > I noticed this issue because Arch Linux sets this option to "very strong"
+> > ("CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF_ALL=y").
+> > 
+> > This issue happens even without sensor drivers or cio2-bridge driver
+> > currently being developed [1]. So, I think this issue is reproducible
+> > easily on regular PCs equipped with the IPU3 system as well.
+> > 
+> > The way the kernel crashes varies slightly from series to series:
+> > - The latest stable (v5.8.y) and rc (v5.9-rcx)
+> >   When this issue happened, the kernel just hangs. No journal log after
+> >   the hang.
+> > - The latest LTS (v5.4.y)
+> >   When this issue happened, the kernel shows the following oops:
+> > 
+> >     BUG: stack guard page was hit at 00000000486e5acd (stack is 000000006e2c667d..0000000010408970)
+> >     kernel stack overflow (double-fault): 0000 [#1] SMP PTI
+> >     CPU: 2 PID: 2535 Comm: media-ctl Tainted: G         C        5.4.69-1-lts #1
+> >     Hardware name: Microsoft Corporation Surface Book/Surface Book, BIOS 92.3192.768 03.24.2020
+> >     RIP: 0010:cio2_subdev_get_fmt+0x2c/0x180 [ipu3_cio2]
+> > 
+> >   I added the full oops at the bottom of this mail.
+> > 
+> > According to the description of the kernel option, it seems that the
+> > uninitialized variables are used somewhere in the cio2_subdev_get_fmt()
+> > [ipu3_cio2.c] ?
+> > 
+> > Steps to reproduce:
+> > 1. Build the kernel with the option set to
+> >    "strong" ("CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF=y") or
+> >    "very strong" ("CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF_ALL=y").
+> > 2. Boot with the kernel and try to get the device topology by the command
+> >    like the following:
+> > 
+> >     $ media-ctl -p -d /dev/media0
+> > 
+> > 3. The kernel just hangs on the 5.8 and 5.9-rc, or prints the oops on 5.4
+> > 
+> > What I found so far:
+> > I tried print debug like the following:
+> > 
+> >     1241 static int cio2_subdev_get_fmt(struct v4l2_subdev *sd,
+> >     1242 			       struct v4l2_subdev_pad_config *cfg,
+> >     1243 			       struct v4l2_subdev_format *fmt)
+> >     1244 {
+> >     1245 	struct cio2_queue *q = container_of(sd, struct cio2_queue, subdev);
+> >     1246 	struct v4l2_subdev_format format;
+> >     1247 	int ret;
+> >     1248 
+> >     1249 	pr_info("DEBUG: %s() called\n", __func__);
+> >     1250 	pr_info("DEBUG: msleep()\n");
+> >     1251 	msleep(1000);
+> >     1252 
+> >     1253 	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> >     1254 		pr_info("DEBUG: Passed %s() %d\n", __func__, __LINE__);
+> >     1255 		fmt->format = *v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
+> >     1256 		return 0;
+> >     1257 	}
+> >     1258 
+> >     1259 	pr_info("DEBUG: Passed %s() %d\n", __func__, __LINE__);
+> >     1260 
+> >     1261 	if (fmt->pad == CIO2_PAD_SINK) {
+> >     1262 		pr_info("DEBUG: Passed %s() %d\n", __func__, __LINE__);
+> >     1263 		format.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+> >     1264 		ret = v4l2_subdev_call(sd, pad, get_fmt, NULL,
+> >     1265 				       &format);
+> > 
+> >     $ media-ctl -p -d /dev/media0
+> >     Media controller API version 5.9.0
+> > 
+> >     Media device information
+> >     ------------------------
+> >     driver          ipu3-cio2
+> >     model           Intel IPU3 CIO2
+> >     serial          
+> >     bus info        PCI:0000:00:14.3
+> >     hw revision     0x0
+> >     driver version  5.9.0
+> >     
+> > 
+> >     Device topology
+> >     - entity 1: ipu3-csi2 0 (2 pads, 1 link)
+> >                 type V4L2 subdev subtype Unknown flags 0
+> >                 device node name /dev/v4l-subdev0
+> >     	pad0: Sink
+> >     # [output stopped here]
+> > 
+> >     $ dmesg -xw
+> >     [  871.807563] kernel: DEBUG: cio2_subdev_get_fmt() called
+> >     [  871.807566] kernel: DEBUG: msleep()
+> >     [  872.821254] kernel: DEBUG: Passed cio2_subdev_get_fmt() 1259
+> >     [  872.821258] kernel: DEBUG: Passed cio2_subdev_get_fmt() 1262
+> >     # [...] (same output repeatedly)
+> >     [  986.313536] kernel: DEBUG: cio2_subdev_get_fmt() called
+> >     [  986.313538] kernel: DEBUG: msleep()
+> >     [  987.326899] kernel: DEBUG: Passed cio2_subdev_get_fmt() 1259
+> >     [  987.326904] kernel: DEBUG: Passed cio2_subdev_get_fmt() 1262
+> >     [  987.326908] kernel: DEBUG: cio2_subdev_get_fmt() called
+> >     [  987.326910] kernel: DEBUG: msleep()
+> >     (then, system hanged)
+> > 
+> > So, it looks like the following loop is happening there:
+> > 1. cio2_subdev_get_fmt() calls v4l2_subdev_call()
+> > 2. v4l2_subdev_call() internally calls cio2_subdev_get_fmt() again
+> > 
+> > Does anyone have any ideas what's happening?
+> 
+> First of all, thank you for a very thorough and informative bug report. It
+> looks like a driver bug indeed.
 
-(Adding some Hantro developers)
+Thank you for your patch! I'm glad that the bug report is informative
+enough to find what is happening.
 
-On Fri, 9 Oct 2020 at 19:15, Daniel Vetter <daniel@ffwll.ch> wrote:
->
-> On Fri, Oct 09, 2020 at 07:57:52PM +0800, kuhanh.murugasen.krishnan@intel.com wrote:
-> > From: "Murugasen Krishnan, Kuhanh" <kuhanh.murugasen.krishnan@intel.com>
-> >
-> > This is a new DRM media codec driver for Intel's Keem Bay SOC which
-> > integrates the Verisilicon's Hantro Video Processor Unit (VPU) IP.
-> > The SoC couples an ARM Cortex A53 CPU with an Intel Movidius VPU.
-> >
-> > Hantro VPU IP is a series of video decoder and encoder semiconductor IP cores,
-> > which can be flexibly configured for video surveillance, multimedia consumer
-> > products, Internet of Things, cloud service products, data centers, aerial
-> > photography and recorders, thereby providing video transcoding and multi-channel
-> > HD video encoding and decoding.
-> >
-> > Hantro VPU IP consists of Hantro VC8000D for decoder and Hantro VC8000E for encoder.
-> >
+> I don't know how this has escaped review and testing earlier though. It's
+> so clear.
+> 
+> Anyway, I hope the patchset I just sent fixes it for you. Please let me
+> know if there are issues.
 
-Before you guys even start reviewing or discussing this: good news everyone!
-Verisilicon Hantro VPU support is in mainline since a few releases now.
+I tried the v2 version of your patchset with the option set to "very strong"
+("CONFIG_GCC_PLUGIN_STRUCTLEAK_BYREF_ALL=y"). I can confirm that the patchset
+fixed the system hang on v5.9-rc8. Thank you again.
 
-How about you run a quick "git grep hantro -- drivers/" and see for
-yourself :-) ?
 
-Spoiler alert: we currently support G1 core, supporting MPEG-2, H.264, VP8
-and some post-processor features.
-
-We are working on G2 for HEVC and VP9, and we have patches ready
-for VC8000D for H264.
-
-Given the VPU is stateless, it requires quite a bit of work on the
-application side.
-There are implementations in GStreamer (see v4l2codecs plugin), Chromium,
-and Ffmpeg.
-
-Given all the stateless codec drivers depend on the stateless controls APIs,
-and given this API is still marked as experimental/unstable, the drivers
-are in staging. Other than this, these drivers are just as good as any,
-and have been shipped for quite some time now.
-
-I expect to move them out of staging soon, just as soon as we clean and
-stabilize this control API.
-
-I will be happy to review patches adding Keem Bay support,
-to be honest, unsure what that implies, but we'll see.
-
-Thanks,
-Ezequiel
