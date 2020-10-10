@@ -2,193 +2,265 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F6FF28A3A6
-	for <lists+linux-media@lfdr.de>; Sun, 11 Oct 2020 01:09:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4201428A3A2
+	for <lists+linux-media@lfdr.de>; Sun, 11 Oct 2020 01:09:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390215AbgJJW4s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Oct 2020 18:56:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34656 "EHLO
+        id S2390299AbgJJW4x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Oct 2020 18:56:53 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47374 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731265AbgJJTFU (ORCPT
+        with ESMTP id S2387560AbgJJU1t (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Oct 2020 15:05:20 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11EF0C08EADA
-        for <linux-media@vger.kernel.org>; Sat, 10 Oct 2020 10:36:41 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id dt13so17578737ejb.12
-        for <linux-media@vger.kernel.org>; Sat, 10 Oct 2020 10:36:40 -0700 (PDT)
+        Sat, 10 Oct 2020 16:27:49 -0400
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 95344C0613D0;
+        Sat, 10 Oct 2020 13:27:18 -0700 (PDT)
+Received: by mail-oi1-x243.google.com with SMTP id c13so14162509oiy.6;
+        Sat, 10 Oct 2020 13:27:18 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=xsOZOc5wUkDsyS+q4XR7sRY+/Nw08dWS4rH9PR3SdYM=;
-        b=K43vYuvFf4p0HKwpNNYM8EVjuArTRuuNWIw2q4YLC5jyws5WqABCqrRlB8L6Kw/ga/
-         9pb07pav9vu70DJL9+qIG+8WZUav68UhLbRS2hY3VnFfDpqam6GcqIBnDSm/T02riaI0
-         bK3Q77l+IKqRqvdVTvJ6gEi/4zr+9omw8Jdkw=
+         :cc:content-transfer-encoding;
+        bh=oGo8IGgCZpTOoR3ZKZaP8e3qvIeXNb3yMrzl+Uani14=;
+        b=QdqGF5qe16vB4wlkB20OoDG5GsZXhkiu+V7PIg7gevT+li9s2YZrjhJjrGKFlhR8f2
+         S2dMeFOHFe2Vy3+ViSPQkUcTH6WgZSgyFemNPe3jkRa1BRJLmCIpjdAjfS+Z+fMYuuFc
+         J/zHg1WUv6YS6qXHyCbAbu2sfcz6kuW6fXvudSVSb/G2m0zjetF8vQarbaEqA1w5uj5C
+         1ytU+yCJQIoUFZyqLvf50g0rJYU5X+PHHN8XIpBwZ7Wgshsn/e8A5zDxqiYS9ZaCOgq0
+         +eTVZzOuHYBHFBmUTwz8gE0YQaPT+/D15xczuawlfzpKen+UVAP0g0nAO1GFs3+KLRMi
+         43mw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=xsOZOc5wUkDsyS+q4XR7sRY+/Nw08dWS4rH9PR3SdYM=;
-        b=MwRhewZzI6yqmB00YYkqJs5T73I2H3F1a2m76lSzGfeQJ56FGNecIOGMcH5zBK8TPU
-         YKsue7ikGx9W3AI8NbZ9Vyl40caTMO0YvMiY7rIc6rLkCzacVDVj2/RZ2qvGw0TemeOB
-         ig3j3+Uwau0p6y3DCTKaRQwMERQb1zTRUTVATj2M3tH8ork6v59JMWhTg9nHcHXL6Eps
-         tVmOkfs8AUY4vaQBLjI9DZB8DUH67DiwyFzzkDSCKg8bJHxSBznOeFF4iTBGdbShCTB8
-         PyUvA8kgJzSlAE5HI1pBHsLx3b7YiDQe1fWTHnvToqCSJBRNafZL8IjRPRpMz5TY2Idf
-         FSUQ==
-X-Gm-Message-State: AOAM531gkmrzwt3LTGkkWEHEl/9cbJ77nZaMrkwncni1HeccIWYZJI+G
-        1BqRIg+3UYB7VB+se9lIhj+e4APkGdF2jg==
-X-Google-Smtp-Source: ABdhPJyAZkGeDNpGyg8lW5GSavCggnizNuliDCtnErXQuynd3s3ZCRDie7oXeiR1Kkof1dWXTC6bTQ==
-X-Received: by 2002:a17:906:1957:: with SMTP id b23mr19903826eje.312.1602351399173;
-        Sat, 10 Oct 2020 10:36:39 -0700 (PDT)
-Received: from mail-wm1-f44.google.com (mail-wm1-f44.google.com. [209.85.128.44])
-        by smtp.gmail.com with ESMTPSA id b25sm7984368eds.66.2020.10.10.10.36.38
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 10 Oct 2020 10:36:38 -0700 (PDT)
-Received: by mail-wm1-f44.google.com with SMTP id k18so12866151wmj.5
-        for <linux-media@vger.kernel.org>; Sat, 10 Oct 2020 10:36:38 -0700 (PDT)
-X-Received: by 2002:a1c:8057:: with SMTP id b84mr3433695wmd.116.1602351069766;
- Sat, 10 Oct 2020 10:31:09 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=oGo8IGgCZpTOoR3ZKZaP8e3qvIeXNb3yMrzl+Uani14=;
+        b=jfRtHi8KOqCmT0Yp6rQ0+SoB/5Y6165/0CrxTAvRWxcE1GtYIF1ZGrRYi2MJIQTUof
+         dk6NusOkPAoYlotRnhPcxrp87AypG1VBydbU2IxKinqFvnXZkzGOBZF/A4DUsCOV/zC5
+         zgy0xaV3I82Y5Q3QdfBBP3RGupdsVCcCln7rpOXxCF3k+l8VrCtQXVgcHplUNpBD5aT5
+         X6fJavIqBzCvkKq0LaHn3d56xO1Cf9bZ6tfi3tEa5IiFkwPooBWNATSo/IG5IkPow099
+         PJkdoKyNtz9IOuFFeOEpcKyVTUtEuqDyLCUZ3bx+AL9S3SS5+qEyHNwLZz9OH2Bsriu6
+         LSlA==
+X-Gm-Message-State: AOAM530xTZ+4bvGW/ZlKTsz9c8crwmNzuwa3fwfO/R4kCyHD3/KipaMd
+        KHcNOCJj3N+nZaV/N3KafAAwQyJHd+PqYfhjJdo=
+X-Google-Smtp-Source: ABdhPJwowo80GWbqkm6ZkqR7gSgknWZHhpMAZMgkL8s88FI9XTRLJCjdHnJ8k2W5KFXN71VQforAtfzOFMwHNRWQMIg=
+X-Received: by 2002:a05:6808:3bb:: with SMTP id n27mr6204755oie.130.1602361637761;
+ Sat, 10 Oct 2020 13:27:17 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-10-daniel.vetter@ffwll.ch> <20201009123421.67a80d72@coco.lan>
- <20201009122111.GN5177@ziepe.ca> <20201009143723.45609bfb@coco.lan>
-In-Reply-To: <20201009143723.45609bfb@coco.lan>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Sat, 10 Oct 2020 19:30:59 +0200
-X-Gmail-Original-Message-ID: <CAAFQd5CVqa4o0W32FE_NsSheN906uE7uA5gctHr=Z-PeU=1wuw@mail.gmail.com>
-Message-ID: <CAAFQd5CVqa4o0W32FE_NsSheN906uE7uA5gctHr=Z-PeU=1wuw@mail.gmail.com>
-Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, kvm <kvm@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch> <20201009075934.3509076-4-daniel.vetter@ffwll.ch>
+In-Reply-To: <20201009075934.3509076-4-daniel.vetter@ffwll.ch>
+From:   Oded Gabbay <oded.gabbay@gmail.com>
+Date:   Sat, 10 Oct 2020 23:26:52 +0300
+Message-ID: <CAFCwf1194Ce98y8tWxKzXT1rsdHDkzEcnERiaU=3-=t7hygmXg@mail.gmail.com>
+Subject: Re: [PATCH v2 03/17] misc/habana: Stop using frame_vector helpers
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        linux-mm <linux-mm@kvack.org>,
         "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
         Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
         linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
+        linux-s390@vger.kernel.org,
         Daniel Vetter <daniel.vetter@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Dan Williams <dan.j.williams@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
         Andrew Morton <akpm@linux-foundation.org>,
         John Hubbard <jhubbard@nvidia.com>,
         =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
         Jan Kara <jack@suse.cz>,
-        Linus Torvalds <torvalds@linux-foundation.org>
+        Dan Williams <dan.j.williams@intel.com>,
+        Omer Shpigelman <oshpigelman@habana.ai>,
+        Ofir Bitton <obitton@habana.ai>,
+        Tomer Tayar <ttayar@habana.ai>,
+        Moti Haimovski <mhaimovski@habana.ai>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Pawel Piskorski <ppiskorski@habana.ai>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Fri, Oct 9, 2020 at 10:59 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
+e:
+>
+> All we need are a pages array, pin_user_pages_fast can give us that
+> directly. Plus this avoids the entire raw pfn side of get_vaddr_frames.
+>
+Thanks for the patch Daniel.
 
-On Fri, Oct 9, 2020 at 2:37 PM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: John Hubbard <jhubbard@nvidia.com>
+> Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: linux-mm@kvack.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-samsung-soc@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: Oded Gabbay <oded.gabbay@gmail.com>
+> Cc: Omer Shpigelman <oshpigelman@habana.ai>
+> Cc: Ofir Bitton <obitton@habana.ai>
+> Cc: Tomer Tayar <ttayar@habana.ai>
+> Cc: Moti Haimovski <mhaimovski@habana.ai>
+> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
+> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+> Cc: Pawel Piskorski <ppiskorski@habana.ai>
+> --
+> v2: Use unpin_user_pages_dirty_lock (John)
+> ---
+>  drivers/misc/habanalabs/Kconfig             |  1 -
+>  drivers/misc/habanalabs/common/habanalabs.h |  3 +-
+>  drivers/misc/habanalabs/common/memory.c     | 49 ++++++++-------------
+>  3 files changed, 20 insertions(+), 33 deletions(-)
 >
-> Em Fri, 9 Oct 2020 09:21:11 -0300
-> Jason Gunthorpe <jgg@ziepe.ca> escreveu:
->
-> > On Fri, Oct 09, 2020 at 12:34:21PM +0200, Mauro Carvalho Chehab wrote:
-> > > Hi,
-> > >
-> > > Em Fri,  9 Oct 2020 09:59:26 +0200
-> > > Daniel Vetter <daniel.vetter@ffwll.ch> escreveu:
-> > >
-> > > > Way back it was a reasonable assumptions that iomem mappings never
-> > > > change the pfn range they point at. But this has changed:
-> > > >
-> > > > - gpu drivers dynamically manage their memory nowadays, invalidating
-> > > > ptes with unmap_mapping_range when buffers get moved
-> > > >
-> > > > - contiguous dma allocations have moved from dedicated carvetouts to
-> > > > cma regions. This means if we miss the unmap the pfn might contain
-> > > > pagecache or anon memory (well anything allocated with GFP_MOVEABLE)
-> > > >
-> > > > - even /dev/mem now invalidates mappings when the kernel requests that
-> > > > iomem region when CONFIG_IO_STRICT_DEVMEM is set, see 3234ac664a87
-> > > > ("/dev/mem: Revoke mappings when a driver claims the region")
-> > > >
-> > > > Accessing pfns obtained from ptes without holding all the locks is
-> > > > therefore no longer a good idea.
-> > > >
-> > > > Unfortunately there's some users where this is not fixable (like v4l
-> > > > userptr of iomem mappings) or involves a pile of work (vfio type1
-> > > > iommu). For now annotate these as unsafe and splat appropriately.
-> > > >
-> > > > This patch adds an unsafe_follow_pfn, which later patches will then
-> > > > roll out to all appropriate places.
-> > >
-> > > NACK, as this breaks an existing userspace API on media.
-> >
-> > It doesn't break it. You get a big warning the thing is broken and it
-> > keeps working.
-> >
-> > We can't leave such a huge security hole open - it impacts other
-> > subsystems, distros need to be able to run in a secure mode.
->
-> Well, if distros disable it, then apps will break.
->
+> diff --git a/drivers/misc/habanalabs/Kconfig b/drivers/misc/habanalabs/Kc=
+onfig
+> index 8eb5d38c618e..2f04187f7167 100644
+> --- a/drivers/misc/habanalabs/Kconfig
+> +++ b/drivers/misc/habanalabs/Kconfig
+> @@ -6,7 +6,6 @@
+>  config HABANA_AI
+>         tristate "HabanaAI accelerators (habanalabs)"
+>         depends on PCI && HAS_IOMEM
+> -       select FRAME_VECTOR
+>         select DMA_SHARED_BUFFER
+>         select GENERIC_ALLOCATOR
+>         select HWMON
+> diff --git a/drivers/misc/habanalabs/common/habanalabs.h b/drivers/misc/h=
+abanalabs/common/habanalabs.h
+> index edbd627b29d2..c1b3ad613b15 100644
+> --- a/drivers/misc/habanalabs/common/habanalabs.h
+> +++ b/drivers/misc/habanalabs/common/habanalabs.h
+> @@ -881,7 +881,8 @@ struct hl_ctx_mgr {
+>  struct hl_userptr {
+>         enum vm_type_t          vm_type; /* must be first */
+>         struct list_head        job_node;
+> -       struct frame_vector     *vec;
+> +       struct page             **pages;
+> +       unsigned int            npages;
+Can you please update the kerneldoc comment section of this structure
+according to your changes ?
 
-Do we have any information on userspace that actually needs this functionality?
+>         struct sg_table         *sgt;
+>         enum dma_data_direction dir;
+>         struct list_head        debugfs_list;
+> diff --git a/drivers/misc/habanalabs/common/memory.c b/drivers/misc/haban=
+alabs/common/memory.c
+> index 5ff4688683fd..327b64479f97 100644
+> --- a/drivers/misc/habanalabs/common/memory.c
+> +++ b/drivers/misc/habanalabs/common/memory.c
+> @@ -1281,45 +1281,41 @@ static int get_user_memory(struct hl_device *hdev=
+, u64 addr, u64 size,
+>                 return -EFAULT;
+>         }
+>
+> -       userptr->vec =3D frame_vector_create(npages);
+> -       if (!userptr->vec) {
+> +       userptr->pages =3D kvmalloc_array(npages, sizeof(*userptr->pages)=
+,
+> +                                       GFP_KERNEL);
+> +       if (!userptr->pages) {
+>                 dev_err(hdev->dev, "Failed to create frame vector\n");
+>                 return -ENOMEM;
+>         }
+>
+> -       rc =3D get_vaddr_frames(start, npages, FOLL_FORCE | FOLL_WRITE,
+> -                               userptr->vec);
+> +       rc =3D pin_user_pages_fast(start, npages, FOLL_FORCE | FOLL_WRITE=
+,
+> +                                userptr->pages);
+>
+>         if (rc !=3D npages) {
+>                 dev_err(hdev->dev,
+>                         "Failed to map host memory, user ptr probably wro=
+ng\n");
+>                 if (rc < 0)
+> -                       goto destroy_framevec;
+> +                       goto destroy_pages;
+> +               npages =3D rc;
+>                 rc =3D -EFAULT;
+> -               goto put_framevec;
+> -       }
+> -
+> -       if (frame_vector_to_pages(userptr->vec) < 0) {
+> -               dev_err(hdev->dev,
+> -                       "Failed to translate frame vector to pages\n");
+> -               rc =3D -EFAULT;
+> -               goto put_framevec;
+> +               goto put_pages;
+>         }
+> +       userptr->npages =3D npages;
+>
+>         rc =3D sg_alloc_table_from_pages(userptr->sgt,
+> -                                       frame_vector_pages(userptr->vec),
+> -                                       npages, offset, size, GFP_ATOMIC)=
+;
+> +                                      userptr->pages,
+> +                                      npages, offset, size, GFP_ATOMIC);
+I think that because the call to kvmalloc_array() is done with
+GFP_KERNEL, there is no point in using GFP_ATOMIC here.
+And actually, this path only needs to avoid yielding when using a
+special debug mode.
+So I suggest putting here GFP_KERNEL.
 
-Note that we're _not_ talking here about the complete USERPTR
-functionality, but rather just the very corner case of carveout memory
-not backed by struct pages.
+In the meanwhile, I'll run this patch (coupled with the next patch) in
+our C/I to make sure there are no regressions.
+Thanks,
+Oded
 
-Given that the current in-tree ways of reserving carveout memory, such
-as shared-dma-pool, actually give memory backed by struct pages, do we
-even have a source of such legacy memory in the kernel today?
-
-I think that given that this is a very niche functionality, we could
-have it disabled by default for security reasons and if someone
-_really_ (i.e. there is no replacement) needs it, they probably need
-to use a custom kernel build anyway for their exotic hardware setup
-(with PFN-backed carveout memory), so they can enable it.
-
-> > > While I agree that using the userptr on media is something that
-> > > new drivers may not support, as DMABUF is a better way of
-> > > handling it, changing this for existing ones is a big no,
-> > > as it may break usersapace.
-> >
-> > media community needs to work to fix this, not pretend it is OK to
-> > keep going as-is.
+>         if (rc < 0) {
+>                 dev_err(hdev->dev, "failed to create SG table from pages\=
+n");
+> -               goto put_framevec;
+> +               goto put_pages;
+>         }
 >
-> > Dealing with security issues is the one case where an uABI break might
-> > be acceptable.
-> >
-> > If you want to NAK it then you need to come up with the work to do
-> > something here correctly that will support the old drivers without the
-> > kernel taint.
-> >
-> > Unfortunately making things uncomfortable for the subsystem is the big
-> > hammer the core kernel needs to use to actually get this security work
-> > done by those responsible.
+>         return 0;
 >
+> -put_framevec:
+> -       put_vaddr_frames(userptr->vec);
+> -destroy_framevec:
+> -       frame_vector_destroy(userptr->vec);
+> +put_pages:
+> +       unpin_user_pages(userptr->pages, npages);
+> +destroy_pages:
+> +       kvfree(userptr->pages);
+>         return rc;
+>  }
 >
-> I'm not pretending that this is ok. Just pointing that the approach
-> taken is NOT OK.
+> @@ -1405,8 +1401,6 @@ int hl_pin_host_memory(struct hl_device *hdev, u64 =
+addr, u64 size,
+>   */
+>  void hl_unpin_host_memory(struct hl_device *hdev, struct hl_userptr *use=
+rptr)
+>  {
+> -       struct page **pages;
+> -
+>         hl_debugfs_remove_userptr(hdev, userptr);
 >
-> I'm not a mm/ expert, but, from what I understood from Daniel's patch
-> description is that this is unsafe *only if*  __GFP_MOVABLE is used.
+>         if (userptr->dma_mapped)
+> @@ -1414,15 +1408,8 @@ void hl_unpin_host_memory(struct hl_device *hdev, =
+struct hl_userptr *userptr)
+>                                                         userptr->sgt->nen=
+ts,
+>                                                         userptr->dir);
 >
-> Well, no drivers inside the media subsystem uses such flag, although
-> they may rely on some infrastructure that could be using it behind
-> the bars.
+> -       pages =3D frame_vector_pages(userptr->vec);
+> -       if (!IS_ERR(pages)) {
+> -               int i;
+> -
+> -               for (i =3D 0; i < frame_vector_count(userptr->vec); i++)
+> -                       set_page_dirty_lock(pages[i]);
+> -       }
+> -       put_vaddr_frames(userptr->vec);
+> -       frame_vector_destroy(userptr->vec);
+> +       unpin_user_pages_dirty_lock(userptr->pages, userptr->npages, true=
+);
+> +       kvfree(userptr->pages);
 >
-> If this is the case, the proper fix seems to have a GFP_NOT_MOVABLE
-> flag that it would be denying the core mm code to set __GFP_MOVABLE.
+>         list_del(&userptr->job_node);
 >
-> Please let address the issue on this way, instead of broken an
-> userspace API that it is there since 1991.
-
-Note that USERPTR as a whole generally has been considered deprecated
-in V4L2 for many years and people have been actively discouraged to
-use it. And, still, we're just talking here about the very rare corner
-case, not the whole USERPTR API.
-
-Best regards,
-Tomasz
+> --
+> 2.28.0
+>
