@@ -2,198 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D18728A37C
-	for <lists+linux-media@lfdr.de>; Sun, 11 Oct 2020 01:09:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 270D228A52A
+	for <lists+linux-media@lfdr.de>; Sun, 11 Oct 2020 05:39:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731466AbgJJW5B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Oct 2020 18:57:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33168 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730500AbgJJV7Y (ORCPT
+        id S1729217AbgJKDjh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 10 Oct 2020 23:39:37 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:49213 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728715AbgJKDjh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Oct 2020 17:59:24 -0400
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33F02C0613D5
-        for <linux-media@vger.kernel.org>; Sat, 10 Oct 2020 14:50:39 -0700 (PDT)
-Received: by mail-ot1-x344.google.com with SMTP id m11so12289449otk.13
-        for <linux-media@vger.kernel.org>; Sat, 10 Oct 2020 14:50:39 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=zskjUsHTtZxN7/2TQU3peg25br1tT43hRWFs8IXZrR4=;
-        b=i63KoTVhRCCVQE6C47zXN/aote8oxAlq2u8XkZEfRS7C4aCQsGXOTE+Jx6GONLOzLt
-         PE8349J61xYKgijEt/U90UIMaq9DrkU4QY1Tnas9hwBXWmOQCPO26SVsgXlr/ZipK8Ls
-         RMwvBQZd64IkyMtuG55st8dU/i5RoewRXan9Y=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=zskjUsHTtZxN7/2TQU3peg25br1tT43hRWFs8IXZrR4=;
-        b=nKC2r+kFrymUSZlSyeA+uw8s/8ALdakw3IdTaYz7zY5smqRNI+hKzqlb8EHTACAr8R
-         RPIKRYiySoCy4YgpxEcp8iQ3pMwFEO8G2Y8mNGOjg9vOWgrvUUE9IDMd/xmefmonWK8s
-         S1CAfaLRb8HIVDNgFtT+8dxBzoce3hZsh6C0cQBgMOotKm9hAmKTF3nCFhR/C7zUZ2W6
-         6sXsC/ttMp6rwm2i6gaSN5Gm/9FaYZBqy7mwbT5f8S1pqQG7QOcNUOfVHXt0fL7Shbul
-         DhDeoK/2h6xX3sudiujQXkctbHsjEGnmL9S073r11BfmAkxYhhlyQ4+DUNMREhMvOj1I
-         8dNA==
-X-Gm-Message-State: AOAM530TSgI/A1ErUCsbRurDqzSiDwVyT8hVWrVlS0AxBkAsBn8JCUHy
-        sxP75wuUIN0GVquZyZ9VDLRYc0T2hQ4yZoBzir1KCw==
-X-Google-Smtp-Source: ABdhPJznztyXj83TXT5Po+mKIPpYBLH3P+nInP8snkNIpnPLWv+XbgGvuCQZzJCVdvnd+c/ezVPBdFh+cvOLaSiqshs=
-X-Received: by 2002:a05:6830:8b:: with SMTP id a11mr2057108oto.303.1602366638562;
- Sat, 10 Oct 2020 14:50:38 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-10-daniel.vetter@ffwll.ch> <20201009123421.67a80d72@coco.lan>
- <20201009122111.GN5177@ziepe.ca> <20201009143723.45609bfb@coco.lan>
- <20201009124850.GP5177@ziepe.ca> <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
- <CAAFQd5CTT0re4ssj9NNTxhejFX_v_rCjy6=mX7C+dc=Lw9GOHw@mail.gmail.com> <20201010213554.GD3939@pendragon.ideasonboard.com>
-In-Reply-To: <20201010213554.GD3939@pendragon.ideasonboard.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Sat, 10 Oct 2020 23:50:27 +0200
-Message-ID: <CAKMK7uGhq+BiaJ5jD+bkO4VOaCPuUZ_empA3Ojr1AsvwNef6QQ@mail.gmail.com>
-Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linus Torvalds <torvalds@linux-foundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        Sat, 10 Oct 2020 23:39:37 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id RSCqkQQJrTHgxRSCskMW6b; Sun, 11 Oct 2020 05:39:34 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1602387574; bh=oaMFU7gkKjcjOrvgbAA2Wj8Ty4IZ4bTppMN6/b8lk1U=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=SVcTngqMQn4MaoiUCYV/RTtof4RrhzaFGG+ANdqP0Yp2DiZvkkzp5V4grnuxHYPjR
+         ZWmMdH8F2atx0rAS2dq85FlNZtUFpXT5QWkDUXg34YmwUg97trhMZk4mNPEvXr5sEk
+         ffBrHQN8na61mvKbdz8HAFkSR0cvQIEQ+Dw0+S74ytLXoV8q3ALUXRwlI8MI7vVdb+
+         LxmF7EGUSy9wO31yc7L1PeZGX4Mdsmm49QFofcV4pGbMc2eu0WdRw949I/3CKCKgwO
+         v5ilhtIY9wHvyB/CyoXy3k3RRomX0bKIQrFlpZCOHgbWG1W64RhLwunr3SvEu060B6
+         /vp5TCa9oh9Ww==
+Message-ID: <985a172d02531885c93a63a2ef7d5441@smtp-cloud8.xs4all.net>
+Date:   Sun, 11 Oct 2020 05:39:32 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4wfOpmqjnsQHvHYf81/syA7HW1TSvH+/5Pbb/Nve+aVWJRRasAYmb+kC78LRKqiCXmNe+HFtTjZcEkKJpc4vUTdIsPRqBiWRDlYRO3qzHn7y5rcg3152yM
+ pbaD/ur6qu/0VR4Fy02TfX3guCsnN5OMTQEEOfFeQO8uU1hRFhlsSAPojJJ/ogDDzdGp3VVGuTPxyR6vJAo/j2sin7k4VvynHUgnvsiPNhSRf3zBRSh0aDDG
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Oct 10, 2020 at 11:36 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Tomasz,
->
-> On Sat, Oct 10, 2020 at 07:22:48PM +0200, Tomasz Figa wrote:
-> > On Fri, Oct 9, 2020 at 7:52 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrote:
-> > > On Fri, Oct 9, 2020 at 2:48 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> > > > On Fri, Oct 09, 2020 at 02:37:23PM +0200, Mauro Carvalho Chehab wrote:
-> > > >
-> > > > > I'm not a mm/ expert, but, from what I understood from Daniel's patch
-> > > > > description is that this is unsafe *only if*  __GFP_MOVABLE is used.
-> > > >
-> > > > No, it is unconditionally unsafe. The CMA movable mappings are
-> > > > specific VMAs that will have bad issues here, but there are other
-> > > > types too.
-> > > >
-> > > > The only way to do something at a VMA level is to have a list of OK
-> > > > VMAs, eg because they were creatd via a special mmap helper from the
-> > > > media subsystem.
-> > > >
-> > > > > Well, no drivers inside the media subsystem uses such flag, although
-> > > > > they may rely on some infrastructure that could be using it behind
-> > > > > the bars.
-> > > >
-> > > > It doesn't matter, nothing prevents the user from calling media APIs
-> > > > on mmaps it gets from other subsystems.
-> > >
-> > > I think a good first step would be to disable userptr of non struct
-> > > page backed storage going forward for any new hw support. Even on
-> > > existing drivers. dma-buf sharing has been around for long enough now
-> > > that this shouldn't be a problem. Unfortunately right now this doesn't
-> > > seem to exist, so the entire problem keeps getting perpetuated.
-> > >
-> > > > > If this is the case, the proper fix seems to have a GFP_NOT_MOVABLE
-> > > > > flag that it would be denying the core mm code to set __GFP_MOVABLE.
-> > > >
-> > > > We can't tell from the VMA these kinds of details..
-> > > >
-> > > > It has to go the other direction, evey mmap that might be used as a
-> > > > userptr here has to be found and the VMA specially created to allow
-> > > > its use. At least that is a kernel only change, but will need people
-> > > > with the HW to do this work.
-> > >
-> > > I think the only reasonable way to keep this working is:
-> > > - add a struct dma_buf *vma_tryget_dma_buf(struct vm_area_struct *vma);
-> > > - add dma-buf export support to fbdev and v4l
-> >
-> > I assume you mean V4L2 and not the obsolete V4L that is emulated in
-> > the userspace by libv4l. If so, every video device that uses videobuf2
-> > gets DMA-buf export for free and there is nothing needed to enable it.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Yeah. And I missed that v4l2 added dma-buf export too.
+Results of the daily build of media_tree:
 
-> > We probably still have a few legacy drivers using videobuf (non-2),
-> > but IMHO those should be safe to put behind some disabled-by-default
-> > Kconfig symbol or even completely drop, as the legacy framework has
-> > been deprecated for many years already.
->
-> There's 8 drivers left, and they support a very large number of devices.
-> I expect unhappy users distros stop shipping them. On the other hand,
-> videobuf has been deprecated for a loooooooong time, so there has been
-> plenty of time to convert the remaining drivers to videobuf2. If nobody
-> can do it, then we'll have to drop support for these devices given the
-> security issues.
+date:			Sun Oct 11 05:00:13 CEST 2020
+media-tree git hash:	c386e0797d26a32e354daf4480c5d40165db66a1
+media_build git hash:	e0136eadb6f4c24b7f8fcb50ef4d4d5ffb2af31d
+v4l-utils git hash:	28df3d403be3d7769d7b10cda3e372a0dbbfa410
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 9783287347a0d95925f345313520f04869f439ab
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Again, the issue here is _only_ with follow_pfn. For videobuf1 this
-means videbuf-dma-contig.c userptr support is broken. Unlike videobuf2
-it means it's broken for all usage (not just zero-copy userptr),
-because videbuf-dma-contig.c lacks the pin_user_pages path. But that
-would be easy to add if this poses a  problem I think - we just need
-to carry over the pin_user_pages_fast logic from videbuf2, no driver
-changes required. But of course I don't think we should do that before
-someone reports the regression, since videobuf1 userptr is doubly
-deprecated :-)
+linux-git-sh: OK
+linux-git-powerpc64: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9-rc7-i686: OK
+linux-5.9-rc7-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: OK
 
-Everything else keeps working with videobuf1 with my patch series. So
-depending upon which videobuf1 implementations these 8 drivers use,
-you might not even have any real breakage there.
+Detailed results are available here:
 
-> We have moved media drivers to staging in the past when there wasn't
-> enough maintenance effort, we could do so here too.
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
-I'm not breaking the world with this, it's really very minimal
-use-case. At least as far as I'm understanding the entire media
-subsystem here.
--Daniel
+Detailed regression test results are available here:
 
-> > > - roll this out everywhere we still need it.
-> > >
-> > > Realistically this just isn't going to happen. And anything else just
-> > > reimplements half of dma-buf, which is kinda pointless (you need
-> > > minimally refcounting and some way to get at a promise of a permanent
-> > > sg list for dma. Plus probably the vmap for kernel cpu access.
-> > >
-> > > > > Please let address the issue on this way, instead of broken an
-> > > > > userspace API that it is there since 1991.
-> > > >
-> > > > It has happened before :( It took 4 years for RDMA to undo the uAPI
-> > > > breakage caused by a security fix for something that was a 15 years
-> > > > old bug.
-> > >
-> > > Yeah we have a bunch of these on the drm side too. Some of them are
-> > > really just "you have to upgrade userspace", and there's no real fix
-> > > for the security nightmare without that.
-> >
-> > I think we need to phase out such userspace indeed. The Kconfig symbol
-> > allows enabling the unsafe functionality for anyone who still needs
-> > it, so I think it's not entirely a breakage.
->
-> --
-> Regards,
->
-> Laurent Pinchart
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
 
+Full logs are available here:
 
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
