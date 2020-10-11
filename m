@@ -2,175 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 270D228A52A
-	for <lists+linux-media@lfdr.de>; Sun, 11 Oct 2020 05:39:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A06228A5F2
+	for <lists+linux-media@lfdr.de>; Sun, 11 Oct 2020 08:27:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729217AbgJKDjh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 10 Oct 2020 23:39:37 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:49213 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728715AbgJKDjh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 10 Oct 2020 23:39:37 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id RSCqkQQJrTHgxRSCskMW6b; Sun, 11 Oct 2020 05:39:34 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1602387574; bh=oaMFU7gkKjcjOrvgbAA2Wj8Ty4IZ4bTppMN6/b8lk1U=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=SVcTngqMQn4MaoiUCYV/RTtof4RrhzaFGG+ANdqP0Yp2DiZvkkzp5V4grnuxHYPjR
-         ZWmMdH8F2atx0rAS2dq85FlNZtUFpXT5QWkDUXg34YmwUg97trhMZk4mNPEvXr5sEk
-         ffBrHQN8na61mvKbdz8HAFkSR0cvQIEQ+Dw0+S74ytLXoV8q3ALUXRwlI8MI7vVdb+
-         LxmF7EGUSy9wO31yc7L1PeZGX4Mdsmm49QFofcV4pGbMc2eu0WdRw949I/3CKCKgwO
-         v5ilhtIY9wHvyB/CyoXy3k3RRomX0bKIQrFlpZCOHgbWG1W64RhLwunr3SvEu060B6
-         /vp5TCa9oh9Ww==
-Message-ID: <985a172d02531885c93a63a2ef7d5441@smtp-cloud8.xs4all.net>
-Date:   Sun, 11 Oct 2020 05:39:32 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfOpmqjnsQHvHYf81/syA7HW1TSvH+/5Pbb/Nve+aVWJRRasAYmb+kC78LRKqiCXmNe+HFtTjZcEkKJpc4vUTdIsPRqBiWRDlYRO3qzHn7y5rcg3152yM
- pbaD/ur6qu/0VR4Fy02TfX3guCsnN5OMTQEEOfFeQO8uU1hRFhlsSAPojJJ/ogDDzdGp3VVGuTPxyR6vJAo/j2sin7k4VvynHUgnvsiPNhSRf3zBRSh0aDDG
+        id S1727701AbgJKG1t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 11 Oct 2020 02:27:49 -0400
+Received: from mail.kernel.org ([198.145.29.99]:49048 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727067AbgJKG1t (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 11 Oct 2020 02:27:49 -0400
+Received: from coco.lan (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 70D4020795;
+        Sun, 11 Oct 2020 06:27:44 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1602397669;
+        bh=tLwirr0BbVJkwRy4pXH9jkVKcUQIWYnty1vsXbo4I7E=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=gtB49X5+yRzhY33+NnJemfNod8lA4EL1Bqf7vnxS+zQy5xIyntEJPhyD+Zkw5nmnp
+         hOC6+lfj7NYWVVXkGO3liFxjebMkF5+P4r0kPw+axWc2cWV3GRAHNiyZ1mAgRt4Vya
+         asb/PYhs/guNq8+Ak1psm0EqVQbOy4RYr8En3mf8=
+Date:   Sun, 11 Oct 2020 08:27:41 +0200
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>, Kees Cook <keescook@chromium.org>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        LKML <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        =?UTF-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Linus Torvalds <torvalds@linux-foundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>, Hans Verkuil <hverkuil@xs4all.nl>,
+        "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
+Subject: Re: [PATCH v2 09/17] mm: Add unsafe_follow_pfn
+Message-ID: <20201011082741.6bed4d71@coco.lan>
+In-Reply-To: <CAKMK7uGhq+BiaJ5jD+bkO4VOaCPuUZ_empA3Ojr1AsvwNef6QQ@mail.gmail.com>
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+        <20201009075934.3509076-10-daniel.vetter@ffwll.ch>
+        <20201009123421.67a80d72@coco.lan>
+        <20201009122111.GN5177@ziepe.ca>
+        <20201009143723.45609bfb@coco.lan>
+        <20201009124850.GP5177@ziepe.ca>
+        <CAKMK7uF-hrSwzFQkp6qEP88hM1Qg8TMQOunuRHh=f2+D8MaMRg@mail.gmail.com>
+        <CAAFQd5CTT0re4ssj9NNTxhejFX_v_rCjy6=mX7C+dc=Lw9GOHw@mail.gmail.com>
+        <20201010213554.GD3939@pendragon.ideasonboard.com>
+        <CAKMK7uGhq+BiaJ5jD+bkO4VOaCPuUZ_empA3Ojr1AsvwNef6QQ@mail.gmail.com>
+X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Em Sat, 10 Oct 2020 23:50:27 +0200
+Daniel Vetter <daniel.vetter@ffwll.ch> escreveu:
 
-Results of the daily build of media_tree:
+> On Sat, Oct 10, 2020 at 11:36 PM Laurent Pinchart
+> <laurent.pinchart@ideasonboard.com> wrote:
+> >
 
-date:			Sun Oct 11 05:00:13 CEST 2020
-media-tree git hash:	c386e0797d26a32e354daf4480c5d40165db66a1
-media_build git hash:	e0136eadb6f4c24b7f8fcb50ef4d4d5ffb2af31d
-v4l-utils git hash:	28df3d403be3d7769d7b10cda3e372a0dbbfa410
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 9783287347a0d95925f345313520f04869f439ab
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+> > > We probably still have a few legacy drivers using videobuf (non-2),
+> > > but IMHO those should be safe to put behind some disabled-by-default
+> > > Kconfig symbol or even completely drop, as the legacy framework has
+> > > been deprecated for many years already.  
+> >
+> > There's 8 drivers left, and they support a very large number of devices.
+> > I expect unhappy users distros stop shipping them. On the other hand,
+> > videobuf has been deprecated for a loooooooong time, so there has been
+> > plenty of time to convert the remaining drivers to videobuf2. If nobody
+> > can do it, then we'll have to drop support for these devices given the
+> > security issues.  
+> 
+> Again, the issue here is _only_ with follow_pfn. For videobuf1 this
+> means videbuf-dma-contig.c userptr support is broken. Unlike videobuf2
+> it means it's broken for all usage (not just zero-copy userptr),
+> because videbuf-dma-contig.c lacks the pin_user_pages path.
 
-linux-git-sh: OK
-linux-git-powerpc64: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9-rc7-i686: OK
-linux-5.9-rc7-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
-sparse: OK
-smatch: OK
+Well, follow_pfn() is used only by videbuf-dma-contig.c. If this is 
+the only part of VB1 that will have userptr broken, then there's
+just one driver that might be affected: davinci.
 
-Detailed results are available here:
+Yet, taking a deeper look:
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+	$ git grep include drivers/media/platform/davinci/|grep -i videobuf
+	drivers/media/platform/davinci/vpif_capture.h:#include <media/videobuf2-dma-contig.h>
+	drivers/media/platform/davinci/vpif_display.h:#include <media/videobuf2-dma-contig.h>
 
-Detailed regression test results are available here:
+It sounds to me that it was already converted to VB2, but some VB1
+symbols were not converted at its Kconfig.
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+It sounds to me that there are other drivers with some VB1 left overs
+at Kconfig, as those are the only ones using VB1 those days:
 
-Full logs are available here:
+	$ for i in $(git grep media/videobuf drivers |grep -v videobuf2 |grep -v v4l2-core|cut -d: -f1); do dirname $i; done|sort|uniq
+	drivers/media/pci/bt8xx
+	drivers/media/pci/cx18
+	drivers/media/platform
+	drivers/media/usb/tm6000
+	drivers/media/usb/zr364xx
+	drivers/staging/media/atomisp/pci
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+> But that
+> would be easy to add if this poses a  problem I think - we just need
+> to carry over the pin_user_pages_fast logic from videbuf2, no driver
+> changes required. But of course I don't think we should do that before
+> someone reports the regression, since videobuf1 userptr is doubly
+> deprecated :-)
 
-The Media Infrastructure API from this daily build is here:
+I think otherwise. Keeping a broken component at the Kernel is 
+a bad idea. 
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Yet, from my quick search above, it sounds to me that it is time for 
+us to retire the VB1 DMA contig support as a hole, as there's no client 
+for it anymore.
+
+I'll work on some patches cleaning up the VB1 left overs at
+Kconfig and removing videbuf-dma-contig.c for good, if there's
+no hidden dependency on it.
+
+
+Thanks,
+Mauro
