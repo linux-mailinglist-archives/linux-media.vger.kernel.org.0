@@ -2,175 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 30C4128AC9E
-	for <lists+linux-media@lfdr.de>; Mon, 12 Oct 2020 05:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D187728AD6E
+	for <lists+linux-media@lfdr.de>; Mon, 12 Oct 2020 06:59:09 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727386AbgJLDjO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 11 Oct 2020 23:39:14 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:52859 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727346AbgJLDjO (ORCPT
+        id S1726417AbgJLE7I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Oct 2020 00:59:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35400 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726068AbgJLE7H (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 11 Oct 2020 23:39:14 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id RofwksUNi4gEjRofxkDH7Y; Mon, 12 Oct 2020 05:39:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1602473951; bh=p7Gtd+/Z2Q+2eYGPhvIs5ua1OEpmMMtg3Abv5bRVIF8=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=U+yxBn7oppV5xBYveuew6d+assa302kN53lt8xAxM50+gykFH4TGE7Sj4rM4qhWb/
-         twnTUcSrxBZ2RfnSExidvBgCkzOsY8kxbeuUqnPBm2QFVEZrM9371VuM1Dhtvgdox7
-         TJFIqOj8o+XZ0JkCSJJOfPKo34U05H3YvltHiv6jHid4DXaGxrmoJW67U0nn7PxPeQ
-         Jf1MVkOIvz3bPGdi29B4UylQbk4piqY6h5FRAnJnDiSuyxoFA7QVtuxn5IoG7gNmEF
-         cG7qzg/ckb5ReGBpnfFPx9T3w9iyZsB1z1ATIfASLa8k7tpp6x2Jz3tqIzDBdX9kDN
-         AtrtL0B57Aobg==
-Message-ID: <348a599a89f4cf8fe3055e04074bc331@smtp-cloud9.xs4all.net>
-Date:   Mon, 12 Oct 2020 05:39:04 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4wfHg449Srva/GSJVtTO/OSKIejTaQ625Nv2iHykb7fq7ZtIcJE9rmCuherQTUCZtODrCUsYvk+sXTQQ+/jkawvFKjkuiZoY0B7YRPWLTMchAdCfsZcTFO
- g7FM7jVZEzclHPVLGsYqXoiqnAX3cstb2RLHFZK8xNeCl+RIxJFn5Rl0JAetdeY5BatW1KpUzmk28hyCfVrZrUs4diOy0avyBdRwvP9GaEPRQb7Z71eeAv51
+        Mon, 12 Oct 2020 00:59:07 -0400
+Received: from mail-oo1-xc42.google.com (mail-oo1-xc42.google.com [IPv6:2607:f8b0:4864:20::c42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CB06C0613CE
+        for <linux-media@vger.kernel.org>; Sun, 11 Oct 2020 21:59:06 -0700 (PDT)
+Received: by mail-oo1-xc42.google.com with SMTP id o184so183632ooo.8
+        for <linux-media@vger.kernel.org>; Sun, 11 Oct 2020 21:59:06 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=dvhj8etlXC9fqFjkAY4fQ7hAbMGIocwO3uGycBo0fr0=;
+        b=BlxmN0UjWMwXHMdPjJAZej2pYRJgMpzyWP7M5T5nSWhhR8pQ17xeLnzQ/lIKoln0N0
+         /QtRs/wvTaZe1hbVkTRtyZReGKiAILQjskLkrERO+NEZZrZr4KWteleYa4lW6IMxBA4X
+         ddshUn4FW9UnEboaxtHKRKkDN///JjV9QXFQ8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=dvhj8etlXC9fqFjkAY4fQ7hAbMGIocwO3uGycBo0fr0=;
+        b=RFYxkMUyxCrM7Ozb/U8yyl628BDiryVEPedEQiLz05OB5o/RRvRWhZThiZQUlIQmzt
+         X82Pebj0uRO67Qxl3pKpIIh2IfiT5o3+wuD3DYYCnR6Aix42hgZ46XQ6sTrAjqZHlZ4W
+         MRLpz2LFRAwuM3d6ZyBMZYeEauldxy1dOLsDEtB3xXoBmHMoiyRcPIH/nfqO5fOikbQA
+         Uj849jHWmjsZn2RRajHUA1AWqvWU1sw8UMqvnbgE4EpThZXd49npRMdmEDXnKaE5vrME
+         EajWZ/rYFV3nF+Er6wrb22r+bWfHlXLs4pCkMUb41OlTIP8zyqh5CcvA6NjWgPtDrHG1
+         SLbw==
+X-Gm-Message-State: AOAM532JV6IWbHwPVathPpV31Pe5mvB6GtTlp7cwxBXmofy8SnRzQxdo
+        F37+GqNJ89DZf/iKtx8wrVbjTS3PWInWbA==
+X-Google-Smtp-Source: ABdhPJweQ66rUXQ9V05P6yC5dM+VCZBw1sp0pvlUdVlLtMkX+UER1yt5fwu1j9b7s1PfPcFkgNXDwQ==
+X-Received: by 2002:a4a:a844:: with SMTP id p4mr17356671oom.59.1602478744690;
+        Sun, 11 Oct 2020 21:59:04 -0700 (PDT)
+Received: from mail-ot1-f47.google.com (mail-ot1-f47.google.com. [209.85.210.47])
+        by smtp.gmail.com with ESMTPSA id b7sm622005oic.36.2020.10.11.21.59.03
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 11 Oct 2020 21:59:03 -0700 (PDT)
+Received: by mail-ot1-f47.google.com with SMTP id m13so14720988otl.9
+        for <linux-media@vger.kernel.org>; Sun, 11 Oct 2020 21:59:03 -0700 (PDT)
+X-Received: by 2002:a9d:6445:: with SMTP id m5mr16959312otl.36.1602478742864;
+ Sun, 11 Oct 2020 21:59:02 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201004122234.802044-1-acourbot@chromium.org>
+ <c3e1c20a-7729-9f48-ce66-41e67f195fc7@xs4all.nl> <cda40a8e-4dd2-5fd7-c5ff-8b048475164b@xs4all.nl>
+ <CAPBb6MX8rFZU=9Pd5o0mqQ6pf+1oQYzk=D0WiR93_S3FUG7jJw@mail.gmail.com>
+ <1bb71c21-0f03-5d8f-be2c-fdcb13dadcd6@xs4all.nl> <CAPBb6MWf7bWkigMPUwx7g6dXjwMkttGhHwC9X_=e6=cz1K5J0w@mail.gmail.com>
+ <20201009083350.6c2e5a6a@coco.lan>
+In-Reply-To: <20201009083350.6c2e5a6a@coco.lan>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Mon, 12 Oct 2020 13:58:51 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MXjEZB1N0vgTMGk28_qPpAqX87XFfkwor-9Yge0_uejsg@mail.gmail.com>
+Message-ID: <CAPBb6MXjEZB1N0vgTMGk28_qPpAqX87XFfkwor-9Yge0_uejsg@mail.gmail.com>
+Subject: Re: [PATCH v2] media: mtk-vcodec: fix builds when remoteproc is disabled
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support
+        <linux-mediatek@lists.infradead.org>, Randy Dunlap" 
+        <rdunlap@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Mauro,
 
-Results of the daily build of media_tree:
+On Fri, Oct 9, 2020 at 3:34 PM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Em Fri, 9 Oct 2020 13:30:06 +0900
+> Alexandre Courbot <acourbot@chromium.org> escreveu:
+>
+> > On Fri, Oct 9, 2020 at 1:13 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> > > >>> If VIDEO_MEDIATEK_VPU=y and MTK_SCP=m, then VIDEO_MEDIATEK_VCODEC can be configured
+> > > >>> to y, and then it won't be able to find the scp_ functions.
+> > > >>>
+> > > >>> To be honest, I'm not sure how to solve this.
+> > > >>
+> > > >> Found it. Add this:
+> > > >>
+> > > >>         depends on MTK_SCP || !MTK_SCP
+> > > >>         depends on VIDEO_MEDIATEK_VPU || !VIDEO_MEDIATEK_VPU
+> > > >>
+> > > >> Ugly as hell, but it appears to be the correct incantation for this.
+>
+> While the above does the job, I'm wondering if the better wouldn't
+> be to have this spit into 3 config dependencies. E. g. something like:
+>
+> config VIDEO_MEDIATEK_CODEC
+>         depends on VIDEO_MEDIATEK_VPU_SCP || VIDEO_MEDIATEK_VPU
+>
+> config VIDEO_MEDIATEK_VPU
+>         depends on VIDEO_DEV && VIDEO_V4L2
+>         depends on ARCH_MEDIATEK || COMPILE_TEST
+>         tristate "support for Mediatek Video Processor Unit without SCP"
+>         help
+>             ...
+>
+> config VIDEO_MEDIATEK_VPU_SCP
+>         depends on VIDEO_DEV && VIDEO_V4L2
+>         depends on ARCH_MEDIATEK || COMPILE_TEST
+>         tristate "support for Mediatek Video Processor Unit with SCP"
+>         help
+>             ...
 
-date:			Mon Oct 12 05:00:13 CEST 2020
-media-tree git hash:	c386e0797d26a32e354daf4480c5d40165db66a1
-media_build git hash:	e0136eadb6f4c24b7f8fcb50ef4d4d5ffb2af31d
-v4l-utils git hash:	28df3d403be3d7769d7b10cda3e372a0dbbfa410
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 9783287347a0d95925f345313520f04869f439ab
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Doing so would introduce two extra choices to enable the driver, so
+I'm a bit concerned this may be a bit confusing?
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9-rc7-i686: OK
-linux-5.9-rc7-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
-sparse: OK
-smatch: OK
+Also I have experimented with this, and it appears that
+VIDEO_MEDIATEK_CODEC won't be automatically enabled if one of the new
+options is selected. So this means that after setting e.g.
+VIDEO_MEDIATEK_VPU_SCP, one still needs to manually enable
+VIDEO_MEDIATEK_CODEC otherwise the driver won't be compiled at all.
 
-Detailed results are available here:
+>
+> And split the board-specific data for each variant on separate files,
+> doing something like this at the Makefile:
+>
+>         obj-$(CONFIG_VIDEO_MEDIATEK_VCODEC) += mtk-vcodec-dec.o \
+>                                        mtk-vcodec-enc.o \
+>                                        mtk-vcodec-common.o
+>
+>         ifneq ($(VIDEO_MEDIATEK_VPU_SCP),)
+>         obj-$(CONFIG_VIDEO_MEDIATEK_VCODEC) += mtk-vcodec-fw-scp.o
+>         endif
+>
+>         ifneq ($(VIDEO_MEDIATEK_VPU),)
+>         obj-$(CONFIG_VIDEO_MEDIATEK_VCODEC) += mtk-vcodec-fw-vpu.o
+>         endif
+>
+> This will avoid the ugly ifdefs in the middle of mtk_vcodec_fw.c,
+> and the ugly "depends on FOO || !FOO" usage.
+>
+> It should also be simpler to add future variants of it in the
+> future, if needed.
 
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Indeed, the split makes sense regardless of the selection mechanism
+adopted. I will try to do it in the next revision.
