@@ -2,213 +2,243 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C59628BA84
-	for <lists+linux-media@lfdr.de>; Mon, 12 Oct 2020 16:13:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 86ACE28BAA2
+	for <lists+linux-media@lfdr.de>; Mon, 12 Oct 2020 16:19:13 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387429AbgJLON2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Oct 2020 10:13:28 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:54924 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1728854AbgJLON2 (ORCPT
+        id S2388838AbgJLOTL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Oct 2020 10:19:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37102 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730235AbgJLOTL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Oct 2020 10:13:28 -0400
-Received: from pps.filterd (m0046661.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09CE8eM0029271;
-        Mon, 12 Oct 2020 16:12:11 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=tQyOT0xtGnIhXk2kjxFJzupaMjdqLGGdmzBSfdxCvVY=;
- b=JsFoS0ZMupmw7MR4yGYa/9JMDNhHiBD1rZX4YDlmA73sgNNhQgbBfFLn3FI+cGvjVOCw
- E5jrg5WUhgytU6AybobXT35M7KJfo7dWtXIXxA8oUv5ZDEo20LBOhZWcluRqDndi3RSn
- xmgg0oPQ77L7m1s4yGvrogmLI0ve8De31volzadtIlasxdJ4VS9nrx6MzVU4B2LGcew4
- hhOjckcE5dbCi/RZmTuYxjcE2su7sTpYPwm1omh1cMijSqYBeHb4/HwIBn9w2HnmuG0Z
- IVfbAc1SkjVxDeOJ/2imt260WFIvq8CldccbOV9lZp7woMKt5w001I1JADx3d+2fKiab Yw== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 34353qhjmc-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 12 Oct 2020 16:12:11 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id F1C4910002A;
-        Mon, 12 Oct 2020 16:12:09 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 976312B8A14;
-        Mon, 12 Oct 2020 16:12:09 +0200 (CEST)
-Received: from SFHDAG1NODE1.st.com (10.75.127.1) by SFHDAG3NODE3.st.com
- (10.75.127.9) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 12 Oct
- 2020 16:12:09 +0200
-Received: from SFHDAG1NODE1.st.com ([fe80::91:9840:ca1f:420f]) by
- SFHDAG1NODE1.st.com ([fe80::91:9840:ca1f:420f%20]) with mapi id
- 15.00.1473.003; Mon, 12 Oct 2020 16:12:09 +0200
-From:   Hugues FRUCHET <hugues.fruchet@st.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-CC:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "Hans Verkuil" <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Alain VOLMAT <alain.volmat@st.com>
-Subject: Re: [PATCH] media: ov5640: fix support of BT656 bus mode
-Thread-Topic: [PATCH] media: ov5640: fix support of BT656 bus mode
-Thread-Index: AQHWnLWhj+jiS/lF9USlFsRWc43I2qmT3jEAgAAKMwA=
-Date:   Mon, 12 Oct 2020 14:12:09 +0000
-Message-ID: <8c89da85-ccb9-4515-3995-27fe8e00c3cd@st.com>
-References: <1602080692-6383-1-git-send-email-hugues.fruchet@st.com>
- <20201012133538.2k6jpn6k2py7h2ym@uno.localdomain>
-In-Reply-To: <20201012133538.2k6jpn6k2py7h2ym@uno.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.45]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <E17391ADC83149439DC29D401428098D@st.com>
-Content-Transfer-Encoding: base64
+        Mon, 12 Oct 2020 10:19:11 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F29E0C0613D5
+        for <linux-media@vger.kernel.org>; Mon, 12 Oct 2020 07:19:10 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id b127so4888677wmb.3
+        for <linux-media@vger.kernel.org>; Mon, 12 Oct 2020 07:19:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=SuTUuPoSnGpk/kjzh2rwLKMK0NV61T2wKUHxGWe1zb8=;
+        b=b2jM2N7c7mPZ8EQ74nK4as+DJOk3QIe1TTYSZ7oaXJ3365OVv4YcNg0qxxuCOPCxWm
+         vCNnR/PtgLnbnCWWMkgiKiOIBral0E0p/MHJyNO76dWYwluCVeZIJCQEYXYML0RprK+3
+         MPKg0NsB7G5eAb0oAe3c/PxZvmGkrVc0l8J4g=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=SuTUuPoSnGpk/kjzh2rwLKMK0NV61T2wKUHxGWe1zb8=;
+        b=akwd56pdGRacEnsMaGgbZmvdwBii8NvJRnFxszdgVpQsBzTevb/s6IJvaazHjIRFoj
+         r2ARAIvPStCVGinUk9A3tOgvVYKwUrKbnIao6rv5RnuDuYQCpnbAAuW5DINWa2Pv1C8k
+         5egj3HUgAKIaf5E7Z7htsLgozQxXS50ihkPtVRY5KlovnRNwo8oOar3J86Hk6u6ZhhaP
+         pQQObmqZ6wi2qYTq4R2M+zJZ+RMOz1N852mxZTW7QlSxfz8HKeoHlV3Lkm6SEPLWXKlq
+         /pRFG3Z+6GWM+dUJv1nKSpN4hfBKxzDqDFjdYDqGnUKBapge03ADq5FPyrCSutcGlNPV
+         Sriw==
+X-Gm-Message-State: AOAM530cUf5e9IwF4EyTScOXiP+nMaoDF5EUpiutUo9r6yFlmK9AmagW
+        9Tfw1OcWJ5yx8Yu7kUgJ99v0Jg==
+X-Google-Smtp-Source: ABdhPJzGnqdPcnQQAOL/8bt/9LG14tDuHDf/7FLmVEbsTsUaPr2zgpHozg5qRzqt8PtLD2kO4LhHrw==
+X-Received: by 2002:a1c:5685:: with SMTP id k127mr11456739wmb.135.1602512349502;
+        Mon, 12 Oct 2020 07:19:09 -0700 (PDT)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id z127sm23493365wmc.2.2020.10.12.07.19.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 12 Oct 2020 07:19:08 -0700 (PDT)
+Date:   Mon, 12 Oct 2020 16:19:06 +0200
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Niklas Schnelle <schnelle@linux.ibm.com>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-s390@vger.kernel.org,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v2 08/17] s390/pci: Remove races against pte updates
+Message-ID: <20201012141906.GX438822@phenom.ffwll.local>
+Mail-Followup-To: Niklas Schnelle <schnelle@linux.ibm.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-s390@vger.kernel.org,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-9-daniel.vetter@ffwll.ch>
+ <6deb08dd-46f3-bf26-5362-fdc696f6fd74@linux.ibm.com>
 MIME-Version: 1.0
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-10-12_09:2020-10-12,2020-10-12 signatures=0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <6deb08dd-46f3-bf26-5362-fdc696f6fd74@linux.ibm.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgSmFjb3BvLA0KDQpUaGFua3MgZm9yIHJldmlld2luZywgY29tbWVudHMgYmVsb3cNCg0KT24g
-MTAvMTIvMjAgMzozNSBQTSwgSmFjb3BvIE1vbmRpIHdyb3RlOg0KPiBIaSBIdWd1ZXMsDQo+IA0K
-PiBPbiBXZWQsIE9jdCAwNywgMjAyMCBhdCAwNDoyNDo1MlBNICswMjAwLCBIdWd1ZXMgRnJ1Y2hl
-dCB3cm90ZToNCj4+IGZpeGVzOiA0MDM5YjAzNzIwZjcgKCJtZWRpYTogaTJjOiBvdjU2NDA6IEFk
-ZCBzdXBwb3J0IGZvciBCVDY1NiBtb2RlIikNCj4gDQo+IEFzIHBlciB0aGUgY29tbWVudCBmcm9t
-IFNha2FyaSBpbiBhbm90aGVyIHBhdGNoLCAnRml4ZXMnIChjYXBpdGFsICdGJykNCj4gdXN1YWxs
-eSBjb21lcyBiZWZvcmUgU2lnbmVkLW9mZi9SZXZpZXdlZC1ieSB0YWdzDQpJIHVuZGVyc3RhbmQg
-dGhlICJGIiB1cHBlciBjYXNlLCBidXQgSSBkb24ndCB1bmRlcnN0YW5kIHRoZSAiY29tZXMgDQpi
-ZWZvcmUgU2lnbmVkLW9mZiIsIG15IHNpZ25lZC1vZmYgaXMgaW5zZXJ0ZWQgYWZ0ZXIgdGhpcyBs
-aW5lLg0KDQo+IA0KPj4NCj4+IEZpeCBQQ0xLIHBvbGFyaXR5IG5vdCBiZWluZyB0YWtlbiBpbnRv
-IGFjY291bnQuDQoNClRoaXMgb25lIGZpeGVzIGEgcmVhbCBidWcuDQoNCj4+IEZpeCBvdjU2NDBf
-d3JpdGVfcmVnKClyZXR1cm4gdmFsdWUgdW5jaGVja2VkIGF0IHBvd2VyIG9mZi4NCj4gDQo+IEFt
-IEkgd3Jvbmcgb3IgeW91IGJyb2tlIG91dCB0aGlzIHBhcnQgdG8gYSBzZXBhcmF0ZSBwYXRjaCA/
-DQo+IEFzIGNvbW1lbnRlZCB0aGVyZSwgSSBkb24ndCB0aGluayBpdCdzIGEgZ29vZCBpZGVhLg0K
-PiANCj4gQXJlIHlvdSBwbGFubmluZyB0byBzZW5kIGEgdjIgb2YgdGhpcyBwYXRjaCA/DQpUaGUg
-cGF0Y2hlcyB3YXMgc2VudCBhdCBzYW1lIHRpbWUsIHNvIGl0J3Mgbm9ybWFsIHRoYXQgdGhleSBh
-cmUgZGVzaWduZWQgDQppbiBzYW1lIHdheSwgSSdsbCBzZW5kIGEgdjIgd2l0aCB0aGlzICJyZXNl
-dCB0byBkZWZhdWx0IGF0IHBvd2VyIG9mZiANCndpdGhvdXQgY2hlY2siIHN0cmF0ZWd5Lg0KDQo+
-IA0KPiBUaGFua3MNCj4gICAgag0KPiANCj4+IFJlZm9ybWF0IGNvZGUgdG8ga2VlcCByZWdpc3Rl
-ciBhY2Nlc3MgYmVsb3cgdGhlIHJlZ2lzdGVyIGRlc2NyaXB0aW9uLg0KPj4gUmVtb3ZlIHVzZWxl
-c3Mgb3Y1NjQwX3NldF9zdHJlYW1fYnQ2NTYoKSBmdW5jdGlvbi4NCj4+DQo+PiBTaWduZWQtb2Zm
-LWJ5OiBIdWd1ZXMgRnJ1Y2hldCA8aHVndWVzLmZydWNoZXRAc3QuY29tPg0KPj4gLS0tDQo+PiAg
-IGRyaXZlcnMvbWVkaWEvaTJjL292NTY0MC5jIHwgOTUgKysrKysrKysrKysrKysrKysrKysrKysr
-Ky0tLS0tLS0tLS0tLS0tLS0tLS0tLQ0KPj4gICAxIGZpbGUgY2hhbmdlZCwgNTEgaW5zZXJ0aW9u
-cygrKSwgNDQgZGVsZXRpb25zKC0pDQo+Pg0KPj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEv
-aTJjL292NTY0MC5jIGIvZHJpdmVycy9tZWRpYS9pMmMvb3Y1NjQwLmMNCj4+IGluZGV4IDhkMDI1
-NGQuLjFiMjBkYjcgMTAwNjQ0DQo+PiAtLS0gYS9kcml2ZXJzL21lZGlhL2kyYy9vdjU2NDAuYw0K
-Pj4gKysrIGIvZHJpdmVycy9tZWRpYS9pMmMvb3Y1NjQwLmMNCj4+IEBAIC0xMjE2LDIwICsxMjE2
-LDYgQEAgc3RhdGljIGludCBvdjU2NDBfc2V0X2F1dG9nYWluKHN0cnVjdCBvdjU2NDBfZGV2ICpz
-ZW5zb3IsIGJvb2wgb24pDQo+PiAgIAkJCSAgICAgIEJJVCgxKSwgb24gPyAwIDogQklUKDEpKTsN
-Cj4+ICAgfQ0KPj4NCj4+IC1zdGF0aWMgaW50IG92NTY0MF9zZXRfc3RyZWFtX2J0NjU2KHN0cnVj
-dCBvdjU2NDBfZGV2ICpzZW5zb3IsIGJvb2wgb24pDQo+PiAtew0KPj4gLQlpbnQgcmV0Ow0KPj4g
-LQ0KPj4gLQlyZXQgPSBvdjU2NDBfd3JpdGVfcmVnKHNlbnNvciwgT1Y1NjQwX1JFR19DQ0lSNjU2
-X0NUUkwwMCwNCj4+IC0JCQkgICAgICAgb24gPyAweDEgOiAweDAwKTsNCj4+IC0JaWYgKHJldCkN
-Cj4+IC0JCXJldHVybiByZXQ7DQo+PiAtDQo+PiAtCXJldHVybiBvdjU2NDBfd3JpdGVfcmVnKHNl
-bnNvciwgT1Y1NjQwX1JFR19TWVNfQ1RSTDAsIG9uID8NCj4+IC0JCQkJT1Y1NjQwX1JFR19TWVNf
-Q1RSTDBfU1dfUFdVUCA6DQo+PiAtCQkJCU9WNTY0MF9SRUdfU1lTX0NUUkwwX1NXX1BXRE4pOw0K
-Pj4gLX0NCj4+IC0NCj4+ICAgc3RhdGljIGludCBvdjU2NDBfc2V0X3N0cmVhbV9kdnAoc3RydWN0
-IG92NTY0MF9kZXYgKnNlbnNvciwgYm9vbCBvbikNCj4+ICAgew0KPj4gICAJcmV0dXJuIG92NTY0
-MF93cml0ZV9yZWcoc2Vuc29yLCBPVjU2NDBfUkVHX1NZU19DVFJMMCwgb24gPw0KPj4gQEAgLTE5
-OTQsMjAgKzE5ODAsMTIgQEAgc3RhdGljIGludCBvdjU2NDBfc2V0X3Bvd2VyX21pcGkoc3RydWN0
-IG92NTY0MF9kZXYgKnNlbnNvciwgYm9vbCBvbikNCj4+ICAgc3RhdGljIGludCBvdjU2NDBfc2V0
-X3Bvd2VyX2R2cChzdHJ1Y3Qgb3Y1NjQwX2RldiAqc2Vuc29yLCBib29sIG9uKQ0KPj4gICB7DQo+
-PiAgIAl1bnNpZ25lZCBpbnQgZmxhZ3MgPSBzZW5zb3ItPmVwLmJ1cy5wYXJhbGxlbC5mbGFnczsN
-Cj4+ICsJYm9vbCBidDY1NiA9IHNlbnNvci0+ZXAuYnVzX3R5cGUgPT0gVjRMMl9NQlVTX0JUNjU2
-Ow0KPj4gICAJdTggcGNsa19wb2wgPSAwOw0KPj4gICAJdTggaHN5bmNfcG9sID0gMDsNCj4+ICAg
-CXU4IHZzeW5jX3BvbCA9IDA7DQo+PiAgIAlpbnQgcmV0Ow0KPj4NCj4+IC0JaWYgKCFvbikgew0K
-Pj4gLQkJLyogUmVzZXQgc2V0dGluZ3MgdG8gdGhlaXIgZGVmYXVsdCB2YWx1ZXMuICovDQo+PiAt
-CQlvdjU2NDBfd3JpdGVfcmVnKHNlbnNvciwgT1Y1NjQwX1JFR19JT19NSVBJX0NUUkwwMCwgMHg1
-OCk7DQo+PiAtCQlvdjU2NDBfd3JpdGVfcmVnKHNlbnNvciwgT1Y1NjQwX1JFR19QT0xBUklUWV9D
-VFJMMDAsIDB4MjApOw0KPj4gLQkJb3Y1NjQwX3dyaXRlX3JlZyhzZW5zb3IsIE9WNTY0MF9SRUdf
-UEFEX09VVFBVVF9FTkFCTEUwMSwgMHgwMCk7DQo+PiAtCQlvdjU2NDBfd3JpdGVfcmVnKHNlbnNv
-ciwgT1Y1NjQwX1JFR19QQURfT1VUUFVUX0VOQUJMRTAyLCAweDAwKTsNCj4+IC0JCXJldHVybiAw
-Ow0KPj4gLQl9DQo+PiAtDQo+PiAgIAkvKg0KPj4gICAJICogTm90ZSBhYm91dCBwYXJhbGxlbCBw
-b3J0IGNvbmZpZ3VyYXRpb24uDQo+PiAgIAkgKg0KPj4gQEAgLTIwMjQsMjcgKzIwMDIsNTcgQEAg
-c3RhdGljIGludCBvdjU2NDBfc2V0X3Bvd2VyX2R2cChzdHJ1Y3Qgb3Y1NjQwX2RldiAqc2Vuc29y
-LCBib29sIG9uKQ0KPj4gICAJICogLSBWU1lOQzoJYWN0aXZlIGhpZ2gNCj4+ICAgCSAqIC0gSFJF
-RjoJYWN0aXZlIGxvdw0KPj4gICAJICogLSBQQ0xLOglhY3RpdmUgbG93DQo+PiArCSAqDQo+PiAr
-CSAqIFZTWU5DICYgSFJFRiBhcmUgbm90IGNvbmZpZ3VyZWQgaWYgQlQ2NTYgYnVzIG1vZGUgaXMg
-c2VsZWN0ZWQNCj4+ICAgCSAqLw0KPj4gKw0KPj4gICAJLyoNCj4+IC0JICogY29uZmlndXJlIHBh
-cmFsbGVsIHBvcnQgY29udHJvbCBsaW5lcyBwb2xhcml0eQ0KPj4gKwkgKiBCVDY1NiBlbWJlZGRl
-ZCBzeW5jaHJvbml6YXRpb24gY29uZmlndXJhdGlvbg0KPj4gKwkgKg0KPj4gKwkgKiBDQ0lSNjU2
-IENUUkwwMA0KPj4gKwkgKiAtIFs3XToJU1lOQyBjb2RlIHNlbGVjdGlvbiAoMDogYXV0byBnZW5l
-cmF0ZSBzeW5jIGNvZGUsDQo+PiArCSAqCQkxOiBzeW5jIGNvZGUgZnJvbSByZWdzIDB4NDczMi0w
-eDQ3MzUpDQo+PiArCSAqIC0gWzZdOglmIHZhbHVlIGluIENDSVI2NTYgU1lOQyBjb2RlIHdoZW4g
-Zml4ZWQgZiB2YWx1ZQ0KPj4gKwkgKiAtIFs1XToJRml4ZWQgZiB2YWx1ZQ0KPj4gKwkgKiAtIFs0
-OjNdOglCbGFuayB0b2dnbGUgZGF0YSBvcHRpb25zICgwMDogZGF0YT0xJ2gwNDAvMSdoMjAwLA0K
-Pj4gKwkgKgkJMDE6IGRhdGEgZnJvbSByZWdzIDB4NDczNi0weDQ3MzgsIDEwOiBhbHdheXMga2Vl
-cCAwKQ0KPj4gKwkgKiAtIFsxXToJQ2xpcCBkYXRhIGRpc2FibGUNCj4+ICsJICogLSBbMF06CUND
-SVI2NTYgbW9kZSBlbmFibGUNCj4+ICAgCSAqDQo+PiAtCSAqIFBPTEFSSVRZIENUUkwwDQo+PiAt
-CSAqIC0gWzVdOglQQ0xLIHBvbGFyaXR5ICgwOiBhY3RpdmUgbG93LCAxOiBhY3RpdmUgaGlnaCkN
-Cj4+IC0JICogLSBbMV06CUhSRUYgcG9sYXJpdHkgKDA6IGFjdGl2ZSBsb3csIDE6IGFjdGl2ZSBo
-aWdoKQ0KPj4gLQkgKiAtIFswXToJVlNZTkMgcG9sYXJpdHkgKG1pc21hdGNoIGhlcmUgYmV0d2Vl
-bg0KPj4gLQkgKgkJZGF0YXNoZWV0IGFuZCBoYXJkd2FyZSwgMCBpcyBhY3RpdmUgaGlnaA0KPj4g
-LQkgKgkJYW5kIDEgaXMgYWN0aXZlIGxvdy4uLikNCj4+ICsJICogRGVmYXVsdCBDQ0lSNjU2IFNB
-Vi9FQVYgbW9kZSB3aXRoIGRlZmF1bHQgY29kZXMNCj4+ICsJICogU0FWPTB4ZmYwMDAwODAgJiBF
-QVY9MHhmZjAwMDA5ZCBpcyBlbmFibGVkIGhlcmUgd2l0aCBzZXR0aW5nczoNCj4+ICsJICogLSBD
-Q0lSNjU2IG1vZGUgZW5hYmxlDQo+PiArCSAqIC0gYXV0byBnZW5lcmF0aW9uIG9mIHN5bmMgY29k
-ZXMNCj4+ICsJICogLSBibGFuayB0b2dnbGUgZGF0YSAxJ2gwNDAvMSdoMjAwDQo+PiArCSAqIC0g
-Y2xpcCByZXNlcnZlZCBkYXRhICgweDAwICYgMHhmZiBjaGFuZ2VkIHRvIDB4MDEgJiAweGZlKQ0K
-Pj4gICAJICovDQo+PiAtCWlmIChzZW5zb3ItPmVwLmJ1c190eXBlID09IFY0TDJfTUJVU19QQVJB
-TExFTCkgew0KPj4gKwlyZXQgPSBvdjU2NDBfd3JpdGVfcmVnKHNlbnNvciwgT1Y1NjQwX1JFR19D
-Q0lSNjU2X0NUUkwwMCwNCj4+ICsJCQkgICAgICAgb24gJiYgYnQ2NTYgPyAweDAxIDogMHgwMCk7
-DQo+PiArCWlmIChyZXQpDQo+PiArCQlyZXR1cm4gcmV0Ow0KPj4gKw0KPj4gKwlpZiAob24pIHsN
-Cj4+ICsJCS8qDQo+PiArCQkgKiBjb25maWd1cmUgcGFyYWxsZWwgcG9ydCBjb250cm9sIGxpbmVz
-IHBvbGFyaXR5DQo+PiArCQkgKg0KPj4gKwkJICogUE9MQVJJVFkgQ1RSTDANCj4+ICsJCSAqIC0g
-WzVdOglQQ0xLIHBvbGFyaXR5ICgwOiBhY3RpdmUgbG93LCAxOiBhY3RpdmUgaGlnaCkNCj4+ICsJ
-CSAqIC0gWzFdOglIUkVGIHBvbGFyaXR5ICgwOiBhY3RpdmUgbG93LCAxOiBhY3RpdmUgaGlnaCkN
-Cj4+ICsJCSAqIC0gWzBdOglWU1lOQyBwb2xhcml0eSAobWlzbWF0Y2ggaGVyZSBiZXR3ZWVuDQo+
-PiArCQkgKgkJZGF0YXNoZWV0IGFuZCBoYXJkd2FyZSwgMCBpcyBhY3RpdmUgaGlnaA0KPj4gKwkJ
-ICoJCWFuZCAxIGlzIGFjdGl2ZSBsb3cuLi4pDQo+PiArCQkgKi8NCj4+ICAgCQlpZiAoZmxhZ3Mg
-JiBWNEwyX01CVVNfUENMS19TQU1QTEVfUklTSU5HKQ0KPj4gICAJCQlwY2xrX3BvbCA9IDE7DQo+
-PiAtCQlpZiAoZmxhZ3MgJiBWNEwyX01CVVNfSFNZTkNfQUNUSVZFX0hJR0gpDQo+PiArCQlpZiAo
-IWJ0NjU2ICYmIGZsYWdzICYgVjRMMl9NQlVTX0hTWU5DX0FDVElWRV9ISUdIKQ0KPj4gICAJCQlo
-c3luY19wb2wgPSAxOw0KPj4gLQkJaWYgKGZsYWdzICYgVjRMMl9NQlVTX1ZTWU5DX0FDVElWRV9M
-T1cpDQo+PiArCQlpZiAoIWJ0NjU2ICYmIGZsYWdzICYgVjRMMl9NQlVTX1ZTWU5DX0FDVElWRV9M
-T1cpDQo+PiAgIAkJCXZzeW5jX3BvbCA9IDE7DQo+Pg0KPj4gLQkJcmV0ID0gb3Y1NjQwX3dyaXRl
-X3JlZyhzZW5zb3IsIE9WNTY0MF9SRUdfUE9MQVJJVFlfQ1RSTDAwLA0KPj4gLQkJCQkgICAgICAg
-KHBjbGtfcG9sIDw8IDUpIHwgKGhzeW5jX3BvbCA8PCAxKSB8DQo+PiArCQlyZXQgPSBvdjU2NDBf
-d3JpdGVfcmVnKHNlbnNvciwNCj4+ICsJCQkJICAgICAgIE9WNTY0MF9SRUdfUE9MQVJJVFlfQ1RS
-TDAwLA0KPj4gKwkJCQkgICAgICAgKHBjbGtfcG9sIDw8IDUpIHwNCj4+ICsJCQkJICAgICAgICho
-c3luY19wb2wgPDwgMSkgfA0KPj4gICAJCQkJICAgICAgIHZzeW5jX3BvbCk7DQo+Pg0KPj4gICAJ
-CWlmIChyZXQpDQo+PiBAQCAtMjA1MiwxMiArMjA2MCwxMiBAQCBzdGF0aWMgaW50IG92NTY0MF9z
-ZXRfcG93ZXJfZHZwKHN0cnVjdCBvdjU2NDBfZGV2ICpzZW5zb3IsIGJvb2wgb24pDQo+PiAgIAl9
-DQo+Pg0KPj4gICAJLyoNCj4+IC0JICogcG93ZXJkb3duIE1JUEkgVFgvUlggUEhZICYgZGlzYWJs
-ZSBNSVBJDQo+PiArCSAqIHBvd2VyZG93biBNSVBJIFRYL1JYIFBIWSAmIGVuYWJsZSBEVlANCj4+
-ICAgCSAqDQo+PiAgIAkgKiBNSVBJIENPTlRST0wgMDANCj4+IC0JICogNDoJIFBXRE4gUEhZIFRY
-DQo+PiAtCSAqIDM6CSBQV0ROIFBIWSBSWA0KPj4gLQkgKiAyOgkgTUlQSSBlbmFibGUNCj4+ICsJ
-ICogWzRdID0gMQk6IFBvd2VyIGRvd24gTUlQSSBIUyBUeA0KPj4gKwkgKiBbM10gPSAxCTogUG93
-ZXIgZG93biBNSVBJIExTIFJ4DQo+PiArCSAqIFsyXSA9IDAJOiBEVlAgZW5hYmxlIChNSVBJIGRp
-c2FibGUpDQo+PiAgIAkgKi8NCj4+ICAgCXJldCA9IG92NTY0MF93cml0ZV9yZWcoc2Vuc29yLCBP
-VjU2NDBfUkVHX0lPX01JUElfQ1RSTDAwLCAweDE4KTsNCj4+ICAgCWlmIChyZXQpDQo+PiBAQCAt
-MjA3NCw4ICsyMDgyLDcgQEAgc3RhdGljIGludCBvdjU2NDBfc2V0X3Bvd2VyX2R2cChzdHJ1Y3Qg
-b3Y1NjQwX2RldiAqc2Vuc29yLCBib29sIG9uKQ0KPj4gICAJICogLSBbMzowXToJRFs5OjZdIG91
-dHB1dCBlbmFibGUNCj4+ICAgCSAqLw0KPj4gICAJcmV0ID0gb3Y1NjQwX3dyaXRlX3JlZyhzZW5z
-b3IsIE9WNTY0MF9SRUdfUEFEX09VVFBVVF9FTkFCTEUwMSwNCj4+IC0JCQkgICAgICAgc2Vuc29y
-LT5lcC5idXNfdHlwZSA9PSBWNEwyX01CVVNfUEFSQUxMRUwgPw0KPj4gLQkJCSAgICAgICAweDdm
-IDogMHgxZik7DQo+PiArCQkJICAgICAgIG9uID8gKGJ0NjU2ID8gMHgxZiA6IDB4N2YpIDogMHgw
-MCk7DQo+PiAgIAlpZiAocmV0KQ0KPj4gICAJCXJldHVybiByZXQ7DQo+Pg0KPj4gQEAgLTIwODUs
-NyArMjA5Miw5IEBAIHN0YXRpYyBpbnQgb3Y1NjQwX3NldF9wb3dlcl9kdnAoc3RydWN0IG92NTY0
-MF9kZXYgKnNlbnNvciwgYm9vbCBvbikNCj4+ICAgCSAqIFBBRCBPVVRQVVQgRU5BQkxFIDAyDQo+
-PiAgIAkgKiAtIFs3OjJdOglEWzU6MF0gb3V0cHV0IGVuYWJsZQ0KPj4gICAJICovDQo+PiAtCXJl
-dHVybiBvdjU2NDBfd3JpdGVfcmVnKHNlbnNvciwgT1Y1NjQwX1JFR19QQURfT1VUUFVUX0VOQUJM
-RTAyLCAweGZjKTsNCj4+ICsJcmV0dXJuIG92NTY0MF93cml0ZV9yZWcoc2Vuc29yLA0KPj4gKwkJ
-CQlPVjU2NDBfUkVHX1BBRF9PVVRQVVRfRU5BQkxFMDIsDQo+PiArCQkJCW9uID8gMHhmYyA6IDAp
-Ow0KPj4gICB9DQo+Pg0KPj4gICBzdGF0aWMgaW50IG92NTY0MF9zZXRfcG93ZXIoc3RydWN0IG92
-NTY0MF9kZXYgKnNlbnNvciwgYm9vbCBvbikNCj4+IEBAIC0yOTI1LDggKzI5MzQsNiBAQCBzdGF0
-aWMgaW50IG92NTY0MF9zX3N0cmVhbShzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkLCBpbnQgZW5hYmxl
-KQ0KPj4NCj4+ICAgCQlpZiAoc2Vuc29yLT5lcC5idXNfdHlwZSA9PSBWNEwyX01CVVNfQ1NJMl9E
-UEhZKQ0KPj4gICAJCQlyZXQgPSBvdjU2NDBfc2V0X3N0cmVhbV9taXBpKHNlbnNvciwgZW5hYmxl
-KTsNCj4+IC0JCWVsc2UgaWYgKHNlbnNvci0+ZXAuYnVzX3R5cGUgPT0gVjRMMl9NQlVTX0JUNjU2
-KQ0KPj4gLQkJCXJldCA9IG92NTY0MF9zZXRfc3RyZWFtX2J0NjU2KHNlbnNvciwgZW5hYmxlKTsN
-Cj4+ICAgCQllbHNlDQo+PiAgIAkJCXJldCA9IG92NTY0MF9zZXRfc3RyZWFtX2R2cChzZW5zb3Is
-IGVuYWJsZSk7DQo+Pg0KPj4gLS0NCj4+IDIuNy40DQo+Pg==
+On Mon, Oct 12, 2020 at 04:03:28PM +0200, Niklas Schnelle wrote:
+> Hi Daniel,
+> 
+> freshly back from my vacation I've just taken a look at your patch.
+> First thanks for this fix and the detailed commit description.
+> Definitely makes sense to fix this and you can add my
+> 
+> Acked-by: Niklas Schnelle <schnelle@linux.ibm.com>
+> 
+> Content wise it all looks sane and clear and since Gerald did the testing,
+> I would have applied it to our tree already, but I got some trivial
+> checkpatch violations that probably apply to the whole series.
+> I've commented them inline below.
+> If you confirm there I can do the fixups when applying or you can resend.
+> 
+> On 10/9/20 9:59 AM, Daniel Vetter wrote:
+> > Way back it was a reasonable assumptions that iomem mappings never
+> > change the pfn range they point at. But this has changed:
+> > 
+> > - gpu drivers dynamically manage their memory nowadays, invalidating
+> > ptes with unmap_mapping_range when buffers get moved
+> > 
+> > - contiguous dma allocations have moved from dedicated carvetouts to
+> > cma regions. This means if we miss the unmap the pfn might contain
+> > pagecache or anon memory (well anything allocated with GFP_MOVEABLE)
+> > 
+> > - even /dev/mem now invalidates mappings when the kernel requests that
+> > iomem region when CONFIG_IO_STRICT_DEVMEM is set, see 3234ac664a87
+> 
+> The above commit mention should use the format
+> 'commit 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims the region")'
+> otherwise this results in a checkpatch ERROR.
+> 
+> > ("/dev/mem: Revoke mappings when a driver claims the region")
+> > 
+> > Accessing pfns obtained from ptes without holding all the locks is
+> > therefore no longer a good idea. Fix this.
+> > 
+> > Since zpci_memcpy_from|toio seems to not do anything nefarious with
+> > locks we just need to open code get_pfn and follow_pfn and make sure
+> > we drop the locks only after we've done. The write function also needs
+> 
+> just a typo but just saw it "we're" instead of "we've"
+> 
+> > the copy_from_user move, since we can't take userspace faults while
+> > holding the mmap sem.
+> > 
+> > Reviewed-by: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
+> > 
+> No empty line after the Revied-by tag.
+> 
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> 
+> Your Signed-off-by mail address does not match the one you're sending from,
+> this yields a checkpatch warning when using git am with your mail.
+> This is probably just a silly misconfiguration but since Signed-offs
+> are signatures should I change this to 
+> "Daniel Vetter <daniel.vetter@ffwll.ch>" which is the one you're
+> sending from and also in the MAINTAINERS file?
+> 
+> 
+> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > Cc: Dan Williams <dan.j.williams@intel.com>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: John Hubbard <jhubbard@nvidia.com>
+> > Cc: Jérôme Glisse <jglisse@redhat.com>
+> > Cc: Jan Kara <jack@suse.cz>
+> > Cc: Dan Williams <dan.j.williams@intel.com>
+> 
+> The above Cc: line for Dan Williams is a duplicate
+> 
+> > Cc: linux-mm@kvack.org
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Cc: linux-samsung-soc@vger.kernel.org
+> > Cc: linux-media@vger.kernel.org
+> > Cc: Niklas Schnelle <schnelle@linux.ibm.com>
+> > Cc: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
+> > Cc: linux-s390@vger.kernel.org
+> > --
+> > v2: Move VM_IO | VM_PFNMAP checks around so they keep returning EINVAL
+> > like before (Gerard)
+> 
+> I think the above should go before the CC/Signed-off/Reviewev block.
+
+This is a per-subsystem bikeshed :-) drivers/gpu definitely wants it
+above, but most core subsystems want it below. I'll move it.
+
+> > ---
+> >  arch/s390/pci/pci_mmio.c | 98 +++++++++++++++++++++++-----------------
+> >  1 file changed, 57 insertions(+), 41 deletions(-)
+> > 
+> > diff --git a/arch/s390/pci/pci_mmio.c b/arch/s390/pci/pci_mmio.c
+> > index 401cf670a243..1a6adbc68ee8 100644
+> > --- a/arch/s390/pci/pci_mmio.c
+> > +++ b/arch/s390/pci/pci_mmio.c
+> > @@ -119,33 +119,15 @@ static inline int __memcpy_toio_inuser(void __iomem *dst,
+> >  	return rc;
+> >  }
+> >  
+> > -static long get_pfn(unsigned long user_addr, unsigned long access,
+> > -		    unsigned long *pfn)
+> > -{
+> > -	struct vm_area_struct *vma;
+> > -	long ret;
+> > -
+> > -	mmap_read_lock(current->mm);
+> > -	ret = -EINVAL;
+> > -	vma = find_vma(current->mm, user_addr);
+> > -	if (!vma)
+> > -		goto out;
+> > -	ret = -EACCES;
+> > -	if (!(vma->vm_flags & access))
+> > -		goto out;
+> > -	ret = follow_pfn(vma, user_addr, pfn);
+> > -out:
+> > -	mmap_read_unlock(current->mm);
+> > -	return ret;
+> > -}
+> > -
+> >  SYSCALL_DEFINE3(s390_pci_mmio_write, unsigned long, mmio_addr,
+> >  		const void __user *, user_buffer, size_t, length)
+> >  {
+> >  	u8 local_buf[64];
+> >  	void __iomem *io_addr;
+> >  	void *buf;
+> > -	unsigned long pfn;
+> > +	struct vm_area_struct *vma;
+> > +	pte_t *ptep;
+> > +	spinlock_t *ptl;
+> 
+> With checkpatch.pl --strict the above yields a complained
+> "CHECK: spinlock_t definition without comment" but I think
+> that's really okay since your commit description is very clear.
+> Same oin line 277.
+
+I think this is a falls positive, checkpatch doesn't realize that
+SYSCALL_DEFINE3 is a function, not a structure. And in a structure I'd
+have added the kerneldoc or comment.
+
+I'll fix up all the nits you've found for the next round. Thanks for
+taking a look.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
