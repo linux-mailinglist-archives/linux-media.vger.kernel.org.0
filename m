@@ -2,19 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2DBD28C386
-	for <lists+linux-media@lfdr.de>; Mon, 12 Oct 2020 22:59:21 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3548828C38E
+	for <lists+linux-media@lfdr.de>; Mon, 12 Oct 2020 22:59:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731862AbgJLU7R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1731847AbgJLU7R (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Mon, 12 Oct 2020 16:59:17 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:49908 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731706AbgJLU7B (ORCPT
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42862 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731733AbgJLU7B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Mon, 12 Oct 2020 16:59:01 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DAE5FC0613D6;
+        Mon, 12 Oct 2020 13:59:00 -0700 (PDT)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: aratiu)
-        with ESMTPSA id BE02C1F44C2F
+        with ESMTPSA id 5BC341F44C49
 From:   Adrian Ratiu <adrian.ratiu@collabora.com>
 To:     Ezequiel Garcia <ezequiel@collabora.com>,
         Philipp Zabel <p.zabel@pengutronix.de>
@@ -25,9 +28,9 @@ Cc:     Mark Brown <broonie@kernel.org>,
         Daniel Vetter <daniel@ffwll.ch>, kernel@collabora.com,
         linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH 10/18] media: hantro: convert G1 h264 decoder to regmap fields
-Date:   Mon, 12 Oct 2020 23:59:49 +0300
-Message-Id: <20201012205957.889185-11-adrian.ratiu@collabora.com>
+Subject: [PATCH 11/18] media: hantro: convert G1 postproc to regmap
+Date:   Mon, 12 Oct 2020 23:59:50 +0300
+Message-Id: <20201012205957.889185-12-adrian.ratiu@collabora.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201012205957.889185-1-adrian.ratiu@collabora.com>
 References: <20201012205957.889185-1-adrian.ratiu@collabora.com>
@@ -37,326 +40,356 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Populate the regmap field API for G1 h264 decoding and convert the
-G1 h264 decoder source to use the new API. This is done because we
-will add support for the newer VC8000D core which will configure
-the regmap API fields differently to match its own hwreg layout.
+Postprocessing used the custom hantro_reg structure but now we have
+regmap fields which are used for reg layouts which do the same thing,
+so PP can be moved to regmap. In the future all hantro_reg references
+can be removed, this is just a beginnig.
+
+This converts only the existing G1 PP support, but the fields can be
+used for other core revisions like VC8000D which will be added shortly.
+
+While we're at it also document a few more important PP registers for
+eg scaling, cropping and rotation.
 
 Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
 ---
- .../staging/media/hantro/hantro_g1_h264_dec.c | 71 ++++++++++-------
- drivers/staging/media/hantro/hantro_regmap.c  | 79 ++++++++++++++++++-
- drivers/staging/media/hantro/hantro_regmap.h  | 26 +++++-
- 3 files changed, 145 insertions(+), 31 deletions(-)
+ drivers/staging/media/hantro/hantro.h         | 19 -----
+ drivers/staging/media/hantro/hantro_hw.h      |  2 -
+ .../staging/media/hantro/hantro_postproc.c    | 72 +++++-------------
+ drivers/staging/media/hantro/hantro_regmap.c  | 75 +++++++++++++++++++
+ drivers/staging/media/hantro/hantro_regmap.h  | 26 +++++++
+ drivers/staging/media/hantro/imx8m_vpu_hw.c   |  1 -
+ drivers/staging/media/hantro/rk3288_vpu_hw.c  |  1 -
+ 7 files changed, 119 insertions(+), 77 deletions(-)
 
-diff --git a/drivers/staging/media/hantro/hantro_g1_h264_dec.c b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-index 845bef73d218..8592dfabbc5e 100644
---- a/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-+++ b/drivers/staging/media/hantro/hantro_g1_h264_dec.c
-@@ -18,6 +18,9 @@
- #include "hantro_g1_regs.h"
- #include "hantro_hw.h"
- #include "hantro_v4l2.h"
-+#include "hantro_regmap.h"
-+
-+extern struct regmap_config hantro_regmap_dec;
+diff --git a/drivers/staging/media/hantro/hantro.h b/drivers/staging/media/hantro/hantro.h
+index 5b7fbdc3779d..2d507f8d3a1d 100644
+--- a/drivers/staging/media/hantro/hantro.h
++++ b/drivers/staging/media/hantro/hantro.h
+@@ -71,7 +71,6 @@ struct hantro_irq {
+  * @num_clocks:			number of clocks in the array
+  * @reg_names:			array of register range names
+  * @num_regs:			number of register range names in the array
+- * @postproc_regs:		&struct hantro_postproc_regs pointer
+  */
+ struct hantro_variant {
+ 	unsigned int enc_offset;
+@@ -92,7 +91,6 @@ struct hantro_variant {
+ 	int num_clocks;
+ 	const char * const *reg_names;
+ 	int num_regs;
+-	const struct hantro_postproc_regs *postproc_regs;
+ };
  
- static void set_params(struct hantro_ctx *ctx)
- {
-@@ -27,10 +30,15 @@ static void set_params(struct hantro_ctx *ctx)
- 	const struct v4l2_ctrl_h264_pps *pps = ctrls->pps;
- 	struct vb2_v4l2_buffer *src_buf = hantro_get_src_buf(ctx);
- 	struct hantro_dev *vpu = ctx->dev;
-+	struct hantro_regmap_fields_dec *fields = vpu->reg_fields_dec;
-+	u32 width = MB_WIDTH(ctx->src_fmt.width);
-+	u32 height = MB_HEIGHT(ctx->src_fmt.height);
- 	u32 reg;
+ /**
+@@ -283,23 +281,6 @@ struct hantro_reg {
+ 	u32 mask;
+ };
  
-+	regmap_field_write(fields->dec_axi_wr_id, 0x0);
-+
- 	/* Decoder control register 0. */
--	reg = G1_REG_DEC_CTRL0_DEC_AXI_WR_ID(0x0);
-+	reg = 0;
- 	if (sps->flags & V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD)
- 		reg |= G1_REG_DEC_CTRL0_SEQ_MBAFF_E;
- 	if (sps->profile_idc > 66) {
-@@ -50,10 +58,11 @@ static void set_params(struct hantro_ctx *ctx)
- 	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL0);
- 
- 	/* Decoder control register 1. */
--	reg = G1_REG_DEC_CTRL1_PIC_MB_WIDTH(MB_WIDTH(ctx->src_fmt.width)) |
--	      G1_REG_DEC_CTRL1_PIC_MB_HEIGHT_P(MB_HEIGHT(ctx->src_fmt.height)) |
--	      G1_REG_DEC_CTRL1_REF_FRAMES(sps->max_num_ref_frames);
--	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL1);
-+	regmap_field_write(fields->dec_pic_width, width);
-+	regmap_field_write(fields->dec_pic_height, height);
-+
-+	regmap_field_write(fields->dec_num_ref_frames,
-+			   sps->max_num_ref_frames);
- 
- 	/* Decoder control register 2. */
- 	reg = G1_REG_DEC_CTRL2_CH_QP_OFFSET(pps->chroma_qp_index_offset) |
-@@ -66,10 +75,11 @@ static void set_params(struct hantro_ctx *ctx)
- 	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL2);
- 
- 	/* Decoder control register 3. */
--	reg = G1_REG_DEC_CTRL3_START_CODE_E |
--	      G1_REG_DEC_CTRL3_INIT_QP(pps->pic_init_qp_minus26 + 26) |
--	      G1_REG_DEC_CTRL3_STREAM_LEN(vb2_get_plane_payload(&src_buf->vb2_buf, 0));
--	vdpu_write_relaxed(vpu, reg, G1_REG_DEC_CTRL3);
-+	regmap_field_write(fields->dec_start_code_e, 1);
-+	regmap_field_write(fields->dec_init_qp,
-+			   pps->pic_init_qp_minus26 + 26);
-+	regmap_field_write(fields->dec_stream_len,
-+			   vb2_get_plane_payload(&src_buf->vb2_buf, 0));
- 
- 	/* Decoder control register 4. */
- 	reg = G1_REG_DEC_CTRL4_FRAMENUM_LEN(sps->log2_max_frame_num_minus4 + 4) |
-@@ -121,8 +131,7 @@ static void set_params(struct hantro_ctx *ctx)
- 	vdpu_write_relaxed(vpu, 0, G1_REG_REF_BUF_CTRL);
- 
- 	/* Reference picture buffer control register 2. */
--	vdpu_write_relaxed(vpu, G1_REG_REF_BUF_CTRL2_APF_THRESHOLD(8),
--			   G1_REG_REF_BUF_CTRL2);
-+	regmap_field_write(fields->dec_apf_threshold, 8);
- }
- 
- static void set_ref(struct hantro_ctx *ctx)
-@@ -221,7 +230,6 @@ static void set_ref(struct hantro_ctx *ctx)
- 	/* Set up addresses of DPB buffers. */
- 	for (i = 0; i < HANTRO_H264_DPB_SIZE; i++) {
- 		dma_addr_t dma_addr = hantro_h264_get_ref_buf(ctx, i);
+-struct hantro_postproc_regs {
+-	struct hantro_reg pipeline_en;
+-	struct hantro_reg max_burst;
+-	struct hantro_reg clk_gate;
+-	struct hantro_reg out_swap32;
+-	struct hantro_reg out_endian;
+-	struct hantro_reg out_luma_base;
+-	struct hantro_reg input_width;
+-	struct hantro_reg input_height;
+-	struct hantro_reg output_width;
+-	struct hantro_reg output_height;
+-	struct hantro_reg input_fmt;
+-	struct hantro_reg output_fmt;
+-	struct hantro_reg orig_width;
+-	struct hantro_reg display_width;
+-};
 -
- 		vdpu_write_relaxed(vpu, dma_addr, G1_REG_ADDR_REF(i));
- 	}
- }
-@@ -231,6 +239,7 @@ static void set_buffers(struct hantro_ctx *ctx)
- 	const struct hantro_h264_dec_ctrls *ctrls = &ctx->h264_dec.ctrls;
- 	struct vb2_v4l2_buffer *src_buf, *dst_buf;
- 	struct hantro_dev *vpu = ctx->dev;
-+	struct hantro_regmap_fields_dec *fields = vpu->reg_fields_dec;
- 	dma_addr_t src_dma, dst_dma;
- 	size_t offset = 0;
+ /* Logging helpers */
  
-@@ -239,14 +248,14 @@ static void set_buffers(struct hantro_ctx *ctx)
+ /**
+diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
+index 219283a06f52..e0039a15fe85 100644
+--- a/drivers/staging/media/hantro/hantro_hw.h
++++ b/drivers/staging/media/hantro/hantro_hw.h
+@@ -155,8 +155,6 @@ extern const struct hantro_variant rk3328_vpu_variant;
+ extern const struct hantro_variant rk3288_vpu_variant;
+ extern const struct hantro_variant imx8mq_vpu_variant;
  
- 	/* Source (stream) buffer. */
- 	src_dma = vb2_dma_contig_plane_dma_addr(&src_buf->vb2_buf, 0);
--	vdpu_write_relaxed(vpu, src_dma, G1_REG_ADDR_STR);
-+	regmap_field_write(fields->dec_addr_str, src_dma);
+-extern const struct hantro_postproc_regs hantro_g1_postproc_regs;
+-
+ extern const u32 hantro_vp8_dec_mc_filter[8][6];
  
- 	/* Destination (decoded frame) buffer. */
- 	dst_dma = hantro_get_dec_buf_addr(ctx, &dst_buf->vb2_buf);
- 	/* Adjust dma addr to start at second line for bottom field */
- 	if (ctrls->decode->flags & V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD)
- 		offset = ALIGN(ctx->src_fmt.width, MB_DIM);
--	vdpu_write_relaxed(vpu, dst_dma + offset, G1_REG_ADDR_DST);
-+	regmap_field_write(fields->dec_addr_dst, dst_dma + offset);
+ void hantro_watchdog(struct work_struct *work);
+diff --git a/drivers/staging/media/hantro/hantro_postproc.c b/drivers/staging/media/hantro/hantro_postproc.c
+index 6d2a8f2a8f0b..6d1705a60d36 100644
+--- a/drivers/staging/media/hantro/hantro_postproc.c
++++ b/drivers/staging/media/hantro/hantro_postproc.c
+@@ -11,20 +11,7 @@
+ #include "hantro.h"
+ #include "hantro_hw.h"
+ #include "hantro_g1_regs.h"
+-
+-#define HANTRO_PP_REG_WRITE(vpu, reg_name, val) \
+-{ \
+-	hantro_reg_write(vpu, \
+-			 &(vpu)->variant->postproc_regs->reg_name, \
+-			 val); \
+-}
+-
+-#define HANTRO_PP_REG_WRITE_S(vpu, reg_name, val) \
+-{ \
+-	hantro_reg_write_s(vpu, \
+-			   &(vpu)->variant->postproc_regs->reg_name, \
+-			   val); \
+-}
++#include "hantro_regmap.h"
  
- 	/* Higher profiles require DMV buffer appended to reference frames. */
- 	if (ctrls->sps->profile_idc > 66 && ctrls->decode->nal_ref_idc) {
-@@ -266,16 +275,18 @@ static void set_buffers(struct hantro_ctx *ctx)
- 		if (ctrls->decode->flags & V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD)
- 			offset += 32 * MB_WIDTH(ctx->src_fmt.width) *
- 				  MB_HEIGHT(ctx->src_fmt.height);
--		vdpu_write_relaxed(vpu, dst_dma + offset, G1_REG_ADDR_DIR_MV);
-+		regmap_field_write(fields->dec_addr_dir_mv, dst_dma + offset);
- 	}
+ #define VPU_PP_IN_YUYV			0x0
+ #define VPU_PP_IN_NV12			0x1
+@@ -33,35 +20,15 @@
+ #define VPU_PP_OUT_RGB			0x0
+ #define VPU_PP_OUT_YUYV			0x3
  
- 	/* Auxiliary buffer prepared in hantro_g1_h264_dec_prepare_table(). */
--	vdpu_write_relaxed(vpu, ctx->h264_dec.priv.dma, G1_REG_ADDR_QTABLE);
-+	regmap_field_write(fields->dec_addr_qtable, ctx->h264_dec.priv.dma);
- }
- 
- void hantro_g1_h264_dec_run(struct hantro_ctx *ctx)
+-const struct hantro_postproc_regs hantro_g1_postproc_regs = {
+-	.pipeline_en = {G1_REG_PP_INTERRUPT, 1, 0x1},
+-	.max_burst = {G1_REG_PP_DEV_CONFIG, 0, 0x1f},
+-	.clk_gate = {G1_REG_PP_DEV_CONFIG, 1, 0x1},
+-	.out_swap32 = {G1_REG_PP_DEV_CONFIG, 5, 0x1},
+-	.out_endian = {G1_REG_PP_DEV_CONFIG, 6, 0x1},
+-	.out_luma_base = {G1_REG_PP_OUT_LUMA_BASE, 0, 0xffffffff},
+-	.input_width = {G1_REG_PP_INPUT_SIZE, 0, 0x1ff},
+-	.input_height = {G1_REG_PP_INPUT_SIZE, 9, 0x1ff},
+-	.output_width = {G1_REG_PP_CONTROL, 4, 0x7ff},
+-	.output_height = {G1_REG_PP_CONTROL, 15, 0x7ff},
+-	.input_fmt = {G1_REG_PP_CONTROL, 29, 0x7},
+-	.output_fmt = {G1_REG_PP_CONTROL, 26, 0x7},
+-	.orig_width = {G1_REG_PP_MASK1_ORIG_WIDTH, 23, 0x1ff},
+-	.display_width = {G1_REG_PP_DISPLAY_WIDTH, 0, 0xfff},
+-};
+-
+ void hantro_postproc_enable(struct hantro_ctx *ctx)
  {
- 	struct hantro_dev *vpu = ctx->dev;
-+	struct hantro_regmap_fields_dec *fields = vpu->reg_fields_dec;
-+	int reg;
+-	struct hantro_dev *vpu = ctx->dev;
++	struct hantro_regmap_fields_dec *fields = ctx->dev->reg_fields_dec;
+ 	struct vb2_v4l2_buffer *dst_buf;
+ 	u32 src_pp_fmt, dst_pp_fmt;
+ 	dma_addr_t dst_dma;
  
- 	/* Prepare the H264 decoder context. */
- 	if (hantro_h264_dec_prepare_run(ctx))
-@@ -288,17 +299,23 @@ void hantro_g1_h264_dec_run(struct hantro_ctx *ctx)
+-	if (!vpu->variant->postproc_regs)
+-		return;
+-
+ 	/* Turn on pipeline mode. Must be done first. */
+-	HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x1);
++	regmap_field_write(fields->pp_pipeline_en, 1);
  
- 	hantro_end_prepare_run(ctx);
+ 	src_pp_fmt = VPU_PP_IN_NV12;
  
-+	switch (vpu->core_hw_dec_rev) {
-+	case HANTRO_G1_REV:
-+		reg = G1_REG_CONFIG_DEC_TIMEOUT_E	|
-+			G1_REG_CONFIG_DEC_OUT_ENDIAN	|
-+			G1_REG_CONFIG_DEC_STRENDIAN_E	|
-+			G1_REG_CONFIG_DEC_OUTSWAP32_E	|
-+			G1_REG_CONFIG_DEC_INSWAP32_E	|
-+			G1_REG_CONFIG_DEC_STRSWAP32_E;
-+		vdpu_write_relaxed(vpu, reg, G1_REG_CONFIG);
-+		break;
-+	/* TODO: add VC8000 support */
-+	}
-+
-+	regmap_field_write(fields->dec_clk_gate_e, 1);
-+	regmap_field_write(fields->dec_max_burst, 16);
-+	regmap_field_write(fields->dec_axi_rd_id, 16);
-+
- 	/* Start decoding! */
--	vdpu_write_relaxed(vpu,
--			   G1_REG_CONFIG_DEC_AXI_RD_ID(0xffu) |
--			   G1_REG_CONFIG_DEC_TIMEOUT_E |
--			   G1_REG_CONFIG_DEC_OUT_ENDIAN |
--			   G1_REG_CONFIG_DEC_STRENDIAN_E |
--			   G1_REG_CONFIG_DEC_MAX_BURST(16) |
--			   G1_REG_CONFIG_DEC_OUTSWAP32_E |
--			   G1_REG_CONFIG_DEC_INSWAP32_E |
--			   G1_REG_CONFIG_DEC_STRSWAP32_E |
--			   G1_REG_CONFIG_DEC_CLK_GATE_E,
--			   G1_REG_CONFIG);
- 	vdpu_write(vpu, G1_REG_INTERRUPT_DEC_E, G1_REG_INTERRUPT);
+@@ -79,19 +46,19 @@ void hantro_postproc_enable(struct hantro_ctx *ctx)
+ 	dst_buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
+ 	dst_dma = vb2_dma_contig_plane_dma_addr(&dst_buf->vb2_buf, 0);
+ 
+-	HANTRO_PP_REG_WRITE(vpu, clk_gate, 0x1);
+-	HANTRO_PP_REG_WRITE(vpu, out_endian, 0x1);
+-	HANTRO_PP_REG_WRITE(vpu, out_swap32, 0x1);
+-	HANTRO_PP_REG_WRITE(vpu, max_burst, 16);
+-	HANTRO_PP_REG_WRITE(vpu, out_luma_base, dst_dma);
+-	HANTRO_PP_REG_WRITE(vpu, input_width, MB_WIDTH(ctx->dst_fmt.width));
+-	HANTRO_PP_REG_WRITE(vpu, input_height, MB_HEIGHT(ctx->dst_fmt.height));
+-	HANTRO_PP_REG_WRITE(vpu, input_fmt, src_pp_fmt);
+-	HANTRO_PP_REG_WRITE(vpu, output_fmt, dst_pp_fmt);
+-	HANTRO_PP_REG_WRITE(vpu, output_width, ctx->dst_fmt.width);
+-	HANTRO_PP_REG_WRITE(vpu, output_height, ctx->dst_fmt.height);
+-	HANTRO_PP_REG_WRITE(vpu, orig_width, MB_WIDTH(ctx->dst_fmt.width));
+-	HANTRO_PP_REG_WRITE(vpu, display_width, ctx->dst_fmt.width);
++	regmap_field_write(fields->pp_clk_gate, 1);
++	regmap_field_write(fields->pp_out_endian, 1);
++	regmap_field_write(fields->pp_out_swap32, 1);
++	regmap_field_write(fields->pp_max_burst, 16);
++	regmap_field_write(fields->pp_out_luma_base, dst_dma);
++	regmap_field_write(fields->pp_input_width, MB_WIDTH(ctx->dst_fmt.width));
++	regmap_field_write(fields->pp_input_height, MB_HEIGHT(ctx->dst_fmt.height));
++	regmap_field_write(fields->pp_input_fmt, src_pp_fmt);
++	regmap_field_write(fields->pp_output_fmt, dst_pp_fmt);
++	regmap_field_write(fields->pp_output_width, ctx->dst_fmt.width);
++	regmap_field_write(fields->pp_output_height, ctx->dst_fmt.height);
++	regmap_field_write(fields->pp_orig_width, MB_WIDTH(ctx->dst_fmt.width));
++	regmap_field_write(fields->pp_display_width, ctx->dst_fmt.width);
+ }
+ 
+ void hantro_postproc_free(struct hantro_ctx *ctx)
+@@ -141,10 +108,7 @@ int hantro_postproc_alloc(struct hantro_ctx *ctx)
+ 
+ void hantro_postproc_disable(struct hantro_ctx *ctx)
+ {
+-	struct hantro_dev *vpu = ctx->dev;
+-
+-	if (!vpu->variant->postproc_regs)
+-		return;
++	struct hantro_regmap_fields_dec *fields = ctx->dev->reg_fields_dec;
+ 
+-	HANTRO_PP_REG_WRITE_S(vpu, pipeline_en, 0x0);
++	regmap_field_write(fields->pp_pipeline_en, 0);
  }
 diff --git a/drivers/staging/media/hantro/hantro_regmap.c b/drivers/staging/media/hantro/hantro_regmap.c
-index 2fc409cbd797..fbc39abedc7d 100644
+index fbc39abedc7d..c0344b0ec8de 100644
 --- a/drivers/staging/media/hantro/hantro_regmap.c
 +++ b/drivers/staging/media/hantro/hantro_regmap.c
-@@ -33,12 +33,54 @@ struct regmap_config hantro_regmap_enc = {
- 	.name = "hantro_regmap_enc",
- };
- 
-+struct hantro_field_dec {
-+	struct reg_field cfg_dec_axi_rd_id;
-+	struct reg_field cfg_dec_axi_wr_id;
-+	struct reg_field cfg_dec_rlc_mode_e;
-+	struct reg_field cfg_dec_mode;
-+	struct reg_field cfg_dec_max_burst;
-+	struct reg_field cfg_dec_apf_threshold;
-+	struct reg_field cfg_dec_stream_len;
-+	struct reg_field cfg_dec_init_qp;
-+	struct reg_field cfg_dec_start_code_e;
-+	struct reg_field cfg_dec_pic_width;
-+	struct reg_field cfg_dec_pic_height;
-+	struct reg_field cfg_dec_num_ref_frames;
-+	struct reg_field cfg_dec_scaling_list_e;
-+	struct reg_field cfg_dec_addr_str;
-+	struct reg_field cfg_dec_addr_dst;
-+	struct reg_field cfg_dec_ilace_mode;
-+	struct reg_field cfg_dec_addr_qtable;
-+	struct reg_field cfg_dec_addr_dir_mv;
-+	struct reg_field cfg_dec_tiled_mode_lsb;
-+	struct reg_field cfg_dec_clk_gate_e;
-+};
+@@ -54,6 +54,31 @@ struct hantro_field_dec {
+ 	struct reg_field cfg_dec_addr_dir_mv;
+ 	struct reg_field cfg_dec_tiled_mode_lsb;
+ 	struct reg_field cfg_dec_clk_gate_e;
 +
- struct hantro_field_enc {
- 	/* TODO: populate encoder fields */
++	struct reg_field cfg_pp_pipeline_en;
++	struct reg_field cfg_pp_max_burst;
++	struct reg_field cfg_pp_clk_gate;
++	struct reg_field cfg_pp_out_swap32;
++	struct reg_field cfg_pp_out_endian;
++	struct reg_field cfg_pp_out_luma_base;
++	struct reg_field cfg_pp_input_width;
++	struct reg_field cfg_pp_input_height;
++	struct reg_field cfg_pp_output_width;
++	struct reg_field cfg_pp_output_height;
++	struct reg_field cfg_pp_input_fmt;
++	struct reg_field cfg_pp_output_fmt;
++	struct reg_field cfg_pp_orig_width;
++	struct reg_field cfg_pp_display_width;
++	struct reg_field cfg_pp_crop_startx;
++	struct reg_field cfg_pp_crop_starty;
++	struct reg_field cfg_pp_rotation_mode;
++	struct reg_field cfg_pp_fast_scale_e;
++	struct reg_field cfg_pp_vscale_mode;
++	struct reg_field cfg_pp_hscale_mode;
++	struct reg_field cfg_pp_scale_wratio;
++	struct reg_field cfg_pp_scale_hratio;
++	struct reg_field cfg_pp_scale_inv_wratio;
++	struct reg_field cfg_pp_scale_inv_hratio;
  };
  
--struct hantro_field_dec {
--	/* TODO: populate decoder fields */
-+static const struct hantro_field_dec g1_field = {
-+	.cfg_dec_tiled_mode_lsb	=	REG_FIELD(SWREG(2), 7, 7),
-+	.cfg_dec_clk_gate_e =		REG_FIELD(SWREG(2), 10, 10),
-+	.cfg_dec_axi_rd_id =		REG_FIELD(SWREG(2), 24, 31),
-+	.cfg_dec_axi_wr_id =		REG_FIELD(SWREG(3), 0, 7),
-+	.cfg_dec_rlc_mode_e =		REG_FIELD(SWREG(3), 27, 27),
-+	.cfg_dec_mode =			REG_FIELD(SWREG(3), 28, 31),
-+	.cfg_dec_max_burst =		REG_FIELD(SWREG(2), 0, 4),
-+	.cfg_dec_apf_threshold =	REG_FIELD(SWREG(55), 0, 13),
-+	.cfg_dec_stream_len =		REG_FIELD(SWREG(6), 0, 23),
-+	.cfg_dec_init_qp =		REG_FIELD(SWREG(6), 25, 30),
-+	.cfg_dec_start_code_e =		REG_FIELD(SWREG(6), 31, 31),
-+	.cfg_dec_pic_width =		REG_FIELD(SWREG(4), 23, 31),
-+	.cfg_dec_pic_height =		REG_FIELD(SWREG(4), 11, 18),
-+	.cfg_dec_num_ref_frames =	REG_FIELD(SWREG(4), 0, 4),
-+	.cfg_dec_scaling_list_e =	REG_FIELD(SWREG(5), 24, 24),
-+	.cfg_dec_addr_str =		REG_FIELD(SWREG(12), 0, 31),
-+	.cfg_dec_addr_dst =		REG_FIELD(SWREG(13), 0, 31),
-+	.cfg_dec_ilace_mode =		REG_FIELD(SWREG(13), 1, 1),
-+	.cfg_dec_addr_qtable =		REG_FIELD(SWREG(40), 0, 31),
-+	.cfg_dec_addr_dir_mv =		REG_FIELD(SWREG(41), 0, 31),
+ struct hantro_field_enc {
+@@ -81,6 +106,30 @@ static const struct hantro_field_dec g1_field = {
+ 	.cfg_dec_ilace_mode =		REG_FIELD(SWREG(13), 1, 1),
+ 	.cfg_dec_addr_qtable =		REG_FIELD(SWREG(40), 0, 31),
+ 	.cfg_dec_addr_dir_mv =		REG_FIELD(SWREG(41), 0, 31),
++	.cfg_pp_pipeline_en =		REG_FIELD(SWREG(60), 1, 1),
++	.cfg_pp_max_burst =		REG_FIELD(SWREG(61), 0, 4),
++	.cfg_pp_out_swap32 =		REG_FIELD(SWREG(61), 5, 5),
++	.cfg_pp_out_endian =		REG_FIELD(SWREG(61), 6, 6),
++	.cfg_pp_clk_gate =		REG_FIELD(SWREG(61), 8, 8),
++	.cfg_pp_out_luma_base =		REG_FIELD(SWREG(66), 0, 31),
++	.cfg_pp_input_width =		REG_FIELD(SWREG(72), 0, 8),
++	.cfg_pp_input_height =		REG_FIELD(SWREG(72), 9, 16),
++	.cfg_pp_output_width =		REG_FIELD(SWREG(85), 4, 14),
++	.cfg_pp_output_height =		REG_FIELD(SWREG(85), 15, 25),
++	.cfg_pp_output_fmt =		REG_FIELD(SWREG(85), 26, 28),
++	.cfg_pp_input_fmt =		REG_FIELD(SWREG(85), 29, 31),
++	.cfg_pp_orig_width =		REG_FIELD(SWREG(88), 23, 31),
++	.cfg_pp_display_width =		REG_FIELD(SWREG(92), 0, 12),
++	.cfg_pp_crop_startx =		REG_FIELD(SWREG(71), 21, 29),
++	.cfg_pp_crop_starty =		REG_FIELD(SWREG(72), 24, 31),
++	.cfg_pp_rotation_mode =		REG_FIELD(SWREG(71), 18, 20),
++	.cfg_pp_fast_scale_e =		REG_FIELD(SWREG(80), 30, 30),
++	.cfg_pp_vscale_mode =		REG_FIELD(SWREG(80), 23, 24),
++	.cfg_pp_hscale_mode =		REG_FIELD(SWREG(80), 25, 26),
++	.cfg_pp_scale_wratio =		REG_FIELD(SWREG(79), 0, 17),
++	.cfg_pp_scale_hratio =		REG_FIELD(SWREG(80), 0, 17),
++	.cfg_pp_scale_inv_wratio =	REG_FIELD(SWREG(81), 16, 31),
++	.cfg_pp_scale_inv_hratio =	REG_FIELD(SWREG(81), 0, 15),
  };
  
  #define INIT_FIELD_CFG(f, codec, conf) ({					\
-@@ -61,7 +103,27 @@ static int hantro_regmap_fields_init_dec(struct hantro_dev *vpu,
- 	if (!vpu->reg_fields_dec)
- 		return -ENOMEM;
+@@ -125,6 +174,32 @@ static int hantro_regmap_fields_init_dec(struct hantro_dev *vpu,
+ 	INIT_DEC_FIELD(dec_tiled_mode_lsb);
+ 	INIT_DEC_FIELD(dec_clk_gate_e);
  
--	/* TODO: add decoder fields */
-+	/* Decoder */
-+	INIT_DEC_FIELD(dec_axi_wr_id);
-+	INIT_DEC_FIELD(dec_axi_rd_id);
-+	INIT_DEC_FIELD(dec_rlc_mode_e);
-+	INIT_DEC_FIELD(dec_mode);
-+	INIT_DEC_FIELD(dec_max_burst);
-+	INIT_DEC_FIELD(dec_apf_threshold);
-+	INIT_DEC_FIELD(dec_stream_len);
-+	INIT_DEC_FIELD(dec_init_qp);
-+	INIT_DEC_FIELD(dec_start_code_e);
-+	INIT_DEC_FIELD(dec_pic_width);
-+	INIT_DEC_FIELD(dec_pic_height);
-+	INIT_DEC_FIELD(dec_num_ref_frames);
-+	INIT_DEC_FIELD(dec_scaling_list_e);
-+	INIT_DEC_FIELD(dec_addr_str);
-+	INIT_DEC_FIELD(dec_addr_dst);
-+	INIT_DEC_FIELD(dec_ilace_mode);
-+	INIT_DEC_FIELD(dec_addr_qtable);
-+	INIT_DEC_FIELD(dec_addr_dir_mv);
-+	INIT_DEC_FIELD(dec_tiled_mode_lsb);
-+	INIT_DEC_FIELD(dec_clk_gate_e);
- 
++	/* Post-processor */
++	INIT_DEC_FIELD(pp_pipeline_en);
++	INIT_DEC_FIELD(pp_max_burst);
++	INIT_DEC_FIELD(pp_clk_gate);
++	INIT_DEC_FIELD(pp_out_swap32);
++	INIT_DEC_FIELD(pp_out_endian);
++	INIT_DEC_FIELD(pp_out_luma_base);
++	INIT_DEC_FIELD(pp_input_width);
++	INIT_DEC_FIELD(pp_input_height);
++	INIT_DEC_FIELD(pp_output_width);
++	INIT_DEC_FIELD(pp_output_height);
++	INIT_DEC_FIELD(pp_input_fmt);
++	INIT_DEC_FIELD(pp_output_fmt);
++	INIT_DEC_FIELD(pp_orig_width);
++	INIT_DEC_FIELD(pp_display_width);
++	INIT_DEC_FIELD(pp_crop_startx);
++	INIT_DEC_FIELD(pp_crop_starty);
++	INIT_DEC_FIELD(pp_rotation_mode);
++	INIT_DEC_FIELD(pp_fast_scale_e);
++	INIT_DEC_FIELD(pp_vscale_mode);
++	INIT_DEC_FIELD(pp_hscale_mode);
++	INIT_DEC_FIELD(pp_scale_wratio);
++	INIT_DEC_FIELD(pp_scale_hratio);
++	INIT_DEC_FIELD(pp_scale_inv_wratio);
++	INIT_DEC_FIELD(pp_scale_inv_hratio);
++
  	return 0;
  }
-@@ -133,6 +195,17 @@ int hantro_regmap_init_dec(struct hantro_dev *vpu)
  
- 	clk_bulk_disable(vpu->variant->num_clocks, vpu->clocks);
- 
-+	switch (vpu->core_hw_dec_rev) {
-+	case HANTRO_G1_REV:
-+		hantro_regmap_dec.max_register = 0x1D8;
-+		field = &g1_field;
-+		break;
-+	default:
-+		dev_err(vpu->dev, "Decoder revision 0x%x not supported by driver.\n",
-+			vpu->core_hw_dec_rev);
-+		return -ENODEV;
-+	}
-+
- 	vpu->regs_dec = devm_regmap_init_mmio(vpu->dev, dec_base,
- 					      &hantro_regmap_dec);
- 	if (IS_ERR(vpu->regs_dec)) {
 diff --git a/drivers/staging/media/hantro/hantro_regmap.h b/drivers/staging/media/hantro/hantro_regmap.h
-index 52668a8bafb9..e94fdc055784 100644
+index e94fdc055784..1e6e3b2478ae 100644
 --- a/drivers/staging/media/hantro/hantro_regmap.h
 +++ b/drivers/staging/media/hantro/hantro_regmap.h
-@@ -9,8 +9,32 @@
- #ifndef HANTRO_REGMAP_H_
- #define HANTRO_REGMAP_H_
- 
-+#define HANTRO_G1_REV		0x6731
+@@ -35,6 +35,32 @@ struct hantro_regmap_fields_dec {
+ 	struct regmap_field *dec_addr_dir_mv;
+ 	struct regmap_field *dec_tiled_mode_lsb;
+ 	struct regmap_field *dec_clk_gate_e;
 +
-+#define SWREG(nr)		((nr) << 2)
-+
- struct hantro_regmap_fields_dec {
--	/* TODO: populate decoder fields */
-+	/* Decoder */
-+	struct regmap_field *dec_axi_rd_id;
-+	struct regmap_field *dec_axi_wr_id;
-+	struct regmap_field *dec_max_burst;
-+	struct regmap_field *dec_rlc_mode_e;
-+	struct regmap_field *dec_mode;
-+	struct regmap_field *dec_apf_threshold;
-+	struct regmap_field *dec_stream_len;
-+	struct regmap_field *dec_init_qp;
-+	struct regmap_field *dec_start_code_e;
-+	struct regmap_field *dec_pic_width;
-+	struct regmap_field *dec_pic_height;
-+	struct regmap_field *dec_num_ref_frames;
-+	struct regmap_field *dec_scaling_list_e;
-+	struct regmap_field *dec_addr_str;
-+	struct regmap_field *dec_addr_dst;
-+	struct regmap_field *dec_ilace_mode;
-+	struct regmap_field *dec_addr_qtable;
-+	struct regmap_field *dec_addr_dir_mv;
-+	struct regmap_field *dec_tiled_mode_lsb;
-+	struct regmap_field *dec_clk_gate_e;
++	/* Post-processor */
++	struct regmap_field *pp_pipeline_en;
++	struct regmap_field *pp_max_burst;
++	struct regmap_field *pp_clk_gate;
++	struct regmap_field *pp_out_swap32;
++	struct regmap_field *pp_out_endian;
++	struct regmap_field *pp_out_luma_base;
++	struct regmap_field *pp_input_width;
++	struct regmap_field *pp_input_height;
++	struct regmap_field *pp_output_width;
++	struct regmap_field *pp_output_height;
++	struct regmap_field *pp_input_fmt;
++	struct regmap_field *pp_output_fmt;
++	struct regmap_field *pp_orig_width;
++	struct regmap_field *pp_display_width;
++	struct regmap_field *pp_crop_startx;
++	struct regmap_field *pp_crop_starty;
++	struct regmap_field *pp_rotation_mode;
++	struct regmap_field *pp_fast_scale_e;
++	struct regmap_field *pp_vscale_mode;
++	struct regmap_field *pp_hscale_mode;
++	struct regmap_field *pp_scale_wratio;
++	struct regmap_field *pp_scale_hratio;
++	struct regmap_field *pp_scale_inv_wratio;
++	struct regmap_field *pp_scale_inv_hratio;
  };
  
  struct hantro_regmap_fields_enc {
+diff --git a/drivers/staging/media/hantro/imx8m_vpu_hw.c b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+index b2a401a33992..20394a568f65 100644
+--- a/drivers/staging/media/hantro/imx8m_vpu_hw.c
++++ b/drivers/staging/media/hantro/imx8m_vpu_hw.c
+@@ -179,7 +179,6 @@ const struct hantro_variant imx8mq_vpu_variant = {
+ 	.num_dec_fmts = ARRAY_SIZE(imx8m_vpu_dec_fmts),
+ 	.postproc_fmts = imx8m_vpu_postproc_fmts,
+ 	.num_postproc_fmts = ARRAY_SIZE(imx8m_vpu_postproc_fmts),
+-	.postproc_regs = &hantro_g1_postproc_regs,
+ 	.codec = HANTRO_MPEG2_DECODER | HANTRO_VP8_DECODER |
+ 		 HANTRO_H264_DECODER,
+ 	.codec_ops = imx8mq_vpu_codec_ops,
+diff --git a/drivers/staging/media/hantro/rk3288_vpu_hw.c b/drivers/staging/media/hantro/rk3288_vpu_hw.c
+index 4ad578b1236e..48dea5756098 100644
+--- a/drivers/staging/media/hantro/rk3288_vpu_hw.c
++++ b/drivers/staging/media/hantro/rk3288_vpu_hw.c
+@@ -226,7 +226,6 @@ const struct hantro_variant rk3288_vpu_variant = {
+ 	.num_dec_fmts = ARRAY_SIZE(rk3288_vpu_dec_fmts),
+ 	.postproc_fmts = rk3288_vpu_postproc_fmts,
+ 	.num_postproc_fmts = ARRAY_SIZE(rk3288_vpu_postproc_fmts),
+-	.postproc_regs = &hantro_g1_postproc_regs,
+ 	.codec = HANTRO_JPEG_ENCODER | HANTRO_MPEG2_DECODER |
+ 		 HANTRO_VP8_DECODER | HANTRO_H264_DECODER,
+ 	.codec_ops = rk3288_vpu_codec_ops,
 -- 
 2.28.0
 
