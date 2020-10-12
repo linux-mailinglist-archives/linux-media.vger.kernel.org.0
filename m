@@ -2,103 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7576E28AFC8
-	for <lists+linux-media@lfdr.de>; Mon, 12 Oct 2020 10:13:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DCF0828AFCD
+	for <lists+linux-media@lfdr.de>; Mon, 12 Oct 2020 10:13:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729055AbgJLINS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Oct 2020 04:13:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36972 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728956AbgJLINR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Oct 2020 04:13:17 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40CA6C0613CE;
-        Mon, 12 Oct 2020 01:13:17 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id u8so21984253ejg.1;
-        Mon, 12 Oct 2020 01:13:17 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=ISkqozpSXsD9a8Oh/2Mwcyva57KxR87dIuzCIf+AzK4=;
-        b=vLxLC2ao0L4Ivfe+BPwXRED7H586V1sSXEIbMF9LfxQwxO+Zj65QHw9YpnzzpNF+5s
-         pe0SgL866UCiUr5PMln2kM/rXsQAiQwxm9xqBa1r/w5BcshC+iOmiozfO7Z4u6AwQfAz
-         Vfx3PqBr4wY4D9HosTE8Wp76eUyQkFEjvjbUBNXO9p/9oGzOrrNit+i1xQ8rB5QbDjQs
-         F9Ihv4Bw7KG4xGNRxT0nbSDmdL/1EJi1xqf/gG4FNU+OUu4iG+9rU7nADfRhvp4+8AAf
-         HcdDZZMKxxCfFS+tSPVctDoJoYUswL6SPs0UcCi3bxYvLZGbno5o1HYN8rV+tCw9Xic+
-         UV3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:reply-to:subject:to:cc:references:from
-         :message-id:date:user-agent:mime-version:in-reply-to
-         :content-transfer-encoding:content-language;
-        bh=ISkqozpSXsD9a8Oh/2Mwcyva57KxR87dIuzCIf+AzK4=;
-        b=SN0wvtpqevJXriN9ZTkbSGFlqaZMvIyfOLM1sFttaRoSxXuKBPS7fMtbgVpOixb3Ii
-         32MQqoI5xRq7KMvClsix5DqmK2EcKBwg/TwQXP+rAlARJx0b2PEo+Y7dZvXeKWrtLqTA
-         AH1G4AM78QVF6q08BFKZylWZTxyKZ+rJfx5dIyAsqlQ65heUajn8D8YmSCzb3LRbpRjy
-         Er8OUk6hEmpouax1PHJ/rfE/GwaXvzRvZMgICCxNdXImR11H9FTcsMKJDVaiJZVFBCNM
-         IqL7VUyTChOKBVqKcI1uJzBBXZFJbTZBv/G4NxA24UawWtfs0Pd+BeyNWvX9g31vLqxU
-         STaA==
-X-Gm-Message-State: AOAM531LLyo51G3OpftYA3a2H0QaKmbiMKVNt6NsoUHr6KaBDmV8gSNL
-        O/j5f8Hg/fM+IYX/XVbLAxg=
-X-Google-Smtp-Source: ABdhPJyESr76MyJXr7Jw9FX0sBn+vlDp7RU85Q8VgP3nIl7qNvty4ksx+a/gWI8+0WMbFKdXmfr7Ow==
-X-Received: by 2002:a17:906:4e06:: with SMTP id z6mr28073702eju.370.1602490395918;
-        Mon, 12 Oct 2020 01:13:15 -0700 (PDT)
-Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
-        by smtp.gmail.com with ESMTPSA id p16sm10218325ejz.103.2020.10.12.01.13.14
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Oct 2020 01:13:15 -0700 (PDT)
-Reply-To: christian.koenig@amd.com
-Subject: Re: [PATCH 1/6] mm: mmap: fix fput in error path
-To:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Andrew Morton <akpm@linux-foundation.org>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, chris@chris-wilson.co.uk,
-        airlied@redhat.com, daniel@ffwll.ch, sumit.semwal@linaro.org,
-        willy@infradead.org, jhubbard@nvidia.com,
-        Miaohe Lin <linmiaohe@huawei.com>
-References: <20201009150342.1979-1-christian.koenig@amd.com>
- <20201009150420.450833e3830b9d39a2385dd9@linux-foundation.org>
- <20201009222509.GC5177@ziepe.ca>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
-Message-ID: <666ef8f3-6299-3c0b-6ebb-04e957a115a1@gmail.com>
-Date:   Mon, 12 Oct 2020 10:13:14 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1729107AbgJLINd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Oct 2020 04:13:33 -0400
+Received: from mga12.intel.com ([192.55.52.136]:30765 "EHLO mga12.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728956AbgJLINd (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 12 Oct 2020 04:13:33 -0400
+IronPort-SDR: rYJyCBwycF/OCgMBxs1kZkcRWH9I2REcmQL5lJAt5rA8MYZG3TTPGzAhXHmnom7Ummgptwy+kH
+ 1/PkkGREkG0w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9771"; a="145026550"
+X-IronPort-AV: E=Sophos;i="5.77,366,1596524400"; 
+   d="scan'208";a="145026550"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 01:13:32 -0700
+IronPort-SDR: M/aMtwvRDEM8VSCWfFnOkhoAJs2IJITuJ7Sb8vwZFSXe4Vo0HIeyW8NiCtLzgWeEn1iQjtbUVs
+ AJ/tHcJ7d0uA==
+X-IronPort-AV: E=Sophos;i="5.77,366,1596524400"; 
+   d="scan'208";a="355718980"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 12 Oct 2020 01:13:30 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 43ED520878; Mon, 12 Oct 2020 11:13:28 +0300 (EEST)
+Date:   Mon, 12 Oct 2020 11:13:28 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tsuchiya Yuto <kitakar@gmail.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: Re: [PATCH 0/5] ipu3-cio2 format fixes
+Message-ID: <20201012081328.GU26842@paasikivi.fi.intel.com>
+References: <20201009150756.3397-1-sakari.ailus@linux.intel.com>
+ <20201009150827.GJ6413@valkosipuli.retiisi.org.uk>
+ <CAHp75VeK9O4OMaeBHU04LrMq06oKe-UppYsd4OZHNvDwp5S5fQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201009222509.GC5177@ziepe.ca>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAHp75VeK9O4OMaeBHU04LrMq06oKe-UppYsd4OZHNvDwp5S5fQ@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am 10.10.20 um 00:25 schrieb Jason Gunthorpe:
-> On Fri, Oct 09, 2020 at 03:04:20PM -0700, Andrew Morton wrote:
->> On Fri,  9 Oct 2020 17:03:37 +0200 "Christian König" <ckoenig.leichtzumerken@gmail.com> wrote:
->>
->>> Patch "495c10cc1c0c CHROMIUM: dma-buf: restore args..."
->>> adds a workaround for a bug in mmap_region.
->>>
->>> As the comment states ->mmap() callback can change
->>> vma->vm_file and so we might call fput() on the wrong file.
->>>
->>> Revert the workaround and proper fix this in mmap_region.
->>>
->> Doesn't this patch series address the same thing as
->> https://lkml.kernel.org/r/20200916090733.31427-1-linmiaohe@huawei.com?
-> Same basic issue, looks like both of these patches should be combined
-> to plug it fully.
+Hi Andy,
 
-Yes, agree completely.
+On Fri, Oct 09, 2020 at 07:23:57PM +0300, Andy Shevchenko wrote:
+> On Fri, Oct 9, 2020 at 6:11 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> >
+> > On Fri, Oct 09, 2020 at 06:07:51PM +0300, Sakari Ailus wrote:
+> > > Hello all,
+> > >
+> > > This set addresses most notable subdev format related issues, namely the
+> > > sub-device sink format being unaccessible. The result of accessing it
+> > > varied from oopses to crashes.
+> > >
+> > > since v1:
+> > >
+> > > - Validate try format, too
+> > >
+> > > - Set field in subdev format to V4L2_FIELD_NONE
+> > >
+> > > - Add a comment explaining the lock
+> > >
+> > > - Make values that should be unsigned, unsigned
+> >
+> > This is obviously v2. v1 is here:
+> 
+> v2 is good enough, but few nit-picks here and there. In any case
+> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
 
-It's a different error path, but we need to fix both occasions.
+Thanks!
 
-Christian.
-
->
-> Jason
-
+-- 
+Sakari Ailus
