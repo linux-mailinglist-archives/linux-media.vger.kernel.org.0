@@ -2,136 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E76D428AF67
-	for <lists+linux-media@lfdr.de>; Mon, 12 Oct 2020 09:43:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05BB428AFB4
+	for <lists+linux-media@lfdr.de>; Mon, 12 Oct 2020 10:11:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726732AbgJLHnO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Oct 2020 03:43:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:32796 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726120AbgJLHnO (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Oct 2020 03:43:14 -0400
-Received: from coco.lan (ip5f5ad5a3.dynamic.kabel-deutschland.de [95.90.213.163])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A79652080D;
-        Mon, 12 Oct 2020 07:43:10 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602488592;
-        bh=bAc0d6eqVxt5kvlc4/0fQ1Dt0V8pQkYKNF5xQvY2t1c=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=I4bI/s+y9vhd/nExxWZ2y1XlzgBQbfzcWfLW4DA6opqThS+SEVWVra3xcsUSwUYB0
-         7GWCy1HVs91CGAzCZP450EzLotvskdCmFtt/vKkoa3U+yoSRHrcwYguEsMFOFnqg1U
-         ScjBKMOPw39aL8eSQFn+wWTOTiWmAeXR+nP5bhMI=
-Date:   Mon, 12 Oct 2020 09:43:07 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, gnurou@gmail.com,
-        Randy Dunlap <rdunlap@infradead.org>
-Subject: Re: [PATCH v3 2/2] media: mtk-vcodec: fix build breakage when one
- of VPU or SCP is enabled
-Message-ID: <20201012094307.1f32155b@coco.lan>
-In-Reply-To: <20201012053557.4102148-3-acourbot@chromium.org>
-References: <20201012053557.4102148-1-acourbot@chromium.org>
-        <20201012053557.4102148-3-acourbot@chromium.org>
-X-Mailer: Claws Mail 3.17.6 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1727372AbgJLILg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Oct 2020 04:11:36 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36712 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726680AbgJLILg (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 12 Oct 2020 04:11:36 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C7838C0613CE;
+        Mon, 12 Oct 2020 01:11:34 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id t25so21885246ejd.13;
+        Mon, 12 Oct 2020 01:11:34 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=M1NhPSK8WcpTtZeyW8ggYwirkBLqPyAO/qcKCJS3Ci0=;
+        b=hooBfwk+2I80d0Ms8XxtPp3CfKDIx3enCApEOuuytF3Anb8bHKoLNqZfbtlJbU56Hb
+         yNwF7zdbzJAkZQVna9Si5mcidbKO5VoSKaNZpmIZIrXhFaGg0IHkXmRwRBHAoGB1ddD9
+         ZKw3QjFBs+o7tQRDviU6aBtv/ckgsVeO558kbxdQAJXW1toWHTWlxDplYsvVyD2f/odt
+         i/g0Botby3AkC2oTpABiBaKl/jcVCDz9nRj9CqvSQ8rBj7gVuIpkRNy85vuRePFfd4Rp
+         cBlY/IUcu4KNrcgO3at/VEVS6tfMIxZ6VUZRaJBSrNxFxh53vobe1uI/OhZJbjdkg32x
+         Y+cw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-transfer-encoding:content-language;
+        bh=M1NhPSK8WcpTtZeyW8ggYwirkBLqPyAO/qcKCJS3Ci0=;
+        b=Sqit7FoOkWwFdZtQfFuK3jDIKx/+Izqmvw7mOBB8gkh2IOR+jrft+m0ZndwT/djinC
+         UysFssBHEmBc67dl5S0qPpPWqvSkfHCvlTTtpHovVGctfVLKqCr9nPqu7VU5rnHlhb9c
+         eRrTmEHnThv8qEsDgNCQlCTSfirMggDe4Fn4Tvnam9mb3TADtjCkWvb36VvXpIjyvSyA
+         DuGoBEgm63FnejNaY2LSsEy9X1rBAuBytptluFBj1YEhxhAtRHmcVnDkvSx7ZV3ZAtYW
+         T5WKAXxDw8zWviwvliu27XVDMMgOq//ELqUxKKlQDPzLLqP3tABCawZE3PUYYrueg2fq
+         SNhg==
+X-Gm-Message-State: AOAM532hWM2wQ7vYQNF6j+f1UBqExnYvfGFCN8xRDsYXwE952q0Oagrh
+        CGP80efQXvHaCcl7LzZlOZg=
+X-Google-Smtp-Source: ABdhPJweeE2yP6VxtQZod6lD2VKbJ5vhzDztVRMAHk7/HnG5S/RU3E8nwHmSCPtcnJZtER6cRV0qzw==
+X-Received: by 2002:a17:906:53d7:: with SMTP id p23mr26383911ejo.232.1602490293318;
+        Mon, 12 Oct 2020 01:11:33 -0700 (PDT)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+        by smtp.gmail.com with ESMTPSA id j18sm10177649ejc.111.2020.10.12.01.11.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Oct 2020 01:11:32 -0700 (PDT)
+Reply-To: christian.koenig@amd.com
+Subject: Re: [PATCH 2/6] mm: introduce vma_set_file function v3
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, chris@chris-wilson.co.uk,
+        airlied@redhat.com, akpm@linux-foundation.org, daniel@ffwll.ch,
+        sumit.semwal@linaro.org, willy@infradead.org, jhubbard@nvidia.com
+References: <20201009150342.1979-1-christian.koenig@amd.com>
+ <20201009150342.1979-2-christian.koenig@amd.com>
+ <20201009151418.GW5177@ziepe.ca>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <9592e3da-a105-b0ec-3fb2-be349c464c2c@gmail.com>
+Date:   Mon, 12 Oct 2020 10:11:29 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20201009151418.GW5177@ziepe.ca>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 12 Oct 2020 14:35:57 +0900
-Alexandre Courbot <acourbot@chromium.org> escreveu:
+Am 09.10.20 um 17:14 schrieb Jason Gunthorpe:
+> On Fri, Oct 09, 2020 at 05:03:38PM +0200, Christian König wrote:
+>> +/*
+>> + * Change backing file, only valid to use during initial VMA setup.
+>> + */
+>> +void vma_set_file(struct vm_area_struct *vma, struct file *file)
+>> +{
+>> +	if (file)
+>> +	        get_file(file);
+>> +
+>> +	swap(vma->vm_file, file);
+>> +
+>> +	if (file)
+>> +		fput(file);
+>> +}
+> fput crashes when file is NULL so the error handling after
+> unmap_and_free_vma: can't handle this case, similarly vm_file can't be
+> NULL either.
+>
+> So just simply:
+>
+>   swap(vma->vm_file, file);
+>   get_file(vma->vm_file);
+>   fput(file);
+>   
+> Will do?
 
-> The addition of MT8183 support added a dependency on the SCP remoteproc
-> module. However the initial patch used the "select" Kconfig directive,
-> which may result in the SCP module to not be compiled if remoteproc was
-> disabled. In such a case, mtk-vcodec would try to link against
-> non-existent SCP symbols. "select" was clearly misused here as explained
-> in kconfig-language.txt.
-> 
-> Replace this by a "depends" directive on at least one of the VPU and
-> SCP modules, to allow the driver to be compiled as long as one of these
-> is enabled, and adapt the code to support this new scenario.
-> 
-> Also adapt the Kconfig text to explain the extra requirements for MT8173
-> and MT8183.
-> 
-> Reported-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
-> Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/platform/Kconfig                | 22 +++++++++++++++----
->  drivers/media/platform/mtk-vcodec/Makefile    | 10 +++++++--
->  .../platform/mtk-vcodec/mtk_vcodec_fw_priv.h  | 18 +++++++++++++++
->  3 files changed, 44 insertions(+), 6 deletions(-)
-> 
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index a3cb104956d5..457b6c39ddc0 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -253,18 +253,32 @@ config VIDEO_MEDIATEK_VCODEC
->  	depends on MTK_IOMMU || COMPILE_TEST
->  	depends on VIDEO_DEV && VIDEO_V4L2
->  	depends on ARCH_MEDIATEK || COMPILE_TEST
-> +	depends on VIDEO_MEDIATEK_VPU || MTK_SCP
-> +	# The two following lines ensure we have the same state ("m" or "y") as
-> +	# our dependencies, to avoid missing symbols during link.
-> +	depends on VIDEO_MEDIATEK_VPU || !VIDEO_MEDIATEK_VPU
-> +	depends on MTK_SCP || !MTK_SCP
->  	select VIDEOBUF2_DMA_CONTIG
->  	select V4L2_MEM2MEM_DEV
-> -	select VIDEO_MEDIATEK_VPU
-> -	select MTK_SCP
-> +	select VIDEO_MEDIATEK_VCODEC_VPU if VIDEO_MEDIATEK_VPU
-> +	select VIDEO_MEDIATEK_VCODEC_SCP if MTK_SCP
->  	help
->  	    Mediatek video codec driver provides HW capability to
-> -	    encode and decode in a range of video formats
-> -	    This driver rely on VPU driver to communicate with VPU.
-> +	    encode and decode in a range of video formats on MT8173
-> +	    and MT8183.
-> +
-> +	    Note that support for MT8173 requires VIDEO_MEDIATEK_VPU to
-> +	    also be selected. Support for MT8183 depends on MTK_SCP.
->  
->  	    To compile this driver as modules, choose M here: the
->  	    modules will be called mtk-vcodec-dec and mtk-vcodec-enc.
+I was considering this as well, yes.
 
-Just my 2 cents here, and to complement my last e-mail, the helper message
-here IMO is a lot more confusing than if you do this, instead:
+> Just let it crash if any of them are wrongly NULL.
 
-	config VIDEO_MEDIATEK_CODEC
-	         depends on VIDEO_MEDIATEK_VPU_SCP || VIDEO_MEDIATEK_VPU
-		 default y
+Mhm, changing from anonymous to file backed or reverse is probably not 
+such a good idea.
 
-	config VIDEO_MEDIATEK_VPU
-            depends on VIDEO_DEV && VIDEO_V4L2
-            depends on ARCH_MEDIATEK || COMPILE_TEST
-            tristate "Enable Mediatek Video Processor Unit for MT8173"
-	    help
-		Select this option to enable Mediatek VPU on MT8173.
+So yes catching those problems early is probably the best approach we 
+could do.
 
-	config VIDEO_MEDIATEK_VPU_SCP
-            depends on VIDEO_DEV && VIDEO_V4L2
-            depends on ARCH_MEDIATEK || COMPILE_TEST
-            tristate "Enable Mediatek Video Processor Unit for MT8183"
-	    help
-		Select this option to enable Mediatek VPU on MT8183.
+Going to do this in v4 if nobody objects.
 
-To be clear, from my side, I can live with either one of the alternatives,
-but, IMHO, the above is a lot clearer for anyone wanting to use
-VPU, as, if MTK_SCP is disabled, the MT8183 Kconfig prompt will
-disappear.
+Regards,
+Christian.
 
+>
+> Jason
 
-Thanks,
-Mauro
