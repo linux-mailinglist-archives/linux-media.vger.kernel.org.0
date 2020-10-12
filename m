@@ -2,316 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A88A928B58C
-	for <lists+linux-media@lfdr.de>; Mon, 12 Oct 2020 15:09:45 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BE6CB28B578
+	for <lists+linux-media@lfdr.de>; Mon, 12 Oct 2020 15:05:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388657AbgJLNJj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Oct 2020 09:09:39 -0400
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:44666 "EHLO
-        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388651AbgJLNJj (ORCPT
+        id S1730307AbgJLNF3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Oct 2020 09:05:29 -0400
+Received: from mail-il1-f198.google.com ([209.85.166.198]:54107 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730262AbgJLNF2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Oct 2020 09:09:39 -0400
-Received: from relay1-d.mail.gandi.net (unknown [217.70.183.193])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id 342963B2B91;
-        Mon, 12 Oct 2020 13:00:51 +0000 (UTC)
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 38632240003;
-        Mon, 12 Oct 2020 13:00:24 +0000 (UTC)
-Date:   Mon, 12 Oct 2020 15:04:25 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Eugen.Hristev@microchip.com
-Cc:     laurent.pinchart@ideasonboard.com, robh+dt@kernel.org,
-        sakari.ailus@iki.fi, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org
-Subject: Re: [PATCH v3 1/3] dt-bindings: media: atmel: csi2dc: add bindings
- for microchip csi2dc
-Message-ID: <20201012130425.2rszhgd7eh7nffrv@uno.localdomain>
-References: <20200826065142.205000-1-eugen.hristev@microchip.com>
- <20201010211743.GB3939@pendragon.ideasonboard.com>
- <c5d27d11-891b-afd8-0be1-02bf5eb8bef9@microchip.com>
+        Mon, 12 Oct 2020 09:05:28 -0400
+Received: by mail-il1-f198.google.com with SMTP id y62so11885775ilk.20
+        for <linux-media@vger.kernel.org>; Mon, 12 Oct 2020 06:05:26 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=weOKzOEYd6OnFmuQPwghpwImZizE+A7XLRWBwiZyCtE=;
+        b=eVYUoM7+uD8zRCWWOEiqAcmKzDZm5cyLEt7oExoZAewBtHjZNU7/itOEI1gSgXLZs0
+         a4QMrZPuE3mYo0VYpL5drg9GSHA++CgjsXQfnjl/Ndf6VmRz3jzJkmlbj+kx0l00GzWA
+         mmQWZS8qa+aLozsfw/uPOWTesO6FPpTFhEvBHm5z99qU9MVKVGSzE3OPHZESR/rOoPEp
+         tM6jYPa7uTHzV0HBIRirrJG4hTKlbiJ8zpghN0HZ7mTgdzww4WwVgvfVqFMJ0knvRO4o
+         kD+M55L+YaPUo8r+Tu9uDqAfBNw4P7Abe0VMnkFWZjzA2Zupo+pbBYO9OEi3oBJ1hS3p
+         nReA==
+X-Gm-Message-State: AOAM531tIpjCtvcULHVGC0w70dyUmz5PTTxSXMShRudzu+jcbiFGfif1
+        Gx4dHHJTJyDPM/v8jBMRs39v0MoFFI5EkDOP50fSkNfJi8fe
+X-Google-Smtp-Source: ABdhPJzpCKLxmcGgUteT0I4AlfOG13qRkR+f1Rwh7GcQREsOjIOSrBicc9i1TdFoVskDaa0eUsZmnnaeD4K/FTjEVdYgo20PtNYD
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <c5d27d11-891b-afd8-0be1-02bf5eb8bef9@microchip.com>
+X-Received: by 2002:a92:c74c:: with SMTP id y12mr19435920ilp.19.1602507925674;
+ Mon, 12 Oct 2020 06:05:25 -0700 (PDT)
+Date:   Mon, 12 Oct 2020 06:05:25 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000a8e10f05b178f3f9@google.com>
+Subject: KASAN: out-of-bounds Read in v4l2_fh_init
+From:   syzbot <syzbot+431a2669cfb42d234b9c@syzkaller.appspotmail.com>
+To:     andreyknvl@google.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hello,
-   just my 2 cents, as I've noticed this patch skimming through the
-   list
 
-On Mon, Oct 12, 2020 at 07:19:43AM +0000, Eugen.Hristev@microchip.com wrote:
-> On 11.10.2020 00:17, Laurent Pinchart wrote:
-> > Hi Eugen,
-> >
-> > Thank you for the patch.
->
-> Hi,
->
-> Thank you for your review,
->
-> >
-> > On Wed, Aug 26, 2020 at 09:51:40AM +0300, Eugen Hristev wrote:
-> >> Add bindings documentation for Microchip CSI2 Demultiplexer controller.
-> >>
-> >> CSI2DC is a demultiplexer from Synopsys IDI interface specification to
-> >> parallel interface connection or direct memory access.
-> >>
-> >> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-> >> ---
-> >> Changes in v3:
-> >> - Removed some text from description, as it was explained in the schema
-> >> - fixed other things as per Rob's review
-> >> - moved some text inside the schema, like the clock description
-> >>
-> >> Changes in v2:
-> >> - fixed warnings reported by dt_binding_check
-> >>
-> >>   .../bindings/media/microchip,csi2dc.yaml      | 174 ++++++++++++++++++
-> >>   1 file changed, 174 insertions(+)
-> >>   create mode 100644 Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
-> >>
-> >> diff --git a/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
-> >> new file mode 100644
-> >> index 000000000000..b4c1b8800a3b
-> >> --- /dev/null
-> >> +++ b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
-> >> @@ -0,0 +1,174 @@
-> >> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> >> +%YAML 1.2
-> >> +---
-> >> +$id: http://devicetree.org/schemas/media/microchip,csi2dc.yaml#
-> >> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> >> +
-> >> +title: Microchip CSI2 Demux Controller (CSI2DC)
-> >> +
-> >> +maintainers:
-> >> +  - Eugen Hristev <eugen.hristev@microchip.com>
-> >> +
-> >> +description:
-> >> +  CSI2DC - Camera Serial Interface 2 Demux Controller
-> >> +
-> >> +  CSI2DC is a hardware block that receives incoming data from an IDI interface
-> >> +  and filters packets based on their data type and virtual channel identifier,
-> >> +  then converts the byte stream into a cross clock domain to a pixel stream
-> >> +  to a parallel interface that can be read by a sensor controller.
-> >> +
-> >> +  CSI2DC provides two pipes, one video pipe and one data pipe. Video pipe
-> >> +  is connected to a sensor controller and the data pipe is accessible
-> >> +  as a DMA slave port to a DMA controller.
-> >> +
-> >> +  CSI2DC supports a single 'port' node as a source pad with Synopsys 32-bit
-> >> +  IDI interface. The connected endpoint must be a IDI interface compatible
-> >> +  device (like Synopsys CSI2HOST) , that can provide 32-bit IDI interface
-> >> +  connection as sink pad.
-> >> +  For media entity and endpoints please refer to the bindings defined in
-> >> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
-> >> +  For Synopsys IDI interface please refer to
-> >> +  Documentation/devicetree/bindings/media/snps,dw-csi-plat.txt
-> >> +
-> >> +  CSI2DC supports one 'port' node as sink pad with parallel interface. This is
-> >> +  called video pipe.
-> >> +  This port has an 'endpoint' can then be used as a source pad for another
-> >> +  controller (next in pipeline).
-> >> +  Please refer to the bindings defined in
-> >> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
-> >> +
-> >> +  CSI2DC also supports direct access to the data through AHB, via DMA channel,
-> >> +  called data pipe.
-> >> +  Because of this, the sink 'port' child node (second) is not mandatory.
-> >> +  If the sink 'port' child node is missing, only data pipe is available.
-> >> +
-> >> +properties:
-> >> +  compatible:
-> >> +    const: microchip,sama7g5-csi2dc
-> >> +
-> >> +  reg:
-> >> +    maxItems: 1
-> >> +
-> >> +  clocks:
-> >> +    maxItems: 2
-> >> +
-> >> +  clock-names:
-> >> +    description:
-> >> +      CSI2DC must have two clocks to function correctly. One clock is the
-> >> +      peripheral clock for the inside functionality of the hardware block.
-> >> +      This is named 'pclk'. The second clock must be the cross domain clock,
-> >> +      in which CSI2DC will perform clock crossing. This clock must be fed
-> >> +      by the next controller in pipeline, which usually is a sensor controller.
-> >> +      Normally this clock should be given by this sensor controller who
-> >> +      is also a clock source. This clock is named 'scck', sensor controller clock.
-> >> +    items:
-> >> +      - const: pclk
-> >> +      - const: scck
-> >> +
-> >> +  microchip,clk-gated:
-> >> +    type: boolean
-> >> +    description:
-> >> +      If present, indicates that the clock is gated.
-> >> +      Otherwise, the clock is free-running.
-> >
-> > I don't think this belongs to the DT bindings, it should instead be
-> > queried from the source subdev at runtime.
->
-> If this should be queried, do you know what is the v4l2 mechanism to
-> query such information ?
-> The subdevice is connected through a port interface to this device, so
-> it was natural for me to fully describe the interface in the devicetree
-> port description
->
+syzbot found the following issue on:
 
-Is this property describing the CSI-2 clock continuous, non-continuous
-mode configuration, or did I mis-interpreted it ?
+HEAD commit:    93578a25 usb: musb: gadget: Use fallthrough pseudo-keyword
+git tree:       https://git.kernel.org/pub/scm/linux/kernel/git/gregkh/usb.git usb-testing
+console output: https://syzkaller.appspot.com/x/log.txt?x=1480f19f900000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=df3bb4023c36d114
+dashboard link: https://syzkaller.appspot.com/bug?extid=431a2669cfb42d234b9c
+compiler:       gcc (GCC) 10.1.0-syz 20200507
 
-We added support for retrieving run-time configuration of the media
-bus with the get_mbus_config pad operations recently. Among the
-configuration flags for MBUS_CSI2_DPHY there are inded CONTINUOUS and
-NON_CONTINUOUS clock flags.
+Unfortunately, I don't have any reproducer for this issue yet.
 
-> >
-> >> +
-> >> +  microchip,inter-line-delay:
-> >> +    allOf:
-> >> +    - $ref: /schemas/types.yaml#/definitions/uint32
-> >> +    - minimum: 1
-> >> +    - maximum: 16
-> >> +    default: 16
-> >> +    description:
-> >> +      Indicates how many clock cycles should be introduced between each line.
-> >
-> > This also sounds like a configuration parameter. How does one compute
-> > the right value for this ?
->
-> I think this is a delay that can be added inside the hardware block,
-> depending on the interface speed and bandwidth. I will try to understand
-> more details from the hardware design and come back with a more detailed
-> answer.
->
-> >
-> >> +
-> >> +  port@0:
-> >> +    type: object
-> >> +    description:
-> >> +      Input port node, single endpoint describing the input pad.
-> >> +
-> >> +    properties:
-> >> +      reg:
-> >> +        const: 0
-> >> +
-> >> +      endpoint:
-> >> +        type: object
-> >> +
-> >> +        properties:
-> >> +          remote-endpoint: true
-> >> +
-> >> +        required:
-> >> +          - remote-endpoint
-> >> +
-> >> +        additionalProperties: false
-> >> +
-> >> +    additionalProperties: false
-> >> +
-> >> +  port@1:
-> >> +    type: object
-> >> +    description:
-> >> +      Output port node, single endpoint, describing the output pad.
-> >> +
-> >> +    properties:
-> >> +      '#address-cells':
-> >> +        const: 1
-> >> +
-> >> +      '#size-cells':
-> >> +        const: 0
-> >> +
-> >> +      reg:
-> >> +        const: 1
-> >> +
-> >> +    patternProperties:
-> >> +      "^endpoint@[0-3]$":
-> >> +        type: object
-> >> +
-> >> +        properties:
-> >> +          reg:
-> >> +            enum: [0, 1, 2, 3]
-> >> +            description: virtual channel for the endpoint
-> >
-> > The virtual channel used by the source is also something that needs to
-> > be queried from the source at runtime, it doesn't belong to this
-> > binding.
->
-> The same question as for the gated clock configuration. How can we use
-> v4l2 subdevice API to obtain such information from the subdevice? And if
-> the subdevice does not offer such information ?
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+431a2669cfb42d234b9c@syzkaller.appspotmail.com
 
-I think the subdev driver should be instrumented to report it instead of
-hard-coding the information in DT which should be otherwise updated
-depending on which sensor is connected to the board. Does it make
-sense to you ?
+==================================================================
+BUG: KASAN: out-of-bounds in v4l2_fh_init+0x279/0x2c0 drivers/media/v4l2-core/v4l2-fh.c:25
+Read of size 8 at addr ffff8881c72788c0 by task v4l_id/11388
 
-Cheers
-   j
+CPU: 1 PID: 11388 Comm: v4l_id Not tainted 5.9.0-rc8-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x107/0x16e lib/dump_stack.c:118
+ print_address_description.constprop.0+0x1c/0x210 mm/kasan/report.c:383
+ __kasan_report mm/kasan/report.c:513 [inline]
+ kasan_report.cold+0x37/0x7c mm/kasan/report.c:530
+ v4l2_fh_init+0x279/0x2c0 drivers/media/v4l2-core/v4l2-fh.c:25
+ v4l2_fh_open+0x88/0xc0 drivers/media/v4l2-core/v4l2-fh.c:63
+ em28xx_v4l2_open+0x11c/0x570 drivers/media/usb/em28xx/em28xx-video.c:2163
+ v4l2_open+0x20f/0x3d0 drivers/media/v4l2-core/v4l2-dev.c:423
+ chrdev_open+0x266/0x770 fs/char_dev.c:414
+ do_dentry_open+0x4b4/0x1090 fs/open.c:817
+ do_open fs/namei.c:3251 [inline]
+ path_openat+0x190d/0x2690 fs/namei.c:3368
+ do_filp_open+0x17e/0x3c0 fs/namei.c:3395
+ do_sys_openat2+0x16d/0x420 fs/open.c:1168
+ do_sys_open fs/open.c:1184 [inline]
+ __do_sys_open fs/open.c:1192 [inline]
+ __se_sys_open fs/open.c:1188 [inline]
+ __x64_sys_open+0x119/0x1c0 fs/open.c:1188
+ do_syscall_64+0x2d/0x40 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x7fee3e895840
+Code: 73 01 c3 48 8b 0d 68 77 20 00 f7 d8 64 89 01 48 83 c8 ff c3 66 0f 1f 44 00 00 83 3d 89 bb 20 00 00 75 10 b8 02 00 00 00 0f 05 <48> 3d 01 f0 ff ff 73 31 c3 48 83 ec 08 e8 1e f6 ff ff 48 89 04 24
+RSP: 002b:00007ffc37239888 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
+RAX: ffffffffffffffda RBX: 00007ffc372399f8 RCX: 00007fee3e895840
+RDX: 00007fee3e881ea0 RSI: 0000000000000000 RDI: 00007ffc37239f22
+RBP: 0000000000000003 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000002 R11: 0000000000000246 R12: 0000555d9d9f38d0
+R13: 00007ffc372399f0 R14: 0000000000000000 R15: 0000000000000000
 
->
-> Thanks again,
->
-> Eugen
-> >
-> >> +
-> >> +          remote-endpoint: true
-> >> +
-> >> +        required:
-> >> +          - remote-endpoint
-> >> +          - reg
-> >> +
-> >> +        additionalProperties: false
-> >> +
-> >> +    additionalProperties: false
-> >> +
-> >> +required:
-> >> +  - compatible
-> >> +  - reg
-> >> +  - clocks
-> >> +  - clock-names
-> >> +  - port@0
-> >> +
-> >> +examples:
-> >> +  - |
-> >> +    csi2dc@e1404000 {
-> >> +        compatible = "microchip,sama7g5-csi2dc";
-> >> +        #address-cells = <1>;
-> >> +        #size-cells = <0>;
-> >> +        reg = <0xe1404000 0x500>;
-> >> +        clocks = <&pclk>, <&scck>;
-> >> +        clock-names = "pclk", "scck";
-> >> +
-> >> +        port@0 {
-> >> +               reg = <0>; /* must be 0, first child port */
-> >> +               csi2dc_in: endpoint { /* input from IDI interface */
-> >> +                     remote-endpoint = <&csi2host_out>;
-> >> +               };
-> >> +        };
-> >> +
-> >> +        port@1 {
-> >> +                #address-cells = <1>;
-> >> +                #size-cells = <0>;
-> >> +                reg = <1>; /* must be 1, second child port */
-> >> +                csi2dc_out: endpoint@2 {
-> >> +                        reg = <2>;  /* virtual channel identifier */
-> >> +                        remote-endpoint = <&xisc_in>; /* output to sensor controller */
-> >> +                };
-> >> +        };
-> >> +    };
-> >> +
-> >> +...
-> >
-> > --
-> > Regards,
-> >
-> > Laurent Pinchart
-> >
->
+The buggy address belongs to the page:
+page:00000000914a1a5b refcount:1 mapcount:0 mapping:0000000000000000 index:0x0 pfn:0x1c7278
+flags: 0x200000000000000()
+raw: 0200000000000000 dead000000000100 dead000000000122 0000000000000000
+raw: 0000000000000000 0000000000000000 00000001ffffffff 0000000000000000
+page dumped because: kasan: bad access detected
+
+Memory state around the buggy address:
+ ffff8881c7278780: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff8881c7278800: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+>ffff8881c7278880: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+                                           ^
+ ffff8881c7278900: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+ ffff8881c7278980: 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00
+==================================================================
+
+
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
+
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
