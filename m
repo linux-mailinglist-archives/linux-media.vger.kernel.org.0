@@ -2,222 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1EE428CABC
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 11:02:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76B3628CABF
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 11:03:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403901AbgJMJCo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Oct 2020 05:02:44 -0400
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:12934 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388779AbgJMJCo (ORCPT
+        id S2404059AbgJMJDE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Oct 2020 05:03:04 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42074 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391437AbgJMJDE (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Oct 2020 05:02:44 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09D8v50Y003629;
-        Tue, 13 Oct 2020 11:02:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : mime-version : content-type; s=STMicroelectronics;
- bh=bRxXQAJcJvPYLqbLKVy4KoRoI8NgYjJq0APN1uuFVFs=;
- b=Pm+WlAX/e0XG0s/Wh96zmCgX1f3kRI7QbMD2AHUJex6LKRQt2r0xrH9a6FSh43Ba7Jqy
- Qsq8yYTVx+TD60WRf1Z3zq8cy6uF/H7d2zSC9ZGvWk5G2qznl9caUVgSR0g7hUq2kRnM
- 3tETHo/J/vLalGrXs1W0d/gTVloTYaKWsIyKegZLy+bZEXDDGV1MKCljZ4By4gQInYb9
- RM4UnBiSxlqsf9Qxj+X6qj/DN+LtOvo7t0MRQ7xiEqNvQw034onC4fe+9OWJiLblPvJO
- 59ATgYX0fv8pWikVT7FxPMD9QnRa4jS9lzGzrfEuH+hiv4avdyiA+LoksjunGT0lMxpR EA== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 34356e5q86-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Oct 2020 11:02:27 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D43E710002A;
-        Tue, 13 Oct 2020 11:02:26 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag1node1.st.com [10.75.127.1])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7F648221F9B;
-        Tue, 13 Oct 2020 11:02:26 +0200 (CEST)
-Received: from localhost (10.75.127.44) by SFHDAG1NODE1.st.com (10.75.127.1)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 13 Oct 2020 11:02:26
- +0200
-From:   Hugues Fruchet <hugues.fruchet@st.com>
-To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Alain Volmat <alain.volmat@st.com>
-Subject: [PATCH v3] media: ov5640: fix support of BT656 bus mode
-Date:   Tue, 13 Oct 2020 11:02:23 +0200
-Message-ID: <1602579743-10286-1-git-send-email-hugues.fruchet@st.com>
-X-Mailer: git-send-email 2.7.4
+        Tue, 13 Oct 2020 05:03:04 -0400
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD65AC0613D2
+        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 02:03:03 -0700 (PDT)
+Received: by mail-ej1-x641.google.com with SMTP id p15so27148112ejm.7
+        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 02:03:03 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=yix8uA8ccUHN4fake0yiRHNn/uIqI1ulnAUvcNoP2CU=;
+        b=YnOZMGM37Q8OfZjtCsKEZM7LeipsZdLC9ekHYA/oX9EPQ6piOwqvv8DzbjdPKnaj15
+         7acx8UzDGnVu7ygc8NcQfm7ilC2q2fbcZNpYd+x3xnae12cTwEgzSQv+aH5FGyG0KQeA
+         Qk5RfFWMcGiCN1LM1doK5aJ5I1EdYVDtuXjW2KIfbUAgLdUudkJSTkvQWyl2sRMeQIsT
+         AHS3HqK6eOaaKR0o0LzFJ76VWMQWDdr5FhUjMD3wdYb5sudBqu6QnNATXIMUmAo+AD42
+         xxJHhXzHrG/vTy3R8/vZ7IlFxOy5d77e3AEjKX5cBC/qYR3VFBbLCSiHyO3fKnsABrPx
+         fvxw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=yix8uA8ccUHN4fake0yiRHNn/uIqI1ulnAUvcNoP2CU=;
+        b=P0+57VHks1EbmH1CToPnGnDzdtbIlwQUDuxxBo0tPnNITZAJfeF1wKzKMPK1vKmrO3
+         wpoKAsKR2xW8TrYftOko0+4U2y5WOrg5ITHdbvgMsnmJDbjG+Rvnn6i6goBWtGso9GwF
+         uef5tJ6nKXg/5RC5932bYD/lxFq5zg5VY0mJazvsZBW1z1rsytj5FPLjqc19FCYkDQcs
+         qo5McGy3vk4MeWKdCeMjHdlyhkE+I85CayzM54klAMB8nIdgrfR/F3MCH0ECP7HCnjxs
+         O36kK76tN3+602bf02Qg24kKyJ7W1zO+hek/SmrAbomWZGUmcu3d+cFlGs0zNimjleQz
+         fWnQ==
+X-Gm-Message-State: AOAM533/rz9XGT6HZpIlsyuLSU+gpa2RcBFahPZf6PdgwfWy5GU5zyhC
+        BzsXtk9lWoR8vbd0AhLxxbHwqA==
+X-Google-Smtp-Source: ABdhPJz6urimsOcuJgj3i5jKUukfiZ36eFQhiILV02hNGx+tFWg75eGdKZuwuZOVE4fwZGIha0mBxQ==
+X-Received: by 2002:a17:906:3ada:: with SMTP id z26mr10117309ejd.151.1602579782287;
+        Tue, 13 Oct 2020 02:03:02 -0700 (PDT)
+Received: from [192.168.43.233] (212-5-158-214.ip.btc-net.bg. [212.5.158.214])
+        by smtp.googlemail.com with ESMTPSA id q1sm11973152ejy.37.2020.10.13.02.03.00
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2020 02:03:01 -0700 (PDT)
+Subject: Re: [PATCH] v4l: Add source change event for colorimetry
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <20200702100017.24700-1-stanimir.varbanov@linaro.org>
+ <8dafbb4b-4626-5191-c57a-f3ef19c14618@linaro.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <d11da037-92e5-2ee7-8723-10162d16eba9@linaro.org>
+Date:   Tue, 13 Oct 2020 12:02:59 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.44]
-X-ClientProxiedBy: SFHDAG4NODE2.st.com (10.75.127.11) To SFHDAG1NODE1.st.com
- (10.75.127.1)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-10-13_02:2020-10-13,2020-10-13 signatures=0
+In-Reply-To: <8dafbb4b-4626-5191-c57a-f3ef19c14618@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix PCLK polarity not being taken into account.
-Add comments about BT656 register control.
-Remove useless ov5640_set_stream_bt656() function.
-Refine comments about MIPI IO register control.
+Hi,
 
-Fixes: 4039b03720f7 ("media: i2c: ov5640: Add support for BT656 mode")
-Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
----
-version 3:
-  - reformat code as per Jacopo's comments
-version 2:
-  - keep reset to default without error check at power off
+On 7/2/20 2:52 PM, Stanimir Varbanov wrote:
+> Hi,
+> 
+> Once we have this event there is still open question how the client will
+> know the data buffer on which the new colorspace is valid/applied.
+> 
+> The options could be:
+>  * a new buffer flag and
+>  * some information in the v4l2_event structure.
+> 
+> Thoughts?
 
- drivers/media/i2c/ov5640.c | 82 +++++++++++++++++++++++++---------------------
- 1 file changed, 45 insertions(+), 37 deletions(-)
+Kindly ping.
 
-diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-index 8d0254d..8f0812e 100644
---- a/drivers/media/i2c/ov5640.c
-+++ b/drivers/media/i2c/ov5640.c
-@@ -1216,20 +1216,6 @@ static int ov5640_set_autogain(struct ov5640_dev *sensor, bool on)
- 			      BIT(1), on ? 0 : BIT(1));
- }
- 
--static int ov5640_set_stream_bt656(struct ov5640_dev *sensor, bool on)
--{
--	int ret;
--
--	ret = ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00,
--			       on ? 0x1 : 0x00);
--	if (ret)
--		return ret;
--
--	return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ?
--				OV5640_REG_SYS_CTRL0_SW_PWUP :
--				OV5640_REG_SYS_CTRL0_SW_PWDN);
--}
--
- static int ov5640_set_stream_dvp(struct ov5640_dev *sensor, bool on)
- {
- 	return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ?
-@@ -1994,13 +1980,13 @@ static int ov5640_set_power_mipi(struct ov5640_dev *sensor, bool on)
- static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
- {
- 	unsigned int flags = sensor->ep.bus.parallel.flags;
--	u8 pclk_pol = 0;
--	u8 hsync_pol = 0;
--	u8 vsync_pol = 0;
-+	bool bt656 = sensor->ep.bus_type == V4L2_MBUS_BT656;
-+	u8 polarities = 0;
- 	int ret;
- 
- 	if (!on) {
- 		/* Reset settings to their default values. */
-+		ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00, 0x00);
- 		ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x58);
- 		ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00, 0x20);
- 		ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01, 0x00);
-@@ -2024,7 +2010,35 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
- 	 * - VSYNC:	active high
- 	 * - HREF:	active low
- 	 * - PCLK:	active low
-+	 *
-+	 * VSYNC & HREF are not configured if BT656 bus mode is selected
- 	 */
-+
-+	/*
-+	 * BT656 embedded synchronization configuration
-+	 *
-+	 * CCIR656 CTRL00
-+	 * - [7]:	SYNC code selection (0: auto generate sync code,
-+	 *		1: sync code from regs 0x4732-0x4735)
-+	 * - [6]:	f value in CCIR656 SYNC code when fixed f value
-+	 * - [5]:	Fixed f value
-+	 * - [4:3]:	Blank toggle data options (00: data=1'h040/1'h200,
-+	 *		01: data from regs 0x4736-0x4738, 10: always keep 0)
-+	 * - [1]:	Clip data disable
-+	 * - [0]:	CCIR656 mode enable
-+	 *
-+	 * Default CCIR656 SAV/EAV mode with default codes
-+	 * SAV=0xff000080 & EAV=0xff00009d is enabled here with settings:
-+	 * - CCIR656 mode enable
-+	 * - auto generation of sync codes
-+	 * - blank toggle data 1'h040/1'h200
-+	 * - clip reserved data (0x00 & 0xff changed to 0x01 & 0xfe)
-+	 */
-+	ret = ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00,
-+			       bt656 ? 0x01 : 0x00);
-+	if (ret)
-+		return ret;
-+
- 	/*
- 	 * configure parallel port control lines polarity
- 	 *
-@@ -2035,29 +2049,26 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
- 	 *		datasheet and hardware, 0 is active high
- 	 *		and 1 is active low...)
- 	 */
--	if (sensor->ep.bus_type == V4L2_MBUS_PARALLEL) {
--		if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
--			pclk_pol = 1;
-+	if (!bt656) {
- 		if (flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
--			hsync_pol = 1;
-+			polarities |= BIT(1);
- 		if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
--			vsync_pol = 1;
--
--		ret = ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00,
--				       (pclk_pol << 5) | (hsync_pol << 1) |
--				       vsync_pol);
--
--		if (ret)
--			return ret;
-+			polarities |= BIT(0);
- 	}
-+	if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
-+		polarities |= BIT(5);
-+
-+	ret = ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00, polarities);
-+	if (ret)
-+		return ret;
- 
- 	/*
--	 * powerdown MIPI TX/RX PHY & disable MIPI
-+	 * powerdown MIPI TX/RX PHY & enable DVP
- 	 *
- 	 * MIPI CONTROL 00
--	 * 4:	 PWDN PHY TX
--	 * 3:	 PWDN PHY RX
--	 * 2:	 MIPI enable
-+	 * [4] = 1	: Power down MIPI HS Tx
-+	 * [3] = 1	: Power down MIPI LS Rx
-+	 * [2] = 0	: DVP enable (MIPI disable)
- 	 */
- 	ret = ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x18);
- 	if (ret)
-@@ -2074,8 +2085,7 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
- 	 * - [3:0]:	D[9:6] output enable
- 	 */
- 	ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01,
--			       sensor->ep.bus_type == V4L2_MBUS_PARALLEL ?
--			       0x7f : 0x1f);
-+			       bt656 ? 0x1f : 0x7f);
- 	if (ret)
- 		return ret;
- 
-@@ -2925,8 +2935,6 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
- 
- 		if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
- 			ret = ov5640_set_stream_mipi(sensor, enable);
--		else if (sensor->ep.bus_type == V4L2_MBUS_BT656)
--			ret = ov5640_set_stream_bt656(sensor, enable);
- 		else
- 			ret = ov5640_set_stream_dvp(sensor, enable);
- 
+> 
+> On 7/2/20 1:00 PM, Stanimir Varbanov wrote:
+>> This event indicate that the source colorspace is changed
+>> during run-time. The client has to retrieve the new colorspace
+>> identifiers by getting the format (G_FMT).
+>>
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> ---
+>>  .../userspace-api/media/v4l/vidioc-dqevent.rst        | 11 ++++++++++-
+>>  .../userspace-api/media/videodev2.h.rst.exceptions    |  1 +
+>>  include/uapi/linux/videodev2.h                        |  1 +
+>>  3 files changed, 12 insertions(+), 1 deletion(-)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>> index a9a176d5256d..3f69c753db58 100644
+>> --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>> +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>> @@ -381,7 +381,16 @@ call.
+>>  	that many Video Capture devices are not able to recover from a temporary
+>>  	loss of signal and so restarting streaming I/O is required in order for
+>>  	the hardware to synchronize to the video signal.
+>> -
+>> +    * - ``V4L2_EVENT_SRC_CH_COLORIMETRY``
+>> +      - 0x0002
+>> +      - This event gets triggered when a colorspace change is detected at
+>> +	an input. By colorspace change here we include also changes in the
+>> +	colorspace specifiers (transfer function, Y'CbCr encoding and
+>> +	quantization). This event can come from an input or from video decoder.
+>> +	Once the event has been send to the client the driver has to update
+>> +	the colorspace specifiers internally so that they could be retrieved by
+>> +	client. In that case queue re-negotiation is not needed as this change
+>> +	only reflects on the interpretation of the data.
+>>  
+>>  Return Value
+>>  ============
+>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>> index ca05e4e126b2..54fc21af852d 100644
+>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>> @@ -492,6 +492,7 @@ replace define V4L2_EVENT_CTRL_CH_FLAGS ctrl-changes-flags
+>>  replace define V4L2_EVENT_CTRL_CH_RANGE ctrl-changes-flags
+>>  
+>>  replace define V4L2_EVENT_SRC_CH_RESOLUTION src-changes-flags
+>> +replace define V4L2_EVENT_SRC_CH_COLORIMETRY src-changes-flags
+>>  
+>>  replace define V4L2_EVENT_MD_FL_HAVE_FRAME_SEQ :c:type:`v4l2_event_motion_det`
+>>  
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index 303805438814..b5838bc4e3a3 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -2351,6 +2351,7 @@ struct v4l2_event_frame_sync {
+>>  };
+>>  
+>>  #define V4L2_EVENT_SRC_CH_RESOLUTION		(1 << 0)
+>> +#define V4L2_EVENT_SRC_CH_COLORIMETRY		(1 << 1)
+>>  
+>>  struct v4l2_event_src_change {
+>>  	__u32 changes;
+>>
+> 
+
 -- 
-2.7.4
-
+regards,
+Stan
