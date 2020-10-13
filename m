@@ -2,154 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 76B3628CABF
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 11:03:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 48A2528CACA
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 11:08:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404059AbgJMJDE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Oct 2020 05:03:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42074 "EHLO
+        id S2404219AbgJMJIU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Oct 2020 05:08:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42868 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391437AbgJMJDE (ORCPT
+        with ESMTP id S2404121AbgJMJIP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Oct 2020 05:03:04 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD65AC0613D2
-        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 02:03:03 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id p15so27148112ejm.7
-        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 02:03:03 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=yix8uA8ccUHN4fake0yiRHNn/uIqI1ulnAUvcNoP2CU=;
-        b=YnOZMGM37Q8OfZjtCsKEZM7LeipsZdLC9ekHYA/oX9EPQ6piOwqvv8DzbjdPKnaj15
-         7acx8UzDGnVu7ygc8NcQfm7ilC2q2fbcZNpYd+x3xnae12cTwEgzSQv+aH5FGyG0KQeA
-         Qk5RfFWMcGiCN1LM1doK5aJ5I1EdYVDtuXjW2KIfbUAgLdUudkJSTkvQWyl2sRMeQIsT
-         AHS3HqK6eOaaKR0o0LzFJ76VWMQWDdr5FhUjMD3wdYb5sudBqu6QnNATXIMUmAo+AD42
-         xxJHhXzHrG/vTy3R8/vZ7IlFxOy5d77e3AEjKX5cBC/qYR3VFBbLCSiHyO3fKnsABrPx
-         fvxw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=yix8uA8ccUHN4fake0yiRHNn/uIqI1ulnAUvcNoP2CU=;
-        b=P0+57VHks1EbmH1CToPnGnDzdtbIlwQUDuxxBo0tPnNITZAJfeF1wKzKMPK1vKmrO3
-         wpoKAsKR2xW8TrYftOko0+4U2y5WOrg5ITHdbvgMsnmJDbjG+Rvnn6i6goBWtGso9GwF
-         uef5tJ6nKXg/5RC5932bYD/lxFq5zg5VY0mJazvsZBW1z1rsytj5FPLjqc19FCYkDQcs
-         qo5McGy3vk4MeWKdCeMjHdlyhkE+I85CayzM54klAMB8nIdgrfR/F3MCH0ECP7HCnjxs
-         O36kK76tN3+602bf02Qg24kKyJ7W1zO+hek/SmrAbomWZGUmcu3d+cFlGs0zNimjleQz
-         fWnQ==
-X-Gm-Message-State: AOAM533/rz9XGT6HZpIlsyuLSU+gpa2RcBFahPZf6PdgwfWy5GU5zyhC
-        BzsXtk9lWoR8vbd0AhLxxbHwqA==
-X-Google-Smtp-Source: ABdhPJz6urimsOcuJgj3i5jKUukfiZ36eFQhiILV02hNGx+tFWg75eGdKZuwuZOVE4fwZGIha0mBxQ==
-X-Received: by 2002:a17:906:3ada:: with SMTP id z26mr10117309ejd.151.1602579782287;
-        Tue, 13 Oct 2020 02:03:02 -0700 (PDT)
-Received: from [192.168.43.233] (212-5-158-214.ip.btc-net.bg. [212.5.158.214])
-        by smtp.googlemail.com with ESMTPSA id q1sm11973152ejy.37.2020.10.13.02.03.00
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2020 02:03:01 -0700 (PDT)
-Subject: Re: [PATCH] v4l: Add source change event for colorimetry
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tue, 13 Oct 2020 05:08:15 -0400
+Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D46F3C0613D0;
+        Tue, 13 Oct 2020 02:08:14 -0700 (PDT)
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 8F33C634C87;
+        Tue, 13 Oct 2020 12:07:05 +0300 (EEST)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1kSGGv-0002fj-Dc; Tue, 13 Oct 2020 12:07:05 +0300
+Date:   Tue, 13 Oct 2020 12:07:05 +0300
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Hugues Fruchet <hugues.fruchet@st.com>
+Cc:     Alexandre Torgue <alexandre.torgue@st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>
-References: <20200702100017.24700-1-stanimir.varbanov@linaro.org>
- <8dafbb4b-4626-5191-c57a-f3ef19c14618@linaro.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <d11da037-92e5-2ee7-8723-10162d16eba9@linaro.org>
-Date:   Tue, 13 Oct 2020 12:02:59 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Alain Volmat <alain.volmat@st.com>,
+        Yannick Fertre <yannick.fertre@st.com>,
+        Philippe CORNU <philippe.cornu@st.com>
+Subject: Re: [PATCH] media: stm32-dcmi: add support of BT656 bus
+Message-ID: <20201013090704.GL6413@valkosipuli.retiisi.org.uk>
+References: <1602087290-18020-1-git-send-email-hugues.fruchet@st.com>
 MIME-Version: 1.0
-In-Reply-To: <8dafbb4b-4626-5191-c57a-f3ef19c14618@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1602087290-18020-1-git-send-email-hugues.fruchet@st.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Hugues,
 
-On 7/2/20 2:52 PM, Stanimir Varbanov wrote:
-> Hi,
-> 
-> Once we have this event there is still open question how the client will
-> know the data buffer on which the new colorspace is valid/applied.
-> 
-> The options could be:
->  * a new buffer flag and
->  * some information in the v4l2_event structure.
-> 
-> Thoughts?
+On Wed, Oct 07, 2020 at 06:14:50PM +0200, Hugues Fruchet wrote:
+> Add support of BT656 embedded synchronization bus.
+> This mode allows to save hardware synchro lines hsync & vsync
+> by replacing them with synchro codes embedded in data stream.
+> This bus type is only compatible with 8 bits width data bus.
+> Due to reserved values 0x00 & 0xff used for synchro codes,
+> valid data only vary from 0x1 to 0xfe, this is up to sensor
+> to clip accordingly pixel data. As a consequence of this
+> clipping, JPEG is not supported when using this bus type.
+> DCMI crop feature is also not available with this bus type.
 
-Kindly ping.
+You can have more than 62 characters per line. In fact, 75 is the
+recommended maximum.
+
+You should also amend the bindings to cover BT.656 mode. Also bus-type
+should probably be made mandatory, too.
 
 > 
-> On 7/2/20 1:00 PM, Stanimir Varbanov wrote:
->> This event indicate that the source colorspace is changed
->> during run-time. The client has to retrieve the new colorspace
->> identifiers by getting the format (G_FMT).
->>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  .../userspace-api/media/v4l/vidioc-dqevent.rst        | 11 ++++++++++-
->>  .../userspace-api/media/videodev2.h.rst.exceptions    |  1 +
->>  include/uapi/linux/videodev2.h                        |  1 +
->>  3 files changed, 12 insertions(+), 1 deletion(-)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
->> index a9a176d5256d..3f69c753db58 100644
->> --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
->> +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
->> @@ -381,7 +381,16 @@ call.
->>  	that many Video Capture devices are not able to recover from a temporary
->>  	loss of signal and so restarting streaming I/O is required in order for
->>  	the hardware to synchronize to the video signal.
->> -
->> +    * - ``V4L2_EVENT_SRC_CH_COLORIMETRY``
->> +      - 0x0002
->> +      - This event gets triggered when a colorspace change is detected at
->> +	an input. By colorspace change here we include also changes in the
->> +	colorspace specifiers (transfer function, Y'CbCr encoding and
->> +	quantization). This event can come from an input or from video decoder.
->> +	Once the event has been send to the client the driver has to update
->> +	the colorspace specifiers internally so that they could be retrieved by
->> +	client. In that case queue re-negotiation is not needed as this change
->> +	only reflects on the interpretation of the data.
->>  
->>  Return Value
->>  ============
->> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
->> index ca05e4e126b2..54fc21af852d 100644
->> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
->> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
->> @@ -492,6 +492,7 @@ replace define V4L2_EVENT_CTRL_CH_FLAGS ctrl-changes-flags
->>  replace define V4L2_EVENT_CTRL_CH_RANGE ctrl-changes-flags
->>  
->>  replace define V4L2_EVENT_SRC_CH_RESOLUTION src-changes-flags
->> +replace define V4L2_EVENT_SRC_CH_COLORIMETRY src-changes-flags
->>  
->>  replace define V4L2_EVENT_MD_FL_HAVE_FRAME_SEQ :c:type:`v4l2_event_motion_det`
->>  
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->> index 303805438814..b5838bc4e3a3 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -2351,6 +2351,7 @@ struct v4l2_event_frame_sync {
->>  };
->>  
->>  #define V4L2_EVENT_SRC_CH_RESOLUTION		(1 << 0)
->> +#define V4L2_EVENT_SRC_CH_COLORIMETRY		(1 << 1)
->>  
->>  struct v4l2_event_src_change {
->>  	__u32 changes;
->>
+> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+> ---
+>  drivers/media/platform/stm32/stm32-dcmi.c | 37 +++++++++++++++++++++++++++++--
+>  1 file changed, 35 insertions(+), 2 deletions(-)
 > 
+> diff --git a/drivers/media/platform/stm32/stm32-dcmi.c b/drivers/media/platform/stm32/stm32-dcmi.c
+> index fd1c41c..d7d7cdb 100644
+> --- a/drivers/media/platform/stm32/stm32-dcmi.c
+> +++ b/drivers/media/platform/stm32/stm32-dcmi.c
+> @@ -157,6 +157,7 @@ struct stm32_dcmi {
+>  	struct vb2_queue		queue;
+>  
+>  	struct v4l2_fwnode_bus_parallel	bus;
+> +	enum v4l2_mbus_type		bus_type;
+>  	struct completion		complete;
+>  	struct clk			*mclk;
+>  	enum state			state;
+> @@ -777,6 +778,23 @@ static int dcmi_start_streaming(struct vb2_queue *vq, unsigned int count)
+>  	if (dcmi->bus.flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+>  		val |= CR_PCKPOL;
+>  
+> +	/*
+> +	 * BT656 embedded synchronisation bus mode.
+> +	 *
+> +	 * Default SAV/EAV mode is supported here with default codes
+> +	 * SAV=0xff000080 & EAV=0xff00009d.
+> +	 * With DCMI this means LSC=SAV=0x80 & LEC=EAV=0x9d.
+> +	 */
+> +	if (dcmi->bus_type == V4L2_MBUS_BT656) {
+> +		val |= CR_ESS;
+> +
+> +		/* Unmask all codes */
+> +		reg_write(dcmi->regs, DCMI_ESUR, 0xffffffff);/* FEC:LEC:LSC:FSC */
+> +
+> +		/* Trig on LSC=0x80 & LEC=0x9d codes, ignore FSC and FEC */
+> +		reg_write(dcmi->regs, DCMI_ESCR, 0xff9d80ff);/* FEC:LEC:LSC:FSC */
+> +	}
+> +
+>  	reg_write(dcmi->regs, DCMI_CR, val);
+>  
+>  	/* Set crop */
+> @@ -1067,8 +1085,9 @@ static int dcmi_set_fmt(struct stm32_dcmi *dcmi, struct v4l2_format *f)
+>  	if (ret)
+>  		return ret;
+>  
+> -	/* Disable crop if JPEG is requested */
+> -	if (pix->pixelformat == V4L2_PIX_FMT_JPEG)
+> +	/* Disable crop if JPEG is requested or BT656 bus is selected */
+> +	if (pix->pixelformat == V4L2_PIX_FMT_JPEG &&
+> +	    dcmi->bus_type != V4L2_MBUS_BT656)
+>  		dcmi->do_crop = false;
+>  
+>  	/* pix to mbus format */
+> @@ -1592,6 +1611,11 @@ static int dcmi_formats_init(struct stm32_dcmi *dcmi)
+>  			if (dcmi_formats[i].mbus_code != mbus_code.code)
+>  				continue;
+>  
+> +			/* Exclude JPEG if BT656 bus is selected */
+> +			if (dcmi_formats[i].fourcc == V4L2_PIX_FMT_JPEG &&
+> +			    dcmi->bus_type == V4L2_MBUS_BT656)
+> +				continue;
+> +
+>  			/* Code supported, have we got this fourcc yet? */
+>  			for (j = 0; j < num_fmts; j++)
+>  				if (sd_fmts[j]->fourcc ==
+> @@ -1873,9 +1897,18 @@ static int dcmi_probe(struct platform_device *pdev)
+>  		dev_err(&pdev->dev, "CSI bus not supported\n");
+>  		return -ENODEV;
+>  	}
+> +
+> +	if (ep.bus_type == V4L2_MBUS_BT656 &&
+> +	    ep.bus.parallel.bus_width != 8) {
+> +		dev_err(&pdev->dev, "BT656 bus conflicts with %d bits bus width (8 bits required)\n",
+> +			ep.bus.parallel.bus_width);
+
+bus_width is unsigned here.
+
+> +		return -ENODEV;
+> +	}
+> +
+>  	dcmi->bus.flags = ep.bus.parallel.flags;
+>  	dcmi->bus.bus_width = ep.bus.parallel.bus_width;
+>  	dcmi->bus.data_shift = ep.bus.parallel.data_shift;
+> +	dcmi->bus_type = ep.bus_type;
+>  
+>  	irq = platform_get_irq(pdev, 0);
+>  	if (irq <= 0)
 
 -- 
-regards,
-Stan
+Regards,
+
+Sakari Ailus
