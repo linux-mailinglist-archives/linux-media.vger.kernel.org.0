@@ -2,226 +2,323 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40AC728DD4E
-	for <lists+linux-media@lfdr.de>; Wed, 14 Oct 2020 11:26:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E56428DCE4
+	for <lists+linux-media@lfdr.de>; Wed, 14 Oct 2020 11:22:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730018AbgJNJXl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Oct 2020 05:23:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39924 "EHLO
+        id S1731105AbgJNJU5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Oct 2020 05:20:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39944 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731212AbgJNJWn (ORCPT
+        with ESMTP id S1731056AbgJNJUn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Oct 2020 05:22:43 -0400
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CB1EC0613B1;
-        Tue, 13 Oct 2020 14:52:24 -0700 (PDT)
-Received: by mail-yb1-xb43.google.com with SMTP id h9so927122ybm.4;
-        Tue, 13 Oct 2020 14:52:24 -0700 (PDT)
+        Wed, 14 Oct 2020 05:20:43 -0400
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41EEBC0613BC
+        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 15:26:37 -0700 (PDT)
+Received: by mail-yb1-xb42.google.com with SMTP id l15so1000254ybp.2
+        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 15:26:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=aHSVzGrwxPY+5umbvS7UQaRkw2SUc5XjmhTscxoVxXY=;
-        b=AysTXKjxOkM69AqLCDBsnLHnTxWtFbL79XrhZ0Mz/aJPLK2Lsa6Ojh+WgjbKVyhiCc
-         qkM933Ne+RZu6OYJHQO5+xMBVXB8jRn/B+tdU9glVOKqDC8suXpCs3WcYFhcXZu2m5JQ
-         ZyXtaytSacEdMxuNHdpXJEdEN70O1own5Ay9cGmcG/trjYqybP5lTma3ZWnBCpF0+iaS
-         FlDB/4ISCR1au7kHRQoUrS7WNVvvUIbO2NxavrWuYkVzSjYIFI4+P/5PDgVedkd2mLJp
-         pudO02MqxDIU7HQJGjow9Sm0mNB5ZGY5n3UqU5+voQ1008oH3LSzBmP8XDsBwOfl4CeQ
-         7i5g==
+        bh=V8Y86yjZEr7hEx+QQuIVtC6iyJ509PC55QpleKSFzuU=;
+        b=NUtadb55tG54QBVfiUvii9vZs6YmXLmvnR8wzC7u3WRHGN55CFHC9UXU7ID1ABSoIC
+         3ZbIZke6GU8g73VKzGI5oUaJdDSW7KGAQuxi3NBzT0dVk4NoKtH7mKWKMu1x/CdQWH5a
+         D9yt6HaMPz1m0KrBbEjnVm+etNzNbNticsKRCeG5wJYmpc6JqXQO+5375p+FeleQqxj+
+         EmRAO9B413oNTN65PpPNqA2eDoPWWnwRx0zpksjDfCzIsEmBRp/wQx+phNIk2/YjQkS0
+         lgBY6/JPZIc22NnLkjozQbpOaYne12vNqDAAmjOFx0hE+O3+S4o9gVfSoPg2wBPKzmqn
+         JFWQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aHSVzGrwxPY+5umbvS7UQaRkw2SUc5XjmhTscxoVxXY=;
-        b=WmtcHty+L6Es+w2tFl1omMkZNKIckbBXMtaaAOkECVd3xzJee2c1KSQSAi55WUCwzx
-         oxo9Svjc2l1KQu+NahbShhDqQ4/+BxoKDUncsVE7UEBDFPNl0NK910T7u6kpMbKRcPlw
-         sDqUiRST5Y0eEu16e/cBLdBKNGMjhmrvBBV7lI30kHZgP6ujQgJmCcSKPUxMKpCuKTAg
-         xntv7oRBASpGVjg84zCStZLz7HyWvOYlXwHLtX/Io9K6vb8HgFV9I39EBpj9mRcYzDyC
-         vsTot4GrS2zy1OilMdhNIpBCY12En+ewuUkYGfA5LxtrZEbG1Jvff62eXRbKWsGAQiD5
-         0FSA==
-X-Gm-Message-State: AOAM532k6eegg1zJu6ERAuXsSRNe7ElLxDGu6D0LNeOYxPbzMs4hAx0r
-        2AtFyxvj1YlJY4I3V4i6Q9YzD/B5JYfIKCPiD9w=
-X-Google-Smtp-Source: ABdhPJx1PTzq4G5Zx99mkZN/dFLb5s+w/lzDHXyoJVjnP6bBn5APRDjororfZanWzi0TglZPZWHQ2X1fKtDkdXLvWpM=
-X-Received: by 2002:a25:8246:: with SMTP id d6mr2814998ybn.25.1602625943672;
- Tue, 13 Oct 2020 14:52:23 -0700 (PDT)
+        bh=V8Y86yjZEr7hEx+QQuIVtC6iyJ509PC55QpleKSFzuU=;
+        b=rlqQ3ax4NW3WocVZYpcN/ETttQCd98K4tja6TpTl4gTpwPCKUOPGy4cxZTV03Cvg8o
+         lOrYymTaxhS5hCWFMCjhXXnmim8J9HZXchXWlL1q9SB3NogcPo5EUGqXAHsSZRRq2YsG
+         ihzpyP73A0sZY2oOG0no2cfbsNRUI/snNL52K1dind7IlXWzHUUWxzHgkB9aYtxVWmJV
+         wrJP8ggqv+wiDnRZYATygucmijT5Dno8EgPtrt6TR+lME2decTYDAvU3ZYzuZrcjc3KN
+         mDtctdmOot8/Rb4+FL8YrKFQBGJE00O5gqeRetfK5KsVrES40gJ5+R1iQQu2PokMN0bI
+         /IYg==
+X-Gm-Message-State: AOAM5324rjKQ/WYP74OZj8ACn12fKMM3k4hf/n9wcayUDRoxYUn4SZmn
+        BFBeX3DRUUSPbsVQX/G0vfpqg7fb6DTpQWxgBvA=
+X-Google-Smtp-Source: ABdhPJw1LH7yScNRy3HUjMJWsl1p8r8xAPF3YnkJRB5PKMjJcMgcEfZL5CirBAnkPzpfPH1LF4y5ZIJKLO59J7wHOks=
+X-Received: by 2002:a25:2a8a:: with SMTP id q132mr3201833ybq.445.1602627996458;
+ Tue, 13 Oct 2020 15:26:36 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201013150150.14801-1-fabrizio.castro.jz@renesas.com> <20201013150150.14801-6-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20201013150150.14801-6-fabrizio.castro.jz@renesas.com>
+References: <1602514303-22316-1-git-send-email-hugues.fruchet@st.com>
+In-Reply-To: <1602514303-22316-1-git-send-email-hugues.fruchet@st.com>
 From:   "Lad, Prabhakar" <prabhakar.csengg@gmail.com>
-Date:   Tue, 13 Oct 2020 22:51:57 +0100
-Message-ID: <CA+V-a8uEnQOmJK0zxOe60EX-G-f-0V756U43myZVJDVf0eQb9Q@mail.gmail.com>
-Subject: Re: [PATCH v3 5/5] arm64: dts: r8a77965: Add DRIF support
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+Date:   Tue, 13 Oct 2020 23:26:10 +0100
+Message-ID: <CA+V-a8sxrSgHO-Mm6Xc-DMKFmFr7P=XxU9R+0A3J8PbWeJ+0jA@mail.gmail.com>
+Subject: Re: [PATCH v2] media: ov5640: fix support of BT656 bus mode
+To:     Hugues Fruchet <hugues.fruchet@st.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, LKML <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        linux-stm32@st-md-mailman.stormreply.com,
+        Alain Volmat <alain.volmat@st.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabrizio,
+Hi Hugues,
 
-Thank you for the patch.
+Thank you for catching the polarity bug.
 
-On Tue, Oct 13, 2020 at 6:25 PM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
+On Mon, Oct 12, 2020 at 3:55 PM Hugues Fruchet <hugues.fruchet@st.com> wrote:
 >
-> Add the DRIF controller nodes for r8a77965 (a.k.a. R-Car M3-N).
+> Fix PCLK polarity not being taken into account.
+> Add comments about BT656 register control.
+> Remove useless ov5640_set_stream_bt656() function.
+> Refine comments about MIPI IO register control.
 >
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Fixes: 4039b03720f7 ("media: i2c: ov5640: Add support for BT656 mode")
+> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
 > ---
-> v2->v3:
-> * New patch
+>  drivers/media/i2c/ov5640.c | 77 +++++++++++++++++++++++++++-------------------
+>  1 file changed, 45 insertions(+), 32 deletions(-)
 >
->  arch/arm64/boot/dts/renesas/r8a77965.dtsi | 120 ++++++++++++++++++++++
->  1 file changed, 120 insertions(+)
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 8d0254d..c0ebf4c 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -1216,20 +1216,6 @@ static int ov5640_set_autogain(struct ov5640_dev *sensor, bool on)
+>                               BIT(1), on ? 0 : BIT(1));
+>  }
 >
-Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> -static int ov5640_set_stream_bt656(struct ov5640_dev *sensor, bool on)
+> -{
+> -       int ret;
+> -
+> -       ret = ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00,
+> -                              on ? 0x1 : 0x00);
+> -       if (ret)
+> -               return ret;
+> -
+> -       return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ?
+> -                               OV5640_REG_SYS_CTRL0_SW_PWUP :
+> -                               OV5640_REG_SYS_CTRL0_SW_PWDN);
+> -}
+> -
+>  static int ov5640_set_stream_dvp(struct ov5640_dev *sensor, bool on)
+>  {
+>         return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ?
+> @@ -1994,6 +1980,7 @@ static int ov5640_set_power_mipi(struct ov5640_dev *sensor, bool on)
+>  static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+>  {
+>         unsigned int flags = sensor->ep.bus.parallel.flags;
+> +       bool bt656 = sensor->ep.bus_type == V4L2_MBUS_BT656;
+>         u8 pclk_pol = 0;
+>         u8 hsync_pol = 0;
+>         u8 vsync_pol = 0;
+> @@ -2001,6 +1988,7 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+>
+>         if (!on) {
+>                 /* Reset settings to their default values. */
+> +               ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00, 0x00);
+>                 ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x58);
+>                 ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00, 0x20);
+>                 ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01, 0x00);
+> @@ -2024,23 +2012,51 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+>          * - VSYNC:     active high
+>          * - HREF:      active low
+>          * - PCLK:      active low
+> +        *
+> +        * VSYNC & HREF are not configured if BT656 bus mode is selected
+>          */
+> +
+>         /*
+> -        * configure parallel port control lines polarity
+> +        * BT656 embedded synchronization configuration
+>          *
+> -        * POLARITY CTRL0
+> -        * - [5]:       PCLK polarity (0: active low, 1: active high)
+> -        * - [1]:       HREF polarity (0: active low, 1: active high)
+> -        * - [0]:       VSYNC polarity (mismatch here between
+> -        *              datasheet and hardware, 0 is active high
+> -        *              and 1 is active low...)
+> +        * CCIR656 CTRL00
+> +        * - [7]:       SYNC code selection (0: auto generate sync code,
+> +        *              1: sync code from regs 0x4732-0x4735)
+> +        * - [6]:       f value in CCIR656 SYNC code when fixed f value
+> +        * - [5]:       Fixed f value
+> +        * - [4:3]:     Blank toggle data options (00: data=1'h040/1'h200,
+> +        *              01: data from regs 0x4736-0x4738, 10: always keep 0)
+> +        * - [1]:       Clip data disable
+> +        * - [0]:       CCIR656 mode enable
+> +        *
+> +        * Default CCIR656 SAV/EAV mode with default codes
+> +        * SAV=0xff000080 & EAV=0xff00009d is enabled here with settings:
+> +        * - CCIR656 mode enable
+> +        * - auto generation of sync codes
+> +        * - blank toggle data 1'h040/1'h200
+> +        * - clip reserved data (0x00 & 0xff changed to 0x01 & 0xfe)
+>          */
+> -       if (sensor->ep.bus_type == V4L2_MBUS_PARALLEL) {
+> +       ret = ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00,
+> +                              bt656 ? 0x01 : 0x00);
+Did you test bt656 on your platform ? with these changes BT.656 mode
+doesn't work anymore on my platform. With the below diff on top of
+your patch it works OK. Could you please test the same works on your
+platform.
+
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index 49e73ace8685..c5e45bc17bdf 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -1977,6 +1977,40 @@ static int ov5640_set_power_mipi(struct
+ov5640_dev *sensor, bool on)
+        return 0;
+ }
+
++static int ov5640_set_stream_bt656(struct ov5640_dev *sensor, bool on)
++{
++       int ret;
++
++       /*
++        * BT656 embedded synchronization configuration
++        *
++        * CCIR656 CTRL00
++        * - [7]:       SYNC code selection (0: auto generate sync code,
++        *              1: sync code from regs 0x4732-0x4735)
++        * - [6]:       f value in CCIR656 SYNC code when fixed f value
++        * - [5]:       Fixed f value
++        * - [4:3]:     Blank toggle data options (00: data=1'h040/1'h200,
++        *              01: data from regs 0x4736-0x4738, 10: always keep 0)
++        * - [1]:       Clip data disable
++        * - [0]:       CCIR656 mode enable
++        *
++        * Default CCIR656 SAV/EAV mode with default codes
++        * SAV=0xff000080 & EAV=0xff00009d is enabled here with settings:
++        * - CCIR656 mode enable
++        * - auto generation of sync codes
++        * - blank toggle data 1'h040/1'h200
++        * - clip reserved data (0x00 & 0xff changed to 0x01 & 0xfe)
++        */
++       ret = ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00,
++                              on ? 0x1 : 0x00);
++       if (ret)
++               return ret;
++
++       return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ?
++                               OV5640_REG_SYS_CTRL0_SW_PWUP :
++                               OV5640_REG_SYS_CTRL0_SW_PWDN);
++}
++
+ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+ {
+        unsigned int flags = sensor->ep.bus.parallel.flags;
+@@ -2014,31 +2048,6 @@ static int ov5640_set_power_dvp(struct
+ov5640_dev *sensor, bool on)
+         * VSYNC & HREF are not configured if BT656 bus mode is selected
+         */
+
+-       /*
+-        * BT656 embedded synchronization configuration
+-        *
+-        * CCIR656 CTRL00
+-        * - [7]:       SYNC code selection (0: auto generate sync code,
+-        *              1: sync code from regs 0x4732-0x4735)
+-        * - [6]:       f value in CCIR656 SYNC code when fixed f value
+-        * - [5]:       Fixed f value
+-        * - [4:3]:     Blank toggle data options (00: data=1'h040/1'h200,
+-        *              01: data from regs 0x4736-0x4738, 10: always keep 0)
+-        * - [1]:       Clip data disable
+-        * - [0]:       CCIR656 mode enable
+-        *
+-        * Default CCIR656 SAV/EAV mode with default codes
+-        * SAV=0xff000080 & EAV=0xff00009d is enabled here with settings:
+-        * - CCIR656 mode enable
+-        * - auto generation of sync codes
+-        * - blank toggle data 1'h040/1'h200
+-        * - clip reserved data (0x00 & 0xff changed to 0x01 & 0xfe)
+-        */
+-       ret = ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00,
+-                              bt656 ? 0x01 : 0x00);
+-       if (ret)
+-               return ret;
+-
+        /*
+         * configure parallel port control lines polarity
+         *
+@@ -2935,6 +2944,8 @@ static int ov5640_s_stream(struct v4l2_subdev
+*sd, int enable)
+
+                if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
+                        ret = ov5640_set_stream_mipi(sensor, enable);
++               else if (sensor->ep.bus_type == V4L2_MBUS_BT656)
++                       ret = ov5640_set_stream_bt656(sensor, enable);
+                else
+                        ret = ov5640_set_stream_dvp(sensor, enable);
 
 Cheers,
 Prabhakar
 
-> diff --git a/arch/arm64/boot/dts/renesas/r8a77965.dtsi b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-> index fe4dc12e2bdf..c5a54dc7ede2 100644
-> --- a/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-> +++ b/arch/arm64/boot/dts/renesas/r8a77965.dtsi
-> @@ -1550,6 +1550,126 @@ vin7csi40: endpoint@2 {
->                         };
->                 };
+> +       if (ret)
+> +               return ret;
+> +
+> +       if (on) {
+> +               /*
+> +                * configure parallel port control lines polarity
+> +                *
+> +                * POLARITY CTRL0
+> +                * - [5]:       PCLK polarity (0: active low, 1: active high)
+> +                * - [1]:       HREF polarity (0: active low, 1: active high)
+> +                * - [0]:       VSYNC polarity (mismatch here between
+> +                *              datasheet and hardware, 0 is active high
+> +                *              and 1 is active low...)
+> +                */
+>                 if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+>                         pclk_pol = 1;
+> -               if (flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+> +               if (!bt656 && flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+>                         hsync_pol = 1;
+> -               if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> +               if (!bt656 && flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+>                         vsync_pol = 1;
 >
-> +               drif00: rif@e6f40000 {
-> +                       compatible = "renesas,r8a77965-drif",
-> +                                    "renesas,rcar-gen3-drif";
-> +                       reg = <0 0xe6f40000 0 0x84>;
-> +                       interrupts = <GIC_SPI 12 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 515>;
-> +                       clock-names = "fck";
-> +                       dmas = <&dmac1 0x20>, <&dmac2 0x20>;
-> +                       dma-names = "rx", "rx";
-> +                       power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 515>;
-> +                       renesas,bonding = <&drif01>;
-> +                       status = "disabled";
-> +               };
-> +
-> +               drif01: rif@e6f50000 {
-> +                       compatible = "renesas,r8a77965-drif",
-> +                                    "renesas,rcar-gen3-drif";
-> +                       reg = <0 0xe6f50000 0 0x84>;
-> +                       interrupts = <GIC_SPI 13 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 514>;
-> +                       clock-names = "fck";
-> +                       dmas = <&dmac1 0x22>, <&dmac2 0x22>;
-> +                       dma-names = "rx", "rx";
-> +                       power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 514>;
-> +                       renesas,bonding = <&drif00>;
-> +                       status = "disabled";
-> +               };
-> +
-> +               drif10: rif@e6f60000 {
-> +                       compatible = "renesas,r8a77965-drif",
-> +                                    "renesas,rcar-gen3-drif";
-> +                       reg = <0 0xe6f60000 0 0x84>;
-> +                       interrupts = <GIC_SPI 14 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 513>;
-> +                       clock-names = "fck";
-> +                       dmas = <&dmac1 0x24>, <&dmac2 0x24>;
-> +                       dma-names = "rx", "rx";
-> +                       power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 513>;
-> +                       renesas,bonding = <&drif11>;
-> +                       status = "disabled";
-> +               };
-> +
-> +               drif11: rif@e6f70000 {
-> +                       compatible = "renesas,r8a77965-drif",
-> +                                    "renesas,rcar-gen3-drif";
-> +                       reg = <0 0xe6f70000 0 0x84>;
-> +                       interrupts = <GIC_SPI 15 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 512>;
-> +                       clock-names = "fck";
-> +                       dmas = <&dmac1 0x26>, <&dmac2 0x26>;
-> +                       dma-names = "rx", "rx";
-> +                       power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 512>;
-> +                       renesas,bonding = <&drif10>;
-> +                       status = "disabled";
-> +               };
-> +
-> +               drif20: rif@e6f80000 {
-> +                       compatible = "renesas,r8a77965-drif",
-> +                                    "renesas,rcar-gen3-drif";
-> +                       reg = <0 0xe6f80000 0 0x84>;
-> +                       interrupts = <GIC_SPI 24 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 511>;
-> +                       clock-names = "fck";
-> +                       dmas = <&dmac1 0x28>, <&dmac2 0x28>;
-> +                       dma-names = "rx", "rx";
-> +                       power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 511>;
-> +                       renesas,bonding = <&drif21>;
-> +                       status = "disabled";
-> +               };
-> +
-> +               drif21: rif@e6f90000 {
-> +                       compatible = "renesas,r8a77965-drif",
-> +                                    "renesas,rcar-gen3-drif";
-> +                       reg = <0 0xe6f90000 0 0x84>;
-> +                       interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 510>;
-> +                       clock-names = "fck";
-> +                       dmas = <&dmac1 0x2a>, <&dmac2 0x2a>;
-> +                       dma-names = "rx", "rx";
-> +                       power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 510>;
-> +                       renesas,bonding = <&drif20>;
-> +                       status = "disabled";
-> +               };
-> +
-> +               drif30: rif@e6fa0000 {
-> +                       compatible = "renesas,r8a77965-drif",
-> +                                    "renesas,rcar-gen3-drif";
-> +                       reg = <0 0xe6fa0000 0 0x84>;
-> +                       interrupts = <GIC_SPI 26 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 509>;
-> +                       clock-names = "fck";
-> +                       dmas = <&dmac1 0x2c>, <&dmac2 0x2c>;
-> +                       dma-names = "rx", "rx";
-> +                       power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 509>;
-> +                       renesas,bonding = <&drif31>;
-> +                       status = "disabled";
-> +               };
-> +
-> +               drif31: rif@e6fb0000 {
-> +                       compatible = "renesas,r8a77965-drif",
-> +                                    "renesas,rcar-gen3-drif";
-> +                       reg = <0 0xe6fb0000 0 0x84>;
-> +                       interrupts = <GIC_SPI 27 IRQ_TYPE_LEVEL_HIGH>;
-> +                       clocks = <&cpg CPG_MOD 508>;
-> +                       clock-names = "fck";
-> +                       dmas = <&dmac1 0x2e>, <&dmac2 0x2e>;
-> +                       dma-names = "rx", "rx";
-> +                       power-domains = <&sysc R8A77965_PD_ALWAYS_ON>;
-> +                       resets = <&cpg 508>;
-> +                       renesas,bonding = <&drif30>;
-> +                       status = "disabled";
-> +               };
-> +
->                 rcar_sound: sound@ec500000 {
->                         /*
->                          * #sound-dai-cells is required
+>                 ret = ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00,
+> @@ -2052,12 +2068,12 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+>         }
+>
+>         /*
+> -        * powerdown MIPI TX/RX PHY & disable MIPI
+> +        * powerdown MIPI TX/RX PHY & enable DVP
+>          *
+>          * MIPI CONTROL 00
+> -        * 4:    PWDN PHY TX
+> -        * 3:    PWDN PHY RX
+> -        * 2:    MIPI enable
+> +        * [4] = 1      : Power down MIPI HS Tx
+> +        * [3] = 1      : Power down MIPI LS Rx
+> +        * [2] = 0      : DVP enable (MIPI disable)
+>          */
+>         ret = ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x18);
+>         if (ret)
+> @@ -2074,8 +2090,7 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+>          * - [3:0]:     D[9:6] output enable
+>          */
+>         ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01,
+> -                              sensor->ep.bus_type == V4L2_MBUS_PARALLEL ?
+> -                              0x7f : 0x1f);
+> +                              bt656 ? 0x1f : 0x7f);
+>         if (ret)
+>                 return ret;
+>
+> @@ -2925,8 +2940,6 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
+>
+>                 if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
+>                         ret = ov5640_set_stream_mipi(sensor, enable);
+> -               else if (sensor->ep.bus_type == V4L2_MBUS_BT656)
+> -                       ret = ov5640_set_stream_bt656(sensor, enable);
+>                 else
+>                         ret = ov5640_set_stream_dvp(sensor, enable);
+>
 > --
-> 2.25.1
+> 2.7.4
 >
