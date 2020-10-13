@@ -2,241 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4735A28CEC4
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 14:52:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8875928CEE1
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 15:05:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728180AbgJMMw5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Oct 2020 08:52:57 -0400
-Received: from relay11.mail.gandi.net ([217.70.178.231]:49187 "EHLO
-        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727102AbgJMMw5 (ORCPT
+        id S2387565AbgJMNFP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Oct 2020 09:05:15 -0400
+Received: from mailgw02.mediatek.com ([210.61.82.184]:38768 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S2387546AbgJMNFN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Oct 2020 08:52:57 -0400
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 30A8210000C;
-        Tue, 13 Oct 2020 12:52:51 +0000 (UTC)
-Date:   Tue, 13 Oct 2020 14:56:52 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hugues FRUCHET <hugues.fruchet@st.com>
-Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Alain VOLMAT <alain.volmat@st.com>
-Subject: Re: [PATCH v3] media: ov5640: fix support of BT656 bus mode
-Message-ID: <20201013125652.rlltiyove722nkoz@uno.localdomain>
-References: <1602579743-10286-1-git-send-email-hugues.fruchet@st.com>
- <20201013120130.fjfyksz5gy6hwipo@uno.localdomain>
- <22d30ee9-66ac-55e7-47bc-cee5edae1c8b@st.com>
+        Tue, 13 Oct 2020 09:05:13 -0400
+X-UUID: cea8e0db39b14872b768a720a4baa583-20201013
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:Content-Type:MIME-Version:Message-ID:Date:Subject:CC:To:From; bh=Ma35HvnVMPv2Mtqmq10T4yH5J23SnKvh3FQUK91VnMk=;
+        b=MK+dSZvaqg/95XMe0bYgxpJiDWXwFicA+0EVpEiroI6Gt8BC/kAuF6UcCXYQ34jrmXn9YlsE7bY3edHr2i0eUeuxLTw00PdOeepkOEXGnnb45Qtfq2l31qhnlgaWNOnNOZqtDFl3RSwq8R3oP8xTurEpEgEGgrUmNSx8C3qQYcI=;
+X-UUID: cea8e0db39b14872b768a720a4baa583-20201013
+Received: from mtkcas08.mediatek.inc [(172.21.101.126)] by mailgw02.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (Cellopoint E-mail Firewall v4.1.14 Build 0819 with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1278656683; Tue, 13 Oct 2020 21:05:09 +0800
+Received: from mtkcas08.mediatek.inc (172.21.101.126) by
+ mtkmbs07n1.mediatek.inc (172.21.101.16) with Microsoft SMTP Server (TLS) id
+ 15.0.1497.2; Tue, 13 Oct 2020 21:05:08 +0800
+Received: from localhost.localdomain (10.17.3.153) by mtkcas08.mediatek.inc
+ (172.21.101.73) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 13 Oct 2020 21:05:07 +0800
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     <mchehab@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <sakari.ailus@linux.intel.com>, <drinkcat@chromium.org>,
+        <tfiga@chromium.org>, <matthias.bgg@gmail.com>,
+        <bingbu.cao@intel.com>
+CC:     <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>,
+        <dongchun.zhu@mediatek.com>
+Subject: [PATCH v15 0/2] media: i2c: Add support for OV02A10 sensor
+Date:   Tue, 13 Oct 2020 21:05:01 +0800
+Message-ID: <20201013130503.2412-1-dongchun.zhu@mediatek.com>
+X-Mailer: git-send-email 2.9.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <22d30ee9-66ac-55e7-47bc-cee5edae1c8b@st.com>
+Content-Type: text/plain
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hugues
+SGVsbG8sDQoNCk9taW5pVmlzaW9uIE9WMDJBMTAgaXMgYSAyLW1lZ2FwaXhlbCAxMC1iaXQgUkFX
+IENNT1MgMS81IiBzZW5zb3Igd2hpY2ggaGFzDQphIHNpbmdsZSBNSVBJIGxhbmUgaW50ZXJmYWNl
+LiBUaGlzIGlzIGEgY2FtZXJhIHNlbnNvciB1c2luZyB0aGUgSTJDIGJ1cw0KZm9yIGNvbnRyb2wg
+YW5kIHRoZSBDU0ktMiBidXMgZm9yIGRhdGEuIA0KDQpUaGUgZHJpdmVyIGlzIGltcGxlbWVudGVk
+IHdpdGggVjRMMiBmcmFtZXdvcmsuDQogLSBBc3luYyByZWdpc3RlcmVkIGFzIGEgVjRMMiBzdWIt
+ZGV2aWNlLg0KIC0gQXMgdGhlIGZpcnN0IGNvbXBvbmVudCBvZiBjYW1lcmEgc3lzdGVtIGluY2x1
+ZGluZyBJU1AgcGlwZWxpbmUuDQogLSBBIG1lZGlhIGVudGl0eSBwcm92aWRpbmcgb25lIHNvdXJj
+ZSBwYWQgaW4gY29tbW9uIGFuZCB0d28gZm9yIGR1YWwtY2FtLg0KDQpBbHNvIHRoaXMgZHJpdmVy
+IHN1cHBvcnRzIGZvbGxvd2luZyBmZWF0dXJlczoNCiAtIE1hbnVhbCBleHBvc3VyZSBhbmQgYW5h
+bG9nIGdhaW4gY29udHJvbCBzdXBwb3J0DQogLSBWZXJ0aWNhbCBibGFua2luZyBjb250cm9sIHN1
+cHBvcnQNCiAtIFRlc3QgcGF0dGVybiBzdXBwb3J0DQogLSBNZWRpYSBjb250cm9sbGVyIHN1cHBv
+cnQNCiAtIFJ1bnRpbWUgUE0gc3VwcG9ydA0KIC0gU3VwcG9ydCByZXNvbHV0aW9uOiAxNjAweDEy
+MDAgYXQgMzBGUFMNCg0KQ2hhbmdlcyBvZiB2MTUgbWFpbmx5IGFkZHJlc3MgY29tbWVudHMgZnJv
+bSBSb2IsIEFuZHksIFRvbWFzeiBhbmQgU2FrYXJpLg0KQ29tcGFyZWQgdG8gdjE0Og0KIC0gRml4
+IGltcGVyZmVjdGlvbnMgaW4gRFQNCiAtIFVzZSBkZXZfZXJyX3Byb2JlKCkgQVBJIGluIHByb2Jl
+DQogLSBVc2UgaTJjX3NtYnVzX3JlYWRfd29yZF9zd2FwcGVkKCkgQVBJIHRvIHJlYWQgMTYtYml0
+IGRhdGEuDQogLSBGaXggb3RoZXIgcmV2aWV3IGNvbW1lbnRzIHRvIGltcHJvdmUgcmVhZGFiaWxp
+dHkuDQoNClBsZWFzZSByZXZpZXcuDQpUaGFua3MuDQoNCkRvbmdjaHVuIFpodSAoMik6DQogIG1l
+ZGlhOiBkdC1iaW5kaW5nczogbWVkaWE6IGkyYzogRG9jdW1lbnQgT1YwMkExMCBiaW5kaW5ncw0K
+ICBtZWRpYTogaTJjOiBBZGQgT1YwMkExMCBpbWFnZSBzZW5zb3IgZHJpdmVyDQoNCiAuLi4vYmlu
+ZGluZ3MvbWVkaWEvaTJjL292dGksb3YwMmExMC55YW1sICAgICAgICAgICB8ICAxNjIgKysrDQog
+TUFJTlRBSU5FUlMgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgfCAgICA4
+ICsNCiBkcml2ZXJzL21lZGlhL2kyYy9LY29uZmlnICAgICAgICAgICAgICAgICAgICAgICAgICB8
+ICAgMTMgKw0KIGRyaXZlcnMvbWVkaWEvaTJjL01ha2VmaWxlICAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgICAgMSArDQogZHJpdmVycy9tZWRpYS9pMmMvb3YwMmExMC5jICAgICAgICAgICAgICAg
+ICAgICAgICAgfCAxMDU4ICsrKysrKysrKysrKysrKysrKysrDQogNSBmaWxlcyBjaGFuZ2VkLCAx
+MjQyIGluc2VydGlvbnMoKykNCiBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZp
+Y2V0cmVlL2JpbmRpbmdzL21lZGlhL2kyYy9vdnRpLG92MDJhMTAueWFtbA0KIGNyZWF0ZSBtb2Rl
+IDEwMDY0NCBkcml2ZXJzL21lZGlhL2kyYy9vdjAyYTEwLmMNCg0KLS0gDQoyLjkuMg0K
 
-On Tue, Oct 13, 2020 at 12:44:10PM +0000, Hugues FRUCHET wrote:
-> Hi Jacopo,
->
-> On 10/13/20 2:01 PM, Jacopo Mondi wrote:
-> > Hi Hugues,
-> >
-> > On Tue, Oct 13, 2020 at 11:02:23AM +0200, Hugues Fruchet wrote:
-> >> Fix PCLK polarity not being taken into account.
-> >> Add comments about BT656 register control.
-> >> Remove useless ov5640_set_stream_bt656() function.
-> >> Refine comments about MIPI IO register control.
-> >>
-> >> Fixes: 4039b03720f7 ("media: i2c: ov5640: Add support for BT656 mode")
-> >> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
-> >> ---
-> >> version 3:
-> >>    - reformat code as per Jacopo's comments
-> >> version 2:
-> >>    - keep reset to default without error check at power off
-> >>
-> >>   drivers/media/i2c/ov5640.c | 82 +++++++++++++++++++++++++---------------------
-> >>   1 file changed, 45 insertions(+), 37 deletions(-)
-> >>
-> >> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
-> >> index 8d0254d..8f0812e 100644
-> >> --- a/drivers/media/i2c/ov5640.c
-> >> +++ b/drivers/media/i2c/ov5640.c
-> >> @@ -1216,20 +1216,6 @@ static int ov5640_set_autogain(struct ov5640_dev *sensor, bool on)
-> >>   			      BIT(1), on ? 0 : BIT(1));
-> >>   }
-> >>
-> >> -static int ov5640_set_stream_bt656(struct ov5640_dev *sensor, bool on)
-> >> -{
-> >> -	int ret;
-> >> -
-> >> -	ret = ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00,
-> >> -			       on ? 0x1 : 0x00);
-> >> -	if (ret)
-> >> -		return ret;
-> >> -
-> >> -	return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ?
-> >> -				OV5640_REG_SYS_CTRL0_SW_PWUP :
-> >> -				OV5640_REG_SYS_CTRL0_SW_PWDN);
-> >> -}
-> >> -
-> >>   static int ov5640_set_stream_dvp(struct ov5640_dev *sensor, bool on)
-> >>   {
-> >>   	return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ?
-> >> @@ -1994,13 +1980,13 @@ static int ov5640_set_power_mipi(struct ov5640_dev *sensor, bool on)
-> >>   static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
-> >>   {
-> >>   	unsigned int flags = sensor->ep.bus.parallel.flags;
-> >> -	u8 pclk_pol = 0;
-> >> -	u8 hsync_pol = 0;
-> >> -	u8 vsync_pol = 0;
-> >> +	bool bt656 = sensor->ep.bus_type == V4L2_MBUS_BT656;
-> >> +	u8 polarities = 0;
-> >>   	int ret;
-> >>
-> >>   	if (!on) {
-> >>   		/* Reset settings to their default values. */
-> >> +		ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00, 0x00);
-> >>   		ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x58);
-> >>   		ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00, 0x20);
-> >>   		ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01, 0x00);
-> >> @@ -2024,7 +2010,35 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
-> >>   	 * - VSYNC:	active high
-> >>   	 * - HREF:	active low
-> >>   	 * - PCLK:	active low
-> >> +	 *
-> >> +	 * VSYNC & HREF are not configured if BT656 bus mode is selected
-> >>   	 */
-> >> +
-> >> +	/*
-> >> +	 * BT656 embedded synchronization configuration
-> >> +	 *
-> >> +	 * CCIR656 CTRL00
-> >> +	 * - [7]:	SYNC code selection (0: auto generate sync code,
-> >> +	 *		1: sync code from regs 0x4732-0x4735)
-> >> +	 * - [6]:	f value in CCIR656 SYNC code when fixed f value
-> >> +	 * - [5]:	Fixed f value
-> >> +	 * - [4:3]:	Blank toggle data options (00: data=1'h040/1'h200,
-> >> +	 *		01: data from regs 0x4736-0x4738, 10: always keep 0)
-> >> +	 * - [1]:	Clip data disable
-> >> +	 * - [0]:	CCIR656 mode enable
-> >> +	 *
-> >> +	 * Default CCIR656 SAV/EAV mode with default codes
-> >> +	 * SAV=0xff000080 & EAV=0xff00009d is enabled here with settings:
-> >> +	 * - CCIR656 mode enable
-> >> +	 * - auto generation of sync codes
-> >> +	 * - blank toggle data 1'h040/1'h200
-> >> +	 * - clip reserved data (0x00 & 0xff changed to 0x01 & 0xfe)
-> >> +	 */
-> >> +	ret = ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00,
-> >> +			       bt656 ? 0x01 : 0x00);
-> >> +	if (ret)
-> >> +		return ret;
-> >> +
-> >>   	/*
-> >>   	 * configure parallel port control lines polarity
-> >>   	 *
-> >> @@ -2035,29 +2049,26 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
-> >>   	 *		datasheet and hardware, 0 is active high
-> >>   	 *		and 1 is active low...)
-> >>   	 */
-> >> -	if (sensor->ep.bus_type == V4L2_MBUS_PARALLEL) {
-> >> -		if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
-> >> -			pclk_pol = 1;
-> >> +	if (!bt656) {
-> >>   		if (flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
-> >> -			hsync_pol = 1;
-> >> +			polarities |= BIT(1);
-> >>   		if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
-> >> -			vsync_pol = 1;
-> >
-> > Ups, this doesn't match what's reported in the manual version I have
-> > (version 2.03, page 134) I read:
-> >
-> > VSYNC polarity  0: Active low
-> >                  1: Active high
-> >
-> > Was this a bug already present in the code ? >
->  > Anyway, this has not been introduced by this patch, but might be a
->  > good occasion to fix it.
->
-> Code is good, this is a "manual bug" that was documented by me when
-> submitting DVP support few lines above ;):
-> 	 * - [0]:	VSYNC polarity (mismatch here between
-> 	 *		datasheet and hardware, 0 is active high
-> 	 *		and 1 is active low...)
-
-Ups, missed that as it was not in the patch :D
-
-Thanks for the clarification!
-
->
-> >
-> > Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
-> >
-> > Thanks
-> >    j
-> >
-> >> -
-> >> -		ret = ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00,
-> >> -				       (pclk_pol << 5) | (hsync_pol << 1) |
-> >> -				       vsync_pol);
-> >> -
-> >> -		if (ret)
-> >> -			return ret;
-> >> +			polarities |= BIT(0);
-> >>   	}
-> >> +	if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
-> >> +		polarities |= BIT(5);
-> >> +
-> >> +	ret = ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00, polarities);
-> >> +	if (ret)
-> >> +		return ret;
-> >>
-> >>   	/*
-> >> -	 * powerdown MIPI TX/RX PHY & disable MIPI
-> >> +	 * powerdown MIPI TX/RX PHY & enable DVP
-> >>   	 *
-> >>   	 * MIPI CONTROL 00
-> >> -	 * 4:	 PWDN PHY TX
-> >> -	 * 3:	 PWDN PHY RX
-> >> -	 * 2:	 MIPI enable
-> >> +	 * [4] = 1	: Power down MIPI HS Tx
-> >> +	 * [3] = 1	: Power down MIPI LS Rx
-> >> +	 * [2] = 0	: DVP enable (MIPI disable)
-> >>   	 */
-> >>   	ret = ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x18);
-> >>   	if (ret)
-> >> @@ -2074,8 +2085,7 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
-> >>   	 * - [3:0]:	D[9:6] output enable
-> >>   	 */
-> >>   	ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01,
-> >> -			       sensor->ep.bus_type == V4L2_MBUS_PARALLEL ?
-> >> -			       0x7f : 0x1f);
-> >> +			       bt656 ? 0x1f : 0x7f);
-> >>   	if (ret)
-> >>   		return ret;
-> >>
-> >> @@ -2925,8 +2935,6 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
-> >>
-> >>   		if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
-> >>   			ret = ov5640_set_stream_mipi(sensor, enable);
-> >> -		else if (sensor->ep.bus_type == V4L2_MBUS_BT656)
-> >> -			ret = ov5640_set_stream_bt656(sensor, enable);
-> >>   		else
-> >>   			ret = ov5640_set_stream_dvp(sensor, enable);
-> >>
-> >> --
-> >> 2.7.4
-> >>
->
-> BR,
-> Hugues.
