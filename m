@@ -2,183 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C9C728CE9C
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 14:44:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 34F8A28CEBF
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 14:52:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728099AbgJMMoq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Oct 2020 08:44:46 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48070 "EHLO
+        id S1728276AbgJMMwU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Oct 2020 08:52:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728080AbgJMMop (ORCPT
+        with ESMTP id S1728264AbgJMMwQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Oct 2020 08:44:45 -0400
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFE40C0613D0
-        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 05:44:44 -0700 (PDT)
-Received: by mail-pj1-x1043.google.com with SMTP id h4so2132400pjk.0
-        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 05:44:44 -0700 (PDT)
+        Tue, 13 Oct 2020 08:52:16 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05764C0613D2
+        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 05:52:15 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id g12so23882093wrp.10
+        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 05:52:15 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=A1J1FFqE4TaVcT8yK2I3InKcPDjZwlb3XxiGUU1SQgg=;
-        b=eDW3vgoS62vHVYJO8n0dz5zs+hzYx5++e5wCZXTPY8p8iKIDgBAfAUEc/l712Uf5Mb
-         2LKE2AG9sG/gSvVtVIjwRrkCssw/Nx7cR7snu1hRvKbzDfmKfIIekfgbU7M8ePkz9+44
-         AnOEn5Ut2ZmPSSJXCPTRjmEe8YVk0lmOm+u9A=
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=LS+HMgito630Z8wdvbTvwB3oR4AOb/+K/YWZe6JSBwQ=;
+        b=SSGZcyzIr776WTsuIhH9HiaHbRPNmlM4yqL9xNAmigJQj2MC+C/DVDBuqNrtCwarPA
+         Fvcm9O1myYeCph+0gQ8AOw+q4fAqwbyvnbQ42wwLic3SpfEzjiWpWx9JN46/GB8KEG09
+         Ap30EREazTEBq/XvkpsiSjAolG23UyS+tCxSq1UjjQh8fLby//jHq+yaBqm+S21VAtrk
+         v2QXL3r2mTGVdxuBRXfSGWpN7DNdoq0qmKjI0yOR0oY6DUhsVKVBWvR7C0cR1JBs/aiI
+         /KAVnG2+EjPDMuC1u7LFeHzucVnu/G2T4pqjCBejvMHx+R8hzI0Kq1GJe6P7T1cbzqfW
+         uPaw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=A1J1FFqE4TaVcT8yK2I3InKcPDjZwlb3XxiGUU1SQgg=;
-        b=aTmMA/psgy7YQeUS5kRK4LJMRO9z2GkoEC8MQ8akq+EUag/Bn03z0KfqO9vIu5i9oc
-         lKQPj3Rjs4TMmaq1k1kCAoYu6k/3IcWROwhWjk9LE36QH9PELOXizuN3nfKMK6HdiIBw
-         Ub53bxb8EQcYAIwBVtadhhe5wMoRZv3XHt3moZYreG4rQUBLqTiKsPkfdtA02aoiXymr
-         IxWXZI5MXKZx32aaHhNufhH3t+StiaCv0w5jt6UpQ50L13i9DwDHbkyXQMVdFKe+Tz4W
-         f0yGcTYX1JKL2kjnTa5I6OZT+8Z3/2/7lTHOlqwidpWK+iIq9By/R7A5Lp9lvc779bFo
-         pMIQ==
-X-Gm-Message-State: AOAM532O7mWTvC/SNwfOL/LS/cllzto3pyymF8pFd1NIuQzYPTwq26oD
-        nuhzrKz2FZkrdj1nLtrk3qb3jQ==
-X-Google-Smtp-Source: ABdhPJx+QHG9+ml+rhwLtC/IlzRba159/wBY8WWuYYP7WtIx1xlGmYeYcCA4j+fGgbnhgD0V/3hAtA==
-X-Received: by 2002:a17:902:9347:b029:d3:7c08:86c6 with SMTP id g7-20020a1709029347b02900d37c0886c6mr26862688plp.84.1602593084449;
-        Tue, 13 Oct 2020 05:44:44 -0700 (PDT)
-Received: from acourbot.tok.corp.google.com ([2401:fa00:8f:203:eeb1:d7ff:fe57:b7e5])
-        by smtp.gmail.com with ESMTPSA id b20sm18914536pjo.37.2020.10.13.05.44.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 13 Oct 2020 05:44:43 -0700 (PDT)
-From:   Alexandre Courbot <acourbot@chromium.org>
-To:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Alexandre Courbot <acourbot@chromium.org>
-Subject: [PATCH v4 2/2] media: mtk-vcodec: fix build breakage when one of VPU or SCP is enabled
-Date:   Tue, 13 Oct 2020 21:44:28 +0900
-Message-Id: <20201013124428.783025-3-acourbot@chromium.org>
-X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
-In-Reply-To: <20201013124428.783025-1-acourbot@chromium.org>
-References: <20201013124428.783025-1-acourbot@chromium.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=LS+HMgito630Z8wdvbTvwB3oR4AOb/+K/YWZe6JSBwQ=;
+        b=RAL2oyi3DdCkQonRiw7VoWtLWhj3X+rYXMmLxljte6kV/r64y4kosCkWmVI93Yukss
+         Z9q3ApRNFNDKl/pBw8lbqWOk7FB23nTDe9Li8OjdMDVVAL5wjHfZqjqtz2moZb14/Zgc
+         pt7n6Xy7h+RzkabjgwxepgdcBnWCPpoWxPcjItqVCjIV5JpXihbMyEkZq2y8tuslqhuc
+         T3EFB4TDM60qMuLp235xraEII0Hrtb1KchsWd2zma40Lu7cUmbyaWRs5v4s5k3drz7cz
+         lRIbIQ4lI59y+/DMvST6IerIKlZyXDgU9+Ag4UDgHDwuKiiQIAw3qfY51sEKW6Nooqwc
+         KY0g==
+X-Gm-Message-State: AOAM533pXgEyYvOBnZw+9LVf335iLhbucTp6jzqPxPvcYc9wXGFFipVX
+        T513Aeb9yEjo5BPEuh7acr2aml0Hvj/VkA==
+X-Google-Smtp-Source: ABdhPJzG1B24xEhxPwzT1OZRd9Dhno3qLc+usyxzYOsTo4fUHqZY+f0jJxTPMSfwonsmm0p/RYjCww==
+X-Received: by 2002:adf:814f:: with SMTP id 73mr15669899wrm.174.1602593533669;
+        Tue, 13 Oct 2020 05:52:13 -0700 (PDT)
+Received: from [192.168.1.8] (hst-221-122.medicom.bg. [84.238.221.122])
+        by smtp.googlemail.com with ESMTPSA id t6sm32248867wre.30.2020.10.13.05.52.12
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 13 Oct 2020 05:52:13 -0700 (PDT)
+Subject: Re: [PATCH] v4l2-ctrl: add control for thumnails
+To:     Tomasz Figa <tfiga@chromium.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <20200526085446.30956-1-stanimir.varbanov@linaro.org>
+ <65ac9697-a43f-7025-e6fe-69c4a44c6d9a@xs4all.nl>
+ <ce28a840-a763-6700-16dd-d708e570d55c@linaro.org>
+ <d02c6cd0-a502-dc52-519e-54b6328d5373@linaro.org>
+ <544b19dd-4883-bae0-b488-46c856eb207d@xs4all.nl>
+ <6f71931a-9060-a399-835c-a1cf1f05dc79@linaro.org>
+ <1bc10e88-8cbe-3da9-daeb-d015f42d7acc@xs4all.nl>
+ <CAAFQd5Aorm-O7OMcHsnRUEGQq2qoPDRtAuukiLHgC9g54oAW9Q@mail.gmail.com>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <de40cdf1-0b84-a252-0137-a550f078d28b@linaro.org>
+Date:   Tue, 13 Oct 2020 15:52:11 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAAFQd5Aorm-O7OMcHsnRUEGQq2qoPDRtAuukiLHgC9g54oAW9Q@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The addition of MT8183 support added a dependency on the SCP remoteproc
-module. However the initial patch used the "select" Kconfig directive,
-which may result in the SCP module to not be compiled if remoteproc was
-disabled. In such a case, mtk-vcodec would try to link against
-non-existent SCP symbols. "select" was clearly misused here as explained
-in kconfig-language.txt.
+Hi,
 
-Replace this by a "depends" directive on at least one of the VPU and
-SCP modules, to allow the driver to be compiled as long as one of these
-is enabled, and adapt the code to support this new scenario.
+On 6/4/20 3:57 PM, Tomasz Figa wrote:
+> On Thu, Jun 4, 2020 at 2:56 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>
+>> On 04/06/2020 14:34, Stanimir Varbanov wrote:
+>>> Hi Hans,
+>>>
+>>> On 6/4/20 12:08 PM, Hans Verkuil wrote:
+>>>> On 04/06/2020 11:02, Stanimir Varbanov wrote:
+>>>>> Hi Hans,
+>>>>>
+>>>>> On 5/27/20 12:53 AM, Stanimir Varbanov wrote:
+>>>>>> Hi Hans,
+>>>>>>
+>>>>>> On 5/26/20 3:04 PM, Hans Verkuil wrote:
+>>>>>>> On 26/05/2020 10:54, Stanimir Varbanov wrote:
+>>>>>>>> Add v4l2 control for decoder thumbnail.
+>>>>>>>>
+>>>>>>>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>>>>>>>> ---
+>>>>>>>>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 7 +++++++
+>>>>>>>>  drivers/media/v4l2-core/v4l2-ctrls.c                      | 2 ++
+>>>>>>>>  include/uapi/linux/v4l2-controls.h                        | 2 ++
+>>>>>>>>  3 files changed, 11 insertions(+)
+>>>>>>>>
+>>>>>>>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>>>>>>> index d0d506a444b1..e838e410651b 100644
+>>>>>>>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>>>>>>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>>>>>>>> @@ -3726,6 +3726,13 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>>>>>>>      disables generating SPS and PPS at every IDR. Setting it to one enables
+>>>>>>>>      generating SPS and PPS at every IDR.
+>>>>>>>>
+>>>>>>>> +``V4L2_CID_MPEG_VIDEO_DECODER_THUMBNAIL (button)``
+>>>>>>>> +    Instructs the decoder to produce immediate output. The decoder should
+>>>>>>>> +    consume first input buffer for progressive stream (or first two buffers
+>>>>>>>> +    for interlace). Decoder should not allocate more output buffers that it
+>>>>>>>> +    is required to consume one input frame. Usually the decoder input
+>>>>>>>> +    buffers will contain only I/IDR frames but it is not mandatory.
+>>>>>>>
+>>>>>>> This is very vague. It doesn't explain why the control is called 'THUMBNAIL',
+>>>>>>> but more importantly it doesn't explain how this relates to normal decoding.
+>>>>>>
+>>>>>> If in the normal decode the capture queue buffers are 5, in the
+>>>>>> thumbnail mode the number of buffers will be only 1 (if the bitstream is
+>>>>>> progressive) and this will guarantee low memory usage. The other
+>>>>>> difference is that the decoder will produce decoded frames (without
+>>>>>> errors) only for I/IDR (sync frames).
+>>>>
+>>>> Isn't this really a "DECODE_SYNC_FRAMES_ONLY" control? That's what it does,
+>>>> right? Skip any B/P frames and only decode sync frames.
+>>>
+>>> Yes, it is.
+>>> To me V4L2_CID_MPEG_VIDEO_DECODE_SYNC_FRAMES sounds better. If you are
+>>> fine I can send a new patch.
+>>>
+>>> The definition of "sync frames" is a bit difficult for codec-agnostic
+>>> controls. Is it sound better "INTRA", DECODE_INTRA_FRAMES (ONLY)?
+>>
+>> INTRA is better. DECODE_INTRA_FRAMES_ONLY is a good name, I think.
+>>
+>> Thumbnail creation can be given as an example in the description of the
+>> control, but that's just a use-case.
+> 
+> How about the other aspect of the behavior?
+> 
+> "Decoder should not allocate more output buffers that it
+> is required to consume one input frame."
+> 
 
-Also adapt the Kconfig text to explain the extra requirements for MT8173
-and MT8183.
+In fact I have to refine this; It looks like that picture type decode vs
+thumbnail are two different modes.
 
-Reported-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
----
- drivers/media/platform/Kconfig                | 28 ++++++++++++++-----
- drivers/media/platform/mtk-vcodec/Makefile    | 10 +++++--
- .../platform/mtk-vcodec/mtk_vcodec_fw_priv.h  | 18 ++++++++++++
- 3 files changed, 47 insertions(+), 9 deletions(-)
+Thumbnail mode - first frame decode without additional memory (one input
+buffer and one output buffer). The first frame can be even non-intra
+frame as well. Also no matter frame parser is sending, the decoder will
+try to produce output for thumbnail generation.
 
-diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-index a3cb104956d5..7e152bbb4fa6 100644
---- a/drivers/media/platform/Kconfig
-+++ b/drivers/media/platform/Kconfig
-@@ -253,17 +253,31 @@ config VIDEO_MEDIATEK_VCODEC
- 	depends on MTK_IOMMU || COMPILE_TEST
- 	depends on VIDEO_DEV && VIDEO_V4L2
- 	depends on ARCH_MEDIATEK || COMPILE_TEST
-+	depends on VIDEO_MEDIATEK_VPU || MTK_SCP
-+	# The two following lines ensure we have the same state ("m" or "y") as
-+	# our dependencies, to avoid missing symbols during link.
-+	depends on VIDEO_MEDIATEK_VPU || !VIDEO_MEDIATEK_VPU
-+	depends on MTK_SCP || !MTK_SCP
- 	select VIDEOBUF2_DMA_CONTIG
- 	select V4L2_MEM2MEM_DEV
--	select VIDEO_MEDIATEK_VPU
--	select MTK_SCP
-+	select VIDEO_MEDIATEK_VCODEC_VPU if VIDEO_MEDIATEK_VPU
-+	select VIDEO_MEDIATEK_VCODEC_SCP if MTK_SCP
- 	help
--	    Mediatek video codec driver provides HW capability to
--	    encode and decode in a range of video formats
--	    This driver rely on VPU driver to communicate with VPU.
-+	  Mediatek video codec driver provides HW capability to
-+	  encode and decode in a range of video formats on MT8173
-+	  and MT8183.
-+
-+	  Note that support for MT8173 requires VIDEO_MEDIATEK_VPU to
-+	  also be selected. Support for MT8183 depends on MTK_SCP.
-+
-+	  To compile this driver as modules, choose M here: the
-+	  modules will be called mtk-vcodec-dec and mtk-vcodec-enc.
-+
-+config VIDEO_MEDIATEK_VCODEC_VPU
-+	bool
- 
--	    To compile this driver as modules, choose M here: the
--	    modules will be called mtk-vcodec-dec and mtk-vcodec-enc.
-+config VIDEO_MEDIATEK_VCODEC_SCP
-+	bool
- 
- config VIDEO_MEM2MEM_DEINTERLACE
- 	tristate "Deinterlace support"
-diff --git a/drivers/media/platform/mtk-vcodec/Makefile b/drivers/media/platform/mtk-vcodec/Makefile
-index 6e1ea3a9f052..4618d43dbbc8 100644
---- a/drivers/media/platform/mtk-vcodec/Makefile
-+++ b/drivers/media/platform/mtk-vcodec/Makefile
-@@ -25,5 +25,11 @@ mtk-vcodec-enc-y := venc/venc_vp8_if.o \
- mtk-vcodec-common-y := mtk_vcodec_intr.o \
- 		mtk_vcodec_util.o \
- 		mtk_vcodec_fw.o \
--		mtk_vcodec_fw_vpu.o \
--		mtk_vcodec_fw_scp.o
-+
-+ifneq ($(CONFIG_VIDEO_MEDIATEK_VCODEC_VPU),)
-+mtk-vcodec-common-y += mtk_vcodec_fw_vpu.o
-+endif
-+
-+ifneq ($(CONFIG_VIDEO_MEDIATEK_VCODEC_SCP),)
-+mtk-vcodec-common-y += mtk_vcodec_fw_scp.o
-+endif
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h
-index 51f1694a7c7d..b41e66185cec 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h
-@@ -27,8 +27,26 @@ struct mtk_vcodec_fw_ops {
- 	void (*release)(struct mtk_vcodec_fw *fw);
- };
- 
-+#if IS_ENABLED(CONFIG_VIDEO_MEDIATEK_VCODEC_VPU)
- struct mtk_vcodec_fw *mtk_vcodec_fw_vpu_init(struct mtk_vcodec_dev *dev,
- 					     enum mtk_vcodec_fw_use fw_use);
-+#else
-+static inline struct mtk_vcodec_fw *
-+mtk_vcodec_fw_vpu_init(struct mtk_vcodec_dev *dev,
-+		       enum mtk_vcodec_fw_use fw_use)
-+{
-+	return ERR_PTR(-ENODEV);
-+}
-+#endif /* CONFIG_VIDEO_MEDIATEK_VCODEC_VPU */
-+
-+#if IS_ENABLED(CONFIG_VIDEO_MEDIATEK_VCODEC_SCP)
- struct mtk_vcodec_fw *mtk_vcodec_fw_scp_init(struct mtk_vcodec_dev *dev);
-+#else
-+static inline struct mtk_vcodec_fw *
-+mtk_vcodec_fw_scp_init(struct mtk_vcodec_dev *dev)
-+{
-+	return ERR_PTR(-ENODEV);
-+}
-+#endif /* CONFIG_VIDEO_MEDIATEK_VCODEC_SCP */
- 
- #endif /* _MTK_VCODEC_FW_PRIV_H_ */
+> Best regards,
+> Tomasz
+> 
+>>
+>> Regards,
+>>
+>>         Hans
+>>
+>>>
+>>>>
+>>>> That this is useful for creating thumbnails is just a specific use-case.
+>>>>
+>>>> Regards,
+>>>>
+>>>>      Hans
+>>>>
+>>>>>>
+>>>>>>>
+>>>>>>> I.e. if you are decoding and 'press' this control, what happens then?
+>>>>>>
+>>>>>> Might be the button type wasn't great idea. In fact the control should
+>>>>>> be set before streamon so that the driver returns min_capture_bufs 1.
+>>>>>>
+>>>>>>>
+>>>>>>> What exactly is the use-case?
+>>>>>>
+>>>>>> It could be used to generate thumbnails of all video clips in a folder
+>>>>>> or when you open a Gallery application on your phone.
+>>>>>>
+>>>>>
+>>>>> What is your opinion on that control? I could consider to make it Venus
+>>>>> custom control but from the use-case it looks other drivers also can
+>>>>> benefit of it.
+>>>>>
+>>>>> I tried to make more generic one [1] but it looks it will be too difficult.
+>>>>>
+>>>>
+>>>
+>>
+
 -- 
-2.29.0.rc1.297.gfa9743e501-goog
-
+regards,
+Stan
