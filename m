@@ -2,205 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 05F3A28C685
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 02:57:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A3FB428C79A
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 05:37:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727986AbgJMA5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Oct 2020 20:57:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51738 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727950AbgJMA5o (ORCPT
+        id S1729809AbgJMDhb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Oct 2020 23:37:31 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:46871 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727831AbgJMDhb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Oct 2020 20:57:44 -0400
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 764B5C0613D1
-        for <linux-media@vger.kernel.org>; Mon, 12 Oct 2020 17:57:42 -0700 (PDT)
-Received: by mail-oo1-xc43.google.com with SMTP id c25so3828779ooe.13
-        for <linux-media@vger.kernel.org>; Mon, 12 Oct 2020 17:57:42 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IpSz3HxdqBPCuQgrwDIdFKu49ndcXOrnJ/LSogHFcdo=;
-        b=YaZxFjgx8OxLAvGkEa/K8lOYgoWppNLXoHMQLq/M/T8xc0lOztQHwL6GZPWSJ7p4DZ
-         T1qV5HWZabpqYPjHqCrSTAbj34tLChVDVjzdWlWTSPgwxfcWusNj1+Kdn3SdsR2UOXx5
-         BFhADJ9a2Wv/8twux/lP3MHmwDSZjQSPJB5Do=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IpSz3HxdqBPCuQgrwDIdFKu49ndcXOrnJ/LSogHFcdo=;
-        b=f9MBDGz8yo8/3id0sX/XirFih0sDX/i0MNMNYlnIV3PuBznvymJeN04XAbkY4pFmO7
-         gk1Hj10N9n94kLEWxuXpNbZRgf1jEos69J7heHqA8jOsIxQ8zJC8BACk91CUKn3JQmQs
-         LTc6ybyUvyTlNBAqj03WvatfbAIAVmWSts4X9T0/aviDj00CHy3sZwRF9Acsf+So9C5k
-         daGNMk6OxEKFsBtwDr8s4DRwKK95C3/mC9Mk/Dw/OOXSwEBp6/tddNYFevmC9O34NF+T
-         l+ygySp3pT0sQp6w2ZM89Aqy9lXdfTitXi0Q9vYgeQWPUt39iJZbd+Tif+ySbv1G7Lfh
-         h0vw==
-X-Gm-Message-State: AOAM532N45af9IXiolU/W/5bJU0U6ttkWeYnHAsJRP3tTjj0mUaT6SRJ
-        XYyhXnAfDFfykBMc6j9ubruTL1LC2sVZ6/U3
-X-Google-Smtp-Source: ABdhPJyjeg4PkwJ4/4tXYhxfOM+Ls4olA+jx8kQFkl4HyqPs555IUav+4t/k6/HhZ4gugY0O/sOrnA==
-X-Received: by 2002:a4a:978a:: with SMTP id w10mr20439294ooi.69.1602550661361;
-        Mon, 12 Oct 2020 17:57:41 -0700 (PDT)
-Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com. [209.85.210.44])
-        by smtp.gmail.com with ESMTPSA id k128sm10434967oib.52.2020.10.12.17.57.40
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 12 Oct 2020 17:57:40 -0700 (PDT)
-Received: by mail-ot1-f44.google.com with SMTP id e20so17093004otj.11
-        for <linux-media@vger.kernel.org>; Mon, 12 Oct 2020 17:57:40 -0700 (PDT)
-X-Received: by 2002:a9d:242:: with SMTP id 60mr8187117otb.141.1602550659528;
- Mon, 12 Oct 2020 17:57:39 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201012053557.4102148-1-acourbot@chromium.org>
- <20201012053557.4102148-3-acourbot@chromium.org> <b9afc70f-9787-6513-29e7-41ffd6972da0@infradead.org>
-In-Reply-To: <b9afc70f-9787-6513-29e7-41ffd6972da0@infradead.org>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Tue, 13 Oct 2020 09:57:25 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MW8KvoxO8KNXM5azgijMT9aSis8ZZ=mumA0_JyQTbKyVQ@mail.gmail.com>
-Message-ID: <CAPBb6MW8KvoxO8KNXM5azgijMT9aSis8ZZ=mumA0_JyQTbKyVQ@mail.gmail.com>
-Subject: Re: [PATCH v3 2/2] media: mtk-vcodec: fix build breakage when one of
- VPU or SCP is enabled
-To:     Randy Dunlap <rdunlap@infradead.org>
-Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        Alexandre Courbot <gnurou@gmail.com>
-Content-Type: text/plain; charset="UTF-8"
+        Mon, 12 Oct 2020 23:37:31 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id SB7uk0LdB4gEjSB7vkGgmQ; Tue, 13 Oct 2020 05:37:27 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1602560247; bh=ewcmSkH5T+xbB4E73SvzrXlnDklAEjczbM8peAb/NfI=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=mdDbuegxCt9UxBt6uJEhG1oyX6Rygs6kCrIi4Rt+8T6j/f/3XG5vJ2i0WdmT9hdey
+         SBochsd8Linz9Wft9dal/vfwPJWpMgmv7doQA/Koo6hBnkQhBK/5SRYRdWsMo9r7ZX
+         gB2QyMAEahOxj5Mm/10H8RF2cRopvDMm+EAlsZ12ftU1gIb6OwVtisqvmfhBFaiH5L
+         X5IrQR8lkKH5E3CIKLAD9e0rqcJmgTpJazrgg5B6Pfe8b2EVLBQ65lbjg6o0v1u8bc
+         WateOPEH+TwR2NiJJoFNdczl8UgtfUlgW2atLE2rK66Q9kPOiim6k71lHPmD2J4y88
+         aFjxeetwrMJTA==
+Message-ID: <68b6366e019b8851492dc2803f523cbf@smtp-cloud9.xs4all.net>
+Date:   Tue, 13 Oct 2020 05:37:26 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfIDsT8gmJDUMPcahrOkyj3FGrNMEy3BMvYBbNPyli+Dfz4hEnGd9ZxMs24AR8zj0tj8i6mxAG14DLWUeVUyYpm4T6hZwRjT+g9e1rhpvHhAWsDsm5Eyx
+ NSn03LjkqBCuOwZFjp6BETj+6zDiUg1Pc07SFU1naVPwJI6JezlLRDTj47JWU7dqAPYf+Zk2h7aMNWotU8waTBCC7GswRALv0vjyxWSxJXkPncAvtA3sOXdu
+ wCPdpNVZe7efVYv6qBEO9w==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 13, 2020 at 12:00 AM Randy Dunlap <rdunlap@infradead.org> wrote:
->
-> On 10/11/20 10:35 PM, Alexandre Courbot wrote:
-> > The addition of MT8183 support added a dependency on the SCP remoteproc
-> > module. However the initial patch used the "select" Kconfig directive,
-> > which may result in the SCP module to not be compiled if remoteproc was
-> > disabled. In such a case, mtk-vcodec would try to link against
-> > non-existent SCP symbols. "select" was clearly misused here as explained
-> > in kconfig-language.txt.
-> >
-> > Replace this by a "depends" directive on at least one of the VPU and
-> > SCP modules, to allow the driver to be compiled as long as one of these
-> > is enabled, and adapt the code to support this new scenario.
-> >
-> > Also adapt the Kconfig text to explain the extra requirements for MT8173
-> > and MT8183.
-> >
-> > Reported-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> > Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
->
-> That Ack applied to v2. I have not tested nor acked this version of the patch.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Sorry about that - I was careless and left it in the log.
+Results of the daily build of media_tree:
 
->
-> > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/platform/Kconfig                | 22 +++++++++++++++----
-> >  drivers/media/platform/mtk-vcodec/Makefile    | 10 +++++++--
-> >  .../platform/mtk-vcodec/mtk_vcodec_fw_priv.h  | 18 +++++++++++++++
-> >  3 files changed, 44 insertions(+), 6 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> > index a3cb104956d5..457b6c39ddc0 100644
-> > --- a/drivers/media/platform/Kconfig
-> > +++ b/drivers/media/platform/Kconfig
-> > @@ -253,18 +253,32 @@ config VIDEO_MEDIATEK_VCODEC
-> >       depends on MTK_IOMMU || COMPILE_TEST
-> >       depends on VIDEO_DEV && VIDEO_V4L2
-> >       depends on ARCH_MEDIATEK || COMPILE_TEST
-> > +     depends on VIDEO_MEDIATEK_VPU || MTK_SCP
-> > +     # The two following lines ensure we have the same state ("m" or "y") as
-> > +     # our dependencies, to avoid missing symbols during link.
-> > +     depends on VIDEO_MEDIATEK_VPU || !VIDEO_MEDIATEK_VPU
-> > +     depends on MTK_SCP || !MTK_SCP
-> >       select VIDEOBUF2_DMA_CONTIG
-> >       select V4L2_MEM2MEM_DEV
-> > -     select VIDEO_MEDIATEK_VPU
-> > -     select MTK_SCP
-> > +     select VIDEO_MEDIATEK_VCODEC_VPU if VIDEO_MEDIATEK_VPU
-> > +     select VIDEO_MEDIATEK_VCODEC_SCP if MTK_SCP
-> >       help
-> >           Mediatek video codec driver provides HW capability to
-> > -         encode and decode in a range of video formats
-> > -         This driver rely on VPU driver to communicate with VPU.
-> > +         encode and decode in a range of video formats on MT8173
-> > +         and MT8183.
-> > +
-> > +         Note that support for MT8173 requires VIDEO_MEDIATEK_VPU to
-> > +         also be selected. Support for MT8183 depends on MTK_SCP.
-> >
-> >           To compile this driver as modules, choose M here: the
-> >           modules will be called mtk-vcodec-dec and mtk-vcodec-enc.
-> >
-> > +config VIDEO_MEDIATEK_VCODEC_VPU
-> > +     bool
-> > +
-> > +config VIDEO_MEDIATEK_VCODEC_SCP
-> > +     bool
-> > +
-> >  config VIDEO_MEM2MEM_DEINTERLACE
-> >       tristate "Deinterlace support"
-> >       depends on VIDEO_DEV && VIDEO_V4L2
-> > diff --git a/drivers/media/platform/mtk-vcodec/Makefile b/drivers/media/platform/mtk-vcodec/Makefile
-> > index 6e1ea3a9f052..4618d43dbbc8 100644
-> > --- a/drivers/media/platform/mtk-vcodec/Makefile
-> > +++ b/drivers/media/platform/mtk-vcodec/Makefile
-> > @@ -25,5 +25,11 @@ mtk-vcodec-enc-y := venc/venc_vp8_if.o \
-> >  mtk-vcodec-common-y := mtk_vcodec_intr.o \
-> >               mtk_vcodec_util.o \
-> >               mtk_vcodec_fw.o \
-> > -             mtk_vcodec_fw_vpu.o \
-> > -             mtk_vcodec_fw_scp.o
-> > +
-> > +ifneq ($(CONFIG_VIDEO_MEDIATEK_VCODEC_VPU),)
-> > +mtk-vcodec-common-y += mtk_vcodec_fw_vpu.o
-> > +endif
-> > +
-> > +ifneq ($(CONFIG_VIDEO_MEDIATEK_VCODEC_SCP),)
-> > +mtk-vcodec-common-y += mtk_vcodec_fw_scp.o
-> > +endif
-> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h
-> > index 51f1694a7c7d..b41e66185cec 100644
-> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h
-> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h
-> > @@ -27,8 +27,26 @@ struct mtk_vcodec_fw_ops {
-> >       void (*release)(struct mtk_vcodec_fw *fw);
-> >  };
-> >
-> > +#if IS_ENABLED(CONFIG_VIDEO_MEDIATEK_VCODEC_VPU)
-> >  struct mtk_vcodec_fw *mtk_vcodec_fw_vpu_init(struct mtk_vcodec_dev *dev,
-> >                                            enum mtk_vcodec_fw_use fw_use);
-> > +#else
-> > +static inline struct mtk_vcodec_fw *
-> > +mtk_vcodec_fw_vpu_init(struct mtk_vcodec_dev *dev,
-> > +                    enum mtk_vcodec_fw_use fw_use)
-> > +{
-> > +     return ERR_PTR(-ENODEV);
-> > +}
-> > +#endif /* CONFIG_VIDEO_MEDIATEK_VCODEC_VPU */
-> > +
-> > +#if IS_ENABLED(CONFIG_VIDEO_MEDIATEK_VCODEC_SCP)
-> >  struct mtk_vcodec_fw *mtk_vcodec_fw_scp_init(struct mtk_vcodec_dev *dev);
-> > +#else
-> > +static inline struct mtk_vcodec_fw *
-> > +mtk_vcodec_fw_scp_init(struct mtk_vcodec_dev *dev)
-> > +{
-> > +     return ERR_PTR(-ENODEV);
-> > +}
-> > +#endif /* CONFIG_VIDEO_MEDIATEK_VCODEC_SCP */
-> >
-> >  #endif /* _MTK_VCODEC_FW_PRIV_H_ */
-> >
->
->
-> --
-> ~Randy
-> Reported-by: Randy Dunlap <rdunlap@infradead.org>
+date:			Tue Oct 13 05:00:15 CEST 2020
+media-tree git hash:	c386e0797d26a32e354daf4480c5d40165db66a1
+media_build git hash:	e0136eadb6f4c24b7f8fcb50ef4d4d5ffb2af31d
+v4l-utils git hash:	28df3d403be3d7769d7b10cda3e372a0dbbfa410
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 9783287347a0d95925f345313520f04869f439ab
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-arm-at91: OK
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9-rc7-i686: OK
+linux-5.9-rc7-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2863, Succeeded: 2863, Failed: 0, Warnings: 3
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
