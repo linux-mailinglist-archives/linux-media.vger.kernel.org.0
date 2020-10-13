@@ -2,165 +2,205 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A910928C55E
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 01:44:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 05F3A28C685
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 02:57:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389108AbgJLXoz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Oct 2020 19:44:55 -0400
-Received: from o1.b.az.sendgrid.net ([208.117.55.133]:53885 "EHLO
-        o1.b.az.sendgrid.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388855AbgJLXoz (ORCPT
+        id S1727986AbgJMA5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 12 Oct 2020 20:57:45 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51738 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727950AbgJMA5o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Oct 2020 19:44:55 -0400
-X-Greylist: delayed 303 seconds by postgrey-1.27 at vger.kernel.org; Mon, 12 Oct 2020 19:44:54 EDT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kwiboo.se;
-        h=subject:references:from:mime-version:in-reply-to:to:cc:content-type:
-        content-transfer-encoding;
-        s=001; bh=FWd7GLu/tKLDYZWyqY42ek5eJQUDEXNUAlc9iLUoOSQ=;
-        b=hWlEplUmTpnYzRFWyIf4FCE6wfVXkJ1rfr7fkYfsKO8P15QdaCtSTB2hHa/RrVx5a0AQ
-        HhHIHIYOf3857gyEAWb5XbG8TsAazMN7Rgfn1etr5zH+N0waxqett+LYdKlRqwtw8/P8mv
-        eyofcmrs3avYSGmUfi6j2nYUg/5YY9hdE=
-Received: by filterdrecv-p3las1-dcbfbb89c-tcntw with SMTP id filterdrecv-p3las1-dcbfbb89c-tcntw-18-5F84E946-82
-        2020-10-12 23:39:51.179332393 +0000 UTC m=+435832.437857433
-Received: from [192.168.1.14] (unknown)
-        by ismtpd0006p1lon1.sendgrid.net (SG) with ESMTP
-        id C8HTQRspSkaVK3O5MSCmWA
-        Mon, 12 Oct 2020 23:39:50.729 +0000 (UTC)
-Subject: Re: [PATCH 00/18] Add Hantro regmap and VC8000 h264 decode support
-References: <20201012205957.889185-1-adrian.ratiu@collabora.com>
-From:   Jonas Karlman <jonas@kwiboo.se>
-Message-ID: <97e84bb5-972a-091d-a159-6ab1151f17ab@kwiboo.se>
-Date:   Mon, 12 Oct 2020 23:39:51 +0000 (UTC)
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+        Mon, 12 Oct 2020 20:57:44 -0400
+Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 764B5C0613D1
+        for <linux-media@vger.kernel.org>; Mon, 12 Oct 2020 17:57:42 -0700 (PDT)
+Received: by mail-oo1-xc43.google.com with SMTP id c25so3828779ooe.13
+        for <linux-media@vger.kernel.org>; Mon, 12 Oct 2020 17:57:42 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=IpSz3HxdqBPCuQgrwDIdFKu49ndcXOrnJ/LSogHFcdo=;
+        b=YaZxFjgx8OxLAvGkEa/K8lOYgoWppNLXoHMQLq/M/T8xc0lOztQHwL6GZPWSJ7p4DZ
+         T1qV5HWZabpqYPjHqCrSTAbj34tLChVDVjzdWlWTSPgwxfcWusNj1+Kdn3SdsR2UOXx5
+         BFhADJ9a2Wv/8twux/lP3MHmwDSZjQSPJB5Do=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=IpSz3HxdqBPCuQgrwDIdFKu49ndcXOrnJ/LSogHFcdo=;
+        b=f9MBDGz8yo8/3id0sX/XirFih0sDX/i0MNMNYlnIV3PuBznvymJeN04XAbkY4pFmO7
+         gk1Hj10N9n94kLEWxuXpNbZRgf1jEos69J7heHqA8jOsIxQ8zJC8BACk91CUKn3JQmQs
+         LTc6ybyUvyTlNBAqj03WvatfbAIAVmWSts4X9T0/aviDj00CHy3sZwRF9Acsf+So9C5k
+         daGNMk6OxEKFsBtwDr8s4DRwKK95C3/mC9Mk/Dw/OOXSwEBp6/tddNYFevmC9O34NF+T
+         l+ygySp3pT0sQp6w2ZM89Aqy9lXdfTitXi0Q9vYgeQWPUt39iJZbd+Tif+ySbv1G7Lfh
+         h0vw==
+X-Gm-Message-State: AOAM532N45af9IXiolU/W/5bJU0U6ttkWeYnHAsJRP3tTjj0mUaT6SRJ
+        XYyhXnAfDFfykBMc6j9ubruTL1LC2sVZ6/U3
+X-Google-Smtp-Source: ABdhPJyjeg4PkwJ4/4tXYhxfOM+Ls4olA+jx8kQFkl4HyqPs555IUav+4t/k6/HhZ4gugY0O/sOrnA==
+X-Received: by 2002:a4a:978a:: with SMTP id w10mr20439294ooi.69.1602550661361;
+        Mon, 12 Oct 2020 17:57:41 -0700 (PDT)
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com. [209.85.210.44])
+        by smtp.gmail.com with ESMTPSA id k128sm10434967oib.52.2020.10.12.17.57.40
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 12 Oct 2020 17:57:40 -0700 (PDT)
+Received: by mail-ot1-f44.google.com with SMTP id e20so17093004otj.11
+        for <linux-media@vger.kernel.org>; Mon, 12 Oct 2020 17:57:40 -0700 (PDT)
+X-Received: by 2002:a9d:242:: with SMTP id 60mr8187117otb.141.1602550659528;
+ Mon, 12 Oct 2020 17:57:39 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201012205957.889185-1-adrian.ratiu@collabora.com>
-X-SG-EID: =?us-ascii?Q?TdbjyGynYnRZWhH+7lKUQJL+ZxmxpowvO2O9SQF5CwCVrYgcwUXgU5DKUU3QxA?=
- =?us-ascii?Q?fZekEeQsTe+RrMu3cja6a0h4m=2F0JLyOkHdDHSTb?=
- =?us-ascii?Q?GzI4=2FudO3qzCik37O+eo=2FnD6F3CkCKMBwB34tRk?=
- =?us-ascii?Q?aKxv5b6rTNjK84lRypk2iCtJ7H31qwAl7Gf2wJ9?=
- =?us-ascii?Q?+GRbIieOH18U7fnGHZoY3CP04QZXYUQPKraWeha?=
- =?us-ascii?Q?St3jbO8fez7Pr5ons6U72O587TqwhRDtLrqrw0p?=
- =?us-ascii?Q?XD39JXABaoFsXtayro3nw=3D=3D?=
-To:     Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Mark Brown <broonie@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Fruehberger Peter <Peter.Fruehberger@de.bosch.com>,
-        kuhanh.murugasen.krishnan@intel.com,
-        Daniel Vetter <daniel@ffwll.ch>, kernel@collabora.com,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-X-Entity-ID: wSPGWgGSXUap++qShBI+ag==
-Content-Type: text/plain; charset=us-ascii
-Content-Language: sv
-Content-Transfer-Encoding: 7bit
+References: <20201012053557.4102148-1-acourbot@chromium.org>
+ <20201012053557.4102148-3-acourbot@chromium.org> <b9afc70f-9787-6513-29e7-41ffd6972da0@infradead.org>
+In-Reply-To: <b9afc70f-9787-6513-29e7-41ffd6972da0@infradead.org>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Tue, 13 Oct 2020 09:57:25 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MW8KvoxO8KNXM5azgijMT9aSis8ZZ=mumA0_JyQTbKyVQ@mail.gmail.com>
+Message-ID: <CAPBb6MW8KvoxO8KNXM5azgijMT9aSis8ZZ=mumA0_JyQTbKyVQ@mail.gmail.com>
+Subject: Re: [PATCH v3 2/2] media: mtk-vcodec: fix build breakage when one of
+ VPU or SCP is enabled
+To:     Randy Dunlap <rdunlap@infradead.org>
+Cc:     Tiffany Lin <tiffany.lin@mediatek.com>,
+        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Alexandre Courbot <gnurou@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+On Tue, Oct 13, 2020 at 12:00 AM Randy Dunlap <rdunlap@infradead.org> wrote:
+>
+> On 10/11/20 10:35 PM, Alexandre Courbot wrote:
+> > The addition of MT8183 support added a dependency on the SCP remoteproc
+> > module. However the initial patch used the "select" Kconfig directive,
+> > which may result in the SCP module to not be compiled if remoteproc was
+> > disabled. In such a case, mtk-vcodec would try to link against
+> > non-existent SCP symbols. "select" was clearly misused here as explained
+> > in kconfig-language.txt.
+> >
+> > Replace this by a "depends" directive on at least one of the VPU and
+> > SCP modules, to allow the driver to be compiled as long as one of these
+> > is enabled, and adapt the code to support this new scenario.
+> >
+> > Also adapt the Kconfig text to explain the extra requirements for MT8173
+> > and MT8183.
+> >
+> > Reported-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
+> > Acked-by: Randy Dunlap <rdunlap@infradead.org> # build-tested
+>
+> That Ack applied to v2. I have not tested nor acked this version of the patch.
 
-On 2020-10-12 22:59, Adrian Ratiu wrote:
-> Dear all,
-> 
-> This series introduces a regmap infrastructure for the Hantro driver
-> which is used to compensate for different HW-revision register layouts.
-> To justify it h264 decoding capability is added for newer VC8000 chips.
-> 
-> This is a gradual conversion to the new infra - a complete conversion
-> would have been very big and I do not have all the HW yet to test (I'm
-> expecting a RK3399 shipment next week though ;). I think converting the
-> h264 decoder provides a nice blueprint for how the other codecs can be
-> converted and enabled for different HW revisions.
-> 
-> The end goal of this is to make the driver more generic and eliminate
-> entirely custom boilerplate like `struct hantro_reg` or headers with
-> core-specific bit manipulations like `hantro_g1_regs.h` and instead rely
-> on the well-tested albeit more verbose regmap subsytem.
-> 
-> To give just two examples of bugs which are easily discovered by using
-> more verbose regmap fields (very easy to compare with the datasheets)
-> instead of relying on bit-magic tricks: G1_REG_DEC_CTRL3_INIT_QP(x) was
-> off-by-1 and the wrong .clk_gate bit was set in hantro_postproc.c.
-> 
-> Anyway, this series also extends the MMIO regmap API to allow relaxed
-> writes for the theoretical reason that avoiding unnecessary membarriers
-> leads to less CPU usage and small improvements to battery life. However,
-> in practice I could not measure differences between relaxed/non-relaxed
-> IO, so I'm on the fence whether to keep or remove the relaxed calls.
-> 
-> What I could masure is the performance impact of adding more sub-reg
-> field acesses: a constant ~ 20 microsecond bump per G1 h264 frame. This
-> is acceptable considering the total time to decode a frame takes three
-> orders of magnitude longer, i.e. miliseconds ranges, depending on the
-> frame size and bitstream params, so it is an acceptable trade-off to
-> have a more generic driver.
+Sorry about that - I was careless and left it in the log.
 
-In the RK3399 variant all fields use completely different positions so
-in order to make the driver fully generic all around 145 sub-reg fields
-used for h264 needs to be converted, see [1] for a quick generation of
-field mappings used for h264 decoding.
-
-Any indication on how the performance will be impacted with 145 fields
-compared to around 20 fields used in this series?
-
-Another issue with RK3399 variant is that some fields use different
-position depending on the codec used, e.g. two dec_ref_frames in [2].
-Should we use codec specific field maps? or any other suggestion on
-how we can handle such case?
-
-[1] https://github.com/Kwiboo/rockchip-vpu-regtool/commit/8b88d94d2ed966c7d88d9a735c0c97368eb6c92d
-[2] https://github.com/Kwiboo/rockchip-vpu-regtool/blob/master/rk3399_dec_regs.c#L1065
-[3] https://github.com/Kwiboo/rockchip-vpu-regtool/commit/9498326296445a9ce153b585cc48e0cea05d3c93
-
-Best regards,
-Jonas
-
-> 
-> This has been tested on next-20201009 with imx8mq for G1 and an SoC with
-> VC8000 which has not yet been added (hopefuly support lands soon).
-> 
-> Kind regards,
-> Adrian
-> 
-> Adrian Ratiu (18):
->   media: hantro: document all int reg bits up to vc8000
->   media: hantro: make consistent use of decimal register notation
->   media: hantro: make G1_REG_SOFT_RESET Rockchip specific
->   media: hantro: add reset controller support
->   media: hantro: prepare clocks before variant inits are run
->   media: hantro: imx8mq: simplify ctrlblk reset logic
->   regmap: mmio: add config option to allow relaxed MMIO accesses
->   media: hantro: add initial MMIO regmap infrastructure
->   media: hantro: default regmap to relaxed MMIO
->   media: hantro: convert G1 h264 decoder to regmap fields
->   media: hantro: convert G1 postproc to regmap
->   media: hantro: add VC8000D h264 decoding
->   media: hantro: add VC8000D postproc support
->   media: hantro: make PP enablement logic a bit smarter
->   media: hantro: add user-selectable, platform-selectable H264 High10
->   media: hantro: rename h264_dec as it's not G1 specific anymore
->   media: hantro: add dump registers debug option before decode start
->   media: hantro: document encoder reg fields
-> 
->  drivers/base/regmap/regmap-mmio.c             |   34 +-
->  drivers/staging/media/hantro/Makefile         |    3 +-
->  drivers/staging/media/hantro/hantro.h         |   79 +-
->  drivers/staging/media/hantro/hantro_drv.c     |   41 +-
->  drivers/staging/media/hantro/hantro_g1_regs.h |   92 +-
->  ...hantro_g1_h264_dec.c => hantro_h264_dec.c} |  237 +++-
->  drivers/staging/media/hantro/hantro_hw.h      |   23 +-
->  .../staging/media/hantro/hantro_postproc.c    |  144 ++-
->  drivers/staging/media/hantro/hantro_regmap.c  | 1015 +++++++++++++++++
->  drivers/staging/media/hantro/hantro_regmap.h  |  295 +++++
->  drivers/staging/media/hantro/hantro_v4l2.c    |    3 +-
->  drivers/staging/media/hantro/imx8m_vpu_hw.c   |   75 +-
->  drivers/staging/media/hantro/rk3288_vpu_hw.c  |    5 +-
->  include/linux/regmap.h                        |    5 +
->  14 files changed, 1795 insertions(+), 256 deletions(-)
->  rename drivers/staging/media/hantro/{hantro_g1_h264_dec.c => hantro_h264_dec.c} (58%)
->  create mode 100644 drivers/staging/media/hantro/hantro_regmap.c
->  create mode 100644 drivers/staging/media/hantro/hantro_regmap.h
-> 
+>
+> > Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> >  drivers/media/platform/Kconfig                | 22 +++++++++++++++----
+> >  drivers/media/platform/mtk-vcodec/Makefile    | 10 +++++++--
+> >  .../platform/mtk-vcodec/mtk_vcodec_fw_priv.h  | 18 +++++++++++++++
+> >  3 files changed, 44 insertions(+), 6 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> > index a3cb104956d5..457b6c39ddc0 100644
+> > --- a/drivers/media/platform/Kconfig
+> > +++ b/drivers/media/platform/Kconfig
+> > @@ -253,18 +253,32 @@ config VIDEO_MEDIATEK_VCODEC
+> >       depends on MTK_IOMMU || COMPILE_TEST
+> >       depends on VIDEO_DEV && VIDEO_V4L2
+> >       depends on ARCH_MEDIATEK || COMPILE_TEST
+> > +     depends on VIDEO_MEDIATEK_VPU || MTK_SCP
+> > +     # The two following lines ensure we have the same state ("m" or "y") as
+> > +     # our dependencies, to avoid missing symbols during link.
+> > +     depends on VIDEO_MEDIATEK_VPU || !VIDEO_MEDIATEK_VPU
+> > +     depends on MTK_SCP || !MTK_SCP
+> >       select VIDEOBUF2_DMA_CONTIG
+> >       select V4L2_MEM2MEM_DEV
+> > -     select VIDEO_MEDIATEK_VPU
+> > -     select MTK_SCP
+> > +     select VIDEO_MEDIATEK_VCODEC_VPU if VIDEO_MEDIATEK_VPU
+> > +     select VIDEO_MEDIATEK_VCODEC_SCP if MTK_SCP
+> >       help
+> >           Mediatek video codec driver provides HW capability to
+> > -         encode and decode in a range of video formats
+> > -         This driver rely on VPU driver to communicate with VPU.
+> > +         encode and decode in a range of video formats on MT8173
+> > +         and MT8183.
+> > +
+> > +         Note that support for MT8173 requires VIDEO_MEDIATEK_VPU to
+> > +         also be selected. Support for MT8183 depends on MTK_SCP.
+> >
+> >           To compile this driver as modules, choose M here: the
+> >           modules will be called mtk-vcodec-dec and mtk-vcodec-enc.
+> >
+> > +config VIDEO_MEDIATEK_VCODEC_VPU
+> > +     bool
+> > +
+> > +config VIDEO_MEDIATEK_VCODEC_SCP
+> > +     bool
+> > +
+> >  config VIDEO_MEM2MEM_DEINTERLACE
+> >       tristate "Deinterlace support"
+> >       depends on VIDEO_DEV && VIDEO_V4L2
+> > diff --git a/drivers/media/platform/mtk-vcodec/Makefile b/drivers/media/platform/mtk-vcodec/Makefile
+> > index 6e1ea3a9f052..4618d43dbbc8 100644
+> > --- a/drivers/media/platform/mtk-vcodec/Makefile
+> > +++ b/drivers/media/platform/mtk-vcodec/Makefile
+> > @@ -25,5 +25,11 @@ mtk-vcodec-enc-y := venc/venc_vp8_if.o \
+> >  mtk-vcodec-common-y := mtk_vcodec_intr.o \
+> >               mtk_vcodec_util.o \
+> >               mtk_vcodec_fw.o \
+> > -             mtk_vcodec_fw_vpu.o \
+> > -             mtk_vcodec_fw_scp.o
+> > +
+> > +ifneq ($(CONFIG_VIDEO_MEDIATEK_VCODEC_VPU),)
+> > +mtk-vcodec-common-y += mtk_vcodec_fw_vpu.o
+> > +endif
+> > +
+> > +ifneq ($(CONFIG_VIDEO_MEDIATEK_VCODEC_SCP),)
+> > +mtk-vcodec-common-y += mtk_vcodec_fw_scp.o
+> > +endif
+> > diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h
+> > index 51f1694a7c7d..b41e66185cec 100644
+> > --- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h
+> > +++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h
+> > @@ -27,8 +27,26 @@ struct mtk_vcodec_fw_ops {
+> >       void (*release)(struct mtk_vcodec_fw *fw);
+> >  };
+> >
+> > +#if IS_ENABLED(CONFIG_VIDEO_MEDIATEK_VCODEC_VPU)
+> >  struct mtk_vcodec_fw *mtk_vcodec_fw_vpu_init(struct mtk_vcodec_dev *dev,
+> >                                            enum mtk_vcodec_fw_use fw_use);
+> > +#else
+> > +static inline struct mtk_vcodec_fw *
+> > +mtk_vcodec_fw_vpu_init(struct mtk_vcodec_dev *dev,
+> > +                    enum mtk_vcodec_fw_use fw_use)
+> > +{
+> > +     return ERR_PTR(-ENODEV);
+> > +}
+> > +#endif /* CONFIG_VIDEO_MEDIATEK_VCODEC_VPU */
+> > +
+> > +#if IS_ENABLED(CONFIG_VIDEO_MEDIATEK_VCODEC_SCP)
+> >  struct mtk_vcodec_fw *mtk_vcodec_fw_scp_init(struct mtk_vcodec_dev *dev);
+> > +#else
+> > +static inline struct mtk_vcodec_fw *
+> > +mtk_vcodec_fw_scp_init(struct mtk_vcodec_dev *dev)
+> > +{
+> > +     return ERR_PTR(-ENODEV);
+> > +}
+> > +#endif /* CONFIG_VIDEO_MEDIATEK_VCODEC_SCP */
+> >
+> >  #endif /* _MTK_VCODEC_FW_PRIV_H_ */
+> >
+>
+>
+> --
+> ~Randy
+> Reported-by: Randy Dunlap <rdunlap@infradead.org>
