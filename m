@@ -2,241 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01D2F28CCE4
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 13:55:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0007228CD32
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 13:58:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727796AbgJMLzV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Oct 2020 07:55:21 -0400
-Received: from mail.kernel.org ([198.145.29.99]:57508 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727783AbgJMLzQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Oct 2020 07:55:16 -0400
-Received: from mail.kernel.org (ip5f5ad5b2.dynamic.kabel-deutschland.de [95.90.213.178])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id A54B322B2C;
-        Tue, 13 Oct 2020 11:54:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1602590081;
-        bh=OJC+w0qcbW9yHm4g3J8pvhMQfAwAW0kVnEPzeJJGYqE=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=k0BxG69AG+5iW+BQA82ih0ugLW2wkvfA18eOnWckyri03Hb3hKXnJkJyBSgKyt9vv
-         8qgXYbd6st3EajaGj0SXB8TXpA4HXz2WPZZB1npfzfJR3XDD6vp2LpUzqevQzpFgdv
-         DliuhA71qYSU87xOsMxKHif/oQPKHVkW2d/0xhUU=
-Received: from mchehab by mail.kernel.org with local (Exim 4.94)
-        (envelope-from <mchehab@kernel.org>)
-        id 1kSIt5-006CVq-A2; Tue, 13 Oct 2020 13:54:39 +0200
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        =?UTF-8?q?Uwe=20Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>, Andy Gross <agross@kernel.org>,
-        Benson Leung <bleung@chromium.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Cheng-Yi Chiang <cychiang@chromium.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Guenter Roeck <groeck@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jyri Sarha <jsarha@ti.com>,
-        Kathiravan T <kathirav@codeaurora.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Marco Felsch <m.felsch@pengutronix.de>,
-        Mark Brown <broonie@kernel.org>,
+        id S1728196AbgJML5j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Oct 2020 07:57:39 -0400
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:38723 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728152AbgJML5f (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Oct 2020 07:57:35 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 44E266000B;
+        Tue, 13 Oct 2020 11:57:30 +0000 (UTC)
+Date:   Tue, 13 Oct 2020 14:01:30 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Hugues Fruchet <hugues.fruchet@st.com>
+Cc:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        alsa-devel@alsa-project.org, devicetree@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-pwm@vger.kernel.org
-Subject: [PATCH v6 56/80] dt-bindings: fix references to files converted to yaml
-Date:   Tue, 13 Oct 2020 13:54:11 +0200
-Message-Id: <81fe11d0079aaa48ff85370fd359150160943341.1602589096.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <cover.1602589096.git.mchehab+huawei@kernel.org>
-References: <cover.1602589096.git.mchehab+huawei@kernel.org>
+        linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Alain Volmat <alain.volmat@st.com>
+Subject: Re: [PATCH v3] media: ov5640: fix support of BT656 bus mode
+Message-ID: <20201013120130.fjfyksz5gy6hwipo@uno.localdomain>
+References: <1602579743-10286-1-git-send-email-hugues.fruchet@st.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <1602579743-10286-1-git-send-email-hugues.fruchet@st.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There were several files converted to yaml, but the .txt file
-is still referenced somewhere else.
+Hi Hugues,
 
-Update the references for them to point to the right file.
+On Tue, Oct 13, 2020 at 11:02:23AM +0200, Hugues Fruchet wrote:
+> Fix PCLK polarity not being taken into account.
+> Add comments about BT656 register control.
+> Remove useless ov5640_set_stream_bt656() function.
+> Refine comments about MIPI IO register control.
+>
+> Fixes: 4039b03720f7 ("media: i2c: ov5640: Add support for BT656 mode")
+> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+> ---
+> version 3:
+>   - reformat code as per Jacopo's comments
+> version 2:
+>   - keep reset to default without error check at power off
+>
+>  drivers/media/i2c/ov5640.c | 82 +++++++++++++++++++++++++---------------------
+>  1 file changed, 45 insertions(+), 37 deletions(-)
+>
+> diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+> index 8d0254d..8f0812e 100644
+> --- a/drivers/media/i2c/ov5640.c
+> +++ b/drivers/media/i2c/ov5640.c
+> @@ -1216,20 +1216,6 @@ static int ov5640_set_autogain(struct ov5640_dev *sensor, bool on)
+>  			      BIT(1), on ? 0 : BIT(1));
+>  }
+>
+> -static int ov5640_set_stream_bt656(struct ov5640_dev *sensor, bool on)
+> -{
+> -	int ret;
+> -
+> -	ret = ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00,
+> -			       on ? 0x1 : 0x00);
+> -	if (ret)
+> -		return ret;
+> -
+> -	return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ?
+> -				OV5640_REG_SYS_CTRL0_SW_PWUP :
+> -				OV5640_REG_SYS_CTRL0_SW_PWDN);
+> -}
+> -
+>  static int ov5640_set_stream_dvp(struct ov5640_dev *sensor, bool on)
+>  {
+>  	return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ?
+> @@ -1994,13 +1980,13 @@ static int ov5640_set_power_mipi(struct ov5640_dev *sensor, bool on)
+>  static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+>  {
+>  	unsigned int flags = sensor->ep.bus.parallel.flags;
+> -	u8 pclk_pol = 0;
+> -	u8 hsync_pol = 0;
+> -	u8 vsync_pol = 0;
+> +	bool bt656 = sensor->ep.bus_type == V4L2_MBUS_BT656;
+> +	u8 polarities = 0;
+>  	int ret;
+>
+>  	if (!on) {
+>  		/* Reset settings to their default values. */
+> +		ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00, 0x00);
+>  		ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x58);
+>  		ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00, 0x20);
+>  		ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01, 0x00);
+> @@ -2024,7 +2010,35 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+>  	 * - VSYNC:	active high
+>  	 * - HREF:	active low
+>  	 * - PCLK:	active low
+> +	 *
+> +	 * VSYNC & HREF are not configured if BT656 bus mode is selected
+>  	 */
+> +
+> +	/*
+> +	 * BT656 embedded synchronization configuration
+> +	 *
+> +	 * CCIR656 CTRL00
+> +	 * - [7]:	SYNC code selection (0: auto generate sync code,
+> +	 *		1: sync code from regs 0x4732-0x4735)
+> +	 * - [6]:	f value in CCIR656 SYNC code when fixed f value
+> +	 * - [5]:	Fixed f value
+> +	 * - [4:3]:	Blank toggle data options (00: data=1'h040/1'h200,
+> +	 *		01: data from regs 0x4736-0x4738, 10: always keep 0)
+> +	 * - [1]:	Clip data disable
+> +	 * - [0]:	CCIR656 mode enable
+> +	 *
+> +	 * Default CCIR656 SAV/EAV mode with default codes
+> +	 * SAV=0xff000080 & EAV=0xff00009d is enabled here with settings:
+> +	 * - CCIR656 mode enable
+> +	 * - auto generation of sync codes
+> +	 * - blank toggle data 1'h040/1'h200
+> +	 * - clip reserved data (0x00 & 0xff changed to 0x01 & 0xfe)
+> +	 */
+> +	ret = ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00,
+> +			       bt656 ? 0x01 : 0x00);
+> +	if (ret)
+> +		return ret;
+> +
+>  	/*
+>  	 * configure parallel port control lines polarity
+>  	 *
+> @@ -2035,29 +2049,26 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+>  	 *		datasheet and hardware, 0 is active high
+>  	 *		and 1 is active low...)
+>  	 */
+> -	if (sensor->ep.bus_type == V4L2_MBUS_PARALLEL) {
+> -		if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+> -			pclk_pol = 1;
+> +	if (!bt656) {
+>  		if (flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+> -			hsync_pol = 1;
+> +			polarities |= BIT(1);
+>  		if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+> -			vsync_pol = 1;
 
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
- .../bindings/display/tilcdc/tilcdc.txt           |  2 +-
- .../devicetree/bindings/mailbox/omap-mailbox.txt |  2 +-
- .../devicetree/bindings/media/i2c/tvp5150.txt    |  2 +-
- .../bindings/pwm/google,cros-ec-pwm.yaml         |  2 +-
- .../bindings/soc/qcom/qcom,smd-rpm.yaml          |  2 +-
- .../bindings/sound/google,cros-ec-codec.yaml     |  2 +-
- MAINTAINERS                                      | 16 ++++++++--------
- 7 files changed, 14 insertions(+), 14 deletions(-)
+Ups, this doesn't match what's reported in the manual version I have
+(version 2.03, page 134) I read:
 
-diff --git a/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt b/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt
-index 8b2a71395647..3e64075ac7ec 100644
---- a/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt
-+++ b/Documentation/devicetree/bindings/display/tilcdc/tilcdc.txt
-@@ -37,7 +37,7 @@ Optional nodes:
-    supports a single port with a single endpoint.
- 
-  - See also Documentation/devicetree/bindings/display/tilcdc/panel.txt and
--   Documentation/devicetree/bindings/display/bridge/ti,tfp410.txt for connecting
-+   Documentation/devicetree/bindings/display/bridge/ti,tfp410.yaml for connecting
-    tfp410 DVI encoder or lcd panel to lcdc
- 
- [1] There is an errata about AM335x color wiring. For 16-bit color mode
-diff --git a/Documentation/devicetree/bindings/mailbox/omap-mailbox.txt b/Documentation/devicetree/bindings/mailbox/omap-mailbox.txt
-index 35c3f56b7f7b..5fe80c1c19fc 100644
---- a/Documentation/devicetree/bindings/mailbox/omap-mailbox.txt
-+++ b/Documentation/devicetree/bindings/mailbox/omap-mailbox.txt
-@@ -69,7 +69,7 @@ The following are mandatory properties for the K3 AM65x and J721E SoCs only:
- 			the interrupt routes between the IP and the main GIC
- 			controllers. See the following binding for additional
- 			details,
--			Documentation/devicetree/bindings/interrupt-controller/ti,sci-intr.txt
-+			Documentation/devicetree/bindings/interrupt-controller/ti,sci-intr.yaml
- 
- Child Nodes:
- ============
-diff --git a/Documentation/devicetree/bindings/media/i2c/tvp5150.txt b/Documentation/devicetree/bindings/media/i2c/tvp5150.txt
-index 6c88ce858d08..719b2995dc17 100644
---- a/Documentation/devicetree/bindings/media/i2c/tvp5150.txt
-+++ b/Documentation/devicetree/bindings/media/i2c/tvp5150.txt
-@@ -56,7 +56,7 @@ Optional Connector Properties:
-                   instead of using the autodetection mechnism. Please look at
-                   [1] for more information.
- 
--[1] Documentation/devicetree/bindings/display/connector/analog-tv-connector.txt.
-+[1] Documentation/devicetree/bindings/display/connector/analog-tv-connector.yaml.
- 
- Example - three input sources:
- #include <dt-bindings/display/sdtv-standards.h>
-diff --git a/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml b/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
-index 41ece1d85315..4cfbffd8414a 100644
---- a/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
-+++ b/Documentation/devicetree/bindings/pwm/google,cros-ec-pwm.yaml
-@@ -14,7 +14,7 @@ description: |
-   Google's ChromeOS EC PWM is a simple PWM attached to the Embedded Controller
-   (EC) and controlled via a host-command interface.
-   An EC PWM node should be only found as a sub-node of the EC node (see
--  Documentation/devicetree/bindings/mfd/cros-ec.txt).
-+  Documentation/devicetree/bindings/mfd/google,cros-ec.yaml).
- 
- properties:
-   compatible:
-diff --git a/Documentation/devicetree/bindings/soc/qcom/qcom,smd-rpm.yaml b/Documentation/devicetree/bindings/soc/qcom/qcom,smd-rpm.yaml
-index 468d658ce3e7..2684f22a1d85 100644
---- a/Documentation/devicetree/bindings/soc/qcom/qcom,smd-rpm.yaml
-+++ b/Documentation/devicetree/bindings/soc/qcom/qcom,smd-rpm.yaml
-@@ -20,7 +20,7 @@ description: |
-   present and this subnode may contain children that designate regulator
-   resources.
- 
--  Refer to Documentation/devicetree/bindings/regulator/qcom,smd-rpm-regulator.txt
-+  Refer to Documentation/devicetree/bindings/regulator/qcom,smd-rpm-regulator.yaml
-   for information on the regulator subnodes that can exist under the
-   rpm_requests.
- 
-diff --git a/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml b/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
-index c84e656afb0a..3b9143af2c7c 100644
---- a/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
-+++ b/Documentation/devicetree/bindings/sound/google,cros-ec-codec.yaml
-@@ -13,7 +13,7 @@ description: |
-   Google's ChromeOS EC codec is a digital mic codec provided by the
-   Embedded Controller (EC) and is controlled via a host-command interface.
-   An EC codec node should only be found as a sub-node of the EC node (see
--  Documentation/devicetree/bindings/mfd/cros-ec.txt).
-+  Documentation/devicetree/bindings/mfd/google,cros-ec.yaml).
- 
- properties:
-   compatible:
-diff --git a/MAINTAINERS b/MAINTAINERS
-index dffa948a2124..9e0f7b68bba5 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -1523,7 +1523,7 @@ L:	linux-arm-kernel@lists.infradead.org (moderated for non-subscribers)
- S:	Maintained
- F:	Documentation/devicetree/bindings/arm/actions.yaml
- F:	Documentation/devicetree/bindings/clock/actions,owl-cmu.txt
--F:	Documentation/devicetree/bindings/dma/owl-dma.txt
-+F:	Documentation/devicetree/bindings/dma/owl-dma.yaml
- F:	Documentation/devicetree/bindings/i2c/i2c-owl.txt
- F:	Documentation/devicetree/bindings/mmc/owl-mmc.yaml
- F:	Documentation/devicetree/bindings/pinctrl/actions,s900-pinctrl.txt
-@@ -5827,7 +5827,7 @@ L:	linux-renesas-soc@vger.kernel.org
- S:	Supported
- T:	git git://linuxtv.org/pinchartl/media drm/du/next
- F:	Documentation/devicetree/bindings/display/bridge/renesas,dw-hdmi.txt
--F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.txt
-+F:	Documentation/devicetree/bindings/display/bridge/renesas,lvds.yaml
- F:	Documentation/devicetree/bindings/display/renesas,du.txt
- F:	drivers/gpu/drm/rcar-du/
- F:	drivers/gpu/drm/shmobile/
-@@ -6952,7 +6952,7 @@ M:	Frank Li <Frank.li@nxp.com>
- L:	linux-arm-kernel@lists.infradead.org
- S:	Maintained
- F:	Documentation/admin-guide/perf/imx-ddr.rst
--F:	Documentation/devicetree/bindings/perf/fsl-imx-ddr.txt
-+F:	Documentation/devicetree/bindings/perf/fsl-imx-ddr.yaml
- F:	drivers/perf/fsl_imx8_ddr_perf.c
- 
- FREESCALE IMX I2C DRIVER
-@@ -6960,7 +6960,7 @@ M:	Oleksij Rempel <o.rempel@pengutronix.de>
- R:	Pengutronix Kernel Team <kernel@pengutronix.de>
- L:	linux-i2c@vger.kernel.org
- S:	Maintained
--F:	Documentation/devicetree/bindings/i2c/i2c-imx.txt
-+F:	Documentation/devicetree/bindings/i2c/i2c-imx.yaml
- F:	drivers/i2c/busses/i2c-imx.c
- 
- FREESCALE IMX LPI2C DRIVER
-@@ -6968,7 +6968,7 @@ M:	Dong Aisheng <aisheng.dong@nxp.com>
- L:	linux-i2c@vger.kernel.org
- L:	linux-imx@nxp.com
- S:	Maintained
--F:	Documentation/devicetree/bindings/i2c/i2c-imx-lpi2c.txt
-+F:	Documentation/devicetree/bindings/i2c/i2c-imx-lpi2c.yaml
- F:	drivers/i2c/busses/i2c-imx-lpi2c.c
- 
- FREESCALE QORIQ DPAA ETHERNET DRIVER
-@@ -11600,7 +11600,7 @@ MIPS GENERIC PLATFORM
- M:	Paul Burton <paulburton@kernel.org>
- L:	linux-mips@vger.kernel.org
- S:	Supported
--F:	Documentation/devicetree/bindings/power/mti,mips-cpc.txt
-+F:	Documentation/devicetree/bindings/power/mti,mips-cpc.yaml
- F:	arch/mips/generic/
- F:	arch/mips/tools/generic-board-config.sh
- 
-@@ -12455,7 +12455,7 @@ NXP SGTL5000 DRIVER
- M:	Fabio Estevam <festevam@gmail.com>
- L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
- S:	Maintained
--F:	Documentation/devicetree/bindings/sound/sgtl5000.txt
-+F:	Documentation/devicetree/bindings/sound/sgtl5000.yaml
- F:	sound/soc/codecs/sgtl5000*
- 
- NXP SJA1105 ETHERNET SWITCH DRIVER
-@@ -16737,7 +16737,7 @@ SYNOPSYS DESIGNWARE DMAC DRIVER
- M:	Viresh Kumar <vireshk@kernel.org>
- R:	Andy Shevchenko <andriy.shevchenko@linux.intel.com>
- S:	Maintained
--F:	Documentation/devicetree/bindings/dma/snps-dma.txt
-+F:	Documentation/devicetree/bindings/dma/snps,dma-spear1340.yaml
- F:	drivers/dma/dw/
- F:	include/dt-bindings/dma/dw-dmac.h
- F:	include/linux/dma/dw.h
--- 
-2.26.2
+VSYNC polarity  0: Active low
+                1: Active high
 
+Was this a bug already present in the code ?
+
+Anyway, this has not been introduced by this patch, but might be a
+good occasion to fix it.
+
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
+
+Thanks
+  j
+
+> -
+> -		ret = ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00,
+> -				       (pclk_pol << 5) | (hsync_pol << 1) |
+> -				       vsync_pol);
+> -
+> -		if (ret)
+> -			return ret;
+> +			polarities |= BIT(0);
+>  	}
+> +	if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+> +		polarities |= BIT(5);
+> +
+> +	ret = ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00, polarities);
+> +	if (ret)
+> +		return ret;
+>
+>  	/*
+> -	 * powerdown MIPI TX/RX PHY & disable MIPI
+> +	 * powerdown MIPI TX/RX PHY & enable DVP
+>  	 *
+>  	 * MIPI CONTROL 00
+> -	 * 4:	 PWDN PHY TX
+> -	 * 3:	 PWDN PHY RX
+> -	 * 2:	 MIPI enable
+> +	 * [4] = 1	: Power down MIPI HS Tx
+> +	 * [3] = 1	: Power down MIPI LS Rx
+> +	 * [2] = 0	: DVP enable (MIPI disable)
+>  	 */
+>  	ret = ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x18);
+>  	if (ret)
+> @@ -2074,8 +2085,7 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+>  	 * - [3:0]:	D[9:6] output enable
+>  	 */
+>  	ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01,
+> -			       sensor->ep.bus_type == V4L2_MBUS_PARALLEL ?
+> -			       0x7f : 0x1f);
+> +			       bt656 ? 0x1f : 0x7f);
+>  	if (ret)
+>  		return ret;
+>
+> @@ -2925,8 +2935,6 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
+>
+>  		if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
+>  			ret = ov5640_set_stream_mipi(sensor, enable);
+> -		else if (sensor->ep.bus_type == V4L2_MBUS_BT656)
+> -			ret = ov5640_set_stream_bt656(sensor, enable);
+>  		else
+>  			ret = ov5640_set_stream_dvp(sensor, enable);
+>
+> --
+> 2.7.4
+>
