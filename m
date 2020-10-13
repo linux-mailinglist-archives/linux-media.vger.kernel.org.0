@@ -2,70 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D488228C92C
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 09:22:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C9B428CA0E
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 10:20:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389992AbgJMHWb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Oct 2020 03:22:31 -0400
-Received: from mga01.intel.com ([192.55.52.88]:36280 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389874AbgJMHWb (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Oct 2020 03:22:31 -0400
-IronPort-SDR: bzq2nA5JJikgb+JpaFuPU8JFyQlnMTJmsRx0MIgdIbtJO5tbW46EtzRsEtCKAiYmkTBxKlz/gk
- OAKrL/nYX9Gg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9772"; a="183340047"
-X-IronPort-AV: E=Sophos;i="5.77,369,1596524400"; 
-   d="scan'208";a="183340047"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 00:22:30 -0700
-IronPort-SDR: wBMYeWTcnEZB/hbYFsQYcYDJOnGll6628sAZoeelvEJitMVma2t4SFPdoxzK2Z7Pn3xF5pcnv8
- m144AD6yHCxw==
-X-IronPort-AV: E=Sophos;i="5.77,369,1596524400"; 
-   d="scan'208";a="299468235"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 13 Oct 2020 00:22:26 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id A9D7520435; Tue, 13 Oct 2020 10:22:23 +0300 (EEST)
-Date:   Tue, 13 Oct 2020 10:22:23 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Tsuchiya Yuto <kitakar@gmail.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: [PATCH v3 8/8] ipu3-cio2: Remove traces of returned buffers
-Message-ID: <20201013072223.GZ26842@paasikivi.fi.intel.com>
-References: <20201012180414.11579-1-sakari.ailus@linux.intel.com>
- <20201012180414.11579-9-sakari.ailus@linux.intel.com>
- <CAHp75VcQ9vY14qkQF_kq=YRbQdc_1WS67hdB19TX_W6YXsGGYA@mail.gmail.com>
+        id S2390813AbgJMIUS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Oct 2020 04:20:18 -0400
+Received: from mail.fastestway24.com ([5.249.159.217]:34182 "EHLO
+        mail.fastestway24.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390282AbgJMIUS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 13 Oct 2020 04:20:18 -0400
+X-Greylist: delayed 491 seconds by postgrey-1.27 at vger.kernel.org; Tue, 13 Oct 2020 04:20:17 EDT
+Received: by mail.fastestway24.com (Postfix, from userid 1001)
+        id 2CE1EA2E89; Tue, 13 Oct 2020 09:11:40 +0100 (BST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fastestway24.com;
+        s=mail; t=1602576723;
+        bh=YGOlxoddnI3PXnh41XMWUfU0z9xsorZLZcAPNbcZr/c=;
+        h=Date:From:To:Subject:From;
+        b=bfIO/u9hbBP9FONXlGSZoWxXWwZU2cO7fYjqS708B2UZAmSQ7oZvy4qCmJFQY6laP
+         VVs8NAXJAISKVipwZqP0/v0TaNDmPQTZbVnUUa36SC5/2QVrLLYkkI4E5xmYM9eIf7
+         DCCF66IQm/jrc1dDEm8rs5kzx4/Xk0XOQMJR0SG3g9wHJ72LXxwyrCdPrwLb7UiaNH
+         JwaiVw7u41yUoHod6b8/ejXLBxi29OfntjsUEw2qjddd6r+/cxow/0j8ugZ6k7BhxV
+         WZkKB2ZsKpAcOX7zzhVgVbzRpoV1VIoFWlkQ1BJBmmguJTbroFcFd8bP7oiBLitQsn
+         6lQXsnif7cRBA==
+Received: by mail.fastestway24.com for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 08:11:18 GMT
+Message-ID: <20201013074502-0.1.4d.9kz1.0.zdz7gbx15m@fastestway24.com>
+Date:   Tue, 13 Oct 2020 08:11:18 GMT
+From:   "William Jones" <william.jones@fastestway24.com>
+To:     <linux-media@vger.kernel.org>
+Subject: Disinfectant
+X-Mailer: mail.fastestway24.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAHp75VcQ9vY14qkQF_kq=YRbQdc_1WS67hdB19TX_W6YXsGGYA@mail.gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 12, 2020 at 09:32:04PM +0300, Andy Shevchenko wrote:
-> On Mon, Oct 12, 2020 at 9:07 PM Sakari Ailus
-> <sakari.ailus@linux.intel.com> wrote:
-> >
-> > If starting a video buffer queue fails, the buffers are returned to
-> > videobuf2. Remove the reference to the buffer from driver's queue as well.
-> 
-> the driver's
-> 
-> Reviewed-by: Andy Shevchenko <andy.shevchenko@gmail.com>
+Good morning,
 
-Thanks for the review, Andy and Laurent!
+looking for companies interested in raising additional capital by diversi=
+fying their offer in soaps, liquids and gels for hand disinfection and co=
+smetics for body and hair care.
 
-I've fixed the commit messages and pushed the patches to my tree's master
-branch.
+The distribution of innovative products corresponding to the current pref=
+erences of customers in the field of hygiene and preventive healthcare al=
+lows our partners to gain new markets and achieve better economic results=
+=2E
 
--- 
-Sakari Ailus
+In addition to products with bactericidal action, our range includes show=
+er gels, shampoos and hair conditioners, as well as efficient, concentrat=
+ed detergents.
+
+The versatility (suitable for all skin types) combined with an affordable=
+ price means that customers make an informed choice of a product among ot=
+hers available on the market.
+
+Are you interested in cooperation?
+
+
+William Jones
