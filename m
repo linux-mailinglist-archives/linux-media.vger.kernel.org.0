@@ -2,86 +2,78 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F88D28D02B
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 16:25:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8FD4128D057
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 16:39:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388536AbgJMOZk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Oct 2020 10:25:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35438 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388503AbgJMOZk (ORCPT
+        id S1730048AbgJMOjY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Oct 2020 10:39:24 -0400
+Received: from Galois.linutronix.de ([193.142.43.55]:52370 "EHLO
+        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729656AbgJMOjY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Oct 2020 10:25:40 -0400
-Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0009DC0613D0
-        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 07:25:39 -0700 (PDT)
-Received: from lanttu.localdomain (unknown [IPv6:2a01:4f9:c010:4572::e1:1002])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 28281634C87;
-        Tue, 13 Oct 2020 17:24:29 +0300 (EEST)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com,
-        "Tested-by : Jean-Michel Hautbois" <jeanmichel.hautbois@gmail.com>
-Subject: [PATCH v2 1/1] ipu3-cio2: Check receved the size against payload size, not buffer size
-Date:   Tue, 13 Oct 2020 17:25:35 +0300
-Message-Id: <20201013142535.25547-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.27.0
+        Tue, 13 Oct 2020 10:39:24 -0400
+Message-Id: <20201013142616.118697527@linutronix.de>
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020; t=1602599962;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=WYttoZQBVnlZi5CIrd2nl7FrtaNidcslV10mrzt6KO8=;
+        b=2ORlbvHKKR7ZAqZuOj8rj/14hza1IdaFe/bNqRgEl8hlzSBgZBLDNRwN1NQ5J0ZtZ0u70K
+        qiGCbjDUBGIuEqqO+HohqaxM2USAsyPEzQlyHlwLC4Tlag3oz1mv3S/jXW8vGyQ6UIxkyy
+        iPGHqF65deDukz1KUZwP42l0H7W939cLU6g3zU9oQ8WeZ5FGzRRgfCmwji77WmxL+Sc1ws
+        lbQzE0Vn+saniEGA/xjoKzqNunpBWlrltr2bPtSH7QzuVCIHaFi+eHfmTGBJ510GZapEoK
+        bfzDapgU5bE1bwpVvdilBE0Vb78yKguynbbtYzKNW9sMAYoxAFkYouMvXmuKlw==
+DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
+        s=2020e; t=1602599962;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding;
+        bh=WYttoZQBVnlZi5CIrd2nl7FrtaNidcslV10mrzt6KO8=;
+        b=BdtfAdjzrcIrQ1EVLKI5m7Ukon1T7gtMt66OfUEBNDCo8ClXSr7/lPmULdKFFtT9+Diku5
+        4HNAtPyRr+MkAHAw==
+Date:   Tue, 13 Oct 2020 16:26:16 +0200
+From:   Thomas Gleixner <tglx@linutronix.de>
+To:     LKML <linux-kernel@vger.kernel.org>
+Cc:     Peter Zijlstra <peterz@infradead.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [patch 0/4] media: Cleanup in_interrupt() usage
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Compare the received size of the payload size, not the allocated size of
-the buffer that is page aligned. This way also images that aren't aligned
-to page size are not warned about.
-
-Also wrap a line over 80 characters.
-
-Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Tested-by: Jean-Michel Hautbois <jeanmichel.hautbois@gmail.com>
----
-since v1:
-
-- Use local variable for payload, rename bytes as received
-
-- Add a comma to the warning message
-
- drivers/media/pci/intel/ipu3/ipu3-cio2.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-index 51c4dd6a8f9a..c557d189200b 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-@@ -561,7 +561,9 @@ static void cio2_buffer_done(struct cio2_device *cio2, unsigned int dma_chan)
- 
- 		b = q->bufs[q->bufs_first];
- 		if (b) {
--			unsigned int bytes = entry[1].second_entry.num_of_bytes;
-+			unsigned int received = entry[1].second_entry.num_of_bytes;
-+			unsigned long payload =
-+				vb2_get_plane_payload(&b->vbb.vb2_buf, 0);
- 
- 			q->bufs[q->bufs_first] = NULL;
- 			atomic_dec(&q->bufs_queued);
-@@ -571,10 +573,10 @@ static void cio2_buffer_done(struct cio2_device *cio2, unsigned int dma_chan)
- 			b->vbb.vb2_buf.timestamp = ns;
- 			b->vbb.field = V4L2_FIELD_NONE;
- 			b->vbb.sequence = atomic_read(&q->frame_sequence);
--			if (b->vbb.vb2_buf.planes[0].length != bytes)
--				dev_warn(dev, "buffer length is %d received %d\n",
--					 b->vbb.vb2_buf.planes[0].length,
--					 bytes);
-+			if (payload != received)
-+				dev_warn(dev,
-+					 "payload length is %lu, received %u\n",
-+					 payload, received);
- 			vb2_buffer_done(&b->vbb.vb2_buf, VB2_BUF_STATE_DONE);
- 		}
- 		atomic_inc(&q->frame_sequence);
--- 
-2.27.0
-
+Rm9sa3MsCgppbiB0aGUgZGlzY3Vzc2lvbiBhYm91dCBwcmVlbXB0IGNvdW50IGNvbnNpc3RlbmN5
+IGFjY3Jvc3Mga2VybmVsCmNvbmZpZ3VyYXRpb25zOgoKIGh0dHBzOi8vbG9yZS5rZXJuZWwub3Jn
+L3IvMjAyMDA5MTQyMDQyMDkuMjU2MjY2MDkzQGxpbnV0cm9uaXguZGUvCgppdCB3YXMgY29uY2x1
+ZGVkIHRoYXQgdGhlIHVzYWdlIG9mIGluX2ludGVycnVwdCgpIGFuZCByZWxhdGVkIGNvbnRleHQK
+Y2hlY2tzIHNob3VsZCBiZSByZW1vdmVkIGZyb20gbm9uLWNvcmUgY29kZS4KClRoZSBtZWRpYSBz
+dWJzeXN0ZW0gaGFzIGEgZmV3IGluc3RhbmNlcyBvZiBpbl9pbnRlcnJ1cHQoKSB1c2FnZToKCiAx
+KSBCVUdfT04oaW5faW50ZXJydXB0KCkKCiAgICBCVUdfT04oKSBpcyBjb25zaWRlcmVkIHRoZSBs
+YXN0IHJlc29ydCBhbmQgdGhlIHVzYWdlIHRoZXJlIGlzIGNsZWFybHkKICAgIG5vdCBpbiB0aGF0
+IGNhdGVnb3J5LiBJdCBjb3VsZCBiZSByZXBsYWNlZCBieSBhCiAgICBsb2NrZGVwX2Fzc2VydF9w
+cmVlbXB0aW9uX2VuYWJsZWQoKSwgYnV0IGFsbCB0aGVzZSB1c2FnZSBzaXRlcyBpbnZva2UKICAg
+IGNvcmUgZnVuY3Rpb25hbGl0eSB3aGljaCB3aWxsIGNhdGNoIGluY29ycmVjdCBjb250ZXh0IGFs
+cmVhZHkuIFNvCiAgICBhZGRpbmcgbW9yZSB0aGVyZSBpcyBub3QgcmVhbGx5IHVzZWZ1bAoKIDIp
+IENvbW1lbnRzIGFuZCBwcmludGsoKSdzCgogICAgVGhlIGNvbW1lbnQgaXMgbWlzbGVhZGluZyBh
+bmQgdGhlIGNoZWNrcyBpbiB0aGUgcHJpbnRrKCkncyBhcmUKICAgIHBvaW50bGVzcyBhcyB0aGUg
+Y29kZSBjYW4gbmV2ZXIgYmUgY2FsbGVkIGZyb20gaW5faW50ZXJydXB0KCkgYXMgaXQKICAgIGNv
+bnRhaW5zIEdGUF9LRVJORUwgYWxsb2NhdGlvbnMuCgpJJ20gY29sbGVjdGluZyByZWxhdGVkIGNs
+ZWFudXBzIGFsbCBvdmVyIHRoZSB0cmVlLCBidXQgZmVlbCBmcmVlIHRvIHJvdXRlCnRoZW0gdGhy
+b3VnaCB0aGUgbWVkaWEgdHJlZSBhcyB0aGV5IGhhdmUgbm8gZGVwZW5kZW5jaWVzLiBMZXQgbWUg
+a25vdyB3aGljaApyb3V0ZSB5b3UgcHJlZmVyLgoKVGhhbmtzLAoKCXRnbHgKLS0tCiBjb21tb24v
+c2FhNzE0Ni9zYWE3MTQ2X2ZvcHMuYyB8ICAgIDIgLS0KIHBjaS9idDh4eC9idHR2LXJpc2MuYyAg
+ICAgICAgIHwgICAgMSAtCiBwY2kvY3gyMzg4NS9jeDIzODg1LWNvcmUuYyAgICB8ICAgIDEgLQog
+cGNpL2N4MjU4MjEvY3gyNTgyMS1jb3JlLmMgICAgfCAgICAxIC0KIHBsYXRmb3JtL2ZzbC12aXUu
+YyAgICAgICAgICAgIHwgICAgMiAtLQogcGxhdGZvcm0vb21hcDNpc3AvaXNwY2NkYy5jICAgfCAg
+ICA1ICsrLS0tCiB1c2IvYXUwODI4L2F1MDgyOC12aWRlby5jICAgICB8ICAgIDUgKystLS0KIHVz
+Yi9jeDIzMXh4L2N4MjMxeHgtY29yZS5jICAgIHwgICAxMCArKysrLS0tLS0tCiB1c2IvY3gyMzF4
+eC9jeDIzMXh4LXZiaS5jICAgICB8ICAgIDMgKy0tCiB1c2IvdG02MDAwL3RtNjAwMC12aWRlby5j
+ICAgICB8ICAgIDIgLS0KIHVzYi96cjM2NHh4L3pyMzY0eHguYyAgICAgICAgIHwgICAgMiAtLQog
+MTEgZmlsZXMgY2hhbmdlZCwgOSBpbnNlcnRpb25zKCspLCAyNSBkZWxldGlvbnMoLSkKCg==
