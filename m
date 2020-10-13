@@ -2,85 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8030728CF70
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 15:47:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C78B528CF85
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 15:53:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387833AbgJMNrz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Oct 2020 09:47:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57808 "EHLO
+        id S2387583AbgJMNx3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Oct 2020 09:53:29 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387781AbgJMNrz (ORCPT
+        with ESMTP id S1728852AbgJMNx3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Oct 2020 09:47:55 -0400
+        Tue, 13 Oct 2020 09:53:29 -0400
 Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2F74C0613D0
-        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 06:47:54 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id n6so23833101wrm.13
-        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 06:47:54 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C462DC0613D2
+        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 06:53:28 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id n15so24181789wrq.2
+        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 06:53:28 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=linaro.org; s=google;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=J5uaYqWkbFHVP88v2rzSBbYb4uLyOPb+81FW8EvNzgM=;
-        b=nPJhOMtM3nbZdorNiNI3n1toBF8h8WdawBi2rqokmu8omD060Y9+PqgzqUpEnPyYWQ
-         oJtc5N3Z7ENsxWCbQWcqQX/bo77OTkGqmsnvj/b7fOYwHzpnQ1HSq2hV7TK4+XEbyl4I
-         cF+92k2kO4suknaddfLaxfMkvEf9jPZ88g3SpPiVWM4j0gwYFeXKU0ZVeO+KjOEh1sto
-         bayvAkmOYZIByEsy5jZN+777RZCMVtY4kLYKxDqvwXwfwTIqNLHrtPHpgp11q8M4Z0ZO
-         O1/DAt9BMA2cGZS5oZ9QtdReyilK1Mijnh5KQijiEPzzF4RWm/lsCp8lZYkxZnxLMZD5
-         zQWA==
+        bh=CTB6OvgweI2R52tC86/g7f29zSqU9vcDSQYaOzrbBJA=;
+        b=CI7ZJcJmxE1tclSVzoOBMvHls7/4sOCvpghd5DRUHZMd2ZgZEXJraPWape9OEffDN7
+         WVeoV21hMblnQ9cz80CdMTf9KYNTjlS31/B9pPZTR26T2O6m2H5i7qnfxb5X0nTkGpUV
+         4vjmq0GkYY56WcIobZMsQSlzf6SbShK8E7NIZrHwXKCj2KzdzT4dfVeo4v8xoGGxlSFj
+         UcoH8U2znqqzjdw9JVmy74zYb4MX8g8ZGjtfQoa0T8MIqd/rmOsw076TocVyvTPO90Yc
+         RlKNgEg+YA6Titr11GpTA4C0rQNJpCX+mnt0dfSEJ9TqZF2OKfmkoJ1+IJQKv+zh9/Sk
+         jJaQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=J5uaYqWkbFHVP88v2rzSBbYb4uLyOPb+81FW8EvNzgM=;
-        b=aeAnnz+COz7gTdb7BpW2yx3/xKtE1EpOGdxnmXi9AFEx4lsEoaExvu9nSOSezdEIMs
-         O0eSqC8+bdHeRUVrhCCHYftFkZ7r0dauYhzUjrd+TFWXYJv+cCVwwOKqpOahBF1OgK+o
-         h0TOSpVLRA1KPGo6Fi8FHH/fb/WV/RNhH56LE+NlNUitrxqE23Qw/Zuwq5otyEje7JkW
-         0AE/jitpv6D712spBmcEwIGfXungqVn2gVKXWHgEKaJfAPZ2i9J4kKseTTKFiMRQt3WT
-         laDdSGqAhw9nOYnNVrFB9tPrfUw0LbjfDTAjejWbj2DvW3VsUAD/H4zcJWDViFIrvlws
-         m5Aw==
-X-Gm-Message-State: AOAM531jaNoOTULqHXEyTqa4WDhZeou9Q+0VUjKgcenfw0+5aUOlKpcV
-        dbGgzGDFDLyo2e42FlhV91L29MDDtfN81g==
-X-Google-Smtp-Source: ABdhPJwgx5DfQKn7U0DUiCORsCPQ7SwUv3SH1b+qmeVH9c12A2tWMJmi8KLitwV4JrbaXWTESupZ+A==
-X-Received: by 2002:adf:82e5:: with SMTP id 92mr1045039wrc.192.1602596873600;
-        Tue, 13 Oct 2020 06:47:53 -0700 (PDT)
-Received: from ?IPv6:2a01:e0a:169:7140:4685:ff:fe38:7c00? ([2a01:e0a:169:7140:4685:ff:fe38:7c00])
-        by smtp.gmail.com with ESMTPSA id u5sm32461202wru.63.2020.10.13.06.47.45
+        bh=CTB6OvgweI2R52tC86/g7f29zSqU9vcDSQYaOzrbBJA=;
+        b=TG8hYn7WSIXYlqjDaeVD+o9Nj2JPEaKSBoCHGmBmddMkLDea9eb3NE675TPU1cMC7x
+         5tiZ5zdexex761dq6qJf1JujHdnvbEY66J4MgV0gXTH1O73Q+ESIGPPBPaV3RAxS5cOH
+         e08BSy4EVH2omz69PbV2opmKOl+z4bRK/FRT9SoWLqMgwXjwHGt4jzR/RL9n6997L1do
+         JHCihM3ZId0vB1fKB/FknSvhpl46V2I51UfO4Lx39JRFJZCtyRq3sAYSvEQmJyT7Sm3C
+         KRSILU2Sip5v1e1Xp4PyM3CpOrzEyyDSzr61lXbthLOWZtwDJPHVCaPgejgPPb9tV8K0
+         0uMg==
+X-Gm-Message-State: AOAM533U2ulomYmjgBTn4ZzpMF1K4O/Ljei1LBBSVBWl/HZPMYiGN2wf
+        7Qp5f2kyW/nx3z/yqOBhskPPTQ==
+X-Google-Smtp-Source: ABdhPJw6Av1bSuxg1w5gOpe9G92yJ9ckRU8zFQzc8zsNahLtNfD86ENG0QiT+7kn4I62lUe3qU3blg==
+X-Received: by 2002:adf:979c:: with SMTP id s28mr36022446wrb.62.1602597207387;
+        Tue, 13 Oct 2020 06:53:27 -0700 (PDT)
+Received: from [192.168.1.8] (hst-221-88.medicom.bg. [84.238.221.88])
+        by smtp.googlemail.com with ESMTPSA id g14sm28510332wrx.22.2020.10.13.06.53.26
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 13 Oct 2020 06:47:45 -0700 (PDT)
-Subject: Re: [PATCH 1/1] ipu3-cio2: Check receved the size against payload
- size, not buffer size
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com
-References: <20201013124143.12459-1-sakari.ailus@linux.intel.com>
-From:   Jean-Michel Hautbois <jeanmichel.hautbois@gmail.com>
-Message-ID: <ed6e7c65-aedb-b61f-ea7e-74de24e283c6@gmail.com>
-Date:   Tue, 13 Oct 2020 15:47:44 +0200
+        Tue, 13 Oct 2020 06:53:26 -0700 (PDT)
+Subject: Re: [PATCH] v4l: Add source change event for colorimetry
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+References: <20200702100017.24700-1-stanimir.varbanov@linaro.org>
+ <8dafbb4b-4626-5191-c57a-f3ef19c14618@linaro.org>
+ <d11da037-92e5-2ee7-8723-10162d16eba9@linaro.org>
+ <CAAFQd5AYvMrZQtZ2UBOEG6Nar06bZrRZdE57Y6N7+6dZxJ0m_A@mail.gmail.com>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <7db412a2-8fd3-6657-4fcd-1fbfde4b2c0e@linaro.org>
+Date:   Tue, 13 Oct 2020 16:53:25 +0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201013124143.12459-1-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
+In-Reply-To: <CAAFQd5AYvMrZQtZ2UBOEG6Nar06bZrRZdE57Y6N7+6dZxJ0m_A@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
 
-Thanks for the patch !
 
-On 13/10/2020 14:41, Sakari Ailus wrote:
-> Compare the received size of the payload size, not the allocated size of
-> the buffer that is page aligned. This way also images that aren't aligned
-> to page size are not warned about.
+On 10/13/20 4:40 PM, Tomasz Figa wrote:
+> On Tue, Oct 13, 2020 at 11:03 AM Stanimir Varbanov
+> <stanimir.varbanov@linaro.org> wrote:
+>>
+>> Hi,
+>>
+>> On 7/2/20 2:52 PM, Stanimir Varbanov wrote:
+>>> Hi,
+>>>
+>>> Once we have this event there is still open question how the client will
+>>> know the data buffer on which the new colorspace is valid/applied.
+>>>
+>>> The options could be:
+>>>  * a new buffer flag and
+>>>  * some information in the v4l2_event structure.
+>>>
+>>> Thoughts?
+>>
+>> Kindly ping.
+>>
 > 
-> Also wrap a line over 80 characters.
-> 
-> Suggested-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> The event itself sounds good to me, but how do we know which buffer is
+> the first to have the new colorimetry?
 
-Tested-by: Jean-Michel Hautbois <jeanmichel.hautbois@gmail.com>
+I think Hans have a very good idea to have width/height and colorspace
+specifiers in v4l2_ext_buffer [1].
+
+[1] https://lkml.org/lkml/2020/9/9/531
+
+> 
+> Best regards,
+> Tomasz
+> 
+>>>
+>>> On 7/2/20 1:00 PM, Stanimir Varbanov wrote:
+>>>> This event indicate that the source colorspace is changed
+>>>> during run-time. The client has to retrieve the new colorspace
+>>>> identifiers by getting the format (G_FMT).
+>>>>
+>>>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>>>> ---
+>>>>  .../userspace-api/media/v4l/vidioc-dqevent.rst        | 11 ++++++++++-
+>>>>  .../userspace-api/media/videodev2.h.rst.exceptions    |  1 +
+>>>>  include/uapi/linux/videodev2.h                        |  1 +
+>>>>  3 files changed, 12 insertions(+), 1 deletion(-)
+>>>>
+>>>> diff --git a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>>> index a9a176d5256d..3f69c753db58 100644
+>>>> --- a/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>>> +++ b/Documentation/userspace-api/media/v4l/vidioc-dqevent.rst
+>>>> @@ -381,7 +381,16 @@ call.
+>>>>      that many Video Capture devices are not able to recover from a temporary
+>>>>      loss of signal and so restarting streaming I/O is required in order for
+>>>>      the hardware to synchronize to the video signal.
+>>>> -
+>>>> +    * - ``V4L2_EVENT_SRC_CH_COLORIMETRY``
+>>>> +      - 0x0002
+>>>> +      - This event gets triggered when a colorspace change is detected at
+>>>> +    an input. By colorspace change here we include also changes in the
+>>>> +    colorspace specifiers (transfer function, Y'CbCr encoding and
+>>>> +    quantization). This event can come from an input or from video decoder.
+>>>> +    Once the event has been send to the client the driver has to update
+>>>> +    the colorspace specifiers internally so that they could be retrieved by
+>>>> +    client. In that case queue re-negotiation is not needed as this change
+>>>> +    only reflects on the interpretation of the data.
+>>>>
+>>>>  Return Value
+>>>>  ============
+>>>> diff --git a/Documentation/userspace-api/media/videodev2.h.rst.exceptions b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>>> index ca05e4e126b2..54fc21af852d 100644
+>>>> --- a/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>>> +++ b/Documentation/userspace-api/media/videodev2.h.rst.exceptions
+>>>> @@ -492,6 +492,7 @@ replace define V4L2_EVENT_CTRL_CH_FLAGS ctrl-changes-flags
+>>>>  replace define V4L2_EVENT_CTRL_CH_RANGE ctrl-changes-flags
+>>>>
+>>>>  replace define V4L2_EVENT_SRC_CH_RESOLUTION src-changes-flags
+>>>> +replace define V4L2_EVENT_SRC_CH_COLORIMETRY src-changes-flags
+>>>>
+>>>>  replace define V4L2_EVENT_MD_FL_HAVE_FRAME_SEQ :c:type:`v4l2_event_motion_det`
+>>>>
+>>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>>>> index 303805438814..b5838bc4e3a3 100644
+>>>> --- a/include/uapi/linux/videodev2.h
+>>>> +++ b/include/uapi/linux/videodev2.h
+>>>> @@ -2351,6 +2351,7 @@ struct v4l2_event_frame_sync {
+>>>>  };
+>>>>
+>>>>  #define V4L2_EVENT_SRC_CH_RESOLUTION                (1 << 0)
+>>>> +#define V4L2_EVENT_SRC_CH_COLORIMETRY               (1 << 1)
+>>>>
+>>>>  struct v4l2_event_src_change {
+>>>>      __u32 changes;
+>>>>
+>>>
+>>
+>> --
+>> regards,
+>> Stan
+
+-- 
+regards,
+Stan
