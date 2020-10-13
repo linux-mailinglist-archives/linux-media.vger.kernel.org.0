@@ -2,106 +2,48 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C36F28D063
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 16:39:50 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6310B28D030
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 16:27:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730163AbgJMOjb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Oct 2020 10:39:31 -0400
-Received: from Galois.linutronix.de ([193.142.43.55]:52432 "EHLO
-        galois.linutronix.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730076AbgJMOj3 (ORCPT
+        id S2388570AbgJMO1z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Oct 2020 10:27:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35776 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387516AbgJMO1z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Oct 2020 10:39:29 -0400
-Message-Id: <20201013143731.974452990@linutronix.de>
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020; t=1602599967;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=a+PI7nT40Q7VihMNU5RIN+OWBiwkSEbdS5+PZ5WYDjY=;
-        b=Nr6vvhnkEXLDckX4GNYZxOxh99r2Ef2t2NnWvCtRSm6KHuO/8knJExArD88REMOg+evCkt
-        wiCnxtq/NWHg/Niy/IFaxXgPjSgwyXiIvLlGN/pQ6GMa7riw64gOhYESIGo4PIqhbk5CXQ
-        SKOlEtqxGjRakl5nSmLkuIOaNLfrwwV2iZ/XWwwserVLbAI43oo2xxQUdOV8uuhJrClsm8
-        IIB81VXyW4Kpv0Oo3i3tzU/K2IRygljT6Z114stwS3q8TDSJCbxHhiGevnCSDQubmmOElD
-        WEjtf26z84BdLv3u7gUDN4Ba2a3CmVOkoCPpu4fNQtpKK6oeuLIhhG0++5CjeQ==
-DKIM-Signature: v=1; a=ed25519-sha256; c=relaxed/relaxed; d=linutronix.de;
-        s=2020e; t=1602599967;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:  references:references;
-        bh=a+PI7nT40Q7VihMNU5RIN+OWBiwkSEbdS5+PZ5WYDjY=;
-        b=6iz62w3zOMhjhLhLouDT42w/sk3OVOqtOnWEB4VeNQcrQn2g9ITQsSZV4huioyrsMYnJNw
-        a6tbMnCjWIbCRQAA==
-Date:   Tue, 13 Oct 2020 16:26:20 +0200
-From:   Thomas Gleixner <tglx@linutronix.de>
-To:     LKML <linux-kernel@vger.kernel.org>
-Cc:     Peter Zijlstra <peterz@infradead.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-usb@vger.kernel.org
-Subject: [patch 4/4] media: cx231xx: Consolidate dmesg output
-References: <20201013142616.118697527@linutronix.de>
+        Tue, 13 Oct 2020 10:27:55 -0400
+Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B50CC0613D0
+        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 07:27:55 -0700 (PDT)
+Received: from lanttu.localdomain (unknown [IPv6:2a01:4f9:c010:4572::e1:1002])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 67F9D634C87;
+        Tue, 13 Oct 2020 17:26:44 +0300 (EEST)
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com
+Subject: [PATCH 0/2] Small link frequency and pixel rate documentation improvements
+Date:   Tue, 13 Oct 2020 17:27:49 +0300
+Message-Id: <20201013142751.26228-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-transfer-encoding: 8-bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The memory allocations in cx231xx_init_*() happen all in task context with
-GFP_KERNEL. Therefore a dev_err() trying to deduce whether this is called
-from task or interrupt context is pretty useless.
+Hi all,
 
-Remove these historical leftovers.
+This small set improve documentation on required controls for parallel and
+CSI-2 camera sensor drivers.
 
-Signed-off-by: Thomas Gleixner <tglx@linutronix.de>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: linux-media@vger.kernel.org
+Sakari Ailus (2):
+  Documentation: v4l: Fix language
+  Documentation: v4l: Document required controls on camera sensors
 
----
- drivers/media/usb/cx231xx/cx231xx-core.c |   10 ++++------
- drivers/media/usb/cx231xx/cx231xx-vbi.c  |    3 +--
- 2 files changed, 5 insertions(+), 8 deletions(-)
+ Documentation/driver-api/media/camera-sensor.rst | 13 +++++++++++++
+ Documentation/driver-api/media/csi2.rst          |  7 +++----
+ 2 files changed, 16 insertions(+), 4 deletions(-)
 
---- a/drivers/media/usb/cx231xx/cx231xx-core.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-core.c
-@@ -1061,9 +1061,8 @@ int cx231xx_init_isoc(struct cx231xx *de
- 				       &urb->transfer_dma);
- 		if (!dev->video_mode.isoc_ctl.transfer_buffer[i]) {
- 			dev_err(dev->dev,
--				"unable to allocate %i bytes for transfer buffer %i%s\n",
--				sb_size, i,
--				in_interrupt() ? " while in int" : "");
-+				"unable to allocate %i bytes for transfer buffer %i\n",
-+				sb_size, i);
- 			cx231xx_uninit_isoc(dev);
- 			return -ENOMEM;
- 		}
-@@ -1197,9 +1196,8 @@ int cx231xx_init_bulk(struct cx231xx *de
- 				     &urb->transfer_dma);
- 		if (!dev->video_mode.bulk_ctl.transfer_buffer[i]) {
- 			dev_err(dev->dev,
--				"unable to allocate %i bytes for transfer buffer %i%s\n",
--				sb_size, i,
--				in_interrupt() ? " while in int" : "");
-+				"unable to allocate %i bytes for transfer buffer %i\n",
-+				sb_size, i);
- 			cx231xx_uninit_bulk(dev);
- 			return -ENOMEM;
- 		}
---- a/drivers/media/usb/cx231xx/cx231xx-vbi.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-vbi.c
-@@ -409,8 +409,7 @@ int cx231xx_init_vbi_isoc(struct cx231xx
- 		if (!dev->vbi_mode.bulk_ctl.transfer_buffer[i]) {
- 			dev_err(dev->dev,
- 				"unable to allocate %i bytes for transfer buffer %i%s\n",
--				sb_size, i,
--				in_interrupt() ? " while in int" : "");
-+				sb_size, i);
- 			cx231xx_uninit_vbi_isoc(dev);
- 			return -ENOMEM;
- 		}
+-- 
+2.27.0
 
