@@ -2,139 +2,222 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB3B728CA80
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 10:49:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C1EE428CABC
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 11:02:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403993AbgJMIsw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Oct 2020 04:48:52 -0400
-Received: from mx08-00178001.pphosted.com ([91.207.212.93]:21020 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2403990AbgJMIsw (ORCPT
+        id S2403901AbgJMJCo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Oct 2020 05:02:44 -0400
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:12934 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2388779AbgJMJCo (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Oct 2020 04:48:52 -0400
-Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09D8g6iq024216;
-        Tue, 13 Oct 2020 10:48:42 +0200
+        Tue, 13 Oct 2020 05:02:44 -0400
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09D8v50Y003629;
+        Tue, 13 Oct 2020 11:02:27 +0200
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : references : in-reply-to : content-type : content-id
- : content-transfer-encoding : mime-version; s=STMicroelectronics;
- bh=xOgaCDjt5T9hXv05hEcKe/2aDU5DihgAgwhe86Z/AUk=;
- b=wlbeQ9sv+Af7UNIVEpmXkJT7xOAi5nobEKaeEaMqpEGrdx1bFygtKhlPjJ3N9J6UbJWh
- NFhJNeWNdd7HdO3S8e4sNAJxilhAS5oLTiAsIRDeD6MaZncF90aJOLsDuOgEUpymo50D
- 3PPy2DRewrZGrkxm4dk3kFmjA6Mbo/fSyNXyHSalCH5I/LPWzsKNJTDYmJp/Y6d/zOKo
- PHpH6TObEe0AwvA2XEhPSSmEyeuCiyVLifoC2bUE1kl/pHS2qhKlxeQplVb8EgCuYwp6
- hF0pB38hGaYrnd1oaPaEuCJTE1Uk2ZcFIc8iUisywWTfX0s4S/9yhneqFOOQ3QSkbmSf xw== 
+ : date : message-id : mime-version : content-type; s=STMicroelectronics;
+ bh=bRxXQAJcJvPYLqbLKVy4KoRoI8NgYjJq0APN1uuFVFs=;
+ b=Pm+WlAX/e0XG0s/Wh96zmCgX1f3kRI7QbMD2AHUJex6LKRQt2r0xrH9a6FSh43Ba7Jqy
+ Qsq8yYTVx+TD60WRf1Z3zq8cy6uF/H7d2zSC9ZGvWk5G2qznl9caUVgSR0g7hUq2kRnM
+ 3tETHo/J/vLalGrXs1W0d/gTVloTYaKWsIyKegZLy+bZEXDDGV1MKCljZ4By4gQInYb9
+ RM4UnBiSxlqsf9Qxj+X6qj/DN+LtOvo7t0MRQ7xiEqNvQw034onC4fe+9OWJiLblPvJO
+ 59ATgYX0fv8pWikVT7FxPMD9QnRa4jS9lzGzrfEuH+hiv4avdyiA+LoksjunGT0lMxpR EA== 
 Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 34353w60pe-1
+        by mx07-00178001.pphosted.com with ESMTP id 34356e5q86-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 13 Oct 2020 10:48:42 +0200
+        Tue, 13 Oct 2020 11:02:27 +0200
 Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 40344100034;
-        Tue, 13 Oct 2020 10:48:42 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag3node1.st.com [10.75.127.7])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 2F6832AA9DB;
-        Tue, 13 Oct 2020 10:48:42 +0200 (CEST)
-Received: from SFHDAG1NODE1.st.com (10.75.127.1) by SFHDAG3NODE1.st.com
- (10.75.127.7) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 13 Oct
- 2020 10:48:41 +0200
-Received: from SFHDAG1NODE1.st.com ([fe80::91:9840:ca1f:420f]) by
- SFHDAG1NODE1.st.com ([fe80::91:9840:ca1f:420f%20]) with mapi id
- 15.00.1473.003; Tue, 13 Oct 2020 10:48:41 +0200
-From:   Hugues FRUCHET <hugues.fruchet@st.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-CC:     Steve Longerbeam <slongerbeam@gmail.com>,
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id D43E710002A;
+        Tue, 13 Oct 2020 11:02:26 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag1node1.st.com [10.75.127.1])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7F648221F9B;
+        Tue, 13 Oct 2020 11:02:26 +0200 (CEST)
+Received: from localhost (10.75.127.44) by SFHDAG1NODE1.st.com (10.75.127.1)
+ with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 13 Oct 2020 11:02:26
+ +0200
+From:   Hugues Fruchet <hugues.fruchet@st.com>
+To:     Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Hans Verkuil <hverkuil@xs4all.nl>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "linux-stm32@st-md-mailman.stormreply.com" 
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+CC:     <linux-media@vger.kernel.org>,
         <linux-stm32@st-md-mailman.stormreply.com>,
-        Alain VOLMAT <alain.volmat@st.com>
-Subject: Re: [PATCH v3] media: ov5640: add support of 160x120 resolution
-Thread-Topic: [PATCH v3] media: ov5640: add support of 160x120 resolution
-Thread-Index: AQHWnU0iMA+Pbyv+dEe39LLhQPAwvKmT/q0AgAEgfQA=
-Date:   Tue, 13 Oct 2020 08:48:41 +0000
-Message-ID: <aeb90bb7-d0b4-0620-c7ae-d1ba2f4186a3@st.com>
-References: <1602145756-4354-1-git-send-email-hugues.fruchet@st.com>
- <20201012153608.mex6m7qmjv7vy4s5@uno.localdomain>
-In-Reply-To: <20201012153608.mex6m7qmjv7vy4s5@uno.localdomain>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-x-ms-exchange-messagesentrepresentingtype: 1
-x-ms-exchange-transport-fromentityheader: Hosted
-x-originating-ip: [10.75.127.47]
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <A6C3D5CB7729E543A95D706F499671C2@st.com>
-Content-Transfer-Encoding: base64
+        Hugues Fruchet <hugues.fruchet@st.com>,
+        Alain Volmat <alain.volmat@st.com>
+Subject: [PATCH v3] media: ov5640: fix support of BT656 bus mode
+Date:   Tue, 13 Oct 2020 11:02:23 +0200
+Message-ID: <1602579743-10286-1-git-send-email-hugues.fruchet@st.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
+Content-Type: text/plain
+X-Originating-IP: [10.75.127.44]
+X-ClientProxiedBy: SFHDAG4NODE2.st.com (10.75.127.11) To SFHDAG1NODE1.st.com
+ (10.75.127.1)
 X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
  definitions=2020-10-13_02:2020-10-13,2020-10-13 signatures=0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgSmFjb3BvLA0KDQpPbiAxMC8xMi8yMCA1OjM2IFBNLCBKYWNvcG8gTW9uZGkgd3JvdGU6DQo+
-IEhpIEh1Z3VlcywNCj4gDQo+IE9uIFRodSwgT2N0IDA4LCAyMDIwIGF0IDEwOjI5OjE2QU0gKzAy
-MDAsIEh1Z3VlcyBGcnVjaGV0IHdyb3RlOg0KPj4gQWRkIHN1cHBvcnQgb2YgMTYweDEyMCByZXNv
-bHV0aW9uLg0KPj4NCj4+IFNpZ25lZC1vZmYtYnk6IEh1Z3VlcyBGcnVjaGV0IDxodWd1ZXMuZnJ1
-Y2hldEBzdC5jb20+DQo+IA0KPiBMb29rcyBnb29kLCB0aGUgbmV3IG1vZGUgd29ya3MgZm9yIG1l
-IG9uIGEgQ1NJLTIgMiBsYW5lcyBzZXR1cA0KPiANCj4gVGVzdGVkLWJ5OiBKYWNvcG8gTW9uZGkg
-PGphY29wbytyZW5lc2FzQGptb25kaS5vcmc+DQo+IA0KPj4gLS0tDQo+PiB2ZXJzaW9uIDM6DQo+
-PiAgICAtIGZpeCB3cm9uZyBhcnJheSBhZmZlY3RhdGlvbg0KPj4NCj4+IHZlcnNpb24gMjoNCj4+
-ICAgIC0gZml4IG1pc3NpbmcgbWF4IGZyYW1lcmF0ZQ0KPj4NCj4+ICAgZHJpdmVycy9tZWRpYS9p
-MmMvb3Y1NjQwLmMgfCAyNiArKysrKysrKysrKysrKysrKysrKysrKysrLQ0KPj4gICAxIGZpbGUg
-Y2hhbmdlZCwgMjUgaW5zZXJ0aW9ucygrKSwgMSBkZWxldGlvbigtKQ0KPj4NCj4+IGRpZmYgLS1n
-aXQgYS9kcml2ZXJzL21lZGlhL2kyYy9vdjU2NDAuYyBiL2RyaXZlcnMvbWVkaWEvaTJjL292NTY0
-MC5jDQo+PiBpbmRleCA4ZDAyNTRkLi40MGQ2OTgzIDEwMDY0NA0KPj4gLS0tIGEvZHJpdmVycy9t
-ZWRpYS9pMmMvb3Y1NjQwLmMNCj4+ICsrKyBiL2RyaXZlcnMvbWVkaWEvaTJjL292NTY0MC5jDQo+
-PiBAQCAtOTgsNyArOTgsOCBAQA0KPj4gICAjZGVmaW5lIE9WNTY0MF9SRUdfQVZHX1JFQURPVVQJ
-CTB4NTZhMQ0KPj4NCj4+ICAgZW51bSBvdjU2NDBfbW9kZV9pZCB7DQo+PiAtCU9WNTY0MF9NT0RF
-X1FDSUZfMTc2XzE0NCA9IDAsDQo+PiArCU9WNTY0MF9NT0RFX1FRVkdBXzE2MF8xMjAgPSAwLA0K
-Pj4gKwlPVjU2NDBfTU9ERV9RQ0lGXzE3Nl8xNDQsDQo+PiAgIAlPVjU2NDBfTU9ERV9RVkdBXzMy
-MF8yNDAsDQo+PiAgIAlPVjU2NDBfTU9ERV9WR0FfNjQwXzQ4MCwNCj4+ICAgCU9WNTY0MF9NT0RF
-X05UU0NfNzIwXzQ4MCwNCj4+IEBAIC00MTYsNiArNDE3LDI0IEBAIHN0YXRpYyBjb25zdCBzdHJ1
-Y3QgcmVnX3ZhbHVlIG92NTY0MF9zZXR0aW5nX1FWR0FfMzIwXzI0MFtdID0gew0KPj4gICAJezB4
-MzgyNCwgMHgwMiwgMCwgMH0sIHsweDUwMDEsIDB4YTMsIDAsIDB9LA0KPj4gICB9Ow0KPj4NCj4+
-ICtzdGF0aWMgY29uc3Qgc3RydWN0IHJlZ192YWx1ZSBvdjU2NDBfc2V0dGluZ19RUVZHQV8xNjBf
-MTIwW10gPSB7DQo+PiArCXsweDNjMDcsIDB4MDgsIDAsIDB9LA0KPj4gKwl7MHgzYzA5LCAweDFj
-LCAwLCAwfSwgezB4M2MwYSwgMHg5YywgMCwgMH0sIHsweDNjMGIsIDB4NDAsIDAsIDB9LA0KPj4g
-Kwl7MHgzODE0LCAweDMxLCAwLCAwfSwNCj4+ICsJezB4MzgxNSwgMHgzMSwgMCwgMH0sIHsweDM4
-MDAsIDB4MDAsIDAsIDB9LCB7MHgzODAxLCAweDAwLCAwLCAwfSwNCj4+ICsJezB4MzgwMiwgMHgw
-MCwgMCwgMH0sIHsweDM4MDMsIDB4MDQsIDAsIDB9LCB7MHgzODA0LCAweDBhLCAwLCAwfSwNCj4+
-ICsJezB4MzgwNSwgMHgzZiwgMCwgMH0sIHsweDM4MDYsIDB4MDcsIDAsIDB9LCB7MHgzODA3LCAw
-eDliLCAwLCAwfSwNCj4+ICsJezB4MzgxMCwgMHgwMCwgMCwgMH0sDQo+PiArCXsweDM4MTEsIDB4
-MTAsIDAsIDB9LCB7MHgzODEyLCAweDAwLCAwLCAwfSwgezB4MzgxMywgMHgwNiwgMCwgMH0sDQo+
-PiArCXsweDM2MTgsIDB4MDAsIDAsIDB9LCB7MHgzNjEyLCAweDI5LCAwLCAwfSwgezB4MzcwOCwg
-MHg2NCwgMCwgMH0sDQo+PiArCXsweDM3MDksIDB4NTIsIDAsIDB9LCB7MHgzNzBjLCAweDAzLCAw
-LCAwfSwgezB4M2EwMiwgMHgwMywgMCwgMH0sDQo+PiArCXsweDNhMDMsIDB4ZDgsIDAsIDB9LCB7
-MHgzYTA4LCAweDAxLCAwLCAwfSwgezB4M2EwOSwgMHgyNywgMCwgMH0sDQo+PiArCXsweDNhMGEs
-IDB4MDAsIDAsIDB9LCB7MHgzYTBiLCAweGY2LCAwLCAwfSwgezB4M2EwZSwgMHgwMywgMCwgMH0s
-DQo+PiArCXsweDNhMGQsIDB4MDQsIDAsIDB9LCB7MHgzYTE0LCAweDAzLCAwLCAwfSwgezB4M2Ex
-NSwgMHhkOCwgMCwgMH0sDQo+PiArCXsweDQwMDEsIDB4MDIsIDAsIDB9LCB7MHg0MDA0LCAweDAy
-LCAwLCAwfSwNCj4+ICsJezB4NDQwNywgMHgwNCwgMCwgMH0sIHsweDUwMDEsIDB4YTMsIDAsIDB9
-LA0KPj4gK307DQo+PiArDQo+PiAgIHN0YXRpYyBjb25zdCBzdHJ1Y3QgcmVnX3ZhbHVlIG92NTY0
-MF9zZXR0aW5nX1FDSUZfMTc2XzE0NFtdID0gew0KPj4gICAJezB4M2MwNywgMHgwOCwgMCwgMH0s
-DQo+PiAgIAl7MHgzYzA5LCAweDFjLCAwLCAwfSwgezB4M2MwYSwgMHg5YywgMCwgMH0sIHsweDNj
-MGIsIDB4NDAsIDAsIDB9LA0KPj4gQEAgLTU1Miw2ICs1NzEsMTEgQEAgc3RhdGljIGNvbnN0IHN0
-cnVjdCBvdjU2NDBfbW9kZV9pbmZvIG92NTY0MF9tb2RlX2luaXRfZGF0YSA9IHsNCj4+DQo+PiAg
-IHN0YXRpYyBjb25zdCBzdHJ1Y3Qgb3Y1NjQwX21vZGVfaW5mbw0KPj4gICBvdjU2NDBfbW9kZV9k
-YXRhW09WNTY0MF9OVU1fTU9ERVNdID0gew0KPj4gKwl7T1Y1NjQwX01PREVfUVFWR0FfMTYwXzEy
-MCwgU1VCU0FNUExJTkcsDQo+PiArCSAxNjAsIDE4OTYsIDEyMCwgOTg0LA0KPiANCj4gVGhlc2Ug
-dmFsdWVzIGRvIG5vdCBtYXRjaCB3aGF0J3MgYWN0dWFsbHkgYXBwbGllZCBvbiB0aGUgc2Vuc29y
-LCBidXQNCj4gdGhpcyBpcyBub3Qgb25seSByZWxhdGVkIHRvIHRoaXMgcGF0Y2guDQo+IA0KPiBT
-ZWUgZmY2NmVhM2EtYmQyZS05YmQ2LTg5NGMtYmYzNzJkZTY5YTMxQHRpLmNvbQ0KPiBJIHNob3Vs
-ZCB0cnkgdG8gcmUtc3VibWl0IFRvbWkncyBwYXRjaCBhbmQgdGhlIG9uLXRvcCBjbG9jayByZXdv
-cmsuDQoNClRoYW5rcyBKYWNvcG8sIGJ1dCB0aGVyZSBpcyBhIHByb2JsZW0gd2l0aCBsaW5rIGFi
-b3ZlIGFib3V0IFRvbWkncyBwYXRjaC4NCg0KPiANCj4gWW91IGhhdmUgYSBDU0ktMiBzZXR1cCB0
-b28sIHJpZ2h0ID8NClllcyBJIGhhdmUsIGl0J3MgYW4gQXZlbmdlciA5NmJvYXJkIHJ1bm5pbmcg
-U1RNMzJNUDEgJiBhbiBTVCBNSVBJRDAyIA0KYnJpZGdlIHdpdGggRDMgZW5naW5lZXJpbmcgT1Y1
-NjQwIENTSS0yIG1lenphbmluZS4NCg0KPiANCj4gVGhhbmtzDQo+ICAgIGoNCj4gDQo+PiArCSBv
-djU2NDBfc2V0dGluZ19RUVZHQV8xNjBfMTIwLA0KPj4gKwkgQVJSQVlfU0laRShvdjU2NDBfc2V0
-dGluZ19RUVZHQV8xNjBfMTIwKSwNCj4+ICsJIE9WNTY0MF8zMF9GUFN9LA0KPj4gICAJe09WNTY0
-MF9NT0RFX1FDSUZfMTc2XzE0NCwgU1VCU0FNUExJTkcsDQo+PiAgIAkgMTc2LCAxODk2LCAxNDQs
-IDk4NCwNCj4+ICAgCSBvdjU2NDBfc2V0dGluZ19RQ0lGXzE3Nl8xNDQsDQo+PiAtLQ0KPj4gMi43
-LjQNCj4+DQoNCkJSLA0KSHVndWVzLg==
+Fix PCLK polarity not being taken into account.
+Add comments about BT656 register control.
+Remove useless ov5640_set_stream_bt656() function.
+Refine comments about MIPI IO register control.
+
+Fixes: 4039b03720f7 ("media: i2c: ov5640: Add support for BT656 mode")
+Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+---
+version 3:
+  - reformat code as per Jacopo's comments
+version 2:
+  - keep reset to default without error check at power off
+
+ drivers/media/i2c/ov5640.c | 82 +++++++++++++++++++++++++---------------------
+ 1 file changed, 45 insertions(+), 37 deletions(-)
+
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index 8d0254d..8f0812e 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -1216,20 +1216,6 @@ static int ov5640_set_autogain(struct ov5640_dev *sensor, bool on)
+ 			      BIT(1), on ? 0 : BIT(1));
+ }
+ 
+-static int ov5640_set_stream_bt656(struct ov5640_dev *sensor, bool on)
+-{
+-	int ret;
+-
+-	ret = ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00,
+-			       on ? 0x1 : 0x00);
+-	if (ret)
+-		return ret;
+-
+-	return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ?
+-				OV5640_REG_SYS_CTRL0_SW_PWUP :
+-				OV5640_REG_SYS_CTRL0_SW_PWDN);
+-}
+-
+ static int ov5640_set_stream_dvp(struct ov5640_dev *sensor, bool on)
+ {
+ 	return ov5640_write_reg(sensor, OV5640_REG_SYS_CTRL0, on ?
+@@ -1994,13 +1980,13 @@ static int ov5640_set_power_mipi(struct ov5640_dev *sensor, bool on)
+ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+ {
+ 	unsigned int flags = sensor->ep.bus.parallel.flags;
+-	u8 pclk_pol = 0;
+-	u8 hsync_pol = 0;
+-	u8 vsync_pol = 0;
++	bool bt656 = sensor->ep.bus_type == V4L2_MBUS_BT656;
++	u8 polarities = 0;
+ 	int ret;
+ 
+ 	if (!on) {
+ 		/* Reset settings to their default values. */
++		ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00, 0x00);
+ 		ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x58);
+ 		ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00, 0x20);
+ 		ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01, 0x00);
+@@ -2024,7 +2010,35 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+ 	 * - VSYNC:	active high
+ 	 * - HREF:	active low
+ 	 * - PCLK:	active low
++	 *
++	 * VSYNC & HREF are not configured if BT656 bus mode is selected
+ 	 */
++
++	/*
++	 * BT656 embedded synchronization configuration
++	 *
++	 * CCIR656 CTRL00
++	 * - [7]:	SYNC code selection (0: auto generate sync code,
++	 *		1: sync code from regs 0x4732-0x4735)
++	 * - [6]:	f value in CCIR656 SYNC code when fixed f value
++	 * - [5]:	Fixed f value
++	 * - [4:3]:	Blank toggle data options (00: data=1'h040/1'h200,
++	 *		01: data from regs 0x4736-0x4738, 10: always keep 0)
++	 * - [1]:	Clip data disable
++	 * - [0]:	CCIR656 mode enable
++	 *
++	 * Default CCIR656 SAV/EAV mode with default codes
++	 * SAV=0xff000080 & EAV=0xff00009d is enabled here with settings:
++	 * - CCIR656 mode enable
++	 * - auto generation of sync codes
++	 * - blank toggle data 1'h040/1'h200
++	 * - clip reserved data (0x00 & 0xff changed to 0x01 & 0xfe)
++	 */
++	ret = ov5640_write_reg(sensor, OV5640_REG_CCIR656_CTRL00,
++			       bt656 ? 0x01 : 0x00);
++	if (ret)
++		return ret;
++
+ 	/*
+ 	 * configure parallel port control lines polarity
+ 	 *
+@@ -2035,29 +2049,26 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+ 	 *		datasheet and hardware, 0 is active high
+ 	 *		and 1 is active low...)
+ 	 */
+-	if (sensor->ep.bus_type == V4L2_MBUS_PARALLEL) {
+-		if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
+-			pclk_pol = 1;
++	if (!bt656) {
+ 		if (flags & V4L2_MBUS_HSYNC_ACTIVE_HIGH)
+-			hsync_pol = 1;
++			polarities |= BIT(1);
+ 		if (flags & V4L2_MBUS_VSYNC_ACTIVE_LOW)
+-			vsync_pol = 1;
+-
+-		ret = ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00,
+-				       (pclk_pol << 5) | (hsync_pol << 1) |
+-				       vsync_pol);
+-
+-		if (ret)
+-			return ret;
++			polarities |= BIT(0);
+ 	}
++	if (flags & V4L2_MBUS_PCLK_SAMPLE_RISING)
++		polarities |= BIT(5);
++
++	ret = ov5640_write_reg(sensor, OV5640_REG_POLARITY_CTRL00, polarities);
++	if (ret)
++		return ret;
+ 
+ 	/*
+-	 * powerdown MIPI TX/RX PHY & disable MIPI
++	 * powerdown MIPI TX/RX PHY & enable DVP
+ 	 *
+ 	 * MIPI CONTROL 00
+-	 * 4:	 PWDN PHY TX
+-	 * 3:	 PWDN PHY RX
+-	 * 2:	 MIPI enable
++	 * [4] = 1	: Power down MIPI HS Tx
++	 * [3] = 1	: Power down MIPI LS Rx
++	 * [2] = 0	: DVP enable (MIPI disable)
+ 	 */
+ 	ret = ov5640_write_reg(sensor, OV5640_REG_IO_MIPI_CTRL00, 0x18);
+ 	if (ret)
+@@ -2074,8 +2085,7 @@ static int ov5640_set_power_dvp(struct ov5640_dev *sensor, bool on)
+ 	 * - [3:0]:	D[9:6] output enable
+ 	 */
+ 	ret = ov5640_write_reg(sensor, OV5640_REG_PAD_OUTPUT_ENABLE01,
+-			       sensor->ep.bus_type == V4L2_MBUS_PARALLEL ?
+-			       0x7f : 0x1f);
++			       bt656 ? 0x1f : 0x7f);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -2925,8 +2935,6 @@ static int ov5640_s_stream(struct v4l2_subdev *sd, int enable)
+ 
+ 		if (sensor->ep.bus_type == V4L2_MBUS_CSI2_DPHY)
+ 			ret = ov5640_set_stream_mipi(sensor, enable);
+-		else if (sensor->ep.bus_type == V4L2_MBUS_BT656)
+-			ret = ov5640_set_stream_bt656(sensor, enable);
+ 		else
+ 			ret = ov5640_set_stream_dvp(sensor, enable);
+ 
+-- 
+2.7.4
+
