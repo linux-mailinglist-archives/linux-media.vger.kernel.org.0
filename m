@@ -2,176 +2,193 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3FB428C79A
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 05:37:32 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C6B6428C8C7
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 08:47:36 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729809AbgJMDhb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 12 Oct 2020 23:37:31 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:46871 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727831AbgJMDhb (ORCPT
+        id S2389693AbgJMGrc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Oct 2020 02:47:32 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49132 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389346AbgJMGrc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 12 Oct 2020 23:37:31 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id SB7uk0LdB4gEjSB7vkGgmQ; Tue, 13 Oct 2020 05:37:27 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1602560247; bh=ewcmSkH5T+xbB4E73SvzrXlnDklAEjczbM8peAb/NfI=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=mdDbuegxCt9UxBt6uJEhG1oyX6Rygs6kCrIi4Rt+8T6j/f/3XG5vJ2i0WdmT9hdey
-         SBochsd8Linz9Wft9dal/vfwPJWpMgmv7doQA/Koo6hBnkQhBK/5SRYRdWsMo9r7ZX
-         gB2QyMAEahOxj5Mm/10H8RF2cRopvDMm+EAlsZ12ftU1gIb6OwVtisqvmfhBFaiH5L
-         X5IrQR8lkKH5E3CIKLAD9e0rqcJmgTpJazrgg5B6Pfe8b2EVLBQ65lbjg6o0v1u8bc
-         WateOPEH+TwR2NiJJoFNdczl8UgtfUlgW2atLE2rK66Q9kPOiim6k71lHPmD2J4y88
-         aFjxeetwrMJTA==
-Message-ID: <68b6366e019b8851492dc2803f523cbf@smtp-cloud9.xs4all.net>
-Date:   Tue, 13 Oct 2020 05:37:26 +0200
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfIDsT8gmJDUMPcahrOkyj3FGrNMEy3BMvYBbNPyli+Dfz4hEnGd9ZxMs24AR8zj0tj8i6mxAG14DLWUeVUyYpm4T6hZwRjT+g9e1rhpvHhAWsDsm5Eyx
- NSn03LjkqBCuOwZFjp6BETj+6zDiUg1Pc07SFU1naVPwJI6JezlLRDTj47JWU7dqAPYf+Zk2h7aMNWotU8waTBCC7GswRALv0vjyxWSxJXkPncAvtA3sOXdu
- wCPdpNVZe7efVYv6qBEO9w==
+        Tue, 13 Oct 2020 02:47:32 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 28D8AC0613D0;
+        Mon, 12 Oct 2020 23:47:32 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: aratiu)
+        with ESMTPSA id 7652F1F44489
+From:   Adrian Ratiu <adrian.ratiu@collabora.com>
+To:     Jonas Karlman <jonas@kwiboo.se>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Fruehberger Peter <Peter.Fruehberger@de.bosch.com>,
+        kuhanh.murugasen.krishnan@intel.com,
+        Daniel Vetter <daniel@ffwll.ch>, kernel@collabora.com,
+        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 00/18] Add Hantro regmap and VC8000 h264 decode support
+In-Reply-To: <97e84bb5-972a-091d-a159-6ab1151f17ab@kwiboo.se>
+References: <20201012205957.889185-1-adrian.ratiu@collabora.com>
+ <97e84bb5-972a-091d-a159-6ab1151f17ab@kwiboo.se>
+Date:   Tue, 13 Oct 2020 09:48:29 +0300
+Message-ID: <87r1q28vuq.fsf@iwork.i-did-not-set--mail-host-address--so-tickle-me>
+MIME-Version: 1.0
+Content-Type: text/plain; format=flowed
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Jonas,
 
-Results of the daily build of media_tree:
+On Mon, 12 Oct 2020, Jonas Karlman <jonas@kwiboo.se> wrote:
+> Hi, 
+> 
+> On 2020-10-12 22:59, Adrian Ratiu wrote: 
+>> Dear all,  This series introduces a regmap infrastructure for 
+>> the Hantro driver which is used to compensate for different 
+>> HW-revision register layouts.  To justify it h264 decoding 
+>> capability is added for newer VC8000 chips.   This is a gradual 
+>> conversion to the new infra - a complete conversion would have 
+>> been very big and I do not have all the HW yet to test (I'm 
+>> expecting a RK3399 shipment next week though ;). I think 
+>> converting the h264 decoder provides a nice blueprint for how 
+>> the other codecs can be converted and enabled for different HW 
+>> revisions.   The end goal of this is to make the driver more 
+>> generic and eliminate entirely custom boilerplate like `struct 
+>> hantro_reg` or headers with core-specific bit manipulations 
+>> like `hantro_g1_regs.h` and instead rely on the well-tested 
+>> albeit more verbose regmap subsytem.   To give just two 
+>> examples of bugs which are easily discovered by using more 
+>> verbose regmap fields (very easy to compare with the 
+>> datasheets) instead of relying on bit-magic tricks: 
+>> G1_REG_DEC_CTRL3_INIT_QP(x) was off-by-1 and the wrong 
+>> .clk_gate bit was set in hantro_postproc.c.   Anyway, this 
+>> series also extends the MMIO regmap API to allow relaxed writes 
+>> for the theoretical reason that avoiding unnecessary 
+>> membarriers leads to less CPU usage and small improvements to 
+>> battery life. However, in practice I could not measure 
+>> differences between relaxed/non-relaxed IO, so I'm on the fence 
+>> whether to keep or remove the relaxed calls.   What I could 
+>> masure is the performance impact of adding more sub-reg field 
+>> acesses: a constant ~ 20 microsecond bump per G1 h264 
+>> frame. This is acceptable considering the total time to decode 
+>> a frame takes three orders of magnitude longer, 
+>> i.e. miliseconds ranges, depending on the frame size and 
+>> bitstream params, so it is an acceptable trade-off to have a 
+>> more generic driver. 
+> 
+> In the RK3399 variant all fields use completely different 
+> positions so in order to make the driver fully generic all 
+> around 145 sub-reg fields used for h264 needs to be converted, 
+> see [1] for a quick generation of field mappings used for h264 
+> decoding. 
+> 
+> Any indication on how the performance will be impacted with 145 
+> fields compared to around 20 fields used in this series? 
 
-date:			Tue Oct 13 05:00:15 CEST 2020
-media-tree git hash:	c386e0797d26a32e354daf4480c5d40165db66a1
-media_build git hash:	e0136eadb6f4c24b7f8fcb50ef4d4d5ffb2af31d
-v4l-utils git hash:	28df3d403be3d7769d7b10cda3e372a0dbbfa410
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 9783287347a0d95925f345313520f04869f439ab
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+I'm aware of the RK3399 bigger layout divergence and have some 
+commits converting more of the reg fields, but not all that is 
+required for h264 on rk3399. I haven't seen a huge perf 
+degradation but more measurements are needed, basically it depends 
+on how often we go from writing a reg once to multiple times due 
+to splitting.
 
-linux-git-arm-at91: OK
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9-rc7-i686: OK
-linux-5.9-rc7-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2863, Succeeded: 2863, Failed: 0, Warnings: 3
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
+I tried some benchmarks using regmap caching (both the default 
+backends provided by the regmap subsystem, and a custom one I 
+wrote) but they were not helping, perhaps if we had more fields 
+then that would have more of an impact.
 
-Detailed results are available here:
+(btw some good news is I'm having a RK3399 SoC in the mail for an 
+unrelated project and expect to receive it soon :D)
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+IMO there will always be a trade-off between optimizing the driver 
+to squeeze the most perf out of the HW, eg optimize reg writes at 
+low microsec level (which I think here is unnecessary) and making 
+it more generic to support more HW.
 
-Detailed regression test results are available here:
+In this case a fundamental question we need to ask ourselves is if 
+the RK3399 "looks like another/different-enough HW" due to its 
+bigger reg shuffling to warrant a separate driver or 
+driver-within-a-driver architecture instead trying to bring it 
+into the fold with the others, possibly degrading perf for 
+everyone. I guess we'll have to see some benchmark numbers and an 
+actual h264 implementation before deciding how to proceed with 
+RK3399.
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+> 
+> Another issue with RK3399 variant is that some fields use 
+> different position depending on the codec used, e.g. two 
+> dec_ref_frames in [2].  Should we use codec specific field maps? 
+> or any other suggestion on how we can handle such case?
 
-Full logs are available here:
+Yes, codec specific fields would be one idea, but I'd try to avoid 
+it if possible to avoid unnecessary field definitions.
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+The regmap field API and config we currently use are just a flat 
+structs (see hantro_regmap.[h|c]) but it doesn't have to be like 
+that. Maybe we could organize it a bit better and in the future 
+have some codec-level configs going on due to the regmap subsystem 
+allowing de-coupling of the API (struct regmap_field) from the reg 
+defs/configs (struct reg_field).
 
-The Media Infrastructure API from this daily build is here:
+That is just an idea of the top of my head :) Will have to think a 
+bit more about how to handle that specific use case in the 
+future. Thanks!
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+>
+> [1] https://github.com/Kwiboo/rockchip-vpu-regtool/commit/8b88d94d2ed966c7d88d9a735c0c97368eb6c92d
+> [2] https://github.com/Kwiboo/rockchip-vpu-regtool/blob/master/rk3399_dec_regs.c#L1065
+> [3] https://github.com/Kwiboo/rockchip-vpu-regtool/commit/9498326296445a9ce153b585cc48e0cea05d3c93
+>
+> Best regards,
+> Jonas
+>
+>> 
+>> This has been tested on next-20201009 with imx8mq for G1 and an SoC with
+>> VC8000 which has not yet been added (hopefuly support lands soon).
+>> 
+>> Kind regards,
+>> Adrian
+>> 
+>> Adrian Ratiu (18):
+>>   media: hantro: document all int reg bits up to vc8000
+>>   media: hantro: make consistent use of decimal register notation
+>>   media: hantro: make G1_REG_SOFT_RESET Rockchip specific
+>>   media: hantro: add reset controller support
+>>   media: hantro: prepare clocks before variant inits are run
+>>   media: hantro: imx8mq: simplify ctrlblk reset logic
+>>   regmap: mmio: add config option to allow relaxed MMIO accesses
+>>   media: hantro: add initial MMIO regmap infrastructure
+>>   media: hantro: default regmap to relaxed MMIO
+>>   media: hantro: convert G1 h264 decoder to regmap fields
+>>   media: hantro: convert G1 postproc to regmap
+>>   media: hantro: add VC8000D h264 decoding
+>>   media: hantro: add VC8000D postproc support
+>>   media: hantro: make PP enablement logic a bit smarter
+>>   media: hantro: add user-selectable, platform-selectable H264 High10
+>>   media: hantro: rename h264_dec as it's not G1 specific anymore
+>>   media: hantro: add dump registers debug option before decode start
+>>   media: hantro: document encoder reg fields
+>> 
+>>  drivers/base/regmap/regmap-mmio.c             |   34 +-
+>>  drivers/staging/media/hantro/Makefile         |    3 +-
+>>  drivers/staging/media/hantro/hantro.h         |   79 +-
+>>  drivers/staging/media/hantro/hantro_drv.c     |   41 +-
+>>  drivers/staging/media/hantro/hantro_g1_regs.h |   92 +-
+>>  ...hantro_g1_h264_dec.c => hantro_h264_dec.c} |  237 +++-
+>>  drivers/staging/media/hantro/hantro_hw.h      |   23 +-
+>>  .../staging/media/hantro/hantro_postproc.c    |  144 ++-
+>>  drivers/staging/media/hantro/hantro_regmap.c  | 1015 +++++++++++++++++
+>>  drivers/staging/media/hantro/hantro_regmap.h  |  295 +++++
+>>  drivers/staging/media/hantro/hantro_v4l2.c    |    3 +-
+>>  drivers/staging/media/hantro/imx8m_vpu_hw.c   |   75 +-
+>>  drivers/staging/media/hantro/rk3288_vpu_hw.c  |    5 +-
+>>  include/linux/regmap.h                        |    5 +
+>>  14 files changed, 1795 insertions(+), 256 deletions(-)
+>>  rename drivers/staging/media/hantro/{hantro_g1_h264_dec.c => hantro_h264_dec.c} (58%)
+>>  create mode 100644 drivers/staging/media/hantro/hantro_regmap.c
+>>  create mode 100644 drivers/staging/media/hantro/hantro_regmap.h
+>> 
