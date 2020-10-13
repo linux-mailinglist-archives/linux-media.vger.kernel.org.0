@@ -2,80 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3A5D28D57C
-	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 22:41:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E11E828D5BA
+	for <lists+linux-media@lfdr.de>; Tue, 13 Oct 2020 22:48:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727340AbgJMUlO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Oct 2020 16:41:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36968 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727293AbgJMUlN (ORCPT
+        id S1727454AbgJMUsS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Oct 2020 16:48:18 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:33186 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726186AbgJMUsR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Oct 2020 16:41:13 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AAEB2C061755
-        for <linux-media@vger.kernel.org>; Tue, 13 Oct 2020 13:41:12 -0700 (PDT)
+        Tue, 13 Oct 2020 16:48:17 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2698AB87;
-        Tue, 13 Oct 2020 22:41:10 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 466ABB87;
+        Tue, 13 Oct 2020 22:48:15 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1602621670;
-        bh=QDT/poxSXc4M2UdGddskN/fJ8slmPg1DhuZofBU+KH8=;
+        s=mail; t=1602622095;
+        bh=JbyDpaAPAuphVyXU/3ZjAcGlKDaeO2wByBbmG29hO4s=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=uojw272sZWD43Dq5MpRwsvAI6TTYDXb7fME/uyVLjzxPhiyFvMuPW10Xt6o0+saLZ
-         E6IYt7GuKy3K+hbVM6+Ga0g/9bBIIvBvMCr7aAiiP1I6QH588tLzEML+VYIVBSFge2
-         Eprhqk+5fjOG72iWJFSsTD43n6oCdPuSYjdLP/78=
-Date:   Tue, 13 Oct 2020 23:40:24 +0300
+        b=bolecuV9yxM7cIwxOiDhjVpZLPczbUNeoYeJobM/q6Wd/KBlwe4QPFiD7TNP51EYQ
+         3ZDapUFZ1a5FvuOePr8oNe7y2je7yX1acWAE297yLye4jKe0JSeLgmY0iNW2ZfUbNG
+         Y8CMwTwKlq/oupCVjDQRgYDGIX9mpyhNmf6c65fk=
+Date:   Tue, 13 Oct 2020 23:47:29 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/2] Documentation: v4l: Fix language
-Message-ID: <20201013204024.GK11939@pendragon.ideasonboard.com>
-References: <20201013142751.26228-1-sakari.ailus@linux.intel.com>
- <20201013142751.26228-2-sakari.ailus@linux.intel.com>
+To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>
+Subject: Re: [PATCH v3 4/5] media: dt-bindings: media: renesas,drif: Add
+ r8a77965 support
+Message-ID: <20201013204729.GM11939@pendragon.ideasonboard.com>
+References: <20201013150150.14801-1-fabrizio.castro.jz@renesas.com>
+ <20201013150150.14801-5-fabrizio.castro.jz@renesas.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201013142751.26228-2-sakari.ailus@linux.intel.com>
+In-Reply-To: <20201013150150.14801-5-fabrizio.castro.jz@renesas.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+Hi Fabrizio,
 
 Thank you for the patch.
 
-On Tue, Oct 13, 2020 at 05:27:50PM +0300, Sakari Ailus wrote:
-> Remove extra "is" from sentence explaining V4L2_CID_PIXEL_RATE may be used
-> to tell the pixel rate used by a transmitter driver. Also call
-> V4L2_CID_PIXEL_RATE a control.
+On Tue, Oct 13, 2020 at 04:01:49PM +0100, Fabrizio Castro wrote:
+> The r8a77965 (a.k.a. R-Car M3-N) device tree schema is
+> compatible with the already documented R-Car Gen3 devices.
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Document r8a77965 support within renesas,drif.yaml.
+> 
+> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 
 Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 
 > ---
->  Documentation/driver-api/media/csi2.rst | 7 +++----
->  1 file changed, 3 insertions(+), 4 deletions(-)
+> v2->v3:
+> * New patch
 > 
-> diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
-> index e1b838014906..e3bbc6baf0f0 100644
-> --- a/Documentation/driver-api/media/csi2.rst
-> +++ b/Documentation/driver-api/media/csi2.rst
-> @@ -28,10 +28,9 @@ interface elements must be present on the sub-device represents the
->  CSI-2 transmitter.
+>  Documentation/devicetree/bindings/media/renesas,drif.yaml | 1 +
+>  1 file changed, 1 insertion(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/renesas,drif.yaml b/Documentation/devicetree/bindings/media/renesas,drif.yaml
+> index ae50b1448320..89445ddd598e 100644
+> --- a/Documentation/devicetree/bindings/media/renesas,drif.yaml
+> +++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
+> @@ -53,6 +53,7 @@ properties:
+>        - enum:
+>          - renesas,r8a7795-drif        # R-Car H3
+>          - renesas,r8a7796-drif        # R-Car M3-W
+> +        - renesas,r8a77965-drif       # R-Car M3-N
+>          - renesas,r8a77990-drif       # R-Car E3
+>        - const: renesas,rcar-gen3-drif # Generic R-Car Gen3 compatible device
 >  
->  The V4L2_CID_LINK_FREQ control is used to tell the receiver driver the
-> -frequency (and not the symbol rate) of the link. The
-> -V4L2_CID_PIXEL_RATE is may be used by the receiver to obtain the pixel
-> -rate the transmitter uses. The
-> -:c:type:`v4l2_subdev_video_ops`->s_stream() callback provides an
-> +frequency (and not the symbol rate) of the link. The V4L2_CID_PIXEL_RATE
-> +control may be used by the receiver to obtain the pixel rate the transmitter
-> +uses. The :c:type:`v4l2_subdev_video_ops`->s_stream() callback provides an
->  ability to start and stop the stream.
->  
->  The value of the V4L2_CID_PIXEL_RATE is calculated as follows::
 
 -- 
 Regards,
