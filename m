@@ -2,53 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 755E828E4BB
-	for <lists+linux-media@lfdr.de>; Wed, 14 Oct 2020 18:46:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F0FF928E4E3
+	for <lists+linux-media@lfdr.de>; Wed, 14 Oct 2020 18:52:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387565AbgJNQqr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Oct 2020 12:46:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52754 "EHLO
+        id S1731323AbgJNQwv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Oct 2020 12:52:51 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53704 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727440AbgJNQqr (ORCPT
+        with ESMTP id S1726459AbgJNQwu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Oct 2020 12:46:47 -0400
+        Wed, 14 Oct 2020 12:52:50 -0400
 Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5A2BC061755;
-        Wed, 14 Oct 2020 09:46:46 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BE463C061755;
+        Wed, 14 Oct 2020 09:52:50 -0700 (PDT)
 Received: from [IPv6:2804:14c:483:7f66::1004] (unknown [IPv6:2804:14c:483:7f66::1004])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id D14E91F45780;
-        Wed, 14 Oct 2020 17:46:39 +0100 (BST)
-Subject: Re: [PATCH v5 5/9] media: staging: rkisp1: remove unecessary clocks
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     devicetree@vger.kernel.org,
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6B07F1F44C76;
+        Wed, 14 Oct 2020 17:52:44 +0100 (BST)
+Subject: Re: [PATCH v5 8/9] arm64: dts: rockchip: add isp0 node for rk3399
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     linux-devicetree <devicetree@vger.kernel.org>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
         "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
-        "heiko@sntech.de" <heiko@sntech.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Collabora Kernel ML <kernel@collabora.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        devel@driverdev.osuosl.org, Rob Herring <robh+dt@kernel.org>,
+        =?UTF-8?Q?Heiko_St=c3=bcbner?= <heiko@sntech.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>, kernel@collabora.com,
         Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Mark Rutland <mark.rutland@arm.com>, karthik.poduval@gmail.com,
-        Johan Jonker <jbx6244@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Eddie Cai <eddie.cai.linux@gmail.com>,
+        jbx6244@gmail.com, Eddie Cai <eddie.cai.linux@gmail.com>,
         Shunqian Zheng <zhengsq@rock-chips.com>,
         Robin Murphy <robin.murphy@arm.com>
 References: <20200722155533.252844-1-helen.koike@collabora.com>
- <20200722155533.252844-6-helen.koike@collabora.com>
- <CAL_Jsq+qB=yUtHKKujiUWrsq+W-3ggM3B_SuuDzfYEheczn=8g@mail.gmail.com>
+ <20200722155533.252844-9-helen.koike@collabora.com>
+ <20200926130005.GC3781977@chromium.org>
+ <905118dd-f108-6bc0-4cf0-9544fab51690@collabora.com>
+ <CAAFQd5C4BcXyee58DpL4TfVJmaLQ-58_mwQucEm-df899va2Lw@mail.gmail.com>
 From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <2dcdda41-bdb4-55a8-557f-8175983effb5@collabora.com>
-Date:   Wed, 14 Oct 2020 13:46:35 -0300
+Message-ID: <243b5257-0f94-a43d-e623-70ca54d0e9d9@collabora.com>
+Date:   Wed, 14 Oct 2020 13:52:39 -0300
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
  Thunderbird/78.3.2
 MIME-Version: 1.0
-In-Reply-To: <CAL_Jsq+qB=yUtHKKujiUWrsq+W-3ggM3B_SuuDzfYEheczn=8g@mail.gmail.com>
+In-Reply-To: <CAAFQd5C4BcXyee58DpL4TfVJmaLQ-58_mwQucEm-df899va2Lw@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -56,151 +55,97 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+Thank you Tomasz and Robin for your comments,
 
-Thnaks for your reply.
-
-On 9/22/20 11:24 AM, Rob Herring wrote:
-> On Wed, Jul 22, 2020 at 9:56 AM Helen Koike <helen.koike@collabora.com> wrote:
+On 10/14/20 1:43 PM, Tomasz Figa wrote:
+> On Wed, Oct 14, 2020 at 6:27 PM Helen Koike <helen.koike@collabora.com> wrote:
 >>
->> aclk_isp_wrap is a child of aclk_isp, and hclk_isp_wrap is a child of
->> hclk_isp, thus we can remove parents from the list.
+>> Hi Tomasz,
 >>
->> Also, for the isp0, we only need the ISP clock, ACLK and HCLK.
->> In the future we'll need a pixel clock for RK3288 and RK3399, and a JPEG
->> clock for RK3288.
+>> On 9/26/20 10:00 AM, Tomasz Figa wrote:
+>>> Hi Helen,
+>>>
+>>> On Wed, Jul 22, 2020 at 12:55:32PM -0300, Helen Koike wrote:
+>>>> From: Shunqian Zheng <zhengsq@rock-chips.com>
+>>>>
+>>>> RK3399 has two ISPs, but only isp0 was tested.
+>>>> Add isp0 node in rk3399 dtsi
+>>>>
+>>>> Verified with:
+>>>> make ARCH=arm64 dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+>>>>
+>>>> Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
+>>>> Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+>>>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+>>>>
+>>>> ---
+>>>>
+>>>> V4:
+>>>> - update clock names
+>>>>
+>>>> V3:
+>>>> - clean up clocks
+>>>>
+>>>> V2:
+>>>> - re-order power-domains property
+>>>>
+>>>> V1:
+>>>> This patch was originally part of this patchset:
+>>>>
+>>>>     https://patchwork.kernel.org/patch/10267431/
+>>>>
+>>>> The only difference is:
+>>>> - add phy properties
+>>>> - add ports
+>>>> ---
+>>>>  arch/arm64/boot/dts/rockchip/rk3399.dtsi | 25 ++++++++++++++++++++++++
+>>>>  1 file changed, 25 insertions(+)
+>>>>
+>>>> diff --git a/arch/arm64/boot/dts/rockchip/rk3399.dtsi b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
+>>>> index dba9641947a3a..ed8ba75dbbce8 100644
+>>>> --- a/arch/arm64/boot/dts/rockchip/rk3399.dtsi
+>>>> +++ b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
+>>>> @@ -1721,6 +1721,31 @@ vopb_mmu: iommu@ff903f00 {
+>>>>              status = "disabled";
+>>>>      };
+>>>>
+>>>> +    isp0: isp0@ff910000 {
+>>>> +            compatible = "rockchip,rk3399-cif-isp";
+>>>> +            reg = <0x0 0xff910000 0x0 0x4000>;
+>>>> +            interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH 0>;
+>>>> +            clocks = <&cru SCLK_ISP0>,
+>>>> +                     <&cru ACLK_ISP0_WRAPPER>,
+>>>> +                     <&cru HCLK_ISP0_WRAPPER>;
+>>>> +            clock-names = "isp", "aclk", "hclk";
+>>>> +            iommus = <&isp0_mmu>;
+>>>> +            phys = <&mipi_dphy_rx0>;
+>>>> +            phy-names = "dphy";
+>>>> +            power-domains = <&power RK3399_PD_ISP0>;
+>>>
+>>> Should this have status = "disabled" too? The mipi_dphy_rx0 node is
+>>> disabled by default too, so in the default configuration the driver
+>>> would always fail to probe.
 >>
->> So with the goal to cleanup the dt-bindings and remove it from staging,
->> simplify clock names to isp, aclk and hclk.
->>
->> Assigned clocks are meant to refer to the full path in the clock tree,
->> i.e. the leaf in the tree.
->> For instance, in RK3399, the clock responsible for ACLK (ISP AXI CLOCK)
->> is aclk_isp0_wrapper.
->>
->> For reference, this is the isp clock topology on RK3399:
->>
->>  xin24m
->>     pll_npll
->>        npll
->>           clk_isp1
->>           clk_isp0
->>     pll_cpll
->>        cpll
->>           aclk_isp1
->>              aclk_isp1_noc
->>              hclk_isp1
->>                 aclk_isp1_wrapper
->>                 hclk_isp1_noc
->>           aclk_isp0
->>              hclk_isp1_wrapper
->>              aclk_isp0_wrapper
->>              aclk_isp0_noc
->>              hclk_isp0
->>                 hclk_isp0_wrapper
->>                 hclk_isp0_noc
->>  pclkin_isp1_wrapper
->>
->> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->>
->> ---
->> Changes in V5:
->> - Use if/then schema as suggested by Rob Herring on
->> https://patchwork.linuxtv.org/project/linux-media/patch/20200702191322.2639681-6-helen.koike@collabora.com/#119729
->>
->> Changes in V4:
->> - update binding according to suggestion by Robin Murphy
->> on https://patchwork.kernel.org/patch/11475007/
->>
->> Changes in V3:
->> - this is a new patch in the series
->> ---
->>  .../bindings/media/rockchip-isp1.yaml         | 50 ++++++++++++-------
->>  drivers/staging/media/rkisp1/rkisp1-dev.c     |  8 ++-
->>  2 files changed, 36 insertions(+), 22 deletions(-)
->>
->> diff --git a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
->> index 62a6b9c959498..23c677d15037a 100644
->> --- a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
->> +++ b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
->> @@ -24,20 +24,10 @@ properties:
->>      maxItems: 1
->>
->>    clocks:
->> -    items:
->> -      - description: ISP clock
->> -      - description: ISP AXI clock clock
->> -      - description: ISP AXI clock  wrapper clock
->> -      - description: ISP AHB clock clock
->> -      - description: ISP AHB wrapper clock
->> +    minItems: 3
+>> I'm thinking what is the overall guideline here.
+>> Since isp and mipi_dphy are always present in the rk3399, shouldn't they always be enabled?
+>> Or since they are only useful if a sensor is present, we should let the dts of the board to
+>> enable it?
 > 
-> You need maxItems here too or it will always be 3.
+> I don't have a strong opinion. I'm fine with enabling both by default
+> as well, as it shouldn't hurt.
 > 
->>
->>    clock-names:
->> -    items:
->> -      - const: clk_isp
->> -      - const: aclk_isp
->> -      - const: aclk_isp_wrap
->> -      - const: hclk_isp
->> -      - const: hclk_isp_wrap
->> +    minItems: 3
->>
->>    iommus:
->>      maxItems: 1
->> @@ -116,6 +106,34 @@ required:
->>    - power-domains
->>    - ports
->>
->> +if:
->> +  properties:
->> +    compatible:
->> +      contains:
->> +        const: rockchip,rk3399-cif-isp
->> +then:
->> +  properties:
->> +    clocks:
->> +      maxItems: 4
->> +      minItems: 3
+> That said, I recall some alternative CIF IP block being present on
+> this SoC as well (and patches posted recently), which AFAIR can't be
+> activated at the same time as the ISP, so perhaps both of the
+> alternatives should be disabled by default?
 > 
-> For a single compatible you shouldn't really have a variable number of clocks.
-
-I'm not entirely sure how to make this separation, since isp0 and isp1 (not yet supported)
-would use the same compatible.
-Unless if we separate in two compatibles, but maybe this is an overhead just for an extra clock.
-What do you think?
-
+> Best regards,
+> Tomasz
 > 
->> +      items:
->> +        # isp0 and isp1
->> +        - description: ISP clock
->> +        - description: ISP AXI clock
->> +        - description: ISP AHB clock
->> +        # only for isp1
->> +        - description: ISP Pixel clock
->> +    clock-names:
->> +      maxItems: 4
->> +      minItems: 3
->> +      items:
->> +        # isp0 and isp1
->> +        - const: isp
->> +        - const: aclk
->> +        - const: hclk
->> +        # only for isp1
->> +        - const: pclk_isp
-> 
-> Don't you need an 'else' clause. For not rockchip,rk3399-cif-isp,
-> there's no definition of what clocks there are.
 
-There is only one compatible defined for now, rk3288 will be added later.
-The idea to add if/then is to make it easier to add rk3288:
+Based on these two last emails, I think it make sense to disable them by default.
 
-https://patchwork.kernel.org/project/linux-media/patch/20200406073017.19462-4-karthik.poduval@gmail.com/
+I'll just wait for feedback on patch 5/9 to submit an updated version.
 
-Regards,
+Thanks
 Helen
-
-> 
-> Rob
-> 
