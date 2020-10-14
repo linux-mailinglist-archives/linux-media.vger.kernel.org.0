@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7D99428E16F
-	for <lists+linux-media@lfdr.de>; Wed, 14 Oct 2020 15:37:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A193A28E179
+	for <lists+linux-media@lfdr.de>; Wed, 14 Oct 2020 15:40:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731293AbgJNNhs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Oct 2020 09:37:48 -0400
-Received: from mail-ot1-f66.google.com ([209.85.210.66]:38867 "EHLO
-        mail-ot1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727302AbgJNNhs (ORCPT
+        id S1731314AbgJNNkI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Oct 2020 09:40:08 -0400
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:38541 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727421AbgJNNkI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Oct 2020 09:37:48 -0400
-Received: by mail-ot1-f66.google.com with SMTP id i12so3433165ota.5;
-        Wed, 14 Oct 2020 06:37:47 -0700 (PDT)
+        Wed, 14 Oct 2020 09:40:08 -0400
+Received: by mail-oi1-f196.google.com with SMTP id h10so3251947oie.5;
+        Wed, 14 Oct 2020 06:40:07 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=s2wWOInQ8+vzngRWo3XRF2pWOPT3Nx6yp+ifXy9Qs0c=;
-        b=RzKgZVO291rGbSb0EINUiJKH3ea4AXBy7UIWXAmUxxbQcKzeEVu8PoNleEWESyIZFo
-         SqHxsBmq4MIn0PedU1X8FBPDQOsx1dDmaQ3Ygdpxrl1TlUv/0CSVoeACIna6hxoiQAU0
-         r0uwJjXygclMzwOPwcxtVov8ZR8dWL+nH4TdsLuVukdo8H8yIjytcLvdHCaJUeNiYXWb
-         pColmMAoAy5O4PH1NU5+YsSyVAvaicnqF4evkn0RHYwsgbowIUxKKRLptKqU2WHd0rlC
-         iJFE6oIYVtKn4B9YYMC4Hjo9piePJlLHHVhob4Hfp6CAqLSHo3yxgMlkqAo3Pu9V3Ams
-         Djmg==
-X-Gm-Message-State: AOAM531Vl7RJLZ9XIVCmDHhhRLStdj3eEfY2BQsf2znGjH4f83zqe8GQ
-        XZDINo1pABkHzwRvYpJhBjDuxVtOSLZmMgOh3Uo=
-X-Google-Smtp-Source: ABdhPJy9iYGXrU7DqcZa7XGwlKnBaYB+luAsu4+KZd/HG51ramF2oqtYSKdYaI/WbWzc+G1S0t8taE1P2cHpyZnrj2Y=
-X-Received: by 2002:a9d:5e14:: with SMTP id d20mr3259164oti.107.1602682667066;
- Wed, 14 Oct 2020 06:37:47 -0700 (PDT)
+        bh=jCnZ/JpB+JXOTDIrqvdLg2bEBOQwlU7eY0le6lMCNEQ=;
+        b=KuG9M7cz4UWGQEe/qm6OH4axCB1FNOJR2NVEB2cR3hG3sGiq/8sBg8s5iVSYzGq4TV
+         vZwop4tC8HtAsQQq9t7F7BLIN/PvPkeD/ArIubjlTcVj84yxRR45Mqsf/1+SCjd2Xbhj
+         H6TysEXylt3jQFvE7xh/E77NgYQVgAri0h0e804dAoXUFHpZHbh402p/QUUCOStu+O8S
+         aix5gyP9/2YbtUz6rHtrihh5z77p64ZKzTABs2qbVB8WGKqMFUwKQVmyyqAHPXIKsGiD
+         VTRplHK8ggQsoYycki4+6HPXFfwkD1mPssVfd8HZN7SsF7lvUBWwaUvD/SfLv+H/5RcM
+         LPDA==
+X-Gm-Message-State: AOAM5338fk1x7hVC3v9C3JRD/LOBcyGDzmu+gqtVcalNmDkkhKLxbzhX
+        Ye3yh23uBg7XTZKV1Q8mJ8MOKI0tCH9cKuBNyU8=
+X-Google-Smtp-Source: ABdhPJwrKQ8pTGdWIQGUyhJ+Vc2C+9xNkkzXQCNgDfOVBnfJAbhwj0L3O+JuHzMw6QF9CtswUMYLMuLt2N1Gu5O+268=
+X-Received: by 2002:aca:f203:: with SMTP id q3mr2114100oih.148.1602682806605;
+ Wed, 14 Oct 2020 06:40:06 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201013150150.14801-1-fabrizio.castro.jz@renesas.com> <20201013150150.14801-5-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20201013150150.14801-5-fabrizio.castro.jz@renesas.com>
+References: <20201013150150.14801-1-fabrizio.castro.jz@renesas.com> <20201013150150.14801-3-fabrizio.castro.jz@renesas.com>
+In-Reply-To: <20201013150150.14801-3-fabrizio.castro.jz@renesas.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 14 Oct 2020 15:37:35 +0200
-Message-ID: <CAMuHMdUxCiwjsFRYpVND-FLajaceUf+jWK0ZBR5Rp5xJ+MPDgA@mail.gmail.com>
-Subject: Re: [PATCH v3 4/5] media: dt-bindings: media: renesas,drif: Add
- r8a77965 support
+Date:   Wed, 14 Oct 2020 15:39:54 +0200
+Message-ID: <CAMuHMdU-X0qmM+fVTV9czNa5++c9-N9GRowzaV9c+tcyXyrPHg@mail.gmail.com>
+Subject: Re: [PATCH v3 2/5] media: dt-bindings: media: renesas,drif: Convert
+ to json-schema
 To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
@@ -60,37 +60,65 @@ Hi Fabrizio,
 
 On Tue, Oct 13, 2020 at 5:02 PM Fabrizio Castro
 <fabrizio.castro.jz@renesas.com> wrote:
-> The r8a77965 (a.k.a. R-Car M3-N) device tree schema is
-> compatible with the already documented R-Car Gen3 devices.
->
-> Document r8a77965 support within renesas,drif.yaml.
+> Convert the Renesas DRIF bindings to DT schema and update
+> MAINTAINERS accordingly.
 >
 > Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> ---
+> v2->3:
+> * Removed the definition of pinctrl-0 and pinctrl-names, as
+>   suggested by Geert
+> * Added "power-domains" to the list of required properties,
+>   as suggested by Geert
+> * Reworked the conditional requirements, Geert, what do you
+>   think?
 
-Thanks for your patch!
+Thanks for the update!
 
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-> --- a/Documentation/devicetree/bindings/media/renesas,drif.yaml
+> --- /dev/null
 > +++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
-> @@ -53,6 +53,7 @@ properties:
->        - enum:
->          - renesas,r8a7795-drif        # R-Car H3
->          - renesas,r8a7796-drif        # R-Car M3-W
-> +        - renesas,r8a77965-drif       # R-Car M3-N
->          - renesas,r8a77990-drif       # R-Car E3
->        - const: renesas,rcar-gen3-drif # Generic R-Car Gen3 compatible device
 
-I guess you're aware M3-N (and E3) have an extra register?
-Probably the driver just relies on its initial value, but it never hurts to be
-explicit and initialize it properly.
+> +allOf:
+> +  - if:
+> +      required:
+> +        - renesas,primary-bond
+> +    then:
+> +      required:
+> +        - pinctrl-0
+> +        - pinctrl-names
+> +        - port
+> +
+> +  - if:
+> +      required:
+> +        - port
+> +    then:
+> +      required:
+> +        - pinctrl-0
+> +        - pinctrl-names
+> +
+> +  - if:
+> +      not:
+> +        required:
+> +          - port
+> +    then:
+
+This can just be an "else" branch for the previous "if" statement?
+
+> +      properties:
+> +        pinctrl-0: false
+> +        pinctrl-names: false
+
+With the above fixed/clarified:
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
 Gr{oetje,eeting}s,
 
                         Geert
 
-
---
+-- 
 Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
 In personal conversations with technical people, I call myself a hacker. But
