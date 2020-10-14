@@ -2,117 +2,70 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A193A28E179
-	for <lists+linux-media@lfdr.de>; Wed, 14 Oct 2020 15:40:12 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AE52D28E1B0
+	for <lists+linux-media@lfdr.de>; Wed, 14 Oct 2020 15:50:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731314AbgJNNkI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Oct 2020 09:40:08 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:38541 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727421AbgJNNkI (ORCPT
+        id S2388743AbgJNNuf convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 14 Oct 2020 09:50:35 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:39278 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726680AbgJNNuf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Oct 2020 09:40:08 -0400
-Received: by mail-oi1-f196.google.com with SMTP id h10so3251947oie.5;
-        Wed, 14 Oct 2020 06:40:07 -0700 (PDT)
+        Wed, 14 Oct 2020 09:50:35 -0400
+Received: by mail-ot1-f67.google.com with SMTP id f10so3472189otb.6;
+        Wed, 14 Oct 2020 06:50:35 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=jCnZ/JpB+JXOTDIrqvdLg2bEBOQwlU7eY0le6lMCNEQ=;
-        b=KuG9M7cz4UWGQEe/qm6OH4axCB1FNOJR2NVEB2cR3hG3sGiq/8sBg8s5iVSYzGq4TV
-         vZwop4tC8HtAsQQq9t7F7BLIN/PvPkeD/ArIubjlTcVj84yxRR45Mqsf/1+SCjd2Xbhj
-         H6TysEXylt3jQFvE7xh/E77NgYQVgAri0h0e804dAoXUFHpZHbh402p/QUUCOStu+O8S
-         aix5gyP9/2YbtUz6rHtrihh5z77p64ZKzTABs2qbVB8WGKqMFUwKQVmyyqAHPXIKsGiD
-         VTRplHK8ggQsoYycki4+6HPXFfwkD1mPssVfd8HZN7SsF7lvUBWwaUvD/SfLv+H/5RcM
-         LPDA==
-X-Gm-Message-State: AOAM5338fk1x7hVC3v9C3JRD/LOBcyGDzmu+gqtVcalNmDkkhKLxbzhX
-        Ye3yh23uBg7XTZKV1Q8mJ8MOKI0tCH9cKuBNyU8=
-X-Google-Smtp-Source: ABdhPJwrKQ8pTGdWIQGUyhJ+Vc2C+9xNkkzXQCNgDfOVBnfJAbhwj0L3O+JuHzMw6QF9CtswUMYLMuLt2N1Gu5O+268=
-X-Received: by 2002:aca:f203:: with SMTP id q3mr2114100oih.148.1602682806605;
- Wed, 14 Oct 2020 06:40:06 -0700 (PDT)
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=XcEpTkw1Hudp3Em2mlbtxnQrshryRfohDwMtnJSmICA=;
+        b=RcCzYtzQCQXK2MTc413X3w3Xow3sunRMTH2vF72EDZg/c1/62PfIm5ezDFB0ld/OFz
+         zYi7xLLdElhJV/LutHX/i/rGeOeKqwrR7TMMEf4yS4HMW6BOJjIp251YLNOS0JCcHf8q
+         BKSH27+6eg5qAZ/bt6isJ20pcpzKjJRLVreZWngDBgzxVjptG07UrT6PVBXqz/O/mqpz
+         wEIulqp017E+2vnLJwwsyglo1L/Z+DViff2gis3y0g5i4/2wR4Hxf919ihziyPis//de
+         U2ObsAonjKq785laPaCDoFoZyfhHxhMr8S8tEVGQ8m+g54hcGVj+mDrN3rA94yyClO8I
+         hqtA==
+X-Gm-Message-State: AOAM530ASQL2dZRnwA7AMlGFbmI0qdRYccfGH8EuGArN/PJlH8At/atH
+        HapM9eForxJbYG1I9FnGoZH5j7orvJcHDOmh9MI=
+X-Google-Smtp-Source: ABdhPJyYtDpLWVZ6zHhoxuzRGLITytMyVDxGm0R5aYJ+MrdYwspSwCHppKiYps/Ajazqh7BplWzqMvibhBVqrD+4+Kw=
+X-Received: by 2002:a9d:3b76:: with SMTP id z109mr3660748otb.250.1602683434638;
+ Wed, 14 Oct 2020 06:50:34 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201013150150.14801-1-fabrizio.castro.jz@renesas.com> <20201013150150.14801-3-fabrizio.castro.jz@renesas.com>
-In-Reply-To: <20201013150150.14801-3-fabrizio.castro.jz@renesas.com>
+References: <20200910080933.40684-1-yuehaibing@huawei.com> <20200911112707.32232-1-yuehaibing@huawei.com>
+In-Reply-To: <20200911112707.32232-1-yuehaibing@huawei.com>
 From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 14 Oct 2020 15:39:54 +0200
-Message-ID: <CAMuHMdU-X0qmM+fVTV9czNa5++c9-N9GRowzaV9c+tcyXyrPHg@mail.gmail.com>
-Subject: Re: [PATCH v3 2/5] media: dt-bindings: media: renesas,drif: Convert
- to json-schema
-To:     Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+Date:   Wed, 14 Oct 2020 15:50:23 +0200
+Message-ID: <CAMuHMdWm8H7BYK+niLu4COGcsrdAd4Egit7T4+Mc5Fz8NhmjYg@mail.gmail.com>
+Subject: Re: [PATCH v2 -next] media: marvell-ccic: Fix -Wunused-function warnings
+To:     YueHaibing <yuehaibing@huawei.com>
+Cc:     Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Lubomir Rintel <lkundrak@v3.sk>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        Chris Paterson <Chris.Paterson2@renesas.com>,
-        Biju Das <biju.das.jz@bp.renesas.com>,
-        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Fabrizio,
-
-On Tue, Oct 13, 2020 at 5:02 PM Fabrizio Castro
-<fabrizio.castro.jz@renesas.com> wrote:
-> Convert the Renesas DRIF bindings to DT schema and update
-> MAINTAINERS accordingly.
+On Fri, Sep 11, 2020 at 1:50 PM YueHaibing <yuehaibing@huawei.com> wrote:
+> If CONFIG_PM is n, gcc warns:
 >
-> Signed-off-by: Fabrizio Castro <fabrizio.castro.jz@renesas.com>
-> Reviewed-by: Lad Prabhakar <prabhakar.mahadev-lad.rj@bp.renesas.com>
-> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> v2->3:
-> * Removed the definition of pinctrl-0 and pinctrl-names, as
->   suggested by Geert
-> * Added "power-domains" to the list of required properties,
->   as suggested by Geert
-> * Reworked the conditional requirements, Geert, what do you
->   think?
+> drivers/media/platform/marvell-ccic/mmp-driver.c:324:12: warning: ‘mmpcam_runtime_suspend’ defined but not used [-Wunused-function]
+>  static int mmpcam_runtime_suspend(struct device *dev)
+>             ^~~~~~~~~~~~~~~~~~~~~~
+> drivers/media/platform/marvell-ccic/mmp-driver.c:310:12: warning: ‘mmpcam_runtime_resume’ defined but not used [-Wunused-function]
+>  static int mmpcam_runtime_resume(struct device *dev)
+>             ^~~~~~~~~~~~~~~~~~~~~
+>
+> Mark them as __maybe_unused to fix this.
+>
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: YueHaibing <yuehaibing@huawei.com>
 
-Thanks for the update!
-
-
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/renesas,drif.yaml
-
-> +allOf:
-> +  - if:
-> +      required:
-> +        - renesas,primary-bond
-> +    then:
-> +      required:
-> +        - pinctrl-0
-> +        - pinctrl-names
-> +        - port
-> +
-> +  - if:
-> +      required:
-> +        - port
-> +    then:
-> +      required:
-> +        - pinctrl-0
-> +        - pinctrl-names
-> +
-> +  - if:
-> +      not:
-> +        required:
-> +          - port
-> +    then:
-
-This can just be an "else" branch for the previous "if" statement?
-
-> +      properties:
-> +        pinctrl-0: false
-> +        pinctrl-names: false
-
-With the above fixed/clarified:
-Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
+Acked-by: Geert Uytterhoeven <geert@linux-m68k.org>
 
 Gr{oetje,eeting}s,
 
