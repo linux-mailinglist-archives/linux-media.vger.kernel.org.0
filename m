@@ -2,378 +2,141 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3BA428E22C
-	for <lists+linux-media@lfdr.de>; Wed, 14 Oct 2020 16:28:23 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 64E2F28E245
+	for <lists+linux-media@lfdr.de>; Wed, 14 Oct 2020 16:35:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727821AbgJNO2W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 14 Oct 2020 10:28:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59518 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727468AbgJNO2W (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 14 Oct 2020 10:28:22 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A164EC061755;
-        Wed, 14 Oct 2020 07:28:21 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id n15so4142966wrq.2;
-        Wed, 14 Oct 2020 07:28:21 -0700 (PDT)
+        id S1728079AbgJNOf3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 14 Oct 2020 10:35:29 -0400
+Received: from mail-eopbgr1410107.outbound.protection.outlook.com ([40.107.141.107]:26256
+        "EHLO JPN01-OS2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726942AbgJNOf3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 14 Oct 2020 10:35:29 -0400
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=gV2p+bogk9r5xsL9I5NzGqFW0hHop4bMiD/cYl5tAIsn3bzShawKMxIxh480m3fKQom/mJ4YQB9RIlEO3Yd1p/flDeuUcw6ZrjDYvw9MYNCbPYzfB7bqqQou80T8yIeUcaHhZ4kS3b5Nama61nzGpp8d9xmQwBti+JyW0xrjzvSljCjmYYVa6GZ5RkOwID2xgUbEitXlkwKeEGs9wgU15LBWSPQQ/7oh/DRjnRXnnu4JyI65BpMCosuHYojdNij+2qVJ+tnqzW7St12v/D8a07uZYDPahfR2TgloGv45hUf8gCZewinN8b87fqdtAH2tVoxwBzDAy7cqCIyw4LDnIA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yKJr0UbMYdBGFKfmNSXYeHNmnTkRdeNYIn8O8LXbvhA=;
+ b=lhUgqHKlu1+5knQVUxG7UuUelPl9pQsjoJId3DBQ22cqlrq+h9Yvg9GegnX0Q26AipuR+zsNgH/MxuFGUAx4mytgjDfZnup7HoQTdue0D5uNkqI0EMzf2TOXxt4vVclU34ljtBEIr9kKHTaaVFNqft8gwFIbSY6IfxyndUvUoGl+UZEvrJFR3K9gxCXbvCm+zxf9I6KnCTFE3feHouXkj10DIuGt7kDetdhtTSu6zxvADEbk1lgMvjBsSOcmOZWkbYQHnC3B+T2U5EfxVd3L0Jd+j1WgFKxRp+PJVSxByPRPsfyIZf2KbbQ1QS3FPWFSxAXB3wj0Me76grHlPnmtCg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=renesas.com; dmarc=pass action=none header.from=renesas.com;
+ dkim=pass header.d=renesas.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=gD56JhJGOE2YmdQ5Oz3pXgvrZEV99eAadsVaLfjpXUg=;
-        b=HbHXrhYrjXjwgMNbXqGXZVaR+kqjP18946GD8PYBufQCu5wG2FHvx1Cn7OTQDnFNUK
-         GeKflzw/ZpB97gS1sjoo0qnXc8z5ZuvaoEam5LvQVWwjIuy+sY1vW7KCKOsuY4i1SJYg
-         TShPpSmt+PWCo96FI17ALTDBtPuoIlENFtoeu2SwCci+BOaTLhSBMfKNE6QfNbS1nG7I
-         FOo3mjMo97qzU042f3mDS3tjJW0tnBYB/oaBWDK42Y1t2mpi01XBsH3/sKxirxQR0cYu
-         YHTQA+gPgyUp+IF65padP3rpTqFgo+2i55V2bhqYQ9mE8+4A9A/voL637eJjKXTXYdKi
-         5Q3A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=gD56JhJGOE2YmdQ5Oz3pXgvrZEV99eAadsVaLfjpXUg=;
-        b=j2MLuBcNMXgtlaXJ/6hOyA5cFyXq/D+wHKP/b98oP/0P7Vh21MzN/k3ByeCvkq3U/h
-         pWmdx3x/2/Vr4t2p4RFN0FHqKu9HBMMBRGNZUvF6dRZx37V4xGbsZYGLxeKl9mEOYGLM
-         zJ34jew9EmH5ooidUH1nCD8+SLLn5UZLdRypoqEwJj0ldmABG7SKQtQfWwWgL5xRb1Cq
-         yfapiICJDHD9tVujxfRysSaEsZrZrEMTpwkyR/BdvJy5znyMaiEM42mD1TLXCT1S6eHR
-         cCeHIQ7rwj1Rb0Y3xaompblzOtWbcF64Tyim7QTuaKU2wKxbFpShjM9eQ0FqAbXI06Ll
-         cwXA==
-X-Gm-Message-State: AOAM531Z0pqGc05kfs20FnbY+Ko9oGJAQob1/aHpsTWlZRP5PrmQ35oS
-        njxmtqCfuHNLkhuqXsPfpPM=
-X-Google-Smtp-Source: ABdhPJzZUQrRgdaeqNl6uS1gOuTKK2Tc6r0zNWXgAOaYQVA9flTSXlzuzHuwIyJRO0HKhc8LOwySwQ==
-X-Received: by 2002:adf:fe89:: with SMTP id l9mr4276869wrr.264.1602685700293;
-        Wed, 14 Oct 2020 07:28:20 -0700 (PDT)
-Received: from arch-thunder.local (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id g5sm4068702wmi.4.2020.10.14.07.28.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 14 Oct 2020 07:28:19 -0700 (PDT)
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Rob Herring <robh+dt@kernel.org>, sakari.ailus@linux.intel.com,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        Rui Miguel Silva <rmfrfs@gmail.com>
-Subject: [PATCH v2 3/3] dt-bindings: imx7-mipi-csi2: convert bindings to yaml
-Date:   Wed, 14 Oct 2020 15:27:59 +0100
-Message-Id: <20201014142759.726823-4-rmfrfs@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201014142759.726823-1-rmfrfs@gmail.com>
-References: <20201014142759.726823-1-rmfrfs@gmail.com>
+ d=renesasgroup.onmicrosoft.com; s=selector2-renesasgroup-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=yKJr0UbMYdBGFKfmNSXYeHNmnTkRdeNYIn8O8LXbvhA=;
+ b=q3o/OFaBCQVpGYU49BkCM58DPWCy5z91ecI7qTC4VhZgvVpihmsA5VPNq1P6IYGaubLdJ862psAWIdPc686XOc9rkT1L5Cq4vOArLxClwLm97234XYD4UCgYrIYvJMuOJUYYuvD6tVc4t5SFiA/4B7Cmn6AtO2xVEQcn4iUgdq8=
+Received: from OSAPR01MB2740.jpnprd01.prod.outlook.com (2603:1096:603:3a::20)
+ by OSAPR01MB1699.jpnprd01.prod.outlook.com (2603:1096:603:2b::18) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Wed, 14 Oct
+ 2020 14:35:24 +0000
+Received: from OSAPR01MB2740.jpnprd01.prod.outlook.com
+ ([fe80::8c77:606f:d812:ecd2]) by OSAPR01MB2740.jpnprd01.prod.outlook.com
+ ([fe80::8c77:606f:d812:ecd2%7]) with mapi id 15.20.3477.021; Wed, 14 Oct 2020
+ 14:35:24 +0000
+From:   Fabrizio Castro <fabrizio.castro.jz@renesas.com>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+CC:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Ramesh Shanmugasundaram <rashanmu@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Chris Paterson <Chris.Paterson2@renesas.com>,
+        Biju Das <biju.das.jz@bp.renesas.com>,
+        Prabhakar Mahadev Lad <prabhakar.mahadev-lad.rj@bp.renesas.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Subject: RE: [PATCH v3 4/5] media: dt-bindings: media: renesas,drif: Add
+ r8a77965 support
+Thread-Topic: [PATCH v3 4/5] media: dt-bindings: media: renesas,drif: Add
+ r8a77965 support
+Thread-Index: AQHWoXHYI2L0behCIU2BKIZWRSjl+amXG3WAgAAPSWA=
+Date:   Wed, 14 Oct 2020 14:35:24 +0000
+Message-ID: <OSAPR01MB274089EA87D5280E83E81C7DC2050@OSAPR01MB2740.jpnprd01.prod.outlook.com>
+References: <20201013150150.14801-1-fabrizio.castro.jz@renesas.com>
+ <20201013150150.14801-5-fabrizio.castro.jz@renesas.com>
+ <CAMuHMdUxCiwjsFRYpVND-FLajaceUf+jWK0ZBR5Rp5xJ+MPDgA@mail.gmail.com>
+In-Reply-To: <CAMuHMdUxCiwjsFRYpVND-FLajaceUf+jWK0ZBR5Rp5xJ+MPDgA@mail.gmail.com>
+Accept-Language: en-GB, en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+authentication-results: linux-m68k.org; dkim=none (message not signed)
+ header.d=none;linux-m68k.org; dmarc=none action=none header.from=renesas.com;
+x-originating-ip: [193.141.220.21]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-ht: Tenant
+x-ms-office365-filtering-correlation-id: 569b49c7-4a93-4afc-ac26-08d8704e6343
+x-ms-traffictypediagnostic: OSAPR01MB1699:
+x-ms-exchange-transport-forked: True
+x-microsoft-antispam-prvs: <OSAPR01MB1699A3819C2795078E1B6736C2050@OSAPR01MB1699.jpnprd01.prod.outlook.com>
+x-ms-oob-tlc-oobclassifiers: OLM:8273;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: H0AnPeyTNEC1RDaf+1xatGgCGljHCZ8dJctsw3sPzKClgoVoi37VvdRpEI38HeU2Al77JKuq2Gnk96Sz5w/tI4BSvtIU3wz6wELNPyS2y90L4u8YIkCCcw12L0Qg9HcSVbxfj3P02+5CSucXi4me4FgV2UIpO6Q7spbQ0kGoVW7xw53tP3zXWZyXgDw67ISUllvpZ0mQfdbF1WTDWvFkjxflQ4dz/S2kpRvjfCi6D7NdReLvlCpQ34AJvr3xlN/DlzMafWWZlOgmxKxURKM+/qtM7JKI1ikvFNthOP4VEQyaeyZet5yZU+KZl49sFxqlrDMwXy5fs2t9guz39d5YNQ==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:OSAPR01MB2740.jpnprd01.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(39850400004)(346002)(136003)(376002)(8676002)(478600001)(71200400001)(4326008)(76116006)(8936002)(64756008)(66556008)(9686003)(66476007)(2906002)(66446008)(66946007)(52536014)(86362001)(54906003)(5660300002)(33656002)(53546011)(7696005)(26005)(316002)(186003)(55016002)(6506007)(6916009);DIR:OUT;SFP:1102;
+x-ms-exchange-antispam-messagedata: Wu5KR8rKnuCezxqokAOuz+p9OPiCBVx/mu64o8FLF1F49bAHBowRSolcqABoAvtHJ9xkbhVBjaqpmP7y5PDY89R5ppX6Fi9/vW2H999SbYsoPbv9wM0RdDixk0IbchfejY0PYq8vmI8QTcmqg+JHBn810V85nZpgzkMmNNEIwEECO8wVI3+PTfIanlQuyAYmUusCuwtfITCW3g0wxH0Ivlx9ue6kYCIATixcBlIy389GmaLCZl5dyknLO5rz8pSCg5iswyDCAmpYMHg+qaeQ2/80wpczADyLoQzOBMnMujQJj7UKXyDsZXfxxoEKf1oI/MLLcavaYWorzQzYYabKS5vmaDUemAc99xP0FKf/ZeCIaxoJN1eb36Lji8+GsOHCtjUV/UwNFatOpA+bT5llaoBt/gniz/iu8bHWYZ3xWWVvauL70wTmtIIf1U6kyvnpQWvdXNy6aruoBFVQVlgOo9sJcPQgkLHRIBQqtkSdexM8+Kv+eg+N1ytcEIsCvBhfzNJ6o/LKnWyrs/D8WIF+HjUGURVkGXKAJ98YeEcXNrnfipc3B/CaXeXd07J2OcP539cE5qQhwcPRKTDW3112BdXvS1BtABDCGb7m1L5oZoQDBAt6yXlPCoC2j1WtfbZH/UjtD/YIaZ5e3o1EesEVSA==
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-OriginatorOrg: renesas.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: OSAPR01MB2740.jpnprd01.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 569b49c7-4a93-4afc-ac26-08d8704e6343
+X-MS-Exchange-CrossTenant-originalarrivaltime: 14 Oct 2020 14:35:24.5965
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 53d82571-da19-47e4-9cb4-625a166a4a2a
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: mCGQcpZlTcgfHI0YGm9T+p14JVhwRgRzKC8SKjeF6WUpgbTD276LTT0clzyBeiieFcCs0sZN/lvbwP4u8BUoTSEGe2rNjitxx+2j1oCVDBQ=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: OSAPR01MB1699
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert imx7 mipi csi2 bindings documentation to yaml schema, remove
-the textual document and update MAINTAINERS entry.
-
-Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
----
- .../bindings/media/imx7-mipi-csi2.txt         |  90 ---------
- .../bindings/media/nxp,imx7-mipi-csi2.yaml    | 181 ++++++++++++++++++
- MAINTAINERS                                   |   2 +-
- 3 files changed, 182 insertions(+), 91 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
- create mode 100644 Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-
-diff --git a/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt b/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
-deleted file mode 100644
-index 71fd74ed3ec8..000000000000
---- a/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
-+++ /dev/null
-@@ -1,90 +0,0 @@
--Freescale i.MX7 Mipi CSI2
--=========================
--
--mipi_csi2 node
----------------
--
--This is the device node for the MIPI CSI-2 receiver core in i.MX7 SoC. It is
--compatible with previous version of Samsung D-phy.
--
--Required properties:
--
--- compatible    : "fsl,imx7-mipi-csi2";
--- reg           : base address and length of the register set for the device;
--- interrupts    : should contain MIPI CSIS interrupt;
--- clocks        : list of clock specifiers, see
--        Documentation/devicetree/bindings/clock/clock-bindings.txt for details;
--- clock-names   : must contain "pclk", "wrap" and "phy" entries, matching
--                  entries in the clock property;
--- power-domains : a phandle to the power domain, see
--          Documentation/devicetree/bindings/power/power_domain.txt for details.
--- reset-names   : should include following entry "mrst";
--- resets        : a list of phandle, should contain reset entry of
--                  reset-names;
--- phy-supply    : from the generic phy bindings, a phandle to a regulator that
--	          provides power to MIPI CSIS core;
--
--Optional properties:
--
--- clock-frequency : The IP's main (system bus) clock frequency in Hz, default
--		    value when this property is not specified is 166 MHz;
--- fsl,csis-hs-settle : differential receiver (HS-RX) settle time;
--
--The device node should contain two 'port' child nodes with one child 'endpoint'
--node, according to the bindings defined in:
-- Documentation/devicetree/bindings/ media/video-interfaces.txt.
-- The following are properties specific to those nodes.
--
--port node
-----------
--
--- reg		  : (required) can take the values 0 or 1, where 0 shall be
--                     related to the sink port and port 1 shall be the source
--                     one;
--
--endpoint node
---------------
--
--- data-lanes    : (required) an array specifying active physical MIPI-CSI2
--		    data input lanes and their mapping to logical lanes; this
--                    shall only be applied to port 0 (sink port), the array's
--                    content is unused only its length is meaningful,
--                    in this case the maximum length supported is 2;
--
--example:
--
--        mipi_csi: mipi-csi@30750000 {
--                #address-cells = <1>;
--                #size-cells = <0>;
--
--                compatible = "fsl,imx7-mipi-csi2";
--                reg = <0x30750000 0x10000>;
--                interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
--                clocks = <&clks IMX7D_IPG_ROOT_CLK>,
--                                <&clks IMX7D_MIPI_CSI_ROOT_CLK>,
--                                <&clks IMX7D_MIPI_DPHY_ROOT_CLK>;
--                clock-names = "pclk", "wrap", "phy";
--                clock-frequency = <166000000>;
--                power-domains = <&pgc_mipi_phy>;
--                phy-supply = <&reg_1p0d>;
--                resets = <&src IMX7_RESET_MIPI_PHY_MRST>;
--                reset-names = "mrst";
--                fsl,csis-hs-settle = <3>;
--
--                port@0 {
--                        reg = <0>;
--
--                        mipi_from_sensor: endpoint {
--                                remote-endpoint = <&ov2680_to_mipi>;
--                                data-lanes = <1>;
--                        };
--                };
--
--                port@1 {
--                        reg = <1>;
--
--                        mipi_vc0_to_csi_mux: endpoint {
--                                remote-endpoint = <&csi_mux_from_mipi_vc0>;
--                        };
--                };
--        };
-diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-new file mode 100644
-index 000000000000..0438b28232ed
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-@@ -0,0 +1,181 @@
-+# SPDX-License-Identifier: GPL-2.0-only
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/nxp,imx7-mipi-csi2.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: NXP i.MX7 Mipi CSI2
-+
-+maintainers:
-+  - Rui Miguel Silva <rmfrfs@gmail.com>
-+
-+description: |
-+  this is the device node for the mipi csi-2 receiver core in i.mx7 soc. it is
-+  compatible with previous version of samsung d-phy.
-+
-+properties:
-+  compatible:
-+    items:
-+      - enum:
-+          - fsl,imx7-mipi-csi2
-+
-+  reg:
-+    maxItems: 1
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    minItems: 3
-+
-+  clock-names:
-+    items:
-+      - const: pclk
-+      - const: wrap
-+      - const: phy
-+
-+  power-domains:
-+    maxItems: 1
-+
-+  phy-supply:
-+    description:
-+      Phandle to a regulator that provides power to the PHY. This
-+      regulator will be managed during the PHY power on/off sequence.
-+
-+  resets:
-+    maxItems: 1
-+
-+  reset-names:
-+    const: mrst
-+
-+  clock-frequency:
-+    description:
-+      The IP main (system bus) clock frequency in Hertz
-+    default: 166000000
-+
-+  fsl,csis-hs-settle:
-+    $ref: /schemas/types.yaml#/definitions/uint32
-+    description:
-+      differential receiver (HS-RX) settle time
-+
-+  ports:
-+    type: object
-+    description:
-+      A node containing input and output port nodes with endpoint definitions
-+      as documented in
-+      Documentation/devicetree/bindings/media/video-interfaces.txt
-+
-+    properties:
-+      '#address-cells':
-+        const: 1
-+
-+      '#size-cells':
-+        const: 0
-+
-+      port@0:
-+        type: object
-+        description:
-+          Input port node, single endpoint describing the CSI-2 transmitter.
-+
-+        properties:
-+          reg:
-+            const: 0
-+
-+          endpoint:
-+            type: object
-+
-+            properties:
-+              data-lanes:
-+                maxItems: 1
-+
-+              remote-endpoint: true
-+
-+            required:
-+              - data-lanes
-+              - remote-endpoint
-+
-+            additionalProperties: false
-+
-+        additionalProperties: false
-+
-+      port@1:
-+        type: object
-+        description:
-+          Output port node,
-+
-+        properties:
-+          reg:
-+            const: 1
-+
-+          endpoint:
-+              type: object
-+
-+              properties:
-+                remote-endpoint: true
-+
-+              required:
-+                - remote-endpoint
-+
-+              additionalProperties: false
-+
-+        additionalProperties: false
-+
-+required:
-+  - compatible
-+  - reg
-+  - interrupts
-+  - clocks
-+  - clock-names
-+  - power-domains
-+  - resets
-+  - reset-names
-+  - ports
-+
-+unevaluatedProperties: false
-+
-+examples:
-+  - |
-+    #include <dt-bindings/clock/imx7d-clock.h>
-+    #include <dt-bindings/interrupt-controller/arm-gic.h>
-+    #include <dt-bindings/interrupt-controller/irq.h>
-+    #include <dt-bindings/reset/imx7-reset.h>
-+
-+    mipi_csi: mipi-csi@30750000 {
-+            compatible = "fsl,imx7-mipi-csi2";
-+            reg = <0x30750000 0x10000>;
-+            interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
-+  
-+            clocks = <&clks IMX7D_IPG_ROOT_CLK>,
-+                     <&clks IMX7D_MIPI_CSI_ROOT_CLK>,
-+                     <&clks IMX7D_MIPI_DPHY_ROOT_CLK>;
-+            clock-names = "pclk", "wrap", "phy";
-+            clock-frequency = <166000000>;
-+
-+            power-domains = <&pgc_mipi_phy>;
-+            phy-supply = <&reg_1p0d>;
-+            resets = <&src IMX7_RESET_MIPI_PHY_MRST>;
-+            reset-names = "mrst";
-+            fsl,csis-hs-settle = <3>;
-+
-+            ports {
-+                    #address-cells = <1>;
-+                    #size-cells = <0>;
-+
-+                    port@0 {
-+                            reg = <0>;
-+
-+                            mipi_from_sensor: endpoint {
-+                                    remote-endpoint = <&ov2680_to_mipi>;
-+                                    data-lanes = <1>;
-+                            };
-+                    };
-+
-+                    port@1 {
-+                            reg = <1>;
-+
-+                            mipi_vc0_to_csi_mux: endpoint {
-+                                    remote-endpoint = <&csi_mux_from_mipi_vc0>;
-+                            };
-+                    };
-+            };
-+    };
-diff --git a/MAINTAINERS b/MAINTAINERS
-index b7f7f14cd85b..9da67222b0c7 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -10773,8 +10773,8 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/admin-guide/media/imx7.rst
--F:	Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
- F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-+F:	Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
- F:	drivers/staging/media/imx/imx7-media-csi.c
- F:	drivers/staging/media/imx/imx7-mipi-csis.c
- 
--- 
-2.28.0
-
+SGkgR2VlcnQsDQoNClRoYW5rIHlvdSBmb3IgeW91ciBmZWVkYmFjayENCg0KPiBGcm9tOiBHZWVy
+dCBVeXR0ZXJob2V2ZW4gPGdlZXJ0QGxpbnV4LW02OGsub3JnPg0KPiBTZW50OiAxNCBPY3RvYmVy
+IDIwMjAgMTQ6MzgNCj4gU3ViamVjdDogUmU6IFtQQVRDSCB2MyA0LzVdIG1lZGlhOiBkdC1iaW5k
+aW5nczogbWVkaWE6IHJlbmVzYXMsZHJpZjogQWRkDQo+IHI4YTc3OTY1IHN1cHBvcnQNCj4NCj4g
+SGkgRmFicml6aW8sDQo+DQo+IE9uIFR1ZSwgT2N0IDEzLCAyMDIwIGF0IDU6MDIgUE0gRmFicml6
+aW8gQ2FzdHJvDQo+IDxmYWJyaXppby5jYXN0cm8uanpAcmVuZXNhcy5jb20+IHdyb3RlOg0KPiA+
+IFRoZSByOGE3Nzk2NSAoYS5rLmEuIFItQ2FyIE0zLU4pIGRldmljZSB0cmVlIHNjaGVtYSBpcw0K
+PiA+IGNvbXBhdGlibGUgd2l0aCB0aGUgYWxyZWFkeSBkb2N1bWVudGVkIFItQ2FyIEdlbjMgZGV2
+aWNlcy4NCj4gPg0KPiA+IERvY3VtZW50IHI4YTc3OTY1IHN1cHBvcnQgd2l0aGluIHJlbmVzYXMs
+ZHJpZi55YW1sLg0KPiA+DQo+ID4gU2lnbmVkLW9mZi1ieTogRmFicml6aW8gQ2FzdHJvIDxmYWJy
+aXppby5jYXN0cm8uanpAcmVuZXNhcy5jb20+DQo+DQo+IFRoYW5rcyBmb3IgeW91ciBwYXRjaCEN
+Cj4NCj4gUmV2aWV3ZWQtYnk6IEdlZXJ0IFV5dHRlcmhvZXZlbiA8Z2VlcnQrcmVuZXNhc0BnbGlk
+ZXIuYmU+DQo+DQo+ID4gLS0tIGEvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21l
+ZGlhL3JlbmVzYXMsZHJpZi55YW1sDQo+ID4gKysrIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVl
+L2JpbmRpbmdzL21lZGlhL3JlbmVzYXMsZHJpZi55YW1sDQo+ID4gQEAgLTUzLDYgKzUzLDcgQEAg
+cHJvcGVydGllczoNCj4gPiAgICAgICAgLSBlbnVtOg0KPiA+ICAgICAgICAgIC0gcmVuZXNhcyxy
+OGE3Nzk1LWRyaWYgICAgICAgICMgUi1DYXIgSDMNCj4gPiAgICAgICAgICAtIHJlbmVzYXMscjhh
+Nzc5Ni1kcmlmICAgICAgICAjIFItQ2FyIE0zLVcNCj4gPiArICAgICAgICAtIHJlbmVzYXMscjhh
+Nzc5NjUtZHJpZiAgICAgICAjIFItQ2FyIE0zLU4NCj4gPiAgICAgICAgICAtIHJlbmVzYXMscjhh
+Nzc5OTAtZHJpZiAgICAgICAjIFItQ2FyIEUzDQo+ID4gICAgICAgIC0gY29uc3Q6IHJlbmVzYXMs
+cmNhci1nZW4zLWRyaWYgIyBHZW5lcmljIFItQ2FyIEdlbjMgY29tcGF0aWJsZSBkZXZpY2UNCj4N
+Cj4gSSBndWVzcyB5b3UncmUgYXdhcmUgTTMtTiAoYW5kIEUzKSBoYXZlIGFuIGV4dHJhIHJlZ2lz
+dGVyPw0KPiBQcm9iYWJseSB0aGUgZHJpdmVyIGp1c3QgcmVsaWVzIG9uIGl0cyBpbml0aWFsIHZh
+bHVlLCBidXQgaXQgbmV2ZXIgaHVydHMgdG8gYmUNCj4gZXhwbGljaXQgYW5kIGluaXRpYWxpemUg
+aXQgcHJvcGVybHkuDQoNClllcywgSSBhbSBhd2FyZSBvZiB0aGUgZXh0cmEgcmVnaXN0ZXIsIGFu
+ZCB0aGF0J3MgcmVmbGVjdGVkIGluIHRoZSBEUklGIG5vZGVzDQpkZWZpbml0aW9uIHdpdGhpbiB0
+aGUgU29DIHNwZWNpZmljIGRldmljZSB0cmVlcy4NCkknbGwgdGFja2xlIGluaXRpYWxpemF0aW9u
+IGFuZCBjb25maWd1cmF0aW9uIG9mIHRoZSBleHRyYSByZWdpc3RlciBhdCBzb21lIHBvaW50LA0K
+ZG8geW91IHRoaW5rIHdlIGNvdWxkIHVzZSB0aGUgZGVmYXVsdCB2YWx1ZSBmb3Igbm93Pw0KDQo+
+DQo+IEdye29ldGplLGVldGluZ31zLA0KPg0KPiAgICAgICAgICAgICAgICAgICAgICAgICBHZWVy
+dA0KPg0KPg0KPiAtLQ0KPiBHZWVydCBVeXR0ZXJob2V2ZW4gLS0gVGhlcmUncyBsb3RzIG9mIExp
+bnV4IGJleW9uZCBpYTMyIC0tIGdlZXJ0QGxpbnV4LQ0KPiBtNjhrLm9yZw0KPg0KPiBJbiBwZXJz
+b25hbCBjb252ZXJzYXRpb25zIHdpdGggdGVjaG5pY2FsIHBlb3BsZSwgSSBjYWxsIG15c2VsZiBh
+IGhhY2tlci4gQnV0DQo+IHdoZW4gSSdtIHRhbGtpbmcgdG8gam91cm5hbGlzdHMgSSBqdXN0IHNh
+eSAicHJvZ3JhbW1lciIgb3Igc29tZXRoaW5nIGxpa2UgdGhhdC4NCj4gICAgICAgICAgICAgICAg
+ICAgICAgICAgICAgICAgICAtLSBMaW51cyBUb3J2YWxkcw0KDQoNClJlbmVzYXMgRWxlY3Ryb25p
+Y3MgRXVyb3BlIEdtYkgsIEdlc2NoYWVmdHNmdWVocmVyL1ByZXNpZGVudDogQ2Fyc3RlbiBKYXVj
+aCwgU2l0eiBkZXIgR2VzZWxsc2NoYWZ0L1JlZ2lzdGVyZWQgb2ZmaWNlOiBEdWVzc2VsZG9yZiwg
+QXJjYWRpYXN0cmFzc2UgMTAsIDQwNDcyIER1ZXNzZWxkb3JmLCBHZXJtYW55LCBIYW5kZWxzcmVn
+aXN0ZXIvQ29tbWVyY2lhbCBSZWdpc3RlcjogRHVlc3NlbGRvcmYsIEhSQiAzNzA4IFVTdC1JRE5y
+Li9UYXggaWRlbnRpZmljYXRpb24gbm8uOiBERSAxMTkzNTM0MDYgV0VFRS1SZWcuLU5yLi9XRUVF
+IHJlZy4gbm8uOiBERSAxNDk3ODY0Nw0K
