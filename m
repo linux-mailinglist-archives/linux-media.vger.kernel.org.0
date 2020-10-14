@@ -2,91 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A061C28D68E
-	for <lists+linux-media@lfdr.de>; Wed, 14 Oct 2020 00:44:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1889A28D852
+	for <lists+linux-media@lfdr.de>; Wed, 14 Oct 2020 04:11:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729008AbgJMWne (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 13 Oct 2020 18:43:34 -0400
-Received: from aserp2120.oracle.com ([141.146.126.78]:34364 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728931AbgJMWnZ (ORCPT
+        id S1728144AbgJNCKj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 13 Oct 2020 22:10:39 -0400
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:49131 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727630AbgJNCK0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 13 Oct 2020 18:43:25 -0400
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09DMYHRI023311;
-        Tue, 13 Oct 2020 22:43:19 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : to : cc :
- subject : date : message-id : in-reply-to : references : mime-version :
- content-type : content-transfer-encoding; s=corp-2020-01-29;
- bh=BPXVhR8Zcz1sWINwPPKI15oRrSSfJmS7Dk7t6k2FBvc=;
- b=X98OMsUEJ6iXi28jlvGzIuUNtCUPCHKr9Y26mlldDvGV1tVg0rW4+z19ERv9nUm05fW2
- 7uLfRfkQC87plb6dqK0JgwDllNVeWHEr4KuohBovrquRB4Wp8Fn55mzzRhERGk86b1R8
- IUAHuFALM9P0nzG0SMad9VRc3S4BqwSCpX9uXbI7E8E4JWNs+M489BfaOy69s9tMy36o
- WsDINZk0QvR9KX7AD1uVtYIm858Ec1rCBrQM2cWhu74pWwQ4sERB2XP+p4QlG2a3ov36
- KsDceZW1Gf6MViMvswmWBcHmPujmAKdJrQLwx9ihpq7sGfN7gk8NuWumGIvUgBivX+8I Nw== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by aserp2120.oracle.com with ESMTP id 3434wkmr7r-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 13 Oct 2020 22:43:19 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09DMZeSv129581;
-        Tue, 13 Oct 2020 22:43:18 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by aserp3030.oracle.com with ESMTP id 343phntsx7-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 13 Oct 2020 22:43:18 +0000
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09DMhIGo146795;
-        Tue, 13 Oct 2020 22:43:18 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3030.oracle.com with ESMTP id 343phntswf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 13 Oct 2020 22:43:18 +0000
-Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09DMhFrt005717;
-        Tue, 13 Oct 2020 22:43:16 GMT
-Received: from ca-mkp.ca.oracle.com (/10.156.108.201)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 13 Oct 2020 15:43:15 -0700
-From:   "Martin K. Petersen" <martin.petersen@oracle.com>
-To:     linux-spi@vger.kernel.org, Julia Lawall <Julia.Lawall@inria.fr>
-Cc:     "Martin K . Petersen" <martin.petersen@oracle.com>,
-        linux-kernel@vger.kernel.org, linux-pci@vger.kernel.org,
-        dmaengine@vger.kernel.org, kernel-janitors@vger.kernel.org,
-        linux-media@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-wireless@vger.kernel.org,
-        netdev@vger.kernel.org, Dan Williams <dan.j.williams@intel.com>,
-        linux-serial@vger.kernel.org, linux-nfs@vger.kernel.org,
-        linux-scsi@vger.kernel.org, Yossi Leybovich <sleybo@amazon.com>,
-        linux-block@vger.kernel.org, rds-devel@oss.oracle.com
-Subject: Re: [PATCH 00/14] drop double zeroing
-Date:   Tue, 13 Oct 2020 18:42:52 -0400
-Message-Id: <160262862433.3018.13907233755506910409.b4-ty@oracle.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <1600601186-7420-1-git-send-email-Julia.Lawall@inria.fr>
-References: <1600601186-7420-1-git-send-email-Julia.Lawall@inria.fr>
+        Tue, 13 Oct 2020 22:10:26 -0400
+X-UUID: cae3ee856f8d4f67afb6a69bdf03ac7e-20201014
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=4Q2q9B+1WXxYA2muWdcDjPj8VFCNwkYxZxmEFcRvFfE=;
+        b=SDuzqB+sPWPu5KW0krE+LjpZ8qu6LuTn4udK1Ac+Z/hihj7AHkq3Qow2q7OjKW707IWdOYjRy3xLkzZHUaI15QCEezfeS/XyjVY5mFthJzlR/5ybepgJb99rz6VjHD5rYwasTUJQGe3GMNk3AjeEi37eCzhSPPWvwSHNuwulmm0=;
+X-UUID: cae3ee856f8d4f67afb6a69bdf03ac7e-20201014
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1051578871; Wed, 14 Oct 2020 10:10:19 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31DR.mediatek.inc
+ (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Wed, 14 Oct
+ 2020 10:10:18 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Wed, 14 Oct 2020 10:10:18 +0800
+Message-ID: <1602641418.4733.80.camel@mhfsdcap03>
+Subject: Re: [PATCH v15 1/2] media: dt-bindings: media: i2c: Document
+ OV02A10 bindings
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+CC:     <mchehab@kernel.org>, <andriy.shevchenko@linux.intel.com>,
+        <robh+dt@kernel.org>, <mark.rutland@arm.com>,
+        <drinkcat@chromium.org>, <tfiga@chromium.org>,
+        <matthias.bgg@gmail.com>, <bingbu.cao@intel.com>,
+        <srv_heupstream@mediatek.com>,
+        <linux-mediatek@lists.infradead.org>,
+        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
+        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>,
+        <dongchun.zhu@mediatek.com>
+Date:   Wed, 14 Oct 2020 10:10:18 +0800
+In-Reply-To: <20201013161938.GE13341@paasikivi.fi.intel.com>
+References: <20201013130503.2412-1-dongchun.zhu@mediatek.com>
+         <20201013130503.2412-2-dongchun.zhu@mediatek.com>
+         <20201013161938.GE13341@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 8bit
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9773 signatures=668681
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 mlxscore=0
- malwarescore=0 phishscore=0 suspectscore=0 impostorscore=0 clxscore=1011
- spamscore=0 priorityscore=1501 bulkscore=0 adultscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010130158
+X-TM-SNTS-SMTP: FB1C224051110C1485A7323D0EF350AE1767638B0BFB10FB6D89B887DDD8727B2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, 20 Sep 2020 13:26:12 +0200, Julia Lawall wrote:
+SGVsbG8gU2FrYXJpLA0KDQpUaGFua3MgZm9yIHlvdXIgdGltZWx5IHJldmlldy4NCg0KT24gVHVl
+LCAyMDIwLTEwLTEzIGF0IDE5OjE5ICswMzAwLCBTYWthcmkgQWlsdXMgd3JvdGU6DQo+IEhpIERv
+bmdjaHVuLA0KPiANCj4gT24gVHVlLCBPY3QgMTMsIDIwMjAgYXQgMDk6MDU6MDJQTSArMDgwMCwg
+RG9uZ2NodW4gWmh1IHdyb3RlOg0KPiA+IEFkZCBZQU1MIGRldmljZSB0cmVlIGJpbmRpbmcgZm9y
+IE9WMDJBMTAgQ01PUyBpbWFnZSBzZW5zb3IsIGFuZCB0aGUNCj4gPiByZWxldmFudCBNQUlOVEFJ
+TkVSUyBlbnRyaWVzLg0KPiA+IA0KPiA+IFNpZ25lZC1vZmYtYnk6IERvbmdjaHVuIFpodSA8ZG9u
+Z2NodW4uemh1QG1lZGlhdGVrLmNvbT4NCj4gPiAtLS0NCj4gPiAgLi4uL2JpbmRpbmdzL21lZGlh
+L2kyYy9vdnRpLG92MDJhMTAueWFtbCAgICAgICAgICAgfCAxNjIgKysrKysrKysrKysrKysrKysr
+KysrDQo+ID4gIE1BSU5UQUlORVJTICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAgICAg
+ICAgIHwgICA3ICsNCj4gPiAgMiBmaWxlcyBjaGFuZ2VkLCAxNjkgaW5zZXJ0aW9ucygrKQ0KPiA+
+ICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21l
+ZGlhL2kyYy9vdnRpLG92MDJhMTAueWFtbA0KPiA+IA0KDQpbc25pcF0uLi4NCg0KPiA+ICsgIG92
+dGksbWlwaS1jbG9jay12b2x0YWdlOg0KPiA+ICsgICAgZGVzY3JpcHRpb246DQo+ID4gKyAgICAg
+IEFuIGFycmF5IG9mIDItdHVwbGVzIGl0ZW1zLCBhbmQgZWFjaCBpdGVtIGNvbnNpc3RzIG9mIGxp
+bmsgZnJlcXVlbmN5IGFuZA0KPiA+ICsgICAgICBNSVBJIGNsb2NrIHZvbHRhZ2UgdW5pdCBsaWtl
+IDxmcmVxLWtIeiB2b2x0LXVuaXQ+LiBDbG9jayB2b2x0YWdlIHVuaXQgaXMNCj4gPiArICAgICAg
+ZGVwZW5kZW50IHVwb24gbGluayBzcGVlZCwgaW5kaWNhdGluZyBNSVBJIHRyYW5zbWlzc2lvbiBz
+cGVlZCBzZWxlY3QgdGhhdA0KPiA+ICsgICAgICBjb250cm9scyBELVBIWSB0aW1pbmcgc2V0dGlu
+ZyBieSBhZGp1c3RpbmcgTUlQSSBjbG9jayB2b2x0YWdlIHRvIGltcHJvdmUNCj4gPiArICAgICAg
+dGhlIGNsb2NrIGRyaXZlciBjYXBhYmlsaXR5Lg0KPiA+ICsgICAgJHJlZjogIi9zY2hlbWFzL3R5
+cGVzLnlhbWwjL2RlZmluaXRpb25zL3VpbnQzMi1hcnJheSINCj4gPiArICAgIG1pbkl0ZW1zOiAy
+DQo+ID4gKyAgICBkZWZhdWx0OiBbMzkwMDAwLCA0XQ0KPiANCj4gV2h5IGRvIHlvdSBoYXZlIHRo
+ZSBsaW5rIGZyZXF1ZW5jeSBoZXJlIGFzIHdlbGw/DQo+IA0KPiBJbiBwcmluY2lwbGUgdGhpcyBk
+b2VzIGJlbG9uZyB0byB0aGUgZW5kcG9pbnQgYXMgbGluayBmcmVxdWVuY2llcyBhcmUNCj4gc3Bl
+Y2lmaWMgdG8gdGhhdCwgYnV0IEkgZG9uJ3QgbWluZDsgdGhlcmUncyBqdXN0IGEgc2luZ2xlIHBv
+cnQgYW55d2F5Lg0KPiANCg0KVGhpcyBpcyBhbiBvcHRpb25hbCBwcm9wZXJ0eSB3aGljaCB3ZSBt
+b2RlbCBhcyBhbiBhcnJheSBvZiA8bGluayBzcGVlZCwNCmNsb2NrIHZvbHRhZ2U+IHBhaXJzLiBB
+biBleGFtcGxlIHRvIGhhdmUgYWxsIGxpbmsgc3BlZWRzIHVwIHRvIDM5ME1Ieg0KdXNlIHRoZSB2
+YWx1ZSA0IGZvciBjdXJyZW50IGRyaXZlci4gSWYgb25lIHdhbnRzIHRvIHNlbGVjdCBkaWZmZXJl
+bnQNCnZvbHRhZ2UgZm9yIGRpZmZlcmVudCBsaW5rLCB0aGV5IGNvdWxkIGRvIHNvIGFzIHdlbGwu
+DQoNCg==
 
-> sg_init_table zeroes its first argument, so the allocation of that argument
-> doesn't have to.
-
-Applied to 5.10/scsi-queue, thanks!
-
-[02/14] scsi: target: rd: Drop double zeroing
-        https://git.kernel.org/mkp/scsi/c/4b217e015b75
-
--- 
-Martin K. Petersen	Oracle Linux Engineering
