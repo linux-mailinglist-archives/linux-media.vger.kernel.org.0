@@ -2,425 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9FD2D28F9CE
-	for <lists+linux-media@lfdr.de>; Thu, 15 Oct 2020 21:58:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6AEA028F9DD
+	for <lists+linux-media@lfdr.de>; Thu, 15 Oct 2020 22:00:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392022AbgJOT6J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Oct 2020 15:58:09 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51850 "EHLO
+        id S2392062AbgJOUAr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Oct 2020 16:00:47 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52270 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392015AbgJOT6J (ORCPT
+        with ESMTP id S2392040AbgJOUAr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Oct 2020 15:58:09 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14BE6C061755;
-        Thu, 15 Oct 2020 12:58:09 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 80AE91F45DE1
-From:   Helen Koike <helen.koike@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
-        helen.koike@collabora.com, hverkuil@xs4all.nl,
-        kernel@collabora.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        tfiga@chromium.org, linux-kernel@vger.kernel.org
-Subject: [PATCH] media: staging: rkisp1: cap: refactor enable/disable stream to allow multistreaming
-Date:   Thu, 15 Oct 2020 16:57:46 -0300
-Message-Id: <20201015195746.264722-1-helen.koike@collabora.com>
-X-Mailer: git-send-email 2.28.0
+        Thu, 15 Oct 2020 16:00:47 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CECDBC061755;
+        Thu, 15 Oct 2020 13:00:46 -0700 (PDT)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0345556;
+        Thu, 15 Oct 2020 22:00:42 +0200 (CEST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1602792043;
+        bh=izH9H8iQTzC30m7jO8b83gxSPSpkQpnsFsc295p+2gQ=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=LaslllP2tLXqaertoBfp3WntC4heYm1W8By273rWKlQkyrZxzDO5A8Kq5JGEZJPkC
+         dLC8pDPWJ9zZVgQ7GLL+6udaihaWK97uCTDO/xlyyAXwrCaF4pYJV5o4cyEqKnAYND
+         99Nwzj4XVtPwjm98ZVEpQTtD6sHw8z+Acbc6ljec=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH v2 4/7] media: i2c: max9286: Make channel amplitude
+ programmable
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+References: <20201015182710.54795-1-jacopo+renesas@jmondi.org>
+ <20201015182710.54795-5-jacopo+renesas@jmondi.org>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <c9506b37-2831-bdd9-fbf4-8b8fb53a6f87@ideasonboard.com>
+Date:   Thu, 15 Oct 2020 21:00:38 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201015182710.54795-5-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Allow streaming from self picture path and main picture path at the same
-time.
+Hi Jacopo,
 
-Take care for s_stream() callbacks to not be called twice.
-When starting a stream, s_stream(true) shouldn't be called for the isp
-and the sensor if the other stream is already enabled (since it was
-already called).
-When stopping a stream, s_stream(false) shouldn't be called for isp and
-the sensor if the other stream is still enabled.
+On 15/10/2020 19:27, Jacopo Mondi wrote:
+> Instrument the function that configures the reverse channel with a
+> programmable amplitude value.
+> 
+> This change serves to prepare to adjust the reverse channel amplitude
+> depending on the remote end high-threshold configuration.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>  drivers/media/i2c/max9286.c | 22 ++++++++++++++++------
+>  1 file changed, 16 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 89a7248f5c25..163e102199e3 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -906,19 +906,29 @@ static void max9286_v4l2_unregister(struct max9286_priv *priv)
+>   * Probe/Remove
+>   */
+>  
+> -static void max9286_reverse_channel_setup(struct max9286_priv *priv)
+> +static void max9286_reverse_channel_setup(struct max9286_priv *priv,
+> +					  unsigned int chan_amplitude)
+>  {
+> +	/* Reverse channel transmission time: default to 1. */
+> +	u8 chan_config = MAX9286_REV_TRF(1);
+> +
+>  	/*
+>  	 * Reverse channel setup.
+>  	 *
+>  	 * - Enable custom reverse channel configuration (through register 0x3f)
+>  	 *   and set the first pulse length to 35 clock cycles.
+> -	 * - Increase the reverse channel amplitude to 170mV to accommodate the
+> -	 *   high threshold enabled by the serializer driver.
+> +	 * - Adjust reverse channel amplitude: values > 130 are programmed
+> +	 *   using the additional +100mV REV_AMP_X boost flag
+>  	 */
+>  	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
+> -	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
+> -		      MAX9286_REV_AMP_X);
+> +
 
-Remove the callback function scheme for navigating through the topology,
-simplifying the code, improving readability, while calling
-media_pipeline_{start,stop}() in the right order.
+Should we also clamp to min/max values at all?
+Probably not needed, as it's only an internal helper.
 
-Remove multistreaming item from the TODO list.
 
-Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> +	if (chan_amplitude > 100) {
+> +		/* It is not possible express values (100 < x < 130) */
 
----
-Hello,
+'possible to express'
 
-Since we didn't reach an agreement on the helpers in the core[1], I'm
-sending this patch to fix this limitation only for rkisp1.
+> +		chan_amplitude = chan_amplitude < 130
+> +			       ? 30 : chan_amplitude - 100;
 
-[1] https://patchwork.linuxtv.org/project/linux-media/cover/20200415013044.1778572-1-helen.koike@collabora.com/
+We could round < 115 to 100, and >= 115 to 130, but that's probably more
+effort that it's worth, so I think this is fine.
 
-If we decide to add the helpers in the future, we can clean up drivers
-even more, but I don't want to block this feature.
+I think it's really helpful to codify this parameter though:
 
-Overview of the patch:
-======================
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 
-* Rename rkisp1_stream_{start,stop}() to
-  rkisp1_cap_stream_{enable,disable}() to clarify the difference between
-  other stream enable/disable functions
-
-* Implement rkisp1_pipeline_stream_{enable,disable}() to replace
-  rkisp1_pipeline_{enable,disable}_cb() and rkisp1_pipeline_sink_walk(),
-  which were removed.
-
-* Call rkisp1_cap_stream_{enable,disable}() from
-  rkisp1_pipeline_stream_{enable,disable}() for better
-  unwind handling and function name semantics.
-
-* Call media_pipeline_{start,stop}() in the right order.
-
-* Remove item from TODO list (I also reviewed the use of the
-  is_streaming var in the code and lgtm).
-
-This patch was tested on rockpi4 board with:
-============================================
-
-"media-ctl" "-d" "platform:rkisp1" "-r"
-"media-ctl" "-d" "platform:rkisp1" "-l" "'imx219 4-0010':0 -> 'rkisp1_isp':0 [1]"
-"media-ctl" "-d" "platform:rkisp1" "-l" "'rkisp1_isp':2 -> 'rkisp1_resizer_selfpath':0 [1]"
-"media-ctl" "-d" "platform:rkisp1" "-l" "'rkisp1_isp':2 -> 'rkisp1_resizer_mainpath':0 [1]"
-
-"media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"imx219 4-0010":0 [fmt:SRGGB10_1X10/1640x1232]'
-
-"media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_isp":0 [fmt:SRGGB10_1X10/1640x1232 crop: (0,0)/1600x1200]'
-"media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_isp":2 [fmt:YUYV8_2X8/1600x1200 crop: (0,0)/1500x1100]'
-
-"media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_selfpath":0 [fmt:YUYV8_2X8/1500x1100 crop: (300,400)/1400x1000]'
-"media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_selfpath":1 [fmt:YUYV8_2X8/900x800]'
-
-"v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_selfpath" "-v" "width=900,height=800,"
-"v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_selfpath" "-v" "pixelformat=422P"
-
-"media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_mainpath":0 [fmt:YUYV8_2X8/1500x1100 crop: (300,400)/1400x1000]'
-"media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_mainpath":1 [fmt:YUYV8_2X8/900x800]'
-
-"v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_mainpath" "-v" "width=900,height=800,"
-"v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_mainpath" "-v" "pixelformat=422P"
-
-sleep 1
-
-time v4l2-ctl "-z" "platform:rkisp1" "-d" "rkisp1_mainpath" "--stream-mmap" "--stream-count" "100" &
-time v4l2-ctl "-z" "platform:rkisp1" "-d" "rkisp1_selfpath" "--stream-mmap" "--stream-count" "100" &
-
-wait
-echo "Completed"
-
-Thanks
-Helen
----
- drivers/staging/media/rkisp1/TODO             |   3 -
- drivers/staging/media/rkisp1/rkisp1-capture.c | 227 +++++++++---------
- 2 files changed, 113 insertions(+), 117 deletions(-)
-
-diff --git a/drivers/staging/media/rkisp1/TODO b/drivers/staging/media/rkisp1/TODO
-index e7c8398fc2cef..a2dd0ad951c25 100644
---- a/drivers/staging/media/rkisp1/TODO
-+++ b/drivers/staging/media/rkisp1/TODO
-@@ -1,9 +1,6 @@
- * Fix pad format size for statistics and parameters entities.
- * Fix checkpatch errors.
- * Add uapi docs. Remember to add documentation of how quantization is handled.
--* streaming paths (mainpath and selfpath) check if the other path is streaming
--in several places of the code, review this, specially that it doesn't seem it
--supports streaming from both paths at the same time.
- 
- NOTES:
- * All v4l2-compliance test must pass.
-diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
-index b6f497ce3e95c..254936873c6c1 100644
---- a/drivers/staging/media/rkisp1/rkisp1-capture.c
-+++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
-@@ -830,71 +830,43 @@ static void rkisp1_return_all_buffers(struct rkisp1_capture *cap,
- }
- 
- /*
-- * rkisp1_pipeline_sink_walk - Walk through the pipeline and call cb
-- * @from: entity at which to start pipeline walk
-- * @until: entity at which to stop pipeline walk
-- *
-- * Walk the entities chain starting at the pipeline video node and stop
-- * all subdevices in the chain.
-- *
-- * If the until argument isn't NULL, stop the pipeline walk when reaching the
-- * until entity. This is used to disable a partially started pipeline due to a
-- * subdev start error.
-+ * Most of registers inside rockchip ISP1 have shadow register since
-+ * they must be not be changed during processing a frame.
-+ * Usually, each sub-module updates its shadow register after
-+ * processing the last pixel of a frame.
-  */
--static int rkisp1_pipeline_sink_walk(struct media_entity *from,
--				     struct media_entity *until,
--				     int (*cb)(struct media_entity *from,
--					       struct media_entity *curr))
-+static void rkisp1_cap_stream_enable(struct rkisp1_capture *cap)
- {
--	struct media_entity *entity = from;
--	struct media_pad *pad;
--	unsigned int i;
--	int ret;
--
--	while (1) {
--		pad = NULL;
--		/* Find remote source pad */
--		for (i = 0; i < entity->num_pads; i++) {
--			struct media_pad *spad = &entity->pads[i];
--
--			if (!(spad->flags & MEDIA_PAD_FL_SINK))
--				continue;
--			pad = media_entity_remote_pad(spad);
--			if (pad && is_media_entity_v4l2_subdev(pad->entity))
--				break;
--		}
--		if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
--			break;
-+	struct rkisp1_device *rkisp1 = cap->rkisp1;
-+	struct rkisp1_capture *other = &rkisp1->capture_devs[cap->id ^ 1];
- 
--		entity = pad->entity;
--		if (entity == until)
--			break;
-+	cap->ops->set_data_path(cap);
-+	cap->ops->config(cap);
- 
--		ret = cb(from, entity);
--		if (ret)
--			return ret;
-+	/* Setup a buffer for the next frame */
-+	spin_lock_irq(&cap->buf.lock);
-+	rkisp1_set_next_buf(cap);
-+	cap->ops->enable(cap);
-+	/* It's safe to config ACTIVE and SHADOW regs for the
-+	 * first stream. While when the second is starting, do NOT
-+	 * force update because it also update the first one.
-+	 *
-+	 * The latter case would drop one more buf(that is 2) since
-+	 * there's not buf in shadow when the second FE received. This's
-+	 * also required because the second FE maybe corrupt especially
-+	 * when run at 120fps.
-+	 */
-+	if (!other->is_streaming) {
-+		/* force cfg update */
-+		rkisp1_write(rkisp1,
-+			     RKISP1_CIF_MI_INIT_SOFT_UPD, RKISP1_CIF_MI_INIT);
-+		rkisp1_set_next_buf(cap);
- 	}
--
--	return 0;
--}
--
--static int rkisp1_pipeline_disable_cb(struct media_entity *from,
--				      struct media_entity *curr)
--{
--	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(curr);
--
--	return v4l2_subdev_call(sd, video, s_stream, false);
--}
--
--static int rkisp1_pipeline_enable_cb(struct media_entity *from,
--				     struct media_entity *curr)
--{
--	struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(curr);
--
--	return v4l2_subdev_call(sd, video, s_stream, true);
-+	spin_unlock_irq(&cap->buf.lock);
-+	cap->is_streaming = true;
- }
- 
--static void rkisp1_stream_stop(struct rkisp1_capture *cap)
-+static void rkisp1_cap_stream_disable(struct rkisp1_capture *cap)
- {
- 	int ret;
- 
-@@ -911,6 +883,81 @@ static void rkisp1_stream_stop(struct rkisp1_capture *cap)
- 	}
- }
- 
-+/*
-+ * rkisp1_pipeline_stream_disable - disable nodes in the pipeline
-+ *
-+ * Call s_stream(false) in the reverse order from
-+ * rkisp1_pipeline_stream_enable() and disable the DMA engine.
-+ * Should be called before media_pipeline_stop()
-+ */
-+static void rkisp1_pipeline_stream_disable(struct rkisp1_capture *cap)
-+	__must_hold(&cap->rkisp1->stream_lock)
-+{
-+	struct rkisp1_device *rkisp1 = cap->rkisp1;
-+
-+	rkisp1_cap_stream_disable(cap);
-+
-+	/*
-+	 * If the other capture is streaming, isp and sensor nodes shouldn't
-+	 * be disabled, skip them.
-+	 */
-+	if (rkisp1->pipe.streaming_count < 2) {
-+		v4l2_subdev_call(rkisp1->active_sensor->sd, video, s_stream,
-+				 false);
-+		v4l2_subdev_call(&rkisp1->isp.sd, video, s_stream, false);
-+	}
-+
-+	v4l2_subdev_call(&rkisp1->resizer_devs[cap->id].sd, video, s_stream,
-+			 false);
-+}
-+
-+/*
-+ * rkisp1_pipeline_stream_enable - enable nodes in the pipeline
-+ *
-+ * Enable the DMA Engine and call s_stream(true) through the pipeline.
-+ * Should be called after media_pipeline_start()
-+ */
-+static int rkisp1_pipeline_stream_enable(struct rkisp1_capture *cap)
-+	__must_hold(&cap->rkisp1->stream_lock)
-+{
-+	struct rkisp1_device *rkisp1 = cap->rkisp1;
-+	int ret;
-+
-+	rkisp1_cap_stream_enable(cap);
-+
-+	ret = v4l2_subdev_call(&rkisp1->resizer_devs[cap->id].sd, video,
-+			       s_stream, true);
-+	if (ret)
-+		return ret;
-+
-+	/*
-+	 * If the other capture is streaming, isp and sensor nodes are already
-+	 * enabled, skip them.
-+	 */
-+	if (rkisp1->pipe.streaming_count > 1)
-+		return 0;
-+
-+	ret = v4l2_subdev_call(&rkisp1->isp.sd, video, s_stream, true);
-+	if (ret)
-+		goto err_disable_rsz;
-+
-+	ret = v4l2_subdev_call(rkisp1->active_sensor->sd, video, s_stream,
-+			       true);
-+	if (ret)
-+		goto err_disable_isp;
-+
-+	return 0;
-+
-+err_disable_isp:
-+	v4l2_subdev_call(&rkisp1->isp.sd, video, s_stream, false);
-+err_disable_rsz:
-+	v4l2_subdev_call(&rkisp1->resizer_devs[cap->id].sd, video, s_stream,
-+			 false);
-+	rkisp1_cap_stream_disable(cap);
-+
-+	return ret;
-+}
-+
- static void rkisp1_vb2_stop_streaming(struct vb2_queue *queue)
- {
- 	struct rkisp1_capture *cap = queue->drv_priv;
-@@ -920,13 +967,8 @@ static void rkisp1_vb2_stop_streaming(struct vb2_queue *queue)
- 
- 	mutex_lock(&cap->rkisp1->stream_lock);
- 
--	rkisp1_stream_stop(cap);
-+	rkisp1_pipeline_stream_disable(cap);
- 	media_pipeline_stop(&node->vdev.entity);
--	ret = rkisp1_pipeline_sink_walk(&node->vdev.entity, NULL,
--					rkisp1_pipeline_disable_cb);
--	if (ret)
--		dev_err(rkisp1->dev,
--			"pipeline stream-off failed error:%d\n", ret);
- 
- 	rkisp1_return_all_buffers(cap, VB2_BUF_STATE_ERROR);
- 
-@@ -940,43 +982,6 @@ static void rkisp1_vb2_stop_streaming(struct vb2_queue *queue)
- 	mutex_unlock(&cap->rkisp1->stream_lock);
- }
- 
--/*
-- * Most of registers inside rockchip ISP1 have shadow register since
-- * they must be not be changed during processing a frame.
-- * Usually, each sub-module updates its shadow register after
-- * processing the last pixel of a frame.
-- */
--static void rkisp1_stream_start(struct rkisp1_capture *cap)
--{
--	struct rkisp1_device *rkisp1 = cap->rkisp1;
--	struct rkisp1_capture *other = &rkisp1->capture_devs[cap->id ^ 1];
--
--	cap->ops->set_data_path(cap);
--	cap->ops->config(cap);
--
--	/* Setup a buffer for the next frame */
--	spin_lock_irq(&cap->buf.lock);
--	rkisp1_set_next_buf(cap);
--	cap->ops->enable(cap);
--	/* It's safe to config ACTIVE and SHADOW regs for the
--	 * first stream. While when the second is starting, do NOT
--	 * force update because it also update the first one.
--	 *
--	 * The latter case would drop one more buf(that is 2) since
--	 * there's not buf in shadow when the second FE received. This's
--	 * also required because the second FE maybe corrupt especially
--	 * when run at 120fps.
--	 */
--	if (!other->is_streaming) {
--		/* force cfg update */
--		rkisp1_write(rkisp1,
--			     RKISP1_CIF_MI_INIT_SOFT_UPD, RKISP1_CIF_MI_INIT);
--		rkisp1_set_next_buf(cap);
--	}
--	spin_unlock_irq(&cap->buf.lock);
--	cap->is_streaming = true;
--}
--
- static int
- rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
- {
-@@ -1001,28 +1006,22 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
- 		goto err_pipe_pm_put;
- 	}
- 
--	rkisp1_stream_start(cap);
--
--	/* start sub-devices */
--	ret = rkisp1_pipeline_sink_walk(entity, NULL,
--					rkisp1_pipeline_enable_cb);
--	if (ret)
--		goto err_stop_stream;
--
- 	ret = media_pipeline_start(entity, &cap->rkisp1->pipe);
- 	if (ret) {
- 		dev_err(cap->rkisp1->dev, "start pipeline failed %d\n", ret);
--		goto err_pipe_disable;
-+		goto err_v4l2_pm_put;
- 	}
-+	ret = rkisp1_pipeline_stream_enable(cap);
-+	if (ret)
-+		goto err_media_pipeline_stop;
- 
- 	mutex_unlock(&cap->rkisp1->stream_lock);
- 
- 	return 0;
- 
--err_pipe_disable:
--	rkisp1_pipeline_sink_walk(entity, NULL, rkisp1_pipeline_disable_cb);
--err_stop_stream:
--	rkisp1_stream_stop(cap);
-+err_media_pipeline_stop:
-+	media_pipeline_stop(entity);
-+err_v4l2_pm_put:
- 	v4l2_pipeline_pm_put(entity);
- err_pipe_pm_put:
- 	pm_runtime_put(cap->rkisp1->dev);
--- 
-2.28.0
+> +		chan_config |= MAX9286_REV_AMP_X;
+> +	}
+> +	max9286_write(priv, 0x3b, chan_config | MAX9286_REV_AMP(chan_amplitude));
+>  	usleep_range(2000, 2500);
+>  }
+>  
+> @@ -957,7 +967,7 @@ static int max9286_setup(struct max9286_priv *priv)
+>  	 * only. This should be disabled after the mux is initialised.
+>  	 */
+>  	max9286_configure_i2c(priv, true);
+> -	max9286_reverse_channel_setup(priv);
+> +	max9286_reverse_channel_setup(priv, 170);
+>  
+>  	/*
+>  	 * Enable GMSL links, mask unused ones and autodetect link
+> 
 
