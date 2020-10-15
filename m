@@ -2,226 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F95628F327
-	for <lists+linux-media@lfdr.de>; Thu, 15 Oct 2020 15:26:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id ADCE728F5D6
+	for <lists+linux-media@lfdr.de>; Thu, 15 Oct 2020 17:29:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729009AbgJON0I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 15 Oct 2020 09:26:08 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:53249 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728216AbgJON0I (ORCPT
+        id S2389713AbgJOP3S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 15 Oct 2020 11:29:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38322 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388549AbgJOP3R (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 15 Oct 2020 09:26:08 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id E19F820011;
-        Thu, 15 Oct 2020 13:26:02 +0000 (UTC)
-Date:   Thu, 15 Oct 2020 17:25:46 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Rui Miguel Silva <rmfrfs@gmail.com>
-Cc:     Rob Herring <robh+dt@kernel.org>, sakari.ailus@linux.intel.com,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] dt-bindings: imx7-csi: convert bindings to yaml
-Message-ID: <20201015152546.s5fvuxklgludyv2u@uno.localdomain>
-References: <20201014142759.726823-1-rmfrfs@gmail.com>
- <20201014142759.726823-3-rmfrfs@gmail.com>
+        Thu, 15 Oct 2020 11:29:17 -0400
+Received: from mail-oo1-xc41.google.com (mail-oo1-xc41.google.com [IPv6:2607:f8b0:4864:20::c41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FFC8C0613D3
+        for <linux-media@vger.kernel.org>; Thu, 15 Oct 2020 08:29:17 -0700 (PDT)
+Received: by mail-oo1-xc41.google.com with SMTP id o20so816994ook.1
+        for <linux-media@vger.kernel.org>; Thu, 15 Oct 2020 08:29:17 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=LJwfZvZzZbL3U3dsefi4j72Jm0TppMPnsxaVcVl6iT0=;
+        b=jiwyZuJU82zqfM3xXQZkNpewO6fCkqA7igabDZ79l9dEml7MlNt9/W6KspOKdTFMBv
+         l0ZZKLNyCyInH/bWkyXoNA3+A+JhbIMgDBR1thG0QOHKB4hsUrxgAlsNauv981ymHMte
+         aG33qVap5atzCP8H/NRFqSDXso79lnD2nYDfc=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=LJwfZvZzZbL3U3dsefi4j72Jm0TppMPnsxaVcVl6iT0=;
+        b=Mx24w8Bleuldx8g9rw8Lu7TQRpkS1kk3K6uLAiswzDlw4aPvq/q06vauFe7ZybI/U1
+         IRVC2eF0nMecH6UW/y1NH0OeqB1oE6ut4339KfWJFWy3+N4Y3P6HH/52TrhnF1EteLl/
+         kBR0vTMS9LJUx/Vlpirfha7xO4GTi2KC+uyaDK04Yx+aFwBw7L+LXlppERPDumd5yaVl
+         SqP/bNt/icmsBqGpiZ73nYB7sfCiL3bU54M2mNar81/F3v5a6YrbOzIND0eFf41/SXu9
+         B0t9/WSymym9nIyKMuwmA5CZR3+DWNkWNGw+XjAbTzwVjrks6fcDLfZF5DGSDj0FmBL5
+         kXTA==
+X-Gm-Message-State: AOAM5322wJO1a0vG1/G1slBq4R4IoJ6OkRVdy0b7jzZLoQHLB/Lm9q9Y
+        10bOPXrEP1hgP1DGMP2eLPiNZ8oW0JFoSYBF5RNyaQ==
+X-Google-Smtp-Source: ABdhPJwHGqKFcBCVEj4Z9lD8mpPIRoQJxs6gS7mqbJLVOqKjzGL3o2Yivo5QSuS7JTOQT9EJ/KzY1r55eHOicMya4wY=
+X-Received: by 2002:a4a:e1d7:: with SMTP id n23mr2788554oot.85.1602775756786;
+ Thu, 15 Oct 2020 08:29:16 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201014142759.726823-3-rmfrfs@gmail.com>
+References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
+ <20201009075934.3509076-15-daniel.vetter@ffwll.ch> <20201009123109.GO5177@ziepe.ca>
+ <CAKMK7uFpPP-Q0jC0vM7vYPEcg0m4NzTw+Ld=swdTF3BgMX5Qug@mail.gmail.com>
+ <20201009143209.GS5177@ziepe.ca> <CAPcyv4j54O8ac6WB3LEeNud2r11V26gA0PRKK9bhyEMF67AXtQ@mail.gmail.com>
+ <20201015000939.GD6763@ziepe.ca>
+In-Reply-To: <20201015000939.GD6763@ziepe.ca>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Thu, 15 Oct 2020 17:29:05 +0200
+Message-ID: <CAKMK7uGeVzbe3=FR=a5MEfzDsrog6D4+Bkiaj8FrVeOLu3-9Mw@mail.gmail.com>
+Subject: Re: [PATCH v2 14/17] resource: Move devmem revoke code to resource framework
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     Dan Williams <dan.j.williams@intel.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Arnd Bergmann <arnd@arndb.de>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        David Hildenbrand <david@redhat.com>,
+        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rui,
-
-On Wed, Oct 14, 2020 at 03:27:58PM +0100, Rui Miguel Silva wrote:
-> Convert imx7-csi bindings documentation to yaml schema, remove the
-> textual bindings document and update MAINTAINERS entry.
+On Thu, Oct 15, 2020 at 2:09 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
 >
-> Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> ---
->  .../devicetree/bindings/media/imx7-csi.txt    | 42 ----------
->  .../bindings/media/nxp,imx7-csi.yaml          | 84 +++++++++++++++++++
->  MAINTAINERS                                   |  2 +-
->  3 files changed, 85 insertions(+), 43 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/imx7-csi.txt
->  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> On Fri, Oct 09, 2020 at 11:28:54AM -0700, Dan Williams wrote:
+> > On Fri, Oct 9, 2020 at 7:32 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > >
+> > > On Fri, Oct 09, 2020 at 04:24:45PM +0200, Daniel Vetter wrote:
+> > > > On Fri, Oct 9, 2020 at 2:31 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > > > >
+> > > > > On Fri, Oct 09, 2020 at 09:59:31AM +0200, Daniel Vetter wrote:
+> > > > >
+> > > > > > +struct address_space *iomem_get_mapping(void)
+> > > > > > +{
+> > > > > > +     return iomem_inode->i_mapping;
+> > > > >
+> > > > > This should pair an acquire with the release below
+> > > > >
+> > > > > > +     /*
+> > > > > > +      * Publish /dev/mem initialized.
+> > > > > > +      * Pairs with smp_load_acquire() in revoke_iomem().
+> > > > > > +      */
+> > > > > > +     smp_store_release(&iomem_inode, inode);
+> > > > >
+> > > > > However, this seems abnormal, initcalls rarely do this kind of stuff
+> > > > > with global data..
+> > > > >
+> > > > > The kernel crashes if this fs_initcall is raced with
+> > > > > iomem_get_mapping() due to the unconditional dereference, so I think
+> > > > > it can be safely switched to a simple assignment.
+> > > >
+> > > > Ah yes I checked this all, but forgot to correctly annotate the
+> > > > iomem_get_mapping access. For reference, see b34e7e298d7a ("/dev/mem:
+> > > > Add missing memory barriers for devmem_inode").
+> > >
+> > > Oh yikes, so revoke_iomem can run concurrently during early boot,
+> > > tricky.
+> >
+> > It runs early because request_mem_region() can run before fs_initcall.
+> > Rather than add an unnecessary lock just arrange for the revoke to be
+> > skipped before the inode is initialized. The expectation is that any
+> > early resource reservations will block future userspace mapping
+> > attempts.
 >
-> diff --git a/Documentation/devicetree/bindings/media/imx7-csi.txt b/Documentation/devicetree/bindings/media/imx7-csi.txt
-> deleted file mode 100644
-> index d80ceefa0c00..000000000000
-> --- a/Documentation/devicetree/bindings/media/imx7-csi.txt
-> +++ /dev/null
-> @@ -1,42 +0,0 @@
-> -Freescale i.MX7 CMOS Sensor Interface
-> -=====================================
-> -
-> -csi node
-> ---------
-> -
-> -This is device node for the CMOS Sensor Interface (CSI) which enables the chip
-> -to connect directly to external CMOS image sensors.
-> -
-> -Required properties:
-> -
-> -- compatible    : "fsl,imx7-csi" or "fsl,imx6ul-csi";
-> -- reg           : base address and length of the register set for the device;
-> -- interrupts    : should contain CSI interrupt;
-> -- clocks        : list of clock specifiers, see
-> -        Documentation/devicetree/bindings/clock/clock-bindings.txt for details;
-> -- clock-names   : must contain "mclk";
-> -
-> -The device node shall contain one 'port' child node with one child 'endpoint'
-> -node, according to the bindings defined in:
-> -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> -
-> -In the following example a remote endpoint is a video multiplexer.
-> -
-> -example:
-> -
-> -                csi: csi@30710000 {
-> -                        #address-cells = <1>;
-> -                        #size-cells = <0>;
-> -
-> -                        compatible = "fsl,imx7-csi";
-> -                        reg = <0x30710000 0x10000>;
-> -                        interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> -                        clocks = <&clks IMX7D_CSI_MCLK_ROOT_CLK>;
-> -                        clock-names = "mclk";
-> -
-> -                        port {
-> -                                csi_from_csi_mux: endpoint {
-> -                                        remote-endpoint = <&csi_mux_to_csi>;
-> -                                };
-> -                        };
-> -                };
-> diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> new file mode 100644
-> index 000000000000..9fe064dd5ba3
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> @@ -0,0 +1,84 @@
-> +# SPDX-License-Identifier: GPL-2.0
+> Actually, on this point a simple WRITE_ONCE/READ_ONCE pairing is OK,
+> Paul once explained that the pointer chase on the READ_ONCE side is
+> required to be like an acquire - this is why rcu_dereference is just
+> READ_ONCE
 
-Shouldn't bindings be dual licensed ?
-
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/nxp,imx7-csi.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: i.MX7 CMOS Sensor Interface
-> +
-> +maintainers:
-> +  - Rui Miguel Silva <rmfrfs@gmail.com>
-> +
-> +description: |
-> +  This is device node for the CMOS Sensor Interface (CSI) which enables the
-> +  chip to connect directly to external CMOS image sensors.
-
-Pretty cryptic, not your fault as it was there already. Is NXP using
-CSI as a name but it's not really MIPI CSI-2 ? This seems to be a
-bridge, right ?
-
-> +
-> +properties:
-> +  compatible:
-> +    enum:
-> +      - fsl,imx7-csi
-> +      - fsl,imx6ul-csi
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    items:
-> +      - const: mclk
-> +
-> +  port:
-> +    type: object
-> +    additionalProperties: false
-> +    description:
-> +      A node containing input port nodes with endpoint definitions as documented
-> +      in Documentation/devicetree/bindings/media/video-interfaces.txt
-> +
-> +    properties:
-> +      endpoint:
-> +        type: object
-> +        additionalProperties: false
-> +
-> +        properties:
-> +          remote-endpoint: true
-> +
-> +        required:
-> +          - remote-endpoint
-> +
-> +    required:
-> +      - endpoint
-
-As per the comment on ov2680, this last part can be removed
-
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - port
-> +
-> +unevaluatedProperties: false
-
-additionalProperties: false ?
-
-This apart
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
-Thanks
-  j
-
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/clock/imx7d-clock.h>
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/interrupt-controller/irq.h>
-> +
-> +    csi: csi@30710000 {
-> +            compatible = "fsl,imx7-csi";
-> +            reg = <0x30710000 0x10000>;
-> +            interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> +            clocks = <&clks IMX7D_CSI_MCLK_ROOT_CLK>;
-> +            clock-names = "mclk";
-> +
-> +            port {
-> +                    csi_from_csi_mux: endpoint {
-> +                            remote-endpoint = <&csi_mux_to_csi>;
-> +                    };
-> +            };
-> +    };
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 926dcdc4794c..b7f7f14cd85b 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -10773,8 +10773,8 @@ L:	linux-media@vger.kernel.org
->  S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
->  F:	Documentation/admin-guide/media/imx7.rst
-> -F:	Documentation/devicetree/bindings/media/imx7-csi.txt
->  F:	Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
-> +F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
->  F:	drivers/staging/media/imx/imx7-media-csi.c
->  F:	drivers/staging/media/imx/imx7-mipi-csis.c
->
-> --
-> 2.28.0
->
+Hm so WRITE_ONCE doesn't have any barriers, and we'd need that for
+updating the pointer. That would leave things rather inconsistent, so
+I think I'll just leave it as-is for symmetry reasons. None of this
+code matters for performance anyway, so micro-optimizing barriers
+seems a bit silly.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
