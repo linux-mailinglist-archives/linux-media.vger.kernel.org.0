@@ -2,228 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E5D52906BE
-	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 16:01:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C4162906CB
+	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 16:07:37 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408468AbgJPOBL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Oct 2020 10:01:11 -0400
-Received: from relay5-d.mail.gandi.net ([217.70.183.197]:59543 "EHLO
-        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408349AbgJPOBL (ORCPT
+        id S2408564AbgJPOHg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Oct 2020 10:07:36 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:44813 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406133AbgJPOHg (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Oct 2020 10:01:11 -0400
+        Fri, 16 Oct 2020 10:07:36 -0400
 X-Originating-IP: 93.34.118.233
 Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 9C1451C000E;
-        Fri, 16 Oct 2020 14:01:06 +0000 (UTC)
-Date:   Fri, 16 Oct 2020 18:00:51 +0200
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id 5424D240047;
+        Fri, 16 Oct 2020 14:07:33 +0000 (UTC)
+Date:   Fri, 16 Oct 2020 18:07:18 +0200
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 4/5] rcar-vin: Break out hardware start and stop to new
- methods
-Message-ID: <20201016160051.kpioe54xi2cenfvg@uno.localdomain>
+Subject: Re: [PATCH 5/5] rcar-vin: Add support for suspend and resume
+Message-ID: <20201016160718.klbkccgcbnpoi7bq@uno.localdomain>
 References: <20201015231408.2399933-1-niklas.soderlund+renesas@ragnatech.se>
- <20201015231408.2399933-5-niklas.soderlund+renesas@ragnatech.se>
+ <20201015231408.2399933-6-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201015231408.2399933-5-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20201015231408.2399933-6-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Niklas,
 
-On Fri, Oct 16, 2020 at 01:14:07AM +0200, Niklas Söderlund wrote:
-> To support suspend and resume the ability to start and stop the hardware
-> needs to be available internally in the driver. Currently this code is
-> in the start and stop callbacks of the vb2_ops struct. In these
-> callbacks the code is intertwined with buffer allocation and freeing.
+On Fri, Oct 16, 2020 at 01:14:08AM +0200, Niklas Söderlund wrote:
+> Add support for suspend and resume by stopping and starting the video
+> pipeline while still retaining all buffers given to the driver by
+> user-space and internally allocated ones, this gives the application a
+> seamless experience.
 >
-> Prepare for suspend and resume support by braking out the hardware
+> Buffers are never returned to user-space unprocessed so user-space don't
+> notice when suspending. When resuming the driver restarts the capture
+> session using the internal scratch buffer, this happens before
+> user-space is unfrozen, this leads to speedy response times once the
+> application resumes its execution.
+>
+> As the entire pipeline is stopped on suspend all subdevices in use are
+> also stopped, and if they enter a shutdown state when not streaming
+> (such as the R-Car CSI-2 driver) they too will be suspended and resumed
+> in sync with the VIN driver.
+>
+> To be able to do keep track of which VINs should be resumed a new
 
-breaking
+s/to do/to/
 
-> start/stop code into new methods.
+> internal state SUSPENDED is added to recode this.
 >
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-
-I very much like this, it really simplifies the code
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-
-Thanks
-   j
-
 > ---
->  drivers/media/platform/rcar-vin/rcar-dma.c | 78 +++++++++++++---------
->  drivers/media/platform/rcar-vin/rcar-vin.h |  3 +
->  2 files changed, 48 insertions(+), 33 deletions(-)
+>  drivers/media/platform/rcar-vin/rcar-core.c | 51 +++++++++++++++++++++
+>  drivers/media/platform/rcar-vin/rcar-vin.h  | 10 ++--
+>  2 files changed, 57 insertions(+), 4 deletions(-)
 >
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index f65deac4c2dbed54..5a5f0e5007478c8d 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -1050,16 +1050,20 @@ static irqreturn_t rvin_irq(int irq, void *data)
->  	return IRQ_RETVAL(handled);
->  }
->
-> -/* Need to hold qlock before calling */
->  static void return_unused_buffers(struct rvin_dev *vin,
->  				  enum vb2_buffer_state state)
->  {
->  	struct rvin_buffer *buf, *node;
-> +	unsigned long flags;
-> +
-> +	spin_lock_irqsave(&vin->qlock, flags);
->
->  	list_for_each_entry_safe(buf, node, &vin->buf_list, list) {
->  		vb2_buffer_done(&buf->vb.vb2_buf, state);
->  		list_del(&buf->list);
->  	}
-> +
-> +	spin_unlock_irqrestore(&vin->qlock, flags);
->  }
->
->  static int rvin_queue_setup(struct vb2_queue *vq, unsigned int *nbuffers,
-> @@ -1243,53 +1247,55 @@ static int rvin_set_stream(struct rvin_dev *vin, int on)
+> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> index 34d003e0e9b9c25a..4adf4ce518f79c93 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> @@ -918,6 +918,54 @@ static int rvin_mc_init(struct rvin_dev *vin)
 >  	return ret;
 >  }
 >
-> -static int rvin_start_streaming(struct vb2_queue *vq, unsigned int count)
-> +int rvin_start_streaming(struct rvin_dev *vin)
->  {
-> -	struct rvin_dev *vin = vb2_get_drv_priv(vq);
->  	unsigned long flags;
->  	int ret;
->
-> -	/* Allocate scratch buffer. */
-> -	vin->scratch = dma_alloc_coherent(vin->dev, vin->format.sizeimage,
-> -					  &vin->scratch_phys, GFP_KERNEL);
-> -	if (!vin->scratch) {
-> -		spin_lock_irqsave(&vin->qlock, flags);
-> -		return_unused_buffers(vin, VB2_BUF_STATE_QUEUED);
-> -		spin_unlock_irqrestore(&vin->qlock, flags);
-> -		vin_err(vin, "Failed to allocate scratch buffer\n");
-> -		return -ENOMEM;
-> -	}
-> -
->  	ret = rvin_set_stream(vin, 1);
-> -	if (ret) {
-> -		spin_lock_irqsave(&vin->qlock, flags);
-> -		return_unused_buffers(vin, VB2_BUF_STATE_QUEUED);
-> -		spin_unlock_irqrestore(&vin->qlock, flags);
-> -		goto out;
-> -	}
-> +	if (ret)
-> +		return ret;
->
->  	spin_lock_irqsave(&vin->qlock, flags);
->
->  	vin->sequence = 0;
->
->  	ret = rvin_capture_start(vin);
-> -	if (ret) {
-> -		return_unused_buffers(vin, VB2_BUF_STATE_QUEUED);
-> +	if (ret)
->  		rvin_set_stream(vin, 0);
-> -	}
->
->  	spin_unlock_irqrestore(&vin->qlock, flags);
-> -out:
-> -	if (ret)
-> -		dma_free_coherent(vin->dev, vin->format.sizeimage, vin->scratch,
-> -				  vin->scratch_phys);
->
->  	return ret;
->  }
->
-> -static void rvin_stop_streaming(struct vb2_queue *vq)
-> +static int rvin_start_streaming_vq(struct vb2_queue *vq, unsigned int count)
->  {
->  	struct rvin_dev *vin = vb2_get_drv_priv(vq);
-> +	int ret = -ENOMEM;
+> +/* -----------------------------------------------------------------------------
+> + * Suspend / Resume
+> + */
 > +
-> +	/* Allocate scratch buffer. */
-> +	vin->scratch = dma_alloc_coherent(vin->dev, vin->format.sizeimage,
-> +					  &vin->scratch_phys, GFP_KERNEL);
-> +	if (!vin->scratch)
-> +		goto err_scratch;
-> +
-> +	ret = rvin_start_streaming(vin);
-> +	if (ret)
-> +		goto err_start;
-> +
-> +	return 0;
-> +err_start:
-> +	dma_free_coherent(vin->dev, vin->format.sizeimage, vin->scratch,
-> +			  vin->scratch_phys);
-> +err_scratch:
-> +	return_unused_buffers(vin, VB2_BUF_STATE_QUEUED);
-> +
-> +	return ret;
-> +}
-> +
-> +void rvin_stop_streaming(struct rvin_dev *vin)
+> +static int __maybe_unused rvin_suspend(struct device *dev)
 > +{
->  	unsigned int i, retries;
->  	unsigned long flags;
->  	bool buffersFreed;
-> @@ -1341,27 +1347,33 @@ static void rvin_stop_streaming(struct vb2_queue *vq)
->  		vin->state = STOPPED;
->  	}
->
-> -	/* Return all unused buffers. */
-> -	return_unused_buffers(vin, VB2_BUF_STATE_ERROR);
-> -
->  	spin_unlock_irqrestore(&vin->qlock, flags);
->
->  	rvin_set_stream(vin, 0);
->
->  	/* disable interrupts */
->  	rvin_disable_interrupts(vin);
-> +}
+> +	struct rvin_dev *vin = dev_get_drvdata(dev);
 > +
-> +static void rvin_stop_streaming_vq(struct vb2_queue *vq)
-> +{
-> +	struct rvin_dev *vin = vb2_get_drv_priv(vq);
+> +	if (vin->state != RUNNING)
+> +		return 0;
 > +
 > +	rvin_stop_streaming(vin);
->
->  	/* Free scratch buffer. */
->  	dma_free_coherent(vin->dev, vin->format.sizeimage, vin->scratch,
->  			  vin->scratch_phys);
+
+This delay suspend untill all the userspace queued buffers are not
+completed, right ?
+
 > +
-> +	return_unused_buffers(vin, VB2_BUF_STATE_ERROR);
+> +	vin->state = SUSPENDED;
+> +
+> +	return 0;
+> +}
+> +
+> +static int __maybe_unused rvin_resume(struct device *dev)
+> +{
+> +	struct rvin_dev *vin = dev_get_drvdata(dev);
+> +
+> +	if (vin->state != SUSPENDED)
+> +		return 0;
+> +
+> +	/*
+> +	 * Restore group master CHSEL setting.
+> +	 *
+> +	 * This needs to be by every VIN resuming not only the master
+> +	 * as we don't know if and in which order the master VINs will
+> +	 * be resumed.
+> +	 */
+> +	if (vin->info->use_mc) {
+> +		unsigned int master_id = rvin_group_id_to_master(vin->id);
+> +		struct rvin_dev *master = vin->group->vin[master_id];
+> +		int ret;
+> +
+> +		if (WARN_ON(!master))
+> +			return -ENODEV;
+> +
+> +		ret = rvin_set_channel_routing(master, master->chsel);
+> +		if (ret)
+> +			return ret;
+> +	}
+> +
+> +	return rvin_start_streaming(vin);
+> +}
+> +
+>  /* -----------------------------------------------------------------------------
+>   * Platform Device Driver
+>   */
+> @@ -1421,9 +1469,12 @@ static int rcar_vin_remove(struct platform_device *pdev)
+>  	return 0;
 >  }
 >
->  static const struct vb2_ops rvin_qops = {
->  	.queue_setup		= rvin_queue_setup,
->  	.buf_prepare		= rvin_buffer_prepare,
->  	.buf_queue		= rvin_buffer_queue,
-> -	.start_streaming	= rvin_start_streaming,
-> -	.stop_streaming		= rvin_stop_streaming,
-> +	.start_streaming	= rvin_start_streaming_vq,
-> +	.stop_streaming		= rvin_stop_streaming_vq,
->  	.wait_prepare		= vb2_ops_wait_prepare,
->  	.wait_finish		= vb2_ops_wait_finish,
->  };
+> +static SIMPLE_DEV_PM_OPS(rvin_pm_ops, rvin_suspend, rvin_resume);
+> +
+>  static struct platform_driver rcar_vin_driver = {
+>  	.driver = {
+>  		.name = "rcar-vin",
+> +		.pm = &rvin_pm_ops,
+>  		.of_match_table = rvin_of_id_table,
+>  	},
+>  	.probe = rcar_vin_probe,
 > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-> index 2fef23470e3ddfe3..4ec8584709c847a9 100644
+> index 4ec8584709c847a9..4539bd53d9d41e9c 100644
 > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
 > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-> @@ -299,4 +299,7 @@ void rvin_crop_scale_comp(struct rvin_dev *vin);
->  int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel);
->  void rvin_set_alpha(struct rvin_dev *vin, unsigned int alpha);
+> @@ -49,16 +49,18 @@ enum rvin_csi_id {
+>  };
 >
-> +int rvin_start_streaming(struct rvin_dev *vin);
-> +void rvin_stop_streaming(struct rvin_dev *vin);
-> +
->  #endif
+>  /**
+> - * STOPPED  - No operation in progress
+> - * STARTING - Capture starting up
+> - * RUNNING  - Operation in progress have buffers
+> - * STOPPING - Stopping operation
+> + * STOPPED   - No operation in progress
+> + * STARTING  - Capture starting up
+> + * RUNNING   - Operation in progress have buffers
+> + * STOPPING  - Stopping operation
+> + * SUSPENDED - Capture is suspended
+>   */
+>  enum rvin_dma_state {
+>  	STOPPED = 0,
+>  	STARTING,
+>  	RUNNING,
+>  	STOPPING,
+> +	SUSPENDED,
+>  };
+>
+>  /**
 > --
 > 2.28.0
 >
