@@ -2,206 +2,133 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0766290A50
-	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 19:10:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 1C1A1290A87
+	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 19:21:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436523AbgJPRK0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Oct 2020 13:10:26 -0400
-Received: from mga04.intel.com ([192.55.52.120]:32276 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2410953AbgJPRK0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Oct 2020 13:10:26 -0400
-IronPort-SDR: vUKuH5DjWIUKt/SgqoBtAu0RZ+JN2Vt+yOMXQHNMYfXY/HwyHGiOcuVZupdqEb+lSpNeVRKdcw
- D0rVcfXm48fQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9776"; a="164025139"
-X-IronPort-AV: E=Sophos;i="5.77,383,1596524400"; 
-   d="scan'208";a="164025139"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Oct 2020 10:10:26 -0700
-IronPort-SDR: xDYao2ZbWPnp0pXTHYLyfmuOoBJZ3rlFSnMvkDQ7BuHFiN2eVKhU3RoMSSQNMqcjncupy6gtg5
- /+aLedHyYrpA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,383,1596524400"; 
-   d="scan'208";a="319509670"
-Received: from lkp-server02.sh.intel.com (HELO 262a2cdd3070) ([10.239.97.151])
-  by orsmga006.jf.intel.com with ESMTP; 16 Oct 2020 10:10:25 -0700
-Received: from kbuild by 262a2cdd3070 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kTTFI-000053-8B; Fri, 16 Oct 2020 17:10:24 +0000
-Date:   Sat, 17 Oct 2020 01:09:59 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-next] BUILD SUCCESS
- f4a45be35c346c3a6c0faa51559e984b19b16e3f
-Message-ID: <5f89d3e7.75GHJd8hRVbGfFHh%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S2390836AbgJPRVf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Oct 2020 13:21:35 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:41532 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390433AbgJPRVd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Oct 2020 13:21:33 -0400
+Received: by mail-ot1-f65.google.com with SMTP id n15so3062940otl.8;
+        Fri, 16 Oct 2020 10:21:32 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=cuu3XyjKtEmeq+Akh/2IqEbAQRGMvswQSSuIN5iYFL8=;
+        b=Nz0iteIVo7NmHLqE7B3Zz5W5Uvs4qxX5jfMo3BhPpQX5f5KifGvuSFQW8zPYdRdTHt
+         t0QOlMnphHawQrs8+zTv4eDKvJrGl6gf1YgvFHmynx2oFMvMl83unYFbBGss+xMx/+Jl
+         DK9n4WgIXYNgi0xUtinV0+FQkEZEiNZH5C3S+lEgcoG0l1ttGz/JLgyW3elKaBT/LQW6
+         Sm9PSZ4X758I890XmQS5OWXG8aIAcOVFYd45yRxldTZFFtl+WmaEY0RtoIJdyQ4t0+42
+         MkMiVAKPpuQBpHEHBsZAtI/dPWe6N8bv+pVz8KR0gewU2UwfDn1Vy/c/QKlUKVnIkNQu
+         rTyg==
+X-Gm-Message-State: AOAM532mn5cVgJHj6RE5OtsqOfAt8G9wy9P58yF166xk6Md3Epb+tmJp
+        cXi4Tuuol+6C+EfIgBL+Ow==
+X-Google-Smtp-Source: ABdhPJxp6hO1e2GFF+46cRfsByTXMzBlFBNBzxrIs7A5OIEpQioC0M9ZdrZj4e5mZiyAKdN2X7X3Fg==
+X-Received: by 2002:a9d:73c6:: with SMTP id m6mr3381977otk.105.1602868891876;
+        Fri, 16 Oct 2020 10:21:31 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id c18sm1226145oib.34.2020.10.16.10.21.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 10:21:31 -0700 (PDT)
+Received: (nullmailer pid 1602664 invoked by uid 1000);
+        Fri, 16 Oct 2020 17:21:29 -0000
+Date:   Fri, 16 Oct 2020 12:21:29 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Mark Rutland <mark.rutland@arm.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Cao Bing Bu <bingbu.cao@intel.com>,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
+        Sj Huang <sj.huang@mediatek.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-devicetree <devicetree@vger.kernel.org>,
+        Louis Kuo <louis.kuo@mediatek.com>,
+        Shengnan Wang =?utf-8?B?KOeOi+Wco+eUtyk=?= 
+        <shengnan.wang@mediatek.com>
+Subject: Re: [PATCH v15 1/2] media: dt-bindings: media: i2c: Document OV02A10
+ bindings
+Message-ID: <20201016172129.GA1598042@bogus>
+References: <20201013130503.2412-1-dongchun.zhu@mediatek.com>
+ <20201013130503.2412-2-dongchun.zhu@mediatek.com>
+ <20201013161938.GE13341@paasikivi.fi.intel.com>
+ <1602641418.4733.80.camel@mhfsdcap03>
+ <20201014083139.GG13341@paasikivi.fi.intel.com>
+ <CAAFQd5BVzN=49s4S98E9mGNuxzOt4633dAw9mbyu3Sr-rA61qw@mail.gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+In-Reply-To: <CAAFQd5BVzN=49s4S98E9mGNuxzOt4633dAw9mbyu3Sr-rA61qw@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-next
-branch HEAD: f4a45be35c346c3a6c0faa51559e984b19b16e3f  PM / devfreq: remove a duplicated kernel-doc markup
+On Wed, Oct 14, 2020 at 01:48:00PM +0200, Tomasz Figa wrote:
+> On Wed, Oct 14, 2020 at 10:31 AM Sakari Ailus
+> <sakari.ailus@linux.intel.com> wrote:
+> >
+> > On Wed, Oct 14, 2020 at 10:10:18AM +0800, Dongchun Zhu wrote:
+> > > Hello Sakari,
+> > >
+> > > Thanks for your timely review.
+> > >
+> > > On Tue, 2020-10-13 at 19:19 +0300, Sakari Ailus wrote:
+> > > > Hi Dongchun,
+> > > >
+> > > > On Tue, Oct 13, 2020 at 09:05:02PM +0800, Dongchun Zhu wrote:
+> > > > > Add YAML device tree binding for OV02A10 CMOS image sensor, and the
+> > > > > relevant MAINTAINERS entries.
+> > > > >
+> > > > > Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
+> > > > > ---
+> > > > >  .../bindings/media/i2c/ovti,ov02a10.yaml           | 162 +++++++++++++++++++++
+> > > > >  MAINTAINERS                                        |   7 +
+> > > > >  2 files changed, 169 insertions(+)
+> > > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
+> > > > >
+> > >
+> > > [snip]...
+> > >
+> > > > > +  ovti,mipi-clock-voltage:
+> > > > > +    description:
+> > > > > +      An array of 2-tuples items, and each item consists of link frequency and
+> > > > > +      MIPI clock voltage unit like <freq-kHz volt-unit>. Clock voltage unit is
+> > > > > +      dependent upon link speed, indicating MIPI transmission speed select that
+> > > > > +      controls D-PHY timing setting by adjusting MIPI clock voltage to improve
+> > > > > +      the clock driver capability.
+> > > > > +    $ref: "/schemas/types.yaml#/definitions/uint32-array"
+> > > > > +    minItems: 2
+> > > > > +    default: [390000, 4]
+> > > >
+> > > > Why do you have the link frequency here as well?
+> > > >
+> > > > In principle this does belong to the endpoint as link frequencies are
+> > > > specific to that, but I don't mind; there's just a single port anyway.
+> > > >
+> > >
+> > > This is an optional property which we model as an array of <link speed,
+> > > clock voltage> pairs. An example to have all link speeds up to 390MHz
+> > > use the value 4 for current driver. If one wants to select different
+> > > voltage for different link, they could do so as well.
+> >
+> > If you think you'd need that, then you need to put this to the endpoint.
+> 
+> The mipi-clock-voltage property is not a property of the endpoint. The
+> link frequency there does not set the link frequency - it only
+> specifies which link frequency the given voltage should be used for.
 
-elapsed time: 2101m
+Seems to me it's in the right place.
 
-configs tested: 142
-configs skipped: 2
-
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arc                        vdk_hs38_defconfig
-sh                          polaris_defconfig
-ia64                                defconfig
-mips                            ar7_defconfig
-mips                            gpr_defconfig
-mips                         tb0287_defconfig
-sh                   sh7724_generic_defconfig
-s390                             allyesconfig
-arm                       netwinder_defconfig
-xtensa                              defconfig
-mips                            e55_defconfig
-arm                         cm_x300_defconfig
-arm                              zx_defconfig
-powerpc                 mpc8560_ads_defconfig
-powerpc                     tqm8555_defconfig
-arm                              alldefconfig
-mips                     cu1830-neo_defconfig
-sh                        sh7763rdp_defconfig
-powerpc                 mpc832x_mds_defconfig
-h8300                               defconfig
-arm                          pxa168_defconfig
-arm                  colibri_pxa300_defconfig
-arm                            xcep_defconfig
-alpha                               defconfig
-powerpc                       eiger_defconfig
-mips                           ip32_defconfig
-mips                     decstation_defconfig
-powerpc                     sbc8548_defconfig
-powerpc                       holly_defconfig
-riscv                    nommu_k210_defconfig
-mips                           ip28_defconfig
-i386                             alldefconfig
-powerpc                      pmac32_defconfig
-arm                          simpad_defconfig
-arm                            pleb_defconfig
-powerpc                mpc7448_hpc2_defconfig
-sh                     sh7710voipgw_defconfig
-powerpc                     ppa8548_defconfig
-mips                        jmr3927_defconfig
-sh                              ul2_defconfig
-mips                   sb1250_swarm_defconfig
-arc                          axs101_defconfig
-sh                           se7750_defconfig
-mips                  maltasmvp_eva_defconfig
-powerpc                  iss476-smp_defconfig
-arm                             pxa_defconfig
-arm                         bcm2835_defconfig
-parisc                              defconfig
-m68k                         amcore_defconfig
-arm                         lubbock_defconfig
-sparc                       sparc64_defconfig
-arm                      pxa255-idp_defconfig
-powerpc                 mpc836x_rdk_defconfig
-h8300                     edosk2674_defconfig
-arm                        keystone_defconfig
-powerpc                    gamecube_defconfig
-riscv                            allmodconfig
-sh                     magicpanelr2_defconfig
-powerpc                  mpc885_ads_defconfig
-powerpc                     powernv_defconfig
-sh                ecovec24-romimage_defconfig
-powerpc                      ppc6xx_defconfig
-ia64                             allmodconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a005-20201015
-i386                 randconfig-a006-20201015
-i386                 randconfig-a001-20201015
-i386                 randconfig-a003-20201015
-i386                 randconfig-a004-20201015
-i386                 randconfig-a002-20201015
-i386                 randconfig-a005-20201014
-i386                 randconfig-a006-20201014
-i386                 randconfig-a001-20201014
-i386                 randconfig-a003-20201014
-i386                 randconfig-a004-20201014
-i386                 randconfig-a002-20201014
-x86_64               randconfig-a016-20201014
-x86_64               randconfig-a012-20201014
-x86_64               randconfig-a015-20201014
-x86_64               randconfig-a013-20201014
-x86_64               randconfig-a014-20201014
-x86_64               randconfig-a011-20201014
-i386                 randconfig-a016-20201014
-i386                 randconfig-a013-20201014
-i386                 randconfig-a015-20201014
-i386                 randconfig-a011-20201014
-i386                 randconfig-a012-20201014
-i386                 randconfig-a014-20201014
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a004-20201016
-x86_64               randconfig-a002-20201016
-x86_64               randconfig-a006-20201016
-x86_64               randconfig-a001-20201016
-x86_64               randconfig-a005-20201016
-x86_64               randconfig-a003-20201016
-x86_64               randconfig-a004-20201014
-x86_64               randconfig-a002-20201014
-x86_64               randconfig-a006-20201014
-x86_64               randconfig-a001-20201014
-x86_64               randconfig-a005-20201014
-x86_64               randconfig-a003-20201014
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Rob
