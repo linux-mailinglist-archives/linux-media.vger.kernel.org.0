@@ -2,111 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C44D72903FA
-	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 13:26:38 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 36EC229040D
+	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 13:31:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406155AbgJPL0i convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 16 Oct 2020 07:26:38 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:35528 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405448AbgJPL0h (ORCPT
+        id S2406614AbgJPLbz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Oct 2020 07:31:55 -0400
+Received: from asavdk4.altibox.net ([109.247.116.15]:53482 "EHLO
+        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406599AbgJPLby (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Oct 2020 07:26:37 -0400
-Received: by mail-oi1-f195.google.com with SMTP id w141so2044661oia.2;
-        Fri, 16 Oct 2020 04:26:36 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=+tUY23Fnh3h/GUDvCPSO5j6kFLC3m6/J+eXR/e+9gis=;
-        b=OY6jTR2PEiiI3M8FICkaBN2p+/I/v/ZDzSdcY+otgYgb27/h4+dzBqE1loJ4m96n+P
-         QQK9WzCQwGuVpmigluqXIlSlg72VbPKojflugmxtBGB7dLSXSyM+lRfPYh5N3JrdwYK7
-         mobBXm2XCYWEC3X0+VuhyjDIg4FtUpGhOW4LbfVhzY6KJuw5IBzJodcIuIrOxM/D+hQ8
-         2dcZaj4qNgtSMRys9hn6gvimHTvVu0Ll8UIw7BVmlWKqefbGNxEHPYCvv0EtyNvp826n
-         4ofBkF/R5nxuL2z6DM/oKpbXX7FdBdtW385fhX80ZQikz9HzYeiJw/bFQFdgzf8Fw5Bo
-         8+8Q==
-X-Gm-Message-State: AOAM531wxxKP2K7T0tUYkiDBEKCxPesVvSA310uHGEBq/FaoC+MQLDcY
-        l+EECev/yrRONOS4hgvDkcgEMQfI98wsdY+/BSg=
-X-Google-Smtp-Source: ABdhPJzJxpTR69NUAVkUWUX3gX1LbNWNYPglOpaeIaONbhmS67DHnmzw4TpWpRKbNYJcwWDEwgLLGL+bSTDsfyNoUDk=
-X-Received: by 2002:aca:c490:: with SMTP id u138mr2109166oif.54.1602847596494;
- Fri, 16 Oct 2020 04:26:36 -0700 (PDT)
+        Fri, 16 Oct 2020 07:31:54 -0400
+Received: from ravnborg.org (unknown [188.228.123.71])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by asavdk4.altibox.net (Postfix) with ESMTPS id 786F380735;
+        Fri, 16 Oct 2020 13:31:42 +0200 (CEST)
+Date:   Fri, 16 Oct 2020 13:31:41 +0200
+From:   Sam Ravnborg <sam@ravnborg.org>
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
+        christian.koenig@amd.com, kraxel@redhat.com,
+        l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
+        christian.gmeiner@gmail.com, inki.dae@samsung.com,
+        jy0922.shim@samsung.com, sw0312.kim@samsung.com,
+        kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
+        yuq825@gmail.com, bskeggs@redhat.com, robh@kernel.org,
+        tomeu.vizoso@collabora.com, steven.price@arm.com,
+        alyssa.rosenzweig@collabora.com, hjc@rock-chips.com,
+        heiko@sntech.de, hdegoede@redhat.com, sean@poorly.run,
+        eric@anholt.net, oleksandr_andrushchenko@epam.com,
+        ray.huang@amd.com, sumit.semwal@linaro.org,
+        emil.velikov@collabora.com, luben.tuikov@amd.com, apaneers@amd.com,
+        linus.walleij@linaro.org, melissa.srw@gmail.com,
+        chris@chris-wilson.co.uk, miaoqinglang@huawei.com,
+        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        etnaviv@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
+        linux-rockchip@lists.infradead.org, xen-devel@lists.xenproject.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v4 09/10] dma-buf-map: Add memcpy and pointer-increment
+ interfaces
+Message-ID: <20201016113141.GA1125266@ravnborg.org>
+References: <20201015123806.32416-1-tzimmermann@suse.de>
+ <20201015123806.32416-10-tzimmermann@suse.de>
 MIME-Version: 1.0
-References: <20201015231408.2399933-1-niklas.soderlund+renesas@ragnatech.se>
- <CAMuHMdWnchxP=s84SArS9XWg+uZESVXbkfOXWrpbpwUqNRk91g@mail.gmail.com> <20201016104629.xy4fb23ibglwh574@oden.dyn.berto.se>
-In-Reply-To: <20201016104629.xy4fb23ibglwh574@oden.dyn.berto.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Fri, 16 Oct 2020 13:26:25 +0200
-Message-ID: <CAMuHMdW85WQ7zsdVrjuUTQ+RNsBA6fEnTajjpYp9a+rnZtwmOA@mail.gmail.com>
-Subject: Re: [PATCH 0/5] rcar-vin: Support suspend and resume
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201015123806.32416-10-tzimmermann@suse.de>
+X-CMAE-Score: 0
+X-CMAE-Analysis: v=2.3 cv=fu7ymmwf c=1 sm=1 tr=0
+        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
+        a=kj9zAlcOel0A:10 a=0A2xud3A4b7FAmx5SMIA:9 a=H9YgUdQFGw372Hqm:21
+        a=tLNtb35BjFYYr1pq:21 a=CjuIK1q_8ugA:10
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+Hi Thomas.
 
-On Fri, Oct 16, 2020 at 12:46 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2020-10-16 09:06:20 +0200, Geert Uytterhoeven wrote:
-> > On Fri, Oct 16, 2020 at 4:01 AM Niklas Söderlund
-> > <niklas.soderlund+renesas@ragnatech.se> wrote:
-> > > This series add suspend and resume support directly to R-Car VIN and
-> > > indirectly to R-Car CSI-2 and other subdevices in the VIN capture
-> > > pipeline. The capture pipeline is stopped when suspending and started
-> > > when resuming, all while retaining the buffers provided from user-space.
-> > > This makes the start and stop of the pipeline transparent from an
-> > > application point of view.
-> > >
-> > > As the pipeline is switched off subdevices that poweroff themself when
-> > > not in use (such as R-Car CSI-2) are also switched off and are
-> > > indirectly serviced by the suspend support in VIN.
-> >
-> > Thanks for your series!
-> >
-> > > This work is based on-top of the media-tree and is tested on both R-Car
-> > > Gen2 and Gen3 without any regressions.
-> >
-> > FTR: did you test on Gen3 with both s2idle and s2ram, the latter powering
-> > off the SoC?
->
-> I have only been able to test it with s2idle. My issue is that s2ram
-> fails to reconnect the Ethernet (ravb) and I use nfsroot. If I instead
-> use a initramfs I can resume from s2ram but I don't have the setup to
-> test capture in that environment.
+On Thu, Oct 15, 2020 at 02:38:05PM +0200, Thomas Zimmermann wrote:
+> To do framebuffer updates, one needs memcpy from system memory and a
+> pointer-increment function. Add both interfaces with documentation.
+> 
+> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> ---
+>  include/linux/dma-buf-map.h | 72 +++++++++++++++++++++++++++++++------
+>  1 file changed, 62 insertions(+), 10 deletions(-)
+> 
+> diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
+> index 2e8bbecb5091..6ca0f304dda2 100644
+> --- a/include/linux/dma-buf-map.h
+> +++ b/include/linux/dma-buf-map.h
+> @@ -32,6 +32,14 @@
+>   * accessing the buffer. Use the returned instance and the helper functions
+>   * to access the buffer's memory in the correct way.
+>   *
+> + * The type :c:type:`struct dma_buf_map <dma_buf_map>` and its helpers are
+> + * actually independent from the dma-buf infrastructure. When sharing buffers
+> + * among devices, drivers have to know the location of the memory to access
+> + * the buffers in a safe way. :c:type:`struct dma_buf_map <dma_buf_map>`
+> + * solves this problem for dma-buf and its users. If other drivers or
+> + * sub-systems require similar functionality, the type could be generalized
+> + * and moved to a more prominent header file.
+> + *
+>   * Open-coding access to :c:type:`struct dma_buf_map <dma_buf_map>` is
+>   * considered bad style. Rather then accessing its fields directly, use one
+>   * of the provided helper functions, or implement your own. For example,
+> @@ -51,6 +59,14 @@
+>   *
+>   *	dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);
+>   *
+> + * Instances of struct dma_buf_map do not have to be cleaned up, but
+> + * can be cleared to NULL with dma_buf_map_clear(). Cleared mappings
+> + * always refer to system memory.
+> + *
+> + * .. code-block:: c
+> + *
+> + *	dma_buf_map_clear(&map);
+> + *
+>   * Test if a mapping is valid with either dma_buf_map_is_set() or
+>   * dma_buf_map_is_null().
+>   *
+> @@ -73,17 +89,19 @@
+>   *	if (dma_buf_map_is_equal(&sys_map, &io_map))
+>   *		// always false
+>   *
+> - * Instances of struct dma_buf_map do not have to be cleaned up, but
+> - * can be cleared to NULL with dma_buf_map_clear(). Cleared mappings
+> - * always refer to system memory.
+> + * A set up instance of struct dma_buf_map can be used to access or manipulate
+> + * the buffer memory. Depending on the location of the memory, the provided
+> + * helpers will pick the correct operations. Data can be copied into the memory
+> + * with dma_buf_map_memcpy_to(). The address can be manipulated with
+> + * dma_buf_map_incr().
+>   *
+> - * The type :c:type:`struct dma_buf_map <dma_buf_map>` and its helpers are
+> - * actually independent from the dma-buf infrastructure. When sharing buffers
+> - * among devices, drivers have to know the location of the memory to access
+> - * the buffers in a safe way. :c:type:`struct dma_buf_map <dma_buf_map>`
+> - * solves this problem for dma-buf and its users. If other drivers or
+> - * sub-systems require similar functionality, the type could be generalized
+> - * and moved to a more prominent header file.
+> + * .. code-block:: c
+> + *
+> + *	const void *src = ...; // source buffer
+> + *	size_t len = ...; // length of src
+> + *
+> + *	dma_buf_map_memcpy_to(&map, src, len);
+> + *	dma_buf_map_incr(&map, len); // go to first byte after the memcpy
+>   */
+>  
+>  /**
+> @@ -210,4 +228,38 @@ static inline void dma_buf_map_clear(struct dma_buf_map *map)
+>  	}
+>  }
+>  
+> +/**
+> + * dma_buf_map_memcpy_to - Memcpy into dma-buf mapping
+> + * @dst:	The dma-buf mapping structure
+> + * @src:	The source buffer
+> + * @len:	The number of byte in src
+> + *
+> + * Copies data into a dma-buf mapping. The source buffer is in system
+> + * memory. Depending on the buffer's location, the helper picks the correct
+> + * method of accessing the memory.
+> + */
+> +static inline void dma_buf_map_memcpy_to(struct dma_buf_map *dst, const void *src, size_t len)
+> +{
+> +	if (dst->is_iomem)
+> +		memcpy_toio(dst->vaddr_iomem, src, len);
+> +	else
+> +		memcpy(dst->vaddr, src, len);
 
->     [  347.775223] libphy: ravb_mii: probed
->     [  347.782808] mdio_bus e6800000.ethernet-ffffffff: MDIO device at address 0 is missing.
->     [  347.794508] ravb e6800000.ethernet eth0: failed to connect PHY
->     [  347.802223] PM: dpm_run_callback(): ravb_resume+0x0/0x190 returns -2
->     [  347.808739] PM: Device e6800000.ethernet failed to resume: error -2
->     [  347.929701] ata1: link resume succeeded after 1 retries
->     [  347.989934] OOM killer enabled.
->     [  347.993184] Restarting tasks ... done.
->     [  348.004321] PM: suspend exit
->     [  348.039400] ata1: SATA link down (SStatus 0 SControl 300)
->     [  529.376515] nfs: server 10.0.1.1 not responding, still trying
->     [  529.376702] nfs: server 10.0.1.1 not responding, still trying
->     [  529.385628] nfs: server 10.0.1.1 not responding, still trying
->     ** Board never reaches user-space **
->
-> Is there a known fix for this?
+sparc64 needs "#include <linux/string.h>" to build as is does not get
+this via io.h
 
-Please try cherry-picking commit 77972b55fb9d35d4 ("Revert "ravb: Fixed
-to be able to unload modules"") from v5.9.
+	Sam
 
-Gr{oetje,eeting}s,
-
-                        Geert
-
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
+> +}
+> +
+> +/**
+> + * dma_buf_map_incr - Increments the address stored in a dma-buf mapping
+> + * @map:	The dma-buf mapping structure
+> + * @incr:	The number of bytes to increment
+> + *
+> + * Increments the address stored in a dma-buf mapping. Depending on the
+> + * buffer's location, the correct value will be updated.
+> + */
+> +static inline void dma_buf_map_incr(struct dma_buf_map *map, size_t incr)
+> +{
+> +	if (map->is_iomem)
+> +		map->vaddr_iomem += incr;
+> +	else
+> +		map->vaddr += incr;
+> +}
+> +
+>  #endif /* __DMA_BUF_MAP_H__ */
+> -- 
+> 2.28.0
