@@ -2,207 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29B63290844
-	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 17:26:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D3B5290AEB
+	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 19:40:42 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2410050AbgJPP0S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Oct 2020 11:26:18 -0400
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:6801 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2410005AbgJPP0S (ORCPT
+        id S2389552AbgJPRkl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Oct 2020 13:40:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55830 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389037AbgJPRkl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Oct 2020 11:26:18 -0400
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id E63F0240010;
-        Fri, 16 Oct 2020 15:26:14 +0000 (UTC)
-Date:   Fri, 16 Oct 2020 19:26:00 +0200
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 5/5] rcar-vin: Add support for suspend and resume
-Message-ID: <20201016172600.n66gz2qmwmjjdwb3@uno.localdomain>
-References: <20201015231408.2399933-1-niklas.soderlund+renesas@ragnatech.se>
- <20201015231408.2399933-6-niklas.soderlund+renesas@ragnatech.se>
- <20201016160718.klbkccgcbnpoi7bq@uno.localdomain>
- <20201016141503.kas7h5lumwm3wmal@oden.dyn.berto.se>
+        Fri, 16 Oct 2020 13:40:41 -0400
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4AC6CC061755
+        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 10:40:41 -0700 (PDT)
+Received: by mail-pf1-x443.google.com with SMTP id a200so1884416pfa.10
+        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 10:40:41 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=Np+zW2GuhNLqLx1TqqXkHXVvHvxaPBCZz87T9F1IuLc=;
+        b=Gw8JSSMcnYhmlGUrLsR+Lt2hgWI1pKAm5DuqJYG7p3UnOHE2QKRj2Wd1/54W1HcPKK
+         edVif1RnRiCRZ01D6K7c484al0YPRNHoXKLXF6BkNFs704AD1oMWcuj4PfXsgb/fiMOd
+         Hgc8v8knCLdU2JV/Ph64/wSbRDPfW0yciyl/F5iqZct5wGRjAxg5I8dtfPigbtKAafLv
+         4aDY2EJOmtnz8jd1aFcCQ3jRBvaFEKu9FCKKr+/rRu/gPbMLCeeIvZPzJ2tgPPpgB4VZ
+         0ElNV/50s13hD+r/SsbuY1CaAzl69Uk51O5K4E60NCdW6otGTJJC0IfN8tY28GCN6ZBF
+         QuDw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=Np+zW2GuhNLqLx1TqqXkHXVvHvxaPBCZz87T9F1IuLc=;
+        b=ZmrPSKB/vha3jp/fdybh5P1bzkh69T1tkEGSJAtFMNfiBfM15/vgoyc5kVZ2V+C584
+         5DPUGyCvEXh7JoJvHpa8m5lEtkbPGOAqxJ6jDjWA8tL1Fd/TfvBtU7A0bKDFwmlDpVOB
+         FWKwu7oByhmskh4iwd2n5TEmmRJPHdRu7OrX1Rv5j6dWgJvfcsLhOy0kJ4NOeTB8xONG
+         V/SnUMM0E8fKGVWqG26q33jh2aliMm8gQC/fJlNXDgq8egml56mc9lKGzErxGMu8MxJW
+         WTkWbHucfWXJejNE2U6mm7E5uRavuRoGCpT/BeEC8AmqrxwFOJmzvQ1RoHjjdAmsppKl
+         JvZA==
+X-Gm-Message-State: AOAM532HpPZqjJLN9xOkEqTV3KiJTF3egFJ6EtipskKy7I6/euwf1t0Y
+        Fir+brsH4eWZRutsX/9Q7UM=
+X-Google-Smtp-Source: ABdhPJwLzAXMwUXObasiQgmBY6+B76hw7yeSPBhLoc7MCzAX8Xxzt2prFvwQ+AAVkiLjm/1cEImiQQ==
+X-Received: by 2002:a62:80d4:0:b029:155:3225:6fc9 with SMTP id j203-20020a6280d40000b029015532256fc9mr4797706pfd.41.1602870040858;
+        Fri, 16 Oct 2020 10:40:40 -0700 (PDT)
+Received: from ubuntu204 ([103.108.75.206])
+        by smtp.gmail.com with ESMTPSA id ls8sm3563230pjb.54.2020.10.16.10.40.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 10:40:40 -0700 (PDT)
+Date:   Fri, 16 Oct 2020 23:10:33 +0530
+From:   Deepak R Varma <mh12gx2825@gmail.com>
+To:     outreachy-kernel@googlegroups.com,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org
+Cc:     mh12gx2825@gmail.com
+Subject: [PATCH v5 1/2] staging: media: imx: remove commented code
+Message-ID: <9fd1e7dd9e8f944b520f2a789e66e458aeb7b555.1602869338.git.mh12gx2825@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201016141503.kas7h5lumwm3wmal@oden.dyn.berto.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+The virtual channel is always treated as 0 once the stream enters
+CSI's. Commented code in the "#if 0" can be safely removed as it will
+not serve any purpose in future.  Issue reported by checkpatch script.
 
-On Fri, Oct 16, 2020 at 04:15:03PM +0200, Niklas Söderlund wrote:
-> Hi Jacopo,
->
-> Thanks for your feedback.
->
-> On 2020-10-16 18:07:18 +0200, Jacopo Mondi wrote:
-> > Hi Niklas,
-> >
-> > On Fri, Oct 16, 2020 at 01:14:08AM +0200, Niklas Söderlund wrote:
-> > > Add support for suspend and resume by stopping and starting the video
-> > > pipeline while still retaining all buffers given to the driver by
-> > > user-space and internally allocated ones, this gives the application a
-> > > seamless experience.
-> > >
-> > > Buffers are never returned to user-space unprocessed so user-space don't
-> > > notice when suspending. When resuming the driver restarts the capture
-> > > session using the internal scratch buffer, this happens before
-> > > user-space is unfrozen, this leads to speedy response times once the
-> > > application resumes its execution.
-> > >
-> > > As the entire pipeline is stopped on suspend all subdevices in use are
-> > > also stopped, and if they enter a shutdown state when not streaming
-> > > (such as the R-Car CSI-2 driver) they too will be suspended and resumed
-> > > in sync with the VIN driver.
-> > >
-> > > To be able to do keep track of which VINs should be resumed a new
-> >
-> > s/to do/to/
-> >
-> > > internal state SUSPENDED is added to recode this.
-> > >
-> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > > ---
-> > >  drivers/media/platform/rcar-vin/rcar-core.c | 51 +++++++++++++++++++++
-> > >  drivers/media/platform/rcar-vin/rcar-vin.h  | 10 ++--
-> > >  2 files changed, 57 insertions(+), 4 deletions(-)
-> > >
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> > > index 34d003e0e9b9c25a..4adf4ce518f79c93 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> > > @@ -918,6 +918,54 @@ static int rvin_mc_init(struct rvin_dev *vin)
-> > >  	return ret;
-> > >  }
-> > >
-> > > +/* -----------------------------------------------------------------------------
-> > > + * Suspend / Resume
-> > > + */
-> > > +
-> > > +static int __maybe_unused rvin_suspend(struct device *dev)
-> > > +{
-> > > +	struct rvin_dev *vin = dev_get_drvdata(dev);
-> > > +
-> > > +	if (vin->state != RUNNING)
-> > > +		return 0;
-> > > +
-> > > +	rvin_stop_streaming(vin);
-> >
-> > This delay suspend untill all the userspace queued buffers are not
-> > completed, right ?
->
-> Yes it will delay suspend until all the buffers queued by user-space AND
-> have been written to one of the 3 hardware slots are completed. So the
-> worst case scenario is a delay of 3 frames to complete.
->
-> Buffers queued by an application not yet commited to a slot are not
-> waited for. Instead they are used when capture is resumed.
+Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+---
+Changes since v4:
+   - Rephrase patch description to make it exact and accurate as
+     suggested by Julia.
+   - Add linux-media to the recipient list. Suggested by Hans.
+Changes since v3:
+   - Rephrase Patch description
+   - Implement feedback from Vaishali & Helen to mention checkpatch in
+     the patch description.
+Changes since v2:
+   - None
+Changes since v1:
+   - Implement feedback from Julia to be exact with the patch description
 
-Ah right! I think exhausting the 3 filled slots it's an acceptable
-delay during suspend operation.
+ drivers/staging/media/imx/imx-media-csi.c | 7 -------
+ 1 file changed, 7 deletions(-)
 
-Please add:
-Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-which I forgot in the previous reply
+diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+index 21ebf7769696..9320e3974d86 100644
+--- a/drivers/staging/media/imx/imx-media-csi.c
++++ b/drivers/staging/media/imx/imx-media-csi.c
+@@ -1131,13 +1131,6 @@ static int csi_link_validate(struct v4l2_subdev *sd,
+ 		 * enters the CSI's however, they are treated internally
+ 		 * in the IPU as virtual channel 0.
+ 		 */
+-#if 0
+-		mutex_unlock(&priv->lock);
+-		vc_num = imx_media_find_mipi_csi2_channel(&priv->sd.entity);
+-		if (vc_num < 0)
+-			return vc_num;
+-		mutex_lock(&priv->lock);
+-#endif
+ 		ipu_csi_set_mipi_datatype(priv->csi, vc_num,
+ 					  &priv->format_mbus[CSI_SINK_PAD]);
+ 	}
+-- 
+2.25.1
 
-Thanks
-  j
-
->
-> >
-> > > +
-> > > +	vin->state = SUSPENDED;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int __maybe_unused rvin_resume(struct device *dev)
-> > > +{
-> > > +	struct rvin_dev *vin = dev_get_drvdata(dev);
-> > > +
-> > > +	if (vin->state != SUSPENDED)
-> > > +		return 0;
-> > > +
-> > > +	/*
-> > > +	 * Restore group master CHSEL setting.
-> > > +	 *
-> > > +	 * This needs to be by every VIN resuming not only the master
-> > > +	 * as we don't know if and in which order the master VINs will
-> > > +	 * be resumed.
-> > > +	 */
-> > > +	if (vin->info->use_mc) {
-> > > +		unsigned int master_id = rvin_group_id_to_master(vin->id);
-> > > +		struct rvin_dev *master = vin->group->vin[master_id];
-> > > +		int ret;
-> > > +
-> > > +		if (WARN_ON(!master))
-> > > +			return -ENODEV;
-> > > +
-> > > +		ret = rvin_set_channel_routing(master, master->chsel);
-> > > +		if (ret)
-> > > +			return ret;
-> > > +	}
-> > > +
-> > > +	return rvin_start_streaming(vin);
-> > > +}
-> > > +
-> > >  /* -----------------------------------------------------------------------------
-> > >   * Platform Device Driver
-> > >   */
-> > > @@ -1421,9 +1469,12 @@ static int rcar_vin_remove(struct platform_device *pdev)
-> > >  	return 0;
-> > >  }
-> > >
-> > > +static SIMPLE_DEV_PM_OPS(rvin_pm_ops, rvin_suspend, rvin_resume);
-> > > +
-> > >  static struct platform_driver rcar_vin_driver = {
-> > >  	.driver = {
-> > >  		.name = "rcar-vin",
-> > > +		.pm = &rvin_pm_ops,
-> > >  		.of_match_table = rvin_of_id_table,
-> > >  	},
-> > >  	.probe = rcar_vin_probe,
-> > > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-> > > index 4ec8584709c847a9..4539bd53d9d41e9c 100644
-> > > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
-> > > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-> > > @@ -49,16 +49,18 @@ enum rvin_csi_id {
-> > >  };
-> > >
-> > >  /**
-> > > - * STOPPED  - No operation in progress
-> > > - * STARTING - Capture starting up
-> > > - * RUNNING  - Operation in progress have buffers
-> > > - * STOPPING - Stopping operation
-> > > + * STOPPED   - No operation in progress
-> > > + * STARTING  - Capture starting up
-> > > + * RUNNING   - Operation in progress have buffers
-> > > + * STOPPING  - Stopping operation
-> > > + * SUSPENDED - Capture is suspended
-> > >   */
-> > >  enum rvin_dma_state {
-> > >  	STOPPED = 0,
-> > >  	STARTING,
-> > >  	RUNNING,
-> > >  	STOPPING,
-> > > +	SUSPENDED,
-> > >  };
-> > >
-> > >  /**
-> > > --
-> > > 2.28.0
-> > >
->
-> --
-> Regards,
-> Niklas Söderlund
