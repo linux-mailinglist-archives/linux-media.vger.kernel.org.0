@@ -2,484 +2,248 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D1FBF2904F1
-	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 14:19:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F67F2904FF
+	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 14:23:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407233AbgJPMTs convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 16 Oct 2020 08:19:48 -0400
-Received: from mx2.suse.de ([195.135.220.15]:56790 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2407405AbgJPMTs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Oct 2020 08:19:48 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 6C85AAFAB;
-        Fri, 16 Oct 2020 12:19:45 +0000 (UTC)
-Date:   Fri, 16 Oct 2020 14:19:42 +0200
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
-        christian.koenig@amd.com, kraxel@redhat.com,
-        l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
-        christian.gmeiner@gmail.com, inki.dae@samsung.com,
-        jy0922.shim@samsung.com, sw0312.kim@samsung.com,
-        kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
-        yuq825@gmail.com, bskeggs@redhat.com, robh@kernel.org,
-        tomeu.vizoso@collabora.com, steven.price@arm.com,
-        alyssa.rosenzweig@collabora.com, hjc@rock-chips.com,
-        heiko@sntech.de, hdegoede@redhat.com, sean@poorly.run,
-        eric@anholt.net, oleksandr_andrushchenko@epam.com,
-        ray.huang@amd.com, sumit.semwal@linaro.org,
-        emil.velikov@collabora.com, luben.tuikov@amd.com, apaneers@amd.com,
-        linus.walleij@linaro.org, melissa.srw@gmail.com,
-        chris@chris-wilson.co.uk, miaoqinglang@huawei.com,
-        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        etnaviv@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, xen-devel@lists.xenproject.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 10/10] drm/fb_helper: Support framebuffers in I/O
- memory
-Message-ID: <20201016141942.111e17f3@linux-uq9g>
-In-Reply-To: <20201016120347.GB1125266@ravnborg.org>
-References: <20201015123806.32416-1-tzimmermann@suse.de>
-        <20201015123806.32416-11-tzimmermann@suse.de>
-        <20201016120347.GB1125266@ravnborg.org>
-Organization: SUSE Software Solutions Germany GmbH
-X-Mailer: Claws Mail 3.17.7 (GTK+ 2.24.32; x86_64-suse-linux-gnu)
+        id S2407461AbgJPMXy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Oct 2020 08:23:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34760 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405286AbgJPMXx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 16 Oct 2020 08:23:53 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E01BC0613D3
+        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 05:23:52 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id c141so2615363lfg.5
+        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 05:23:52 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=zRDLEPNwn+TPPh3w8o88mOifGrfGlRt2GyjvzmXXfJI=;
+        b=kKA406UFyyg5DCAdgyk3Ng9B6jknK1Ag1tPNJVooXkJ2wuJna75UfEpynzkCSdvFNR
+         NGLdRnM9+SH5jfBK1I+TZOeFLfosArHAZqqHtJaD8SnoTpm+ZSCRl2RpicS0vgV3ZEqS
+         9k5bNRBAhJoxcj4oF0IcRYj1GrHCKDUKJ02HqXHD+WoXtSdrBCOrgcQEzt9BD3sTyVXf
+         Xu/Z+XU51dAmgagRhVq3YoDXhiMgUE21KLOktlDesZi3DnlK+CSpj+pdqTrNhhPo9XlN
+         RzmrW1rS8eDe5sAzrv7tE2DypB1mlHF+lD32aptqmK8yR61mrN3YwFRGfRWp+WEUqyQh
+         Z0Og==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=zRDLEPNwn+TPPh3w8o88mOifGrfGlRt2GyjvzmXXfJI=;
+        b=rEIofPAQYRbIFp8uIxrA+rR2IWX7MmeZMfny1netnxKkgQtltV5qXZ0gvqaKcG+r6U
+         L+4j9FDhioFHfsCpPuRd42EyrPGw8WbSNPu7ebxbXhXWsZ2aR2MtaaBt5KHz7gn5DAWj
+         J0LRD9ArUCbOxp5Oof5Tq1iZikYzkaUep4/2C58UCbKMjO88IU5Q6r8hwgAozLoWVoC0
+         kXCk5Wp9UY/m0/+NroYEYxNMwLutWRJTPftIKK26kpQqGfWoVISRDfPMNDdg2suvPT1Z
+         WWU1z17kiYs4gySUKkYyWS7PzBPNr1hiovX13uo/EmT5uvmIJNzSlv524+Q00k5hBOxC
+         SAlQ==
+X-Gm-Message-State: AOAM530Lj5Wyxen3ljSjmkH2cogJON+IaVIdRCOnEAGo6ywwAnMLUDFw
+        cqBKHZR2AyfwLk6tNzCe2cNOHQ==
+X-Google-Smtp-Source: ABdhPJwIozlt/WmV8OjO0WYspq+pZUof3DTNsICubQG7W4Fvd8pK1U/3zyWqV0i7OqUopyi7dIgdWQ==
+X-Received: by 2002:a05:6512:211:: with SMTP id a17mr1102719lfo.217.1602851030244;
+        Fri, 16 Oct 2020 05:23:50 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id c131sm775777lfg.48.2020.10.16.05.23.48
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 05:23:48 -0700 (PDT)
+Date:   Fri, 16 Oct 2020 14:23:47 +0200
+From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 0/5] rcar-vin: Support suspend and resume
+Message-ID: <20201016122347.qgnhbyvs6kmyitny@oden.dyn.berto.se>
+References: <20201015231408.2399933-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdWnchxP=s84SArS9XWg+uZESVXbkfOXWrpbpwUqNRk91g@mail.gmail.com>
+ <20201016104629.xy4fb23ibglwh574@oden.dyn.berto.se>
+ <CAMuHMdW85WQ7zsdVrjuUTQ+RNsBA6fEnTajjpYp9a+rnZtwmOA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdW85WQ7zsdVrjuUTQ+RNsBA6fEnTajjpYp9a+rnZtwmOA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi
+Hi Geert,
 
-On Fri, 16 Oct 2020 14:03:47 +0200 Sam Ravnborg <sam@ravnborg.org> wrote:
+On 2020-10-16 13:26:25 +0200, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> On Fri, Oct 16, 2020 at 12:46 PM Niklas Sˆderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > On 2020-10-16 09:06:20 +0200, Geert Uytterhoeven wrote:
+> > > On Fri, Oct 16, 2020 at 4:01 AM Niklas Sˆderlund
+> > > <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > > > This series add suspend and resume support directly to R-Car VIN and
+> > > > indirectly to R-Car CSI-2 and other subdevices in the VIN capture
+> > > > pipeline. The capture pipeline is stopped when suspending and started
+> > > > when resuming, all while retaining the buffers provided from user-space.
+> > > > This makes the start and stop of the pipeline transparent from an
+> > > > application point of view.
+> > > >
+> > > > As the pipeline is switched off subdevices that poweroff themself when
+> > > > not in use (such as R-Car CSI-2) are also switched off and are
+> > > > indirectly serviced by the suspend support in VIN.
+> > >
+> > > Thanks for your series!
+> > >
+> > > > This work is based on-top of the media-tree and is tested on both R-Car
+> > > > Gen2 and Gen3 without any regressions.
+> > >
+> > > FTR: did you test on Gen3 with both s2idle and s2ram, the latter powering
+> > > off the SoC?
+> >
+> > I have only been able to test it with s2idle. My issue is that s2ram
+> > fails to reconnect the Ethernet (ravb) and I use nfsroot. If I instead
+> > use a initramfs I can resume from s2ram but I don't have the setup to
+> > test capture in that environment.
+> 
+> >     [  347.775223] libphy: ravb_mii: probed
+> >     [  347.782808] mdio_bus e6800000.ethernet-ffffffff: MDIO device at address 0 is missing.
+> >     [  347.794508] ravb e6800000.ethernet eth0: failed to connect PHY
+> >     [  347.802223] PM: dpm_run_callback(): ravb_resume+0x0/0x190 returns -2
+> >     [  347.808739] PM: Device e6800000.ethernet failed to resume: error -2
+> >     [  347.929701] ata1: link resume succeeded after 1 retries
+> >     [  347.989934] OOM killer enabled.
+> >     [  347.993184] Restarting tasks ... done.
+> >     [  348.004321] PM: suspend exit
+> >     [  348.039400] ata1: SATA link down (SStatus 0 SControl 300)
+> >     [  529.376515] nfs: server 10.0.1.1 not responding, still trying
+> >     [  529.376702] nfs: server 10.0.1.1 not responding, still trying
+> >     [  529.385628] nfs: server 10.0.1.1 not responding, still trying
+> >     ** Board never reaches user-space **
+> >
+> > Is there a known fix for this?
+> 
+> Please try cherry-picking commit 77972b55fb9d35d4 ("Revert "ravb: Fixed
+> to be able to unload modules"") from v5.9.
 
-> Hi Thomas.
-> 
-> On Thu, Oct 15, 2020 at 02:38:06PM +0200, Thomas Zimmermann wrote:
-> > At least sparc64 requires I/O-specific access to framebuffers. This
-> > patch updates the fbdev console accordingly.
-> > 
-> > For drivers with direct access to the framebuffer memory, the callback
-> > functions in struct fb_ops test for the type of memory and call the rsp
-> > fb_sys_ of fb_cfb_ functions.
-> > 
-> > For drivers that employ a shadow buffer, fbdev's blit function retrieves
-> > the framebuffer address as struct dma_buf_map, and uses dma_buf_map
-> > interfaces to access the buffer.
-> > 
-> > The bochs driver on sparc64 uses a workaround to flag the framebuffer as
-> > I/O memory and avoid a HW exception. With the introduction of struct
-> > dma_buf_map, this is not required any longer. The patch removes the rsp
-> > code from both, bochs and fbdev.
-> > 
-> > v4:
-> > 	* move dma_buf_map changes into separate patch (Daniel)
-> > 	* TODO list: comment on fbdev updates (Daniel)
-> > 
-> > Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> 
-> The original workaround fixed it so we could run qemu with the
-> -nographic option.
-> 
-> So I went ahead and tried to run quemu version:
-> v5.0.0-1970-g0b100c8e72-dirty.
-> And with the BOCHS driver built-in.
-> 
-> With the following command line:
-> qemu-system-sparc64 -m 512 -kernel vmlinux -append console=ttyS0 -nographic
-> 
-> Behaviour was the same before and after applying this patch.
-> (panic due to VFS: Unable to mount root fs on unknown-block(0,0))
-> So I consider it fixed for real now and not just a workaround.
-> 
-> I also tested with:
-> qemu-system-sparc64 -m 512 -kernel vmlinux -append console=ttyS0 -serial
-> stdio
-> 
-> and it worked in both cases too.
+Thanks that did the trick!
 
-FTR, you booted a kernel and got graphics output. The error is simply that
-there was no disk to mount?
+Unfortunately it revealed a new problem related to capturing after a 
+s2ram, the ADV7482 does not support s2ram and when it gets reset it no 
+longer is possible to communicate to it over i2c. This in turn breaks 
+the VIN s2ram test as of course it can not resume capture if it can't 
+talk to the ADV7482.
 
-Best regards
-Thomas
+I reproduced this issue directly on top of v5.9. I'm not streaming at 
+the time of s2ram. The test is to read the video standard reported by 
+the AFE subdevice provided by the ADV7482 before and after s2ram. As 
+shown it does not respond after a s2ram but unbind/bind it forcing it to 
+reinit itself solves the issue.
+
+Test case:
+
+    # subdev=$(grep -l "adv748x 4-0070 afe" /sys/class/video4linux/*/name | sed 's#.*video4linux\(.*\)/name#/dev\1#g')
+    # v4l2-ctl --get-detected-standard -d $subdev
+    # echo N > /sys/module/printk/parameters/console_suspend
+    # echo on > /sys/bus/i2c/drivers/bd9571mwv/*/bd9571mwv-regulator*/backup_mode 
+    ** flipp SW23 off **
+    # echo mem > /sys/power/state
+    ** Waits 30+ seconds then switch SW23 on ** 
+    # subdev=$(grep -l "adv748x 4-0070 afe" /sys/class/video4linux/*/name | sed 's#.*video4linux\(.*\)/name#/dev\1#g')
+    # v4l2-ctl --get-detected-standard -d $subdev
+    # echo 4-0070 > /sys/bus/i2c/drivers/adv748x/unbind
+    # echo 4-0070 > /sys/bus/i2c/drivers/adv748x/bind
+    # subdev=$(grep -l "adv748x 4-0070 afe" /sys/class/video4linux/*/name | sed 's#.*video4linux\(.*\)/name#/dev\1#g')
+    # v4l2-ctl --get-detected-standard -d $subdev
+
+Output:
+
+    # subdev=$(grep -l "adv748x 4-0070 afe" /sys/class/video4linux/*/name | sed 's#.*video4linux\(.*\)/name#/dev\1#g')
+    # echo $subdev
+    /dev/v4l-subdev20
+    # v4l2-ctl --get-detected-standard -d $subdev
+    Video Standard = 0x000000ff
+	    PAL-B/B1/G/H/I/D/D1/K
+    # echo N > /sys/module/printk/parameters/console_suspend 
+    # echo on > /sys/bus/i2c/drivers/bd9571mwv/*/bd9571mwv-regulator*/backup_mode
+    # echo mem > /sys/power/state
+    [  477.555286] PM: suspend entry (deep)
+    [  477.560233] Filesystems sync: 0.000 seconds
+    [  477.572660] Freezing user space processes ... (elapsed 0.002 seconds) done.
+    [  477.575590] OOM killer disabled.
+    [  477.575598] Freezing remaining freezable tasks ... (elapsed 0.002 seconds) done.
+    [  477.587659] ravb e6800000.ethernet eth0: Link is Down
+    [  477.857405] Disabling non-boot CPUs ...
+    [  477.863418] CPU1: shutdown
+    [  477.866275] psci: CPU1 killed (polled 0 ms)
+    INFO:    ARM GICv2 driver initialized
+    NOTICE:  BL2: R-Car Gen3 Initial Program Loader(CA57) Rev.2.0.6
+    NOTICE:  BL2: PRR is R-Car M3N Ver.1.0
+    NOTICE:  BL2: Board is Salvator-XS Rev.1.0
+    NOTICE:  BL2: Boot device is HyperFlash(160MHz)
+    NOTICE:  BL2: LCM state is CM
+    NOTICE:  AVS setting succeeded. DVFS_SetVID=0x53
+    NOTICE:  BL2: DDR3200(rev.0.40)
+    NOTICE:  BL2: [WARM_BOOT]
+    NOTICE:  BL2: DRAM Split is OFF
+    NOTICE:  BL2: QoS is default setting(rev.0.09)
+    NOTICE:  BL2: DRAM refresh interval 1.95 usec
+    NOTICE:  BL2: Periodic Write DQ Training
+    NOTICE:  BL2: CH0: 400000000 - 47fffffff, 2 GiB
+    NOTICE:  BL2: FDT at 0xe6322508
+    NOTICE:  BL2: v2.3(release):v2.3-188-g9935047b2086faa3
+    NOTICE:  BL2: Built : 23:31:02, Jun 18 2020
+    NOTICE:  BL2: Normal boot
+    INFO:    BL2: Doing platform setup
+    [  477.872578] Enabling non-boot CPUs ...
+    [  477.876839] Detected PIPT I-cache on CPU1
+    [  477.876897] CPU1: Booted secondary processor 0x0000000001 [0x411fd073]
+    [  477.878379] CPU1 is up
+    [  478.019935] usb usb2: root hub lost power or was reset
+    [  478.025283] usb usb1: root hub lost power or was reset
+    [  478.171928] usb usb4: root hub lost power or was reset
+    [  478.178011] usb usb3: root hub lost power or was reset
+    [  478.217119] Micrel KSZ9031 Gigabit PHY e6800000.ethernet-ffffffff:00: attached PHY driver [Micrel KSZ9031 Gigabit PHY] (mii_bus:phy_addr=e6800000.ethernet-ffffffff:00, irq=197)
+    [  478.341930] ata1: link resume succeeded after 1 retries
+    [  478.403262] OOM killer enabled.
+    [  478.406730] Restarting tasks ... done.
+    [  478.417250] PM: suspend exit
+    [  478.451992] ata1: SATA link down (SStatus 0 SControl 300)
+    [  485.716683] ravb e6800000.ethernet eth0: Link is Up - 1Gbps/Full - flow control off
+    # subdev=$(grep -l "adv748x 4-0070 afe" /sys/class/video4linux/*/name | sed 's#.*video4linux\(.*\)/name#/dev\1#g')
+    # v4l2-ctl --get-detected-standard -d $subdev
+    [  502.753723] adv748x 4-0070: error reading 63, 02
+    [  502.866437] adv748x 4-0070: error reading 63, 02
+    VIDIOC_QUERYSTD: failed: No such device or address
+    # echo 4-0070 > /sys/bus/i2c/drivers/adv748x/unbind
+    # echo 4-0070 > /sys/bus/i2c/drivers/adv748x/bind
+    [  511.830105] adv748x 4-0070: Endpoint /soc/i2c@e66d8000/video-receiver@70/port@7/endpoint on port 7
+    [  511.839766] adv748x 4-0070: Endpoint /soc/i2c@e66d8000/video-receiver@70/port@8/endpoint on port 8
+    [  511.849682] adv748x 4-0070: Endpoint /soc/i2c@e66d8000/video-receiver@70/port@a/endpoint on port 10
+    [  511.859509] adv748x 4-0070: Endpoint /soc/i2c@e66d8000/video-receiver@70/port@b/endpoint on port 11
+    [  511.870845] adv748x 4-0070: chip found @ 0xe0 revision 2143
+    # subdev=$(grep -l "adv748x 4-0070 afe" /sys/class/video4linux/*/name | sed 's#.*video4linux\(.*\)/name#/dev\1#g')
+    # v4l2-ctl --get-detected-standard -d $subdev
+    Video Standard = 0x000000ff
+	    PAL-B/B1/G/H/I/D/D1/K
+    #
+
+I think this issue needs to be resolved before I can truly verify the 
+operation of this series post s2ram. Do you think this series should be 
+held until then or does it bring enough value (s2idle) while not 
+introducing any regressions? s2ram is just as broken before as after :-)
 
 > 
-> All the comments above so future-me have an easier time finding how to
-> reproduce.
+> Gr{oetje,eeting}s,
 > 
-> Tested-by: Sam Ravnborg <sam@ravnborg.org>
+>                         Geert
 > 
-> 	Sam
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 > 
-> > ---
-> >  Documentation/gpu/todo.rst        |  19 ++-
-> >  drivers/gpu/drm/bochs/bochs_kms.c |   1 -
-> >  drivers/gpu/drm/drm_fb_helper.c   | 217 ++++++++++++++++++++++++++++--
-> >  include/drm/drm_mode_config.h     |  12 --
-> >  4 files changed, 220 insertions(+), 29 deletions(-)
-> > 
-> > diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> > index 7e6fc3c04add..638b7f704339 100644
-> > --- a/Documentation/gpu/todo.rst
-> > +++ b/Documentation/gpu/todo.rst
-> > @@ -197,13 +197,28 @@ Convert drivers to use drm_fbdev_generic_setup()
-> >  ------------------------------------------------
-> >  
-> >  Most drivers can use drm_fbdev_generic_setup(). Driver have to implement
-> > -atomic modesetting and GEM vmap support. Current generic fbdev emulation
-> > -expects the framebuffer in system memory (or system-like memory).
-> > +atomic modesetting and GEM vmap support. Historically, generic fbdev
-> > emulation +expected the framebuffer in system memory or system-like
-> > memory. By employing +struct dma_buf_map, drivers with frambuffers in I/O
-> > memory can be supported +as well.
-> >  
-> >  Contact: Maintainer of the driver you plan to convert
-> >  
-> >  Level: Intermediate
-> >  
-> > +Reimplement functions in drm_fbdev_fb_ops without fbdev
-> > +-------------------------------------------------------
-> > +
-> > +A number of callback functions in drm_fbdev_fb_ops could benefit from
-> > +being rewritten without dependencies on the fbdev module. Some of the
-> > +helpers could further benefit from using struct dma_buf_map instead of
-> > +raw pointers.
-> > +
-> > +Contact: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
-> > +
-> > +Level: Advanced
-> > +
-> > +
-> >  drm_framebuffer_funcs and drm_mode_config_funcs.fb_create cleanup
-> >  -----------------------------------------------------------------
-> >  
-> > diff --git a/drivers/gpu/drm/bochs/bochs_kms.c
-> > b/drivers/gpu/drm/bochs/bochs_kms.c index 13d0d04c4457..853081d186d5
-> > 100644 --- a/drivers/gpu/drm/bochs/bochs_kms.c
-> > +++ b/drivers/gpu/drm/bochs/bochs_kms.c
-> > @@ -151,7 +151,6 @@ int bochs_kms_init(struct bochs_device *bochs)
-> >  	bochs->dev->mode_config.preferred_depth = 24;
-> >  	bochs->dev->mode_config.prefer_shadow = 0;
-> >  	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
-> > -	bochs->dev->mode_config.fbdev_use_iomem = true;
-> >  	bochs->dev->mode_config.quirk_addfb_prefer_host_byte_order =
-> > true; 
-> >  	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
-> > diff --git a/drivers/gpu/drm/drm_fb_helper.c
-> > b/drivers/gpu/drm/drm_fb_helper.c index 6212cd7cde1d..462b0c130ebb 100644
-> > --- a/drivers/gpu/drm/drm_fb_helper.c
-> > +++ b/drivers/gpu/drm/drm_fb_helper.c
-> > @@ -372,24 +372,22 @@ static void drm_fb_helper_resume_worker(struct
-> > work_struct *work) }
-> >  
-> >  static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper
-> > *fb_helper,
-> > -					  struct drm_clip_rect *clip)
-> > +					  struct drm_clip_rect *clip,
-> > +					  struct dma_buf_map *dst)
-> >  {
-> >  	struct drm_framebuffer *fb = fb_helper->fb;
-> >  	unsigned int cpp = fb->format->cpp[0];
-> >  	size_t offset = clip->y1 * fb->pitches[0] + clip->x1 * cpp;
-> >  	void *src = fb_helper->fbdev->screen_buffer + offset;
-> > -	void *dst = fb_helper->buffer->map.vaddr + offset;
-> >  	size_t len = (clip->x2 - clip->x1) * cpp;
-> >  	unsigned int y;
-> >  
-> > -	for (y = clip->y1; y < clip->y2; y++) {
-> > -		if (!fb_helper->dev->mode_config.fbdev_use_iomem)
-> > -			memcpy(dst, src, len);
-> > -		else
-> > -			memcpy_toio((void __iomem *)dst, src, len);
-> > +	dma_buf_map_incr(dst, offset); /* go to first pixel within clip
-> > rect */ 
-> > +	for (y = clip->y1; y < clip->y2; y++) {
-> > +		dma_buf_map_memcpy_to(dst, src, len);
-> > +		dma_buf_map_incr(dst, fb->pitches[0]);
-> >  		src += fb->pitches[0];
-> > -		dst += fb->pitches[0];
-> >  	}
-> >  }
-> >  
-> > @@ -417,8 +415,9 @@ static void drm_fb_helper_dirty_work(struct
-> > work_struct *work) ret = drm_client_buffer_vmap(helper->buffer, &map);
-> >  			if (ret)
-> >  				return;
-> > -			drm_fb_helper_dirty_blit_real(helper,
-> > &clip_copy);
-> > +			drm_fb_helper_dirty_blit_real(helper,
-> > &clip_copy, &map); }
-> > +
-> >  		if (helper->fb->funcs->dirty)
-> >  			helper->fb->funcs->dirty(helper->fb, NULL, 0, 0,
-> >  						 &clip_copy, 1);
-> > @@ -755,6 +754,136 @@ void drm_fb_helper_sys_imageblit(struct fb_info
-> > *info, }
-> >  EXPORT_SYMBOL(drm_fb_helper_sys_imageblit);
-> >  
-> > +static ssize_t drm_fb_helper_cfb_read(struct fb_info *info, char __user
-> > *buf,
-> > +				      size_t count, loff_t *ppos)
-> > +{
-> > +	unsigned long p = *ppos;
-> > +	u8 *dst;
-> > +	u8 __iomem *src;
-> > +	int c, err = 0;
-> > +	unsigned long total_size;
-> > +	unsigned long alloc_size;
-> > +	ssize_t ret = 0;
-> > +
-> > +	if (info->state != FBINFO_STATE_RUNNING)
-> > +		return -EPERM;
-> > +
-> > +	total_size = info->screen_size;
-> > +
-> > +	if (total_size == 0)
-> > +		total_size = info->fix.smem_len;
-> > +
-> > +	if (p >= total_size)
-> > +		return 0;
-> > +
-> > +	if (count >= total_size)
-> > +		count = total_size;
-> > +
-> > +	if (count + p > total_size)
-> > +		count = total_size - p;
-> > +
-> > +	src = (u8 __iomem *)(info->screen_base + p);
-> > +
-> > +	alloc_size = min(count, PAGE_SIZE);
-> > +
-> > +	dst = kmalloc(alloc_size, GFP_KERNEL);
-> > +	if (!dst)
-> > +		return -ENOMEM;
-> > +
-> > +	while (count) {
-> > +		c = min(count, alloc_size);
-> > +
-> > +		memcpy_fromio(dst, src, c);
-> > +		if (copy_to_user(buf, dst, c)) {
-> > +			err = -EFAULT;
-> > +			break;
-> > +		}
-> > +
-> > +		src += c;
-> > +		*ppos += c;
-> > +		buf += c;
-> > +		ret += c;
-> > +		count -= c;
-> > +	}
-> > +
-> > +	kfree(dst);
-> > +
-> > +	if (err)
-> > +		return err;
-> > +
-> > +	return ret;
-> > +}
-> > +
-> > +static ssize_t drm_fb_helper_cfb_write(struct fb_info *info, const char
-> > __user *buf,
-> > +				       size_t count, loff_t *ppos)
-> > +{
-> > +	unsigned long p = *ppos;
-> > +	u8 *src;
-> > +	u8 __iomem *dst;
-> > +	int c, err = 0;
-> > +	unsigned long total_size;
-> > +	unsigned long alloc_size;
-> > +	ssize_t ret = 0;
-> > +
-> > +	if (info->state != FBINFO_STATE_RUNNING)
-> > +		return -EPERM;
-> > +
-> > +	total_size = info->screen_size;
-> > +
-> > +	if (total_size == 0)
-> > +		total_size = info->fix.smem_len;
-> > +
-> > +	if (p > total_size)
-> > +		return -EFBIG;
-> > +
-> > +	if (count > total_size) {
-> > +		err = -EFBIG;
-> > +		count = total_size;
-> > +	}
-> > +
-> > +	if (count + p > total_size) {
-> > +		/*
-> > +		 * The framebuffer is too small. We do the
-> > +		 * copy operation, but return an error code
-> > +		 * afterwards. Taken from fbdev.
-> > +		 */
-> > +		if (!err)
-> > +			err = -ENOSPC;
-> > +		count = total_size - p;
-> > +	}
-> > +
-> > +	alloc_size = min(count, PAGE_SIZE);
-> > +
-> > +	src = kmalloc(alloc_size, GFP_KERNEL);
-> > +	if (!src)
-> > +		return -ENOMEM;
-> > +
-> > +	dst = (u8 __iomem *)(info->screen_base + p);
-> > +
-> > +	while (count) {
-> > +		c = min(count, alloc_size);
-> > +
-> > +		if (copy_from_user(src, buf, c)) {
-> > +			err = -EFAULT;
-> > +			break;
-> > +		}
-> > +		memcpy_toio(dst, src, c);
-> > +
-> > +		dst += c;
-> > +		*ppos += c;
-> > +		buf += c;
-> > +		ret += c;
-> > +		count -= c;
-> > +	}
-> > +
-> > +	kfree(src);
-> > +
-> > +	if (err)
-> > +		return err;
-> > +
-> > +	return ret;
-> > +}
-> > +
-> >  /**
-> >   * drm_fb_helper_cfb_fillrect - wrapper around cfb_fillrect
-> >   * @info: fbdev registered by the helper
-> > @@ -2027,6 +2156,66 @@ static int drm_fbdev_fb_mmap(struct fb_info *info,
-> > struct vm_area_struct *vma) return -ENODEV;
-> >  }
-> >  
-> > +static ssize_t drm_fbdev_fb_read(struct fb_info *info, char __user *buf,
-> > +				 size_t count, loff_t *ppos)
-> > +{
-> > +	struct drm_fb_helper *fb_helper = info->par;
-> > +	struct drm_client_buffer *buffer = fb_helper->buffer;
-> > +
-> > +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
-> > +		return drm_fb_helper_sys_read(info, buf, count, ppos);
-> > +	else
-> > +		return drm_fb_helper_cfb_read(info, buf, count, ppos);
-> > +}
-> > +
-> > +static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char
-> > __user *buf,
-> > +				  size_t count, loff_t *ppos)
-> > +{
-> > +	struct drm_fb_helper *fb_helper = info->par;
-> > +	struct drm_client_buffer *buffer = fb_helper->buffer;
-> > +
-> > +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
-> > +		return drm_fb_helper_sys_write(info, buf, count, ppos);
-> > +	else
-> > +		return drm_fb_helper_cfb_write(info, buf, count, ppos);
-> > +}
-> > +
-> > +static void drm_fbdev_fb_fillrect(struct fb_info *info,
-> > +				  const struct fb_fillrect *rect)
-> > +{
-> > +	struct drm_fb_helper *fb_helper = info->par;
-> > +	struct drm_client_buffer *buffer = fb_helper->buffer;
-> > +
-> > +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
-> > +		drm_fb_helper_sys_fillrect(info, rect);
-> > +	else
-> > +		drm_fb_helper_cfb_fillrect(info, rect);
-> > +}
-> > +
-> > +static void drm_fbdev_fb_copyarea(struct fb_info *info,
-> > +				  const struct fb_copyarea *area)
-> > +{
-> > +	struct drm_fb_helper *fb_helper = info->par;
-> > +	struct drm_client_buffer *buffer = fb_helper->buffer;
-> > +
-> > +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
-> > +		drm_fb_helper_sys_copyarea(info, area);
-> > +	else
-> > +		drm_fb_helper_cfb_copyarea(info, area);
-> > +}
-> > +
-> > +static void drm_fbdev_fb_imageblit(struct fb_info *info,
-> > +				   const struct fb_image *image)
-> > +{
-> > +	struct drm_fb_helper *fb_helper = info->par;
-> > +	struct drm_client_buffer *buffer = fb_helper->buffer;
-> > +
-> > +	if (drm_fbdev_use_shadow_fb(fb_helper) || !buffer->map.is_iomem)
-> > +		drm_fb_helper_sys_imageblit(info, image);
-> > +	else
-> > +		drm_fb_helper_cfb_imageblit(info, image);
-> > +}
-> > +
-> >  static const struct fb_ops drm_fbdev_fb_ops = {
-> >  	.owner		= THIS_MODULE,
-> >  	DRM_FB_HELPER_DEFAULT_OPS,
-> > @@ -2034,11 +2223,11 @@ static const struct fb_ops drm_fbdev_fb_ops = {
-> >  	.fb_release	= drm_fbdev_fb_release,
-> >  	.fb_destroy	= drm_fbdev_fb_destroy,
-> >  	.fb_mmap	= drm_fbdev_fb_mmap,
-> > -	.fb_read	= drm_fb_helper_sys_read,
-> > -	.fb_write	= drm_fb_helper_sys_write,
-> > -	.fb_fillrect	= drm_fb_helper_sys_fillrect,
-> > -	.fb_copyarea	= drm_fb_helper_sys_copyarea,
-> > -	.fb_imageblit	= drm_fb_helper_sys_imageblit,
-> > +	.fb_read	= drm_fbdev_fb_read,
-> > +	.fb_write	= drm_fbdev_fb_write,
-> > +	.fb_fillrect	= drm_fbdev_fb_fillrect,
-> > +	.fb_copyarea	= drm_fbdev_fb_copyarea,
-> > +	.fb_imageblit	= drm_fbdev_fb_imageblit,
-> >  };
-> >  
-> >  static struct fb_deferred_io drm_fbdev_defio = {
-> > diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> > index 5ffbb4ed5b35..ab424ddd7665 100644
-> > --- a/include/drm/drm_mode_config.h
-> > +++ b/include/drm/drm_mode_config.h
-> > @@ -877,18 +877,6 @@ struct drm_mode_config {
-> >  	 */
-> >  	bool prefer_shadow_fbdev;
-> >  
-> > -	/**
-> > -	 * @fbdev_use_iomem:
-> > -	 *
-> > -	 * Set to true if framebuffer reside in iomem.
-> > -	 * When set to true memcpy_toio() is used when copying the
-> > framebuffer in
-> > -	 * drm_fb_helper.drm_fb_helper_dirty_blit_real().
-> > -	 *
-> > -	 * FIXME: This should be replaced with a per-mapping is_iomem
-> > -	 * flag (like ttm does), and then used everywhere in fbdev code.
-> > -	 */
-> > -	bool fbdev_use_iomem;
-> > -
-> >  	/**
-> >  	 * @quirk_addfb_prefer_xbgr_30bpp:
-> >  	 *
-> > -- 
-> > 2.28.0
-
-
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
 
 -- 
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N√ºrnberg, Germany
-(HRB 36809, AG N√ºrnberg)
-Gesch√§ftsf√ºhrer: Felix Imend√∂rffer
+Regards,
+Niklas Sˆderlund
