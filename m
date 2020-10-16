@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CF13290AEE
-	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 19:44:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E9BC290AF3
+	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 19:46:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388449AbgJPRoA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Oct 2020 13:44:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56344 "EHLO
+        id S2390689AbgJPRqN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Oct 2020 13:46:13 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56690 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728997AbgJPRoA (ORCPT
+        with ESMTP id S2387837AbgJPRqN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Oct 2020 13:44:00 -0400
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09361C061755
-        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 10:44:00 -0700 (PDT)
-Received: by mail-wr1-x442.google.com with SMTP id s9so3852026wro.8
-        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 10:43:59 -0700 (PDT)
+        Fri, 16 Oct 2020 13:46:13 -0400
+Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98679C061755
+        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 10:46:13 -0700 (PDT)
+Received: by mail-pg1-x541.google.com with SMTP id j7so1877368pgk.5
+        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 10:46:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=fMaMy1uPHLKjGhN5Agb66Drgg1Zh2Wqsybt39l2ZOLQ=;
-        b=kbP4VIl0OPRsKF4tU8d7qrjV+B6l8lBTh26zTBKidk8SR60MT7GwE3HoBnFOwJ+8+e
-         28ct4TK6NQ1vFAwCKSDCKG1vQi5juixRdjxCq9V37hZfJbsKSlCrFq7bJ2N7t9YraejX
-         2CiYgO6sa3hHm3RXhYg2muc3YL7hwPU2nEzXbPvpxi7B+Cm44e6Dq6Gs6fzV1S31+u5J
-         gBS3JqjPvVG9Z5aaXhLzwo+V02DiAgPCqh1y/zLIQPnXV6qhZiN3KiHMlq6PqR3eQ92y
-         DdW7LvfpYqEKXAo2ArZJ3UticWc44yNcJ+P6mAprg5+TZ9XvU6wnvdWaa7528IqS6Q6j
-         tH+Q==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=WHK2GR8kfX0b+oqz1bD56wcKMpWRXbXriAgoKBCG6nY=;
+        b=ZMOmvEzel2Ob/PWFKa8SSEBzOiEbxhIAeTUyVwGfR7pgRS0OFM1WxO1nuGCn8AhQWg
+         FtpAbGFgXtG2y858W34ogDFy7w5+a9rbPmu/+3VWw7iJCuUYF6vNcnrHrRR77zlrZCgH
+         087S7GUE7UIGx0RSvZaYpq1HhhZx3bit4w9uZeQVW3oQrx+nARNJaNS2TCB5MTmafTD1
+         Q1Y4bE4Zdjchjk9PmnMDxAKq7kMTR8eX3d2b7v5zbOd7avD2kaBj5fuImM8u/ZpiUDuR
+         I8ZqbPUwbj/kif/k3nyR2CTWItuB2U0wgv5+ABEwaKQ6dYAOk5EXC5foUBw3LINHBm9Y
+         B58A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=fMaMy1uPHLKjGhN5Agb66Drgg1Zh2Wqsybt39l2ZOLQ=;
-        b=LUwgEuXhj2LqaPFL0Dq+5dIQRdj1sgV8+YJMrQbq0urY5l2ziYbr/VS340yPdUMGzD
-         Mo1UWnOqfz00Ci+I+jO+/OgUAuO41mqHqUkTvWIuhSoD54zTLnV5ONiE88KjBXi0rUA4
-         IhtN8CIqV6duYkvTHKIc/0ce9if+ZGRPnc+VHQDgB/IrZbbmeM5YhXlwhqZOXeeG10RC
-         IJs9ealkxXJ2VHKFjfg9Bd3aVfcZZUliYjJApUDCSAuH3SOqSYchOn3kZE4WCaKPstW0
-         fnlb7A0BQl7vcDeTHVqB3RQ1KJ1IU41H7Oic4f4NayJxh4YQWuFoscTN2Vh1C/3wgFq5
-         OpUw==
-X-Gm-Message-State: AOAM533cib9ylVk20Crj8uYpEYFp8VpP3avaJGEjEiMibjRQDVtupUj4
-        ZOaqJ/pJq8qlHJBt0mZ4JRFR4TJbalY=
-X-Google-Smtp-Source: ABdhPJw+gkUW6BYc8elXr9c1rluO6ISXMuJlefMN4XSDf5K9HITyplGCTutFcpPe0tE3osfmPjz5xA==
-X-Received: by 2002:adf:a306:: with SMTP id c6mr5129535wrb.160.1602870238361;
-        Fri, 16 Oct 2020 10:43:58 -0700 (PDT)
-Received: from [172.30.90.199] (sjewanfw1-nat.mentorg.com. [139.181.7.34])
-        by smtp.gmail.com with ESMTPSA id h4sm4669761wrv.11.2020.10.16.10.43.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 16 Oct 2020 10:43:57 -0700 (PDT)
-Subject: Re: [PATCH v5 1/2] staging: media: imx: remove commented code
-To:     Deepak R Varma <mh12gx2825@gmail.com>,
-        outreachy-kernel@googlegroups.com,
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=WHK2GR8kfX0b+oqz1bD56wcKMpWRXbXriAgoKBCG6nY=;
+        b=LlclRU23n0X/HrjtxJdqw3y6S6ouwMdzLRUD9VhbgItugsVjlbjnuPr31FkbasbVhW
+         ncueB7JomrJbAYsh4XdjThj2esUpnG1yhWAZZpprOvhVsPP3PBhcVeR1EQgpKp9Cy3e4
+         lL/4wh1xWiPxZ/SrS2CKzFQ9TFuvR2DNo+ydNSh1C9CY7b8Qt1UX1Sf7GGo/5exWrgY/
+         KlBUh6iMIyKzrtbz2KUbZhSVhDoBEf7GYxUT/oAvH7TkDzl0urNdmv2uQjAqMpO6kPIj
+         6dvgyGayxbfFfeWlF0fwtGJLBu0s4jAxX9fVZBNhupImSkkGAvfSJQqFdN6ld7ETbWeP
+         CkDA==
+X-Gm-Message-State: AOAM531JGfN9sPnDmey2z/EXUITjZ8mqpwLNZOtwpNNKzb4t5PfZUNXW
+        QxUxzw27rRIF7X/jQgmRaPU=
+X-Google-Smtp-Source: ABdhPJyb00dyox29qIuF4FNIIUTHjyccfR6X54PhR0HWDypmn2ICoTFHtiK3UqJiilxRnJpPSMCFMA==
+X-Received: by 2002:a62:8389:0:b029:152:416d:f026 with SMTP id h131-20020a6283890000b0290152416df026mr5060384pfe.64.1602870373113;
+        Fri, 16 Oct 2020 10:46:13 -0700 (PDT)
+Received: from ubuntu204 ([103.108.75.206])
+        by smtp.gmail.com with ESMTPSA id 17sm3632433pjd.2.2020.10.16.10.46.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 10:46:12 -0700 (PDT)
+Date:   Fri, 16 Oct 2020 23:16:06 +0530
+From:   Deepak R Varma <mh12gx2825@gmail.com>
+To:     outreachy-kernel@googlegroups.com,
+        Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
@@ -61,68 +61,56 @@ To:     Deepak R Varma <mh12gx2825@gmail.com>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
         linux-media@vger.kernel.org
+Cc:     mh12gx2825@gmail.com
+Subject: [PATCH 2/2 v5] staging: media: imx: remove unnecessary variable use
+Message-ID: <6a22de0a51e06b7cb43d4a55850f3a0213532e42.1602869338.git.mh12gx2825@gmail.com>
 References: <9fd1e7dd9e8f944b520f2a789e66e458aeb7b555.1602869338.git.mh12gx2825@gmail.com>
-From:   Steve Longerbeam <slongerbeam@gmail.com>
-Message-ID: <0af98d3a-cbaf-4036-a75c-24f63eb28647@gmail.com>
-Date:   Fri, 16 Oct 2020 10:43:53 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
 MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 In-Reply-To: <9fd1e7dd9e8f944b520f2a789e66e458aeb7b555.1602869338.git.mh12gx2825@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Deepak,
+Use of variable vc_num is unnecessary here as it is used only once.
+Instead, the value can directly be used in place of the variable.
 
-This is fine with me as long as the comment block just above the #if 0 
-code is left intact, which it is.
+Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+---
+Changes since v4:
+   - None.
+Changes since v3:
+   - None.
+Changes since v2:
+   - Implement feedback from Vaishali to simplify patch log message.
+Changes since v1:
+   - None.
 
-Acked-by: Steve Longerbeam <slongerbeam@gmail.com>
+ drivers/staging/media/imx/imx-media-csi.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-
-On 10/16/20 10:40 AM, Deepak R Varma wrote:
-> The virtual channel is always treated as 0 once the stream enters
-> CSI's. Commented code in the "#if 0" can be safely removed as it will
-> not serve any purpose in future.  Issue reported by checkpatch script.
->
-> Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
-> ---
-> Changes since v4:
->     - Rephrase patch description to make it exact and accurate as
->       suggested by Julia.
->     - Add linux-media to the recipient list. Suggested by Hans.
-> Changes since v3:
->     - Rephrase Patch description
->     - Implement feedback from Vaishali & Helen to mention checkpatch in
->       the patch description.
-> Changes since v2:
->     - None
-> Changes since v1:
->     - Implement feedback from Julia to be exact with the patch description
->
->   drivers/staging/media/imx/imx-media-csi.c | 7 -------
->   1 file changed, 7 deletions(-)
->
-> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-> index 21ebf7769696..9320e3974d86 100644
-> --- a/drivers/staging/media/imx/imx-media-csi.c
-> +++ b/drivers/staging/media/imx/imx-media-csi.c
-> @@ -1131,13 +1131,6 @@ static int csi_link_validate(struct v4l2_subdev *sd,
->   		 * enters the CSI's however, they are treated internally
->   		 * in the IPU as virtual channel 0.
->   		 */
-> -#if 0
-> -		mutex_unlock(&priv->lock);
-> -		vc_num = imx_media_find_mipi_csi2_channel(&priv->sd.entity);
-> -		if (vc_num < 0)
-> -			return vc_num;
-> -		mutex_lock(&priv->lock);
-> -#endif
->   		ipu_csi_set_mipi_datatype(priv->csi, vc_num,
->   					  &priv->format_mbus[CSI_SINK_PAD]);
->   	}
+diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+index 9320e3974d86..db77fef07654 100644
+--- a/drivers/staging/media/imx/imx-media-csi.c
++++ b/drivers/staging/media/imx/imx-media-csi.c
+@@ -1123,7 +1123,6 @@ static int csi_link_validate(struct v4l2_subdev *sd,
+ 	priv->upstream_ep = upstream_ep;
+ 	is_csi2 = !is_parallel_bus(&upstream_ep);
+ 	if (is_csi2) {
+-		int vc_num = 0;
+ 		/*
+ 		 * NOTE! It seems the virtual channels from the mipi csi-2
+ 		 * receiver are used only for routing by the video mux's,
+@@ -1131,7 +1130,7 @@ static int csi_link_validate(struct v4l2_subdev *sd,
+ 		 * enters the CSI's however, they are treated internally
+ 		 * in the IPU as virtual channel 0.
+ 		 */
+-		ipu_csi_set_mipi_datatype(priv->csi, vc_num,
++		ipu_csi_set_mipi_datatype(priv->csi, 0,
+ 					  &priv->format_mbus[CSI_SINK_PAD]);
+ 	}
+ 
+-- 
+2.25.1
 
