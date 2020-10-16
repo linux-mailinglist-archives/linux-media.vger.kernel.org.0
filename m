@@ -2,255 +2,454 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC50B2907B1
-	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 16:48:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 3FD2B2907BB
+	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 16:51:21 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405432AbgJPOsk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Oct 2020 10:48:40 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57330 "EHLO
+        id S2407807AbgJPOvP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Oct 2020 10:51:15 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57720 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2405029AbgJPOsk (ORCPT
+        with ESMTP id S2405198AbgJPOvO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Oct 2020 10:48:40 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10827C061755
-        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 07:48:39 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id f21so2728807wml.3
-        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 07:48:38 -0700 (PDT)
+        Fri, 16 Oct 2020 10:51:14 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0646CC061755;
+        Fri, 16 Oct 2020 07:51:14 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id t9so3209266wrq.11;
+        Fri, 16 Oct 2020 07:51:13 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YZSSGuh58yYFXAQl6h5pqhg0vbtUCuGagVGAsIoU+j8=;
-        b=gFWhTwE+tWJcvqJLx7I1XBNUGsMB0rNka3V2Yc5STCU74JzwcJDrXC7rnQkEF0eIp8
-         w9R0BsCqKb7w764i3Fgr6BrbnT6TI8k5m1aNyHi6V8JOoQ52xCo9lql4JBPwDsaJTAV3
-         aUYkHtZCTFk65SLL+BKmzBG7T14rbPbpKR/mDeMnhVY64AZ7awjpwO1JiwDoVT/tuYrq
-         x08pGJBND91AQVh/HdLbqEVbWO9XrmymMo7wEMLtPo00iFfW6bjKzin4fTCN4FOpB1lt
-         r8z1nETeTwr0S6j2egs/Xpaz2rs1kz9MdKE420aiIwAR/0Sa6GhTnsBMlei+d3o1AUQ2
-         HVwA==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=cmF8Vk+gzX9wcVczAaQxnFEkbXoYOSFr5BMRRO7LOIM=;
+        b=EeatVyX6Zgv2zvDtuK0+YUNo1gQkyK//mYwxTqFiHdsvfgEgTygB0KVkYb77edmOdk
+         xxK8VZlO36ud+3W/iChqlJTvPIHRiz3cm3CgkFLCr9jmzkMKrp3AuKdU9B98tmeJGLvD
+         xxDuWMLD817D7sz48dKFTTi9U/2YrXcmWAtfTJ72I7J8ii6Fu2PNVGTXRUwQpbRUhy1J
+         jxhLJvZrQiI0qlWNFJv8pDCV2uD0HV5456LqezMEuJpIc7fRdSRZxjZGS2HfwaTKyvVJ
+         7MK2JFWPavoWLzAthb2H5gSYgHB+/uKq1YS3dL3RbdVrwPOHKRmFElsqKvQxRSLDToM4
+         7NZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YZSSGuh58yYFXAQl6h5pqhg0vbtUCuGagVGAsIoU+j8=;
-        b=PJ7FWF1I0DdH6uN9LlAAwP34ix/y2s7tzZQvMN6i4GU1olcVH/mXb5I2SzSVsKLFpD
-         wOXiaaNG+7fUEgo9LarsFaOJyPwm0eyTpZyeBkY7C67q4e2qmyKNtw63ANv2nZrc7meV
-         NBG7fiRA0allIhmKWXdXpUacM5iEqZu8nyuaR77Z3lz/zgLzDijNkqRh64JOAdjdUYaD
-         4L9/wbSCJlUudSJ4oNksjyFZCpJsW8LDNIjSFvVDLouRTrIABdA57OecpqRR5NKET/xj
-         26AGUSRryCmVnlPpXbJ+aRNu6+okpNyzN9rykyP6ffA/FVDd0+YFeOvyrBZLXh7bTaRM
-         reCQ==
-X-Gm-Message-State: AOAM532eSutbFmk8aYKMiQmnbXylWolvzZVsuQlHw3+ryuZPJ05V3JIC
-        u2tZUEhLURd94PU5svJZlG6mlOqx32IrVipywVxRqw==
-X-Google-Smtp-Source: ABdhPJxzKOouK7AvIHAnvw3P4Dm8KN1hazTChgk+gcL6U5ty8lioOqIOFhZiwca5PhUZ3aaNgyghNyRYm5fhszHdkrM=
-X-Received: by 2002:a1c:9a10:: with SMTP id c16mr3960105wme.96.1602859717641;
- Fri, 16 Oct 2020 07:48:37 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=cmF8Vk+gzX9wcVczAaQxnFEkbXoYOSFr5BMRRO7LOIM=;
+        b=J3Y+yT7ecff/TzYfoYAfQ8U4QhvWrkhoKjUfAFOw1OBulLxA3IpnCane+BRMyn0bYv
+         iGt/0caIjyQQRxkyxC9aIhOgG/HhxAfNrXBxXZLx5yzQjsmwnCEJiQmgB9w2fyFcC+op
+         edYwESM++t6bsMJ0F9YZUXjW2MzO2MUvAcWEnnNP8WByzSywZaH1ZY2gxdKWd4/zZ1IG
+         yCV1JFD//W4cV5gVfm6cE1oFxYmejhU+ryXQ4hIZpH+26tHgo7kH5P9hf7L5ULaN3xkG
+         SjfCvTttYHdQ7URbegIYvmme7f7tU1EPY4HWBldplakO0H4YsKkGsV+hIEo2Ro74AMMc
+         zn8g==
+X-Gm-Message-State: AOAM530zMH2kFW6/4BDr9rFtEeqdlqNvaRdz3w+GHXHeZNrjW7UjApWZ
+        maG43opb+b1CyAQAiLfhn/g=
+X-Google-Smtp-Source: ABdhPJxXoOuXKKwYWAmlILgGf3pH1NMAaUWss76ig8XA9Vmtwlt57qe2QmVyf+vrLbN6NpUGeZU2Gg==
+X-Received: by 2002:a05:6000:1046:: with SMTP id c6mr4337304wrx.218.1602859872508;
+        Fri, 16 Oct 2020 07:51:12 -0700 (PDT)
+Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
+        by smtp.gmail.com with ESMTPSA id a199sm3255128wmd.8.2020.10.16.07.51.11
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 07:51:11 -0700 (PDT)
+Date:   Fri, 16 Oct 2020 15:51:09 +0100
+From:   Rui Miguel Silva <rmfrfs@gmail.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Rob Herring <robh+dt@kernel.org>, sakari.ailus@linux.intel.com,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 3/3] dt-bindings: imx7-mipi-csi2: convert bindings to
+ yaml
+Message-ID: <20201016145109.lscb56fwfs3k4jct@arch-thunder.localdomain>
+References: <20201014142759.726823-1-rmfrfs@gmail.com>
+ <20201014142759.726823-4-rmfrfs@gmail.com>
+ <20201015155251.3npqi2t4oghuguab@uno.localdomain>
 MIME-Version: 1.0
-References: <gh5kef5bkeel3o6b2dkgc2dfagu9klj4c0@4ax.com> <20201008015953.GA28158@pendragon.ideasonboard.com>
- <CAPY8ntA15jA_AViccQqK=4U_SW6snuBD=B1Km0ZvqEpf3ReBZQ@mail.gmail.com> <20201016122825.GL3829@pendragon.ideasonboard.com>
-In-Reply-To: <20201016122825.GL3829@pendragon.ideasonboard.com>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Fri, 16 Oct 2020 15:48:19 +0100
-Message-ID: <CAPY8ntAG0XijBb_+41N-tBM8SGM0T061jG2xghaR9SLROKKD=g@mail.gmail.com>
-Subject: Re: [PATCH] media: videobuf2: Fix length check for single plane
- dmabuf queueing
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     John Cox <jc@kynesim.co.uk>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201015155251.3npqi2t4oghuguab@uno.localdomain>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent
-
-Thanks for the reply.
-
-On Fri, 16 Oct 2020 at 13:29, Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Dave,
->
-> On Fri, Oct 16, 2020 at 11:20:36AM +0100, Dave Stevenson wrote:
-> > On Thu, 8 Oct 2020 at 03:00, Laurent Pinchart wrote:
-> > >
-> > > Hi John,
-> > >
-> > > Thank you for the patch.
-> > >
-> > > On Wed, Jun 17, 2020 at 02:21:52PM +0100, John Cox wrote:
-> > > > Check against length in v4l2_buffer rather than vb2_buffer when the
-> > > > buffer is a dmabuf. This makes the single plane test the same as the
-> > > > existing multiplanar test.
-> > > >
-> > > > Signed-off-by: John Cox <jc@kynesim.co.uk>
-> > > > ---
-> > > >  drivers/media/common/videobuf2/videobuf2-v4l2.c | 3 ++-
-> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
-> > > >
-> > > > diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> > > > index e652f4318284..731c7c99c971 100644
-> > > > --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> > > > +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
-> > > > @@ -114,7 +114,8 @@ static int __verify_length(struct vb2_buffer *vb, const struct v4l2_buffer *b)
-> > > >                                 return -EINVAL;
-> > > >                 }
-> > > >         } else {
-> > > > -               length = (b->memory == VB2_MEMORY_USERPTR)
-> > > > +               length = (b->memory == VB2_MEMORY_USERPTR ||
-> > > > +                         b->memory == VB2_MEMORY_DMABUF)
-> > > >                         ? b->length : vb->planes[0].length;
-> > >
-> > > I don't think this is correct, as it breaks DMABUF import. For USERPTR
-> > > the length needs to be passed by userspace, but for DMABUF, we allow
-> > > userspace to set length to 0, and use the length retrieved from the
-> > > dma_buf. With this change, b->length is 0, and the check fails.
+Hi again Jacopo,
+On Thu, Oct 15, 2020 at 05:52:51PM +0200, Jacopo Mondi wrote:
+> Hi Rui,
+> 
+> On Wed, Oct 14, 2020 at 03:27:59PM +0100, Rui Miguel Silva wrote:
+> > Convert imx7 mipi csi2 bindings documentation to yaml schema, remove
+> > the textual document and update MAINTAINERS entry.
 > >
-> > I've just been discussing this with John  - he contracts for Raspberry
-> > Pi for the HEVC stateless decoder amongst other things, which is why
-> > this patch was created in the first place.
+> > Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> > ---
+> >  .../bindings/media/imx7-mipi-csi2.txt         |  90 ---------
+> >  .../bindings/media/nxp,imx7-mipi-csi2.yaml    | 181 ++++++++++++++++++
+> >  MAINTAINERS                                   |   2 +-
+> >  3 files changed, 182 insertions(+), 91 deletions(-)
+> >  delete mode 100644 Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
+> >  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
 > >
-> > I can't find any reference in the docs to length = 0 && b->memory ==
-> > VB2_MEMORY_DMABUF being "use dmabuf size".
->
-> For the single-planar API,
->
-> https://linuxtv.org/downloads/v4l-dvb-apis/userspace-api/v4l/vidioc-qbuf.html
->
-> "To enqueue a user pointer buffer applications set the memory field to
-> V4L2_MEMORY_USERPTR, the m.userptr field to the address of the buffer
-> and length to its size."
->
-> There is no similar mention for V4L2_MEMORY_DMABUF.
->
-> And in https://linuxtv.org/downloads/v4l-dvb-apis/userspace-api/v4l/buffer.html#c.v4l2_buffer
->
-> "length         Size of the buffer (not the payload) in bytes for the
-> single-planar API.  This is set by the driver based on the calls to
-> ioctl VIDIOC_REQBUFS and/or ioctl VIDIOC_CREATE_BUFS."
->
-> While this could be clearer, the statement in the documentation of
-> v4l2_buffer isn't overridden by anything in the VIDIOC_QBUF
-> documentation for V4L2_MEMORY_DMABUF. The field should thus be set by
-> drivers, not applications.
+> > diff --git a/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt b/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
+> > deleted file mode 100644
+> > index 71fd74ed3ec8..000000000000
+> > --- a/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
+> > +++ /dev/null
+> > @@ -1,90 +0,0 @@
+> > -Freescale i.MX7 Mipi CSI2
+> > -=========================
+> > -
+> > -mipi_csi2 node
+> > ---------------
+> > -
+> > -This is the device node for the MIPI CSI-2 receiver core in i.MX7 SoC. It is
+> > -compatible with previous version of Samsung D-phy.
+> > -
+> > -Required properties:
+> > -
+> > -- compatible    : "fsl,imx7-mipi-csi2";
+> > -- reg           : base address and length of the register set for the device;
+> > -- interrupts    : should contain MIPI CSIS interrupt;
+> > -- clocks        : list of clock specifiers, see
+> > -        Documentation/devicetree/bindings/clock/clock-bindings.txt for details;
+> > -- clock-names   : must contain "pclk", "wrap" and "phy" entries, matching
+> > -                  entries in the clock property;
+> > -- power-domains : a phandle to the power domain, see
+> > -          Documentation/devicetree/bindings/power/power_domain.txt for details.
+> > -- reset-names   : should include following entry "mrst";
+> > -- resets        : a list of phandle, should contain reset entry of
+> > -                  reset-names;
+> > -- phy-supply    : from the generic phy bindings, a phandle to a regulator that
+> > -	          provides power to MIPI CSIS core;
+> > -
+> > -Optional properties:
+> > -
+> > -- clock-frequency : The IP's main (system bus) clock frequency in Hz, default
+> > -		    value when this property is not specified is 166 MHz;
+> > -- fsl,csis-hs-settle : differential receiver (HS-RX) settle time;
+> > -
+> > -The device node should contain two 'port' child nodes with one child 'endpoint'
+> > -node, according to the bindings defined in:
+> > - Documentation/devicetree/bindings/ media/video-interfaces.txt.
+> > - The following are properties specific to those nodes.
+> > -
+> > -port node
+> > ----------
+> > -
+> > -- reg		  : (required) can take the values 0 or 1, where 0 shall be
+> > -                     related to the sink port and port 1 shall be the source
+> > -                     one;
+> > -
+> > -endpoint node
+> > --------------
+> > -
+> > -- data-lanes    : (required) an array specifying active physical MIPI-CSI2
+> > -		    data input lanes and their mapping to logical lanes; this
+> > -                    shall only be applied to port 0 (sink port), the array's
+> > -                    content is unused only its length is meaningful,
+> > -                    in this case the maximum length supported is 2;
+> > -
+> > -example:
+> > -
+> > -        mipi_csi: mipi-csi@30750000 {
+> > -                #address-cells = <1>;
+> > -                #size-cells = <0>;
+> > -
+> > -                compatible = "fsl,imx7-mipi-csi2";
+> > -                reg = <0x30750000 0x10000>;
+> > -                interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
+> > -                clocks = <&clks IMX7D_IPG_ROOT_CLK>,
+> > -                                <&clks IMX7D_MIPI_CSI_ROOT_CLK>,
+> > -                                <&clks IMX7D_MIPI_DPHY_ROOT_CLK>;
+> > -                clock-names = "pclk", "wrap", "phy";
+> > -                clock-frequency = <166000000>;
+> > -                power-domains = <&pgc_mipi_phy>;
+> > -                phy-supply = <&reg_1p0d>;
+> > -                resets = <&src IMX7_RESET_MIPI_PHY_MRST>;
+> > -                reset-names = "mrst";
+> > -                fsl,csis-hs-settle = <3>;
+> > -
+> > -                port@0 {
+> > -                        reg = <0>;
+> > -
+> > -                        mipi_from_sensor: endpoint {
+> > -                                remote-endpoint = <&ov2680_to_mipi>;
+> > -                                data-lanes = <1>;
+> > -                        };
+> > -                };
+> > -
+> > -                port@1 {
+> > -                        reg = <1>;
+> > -
+> > -                        mipi_vc0_to_csi_mux: endpoint {
+> > -                                remote-endpoint = <&csi_mux_from_mipi_vc0>;
+> > -                        };
+> > -                };
+> > -        };
+> > diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> > new file mode 100644
+> > index 000000000000..0438b28232ed
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> > @@ -0,0 +1,181 @@
+> > +# SPDX-License-Identifier: GPL-2.0-only
+> 
+> Same question about dual licensing
+> 
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/nxp,imx7-mipi-csi2.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: NXP i.MX7 Mipi CSI2
+> > +
+> > +maintainers:
+> > +  - Rui Miguel Silva <rmfrfs@gmail.com>
+> > +
+> > +description: |
+> > +  this is the device node for the mipi csi-2 receiver core in i.mx7 soc. it is
+> > +  compatible with previous version of samsung d-phy.
+> 
+> nit: missing a few captial letters (beginning and after a full stop).
 
-I know this is userspace API documentation, but the waters are further
-muddied by it being set by videobuf2 and not the driver itself.
+will fix along all document.
 
-> > And certainly no mention of the single planar API being different from
-> > the multi-planar API (which it was until this patch).
->
-> I don't see a mention of that either.
->
-> > Reference to b->memory == VB2_MEMORY_USERPTR meaning that the
-> > b->length is in the description for VIDIOC_QBUF[1]
-> >
-> > John's patch is matching Hans' original patch that did the same thing
-> > for multi-planar [2].
-> > From the commit text:
-> > - in __verify_length() it would use the application-provided length value
-> >   for USERPTR and the vb2 core length for other memory models, but it
-> >   should have used the application-provided length as well for DMABUF.
-> >
-> > If you're saying that length==0 is "use the dmabuf size", then
-> > __verify_length is wrong in both single and multi-planar usage as it
-> > is comparing against vb->planes[X].length, not (struct dma_buf*)->size
-> > (the dma_buf_get isn't done until __prepare_dmabuf).
->
-> I think it is, and the changes break userspace :-(
+> > +
+> > +properties:
+> > +  compatible:
+> > +    items:
+> > +      - enum:
+> > +          - fsl,imx7-mipi-csi2
+> 
+> Should enum with a single item be expressed as a const ?
 
-Just so I'm clear, you're agreeing that it's wrong in both cases?
+agree.
 
-Altering both paths to ignore length fields for DMABUF under all
-circumstances and check the dmabuf size later in __prepare_dmabuf
-instead shouldn't change userspace behaviour at all compared to before
-this patch. It also removes the potential for userspace in the
-multiplanar API getting things wrong by providing a length that is
-bigger than the underlying dmabuf, which I believe will currently go
-undetected.
+> 
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  interrupts:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    minItems: 3
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: pclk
+> > +      - const: wrap
+> > +      - const: phy
+> > +
+> > +  power-domains:
+> > +    maxItems: 1
+> > +
+> > +  phy-supply:
+> > +    description:
+> > +      Phandle to a regulator that provides power to the PHY. This
+> > +      regulator will be managed during the PHY power on/off sequence.
+> > +
+> > +  resets:
+> > +    maxItems: 1
+> > +
+> > +  reset-names:
+> > +    const: mrst
+> > +
+> > +  clock-frequency:
+> 
+> This was here already, but shouldn't this property be assigned in the
+> clock provider and you should have here a reference to it ? Otherwise,
+> is this really a custom property hijacking a standard property name ?
+> 
+> I see it is mentioned in the example-schema.yaml, so it's probably
+> correct.
 
-Actually the check in __prepare_dmabuf ought to be corrected to always
-take dbuf->size, not just if planes[N].length == 0 [1], and there
-appear to be other places where the multi-planar API code is
-specifically copying the plane length from the user v4l2_buffer and
-not using the driver provided values (eg [2])
+I think limits and default can be assigned here.
 
-[1] https://elixir.free-electrons.com/linux/latest/source/drivers/media/common/videobuf2/videobuf2-core.c#L1206
-[2] https://elixir.free-electrons.com/linux/latest/source/drivers/media/common/videobuf2/videobuf2-v4l2.c#L220
+> 
+> > +    description:
+> > +      The IP main (system bus) clock frequency in Hertz
+> > +    default: 166000000
+> > +
+> > +  fsl,csis-hs-settle:
+> > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > +    description:
+> > +      differential receiver (HS-RX) settle time
+> 
+> You have used capital letters at the beginning of documentation blocks
+> before.
+> 
+> > +
+> > +  ports:
+> > +    type: object
+> > +    description:
+> > +      A node containing input and output port nodes with endpoint definitions
+> > +      as documented in
+> > +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> > +
+> > +    properties:
+> > +      '#address-cells':
+> > +        const: 1
+> > +
+> > +      '#size-cells':
+> > +        const: 0
+> > +
+> > +      port@0:
+> > +        type: object
+> > +        description:
+> > +          Input port node, single endpoint describing the CSI-2 transmitter.
+> > +
+> > +        properties:
+> > +          reg:
+> > +            const: 0
+> > +
+> > +          endpoint:
+> > +            type: object
+> > +
+> > +            properties:
+> > +              data-lanes:
+> > +                maxItems: 1
+> 
+> How many data lanes does this receiver supports ? I see in the txt
+> bindingsd:
+>     data-lanes    : (required) an array specifying active physical MIPI-CSI2
+>                     data input lanes and their mapping to logical lanes; this
+>                     shall only be applied to port 0 (sink port), the array's
+>                     content is unused only its length is meaningful,
+>                     in this case the maximum length supported is 2;
+> 
+> I'm not sure I fully get this. Does this mean up to 2 data lanes are
+> supported ?
 
-> After the lookup __prepare_dmabuf does check that planes[plane].length
-> > < vb->planes[plane].min_length. So do both clauses in __verify_length
-> > just need to bypass the length check if length = 0 && b->memory ==
-> > VB2_MEMORY_DMABUF ?
-> >
-> > I note we already have mismatched handling in libcamera in that
-> > multiplanar DMABUF sets length for each plane, but single planar
-> > DMABUF doesn't set buf.length [3]
-> >
-> > For info, the use case all comes down to the old chestnut of "how big
-> > is a compressed frame?".
-> > Feeding encoded bitstream into the HEVC decoder using
-> > VB2_MEMORY_DMABUF, the size of the buffer against the format sizeimage
-> > doesn't matter. The only conditions are that the buffer description is
-> > valid (ie bytesused <= actual buffer size) and the hardware can map
-> > it. If you're using dmaheaps or similar to allocate the buffers
-> > externally and an unexpectedly large compressed frame comes through,
-> > reallocate through dmaheaps and pass it in.
-> > The same argument is true for USERPTR, and that's already accounted
-> > for by relying on the application provided length.
->
-> The key difference between DMABUF and USERPTR is that the kernel can
-> figure out the allocated buffer length internally in the first case, but
-> not the second case. I'm not sure to understand the use case for passing
-> a different length from userspace to the kernel.
+yeah, it supports up to 2 data lanes. Will fix
 
-The use case is a different length between that which videobuf2
-believes is correct, and the actual size of the dmabuf.
+> 
+> > +
+> > +              remote-endpoint: true
+> > +
+> > +            required:
+> > +              - data-lanes
+> > +              - remote-endpoint
+> > +
+> > +            additionalProperties: false
+> > +
+> > +        additionalProperties: false
+> > +
+> > +      port@1:
+> > +        type: object
+> > +        description:
+> > +          Output port node,
+> 
+> Rougue ',' at the end. You probably want a full stop or
+> > +
+> > +        properties:
+> > +          reg:
+> > +            const: 1
+> > +
+> > +          endpoint:
+> > +              type: object
+> > +
+> > +              properties:
+> > +                remote-endpoint: true
+> > +
+> > +              required:
+> > +                - remote-endpoint
+> > +
+> > +              additionalProperties: false
+> 
+> As no other endpoint property is specified, the whole 'endpoint' block
+> can probably be omitted ?
+> 
+> > +
+> > +        additionalProperties: false
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - interrupts
+> > +  - clocks
+> > +  - clock-names
+> > +  - power-domains
+> > +  - resets
+> > +  - reset-names
+> > +  - ports
+> 
+> phy-supply was listed as required in the txt bindings
 
-The situation is feeding in encoded bitstream to a decoder via the OUTPUT queue.
-- Make a first guess that the buffers need to be 512kB each
-- Use an external allocator (eg dmaheaps) to create those buffers
-- Feed them in via VIDIOC_QBUF of type V4L2_MEMORY_DMABUF.
-- Decode a load of frames and come across one that is >512kB.
-Either you:
-- have to tear everything down and resume from a suitable point in the past
-or
-- allocate a bigger buffer with the external allocator and pass that
-in via a new dmabuf handle.
+good catch.
 
-Some drivers won't be able to handle a bigger buffer as they may pass
-the bitstream via other internal buffers that are now too small,
-however they have all the information to know that and bail out. John
-created the patch (a) to match multi-planar, and (b) because videobuf2
-was blocking it due to checking the length against an arbitrary
-internal value rather than the actual dmabuf size. At least after the
-patch you could convey the correct length.
-Shifting to always taking the dmabuf length from the dma buf framework
-still allows the above to work without breaking your length==0 path
-(which now becomes the only path).
+> 
+> > +
+> > +unevaluatedProperties: false
+> 
+> additionalProperties: false
+> 
 
-Is it API abuse? Possibly, but the details in the spec are a little
-sketchy about what is and isn't permitted (and I know most of us hate
-having to write documentation).
-
-I guess the follow up becomes, if using DMABUF with differently sized
-buffers to that which videobuf2 believes in, and then set bytesuesd =
-0 (which is documented to mean take the buffer size), do we go through
-the right paths to get the buffer size based on the correct thing?
-
-I wonder what Hans' view is here.
+Thanks again for your review.
 
 Cheers,
-  Dave
+   Rui
 
-> > [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-qbuf.html#vidioc-qbuf
-> > [2] https://github.com/torvalds/linux/commit/8a75ffb81
-> > [3] https://git.linuxtv.org/libcamera.git/tree/src/libcamera/v4l2_videodevice.cpp#n1385
+> Thanks
+>   j
+> 
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/imx7d-clock.h>
+> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > +    #include <dt-bindings/reset/imx7-reset.h>
+> > +
+> > +    mipi_csi: mipi-csi@30750000 {
+> > +            compatible = "fsl,imx7-mipi-csi2";
+> > +            reg = <0x30750000 0x10000>;
+> > +            interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
+> > +
+> > +            clocks = <&clks IMX7D_IPG_ROOT_CLK>,
+> > +                     <&clks IMX7D_MIPI_CSI_ROOT_CLK>,
+> > +                     <&clks IMX7D_MIPI_DPHY_ROOT_CLK>;
+> > +            clock-names = "pclk", "wrap", "phy";
+> > +            clock-frequency = <166000000>;
+> > +
+> > +            power-domains = <&pgc_mipi_phy>;
+> > +            phy-supply = <&reg_1p0d>;
+> > +            resets = <&src IMX7_RESET_MIPI_PHY_MRST>;
+> > +            reset-names = "mrst";
+> > +            fsl,csis-hs-settle = <3>;
+> > +
+> > +            ports {
+> > +                    #address-cells = <1>;
+> > +                    #size-cells = <0>;
+> > +
+> > +                    port@0 {
+> > +                            reg = <0>;
+> > +
+> > +                            mipi_from_sensor: endpoint {
+> > +                                    remote-endpoint = <&ov2680_to_mipi>;
+> > +                                    data-lanes = <1>;
+> > +                            };
+> > +                    };
+> > +
+> > +                    port@1 {
+> > +                            reg = <1>;
+> > +
+> > +                            mipi_vc0_to_csi_mux: endpoint {
+> > +                                    remote-endpoint = <&csi_mux_from_mipi_vc0>;
+> > +                            };
+> > +                    };
+> > +            };
+> > +    };
+> > diff --git a/MAINTAINERS b/MAINTAINERS
+> > index b7f7f14cd85b..9da67222b0c7 100644
+> > --- a/MAINTAINERS
+> > +++ b/MAINTAINERS
+> > @@ -10773,8 +10773,8 @@ L:	linux-media@vger.kernel.org
+> >  S:	Maintained
+> >  T:	git git://linuxtv.org/media_tree.git
+> >  F:	Documentation/admin-guide/media/imx7.rst
+> > -F:	Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
+> >  F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> > +F:	Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> >  F:	drivers/staging/media/imx/imx7-media-csi.c
+> >  F:	drivers/staging/media/imx/imx7-mipi-csis.c
 > >
-> > > >
-> > > >                 if (b->bytesused > length)
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> > --
+> > 2.28.0
+> >
