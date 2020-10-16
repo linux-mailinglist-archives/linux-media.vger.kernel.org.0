@@ -2,75 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0BB62290A89
-	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 19:21:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 29B63290844
+	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 17:26:20 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391017AbgJPRVk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Oct 2020 13:21:40 -0400
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:44560 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390433AbgJPRVj (ORCPT
+        id S2410050AbgJPP0S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Oct 2020 11:26:18 -0400
+Received: from relay1-d.mail.gandi.net ([217.70.183.193]:6801 "EHLO
+        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2410005AbgJPP0S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Oct 2020 13:21:39 -0400
-Received: by mail-ot1-f65.google.com with SMTP id e20so3051266otj.11;
-        Fri, 16 Oct 2020 10:21:37 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=e8GjHty+1aRxkxB6OTZCp5dmlkx4GtpYh5aZO6NQU3g=;
-        b=pH+HJOsAYdPOKcSBydKsPptq+gJvRZKITwdknAsw08Gp0eCkHmerLs4ge4qu05rSS+
-         LYex0wOtGAPm6mlyClNK/bfIhUyQ2TCpyJtGuWouKm42iHDf+ZIo8ujlC6HF7J1YxRiV
-         q8JV+hZvd3D4xjBw9fvw5apgbtErYySEQUYMuJ4J85iA8Awgh+ZC8xzXHvlkPXMByCz2
-         fGdUd50EhpSde2fDN+knrrYytpxpo64GMAvNFYR/37Yb9oVr8mor6qewNsrRN5xBxKU7
-         oYgqgODP2zDOy2UVe2FAScCE7OfITX6CtnU/oA4BZHOTsH09h0XTwKqTiZ4w8/cQuroP
-         1mVg==
-X-Gm-Message-State: AOAM530G9XWnbL4H3RjywRGeqlsWOJgFntbl4geGUvxMXEgpp4k8P7gQ
-        exBCSL/qil2zzgZczK5PwA==
-X-Google-Smtp-Source: ABdhPJyBmicHhExMd8UfAARs4x+dcf3v+rjvJYssd7gWuTefGO3fN6HrCSikm0AYBv0Il8i8PqXLMQ==
-X-Received: by 2002:a9d:6e07:: with SMTP id e7mr3181610otr.365.1602868897389;
-        Fri, 16 Oct 2020 10:21:37 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id d11sm1131458otf.44.2020.10.16.10.21.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2020 10:21:36 -0700 (PDT)
-Received: (nullmailer pid 1602840 invoked by uid 1000);
-        Fri, 16 Oct 2020 17:21:35 -0000
-Date:   Fri, 16 Oct 2020 12:21:35 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     robh+dt@kernel.org, drinkcat@chromium.org,
-        shengnan.wang@mediatek.com, mchehab@kernel.org,
-        bingbu.cao@intel.com, linux-arm-kernel@lists.infradead.org,
-        andriy.shevchenko@linux.intel.com, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, tfiga@chromium.org,
-        sj.huang@mediatek.com, matthias.bgg@gmail.com,
-        sakari.ailus@linux.intel.com, linux-mediatek@lists.infradead.org,
-        srv_heupstream@mediatek.com, mark.rutland@arm.com,
-        louis.kuo@mediatek.com
-Subject: Re: [PATCH v15 1/2] media: dt-bindings: media: i2c: Document OV02A10
- bindings
-Message-ID: <20201016172135.GA1602808@bogus>
-References: <20201013130503.2412-1-dongchun.zhu@mediatek.com>
- <20201013130503.2412-2-dongchun.zhu@mediatek.com>
+        Fri, 16 Oct 2020 11:26:18 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id E63F0240010;
+        Fri, 16 Oct 2020 15:26:14 +0000 (UTC)
+Date:   Fri, 16 Oct 2020 19:26:00 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 5/5] rcar-vin: Add support for suspend and resume
+Message-ID: <20201016172600.n66gz2qmwmjjdwb3@uno.localdomain>
+References: <20201015231408.2399933-1-niklas.soderlund+renesas@ragnatech.se>
+ <20201015231408.2399933-6-niklas.soderlund+renesas@ragnatech.se>
+ <20201016160718.klbkccgcbnpoi7bq@uno.localdomain>
+ <20201016141503.kas7h5lumwm3wmal@oden.dyn.berto.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201013130503.2412-2-dongchun.zhu@mediatek.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201016141503.kas7h5lumwm3wmal@oden.dyn.berto.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 13 Oct 2020 21:05:02 +0800, Dongchun Zhu wrote:
-> Add YAML device tree binding for OV02A10 CMOS image sensor, and the
-> relevant MAINTAINERS entries.
-> 
-> Signed-off-by: Dongchun Zhu <dongchun.zhu@mediatek.com>
-> ---
->  .../bindings/media/i2c/ovti,ov02a10.yaml           | 162 +++++++++++++++++++++
->  MAINTAINERS                                        |   7 +
->  2 files changed, 169 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov02a10.yaml
-> 
+Hi Niklas,
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+On Fri, Oct 16, 2020 at 04:15:03PM +0200, Niklas Söderlund wrote:
+> Hi Jacopo,
+>
+> Thanks for your feedback.
+>
+> On 2020-10-16 18:07:18 +0200, Jacopo Mondi wrote:
+> > Hi Niklas,
+> >
+> > On Fri, Oct 16, 2020 at 01:14:08AM +0200, Niklas Söderlund wrote:
+> > > Add support for suspend and resume by stopping and starting the video
+> > > pipeline while still retaining all buffers given to the driver by
+> > > user-space and internally allocated ones, this gives the application a
+> > > seamless experience.
+> > >
+> > > Buffers are never returned to user-space unprocessed so user-space don't
+> > > notice when suspending. When resuming the driver restarts the capture
+> > > session using the internal scratch buffer, this happens before
+> > > user-space is unfrozen, this leads to speedy response times once the
+> > > application resumes its execution.
+> > >
+> > > As the entire pipeline is stopped on suspend all subdevices in use are
+> > > also stopped, and if they enter a shutdown state when not streaming
+> > > (such as the R-Car CSI-2 driver) they too will be suspended and resumed
+> > > in sync with the VIN driver.
+> > >
+> > > To be able to do keep track of which VINs should be resumed a new
+> >
+> > s/to do/to/
+> >
+> > > internal state SUSPENDED is added to recode this.
+> > >
+> > > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > > ---
+> > >  drivers/media/platform/rcar-vin/rcar-core.c | 51 +++++++++++++++++++++
+> > >  drivers/media/platform/rcar-vin/rcar-vin.h  | 10 ++--
+> > >  2 files changed, 57 insertions(+), 4 deletions(-)
+> > >
+> > > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> > > index 34d003e0e9b9c25a..4adf4ce518f79c93 100644
+> > > --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> > > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> > > @@ -918,6 +918,54 @@ static int rvin_mc_init(struct rvin_dev *vin)
+> > >  	return ret;
+> > >  }
+> > >
+> > > +/* -----------------------------------------------------------------------------
+> > > + * Suspend / Resume
+> > > + */
+> > > +
+> > > +static int __maybe_unused rvin_suspend(struct device *dev)
+> > > +{
+> > > +	struct rvin_dev *vin = dev_get_drvdata(dev);
+> > > +
+> > > +	if (vin->state != RUNNING)
+> > > +		return 0;
+> > > +
+> > > +	rvin_stop_streaming(vin);
+> >
+> > This delay suspend untill all the userspace queued buffers are not
+> > completed, right ?
+>
+> Yes it will delay suspend until all the buffers queued by user-space AND
+> have been written to one of the 3 hardware slots are completed. So the
+> worst case scenario is a delay of 3 frames to complete.
+>
+> Buffers queued by an application not yet commited to a slot are not
+> waited for. Instead they are used when capture is resumed.
+
+Ah right! I think exhausting the 3 filled slots it's an acceptable
+delay during suspend operation.
+
+Please add:
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+which I forgot in the previous reply
+
+Thanks
+  j
+
+>
+> >
+> > > +
+> > > +	vin->state = SUSPENDED;
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +static int __maybe_unused rvin_resume(struct device *dev)
+> > > +{
+> > > +	struct rvin_dev *vin = dev_get_drvdata(dev);
+> > > +
+> > > +	if (vin->state != SUSPENDED)
+> > > +		return 0;
+> > > +
+> > > +	/*
+> > > +	 * Restore group master CHSEL setting.
+> > > +	 *
+> > > +	 * This needs to be by every VIN resuming not only the master
+> > > +	 * as we don't know if and in which order the master VINs will
+> > > +	 * be resumed.
+> > > +	 */
+> > > +	if (vin->info->use_mc) {
+> > > +		unsigned int master_id = rvin_group_id_to_master(vin->id);
+> > > +		struct rvin_dev *master = vin->group->vin[master_id];
+> > > +		int ret;
+> > > +
+> > > +		if (WARN_ON(!master))
+> > > +			return -ENODEV;
+> > > +
+> > > +		ret = rvin_set_channel_routing(master, master->chsel);
+> > > +		if (ret)
+> > > +			return ret;
+> > > +	}
+> > > +
+> > > +	return rvin_start_streaming(vin);
+> > > +}
+> > > +
+> > >  /* -----------------------------------------------------------------------------
+> > >   * Platform Device Driver
+> > >   */
+> > > @@ -1421,9 +1469,12 @@ static int rcar_vin_remove(struct platform_device *pdev)
+> > >  	return 0;
+> > >  }
+> > >
+> > > +static SIMPLE_DEV_PM_OPS(rvin_pm_ops, rvin_suspend, rvin_resume);
+> > > +
+> > >  static struct platform_driver rcar_vin_driver = {
+> > >  	.driver = {
+> > >  		.name = "rcar-vin",
+> > > +		.pm = &rvin_pm_ops,
+> > >  		.of_match_table = rvin_of_id_table,
+> > >  	},
+> > >  	.probe = rcar_vin_probe,
+> > > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > > index 4ec8584709c847a9..4539bd53d9d41e9c 100644
+> > > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
+> > > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
+> > > @@ -49,16 +49,18 @@ enum rvin_csi_id {
+> > >  };
+> > >
+> > >  /**
+> > > - * STOPPED  - No operation in progress
+> > > - * STARTING - Capture starting up
+> > > - * RUNNING  - Operation in progress have buffers
+> > > - * STOPPING - Stopping operation
+> > > + * STOPPED   - No operation in progress
+> > > + * STARTING  - Capture starting up
+> > > + * RUNNING   - Operation in progress have buffers
+> > > + * STOPPING  - Stopping operation
+> > > + * SUSPENDED - Capture is suspended
+> > >   */
+> > >  enum rvin_dma_state {
+> > >  	STOPPED = 0,
+> > >  	STARTING,
+> > >  	RUNNING,
+> > >  	STOPPING,
+> > > +	SUSPENDED,
+> > >  };
+> > >
+> > >  /**
+> > > --
+> > > 2.28.0
+> > >
+>
+> --
+> Regards,
+> Niklas Söderlund
