@@ -2,271 +2,255 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 46E4F290799
-	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 16:44:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id CC50B2907B1
+	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 16:48:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409240AbgJPOom (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Oct 2020 10:44:42 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56716 "EHLO
+        id S2405432AbgJPOsk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Oct 2020 10:48:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57330 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2409236AbgJPOoi (ORCPT
+        with ESMTP id S2405029AbgJPOsk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Oct 2020 10:44:38 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 36758C061755;
-        Fri, 16 Oct 2020 07:44:38 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id z22so1738007wmi.0;
-        Fri, 16 Oct 2020 07:44:38 -0700 (PDT)
+        Fri, 16 Oct 2020 10:48:40 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10827C061755
+        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 07:48:39 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id f21so2728807wml.3
+        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 07:48:38 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=zXODRUIxIpwKwJnSwrcHxYeoA1EaeMgbXtO86KGA4Sk=;
-        b=iZlQJVk5M/oGVgVbnJ1fmKKMBwLO8N/M9kVpvvQGM3MMRHSY4gDdkVMjFyCix28Ohe
-         bWiARwIx9YmYIlkzZNfO3DeQcI3YfjSxWWF/7z+vFQXH5nQJsvJMfN19UItq8qH6CffM
-         mbUZLzCBLA0DrkGDRY9UgahzECFJpM2Wq+Lw+pi4k85yCjS+V1seGtCQr1W2WPMS7yw7
-         tREmQYP/PqnZZR7YPzHZ/x5MXEpPFbTNumZfDwVeMOd0jIQ+uWNTqRXDdYsvlBMptgiL
-         gy3HgJEgY4k+ne+O1nQc84u+TvTkMwSIbtOy0ZbVkqhfj4dzQvz8s1orlQKAcA5MCOEe
-         O3xQ==
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YZSSGuh58yYFXAQl6h5pqhg0vbtUCuGagVGAsIoU+j8=;
+        b=gFWhTwE+tWJcvqJLx7I1XBNUGsMB0rNka3V2Yc5STCU74JzwcJDrXC7rnQkEF0eIp8
+         w9R0BsCqKb7w764i3Fgr6BrbnT6TI8k5m1aNyHi6V8JOoQ52xCo9lql4JBPwDsaJTAV3
+         aUYkHtZCTFk65SLL+BKmzBG7T14rbPbpKR/mDeMnhVY64AZ7awjpwO1JiwDoVT/tuYrq
+         x08pGJBND91AQVh/HdLbqEVbWO9XrmymMo7wEMLtPo00iFfW6bjKzin4fTCN4FOpB1lt
+         r8z1nETeTwr0S6j2egs/Xpaz2rs1kz9MdKE420aiIwAR/0Sa6GhTnsBMlei+d3o1AUQ2
+         HVwA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=zXODRUIxIpwKwJnSwrcHxYeoA1EaeMgbXtO86KGA4Sk=;
-        b=jMy4+SLwOzgW7H5z39WIdje/MryB1Ieo05qwVyJt//OH3BR35+XgORtkSJ3D/PAW5J
-         xYOJnKNQ3QB301/jHA3W/4dtQ8OCy+FSpS4G4ZvOYkD8o32z5eu/kBM6fNxvyMH+w/wY
-         Ck4OwKXI+XZDoR2WQA661akYWbw8E/J1zYU/zyaGTc5BJRUpfqGo4K8IkaI5nG7nVSY7
-         AoWiqoq55mY13O0WSsejmQVj4nJ+sVfmmYAqGRyixCdZ50jS4dmy1YfF5XIEbbe/mNcJ
-         0acJaRmrg8ulQ1L5MI1oP78SY4bahYqS+JoRTuu1Hjrhd6pJN5MvS8RSeDNDuXdGWyUj
-         PObg==
-X-Gm-Message-State: AOAM530Ykhij1/nch+QyOYT9Ddhmg2Bo7jXy/ihGZydKvfMj4astYMqz
-        X977fXk6XW+W5jigSmWGQE8=
-X-Google-Smtp-Source: ABdhPJwTFcYef2RzYeDCbWKQH6nOI96l/QjL1QtGqRk6kc8BMQRau70UzPy5IKmL+Jjyq36ImsBwxg==
-X-Received: by 2002:a1c:5545:: with SMTP id j66mr4355295wmb.31.1602859476359;
-        Fri, 16 Oct 2020 07:44:36 -0700 (PDT)
-Received: from arch-thunder.localdomain (a109-49-46-234.cpe.netcabo.pt. [109.49.46.234])
-        by smtp.gmail.com with ESMTPSA id b25sm2892005wmj.21.2020.10.16.07.44.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 16 Oct 2020 07:44:35 -0700 (PDT)
-Date:   Fri, 16 Oct 2020 15:44:33 +0100
-From:   Rui Miguel Silva <rmfrfs@gmail.com>
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Rob Herring <robh+dt@kernel.org>, sakari.ailus@linux.intel.com,
-        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 2/3] dt-bindings: imx7-csi: convert bindings to yaml
-Message-ID: <20201016144433.abhe57lgkqnxdxyq@arch-thunder.localdomain>
-References: <20201014142759.726823-1-rmfrfs@gmail.com>
- <20201014142759.726823-3-rmfrfs@gmail.com>
- <20201015152546.s5fvuxklgludyv2u@uno.localdomain>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YZSSGuh58yYFXAQl6h5pqhg0vbtUCuGagVGAsIoU+j8=;
+        b=PJ7FWF1I0DdH6uN9LlAAwP34ix/y2s7tzZQvMN6i4GU1olcVH/mXb5I2SzSVsKLFpD
+         wOXiaaNG+7fUEgo9LarsFaOJyPwm0eyTpZyeBkY7C67q4e2qmyKNtw63ANv2nZrc7meV
+         NBG7fiRA0allIhmKWXdXpUacM5iEqZu8nyuaR77Z3lz/zgLzDijNkqRh64JOAdjdUYaD
+         4L9/wbSCJlUudSJ4oNksjyFZCpJsW8LDNIjSFvVDLouRTrIABdA57OecpqRR5NKET/xj
+         26AGUSRryCmVnlPpXbJ+aRNu6+okpNyzN9rykyP6ffA/FVDd0+YFeOvyrBZLXh7bTaRM
+         reCQ==
+X-Gm-Message-State: AOAM532eSutbFmk8aYKMiQmnbXylWolvzZVsuQlHw3+ryuZPJ05V3JIC
+        u2tZUEhLURd94PU5svJZlG6mlOqx32IrVipywVxRqw==
+X-Google-Smtp-Source: ABdhPJxzKOouK7AvIHAnvw3P4Dm8KN1hazTChgk+gcL6U5ty8lioOqIOFhZiwca5PhUZ3aaNgyghNyRYm5fhszHdkrM=
+X-Received: by 2002:a1c:9a10:: with SMTP id c16mr3960105wme.96.1602859717641;
+ Fri, 16 Oct 2020 07:48:37 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201015152546.s5fvuxklgludyv2u@uno.localdomain>
+References: <gh5kef5bkeel3o6b2dkgc2dfagu9klj4c0@4ax.com> <20201008015953.GA28158@pendragon.ideasonboard.com>
+ <CAPY8ntA15jA_AViccQqK=4U_SW6snuBD=B1Km0ZvqEpf3ReBZQ@mail.gmail.com> <20201016122825.GL3829@pendragon.ideasonboard.com>
+In-Reply-To: <20201016122825.GL3829@pendragon.ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Fri, 16 Oct 2020 15:48:19 +0100
+Message-ID: <CAPY8ntAG0XijBb_+41N-tBM8SGM0T061jG2xghaR9SLROKKD=g@mail.gmail.com>
+Subject: Re: [PATCH] media: videobuf2: Fix length check for single plane
+ dmabuf queueing
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     John Cox <jc@kynesim.co.uk>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Laurent
 
-On Thu, Oct 15, 2020 at 05:25:46PM +0200, Jacopo Mondi wrote:
-> Hi Rui,
-> 
-> On Wed, Oct 14, 2020 at 03:27:58PM +0100, Rui Miguel Silva wrote:
-> > Convert imx7-csi bindings documentation to yaml schema, remove the
-> > textual bindings document and update MAINTAINERS entry.
+Thanks for the reply.
+
+On Fri, 16 Oct 2020 at 13:29, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi Dave,
+>
+> On Fri, Oct 16, 2020 at 11:20:36AM +0100, Dave Stevenson wrote:
+> > On Thu, 8 Oct 2020 at 03:00, Laurent Pinchart wrote:
+> > >
+> > > Hi John,
+> > >
+> > > Thank you for the patch.
+> > >
+> > > On Wed, Jun 17, 2020 at 02:21:52PM +0100, John Cox wrote:
+> > > > Check against length in v4l2_buffer rather than vb2_buffer when the
+> > > > buffer is a dmabuf. This makes the single plane test the same as the
+> > > > existing multiplanar test.
+> > > >
+> > > > Signed-off-by: John Cox <jc@kynesim.co.uk>
+> > > > ---
+> > > >  drivers/media/common/videobuf2/videobuf2-v4l2.c | 3 ++-
+> > > >  1 file changed, 2 insertions(+), 1 deletion(-)
+> > > >
+> > > > diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> > > > index e652f4318284..731c7c99c971 100644
+> > > > --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> > > > +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> > > > @@ -114,7 +114,8 @@ static int __verify_length(struct vb2_buffer *vb, const struct v4l2_buffer *b)
+> > > >                                 return -EINVAL;
+> > > >                 }
+> > > >         } else {
+> > > > -               length = (b->memory == VB2_MEMORY_USERPTR)
+> > > > +               length = (b->memory == VB2_MEMORY_USERPTR ||
+> > > > +                         b->memory == VB2_MEMORY_DMABUF)
+> > > >                         ? b->length : vb->planes[0].length;
+> > >
+> > > I don't think this is correct, as it breaks DMABUF import. For USERPTR
+> > > the length needs to be passed by userspace, but for DMABUF, we allow
+> > > userspace to set length to 0, and use the length retrieved from the
+> > > dma_buf. With this change, b->length is 0, and the check fails.
 > >
-> > Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> > ---
-> >  .../devicetree/bindings/media/imx7-csi.txt    | 42 ----------
-> >  .../bindings/media/nxp,imx7-csi.yaml          | 84 +++++++++++++++++++
-> >  MAINTAINERS                                   |  2 +-
-> >  3 files changed, 85 insertions(+), 43 deletions(-)
-> >  delete mode 100644 Documentation/devicetree/bindings/media/imx7-csi.txt
-> >  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> > I've just been discussing this with John  - he contracts for Raspberry
+> > Pi for the HEVC stateless decoder amongst other things, which is why
+> > this patch was created in the first place.
 > >
-> > diff --git a/Documentation/devicetree/bindings/media/imx7-csi.txt b/Documentation/devicetree/bindings/media/imx7-csi.txt
-> > deleted file mode 100644
-> > index d80ceefa0c00..000000000000
-> > --- a/Documentation/devicetree/bindings/media/imx7-csi.txt
-> > +++ /dev/null
-> > @@ -1,42 +0,0 @@
-> > -Freescale i.MX7 CMOS Sensor Interface
-> > -=====================================
-> > -
-> > -csi node
-> > ---------
-> > -
-> > -This is device node for the CMOS Sensor Interface (CSI) which enables the chip
-> > -to connect directly to external CMOS image sensors.
-> > -
-> > -Required properties:
-> > -
-> > -- compatible    : "fsl,imx7-csi" or "fsl,imx6ul-csi";
-> > -- reg           : base address and length of the register set for the device;
-> > -- interrupts    : should contain CSI interrupt;
-> > -- clocks        : list of clock specifiers, see
-> > -        Documentation/devicetree/bindings/clock/clock-bindings.txt for details;
-> > -- clock-names   : must contain "mclk";
-> > -
-> > -The device node shall contain one 'port' child node with one child 'endpoint'
-> > -node, according to the bindings defined in:
-> > -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> > -
-> > -In the following example a remote endpoint is a video multiplexer.
-> > -
-> > -example:
-> > -
-> > -                csi: csi@30710000 {
-> > -                        #address-cells = <1>;
-> > -                        #size-cells = <0>;
-> > -
-> > -                        compatible = "fsl,imx7-csi";
-> > -                        reg = <0x30710000 0x10000>;
-> > -                        interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> > -                        clocks = <&clks IMX7D_CSI_MCLK_ROOT_CLK>;
-> > -                        clock-names = "mclk";
-> > -
-> > -                        port {
-> > -                                csi_from_csi_mux: endpoint {
-> > -                                        remote-endpoint = <&csi_mux_to_csi>;
-> > -                                };
-> > -                        };
-> > -                };
-> > diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > new file mode 100644
-> > index 000000000000..9fe064dd5ba3
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> > @@ -0,0 +1,84 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> 
-> Shouldn't bindings be dual licensed ?
+> > I can't find any reference in the docs to length = 0 && b->memory ==
+> > VB2_MEMORY_DMABUF being "use dmabuf size".
+>
+> For the single-planar API,
+>
+> https://linuxtv.org/downloads/v4l-dvb-apis/userspace-api/v4l/vidioc-qbuf.html
+>
+> "To enqueue a user pointer buffer applications set the memory field to
+> V4L2_MEMORY_USERPTR, the m.userptr field to the address of the buffer
+> and length to its size."
+>
+> There is no similar mention for V4L2_MEMORY_DMABUF.
+>
+> And in https://linuxtv.org/downloads/v4l-dvb-apis/userspace-api/v4l/buffer.html#c.v4l2_buffer
+>
+> "length         Size of the buffer (not the payload) in bytes for the
+> single-planar API.  This is set by the driver based on the calls to
+> ioctl VIDIOC_REQBUFS and/or ioctl VIDIOC_CREATE_BUFS."
+>
+> While this could be clearer, the statement in the documentation of
+> v4l2_buffer isn't overridden by anything in the VIDIOC_QBUF
+> documentation for V4L2_MEMORY_DMABUF. The field should thus be set by
+> drivers, not applications.
 
-right.
+I know this is userspace API documentation, but the waters are further
+muddied by it being set by videobuf2 and not the driver itself.
 
-> 
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/nxp,imx7-csi.yaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: i.MX7 CMOS Sensor Interface
-> > +
-> > +maintainers:
-> > +  - Rui Miguel Silva <rmfrfs@gmail.com>
-> > +
-> > +description: |
-> > +  This is device node for the CMOS Sensor Interface (CSI) which enables the
-> > +  chip to connect directly to external CMOS image sensors.
-> 
-> Pretty cryptic, not your fault as it was there already. Is NXP using
-> CSI as a name but it's not really MIPI CSI-2 ? This seems to be a
-> bridge, right ?
+> > And certainly no mention of the single planar API being different from
+> > the multi-planar API (which it was until this patch).
+>
+> I don't see a mention of that either.
+>
+> > Reference to b->memory == VB2_MEMORY_USERPTR meaning that the
+> > b->length is in the description for VIDIOC_QBUF[1]
+> >
+> > John's patch is matching Hans' original patch that did the same thing
+> > for multi-planar [2].
+> > From the commit text:
+> > - in __verify_length() it would use the application-provided length value
+> >   for USERPTR and the vb2 core length for other memory models, but it
+> >   should have used the application-provided length as well for DMABUF.
+> >
+> > If you're saying that length==0 is "use the dmabuf size", then
+> > __verify_length is wrong in both single and multi-planar usage as it
+> > is comparing against vb->planes[X].length, not (struct dma_buf*)->size
+> > (the dma_buf_get isn't done until __prepare_dmabuf).
+>
+> I think it is, and the changes break userspace :-(
 
-Correct, original naming issues.
+Just so I'm clear, you're agreeing that it's wrong in both cases?
 
-> 
-> > +
-> > +properties:
-> > +  compatible:
-> > +    enum:
-> > +      - fsl,imx7-csi
-> > +      - fsl,imx6ul-csi
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    maxItems: 1
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: mclk
-> > +
-> > +  port:
-> > +    type: object
-> > +    additionalProperties: false
-> > +    description:
-> > +      A node containing input port nodes with endpoint definitions as documented
-> > +      in Documentation/devicetree/bindings/media/video-interfaces.txt
-> > +
-> > +    properties:
-> > +      endpoint:
-> > +        type: object
-> > +        additionalProperties: false
-> > +
-> > +        properties:
-> > +          remote-endpoint: true
-> > +
-> > +        required:
-> > +          - remote-endpoint
-> > +
-> > +    required:
-> > +      - endpoint
-> 
-> As per the comment on ov2680, this last part can be removed
-> 
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +  - port
-> > +
-> > +unevaluatedProperties: false
-> 
-> additionalProperties: false ?
-> 
-> This apart
-> Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+Altering both paths to ignore length fields for DMABUF under all
+circumstances and check the dmabuf size later in __prepare_dmabuf
+instead shouldn't change userspace behaviour at all compared to before
+this patch. It also removes the potential for userspace in the
+multiplanar API getting things wrong by providing a length that is
+bigger than the underlying dmabuf, which I believe will currently go
+undetected.
 
-Thanks,
+Actually the check in __prepare_dmabuf ought to be corrected to always
+take dbuf->size, not just if planes[N].length == 0 [1], and there
+appear to be other places where the multi-planar API code is
+specifically copying the plane length from the user v4l2_buffer and
+not using the driver provided values (eg [2])
+
+[1] https://elixir.free-electrons.com/linux/latest/source/drivers/media/common/videobuf2/videobuf2-core.c#L1206
+[2] https://elixir.free-electrons.com/linux/latest/source/drivers/media/common/videobuf2/videobuf2-v4l2.c#L220
+
+> After the lookup __prepare_dmabuf does check that planes[plane].length
+> > < vb->planes[plane].min_length. So do both clauses in __verify_length
+> > just need to bypass the length check if length = 0 && b->memory ==
+> > VB2_MEMORY_DMABUF ?
+> >
+> > I note we already have mismatched handling in libcamera in that
+> > multiplanar DMABUF sets length for each plane, but single planar
+> > DMABUF doesn't set buf.length [3]
+> >
+> > For info, the use case all comes down to the old chestnut of "how big
+> > is a compressed frame?".
+> > Feeding encoded bitstream into the HEVC decoder using
+> > VB2_MEMORY_DMABUF, the size of the buffer against the format sizeimage
+> > doesn't matter. The only conditions are that the buffer description is
+> > valid (ie bytesused <= actual buffer size) and the hardware can map
+> > it. If you're using dmaheaps or similar to allocate the buffers
+> > externally and an unexpectedly large compressed frame comes through,
+> > reallocate through dmaheaps and pass it in.
+> > The same argument is true for USERPTR, and that's already accounted
+> > for by relying on the application provided length.
+>
+> The key difference between DMABUF and USERPTR is that the kernel can
+> figure out the allocated buffer length internally in the first case, but
+> not the second case. I'm not sure to understand the use case for passing
+> a different length from userspace to the kernel.
+
+The use case is a different length between that which videobuf2
+believes is correct, and the actual size of the dmabuf.
+
+The situation is feeding in encoded bitstream to a decoder via the OUTPUT queue.
+- Make a first guess that the buffers need to be 512kB each
+- Use an external allocator (eg dmaheaps) to create those buffers
+- Feed them in via VIDIOC_QBUF of type V4L2_MEMORY_DMABUF.
+- Decode a load of frames and come across one that is >512kB.
+Either you:
+- have to tear everything down and resume from a suitable point in the past
+or
+- allocate a bigger buffer with the external allocator and pass that
+in via a new dmabuf handle.
+
+Some drivers won't be able to handle a bigger buffer as they may pass
+the bitstream via other internal buffers that are now too small,
+however they have all the information to know that and bail out. John
+created the patch (a) to match multi-planar, and (b) because videobuf2
+was blocking it due to checking the length against an arbitrary
+internal value rather than the actual dmabuf size. At least after the
+patch you could convey the correct length.
+Shifting to always taking the dmabuf length from the dma buf framework
+still allows the above to work without breaking your length==0 path
+(which now becomes the only path).
+
+Is it API abuse? Possibly, but the details in the spec are a little
+sketchy about what is and isn't permitted (and I know most of us hate
+having to write documentation).
+
+I guess the follow up becomes, if using DMABUF with differently sized
+buffers to that which videobuf2 believes in, and then set bytesuesd =
+0 (which is documented to mean take the buffer size), do we go through
+the right paths to get the buffer size based on the correct thing?
+
+I wonder what Hans' view is here.
+
 Cheers,
-   Rui
-> 
-> Thanks
->   j
-> 
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/clock/imx7d-clock.h>
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/interrupt-controller/irq.h>
-> > +
-> > +    csi: csi@30710000 {
-> > +            compatible = "fsl,imx7-csi";
-> > +            reg = <0x30710000 0x10000>;
-> > +            interrupts = <GIC_SPI 7 IRQ_TYPE_LEVEL_HIGH>;
-> > +            clocks = <&clks IMX7D_CSI_MCLK_ROOT_CLK>;
-> > +            clock-names = "mclk";
-> > +
-> > +            port {
-> > +                    csi_from_csi_mux: endpoint {
-> > +                            remote-endpoint = <&csi_mux_to_csi>;
-> > +                    };
-> > +            };
-> > +    };
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index 926dcdc4794c..b7f7f14cd85b 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -10773,8 +10773,8 @@ L:	linux-media@vger.kernel.org
-> >  S:	Maintained
-> >  T:	git git://linuxtv.org/media_tree.git
-> >  F:	Documentation/admin-guide/media/imx7.rst
-> > -F:	Documentation/devicetree/bindings/media/imx7-csi.txt
-> >  F:	Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
-> > +F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
-> >  F:	drivers/staging/media/imx/imx7-media-csi.c
-> >  F:	drivers/staging/media/imx/imx7-mipi-csis.c
+  Dave
+
+> > [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-qbuf.html#vidioc-qbuf
+> > [2] https://github.com/torvalds/linux/commit/8a75ffb81
+> > [3] https://git.linuxtv.org/libcamera.git/tree/src/libcamera/v4l2_videodevice.cpp#n1385
 > >
-> > --
-> > 2.28.0
-> >
+> > > >
+> > > >                 if (b->bytesused > length)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
