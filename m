@@ -2,286 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3D312902F2
-	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 12:40:34 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 98D80290379
+	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 12:46:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2395431AbgJPKke (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Oct 2020 06:40:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46980 "EHLO
+        id S2395483AbgJPKqe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Oct 2020 06:46:34 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47914 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2395429AbgJPKka (ORCPT
+        with ESMTP id S2395479AbgJPKqd (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Oct 2020 06:40:30 -0400
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2EE5C0613D3
-        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 03:40:29 -0700 (PDT)
-Received: by mail-ed1-x543.google.com with SMTP id l16so1803853eds.3
-        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 03:40:29 -0700 (PDT)
+        Fri, 16 Oct 2020 06:46:33 -0400
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 91D70C061755
+        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 03:46:32 -0700 (PDT)
+Received: by mail-lf1-x143.google.com with SMTP id a7so2258035lfk.9
+        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 03:46:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=thegoodpenguin-co-uk.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rihM4hHYK0piQ9XxG2Pab4pfabbspiBy5V27intYOt4=;
-        b=QryGfC+iFaUBVyL5duX1wRwAjtJJnwdo57WYE1kfQxlG5lsvBrICPRVzOv22M3fM0y
-         pdJfMDVFEtlWMoxjKBPynobocyHBEGbQ88+HMkeXmig8xLN88BIzIMKkj/N2UjgCq0FD
-         MfhSoH6QWStkJZP0AQn7LUsPSpJp08AIiY/PJu4souTFHwEM+ELmDWDsp5ZCAeNq1aI0
-         /oxUtD4u6IzUf2KZ/WwquVuHhi6vwzemuM0Awt5lQZ1HrwvCChb6pjoibBq96R3HATTP
-         Pgeuu+9VBQhZZoPByWTvlBlO6Oe4X5DmnMixWHrALFLlWq5vEDmPfcJZ3HAh4cbwWJvY
-         fQig==
+        d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=GxWpsonXHZk3zzIguQtFY3XPmOS5ItUSqY/CvWrQDc0=;
+        b=uAVW5LZ0qDoTr11vN0BBe+1vX4rbwGvp1XMQ/KEaZr5f8W+mk4dcL3Hgw++zlnaVSB
+         qzBQgmXWZ9vDUwe0nFRnajnG7HorEG1vaaUA/rpdEGxwwzHhy5FHmWiwsziwdjCV3n/o
+         j1jhzHz4h1apXSkrGBMeve4P5jamP+ZkiIyooQ0d4wuURiXbv4zBbW3H8CDfSOyLr/tv
+         cQhpOTL0DB8If7bRY6fYQM62OIylS7oWEHSrKuDZ/0JXEiwwp78Fd5tFQaeQkbW19orn
+         gGsUmMlU7HLVhxT5SniR8+MJsn4664VJOAd/0NrqaADR2qS9LX4WILVoRV5lDg8iBMzV
+         RgOQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rihM4hHYK0piQ9XxG2Pab4pfabbspiBy5V27intYOt4=;
-        b=i9ANDPQ8IY1UXvuJMqm3KKUyBQxtKq2E/p+LpVqp0r7wq9ro7jN+ANKoK5wKzvzCSj
-         ll2aP3yzA5NM4ap2fdDztK+vCXedeYWDh8Is+Cz9cMvq3a6vPz2FVXAttQrwsoKTM2yi
-         X5kQKchxdDKLHZ/j86aIo9ud+jVXjI905XaYK5IB9vp85n8zU3qJFfvTpvOc2Pef0Rrl
-         blj2SwWhUrBrsiGQhPZynC3lhrXjZGf/ZSd+6bt85TfqFoY8RWZDplUwmbHJybWWamHu
-         Dja8v9vwa9bBxO9qJFcew9VQf1muBVNFlISeAJKvAal5VrsHc9vsLdKjVDGaFFKlVR8i
-         qn5g==
-X-Gm-Message-State: AOAM53356hV0SsVofg60Tqz4wdwicwUPkcHKU4N8z5oCWamx3LRHmGll
-        rmi48Trx2iIggj6CUz/eSXHucVEHt/GMIqfihB+N1zI+u1xta7OG9XM=
-X-Google-Smtp-Source: ABdhPJwyxT5BvzrjwcLs3LGZRiWsgfdZDOBeWSBEJPsw05f3W12zr662PW1k1vHorQyAz9JqCQ9h56gVZMDhx8zGGd8=
-X-Received: by 2002:a05:6402:754:: with SMTP id p20mr3097432edy.109.1602844828555;
- Fri, 16 Oct 2020 03:40:28 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200821220038.16420-1-amurray@thegoodpenguin.co.uk>
- <20200823223339.GI6002@pendragon.ideasonboard.com> <CALqELGy_mwGQDn=bumogLf4H7ZVS4F+axpEyGSwEL4dYYWDKvA@mail.gmail.com>
- <d181ade9-32e2-edd9-00bf-e72f4ad0f081@ideasonboard.com>
-In-Reply-To: <d181ade9-32e2-edd9-00bf-e72f4ad0f081@ideasonboard.com>
-From:   Andrew Murray <amurray@thegoodpenguin.co.uk>
-Date:   Fri, 16 Oct 2020 11:40:17 +0100
-Message-ID: <CALqELGxmwhvFF-4=VR9L4=1Bqoy9JLmErcuOOw8zBQc9UVmTbg@mail.gmail.com>
-Subject: Re: [PATCH] media: uvcvideo: Add bandwidth_cap module param
-To:     kieran.bingham+renesas@ideasonboard.com
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=GxWpsonXHZk3zzIguQtFY3XPmOS5ItUSqY/CvWrQDc0=;
+        b=l8kPoMi6fVSmUEzWrE1Mph/m2bQ4SLrUJE87TUHdUvbHcG/nxuYZZRgVx6WfIV2ps1
+         WKZmQ79EH/hemI4F1d16VkZgrCTnnYZvr9RJmKUufOrXZoAfF/t5qrhCnCUAjJhgkDTm
+         uWowcd8luFzwYGsKY1sfpfiESUC9/G3eL6ORl+GEjddJI7vDQpmikWq0EyH6oKu+tfDm
+         umgTJCz2C2UFCBEluuIESFtK+NudpgYtAwyB86p74ql5DTET9o6qD0B8Qzg1n+kyVwKc
+         QVFixn87LgjGkjQtWWqBfmdZh7G3gNV4ZX2R3JG0eFTfRO+IcQEtDo8+EpTx5rMPtrHq
+         fqIA==
+X-Gm-Message-State: AOAM531htknGIp60GdqgHKDP48J95pRteJjDfw4BqY+BdYVudniLm/Ug
+        n9YJ/SNg8bO6KWQPlH0rcKQl/BSTsuuI5g==
+X-Google-Smtp-Source: ABdhPJwn+emKMSImv/ay6it3kVmAQdJapmCqNQeyL62QfTbrTgeXOFuxoVIoJrgyIbbuV0Xr3WfHKQ==
+X-Received: by 2002:a19:350:: with SMTP id 77mr1194910lfd.92.1602845191026;
+        Fri, 16 Oct 2020 03:46:31 -0700 (PDT)
+Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
+        by smtp.gmail.com with ESMTPSA id z19sm704004lfr.46.2020.10.16.03.46.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 16 Oct 2020 03:46:30 -0700 (PDT)
+Date:   Fri, 16 Oct 2020 12:46:29 +0200
+From:   Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
 Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Subject: Re: [PATCH 0/5] rcar-vin: Support suspend and resume
+Message-ID: <20201016104629.xy4fb23ibglwh574@oden.dyn.berto.se>
+References: <20201015231408.2399933-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdWnchxP=s84SArS9XWg+uZESVXbkfOXWrpbpwUqNRk91g@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAMuHMdWnchxP=s84SArS9XWg+uZESVXbkfOXWrpbpwUqNRk91g@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Kieran,
+Hi Geert,
 
-Thanks for the feedback...
-
-On Fri, 16 Oct 2020 at 09:37, Kieran Bingham
-<kieran.bingham+renesas@ideasonboard.com> wrote:
->
-> >>
-> >> On Fri, Aug 21, 2020 at 11:00:38PM +0100, Andrew Murray wrote:
-> >>> Many UVC devices report larger values for dwMaxPayloadTransferSize than
-> >>> appear to be required. This results in less bandwidth available for
-> >>> other devices.
-> >>>
-> >>> This problem is commonly observed when attempting to stream from multiple
-> >>> UVC cameras with the host controller returning -ENOSPC and sometimes a
-> >>> warning (XHCI controllers: "Not enough bandwidth for new device state.").
->
-> So perhaps is this something we can detect at runtime?
-
-I don't think so. We can't detect that a camera is requesting more
-bandwidth that it really
-needs (except perhaps for specific cameras that are known to be bad).
-When we get this
-error message, it may not be any fault of the most recently plugged in
-camera - it may be
-an earlier plugged in camera that erroneously used up most, but not
-all of the bandwidth.
-
-
->
-> >>> For uncompressed video, the UVC_QUIRK_FIX_BANDWIDTH works around this issue
-> >>> by overriding the device provided dwMaxPayloadTransferSize with a
-> >>> calculation of the actual bandwidth requirements from the requested frame
-> >>> size and rate. However for compressed video formats it's not practical to
-> >>> estimate the bandwidth required as the kernel doesn't have enough
-> >>> information.
->
-> Is it something that can be retried with lower and lower values until it
-> works when the issue is detected? Or is that difficult because it will
-> require interacting/negotiating with other devices on the same bus?
-
-As the kernel has no way of knowing if a device is requesting more
-bandwidth than it needs
- - you don't know which device is causing problems. Thus you only know
-you have a problem
-when you run out of bandwidth, in which case that may be because you
-have used too many
-devices - or it may be because one or more of them have requested more
-bandwidth than
-needed. At this point you wouldn't want to reconfigure existing
-devices, and reducing the
-bandwidth requirement of the new device may be incorrect - given it's
-not the device at fault.
-
-
-> >>> Let's provide a pragmatic solution by allowing the user to impose an upper
-> >>> threshold to the amount of bandwidth each UVC device can reserve. If the
-> >>> parameter isn't used then no threshold is imposed.
-> >>
-> >> Hmmmm... This is a bit annoying as it will apply equally to all formats
-> >> and all cameras. It may solve a real issue, but it's quite a bit of a
-> >> hack.
+On 2020-10-16 09:06:20 +0200, Geert Uytterhoeven wrote:
+> Hi Niklas,
+> 
+> On Fri, Oct 16, 2020 at 4:01 AM Niklas Söderlund
+> <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > This series add suspend and resume support directly to R-Car VIN and
+> > indirectly to R-Car CSI-2 and other subdevices in the VIN capture
+> > pipeline. The capture pipeline is stopped when suspending and started
+> > when resuming, all while retaining the buffers provided from user-space.
+> > This makes the start and stop of the pipeline transparent from an
+> > application point of view.
 > >
-> > Yes you're right. There is certainly a real issue here though, if you google
-> > 'usb web cam no space left on device' or similar, you'll find plenty
-> > of people having
-> > issues. Many of those which could be resolved with a patch like this.
-> > Part of the
-> > motivation for sharing this patch was so that those people may come across this
-> > patch rather than hack their own or give up - though I'd prefer to
-> > make this less of a
-> > hack.
-> >
-> > I could respin this to only apply for UVC_FMT_FLAG_COMPRESSED formats, as
->
-> One worry I would have is that if the kernel can't decide an appropriate
-> value, can we expect users to ?
->
-> (And as soon as we can expect users to, can we emulate that decision
-> process in the kernel?)
+> > As the pipeline is switched off subdevices that poweroff themself when
+> > not in use (such as R-Car CSI-2) are also switched off and are
+> > indirectly serviced by the suspend support in VIN.
+> 
+> Thanks for your series!
+> 
+> > This work is based on-top of the media-tree and is tested on both R-Car
+> > Gen2 and Gen3 without any regressions.
+> 
+> FTR: did you test on Gen3 with both s2idle and s2ram, the latter powering
+> off the SoC?
 
+I have only been able to test it with s2idle. My issue is that s2ram 
+fails to reconnect the Ethernet (ravb) and I use nfsroot. If I instead 
+use a initramfs I can resume from s2ram but I don't have the setup to 
+test capture in that environment.
 
-There isn't a perfect solution here. So it's trial and error (!!) from
-the user, or the
-status quo - where the user can't use multiple cameras at once.
+My procedure for s2idle that works with nfsroot is,
 
-Besides are there any other use-cases where capping the bandwidth per device is
-beneficial?
+    # path=$(find /sys -path '/sys/devices/platform/*/ttySC0/power/wakeup')
+    # echo enabled > $path
+    # echo N > /sys/module/printk/parameters/console_suspend
+    # echo s2idle > /sys/power/mem_slee
+    # echo mem > /sys/power/state
+    ** Wait a while and then wakeup using the console **
+    #
 
->
->
-> > if there is a problem with compressed video then a better solution is to use the
-> > existing UVC_QUIRK_FIX_BANDWIDTH.
-> >
-> > I didn't add this as a quirk that is only applied to specific
-> > idVendor/idProducts, as I
-> > felt the list might get large, and in any case my assumption is that
-> > most of the people
-> > that suffer from this issue will likely have a specific camera setup
-> > and a bandwidth cap
-> > wouldn't cause any issues - for example if you have 4 cameras on a
-> > EHCI (perhaps with
-> > one camera with a bandwidth issue) platform - then you could cap all
-> > cameras high at
-> > 90Mbps - that would resolve the camera with the bandwidth issue but
-> > not likely affect the
-> > other cameras.  (Many cameras that I've played with seem to request 195 Mbps).
-> >
-> >> I'm also concerned that users will be confused regarding how to
-> >> use this parameter properly, as there's no documentation that explains
-> >> its usage, and how to pick a proper value. Is there any way we could do
-> >> better ?
-> >
-> > I'm happy to write some, though I couldn't find any (in-tree) for the
-> > existing parameters
-> > (uvc_no_drop_param, uvc_trace_param, etc) so I wasn't sure the best
-> > place for this.
-> > Any suggestions?
->
-> It should probably go somewhere that ends up in the linux-media kernel
-> documentation.
->
-> > Just as per the UVC_QUIRK_FIX_BANDWIDTH quirk, this works by adjusting
-> > dwMaxPayloadTransferSize, which results in the kernel selecting a different USB
-> > alternate configuration from those made available by the device. It selects a
-> > configuration that matches or provides more bandwidth than that
-> > requested. I'm not
-> > sure what happens if you stream at a high resolution but select an
-> > alternate configuration
-> > that has a (too) low bandwidth, perhaps it depends on the camera. It
-> > also requires
-> > knowledge of the camera to determine how much bandwidth it genuinely
-> > needs. Without
-> > such knowledge - the best approach is to come up with a reasonable
-> > estimate of bandwidth
-> > based on compression codec, framesize, rate, etc, look at the
-> > available alternate configs
-> > (e.g. from lsusb), and then set a value of bandwidth_cap larger than
-> > that required. And then
-> > of course test to see if it meets your needs.
->
-> This sounds quite complex to be able to use a webcam (or two)...
+My procedure for s2ram that does _not_ work with nfsroot (but do with 
+initramfs). Both tests are done on a M3-N.
 
-What is the alternative?
+    # echo N > /sys/module/printk/parameters/console_suspend
+    # echo on > /sys/bus/i2c/drivers/bd9571mwv/*/bd9571mwv-regulator*/backup_mode
+    ** flipp SW23 off **
+    # echo mem > /sys/power/state
+    [  347.096336] PM: suspend entry (deep)
+    [  347.104251] Filesystems sync: 0.003 seconds
+    [  347.123751] Freezing user space processes ... (elapsed 0.007 seconds) done.
+    [  347.138760] OOM killer disabled.
+    [  347.142099] Freezing remaining freezable tasks ... (elapsed 0.002 seconds) done.
+    [  347.167466] ravb e6800000.ethernet eth0: Link is Down
+    [  347.440549] Disabling non-boot CPUs ...
+    [  347.448805] CPU1: shutdown
+    [  347.451731] psci: CPU1 killed (polled 0 ms)
+    ** Waits 30+ seconds then switch SW23 on **
+    INFO:    ARM GICv2 driver initialized
+    NOTICE:  BL2: R-Car Gen3 Initial Program Loader(CA57) Rev.2.0.6
+    NOTICE:  BL2: PRR is R-Car M3N Ver.1.0
+    NOTICE:  BL2: Board is Salvator-XS Rev.1.0
+    NOTICE:  BL2: Boot device is HyperFlash(160MHz)
+    NOTICE:  BL2: LCM state is CM
+    NOTICE:  AVS setting succeeded. DVFS_SetVID=0x53
+    NOTICE:  BL2: DDR3200(rev.0.40)
+    NOTICE:  BL2: [WARM_BOOT]
+    NOTICE:  BL2: DRAM Split is OFF
+    NOTICE:  BL2: QoS is default setting(rev.0.09)
+    NOTICE:  BL2: DRAM refresh interval 1.95 usec
+    NOTICE:  BL2: Periodic Write DQ Training
+    NOTICE:  BL2: CH0: 400000000 - 47fffffff, 2 GiB
+    NOTICE:  BL2: FDT at 0xe6322508
+    NOTICE:  BL2: v2.3(release):v2.3-188-g9935047b2086faa3
+    NOTICE:  BL2: Built : 23:31:02, Jun 18 2020
+    NOTICE:  BL2: Normal boot
+    INFO:    BL2: Doing platform setup
+    [  347.461237] Enabling non-boot CPUs ...
+    [  347.465551] Detected PIPT I-cache on CPU1
+    [  347.465611] CPU1: Booted secondary processor 0x0000000001 [0x411fd073]
+    [  347.468691] CPU1 is up
+    [  347.607806] usb usb2: root hub lost power or was reset
+    [  347.613594] usb usb1: root hub lost power or was reset
+    [  347.767713] usb usb4: root hub lost power or was reset
+    [  347.773424] usb usb3: root hub lost power or was reset
+    [  347.775223] libphy: ravb_mii: probed
+    [  347.782808] mdio_bus e6800000.ethernet-ffffffff: MDIO device at address 0 is missing.
+    [  347.794508] ravb e6800000.ethernet eth0: failed to connect PHY
+    [  347.802223] PM: dpm_run_callback(): ravb_resume+0x0/0x190 returns -2
+    [  347.808739] PM: Device e6800000.ethernet failed to resume: error -2
+    [  347.929701] ata1: link resume succeeded after 1 retries
+    [  347.989934] OOM killer enabled.
+    [  347.993184] Restarting tasks ... done.
+    [  348.004321] PM: suspend exit
+    [  348.039400] ata1: SATA link down (SStatus 0 SControl 300)
+    [  529.376515] nfs: server 10.0.1.1 not responding, still trying
+    [  529.376702] nfs: server 10.0.1.1 not responding, still trying
+    [  529.385628] nfs: server 10.0.1.1 not responding, still trying
+    ** Board never reaches user-space **
 
-Andrew Murray
+Is there a known fix for this?
 
->
-> Ayeee....
->
-> Kieran
->
->
-> >
-> > Thanks,
-> >
-> > Andrew Murray
-> >
-> >>
-> >>> Signed-off-by: Andrew Murray <amurray@thegoodpenguin.co.uk>
-> >>> ---
-> >>>  drivers/media/usb/uvc/uvc_driver.c | 3 +++
-> >>>  drivers/media/usb/uvc/uvc_video.c  | 8 ++++++++
-> >>>  drivers/media/usb/uvc/uvcvideo.h   | 1 +
-> >>>  3 files changed, 12 insertions(+)
-> >>>
-> >>> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-> >>> index 431d86e1c94b..d5ecac7fc264 100644
-> >>> --- a/drivers/media/usb/uvc/uvc_driver.c
-> >>> +++ b/drivers/media/usb/uvc/uvc_driver.c
-> >>> @@ -33,6 +33,7 @@ unsigned int uvc_no_drop_param;
-> >>>  static unsigned int uvc_quirks_param = -1;
-> >>>  unsigned int uvc_trace_param;
-> >>>  unsigned int uvc_timeout_param = UVC_CTRL_STREAMING_TIMEOUT;
-> >>> +unsigned int uvc_bandwidth_cap_param;
-> >>>
-> >>>  /* ------------------------------------------------------------------------
-> >>>   * Video formats
-> >>> @@ -2389,6 +2390,8 @@ module_param_named(trace, uvc_trace_param, uint, S_IRUGO|S_IWUSR);
-> >>>  MODULE_PARM_DESC(trace, "Trace level bitmask");
-> >>>  module_param_named(timeout, uvc_timeout_param, uint, S_IRUGO|S_IWUSR);
-> >>>  MODULE_PARM_DESC(timeout, "Streaming control requests timeout");
-> >>> +module_param_named(bandwidth_cap, uvc_bandwidth_cap_param, uint, S_IRUGO|S_IWUSR);
-> >>> +MODULE_PARM_DESC(bandwidth_cap, "Maximum bandwidth per device");
-> >>>
-> >>>  /* ------------------------------------------------------------------------
-> >>>   * Driver initialization and cleanup
-> >>> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
-> >>> index a65d5353a441..74a0dc0614cf 100644
-> >>> --- a/drivers/media/usb/uvc/uvc_video.c
-> >>> +++ b/drivers/media/usb/uvc/uvc_video.c
-> >>> @@ -196,6 +196,14 @@ static void uvc_fixup_video_ctrl(struct uvc_streaming *stream,
-> >>>
-> >>>               ctrl->dwMaxPayloadTransferSize = bandwidth;
-> >>>       }
-> >>> +
-> >>> +     if (uvc_bandwidth_cap_param &&
-> >>> +         ctrl->dwMaxPayloadTransferSize > uvc_bandwidth_cap_param) {
-> >>> +             uvc_trace(UVC_TRACE_VIDEO,
-> >>> +                     "Bandwidth capped from %u to %u B/frame.\n",
-> >>> +                     ctrl->dwMaxPayloadTransferSize, uvc_bandwidth_cap_param);
-> >>> +             ctrl->dwMaxPayloadTransferSize = uvc_bandwidth_cap_param;
-> >>> +     }
-> >>>  }
-> >>>
-> >>>  static size_t uvc_video_ctrl_size(struct uvc_streaming *stream)
-> >>> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> >>> index 6ab972c643e3..c7d9220c9a7a 100644
-> >>> --- a/drivers/media/usb/uvc/uvcvideo.h
-> >>> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> >>> @@ -718,6 +718,7 @@ extern unsigned int uvc_no_drop_param;
-> >>>  extern unsigned int uvc_trace_param;
-> >>>  extern unsigned int uvc_timeout_param;
-> >>>  extern unsigned int uvc_hw_timestamps_param;
-> >>> +extern unsigned int uvc_bandwidth_cap_param;
-> >>>
-> >>>  #define uvc_trace(flag, msg...) \
-> >>>       do { \
-> >>
-> >> --
-> >> Regards,
-> >>
-> >> Laurent Pinchart
->
+> 
+> Gr{oetje,eeting}s,
+> 
+>                         Geert
+> 
+> -- 
+> Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+> 
+> In personal conversations with technical people, I call myself a hacker. But
+> when I'm talking to journalists I just say "programmer" or something like that.
+>                                 -- Linus Torvalds
+
+-- 
+Regards,
+Niklas Söderlund
