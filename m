@@ -2,144 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 372FB2903BC
-	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 13:04:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C44D72903FA
+	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 13:26:38 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406735AbgJPLEf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Oct 2020 07:04:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50688 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406670AbgJPLEf (ORCPT
+        id S2406155AbgJPL0i convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 16 Oct 2020 07:26:38 -0400
+Received: from mail-oi1-f195.google.com ([209.85.167.195]:35528 "EHLO
+        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2405448AbgJPL0h (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Oct 2020 07:04:35 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 37F59C061755;
-        Fri, 16 Oct 2020 04:04:35 -0700 (PDT)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3FC11528;
-        Fri, 16 Oct 2020 13:04:32 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1602846272;
-        bh=KpwAjDEbv0VgYYcCcN3JOEIMqRVebV5AYoRSvMrsZq4=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=rVWhYl4bdvV0xA131ANG2T70nFbP0/YAeGXHBpXfzuF7xehT+3JHOHRxSCyiHCxDZ
-         mlH0r2uQODH7sMLc2zc6TGDxJZdiEm7OlgJXWH4bqNHZZb6+W+ezcvltMZWQ8q6G57
-         Ozrp7jsiRaHQP+6QpO3o9ewQ4wVTc0bYC3hgTD3c=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v3 5/7] media: i2c: max9286: Configure reverse channel
- amplitude
-To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
-References: <20201016120625.64337-1-jacopo+renesas@jmondi.org>
- <20201016120625.64337-6-jacopo+renesas@jmondi.org>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <b27d0984-a1c5-d8a5-6e5a-1fefc3b87fd5@ideasonboard.com>
-Date:   Fri, 16 Oct 2020 12:04:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Fri, 16 Oct 2020 07:26:37 -0400
+Received: by mail-oi1-f195.google.com with SMTP id w141so2044661oia.2;
+        Fri, 16 Oct 2020 04:26:36 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=+tUY23Fnh3h/GUDvCPSO5j6kFLC3m6/J+eXR/e+9gis=;
+        b=OY6jTR2PEiiI3M8FICkaBN2p+/I/v/ZDzSdcY+otgYgb27/h4+dzBqE1loJ4m96n+P
+         QQK9WzCQwGuVpmigluqXIlSlg72VbPKojflugmxtBGB7dLSXSyM+lRfPYh5N3JrdwYK7
+         mobBXm2XCYWEC3X0+VuhyjDIg4FtUpGhOW4LbfVhzY6KJuw5IBzJodcIuIrOxM/D+hQ8
+         2dcZaj4qNgtSMRys9hn6gvimHTvVu0Ll8UIw7BVmlWKqefbGNxEHPYCvv0EtyNvp826n
+         4ofBkF/R5nxuL2z6DM/oKpbXX7FdBdtW385fhX80ZQikz9HzYeiJw/bFQFdgzf8Fw5Bo
+         8+8Q==
+X-Gm-Message-State: AOAM531wxxKP2K7T0tUYkiDBEKCxPesVvSA310uHGEBq/FaoC+MQLDcY
+        l+EECev/yrRONOS4hgvDkcgEMQfI98wsdY+/BSg=
+X-Google-Smtp-Source: ABdhPJzJxpTR69NUAVkUWUX3gX1LbNWNYPglOpaeIaONbhmS67DHnmzw4TpWpRKbNYJcwWDEwgLLGL+bSTDsfyNoUDk=
+X-Received: by 2002:aca:c490:: with SMTP id u138mr2109166oif.54.1602847596494;
+ Fri, 16 Oct 2020 04:26:36 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20201016120625.64337-6-jacopo+renesas@jmondi.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20201015231408.2399933-1-niklas.soderlund+renesas@ragnatech.se>
+ <CAMuHMdWnchxP=s84SArS9XWg+uZESVXbkfOXWrpbpwUqNRk91g@mail.gmail.com> <20201016104629.xy4fb23ibglwh574@oden.dyn.berto.se>
+In-Reply-To: <20201016104629.xy4fb23ibglwh574@oden.dyn.berto.se>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Fri, 16 Oct 2020 13:26:25 +0200
+Message-ID: <CAMuHMdW85WQ7zsdVrjuUTQ+RNsBA6fEnTajjpYp9a+rnZtwmOA@mail.gmail.com>
+Subject: Re: [PATCH 0/5] rcar-vin: Support suspend and resume
+To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo,
+Hi Niklas,
 
-On 16/10/2020 13:06, Jacopo Mondi wrote:
-> Adjust reverse channel amplitude according to the presence of
-> the 'high-threshold" DTS property.
-> 
-> If no high threshold compensation is required, start with a low
-> amplitude (100mV) and increase it after the remote serializers
-> have probed and have enabled noise immunity on their reverse
-> channels.
-> 
-> If high threshold compensation is required, configure the reverse
-> channel with a 170mV amplitude before the remote serializers have
-> probed.
-> 
-> This change is required for both rdacm20 and rdacm21 camera modules
-> to be correctly probed when used in combination with the max9286
-> deserializer.
+On Fri, Oct 16, 2020 at 12:46 PM Niklas Söderlund
+<niklas.soderlund+renesas@ragnatech.se> wrote:
+> On 2020-10-16 09:06:20 +0200, Geert Uytterhoeven wrote:
+> > On Fri, Oct 16, 2020 at 4:01 AM Niklas Söderlund
+> > <niklas.soderlund+renesas@ragnatech.se> wrote:
+> > > This series add suspend and resume support directly to R-Car VIN and
+> > > indirectly to R-Car CSI-2 and other subdevices in the VIN capture
+> > > pipeline. The capture pipeline is stopped when suspending and started
+> > > when resuming, all while retaining the buffers provided from user-space.
+> > > This makes the start and stop of the pipeline transparent from an
+> > > application point of view.
+> > >
+> > > As the pipeline is switched off subdevices that poweroff themself when
+> > > not in use (such as R-Car CSI-2) are also switched off and are
+> > > indirectly serviced by the suspend support in VIN.
+> >
+> > Thanks for your series!
+> >
+> > > This work is based on-top of the media-tree and is tested on both R-Car
+> > > Gen2 and Gen3 without any regressions.
+> >
+> > FTR: did you test on Gen3 with both s2idle and s2ram, the latter powering
+> > off the SoC?
+>
+> I have only been able to test it with s2idle. My issue is that s2ram
+> fails to reconnect the Ethernet (ravb) and I use nfsroot. If I instead
+> use a initramfs I can resume from s2ram but I don't have the setup to
+> test capture in that environment.
 
-My only fear here would be that perhaps on other cameras we need a more
-fine-grained control of the amplitudes?
+>     [  347.775223] libphy: ravb_mii: probed
+>     [  347.782808] mdio_bus e6800000.ethernet-ffffffff: MDIO device at address 0 is missing.
+>     [  347.794508] ravb e6800000.ethernet eth0: failed to connect PHY
+>     [  347.802223] PM: dpm_run_callback(): ravb_resume+0x0/0x190 returns -2
+>     [  347.808739] PM: Device e6800000.ethernet failed to resume: error -2
+>     [  347.929701] ata1: link resume succeeded after 1 retries
+>     [  347.989934] OOM killer enabled.
+>     [  347.993184] Restarting tasks ... done.
+>     [  348.004321] PM: suspend exit
+>     [  348.039400] ata1: SATA link down (SStatus 0 SControl 300)
+>     [  529.376515] nfs: server 10.0.1.1 not responding, still trying
+>     [  529.376702] nfs: server 10.0.1.1 not responding, still trying
+>     [  529.385628] nfs: server 10.0.1.1 not responding, still trying
+>     ** Board never reaches user-space **
+>
+> Is there a known fix for this?
 
-But I'll leave that discussion to the binding itself,
+Please try cherry-picking commit 77972b55fb9d35d4 ("Revert "ravb: Fixed
+to be able to unload modules"") from v5.9.
 
-For this patch ...
+Gr{oetje,eeting}s,
 
-Reviewed-by: Kieran Bingham <kieran.bingham@ideasonboard.com>
+                        Geert
 
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
 
-> 
-> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> ---
->  drivers/media/i2c/max9286.c | 19 ++++++++++++++++++-
->  1 file changed, 18 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
-> index 31e27d0f34f1..4c72e1e6b27b 100644
-> --- a/drivers/media/i2c/max9286.c
-> +++ b/drivers/media/i2c/max9286.c
-> @@ -163,6 +163,8 @@ struct max9286_priv {
->  	unsigned int mux_channel;
->  	bool mux_open;
->  
-> +	bool high_threshold;
-> +
->  	struct v4l2_ctrl_handler ctrls;
->  	struct v4l2_ctrl *pixelrate;
->  
-> @@ -557,10 +559,14 @@ static int max9286_notify_bound(struct v4l2_async_notifier *notifier,
->  	 * All enabled sources have probed and enabled their reverse control
->  	 * channels:
->  	 *
-> +	 * - Increase the reverse channel amplitude to compensate for the
-> +	 *   remote ends high threshold, if not done already
->  	 * - Verify all configuration links are properly detected
->  	 * - Disable auto-ack as communication on the control channel are now
->  	 *   stable.
->  	 */
-> +	if (!priv->high_threshold)
-> +		max9286_reverse_channel_setup(priv, 170);
->  	max9286_check_config_link(priv, priv->source_mask);
->  
->  	/*
-> @@ -967,7 +973,12 @@ static int max9286_setup(struct max9286_priv *priv)
->  	 * only. This should be disabled after the mux is initialised.
->  	 */
->  	max9286_configure_i2c(priv, true);
-> -	max9286_reverse_channel_setup(priv, 170);
-> +
-> +	/*
-> +	 * Compensate the remote end high threshold with a larger channel
-> +	 * amplitude if necessary.
-> +	 */
-> +	max9286_reverse_channel_setup(priv, priv->high_threshold ? 170 : 100);
->  
->  	/*
->  	 * Enable GMSL links, mask unused ones and autodetect link
-> @@ -1235,6 +1246,12 @@ static int max9286_parse_dt(struct max9286_priv *priv)
->  	}
->  	of_node_put(node);
->  
-> +	/*
-> +	 * Parse 'high_threshold' property to configure the reverse channel
-> +	 * amplitude.
-> +	 */
-> +	priv->high_threshold = device_property_present(dev, "high_threshold");
-> +
->  	priv->route_mask = priv->source_mask;
->  
->  	return 0;
-> 
-
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
