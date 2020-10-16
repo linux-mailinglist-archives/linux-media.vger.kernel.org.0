@@ -2,184 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFB9E290293
-	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 12:09:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D90CA2902BA
+	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 12:21:26 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406586AbgJPKJJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Oct 2020 06:09:09 -0400
-Received: from asavdk3.altibox.net ([109.247.116.14]:42220 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406539AbgJPKJJ (ORCPT
+        id S2395277AbgJPKVI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Oct 2020 06:21:08 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43930 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731141AbgJPKUz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Oct 2020 06:09:09 -0400
-Received: from ravnborg.org (unknown [188.228.123.71])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id DC35220027;
-        Fri, 16 Oct 2020 12:08:55 +0200 (CEST)
-Date:   Fri, 16 Oct 2020 12:08:54 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
-        christian.koenig@amd.com, kraxel@redhat.com,
-        l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
-        christian.gmeiner@gmail.com, inki.dae@samsung.com,
-        jy0922.shim@samsung.com, sw0312.kim@samsung.com,
-        kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
-        yuq825@gmail.com, bskeggs@redhat.com, robh@kernel.org,
-        tomeu.vizoso@collabora.com, steven.price@arm.com,
-        alyssa.rosenzweig@collabora.com, hjc@rock-chips.com,
-        heiko@sntech.de, hdegoede@redhat.com, sean@poorly.run,
-        eric@anholt.net, oleksandr_andrushchenko@epam.com,
-        ray.huang@amd.com, sumit.semwal@linaro.org,
-        emil.velikov@collabora.com, luben.tuikov@amd.com, apaneers@amd.com,
-        linus.walleij@linaro.org, melissa.srw@gmail.com,
-        chris@chris-wilson.co.uk, miaoqinglang@huawei.com,
-        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        etnaviv@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, xen-devel@lists.xenproject.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v4 09/10] dma-buf-map: Add memcpy and pointer-increment
- interfaces
-Message-ID: <20201016100854.GA1042954@ravnborg.org>
-References: <20201015123806.32416-1-tzimmermann@suse.de>
- <20201015123806.32416-10-tzimmermann@suse.de>
+        Fri, 16 Oct 2020 06:20:55 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7283EC061755
+        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 03:20:55 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id h7so2136066wre.4
+        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 03:20:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=raspberrypi.com; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=1wQ+QegbSMRK0PCmkL5ShUNT/wQ5dtDD3UIgNgbw5Lg=;
+        b=mUa4kmfIaSoIqAOK4BR8YHlP26JwcB9IpvjA7mwlj3LI9+vcK5nHDuqP2LyIvEuk9B
+         8TbeE6asz+ujOioXvvagwdnEh9O5RqirNX8gcY1qkWOs1vgX0AeSNU/UuKYFV44fCFSz
+         Jqb/Jmvo4Tel3BtY1kXnJosk39EkfFETuPmai7KR9BhPf8Oti1gtn0A0Dhj7+GdNzVdN
+         7y9TN5T7zwuTA7mk85cUsFByzQB634WFDOafRgQhj4qRBtKqUSjbt2rtTrYle3cEsjOG
+         mFYNTZCaGtqROVWycHZRka2X1FxFUxfG+wiei9xjbcz5AO81yA/xB9hANCVV90mLhN+W
+         MROg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=1wQ+QegbSMRK0PCmkL5ShUNT/wQ5dtDD3UIgNgbw5Lg=;
+        b=G2qWMwcFCEifmopQlNK3o8YE3pzkRd55WhNYOyH737312AhwE/C2FP2TdUO5qoqRKl
+         u8rGPY1yNFxNbSzGL9OjP8HgTnnNgUGl29fikX8LExnL37x9pe1+0NYyOC4LmZZP4GGM
+         elZkaZYyWA4qM7WTIuEieugEf2zLcxvdU0gcC885hIPkxdeMnoTa3vhwIN6D8Q7uvNsq
+         wtYEUtHMbknj3iZXHf3xofBcsgWXXzQPGTewPV8QMYZO7CzC/jjR08s5qdJQXVCaPtq1
+         dmr15BnYh3PkEfsS0jkmL/i1T05DMMjuBN0jwt2zS0nL3Rry9zEUpY1RlSM/e9TdzLeR
+         J4Xg==
+X-Gm-Message-State: AOAM532a7b+Nky7QjnGUCdtm1Sk+9ce54OUynKjpCrfPOuq5eYrjBME6
+        t+IjVT58jbeUSQ9EpBBZlNDkFbHn6HY5g2tLW1gknw==
+X-Google-Smtp-Source: ABdhPJzZ2quozkaAnveWG2208VWcGSfPtPC+DuVxuAb6vUTYG7PK+6z3b37InUWG9ihtr4XPjqLySxC+SdlmTTgmnTc=
+X-Received: by 2002:adf:e806:: with SMTP id o6mr3111329wrm.42.1602843654039;
+ Fri, 16 Oct 2020 03:20:54 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201015123806.32416-10-tzimmermann@suse.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=S433PrkP c=1 sm=1 tr=0
-        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
-        a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=0A2xud3A4b7FAmx5SMIA:9
-        a=7a1rlSNJFqSX5uOf:21 a=OU_kl8OV53ZSq-ss:21 a=CjuIK1q_8ugA:10
-        a=E9Po1WZjFZOl8hwRPBS3:22
+References: <gh5kef5bkeel3o6b2dkgc2dfagu9klj4c0@4ax.com> <20201008015953.GA28158@pendragon.ideasonboard.com>
+In-Reply-To: <20201008015953.GA28158@pendragon.ideasonboard.com>
+From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
+Date:   Fri, 16 Oct 2020 11:20:36 +0100
+Message-ID: <CAPY8ntA15jA_AViccQqK=4U_SW6snuBD=B1Km0ZvqEpf3ReBZQ@mail.gmail.com>
+Subject: Re: [PATCH] media: videobuf2: Fix length check for single plane
+ dmabuf queueing
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     John Cox <jc@kynesim.co.uk>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Thomas.
+tHi Laurent
 
-On Thu, Oct 15, 2020 at 02:38:05PM +0200, Thomas Zimmermann wrote:
-> To do framebuffer updates, one needs memcpy from system memory and a
-> pointer-increment function. Add both interfaces with documentation.
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+On Thu, 8 Oct 2020 at 03:00, Laurent Pinchart
+<laurent.pinchart@ideasonboard.com> wrote:
+>
+> Hi John,
+>
+> Thank you for the patch.
+>
+> On Wed, Jun 17, 2020 at 02:21:52PM +0100, John Cox wrote:
+> > Check against length in v4l2_buffer rather than vb2_buffer when the
+> > buffer is a dmabuf. This makes the single plane test the same as the
+> > existing multiplanar test.
+> >
+> > Signed-off-by: John Cox <jc@kynesim.co.uk>
+> > ---
+> >  drivers/media/common/videobuf2/videobuf2-v4l2.c | 3 ++-
+> >  1 file changed, 2 insertions(+), 1 deletion(-)
+> >
+> > diff --git a/drivers/media/common/videobuf2/videobuf2-v4l2.c b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> > index e652f4318284..731c7c99c971 100644
+> > --- a/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> > +++ b/drivers/media/common/videobuf2/videobuf2-v4l2.c
+> > @@ -114,7 +114,8 @@ static int __verify_length(struct vb2_buffer *vb, const struct v4l2_buffer *b)
+> >                                 return -EINVAL;
+> >                 }
+> >         } else {
+> > -               length = (b->memory == VB2_MEMORY_USERPTR)
+> > +               length = (b->memory == VB2_MEMORY_USERPTR ||
+> > +                         b->memory == VB2_MEMORY_DMABUF)
+> >                         ? b->length : vb->planes[0].length;
+>
+> I don't think this is correct, as it breaks DMABUF import. For USERPTR
+> the length needs to be passed by userspace, but for DMABUF, we allow
+> userspace to set length to 0, and use the length retrieved from the
+> dma_buf. With this change, b->length is 0, and the check fails.
 
-Looks good.
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+I've just been discussing this with John  - he contracts for Raspberry
+Pi for the HEVC stateless decoder amongst other things, which is why
+this patch was created in the first place.
 
-> ---
->  include/linux/dma-buf-map.h | 72 +++++++++++++++++++++++++++++++------
->  1 file changed, 62 insertions(+), 10 deletions(-)
-> 
-> diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
-> index 2e8bbecb5091..6ca0f304dda2 100644
-> --- a/include/linux/dma-buf-map.h
-> +++ b/include/linux/dma-buf-map.h
-> @@ -32,6 +32,14 @@
->   * accessing the buffer. Use the returned instance and the helper functions
->   * to access the buffer's memory in the correct way.
->   *
-> + * The type :c:type:`struct dma_buf_map <dma_buf_map>` and its helpers are
-> + * actually independent from the dma-buf infrastructure. When sharing buffers
-> + * among devices, drivers have to know the location of the memory to access
-> + * the buffers in a safe way. :c:type:`struct dma_buf_map <dma_buf_map>`
-> + * solves this problem for dma-buf and its users. If other drivers or
-> + * sub-systems require similar functionality, the type could be generalized
-> + * and moved to a more prominent header file.
-> + *
->   * Open-coding access to :c:type:`struct dma_buf_map <dma_buf_map>` is
->   * considered bad style. Rather then accessing its fields directly, use one
->   * of the provided helper functions, or implement your own. For example,
-> @@ -51,6 +59,14 @@
->   *
->   *	dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);
->   *
-> + * Instances of struct dma_buf_map do not have to be cleaned up, but
-> + * can be cleared to NULL with dma_buf_map_clear(). Cleared mappings
-> + * always refer to system memory.
-> + *
-> + * .. code-block:: c
-> + *
-> + *	dma_buf_map_clear(&map);
-> + *
->   * Test if a mapping is valid with either dma_buf_map_is_set() or
->   * dma_buf_map_is_null().
->   *
-> @@ -73,17 +89,19 @@
->   *	if (dma_buf_map_is_equal(&sys_map, &io_map))
->   *		// always false
->   *
-> - * Instances of struct dma_buf_map do not have to be cleaned up, but
-> - * can be cleared to NULL with dma_buf_map_clear(). Cleared mappings
-> - * always refer to system memory.
-> + * A set up instance of struct dma_buf_map can be used to access or manipulate
-> + * the buffer memory. Depending on the location of the memory, the provided
-> + * helpers will pick the correct operations. Data can be copied into the memory
-> + * with dma_buf_map_memcpy_to(). The address can be manipulated with
-> + * dma_buf_map_incr().
->   *
-> - * The type :c:type:`struct dma_buf_map <dma_buf_map>` and its helpers are
-> - * actually independent from the dma-buf infrastructure. When sharing buffers
-> - * among devices, drivers have to know the location of the memory to access
-> - * the buffers in a safe way. :c:type:`struct dma_buf_map <dma_buf_map>`
-> - * solves this problem for dma-buf and its users. If other drivers or
-> - * sub-systems require similar functionality, the type could be generalized
-> - * and moved to a more prominent header file.
-> + * .. code-block:: c
-> + *
-> + *	const void *src = ...; // source buffer
-> + *	size_t len = ...; // length of src
-> + *
-> + *	dma_buf_map_memcpy_to(&map, src, len);
-> + *	dma_buf_map_incr(&map, len); // go to first byte after the memcpy
->   */
->  
->  /**
-> @@ -210,4 +228,38 @@ static inline void dma_buf_map_clear(struct dma_buf_map *map)
->  	}
->  }
->  
-> +/**
-> + * dma_buf_map_memcpy_to - Memcpy into dma-buf mapping
-> + * @dst:	The dma-buf mapping structure
-> + * @src:	The source buffer
-> + * @len:	The number of byte in src
-> + *
-> + * Copies data into a dma-buf mapping. The source buffer is in system
-> + * memory. Depending on the buffer's location, the helper picks the correct
-> + * method of accessing the memory.
-> + */
-> +static inline void dma_buf_map_memcpy_to(struct dma_buf_map *dst, const void *src, size_t len)
-> +{
-> +	if (dst->is_iomem)
-> +		memcpy_toio(dst->vaddr_iomem, src, len);
-> +	else
-> +		memcpy(dst->vaddr, src, len);
-> +}
-> +
-> +/**
-> + * dma_buf_map_incr - Increments the address stored in a dma-buf mapping
-> + * @map:	The dma-buf mapping structure
-> + * @incr:	The number of bytes to increment
-> + *
-> + * Increments the address stored in a dma-buf mapping. Depending on the
-> + * buffer's location, the correct value will be updated.
-> + */
-> +static inline void dma_buf_map_incr(struct dma_buf_map *map, size_t incr)
-> +{
-> +	if (map->is_iomem)
-> +		map->vaddr_iomem += incr;
-> +	else
-> +		map->vaddr += incr;
-> +}
-> +
->  #endif /* __DMA_BUF_MAP_H__ */
-> -- 
-> 2.28.0
+I can't find any reference in the docs to length = 0 && b->memory ==
+VB2_MEMORY_DMABUF being "use dmabuf size". And certainly no mention of
+the single planar API being different from the multi-planar API (which
+it was until this patch).
+Reference to b->memory == VB2_MEMORY_USERPTR meaning that the
+b->length is in the description for VIDIOC_QBUF[1]
+
+John's patch is matching Hans' original patch that did the same thing
+for multi-planar [2].
+From the commit text:
+- in __verify_length() it would use the application-provided length value
+  for USERPTR and the vb2 core length for other memory models, but it
+  should have used the application-provided length as well for DMABUF.
+
+If you're saying that length==0 is "use the dmabuf size", then
+__verify_length is wrong in both single and multi-planar usage as it
+is comparing against vb->planes[X].length, not (struct dma_buf*)->size
+(the dma_buf_get isn't done until __prepare_dmabuf).
+After the lookup __prepare_dmabuf does check that planes[plane].length
+< vb->planes[plane].min_length. So do both clauses in __verify_length
+just need to bypass the length check if length = 0 && b->memory ==
+VB2_MEMORY_DMABUF ?
+
+I note we already have mismatched handling in libcamera in that
+multiplanar DMABUF sets length for each plane, but single planar
+DMABUF doesn't set buf.length [3]
+
+For info, the use case all comes down to the old chestnut of "how big
+is a compressed frame?".
+Feeding encoded bitstream into the HEVC decoder using
+VB2_MEMORY_DMABUF, the size of the buffer against the format sizeimage
+doesn't matter. The only conditions are that the buffer description is
+valid (ie bytesused <= actual buffer size) and the hardware can map
+it. If you're using dmaheaps or similar to allocate the buffers
+externally and an unexpectedly large compressed frame comes through,
+reallocate through dmaheaps and pass it in.
+The same argument is true for USERPTR, and that's already accounted
+for by relying on the application provided length.
+
+Cheers,
+  Dave
+
+[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/vidioc-qbuf.html#vidioc-qbuf
+[2] https://github.com/torvalds/linux/commit/8a75ffb81
+[3] https://git.linuxtv.org/libcamera.git/tree/src/libcamera/v4l2_videodevice.cpp#n1385
+
+> >
+> >                 if (b->bytesused > length)
+>
+> --
+> Regards,
+>
+> Laurent Pinchart
