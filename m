@@ -2,132 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27C4E28FFB1
-	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 10:04:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C48028FFC3
+	for <lists+linux-media@lfdr.de>; Fri, 16 Oct 2020 10:09:01 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404997AbgJPIDz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 16 Oct 2020 04:03:55 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50862 "EHLO
+        id S2405056AbgJPIIz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 16 Oct 2020 04:08:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2404994AbgJPIDw (ORCPT
+        with ESMTP id S2404988AbgJPIIy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 16 Oct 2020 04:03:52 -0400
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18AAAC0613D2
-        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 01:03:52 -0700 (PDT)
-Received: by mail-oi1-x243.google.com with SMTP id s81so1445702oie.13
-        for <linux-media@vger.kernel.org>; Fri, 16 Oct 2020 01:03:52 -0700 (PDT)
+        Fri, 16 Oct 2020 04:08:54 -0400
+Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA8CAC061755;
+        Fri, 16 Oct 2020 01:08:53 -0700 (PDT)
+Received: by mail-lf1-x141.google.com with SMTP id a7so1769385lfk.9;
+        Fri, 16 Oct 2020 01:08:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=INEWr2CP3X204G2+3BdRku1fQyrBAx5gcE6UKT3OyOY=;
-        b=PYscHGENn896fSGfivBibPnplvLtnL/b2OJMTMD4dpMHQHxNw+64iWRis9sD2nvJ3L
-         GOV/hMMVbuuc/Dh9AKUrk63GN8LOY99ye984UM1brrmBjSpje4c9K1cdtapwwULr3uYK
-         5a7sZUI60W2i8WwwI8UzzVDb5t1NNMYrEKGHc=
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:organization:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=qZe2CLjNbYrE8jVJW7Bxg0tsRI3b/ccVNXtLY33BYJg=;
+        b=d3vu7Heq2NfOyc1FsZpYFtDai+Xs3zayyghnh4V8U8y6gj0m7ixSpc1ovm/93Q0qEZ
+         usutg6ivd4Lv3Ev8zPh/gZmnO64gYCZeooTZIZTyjTc/NX8F7OLpENlg1c2diLxQO/EF
+         bmlvmjnxtbovvP/Ip1CG1IojFb2y6x+X/Rh3zrN2xTUYpLpLo9dE4HMf8X9h6vIJ0/eM
+         DfFr2ppHR9B3DFjF0EbKlDGgSMhFiR6yfWbAwZi6szH2jFcwQUV2g9QH2/YilJw6dnLb
+         clfia3XgxLHpj3CXd5cDrHETOM5kPL1ba4hx0AXuoaXIfEcSEJ94DBjsjcCPRv0xj6ak
+         SKfQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=INEWr2CP3X204G2+3BdRku1fQyrBAx5gcE6UKT3OyOY=;
-        b=rOYY7lGXUK5izh0ugPRNSIBFHDAAlOOvFxIw59L7huWkhBqS2Z2yRLQeOuew2A4pCg
-         8mpSog72xeic4jFJIBq6V9LpORj8VB+FgYHAmtYQhUE2aMa9bjh1tpBPABNxu1yD+494
-         70gaSM9oRbTQYLhWI+9Jgxa9sKlVse1RpDBJCYVNkJVboJhpIZ8wqgQNXQfT78yh0iIW
-         3n0lyTs2P7Ig9LhBZhZ50JJPtmKQ6sQyTOMHKBnN+G4tiaNK523f1RsdejrTf0PVjzD1
-         rKMBrEIPGn0t37BM7gKSRYt1S26MrLCBpH2+tFxJmm8bg+2xhvdD38HqO/ZzYsC8Az21
-         8sdQ==
-X-Gm-Message-State: AOAM532owY1H1w4vwicu8zw5xqH2WsVrgy2xHYK0hi9Ra7Yqr6uctXzg
-        pprUTJlL56HvqICB9u13BRnbctG5yhw1D44NIDnTdg==
-X-Google-Smtp-Source: ABdhPJyggtVpJqRzRZN6iIJJ0+C7Hddh3AOv25V3h7tJwuwrOe4WsT5egHelZJkzdhhjjawKTJeCGzwdsP8tFNIJ4dY=
-X-Received: by 2002:aca:cc01:: with SMTP id c1mr1679690oig.128.1602835431410;
- Fri, 16 Oct 2020 01:03:51 -0700 (PDT)
+        h=x-gm-message-state:subject:to:cc:references:from:organization
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=qZe2CLjNbYrE8jVJW7Bxg0tsRI3b/ccVNXtLY33BYJg=;
+        b=Q2R3Ra2B8CdFT9cR+tGCVEo+MOUSgP323AaGfr2Zm+Kd5OZtCpgV43moU8FR1JpZaz
+         mZDrqjyYkbshC4XesbzWezykFgl6GU246v8+nl3/9rMCSAjwTkVd0G3PLj9Nj2mtbjbR
+         QagCO8U3W7Jefx5R90xJNKl8prIg462EwfSSgueZmOQYDio3CR1VMFxlMEsBOo9DAoMm
+         9EuKs1J/CcVIZLh+joczjjkyFAOyoOFIRbWcP43V+PxiHYWHG5iKct/yBmHbaa67eF0w
+         fH8CzU1xxqmQpp6qgGVkA8gxgmQknB89bh1zhcWh8aihQySLyqoyQeT/b/HwUl/QMhCp
+         YtIQ==
+X-Gm-Message-State: AOAM5301/YjQI3lVLgntfuqwbxTMFiOWIIrS/Eb0xLL/wJQcRC3/VqHk
+        Q+G9F4ygTEpA0BG4CsV+9N0=
+X-Google-Smtp-Source: ABdhPJyj4PJbafl41hzy4tbyoGjRVJdCzt1YMxHhDWj9o44Bmfvdyu6Orr9SSPXyhKO+BEuMt14cmw==
+X-Received: by 2002:a19:7509:: with SMTP id y9mr809233lfe.306.1602835732292;
+        Fri, 16 Oct 2020 01:08:52 -0700 (PDT)
+Received: from ?IPv6:2a00:1fa0:42b1:307f:5872:636a:7546:106a? ([2a00:1fa0:42b1:307f:5872:636a:7546:106a])
+        by smtp.gmail.com with ESMTPSA id q2sm579439lfe.50.2020.10.16.01.08.51
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 16 Oct 2020 01:08:51 -0700 (PDT)
+Subject: Re: [PATCH v2 4/7] media: i2c: max9286: Make channel amplitude
+ programmable
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+References: <20201015182710.54795-1-jacopo+renesas@jmondi.org>
+ <20201015182710.54795-5-jacopo+renesas@jmondi.org>
+From:   Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Organization: Brain-dead Software
+Message-ID: <09c29e37-6adb-f5e4-fe57-46babaa6dae4@gmail.com>
+Date:   Fri, 16 Oct 2020 11:08:37 +0300
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.1
 MIME-Version: 1.0
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-6-daniel.vetter@ffwll.ch> <4685181e-8306-0d96-8be6-592b3c563cbf@nvidia.com>
-In-Reply-To: <4685181e-8306-0d96-8be6-592b3c563cbf@nvidia.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Fri, 16 Oct 2020 10:03:40 +0200
-Message-ID: <CAKMK7uEoM3vM9X-R6dAHPAqdKryMtj2BOoBbJwJR9mCwNSpQ1g@mail.gmail.com>
-Subject: Re: [PATCH v2 05/17] mm/frame-vector: Use FOLL_LONGTERM
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Pawel Osciak <pawel@osciak.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201015182710.54795-5-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 16, 2020 at 9:54 AM John Hubbard <jhubbard@nvidia.com> wrote:
->
-> On 10/9/20 12:59 AM, Daniel Vetter wrote:
-> ...
-> > @@ -48,40 +47,25 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
-> >
-> >       start = untagged_addr(start);
-> >
-> > -     mmap_read_lock(mm);
-> > -     locked = 1;
-> > -     vma = find_vma_intersection(mm, start, start + 1);
-> > -     if (!vma) {
-> > -             ret = -EFAULT;
-> > -             goto out;
-> > -     }
-> > -
-> > -     /*
-> > -      * While get_vaddr_frames() could be used for transient (kernel
-> > -      * controlled lifetime) pinning of memory pages all current
-> > -      * users establish long term (userspace controlled lifetime)
-> > -      * page pinning. Treat get_vaddr_frames() like
-> > -      * get_user_pages_longterm() and disallow it for filesystem-dax
-> > -      * mappings.
-> > -      */
-> > -     if (vma_is_fsdax(vma)) {
-> > -             ret = -EOPNOTSUPP;
-> > -             goto out;
-> > -     }
-> > -
-> > -     if (!(vma->vm_flags & (VM_IO | VM_PFNMAP))) {
-> > +     ret = pin_user_pages_fast(start, nr_frames,
-> > +                               FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
-> > +                               (struct page **)(vec->ptrs));
-> > +     if (ret > 0) {
->
-> None of the callers that we have today will accept anything less than
-> ret == nr_frames. And the whole partially pinned region idea turns out
-> to be just not useful for almost everyone, from what I recall of the gup/pup
-> call sites. So I wonder if we should just have get_vaddr_frames do the
-> cleanup here and return -EFAULT, if ret != nr_frames ?
+Hello!
 
-Yeah I noticed that the calling convention here is a bit funny. But I
-with these frame-vector helpers now being part of drivers/media it's
-up to media folks if they want to clean that up, or leave it as is.
+On 15.10.2020 21:27, Jacopo Mondi wrote:
 
-If this would be in drm I'd say we'll have the loud warning and
-tainting due to CONFIG_STRICT_FOLLOW_PFN=n for 2-3 years. Then
-assuming no big complaints showed up, rip it all out and just directly
-call pup in each place that wants it (like I've done for habanalabs
-and exynos).
--Daniel
+> Instrument the function that configures the reverse channel with a
+> programmable amplitude value.
+> 
+> This change serves to prepare to adjust the reverse channel amplitude
+> depending on the remote end high-threshold configuration.
+> 
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> ---
+>   drivers/media/i2c/max9286.c | 22 ++++++++++++++++------
+>   1 file changed, 16 insertions(+), 6 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/max9286.c b/drivers/media/i2c/max9286.c
+> index 89a7248f5c25..163e102199e3 100644
+> --- a/drivers/media/i2c/max9286.c
+> +++ b/drivers/media/i2c/max9286.c
+> @@ -906,19 +906,29 @@ static void max9286_v4l2_unregister(struct max9286_priv *priv)
+>    * Probe/Remove
+>    */
+>   
+> -static void max9286_reverse_channel_setup(struct max9286_priv *priv)
+> +static void max9286_reverse_channel_setup(struct max9286_priv *priv,
+> +					  unsigned int chan_amplitude)
+>   {
+> +	/* Reverse channel transmission time: default to 1. */
+> +	u8 chan_config = MAX9286_REV_TRF(1);
+> +
+>   	/*
+>   	 * Reverse channel setup.
+>   	 *
+>   	 * - Enable custom reverse channel configuration (through register 0x3f)
+>   	 *   and set the first pulse length to 35 clock cycles.
+> -	 * - Increase the reverse channel amplitude to 170mV to accommodate the
+> -	 *   high threshold enabled by the serializer driver.
+> +	 * - Adjust reverse channel amplitude: values > 130 are programmed
+> +	 *   using the additional +100mV REV_AMP_X boost flag
+>   	 */
+>   	max9286_write(priv, 0x3f, MAX9286_EN_REV_CFG | MAX9286_REV_FLEN(35));
+> -	max9286_write(priv, 0x3b, MAX9286_REV_TRF(1) | MAX9286_REV_AMP(70) |
+> -		      MAX9286_REV_AMP_X);
+> +
+> +	if (chan_amplitude > 100) {
+> +		/* It is not possible express values (100 < x < 130) */
 
+    "To express", perhaps?
 
---
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+> +		chan_amplitude = chan_amplitude < 130
+> +			       ? 30 : chan_amplitude - 100;
+> +		chan_config |= MAX9286_REV_AMP_X;
+> +	}
+> +	max9286_write(priv, 0x3b, chan_config | MAX9286_REV_AMP(chan_amplitude));
+>   	usleep_range(2000, 2500);
+>   }
+>   
+[...]
+
+MBR, Sergei
