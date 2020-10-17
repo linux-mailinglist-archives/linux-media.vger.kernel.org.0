@@ -2,143 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 999402913D5
-	for <lists+linux-media@lfdr.de>; Sat, 17 Oct 2020 21:00:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC2A529141D
+	for <lists+linux-media@lfdr.de>; Sat, 17 Oct 2020 21:26:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439258AbgJQTAO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 17 Oct 2020 15:00:14 -0400
-Received: from smtprelay0208.hostedemail.com ([216.40.44.208]:36586 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S2439239AbgJQTAN (ORCPT
+        id S2439423AbgJQT0c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Oct 2020 15:26:32 -0400
+Received: from fallback14.mail.ru ([94.100.179.44]:51446 "EHLO
+        fallback14.mail.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439323AbgJQT0b (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 17 Oct 2020 15:00:13 -0400
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay08.hostedemail.com (Postfix) with ESMTP id 15895182CED2A;
-        Sat, 17 Oct 2020 19:00:10 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:967:973:982:988:989:1260:1277:1311:1313:1314:1345:1359:1434:1437:1515:1516:1518:1535:1542:1593:1594:1711:1730:1747:1777:1792:2194:2199:2393:2525:2553:2561:2564:2682:2685:2693:2828:2859:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3355:3622:3865:3866:3867:3868:3870:3871:3872:3873:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4321:4470:4823:5007:6117:6742:6743:7576:7903:8660:8792:8957:9010:9025:9108:10004:10400:10450:10455:11232:11658:11914:12043:12050:12295:12296:12297:12438:12555:12663:12740:12760:12895:12986:13138:13148:13230:13231:13439:14096:14097:14181:14659:14721:19904:19999:21080:21324:21451:21627:21939:21990:30029:30034:30054:30070:30090:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: jewel08_4005cbe27228
-X-Filterd-Recvd-Size: 5179
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf01.hostedemail.com (Postfix) with ESMTPA;
-        Sat, 17 Oct 2020 19:00:02 +0000 (UTC)
-Message-ID: <503af4a57ca6daeb3e42a9be136dcd21e6d6e23d.camel@perches.com>
-Subject: Re: [Cocci] [RFC] treewide: cleanup unreachable breaks
-From:   Joe Perches <joe@perches.com>
-To:     Julia Lawall <julia.lawall@inria.fr>
-Cc:     trix@redhat.com, linux-kernel@vger.kernel.org,
-        cocci <cocci@systeme.lip6.fr>, alsa-devel@alsa-project.org,
-        clang-built-linux@googlegroups.com, linux-iio@vger.kernel.org,
-        nouveau@lists.freedesktop.org, storagedev@microchip.com,
-        dri-devel@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
-        ath10k@lists.infradead.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        usb-storage@lists.one-eyed-alien.net,
-        linux-watchdog@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-nvdimm@lists.01.org, amd-gfx@lists.freedesktop.org,
-        linux-acpi@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        industrypack-devel@lists.sourceforge.net,
-        linux-pci@vger.kernel.org, spice-devel@lists.freedesktop.org,
-        MPT-FusionLinux.pdl@broadcom.com, linux-media@vger.kernel.org,
-        linux-serial@vger.kernel.org, linux-nfc@lists.01.org,
-        linux-pm@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-block@vger.kernel.org, linux-gpio@vger.kernel.org,
-        xen-devel@lists.xenproject.org, linux-amlogic@lists.infradead.org,
-        openipmi-developer@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-edac@vger.kernel.org,
-        netdev@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-wireless@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-crypto@vger.kernel.org, patches@opensource.cirrus.com,
-        bpf@vger.kernel.org, ocfs2-devel@oss.oracle.com,
-        linux-power@fi.rohmeurope.com
-Date:   Sat, 17 Oct 2020 12:00:01 -0700
-In-Reply-To: <alpine.DEB.2.22.394.2010172016370.9440@hadrien>
-References: <20201017160928.12698-1-trix@redhat.com>
-         <f530b7aeecbbf9654b4540cfa20023a4c2a11889.camel@perches.com>
-         <alpine.DEB.2.22.394.2010172016370.9440@hadrien>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.36.4-0ubuntu1 
+        Sat, 17 Oct 2020 15:26:31 -0400
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=list.ru; s=mail;
+        h=Content-Type:MIME-Version:Date:Message-ID:Subject:From:To; bh=KX/xQOIhCPWHYF45yxKOZ7WJvGQTQk2s358tdMZLeEQ=;
+        b=pCiuLeIPCVXDiF2iU1DQUVdd0xhBOdYoBtg37sbm0LvoQ5Q08SC2imfeD43y2l2HCklZ4CZdEhCnDPba3GCN7W0mCdQY1lgw7WXAyvSsZRBoDFq9Ef3TS07fsrBww9Etsj64nWMDrmAwQvZrVdOJsHm7eg0kZyb+OQAXVAaU7x4=;
+Received: from [10.161.64.58] (port=40600 helo=smtp50.i.mail.ru)
+        by fallback14.m.smailru.net with esmtp (envelope-from <citizen777@list.ru>)
+        id 1kTrqT-0001UQ-FL
+        for linux-media@vger.kernel.org; Sat, 17 Oct 2020 22:26:25 +0300
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=list.ru; s=mail3;
+        h=Content-Type:MIME-Version:Date:Message-ID:Subject:From:To:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=KX/xQOIhCPWHYF45yxKOZ7WJvGQTQk2s358tdMZLeEQ=;
+        b=VSWxzoxBs2pPo9Iw+9BzMskX0S25D/TPmNbREf+fosbYYFfdtbuuNitCTstOxElt4r1T6od0Ap8ofab7Np1gFhlWT8sJAQvdyh5Rk96PSPF2iAtU0C/b0qIaqeVTKsVnynxcvnu2HmkWswPsahcqKYl46o9r9HuY7bJIUsyJe5o=;
+Received: by smtp50.i.mail.ru with esmtpa (envelope-from <citizen777@list.ru>)
+        id 1kTrqB-00037l-Sp
+        for linux-media@vger.kernel.org; Sat, 17 Oct 2020 22:26:08 +0300
+To:     linux-media@vger.kernel.org
+From:   =?UTF-8?B?0JDQu9C10LrRgdC10Lkg0JzQuNGF0LDQudC70L7Qsg==?= 
+        <citizen777@list.ru>
+Subject: Submit corrections in Digital TV scan tables
+Message-ID: <71c1e861-1571-9a03-c7f3-6758fc379f47@list.ru>
+Date:   Sun, 18 Oct 2020 00:26:07 +0500
+User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
+ Gecko/20100101 Thunderbird/68.12.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/mixed;
+ boundary="------------ABBF6009FA0129516D63A07D"
+Content-Language: ru
+X-7564579A: EEAE043A70213CC8
+X-77F55803: 4F1203BC0FB41BD9E98D7292067252307AB9D2809BD9BA7AAC0FA7F4CE58DA09182A05F538085040F514DAA85AA4F80AE385949994CB987F5E4F025E68590A84F42DAF93A2A4FD20
+X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE788AD3E9728F968ABEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F7900637C6ABF113959433A58638F802B75D45FF5571747095F342E8C7A0BC55FA0FE5FC7559E479964505B7E2B1D94F99883E0E80C9AB8AFAB1BD63389733CBF5DBD5E913377AFFFEAFD269176DF2183F8FC7C04CF195F1528592878941B15DA834481FCF19DD082D7633A0E7DDDDC251EA7DABA471835C12D1D977725E5C173C3A84C34964A708C60C975A117882F4460429728AD0CFFFB425014E592AE0A758652A3D76E601842F6C81A19E625A9149C048EEC24E1E72F37C03A045B9AC499A3C791CD8FC6C240DEA76429449624AB7ADAF37B2D370F7B14D4BC40A6AB1C7CE11FEE3A2475C18617057EEC0837EA9F3D19764C4224003CC8364767A15B7713DBEF166A7F4EDE966BC389F9E8FC8737B5C2249B6F0DA6A0E1F93B1089D37D7C0E48F6CCF19DD082D7633A0E7DDDDC251EA7DABAAAE862A0553A39223F8577A6DFFEA7C3A6A4D2A85A8DD9643847C11F186F3C5E7DDDDC251EA7DABCC89B49CDF41148FA8EF81845B15A4842623479134186CDE6BA297DBC24807EABDAD6C7F3747799A
+X-C8649E89: 219B546406D07C97FE85C59E70A80C941F8EE3968F36AD42E7B51916F45B6E1CE307113FA9391CA5
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojbL9S8ysBdXgHqM4UvS02w0fe7eZU/ykR
+X-Mailru-Sender: 14E8153BE2230DAC6C0E080D2A6D70E2C86525F642CC8BD36835EC93C3C3EAF0A4F514C37033153E8DD79C2AECECA6D3C77752E0C033A69ED4074B44CCDC8201E05E346907A1D06F3453F38A29522196
+X-Mras: Ok
+X-7564579A: 646B95376F6C166E
+X-77F55803: 6242723A09DB00B4033B2E76A2A2E7F3D7C40938B5608F30FE64176C1C8B1FC2049FFFDB7839CE9EA691736600A9A48A138459B5D67062D8B81704E5B0C9980A87742DE03A094E83
+X-7FA49CB5: 0D63561A33F958A510E102E51A98A944107EE4E75FDCDF23BCBA0F0A92BE02FF8941B15DA834481FA18204E546F3947CA0BCD6C998BE2772F6B57BC7E64490618DEB871D839B7333395957E7521B51C2545D4CF71C94A83E9FA2833FD35BB23D27C277FBC8AE2E8B8C7ADC89C2F0B2A5A471835C12D1D977C4224003CC8364765529D5D60078C743D81D268191BDAD3DC09775C1D3CA48CF776FEBA3834A766EBA3038C0950A5D36C8A9BA7A39EFB7668729DE7A884B61D135872C767BF85DA29E625A9149C048EE1B544F03EFBC4D574163C681A99F5D664AD6D5ED66289B524E70A05D1297E1BB35872C767BF85DA227C277FBC8AE2E8B78A1745878D7453175ECD9A6C639B01B4E70A05D1297E1BBC6867C52282FAC85D9B7C4F32B44FF57285124B2A10EEC6C00306258E7E6ABB4E4A6367B16DE6309
+X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojhEOVrXacuflfwOhbmoRKdQ==
+X-Mailru-MI: 800
+X-Mailru-Sender: A5480F10D64C90054F94DD2E9EA85DB635FE574CA418D3450A9A40252BFDE6E51FF0681C19CADC10FE78A2CD6098771F3DDE9B364B0DF2891931B91FD49D1BE6225EC17F3711B6CFAE208404248635DF
+X-Mras: Ok
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 2020-10-17 at 20:21 +0200, Julia Lawall wrote:
-> On Sat, 17 Oct 2020, Joe Perches wrote:
-> > On Sat, 2020-10-17 at 09:09 -0700, trix@redhat.com wrote:
-> > > From: Tom Rix <trix@redhat.com>
-> > > 
-> > > This is a upcoming change to clean up a new warning treewide.
-> > > I am wondering if the change could be one mega patch (see below) or
-> > > normal patch per file about 100 patches or somewhere half way by collecting
-> > > early acks.
-> > > 
-> > > clang has a number of useful, new warnings see
-> > > https://clang.llvm.org/docs/DiagnosticsReference.html
-> > > 
-> > > This change cleans up -Wunreachable-code-break
-> > > https://clang.llvm.org/docs/DiagnosticsReference.html#wunreachable-code-break
-> > > for 266 of 485 warnings in this week's linux-next, allyesconfig on x86_64.
-> > 
-> > Early acks/individual patches by subsystem would be good.
-> > Better still would be an automated cocci script.
-> 
-> Coccinelle is not especially good at this, because it is based on control
-> flow, and a return or goto diverts the control flow away from the break.
-> A hack to solve the problem is to put an if around the return or goto, but
-> that gives the break a meaningless file name and line number.  I collected
-> the following list, but it only has 439 results, so fewer than clang.  But
-> maybe there are some files that are not considered by clang in the x86
-> allyesconfig configuration.
-> 
-> Probably checkpatch is the best solution here, since it is not
-> configuration sensitive and doesn't care about control flow.
+This is a multi-part message in MIME format.
+--------------ABBF6009FA0129516D63A07D
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
 
-Likely the clang compiler is the best option here.
+Hello!
+Please update my scan tables to your repository 
+https://git.linuxtv.org/dtv-scan-tables.git/
 
-It might be useful to add -Wunreachable-code-break to W=1
-or just always enable it if it isn't already enabled.
+path: root/dvb-t/ru-Perm
 
-diff --git a/scripts/Makefile.extrawarn b/scripts/Makefile.extrawarn
-index 95e4cdb94fe9..3819787579d5 100644
---- a/scripts/Makefile.extrawarn
-+++ b/scripts/Makefile.extrawarn
-@@ -32,6 +32,7 @@ KBUILD_CFLAGS += $(call cc-option, -Wunused-but-set-variable)
- KBUILD_CFLAGS += $(call cc-option, -Wunused-const-variable)
- KBUILD_CFLAGS += $(call cc-option, -Wpacked-not-aligned)
- KBUILD_CFLAGS += $(call cc-option, -Wstringop-truncation)
-+KBUILD_CFLAGS += $(call cc-option, -Wunreachable-code-break)
- # The following turn off the warnings enabled by -Wextra
- KBUILD_CFLAGS += -Wno-missing-field-initializers
- KBUILD_CFLAGS += -Wno-sign-compare
-
-(and thank you Tom for pushing this forward)
-
-checkpatch can't find instances like:
-
-	case FOO:
-		if (foo)
-			return 1;
-		else
-			return 2;
-		break;
-
-As it doesn't track flow and relies on the number
-of tabs to be the same for any goto/return and break;
-
-checkpatch will warn on:
-
-	case FOO:
-		...
-		goto bar;
-		break;
+See attachment.
 
 
+--------------ABBF6009FA0129516D63A07D
+Content-Type: text/plain; charset=UTF-8; x-mac-type="0"; x-mac-creator="0";
+ name="ru-Perm"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment;
+ filename="ru-Perm"
+
+IyBTY2FuIHRhYmxlcyBmb3IgRFZCLVQyIGNoYW5uZWxzIGluIFBlcm0gKFJ1c3NpYSkKIyBD
+cmVhdGVkIGZyb20gaHR0cHM6Ly/QutCw0YDRgtCwLtGA0YLRgNGBLtGA0YQvcnRycy9ub2Rl
+LzI0OTYKIyBDb250cmlidXRlZCBieTog0JDQu9C10LrRgdC10Lkg0JzQuNGF0LDQudC70L7Q
+siA8Y2l0aXplbjc3N0BsaXN0LnJ1PgojIExhc3QgY2hhbmdlOiAyMDIwLTEwLTE3Cgpb0KDQ
+otCg0KEtMTog0J/QldCg0JLQq9CZINCa0JDQndCQ0JssINCc0JDQotCnISwg0J3QotCSLCDQ
+n9Cv0KLQq9CZINCa0JDQndCQ0JssINCg0J7QodCh0JjQry3Qmiwg0JrQkNCg0KPQodCV0JvQ
+rCwg0KLQkiDQptC10L3RgtGALCDQktCV0KHQotCYINCk0JwsINCc0JDQr9CaXQogICAgREVM
+SVZFUllfU1lTVEVNID0gRFZCVDIKICAgIEZSRVFVRU5DWSA9IDQ5MDAwMDAwMAogICAgQkFO
+RFdJRFRIX0haID0gODAwMDAwMAogICAgQ09ERV9SQVRFX0hQID0gQVVUTwogICAgQ09ERV9S
+QVRFX0xQID0gQVVUTwogICAgTU9EVUxBVElPTiA9IFFBTS9BVVRPCiAgICBUUkFOU01JU1NJ
+T05fTU9ERSA9IEFVVE8KICAgIEdVQVJEX0lOVEVSVkFMID0gQVVUTwogICAgSElFUkFSQ0hZ
+ID0gTk9ORQogICAgSU5WRVJTSU9OID0gQVVUTwogICAgU1RSRUFNX0lEID0gMAoKW9Cg0KLQ
+oNChLTE6INCg0J7QodCh0JjQry0xLCDQoNCe0KHQodCY0K8tMjQsINCe0KLQoCwg0KDQsNC0
+0LjQviDQoNC+0YHRgdC40LhdCiAgICBERUxJVkVSWV9TWVNURU0gPSBEVkJUMgogICAgRlJF
+UVVFTkNZID0gNDkwMDAwMDAwCiAgICBCQU5EV0lEVEhfSFogPSA4MDAwMDAwCiAgICBDT0RF
+X1JBVEVfSFAgPSBBVVRPCiAgICBDT0RFX1JBVEVfTFAgPSBBVVRPCiAgICBNT0RVTEFUSU9O
+ID0gUUFNL0FVVE8KICAgIFRSQU5TTUlTU0lPTl9NT0RFID0gQVVUTwogICAgR1VBUkRfSU5U
+RVJWQUwgPSBBVVRPCiAgICBISUVSQVJDSFkgPSBOT05FCiAgICBJTlZFUlNJT04gPSBBVVRP
+CiAgICBTVFJFQU1fSUQgPSAxCgpb0KDQotCg0KEtMjog0KDQldCdINCi0JIsINCh0L/QsNGB
+LCDQodCi0KEsINCU0L7QvNCw0YjQvdC40LksINCi0JIzLCDQn9GP0YLQvdC40YbQsCwg0JfQ
+stC10LfQtNCwLCDQnNCY0KAsINCi0J3Qoiwg0JzQo9CXINCi0JJdCiAgICBERUxJVkVSWV9T
+WVNURU0gPSBEVkJUMgogICAgRlJFUVVFTkNZID0gNjk4MDAwMDAwCiAgICBCQU5EV0lEVEhf
+SFogPSA4MDAwMDAwCiAgICBDT0RFX1JBVEVfSFAgPSBBVVRPCiAgICBDT0RFX1JBVEVfTFAg
+PSBBVVRPCiAgICBNT0RVTEFUSU9OID0gUUFNL0FVVE8KICAgIFRSQU5TTUlTU0lPTl9NT0RF
+ID0gQVVUTwogICAgR1VBUkRfSU5URVJWQUwgPSBBVVRPCiAgICBISUVSQVJDSFkgPSBOT05F
+CiAgICBJTlZFUlNJT04gPSBBVVRPCiAgICBTVFJFQU1fSUQgPSAwCg==
+--------------ABBF6009FA0129516D63A07D--
