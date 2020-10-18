@@ -2,65 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37A76291759
-	for <lists+linux-media@lfdr.de>; Sun, 18 Oct 2020 14:31:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9711029178A
+	for <lists+linux-media@lfdr.de>; Sun, 18 Oct 2020 14:54:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726761AbgJRMbS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 18 Oct 2020 08:31:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54678 "EHLO
+        id S1726656AbgJRMwn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 18 Oct 2020 08:52:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57956 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726578AbgJRMbO (ORCPT
+        with ESMTP id S1725776AbgJRMwm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 18 Oct 2020 08:31:14 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CE60C0613CE;
-        Sun, 18 Oct 2020 05:31:12 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id j136so10010611wmj.2;
-        Sun, 18 Oct 2020 05:31:12 -0700 (PDT)
+        Sun, 18 Oct 2020 08:52:42 -0400
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6F970C061755;
+        Sun, 18 Oct 2020 05:52:42 -0700 (PDT)
+Received: by mail-wr1-x441.google.com with SMTP id n18so8396990wrs.5;
+        Sun, 18 Oct 2020 05:52:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=l5krHm/bo+C26sgi9z1Mg3sNFoVSJVuUbTBE8mDuBFE=;
-        b=cxUuY+q00E3MQiermTeSmkbZPW1mHZ/4dwqStrl7FHanVGucCuYaVglF7bF+F2qpma
-         85ehto2JZXKMFEfuwKyYs45/H0fEZOHSp6cbTeaODm8lxk8VrrFcRDRAdRNk7dYBv3QO
-         TuWhG67KppoBNTyVEd1+UFxaSVMc63TTzVk+Qt6Q++TM7Qkb7wmkT3P8Bq3E/P3X2Yp6
-         njQfae2aDb6ER1WXo63d4gSgN47nV029nu9OWJNLG6VtFPCewrUBfgfi5GDSh3nR9HX9
-         0Dc6K5szdqVbEUfN2iw7qYOxr1ZtDr5xFXjT3fT/rYjng9uUsEGDKpB9HykvpAxmnpJV
-         ewjg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=T/hDz/LE1jLmX/Z0po7n7HZyOjMfrENvnItV9zxg6TQ=;
+        b=vbrjL3yMUFf87yU5V/QgWwdXP7ot4mbkpNia9XPXUhHwLVaYGLz6zydMozDktAtCD7
+         uyi6qtcv/PCQfMbeE0RufV8uoKJRi/oSLHoxy4UIqd4XJSYq2voU1/m7BM1qQFFJ1y5s
+         BVebH3SERxwj0Tj4lhONgCQhUEYAwmaVWb/p81gxt21gReh3Fs3p5Cm/Nk24DkXJgocP
+         4ppRy9Q1RVDNj134UXWnSN0hDx7QM6CjNkN5oVHtn2kZ81dqXnhKLc+2XeRzg3ViFBfD
+         +rrClPRKcPIH+uCmDaopjEjBF2IaaJEke0yLys0eQ427eqn7t6+hpkL3MdJNyr6AnLrQ
+         3B1w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=l5krHm/bo+C26sgi9z1Mg3sNFoVSJVuUbTBE8mDuBFE=;
-        b=I++7w5DQl9XZ0w2Jlr8lcOS0HUttLp847ZDZiFNcE66yAbPRP7L1y+cVf7QWVgQQby
-         zZX+KueU3dc2iUEu7VwmsPbi+0PMgj/LZqrU3Y5Dt7eA5rvzluyeje6x2h8FpMY8uZWC
-         38jWssLEfXXVh7zrE5eqOgH9fJL4oKnfba9JtiEQssCMXzb1FxG6834TGzgv1sxdTRt4
-         oTCMv5rFern3pQhNBc3Ll2GD3/dPwC5vq4VekhgLfYhYdEibdPiGmMdBxq6W4f64LkUh
-         et7hpDSkWr6djQaIfyyM2wJdY3Zov6Pq0lE1AgCYA/BvtEoSd/MxsZgqXXo+w5ij4jWB
-         KWtw==
-X-Gm-Message-State: AOAM530dzZHDdv2MgJf/LMM0usix481Jpv7R7/uIu9KUxTMuYJYUbE3i
-        74LgKtXj0YNTyB11ZfCgKOE=
-X-Google-Smtp-Source: ABdhPJz5DmBiPThiLd9R0+6VBUTm7Qpg2ueKyNO4KvoNAz/9NtlrA3tgoWvoAjSYeYKZi0sk2ksSxA==
-X-Received: by 2002:a1c:7d54:: with SMTP id y81mr12309565wmc.114.1603024270977;
-        Sun, 18 Oct 2020 05:31:10 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=T/hDz/LE1jLmX/Z0po7n7HZyOjMfrENvnItV9zxg6TQ=;
+        b=hJs3WeWVzc/lGHLQnbALxe6S8HXzRo7WzVADAvErrd3/cHAVJXY0zlXkcc6fuGJZNd
+         h64y6P1W75AX3BrQ9fGgS0QxdCW99SOu5Lvv8Tkw71vcuTkm/voij17ix2wqxwG8PW/n
+         Xs8QjgVm/MNt3KyAKdB4tXVJ1QlTx2BanATGV72yeBD5LMRfvh1Cv9iKXRcPGTbxJYq0
+         YDUMiadppJHGzrEpyAfjQ9KtnaIM4n5apD6H1Wol4QqGdj35aD3Er84eUiLd4woRMcW2
+         PphgV9DG3ZGtLrSpIxnD85gbwhbxHUBObsC47alPOG6BvdYRar7oyP/gGFcDF1tJs22g
+         7M7A==
+X-Gm-Message-State: AOAM531LpX14Jj+0vSQDVtj2D6Ipc56g8w9zjV5xXI9/aeRoxbTADJSn
+        ytB2esSTzE7hXoQQhoyI+Iw=
+X-Google-Smtp-Source: ABdhPJw8RiADdfZF+1kTP16XsXSqydaKxM+H9npeMri+Y3OkJA1pYRYJYBv54k7zgaJLOyo1KLSWlg==
+X-Received: by 2002:a5d:684d:: with SMTP id o13mr15467083wrw.302.1603025560974;
+        Sun, 18 Oct 2020 05:52:40 -0700 (PDT)
 Received: from IcarusMOD.eternityproject.eu ([2.237.20.237])
-        by smtp.gmail.com with ESMTPSA id q2sm13308568wrw.40.2020.10.18.05.31.10
+        by smtp.gmail.com with ESMTPSA id u2sm11940158wme.1.2020.10.18.05.52.39
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2020 05:31:10 -0700 (PDT)
+        Sun, 18 Oct 2020 05:52:40 -0700 (PDT)
 From:   kholk11@gmail.com
-To:     mchehab@kernel.org
-Cc:     robh+dt@kernel.org, marijns95@gmail.com, konradybcio@gmail.com,
-        martin.botka1@gmail.com, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, phone-devel@vger.kernel.org,
+To:     todor.too@gmail.com
+Cc:     agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
+        robh+dt@kernel.org, marijns95@gmail.com, konradybcio@gmail.com,
+        martin.botka1@gmail.com, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         AngeloGioacchino Del Regno <kholk11@gmail.com>
-Subject: [PATCH 2/2] media: dt-bindings: media: i2c: Add IMX300 CMOS sensor binding
-Date:   Sun, 18 Oct 2020 14:31:06 +0200
-Message-Id: <20201018123106.14917-3-kholk11@gmail.com>
+Subject: [PATCH 0/6] Add support for SDM630/660 Camera Subsystem
+Date:   Sun, 18 Oct 2020 14:52:31 +0200
+Message-Id: <20201018125237.16717-1-kholk11@gmail.com>
 X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201018123106.14917-1-kholk11@gmail.com>
-References: <20201018123106.14917-1-kholk11@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -69,156 +68,56 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: AngeloGioacchino Del Regno <kholk11@gmail.com>
 
-Add YAML device tree binding for IMX300 CMOS image sensor, and
-the relevant MAINTAINERS entries.
+This patch series implements support for the entire camera subsystem
+found in SDM630/636/660 and SDA variants, including CSIPHY 3-Phase,
+CSID v5.0, ISPIF 3.0 (though it didn't need any adaptation) and
+VFE 4.8.
 
-Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
----
- .../devicetree/bindings/media/i2c/imx300.yaml | 115 ++++++++++++++++++
- MAINTAINERS                                   |   8 ++
- 2 files changed, 123 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/imx300.yaml
+One small note about VFE4.8, even if I wrote it in the commit that
+adds support for it: I know, the VFE support here is split in
+multiple files having the name of the actual VFE version that it is
+targeting... but it didn't feel right to commonize the VFE 4.7 file
+and make another one only for VFE4.8, when it's just about something
+like 3 small differences.
+That VFE 4.8 seems to be just a minor revision of VFE 4.7.
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/imx300.yaml b/Documentation/devicetree/bindings/media/i2c/imx300.yaml
-new file mode 100644
-index 000000000000..82fb19c5018c
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/i2c/imx300.yaml
-@@ -0,0 +1,115 @@
-+# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/i2c/imx300.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Sony 1/2.3-Inch 8Mpixel Stacked CMOS Digital Image Sensor
-+
-+maintainers:
-+  - AngeloGioacchino Del Regno <kholk11@gmail.com>
-+
-+description: |-
-+  The Sony IMX300 is a 1/2.3-inch Stacked CMOS (Exmor-RS) digital image
-+  sensor with a pixel size of 1.08um and an active array size of
-+  5948H x 4140V. It is programmable through I2C interface at address 0x10.
-+  Image data is sent through MIPI CSI-2, which is configured as either 2 or
-+  4 data lanes.
-+
-+properties:
-+  compatible:
-+    const: sony,imx300
-+
-+  reg:
-+    description: I2C device address
-+    maxItems: 1
-+
-+  clocks:
-+    maxItems: 1
-+
-+  VDIG-supply:
-+    description:
-+      Digital I/O voltage supply, 1.15-1.20 volts
-+
-+  VANA-supply:
-+    description:
-+      Analog voltage supply, 2.2 volts
-+
-+  VDDL-supply:
-+    description:
-+      Digital core voltage supply, 1.8 volts
-+
-+  reset-gpios:
-+    description: |-
-+      Reference to the GPIO connected to the xclr pin, if any.
-+      Must be released (set high) after all supplies are applied.
-+
-+  # See ../video-interfaces.txt for more details
-+  port:
-+    type: object
-+    properties:
-+      endpoint:
-+        type: object
-+        properties:
-+          data-lanes:
-+            description: |-
-+              The sensor supports either two-lane, or four-lane operation.
-+              If this property is omitted four-lane operation is assumed.
-+              For four-lane operation the property must be set to <0 1 2 3>.
-+            items:
-+              - const: 0
-+              - const: 1
-+              - const: 2
-+              - const: 3
-+
-+          clock-noncontinuous:
-+            type: boolean
-+            description: |-
-+              MIPI CSI-2 clock is non-continuous if this property is present,
-+              otherwise it's continuous.
-+
-+          link-frequencies:
-+            $ref: /schemas/types.yaml#/definitions/uint64-array
-+            description:
-+              Allowed data bus frequencies.
-+
-+        required:
-+          - link-frequencies
-+
-+required:
-+  - compatible
-+  - reg
-+  - clocks
-+  - VANA-supply
-+  - VDIG-supply
-+  - VDDL-supply
-+  - port
-+
-+additionalProperties: false
-+
-+examples:
-+  - |
-+    i2c0 {
-+        #address-cells = <1>;
-+        #size-cells = <0>;
-+
-+        imx300: sensor@10 {
-+            compatible = "sony,imx300";
-+            reg = <0x10>;
-+            clocks = <&imx300_xclk>;
-+            VANA-supply = <&imx300_vana>;   /* 2.2v */
-+            VDIG-supply = <&imx300_vdig>;   /* 1.2v */
-+            VDDL-supply = <&imx300_vddl>;   /* 1.8v */
-+
-+            port {
-+                imx300_0: endpoint {
-+                    remote-endpoint = <&csi1_ep>;
-+                    data-lanes = <0 1 2 3>;
-+                    clock-noncontinuous;
-+                    link-frequencies = /bits/ 64 <780000000 480000000>;
-+                };
-+            };
-+        };
-+    };
-+
-+...
-diff --git a/MAINTAINERS b/MAINTAINERS
-index c66710dd7e0a..231937d9d16a 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16279,6 +16279,14 @@ T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/i2c/imx290.txt
- F:	drivers/media/i2c/imx290.c
- 
-+SONY IMX300 SENSOR DRIVER
-+M:	AngeloGioacchino Del Regno <kholk11@gmail.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+T:	git git://linuxtv.org/media_tree.git
-+F:	Documentation/devicetree/bindings/media/i2c/imx300.yaml
-+F:	drivers/media/i2c/imx300.c
-+
- SONY IMX319 SENSOR DRIVER
- M:	Bingbu Cao <bingbu.cao@intel.com>
- L:	linux-media@vger.kernel.org
+While at it, also fix a small issue when using two VFEs: only one
+of them was being resetted (always VFE0) so, after the first usage
+of VFE1, in case we leave it in a bad state, it would not properly
+start again. Now... it's fine :)))
+
+P.S.: SDM630/660's camss seems to be *very* similar to MSM8998, so
+      likely 90% of this series should be reusable on that one, too!
+
+Tested on:
+ - Sony Xperia XA2 (IMX300 on CSI0/PHY0/VFE0, IMX219 on CSI2,PHY2,VFE1)
+   * VFE0/1 RDI only, as the VIDEO one does not work with SRGGB Bayer
+     formats yet. As far as I can see, that color format hasn't been
+     implemented yet in the video interface.
+
+AngeloGioacchino Del Regno (6):
+  media: camss: csiphy-3ph: Add support for SDM630/660
+  media: camss: ispif: Correctly reset based on the VFE ID
+  media: camss: vfe: Add support for VFE 4.8
+  media: camss: Add support for SDM630/636/660 camera subsystem
+  media: dt-bindings: media: qcom,camss: Add bindings for SDM660 camss
+  media: camss: csiphy: Set rate on csiX_phy clock on SDM630/660
+
+ .../devicetree/bindings/media/qcom,camss.txt  |   7 +
+ .../media/platform/qcom/camss/camss-csid.c    |   9 +-
+ .../qcom/camss/camss-csiphy-3ph-1-0.c         |   7 +-
+ .../media/platform/qcom/camss/camss-csiphy.c  |  25 ++-
+ .../media/platform/qcom/camss/camss-csiphy.h  |   1 +
+ .../media/platform/qcom/camss/camss-ispif.c   | 100 ++++++---
+ .../media/platform/qcom/camss/camss-ispif.h   |   2 +-
+ .../media/platform/qcom/camss/camss-vfe-4-7.c | 129 ++++++++++-
+ drivers/media/platform/qcom/camss/camss-vfe.c |  19 +-
+ drivers/media/platform/qcom/camss/camss-vfe.h |   1 +
+ .../media/platform/qcom/camss/camss-video.c   |   3 +-
+ drivers/media/platform/qcom/camss/camss.c     | 206 +++++++++++++++++-
+ drivers/media/platform/qcom/camss/camss.h     |   1 +
+ 13 files changed, 448 insertions(+), 62 deletions(-)
+
 -- 
 2.28.0
 
