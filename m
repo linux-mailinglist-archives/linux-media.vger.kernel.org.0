@@ -2,37 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF445291B91
-	for <lists+linux-media@lfdr.de>; Sun, 18 Oct 2020 21:32:55 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 142C6291B6E
+	for <lists+linux-media@lfdr.de>; Sun, 18 Oct 2020 21:32:11 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731904AbgJRT05 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 18 Oct 2020 15:26:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:42312 "EHLO mail.kernel.org"
+        id S1732656AbgJRTax (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 18 Oct 2020 15:30:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:43344 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730950AbgJRT0y (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 18 Oct 2020 15:26:54 -0400
+        id S1732112AbgJRT1a (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 18 Oct 2020 15:27:30 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 81ECB222E9;
-        Sun, 18 Oct 2020 19:26:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6FD592226B;
+        Sun, 18 Oct 2020 19:27:29 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603049214;
-        bh=y0nrALnpN+wNQd4dB09u9lMUX8CA2OB73naCORAG4Ok=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OsoAeB+vw8zwKFQfkfy0h1Pa98TfrpNHvsYEPfk7izqjMg+1DX8IAZXeBfuoz0z3t
-         3R7zAYzvJUEEqjiSlM0PgsU3zdwr0sTZQXSIZTXiJVaGq9pojKrvROvJnY/tJqePPj
-         K+5oMoAKHSQuIt5cqM7EGtvW19L8oKdw6vKJcjz4=
+        s=default; t=1603049250;
+        bh=3BpnqO3HAOZZuIA352xBin6HwuuJeAgKkuyK8XOP52w=;
+        h=From:To:Cc:Subject:Date:From;
+        b=DoxjwVOHr1hRU60NNCCawHcp2Wpbf8PWiamkowQV5fu1YkQ7U9dJBSsB00Hw/dgg2
+         /k0lB+F1iS0ErMgtxFX4TF4AgfFrBZzy9sSqmebNG0hb63LH0dmQ0tKRQ0Ian9FLzm
+         j71QxnWyFceq1TEZH1Ai0DHiFKSC6qhsrcR24AqE=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.9 14/41] media: saa7134: avoid a shift overflow
-Date:   Sun, 18 Oct 2020 15:26:08 -0400
-Message-Id: <20201018192635.4056198-14-sashal@kernel.org>
+Cc:     Pavel Machek <pavel@ucw.cz>, Pavel Machek <pavel@denx.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net
+Subject: [PATCH AUTOSEL 4.4 01/33] media: firewire: fix memory leak
+Date:   Sun, 18 Oct 2020 15:26:56 -0400
+Message-Id: <20201018192728.4056577-1-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201018192635.4056198-1-sashal@kernel.org>
-References: <20201018192635.4056198-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -41,37 +42,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From: Pavel Machek <pavel@ucw.cz>
 
-[ Upstream commit 15a36aae1ec1c1f17149b6113b92631791830740 ]
+[ Upstream commit b28e32798c78a346788d412f1958f36bb760ec03 ]
 
-As reported by smatch:
-	drivers/media/pci/saa7134//saa7134-tvaudio.c:686 saa_dsp_writel() warn: should 'reg << 2' be a 64 bit type?
+Fix memory leak in node_probe.
 
-On a 64-bits Kernel, the shift might be bigger than 32 bits.
-
-In real, this should never happen, but let's shut up the warning.
-
+Signed-off-by: Pavel Machek (CIP) <pavel@denx.de>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/saa7134/saa7134-tvaudio.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/firewire/firedtv-fw.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/pci/saa7134/saa7134-tvaudio.c b/drivers/media/pci/saa7134/saa7134-tvaudio.c
-index 38f94b742e283..0b5d6f4994571 100644
---- a/drivers/media/pci/saa7134/saa7134-tvaudio.c
-+++ b/drivers/media/pci/saa7134/saa7134-tvaudio.c
-@@ -697,7 +697,8 @@ int saa_dsp_writel(struct saa7134_dev *dev, int reg, u32 value)
- {
- 	int err;
+diff --git a/drivers/media/firewire/firedtv-fw.c b/drivers/media/firewire/firedtv-fw.c
+index 5d634706a7eaa..382f290c3f4d5 100644
+--- a/drivers/media/firewire/firedtv-fw.c
++++ b/drivers/media/firewire/firedtv-fw.c
+@@ -271,8 +271,10 @@ static int node_probe(struct fw_unit *unit, const struct ieee1394_device_id *id)
  
--	audio_dbg(2, "dsp write reg 0x%x = 0x%06x\n", reg << 2, value);
-+	audio_dbg(2, "dsp write reg 0x%x = 0x%06x\n",
-+		  (reg << 2) & 0xffffffff, value);
- 	err = saa_dsp_wait_bit(dev,SAA7135_DSP_RWSTATE_WRR);
- 	if (err < 0)
- 		return err;
+ 	name_len = fw_csr_string(unit->directory, CSR_MODEL,
+ 				 name, sizeof(name));
+-	if (name_len < 0)
+-		return name_len;
++	if (name_len < 0) {
++		err = name_len;
++		goto fail_free;
++	}
+ 	for (i = ARRAY_SIZE(model_names); --i; )
+ 		if (strlen(model_names[i]) <= name_len &&
+ 		    strncmp(name, model_names[i], name_len) == 0)
 -- 
 2.25.1
 
