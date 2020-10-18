@@ -2,150 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 75588291780
-	for <lists+linux-media@lfdr.de>; Sun, 18 Oct 2020 14:54:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F17302917C0
+	for <lists+linux-media@lfdr.de>; Sun, 18 Oct 2020 16:05:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726794AbgJRMxO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 18 Oct 2020 08:53:14 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57982 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726709AbgJRMws (ORCPT
+        id S1727010AbgJROFL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 18 Oct 2020 10:05:11 -0400
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:41700 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726962AbgJROFA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 18 Oct 2020 08:52:48 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66821C0613D3;
-        Sun, 18 Oct 2020 05:52:48 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id d81so7706713wmc.1;
-        Sun, 18 Oct 2020 05:52:48 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=N7xv68tWBewz/GeA48bq8PQRHwqrfz4hriEOmLuQ28Y=;
-        b=mugo8nze+fjR6Wx/dWsPwWxXnGP/l5l1LWq31lWFHS2kLRgbe+nT5/lhIJAeI2dikl
-         1KOtLx8BnSZN6txnQ/eTmDOAhlRmsdCfj7XyS4DYyZRSZDdQF5wcrs8yY4WJJa+YfwRA
-         X018hpLcQWqeP1x0n/l+ew2+YWYrHw+w6sfVY7PMBeFbKN9f3QKl2AJAF/HYS/OylqNk
-         xVIRmWmuN4AIjMjP72Rfw7+v3SQroch5tF2JwHGM8toeA0tNSjiglNPE4nk0GaHQb1w7
-         Av62wN8XNwr6HnRrk5Rb0eSsfAwfshI28z67IYBwpkMVQpSNc7aBGjiG2fltZMiF93Xi
-         QxuQ==
+        Sun, 18 Oct 2020 10:05:00 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1603029898;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=kBVMPnQfqrYuRmZ0mFLSkNqYWCaxPfshC6ZYuKW12NQ=;
+        b=CE3TTm0ZWS3xUbYzjwLA7+TYTk7Dg+VxIL4Zp73oDsqTuzAXXNjBX0Doq5M5Cu6ffXkYev
+        bZ3C9BpL47kMqRFuXYSmeuVfmCYD0R8cyybmNyMbwair6n3qDaCsRQ2KiiaxG8Fe9Zs8sm
+        6xUrramWNvo4ZIP3aUKUh3vEKSsfIgI=
+Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
+ [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-239-Y62utOn3MAaaXd0upGstnQ-1; Sun, 18 Oct 2020 10:04:56 -0400
+X-MC-Unique: Y62utOn3MAaaXd0upGstnQ-1
+Received: by mail-qk1-f200.google.com with SMTP id w189so5484619qkd.6
+        for <linux-media@vger.kernel.org>; Sun, 18 Oct 2020 07:04:56 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=N7xv68tWBewz/GeA48bq8PQRHwqrfz4hriEOmLuQ28Y=;
-        b=rgLYXXnQP21NK3YpxrP+pKdrhewoFnkIs266ZplGv5mt3GoO+bqSd9DIHcKCHLdWiv
-         8h2V5iCiTG2pl5NY4+5oDzoiZd3GqBqOaQxTxLIl3sV4aFlCPrdOWd3LT0Rh5wL5FdxY
-         /H6jNyjkGIJHfzITXvelPTXbIFcIJU2+RLrioOFxiSg3XEw+I1cYg6+legt6B/MMcBp9
-         HNvLl9VPUmMIq5JhYsgpxtQF9pb0k4fUzVvArZbeISsb3pyrhX4TemS4DEdOyARw0+sY
-         yyxW4yeDYOhNDA6eTviD2ILijW2VoyW9zBlBCZS5UQ1Az5nfMX3XHqJb2oE1YNrmPFWt
-         CVoA==
-X-Gm-Message-State: AOAM530zg5OQhJQKYVSa3aMt9KCahdUlQxliDifHneODXmD4+9hwSYyI
-        a3ZItYxlJpznGn7CEmrkFgrX31MjwIw8lZee
-X-Google-Smtp-Source: ABdhPJxpHbBhE0qZR2xNZ1nASrvUppNtEOwODRkka8Om+C9N9qGVwHlQeKGjsYaIKq2FhYoZdOvQmg==
-X-Received: by 2002:a7b:cc89:: with SMTP id p9mr13452008wma.4.1603025567080;
-        Sun, 18 Oct 2020 05:52:47 -0700 (PDT)
-Received: from IcarusMOD.eternityproject.eu ([2.237.20.237])
-        by smtp.gmail.com with ESMTPSA id u2sm11940158wme.1.2020.10.18.05.52.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 18 Oct 2020 05:52:46 -0700 (PDT)
-From:   kholk11@gmail.com
-To:     todor.too@gmail.com
-Cc:     agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
-        robh+dt@kernel.org, marijns95@gmail.com, konradybcio@gmail.com,
-        martin.botka1@gmail.com, linux-arm-msm@vger.kernel.org,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        AngeloGioacchino Del Regno <kholk11@gmail.com>
-Subject: [PATCH 6/6] media: camss: csiphy: Set rate on csiX_phy clock on SDM630/660
-Date:   Sun, 18 Oct 2020 14:52:37 +0200
-Message-Id: <20201018125237.16717-7-kholk11@gmail.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201018125237.16717-1-kholk11@gmail.com>
-References: <20201018125237.16717-1-kholk11@gmail.com>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=kBVMPnQfqrYuRmZ0mFLSkNqYWCaxPfshC6ZYuKW12NQ=;
+        b=nnz9aU6Ebz5vVNAM2RRN2X1mQkbN3rC4Ki28CurArTgHcNL8+gkCqsYe6WX+P+9cwP
+         Qe8BssGwjaDwYJHN35WBoRWgsocYyNt1Dk0Pnzq2xDFl9FCmskTRejKEw3f/BX1YQlna
+         1uWSqBITlGCIQnXMxd7VB9V4s3JaJi6fYUx3WIJI9IyddVeZmAi5CqTicv0fKtWAc0ni
+         gWfGvS8ljQ0CzphDRUFOD18mlUnhMgN/DSvxXh8nJvjfRhwakf/zDL1GIp1sRfnrJWUx
+         e+bgoF2T+F1LmFHvdWvRvHyXL2gXr8vyyZGjx7FsHgZJtn0G4CdnrdAkaARjPbDLPCX8
+         s4/A==
+X-Gm-Message-State: AOAM530Q9G3Nw/Lrf3KiLvXVG3k+Dh0dc9man/ue8jo17v20PlV5tN19
+        Pb8H8zvWh6uYdDRD6gilpKbKpnrE5sd5r00eGalwsrGeMsvDEO/sJ+A9YX6eip69LyRHWOsNhDA
+        BalPn7TRHDwY/SdXSnmEw7zo=
+X-Received: by 2002:a05:620a:1287:: with SMTP id w7mr12724292qki.436.1603029896364;
+        Sun, 18 Oct 2020 07:04:56 -0700 (PDT)
+X-Google-Smtp-Source: ABdhPJy6z5rS79nBj0nCbIqVRZ9qmkAzjArqewdITB0rtwnhi1UUe/kvxLZTENMJDRITA4iBlrUAlw==
+X-Received: by 2002:a05:620a:1287:: with SMTP id w7mr12724258qki.436.1603029896034;
+        Sun, 18 Oct 2020 07:04:56 -0700 (PDT)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id u16sm3288927qth.42.2020.10.18.07.04.49
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 18 Oct 2020 07:04:55 -0700 (PDT)
+Subject: Re: [RFC] treewide: cleanup unreachable breaks
+To:     Greg KH <gregkh@linuxfoundation.org>
+Cc:     linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
+        xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
+        openipmi-developer@lists.sourceforge.net,
+        linux-crypto@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-power@fi.rohmeurope.com, linux-gpio@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        spice-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
+        linux-amlogic@lists.infradead.org,
+        industrypack-devel@lists.sourceforge.net,
+        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
+        linux-scsi@vger.kernel.org, linux-mtd@lists.infradead.org,
+        linux-can@vger.kernel.org, netdev@vger.kernel.org,
+        intel-wired-lan@lists.osuosl.org, ath10k@lists.infradead.org,
+        linux-wireless@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com, linux-nfc@lists.01.org,
+        linux-nvdimm@lists.01.org, linux-pci@vger.kernel.org,
+        linux-samsung-soc@vger.kernel.org,
+        platform-driver-x86@vger.kernel.org, patches@opensource.cirrus.com,
+        storagedev@microchip.com, devel@driverdev.osuosl.org,
+        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
+        usb-storage@lists.one-eyed-alien.net,
+        linux-watchdog@vger.kernel.org, ocfs2-devel@oss.oracle.com,
+        bpf@vger.kernel.org, linux-integrity@vger.kernel.org,
+        linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
+        alsa-devel@alsa-project.org, clang-built-linux@googlegroups.com
+References: <20201017160928.12698-1-trix@redhat.com>
+ <20201018054332.GB593954@kroah.com>
+From:   Tom Rix <trix@redhat.com>
+Message-ID: <eecb7c3e-88b2-ec2f-0235-280da51ae69c@redhat.com>
+Date:   Sun, 18 Oct 2020 07:04:49 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.6.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201018054332.GB593954@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: AngeloGioacchino Del Regno <kholk11@gmail.com>
 
-The SDM630/660 SoCs (and variants) have another clock source
-for the PHY, which must be set to a rate that's equal or
-greater than the CSI PHY timer clock: failing to do this
-will produce PHY overflows when trying to get a stream from
-a very high bandwidth camera sensor and outputting no frame
-or a partial one.
+On 10/17/20 10:43 PM, Greg KH wrote:
+> On Sat, Oct 17, 2020 at 09:09:28AM -0700, trix@redhat.com wrote:
+>> From: Tom Rix <trix@redhat.com>
+>>
+>> This is a upcoming change to clean up a new warning treewide.
+>> I am wondering if the change could be one mega patch (see below) or
+>> normal patch per file about 100 patches or somewhere half way by collecting
+>> early acks.
+> Please break it up into one-patch-per-subsystem, like normal, and get it
+> merged that way.
 
-Since I haven't found any usecase in which the csiX_phy
-clock needs to be higher than the csiXphy_timer, let's just
-set the same rate on both, which seems to work just perfect.
+OK.
 
-Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
----
- .../media/platform/qcom/camss/camss-csiphy.c  | 22 ++++++++++++++++---
- .../media/platform/qcom/camss/camss-csiphy.h  |  1 +
- 2 files changed, 20 insertions(+), 3 deletions(-)
+Thanks,
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.c b/drivers/media/platform/qcom/camss/camss-csiphy.c
-index c00f25aac21b..a5d717d022a5 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy.c
-@@ -113,9 +113,7 @@ static int csiphy_set_clock_rates(struct csiphy_device *csiphy)
- 	for (i = 0; i < csiphy->nclocks; i++) {
- 		struct camss_clock *clock = &csiphy->clock[i];
- 
--		if (!strcmp(clock->name, "csiphy0_timer") ||
--		    !strcmp(clock->name, "csiphy1_timer") ||
--		    !strcmp(clock->name, "csiphy2_timer")) {
-+		if (csiphy->rate_set[i]) {
- 			u8 bpp = csiphy_get_bpp(csiphy->formats,
- 					csiphy->nformats,
- 					csiphy->fmt[MSM_CSIPHY_PAD_SINK].code);
-@@ -611,6 +609,13 @@ int msm_csiphy_subdev_init(struct camss *camss,
- 	if (!csiphy->clock)
- 		return -ENOMEM;
- 
-+	csiphy->rate_set = devm_kcalloc(dev,
-+					csiphy->nclocks,
-+					sizeof(*csiphy->rate_set),
-+					GFP_KERNEL);
-+	if (!csiphy->rate_set)
-+		return -ENOMEM;
-+
- 	for (i = 0; i < csiphy->nclocks; i++) {
- 		struct camss_clock *clock = &csiphy->clock[i];
- 
-@@ -638,6 +643,17 @@ int msm_csiphy_subdev_init(struct camss *camss,
- 
- 		for (j = 0; j < clock->nfreqs; j++)
- 			clock->freq[j] = res->clock_rate[i][j];
-+
-+		if (!strcmp(clock->name, "csiphy0_timer") ||
-+		    !strcmp(clock->name, "csiphy1_timer") ||
-+		    !strcmp(clock->name, "csiphy2_timer"))
-+			csiphy->rate_set[i] = true;
-+
-+		if (camss->version == CAMSS_660 &&
-+		    (!strcmp(clock->name, "csi0_phy") ||
-+		     !strcmp(clock->name, "csi1_phy") ||
-+		     !strcmp(clock->name, "csi2_phy")))
-+			csiphy->rate_set[i] = true;
- 	}
- 
- 	return 0;
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy.h b/drivers/media/platform/qcom/camss/camss-csiphy.h
-index 376f865ad383..f7967ef836dc 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy.h
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy.h
-@@ -66,6 +66,7 @@ struct csiphy_device {
- 	u32 irq;
- 	char irq_name[30];
- 	struct camss_clock *clock;
-+	bool *rate_set;
- 	int nclocks;
- 	u32 timer_clk_rate;
- 	struct csiphy_config cfg;
--- 
-2.28.0
+Tom
+
+>
+> Sending us a patch, without even a diffstat to review, isn't going to
+> get you very far...
+>
+> thanks,
+>
+> greg k-h
+>
 
