@@ -2,36 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 961F0291CA7
-	for <lists+linux-media@lfdr.de>; Sun, 18 Oct 2020 21:40:10 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 141C7291CA0
+	for <lists+linux-media@lfdr.de>; Sun, 18 Oct 2020 21:39:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730867AbgJRTYj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 18 Oct 2020 15:24:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:38674 "EHLO mail.kernel.org"
+        id S1730853AbgJRTj3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 18 Oct 2020 15:39:29 -0400
+Received: from mail.kernel.org ([198.145.29.99]:38740 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730846AbgJRTYi (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 18 Oct 2020 15:24:38 -0400
+        id S1730870AbgJRTYl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 18 Oct 2020 15:24:41 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 02D4F222EC;
-        Sun, 18 Oct 2020 19:24:36 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4C230222C8;
+        Sun, 18 Oct 2020 19:24:40 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603049077;
-        bh=jzixibnVqADsXqp386tcfGlnYtondXrkH56p0NvQJIU=;
+        s=default; t=1603049080;
+        bh=IM4R2jkcH/ab5xP+juABRDNyOLsIs9Nn0nnzMjGRMvw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=g4QV9WmJq+Ch1+i1pv8XLOECc5VgZoK6+Pcq39BY/QGi7gklg4jvlJOaXSwOTgKLI
-         WXdwgLiFymhJCGIuuKVvuW8NcXXDTF/labonpyLvT9/c9O6UAkni1+06WxuBEpMb7Z
-         opB+Eh85HMnbkncozML68eTSsEteWeIFve27aWp0=
+        b=JGrTwQBbpzmt5ZHRowXc9mzhTIyPDCamMKGO3XRKUsUc5HlgT+QhskpuV8hn++WHk
+         7flo8b/BE/aC2jmweceEyDjnow36r6/eyLqhIoOgIjtR8ZA5ar+TTWMVrCo8GjpdV6
+         33k4wDUtE1ZRm4m0/CrW5zzTP1eA3+187ostpMSM=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Adam Goode <agoode@google.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 15/56] media: uvcvideo: Ensure all probed info is returned to v4l2
-Date:   Sun, 18 Oct 2020 15:23:36 -0400
-Message-Id: <20201018192417.4055228-15-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.19 18/56] media: saa7134: avoid a shift overflow
+Date:   Sun, 18 Oct 2020 15:23:39 -0400
+Message-Id: <20201018192417.4055228-18-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201018192417.4055228-1-sashal@kernel.org>
 References: <20201018192417.4055228-1-sashal@kernel.org>
@@ -43,82 +41,37 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Adam Goode <agoode@google.com>
+From: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-[ Upstream commit 8a652a17e3c005dcdae31b6c8fdf14382a29cbbe ]
+[ Upstream commit 15a36aae1ec1c1f17149b6113b92631791830740 ]
 
-bFrameIndex and bFormatIndex can be negotiated by the camera during
-probing, resulting in the camera choosing a different format than
-expected. v4l2 can already accommodate such changes, but the code was
-not updating the proper fields.
+As reported by smatch:
+	drivers/media/pci/saa7134//saa7134-tvaudio.c:686 saa_dsp_writel() warn: should 'reg << 2' be a 64 bit type?
 
-Without such a change, v4l2 would potentially interpret the payload
-incorrectly, causing corrupted output. This was happening on the
-Elgato HD60 S+, which currently always renegotiates to format 1.
+On a 64-bits Kernel, the shift might be bigger than 32 bits.
 
-As an aside, the Elgato firmware is buggy and should not be renegotating,
-but it is still a valid thing for the camera to do. Both macOS and Windows
-will properly probe and read uncorrupted images from this camera.
+In real, this should never happen, but let's shut up the warning.
 
-With this change, both qv4l2 and chromium can now read uncorrupted video
-from the Elgato HD60 S+.
-
-[Add blank lines, remove periods at the of messages]
-
-Signed-off-by: Adam Goode <agoode@google.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/uvc/uvc_v4l2.c | 30 ++++++++++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+ drivers/media/pci/saa7134/saa7134-tvaudio.c | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_v4l2.c b/drivers/media/usb/uvc/uvc_v4l2.c
-index 18a7384b50ee9..0921c95a1dca5 100644
---- a/drivers/media/usb/uvc/uvc_v4l2.c
-+++ b/drivers/media/usb/uvc/uvc_v4l2.c
-@@ -252,11 +252,41 @@ static int uvc_v4l2_try_format(struct uvc_streaming *stream,
- 	if (ret < 0)
- 		goto done;
+diff --git a/drivers/media/pci/saa7134/saa7134-tvaudio.c b/drivers/media/pci/saa7134/saa7134-tvaudio.c
+index 68d400e1e240e..8c3da6f7a60f1 100644
+--- a/drivers/media/pci/saa7134/saa7134-tvaudio.c
++++ b/drivers/media/pci/saa7134/saa7134-tvaudio.c
+@@ -693,7 +693,8 @@ int saa_dsp_writel(struct saa7134_dev *dev, int reg, u32 value)
+ {
+ 	int err;
  
-+	/* After the probe, update fmt with the values returned from
-+	 * negotiation with the device.
-+	 */
-+	for (i = 0; i < stream->nformats; ++i) {
-+		if (probe->bFormatIndex == stream->format[i].index) {
-+			format = &stream->format[i];
-+			break;
-+		}
-+	}
-+
-+	if (i == stream->nformats) {
-+		uvc_trace(UVC_TRACE_FORMAT, "Unknown bFormatIndex %u\n",
-+			  probe->bFormatIndex);
-+		return -EINVAL;
-+	}
-+
-+	for (i = 0; i < format->nframes; ++i) {
-+		if (probe->bFrameIndex == format->frame[i].bFrameIndex) {
-+			frame = &format->frame[i];
-+			break;
-+		}
-+	}
-+
-+	if (i == format->nframes) {
-+		uvc_trace(UVC_TRACE_FORMAT, "Unknown bFrameIndex %u\n",
-+			  probe->bFrameIndex);
-+		return -EINVAL;
-+	}
-+
- 	fmt->fmt.pix.width = frame->wWidth;
- 	fmt->fmt.pix.height = frame->wHeight;
- 	fmt->fmt.pix.field = V4L2_FIELD_NONE;
- 	fmt->fmt.pix.bytesperline = uvc_v4l2_get_bytesperline(format, frame);
- 	fmt->fmt.pix.sizeimage = probe->dwMaxVideoFrameSize;
-+	fmt->fmt.pix.pixelformat = format->fcc;
- 	fmt->fmt.pix.colorspace = format->colorspace;
- 	fmt->fmt.pix.priv = 0;
- 
+-	audio_dbg(2, "dsp write reg 0x%x = 0x%06x\n", reg << 2, value);
++	audio_dbg(2, "dsp write reg 0x%x = 0x%06x\n",
++		  (reg << 2) & 0xffffffff, value);
+ 	err = saa_dsp_wait_bit(dev,SAA7135_DSP_RWSTATE_WRR);
+ 	if (err < 0)
+ 		return err;
 -- 
 2.25.1
 
