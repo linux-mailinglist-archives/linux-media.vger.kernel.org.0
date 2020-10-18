@@ -2,36 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3369291A48
-	for <lists+linux-media@lfdr.de>; Sun, 18 Oct 2020 21:23:47 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id F10D5291D73
+	for <lists+linux-media@lfdr.de>; Sun, 18 Oct 2020 21:46:00 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730064AbgJRTW5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 18 Oct 2020 15:22:57 -0400
-Received: from mail.kernel.org ([198.145.29.99]:35894 "EHLO mail.kernel.org"
+        id S2387422AbgJRTpx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 18 Oct 2020 15:45:53 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35956 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730050AbgJRTWz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 18 Oct 2020 15:22:55 -0400
+        id S1728716AbgJRTW5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 18 Oct 2020 15:22:57 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B2912223AB;
-        Sun, 18 Oct 2020 19:22:53 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 41E22222EB;
+        Sun, 18 Oct 2020 19:22:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603048974;
-        bh=jTrFZs9DIx+gxbsNBqwlk6WWIe4DLgg7bsS91k+8FkU=;
+        s=default; t=1603048977;
+        bh=VwfiyVImG4KNBSklL8nDqKwntMq1xxLWJNG+hRC/SFw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=TNlmpYHPGN9cj6C1j/RnjcLQUMNDKGO4qqr8nIH4aFnIlk6/sR//w7LLSyabixT4C
-         4kWbuf9L+CuPcV1Lc4PtA1bxwpXfoyGtWAHzY2rTdicCk9kNZivbqsOmwi3+LfwAgU
-         e6+ZxMnrAgwHvN5BIHH9B62eL7o9PYPCKWwFeOHI=
+        b=b/WNWdOVMbEnJB4goX1Jvm4H+EqZ5/ait1XrE/avt23q8+0PO8BxZKNNyb6033zgb
+         CfmIjdb3QjJ2hXB8utT2ZgH3/El3ngJSjrNbeBAip8HfV2xdALsk6BSLzX6xEIU+Xm
+         N2V0zXgP93EHt3QXd40iz4AeceXc8fB/AydmTwIk=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Xiaolong Huang <butterflyhuangxx@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 17/80] media: media/pci: prevent memory leak in bttv_probe
-Date:   Sun, 18 Oct 2020 15:21:28 -0400
-Message-Id: <20201018192231.4054535-17-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: [PATCH AUTOSEL 5.4 19/80] media: rcar_drif: Fix fwnode reference leak when parsing DT
+Date:   Sun, 18 Oct 2020 15:21:30 -0400
+Message-Id: <20201018192231.4054535-19-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201018192231.4054535-1-sashal@kernel.org>
 References: <20201018192231.4054535-1-sashal@kernel.org>
@@ -43,63 +44,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Xiaolong Huang <butterflyhuangxx@gmail.com>
+From: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
 
-[ Upstream commit 7b817585b730665126b45df5508dd69526448bc8 ]
+[ Upstream commit cdd4f7824994c9254acc6e415750529ea2d2cfe0 ]
 
-In bttv_probe if some functions such as pci_enable_device,
-pci_set_dma_mask and request_mem_region fails the allocated
- memory for btv should be released.
+The fwnode reference corresponding to the endpoint is leaked in an error
+path of the rcar_drif_parse_subdevs() function. Fix it, and reorganize
+fwnode reference handling in the function to release references early,
+simplifying error paths.
 
-Signed-off-by: Xiaolong Huang <butterflyhuangxx@gmail.com>
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/pci/bt8xx/bttv-driver.c | 13 ++++++++++---
- 1 file changed, 10 insertions(+), 3 deletions(-)
+ drivers/media/platform/rcar_drif.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/media/pci/bt8xx/bttv-driver.c b/drivers/media/pci/bt8xx/bttv-driver.c
-index a359da7773a90..ff2962cea6164 100644
---- a/drivers/media/pci/bt8xx/bttv-driver.c
-+++ b/drivers/media/pci/bt8xx/bttv-driver.c
-@@ -4013,11 +4013,13 @@ static int bttv_probe(struct pci_dev *dev, const struct pci_device_id *pci_id)
- 	btv->id  = dev->device;
- 	if (pci_enable_device(dev)) {
- 		pr_warn("%d: Can't enable device\n", btv->c.nr);
--		return -EIO;
-+		result = -EIO;
-+		goto free_mem;
- 	}
- 	if (pci_set_dma_mask(dev, DMA_BIT_MASK(32))) {
- 		pr_warn("%d: No suitable DMA available\n", btv->c.nr);
--		return -EIO;
-+		result = -EIO;
-+		goto free_mem;
- 	}
- 	if (!request_mem_region(pci_resource_start(dev,0),
- 				pci_resource_len(dev,0),
-@@ -4025,7 +4027,8 @@ static int bttv_probe(struct pci_dev *dev, const struct pci_device_id *pci_id)
- 		pr_warn("%d: can't request iomem (0x%llx)\n",
- 			btv->c.nr,
- 			(unsigned long long)pci_resource_start(dev, 0));
--		return -EBUSY;
-+		result = -EBUSY;
-+		goto free_mem;
- 	}
- 	pci_set_master(dev);
- 	pci_set_command(dev);
-@@ -4211,6 +4214,10 @@ static int bttv_probe(struct pci_dev *dev, const struct pci_device_id *pci_id)
- 	release_mem_region(pci_resource_start(btv->c.pci,0),
- 			   pci_resource_len(btv->c.pci,0));
- 	pci_disable_device(btv->c.pci);
+diff --git a/drivers/media/platform/rcar_drif.c b/drivers/media/platform/rcar_drif.c
+index 0f267a237b424..208ff260b0c10 100644
+--- a/drivers/media/platform/rcar_drif.c
++++ b/drivers/media/platform/rcar_drif.c
+@@ -1223,28 +1223,22 @@ static int rcar_drif_parse_subdevs(struct rcar_drif_sdr *sdr)
+ 	if (!ep)
+ 		return 0;
+ 
++	/* Get the endpoint properties */
++	rcar_drif_get_ep_properties(sdr, ep);
 +
-+free_mem:
-+	bttvs[btv->c.nr] = NULL;
-+	kfree(btv);
- 	return result;
+ 	fwnode = fwnode_graph_get_remote_port_parent(ep);
++	fwnode_handle_put(ep);
+ 	if (!fwnode) {
+ 		dev_warn(sdr->dev, "bad remote port parent\n");
+-		fwnode_handle_put(ep);
+ 		return -EINVAL;
+ 	}
+ 
+ 	sdr->ep.asd.match.fwnode = fwnode;
+ 	sdr->ep.asd.match_type = V4L2_ASYNC_MATCH_FWNODE;
+ 	ret = v4l2_async_notifier_add_subdev(notifier, &sdr->ep.asd);
+-	if (ret) {
+-		fwnode_handle_put(fwnode);
+-		return ret;
+-	}
+-
+-	/* Get the endpoint properties */
+-	rcar_drif_get_ep_properties(sdr, ep);
+-
+ 	fwnode_handle_put(fwnode);
+-	fwnode_handle_put(ep);
+ 
+-	return 0;
++	return ret;
  }
  
+ /* Check if the given device is the primary bond */
 -- 
 2.25.1
 
