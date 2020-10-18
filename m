@@ -2,170 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94406291486
-	for <lists+linux-media@lfdr.de>; Sat, 17 Oct 2020 23:01:49 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id A026829156E
+	for <lists+linux-media@lfdr.de>; Sun, 18 Oct 2020 05:37:51 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2439302AbgJQVBp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 17 Oct 2020 17:01:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53834 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2439249AbgJQVBh (ORCPT
+        id S1726216AbgJRDhu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 17 Oct 2020 23:37:50 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:56643 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726164AbgJRDhu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 17 Oct 2020 17:01:37 -0400
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 31AC2C061755
-        for <linux-media@vger.kernel.org>; Sat, 17 Oct 2020 14:01:37 -0700 (PDT)
-Received: by mail-ej1-x642.google.com with SMTP id md26so8427111ejb.10
-        for <linux-media@vger.kernel.org>; Sat, 17 Oct 2020 14:01:37 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=QU5tUnKrk3cCgEOM6DUuSpHohPcIoidzngrqxPrVqlg=;
-        b=ntIAxdfj5B3UZZJPAO3W3zqpuYJdxZe6wmMN+Cg5+tfh5QjsxLbXR5o2amfdJQ2J48
-         +r9G2vZiMs4S/e6t6kNU+/1RisTXP2Yspklt8lksB4PhSQjsUISEYusYJeN2p0XCHoqr
-         5tX/QI+fZe3GQZJaviemAIYQlGxoIFC7s6aX8R5MJQLi2SOYJ/keQbrc62HNUeJ8pCOI
-         7WYztP0OE4axPIRoGDfVK4aq4k9dPY6fZ69Y4fL3/a70qb0GrKtNhloBSbp9yIhwtpgg
-         UECkhdkcAFyI2jUc3qFZfU7NKoc+E1dZJHZxhONiRQFFV//aVnbaYjp+hfJUaNjfh3TU
-         ik3w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=QU5tUnKrk3cCgEOM6DUuSpHohPcIoidzngrqxPrVqlg=;
-        b=CuBY4Amfmfb66XvDJW0BG7STBBz61/rkA5WcADppqOfGR34U6gmuOwL8ac67dmzcp6
-         p0rbjwSHSeQNwnbKAGEYwYVXFUK1TavhK4NgRqk+PqnjhFt1INPZU6/oocLAZfPmSJvi
-         oE3JtWtmJsTsAOnnc9Er09qVo9NdD+SU7bj9mCk4a43OlwGYAi0m9yxWIVGINE/BB4UZ
-         1aSZJMEUt58lC81Z+ujCoVZrcGoQKIzkEyNjokLchprTaW27OEcIyyc31mo3cVzMhvlO
-         Mfc2HvUAQgPIwx56cblQzVFQPCTigwJQ8OditbNzD6ZL6N7mM/IKc2KqD7Zjbno5yVDi
-         kIYQ==
-X-Gm-Message-State: AOAM533QfTKtNROvhAizqpiBfrPYKgTt+VPsPWoUgXFz6bNP931/OllJ
-        2RWq2l5YjtczyTNgEoznz9/c70xPtAJHreva8Qxphg==
-X-Google-Smtp-Source: ABdhPJzde2s6j/g/ekBLPPrgSH2EJqfd3KSDRuhe3Mnzr9w98lVRa6HniOngGCyhNuV4q/eDk1HFvyy/v8IqyEanGTA=
-X-Received: by 2002:a17:906:1a19:: with SMTP id i25mr9957370ejf.323.1602968492144;
- Sat, 17 Oct 2020 14:01:32 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201017160928.12698-1-trix@redhat.com>
-In-Reply-To: <20201017160928.12698-1-trix@redhat.com>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Sat, 17 Oct 2020 14:01:22 -0700
-Message-ID: <CAPcyv4jkSFxMXgMABX7sDbwmq8zJO=rLX2ww3Y9Tc0VAANY8xQ@mail.gmail.com>
-Subject: Re: [RFC] treewide: cleanup unreachable breaks
-To:     trix@redhat.com
-Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-edac@vger.kernel.org,
-        Linux ACPI <linux-acpi@vger.kernel.org>,
-        Linux-pm mailing list <linux-pm@vger.kernel.org>,
-        xen-devel <xen-devel@lists.xenproject.org>,
-        linux-block@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        linux-crypto <linux-crypto@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-power@fi.rohmeurope.com, linux-gpio@vger.kernel.org,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, nouveau@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        spice-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        industrypack-devel@lists.sourceforge.net,
-        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        MPT-FusionLinux.pdl@broadcom.com,
-        linux-scsi <linux-scsi@vger.kernel.org>,
-        linux-mtd@lists.infradead.org, linux-can@vger.kernel.org,
-        Netdev <netdev@vger.kernel.org>,
-        intel-wired-lan@lists.osuosl.org, ath10k@lists.infradead.org,
-        Linux Wireless List <linux-wireless@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com, linux-nfc@lists.01.org,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        platform-driver-x86@vger.kernel.org, patches@opensource.cirrus.com,
-        storagedev@microchip.com, devel@driverdev.osuosl.org,
-        linux-serial@vger.kernel.org, USB list <linux-usb@vger.kernel.org>,
-        usb-storage@lists.one-eyed-alien.net,
-        linux-watchdog@vger.kernel.org, ocfs2-devel@oss.oracle.com,
-        bpf@vger.kernel.org, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        "open list:KEYS-TRUSTED" <keyrings@vger.kernel.org>,
-        alsa-devel@alsa-project.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>
-Content-Type: text/plain; charset="UTF-8"
+        Sat, 17 Oct 2020 23:37:50 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id TzVykWSAUghRkTzVzkpSJe; Sun, 18 Oct 2020 05:37:47 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1602992267; bh=pPwajnpBh9UCUrJpJixFcwOC/eRqrAp5U8QGexmlSw0=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=M7iPqLLsyxGIS1o05bTUZm1aZc7A4qg6VTn9AgWXzzpyeqIbK7KhucFUD5wJ09b8Z
+         ACFTjIbXyL31pvnCax943PRfTai+PL8T+1+Rb1ghSJ1iIbmONAlUhuAhvVLH6NDF1b
+         vUMdmhlVJ9znPvSK/sZ50cco38wjgWZURy6As37Prj+/GqXUqcgaf1tK7ebi7IFpBC
+         uAG32S7F/yVpjVvr6XEbsqyzbHV4Ev/PgKNKOwf/uAct8h5ZAy8CfcP15vdny2hqQo
+         2vEbklsm4AL+wWzrWKcaEzD9p8S5eWxrcDDv22/OZiZ0mivm6aB5WZRBf8qQYSpXit
+         n6JobJuS0unZA==
+Message-ID: <c22da85ac1f5b90faa13126e59108db2@smtp-cloud7.xs4all.net>
+Date:   Sun, 18 Oct 2020 05:37:46 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfKkb0M2ZqiKwJ93izje8pOm3gkcKmseysL2NaVPJkZeLTIlyxecN7lbR/CvEmBmC2EiXznlAA1xxTGxDca83yFE0HFI3m/iBLgz/a4LW+10HH/kB4Wa4
+ L/QJUxVgXYKvVVPp2H6bB53/YNN4E2XQ4Unj9A9Xdxis+SgbGoU0tIVMqYye1ibMgKfJEuHFPX1eMruywSBzy4yRgGYMCS/VbUMY50hLb0RSXjJD1AFsZR4j
+ H8NMsEvq/H6LpONtZ2+5Bg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Oct 17, 2020 at 9:10 AM <trix@redhat.com> wrote:
->
-> From: Tom Rix <trix@redhat.com>
->
-> This is a upcoming change to clean up a new warning treewide.
-> I am wondering if the change could be one mega patch (see below) or
-> normal patch per file about 100 patches or somewhere half way by collecting
-> early acks.
->
-> clang has a number of useful, new warnings see
-> https://clang.llvm.org/docs/DiagnosticsReference.html
->
-> This change cleans up -Wunreachable-code-break
-> https://clang.llvm.org/docs/DiagnosticsReference.html#wunreachable-code-break
-> for 266 of 485 warnings in this week's linux-next, allyesconfig on x86_64.
->
-> The method of fixing was to look for warnings where the preceding statement
-> was a simple statement and by inspection made the subsequent break unneeded.
-> In order of frequency these look like
->
-> return and break
->
->         switch (c->x86_vendor) {
->         case X86_VENDOR_INTEL:
->                 intel_p5_mcheck_init(c);
->                 return 1;
-> -               break;
->
-> goto and break
->
->         default:
->                 operation = 0; /* make gcc happy */
->                 goto fail_response;
-> -               break;
->
-> break and break
->                 case COLOR_SPACE_SRGB:
->                         /* by pass */
->                         REG_SET(OUTPUT_CSC_CONTROL, 0,
->                                 OUTPUT_CSC_GRPH_MODE, 0);
->                         break;
-> -                       break;
->
-> The exception to the simple statement, is a switch case with a block
-> and the end of block is a return
->
->                         struct obj_buffer *buff = r->ptr;
->                         return scnprintf(str, PRIV_STR_SIZE,
->                                         "size=%u\naddr=0x%X\n", buff->size,
->                                         buff->addr);
->                 }
-> -               break;
->
-> Not considered obvious and excluded, breaks after
-> multi level switches
-> complicated if-else if-else blocks
-> panic() or similar calls
->
-> And there is an odd addition of a 'fallthrough' in drivers/tty/nozomi.c
-[..]
-> diff --git a/drivers/nvdimm/claim.c b/drivers/nvdimm/claim.c
-> index 5a7c80053c62..2f250874b1a4 100644
-> --- a/drivers/nvdimm/claim.c
-> +++ b/drivers/nvdimm/claim.c
-> @@ -200,11 +200,10 @@ ssize_t nd_namespace_store(struct device *dev,
->                 }
->                 break;
->         default:
->                 len = -EBUSY;
->                 goto out_attach;
-> -               break;
->         }
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Acked-by: Dan Williams <dan.j.williams@intel.com>
+Results of the daily build of media_tree:
+
+date:			Sun Oct 18 05:00:14 CEST 2020
+media-tree git hash:	c386e0797d26a32e354daf4480c5d40165db66a1
+media_build git hash:	e0136eadb6f4c24b7f8fcb50ef4d4d5ffb2af31d
+v4l-utils git hash:	28df3d403be3d7769d7b10cda3e372a0dbbfa410
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 9783287347a0d95925f345313520f04869f439ab
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9-rc7-i686: OK
+linux-5.9-rc7-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
