@@ -2,140 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B5E41292E95
-	for <lists+linux-media@lfdr.de>; Mon, 19 Oct 2020 21:42:31 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 81A13292F75
+	for <lists+linux-media@lfdr.de>; Mon, 19 Oct 2020 22:34:08 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731297AbgJSTma (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Oct 2020 15:42:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34370 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731167AbgJSTm2 (ORCPT
+        id S1731701AbgJSUeH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Oct 2020 16:34:07 -0400
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:33189 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731695AbgJSUeG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Oct 2020 15:42:28 -0400
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF056C0613D1
-        for <linux-media@vger.kernel.org>; Mon, 19 Oct 2020 12:42:27 -0700 (PDT)
-Received: by mail-pl1-x643.google.com with SMTP id h2so310529pll.11
-        for <linux-media@vger.kernel.org>; Mon, 19 Oct 2020 12:42:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=no6WOfZDuAXhTDfVia9Vunkz4L7BthY0F8m0jo4//vs=;
-        b=vqIoQqfPtCUD7ceHGEmbvFqqUZd/9dE0IpLQQ4p4nyONBXQMSFxBG5OzgCaJfT8eu8
-         Ez0DMwUntzcU9c2WJzs/WqMvxG3bzlj0mstlcz+E4fW0gt02sZNjrL1HdU6SHVwmCE5R
-         WFeHYzJRJuPZspqj8YJ2wlUmUN4Mc8MNrI6kLekCJ8yejCepkvkgEUeb7TbpDze1NnEh
-         TP2SjhqdakZDUedR00qYjd62k5W2m7FgfHIpcuS/rhjqMGxVL3Apppn+UDRO/ftdIfoh
-         duvoKavmXDacw9mysFV+xdp1Tg4QxCPiDxNSeCeZyO+34Y2S1kYSdX61NJzSKhmGsX5T
-         HLpA==
+        Mon, 19 Oct 2020 16:34:06 -0400
+Received: by mail-ot1-f65.google.com with SMTP id t15so1056450otk.0;
+        Mon, 19 Oct 2020 13:34:06 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=no6WOfZDuAXhTDfVia9Vunkz4L7BthY0F8m0jo4//vs=;
-        b=WoO0mpp+t96sBhX4Lx3gcSRlEY+zjv/bbPwEKFDclaaqycDyJrKwbUhGqA2RUoqjn3
-         vJlAl5MbFiPBE3F9CQPnmLhtc07tWVsXEL7H95uMwfgKQcJtgjr0DEgWtdfFUJVefXEs
-         YdKgGtESxG8J8dmTu4NYWACbmW/lmwWSCzvL2nc78zj/Ud0OAkHN+5Edlneq+iR/pbv3
-         Y6g8HRiWCE3701jeR2B18z3k8Gi3fkdFPxXH/50qIEhyYOnIMR9zBdrdFyn+mBMaADy1
-         xeluCauCWHWEtQrsvvev86/N7g3nP7k2WfvzGwBiN9FALPk9imXo28MDifgfYHpsPN4S
-         CTjg==
-X-Gm-Message-State: AOAM532XIesn95T+Rlu8BnDZrecF3AbSQaj8jLmNJaUtDiyCGNKfaqNN
-        OVzuJXIw5Y5/UZINgtQPikSD7rXd1+tMjgcDy8ZrYA==
-X-Google-Smtp-Source: ABdhPJxy4K+2uRaBuhFTeTSlHPetqrP1uAAP7dKvm6UBZz10SCa23PJUxb54E5JJmlle9J/y892Qp+TTrKvO4GeNXIk=
-X-Received: by 2002:a17:90a:ee87:: with SMTP id i7mr921476pjz.25.1603136546933;
- Mon, 19 Oct 2020 12:42:26 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=ZJ1OdJEMAg9mvn+iPb/nFrKcPNsuSwSirp5g+ojHnBk=;
+        b=GUnNlL6GkyGi+qjHk04WlLWPWDe7OdPx1LgP9r+0jYMUouRlT7d9HirM8tImMC2DFc
+         km1ohJBmXjwnjHOJZkkIsRmxpiAdTv4y4UF0/YzxbRM/c3SjByoQAeTPThGiVBptdmQn
+         qmaOvaVwOK5umYuR1PMUH3WDjr4DVj3KKv/mZUApw76mkAZaY5SAIM5hUsPqFdxCChTl
+         ePymZWe/35DBzcO8bZeMt+1ilV6sE0NkviMv96ZvA1Wknf8qFW0Ipp/XfCzD4c7INIwc
+         /x9LYdUV5ERgU/YsMeaOxBdYLDmKDxx7ynafcL8DJe3grEoivtrOoitqwL6Bpd/3Ec/T
+         KjxA==
+X-Gm-Message-State: AOAM533PRnSZvyXxpZdTYA+z1uct3vGdAL+lRkXMoC15q0SsjRV6GPZy
+        cRo9n4Msdt8UVVztDnlbWw==
+X-Google-Smtp-Source: ABdhPJwgqzsJ5hcZkg6yMln7dTm1jR+oAgEb8smVIrxTUfDUoXsU3fpnST4HJVrRBRegyFVhVwceyw==
+X-Received: by 2002:a9d:7b48:: with SMTP id f8mr1162521oto.31.1603139645984;
+        Mon, 19 Oct 2020 13:34:05 -0700 (PDT)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id s21sm194760otr.77.2020.10.19.13.34.05
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 19 Oct 2020 13:34:05 -0700 (PDT)
+Received: (nullmailer pid 3558892 invoked by uid 1000);
+        Mon, 19 Oct 2020 20:33:59 -0000
+Date:   Mon, 19 Oct 2020 15:33:59 -0500
+From:   Rob Herring <robh@kernel.org>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>
+Cc:     Jacopo Mondi <jacopo@jmondi.org>, sakari.ailus@linux.intel.com,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] dt-bindings: ov2680: convert bindings to yaml
+Message-ID: <20201019203359.GA3550266@bogus>
+References: <20201014142759.726823-1-rmfrfs@gmail.com>
+ <20201014142759.726823-2-rmfrfs@gmail.com>
+ <20201015144905.4b23k5uy7ycuhvlo@uno.localdomain>
+ <20201016144204.3viee7spmvwtms5i@arch-thunder.localdomain>
 MIME-Version: 1.0
-References: <20201017160928.12698-1-trix@redhat.com> <20201018054332.GB593954@kroah.com>
-In-Reply-To: <20201018054332.GB593954@kroah.com>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Mon, 19 Oct 2020 12:42:15 -0700
-Message-ID: <CAKwvOdkR_Ttfo7_JKUiZFVqr=Uh=4b05KCPCSuzwk=zaWtA2_Q@mail.gmail.com>
-Subject: Re: [RFC] treewide: cleanup unreachable breaks
-To:     Tom Rix <trix@redhat.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>, linux-edac@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-pm@vger.kernel.org,
-        xen-devel@lists.xenproject.org, linux-block@vger.kernel.org,
-        openipmi-developer@lists.sourceforge.net,
-        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
-        <linux-crypto@vger.kernel.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-power@fi.rohmeurope.com, linux-gpio@vger.kernel.org,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        nouveau@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        spice-devel@lists.freedesktop.org, linux-iio@vger.kernel.org,
-        linux-amlogic@lists.infradead.org,
-        industrypack-devel@lists.sourceforge.net,
-        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
-        linux-scsi@vger.kernel.org, linux-mtd@lists.infradead.org,
-        linux-can@vger.kernel.org,
-        Network Development <netdev@vger.kernel.org>,
-        intel-wired-lan@lists.osuosl.org, ath10k@lists.infradead.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        linux-stm32@st-md-mailman.stormreply.com, linux-nfc@lists.01.org,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        linux-pci@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        platform-driver-x86@vger.kernel.org, patches@opensource.cirrus.com,
-        storagedev@microchip.com, devel@driverdev.osuosl.org,
-        linux-serial@vger.kernel.org, linux-usb@vger.kernel.org,
-        usb-storage@lists.one-eyed-alien.net,
-        linux-watchdog@vger.kernel.org, ocfs2-devel@oss.oracle.com,
-        bpf <bpf@vger.kernel.org>, linux-integrity@vger.kernel.org,
-        linux-security-module@vger.kernel.org, keyrings@vger.kernel.org,
-        alsa-devel@alsa-project.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        George Burgess <gbiv@google.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201016144204.3viee7spmvwtms5i@arch-thunder.localdomain>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Oct 17, 2020 at 10:43 PM Greg KH <gregkh@linuxfoundation.org> wrote:
->
-> On Sat, Oct 17, 2020 at 09:09:28AM -0700, trix@redhat.com wrote:
-> > From: Tom Rix <trix@redhat.com>
-> >
-> > This is a upcoming change to clean up a new warning treewide.
-> > I am wondering if the change could be one mega patch (see below) or
-> > normal patch per file about 100 patches or somewhere half way by collecting
-> > early acks.
->
-> Please break it up into one-patch-per-subsystem, like normal, and get it
-> merged that way.
->
-> Sending us a patch, without even a diffstat to review, isn't going to
-> get you very far...
+On Fri, Oct 16, 2020 at 03:42:04PM +0100, Rui Miguel Silva wrote:
+> Hey Jacopo,
+> Thanks for the review.
+> 
+> On Thu, Oct 15, 2020 at 04:49:05PM +0200, Jacopo Mondi wrote:
+> > Hi Rui,
+> > 
+> > On Wed, Oct 14, 2020 at 03:27:57PM +0100, Rui Miguel Silva wrote:
+> > > Convert ov2680 sensor bindings documentation to yaml schema, remove
+> > > the textual bindings document and update MAINTAINERS entry.
+> > >
+> > > Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
 
-Tom,
-If you're able to automate this cleanup, I suggest checking in a
-script that can be run on a directory.  Then for each subsystem you
-can say in your commit "I ran scripts/fix_whatever.py on this subdir."
- Then others can help you drive the tree wide cleanup.  Then we can
-enable -Wunreachable-code-break either by default, or W=2 right now
-might be a good idea.
+> > > +  clock-names:
+> > > +    description:
+> > 
+> > I'll never get yaml right, doesn't breaking lines require '|' after
+> > the semicolon ? The validator does not complain, so I guess not.
+> 
+> I also had that idea, but looking also to other cases, and also in the
+> examlpe-schema where you have both cases, looks like it is not needed.
 
-Ah, George (gbiv@, cc'ed), did an analysis recently of
-`-Wunreachable-code-loop-increment`, `-Wunreachable-code-break`, and
-`-Wunreachable-code-return` for Android userspace.  From the review:
-```
-Spoilers: of these, it seems useful to turn on
--Wunreachable-code-loop-increment and -Wunreachable-code-return by
-default for Android
-...
-While these conventions about always having break arguably became
-obsolete when we enabled -Wfallthrough, my sample turned up zero
-potential bugs caught by this warning, and we'd need to put a lot of
-effort into getting a clean tree. So this warning doesn't seem to be
-worth it.
-```
-Looks like there's an order of magnitude of `-Wunreachable-code-break`
-than the other two.
+'|' will preserve line breaks and formatting. For a single line like 
+this it doesn't really matter. Though ruamel's round trip will make it a 
+single line when writing back out. 
 
-We probably should add all 3 to W=2 builds (wrapped in cc-option).
-I've filed https://github.com/ClangBuiltLinux/linux/issues/1180 to
-follow up on.
--- 
-Thanks,
-~Nick Desaulniers
+> > 
+> > > +      Input clock for the sensor.
+
+Really, you can just drop the description. Doesn't really add anything 
+specific for this device.
+
+> > > +    items:
+> > > +      - const: xvclk
