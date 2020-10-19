@@ -2,333 +2,468 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DA66292AC2
-	for <lists+linux-media@lfdr.de>; Mon, 19 Oct 2020 17:46:57 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9ACB292B03
+	for <lists+linux-media@lfdr.de>; Mon, 19 Oct 2020 18:02:39 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730379AbgJSPqu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Oct 2020 11:46:50 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54072 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730364AbgJSPqs (ORCPT
+        id S1730507AbgJSQCe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Oct 2020 12:02:34 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:57284 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730335AbgJSQCe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Oct 2020 11:46:48 -0400
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E7A1DC0613D0
-        for <linux-media@vger.kernel.org>; Mon, 19 Oct 2020 08:46:47 -0700 (PDT)
-Received: by mail-wr1-x444.google.com with SMTP id s9so248436wro.8
-        for <linux-media@vger.kernel.org>; Mon, 19 Oct 2020 08:46:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=HO1NWy71VB/XmKCrtzy6L4ESvVEPBzXrL3scn+Up8bc=;
-        b=UC61EvUAH1ghGWvhgPIvwb0tJKvmN85XcCXlrZCX7WhPqQ5Kal9er+D9EGMj6Qy1Mw
-         fLsBXywmZ7A82r1QjiPvCD/FrGiVsWYE0GJST415xH593KKFVZRAlHpTMAzkBzgOwrUv
-         csDczr2hma4nlAuIXgtB1TgmwV8Q0Ey3gd2fI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=HO1NWy71VB/XmKCrtzy6L4ESvVEPBzXrL3scn+Up8bc=;
-        b=LqXRvLfGouaKHnPQ19OaR8NFgbA+tkEuGP2h52OOKVGfeiDel1RAwwSp/30aYB+9o1
-         4DtQPtq/7h3t2ZZl6jLcyYTGwau+chvIlTrkPUDm3MwQcOcKwnJV3f/bcITn/CLC4ntR
-         IIVXMW3OYdV1iAzHcJ393qDbmre1ux2LFWM4lRsi6P9nTxuh9+gKX2OaaQGGusrcZ/RO
-         tHMaS1IytSmVAMFIajaME9Bizm7BK9PpZOcxODJ9ncYZaDh0baQnswD/7pFlgIFsmGu6
-         HPBDAK8JemkYX7Q0yQYbTTHuiezLM3Tn0P7jIEoYS81/VcJV2i2iFe/lNz7B7DAjqyYJ
-         OuqA==
-X-Gm-Message-State: AOAM5328LXyyiv3qtw4hsOew/LWc8MGLiVFeBmhJC+ILUNtjXLwZORqt
-        fOOsMaGgIrOsnmFlLnTJZXr1Yg==
-X-Google-Smtp-Source: ABdhPJw3AhcfVn5Ol/2itQNrpLAPMvDH8DFfv/LdwaotJFWGF+wLGszDKhZ9OSoAyWYoQMAHgXYlBQ==
-X-Received: by 2002:adf:ea4d:: with SMTP id j13mr121871wrn.345.1603122406591;
-        Mon, 19 Oct 2020 08:46:46 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id s11sm138139wrm.56.2020.10.19.08.46.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2020 08:46:45 -0700 (PDT)
-Date:   Mon, 19 Oct 2020 17:46:42 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     Thomas Zimmermann <tzimmermann@suse.de>,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
-        alexander.deucher@amd.com, kraxel@redhat.com,
-        l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
-        christian.gmeiner@gmail.com, inki.dae@samsung.com,
-        jy0922.shim@samsung.com, sw0312.kim@samsung.com,
-        kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
-        yuq825@gmail.com, bskeggs@redhat.com, robh@kernel.org,
-        tomeu.vizoso@collabora.com, steven.price@arm.com,
-        alyssa.rosenzweig@collabora.com, hjc@rock-chips.com,
-        heiko@sntech.de, hdegoede@redhat.com, sean@poorly.run,
-        eric@anholt.net, oleksandr_andrushchenko@epam.com,
-        ray.huang@amd.com, sumit.semwal@linaro.org,
-        emil.velikov@collabora.com, luben.tuikov@amd.com, apaneers@amd.com,
-        linus.walleij@linaro.org, melissa.srw@gmail.com,
-        chris@chris-wilson.co.uk, miaoqinglang@huawei.com,
-        linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        amd-gfx@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        linaro-mm-sig@lists.linaro.org, linux-rockchip@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, xen-devel@lists.xenproject.org,
-        spice-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v4 05/10] drm/ttm: Add vmap/vunmap to TTM and TTM GEM
- helpers
-Message-ID: <20201019154642.GF401619@phenom.ffwll.local>
-References: <20201015123806.32416-1-tzimmermann@suse.de>
- <20201015123806.32416-6-tzimmermann@suse.de>
- <935d5771-5645-62a6-849c-31e286db1e30@amd.com>
- <87c7c342-88dc-9a36-31f7-dae6edd34626@suse.de>
- <9236f51c-c1fa-dadc-c7cc-d9d0c09251d1@amd.com>
+        Mon, 19 Oct 2020 12:02:34 -0400
+Received: from [IPv6:2804:14c:483:7f66::1000] (unknown [IPv6:2804:14c:483:7f66::1000])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: koike)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 4778A1F44F48;
+        Mon, 19 Oct 2020 17:02:28 +0100 (BST)
+Subject: Re: [PATCH] media: staging: rkisp1: cap: refactor enable/disable
+ stream to allow multistreaming
+From:   Helen Koike <helen.koike@collabora.com>
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
+        kernel@collabora.com, sakari.ailus@linux.intel.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        tfiga@chromium.org, linux-kernel@vger.kernel.org
+References: <20201015195746.264722-1-helen.koike@collabora.com>
+ <8b31c5a3-9b01-9536-384a-b06d9a0a2e1a@collabora.com>
+ <b8e18639-febf-9e3f-3525-7fb52a612727@collabora.com>
+Message-ID: <32295a2e-c3b0-fffc-5e23-8dbdbb83f757@collabora.com>
+Date:   Mon, 19 Oct 2020 13:02:23 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
+In-Reply-To: <b8e18639-febf-9e3f-3525-7fb52a612727@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <9236f51c-c1fa-dadc-c7cc-d9d0c09251d1@amd.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 19, 2020 at 11:45:05AM +0200, Christian K�nig wrote:
-> Hi Thomas,
-> 
-> [SNIP]
-> > > >  � +int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map)
-> > > > +{
-> > > > +��� struct ttm_resource *mem = &bo->mem;
-> > > > +��� int ret;
-> > > > +
-> > > > +��� ret = ttm_mem_io_reserve(bo->bdev, mem);
-> > > > +��� if (ret)
-> > > > +������� return ret;
-> > > > +
-> > > > +��� if (mem->bus.is_iomem) {
-> > > > +������� void __iomem *vaddr_iomem;
-> > > > +������� unsigned long size = bo->num_pages << PAGE_SHIFT;
-> > > Please use uint64_t here and make sure to cast bo->num_pages before
-> > > shifting.
-> > I thought the rule of thumb is to use u64 in source code. Yet TTM only
-> > uses uint*_t types. Is there anything special about TTM?
-> 
-> My last status is that you can use both and my personal preference is to use
-> the uint*_t types because they are part of a higher level standard.
+Hello,
 
-Yeah the only hard rule is that in uapi headers you need to use the __u64
-and similar typedefs, to avoid cluttering the namespace for unrelated
-stuff in userspace.
+On 10/16/20 3:11 PM, Helen Koike wrote:
+> 
+> 
+> On 10/16/20 11:28 AM, Dafna Hirschfeld wrote:
+>> Hi,
+>>
+>> Am 15.10.20 um 21:57 schrieb Helen Koike:
+>>> Allow streaming from self picture path and main picture path at the same
+>>> time.
+>>>
+>>> Take care for s_stream() callbacks to not be called twice.
+>>> When starting a stream, s_stream(true) shouldn't be called for the isp
+>>> and the sensor if the other stream is already enabled (since it was
+>>> already called).
+>>> When stopping a stream, s_stream(false) shouldn't be called for isp and
+>>> the sensor if the other stream is still enabled.
+>>>
+>>> Remove the callback function scheme for navigating through the topology,
+>>> simplifying the code, improving readability, while calling
+>>> media_pipeline_{start,stop}() in the right order.
+>>>
+>>> Remove multistreaming item from the TODO list.
+>>>
+>>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+>>>
+>>> ---
+>>> Hello,
+>>>
+>>> Since we didn't reach an agreement on the helpers in the core[1], I'm
+>>> sending this patch to fix this limitation only for rkisp1.
+>>>
+>>> [1] https://patchwork.linuxtv.org/project/linux-media/cover/20200415013044.1778572-1-helen.koike@collabora.com/
+>>>
+>>> If we decide to add the helpers in the future, we can clean up drivers
+>>> even more, but I don't want to block this feature.
+>>>
+>>> Overview of the patch:
+>>> ======================
+>>>
+>>> * Rename rkisp1_stream_{start,stop}() to
+>>>    rkisp1_cap_stream_{enable,disable}() to clarify the difference between
+>>>    other stream enable/disable functions
+>>>
+>>> * Implement rkisp1_pipeline_stream_{enable,disable}() to replace
+>>>    rkisp1_pipeline_{enable,disable}_cb() and rkisp1_pipeline_sink_walk(),
+>>>    which were removed.
+>>>
+>>> * Call rkisp1_cap_stream_{enable,disable}() from
+>>>    rkisp1_pipeline_stream_{enable,disable}() for better
+>>>    unwind handling and function name semantics.
+>>>
+>>> * Call media_pipeline_{start,stop}() in the right order.
+>>>
+>>> * Remove item from TODO list (I also reviewed the use of the
+>>>    is_streaming var in the code and lgtm).
+>>>
+>>> This patch was tested on rockpi4 board with:
+>>> ============================================
+>>>
+>>> "media-ctl" "-d" "platform:rkisp1" "-r"
+>>> "media-ctl" "-d" "platform:rkisp1" "-l" "'imx219 4-0010':0 -> 'rkisp1_isp':0 [1]"
+>>> "media-ctl" "-d" "platform:rkisp1" "-l" "'rkisp1_isp':2 -> 'rkisp1_resizer_selfpath':0 [1]"
+>>> "media-ctl" "-d" "platform:rkisp1" "-l" "'rkisp1_isp':2 -> 'rkisp1_resizer_mainpath':0 [1]"
+>>>
+>>> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"imx219 4-0010":0 [fmt:SRGGB10_1X10/1640x1232]'
+>>>
+>>> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_isp":0 [fmt:SRGGB10_1X10/1640x1232 crop: (0,0)/1600x1200]'
+>>> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_isp":2 [fmt:YUYV8_2X8/1600x1200 crop: (0,0)/1500x1100]'
+>>>
+>>> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_selfpath":0 [fmt:YUYV8_2X8/1500x1100 crop: (300,400)/1400x1000]'
+>>> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_selfpath":1 [fmt:YUYV8_2X8/900x800]'
+>>>
+>>> "v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_selfpath" "-v" "width=900,height=800,"
+>>> "v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_selfpath" "-v" "pixelformat=422P"
+>>>
+>>> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_mainpath":0 [fmt:YUYV8_2X8/1500x1100 crop: (300,400)/1400x1000]'
+>>> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_mainpath":1 [fmt:YUYV8_2X8/900x800]'
+>>>
+>>> "v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_mainpath" "-v" "width=900,height=800,"
+>>> "v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_mainpath" "-v" "pixelformat=422P"
+>>>
+>>> sleep 1
+>>>
+>>> time v4l2-ctl "-z" "platform:rkisp1" "-d" "rkisp1_mainpath" "--stream-mmap" "--stream-count" "100" &
+>>> time v4l2-ctl "-z" "platform:rkisp1" "-d" "rkisp1_selfpath" "--stream-mmap" "--stream-count" "100" &
+>>>
+>>> wait
+>>> echo "Completed"
+>>>
+>>> Thanks
+>>> Helen
+>>> ---
+>>>   drivers/staging/media/rkisp1/TODO             |   3 -
+>>>   drivers/staging/media/rkisp1/rkisp1-capture.c | 227 +++++++++---------
+>>>   2 files changed, 113 insertions(+), 117 deletions(-)
+>>>
+>>> diff --git a/drivers/staging/media/rkisp1/TODO b/drivers/staging/media/rkisp1/TODO
+>>> index e7c8398fc2cef..a2dd0ad951c25 100644
+>>> --- a/drivers/staging/media/rkisp1/TODO
+>>> +++ b/drivers/staging/media/rkisp1/TODO
+>>> @@ -1,9 +1,6 @@
+>>>   * Fix pad format size for statistics and parameters entities.
+>>>   * Fix checkpatch errors.
+>>>   * Add uapi docs. Remember to add documentation of how quantization is handled.
+>>> -* streaming paths (mainpath and selfpath) check if the other path is streaming
+>>> -in several places of the code, review this, specially that it doesn't seem it
+>>> -supports streaming from both paths at the same time.
+>>>     NOTES:
+>>>   * All v4l2-compliance test must pass.
+>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+>>> index b6f497ce3e95c..254936873c6c1 100644
+>>> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
+>>> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+>>> @@ -830,71 +830,43 @@ static void rkisp1_return_all_buffers(struct rkisp1_capture *cap,
+>>>   }
+>>>     /*
+>>> - * rkisp1_pipeline_sink_walk - Walk through the pipeline and call cb
+>>> - * @from: entity at which to start pipeline walk
+>>> - * @until: entity at which to stop pipeline walk
+>>> - *
+>>> - * Walk the entities chain starting at the pipeline video node and stop
+>>> - * all subdevices in the chain.
+>>> - *
+>>> - * If the until argument isn't NULL, stop the pipeline walk when reaching the
+>>> - * until entity. This is used to disable a partially started pipeline due to a
+>>> - * subdev start error.
+>>> + * Most of registers inside rockchip ISP1 have shadow register since
+>>> + * they must be not be changed during processing a frame.
+>>> + * Usually, each sub-module updates its shadow register after
+>>> + * processing the last pixel of a frame.
+>>>    */
+>>> -static int rkisp1_pipeline_sink_walk(struct media_entity *from,
+>>> -                     struct media_entity *until,
+>>> -                     int (*cb)(struct media_entity *from,
+>>> -                           struct media_entity *curr))
+>>> +static void rkisp1_cap_stream_enable(struct rkisp1_capture *cap)
+>>>   {
+>>> -    struct media_entity *entity = from;
+>>> -    struct media_pad *pad;
+>>> -    unsigned int i;
+>>> -    int ret;
+>>> -
+>>> -    while (1) {
+>>> -        pad = NULL;
+>>> -        /* Find remote source pad */
+>>> -        for (i = 0; i < entity->num_pads; i++) {
+>>> -            struct media_pad *spad = &entity->pads[i];
+>>> -
+>>> -            if (!(spad->flags & MEDIA_PAD_FL_SINK))
+>>> -                continue;
+>>> -            pad = media_entity_remote_pad(spad);
+>>> -            if (pad && is_media_entity_v4l2_subdev(pad->entity))
+>>> -                break;
+>>> -        }
+>>> -        if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
+>>> -            break;
+>>> +    struct rkisp1_device *rkisp1 = cap->rkisp1;
+>>> +    struct rkisp1_capture *other = &rkisp1->capture_devs[cap->id ^ 1];
+>>>   -        entity = pad->entity;
+>>> -        if (entity == until)
+>>> -            break;
+>>> +    cap->ops->set_data_path(cap);
+>>> +    cap->ops->config(cap);
+>>>   -        ret = cb(from, entity);
+>>> -        if (ret)
+>>> -            return ret;
+>>> +    /* Setup a buffer for the next frame */
+>>> +    spin_lock_irq(&cap->buf.lock);
+>>> +    rkisp1_set_next_buf(cap);
+>>> +    cap->ops->enable(cap);
+>>> +    /* It's safe to config ACTIVE and SHADOW regs for the
+>>> +     * first stream. While when the second is starting, do NOT
+>>> +     * force update because it also update the first one.
+>>> +     *
+>>> +     * The latter case would drop one more buf(that is 2) since
+>>> +     * there's not buf in shadow when the second FE received. This's
+>>> +     * also required because the second FE maybe corrupt especially
+>>> +     * when run at 120fps.
+>>> +     */
+>>> +    if (!other->is_streaming) {
+>>> +        /* force cfg update */
+>>> +        rkisp1_write(rkisp1,
+>>> +                 RKISP1_CIF_MI_INIT_SOFT_UPD, RKISP1_CIF_MI_INIT);
+>>> +        rkisp1_set_next_buf(cap);
+>>>       }
+>>> -
+>>> -    return 0;
+>>> -}
+>>> -
+>>> -static int rkisp1_pipeline_disable_cb(struct media_entity *from,
+>>> -                      struct media_entity *curr)
+>>> -{
+>>> -    struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(curr);
+>>> -
+>>> -    return v4l2_subdev_call(sd, video, s_stream, false);
+>>> -}
+>>> -
+>>> -static int rkisp1_pipeline_enable_cb(struct media_entity *from,
+>>> -                     struct media_entity *curr)
+>>> -{
+>>> -    struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(curr);
+>>> -
+>>> -    return v4l2_subdev_call(sd, video, s_stream, true);
+>>> +    spin_unlock_irq(&cap->buf.lock);
+>>> +    cap->is_streaming = true;
+>>>   }
+>>>   -static void rkisp1_stream_stop(struct rkisp1_capture *cap)
+>>> +static void rkisp1_cap_stream_disable(struct rkisp1_capture *cap)
+>>>   {
+>>>       int ret;
+>>>   @@ -911,6 +883,81 @@ static void rkisp1_stream_stop(struct rkisp1_capture *cap)
+>>>       }
+>>>   }
+>>>   +/*
+>>> + * rkisp1_pipeline_stream_disable - disable nodes in the pipeline
+>>> + *
+>>> + * Call s_stream(false) in the reverse order from
+>>> + * rkisp1_pipeline_stream_enable() and disable the DMA engine.
+>>> + * Should be called before media_pipeline_stop()
+>>> + */
+>>> +static void rkisp1_pipeline_stream_disable(struct rkisp1_capture *cap)
+>>> +    __must_hold(&cap->rkisp1->stream_lock)
+>>> +{
+>>> +    struct rkisp1_device *rkisp1 = cap->rkisp1;
+>>> +
+>>> +    rkisp1_cap_stream_disable(cap);
+>>> +
+>>> +    /*
+>>> +     * If the other capture is streaming, isp and sensor nodes shouldn't
+>>> +     * be disabled, skip them.
+>>> +     */
+>>> +    if (rkisp1->pipe.streaming_count < 2) {
+>>> +        v4l2_subdev_call(rkisp1->active_sensor->sd, video, s_stream,
+>>> +                 false);
+>>> +        v4l2_subdev_call(&rkisp1->isp.sd, video, s_stream, false);
+>>> +    }
+>>> +
+>>> +    v4l2_subdev_call(&rkisp1->resizer_devs[cap->id].sd, video, s_stream,
+>>> +             false);
+>>
+>> I wonder if the order of the disable matters. If it should be from the sensor up to the
+>> capture then we should call 'rkisp1_cap_stream_disable' at the end of this
+>> function.
 
-In the kernel c99 types are perfectly fine, and I think slowly on the
-rise.
--Daniel
+The only issue I saw was if I enable the sensor before the ISP.
+Even if the order in disabling the capture doesn't matter much, it is nice to
+keep the logic, thanks for this comment.
+
+>>
+>>> +}
+>>> +
+>>> +/*
+>>> + * rkisp1_pipeline_stream_enable - enable nodes in the pipeline
+>>> + *
+>>> + * Enable the DMA Engine and call s_stream(true) through the pipeline.
+>>> + * Should be called after media_pipeline_start()
+>>> + */
+>>> +static int rkisp1_pipeline_stream_enable(struct rkisp1_capture *cap)
+>>> +    __must_hold(&cap->rkisp1->stream_lock)
+>>> +{
+>>> +    struct rkisp1_device *rkisp1 = cap->rkisp1;
+>>> +    int ret;
+>>> +
+>>> +    rkisp1_cap_stream_enable(cap);
+>>> +
+>>> +    ret = v4l2_subdev_call(&rkisp1->resizer_devs[cap->id].sd, video,
+>>> +                   s_stream, true);
+>>> +    if (ret)
+>>> +        return ret;
+>>
+>> In case of error here, shouldn't we call 'rkisp1_cap_stream_disable'?
+> 
+> Yes, thanks for catching it :)
+> 
+>>
+>>> +
+>>> +    /*
+>>> +     * If the other capture is streaming, isp and sensor nodes are already
+>>> +     * enabled, skip them.
+>>> +     */
+>>> +    if (rkisp1->pipe.streaming_count > 1)
+>>> +        return 0;
+>>> +
+>>> +    ret = v4l2_subdev_call(&rkisp1->isp.sd, video, s_stream, true);
+>>> +    if (ret)
+>>> +        goto err_disable_rsz;
+>>> +
+>>> +    ret = v4l2_subdev_call(rkisp1->active_sensor->sd, video, s_stream,
+>>> +                   true);
+>>> +    if (ret)
+>>> +        goto err_disable_isp;
+>>> +
+>>> +    return 0;
+>>> +
+>>> +err_disable_isp:
+>>> +    v4l2_subdev_call(&rkisp1->isp.sd, video, s_stream, false);
+>>> +err_disable_rsz:
+>>> +    v4l2_subdev_call(&rkisp1->resizer_devs[cap->id].sd, video, s_stream,
+>>> +             false);
+>>> +    rkisp1_cap_stream_disable(cap);
+>>> +
+>>> +    return ret;
+>>> +}
+>>> +
+>>>   static void rkisp1_vb2_stop_streaming(struct vb2_queue *queue)
+>>>   {
+>>>       struct rkisp1_capture *cap = queue->drv_priv;
+>>> @@ -920,13 +967,8 @@ static void rkisp1_vb2_stop_streaming(struct vb2_queue *queue)
+>>>         mutex_lock(&cap->rkisp1->stream_lock);
+>>>   -    rkisp1_stream_stop(cap);
+>>> +    rkisp1_pipeline_stream_disable(cap);
+>>>       media_pipeline_stop(&node->vdev.entity);
+>>> -    ret = rkisp1_pipeline_sink_walk(&node->vdev.entity, NULL,
+>>> -                    rkisp1_pipeline_disable_cb);
+>>> -    if (ret)
+>>> -        dev_err(rkisp1->dev,
+>>> -            "pipeline stream-off failed error:%d\n", ret);
+>>>         rkisp1_return_all_buffers(cap, VB2_BUF_STATE_ERROR);
+>>>   @@ -940,43 +982,6 @@ static void rkisp1_vb2_stop_streaming(struct vb2_queue *queue)
+>>>       mutex_unlock(&cap->rkisp1->stream_lock);
+>>>   }
+>>>   -/*
+>>> - * Most of registers inside rockchip ISP1 have shadow register since
+>>> - * they must be not be changed during processing a frame.
+>>> - * Usually, each sub-module updates its shadow register after
+>>> - * processing the last pixel of a frame.
+>>> - */
+>>> -static void rkisp1_stream_start(struct rkisp1_capture *cap)
+>>> -{
+>>> -    struct rkisp1_device *rkisp1 = cap->rkisp1;
+>>> -    struct rkisp1_capture *other = &rkisp1->capture_devs[cap->id ^ 1];
+>>> -
+>>> -    cap->ops->set_data_path(cap);
+>>> -    cap->ops->config(cap);
+>>> -
+>>> -    /* Setup a buffer for the next frame */
+>>> -    spin_lock_irq(&cap->buf.lock);
+>>> -    rkisp1_set_next_buf(cap);
+>>> -    cap->ops->enable(cap);
+>>> -    /* It's safe to config ACTIVE and SHADOW regs for the
+>>> -     * first stream. While when the second is starting, do NOT
+>>> -     * force update because it also update the first one.
+>>> -     *
+>>> -     * The latter case would drop one more buf(that is 2) since
+>>> -     * there's not buf in shadow when the second FE received. This's
+>>> -     * also required because the second FE maybe corrupt especially
+>>> -     * when run at 120fps.
+>>> -     */
+>>> -    if (!other->is_streaming) {
+>>> -        /* force cfg update */
+>>> -        rkisp1_write(rkisp1,
+>>> -                 RKISP1_CIF_MI_INIT_SOFT_UPD, RKISP1_CIF_MI_INIT);
+>>> -        rkisp1_set_next_buf(cap);
+>>> -    }
+>>> -    spin_unlock_irq(&cap->buf.lock);
+>>> -    cap->is_streaming = true;
+>>> -}
+>>> -
+>>>   static int
+>>>   rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
+>>>   {
+>>> @@ -1001,28 +1006,22 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
+>>>           goto err_pipe_pm_put;
+>>>       }
+>>>  
+>>
+>> The previous code with the 'rkisp1_pipeline_sink_walk' only followed enabled links.
+>> We should probably first check if the link between the resizer and the isp is enabled
+>> and also between the isp to the sensor. and return -EPIPE if not.
+> 
+> Very good point, yes, I'll fix this in v2.
+
+Actually this is not required, since resizer and isp sink pads use MEDIA_PAD_FL_MUST_CONNECT,
+media_pipeline_start() will failed with -ENOLINK if it is not connected.
+
+Thanks
+Helen
 
 > 
-> > > We have an unit tests of allocating a 8GB BO and that should work on a
-> > > 32bit machine as well :)
-> > > 
-> > > > +
-> > > > +������� if (mem->bus.addr)
-> > > > +����������� vaddr_iomem = (void *)(((u8 *)mem->bus.addr));
-> > I after reading the patch again, I realized that this is the
-> > 'ttm_bo_map_premapped' case and it's missing from _vunmap(). I see two
-> > options here: ignore this case in _vunmap(), or do an ioremap()
-> > unconditionally. Which one is preferable?
+>> Actually I think that the code that set the 'active_sensor' (callingrkisp1_get_remote_sensor)
+>> should move to here since this also check if the link to the sensor is enabled.
 > 
-> ioremap would be very very bad, so we should just do nothing.
+> ok
 > 
-> Thanks,
-> Christian.
+> Thanks for your review
+> Helen
 > 
-> > 
-> > Best regards
-> > Thomas
-> > 
-> > > > +������� else if (mem->placement & TTM_PL_FLAG_WC)
-> > > I've just nuked the TTM_PL_FLAG_WC flag in drm-misc-next. There is a new
-> > > mem->bus.caching enum as replacement.
-> > > 
-> > > > +����������� vaddr_iomem = ioremap_wc(mem->bus.offset, size);
-> > > > +������� else
-> > > > +����������� vaddr_iomem = ioremap(mem->bus.offset, size);
-> > > > +
-> > > > +������� if (!vaddr_iomem)
-> > > > +����������� return -ENOMEM;
-> > > > +
-> > > > +������� dma_buf_map_set_vaddr_iomem(map, vaddr_iomem);
-> > > > +
-> > > > +��� } else {
-> > > > +������� struct ttm_operation_ctx ctx = {
-> > > > +����������� .interruptible = false,
-> > > > +����������� .no_wait_gpu = false
-> > > > +������� };
-> > > > +������� struct ttm_tt *ttm = bo->ttm;
-> > > > +������� pgprot_t prot;
-> > > > +������� void *vaddr;
-> > > > +
-> > > > +������� BUG_ON(!ttm);
-> > > I think we can drop this, populate will just crash badly anyway.
-> > > 
-> > > > +
-> > > > +������� ret = ttm_tt_populate(bo->bdev, ttm, &ctx);
-> > > > +������� if (ret)
-> > > > +����������� return ret;
-> > > > +
-> > > > +������� /*
-> > > > +�������� * We need to use vmap to get the desired page protection
-> > > > +�������� * or to make the buffer object look contiguous.
-> > > > +�������� */
-> > > > +������� prot = ttm_io_prot(mem->placement, PAGE_KERNEL);
-> > > The calling convention has changed on drm-misc-next as well, but should
-> > > be trivial to adapt.
-> > > 
-> > > Regards,
-> > > Christian.
-> > > 
-> > > > +������� vaddr = vmap(ttm->pages, bo->num_pages, 0, prot);
-> > > > +������� if (!vaddr)
-> > > > +����������� return -ENOMEM;
-> > > > +
-> > > > +������� dma_buf_map_set_vaddr(map, vaddr);
-> > > > +��� }
-> > > > +
-> > > > +��� return 0;
-> > > > +}
-> > > > +EXPORT_SYMBOL(ttm_bo_vmap);
-> > > > +
-> > > > +void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct dma_buf_map
-> > > > *map)
-> > > > +{
-> > > > +��� if (dma_buf_map_is_null(map))
-> > > > +������� return;
-> > > > +
-> > > > +��� if (map->is_iomem)
-> > > > +������� iounmap(map->vaddr_iomem);
-> > > > +��� else
-> > > > +������� vunmap(map->vaddr);
-> > > > +��� dma_buf_map_clear(map);
-> > > > +
-> > > > +��� ttm_mem_io_free(bo->bdev, &bo->mem);
-> > > > +}
-> > > > +EXPORT_SYMBOL(ttm_bo_vunmap);
-> > > > +
-> > > >  � static int ttm_bo_wait_free_node(struct ttm_buffer_object *bo,
-> > > >  ������������������ bool dst_use_tt)
-> > > >  � {
-> > > > diff --git a/include/drm/drm_gem_ttm_helper.h
-> > > > b/include/drm/drm_gem_ttm_helper.h
-> > > > index 118cef76f84f..7c6d874910b8 100644
-> > > > --- a/include/drm/drm_gem_ttm_helper.h
-> > > > +++ b/include/drm/drm_gem_ttm_helper.h
-> > > > @@ -10,11 +10,17 @@
-> > > >  � #include <drm/ttm/ttm_bo_api.h>
-> > > >  � #include <drm/ttm/ttm_bo_driver.h>
-> > > >  � +struct dma_buf_map;
-> > > > +
-> > > >  � #define drm_gem_ttm_of_gem(gem_obj) \
-> > > >  ����� container_of(gem_obj, struct ttm_buffer_object, base)
-> > > >  � � void drm_gem_ttm_print_info(struct drm_printer *p, unsigned int
-> > > > indent,
-> > > >  ����������������� const struct drm_gem_object *gem);
-> > > > +int drm_gem_ttm_vmap(struct drm_gem_object *gem,
-> > > > +������������ struct dma_buf_map *map);
-> > > > +void drm_gem_ttm_vunmap(struct drm_gem_object *gem,
-> > > > +����������� struct dma_buf_map *map);
-> > > >  � int drm_gem_ttm_mmap(struct drm_gem_object *gem,
-> > > >  �������������� struct vm_area_struct *vma);
-> > > >  � diff --git a/include/drm/ttm/ttm_bo_api.h
-> > > > b/include/drm/ttm/ttm_bo_api.h
-> > > > index 37102e45e496..2c59a785374c 100644
-> > > > --- a/include/drm/ttm/ttm_bo_api.h
-> > > > +++ b/include/drm/ttm/ttm_bo_api.h
-> > > > @@ -48,6 +48,8 @@ struct ttm_bo_global;
-> > > >  � � struct ttm_bo_device;
-> > > >  � +struct dma_buf_map;
-> > > > +
-> > > >  � struct drm_mm_node;
-> > > >  � � struct ttm_placement;
-> > > > @@ -494,6 +496,32 @@ int ttm_bo_kmap(struct ttm_buffer_object *bo,
-> > > > unsigned long start_page,
-> > > >  �� */
-> > > >  � void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map);
-> > > >  � +/**
-> > > > + * ttm_bo_vmap
-> > > > + *
-> > > > + * @bo: The buffer object.
-> > > > + * @map: pointer to a struct dma_buf_map representing the map.
-> > > > + *
-> > > > + * Sets up a kernel virtual mapping, using ioremap or vmap to the
-> > > > + * data in the buffer object. The parameter @map returns the virtual
-> > > > + * address as struct dma_buf_map. Unmap the buffer with ttm_bo_vunmap().
-> > > > + *
-> > > > + * Returns
-> > > > + * -ENOMEM: Out of memory.
-> > > > + * -EINVAL: Invalid range.
-> > > > + */
-> > > > +int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map);
-> > > > +
-> > > > +/**
-> > > > + * ttm_bo_vunmap
-> > > > + *
-> > > > + * @bo: The buffer object.
-> > > > + * @map: Object describing the map to unmap.
-> > > > + *
-> > > > + * Unmaps a kernel map set up by ttm_bo_vmap().
-> > > > + */
-> > > > +void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct dma_buf_map
-> > > > *map);
-> > > > +
-> > > >  � /**
-> > > >  �� * ttm_bo_mmap_obj - mmap memory backed by a ttm buffer object.
-> > > >  �� *
-> > > > diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
-> > > > index fd1aba545fdf..2e8bbecb5091 100644
-> > > > --- a/include/linux/dma-buf-map.h
-> > > > +++ b/include/linux/dma-buf-map.h
-> > > > @@ -45,6 +45,12 @@
-> > > >  �� *
-> > > >  �� *��� dma_buf_map_set_vaddr(&map. 0xdeadbeaf);
-> > > >  �� *
-> > > > + * To set an address in I/O memory, use dma_buf_map_set_vaddr_iomem().
-> > > > + *
-> > > > + * .. code-block:: c
-> > > > + *
-> > > > + *��� dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);
-> > > > + *
-> > > >  �� * Test if a mapping is valid with either dma_buf_map_is_set() or
-> > > >  �� * dma_buf_map_is_null().
-> > > >  �� *
-> > > > @@ -118,6 +124,20 @@ static inline void dma_buf_map_set_vaddr(struct
-> > > > dma_buf_map *map, void *vaddr)
-> > > >  ����� map->is_iomem = false;
-> > > >  � }
-> > > >  � +/**
-> > > > + * dma_buf_map_set_vaddr_iomem - Sets a dma-buf mapping structure to
-> > > > an address in I/O memory
-> > > > + * @map:������� The dma-buf mapping structure
-> > > > + * @vaddr_iomem:��� An I/O-memory address
-> > > > + *
-> > > > + * Sets the address and the I/O-memory flag.
-> > > > + */
-> > > > +static inline void dma_buf_map_set_vaddr_iomem(struct dma_buf_map *map,
-> > > > +�������������������������� void __iomem *vaddr_iomem)
-> > > > +{
-> > > > +��� map->vaddr_iomem = vaddr_iomem;
-> > > > +��� map->is_iomem = true;
-> > > > +}
-> > > > +
-> > > >  � /**
-> > > >  �� * dma_buf_map_is_equal - Compares two dma-buf mapping structures
-> > > > for equality
-> > > >  �� * @lhs:��� The dma-buf mapping structure
-> > > _______________________________________________
-> > > dri-devel mailing list
-> > > dri-devel@lists.freedesktop.org
-> > > https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C07bc68af3c6440b5be8d08d8740e9b32%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637386953433558595%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=RlGCmjzyZERvqfnl4kA1bEHez5bkLf3F9OlKi2ybDAM%3D&amp;reserved=0
+>>
+>> Thanks,
+>> Dafna
+>>
+>>> -    rkisp1_stream_start(cap);
+>>> -
+>>> -    /* start sub-devices */
+>>> -    ret = rkisp1_pipeline_sink_walk(entity, NULL,
+>>> -                    rkisp1_pipeline_enable_cb);
+>>> -    if (ret)
+>>> -        goto err_stop_stream;
+>>> -
+>>>       ret = media_pipeline_start(entity, &cap->rkisp1->pipe);
+>>>       if (ret) {
+>>>           dev_err(cap->rkisp1->dev, "start pipeline failed %d\n", ret);
+>>> -        goto err_pipe_disable;
+>>> +        goto err_v4l2_pm_put;
+>>>       }
+>>> +    ret = rkisp1_pipeline_stream_enable(cap);
+>>> +    if (ret)
+>>> +        goto err_media_pipeline_stop;
+>>>         mutex_unlock(&cap->rkisp1->stream_lock);
+>>>         return 0;
+>>>   -err_pipe_disable:
+>>> -    rkisp1_pipeline_sink_walk(entity, NULL, rkisp1_pipeline_disable_cb);
+>>> -err_stop_stream:
+>>> -    rkisp1_stream_stop(cap);
+>>> +err_media_pipeline_stop:
+>>> +    media_pipeline_stop(entity);
+>>> +err_v4l2_pm_put:
+>>>       v4l2_pipeline_pm_put(entity);
+>>>   err_pipe_pm_put:
+>>>       pm_runtime_put(cap->rkisp1->dev);
+>>>
 > 
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
