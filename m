@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B32FE2931A1
-	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 01:00:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0332A293190
+	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 00:59:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388718AbgJSW70 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Oct 2020 18:59:26 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36882 "EHLO
+        id S2388729AbgJSW71 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Oct 2020 18:59:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36888 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726996AbgJSW7Z (ORCPT
+        with ESMTP id S1726996AbgJSW70 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Oct 2020 18:59:25 -0400
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1C0E0C0613CE;
-        Mon, 19 Oct 2020 15:59:25 -0700 (PDT)
-Received: by mail-wm1-x344.google.com with SMTP id q5so64017wmq.0;
-        Mon, 19 Oct 2020 15:59:25 -0700 (PDT)
+        Mon, 19 Oct 2020 18:59:26 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F945C0613CE;
+        Mon, 19 Oct 2020 15:59:26 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id k18so51098wmj.5;
+        Mon, 19 Oct 2020 15:59:26 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=NkSBSdUPbcEJE8oJE4080OpL9aAPqNO0wD+WCdQ/YSw=;
-        b=WQMffKFF0jbg2f2UDLeIIDszWX7UJe6YInxjV7Ir87+vjWfigoRxOqwI0p8v7NKC7m
-         Y/aBL0S7/SDSQWI8AAYpqzhG5Gsybxj5TJ0KBipPcsCQoIQBfgqrQfVMEoihRqu5+Zrg
-         PLiFuRBOXIW/1JY1yzJ8XJYkglM8kIVf4tUFuElykwVt85VwCtv07TVeo4V7DGrjsgW8
-         wvo3HpGE2SE4NvbTMb3cxGxc0983H+laDEvOGrIUVQ+jn5H7nwFUryRFbxhCXrcBAo9E
-         W7MN2GhsMgAyCQ+A/aO6gyp2uqCIgMZYKKJKBzffDMze2L3DzWbJAsQBZ3TKZNUQMpDX
-         t+Vw==
+        bh=7uUfZg1soq2xI0+BE6Rw0wDJGLmcyUaOTmcQVjq8eP8=;
+        b=aRtIkieI/WgDRCPG5wrbIt3p6dJXCTdMoTjTtNGUIKOOJw4AujmEBZEjhUnBCjYDt2
+         LMG4pMb7V6kzcJ0vS2JB2WAx+AN7rSLm3d2gX9VZv5InHYmq4wUfCgBspxbkf00L85gG
+         jkb5QTK0UOoQGhYthkbFul+OS87iTF8Mg6gaq6E7tNtbs+kO97X1f5FaJgqEdqZGnX4w
+         fKvrW9fVEBJT7piiC7zxvMOp8lKOWYUF62OKSat59FoxYcYN/zMo0+0i+9sDmACFu7Kl
+         XZr9k8gU1yLpyYqo2uBvlj7vx28GABBlz4e4oe7XPPgb3eIefNNrlB9Z1k6F0zhIJ3KX
+         Ol6g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=NkSBSdUPbcEJE8oJE4080OpL9aAPqNO0wD+WCdQ/YSw=;
-        b=IkPphmiq1Dfqc0Vv+ZGX+0nE+kTWOfSdniCjE4dOcomvNCyeCc70folZlauighqOX2
-         FD3dRFcMTOcCanZnWDRKn4m/5fb6qK/3a/6F2laslXdRnrK9F3Zll4zjKp6PW7gngsib
-         sue4ybECUkXFs6ZcIlsHD6nzCrUl4sMB6TXfeslDIpFx6bCkUwlqIXbbEJHgdbq4LD1d
-         Gi86YzNPq/rLD0Me6d7+MhC+0YBfCfGbfwLidRXFMilTKN39z0cNpcYQ87kW71HCPFoW
-         Pb+AKAjXSmqRNiqWMXqA0J9MDU8JR68XSo9G98/actxgL4sCfDgx/+ZTXwkPJoaXAoIk
-         Fk5w==
-X-Gm-Message-State: AOAM533c/JQxFs6cfhuW9fE1/8+L2aUYrqCsoSmQ3UxWFw9u3JaVlE5v
-        SuK2+B/iZFs1diMQ7Dc1m/fY41Q1zgQrRLFR
-X-Google-Smtp-Source: ABdhPJwkC49Cy168JW7thFo30KkLCK9nMOEX2O8JfJO7bUeD8pnIACyewldcBGvL//a1WfMKRQ+Npg==
-X-Received: by 2002:a1c:81c9:: with SMTP id c192mr103658wmd.1.1603148363551;
-        Mon, 19 Oct 2020 15:59:23 -0700 (PDT)
+        bh=7uUfZg1soq2xI0+BE6Rw0wDJGLmcyUaOTmcQVjq8eP8=;
+        b=TsC9e4qADHrxndj1day0bvrz8K7qiJXraQeJN9grkIeNPl0l8U9QYj6aI43JOnKbgb
+         1MSWqRck4vzT5xqqVeVt3ccCEywuHDWhLmPMjdo36ERAGs5kw2uE1gJGr/kd8psQgVNN
+         GsdmG/cwKM1Ji2qFI8lKdvzPLtbjZoUbzs+crA/dCbO4jK5R+UaiNeHBqQJbFkw2DcqX
+         6O5e1wQEEeqfWpv0uAgoPw9ps3mPnNnwnyoCpbnLFo167ZZNkoQbzv4t6AY+9/9a5bsr
+         BvX/iKHqm5h5Bt/ypEB2IAH/hbSZZA91c4BUEt1hqs/C8j4QJHBtpO1dcLt1ddyoAdKv
+         2hIA==
+X-Gm-Message-State: AOAM530mDu+vF0Mnfq46XNoNs7yOrknUWz1PSS/vhekZ/mMaBmmNHAmI
+        JjlZBLwth4Lo8RTJkEy25VQtVxWpAwucEolO
+X-Google-Smtp-Source: ABdhPJw8E1rhSRP1EwLMGvBfQlLlDvWwXFI4jN1sloBne1TZTf323AV9EDadnKXRJpN+NrnEI1rJRw==
+X-Received: by 2002:a1c:b78a:: with SMTP id h132mr112916wmf.172.1603148364986;
+        Mon, 19 Oct 2020 15:59:24 -0700 (PDT)
 Received: from djrscally-MIIX-510-12ISK.home ([2.26.187.29])
-        by smtp.gmail.com with ESMTPSA id u20sm76505wmm.29.2020.10.19.15.59.22
+        by smtp.gmail.com with ESMTPSA id u20sm76505wmm.29.2020.10.19.15.59.23
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2020 15:59:23 -0700 (PDT)
+        Mon, 19 Oct 2020 15:59:24 -0700 (PDT)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
 Cc:     linux.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
@@ -60,9 +60,9 @@ Cc:     linux.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
         sakari.ailus@linux.intel.com, yong.zhi@intel.com,
         rafael@kernel.org, gregkh@linuxfoundation.org, kitakar@gmail.com,
         dan.carpenter@oracle.org
-Subject: [RFC PATCH v3 2/9] lib/test_printf.c: Use helper function to unwind array of software_nodes
-Date:   Mon, 19 Oct 2020 23:58:56 +0100
-Message-Id: <20201019225903.14276-3-djrscally@gmail.com>
+Subject: [RFC PATCH v3 3/9] software_node: Fix failure to hold refcount in software_node_get_next_child
+Date:   Mon, 19 Oct 2020 23:58:57 +0100
+Message-Id: <20201019225903.14276-4-djrscally@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201019225903.14276-1-djrscally@gmail.com>
 References: <20201019225903.14276-1-djrscally@gmail.com>
@@ -70,33 +70,31 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the new software_node_unregister_nodes_reverse() function to
-unwind this array in a cleaner way.
+The software_node_get_next_child() function currently does not hold a kref
+to the child software_node; fix that.
 
-Suggested-by: Andriy Shevchenko <andriy.shevchenko@linux.intel.com>
+Fixes: 59abd83672f7 ("drivers: base: Introducing software nodes to the firmware node framework")
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
 Changes in v3:
-	- patch introduced.
+	- split out from the full software_node_graph*() patch
 
- lib/test_printf.c | 4 +---
- 1 file changed, 1 insertion(+), 3 deletions(-)
+ drivers/base/swnode.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/lib/test_printf.c b/lib/test_printf.c
-index 7ac87f18a..c63365570 100644
---- a/lib/test_printf.c
-+++ b/lib/test_printf.c
-@@ -644,9 +644,7 @@ static void __init fwnode_pointer(void)
- 	test(second_name, "%pfwP", software_node_fwnode(&softnodes[1]));
- 	test(third_name, "%pfwP", software_node_fwnode(&softnodes[2]));
- 
--	software_node_unregister(&softnodes[2]);
--	software_node_unregister(&softnodes[1]);
--	software_node_unregister(&softnodes[0]);
-+	software_node_unregister_nodes_reverse(softnodes);
+diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+index f01b1cc61..741149b90 100644
+--- a/drivers/base/swnode.c
++++ b/drivers/base/swnode.c
+@@ -450,7 +450,7 @@ software_node_get_next_child(const struct fwnode_handle *fwnode,
+ 		c = list_next_entry(c, entry);
+ 	else
+ 		c = list_first_entry(&p->children, struct swnode, entry);
+-	return &c->fwnode;
++	return software_node_get(&c->fwnode);
  }
  
- static void __init
+ static struct fwnode_handle *
 -- 
 2.17.1
 
