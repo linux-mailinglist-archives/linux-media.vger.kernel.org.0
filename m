@@ -2,266 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5E74E292F91
-	for <lists+linux-media@lfdr.de>; Mon, 19 Oct 2020 22:39:15 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DA86292FA7
+	for <lists+linux-media@lfdr.de>; Mon, 19 Oct 2020 22:45:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730187AbgJSUjO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Oct 2020 16:39:14 -0400
-Received: from mail-oi1-f195.google.com ([209.85.167.195]:43471 "EHLO
-        mail-oi1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725894AbgJSUjN (ORCPT
+        id S1727154AbgJSUpY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Oct 2020 16:45:24 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44306 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727103AbgJSUpX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Oct 2020 16:39:13 -0400
-Received: by mail-oi1-f195.google.com with SMTP id l85so1452469oih.10;
-        Mon, 19 Oct 2020 13:39:12 -0700 (PDT)
+        Mon, 19 Oct 2020 16:45:23 -0400
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AF112C0613CE;
+        Mon, 19 Oct 2020 13:45:23 -0700 (PDT)
+Received: by mail-pf1-x444.google.com with SMTP id b26so689169pff.3;
+        Mon, 19 Oct 2020 13:45:23 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VYlmVNr0dY3l4uhDIFjX37H6wetw4+WykhKJz4MPamw=;
+        b=BqRbwvF6wiCTRseSCUHa+Vi3jOPkteT3dZ8Nxhx+bebtph7DXrcWvdDA1SeKMI7EqL
+         MkM+ls4W5sETyKntRt5zv1jXwuKlyZ1PX7bYO3g2l2NppjkPO1XWPpqKoRYMBd9/b6Tj
+         dhbiR5fEpHplIPYRv76JWflDYqw2NYo0Z8sHrHtF8msfG5ftWNB8Jz32Go3Ebon3OTDU
+         VG4NDGDsG/eQVQ90JE32BhmMsGIpU1fNsIyGsJgNDGGduE5XkoLb5JSITwXfUxE4nRli
+         VGtj5q4t2feQxNm0f2UN2Up9t3u2vap9cEzCcnLi3PzG8ni+z+r/5rin+urNigILaBsc
+         Ol8Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=bah8KtSAvYiOG6FC9H5FXTvGxWIUbhq2aKXbK5RpqAs=;
-        b=mrphAlLo3pNRRWy25Z1hYDHeIF4zC5XM9u4m1jSDXtrJ6ezXTPp8c8TbQpJKeYYJ+q
-         VEncNZDr4bvfhtwYDYZDHw9QXRrShWvj8ZohdSTBDV3MPKVZrLuZk3PiVoW3fDdC8AZ4
-         vXk/ivnsNp2jkHKQbXo7HIeqBDA3LVKcVJ6HIvFj3FT2nZEZTISVwfT+cJrCFpl0g9/D
-         K5ZsnX3xWoEHmZ5vGZ75/S2ftvxJjaqB4yhoSKPTZvX5wQGuAs8Cj5lVUq23tb2AXcjt
-         1ckMTMrFVtDpkzSZkG9O9FPCK0He7cbfCx5iFh6dX7hP/RHQbEPt9W5AEVvyoXK375SE
-         fB0Q==
-X-Gm-Message-State: AOAM532977zN+JKu8HnIFPIH1g75Vjy1rjeT8Kq1jzSamYbq1/SMxgHc
-        4dxye2i8n7NBH/v13Js0EP8LrVoVNA==
-X-Google-Smtp-Source: ABdhPJz9mPjkwAn9EhoT7LPvJerFEbqIh2u6PcP3/YyN+2NgnfiIFi2T/usEj0cNrX32U12p0ylegw==
-X-Received: by 2002:aca:c54e:: with SMTP id v75mr840789oif.134.1603139952330;
-        Mon, 19 Oct 2020 13:39:12 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id t29sm205526otd.51.2020.10.19.13.39.11
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=VYlmVNr0dY3l4uhDIFjX37H6wetw4+WykhKJz4MPamw=;
+        b=FEgpDWNyjqJ301GG/ATmlrOSelyQrezFbM2vo8+npVQv5XLZTh6Fv4opV5rIKICxKS
+         pWBCmmvOS5pAhoSZv1sc+zGHJtHFDByKiYiA6dtDG+P7VdIRQ0gGKKqD2Zuu+XFAf3J5
+         R960Ih8yJ35HQ9LEeWBQAWRS+K/Hod+WsUedXu2c8Y1937o4Vh1fmcTggjPK/ukm2XLK
+         DM6Sy5KaKi3s0Yb++Zf/gp6JiwGS+Ig8eb0qenKhuXeSuGeV0wHiQXKttBwlDfOou0v0
+         CioO8cMWeKt9vx8isiRNcWS6opSoValt3TDs7XKq4+lCVJ3lslcmfbCA6BIvCAOT6kkC
+         ODFw==
+X-Gm-Message-State: AOAM532oyK/Oe1CVDFO1NphraFNmE5SYUTEZdSsvEf7NvcuahsCC5nn3
+        zrZBnI5N4YVh1vy15gmX5ZQ=
+X-Google-Smtp-Source: ABdhPJymNRUHlbOevPw6zBiQT2pmXXAjTcTJ54Q1CuigBS6O5RZ8CtU1GZZz2Y9Z3I8WiLFEGOOOUg==
+X-Received: by 2002:a63:778f:: with SMTP id s137mr1293614pgc.7.1603140323111;
+        Mon, 19 Oct 2020 13:45:23 -0700 (PDT)
+Received: from localhost (c-73-25-156-94.hsd1.or.comcast.net. [73.25.156.94])
+        by smtp.gmail.com with ESMTPSA id x18sm431812pga.49.2020.10.19.13.45.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2020 13:39:11 -0700 (PDT)
-Received: (nullmailer pid 3565701 invoked by uid 1000);
-        Mon, 19 Oct 2020 20:39:10 -0000
-Date:   Mon, 19 Oct 2020 15:39:10 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Rui Miguel Silva <rmfrfs@gmail.com>
-Cc:     sakari.ailus@linux.intel.com, Hans Verkuil <hverkuil@xs4all.nl>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] dt-bindings: ov2680: convert bindings to yaml
-Message-ID: <20201019203910.GB3550266@bogus>
-References: <20201014142759.726823-1-rmfrfs@gmail.com>
- <20201014142759.726823-2-rmfrfs@gmail.com>
+        Mon, 19 Oct 2020 13:45:21 -0700 (PDT)
+From:   Rob Clark <robdclark@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     Daniel Vetter <daniel@ffwll.ch>,
+        Rob Clark <robdclark@chromium.org>,
+        Abhinav Kumar <abhinavk@codeaurora.org>,
+        Akhil P Oommen <akhilpo@codeaurora.org>,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Brian Masney <masneyb@onstation.org>,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Emil Velikov <emil.velikov@collabora.com>,
+        Eric Anholt <eric@anholt.net>,
+        freedreno@lists.freedesktop.org (open list:DRM DRIVER FOR MSM ADRENO
+        GPU), "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        Harigovindan P <harigovi@codeaurora.org>,
+        Jonathan Marek <jonathan@marek.ca>,
+        Jordan Crouse <jcrouse@codeaurora.org>,
+        linaro-mm-sig@lists.linaro.org (moderated list:DMA BUFFER SHARING
+        FRAMEWORK),
+        linux-arm-msm@vger.kernel.org (open list:DRM DRIVER FOR MSM ADRENO GPU),
+        linux-kernel@vger.kernel.org (open list),
+        linux-media@vger.kernel.org (open list:DMA BUFFER SHARING FRAMEWORK),
+        Liviu Dudau <liviu.dudau@arm.com>,
+        Matthias Kaehlcke <mka@chromium.org>,
+        Rajendra Nayak <rnayak@codeaurora.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sharat Masetty <smasetty@codeaurora.org>,
+        Thierry Reding <treding@nvidia.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v3 00/23] drm/msm: de-struct_mutex-ification
+Date:   Mon, 19 Oct 2020 13:46:01 -0700
+Message-Id: <20201019204636.139997-1-robdclark@gmail.com>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201014142759.726823-2-rmfrfs@gmail.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 14, 2020 at 03:27:57PM +0100, Rui Miguel Silva wrote:
-> Convert ov2680 sensor bindings documentation to yaml schema, remove
-> the textual bindings document and update MAINTAINERS entry.
-> 
-> Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> ---
->   
-> v1 -> v2:
->   Sakari Ailus - Patch 1/3:
->   https://lore.kernel.org/linux-media/20201013160908.GC13341@paasikivi.fi.intel.com/
->   - omit remote-endpoint
->   - remove not needed clock-lanes and data-lanes
-> 
->  .../devicetree/bindings/media/i2c/ov2680.txt  |  46 --------
->  .../devicetree/bindings/media/i2c/ov2680.yaml | 109 ++++++++++++++++++
->  MAINTAINERS                                   |   2 +-
->  3 files changed, 110 insertions(+), 47 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov2680.txt
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/ov2680.yaml
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ov2680.txt b/Documentation/devicetree/bindings/media/i2c/ov2680.txt
-> deleted file mode 100644
-> index 11e925ed9dad..000000000000
-> --- a/Documentation/devicetree/bindings/media/i2c/ov2680.txt
-> +++ /dev/null
-> @@ -1,46 +0,0 @@
-> -* Omnivision OV2680 MIPI CSI-2 sensor
-> -
-> -Required Properties:
-> -- compatible: should be "ovti,ov2680".
-> -- clocks: reference to the xvclk input clock.
-> -- clock-names: should be "xvclk".
-> -- DOVDD-supply: Digital I/O voltage supply.
-> -- DVDD-supply: Digital core voltage supply.
-> -- AVDD-supply: Analog voltage supply.
-> -
-> -Optional Properties:
-> -- reset-gpios: reference to the GPIO connected to the powerdown/reset pin,
-> -               if any. This is an active low signal to the OV2680.
-> -
-> -The device node must contain one 'port' child node for its digital output
-> -video port, and this port must have a single endpoint in accordance with
-> - the video interface bindings defined in
-> -Documentation/devicetree/bindings/media/video-interfaces.txt.
-> -
-> -Endpoint node required properties for CSI-2 connection are:
-> -- remote-endpoint: a phandle to the bus receiver's endpoint node.
-> -- clock-lanes: should be set to <0> (clock lane on hardware lane 0).
-> -- data-lanes: should be set to <1> (one CSI-2 lane supported).
-> -
-> -Example:
-> -
-> -&i2c2 {
-> -	ov2680: camera-sensor@36 {
-> -		compatible = "ovti,ov2680";
-> -		reg = <0x36>;
-> -		clocks = <&osc>;
-> -		clock-names = "xvclk";
-> -		reset-gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;
-> -		DOVDD-supply = <&sw2_reg>;
-> -		DVDD-supply = <&sw2_reg>;
-> -		AVDD-supply = <&reg_peri_3p15v>;
-> -
-> -		port {
-> -			ov2680_to_mipi: endpoint {
-> -				remote-endpoint = <&mipi_from_sensor>;
-> -				clock-lanes = <0>;
-> -				data-lanes = <1>;
-> -			};
-> -		};
-> -	};
-> -};
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ov2680.yaml b/Documentation/devicetree/bindings/media/i2c/ov2680.yaml
-> new file mode 100644
-> index 000000000000..ef2b45b03dcc
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/ov2680.yaml
-> @@ -0,0 +1,109 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/ov2680.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Omnivision OV2680 CMOS Sensor
-> +
-> +maintainers:
-> +  - Rui Miguel Silva <rmfrfs@gmail.com>
-> +
-> +description: |-
-> +  The OV2680 color sensor is a low voltage, high performance 1/5 inch UXGA (2
-> +  megapixel) CMOS image sensor that provides a single-chip UXGA (1600 x 1200)
-> +  camera. It provides full-frame, sub-sampled, or windowed 10-bit images in
-> +  various formats via the control of the Serial Camera Control Bus (SCCB)
-> +  interface.  The OV2680 has an image array capable of operating at up to 30
-> +  frames per second (fps) in UXGA resolution.
-> +
-> +properties:
-> +  compatible:
-> +    const: ovti,ov2680
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 1
-> +
-> +  clock-names:
-> +    description:
-> +      Input clock for the sensor.
-> +    items:
-> +      - const: xvclk
-> +
-> +  reset-gpios:
+From: Rob Clark <robdclark@chromium.org>
 
-How many? (maxItems: 1)
+This doesn't remove *all* the struct_mutex, but it covers the worst
+of it, ie. shrinker/madvise/free/retire.  The submit path still uses
+struct_mutex, but it still needs *something* serialize a portion of
+the submit path, and lock_stat mostly just shows the lock contention
+there being with other submits.  And there are a few other bits of
+struct_mutex usage in less critical paths (debugfs, etc).  But this
+seems like a reasonable step in the right direction.
 
-> +    description:
-> +      The phandle and specifier for the GPIO that controls sensor reset.
-> +      This corresponds to the hardware pin XSHUTDOWN which is physically
-> +      active low.
-> +
-> +  dovdd-supply:
-> +    description:
-> +      Definition of the regulator used as interface power supply.
-> +
-> +  avdd-supply:
-> +    description:
-> +      Definition of the regulator used as analog power supply.
-> +
-> +  dvdd-supply:
-> +    description:
-> +      Definition of the regulator used as digital power supply.
-> +
-> +  port:
-> +    type: object
-> +    additionalProperties: false
-> +    description:
-> +      A node containing an output port node with an endpoint definition
-> +      as documented in
-> +      Documentation/devicetree/bindings/media/video-interfaces.txt
-> +
-> +    properties:
-> +      endpoint:
-> +        type: object
-> +
-> +    required:
-> +      - endpoint
+v2: teach lockdep about shrinker locking patters (danvet) and
+    convert to obj->resv locking (danvet)
+v3: fix get_vaddr locking for legacy userspace (relocs), devcoredump,
+    and rd/hangrd
 
-Just need a description of the data/direction for 'port'. Drop the rest.
+Rob Clark (23):
+  drm/msm: Fix a couple incorrect usages of get_vaddr_active()
+  drm/msm/gem: Add obj->lock wrappers
+  drm/msm/gem: Rename internal get_iova_locked helper
+  drm/msm/gem: Move prototypes to msm_gem.h
+  drm/msm/gem: Add some _locked() helpers
+  drm/msm/gem: Move locking in shrinker path
+  drm/msm/submit: Move copy_from_user ahead of locking bos
+  drm/msm: Do rpm get sooner in the submit path
+  drm/msm/gem: Switch over to obj->resv for locking
+  drm/msm: Use correct drm_gem_object_put() in fail case
+  drm/msm: Drop chatty trace
+  drm/msm: Move update_fences()
+  drm/msm: Add priv->mm_lock to protect active/inactive lists
+  drm/msm: Document and rename preempt_lock
+  drm/msm: Protect ring->submits with it's own lock
+  drm/msm: Refcount submits
+  drm/msm: Remove obj->gpu
+  drm/msm: Drop struct_mutex from the retire path
+  drm/msm: Drop struct_mutex in free_object() path
+  drm/msm: Remove msm_gem_free_work
+  drm/msm: Drop struct_mutex in madvise path
+  drm/msm: Drop struct_mutex in shrinker path
+  drm/msm: Don't implicit-sync if only a single ring
 
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - dovdd-supply
-> +  - avdd-supply
-> +  - dvdd-supply
-> +  - reset-gpios
-> +  - port
-> +
-> +unevaluatedProperties: false
+ drivers/gpu/drm/msm/adreno/a5xx_gpu.c     |   6 +-
+ drivers/gpu/drm/msm/adreno/a5xx_preempt.c |  12 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c     |   6 +-
+ drivers/gpu/drm/msm/disp/mdp4/mdp4_crtc.c |   1 +
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c |   1 +
+ drivers/gpu/drm/msm/dsi/dsi_host.c        |   1 +
+ drivers/gpu/drm/msm/msm_debugfs.c         |   7 +
+ drivers/gpu/drm/msm/msm_drv.c             |  21 +-
+ drivers/gpu/drm/msm/msm_drv.h             |  73 +-----
+ drivers/gpu/drm/msm/msm_fbdev.c           |   1 +
+ drivers/gpu/drm/msm/msm_gem.c             | 266 +++++++++++-----------
+ drivers/gpu/drm/msm/msm_gem.h             | 133 +++++++++--
+ drivers/gpu/drm/msm/msm_gem_shrinker.c    |  81 ++-----
+ drivers/gpu/drm/msm/msm_gem_submit.c      | 158 ++++++++-----
+ drivers/gpu/drm/msm/msm_gpu.c             | 110 +++++----
+ drivers/gpu/drm/msm/msm_gpu.h             |   5 +-
+ drivers/gpu/drm/msm/msm_rd.c              |   2 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.c      |   3 +-
+ drivers/gpu/drm/msm/msm_ringbuffer.h      |  13 +-
+ 19 files changed, 495 insertions(+), 405 deletions(-)
 
-You can use 'additionalProperties: false' here instead.
+-- 
+2.26.2
 
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/gpio/gpio.h>
-> +
-> +    i2c {
-> +        #address-cells = <1>;
-> +        #size-cells = <0>;
-> +
-> +        ov2680: camera-sensor@36 {
-> +                compatible = "ovti,ov2680";
-> +                reg = <0x36>;
-> +                clocks = <&osc>;
-> +                clock-names = "xvclk";
-> +                reset-gpios = <&gpio1 3 GPIO_ACTIVE_LOW>;
-> +
-> +                dovdd-supply = <&sw2_reg>;
-> +                dvdd-supply = <&sw2_reg>;
-> +                avdd-supply = <&reg_peri_3p15v>;
-> +
-> +                port {
-> +                        ov2680_to_mipi: endpoint {
-> +                                remote-endpoint = <&mipi_from_sensor>;
-> +                        };
-> +                };
-> +        };
-> +    };
-> +...
-> +
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index 2e85e114c9c3..926dcdc4794c 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -12775,7 +12775,7 @@ M:	Rui Miguel Silva <rmfrfs@gmail.com>
->  L:	linux-media@vger.kernel.org
->  S:	Maintained
->  T:	git git://linuxtv.org/media_tree.git
-> -F:	Documentation/devicetree/bindings/media/i2c/ov2680.txt
-> +F:	Documentation/devicetree/bindings/media/i2c/ov2680.yaml
->  F:	drivers/media/i2c/ov2680.c
->  
->  OMNIVISION OV2685 SENSOR DRIVER
-> -- 
-> 2.28.0
-> 
