@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4AB4293197
-	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 00:59:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E20D3293199
+	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 00:59:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388798AbgJSW7l (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Oct 2020 18:59:41 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36914 "EHLO
+        id S2388813AbgJSW7m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Oct 2020 18:59:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36916 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388780AbgJSW7f (ORCPT
+        with ESMTP id S2388777AbgJSW7e (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Oct 2020 18:59:35 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7635C0613CE;
-        Mon, 19 Oct 2020 15:59:32 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id 13so61492wmf.0;
-        Mon, 19 Oct 2020 15:59:32 -0700 (PDT)
+        Mon, 19 Oct 2020 18:59:34 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EAF6C0613D0;
+        Mon, 19 Oct 2020 15:59:34 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id p15so51061wmi.4;
+        Mon, 19 Oct 2020 15:59:34 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=264ki9XaB3uYmeAhBNda9dKPTPSzjGJQUr/EgBXT3jM=;
-        b=SntlFeLGE+RSEyn8vutTPnn6PAwmWywHWIvSix2KEc+DZGtYV1KzOhI+7pqR4mm4yG
-         pqQvpsJgmBtthnJwwkFX1tcGyULyNlPuFvXrAS2mT4K19lhx5ob4VKkuAQPqGLJYA3Vj
-         hBbsBd6UEKtvwIysMDp6j0b3pxtS66RLn8QfLCKi6uRCNQKEAr/p8QvuQdyeviiBNYlO
-         1jpqWlBpV+QUz3Isjr2M2t7AZKD8z6FWKVepo2WqAH3RF9YyG95tFoCc7lS0rLNsXPRp
-         YrVxvdDaFX5hoga1MM7nFZ/ajB8NipJ22oCLz4PLWESY/UGx4kwyzRYZjMnjszU39ozY
-         9WAw==
+        bh=uXAvp5LtBdgbmLALmSSkahZ9MLe+wKaeLg7vdYQ5N7s=;
+        b=Ju9qu2KVU0kjcYhZtRrgsEZobWmPqSRsa1sUQxIaabHIlhXB/5GnDaMp18EAqaxEeA
+         1ITA1BoCcxRAEIvYzFwmKUjmXKkMUdqJv41Rh0/gtF6IKgPQVoMPhKPFZ2j/9sDaaHcl
+         y8GwLmrg/PTnNzqaoEUHokTdyHxbaDksWub4pfL4FlqaYSFZ4qs0Tw1+YUS1D1AFT2vr
+         7B0DEukrXPppkF9zt+aUk231pLPriBkmAJasfW13ryy3Y/BT4rvNmLRB6Wr6SoRa5IEG
+         VD0fOlWnIIoGYKtLrE8BirOcvTtYY67H+PDUQGkD89HyOU3gxdAQNM+9kluBHPl4QJMd
+         VllA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=264ki9XaB3uYmeAhBNda9dKPTPSzjGJQUr/EgBXT3jM=;
-        b=MUUjxksYrnmipsVLLK2yojJVMU/wlfEVm8V5pnwV6ptcsB4kQyfC91NNNq97Y9bwBh
-         TGWTzmZUQl5wRu3mN7n/2re6UNU0mXrKRcNG5F4kGSy5gU5xEx/bvxDZRoOF6WwCB0yP
-         eoguzQbmY9jZHAYZlUSfvyU+S409eLJkW5BtvKYjMDH+2w5ym6/uKF+3omtfqWlH88WR
-         Lk2Pz+xZ/6q4Ykfg0in4/w6DP64io99rpD4ylj8z3+kYioSPgkn+lT+uylSrHqetw9s6
-         IEz9wQ3/01o5vYK22fg8fURto+5e2s5ViWVE65M8fdJT1dPEVeScA3qqu0NUMeczDNIA
-         YNmQ==
-X-Gm-Message-State: AOAM530JJuz9MoDqeCjVqdt2PP1qkJORhfRJUWPtDekWPBqRxIQTglM/
-        ijuG1CJ/VYWGFDGWuFRfnif1t1iJmnR+6fEF
-X-Google-Smtp-Source: ABdhPJwmq6B5RmC4EXjx9uIukFeWgqU3CnngIdU/IqgjmihYTkB+igUIZnhonwhXPtIAVDOfwXx2uQ==
-X-Received: by 2002:a7b:c453:: with SMTP id l19mr127894wmi.50.1603148371196;
-        Mon, 19 Oct 2020 15:59:31 -0700 (PDT)
+        bh=uXAvp5LtBdgbmLALmSSkahZ9MLe+wKaeLg7vdYQ5N7s=;
+        b=YcDGQD9f3wZMNmXkZZM8Ovy/nsg6lMvOPPFFC4Ybd6EwYuVdC1auksjsZ3f7S6Sbo2
+         DN/QSsdzvrqb6T/BpNIkqhOJrMeMm4KmwzC6IFlmEUaXK1REJrYrBiQnW2SCZf7Bx2AQ
+         jIjH/le+krskLue5dh+vkgMOc27TotGaq8j9P6oZbe8GChRfPUVbJuyPABhDo6ju36Q6
+         0gVqi+AfuC4nS0PEGZ0JK6XGy4Ty+6AxXb86kZilJfA1ofkUyGQnq0IZ1lrOD1Lb/ToT
+         h+8ipxcEC0A6lDYVJ5FD6pgxlNx4N4w8b0EPZQ9cz6+pI96Y0yQy/ConahY6VWGZ6GND
+         k1Cw==
+X-Gm-Message-State: AOAM531nELD8eiKAgWV9jB1AwSSVZ/aN4RrCc1YQdT3T8nN+S9P+S/+2
+        g7sI2FGHBTPUXZ8poFlm6bcETYVNF6hdY4HR
+X-Google-Smtp-Source: ABdhPJzM2kg+xorqYoAsmGjO7WFk+5jvwnUtwkzDb++X6p/fab4dwmYI/Cp6SZ82G03V6zVGv64+Og==
+X-Received: by 2002:a1c:3285:: with SMTP id y127mr89507wmy.183.1603148372632;
+        Mon, 19 Oct 2020 15:59:32 -0700 (PDT)
 Received: from djrscally-MIIX-510-12ISK.home ([2.26.187.29])
-        by smtp.gmail.com with ESMTPSA id u20sm76505wmm.29.2020.10.19.15.59.29
+        by smtp.gmail.com with ESMTPSA id u20sm76505wmm.29.2020.10.19.15.59.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 19 Oct 2020 15:59:30 -0700 (PDT)
+        Mon, 19 Oct 2020 15:59:32 -0700 (PDT)
 From:   Daniel Scally <djrscally@gmail.com>
 To:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
 Cc:     linux.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
@@ -60,9 +60,9 @@ Cc:     linux.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
         sakari.ailus@linux.intel.com, yong.zhi@intel.com,
         rafael@kernel.org, gregkh@linuxfoundation.org, kitakar@gmail.com,
         dan.carpenter@oracle.org
-Subject: [RFC PATCH v3 7/9] ipu3-cio2: Check if pci_dev->dev's fwnode is a software_node in cio2_parse_firmware() and set FWNODE_GRAPH_DEVICE_DISABLED if so
-Date:   Mon, 19 Oct 2020 23:59:01 +0100
-Message-Id: <20201019225903.14276-8-djrscally@gmail.com>
+Subject: [RFC PATCH v3 8/9] media: v4l2-core: v4l2-async: Check possible match in match_fwnode based on sd->fwnode->secondary
+Date:   Mon, 19 Oct 2020 23:59:02 +0100
+Message-Id: <20201019225903.14276-9-djrscally@gmail.com>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201019225903.14276-1-djrscally@gmail.com>
 References: <20201019225903.14276-1-djrscally@gmail.com>
@@ -70,51 +70,38 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-fwnode_graph_get_endpoint_by_id() will optionally parse enabled devices
-only; that status being determined through the .device_is_available() op
-of the device's fwnode. As software_nodes don't have that operation and
-adding it is meaningless, we instead need to check if the device's fwnode
-is a software_node and if so pass the appropriate flag to disable that
-check
+Where the fwnode graph is comprised of software_nodes, these will be
+assigned as the secondary to dev->fwnode. Check the v4l2_subdev's fwnode
+for a secondary and attempt to match against it during match_fwnode() to
+accommodate that possibility.
 
 Signed-off-by: Daniel Scally <djrscally@gmail.com>
 ---
 Changes in v3:
 	- patch introduced
 
- drivers/media/pci/intel/ipu3/ipu3-cio2-main.c | 9 +++++++--
- 1 file changed, 7 insertions(+), 2 deletions(-)
+ drivers/media/v4l2-core/v4l2-async.c | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-index 4e598e937..f68ef0f6b 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-@@ -1466,6 +1466,7 @@ static const struct v4l2_async_notifier_operations cio2_async_ops = {
+diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
+index e3ab003a6..6486dbde7 100644
+--- a/drivers/media/v4l2-core/v4l2-async.c
++++ b/drivers/media/v4l2-core/v4l2-async.c
+@@ -87,6 +87,14 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
+ 	if (sd->fwnode == asd->match.fwnode)
+ 		return true;
  
- static int cio2_parse_firmware(struct cio2_device *cio2)
- {
-+	unsigned long allow_disabled;
- 	unsigned int i;
- 	int ret;
- 
-@@ -1474,11 +1475,15 @@ static int cio2_parse_firmware(struct cio2_device *cio2)
- 			.bus_type = V4L2_MBUS_CSI2_DPHY
- 		};
- 		struct sensor_async_subdev *s_asd = NULL;
-+		struct fwnode_handle *fwnode;
- 		struct fwnode_handle *ep;
- 
-+		fwnode = dev_fwnode(&cio2->pci_dev->dev);
-+		allow_disabled = is_software_node(fwnode) ? FWNODE_GRAPH_DEVICE_DISABLED : 0;
++	/*
++	 * Check the same situation for any possible secondary assigned to the
++	 * subdev's fwnode
++	 */
++	if ((!IS_ERR_OR_NULL(sd->fwnode->secondary)) &&
++	    sd->fwnode->secondary == asd->match.fwnode)
++		return true;
 +
- 		ep = fwnode_graph_get_endpoint_by_id(
--			dev_fwnode(&cio2->pci_dev->dev), i, 0,
--			FWNODE_GRAPH_ENDPOINT_NEXT);
-+			fwnode, i, 0,
-+			FWNODE_GRAPH_ENDPOINT_NEXT | allow_disabled);
- 
- 		if (!ep)
- 			continue;
+ 	/*
+ 	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
+ 	 * endpoint or a device. If they're of the same type, there's no match.
 -- 
 2.17.1
 
