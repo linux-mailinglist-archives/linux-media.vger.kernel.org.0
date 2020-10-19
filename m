@@ -2,338 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72D202924CD
-	for <lists+linux-media@lfdr.de>; Mon, 19 Oct 2020 11:45:25 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65E1C29259A
+	for <lists+linux-media@lfdr.de>; Mon, 19 Oct 2020 12:20:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727591AbgJSJpX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 19 Oct 2020 05:45:23 -0400
-Received: from mail-bn7nam10on2063.outbound.protection.outlook.com ([40.107.92.63]:10848
-        "EHLO NAM10-BN7-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1727254AbgJSJpX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 19 Oct 2020 05:45:23 -0400
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=j/FnliMyyc6PzCm4aGI3rSXrefs5zb8xHdj9d4DoBgWJGSx5tqXDWQNbDsrfwSW64QJXT3XpiEmjQaKx2vI6Nrlwn4sBuq4DsmOg04T61+sn1kk0kLOyVz0WvIGI3psXcXI5nMG9G/Dmg0mR9/R6ERPeYsQo9othw9gpZVI1f2e5k0rhFU6N8yTPH9M1vdOwQKkg432WGS1wQHe/dvgYzS1Ub0lWneymsjUi/oOeusurrTiBxRIoLvzf+pbbgAk8C7j9yE6ik3AO2tqfQ3f/hkJZfkAwvT2+LMf3N2enasi0bLT8oMM/Q93CNjzMu7TxcNvF6CrwSH9SI1C9u81htQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zy5wcv5D2MUJuqKGL0V1ByCyOy9bh9LcggVVNvf/G48=;
- b=XOY4lcQe5HP+yb73hEvle0YLe/CjrfoogLOfcozRJe/tyx2S5zM/lUvq7PE0orshiVfvL+5cQXSTgtFn7LaNy18omq9h3JFx2orDxBnQYk+O5xez1N7aCShbv2a/R2q7RL42rofSB0odkrwjFhHU/m3A1nB7AMfFl9+XvBG8pJBhiYHUsYmASfs1YZB/u/90LS8FOpOJQ1HRAc/k0l66NKSrV/9dEBKbBMh8wgysDXUaZFkSRQzqZxah8MMbnM/zTvIQ8yI17/qmyKHrsDujb3G9pGAKYDBdr5Col73Qt6iqlHzpIm1KqTFIB4tCKTJDt4+qTxzJ6YRc/FqgtlGRjA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
- header.d=amd.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=Zy5wcv5D2MUJuqKGL0V1ByCyOy9bh9LcggVVNvf/G48=;
- b=HAisxrqOxM+yFzBIeivQca5MQl1W0EvQh9xsuS0W2b87Rt1SPj5cCrl7+Oi4yjd2jCISBR4uXY/rDuYAs9kGwzzAz7O+AYk9MEcNArQG26gfIl5eJieuGbvjQCOBJge35t749Mpuih+3wZ7PTUAejRJiSusdxGVeUQynWh6tM2w=
-Authentication-Results: vger.kernel.org; dkim=none (message not signed)
- header.d=none;vger.kernel.org; dmarc=none action=none header.from=amd.com;
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
- by BL0PR12MB2417.namprd12.prod.outlook.com (2603:10b6:207:45::21) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.21; Mon, 19 Oct
- 2020 09:45:17 +0000
-Received: from MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60]) by MN2PR12MB3775.namprd12.prod.outlook.com
- ([fe80::f8f7:7403:1c92:3a60%6]) with mapi id 15.20.3477.028; Mon, 19 Oct 2020
- 09:45:17 +0000
-Subject: Re: [PATCH v4 05/10] drm/ttm: Add vmap/vunmap to TTM and TTM GEM
- helpers
-To:     Thomas Zimmermann <tzimmermann@suse.de>,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
-        alexander.deucher@amd.com, kraxel@redhat.com,
-        l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
-        christian.gmeiner@gmail.com, inki.dae@samsung.com,
-        jy0922.shim@samsung.com, sw0312.kim@samsung.com,
-        kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
-        yuq825@gmail.com, bskeggs@redhat.com, robh@kernel.org,
-        tomeu.vizoso@collabora.com, steven.price@arm.com,
-        alyssa.rosenzweig@collabora.com, hjc@rock-chips.com,
-        heiko@sntech.de, hdegoede@redhat.com, sean@poorly.run,
-        eric@anholt.net, oleksandr_andrushchenko@epam.com,
-        ray.huang@amd.com, sumit.semwal@linaro.org,
-        emil.velikov@collabora.com, luben.tuikov@amd.com, apaneers@amd.com,
-        linus.walleij@linaro.org, melissa.srw@gmail.com,
-        chris@chris-wilson.co.uk, miaoqinglang@huawei.com
-Cc:     linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, etnaviv@lists.freedesktop.org,
-        amd-gfx@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        linaro-mm-sig@lists.linaro.org, linux-rockchip@lists.infradead.org,
-        dri-devel@lists.freedesktop.org, xen-devel@lists.xenproject.org,
-        spice-devel@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20201015123806.32416-1-tzimmermann@suse.de>
- <20201015123806.32416-6-tzimmermann@suse.de>
- <935d5771-5645-62a6-849c-31e286db1e30@amd.com>
- <87c7c342-88dc-9a36-31f7-dae6edd34626@suse.de>
-From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
-Message-ID: <9236f51c-c1fa-dadc-c7cc-d9d0c09251d1@amd.com>
-Date:   Mon, 19 Oct 2020 11:45:05 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-In-Reply-To: <87c7c342-88dc-9a36-31f7-dae6edd34626@suse.de>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 8bit
+        id S1726487AbgJSKUU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 19 Oct 2020 06:20:20 -0400
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:5850 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726421AbgJSKUU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 19 Oct 2020 06:20:20 -0400
+Received: from pps.filterd (m0046668.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09JAHlFg030633;
+        Mon, 19 Oct 2020 12:20:00 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=WGENNG6DUtyjPs25lMIjm++FozcEfG/A8smjVsEwavo=;
+ b=lFyyHNbGn3d9+8PqWsm0aL00a6C/NFB6V6v3jtdm1O4IlE0m8Wyn0ZUW8oNsJeFPp87l
+ XwypLjOFkln6gbkhgXvvGnizJa7f6YIIrEYfkdqRTyxoyO04IeHtZr9+RIkGOcKEKDWB
+ nUj4zJnFukjsH96wmC3CvP2Yiw7VcjS3/UiYesISR0u7bOyKqG/klOhnQp5I9hwrrPgM
+ KcPgYsErmyG4TEYgTENxsHSiNrrqNyGqa7h+dKv9SFw2ad+ZYCovZdksfvrE6RhmilP/
+ j9RkDba+qqhV6iTG2Gz4LYAmnl5A3FmJKT06/JqsIyU1kqmSwvgoDkIbn4C+GcWH/6F+ gQ== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 347p30aap9-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Mon, 19 Oct 2020 12:20:00 +0200
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 39E6C10002A;
+        Mon, 19 Oct 2020 12:19:59 +0200 (CEST)
+Received: from Webmail-eu.st.com (sfhdag3node3.st.com [10.75.127.9])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 0ED522AB724;
+        Mon, 19 Oct 2020 12:19:59 +0200 (CEST)
+Received: from SFHDAG1NODE1.st.com (10.75.127.1) by SFHDAG3NODE3.st.com
+ (10.75.127.9) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Mon, 19 Oct
+ 2020 12:19:58 +0200
+Received: from SFHDAG1NODE1.st.com ([fe80::91:9840:ca1f:420f]) by
+ SFHDAG1NODE1.st.com ([fe80::91:9840:ca1f:420f%20]) with mapi id
+ 15.00.1473.003; Mon, 19 Oct 2020 12:19:58 +0200
+From:   Hugues FRUCHET <hugues.fruchet@st.com>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+CC:     Alexandre TORGUE <alexandre.torgue@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Alain VOLMAT <alain.volmat@st.com>,
+        Yannick FERTRE <yannick.fertre@st.com>,
+        Philippe CORNU <philippe.cornu@st.com>
+Subject: Re: [PATCH] media: stm32-dcmi: add support of BT656 bus
+Thread-Topic: [PATCH] media: stm32-dcmi: add support of BT656 bus
+Thread-Index: AQHWoUBkV9IGF/l+kUSwjdCwug2yKamYr2IAgAXvYoA=
+Date:   Mon, 19 Oct 2020 10:19:58 +0000
+Message-ID: <254e2f2e-94ca-2421-1a1b-bcd43a75b847@st.com>
+References: <1602087290-18020-1-git-send-email-hugues.fruchet@st.com>
+ <20201013090704.GL6413@valkosipuli.retiisi.org.uk>
+ <1e1eb9d1-75af-c560-7d06-14d25bb52b3f@st.com>
+In-Reply-To: <1e1eb9d1-75af-c560-7d06-14d25bb52b3f@st.com>
+Accept-Language: en-US
 Content-Language: en-US
-X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
-X-ClientProxiedBy: AM0PR07CA0027.eurprd07.prod.outlook.com
- (2603:10a6:208:ac::40) To MN2PR12MB3775.namprd12.prod.outlook.com
- (2603:10b6:208:159::19)
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.49]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <950951452643D147BFF22B2EE1F82CD0@st.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM0PR07CA0027.eurprd07.prod.outlook.com (2603:10a6:208:ac::40) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.9 via Frontend Transport; Mon, 19 Oct 2020 09:45:10 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: 2de45ee1-d684-4c5f-c143-08d87413af3e
-X-MS-TrafficTypeDiagnostic: BL0PR12MB2417:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <BL0PR12MB2417E35B821E9EF7A5B5AFC6831E0@BL0PR12MB2417.namprd12.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: d4JLIMQwIVNzm92UzbJlG+1uGqD85bpaIBIWdkIvqy+5bO5umDecUzbdA2OrHnWTG50cA0ny/JCI1CzZvgyw+1FjN6aHmgVWrigZavYKj4LEcL+cX1UuDfTRfkC8NzdRfzBHjF3yyBdvUo89iJHR7FZMTD0ZlbISd1mPI8Fa5XZpx5SjPmGla1TR5B2rOimNL5gyzLsN/REXOw2vHcHZUuVpHzPapMDpBgw2stBq2jE5cJ9/1g7aIAe24EC6dbmiq0izN119FshZyW9GSTbyY1M+N358gLMv2N13z9bTckIsQ6IA2m5YRbmaev473/bBwUziHD1Gy88gW5JCfltSlE8k1Ia+qPkLFXHGxMrJEs2EZPqnwwDTOjA9VU2UXcpnNRzvMQpqXhcSS3p7NG2ZxaXmUKVj/X/7GDfIarrkPcDn2jqmmV2rzfthVFUk+jt7
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(396003)(376002)(346002)(136003)(39860400002)(83380400001)(45080400002)(966005)(8676002)(4326008)(31686004)(6666004)(2906002)(186003)(16526019)(36756003)(86362001)(2616005)(478600001)(5660300002)(8936002)(66556008)(66476007)(316002)(66946007)(31696002)(7416002)(7406005)(6486002)(52116002)(921003)(43740500002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: DG1IF2aGtntU1HnH8WrGQv0BxrOWgvoFrUvrZ/ETE+qVydH2YByWQoPMDbLtl9PnDVbVhG0frqeMFhQaf3Vtz58lN+BSVBxX/5YUoCuHfVPbHNJ131OF8BG8o6HCx7qfKAWQKi23SjRRvPudmHmWydDaVWdoqlx94dmGGZApy3JBO+X666gv4eq6P1Ayr5gK8mtM4FY0/7ymmY5CLucrj9cD580hMoYunzbjo0HfzPktCM7UcpiT2vhkO+wSXS0SsmI0azvvvWDuBLVpGNm8+l0yiOtuU/dxHEaCNGB3WkK/An6zQrQqh008D0JHt84NNz4bvORAypo23Przrlyso7NFrkuYqC9jaOoFFmI3+T8agjgKPHWUTQ51akC/pRhom8yKrGoOBEnG71Q2UNIplHahwdmMVp/1LRC+khx1EM2TjUWmhOAwm7lgtIJWF0PKBJWS30Vl8X9LENEebXdouzN6nWe3nCnGVUHadIrKdTpq+NbSUTcx+UbOMyZhTs168y9mbcqx+R3rdsxnkJoDT0bF4CJpPCD3DDcTXrxX0amQ/6h4CMtW3V0114sgtEqNNrvMiHRmJH1dN12YFa/MB+4p0JrR+eBXjMZhu9PyaWZpVjCop9rk71seQY2VElj+z0N0U4v+eAESUsMqU9kJs9fohrQ1+WkOCQxetK3hLiK1hTG+R/85SbfwKIcuX7ABSxg5EviUsj6gJOIbQiqtkg==
-X-OriginatorOrg: amd.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 2de45ee1-d684-4c5f-c143-08d87413af3e
-X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 19 Oct 2020 09:45:17.7275
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: ufX6vJ7VDtZTX3Z4vj04OPUaH+aqZVdTPZh+3zWPb5h0W+0bW29R9aWCT+GnVwx0
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB2417
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
+ definitions=2020-10-19_02:2020-10-16,2020-10-19 signatures=0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Thomas,
-
-[SNIP]
->>>    +int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map)
->>> +{
->>> +    struct ttm_resource *mem = &bo->mem;
->>> +    int ret;
->>> +
->>> +    ret = ttm_mem_io_reserve(bo->bdev, mem);
->>> +    if (ret)
->>> +        return ret;
->>> +
->>> +    if (mem->bus.is_iomem) {
->>> +        void __iomem *vaddr_iomem;
->>> +        unsigned long size = bo->num_pages << PAGE_SHIFT;
->> Please use uint64_t here and make sure to cast bo->num_pages before
->> shifting.
-> I thought the rule of thumb is to use u64 in source code. Yet TTM only
-> uses uint*_t types. Is there anything special about TTM?
-
-My last status is that you can use both and my personal preference is to 
-use the uint*_t types because they are part of a higher level standard.
-
->> We have an unit tests of allocating a 8GB BO and that should work on a
->> 32bit machine as well :)
->>
->>> +
->>> +        if (mem->bus.addr)
->>> +            vaddr_iomem = (void *)(((u8 *)mem->bus.addr));
-> I after reading the patch again, I realized that this is the
-> 'ttm_bo_map_premapped' case and it's missing from _vunmap(). I see two
-> options here: ignore this case in _vunmap(), or do an ioremap()
-> unconditionally. Which one is preferable?
-
-ioremap would be very very bad, so we should just do nothing.
-
-Thanks,
-Christian.
-
->
-> Best regards
-> Thomas
->
->>> +        else if (mem->placement & TTM_PL_FLAG_WC)
->> I've just nuked the TTM_PL_FLAG_WC flag in drm-misc-next. There is a new
->> mem->bus.caching enum as replacement.
->>
->>> +            vaddr_iomem = ioremap_wc(mem->bus.offset, size);
->>> +        else
->>> +            vaddr_iomem = ioremap(mem->bus.offset, size);
->>> +
->>> +        if (!vaddr_iomem)
->>> +            return -ENOMEM;
->>> +
->>> +        dma_buf_map_set_vaddr_iomem(map, vaddr_iomem);
->>> +
->>> +    } else {
->>> +        struct ttm_operation_ctx ctx = {
->>> +            .interruptible = false,
->>> +            .no_wait_gpu = false
->>> +        };
->>> +        struct ttm_tt *ttm = bo->ttm;
->>> +        pgprot_t prot;
->>> +        void *vaddr;
->>> +
->>> +        BUG_ON(!ttm);
->> I think we can drop this, populate will just crash badly anyway.
->>
->>> +
->>> +        ret = ttm_tt_populate(bo->bdev, ttm, &ctx);
->>> +        if (ret)
->>> +            return ret;
->>> +
->>> +        /*
->>> +         * We need to use vmap to get the desired page protection
->>> +         * or to make the buffer object look contiguous.
->>> +         */
->>> +        prot = ttm_io_prot(mem->placement, PAGE_KERNEL);
->> The calling convention has changed on drm-misc-next as well, but should
->> be trivial to adapt.
->>
->> Regards,
->> Christian.
->>
->>> +        vaddr = vmap(ttm->pages, bo->num_pages, 0, prot);
->>> +        if (!vaddr)
->>> +            return -ENOMEM;
->>> +
->>> +        dma_buf_map_set_vaddr(map, vaddr);
->>> +    }
->>> +
->>> +    return 0;
->>> +}
->>> +EXPORT_SYMBOL(ttm_bo_vmap);
->>> +
->>> +void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct dma_buf_map
->>> *map)
->>> +{
->>> +    if (dma_buf_map_is_null(map))
->>> +        return;
->>> +
->>> +    if (map->is_iomem)
->>> +        iounmap(map->vaddr_iomem);
->>> +    else
->>> +        vunmap(map->vaddr);
->>> +    dma_buf_map_clear(map);
->>> +
->>> +    ttm_mem_io_free(bo->bdev, &bo->mem);
->>> +}
->>> +EXPORT_SYMBOL(ttm_bo_vunmap);
->>> +
->>>    static int ttm_bo_wait_free_node(struct ttm_buffer_object *bo,
->>>                     bool dst_use_tt)
->>>    {
->>> diff --git a/include/drm/drm_gem_ttm_helper.h
->>> b/include/drm/drm_gem_ttm_helper.h
->>> index 118cef76f84f..7c6d874910b8 100644
->>> --- a/include/drm/drm_gem_ttm_helper.h
->>> +++ b/include/drm/drm_gem_ttm_helper.h
->>> @@ -10,11 +10,17 @@
->>>    #include <drm/ttm/ttm_bo_api.h>
->>>    #include <drm/ttm/ttm_bo_driver.h>
->>>    +struct dma_buf_map;
->>> +
->>>    #define drm_gem_ttm_of_gem(gem_obj) \
->>>        container_of(gem_obj, struct ttm_buffer_object, base)
->>>      void drm_gem_ttm_print_info(struct drm_printer *p, unsigned int
->>> indent,
->>>                    const struct drm_gem_object *gem);
->>> +int drm_gem_ttm_vmap(struct drm_gem_object *gem,
->>> +             struct dma_buf_map *map);
->>> +void drm_gem_ttm_vunmap(struct drm_gem_object *gem,
->>> +            struct dma_buf_map *map);
->>>    int drm_gem_ttm_mmap(struct drm_gem_object *gem,
->>>                 struct vm_area_struct *vma);
->>>    diff --git a/include/drm/ttm/ttm_bo_api.h
->>> b/include/drm/ttm/ttm_bo_api.h
->>> index 37102e45e496..2c59a785374c 100644
->>> --- a/include/drm/ttm/ttm_bo_api.h
->>> +++ b/include/drm/ttm/ttm_bo_api.h
->>> @@ -48,6 +48,8 @@ struct ttm_bo_global;
->>>      struct ttm_bo_device;
->>>    +struct dma_buf_map;
->>> +
->>>    struct drm_mm_node;
->>>      struct ttm_placement;
->>> @@ -494,6 +496,32 @@ int ttm_bo_kmap(struct ttm_buffer_object *bo,
->>> unsigned long start_page,
->>>     */
->>>    void ttm_bo_kunmap(struct ttm_bo_kmap_obj *map);
->>>    +/**
->>> + * ttm_bo_vmap
->>> + *
->>> + * @bo: The buffer object.
->>> + * @map: pointer to a struct dma_buf_map representing the map.
->>> + *
->>> + * Sets up a kernel virtual mapping, using ioremap or vmap to the
->>> + * data in the buffer object. The parameter @map returns the virtual
->>> + * address as struct dma_buf_map. Unmap the buffer with ttm_bo_vunmap().
->>> + *
->>> + * Returns
->>> + * -ENOMEM: Out of memory.
->>> + * -EINVAL: Invalid range.
->>> + */
->>> +int ttm_bo_vmap(struct ttm_buffer_object *bo, struct dma_buf_map *map);
->>> +
->>> +/**
->>> + * ttm_bo_vunmap
->>> + *
->>> + * @bo: The buffer object.
->>> + * @map: Object describing the map to unmap.
->>> + *
->>> + * Unmaps a kernel map set up by ttm_bo_vmap().
->>> + */
->>> +void ttm_bo_vunmap(struct ttm_buffer_object *bo, struct dma_buf_map
->>> *map);
->>> +
->>>    /**
->>>     * ttm_bo_mmap_obj - mmap memory backed by a ttm buffer object.
->>>     *
->>> diff --git a/include/linux/dma-buf-map.h b/include/linux/dma-buf-map.h
->>> index fd1aba545fdf..2e8bbecb5091 100644
->>> --- a/include/linux/dma-buf-map.h
->>> +++ b/include/linux/dma-buf-map.h
->>> @@ -45,6 +45,12 @@
->>>     *
->>>     *    dma_buf_map_set_vaddr(&map. 0xdeadbeaf);
->>>     *
->>> + * To set an address in I/O memory, use dma_buf_map_set_vaddr_iomem().
->>> + *
->>> + * .. code-block:: c
->>> + *
->>> + *    dma_buf_map_set_vaddr_iomem(&map. 0xdeadbeaf);
->>> + *
->>>     * Test if a mapping is valid with either dma_buf_map_is_set() or
->>>     * dma_buf_map_is_null().
->>>     *
->>> @@ -118,6 +124,20 @@ static inline void dma_buf_map_set_vaddr(struct
->>> dma_buf_map *map, void *vaddr)
->>>        map->is_iomem = false;
->>>    }
->>>    +/**
->>> + * dma_buf_map_set_vaddr_iomem - Sets a dma-buf mapping structure to
->>> an address in I/O memory
->>> + * @map:        The dma-buf mapping structure
->>> + * @vaddr_iomem:    An I/O-memory address
->>> + *
->>> + * Sets the address and the I/O-memory flag.
->>> + */
->>> +static inline void dma_buf_map_set_vaddr_iomem(struct dma_buf_map *map,
->>> +                           void __iomem *vaddr_iomem)
->>> +{
->>> +    map->vaddr_iomem = vaddr_iomem;
->>> +    map->is_iomem = true;
->>> +}
->>> +
->>>    /**
->>>     * dma_buf_map_is_equal - Compares two dma-buf mapping structures
->>> for equality
->>>     * @lhs:    The dma-buf mapping structure
->> _______________________________________________
->> dri-devel mailing list
->> dri-devel@lists.freedesktop.org
->> https://nam11.safelinks.protection.outlook.com/?url=https%3A%2F%2Flists.freedesktop.org%2Fmailman%2Flistinfo%2Fdri-devel&amp;data=04%7C01%7Cchristian.koenig%40amd.com%7C07bc68af3c6440b5be8d08d8740e9b32%7C3dd8961fe4884e608e11a82d994e183d%7C0%7C0%7C637386953433558595%7CUnknown%7CTWFpbGZsb3d8eyJWIjoiMC4wLjAwMDAiLCJQIjoiV2luMzIiLCJBTiI6Ik1haWwiLCJXVCI6Mn0%3D%7C1000&amp;sdata=RlGCmjzyZERvqfnl4kA1bEHez5bkLf3F9OlKi2ybDAM%3D&amp;reserved=0
-
+SGkgU2FrYXJpLA0KDQpJIGhhdmUgcXVlc3Rpb25zIGFib3V0ICJidXMtdHlwZSIgaGFuZGxpbmcg
+YmVsb3cuDQoNCk9uIDEwLzE1LzIwIDU6NDEgUE0sIEh1Z3VlcyBGUlVDSEVUIHdyb3RlOg0KPiBI
+aSBTYWthcmksDQo+IA0KPiBUaGFua3MgZm9yIHJldmlld2luZywNCj4gDQo+IE9uIDEwLzEzLzIw
+IDExOjA3IEFNLCBTYWthcmkgQWlsdXMgd3JvdGU6DQo+PiBIaSBIdWd1ZXMsDQo+Pg0KPj4gT24g
+V2VkLCBPY3QgMDcsIDIwMjAgYXQgMDY6MTQ6NTBQTSArMDIwMCwgSHVndWVzIEZydWNoZXQgd3Jv
+dGU6DQo+Pj4gQWRkIHN1cHBvcnQgb2YgQlQ2NTYgZW1iZWRkZWQgc3luY2hyb25pemF0aW9uIGJ1
+cy4NCj4+PiBUaGlzIG1vZGUgYWxsb3dzIHRvIHNhdmUgaGFyZHdhcmUgc3luY2hybyBsaW5lcyBo
+c3luYyAmIHZzeW5jDQo+Pj4gYnkgcmVwbGFjaW5nIHRoZW0gd2l0aCBzeW5jaHJvIGNvZGVzIGVt
+YmVkZGVkIGluIGRhdGEgc3RyZWFtLg0KPj4+IFRoaXMgYnVzIHR5cGUgaXMgb25seSBjb21wYXRp
+YmxlIHdpdGggOCBiaXRzIHdpZHRoIGRhdGEgYnVzLg0KPj4+IER1ZSB0byByZXNlcnZlZCB2YWx1
+ZXMgMHgwMCAmIDB4ZmYgdXNlZCBmb3Igc3luY2hybyBjb2RlcywNCj4+PiB2YWxpZCBkYXRhIG9u
+bHkgdmFyeSBmcm9tIDB4MSB0byAweGZlLCB0aGlzIGlzIHVwIHRvIHNlbnNvcg0KPj4+IHRvIGNs
+aXAgYWNjb3JkaW5nbHkgcGl4ZWwgZGF0YS4gQXMgYSBjb25zZXF1ZW5jZSBvZiB0aGlzDQo+Pj4g
+Y2xpcHBpbmcsIEpQRUcgaXMgbm90IHN1cHBvcnRlZCB3aGVuIHVzaW5nIHRoaXMgYnVzIHR5cGUu
+DQo+Pj4gRENNSSBjcm9wIGZlYXR1cmUgaXMgYWxzbyBub3QgYXZhaWxhYmxlIHdpdGggdGhpcyBi
+dXMgdHlwZS4NCj4+DQo+PiBZb3UgY2FuIGhhdmUgbW9yZSB0aGFuIDYyIGNoYXJhY3RlcnMgcGVy
+IGxpbmUuIEluIGZhY3QsIDc1IGlzIHRoZQ0KPj4gcmVjb21tZW5kZWQgbWF4aW11bS4NCj4+DQo+
+PiBZb3Ugc2hvdWxkIGFsc28gYW1lbmQgdGhlIGJpbmRpbmdzIHRvIGNvdmVyIEJULjY1NiBtb2Rl
+LiBBbHNvIGJ1cy10eXBlDQo+PiBzaG91bGQgcHJvYmFibHkgYmUgbWFkZSBtYW5kYXRvcnksIHRv
+by4NCj4gV2lsbCBkbyBib3RoLg0KPiANCg0KTXkgdW5kZXJzdGFuZGluZyB3YXMgdGhhdCBwYXJh
+bGxlbCBCVDY1NiBidXMgaXMgaGFuZGxlZCBieSB0aGUgYWJzZW5jZSANCm9mIGhzeW5jL3ZzeW5j
+LWFjdGl2ZSwgYXMgc3RhdGVkIGluIA0KRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdz
+L21lZGlhL3ZpZGVvLWludGVyZmFjZXMudHh0Og0KIiAgTm90ZSwgdGhhdCBpZiBIU1lOQyBhbmQg
+VlNZTkMgcG9sYXJpdGllcyBhcmUgbm90IHNwZWNpZmllZCwgZW1iZWRkZWQNCiAgIHN5bmNocm9u
+aXphdGlvbiBtYXkgYmUgcmVxdWlyZWQsIHdoZXJlIHN1cHBvcnRlZC4gIg0KDQpEbyB5b3Ugd2Fu
+dCB0byBlbmZvcmNlIHVzYWdlIG9mICJidXMtdHlwZSIgbm93IGluIG9yZGVyIHRvIGJlIG1vcmUg
+DQpleHBsaWNpdCBvbiBwYXJhbGxlbCBvciBidDY1NiA/DQpJZiBJIGNoYW5nZSBiaW5kaW5nIHRv
+IG1ha2UgImJ1cy10eXBlIiByZXF1aXJlZCwgSSBoYXZlIHRvIGNoYW5nZSB0aGUgDQpjdXJyZW50
+IGJvYXJkIGRldmljZXRyZWUgZmlsZXMgdG8gYWRkIHN1cHBvcnQgb2YgaXQsIGFuZCBJIHdvdWxk
+IHByZWZlciANCnRvIG5vdCBkbyB0aGF0LiBJcyB0aGVyZSBhIHdheSB0byBwdXQgImJ1cy10eXBl
+IiBhcyBub3QgbWFuZGF0b3J5IGFuZCANCnJlbHkgb24gYWJzZW5jZSBvZiBoc3luYy92eXNuYyB0
+byB0cmlnIEJUNjU2ID8gSSB3aWxsIG5ldmVydGhlbGVzcyBhbWVuZCANCmJpbmRpbmdzIGluIG9y
+ZGVyIHRvIGRvY3VtZW50IHRoYXQuDQpXaGF0IGRvIHlvdSBzdWdnZXN0ID8NCg0KPj4NCj4+Pg0K
+Pj4+IFNpZ25lZC1vZmYtYnk6IEh1Z3VlcyBGcnVjaGV0IDxodWd1ZXMuZnJ1Y2hldEBzdC5jb20+
+DQo+Pj4gLS0tDQo+Pj4gwqAgZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9zdG0zMi9zdG0zMi1kY21p
+LmMgfCAzNyANCj4+PiArKysrKysrKysrKysrKysrKysrKysrKysrKysrKy0tDQo+Pj4gwqAgMSBm
+aWxlIGNoYW5nZWQsIDM1IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+Pj4NCj4+PiBk
+aWZmIC0tZ2l0IGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9ybS9zdG0zMi9zdG0zMi1kY21pLmMgDQo+
+Pj4gYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0bTMyL3N0bTMyLWRjbWkuYw0KPj4+IGluZGV4
+IGZkMWM0MWMuLmQ3ZDdjZGIgMTAwNjQ0DQo+Pj4gLS0tIGEvZHJpdmVycy9tZWRpYS9wbGF0Zm9y
+bS9zdG0zMi9zdG0zMi1kY21pLmMNCj4+PiArKysgYi9kcml2ZXJzL21lZGlhL3BsYXRmb3JtL3N0
+bTMyL3N0bTMyLWRjbWkuYw0KPj4+IEBAIC0xNTcsNiArMTU3LDcgQEAgc3RydWN0IHN0bTMyX2Rj
+bWkgew0KPj4+IMKgwqDCoMKgwqAgc3RydWN0IHZiMl9xdWV1ZcKgwqDCoMKgwqDCoMKgIHF1ZXVl
+Ow0KPj4+IMKgwqDCoMKgwqAgc3RydWN0IHY0bDJfZndub2RlX2J1c19wYXJhbGxlbMKgwqDCoCBi
+dXM7DQo+Pj4gK8KgwqDCoCBlbnVtIHY0bDJfbWJ1c190eXBlwqDCoMKgwqDCoMKgwqAgYnVzX3R5
+cGU7DQo+Pj4gwqDCoMKgwqDCoCBzdHJ1Y3QgY29tcGxldGlvbsKgwqDCoMKgwqDCoMKgIGNvbXBs
+ZXRlOw0KPj4+IMKgwqDCoMKgwqAgc3RydWN0IGNsa8KgwqDCoMKgwqDCoMKgwqDCoMKgwqAgKm1j
+bGs7DQo+Pj4gwqDCoMKgwqDCoCBlbnVtIHN0YXRlwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBzdGF0
+ZTsNCj4+PiBAQCAtNzc3LDYgKzc3OCwyMyBAQCBzdGF0aWMgaW50IGRjbWlfc3RhcnRfc3RyZWFt
+aW5nKHN0cnVjdCB2YjJfcXVldWUgDQo+Pj4gKnZxLCB1bnNpZ25lZCBpbnQgY291bnQpDQo+Pj4g
+wqDCoMKgwqDCoCBpZiAoZGNtaS0+YnVzLmZsYWdzICYgVjRMMl9NQlVTX1BDTEtfU0FNUExFX1JJ
+U0lORykNCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgdmFsIHw9IENSX1BDS1BPTDsNCj4+PiArwqDC
+oMKgIC8qDQo+Pj4gK8KgwqDCoMKgICogQlQ2NTYgZW1iZWRkZWQgc3luY2hyb25pc2F0aW9uIGJ1
+cyBtb2RlLg0KPj4+ICvCoMKgwqDCoCAqDQo+Pj4gK8KgwqDCoMKgICogRGVmYXVsdCBTQVYvRUFW
+IG1vZGUgaXMgc3VwcG9ydGVkIGhlcmUgd2l0aCBkZWZhdWx0IGNvZGVzDQo+Pj4gK8KgwqDCoMKg
+ICogU0FWPTB4ZmYwMDAwODAgJiBFQVY9MHhmZjAwMDA5ZC4NCj4+PiArwqDCoMKgwqAgKiBXaXRo
+IERDTUkgdGhpcyBtZWFucyBMU0M9U0FWPTB4ODAgJiBMRUM9RUFWPTB4OWQuDQo+Pj4gK8KgwqDC
+oMKgICovDQo+Pj4gK8KgwqDCoCBpZiAoZGNtaS0+YnVzX3R5cGUgPT0gVjRMMl9NQlVTX0JUNjU2
+KSB7DQo+Pj4gK8KgwqDCoMKgwqDCoMKgIHZhbCB8PSBDUl9FU1M7DQo+Pj4gKw0KPj4+ICvCoMKg
+wqDCoMKgwqDCoCAvKiBVbm1hc2sgYWxsIGNvZGVzICovDQo+Pj4gK8KgwqDCoMKgwqDCoMKgIHJl
+Z193cml0ZShkY21pLT5yZWdzLCBEQ01JX0VTVVIsIDB4ZmZmZmZmZmYpOy8qIA0KPj4+IEZFQzpM
+RUM6TFNDOkZTQyAqLw0KPj4+ICsNCj4+PiArwqDCoMKgwqDCoMKgwqAgLyogVHJpZyBvbiBMU0M9
+MHg4MCAmIExFQz0weDlkIGNvZGVzLCBpZ25vcmUgRlNDIGFuZCBGRUMgKi8NCj4+PiArwqDCoMKg
+wqDCoMKgwqAgcmVnX3dyaXRlKGRjbWktPnJlZ3MsIERDTUlfRVNDUiwgMHhmZjlkODBmZik7Lyog
+DQo+Pj4gRkVDOkxFQzpMU0M6RlNDICovDQo+Pj4gK8KgwqDCoCB9DQo+Pj4gKw0KPj4+IMKgwqDC
+oMKgwqAgcmVnX3dyaXRlKGRjbWktPnJlZ3MsIERDTUlfQ1IsIHZhbCk7DQo+Pj4gwqDCoMKgwqDC
+oCAvKiBTZXQgY3JvcCAqLw0KPj4+IEBAIC0xMDY3LDggKzEwODUsOSBAQCBzdGF0aWMgaW50IGRj
+bWlfc2V0X2ZtdChzdHJ1Y3Qgc3RtMzJfZGNtaSANCj4+PiAqZGNtaSwgc3RydWN0IHY0bDJfZm9y
+bWF0ICpmKQ0KPj4+IMKgwqDCoMKgwqAgaWYgKHJldCkNCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAg
+cmV0dXJuIHJldDsNCj4+PiAtwqDCoMKgIC8qIERpc2FibGUgY3JvcCBpZiBKUEVHIGlzIHJlcXVl
+c3RlZCAqLw0KPj4+IC3CoMKgwqAgaWYgKHBpeC0+cGl4ZWxmb3JtYXQgPT0gVjRMMl9QSVhfRk1U
+X0pQRUcpDQo+Pj4gK8KgwqDCoCAvKiBEaXNhYmxlIGNyb3AgaWYgSlBFRyBpcyByZXF1ZXN0ZWQg
+b3IgQlQ2NTYgYnVzIGlzIHNlbGVjdGVkICovDQo+Pj4gK8KgwqDCoCBpZiAocGl4LT5waXhlbGZv
+cm1hdCA9PSBWNEwyX1BJWF9GTVRfSlBFRyAmJg0KPj4+ICvCoMKgwqDCoMKgwqDCoCBkY21pLT5i
+dXNfdHlwZSAhPSBWNEwyX01CVVNfQlQ2NTYpDQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgIGRjbWkt
+PmRvX2Nyb3AgPSBmYWxzZTsNCj4+PiDCoMKgwqDCoMKgIC8qIHBpeCB0byBtYnVzIGZvcm1hdCAq
+Lw0KPj4+IEBAIC0xNTkyLDYgKzE2MTEsMTEgQEAgc3RhdGljIGludCBkY21pX2Zvcm1hdHNfaW5p
+dChzdHJ1Y3Qgc3RtMzJfZGNtaSANCj4+PiAqZGNtaSkNCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoCBpZiAoZGNtaV9mb3JtYXRzW2ldLm1idXNfY29kZSAhPSBtYnVzX2NvZGUuY29kZSkN
+Cj4+PiDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGNvbnRpbnVlOw0KPj4+ICvC
+oMKgwqDCoMKgwqDCoMKgwqDCoMKgIC8qIEV4Y2x1ZGUgSlBFRyBpZiBCVDY1NiBidXMgaXMgc2Vs
+ZWN0ZWQgKi8NCj4+PiArwqDCoMKgwqDCoMKgwqDCoMKgwqDCoCBpZiAoZGNtaV9mb3JtYXRzW2ld
+LmZvdXJjYyA9PSBWNEwyX1BJWF9GTVRfSlBFRyAmJg0KPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDC
+oMKgwqDCoMKgwqAgZGNtaS0+YnVzX3R5cGUgPT0gVjRMMl9NQlVTX0JUNjU2KQ0KPj4+ICvCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgY29udGludWU7DQo+Pj4gKw0KPj4+IMKgwqDCoMKg
+wqDCoMKgwqDCoMKgwqDCoMKgIC8qIENvZGUgc3VwcG9ydGVkLCBoYXZlIHdlIGdvdCB0aGlzIGZv
+dXJjYyB5ZXQ/ICovDQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqAgZm9yIChqID0gMDsg
+aiA8IG51bV9mbXRzOyBqKyspDQo+Pj4gwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDCoMKgwqDC
+oCBpZiAoc2RfZm10c1tqXS0+Zm91cmNjID09DQo+Pj4gQEAgLTE4NzMsOSArMTg5NywxOCBAQCBz
+dGF0aWMgaW50IGRjbWlfcHJvYmUoc3RydWN0IHBsYXRmb3JtX2RldmljZSANCj4+PiAqcGRldikN
+Cj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgZGV2X2VycigmcGRldi0+ZGV2LCAiQ1NJIGJ1cyBub3Qg
+c3VwcG9ydGVkXG4iKTsNCj4+PiDCoMKgwqDCoMKgwqDCoMKgwqAgcmV0dXJuIC1FTk9ERVY7DQo+
+Pj4gwqDCoMKgwqDCoCB9DQo+Pj4gKw0KPj4+ICvCoMKgwqAgaWYgKGVwLmJ1c190eXBlID09IFY0
+TDJfTUJVU19CVDY1NiAmJg0KPj4+ICvCoMKgwqDCoMKgwqDCoCBlcC5idXMucGFyYWxsZWwuYnVz
+X3dpZHRoICE9IDgpIHsNCj4+PiArwqDCoMKgwqDCoMKgwqAgZGV2X2VycigmcGRldi0+ZGV2LCAi
+QlQ2NTYgYnVzIGNvbmZsaWN0cyB3aXRoICVkIGJpdHMgYnVzIA0KPj4+IHdpZHRoICg4IGJpdHMg
+cmVxdWlyZWQpXG4iLA0KPj4+ICvCoMKgwqDCoMKgwqDCoMKgwqDCoMKgIGVwLmJ1cy5wYXJhbGxl
+bC5idXNfd2lkdGgpOw0KPj4NCj4+IGJ1c193aWR0aCBpcyB1bnNpZ25lZCBoZXJlLg0KPiBJIHdp
+bGwgZml4IGl0Lg0KPiANCj4+DQo+Pj4gK8KgwqDCoMKgwqDCoMKgIHJldHVybiAtRU5PREVWOw0K
+Pj4+ICvCoMKgwqAgfQ0KPj4+ICsNCj4+PiDCoMKgwqDCoMKgIGRjbWktPmJ1cy5mbGFncyA9IGVw
+LmJ1cy5wYXJhbGxlbC5mbGFnczsNCj4+PiDCoMKgwqDCoMKgIGRjbWktPmJ1cy5idXNfd2lkdGgg
+PSBlcC5idXMucGFyYWxsZWwuYnVzX3dpZHRoOw0KPj4+IMKgwqDCoMKgwqAgZGNtaS0+YnVzLmRh
+dGFfc2hpZnQgPSBlcC5idXMucGFyYWxsZWwuZGF0YV9zaGlmdDsNCj4+PiArwqDCoMKgIGRjbWkt
+PmJ1c190eXBlID0gZXAuYnVzX3R5cGU7DQo+Pj4gwqDCoMKgwqDCoCBpcnEgPSBwbGF0Zm9ybV9n
+ZXRfaXJxKHBkZXYsIDApOw0KPj4+IMKgwqDCoMKgwqAgaWYgKGlycSA8PSAwKQ0KPj4NCj4gDQo+
+IEJSLA0KPiBIdWd1ZXMuDQoNCkJSLA0KSHVndWVzLg==
