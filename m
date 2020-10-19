@@ -2,167 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F2CA8292071
-	for <lists+linux-media@lfdr.de>; Mon, 19 Oct 2020 00:19:46 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 25155292176
+	for <lists+linux-media@lfdr.de>; Mon, 19 Oct 2020 05:38:30 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729379AbgJRWTo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 18 Oct 2020 18:19:44 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60268 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727329AbgJRWTn (ORCPT
+        id S1731528AbgJSDi1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 18 Oct 2020 23:38:27 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:40331 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729093AbgJSDi0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 18 Oct 2020 18:19:43 -0400
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D5AFC061755
-        for <linux-media@vger.kernel.org>; Sun, 18 Oct 2020 15:19:43 -0700 (PDT)
-Received: by mail-ed1-x542.google.com with SMTP id cm24so8322332edb.0
-        for <linux-media@vger.kernel.org>; Sun, 18 Oct 2020 15:19:43 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=HNlNSWtGKHz22BkJOTQfDL7XA8BtaJWUZUUPXDCETnw=;
-        b=JRtiX+f5Af6nqke8AiQdsPQwxw9FOoxZSc4NgHM9vLVt9hKkwbuYGxBK7A9LxcZIEh
-         UX6CcbLvYNAwOAbLAIAmux7gbPYhh7FCRu+dTUUMGQurunzaNov2S0aAe3Kct8j44cIw
-         8SOYbD/bx6iPRs+nQ2DhktxKWx2AUe5OaBLhw=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=HNlNSWtGKHz22BkJOTQfDL7XA8BtaJWUZUUPXDCETnw=;
-        b=LDHfnnbkoQTG0rCqk2FL8Q059P7LUFR499ws3fftdxd9hjwBY47wVGpwv6OI0m7aE/
-         aBdxRvXWUvOIrVgIKo4EQ6h5PiUIp2CVvdmGqNh+RFwyfudutZzfSywATBZ6ItYeMw2F
-         OveYufyhTX3DjOKp8FhLQ3fYOfMvbRGuLZ8BKfXAah4nVWG4g5jU4SgQD6g4w7cuGJEe
-         a5J/gL1R8f/J03ulg2fSk401ioH/Fklu+VGYbRJ37PboHQOljD+Sd+vNihGoEwLlRK3T
-         Jrb5EBb+qN1Kr6rxpQbHrfGAEpGEFD1nlrKW6y6NTAYfssE+JymQyTzmaQ53X8Bm+5Gv
-         fKEg==
-X-Gm-Message-State: AOAM531toRHeFxEs8i0Acci4lcT3grK8XhxDoYgoqSPNGx79+ujZshku
-        HbJO8YS3hnravfsHIl6Ah3aPhoukS7w+QA==
-X-Google-Smtp-Source: ABdhPJyXA0V9Eh1VEOzgf80n+vzFOUdZGOxitAaxLRlCIhDLJ7IL++OvK7biIDYsmMKQIdOoC5VVBQ==
-X-Received: by 2002:a50:ff10:: with SMTP id a16mr15210334edu.83.1603059581888;
-        Sun, 18 Oct 2020 15:19:41 -0700 (PDT)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com. [209.85.128.54])
-        by smtp.gmail.com with ESMTPSA id i20sm8164399edv.96.2020.10.18.15.19.41
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 18 Oct 2020 15:19:41 -0700 (PDT)
-Received: by mail-wm1-f54.google.com with SMTP id j136so10850654wmj.2
-        for <linux-media@vger.kernel.org>; Sun, 18 Oct 2020 15:19:41 -0700 (PDT)
-X-Received: by 2002:a1c:2586:: with SMTP id l128mr4802138wml.49.1603059580798;
- Sun, 18 Oct 2020 15:19:40 -0700 (PDT)
-MIME-Version: 1.0
-References: <20201009084533.2405320-1-acourbot@chromium.org>
-In-Reply-To: <20201009084533.2405320-1-acourbot@chromium.org>
-From:   Fritz Koenig <frkoenig@chromium.org>
-Date:   Sun, 18 Oct 2020 15:19:28 -0700
-X-Gmail-Original-Message-ID: <CAMfZQbw4wFzcocXXGavYdt+o8ydUoW4rSw4QnnrbZgwWUnp7Nw@mail.gmail.com>
-Message-ID: <CAMfZQbw4wFzcocXXGavYdt+o8ydUoW4rSw4QnnrbZgwWUnp7Nw@mail.gmail.com>
-Subject: Re: [PATCH] venus: vdec: return parsed crop information from stream
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Sun, 18 Oct 2020 23:38:26 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id UM05kbhgEghRkUM06kqdEp; Mon, 19 Oct 2020 05:38:24 +0200
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1603078704; bh=iG4oFC5lWrZOzRkh9t5KMxdZjezWIelo/Ypb9ivSUXk=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=C+VJ9QHYo9dY5u6Cpi4rB9jYNyvzkrY7V/WCjKEVa9RZpitip0nL6yPOg7UXy5+9M
+         nq5UmapJOxSH8WUDiW65sVBe7lduutNit92g4hOm4i1pbnXqP+txtT2KHWUFtD4WoM
+         7iuL9iRyW9WK+oqHlVyfahIDdBvduUNCuT8CiwU/GuTKKNICPikM1BWmcNd2zNmoN7
+         JYe9RciZkn8FwDm0JQ5z2tjtyRC1MNN/LUwVTkyfkzg2ZuQR9AR2EDe/EsJ8zySgx5
+         M219iBuWOeGBDChORRPh4UykPhg82TgVZ393JfKynfANyYi+jomfc3FRQOLiVMOxyt
+         KVXQ4VfarkYQg==
+Message-ID: <2325973c796bc057bd5790f32217602f@smtp-cloud7.xs4all.net>
+Date:   Mon, 19 Oct 2020 05:38:20 +0200
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfOImsgYYZmPP6asu+0Dts4ZRvqwROzZ2J+LXC8ZJ9GHKEsuQs68hKSsrnOFQz9sZgE0sAAVZhgnhkaJLaJWmumSlDrEGUSaiT8WgTiMQvp78aDBrzkLH
+ BZYG8cLBk7OjuQBCUsjjYGAiQgtsn6kVRZ+C+zNk4jG9IaqNCgm3mfgWmz5NmG6nYQUH4ePqQV/ehkMZBJLi6EQLSvKXiS8vbSr2PfbyKNpquSj1acSf5ph/
+ wNxkRq7ptvAY55K+We8Y+w==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-It looks like only h.264 streams are populating the event.input_crop
-struct when receiving the HFI_INDEX_EXTRADATA_INPUT_CROP message in
-event_seq_changed().  vp8/vp9 streams end up with the struct filled
-with 0.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Fri, Oct 9, 2020 at 1:45 AM Alexandre Courbot <acourbot@chromium.org> wrote:
->
-> Per the stateful codec specification, VIDIOC_G_SELECTION with a target
-> of V4L2_SEL_TGT_COMPOSE is supposed to return the crop area of capture
-> buffers containing the decoded frame. Until now the driver did not get
-> that information from the firmware and just returned the dimensions of
-> CAPTURE buffers.
->
-> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> ---
->  drivers/media/platform/qcom/venus/core.h |  1 +
->  drivers/media/platform/qcom/venus/vdec.c | 21 ++++++++++++++++-----
->  2 files changed, 17 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index 7b79a33dc9d6..3bc129a4f817 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -361,6 +361,7 @@ struct venus_inst {
->         unsigned int streamon_cap, streamon_out;
->         u32 width;
->         u32 height;
-> +       struct v4l2_rect crop;
->         u32 out_width;
->         u32 out_height;
->         u32 colorspace;
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index ea13170a6a2c..ee74346f0cae 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -325,6 +325,10 @@ static int vdec_s_fmt(struct file *file, void *fh, struct v4l2_format *f)
->
->         inst->width = format.fmt.pix_mp.width;
->         inst->height = format.fmt.pix_mp.height;
-> +       inst->crop.top = 0;
-> +       inst->crop.left = 0;
-> +       inst->crop.width = inst->width;
-> +       inst->crop.height = inst->height;
->
->         if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
->                 inst->fmt_out = fmt;
-> @@ -343,6 +347,9 @@ vdec_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
->             s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
->                 return -EINVAL;
->
-> +       s->r.top = 0;
-> +       s->r.left = 0;
-> +
->         switch (s->target) {
->         case V4L2_SEL_TGT_CROP_BOUNDS:
->         case V4L2_SEL_TGT_CROP_DEFAULT:
-> @@ -363,16 +370,12 @@ vdec_g_selection(struct file *file, void *fh, struct v4l2_selection *s)
->         case V4L2_SEL_TGT_COMPOSE:
->                 if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
->                         return -EINVAL;
-> -               s->r.width = inst->out_width;
-> -               s->r.height = inst->out_height;
-> +               s->r = inst->crop;
->                 break;
->         default:
->                 return -EINVAL;
->         }
->
-> -       s->r.top = 0;
-> -       s->r.left = 0;
-> -
->         return 0;
->  }
->
-> @@ -1309,6 +1312,10 @@ static void vdec_event_change(struct venus_inst *inst,
->
->         inst->width = format.fmt.pix_mp.width;
->         inst->height = format.fmt.pix_mp.height;
-> +       inst->crop.left = ev_data->input_crop.left;
-> +       inst->crop.top = ev_data->input_crop.top;
-> +       inst->crop.width = ev_data->input_crop.width;
-> +       inst->crop.height = ev_data->input_crop.height;
->
->         inst->out_width = ev_data->width;
->         inst->out_height = ev_data->height;
-> @@ -1412,6 +1419,10 @@ static void vdec_inst_init(struct venus_inst *inst)
->         inst->fmt_cap = &vdec_formats[0];
->         inst->width = frame_width_min(inst);
->         inst->height = ALIGN(frame_height_min(inst), 32);
-> +       inst->crop.left = 0;
-> +       inst->crop.top = 0;
-> +       inst->crop.width = inst->width;
-> +       inst->crop.height = inst->height;
->         inst->out_width = frame_width_min(inst);
->         inst->out_height = frame_height_min(inst);
->         inst->fps = 30;
-> --
-> 2.28.0.1011.ga647a8990f-goog
->
+Results of the daily build of media_tree:
+
+date:			Mon Oct 19 05:00:11 CEST 2020
+media-tree git hash:	c386e0797d26a32e354daf4480c5d40165db66a1
+media_build git hash:	e0136eadb6f4c24b7f8fcb50ef4d4d5ffb2af31d
+v4l-utils git hash:	28df3d403be3d7769d7b10cda3e372a0dbbfa410
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 9783287347a0d95925f345313520f04869f439ab
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9-rc7-i686: OK
+linux-5.9-rc7-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: ERRORS: Final Summary: 2779, Succeeded: 2778, Failed: 1, Warnings: 2
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
