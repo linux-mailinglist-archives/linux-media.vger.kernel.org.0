@@ -2,22 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2153294335
-	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 21:39:20 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 679A629433C
+	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 21:39:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2409039AbgJTTjS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Oct 2020 15:39:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60050 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2409034AbgJTTjR (ORCPT
+        id S2409061AbgJTTjX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Oct 2020 15:39:23 -0400
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:44886 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404632AbgJTTjW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Oct 2020 15:39:17 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09D19C0613CE;
-        Tue, 20 Oct 2020 12:39:17 -0700 (PDT)
+        Tue, 20 Oct 2020 15:39:22 -0400
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: koike)
-        with ESMTPSA id EDA591F44D9D
+        with ESMTPSA id 718431F44DB5
 From:   Helen Koike <helen.koike@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org,
@@ -27,9 +24,9 @@ Cc:     devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org,
         mark.rutland@arm.com, karthik.poduval@gmail.com,
         eddie.cai.linux@gmail.com, jbx6244@gmail.com,
         zhengsq@rock-chips.com, robin.murphy@arm.com
-Subject: [PATCH v6 3/9] media: staging: dt-bindings: rkisp1: re-order properties
-Date:   Tue, 20 Oct 2020 16:38:44 -0300
-Message-Id: <20201020193850.1460644-4-helen.koike@collabora.com>
+Subject: [PATCH v6 4/9] media: staging: dt-bindings: rkisp1: drop parent unit address
+Date:   Tue, 20 Oct 2020 16:38:45 -0300
+Message-Id: <20201020193850.1460644-5-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201020193850.1460644-1-helen.koike@collabora.com>
 References: <20201020193850.1460644-1-helen.koike@collabora.com>
@@ -39,96 +36,32 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Organize properties order in dt-bindings to move it out of staging.
+Fix the following error found with make ARCH=arm64 dt_binding_check:
 
-On top: compatible, reg and interrupts.
-Then alphabetical order, then properties starting with '#'.
+Documentation/devicetree/bindings/media/rockchip-isp1.example.dts:24.27-101.11:
+Warning (unit_address_vs_reg): /example-0/parent@0: node has a unit name, but no reg or ranges property
 
+Reported-by: Johan Jonker <jbx6244@gmail.com>
 Signed-off-by: Helen Koike <helen.koike@collabora.com>
 Acked-by: Rob Herring <robh@kernel.org>
 Reviewed-by: Tomasz Figa <tfiga@chromium.org>
 ---
- .../bindings/media/rockchip-isp1.yaml         | 32 +++++++++----------
- 1 file changed, 16 insertions(+), 16 deletions(-)
+ .../Documentation/devicetree/bindings/media/rockchip-isp1.yaml  | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-index 4c31cfaee2709..79ebacab83cf3 100644
+index 79ebacab83cf3..62a6b9c959498 100644
 --- a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
 +++ b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-@@ -23,19 +23,6 @@ properties:
-   interrupts:
-     maxItems: 1
+@@ -125,7 +125,7 @@ examples:
+     #include <dt-bindings/interrupt-controller/arm-gic.h>
+     #include <dt-bindings/power/rk3399-power.h>
  
--  iommus:
--    maxItems: 1
--
--  power-domains:
--    maxItems: 1
--
--  phys:
--    maxItems: 1
--    description: phandle for the PHY port
--
--  phy-names:
--    const: dphy
--
-   clocks:
-     items:
-       - description: ISP clock
-@@ -52,6 +39,19 @@ properties:
-       - const: hclk_isp
-       - const: hclk_isp_wrap
+-    parent0: parent@0 {
++    parent0: parent {
+         #address-cells = <2>;
+         #size-cells = <2>;
  
-+  iommus:
-+    maxItems: 1
-+
-+  phys:
-+    maxItems: 1
-+    description: phandle for the PHY port
-+
-+  phy-names:
-+    const: dphy
-+
-+  power-domains:
-+    maxItems: 1
-+
-   # See ./video-interfaces.txt for details
-   ports:
-     type: object
-@@ -110,10 +110,10 @@ required:
-   - interrupts
-   - clocks
-   - clock-names
--  - power-domains
-   - iommus
-   - phys
-   - phy-names
-+  - power-domains
-   - ports
- 
- additionalProperties: false
-@@ -139,19 +139,19 @@ examples:
-             clock-names = "clk_isp",
-                           "aclk_isp", "aclk_isp_wrap",
-                           "hclk_isp", "hclk_isp_wrap";
--            power-domains = <&power RK3399_PD_ISP0>;
-             iommus = <&isp0_mmu>;
-             phys = <&dphy>;
-             phy-names = "dphy";
-+            power-domains = <&power RK3399_PD_ISP0>;
- 
-             ports {
-                 #address-cells = <1>;
-                 #size-cells = <0>;
- 
-                 port@0 {
-+                    reg = <0>;
-                     #address-cells = <1>;
-                     #size-cells = <0>;
--                    reg = <0>;
- 
-                     mipi_in_wcam: endpoint@0 {
-                         reg = <0>;
 -- 
 2.28.0
 
