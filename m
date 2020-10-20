@@ -2,122 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B46D82938C6
-	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 12:03:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 80BB12938D3
+	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 12:05:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405879AbgJTKCw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Oct 2020 06:02:52 -0400
-Received: from mx07-00178001.pphosted.com ([185.132.182.106]:40686 "EHLO
-        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2405866AbgJTKCt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Oct 2020 06:02:49 -0400
-Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
-        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09K9ltBt010505;
-        Tue, 20 Oct 2020 12:02:37 +0200
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references : mime-version :
- content-type; s=STMicroelectronics;
- bh=2owaOvNvhateHf+UNIaUTPpoUGANl3taLAS8bX1HmYA=;
- b=y5/K+sqDf2jvCUc0JDFJK1D3QpFkwEDizFsKRSsmjHAcSvjVKZL1RoF4hRHSh1RZqBBp
- iqaMJrmTfiTpdbQ7N7N2/AE2KrdyNRV13Mype0VF7sYLNoqagj6rjj5N7aNR1Ya9EiNK
- Otk9IwpEC+NeVD0KySgTmQqaAW/1oCGCf5RLCK8TuSklR+GAz44m6cQZqSuI1Net9Oji
- NNxy1T7NIbCxC7xw/Il5MHmYL3NkNSi71jYMjtSYmCqA7PTLt9msElxUw+rWKYk5g1yW
- yTF9ViEe2t4zzd3TH0dMASWJJf53J3/19LmOMFt00Uzxf6VqR6Q3ncivYzqZWhJgxcOC Rg== 
-Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
-        by mx07-00178001.pphosted.com with ESMTP id 347pcwsuyh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Tue, 20 Oct 2020 12:02:37 +0200
-Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
-        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 35EE410002A;
-        Tue, 20 Oct 2020 12:02:37 +0200 (CEST)
-Received: from Webmail-eu.st.com (sfhdag1node1.st.com [10.75.127.1])
-        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 1E2692C41F8;
-        Tue, 20 Oct 2020 12:02:37 +0200 (CEST)
-Received: from localhost (10.75.127.44) by SFHDAG1NODE1.st.com (10.75.127.1)
- with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 20 Oct 2020 12:02:36
- +0200
-From:   Hugues Fruchet <hugues.fruchet@st.com>
-To:     Alexandre Torgue <alexandre.torgue@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Rob Herring <robh+dt@kernel.org>
-CC:     <devicetree@vger.kernel.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-stm32@st-md-mailman.stormreply.com>,
-        Hugues Fruchet <hugues.fruchet@st.com>,
-        Alain Volmat <alain.volmat@st.com>,
-        Yannick Fertre <yannick.fertre@st.com>,
-        Philippe CORNU <philippe.cornu@st.com>
-Subject: [PATCH v3 2/2] media: dt-bindings: media: st,stm32-dcmi: Add support of BT656
-Date:   Tue, 20 Oct 2020 12:02:32 +0200
-Message-ID: <1603188152-22783-3-git-send-email-hugues.fruchet@st.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1603188152-22783-1-git-send-email-hugues.fruchet@st.com>
-References: <1603188152-22783-1-git-send-email-hugues.fruchet@st.com>
+        id S2405904AbgJTKFS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Oct 2020 06:05:18 -0400
+Received: from mga17.intel.com ([192.55.52.151]:9626 "EHLO mga17.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2405412AbgJTKFS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Oct 2020 06:05:18 -0400
+IronPort-SDR: 4pu+Qx3YSahBQ4f9shrHwmz37sx+ZcSb9LIGB4MuH5jHCF3TylbSyY+ykPahLPrupBpUDmfVDd
+ yU5JqfD+y9QQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="147041745"
+X-IronPort-AV: E=Sophos;i="5.77,396,1596524400"; 
+   d="scan'208";a="147041745"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2020 03:05:18 -0700
+IronPort-SDR: 35GOW96f0+iCOOvX8X8vt+j0U8FL8ZJ+CjbcpGTt1NuTnA+G5U/f7dnbITHEhGicyhF70Yq6m8
+ AxXeIHh0WV5w==
+X-IronPort-AV: E=Sophos;i="5.77,396,1596524400"; 
+   d="scan'208";a="465879281"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2020 03:05:12 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id A9E252068C; Tue, 20 Oct 2020 13:05:10 +0300 (EEST)
+Date:   Tue, 20 Oct 2020 13:05:10 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        heikki.krogerus@linux.intel.com, dmitry.torokhov@gmail.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
+        robh@kernel.org, davem@davemloft.net, linux@rasmusvillemoes.dk,
+        andriy.shevchenko@linux.intel.com, sergey.senozhatsky@gmail.com,
+        rostedt@goodmis.org, pmladek@suse.com, mchehab@kernel.org,
+        tian.shu.qiu@intel.com, bingbu.cao@intel.com, yong.zhi@intel.com,
+        rafael@kernel.org, gregkh@linuxfoundation.org, kitakar@gmail.com,
+        dan.carpenter@oracle.org
+Subject: Re: [RFC PATCH v3 1/9] software_node: Add helper function to
+ unregister arrays of software_nodes ordered parent to child
+Message-ID: <20201020100510.GS13341@paasikivi.fi.intel.com>
+References: <20201019225903.14276-1-djrscally@gmail.com>
+ <20201019225903.14276-2-djrscally@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain
-X-Originating-IP: [10.75.127.44]
-X-ClientProxiedBy: SFHDAG7NODE1.st.com (10.75.127.19) To SFHDAG1NODE1.st.com
- (10.75.127.1)
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.235,18.0.687
- definitions=2020-10-20_04:2020-10-20,2020-10-20 signatures=0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201019225903.14276-2-djrscally@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support of BT656 parallel bus mode in DCMI.
-This mode is enabled when hsync-active & vsync-active
-fields are not specified.
+Hi Daniel, Andy,
 
-Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
----
- .../devicetree/bindings/media/st,stm32-dcmi.yaml   | 30 ++++++++++++++++++++++
- 1 file changed, 30 insertions(+)
+On Mon, Oct 19, 2020 at 11:58:55PM +0100, Daniel Scally wrote:
+> Software nodes that are children of another software node should be
+> unregistered before their parent. To allow easy unregistering of an array
+> of software_nodes ordered parent to child, add a helper function to loop
+> over and unregister nodes in such an array in reverse order.
+> 
+> Suggested-by: Andriy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+> ---
+> Changes in v3:
+> 	- patch introduced.
+> 
+>  drivers/base/swnode.c    | 21 +++++++++++++++++++++
+>  include/linux/property.h |  1 +
+>  2 files changed, 22 insertions(+)
+> 
+> diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
+> index 010828fc7..f01b1cc61 100644
+> --- a/drivers/base/swnode.c
+> +++ b/drivers/base/swnode.c
+> @@ -727,6 +727,27 @@ void software_node_unregister_nodes(const struct software_node *nodes)
+>  }
+>  EXPORT_SYMBOL_GPL(software_node_unregister_nodes);
+>  
+> +/**
+> + * software_node_unregister_nodes_reverse - Unregister an array of software
+> + * nodes in reverse order.
+> + * @nodes: Array of software nodes to be unregistered.
+> + *
+> + * NOTE: The same warning applies as with software_node_unregister_nodes.
+> + * Unless you are _sure_ that the array of nodes is ordered parent to child
+> + * it is wiser to remove them individually in the correct order.
 
-diff --git a/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml b/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
-index 3fe778c..1ee521a 100644
---- a/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
-+++ b/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
-@@ -44,6 +44,36 @@ properties:
-       bindings defined in
-       Documentation/devicetree/bindings/media/video-interfaces.txt.
- 
-+    properties:
-+      endpoint:
-+        type: object
-+
-+        properties:
-+          bus-width: true
-+
-+          hsync-active:
-+            description:
-+              If both HSYNC and VSYNC polarities are not specified, BT656
-+              embedded synchronization is selected.
-+            default: 0
-+
-+          vsync-active:
-+            description:
-+              If both HSYNC and VSYNC polarities are not specified, BT656
-+              embedded synchronization is selected.
-+            default: 0
-+
-+          pclk-sample: true
-+
-+          remote-endpoint: true
-+
-+        required:
-+          - remote-endpoint
-+
-+        additionalProperties: false
-+
-+    additionalProperties: false
-+
- required:
-   - compatible
-   - reg
+Could the default order in software_node_unregister_nodes() be reversed
+instead? There are no users so this should be easy to change.
+
+Doing this only one way may require enforcing the registration order in
+software_node_register_nodes(), but the end result would be safer.
+
+What do you think?
+
 -- 
-2.7.4
+Regards,
 
+Sakari Ailus
