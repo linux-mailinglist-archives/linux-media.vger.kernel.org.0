@@ -2,149 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F15E293710
-	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 10:49:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id DC6E829372E
+	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 10:53:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392124AbgJTItH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Oct 2020 04:49:07 -0400
-Received: from userp2120.oracle.com ([156.151.31.85]:41530 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389490AbgJTItF (ORCPT
+        id S2389768AbgJTIw6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Oct 2020 04:52:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44194 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389722AbgJTIw5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Oct 2020 04:49:05 -0400
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09K8i7rI188082;
-        Tue, 20 Oct 2020 08:48:12 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=from : message-id :
- content-type : mime-version : subject : date : in-reply-to : cc : to :
- references; s=corp-2020-01-29;
- bh=UBSvDuZX45rcdCwz1yIzvCzCqfd2joSCizhea4x+Xao=;
- b=q8gn83IPPWdFm1HT3taLhd9DUF/VTUU+yXtsd8f9nD6wriupB19ul4FsqzWGdtIZMcde
- GW+G9oeRVHaGmJfZ8muagtVwvuWLE6AywXuhak+OXkSgdFP6EIR2H2OqKDUhR7yIW2Vz
- zpamQMFlTWRfwdWHBA7I0p8HYGgPlEg7NOi5pNpKeOCI5/Zqu82RI3DyvlSb3YeNhNvu
- 1nAbi2LxPOnr/RtC4QoVHdNGHfdCdQB+x9xvmqx+BqjtbEr8lrxt1aMjIali/bjhTn7W
- dzqjxrXdOv4FjsFo2kwRKNjQX5RScYby9/qqSUitUFXIKeMy4YBvXYVTZYkhax1TMfnU 0w== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by userp2120.oracle.com with ESMTP id 347s8msmp0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 20 Oct 2020 08:48:12 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09K8is45150623;
-        Tue, 20 Oct 2020 08:48:12 GMT
-Received: from pps.reinject (localhost [127.0.0.1])
-        by userp3030.oracle.com with ESMTP id 348ahw07cp-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 20 Oct 2020 08:48:12 +0000
-Received: from userp3030.oracle.com (userp3030.oracle.com [127.0.0.1])
-        by pps.reinject (8.16.0.36/8.16.0.36) with SMTP id 09K8mAEe159753;
-        Tue, 20 Oct 2020 08:48:10 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by userp3030.oracle.com with ESMTP id 348ahw07bh-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 20 Oct 2020 08:48:10 +0000
-Received: from abhmp0005.oracle.com (abhmp0005.oracle.com [141.146.116.11])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09K8lvTX021447;
-        Tue, 20 Oct 2020 08:47:58 GMT
-Received: from [10.175.164.120] (/10.175.164.120)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 20 Oct 2020 01:47:57 -0700
-From:   John Haxby <john.haxby@oracle.com>
-Message-Id: <27A23102-A7F5-48C5-8972-48CE4C283C6E@oracle.com>
-Content-Type: multipart/signed;
-        boundary="Apple-Mail=_9F9749E9-79EA-41AB-B516-003ECE07BEE3";
-        protocol="application/pgp-signature";
-        micalg=pgp-sha256
-Mime-Version: 1.0 (Mac OS X Mail 13.4 \(3608.120.23.2.4\))
-Subject: Re: [Ocfs2-devel] [RFC] treewide: cleanup unreachable breaks
-Date:   Tue, 20 Oct 2020 09:47:45 +0100
-In-Reply-To: <CAKwvOdkR_Ttfo7_JKUiZFVqr=Uh=4b05KCPCSuzwk=zaWtA2_Q@mail.gmail.com>
-Cc:     Tom Rix <trix@redhat.com>, alsa-devel@alsa-project.org,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        linux-iio@vger.kernel.org, nouveau@lists.freedesktop.org,
-        storagedev@microchip.com,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        virtualization@lists.linux-foundation.org,
-        keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
-        ath10k@lists.infradead.org, MPT-FusionLinux.pdl@broadcom.com,
-        linux-stm32@st-md-mailman.stormreply.com,
-        usb-storage@lists.one-eyed-alien.net,
-        linux-watchdog@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-samsung-soc@vger.kernel.org, linux-scsi@vger.kernel.org,
-        linux-nvdimm <linux-nvdimm@lists.01.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        linux-acpi@vger.kernel.org, intel-wired-lan@lists.osuosl.org,
-        industrypack-devel@lists.sourceforge.net,
-        linux-pci@vger.kernel.org, spice-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-serial@vger.kernel.org,
-        linux-nfc@lists.01.org, linux-pm@vger.kernel.org,
-        linux-can@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-gpio@vger.kernel.org, xen-devel@lists.xenproject.org,
-        linux-amlogic@lists.infradead.org,
-        openipmi-developer@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-edac@vger.kernel.org, George Burgess <gbiv@google.com>,
-        Network Development <netdev@vger.kernel.org>,
-        linux-usb@vger.kernel.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-security-module@vger.kernel.org,
-        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
-        <linux-crypto@vger.kernel.org>, patches@opensource.cirrus.com,
-        bpf <bpf@vger.kernel.org>, ocfs2-devel@oss.oracle.com,
-        linux-power@fi.rohmeurope.com
-To:     Nick Desaulniers <ndesaulniers@google.com>
-References: <20201017160928.12698-1-trix@redhat.com>
- <20201018054332.GB593954@kroah.com>
- <CAKwvOdkR_Ttfo7_JKUiZFVqr=Uh=4b05KCPCSuzwk=zaWtA2_Q@mail.gmail.com>
-X-Mailer: Apple Mail (2.3608.120.23.2.4)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9779 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 suspectscore=0
- lowpriorityscore=0 mlxlogscore=999 priorityscore=1501 spamscore=0
- phishscore=0 clxscore=1011 bulkscore=0 impostorscore=0 adultscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010200059
+        Tue, 20 Oct 2020 04:52:57 -0400
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55D60C0613D1
+        for <linux-media@vger.kernel.org>; Tue, 20 Oct 2020 01:52:56 -0700 (PDT)
+Received: by mail-pl1-x642.google.com with SMTP id bf6so679695plb.4
+        for <linux-media@vger.kernel.org>; Tue, 20 Oct 2020 01:52:56 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=D/Gf2EPIdX5qA2A6HlcDWWaVkQkKjG0YsM21d64zQ1U=;
+        b=aTeZpAxII2U/rVVZft7oEyyt1XqC7jMP/kkvxEpio0hlobUSyEfH9hY47HwLpIjs8h
+         krQXBk3X6kkPJsazPFAMiINeVsoDMYuDJr1s+EOXKEe+k0ewVjXhaFUoELuosxtMVIcl
+         w/OrH33T0CmTc5+SkMUXFyud9fgaDN82nYiXOEoLnuk73mguRhm7tSlx6q6Kyo2/kRJD
+         1ghEBc+qTxSDi85MU87EHAx8UDgUz6X5knW+7hDhR4ebHk4e+1qamzBjRgGBYj6kzm5B
+         BHvYrusFfdVnbO6lzubiRsy891swODyqSQvmnnxl8PRr83KDiSxYzFFvvntB3kbA+EB8
+         twWA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=D/Gf2EPIdX5qA2A6HlcDWWaVkQkKjG0YsM21d64zQ1U=;
+        b=kiwU0qU4X0656PZZteFVqmPQQ0Euay+cXbGbCGqk3n2cBRmB3ygUa01MN1Z1yVFSsa
+         UtdnNi8spEQOJ12TuzfDb6Ivbh1lCNzTQJT6+S/LIiOaZCPBgh9NjadXpm9GJXdt+N1l
+         3a8OwL6q3KF7TaXaluzEFvgHkaztlKrQkSyjBIUAe7LNO6sRG0lYi0joUMd6KhNQ5EsY
+         uoiL4mBsWSClC5CWLVSMzO/QpSoW8uUYPUu2Xp4M/YHKCF1BhQAEW7+m1hwY4P3VX2bv
+         AGd/v9KUELWxnCRSlmgRJLFu2/jy3e4nmLOoY1AUB88Km8uI4pso8iq/n7f0Q6mjhLw2
+         uzKg==
+X-Gm-Message-State: AOAM530wgkQ+h79+uM1lPI9E2V8PSC1IWyvTE+yqBdZhtUfIp/P7SnNq
+        G+q/BVl/y4NEpmZd4KxmPqUHNVZ5gw15plqB0JW0AQ==
+X-Google-Smtp-Source: ABdhPJzn235Ieb/yA26fp/gsyes8m4Z1IMTMaB5DacVIupjjGmBYpO2cm8jk4usXtX0nqpoze5E6oCDMq43tVzwbLLc=
+X-Received: by 2002:a17:90a:160f:: with SMTP id n15mr1877221pja.75.1603183975701;
+ Tue, 20 Oct 2020 01:52:55 -0700 (PDT)
+MIME-Version: 1.0
+References: <20201018125237.16717-1-kholk11@gmail.com> <20201018125237.16717-2-kholk11@gmail.com>
+In-Reply-To: <20201018125237.16717-2-kholk11@gmail.com>
+From:   Robert Foss <robert.foss@linaro.org>
+Date:   Tue, 20 Oct 2020 10:52:44 +0200
+Message-ID: <CAG3jFys7mjWmpTjqGm+sR71WKcJcdfGeGwV3hipY+eQ+zb9naA@mail.gmail.com>
+Subject: Re: [PATCH 1/6] media: camss: csiphy-3ph: Add support for SDM630/660
+To:     kholk11@gmail.com
+Cc:     Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, marijns95@gmail.com,
+        konradybcio@gmail.com, martin.botka1@gmail.com,
+        linux-arm-msm@vger.kernel.org,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Angelo,
 
---Apple-Mail=_9F9749E9-79EA-41AB-B516-003ECE07BEE3
-Content-Transfer-Encoding: quoted-printable
-Content-Type: text/plain;
-	charset=us-ascii
+On Sun, 18 Oct 2020 at 14:52, <kholk11@gmail.com> wrote:
+>
+> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
+>
+> The CSIPHY on SDM630/660 needs a slightly longer T_HS_CLK_MISS
+> configuration on lanes CFG4.
+>
+> Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
+> ---
+>  drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c | 7 ++++++-
+>  1 file changed, 6 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> index 2e65caf1ecae..97cb9de85031 100644
+> --- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> +++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
+> @@ -8,6 +8,7 @@
+>   * Copyright (C) 2016-2018 Linaro Ltd.
+>   */
+>
+> +#include "camss.h"
+>  #include "camss-csiphy.h"
+>
+>  #include <linux/delay.h>
+> @@ -21,6 +22,7 @@
+>  #define CSIPHY_3PH_LNn_CFG3(n)                 (0x008 + 0x100 * (n))
+>  #define CSIPHY_3PH_LNn_CFG4(n)                 (0x00c + 0x100 * (n))
+>  #define CSIPHY_3PH_LNn_CFG4_T_HS_CLK_MISS      0xa4
+> +#define CSIPHY_3PH_LNn_CFG4_T_HS_CLK_MISS_660  0xa5
+>  #define CSIPHY_3PH_LNn_CFG5(n)                 (0x010 + 0x100 * (n))
+>  #define CSIPHY_3PH_LNn_CFG5_T_HS_DTERM         0x02
+>  #define CSIPHY_3PH_LNn_CFG5_HS_REC_EQ_FQ_INT   0x50
+> @@ -198,7 +200,10 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
+>         val = CSIPHY_3PH_LNn_CFG1_SWI_REC_DLY_PRG;
+>         writel_relaxed(val, csiphy->base + CSIPHY_3PH_LNn_CFG1(l));
+>
+> -       val = CSIPHY_3PH_LNn_CFG4_T_HS_CLK_MISS;
+> +       if (csiphy->camss->version == CAMSS_660)
 
+The CAMSS_660 enum is not defined until patch #4, so building fails
+here. I expect to see this issue in a few other places, but I'll
+refrain from pointing them all out.
 
-
-> On 19 Oct 2020, at 20:42, Nick Desaulniers <ndesaulniers@google.com> =
-wrote:
->=20
-> We probably should add all 3 to W=3D2 builds (wrapped in cc-option).
-> I've filed https://github.com/ClangBuiltLinux/linux/issues/1180 to
-> follow up on.
-
-It looks as though the URL mangling has been fixed.   If anyone sees =
-that specific URL mangled, please let me know.
-
-jch
-
---Apple-Mail=_9F9749E9-79EA-41AB-B516-003ECE07BEE3
-Content-Transfer-Encoding: 7bit
-Content-Disposition: attachment;
-	filename=signature.asc
-Content-Type: application/pgp-signature;
-	name=signature.asc
-Content-Description: Message signed with OpenPGP
-
------BEGIN PGP SIGNATURE-----
-Comment: GPGTools - http://gpgtools.org
-
-iHUEAREIAB0WIQT+pxvb11CFWUkNSOVFC7t+lC+jyAUCX46kMQAKCRBFC7t+lC+j
-yBKiAP90JVXdPzuAwtRGkROpw1eVCo7wCaZ5nOa8Oo0sN6gC9gD/S0eGTqQhmg+n
-sXPJxPYqQsg09qmS6k/HX+AP5Oz2AMo=
-=xx66
------END PGP SIGNATURE-----
-
---Apple-Mail=_9F9749E9-79EA-41AB-B516-003ECE07BEE3--
+> +               val = CSIPHY_3PH_LNn_CFG4_T_HS_CLK_MISS_660;
+> +       else
+> +               val = CSIPHY_3PH_LNn_CFG4_T_HS_CLK_MISS;
+>         writel_relaxed(val, csiphy->base + CSIPHY_3PH_LNn_CFG4(l));
+>
+>         val = CSIPHY_3PH_LNn_MISC1_IS_CLKLANE;
+> --
+> 2.28.0
+>
