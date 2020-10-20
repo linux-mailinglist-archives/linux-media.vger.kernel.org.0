@@ -2,429 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49115293B4F
-	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 14:21:13 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 081C5293B84
+	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 14:26:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405912AbgJTMVA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Oct 2020 08:21:00 -0400
-Received: from mx2.suse.de ([195.135.220.15]:53492 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2405890AbgJTMU6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Oct 2020 08:20:58 -0400
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 6C03BAEE8;
-        Tue, 20 Oct 2020 12:20:56 +0000 (UTC)
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
-        alexander.deucher@amd.com, christian.koenig@amd.com,
-        kraxel@redhat.com, l.stach@pengutronix.de,
-        linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
-        inki.dae@samsung.com, jy0922.shim@samsung.com,
-        sw0312.kim@samsung.com, kyungmin.park@samsung.com,
-        kgene@kernel.org, krzk@kernel.org, yuq825@gmail.com,
-        bskeggs@redhat.com, robh@kernel.org, tomeu.vizoso@collabora.com,
-        steven.price@arm.com, alyssa.rosenzweig@collabora.com,
-        hjc@rock-chips.com, heiko@sntech.de, hdegoede@redhat.com,
-        sean@poorly.run, eric@anholt.net, oleksandr_andrushchenko@epam.com,
-        ray.huang@amd.com, sumit.semwal@linaro.org,
-        emil.velikov@collabora.com, luben.tuikov@amd.com, apaneers@amd.com,
-        linus.walleij@linaro.org, melissa.srw@gmail.com,
-        chris@chris-wilson.co.uk, miaoqinglang@huawei.com
-Cc:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        etnaviv@lists.freedesktop.org,
+        id S2405994AbgJTM02 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Oct 2020 08:26:28 -0400
+Received: from mail-wr1-f65.google.com ([209.85.221.65]:41099 "EHLO
+        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2394284AbgJTM01 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Oct 2020 08:26:27 -0400
+Received: by mail-wr1-f65.google.com with SMTP id s9so1890216wro.8;
+        Tue, 20 Oct 2020 05:26:25 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=m0pVRuj0M2nZqf8Wm9BAPNQzfIxN4rcRXkQ0qVAU77o=;
+        b=IEJLK8hy1linB/zxPHF1uvATyPzxLqSEuLRDYQ+h5sUkXYTo7FFc9s2ip3jLIBywET
+         jcHqtywwYZDIqXp4J2JZnXL8lETsZLcaRjhm3G4SjdS5a5puvx7gnRsqrhFA8j9BNOr8
+         zxQOhtd5GsFR12MEkXiTz86Xs5FEc8YluinSC1MqUADylZlbMEiaDe1CzTVVodE1GP0W
+         g6cQTwCCe4sJUGdV1G8oAcJwkSUTAeNjuz3VpngtcYnsrgNDT3vQ5xQBhvV9VrmCDyIP
+         n3AOTqeTkqnMNbdNkSlEo6nT6bxNgJFZmqnTtX+C1xzBt5Pd+RPHQrTZ04/okDE28TdU
+         3oQg==
+X-Gm-Message-State: AOAM533yTkoAsLLymcntVupu7Dac0em/U/VzEzeQWVHKwke71G2Nn19V
+        oXsM56j9U5ouCgnKa7se8Kc=
+X-Google-Smtp-Source: ABdhPJzJ4IfSkdpsol8AyRt80yXAXWp/BGDLmqEcL3uejEZmveMHiGjUKxbbGboz4mTyukzsYyU83Q==
+X-Received: by 2002:adf:bb43:: with SMTP id x3mr3235381wrg.250.1603196785071;
+        Tue, 20 Oct 2020 05:26:25 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.171])
+        by smtp.googlemail.com with ESMTPSA id 67sm2492253wmb.31.2020.10.20.05.26.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 20 Oct 2020 05:26:23 -0700 (PDT)
+Date:   Tue, 20 Oct 2020 14:26:21 +0200
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, xen-devel@lists.xenproject.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        Thomas Zimmermann <tzimmermann@suse.de>
-Subject: [PATCH v5 10/10] drm/fb_helper: Support framebuffers in I/O memory
-Date:   Tue, 20 Oct 2020 14:20:46 +0200
-Message-Id: <20201020122046.31167-11-tzimmermann@suse.de>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201020122046.31167-1-tzimmermann@suse.de>
-References: <20201020122046.31167-1-tzimmermann@suse.de>
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Rob Herring <robh@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v5 1/4] dt-bindings: media: imx258: add bindings for
+ IMX258 sensor
+Message-ID: <20201020122621.GA126891@kozik-lap>
+References: <20201019170247.92002-1-krzk@kernel.org>
+ <20201020103833.GT13341@paasikivi.fi.intel.com>
+ <CAJKOXPdKHCQikYDLKDS2Y3NVyCjMYYH1pcxgaMoYgOK19vQCrQ@mail.gmail.com>
+ <20201020120058.GU13341@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201020120058.GU13341@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-At least sparc64 requires I/O-specific access to framebuffers. This
-patch updates the fbdev console accordingly.
+On Tue, Oct 20, 2020 at 03:00:58PM +0300, Sakari Ailus wrote:
+> Hi Krzysztof,
+> 
+> On Tue, Oct 20, 2020 at 12:54:09PM +0200, Krzysztof Kozlowski wrote:
+> > On Tue, 20 Oct 2020 at 12:38, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> > >
+> > > Hi Krzysztof,
+> > >
+> > > On Mon, Oct 19, 2020 at 07:02:44PM +0200, Krzysztof Kozlowski wrote:
+> > > > Add bindings for the IMX258 camera sensor.  The bindings, just like the
+> > > > driver, are quite limited, e.g. do not support regulator supplies.
+> > > >
+> > > > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > > > Reviewed-by: Rob Herring <robh@kernel.org>
+> > > >
+> > > > ---
+> > > >
+> > > > Changes since v4:
+> > > > 1. Add clock-lanes,
+> > > > 2. Add Rob's review,
+> > > > 3. Add one more example and extend existing one,
+> > > > 4. Add common clock properties (assigned-*).
+> > >
+> > > Using the assigned-* clock properties may be workable for this driver at
+> > > the moment. But using these properties does not guarantee the external
+> > > clock frequency intended to be used on the hardware.
+> > 
+> > It guarantees it. The clock frequency will be as expected (except if
+> > someone misconfigures the DTS).
+> 
+> Is that guaranteed?
+> 
+> I'm not saying no to the approach, but if we change how camera sensor DT
+> bindings are defined, I'd prefer an informed decision is made on the
+> matter.
+> 
+> > 
+> > > Using other
+> > > frequencies *is not* expected to work. That applies to this driver as well.
+> > 
+> > This is the binding which is HW description. According to HW datasheet
+> > other frequencies from described range are accepted and expected to
+> > work.
+> 
+> As per datasheet, yes, different external clock frequencies can be used.
+> But the link frequency is still not independent of the external clock
+> frequency.
+> 
+> The properties of the sensor's PLL tree determines what can be achieved
+> given a certain external clock frequency. So picking a wrong external clock
+> frequency quite possibly means that none of the designated link frequencies
+> are available, rendering the sensor inoperable.
 
-For drivers with direct access to the framebuffer memory, the callback
-functions in struct fb_ops test for the type of memory and call the rsp
-fb_sys_ of fb_cfb_ functions. Read and write operations are implemented
-internally by DRM's fbdev helper.
+The driver then controls the HW and knows exactly what is needed. If
+link frequency (which has its own DT property) requires some clock
+frequency, the driver will configure the clock to that value. The same
+going other direction. Driver has the knowledge about both its input
+clock and link frequency, therefore it can make the best decision.
 
-For drivers that employ a shadow buffer, fbdev's blit function retrieves
-the framebuffer address as struct dma_buf_map, and uses dma_buf_map
-interfaces to access the buffer.
+If someone configures DT or the driver to wrong frequencies (making the
+link frequencies not available), the solution is not to add more
+properties. It would be a band aid. The solution is to configure it
+correctly.
 
-The bochs driver on sparc64 uses a workaround to flag the framebuffer as
-I/O memory and avoid a HW exception. With the introduction of struct
-dma_buf_map, this is not required any longer. The patch removes the rsp
-code from both, bochs and fbdev.
+> 
+> > 
+> > > This, instead of the clock-frequency property, effectively removes the
+> > > ability to set the correct frequency from the driver, at least with current
+> > > set of the used APIs.
+> > 
+> > It seems you confuse DT bindings with some specific driver
+> > implementation. Bindings do not describe the driver behavior but the
+> > HW. The ability to set the correct frequency from the driver is not
+> > removed. It was never part of the bindings and never should. It is
+> > part of the driver.
+> > 
+> > >
+> > > I suppose you could add a function to set the assigned clock frequency and
+> > > keep it, just as clk_set_rate_exclusive does?
 
-v5:
-	* implement fb_read/fb_write internally (Daniel, Sam)
-v4:
-	* move dma_buf_map changes into separate patch (Daniel)
-	* TODO list: comment on fbdev updates (Daniel)
+I did not reply to this comment, so let me know. Of course, one could
+add such functions. It's not a job for DT bindings, though.
 
-Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-Tested-by: Sam Ravnborg <sam@ravnborg.org>
----
- Documentation/gpu/todo.rst        |  19 ++-
- drivers/gpu/drm/bochs/bochs_kms.c |   1 -
- drivers/gpu/drm/drm_fb_helper.c   | 227 ++++++++++++++++++++++++++++--
- include/drm/drm_mode_config.h     |  12 --
- 4 files changed, 230 insertions(+), 29 deletions(-)
+> > >
+> > > Cc the common clock framework list + maintainers.
+> > 
+> > The bindings have Rob review which is the DT maintainer. His
+> > ack/review is needed for the bindings to be accepted. What more do you
+> > need? Shall I point to submitting-bindings document?
+> > 
+> > I am really tired of discussing this. You raise some concerns about
+> > driver behavior in the wrong context - in the patch for device tree
+> > bindings. You use the arguments about the driver while we talk about
+> > bindings. This is clearly not correct. I am all the time repeating
+> > myself - the bindings describe the hardware, not the driver.
+> 
+> My concerns are not related to the current driver implementation nor the
+> driver patches in this set.
 
-diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-index 7e6fc3c04add..638b7f704339 100644
---- a/Documentation/gpu/todo.rst
-+++ b/Documentation/gpu/todo.rst
-@@ -197,13 +197,28 @@ Convert drivers to use drm_fbdev_generic_setup()
- ------------------------------------------------
- 
- Most drivers can use drm_fbdev_generic_setup(). Driver have to implement
--atomic modesetting and GEM vmap support. Current generic fbdev emulation
--expects the framebuffer in system memory (or system-like memory).
-+atomic modesetting and GEM vmap support. Historically, generic fbdev emulation
-+expected the framebuffer in system memory or system-like memory. By employing
-+struct dma_buf_map, drivers with frambuffers in I/O memory can be supported
-+as well.
- 
- Contact: Maintainer of the driver you plan to convert
- 
- Level: Intermediate
- 
-+Reimplement functions in drm_fbdev_fb_ops without fbdev
-+-------------------------------------------------------
-+
-+A number of callback functions in drm_fbdev_fb_ops could benefit from
-+being rewritten without dependencies on the fbdev module. Some of the
-+helpers could further benefit from using struct dma_buf_map instead of
-+raw pointers.
-+
-+Contact: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
-+
-+Level: Advanced
-+
-+
- drm_framebuffer_funcs and drm_mode_config_funcs.fb_create cleanup
- -----------------------------------------------------------------
- 
-diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
-index 13d0d04c4457..853081d186d5 100644
---- a/drivers/gpu/drm/bochs/bochs_kms.c
-+++ b/drivers/gpu/drm/bochs/bochs_kms.c
-@@ -151,7 +151,6 @@ int bochs_kms_init(struct bochs_device *bochs)
- 	bochs->dev->mode_config.preferred_depth = 24;
- 	bochs->dev->mode_config.prefer_shadow = 0;
- 	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
--	bochs->dev->mode_config.fbdev_use_iomem = true;
- 	bochs->dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
- 
- 	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
-diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-index 6212cd7cde1d..1d3180841778 100644
---- a/drivers/gpu/drm/drm_fb_helper.c
-+++ b/drivers/gpu/drm/drm_fb_helper.c
-@@ -372,24 +372,22 @@ static void drm_fb_helper_resume_worker(struct work_struct *work)
- }
- 
- static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
--					  struct drm_clip_rect *clip)
-+					  struct drm_clip_rect *clip,
-+					  struct dma_buf_map *dst)
- {
- 	struct drm_framebuffer *fb = fb_helper->fb;
- 	unsigned int cpp = fb->format->cpp[0];
- 	size_t offset = clip->y1 * fb->pitches[0] + clip->x1 * cpp;
- 	void *src = fb_helper->fbdev->screen_buffer + offset;
--	void *dst = fb_helper->buffer->map.vaddr + offset;
- 	size_t len = (clip->x2 - clip->x1) * cpp;
- 	unsigned int y;
- 
--	for (y = clip->y1; y < clip->y2; y++) {
--		if (!fb_helper->dev->mode_config.fbdev_use_iomem)
--			memcpy(dst, src, len);
--		else
--			memcpy_toio((void __iomem *)dst, src, len);
-+	dma_buf_map_incr(dst, offset); /* go to first pixel within clip rect */
- 
-+	for (y = clip->y1; y < clip->y2; y++) {
-+		dma_buf_map_memcpy_to(dst, src, len);
-+		dma_buf_map_incr(dst, fb->pitches[0]);
- 		src += fb->pitches[0];
--		dst += fb->pitches[0];
- 	}
- }
- 
-@@ -417,8 +415,9 @@ static void drm_fb_helper_dirty_work(struct work_struct *work)
- 			ret = drm_client_buffer_vmap(helper->buffer, &map);
- 			if (ret)
- 				return;
--			drm_fb_helper_dirty_blit_real(helper, &clip_copy);
-+			drm_fb_helper_dirty_blit_real(helper, &clip_copy, &map);
- 		}
-+
- 		if (helper->fb->funcs->dirty)
- 			helper->fb->funcs->dirty(helper->fb, NULL, 0, 0,
- 						 &clip_copy, 1);
-@@ -2027,6 +2026,206 @@ static int drm_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
- 		return -ENODEV;
- }
- 
-+static bool drm_fbdev_use_iomem(struct fb_info *info)
-+{
-+	struct drm_fb_helper *fb_helper = info->par;
-+	struct drm_client_buffer *buffer = fb_helper->buffer;
-+
-+	return !drm_fbdev_use_shadow_fb(fb_helper) && buffer->map.is_iomem;
-+}
-+
-+static ssize_t fb_read_screen_base(struct fb_info *info, char __user *buf, size_t count, 
-+				   loff_t pos)
-+{
-+	const char __iomem *src = info->screen_base + pos;
-+	size_t alloc_size = min(count, PAGE_SIZE);
-+	ssize_t ret = 0;
-+	char *tmp;
-+
-+	tmp = kmalloc(alloc_size, GFP_KERNEL);
-+	if (!tmp)
-+		return -ENOMEM;
-+
-+	while (count) {
-+		size_t c = min(count, alloc_size);
-+
-+		memcpy_fromio(tmp, src, c);
-+		if (copy_to_user(buf, tmp, c)) {
-+			ret = -EFAULT;
-+			break;
-+		}
-+
-+		src += c;
-+		buf += c;
-+		ret += c;
-+		count -= c;
-+	}
-+
-+	kfree(tmp);
-+
-+	return ret;
-+}
-+
-+static ssize_t fb_read_screen_buffer(struct fb_info *info, char __user *buf, size_t count,
-+				     loff_t pos)
-+{
-+	const char *src = info->screen_buffer + pos;
-+
-+	if (copy_to_user(buf, src, count))
-+		return -EFAULT;
-+
-+	return count;
-+}
-+
-+static ssize_t drm_fbdev_fb_read(struct fb_info *info, char __user *buf,
-+				 size_t count, loff_t *ppos)
-+{
-+	loff_t pos = *ppos;
-+	size_t total_size;
-+	ssize_t ret;
-+
-+	if (info->state != FBINFO_STATE_RUNNING)
-+		return -EPERM;
-+
-+	if (info->screen_size)
-+		total_size = info->screen_size;
-+	else
-+		total_size = info->fix.smem_len;
-+
-+	if (pos >= total_size)
-+		return 0;
-+	if (count >= total_size)
-+		count = total_size;
-+	if (total_size - count < pos)
-+		count = total_size - pos;
-+
-+	if (drm_fbdev_use_iomem(info))
-+		ret = fb_read_screen_base(info, buf, count, pos);
-+	else
-+		ret = fb_read_screen_buffer(info, buf, count, pos);
-+
-+	if (ret > 0)
-+		*ppos = ret;
-+
-+	return ret;
-+}
-+
-+static ssize_t fb_write_screen_base(struct fb_info *info, const char __user *buf, size_t count,
-+				    loff_t pos)
-+{
-+	char __iomem *dst = info->screen_base + pos;
-+	size_t alloc_size = min(count, PAGE_SIZE);
-+	ssize_t ret = 0;
-+	u8 *tmp;
-+
-+	tmp = kmalloc(alloc_size, GFP_KERNEL);
-+	if (!tmp)
-+		return -ENOMEM;
-+
-+	while (count) {
-+		size_t c = min(count, alloc_size);
-+
-+		if (copy_from_user(tmp, buf, c)) {
-+			ret = -EFAULT;
-+			break;
-+		}
-+		memcpy_toio(dst, tmp, c);
-+
-+		dst += c;
-+		buf += c;
-+		ret += c;
-+		count -= c;
-+	}
-+
-+	kfree(tmp);
-+
-+	return ret;
-+}
-+
-+static ssize_t fb_write_screen_buffer(struct fb_info *info, const char __user *buf, size_t count,
-+				      loff_t pos)
-+{
-+	char *dst = info->screen_buffer + pos;
-+
-+	if (copy_from_user(dst, buf, count))
-+		return -EFAULT;
-+
-+	return count;
-+}
-+
-+static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char __user *buf,
-+				  size_t count, loff_t *ppos)
-+{
-+	loff_t pos = *ppos;
-+	size_t total_size;
-+	ssize_t ret;
-+	int err;
-+
-+	if (info->state != FBINFO_STATE_RUNNING)
-+		return -EPERM;
-+
-+	if (info->screen_size)
-+		total_size = info->screen_size;
-+	else
-+		total_size = info->fix.smem_len;
-+
-+	if (pos > total_size)
-+		return -EFBIG;
-+	if (count > total_size) {
-+		err = -EFBIG;
-+		count = total_size;
-+	}
-+	if (total_size - count < pos) {
-+		if (!err)
-+			err = -ENOSPC;
-+		count = total_size - pos;
-+	}
-+
-+	/*
-+	 * Copy to framebuffer even if we already logged an error. Emulates
-+	 * the behavior of the original fbdev implementation.
-+	 */
-+	if (drm_fbdev_use_iomem(info))
-+		ret = fb_write_screen_base(info, buf, count, pos);
-+	else
-+		ret = fb_write_screen_buffer(info, buf, count, pos);
-+
-+	if (ret > 0)
-+		*ppos = ret;
-+
-+	if (err)
-+		return err;
-+
-+	return ret;
-+}
-+
-+static void drm_fbdev_fb_fillrect(struct fb_info *info,
-+				  const struct fb_fillrect *rect)
-+{
-+	if (drm_fbdev_use_iomem(info))
-+		drm_fb_helper_cfb_fillrect(info, rect);
-+	else
-+		drm_fb_helper_sys_fillrect(info, rect);
-+}
-+
-+static void drm_fbdev_fb_copyarea(struct fb_info *info,
-+				  const struct fb_copyarea *area)
-+{
-+	if (drm_fbdev_use_iomem(info))
-+		drm_fb_helper_cfb_copyarea(info, area);
-+	else
-+		drm_fb_helper_sys_copyarea(info, area);
-+}
-+
-+static void drm_fbdev_fb_imageblit(struct fb_info *info,
-+				   const struct fb_image *image)
-+{
-+	if (drm_fbdev_use_iomem(info))
-+		drm_fb_helper_cfb_imageblit(info, image);
-+	else
-+		drm_fb_helper_sys_imageblit(info, image);
-+}
-+
- static const struct fb_ops drm_fbdev_fb_ops = {
- 	.owner		= THIS_MODULE,
- 	DRM_FB_HELPER_DEFAULT_OPS,
-@@ -2034,11 +2233,11 @@ static const struct fb_ops drm_fbdev_fb_ops = {
- 	.fb_release	= drm_fbdev_fb_release,
- 	.fb_destroy	= drm_fbdev_fb_destroy,
- 	.fb_mmap	= drm_fbdev_fb_mmap,
--	.fb_read	= drm_fb_helper_sys_read,
--	.fb_write	= drm_fb_helper_sys_write,
--	.fb_fillrect	= drm_fb_helper_sys_fillrect,
--	.fb_copyarea	= drm_fb_helper_sys_copyarea,
--	.fb_imageblit	= drm_fb_helper_sys_imageblit,
-+	.fb_read	= drm_fbdev_fb_read,
-+	.fb_write	= drm_fbdev_fb_write,
-+	.fb_fillrect	= drm_fbdev_fb_fillrect,
-+	.fb_copyarea	= drm_fbdev_fb_copyarea,
-+	.fb_imageblit	= drm_fbdev_fb_imageblit,
- };
- 
- static struct fb_deferred_io drm_fbdev_defio = {
-diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-index 5ffbb4ed5b35..ab424ddd7665 100644
---- a/include/drm/drm_mode_config.h
-+++ b/include/drm/drm_mode_config.h
-@@ -877,18 +877,6 @@ struct drm_mode_config {
- 	 */
- 	bool prefer_shadow_fbdev;
- 
--	/**
--	 * @fbdev_use_iomem:
--	 *
--	 * Set to true if framebuffer reside in iomem.
--	 * When set to true memcpy_toio() is used when copying the framebuffer in
--	 * drm_fb_helper.drm_fb_helper_dirty_blit_real().
--	 *
--	 * FIXME: This should be replaced with a per-mapping is_iomem
--	 * flag (like ttm does), and then used everywhere in fbdev code.
--	 */
--	bool fbdev_use_iomem;
--
- 	/**
- 	 * @quirk_addfb_prefer_xbgr_30bpp:
- 	 *
--- 
-2.28.0
+Yet you refer to driver related tasks (configuring provided clock) while
+discussing the bindings.
+
+Best regards,
+Krzysztof
 
