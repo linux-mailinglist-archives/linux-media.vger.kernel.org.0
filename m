@@ -2,108 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7E125293467
-	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 07:48:09 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 240D9293481
+	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 08:02:16 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730342AbgJTFsI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Oct 2020 01:48:08 -0400
-Received: from z5.mailgun.us ([104.130.96.5]:35672 "EHLO z5.mailgun.us"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730302AbgJTFsI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Oct 2020 01:48:08 -0400
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1603172888; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=DlWUKsZMBs5+rfXZncpSLNI7e28fGmiAnheUVzpABSE=;
- b=Vd09sm2hVk3vJKXe+mHPnyPTMvNNbMiLZ8PbgaavCZSaCU/9tt8c6hvhuXIfhj/6E2GCs2ho
- 610qEdcMwrVZ99mW7BSl54yHFs2WHrkcdqbGlPrecS3SZbZ0FvnqkR7OYV9YO4WrThvQmix9
- qk3+jp4RBMBnsb2rrT2xmr2r7nU=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-west-2.postgun.com with SMTP id
- 5f8e7a0c06d81bc48d60382a (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 20 Oct 2020 05:47:55
- GMT
-Sender: asitshah=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id E36F6C433CB; Tue, 20 Oct 2020 05:47:55 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: asitshah)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 4667DC433C9;
-        Tue, 20 Oct 2020 05:47:55 +0000 (UTC)
+        id S2391843AbgJTGCM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Oct 2020 02:02:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45960 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391797AbgJTGCM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Oct 2020 02:02:12 -0400
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3B9A3C061755;
+        Mon, 19 Oct 2020 23:02:12 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:
+        Content-Description:In-Reply-To:References;
+        bh=E0coMztM2M48VT3IbLwBeTLJRP2K4p9f4EU9akewdLo=; b=J02CnMATiiRo87r424+sCz9MWg
+        nPSqEVj+KVht9H9bgQJLl4Rn4iNc+oilbv4xk8Xl1gO2hvYmaNQaQRvoQFVbgephE0OMnouNIN2fp
+        R8dAlaFCE30smHAriPv0BOUCOWogxHexR/K4VYR8/5P2i9Jl0ITuiBrnOgRnhFyliSBM2TazMghJ6
+        7512jCpwM7ri7rOPnHqUhyc1GCWFoa/k8Lp2D4DY7xLuZ6o6MBouTcrQDhji6WgqFIPv/xYErQfI/
+        n6dwdQNFt50waHtkRxI92mmpx1g9qv5cpixQzj6LZj+djyW6PNhQkPs/7irB3GFmf3WvljfRL6JWF
+        ojXYvEHw==;
+Received: from [2601:1c0:6280:3f0::507c]
+        by casper.infradead.org with esmtpsa (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kUkik-0006mr-S3; Tue, 20 Oct 2020 06:02:07 +0000
+To:     LKML <linux-kernel@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+From:   Randy Dunlap <rdunlap@infradead.org>
+Subject: [PATCH] media/platform/marvell-ccic: fix warnings when CONFIG_PM is
+ not enabled
+Message-ID: <9a586496-0d62-f246-19ec-d17b6f47e200@infradead.org>
+Date:   Mon, 19 Oct 2020 23:02:04 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-Date:   Tue, 20 Oct 2020 11:17:55 +0530
-From:   asitshah@codeaurora.org
-To:     linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
-        mchehab@infradead.org, linux-media@vger.kernel.org,
-        stanimir.varbanov@linaro.org, linux-media-owner@vger.kernel.org
-Cc:     vgarodia@codeaurora.org, dikshita@codeaurora.org
-Subject: Re: Update venus firmware files for v5.4
-In-Reply-To: <290a085b0fb686ce6aacbd02be560e52@codeaurora.org>
-References: <290a085b0fb686ce6aacbd02be560e52@codeaurora.org>
-Message-ID: <dfbf51326d00ae72ed2b6149e7ccf570@codeaurora.org>
-X-Sender: asitshah@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Team,
+From: Randy Dunlap <rdunlap@infradead.org>
 
-Gentle Reminder. Please let me know if anything is missing.
+Fix build warnings when CONFIG_PM is not set/enabled:
 
-Regards,
-Asit
+../drivers/media/platform/marvell-ccic/mmp-driver.c:324:12: warning: 'mmpcam_runtime_suspend' defined but not used [-Wunused-function]
+  324 | static int mmpcam_runtime_suspend(struct device *dev)
+../drivers/media/platform/marvell-ccic/mmp-driver.c:310:12: warning: 'mmpcam_runtime_resume' defined but not used [-Wunused-function]
+  310 | static int mmpcam_runtime_resume(struct device *dev)
 
+Signed-off-by: Randy Dunlap <rdunlap@infradead.org>
+Cc: Jonathan Corbet <corbet@lwn.net>
+Cc: linux-media@vger.kernel.org
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+---
+ drivers/media/platform/marvell-ccic/mmp-driver.c |    2 ++
+ 1 file changed, 2 insertions(+)
 
-On 2020-10-08 15:20, asitshah@codeaurora.org wrote:
-> Hi Team,
-> 
-> Please include updated Venus Firmware bins for v5.4.
-> 
-> Snapshot of pull request is as below, let me know if anything is 
-> missing.
-> 
->>>>>>> 
-> 
-> The following changes since commit 
-> 00a84c516078defb76fbd57543b8d5c674a9a2be:
-> 
->   linux-firmware: Update AMD SEV firmware (2020-09-16 08:01:44 -0400)
-> 
-> are available in the git repository at:
-> 
->   https://github.com/shahasit/video-linux-firmware/tree/master
-> 
-> for you to fetch changes up to 
-> a09b728b77f5e3b335ff85c6c729248e0121f02c:
-> 
->   qcom : updated venus firmware files for v5.4 (2020-10-08 15:07:59 
-> +0530)
-> 
-> ----------------------------------------------------------------
-> Asit Shah (1):
->       qcom : updated venus firmware files for v5.4
-> 
->  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
->  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
->  qcom/venus-5.4/venus.b02 | Bin 870812 -> 873100 bytes
->  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
->  qcom/venus-5.4/venus.mbn | Bin 916924 -> 919212 bytes
->  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
->  6 files changed, 0 insertions(+), 0 deletions(-)
-> 
-> Regards,
-> Asit
+--- linux-next-20201009.orig/drivers/media/platform/marvell-ccic/mmp-driver.c
++++ linux-next-20201009/drivers/media/platform/marvell-ccic/mmp-driver.c
+@@ -307,6 +307,7 @@ static int mmpcam_platform_remove(struct
+  * Suspend/resume support.
+  */
+ 
++#ifdef CONFIG_PM
+ static int mmpcam_runtime_resume(struct device *dev)
+ {
+ 	struct mmp_camera *cam = dev_get_drvdata(dev);
+@@ -352,6 +353,7 @@ static int __maybe_unused mmpcam_resume(
+ 		return mccic_resume(&cam->mcam);
+ 	return 0;
+ }
++#endif
+ 
+ static const struct dev_pm_ops mmpcam_pm_ops = {
+ 	SET_RUNTIME_PM_OPS(mmpcam_runtime_suspend, mmpcam_runtime_resume, NULL)
+
