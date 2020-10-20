@@ -2,132 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C399293BC1
-	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 14:36:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 74AA9293C13
+	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 14:44:29 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406238AbgJTMgG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Oct 2020 08:36:06 -0400
-Received: from mga11.intel.com ([192.55.52.93]:59053 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2406224AbgJTMgF (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Oct 2020 08:36:05 -0400
-IronPort-SDR: gSr6Pm71mDYsPgPBo9u30U1GgYT5G7+ESPCiW1tzkkHdGV1iVthWkxt5lLMDGiRiPtRk+x5lan
- PQc422Dk9K4w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="163708585"
-X-IronPort-AV: E=Sophos;i="5.77,397,1596524400"; 
-   d="scan'208";a="163708585"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2020 05:36:05 -0700
-IronPort-SDR: /9wSKmWd89sh63M0JAy9prc4dBuCTaGVJlTnT1uERqSEdS8hxgj00ZGmAtYDf6vLN56H0TYQTO
- 7xaNfXLKosIw==
-X-IronPort-AV: E=Sophos;i="5.77,397,1596524400"; 
-   d="scan'208";a="533042490"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2020 05:35:58 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id BADDE2062D; Tue, 20 Oct 2020 15:35:56 +0300 (EEST)
-Date:   Tue, 20 Oct 2020 15:35:56 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        heikki.krogerus@linux.intel.com, dmitry.torokhov@gmail.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
-        robh@kernel.org, davem@davemloft.net, linux@rasmusvillemoes.dk,
-        andriy.shevchenko@linux.intel.com, sergey.senozhatsky@gmail.com,
-        rostedt@goodmis.org, pmladek@suse.com, mchehab@kernel.org,
-        tian.shu.qiu@intel.com, bingbu.cao@intel.com, yong.zhi@intel.com,
-        rafael@kernel.org, gregkh@linuxfoundation.org, kitakar@gmail.com,
-        dan.carpenter@oracle.org
-Subject: Re: [RFC PATCH v3 4/9] software_node: Add support for
- fwnode_graph*() family of functions
-Message-ID: <20201020123556.GW13341@paasikivi.fi.intel.com>
-References: <20201019225903.14276-1-djrscally@gmail.com>
- <20201019225903.14276-5-djrscally@gmail.com>
+        id S2406489AbgJTMoW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Oct 2020 08:44:22 -0400
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:39255 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406485AbgJTMoW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Oct 2020 08:44:22 -0400
+Received: by mail-ot1-f68.google.com with SMTP id f10so1573708otb.6;
+        Tue, 20 Oct 2020 05:44:20 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=WWPewNSOY3SiiT7uUQmWm+BqSC1/njsbhzjqRt/2knw=;
+        b=HjxrBUJ509tB7KCxym89LkgZHij1fxfVH//sJKuB4Yw/6TCsx3lXVWsv4us8gvZOiy
+         h+oDZ7GIyF+Pp2arwenbDSL3ST2d7CZT7F37dS82I9koL3z1BuWe5CgQHNaNXcFEo/ha
+         13/eQ94vpa/NL71cI94w2DpE61IGI9H8nThahK6ttFby8Oqiyoxqyi4L9t/VybZfBPwT
+         aLYwZP8hz1hB7alE22iQexINqe0uvVfKMJBnorKDMoq7wJwVFxl59aPSBQtG+moL5Y4c
+         EAxcjSfC0NJLWLTumoueSF+EdPrSA6s6qxk2lHIomqY3BhjRkwDbJDj2D5W7vZ+UNzFz
+         UZmg==
+X-Gm-Message-State: AOAM532SwmVJcDldg/VmGmp9tXq7jb1/3ljlP+mGoElMZIb3bcWgdxKE
+        hqfUQhfL6Ry7cziQZdqe2PYbGXPBCCnziG5uaoQ=
+X-Google-Smtp-Source: ABdhPJyX+2+jJiqejYrdJK/32fDTwvhU81MkMEoY8uYHEhJzDEFkSQ/6zJS0ZRJ5mX268k3UQ9Oj2qsiTbYoIidVi+k=
+X-Received: by 2002:a9d:734f:: with SMTP id l15mr1676996otk.260.1603197859733;
+ Tue, 20 Oct 2020 05:44:19 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201019225903.14276-5-djrscally@gmail.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+References: <20201019225903.14276-1-djrscally@gmail.com> <20201019225903.14276-4-djrscally@gmail.com>
+In-Reply-To: <20201019225903.14276-4-djrscally@gmail.com>
+From:   "Rafael J. Wysocki" <rafael@kernel.org>
+Date:   Tue, 20 Oct 2020 14:44:08 +0200
+Message-ID: <CAJZ5v0g=2rQkEr-_QnhvLLgaPyX8OhUHe27n-XZ98q31BHBEPA@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 3/9] software_node: Fix failure to hold refcount in software_node_get_next_child
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        Heikki Krogerus <heikki.krogerus@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rob Herring <robh@kernel.org>,
+        David Miller <davem@davemloft.net>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        tian.shu.qiu@intel.com, Bingbu Cao <bingbu.cao@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        yong.zhi@intel.com, "Rafael J. Wysocki" <rafael@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        kitakar@gmail.com, dan.carpenter@oracle.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel, Heikki,
-
-Thanks for the patch.
-
-On Mon, Oct 19, 2020 at 11:58:58PM +0100, Daniel Scally wrote:
-> From: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> 
-> This implements the remaining .graph_* callbacks in the
-> fwnode operations vector for the software nodes. That makes
-> the fwnode_graph*() functions available in the drivers also
-> when software nodes are used.
-> 
-> The implementation tries to mimic the "OF graph" as much as
-> possible, but there is no support for the "reg" device
-> property. The ports will need to have the index in their
-> name which starts with "port" (for example "port0", "port1",
-> ...) and endpoints will use the index of the software node
-> that is given to them during creation. The port nodes can
-> also be grouped under a specially named "ports" subnode,
-> just like in DT, if necessary.
-> 
-> The remote-endpoints are reference properties under the
-> endpoint nodes that are named "remote-endpoint". 
-> 
-> Signed-off-by: Heikki Krogerus <heikki.krogerus@linux.intel.com>
-> Co-developed-by: Daniel Scally <djrscally@gmail.com>
+On Tue, Oct 20, 2020 at 12:59 AM Daniel Scally <djrscally@gmail.com> wrote:
+>
+> The software_node_get_next_child() function currently does not hold a kref
+> to the child software_node; fix that.
+>
+> Fixes: 59abd83672f7 ("drivers: base: Introducing software nodes to the firmware node framework")
 > Signed-off-by: Daniel Scally <djrscally@gmail.com>
 > ---
-> changes in v3:
-> 	- removed software_node_device_is_available
-> 	- moved the change to software_node_get_next_child to a separate
-> 	patch
-> 	- switched to use fwnode_handle_put() in graph_get_next_endpoint()
-> 	instead of software_node_put()
-> 
-> changes in v2:
-> 	- added software_node_device_is_available
-> 	- altered software_node_get_next_child to get references
-> 	- altered software_node_get_next_endpoint to release references
-> 	to ports and avoid passing invalid combinations of swnodes to
-> 	software_node_get_next_child
-> 	- altered swnode_graph_find_next_port to release port rather than
-> 	old
->  drivers/base/swnode.c | 120 +++++++++++++++++++++++++++++++++++++++++-
->  1 file changed, 119 insertions(+), 1 deletion(-)
-> 
+> Changes in v3:
+>         - split out from the full software_node_graph*() patch
+>
+>  drivers/base/swnode.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+>
 > diff --git a/drivers/base/swnode.c b/drivers/base/swnode.c
-> index 741149b90..3732530ce 100644
+> index f01b1cc61..741149b90 100644
 > --- a/drivers/base/swnode.c
 > +++ b/drivers/base/swnode.c
-> @@ -536,6 +536,120 @@ software_node_get_reference_args(const struct fwnode_handle *fwnode,
->  	return 0;
+> @@ -450,7 +450,7 @@ software_node_get_next_child(const struct fwnode_handle *fwnode,
+>                 c = list_next_entry(c, entry);
+>         else
+>                 c = list_first_entry(&p->children, struct swnode, entry);
+> -       return &c->fwnode;
+> +       return software_node_get(&c->fwnode);
 >  }
->  
-> +static struct fwnode_handle *
-> +swnode_graph_find_next_port(const struct fwnode_handle *parent,
-> +			    struct fwnode_handle *port)
-> +{
-> +	struct fwnode_handle *old = port;
-> +
-> +	while ((port = software_node_get_next_child(parent, old))) {
+>
+>  static struct fwnode_handle *
+> --
 
-software_node_get_next_child() doesn't drop the reference of the old child
-nor gets a reference to the returned node. Should it?
-
-The function to get a named child node does.
-
-It'd be nice if this was aligned. Or am I missing something?
-
-This isn't really a comment on this patch though.
-
--- 
-Kind regards,
-
-Sakari Ailus
+This should be sent as a separate fix AFAICS.
