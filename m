@@ -2,86 +2,75 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 510F7293F9C
-	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 17:30:48 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id AC508293FDC
+	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 17:46:55 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436476AbgJTPar (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Oct 2020 11:30:47 -0400
-Received: from mail-oi1-f193.google.com ([209.85.167.193]:32930 "EHLO
-        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408719AbgJTPaq (ORCPT
+        id S2436769AbgJTPqy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Oct 2020 11:46:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52376 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731458AbgJTPqy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Oct 2020 11:30:46 -0400
-Received: by mail-oi1-f193.google.com with SMTP id s21so2588163oij.0;
-        Tue, 20 Oct 2020 08:30:46 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=lTM+9hz6tW4BGpuNuT8iqSrFMq9nK/6YOmBShSJ73gU=;
-        b=b/R3ZQ/vtH3BZ6BqI8yLbnUhM/6kvvV+EQxq095FgoEmozcF5U6K6vgzeNKWtcBLqL
-         itBx8R8XBXUBPpJp08bJ+JPVBnwsZsiIgQd0rl8EZVsAgW1jDHVTB3k/pn38CCzSXg5h
-         VnH4vzfFBvs8uqgaSDrkTxEaNBXYh6QhWAhzTMKKEbG4bfYPkgebHDXrrDH4YtniyKEQ
-         dLwFFX8CwTHU1JU/V+6xxO68vDrAQq6X49i8VG3C+aXLZSLPyA6qiWqbT8mfM9S+TNLo
-         TmQ6jvu3mJ1V2kVbJCSLs8teENRI4pjrLfNBLZrIhtSXJtpC2yCLlwLFl8dIJ/AM9iqE
-         ljnA==
-X-Gm-Message-State: AOAM532GhC+DeeiKPjw2ScjTCC7EeiiC0X/O+GDMSUwxLVPVv4mhPWHi
-        Nn+VAUuIptWMxIbAJzh4KznfbOLJaw==
-X-Google-Smtp-Source: ABdhPJy5TTvRU4fhG6BxtFkUDybI3XOHTkA+T4Dechtcai7YZlJD3PuPvukKCzNoQb1EAU5X8Vcp3Q==
-X-Received: by 2002:aca:f0c5:: with SMTP id o188mr1972885oih.95.1603207845797;
-        Tue, 20 Oct 2020 08:30:45 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id r80sm530114oor.31.2020.10.20.08.30.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 20 Oct 2020 08:30:45 -0700 (PDT)
-Received: (nullmailer pid 875674 invoked by uid 1000);
-        Tue, 20 Oct 2020 15:30:44 -0000
-Date:   Tue, 20 Oct 2020 10:30:44 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     Rui Miguel Silva <rmfrfs@gmail.com>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>, sakari.ailus@linux.intel.com,
-        Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org
-Subject: Re: [PATCH v4 3/3] dt-bindings: imx7-mipi-csi2: convert bindings to
- yaml
-Message-ID: <20201020153044.GA875273@bogus>
-References: <20201020091921.1730003-1-rmfrfs@gmail.com>
- <20201020091921.1730003-4-rmfrfs@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201020091921.1730003-4-rmfrfs@gmail.com>
+        Tue, 20 Oct 2020 11:46:54 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0253EC061755
+        for <linux-media@vger.kernel.org>; Tue, 20 Oct 2020 08:46:54 -0700 (PDT)
+Received: from guri.fritz.box (p200300c7cf435b0028a32f4e277d2227.dip0.t-ipconnect.de [IPv6:2003:c7:cf43:5b00:28a3:2f4e:277d:2227])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6A55E1F44EC1;
+        Tue, 20 Oct 2020 16:46:52 +0100 (BST)
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, dafna.hirschfeld@collabora.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, tfiga@chromium.org
+Subject: [PATCH v2 1/2] media: uapi: add MEDIA_BUS_FMT_METADATA_FIXED media bus format.
+Date:   Tue, 20 Oct 2020 17:45:21 +0200
+Message-Id: <20201020154522.654-1-dafna.hirschfeld@collabora.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 20 Oct 2020 10:19:21 +0100, Rui Miguel Silva wrote:
-> Convert imx7 mipi csi2 bindings documentation to yaml schema, remove
-> the textual document and update MAINTAINERS entry.
-> 
-> Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
-> ---
->  .../bindings/media/imx7-mipi-csi2.txt         |  90 ---------
->  .../bindings/media/nxp,imx7-mipi-csi2.yaml    | 172 ++++++++++++++++++
->  MAINTAINERS                                   |   2 +-
->  3 files changed, 173 insertions(+), 91 deletions(-)
->  delete mode 100644 Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
->  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
-> 
+MEDIA_BUS_FMT_METADATA_FIXED should be used when
+the same driver handles both sides of the link and
+the bus format is a fixed metadata format that is
+not configurable from userspace.
+The width and height will be set to 0 for this format.
 
+Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Acked-by: Helen Koike <helen.koike@collabora.com>
+---
+changes since v1:
+1. replace "This format may have 0 height and width."
+with "Width and height will be set to 0 for this format."
+and add it also to the commit log
+2. s/meida:/media:/ in the patch subject line
 
-My bot found errors running 'make dt_binding_check' on your patch:
+ include/uapi/linux/media-bus-format.h | 8 ++++++++
+ 1 file changed, 8 insertions(+)
 
-./Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml:91:21: [warning] wrong indentation: expected 22 but found 20 (indentation)
-./Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml:93:21: [warning] wrong indentation: expected 22 but found 20 (indentation)
-
-
-See https://patchwork.ozlabs.org/patch/1384742
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure dt-schema is up to date:
-
-pip3 install git+https://github.com/devicetree-org/dt-schema.git@master --upgrade
-
-Please check and re-submit.
+diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+index 84fa53ffb13f..2ce3d891d344 100644
+--- a/include/uapi/linux/media-bus-format.h
++++ b/include/uapi/linux/media-bus-format.h
+@@ -156,4 +156,12 @@
+ /* HSV - next is	0x6002 */
+ #define MEDIA_BUS_FMT_AHSV8888_1X32		0x6001
+ 
++/*
++ * This format should be used when the same driver handles
++ * both sides of the link and the bus format is a fixed
++ * metadata format that is not configurable from userspace.
++ * Width and height will be set to 0 for this format.
++ */
++#define MEDIA_BUS_FMT_METADATA_FIXED		0x7001
++
+ #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
+-- 
+2.17.1
 
