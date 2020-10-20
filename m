@@ -2,216 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECA7F293F5E
-	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 17:14:53 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BD689293F95
+	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 17:29:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408610AbgJTPOu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Oct 2020 11:14:50 -0400
-Received: from mail.kernel.org ([198.145.29.99]:41644 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2408605AbgJTPOt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Oct 2020 11:14:49 -0400
-Received: from mail-ot1-f49.google.com (mail-ot1-f49.google.com [209.85.210.49])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4A85B2224B;
-        Tue, 20 Oct 2020 15:14:48 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603206888;
-        bh=0u4Fv1fqrTFQ3Wp/EIuAvFVLUv/j7BCakcnneOAU5xs=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=NZMb+McCVdq/q6SuDog4g30r0l0prtO/gCN9O6gVcsaPkBYbZzxJe6dZwLnFZWph2
-         M0351LwXFAFPqpU9MMwcNqhFS0QuVRVoKOoQZN62uuHbU7C0DFfQ43/cynxfCiq2I3
-         SzdZPNgixrYnmyKSYQ7VBaaXvm9F8NGbIFGYgg7c=
-Received: by mail-ot1-f49.google.com with SMTP id m22so2042483ots.4;
-        Tue, 20 Oct 2020 08:14:48 -0700 (PDT)
-X-Gm-Message-State: AOAM532//9BZEJr4+zFqCCVAm+Ii88FFsGHQwWtDP75Zy7s/kr4ci+D8
-        DJkVS8eVu4tdKEH8MADrCevdB56VwCmI3PDT8g==
-X-Google-Smtp-Source: ABdhPJz41UgbNkwtnCErGlmIpBGGzSTn7CHQ0TMdTIes7cHjDhnkd7e5tesUj1dAccQoyfMFCtdYvIGbHA+Y3i2/bE0=
-X-Received: by 2002:a9d:5e14:: with SMTP id d20mr1941932oti.107.1603206887469;
- Tue, 20 Oct 2020 08:14:47 -0700 (PDT)
-MIME-Version: 1.0
-References: <20200722155533.252844-1-helen.koike@collabora.com>
- <20200722155533.252844-6-helen.koike@collabora.com> <CAL_Jsq+qB=yUtHKKujiUWrsq+W-3ggM3B_SuuDzfYEheczn=8g@mail.gmail.com>
- <2dcdda41-bdb4-55a8-557f-8175983effb5@collabora.com>
-In-Reply-To: <2dcdda41-bdb4-55a8-557f-8175983effb5@collabora.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Tue, 20 Oct 2020 10:14:35 -0500
-X-Gmail-Original-Message-ID: <CAL_Jsq+-8Jyms3LJBjTxABcuTa5GduXtJ1jdOgp7xcPoQzdtGQ@mail.gmail.com>
-Message-ID: <CAL_Jsq+-8Jyms3LJBjTxABcuTa5GduXtJ1jdOgp7xcPoQzdtGQ@mail.gmail.com>
-Subject: Re: [PATCH v5 5/9] media: staging: rkisp1: remove unecessary clocks
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     devicetree@vger.kernel.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
-        "heiko@sntech.de" <heiko@sntech.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Collabora Kernel ML <kernel@collabora.com>,
+        id S2408673AbgJTP3w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Oct 2020 11:29:52 -0400
+Received: from eu-smtp-delivery-151.mimecast.com ([207.82.80.151]:37234 "EHLO
+        eu-smtp-delivery-151.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2394457AbgJTP3w (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Oct 2020 11:29:52 -0400
+Received: from AcuMS.aculab.com (156.67.243.126 [156.67.243.126]) (Using
+ TLS) by relay.mimecast.com with ESMTP id
+ uk-mta-90-Cn_Z6BHWNUmFgv53TMgdvw-1; Tue, 20 Oct 2020 16:29:47 +0100
+X-MC-Unique: Cn_Z6BHWNUmFgv53TMgdvw-1
+Received: from AcuMS.Aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) by
+ AcuMS.aculab.com (fd9f:af1c:a25b:0:43c:695e:880f:8750) with Microsoft SMTP
+ Server (TLS) id 15.0.1347.2; Tue, 20 Oct 2020 16:29:46 +0100
+Received: from AcuMS.Aculab.com ([fe80::43c:695e:880f:8750]) by
+ AcuMS.aculab.com ([fe80::43c:695e:880f:8750%12]) with mapi id 15.00.1347.000;
+ Tue, 20 Oct 2020 16:29:46 +0100
+From:   David Laight <David.Laight@ACULAB.COM>
+To:     'Colin King' <colin.king@canonical.com>,
+        Helen Koike <helen.koike@collabora.com>,
         Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Mark Rutland <mark.rutland@arm.com>, karthik.poduval@gmail.com,
-        Johan Jonker <jbx6244@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Eddie Cai <eddie.cai.linux@gmail.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>
+CC:     "kernel-janitors@vger.kernel.org" <kernel-janitors@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
+Subject: RE: [PATCH] media: staging: rkisp1: rsz: make const array static,
+ makes object smaller
+Thread-Topic: [PATCH] media: staging: rkisp1: rsz: make const array static,
+ makes object smaller
+Thread-Index: AQHWpu/g1aA4z1vvvE6vSt76+nNaDamgnL6w
+Date:   Tue, 20 Oct 2020 15:29:46 +0000
+Message-ID: <d5663dec063440129bf6c373aa252d51@AcuMS.aculab.com>
+References: <20201020144655.53251-1-colin.king@canonical.com>
+In-Reply-To: <20201020144655.53251-1-colin.king@canonical.com>
+Accept-Language: en-GB, en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.202.205.107]
+MIME-Version: 1.0
+Authentication-Results: relay.mimecast.com;
+        auth=pass smtp.auth=C51A453 smtp.mailfrom=david.laight@aculab.com
+X-Mimecast-Spam-Score: 0
+X-Mimecast-Originator: aculab.com
+Content-Language: en-US
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 14, 2020 at 11:46 AM Helen Koike <helen.koike@collabora.com> wrote:
->
-> Hi Rob,
->
-> Thnaks for your reply.
->
-> On 9/22/20 11:24 AM, Rob Herring wrote:
-> > On Wed, Jul 22, 2020 at 9:56 AM Helen Koike <helen.koike@collabora.com> wrote:
-> >>
-> >> aclk_isp_wrap is a child of aclk_isp, and hclk_isp_wrap is a child of
-> >> hclk_isp, thus we can remove parents from the list.
-> >>
-> >> Also, for the isp0, we only need the ISP clock, ACLK and HCLK.
-> >> In the future we'll need a pixel clock for RK3288 and RK3399, and a JPEG
-> >> clock for RK3288.
-> >>
-> >> So with the goal to cleanup the dt-bindings and remove it from staging,
-> >> simplify clock names to isp, aclk and hclk.
-> >>
-> >> Assigned clocks are meant to refer to the full path in the clock tree,
-> >> i.e. the leaf in the tree.
-> >> For instance, in RK3399, the clock responsible for ACLK (ISP AXI CLOCK)
-> >> is aclk_isp0_wrapper.
-> >>
-> >> For reference, this is the isp clock topology on RK3399:
-> >>
-> >>  xin24m
-> >>     pll_npll
-> >>        npll
-> >>           clk_isp1
-> >>           clk_isp0
-> >>     pll_cpll
-> >>        cpll
-> >>           aclk_isp1
-> >>              aclk_isp1_noc
-> >>              hclk_isp1
-> >>                 aclk_isp1_wrapper
-> >>                 hclk_isp1_noc
-> >>           aclk_isp0
-> >>              hclk_isp1_wrapper
-> >>              aclk_isp0_wrapper
-> >>              aclk_isp0_noc
-> >>              hclk_isp0
-> >>                 hclk_isp0_wrapper
-> >>                 hclk_isp0_noc
-> >>  pclkin_isp1_wrapper
-> >>
-> >> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> >>
-> >> ---
-> >> Changes in V5:
-> >> - Use if/then schema as suggested by Rob Herring on
-> >> https://patchwork.linuxtv.org/project/linux-media/patch/20200702191322.2639681-6-helen.koike@collabora.com/#119729
-> >>
-> >> Changes in V4:
-> >> - update binding according to suggestion by Robin Murphy
-> >> on https://patchwork.kernel.org/patch/11475007/
-> >>
-> >> Changes in V3:
-> >> - this is a new patch in the series
-> >> ---
-> >>  .../bindings/media/rockchip-isp1.yaml         | 50 ++++++++++++-------
-> >>  drivers/staging/media/rkisp1/rkisp1-dev.c     |  8 ++-
-> >>  2 files changed, 36 insertions(+), 22 deletions(-)
-> >>
-> >> diff --git a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-> >> index 62a6b9c959498..23c677d15037a 100644
-> >> --- a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-> >> +++ b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-> >> @@ -24,20 +24,10 @@ properties:
-> >>      maxItems: 1
-> >>
-> >>    clocks:
-> >> -    items:
-> >> -      - description: ISP clock
-> >> -      - description: ISP AXI clock clock
-> >> -      - description: ISP AXI clock  wrapper clock
-> >> -      - description: ISP AHB clock clock
-> >> -      - description: ISP AHB wrapper clock
-> >> +    minItems: 3
-> >
-> > You need maxItems here too or it will always be 3.
-> >
-> >>
-> >>    clock-names:
-> >> -    items:
-> >> -      - const: clk_isp
-> >> -      - const: aclk_isp
-> >> -      - const: aclk_isp_wrap
-> >> -      - const: hclk_isp
-> >> -      - const: hclk_isp_wrap
-> >> +    minItems: 3
-> >>
-> >>    iommus:
-> >>      maxItems: 1
-> >> @@ -116,6 +106,34 @@ required:
-> >>    - power-domains
-> >>    - ports
-> >>
-> >> +if:
-> >> +  properties:
-> >> +    compatible:
-> >> +      contains:
-> >> +        const: rockchip,rk3399-cif-isp
-> >> +then:
-> >> +  properties:
-> >> +    clocks:
-> >> +      maxItems: 4
-> >> +      minItems: 3
-> >
-> > For a single compatible you shouldn't really have a variable number of clocks.
->
-> I'm not entirely sure how to make this separation, since isp0 and isp1 (not yet supported)
-> would use the same compatible.
-> Unless if we separate in two compatibles, but maybe this is an overhead just for an extra clock.
-> What do you think?
+RnJvbTogQ29saW4gS2luZw0KPiBTZW50OiAyMCBPY3RvYmVyIDIwMjAgMTU6NDcNCj4gDQo+IEZy
+b206IENvbGluIElhbiBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+DQo+IA0KPiBEb24n
+dCBwb3B1bGF0ZSB0aGUgY29uc3QgYXJyYXkgZGV2X25hbWVzIG9uIHRoZSBzdGFjayBidXQgaW5z
+dGVhZCBpdA0KPiBzdGF0aWMuIE1ha2VzIHRoZSBvYmplY3QgY29kZSBzbWFsbGVyIGJ5IDE1IGJ5
+dGVzLg0KPiANCj4gQmVmb3JlOg0KPiAgICB0ZXh0CSAgIGRhdGEJICAgIGJzcwkgICAgZGVjCSAg
+ICBoZXgJZmlsZW5hbWUNCj4gICAxNzA5MQkgICAyNjQ4CSAgICAgNjQJICAxOTgwMwkgICA0ZDVi
+CW1lZGlhL3JraXNwMS9ya2lzcDEtcmVzaXplci5vDQo+IA0KPiBBZnRlcjoNCj4gICAgdGV4dAkg
+ICBkYXRhCSAgICBic3MJICAgIGRlYwkgICAgaGV4CWZpbGVuYW1lDQo+ICAgMTcwMTIJICAgMjcx
+MgkgICAgIDY0CSAgMTk3ODgJICAgNGQ0YwltZWRpYS9ya2lzcDEvcmtpc3AxLXJlc2l6ZXIubw0K
+PiANCj4gKGdjYyB2ZXJzaW9uIDEwLjIuMCkNCj4gDQo+IFNpZ25lZC1vZmYtYnk6IENvbGluIElh
+biBLaW5nIDxjb2xpbi5raW5nQGNhbm9uaWNhbC5jb20+DQo+IC0tLQ0KPiAgZHJpdmVycy9zdGFn
+aW5nL21lZGlhL3JraXNwMS9ya2lzcDEtcmVzaXplci5jIHwgNiArKysrLS0NCj4gIDEgZmlsZSBj
+aGFuZ2VkLCA0IGluc2VydGlvbnMoKyksIDIgZGVsZXRpb25zKC0pDQo+IA0KPiBkaWZmIC0tZ2l0
+IGEvZHJpdmVycy9zdGFnaW5nL21lZGlhL3JraXNwMS9ya2lzcDEtcmVzaXplci5jIGIvZHJpdmVy
+cy9zdGFnaW5nL21lZGlhL3JraXNwMS9ya2lzcDEtDQo+IHJlc2l6ZXIuYw0KPiBpbmRleCAxNjg3
+ZDgyZTZjNjguLjdjYTViNDdjNWJmNSAxMDA2NDQNCj4gLS0tIGEvZHJpdmVycy9zdGFnaW5nL21l
+ZGlhL3JraXNwMS9ya2lzcDEtcmVzaXplci5jDQo+ICsrKyBiL2RyaXZlcnMvc3RhZ2luZy9tZWRp
+YS9ya2lzcDEvcmtpc3AxLXJlc2l6ZXIuYw0KPiBAQCAtNzYzLDggKzc2MywxMCBAQCBzdGF0aWMg
+dm9pZCBya2lzcDFfcnN6X3VucmVnaXN0ZXIoc3RydWN0IHJraXNwMV9yZXNpemVyICpyc3opDQo+
+IA0KPiAgc3RhdGljIGludCBya2lzcDFfcnN6X3JlZ2lzdGVyKHN0cnVjdCBya2lzcDFfcmVzaXpl
+ciAqcnN6KQ0KPiAgew0KPiAtCWNvbnN0IGNoYXIgKiBjb25zdCBkZXZfbmFtZXNbXSA9IHtSS0lT
+UDFfUlNaX01QX0RFVl9OQU1FLA0KPiAtCQkJCQkgIFJLSVNQMV9SU1pfU1BfREVWX05BTUV9Ow0K
+PiArCXN0YXRpYyBjb25zdCBjaGFyICogY29uc3QgZGV2X25hbWVzW10gPSB7DQo+ICsJCVJLSVNQ
+MV9SU1pfTVBfREVWX05BTUUsDQo+ICsJCVJLSVNQMV9SU1pfU1BfREVWX05BTUUNCj4gKwl9Ow0K
+PiAgCXN0cnVjdCBtZWRpYV9wYWQgKnBhZHMgPSByc3otPnBhZHM7DQo+ICAJc3RydWN0IHY0bDJf
+c3ViZGV2ICpzZCA9ICZyc3otPnNkOw0KPiAgCWludCByZXQ7DQoNCkRvbid0IGxvb2sgYXQgd2hh
+dCB0aGF0IGNvZGUgaXMgYWN0dWFsbHkgZG9pbmcuLi4uDQpJdCBpcyByYXRoZXIgaG9ycmlkLg0K
+cmtpc3AxX3Jzel9yZWdpc3RlcigpIGlzIGNhbGxlZCBmb3IgZWFjaCBlbnRyeSBpbiBhbiBhcnJh
+eSAodHdpY2UpLg0KVGhlIGFycmF5IGluZGV4IGlzIHdyaXR0ZW4gaW50byByc3otPmlkLg0KVGhl
+IHZhbHVlIGlzIHRoZW4gdXNlZCB0byBzZWxlY3Qgb25lIG9mIHRoZSB0d28gc3RyaW5ncy4NCkJ1
+dCByc3otPmlkIGlzIGFjdHVhbGx5IGFuIGVudW0gdHlwZS4NCg0Kcmtpc3AxX3Jzel9yZWdpc3Rl
+cigpIHNob3VsZCBwcm9iYWJseSBqdXN0IGJlIGNhbGxlZCB0d2ljZSB3aXRoIHNvbWUNCmV4dHJh
+IHBhcmFtZXRlcnMuDQoNCglEYXZpZA0KDQotDQpSZWdpc3RlcmVkIEFkZHJlc3MgTGFrZXNpZGUs
+IEJyYW1sZXkgUm9hZCwgTW91bnQgRmFybSwgTWlsdG9uIEtleW5lcywgTUsxIDFQVCwgVUsNClJl
+Z2lzdHJhdGlvbiBObzogMTM5NzM4NiAoV2FsZXMpDQo=
 
-In that case, it's fine.
-
->
-> >
-> >> +      items:
-> >> +        # isp0 and isp1
-> >> +        - description: ISP clock
-> >> +        - description: ISP AXI clock
-> >> +        - description: ISP AHB clock
-> >> +        # only for isp1
-> >> +        - description: ISP Pixel clock
-> >> +    clock-names:
-> >> +      maxItems: 4
-> >> +      minItems: 3
-> >> +      items:
-> >> +        # isp0 and isp1
-> >> +        - const: isp
-> >> +        - const: aclk
-> >> +        - const: hclk
-> >> +        # only for isp1
-> >> +        - const: pclk_isp
-> >
-> > Don't you need an 'else' clause. For not rockchip,rk3399-cif-isp,
-> > there's no definition of what clocks there are.
->
-> There is only one compatible defined for now, rk3288 will be added later.
-> The idea to add if/then is to make it easier to add rk3288:
->
-> https://patchwork.kernel.org/project/linux-media/patch/20200406073017.19462-4-karthik.poduval@gmail.com/
-
-Hopefully, the clock names will be aligned? Looks like they are the
-same with just 1 additional clock. Ideally, you define them all at the
-top level and the if/then schema just defines how many clocks for each
-compatible.
-
-Rob
