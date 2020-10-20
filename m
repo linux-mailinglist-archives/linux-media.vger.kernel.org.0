@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 387F42937D6
-	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 11:19:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C9E52937E0
+	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 11:19:49 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392382AbgJTJTD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Oct 2020 05:19:03 -0400
-Received: from mga17.intel.com ([192.55.52.151]:5080 "EHLO mga17.intel.com"
+        id S2392690AbgJTJTh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Oct 2020 05:19:37 -0400
+Received: from mga01.intel.com ([192.55.52.88]:37770 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391205AbgJTJTC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Oct 2020 05:19:02 -0400
-IronPort-SDR: wUhLC7L0YMUAyXGslRYhDFncWBGA6nDdYjtltzZqh3iLrFA72c/jMz+rQFY3zZ5j/4cqgv6C6K
- y6BaMqsQa2hA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="147037018"
+        id S2391238AbgJTJTg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 20 Oct 2020 05:19:36 -0400
+IronPort-SDR: C3pWNGRvUuDpZZg/5T5Tm5I4Ix4p62xCUKwf+gP4yr3sztTaja13o2wqg8oidTjNxDLkGG77YY
+ bBzaD+fO1w+A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9779"; a="184806176"
 X-IronPort-AV: E=Sophos;i="5.77,396,1596524400"; 
-   d="scan'208";a="147037018"
+   d="scan'208";a="184806176"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga002.fm.intel.com ([10.253.24.26])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2020 02:19:02 -0700
-IronPort-SDR: CMrq0FA3VNHs1JPZfErt9eYtSM2/0dTXWFAK82KHqJWn7lss5wKkvYs8tOkD0mq7vjXcBNGeE2
- APKZzZG9GLkw==
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2020 02:19:35 -0700
+IronPort-SDR: MBMaReXSxVI2+i/+rV6T1h29ulVH47nCz0OBwZqMIg8CsWZcsQrZlv94cV5/8CnQshTDJuYTj/
+ Bte/ehOOiJvA==
 X-IronPort-AV: E=Sophos;i="5.77,396,1596524400"; 
-   d="scan'208";a="353272831"
+   d="scan'208";a="315968920"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2020 02:18:56 -0700
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Oct 2020 02:19:30 -0700
 Received: from andy by smile with local (Exim 4.94)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kUnoE-00BJu4-Lr; Tue, 20 Oct 2020 12:19:58 +0300
-Date:   Tue, 20 Oct 2020 12:19:58 +0300
+        id 1kUnol-00BJvE-Ng; Tue, 20 Oct 2020 12:20:31 +0300
+Date:   Tue, 20 Oct 2020 12:20:31 +0300
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 To:     Daniel Scally <djrscally@gmail.com>
 Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
@@ -43,32 +43,53 @@ Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         bingbu.cao@intel.com, sakari.ailus@linux.intel.com,
         yong.zhi@intel.com, rafael@kernel.org, gregkh@linuxfoundation.org,
         kitakar@gmail.com, dan.carpenter@oracle.org
-Subject: Re: [RFC PATCH v3 7/9] ipu3-cio2: Check if pci_dev->dev's fwnode is
- a software_node in cio2_parse_firmware() and set
- FWNODE_GRAPH_DEVICE_DISABLED if so
-Message-ID: <20201020091958.GC4077@smile.fi.intel.com>
+Subject: Re: [RFC PATCH v3 2/9] lib/test_printf.c: Use helper function to
+ unwind array of software_nodes
+Message-ID: <20201020092031.GD4077@smile.fi.intel.com>
 References: <20201019225903.14276-1-djrscally@gmail.com>
- <20201019225903.14276-8-djrscally@gmail.com>
+ <20201019225903.14276-3-djrscally@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201019225903.14276-8-djrscally@gmail.com>
+In-Reply-To: <20201019225903.14276-3-djrscally@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 19, 2020 at 11:59:01PM +0100, Daniel Scally wrote:
-> fwnode_graph_get_endpoint_by_id() will optionally parse enabled devices
-> only; that status being determined through the .device_is_available() op
-> of the device's fwnode. As software_nodes don't have that operation and
-> adding it is meaningless, we instead need to check if the device's fwnode
-> is a software_node and if so pass the appropriate flag to disable that
-> check
+On Mon, Oct 19, 2020 at 11:58:56PM +0100, Daniel Scally wrote:
+> Use the new software_node_unregister_nodes_reverse() function to
+> unwind this array in a cleaner way.
 
-Period.
+Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 
-I'm wondering if actually this can be hidden in fwnode_graph_get_endpoint_by_id().
+> Suggested-by: Andriy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+> ---
+> Changes in v3:
+> 	- patch introduced.
+> 
+>  lib/test_printf.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
+> 
+> diff --git a/lib/test_printf.c b/lib/test_printf.c
+> index 7ac87f18a..c63365570 100644
+> --- a/lib/test_printf.c
+> +++ b/lib/test_printf.c
+> @@ -644,9 +644,7 @@ static void __init fwnode_pointer(void)
+>  	test(second_name, "%pfwP", software_node_fwnode(&softnodes[1]));
+>  	test(third_name, "%pfwP", software_node_fwnode(&softnodes[2]));
+>  
+> -	software_node_unregister(&softnodes[2]);
+> -	software_node_unregister(&softnodes[1]);
+> -	software_node_unregister(&softnodes[0]);
+> +	software_node_unregister_nodes_reverse(softnodes);
+>  }
+>  
+>  static void __init
+> -- 
+> 2.17.1
+> 
 
 -- 
 With Best Regards,
