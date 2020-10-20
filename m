@@ -2,155 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 56EC529434C
-	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 21:39:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8CB3D2943A1
+	for <lists+linux-media@lfdr.de>; Tue, 20 Oct 2020 21:56:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438225AbgJTTjt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 20 Oct 2020 15:39:49 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60128 "EHLO
+        id S2405333AbgJTT4M (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 20 Oct 2020 15:56:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34432 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2409108AbgJTTjo (ORCPT
+        with ESMTP id S1732547AbgJTT4M (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 20 Oct 2020 15:39:44 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1FEF8C0613CE;
-        Tue, 20 Oct 2020 12:39:44 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 15D721F44DF2
-From:   Helen Koike <helen.koike@collabora.com>
-To:     linux-media@vger.kernel.org
-Cc:     devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
-        robh+dt@kernel.org, heiko@sntech.de, kernel@collabora.com,
-        hverkuil-cisco@xs4all.nl, dafna.hirschfeld@collabora.com,
-        mark.rutland@arm.com, karthik.poduval@gmail.com,
-        eddie.cai.linux@gmail.com, jbx6244@gmail.com,
-        zhengsq@rock-chips.com, robin.murphy@arm.com
-Subject: [PATCH v6 9/9] arm64: dts: rockchip: add isp and sensors for Scarlet
-Date:   Tue, 20 Oct 2020 16:38:50 -0300
-Message-Id: <20201020193850.1460644-10-helen.koike@collabora.com>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201020193850.1460644-1-helen.koike@collabora.com>
-References: <20201020193850.1460644-1-helen.koike@collabora.com>
+        Tue, 20 Oct 2020 15:56:12 -0400
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F6F9C0613D1;
+        Tue, 20 Oct 2020 12:56:10 -0700 (PDT)
+Received: by mail-wr1-x443.google.com with SMTP id y12so3903453wrp.6;
+        Tue, 20 Oct 2020 12:56:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=EkvUPGzG0rYC8VoHFkrJiY63RC96TCBG8SeqvdWrfUk=;
+        b=XZpCl+eLNOKORnr7rN2yeY8275Ljse0jgfD73ILYlz5YqCXAS4YWVaoG+21dbAvlnj
+         tk38f8C14anItDhPugcWZ7SzLqB41sB4awoUWavoXtTRng1Jl6mGz6I6CZYz/IzFJrc6
+         yGVzyrh4iu/KKsDxDO1OcH+rr5cHRXK9fGFpwjlvI9bgD5wuRUtIF5rgNJjvyhmqCcDo
+         xxOY3HdnKOBpykwWD9nSLXvGUKN7V5BpJ4FclZmDEAU48RujvxH2yOA1gMmAz47fXI3f
+         mGDnk6h+H+G2AB5TovlJESsZNJTLYiqa55QmF1tzVUS+O2APkdhUozDr4PDvDj6QW4IR
+         NRRg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=EkvUPGzG0rYC8VoHFkrJiY63RC96TCBG8SeqvdWrfUk=;
+        b=GJ8XdjUCfRbvTfpJlZeoFuGc6ZRiz4zu3FrAozE7+BymsZC50+LmqPv25anLQErB5X
+         a+BY/vr7gYeEVb+qApbADVlnXc2PFL/SjbV9K7JuGw6BQ9uXLyAA9hdiMv541DqMD+KY
+         5UBsxMXC06slqndOZglmTPgJ5KpgZ0FKn8Mu1t4snWex2Kfv+U4bODJelyjhJ5PXwKD5
+         X3HnzQsIWq/hISsASt88mj68/63eb2MU4Vxta647AQ6ypW5ST5797FlVJ7fUREbcJpau
+         cpHdM+2aUtxB5Jz1H/mhjdE6SMsJUfZaT7hNELBpKHUtpELR5bqaKhFD8ERpzUI3K8+w
+         lY6Q==
+X-Gm-Message-State: AOAM531/mx8bxsWnLOOOXZpTixyg4GYPO9e9wBOdVWNhHVr5aSfObPkj
+        f3E1x2TJotxK/VvTRRon8qE=
+X-Google-Smtp-Source: ABdhPJyi2YTy1Eeqzqumz/PUvtqlJaX+IsttYqw1axedeULsvn6o9h1Uaz+FpTEt12vAjmS+LeyoNQ==
+X-Received: by 2002:a5d:62cf:: with SMTP id o15mr63142wrv.49.1603223769350;
+        Tue, 20 Oct 2020 12:56:09 -0700 (PDT)
+Received: from [192.168.1.211] ([2.26.187.29])
+        by smtp.gmail.com with ESMTPSA id x18sm4821181wrg.4.2020.10.20.12.56.08
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 20 Oct 2020 12:56:08 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 7/9] ipu3-cio2: Check if pci_dev->dev's fwnode is a
+ software_node in cio2_parse_firmware() and set FWNODE_GRAPH_DEVICE_DISABLED
+ if so
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linux.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        heikki.krogerus@linux.intel.com, dmitry.torokhov@gmail.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
+        robh@kernel.org, davem@davemloft.net, linux@rasmusvillemoes.dk,
+        sergey.senozhatsky@gmail.com, rostedt@goodmis.org,
+        pmladek@suse.com, mchehab@kernel.org, tian.shu.qiu@intel.com,
+        bingbu.cao@intel.com, yong.zhi@intel.com, rafael@kernel.org,
+        gregkh@linuxfoundation.org, kitakar@gmail.com,
+        dan.carpenter@oracle.org
+References: <20201019225903.14276-1-djrscally@gmail.com>
+ <20201019225903.14276-8-djrscally@gmail.com>
+ <20201020091958.GC4077@smile.fi.intel.com>
+ <20201020120615.GV13341@paasikivi.fi.intel.com>
+From:   Dan Scally <djrscally@gmail.com>
+Message-ID: <32bbb4db-17d7-b9d1-950f-8f29d67539c3@gmail.com>
+Date:   Tue, 20 Oct 2020 20:56:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201020120615.GV13341@paasikivi.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Eddie Cai <eddie.cai.linux@gmail.com>
+Hi Sakari
 
-Enable ISP and camera sensor ov2685 and ov5695 for Scarlet Chromebook
-
-Verified with:
-    make ARCH=arm64 dtbs_check
-
-Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
-Signed-off-by: Eddie Cai <eddie.cai.linux@gmail.com>
-Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-Signed-off-by: Helen Koike <helen.koike@collabora.com>
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
----
- .../boot/dts/rockchip/rk3399-gru-scarlet.dtsi | 74 +++++++++++++++++++
- 1 file changed, 74 insertions(+)
-
-diff --git a/arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet.dtsi
-index 60cd1c18cd4e0..beee5fbb34437 100644
---- a/arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet.dtsi
-+++ b/arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet.dtsi
-@@ -296,6 +296,52 @@ camera: &i2c7 {
- 
- 	/* 24M mclk is shared between world and user cameras */
- 	pinctrl-0 = <&i2c7_xfer &test_clkout1>;
-+
-+	/* Rear-facing camera */
-+	wcam: camera@36 {
-+		compatible = "ovti,ov5695";
-+		reg = <0x36>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&wcam_rst>;
-+
-+		clocks = <&cru SCLK_TESTCLKOUT1>;
-+		clock-names = "xvclk";
-+
-+		avdd-supply = <&pp2800_cam>;
-+		dvdd-supply = <&pp1250_cam>;
-+		dovdd-supply = <&pp1800_s0>;
-+		reset-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
-+
-+		port {
-+			wcam_out: endpoint {
-+				remote-endpoint = <&mipi_in_wcam>;
-+				data-lanes = <1 2>;
-+			};
-+		};
-+	};
-+
-+	/* Front-facing camera */
-+	ucam: camera@3c {
-+		compatible = "ovti,ov2685";
-+		reg = <0x3c>;
-+		pinctrl-names = "default";
-+		pinctrl-0 = <&ucam_rst>;
-+
-+		clocks = <&cru SCLK_TESTCLKOUT1>;
-+		clock-names = "xvclk";
-+
-+		avdd-supply = <&pp2800_cam>;
-+		dovdd-supply = <&pp1800_s0>;
-+		dvdd-supply = <&pp1800_s0>;
-+		reset-gpios = <&gpio2 3 GPIO_ACTIVE_LOW>;
-+
-+		port {
-+			ucam_out: endpoint {
-+				remote-endpoint = <&mipi_in_ucam>;
-+				data-lanes = <1>;
-+			};
-+		};
-+	};
- };
- 
- &cdn_dp {
-@@ -353,10 +399,38 @@ &io_domains {
- 	gpio1830-supply = <&pp1800_s0>;		/* APIO4_VDD;  4c 4d */
- };
- 
-+&isp0 {
-+	status = "okay";
-+
-+	ports {
-+		port@0 {
-+			mipi_in_wcam: endpoint@0 {
-+				reg = <0>;
-+				remote-endpoint = <&wcam_out>;
-+				data-lanes = <1 2>;
-+			};
-+
-+			mipi_in_ucam: endpoint@1 {
-+				reg = <1>;
-+				remote-endpoint = <&ucam_out>;
-+				data-lanes = <1>;
-+			};
-+		};
-+	};
-+};
-+
-+&isp0_mmu {
-+	status = "okay";
-+};
-+
- &max98357a {
- 	sdmode-gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;
- };
- 
-+&mipi_dphy_rx0 {
-+	status = "okay";
-+};
-+
- &mipi_dsi {
- 	status = "okay";
- 	clock-master;
--- 
-2.28.0
-
+On 20/10/2020 13:06, Sakari Ailus wrote:
+> Hi Andy,
+>
+> On Tue, Oct 20, 2020 at 12:19:58PM +0300, Andy Shevchenko wrote:
+>> On Mon, Oct 19, 2020 at 11:59:01PM +0100, Daniel Scally wrote:
+>>> fwnode_graph_get_endpoint_by_id() will optionally parse enabled devices
+>>> only; that status being determined through the .device_is_available() op
+>>> of the device's fwnode. As software_nodes don't have that operation and
+>>> adding it is meaningless, we instead need to check if the device's fwnode
+>>> is a software_node and if so pass the appropriate flag to disable that
+>>> check
+>> Period.
+>>
+>> I'm wondering if actually this can be hidden in fwnode_graph_get_endpoint_by_id().
+> The device availability test is actually there for a reason. Some firmware
+> implementations put all the potential devices in the tables and only one
+> (of some) of them are available.
+>
+> Could this be implemented so that if the node is a software node, then get
+> its parent and then see if that is available?
+>
+> I guess that could be implemented in software node ops. Any opinions?
+Actually when considering the cio2 device, it seems that
+set_secondary_fwnode() actually overwrites the _primary_, given
+fwnode_is_primary(dev->fwnode) returns false. So in at least some cases,
+this wouldn't work.
