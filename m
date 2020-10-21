@@ -2,77 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32CDA294A61
-	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 11:20:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E9062294A93
+	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 11:32:32 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437765AbgJUJUz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Oct 2020 05:20:55 -0400
-Received: from mga06.intel.com ([134.134.136.31]:55857 "EHLO mga06.intel.com"
+        id S2437405AbgJUJc1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Oct 2020 05:32:27 -0400
+Received: from mga01.intel.com ([192.55.52.88]:50786 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437619AbgJUJUz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Oct 2020 05:20:55 -0400
-IronPort-SDR: VcJJnXrtHtYz0dtFA5QgoRCG3r4vLrI3V3rgcisnItMSAZZlVzdjCX02fy5w/y/tlnHt0ms8Yw
- /mmMPkDHMQRQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9780"; a="228964220"
+        id S2391045AbgJUJc1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Oct 2020 05:32:27 -0400
+IronPort-SDR: E5yBYKFnh+0CFGgYF2lGnE4S1/HN8eu6K+2pFY1CBKV5pBJuD4Hg1TPej70v4uwzJ94DVDak8q
+ 83rvcYUKoWOg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9780"; a="184993153"
 X-IronPort-AV: E=Sophos;i="5.77,400,1596524400"; 
-   d="scan'208";a="228964220"
+   d="scan'208";a="184993153"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2020 02:20:49 -0700
-IronPort-SDR: gggVILlSD/5P5JllA7+E7WJbs6+IfNmd+hOXfji2YGktVFcbFZPr368uNbHEgnC76USrtU2VvY
- rZzrq16mRCXA==
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2020 02:32:25 -0700
+IronPort-SDR: uIsyGHh8GhoqAsZebAcX7woAL+Q19e76vrn2ZrsSz02YK9jPJ2m7H7ZrDe6SJIMKxMPitUddvG
+ XKkBQ6rX+0PQ==
 X-IronPort-AV: E=Sophos;i="5.77,400,1596524400"; 
-   d="scan'208";a="320954500"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2020 02:20:46 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 853D320815; Wed, 21 Oct 2020 12:20:43 +0300 (EEST)
-Date:   Wed, 21 Oct 2020 12:20:43 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Bingbu Cao <bingbu.cao@intel.com>
-Cc:     linux-media@vger.kernel.org, senozhatsky@chromium.org,
-        tfiga@chromium.org, bingbu.cao@linux.intel.com
-Subject: Re: [PATCH] media: ov2740: change the minimal exposure value to 4
-Message-ID: <20201021092043.GD2703@paasikivi.fi.intel.com>
-References: <1603248250-24847-1-git-send-email-bingbu.cao@intel.com>
+   d="scan'208";a="302022482"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2020 02:32:19 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kVAUj-00C9Tu-2v; Wed, 21 Oct 2020 12:33:21 +0300
+Date:   Wed, 21 Oct 2020 12:33:21 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dan Scally <djrscally@gmail.com>
+Cc:     Sakari Ailus <sakari.ailus@iki.fi>, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux.walleij@linaro.org,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        heikki.krogerus@linux.intel.com, dmitry.torokhov@gmail.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
+        robh@kernel.org, davem@davemloft.net, linux@rasmusvillemoes.dk,
+        sergey.senozhatsky@gmail.com, rostedt@goodmis.org,
+        pmladek@suse.com, mchehab@kernel.org, tian.shu.qiu@intel.com,
+        bingbu.cao@intel.com, sakari.ailus@linux.intel.com,
+        yong.zhi@intel.com, rafael@kernel.org, gregkh@linuxfoundation.org,
+        kitakar@gmail.com, dan.carpenter@oracle.org
+Subject: Re: [RFC PATCH v3 3/9] software_node: Fix failure to hold refcount
+ in software_node_get_next_child
+Message-ID: <20201021093321.GM4077@smile.fi.intel.com>
+References: <20201019225903.14276-1-djrscally@gmail.com>
+ <20201019225903.14276-4-djrscally@gmail.com>
+ <20201020133148.GB843@valkosipuli.retiisi.org.uk>
+ <c1a7beba-faff-e06d-1517-5b30d777b252@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <1603248250-24847-1-git-send-email-bingbu.cao@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <c1a7beba-faff-e06d-1517-5b30d777b252@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
+On Wed, Oct 21, 2020 at 12:25:28AM +0100, Dan Scally wrote:
+> On 20/10/2020 14:31, Sakari Ailus wrote:
+> > On Mon, Oct 19, 2020 at 11:58:57PM +0100, Daniel Scally wrote:
 
-On Wed, Oct 21, 2020 at 10:44:10AM +0800, Bingbu Cao wrote:
-> The minimal valid exposure value should be 4 lines instead of 8 for
-> ov2740 mannual exposure control.
+> >> +	return software_node_get(&c->fwnode);
+> > I believe similarly, the function should drop the reference to the previous
+> > node, and not expect the caller to do this. The OF equivalent does the
+> > same.
 > 
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> ---
->  drivers/media/i2c/ov2740.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> index bd0d45b0d43f..0dbae4949cb3 100644
-> --- a/drivers/media/i2c/ov2740.c
-> +++ b/drivers/media/i2c/ov2740.c
-> @@ -37,7 +37,7 @@
->  
->  /* Exposure controls from sensor */
->  #define OV2740_REG_EXPOSURE		0x3500
-> -#define OV2740_EXPOSURE_MIN		8
-> +#define OV2740_EXPOSURE_MIN		4
->  #define OV2740_EXPOSURE_MAX_MARGIN	8
->  #define OV2740_EXPOSURE_STEP		1
+> I think I prefer it this way myself, since the alternative is having to
+> explicitly call *_node_get() on a returned child if you want to keep it
+> but also keep iterating. But I agree that it's important to take a
+> consistent approach. I'll add that too; this will mean
+> swnode_graph_find_next_port() and
+> software_node_graph_get_next_endpoint() in patch 4 of this series will
+> need changing slightly to square away their references.
 
-This is already in my tree --- I may forgotten to push master after
-applying many patches, it is up-to-date now.
+What about ACPI case? Does it square?
 
 -- 
-Regards,
+With Best Regards,
+Andy Shevchenko
 
-Sakari Ailus
+
