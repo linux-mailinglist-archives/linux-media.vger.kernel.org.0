@@ -2,83 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 97BC92951F6
-	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 20:04:11 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 848A6295227
+	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 20:21:34 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438306AbgJUSEK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Oct 2020 14:04:10 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42040 "EHLO
+        id S2504046AbgJUSVa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Oct 2020 14:21:30 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44746 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2409543AbgJUSEK (ORCPT
+        with ESMTP id S2392062AbgJUSV3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Oct 2020 14:04:10 -0400
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56320C0613CF
-        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 11:04:10 -0700 (PDT)
-Received: by mail-pl1-x644.google.com with SMTP id y1so1610086plp.6
-        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 11:04:10 -0700 (PDT)
+        Wed, 21 Oct 2020 14:21:29 -0400
+Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3E1BCC0613CF
+        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 11:21:29 -0700 (PDT)
+Received: by mail-ej1-x642.google.com with SMTP id p5so4641637ejj.2
+        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 11:21:29 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=YMBPmw7LgMH/wMUyG7snVPteifqym3RR8JiE8ISOB7E=;
-        b=NfK8jZZJd3Vp3s4vIJGbPTdZbWTFCz80ybf4TCR2M2z5DoJxnFjmkSrWxGbUhJ4AXF
-         dPyaR9q1ugKFKqqGpnnja/Yx7SgjKIsPLoin3g23cqMq9BL9XF3gtxauQlDzBDYW4EOs
-         J1XHBCcGRV7fZJtpxKM2RLk4iDp9VVTIHEcsCDHUe+6omPxdOMkc8sj7sREAFEsJ/lbK
-         VqHBZ/CcF+y99rMCAtLo79XlEgHHrAjQOe5zRq5csrNOxgX6OqWypynnhg6b7eIhxwCj
-         Qte/A08JPRBlVsrpsbjzNCRjAHudEfRRBulcPrJd3R3hvjvO/KzbK3qPE8/BFKlsmeT8
-         HBSw==
+        d=intel-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=lBYBT2trM0zWLuScJPu/8MEsMxH22DaNGgcD4PxkzgM=;
+        b=aI4DCgQQ2pNgP8FJefkPAHWyeYDZ6gBOdUW5ASwTjCdJPt6/F0D5IUw+ryIpjQNXm7
+         gK4+rVdRij2UezhsYNKjky15pbLyx71SXm/fZWi7e8Q4m+RVncNlw0/EQHwWG71kG1jW
+         swatZpkYTu5yAZOXhuMbyP3n0EJyZ6Tj4Y/cuYa29u3olktUJdc4M4TJ2rd4I+0DOH8g
+         zGBna8sz6bZsljPuc9avDUo1nfa6ddJFnaen4gYQFZ8z/YYqPo9kDiLM1CATyUVyGmG8
+         pnWq4b5N/m5mvr9ZCnxufY7oD2D56MpGg2WZMNT6wzDAol9vlUAst1BSJiogsIkNya2g
+         yS+g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=YMBPmw7LgMH/wMUyG7snVPteifqym3RR8JiE8ISOB7E=;
-        b=eXQJVwrB1Y2OpPY/oleSHZ/jhZM3cQGnsqYgaHmuCLOhH3s9Ov1ZEaLMPIQ+er0i+3
-         dCduQTn1ySwJf4brljTpoDS67Hzn9ZuXv7vap0vpE6jeV2ogANrWR4wVjGE7jpP3/Kq8
-         2SyTZoDgPiDHuM86phiKn1xD4e7xGXCLLEgSpjbZXlvMpcD0rfs/fNkVehqWdFZLZC0M
-         nMrKd391PXrCktfz1fZEIiw9axEnan9b//4VB2ePUGoqMDFnKcgvLiuuZFa3CQIM1jE2
-         w39MaIGFIRgxYLRwI3jaEvbpE9ObN+LGtg5RvX9dpG5/7o16ghQPxP+qKhueCP9iQ3og
-         M8mA==
-X-Gm-Message-State: AOAM530o552Q0Hl8zO5ecQ0WU2tU9u95IRsVk2VsmE+KfB0N1rn/DAE9
-        Tcnb6KMWJn6RK7/WU0nj0+Rau1mLXN0d3C+LJ2g=
-X-Google-Smtp-Source: ABdhPJyslpSto/sWZ/GXWU2/qVWfR5EhQwNczNTpiClZK195mpddXnT1pLiWRUANirI1/oB39CwO0C3lTEXkCEebV60=
-X-Received: by 2002:a17:90a:2fc2:: with SMTP id n2mr3281157pjm.173.1603303449833;
- Wed, 21 Oct 2020 11:04:09 -0700 (PDT)
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=lBYBT2trM0zWLuScJPu/8MEsMxH22DaNGgcD4PxkzgM=;
+        b=WJn0iu7UKk6Pxls2GdE3PejjJ1M9ulDpP4GpzXrLZEBn+kL545ljKuXtbbkhsVMY3P
+         g542nixze4ooibM4VKiXR6AQB/PFd3rsTnUbTOj0/mRptY17fsTft0A5SBn72YNjHXaO
+         p6zp4JXrFww60M/G0CposzLPkyUMKH8oR2RsmVS1l+maaQbECQ/8Fht8H16avHcQLDYg
+         l/trIB9O3GBF16UK+o1ORmfosSCLS1AuReyK1mRHg0Hm7YCo8d3OA/9TvqUu78u4G26V
+         t/0dGzkhMhNrlhQkFwESNCdIFrgUwfQO+UwoQz82t4wOaCmCdaE1f9hb7BobpcP3HrBs
+         SdZA==
+X-Gm-Message-State: AOAM5304QOLPkUT6BkcSo0CbMjBemm3YPMrUWXCT8GnoDzTqYhc53tGe
+        bkpqri76ek6nlhCOPUhbrMQ9SOVZesLrpZasR/WlfQ==
+X-Google-Smtp-Source: ABdhPJzA1jSls/Kx/Mwjc1+1+EpDhh/HoRUDuIKQ8K0ggJGziicPcEE6tEKertKBv/kwHwmxQELgJDflTG3MPc+CL3w=
+X-Received: by 2002:a17:906:c20f:: with SMTP id d15mr4627011ejz.341.1603304487981;
+ Wed, 21 Oct 2020 11:21:27 -0700 (PDT)
 MIME-Version: 1.0
-Received: by 2002:a17:90b:4d08:0:0:0:0 with HTTP; Wed, 21 Oct 2020 11:04:09
- -0700 (PDT)
-Reply-To: mrs.chantalhermans2002@gmail.com
-From:   Mrs Chantal Hermans <bonanrika@gmail.com>
-Date:   Wed, 21 Oct 2020 11:04:09 -0700
-Message-ID: <CAHgmy+gqAOPjU2FvWatAMQ88ZDmdd2a4Ro0VNSW9aSx3fsFJng@mail.gmail.com>
-Subject: Hello dear
-To:     undisclosed-recipients:;
+References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch> <20201021085655.1192025-14-daniel.vetter@ffwll.ch>
+In-Reply-To: <20201021085655.1192025-14-daniel.vetter@ffwll.ch>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Wed, 21 Oct 2020 11:21:17 -0700
+Message-ID: <CAPcyv4jJTeH-PNjsXGrn=Ooz7=9rsZLdnFgwJ9xpQ6y14YoDrQ@mail.gmail.com>
+Subject: Re: [PATCH v3 13/16] /dev/mem: Only set filp->f_mapping
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
+        Daniel Vetter <daniel.vetter@ffwll.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
--- 
-We bring greetings to you in the name of the lord. This message is
-sent to you as a notification that you have been chosen to benefit
-from our charity project aimed at touching lives and helping those
-that we can across the world as God has blessed us. I won the
-Powerball lottery of $150Million on November 2, 2019 and I have
-voluntarily decided to donate the sum of $75Million to charity, I try
-to reach people randomly from different sources and modes so as to
-touch lives from different angles, Hence you are getting a message
-here.
+On Wed, Oct 21, 2020 at 1:57 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
+e:
+>
+> When we care about pagecache maintenance, we need to make sure that
+> both f_mapping and i_mapping point at the right mapping.
+>
+> But for iomem mappings we only care about the virtual/pte side of
+> things, so f_mapping is enough. Also setting inode->i_mapping was
+> confusing me as a driver maintainer, since in e.g. drivers/gpu we
+> don't do that. Per Dan this seems to be copypasta from places which do
+> care about pagecache consistency, but not needed. Hence remove it for
+> slightly less confusion.
+>
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: John Hubbard <jhubbard@nvidia.com>
+> Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Dan Williams <dan.j.williams@intel.com>
 
-You have been listed as one of the lucky recipients to receive $12.5M
-This donation is made out to you so to enable you strengthen your
-personal issues and mostly to generously help us extend hands of
-giving to the less privileged, orphans and charity organizations
-within your locality To verify
-https://www.powerball.com/winner-story/150-million-powerball-ticket-claimed
-
-Get back to me on how to receive the donation through our official
-email address below You can also contact us via our
-Whatsapp number+1 573 333 7440 and email address
-(mrs.chantalhermans2002@gmail.com) The earlier you contact our email
-the earlier you receieve your donation
-Thanks
-Bill.Chantal Hermans
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
