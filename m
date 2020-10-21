@@ -2,220 +2,339 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 11D82294E13
-	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 15:54:40 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 88452294E1B
+	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 15:56:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2442135AbgJUNye (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Oct 2020 09:54:34 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59660 "EHLO
+        id S2440021AbgJUN4k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Oct 2020 09:56:40 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59972 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2411322AbgJUNye (ORCPT
+        with ESMTP id S2439850AbgJUN4g (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Oct 2020 09:54:34 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2459BC0613CE;
-        Wed, 21 Oct 2020 06:54:34 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 454921F459CF
-Subject: Re: [PATCH v5 5/9] media: staging: rkisp1: remove unecessary clocks
-To:     Rob Herring <robh+dt@kernel.org>
-Cc:     devicetree@vger.kernel.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
-        "heiko@sntech.de" <heiko@sntech.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Collabora Kernel ML <kernel@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Mark Rutland <mark.rutland@arm.com>, karthik.poduval@gmail.com,
-        Johan Jonker <jbx6244@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Eddie Cai <eddie.cai.linux@gmail.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Robin Murphy <robin.murphy@arm.com>
-References: <20200722155533.252844-1-helen.koike@collabora.com>
- <20200722155533.252844-6-helen.koike@collabora.com>
- <CAL_Jsq+qB=yUtHKKujiUWrsq+W-3ggM3B_SuuDzfYEheczn=8g@mail.gmail.com>
- <2dcdda41-bdb4-55a8-557f-8175983effb5@collabora.com>
- <CAL_Jsq+-8Jyms3LJBjTxABcuTa5GduXtJ1jdOgp7xcPoQzdtGQ@mail.gmail.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <c0da2c06-4838-2bb3-004e-799e196cb35c@collabora.com>
-Date:   Wed, 21 Oct 2020 10:54:23 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
+        Wed, 21 Oct 2020 09:56:36 -0400
+Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com [IPv6:2607:f8b0:4864:20::c44])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 980CDC0613D4
+        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 06:56:35 -0700 (PDT)
+Received: by mail-oo1-xc44.google.com with SMTP id v123so556522ooa.5
+        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 06:56:35 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Kl9QoUs/s2cbTR+FmSfk48r32CM/2qV2pwhju+ujgqs=;
+        b=Zy8jQTBlNs5TQa4PO6+FLGvNQo2yMvMWMuHBmJ+fNQEWt0uMnr71ZMI2bpycNRIRQ3
+         KB/443iCclBVyREB3SmlS+YWdLKGHcc7IIZT4YKgogh2jrhpVHfuxxMo4sF0KXYOxqn9
+         T98EDFVto3adCqdupGjGINQypIKb7P4JxqzsU=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Kl9QoUs/s2cbTR+FmSfk48r32CM/2qV2pwhju+ujgqs=;
+        b=jMTwpqGv9tIJ9pSlyPfm6On8sO7a1HuOs4LKiA8IJE8MUX/RL+QPuJDmw+hrTr4j1v
+         5JhwzIwhO/S5fmx3pEjgGABN005gOqghCs6vFJxUGWdVGVK3Su+nbvVpVGj5eacn6+U3
+         meXODRGgItDnW32w8crCfMLvXfc+A8/x33IfkxzEtMPk+I99rIRUIv6vJybwO3XczGm2
+         P5zF4G/UeEudg5Hnlq4qN3XbnLNXckTOnrYlIUAmH9JUJskytCgsehShAaoNokbgPLHS
+         cCacYGIEEmXyHzozJ8wBaOHIA9PW3ko5E8uzfiPnb70BTb8Gfdn3o/e9zTUUuKL/qC7e
+         y1wQ==
+X-Gm-Message-State: AOAM531tX4WXGTOptp4Uiic2dbsGKXwcbLhmQNNaYGhSu4dfbiXfMV6p
+        e8DwIKckHSpM1WSD41cOsc/txcl81Jam0DgOpiG73g==
+X-Google-Smtp-Source: ABdhPJx73JOBFoAP2CVJQE/fpi2znYbj8Bpg/x5C+PPasilswqQzkmytZ9f5UvJqWOkdysL0kT2eE/qyk/y3R7xEcws=
+X-Received: by 2002:a4a:95cb:: with SMTP id p11mr2640699ooi.89.1603288594554;
+ Wed, 21 Oct 2020 06:56:34 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <CAL_Jsq+-8Jyms3LJBjTxABcuTa5GduXtJ1jdOgp7xcPoQzdtGQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
+ <20201021085655.1192025-9-daniel.vetter@ffwll.ch> <07557af4-32b5-7610-292c-9fd3bbfe9229@linux.ibm.com>
+In-Reply-To: <07557af4-32b5-7610-292c-9fd3bbfe9229@linux.ibm.com>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Wed, 21 Oct 2020 15:56:23 +0200
+Message-ID: <CAKMK7uEBv9y1mLAyo8ypV=bW=TMNky-QvhCTxcMe4O65WtmMZQ@mail.gmail.com>
+Subject: Re: [PATCH v3 08/16] s390/pci: Remove races against pte updates
+To:     Niklas Schnelle <schnelle@linux.ibm.com>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Heiko Carstens <hca@linux.ibm.com>,
+        Vasily Gorbik <gor@linux.ibm.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+On Wed, Oct 21, 2020 at 11:38 AM Niklas Schnelle <schnelle@linux.ibm.com> w=
+rote:
+>
+>
+>
+> On 10/21/20 10:56 AM, Daniel Vetter wrote:
+> > Way back it was a reasonable assumptions that iomem mappings never
+> > change the pfn range they point at. But this has changed:
+> >
+> > - gpu drivers dynamically manage their memory nowadays, invalidating
+> > ptes with unmap_mapping_range when buffers get moved
+> >
+> > - contiguous dma allocations have moved from dedicated carvetouts to
+> > cma regions. This means if we miss the unmap the pfn might contain
+> > pagecache or anon memory (well anything allocated with GFP_MOVEABLE)
+> >
+> > - even /dev/mem now invalidates mappings when the kernel requests that
+> > iomem region when CONFIG_IO_STRICT_DEVMEM is set, see commit
+> > 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims the
+> > region")
+> >
+> > Accessing pfns obtained from ptes without holding all the locks is
+> > therefore no longer a good idea. Fix this.
+> >
+> > Since zpci_memcpy_from|toio seems to not do anything nefarious with
+> > locks we just need to open code get_pfn and follow_pfn and make sure
+> > we drop the locks only after we're done. The write function also needs
+> > the copy_from_user move, since we can't take userspace faults while
+> > holding the mmap sem.
+> >
+> > v2: Move VM_IO | VM_PFNMAP checks around so they keep returning EINVAL
+> > like before (Gerard)
+> >
+> > v3: Polish commit message (Niklas)
+> >
+> > Reviewed-by: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> > Cc: Dan Williams <dan.j.williams@intel.com>
+> > Cc: Kees Cook <keescook@chromium.org>
+> > Cc: Andrew Morton <akpm@linux-foundation.org>
+> > Cc: John Hubbard <jhubbard@nvidia.com>
+> > Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
+> > Cc: Jan Kara <jack@suse.cz>
+> > Cc: linux-mm@kvack.org
+> > Cc: linux-arm-kernel@lists.infradead.org
+> > Cc: linux-samsung-soc@vger.kernel.org
+> > Cc: linux-media@vger.kernel.org
+> > Cc: Niklas Schnelle <schnelle@linux.ibm.com>
+> > Cc: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
+> > Cc: linux-s390@vger.kernel.org
+> > Cc: Niklas Schnelle <schnelle@linux.ibm.com>
+> > Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.com>
+>                                                    ^^^^
+> This should be ".ch", but since this is clearly a typo and you also send =
+from @ffwll.ch,
+> I took the liberty and fixed it for this commit and applied your patch to=
+ our internal
+> branch, Heiko or Vasily will then pick it up for the s390 tree.
 
-On 10/20/20 12:14 PM, Rob Herring wrote:
-> On Wed, Oct 14, 2020 at 11:46 AM Helen Koike <helen.koike@collabora.com> wrote:
->>
->> Hi Rob,
->>
->> Thnaks for your reply.
->>
->> On 9/22/20 11:24 AM, Rob Herring wrote:
->>> On Wed, Jul 22, 2020 at 9:56 AM Helen Koike <helen.koike@collabora.com> wrote:
->>>>
->>>> aclk_isp_wrap is a child of aclk_isp, and hclk_isp_wrap is a child of
->>>> hclk_isp, thus we can remove parents from the list.
->>>>
->>>> Also, for the isp0, we only need the ISP clock, ACLK and HCLK.
->>>> In the future we'll need a pixel clock for RK3288 and RK3399, and a JPEG
->>>> clock for RK3288.
->>>>
->>>> So with the goal to cleanup the dt-bindings and remove it from staging,
->>>> simplify clock names to isp, aclk and hclk.
->>>>
->>>> Assigned clocks are meant to refer to the full path in the clock tree,
->>>> i.e. the leaf in the tree.
->>>> For instance, in RK3399, the clock responsible for ACLK (ISP AXI CLOCK)
->>>> is aclk_isp0_wrapper.
->>>>
->>>> For reference, this is the isp clock topology on RK3399:
->>>>
->>>>  xin24m
->>>>     pll_npll
->>>>        npll
->>>>           clk_isp1
->>>>           clk_isp0
->>>>     pll_cpll
->>>>        cpll
->>>>           aclk_isp1
->>>>              aclk_isp1_noc
->>>>              hclk_isp1
->>>>                 aclk_isp1_wrapper
->>>>                 hclk_isp1_noc
->>>>           aclk_isp0
->>>>              hclk_isp1_wrapper
->>>>              aclk_isp0_wrapper
->>>>              aclk_isp0_noc
->>>>              hclk_isp0
->>>>                 hclk_isp0_wrapper
->>>>                 hclk_isp0_noc
->>>>  pclkin_isp1_wrapper
->>>>
->>>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->>>>
->>>> ---
->>>> Changes in V5:
->>>> - Use if/then schema as suggested by Rob Herring on
->>>> https://patchwork.linuxtv.org/project/linux-media/patch/20200702191322.2639681-6-helen.koike@collabora.com/#119729
->>>>
->>>> Changes in V4:
->>>> - update binding according to suggestion by Robin Murphy
->>>> on https://patchwork.kernel.org/patch/11475007/
->>>>
->>>> Changes in V3:
->>>> - this is a new patch in the series
->>>> ---
->>>>  .../bindings/media/rockchip-isp1.yaml         | 50 ++++++++++++-------
->>>>  drivers/staging/media/rkisp1/rkisp1-dev.c     |  8 ++-
->>>>  2 files changed, 36 insertions(+), 22 deletions(-)
->>>>
->>>> diff --git a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
->>>> index 62a6b9c959498..23c677d15037a 100644
->>>> --- a/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
->>>> +++ b/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
->>>> @@ -24,20 +24,10 @@ properties:
->>>>      maxItems: 1
->>>>
->>>>    clocks:
->>>> -    items:
->>>> -      - description: ISP clock
->>>> -      - description: ISP AXI clock clock
->>>> -      - description: ISP AXI clock  wrapper clock
->>>> -      - description: ISP AHB clock clock
->>>> -      - description: ISP AHB wrapper clock
->>>> +    minItems: 3
->>>
->>> You need maxItems here too or it will always be 3.
->>>
->>>>
->>>>    clock-names:
->>>> -    items:
->>>> -      - const: clk_isp
->>>> -      - const: aclk_isp
->>>> -      - const: aclk_isp_wrap
->>>> -      - const: hclk_isp
->>>> -      - const: hclk_isp_wrap
->>>> +    minItems: 3
->>>>
->>>>    iommus:
->>>>      maxItems: 1
->>>> @@ -116,6 +106,34 @@ required:
->>>>    - power-domains
->>>>    - ports
->>>>
->>>> +if:
->>>> +  properties:
->>>> +    compatible:
->>>> +      contains:
->>>> +        const: rockchip,rk3399-cif-isp
->>>> +then:
->>>> +  properties:
->>>> +    clocks:
->>>> +      maxItems: 4
->>>> +      minItems: 3
->>>
->>> For a single compatible you shouldn't really have a variable number of clocks.
->>
->> I'm not entirely sure how to make this separation, since isp0 and isp1 (not yet supported)
->> would use the same compatible.
->> Unless if we separate in two compatibles, but maybe this is an overhead just for an extra clock.
->> What do you think?
-> 
-> In that case, it's fine.
-> 
->>
->>>
->>>> +      items:
->>>> +        # isp0 and isp1
->>>> +        - description: ISP clock
->>>> +        - description: ISP AXI clock
->>>> +        - description: ISP AHB clock
->>>> +        # only for isp1
->>>> +        - description: ISP Pixel clock
->>>> +    clock-names:
->>>> +      maxItems: 4
->>>> +      minItems: 3
->>>> +      items:
->>>> +        # isp0 and isp1
->>>> +        - const: isp
->>>> +        - const: aclk
->>>> +        - const: hclk
->>>> +        # only for isp1
->>>> +        - const: pclk_isp
->>>
->>> Don't you need an 'else' clause. For not rockchip,rk3399-cif-isp,
->>> there's no definition of what clocks there are.
->>
->> There is only one compatible defined for now, rk3288 will be added later.
->> The idea to add if/then is to make it easier to add rk3288:
->>
->> https://patchwork.kernel.org/project/linux-media/patch/20200406073017.19462-4-karthik.poduval@gmail.com/
-> 
-> Hopefully, the clock names will be aligned? Looks like they are the
-> same with just 1 additional clock. Ideally, you define them all at the
-> top level and the if/then schema just defines how many clocks for each
-> compatible.
+Uh yes, and I've copypasted this to all patches :-/
 
-I submitted another version, where I try to capture what you suggested here,
-please check if I got it right this time (or not).
-Maybe I misunderstood which kind of alignment you are expecting for the clock names,
-should they be each in a different line?
+Thanks for picking this up, I'll drop it here from my series.
 
-https://patchwork.linuxtv.org/project/linux-media/patch/20201020193850.1460644-6-helen.koike@collabora.com/
+Cheers, Daniel
 
-Thanks
-Helen
+>
+> Thanks!
+>
+> > ---
+> >  arch/s390/pci/pci_mmio.c | 98 +++++++++++++++++++++++-----------------
+> >  1 file changed, 57 insertions(+), 41 deletions(-)
+> >
+> > diff --git a/arch/s390/pci/pci_mmio.c b/arch/s390/pci/pci_mmio.c
+> > index 401cf670a243..1a6adbc68ee8 100644
+> > --- a/arch/s390/pci/pci_mmio.c
+> > +++ b/arch/s390/pci/pci_mmio.c
+> > @@ -119,33 +119,15 @@ static inline int __memcpy_toio_inuser(void __iom=
+em *dst,
+> >       return rc;
+> >  }
+> >
+> > -static long get_pfn(unsigned long user_addr, unsigned long access,
+> > -                 unsigned long *pfn)
+> > -{
+> > -     struct vm_area_struct *vma;
+> > -     long ret;
+> > -
+> > -     mmap_read_lock(current->mm);
+> > -     ret =3D -EINVAL;
+> > -     vma =3D find_vma(current->mm, user_addr);
+> > -     if (!vma)
+> > -             goto out;
+> > -     ret =3D -EACCES;
+> > -     if (!(vma->vm_flags & access))
+> > -             goto out;
+> > -     ret =3D follow_pfn(vma, user_addr, pfn);
+> > -out:
+> > -     mmap_read_unlock(current->mm);
+> > -     return ret;
+> > -}
+> > -
+> >  SYSCALL_DEFINE3(s390_pci_mmio_write, unsigned long, mmio_addr,
+> >               const void __user *, user_buffer, size_t, length)
+> >  {
+> >       u8 local_buf[64];
+> >       void __iomem *io_addr;
+> >       void *buf;
+> > -     unsigned long pfn;
+> > +     struct vm_area_struct *vma;
+> > +     pte_t *ptep;
+> > +     spinlock_t *ptl;
+> >       long ret;
+> >
+> >       if (!zpci_is_enabled())
+> > @@ -158,7 +140,7 @@ SYSCALL_DEFINE3(s390_pci_mmio_write, unsigned long,=
+ mmio_addr,
+> >        * We only support write access to MIO capable devices if we are =
+on
+> >        * a MIO enabled system. Otherwise we would have to check for eve=
+ry
+> >        * address if it is a special ZPCI_ADDR and would have to do
+> > -      * a get_pfn() which we don't need for MIO capable devices.  Curr=
+ently
+> > +      * a pfn lookup which we don't need for MIO capable devices.  Cur=
+rently
+> >        * ISM devices are the only devices without MIO support and there=
+ is no
+> >        * known need for accessing these from userspace.
+> >        */
+> > @@ -176,21 +158,37 @@ SYSCALL_DEFINE3(s390_pci_mmio_write, unsigned lon=
+g, mmio_addr,
+> >       } else
+> >               buf =3D local_buf;
+> >
+> > -     ret =3D get_pfn(mmio_addr, VM_WRITE, &pfn);
+> > +     ret =3D -EFAULT;
+> > +     if (copy_from_user(buf, user_buffer, length))
+> > +             goto out_free;
+> > +
+> > +     mmap_read_lock(current->mm);
+> > +     ret =3D -EINVAL;
+> > +     vma =3D find_vma(current->mm, mmio_addr);
+> > +     if (!vma)
+> > +             goto out_unlock_mmap;
+> > +     if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
+> > +             goto out_unlock_mmap;
+> > +     ret =3D -EACCES;
+> > +     if (!(vma->vm_flags & VM_WRITE))
+> > +             goto out_unlock_mmap;
+> > +
+> > +     ret =3D follow_pte_pmd(vma->vm_mm, mmio_addr, NULL, &ptep, NULL, =
+&ptl);
+> >       if (ret)
+> > -             goto out;
+> > -     io_addr =3D (void __iomem *)((pfn << PAGE_SHIFT) |
+> > +             goto out_unlock_mmap;
+> > +
+> > +     io_addr =3D (void __iomem *)((pte_pfn(*ptep) << PAGE_SHIFT) |
+> >                       (mmio_addr & ~PAGE_MASK));
+> >
+> > -     ret =3D -EFAULT;
+> >       if ((unsigned long) io_addr < ZPCI_IOMAP_ADDR_BASE)
+> > -             goto out;
+> > -
+> > -     if (copy_from_user(buf, user_buffer, length))
+> > -             goto out;
+> > +             goto out_unlock_pt;
+> >
+> >       ret =3D zpci_memcpy_toio(io_addr, buf, length);
+> > -out:
+> > +out_unlock_pt:
+> > +     pte_unmap_unlock(ptep, ptl);
+> > +out_unlock_mmap:
+> > +     mmap_read_unlock(current->mm);
+> > +out_free:
+> >       if (buf !=3D local_buf)
+> >               kfree(buf);
+> >       return ret;
+> > @@ -274,7 +272,9 @@ SYSCALL_DEFINE3(s390_pci_mmio_read, unsigned long, =
+mmio_addr,
+> >       u8 local_buf[64];
+> >       void __iomem *io_addr;
+> >       void *buf;
+> > -     unsigned long pfn;
+> > +     struct vm_area_struct *vma;
+> > +     pte_t *ptep;
+> > +     spinlock_t *ptl;
+> >       long ret;
+> >
+> >       if (!zpci_is_enabled())
+> > @@ -287,7 +287,7 @@ SYSCALL_DEFINE3(s390_pci_mmio_read, unsigned long, =
+mmio_addr,
+> >        * We only support read access to MIO capable devices if we are o=
+n
+> >        * a MIO enabled system. Otherwise we would have to check for eve=
+ry
+> >        * address if it is a special ZPCI_ADDR and would have to do
+> > -      * a get_pfn() which we don't need for MIO capable devices.  Curr=
+ently
+> > +      * a pfn lookup which we don't need for MIO capable devices.  Cur=
+rently
+> >        * ISM devices are the only devices without MIO support and there=
+ is no
+> >        * known need for accessing these from userspace.
+> >        */
+> > @@ -306,22 +306,38 @@ SYSCALL_DEFINE3(s390_pci_mmio_read, unsigned long=
+, mmio_addr,
+> >               buf =3D local_buf;
+> >       }
+> >
+> > -     ret =3D get_pfn(mmio_addr, VM_READ, &pfn);
+> > +     mmap_read_lock(current->mm);
+> > +     ret =3D -EINVAL;
+> > +     vma =3D find_vma(current->mm, mmio_addr);
+> > +     if (!vma)
+> > +             goto out_unlock_mmap;
+> > +     if (!(vma->vm_flags & (VM_IO | VM_PFNMAP)))
+> > +             goto out_unlock_mmap;
+> > +     ret =3D -EACCES;
+> > +     if (!(vma->vm_flags & VM_WRITE))
+> > +             goto out_unlock_mmap;
+> > +
+> > +     ret =3D follow_pte_pmd(vma->vm_mm, mmio_addr, NULL, &ptep, NULL, =
+&ptl);
+> >       if (ret)
+> > -             goto out;
+> > -     io_addr =3D (void __iomem *)((pfn << PAGE_SHIFT) | (mmio_addr & ~=
+PAGE_MASK));
+> > +             goto out_unlock_mmap;
+> > +
+> > +     io_addr =3D (void __iomem *)((pte_pfn(*ptep) << PAGE_SHIFT) |
+> > +                     (mmio_addr & ~PAGE_MASK));
+> >
+> >       if ((unsigned long) io_addr < ZPCI_IOMAP_ADDR_BASE) {
+> >               ret =3D -EFAULT;
+> > -             goto out;
+> > +             goto out_unlock_pt;
+> >       }
+> >       ret =3D zpci_memcpy_fromio(buf, io_addr, length);
+> > -     if (ret)
+> > -             goto out;
+> > -     if (copy_to_user(user_buffer, buf, length))
+> > +
+> > +out_unlock_pt:
+> > +     pte_unmap_unlock(ptep, ptl);
+> > +out_unlock_mmap:
+> > +     mmap_read_unlock(current->mm);
+> > +
+> > +     if (!ret && copy_to_user(user_buffer, buf, length))
+> >               ret =3D -EFAULT;
+> >
+> > -out:
+> >       if (buf !=3D local_buf)
+> >               kfree(buf);
+> >       return ret;
+> >
+
+
+
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
