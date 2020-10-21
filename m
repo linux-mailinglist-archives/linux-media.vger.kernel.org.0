@@ -2,62 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C900D294A54
-	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 11:16:59 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 32CDA294A61
+	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 11:20:56 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437574AbgJUJQ7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Oct 2020 05:16:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45104 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2437436AbgJUJQ7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Oct 2020 05:16:59 -0400
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C4890C0613CE
-        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 02:16:58 -0700 (PDT)
-Received: by mail-qk1-x742.google.com with SMTP id v200so1706480qka.0
-        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 02:16:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:from:date:message-id:subject:to;
-        bh=PJI/s8RRF5eYrZNwApVBWYrkyguBgEsYn1LTe29DpYE=;
-        b=rmiR7JvJW9ZArCmCMOUGOZXx49AY0ndpDFhfZI7pJ3jnmnK5xvWEuXG+6iZvi8Z5he
-         9DA6uvesbeJPz2QByZJWUkUdIHMXf1iVa9wyHFyWth27KCCMbORSmHywwp6ZRcoEr9uX
-         t6k7oJPZIOrWv+5+LLZINFEpBMKswLnXCJtfwy7CZ+iPIP/XLWCE4nrArnLPFncg40Y2
-         EcKjoms63d8NRlUkJhFJ+Yo99SrRecTSiWFaZiK+0E6ByTxrkIx980CNn1WYG9Oux5/c
-         zb+8qLb4uZWOxYowbZT7FAmUGMij6mhLOJS2sVz8mxM2H+oT/tnb1EuxeZCGF9b7pKIN
-         2cIA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:from:date:message-id
-         :subject:to;
-        bh=PJI/s8RRF5eYrZNwApVBWYrkyguBgEsYn1LTe29DpYE=;
-        b=cclcseUqcxXUyJ5BmV9/hwL7RgiojuqiIz9IHdW7GNTmI30NqLIwledVQQLucS4Ahf
-         qXS/q/CiChk6aht1kD1dxQw35RJyIh09ECuzaA9pMUlzlUgXCtNVS2Ojn/oK+ByCQfD3
-         IjG3DwrvPpexKoBFnI3vumJ0upcfaegVIwlD1fhBnrnHUck6Qw5ZkRsObhTKdz9yVr0M
-         yuMWmNbcHaVd7YX0jczre0qREa54hDX9Qpp296ut2J3GstWmYYnL2KANcfK62CUbnQuI
-         PKyAuo1pkCsSp2pXAyRAJcBE5DU/GsQQ9KURH4PuIRxENpHcQmliozWdGLkWYPu7MY+Q
-         9AMg==
-X-Gm-Message-State: AOAM533H3at/iNZ91OvR6/CsNBWN6U8D57KsVszGrUJ90jVMam/mXdoo
-        Chx0vZANV/+2HOJhOUwBGqjPLbQRoOdaz+/fqPI=
-X-Google-Smtp-Source: ABdhPJwZVqoGctWKPuKW3l9xq/sA3ZxvnbCrGeRZOXggWGIB4u1habgqSwDVwxAmuo1ike916Af/Px+RyoEcQ+POgQs=
-X-Received: by 2002:a05:620a:127a:: with SMTP id b26mr2295143qkl.166.1603271818080;
- Wed, 21 Oct 2020 02:16:58 -0700 (PDT)
+        id S2437765AbgJUJUz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Oct 2020 05:20:55 -0400
+Received: from mga06.intel.com ([134.134.136.31]:55857 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2437619AbgJUJUz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Oct 2020 05:20:55 -0400
+IronPort-SDR: VcJJnXrtHtYz0dtFA5QgoRCG3r4vLrI3V3rgcisnItMSAZZlVzdjCX02fy5w/y/tlnHt0ms8Yw
+ /mmMPkDHMQRQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9780"; a="228964220"
+X-IronPort-AV: E=Sophos;i="5.77,400,1596524400"; 
+   d="scan'208";a="228964220"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2020 02:20:49 -0700
+IronPort-SDR: gggVILlSD/5P5JllA7+E7WJbs6+IfNmd+hOXfji2YGktVFcbFZPr368uNbHEgnC76USrtU2VvY
+ rZzrq16mRCXA==
+X-IronPort-AV: E=Sophos;i="5.77,400,1596524400"; 
+   d="scan'208";a="320954500"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2020 02:20:46 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 853D320815; Wed, 21 Oct 2020 12:20:43 +0300 (EEST)
+Date:   Wed, 21 Oct 2020 12:20:43 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Bingbu Cao <bingbu.cao@intel.com>
+Cc:     linux-media@vger.kernel.org, senozhatsky@chromium.org,
+        tfiga@chromium.org, bingbu.cao@linux.intel.com
+Subject: Re: [PATCH] media: ov2740: change the minimal exposure value to 4
+Message-ID: <20201021092043.GD2703@paasikivi.fi.intel.com>
+References: <1603248250-24847-1-git-send-email-bingbu.cao@intel.com>
 MIME-Version: 1.0
-Received: by 2002:ac8:3264:0:0:0:0:0 with HTTP; Wed, 21 Oct 2020 02:16:57
- -0700 (PDT)
-Reply-To: cecelee144@gmail.com
-From:   "Ce.Lia.H" <henryonwujiobi@gmail.com>
-Date:   Wed, 21 Oct 2020 09:16:57 +0000
-Message-ID: <CA+iw9dqw1ygaaGd8XX5RARuJztxSMTC2E-iXUnyPN6cYzhv=KA@mail.gmail.com>
-Subject: re;
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1603248250-24847-1-git-send-email-bingbu.cao@intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello, Greeting.
-How are you doing today, i contact you about my project detail and issue okay.
+Hi Bingbu,
 
-Get back for more information.
+On Wed, Oct 21, 2020 at 10:44:10AM +0800, Bingbu Cao wrote:
+> The minimal valid exposure value should be 4 lines instead of 8 for
+> ov2740 mannual exposure control.
+> 
+> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+> ---
+>  drivers/media/i2c/ov2740.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+> index bd0d45b0d43f..0dbae4949cb3 100644
+> --- a/drivers/media/i2c/ov2740.c
+> +++ b/drivers/media/i2c/ov2740.c
+> @@ -37,7 +37,7 @@
+>  
+>  /* Exposure controls from sensor */
+>  #define OV2740_REG_EXPOSURE		0x3500
+> -#define OV2740_EXPOSURE_MIN		8
+> +#define OV2740_EXPOSURE_MIN		4
+>  #define OV2740_EXPOSURE_MAX_MARGIN	8
+>  #define OV2740_EXPOSURE_STEP		1
+
+This is already in my tree --- I may forgotten to push master after
+applying many patches, it is up-to-date now.
+
+-- 
+Regards,
+
+Sakari Ailus
