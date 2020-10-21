@@ -2,110 +2,362 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F2A2294FAB
-	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 17:14:06 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D66229502E
+	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 17:50:25 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2501892AbgJUPN7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Oct 2020 11:13:59 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43858 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2444125AbgJUPN5 (ORCPT
+        id S2444163AbgJUPuX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Oct 2020 11:50:23 -0400
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:54805 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731691AbgJUPuW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Oct 2020 11:13:57 -0400
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7F691C0613D6
-        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 08:13:55 -0700 (PDT)
-Received: by mail-qt1-x844.google.com with SMTP id c13so2370905qtx.6
-        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 08:13:55 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=9cFTuFdatbaYuigk9l9CABG/jzUgOpY0t/i9Osy6B3k=;
-        b=Dq8HyCXnjlFLiivieMejfqNvFko0IRtuvvtRMPLqBJU503Zw8AdmXj9PAYUvq+vrGw
-         tLWr/P2KX0xliFL4v7zLPYR93TGo1limVOCOZFomvItA47uQ8nJhdHWU27ngiu6ooAYG
-         WjN4a1HHzcaoYLAcnuo5e5/2eLC1r22+kDR6gTWfx0ZcGZTpX8rwEwqmUSs71ZqiLJX+
-         OUQrP6EnxmCsgNh+3+fwOT/kOJSDKYJueSTL+OCpFozN4nNmHro2xix1p70w/08ytcHi
-         qOQrid57zrk+FvzkIWYUgPoh4k6ET94WA33BXpQ3Dtpr1Jlt52u7OEBqAEPaddsrqv0i
-         gSbA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=9cFTuFdatbaYuigk9l9CABG/jzUgOpY0t/i9Osy6B3k=;
-        b=YpQGAqQWgyZc4CUipEmDxaz2fmLks2hY7cVAcrjn6xwe2wHnLzC21CIGwz+uLObSW6
-         Pfjev44F5bL4qrGD2XMGLWQ2qMGNIrLqX4v88R6DyYTzGFuJwQXx44FRYiVQP+aQIDas
-         LfNZuytvEqIhe4suJHON0jiNE4bahh3XPxwVDBJ7ELtLBHxAjO6Mn14dLgGc6Qqq1l/f
-         ZZv9QNImjfH+MjKSp0Uq406DpcsM3AHarqhqLH7PdD+oZEXtpXW4jJ77sRHBmvqY6P4+
-         /xtYW9pTzPtCoRVi41hF2u/P/fI5X7qDeoD2rO0tIpUKLo2fch5RNPLTqNY8qKOmOdMF
-         ZDdQ==
-X-Gm-Message-State: AOAM531Q37KtFQuQ5QWWfpv9TohNugO9t5jycfRvhYCuRFceHFdLEO/f
-        PoZO950mOr2BR/jlhNdFpp02Sw==
-X-Google-Smtp-Source: ABdhPJxKUYsuh5jtMPkvFgL62ClnoaVVE83XzZ8FQCHOArCd8sBp94Ul/GCOzlaoYcDR7rbZz0mkwQ==
-X-Received: by 2002:ac8:8c7:: with SMTP id y7mr3515722qth.278.1603293234456;
-        Wed, 21 Oct 2020 08:13:54 -0700 (PDT)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id b14sm1405612qkn.123.2020.10.21.08.13.53
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 21 Oct 2020 08:13:53 -0700 (PDT)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kVFoG-003XHy-SZ; Wed, 21 Oct 2020 12:13:52 -0300
-Date:   Wed, 21 Oct 2020 12:13:52 -0300
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
-        Linux PCI <linux-pci@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@ffwll.com>
-Subject: Re: [PATCH v3 12/16] PCI: Obey iomem restrictions for procfs mmap
-Message-ID: <20201021151352.GL36674@ziepe.ca>
-References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
- <20201021085655.1192025-13-daniel.vetter@ffwll.ch>
- <20201021125030.GK36674@ziepe.ca>
- <CAKMK7uEWe8CaT7zjcZ6dJAKHxtxtqzjVB35fCFviwhcnqksDfw@mail.gmail.com>
+        Wed, 21 Oct 2020 11:50:22 -0400
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id 55B0E1C000A;
+        Wed, 21 Oct 2020 15:50:18 +0000 (UTC)
+Date:   Wed, 21 Oct 2020 17:50:16 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, sakari.ailus@linux.intel.com,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] dt-bindings: imx7-mipi-csi2: convert bindings to
+ yaml
+Message-ID: <20201021155016.bs2n5ixuhxwjzjy2@uno.localdomain>
+References: <20201020190051.1852778-1-rmfrfs@gmail.com>
+ <20201020190051.1852778-4-rmfrfs@gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uEWe8CaT7zjcZ6dJAKHxtxtqzjVB35fCFviwhcnqksDfw@mail.gmail.com>
+In-Reply-To: <20201020190051.1852778-4-rmfrfs@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 21, 2020 at 04:42:11PM +0200, Daniel Vetter wrote:
+Hi Rui,
 
-> Uh yes. In drivers/gpu this isn't a problem because we only install
-> ptes from the vm_ops->fault handler. So no races. And I don't think
-> you can fix this otherwise through holding locks: mmap_sem we can't
-> hold because before vma_link we don't even know which mm_struct is
-> involved, so can't solve the race. Plus this would be worse that
-> mm_take_all_locks used by mmu notifier. And the address_space
-> i_mmap_lock is also no good since it's not held during the ->mmap
-> callback, when we write the ptes. And the resource locks is even less
-> useful, since we're not going to hold that at vma_link() time for
-> sure.
-> 
-> Hence delaying the pte writes after the vma_link, which means ->fault
-> time, looks like the only way to close this gap.
+On Tue, Oct 20, 2020 at 08:00:51PM +0100, Rui Miguel Silva wrote:
+> Convert imx7 mipi csi2 bindings documentation to yaml schema, remove
+> the textual document and update MAINTAINERS entry.
+>
+> Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> ---
+>
+> v4 -> v5:
+>   Rob Herring:
+>     https://lore.kernel.org/linux-media/20201020153044.GA875273@bogus/
+>     - fix indentation of oneOf items const
+>
+>  .../bindings/media/imx7-mipi-csi2.txt         |  90 ---------
+>  .../bindings/media/nxp,imx7-mipi-csi2.yaml    | 172 ++++++++++++++++++
+>  MAINTAINERS                                   |   2 +-
+>  3 files changed, 173 insertions(+), 91 deletions(-)
+>  delete mode 100644 Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
+>  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+>
+> diff --git a/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt b/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
+> deleted file mode 100644
+> index 71fd74ed3ec8..000000000000
+> --- a/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
+> +++ /dev/null
+> @@ -1,90 +0,0 @@
+> -Freescale i.MX7 Mipi CSI2
+> -=========================
+> -
+> -mipi_csi2 node
+> ---------------
+> -
+> -This is the device node for the MIPI CSI-2 receiver core in i.MX7 SoC. It is
+> -compatible with previous version of Samsung D-phy.
+> -
+> -Required properties:
+> -
+> -- compatible    : "fsl,imx7-mipi-csi2";
+> -- reg           : base address and length of the register set for the device;
+> -- interrupts    : should contain MIPI CSIS interrupt;
+> -- clocks        : list of clock specifiers, see
+> -        Documentation/devicetree/bindings/clock/clock-bindings.txt for details;
+> -- clock-names   : must contain "pclk", "wrap" and "phy" entries, matching
+> -                  entries in the clock property;
+> -- power-domains : a phandle to the power domain, see
+> -          Documentation/devicetree/bindings/power/power_domain.txt for details.
+> -- reset-names   : should include following entry "mrst";
+> -- resets        : a list of phandle, should contain reset entry of
+> -                  reset-names;
+> -- phy-supply    : from the generic phy bindings, a phandle to a regulator that
+> -	          provides power to MIPI CSIS core;
+> -
+> -Optional properties:
+> -
+> -- clock-frequency : The IP's main (system bus) clock frequency in Hz, default
+> -		    value when this property is not specified is 166 MHz;
+> -- fsl,csis-hs-settle : differential receiver (HS-RX) settle time;
+> -
+> -The device node should contain two 'port' child nodes with one child 'endpoint'
+> -node, according to the bindings defined in:
+> - Documentation/devicetree/bindings/ media/video-interfaces.txt.
+> - The following are properties specific to those nodes.
+> -
+> -port node
+> ----------
+> -
+> -- reg		  : (required) can take the values 0 or 1, where 0 shall be
+> -                     related to the sink port and port 1 shall be the source
+> -                     one;
+> -
+> -endpoint node
+> --------------
+> -
+> -- data-lanes    : (required) an array specifying active physical MIPI-CSI2
+> -		    data input lanes and their mapping to logical lanes; this
+> -                    shall only be applied to port 0 (sink port), the array's
+> -                    content is unused only its length is meaningful,
+> -                    in this case the maximum length supported is 2;
+> -
+> -example:
+> -
+> -        mipi_csi: mipi-csi@30750000 {
+> -                #address-cells = <1>;
+> -                #size-cells = <0>;
+> -
+> -                compatible = "fsl,imx7-mipi-csi2";
+> -                reg = <0x30750000 0x10000>;
+> -                interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
+> -                clocks = <&clks IMX7D_IPG_ROOT_CLK>,
+> -                                <&clks IMX7D_MIPI_CSI_ROOT_CLK>,
+> -                                <&clks IMX7D_MIPI_DPHY_ROOT_CLK>;
+> -                clock-names = "pclk", "wrap", "phy";
+> -                clock-frequency = <166000000>;
+> -                power-domains = <&pgc_mipi_phy>;
+> -                phy-supply = <&reg_1p0d>;
+> -                resets = <&src IMX7_RESET_MIPI_PHY_MRST>;
+> -                reset-names = "mrst";
+> -                fsl,csis-hs-settle = <3>;
+> -
+> -                port@0 {
+> -                        reg = <0>;
+> -
+> -                        mipi_from_sensor: endpoint {
+> -                                remote-endpoint = <&ov2680_to_mipi>;
+> -                                data-lanes = <1>;
+> -                        };
+> -                };
+> -
+> -                port@1 {
+> -                        reg = <1>;
+> -
+> -                        mipi_vc0_to_csi_mux: endpoint {
+> -                                remote-endpoint = <&csi_mux_from_mipi_vc0>;
+> -                        };
+> -                };
+> -        };
+> diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> new file mode 100644
+> index 000000000000..309af5805d74
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> @@ -0,0 +1,172 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/nxp,imx7-mipi-csi2.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: NXP i.MX7 Mipi CSI2
+> +
+> +maintainers:
+> +  - Rui Miguel Silva <rmfrfs@gmail.com>
+> +
+> +description: |
+> +  This is the device node for the mipi csi-2 receiver core in i.mx7 soc. It is
+> +  compatible with previous version of samsung d-phy.
 
-> Trouble is I have no idea how to do this cleanly ...
+To be picky, mipi and csi-2 should be spelled with capital letters.
+Probably i.MX7 too.
 
-How about add a vm_ops callback 'install_pages'/'prefault_pages' ?
+> +
+> +properties:
+> +  compatible:
+> +    const: fsl,imx7-mipi-csi2
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    minItems: 3
 
-Call it after vm_link() - basically just move the remap_pfn, under
-some other lock, into there.
+Do you need a maxItems too ?
 
-Jason
+nits apart
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+  j
+
+> +
+> +  clock-names:
+> +    items:
+> +      - const: pclk
+> +      - const: wrap
+> +      - const: phy
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +
+> +  phy-supply:
+> +    description:
+> +      Phandle to a regulator that provides power to the PHY. This
+> +      regulator will be managed during the PHY power on/off sequence.
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  reset-names:
+> +    const: mrst
+> +
+> +  clock-frequency:
+> +    description:
+> +      The IP main (system bus) clock frequency in Hertz
+> +    default: 166000000
+> +
+> +  fsl,csis-hs-settle:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    description:
+> +      Differential receiver (HS-RX) settle time
+> +
+> +  ports:
+> +    type: object
+> +    description:
+> +      A node containing input and output port nodes with endpoint definitions
+> +      as documented in
+> +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> +
+> +    properties:
+> +      '#address-cells':
+> +        const: 1
+> +
+> +      '#size-cells':
+> +        const: 0
+> +
+> +      port@0:
+> +        type: object
+> +        description:
+> +          Input port node, single endpoint describing the CSI-2 transmitter.
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +          endpoint:
+> +            type: object
+> +
+> +            properties:
+> +              data-lanes:
+> +                $ref: /schemas/types.yaml#/definitions/uint32-array
+> +                description: See ../video-interfaces.txt
+> +                oneOf:
+> +                  - items:
+> +                      - const: 1
+> +                  - items:
+> +                      - const: 1
+> +                      - const: 2
+> +
+> +              remote-endpoint: true
+> +
+> +            required:
+> +              - data-lanes
+> +              - remote-endpoint
+> +
+> +            additionalProperties: false
+> +
+> +        additionalProperties: false
+> +
+> +      port@1:
+> +        type: object
+> +        description:
+> +          Output port node
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - phy-supply
+> +  - resets
+> +  - reset-names
+> +  - ports
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/imx7d-clock.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/interrupt-controller/irq.h>
+> +    #include <dt-bindings/reset/imx7-reset.h>
+> +
+> +    mipi_csi: mipi-csi@30750000 {
+> +            compatible = "fsl,imx7-mipi-csi2";
+> +            reg = <0x30750000 0x10000>;
+> +            interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
+> +
+> +            clocks = <&clks IMX7D_IPG_ROOT_CLK>,
+> +                     <&clks IMX7D_MIPI_CSI_ROOT_CLK>,
+> +                     <&clks IMX7D_MIPI_DPHY_ROOT_CLK>;
+> +            clock-names = "pclk", "wrap", "phy";
+> +            clock-frequency = <166000000>;
+> +
+> +            power-domains = <&pgc_mipi_phy>;
+> +            phy-supply = <&reg_1p0d>;
+> +            resets = <&src IMX7_RESET_MIPI_PHY_MRST>;
+> +            reset-names = "mrst";
+> +            fsl,csis-hs-settle = <3>;
+> +
+> +            ports {
+> +                    #address-cells = <1>;
+> +                    #size-cells = <0>;
+> +
+> +                    port@0 {
+> +                            reg = <0>;
+> +
+> +                            mipi_from_sensor: endpoint {
+> +                                    remote-endpoint = <&ov2680_to_mipi>;
+> +                                    data-lanes = <1>;
+> +                            };
+> +                    };
+> +
+> +                    port@1 {
+> +                            reg = <1>;
+> +
+> +                            mipi_vc0_to_csi_mux: endpoint {
+> +                                    remote-endpoint = <&csi_mux_from_mipi_vc0>;
+> +                            };
+> +                    };
+> +            };
+> +    };
+> +
+> +...
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 557713b3ee95..34e53a1570aa 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -10779,8 +10779,8 @@ L:	linux-media@vger.kernel.org
+>  S:	Maintained
+>  T:	git git://linuxtv.org/media_tree.git
+>  F:	Documentation/admin-guide/media/imx7.rst
+> -F:	Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
+>  F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> +F:	Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+>  F:	drivers/staging/media/imx/imx7-media-csi.c
+>  F:	drivers/staging/media/imx/imx7-mipi-csis.c
+>
+> --
+> 2.28.0
+>
