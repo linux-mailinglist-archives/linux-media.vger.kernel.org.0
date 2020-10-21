@@ -2,277 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EDA4A294CD1
-	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 14:37:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0634B294D02
+	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 14:50:35 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440455AbgJUMhw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Oct 2020 08:37:52 -0400
-Received: from mga11.intel.com ([192.55.52.93]:64811 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2440395AbgJUMhv (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Oct 2020 08:37:51 -0400
-IronPort-SDR: xyPOAPwsxk8MF9TVCmMi7u9D3kQJWSMObxgo6NoYogCibTjksPR7zCu+sSPJKJtMvvYXK2qrry
- l/sbWcc16CQQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9780"; a="163867651"
-X-IronPort-AV: E=Sophos;i="5.77,401,1596524400"; 
-   d="scan'208";a="163867651"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga008.fm.intel.com ([10.253.24.58])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2020 05:37:51 -0700
-IronPort-SDR: zySr8QdSXkmtyKNNgEHVJLhB6p7MiUfbh8yKKpoC71VhFIa6aoSf79MC5Xp7kM4AeRRuiTpCVh
- tnIxtb9u6gjQ==
-X-IronPort-AV: E=Sophos;i="5.77,401,1596524400"; 
-   d="scan'208";a="302003561"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga008-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2020 05:37:49 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id EA1CF20815; Wed, 21 Oct 2020 15:37:47 +0300 (EEST)
-Date:   Wed, 21 Oct 2020 15:37:47 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Helmut Grohne <helmut.grohne@intenta.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [RFC PATCH] media: new driver mt9m02x for Onsemi MT9M024 and
- AR0141CS
-Message-ID: <20201021123747.GG2703@paasikivi.fi.intel.com>
-References: <20201020092732.GA30983@laureti-dev>
- <20201021095023.GE2703@paasikivi.fi.intel.com>
- <20201021112127.GA20160@laureti-dev>
+        id S2442630AbgJUMud (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Oct 2020 08:50:33 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49826 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2442622AbgJUMud (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Oct 2020 08:50:33 -0400
+Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CF9F7C0613D2
+        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 05:50:32 -0700 (PDT)
+Received: by mail-qv1-xf42.google.com with SMTP id g13so1010928qvu.1
+        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 05:50:32 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=VkhhJyafoy36fds4PnCfWF9LNV9fC1i6gyayD/bdTsE=;
+        b=Bjric0h8k3E5nVSnyA3y8syn5qJbzN5IRzuOHR0d7uEDz69w1rKEdQtJjX2klnSD2f
+         HQcTpKD5D3V7kWLlToHxrM8UOfbUsM4NGMyxmaL4cJNWPBOlwy7SSVlgAu3fXQNgW/tm
+         E/Z154bHNIDfOdfpW4c0/FAD/DUsAoEBg7tdzOhHMjGwZ1srI5ZzmyHw1kqTbOA20Zsr
+         6FkTvbFUFtQy26Mpkg7JM8b/jc3WZ4zNCmcMh6GqroRxUEuzzQjwRRq/1rm+GvI0lwIa
+         yqkLIFnQ0gQqj71OpMsdVbj1j0y2lESP0Xm+nHN0pfprmhEnmw6kFUQw4XnnGYDmJyHR
+         D1HA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=VkhhJyafoy36fds4PnCfWF9LNV9fC1i6gyayD/bdTsE=;
+        b=dLreac24lxT8GtjMBVU0W4wXGSM6QTR+wCLh9RLqlaiCVThjblPA/aGHjJ73/8dIrG
+         lZhhEeehEJzkBt58QcOe/9uHfQYGV16mcWjjioF2RdjkFqKPda8VESL1Sv6XpQD7rBTD
+         /e03g3BSDvsj6WQGjPpq1yixexftxyWs8kwO2NMNR+4kkgGxMbI3Ih/QoVPOLfJm+oJe
+         rdUDnmvdOZJmNvWob7e/5zuUuBfrf7raRqDK2yOzOBHSwgDEjLFVM4VLs9SFfZsypSRa
+         E+MQWfIL72l80ovnup7bcsLUT7eT4LTlTMCmqhXHp5iByYimcbNW62GTxwctK373LujW
+         hBPw==
+X-Gm-Message-State: AOAM532MWLvynZMmqcqO4c0excKQb2vPfCb6vQkqLUxNJ/MB1c7bJ5bF
+        pJwQYYyqvZ55Li+v+mUPXkkCcw==
+X-Google-Smtp-Source: ABdhPJylgNYamo6kqGCWkyezTruGMIXv95IBuM/bFST1jOCSfo3IMWIRoN2J3LwPyBiAPIKaTroxlw==
+X-Received: by 2002:ad4:52c6:: with SMTP id p6mr2781869qvs.38.1603284631882;
+        Wed, 21 Oct 2020 05:50:31 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id r11sm1016060qtw.47.2020.10.21.05.50.30
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 21 Oct 2020 05:50:31 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1kVDZW-003UAg-0q; Wed, 21 Oct 2020 09:50:30 -0300
+Date:   Wed, 21 Oct 2020 09:50:30 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-s390@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
+        linux-pci@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.com>
+Subject: Re: [PATCH v3 12/16] PCI: Obey iomem restrictions for procfs mmap
+Message-ID: <20201021125030.GK36674@ziepe.ca>
+References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
+ <20201021085655.1192025-13-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201021112127.GA20160@laureti-dev>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201021085655.1192025-13-daniel.vetter@ffwll.ch>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Helmut,
-
-On Wed, Oct 21, 2020 at 01:21:27PM +0200, Helmut Grohne wrote:
-> Hi,
+On Wed, Oct 21, 2020 at 10:56:51AM +0200, Daniel Vetter wrote:
+> There's three ways to access PCI BARs from userspace: /dev/mem, sysfs
+> files, and the old proc interface. Two check against
+> iomem_is_exclusive, proc never did. And with CONFIG_IO_STRICT_DEVMEM,
+> this starts to matter, since we don't want random userspace having
+> access to PCI BARs while a driver is loaded and using it.
 > 
-> On Wed, Oct 21, 2020 at 11:50:23AM +0200, Sakari Ailus wrote:
-> > Thanks for the patch.
-> > 
-> > In general it seems fairly clean and it's nice to see PLL calculators being
-> > used instead of hard-coding configuration, plus having support for multiple
-> > devices. There's also obviously some work to be done still.
+> Fix this by adding the same iomem_is_exclusive() check we already have
+> on the sysfs side in pci_mmap_resource().
 > 
-> Thank you for the quick review.
-> 
-> I'm replying to topics that need feedback here. Those where there is
-> agreement are simply trimmed from the reply to keep it short.
-> 
-> > On Tue, Oct 20, 2020 at 11:27:33AM +0200, Helmut Grohne wrote:
-> > > This goes as far back as 2018, where I proposed[1] changing the
-> > > aptina_pll_calculate function to solve the pix_clock approximately
-> > > instead of giving up.
-> > 
-> > Yes, I remember this discussion. Perhaps we should get back to that, if
-> > issues remain.
-> 
-> Yes, we deferred it, because it was difficult to see the practical issue
-> without a public driver. That situation has just changed.
-> 
-> > I can't answer for aptina-pll, but in general, if the link frequency is
-> > achievable (as within hardware specific limits) with a given external clock
-> > frequency and the PLL calculator doesn't give you a valid PLL
-> > configuration, it's a bug.
-> > 
-> > If so, another question is then how to fix it.
-> 
-> Let me give concrete numbers such that you can see where this breaks. In
-> our main use case we have:
-> 
-> |         input-clock-frequency = < 50000000 >;
-> |         pixel-clock-frequency = < 74250000 >;
-> 
-> For reference, the pll_limits for MT9M024 are:
-> |         .ext_clock_min = 6000000,
-> |         .ext_clock_max = 50000000,
-> |         .int_clock_min = 2000000,
-> |         .int_clock_max = 24000000,
-> |         .out_clock_min = 384000000,
-> |         .out_clock_max = 768000000,
-> |         .pix_clock_max = 74250000,
-> | 
-> |         .n_min = 1,
-> |         .n_max = 63,
-> |         .m_min = 32,
-> |         .m_max = 255,
-> |         /* We fix p1 = 1 and control p2 here. */
-> |         .p1_min = 4,
-> |         .p1_max = 16,
-> 
-> For this configuration, the exact pixel clock is not achievable. It's
-> not a bug in the sense that aptina-pll fails to find a solution where an
-> exact one exists. Our algorithm yields:
-> 
-> | pll: 3 <= N <= 25
-> | pll: 32 <= M <= 255
-> | pll: 6 <= P1 <= 10
-> 
-> These are boundary reductions based on the input values. They're used to
-> reduce the brute-force search space.
-> 
-> | pll: N 11 M 98 P1 6 pix_clock 74242424 Hz error 7576 Hz
-> 
-> These are the selected values and they approximate the target frequency
-> quite well.
-> 
-> I guess, we could write this pixel clock into the device tree. Doing so
-> is very inconvenient however. In essence, we'd have to do the
-> computation offline and select the appropriate parameters for
-> approximating our desired clock frequency and then insert the solution.
-> At that point, it would be easier to skip the computation in the kernel
-> entirely and just hard code the parameters.
+> References: 90a545e98126 ("restrict /dev/mem to idle io memory ranges")
+> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> Cc: Jason Gunthorpe <jgg@ziepe.ca>
+> Cc: Kees Cook <keescook@chromium.org>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: Andrew Morton <akpm@linux-foundation.org>
+> Cc: John Hubbard <jhubbard@nvidia.com>
+> Cc: Jérôme Glisse <jglisse@redhat.com>
+> Cc: Jan Kara <jack@suse.cz>
+> Cc: Dan Williams <dan.j.williams@intel.com>
+> Cc: linux-mm@kvack.org
+> Cc: linux-arm-kernel@lists.infradead.org
+> Cc: linux-samsung-soc@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: Bjorn Helgaas <bhelgaas@google.com>
+> Cc: linux-pci@vger.kernel.org
+> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.com>
 
-I guess this indeed might be more a question of what is the purpose of a
-PLL calculator. The SMIA PLL calculator was first merged with the SMIAPP
-driver back in 2012, and the Aptina PLL calculator soon followed. I think
-it is somewhat based on the SMIAPP PLL calculator.
+Maybe not for fixing in this series, but this access to
+IORESOURCE_BUSY doesn't have any locking.
 
-The SMIA PLL configuration depends also on e.g. binning and format
-configurations on the sensor, so there's also the runtime aspect that needs
-to be taken into account. There are other factors such as the number of
-lanes as well. It's not a static configuration.
+The write side holds the resource_lock at least..
 
-Then again, CCS PLL allows for a lot more variability than SMIA. This
-includes, but is _not limited to_, to number of physical lanes, lane vs.
-system speed model, sensor's internal lanes in OP and VT domains, whether
-OP domain SYS and PIX clocks are DDR, whether certain configurations can
-have only legacy values or if extended values are supported and which PHY
-is in use. Feel free to look at it here, it's not yet merged:
+>  	ret = pci_mmap_page_range(dev, i, vma,
+>  				  fpriv->mmap_state, write_combine);
 
-<URL:https://git.linuxtv.org/sailus/media_tree.git/tree/drivers/media/i2c/ccs-pll.c?h=ccs>
+At this point the vma isn't linked into the address space, so doesn't
+this happen?
 
-There, the configuration heavily depends on sensor's properties as well.
+     CPU 0                                  CPU1
+ mmap_region()
+   vma = vm_area_alloc
+   proc_bus_pci_mmap
+    iomem_is_exclusive
+    pci_mmap_page_range
+                                            revoke_devmem
+                                             unmap_mapping_range()
+     // vma is not linked to the address space here,
+     // unmap doesn't find it
+  vma_link() 
+  !!! The VMA gets mapped with the revoked PTEs
 
-The computational complexity of searching a "closest matching" frequency
-there would be vastly higher than aiming for a specific frequency. The
-former shouldn't be done at runtime IMHO.
+I couldn't find anything that prevents it at least, no mmap_sem on the
+unmap side, just the i_mmap_lock
 
-A PLL calculator that comes up with a closest frequency to something, given
-some input parameters, could be certainly useful when deciding what to put
-to DT source (while taking EMI considerations into account), but I think
-that's different from what a driver would use.
+Not seeing how address space and pre-populating during mmap work
+together? Did I miss locking someplace?
 
-Does aptina-pll come up with a valid configuration if you specify the
-precise link frequency?
+Not something to be fixed for this series, this is clearly an
+improvement, but seems like another problem to tackle?
 
-> 
-> > > The driver is in practical use. It mostly passes checkpatch.pl. Known
-> > > issues:
-> > >  * It presently defines 3 custom V4L2 CIDs inside the .c file. Those
-> > >    will need a proper place. Possibly, there is some standard CID that
-> > >    could replace them. Suggestions welcome.
-> > 
-> > I suppose the HDR ratios are the ratios between exposure times?
-> 
-> That is correct. In HDR mode, the imager performs three exposures where
-> the exposure times are varied according to these ratios. The final image
-> is blended together inside the imager. A possible consequence is motion
-> blur.
-> 
-> > > +static const s64 mt9m02x_again_menu[] = {
-> > > +	100000, /* 1x */
-> > > +	125000, /* 1.25x */
-> > > +	200000, /* 2x */
-> > > +	250000, /* 2.5x */
-> > > +	400000, /* 4x */
-> > > +	500000, /* 5x */
-> > > +	800000, /* 8x */
-> > > +	1000000, /* 10x */
-> > 
-> > I guess you could remove three zeros from right as they're the same for
-> > all.
-> 
-> Why do you think we can delete them? V4L2_CID_ISO_SENSITIVITY has a
-> scale and that says that 100000 is to be used for "normal". Without the
-> zeroes, those values loose meaning.
-
-Ah, please ignore the comment then.
-
-ISO sensitivity control is a bit higher level control than the analogue
-gain but it mostly does the same thing. I wonder what others think. This is
-probably more user friendly but I guess it doesn't cover all values the
-hardware is capable of, or does it?
-
-> 
-> > A reverse Christmas tree form would be nicer.
-> 
-> There was a patch for checkpatch.pl adding support for reverse Christmas
-> trees at https://lore.kernel.org/patchwork/patch/732076/.
-> 
-> > /* comment, please */
-> 
-> I think most SPDX-License-Identifier comments use // comments even in
-> drivers/media/i2c. Is that an exception to the rule?
-
-Yes.
-
-> 
-> > > +static const struct i2c_device_id mt9m02x_id[] = {
-> > 
-> > Could you use of_device_id table instead? I suppose you don't really need
-> > platform data?
-> 
-> I posed the question of whether platform data support is needed in my
-> previous mail. I can tell that I don't need platform data and rely on OF
-> exclusively. I added support for it to mirror what other drivers do, but
-> I can easily remove that.
-
-I don't think there have been new sensor drivers that would include
-platform data support for a few years. So please remove it.
-
-> 
-> This review went into detail a little more than I expected. The requests
-> for structural changes are few. One of the bigger ones might be adding
-> pm_runtime support. Overall that suggests the driver is closer to
-> mainline than I expected.
-
-Well, admittedly, there could be further comments on areas I didn't comment
-on, but I think these were probably the main ones.
-
-> 
-> Beyond your reply, I also received a quick reply from Laurent Pinchart
-> asking why there is no s_stream. The answer to that is that our
-> application triggers the imager externally, so we didn't need it thus
-> far. That also means that testing an implementation of s_stream is not
-> easy for me. Is it ok to leave that for others to add as needed?
-
-I'd probably add it now, possibly with a comment it wasn't tested.
-
-> 
-> A few open questions from my side remain. Both from the submission and
-> from this mail. I'd hope to see some more conclusions here before
-> sending another iteration. The most notable ones are:
->  * Is there a need for platform_data?
->  * Is streaming support required for new drivers?
-
-No-one has submitted a sensor driver previously without streaming control
-support. :-)
-
-On most hardware it works just over I�C commands.
-
-This leads to an interesting question regarding runtime PM --- how does the
-driver determine the sensor needs to be powered on if it gets no s_stream
-command? One option could be to add a control for external streaming
-trigger.
-
-How do you stop streaming? Is it level triggered, or how?
-
-Which receiver driver are you using this btw.?
-
->  * What to do about the three extra V4L2 CIDs?
-
-I need to think about this a little.
-
--- 
-Kind regards,
-
-Sakari Ailus
+Jason
