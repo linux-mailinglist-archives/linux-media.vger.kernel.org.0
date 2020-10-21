@@ -2,416 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCAEE29529C
-	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 21:00:00 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B9DF2952AB
+	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 21:03:27 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504602AbgJUS7v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Oct 2020 14:59:51 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50686 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2504595AbgJUS7v (ORCPT
+        id S2504620AbgJUTDV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Oct 2020 15:03:21 -0400
+Received: from mail-io1-f70.google.com ([209.85.166.70]:33983 "EHLO
+        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2502392AbgJUTDV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Oct 2020 14:59:51 -0400
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83E9BC0613D4
-        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 11:59:50 -0700 (PDT)
-Received: by mail-ed1-x541.google.com with SMTP id t20so3621060edr.11
-        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 11:59:50 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=GDRf8ABUu+TZaWK0lYE+MAlDPbiqs8UpaJTToDFItts=;
-        b=LlHb740UPxtxMP1zvZIGPA/lPoD9hh7cNYpX8bNSMxy2cki0zar6/kZRNh0S/E0qPa
-         ZpW4b/leM0+bY946rUTzSmq/7g3ri2RkNzbtHgOg4PsM+KUBcOCcVeKNeanRm84wcu/W
-         XOLQ77AHYidJJUWKsJxnqTUekRBiQRbwXSBG2jlE4qdoEJfy409qyTvxRYnPU5bIQb+U
-         bf906IePyxRHDp6qAfLZ/tVAqrc0wSIsu+4XCZIej2gYYhK1Kj6IeIArk+F37RNo6Hm5
-         mBLTs8l1AL21QQMBFirH7aP1YUylC1F8+nuxuBwX/Huc7Cd864psezEXx9wpo6JKELw9
-         5LxA==
+        Wed, 21 Oct 2020 15:03:21 -0400
+Received: by mail-io1-f70.google.com with SMTP id l12so2344793ioj.1
+        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 12:03:20 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=GDRf8ABUu+TZaWK0lYE+MAlDPbiqs8UpaJTToDFItts=;
-        b=qs2tFs0gDRA6KaePb84VBAeixh7RIRYcnGejWzd0CEFajmY/Z+aDNo6xGY8bwOF+D2
-         u/mUu/5sP0KmJ4pceWHr4FrLm3nPgKRJqWuUWm7q8e+OcmowzHp/ifTmFJ1sS3a3seUx
-         DpoRXx43jlpcTaDVpqQSd5BsbTuXYI094FxBOGmJLX+4xFSW80wI3nbV638uPgSsADLO
-         ZAGe/HBkOx7p8kvlAcFUYBUqvKEFuAnVq8mKrgLC+8iZHZElAatUkZ3+wSKJG9IeAWaG
-         GMh/jPBKhU7WRfrZE6EBNXNdxpcFdJeZRwnWkAKUErVuz1Au6RcWMMyollc2ZMjRXgmn
-         9chQ==
-X-Gm-Message-State: AOAM532gd58n87Q9DluipiNVCH25CdGllOrdYjlKE4EMUDqUs6EYhV+Z
-        OwM2B11jF8zR7n9bCA8Cx1HmZr603OhTJ10CrRAZ8A==
-X-Google-Smtp-Source: ABdhPJxkwinHUuUKpXZZrs2mV0S9ZFr8FhcGow++fntkKzEh91M9Md+jRtPcnjhtSGe98DL/L2wAwzmghcS9V3WHrNo=
-X-Received: by 2002:aa7:cd1a:: with SMTP id b26mr4390509edw.97.1603306788939;
- Wed, 21 Oct 2020 11:59:48 -0700 (PDT)
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=UZ+enrykDZn0RBAehZWXA0bKtfaNR6wmh3gkDAdQ0qU=;
+        b=frcHS5BoWZ6dlKEoPd15aL3J0DhtPq2zYzhExztXwTtetjDCYK1/oxfEchHOiZFrkd
+         pUUHu36sFdAhPox+vnDUnhNVV1jzg7nF5jRYk7Gxp/JKQg2QBnEMzEBIn4ecOgXXsXKC
+         xQ+nnx8dYV71TEy4u9GDZdoeiNj4SdG6kQpN+I3kgbmNPyS0IIEr1rv66oDIgkxiY4AZ
+         L/0cLiokQKf75HHdzbWTWx7mPttbFKl5DfV79ZrBN69WqyJ9GkKDQPNA+sbtn/qrnBda
+         bAyWMUmGR5Jp6K7g8vYAoGoyrA2gKAQehQvVISEgjMybRek5Q4MRSEh0THerO8fxgMUP
+         rkwA==
+X-Gm-Message-State: AOAM531QbYDQiJHiHufBSexiah/ltQAKRdNDR5OVptXTxiLndt/cGVym
+        UWbc59KlN5vBE6zJBfbwEDid1UCw4kVwBg3rRxIUIPO1Yiht
+X-Google-Smtp-Source: ABdhPJz2DS8buf571WovUNMKHuSLSF76DGgezNV/agArJmCbhllMoFPN7q2PFS7kA5XVwafLNLZkSOV+4eJYXHkyl2WL1jnLWRkI
 MIME-Version: 1.0
-References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch> <20201021085655.1192025-15-daniel.vetter@ffwll.ch>
-In-Reply-To: <20201021085655.1192025-15-daniel.vetter@ffwll.ch>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Wed, 21 Oct 2020 11:59:37 -0700
-Message-ID: <CAPcyv4gj=+SkL9LKPf1XixQkNmygp3X45n-QpxajZyM8TqKv1w@mail.gmail.com>
-Subject: Re: [PATCH v3 14/16] resource: Move devmem revoke code to resource framework
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>, Arnd Bergmann <arnd@arndb.de>,
-        David Hildenbrand <david@redhat.com>,
-        "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>,
-        Daniel Vetter <daniel.vetter@ffwll.com>
+X-Received: by 2002:a02:8661:: with SMTP id e88mr4055127jai.43.1603306999991;
+ Wed, 21 Oct 2020 12:03:19 -0700 (PDT)
+Date:   Wed, 21 Oct 2020 12:03:19 -0700
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000335adc05b23300f6@google.com>
+Subject: WARNING in dma_map_page_attrs
+From:   syzbot <syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com>
+To:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        hch@lst.de, iommu@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
+        robin.murphy@arm.com, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 21, 2020 at 1:57 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
-e:
->
-> We want all iomem mmaps to consistently revoke ptes when the kernel
-> takes over and CONFIG_IO_STRICT_DEVMEM is enabled. This includes the
-> pci bar mmaps available through procfs and sysfs, which currently do
-> not revoke mappings.
->
-> To prepare for this, move the code from the /dev/kmem driver to
-> kernel/resource.c.
->
-> Reviewed-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: John Hubbard <jhubbard@nvidia.com>
-> Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: linux-mm@kvack.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-samsung-soc@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Cc: Arnd Bergmann <arnd@arndb.de>
-> Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-> Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-> Cc: David Hildenbrand <david@redhat.com>
-> Cc: "Rafael J. Wysocki" <rafael.j.wysocki@intel.com>
-> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.com>
-> --
-> v3:
-> - add barrier for consistency and document why we don't have to check
->   for NULL (Jason)
-> ---
->  drivers/char/mem.c     |  85 +---------------------------------
->  include/linux/ioport.h |   6 +--
->  kernel/resource.c      | 101 ++++++++++++++++++++++++++++++++++++++++-
->  3 files changed, 102 insertions(+), 90 deletions(-)
->
-> diff --git a/drivers/char/mem.c b/drivers/char/mem.c
-> index 5502f56f3655..53338aad8d28 100644
-> --- a/drivers/char/mem.c
-> +++ b/drivers/char/mem.c
-> @@ -31,9 +31,6 @@
->  #include <linux/uio.h>
->  #include <linux/uaccess.h>
->  #include <linux/security.h>
-> -#include <linux/pseudo_fs.h>
-> -#include <uapi/linux/magic.h>
-> -#include <linux/mount.h>
->
->  #ifdef CONFIG_IA64
->  # include <linux/efi.h>
-> @@ -809,42 +806,6 @@ static loff_t memory_lseek(struct file *file, loff_t=
- offset, int orig)
->         return ret;
->  }
->
-> -static struct inode *devmem_inode;
-> -
-> -#ifdef CONFIG_IO_STRICT_DEVMEM
-> -void revoke_devmem(struct resource *res)
-> -{
-> -       /* pairs with smp_store_release() in devmem_init_inode() */
-> -       struct inode *inode =3D smp_load_acquire(&devmem_inode);
-> -
-> -       /*
-> -        * Check that the initialization has completed. Losing the race
-> -        * is ok because it means drivers are claiming resources before
-> -        * the fs_initcall level of init and prevent /dev/mem from
-> -        * establishing mappings.
-> -        */
-> -       if (!inode)
-> -               return;
-> -
-> -       /*
-> -        * The expectation is that the driver has successfully marked
-> -        * the resource busy by this point, so devmem_is_allowed()
-> -        * should start returning false, however for performance this
-> -        * does not iterate the entire resource range.
-> -        */
-> -       if (devmem_is_allowed(PHYS_PFN(res->start)) &&
-> -           devmem_is_allowed(PHYS_PFN(res->end))) {
-> -               /*
-> -                * *cringe* iomem=3Drelaxed says "go ahead, what's the
-> -                * worst that can happen?"
-> -                */
-> -               return;
-> -       }
-> -
-> -       unmap_mapping_range(inode->i_mapping, res->start, resource_size(r=
-es), 1);
-> -}
-> -#endif
-> -
->  static int open_port(struct inode *inode, struct file *filp)
->  {
->         int rc;
-> @@ -864,7 +825,7 @@ static int open_port(struct inode *inode, struct file=
- *filp)
->          * revocations when drivers want to take over a /dev/mem mapped
->          * range.
->          */
-> -       filp->f_mapping =3D inode->i_mapping;
-> +       filp->f_mapping =3D iomem_get_mapping();
->
->         return 0;
->  }
-> @@ -995,48 +956,6 @@ static char *mem_devnode(struct device *dev, umode_t=
- *mode)
->
->  static struct class *mem_class;
->
-> -static int devmem_fs_init_fs_context(struct fs_context *fc)
-> -{
-> -       return init_pseudo(fc, DEVMEM_MAGIC) ? 0 : -ENOMEM;
-> -}
-> -
-> -static struct file_system_type devmem_fs_type =3D {
-> -       .name           =3D "devmem",
-> -       .owner          =3D THIS_MODULE,
-> -       .init_fs_context =3D devmem_fs_init_fs_context,
-> -       .kill_sb        =3D kill_anon_super,
-> -};
-> -
-> -static int devmem_init_inode(void)
-> -{
-> -       static struct vfsmount *devmem_vfs_mount;
-> -       static int devmem_fs_cnt;
-> -       struct inode *inode;
-> -       int rc;
-> -
-> -       rc =3D simple_pin_fs(&devmem_fs_type, &devmem_vfs_mount, &devmem_=
-fs_cnt);
-> -       if (rc < 0) {
-> -               pr_err("Cannot mount /dev/mem pseudo filesystem: %d\n", r=
-c);
-> -               return rc;
-> -       }
-> -
-> -       inode =3D alloc_anon_inode(devmem_vfs_mount->mnt_sb);
-> -       if (IS_ERR(inode)) {
-> -               rc =3D PTR_ERR(inode);
-> -               pr_err("Cannot allocate inode for /dev/mem: %d\n", rc);
-> -               simple_release_fs(&devmem_vfs_mount, &devmem_fs_cnt);
-> -               return rc;
-> -       }
-> -
-> -       /*
-> -        * Publish /dev/mem initialized.
-> -        * Pairs with smp_load_acquire() in revoke_devmem().
-> -        */
-> -       smp_store_release(&devmem_inode, inode);
-> -
-> -       return 0;
-> -}
-> -
->  static int __init chr_dev_init(void)
->  {
->         int minor;
-> @@ -1058,8 +977,6 @@ static int __init chr_dev_init(void)
->                  */
->                 if ((minor =3D=3D DEVPORT_MINOR) && !arch_has_dev_port())
->                         continue;
-> -               if ((minor =3D=3D DEVMEM_MINOR) && devmem_init_inode() !=
-=3D 0)
-> -                       continue;
->
->                 device_create(mem_class, NULL, MKDEV(MEM_MAJOR, minor),
->                               NULL, devlist[minor].name);
-> diff --git a/include/linux/ioport.h b/include/linux/ioport.h
-> index 6c2b06fe8beb..8ffb61b36606 100644
-> --- a/include/linux/ioport.h
-> +++ b/include/linux/ioport.h
-> @@ -302,11 +302,7 @@ struct resource *devm_request_free_mem_region(struct=
- device *dev,
->  struct resource *request_free_mem_region(struct resource *base,
->                 unsigned long size, const char *name);
->
-> -#ifdef CONFIG_IO_STRICT_DEVMEM
-> -void revoke_devmem(struct resource *res);
-> -#else
-> -static inline void revoke_devmem(struct resource *res) { };
-> -#endif
-> +extern struct address_space *iomem_get_mapping(void);
->
->  #endif /* __ASSEMBLY__ */
->  #endif /* _LINUX_IOPORT_H */
-> diff --git a/kernel/resource.c b/kernel/resource.c
-> index 841737bbda9e..a92fed5b9997 100644
-> --- a/kernel/resource.c
-> +++ b/kernel/resource.c
-> @@ -18,12 +18,15 @@
->  #include <linux/spinlock.h>
->  #include <linux/fs.h>
->  #include <linux/proc_fs.h>
-> +#include <linux/pseudo_fs.h>
->  #include <linux/sched.h>
->  #include <linux/seq_file.h>
->  #include <linux/device.h>
->  #include <linux/pfn.h>
->  #include <linux/mm.h>
-> +#include <linux/mount.h>
->  #include <linux/resource_ext.h>
-> +#include <uapi/linux/magic.h>
->  #include <asm/io.h>
->
->
-> @@ -1112,6 +1115,58 @@ resource_size_t resource_alignment(struct resource=
- *res)
->
->  static DECLARE_WAIT_QUEUE_HEAD(muxed_resource_wait);
->
-> +static struct inode *iomem_inode;
-> +
-> +#ifdef CONFIG_IO_STRICT_DEVMEM
-> +static void revoke_iomem(struct resource *res)
-> +{
-> +       /* pairs with smp_store_release() in iomem_init_inode() */
-> +       struct inode *inode =3D smp_load_acquire(&iomem_inode);
-> +
-> +       /*
-> +        * Check that the initialization has completed. Losing the race
-> +        * is ok because it means drivers are claiming resources before
-> +        * the fs_initcall level of init and prevent /dev/mem from
+Hello,
 
-How about:
+syzbot found the following issue on:
 
-s,/dev/mem,iomem_get_mapping() users,
+HEAD commit:    c4d6fe73 Merge tag 'xarray-5.9' of git://git.infradead.org..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=14862ff0500000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=7d790573d3e379c4
+dashboard link: https://syzkaller.appspot.com/bug?extid=34dc2fea3478e659af01
+compiler:       gcc (GCC) 10.1.0-syz 20200507
 
-...now that this facility is generalized?
+Unfortunately, I don't have any reproducer for this issue yet.
 
-> +        * establishing mappings.
-> +        */
-> +       if (!inode)
-> +               return;
-> +
-> +       /*
-> +        * The expectation is that the driver has successfully marked
-> +        * the resource busy by this point, so devmem_is_allowed()
-> +        * should start returning false, however for performance this
-> +        * does not iterate the entire resource range.
-> +        */
-> +       if (devmem_is_allowed(PHYS_PFN(res->start)) &&
-> +           devmem_is_allowed(PHYS_PFN(res->end))) {
-> +               /*
-> +                * *cringe* iomem=3Drelaxed says "go ahead, what's the
-> +                * worst that can happen?"
-> +                */
-> +               return;
-> +       }
-> +
-> +       unmap_mapping_range(inode->i_mapping, res->start, resource_size(r=
-es), 1);
-> +}
-> +struct address_space *iomem_get_mapping(void)
-> +{
-> +       /*
-> +        * This function is only called from file open paths, hence guara=
-nteed
-> +        * that fs_initcalls have completed and no need to check for NULL=
-. But
-> +        * since revoke_iomem can be called before the initcall we still =
-need
-> +        * the barrier to appease checkers.
-> +        */
-> +       return smp_load_acquire(&iomem_inode)->i_mapping;
-> +}
-> +#else
-> +static void revoke_iomem(struct resource *res) {}
-> +struct address_space *iomem_get_mapping(void)
-> +{
-> +       return NULL;
-> +}
-> +#endif
-> +
->  /**
->   * __request_region - create a new busy resource region
->   * @parent: parent resource descriptor
-> @@ -1179,7 +1234,7 @@ struct resource * __request_region(struct resource =
-*parent,
->         write_unlock(&resource_lock);
->
->         if (res && orig_parent =3D=3D &iomem_resource)
-> -               revoke_devmem(res);
-> +               revoke_iomem(res);
->
->         return res;
->  }
-> @@ -1713,4 +1768,48 @@ static int __init strict_iomem(char *str)
->         return 1;
->  }
->
-> +static int iomem_fs_init_fs_context(struct fs_context *fc)
-> +{
-> +       return init_pseudo(fc, DEVMEM_MAGIC) ? 0 : -ENOMEM;
-> +}
-> +
-> +static struct file_system_type iomem_fs_type =3D {
-> +       .name           =3D "iomem",
-> +       .owner          =3D THIS_MODULE,
-> +       .init_fs_context =3D iomem_fs_init_fs_context,
-> +       .kill_sb        =3D kill_anon_super,
-> +};
-> +
-> +static int __init iomem_init_inode(void)
-> +{
-> +       static struct vfsmount *iomem_vfs_mount;
-> +       static int iomem_fs_cnt;
-> +       struct inode *inode;
-> +       int rc;
-> +
-> +       rc =3D simple_pin_fs(&iomem_fs_type, &iomem_vfs_mount, &iomem_fs_=
-cnt);
-> +       if (rc < 0) {
-> +               pr_err("Cannot mount iomem pseudo filesystem: %d\n", rc);
-> +               return rc;
-> +       }
-> +
-> +       inode =3D alloc_anon_inode(iomem_vfs_mount->mnt_sb);
-> +       if (IS_ERR(inode)) {
-> +               rc =3D PTR_ERR(inode);
-> +               pr_err("Cannot allocate inode for iomem: %d\n", rc);
-> +               simple_release_fs(&iomem_vfs_mount, &iomem_fs_cnt);
-> +               return rc;
-> +       }
-> +
-> +       /*
-> +        * Publish /dev/mem initialized.
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com
 
-Similar potential fixup:
+infiniband syz1: set active
+infiniband syz1: added vcan0
+------------[ cut here ]------------
+WARNING: CPU: 1 PID: 9851 at kernel/dma/mapping.c:149 dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
+Modules linked in:
+CPU: 1 PID: 9851 Comm: syz-executor.1 Not tainted 5.9.0-syzkaller #0
+Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
+RIP: 0010:dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
+Code: 80 3c 10 00 0f 85 ed 01 00 00 48 8b 1d 36 c3 fa 0c e9 2d fc ff ff 48 89 c3 e9 d1 fd ff ff e8 04 12 12 00 0f 0b e8 fd 11 12 00 <0f> 0b 49 c7 c4 ff ff ff ff e9 d5 fd ff ff e8 ea 11 12 00 48 8d 7b
+RSP: 0018:ffffc90001546c68 EFLAGS: 00010246
+RAX: 0000000000040000 RBX: ffffffff894d0040 RCX: ffffc9000dbe4000
+RDX: 0000000000040000 RSI: ffffffff815d3b03 RDI: ffff88806a988b00
+RBP: ffff8880236cc400 R08: 0000000000000002 R09: 0000000000000000
+R10: 0000000000000002 R11: 0000000000000000 R12: ffffea00008db300
+R13: ffff88806a9886e8 R14: 00000000000004b8 R15: 0000000000000002
+FS:  00007f678fae2700(0000) GS:ffff88802ce00000(0000) knlGS:0000000000000000
+CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+CR2: 00007f299a39b190 CR3: 0000000069f31000 CR4: 0000000000350ee0
+DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+Call Trace:
+ dma_map_single_attrs include/linux/dma-mapping.h:279 [inline]
+ ib_dma_map_single include/rdma/ib_verbs.h:3967 [inline]
+ ib_mad_post_receive_mads+0x23f/0xd60 drivers/infiniband/core/mad.c:2715
+ ib_mad_port_start drivers/infiniband/core/mad.c:2862 [inline]
+ ib_mad_port_open drivers/infiniband/core/mad.c:3016 [inline]
+ ib_mad_init_device+0x72b/0x1400 drivers/infiniband/core/mad.c:3092
+ add_client_context+0x405/0x5e0 drivers/infiniband/core/device.c:680
+ enable_device_and_get+0x1d5/0x3c0 drivers/infiniband/core/device.c:1301
+ ib_register_device drivers/infiniband/core/device.c:1376 [inline]
+ ib_register_device+0x7a7/0xa40 drivers/infiniband/core/device.c:1335
+ rxe_register_device+0x46d/0x570 drivers/infiniband/sw/rxe/rxe_verbs.c:1182
+ rxe_add+0x12fe/0x16d0 drivers/infiniband/sw/rxe/rxe.c:247
+ rxe_net_add+0x8c/0xe0 drivers/infiniband/sw/rxe/rxe_net.c:507
+ rxe_newlink drivers/infiniband/sw/rxe/rxe.c:269 [inline]
+ rxe_newlink+0xb7/0xe0 drivers/infiniband/sw/rxe/rxe.c:250
+ nldev_newlink+0x30e/0x540 drivers/infiniband/core/nldev.c:1555
+ rdma_nl_rcv_msg+0x367/0x690 drivers/infiniband/core/netlink.c:195
+ rdma_nl_rcv_skb drivers/infiniband/core/netlink.c:239 [inline]
+ rdma_nl_rcv+0x2f2/0x440 drivers/infiniband/core/netlink.c:259
+ netlink_unicast_kernel net/netlink/af_netlink.c:1304 [inline]
+ netlink_unicast+0x533/0x7d0 net/netlink/af_netlink.c:1330
+ netlink_sendmsg+0x856/0xd90 net/netlink/af_netlink.c:1919
+ sock_sendmsg_nosec net/socket.c:651 [inline]
+ sock_sendmsg+0xcf/0x120 net/socket.c:671
+ ____sys_sendmsg+0x6e8/0x810 net/socket.c:2353
+ ___sys_sendmsg+0xf3/0x170 net/socket.c:2407
+ __sys_sendmsg+0xe5/0x1b0 net/socket.c:2440
+ do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+ entry_SYSCALL_64_after_hwframe+0x44/0xa9
+RIP: 0033:0x45d9f9
+Code: bd b1 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 8b b1 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+RSP: 002b:00007f678fae1c88 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
+RAX: ffffffffffffffda RBX: 000000000071f480 RCX: 000000000045d9f9
+RDX: 0000000000000000 RSI: 0000000020000200 RDI: 0000000000000003
+RBP: 00000000004aab13 R08: 0000000000000000 R09: 0000000000000000
+R10: 0000000000000000 R11: 0000000000000246 R12: 000000000075bf00
+R13: 00007ffc6f9b8bbf R14: 00007f678fac2000 R15: 0000000000000003
 
-"Publish iomem revocation inode initialized"
 
-Other than that:
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
