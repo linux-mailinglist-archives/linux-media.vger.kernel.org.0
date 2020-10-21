@@ -2,135 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5BC69294D09
-	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 14:51:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2ADC8294D27
+	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 15:01:10 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2442659AbgJUMvb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Oct 2020 08:51:31 -0400
-Received: from nat-hk.nvidia.com ([203.18.50.4]:32157 "EHLO nat-hk.nvidia.com"
+        id S2442790AbgJUNBG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Oct 2020 09:01:06 -0400
+Received: from mga05.intel.com ([192.55.52.43]:40832 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2442652AbgJUMva (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Oct 2020 08:51:30 -0400
-Received: from HKMAIL104.nvidia.com (Not Verified[10.18.92.77]) by nat-hk.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f902ed00001>; Wed, 21 Oct 2020 20:51:28 +0800
-Received: from HKMAIL102.nvidia.com (10.18.16.11) by HKMAIL104.nvidia.com
- (10.18.16.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 21 Oct
- 2020 12:51:28 +0000
-Received: from NAM11-DM6-obe.outbound.protection.outlook.com (104.47.57.176)
- by HKMAIL102.nvidia.com (10.18.16.11) with Microsoft SMTP Server (TLS) id
- 15.0.1473.3 via Frontend Transport; Wed, 21 Oct 2020 12:51:28 +0000
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FRw8/EytkfcUBldJuP/BUuxxIDH9Cjfkp7Nmm09svP82seUUZfOU/ahD2Ulz4L2wWbcVan/0CdFMo6RobnpIzM27wU2MFgf3UZNaFMDAqPgUzu2xEisqqJiXSZxE4/RdsmqwQcsSpZ8B1Rd/qPPrQ5JuL/7rotO1Z38dlgYW0XBnhzqD02IOt67LgNrMdo07HikgJ298nvGqMcHoDGbwSDMF6E54RLYQnEjjTeGkeYscYrmTL2ImCgq3KPEZx6eOpBYeBO1VO73nlTHK3vTTcwDa+vjSVtO8l3Obv+UKChkK7HgpAhty9SbHgUzvWKb9ijXIetg/l+t9+zATfsE6Zg==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yh/1ZhTxXHD1YXbmPcINfY1BXvQtNEnRPtNoRP9PEH4=;
- b=MeXBi/FsegQ4Ozc+o9nqHqApf9xo37Zq7fkpRtw8dnhIsQf/36ff6syWd4R3od1pGpPh/H3vP/RuPutpklaZoDu3aBKB8c2rys5z9vLqvptYiP63DDyWBOjniy46NJjGgep0pKrZ3QyLnxznLFlDP/PqxAs1iGAME1qzEQqfVJra/s8urs/k+BUxQp+uLasxIQjPMPRm+bciVVfol61EgyKjQOkBPk0GLtsTvHaz0GXmnD/T9n54Eeor/x+Qprk0olGD2IK2LFtyCdXevIy4b8X05lIdUSJroNjV49dy81c/1pyr9TtkkrEwEr1Ra/rlitUC0mY3whPauKPOIqSrag==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nvidia.com; dmarc=pass action=none header.from=nvidia.com;
- dkim=pass header.d=nvidia.com; arc=none
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com (2603:10b6:5:14a::12)
- by DM6PR12MB4498.namprd12.prod.outlook.com (2603:10b6:5:2a2::17) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.20; Wed, 21 Oct
- 2020 12:51:26 +0000
-Received: from DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78]) by DM6PR12MB3834.namprd12.prod.outlook.com
- ([fe80::cdbe:f274:ad65:9a78%7]) with mapi id 15.20.3477.028; Wed, 21 Oct 2020
- 12:51:26 +0000
-Date:   Wed, 21 Oct 2020 09:51:24 -0300
-From:   Jason Gunthorpe <jgg@nvidia.com>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-CC:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, <kvm@vger.kernel.org>,
-        <linux-mm@kvack.org>, <linux-arm-kernel@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <linux-s390@vger.kernel.org>
-Subject: Re: [PATCH v3 00/16] follow_pfn and other iomap races
-Message-ID: <20201021125124.GA827089@nvidia.com>
-References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="us-ascii"
-Content-Disposition: inline
-In-Reply-To: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
-X-ClientProxiedBy: MN2PR08CA0025.namprd08.prod.outlook.com
- (2603:10b6:208:239::30) To DM6PR12MB3834.namprd12.prod.outlook.com
- (2603:10b6:5:14a::12)
+        id S2442787AbgJUNBD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 21 Oct 2020 09:01:03 -0400
+IronPort-SDR: G0ITZuDh7/4qMUtPPxX1v6WnUA1FZoOKyQ63+iBOdJbNZRgJVJ9zw0FLfFHgE9iRcuhyyI0k49
+ aoumwEy6z7Xg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9780"; a="252057577"
+X-IronPort-AV: E=Sophos;i="5.77,401,1596524400"; 
+   d="scan'208";a="252057577"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2020 06:00:58 -0700
+IronPort-SDR: lM5wSd6+wT4tggVCLwdGbIPibdst4g5SbujPDO31XcaiYsSmH6OSi9IHSmujusMtC9jZyu4c8a
+ HvaYv53wmvcQ==
+X-IronPort-AV: E=Sophos;i="5.77,401,1596524400"; 
+   d="scan'208";a="522735609"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 21 Oct 2020 06:00:55 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 4CB9020815; Wed, 21 Oct 2020 16:00:33 +0300 (EEST)
+Date:   Wed, 21 Oct 2020 16:00:33 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hugues Fruchet <hugues.fruchet@st.com>
+Cc:     Alexandre Torgue <alexandre.torgue@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Alain Volmat <alain.volmat@st.com>,
+        Yannick Fertre <yannick.fertre@st.com>,
+        Philippe CORNU <philippe.cornu@st.com>
+Subject: Re: [PATCH v4 2/2] media: dt-bindings: media: st,stm32-dcmi: Add
+ support of BT656
+Message-ID: <20201021130033.GI2703@paasikivi.fi.intel.com>
+References: <1603188889-23664-1-git-send-email-hugues.fruchet@st.com>
+ <1603188889-23664-3-git-send-email-hugues.fruchet@st.com>
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from mlx.ziepe.ca (156.34.48.30) by MN2PR08CA0025.namprd08.prod.outlook.com (2603:10b6:208:239::30) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3477.24 via Frontend Transport; Wed, 21 Oct 2020 12:51:25 +0000
-Received: from jgg by mlx with local (Exim 4.94)        (envelope-from <jgg@nvidia.com>)        id 1kVDaO-003UBS-Qb; Wed, 21 Oct 2020 09:51:24 -0300
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1603284689; bh=yh/1ZhTxXHD1YXbmPcINfY1BXvQtNEnRPtNoRP9PEH4=;
-        h=ARC-Seal:ARC-Message-Signature:ARC-Authentication-Results:Date:
-         From:To:CC:Subject:Message-ID:References:Content-Type:
-         Content-Disposition:In-Reply-To:X-ClientProxiedBy:MIME-Version:
-         X-MS-Exchange-MessageSentRepresentingType;
-        b=C7xYU0fDsha18ThIXlmRE40GkYuRAFPxCvdB3o1nMvhmU+vNu/rWItr/hyVsI9JH9
-         fOswYgLrZ1ZCdIq3o74WRdiiwn36I+f089K2bd5TwpCAN88YO70quRsJez5AumELr1
-         rUSxhC1RAFOXp/GeUnJ89506tos7uvcJw1UAIv6ruwvgDQgeI9UdjilJv1BO6pVzHs
-         voW1qRPuxMuaDc5hOEpSvzFbPi+5E52IQsBge0a0DfxAsa6VhbITJG8CQ4ZD4w6A0O
-         0U0LE7MYwwqgIITuqPz4Q6uMmb+s1eOV3pscqtu/o7GoBFJpxWCQpWJhazPnrKwrXa
-         XsZ5x/vGm+/Rg==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1603188889-23664-3-git-send-email-hugues.fruchet@st.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 21, 2020 at 10:56:39AM +0200, Daniel Vetter wrote:
-> Hi all,
-> 
-> Round 3 of my patch series to clamp down a bunch of races and gaps
-> around follow_pfn and other access to iomem mmaps. Previous version:
-> 
-> v1: https://lore.kernel.org/dri-devel/20201007164426.1812530-1-daniel.vetter@ffwll.ch/
-> v2: https://lore.kernel.org/dri-devel/20201009075934.3509076-1-daniel.vetter@ffwll.ch
-> 
-> And the discussion that sparked this journey:
-> 
-> https://lore.kernel.org/dri-devel/20201007164426.1812530-1-daniel.vetter@ffwll.ch/
-> 
-> I was waiting for the testing result for habanalabs from Oded, but I guess
-> Oded was waiting for my v3.
-> 
-> Changes in v3:
-> - Bunch of polish all over, no functional changes aside from one barrier
->   in the resource code, for consistency.
-> - A few more r-b tags.
-> 
-> Changes in v2:
-> - tons of small polish&fixes all over, thanks to all the reviewers who
->   spotted issues
-> - I managed to test at least the generic_access_phys and pci mmap revoke
->   stuff with a few gdb sessions using our i915 debug tools (hence now also
->   the drm/i915 patch to properly request all the pci bar regions)
-> - reworked approach for the pci mmap revoke: Infrastructure moved into
->   kernel/resource.c, address_space mapping is now set up at open time for
->   everyone (which required some sysfs changes). Does indeed look a lot
->   cleaner and a lot less invasive than I feared at first.
-> 
-> The big thing I can't test are all the frame_vector changes in habanalbas,
-> exynos and media. Gerald has given the s390 patch a spin already.
-> 
-> Review, testing, feedback all very much welcome.
-> 
-> Daniel Vetter (16):
->   drm/exynos: Stop using frame_vector helpers
->   drm/exynos: Use FOLL_LONGTERM for g2d cmdlists
->   misc/habana: Stop using frame_vector helpers
->   misc/habana: Use FOLL_LONGTERM for userptr
->   mm/frame-vector: Use FOLL_LONGTERM
->   media: videobuf2: Move frame_vector into media subsystem
->   mm: Close race in generic_access_phys
->   s390/pci: Remove races against pte updates
->   mm: Add unsafe_follow_pfn
->   media/videbuf1|2: Mark follow_pfn usage as unsafe
->   vfio/type1: Mark follow_pfn as unsafe
->   PCI: Obey iomem restrictions for procfs mmap
->   /dev/mem: Only set filp->f_mapping
->   resource: Move devmem revoke code to resource framework
->   sysfs: Support zapping of binary attr mmaps
->   PCI: Revoke mappings like devmem
+Hi Hugues,
 
-The whole thing looks like a great improvement!
+On Tue, Oct 20, 2020 at 12:14:49PM +0200, Hugues Fruchet wrote:
+> Add support of BT656 parallel bus mode in DCMI.
+> This mode is enabled when hsync-active & vsync-active
+> fields are not specified.
+> 
+> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+> ---
+>  .../devicetree/bindings/media/st,stm32-dcmi.yaml   | 30 ++++++++++++++++++++++
+>  1 file changed, 30 insertions(+)
+> 
+> diff --git a/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml b/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
+> index 3fe778c..1ee521a 100644
+> --- a/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
+> +++ b/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
+> @@ -44,6 +44,36 @@ properties:
+>        bindings defined in
+>        Documentation/devicetree/bindings/media/video-interfaces.txt.
+>  
+> +    properties:
+> +      endpoint:
+> +        type: object
+> +
+> +        properties:
+> +          bus-width: true
+> +
+> +          hsync-active:
+> +            description:
+> +              If both HSYNC and VSYNC polarities are not specified, BT656
+> +              embedded synchronization is selected.
+> +            default: 0
+> +
+> +          vsync-active:
+> +            description:
+> +              If both HSYNC and VSYNC polarities are not specified, BT656
+> +              embedded synchronization is selected.
+> +            default: 0
 
-Thanks,
-Jason
+Should I understand this as if the polarities were not specified, BT.656
+will be used? The bindings previously documented BT.601 (parallel) only, so
+it was somewhat ambigious to begin with. Is there a risk of interpreting
+old BT.601 bindings as BT.656? With bus-type property, I believe you could
+avoid at least that risk.
+
+Also not specifying at least one of the default values leads to BT.656
+without bus-type. That could be addressed by removing the defaults.
+
+> +
+> +          pclk-sample: true
+> +
+> +          remote-endpoint: true
+> +
+> +        required:
+> +          - remote-endpoint
+> +
+> +        additionalProperties: false
+> +
+> +    additionalProperties: false
+> +
+>  required:
+>    - compatible
+>    - reg
+
+-- 
+Regards,
+
+Sakari Ailus
