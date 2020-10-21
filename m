@@ -2,131 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5B9DF2952AB
-	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 21:03:27 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C4BE42952E2
+	for <lists+linux-media@lfdr.de>; Wed, 21 Oct 2020 21:24:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2504620AbgJUTDV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 21 Oct 2020 15:03:21 -0400
-Received: from mail-io1-f70.google.com ([209.85.166.70]:33983 "EHLO
-        mail-io1-f70.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502392AbgJUTDV (ORCPT
+        id S2504914AbgJUTYU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 21 Oct 2020 15:24:20 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54492 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2441938AbgJUTYU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 21 Oct 2020 15:03:21 -0400
-Received: by mail-io1-f70.google.com with SMTP id l12so2344793ioj.1
-        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 12:03:20 -0700 (PDT)
+        Wed, 21 Oct 2020 15:24:20 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 35D51C0613D6
+        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 12:24:20 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id f37so2872971otf.12
+        for <linux-media@vger.kernel.org>; Wed, 21 Oct 2020 12:24:20 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=sYM9cUyMSOj9mKCWCe707+J8b20m45BOShUil5OYiuY=;
+        b=UcRTFA71oa+ZohVvqr5nTk2VrlQIDJZuL8YbFFB6slZWA8umJ/bN/qbSbMlqTB7z0q
+         bIxgy64Kmi9zqOgOlY5HP3Sd823hLvIZ4IY3eeEDdvu0znOIz4Dey+GMkJlQfrWVVWss
+         6QNEH9JVNXJd4SlM1j+HDRzTJLUTR8870k28s=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=UZ+enrykDZn0RBAehZWXA0bKtfaNR6wmh3gkDAdQ0qU=;
-        b=frcHS5BoWZ6dlKEoPd15aL3J0DhtPq2zYzhExztXwTtetjDCYK1/oxfEchHOiZFrkd
-         pUUHu36sFdAhPox+vnDUnhNVV1jzg7nF5jRYk7Gxp/JKQg2QBnEMzEBIn4ecOgXXsXKC
-         xQ+nnx8dYV71TEy4u9GDZdoeiNj4SdG6kQpN+I3kgbmNPyS0IIEr1rv66oDIgkxiY4AZ
-         L/0cLiokQKf75HHdzbWTWx7mPttbFKl5DfV79ZrBN69WqyJ9GkKDQPNA+sbtn/qrnBda
-         bAyWMUmGR5Jp6K7g8vYAoGoyrA2gKAQehQvVISEgjMybRek5Q4MRSEh0THerO8fxgMUP
-         rkwA==
-X-Gm-Message-State: AOAM531QbYDQiJHiHufBSexiah/ltQAKRdNDR5OVptXTxiLndt/cGVym
-        UWbc59KlN5vBE6zJBfbwEDid1UCw4kVwBg3rRxIUIPO1Yiht
-X-Google-Smtp-Source: ABdhPJz2DS8buf571WovUNMKHuSLSF76DGgezNV/agArJmCbhllMoFPN7q2PFS7kA5XVwafLNLZkSOV+4eJYXHkyl2WL1jnLWRkI
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=sYM9cUyMSOj9mKCWCe707+J8b20m45BOShUil5OYiuY=;
+        b=jnek1V3N10Lzi9jzSygASjkJzY0t/ZdEOFLd4Yb3odWlfrRWz7YZvJIgv9RSiC0mev
+         F+rTr4ofuzVExX1Mx/w/OqqsdxMjESNQtRrHblQ88pDZURIiXcKEMyCdUe+vk4QyFjMP
+         h7R0/NVz8hMAsga/obiHHCJCyKTXRe5MZJw41iJOPLcwJrEg+q8/+iOslEI43o64yJVh
+         y509qo9iIxs35ugJSqUUAjQp/AGldukEnkwTazHMgDF4ArLTuPRw8XxvrXYoBdAnaZKB
+         P9TqQ1S8IlCZWeGrY/Sf0LySCf7A5bkGWthZGdd3ua0D+cXNqCs8kpVGOWiHz4RjjPpz
+         hwGA==
+X-Gm-Message-State: AOAM533uQSSNX0lRRBXoa0n2ppL1eBxdgyd+lhIwjoGPxWPzQUyJ5Too
+        R5RuAvC06GEVR1DD1Vf3eTH0uZOCBcRKIT6rnSzriw==
+X-Google-Smtp-Source: ABdhPJwJGiQE46eBJclvgjHXJJ+j87WJ+7cjHqpCSH7v0fZi8HkcRkC+gln/SdoBFVWEgA88/UYBf7mOSQSqgr0L7bk=
+X-Received: by 2002:a05:6830:1647:: with SMTP id h7mr3877970otr.281.1603308259478;
+ Wed, 21 Oct 2020 12:24:19 -0700 (PDT)
 MIME-Version: 1.0
-X-Received: by 2002:a02:8661:: with SMTP id e88mr4055127jai.43.1603306999991;
- Wed, 21 Oct 2020 12:03:19 -0700 (PDT)
-Date:   Wed, 21 Oct 2020 12:03:19 -0700
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000335adc05b23300f6@google.com>
-Subject: WARNING in dma_map_page_attrs
-From:   syzbot <syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com>
-To:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
-        hch@lst.de, iommu@lists.linux-foundation.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, sumit.semwal@linaro.org,
-        syzkaller-bugs@googlegroups.com
+References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
+ <20201021085655.1192025-13-daniel.vetter@ffwll.ch> <20201021125030.GK36674@ziepe.ca>
+ <CAKMK7uEWe8CaT7zjcZ6dJAKHxtxtqzjVB35fCFviwhcnqksDfw@mail.gmail.com>
+ <20201021151352.GL36674@ziepe.ca> <CAKMK7uGq0=ks7Zj1Et44k7x9FwE9u_ua4zANSqrLRri0v01V+Q@mail.gmail.com>
+ <20201021163702.GM36674@ziepe.ca>
+In-Reply-To: <20201021163702.GM36674@ziepe.ca>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Wed, 21 Oct 2020 21:24:08 +0200
+Message-ID: <CAKMK7uEjE5sHUq0hV_bnYjPKRxYyBnty0sLre+owANGZjLJg9Q@mail.gmail.com>
+Subject: Re: [PATCH v3 12/16] PCI: Obey iomem restrictions for procfs mmap
+To:     Jason Gunthorpe <jgg@ziepe.ca>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@ffwll.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Wed, Oct 21, 2020 at 6:37 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+>
+> On Wed, Oct 21, 2020 at 05:54:54PM +0200, Daniel Vetter wrote:
+>
+> > The trouble is that io_remap_pfn adjust vma->pgoff, so we'd need to
+> > split that. So ideally ->mmap would never set up any ptes.
+>
+> /dev/mem makes pgoff == pfn so it doesn't get changed by remap.
+>
+> pgoff doesn't get touched for MAP_SHARED either, so there are other
+> users that could work like this - eg anyone mmaping IO memory is
+> probably OK.
 
-syzbot found the following issue on:
+I was more generally thinking for io_remap_pfn_users because of the
+mkwrite use-case we might have in fbdev emulation in drm.
 
-HEAD commit:    c4d6fe73 Merge tag 'xarray-5.9' of git://git.infradead.org..
-git tree:       upstream
-console output: https://syzkaller.appspot.com/x/log.txt?x=14862ff0500000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=7d790573d3e379c4
-dashboard link: https://syzkaller.appspot.com/bug?extid=34dc2fea3478e659af01
-compiler:       gcc (GCC) 10.1.0-syz 20200507
+> > I guess one option would be if remap_pfn_range would steal the
+> > vma->vm_ops pointer for itself, then it could set up the correct
+> > ->install_ptes hook. But there's tons of callers for that, so not sure
+> > that's a bright idea.
+>
+> The caller has to check that the mapping is still live, and I think
+> hold a lock across the remap? Auto-defering it doesn't seem feasible.
 
-Unfortunately, I don't have any reproducer for this issue yet.
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com
-
-infiniband syz1: set active
-infiniband syz1: added vcan0
-------------[ cut here ]------------
-WARNING: CPU: 1 PID: 9851 at kernel/dma/mapping.c:149 dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
-Modules linked in:
-CPU: 1 PID: 9851 Comm: syz-executor.1 Not tainted 5.9.0-syzkaller #0
-Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
-RIP: 0010:dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
-Code: 80 3c 10 00 0f 85 ed 01 00 00 48 8b 1d 36 c3 fa 0c e9 2d fc ff ff 48 89 c3 e9 d1 fd ff ff e8 04 12 12 00 0f 0b e8 fd 11 12 00 <0f> 0b 49 c7 c4 ff ff ff ff e9 d5 fd ff ff e8 ea 11 12 00 48 8d 7b
-RSP: 0018:ffffc90001546c68 EFLAGS: 00010246
-RAX: 0000000000040000 RBX: ffffffff894d0040 RCX: ffffc9000dbe4000
-RDX: 0000000000040000 RSI: ffffffff815d3b03 RDI: ffff88806a988b00
-RBP: ffff8880236cc400 R08: 0000000000000002 R09: 0000000000000000
-R10: 0000000000000002 R11: 0000000000000000 R12: ffffea00008db300
-R13: ffff88806a9886e8 R14: 00000000000004b8 R15: 0000000000000002
-FS:  00007f678fae2700(0000) GS:ffff88802ce00000(0000) knlGS:0000000000000000
-CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-CR2: 00007f299a39b190 CR3: 0000000069f31000 CR4: 0000000000350ee0
-DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-Call Trace:
- dma_map_single_attrs include/linux/dma-mapping.h:279 [inline]
- ib_dma_map_single include/rdma/ib_verbs.h:3967 [inline]
- ib_mad_post_receive_mads+0x23f/0xd60 drivers/infiniband/core/mad.c:2715
- ib_mad_port_start drivers/infiniband/core/mad.c:2862 [inline]
- ib_mad_port_open drivers/infiniband/core/mad.c:3016 [inline]
- ib_mad_init_device+0x72b/0x1400 drivers/infiniband/core/mad.c:3092
- add_client_context+0x405/0x5e0 drivers/infiniband/core/device.c:680
- enable_device_and_get+0x1d5/0x3c0 drivers/infiniband/core/device.c:1301
- ib_register_device drivers/infiniband/core/device.c:1376 [inline]
- ib_register_device+0x7a7/0xa40 drivers/infiniband/core/device.c:1335
- rxe_register_device+0x46d/0x570 drivers/infiniband/sw/rxe/rxe_verbs.c:1182
- rxe_add+0x12fe/0x16d0 drivers/infiniband/sw/rxe/rxe.c:247
- rxe_net_add+0x8c/0xe0 drivers/infiniband/sw/rxe/rxe_net.c:507
- rxe_newlink drivers/infiniband/sw/rxe/rxe.c:269 [inline]
- rxe_newlink+0xb7/0xe0 drivers/infiniband/sw/rxe/rxe.c:250
- nldev_newlink+0x30e/0x540 drivers/infiniband/core/nldev.c:1555
- rdma_nl_rcv_msg+0x367/0x690 drivers/infiniband/core/netlink.c:195
- rdma_nl_rcv_skb drivers/infiniband/core/netlink.c:239 [inline]
- rdma_nl_rcv+0x2f2/0x440 drivers/infiniband/core/netlink.c:259
- netlink_unicast_kernel net/netlink/af_netlink.c:1304 [inline]
- netlink_unicast+0x533/0x7d0 net/netlink/af_netlink.c:1330
- netlink_sendmsg+0x856/0xd90 net/netlink/af_netlink.c:1919
- sock_sendmsg_nosec net/socket.c:651 [inline]
- sock_sendmsg+0xcf/0x120 net/socket.c:671
- ____sys_sendmsg+0x6e8/0x810 net/socket.c:2353
- ___sys_sendmsg+0xf3/0x170 net/socket.c:2407
- __sys_sendmsg+0xe5/0x1b0 net/socket.c:2440
- do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
- entry_SYSCALL_64_after_hwframe+0x44/0xa9
-RIP: 0033:0x45d9f9
-Code: bd b1 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 8b b1 fb ff c3 66 2e 0f 1f 84 00 00 00 00
-RSP: 002b:00007f678fae1c88 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
-RAX: ffffffffffffffda RBX: 000000000071f480 RCX: 000000000045d9f9
-RDX: 0000000000000000 RSI: 0000000020000200 RDI: 0000000000000003
-RBP: 00000000004aab13 R08: 0000000000000000 R09: 0000000000000000
-R10: 0000000000000000 R11: 0000000000000246 R12: 000000000075bf00
-R13: 00007ffc6f9b8bbf R14: 00007f678fac2000 R15: 0000000000000003
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+Right auto-defering reopens the race, so making this work
+automatically is a bit much. I guess just splitting this into a
+setup/install part and then doing the install of all the ptes at first
+fault should be good enough. We don't really need a new install_pages
+for that, just an io_remap_pfn_range that's split in two parts.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
