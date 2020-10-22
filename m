@@ -2,126 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04D8A296037
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:41:52 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EF28829603D
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:43:22 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2900231AbgJVNlr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Oct 2020 09:41:47 -0400
-Received: from verein.lst.de ([213.95.11.211]:52912 "EHLO verein.lst.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2503142AbgJVNlq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 09:41:46 -0400
-Received: by verein.lst.de (Postfix, from userid 2407)
-        id CB7DE68AFE; Thu, 22 Oct 2020 15:41:42 +0200 (CEST)
-Date:   Thu, 22 Oct 2020 15:41:42 +0200
-From:   Christoph Hellwig <hch@lst.de>
-To:     syzbot <syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com>
-Cc:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
-        hch@lst.de, iommu@lists.linux-foundation.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
-        robin.murphy@arm.com, sumit.semwal@linaro.org,
-        syzkaller-bugs@googlegroups.com
-Subject: Re: WARNING in dma_map_page_attrs
-Message-ID: <20201022134142.GA9189@lst.de>
-References: <000000000000335adc05b23300f6@google.com>
+        id S2508124AbgJVNnS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 09:43:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54438 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2444568AbgJVNnS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 22 Oct 2020 09:43:18 -0400
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55817C0613CE;
+        Thu, 22 Oct 2020 06:43:18 -0700 (PDT)
+Received: by mail-pj1-x1044.google.com with SMTP id l2so993814pjt.5;
+        Thu, 22 Oct 2020 06:43:18 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=TGoYs6NX+Ndx+a6z9ojq9tBbYhFNYgIJY1nftO258C4=;
+        b=qBR9uUxUlHyzRD3U5yeOPNh2DDGVG9brz1blZmpia4NszHbmZ+F9wNVuaJbexA1L3Q
+         /eGsZj1/Hj54rAPm6L5LilmL59AZk5K6sjXGE8XLjUje8GMErvT7f0RzBBIzt4bwDR7y
+         CP+A1Is9IT0EVEitSCNGlmmmWZ1WHvAnd9ZTIrd0lM1wHSdXPkBVZXAwsdEj9CGOq1+W
+         NYw767H1SD7DlQEa3Anp0F9TqIkNbjTargZkMcF5AbXQTTIJzXX/4ocvGZ8e6tajgd05
+         OjcAKZCIrST80Fh562Wu+2NAvSfyTI7JHowQpGGjfI3hDZXxM6o91V6d4cuWtjIsgJxz
+         Im2Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=TGoYs6NX+Ndx+a6z9ojq9tBbYhFNYgIJY1nftO258C4=;
+        b=n0uLpqj266RQsqSYfa6/dF8LbActyUGakq7NdGpR7kM6Cy+SdmFr37OaGSU/KReeOr
+         JuZ0Qi5EutUoskQpxGMGQBgZ2izrrKuIk2Bg7e0O1j7nApEEbroXvbhznx0xpaKSs2Xp
+         mSmuLxfh1X1seB+cxW9iaoM8HAGnieWgCeIywGyLDWD5MtqwQkX7SJueSt2TKFkjbrhs
+         mmXLKuSC1gxDR5Bg502Yo8AASMpE9AYRiu+lGQSLhIrKqzS/nDXpgPWXXoGdVsQjQgKs
+         ZaHAAut52A59e+7+MO1VBsuQiBKqvY0fejyHeOBOXAF0Cb6nEg8cdLkHQwr9SdiOgjVi
+         7WrQ==
+X-Gm-Message-State: AOAM532tnIAJ3dA/+mMiub0AytKeUPBxiOIxGKxvGh+NZzs+sJHVjMiw
+        sGdGaXxqxFsztpOc7bNuWfk=
+X-Google-Smtp-Source: ABdhPJysdrkf3tgIA1nwdFfO7BIZMe8vhpQ/9lzdcbY6lgA87r33Xb+5yzfTvWg4NA6sI3LSJUyyRw==
+X-Received: by 2002:a17:902:a3c9:b029:d5:df0c:f217 with SMTP id q9-20020a170902a3c9b02900d5df0cf217mr2465001plb.59.1603374197886;
+        Thu, 22 Oct 2020 06:43:17 -0700 (PDT)
+Received: from adolin ([49.207.204.75])
+        by smtp.gmail.com with ESMTPSA id l18sm2404726pfd.210.2020.10.22.06.43.13
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2020 06:43:17 -0700 (PDT)
+Date:   Thu, 22 Oct 2020 19:13:11 +0530
+From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     outreachy-kernel@googlegroups.com, alexander.deucher@amd.com,
+        christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+        melissa.srw@gmail.com, linux-media@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 2/5] gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
+Message-ID: <78546ad9343ddf1b0f8bc300a3c8ae9a0dcb0ef9.1603371258.git.sylphrenadin@gmail.com>
+References: <cover.1603371258.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <000000000000335adc05b23300f6@google.com>
-User-Agent: Mutt/1.5.17 (2007-11-01)
+In-Reply-To: <cover.1603371258.git.sylphrenadin@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I don't think the merge commit makes sense here.  But what we see here
-is that dma_map_page is called on the rxe device, without that device
-having a DMA mask.  For now this needs a workaround in rxe, but for
-5.11 I'll send a patch to remove dma-virt and just handle this case
-inside of the rdma core.
+Using snprintf() for show() methods holds the risk of buffer overrun
+as snprintf() does not know the PAGE_SIZE maximum of the temporary
+buffer used to output sysfs content.
 
-On Wed, Oct 21, 2020 at 12:03:19PM -0700, syzbot wrote:
-> Hello,
-> 
-> syzbot found the following issue on:
-> 
-> HEAD commit:    c4d6fe73 Merge tag 'xarray-5.9' of git://git.infradead.org..
-> git tree:       upstream
-> console output: https://syzkaller.appspot.com/x/log.txt?x=14862ff0500000
-> kernel config:  https://syzkaller.appspot.com/x/.config?x=7d790573d3e379c4
-> dashboard link: https://syzkaller.appspot.com/bug?extid=34dc2fea3478e659af01
-> compiler:       gcc (GCC) 10.1.0-syz 20200507
-> 
-> Unfortunately, I don't have any reproducer for this issue yet.
-> 
-> IMPORTANT: if you fix the issue, please add the following tag to the commit:
-> Reported-by: syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com
-> 
-> infiniband syz1: set active
-> infiniband syz1: added vcan0
-> ------------[ cut here ]------------
-> WARNING: CPU: 1 PID: 9851 at kernel/dma/mapping.c:149 dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
-> Modules linked in:
-> CPU: 1 PID: 9851 Comm: syz-executor.1 Not tainted 5.9.0-syzkaller #0
-> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
-> RIP: 0010:dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
-> Code: 80 3c 10 00 0f 85 ed 01 00 00 48 8b 1d 36 c3 fa 0c e9 2d fc ff ff 48 89 c3 e9 d1 fd ff ff e8 04 12 12 00 0f 0b e8 fd 11 12 00 <0f> 0b 49 c7 c4 ff ff ff ff e9 d5 fd ff ff e8 ea 11 12 00 48 8d 7b
-> RSP: 0018:ffffc90001546c68 EFLAGS: 00010246
-> RAX: 0000000000040000 RBX: ffffffff894d0040 RCX: ffffc9000dbe4000
-> RDX: 0000000000040000 RSI: ffffffff815d3b03 RDI: ffff88806a988b00
-> RBP: ffff8880236cc400 R08: 0000000000000002 R09: 0000000000000000
-> R10: 0000000000000002 R11: 0000000000000000 R12: ffffea00008db300
-> R13: ffff88806a9886e8 R14: 00000000000004b8 R15: 0000000000000002
-> FS:  00007f678fae2700(0000) GS:ffff88802ce00000(0000) knlGS:0000000000000000
-> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
-> CR2: 00007f299a39b190 CR3: 0000000069f31000 CR4: 0000000000350ee0
-> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
-> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
-> Call Trace:
->  dma_map_single_attrs include/linux/dma-mapping.h:279 [inline]
->  ib_dma_map_single include/rdma/ib_verbs.h:3967 [inline]
->  ib_mad_post_receive_mads+0x23f/0xd60 drivers/infiniband/core/mad.c:2715
->  ib_mad_port_start drivers/infiniband/core/mad.c:2862 [inline]
->  ib_mad_port_open drivers/infiniband/core/mad.c:3016 [inline]
->  ib_mad_init_device+0x72b/0x1400 drivers/infiniband/core/mad.c:3092
->  add_client_context+0x405/0x5e0 drivers/infiniband/core/device.c:680
->  enable_device_and_get+0x1d5/0x3c0 drivers/infiniband/core/device.c:1301
->  ib_register_device drivers/infiniband/core/device.c:1376 [inline]
->  ib_register_device+0x7a7/0xa40 drivers/infiniband/core/device.c:1335
->  rxe_register_device+0x46d/0x570 drivers/infiniband/sw/rxe/rxe_verbs.c:1182
->  rxe_add+0x12fe/0x16d0 drivers/infiniband/sw/rxe/rxe.c:247
->  rxe_net_add+0x8c/0xe0 drivers/infiniband/sw/rxe/rxe_net.c:507
->  rxe_newlink drivers/infiniband/sw/rxe/rxe.c:269 [inline]
->  rxe_newlink+0xb7/0xe0 drivers/infiniband/sw/rxe/rxe.c:250
->  nldev_newlink+0x30e/0x540 drivers/infiniband/core/nldev.c:1555
->  rdma_nl_rcv_msg+0x367/0x690 drivers/infiniband/core/netlink.c:195
->  rdma_nl_rcv_skb drivers/infiniband/core/netlink.c:239 [inline]
->  rdma_nl_rcv+0x2f2/0x440 drivers/infiniband/core/netlink.c:259
->  netlink_unicast_kernel net/netlink/af_netlink.c:1304 [inline]
->  netlink_unicast+0x533/0x7d0 net/netlink/af_netlink.c:1330
->  netlink_sendmsg+0x856/0xd90 net/netlink/af_netlink.c:1919
->  sock_sendmsg_nosec net/socket.c:651 [inline]
->  sock_sendmsg+0xcf/0x120 net/socket.c:671
->  ____sys_sendmsg+0x6e8/0x810 net/socket.c:2353
->  ___sys_sendmsg+0xf3/0x170 net/socket.c:2407
->  __sys_sendmsg+0xe5/0x1b0 net/socket.c:2440
->  do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
->  entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> RIP: 0033:0x45d9f9
-> Code: bd b1 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 8b b1 fb ff c3 66 2e 0f 1f 84 00 00 00 00
-> RSP: 002b:00007f678fae1c88 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
-> RAX: ffffffffffffffda RBX: 000000000071f480 RCX: 000000000045d9f9
-> RDX: 0000000000000000 RSI: 0000000020000200 RDI: 0000000000000003
-> RBP: 00000000004aab13 R08: 0000000000000000 R09: 0000000000000000
-> R10: 0000000000000000 R11: 0000000000000246 R12: 000000000075bf00
-> R13: 00007ffc6f9b8bbf R14: 00007f678fac2000 R15: 0000000000000003
-> 
-> 
-> ---
-> This report is generated by a bot. It may contain errors.
-> See https://goo.gl/tpsmEJ for more information about syzbot.
-> syzbot engineers can be reached at syzkaller@googlegroups.com.
-> 
-> syzbot will keep track of this issue. See:
-> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
----end quoted text---
+Modify amdgpu_device.c to use sysfs_emit() instead which knows the
+size of the temporary buffer.
+
+Issue found with Coccinelle.
+
+Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+index f7307af76452..7eef6b20578f 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
+@@ -135,7 +135,7 @@ static ssize_t amdgpu_device_get_pcie_replay_count(struct device *dev,
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+ 	uint64_t cnt = amdgpu_asic_get_pcie_replay_count(adev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%llu\n", cnt);
++	return sysfs_emit(buf, PAGE_SIZE, "%llu\n", cnt);
+ }
+ 
+ static DEVICE_ATTR(pcie_replay_count, S_IRUGO,
+@@ -159,7 +159,7 @@ static ssize_t amdgpu_device_get_product_name(struct device *dev,
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%s\n", adev->product_name);
++	return sysfs_emit(buf, PAGE_SIZE, "%s\n", adev->product_name);
+ }
+ 
+ static DEVICE_ATTR(product_name, S_IRUGO,
+@@ -181,7 +181,7 @@ static ssize_t amdgpu_device_get_product_number(struct device *dev,
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%s\n", adev->product_number);
++	return sysfs_emit(buf, PAGE_SIZE, "%s\n", adev->product_number);
+ }
+ 
+ static DEVICE_ATTR(product_number, S_IRUGO,
+@@ -203,7 +203,7 @@ static ssize_t amdgpu_device_get_serial_number(struct device *dev,
+ 	struct drm_device *ddev = dev_get_drvdata(dev);
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+ 
+-	return snprintf(buf, PAGE_SIZE, "%s\n", adev->serial);
++	return sysfs_emit(buf, PAGE_SIZE, "%s\n", adev->serial);
+ }
+ 
+ static DEVICE_ATTR(serial_number, S_IRUGO,
+-- 
+2.25.1
+
