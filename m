@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 960332963E6
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 19:47:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B914E2963F4
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 19:47:46 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S369288AbgJVRrY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Oct 2020 13:47:24 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35946 "EHLO
+        id S369327AbgJVRrm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 13:47:42 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S369281AbgJVRrX (ORCPT
+        with ESMTP id S369287AbgJVRrY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 13:47:23 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 05BEAC0613CE;
-        Thu, 22 Oct 2020 10:47:23 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id n6so3543702wrm.13;
-        Thu, 22 Oct 2020 10:47:22 -0700 (PDT)
+        Thu, 22 Oct 2020 13:47:24 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A6B6C0613CE;
+        Thu, 22 Oct 2020 10:47:24 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id s9so3558205wro.8;
+        Thu, 22 Oct 2020 10:47:24 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=lpJOF/BOpUDwhpTSwmF/7JRrywChTu+z2nyDcUw7Tfk=;
-        b=gKeLXQTMv19Fqgdqdaa5GLce9N1RcxFKLMYVoVpplJa/OUsq/Vt/YZ8oPB93sVlp6E
-         5/Jda5QKpZT2GrCjN75dGNwNfQ3ke1GFh5JE47zAEYkq55VTI8JOsGnwoWV2O01uSzjX
-         oOxOO34PUBiucQuZmE2IV3RKKySSGne0rJeWIjBXiO+ACN522XAukKxDb/9aYN2dLUnS
-         /GExnH9euh7cgTcVFo8pyqU6Ek571Wg8eXYqNwOevODPXaxkxfnWP1gQuoFfnMmTasRn
-         zfKfDjK0Iyy5vm1twZxID4SLzxBeJKJUpU31XApN6CFQ0gyijeKKjCitMWsU+LzONrtx
-         eHtw==
+        bh=jH/ymGX8PoDvgpabHM/T5bVI+BdOAPlLIfRyuOHjEQI=;
+        b=FbUY1HpwA26SipLrAG85P9mW0HIXjCTlolMVt9/V5oak9lBnb4uEYdtvtYYVfagoQk
+         D1kZG5r+3wUaKre9Azx+M18d1RIjYS/F7KnVWtLEG/1961AthM8yeeyNaIZ8ly80zEvq
+         3Yjg+FYwmYO0cD8D0deGBz9B86IlNkevDvAnQYjar5lguS/kbTgtCxkpIQPT58stCajW
+         WqYekRXC/sudRXy6Us0lJZk/LSXHqoWDaSuoL5qlXPhfhz2SSJOYoKveNk0UWW41lGZm
+         UhYMx6PYnyB170VeZRekSO7FsBs3unixmkeNRvSPf0Kaev4rDiDa7iPgKHYbdsc9TXMO
+         r/wA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=lpJOF/BOpUDwhpTSwmF/7JRrywChTu+z2nyDcUw7Tfk=;
-        b=WcuKt+QTDRA3KMPl/ehnSDSHM+L+5JumL8rUSY24FQw0HgB/aoApwywi2iEzNaqyBn
-         BflQZPfXLsGLWYr3Ov+g+jW5h+HLqXWGeUccMDFLEHljrLmkA70znhBtbQC7Ozke16ex
-         Cx/Z1TD9FvBbWSAfGaFINmMjQanzE1TAhuF3LGKalqzlTY88YhFP47+SoN7PFJFjHRDg
-         cadAXEP6JNSuihGnEGiJ4lOzTVeV498uz0MKEka4jKof+B00+/wwan9OOj1wL9ZLFlDi
-         xDke1diJfyPvKIM6BNqzRwAYLGBui2V4QWPsXFOkjVlXxH92aXHQixcaQGhA1klwDwRn
-         rIIQ==
-X-Gm-Message-State: AOAM532RtghksrtnMJe2p3A8v3n3cuYsZOM46CNRQS8BptAWcZys5Y4v
-        DrHinRmVJkpgCwFiextrGH4=
-X-Google-Smtp-Source: ABdhPJxrDhXXWKowm2XfRzuRu+N5k3eIZxpjYVZWoEQWmMaLeHZ2zSH1IHlA4s6JdgZCaBx2beP8Yg==
-X-Received: by 2002:adf:d0cf:: with SMTP id z15mr4187395wrh.213.1603388841695;
-        Thu, 22 Oct 2020 10:47:21 -0700 (PDT)
+        bh=jH/ymGX8PoDvgpabHM/T5bVI+BdOAPlLIfRyuOHjEQI=;
+        b=VFRVIkpDbIqTBvVgrpfBtVEAPhvOZxMTEGbgmlCVWRsxo9qXYSV1aCZJ+C8X/aIyvx
+         QSyKm7/Ne2C4WUP+i7tqP8WPdoU7dM8ZNhO2Y4aYVtU5ygYr7DF1sJWzpCoTZaST/Pol
+         eXSlkLzOENbNWAr4i4AeqIu3SI1aEwDyU/6avA9vNsgI6QbpC3b4FgUCSCdsz0yk+HSj
+         kxijo0rxZPTJm2d+F3BNwMG7iNY4E8yfxdXwmTHWZdnEvo7+cBMAR/fgNfpyITe9/pcC
+         deo+6cGTlXhiwTzO0XaI3FgmqqaEO1E8Kg9Ul7bmgxl2ICMI0ZiOLiTTwgLilcemS/w9
+         SDfA==
+X-Gm-Message-State: AOAM532xlsL/v03P9JgvRJuQ6r3HoeRRyp1djrHx8+vzADeDlIST7TgQ
+        JdHU+vK5+VMQ2osL8gzsyZPdaZdfDCnRkMd4
+X-Google-Smtp-Source: ABdhPJxmFONADjaKkwOtRDdTyie6u8BOmNegv6NapdqPaa7u2WhGTqHfmgcl98EGyo5GQcTSWoXO/w==
+X-Received: by 2002:adf:ea4d:: with SMTP id j13mr4033766wrn.345.1603388842936;
+        Thu, 22 Oct 2020 10:47:22 -0700 (PDT)
 Received: from IcarusMOD.eternityproject.eu ([2.237.20.237])
-        by smtp.gmail.com with ESMTPSA id u202sm5368355wmu.23.2020.10.22.10.47.20
+        by smtp.gmail.com with ESMTPSA id u202sm5368355wmu.23.2020.10.22.10.47.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 10:47:21 -0700 (PDT)
+        Thu, 22 Oct 2020 10:47:22 -0700 (PDT)
 From:   kholk11@gmail.com
 To:     todor.too@gmail.com
 Cc:     agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
@@ -56,9 +56,9 @@ Cc:     agross@kernel.org, bjorn.andersson@linaro.org, mchehab@kernel.org,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, robert.foss@linaro.org,
         AngeloGioacchino Del Regno <kholk11@gmail.com>
-Subject: [PATCH v2 5/7] media: camss: csiphy-3ph: Add support for SDM630/660
-Date:   Thu, 22 Oct 2020 19:47:04 +0200
-Message-Id: <20201022174706.8813-6-kholk11@gmail.com>
+Subject: [PATCH v2 6/7] media: dt-bindings: media: qcom,camss: Add bindings for SDM660 camss
+Date:   Thu, 22 Oct 2020 19:47:05 +0200
+Message-Id: <20201022174706.8813-7-kholk11@gmail.com>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201022174706.8813-1-kholk11@gmail.com>
 References: <20201022174706.8813-1-kholk11@gmail.com>
@@ -70,47 +70,64 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: AngeloGioacchino Del Regno <kholk11@gmail.com>
 
-The CSIPHY on SDM630/660 needs a slightly longer T_HS_CLK_MISS
-configuration on lanes CFG4.
+Add bindings for qcom,sdm660-camss in order to support the camera
+subsystem on SDM630/660 and SDA variants.
 
 Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
 Reviewed-by: Robert Foss <robert.foss@linaro.org>
 ---
- drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c | 7 ++++++-
- 1 file changed, 6 insertions(+), 1 deletion(-)
+ Documentation/devicetree/bindings/media/qcom,camss.txt | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-index 2e65caf1ecae..97cb9de85031 100644
---- a/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-+++ b/drivers/media/platform/qcom/camss/camss-csiphy-3ph-1-0.c
-@@ -8,6 +8,7 @@
-  * Copyright (C) 2016-2018 Linaro Ltd.
-  */
- 
-+#include "camss.h"
- #include "camss-csiphy.h"
- 
- #include <linux/delay.h>
-@@ -21,6 +22,7 @@
- #define CSIPHY_3PH_LNn_CFG3(n)			(0x008 + 0x100 * (n))
- #define CSIPHY_3PH_LNn_CFG4(n)			(0x00c + 0x100 * (n))
- #define CSIPHY_3PH_LNn_CFG4_T_HS_CLK_MISS	0xa4
-+#define CSIPHY_3PH_LNn_CFG4_T_HS_CLK_MISS_660	0xa5
- #define CSIPHY_3PH_LNn_CFG5(n)			(0x010 + 0x100 * (n))
- #define CSIPHY_3PH_LNn_CFG5_T_HS_DTERM		0x02
- #define CSIPHY_3PH_LNn_CFG5_HS_REC_EQ_FQ_INT	0x50
-@@ -198,7 +200,10 @@ static void csiphy_lanes_enable(struct csiphy_device *csiphy,
- 	val = CSIPHY_3PH_LNn_CFG1_SWI_REC_DLY_PRG;
- 	writel_relaxed(val, csiphy->base + CSIPHY_3PH_LNn_CFG1(l));
- 
--	val = CSIPHY_3PH_LNn_CFG4_T_HS_CLK_MISS;
-+	if (csiphy->camss->version == CAMSS_660)
-+		val = CSIPHY_3PH_LNn_CFG4_T_HS_CLK_MISS_660;
-+	else
-+		val = CSIPHY_3PH_LNn_CFG4_T_HS_CLK_MISS;
- 	writel_relaxed(val, csiphy->base + CSIPHY_3PH_LNn_CFG4(l));
- 
- 	val = CSIPHY_3PH_LNn_MISC1_IS_CLKLANE;
+diff --git a/Documentation/devicetree/bindings/media/qcom,camss.txt b/Documentation/devicetree/bindings/media/qcom,camss.txt
+index 09eb6ed99114..498234629e21 100644
+--- a/Documentation/devicetree/bindings/media/qcom,camss.txt
++++ b/Documentation/devicetree/bindings/media/qcom,camss.txt
+@@ -8,6 +8,7 @@ Qualcomm Camera Subsystem
+ 	Definition: Should contain one of:
+ 		- "qcom,msm8916-camss"
+ 		- "qcom,msm8996-camss"
++		- "qcom,sdm660-camss"
+ - reg:
+ 	Usage: required
+ 	Value type: <prop-encoded-array>
+@@ -64,30 +65,36 @@ Qualcomm Camera Subsystem
+ 	Value type: <stringlist>
+ 	Definition: Should contain the following entries:
+ 		- "top_ahb"
++		- "throttle_axi"	(660 only)
+ 		- "ispif_ahb"
+ 		- "csiphy0_timer"
+ 		- "csiphy1_timer"
+ 		- "csiphy2_timer"	(8996 only)
++		- "csiphy_ahb2crif"	(660 only)
+ 		- "csi0_ahb"
+ 		- "csi0"
+ 		- "csi0_phy"
+ 		- "csi0_pix"
+ 		- "csi0_rdi"
++		- "cphy_csid0"		(660 only)
+ 		- "csi1_ahb"
+ 		- "csi1"
+ 		- "csi1_phy"
+ 		- "csi1_pix"
+ 		- "csi1_rdi"
++		- "cphy_csid1"		(660 only)
+ 		- "csi2_ahb"		(8996 only)
+ 		- "csi2"		(8996 only)
+ 		- "csi2_phy"		(8996 only)
+ 		- "csi2_pix"		(8996 only)
+ 		- "csi2_rdi"		(8996 only)
++		- "cphy_csid2"		(660 only)
+ 		- "csi3_ahb"		(8996 only)
+ 		- "csi3"		(8996 only)
+ 		- "csi3_phy"		(8996 only)
+ 		- "csi3_pix"		(8996 only)
+ 		- "csi3_rdi"		(8996 only)
++		- "cphy_csid3"		(660 only)
+ 		- "ahb"
+ 		- "vfe0"
+ 		- "csi_vfe0"
 -- 
 2.28.0
 
