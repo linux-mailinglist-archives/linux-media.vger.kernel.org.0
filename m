@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7ECB829602C
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:38:35 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D3D38296024
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:38:18 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2900273AbgJVNi2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Oct 2020 09:38:28 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53606 "EHLO
+        id S2900215AbgJVNiB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 09:38:01 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53610 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2900193AbgJVNh6 (ORCPT
+        with ESMTP id S2900201AbgJVNh7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 09:37:58 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4508BC0613CE
-        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 06:37:58 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id d78so2138415wmd.3
-        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 06:37:58 -0700 (PDT)
+        Thu, 22 Oct 2020 09:37:59 -0400
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D66FC0613CE
+        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 06:37:59 -0700 (PDT)
+Received: by mail-wm1-x341.google.com with SMTP id c194so2143980wme.2
+        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 06:37:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=WdKYKANqyDji6M6kylMPVeVh8pZvdLMVlAzAT/a7CSQ=;
-        b=KIYVlz1dtTEMD20BXN2L33ew12vdB/3MM+nyziXAQ5KVCWgQeSNpbBYv0glYIYcLpN
-         Wkgw7dc5YZPCpHX+38jXnfz3cEbPzF6e9aCQB/bfddTz6/dRTWdtIHHPJCbrZ6rIcATi
-         xSFatDUf+2nkuYIVkL2svMcBCA8E38UBFcvzY=
+        bh=zZZV4ffF4t+t01RKSJGPFAOGdVaSv3k/nLSd6l7lD08=;
+        b=D0Ao1njOzjQ6IdZQAHxd1A84huIlTvUCJTXCAQhNoKuSjqoOsQF2f/oIMP2oHwGuUA
+         aDTklkY3ju3qD/eM011me8bMYM2usafIifdwMqnqMbq5DcL/M8wKA++WpkYmJW87nuY6
+         eADppQQcJCeX+tzLYzbtrQ05sjeTG2S4SBWKs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=WdKYKANqyDji6M6kylMPVeVh8pZvdLMVlAzAT/a7CSQ=;
-        b=C7zx6xqoNmEzdKwA++E7vjV5jGTxdXXn/r6WO5dtogEb0rZx6CIAv8S9a//FeekkCn
-         2KpfrZZBfsxeLx0bMo0YTtZ0V0BdLxdYP4iXrWpnQO6z98++T2T3GMf9wCl4acWoHcMQ
-         QIZVWsmHNc1a8ObPYfQK3UFYwlh/p+0wMkJDw2NvoEVynGhfvrw9Kz888eK7GqAmCLpS
-         z7WaZbRWah0UrEzs3YDUNuX0ip+hhZuHu9sb5rZnBpoNlsccSbRUdSH7sjRlFY349KuK
-         I1YodQ2xfxl9/MBUwJO7LMQg6y/MTY3pGDyJ7flLpYYWhHaUOlmQONY4MpA70SLSVLFr
-         0UEw==
-X-Gm-Message-State: AOAM530wFeE3U6S5kUEZwHpUqsVWoOH5LO3681igWYBUaKIKOAVoIxuK
-        zRkr2mn3hBTULGEwoXiIrIatqw==
-X-Google-Smtp-Source: ABdhPJxtG87peUAj9nUcOJZ6kJ3GfgLcVifZfsIilxdCmYeKjXrDcFn72DSZZaOVqn63oI0RNI6EWA==
-X-Received: by 2002:a1c:7707:: with SMTP id t7mr2777097wmi.54.1603373876961;
-        Thu, 22 Oct 2020 06:37:56 -0700 (PDT)
+        bh=zZZV4ffF4t+t01RKSJGPFAOGdVaSv3k/nLSd6l7lD08=;
+        b=OWiKQf3dXtHnjZrpCS6EUTU0zpZyLJAo8+XlAhrGYg/RnMpRxJa7+uFw3XsrEEjEjx
+         sZ7K1oCT7WxYuJI3xYcWchaYdCQvC40pacVrTeLonCv4qGa/kf4RQgKp6B9Igt3hVWjh
+         EkLBio6SRgvmZvgvoSVkQNDQ9Bdq27s3u9u8wGGP67kDvN2QARHvhZNM7Jb5zh0xYLRm
+         0xKDXS0CC3aS1yw3XudS8tomVLm8kS+Ub080us+ez+rJH9yU4yy1f4R+0ZYM4iSnwTQo
+         vJYiekeHhovvCsbNKPlm7h2LGKwyXtdRbAPsYFHge7GvrNcco+H26i4V7R4VYxCxq8B7
+         BUmg==
+X-Gm-Message-State: AOAM530VlNtWgBw5cDfynuk6wtpkDeVqtr2re1bLNQz0yU02pZbcDy40
+        7yv3ZIYooMDapBQEQrjhOKH1qg==
+X-Google-Smtp-Source: ABdhPJyj3CtaDwRNr3rjY7qm50rCEtFan9QRCWUmj128pucNzLwWUz5ZYLrfXEI1xi+6UeaA+I7HJQ==
+X-Received: by 2002:a1c:b657:: with SMTP id g84mr2589725wmf.0.1603373878059;
+        Thu, 22 Oct 2020 06:37:58 -0700 (PDT)
 Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id q10sm4094031wrp.83.2020.10.22.06.37.56
+        by smtp.gmail.com with ESMTPSA id q10sm4094031wrp.83.2020.10.22.06.37.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 06:37:56 -0700 (PDT)
+        Thu, 22 Oct 2020 06:37:57 -0700 (PDT)
 From:   Ricardo Ribalda <ribalda@chromium.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     tfiga@chromium.org, Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH 1/6] media: uvcvideo: Add UVC_CTRL_FLAG_ENTITY_GET_INFO
-Date:   Thu, 22 Oct 2020 15:37:48 +0200
-Message-Id: <20201022133753.310506-2-ribalda@chromium.org>
+Subject: [PATCH 2/6] media: uvcvideo: Add UVC_CTRL_FLAG_ENTITY_GET_CUR
+Date:   Thu, 22 Oct 2020 15:37:49 +0200
+Message-Id: <20201022133753.310506-3-ribalda@chromium.org>
 X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
 In-Reply-To: <20201022133753.310506-1-ribalda@chromium.org>
 References: <20201022133753.310506-1-ribalda@chromium.org>
@@ -62,60 +62,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This flag allows controls to get their properties from an entity defined
-function instead of via a query to the USB device.
+This flag allows controls to get their current value from an entity
+defined function instead of via a query to the USB device.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 9 +++++++--
- drivers/media/usb/uvc/uvcvideo.h | 3 +++
- include/uapi/linux/uvcvideo.h    | 2 ++
- 3 files changed, 12 insertions(+), 2 deletions(-)
+ drivers/media/usb/uvc/uvc_ctrl.c | 17 +++++++++++++----
+ include/uapi/linux/uvcvideo.h    |  1 +
+ 2 files changed, 14 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index f479d8971dfb..7acdc055613b 100644
+index 7acdc055613b..0a8835742d49 100644
 --- a/drivers/media/usb/uvc/uvc_ctrl.c
 +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1708,8 +1708,13 @@ static int uvc_ctrl_get_flags(struct uvc_device *dev,
- 	if (data == NULL)
- 		return -ENOMEM;
+@@ -1001,10 +1001,19 @@ static int __uvc_ctrl_get(struct uvc_video_chain *chain,
+ 		return -EACCES;
  
--	ret = uvc_query_ctrl(dev, UVC_GET_INFO, ctrl->entity->id, dev->intfnum,
--			     info->selector, data, 1);
-+	if (ctrl->info.flags & UVC_CTRL_FLAG_ENTITY_GET_INFO)
-+		ret = ctrl->entity->get_info ?
-+			ctrl->entity->get_info(ctrl->entity, ctrl->info.selector, data) :
-+			-EINVAL;
-+	else
-+		ret = uvc_query_ctrl(dev, UVC_GET_INFO, ctrl->entity->id, dev->intfnum,
-+				     info->selector, data, 1);
- 	if (!ret)
- 		info->flags |= (data[0] & UVC_CONTROL_CAP_GET ?
- 				UVC_CTRL_FLAG_GET_CUR : 0)
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index a3dfacf069c4..08922d889bb6 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -353,6 +353,9 @@ struct uvc_entity {
- 	u8 bNrInPins;
- 	u8 *baSourceID;
+ 	if (!ctrl->loaded) {
+-		ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR, ctrl->entity->id,
+-				chain->dev->intfnum, ctrl->info.selector,
+-				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
+-				ctrl->info.size);
++		if (ctrl->info.flags & UVC_CTRL_FLAG_ENTITY_GET_CUR) {
++			if (!ctrl->entity->get_cur)
++				return -EINVAL;
++			ret = ctrl->entity->get_cur(ctrl->entity,
++					ctrl->info.selector,
++					uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
++					ctrl->info.size);
++		} else {
++			ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR, ctrl->entity->id,
++					     chain->dev->intfnum, ctrl->info.selector,
++					     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
++					     ctrl->info.size);
++		}
+ 		if (ret < 0)
+ 			return ret;
  
-+	int (*get_info)(struct uvc_entity *entity, u8 cs, u8 *caps);
-+	int (*get_cur)(struct uvc_entity *entity, u8 cs, void *data, u16 size);
-+
- 	unsigned int ncontrols;
- 	struct uvc_control *controls;
- };
 diff --git a/include/uapi/linux/uvcvideo.h b/include/uapi/linux/uvcvideo.h
-index f80f05b3c423..69b636290c31 100644
+index 69b636290c31..cb91797d2a09 100644
 --- a/include/uapi/linux/uvcvideo.h
 +++ b/include/uapi/linux/uvcvideo.h
-@@ -30,6 +30,8 @@
- #define UVC_CTRL_FLAG_AUTO_UPDATE	(1 << 7)
- /* Control supports asynchronous reporting */
+@@ -32,6 +32,7 @@
  #define UVC_CTRL_FLAG_ASYNCHRONOUS	(1 << 8)
-+/* Entity queries */
-+#define UVC_CTRL_FLAG_ENTITY_GET_INFO	(1 << 9)
+ /* Entity queries */
+ #define UVC_CTRL_FLAG_ENTITY_GET_INFO	(1 << 9)
++#define UVC_CTRL_FLAG_ENTITY_GET_CUR	(1 << 10)
  
  #define UVC_CTRL_FLAG_GET_RANGE \
  	(UVC_CTRL_FLAG_GET_CUR | UVC_CTRL_FLAG_GET_MIN | \
