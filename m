@@ -2,368 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B1BE295C99
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 12:21:24 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 692D7295D1B
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 13:02:28 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896446AbgJVKVW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Oct 2020 06:21:22 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51344 "EHLO
+        id S2502984AbgJVLC1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 07:02:27 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57706 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2896384AbgJVKVW (ORCPT
+        with ESMTP id S2502976AbgJVLC1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 06:21:22 -0400
-Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 535C0C0613CE
-        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 03:21:22 -0700 (PDT)
-Received: by mail-ot1-x342.google.com with SMTP id t15so1020080otk.0
-        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 03:21:22 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=5NIyadkpsx3TzJkX5ZsP+SweN4sKS84ZLyEuupL4jV0=;
-        b=kX5gvpbI6Hf2MYOKYuXkmRgr2kaaY9M5LbYCnRyLjOp/Lz02Os2A6z4Aq+rsZLosJ2
-         M40DsB8reXplQuB/qrDWVA5FqGJtYFM6i8vJW9MvS++v1iXLrhj8qzSZ7rNR1n5yxmI7
-         vyrNJoQc1BgrM//GO5oEndyGtaxbYgwsx17/8=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=5NIyadkpsx3TzJkX5ZsP+SweN4sKS84ZLyEuupL4jV0=;
-        b=K6qp+SPMzUbMoI8hnueixtnreo4TgXwKD2qfar/0FN0YZgARf2Z0cGjgBYFIQzqUZn
-         J1OV2FIisXAI9pJNyyD/xCEogbccgM1Hb8EStka+lhsXocsbyMOEpIiEyfrYwoLWDanX
-         AVXXB3sbvlpJppDkbpNYIGrkRn3QtuemAoiVODFcbyglMp1o5GqqRTXCA7JcUGoLXnmZ
-         8FJgGhm2WXgwRV5cY1vAyFub3EGwjW2mRljOyPeXQJf2jCJCEJoGEXJ7usehFlEPZut6
-         TjTqIJ/gc8l9dEfzhesZNfW2u7cYrR0O2nI4isvJYQ204AG+COcb5hiTuPrkztNAKsIe
-         C2SQ==
-X-Gm-Message-State: AOAM532otgoUU33YXfe7p0+CDxxh28K8iKC4h3NZhdGQrP4FS0Cgz0Iq
-        i2yh+Pcv7QsIS17rhs6L6/TqWZhzI9NBrS1Ib4mZ9w==
-X-Google-Smtp-Source: ABdhPJygQ9KUnAKAlt6h9nc1uLqv50lVI2ThhRnR4aecj/Qy/MtijtMr1CHsIeYGKKQcbMMd5YG/A53hu9KqBTBsBQ8=
-X-Received: by 2002:a05:6830:8b:: with SMTP id a11mr1304398oto.303.1603362080697;
- Thu, 22 Oct 2020 03:21:20 -0700 (PDT)
+        Thu, 22 Oct 2020 07:02:27 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6F9AC0613CE
+        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 04:02:26 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 2E2951F45E81
+Subject: Re: [PATCH v3 09/10] media: rkisp1: cap: simplify the link validation
+ by compering the media bus code
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
+        linux-media@vger.kernel.org, ezequiel@collabora.com,
+        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, mchehab@kernel.org,
+        tfiga@chromium.org
+References: <20200723132014.4597-1-dafna.hirschfeld@collabora.com>
+ <20200723132014.4597-10-dafna.hirschfeld@collabora.com>
+ <20200930190025.GH1516931@oden.dyn.berto.se>
+ <20201001020325.GJ5689@pendragon.ideasonboard.com>
+ <9724beba-21dc-63b4-5eea-90922b7f1968@collabora.com>
+ <20201001224853.GF3722@pendragon.ideasonboard.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <27cf190b-882f-63bd-8f5d-0551207f71bb@collabora.com>
+Date:   Thu, 22 Oct 2020 08:02:16 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
 MIME-Version: 1.0
-References: <20201020122046.31167-1-tzimmermann@suse.de> <20201020122046.31167-9-tzimmermann@suse.de>
- <20201022084919.GU401619@phenom.ffwll.local> <f2d83a8b-91b3-ac64-b77f-2b1c78729014@suse.de>
-In-Reply-To: <f2d83a8b-91b3-ac64-b77f-2b1c78729014@suse.de>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Thu, 22 Oct 2020 12:21:07 +0200
-Message-ID: <CAKMK7uFek_A-rFjBc7UUny8TUYx_9dk+-QzsTZFc93X0O=b1aA@mail.gmail.com>
-Subject: Re: [PATCH v5 08/10] drm/gem: Store client buffer mappings as struct dma_buf_map
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     Luben Tuikov <luben.tuikov@amd.com>,
-        Dave Airlie <airlied@linux.ie>,
-        Nouveau Dev <nouveau@lists.freedesktop.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        "Wilson, Chris" <chris@chris-wilson.co.uk>,
-        Melissa Wen <melissa.srw@gmail.com>,
-        Huang Rui <ray.huang@amd.com>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Emil Velikov <emil.velikov@collabora.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        lima@lists.freedesktop.org,
-        Oleksandr Andrushchenko <oleksandr_andrushchenko@epam.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Kukjin Kim <kgene@kernel.org>, Ben Skeggs <bskeggs@redhat.com>,
-        Russell King <linux+etnaviv@armlinux.org.uk>,
-        "open list:DRM DRIVER FOR QXL VIRTUAL GPU" 
-        <spice-devel@lists.freedesktop.org>,
-        Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        The etnaviv authors <etnaviv@lists.freedesktop.org>,
-        Hans de Goede <hdegoede@redhat.com>,
-        "moderated list:DRM DRIVERS FOR XEN" <xen-devel@lists.xenproject.org>,
-        "open list:VIRTIO CORE, NET..." 
-        <virtualization@lists.linux-foundation.org>,
-        Sean Paul <sean@poorly.run>, apaneers@amd.com,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Sandy Huang <hjc@rock-chips.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Qinglang Miao <miaoqinglang@huawei.com>,
-        Qiang Yu <yuq825@gmail.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20201001224853.GF3722@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 22, 2020 at 11:18 AM Thomas Zimmermann <tzimmermann@suse.de> wr=
-ote:
->
-> Hi
->
-> On 22.10.20 10:49, Daniel Vetter wrote:
-> > On Tue, Oct 20, 2020 at 02:20:44PM +0200, Thomas Zimmermann wrote:
-> >> Kernel DRM clients now store their framebuffer address in an instance
-> >> of struct dma_buf_map. Depending on the buffer's location, the address
-> >> refers to system or I/O memory.
-> >>
-> >> Callers of drm_client_buffer_vmap() receive a copy of the value in
-> >> the call's supplied arguments. It can be accessed and modified with
-> >> dma_buf_map interfaces.
-> >>
-> >> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> >> Reviewed-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> >> Tested-by: Sam Ravnborg <sam@ravnborg.org>
-> >> ---
-> >>  drivers/gpu/drm/drm_client.c    | 34 +++++++++++++++++++-------------=
--
-> >>  drivers/gpu/drm/drm_fb_helper.c | 23 +++++++++++++---------
-> >>  include/drm/drm_client.h        |  7 ++++---
-> >>  3 files changed, 38 insertions(+), 26 deletions(-)
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_client.c b/drivers/gpu/drm/drm_client=
-.c
-> >> index ac0082bed966..fe573acf1067 100644
-> >> --- a/drivers/gpu/drm/drm_client.c
-> >> +++ b/drivers/gpu/drm/drm_client.c
-> >> @@ -235,7 +235,7 @@ static void drm_client_buffer_delete(struct drm_cl=
-ient_buffer *buffer)
-> >>  {
-> >>      struct drm_device *dev =3D buffer->client->dev;
-> >>
-> >> -    drm_gem_vunmap(buffer->gem, buffer->vaddr);
-> >> +    drm_gem_vunmap(buffer->gem, &buffer->map);
-> >>
-> >>      if (buffer->gem)
-> >>              drm_gem_object_put(buffer->gem);
-> >> @@ -291,25 +291,31 @@ drm_client_buffer_create(struct drm_client_dev *=
-client, u32 width, u32 height, u
-> >>  /**
-> >>   * drm_client_buffer_vmap - Map DRM client buffer into address space
-> >>   * @buffer: DRM client buffer
-> >> + * @map_copy: Returns the mapped memory's address
-> >>   *
-> >>   * This function maps a client buffer into kernel address space. If t=
-he
-> >> - * buffer is already mapped, it returns the mapping's address.
-> >> + * buffer is already mapped, it returns the existing mapping's addres=
-s.
-> >>   *
-> >>   * Client buffer mappings are not ref'counted. Each call to
-> >>   * drm_client_buffer_vmap() should be followed by a call to
-> >>   * drm_client_buffer_vunmap(); or the client buffer should be mapped
-> >>   * throughout its lifetime.
-> >>   *
-> >> + * The returned address is a copy of the internal value. In contrast =
-to
-> >> + * other vmap interfaces, you don't need it for the client's vunmap
-> >> + * function. So you can modify it at will during blit and draw operat=
-ions.
-> >> + *
-> >>   * Returns:
-> >> - *  The mapped memory's address
-> >> + *  0 on success, or a negative errno code otherwise.
-> >>   */
-> >> -void *drm_client_buffer_vmap(struct drm_client_buffer *buffer)
-> >> +int
-> >> +drm_client_buffer_vmap(struct drm_client_buffer *buffer, struct dma_b=
-uf_map *map_copy)
-> >>  {
-> >> -    struct dma_buf_map map;
-> >> +    struct dma_buf_map *map =3D &buffer->map;
-> >>      int ret;
-> >>
-> >> -    if (buffer->vaddr)
-> >> -            return buffer->vaddr;
-> >> +    if (dma_buf_map_is_set(map))
-> >> +            goto out;
-> >>
-> >>      /*
-> >>       * FIXME: The dependency on GEM here isn't required, we could
-> >> @@ -319,13 +325,14 @@ void *drm_client_buffer_vmap(struct drm_client_b=
-uffer *buffer)
-> >>       * fd_install step out of the driver backend hooks, to make that
-> >>       * final step optional for internal users.
-> >>       */
-> >> -    ret =3D drm_gem_vmap(buffer->gem, &map);
-> >> +    ret =3D drm_gem_vmap(buffer->gem, map);
-> >>      if (ret)
-> >> -            return ERR_PTR(ret);
-> >> +            return ret;
-> >>
-> >> -    buffer->vaddr =3D map.vaddr;
-> >> +out:
-> >> +    *map_copy =3D *map;
-> >>
-> >> -    return map.vaddr;
-> >> +    return 0;
-> >>  }
-> >>  EXPORT_SYMBOL(drm_client_buffer_vmap);
-> >>
-> >> @@ -339,10 +346,9 @@ EXPORT_SYMBOL(drm_client_buffer_vmap);
-> >>   */
-> >>  void drm_client_buffer_vunmap(struct drm_client_buffer *buffer)
-> >>  {
-> >> -    struct dma_buf_map map =3D DMA_BUF_MAP_INIT_VADDR(buffer->vaddr);
-> >> +    struct dma_buf_map *map =3D &buffer->map;
-> >>
-> >> -    drm_gem_vunmap(buffer->gem, &map);
-> >> -    buffer->vaddr =3D NULL;
-> >> +    drm_gem_vunmap(buffer->gem, map);
-> >>  }
-> >>  EXPORT_SYMBOL(drm_client_buffer_vunmap);
-> >>
-> >> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_=
-helper.c
-> >> index c2f72bb6afb1..6212cd7cde1d 100644
-> >> --- a/drivers/gpu/drm/drm_fb_helper.c
-> >> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> >> @@ -378,7 +378,7 @@ static void drm_fb_helper_dirty_blit_real(struct d=
-rm_fb_helper *fb_helper,
-> >>      unsigned int cpp =3D fb->format->cpp[0];
-> >>      size_t offset =3D clip->y1 * fb->pitches[0] + clip->x1 * cpp;
-> >>      void *src =3D fb_helper->fbdev->screen_buffer + offset;
-> >> -    void *dst =3D fb_helper->buffer->vaddr + offset;
-> >> +    void *dst =3D fb_helper->buffer->map.vaddr + offset;
-> >>      size_t len =3D (clip->x2 - clip->x1) * cpp;
-> >>      unsigned int y;
-> >>
-> >> @@ -400,7 +400,8 @@ static void drm_fb_helper_dirty_work(struct work_s=
-truct *work)
-> >>      struct drm_clip_rect *clip =3D &helper->dirty_clip;
-> >>      struct drm_clip_rect clip_copy;
-> >>      unsigned long flags;
-> >> -    void *vaddr;
-> >> +    struct dma_buf_map map;
-> >> +    int ret;
-> >>
-> >>      spin_lock_irqsave(&helper->dirty_lock, flags);
-> >>      clip_copy =3D *clip;
-> >> @@ -413,8 +414,8 @@ static void drm_fb_helper_dirty_work(struct work_s=
-truct *work)
-> >>
-> >>              /* Generic fbdev uses a shadow buffer */
-> >>              if (helper->buffer) {
-> >> -                    vaddr =3D drm_client_buffer_vmap(helper->buffer);
-> >> -                    if (IS_ERR(vaddr))
-> >> +                    ret =3D drm_client_buffer_vmap(helper->buffer, &m=
-ap);
-> >> +                    if (ret)
-> >>                              return;
-> >>                      drm_fb_helper_dirty_blit_real(helper, &clip_copy)=
-;
-> >>              }
-> >> @@ -2060,7 +2061,8 @@ static int drm_fb_helper_generic_probe(struct dr=
-m_fb_helper *fb_helper,
-> >>      struct drm_framebuffer *fb;
-> >>      struct fb_info *fbi;
-> >>      u32 format;
-> >> -    void *vaddr;
-> >> +    struct dma_buf_map map;
-> >> +    int ret;
-> >>
-> >>      drm_dbg_kms(dev, "surface width(%d), height(%d) and bpp(%d)\n",
-> >>                  sizes->surface_width, sizes->surface_height,
-> >> @@ -2096,11 +2098,14 @@ static int drm_fb_helper_generic_probe(struct =
-drm_fb_helper *fb_helper,
-> >>              fb_deferred_io_init(fbi);
-> >>      } else {
-> >>              /* buffer is mapped for HW framebuffer */
-> >> -            vaddr =3D drm_client_buffer_vmap(fb_helper->buffer);
-> >> -            if (IS_ERR(vaddr))
-> >> -                    return PTR_ERR(vaddr);
-> >> +            ret =3D drm_client_buffer_vmap(fb_helper->buffer, &map);
-> >> +            if (ret)
-> >> +                    return ret;
-> >> +            if (map.is_iomem)
-> >> +                    fbi->screen_base =3D map.vaddr_iomem;
-> >> +            else
-> >> +                    fbi->screen_buffer =3D map.vaddr;
-> >>
-> >> -            fbi->screen_buffer =3D vaddr;
-> >>              /* Shamelessly leak the physical address to user-space */
-> >>  #if IS_ENABLED(CONFIG_DRM_FBDEV_LEAK_PHYS_SMEM)
-> >>              if (drm_leak_fbdev_smem && fbi->fix.smem_start =3D=3D 0)
-> >
-> > Just noticed a tiny thing here: I think this needs to be patched to onl=
-y
-> > set smem_start when the map is _not_ iomem. Since virt_to_page isn't
-> > defined on iomem at all.
-> >
-> > I guess it'd be neat if we can set this for iomem too, but I have no id=
-ea
-> > how to convert an iomem pointer back to a bus_addr_t ...
->
-> Not that I disagree, but that should be reviewed by the right people.
-> The commit at 4be9bd10e22d ("drm/fb_helper: Allow leaking fbdev
-> smem_start") appears to work around specific userspace drivers.
+Hi Laurent,
 
-It's for soc drivers, which all use either shmem or cma helpers, so
-all system memory. Which means your patch here doesn't break anything.
-But we need to make sure that if someone enables this it doesn't blow
-up at least when used on a device where we map iomem.
--Daniel
+Thanks for your comments.
+There is one thing that is still confusing to me (please see my question
+below).
 
-> Best regards
-> Thomas
->
-> >
-> > Cheers, Daniel
-> >
-> >> diff --git a/include/drm/drm_client.h b/include/drm/drm_client.h
-> >> index 7aaea665bfc2..f07f2fb02e75 100644
-> >> --- a/include/drm/drm_client.h
-> >> +++ b/include/drm/drm_client.h
-> >> @@ -3,6 +3,7 @@
-> >>  #ifndef _DRM_CLIENT_H_
-> >>  #define _DRM_CLIENT_H_
-> >>
-> >> +#include <linux/dma-buf-map.h>
-> >>  #include <linux/lockdep.h>
-> >>  #include <linux/mutex.h>
-> >>  #include <linux/types.h>
-> >> @@ -141,9 +142,9 @@ struct drm_client_buffer {
-> >>      struct drm_gem_object *gem;
-> >>
-> >>      /**
-> >> -     * @vaddr: Virtual address for the buffer
-> >> +     * @map: Virtual address for the buffer
-> >>       */
-> >> -    void *vaddr;
-> >> +    struct dma_buf_map map;
-> >>
-> >>      /**
-> >>       * @fb: DRM framebuffer
-> >> @@ -155,7 +156,7 @@ struct drm_client_buffer *
-> >>  drm_client_framebuffer_create(struct drm_client_dev *client, u32 widt=
-h, u32 height, u32 format);
-> >>  void drm_client_framebuffer_delete(struct drm_client_buffer *buffer);
-> >>  int drm_client_framebuffer_flush(struct drm_client_buffer *buffer, st=
-ruct drm_rect *rect);
-> >> -void *drm_client_buffer_vmap(struct drm_client_buffer *buffer);
-> >> +int drm_client_buffer_vmap(struct drm_client_buffer *buffer, struct d=
-ma_buf_map *map);
-> >>  void drm_client_buffer_vunmap(struct drm_client_buffer *buffer);
-> >>
-> >>  int drm_client_modeset_create(struct drm_client_dev *client);
-> >> --
-> >> 2.28.0
-> >>
-> >
->
-> --
-> Thomas Zimmermann
-> Graphics Driver Developer
-> SUSE Software Solutions Germany GmbH
-> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-> (HRB 36809, AG N=C3=BCrnberg)
-> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+On 10/1/20 7:48 PM, Laurent Pinchart wrote:
+> Hi Dafna,
+> 
+> On Thu, Oct 01, 2020 at 09:36:07PM +0200, Dafna Hirschfeld wrote:
+>> Am 01.10.20 um 04:03 schrieb Laurent Pinchart:
+>>> On Wed, Sep 30, 2020 at 09:00:25PM +0200, Niklas Söderlund wrote:
+>>>> Hi Dafna,
+>>>>
+>>>> This commit is not just a simplification but a change of behavior.  The
+>>>> change is for the better but it broke capture of NV12 and NV21 formats
+>>>> in libcamera unexpectedly.
+>>>>
+>>>> The issue at hand is that libcamera when configuring the pipeline
+>>>> retrieves the mbus code for the ISP (rkisp1_isp) source pad (2) and then
+>>>> propagates it to the resizer (rkisp_resizer_{main,self}path) sink pad
+>>>> (0) and then to the resizers source pad (1). Effectively propagating
+>>>> MEDIA_BUS_FMT_YUYV8_2X8 for all formats.
+>>>>
+>>>> At this point if the video node (main or self) is configured with a
+>>>> YUV420 format (NV12, NV21, etc) and with this change applied the link
+>>>> validation will fail as MEDIA_BUS_FMT_YUYV8_1_5X8 !=
+>>>> MEDIA_BUS_FMT_YUYV8_2X8. Given the nature of how link validation is
+>>>> implemented it's VIDIOC_QBUF that returns a -EPIPE when it fails and
+>>>> libcamera lockup the capture session.
+>>>
+>>> I would be very, very surprised is the hardware really used YUYV8_1_5X8.
+>>> YUYV8_1X16 is a much more likely bus format between the resizer and the
+>>> DMA engine, as well as between the ISP and the resizer.
+>>
+>> Format YUYV8_1X16 is for downsampling of 4:2:2, but the resizer has the ability
+>> to downsample to 4:2:0.
+>> I see there is also format YDYUYDYV8_1X16 for 4:2:0
+>> maybe this is what I should set?
+>>
+>> Actually according to the TRM the resizer send the stream to the DMA
+>> engine through two separated buses, one for luma and one for chroma.
+> 
+> In which document is this documented ? Is this two 8-bit buses side by
+> side ?
+> 
+> Looking at the registers, the output formats are controlled by the
+> global MI_CTRL register, common to both the main and self paths, which
+> should correspond to the DMA engine. I think it would make sense to
+> model this at the video node level, and hardcode YUYV8_1X16 between the
+> resizer and the video node.
+
+If I understand correctly, in a 4:2:0 format, we have 4 luminance
+components per chrominance.
+
+And with the YUYV8_1X16, we have 2 luminance per chrominance.
+
+Are you suggesting that, when userspace sets 4:2:0 (NV12, NV21, YU12, YV12),
+we should use MEDIA_BUS_FMT_YUYV8_1X16 between the resizer and the DMA engine?
+
+But then, down sampling rate here won't match (this is where my confusion
+comes from).
+
+Or, are you assuming that the DMA engine receives 4:2:2 and performs the
+conversion?
+
+I would appreciate if you could help clarify this.
 
 
+Just to note here, in the docs Dafna pointed, it's written:
 
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+"The Resize module is able to process luminance and chrominance data
+independently, i.e. there are separate pipelines for luminance and
+chrominance processing using dedicated scale factors and phase offsets.
+This allows format conversion to be done by the Resize block (YCbCr 4:2:2 to
+4:2:0, 4:1:1, 4:1:0)."
+
+Thanks
+Helen
+
+
+> 
+>>>> I will submit a fix for this to libcamera to bring it in sync with this
+>>>> change.
+>>>>
+>>>> Would it be possible to ask that future changes to the rkisp1 driver be
+>>>> tested with libcamera so we can track and update both the kernel and
+>>>> user-space components of this driver at the same time and avoid nasty
+>>>> surprises? :-)
+>>>
+>>> I strongly second this. Drivers that are supported in libcamera should
+>>> be tested with libcamera to catch regressions, for any chance submitted
+>>> to the kernel.
+>>
+>> I can run several 'cam' commands with different formats and dimensions to
+>> find regressions. I currently have unit test only in v4l-utils.
+> 
+> That would be great :-) We will work on a test suite for higher-level
+> tests (something similar to the Android CTS) at some point, which should
+> also help catching regressions.
+> 
+>>>> On 2020-07-23 15:20:13 +0200, Dafna Hirschfeld wrote:
+>>>>> The capture has a mapping of the mbus code needed for each pixelformat.
+>>>>> This can be used to simplify the link validation by comparing the mbus
+>>>>> code in the capture with the code in the resizer.
+>>>>>
+>>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>>>> ---
+>>>>>   drivers/staging/media/rkisp1/rkisp1-capture.c | 18 ++++--------------
+>>>>>   1 file changed, 4 insertions(+), 14 deletions(-)
+>>>>>
+>>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+>>>>> index 4dabd07a3da9..a5e2521577dd 100644
+>>>>> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
+>>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+>>>>> @@ -1255,22 +1255,11 @@ static int rkisp1_capture_link_validate(struct media_link *link)
+>>>>>   	struct v4l2_subdev *sd =
+>>>>>   		media_entity_to_v4l2_subdev(link->source->entity);
+>>>>>   	struct rkisp1_capture *cap = video_get_drvdata(vdev);
+>>>>> -	struct rkisp1_isp *isp = &cap->rkisp1->isp;
+>>>>> -	u8 isp_pix_enc = isp->src_fmt->pixel_enc;
+>>>>> -	u8 cap_pix_enc = cap->pix.info->pixel_enc;
+>>>>> +	const struct rkisp1_capture_fmt_cfg *fmt =
+>>>>> +		rkisp1_find_fmt_cfg(cap, cap->pix.fmt.pixelformat);
+>>>>>   	struct v4l2_subdev_format sd_fmt;
+>>>>>   	int ret;
+>>>>>   
+>>>>> -	if (cap_pix_enc != isp_pix_enc &&
+>>>>> -	    !(isp_pix_enc == V4L2_PIXEL_ENC_YUV &&
+>>>>> -	      cap_pix_enc == V4L2_PIXEL_ENC_RGB)) {
+>>>>> -		dev_err(cap->rkisp1->dev,
+>>>>> -			"format type mismatch in link '%s:%d->%s:%d'\n",
+>>>>> -			link->source->entity->name, link->source->index,
+>>>>> -			link->sink->entity->name, link->sink->index);
+>>>>> -		return -EPIPE;
+>>>>> -	}
+>>>>> -
+>>>>>   	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
+>>>>>   	sd_fmt.pad = link->source->index;
+>>>>>   	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &sd_fmt);
+>>>>> @@ -1278,7 +1267,8 @@ static int rkisp1_capture_link_validate(struct media_link *link)
+>>>>>   		return ret;
+>>>>>   
+>>>>>   	if (sd_fmt.format.height != cap->pix.fmt.height ||
+>>>>> -	    sd_fmt.format.width != cap->pix.fmt.width)
+>>>>> +	    sd_fmt.format.width != cap->pix.fmt.width ||
+>>>>> +	    sd_fmt.format.code != fmt->mbus)
+>>>>>   		return -EPIPE;
+>>>>>   
+>>>>>   	return 0;
+> 
