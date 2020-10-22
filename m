@@ -2,57 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D3D38296024
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:38:18 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B8753296026
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:38:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2900215AbgJVNiB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S2900210AbgJVNiB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 22 Oct 2020 09:38:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53610 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53616 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2900201AbgJVNh7 (ORCPT
+        with ESMTP id S2900206AbgJVNiA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 09:37:59 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3D66FC0613CE
+        Thu, 22 Oct 2020 09:38:00 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC19CC0613CE
         for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 06:37:59 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id c194so2143980wme.2
+Received: by mail-wm1-x342.google.com with SMTP id c194so2144020wme.2
         for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 06:37:59 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zZZV4ffF4t+t01RKSJGPFAOGdVaSv3k/nLSd6l7lD08=;
-        b=D0Ao1njOzjQ6IdZQAHxd1A84huIlTvUCJTXCAQhNoKuSjqoOsQF2f/oIMP2oHwGuUA
-         aDTklkY3ju3qD/eM011me8bMYM2usafIifdwMqnqMbq5DcL/M8wKA++WpkYmJW87nuY6
-         eADppQQcJCeX+tzLYzbtrQ05sjeTG2S4SBWKs=
+        bh=+mHsFLlMVlL11cWsjoM3qFi8Cc1D8z4TpYaeydwCncs=;
+        b=drgjWM3OlnhGwNGhZKErQKrd6uDvrnRJ4cMfZcyLAT9fOmev8q6RXok1j63AtmDCuZ
+         dwG9X71FrdzL9rU/5deqOwGr0W5HZhk6YBNPNmohYHWz/mHBSgoVy954/xCtAQW8vW29
+         MmItJNGErIuT/74MhrGizN0j+db9hDONJd8/M=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zZZV4ffF4t+t01RKSJGPFAOGdVaSv3k/nLSd6l7lD08=;
-        b=OWiKQf3dXtHnjZrpCS6EUTU0zpZyLJAo8+XlAhrGYg/RnMpRxJa7+uFw3XsrEEjEjx
-         sZ7K1oCT7WxYuJI3xYcWchaYdCQvC40pacVrTeLonCv4qGa/kf4RQgKp6B9Igt3hVWjh
-         EkLBio6SRgvmZvgvoSVkQNDQ9Bdq27s3u9u8wGGP67kDvN2QARHvhZNM7Jb5zh0xYLRm
-         0xKDXS0CC3aS1yw3XudS8tomVLm8kS+Ub080us+ez+rJH9yU4yy1f4R+0ZYM4iSnwTQo
-         vJYiekeHhovvCsbNKPlm7h2LGKwyXtdRbAPsYFHge7GvrNcco+H26i4V7R4VYxCxq8B7
-         BUmg==
-X-Gm-Message-State: AOAM530VlNtWgBw5cDfynuk6wtpkDeVqtr2re1bLNQz0yU02pZbcDy40
-        7yv3ZIYooMDapBQEQrjhOKH1qg==
-X-Google-Smtp-Source: ABdhPJyj3CtaDwRNr3rjY7qm50rCEtFan9QRCWUmj128pucNzLwWUz5ZYLrfXEI1xi+6UeaA+I7HJQ==
-X-Received: by 2002:a1c:b657:: with SMTP id g84mr2589725wmf.0.1603373878059;
+        bh=+mHsFLlMVlL11cWsjoM3qFi8Cc1D8z4TpYaeydwCncs=;
+        b=srM+TzCuzmHvsk2GGXX643+W/CZ9Qk3he8LqVnSlCtnwP1oop3NT6DtHEVxTqMIlmP
+         6zJ4fOK/6tbvl28NbGWc8kBnzSramQY2Ef3VBF5EYjf5Eo9pOzFomYHeWVSVU7Pxiflp
+         1ENl1i7G6G30TB9A2Fffv94IyRbGymMbjHSg/uRdDKdFmovU3M2aBwP1PQPZBgWqXVed
+         GxarKNPj4+xoFQc3gLSTe3P9oWeysyFDkja2+8w5xyh1HXnFNB0eVhwJB8XsihJzyN92
+         rm97tmtSBDn1oHGP28CbZSZaobhU9X1F6na9bcGHBNxIRU26Uw1jzjp5bVq6+n2LBVeI
+         v+2Q==
+X-Gm-Message-State: AOAM533LKRPJJOlDAxmi17JQpXVM+NuAFme3o73tJVxv1a7OB3XzUh5K
+        8IEoVPm2TBbUUR0pSeD0zHrHkg==
+X-Google-Smtp-Source: ABdhPJyYtzaUhtFF8vMOUrH1wSrwhFdfj98FZ0qf9pSvkbkU+R6OHX9OvtFphu32JgwpBm5eQfElpg==
+X-Received: by 2002:a1c:dc8b:: with SMTP id t133mr2733099wmg.151.1603373878705;
         Thu, 22 Oct 2020 06:37:58 -0700 (PDT)
 Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id q10sm4094031wrp.83.2020.10.22.06.37.57
+        by smtp.gmail.com with ESMTPSA id q10sm4094031wrp.83.2020.10.22.06.37.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 06:37:57 -0700 (PDT)
+        Thu, 22 Oct 2020 06:37:58 -0700 (PDT)
 From:   Ricardo Ribalda <ribalda@chromium.org>
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     tfiga@chromium.org, Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH 2/6] media: uvcvideo: Add UVC_CTRL_FLAG_ENTITY_GET_CUR
-Date:   Thu, 22 Oct 2020 15:37:49 +0200
-Message-Id: <20201022133753.310506-3-ribalda@chromium.org>
+Subject: [PATCH 3/6] media: uvcvideo: Add UVC_GUID_EXT_GPIO_CONTROLLER
+Date:   Thu, 22 Oct 2020 15:37:50 +0200
+Message-Id: <20201022133753.310506-4-ribalda@chromium.org>
 X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
 In-Reply-To: <20201022133753.310506-1-ribalda@chromium.org>
 References: <20201022133753.310506-1-ribalda@chromium.org>
@@ -62,55 +62,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This flag allows controls to get their current value from an entity
-defined function instead of via a query to the USB device.
+Create a new GUID for GPIO controller entities that do not belong to the
+USB video device.
+
+This GUID is selected on an address range completely different that the
+UVC standard to avoid collisions.
 
 Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 17 +++++++++++++----
- include/uapi/linux/uvcvideo.h    |  1 +
- 2 files changed, 14 insertions(+), 4 deletions(-)
+ drivers/media/usb/uvc/uvc_ctrl.c | 4 ++++
+ drivers/media/usb/uvc/uvcvideo.h | 3 +++
+ 2 files changed, 7 insertions(+)
 
 diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 7acdc055613b..0a8835742d49 100644
+index 0a8835742d49..913739915863 100644
 --- a/drivers/media/usb/uvc/uvc_ctrl.c
 +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1001,10 +1001,19 @@ static int __uvc_ctrl_get(struct uvc_video_chain *chain,
- 		return -EACCES;
+@@ -830,6 +830,7 @@ static const u8 uvc_processing_guid[16] = UVC_GUID_UVC_PROCESSING;
+ static const u8 uvc_camera_guid[16] = UVC_GUID_UVC_CAMERA;
+ static const u8 uvc_media_transport_input_guid[16] =
+ 	UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT;
++static const u8 uvc_gpio_guid[16] = UVC_GUID_EXT_GPIO_CONTROLLER;
  
- 	if (!ctrl->loaded) {
--		ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR, ctrl->entity->id,
--				chain->dev->intfnum, ctrl->info.selector,
--				uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
--				ctrl->info.size);
-+		if (ctrl->info.flags & UVC_CTRL_FLAG_ENTITY_GET_CUR) {
-+			if (!ctrl->entity->get_cur)
-+				return -EINVAL;
-+			ret = ctrl->entity->get_cur(ctrl->entity,
-+					ctrl->info.selector,
-+					uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-+					ctrl->info.size);
-+		} else {
-+			ret = uvc_query_ctrl(chain->dev, UVC_GET_CUR, ctrl->entity->id,
-+					     chain->dev->intfnum, ctrl->info.selector,
-+					     uvc_ctrl_data(ctrl, UVC_CTRL_DATA_CURRENT),
-+					     ctrl->info.size);
-+		}
- 		if (ret < 0)
- 			return ret;
+ static int uvc_entity_match_guid(const struct uvc_entity *entity,
+ 	const u8 guid[16])
+@@ -848,6 +849,9 @@ static int uvc_entity_match_guid(const struct uvc_entity *entity,
+ 		return memcmp(entity->extension.guidExtensionCode,
+ 			      guid, 16) == 0;
  
-diff --git a/include/uapi/linux/uvcvideo.h b/include/uapi/linux/uvcvideo.h
-index 69b636290c31..cb91797d2a09 100644
---- a/include/uapi/linux/uvcvideo.h
-+++ b/include/uapi/linux/uvcvideo.h
-@@ -32,6 +32,7 @@
- #define UVC_CTRL_FLAG_ASYNCHRONOUS	(1 << 8)
- /* Entity queries */
- #define UVC_CTRL_FLAG_ENTITY_GET_INFO	(1 << 9)
-+#define UVC_CTRL_FLAG_ENTITY_GET_CUR	(1 << 10)
++	case UVC_GPIO_UNIT:
++		return memcmp(uvc_gpio_guid, guid, 16) == 0;
++
+ 	default:
+ 		return 0;
+ 	}
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index 08922d889bb6..8e5a9fc35820 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -56,6 +56,9 @@
+ #define UVC_GUID_UVC_SELECTOR \
+ 	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
+ 	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02}
++#define UVC_GUID_EXT_GPIO_CONTROLLER \
++	{0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf, \
++	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x01}
  
- #define UVC_CTRL_FLAG_GET_RANGE \
- 	(UVC_CTRL_FLAG_GET_CUR | UVC_CTRL_FLAG_GET_MIN | \
+ #define UVC_GUID_FORMAT_MJPEG \
+ 	{ 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
 -- 
 2.29.0.rc1.297.gfa9743e501-goog
 
