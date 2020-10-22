@@ -2,212 +2,392 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 432E829595D
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 09:40:01 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0467729598E
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 09:46:41 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2508708AbgJVHjs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Oct 2020 03:39:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54660 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2508703AbgJVHjs (ORCPT
+        id S2508877AbgJVHqj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 03:46:39 -0400
+Received: from relay11.mail.gandi.net ([217.70.178.231]:47257 "EHLO
+        relay11.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2508871AbgJVHqj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 03:39:48 -0400
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0A00C0613D2
-        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 00:39:47 -0700 (PDT)
-Received: by mail-wr1-x443.google.com with SMTP id h7so875673wre.4
-        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 00:39:47 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=FUnmmeK5QmN6I6X95NR6HhlReLcd0WiZp6VBOWMixY8=;
-        b=E/MPYUGexYpX5poBWZtyJ39mlDhFG9B6MQdMbkqfAlosbuXR0KbLsXkH8XsRroHwK0
-         /z7PTmxv54Le3uyVqgU2BJoYAcDBAKDf93cFoIPUObTp1nwUXkwW9LrbIa/QW11E9gxi
-         dUfc5MnZ1w7Z5dq/D5VWhQ+QyH68LGgtFOW8g=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=FUnmmeK5QmN6I6X95NR6HhlReLcd0WiZp6VBOWMixY8=;
-        b=Bql+05nA00hEykvkDA1GEWsmx7jhJxAhA0uJ1/Fx7wRRyF7FDGPu8G2U8J2MJXLxUk
-         tpSIARhDgNKvfzpawiQmkx5kKV0hlj1BDJ6gl74AZTfnrkvwCUG6wtYUUlcS79LyotBS
-         +jQQyYN8+lB45XEUUWG0XNHwJ7EhY0Rn/K6DSb0HV95NdYRGmsklZ4TdM6eOjkYbQvTR
-         Yc3/+pO7ON2bROu2SXcDX5DwkFuyqsCnKdAQ1P0x5yGsmoIjHdwlL/jadAfum/qC9lx2
-         FwEMWa5yCaNndLQH0tgb3mAAdYqil9bpzCScV2hJCNmcaLIfw7lKuYntNgaxEmORdkYW
-         zb1g==
-X-Gm-Message-State: AOAM532SiIEElrP+GqWWBEDGvXCYuC3B30Dgdr3/lEq6kBj3E1WDYUER
-        A1Nmo4/B31PDcG0qXrjVJNtSuA==
-X-Google-Smtp-Source: ABdhPJw5HQV9NuUaTW2fOSG+4dZhqrMNCjk+Neg7/gkBYNKwDOO+9vGK8A43OgHPliV3xlB5PKsA7A==
-X-Received: by 2002:adf:f986:: with SMTP id f6mr1319485wrr.38.1603352386434;
-        Thu, 22 Oct 2020 00:39:46 -0700 (PDT)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id j7sm2061526wrn.81.2020.10.22.00.39.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 00:39:45 -0700 (PDT)
-Date:   Thu, 22 Oct 2020 09:39:43 +0200
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Niklas Schnelle <schnelle@linux.ibm.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-s390@vger.kernel.org,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v2 08/17] s390/pci: Remove races against pte updates
-Message-ID: <20201022073943.GS401619@phenom.ffwll.local>
-Mail-Followup-To: Niklas Schnelle <schnelle@linux.ibm.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        linux-s390@vger.kernel.org,
-        Gerald Schaefer <gerald.schaefer@linux.ibm.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>
-References: <20201009075934.3509076-1-daniel.vetter@ffwll.ch>
- <20201009075934.3509076-9-daniel.vetter@ffwll.ch>
- <6deb08dd-46f3-bf26-5362-fdc696f6fd74@linux.ibm.com>
- <20201012141906.GX438822@phenom.ffwll.local>
- <3594c115-541f-806a-ee33-e99a2d1d31e8@linux.ibm.com>
+        Thu, 22 Oct 2020 03:46:39 -0400
+X-Greylist: delayed 57268 seconds by postgrey-1.27 at vger.kernel.org; Thu, 22 Oct 2020 03:46:37 EDT
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay11.mail.gandi.net (Postfix) with ESMTPSA id 3544D10000D;
+        Thu, 22 Oct 2020 07:46:34 +0000 (UTC)
+Date:   Thu, 22 Oct 2020 09:46:33 +0200
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Rui Miguel Silva <rmfrfs@gmail.com>
+Cc:     Rob Herring <robh+dt@kernel.org>, sakari.ailus@linux.intel.com,
+        Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org
+Subject: Re: [PATCH v5 3/3] dt-bindings: imx7-mipi-csi2: convert bindings to
+ yaml
+Message-ID: <20201022074633.3ju2sgtbhpwlpapj@uno.localdomain>
+References: <20201020190051.1852778-1-rmfrfs@gmail.com>
+ <20201020190051.1852778-4-rmfrfs@gmail.com>
+ <20201021155016.bs2n5ixuhxwjzjy2@uno.localdomain>
+ <20201021205844.xpk4fgcppahlyee7@arch-thunder.localdomain>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <3594c115-541f-806a-ee33-e99a2d1d31e8@linux.ibm.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20201021205844.xpk4fgcppahlyee7@arch-thunder.localdomain>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 21, 2020 at 09:55:57AM +0200, Niklas Schnelle wrote:
-> Hi Daniel,
-> 
-> friendly ping. I haven't seen a new version of this patch series,
-> as I said I think your change for s390/pci is generally useful so
-> I'm curious, are you planning on sending a new version soon?
-> If you want you can also just sent this patch with the last few
-> nitpicks (primarily the mail address) fixed and I'll happily apply.
+Hi Rui,
 
-(I think this was stuck somewhere in moderation, only showed up just now)
+On Wed, Oct 21, 2020 at 09:58:44PM +0100, Rui Miguel Silva wrote:
+> Hi Jacopo,
+> Thanks for the review.
+>
+> On Wed, Oct 21, 2020 at 05:50:16PM +0200, Jacopo Mondi wrote:
+> > Hi Rui,
+> >
+> > On Tue, Oct 20, 2020 at 08:00:51PM +0100, Rui Miguel Silva wrote:
+> > > Convert imx7 mipi csi2 bindings documentation to yaml schema, remove
+> > > the textual document and update MAINTAINERS entry.
+> > >
+> > > Signed-off-by: Rui Miguel Silva <rmfrfs@gmail.com>
+> > > ---
+> > >
+> > > v4 -> v5:
+> > >   Rob Herring:
+> > >     https://lore.kernel.org/linux-media/20201020153044.GA875273@bogus/
+> > >     - fix indentation of oneOf items const
+> > >
+> > >  .../bindings/media/imx7-mipi-csi2.txt         |  90 ---------
+> > >  .../bindings/media/nxp,imx7-mipi-csi2.yaml    | 172 ++++++++++++++++++
+> > >  MAINTAINERS                                   |   2 +-
+> > >  3 files changed, 173 insertions(+), 91 deletions(-)
+> > >  delete mode 100644 Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
+> > >  create mode 100644 Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> > >
+> > > diff --git a/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt b/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
+> > > deleted file mode 100644
+> > > index 71fd74ed3ec8..000000000000
+> > > --- a/Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
+> > > +++ /dev/null
+> > > @@ -1,90 +0,0 @@
+> > > -Freescale i.MX7 Mipi CSI2
+> > > -=========================
+> > > -
+> > > -mipi_csi2 node
+> > > ---------------
+> > > -
+> > > -This is the device node for the MIPI CSI-2 receiver core in i.MX7 SoC. It is
+> > > -compatible with previous version of Samsung D-phy.
+> > > -
+> > > -Required properties:
+> > > -
+> > > -- compatible    : "fsl,imx7-mipi-csi2";
+> > > -- reg           : base address and length of the register set for the device;
+> > > -- interrupts    : should contain MIPI CSIS interrupt;
+> > > -- clocks        : list of clock specifiers, see
+> > > -        Documentation/devicetree/bindings/clock/clock-bindings.txt for details;
+> > > -- clock-names   : must contain "pclk", "wrap" and "phy" entries, matching
+> > > -                  entries in the clock property;
+> > > -- power-domains : a phandle to the power domain, see
+> > > -          Documentation/devicetree/bindings/power/power_domain.txt for details.
+> > > -- reset-names   : should include following entry "mrst";
+> > > -- resets        : a list of phandle, should contain reset entry of
+> > > -                  reset-names;
+> > > -- phy-supply    : from the generic phy bindings, a phandle to a regulator that
+> > > -	          provides power to MIPI CSIS core;
+> > > -
+> > > -Optional properties:
+> > > -
+> > > -- clock-frequency : The IP's main (system bus) clock frequency in Hz, default
+> > > -		    value when this property is not specified is 166 MHz;
+> > > -- fsl,csis-hs-settle : differential receiver (HS-RX) settle time;
+> > > -
+> > > -The device node should contain two 'port' child nodes with one child 'endpoint'
+> > > -node, according to the bindings defined in:
+> > > - Documentation/devicetree/bindings/ media/video-interfaces.txt.
+> > > - The following are properties specific to those nodes.
+> > > -
+> > > -port node
+> > > ----------
+> > > -
+> > > -- reg		  : (required) can take the values 0 or 1, where 0 shall be
+> > > -                     related to the sink port and port 1 shall be the source
+> > > -                     one;
+> > > -
+> > > -endpoint node
+> > > --------------
+> > > -
+> > > -- data-lanes    : (required) an array specifying active physical MIPI-CSI2
+> > > -		    data input lanes and their mapping to logical lanes; this
+> > > -                    shall only be applied to port 0 (sink port), the array's
+> > > -                    content is unused only its length is meaningful,
+> > > -                    in this case the maximum length supported is 2;
+> > > -
+> > > -example:
+> > > -
+> > > -        mipi_csi: mipi-csi@30750000 {
+> > > -                #address-cells = <1>;
+> > > -                #size-cells = <0>;
+> > > -
+> > > -                compatible = "fsl,imx7-mipi-csi2";
+> > > -                reg = <0x30750000 0x10000>;
+> > > -                interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
+> > > -                clocks = <&clks IMX7D_IPG_ROOT_CLK>,
+> > > -                                <&clks IMX7D_MIPI_CSI_ROOT_CLK>,
+> > > -                                <&clks IMX7D_MIPI_DPHY_ROOT_CLK>;
+> > > -                clock-names = "pclk", "wrap", "phy";
+> > > -                clock-frequency = <166000000>;
+> > > -                power-domains = <&pgc_mipi_phy>;
+> > > -                phy-supply = <&reg_1p0d>;
+> > > -                resets = <&src IMX7_RESET_MIPI_PHY_MRST>;
+> > > -                reset-names = "mrst";
+> > > -                fsl,csis-hs-settle = <3>;
+> > > -
+> > > -                port@0 {
+> > > -                        reg = <0>;
+> > > -
+> > > -                        mipi_from_sensor: endpoint {
+> > > -                                remote-endpoint = <&ov2680_to_mipi>;
+> > > -                                data-lanes = <1>;
+> > > -                        };
+> > > -                };
+> > > -
+> > > -                port@1 {
+> > > -                        reg = <1>;
+> > > -
+> > > -                        mipi_vc0_to_csi_mux: endpoint {
+> > > -                                remote-endpoint = <&csi_mux_from_mipi_vc0>;
+> > > -                        };
+> > > -                };
+> > > -        };
+> > > diff --git a/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> > > new file mode 100644
+> > > index 000000000000..309af5805d74
+> > > --- /dev/null
+> > > +++ b/Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> > > @@ -0,0 +1,172 @@
+> > > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > > +%YAML 1.2
+> > > +---
+> > > +$id: http://devicetree.org/schemas/media/nxp,imx7-mipi-csi2.yaml#
+> > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > > +
+> > > +title: NXP i.MX7 Mipi CSI2
+> > > +
+> > > +maintainers:
+> > > +  - Rui Miguel Silva <rmfrfs@gmail.com>
+> > > +
+> > > +description: |
+> > > +  This is the device node for the mipi csi-2 receiver core in i.mx7 soc. It is
+> > > +  compatible with previous version of samsung d-phy.
+> >
+> > To be picky, mipi and csi-2 should be spelled with capital letters.
+> > Probably i.MX7 too.
+>
+> yeah, I normally skip that part but it is important, will fix this in
+> next version.
+>
+> >
+> > > +
+> > > +properties:
+> > > +  compatible:
+> > > +    const: fsl,imx7-mipi-csi2
+> > > +
+> > > +  reg:
+> > > +    maxItems: 1
+> > > +
+> > > +  interrupts:
+> > > +    maxItems: 1
+> > > +
+> > > +  clocks:
+> > > +    minItems: 3
+> >
+> > Do you need a maxItems too ?
+>
+> sure, thanks.
+>
+> >
+> > nits apart
+> > Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+>
+> Thanks, Should I use this tag with renesas mail or the other that you
+> already used in the other patches? I think the later makes more sense.
 
-I was waiting for the testing result for the habana driver from Oded, but
-I guess Oded was waiting for v3. Hence the delay.
+Ups, I mixed the two
+Reviewed-by: Jacopo Mondi <jacopo@jmondi.org>
 
-Cheers, Daniel
+Sorry!
 
-> 
-> Best regards,
-> Niklas Schnelle
-> 
-> On 10/12/20 4:19 PM, Daniel Vetter wrote:
-> > On Mon, Oct 12, 2020 at 04:03:28PM +0200, Niklas Schnelle wrote:
-> ... snip ....
-> >>> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> >>> Cc: Dan Williams <dan.j.williams@intel.com>
-> >>> Cc: Kees Cook <keescook@chromium.org>
-> >>> Cc: Andrew Morton <akpm@linux-foundation.org>
-> >>> Cc: John Hubbard <jhubbard@nvidia.com>
-> >>> Cc: Jérôme Glisse <jglisse@redhat.com>
-> >>> Cc: Jan Kara <jack@suse.cz>
-> >>> Cc: Dan Williams <dan.j.williams@intel.com>
-> >>
-> >> The above Cc: line for Dan Williams is a duplicate
-> >>
-> >>> Cc: linux-mm@kvack.org
-> >>> Cc: linux-arm-kernel@lists.infradead.org
-> >>> Cc: linux-samsung-soc@vger.kernel.org
-> >>> Cc: linux-media@vger.kernel.org
-> >>> Cc: Niklas Schnelle <schnelle@linux.ibm.com>
-> >>> Cc: Gerald Schaefer <gerald.schaefer@linux.ibm.com>
-> >>> Cc: linux-s390@vger.kernel.org
-> >>> --
-> >>> v2: Move VM_IO | VM_PFNMAP checks around so they keep returning EINVAL
-> >>> like before (Gerard)
-> >>
-> >> I think the above should go before the CC/Signed-off/Reviewev block.
-> > 
-> > This is a per-subsystem bikeshed :-) drivers/gpu definitely wants it
-> > above, but most core subsystems want it below. I'll move it.
-> > 
-> >>> ---
-> >>>  arch/s390/pci/pci_mmio.c | 98 +++++++++++++++++++++++-----------------
-> >>>  1 file changed, 57 insertions(+), 41 deletions(-)
-> >>>
-> >>> diff --git a/arch/s390/pci/pci_mmio.c b/arch/s390/pci/pci_mmio.c
-> >>> index 401cf670a243..1a6adbc68ee8 100644
-> >>> --- a/arch/s390/pci/pci_mmio.c
-> >>> +++ b/arch/s390/pci/pci_mmio.c
-> >>> @@ -119,33 +119,15 @@ static inline int __memcpy_toio_inuser(void __iomem *dst,
-> >>>  	return rc;
-> >>>  }
-> >>>  
-> >>> -static long get_pfn(unsigned long user_addr, unsigned long access,
-> >>> -		    unsigned long *pfn)
-> >>> -{
-> >>> -	struct vm_area_struct *vma;
-> >>> -	long ret;
-> >>> -
-> >>> -	mmap_read_lock(current->mm);
-> >>> -	ret = -EINVAL;
-> >>> -	vma = find_vma(current->mm, user_addr);
-> >>> -	if (!vma)
-> >>> -		goto out;
-> >>> -	ret = -EACCES;
-> >>> -	if (!(vma->vm_flags & access))
-> >>> -		goto out;
-> >>> -	ret = follow_pfn(vma, user_addr, pfn);
-> >>> -out:
-> >>> -	mmap_read_unlock(current->mm);
-> >>> -	return ret;
-> >>> -}
-> >>> -
-> >>>  SYSCALL_DEFINE3(s390_pci_mmio_write, unsigned long, mmio_addr,
-> >>>  		const void __user *, user_buffer, size_t, length)
-> >>>  {
-> >>>  	u8 local_buf[64];
-> >>>  	void __iomem *io_addr;
-> >>>  	void *buf;
-> >>> -	unsigned long pfn;
-> >>> +	struct vm_area_struct *vma;
-> >>> +	pte_t *ptep;
-> >>> +	spinlock_t *ptl;
-> >>
-> >> With checkpatch.pl --strict the above yields a complained
-> >> "CHECK: spinlock_t definition without comment" but I think
-> >> that's really okay since your commit description is very clear.
-> >> Same oin line 277.
-> > 
-> > I think this is a falls positive, checkpatch doesn't realize that
-> > SYSCALL_DEFINE3 is a function, not a structure. And in a structure I'd
-> > have added the kerneldoc or comment.
-> > 
-> > I'll fix up all the nits you've found for the next round. Thanks for
-> > taking a look.
-> > -Daniel
-> > 
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
-
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+>
+> ------
+> Cheers,
+>      Rui
+>
+> >
+> > Thanks
+> >   j
+> >
+> > > +
+> > > +  clock-names:
+> > > +    items:
+> > > +      - const: pclk
+> > > +      - const: wrap
+> > > +      - const: phy
+> > > +
+> > > +  power-domains:
+> > > +    maxItems: 1
+> > > +
+> > > +  phy-supply:
+> > > +    description:
+> > > +      Phandle to a regulator that provides power to the PHY. This
+> > > +      regulator will be managed during the PHY power on/off sequence.
+> > > +
+> > > +  resets:
+> > > +    maxItems: 1
+> > > +
+> > > +  reset-names:
+> > > +    const: mrst
+> > > +
+> > > +  clock-frequency:
+> > > +    description:
+> > > +      The IP main (system bus) clock frequency in Hertz
+> > > +    default: 166000000
+> > > +
+> > > +  fsl,csis-hs-settle:
+> > > +    $ref: /schemas/types.yaml#/definitions/uint32
+> > > +    description:
+> > > +      Differential receiver (HS-RX) settle time
+> > > +
+> > > +  ports:
+> > > +    type: object
+> > > +    description:
+> > > +      A node containing input and output port nodes with endpoint definitions
+> > > +      as documented in
+> > > +      Documentation/devicetree/bindings/media/video-interfaces.txt
+> > > +
+> > > +    properties:
+> > > +      '#address-cells':
+> > > +        const: 1
+> > > +
+> > > +      '#size-cells':
+> > > +        const: 0
+> > > +
+> > > +      port@0:
+> > > +        type: object
+> > > +        description:
+> > > +          Input port node, single endpoint describing the CSI-2 transmitter.
+> > > +
+> > > +        properties:
+> > > +          reg:
+> > > +            const: 0
+> > > +
+> > > +          endpoint:
+> > > +            type: object
+> > > +
+> > > +            properties:
+> > > +              data-lanes:
+> > > +                $ref: /schemas/types.yaml#/definitions/uint32-array
+> > > +                description: See ../video-interfaces.txt
+> > > +                oneOf:
+> > > +                  - items:
+> > > +                      - const: 1
+> > > +                  - items:
+> > > +                      - const: 1
+> > > +                      - const: 2
+> > > +
+> > > +              remote-endpoint: true
+> > > +
+> > > +            required:
+> > > +              - data-lanes
+> > > +              - remote-endpoint
+> > > +
+> > > +            additionalProperties: false
+> > > +
+> > > +        additionalProperties: false
+> > > +
+> > > +      port@1:
+> > > +        type: object
+> > > +        description:
+> > > +          Output port node
+> > > +
+> > > +required:
+> > > +  - compatible
+> > > +  - reg
+> > > +  - interrupts
+> > > +  - clocks
+> > > +  - clock-names
+> > > +  - power-domains
+> > > +  - phy-supply
+> > > +  - resets
+> > > +  - reset-names
+> > > +  - ports
+> > > +
+> > > +additionalProperties: false
+> > > +
+> > > +examples:
+> > > +  - |
+> > > +    #include <dt-bindings/clock/imx7d-clock.h>
+> > > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> > > +    #include <dt-bindings/interrupt-controller/irq.h>
+> > > +    #include <dt-bindings/reset/imx7-reset.h>
+> > > +
+> > > +    mipi_csi: mipi-csi@30750000 {
+> > > +            compatible = "fsl,imx7-mipi-csi2";
+> > > +            reg = <0x30750000 0x10000>;
+> > > +            interrupts = <GIC_SPI 25 IRQ_TYPE_LEVEL_HIGH>;
+> > > +
+> > > +            clocks = <&clks IMX7D_IPG_ROOT_CLK>,
+> > > +                     <&clks IMX7D_MIPI_CSI_ROOT_CLK>,
+> > > +                     <&clks IMX7D_MIPI_DPHY_ROOT_CLK>;
+> > > +            clock-names = "pclk", "wrap", "phy";
+> > > +            clock-frequency = <166000000>;
+> > > +
+> > > +            power-domains = <&pgc_mipi_phy>;
+> > > +            phy-supply = <&reg_1p0d>;
+> > > +            resets = <&src IMX7_RESET_MIPI_PHY_MRST>;
+> > > +            reset-names = "mrst";
+> > > +            fsl,csis-hs-settle = <3>;
+> > > +
+> > > +            ports {
+> > > +                    #address-cells = <1>;
+> > > +                    #size-cells = <0>;
+> > > +
+> > > +                    port@0 {
+> > > +                            reg = <0>;
+> > > +
+> > > +                            mipi_from_sensor: endpoint {
+> > > +                                    remote-endpoint = <&ov2680_to_mipi>;
+> > > +                                    data-lanes = <1>;
+> > > +                            };
+> > > +                    };
+> > > +
+> > > +                    port@1 {
+> > > +                            reg = <1>;
+> > > +
+> > > +                            mipi_vc0_to_csi_mux: endpoint {
+> > > +                                    remote-endpoint = <&csi_mux_from_mipi_vc0>;
+> > > +                            };
+> > > +                    };
+> > > +            };
+> > > +    };
+> > > +
+> > > +...
+> > > diff --git a/MAINTAINERS b/MAINTAINERS
+> > > index 557713b3ee95..34e53a1570aa 100644
+> > > --- a/MAINTAINERS
+> > > +++ b/MAINTAINERS
+> > > @@ -10779,8 +10779,8 @@ L:	linux-media@vger.kernel.org
+> > >  S:	Maintained
+> > >  T:	git git://linuxtv.org/media_tree.git
+> > >  F:	Documentation/admin-guide/media/imx7.rst
+> > > -F:	Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
+> > >  F:	Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
+> > > +F:	Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
+> > >  F:	drivers/staging/media/imx/imx7-media-csi.c
+> > >  F:	drivers/staging/media/imx/imx7-mipi-csis.c
+> > >
+> > > --
+> > > 2.28.0
+> > >
