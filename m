@@ -2,137 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64472296021
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:38:17 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E9FA296030
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:39:43 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2507576AbgJVNiF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Oct 2020 09:38:05 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53638 "EHLO
+        id S2502123AbgJVNji (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 09:39:38 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2900229AbgJVNiE (ORCPT
+        with ESMTP id S2444217AbgJVNjh (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 09:38:04 -0400
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A9220C0613D2
-        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 06:38:02 -0700 (PDT)
-Received: by mail-wm1-x341.google.com with SMTP id 13so2152755wmf.0
-        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 06:38:02 -0700 (PDT)
+        Thu, 22 Oct 2020 09:39:37 -0400
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D57DC0613CE;
+        Thu, 22 Oct 2020 06:39:37 -0700 (PDT)
+Received: by mail-pj1-x1041.google.com with SMTP id o1so1045363pjt.2;
+        Thu, 22 Oct 2020 06:39:37 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xuazTAVuWOaGAhXcYUEHC2fhzgfRLU0vFOZpMsy8TBQ=;
-        b=nbgJkYp63m4rmIhHmUxnHZj+Urg/MRZxffOXk3O+VNQTx7AnbH5zQUO+LjDfiC+Tp4
-         0GFB8MN7piN0yTl8NjYoY+R3Nm+YWKqdoMsvyqAoui0Tae8wwQz+GrCd/h9SYTeqyXsh
-         b229ntFS+4rZoV8tVIw4IybIojU8U9PzrdkJk=
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=b3AVo2emPLkcZF8hW3nQ46IEFziYrCYUxWf0tqXrKb4=;
+        b=uuzbSiMIqbW4lrdsO5PXIzxsvCt/uxlqrBpaQ1b8FLTBQYLFDsNfYey2hRinJQp2FH
+         IoL4UG+O9do4Wr0hLc3LO3xAKMyEzONxuocxYYfGoMZ1xWUXGWSTegnUY0YOPaan4uyt
+         FhAMGAylucQbDRT+vZjrSspmz5lmG4FtSSXekAxd0KIXMXqeXp7js+g7EENQVpznCK99
+         P70k/RZvRkfm8FJu2+5g5N6xgOG8XY+r5ZCxDMljHLqSmKQhYpA6pgJXvtRloi6Z8Pqi
+         A9zS0CngtsnNoRz6X9FUoKIaYIameFxKlVxeX2XKrUJFxE2s41ffqVnqsN+v3tQelkKf
+         FX6w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xuazTAVuWOaGAhXcYUEHC2fhzgfRLU0vFOZpMsy8TBQ=;
-        b=j/AZuQEBHP5LPsxTNTiptKvh2sC9pOrPmbwxWEdnv6UNDgwRLBHVQsXGd4xAAAx9Kw
-         BBju/M9uAQ7sT6JOFU2zweKOSrnVyh4IzP2sY2nH2zue7qkvBdGb1NWsNJkJdIwqow3C
-         z6mrCvacnzO+ZxKYYI7qTx5z5+w9tLPiI5IVQKw1eQ1hi285izgnFzrb14C8gl1LJwDU
-         GjjMgxL1NKTuPzz7NbW+Wp/S1q166ABxIiMFfQud508QXoUrHi62UtwEs5ifmwkjUE7e
-         lYoB2KKPLqMvkJQZ5e6o9IHWPTAvZ7cvq+wqSgKARTpDEqJo4HWOAQkXGzvVNUzhtPNN
-         D9Vg==
-X-Gm-Message-State: AOAM531C7Zoyd3js16FPDgNMDinyffpKMCJlognFctukxptpJDPT72fN
-        ZFT5QfosrvxpNeFr3lpPCtxOvA==
-X-Google-Smtp-Source: ABdhPJyJdhp6mATJXrrc9AyS5uJUoaza7cixAKWOYcnAPxJWO5g8X1tkDeI83moKm80b8WSFXmVBnA==
-X-Received: by 2002:a1c:7c09:: with SMTP id x9mr2683433wmc.181.1603373881466;
-        Thu, 22 Oct 2020 06:38:01 -0700 (PDT)
-Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id q10sm4094031wrp.83.2020.10.22.06.38.00
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 06:38:01 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     tfiga@chromium.org, Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH 6/6] media: uvcvideo: Handle IRQs from the privacy_pin
-Date:   Thu, 22 Oct 2020 15:37:53 +0200
-Message-Id: <20201022133753.310506-7-ribalda@chromium.org>
-X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
-In-Reply-To: <20201022133753.310506-1-ribalda@chromium.org>
-References: <20201022133753.310506-1-ribalda@chromium.org>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=b3AVo2emPLkcZF8hW3nQ46IEFziYrCYUxWf0tqXrKb4=;
+        b=QnI18eRM6QYSgiF2rt4P+TeBpyyj0XDWMv96cEWHYUJAQGkalvJz/GKBuG/uzIdp+K
+         YaYRbKbadxrI2GDjbu23l47ytyTvHm7mCPrIX6OqH9DXAfX0uhKu/9UjNxTsbbNJ0IPx
+         PEUOmluc+dhn66PlLNyzCz5SqKU0urILcqEdQQeYClU8vYfFBV3oSf9LqlBsILFjg/Pr
+         Y1Trh0/46Ae9zXaS6CtWjGrh3dpiaYnlPWgRc0uSGYYaizY6gnIIBz9FEtKpnQSfaqor
+         SbNLqBuLQudlC1wxyUCXanX5JAoOnewNQsxotGcoexOhpQ/ME4OoOwF2tDy0bswbaNOf
+         ucSw==
+X-Gm-Message-State: AOAM530/29b65hzgQvzpKxJHi7sxMZsvy8E2G1uByVT6GT6YwnqN3T3d
+        7f+IhvrRQx0W98tRY0dnLH4X5ufMyNtBSgC/308=
+X-Google-Smtp-Source: ABdhPJwUPybuMxgPq8dMoHqmmBjU6A75kvif4dG6aK5EaG1sAwDerRoIr5JrRgv4UmK8xFGVjML4nPKdLllGXgzu6Go=
+X-Received: by 2002:a17:90b:305:: with SMTP id ay5mr2468573pjb.129.1603373976635;
+ Thu, 22 Oct 2020 06:39:36 -0700 (PDT)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <20201019225903.14276-1-djrscally@gmail.com> <20201019225903.14276-10-djrscally@gmail.com>
+ <20201020094113.GG4077@smile.fi.intel.com> <4ce5b55f-f492-2b52-5571-86ee346db795@gmail.com>
+In-Reply-To: <4ce5b55f-f492-2b52-5571-86ee346db795@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 22 Oct 2020 16:40:25 +0300
+Message-ID: <CAHp75VfhxL2iyp_sNwmDyCG6-6bE5QZYd3Ubp=egZhTCcB=jgg@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 9/9] ipu3-cio2: Add functionality allowing
+ software_node connections to sensors on platforms designed for Windows
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rob Herring <robh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tsuchiya Yuto <kitakar@gmail.com>, dan.carpenter@oracle.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the privacy pin produces an IRQ, read the gpio and notify userspace
-via an event.
+On Thu, Oct 22, 2020 at 3:59 PM Daniel Scally <djrscally@gmail.com> wrote:
+> On 20/10/2020 10:41, Andy Shevchenko wrote:
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_ctrl.c   |  3 +++
- drivers/media/usb/uvc/uvc_driver.c | 30 ++++++++++++++++++++++++++++++
- 2 files changed, 33 insertions(+)
+...
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 3a49a1326a90..00c41cba0f68 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1346,6 +1346,9 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
- 
- 	mutex_unlock(&chain->ctrl_mutex);
- 
-+	if (!w->urb)
-+		return;
-+
- 	/* Resubmit the URB. */
- 	w->urb->interval = dev->int_ep->desc.bInterval;
- 	ret = usb_submit_urb(w->urb, GFP_KERNEL);
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index 180e503e900f..d1260d131bd8 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -1460,6 +1460,25 @@ static int uvc_gpio_get_info(struct uvc_entity *entity, u8 cs, u8 *caps)
- 	return 0;
- }
- 
-+static irqreturn_t uvc_privacy_gpio_irq(int irq, void *data)
-+{
-+	struct uvc_device *dev = data;
-+	struct uvc_video_chain *chain;
-+	struct uvc_entity *term;
-+	u8 value;
-+
-+	list_for_each_entry(chain, &dev->chains, list) {
-+		list_for_each_entry(term, &dev->entities, list) {
-+			if (UVC_ENTITY_TYPE(term) == UVC_GPIO_UNIT) {
-+				value = gpiod_get_value(term->gpio.gpio_privacy);
-+				uvc_ctrl_status_event(NULL, chain, term->controls, &value);
-+			}
-+		}
-+	}
-+
-+	return IRQ_HANDLED;
-+}
-+
- static int uvc_parse_gpio(struct uvc_device *dev)
- {
- 	struct uvc_entity *unit;
-@@ -1490,6 +1509,17 @@ static int uvc_parse_gpio(struct uvc_device *dev)
- 
- 	list_add_tail(&unit->list, &dev->entities);
- 
-+	irq = gpiod_to_irq(gpio_privacy);
-+
-+	if (irq == -EPROBE_DEFER)
-+		return -EPROBE_DEFER;
-+
-+	if (irq < 0)
-+		return 0;
-+
-+	ret = devm_request_irq(&dev->udev->dev, irq, uvc_privacy_gpio_irq, IRQF_SHARED,
-+			       "uvc_privacy_gpio", dev);
-+
- 	return 0;
- }
- 
+> >> +static const char * const port_names[] = {
+> >> +    "port0", "port1", "port2", "port3"
+> > + comma.
+> I think 4 ports is the maximum for CIO2 device, so this shouldn't ever
+> get extended?
+
+It's better for at least teaching purposes (if anybody takes this
+driver as an example for anything) if you have really believe that no
+new generation will have more than that.
+
+...
+
+> >> +    if (is_software_node(dev_fwnode(&pci_dev->dev)))
+> > Can we use the same check as for _build call above?
+>
+> And just set a flag in struct cio2? sure.
+
+I meant can we use exact conditional w/o any additional flags added?
+
 -- 
-2.29.0.rc1.297.gfa9743e501-goog
-
+With Best Regards,
+Andy Shevchenko
