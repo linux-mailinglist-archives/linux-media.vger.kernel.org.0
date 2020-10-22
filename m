@@ -2,61 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF28829603D
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:43:22 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id C9550296043
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:47:14 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2508124AbgJVNnS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Oct 2020 09:43:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54438 "EHLO
+        id S2900429AbgJVNrM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 09:47:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55036 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2444568AbgJVNnS (ORCPT
+        with ESMTP id S2508308AbgJVNrM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 09:43:18 -0400
-Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55817C0613CE;
-        Thu, 22 Oct 2020 06:43:18 -0700 (PDT)
-Received: by mail-pj1-x1044.google.com with SMTP id l2so993814pjt.5;
-        Thu, 22 Oct 2020 06:43:18 -0700 (PDT)
+        Thu, 22 Oct 2020 09:47:12 -0400
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5410C0613CE
+        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 06:47:10 -0700 (PDT)
+Received: by mail-pj1-x1042.google.com with SMTP id o1so1057400pjt.2
+        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 06:47:10 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:in-reply-to;
-        bh=TGoYs6NX+Ndx+a6z9ojq9tBbYhFNYgIJY1nftO258C4=;
-        b=qBR9uUxUlHyzRD3U5yeOPNh2DDGVG9brz1blZmpia4NszHbmZ+F9wNVuaJbexA1L3Q
-         /eGsZj1/Hj54rAPm6L5LilmL59AZk5K6sjXGE8XLjUje8GMErvT7f0RzBBIzt4bwDR7y
-         CP+A1Is9IT0EVEitSCNGlmmmWZ1WHvAnd9ZTIrd0lM1wHSdXPkBVZXAwsdEj9CGOq1+W
-         NYw767H1SD7DlQEa3Anp0F9TqIkNbjTargZkMcF5AbXQTTIJzXX/4ocvGZ8e6tajgd05
-         OjcAKZCIrST80Fh562Wu+2NAvSfyTI7JHowQpGGjfI3hDZXxM6o91V6d4cuWtjIsgJxz
-         Im2Q==
+        bh=1gypUtIc864PbkDDcPxNQEUh8zBoJi60ZtKxJZr3rhk=;
+        b=BhFPvqZ2fI2InSAjrYY0zeX18fhNHww1+FQ/xSM5zKcowMhycbuWkOnfxAIq4PB4Er
+         UOJF2GZM0pLpbcswZLc3aeYilTgEEmxUEGT0/k2CEEdmC3m5ftiWv8BJm10VuGQirQFT
+         tk+IS1SS/s1WxJ+zcwFm5SZX4KFb/kcYL5onqjBP80vdQAiVFHIBwyJXNgb6uVUwdkfy
+         EtQgkvNjRxzy5e109mcft/9UN0MFO0q3Sq8D2mLc65jjek86iE1AkevB8kdyhRlWYhsQ
+         h7X8b8kWeuL8yLHrj6mOZa86q+dowjDyuKh3VA6Uv3YSEaEnUt2vXSiZa/M+UVXLUoGQ
+         AeZg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=TGoYs6NX+Ndx+a6z9ojq9tBbYhFNYgIJY1nftO258C4=;
-        b=n0uLpqj266RQsqSYfa6/dF8LbActyUGakq7NdGpR7kM6Cy+SdmFr37OaGSU/KReeOr
-         JuZ0Qi5EutUoskQpxGMGQBgZ2izrrKuIk2Bg7e0O1j7nApEEbroXvbhznx0xpaKSs2Xp
-         mSmuLxfh1X1seB+cxW9iaoM8HAGnieWgCeIywGyLDWD5MtqwQkX7SJueSt2TKFkjbrhs
-         mmXLKuSC1gxDR5Bg502Yo8AASMpE9AYRiu+lGQSLhIrKqzS/nDXpgPWXXoGdVsQjQgKs
-         ZaHAAut52A59e+7+MO1VBsuQiBKqvY0fejyHeOBOXAF0Cb6nEg8cdLkHQwr9SdiOgjVi
-         7WrQ==
-X-Gm-Message-State: AOAM532tnIAJ3dA/+mMiub0AytKeUPBxiOIxGKxvGh+NZzs+sJHVjMiw
-        sGdGaXxqxFsztpOc7bNuWfk=
-X-Google-Smtp-Source: ABdhPJysdrkf3tgIA1nwdFfO7BIZMe8vhpQ/9lzdcbY6lgA87r33Xb+5yzfTvWg4NA6sI3LSJUyyRw==
-X-Received: by 2002:a17:902:a3c9:b029:d5:df0c:f217 with SMTP id q9-20020a170902a3c9b02900d5df0cf217mr2465001plb.59.1603374197886;
-        Thu, 22 Oct 2020 06:43:17 -0700 (PDT)
+        bh=1gypUtIc864PbkDDcPxNQEUh8zBoJi60ZtKxJZr3rhk=;
+        b=FEBgr+0IcZsYmGvtM/TGvII0RQlENFahuVDDalvN9bNGZL4qWekd/kNJ7xPLHQCafJ
+         G74fuhuIuw056ksTrmniOfwykPKNvcebY4poI1Z/cqpuKhOBv7crle/ILOTWDqhrrNh2
+         KFX7Y3uz6oG1V5Z9iaKu+1+cDF7n3HEnlT0K65F0x0ym+/cK1odVICYjFWtHpCokXdhT
+         4U6gqAWu9LI95FIhn8JuwjhY0cQklhYEp2/gyz+ihCAtFyVKVF8cV2iOYkpxbDLLMNrK
+         KDVV7FGfZLTL/YzHRprbMtwhLDa/3sNv3PCXmLfuhCpA64+U7m7BAFsbokj2osLbGNji
+         dbew==
+X-Gm-Message-State: AOAM532/IeifDN4FdgKvXhAC6+r0q2h2AGbV026onw9aA3U50vAjuey8
+        1PbrbBGG2dU4u6LuRX/O1Rk=
+X-Google-Smtp-Source: ABdhPJxgfTDPOdZuV7oWxSOXYyNciFXIQfbcH4Wjz4kzLnC7p5Iw7rt5cpaeGQoeis6/vilsflQLfw==
+X-Received: by 2002:a17:902:a50f:b029:d6:da2:aaa7 with SMTP id s15-20020a170902a50fb02900d60da2aaa7mr2614665plq.42.1603374430254;
+        Thu, 22 Oct 2020 06:47:10 -0700 (PDT)
 Received: from adolin ([49.207.204.75])
-        by smtp.gmail.com with ESMTPSA id l18sm2404726pfd.210.2020.10.22.06.43.13
+        by smtp.gmail.com with ESMTPSA id b128sm2233467pga.80.2020.10.22.06.47.06
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 06:43:17 -0700 (PDT)
-Date:   Thu, 22 Oct 2020 19:13:11 +0530
+        Thu, 22 Oct 2020 06:47:09 -0700 (PDT)
+Date:   Thu, 22 Oct 2020 19:17:04 +0530
 From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
 To:     dri-devel@lists.freedesktop.org
 Cc:     outreachy-kernel@googlegroups.com, alexander.deucher@amd.com,
         christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
         melissa.srw@gmail.com, linux-media@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 2/5] gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
-Message-ID: <78546ad9343ddf1b0f8bc300a3c8ae9a0dcb0ef9.1603371258.git.sylphrenadin@gmail.com>
+        amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.or
+Subject: [PATCH 3/5] gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
+Message-ID: <864a0c5d7bc85d9eeaf1ca7b3db38b58e042471b.1603371258.git.sylphrenadin@gmail.com>
 References: <cover.1603371258.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -70,56 +70,38 @@ Using snprintf() for show() methods holds the risk of buffer overrun
 as snprintf() does not know the PAGE_SIZE maximum of the temporary
 buffer used to output sysfs content.
 
-Modify amdgpu_device.c to use sysfs_emit() instead which knows the
+Modify amdgpu_gtt_mgr.c to use sysfs_emit() instead which knows the
 size of the temporary buffer.
 
 Issue found with Coccinelle.
 
 Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_device.c | 8 ++++----
- 1 file changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-index f7307af76452..7eef6b20578f 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_device.c
-@@ -135,7 +135,7 @@ static ssize_t amdgpu_device_get_pcie_replay_count(struct device *dev,
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+index 1721739def84..441e07ee1967 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c
+@@ -49,7 +49,7 @@ static ssize_t amdgpu_mem_info_gtt_total_show(struct device *dev,
  	struct amdgpu_device *adev = drm_to_adev(ddev);
- 	uint64_t cnt = amdgpu_asic_get_pcie_replay_count(adev);
+ 	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
  
--	return snprintf(buf, PAGE_SIZE, "%llu\n", cnt);
-+	return sysfs_emit(buf, PAGE_SIZE, "%llu\n", cnt);
+-	return snprintf(buf, PAGE_SIZE, "%llu\n",
++	return sysfs_emit(buf, PAGE_SIZE, "%llu\n",
+ 			man->size * PAGE_SIZE);
  }
  
- static DEVICE_ATTR(pcie_replay_count, S_IRUGO,
-@@ -159,7 +159,7 @@ static ssize_t amdgpu_device_get_product_name(struct device *dev,
- 	struct drm_device *ddev = dev_get_drvdata(dev);
+@@ -68,7 +68,7 @@ static ssize_t amdgpu_mem_info_gtt_used_show(struct device *dev,
  	struct amdgpu_device *adev = drm_to_adev(ddev);
+ 	struct ttm_resource_manager *man = ttm_manager_type(&adev->mman.bdev, TTM_PL_TT);
  
--	return snprintf(buf, PAGE_SIZE, "%s\n", adev->product_name);
-+	return sysfs_emit(buf, PAGE_SIZE, "%s\n", adev->product_name);
+-	return snprintf(buf, PAGE_SIZE, "%llu\n",
++	return sysfs_emit(buf, PAGE_SIZE, "%llu\n",
+ 			amdgpu_gtt_mgr_usage(man));
  }
  
- static DEVICE_ATTR(product_name, S_IRUGO,
-@@ -181,7 +181,7 @@ static ssize_t amdgpu_device_get_product_number(struct device *dev,
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 
--	return snprintf(buf, PAGE_SIZE, "%s\n", adev->product_number);
-+	return sysfs_emit(buf, PAGE_SIZE, "%s\n", adev->product_number);
- }
- 
- static DEVICE_ATTR(product_number, S_IRUGO,
-@@ -203,7 +203,7 @@ static ssize_t amdgpu_device_get_serial_number(struct device *dev,
- 	struct drm_device *ddev = dev_get_drvdata(dev);
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 
--	return snprintf(buf, PAGE_SIZE, "%s\n", adev->serial);
-+	return sysfs_emit(buf, PAGE_SIZE, "%s\n", adev->serial);
- }
- 
- static DEVICE_ATTR(serial_number, S_IRUGO,
 -- 
 2.25.1
 
