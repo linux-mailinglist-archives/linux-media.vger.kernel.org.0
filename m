@@ -2,97 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 276BE296034
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:41:03 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 04D8A296037
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:41:52 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2507999AbgJVNk4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Oct 2020 09:40:56 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54066 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2503436AbgJVNk4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 09:40:56 -0400
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D2A6C0613CE;
-        Thu, 22 Oct 2020 06:40:53 -0700 (PDT)
-Received: by mail-pl1-x641.google.com with SMTP id j5so592780plk.7;
-        Thu, 22 Oct 2020 06:40:53 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=6ARfb7CCtAyGQWozbpcu69TiW9MOgZYC7V52jr9EMdI=;
-        b=cPArrMKj7xSwULJAYitN0m6vC7G/wTwv5trn8fq+nwf0A+2hp5LU49pAbuMhjjeNRv
-         fccwBKY40gL96fMEFCrheOhs7geOIGvy7bVVSiZb4TMh4d4+F5geRTxSuZJZ70PQlJbl
-         jsiGe1Txe6jSe3uD8rQo5YbSLjz9pGZZWV6R8BiMnBJXhF7UUdTOm46R+31AxuvTjs8f
-         4vG70Oj+1gjW8V8CgysBCTnZOVSLzF1KzDbUBCBO/FFxF/jhtqBUeM7IYE1nzUP+YPj1
-         KYWxc2DLWI7L4c9F3cvB8q3/pRjebyP3rk0NZq4DzfnO71JrJupHUchu1cnsxLwnxa3y
-         INBQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6ARfb7CCtAyGQWozbpcu69TiW9MOgZYC7V52jr9EMdI=;
-        b=uiw5gO+c1W1f1lG0ljp5OGHvdvP5n6Eyc8bBeN1LWaMpO4079VYQZPLooxZhEosnZF
-         eV9RWPbZllz58UVTnyOGViHvuDSs/RIHT3C/1tJSZ5jaL+G7SlM59oOMFU3u2mzXxQpe
-         RQkG0w/UZz7FVWSGUq1U5u6bYTWijbWl6/MfTdsyH+wtOQbSmP4yWNeXsuRwx/1IV2PD
-         f1FdIpI4fgrO5JqF44PWu5FtSsn/vOwpXgQUjThQQCYdKNzvthtXpfQFpsCrlCbUfDQL
-         vAgCPgRH4+ABYgohh+GuaKcH0Kb0dPJE3FkT9NwneA9hv8Z+IFZYQrlV58gzxiIIfNLC
-         kGmg==
-X-Gm-Message-State: AOAM531gTSNPytr20GeezB+9HvUSTEO+w/17hHROV39bR9E9cWjrBDAN
-        WwiOVJWEILruYtaaEf0Uj4g=
-X-Google-Smtp-Source: ABdhPJzyGexTbAbgzpbd2h8qNCbpH2i7VtqXeR1WWd3CGgsd3u1tqGNz/XhtoLwDvWQSXW1MYy0t5w==
-X-Received: by 2002:a17:90a:7d12:: with SMTP id g18mr2448814pjl.89.1603374053035;
-        Thu, 22 Oct 2020 06:40:53 -0700 (PDT)
-Received: from adolin ([49.207.204.75])
-        by smtp.gmail.com with ESMTPSA id j20sm2384100pgl.40.2020.10.22.06.40.49
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 06:40:52 -0700 (PDT)
-Date:   Thu, 22 Oct 2020 19:10:47 +0530
-From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
-To:     dri-devel@lists.freedesktop.org
-Cc:     outreachy-kernel@googlegroups.com, alexander.deucher@amd.com,
-        christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
-        melissa.srw@gmail.com, linux-media@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
-Subject: [PATCH 1/5] gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
-Message-ID: <c9fbe2e2c31fae2fea867940a888c68becc993bd.1603371258.git.sylphrenadin@gmail.com>
-References: <cover.1603371258.git.sylphrenadin@gmail.com>
+        id S2900231AbgJVNlr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 09:41:47 -0400
+Received: from verein.lst.de ([213.95.11.211]:52912 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2503142AbgJVNlq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 22 Oct 2020 09:41:46 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id CB7DE68AFE; Thu, 22 Oct 2020 15:41:42 +0200 (CEST)
+Date:   Thu, 22 Oct 2020 15:41:42 +0200
+From:   Christoph Hellwig <hch@lst.de>
+To:     syzbot <syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com>
+Cc:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        hch@lst.de, iommu@lists.linux-foundation.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
+        robin.murphy@arm.com, sumit.semwal@linaro.org,
+        syzkaller-bugs@googlegroups.com
+Subject: Re: WARNING in dma_map_page_attrs
+Message-ID: <20201022134142.GA9189@lst.de>
+References: <000000000000335adc05b23300f6@google.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <cover.1603371258.git.sylphrenadin@gmail.com>
+In-Reply-To: <000000000000335adc05b23300f6@google.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Using snprintf() for show() methods holds the risk of buffer overrun
-as snprintf() does not know the PAGE_SIZE maximum of the temporary
-buffer used to output sysfs content.
+I don't think the merge commit makes sense here.  But what we see here
+is that dma_map_page is called on the rxe device, without that device
+having a DMA mask.  For now this needs a workaround in rxe, but for
+5.11 I'll send a patch to remove dma-virt and just handle this case
+inside of the rdma core.
 
-Modify amdgpu_atombios.c to use sysfs_emit() instead which knows the
-size of the temporary buffer.
-
-Issue found with Coccinelle.
-
-Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-index 469352e2d6ec..3c19862c94c7 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
-@@ -1947,7 +1947,7 @@ static ssize_t amdgpu_atombios_get_vbios_version(struct device *dev,
- 	struct amdgpu_device *adev = drm_to_adev(ddev);
- 	struct atom_context *ctx = adev->mode_info.atom_context;
- 
--	return snprintf(buf, PAGE_SIZE, "%s\n", ctx->vbios_version);
-+	return sysfs_emit(buf, PAGE_SIZE, "%s\n", ctx->vbios_version);
- }
- 
- static DEVICE_ATTR(vbios_version, 0444, amdgpu_atombios_get_vbios_version,
--- 
-2.25.1
-
+On Wed, Oct 21, 2020 at 12:03:19PM -0700, syzbot wrote:
+> Hello,
+> 
+> syzbot found the following issue on:
+> 
+> HEAD commit:    c4d6fe73 Merge tag 'xarray-5.9' of git://git.infradead.org..
+> git tree:       upstream
+> console output: https://syzkaller.appspot.com/x/log.txt?x=14862ff0500000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=7d790573d3e379c4
+> dashboard link: https://syzkaller.appspot.com/bug?extid=34dc2fea3478e659af01
+> compiler:       gcc (GCC) 10.1.0-syz 20200507
+> 
+> Unfortunately, I don't have any reproducer for this issue yet.
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com
+> 
+> infiniband syz1: set active
+> infiniband syz1: added vcan0
+> ------------[ cut here ]------------
+> WARNING: CPU: 1 PID: 9851 at kernel/dma/mapping.c:149 dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
+> Modules linked in:
+> CPU: 1 PID: 9851 Comm: syz-executor.1 Not tainted 5.9.0-syzkaller #0
+> Hardware name: QEMU Standard PC (Q35 + ICH9, 2009), BIOS rel-1.12.0-59-gc9ba5276e321-prebuilt.qemu.org 04/01/2014
+> RIP: 0010:dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
+> Code: 80 3c 10 00 0f 85 ed 01 00 00 48 8b 1d 36 c3 fa 0c e9 2d fc ff ff 48 89 c3 e9 d1 fd ff ff e8 04 12 12 00 0f 0b e8 fd 11 12 00 <0f> 0b 49 c7 c4 ff ff ff ff e9 d5 fd ff ff e8 ea 11 12 00 48 8d 7b
+> RSP: 0018:ffffc90001546c68 EFLAGS: 00010246
+> RAX: 0000000000040000 RBX: ffffffff894d0040 RCX: ffffc9000dbe4000
+> RDX: 0000000000040000 RSI: ffffffff815d3b03 RDI: ffff88806a988b00
+> RBP: ffff8880236cc400 R08: 0000000000000002 R09: 0000000000000000
+> R10: 0000000000000002 R11: 0000000000000000 R12: ffffea00008db300
+> R13: ffff88806a9886e8 R14: 00000000000004b8 R15: 0000000000000002
+> FS:  00007f678fae2700(0000) GS:ffff88802ce00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00007f299a39b190 CR3: 0000000069f31000 CR4: 0000000000350ee0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>  dma_map_single_attrs include/linux/dma-mapping.h:279 [inline]
+>  ib_dma_map_single include/rdma/ib_verbs.h:3967 [inline]
+>  ib_mad_post_receive_mads+0x23f/0xd60 drivers/infiniband/core/mad.c:2715
+>  ib_mad_port_start drivers/infiniband/core/mad.c:2862 [inline]
+>  ib_mad_port_open drivers/infiniband/core/mad.c:3016 [inline]
+>  ib_mad_init_device+0x72b/0x1400 drivers/infiniband/core/mad.c:3092
+>  add_client_context+0x405/0x5e0 drivers/infiniband/core/device.c:680
+>  enable_device_and_get+0x1d5/0x3c0 drivers/infiniband/core/device.c:1301
+>  ib_register_device drivers/infiniband/core/device.c:1376 [inline]
+>  ib_register_device+0x7a7/0xa40 drivers/infiniband/core/device.c:1335
+>  rxe_register_device+0x46d/0x570 drivers/infiniband/sw/rxe/rxe_verbs.c:1182
+>  rxe_add+0x12fe/0x16d0 drivers/infiniband/sw/rxe/rxe.c:247
+>  rxe_net_add+0x8c/0xe0 drivers/infiniband/sw/rxe/rxe_net.c:507
+>  rxe_newlink drivers/infiniband/sw/rxe/rxe.c:269 [inline]
+>  rxe_newlink+0xb7/0xe0 drivers/infiniband/sw/rxe/rxe.c:250
+>  nldev_newlink+0x30e/0x540 drivers/infiniband/core/nldev.c:1555
+>  rdma_nl_rcv_msg+0x367/0x690 drivers/infiniband/core/netlink.c:195
+>  rdma_nl_rcv_skb drivers/infiniband/core/netlink.c:239 [inline]
+>  rdma_nl_rcv+0x2f2/0x440 drivers/infiniband/core/netlink.c:259
+>  netlink_unicast_kernel net/netlink/af_netlink.c:1304 [inline]
+>  netlink_unicast+0x533/0x7d0 net/netlink/af_netlink.c:1330
+>  netlink_sendmsg+0x856/0xd90 net/netlink/af_netlink.c:1919
+>  sock_sendmsg_nosec net/socket.c:651 [inline]
+>  sock_sendmsg+0xcf/0x120 net/socket.c:671
+>  ____sys_sendmsg+0x6e8/0x810 net/socket.c:2353
+>  ___sys_sendmsg+0xf3/0x170 net/socket.c:2407
+>  __sys_sendmsg+0xe5/0x1b0 net/socket.c:2440
+>  do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+>  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> RIP: 0033:0x45d9f9
+> Code: bd b1 fb ff c3 66 2e 0f 1f 84 00 00 00 00 00 66 90 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 8b b1 fb ff c3 66 2e 0f 1f 84 00 00 00 00
+> RSP: 002b:00007f678fae1c88 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
+> RAX: ffffffffffffffda RBX: 000000000071f480 RCX: 000000000045d9f9
+> RDX: 0000000000000000 RSI: 0000000020000200 RDI: 0000000000000003
+> RBP: 00000000004aab13 R08: 0000000000000000 R09: 0000000000000000
+> R10: 0000000000000000 R11: 0000000000000246 R12: 000000000075bf00
+> R13: 00007ffc6f9b8bbf R14: 00007f678fac2000 R15: 0000000000000003
+> 
+> 
+> ---
+> This report is generated by a bot. It may contain errors.
+> See https://goo.gl/tpsmEJ for more information about syzbot.
+> syzbot engineers can be reached at syzkaller@googlegroups.com.
+> 
+> syzbot will keep track of this issue. See:
+> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+---end quoted text---
