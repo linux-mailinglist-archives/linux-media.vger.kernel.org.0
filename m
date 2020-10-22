@@ -2,124 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE556295E51
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 14:24:33 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 31DD2295EB4
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 14:40:12 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2898096AbgJVMY1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Oct 2020 08:24:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42156 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2898094AbgJVMY1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 08:24:27 -0400
-Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3873DC0613CE;
-        Thu, 22 Oct 2020 05:24:27 -0700 (PDT)
-Received: by mail-pf1-x444.google.com with SMTP id c20so1032181pfr.8;
-        Thu, 22 Oct 2020 05:24:27 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mU3eh4Lg22I3mBOuJIBbGT5xYfezVnGHYrxPpP/Dozs=;
-        b=QbGzbjxlT72axsH1qC0qivAZ2Gbr+68FTgArAwE8Vdgp/HLrXroD5yoYhoEj9F7jXp
-         DFnDOelbRQKAYm3jJpPWCiIPvg7RMB2LJFU89a+9IfUUG4lRWBhjgNJvXNpSDWwKDPPX
-         NAUqNoQDwSyY0lyzU9FXqYIh1EB56QfbWHXWxlkogILc3ajA45KP4OsvgnBr5t0JcoBZ
-         InKpKZRDKfn4rCHTuHQD99E3dls/ZrUo93uBFbdoN07v7Ty2LBWIt4YbAy8uj94kv5Hc
-         3Hi3IfbpI1BcYJomhojmLsCvvo/sa1i9jjc4kPpKqWT/stwZAw9Oef0Lv0dM4Avnfbk2
-         Cm/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=mU3eh4Lg22I3mBOuJIBbGT5xYfezVnGHYrxPpP/Dozs=;
-        b=VTyAcZ3Prgzj/h9qy4s6yviCVbSJXKEtIlM4z0ft2l5vaQTe6JQsghs+ZXMTb2zFkq
-         iKrIFMA/ypa5JrGpbQiAOf00HG3g5OTogMmFRd6j7qkSUBZjZUhBCfUxPDdeJ2+Wez60
-         T9k8s5v/LwOX1Fg1uzwasyLjGqOQxB/hAXG2JZ0JfNgca6YabNaNzzIm340px4yRzVqD
-         hjoMdRbLskYtnEyCkA38ibOmQwNjwrpWPanmDkvZAqG3ggRQqgH6Xul/5OsW/14bGTW0
-         DMSbCjp7Lm/usLiGuHXAHvUpVG3QEYo8D9ipbIbpSTC41n5IX1zaYSNS3qPtjAakIcSf
-         34uA==
-X-Gm-Message-State: AOAM5318M6ieAClacgTLMKBJCSvntqiyWycwziKzad6UAUxUDM/wcjCU
-        WfkMenr1UObowwH9EbRLlCU=
-X-Google-Smtp-Source: ABdhPJxJ8dx7pupAUvCFFxYmob0+Rspz7lUxS7uOgRkpDhGiBNPy+5Vr+5o7l5ERw9a5begnl+xRIw==
-X-Received: by 2002:a05:6a00:2d5:b029:13c:1611:653b with SMTP id b21-20020a056a0002d5b029013c1611653bmr2291991pft.13.1603369466581;
-        Thu, 22 Oct 2020 05:24:26 -0700 (PDT)
-Received: from localhost.localdomain ([240d:1a:8f0:6c00:89cb:88d1:b6b2:3345])
-        by smtp.gmail.com with ESMTPSA id e196sm2211922pfh.128.2020.10.22.05.24.24
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 05:24:25 -0700 (PDT)
-From:   Alexandre Courbot <gnurou@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alexandre Courbot <gnurou@gmail.com>
-Subject: [PATCH] media: v4l2-mem2mem: always call poll_wait() on queues
-Date:   Thu, 22 Oct 2020 21:24:21 +0900
-Message-Id: <20201022122421.133976-1-gnurou@gmail.com>
-X-Mailer: git-send-email 2.29.0
+        id S2440871AbgJVMj4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 08:39:56 -0400
+Received: from mga04.intel.com ([192.55.52.120]:41659 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2440792AbgJVMj4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 22 Oct 2020 08:39:56 -0400
+IronPort-SDR: dST7pBc0S6EKmaaHGxnc7kAutmphnaBMnaTMNTxF6K74bKbDJYreL0ys7e7gRkoCvqNSGNm4Zr
+ qjVPp0M1VhSA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9781"; a="164923848"
+X-IronPort-AV: E=Sophos;i="5.77,404,1596524400"; 
+   d="scan'208";a="164923848"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga007.fm.intel.com ([10.253.24.52])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2020 05:39:55 -0700
+IronPort-SDR: y/25GphroSa4SDGsYKhiwu3aDnnvBHUhY1Y3pGNZVKR1Tq/IOPnvCrgYbGFHxcijF6YuGARLYw
+ p337S+2pnysw==
+X-IronPort-AV: E=Sophos;i="5.77,404,1596524400"; 
+   d="scan'208";a="302415126"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2020 05:39:54 -0700
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 735D72073D; Thu, 22 Oct 2020 15:39:52 +0300 (EEST)
+Date:   Thu, 22 Oct 2020 15:39:52 +0300
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Helmut Grohne <helmut.grohne@intenta.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [RFC PATCH] media: new driver mt9m02x for Onsemi MT9M024 and
+ AR0141CS
+Message-ID: <20201022123952.GM2703@paasikivi.fi.intel.com>
+References: <20201020092732.GA30983@laureti-dev>
+ <20201021095023.GE2703@paasikivi.fi.intel.com>
+ <20201021112127.GA20160@laureti-dev>
+ <20201021123747.GG2703@paasikivi.fi.intel.com>
+ <20201022121720.GA16345@laureti-dev>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201022121720.GA16345@laureti-dev>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-do_poll()/do_select() seem to set the _qproc member of poll_table to
-NULL the first time they are called on a given table, making subsequent
-calls of poll_wait() on that table no-ops. This is a problem for mem2mem
-which calls poll_wait() on the V4L2 queues' waitqueues only when a
-queue-related event is requested, which may not necessarily be the case
-during the first poll.
+On Thu, Oct 22, 2020 at 02:17:20PM +0200, Helmut Grohne wrote:
+> On Wed, Oct 21, 2020 at 02:37:47PM +0200, Sakari Ailus wrote:
+> > I guess this indeed might be more a question of what is the purpose of a
+> > PLL calculator. The SMIA PLL calculator was first merged with the SMIAPP
+> > driver back in 2012, and the Aptina PLL calculator soon followed. I think
+> > it is somewhat based on the SMIAPP PLL calculator.
+> 
+> I don't have an answer to that question. I originally started hard
+> coding the PLL parameters and then noticed that there is a calculator.
+> So I attempted using it and figured that "it didn't work" (for my use
+> case). That's how I ended up here.
+> 
+> > The SMIA PLL configuration depends also on e.g. binning and format
+> > configurations on the sensor, so there's also the runtime aspect that needs
+> > to be taken into account. There are other factors such as the number of
+> > lanes as well. It's not a static configuration.
+> 
+> If the PLL calculator needs to run at another time than probing, your
+> concerns about performance (in the earlier thread) make a lot more sense
+> to me. I had previously assumed that it was only ever used during probe.
+> 
+> > Then again, CCS PLL allows for a lot more variability than SMIA. This
+> > includes, but is _not limited to_, to number of physical lanes, lane vs.
+> > system speed model, sensor's internal lanes in OP and VT domains, whether
+> > OP domain SYS and PIX clocks are DDR, whether certain configurations can
+> > have only legacy values or if extended values are supported and which PHY
+> > is in use. Feel free to look at it here, it's not yet merged:
+> > 
+> > <URL:https://git.linuxtv.org/sailus/media_tree.git/tree/drivers/media/i2c/ccs-pll.c?h=ccs>
+> > 
+> > There, the configuration heavily depends on sensor's properties as well.
+> 
+> You have succeeded at demonstrating the complexity.
+> 
+> > The computational complexity of searching a "closest matching" frequency
+> > there would be vastly higher than aiming for a specific frequency. The
+> > former shouldn't be done at runtime IMHO.
+> >
+> > A PLL calculator that comes up with a closest frequency to something, given
+> > some input parameters, could be certainly useful when deciding what to put
+> > to DT source (while taking EMI considerations into account), but I think
+> > that's different from what a driver would use.
+> 
+> A consequence of that would be not using the PLL calculator for this
+> driver and instead hard coding pre-computed PLL values in the device
+> tree.  Do you agree with that?
 
-For instance, a stateful decoder is typically only interested in
-EPOLLPRI events when it starts, and will switch to listening to both
-EPOLLPRI and EPOLLIN after receiving the initial resolution change event
-and configuring the CAPTURE queue. However by the time that switch
-happens and v4l2_m2m_poll_for_data() is called for the first time,
-poll_wait() has become a no-op and the V4L2 queues waitqueues thus
-cannot be registered.
+I have no objections in principle, but there should be a good reason for
+doing so.
 
-Fix this by moving the registration to v4l2_m2m_poll() and do it whether
-or not one of the queue-related events are requested.
+Does the device support e.g. binning, and are there dependencies between
+PLL configuration and binning configuration?
 
-Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
----
-I seem to be hitting all the polling corner cases recently! ^_^; This
-time I was wondering why epoll_wait() never returned after I received
-the first resolution change event from the vicodec stateful decoder.
-This is why - please take a look!
+> 
+> I actually implemented my PLL approximator in Python first and converted
+> it to kernel C afterwards. What would be a good place to put a PLL
+> approximator to be used by DT authors?
 
- drivers/media/v4l2-core/v4l2-mem2mem.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+Perhaps another repository somewhere would be a better place than the
+kernel? We don't have them at the moment. Finding the desired frequency
+hasn't been the complicated part in the past and admittedly in general not
+a problem driver developers need to solve.
 
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index b221b4e438a1..65476ef2879f 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -887,9 +887,6 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
- 	src_q = v4l2_m2m_get_src_vq(m2m_ctx);
- 	dst_q = v4l2_m2m_get_dst_vq(m2m_ctx);
- 
--	poll_wait(file, &src_q->done_wq, wait);
--	poll_wait(file, &dst_q->done_wq, wait);
--
- 	/*
- 	 * There has to be at least one buffer queued on each queued_list, which
- 	 * means either in driver already or waiting for driver to claim it
-@@ -922,9 +919,14 @@ __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 		       struct poll_table_struct *wait)
- {
- 	struct video_device *vfd = video_devdata(file);
-+	struct vb2_queue *src_q = v4l2_m2m_get_src_vq(m2m_ctx);
-+	struct vb2_queue *dst_q = v4l2_m2m_get_dst_vq(m2m_ctx);
- 	__poll_t req_events = poll_requested_events(wait);
- 	__poll_t rc = 0;
- 
-+	poll_wait(file, &src_q->done_wq, wait);
-+	poll_wait(file, &dst_q->done_wq, wait);
-+
- 	if (req_events & (EPOLLOUT | EPOLLWRNORM | EPOLLIN | EPOLLRDNORM))
- 		rc = v4l2_m2m_poll_for_data(file, m2m_ctx, wait);
- 
+> 
+> > Does aptina-pll come up with a valid configuration if you specify the
+> > precise link frequency?
+> 
+> Given that my PLL approximator has the same type signature as
+> aptina_pll_calculate, this was easy to check. It does not find a valid
+> configuration and both of us should have noticed that without having to
+> run the code.
+
+I'm not quite sure what you mean. The frequency needs to be precise, but I
+believe one Hz accuracy is enough. In practice, the external clock
+frequency is not infinitely precise either.
+
+> 
+> The resulting frequency of the PLL approximator is not exactly 74242424.
+> That's a rounded value. A more precise representation would be
+> 74242424.24242424 and it is not a whole number. aptina_pll_calculate
+> only deals with frequencies that are whole numbers though. It cannot do
+> the job.
+
+What does need to be documented how frequencies that aren't precise integer
+values are rounded. This isn't there at the moment. Rounding down would be
+very simple and probably good enough.
+
+If the PLL calculator does not lose information too early in its job,
+there's no reason why it couldn't produce a result at precision of 1 Hz.
+
+> 
+> The actual error message is "pll: no valid combined N*P1 divisor." and
+> that's quite expected given the above.
+> 
+> In retrospect, it was a good decision to defer the discussion on my PLL
+> approximator until there is a driver that uses it. We've now quickly
+> discovered the mismatch in assumptions.
+> 
+> > ISO sensitivity control is a bit higher level control than the analogue
+> > gain but it mostly does the same thing. I wonder what others think. This is
+> > probably more user friendly but I guess it doesn't cover all values the
+> > hardware is capable of, or does it?
+> 
+> All values supported by the hardware are precisely representable in the
+> ISO sensitivity menu. That applies to both imagers even though their
+> analogue gain handling is completely different.
+
+Ack. Sounds good.
+
+> 
+> > This leads to an interesting question regarding runtime PM --- how does the
+> > driver determine the sensor needs to be powered on if it gets no s_stream
+> > command? One option could be to add a control for external streaming
+> > trigger.
+> 
+> I have no clue. This seems to be a show-stopper for runtime PM as is.
+
+Why? Adding one control, that is?
+
+> 
+> > How do you stop streaming? Is it level triggered, or how?
+> 
+> We permanently put the imager into externally triggered mode. You could
+> also say that we start streaming on probe and never stop. We suppress
+> the trigger signal during reconfiguration.
+
+The driver should probably enforce that in general case to avoid broken
+frames, if hardware allows.
+
+> 
+> > Which receiver driver are you using this btw.?
+> 
+> I cannot give any details on this. Maybe the closest description would
+> be "custom hardware". Getting legal to sign off on this driver was hard
+> enough.
+
+Ack.
+
 -- 
-2.29.0
+Kind regards,
 
+Sakari Ailus
