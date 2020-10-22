@@ -2,199 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 692D7295D1B
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 13:02:28 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EC7B6295DA4
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 13:43:59 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502984AbgJVLC1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Oct 2020 07:02:27 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57706 "EHLO
+        id S2897505AbgJVLnt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 07:43:49 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35882 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502976AbgJVLC1 (ORCPT
+        with ESMTP id S2897498AbgJVLnr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 07:02:27 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C6F9AC0613CE
-        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 04:02:26 -0700 (PDT)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 2E2951F45E81
-Subject: Re: [PATCH v3 09/10] media: rkisp1: cap: simplify the link validation
- by compering the media bus code
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= <niklas.soderlund@ragnatech.se>,
-        linux-media@vger.kernel.org, ezequiel@collabora.com,
-        hverkuil@xs4all.nl, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, mchehab@kernel.org,
-        tfiga@chromium.org
-References: <20200723132014.4597-1-dafna.hirschfeld@collabora.com>
- <20200723132014.4597-10-dafna.hirschfeld@collabora.com>
- <20200930190025.GH1516931@oden.dyn.berto.se>
- <20201001020325.GJ5689@pendragon.ideasonboard.com>
- <9724beba-21dc-63b4-5eea-90922b7f1968@collabora.com>
- <20201001224853.GF3722@pendragon.ideasonboard.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <27cf190b-882f-63bd-8f5d-0551207f71bb@collabora.com>
-Date:   Thu, 22 Oct 2020 08:02:16 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
+        Thu, 22 Oct 2020 07:43:47 -0400
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97330C0613D5
+        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 04:43:47 -0700 (PDT)
+Received: by mail-qv1-xf43.google.com with SMTP id w5so642568qvn.12
+        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 04:43:47 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=Tn5VStmyr19eg0AHWkg65WyZIMHvKO6plAVuAqOgPDQ=;
+        b=W2W63+Km46WNPYtkSR3igfnV7TEUq5madmsiNOsLljJ4hXhwY+tNpYNU0U98RMc/Ra
+         N/OqT1bclh4ytLL1rVRfHDNQXuCClycUHEstVDTB13O2SeX7rcenP16ZDtQZwB1W1jcc
+         qY+V9dfylqzLN5PiDQabSjcYMeIPMV8H3MvDBIvqP9uVDzx0l3+DGSbt51z70fKAGBps
+         MOgHN8p+THySDXKSzKDRAxFER+JAglmr7hGRyvf9N5t7jpnIarxCymOKiSFfwhwoQKR+
+         3E88SiMtx1h9HdY+LUkd3T5LmcI1LTVNdrFdFYFYlKXO0Wntp7OMh6vxttQFR1tsYI0Q
+         kJBg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Tn5VStmyr19eg0AHWkg65WyZIMHvKO6plAVuAqOgPDQ=;
+        b=Vtxbs2x/NnOVPksTeavF45SigoIsBZfvHIwhuRQNfmrgBFygjaGpJqRkNmh/lZ608O
+         7rhFkRyE/lWocKBG/YAqZAFC6iuK/XQTYxXQL1e7eVRlqdnX84WElW2U4LudTS4Ug4Oo
+         7Ooh2B5iwKCDGr9tLLRDhl7EIEKSBe6wYQ+fMgNLt+mz95fNJI5N4gARik0SW1NkVnY+
+         afgDN0pkjLTEFTqS9GMQPnjjDMJFtHqzf06Pxne3sXQtc1BjgVkskbGfEF4QT3Zod4lN
+         ykJCK6gx4QtWB2jVQ4+l4wQFhtYJqvAbcUpucPzYuKc2PhW2rS5CniG0NPHzygsaHzxA
+         vxGQ==
+X-Gm-Message-State: AOAM5310WwyxUcU15p2bC4RLMpYtO1Qu0rv+LV0YX1qFUqfI7yWvMWrN
+        Ou5sG/RLIHMUdWfMxUQA50b1D6dw7uNvJQ==
+X-Google-Smtp-Source: ABdhPJw6OYYGIWsKIpwZGlvXqWx4K8ij3H0LBJb/eEFtxBXIO8uo2emBiN1PSKDxC0xVD0g026FmxA==
+X-Received: by 2002:ad4:45a5:: with SMTP id y5mr1935405qvu.40.1603367026713;
+        Thu, 22 Oct 2020 04:43:46 -0700 (PDT)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id l25sm820821qtf.18.2020.10.22.04.43.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2020 04:43:45 -0700 (PDT)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1kVZ0T-0040bW-1W; Thu, 22 Oct 2020 08:43:45 -0300
+Date:   Thu, 22 Oct 2020 08:43:45 -0300
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        linux-s390 <linux-s390@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
+        Linux PCI <linux-pci@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@ffwll.com>
+Subject: Re: [PATCH v3 12/16] PCI: Obey iomem restrictions for procfs mmap
+Message-ID: <20201022114345.GO36674@ziepe.ca>
+References: <20201021085655.1192025-1-daniel.vetter@ffwll.ch>
+ <20201021085655.1192025-13-daniel.vetter@ffwll.ch>
+ <20201021125030.GK36674@ziepe.ca>
+ <CAKMK7uEWe8CaT7zjcZ6dJAKHxtxtqzjVB35fCFviwhcnqksDfw@mail.gmail.com>
+ <20201021151352.GL36674@ziepe.ca>
+ <CAKMK7uGq0=ks7Zj1Et44k7x9FwE9u_ua4zANSqrLRri0v01V+Q@mail.gmail.com>
+ <20201021163702.GM36674@ziepe.ca>
+ <CAKMK7uEjE5sHUq0hV_bnYjPKRxYyBnty0sLre+owANGZjLJg9Q@mail.gmail.com>
+ <20201021232022.GN36674@ziepe.ca>
+ <CAKMK7uEkAK42+19KRo06XzJFuMCVriEEg0jxqXq8oAdt2ExLsQ@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201001224853.GF3722@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uEkAK42+19KRo06XzJFuMCVriEEg0jxqXq8oAdt2ExLsQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
-
-Thanks for your comments.
-There is one thing that is still confusing to me (please see my question
-below).
-
-On 10/1/20 7:48 PM, Laurent Pinchart wrote:
-> Hi Dafna,
+On Thu, Oct 22, 2020 at 09:00:44AM +0200, Daniel Vetter wrote:
+> On Thu, Oct 22, 2020 at 1:20 AM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> >
+> > On Wed, Oct 21, 2020 at 09:24:08PM +0200, Daniel Vetter wrote:
+> > > On Wed, Oct 21, 2020 at 6:37 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
+> > > >
+> > > > On Wed, Oct 21, 2020 at 05:54:54PM +0200, Daniel Vetter wrote:
+> > > >
+> > > > > The trouble is that io_remap_pfn adjust vma->pgoff, so we'd need to
+> > > > > split that. So ideally ->mmap would never set up any ptes.
+> > > >
+> > > > /dev/mem makes pgoff == pfn so it doesn't get changed by remap.
+> > > >
+> > > > pgoff doesn't get touched for MAP_SHARED either, so there are other
+> > > > users that could work like this - eg anyone mmaping IO memory is
+> > > > probably OK.
+> > >
+> > > I was more generally thinking for io_remap_pfn_users because of the
+> > > mkwrite use-case we might have in fbdev emulation in drm.
+> >
+> > You have a use case for MAP_PRIVATE and io_remap_pfn_range()??
 > 
-> On Thu, Oct 01, 2020 at 09:36:07PM +0200, Dafna Hirschfeld wrote:
->> Am 01.10.20 um 04:03 schrieb Laurent Pinchart:
->>> On Wed, Sep 30, 2020 at 09:00:25PM +0200, Niklas Söderlund wrote:
->>>> Hi Dafna,
->>>>
->>>> This commit is not just a simplification but a change of behavior.  The
->>>> change is for the better but it broke capture of NV12 and NV21 formats
->>>> in libcamera unexpectedly.
->>>>
->>>> The issue at hand is that libcamera when configuring the pipeline
->>>> retrieves the mbus code for the ISP (rkisp1_isp) source pad (2) and then
->>>> propagates it to the resizer (rkisp_resizer_{main,self}path) sink pad
->>>> (0) and then to the resizers source pad (1). Effectively propagating
->>>> MEDIA_BUS_FMT_YUYV8_2X8 for all formats.
->>>>
->>>> At this point if the video node (main or self) is configured with a
->>>> YUV420 format (NV12, NV21, etc) and with this change applied the link
->>>> validation will fail as MEDIA_BUS_FMT_YUYV8_1_5X8 !=
->>>> MEDIA_BUS_FMT_YUYV8_2X8. Given the nature of how link validation is
->>>> implemented it's VIDIOC_QBUF that returns a -EPIPE when it fails and
->>>> libcamera lockup the capture session.
->>>
->>> I would be very, very surprised is the hardware really used YUYV8_1_5X8.
->>> YUYV8_1X16 is a much more likely bus format between the resizer and the
->>> DMA engine, as well as between the ISP and the resizer.
->>
->> Format YUYV8_1X16 is for downsampling of 4:2:2, but the resizer has the ability
->> to downsample to 4:2:0.
->> I see there is also format YDYUYDYV8_1X16 for 4:2:0
->> maybe this is what I should set?
->>
->> Actually according to the TRM the resizer send the stream to the DMA
->> engine through two separated buses, one for luma and one for chroma.
-> 
-> In which document is this documented ? Is this two 8-bit buses side by
-> side ?
-> 
-> Looking at the registers, the output formats are controlled by the
-> global MI_CTRL register, common to both the main and self paths, which
-> should correspond to the DMA engine. I think it would make sense to
-> model this at the video node level, and hardcode YUYV8_1X16 between the
-> resizer and the video node.
+> Uh no :-)
 
-If I understand correctly, in a 4:2:0 format, we have 4 luminance
-components per chrominance.
+So it is fine, the pgoff mangling only happens for MAP_PRIVATE
 
-And with the YUYV8_1X16, we have 2 luminance per chrominance.
-
-Are you suggesting that, when userspace sets 4:2:0 (NV12, NV21, YU12, YV12),
-we should use MEDIA_BUS_FMT_YUYV8_1X16 between the resizer and the DMA engine?
-
-But then, down sampling rate here won't match (this is where my confusion
-comes from).
-
-Or, are you assuming that the DMA engine receives 4:2:2 and performs the
-conversion?
-
-I would appreciate if you could help clarify this.
-
-
-Just to note here, in the docs Dafna pointed, it's written:
-
-"The Resize module is able to process luminance and chrominance data
-independently, i.e. there are separate pipelines for luminance and
-chrominance processing using dedicated scale factors and phase offsets.
-This allows format conversion to be done by the Resize block (YCbCr 4:2:2 to
-4:2:0, 4:1:1, 4:1:0)."
-
-Thanks
-Helen
-
-
-> 
->>>> I will submit a fix for this to libcamera to bring it in sync with this
->>>> change.
->>>>
->>>> Would it be possible to ask that future changes to the rkisp1 driver be
->>>> tested with libcamera so we can track and update both the kernel and
->>>> user-space components of this driver at the same time and avoid nasty
->>>> surprises? :-)
->>>
->>> I strongly second this. Drivers that are supported in libcamera should
->>> be tested with libcamera to catch regressions, for any chance submitted
->>> to the kernel.
->>
->> I can run several 'cam' commands with different formats and dimensions to
->> find regressions. I currently have unit test only in v4l-utils.
-> 
-> That would be great :-) We will work on a test suite for higher-level
-> tests (something similar to the Android CTS) at some point, which should
-> also help catching regressions.
-> 
->>>> On 2020-07-23 15:20:13 +0200, Dafna Hirschfeld wrote:
->>>>> The capture has a mapping of the mbus code needed for each pixelformat.
->>>>> This can be used to simplify the link validation by comparing the mbus
->>>>> code in the capture with the code in the resizer.
->>>>>
->>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>>> ---
->>>>>   drivers/staging/media/rkisp1/rkisp1-capture.c | 18 ++++--------------
->>>>>   1 file changed, 4 insertions(+), 14 deletions(-)
->>>>>
->>>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
->>>>> index 4dabd07a3da9..a5e2521577dd 100644
->>>>> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
->>>>> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
->>>>> @@ -1255,22 +1255,11 @@ static int rkisp1_capture_link_validate(struct media_link *link)
->>>>>   	struct v4l2_subdev *sd =
->>>>>   		media_entity_to_v4l2_subdev(link->source->entity);
->>>>>   	struct rkisp1_capture *cap = video_get_drvdata(vdev);
->>>>> -	struct rkisp1_isp *isp = &cap->rkisp1->isp;
->>>>> -	u8 isp_pix_enc = isp->src_fmt->pixel_enc;
->>>>> -	u8 cap_pix_enc = cap->pix.info->pixel_enc;
->>>>> +	const struct rkisp1_capture_fmt_cfg *fmt =
->>>>> +		rkisp1_find_fmt_cfg(cap, cap->pix.fmt.pixelformat);
->>>>>   	struct v4l2_subdev_format sd_fmt;
->>>>>   	int ret;
->>>>>   
->>>>> -	if (cap_pix_enc != isp_pix_enc &&
->>>>> -	    !(isp_pix_enc == V4L2_PIXEL_ENC_YUV &&
->>>>> -	      cap_pix_enc == V4L2_PIXEL_ENC_RGB)) {
->>>>> -		dev_err(cap->rkisp1->dev,
->>>>> -			"format type mismatch in link '%s:%d->%s:%d'\n",
->>>>> -			link->source->entity->name, link->source->index,
->>>>> -			link->sink->entity->name, link->sink->index);
->>>>> -		return -EPIPE;
->>>>> -	}
->>>>> -
->>>>>   	sd_fmt.which = V4L2_SUBDEV_FORMAT_ACTIVE;
->>>>>   	sd_fmt.pad = link->source->index;
->>>>>   	ret = v4l2_subdev_call(sd, pad, get_fmt, NULL, &sd_fmt);
->>>>> @@ -1278,7 +1267,8 @@ static int rkisp1_capture_link_validate(struct media_link *link)
->>>>>   		return ret;
->>>>>   
->>>>>   	if (sd_fmt.format.height != cap->pix.fmt.height ||
->>>>> -	    sd_fmt.format.width != cap->pix.fmt.width)
->>>>> +	    sd_fmt.format.width != cap->pix.fmt.width ||
->>>>> +	    sd_fmt.format.code != fmt->mbus)
->>>>>   		return -EPIPE;
->>>>>   
->>>>>   	return 0;
-> 
+Jason
