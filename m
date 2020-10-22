@@ -2,297 +2,277 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C38B7296357
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 19:08:26 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 9A83E29635D
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 19:09:15 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2898669AbgJVRI0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Oct 2020 13:08:26 -0400
-Received: from mga14.intel.com ([192.55.52.115]:60103 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2506325AbgJVRIZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 13:08:25 -0400
-IronPort-SDR: kr82WLZW9yrobdfJS9DYnsZo65JTlgngs70TR03RgkMQ0NI4mqbSol0w3oIHjZFn+LS7aFpPyA
- MZix1wehmxCg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9782"; a="166779702"
-X-IronPort-AV: E=Sophos;i="5.77,404,1596524400"; 
-   d="scan'208";a="166779702"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 22 Oct 2020 10:08:25 -0700
-IronPort-SDR: yctD8x+Gix3hpEGBEruL7sF1QPehwH7GipklAvyfxQtFfqylzuz+BCAubChrekMtYBdegGpJXW
- MuUeacDASHUw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,404,1596524400"; 
-   d="scan'208";a="316797083"
-Received: from lkp-server01.sh.intel.com (HELO 56e21eaf2661) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 22 Oct 2020 10:08:23 -0700
-Received: from kbuild by 56e21eaf2661 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kVe4d-00002v-2o; Thu, 22 Oct 2020 17:08:23 +0000
-Date:   Fri, 23 Oct 2020 01:08:00 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-next] BUILD SUCCESS
- 264d4b6e65897fd0697c1ca61ae36cf79ecb95b9
-Message-ID: <5f91bc70.yMPd2UbAP6pGXxtP%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S2898690AbgJVRJM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 13:09:12 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58128 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2506307AbgJVRJM (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 22 Oct 2020 13:09:12 -0400
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 84D37C0613CE;
+        Thu, 22 Oct 2020 10:09:10 -0700 (PDT)
+Received: by mail-wm1-x343.google.com with SMTP id d78so2963084wmd.3;
+        Thu, 22 Oct 2020 10:09:10 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=RQKnUzJXc7xO6ebK8GDO7+QlfO2qKCjrrriFCYvIvWU=;
+        b=uZrAsZeoP1x9wvIqnpZA03Z5PW0qciwH860sY9m2bvbZQBma3oVYqFgRaPqhhWSsGs
+         YU49ik+FjfkFBn/6H9D/R07Cu4Hj2irEG+qRlz+7r3coKB8KCvk6P7XwJ0HlaygglVol
+         GuGpMvrbnOpM9sLsKHJOd6Fq4eedySN8JfQrjet6juC0VTNV3J9Uj85nBe89DpLhMSS2
+         ulTG/NmNH//i5IQ2O/rLu0i/XYU2FsXTaLfNiW63DmA+6Ch3c+xptthFus5oSwP9no4E
+         vOa8rGBwCiW5FGB4uW6eNrBriM4I4i880tZvP9GAK3PofCQ+m8gHz9YSBaynJ87gizT7
+         58AA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=RQKnUzJXc7xO6ebK8GDO7+QlfO2qKCjrrriFCYvIvWU=;
+        b=buKONf9Uo+K+cfV7Puq1K3veuZUnIIOCMLw3jqtDSS6S/XaU6nPptuzMUUnHJzX5jb
+         6LPE3a9w0MxxhYggonPoxX+U6IeTyvzqNZNjBIGcLGYvu1oJBv9SLjs69SlDESRA2S65
+         DRzY7CW/c+JgFjtwlQ3fjpAqVNqRla801EU0684TCorIC6vV9yt5H3Wv7uuP8DC06z/c
+         JvztoTH8qNTJNsM5iiAbvT/E/aENHm0JcOgOiEsu1SGDeVnMqdqkv45LdRtVPkhi6aMV
+         s4SmUXjundTx/sRV/aat3TG+lcgR9hKp4qTYtoRhhlXn4bH8+MXEROA0KsUQufCqymEu
+         TPAw==
+X-Gm-Message-State: AOAM530P6qX2jYrTO2h533JPdE37tbXkpIPlk9XMeNz1pHwGW00VSDu6
+        3WrDqBfNGkfDr38LviGXIwEbmECHtEYcrWkX/fE=
+X-Google-Smtp-Source: ABdhPJzbsY0m+CyLX72PLRam30SzyzsbKOi2+o71S8ttMkcznbkEZl45y/vpEa2OY+mCqS1yzDAnCJYaWq2SvZiQnFA=
+X-Received: by 2002:a1c:98d2:: with SMTP id a201mr3374691wme.166.1603386549017;
+ Thu, 22 Oct 2020 10:09:09 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+References: <20201018125237.16717-1-kholk11@gmail.com> <20201018125237.16717-3-kholk11@gmail.com>
+ <CAG3jFysokz0+NCHLp9-nhxG3wGVzk1TAFBwZmhMgViUr-sk-BA@mail.gmail.com> <CAG3jFysUQJXdy0ogK1shbgW1Tmk6DJbS26EaeRPMDEnObQ2_zg@mail.gmail.com>
+In-Reply-To: <CAG3jFysUQJXdy0ogK1shbgW1Tmk6DJbS26EaeRPMDEnObQ2_zg@mail.gmail.com>
+From:   AngeloGioacchino Del Regno <kholk11@gmail.com>
+Date:   Thu, 22 Oct 2020 19:08:57 +0200
+Message-ID: <CAK7fi1ZUE+C+Q7V-j=xR1V2OvUwmk=ZRcBwNLBDrjUr+rOW0Cw@mail.gmail.com>
+Subject: Re: [PATCH 2/6] media: camss: ispif: Correctly reset based on the VFE ID
+To:     Robert Foss <robert.foss@linaro.org>
+Cc:     Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, marijns95@gmail.com,
+        konradybcio@gmail.com, martin.botka1@gmail.com,
+        MSM <linux-arm-msm@vger.kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-next
-branch HEAD: 264d4b6e65897fd0697c1ca61ae36cf79ecb95b9  docs: fs: api-summary.rst: get rid of kernel-doc include
+Il giorno mar 20 ott 2020 alle ore 11:03 Robert Foss
+<robert.foss@linaro.org> ha scritto:
+>
+> I found a build issue in this commit.
+>
+>
+> On Tue, 20 Oct 2020 at 10:59, Robert Foss <robert.foss@linaro.org> wrote:
+> >
+> > Nice catch! This patch looks good to me.
+> >
+Thank you! :)))
 
-elapsed time: 1673m
+> > Signed-off-by: Robert Foss <robert.foss@linaro.org>
+> >
+> > On Sun, 18 Oct 2020 at 14:54, <kholk11@gmail.com> wrote:
+> > >
+> > > From: AngeloGioacchino Del Regno <kholk11@gmail.com>
+> > >
+> > > Resetting the ISPIF VFE0 context is wrong if we are using the VFE1
+> > > for dual-camera or simply because a secondary camera is connected
+> > > to it: in this case the reset will always happen on the VFE0 ctx
+> > > of the ISPIF, which is .. useless.
+> > >
+> > > Fix this usecase by adding the ISPIF_RST_CMD_1 address and choose
+> > > where to do the (or what to) reset based on the VFE line id.
+> > >
+> > > Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
+> > > ---
+> > >  .../media/platform/qcom/camss/camss-ispif.c   | 87 ++++++++++++-------
+> > >  .../media/platform/qcom/camss/camss-ispif.h   |  2 +-
+> > >  2 files changed, 57 insertions(+), 32 deletions(-)
+> > >
+> > > diff --git a/drivers/media/platform/qcom/camss/camss-ispif.c b/drivers/media/platform/qcom/camss/camss-ispif.c
+> > > index db94cfd6c508..252db6b33dab 100644
+> > > --- a/drivers/media/platform/qcom/camss/camss-ispif.c
+> > > +++ b/drivers/media/platform/qcom/camss/camss-ispif.c
+> > > @@ -26,6 +26,7 @@
+> > >  #define MSM_ISPIF_NAME "msm_ispif"
+> > >
+> > >  #define ISPIF_RST_CMD_0                        0x008
+> > > +#define ISPIF_RST_CMD_1                        0x00c
+> > >  #define ISPIF_RST_CMD_0_STROBED_RST_EN         (1 << 0)
+> > >  #define ISPIF_RST_CMD_0_MISC_LOGIC_RST         (1 << 1)
+> > >  #define ISPIF_RST_CMD_0_SW_REG_RST             (1 << 2)
+> > > @@ -179,7 +180,10 @@ static irqreturn_t ispif_isr_8x96(int irq, void *dev)
+> > >         writel(0x1, ispif->base + ISPIF_IRQ_GLOBAL_CLEAR_CMD);
+> > >
+> > >         if ((value0 >> 27) & 0x1)
+> > > -               complete(&ispif->reset_complete);
+> > > +               complete(&ispif->reset_complete[0]);
+> > > +
+> > > +       if ((value3 >> 27) & 0x1)
+> > > +               complete(&ispif->reset_complete[1]);
+> > >
+> > >         if (unlikely(value0 & ISPIF_VFE_m_IRQ_STATUS_0_PIX0_OVERFLOW))
+> > >                 dev_err_ratelimited(to_device(ispif), "VFE0 pix0 overflow\n");
+> > > @@ -237,7 +241,7 @@ static irqreturn_t ispif_isr_8x16(int irq, void *dev)
+> > >         writel(0x1, ispif->base + ISPIF_IRQ_GLOBAL_CLEAR_CMD);
+> > >
+> > >         if ((value0 >> 27) & 0x1)
+> > > -               complete(&ispif->reset_complete);
+> > > +               complete(&ispif->reset_complete[0]);
+> > >
+> > >         if (unlikely(value0 & ISPIF_VFE_m_IRQ_STATUS_0_PIX0_OVERFLOW))
+> > >                 dev_err_ratelimited(to_device(ispif), "VFE0 pix0 overflow\n");
+> > > @@ -257,33 +261,17 @@ static irqreturn_t ispif_isr_8x16(int irq, void *dev)
+> > >         return IRQ_HANDLED;
+> > >  }
+> > >
+> > > -/*
+> > > - * ispif_reset - Trigger reset on ISPIF module and wait to complete
+> > > - * @ispif: ISPIF device
+> > > - *
+> > > - * Return 0 on success or a negative error code otherwise
+> > > - */
+> > > -static int ispif_reset(struct ispif_device *ispif)
+> > > +static int ispif_vfe_reset(struct ispif_device *ispif, u8 vfe_id)
+> > >  {
+> > > -       unsigned long time;
+> > >         u32 val;
+> > > -       int ret;
+> > > -
+> > > -       ret = camss_pm_domain_on(to_camss(ispif), PM_DOMAIN_VFE0);
+> > > -       if (ret < 0)
+> > > -               return ret;
+> > >
+> > > -       ret = camss_pm_domain_on(to_camss(ispif), PM_DOMAIN_VFE1);
+> > > -       if (ret < 0)
+> > > -               return ret;
+> > > -
+> > > -       ret = camss_enable_clocks(ispif->nclocks_for_reset,
+> > > -                                 ispif->clock_for_reset,
+> > > -                                 to_device(ispif));
+> > > -       if (ret < 0)
+> > > -               return ret;
+> > > +       if (vfe_id > (to_camss(ispif)->vfe_num - 1)) {
+> > > +               dev_err(to_device(ispif),
+> > > +                       "Error: asked reset for invalid VFE%d\n", vfe_id);
+> > > +               return -ENOENT;
+> > > +       }
+> > >
+> > > -       reinit_completion(&ispif->reset_complete);
+> > > +       reinit_completion(&ispif->reset_complete[vfe_id]);
+> > >
+> > >         val = ISPIF_RST_CMD_0_STROBED_RST_EN |
+> > >                 ISPIF_RST_CMD_0_MISC_LOGIC_RST |
+> > > @@ -303,15 +291,51 @@ static int ispif_reset(struct ispif_device *ispif)
+> > >                 ISPIF_RST_CMD_0_RDI_OUTPUT_1_MISR_RST |
+> > >                 ISPIF_RST_CMD_0_RDI_OUTPUT_2_MISR_RST;
+> > >
+> > > -       writel_relaxed(val, ispif->base + ISPIF_RST_CMD_0);
+> > > +       if (vfe_id == 1)
+> > > +               writel_relaxed(val, ispif->base + ISPIF_RST_CMD_1);
+> > > +       else
+> > > +               writel_relaxed(val, ispif->base + ISPIF_RST_CMD_0);
+> > >
+> > > -       time = wait_for_completion_timeout(&ispif->reset_complete,
+> > > +       time = wait_for_completion_timeout(&ispif->reset_complete[vfe_id],
+>
+> 'time' is not a variable that exists in this scope, so the build fails.
+>
+Sorry about that, it looks like I've messed up a fix for that and it
+went into another
+unrelated commit instead of this one.
+In V2 it's definitely going to be moved here.
 
-configs tested: 233
-configs skipped: 3
+> > >                 msecs_to_jiffies(ISPIF_RESET_TIMEOUT_MS));
+> > >         if (!time) {
+> > > -               dev_err(to_device(ispif), "ISPIF reset timeout\n");
+> > > -               ret = -EIO;
+> > > +               dev_err(to_device(ispif),
+> > > +                       "ISPIF for VFE%d reset timeout\n", vfe_id);
+> > > +               return -EIO;
+> > >         }
+> > >
+> > > +       return 0;
+> > > +}
+> > > +
+> > > +/*
+> > > + * ispif_reset - Trigger reset on ISPIF module and wait to complete
+> > > + * @ispif: ISPIF device
+> > > + *
+> > > + * Return 0 on success or a negative error code otherwise
+> > > + */
+> > > +static int ispif_reset(struct ispif_device *ispif, u8 vfe_id)
+> > > +{
+> > > +       unsigned long time;
+> > > +       int ret;
+> > > +
+> > > +       ret = camss_pm_domain_on(to_camss(ispif), PM_DOMAIN_VFE0);
+> > > +       if (ret < 0)
+> > > +               return ret;
+> > > +
+> > > +       ret = camss_pm_domain_on(to_camss(ispif), PM_DOMAIN_VFE1);
+> > > +       if (ret < 0)
+> > > +               return ret;
+> > > +
+> > > +       ret = camss_enable_clocks(ispif->nclocks_for_reset,
+> > > +                                 ispif->clock_for_reset,
+> > > +                                 to_device(ispif));
+> > > +       if (ret < 0)
+> > > +               return ret;
+> > > +
+> > > +       ret = ispif_vfe_reset(ispif, vfe_id);
+> > > +       if (ret)
+> > > +               dev_dbg(to_device(ispif), "ISPIF Reset failed\n");
+> > > +
+> > >         camss_disable_clocks(ispif->nclocks_for_reset, ispif->clock_for_reset);
+> > >
+> > >         camss_pm_domain_off(to_camss(ispif), PM_DOMAIN_VFE0);
+> > > @@ -355,7 +379,7 @@ static int ispif_set_power(struct v4l2_subdev *sd, int on)
+> > >                         goto exit;
+> > >                 }
+> > >
+> > > -               ret = ispif_reset(ispif);
+> > > +               ret = ispif_reset(ispif, line->vfe_id);
+> > >                 if (ret < 0) {
+> > >                         pm_runtime_put_sync(dev);
+> > >                         camss_disable_clocks(ispif->nclocks, ispif->clock);
+> > > @@ -1192,7 +1216,8 @@ int msm_ispif_subdev_init(struct ispif_device *ispif,
+> > >
+> > >         mutex_init(&ispif->config_lock);
+> > >
+> > > -       init_completion(&ispif->reset_complete);
+> > > +       for (i = 0; i < MSM_ISPIF_VFE_NUM; i++)
+> > > +               init_completion(&ispif->reset_complete[i]);
+> > >
+> > >         return 0;
+> > >  }
+> > > diff --git a/drivers/media/platform/qcom/camss/camss-ispif.h b/drivers/media/platform/qcom/camss/camss-ispif.h
+> > > index 1a5ba2425a42..4132174f7ea1 100644
+> > > --- a/drivers/media/platform/qcom/camss/camss-ispif.h
+> > > +++ b/drivers/media/platform/qcom/camss/camss-ispif.h
+> > > @@ -56,7 +56,7 @@ struct ispif_device {
+> > >         int nclocks;
+> > >         struct camss_clock  *clock_for_reset;
+> > >         int nclocks_for_reset;
+> > > -       struct completion reset_complete;
+> > > +       struct completion reset_complete[MSM_ISPIF_VFE_NUM];
+> > >         int power_count;
+> > >         struct mutex power_lock;
+> > >         struct ispif_intf_cmd_reg intf_cmd[MSM_ISPIF_VFE_NUM];
+> > > --
+> > > 2.28.0
+> > >
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-mips                malta_kvm_guest_defconfig
-powerpc                      chrp32_defconfig
-mips                         bigsur_defconfig
-xtensa                  audio_kc705_defconfig
-mips                       rbtx49xx_defconfig
-powerpc                 mpc8315_rdb_defconfig
-nds32                            alldefconfig
-m68k                          hp300_defconfig
-arm                            lart_defconfig
-ia64                      gensparse_defconfig
-arm                          pxa168_defconfig
-powerpc                      ppc64e_defconfig
-powerpc                     sbc8548_defconfig
-mips                    maltaup_xpa_defconfig
-sh                           se7206_defconfig
-powerpc                     tqm5200_defconfig
-arm                           spitz_defconfig
-h8300                    h8300h-sim_defconfig
-c6x                        evmc6474_defconfig
-powerpc                        icon_defconfig
-arc                        vdk_hs38_defconfig
-powerpc                       ebony_defconfig
-arm                           corgi_defconfig
-sh                          sdk7780_defconfig
-sh                               j2_defconfig
-powerpc                        warp_defconfig
-s390                             alldefconfig
-arm                         shannon_defconfig
-arm                       aspeed_g4_defconfig
-powerpc                       maple_defconfig
-arm                        cerfcube_defconfig
-arc                        nsimosci_defconfig
-powerpc                 mpc836x_rdk_defconfig
-arm                       cns3420vb_defconfig
-arm                        oxnas_v6_defconfig
-arc                     nsimosci_hs_defconfig
-arm                         bcm2835_defconfig
-ia64                          tiger_defconfig
-arm                        mvebu_v7_defconfig
-arm                       spear13xx_defconfig
-powerpc                 mpc836x_mds_defconfig
-powerpc                      pcm030_defconfig
-powerpc                        fsp2_defconfig
-riscv                               defconfig
-powerpc                     kilauea_defconfig
-s390                       zfcpdump_defconfig
-powerpc                      mgcoge_defconfig
-sh                  sh7785lcr_32bit_defconfig
-um                            kunit_defconfig
-arm                         nhk8815_defconfig
-alpha                            alldefconfig
-mips                      fuloong2e_defconfig
-mips                      pic32mzda_defconfig
-arm                         palmz72_defconfig
-powerpc                 mpc834x_mds_defconfig
-mips                           ip27_defconfig
-powerpc                      pasemi_defconfig
-arm                       aspeed_g5_defconfig
-arm                       netwinder_defconfig
-xtensa                  cadence_csp_defconfig
-powerpc                         ps3_defconfig
-powerpc                 linkstation_defconfig
-mips                           ci20_defconfig
-powerpc                 xes_mpc85xx_defconfig
-arm                         assabet_defconfig
-mips                      pistachio_defconfig
-sh                          rsk7264_defconfig
-sparc                            allyesconfig
-mips                          rm200_defconfig
-powerpc                     ep8248e_defconfig
-arm                        magician_defconfig
-arm                            dove_defconfig
-mips                         tb0287_defconfig
-sh                          r7785rp_defconfig
-powerpc                     stx_gp3_defconfig
-mips                      maltasmvp_defconfig
-m68k                             alldefconfig
-um                           x86_64_defconfig
-parisc                              defconfig
-arm                      footbridge_defconfig
-sh                             shx3_defconfig
-powerpc                 mpc834x_itx_defconfig
-sparc64                             defconfig
-powerpc                     taishan_defconfig
-sh                         ecovec24_defconfig
-arm                       mainstone_defconfig
-mips                malta_qemu_32r6_defconfig
-powerpc                          g5_defconfig
-m68k                         amcore_defconfig
-powerpc                     tqm8555_defconfig
-arm                    vt8500_v6_v7_defconfig
-arc                 nsimosci_hs_smp_defconfig
-mips                           ip32_defconfig
-arm                        neponset_defconfig
-xtensa                         virt_defconfig
-arm                     eseries_pxa_defconfig
-sh                            titan_defconfig
-sh                            migor_defconfig
-ia64                             alldefconfig
-sh                          kfr2r09_defconfig
-mips                         db1xxx_defconfig
-arm                           sama5_defconfig
-sh                     magicpanelr2_defconfig
-arc                         haps_hs_defconfig
-mips                        qi_lb60_defconfig
-arm                            hisi_defconfig
-arm                        multi_v5_defconfig
-xtensa                              defconfig
-powerpc                  mpc866_ads_defconfig
-sh                          urquell_defconfig
-arm                          gemini_defconfig
-alpha                               defconfig
-powerpc                     tqm8548_defconfig
-um                             i386_defconfig
-arm                        realview_defconfig
-powerpc                      ppc6xx_defconfig
-m68k                       bvme6000_defconfig
-arm                        keystone_defconfig
-arm                            qcom_defconfig
-powerpc                 mpc8560_ads_defconfig
-sh                             sh03_defconfig
-mips                  decstation_64_defconfig
-mips                         cobalt_defconfig
-ia64                        generic_defconfig
-arm                       versatile_defconfig
-powerpc                        cell_defconfig
-sh                          lboxre2_defconfig
-powerpc                    socrates_defconfig
-c6x                        evmc6678_defconfig
-sh                               allmodconfig
-mips                        omega2p_defconfig
-powerpc                 mpc837x_mds_defconfig
-c6x                                 defconfig
-m68k                        m5272c3_defconfig
-xtensa                           alldefconfig
-powerpc                     ksi8560_defconfig
-sh                           se7705_defconfig
-m68k                       m5475evb_defconfig
-powerpc                 mpc832x_mds_defconfig
-arm                          exynos_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a001-20201021
-x86_64               randconfig-a002-20201021
-x86_64               randconfig-a003-20201021
-x86_64               randconfig-a006-20201021
-x86_64               randconfig-a005-20201021
-x86_64               randconfig-a004-20201021
-i386                 randconfig-a002-20201021
-i386                 randconfig-a005-20201021
-i386                 randconfig-a003-20201021
-i386                 randconfig-a001-20201021
-i386                 randconfig-a006-20201021
-i386                 randconfig-a004-20201021
-i386                 randconfig-a002-20201022
-i386                 randconfig-a005-20201022
-i386                 randconfig-a003-20201022
-i386                 randconfig-a001-20201022
-i386                 randconfig-a006-20201022
-i386                 randconfig-a004-20201022
-x86_64               randconfig-a011-20201022
-x86_64               randconfig-a013-20201022
-x86_64               randconfig-a016-20201022
-x86_64               randconfig-a015-20201022
-x86_64               randconfig-a012-20201022
-x86_64               randconfig-a014-20201022
-i386                 randconfig-a016-20201021
-i386                 randconfig-a014-20201021
-i386                 randconfig-a015-20201021
-i386                 randconfig-a013-20201021
-i386                 randconfig-a012-20201021
-i386                 randconfig-a011-20201021
-i386                 randconfig-a016-20201022
-i386                 randconfig-a014-20201022
-i386                 randconfig-a015-20201022
-i386                 randconfig-a012-20201022
-i386                 randconfig-a013-20201022
-i386                 randconfig-a011-20201022
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a001-20201022
-x86_64               randconfig-a002-20201022
-x86_64               randconfig-a003-20201022
-x86_64               randconfig-a006-20201022
-x86_64               randconfig-a004-20201022
-x86_64               randconfig-a005-20201022
-x86_64               randconfig-a011-20201021
-x86_64               randconfig-a013-20201021
-x86_64               randconfig-a016-20201021
-x86_64               randconfig-a015-20201021
-x86_64               randconfig-a012-20201021
-x86_64               randconfig-a014-20201021
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+Regards,
+Angelo
