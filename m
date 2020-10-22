@@ -2,110 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E9FA296030
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:39:43 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 276BE296034
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:41:03 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2502123AbgJVNji (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Oct 2020 09:39:38 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53874 "EHLO
+        id S2507999AbgJVNk4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 09:40:56 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54066 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2444217AbgJVNjh (ORCPT
+        with ESMTP id S2503436AbgJVNk4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 09:39:37 -0400
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1D57DC0613CE;
-        Thu, 22 Oct 2020 06:39:37 -0700 (PDT)
-Received: by mail-pj1-x1041.google.com with SMTP id o1so1045363pjt.2;
-        Thu, 22 Oct 2020 06:39:37 -0700 (PDT)
+        Thu, 22 Oct 2020 09:40:56 -0400
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D2A6C0613CE;
+        Thu, 22 Oct 2020 06:40:53 -0700 (PDT)
+Received: by mail-pl1-x641.google.com with SMTP id j5so592780plk.7;
+        Thu, 22 Oct 2020 06:40:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=b3AVo2emPLkcZF8hW3nQ46IEFziYrCYUxWf0tqXrKb4=;
-        b=uuzbSiMIqbW4lrdsO5PXIzxsvCt/uxlqrBpaQ1b8FLTBQYLFDsNfYey2hRinJQp2FH
-         IoL4UG+O9do4Wr0hLc3LO3xAKMyEzONxuocxYYfGoMZ1xWUXGWSTegnUY0YOPaan4uyt
-         FhAMGAylucQbDRT+vZjrSspmz5lmG4FtSSXekAxd0KIXMXqeXp7js+g7EENQVpznCK99
-         P70k/RZvRkfm8FJu2+5g5N6xgOG8XY+r5ZCxDMljHLqSmKQhYpA6pgJXvtRloi6Z8Pqi
-         A9zS0CngtsnNoRz6X9FUoKIaYIameFxKlVxeX2XKrUJFxE2s41ffqVnqsN+v3tQelkKf
-         FX6w==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=6ARfb7CCtAyGQWozbpcu69TiW9MOgZYC7V52jr9EMdI=;
+        b=cPArrMKj7xSwULJAYitN0m6vC7G/wTwv5trn8fq+nwf0A+2hp5LU49pAbuMhjjeNRv
+         fccwBKY40gL96fMEFCrheOhs7geOIGvy7bVVSiZb4TMh4d4+F5geRTxSuZJZ70PQlJbl
+         jsiGe1Txe6jSe3uD8rQo5YbSLjz9pGZZWV6R8BiMnBJXhF7UUdTOm46R+31AxuvTjs8f
+         4vG70Oj+1gjW8V8CgysBCTnZOVSLzF1KzDbUBCBO/FFxF/jhtqBUeM7IYE1nzUP+YPj1
+         KYWxc2DLWI7L4c9F3cvB8q3/pRjebyP3rk0NZq4DzfnO71JrJupHUchu1cnsxLwnxa3y
+         INBQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=b3AVo2emPLkcZF8hW3nQ46IEFziYrCYUxWf0tqXrKb4=;
-        b=QnI18eRM6QYSgiF2rt4P+TeBpyyj0XDWMv96cEWHYUJAQGkalvJz/GKBuG/uzIdp+K
-         YaYRbKbadxrI2GDjbu23l47ytyTvHm7mCPrIX6OqH9DXAfX0uhKu/9UjNxTsbbNJ0IPx
-         PEUOmluc+dhn66PlLNyzCz5SqKU0urILcqEdQQeYClU8vYfFBV3oSf9LqlBsILFjg/Pr
-         Y1Trh0/46Ae9zXaS6CtWjGrh3dpiaYnlPWgRc0uSGYYaizY6gnIIBz9FEtKpnQSfaqor
-         SbNLqBuLQudlC1wxyUCXanX5JAoOnewNQsxotGcoexOhpQ/ME4OoOwF2tDy0bswbaNOf
-         ucSw==
-X-Gm-Message-State: AOAM530/29b65hzgQvzpKxJHi7sxMZsvy8E2G1uByVT6GT6YwnqN3T3d
-        7f+IhvrRQx0W98tRY0dnLH4X5ufMyNtBSgC/308=
-X-Google-Smtp-Source: ABdhPJwUPybuMxgPq8dMoHqmmBjU6A75kvif4dG6aK5EaG1sAwDerRoIr5JrRgv4UmK8xFGVjML4nPKdLllGXgzu6Go=
-X-Received: by 2002:a17:90b:305:: with SMTP id ay5mr2468573pjb.129.1603373976635;
- Thu, 22 Oct 2020 06:39:36 -0700 (PDT)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=6ARfb7CCtAyGQWozbpcu69TiW9MOgZYC7V52jr9EMdI=;
+        b=uiw5gO+c1W1f1lG0ljp5OGHvdvP5n6Eyc8bBeN1LWaMpO4079VYQZPLooxZhEosnZF
+         eV9RWPbZllz58UVTnyOGViHvuDSs/RIHT3C/1tJSZ5jaL+G7SlM59oOMFU3u2mzXxQpe
+         RQkG0w/UZz7FVWSGUq1U5u6bYTWijbWl6/MfTdsyH+wtOQbSmP4yWNeXsuRwx/1IV2PD
+         f1FdIpI4fgrO5JqF44PWu5FtSsn/vOwpXgQUjThQQCYdKNzvthtXpfQFpsCrlCbUfDQL
+         vAgCPgRH4+ABYgohh+GuaKcH0Kb0dPJE3FkT9NwneA9hv8Z+IFZYQrlV58gzxiIIfNLC
+         kGmg==
+X-Gm-Message-State: AOAM531gTSNPytr20GeezB+9HvUSTEO+w/17hHROV39bR9E9cWjrBDAN
+        WwiOVJWEILruYtaaEf0Uj4g=
+X-Google-Smtp-Source: ABdhPJzyGexTbAbgzpbd2h8qNCbpH2i7VtqXeR1WWd3CGgsd3u1tqGNz/XhtoLwDvWQSXW1MYy0t5w==
+X-Received: by 2002:a17:90a:7d12:: with SMTP id g18mr2448814pjl.89.1603374053035;
+        Thu, 22 Oct 2020 06:40:53 -0700 (PDT)
+Received: from adolin ([49.207.204.75])
+        by smtp.gmail.com with ESMTPSA id j20sm2384100pgl.40.2020.10.22.06.40.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 22 Oct 2020 06:40:52 -0700 (PDT)
+Date:   Thu, 22 Oct 2020 19:10:47 +0530
+From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     outreachy-kernel@googlegroups.com, alexander.deucher@amd.com,
+        christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+        melissa.srw@gmail.com, linux-media@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [PATCH 1/5] gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
+Message-ID: <c9fbe2e2c31fae2fea867940a888c68becc993bd.1603371258.git.sylphrenadin@gmail.com>
+References: <cover.1603371258.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
-References: <20201019225903.14276-1-djrscally@gmail.com> <20201019225903.14276-10-djrscally@gmail.com>
- <20201020094113.GG4077@smile.fi.intel.com> <4ce5b55f-f492-2b52-5571-86ee346db795@gmail.com>
-In-Reply-To: <4ce5b55f-f492-2b52-5571-86ee346db795@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 22 Oct 2020 16:40:25 +0300
-Message-ID: <CAHp75VfhxL2iyp_sNwmDyCG6-6bE5QZYd3Ubp=egZhTCcB=jgg@mail.gmail.com>
-Subject: Re: [RFC PATCH v3 9/9] ipu3-cio2: Add functionality allowing
- software_node connections to sensors on platforms designed for Windows
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        laurent.pinchart+renesas@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rob Herring <robh@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tsuchiya Yuto <kitakar@gmail.com>, dan.carpenter@oracle.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <cover.1603371258.git.sylphrenadin@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 22, 2020 at 3:59 PM Daniel Scally <djrscally@gmail.com> wrote:
-> On 20/10/2020 10:41, Andy Shevchenko wrote:
+Using snprintf() for show() methods holds the risk of buffer overrun
+as snprintf() does not know the PAGE_SIZE maximum of the temporary
+buffer used to output sysfs content.
 
-...
+Modify amdgpu_atombios.c to use sysfs_emit() instead which knows the
+size of the temporary buffer.
 
-> >> +static const char * const port_names[] = {
-> >> +    "port0", "port1", "port2", "port3"
-> > + comma.
-> I think 4 ports is the maximum for CIO2 device, so this shouldn't ever
-> get extended?
+Issue found with Coccinelle.
 
-It's better for at least teaching purposes (if anybody takes this
-driver as an example for anything) if you have really believe that no
-new generation will have more than that.
+Signed-off-by: Sumera Priyadarsini <sylphrenadin@gmail.com>
+---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-...
-
-> >> +    if (is_software_node(dev_fwnode(&pci_dev->dev)))
-> > Can we use the same check as for _build call above?
->
-> And just set a flag in struct cio2? sure.
-
-I meant can we use exact conditional w/o any additional flags added?
-
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
+index 469352e2d6ec..3c19862c94c7 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c
+@@ -1947,7 +1947,7 @@ static ssize_t amdgpu_atombios_get_vbios_version(struct device *dev,
+ 	struct amdgpu_device *adev = drm_to_adev(ddev);
+ 	struct atom_context *ctx = adev->mode_info.atom_context;
+ 
+-	return snprintf(buf, PAGE_SIZE, "%s\n", ctx->vbios_version);
++	return sysfs_emit(buf, PAGE_SIZE, "%s\n", ctx->vbios_version);
+ }
+ 
+ static DEVICE_ATTR(vbios_version, 0444, amdgpu_atombios_get_vbios_version,
 -- 
-With Best Regards,
-Andy Shevchenko
+2.25.1
+
