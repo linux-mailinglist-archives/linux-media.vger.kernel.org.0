@@ -2,114 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8753296026
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:38:19 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B570D296028
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 15:38:33 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2900210AbgJVNiB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 22 Oct 2020 09:38:01 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53616 "EHLO
+        id S2900150AbgJVNh5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 09:37:57 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53594 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2900206AbgJVNiA (ORCPT
+        with ESMTP id S1726277AbgJVNh4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 09:38:00 -0400
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC19CC0613CE
-        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 06:37:59 -0700 (PDT)
-Received: by mail-wm1-x342.google.com with SMTP id c194so2144020wme.2
-        for <linux-media@vger.kernel.org>; Thu, 22 Oct 2020 06:37:59 -0700 (PDT)
+        Thu, 22 Oct 2020 09:37:56 -0400
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 839A8C0613CE;
+        Thu, 22 Oct 2020 06:37:56 -0700 (PDT)
+Received: by mail-pg1-x544.google.com with SMTP id t14so963823pgg.1;
+        Thu, 22 Oct 2020 06:37:56 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=+mHsFLlMVlL11cWsjoM3qFi8Cc1D8z4TpYaeydwCncs=;
-        b=drgjWM3OlnhGwNGhZKErQKrd6uDvrnRJ4cMfZcyLAT9fOmev8q6RXok1j63AtmDCuZ
-         dwG9X71FrdzL9rU/5deqOwGr0W5HZhk6YBNPNmohYHWz/mHBSgoVy954/xCtAQW8vW29
-         MmItJNGErIuT/74MhrGizN0j+db9hDONJd8/M=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:mime-version:content-disposition;
+        bh=IuqDlc/9sVmn6w8y6S9W6kIXAO5b3CW/ksiq6MJe4cw=;
+        b=IN5ulN/lhVpkv0cSxQVYeQmL8e6XC9Ui0ongH71NZy+wDEtGl/7jnitdi0qhAAyIZY
+         fC7g6ckIDcNipQDDU/l95Zz5SIw5WgFDHGPbZsnqwhcPDWDUeYQ+K0+pZ4exBAq4gbcw
+         rqJ6yYA5w6lq9ZOLdFbpsKUwr7R6EDI8UsYT73x2NUL9/nh4In959E24DYHQiR4z5JBY
+         3PhmcpvnBuuDiLX7PaDg4d9j17853UB9O1sXkM4XGUKK+pIkSbJwNUlF7Kq7ZfYzjjTA
+         UDpUqi4GQ2QwwzVjXoCBSJUnNgaE17+WjxzlHjS3QXF8s9sEEYtv9MqLfP/Xm8h49QZ4
+         R9WA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=+mHsFLlMVlL11cWsjoM3qFi8Cc1D8z4TpYaeydwCncs=;
-        b=srM+TzCuzmHvsk2GGXX643+W/CZ9Qk3he8LqVnSlCtnwP1oop3NT6DtHEVxTqMIlmP
-         6zJ4fOK/6tbvl28NbGWc8kBnzSramQY2Ef3VBF5EYjf5Eo9pOzFomYHeWVSVU7Pxiflp
-         1ENl1i7G6G30TB9A2Fffv94IyRbGymMbjHSg/uRdDKdFmovU3M2aBwP1PQPZBgWqXVed
-         GxarKNPj4+xoFQc3gLSTe3P9oWeysyFDkja2+8w5xyh1HXnFNB0eVhwJB8XsihJzyN92
-         rm97tmtSBDn1oHGP28CbZSZaobhU9X1F6na9bcGHBNxIRU26Uw1jzjp5bVq6+n2LBVeI
-         v+2Q==
-X-Gm-Message-State: AOAM533LKRPJJOlDAxmi17JQpXVM+NuAFme3o73tJVxv1a7OB3XzUh5K
-        8IEoVPm2TBbUUR0pSeD0zHrHkg==
-X-Google-Smtp-Source: ABdhPJyYtzaUhtFF8vMOUrH1wSrwhFdfj98FZ0qf9pSvkbkU+R6OHX9OvtFphu32JgwpBm5eQfElpg==
-X-Received: by 2002:a1c:dc8b:: with SMTP id t133mr2733099wmg.151.1603373878705;
-        Thu, 22 Oct 2020 06:37:58 -0700 (PDT)
-Received: from alco.lan ([80.71.134.83])
-        by smtp.gmail.com with ESMTPSA id q10sm4094031wrp.83.2020.10.22.06.37.58
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
+         :content-disposition;
+        bh=IuqDlc/9sVmn6w8y6S9W6kIXAO5b3CW/ksiq6MJe4cw=;
+        b=VJwqjDXoNBq9BNhc7XL0N07Ds9zE5iCn8vf63eWa5xjFMp6bLNrmwpUqiMr+hNToFP
+         JXFdICoYU0QFNA8zoVzoXPsLjnOuGoLudY+Hdx0ETK9m3cKoxvN26L3Xc6Bx08EKpywW
+         1dUNrJ+T641Pl62M7XR5Z5v6gOPSLHyPE2maAGE7O/YnAsYqTyZLWOMEaC5I4N/RvsNf
+         9Wh0qgWhtvgK2f9yNHyaz7hQV63Oas0DRRjtl059L9pmJqWGR/WYor2oK59myfs57zx7
+         NiHix+l5LVQXzoIiI9JtlIfTRrd8ZFRYZtdZ8adtl3k+jlSoF5TqKEqwf9DRpNOeq3bA
+         dVjw==
+X-Gm-Message-State: AOAM5315b9zha/lpLSWzXjuRgZQhK1gfZCblNSH/UEa1UM3n5Rdpj4AH
+        jcPmSAUAlsfPKghoDrD2Jrw=
+X-Google-Smtp-Source: ABdhPJxzYwjbdLDADhpa8w757osNj5Hty2iFA+tEbvr3E1nQBdPpkX6BpAdeBon6QKBNbFuEjHUUvw==
+X-Received: by 2002:aa7:9e9d:0:b029:152:5ebd:42a with SMTP id p29-20020aa79e9d0000b02901525ebd042amr2500221pfq.4.1603373875970;
+        Thu, 22 Oct 2020 06:37:55 -0700 (PDT)
+Received: from adolin ([49.207.204.75])
+        by smtp.gmail.com with ESMTPSA id a22sm2538214pfk.29.2020.10.22.06.37.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 06:37:58 -0700 (PDT)
-From:   Ricardo Ribalda <ribalda@chromium.org>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     tfiga@chromium.org, Ricardo Ribalda <ribalda@chromium.org>
-Subject: [PATCH 3/6] media: uvcvideo: Add UVC_GUID_EXT_GPIO_CONTROLLER
-Date:   Thu, 22 Oct 2020 15:37:50 +0200
-Message-Id: <20201022133753.310506-4-ribalda@chromium.org>
-X-Mailer: git-send-email 2.29.0.rc1.297.gfa9743e501-goog
-In-Reply-To: <20201022133753.310506-1-ribalda@chromium.org>
-References: <20201022133753.310506-1-ribalda@chromium.org>
+        Thu, 22 Oct 2020 06:37:55 -0700 (PDT)
+Date:   Thu, 22 Oct 2020 19:07:50 +0530
+From:   Sumera Priyadarsini <sylphrenadin@gmail.com>
+To:     dri-devel@lists.freedesktop.org
+Cc:     outreachy-kernel@googlegroups.com, alexander.deucher@amd.com,
+        christian.koenig@amd.com, airlied@linux.ie, daniel@ffwll.ch,
+        melissa.srw@gmail.com, linux-media@vger.kernel.org,
+        amd-gfx@lists.freedesktop.org, linux-kernel@vger.kernel.org
+Subject: [Outreachy kernel][PATCH 0/5] drm/amdgpu: Replace snprintf() with
+ sysfs_emit
+Message-ID: <cover.1603371258.git.sylphrenadin@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Create a new GUID for GPIO controller entities that do not belong to the
-USB video device.
+Using snprintf() for show() methods holds the risk of buffer overrun
+as snprintf() does not know the PAGE_SIZE maximum of the temporary
+buffer used to output sysfs content.
 
-This GUID is selected on an address range completely different that the
-UVC standard to avoid collisions.
+This patchset is a series of Coccinelle cleanups across the staging
+directory to convert snprintf with scnprintf in the relevant files.
 
-Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
----
- drivers/media/usb/uvc/uvc_ctrl.c | 4 ++++
- drivers/media/usb/uvc/uvcvideo.h | 3 +++
- 2 files changed, 7 insertions(+)
+Sumera Priyadarsini (5):
+  gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
+  gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
+  gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
+  gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
+  gpu: drm: amdgpu: Replace snprintf() with sysfs_emit()
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index 0a8835742d49..913739915863 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -830,6 +830,7 @@ static const u8 uvc_processing_guid[16] = UVC_GUID_UVC_PROCESSING;
- static const u8 uvc_camera_guid[16] = UVC_GUID_UVC_CAMERA;
- static const u8 uvc_media_transport_input_guid[16] =
- 	UVC_GUID_UVC_MEDIA_TRANSPORT_INPUT;
-+static const u8 uvc_gpio_guid[16] = UVC_GUID_EXT_GPIO_CONTROLLER;
- 
- static int uvc_entity_match_guid(const struct uvc_entity *entity,
- 	const u8 guid[16])
-@@ -848,6 +849,9 @@ static int uvc_entity_match_guid(const struct uvc_entity *entity,
- 		return memcmp(entity->extension.guidExtensionCode,
- 			      guid, 16) == 0;
- 
-+	case UVC_GPIO_UNIT:
-+		return memcmp(uvc_gpio_guid, guid, 16) == 0;
-+
- 	default:
- 		return 0;
- 	}
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index 08922d889bb6..8e5a9fc35820 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -56,6 +56,9 @@
- #define UVC_GUID_UVC_SELECTOR \
- 	{0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, \
- 	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02}
-+#define UVC_GUID_EXT_GPIO_CONTROLLER \
-+	{0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf, \
-+	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x01}
- 
- #define UVC_GUID_FORMAT_MJPEG \
- 	{ 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
+ drivers/gpu/drm/amd/amdgpu/amdgpu_atombios.c | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c   | 8 ++++----
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gtt_mgr.c  | 4 ++--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_psp.c      | 2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c      | 4 ++--
+ 5 files changed, 10 insertions(+), 10 deletions(-)
+
 -- 
-2.29.0.rc1.297.gfa9743e501-goog
+2.25.1
 
