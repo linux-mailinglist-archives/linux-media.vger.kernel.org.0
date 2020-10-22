@@ -2,85 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01EA72965C1
-	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 22:09:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id B0B732966D4
+	for <lists+linux-media@lfdr.de>; Thu, 22 Oct 2020 23:56:45 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2897584AbgJVUJg convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 22 Oct 2020 16:09:36 -0400
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:39785 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2502779AbgJVUJa (ORCPT
+        id S372572AbgJVV4o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 22 Oct 2020 17:56:44 -0400
+Received: from host.saywowhosting.com ([208.75.148.9]:49943 "EHLO
+        host.saywowhosting.com" rhost-flags-OK-FAIL-OK-FAIL)
+        by vger.kernel.org with ESMTP id S372569AbgJVV4o (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 22 Oct 2020 16:09:30 -0400
-Received: by mail-wr1-f68.google.com with SMTP id y12so4697084wrp.6;
-        Thu, 22 Oct 2020 13:09:29 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=pG/K91KXSZtDns2AvPosts1iq0wuPSbXqFIa1nMAu2w=;
-        b=N6WfAfaXGeTqPKErIbTwDhPl3VBZvktGZ/Xksp+FXeJP16OXkSTEyqZ7Npp8Mdnae8
-         s3b8rmu6w+BxuTiA5Bi4gSAyatg629Jb99VIMPb/37228LUC1A5AP7BoEHcTOhJK/njA
-         RNWmKEJ5Pz8mEiR0XMhGoapwU5sif+GjaW9ZSDncvtuTguIkxp2ka3I/nFDULrIrNFHE
-         hVxciUT5KjemIzJgVjzQExyH5fULRkO1ULN3bxlzMU9v082xIvSvvfdBmtOt8jUdD5eX
-         Fd3F8HBRuP1Ehxcxoj4mbWRWDWqn5HaFAYGkEqRktOEBJa0fg3sfJlj3PQdY2p9LP7AB
-         EeWQ==
-X-Gm-Message-State: AOAM530Za/PZw2ktAZxrhXM7xC3/uP/6jmryUgu8UDMyFV69ZJ4KBeUG
-        A0+RrVaIL0oFwRR39XrUzOo=
-X-Google-Smtp-Source: ABdhPJzUGE+RlNXwy0g9TwXZfxBn1ZcK5RdACIJ17IaoA7fVJ337UFCiXYdwy0tV3Mwcv7KXKaZwHw==
-X-Received: by 2002:adf:80cb:: with SMTP id 69mr4350348wrl.325.1603397368769;
-        Thu, 22 Oct 2020 13:09:28 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.171])
-        by smtp.googlemail.com with ESMTPSA id c18sm5874798wrq.5.2020.10.22.13.09.26
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 22 Oct 2020 13:09:27 -0700 (PDT)
-Date:   Thu, 22 Oct 2020 22:09:25 +0200
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= <u.kleine-koenig@pengutronix.de>
-Cc:     Andrzej Hajda <a.hajda@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sylwester Nawrocki <s.nawrocki@samsung.com>,
-        Bartlomiej Zolnierkiewicz <b.zolnierkie@samsung.com>,
-        Jean Delvare <jdelvare@suse.com>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-pwm@vger.kernel.org,
-        Kamil Debski <kamil@wypas.org>
-Subject: Re: [PATCH 1/4] MAINTAINERS: move Kamil Debski to credits
-Message-ID: <20201022200925.GA2525@kozik-lap>
-References: <20201016151528.7553-1-krzk@kernel.org>
- <20201022191314.plesyizmczgdmodr@pengutronix.de>
+        Thu, 22 Oct 2020 17:56:44 -0400
+X-Greylist: delayed 3886 seconds by postgrey-1.27 at vger.kernel.org; Thu, 22 Oct 2020 17:56:44 EDT
+Received: from [127.0.0.1] (port=57910 helo=host.saywowhosting.com)
+        by host.saywowhosting.com with esmtpa (Exim 4.93)
+        (envelope-from <bmosthigh@gmail.com>)
+        id 1kVhYb-0004pi-7w; Thu, 22 Oct 2020 15:51:33 -0500
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8BIT
-In-Reply-To: <20201022191314.plesyizmczgdmodr@pengutronix.de>
+Date:   Thu, 22 Oct 2020 15:51:33 -0500
+From:   Manuel Franco <bmosthigh@gmail.com>
+To:     undisclosed-recipients:;
+Subject: Spende: 2 Millionen Euro
+Reply-To: bmosthigh@gmail.com
+Mail-Reply-To: bmosthigh@gmail.com
+Message-ID: <f55cc4e58183f69e1da23b2451b35497@gmail.com>
+X-Sender: bmosthigh@gmail.com
+User-Agent: Roundcube Webmail/1.3.15
+Content-Type: text/plain; charset=UTF-8;
+ format=flowed
+Content-Transfer-Encoding: 8bit
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - host.saywowhosting.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - gmail.com
+X-Get-Message-Sender-Via: host.saywowhosting.com: authenticated_id: info@cinderellajourneys.com
+X-Authenticated-Sender: host.saywowhosting.com: info@cinderellajourneys.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 22, 2020 at 09:13:14PM +0200, Uwe Kleine-König wrote:
-> Hello,
-> 
-> this series doesn't seem to be applied and looking at the list of people
-> this mail was sent "To:" it's not obvious who is expected to take it. I
-> assume it is not for us linux-pwm guys and will tag it as
-> "not-applicable" in our patchwork.
 
-Hi Uwe,
 
-All of the patches, including the one here, touch actually multiple
-subsystems, so if this is OK with you, I could take them through
-Samsung SoC.
+-- 
+Mein Name ist Manuel Franco, ich bin der Gewinner des Powerball Mega
+Jackpot-Gewinners in Höhe von 768 Millionen US-Dollar aus New Jersey, 
+USA,
+und ich freue mich, Ihnen zu gratulieren, dass Sie zufällig unter den 5
+glücklichen Menschen ausgewählt wurden, denen ich jeweils 2 Millionen
+Euro (2.000.000,00 €) spende . Kontaktieren Sie meine E-Mail unten, um
+das Geld zu fordern.
 
-Best regards,
-Krzysztof
+E-Mail: bmosthigh@gmail.com
 
+____________________________________________________________________________________
+
+My name is Manuel Franco, I am the winner of $768 million Powerball mega
+jackpot winner from New Jersey, USA and I am pleased to congratulate you
+for being randomly picked among the 5 lucky people i am donating 2 
+million
+euros (€ 2,000,000.00) each to. Contact my email below to claim the
+money.
+
+Email: bmosthigh@gmail.com
