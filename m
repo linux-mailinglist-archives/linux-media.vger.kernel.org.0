@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C513296E64
-	for <lists+linux-media@lfdr.de>; Fri, 23 Oct 2020 14:22:51 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 76CEA296E62
+	for <lists+linux-media@lfdr.de>; Fri, 23 Oct 2020 14:22:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S463614AbgJWMWg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Oct 2020 08:22:36 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37890 "EHLO
+        id S463613AbgJWMWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Oct 2020 08:22:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37900 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S463605AbgJWMWc (ORCPT
+        with ESMTP id S463591AbgJWMWe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Oct 2020 08:22:32 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4073AC0613D2
-        for <linux-media@vger.kernel.org>; Fri, 23 Oct 2020 05:22:31 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id g12so1561284wrp.10
-        for <linux-media@vger.kernel.org>; Fri, 23 Oct 2020 05:22:31 -0700 (PDT)
+        Fri, 23 Oct 2020 08:22:34 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8633AC0613D4
+        for <linux-media@vger.kernel.org>; Fri, 23 Oct 2020 05:22:32 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id h5so1573323wrv.7
+        for <linux-media@vger.kernel.org>; Fri, 23 Oct 2020 05:22:32 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=EDTVofbCMc0egYLRlqXIN6LpopRSTfzGEie/Zsh4fwY=;
-        b=fiTRFOwoZwB1hxJNZHI2zlhvHk6752nqcuemPo2p7RB3dgJfMrL8zJG1C7b96wXT0o
-         CIuclNq70jhEjpjWLbUyPf7ujefkEfl/ix1Rp2p+jmflfFn3BtP6l7y4oTaoorGxqss9
-         F7MzjoJPPKYCHdVP2dcH2TfnEkXmMA3UKzRks=
+        bh=9/R15F1LsgpmrfF3NNCzaFiRsuDDTsIACKqWmG0SISo=;
+        b=QL0X80IRynXXMUZCjYkwF4TVxPMv6OvJXEja8o1OkGXOMBO4FW8qKjIlQHiTaMX6lC
+         Vted5qkM0/57rDsZq+bhda1RMP0UNp2QiZQKvEGxG3qdHN+b54wJSOKQ91pPGKKIz2Ar
+         +nKGcH1SKaXqQODHi7K9iRIwpw1YNdCyzAKLI=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=EDTVofbCMc0egYLRlqXIN6LpopRSTfzGEie/Zsh4fwY=;
-        b=OPnX4f5zpCYv93+F+MVqZC7dD6Eh7NtUYM5WNfEk6rFd5fMn5OiSvCJvar6gUGyCCP
-         PZpc2GnUTqCOafeJNXYnjmgTq+B4jW5rERGo0DmX5jCAbHcVmmP3wAlJFkHNm40caaca
-         1dXF2bAli5AFHfs2VkAokLn5v5uTZHSY8mhskgQ+sOH65WYX1tcXcKjPVFwbdNwgukM4
-         j9uqFcrDTj5OHz2XURU958b1RRU0x6JXpj3egvmaahxrauhZB1Os8XlXMqu6nZXkq9mt
-         EsSCPfeE5OmD8xm1OsxdoLUcBtSnFHF88ikWArm3pKgaF9+oD4fe26xl9xEIf0DnAT2u
-         5uSA==
-X-Gm-Message-State: AOAM532Bvoc/NeFWCbkyM0RvgosQWgH5+AX7+9PNLYqj8pAj5YQVD8bN
-        t/NCJpKGeWg05rSvc25h2zP1gA==
-X-Google-Smtp-Source: ABdhPJy744SH+1F0vP1OFiZleMBBw7T3HuaGHdSIESqwHpxlqcTXhfEAzxhZQrMJs3qkcrYSV/lWWg==
-X-Received: by 2002:a5d:4802:: with SMTP id l2mr2300863wrq.282.1603455750031;
-        Fri, 23 Oct 2020 05:22:30 -0700 (PDT)
+        bh=9/R15F1LsgpmrfF3NNCzaFiRsuDDTsIACKqWmG0SISo=;
+        b=Svjd876lgJHe+gX7vHVf8pKLwxBCwMGFo1xT74u+GUOWrnl/pivEYQXPcPyzyDpEgn
+         YjsKHgZ431YgXxZA1OilIdM9rV5e0Wi0WZN+FeRkjiZuOFPflGBcYT516pn8U3IiCYmE
+         b67a2pqDg3tH39M6prc4Qw0NzloVPP1+jrX4amGLhNySOoI8I59prEaQOD79Xdy4zOJ7
+         hhO74wwEtH5qkA/A/qyWXgTgt3jLKTVK7vkuXEEARQRZiEN1dwZ+ZbN2YZRNGvl+g8Uw
+         Y4t32gAlx8j/6vRMyU7rwn2wnSy2VBAHW0u7ENN5r9sL/qn3anT0XgQw8iFls/rKsSvr
+         pRFw==
+X-Gm-Message-State: AOAM531xACR0br6R2RD4TEw8n4OY5Zj0+/niwEUBpqOM58eJ+2BbdWBY
+        aEs9m0e9fArT6TeMOk+46vnCkQ==
+X-Google-Smtp-Source: ABdhPJzjwHFFX0eYKKTO5kCI7ZhG3p97yKYVzt0PU/hjOwBpbNrm4zEFSBi8+JEVc4oqTj3X2egovA==
+X-Received: by 2002:adf:a1cb:: with SMTP id v11mr2261703wrv.86.1603455751311;
+        Fri, 23 Oct 2020 05:22:31 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id y4sm3056484wrp.74.2020.10.23.05.22.29
+        by smtp.gmail.com with ESMTPSA id y4sm3056484wrp.74.2020.10.23.05.22.30
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2020 05:22:29 -0700 (PDT)
+        Fri, 23 Oct 2020 05:22:30 -0700 (PDT)
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
 To:     DRI Development <dri-devel@lists.freedesktop.org>
 Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
@@ -55,9 +55,9 @@ Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         Daniel Vetter <daniel.vetter@intel.com>
-Subject: [PATCH 07/65] drm/vblank: Annotate with dma-fence signalling section
-Date:   Fri, 23 Oct 2020 14:21:18 +0200
-Message-Id: <20201023122216.2373294-7-daniel.vetter@ffwll.ch>
+Subject: [PATCH 08/65] drm/amdgpu: add dma-fence annotations to atomic commit path
+Date:   Fri, 23 Oct 2020 14:21:19 +0200
+Message-Id: <20201023122216.2373294-8-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201023122216.2373294-1-daniel.vetter@ffwll.ch>
 References: <20201021163242.1458885-1-daniel.vetter@ffwll.ch>
@@ -69,11 +69,8 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is rather overkill since currently all drivers call this from
-hardirq (or at least timers). But maybe in the future we're going to
-have thread irq handlers and what not, doesn't hurt to be prepared.
-Plus this is an easy start for sprinkling these fence annotations into
-shared code.
+I need a canary in a ttm-based atomic driver to make sure the
+dma_fence_begin/end_signalling annotations actually work.
 
 Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
@@ -85,56 +82,40 @@ Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
 Cc: Christian König <christian.koenig@amd.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 ---
- drivers/gpu/drm/drm_vblank.c | 8 +++++++-
- 1 file changed, 7 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/gpu/drm/drm_vblank.c b/drivers/gpu/drm/drm_vblank.c
-index f135b79593dd..ba7e741764aa 100644
---- a/drivers/gpu/drm/drm_vblank.c
-+++ b/drivers/gpu/drm/drm_vblank.c
-@@ -24,6 +24,7 @@
-  * OTHER DEALINGS IN THE SOFTWARE.
-  */
+diff --git a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+index bb1bc7f5d149..b05fecf06f25 100644
+--- a/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
++++ b/drivers/gpu/drm/amd/display/amdgpu_dm/amdgpu_dm.c
+@@ -57,6 +57,7 @@
  
-+#include <linux/dma-fence.h>
- #include <linux/export.h>
- #include <linux/kthread.h>
+ #include "ivsrcid/ivsrcid_vislands30.h"
+ 
++#include <linux/module.h>
+ #include <linux/module.h>
  #include <linux/moduleparam.h>
-@@ -1913,7 +1914,7 @@ bool drm_handle_vblank(struct drm_device *dev, unsigned int pipe)
- {
- 	struct drm_vblank_crtc *vblank = &dev->vblank[pipe];
- 	unsigned long irqflags;
--	bool disable_irq;
-+	bool disable_irq, fence_cookie;
- 
- 	if (drm_WARN_ON_ONCE(dev, !drm_dev_has_vblank(dev)))
- 		return false;
-@@ -1921,6 +1922,8 @@ bool drm_handle_vblank(struct drm_device *dev, unsigned int pipe)
- 	if (drm_WARN_ON(dev, pipe >= dev->num_crtcs))
- 		return false;
- 
-+	fence_cookie = dma_fence_begin_signalling();
+ #include <linux/version.h>
+@@ -7492,6 +7493,9 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 	struct dm_crtc_state *dm_old_crtc_state, *dm_new_crtc_state;
+ 	int crtc_disable_count = 0;
+ 	bool mode_set_reset_required = false;
++	bool fence_cookie;
 +
- 	spin_lock_irqsave(&dev->event_lock, irqflags);
++	fence_cookie = dma_fence_begin_signalling();
  
- 	/* Need timestamp lock to prevent concurrent execution with
-@@ -1933,6 +1936,7 @@ bool drm_handle_vblank(struct drm_device *dev, unsigned int pipe)
- 	if (!vblank->enabled) {
- 		spin_unlock(&dev->vblank_time_lock);
- 		spin_unlock_irqrestore(&dev->event_lock, irqflags);
-+		dma_fence_end_signalling(fence_cookie);
- 		return false;
- 	}
- 
-@@ -1959,6 +1963,8 @@ bool drm_handle_vblank(struct drm_device *dev, unsigned int pipe)
- 	if (disable_irq)
- 		vblank_disable_fn(&vblank->disable_timer);
+ 	drm_atomic_helper_update_legacy_modeset_state(dev, state);
+ 	drm_atomic_helper_calc_timestamping_constants(state);
+@@ -7816,6 +7820,8 @@ static void amdgpu_dm_atomic_commit_tail(struct drm_atomic_state *state)
+ 	/* Signal HW programming completion */
+ 	drm_atomic_helper_commit_hw_done(state);
  
 +	dma_fence_end_signalling(fence_cookie);
 +
- 	return true;
- }
- EXPORT_SYMBOL(drm_handle_vblank);
+ 	if (wait_for_vblank)
+ 		drm_atomic_helper_wait_for_flip_done(dev, state);
+ 
 -- 
 2.28.0
 
