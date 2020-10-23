@@ -2,52 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65AE7296FCE
-	for <lists+linux-media@lfdr.de>; Fri, 23 Oct 2020 14:57:58 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 0F2D2296FCB
+	for <lists+linux-media@lfdr.de>; Fri, 23 Oct 2020 14:57:50 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S464129AbgJWM5X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S464133AbgJWM5X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 23 Oct 2020 08:57:23 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43352 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43362 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S464123AbgJWM5V (ORCPT
+        with ESMTP id S464125AbgJWM5X (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Oct 2020 08:57:21 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3CBB6C0613D4
-        for <linux-media@vger.kernel.org>; Fri, 23 Oct 2020 05:57:21 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id d78so1348585wmd.3
-        for <linux-media@vger.kernel.org>; Fri, 23 Oct 2020 05:57:21 -0700 (PDT)
+        Fri, 23 Oct 2020 08:57:23 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6CC57C0613D7
+        for <linux-media@vger.kernel.org>; Fri, 23 Oct 2020 05:57:22 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id n18so1708708wrs.5
+        for <linux-media@vger.kernel.org>; Fri, 23 Oct 2020 05:57:22 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=d6MrggB0Obs1H04N41aSmGHcG+3VEtp3I3jrGd1sX7s=;
-        b=WDPqCpqYtdLl5HzEhfzTRo048t+1HiWYtcoArblp2lCFQ8qTX+N12yUTonYt0fQ/08
-         rlPwUTh9AFEXdOybZ0j4ccVA3VZJGpH6MW/3Lr3YTmAsRCqN/l+xayh9wj/+FkYd1S2G
-         pgn1gvtA8A8zF/iRxFjGeUf9QZOBubeSNiiY4jLt/eovO9lw4dkmnsWqcbaifDyvJwjK
-         JrS4A5FU+L+657HVqdf/nE1DmTXvIFKy/4HhUgk39wNM39LH/tWUiWQTIk7QvqUvjr18
-         nrrvN1mfFwhQyTi9xE8wimHfsCwJvhwpL2VVguH0MmFLM34Y+a/LkibITahVWNMcvau1
-         CHfA==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references;
+        bh=NrL1MV7N8ATs/PXzXCVKhIPAGTP6zOyD9l2GObHN45o=;
+        b=aNLgRz5OfNWd4OVUswB3R+mClvdaOMsQ3yNLaj50D2E2YZeDMQM7UOwmkIS+rq8Qsr
+         VIZy440MXqYI8mkQ4sKRjLfH7Xo7N1FpVP9hD8sKyeiAXnzlp9dJya5yd4wfa7WRqk2X
+         v4Egaa5GIejStfexy1x80XFxLIROT0PXBqGIKW3XzT/0kI2A1nVvccj1EWOK5AfAGGx4
+         TgFiDRwHQEZA6Ld9Nylc/SZAT0dqMngLX5wsZNKNroPum4pA9oI/Q8Dcft0shtYhNLrO
+         oVzK50Ajoi44aIlj/yTieRcj1OUiujthKWsGt3bNkIZKxvekXsx+JfFWzTXUJsK9vK4F
+         fDzA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=d6MrggB0Obs1H04N41aSmGHcG+3VEtp3I3jrGd1sX7s=;
-        b=lrKs4lC2Kg4OtjnVU1atyXMHuICI1LxfNgj9TNAtBqz37ZVqOdIj4R3RrtQ7nGSNjc
-         u9pJDksRxl/TGU7x3JZ91OHgjSHxbP5TjlvFMZk0bn3/p2MoJE07kR80pLKwoEM9N37t
-         T/N6YRKh9J7uINNDIu0ye7fjnTiVSLNnDHGHS0UuSo3MCmO6ebKh06YLGVjLQmqpmVvJ
-         eV7QaT9hJDS0ADCYxLKbKJRhwGp+s8ZNpVtj6va4UJtUuxMV7nJ8NJs66KQPE58mdu6x
-         nUL6K+GwgOc/NDyQbP/Tea87IqJuLUiI68vWtuW2p1Tve4kF8ohPZkUuBFltk7IqIbbL
-         SDuQ==
-X-Gm-Message-State: AOAM530xICUU1NLvRfNL7NZIALrprt5o4wVLVrmazwAhN0VaBbiQvmxv
-        DF04gBVmfJeitUGO7F1HmmhmhaylQT5ZFfnB
-X-Google-Smtp-Source: ABdhPJzIX1wH2yyINNscu6kMfYr8TjsWeoOPLFENzOLAo1bgjsKLNPdEgtdPDNcPqjpYaKS3hbQIUQ==
-X-Received: by 2002:a1c:f002:: with SMTP id a2mr2316469wmb.129.1603457839699;
-        Fri, 23 Oct 2020 05:57:19 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references;
+        bh=NrL1MV7N8ATs/PXzXCVKhIPAGTP6zOyD9l2GObHN45o=;
+        b=OVGgLVg4oVrAUqkx8tvspGT/c6rjfQ4gF8zYHn4XsGXwNecRzNWGRqag68UtNc59P2
+         0KoBAmWgbvdhidqiy2VtoBr0wqx30XL/jfRSUgd41VTlOb6hehApVU+vEEiOI7V2NLP5
+         chyWsuIk8lVs/JNm+v6QosCA9Ah2lj8NBbPxTkLvI6riJpoJVZtj9k3UNz2uYsja5U//
+         z7GlHdm2P1etEchpR9wB0iEu32yrxYl3HXgvcWYybvOQ5KytULw55CF+aR6bKCdDlBgG
+         jhhxCFZdWwpPctYWP9au+5fw7yiHOgeKs/ZAhg+Dx3U5u3brIGUJRDQZ9p8loW2OO1OZ
+         FU1g==
+X-Gm-Message-State: AOAM530O95ZmziB/YMALQtypvJkxr7K4YfK3pMV1+Bl7vm5zYpldpitP
+        FPN7WMfxoup/mcwyYZcfKQUgwnu4jHreXciA
+X-Google-Smtp-Source: ABdhPJzXsFAYq8o4JA+bX89U8lRgr1JK8t6fu6sP2QaoFHcwf0aAu9vq25qV4YFATQUCxuV89vzmEQ==
+X-Received: by 2002:adf:b787:: with SMTP id s7mr2636696wre.390.1603457840965;
+        Fri, 23 Oct 2020 05:57:20 -0700 (PDT)
 Received: from localhost.localdomain (hst-221-77.medicom.bg. [84.238.221.77])
-        by smtp.gmail.com with ESMTPSA id s19sm3475873wmc.0.2020.10.23.05.57.18
+        by smtp.gmail.com with ESMTPSA id s19sm3475873wmc.0.2020.10.23.05.57.20
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 23 Oct 2020 05:57:19 -0700 (PDT)
+        Fri, 23 Oct 2020 05:57:20 -0700 (PDT)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
@@ -56,50 +55,50 @@ Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
         Tomasz Figa <tfiga@chromium.org>,
         Dikshita Agarwal <dikshita@codeaurora.org>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH 0/4] Venus stateful encoder compliance
-Date:   Fri, 23 Oct 2020 15:57:00 +0300
-Message-Id: <20201023125704.4984-1-stanimir.varbanov@linaro.org>
+Subject: [PATCH 1/4] venus: hfi: Use correct state in unload resources
+Date:   Fri, 23 Oct 2020 15:57:01 +0300
+Message-Id: <20201023125704.4984-2-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.17.1
-MIME-Version: 1.0
-Content-Type: text/plain; charset=y
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201023125704.4984-1-stanimir.varbanov@linaro.org>
+References: <20201023125704.4984-1-stanimir.varbanov@linaro.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+INST_RELEASE_RESOURCES state is set but not used, correct this
+by enter into INIT state once the unload resources is done.
 
-Тhis patchset is an attempt to make Venus encoder driver compliant with
-stateful encoder spec. There are still few details which need to be
-cleaned up so this can be treated as WIP. For example the usage of m2m
-helpers to update the states and handing of the LAST capture buffer for
-Drain state. Here mainly I re-designed the driver to able to handle
-capture/output queues independently and properly go in and out of Reset
-state.
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+---
+ drivers/media/platform/qcom/venus/hfi.c | 2 +-
+ drivers/media/platform/qcom/venus/hfi.h | 1 -
+ 2 files changed, 1 insertion(+), 2 deletions(-)
 
-These patches depend on [1].  
-
-Comments are welcome!
-
-regards,
-Stan
-
-[1] https://lkml.org/lkml/2020/10/19/432
-
-Stanimir Varbanov (4):
-  venus: hfi: Use correct state in unload resources
-  venus: helpers: Add a new helper for buffer processing
-  venus: venc: Handle reset encoder state
-  venus: helpers: Delete unused stop streaming helper
-
- drivers/media/platform/qcom/venus/core.h    |  10 +-
- drivers/media/platform/qcom/venus/helpers.c |  63 ++---
- drivers/media/platform/qcom/venus/helpers.h |   2 +-
- drivers/media/platform/qcom/venus/hfi.c     |   2 +-
- drivers/media/platform/qcom/venus/hfi.h     |   1 -
- drivers/media/platform/qcom/venus/venc.c    | 242 ++++++++++++++++----
- 6 files changed, 219 insertions(+), 101 deletions(-)
-
+diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
+index a59022adb14c..1480a76d4da4 100644
+--- a/drivers/media/platform/qcom/venus/hfi.c
++++ b/drivers/media/platform/qcom/venus/hfi.c
+@@ -376,7 +376,7 @@ int hfi_session_unload_res(struct venus_inst *inst)
+ 	if (ret)
+ 		return ret;
+ 
+-	inst->state = INST_RELEASE_RESOURCES;
++	inst->state = INST_INIT;
+ 
+ 	return 0;
+ }
+diff --git a/drivers/media/platform/qcom/venus/hfi.h b/drivers/media/platform/qcom/venus/hfi.h
+index f25d412d6553..e9c944271cc1 100644
+--- a/drivers/media/platform/qcom/venus/hfi.h
++++ b/drivers/media/platform/qcom/venus/hfi.h
+@@ -87,7 +87,6 @@ struct hfi_event_data {
+ #define INST_LOAD_RESOURCES			4
+ #define INST_START				5
+ #define INST_STOP				6
+-#define INST_RELEASE_RESOURCES			7
+ 
+ struct venus_core;
+ struct venus_inst;
 -- 
 2.17.1
 
