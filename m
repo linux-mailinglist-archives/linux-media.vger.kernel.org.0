@@ -2,78 +2,73 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 573542975C1
-	for <lists+linux-media@lfdr.de>; Fri, 23 Oct 2020 19:28:05 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 2A0DD297634
+	for <lists+linux-media@lfdr.de>; Fri, 23 Oct 2020 19:55:19 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1753430AbgJWR15 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Oct 2020 13:27:57 -0400
-Received: from mga04.intel.com ([192.55.52.120]:41726 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1753423AbgJWR15 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Oct 2020 13:27:57 -0400
-IronPort-SDR: DBGqSm2V+xhfI4GTirlBmDRT7WcD6MdDM+eT5UVRZKYY/RUgO8VtW6XX2OhhOFXbwRc54FQsZw
- qbp2+oIFjmpw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9782"; a="165116239"
-X-IronPort-AV: E=Sophos;i="5.77,409,1596524400"; 
-   d="scan'208";a="165116239"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2020 10:27:56 -0700
-IronPort-SDR: 1kVXpkMxato4KyiDoDyQk9vABZLEsZZcfmHWZYXBHrhlYCCRxUaf73r7zINuiBUEBrld2bX5rm
- fpKPTFxMikuQ==
-X-IronPort-AV: E=Sophos;i="5.77,409,1596524400"; 
-   d="scan'208";a="321804002"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2020 10:27:52 -0700
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 92AF92030F; Fri, 23 Oct 2020 20:27:50 +0300 (EEST)
-Date:   Fri, 23 Oct 2020 20:27:50 +0300
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Abylay Ospan <aospan@netup.ru>, Antti Palosaari <crope@iki.fi>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Malcolm Priestley <tvboxspy@gmail.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rahul Gottipati <rahul.blr97@gmail.com>,
-        Sergey Kozlov <serjk@netup.ru>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Tomasz Figa <tfiga@chromium.org>, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 15/56] media: fix kernel-doc markups
-Message-ID: <20201023172750.GN2703@paasikivi.fi.intel.com>
-References: <cover.1603469755.git.mchehab+huawei@kernel.org>
- <8eb0e3f5a47cfa412c1004f850ef092011d1a45f.1603469755.git.mchehab+huawei@kernel.org>
+        id S1753891AbgJWRyQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Oct 2020 13:54:16 -0400
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:51941 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1753885AbgJWRyQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 23 Oct 2020 13:54:16 -0400
+X-Greylist: delayed 480 seconds by postgrey-1.27 at vger.kernel.org; Fri, 23 Oct 2020 13:54:15 EDT
+X-Originating-IP: 93.29.109.196
+Received: from localhost.localdomain (unknown [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 51D8D2000D;
+        Fri, 23 Oct 2020 17:54:12 +0000 (UTC)
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>, kevin.lhopital@hotmail.com
+Subject: [PATCH 0/3] media: i2c: OV8865 image sensor support
+Date:   Fri, 23 Oct 2020 19:54:03 +0200
+Message-Id: <20201023175406.504527-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8eb0e3f5a47cfa412c1004f850ef092011d1a45f.1603469755.git.mchehab+huawei@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thanks, Mauro!
+This series adds support for the OV8865 image sensor, as a V4L2 subdev
+driver. Although an initial series was submitted by Kévin L'hôpital some
+weeks ago, this version is significantly new and should be considered a
+new series.
 
-On Fri, Oct 23, 2020 at 06:33:02PM +0200, Mauro Carvalho Chehab wrote:
-> Some identifiers have different names between their prototypes
-> and the kernel-doc markup. Seome seems to be due to cut-and-paste
-> related issues.
-> 
-> Others need to be fixed, as kernel-doc markups should use this format:
->         identifier - description
-> 
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+The final patch (not for merge) shows how to enable the OV8865 on the
+Banana Pi Camera Board v2 with the Banana Pi M3.
 
-On IPU3 and V4L2 bits:
+Cheers,
 
-Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Paul
+
+Kévin L'hôpital (1):
+  ARM: dts: sun8i: a83t: bananapi-m3: Enable MIPI CSI-2 with OV8865
+
+Paul Kocialkowski (2):
+  dt-bindings: media: i2c: Add OV8865 bindings documentation
+  media: i2c: Add support for the OV8865 image sensor
+
+ .../bindings/media/i2c/ovti,ov8865.yaml       |  124 +
+ arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts  |   98 +
+ drivers/media/i2c/Kconfig                     |   13 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/ov8865.c                    | 3031 +++++++++++++++++
+ 5 files changed, 3267 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+ create mode 100644 drivers/media/i2c/ov8865.c
 
 -- 
-Regards,
+2.28.0
 
-Sakari Ailus
