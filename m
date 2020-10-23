@@ -2,129 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DAE88297141
-	for <lists+linux-media@lfdr.de>; Fri, 23 Oct 2020 16:23:14 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 65FE1297152
+	for <lists+linux-media@lfdr.de>; Fri, 23 Oct 2020 16:31:05 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S465171AbgJWOXI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Oct 2020 10:23:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56772 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S374830AbgJWOXI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Oct 2020 10:23:08 -0400
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7DA67C0613CE;
-        Fri, 23 Oct 2020 07:23:06 -0700 (PDT)
-Received: by mail-lf1-x141.google.com with SMTP id v6so2276318lfa.13;
-        Fri, 23 Oct 2020 07:23:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=o98sUAeRbrb+A+UaiLkMy3FmWgT2O18cCb+RARaOj3E=;
-        b=uk0kFLBbLZO4GwgQ14jK2wL+oqKrewXhlwH6K47Z0OaPIIvsL2bUlreldaFF+oHn5A
-         1xF7FcCLiurGrzazkcshhKVhPrCv9qeYG/kC1aaAGHXhObNyZDToylrFz6FSW2Z0CoN+
-         1ZE51zDezLl+B3LFJBrs7Zb/dxvFw780+ShOXRbvwB3s501TvMBfOzQg0c3ZHIh3bu4w
-         rwh/kW5i/jGmiTH7OHt4Ynbq82o6VR6SrrIqCsd+9bhue+1Pl/FAcr0UMz7cZPkeYFli
-         jgqkix0JOtjMEBv+ktKK+1EsfuFp7OXBdJglYTR2fj/I2xXbJcD+ZKVRa3S6mxBOHagu
-         obxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=o98sUAeRbrb+A+UaiLkMy3FmWgT2O18cCb+RARaOj3E=;
-        b=ZtERHIjG4uGEuNdQpV9AAsNtxVpt2felKwuFRA8PTd9wLKHkb47Pjxm3XYl4QVK177
-         Iu1iLQLTbwk4fITM9SxAZbDze3M9JySrHn7XYj20hZoxjS1UmHqsLWv2x/kun2STeR48
-         ejSeojqenVtOJ5e99zODyNIVaR7R+tTrO+DzmnDRQQzLmK+0RVe1uRCocSJf3PCpgTJm
-         rFKmEdEhf0/GbVrMU2M0zCMcXkLzOHAbKLtVF/XWZdmevx+21Q43os7jSiILGNjH2WlX
-         ZKBrCRUm+HGFnUkOyC1wncaDXcR8GV5h9wY4tA3+EHk/x9J9360+oANfkBDSQOxx4n4y
-         T14w==
-X-Gm-Message-State: AOAM530Y5NlLGauHPlbOWVqEk2OUbnvq874PelPGLf7NV2pwKeKJ81np
-        0jZG7KhKRQJDf/YFvVQ7ZUht8/qR8XBjhGy03T4=
-X-Google-Smtp-Source: ABdhPJwgpoExunuD3z+CFCmAmQnUOxHL9KEOxmodPiG+o6BfjQjmAOAw9j4PuUH3O5RHY0D3tPDLOJZ2XzpkVyWqyDI=
-X-Received: by 2002:a19:8114:: with SMTP id c20mr774275lfd.77.1603462984856;
- Fri, 23 Oct 2020 07:23:04 -0700 (PDT)
+        id S1750604AbgJWObC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Oct 2020 10:31:02 -0400
+Received: from mga06.intel.com ([134.134.136.31]:45521 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S374727AbgJWObC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 23 Oct 2020 10:31:02 -0400
+IronPort-SDR: oC6mmcDSb5lpsvuHSgkCHh//v4fpVjPSeMb1Vd2Td35SfjswTrK1ns8FB118noLf2CqkKjAcgK
+ 0pNdFCtALYUQ==
+X-IronPort-AV: E=McAfee;i="6000,8403,9782"; a="229317322"
+X-IronPort-AV: E=Sophos;i="5.77,408,1596524400"; 
+   d="scan'208";a="229317322"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2020 07:30:58 -0700
+IronPort-SDR: strZ7qZQpzKzpW+H9q1kQAGAQ2o4KKVxcx2BObcjmBmCxf0w5J4zy48ak1cHbj/rIJ9J49uzSh
+ S2ndozz2CtvA==
+X-IronPort-AV: E=Sophos;i="5.77,408,1596524400"; 
+   d="scan'208";a="523514927"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 23 Oct 2020 07:30:54 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kVy6m-00E8jW-Fi; Fri, 23 Oct 2020 17:31:56 +0300
+Date:   Fri, 23 Oct 2020 17:31:56 +0300
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
+        sakari.ailus@linux.intel.com, drinkcat@chromium.org,
+        tfiga@chromium.org, matthias.bgg@gmail.com, bingbu.cao@intel.com,
+        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
+Subject: Re: [PATCH v15 2/2] media: i2c: Add OV02A10 image sensor driver
+Message-ID: <20201023143156.GX4077@smile.fi.intel.com>
+References: <20201013130503.2412-1-dongchun.zhu@mediatek.com>
+ <20201013130503.2412-3-dongchun.zhu@mediatek.com>
 MIME-Version: 1.0
-References: <20201022122421.133976-1-gnurou@gmail.com>
-In-Reply-To: <20201022122421.133976-1-gnurou@gmail.com>
-From:   Alexandre Courbot <gnurou@gmail.com>
-Date:   Fri, 23 Oct 2020 23:22:52 +0900
-Message-ID: <CAAVeFu+P-3pkQGZJgvoX6cRZj8keek70sNy5ZkRozeygiLCwKQ@mail.gmail.com>
-Subject: Re: [PATCH] media: v4l2-mem2mem: always call poll_wait() on queues
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201013130503.2412-3-dongchun.zhu@mediatek.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 22, 2020 at 9:24 PM Alexandre Courbot <gnurou@gmail.com> wrote:
->
-> do_poll()/do_select() seem to set the _qproc member of poll_table to
-> NULL the first time they are called on a given table, making subsequent
-> calls of poll_wait() on that table no-ops. This is a problem for mem2mem
-> which calls poll_wait() on the V4L2 queues' waitqueues only when a
-> queue-related event is requested, which may not necessarily be the case
-> during the first poll.
->
-> For instance, a stateful decoder is typically only interested in
-> EPOLLPRI events when it starts, and will switch to listening to both
-> EPOLLPRI and EPOLLIN after receiving the initial resolution change event
-> and configuring the CAPTURE queue. However by the time that switch
-> happens and v4l2_m2m_poll_for_data() is called for the first time,
-> poll_wait() has become a no-op and the V4L2 queues waitqueues thus
-> cannot be registered.
->
-> Fix this by moving the registration to v4l2_m2m_poll() and do it whether
-> or not one of the queue-related events are requested.
->
-> Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
-> ---
-> I seem to be hitting all the polling corner cases recently! ^_^; This
-> time I was wondering why epoll_wait() never returned after I received
-> the first resolution change event from the vicodec stateful decoder.
-> This is why - please take a look!
->
->  drivers/media/v4l2-core/v4l2-mem2mem.c | 8 +++++---
->  1 file changed, 5 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> index b221b4e438a1..65476ef2879f 100644
-> --- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-> +++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-> @@ -887,9 +887,6 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
->         src_q = v4l2_m2m_get_src_vq(m2m_ctx);
->         dst_q = v4l2_m2m_get_dst_vq(m2m_ctx);
->
-> -       poll_wait(file, &src_q->done_wq, wait);
-> -       poll_wait(file, &dst_q->done_wq, wait);
-> -
->         /*
->          * There has to be at least one buffer queued on each queued_list, which
->          * means either in driver already or waiting for driver to claim it
-> @@ -922,9 +919,14 @@ __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
->                        struct poll_table_struct *wait)
->  {
->         struct video_device *vfd = video_devdata(file);
-> +       struct vb2_queue *src_q = v4l2_m2m_get_src_vq(m2m_ctx);
-> +       struct vb2_queue *dst_q = v4l2_m2m_get_dst_vq(m2m_ctx);
->         __poll_t req_events = poll_requested_events(wait);
->         __poll_t rc = 0;
->
-> +       poll_wait(file, &src_q->done_wq, wait);
-> +       poll_wait(file, &dst_q->done_wq, wait);
+On Tue, Oct 13, 2020 at 09:05:03PM +0800, Dongchun Zhu wrote:
+> Add a V4L2 sub-device driver for OmniVision OV02A10 image sensor.
 
-This should probably include a comment to not move this back to
-v4l2_m2m_poll_for_data(). I'll add one and send a v2 unless someone
-points out that the premise of this patch is a bad idea to begin with.
+...
 
+> +#define OV02A10_ID_MASK					0xffff
 
+GENMASK()
+
+(And include bits.h for that)
+
+...
+
+> +static int __ov02a10_start_stream(struct ov02a10 *ov02a10)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&ov02a10->subdev);
+> +	const struct ov02a10_reg_list *reg_list;
+> +	int ret;
 > +
->         if (req_events & (EPOLLOUT | EPOLLWRNORM | EPOLLIN | EPOLLRDNORM))
->                 rc = v4l2_m2m_poll_for_data(file, m2m_ctx, wait);
->
-> --
-> 2.29.0
->
+> +	/* Apply default values of current mode */
+> +	reg_list = &ov02a10->cur_mode->reg_list;
+> +	ret = ov02a10_write_array(ov02a10, reg_list);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Apply customized values from user */
+> +	ret = __v4l2_ctrl_handler_setup(ov02a10->subdev.ctrl_handler);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Set orientation to 180 degree */
+> +	if (ov02a10->upside_down) {
+> +		ret = i2c_smbus_write_byte_data(client, REG_MIRROR_FLIP_CONTROL,
+> +						REG_MIRROR_FLIP_ENABLE);
+> +		if (ret) {
+
+Shouldn't you use 'ret < 0' here as well?
+
+> +			dev_err(&client->dev, "failed to set orientation\n");
+> +			return ret;
+> +		}
+> +		ret = i2c_smbus_write_byte_data(client, REG_GLOBAL_EFFECTIVE,
+> +						REG_ENABLE);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +
+> +	/* Set MIPI TX speed according to DT property */
+> +	if (ov02a10->mipi_clock_voltage != OV02A10_MIPI_TX_SPEED_DEFAULT) {
+> +		ret = i2c_smbus_write_byte_data(client, TX_SPEED_AREA_SEL,
+> +						ov02a10->mipi_clock_voltage);
+> +		if (ret < 0)
+> +			return ret;
+> +	}
+> +
+> +	/* Set stream on register */
+> +	return i2c_smbus_write_byte_data(client, REG_SC_CTRL_MODE,
+> +					 SC_CTRL_MODE_STREAMING);
+> +}
+
+...
+
+> +/*
+
+Was your intention to declare it as a kernel doc?
+
+> + * ov02a10_set_exposure - Function called when setting exposure time
+> + * @priv: Pointer to device structure
+> + * @val: Variable for exposure time, in the unit of micro-second
+> + *
+> + * Set exposure time based on input value.
+> + *
+> + * Return: 0 on success
+> + */
+> +static int ov02a10_set_exposure(struct ov02a10 *ov02a10, int val)
+
+...
+
+> +static int ov02a10_check_hwcfg(struct device *dev, struct ov02a10 *ov02a10)
+> +{
+> +	struct fwnode_handle *ep;
+> +	struct fwnode_handle *fwnode = dev_fwnode(dev);
+> +	struct v4l2_fwnode_endpoint bus_cfg = {
+> +		.bus_type = V4L2_MBUS_CSI2_DPHY,
+> +	};
+> +	unsigned int i, j;
+> +	int ret;
+
+> +	if (!fwnode)
+> +		return -EINVAL;
+
+Basically you can avoid this check, but it's up to you.
+
+> +	ep = fwnode_graph_get_next_endpoint(fwnode, NULL);
+> +	if (!ep)
+> +		return -ENXIO;
+> +
+> +	ret = v4l2_fwnode_endpoint_alloc_parse(ep, &bus_cfg);
+> +	fwnode_handle_put(ep);
+> +	if (ret)
+> +		return ret;
+> +
+> +	for (i = 0; i < ARRAY_SIZE(link_freq_menu_items); i++) {
+> +		for (j = 0; j < bus_cfg.nr_of_link_frequencies; j++) {
+> +			if (link_freq_menu_items[i] ==
+> +				bus_cfg.link_frequencies[j]) {
+> +				ov02a10->freq_index = i;
+> +				break;
+> +			}
+> +		}
+> +
+> +		if (j == bus_cfg.nr_of_link_frequencies) {
+> +			dev_err(dev, "no link frequency %lld supported\n",
+> +				link_freq_menu_items[i]);
+> +			ret = -EINVAL;
+> +			break;
+> +		}
+> +	}
+> +
+> +	v4l2_fwnode_endpoint_free(&bus_cfg);
+> +
+> +	return ret;
+> +}
+
+...
+
+> +	fwnode_property_read_u32(dev_fwnode(dev), "rotation", &rotation);
+
+Same Q as per previous reviews. Why device property API can't be used here?
+
+And everywhere else when you have
+	 fwnode_property_read_*(dev_fwnode(dev), ...)
+calls.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
