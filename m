@@ -2,463 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94166297E7D
-	for <lists+linux-media@lfdr.de>; Sat, 24 Oct 2020 22:38:56 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id EE37A297F6E
+	for <lists+linux-media@lfdr.de>; Sun, 25 Oct 2020 00:28:23 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1764498AbgJXUiz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Oct 2020 16:38:55 -0400
-Received: from asavdk4.altibox.net ([109.247.116.15]:43296 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1764494AbgJXUiy (ORCPT
+        id S1762538AbgJXW2K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Oct 2020 18:28:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42128 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1762500AbgJXW2K (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Oct 2020 16:38:54 -0400
-Received: from ravnborg.org (unknown [188.228.123.71])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id A32E380548;
-        Sat, 24 Oct 2020 22:38:39 +0200 (CEST)
-Date:   Sat, 24 Oct 2020 22:38:38 +0200
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        airlied@linux.ie, daniel@ffwll.ch, alexander.deucher@amd.com,
-        christian.koenig@amd.com, kraxel@redhat.com,
-        l.stach@pengutronix.de, linux+etnaviv@armlinux.org.uk,
-        christian.gmeiner@gmail.com, inki.dae@samsung.com,
-        jy0922.shim@samsung.com, sw0312.kim@samsung.com,
-        kyungmin.park@samsung.com, kgene@kernel.org, krzk@kernel.org,
-        yuq825@gmail.com, bskeggs@redhat.com, robh@kernel.org,
-        tomeu.vizoso@collabora.com, steven.price@arm.com,
-        alyssa.rosenzweig@collabora.com, hjc@rock-chips.com,
-        heiko@sntech.de, hdegoede@redhat.com, sean@poorly.run,
-        eric@anholt.net, oleksandr_andrushchenko@epam.com,
-        ray.huang@amd.com, sumit.semwal@linaro.org,
-        emil.velikov@collabora.com, luben.tuikov@amd.com, apaneers@amd.com,
-        linus.walleij@linaro.org, melissa.srw@gmail.com,
-        chris@chris-wilson.co.uk, miaoqinglang@huawei.com,
-        dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
-        virtualization@lists.linux-foundation.org,
-        etnaviv@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
-        nouveau@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
-        linux-rockchip@lists.infradead.org, xen-devel@lists.xenproject.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v5 10/10] drm/fb_helper: Support framebuffers in I/O
- memory
-Message-ID: <20201024203838.GB93644@ravnborg.org>
-References: <20201020122046.31167-1-tzimmermann@suse.de>
- <20201020122046.31167-11-tzimmermann@suse.de>
+        Sat, 24 Oct 2020 18:28:10 -0400
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6066C0613CE;
+        Sat, 24 Oct 2020 15:28:09 -0700 (PDT)
+Received: by mail-wr1-x442.google.com with SMTP id y12so7366322wrp.6;
+        Sat, 24 Oct 2020 15:28:09 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=DLMvmiGErsLTvHJlAUfm5XCoZVDF9c6VQwTXEbmBAMM=;
+        b=bd++ygZpbXy8AU457/vEPIxmaxI41RoSc7HV9NEpYgjV94zX40vQnhaI/0AaGiMjZQ
+         4+jZ3jVjSOljKUV5OlU3napeL52DOdD4nV1Squ6cqsU0uKSNDZKPYAujgkYfJk5fJusz
+         0+RXWAZqd7R2R+pk7PEju/O+41yVvP+h72Hn2J+dVg4ggFqM8mrnG2KLdFk02dM6eTPb
+         PV+uCFdSEXKMjXlojQKDrUApuz7QRtw1VCi9i1i2X1J5pUdssgZX8c7RCrDWgpoLblWW
+         JeGDGxvYiJrzX8MkBkH7ThyL3JoOXd6ixmKBzogEv+CNMV8v3VF+l6EqgLrzU52B9+N2
+         shsw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=DLMvmiGErsLTvHJlAUfm5XCoZVDF9c6VQwTXEbmBAMM=;
+        b=fVu8HMxJx3aGFjsXNs4kkNoanw8X0N9seRaNvzh1H367QyA5AWeNe7qURaj2tC1twD
+         ZCFoqX/cIyYfhRlFIjc6uDTSq6PNLO5r5WtIUeBA9fCfgrTxsGO260+Vw5QgJ6uzrhU3
+         X+rXFp49W9wteWGfNiwaks5dSmwy1dNG6DjQ7jhIez3ISSZO86envMZ5uEUWeX2XklAc
+         yhgDwREBclJHu40oOQH/dsB1/ba6FK7aYF57EmMs6zI027FojIDo90WePAxYU+hU89SH
+         R1GlX57EoGjjTG46bVnoYCW0Bzu+aZEH/Cz0x3unryhMA37HEMnBY42V8gh0Ss1tKMNV
+         6FDg==
+X-Gm-Message-State: AOAM530jdqrwIViGjjxCtPiz3tE0/6ASN8oxdxVcfht8YnYO3/XrbNY8
+        /5/rPO/U8rJBsItEOBYyKSE=
+X-Google-Smtp-Source: ABdhPJw5+gEdxMkXXcTkmCAdjGA4pdY/G217J8ItT72HsCxIQ8xPYpNbF7yN+tJpWCTlhyOTkv3XcA==
+X-Received: by 2002:adf:d849:: with SMTP id k9mr9317520wrl.332.1603578488363;
+        Sat, 24 Oct 2020 15:28:08 -0700 (PDT)
+Received: from [192.168.1.158] ([2.29.20.56])
+        by smtp.gmail.com with ESMTPSA id 4sm14205299wrn.48.2020.10.24.15.28.06
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sat, 24 Oct 2020 15:28:07 -0700 (PDT)
+Subject: Re: [RFC PATCH v3 9/9] ipu3-cio2: Add functionality allowing
+ software_node connections to sensors on platforms designed for Windows
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linus.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        heikki.krogerus@linux.intel.com, dmitry.torokhov@gmail.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
+        robh@kernel.org, davem@davemloft.net, linux@rasmusvillemoes.dk,
+        andriy.shevchenko@linux.intel.com, sergey.senozhatsky@gmail.com,
+        rostedt@goodmis.org, pmladek@suse.com, mchehab@kernel.org,
+        tian.shu.qiu@intel.com, bingbu.cao@intel.com,
+        sakari.ailus@linux.intel.com, yong.zhi@intel.com,
+        rafael@kernel.org, gregkh@linuxfoundation.org, kitakar@gmail.com
+References: <20201019225903.14276-1-djrscally@gmail.com>
+ <20201019225903.14276-10-djrscally@gmail.com>
+ <20201024012411.GT5979@pendragon.ideasonboard.com>
+ <d188f8b5-ed3b-f91b-171a-26afeb7d213e@gmail.com>
+ <20201024093702.GA3939@pendragon.ideasonboard.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <748d34c3-a146-12fe-22c0-8dfef9006ea0@gmail.com>
+Date:   Sat, 24 Oct 2020 23:28:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201020122046.31167-11-tzimmermann@suse.de>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=fu7ymmwf c=1 sm=1 tr=0
-        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
-        a=kj9zAlcOel0A:10 a=7gkXJVJtAAAA:8 a=Ogo0Iva9nwArjqrsVXIA:9
-        a=x50s5EHYZIou7SfH:21 a=IqrjcI2zc_8-tyTa:21 a=CjuIK1q_8ugA:10
-        a=qfUslh1TxfEA:10 a=E9Po1WZjFZOl8hwRPBS3:22
+In-Reply-To: <20201024093702.GA3939@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Thomas.
+Hi Laurent
 
-On Tue, Oct 20, 2020 at 02:20:46PM +0200, Thomas Zimmermann wrote:
-> At least sparc64 requires I/O-specific access to framebuffers. This
-> patch updates the fbdev console accordingly.
-> 
-> For drivers with direct access to the framebuffer memory, the callback
-> functions in struct fb_ops test for the type of memory and call the rsp
-> fb_sys_ of fb_cfb_ functions. Read and write operations are implemented
-> internally by DRM's fbdev helper.
-> 
-> For drivers that employ a shadow buffer, fbdev's blit function retrieves
-> the framebuffer address as struct dma_buf_map, and uses dma_buf_map
-> interfaces to access the buffer.
-> 
-> The bochs driver on sparc64 uses a workaround to flag the framebuffer as
-> I/O memory and avoid a HW exception. With the introduction of struct
-> dma_buf_map, this is not required any longer. The patch removes the rsp
-> code from both, bochs and fbdev.
-> 
-> v5:
-> 	* implement fb_read/fb_write internally (Daniel, Sam)
-> v4:
-> 	* move dma_buf_map changes into separate patch (Daniel)
-> 	* TODO list: comment on fbdev updates (Daniel)
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-> Tested-by: Sam Ravnborg <sam@ravnborg.org>
-Reviewed-by: Sam Ravnborg <sam@ravnborg.org>
+On 24/10/2020 10:37, Laurent Pinchart wrote:
+>
+>>> I wonder if we could avoid depending on the I2C device being created by
+>>> getting the fwnode from adev, and setting ->secondary manually. adev
+>>> would need to be passed to get_acpi_ssdb_sensor_data() instead of dev.
+>> Let me try that; I initially wanted to do
+>> set_secondary_fwnode(&adev->dev, fwnode) to avoid depending on the I2C
+>> dev being created but it turns out &adev->dev isn't the same pointer. I
+>> shall try it and see.
 
-But see a few comments below on naming for you to consider.
 
-	Sam
+Actually, thinking on this further I think maybe we can't avoid that -
+it's not actually in this patch series but during assigning GPIO
+resources parsed from PMIC's ACPI node to the sensor, I'm using
+dev_name() on the i2c dev to pass to .dev_id member of gpiod_lookup_table
 
-> ---
->  Documentation/gpu/todo.rst        |  19 ++-
->  drivers/gpu/drm/bochs/bochs_kms.c |   1 -
->  drivers/gpu/drm/drm_fb_helper.c   | 227 ++++++++++++++++++++++++++++--
->  include/drm/drm_mode_config.h     |  12 --
->  4 files changed, 230 insertions(+), 29 deletions(-)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 7e6fc3c04add..638b7f704339 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -197,13 +197,28 @@ Convert drivers to use drm_fbdev_generic_setup()
->  ------------------------------------------------
->  
->  Most drivers can use drm_fbdev_generic_setup(). Driver have to implement
-> -atomic modesetting and GEM vmap support. Current generic fbdev emulation
-> -expects the framebuffer in system memory (or system-like memory).
-> +atomic modesetting and GEM vmap support. Historically, generic fbdev emulation
-> +expected the framebuffer in system memory or system-like memory. By employing
-> +struct dma_buf_map, drivers with frambuffers in I/O memory can be supported
-> +as well.
->  
->  Contact: Maintainer of the driver you plan to convert
->  
->  Level: Intermediate
->  
-> +Reimplement functions in drm_fbdev_fb_ops without fbdev
-> +-------------------------------------------------------
-> +
-> +A number of callback functions in drm_fbdev_fb_ops could benefit from
-> +being rewritten without dependencies on the fbdev module. Some of the
-> +helpers could further benefit from using struct dma_buf_map instead of
-> +raw pointers.
-> +
-> +Contact: Thomas Zimmermann <tzimmermann@suse.de>, Daniel Vetter
-> +
-> +Level: Advanced
-> +
-> +
->  drm_framebuffer_funcs and drm_mode_config_funcs.fb_create cleanup
->  -----------------------------------------------------------------
->  
-> diff --git a/drivers/gpu/drm/bochs/bochs_kms.c b/drivers/gpu/drm/bochs/bochs_kms.c
-> index 13d0d04c4457..853081d186d5 100644
-> --- a/drivers/gpu/drm/bochs/bochs_kms.c
-> +++ b/drivers/gpu/drm/bochs/bochs_kms.c
-> @@ -151,7 +151,6 @@ int bochs_kms_init(struct bochs_device *bochs)
->  	bochs->dev->mode_config.preferred_depth = 24;
->  	bochs->dev->mode_config.prefer_shadow = 0;
->  	bochs->dev->mode_config.prefer_shadow_fbdev = 1;
-> -	bochs->dev->mode_config.fbdev_use_iomem = true;
->  	bochs->dev->mode_config.quirk_addfb_prefer_host_byte_order = true;
->  
->  	bochs->dev->mode_config.funcs = &bochs_mode_funcs;
-> diff --git a/drivers/gpu/drm/drm_fb_helper.c b/drivers/gpu/drm/drm_fb_helper.c
-> index 6212cd7cde1d..1d3180841778 100644
-> --- a/drivers/gpu/drm/drm_fb_helper.c
-> +++ b/drivers/gpu/drm/drm_fb_helper.c
-> @@ -372,24 +372,22 @@ static void drm_fb_helper_resume_worker(struct work_struct *work)
->  }
->  
->  static void drm_fb_helper_dirty_blit_real(struct drm_fb_helper *fb_helper,
-> -					  struct drm_clip_rect *clip)
-> +					  struct drm_clip_rect *clip,
-> +					  struct dma_buf_map *dst)
->  {
->  	struct drm_framebuffer *fb = fb_helper->fb;
->  	unsigned int cpp = fb->format->cpp[0];
->  	size_t offset = clip->y1 * fb->pitches[0] + clip->x1 * cpp;
->  	void *src = fb_helper->fbdev->screen_buffer + offset;
-> -	void *dst = fb_helper->buffer->map.vaddr + offset;
->  	size_t len = (clip->x2 - clip->x1) * cpp;
->  	unsigned int y;
->  
-> -	for (y = clip->y1; y < clip->y2; y++) {
-> -		if (!fb_helper->dev->mode_config.fbdev_use_iomem)
-> -			memcpy(dst, src, len);
-> -		else
-> -			memcpy_toio((void __iomem *)dst, src, len);
-> +	dma_buf_map_incr(dst, offset); /* go to first pixel within clip rect */
->  
-> +	for (y = clip->y1; y < clip->y2; y++) {
-> +		dma_buf_map_memcpy_to(dst, src, len);
-> +		dma_buf_map_incr(dst, fb->pitches[0]);
->  		src += fb->pitches[0];
-> -		dst += fb->pitches[0];
->  	}
->  }
->  
-> @@ -417,8 +415,9 @@ static void drm_fb_helper_dirty_work(struct work_struct *work)
->  			ret = drm_client_buffer_vmap(helper->buffer, &map);
->  			if (ret)
->  				return;
-> -			drm_fb_helper_dirty_blit_real(helper, &clip_copy);
-> +			drm_fb_helper_dirty_blit_real(helper, &clip_copy, &map);
->  		}
-> +
->  		if (helper->fb->funcs->dirty)
->  			helper->fb->funcs->dirty(helper->fb, NULL, 0, 0,
->  						 &clip_copy, 1);
-> @@ -2027,6 +2026,206 @@ static int drm_fbdev_fb_mmap(struct fb_info *info, struct vm_area_struct *vma)
->  		return -ENODEV;
->  }
->  
-> +static bool drm_fbdev_use_iomem(struct fb_info *info)
-> +{
-> +	struct drm_fb_helper *fb_helper = info->par;
-> +	struct drm_client_buffer *buffer = fb_helper->buffer;
-> +
-> +	return !drm_fbdev_use_shadow_fb(fb_helper) && buffer->map.is_iomem;
-> +}
-> +
-> +static ssize_t fb_read_screen_base(struct fb_info *info, char __user *buf, size_t count, 
-> +				   loff_t pos)
-The naming here confused me - a name like:
-fb_read_iomem() would have helped me more.
-With the current naming I shall remember that the screen_base member is
-the iomem pointer.
-
-> +{
-> +	const char __iomem *src = info->screen_base + pos;
-> +	size_t alloc_size = min(count, PAGE_SIZE);
-> +	ssize_t ret = 0;
-> +	char *tmp;
-> +
-> +	tmp = kmalloc(alloc_size, GFP_KERNEL);
-> +	if (!tmp)
-> +		return -ENOMEM;
-> +
-
-I looked around and could not find other places where
-we copy from iomem to mem to usermem in chunks of PAGE_SIZE.
-
-> +	while (count) {
-> +		size_t c = min(count, alloc_size);
-> +
-> +		memcpy_fromio(tmp, src, c);
-> +		if (copy_to_user(buf, tmp, c)) {
-> +			ret = -EFAULT;
-> +			break;
-> +		}
-> +
-> +		src += c;
-> +		buf += c;
-> +		ret += c;
-> +		count -= c;
-> +	}
-> +
-> +	kfree(tmp);
-> +
-> +	return ret;
-> +}
-> +
-> +static ssize_t fb_read_screen_buffer(struct fb_info *info, char __user *buf, size_t count,
-> +				     loff_t pos)
-And fb_read_sysmem() here.
-
-> +{
-> +	const char *src = info->screen_buffer + pos;
-> +
-> +	if (copy_to_user(buf, src, count))
-> +		return -EFAULT;
-> +
-> +	return count;
-> +}
-> +
-> +static ssize_t drm_fbdev_fb_read(struct fb_info *info, char __user *buf,
-> +				 size_t count, loff_t *ppos)
-> +{
-> +	loff_t pos = *ppos;
-> +	size_t total_size;
-> +	ssize_t ret;
-> +
-> +	if (info->state != FBINFO_STATE_RUNNING)
-> +		return -EPERM;
-> +
-> +	if (info->screen_size)
-> +		total_size = info->screen_size;
-> +	else
-> +		total_size = info->fix.smem_len;
-> +
-> +	if (pos >= total_size)
-> +		return 0;
-> +	if (count >= total_size)
-> +		count = total_size;
-> +	if (total_size - count < pos)
-> +		count = total_size - pos;
-> +
-> +	if (drm_fbdev_use_iomem(info))
-> +		ret = fb_read_screen_base(info, buf, count, pos);
-> +	else
-> +		ret = fb_read_screen_buffer(info, buf, count, pos);
-> +
-> +	if (ret > 0)
-> +		*ppos = ret;
-> +
-> +	return ret;
-> +}
-> +
-> +static ssize_t fb_write_screen_base(struct fb_info *info, const char __user *buf, size_t count,
-> +				    loff_t pos)
-
-fb_write_iomem()
-
-> +{
-> +	char __iomem *dst = info->screen_base + pos;
-> +	size_t alloc_size = min(count, PAGE_SIZE);
-> +	ssize_t ret = 0;
-> +	u8 *tmp;
-> +
-> +	tmp = kmalloc(alloc_size, GFP_KERNEL);
-> +	if (!tmp)
-> +		return -ENOMEM;
-> +
-> +	while (count) {
-> +		size_t c = min(count, alloc_size);
-> +
-> +		if (copy_from_user(tmp, buf, c)) {
-> +			ret = -EFAULT;
-> +			break;
-> +		}
-> +		memcpy_toio(dst, tmp, c);
-> +
-> +		dst += c;
-> +		buf += c;
-> +		ret += c;
-> +		count -= c;
-> +	}
-> +
-> +	kfree(tmp);
-> +
-> +	return ret;
-> +}
-> +
-> +static ssize_t fb_write_screen_buffer(struct fb_info *info, const char __user *buf, size_t count,
-> +				      loff_t pos)
-fb_write_sysmem()
-
-> +{
-> +	char *dst = info->screen_buffer + pos;
-> +
-> +	if (copy_from_user(dst, buf, count))
-> +		return -EFAULT;
-> +
-> +	return count;
-> +}
-> +
-> +static ssize_t drm_fbdev_fb_write(struct fb_info *info, const char __user *buf,
-> +				  size_t count, loff_t *ppos)
-> +{
-> +	loff_t pos = *ppos;
-> +	size_t total_size;
-> +	ssize_t ret;
-> +	int err;
-> +
-> +	if (info->state != FBINFO_STATE_RUNNING)
-> +		return -EPERM;
-> +
-> +	if (info->screen_size)
-> +		total_size = info->screen_size;
-> +	else
-> +		total_size = info->fix.smem_len;
-> +
-> +	if (pos > total_size)
-> +		return -EFBIG;
-> +	if (count > total_size) {
-> +		err = -EFBIG;
-> +		count = total_size;
-> +	}
-> +	if (total_size - count < pos) {
-> +		if (!err)
-> +			err = -ENOSPC;
-> +		count = total_size - pos;
-> +	}
-> +
-> +	/*
-> +	 * Copy to framebuffer even if we already logged an error. Emulates
-> +	 * the behavior of the original fbdev implementation.
-> +	 */
-> +	if (drm_fbdev_use_iomem(info))
-> +		ret = fb_write_screen_base(info, buf, count, pos);
-> +	else
-> +		ret = fb_write_screen_buffer(info, buf, count, pos);
-> +
-> +	if (ret > 0)
-> +		*ppos = ret;
-> +
-> +	if (err)
-> +		return err;
-> +
-> +	return ret;
-> +}
-> +
-> +static void drm_fbdev_fb_fillrect(struct fb_info *info,
-> +				  const struct fb_fillrect *rect)
-> +{
-> +	if (drm_fbdev_use_iomem(info))
-> +		drm_fb_helper_cfb_fillrect(info, rect);
-> +	else
-> +		drm_fb_helper_sys_fillrect(info, rect);
-> +}
-> +
-> +static void drm_fbdev_fb_copyarea(struct fb_info *info,
-> +				  const struct fb_copyarea *area)
-> +{
-> +	if (drm_fbdev_use_iomem(info))
-> +		drm_fb_helper_cfb_copyarea(info, area);
-> +	else
-> +		drm_fb_helper_sys_copyarea(info, area);
-> +}
-> +
-> +static void drm_fbdev_fb_imageblit(struct fb_info *info,
-> +				   const struct fb_image *image)
-> +{
-> +	if (drm_fbdev_use_iomem(info))
-> +		drm_fb_helper_cfb_imageblit(info, image);
-> +	else
-> +		drm_fb_helper_sys_imageblit(info, image);
-> +}
-> +
->  static const struct fb_ops drm_fbdev_fb_ops = {
->  	.owner		= THIS_MODULE,
->  	DRM_FB_HELPER_DEFAULT_OPS,
-> @@ -2034,11 +2233,11 @@ static const struct fb_ops drm_fbdev_fb_ops = {
->  	.fb_release	= drm_fbdev_fb_release,
->  	.fb_destroy	= drm_fbdev_fb_destroy,
->  	.fb_mmap	= drm_fbdev_fb_mmap,
-> -	.fb_read	= drm_fb_helper_sys_read,
-> -	.fb_write	= drm_fb_helper_sys_write,
-> -	.fb_fillrect	= drm_fb_helper_sys_fillrect,
-> -	.fb_copyarea	= drm_fb_helper_sys_copyarea,
-> -	.fb_imageblit	= drm_fb_helper_sys_imageblit,
-> +	.fb_read	= drm_fbdev_fb_read,
-> +	.fb_write	= drm_fbdev_fb_write,
-> +	.fb_fillrect	= drm_fbdev_fb_fillrect,
-> +	.fb_copyarea	= drm_fbdev_fb_copyarea,
-> +	.fb_imageblit	= drm_fbdev_fb_imageblit,
->  };
->  
->  static struct fb_deferred_io drm_fbdev_defio = {
-> diff --git a/include/drm/drm_mode_config.h b/include/drm/drm_mode_config.h
-> index 5ffbb4ed5b35..ab424ddd7665 100644
-> --- a/include/drm/drm_mode_config.h
-> +++ b/include/drm/drm_mode_config.h
-> @@ -877,18 +877,6 @@ struct drm_mode_config {
->  	 */
->  	bool prefer_shadow_fbdev;
->  
-> -	/**
-> -	 * @fbdev_use_iomem:
-> -	 *
-> -	 * Set to true if framebuffer reside in iomem.
-> -	 * When set to true memcpy_toio() is used when copying the framebuffer in
-> -	 * drm_fb_helper.drm_fb_helper_dirty_blit_real().
-> -	 *
-> -	 * FIXME: This should be replaced with a per-mapping is_iomem
-> -	 * flag (like ttm does), and then used everywhere in fbdev code.
-> -	 */
-> -	bool fbdev_use_iomem;
-> -
->  	/**
->  	 * @quirk_addfb_prefer_xbgr_30bpp:
->  	 *
-> -- 
-> 2.28.0
