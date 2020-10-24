@@ -2,137 +2,316 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02238297D8B
-	for <lists+linux-media@lfdr.de>; Sat, 24 Oct 2020 18:56:08 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id E89DC297DAB
+	for <lists+linux-media@lfdr.de>; Sat, 24 Oct 2020 19:11:54 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1762456AbgJXQzz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Oct 2020 12:55:55 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:38386 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1762450AbgJXQzz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Oct 2020 12:55:55 -0400
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4E5ECA43;
-        Sat, 24 Oct 2020 18:55:52 +0200 (CEST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1603558552;
-        bh=iwZCfHnxDvI7npLeEEZlTyt9HVGP23tXV1eY5GsaguI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=U2NrGUJDHmhvDBhFgA1VTW29VBivoX2XQzIw9LpBJ32WaMn5PFCELDmO4jOevlzfE
-         6os1thaKyBCIglQJfVCmEaVEC5zYCUMiL88MbnP5h+H4a7Qbc7iQRWr0ImbRDp6un5
-         yyaKO68bT09ElGh3xypa6JuejeAnzy9dlNsDIwgQ=
-Date:   Sat, 24 Oct 2020 19:55:06 +0300
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dan Scally <djrscally@gmail.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        heikki.krogerus@linux.intel.com, dmitry.torokhov@gmail.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
-        robh@kernel.org, davem@davemloft.net, linux@rasmusvillemoes.dk,
-        sergey.senozhatsky@gmail.com, rostedt@goodmis.org,
-        pmladek@suse.com, mchehab@kernel.org, tian.shu.qiu@intel.com,
-        bingbu.cao@intel.com, yong.zhi@intel.com, rafael@kernel.org,
-        gregkh@linuxfoundation.org, kitakar@gmail.com,
-        dan.carpenter@oracle.org
-Subject: Re: [RFC PATCH v3 7/9] ipu3-cio2: Check if pci_dev->dev's fwnode is
- a software_node in cio2_parse_firmware() and set
- FWNODE_GRAPH_DEVICE_DISABLED if so
-Message-ID: <20201024165506.GB3943@pendragon.ideasonboard.com>
-References: <20201019225903.14276-1-djrscally@gmail.com>
- <20201019225903.14276-8-djrscally@gmail.com>
- <20201020091958.GC4077@smile.fi.intel.com>
- <20201020120615.GV13341@paasikivi.fi.intel.com>
- <32bbb4db-17d7-b9d1-950f-8f29d67539c3@gmail.com>
- <20201020224910.GB2703@paasikivi.fi.intel.com>
- <20201024003955.GS5979@pendragon.ideasonboard.com>
- <20201024142907.GB26150@paasikivi.fi.intel.com>
- <cb717718-8d84-8213-31d1-a1b342bb78a0@gmail.com>
+        id S1762489AbgJXRLx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Oct 2020 13:11:53 -0400
+Received: from mga11.intel.com ([192.55.52.93]:32662 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1762487AbgJXRLx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 24 Oct 2020 13:11:53 -0400
+IronPort-SDR: 45KILTPaY9HdlMlyJmU5v+EWmC2Oz4RiXEiBmxZBwtmaaKKxed/n/jnEjPfenaJieB5TZkQwUu
+ VQTZSgIzpHCg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9784"; a="164291131"
+X-IronPort-AV: E=Sophos;i="5.77,413,1596524400"; 
+   d="scan'208";a="164291131"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2020 10:11:52 -0700
+IronPort-SDR: owv80j2C1O7CId5zYifpY+z7hbfRUiokYrJST+hFalOMgaLDTHJqOvayhemit4vw4OfoCMAHAr
+ 3zv/WifZKlLw==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,413,1596524400"; 
+   d="scan'208";a="359913648"
+Received: from lkp-server01.sh.intel.com (HELO cda15bb6d7bd) ([10.239.97.150])
+  by FMSMGA003.fm.intel.com with ESMTP; 24 Oct 2020 10:11:50 -0700
+Received: from kbuild by cda15bb6d7bd with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kWN54-0000aF-Bw; Sat, 24 Oct 2020 17:11:50 +0000
+Date:   Sun, 25 Oct 2020 01:11:02 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-next] BUILD SUCCESS WITH WARNING
+ cafcadac71cb4fd022318e3824a3bb60d99ba915
+Message-ID: <5f946026.ePUHV5w0y8XIHf94%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <cb717718-8d84-8213-31d1-a1b342bb78a0@gmail.com>
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
+tree/branch: git://git.ragnatech.se/linux  media-next
+branch HEAD: cafcadac71cb4fd022318e3824a3bb60d99ba915  docs: fs: api-summary.rst: get rid of kernel-doc include
 
-On Sat, Oct 24, 2020 at 05:33:32PM +0100, Dan Scally wrote:
-> On 24/10/2020 15:29, Sakari Ailus wrote:
-> > On Sat, Oct 24, 2020 at 03:39:55AM +0300, Laurent Pinchart wrote:
-> >> On Wed, Oct 21, 2020 at 01:49:10AM +0300, Sakari Ailus wrote:
-> >>> On Tue, Oct 20, 2020 at 08:56:07PM +0100, Dan Scally wrote:
-> >>>> On 20/10/2020 13:06, Sakari Ailus wrote:
-> >>>>> On Tue, Oct 20, 2020 at 12:19:58PM +0300, Andy Shevchenko wrote:
-> >>>>>> On Mon, Oct 19, 2020 at 11:59:01PM +0100, Daniel Scally wrote:
-> >>>>>>> fwnode_graph_get_endpoint_by_id() will optionally parse enabled devices
-> >>>>>>> only; that status being determined through the .device_is_available() op
-> >>>>>>> of the device's fwnode. As software_nodes don't have that operation and
-> >>>>>>> adding it is meaningless, we instead need to check if the device's fwnode
-> >>>>>>> is a software_node and if so pass the appropriate flag to disable that
-> >>>>>>> check
-> >>>>>>
-> >>>>>> Period.
-> >>>>>>
-> >>>>>> I'm wondering if actually this can be hidden in fwnode_graph_get_endpoint_by_id().
-> >>>>>
-> >>>>> The device availability test is actually there for a reason. Some firmware
-> >>>>> implementations put all the potential devices in the tables and only one
-> >>>>> (of some) of them are available.
-> >>>>>
-> >>>>> Could this be implemented so that if the node is a software node, then get
-> >>>>> its parent and then see if that is available?
-> >>>>>
-> >>>>> I guess that could be implemented in software node ops. Any opinions?
-> >>>>
-> >>>> Actually when considering the cio2 device, it seems that
-> >>>> set_secondary_fwnode() actually overwrites the _primary_, given
-> >>>> fwnode_is_primary(dev->fwnode) returns false. So in at least some cases,
-> >>>> this wouldn't work.
-> >>>
-> >>> Ouch. I wonder when this happens --- have you checked what's the primary
-> >>> there? I guess it might be if it's a PCI device without the corresponding
-> >>> ACPI device node?
-> >>>
-> >>> I remember you had an is_available implementation that just returned true
-> >>> for software nodes in an early version of the set? I think it would still
-> >>> be a lesser bad in this case.
-> >>
-> >> How about the following ?
-> >
-> > Looks good to me.
->
-> If we're agreed on this (and it's fine by me too), do you want me to
-> include it in the next set, or are you going to do it separately Laurent?
+Warning reports:
 
-Feel free to include it in the next version, but I can send a patch if
-you prefer.
+https://lore.kernel.org/linux-media/202010241843.uzmR4DZ6-lkp@intel.com
 
-> >> diff --git a/drivers/base/property.c b/drivers/base/property.c
-> >> index 81bd01ed4042..ea44ba846299 100644
-> >> --- a/drivers/base/property.c
-> >> +++ b/drivers/base/property.c
-> >> @@ -706,9 +706,14 @@ EXPORT_SYMBOL_GPL(fwnode_handle_put);
-> >>  /**
-> >>   * fwnode_device_is_available - check if a device is available for use
-> >>   * @fwnode: Pointer to the fwnode of the device.
-> >> + *
-> >> + * For fwnode node types that don't implement the .device_is_available()
-> >> + * operation, such as software nodes, this function returns true.
-> >>   */
-> >>  bool fwnode_device_is_available(const struct fwnode_handle *fwnode)
-> >>  {
-> >> +	if (!fwnode_has_op(fwnode, device_is_available))
-> >> +		return true;
-> >>  	return fwnode_call_bool_op(fwnode, device_is_available);
-> >>  }
-> >>  EXPORT_SYMBOL_GPL(fwnode_device_is_available);
+Warning in current branch:
 
--- 
-Regards,
+WARNING: modpost: vmlinux.o(.text+0x29d3bdc): Section mismatch in reference from the function p9_release_pages() to the variable .init.text:.L0
 
-Laurent Pinchart
+Warning ids grouped by kconfigs:
+
+gcc_recent_errors
+`-- riscv-randconfig-r034-20201023
+    `-- Section-mismatch-in-reference-from-the-function-p9_release_pages()-to-the-variable-.init.text:.L0
+
+elapsed time: 2077m
+
+configs tested: 241
+configs skipped: 2
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm64                               defconfig
+arm                         lpc18xx_defconfig
+arc                        vdk_hs38_defconfig
+mips                      bmips_stb_defconfig
+powerpc                      katmai_defconfig
+mips                             allmodconfig
+mips                         cobalt_defconfig
+h8300                       h8s-sim_defconfig
+arm                             pxa_defconfig
+arm                           h3600_defconfig
+arc                         haps_hs_defconfig
+mips                        nlm_xlr_defconfig
+sh                   sh7724_generic_defconfig
+mips                         db1xxx_defconfig
+arc                 nsimosci_hs_smp_defconfig
+sparc                       sparc32_defconfig
+arm                        spear6xx_defconfig
+riscv                            alldefconfig
+arm                            xcep_defconfig
+arm                          exynos_defconfig
+arm                        multi_v5_defconfig
+powerpc                     ksi8560_defconfig
+mips                      malta_kvm_defconfig
+arm                             mxs_defconfig
+arc                        nsim_700_defconfig
+mips                          ath79_defconfig
+powerpc                      ppc44x_defconfig
+m68k                                defconfig
+sh                           se7751_defconfig
+powerpc                 linkstation_defconfig
+arm                     am200epdkit_defconfig
+microblaze                          defconfig
+s390                             allyesconfig
+powerpc                   currituck_defconfig
+powerpc                 canyonlands_defconfig
+arm                          pxa910_defconfig
+mips                           gcw0_defconfig
+powerpc                     redwood_defconfig
+sh                             espt_defconfig
+powerpc                       ppc64_defconfig
+um                            kunit_defconfig
+mips                           ip27_defconfig
+powerpc                      pasemi_defconfig
+arm                       aspeed_g5_defconfig
+arm                       netwinder_defconfig
+arm                        oxnas_v6_defconfig
+xtensa                  cadence_csp_defconfig
+s390                       zfcpdump_defconfig
+mips                malta_kvm_guest_defconfig
+arm                         hackkit_defconfig
+m68k                       m5249evb_defconfig
+sh                           se7619_defconfig
+sh                            hp6xx_defconfig
+sparc64                             defconfig
+sh                           se7343_defconfig
+h8300                               defconfig
+sh                           se7780_defconfig
+xtensa                           allyesconfig
+arm                            zeus_defconfig
+sh                           se7722_defconfig
+mips                     decstation_defconfig
+arm                      jornada720_defconfig
+sh                          lboxre2_defconfig
+nios2                         3c120_defconfig
+arm                           tegra_defconfig
+arm                          lpd270_defconfig
+arc                          axs103_defconfig
+powerpc                          allyesconfig
+mips                malta_qemu_32r6_defconfig
+m68k                          multi_defconfig
+s390                          debug_defconfig
+powerpc                 mpc832x_rdb_defconfig
+arm                            lart_defconfig
+powerpc                      chrp32_defconfig
+xtensa                    xip_kc705_defconfig
+m68k                            q40_defconfig
+openrisc                    or1ksim_defconfig
+sh                           se7705_defconfig
+sh                          polaris_defconfig
+arm                           stm32_defconfig
+powerpc                         wii_defconfig
+powerpc                    sam440ep_defconfig
+xtensa                         virt_defconfig
+arm                      tct_hammer_defconfig
+m68k                          atari_defconfig
+powerpc                      bamboo_defconfig
+powerpc                     mpc5200_defconfig
+arm                              zx_defconfig
+mips                        bcm47xx_defconfig
+xtensa                           alldefconfig
+xtensa                  nommu_kc705_defconfig
+powerpc                     akebono_defconfig
+arm                            dove_defconfig
+arm                      integrator_defconfig
+powerpc                 mpc836x_mds_defconfig
+powerpc                  iss476-smp_defconfig
+m68k                          hp300_defconfig
+mips                        qi_lb60_defconfig
+arm                            hisi_defconfig
+xtensa                              defconfig
+powerpc                        warp_defconfig
+arm                        neponset_defconfig
+powerpc                 mpc836x_rdk_defconfig
+arm                       imx_v4_v5_defconfig
+mips                           rs90_defconfig
+sh                        edosk7705_defconfig
+riscv                               defconfig
+arm                             ezx_defconfig
+powerpc                     mpc83xx_defconfig
+sh                           se7724_defconfig
+arm                      pxa255-idp_defconfig
+powerpc                      ppc40x_defconfig
+arm                           viper_defconfig
+powerpc                      ppc6xx_defconfig
+arm                       versatile_defconfig
+m68k                        stmark2_defconfig
+powerpc                        icon_defconfig
+nios2                               defconfig
+powerpc                 mpc8313_rdb_defconfig
+arm                        shmobile_defconfig
+sh                     sh7710voipgw_defconfig
+ia64                        generic_defconfig
+sparc                       sparc64_defconfig
+sh                   sh7770_generic_defconfig
+arm                          imote2_defconfig
+arm                   milbeaut_m10v_defconfig
+arm                         palmz72_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                             allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+parisc                              defconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                                defconfig
+mips                             allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a001-20201023
+x86_64               randconfig-a002-20201023
+x86_64               randconfig-a003-20201023
+x86_64               randconfig-a006-20201023
+x86_64               randconfig-a004-20201023
+x86_64               randconfig-a005-20201023
+i386                 randconfig-a002-20201023
+i386                 randconfig-a005-20201023
+i386                 randconfig-a003-20201023
+i386                 randconfig-a001-20201023
+i386                 randconfig-a006-20201023
+i386                 randconfig-a004-20201023
+i386                 randconfig-a002-20201024
+i386                 randconfig-a003-20201024
+i386                 randconfig-a005-20201024
+i386                 randconfig-a001-20201024
+i386                 randconfig-a006-20201024
+i386                 randconfig-a004-20201024
+i386                 randconfig-a002-20201022
+i386                 randconfig-a005-20201022
+i386                 randconfig-a003-20201022
+i386                 randconfig-a001-20201022
+i386                 randconfig-a006-20201022
+i386                 randconfig-a004-20201022
+x86_64               randconfig-a011-20201024
+x86_64               randconfig-a013-20201024
+x86_64               randconfig-a016-20201024
+x86_64               randconfig-a015-20201024
+x86_64               randconfig-a012-20201024
+x86_64               randconfig-a014-20201024
+x86_64               randconfig-a011-20201022
+x86_64               randconfig-a013-20201022
+x86_64               randconfig-a016-20201022
+x86_64               randconfig-a015-20201022
+x86_64               randconfig-a012-20201022
+x86_64               randconfig-a014-20201022
+i386                 randconfig-a016-20201022
+i386                 randconfig-a014-20201022
+i386                 randconfig-a015-20201022
+i386                 randconfig-a012-20201022
+i386                 randconfig-a013-20201022
+i386                 randconfig-a011-20201022
+i386                 randconfig-a016-20201024
+i386                 randconfig-a015-20201024
+i386                 randconfig-a014-20201024
+i386                 randconfig-a013-20201024
+i386                 randconfig-a012-20201024
+i386                 randconfig-a011-20201024
+i386                 randconfig-a014-20201023
+i386                 randconfig-a015-20201023
+i386                 randconfig-a012-20201023
+i386                 randconfig-a013-20201023
+i386                 randconfig-a011-20201023
+i386                 randconfig-a016-20201023
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+clang tested configs:
+x86_64               randconfig-a001-20201024
+x86_64               randconfig-a003-20201024
+x86_64               randconfig-a002-20201024
+x86_64               randconfig-a006-20201024
+x86_64               randconfig-a005-20201024
+x86_64               randconfig-a004-20201024
+x86_64               randconfig-a001-20201022
+x86_64               randconfig-a002-20201022
+x86_64               randconfig-a003-20201022
+x86_64               randconfig-a006-20201022
+x86_64               randconfig-a004-20201022
+x86_64               randconfig-a005-20201022
+x86_64               randconfig-a011-20201023
+x86_64               randconfig-a013-20201023
+x86_64               randconfig-a016-20201023
+x86_64               randconfig-a015-20201023
+x86_64               randconfig-a012-20201023
+x86_64               randconfig-a014-20201023
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
