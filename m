@@ -2,95 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1CF8297A0D
-	for <lists+linux-media@lfdr.de>; Sat, 24 Oct 2020 02:36:04 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id BC59D297A13
+	for <lists+linux-media@lfdr.de>; Sat, 24 Oct 2020 02:41:04 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1756664AbgJXAfp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 23 Oct 2020 20:35:45 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:41734 "EHLO
+        id S1756851AbgJXAko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 23 Oct 2020 20:40:44 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:41818 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1756252AbgJXAfp (ORCPT
+        with ESMTP id S1756845AbgJXAko (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 23 Oct 2020 20:35:45 -0400
+        Fri, 23 Oct 2020 20:40:44 -0400
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E79AA1C;
-        Sat, 24 Oct 2020 02:35:43 +0200 (CEST)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 899A9B26;
+        Sat, 24 Oct 2020 02:40:41 +0200 (CEST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1603499743;
-        bh=NbyCUxAU6lhvIbqrP0bRYys1d2xfIqZWoMdhyQf020A=;
+        s=mail; t=1603500041;
+        bh=VS+PHa1Z7q4KnYHiQFEbziY0WQ7duYT8JngUrBH/cuk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=S0TgQHhJm22pfbwPg66Pg0OYRGGGxBckG6ALN9D4QdwskckmDf/m2vAqgR+FFJZll
-         LJoUK5auUzVJCp/Oo30i1+4ev9gDHNiib/kyD/w1gfV+B5NZrMD70OIJIS1O/LoDWU
-         6bb76mwRoPXfj/v3v17I39l71EGludnd6IPv/j3c=
-Date:   Sat, 24 Oct 2020 03:34:56 +0300
+        b=uzQOPDdJ+M/aKp3bkYQe6/CAimSQuD3zp+YaCod/QHXMfjjpVPLz49BVDdHlUAtEW
+         w7/NfpctFSrSj7hoEBe00uG6OOHOS8Ctm40KLwyeq759KKP5CYKFx+wf6Wu8i+ctF4
+         fk2vsYOqQJPBdYhQAIgunrjR5q5bmLCb/Vk6KmYU=
+Date:   Sat, 24 Oct 2020 03:39:55 +0300
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Dan Scally <djrscally@gmail.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
         linux.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
         heikki.krogerus@linux.intel.com, dmitry.torokhov@gmail.com,
         laurent.pinchart+renesas@ideasonboard.com,
         kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
         robh@kernel.org, davem@davemloft.net, linux@rasmusvillemoes.dk,
-        andriy.shevchenko@linux.intel.com, sergey.senozhatsky@gmail.com,
-        rostedt@goodmis.org, pmladek@suse.com, mchehab@kernel.org,
-        tian.shu.qiu@intel.com, bingbu.cao@intel.com,
-        sakari.ailus@linux.intel.com, yong.zhi@intel.com,
-        rafael@kernel.org, gregkh@linuxfoundation.org, kitakar@gmail.com,
+        sergey.senozhatsky@gmail.com, rostedt@goodmis.org,
+        pmladek@suse.com, mchehab@kernel.org, tian.shu.qiu@intel.com,
+        bingbu.cao@intel.com, yong.zhi@intel.com, rafael@kernel.org,
+        gregkh@linuxfoundation.org, kitakar@gmail.com,
         dan.carpenter@oracle.org
-Subject: Re: [RFC PATCH v3 6/9] ipu3-cio2: Rename ipu3-cio2.c to allow module
- to be built from multiple sources files retaining ipu3-cio2 name
-Message-ID: <20201024003456.GR5979@pendragon.ideasonboard.com>
+Subject: Re: [RFC PATCH v3 7/9] ipu3-cio2: Check if pci_dev->dev's fwnode is
+ a software_node in cio2_parse_firmware() and set
+ FWNODE_GRAPH_DEVICE_DISABLED if so
+Message-ID: <20201024003955.GS5979@pendragon.ideasonboard.com>
 References: <20201019225903.14276-1-djrscally@gmail.com>
- <20201019225903.14276-7-djrscally@gmail.com>
+ <20201019225903.14276-8-djrscally@gmail.com>
+ <20201020091958.GC4077@smile.fi.intel.com>
+ <20201020120615.GV13341@paasikivi.fi.intel.com>
+ <32bbb4db-17d7-b9d1-950f-8f29d67539c3@gmail.com>
+ <20201020224910.GB2703@paasikivi.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201019225903.14276-7-djrscally@gmail.com>
+In-Reply-To: <20201020224910.GB2703@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
+Hi Sakari
 
-Thank you for the patch.
-
-On Mon, Oct 19, 2020 at 11:59:00PM +0100, Daniel Scally wrote:
-> ipu3-cio2 driver needs extending with multiple files; rename the main
-> source file and specify the renamed file in Makefile to accommodate that.
+On Wed, Oct 21, 2020 at 01:49:10AM +0300, Sakari Ailus wrote:
+> On Tue, Oct 20, 2020 at 08:56:07PM +0100, Dan Scally wrote:
+> > On 20/10/2020 13:06, Sakari Ailus wrote:
+> > > On Tue, Oct 20, 2020 at 12:19:58PM +0300, Andy Shevchenko wrote:
+> > >> On Mon, Oct 19, 2020 at 11:59:01PM +0100, Daniel Scally wrote:
+> > >>> fwnode_graph_get_endpoint_by_id() will optionally parse enabled devices
+> > >>> only; that status being determined through the .device_is_available() op
+> > >>> of the device's fwnode. As software_nodes don't have that operation and
+> > >>> adding it is meaningless, we instead need to check if the device's fwnode
+> > >>> is a software_node and if so pass the appropriate flag to disable that
+> > >>> check
+> > >> Period.
+> > >>
+> > >> I'm wondering if actually this can be hidden in fwnode_graph_get_endpoint_by_id().
+> > > The device availability test is actually there for a reason. Some firmware
+> > > implementations put all the potential devices in the tables and only one
+> > > (of some) of them are available.
+> > >
+> > > Could this be implemented so that if the node is a software node, then get
+> > > its parent and then see if that is available?
+> > >
+> > > I guess that could be implemented in software node ops. Any opinions?
+> > Actually when considering the cio2 device, it seems that
+> > set_secondary_fwnode() actually overwrites the _primary_, given
+> > fwnode_is_primary(dev->fwnode) returns false. So in at least some cases,
+> > this wouldn't work.
 > 
-> Signed-off-by: Daniel Scally <djrscally@gmail.com>
-> ---
-> Changes in v3:
-> 	- patch introduced
+> Ouch. I wonder when this happens --- have you checked what's the primary
+> there? I guess it might be if it's a PCI device without the corresponding
+> ACPI device node?
 > 
->  drivers/media/pci/intel/ipu3/Makefile                          | 2 ++
->  drivers/media/pci/intel/ipu3/{ipu3-cio2.c => ipu3-cio2-main.c} | 0
->  2 files changed, 2 insertions(+)
->  rename drivers/media/pci/intel/ipu3/{ipu3-cio2.c => ipu3-cio2-main.c} (100%)
-> 
-> diff --git a/drivers/media/pci/intel/ipu3/Makefile b/drivers/media/pci/intel/ipu3/Makefile
-> index 98ddd5bea..b4e3266d9 100644
-> --- a/drivers/media/pci/intel/ipu3/Makefile
-> +++ b/drivers/media/pci/intel/ipu3/Makefile
-> @@ -1,2 +1,4 @@
->  # SPDX-License-Identifier: GPL-2.0-only
->  obj-$(CONFIG_VIDEO_IPU3_CIO2) += ipu3-cio2.o
-> +
-> +ipu3-cio2-y += ipu3-cio2-main.o
-> \ No newline at end of file
+> I remember you had an is_available implementation that just returned true
+> for software nodes in an early version of the set? I think it would still
+> be a lesser bad in this case.
 
-I would have sworn the usual naming for this kind of case was -drv.c,
-but it seems -main.c is more common (I've probably been mistaken by
-focussing quite a bit on drivers/gpu/drm/ in the past few years).
--core.c wins over both though :-) Anyway, enough bikeshedding, with the
-newline fixed,
+How about the following ?
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
-> similarity index 100%
-> rename from drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> rename to drivers/media/pci/intel/ipu3/ipu3-cio2-main.c
+diff --git a/drivers/base/property.c b/drivers/base/property.c
+index 81bd01ed4042..ea44ba846299 100644
+--- a/drivers/base/property.c
++++ b/drivers/base/property.c
+@@ -706,9 +706,14 @@ EXPORT_SYMBOL_GPL(fwnode_handle_put);
+ /**
+  * fwnode_device_is_available - check if a device is available for use
+  * @fwnode: Pointer to the fwnode of the device.
++ *
++ * For fwnode node types that don't implement the .device_is_available()
++ * operation, such as software nodes, this function returns true.
+  */
+ bool fwnode_device_is_available(const struct fwnode_handle *fwnode)
+ {
++	if (!fwnode_has_op(fwnode, device_is_available))
++		return true;
+ 	return fwnode_call_bool_op(fwnode, device_is_available);
+ }
+ EXPORT_SYMBOL_GPL(fwnode_device_is_available);
 
 -- 
 Regards,
