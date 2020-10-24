@@ -2,150 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C8C9297D7B
-	for <lists+linux-media@lfdr.de>; Sat, 24 Oct 2020 18:33:41 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F80C297D7C
+	for <lists+linux-media@lfdr.de>; Sat, 24 Oct 2020 18:35:02 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1761912AbgJXQdf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Oct 2020 12:33:35 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44208 "EHLO
+        id S1762385AbgJXQe6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Oct 2020 12:34:58 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44424 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1759990AbgJXQdf (ORCPT
+        with ESMTP id S1762140AbgJXQe6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Oct 2020 12:33:35 -0400
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2821CC0613CE;
-        Sat, 24 Oct 2020 09:33:35 -0700 (PDT)
-Received: by mail-wr1-x441.google.com with SMTP id g12so6390934wrp.10;
-        Sat, 24 Oct 2020 09:33:35 -0700 (PDT)
+        Sat, 24 Oct 2020 12:34:58 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E1B34C0613D4
+        for <linux-media@vger.kernel.org>; Sat, 24 Oct 2020 09:34:57 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id c194so5667519wme.2
+        for <linux-media@vger.kernel.org>; Sat, 24 Oct 2020 09:34:57 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=CBg45YaLqj05DCwpL99agm9FEnG/t1KM38XkqPzqows=;
-        b=o6TlJeLGkxqCkuUcePECuQkK+uJZZJZaXudPzTifjAAWFm4c6em/phqnJEnH1+B4W9
-         LFNZODu2lk5cH5wAzOiWWpmCcCTjIQlktoEU2mr1IzAiRVCrBTgWPhNg/eiPI5zIUa1O
-         Mee5qSvqk6WRAH2TuRkCEix1B2V5YJEnyrz+/NMRQAagsXYhgYBsQhFXuaxfFHV+ppgW
-         Dq4d9zIOxl4hk68NHa8zaiwvgdxkgJJKc7GKR7Mh4OakfW0WACz1A2zDKp2FGxPrOH8v
-         SeOhZWIO2XaVygEon3zTLrAcNvtferSx9ifx/imBjlIgyi6U2SuN7KnuqqGczZfKX8Hr
-         ogGg==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=4VNllDn3e4my8IHs8+jRLXE/SyMCMN5aQ3NIL2dikb0=;
+        b=oG0Y3nq6TQ3bwZjcsbPFe49O18MdzeUU+EOM+I99R6tMsXphrPXjN7K10jakAil+fu
+         MNX014vsqbLVe1Ufn5ZAWBpaBnZ+jm8VqYiJT9c5dpfDQpG8oN5ucDeP/XlvjQTWRq7g
+         Oih0IoKbt70eYRgwWqUh0ZYjlt0/uEzYU52MiF47g8u92IWXg5icEizL6mgyAg2M3AFQ
+         NzYGeVNW6kpn6Mu2xOVdm/TRvWYGC4iygDkjq4z2iZPBdnJftrmZfjwm9x3CvxgkvR6/
+         fyPFR8qufo4wXOgk5hqb5R4nimPz9BkeIPYFD35PHq0gDWNo50Pl6sNXt9QLdijl/MDw
+         kYqg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=CBg45YaLqj05DCwpL99agm9FEnG/t1KM38XkqPzqows=;
-        b=Pc85kMpwiA4X0LmnvnIO5Zi1RCOwiYnXAlQK0dqzoKMy9Qf3CGFw95+/vQbUB3HQKS
-         Dv2YT7/oI3l3b5fb/Hk8yDFa6fn7URSQfScDFCMSbL6ROX7Th8YbSGaSAqaggb4J9cNq
-         qfH+KcumcZ7nZw2kwl6G+1Q2gTS0BrFFWWKXWHo+vHOBmQNqTMd+8KP0gbo5pti2N9Xe
-         wrhqhnHTmMdyo5LijnkT/GgIBIikt4JWvBlCabmXNGRdJiyex38GyrLOy5Aw0enk3cF9
-         3ILsNOx4lH/q2kleV6qbcTqmS8L3eGcvGHCYcazZsMpZtFcQgfOHbRMsuUGCrt3neuw/
-         UUIw==
-X-Gm-Message-State: AOAM533AAeFED8HA9th1MqnFZ8FgOpG26wbqRXpxLht4U4DYVEp8TaFF
-        1nEJZ4vo/1Cwx7M/kI+/Ak0=
-X-Google-Smtp-Source: ABdhPJzz1FcEpDtVkCl+R+jd0TRcwl6G9MM1vxTzeK7ALAjOVFuqjm3Pl0Hs4ViTu+k5yl7CZqCvgg==
-X-Received: by 2002:a5d:4141:: with SMTP id c1mr8321634wrq.113.1603557213874;
-        Sat, 24 Oct 2020 09:33:33 -0700 (PDT)
-Received: from [192.168.1.211] ([2.29.20.56])
-        by smtp.gmail.com with ESMTPSA id f6sm11106223wru.50.2020.10.24.09.33.32
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 24 Oct 2020 09:33:33 -0700 (PDT)
-Subject: Re: [RFC PATCH v3 7/9] ipu3-cio2: Check if pci_dev->dev's fwnode is a
- software_node in cio2_parse_firmware() and set FWNODE_GRAPH_DEVICE_DISABLED
- if so
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linux.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        heikki.krogerus@linux.intel.com, dmitry.torokhov@gmail.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
-        robh@kernel.org, davem@davemloft.net, linux@rasmusvillemoes.dk,
-        sergey.senozhatsky@gmail.com, rostedt@goodmis.org,
-        pmladek@suse.com, mchehab@kernel.org, tian.shu.qiu@intel.com,
-        bingbu.cao@intel.com, yong.zhi@intel.com, rafael@kernel.org,
-        gregkh@linuxfoundation.org, kitakar@gmail.com,
-        dan.carpenter@oracle.org
-References: <20201019225903.14276-1-djrscally@gmail.com>
- <20201019225903.14276-8-djrscally@gmail.com>
- <20201020091958.GC4077@smile.fi.intel.com>
- <20201020120615.GV13341@paasikivi.fi.intel.com>
- <32bbb4db-17d7-b9d1-950f-8f29d67539c3@gmail.com>
- <20201020224910.GB2703@paasikivi.fi.intel.com>
- <20201024003955.GS5979@pendragon.ideasonboard.com>
- <20201024142907.GB26150@paasikivi.fi.intel.com>
-From:   Dan Scally <djrscally@gmail.com>
-Message-ID: <cb717718-8d84-8213-31d1-a1b342bb78a0@gmail.com>
-Date:   Sat, 24 Oct 2020 17:33:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20201024142907.GB26150@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=4VNllDn3e4my8IHs8+jRLXE/SyMCMN5aQ3NIL2dikb0=;
+        b=GQ05cQrSoAckc2q28hGvWIao+BuMiN+LKnXQ3ks30H6lqdmoSm7n8cJOomUTYNyNac
+         iPhBx6fop5XazHa1uNg7WaJbjvKJWWSY1Uniej8zkwZ1llN+W2uuOC9J8YBYAWLtT2r0
+         a/IgVkExDtr24Zuc6jIxqRthE0xaXqqh7OBAi0/G34x94OnjmmIfRXaGmf1veDOQMxiX
+         F3IqKsTDLr+jtuaz0i75ohrNEqjaIX6nFCoFjdxiyXMLm3c+ZjzafTJptmtS5V1Fl4Lc
+         ealW9JpLGTxJy/sOQ3Ahb24zJJ3tTN3ZguTviaIVJGUnkuz1FVIJjMslB3hdweFfoy/6
+         w4Fg==
+X-Gm-Message-State: AOAM533yhpdAIrH7lyzMbkgNoVOpMkoESylEe4/gT4qsXqZNxjgyvaE7
+        KOoc1HRLSUuckxU/bDz60EYc0topuQHe8Q==
+X-Google-Smtp-Source: ABdhPJyS/+l3MG2SypAEmW0Cs7sftot2it21ZRHSASfogm+FR68J55shUwTPUIAPcnwp9PvzzBDsEg==
+X-Received: by 2002:a1c:1b46:: with SMTP id b67mr8061436wmb.82.1603557296339;
+        Sat, 24 Oct 2020 09:34:56 -0700 (PDT)
+Received: from localhost.localdomain ([84.238.208.204])
+        by smtp.gmail.com with ESMTPSA id c130sm13000736wma.1.2020.10.24.09.34.55
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 24 Oct 2020 09:34:55 -0700 (PDT)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH] venus: venc: Fix setting of profile and level
+Date:   Sat, 24 Oct 2020 19:34:36 +0300
+Message-Id: <20201024163436.19638-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/10/2020 15:29, Sakari Ailus wrote:
-> On Sat, Oct 24, 2020 at 03:39:55AM +0300, Laurent Pinchart wrote:
->> Hi Sakari
->>
->> On Wed, Oct 21, 2020 at 01:49:10AM +0300, Sakari Ailus wrote:
->>> On Tue, Oct 20, 2020 at 08:56:07PM +0100, Dan Scally wrote:
->>>> On 20/10/2020 13:06, Sakari Ailus wrote:
->>>>> On Tue, Oct 20, 2020 at 12:19:58PM +0300, Andy Shevchenko wrote:
->>>>>> On Mon, Oct 19, 2020 at 11:59:01PM +0100, Daniel Scally wrote:
->>>>>>> fwnode_graph_get_endpoint_by_id() will optionally parse enabled devices
->>>>>>> only; that status being determined through the .device_is_available() op
->>>>>>> of the device's fwnode. As software_nodes don't have that operation and
->>>>>>> adding it is meaningless, we instead need to check if the device's fwnode
->>>>>>> is a software_node and if so pass the appropriate flag to disable that
->>>>>>> check
->>>>>> Period.
->>>>>>
->>>>>> I'm wondering if actually this can be hidden in fwnode_graph_get_endpoint_by_id().
->>>>> The device availability test is actually there for a reason. Some firmware
->>>>> implementations put all the potential devices in the tables and only one
->>>>> (of some) of them are available.
->>>>>
->>>>> Could this be implemented so that if the node is a software node, then get
->>>>> its parent and then see if that is available?
->>>>>
->>>>> I guess that could be implemented in software node ops. Any opinions?
->>>> Actually when considering the cio2 device, it seems that
->>>> set_secondary_fwnode() actually overwrites the _primary_, given
->>>> fwnode_is_primary(dev->fwnode) returns false. So in at least some cases,
->>>> this wouldn't work.
->>> Ouch. I wonder when this happens --- have you checked what's the primary
->>> there? I guess it might be if it's a PCI device without the corresponding
->>> ACPI device node?
->>>
->>> I remember you had an is_available implementation that just returned true
->>> for software nodes in an early version of the set? I think it would still
->>> be a lesser bad in this case.
->> How about the following ?
-> Looks good to me.
-If we're agreed on this (and it's fine by me too), do you want me to
-include it in the next set, or are you going to do it separately Laurent?
->> diff --git a/drivers/base/property.c b/drivers/base/property.c
->> index 81bd01ed4042..ea44ba846299 100644
->> --- a/drivers/base/property.c
->> +++ b/drivers/base/property.c
->> @@ -706,9 +706,14 @@ EXPORT_SYMBOL_GPL(fwnode_handle_put);
->>  /**
->>   * fwnode_device_is_available - check if a device is available for use
->>   * @fwnode: Pointer to the fwnode of the device.
->> + *
->> + * For fwnode node types that don't implement the .device_is_available()
->> + * operation, such as software nodes, this function returns true.
->>   */
->>  bool fwnode_device_is_available(const struct fwnode_handle *fwnode)
->>  {
->> +	if (!fwnode_has_op(fwnode, device_is_available))
->> +		return true;
->>  	return fwnode_call_bool_op(fwnode, device_is_available);
->>  }
->>  EXPORT_SYMBOL_GPL(fwnode_device_is_available);
->>
+The profile and level in op_set_ctrl was recently changed but during
+v4l2_ctrl_handler_setup profile and level control values are mangled.
+
+Fixes: 435c53c3698f ("media: venus: venc: Use helper to set profile and level")
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+---
+ drivers/media/platform/qcom/venus/core.h      | 15 +++++++--
+ drivers/media/platform/qcom/venus/venc.c      | 32 ++++++++++++++++++-
+ .../media/platform/qcom/venus/venc_ctrls.c    | 14 ++++++--
+ 3 files changed, 56 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 7b79a33dc9d6..05c9fbd51f0c 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -243,8 +243,19 @@ struct venc_controls {
+ 
+ 	u32 header_mode;
+ 
+-	u32 profile;
+-	u32 level;
++	struct {
++		u32 h264;
++		u32 mpeg4;
++		u32 hevc;
++		u32 vp8;
++		u32 vp9;
++	} profile;
++	struct {
++		u32 h264;
++		u32 mpeg4;
++		u32 hevc;
++		u32 vp9;
++	} level;
+ };
+ 
+ struct venus_buffer {
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index f8b1484e7dcd..7322b01f2e3a 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -537,6 +537,7 @@ static int venc_set_properties(struct venus_inst *inst)
+ 	struct hfi_quantization quant;
+ 	struct hfi_quantization_range quant_range;
+ 	u32 ptype, rate_control, bitrate;
++	u32 profile, level;
+ 	int ret;
+ 
+ 	ret = venus_helper_set_work_mode(inst, VIDC_WORK_MODE_2);
+@@ -684,7 +685,36 @@ static int venc_set_properties(struct venus_inst *inst)
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = venus_helper_set_profile_level(inst, ctr->profile, ctr->level);
++	switch (inst->hfi_codec) {
++	case HFI_VIDEO_CODEC_H264:
++		profile = ctr->profile.h264;
++		level = ctr->level.h264;
++		break;
++	case HFI_VIDEO_CODEC_MPEG2:
++		profile = 0;
++		level = 0;
++		break;
++	case HFI_VIDEO_CODEC_MPEG4:
++		profile = ctr->profile.mpeg4;
++		level = ctr->level.mpeg4;
++		break;
++	case HFI_VIDEO_CODEC_VP8:
++		profile = ctr->profile.vp8;
++		level = 0;
++		break;
++	case HFI_VIDEO_CODEC_VP9:
++		profile = ctr->profile.vp9;
++		level = ctr->level.vp9;
++		break;
++	case HFI_VIDEO_CODEC_HEVC:
++		profile = ctr->profile.hevc;
++		level = ctr->level.hevc;
++		break;
++	default:
++		break;
++	}
++
++	ret = venus_helper_set_profile_level(inst, profile, level);
+ 	if (ret)
+ 		return ret;
+ 
+diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
+index 0708b3b89d0c..cf860e6446c0 100644
+--- a/drivers/media/platform/qcom/venus/venc_ctrls.c
++++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
+@@ -103,15 +103,25 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
+ 		ctr->h264_entropy_mode = ctrl->val;
+ 		break;
+ 	case V4L2_CID_MPEG_VIDEO_MPEG4_PROFILE:
++		ctr->profile.mpeg4 = ctrl->val;
++		break;
+ 	case V4L2_CID_MPEG_VIDEO_H264_PROFILE:
++		ctr->profile.h264 = ctrl->val;
++		break;
+ 	case V4L2_CID_MPEG_VIDEO_HEVC_PROFILE:
++		ctr->profile.hevc = ctrl->val;
++		break;
+ 	case V4L2_CID_MPEG_VIDEO_VP8_PROFILE:
+-		ctr->profile = ctrl->val;
++		ctr->profile.vp8 = ctrl->val;
+ 		break;
+ 	case V4L2_CID_MPEG_VIDEO_MPEG4_LEVEL:
++		ctr->level.mpeg4 = ctrl->val;
++		break;
+ 	case V4L2_CID_MPEG_VIDEO_H264_LEVEL:
++		ctr->level.h264 = ctrl->val;
++		break;
+ 	case V4L2_CID_MPEG_VIDEO_HEVC_LEVEL:
+-		ctr->level = ctrl->val;
++		ctr->level.hevc = ctrl->val;
+ 		break;
+ 	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_QP:
+ 		ctr->h264_i_qp = ctrl->val;
+-- 
+2.17.1
+
