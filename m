@@ -2,316 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E89DC297DAB
-	for <lists+linux-media@lfdr.de>; Sat, 24 Oct 2020 19:11:54 +0200 (CEST)
+	by mail.lfdr.de (Postfix) with ESMTP id D5A1D297DFA
+	for <lists+linux-media@lfdr.de>; Sat, 24 Oct 2020 20:15:24 +0200 (CEST)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1762489AbgJXRLx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 24 Oct 2020 13:11:53 -0400
-Received: from mga11.intel.com ([192.55.52.93]:32662 "EHLO mga11.intel.com"
+        id S1763025AbgJXSPT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 24 Oct 2020 14:15:19 -0400
+Received: from mail.kernel.org ([198.145.29.99]:50220 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1762487AbgJXRLx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 24 Oct 2020 13:11:53 -0400
-IronPort-SDR: 45KILTPaY9HdlMlyJmU5v+EWmC2Oz4RiXEiBmxZBwtmaaKKxed/n/jnEjPfenaJieB5TZkQwUu
- VQTZSgIzpHCg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9784"; a="164291131"
-X-IronPort-AV: E=Sophos;i="5.77,413,1596524400"; 
-   d="scan'208";a="164291131"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 24 Oct 2020 10:11:52 -0700
-IronPort-SDR: owv80j2C1O7CId5zYifpY+z7hbfRUiokYrJST+hFalOMgaLDTHJqOvayhemit4vw4OfoCMAHAr
- 3zv/WifZKlLw==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,413,1596524400"; 
-   d="scan'208";a="359913648"
-Received: from lkp-server01.sh.intel.com (HELO cda15bb6d7bd) ([10.239.97.150])
-  by FMSMGA003.fm.intel.com with ESMTP; 24 Oct 2020 10:11:50 -0700
-Received: from kbuild by cda15bb6d7bd with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kWN54-0000aF-Bw; Sat, 24 Oct 2020 17:11:50 +0000
-Date:   Sun, 25 Oct 2020 01:11:02 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-next] BUILD SUCCESS WITH WARNING
- cafcadac71cb4fd022318e3824a3bb60d99ba915
-Message-ID: <5f946026.ePUHV5w0y8XIHf94%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1762940AbgJXSPS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 24 Oct 2020 14:15:18 -0400
+Received: from kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net (c-67-180-217-166.hsd1.ca.comcast.net [67.180.217.166])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 7B58F24650;
+        Sat, 24 Oct 2020 18:15:17 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603563317;
+        bh=hTHylvJInlhIshidRIoPG6FnbQIEujKIvKVJhi95JTM=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=UH5i3t4LoHB4nVC+RsKRlTvYbef1xoseWjnN9vkblzyIf0rFfWSLVUwgHDwDiKrmq
+         gNKd4NlJX4eFnBbMWeQGkVWhz4dAFvOSltEA706hvy1PpOlpp2t7/R6T5hgjilXqFL
+         VRV15DjWafg/19Ib6CrJnRC0n8lgugJYyQdnGeP8=
+Date:   Sat, 24 Oct 2020 11:15:16 -0700
+From:   Jakub Kicinski <kuba@kernel.org>
+To:     syzbot <syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com>
+Cc:     christian.koenig@amd.com, dri-devel@lists.freedesktop.org,
+        hch@lst.de, iommu@lists.linux-foundation.org,
+        linaro-mm-sig-owner@lists.linaro.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, m.szyprowski@samsung.com,
+        netdev@vger.kernel.org, robin.murphy@arm.com,
+        sumit.semwal@linaro.org, syzkaller-bugs@googlegroups.com,
+        linux-rdma@vger.kernel.org
+Subject: Re: WARNING in dma_map_page_attrs
+Message-ID: <20201024111516.59abc9ec@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net>
+In-Reply-To: <000000000000a0f8a305b261fe4a@google.com>
+References: <000000000000335adc05b23300f6@google.com>
+        <000000000000a0f8a305b261fe4a@google.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-next
-branch HEAD: cafcadac71cb4fd022318e3824a3bb60d99ba915  docs: fs: api-summary.rst: get rid of kernel-doc include
+CC: rdma, looks like rdma from the stack trace
 
-Warning reports:
+On Fri, 23 Oct 2020 20:07:17 -0700 syzbot wrote:
+> syzbot has found a reproducer for the following issue on:
+> 
+> HEAD commit:    3cb12d27 Merge tag 'net-5.10-rc1' of git://git.kernel.org/..
+> git tree:       net
+> console output: https://syzkaller.appspot.com/x/log.txt?x=13125390500000
+> kernel config:  https://syzkaller.appspot.com/x/.config?x=46c6fea3eb827ae1
+> dashboard link: https://syzkaller.appspot.com/bug?extid=34dc2fea3478e659af01
+> compiler:       gcc (GCC) 10.1.0-syz 20200507
+> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=16858664500000
+> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11f402ef900000
+> 
+> IMPORTANT: if you fix the issue, please add the following tag to the commit:
+> Reported-by: syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com
+> 
+> netdevsim netdevsim0 netdevsim1: set [1, 0] type 2 family 0 port 6081 - 0
+> netdevsim netdevsim0 netdevsim2: set [1, 0] type 2 family 0 port 6081 - 0
+> netdevsim netdevsim0 netdevsim3: set [1, 0] type 2 family 0 port 6081 - 0
+> infiniband syz2: set active
+> infiniband syz2: added macvlan0
+> ------------[ cut here ]------------
+> WARNING: CPU: 1 PID: 8488 at kernel/dma/mapping.c:149 dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
+> Modules linked in:
+> CPU: 1 PID: 8488 Comm: syz-executor144 Not tainted 5.9.0-syzkaller #0
+> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+> RIP: 0010:dma_map_page_attrs+0x493/0x700 kernel/dma/mapping.c:149
+> Code: 80 3c 10 00 0f 85 ed 01 00 00 48 8b 1d 86 38 e9 0c e9 2d fc ff ff 48 89 c3 e9 d1 fd ff ff e8 04 11 12 00 0f 0b e8 fd 10 12 00 <0f> 0b 49 c7 c4 ff ff ff ff e9 d5 fd ff ff e8 ea 10 12 00 48 8d 7b
+> RSP: 0018:ffffc90000fdec68 EFLAGS: 00010293
+> RAX: 0000000000000000 RBX: ffffffff894d1060 RCX: ffffffff815df1e3
+> RDX: ffff8880208c1a40 RSI: ffffffff815df5b3 RDI: ffff8880196f8b00
+> RBP: ffff88801412d800 R08: 0000000000000002 R09: 0000000000000000
+> R10: 0000000000000002 R11: 0000000000000000 R12: ffffea0000504b40
+> R13: ffff8880196f86e8 R14: 00000000000008b8 R15: 0000000000000002
+> FS:  0000000001b26880(0000) GS:ffff8880b9f00000(0000) knlGS:0000000000000000
+> CS:  0010 DS: 0000 ES: 0000 CR0: 0000000080050033
+> CR2: 00000000200002c0 CR3: 0000000022446000 CR4: 00000000001506e0
+> DR0: 0000000000000000 DR1: 0000000000000000 DR2: 0000000000000000
+> DR3: 0000000000000000 DR6: 00000000fffe0ff0 DR7: 0000000000000400
+> Call Trace:
+>  dma_map_single_attrs include/linux/dma-mapping.h:279 [inline]
+>  ib_dma_map_single include/rdma/ib_verbs.h:3967 [inline]
+>  ib_mad_post_receive_mads+0x23f/0xd60 drivers/infiniband/core/mad.c:2715
+>  ib_mad_port_start drivers/infiniband/core/mad.c:2862 [inline]
+>  ib_mad_port_open drivers/infiniband/core/mad.c:3016 [inline]
+>  ib_mad_init_device+0x72b/0x1400 drivers/infiniband/core/mad.c:3092
+>  add_client_context+0x405/0x5e0 drivers/infiniband/core/device.c:680
+>  enable_device_and_get+0x1d5/0x3c0 drivers/infiniband/core/device.c:1301
+>  ib_register_device drivers/infiniband/core/device.c:1376 [inline]
+>  ib_register_device+0x7a7/0xa40 drivers/infiniband/core/device.c:1335
+>  rxe_register_device+0x46d/0x570 drivers/infiniband/sw/rxe/rxe_verbs.c:1182
+>  rxe_add+0x12fe/0x16d0 drivers/infiniband/sw/rxe/rxe.c:247
+>  rxe_net_add+0x8c/0xe0 drivers/infiniband/sw/rxe/rxe_net.c:507
+>  rxe_newlink drivers/infiniband/sw/rxe/rxe.c:269 [inline]
+>  rxe_newlink+0xb7/0xe0 drivers/infiniband/sw/rxe/rxe.c:250
+>  nldev_newlink+0x30e/0x540 drivers/infiniband/core/nldev.c:1555
+>  rdma_nl_rcv_msg+0x367/0x690 drivers/infiniband/core/netlink.c:195
+>  rdma_nl_rcv_skb drivers/infiniband/core/netlink.c:239 [inline]
+>  rdma_nl_rcv+0x2f2/0x440 drivers/infiniband/core/netlink.c:259
+>  netlink_unicast_kernel net/netlink/af_netlink.c:1304 [inline]
+>  netlink_unicast+0x533/0x7d0 net/netlink/af_netlink.c:1330
+>  netlink_sendmsg+0x856/0xd90 net/netlink/af_netlink.c:1919
+>  sock_sendmsg_nosec net/socket.c:651 [inline]
+>  sock_sendmsg+0xcf/0x120 net/socket.c:671
+>  ____sys_sendmsg+0x6e8/0x810 net/socket.c:2353
+>  ___sys_sendmsg+0xf3/0x170 net/socket.c:2407
+>  __sys_sendmsg+0xe5/0x1b0 net/socket.c:2440
+>  do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
+>  entry_SYSCALL_64_after_hwframe+0x44/0xa9
+> RIP: 0033:0x443699
+> Code: 18 89 d0 c3 66 2e 0f 1f 84 00 00 00 00 00 0f 1f 00 48 89 f8 48 89 f7 48 89 d6 48 89 ca 4d 89 c2 4d 89 c8 4c 8b 4c 24 08 0f 05 <48> 3d 01 f0 ff ff 0f 83 db 0d fc ff c3 66 2e 0f 1f 84 00 00 00 00
+> RSP: 002b:00007ffc067db418 EFLAGS: 00000246 ORIG_RAX: 000000000000002e
+> RAX: ffffffffffffffda RBX: 0000000000000003 RCX: 0000000000443699
+> RDX: 0000000000000000 RSI: 00000000200002c0 RDI: 0000000000000003
+> RBP: 00007ffc067db420 R08: 0000000001bbbbbb R09: 0000000001bbbbbb
+> R10: 0000000000000000 R11: 0000000000000246 R12: 00007ffc067db430
+> R13: 0000000000000000 R14: 0000000000000000 R15: 0000000000000000
+> 
 
-https://lore.kernel.org/linux-media/202010241843.uzmR4DZ6-lkp@intel.com
-
-Warning in current branch:
-
-WARNING: modpost: vmlinux.o(.text+0x29d3bdc): Section mismatch in reference from the function p9_release_pages() to the variable .init.text:.L0
-
-Warning ids grouped by kconfigs:
-
-gcc_recent_errors
-`-- riscv-randconfig-r034-20201023
-    `-- Section-mismatch-in-reference-from-the-function-p9_release_pages()-to-the-variable-.init.text:.L0
-
-elapsed time: 2077m
-
-configs tested: 241
-configs skipped: 2
-
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm64                               defconfig
-arm                         lpc18xx_defconfig
-arc                        vdk_hs38_defconfig
-mips                      bmips_stb_defconfig
-powerpc                      katmai_defconfig
-mips                             allmodconfig
-mips                         cobalt_defconfig
-h8300                       h8s-sim_defconfig
-arm                             pxa_defconfig
-arm                           h3600_defconfig
-arc                         haps_hs_defconfig
-mips                        nlm_xlr_defconfig
-sh                   sh7724_generic_defconfig
-mips                         db1xxx_defconfig
-arc                 nsimosci_hs_smp_defconfig
-sparc                       sparc32_defconfig
-arm                        spear6xx_defconfig
-riscv                            alldefconfig
-arm                            xcep_defconfig
-arm                          exynos_defconfig
-arm                        multi_v5_defconfig
-powerpc                     ksi8560_defconfig
-mips                      malta_kvm_defconfig
-arm                             mxs_defconfig
-arc                        nsim_700_defconfig
-mips                          ath79_defconfig
-powerpc                      ppc44x_defconfig
-m68k                                defconfig
-sh                           se7751_defconfig
-powerpc                 linkstation_defconfig
-arm                     am200epdkit_defconfig
-microblaze                          defconfig
-s390                             allyesconfig
-powerpc                   currituck_defconfig
-powerpc                 canyonlands_defconfig
-arm                          pxa910_defconfig
-mips                           gcw0_defconfig
-powerpc                     redwood_defconfig
-sh                             espt_defconfig
-powerpc                       ppc64_defconfig
-um                            kunit_defconfig
-mips                           ip27_defconfig
-powerpc                      pasemi_defconfig
-arm                       aspeed_g5_defconfig
-arm                       netwinder_defconfig
-arm                        oxnas_v6_defconfig
-xtensa                  cadence_csp_defconfig
-s390                       zfcpdump_defconfig
-mips                malta_kvm_guest_defconfig
-arm                         hackkit_defconfig
-m68k                       m5249evb_defconfig
-sh                           se7619_defconfig
-sh                            hp6xx_defconfig
-sparc64                             defconfig
-sh                           se7343_defconfig
-h8300                               defconfig
-sh                           se7780_defconfig
-xtensa                           allyesconfig
-arm                            zeus_defconfig
-sh                           se7722_defconfig
-mips                     decstation_defconfig
-arm                      jornada720_defconfig
-sh                          lboxre2_defconfig
-nios2                         3c120_defconfig
-arm                           tegra_defconfig
-arm                          lpd270_defconfig
-arc                          axs103_defconfig
-powerpc                          allyesconfig
-mips                malta_qemu_32r6_defconfig
-m68k                          multi_defconfig
-s390                          debug_defconfig
-powerpc                 mpc832x_rdb_defconfig
-arm                            lart_defconfig
-powerpc                      chrp32_defconfig
-xtensa                    xip_kc705_defconfig
-m68k                            q40_defconfig
-openrisc                    or1ksim_defconfig
-sh                           se7705_defconfig
-sh                          polaris_defconfig
-arm                           stm32_defconfig
-powerpc                         wii_defconfig
-powerpc                    sam440ep_defconfig
-xtensa                         virt_defconfig
-arm                      tct_hammer_defconfig
-m68k                          atari_defconfig
-powerpc                      bamboo_defconfig
-powerpc                     mpc5200_defconfig
-arm                              zx_defconfig
-mips                        bcm47xx_defconfig
-xtensa                           alldefconfig
-xtensa                  nommu_kc705_defconfig
-powerpc                     akebono_defconfig
-arm                            dove_defconfig
-arm                      integrator_defconfig
-powerpc                 mpc836x_mds_defconfig
-powerpc                  iss476-smp_defconfig
-m68k                          hp300_defconfig
-mips                        qi_lb60_defconfig
-arm                            hisi_defconfig
-xtensa                              defconfig
-powerpc                        warp_defconfig
-arm                        neponset_defconfig
-powerpc                 mpc836x_rdk_defconfig
-arm                       imx_v4_v5_defconfig
-mips                           rs90_defconfig
-sh                        edosk7705_defconfig
-riscv                               defconfig
-arm                             ezx_defconfig
-powerpc                     mpc83xx_defconfig
-sh                           se7724_defconfig
-arm                      pxa255-idp_defconfig
-powerpc                      ppc40x_defconfig
-arm                           viper_defconfig
-powerpc                      ppc6xx_defconfig
-arm                       versatile_defconfig
-m68k                        stmark2_defconfig
-powerpc                        icon_defconfig
-nios2                               defconfig
-powerpc                 mpc8313_rdb_defconfig
-arm                        shmobile_defconfig
-sh                     sh7710voipgw_defconfig
-ia64                        generic_defconfig
-sparc                       sparc64_defconfig
-sh                   sh7770_generic_defconfig
-arm                          imote2_defconfig
-arm                   milbeaut_m10v_defconfig
-arm                         palmz72_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                             allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-parisc                              defconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-x86_64               randconfig-a001-20201023
-x86_64               randconfig-a002-20201023
-x86_64               randconfig-a003-20201023
-x86_64               randconfig-a006-20201023
-x86_64               randconfig-a004-20201023
-x86_64               randconfig-a005-20201023
-i386                 randconfig-a002-20201023
-i386                 randconfig-a005-20201023
-i386                 randconfig-a003-20201023
-i386                 randconfig-a001-20201023
-i386                 randconfig-a006-20201023
-i386                 randconfig-a004-20201023
-i386                 randconfig-a002-20201024
-i386                 randconfig-a003-20201024
-i386                 randconfig-a005-20201024
-i386                 randconfig-a001-20201024
-i386                 randconfig-a006-20201024
-i386                 randconfig-a004-20201024
-i386                 randconfig-a002-20201022
-i386                 randconfig-a005-20201022
-i386                 randconfig-a003-20201022
-i386                 randconfig-a001-20201022
-i386                 randconfig-a006-20201022
-i386                 randconfig-a004-20201022
-x86_64               randconfig-a011-20201024
-x86_64               randconfig-a013-20201024
-x86_64               randconfig-a016-20201024
-x86_64               randconfig-a015-20201024
-x86_64               randconfig-a012-20201024
-x86_64               randconfig-a014-20201024
-x86_64               randconfig-a011-20201022
-x86_64               randconfig-a013-20201022
-x86_64               randconfig-a016-20201022
-x86_64               randconfig-a015-20201022
-x86_64               randconfig-a012-20201022
-x86_64               randconfig-a014-20201022
-i386                 randconfig-a016-20201022
-i386                 randconfig-a014-20201022
-i386                 randconfig-a015-20201022
-i386                 randconfig-a012-20201022
-i386                 randconfig-a013-20201022
-i386                 randconfig-a011-20201022
-i386                 randconfig-a016-20201024
-i386                 randconfig-a015-20201024
-i386                 randconfig-a014-20201024
-i386                 randconfig-a013-20201024
-i386                 randconfig-a012-20201024
-i386                 randconfig-a011-20201024
-i386                 randconfig-a014-20201023
-i386                 randconfig-a015-20201023
-i386                 randconfig-a012-20201023
-i386                 randconfig-a013-20201023
-i386                 randconfig-a011-20201023
-i386                 randconfig-a016-20201023
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a001-20201024
-x86_64               randconfig-a003-20201024
-x86_64               randconfig-a002-20201024
-x86_64               randconfig-a006-20201024
-x86_64               randconfig-a005-20201024
-x86_64               randconfig-a004-20201024
-x86_64               randconfig-a001-20201022
-x86_64               randconfig-a002-20201022
-x86_64               randconfig-a003-20201022
-x86_64               randconfig-a006-20201022
-x86_64               randconfig-a004-20201022
-x86_64               randconfig-a005-20201022
-x86_64               randconfig-a011-20201023
-x86_64               randconfig-a013-20201023
-x86_64               randconfig-a016-20201023
-x86_64               randconfig-a015-20201023
-x86_64               randconfig-a012-20201023
-x86_64               randconfig-a014-20201023
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
