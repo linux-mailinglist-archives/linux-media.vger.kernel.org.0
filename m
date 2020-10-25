@@ -2,176 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CA7EC298006
-	for <lists+linux-media@lfdr.de>; Sun, 25 Oct 2020 05:36:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 671AF29815F
+	for <lists+linux-media@lfdr.de>; Sun, 25 Oct 2020 11:53:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1767027AbgJYEgK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Oct 2020 00:36:10 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:54287 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2391033AbgJYEgK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Oct 2020 00:36:10 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id WXlGkbXYKjIEMWXlHkDwqG; Sun, 25 Oct 2020 05:36:07 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1603600567; bh=VcWkrlHRcQGrbY/r2eo+xYxE1h8u2iF5B3yyN+LkE+k=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=OWD3yPvtcGCu9QeY3Nx46qOu7g62m7O1dd4/Civ3OTm6+wbYQjem1QcDvCyIkfEZi
-         BFOJodcYo/Yw94TWsTVlheLdNaS73d5sIP2WiE/FNw3dCB0Hx68j+EjYIW8iyjfDyO
-         4ea6whQCfFkQrvh8i3/RXVkX1MLeqqcwrRIs9d/YjpOrI4YmvjWk4Cz3F4nE4gIFha
-         w1+2DKwf0kGvSfcMYQFcv6eTEeUewRuMJbzRMwGX4P9U3Dl0YeJJ9xX9Ok1e1coXFE
-         VaANSwX1VvsQZbmtUWjRf5mW4rqswtBgdEH/fKJVl2kWKIgB0T8hCe0x17g0QMrunP
-         ZCCEHB14/y4NA==
-Message-ID: <f7e4ca72cc75bbecd7a11e5bbc42d4ec@smtp-cloud9.xs4all.net>
-Date:   Sun, 25 Oct 2020 05:36:06 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+        id S1415278AbgJYKxB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 25 Oct 2020 06:53:01 -0400
+Received: from aibo.runbox.com ([91.220.196.211]:45814 "EHLO aibo.runbox.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2405705AbgJYKxB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 25 Oct 2020 06:53:01 -0400
+X-Greylist: delayed 2447 seconds by postgrey-1.27 at vger.kernel.org; Sun, 25 Oct 2020 06:53:00 EDT
+Received: from [10.9.9.72] (helo=submission01.runbox)
+        by mailtransmit02.runbox with esmtp (Exim 4.86_2)
+        (envelope-from <post@jbechtel.de>)
+        id 1kWd0W-0003rm-9q
+        for linux-media@vger.kernel.org; Sun, 25 Oct 2020 11:12:12 +0100
+Received: by submission01.runbox with esmtpsa  [Authenticated alias (535840)]  (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.90_1)
+        id 1kWd0E-0006L2-Dy
+        for linux-media@vger.kernel.org; Sun, 25 Oct 2020 11:11:55 +0100
+Date:   Sun, 25 Oct 2020 11:08:31 +0100
+From:   Jonas Bechtel <post@jbechtel.de>
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfEYw0KEwyV56e5VTREa2nelPo4OVaVhbB9rvY4C11e4zv6595vxtVqCXWedNRm483ykV4kTtdUTEKfCiRaaC+4gyoe5PdPJcemVQeeAzpM2Kj26jttjX
- 2OW4bymHfHSDz0GpaaTsxbHbMgrS/voO75Z7PyqmAbvsTNc9oNWyf2se68nBAMCnlDjCZhMpaOh/TiurfzNv8QtFs0BB5cFLgphuHyTM5ZqwzslFfDmvrrnu
- 6ETSq4kEfs2eBovfFkQ/lg==
+Subject: Lots of hurdles for webcam usage (UVC/v4l2loopback and more?)
+Message-ID: <20201025110831.73d2cd11@mmluhan>
+X-Mailer: Claws Mail ~3.16
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
 
-Results of the daily build of media_tree:
 
-date:			Sun Oct 25 05:00:15 CET 2020
-media-tree git hash:	c386e0797d26a32e354daf4480c5d40165db66a1
-media_build git hash:	e0136eadb6f4c24b7f8fcb50ef4d4d5ffb2af31d
-v4l-utils git hash:	7ab86eba54233fa31344501134b1c1ab7f10c535
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Dear Linux Media developers,
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2863, Succeeded: 2863, Failed: 0, Warnings: 4
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: OK
+just wanted to tell you that it's not easy to use an old but working camcorder for videoconferencing with (GNU/)Linux.
 
-Detailed results are available here:
+See my tries below. So far there's no _well_ working situation, but you can make it somehow running for the browser with v42lloopback + v4lcompat.so.
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+Unfortunately this message of mine is probably not feasible for a productive see-bug-find-error-patch-code workflow. My personal guess is that lots of programs which use video4linux were implemented as #worksforme influencing each other in using odd ioctl variations. There seems to be missing some instance which straightens common interface usage conventions.
 
-Detailed regression test results are available here:
+BR
+ Jonas
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
 
-Full logs are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+Setting: 
 
-The Media Infrastructure API from this daily build is here:
+Linux 4.19.67
+v4l2loopback 0.12.1, started with
+    devices=6
+    video_nr=10,11,12,13,14,15
+    card_label=loop10a,loop11b,loop12c,loop13d,loop14e,loop15f
+Camcorder Panasonic NV-GS11, webcam mode, driver uvcvideo, on video0 (and video1)
+qv4l2 1.16.3 (seemingly same effects on 1.20+ (recent git))
+ffmpeg 4.1.4
+vlc 3.0.8
+Firefox 68.7.0esr and 78.4.0esr (no difference)
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+
+
+
+Setting up video11:
+I had to code some initialization program as v4l2loopback-ctl is invoking gst-launch-1.0 which doesn't accept RGB3 setting.
+ioctl(fd, VIDIOC_S_FMT, {V4L2_BUF_TYPE_VIDEO_OUTPUT, {width=320, height=240, pixelformat=RGB3})
+ioctl(fd, VIDIOC_S_PARAM, {V4L2_BUF_TYPE_VIDEO_CAPTURE[but could probably be _OUTPUT as well], {timeperframe=1/15}})
+
+
+Setting up video12:
+v4l2loopback-ctl set-caps "video/x-raw, format=UYVY, width=320, height=240" /dev/video12
+sudo v4l2loopback-ctl set-fps 15 /dev/video12
+
+
+Note that you only can configure format for loop once. After first stream use, v4l2loopback driver block further changes.
+
+
+Feeding the loop:
+ffmpeg -f v4l2 -i /dev/video0 -an -filter_complex "[0]format=rgb24" -f v4l2 /dev/video11
+OR
+ffmpeg -f v4l2 -i /dev/video0 -an -filter_complex "[0]format=yuv420p" -f v4l2 /dev/video12
+(or yuv422p)
+
+
+
+build process for qv4l2 (v4l-utils), recent from git:
+QT_SELECT=5 needed, in order to make "moc" be found by qtchooser.
+
+
+
+
+Every of the methods has, if working at all, has at least a delay of ~ 500 ms to real life.
+
+
+
+
+Camcorder - ffplay -> OK (despite the typical SEGV on close)
+
+Camcorder - Firefox -> AbortError (but keeps device node blocked/reserved against others)
+
+Camcorder - Firefox+v4lcompat.so -> Same 
+
+Camcorder - vlc -> cannot start streaming: Input/output error [__001, see bottom]
+Camcorder - vlc+v4l2compat.so -> Same
+
+Camcorder - qv4l2 click on Play -> OK (MJPG)
+
+Camcorder - qv4l2 choose RGB3/YV12/..., click on play -> grey picture. Program has to be restarted.
+
+Camcorder - v4l2ucp -> OK, working under any circumstances (but it's only function is to set the physical zoom)
+
+
+
+
+
+Camcorder - ffmpeg -vf format=rgb24 - video11 - Firefox -> AbortError
+
+Camcorder - ffmpeg -vf format=rgb24 - video11 - Firefox+v4lcompat.so -> OK, but after tab-close camera not accessible any more. Not usable after accidently having opened video0 (OverConstrainedError).
+
+Camcorder - ffmpeg -vf format=rgb24 - video11 - vlc -> OK
+Camcorder - ffmpeg -vf format=rgb24 - video11 - vlc+v4l2compat.so -> OK
+
+Camcorder - ffmpeg -vf format=rgb24 - video11 - qv4l2 -> High CPU load on settings panel (mass ioctls on VIDIOC_DQEVENT). When clicking "play" cpu load sinks but no image window opens.
+
+Camcorder - ffmpeg -vf format=yuv422p or =yuv420p - video12 - qv4l2 -> Same
+
+
+
+Camcorder - ffmpeg -vf format=yuv422p or =yuv420p - video12 - vlc/Firefox+v4lcompat.so -> unidentifiable picture content, repeated, heavily colorized
+Firefox show still image with yuv420p and live image with yuv422p.
+
+Camcorder - ffmpeg -vf format=yuv422p or =yuv420p - video12 - vlc/Firefox -> Same
+
+Camcorder - ffmpeg -vf format=yuv422p - video12 - ffplay -> Same
+Camcorder - ffmpeg -vf format=yuv420p - video12 - ffplay -> Same still image, additionally heavily complaining about wrong buffer sizes
+
+
+
+
+Firefox with v4l2compat seems to perform some preselection (only deletes entries in webcam list), whereas Firefox without v4l2compat always shows all devices /dev/video* (but you have to no the order by heart because the names of the webcams don't get exposed to the websites)
+
+
+
+
+[__001]
+$ LANG=C vlc v4l2:///dev/video0
+VLC media player 3.0.8 Vetinari (revision 3.0.8-0-gf350b6b5a7)
+[5721c270] main libvlc: Running vlc with the default interface. Use 'cvlc' to use vlc without interface.
+libv4l2: error turning on stream: Input/output error
+[e9c00b90] v4l2 demux error: cannot start streaming: Input/output error
+[e9c00b90] v4l2 demux error: not a radio tuner device
+libv4l2: error turning on stream: Input/output error
+[e9c02540] v4l2 stream error: cannot start streaming: Input/output error
+QObject::~QObject: Timers cannot be stopped from another thread
+
+Last ioctl before first Input/output error was:
+ioctl(22, VIDIOC_STREAMON, [V4L2_BUF_TYPE_VIDEO_CAPTURE]) = -1 EIO (Input/output error)
+
+
+
+
+
+
