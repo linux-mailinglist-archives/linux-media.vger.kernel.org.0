@@ -2,38 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94063299F69
-	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 01:22:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E4061299D30
+	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 01:06:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2441254AbgJ0AWA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Oct 2020 20:22:00 -0400
-Received: from mail.kernel.org ([198.145.29.99]:34364 "EHLO mail.kernel.org"
+        id S2437586AbgJ0AEE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Oct 2020 20:04:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:35128 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2410965AbgJZXzs (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Oct 2020 19:55:48 -0400
+        id S2411013AbgJZXz6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Oct 2020 19:55:58 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3090C20882;
-        Mon, 26 Oct 2020 23:55:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id B38272151B;
+        Mon, 26 Oct 2020 23:55:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603756548;
-        bh=SK9zudvrywtJq/m9EgjmbBefuNPDXV6s1teD0suvgyc=;
+        s=default; t=1603756557;
+        bh=sJKzSfQY8uzihmpRwVTN/EAgVg3GpFoCkG/vfM+f3PY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=vhBXAvSj1Bl2unVZWv60bT0ZMdKs96Df0nV+DemjLpyQmPoNUjckv+jUrMjQASek+
-         nBwLT8oD4hvGByNrORz50vALz/J5f1XTghnor9dmzBlxgvBiOjzqBk8h37sf1obrZH
-         CUSMbjamzrSiekuiSMTipJQv7uBajr82lT2noeAo=
+        b=RPZv+6jUqRSM3s4GlvydfBapttMaIgDgS1aYQzGSwAg5bDb9IMrbdZrg9BCTyS2Jc
+         bNK8es2jqxuffbY4jOLJ3XwnV9eq+ozH1fMEYoLnjy7VdBmtpxhi9Hd8QdEbGWamPP
+         a8mYYpl3OeVduAlrBvN3yfGE4ozZWJqnc1n1hDdc=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Luca Ceresoli <luca@lucaceresoli.net>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 5.4 25/80] media: imx274: fix frame interval handling
-Date:   Mon, 26 Oct 2020 19:54:21 -0400
-Message-Id: <20201026235516.1025100-25-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 33/80] media: uvcvideo: Fix dereference of out-of-bound list iterator
+Date:   Mon, 26 Oct 2020 19:54:29 -0400
+Message-Id: <20201026235516.1025100-33-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201026235516.1025100-1-sashal@kernel.org>
 References: <20201026235516.1025100-1-sashal@kernel.org>
@@ -45,52 +43,73 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hverkuil@xs4all.nl>
+From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 
-[ Upstream commit 49b20d981d723fae5a93843c617af2b2c23611ec ]
+[ Upstream commit f875bcc375c738bf2f599ff2e1c5b918dbd07c45 ]
 
-1) the numerator and/or denominator might be 0, in that case
-   fall back to the default frame interval. This is per the spec
-   and this caused a v4l2-compliance failure.
+Fixes the following coccinelle report:
 
-2) the updated frame interval wasn't returned in the s_frame_interval
-   subdev op.
+drivers/media/usb/uvc/uvc_ctrl.c:1860:5-11:
+ERROR: invalid reference to the index variable of the iterator on line 1854
 
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Reviewed-by: Luca Ceresoli <luca@lucaceresoli.net>
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+by adding a boolean variable to check if the loop has found the
+
+Found using - Coccinelle (http://coccinelle.lip6.fr)
+
+[Replace cursor variable with bool found]
+
+Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
+Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/i2c/imx274.c | 8 +++++---
- 1 file changed, 5 insertions(+), 3 deletions(-)
+ drivers/media/usb/uvc/uvc_ctrl.c | 13 +++++++++----
+ 1 file changed, 9 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
-index 6011cec5e351d..e6aa9f32b6a83 100644
---- a/drivers/media/i2c/imx274.c
-+++ b/drivers/media/i2c/imx274.c
-@@ -1235,6 +1235,8 @@ static int imx274_s_frame_interval(struct v4l2_subdev *sd,
- 	ret = imx274_set_frame_interval(imx274, fi->interval);
+diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+index e399b9fad7574..aed84528758f6 100644
+--- a/drivers/media/usb/uvc/uvc_ctrl.c
++++ b/drivers/media/usb/uvc/uvc_ctrl.c
+@@ -1844,30 +1844,35 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
+ {
+ 	struct uvc_entity *entity;
+ 	struct uvc_control *ctrl;
+-	unsigned int i, found = 0;
++	unsigned int i;
++	bool found;
+ 	u32 reqflags;
+ 	u16 size;
+ 	u8 *data = NULL;
+ 	int ret;
  
- 	if (!ret) {
-+		fi->interval = imx274->frame_interval;
-+
- 		/*
- 		 * exposure time range is decided by frame interval
- 		 * need to update it after frame interval changes
-@@ -1730,9 +1732,9 @@ static int imx274_set_frame_interval(struct stimx274 *priv,
- 		__func__, frame_interval.numerator,
- 		frame_interval.denominator);
- 
--	if (frame_interval.numerator == 0) {
--		err = -EINVAL;
--		goto fail;
-+	if (frame_interval.numerator == 0 || frame_interval.denominator == 0) {
-+		frame_interval.denominator = IMX274_DEF_FRAME_RATE;
-+		frame_interval.numerator = 1;
+ 	/* Find the extension unit. */
++	found = false;
+ 	list_for_each_entry(entity, &chain->entities, chain) {
+ 		if (UVC_ENTITY_TYPE(entity) == UVC_VC_EXTENSION_UNIT &&
+-		    entity->id == xqry->unit)
++		    entity->id == xqry->unit) {
++			found = true;
+ 			break;
++		}
  	}
  
- 	req_frame_rate = (u32)(frame_interval.denominator
+-	if (entity->id != xqry->unit) {
++	if (!found) {
+ 		uvc_trace(UVC_TRACE_CONTROL, "Extension unit %u not found.\n",
+ 			xqry->unit);
+ 		return -ENOENT;
+ 	}
+ 
+ 	/* Find the control and perform delayed initialization if needed. */
++	found = false;
+ 	for (i = 0; i < entity->ncontrols; ++i) {
+ 		ctrl = &entity->controls[i];
+ 		if (ctrl->index == xqry->selector - 1) {
+-			found = 1;
++			found = true;
+ 			break;
+ 		}
+ 	}
 -- 
 2.25.1
 
