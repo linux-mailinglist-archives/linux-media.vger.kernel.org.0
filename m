@@ -2,104 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D639298264
-	for <lists+linux-media@lfdr.de>; Sun, 25 Oct 2020 16:49:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AAAEA298601
+	for <lists+linux-media@lfdr.de>; Mon, 26 Oct 2020 05:00:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1417066AbgJYPtY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 25 Oct 2020 11:49:24 -0400
-Received: from fallback9.mail.ru ([94.100.178.49]:44542 "EHLO
-        fallback9.mail.ru" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1415049AbgJYPtX (ORCPT
+        id S1725853AbgJZEA0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Oct 2020 00:00:26 -0400
+Received: from mail-pg1-f195.google.com ([209.85.215.195]:41428 "EHLO
+        mail-pg1-f195.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725845AbgJZEA0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 25 Oct 2020 11:49:23 -0400
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=list.ru; s=mail;
-        h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:To:From:Subject; bh=qhAPRsFSDuxXHtWbAiTw3C9j9oDGq4d/KvAhk8IP2x4=;
-        b=nJkWp6SI37IZHD/uk4qlkxaKnUbJbLRlx++cqRtle2ZrcXleXF2Vc8Q+eQakmsFMfq8+DzxZjYiolyTCaEL0c5se8/W/bBVLpYgpyXDSoLaqOuVj2pNDvHj/3UPiv68NWDIrPZhN4sySuurCEWadyt00YoHPAxtMj2tTvI5hnvc=;
-Received: from [10.161.64.1] (port=55098 helo=smtp30.i.mail.ru)
-        by fallback9.m.smailru.net with esmtp (envelope-from <citizen777@list.ru>)
-        id 1kWiGl-0005kV-Vs
-        for linux-media@vger.kernel.org; Sun, 25 Oct 2020 18:49:20 +0300
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=list.ru; s=mail3;
-        h=Content-Type:In-Reply-To:MIME-Version:Date:Message-ID:References:To:From:Subject:From:Subject:Content-Type:Content-Transfer-Encoding:To:Cc; bh=qhAPRsFSDuxXHtWbAiTw3C9j9oDGq4d/KvAhk8IP2x4=;
-        b=qPtHyQtA91j5UVZ8q6SYmMY4UX+CU1PEjRW+98RkJgUr3dnkLMvsukBdm4SRnW4kPBC2KOp6rObfKCHdF/koE4F8wwWJo/UJL8hu/Mwg3YMqZ1RUUIyxI86lL4zpNdV23cfhraY/sBTZTDYnYcd26NME3RqNkk07LuD7tr8qyt4=;
-Received: by smtp30.i.mail.ru with esmtpa (envelope-from <citizen777@list.ru>)
-        id 1kWiGk-0001qK-58
-        for linux-media@vger.kernel.org; Sun, 25 Oct 2020 18:49:18 +0300
-Subject: Re: Submit corrections in Digital TV scan tables
-From:   =?UTF-8?B?0JDQu9C10LrRgdC10Lkg0JzQuNGF0LDQudC70L7Qsg==?= 
-        <citizen777@list.ru>
-To:     linux-media@vger.kernel.org
-References: <71c1e861-1571-9a03-c7f3-6758fc379f47@list.ru>
-Message-ID: <93c95892-552d-8d2e-1211-caa3da0ea633@list.ru>
-Date:   Sun, 25 Oct 2020 20:49:17 +0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.13; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.1
+        Mon, 26 Oct 2020 00:00:26 -0400
+Received: by mail-pg1-f195.google.com with SMTP id g12so4552469pgm.8
+        for <linux-media@vger.kernel.org>; Sun, 25 Oct 2020 21:00:25 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=kVgDhO+taFxq8t0BEttCnWGSdkvbHL8UkilhT38HKvE=;
+        b=m2uVth1fXM21zwTKn1Ec0oTOM0cCzhuuFEvzo4StIgPSNeOtntNMqm27OcWUVdiA1m
+         0/yZ8VtMgSlDk5vwnkKTRUrrKXgsQgdT2Uu4FNo883nlWqN4Fvy9s0EAXhSF1fYBVX+8
+         Aq7Gfq+riF+VyZoGFG+8Nu6n44R0XSLAr0YP8uMxX7opVXB95PC9EPcxbD++8PC1U8R1
+         i/IaDtftPdyKPIR7yW87IreAiTnVOaN0zPlce8rKrmKAQuBHFP9S4BrS1KKNikwM1sSC
+         MFXlnILiPFCO1DmkiULfEBWbSspMsVXEVjtKVlF2Nvh/rTRxpDwTiQofJN+Dl62IHAZl
+         aemA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=kVgDhO+taFxq8t0BEttCnWGSdkvbHL8UkilhT38HKvE=;
+        b=iOChu7VLODM7usGkzuos+rYoCZoGiRipjx0rxwq36cU4up1Bof7VM8SaG7dFcDw9Ir
+         fUbHenqwNvMlchKuFvsGQXsBlpv5w+OHbtFQmH8Hh/PLcWrj/vllb4A6dW7SfzdD7w4s
+         c2RSfARnm3ITvjLffRTjpA5/JoqRHFlMg/pthn5832vajIUZM9uagYwZ3nXHh2GiDK4a
+         cCMMPUwgRoulu1UsaV43wfGlzusrA9o2jH4EcKqodHsXfCo6qWcviOno9amkIkfVCTYo
+         XvT0950pRSGcfDESJqOhOL99DVRqyMJ7cOuS1HE2ZvweBqI+90v2I2YsgpgvhmlRUI7l
+         /MvQ==
+X-Gm-Message-State: AOAM530E+oy2wbYziAe+TRhTvsUzJNGA+oIu3REcVoprjlJGZk0LRQqW
+        ENJwfjzNIuDqMyal8GOGTFw=
+X-Google-Smtp-Source: ABdhPJxEUUtq7VLC/99X3AjD8UA86M7ryyZwpaSQQR14Tv0JesqNgryngmE9ET+W5q1h1ZCaAViTiQ==
+X-Received: by 2002:aa7:99dc:0:b029:15f:d774:718e with SMTP id v28-20020aa799dc0000b029015fd774718emr11914740pfi.62.1603684825148;
+        Sun, 25 Oct 2020 21:00:25 -0700 (PDT)
+Received: from my--box ([103.108.75.206])
+        by smtp.gmail.com with ESMTPSA id s19sm6103421pfe.26.2020.10.25.21.00.20
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sun, 25 Oct 2020 21:00:24 -0700 (PDT)
+Date:   Mon, 26 Oct 2020 09:30:17 +0530
+From:   Deepak R Varma <mh12gx2825@gmail.com>
+To:     outreachy-kernel@googlegroups.com,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v5 1/2] staging: media: imx: remove commented code
+Message-ID: <20201026040017.GA5074@my--box>
+References: <9fd1e7dd9e8f944b520f2a789e66e458aeb7b555.1602869338.git.mh12gx2825@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <71c1e861-1571-9a03-c7f3-6758fc379f47@list.ru>
-Content-Type: multipart/mixed;
- boundary="------------C383B3E9F9613774935AEA00"
-Content-Language: ru
-X-7564579A: B8F34718100C35BD
-X-77F55803: 4F1203BC0FB41BD97656661D03C0722C2D042CF307720508C6AD80ADC9ACBF3E182A05F538085040DF2D906A9AF559505D5C7DC26F33097724FC8B7BD8F4F3B80BF7011B316CA4AE
-X-7FA49CB5: FF5795518A3D127A4AD6D5ED66289B5278DA827A17800CE78C722B68A3D10D1CEA1F7E6F0F101C67BD4B6F7A4D31EC0BCC500DACC3FED6E28638F802B75D45FF8AA50765F790063743447F216C7C64BDEA1F7E6F0F101C674E70A05D1297E1BBC6CDE5D1141D2B1C12C9562C4D8DCEC959E9BE3F849435A162C91D0C198C0E3C9FA2833FD35BB23D9E625A9149C048EE33AC447995A7AD182CC0D3CB04F14752D2E47CDBA5A96583BD4B6F7A4D31EC0BB23A54CFFDBC96A8389733CBF5DBD5E9D5E8D9A59859A8B68424CA1AAF98A6958941B15DA834481F9449624AB7ADAF37E7815D572A9D6896D8FC6C240DEA76428AA50765F790063742F231CC794B281ED81D268191BDAD3DBD4B6F7A4D31EC0B7A15B7713DBEF166D81D268191BDAD3D78DA827A17800CE748EA208C6963B32FEC76A7562686271E8729DE7A884B61D135872C767BF85DA29E625A9149C048EE1B544F03EFBC4D57D528F8CDFD49EC534AD6D5ED66289B524E70A05D1297E1BB35872C767BF85DA227C277FBC8AE2E8BC8FFCCCDEDEF8FF575ECD9A6C639B01B4E70A05D1297E1BBC6867C52282FAC85D9B7C4F32B44FF57285124B2A10EEC6C00306258E7E6ABB4E4A6367B16DE6309
-X-B7AD71C0: 1D956E28BE51F19D321EF223B8115265C69B993890792DF815124AB61FC1ED4DA5A6C069D42DA181
-X-C8649E89: B3851ABA5AE0BBBEFA33B1654A61D1408AB45DEDC0C9814269FB5237CBE1984B29FE78349A3D57A9
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojNDWjmPGtroc9ZkrLXOrjzg==
-X-Mailru-Sender: 31F058E8D64676E88E531D246EBC2B9E652567C0D69D6D99A381EC0E54DC6201D0169805F923CF228DD79C2AECECA6D3C77752E0C033A69ED4074B44CCDC8201E05E346907A1D06F3453F38A29522196
-X-Mras: Ok
-X-7564579A: 78E4E2B564C1792B
-X-77F55803: 6242723A09DB00B4F0CF580DF85875BE2F2B2D735FFB85E10C9E85ADCD44EAAC68F3CF0E9FE49B696749F1F4DD1ADEF4CF166B494EEE669397A4B50033557A6093E1E41876B1C997
-X-7FA49CB5: 0D63561A33F958A5EB8ADD87ADB2F57A737D02D1A391CA45AE925DF6E5603CBB8941B15DA834481FA18204E546F3947C1DAA61796BF5227BF6B57BC7E64490618DEB871D839B7333395957E7521B51C2545D4CF71C94A83E9FA2833FD35BB23D27C277FBC8AE2E8BAA867293B0326636D2E47CDBA5A96583A67CD397AD5B4748AD7EC71F1DB884274AD6D5ED66289B5278DA827A17800CE7407F58171E1FE23AD32BA5DBAC0009BE395957E7521B51C20B4866841D68ED3567F23339F89546C55F5C1EE8F4F765FCC8FFCCCDEDEF8FF575ECD9A6C639B01BBD4B6F7A4D31EC0BC0CAF46E325F83A522CA9DD8327EE4931B544F03EFBC4D57D528F8CDFD49EC53C4224003CC836476C0CAF46E325F83A50BF2EBBBDD9D6B0F05F538519369F3743B503F486389A921A5CC5B56E945C8DA
-X-D57D3AED: 3ZO7eAau8CL7WIMRKs4sN3D3tLDjz0dLbV79QFUyzQ2Ujvy7cMT6pYYqY16iZVKkSc3dCLJ7zSJH7+u4VD18S7Vl4ZUrpaVfd2+vE6kuoey4m4VkSEu530nj6fImhcD4MUrOEAnl0W826KZ9Q+tr5ycPtXkTV4k65bRjmOUUP8cvGozZ33TWg5HZplvhhXbhDGzqmQDTd6OAevLeAnq3Ra9uf7zvY2zzsIhlcp/Y7m53TZgf2aB4JOg4gkr2biojNDWjmPGtroce1EFS9+YSnQ==
-X-Mailru-MI: 800
-X-Mailru-Sender: A5480F10D64C9005142DBD8FE6AB06EF43BE644AE2C6CD7C7806C3809E55645D5767912A89C1A797FD44C188BC2B2810FB559BB5D741EB969FF9CED896F3DBDE4239CF2AF0A6D4F80DA7A0AF5A3A8387
-X-Mras: Ok
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <9fd1e7dd9e8f944b520f2a789e66e458aeb7b555.1602869338.git.mh12gx2825@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is a multi-part message in MIME format.
---------------C383B3E9F9613774935AEA00
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Transfer-Encoding: 7bit
+On Fri, Oct 16, 2020 at 11:10:33PM +0530, Deepak R Varma wrote:
 
-..and 1 new file with scan tables.
+Hello All,
+Request for review / ack of this patch.
 
-path: root/dvb-t/ru-Kungur
+Thank you.
+Deepak.
 
-See attachment.
-
---------------C383B3E9F9613774935AEA00
-Content-Type: text/plain; charset=UTF-8; x-mac-type="0"; x-mac-creator="0";
- name="ru-Kungur"
-Content-Transfer-Encoding: base64
-Content-Disposition: attachment;
- filename="ru-Kungur"
-
-IyBTY2FuIHRhYmxlcyBmb3IgRFZCLVQyIGNoYW5uZWxzIGluIEt1bmd1ciAoUnVzc2lhKQoj
-IENyZWF0ZWQgZnJvbSBodHRwczovL9C60LDRgNGC0LAu0YDRgtGA0YEu0YDRhC9ydHJzL25v
-ZGUvMjQ3NgojIENvbnRyaWJ1dGVkIGJ5OiDQkNC70LXQutGB0LXQuSDQnNC40YXQsNC50LvQ
-vtCyIDxjaXRpemVuNzc3QGxpc3QucnU+CiMgTGFzdCBjaGFuZ2U6IDIwMjAtMTAtMjUKClvQ
-oNCi0KDQoS0xOiDQn9CV0KDQktCr0Jkg0JrQkNCd0JDQmywg0JzQkNCi0KchLCDQndCi0JIs
-INCf0K/QotCr0Jkg0JrQkNCd0JDQmywg0KDQntCh0KHQmNCvLdCaLCDQmtCQ0KDQo9Ch0JXQ
-m9CsLCDQotCSINCm0LXQvdGC0YAsINCS0JXQodCi0Jgg0KTQnCwg0JzQkNCv0JpdCiAgICBE
-RUxJVkVSWV9TWVNURU0gPSBEVkJUMgogICAgRlJFUVVFTkNZID0gNTU0MDAwMDAwCiAgICBC
-QU5EV0lEVEhfSFogPSA4MDAwMDAwCiAgICBDT0RFX1JBVEVfSFAgPSBBVVRPCiAgICBDT0RF
-X1JBVEVfTFAgPSBBVVRPCiAgICBNT0RVTEFUSU9OID0gUUFNL0FVVE8KICAgIFRSQU5TTUlT
-U0lPTl9NT0RFID0gQVVUTwogICAgR1VBUkRfSU5URVJWQUwgPSBBVVRPCiAgICBISUVSQVJD
-SFkgPSBOT05FCiAgICBJTlZFUlNJT04gPSBBVVRPCiAgICBTVFJFQU1fSUQgPSAwCgpb0KDQ
-otCg0KEtMTog0KDQntCh0KHQmNCvLTEsINCg0J7QodCh0JjQry0yNCwg0J7QotCgLCDQoNCw
-0LTQuNC+INCg0L7RgdGB0LjQuF0KICAgIERFTElWRVJZX1NZU1RFTSA9IERWQlQyCiAgICBG
-UkVRVUVOQ1kgPSA1NTQwMDAwMDAKICAgIEJBTkRXSURUSF9IWiA9IDgwMDAwMDAKICAgIENP
-REVfUkFURV9IUCA9IEFVVE8KICAgIENPREVfUkFURV9MUCA9IEFVVE8KICAgIE1PRFVMQVRJ
-T04gPSBRQU0vQVVUTwogICAgVFJBTlNNSVNTSU9OX01PREUgPSBBVVRPCiAgICBHVUFSRF9J
-TlRFUlZBTCA9IEFVVE8KICAgIEhJRVJBUkNIWSA9IE5PTkUKICAgIElOVkVSU0lPTiA9IEFV
-VE8KICAgIFNUUkVBTV9JRCA9IDEKClvQoNCi0KDQoS0yOiDQoNCV0J0g0KLQkiwg0KHQv9Cw
-0YEsINCh0KLQoSwg0JTQvtC80LDRiNC90LjQuSwg0KLQkjMsINCf0Y/RgtC90LjRhtCwLCDQ
-l9Cy0LXQt9C00LAsINCc0JjQoCwg0KLQndCiLCDQnNCj0Jcg0KLQkl0KICAgIERFTElWRVJZ
-X1NZU1RFTSA9IERWQlQyCiAgICBGUkVRVUVOQ1kgPSA3MTQwMDAwMDAKICAgIEJBTkRXSURU
-SF9IWiA9IDgwMDAwMDAKICAgIENPREVfUkFURV9IUCA9IEFVVE8KICAgIENPREVfUkFURV9M
-UCA9IEFVVE8KICAgIE1PRFVMQVRJT04gPSBRQU0vQVVUTwogICAgVFJBTlNNSVNTSU9OX01P
-REUgPSBBVVRPCiAgICBHVUFSRF9JTlRFUlZBTCA9IEFVVE8KICAgIEhJRVJBUkNIWSA9IE5P
-TkUKICAgIElOVkVSU0lPTiA9IEFVVE8KICAgIFNUUkVBTV9JRCA9IDAK
---------------C383B3E9F9613774935AEA00--
+> The virtual channel is always treated as 0 once the stream enters
+> CSI's. Commented code in the "#if 0" can be safely removed as it will
+> not serve any purpose in future.  Issue reported by checkpatch script.
+> 
+> Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
+> ---
+> Changes since v4:
+>    - Rephrase patch description to make it exact and accurate as
+>      suggested by Julia.
+>    - Add linux-media to the recipient list. Suggested by Hans.
+> Changes since v3:
+>    - Rephrase Patch description
+>    - Implement feedback from Vaishali & Helen to mention checkpatch in
+>      the patch description.
+> Changes since v2:
+>    - None
+> Changes since v1:
+>    - Implement feedback from Julia to be exact with the patch description
+> 
+>  drivers/staging/media/imx/imx-media-csi.c | 7 -------
+>  1 file changed, 7 deletions(-)
+> 
+> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
+> index 21ebf7769696..9320e3974d86 100644
+> --- a/drivers/staging/media/imx/imx-media-csi.c
+> +++ b/drivers/staging/media/imx/imx-media-csi.c
+> @@ -1131,13 +1131,6 @@ static int csi_link_validate(struct v4l2_subdev *sd,
+>  		 * enters the CSI's however, they are treated internally
+>  		 * in the IPU as virtual channel 0.
+>  		 */
+> -#if 0
+> -		mutex_unlock(&priv->lock);
+> -		vc_num = imx_media_find_mipi_csi2_channel(&priv->sd.entity);
+> -		if (vc_num < 0)
+> -			return vc_num;
+> -		mutex_lock(&priv->lock);
+> -#endif
+>  		ipu_csi_set_mipi_datatype(priv->csi, vc_num,
+>  					  &priv->format_mbus[CSI_SINK_PAD]);
+>  	}
+> -- 
+> 2.25.1
+> 
