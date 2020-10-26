@@ -2,60 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E62262991A8
-	for <lists+linux-media@lfdr.de>; Mon, 26 Oct 2020 17:02:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 959D5299217
+	for <lists+linux-media@lfdr.de>; Mon, 26 Oct 2020 17:15:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1784685AbgJZQCL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Oct 2020 12:02:11 -0400
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:60741 "EHLO
+        id S1775055AbgJZQO6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Oct 2020 12:14:58 -0400
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:49761 "EHLO
         new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1773531AbgJZQAk (ORCPT
+        by vger.kernel.org with ESMTP id S2391829AbgJZQO5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Oct 2020 12:00:40 -0400
+        Mon, 26 Oct 2020 12:14:57 -0400
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 989245805BF;
-        Mon, 26 Oct 2020 12:00:39 -0400 (EDT)
+        by mailnew.nyi.internal (Postfix) with ESMTP id 130A85803F3;
+        Mon, 26 Oct 2020 12:14:56 -0400 (EDT)
 Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Mon, 26 Oct 2020 12:00:39 -0400
+  by compute6.internal (MEProxy); Mon, 26 Oct 2020 12:14:56 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=+zFpdLqS4f1Sp9pHsGd3MydHd4a
-        Aljq6m/3hyPbewys=; b=fLpeYZwODJMYmuT+eOU7Ouv+0ogVQVm4EyGRsaZEgY7
-        HGyIojY0V9nc5minP3TxYjV6loNb4088bN1/3RI4QGxjCf6Z+HfW4aNzu3Gix1ee
-        O4mRSgBmG1lPSk2xWiumcn/qHKlhPcMNYm7x0zgvEUx6LKkhEWbDjtvyi9qfVuCi
-        Ju8GIgl1W7/LsisO0FN0lNdvbmL1g6IeRQ067US4HXvI0+2b4jyTLIyWLpUU7VnO
-        jd+wo/3E18zYA3PynUfTtKJkGcMUOumRd4G4HK0hOvB6G9r6I7tLKmT9Fr28aE5N
-        dZ9LWEk+P9R6wzWd3NHM9DTDIE8CCJ9qNq961Lbpz8A==
+        :content-type:in-reply-to; s=fm1; bh=TLyiKgOV7T5s8EKyctDKKbjHeyz
+        5nHIrwqEFQz+QSsQ=; b=eQ84KS+HxBeS5NfvqwoZsa3zVE9VdlE4oktymJyDQTK
+        WS7H4qOwWNOjFcRnWwESGIIL0tmYDLBXu21at3eeaIvdP9Azl5PeViTGrOE4ojjF
+        fElUd5JF7ca5hU6FddgR0La0JVwLAdEqUOU8GOjuwYp6a6DBAoaQXVTNfuEyy2DW
+        By09qbGxxKRf//Z3NBctrDf9cusTv3i43OZxa84yRN1HPCNWJq4vWp8u1J/6AfGh
+        Ep6i7i+lAi758RcR3kzVETsF/Xs4cfpaSHA8pFtdHuVSk1rFR43XS8Bj9ZZfuRJl
+        dbpkMQ0xRLkylJ/e6l8Sfdcqi+Sng3B4RMjhlGbYAgA==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-type:date:from:in-reply-to
         :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=+zFpdL
-        qS4f1Sp9pHsGd3MydHd4aAljq6m/3hyPbewys=; b=PUo53Rrb9+0G8Os9gAjLIk
-        I1aGa1arl49S7hXp+K0MvyDy/e7Z4SvSdyiaRWNdrLfdN6ONDjmg89y4TU+oGbYP
-        +ll5JB4o0k5owadvpQsiA1zYzgp9wpocXQCPzwxceAv+31iBc8XmvMVMjcOvl3ZV
-        qHOSctdy64HDTZxyaMem9H3Yh0kVdp1qqguFY9QDxX0dJLc50H6xng49uh8BGIpY
-        9CWvw1onyJZPKtPx3WR8RQOaqQ73O1mZ+eLOawGyBKHWn7PXU50wWAREctp0/bnY
-        rFMAmVV4mvVcI/CsEyUUoGrNz6mnHD5dpOvqeQS44JNaSwbVU+EC9m6OjWNleMhw
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=TLyiKg
+        OV7T5s8EKyctDKKbjHeyz5nHIrwqEFQz+QSsQ=; b=kPj637TBaochR9cRFkstu+
+        10qhPZTu5UDqMrTpZGMEIM3kNXx2JDANwJFF0MNf9Cyy3wRyfch/94WbzPeMFSXy
+        bN8rur72crIYEoWeji0FI5mEX0fhsZSti13lkhaKbV6N/C9xQOrvs6NVbX08rM3+
+        LoXLkgmtoFLp6edw/UWuik8t7IOwopH9WEVmPKexSJx4FrcEJKKitUw/9PUl5Xp3
+        v/o7Rl80TNqAKj0p7PSRV/1JY1NISaHVlWQfqgaybK7PkjO3z8mCSZWQglvr+F/J
+        79HKZ9e6OFSC+n8f/rqoS4jlcAzBu2yWFoMdJOvdQ/+2oIlusKaik4HXST39kVmw
         ==
-X-ME-Sender: <xms:pfKWXzqsps-zuFYJpfZ26BNfJyPcfk5Rm9UZGpXwzYG92o1d4nLwpA>
-    <xme:pfKWX9qMIYIg0cLpGo9teeEdyOHuu4fiXw3L-wsj6WXQujhdUoFzb7vgThGMTQqJr
-    _IYixqorErF41rz-M4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeejgdegjecutefuodetggdotefrodftvf
+X-ME-Sender: <xms:_PWWX2Q0dI-rq3Gnyc7GIvZi6m4l_FcbIjIqpWPycwP9Vt2VQoejHw>
+    <xme:_PWWX7xCssfOupGPUQtUzu3UYVbtF6WmxTzXln6unevGeR2keKoUXMjw7jtYrUHMW
+    MA8siE9uQSeHH6-JAw>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeejgdeglecutefuodetggdotefrodftvf
     curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
     uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
-    fjughrpeffhffvuffkfhggtggujgesghdtreertddtudenucfhrhhomhepofgrgihimhgv
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
     ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpeduvdduhfekkeehgffftefflefgffdtheffudffgeevteffheeuiedvvdejvdfg
-    veenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:pfKWXwMtLWm4Zp0Fj5qXPEOHuDljI8eMQDNTHOkMLgXsSOYYFCJ4cQ>
-    <xmx:pfKWX25IVLwmA5VuqBVqlu-HSF-2pJDB1r5xbcZVFtESIpKbkMXu_w>
-    <xmx:pfKWXy5voU7X4QzEk_kXvu6E1_oqmpjS75Re_Kv01EKAVx1ex4RmOw>
-    <xmx:p_KWXwuCRpG21Yi6G8Hi815xciyYa9YkQPx4Q8BuJ-EMvMMJQTdjug>
+    gvrhhnpeetudffiefhhedvgfeufeejvedvveffffeikeduvdejuefgieffgedtuddtfeek
+    tdenucffohhmrghinhepuggvvhhitggvthhrvggvrdhorhhgpdhgihhthhhusgdrtghomh
+    enucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurfgr
+    rhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:_PWWXz2qi7ON9-JqjnXXE9GC-GWrYsSb-s3pckEdeD75HwYaAWhmFw>
+    <xmx:_PWWXyC2iQjygG9reB_Xy5CrTnilepzJFsxPOnDf7ZEr24cEAZISDw>
+    <xmx:_PWWX_gPBz6ftr6DNqQ2O4FsX9TJijAolCNgNaCjYgnSa66AtySSLA>
+    <xmx:APaWX4YEYu7cKh-qE3DWOvv4gH6ix1EeaVXqWS-lWcLLK-jn97J7Qw>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 121B0328006B;
-        Mon, 26 Oct 2020 12:00:37 -0400 (EDT)
-Date:   Mon, 26 Oct 2020 17:00:35 +0100
+        by mail.messagingengine.com (Postfix) with ESMTPA id 406783280059;
+        Mon, 26 Oct 2020 12:14:52 -0400 (EDT)
+Date:   Mon, 26 Oct 2020 17:14:50 +0100
 From:   Maxime Ripard <maxime@cerno.tech>
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -72,129 +73,201 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com,
-        =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
-Subject: Re: [PATCH 05/14] media: sun6i-csi: Only configure the interface
- data width for parallel
-Message-ID: <20201026160035.sr6kifrpkev773o6@gilmour.lan>
+        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com
+Subject: Re: [PATCH 07/14] dt-bindings: media: i2c: Add A31 MIPI CSI-2
+ bindings documentation
+Message-ID: <20201026161450.gr3dqpltxw2ccc3s@gilmour.lan>
 References: <20201023174546.504028-1-paul.kocialkowski@bootlin.com>
- <20201023174546.504028-6-paul.kocialkowski@bootlin.com>
+ <20201023174546.504028-8-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="skxp2qthj3edyfa2"
+        protocol="application/pgp-signature"; boundary="eiytbmgwemquicwl"
 Content-Disposition: inline
-In-Reply-To: <20201023174546.504028-6-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20201023174546.504028-8-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---skxp2qthj3edyfa2
-Content-Type: text/plain; charset=iso-8859-1
+--eiytbmgwemquicwl
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Fri, Oct 23, 2020 at 07:45:37PM +0200, Paul Kocialkowski wrote:
-> Bits related to the interface data width do not have any effect when
-> the CSI controller is taking input from the MIPI CSI-2 controller.
+i2c? :)
 
-I guess it would be clearer to mention that the data width is only
-applicable for parallel here.
-
-> In prevision of adding support for this case, set these bits
-> conditionally so there is no ambiguity.
+On Fri, Oct 23, 2020 at 07:45:39PM +0200, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the A31 MIPI CSI-2
+> controller.
 >=20
-> Co-developed-by: K=E9vin L'h=F4pital <kevin.lhopital@bootlin.com>
-> Signed-off-by: K=E9vin L'h=F4pital <kevin.lhopital@bootlin.com>
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > ---
->  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 42 +++++++++++--------
->  1 file changed, 25 insertions(+), 17 deletions(-)
+>  .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 168 ++++++++++++++++++
+>  1 file changed, 168 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun=
+6i-a31-mipi-csi2.yaml
 >=20
-> diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drivers=
-/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> index 5d2389a5cd17..a876a05ea3c7 100644
-> --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> @@ -378,8 +378,13 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev=
- *sdev)
->  	unsigned char bus_width;
->  	u32 flags;
->  	u32 cfg;
-> +	bool input_parallel =3D false;
->  	bool input_interlaced =3D false;
-> =20
-> +	if (endpoint->bus_type =3D=3D V4L2_MBUS_PARALLEL ||
-> +	    endpoint->bus_type =3D=3D V4L2_MBUS_BT656)
-> +		input_parallel =3D true;
+> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-=
+mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
+1-mipi-csi2.yaml
+> new file mode 100644
+> index 000000000000..9adc0bc27033
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-cs=
+i2.yaml
+> @@ -0,0 +1,168 @@
+> +# SPDX-License-Identifier: GPL-2.0
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-mipi-csi2.y=
+aml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
->  	if (csi->config.field =3D=3D V4L2_FIELD_INTERLACED
->  	    || csi->config.field =3D=3D V4L2_FIELD_INTERLACED_TB
->  	    || csi->config.field =3D=3D V4L2_FIELD_INTERLACED_BT)
-> @@ -395,6 +400,26 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev=
- *sdev)
->  		 CSI_IF_CFG_HREF_POL_MASK | CSI_IF_CFG_FIELD_MASK |
->  		 CSI_IF_CFG_SRC_TYPE_MASK);
-> =20
-> +	if (input_parallel) {
-> +		switch (bus_width) {
-> +		case 8:
-> +			cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
-> +			break;
-> +		case 10:
-> +			cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
-> +			break;
-> +		case 12:
-> +			cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
-> +			break;
-> +		case 16: /* No need to configure DATA_WIDTH for 16bit */
-> +			break;
-> +		default:
-> +			dev_warn(sdev->dev, "Unsupported bus width: %u\n",
-> +				 bus_width);
-> +			break;
-> +		}
-> +	}
+> +title: Allwinner A31 MIPI CSI-2 Device Tree Bindings
 > +
->  	if (input_interlaced)
->  		cfg |=3D CSI_IF_CFG_SRC_TYPE_INTERLACED;
->  	else
-> @@ -440,23 +465,6 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_dev=
- *sdev)
->  		break;
->  	}
-> =20
-> -	switch (bus_width) {
-> -	case 8:
-> -		cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
-> -		break;
-> -	case 10:
-> -		cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
-> -		break;
-> -	case 12:
-> -		cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
-> -		break;
-> -	case 16: /* No need to configure DATA_WIDTH for 16bit */
-> -		break;
-> -	default:
-> -		dev_warn(sdev->dev, "Unsupported bus width: %u\n", bus_width);
-> -		break;
-> -	}
-> -
+> +maintainers:
+> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> +
+> +properties:
+> +  compatible:
+> +    oneOf:
+> +      - const: allwinner,sun6i-a31-mipi-csi2
+> +      - items:
+> +          - const: allwinner,sun8i-v3s-mipi-csi2
+> +          - const: allwinner,sun6i-a31-mipi-csi2
+> +
+> +  reg:
+> +    maxItems: 1
+> +
+> +  interrupts:
+> +    maxItems: 1
+> +
+> +  clocks:
+> +    items:
+> +      - description: Bus Clock
+> +      - description: Module Clock
+> +
+> +  clock-names:
+> +    items:
+> +      - const: bus
+> +      - const: mod
+> +
+> +  phys:
+> +    items:
+> +      - description: MIPI D-PHY
+> +
+> +  phy-names:
+> +    items:
+> +      - const: dphy
+> +
+> +  resets:
+> +    maxItems: 1
+> +
+> +  # See ./video-interfaces.txt for details
+> +  ports:
+> +    type: object
+> +
+> +    properties:
+> +      port@0:
+> +        type: object
+> +        description: Input port, connect to a MIPI CSI-2 sensor
+> +
+> +        properties:
+> +          reg:
+> +            const: 0
+> +
+> +          endpoint:
+> +            type: object
+> +
+> +            properties:
+> +              remote-endpoint: true
+> +
+> +              bus-type:
+> +                const: 4
+> +
+> +              clock-lanes:
+> +                maxItems: 1
+> +
+> +              data-lanes:
+> +                minItems: 1
+> +                maxItems: 4
+> +
+> +            required:
+> +              - bus-type
+> +              - data-lanes
+> +              - remote-endpoint
+> +
+> +            additionalProperties: false
+> +
+> +        required:
+> +          - endpoint
+> +
+> +        additionalProperties: false
+> +
+> +      port@1:
+> +        type: object
+> +        description: Output port, connect to a CSI controller
+> +
+> +        properties:
+> +          reg:
+> +            const: 1
+> +
+> +          endpoint:
+> +            type: object
+> +
+> +            properties:
+> +              remote-endpoint: true
+> +
+> +              bus-type:
+> +                const: 4
 
-Is there any reason to move it around?
+That one seems a bit weird. If the input and output ports are using the
+same format, what is that "bridge" supposed to be doing?
+
+> +            additionalProperties: false
+> +
+> +        required:
+> +          - endpoint
+> +
+> +        additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - resets
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
+> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> +
+> +    mipi_csi2: mipi-csi2@1cb1000 {
+
+The unit name should be pretty standard, with the list here:
+
+https://github.com/devicetree-org/devicetree-specification/blob/master/sour=
+ce/chapter2-devicetree-basics.rst#generic-names-recommendation
+
+there's nothing really standing out for us in that list, but given that
+there's dsi, we should stick with csi
 
 Maxime
 
---skxp2qthj3edyfa2
+--eiytbmgwemquicwl
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5byowAKCRDj7w1vZxhR
-xTCUAP9jlPYhUtoRUzFdPIpQeEYFvbgdfMykS8BmmV1CJg10fQEAm2eH1TwsE349
-vqAWwldnM2QEICqTpinpdy1eH7YiDAU=
-=TXc0
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5b1+gAKCRDj7w1vZxhR
+xUrvAQDaCb49+m5oHHwZxWYiC4umXmj81ww7TpCLw3SGokcdqgD+PDaf8R4Y7Mki
+j3oAL73uUh4iuB1RtuGhHa16do4kDgg=
+=ZVlV
 -----END PGP SIGNATURE-----
 
---skxp2qthj3edyfa2--
+--eiytbmgwemquicwl--
