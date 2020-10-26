@@ -2,108 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9FA929F56E
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 20:35:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3ABF29F5C2
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 21:02:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726133AbgJ2TfE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 15:35:04 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56688 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725862AbgJ2TfD (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 15:35:03 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EBF10C0613CF
-        for <linux-media@vger.kernel.org>; Thu, 29 Oct 2020 12:35:02 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id n11so3434175ota.2
-        for <linux-media@vger.kernel.org>; Thu, 29 Oct 2020 12:35:02 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=pNs67top4pPOTGcP1NX7Pu7/uSm+kbCFKUDcv3vSLmY=;
-        b=MQWqXJYCQgyXX2ED5upvS1zb/S5C1frA3jtLf8wN4hQgUkBCTJdeytiWYoqHWLJGwc
-         Et2uXFDO9vJn9YdPxvW7EdORHys3z1FcdVODWJcjXelZlWEq3ff/wL64LENYfqlnNvIv
-         ckJux5YWlOs6YLhRHDYrT2QluVkyhCkEjrk42hML2mgWA4g9BuWXwHj5ujn+Jbzt370f
-         OUvmYK/AVfE97h3+gd2w1bcRNWRicBIdwPeUG/dTFDizok+kju4vmUbj8MVtu8wyqyEm
-         uUfTLU9/up/V6EdurhRz9ibvNZqc+xEyRIONBF+zEUqPz41J/bSSzbBTJZYa8Iv41pUv
-         9YUg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=pNs67top4pPOTGcP1NX7Pu7/uSm+kbCFKUDcv3vSLmY=;
-        b=d8Ml+pQyxre7JaS9FzHNiSgA2MCLixeHV/RtpxRP9iHEouGiLvCNcmdUkCNMm0ELMH
-         uF+AryJnwxFRcRgtWFOC/8V6uohBJeS8kIbXOD+7+TT9/xx2OXPUPUq0qeMsBCns+Xt6
-         f1hf+bUu/9yXPyBB8ULnQNHLbC7O2EVebYbjDlgP+wbKKnDv6D+tdr2iP83oP9qFEQEz
-         rbxCx5pIRvJr9Zslr9zAJi+AY5hlh7CKdMLUAR66MmDbNu0ayZio2ubnj4xkMfH3Acgj
-         qIQZBfkgRqjVP2pnV1fdfdAHslXOFaAOxTsvo+01UGX/h2X1Mby08WU+T/ma4BFRL6oD
-         KjWA==
-X-Gm-Message-State: AOAM533kX6iwZEN6pdBvbKDnBptYZc7STsCzjeTfWJqsyQYFQvvQCNbz
-        B8Oww+aNmZYDM0FG+OKJ/VxN5ZLsnZqlgLFNl3DRVw==
-X-Google-Smtp-Source: ABdhPJy0AyVCxa/MNqqLnCtulrwic0DXZmVBbHxEFIqaCu0LwsfmMANQIDL2vahx/7Rjil+GW+C9/cBLzXFlqiduehw=
-X-Received: by 2002:a05:6830:400c:: with SMTP id h12mr4739838ots.102.1604000102315;
- Thu, 29 Oct 2020 12:35:02 -0700 (PDT)
+        id S1726438AbgJ2UCk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 16:02:40 -0400
+Received: from mga11.intel.com ([192.55.52.93]:49136 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726203AbgJ2UCP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Oct 2020 16:02:15 -0400
+IronPort-SDR: tNaW9qpI+GbXyF7BBZ61BI2pZihaMcmFKjwCZMfsluLpHLWkZC/ZgstV6jMIaJz43XueLoHBzs
+ ti1Tno3KEs9g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9789"; a="165002641"
+X-IronPort-AV: E=Sophos;i="5.77,430,1596524400"; 
+   d="scan'208";a="165002641"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2020 13:01:51 -0700
+IronPort-SDR: 7R7LRHeYu8JNTwz+ztTMwE5PpZXpI6V+7f0kA1McnGIYOsug8wz9/hRKxTRwGDjvQNu5YGnGCz
+ cISu/tEIfFVQ==
+X-IronPort-AV: E=Sophos;i="5.77,430,1596524400"; 
+   d="scan'208";a="469261481"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2020 13:01:49 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@intel.com>)
+        id 1kYE8K-001UAv-Dh; Thu, 29 Oct 2020 22:02:52 +0200
+Date:   Mon, 26 Oct 2020 18:05:49 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Dan Scally <djrscally@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        linus.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
+        heikki.krogerus@linux.intel.com, dmitry.torokhov@gmail.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
+        robh@kernel.org, davem@davemloft.net, linux@rasmusvillemoes.dk,
+        sergey.senozhatsky@gmail.com, rostedt@goodmis.org,
+        pmladek@suse.com, mchehab@kernel.org, tian.shu.qiu@intel.com,
+        bingbu.cao@intel.com, sakari.ailus@linux.intel.com,
+        yong.zhi@intel.com, rafael@kernel.org, gregkh@linuxfoundation.org,
+        kitakar@gmail.com
+Subject: Re: [RFC PATCH v3 9/9] ipu3-cio2: Add functionality allowing
+ software_node connections to sensors on platforms designed for Windows
+Message-ID: <20201026160549.GO4077@smile.fi.intel.com>
+References: <20201019225903.14276-1-djrscally@gmail.com>
+ <20201019225903.14276-10-djrscally@gmail.com>
+ <20201024012411.GT5979@pendragon.ideasonboard.com>
+ <d188f8b5-ed3b-f91b-171a-26afeb7d213e@gmail.com>
+ <20201024093702.GA3939@pendragon.ideasonboard.com>
+ <748d34c3-a146-12fe-22c0-8dfef9006ea0@gmail.com>
+ <20201024223628.GG3943@pendragon.ideasonboard.com>
+ <703d5108-5b10-802d-2bac-c719150430af@gmail.com>
 MIME-Version: 1.0
-References: <20201029001624.17513-1-john.stultz@linaro.org>
- <20201029001624.17513-6-john.stultz@linaro.org> <20201029070221.2856-1-hdanton@sina.com>
-In-Reply-To: <20201029070221.2856-1-hdanton@sina.com>
-From:   John Stultz <john.stultz@linaro.org>
-Date:   Thu, 29 Oct 2020 12:34:51 -0700
-Message-ID: <CALAqxLV8EYq7FEXFGrGnWocpiXihAd+wHcu5=X4oC2oS8_Fy=A@mail.gmail.com>
-Subject: Re: [PATCH v4 5/7] dma-buf: system_heap: Allocate higher order pages
- if available
-To:     Hillf Danton <hdanton@sina.com>
-Cc:     lkml <linux-kernel@vger.kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <703d5108-5b10-802d-2bac-c719150430af@gmail.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 29, 2020 at 12:02 AM Hillf Danton <hdanton@sina.com> wrote:
->
-> On Thu, 29 Oct 2020 00:16:22 +0000 John Stultz wrote:
-> >
-> > +#define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
-> > +                             | __GFP_NORETRY) & ~__GFP_RECLAIM) \
-> > +                             | __GFP_COMP)
-> > +#define LOW_ORDER_GFP (GFP_HIGHUSER | __GFP_ZERO | __GFP_COMP)
-> > +static gfp_t order_flags[] = {HIGH_ORDER_GFP, LOW_ORDER_GFP, LOW_ORDER_GFP};
-> > +static const unsigned int orders[] = {8, 4, 0};
-> > +#define NUM_ORDERS ARRAY_SIZE(orders)
->
-> A two-line comment helps much understand the ORDERs above if it specifies the
-> reasons behind the detour to HPAGE_PMD_ORDER and PAGE_ALLOC_COSTLY_ORDER.
+On Mon, Oct 26, 2020 at 08:20:14AM +0000, Dan Scally wrote:
+> On 24/10/2020 23:36, Laurent Pinchart wrote:
+> > On Sat, Oct 24, 2020 at 11:28:06PM +0100, Daniel Scally wrote:
+> >> On 24/10/2020 10:37, Laurent Pinchart wrote:
+> >>>>> I wonder if we could avoid depending on the I2C device being created by
+> >>>>> getting the fwnode from adev, and setting ->secondary manually. adev
+> >>>>> would need to be passed to get_acpi_ssdb_sensor_data() instead of dev.
+> >>>> Let me try that; I initially wanted to do
+> >>>> set_secondary_fwnode(&adev->dev, fwnode) to avoid depending on the I2C
+> >>>> dev being created but it turns out &adev->dev isn't the same pointer. I
+> >>>> shall try it and see.
+> >> Actually, thinking on this further I think maybe we can't avoid that -
+> >> it's not actually in this patch series but during assigning GPIO
+> >> resources parsed from PMIC's ACPI node to the sensor, I'm using
+> >> dev_name() on the i2c dev to pass to .dev_id member of gpiod_lookup_table
+> > Any chance we can construct the I2C device name from the ACPI device,
+> > the same way that the ACPI/I2C core does ? It may be a dead end, but if
+> > we could avoid depending on the I2C device, I think it will make
+> > initialization easier. I have a feeling that will be difficult though,
+> > as we'll need the I2C bus number, which won't be readily available.
+> OK yeah; the i2c core does indeed just prefix "i2c-" onto the acpi
+> device name, so I will make this change too.
 
-Thanks so much for the review and feedback!
+This is part of the I²C core and if you go this way, do not home grow the
+functionality that doesn't belong here.
 
-So yes, this was pulled from ION's system heap:
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/staging/android/ion/ion_system_heap.c#n20
+Instead, export a helper function that will do it for you and for I²C core with
+explanation why it's needed.
 
-But adding __GFP_COMP as that's added by ION in the pagepool code I
-didn't include:
-  https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree/drivers/staging/android/ion/ion_page_pool.c#n146
+-- 
+With Best Regards,
+Andy Shevchenko
 
-I unfortunately don't have a lot of detail on the exact rationale
-(other than what I can pull from the commit log), I suspect it has to
-do experiential knowledge of the majority of graphics buffers being
-small multiples of 1M or 64K.
 
-But I do agree some rationale in a comment would be helpful, and will
-try to add that.
-
-As for your comment on HPAGE_PMD_ORDER (9 on arm64/arm) and
-PAGE_ALLOC_COSTLY_ORDER(3), I'm not totally sure I understand your
-question? Are you suggesting those values would be more natural orders
-to choose from?
-
-Thanks again!
--john
