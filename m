@@ -2,105 +2,335 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 63742298833
-	for <lists+linux-media@lfdr.de>; Mon, 26 Oct 2020 09:20:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2DFD62988AA
+	for <lists+linux-media@lfdr.de>; Mon, 26 Oct 2020 09:41:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1771541AbgJZIUU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Oct 2020 04:20:20 -0400
-Received: from mail-wm1-f65.google.com ([209.85.128.65]:50402 "EHLO
-        mail-wm1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1768911AbgJZIUU (ORCPT
+        id S1770501AbgJZIlx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Oct 2020 04:41:53 -0400
+Received: from userp2120.oracle.com ([156.151.31.85]:42962 "EHLO
+        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1769280AbgJZIlw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Oct 2020 04:20:20 -0400
-Received: by mail-wm1-f65.google.com with SMTP id 13so10681328wmf.0;
-        Mon, 26 Oct 2020 01:20:18 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=QV58dqmkH1DfYF96dLxD/X4lVkmb76mPN7rMpGdDayE=;
-        b=tb5rjma5QkiAgPeIFRCui6TlZZOGsVsGEbVrKMp9O7+35xZ6YQP2K3MtjqGPfI11t2
-         VxF/VugXSwM5ERng/7D3m6bSHyvaI44l4k7fkJT/nnQVCvqusGNlHF9BTwYJUYcYm7AH
-         19v0538aW4ng+DfhfXea1pRRxegusVX2/3mwCeNGrQ4Irjnjbd7ZTTWfA/ZPHKAtoiLR
-         JUlCuTG+B/MV5Vz5mgeIr4iPsmipZCbCP1anNDHtlQmRLTQmzZ5RolcHSQuMnzystw+y
-         lvU8xO766pInwVD0c+H5ztOWaoTvtOj7hGxX3jDX2CfKmEz25RB5rSTY/GlTAIU/4yEy
-         gUyg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=QV58dqmkH1DfYF96dLxD/X4lVkmb76mPN7rMpGdDayE=;
-        b=iCaJo/64l0uhf7A7Xu1dba6MZhkjhc4zvJD3HwvCM7KmsUuLdqmTp4/oeXFnzFhmdK
-         FEHpWtw9XXtmcqvyE0v1LGRyiSwnKC2MzlCHy3b6Cvuaug2JsKZcscvgO9MzeUFxZbDi
-         40B3+6rj74TUM/OJeFS/SwT83OGQOhHQpPC2VEuQLKu59c1MCIfxhkQjBNytYJCwd2MU
-         gXJYg5p0nDezLakhZgnFQ9Ry5o7P302PIZHd4d3X/Mc7vKRoWnD3B7HSB2qz3SuKi7rx
-         PN5DbZ25d7vDXN683LTbqebeBshZY80+HtiaY6Eb7X+b2S73fBQHj1/4DEQMZ34XIVII
-         EFmw==
-X-Gm-Message-State: AOAM531ueyQ8dpkotczDQgSGIKyoljTb/X7C1piF6cURSvuUUZ624+Hp
-        eEm/MmsJVymsZaKMuvDy88M=
-X-Google-Smtp-Source: ABdhPJy8OdrKvvz1ExXqrJ8YxhXVk7TipRS5MumO7ODp+rA03nVeHU5FgbF4mj+thXY5spTk04M+PQ==
-X-Received: by 2002:a1c:2901:: with SMTP id p1mr15217931wmp.170.1603700417672;
-        Mon, 26 Oct 2020 01:20:17 -0700 (PDT)
-Received: from [192.168.1.211] ([2.29.20.56])
-        by smtp.gmail.com with ESMTPSA id f8sm21102594wrw.85.2020.10.26.01.20.15
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 26 Oct 2020 01:20:16 -0700 (PDT)
-Subject: Re: [RFC PATCH v3 9/9] ipu3-cio2: Add functionality allowing
- software_node connections to sensors on platforms designed for Windows
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linus.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        heikki.krogerus@linux.intel.com, dmitry.torokhov@gmail.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
-        robh@kernel.org, davem@davemloft.net, linux@rasmusvillemoes.dk,
-        andriy.shevchenko@linux.intel.com, sergey.senozhatsky@gmail.com,
-        rostedt@goodmis.org, pmladek@suse.com, mchehab@kernel.org,
-        tian.shu.qiu@intel.com, bingbu.cao@intel.com,
-        sakari.ailus@linux.intel.com, yong.zhi@intel.com,
-        rafael@kernel.org, gregkh@linuxfoundation.org, kitakar@gmail.com
-References: <20201019225903.14276-1-djrscally@gmail.com>
- <20201019225903.14276-10-djrscally@gmail.com>
- <20201024012411.GT5979@pendragon.ideasonboard.com>
- <d188f8b5-ed3b-f91b-171a-26afeb7d213e@gmail.com>
- <20201024093702.GA3939@pendragon.ideasonboard.com>
- <748d34c3-a146-12fe-22c0-8dfef9006ea0@gmail.com>
- <20201024223628.GG3943@pendragon.ideasonboard.com>
-From:   Dan Scally <djrscally@gmail.com>
-Message-ID: <703d5108-5b10-802d-2bac-c719150430af@gmail.com>
-Date:   Mon, 26 Oct 2020 08:20:14 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 26 Oct 2020 04:41:52 -0400
+Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
+        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09Q8YojN130953;
+        Mon, 26 Oct 2020 08:40:08 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=F5LlvzPNIF5Il7U0Hj7prxHic4yEfs/S65y2+xsCuw4=;
+ b=eiiV/epQ4XPYppVkw6Lbd85pWHWAYftU1SkYnx4tUegG99eaw9Ei9dP+yAOEFENZNJ2f
+ LbdVgrWNwvrjzzCMCSaPoubud/De3KZJdxnWAPXU05++8dNIJO89/eE2qdhjsKcpsIz/
+ dVqAMMVta+UQKDVoEA+a3Ufc5pNofBhRIYpKk4ZiClRebxwnaFn62QJz/ucaqBnsR/Rd
+ dvDluSFG/H53VJpfKpXzwnA8lPZiEWQgzFPyQaercRGym4WmkeBo1+ucaiUrFCcmEP7H
+ F+OiRUG8nphFdrJ/ePvU2HUSrnNEcxiOxmbFtVqoUG8P5q4r1OFUX6GCIRyfRIFflV68 jQ== 
+Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
+        by userp2120.oracle.com with ESMTP id 34dgm3s3c4-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Mon, 26 Oct 2020 08:40:07 +0000
+Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
+        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09Q8aJrw137883;
+        Mon, 26 Oct 2020 08:40:07 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3030.oracle.com with ESMTP id 34cwuk1g4m-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Mon, 26 Oct 2020 08:40:06 +0000
+Received: from abhmp0020.oracle.com (abhmp0020.oracle.com [141.146.116.26])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 09Q8dtYt020584;
+        Mon, 26 Oct 2020 08:39:56 GMT
+Received: from kadam (/41.57.98.10)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Mon, 26 Oct 2020 01:39:54 -0700
+Date:   Mon, 26 Oct 2020 11:39:43 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        kevin.lhopital@hotmail.com
+Subject: Re: [PATCH 08/14] media: sunxi: Add support for the A31 MIPI CSI-2
+ controller
+Message-ID: <20201026083943.GB1042@kadam>
+References: <20201023174546.504028-1-paul.kocialkowski@bootlin.com>
+ <20201023174546.504028-9-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
-In-Reply-To: <20201024223628.GG3943@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201023174546.504028-9-paul.kocialkowski@bootlin.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9785 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 mlxscore=0 bulkscore=0
+ spamscore=0 adultscore=0 malwarescore=0 mlxlogscore=999 suspectscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010260062
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9785 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 lowpriorityscore=0 impostorscore=0
+ adultscore=0 bulkscore=0 spamscore=0 phishscore=0 mlxlogscore=999
+ suspectscore=0 clxscore=1011 mlxscore=0 malwarescore=0 priorityscore=1501
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2010260062
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/10/2020 23:36, Laurent Pinchart wrote:
-> Hi Dan,
->
-> On Sat, Oct 24, 2020 at 11:28:06PM +0100, Daniel Scally wrote:
->> On 24/10/2020 10:37, Laurent Pinchart wrote:
->>>>> I wonder if we could avoid depending on the I2C device being created by
->>>>> getting the fwnode from adev, and setting ->secondary manually. adev
->>>>> would need to be passed to get_acpi_ssdb_sensor_data() instead of dev.
->>>> Let me try that; I initially wanted to do
->>>> set_secondary_fwnode(&adev->dev, fwnode) to avoid depending on the I2C
->>>> dev being created but it turns out &adev->dev isn't the same pointer. I
->>>> shall try it and see.
->> Actually, thinking on this further I think maybe we can't avoid that -
->> it's not actually in this patch series but during assigning GPIO
->> resources parsed from PMIC's ACPI node to the sensor, I'm using
->> dev_name() on the i2c dev to pass to .dev_id member of gpiod_lookup_table
-> Any chance we can construct the I2C device name from the ACPI device,
-> the same way that the ACPI/I2C core does ? It may be a dead end, but if
-> we could avoid depending on the I2C device, I think it will make
-> initialization easier. I have a feeling that will be difficult though,
-> as we'll need the I2C bus number, which won't be readily available.
-OK yeah; the i2c core does indeed just prefix "i2c-" onto the acpi
-device name, so I will make this change too.
+On Fri, Oct 23, 2020 at 07:45:40PM +0200, Paul Kocialkowski wrote:
+> +static int sun6i_mipi_csi2_s_stream(struct v4l2_subdev *subdev, int on)
+> +{
+> +	struct sun6i_mipi_csi2_video *video =
+> +		sun6i_mipi_csi2_subdev_video(subdev);
+> +	struct sun6i_mipi_csi2_dev *cdev = sun6i_mipi_csi2_video_dev(video);
+> +	struct v4l2_subdev *remote_subdev = video->remote_subdev;
+> +	struct v4l2_fwnode_bus_mipi_csi2 *bus_mipi_csi2 =
+> +		&video->endpoint.bus.mipi_csi2;
+> +	union phy_configure_opts dphy_opts = { 0 };
+> +	struct phy_configure_opts_mipi_dphy *dphy_cfg = &dphy_opts.mipi_dphy;
+> +	struct regmap *regmap = cdev->regmap;
+> +	struct v4l2_ctrl *ctrl;
+> +	unsigned int lanes_count;
+> +	unsigned int bpp;
+> +	unsigned long pixel_rate;
+> +	u8 data_type = 0;
+> +	u32 version = 0;
+> +	/* Initialize to 0 to use both in disable label (ret != 0) and off. */
+> +	int ret = 0;
+> +
+> +	if (!remote_subdev)
+> +		return -ENODEV;
+> +
+> +	if (!on) {
+> +		v4l2_subdev_call(remote_subdev, video, s_stream, 0);
+> +
+> +disable:
+> +		regmap_update_bits(regmap, SUN6I_MIPI_CSI2_CTL_REG,
+> +				   SUN6I_MIPI_CSI2_CTL_EN, 0);
+> +
+> +		phy_power_off(cdev->dphy);
+> +
+> +		return ret;
+
+This would be better as a separate function.  (I hate backwards gotos
+like this.)
+
+> +	}
+> +
+> +	switch (video->mbus_code) {
+> +	case MEDIA_BUS_FMT_SBGGR8_1X8:
+> +	case MEDIA_BUS_FMT_SGBRG8_1X8:
+> +	case MEDIA_BUS_FMT_SGRBG8_1X8:
+> +	case MEDIA_BUS_FMT_SRGGB8_1X8:
+> +		data_type = MIPI_CSI2_DATA_TYPE_RAW8;
+> +		bpp = 8;
+> +		break;
+> +	case MEDIA_BUS_FMT_SBGGR10_1X10:
+> +	case MEDIA_BUS_FMT_SGBRG10_1X10:
+> +	case MEDIA_BUS_FMT_SGRBG10_1X10:
+> +	case MEDIA_BUS_FMT_SRGGB10_1X10:
+> +		data_type = MIPI_CSI2_DATA_TYPE_RAW10;
+> +		bpp = 10;
+> +		break;
+> +	default:
+> +		return -EINVAL;
+> +	}
+> +
+> +	/* Sensor pixel rate */
+> +
+> +	ctrl = v4l2_ctrl_find(remote_subdev->ctrl_handler, V4L2_CID_PIXEL_RATE);
+> +	if (!ctrl) {
+> +		dev_err(cdev->dev,
+> +			"%s: no MIPI CSI-2 pixel rate from the sensor\n",
+> +			__func__);
+> +		return -ENODEV;
+> +	}
+> +
+> +	pixel_rate = (unsigned long)v4l2_ctrl_g_ctrl_int64(ctrl);
+> +	if (!pixel_rate) {
+> +		dev_err(cdev->dev,
+> +			"%s: zero MIPI CSI-2 pixel rate from the sensor\n",
+> +			__func__);
+> +		return -ENODEV;
+> +	}
+> +
+> +	/* D-PHY configuration */
+> +
+> +	lanes_count = bus_mipi_csi2->num_data_lanes;
+> +	phy_mipi_dphy_get_default_config(pixel_rate, bpp, lanes_count,
+> +					 dphy_cfg);
+> +
+> +
+> +	/*
+> +	 * Note that our hardware is using DDR, which is not taken in account by
+> +	 * phy_mipi_dphy_get_default_config when calculating hs_clk_rate from
+> +	 * the pixel rate, lanes count and bpp.
+> +	 *
+> +	 * The resulting clock rate is basically the symbol rate over the whole
+> +	 * link. The actual clock rate is calculated with division by two since
+> +	 * DDR samples both on rising and falling edges.
+> +	 */
+> +
+> +	dev_dbg(cdev->dev, "A31 MIPI CSI-2 config:\n");
+> +	dev_dbg(cdev->dev, "%ld pixels/s, %u bits/pixel, %lu Hz clock\n",
+> +		pixel_rate, bpp, dphy_cfg->hs_clk_rate / 2);
+> +
+> +	ret = 0;
+> +	ret |= phy_reset(cdev->dphy);
+> +	ret |= phy_set_mode_ext(cdev->dphy, PHY_MODE_MIPI_DPHY,
+> +				PHY_MIPI_DPHY_SUBMODE_RX);
+> +	ret |= phy_configure(cdev->dphy, &dphy_opts);
+> +
+> +	if (ret) {
+> +		dev_err(cdev->dev, "failed to setup MIPI D-PHY\n");
+> +		return ret;
+> +	}
+> +
+> +	ret = phy_power_on(cdev->dphy);
+> +	if (ret) {
+> +		dev_err(cdev->dev, "failed to power on MIPI D-PHY\n");
+> +		return ret;
+> +	}
+> +
+> +	/* MIPI CSI-2 controller setup */
+> +
+> +	/*
+> +	 * The enable flow in the Allwinner BSP is a bit different: the enable
+> +	 * and reset bits are set together before starting the CSI controller.
+> +	 *
+> +	 * In mainline we enable the CSI controller first (due to subdev logic).
+> +	 * One reliable way to make this work is to deassert reset, configure
+> +	 * registers and enable the controller when everything's ready.
+> +	 *
+> +	 * However, reading the version appears necessary for it to work
+> +	 * reliably. Replacing it with a delay doesn't do the trick.
+> +	 */
+> +	regmap_write(regmap, SUN6I_MIPI_CSI2_CTL_REG,
+> +		     SUN6I_MIPI_CSI2_CTL_RESET_N |
+> +		     SUN6I_MIPI_CSI2_CTL_VERSION_EN |
+> +		     SUN6I_MIPI_CSI2_CTL_UNPK_EN);
+> +
+> +	regmap_read(regmap, SUN6I_MIPI_CSI2_VERSION_REG, &version);
+> +
+> +	regmap_update_bits(regmap, SUN6I_MIPI_CSI2_CTL_REG,
+> +				   SUN6I_MIPI_CSI2_CTL_VERSION_EN, 0);
+> +
+> +	dev_dbg(cdev->dev, "A31 MIPI CSI-2 version: %04x\n", version);
+> +
+> +	regmap_write(regmap, SUN6I_MIPI_CSI2_CFG_REG,
+> +		     SUN6I_MIPI_CSI2_CFG_CHANNEL_MODE(1) |
+> +		     SUN6I_MIPI_CSI2_CFG_LANE_COUNT(lanes_count));
+> +
+> +	regmap_write(regmap, SUN6I_MIPI_CSI2_VCDT_RX_REG,
+> +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(3, 3) |
+> +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(2, 2) |
+> +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(1, 1) |
+> +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(0, 0) |
+> +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_DT(0, data_type));
+> +
+> +	regmap_update_bits(regmap, SUN6I_MIPI_CSI2_CTL_REG,
+> +			   SUN6I_MIPI_CSI2_CTL_EN, SUN6I_MIPI_CSI2_CTL_EN);
+> +
+> +	ret = v4l2_subdev_call(remote_subdev, video, s_stream, 1);
+> +	if (ret)
+> +		goto disable;
+> +
+> +	return 0;
+> +}
+> +
+
+[ snip ]
+
+> +static int sun6i_mipi_csi2_v4l2_setup(struct sun6i_mipi_csi2_dev *cdev)
+> +{
+> +	struct sun6i_mipi_csi2_video *video = &cdev->video;
+> +	struct v4l2_subdev *subdev = &video->subdev;
+> +	struct v4l2_async_notifier *notifier = &video->notifier;
+> +	struct fwnode_handle *handle;
+> +	struct v4l2_fwnode_endpoint *endpoint;
+> +	int ret;
+> +
+> +	/* Subdev */
+> +
+> +	v4l2_subdev_init(subdev, &sun6i_mipi_csi2_subdev_ops);
+> +	subdev->dev = cdev->dev;
+> +	strscpy(subdev->name, MODULE_NAME, sizeof(subdev->name));
+> +	v4l2_set_subdevdata(subdev, cdev);
+> +
+> +	/* Entity */
+> +
+> +	subdev->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
+> +	subdev->entity.ops = &sun6i_mipi_csi2_entity_ops;
+> +
+> +	/* Pads */
+> +
+> +	video->pads[0].flags = MEDIA_PAD_FL_SINK;
+> +	video->pads[1].flags = MEDIA_PAD_FL_SOURCE;
+> +
+> +	ret = media_entity_pads_init(&subdev->entity, 2, video->pads);
+> +	if (ret)
+> +		return ret;
+> +
+> +	/* Endpoint */
+> +
+> +	handle = fwnode_graph_get_endpoint_by_id(dev_fwnode(cdev->dev), 0, 0,
+> +						 FWNODE_GRAPH_ENDPOINT_NEXT);
+> +	if (!handle)
+> +		goto error_media_entity;
+
+Missing error code.
+
+> +
+> +	endpoint = &video->endpoint;
+> +	endpoint->bus_type = V4L2_MBUS_CSI2_DPHY;
+> +
+> +	ret = v4l2_fwnode_endpoint_parse(handle, endpoint);
+> +	fwnode_handle_put(handle);
+> +	if (ret)
+> +		goto error_media_entity;
+> +
+> +	/* Notifier */
+> +
+> +	v4l2_async_notifier_init(notifier);
+> +
+> +	ret = v4l2_async_notifier_add_fwnode_remote_subdev(notifier, handle,
+> +							   &video->subdev_async);
+> +	if (ret)
+> +		goto error_media_entity;
+> +
+> +	video->notifier.ops = &sun6i_mipi_csi2_notifier_ops;
+> +
+> +	ret = v4l2_async_subdev_notifier_register(subdev, notifier);
+> +	if (ret < 0)
+> +		goto error_notifier;
+> +
+> +	/* Subdev */
+> +
+> +	ret = v4l2_async_register_subdev(subdev);
+> +	if (ret < 0)
+> +		goto error_notifier_registered;
+> +
+> +	return 0;
+> +
+> +error_notifier_registered:
+> +	v4l2_async_notifier_unregister(notifier);
+> +error_notifier:
+> +	v4l2_async_notifier_cleanup(notifier);
+> +error_media_entity:
+> +	media_entity_cleanup(&subdev->entity);
+> +
+> +	return ret;
+> +}
+
+regards,
+dan carpenter
+
