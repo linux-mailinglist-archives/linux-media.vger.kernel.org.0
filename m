@@ -2,39 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 433CF299F71
-	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 01:22:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DEB01299F6E
+	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 01:22:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2441296AbgJ0AWO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Oct 2020 20:22:14 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33688 "EHLO mail.kernel.org"
+        id S2441289AbgJ0AWM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Oct 2020 20:22:12 -0400
+Received: from mail.kernel.org ([198.145.29.99]:34626 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2410954AbgJZXzq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Oct 2020 19:55:46 -0400
+        id S2410962AbgJZXzr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Oct 2020 19:55:47 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3236320770;
-        Mon, 26 Oct 2020 23:55:43 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id E3A1122242;
+        Mon, 26 Oct 2020 23:55:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603756544;
-        bh=9t3Xistk61WoA1A0FKjUUGRtE46g0p5WJG73qvpjFDA=;
+        s=default; t=1603756546;
+        bh=HCiPYBeaQLSGD6/3OWfDL/zLVxU5ya9mC8ZtFhltUhY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=w7wf35Q09SzAOUrYuIzTeVJGNtspkp5qWu0PA1zJS5pJUH6ptpsZEd4pM+yn9Epyl
-         6WXF/oqM0Ws6c/ns9n21QB8xLwfnguuFCcov72rRMJjAzvZxhMH+N5vUYSJXIsaeVW
-         DihSFli+jjRcyybIJvFh/rLqUnqN4a/dpir4KrgE=
+        b=QtopRAX/cR7ghBqePyiutJB6ANQaVzJJ3B4NUytUOS+6VTs16zCTVBWZ7Xu93g6Ce
+         WjTXp2dZ9N6WQZ3EkTw1HzPPEYRxjMY7vcmgjgW6djng1CJTECpaLryyrEgHZ7+Xgz
+         D2L8N8oBl9qaSeo5Ro8+qNZngnbwQvT0sEVVOdMs=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     Xia Jiang <xia.jiang@mediatek.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+Cc:     Tom Rix <trix@redhat.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH AUTOSEL 5.4 22/80] media: platform: Improve queue set up flow for bug fixing
-Date:   Mon, 26 Oct 2020 19:54:18 -0400
-Message-Id: <20201026235516.1025100-22-sashal@kernel.org>
+        clang-built-linux@googlegroups.com
+Subject: [PATCH AUTOSEL 5.4 24/80] media: tw5864: check status of tw5864_frameinterval_get
+Date:   Mon, 26 Oct 2020 19:54:20 -0400
+Message-Id: <20201026235516.1025100-24-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201026235516.1025100-1-sashal@kernel.org>
 References: <20201026235516.1025100-1-sashal@kernel.org>
@@ -46,39 +43,61 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Xia Jiang <xia.jiang@mediatek.com>
+From: Tom Rix <trix@redhat.com>
 
-[ Upstream commit 5095a6413a0cf896ab468009b6142cb0fe617e66 ]
+[ Upstream commit 780d815dcc9b34d93ae69385a8465c38d423ff0f ]
 
-Add checking created buffer size follow in mtk_jpeg_queue_setup().
+clang static analysis reports this problem
 
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
-Signed-off-by: Xia Jiang <xia.jiang@mediatek.com>
+tw5864-video.c:773:32: warning: The left expression of the compound
+  assignment is an uninitialized value.
+  The computed value will also be garbage
+        fintv->stepwise.max.numerator *= std_max_fps;
+        ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ ^
+
+stepwise.max is set with frameinterval, which comes from
+
+	ret = tw5864_frameinterval_get(input, &frameinterval);
+	fintv->stepwise.step = frameinterval;
+	fintv->stepwise.min = frameinterval;
+	fintv->stepwise.max = frameinterval;
+	fintv->stepwise.max.numerator *= std_max_fps;
+
+When tw5864_frameinterval_get() fails, frameinterval is not
+set. So check the status and fix another similar problem.
+
+Signed-off-by: Tom Rix <trix@redhat.com>
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 7 +++++++
- 1 file changed, 7 insertions(+)
+ drivers/media/pci/tw5864/tw5864-video.c | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-index ee802fc3bcdfc..9fa1bc5514f3e 100644
---- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-+++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
-@@ -571,6 +571,13 @@ static int mtk_jpeg_queue_setup(struct vb2_queue *q,
- 	if (!q_data)
- 		return -EINVAL;
+diff --git a/drivers/media/pci/tw5864/tw5864-video.c b/drivers/media/pci/tw5864/tw5864-video.c
+index 09732eed7eb4f..656142c7a2cc7 100644
+--- a/drivers/media/pci/tw5864/tw5864-video.c
++++ b/drivers/media/pci/tw5864/tw5864-video.c
+@@ -767,6 +767,9 @@ static int tw5864_enum_frameintervals(struct file *file, void *priv,
+ 	fintv->type = V4L2_FRMIVAL_TYPE_STEPWISE;
  
-+	if (*num_planes) {
-+		for (i = 0; i < *num_planes; i++)
-+			if (sizes[i] < q_data->sizeimage[i])
-+				return -EINVAL;
-+		return 0;
-+	}
+ 	ret = tw5864_frameinterval_get(input, &frameinterval);
++	if (ret)
++		return ret;
 +
- 	*num_planes = q_data->fmt->colplanes;
- 	for (i = 0; i < q_data->fmt->colplanes; i++) {
- 		sizes[i] = q_data->sizeimage[i];
+ 	fintv->stepwise.step = frameinterval;
+ 	fintv->stepwise.min = frameinterval;
+ 	fintv->stepwise.max = frameinterval;
+@@ -785,6 +788,9 @@ static int tw5864_g_parm(struct file *file, void *priv,
+ 	cp->capability = V4L2_CAP_TIMEPERFRAME;
+ 
+ 	ret = tw5864_frameinterval_get(input, &cp->timeperframe);
++	if (ret)
++		return ret;
++
+ 	cp->timeperframe.numerator *= input->frame_interval;
+ 	cp->capturemode = 0;
+ 	cp->readbuffers = 2;
 -- 
 2.25.1
 
