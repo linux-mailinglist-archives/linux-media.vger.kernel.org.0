@@ -2,121 +2,176 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 198C5298602
-	for <lists+linux-media@lfdr.de>; Mon, 26 Oct 2020 05:02:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 360A929862D
+	for <lists+linux-media@lfdr.de>; Mon, 26 Oct 2020 05:39:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725871AbgJZECJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Oct 2020 00:02:09 -0400
-Received: from mail-pf1-f196.google.com ([209.85.210.196]:44850 "EHLO
-        mail-pf1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725857AbgJZECI (ORCPT
+        id S1422246AbgJZEjD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Oct 2020 00:39:03 -0400
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:56315 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1421471AbgJZEjC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Oct 2020 00:02:08 -0400
-Received: by mail-pf1-f196.google.com with SMTP id f19so5443857pfj.11
-        for <linux-media@vger.kernel.org>; Sun, 25 Oct 2020 21:02:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=B99IfzLR2EOWkMrV6HxxsdcyAoy5u02ZQJScBmotCwQ=;
-        b=DNzDWjYxT/Wx5/SUEULz7eYFAKK5DShLNGMJ25xpWASVRYuB4TSVfQXMt5Je/u9oKG
-         46puF4mB4Nw92RcPUls0wDv3xjkIj0gZg++xd1KgeUWI/MJ4CIRu/WU1h++kThgCT46j
-         MzPrJfBiGjd4ZGpHM+IK399SZfQ/s0Bkwr8HdQABYcpJuibi8S6Hp8mF/10Ci3gCpDFG
-         w7fvCTwLj3eQvRlStWLkMnHg373JH0Do/TqDRl9vXat46vD6j0G+eq5H/E0L7s4OiOgB
-         xG7J6tW1jIb3UvfFvRtDqMhmPy2/P4+wo05ro6fFYIBk50UrSsMGl4vRZQKV/h0xpCc0
-         UH9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=B99IfzLR2EOWkMrV6HxxsdcyAoy5u02ZQJScBmotCwQ=;
-        b=nGCwHgJnt6BJKMxe362iQ9aeMIUX2257iJy1NuACH7jObP9gPKPIsAhNvh2e0kYkU9
-         GteQjPGrzscYH+/5RACeAsdNgjUNik9aA+59FLeR29NuunoZDdakwzbm1K8TE+9bw3CD
-         cEuaJw0fjNm5cX18gtPfMHddZEopzBzbvV/KCpDeQ5NmzP51/TImqlHXK/hgwJbvYu3m
-         IKozZ+T5qxm+o0kIbTl8VNFqgL9RA1nGmIUgfUcgPYAknFtBXo17Z+uisnbIDqC6c2Ei
-         Qa2jiOCMh2Rz8jrr5gIr6AZToaRVY0Eogxh1n+lrOmVb5cYLsErHnUv34GRbgHZHpffk
-         SkfA==
-X-Gm-Message-State: AOAM531rZQglXuvUFZc/q/XmD7Mtq36djPmJYOBrzgHBLDlAFcS/KxHo
-        lQ9LuXU9rYP8/iiqh5ajkxlIAZZSSvg=
-X-Google-Smtp-Source: ABdhPJzVt+rS0H2nt0xMQUACBO9dNoE+8id1VaKLzaMBUUSw0hJxdhDIC59lIrHhUJs6IU3HgLLfbg==
-X-Received: by 2002:a63:1a64:: with SMTP id a36mr12009872pgm.153.1603684926434;
-        Sun, 25 Oct 2020 21:02:06 -0700 (PDT)
-Received: from my--box ([103.108.75.206])
-        by smtp.gmail.com with ESMTPSA id 128sm10286857pfd.110.2020.10.25.21.02.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 25 Oct 2020 21:02:06 -0700 (PDT)
-Date:   Mon, 26 Oct 2020 09:32:00 +0530
-From:   Deepak R Varma <mh12gx2825@gmail.com>
-To:     outreachy-kernel@googlegroups.com,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 2/2 v5] staging: media: imx: remove unnecessary variable
- use
-Message-ID: <20201026040200.GB5074@my--box>
-References: <9fd1e7dd9e8f944b520f2a789e66e458aeb7b555.1602869338.git.mh12gx2825@gmail.com>
- <6a22de0a51e06b7cb43d4a55850f3a0213532e42.1602869338.git.mh12gx2825@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <6a22de0a51e06b7cb43d4a55850f3a0213532e42.1602869338.git.mh12gx2825@gmail.com>
+        Mon, 26 Oct 2020 00:39:02 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id WuHakGzJv4n8PWuHckXrqd; Mon, 26 Oct 2020 05:39:00 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1603687140; bh=2yAlazPevda/YtkhIi6f8/FCdCBd6W2wrnCqDCDZb5E=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=owiGZY+hswvrCNguxrFAmi7beJkNaE4n1gZS6sfobmbG84nYymlBE43QoFOltvkut
+         hiQcZyoME1/fbxykc4zP2EYkBVJqIRq4mDGXqvKWYQUVDw3wNrVVfRPuHLm9Vs+JE+
+         oTWGIPoEh21kD43fJ2Uz1O0fcC95u/HEPuAFK9uUcLqLV+KolaJ4JokG7oXAEmHP7q
+         Co2QCddwv8ScNgbhCRI1iO3XxnFEi2nSN/6Yz/BsitEXLdrXvLyQ1CbnIuYUyyMuRD
+         1AlsAeqazTl3JhM1peNhOJW+VoX2oV4F3IdUjf22fDnuxpZy++Ba9vGXar9u9ZrdUK
+         ZPsQHnV7HxLrA==
+Message-ID: <fb82aae4aad07dd02797f06da790ee1b@smtp-cloud7.xs4all.net>
+Date:   Mon, 26 Oct 2020 05:38:58 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfJP56Wtf5SvTxmOz0OI8xx/2IqBhj5PUSzrmNW9EgwGcOypxQlJsW8j2G3bonONB6c9IROsC3qh0EemnWOW67ukmIc3OLL5cBLBmjs/nv8KU93VEs+9v
+ 7ke4EUk4AjHFeNxtrQw1BXH9OoJJV6oMoIXDGmcxkHiploeBoYYyu9wjmKLeUCCFpP9jyo9S5CGKh929iWShZ9731TCLOOqIPglCWVAD+7+SY12uH1zjy3we
+ F5kTykDnjGNtFnoIE39YdA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 16, 2020 at 11:16:06PM +0530, Deepak R Varma wrote:
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Hello All,
-Request for review / ack of this patch.
+Results of the daily build of media_tree:
 
-Thank you.
-Deepak.
+date:			Mon Oct 26 05:00:13 CET 2020
+media-tree git hash:	c386e0797d26a32e354daf4480c5d40165db66a1
+media_build git hash:	e0136eadb6f4c24b7f8fcb50ef4d4d5ffb2af31d
+v4l-utils git hash:	7ab86eba54233fa31344501134b1c1ab7f10c535
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-> Use of variable vc_num is unnecessary here as it is used only once.
-> Instead, the value can directly be used in place of the variable.
-> 
-> Signed-off-by: Deepak R Varma <mh12gx2825@gmail.com>
-> ---
-> Changes since v4:
->    - None.
-> Changes since v3:
->    - None.
-> Changes since v2:
->    - Implement feedback from Vaishali to simplify patch log message.
-> Changes since v1:
->    - None.
-> 
->  drivers/staging/media/imx/imx-media-csi.c | 3 +--
->  1 file changed, 1 insertion(+), 2 deletions(-)
-> 
-> diff --git a/drivers/staging/media/imx/imx-media-csi.c b/drivers/staging/media/imx/imx-media-csi.c
-> index 9320e3974d86..db77fef07654 100644
-> --- a/drivers/staging/media/imx/imx-media-csi.c
-> +++ b/drivers/staging/media/imx/imx-media-csi.c
-> @@ -1123,7 +1123,6 @@ static int csi_link_validate(struct v4l2_subdev *sd,
->  	priv->upstream_ep = upstream_ep;
->  	is_csi2 = !is_parallel_bus(&upstream_ep);
->  	if (is_csi2) {
-> -		int vc_num = 0;
->  		/*
->  		 * NOTE! It seems the virtual channels from the mipi csi-2
->  		 * receiver are used only for routing by the video mux's,
-> @@ -1131,7 +1130,7 @@ static int csi_link_validate(struct v4l2_subdev *sd,
->  		 * enters the CSI's however, they are treated internally
->  		 * in the IPU as virtual channel 0.
->  		 */
-> -		ipu_csi_set_mipi_datatype(priv->csi, vc_num,
-> +		ipu_csi_set_mipi_datatype(priv->csi, 0,
->  					  &priv->format_mbus[CSI_SINK_PAD]);
->  	}
->  
-> -- 
-> 2.25.1
-> 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm-stm32: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
