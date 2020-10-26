@@ -2,46 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D4ECF298AFA
-	for <lists+linux-media@lfdr.de>; Mon, 26 Oct 2020 12:00:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 48F7C298AE8
+	for <lists+linux-media@lfdr.de>; Mon, 26 Oct 2020 11:58:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1772743AbgJZK6f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Oct 2020 06:58:35 -0400
-Received: from mail-wr1-f66.google.com ([209.85.221.66]:33127 "EHLO
-        mail-wr1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1772561AbgJZK6d (ORCPT
+        id S1772818AbgJZK6m (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Oct 2020 06:58:42 -0400
+Received: from mail-wr1-f68.google.com ([209.85.221.68]:37932 "EHLO
+        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1772794AbgJZK6k (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Oct 2020 06:58:33 -0400
-Received: by mail-wr1-f66.google.com with SMTP id b8so11924946wrn.0
-        for <linux-media@vger.kernel.org>; Mon, 26 Oct 2020 03:58:32 -0700 (PDT)
+        Mon, 26 Oct 2020 06:58:40 -0400
+Received: by mail-wr1-f68.google.com with SMTP id n18so11878582wrs.5
+        for <linux-media@vger.kernel.org>; Mon, 26 Oct 2020 03:58:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=fm+L1OZ5vnKeOGH1XwjpH65CAXQE2qGCwQHeV0BfCbo=;
-        b=WDXic3xEelIUmmKBuCaAQhWAocM+J6l4Fj4ebPaY2TA7KjqktouI6kx1cuzB8y9UHb
-         BFENQYpFYRrnf8V4M8FMdw5d3WVXp99ZQMaG9LdvbhHrDb1RPzEBMwS3mFEVGyKOFx19
-         gvYOzFywjU6mguxvCAHNCjVghPiiwoY0kNQWY=
+        bh=fFEiUvLl06c3j38++d5NzLL6L7leWWZ4E8u91rYq/3A=;
+        b=BE6oxOGm6LpmFehTBcLW4JPuAVn0ztXRRhPFdKmp1PBfZHMfOH6ZZMUim7N+RidGFG
+         0CE8UiBULFscc13H0ar8GrDLO4yJ1P0bnnkFlnldicZz6vS1PSOwsA2+DLJdMtAv2h85
+         Tg25hld8e9Oy330GCD/SQEbTeh0mowIk6eEfA=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=fm+L1OZ5vnKeOGH1XwjpH65CAXQE2qGCwQHeV0BfCbo=;
-        b=n2x+7OxbygG/MCBM6ToaVS1SFj9CPwwGmnHhKbWblsDzkzGWiDcsQgQc88snio1DPm
-         +44N6HHySHQNu2KaB5I56NJLifAyaBvjBEP9BHVZU/Xjbd2I6OjDKtRjkGCFl/n1xMDz
-         L8Xo7IA/zEgZsviz2DpjWyekIMx7L8/LdsiQy/rJAf+BuYFdD1Sre0Uh+PmofPXsC8b+
-         JJB/b8TG/saKSgtjixtHqBuq5GW3q9BxYPy/3c5EJ5dIbvcumfLXEjIFUAqjExoh5ZPp
-         gyHFJsq0Tn09bThyz2nHfj6PYXZK7o9ZJOt+3SU9eYOCwCJVbBa6BLWFrtWMkXCZh8M3
-         JcyQ==
-X-Gm-Message-State: AOAM532Kqj6T76XAYuT3zHCCGTdGKnA7Cq7T9IFhGwecsJuN55TeTEk5
-        R9V7LMfrHyFbRTU7OErlPlCGIA==
-X-Google-Smtp-Source: ABdhPJweUKS7rePvehoYbUjnZ9k8M/DdLl55bpzabm8YcXT6EbKByVlIbEgXWPVVGpbtM3F7y6c03w==
-X-Received: by 2002:adf:fa0e:: with SMTP id m14mr16288559wrr.134.1603709911230;
-        Mon, 26 Oct 2020 03:58:31 -0700 (PDT)
+        bh=fFEiUvLl06c3j38++d5NzLL6L7leWWZ4E8u91rYq/3A=;
+        b=GtnYOf1+T5r8KkIKP0cHtXNM4YZcC4c0NLePxpHH3cTsW55nvha0P49isdsXLE1htP
+         YJD+Ptirahn8+eaGlUzKU+T6PjJCGFI9z/AZP7+VaKbtqzvDbOTB/1xXR2pHdFSysbJV
+         accCIqPi3BraAOdhYF09r7G9IqB5lC8YdE4L70ILxuUnGSe6C11Zdvdlix5odlr2k7A+
+         WSIoZqr5UBx/N2k4ac4BTE2EcY0J/dDbdHReNhwD7+R+zDeiFnB6E862fT16kAjCzOgd
+         O+wJ5a2uuLVDKHKUhrjdpA4esk9nm+vp1iGNKbT+rTC02PC7q9Fq8hRtWYmJPHgiXtzj
+         7kwg==
+X-Gm-Message-State: AOAM5330yK9YCEG0Z96oPFdIO2vmWwkmrq2nH4Up9c4NmHCG4zFjOM2j
+        rluX9gYH9BwSs86ll81/ai4exw==
+X-Google-Smtp-Source: ABdhPJyJPBqr4xzE4feUIHJFFKeriugShRo0uGRtLd+TVzcLzKKWgkZaYccYEU5/Oo10Zk0lMDMkEw==
+X-Received: by 2002:a05:6000:12c9:: with SMTP id l9mr16792055wrx.309.1603709918272;
+        Mon, 26 Oct 2020 03:58:38 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id w83sm21165156wmg.48.2020.10.26.03.58.29
+        by smtp.gmail.com with ESMTPSA id w83sm21165156wmg.48.2020.10.26.03.58.36
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 26 Oct 2020 03:58:30 -0700 (PDT)
+        Mon, 26 Oct 2020 03:58:37 -0700 (PDT)
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
 To:     DRI Development <dri-devel@lists.freedesktop.org>,
         LKML <linux-kernel@vger.kernel.org>
@@ -51,21 +51,22 @@ Cc:     kvm@vger.kernel.org, linux-mm@kvack.org,
         linux-s390@vger.kernel.org, Daniel Vetter <daniel.vetter@ffwll.ch>,
         Daniel Vetter <daniel.vetter@intel.com>,
         Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
         Andrew Morton <akpm@linux-foundation.org>,
         John Hubbard <jhubbard@nvidia.com>,
         =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Oded Gabbay <oded.gabbay@gmail.com>,
-        Omer Shpigelman <oshpigelman@habana.ai>,
-        Ofir Bitton <obitton@habana.ai>,
-        Tomer Tayar <ttayar@habana.ai>,
-        Moti Haimovski <mhaimovski@habana.ai>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pawel Piskorski <ppiskorski@habana.ai>
-Subject: [PATCH v4 04/15] misc/habana: Use FOLL_LONGTERM for userptr
-Date:   Mon, 26 Oct 2020 11:58:07 +0100
-Message-Id: <20201026105818.2585306-5-daniel.vetter@ffwll.ch>
+        Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Laurent Dufour <ldufour@linux.ibm.com>,
+        Vlastimil Babka <vbabka@suse.cz>,
+        Daniel Jordan <daniel.m.jordan@oracle.com>,
+        Michel Lespinasse <walken@google.com>
+Subject: [PATCH v4 09/15] media/videbuf1|2: Mark follow_pfn usage as unsafe
+Date:   Mon, 26 Oct 2020 11:58:12 +0100
+Message-Id: <20201026105818.2585306-10-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201026105818.2585306-1-daniel.vetter@ffwll.ch>
 References: <20201026105818.2585306-1-daniel.vetter@ffwll.ch>
@@ -76,10 +77,23 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-These are persistent, not just for the duration of a dma operation.
+The media model assumes that buffers are all preallocated, so that
+when a media pipeline is running we never miss a deadline because the
+buffers aren't allocated or available.
+
+This means we cannot fix the v4l follow_pfn usage through
+mmu_notifier, without breaking how this all works. The only real fix
+is to deprecate userptr support for VM_IO | VM_PFNMAP mappings and
+tell everyone to cut over to dma-buf memory sharing for zerocopy.
+
+userptr for normal memory will keep working as-is, this only affects
+the zerocopy userptr usage enabled in 50ac952d2263 ("[media]
+videobuf2-dma-sg: Support io userptr operations on io memory").
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Dan Williams <dan.j.williams@intel.com>
 Cc: Andrew Morton <akpm@linux-foundation.org>
 Cc: John Hubbard <jhubbard@nvidia.com>
 Cc: Jérôme Glisse <jglisse@redhat.com>
@@ -89,33 +103,53 @@ Cc: linux-mm@kvack.org
 Cc: linux-arm-kernel@lists.infradead.org
 Cc: linux-samsung-soc@vger.kernel.org
 Cc: linux-media@vger.kernel.org
-Cc: Oded Gabbay <oded.gabbay@gmail.com>
-Cc: Omer Shpigelman <oshpigelman@habana.ai>
-Cc: Ofir Bitton <obitton@habana.ai>
-Cc: Tomer Tayar <ttayar@habana.ai>
-Cc: Moti Haimovski <mhaimovski@habana.ai>
-Cc: Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc: Pawel Piskorski <ppiskorski@habana.ai>
+Cc: Pawel Osciak <pawel@osciak.com>
+Cc: Marek Szyprowski <m.szyprowski@samsung.com>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Cc: Tomasz Figa <tfiga@chromium.org>
+Cc: Laurent Dufour <ldufour@linux.ibm.com>
+Cc: Vlastimil Babka <vbabka@suse.cz>
+Cc: Daniel Jordan <daniel.m.jordan@oracle.com>
+Cc: Michel Lespinasse <walken@google.com>
 Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+--
+v3:
+- Reference the commit that enabled the zerocopy userptr use case to
+  make it abundandtly clear that this patch only affects that, and not
+  normal memory userptr. The old commit message already explained that
+  normal memory userptr is unaffected, but I guess that was not clear
+  enough.
 ---
- drivers/misc/habanalabs/common/memory.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/media/common/videobuf2/frame_vector.c | 2 +-
+ drivers/media/v4l2-core/videobuf-dma-contig.c | 2 +-
+ 2 files changed, 2 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/misc/habanalabs/common/memory.c b/drivers/misc/habanalabs/common/memory.c
-index 327b64479f97..767d3644c033 100644
---- a/drivers/misc/habanalabs/common/memory.c
-+++ b/drivers/misc/habanalabs/common/memory.c
-@@ -1288,7 +1288,8 @@ static int get_user_memory(struct hl_device *hdev, u64 addr, u64 size,
- 		return -ENOMEM;
- 	}
+diff --git a/drivers/media/common/videobuf2/frame_vector.c b/drivers/media/common/videobuf2/frame_vector.c
+index 6590987c14bd..e630494da65c 100644
+--- a/drivers/media/common/videobuf2/frame_vector.c
++++ b/drivers/media/common/videobuf2/frame_vector.c
+@@ -69,7 +69,7 @@ int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
+ 			break;
  
--	rc = pin_user_pages_fast(start, npages, FOLL_FORCE | FOLL_WRITE,
-+	rc = pin_user_pages_fast(start, npages,
-+				 FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
- 				 userptr->pages);
+ 		while (ret < nr_frames && start + PAGE_SIZE <= vma->vm_end) {
+-			err = follow_pfn(vma, start, &nums[ret]);
++			err = unsafe_follow_pfn(vma, start, &nums[ret]);
+ 			if (err) {
+ 				if (ret == 0)
+ 					ret = err;
+diff --git a/drivers/media/v4l2-core/videobuf-dma-contig.c b/drivers/media/v4l2-core/videobuf-dma-contig.c
+index 52312ce2ba05..821c4a76ab96 100644
+--- a/drivers/media/v4l2-core/videobuf-dma-contig.c
++++ b/drivers/media/v4l2-core/videobuf-dma-contig.c
+@@ -183,7 +183,7 @@ static int videobuf_dma_contig_user_get(struct videobuf_dma_contig_memory *mem,
+ 	user_address = untagged_baddr;
  
- 	if (rc != npages) {
+ 	while (pages_done < (mem->size >> PAGE_SHIFT)) {
+-		ret = follow_pfn(vma, user_address, &this_pfn);
++		ret = unsafe_follow_pfn(vma, user_address, &this_pfn);
+ 		if (ret)
+ 			break;
+ 
 -- 
 2.28.0
 
