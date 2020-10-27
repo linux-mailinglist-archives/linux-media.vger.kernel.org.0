@@ -2,237 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5520E29A62B
-	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 09:07:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 42E3329A64B
+	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 09:12:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2508757AbgJ0IHC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Oct 2020 04:07:02 -0400
-Received: from mail-oo1-f68.google.com ([209.85.161.68]:38751 "EHLO
-        mail-oo1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2894386AbgJ0IFP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Oct 2020 04:05:15 -0400
-Received: by mail-oo1-f68.google.com with SMTP id v123so115883ooa.5
-        for <linux-media@vger.kernel.org>; Tue, 27 Oct 2020 01:05:14 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=iRVTkxIJnHwaBLHokGGgZRE0TJVDnrQ64zJBBqMFGs0=;
-        b=Xy9/3e579FMjjTLWAuxWgipn5uXab1XIWYf2dD59Ue8ydsa3nziuf3dnpX6I3eKQXi
-         LX0Fhct8zwQ9LPuwvLWtj2sHUJJ3/cbghGd13edFhR4n655CEK2nlwMk9XgeGlojhrCH
-         MtcfG6S4mtBZzrOUEzua2bUtpL2rn4D1Bjj1E=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=iRVTkxIJnHwaBLHokGGgZRE0TJVDnrQ64zJBBqMFGs0=;
-        b=aC5rWud9D/Krsn0Gsh17bzRzI9jZMdvU5W5JWwypPtz0ee6Lh034akB8QRLqRr/xgh
-         cstbRn7/Fu8UYlenOK4dVXhi89enTDcAo+zNXoHq0NOLGhstWAeck0kYFIwo/qtz8ZpG
-         1sc8Gmwx5Db93FdD9gqGnCWrEQMrQnTj5HapiTmqXiyMg8BQsVUQpnBY/EjsUOb6m53u
-         AdUpo7IVkVWOpl57Zmqhuu7TWpAKtYtKxdL82LAKo30sTYZ5gDSHo8ieyg4s5eKCDV5P
-         xVREcgmOr09r63EGr1+qxmw5Qh8EHQKvKz0oEN3OVAAWOWnM1qXBfxFk2GHyLx7plYrt
-         XT6Q==
-X-Gm-Message-State: AOAM530enqiN+TTV2V/rkC4itdQt4RG7nGv1ROdwZ+mMSl4LEtMT5pUD
-        X3zTstgt1z+tAaLzgscsnefJ33139IA5jRGDsGhxzg==
-X-Google-Smtp-Source: ABdhPJwUquARZelitGIpZLDuhwl8Qo3TUgFyzzaUCWDMIxNpoISTQyK7JTuU9JW1uR1xbLdlZOvSwHCimNolpOBBW1c=
-X-Received: by 2002:a4a:b503:: with SMTP id r3mr809275ooo.28.1603785913727;
- Tue, 27 Oct 2020 01:05:13 -0700 (PDT)
+        id S2508828AbgJ0ILJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Oct 2020 04:11:09 -0400
+Received: from verein.lst.de ([213.95.11.211]:37795 "EHLO verein.lst.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2393441AbgJ0ILH (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Oct 2020 04:11:07 -0400
+Received: by verein.lst.de (Postfix, from userid 2407)
+        id C9A7967373; Tue, 27 Oct 2020 09:11:03 +0100 (CET)
+Date:   Tue, 27 Oct 2020 09:11:03 +0100
+From:   "hch@lst.de" <hch@lst.de>
+To:     Parav Pandit <parav@nvidia.com>
+Cc:     Jakub Kicinski <kuba@kernel.org>,
+        syzbot <syzbot+34dc2fea3478e659af01@syzkaller.appspotmail.com>,
+        "christian.koenig@amd.com" <christian.koenig@amd.com>,
+        "dri-devel@lists.freedesktop.org" <dri-devel@lists.freedesktop.org>,
+        "hch@lst.de" <hch@lst.de>,
+        "iommu@lists.linux-foundation.org" <iommu@lists.linux-foundation.org>,
+        "linaro-mm-sig-owner@lists.linaro.org" 
+        <linaro-mm-sig-owner@lists.linaro.org>,
+        "linaro-mm-sig@lists.linaro.org" <linaro-mm-sig@lists.linaro.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "m.szyprowski@samsung.com" <m.szyprowski@samsung.com>,
+        "netdev@vger.kernel.org" <netdev@vger.kernel.org>,
+        "robin.murphy@arm.com" <robin.murphy@arm.com>,
+        "sumit.semwal@linaro.org" <sumit.semwal@linaro.org>,
+        "syzkaller-bugs@googlegroups.com" <syzkaller-bugs@googlegroups.com>,
+        "linux-rdma@vger.kernel.org" <linux-rdma@vger.kernel.org>
+Subject: Re: WARNING in dma_map_page_attrs
+Message-ID: <20201027081103.GA22877@lst.de>
+References: <000000000000335adc05b23300f6@google.com> <000000000000a0f8a305b261fe4a@google.com> <20201024111516.59abc9ec@kicinski-fedora-PC1C0HJN.hsd1.ca.comcast.net> <BY5PR12MB4322CC03CE0D34B83269676ADC190@BY5PR12MB4322.namprd12.prod.outlook.com>
 MIME-Version: 1.0
-References: <20201026105818.2585306-1-daniel.vetter@ffwll.ch>
- <20201026105818.2585306-6-daniel.vetter@ffwll.ch> <20201026221520.GC2802004@chromium.org>
-In-Reply-To: <20201026221520.GC2802004@chromium.org>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Tue, 27 Oct 2020 09:05:01 +0100
-Message-ID: <CAKMK7uG4f_7=9VgdQ9AE876gzLTNsszicMD9pKqeqvQybDSDpQ@mail.gmail.com>
-Subject: Re: [PATCH v4 05/15] mm/frame-vector: Use FOLL_LONGTERM
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        linux-s390 <linux-s390@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Pawel Osciak <pawel@osciak.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <BY5PR12MB4322CC03CE0D34B83269676ADC190@BY5PR12MB4322.namprd12.prod.outlook.com>
+User-Agent: Mutt/1.5.17 (2007-11-01)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Oct 26, 2020 at 11:15 PM Tomasz Figa <tfiga@chromium.org> wrote:
+On Mon, Oct 26, 2020 at 05:23:48AM +0000, Parav Pandit wrote:
+> Hi Christoph,
+> 
+> > From: Jakub Kicinski <kuba@kernel.org>
+> > Sent: Saturday, October 24, 2020 11:45 PM
+> > 
+> > CC: rdma, looks like rdma from the stack trace
+> > 
+> > On Fri, 23 Oct 2020 20:07:17 -0700 syzbot wrote:
+> > > syzbot has found a reproducer for the following issue on:
+> > >
+> > > HEAD commit:    3cb12d27 Merge tag 'net-5.10-rc1' of git://git.kernel.org/..
+> 
+> In [1] you mentioned that dma_mask should not be set for dma_virt_ops.
+> So patch [2] removed it.
 >
-> Hi Daniel,
->
-> On Mon, Oct 26, 2020 at 11:58:08AM +0100, Daniel Vetter wrote:
-> > This is used by media/videbuf2 for persistent dma mappings, not just
-> > for a single dma operation and then freed again, so needs
-> > FOLL_LONGTERM.
-> >
-> > Unfortunately current pup_locked doesn't support FOLL_LONGTERM due to
-> > locking issues. Rework the code to pull the pup path out from the
-> > mmap_sem critical section as suggested by Jason.
-> >
-> > By relying entirely on the vma checks in pin_user_pages and follow_pfn
-> > (for vm_flags and vma_is_fsdax) we can also streamline the code a lot.
-> >
-> > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > Cc: Pawel Osciak <pawel@osciak.com>
-> > Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> > Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> > Cc: Tomasz Figa <tfiga@chromium.org>
-> > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > Cc: John Hubbard <jhubbard@nvidia.com>
-> > Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-> > Cc: Jan Kara <jack@suse.cz>
-> > Cc: Dan Williams <dan.j.williams@intel.com>
-> > Cc: linux-mm@kvack.org
-> > Cc: linux-arm-kernel@lists.infradead.org
-> > Cc: linux-samsung-soc@vger.kernel.org
-> > Cc: linux-media@vger.kernel.org
-> > Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > --
-> > v2: Streamline the code and further simplify the loop checks (Jason)
-> > ---
-> >  mm/frame_vector.c | 50 ++++++++++++++---------------------------------
-> >  1 file changed, 15 insertions(+), 35 deletions(-)
-> >
->
-> Thank you for the patch. Please see my comments inline.
->
-> > diff --git a/mm/frame_vector.c b/mm/frame_vector.c
-> > index 10f82d5643b6..d44779e56313 100644
-> > --- a/mm/frame_vector.c
-> > +++ b/mm/frame_vector.c
-> > @@ -38,7 +38,6 @@ int get_vaddr_frames(unsigned long start, unsigned in=
-t nr_frames,
-> >       struct vm_area_struct *vma;
-> >       int ret =3D 0;
-> >       int err;
-> > -     int locked;
-> >
-> >       if (nr_frames =3D=3D 0)
-> >               return 0;
-> > @@ -48,40 +47,25 @@ int get_vaddr_frames(unsigned long start, unsigned =
-int nr_frames,
-> >
-> >       start =3D untagged_addr(start);
-> >
-> > -     mmap_read_lock(mm);
-> > -     locked =3D 1;
-> > -     vma =3D find_vma_intersection(mm, start, start + 1);
-> > -     if (!vma) {
-> > -             ret =3D -EFAULT;
-> > -             goto out;
-> > -     }
-> > -
-> > -     /*
-> > -      * While get_vaddr_frames() could be used for transient (kernel
-> > -      * controlled lifetime) pinning of memory pages all current
-> > -      * users establish long term (userspace controlled lifetime)
-> > -      * page pinning. Treat get_vaddr_frames() like
-> > -      * get_user_pages_longterm() and disallow it for filesystem-dax
-> > -      * mappings.
-> > -      */
-> > -     if (vma_is_fsdax(vma)) {
-> > -             ret =3D -EOPNOTSUPP;
-> > -             goto out;
-> > -     }
-> > -
-> > -     if (!(vma->vm_flags & (VM_IO | VM_PFNMAP))) {
-> > +     ret =3D pin_user_pages_fast(start, nr_frames,
-> > +                               FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM=
-,
-> > +                               (struct page **)(vec->ptrs));
-> > +     if (ret > 0) {
-> >               vec->got_ref =3D true;
-> >               vec->is_pfns =3D false;
-> > -             ret =3D pin_user_pages_locked(start, nr_frames,
-> > -                     gup_flags, (struct page **)(vec->ptrs), &locked);
->
-> Should we drop the gup_flags argument, since it's ignored now?
+> But check to validate the dma mask for all dma_ops was added in [3].
+> 
+> What is the right way? Did I misunderstood your comment about dma_mask in [1]?
 
-Hm right I think an earlier version even had that, but then I moved to
-inlining the functionality in all the places it's used.
+No, I did not say we don't need the mask.  I said copying over the
+various dma-related fields from the parent is bogus.
 
-I'll drop the gup flag.
-
-> > -             goto out;
-> > +             goto out_unlocked;
-> >       }
-> >
->
-> Should we initialize ret with 0 here, since pin_user_pages_fast() can
-> return a negative error code, but below we use it as a counter for the
-> looked up frames?
-
-Indeed, that's a bug. Will fix for v5.
--Daniel
-
-> Best regards,
-> Tomasz
->
-> > +     mmap_read_lock(mm);
-> >       vec->got_ref =3D false;
-> >       vec->is_pfns =3D true;
-> >       do {
-> >               unsigned long *nums =3D frame_vector_pfns(vec);
-> >
-> > +             vma =3D find_vma_intersection(mm, start, start + 1);
-> > +             if (!vma)
-> > +                     break;
-> > +
-> >               while (ret < nr_frames && start + PAGE_SIZE <=3D vma->vm_=
-end) {
-> >                       err =3D follow_pfn(vma, start, &nums[ret]);
-> >                       if (err) {
-> > @@ -92,17 +76,13 @@ int get_vaddr_frames(unsigned long start, unsigned =
-int nr_frames,
-> >                       start +=3D PAGE_SIZE;
-> >                       ret++;
-> >               }
-> > -             /*
-> > -              * We stop if we have enough pages or if VMA doesn't comp=
-letely
-> > -              * cover the tail page.
-> > -              */
-> > -             if (ret >=3D nr_frames || start < vma->vm_end)
-> > +             /* Bail out if VMA doesn't completely cover the tail page=
-. */
-> > +             if (start < vma->vm_end)
-> >                       break;
-> > -             vma =3D find_vma_intersection(mm, start, start + 1);
-> > -     } while (vma && vma->vm_flags & (VM_IO | VM_PFNMAP));
-> > +     } while (ret < nr_frames);
-> >  out:
-> > -     if (locked)
-> > -             mmap_read_unlock(mm);
-> > +     mmap_read_unlock(mm);
-> > +out_unlocked:
-> >       if (!ret)
-> >               ret =3D -EFAULT;
-> >       if (ret > 0)
-> > --
-> > 2.28.0
-> >
-
-
-
---=20
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I think rxe (and ther other drivers/infiniband/sw drivers) need a simple
+dma_coerce_mask_and_coherent and nothing else.
