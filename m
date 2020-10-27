@@ -2,182 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3302829A7E8
-	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 10:32:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E44D229A819
+	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 10:43:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2895615AbgJ0Jbe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Oct 2020 05:31:34 -0400
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:34455 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408796AbgJ0Jbe (ORCPT
+        id S2895770AbgJ0Jnp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Oct 2020 05:43:45 -0400
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:59241 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2895759AbgJ0Jnn (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Oct 2020 05:31:34 -0400
-X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 592B71BF212;
-        Tue, 27 Oct 2020 09:31:21 +0000 (UTC)
-Date:   Tue, 27 Oct 2020 10:31:19 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Yong Deng <yong.deng@magewell.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tue, 27 Oct 2020 05:43:43 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id XLVwk5zHLTPdiXLVzksttd; Tue, 27 Oct 2020 10:43:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1603791820; bh=7OvPOOfouHzaQwZRc3tsjxhY1NbEiPztHNA6LhXeztg=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Ce5c3griuE3rq7Hm1ZJXguo3ZHYTQFgMf+ACLjGIanmZSAghtnMgveq0Tj/ydvKBu
+         75K33Le8aM52XKP+gplF5hHMIksLNgvCgDJTA69pfBGGydphXGzd/tdhcNM9m9sAFD
+         umlEgP2Vsxckoi82cafPuZ+R0XVXhXYexywSLrtvnIceCOijEHikktoYaCMIxbwgj0
+         MpnfIlKteD9Q7v1FB+IquSPFs2mDizWMkLhUL4IoGjGpQZjbQwDuudM512+mMzT8iI
+         2jVgV+pzEkUwvGvyY4enISeiZGS0VdSmcsHEvgWcZmmXWOO/FJYlScrc2/yrKi4Oak
+         /VNTQnI1WwFbg==
+Subject: Re: [PATCH v5 1/2] staging: media: imx: remove commented code
+To:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Deepak R Varma <mh12gx2825@gmail.com>
+Cc:     outreachy-kernel@googlegroups.com,
+        Steve Longerbeam <slongerbeam@gmail.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com,
-        =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
-Subject: Re: [PATCH 05/14] media: sun6i-csi: Only configure the interface
- data width for parallel
-Message-ID: <20201027093119.GD168350@aptenodytes>
-References: <20201023174546.504028-1-paul.kocialkowski@bootlin.com>
- <20201023174546.504028-6-paul.kocialkowski@bootlin.com>
- <20201026160035.sr6kifrpkev773o6@gilmour.lan>
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org
+References: <9fd1e7dd9e8f944b520f2a789e66e458aeb7b555.1602869338.git.mh12gx2825@gmail.com>
+ <20201026040017.GA5074@my--box> <20201026055631.GA779791@kroah.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <81449e51-957e-9478-5146-9c467248ccd3@xs4all.nl>
+Date:   Tue, 27 Oct 2020 10:43:36 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="5gxpn/Q6ypwruk0T"
-Content-Disposition: inline
-In-Reply-To: <20201026160035.sr6kifrpkev773o6@gilmour.lan>
+In-Reply-To: <20201026055631.GA779791@kroah.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfBckpXBuqDk++qNrP/DL2fhtT53LWzR/R0H3WH/Yh68JaQqDu0rrcpYSVqhFm37W2WbSMRXIBPZK1MYD+6zcIdIVEaR157OHYDnN4BndhFYlUsEB5N4R
+ FdbldL2NBZ3CKC9SgECWB2fw0TstvvWEI03+QAI51tf/pAYVI9tP1l+esggEoR27MidNLJUQj8ZtWiBLIkG0vahKZHjDAELnBs16KgUMQiKOiHwc9mHlkv7j
+ GfWCF0al32i9gSOxY5S5MeOjFa2+STT7znfn8TQZQQumSauGldGNAq8hSwKtSmr4MhvmOa1rXWlr5lt84zHPM+ZO914QKt3eLZKkGlffJHz+QWzw+Dq16WET
+ axiHwZQfJf2NtDUFkGyfFLEO9U2kWSNr8oemLkCVdPvstE+4JdGIAC01QIqNw5pxbkzOkm3aj7hfkmcrk96qjU06S85sCdQ3zMuBmwm5aPnoeeAUeoReV6ji
+ Wh/6GDQYbEw+i6teGfbti5YCJDTsmuVKb8q8WglH6mxLRxlBd8bXfU5D54mnQP+ur5IqPWorzlyrV1wnh21zCpiw6xti7Aj8ha6cRw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 26/10/2020 06:56, Greg Kroah-Hartman wrote:
+> On Mon, Oct 26, 2020 at 09:30:17AM +0530, Deepak R Varma wrote:
+>> On Fri, Oct 16, 2020 at 11:10:33PM +0530, Deepak R Varma wrote:
+>>
+>> Hello All,
+>> Request for review / ack of this patch.
+> 
+> Please never top-post :(
+> 
+> The merge window only opened up a few hours ago, give maintainers time
+> to get to patches (like 2 weeks now).  Also remember, for the outreachy
+> project, drivers/staging/media/ patches are not considered and take much
+> longer to get reviewed and accepted, as the outreachy documentation
+> states.
 
---5gxpn/Q6ypwruk0T
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+As media reviewer I've been very, very busy with other things for the past 3 weeks.
+I plan to use most (all?) of next week to catch up on things.
 
-Hi,
+Regards,
 
-On Mon 26 Oct 20, 17:00, Maxime Ripard wrote:
-> On Fri, Oct 23, 2020 at 07:45:37PM +0200, Paul Kocialkowski wrote:
-> > Bits related to the interface data width do not have any effect when
-> > the CSI controller is taking input from the MIPI CSI-2 controller.
->=20
-> I guess it would be clearer to mention that the data width is only
-> applicable for parallel here.
-
-Understood, will change the wording in the next version.
-
-> > In prevision of adding support for this case, set these bits
-> > conditionally so there is no ambiguity.
-> >=20
-> > Co-developed-by: K=C3=A9vin L'h=C3=B4pital <kevin.lhopital@bootlin.com>
-> > Signed-off-by: K=C3=A9vin L'h=C3=B4pital <kevin.lhopital@bootlin.com>
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 42 +++++++++++--------
-> >  1 file changed, 25 insertions(+), 17 deletions(-)
-> >=20
-> > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/drive=
-rs/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > index 5d2389a5cd17..a876a05ea3c7 100644
-> > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
-> > @@ -378,8 +378,13 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_d=
-ev *sdev)
-> >  	unsigned char bus_width;
-> >  	u32 flags;
-> >  	u32 cfg;
-> > +	bool input_parallel =3D false;
-> >  	bool input_interlaced =3D false;
-> > =20
-> > +	if (endpoint->bus_type =3D=3D V4L2_MBUS_PARALLEL ||
-> > +	    endpoint->bus_type =3D=3D V4L2_MBUS_BT656)
-> > +		input_parallel =3D true;
-> > +
-> >  	if (csi->config.field =3D=3D V4L2_FIELD_INTERLACED
-> >  	    || csi->config.field =3D=3D V4L2_FIELD_INTERLACED_TB
-> >  	    || csi->config.field =3D=3D V4L2_FIELD_INTERLACED_BT)
-> > @@ -395,6 +400,26 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_d=
-ev *sdev)
-> >  		 CSI_IF_CFG_HREF_POL_MASK | CSI_IF_CFG_FIELD_MASK |
-> >  		 CSI_IF_CFG_SRC_TYPE_MASK);
-> > =20
-> > +	if (input_parallel) {
-> > +		switch (bus_width) {
-> > +		case 8:
-> > +			cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
-> > +			break;
-> > +		case 10:
-> > +			cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
-> > +			break;
-> > +		case 12:
-> > +			cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
-> > +			break;
-> > +		case 16: /* No need to configure DATA_WIDTH for 16bit */
-> > +			break;
-> > +		default:
-> > +			dev_warn(sdev->dev, "Unsupported bus width: %u\n",
-> > +				 bus_width);
-> > +			break;
-> > +		}
-> > +	}
-> > +
-> >  	if (input_interlaced)
-> >  		cfg |=3D CSI_IF_CFG_SRC_TYPE_INTERLACED;
-> >  	else
-> > @@ -440,23 +465,6 @@ static void sun6i_csi_setup_bus(struct sun6i_csi_d=
-ev *sdev)
-> >  		break;
-> >  	}
-> > =20
-> > -	switch (bus_width) {
-> > -	case 8:
-> > -		cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
-> > -		break;
-> > -	case 10:
-> > -		cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
-> > -		break;
-> > -	case 12:
-> > -		cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
-> > -		break;
-> > -	case 16: /* No need to configure DATA_WIDTH for 16bit */
-> > -		break;
-> > -	default:
-> > -		dev_warn(sdev->dev, "Unsupported bus width: %u\n", bus_width);
-> > -		break;
-> > -	}
-> > -
->=20
-> Is there any reason to move it around?
-
-The main reason is cosmetics: input_parallel is introduced to match the alr=
-eady
-existing input_interlaced variable, so it made sense to me to have both of =
-these
-conditionals one after the other instead of spreading them randomly.
-
-I can mention this in the commit log if you prefer.
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---5gxpn/Q6ypwruk0T
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl+X6OcACgkQ3cLmz3+f
-v9E4ZAf9G4WrazCR7uzhJ6TzaObPDuK3ZcpoqfZh7GopUZHGTQkIg1MdpqnZTUor
-NXm7n2mI41WUp9/F7URC05l8+ySbojy6jjIhGdf9IorawBgrlRAVplqPJaF2uuWD
-NnxVIys2WTw2FwHrh3zEVHKJPO+1qTleIoBPu5WFodwsvz/Pb2zVS2/Kdtv5KhXa
-G1GBNQ7UlQqvbShqs7f5LoYlp9GHuB8/NmVHH/jP89BhpDBTbsYLWQXjvs6fqNgb
-ggICWUXB5Uwjfsj8PWcFBXJFStux5NoeOypCLJCxKau86uphz6VLodbj/T2VvmCW
-qmjrvw6LqmyPx5pJpg9gPupbc+plpw==
-=qqnp
------END PGP SIGNATURE-----
-
---5gxpn/Q6ypwruk0T--
+	Hans
