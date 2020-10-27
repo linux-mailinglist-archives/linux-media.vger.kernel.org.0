@@ -2,167 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 472ED29C4FE
-	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 19:08:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B3D4529C62E
+	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 19:27:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1824036AbgJ0SB6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Oct 2020 14:01:58 -0400
-Received: from mail-io1-f66.google.com ([209.85.166.66]:43303 "EHLO
-        mail-io1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1823685AbgJ0SA7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Oct 2020 14:00:59 -0400
-Received: by mail-io1-f66.google.com with SMTP id h21so2507063iob.10
-        for <linux-media@vger.kernel.org>; Tue, 27 Oct 2020 11:00:58 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Ed3AIF7qFllVghkuMSpgY+e4IbkAvQfdceeKpQaUdxk=;
-        b=UoiZn2ejgC7wXGBMzC5P1HZYY0nl6Wa3KE0/4S9Ciuieo7WYMXpDS0Iaqpc4XiAPdO
-         qMSPbldaS4qotDJxt10RTbnG9MLtwWkVWivTQZrOtp1ibfKEiirPfM/hcYKscWcE5G9+
-         hdA0OqGIyHCG+6wpH2Tcj5TcpWPTkljgGKnbGOzRrgHXz7X+jipA9gLH6g8zN/Jx0l4s
-         /OKkLzKstGxFD2CYIuU1B33wI1K0Ml8+qKW5x8c0LoZzpt+1zSKoX87G79JYtOSZ/rG6
-         gJ+d5QJ1DFf7m/UdqRG6MK7XEwKpEIVQ7cBBbC41y7jJlAMtCPK8jhzSkqrf6tO37h92
-         JCSw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Ed3AIF7qFllVghkuMSpgY+e4IbkAvQfdceeKpQaUdxk=;
-        b=BVOXetiQ5/CenNfFeAm3YU/VJU63DtGzY34sYUCZVZ1Gnbg1eSCI+eNzKBOhQsLqOc
-         O7gGiugZy+LBgXQ83xDwL1Vtp5o8Bf9shNkEroQfVbNFv2qXxBUXLTeS/ToPWjXW3klC
-         uVW6UJpP+ezwiA5mbPK7SQXJhOjOkzSKLh2DHdlUT/OxS/cWgc22ke65e2moSue9s+cU
-         JtZa0MljA7p+3Ux5FagEoPhlbyiOUi3j4HIRSbtWZ2WAfwcWbv8ei/fWmJrCWD+JBxIj
-         t8BuBKKV5lHNus4cXsSMWOb+3/fP7IevKKm9XL4WVySVPZDAadtdWMDvArHAcf3wzxbN
-         OGLA==
-X-Gm-Message-State: AOAM531etmI0QBwg7+xuFWQ5m1YfdeqMhQ01vyrIzjXa7ksmOsmVqyp8
-        dS8IFTW5FHuZHrZBO4h7rc5G2lbeS7H3Aw41sZvoTw==
-X-Google-Smtp-Source: ABdhPJwN08N0ZyzhoITVdnvB4ryeaKood+3vq0iIUYgCE2JJfuXumCj2bIDB2qD60OdiaWwDhRbGH3iAIo+DCc+ziro=
-X-Received: by 2002:a6b:f401:: with SMTP id i1mr3323522iog.130.1603821657825;
- Tue, 27 Oct 2020 11:00:57 -0700 (PDT)
+        id S1825808AbgJ0SOJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Oct 2020 14:14:09 -0400
+Received: from mga03.intel.com ([134.134.136.65]:35785 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1756492AbgJ0SOI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Oct 2020 14:14:08 -0400
+IronPort-SDR: ZAfaEY1+D8H8kqLf4IiqWoNlYj/sBPEz9oqiEMEiiFIyqjLggDwhOzwrotx6fRfzI0MofH5hez
+ HgKnMX9yhYYg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="168234149"
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; 
+   d="scan'208";a="168234149"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 11:14:07 -0700
+IronPort-SDR: Kr/cnUwOXEUdOiiYEzvC3lEQpNhyTu7gp55zNNQ/sbt2GudugD/eNN7wvQZ+1I7qfGrqeIJlH8
+ tW50TzCGYMyA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; 
+   d="scan'208";a="350370917"
+Received: from black.fi.intel.com ([10.237.72.28])
+  by orsmga008.jf.intel.com with ESMTP; 27 Oct 2020 11:14:05 -0700
+Received: by black.fi.intel.com (Postfix, from userid 1003)
+        id BB49C179; Tue, 27 Oct 2020 20:14:04 +0200 (EET)
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Subject: [PATCH v1] media: ipu3-cio2: Use macros from mm.h
+Date:   Tue, 27 Oct 2020 20:14:04 +0200
+Message-Id: <20201027181404.20996-1-andriy.shevchenko@linux.intel.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-References: <20201027121725.24660-1-brgl@bgdev.pl> <20201027121725.24660-4-brgl@bgdev.pl>
- <20201027112607-mutt-send-email-mst@kernel.org> <685d850347a1191bba8ba7766fc409b140d18f03.camel@perches.com>
- <CAMpxmJU0C84DjPmqmWvPgv0zwgGLhkpKLRDuKkZHAa=wi+LvBA@mail.gmail.com> <2767969b94fd66db1fb0fc13b5783ae65b7deb2f.camel@perches.com>
-In-Reply-To: <2767969b94fd66db1fb0fc13b5783ae65b7deb2f.camel@perches.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Tue, 27 Oct 2020 19:00:46 +0100
-Message-ID: <CAMRc=McvW_E0aE2Ep=3aZvb=kNDMz6=ZH-EQzARAD-tyJG5Rrg@mail.gmail.com>
-Subject: Re: [PATCH 3/8] vhost: vringh: use krealloc_array()
-To:     Joe Perches <joe@perches.com>
-Cc:     Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        "Michael S. Tsirkin" <mst@redhat.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Jason Wang <jasowang@redhat.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-drm <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org,
-        LKML <linux-kernel@vger.kernel.org>, linux-edac@vger.kernel.org,
-        linux-gpio <linux-gpio@vger.kernel.org>, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        netdev <netdev@vger.kernel.org>, linux-mm@kvack.org,
-        Linux-ALSA <alsa-devel@alsa-project.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 6:08 PM Joe Perches <joe@perches.com> wrote:
->
-> On Tue, 2020-10-27 at 17:58 +0100, Bartosz Golaszewski wrote:
-> > On Tue, Oct 27, 2020 at 5:50 PM Joe Perches <joe@perches.com> wrote:
-> > >
-> > > On Tue, 2020-10-27 at 11:28 -0400, Michael S. Tsirkin wrote:
-> > > > On Tue, Oct 27, 2020 at 01:17:20PM +0100, Bartosz Golaszewski wrote:
-> > > > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > > >
-> > > > > Use the helper that checks for overflows internally instead of manually
-> > > > > calculating the size of the new array.
-> > > > >
-> > > > > Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> > > >
-> > > > No problem with the patch, it does introduce some symmetry in the code.
-> > >
-> > > Perhaps more symmetry by using kmemdup
-> > > ---
-> > >  drivers/vhost/vringh.c | 23 ++++++++++-------------
-> > >  1 file changed, 10 insertions(+), 13 deletions(-)
-> > >
-> > > diff --git a/drivers/vhost/vringh.c b/drivers/vhost/vringh.c
-> > > index 8bd8b403f087..99222a3651cd 100644
-> > > --- a/drivers/vhost/vringh.c
-> > > +++ b/drivers/vhost/vringh.c
-> > > @@ -191,26 +191,23 @@ static int move_to_indirect(const struct vringh *vrh,
-> > >  static int resize_iovec(struct vringh_kiov *iov, gfp_t gfp)
-> > >  {
-> > >         struct kvec *new;
-> > > -       unsigned int flag, new_num = (iov->max_num & ~VRINGH_IOV_ALLOCATED) * 2;
-> > > +       size_t new_num = (iov->max_num & ~VRINGH_IOV_ALLOCATED) * 2;
-> > > +       size_t size;
-> > >
-> > >         if (new_num < 8)
-> > >                 new_num = 8;
-> > >
-> > > -       flag = (iov->max_num & VRINGH_IOV_ALLOCATED);
-> > > -       if (flag)
-> > > -               new = krealloc(iov->iov, new_num * sizeof(struct iovec), gfp);
-> > > -       else {
-> > > -               new = kmalloc_array(new_num, sizeof(struct iovec), gfp);
-> > > -               if (new) {
-> > > -                       memcpy(new, iov->iov,
-> > > -                              iov->max_num * sizeof(struct iovec));
-> > > -                       flag = VRINGH_IOV_ALLOCATED;
-> > > -               }
-> > > -       }
-> > > +       if (unlikely(check_mul_overflow(new_num, sizeof(struct iovec), &size)))
-> > > +               return -ENOMEM;
-> > > +
-> >
-> > The whole point of using helpers such as kmalloc_array() is not doing
-> > these checks manually.
->
-> Tradeoffs for in readability for overflow and not mistyping or doing
-> the multiplication of iov->max_num * sizeof(struct iovec) twice.
->
+There are few nice macros in mm.h, some of which we may use here.
 
-It's out of scope for this series - I want to add users for
-krealloc_array(), not refactor code I don't really know. If the
-maintainer of this bit objects, it can be dropped.
+Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+---
+ drivers/media/pci/intel/ipu3/ipu3-cio2.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-> Just fyi:
->
-> the realloc doesn't do a multiplication overflow test as written so the
-> suggestion is slightly more resistant to defect.
->
+diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+index d4b575813300..3ef5cf46647c 100644
+--- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
++++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+@@ -15,6 +15,7 @@
+ #include <linux/delay.h>
+ #include <linux/interrupt.h>
+ #include <linux/iopoll.h>
++#include <linux/mm.h>
+ #include <linux/module.h>
+ #include <linux/pci.h>
+ #include <linux/pfn.h>
+@@ -190,9 +191,8 @@ static void cio2_fbpt_entry_init_buf(struct cio2_device *cio2,
+ 	 * 4095 (PAGE_SIZE - 1) means every single byte in the last page
+ 	 * is available for DMA transfer.
+ 	 */
+-	entry[1].second_entry.last_page_available_bytes =
+-			(remaining & ~PAGE_MASK) ?
+-				(remaining & ~PAGE_MASK) - 1 : PAGE_SIZE - 1;
++	remaining = offset_in_page(remaining);
++	entry[1].second_entry.last_page_available_bytes = (remaining ?: PAGE_SIZE) - 1;
+ 	/* Fill FBPT */
+ 	remaining = length;
+ 	i = 0;
+-- 
+2.28.0
 
-I'm not sure what your point is. I used krealloc_array() exactly for
-this reason - to add the overflow test.
-
-BTW I suppose kmalloc_array() here can be replaced with
-krealloc_array() if the original pointer is NULL the first time it's
-called.
-
-Bartosz
