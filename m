@@ -2,39 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3CF6299EE8
-	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 01:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44C81299EC3
+	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 01:18:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440895AbgJ0ASk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Oct 2020 20:18:40 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58846 "EHLO mail.kernel.org"
+        id S2440649AbgJ0AQq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Oct 2020 20:16:46 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60286 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2439141AbgJ0AKI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Oct 2020 20:10:08 -0400
+        id S2404314AbgJ0AK5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Oct 2020 20:10:57 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 2C32121D41;
-        Tue, 27 Oct 2020 00:10:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 19AE821741;
+        Tue, 27 Oct 2020 00:10:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603757408;
-        bh=r/ROrj0XymtyNSf2POZ4tOVB9JifXG/DuM1Vt5d/VNM=;
+        s=default; t=1603757456;
+        bh=DLiyFuipU/ude/kExnWV2+NR1aV8KPIt8fhk/KEgN1U=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=QC/Y0cuYDxD9KTWMObNLFM8wTJId9H8YWSlzKauRe5OgffRhjzHWA6AV9b2axTzeF
-         tCjqPagasZF0eekw9Kdf9EC7DG9BC0ksXqMyNSGvQTbGOoAXMTs8RhBMWCXiluORLq
-         Cb3BY07k6wqOo03ANinNj2RBVUZ/uUS0qbTp6CX0=
+        b=bJ5aXXYDaQkG2qvvXtsxZOkjK5jJa4O54WomjNYDQ8Qd5FDUDH6iRAcROIw9oC97P
+         O1bSwaY8BdGUtFJVkPYOGDh2rRwZEtmFRwz3xaxx9eniXzCu2CkK99V5oKvGUqjnG5
+         Vo78K498yEp2hBnRGOe3Dq8rIlPZ+B20p7DoXru4=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Tom Rix <trix@redhat.com>, Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org,
         clang-built-linux@googlegroups.com
-Subject: [PATCH AUTOSEL 4.14 17/46] media: tw5864: check status of tw5864_frameinterval_get
-Date:   Mon, 26 Oct 2020 20:09:16 -0400
-Message-Id: <20201027000946.1026923-17-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 4.9 10/30] media: tw5864: check status of tw5864_frameinterval_get
+Date:   Mon, 26 Oct 2020 20:10:24 -0400
+Message-Id: <20201027001044.1027349-10-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027000946.1026923-1-sashal@kernel.org>
-References: <20201027000946.1026923-1-sashal@kernel.org>
+In-Reply-To: <20201027001044.1027349-1-sashal@kernel.org>
+References: <20201027001044.1027349-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -75,10 +75,10 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 6 insertions(+)
 
 diff --git a/drivers/media/pci/tw5864/tw5864-video.c b/drivers/media/pci/tw5864/tw5864-video.c
-index ee1230440b397..02258685800a7 100644
+index 27ff6e0d98453..023ff9ebde5e7 100644
 --- a/drivers/media/pci/tw5864/tw5864-video.c
 +++ b/drivers/media/pci/tw5864/tw5864-video.c
-@@ -776,6 +776,9 @@ static int tw5864_enum_frameintervals(struct file *file, void *priv,
+@@ -767,6 +767,9 @@ static int tw5864_enum_frameintervals(struct file *file, void *priv,
  	fintv->type = V4L2_FRMIVAL_TYPE_STEPWISE;
  
  	ret = tw5864_frameinterval_get(input, &frameinterval);
@@ -88,7 +88,7 @@ index ee1230440b397..02258685800a7 100644
  	fintv->stepwise.step = frameinterval;
  	fintv->stepwise.min = frameinterval;
  	fintv->stepwise.max = frameinterval;
-@@ -794,6 +797,9 @@ static int tw5864_g_parm(struct file *file, void *priv,
+@@ -785,6 +788,9 @@ static int tw5864_g_parm(struct file *file, void *priv,
  	cp->capability = V4L2_CAP_TIMEPERFRAME;
  
  	ret = tw5864_frameinterval_get(input, &cp->timeperframe);
