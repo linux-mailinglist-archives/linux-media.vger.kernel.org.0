@@ -2,160 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AEFFF29C8B7
-	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 20:24:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DFDC29CB7A
+	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 22:49:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1784700AbgJ0TUp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Oct 2020 15:20:45 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:46153 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1829627AbgJ0TTf (ORCPT
+        id S374456AbgJ0Vtm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Oct 2020 17:49:42 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:34181 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S374454AbgJ0Vtm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Oct 2020 15:19:35 -0400
-Received: by mail-wr1-f65.google.com with SMTP id n6so3133639wrm.13
-        for <linux-media@vger.kernel.org>; Tue, 27 Oct 2020 12:19:34 -0700 (PDT)
+        Tue, 27 Oct 2020 17:49:42 -0400
+Received: by mail-wm1-f66.google.com with SMTP id k21so1962461wmi.1
+        for <linux-media@vger.kernel.org>; Tue, 27 Oct 2020 14:49:39 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=94FVc/lhmQBJbpQ0I0StwCkg4DMhTbsduFiN4bjClk4=;
-        b=Sld6hciHThDqeso8S8+jXbwutFt+C8GMsFv9uR38kkL9A2ymfTua46NMT/Q9ZBn3uh
-         noluYBIeHRwknPmU94BZzwh6l7DE4uJbJLLOru2dF0iDS5wDVUIl89TAYeWKJJDtgD9J
-         qGm+daZidj774s7wADWav2trLrU+zVLJfeX5A=
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V8no5NLx/EPXeK3IR/DnmSVtE8r9cF0bSgSu8ZLPdMw=;
+        b=aRDyobZ7krZL7Pf7BVzo8QG2FDxcmJ9CXt4MjKL+s/67M3acWl0aexo7kZUXiyHG1e
+         ft6UrfT8UxfndswEBrXy8J3WJNnkao3SGzh9zQSFQP9xQCs09ullxZIeAvJ0mD/Q983a
+         QsKRhHKdvA78dAun2cI/4M1yS3ykh8QDJAwI8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=94FVc/lhmQBJbpQ0I0StwCkg4DMhTbsduFiN4bjClk4=;
-        b=Jytf86BPFEjJ6PPwsRORLK+OxrEo2N5nb7DlLIK65T3YltI8aDmmHQskfUbQ8+8OgK
-         v2YhgEthmVHz5Tyb/iZQ2yyJqLvNrm6wzN/abpAy5tXyydEpCBCrBYnSnIU+reqYV042
-         Cui5THkDISwGrKphUAQUHTEKIEUcfNbv+4+EbAEkB8ZU2kmn7i5XSS4cjUeWifVgqV6B
-         BpC93B1jPdO44xLh1l59Xe/QBcPbMJDRBa6+F7oPmGeE2p7G77mCzKv3WITnQGj5N5ti
-         5Bp8K/p6KFphtg/R8ujmDpzLXnap6EJWqOvNKniLRUWJ6tjoAkrc9G3Dnlt2X1b/1qrs
-         W/Dg==
-X-Gm-Message-State: AOAM533KijrLSnqlo6Bp0OYaQGJAbH2HC5NJG2HHqqIbIT6UFva710Nb
-        hjQwSXW4icdjHYdkmzItvCWAtQ==
-X-Google-Smtp-Source: ABdhPJxSeCImtuoOwiJ2SgVqpZLT/QAEeRHxQ9b1eMNAwd7xtGe8jna3O2uLNWNIxJE6aH3a1ktGnQ==
-X-Received: by 2002:a5d:4dc7:: with SMTP id f7mr4027819wru.375.1603826373382;
-        Tue, 27 Oct 2020 12:19:33 -0700 (PDT)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=V8no5NLx/EPXeK3IR/DnmSVtE8r9cF0bSgSu8ZLPdMw=;
+        b=AWj+sBXYvoTPScagJJ7Kp9sHefZUCsj8s6Lxfi/arDDdDNXZoW4DKka6uJYzPke7Kn
+         D2Z3e2lTMNsWN+vZ6Q3073zGjlXt0TuYH8fF2jHFqauVqy0UdR7GhLGEEaGiyemJDT4P
+         rJA8bHLimvv4Nlpy9tKc+I9QQW+/GLzuQ+247lNzYzBf7avyXlHU/3BdwhlagPwk3eOt
+         bT5TiRKueLWb1me4h551dpqKP4j6PX1XWWSbArdsK6V1dJj3yNoH2m93qz3s8fWX4vVT
+         ZN+NIOqLXMtNwA1x/f+mBz8Qt/A1d/c4/f9Z0KLMVrlCUaezg50pVz2MPoNiPTbwRlLC
+         xXjw==
+X-Gm-Message-State: AOAM532Za2R+oqD/86pkG0lgsk2ARuuG5MRWrAM1qKEBqQh2YzPvXyCD
+        Kna54rymsERjmhiv/vRh8Ju0Qw==
+X-Google-Smtp-Source: ABdhPJxbLJNJ+DNsc2Vj5AgNJFuMtAN0kc4/8NmFGgYnXE7uZIMveSFMusf90xuHdaxHEKHu608YJw==
+X-Received: by 2002:a05:600c:21c3:: with SMTP id x3mr4653420wmj.81.1603835378528;
+        Tue, 27 Oct 2020 14:49:38 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id h206sm3012251wmf.47.2020.10.27.12.19.31
+        by smtp.gmail.com with ESMTPSA id e11sm3444488wrj.75.2020.10.27.14.49.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 12:19:32 -0700 (PDT)
-Date:   Tue, 27 Oct 2020 20:19:30 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Tue, 27 Oct 2020 14:49:37 -0700 (PDT)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
+        Lucas Stach <l.stach@pengutronix.de>,
+        Russell King <linux+etnaviv@armlinux.org.uk>,
+        Christian Gmeiner <christian.gmeiner@gmail.com>,
+        Inki Dae <inki.dae@samsung.com>,
+        Joonyoung Shim <jy0922.shim@samsung.com>,
+        Seung-Woo Kim <sw0312.kim@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
         Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-gpio@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, alsa-devel@alsa-project.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH 6/8] drm: atomic: use krealloc_array()
-Message-ID: <20201027191930.GQ401619@phenom.ffwll.local>
-Mail-Followup-To: Bartosz Golaszewski <brgl@bgdev.pl>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Borislav Petkov <bp@alien8.de>, Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>, Robert Richter <rric@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>, Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
-        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        netdev@vger.kernel.org, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-References: <20201027121725.24660-1-brgl@bgdev.pl>
- <20201027121725.24660-7-brgl@bgdev.pl>
+        Gerd Hoffmann <kraxel@redhat.com>,
+        Rob Herring <robh@kernel.org>, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, stable@vger.kernel.org,
+        piotr.oniszczuk@gmail.com, Daniel Vetter <daniel.vetter@intel.com>
+Subject: [PATCH] drm/shme-helpers: Fix dma_buf_mmap forwarding bug
+Date:   Tue, 27 Oct 2020 22:49:22 +0100
+Message-Id: <20201027214922.3566743-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201027121725.24660-7-brgl@bgdev.pl>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 01:17:23PM +0100, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> 
-> Use the helper that checks for overflows internally instead of manually
-> calculating the size of the new array.
-> 
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+When we forward an mmap to the dma_buf exporter, they get to own
+everything. Unfortunately drm_gem_mmap_obj() overwrote
+vma->vm_private_data after the driver callback, wreaking the
+exporter complete. This was noticed because vb2_common_vm_close blew
+up on mali gpu with panfrost after commit 26d3ac3cb04d
+("drm/shmem-helpers: Redirect mmap for imported dma-buf").
 
-Acked-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+Unfortunately drm_gem_mmap_obj also acquires a surplus reference that
+we need to drop in shmem helpers, which is a bit of a mislayer
+situation. Maybe the entire dma_buf_mmap forwarding should be pulled
+into core gem code.
 
-I don't expect conflicts with this going through some other tree, so
-please make that happen. Or resend once I can apply this to drm trees.
+Note that the only two other drivers which forward mmap in their own
+code (etnaviv and exynos) get this somewhat right by overwriting the
+gem mmap code. But they seem to still have the leak. This might be a
+good excuse to move these drivers over to shmem helpers completely.
 
-Thanks, Daniel
+Note to stable team: There's a trivial context conflict with
+d693def4fd1c ("drm: Remove obsolete GEM and PRIME callbacks from
+struct drm_driver"). I'm assuming it's clear where to put the first
+hunk, otherwise I can send a 5.9 version of this.
 
-> ---
->  drivers/gpu/drm/drm_atomic.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-> index 58527f151984..09ad6a2ec17b 100644
-> --- a/drivers/gpu/drm/drm_atomic.c
-> +++ b/drivers/gpu/drm/drm_atomic.c
-> @@ -960,7 +960,8 @@ drm_atomic_get_connector_state(struct drm_atomic_state *state,
->  		struct __drm_connnectors_state *c;
->  		int alloc = max(index + 1, config->num_connector);
->  
-> -		c = krealloc(state->connectors, alloc * sizeof(*state->connectors), GFP_KERNEL);
-> +		c = krealloc_array(state->connectors, alloc,
-> +				   sizeof(*state->connectors), GFP_KERNEL);
->  		if (!c)
->  			return ERR_PTR(-ENOMEM);
->  
-> -- 
-> 2.29.1
-> 
+Cc: Christian König <christian.koenig@amd.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Lucas Stach <l.stach@pengutronix.de>
+Cc: Russell King <linux+etnaviv@armlinux.org.uk>
+Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
+Cc: Inki Dae <inki.dae@samsung.com>
+Cc: Joonyoung Shim <jy0922.shim@samsung.com>
+Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Fixes: 26d3ac3cb04d ("drm/shmem-helpers: Redirect mmap for imported dma-buf")
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Gerd Hoffmann <kraxel@redhat.com>
+Cc: Rob Herring <robh@kernel.org>
+Cc: dri-devel@lists.freedesktop.org
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: <stable@vger.kernel.org> # v5.9+
+Reported-and-tested-by: piotr.oniszczuk@gmail.com
+Cc: piotr.oniszczuk@gmail.com
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+---
+ drivers/gpu/drm/drm_gem.c              | 4 ++--
+ drivers/gpu/drm/drm_gem_shmem_helper.c | 7 ++++++-
+ 2 files changed, 8 insertions(+), 3 deletions(-)
 
+diff --git a/drivers/gpu/drm/drm_gem.c b/drivers/gpu/drm/drm_gem.c
+index 1da67d34e55d..d586068f5509 100644
+--- a/drivers/gpu/drm/drm_gem.c
++++ b/drivers/gpu/drm/drm_gem.c
+@@ -1076,6 +1076,8 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
+ 	 */
+ 	drm_gem_object_get(obj);
+ 
++	vma->vm_private_data = obj;
++
+ 	if (obj->funcs->mmap) {
+ 		ret = obj->funcs->mmap(obj, vma);
+ 		if (ret) {
+@@ -1096,8 +1098,6 @@ int drm_gem_mmap_obj(struct drm_gem_object *obj, unsigned long obj_size,
+ 		vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
+ 	}
+ 
+-	vma->vm_private_data = obj;
+-
+ 	return 0;
+ }
+ EXPORT_SYMBOL(drm_gem_mmap_obj);
+diff --git a/drivers/gpu/drm/drm_gem_shmem_helper.c b/drivers/gpu/drm/drm_gem_shmem_helper.c
+index fb11df7aced5..8233bda4692f 100644
+--- a/drivers/gpu/drm/drm_gem_shmem_helper.c
++++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
+@@ -598,8 +598,13 @@ int drm_gem_shmem_mmap(struct drm_gem_object *obj, struct vm_area_struct *vma)
+ 	/* Remove the fake offset */
+ 	vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node);
+ 
+-	if (obj->import_attach)
++	if (obj->import_attach) {
++		/* Drop the reference drm_gem_mmap_obj() acquired.*/
++		drm_gem_object_put(obj);
++		vma->vm_private_data = NULL;
++
+ 		return dma_buf_mmap(obj->dma_buf, vma, 0);
++	}
+ 
+ 	shmem = to_drm_gem_shmem_obj(obj);
+ 
 -- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+2.28.0
+
