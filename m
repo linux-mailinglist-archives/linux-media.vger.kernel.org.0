@@ -2,61 +2,60 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C2C2429C72B
-	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 19:29:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E83ED29C75E
+	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 19:38:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1827820AbgJ0S2U (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Oct 2020 14:28:20 -0400
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:48515 "EHLO
+        id S1828373AbgJ0SbN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Oct 2020 14:31:13 -0400
+Received: from new2-smtp.messagingengine.com ([66.111.4.224]:36245 "EHLO
         new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1827811AbgJ0S2S (ORCPT
+        by vger.kernel.org with ESMTP id S1824900AbgJ0SbN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Oct 2020 14:28:18 -0400
+        Tue, 27 Oct 2020 14:31:13 -0400
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 2A9F25803DD;
-        Tue, 27 Oct 2020 14:28:16 -0400 (EDT)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Tue, 27 Oct 2020 14:28:16 -0400
+        by mailnew.nyi.internal (Postfix) with ESMTP id 06047580124;
+        Tue, 27 Oct 2020 14:31:12 -0400 (EDT)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Tue, 27 Oct 2020 14:31:12 -0400
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=dSgnQIa3tA1J3WQvwUkryDJy17/
-        cH7uUtmKx14vRB74=; b=XUmOhwucqRqwCMBBJ5y53w/bh0MvJJmlNvX3vSsqwMI
-        qeEcHNVJ3rB7rfqcict3X+E3gqDjDvKhDcTS6tlKTVvrolSfRmXLVvl67z/3+Sr2
-        24kdLLi8flG6sqlsxonszl63zyQ+ISrb82gG4+0iro95IjGI6FdT2b69DnTk3SA5
-        ku+o8UbKvVyK85gF1z2AyM7ujnVAd0r1bnm9LwQu+rWzpYeraHObxiImqoSixZmw
-        wwru3O5JhbezMWnS4njh2PUEzVhcfWOPic2H0mPuIkaNYjkhImGLupHVb6j/kIsS
-        HA1QmZmKTaXkcUChdV7/Tkz9XU6/Hwk7IoMM6Ef+0OQ==
+        :content-type:in-reply-to; s=fm1; bh=cqEApD9bNAy57QPWXCIsEAVmHi2
+        EXCNHlS0Cgqo2X94=; b=rGRlQhRMZctKbHoVVx7plOw8460fHGVy1rIkJERfJ68
+        m0cXpO/1m8ioFGbSZ7Mmn00NDt1zy90g8BP1UAK5Ka5vr/YjsxFRSK+ZVW5V17/t
+        DWf/Fp4dCIQS75RyU2y5acJKC5m5XJnh8b6mf+AqeKljwaKYjy1kDYpkdPSIgDAL
+        LpGug3ba/FFM50oDljluDoOxpQtfXOZbWqd4zz/8rfWdVkFU9NsGJ1h2sxekf5Af
+        WFGKueFomjp7kv/PtPee8B/YPGHsD1rcQ4YP3OvoFrTJGt7dqxaK3mng0ijZST+c
+        GVOXnQkR39yy0nJZAVciAAEkXRMCSCaw1A2RqAKNDOQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-type:date:from:in-reply-to
         :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=dSgnQI
-        a3tA1J3WQvwUkryDJy17/cH7uUtmKx14vRB74=; b=dVg5tdUTdLWWDtOyTUFtBn
-        OYQeP2fmPeQJLXBsZgySH0cjE8fjTZArR3+woJpzcdhJcZMrzxX5i9x8687Ssk2V
-        C1SEhEAWVfuK4XiO/cGEcAGUP2/1ODuzL/2aevPhnM3rzy3+CpptIzWbiroAPN3j
-        nCjL3a+9iR6cAHLle/VlOAVZdnzWgbfV5euJquIfE2rjyC7iuCNa1iy2Yo28GXyh
-        h18aMjgxI6gwt1PLEWlhXSHP33McwFU5udoahj+dc2equNrMhSxa0qdD7xeLrE8I
-        +dGqU9bGEhhjU7ml8arlOwKGcnNymqkOpbMLaxKHMq49FoxP5xSqaXUPrrFjT65g
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=cqEApD
+        9bNAy57QPWXCIsEAVmHi2EXCNHlS0Cgqo2X94=; b=Mf1sZYH1Q4Y47ymBY8cIAm
+        sklnWxwyr0GmYNvLkDvmBIcQjXalpF5Aae12XQ23sAhMZxOV1YjQfTSmomZMVBSq
+        Jrz5yrnEvhzG4hleuOElgzcWL7orU+QpbWa6bNMnB2sgplx3BfWAdS3KUBFLqo7V
+        dGb5sylsqJlMSAKZ6GcNEfHkSlKtbDozGEoGi7pkVaNkVDymIvrmuIU4c8qQ/iyT
+        IcgbtapixtbbUSdN4AYFMWYVNcOjgHNVHtLoba2RTR08BiEzJNYPmC5NacgGxYra
+        nLvZoI6U6vh88Tf8yeoTpxCFmVIOt+sxpbSWtoccHo41nXmEE4PGCribreRdhkOg
         ==
-X-ME-Sender: <xms:vWaYX-pssDg_l0Bp5o_BD_020W7obaCpS33U-SOfjrgLDey2xIVcJQ>
-    <xme:vWaYX8q3pkDyJ21ahQD5QcZxShwRp3frYkZTvlbOYrVF7c1-V4lrnbcB6fe2h2WEK
-    Yk0iyFD5wuwfvzFsAk>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgdduudefucetufdoteggodetrfdotf
+X-ME-Sender: <xms:bWeYXyEvWHkoH8N7oxrKcKrrUwz2zIslRKm9l42PBgutsRUoAiCZsg>
+    <xme:bWeYXzXTRT3oQLN1LBb69LBOB-DHHIQib2IDyUq7LI0-7Fu6pC9VcY_n5ZL-Toh5S
+    5ezrsUiOFuXo4sqiPs>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrkeelgdduudegucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddunecuhfhrohhmpeforgigihhm
     vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnheptdfggfelgeehieeuieegfefgueduudefheffhfejleekheefjeevveegueel
-    ueefnecuffhomhgrihhnpehlihhnuhigqdhsuhhngihirdhorhhgnecukfhppeeltddrke
-    elrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhf
-    rhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:vWaYXzMVtOHfPSziFsp7l0nRhHMO_WiGp-EkSFV-VpaLtauKj95w4Q>
-    <xmx:vWaYX95EoO5Jc5m248cqkLuS8bkcduV82yQ21IEcRDVTlDVGGVv9ag>
-    <xmx:vWaYX96KCNUbXVAmysj-8ek_NHL1sWd2Ac4oSjp5Z29JXRGbkY60FQ>
-    <xmx:wGaYX6xrrSUc7PUFjfVYgzxB0GVeKfWyF-ReVj64MM0GyCFfW6mQAA>
+    htvghrnhepuddvudfhkeekhefgffetffelgffftdehffduffegveetffehueeivddvjedv
+    gfevnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:bWeYX8LjuHT6zzcPG3QYfU6NXVKvSyy_o-KTQJLejLG7I39Th13Fsw>
+    <xmx:bWeYX8GxFEfznQP79ChKgKymqtY9_GOrgcomWC1tAiCO0Oj9CDCgbg>
+    <xmx:bWeYX4XZslNOPLdBYlD66gatRCrP1K4szL9126ZdXJpp6WM-DxSSeQ>
+    <xmx:b2eYXzaabuwTpmdV64CRNDea6aQtU9pSxhpjfq6n6Lh0O-XYZpEEtQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 20FBB3280067;
-        Tue, 27 Oct 2020 14:28:13 -0400 (EDT)
-Date:   Tue, 27 Oct 2020 19:28:11 +0100
+        by mail.messagingengine.com (Postfix) with ESMTPA id E385B3064683;
+        Tue, 27 Oct 2020 14:31:08 -0400 (EDT)
+Date:   Tue, 27 Oct 2020 19:31:07 +0100
 From:   Maxime Ripard <maxime@cerno.tech>
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -73,202 +72,148 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com
-Subject: Re: [PATCH 02/14] phy: allwinner: phy-sun6i-mipi-dphy: Support D-PHY
- Rx mode for MIPI CSI-2
-Message-ID: <20201027182811.j6372vdmls5yvhri@gilmour.lan>
+        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com,
+        =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
+Subject: Re: [PATCH 05/14] media: sun6i-csi: Only configure the interface
+ data width for parallel
+Message-ID: <20201027183107.sofqfbmgg5aancmr@gilmour.lan>
 References: <20201023174546.504028-1-paul.kocialkowski@bootlin.com>
- <20201023174546.504028-3-paul.kocialkowski@bootlin.com>
- <20201026153857.iwkn4iusi2jy2yf4@gilmour.lan>
- <20201027092326.GB168350@aptenodytes>
+ <20201023174546.504028-6-paul.kocialkowski@bootlin.com>
+ <20201026160035.sr6kifrpkev773o6@gilmour.lan>
+ <20201027093119.GD168350@aptenodytes>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="uqnhruvnsc2qrfvt"
+        protocol="application/pgp-signature"; boundary="xds6nfzydlmcpk4h"
 Content-Disposition: inline
-In-Reply-To: <20201027092326.GB168350@aptenodytes>
+In-Reply-To: <20201027093119.GD168350@aptenodytes>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---uqnhruvnsc2qrfvt
-Content-Type: text/plain; charset=us-ascii
+--xds6nfzydlmcpk4h
+Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-
-Hi,
-
-On Tue, Oct 27, 2020 at 10:23:26AM +0100, Paul Kocialkowski wrote:
-> On Mon 26 Oct 20, 16:38, Maxime Ripard wrote:
-> > On Fri, Oct 23, 2020 at 07:45:34PM +0200, Paul Kocialkowski wrote:
-> > > The Allwinner A31 D-PHY supports both Rx and Tx modes. While the latt=
-er
-> > > is already supported and used for MIPI DSI this adds support for the
-> > > former, to be used with MIPI CSI-2.
+On Tue, Oct 27, 2020 at 10:31:19AM +0100, Paul Kocialkowski wrote:
+> Hi,
+>=20
+> On Mon 26 Oct 20, 17:00, Maxime Ripard wrote:
+> > On Fri, Oct 23, 2020 at 07:45:37PM +0200, Paul Kocialkowski wrote:
+> > > Bits related to the interface data width do not have any effect when
+> > > the CSI controller is taking input from the MIPI CSI-2 controller.
+> >=20
+> > I guess it would be clearer to mention that the data width is only
+> > applicable for parallel here.
+>=20
+> Understood, will change the wording in the next version.
+>=20
+> > > In prevision of adding support for this case, set these bits
+> > > conditionally so there is no ambiguity.
 > > >=20
-> > > This implementation is inspired by the Allwinner BSP implementation.
-> >=20
-> > Mentionning which BSP you took this from would be helpful
->=20
-> Sure! It's from the Github repo linked from https://linux-sunxi.org/V3s.
-> Would you like that I mention this URL explicitly or would it be enough to
-> mention "Allwinner's V3s Linux SDK" as they seem to call it?
-
-Yeah, that would be great
-> > > +static int sun6i_dphy_rx_power_on(struct sun6i_dphy *dphy)
-> > > +{
-> > > +	/* Physical clock rate is actually half of symbol rate with DDR. */
-> > > +	unsigned long mipi_symbol_rate =3D dphy->config.hs_clk_rate;
-> > > +	unsigned long dphy_clk_rate;
-> > > +	unsigned int rx_dly;
-> > > +	unsigned int lprst_dly;
-> > > +	u32 value;
+> > > Co-developed-by: K=E9vin L'h=F4pital <kevin.lhopital@bootlin.com>
+> > > Signed-off-by: K=E9vin L'h=F4pital <kevin.lhopital@bootlin.com>
+> > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > > ---
+> > >  .../platform/sunxi/sun6i-csi/sun6i_csi.c      | 42 +++++++++++------=
+--
+> > >  1 file changed, 25 insertions(+), 17 deletions(-)
+> > >=20
+> > > diff --git a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c b/dri=
+vers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > > index 5d2389a5cd17..a876a05ea3c7 100644
+> > > --- a/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > > +++ b/drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
+> > > @@ -378,8 +378,13 @@ static void sun6i_csi_setup_bus(struct sun6i_csi=
+_dev *sdev)
+> > >  	unsigned char bus_width;
+> > >  	u32 flags;
+> > >  	u32 cfg;
+> > > +	bool input_parallel =3D false;
+> > >  	bool input_interlaced =3D false;
+> > > =20
+> > > +	if (endpoint->bus_type =3D=3D V4L2_MBUS_PARALLEL ||
+> > > +	    endpoint->bus_type =3D=3D V4L2_MBUS_BT656)
+> > > +		input_parallel =3D true;
 > > > +
-> > > +	dphy_clk_rate =3D clk_get_rate(dphy->mod_clk);
-> > > +	if (!dphy_clk_rate)
-> > > +		return -1;
-> >=20
-> > Returning -1 is weird here?
->=20
-> What do you think would be a more appropriate error code to return?
-> It looks like some other drivers return -EINVAL when that happens (but ma=
-ny
-> don't do the check).
-
-Yeah, EINVAL at least is better than ENOPERM=20
-
-> > > +
-> > > +	/* Hardcoded timing parameters from the Allwinner BSP. */
-> > > +	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME0_REG,
-> > > +		     SUN6I_DPHY_RX_TIME0_HS_RX_SYNC(255) |
-> > > +		     SUN6I_DPHY_RX_TIME0_HS_RX_CLK_MISS(255) |
-> > > +		     SUN6I_DPHY_RX_TIME0_LP_RX(255));
-> > > +
-> > > +	/*
-> > > +	 * Formula from the Allwinner BSP, with hardcoded coefficients
-> > > +	 * (probably internal divider/multiplier).
-> > > +	 */
-> > > +	rx_dly =3D 8 * (unsigned int)(dphy_clk_rate / (mipi_symbol_rate / 8=
-));
-> > > +
-> > > +	/*
-> > > +	 * The Allwinner BSP has an alternative formula for LP_RX_ULPS_WP:
-> > > +	 * lp_ulps_wp_cnt =3D lp_ulps_wp_ms * lp_clk / 1000
-> > > +	 * but does not use it and hardcodes 255 instead.
-> > > +	 */
-> > > +	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME1_REG,
-> > > +		     SUN6I_DPHY_RX_TIME1_RX_DLY(rx_dly) |
-> > > +		     SUN6I_DPHY_RX_TIME1_LP_RX_ULPS_WP(255));
-> > > +
-> > > +	/* HS_RX_ANA0 value is hardcoded in the Allwinner BSP. */
-> > > +	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME2_REG,
-> > > +		     SUN6I_DPHY_RX_TIME2_HS_RX_ANA0(4));
-> > > +
-> > > +	/*
-> > > +	 * Formula from the Allwinner BSP, with hardcoded coefficients
-> > > +	 * (probably internal divider/multiplier).
-> > > +	 */
-> > > +	lprst_dly =3D 4 * (unsigned int)(dphy_clk_rate / (mipi_symbol_rate =
-/ 2));
-> > > +
-> > > +	regmap_write(dphy->regs, SUN6I_DPHY_RX_TIME3_REG,
-> > > +		     SUN6I_DPHY_RX_TIME3_LPRST_DLY(lprst_dly));
-> > > +
-> > > +	/* Analog parameters are hardcoded in the Allwinner BSP. */
-> > > +	regmap_write(dphy->regs, SUN6I_DPHY_ANA0_REG,
-> > > +		     SUN6I_DPHY_ANA0_REG_PWS |
-> > > +		     SUN6I_DPHY_ANA0_REG_SLV(7) |
-> > > +		     SUN6I_DPHY_ANA0_REG_SFB(2));
-> > > +
-> > > +	regmap_write(dphy->regs, SUN6I_DPHY_ANA1_REG,
-> > > +		     SUN6I_DPHY_ANA1_REG_SVTT(4));
-> > > +
-> > > +	regmap_write(dphy->regs, SUN6I_DPHY_ANA4_REG,
-> > > +		     SUN6I_DPHY_ANA4_REG_DMPLVC |
-> > > +		     SUN6I_DPHY_ANA4_REG_DMPLVD(1));
-> > > +
-> > > +	regmap_write(dphy->regs, SUN6I_DPHY_ANA2_REG,
-> > > +		     SUN6I_DPHY_ANA2_REG_ENIB);
-> > > +
-> > > +	regmap_write(dphy->regs, SUN6I_DPHY_ANA3_REG,
-> > > +		     SUN6I_DPHY_ANA3_EN_LDOR |
-> > > +		     SUN6I_DPHY_ANA3_EN_LDOC |
-> > > +		     SUN6I_DPHY_ANA3_EN_LDOD);
-> > > +
-> > > +	/*
-> > > +	 * Delay comes from the Allwinner BSP, likely for internal regulator
-> > > +	 * ramp-up.
-> > > +	 */
-> > > +	udelay(3);
-> > > +
-> > > +	value =3D SUN6I_DPHY_RX_CTL_EN_DBC | SUN6I_DPHY_RX_CTL_RX_CLK_FORCE;
-> > > +
-> > > +	/*
-> > > +	 * Rx data lane force-enable bits are used as regular RX enable by =
-the
-> > > +	 * Allwinner BSP.
-> > > +	 */
-> > > +	if (dphy->config.lanes >=3D 1)
-> > > +		value |=3D SUN6I_DPHY_RX_CTL_RX_D0_FORCE;
-> > > +	if (dphy->config.lanes >=3D 2)
-> > > +		value |=3D SUN6I_DPHY_RX_CTL_RX_D1_FORCE;
-> > > +	if (dphy->config.lanes >=3D 3)
-> > > +		value |=3D SUN6I_DPHY_RX_CTL_RX_D2_FORCE;
-> > > +	if (dphy->config.lanes =3D=3D 4)
-> > > +		value |=3D SUN6I_DPHY_RX_CTL_RX_D3_FORCE;
-> > > +
-> > > +	regmap_write(dphy->regs, SUN6I_DPHY_RX_CTL_REG, value);
-> > > +
-> > > +	regmap_write(dphy->regs, SUN6I_DPHY_GCTL_REG,
-> > > +		     SUN6I_DPHY_GCTL_LANE_NUM(dphy->config.lanes) |
-> > > +		     SUN6I_DPHY_GCTL_EN);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int sun6i_dphy_power_on(struct phy *phy)
-> > > +{
-> > > +	struct sun6i_dphy *dphy =3D phy_get_drvdata(phy);
-> > > +
-> > > +	switch (dphy->submode) {
-> > > +	case PHY_MIPI_DPHY_SUBMODE_TX:
-> > > +		return sun6i_dphy_tx_power_on(dphy);
-> > > +	case PHY_MIPI_DPHY_SUBMODE_RX:
-> > > +		return sun6i_dphy_rx_power_on(dphy);
-> > > +	default:
-> > > +		return -EINVAL;
+> > >  	if (csi->config.field =3D=3D V4L2_FIELD_INTERLACED
+> > >  	    || csi->config.field =3D=3D V4L2_FIELD_INTERLACED_TB
+> > >  	    || csi->config.field =3D=3D V4L2_FIELD_INTERLACED_BT)
+> > > @@ -395,6 +400,26 @@ static void sun6i_csi_setup_bus(struct sun6i_csi=
+_dev *sdev)
+> > >  		 CSI_IF_CFG_HREF_POL_MASK | CSI_IF_CFG_FIELD_MASK |
+> > >  		 CSI_IF_CFG_SRC_TYPE_MASK);
+> > > =20
+> > > +	if (input_parallel) {
+> > > +		switch (bus_width) {
+> > > +		case 8:
+> > > +			cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
+> > > +			break;
+> > > +		case 10:
+> > > +			cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
+> > > +			break;
+> > > +		case 12:
+> > > +			cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
+> > > +			break;
+> > > +		case 16: /* No need to configure DATA_WIDTH for 16bit */
+> > > +			break;
+> > > +		default:
+> > > +			dev_warn(sdev->dev, "Unsupported bus width: %u\n",
+> > > +				 bus_width);
+> > > +			break;
+> > > +		}
 > > > +	}
-> > > +}
 > > > +
+> > >  	if (input_interlaced)
+> > >  		cfg |=3D CSI_IF_CFG_SRC_TYPE_INTERLACED;
+> > >  	else
+> > > @@ -440,23 +465,6 @@ static void sun6i_csi_setup_bus(struct sun6i_csi=
+_dev *sdev)
+> > >  		break;
+> > >  	}
+> > > =20
+> > > -	switch (bus_width) {
+> > > -	case 8:
+> > > -		cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_8BIT;
+> > > -		break;
+> > > -	case 10:
+> > > -		cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_10BIT;
+> > > -		break;
+> > > -	case 12:
+> > > -		cfg |=3D CSI_IF_CFG_IF_DATA_WIDTH_12BIT;
+> > > -		break;
+> > > -	case 16: /* No need to configure DATA_WIDTH for 16bit */
+> > > -		break;
+> > > -	default:
+> > > -		dev_warn(sdev->dev, "Unsupported bus width: %u\n", bus_width);
+> > > -		break;
+> > > -	}
+> > > -
 > >=20
-> > Can one call power_on before set_mode?
+> > Is there any reason to move it around?
 >=20
-> I didn't find anything indicating this is illegal. What would happen here=
- is
-> that the D-PHY would be configured to PHY_MIPI_DPHY_SUBMODE_TX (submode =
-=3D=3D 0)
-> at power-on if set_mode is not called before.
+> The main reason is cosmetics: input_parallel is introduced to match the a=
+lready
+> existing input_interlaced variable, so it made sense to me to have both o=
+f these
+> conditionals one after the other instead of spreading them randomly.
 >=20
-> I think it's fair to expect that it's too late to change the mode once th=
-e PHY
-> was powered on. Maybe we should return -EBUSY on set_mode when power on w=
-as
-> already requested?
+> I can mention this in the commit log if you prefer.
 
-Or maybe we can just clarify it in the framework/function documentation
+Yeah, that would great
 
 Maxime
 
---uqnhruvnsc2qrfvt
+--xds6nfzydlmcpk4h
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5hmuwAKCRDj7w1vZxhR
-xeyQAQD8UUtAF93oDhvysOz/Nj17EEhOoBwmmzBNGTtdCLRtUgD9EsftZeY/+IOA
-Kzp6yDaCvfPfojb2leh+z+S5NCYPxQ4=
-=HLIM
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5hnawAKCRDj7w1vZxhR
+xeemAPwI5/422bQUijrQXWpjRvLHcHc8Q+YVMP+kEvDRE9063QEAzaVJVId2nV7e
+pZYcb1nc2gvw1YyI1tTwdOxrxLcuhAM=
+=lTGY
 -----END PGP SIGNATURE-----
 
---uqnhruvnsc2qrfvt--
+--xds6nfzydlmcpk4h--
