@@ -2,114 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A95F299F18
-	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 01:20:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4EE51299EEE
+	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 01:19:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729523AbgJ0AGj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 26 Oct 2020 20:06:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:53650 "EHLO mail.kernel.org"
+        id S2406109AbgJ0AKF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 26 Oct 2020 20:10:05 -0400
+Received: from mail.kernel.org ([198.145.29.99]:58718 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2437769AbgJ0AEt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 26 Oct 2020 20:04:49 -0400
+        id S2439131AbgJ0AKE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 26 Oct 2020 20:10:04 -0400
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 1BE5E20791;
-        Tue, 27 Oct 2020 00:04:48 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4B8FA20791;
+        Tue, 27 Oct 2020 00:10:03 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603757088;
-        bh=jiLgywdeFaaW3YAtsRFsT4zumVnQ4Ma6mwFwdQXqcgE=;
+        s=default; t=1603757404;
+        bh=wNjrpoPByKmGM1pKMhLwEeB1fFFK5Z3qMZXzoqDcn2Q=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=efPfb+n1wneexSKFw21Z0dNMvWD40hMFJeI0CbtQYBhZ9jpblAEJyofC3zIVkgIbQ
-         1J8t2jrCMUbMLWsRkdT4D7MaYwR9GY+zGfXdLC5fnAbFmArie69MLb9v3gdZsKcYCA
-         0lFWmyct36KHYqb39+/2FCxFR2sAaMXQfEmFSbK8=
+        b=Z2/HP8kuYqWuhk5IqnjzCdHSINxI+kvdQJ3fa0F+noGx4HXGlTCOHAuRgw5IyCpHF
+         doZhJ68abWI8eWaothnzeqKEn46A2JY8+JVi3ZMEWwW2lj84KcYCzrDvGfLXrHfEwJ
+         80vyPsT2+CP87GPMNJbbA8DfbCBUmBXTQHzjnEjI=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
-Cc:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Sasha Levin <sashal@kernel.org>, linux-media@vger.kernel.org
-Subject: [PATCH AUTOSEL 4.19 27/60] media: uvcvideo: Fix dereference of out-of-bound list iterator
-Date:   Mon, 26 Oct 2020 20:03:42 -0400
-Message-Id: <20201027000415.1026364-27-sashal@kernel.org>
+        Sasha Levin <sashal@kernel.org>, linux-doc@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH AUTOSEL 4.14 14/46] media: videodev2.h: RGB BT2020 and HSV are always full range
+Date:   Mon, 26 Oct 2020 20:09:13 -0400
+Message-Id: <20201027000946.1026923-14-sashal@kernel.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201027000415.1026364-1-sashal@kernel.org>
-References: <20201027000415.1026364-1-sashal@kernel.org>
+In-Reply-To: <20201027000946.1026923-1-sashal@kernel.org>
+References: <20201027000946.1026923-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
+From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-[ Upstream commit f875bcc375c738bf2f599ff2e1c5b918dbd07c45 ]
+[ Upstream commit b305dfe2e93434b12d438434461b709641f62af4 ]
 
-Fixes the following coccinelle report:
+The default RGB quantization range for BT.2020 is full range (just as for
+all the other RGB pixel encodings), not limited range.
 
-drivers/media/usb/uvc/uvc_ctrl.c:1860:5-11:
-ERROR: invalid reference to the index variable of the iterator on line 1854
+Update the V4L2_MAP_QUANTIZATION_DEFAULT macro and documentation
+accordingly.
 
-by adding a boolean variable to check if the loop has found the
+Also mention that HSV is always full range and cannot be limited range.
 
-Found using - Coccinelle (http://coccinelle.lip6.fr)
+When RGB BT2020 was introduced in V4L2 it was not clear whether it should
+be limited or full range, but full range is the right (and consistent)
+choice.
 
-[Replace cursor variable with bool found]
-
-Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
-Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
- drivers/media/usb/uvc/uvc_ctrl.c | 13 +++++++++----
- 1 file changed, 9 insertions(+), 4 deletions(-)
+ .../media/uapi/v4l/colorspaces-defs.rst         |  9 ++++-----
+ .../media/uapi/v4l/colorspaces-details.rst      |  5 ++---
+ include/uapi/linux/videodev2.h                  | 17 ++++++++---------
+ 3 files changed, 14 insertions(+), 17 deletions(-)
 
-diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-index f2854337cdcac..262b7ba4674a7 100644
---- a/drivers/media/usb/uvc/uvc_ctrl.c
-+++ b/drivers/media/usb/uvc/uvc_ctrl.c
-@@ -1849,30 +1849,35 @@ int uvc_xu_ctrl_query(struct uvc_video_chain *chain,
- {
- 	struct uvc_entity *entity;
- 	struct uvc_control *ctrl;
--	unsigned int i, found = 0;
-+	unsigned int i;
-+	bool found;
- 	u32 reqflags;
- 	u16 size;
- 	u8 *data = NULL;
- 	int ret;
+diff --git a/Documentation/media/uapi/v4l/colorspaces-defs.rst b/Documentation/media/uapi/v4l/colorspaces-defs.rst
+index f24615544792b..16e46bec80934 100644
+--- a/Documentation/media/uapi/v4l/colorspaces-defs.rst
++++ b/Documentation/media/uapi/v4l/colorspaces-defs.rst
+@@ -29,8 +29,7 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
+ :c:type:`v4l2_hsv_encoding` specifies which encoding is used.
  
- 	/* Find the extension unit. */
-+	found = false;
- 	list_for_each_entry(entity, &chain->entities, chain) {
- 		if (UVC_ENTITY_TYPE(entity) == UVC_VC_EXTENSION_UNIT &&
--		    entity->id == xqry->unit)
-+		    entity->id == xqry->unit) {
-+			found = true;
- 			break;
-+		}
- 	}
+ .. note:: The default R'G'B' quantization is full range for all
+-   colorspaces except for BT.2020 which uses limited range R'G'B'
+-   quantization.
++   colorspaces. HSV formats are always full range.
  
--	if (entity->id != xqry->unit) {
-+	if (!found) {
- 		uvc_trace(UVC_TRACE_CONTROL, "Extension unit %u not found.\n",
- 			xqry->unit);
- 		return -ENOENT;
- 	}
+ .. tabularcolumns:: |p{6.0cm}|p{11.5cm}|
  
- 	/* Find the control and perform delayed initialization if needed. */
-+	found = false;
- 	for (i = 0; i < entity->ncontrols; ++i) {
- 		ctrl = &entity->controls[i];
- 		if (ctrl->index == xqry->selector - 1) {
--			found = 1;
-+			found = true;
- 			break;
- 		}
- 	}
+@@ -162,8 +161,8 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
+       - Details
+     * - ``V4L2_QUANTIZATION_DEFAULT``
+       - Use the default quantization encoding as defined by the
+-	colorspace. This is always full range for R'G'B' (except for the
+-	BT.2020 colorspace) and HSV. It is usually limited range for Y'CbCr.
++	colorspace. This is always full range for R'G'B' and HSV.
++	It is usually limited range for Y'CbCr.
+     * - ``V4L2_QUANTIZATION_FULL_RANGE``
+       - Use the full range quantization encoding. I.e. the range [0…1] is
+ 	mapped to [0…255] (with possible clipping to [1…254] to avoid the
+@@ -173,4 +172,4 @@ whole range, 0-255, dividing the angular value by 1.41. The enum
+     * - ``V4L2_QUANTIZATION_LIM_RANGE``
+       - Use the limited range quantization encoding. I.e. the range [0…1]
+ 	is mapped to [16…235]. Cb and Cr are mapped from [-0.5…0.5] to
+-	[16…240].
++	[16…240]. Limited Range cannot be used with HSV.
+diff --git a/Documentation/media/uapi/v4l/colorspaces-details.rst b/Documentation/media/uapi/v4l/colorspaces-details.rst
+index 09fabf4cd4126..ca7176cae8dd8 100644
+--- a/Documentation/media/uapi/v4l/colorspaces-details.rst
++++ b/Documentation/media/uapi/v4l/colorspaces-details.rst
+@@ -370,9 +370,8 @@ Colorspace BT.2020 (V4L2_COLORSPACE_BT2020)
+ The :ref:`itu2020` standard defines the colorspace used by Ultra-high
+ definition television (UHDTV). The default transfer function is
+ ``V4L2_XFER_FUNC_709``. The default Y'CbCr encoding is
+-``V4L2_YCBCR_ENC_BT2020``. The default R'G'B' quantization is limited
+-range (!), and so is the default Y'CbCr quantization. The chromaticities
+-of the primary colors and the white reference are:
++``V4L2_YCBCR_ENC_BT2020``. The default Y'CbCr quantization is limited range.
++The chromaticities of the primary colors and the white reference are:
+ 
+ 
+ 
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 1c095b5a99c58..b773e96b4a286 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -362,9 +362,9 @@ enum v4l2_hsv_encoding {
+ 
+ enum v4l2_quantization {
+ 	/*
+-	 * The default for R'G'B' quantization is always full range, except
+-	 * for the BT2020 colorspace. For Y'CbCr the quantization is always
+-	 * limited range, except for COLORSPACE_JPEG: this is full range.
++	 * The default for R'G'B' quantization is always full range.
++	 * For Y'CbCr the quantization is always limited range, except
++	 * for COLORSPACE_JPEG: this is full range.
+ 	 */
+ 	V4L2_QUANTIZATION_DEFAULT     = 0,
+ 	V4L2_QUANTIZATION_FULL_RANGE  = 1,
+@@ -373,14 +373,13 @@ enum v4l2_quantization {
+ 
+ /*
+  * Determine how QUANTIZATION_DEFAULT should map to a proper quantization.
+- * This depends on whether the image is RGB or not, the colorspace and the
+- * Y'CbCr encoding.
++ * This depends on whether the image is RGB or not, the colorspace.
++ * The Y'CbCr encoding is not used anymore, but is still there for backwards
++ * compatibility.
+  */
+ #define V4L2_MAP_QUANTIZATION_DEFAULT(is_rgb_or_hsv, colsp, ycbcr_enc) \
+-	(((is_rgb_or_hsv) && (colsp) == V4L2_COLORSPACE_BT2020) ? \
+-	 V4L2_QUANTIZATION_LIM_RANGE : \
+-	 (((is_rgb_or_hsv) || (colsp) == V4L2_COLORSPACE_JPEG) ? \
+-	 V4L2_QUANTIZATION_FULL_RANGE : V4L2_QUANTIZATION_LIM_RANGE))
++	(((is_rgb_or_hsv) || (colsp) == V4L2_COLORSPACE_JPEG) ? \
++	 V4L2_QUANTIZATION_FULL_RANGE : V4L2_QUANTIZATION_LIM_RANGE)
+ 
+ enum v4l2_priority {
+ 	V4L2_PRIORITY_UNSET       = 0,  /* not initialized */
 -- 
 2.25.1
 
