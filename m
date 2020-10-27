@@ -2,285 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 568E429A86C
-	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 10:54:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F014629AB9F
+	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 13:17:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2896229AbgJ0Jwc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Oct 2020 05:52:32 -0400
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:51921 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2409569AbgJ0Jwb (ORCPT
+        id S2411635AbgJ0MRk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Oct 2020 08:17:40 -0400
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:52536 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2411699AbgJ0MRj (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Oct 2020 05:52:31 -0400
-X-Originating-IP: 93.29.109.196
-Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
-        (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 34CAC20010;
-        Tue, 27 Oct 2020 09:52:22 +0000 (UTC)
-Date:   Tue, 27 Oct 2020 10:52:21 +0100
-From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com,
+        Tue, 27 Oct 2020 08:17:39 -0400
+Received: by mail-wm1-f68.google.com with SMTP id c194so1163599wme.2
+        for <linux-media@vger.kernel.org>; Tue, 27 Oct 2020 05:17:36 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LJP6zUa9eBmdV8bx1jdaWyKmaK9MsWkK16il5Qo0OrM=;
+        b=P+3tCIHOjCZAx0wmilW2GDFvIGyFUKkJ6kMCnuzTaqTK/WVy0FTiGFvqMSEeEaTSDi
+         lidtNcACGQa4FsZTJSv/WM+PJAWcMBZ84eqrsFS5cBt5SmJFi36Zt8P8jQqLDmjkvqeW
+         khRH3E+peGeaQTCIY3Vt2p8gYCX0QOu5toB/kJmHKtw/28SJ6BKumTSSq2MJytdIAdgp
+         oJxR5uAJUIN5EhwIO49GT3ZmC5B5ob3NU85YWSk0gy8yt2me9ot389ODzNeNzE1g7isf
+         BjKSBXgUK2OMn2MduiDvTrDfwsn8XX/eMtY9lahl6HLlIYN8j7wdAJNYVoPtfuaoSs+h
+         PRUQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=LJP6zUa9eBmdV8bx1jdaWyKmaK9MsWkK16il5Qo0OrM=;
+        b=cwewDGPfM1YM5O2428Kk63GfoqWKu5SgJsjBcieMm1crr9EY3F9Ec9eUd3X679KEHc
+         iL9yYUhaCGHRUPnAX060Bq4fE4u/PAqB/JRX+vZLlOeq97T4TPviBvhCFn5IW15ke1K/
+         U0JLvZy+8Jy36jcq5XiYlQ8Kp2lKTMwYz2A8KqjSuMCHA0fxYpjuAKWP+YRQ1st6Z3Xo
+         pKBmSHq1aC5QVtXiiTSlF7m+Ni86tXgk2gt0VFVcYJdiElQfRUq4eZQelz2s71D/kc9b
+         FtdQmO2sGS0bLAn/zbXc7QPQnPgfjEM5cMwseSQTBxvtspdeKz7mgnAp1ZLBO4mIzVNM
+         2t5Q==
+X-Gm-Message-State: AOAM532448gjNOfM4vZ9WfxZZUrqJfbvdqR8YswyKA2jR1a0Z0yaJ/Ve
+        BbXw6sZ7GukI7P947U89jRY24w==
+X-Google-Smtp-Source: ABdhPJxUDPfM7/G4w39/lM3kfVBbiG37Et7vUzW73qIzYGjUaK5vAjNfvCioGZotPrXrgX+P7fvBjA==
+X-Received: by 2002:a1c:8087:: with SMTP id b129mr2477389wmd.10.1603801056147;
+        Tue, 27 Oct 2020 05:17:36 -0700 (PDT)
+Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr. [90.8.158.167])
+        by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.34
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 27 Oct 2020 05:17:35 -0700 (PDT)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Yong Deng <yong.deng@magewell.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com
-Subject: Re: [PATCH 07/14] dt-bindings: media: i2c: Add A31 MIPI CSI-2
- bindings documentation
-Message-ID: <20201027095221.GE168350@aptenodytes>
-References: <20201023174546.504028-1-paul.kocialkowski@bootlin.com>
- <20201023174546.504028-8-paul.kocialkowski@bootlin.com>
- <20201026161450.gr3dqpltxw2ccc3s@gilmour.lan>
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
+        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+        netdev@vger.kernel.org, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH 0/8] slab: provide and use krealloc_array()
+Date:   Tue, 27 Oct 2020 13:17:17 +0100
+Message-Id: <20201027121725.24660-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.29.1
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ILuaRSyQpoVaJ1HG"
-Content-Disposition: inline
-In-Reply-To: <20201026161450.gr3dqpltxw2ccc3s@gilmour.lan>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
---ILuaRSyQpoVaJ1HG
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Andy brought to my attention the fact that users allocating an array of
+equally sized elements should check if the size multiplication doesn't
+overflow. This is why we have helpers like kmalloc_array().
 
-Hi,
+However we don't have krealloc_array() equivalent and there are many
+users who do their own multiplication when calling krealloc() for arrays.
 
-On Mon 26 Oct 20, 17:14, Maxime Ripard wrote:
-> i2c? :)
+This series provides krealloc_array() and uses it in a couple places.
 
-Oops, good catch!
-=20
-> On Fri, Oct 23, 2020 at 07:45:39PM +0200, Paul Kocialkowski wrote:
-> > This introduces YAML bindings documentation for the A31 MIPI CSI-2
-> > controller.
-> >=20
-> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > ---
-> >  .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 168 ++++++++++++++++++
-> >  1 file changed, 168 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/media/allwinner,s=
-un6i-a31-mipi-csi2.yaml
-> >=20
-> > diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a3=
-1-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-=
-a31-mipi-csi2.yaml
-> > new file mode 100644
-> > index 000000000000..9adc0bc27033
-> > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-=
-csi2.yaml
-> > @@ -0,0 +1,168 @@
-> > +# SPDX-License-Identifier: GPL-2.0
-> > +%YAML 1.2
-> > +---
-> > +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-mipi-csi2=
-=2Eyaml#
-> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > +
-> > +title: Allwinner A31 MIPI CSI-2 Device Tree Bindings
-> > +
-> > +maintainers:
-> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > +
-> > +properties:
-> > +  compatible:
-> > +    oneOf:
-> > +      - const: allwinner,sun6i-a31-mipi-csi2
-> > +      - items:
-> > +          - const: allwinner,sun8i-v3s-mipi-csi2
-> > +          - const: allwinner,sun6i-a31-mipi-csi2
-> > +
-> > +  reg:
-> > +    maxItems: 1
-> > +
-> > +  interrupts:
-> > +    maxItems: 1
-> > +
-> > +  clocks:
-> > +    items:
-> > +      - description: Bus Clock
-> > +      - description: Module Clock
-> > +
-> > +  clock-names:
-> > +    items:
-> > +      - const: bus
-> > +      - const: mod
-> > +
-> > +  phys:
-> > +    items:
-> > +      - description: MIPI D-PHY
-> > +
-> > +  phy-names:
-> > +    items:
-> > +      - const: dphy
-> > +
-> > +  resets:
-> > +    maxItems: 1
-> > +
-> > +  # See ./video-interfaces.txt for details
-> > +  ports:
-> > +    type: object
-> > +
-> > +    properties:
-> > +      port@0:
-> > +        type: object
-> > +        description: Input port, connect to a MIPI CSI-2 sensor
-> > +
-> > +        properties:
-> > +          reg:
-> > +            const: 0
-> > +
-> > +          endpoint:
-> > +            type: object
-> > +
-> > +            properties:
-> > +              remote-endpoint: true
-> > +
-> > +              bus-type:
-> > +                const: 4
-> > +
-> > +              clock-lanes:
-> > +                maxItems: 1
-> > +
-> > +              data-lanes:
-> > +                minItems: 1
-> > +                maxItems: 4
-> > +
-> > +            required:
-> > +              - bus-type
-> > +              - data-lanes
-> > +              - remote-endpoint
-> > +
-> > +            additionalProperties: false
-> > +
-> > +        required:
-> > +          - endpoint
-> > +
-> > +        additionalProperties: false
-> > +
-> > +      port@1:
-> > +        type: object
-> > +        description: Output port, connect to a CSI controller
-> > +
-> > +        properties:
-> > +          reg:
-> > +            const: 1
-> > +
-> > +          endpoint:
-> > +            type: object
-> > +
-> > +            properties:
-> > +              remote-endpoint: true
-> > +
-> > +              bus-type:
-> > +                const: 4
->=20
-> That one seems a bit weird. If the input and output ports are using the
-> same format, what is that "bridge" supposed to be doing?
+A separate series will follow adding devm_krealloc_array() which is
+needed in the xilinx adc driver.
 
-Fair enough. What this represents is the internal link (likely a FIFO) betw=
-een
-the two controllers. It is definitely not a MIPI CSI-2 bus but there's no
-mbus type for an internal link (probably because it's not a bus after all).
+Bartosz Golaszewski (8):
+  mm: slab: provide krealloc_array()
+  ALSA: pcm: use krealloc_array()
+  vhost: vringh: use krealloc_array()
+  pinctrl: use krealloc_array()
+  edac: ghes: use krealloc_array()
+  drm: atomic: use krealloc_array()
+  hwtracing: intel: use krealloc_array()
+  dma-buf: use krealloc_array()
 
-Note that on the CSI controller side, we need the bus-type to be set to 4 f=
-or it
-to properly select the MIPI CSI-2 input. So it just felt more logical to ha=
-ve
-the same on the other side of the endpoint. On the other hand, we can just
-remove it on the MIPI CSI-2 controller side since it won't check it and hav=
-e it
-fallback to the unknown mbus type.
+ drivers/dma-buf/sync_file.c      |  4 ++--
+ drivers/edac/ghes_edac.c         |  4 ++--
+ drivers/gpu/drm/drm_atomic.c     |  3 ++-
+ drivers/hwtracing/intel_th/msu.c |  2 +-
+ drivers/pinctrl/pinctrl-utils.c  |  2 +-
+ drivers/vhost/vringh.c           |  3 ++-
+ include/linux/slab.h             | 11 +++++++++++
+ sound/core/pcm_lib.c             |  4 ++--
+ 8 files changed, 23 insertions(+), 10 deletions(-)
 
-But that would make the types inconsistent on the two sides of the link.
-I don't think V4L2 will complain about it at the moment, but it would also =
-make
-sense that it does eventually.
+-- 
+2.29.1
 
-What do you think?
-
-> > +            additionalProperties: false
-> > +
-> > +        required:
-> > +          - endpoint
-> > +
-> > +        additionalProperties: false
-> > +
-> > +required:
-> > +  - compatible
-> > +  - reg
-> > +  - interrupts
-> > +  - clocks
-> > +  - clock-names
-> > +  - resets
-> > +
-> > +additionalProperties: false
-> > +
-> > +examples:
-> > +  - |
-> > +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-> > +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
-> > +
-> > +    mipi_csi2: mipi-csi2@1cb1000 {
->=20
-> The unit name should be pretty standard, with the list here:
->=20
-> https://github.com/devicetree-org/devicetree-specification/blob/master/so=
-urce/chapter2-devicetree-basics.rst#generic-names-recommendation
->=20
-> there's nothing really standing out for us in that list, but given that
-> there's dsi, we should stick with csi
-
-Then what really surprises me is that the CSI controllers are called "camer=
-a",
-not "csi". If "camera" is supposed to cover both image sensor and camera se=
-nsor
-interfaces, it would probably fit MIPI CSI-2 as well.
-
-I see lots of names with -controller for controllers with specific devices
-attached, like "nand-controller" or "lcd-controller". Maybe using
-"camera-controller" for the CSI and MIPI CSI-2 controllers would make the m=
-ost
-sense, while keeping "camera" for the actual image sensors.
-
-What do you think?
-
-Cheers,
-
-Paul
-
---=20
-Paul Kocialkowski, Bootlin
-Embedded Linux and kernel engineering
-https://bootlin.com
-
---ILuaRSyQpoVaJ1HG
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl+X7dUACgkQ3cLmz3+f
-v9HIzgf/VU3frpGzprIvTeXBh32se5uXZB/3cj0cUb++7oXeTXSc/db0LOwDu7jo
-/UyfvdYNUhuUMMOPT/ltm0ObonZzOv4GkAl0rjQYccWmwqAhi9/m/ac++ub7WjUk
-yv159tAbN+dorR6X2Q548Y8JKAYXBM/of0RVIs0ms/J8rnBkozXBv89gxTiIxrnH
-3swwmgsFAYEklUApRcIUcgSdsbxyRu10JTQ7vlmimb5/4Z3mEmOXGe7SkxKREFym
-fGumuTIXAWceJ0NLAXkUw3XxHku1Xczzmj78crBFvE0L8fUDKAoMFOG96oQqbI5t
-GlF0jyE3FZO/rbmGafQtSqE/B9JOFw==
-=CWwJ
------END PGP SIGNATURE-----
-
---ILuaRSyQpoVaJ1HG--
