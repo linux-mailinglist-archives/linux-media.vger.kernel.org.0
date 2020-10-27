@@ -2,81 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B3D4529C62E
-	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 19:27:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A48E029C6A2
+	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 19:28:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1825808AbgJ0SOJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Oct 2020 14:14:09 -0400
-Received: from mga03.intel.com ([134.134.136.65]:35785 "EHLO mga03.intel.com"
+        id S1827129AbgJ0SVl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Oct 2020 14:21:41 -0400
+Received: from mx2.suse.de ([195.135.220.15]:49322 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1756492AbgJ0SOI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Oct 2020 14:14:08 -0400
-IronPort-SDR: ZAfaEY1+D8H8kqLf4IiqWoNlYj/sBPEz9oqiEMEiiFIyqjLggDwhOzwrotx6fRfzI0MofH5hez
- HgKnMX9yhYYg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9787"; a="168234149"
-X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; 
-   d="scan'208";a="168234149"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 27 Oct 2020 11:14:07 -0700
-IronPort-SDR: Kr/cnUwOXEUdOiiYEzvC3lEQpNhyTu7gp55zNNQ/sbt2GudugD/eNN7wvQZ+1I7qfGrqeIJlH8
- tW50TzCGYMyA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,424,1596524400"; 
-   d="scan'208";a="350370917"
-Received: from black.fi.intel.com ([10.237.72.28])
-  by orsmga008.jf.intel.com with ESMTP; 27 Oct 2020 11:14:05 -0700
-Received: by black.fi.intel.com (Postfix, from userid 1003)
-        id BB49C179; Tue, 27 Oct 2020 20:14:04 +0200 (EET)
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Subject: [PATCH v1] media: ipu3-cio2: Use macros from mm.h
-Date:   Tue, 27 Oct 2020 20:14:04 +0200
-Message-Id: <20201027181404.20996-1-andriy.shevchenko@linux.intel.com>
-X-Mailer: git-send-email 2.28.0
+        id S1826497AbgJ0SUK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 27 Oct 2020 14:20:10 -0400
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id E2118ADCA;
+        Tue, 27 Oct 2020 18:20:07 +0000 (UTC)
+Subject: Re: [PATCH 1/8] mm: slab: provide krealloc_array()
+To:     Bartosz Golaszewski <brgl@bgdev.pl>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
+        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+        netdev@vger.kernel.org, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+References: <20201027121725.24660-1-brgl@bgdev.pl>
+ <20201027121725.24660-2-brgl@bgdev.pl>
+From:   Vlastimil Babka <vbabka@suse.cz>
+Message-ID: <21ae795b-c0f4-bbf3-20f6-830d0980a673@suse.cz>
+Date:   Tue, 27 Oct 2020 19:20:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.3
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201027121725.24660-2-brgl@bgdev.pl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-There are few nice macros in mm.h, some of which we may use here.
+On 10/27/20 1:17 PM, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+> 
+> When allocating an array of elements, users should check for
+> multiplication overflow or preferably use one of the provided helpers
+> like: kmalloc_array().
+> 
+> There's no krealloc_array() counterpart but there are many users who use
+> regular krealloc() to reallocate arrays. Let's provide an actual
+> krealloc_array() implementation.
+> 
+> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
----
- drivers/media/pci/intel/ipu3/ipu3-cio2.c | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+Makes sense.
+Acked-by: Vlastimil Babka <vbabka@suse.cz>
 
-diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-index d4b575813300..3ef5cf46647c 100644
---- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-+++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-@@ -15,6 +15,7 @@
- #include <linux/delay.h>
- #include <linux/interrupt.h>
- #include <linux/iopoll.h>
-+#include <linux/mm.h>
- #include <linux/module.h>
- #include <linux/pci.h>
- #include <linux/pfn.h>
-@@ -190,9 +191,8 @@ static void cio2_fbpt_entry_init_buf(struct cio2_device *cio2,
- 	 * 4095 (PAGE_SIZE - 1) means every single byte in the last page
- 	 * is available for DMA transfer.
- 	 */
--	entry[1].second_entry.last_page_available_bytes =
--			(remaining & ~PAGE_MASK) ?
--				(remaining & ~PAGE_MASK) - 1 : PAGE_SIZE - 1;
-+	remaining = offset_in_page(remaining);
-+	entry[1].second_entry.last_page_available_bytes = (remaining ?: PAGE_SIZE) - 1;
- 	/* Fill FBPT */
- 	remaining = length;
- 	i = 0;
--- 
-2.28.0
+> ---
+>   include/linux/slab.h | 11 +++++++++++
+>   1 file changed, 11 insertions(+)
+> 
+> diff --git a/include/linux/slab.h b/include/linux/slab.h
+> index dd6897f62010..0e6683affee7 100644
+> --- a/include/linux/slab.h
+> +++ b/include/linux/slab.h
+> @@ -592,6 +592,17 @@ static inline void *kmalloc_array(size_t n, size_t size, gfp_t flags)
+>   	return __kmalloc(bytes, flags);
+>   }
+>   
+> +static __must_check inline void *
+> +krealloc_array(void *p, size_t new_n, size_t new_size, gfp_t flags)
+> +{
+> +	size_t bytes;
+> +
+> +	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
+> +		return NULL;
+> +
+> +	return krealloc(p, bytes, flags);
+> +}
+> +
+>   /**
+>    * kcalloc - allocate memory for an array. The memory is set to zero.
+>    * @n: number of elements.
+> 
 
