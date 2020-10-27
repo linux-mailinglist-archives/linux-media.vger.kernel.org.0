@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20F7E29ABBA
-	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 13:18:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D72FA29ABB5
+	for <lists+linux-media@lfdr.de>; Tue, 27 Oct 2020 13:18:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1750980AbgJ0MSL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 27 Oct 2020 08:18:11 -0400
-Received: from mail-wr1-f65.google.com ([209.85.221.65]:45056 "EHLO
-        mail-wr1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2899720AbgJ0MRu (ORCPT
+        id S1750966AbgJ0MSE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 27 Oct 2020 08:18:04 -0400
+Received: from mail-wm1-f66.google.com ([209.85.128.66]:37354 "EHLO
+        mail-wm1-f66.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1750928AbgJ0MRy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 27 Oct 2020 08:17:50 -0400
-Received: by mail-wr1-f65.google.com with SMTP id e17so1608674wru.12
-        for <linux-media@vger.kernel.org>; Tue, 27 Oct 2020 05:17:48 -0700 (PDT)
+        Tue, 27 Oct 2020 08:17:54 -0400
+Received: by mail-wm1-f66.google.com with SMTP id c16so1210185wmd.2
+        for <linux-media@vger.kernel.org>; Tue, 27 Oct 2020 05:17:51 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=4ajG2eJaPSZ0bX/1WDeWm0EaqfEJqxAhsr1ZG8pJATY=;
-        b=XHOIZDPFdLQqYweDS35MDqPOY+CIlpJefK0zBWfY0YBTimhWcawEQs8dTrakE90RO7
-         AfsytdKycv6sjHXN2trxR/+eOiuM7wcXVt5IB8qtwwAQMxE4BkNW/+a/GHnw+CWx2wsB
-         hGq7TZ6iovNwqijODvBmZWQde1pIjIB5HPsJl/6X5swnxCmi/14lryrQsGpQHt5jA5cY
-         IH9hXgKEdIPUw1YcA/W+R9L29LSTdk7ImHzGZaTNpbL+xJ2ChLwLclaOJCS3Z4u/Bf9u
-         JVbkgQtqzawUBytpFhmYgsiop5B0mx4A7abqvzrfSU90qALU5F3Ra0TXyhHJ+ZhCt7b5
-         VUBw==
+        bh=J57Co4keOJLPpkOAtm30WeNaGboSbDo7KGbxSzSraLw=;
+        b=yOHWFHMOzbagC0sIByz6wesCWV3cXS/nI3Cmoh9rPQnQfktOmQ2fHmfj8t5QiyPB1i
+         JUphXOi/RvRU2h+y1C0PS56sy6nIPSViAjZH7ZD1nL0kVb70/VdVHhj/AlJj5MwbzGtT
+         Fz4SQHpcI/4fYul/80WnINgeUHB50rR1cTYD2+ptya0cZz6H6MnTFFgMAr7/MnsWRrjc
+         rDDqtu/ht+rkyImTxS5uHgJepl4JUTv6GjjiiaPzGql9lSo9xdd048jkI/Kvk/PDUJaD
+         tXJ1HdRkottcOLQk8yrpkIleD3Wyxw+1fcCHjnYdEOneZJMoeya+bL6uoh2P347Mm79Q
+         Or/Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=4ajG2eJaPSZ0bX/1WDeWm0EaqfEJqxAhsr1ZG8pJATY=;
-        b=XPM6aAVxOAkhR+285mfKYCKpTprBLsrPaBKK3r81o73aTbtvumOfKagDzsNhBfSk5p
-         GyV8Qf50+4xwWoRxcTe0UOAw4DBCXerbo5WqPJQucaMN5xTcNbudnKPDPLI/EFfc7kCj
-         7RA0sJGmzI7QK0yReUlmnI+ibl1St0a9zYCSfRP157F8PRlCbZWekWTNHHWjLBxIyFM/
-         sOSiIrj0KKVCitK0Ca9/Dr2xDGZNhCktdkIJ0XN+GuIrMx5L9hk1uwkt/QiPLrEizh/G
-         PAusdc6Kg5rsZ107GzdfvBHrq5oOtGy5LDzGecKQeTW4ikV9StG3MB7cC0ej13xVnqo9
-         gItA==
-X-Gm-Message-State: AOAM5312wYEuxAamIj6LGTNjw8xug/46FhOcriR4ciVVs8NMqiiurxNR
-        wFaqk8qGZQXYmGNsbL1073KiNA==
-X-Google-Smtp-Source: ABdhPJxi+QacVHd5+AE8Jqv2dW1ZUW5QhwXfI6u/s0dk/pyhkeRg2gSWT3PEaZdn2SLI49Q2m9AoSg==
-X-Received: by 2002:a5d:4ac1:: with SMTP id y1mr2494500wrs.303.1603801068178;
-        Tue, 27 Oct 2020 05:17:48 -0700 (PDT)
+        bh=J57Co4keOJLPpkOAtm30WeNaGboSbDo7KGbxSzSraLw=;
+        b=N2a2GM1p/hJUQGda29alN7OrawctbthDjAO50QcsbWHx2m2Xy6XEnPQ7ohfPW7g4EG
+         Htij6RLvq8cuSGIvW/wyqiNJ+VoD5H6xCo7v7hnPqmprWk/3F9jn6FkNUZlqljtkSSkQ
+         V/O2kfwytgqBwNDT1pwkgc+51ZEyOD/WUQ1m/0uXAf9L0EA2pQ+pxpNTB8CXiPBWbyl8
+         h9WPoUVX8VOHQEgPONIN7EEI9O/+mFmm60Mz7ruiVKTHe+JopEWDoEaXzWLfq5WNGdbW
+         hrrDjp2D3f4Vk/l4VW2p9a/3btskx8hLA0pecVNeBuIqXtYIQEyuk6FkmZfomw0BkHjn
+         YM7A==
+X-Gm-Message-State: AOAM530Zaz0zrtDL9bXTgWnx+YM1n/Ogrwac6ICNnfEEFm0/fT90YCPJ
+        0KfaKLv/sUmBQr5V+du/3ZNirg==
+X-Google-Smtp-Source: ABdhPJzwzTmHdRfbZ3iyfMT0YC13fJkeiYScFTFd2MhD0PJKT6LJ0wGB9w/fQb4FZN9R2w5rbG6dAQ==
+X-Received: by 2002:a7b:c92c:: with SMTP id h12mr2566357wml.134.1603801070666;
+        Tue, 27 Oct 2020 05:17:50 -0700 (PDT)
 Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr. [90.8.158.167])
-        by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.46
+        by smtp.gmail.com with ESMTPSA id a2sm1731908wrs.55.2020.10.27.05.17.48
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 27 Oct 2020 05:17:47 -0700 (PDT)
+        Tue, 27 Oct 2020 05:17:49 -0700 (PDT)
 From:   Bartosz Golaszewski <brgl@bgdev.pl>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
@@ -77,9 +77,9 @@ Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
         netdev@vger.kernel.org, linux-mm@kvack.org,
         alsa-devel@alsa-project.org,
         Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH 6/8] drm: atomic: use krealloc_array()
-Date:   Tue, 27 Oct 2020 13:17:23 +0100
-Message-Id: <20201027121725.24660-7-brgl@bgdev.pl>
+Subject: [PATCH 7/8] hwtracing: intel: use krealloc_array()
+Date:   Tue, 27 Oct 2020 13:17:24 +0100
+Message-Id: <20201027121725.24660-8-brgl@bgdev.pl>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201027121725.24660-1-brgl@bgdev.pl>
 References: <20201027121725.24660-1-brgl@bgdev.pl>
@@ -96,23 +96,22 @@ calculating the size of the new array.
 
 Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 ---
- drivers/gpu/drm/drm_atomic.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/hwtracing/intel_th/msu.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/gpu/drm/drm_atomic.c b/drivers/gpu/drm/drm_atomic.c
-index 58527f151984..09ad6a2ec17b 100644
---- a/drivers/gpu/drm/drm_atomic.c
-+++ b/drivers/gpu/drm/drm_atomic.c
-@@ -960,7 +960,8 @@ drm_atomic_get_connector_state(struct drm_atomic_state *state,
- 		struct __drm_connnectors_state *c;
- 		int alloc = max(index + 1, config->num_connector);
+diff --git a/drivers/hwtracing/intel_th/msu.c b/drivers/hwtracing/intel_th/msu.c
+index 3a77551fb4fc..7d95242db900 100644
+--- a/drivers/hwtracing/intel_th/msu.c
++++ b/drivers/hwtracing/intel_th/msu.c
+@@ -2002,7 +2002,7 @@ nr_pages_store(struct device *dev, struct device_attribute *attr,
+ 		}
  
--		c = krealloc(state->connectors, alloc * sizeof(*state->connectors), GFP_KERNEL);
-+		c = krealloc_array(state->connectors, alloc,
-+				   sizeof(*state->connectors), GFP_KERNEL);
- 		if (!c)
- 			return ERR_PTR(-ENOMEM);
- 
+ 		nr_wins++;
+-		rewin = krealloc(win, sizeof(*win) * nr_wins, GFP_KERNEL);
++		rewin = krealloc_array(win, nr_wins, sizeof(*win), GFP_KERNEL);
+ 		if (!rewin) {
+ 			kfree(win);
+ 			return -ENOMEM;
 -- 
 2.29.1
 
