@@ -2,197 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BCB929DA3B
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 00:17:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 230ED29D9DF
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 00:05:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388046AbgJ1XRW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Oct 2020 19:17:22 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:46883 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728511AbgJ1XRV (ORCPT
+        id S2387530AbgJ1XFD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Oct 2020 19:05:03 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33324 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2390048AbgJ1XE7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Oct 2020 19:17:21 -0400
-Received: by mail-wr1-f67.google.com with SMTP id n6so775616wrm.13;
-        Wed, 28 Oct 2020 16:17:19 -0700 (PDT)
+        Wed, 28 Oct 2020 19:04:59 -0400
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4F2ABC0613CF
+        for <linux-media@vger.kernel.org>; Wed, 28 Oct 2020 16:04:59 -0700 (PDT)
+Received: by mail-lf1-x142.google.com with SMTP id a7so886897lfk.9
+        for <linux-media@vger.kernel.org>; Wed, 28 Oct 2020 16:04:59 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=6y4QOceXe8zRQKZs06ORTkquPOtHQn77ARvbGZP9r1M=;
+        b=gFRUCQCFuTR8+JtdmcXcAlK5X7E61XmvvyAGA/K18mnTt93AI2o+wSqfYUI4n8Y0lU
+         +48KACrQVO3Qw2aB5MwS/gPxeoLzJZw2XI2pEtuKlzoaB/ELqONtZsDRg2xOHXNYJiB6
+         ur5YGrTWS0kXoutcPvKSjtwakbK/45cyXDu+4=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=0DnG4LJjdv6mAxFeMJR8DGf+NctXJFLBf9GwLy+AxJQ=;
-        b=o8dt85FiopWcGhXhpt25kIrlJBkT7xuHrqLVBo2fDOCuGnm7LJbaKxbp04x0/TQKC4
-         8JWvvjn3IUu4FSy/iWT85nQz4dMXhSOPL8187t64GzS9u0HARKocB4kGRZg5iokCfPPn
-         XQCCYmL0jZDdTNlWO23UEQM6ORn2hvyP66lc68+t5S9djlRhfphA2VHhCvDmCXvzoOmC
-         ZYMcNDVw0ZJw5A9B874xObT0KoE1tmf/YRaXl/6jRJrPMxcCaiPKaQzAyg4LJNOi6lNB
-         5ObO+rPjJqsZzC1BfcgXNsszs9e/w1f3lpepPjpmLbt6CjfEOC01A+JvQEredxLI3EHl
-         ctGw==
-X-Gm-Message-State: AOAM533RFgqbzdCd0F79yN4y6YolCk/UKzf8IDS2E9Mn/ntUkax3KcOe
-        43033a5xQlyAeF2N/IWaair532W+wEtnzWWE
-X-Google-Smtp-Source: ABdhPJzfpLMuUvtJrSFwIFWjAp/ycvj6HKNRVF8qRIcs0RQFe6tX1Ju0ziEFEpJPgFr+LJbS453aoA==
-X-Received: by 2002:a17:907:204c:: with SMTP id pg12mr6158094ejb.464.1603874307610;
-        Wed, 28 Oct 2020 01:38:27 -0700 (PDT)
-Received: from kozik-lap ([194.230.155.184])
-        by smtp.googlemail.com with ESMTPSA id v6sm2525073ejj.112.2020.10.28.01.38.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 28 Oct 2020 01:38:26 -0700 (PDT)
-Date:   Wed, 28 Oct 2020 09:38:24 +0100
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        Rob Herring <robh@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] dt-bindings: media: imx258: add bindings for
- IMX258 sensor
-Message-ID: <20201028083824.GA32155@kozik-lap>
-References: <20201019170247.92002-1-krzk@kernel.org>
- <20201020103833.GT13341@paasikivi.fi.intel.com>
- <CAJKOXPdKHCQikYDLKDS2Y3NVyCjMYYH1pcxgaMoYgOK19vQCrQ@mail.gmail.com>
- <20201020120058.GU13341@paasikivi.fi.intel.com>
- <20201020122621.GA126891@kozik-lap>
- <20201020124654.GX13341@paasikivi.fi.intel.com>
- <20201020125852.GA128323@kozik-lap>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=6y4QOceXe8zRQKZs06ORTkquPOtHQn77ARvbGZP9r1M=;
+        b=mfHgDNfWxWbusafwhwMF6z53njJ2W3IdVu3JANX4d6fl7/TQZbxtESSQYwq3beMyHF
+         NsXt9GmB1ndcnR9q3ns0pCrlBAezNtxLVDItEnAFbfWTVlnWQBmmbSH/nuhFNpf0ZwBk
+         Zzc7aQavYcvRWN9l8jay05LFFckfBKtq/a4tpLBbzuCjjdUxj99y7w548XCnvacZJSaB
+         6gXQu1BTthRzEfcmaZmqbH8eIRVnj9m3m3pPgqxNXdRhgJ90JWd9vuPQHTrNTUUHQTMN
+         5Pt8nobF7I11Df3y3cyMCxqmhJkCsuBRmkwH1wJZTKBgTspKjFQoaNEc1iEAAMzl+27o
+         W2jw==
+X-Gm-Message-State: AOAM5312DCjKQHIGPa50mHVOSiqvwNaDwzliDsZrBo+xSWKAOTUHAGtY
+        j5wcSruiBQ4SCq7KeqTlqnptsnNpPBqV1w==
+X-Google-Smtp-Source: ABdhPJzPPkc9489U7NFWqV+uA8Og3GCnXRKnBTXmE8SkS20iK0uz9oZD+S/aSqbA0qwUPI/l/aJmwg==
+X-Received: by 2002:a17:907:2084:: with SMTP id pv4mr7534108ejb.315.1603886921540;
+        Wed, 28 Oct 2020 05:08:41 -0700 (PDT)
+Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
+        by smtp.gmail.com with ESMTPSA id s12sm2796234edu.28.2020.10.28.05.08.40
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 28 Oct 2020 05:08:40 -0700 (PDT)
+Received: by mail-wr1-f49.google.com with SMTP id t9so5380558wrq.11
+        for <linux-media@vger.kernel.org>; Wed, 28 Oct 2020 05:08:40 -0700 (PDT)
+X-Received: by 2002:adf:ab05:: with SMTP id q5mr8280571wrc.32.1603886919796;
+ Wed, 28 Oct 2020 05:08:39 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201020125852.GA128323@kozik-lap>
+References: <20201028091947.93097-1-krzk@kernel.org> <MWHPR11MB0046B799E9AD3648C6F67BFE87170@MWHPR11MB0046.namprd11.prod.outlook.com>
+ <CAJKOXPePfsRNZkY+L1XM3_iz6dMYFNZAJgrcut9JriuwYkKWsw@mail.gmail.com>
+ <CAJKOXPf6zhpu_3oQZ2bL_FnkBx7-NwH65N_OzVkH=Nh1bYkHxw@mail.gmail.com>
+ <20201028100311.GF26150@paasikivi.fi.intel.com> <CAJKOXPcjtZidY1prH1ZCj+i-SM1mhABGbS_6_g1cH5WSGVhOAA@mail.gmail.com>
+In-Reply-To: <CAJKOXPcjtZidY1prH1ZCj+i-SM1mhABGbS_6_g1cH5WSGVhOAA@mail.gmail.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Wed, 28 Oct 2020 13:08:28 +0100
+X-Gmail-Original-Message-ID: <CAAFQd5AwvuuxekSdDnHNB7KiC7+mHFisEkCW71F3XQMWaFqamw@mail.gmail.com>
+Message-ID: <CAAFQd5AwvuuxekSdDnHNB7KiC7+mHFisEkCW71F3XQMWaFqamw@mail.gmail.com>
+Subject: Re: [PATCH] media: i2c: imx258: correct mode to GBGB/RGRG
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Yeh, Andy" <andy.yeh@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jason Chen <jasonx.z.chen@intel.com>,
+        Alan Chiang <alanx.chiang@intel.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "stable@vger.kernel.org" <stable@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 20, 2020 at 02:58:52PM +0200, Krzysztof Kozlowski wrote:
-> On Tue, Oct 20, 2020 at 03:46:54PM +0300, Sakari Ailus wrote:
-> > On Tue, Oct 20, 2020 at 02:26:21PM +0200, Krzysztof Kozlowski wrote:
-> > > On Tue, Oct 20, 2020 at 03:00:58PM +0300, Sakari Ailus wrote:
-> > > > Hi Krzysztof,
-> > > > 
-> > > > On Tue, Oct 20, 2020 at 12:54:09PM +0200, Krzysztof Kozlowski wrote:
-> > > > > On Tue, 20 Oct 2020 at 12:38, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
-> > > > > >
-> > > > > > Hi Krzysztof,
-> > > > > >
-> > > > > > On Mon, Oct 19, 2020 at 07:02:44PM +0200, Krzysztof Kozlowski wrote:
-> > > > > > > Add bindings for the IMX258 camera sensor.  The bindings, just like the
-> > > > > > > driver, are quite limited, e.g. do not support regulator supplies.
-> > > > > > >
-> > > > > > > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> > > > > > > Reviewed-by: Rob Herring <robh@kernel.org>
-> > > > > > >
-> > > > > > > ---
-> > > > > > >
-> > > > > > > Changes since v4:
-> > > > > > > 1. Add clock-lanes,
-> > > > > > > 2. Add Rob's review,
-> > > > > > > 3. Add one more example and extend existing one,
-> > > > > > > 4. Add common clock properties (assigned-*).
-> > > > > >
-> > > > > > Using the assigned-* clock properties may be workable for this driver at
-> > > > > > the moment. But using these properties does not guarantee the external
-> > > > > > clock frequency intended to be used on the hardware.
-> > > > > 
-> > > > > It guarantees it. The clock frequency will be as expected (except if
-> > > > > someone misconfigures the DTS).
-> > > > 
-> > > > Is that guaranteed?
-> > > > 
-> > > > I'm not saying no to the approach, but if we change how camera sensor DT
-> > > > bindings are defined, I'd prefer an informed decision is made on the
-> > > > matter.
-> > > > 
-> > > > > 
-> > > > > > Using other
-> > > > > > frequencies *is not* expected to work. That applies to this driver as well.
-> > > > > 
-> > > > > This is the binding which is HW description. According to HW datasheet
-> > > > > other frequencies from described range are accepted and expected to
-> > > > > work.
-> > > > 
-> > > > As per datasheet, yes, different external clock frequencies can be used.
-> > > > But the link frequency is still not independent of the external clock
-> > > > frequency.
-> > > > 
-> > > > The properties of the sensor's PLL tree determines what can be achieved
-> > > > given a certain external clock frequency. So picking a wrong external clock
-> > > > frequency quite possibly means that none of the designated link frequencies
-> > > > are available, rendering the sensor inoperable.
-> > > 
-> > > The driver then controls the HW and knows exactly what is needed. If
-> > > link frequency (which has its own DT property) requires some clock
-> > > frequency, the driver will configure the clock to that value. The same
-> > 
-> > Well it doesn't if it doesn't get that information from DT.
-> 
-> It will get it - via clk_get_rate(). You do not need DT for this.
-> 
-> > The frequency is usually a range, and looking at these bindings, it's from
-> > 6 MHz to 27 MHz. That'd be a lot of frequencies for a driver to try.
-> 
-> It does not have to try all of them. Assuming link frequency is fixed,
-> just use any matching (or hard-coded) input clock frequency. Since the
-> input clock frequency most likely will be set with assigned-clock-rates,
-> there will be no job to do for the driver at all. Unless the driver
-> wants to do something more, of course.
-> 
-> > 
-> > > going other direction. Driver has the knowledge about both its input
-> > > clock and link frequency, therefore it can make the best decision.
-> > 
-> > Again you're assuming a particular driver implementation.
-> 
-> Actually not, I am talking about bindings as far away from the driver
-> implementation as possible.  This is why some specific frequency *is
-> not* part of the bindings.
-> 
-> > 
-> > Typically only a few frequencies are really available on platforms, so a in
-> > practice a driver would not be able to get any requested frequency. I
-> > wouldn't start hard-coding every possible frequency to camera sensor
-> > drivers
-> 
-> If the driver cannot get requested frequency which it apparently
-> requires, there is nothing more to do. It's broken HW implementation.
-> The input clock must be matching requirements, regardless of what
-> property you put in DT.  You can add "clock-frequency" property, you can
-> even add "really-i-require-clock-frequency" but if the real HW input
-> clock does not have, it won't work.
-> 
-> IOW, adding "clock-frequency" property does not change the reality - the
-> board (HW) must provide given frequency so the entire system works.
-> 
-> > 
-> > > > > > This, instead of the clock-frequency property, effectively removes the
-> > > > > > ability to set the correct frequency from the driver, at least with current
-> > > > > > set of the used APIs.
-> > > > > 
-> > > > > It seems you confuse DT bindings with some specific driver
-> > > > > implementation. Bindings do not describe the driver behavior but the
-> > > > > HW. The ability to set the correct frequency from the driver is not
-> > > > > removed. It was never part of the bindings and never should. It is
-> > > > > part of the driver.
-> > > > > 
-> > > > > >
-> > > > > > I suppose you could add a function to set the assigned clock frequency and
-> > > > > > keep it, just as clk_set_rate_exclusive does?
-> > > 
-> > > I did not reply to this comment, so let me know. Of course, one could
-> > > add such functions. It's not a job for DT bindings, though.
-> > 
-> > I'm not suggesting to add it to DT binding patch. What I'm saying that with
-> > this approach is looks like it may well be needed.
-> 
-> New properties can always be added to DT. However existing properties
-> cannot be removed. Their meaning or values cannot be changed.
+On Wed, Oct 28, 2020 at 11:15 AM Krzysztof Kozlowski <krzk@kernel.org> wrote:
+>
+> On Wed, 28 Oct 2020 at 11:03, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
+> >
+> > On Wed, Oct 28, 2020 at 10:56:55AM +0100, Krzysztof Kozlowski wrote:
+> > > On Wed, 28 Oct 2020 at 10:45, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > > >
+> > > > On Wed, 28 Oct 2020 at 10:43, Yeh, Andy <andy.yeh@intel.com> wrote:
+> > > > >
+> > > > > But the sensor settings for the original submission is to output GRBG Bayer RAW.
+> > > > >
+> > > > > Regards, Andy
+> > > >
+> > > > No, not to my knowledge. There are no settings for color output
+> > > > because it is fixed to GBGB/RGRG. I was looking a lot into this driver
+> > > > (I have few other problems with it, already few other patches posted)
+> > > > and I could not find a setting for this in datasheet. If you know the
+> > > > setting for the other color - can you point me to it?
+> > >
+> > > And except the datasheet which mentions the specific format, the
+> > > testing confirms it. With original color the pictures are pink/purple.
+> > > With proper color, the pictures are correct (with more green color as
+> > > expected for bayer).
+> >
+> > Quoting the driver's start_streaming function:
+> >
+> >         /* Set Orientation be 180 degree */
+> >         ret = imx258_write_reg(imx258, REG_MIRROR_FLIP_CONTROL,
+> >                                IMX258_REG_VALUE_08BIT, REG_CONFIG_MIRROR_FLIP);
+>
+> I understand that you think it will replace the lines and columns and
+> the first line will be RG, instead of GB.... or actually BG because it
+> flips horizontal and vertical? So why does it not work?
 
-Any more comments on the bindings or the patchset?
+Any chance your SoC capture interface performs this flipping on its own as well?
 
-Best regards,
-Krzysztof
+>
+> BTW, this nicely points that the comment around
+> device_property_read_u32() for rotation is a little bit misleading :)
+>
 
+Are you referring to the comment below?
+
+/*
+* Check that the device is mounted upside down. The driver only
+* supports a single pixel order right now.
+*/
+ret = device_property_read_u32(&client->dev, "rotation", &val);
+if (ret || val != 180)
+    return -EINVAL;
+
+What's misleading about it?
+
+> >         if (ret) {
+> >                 dev_err(&client->dev, "%s failed to set orientation\n",
+> >                         __func__);
+> >                 return ret;
+> >         }
+> >
+> > Could it be you're taking pictures of pink objects? ;-)
+>
+> I can send a few sample pictures taken with GStreamer (RAW8, not
+> original RAW10)...
+>
+> Best regards,
+> Krzysztof
