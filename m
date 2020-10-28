@@ -2,97 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 682C729DC18
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 01:21:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 33F6D29DC00
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 01:19:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390776AbgJ2AV1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Oct 2020 20:21:27 -0400
-Received: from fllv0016.ext.ti.com ([198.47.19.142]:50560 "EHLO
-        fllv0016.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727552AbgJ2AVY (ORCPT
+        id S1731762AbgJ2ASu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Oct 2020 20:18:50 -0400
+Received: from mail-lj1-f193.google.com ([209.85.208.193]:38202 "EHLO
+        mail-lj1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731822AbgJ1Wpf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Oct 2020 20:21:24 -0400
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0016.ext.ti.com (8.15.2/8.15.2) with ESMTP id 09S7fflf084854;
-        Wed, 28 Oct 2020 02:41:41 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1603870901;
-        bh=Ax5/lSVFdAWpt9N2W3x9j4u+NVI3bfPAN+kwxm2q5AI=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=raoGhAXmq3ocu16M6jlyQYXYzmVRaiB9n8hZw1ttz+o0924DH2aECLm7m9xafn1HX
-         WvgWroNC65gk0U6UOLc8fnnvvbZPDKNUBBU5liL92QxS1R39oTuyfH0/HyMD6/Hfso
-         4jAbxLxfq6L6+Yc9c6P3orNRTYIHKNq0uP0gAdbA=
-Received: from DLEE113.ent.ti.com (dlee113.ent.ti.com [157.170.170.24])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 09S7ffpE084829
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 28 Oct 2020 02:41:41 -0500
-Received: from DLEE112.ent.ti.com (157.170.170.23) by DLEE113.ent.ti.com
- (157.170.170.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Wed, 28
- Oct 2020 02:41:41 -0500
-Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE112.ent.ti.com
- (157.170.170.23) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Wed, 28 Oct 2020 02:41:41 -0500
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 09S7fdQd121725;
-        Wed, 28 Oct 2020 02:41:40 -0500
-Subject: Re: [PATCH] vpdma: Move firmware to the toplevel
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Nikhil Devshatwar <nikhil.nd@ti.com>
-CC:     <linux-firmware@kernel.org>, <linux-media@vger.kernel.org>,
-        Dan Murphy <dmurphy@ti.com>, Benoit Parrot <bparrot@ti.com>,
-        Sekhar Nori <nsekhar@ti.com>
-References: <20201026200922.12719-1-nikhil.nd@ti.com>
- <20201026210832.GE3756@pendragon.ideasonboard.com>
-From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <868ff235-20c7-b0c0-df08-3d4582adb544@ti.com>
-Date:   Wed, 28 Oct 2020 09:41:39 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Wed, 28 Oct 2020 18:45:35 -0400
+Received: by mail-lj1-f193.google.com with SMTP id m20so1004605ljj.5;
+        Wed, 28 Oct 2020 15:45:33 -0700 (PDT)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=0KdWq/UxN3mZhg6059eXgPkPMEcpbLJswGfi0We+PWc=;
+        b=rSfXFJknFVoxv43JnKa5/7X3mTSgIyRunsFllASNsF4/fFO86GFhjUdJToHZv3mD14
+         hsqCj8YVAE7DISGkiYY3A2lZa+LogRjpdEgaU1WeyCnUTAnUZ/QU/P298s81BRptU4Dj
+         VB2hPyJ+QykAUbsxvx5yVRaEfnelXbZTuLmEZVIAFOT5GLZd6ybhEdTS09hDtbJ8bx5R
+         2B0+wFknXaAWFKgupVtHHEpfaVC18V/tIxx+WScfufqJbs9yup4Xewhx/MPJdj4l6uUk
+         A8yqGzh0FqDFbwL9eGVjwLFcog1hctBeF7Q44M5ArHDWkh8hcNhIXR6R1odrU75/7h4M
+         Z0kg==
+X-Gm-Message-State: AOAM531U6+/NqZkdUmx3xOwh/0+WFX/pCIyMRgvgJb8lkISb9bveEvFS
+        3ub+DajbUn+f8XGZu9d9sU2CxTnEtXhVyw==
+X-Google-Smtp-Source: ABdhPJyTZZn/hiZL9z3amMCBlQLOPc1jM+itYrAWR+4C77rc0U05V//ar61daSU/u7T8N2GlkIKFKA==
+X-Received: by 2002:aa7:c2d8:: with SMTP id m24mr6918956edp.90.1603877027501;
+        Wed, 28 Oct 2020 02:23:47 -0700 (PDT)
+Received: from kozik-lap ([194.230.155.184])
+        by smtp.googlemail.com with ESMTPSA id j3sm2557214edh.25.2020.10.28.02.23.45
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 28 Oct 2020 02:23:45 -0700 (PDT)
+Date:   Wed, 28 Oct 2020 10:23:43 +0100
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 2/2] media: i2c: imx258: validate rotation only if it is
+ provided
+Message-ID: <20201028092343.GA100461@kozik-lap>
+References: <20201005151559.12003-1-krzk@kernel.org>
+ <20201005151559.12003-2-krzk@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <20201026210832.GE3756@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201005151559.12003-2-krzk@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 26/10/2020 23:08, Laurent Pinchart wrote:
-> Hi Nikhil,
+On Mon, Oct 05, 2020 at 05:15:59PM +0200, Krzysztof Kozlowski wrote:
+> The sensor supports rotation by 180 degrees however the value of
+> "rotation" property should be validated only if it exists.  If
+> "rotation" is missing, do not fail the probe:
 > 
-> Thank you for the patch.
+>     imx258: probe of 3-001a failed with error -22
 > 
-> On Tue, Oct 27, 2020 at 01:39:22AM +0530, Nikhil Devshatwar wrote:
->> Move the vpdma firmware to the toplevel directory so
->> that the existing drivers can use it with the same path.
->>
->> Fixes: 5b30b383ce ("linux-firmware: Add new VPDMA firmware 1b8.bin")
->> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
->> ---
->>  WHENCE                                         |   2 +-
->>  ti-connectivity/vpdma-1b8.bin => vpdma-1b8.bin | Bin
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+
+This is actually a fix, so these should be added:
+Fixes: 17121d12a5c1 ("media: imx258: Check the rotation property has a value of 180")
+Cc: <stable@vger.kernel.org>
+
+Best regards,
+Krzysztof
+
+> ---
+>  drivers/media/i2c/imx258.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> I think Tomi meant moving the file to ti/ instead of ti-connectivity/. I
-> will let him comment on this.
-
-I don't really have a strong opinion here, as I don't know if there are some rules or guidelines
-about file/dir naming in linux-firmware.
-
-But my argument is:
-
-The fw should either be at the root dir, where the linux driver is already looking for it, OR, if we
-do move it somewhere, move it to a "right" place. Afaics "ti-connectivity" is totally wrong place,
-as vpdma has nothing to do with connectivity.
-
-The root dir is a bit bad as "vpdma-1b8.bin" doesn't have TI or such in its name, so even if name
-conflict with some other fw feels quite unlikely, the name is still rather vague. And moving is a
-bit bad as then the current driver won't find the fw...
-
- Tomi
-
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+> index aedf8e7c6165..c52932e5b881 100644
+> --- a/drivers/media/i2c/imx258.c
+> +++ b/drivers/media/i2c/imx258.c
+> @@ -1284,7 +1284,7 @@ static int imx258_probe(struct i2c_client *client)
+>  	 * supports a single pixel order right now.
+>  	 */
+>  	ret = device_property_read_u32(&client->dev, "rotation", &val);
+> -	if (ret || val != 180)
+> +	if (!ret && val != 180)
+>  		return -EINVAL;
+>  
+>  	/* Initialize subdev */
+> -- 
+> 2.17.1
+> 
