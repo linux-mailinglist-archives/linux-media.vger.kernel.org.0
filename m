@@ -2,76 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 790CF29D992
-	for <lists+linux-media@lfdr.de>; Wed, 28 Oct 2020 23:57:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53C1D29D995
+	for <lists+linux-media@lfdr.de>; Wed, 28 Oct 2020 23:58:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389866AbgJ1W5z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S2389873AbgJ1W5z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Wed, 28 Oct 2020 18:57:55 -0400
-Received: from relay3-d.mail.gandi.net ([217.70.183.195]:59733 "EHLO
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:43341 "EHLO
         relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732768AbgJ1W5Y (ORCPT
+        with ESMTP id S2389867AbgJ1W5Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:57:24 -0400
+        Wed, 28 Oct 2020 18:57:25 -0400
 X-Originating-IP: 2.224.242.101
 Received: from uno.lan (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 3997E6000A;
-        Wed, 28 Oct 2020 22:57:20 +0000 (UTC)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id AC2106000B;
+        Wed, 28 Oct 2020 22:57:22 +0000 (UTC)
 From:   Jacopo Mondi <jacopo+renesas@jmondi.org>
 To:     hugues.fruchet@st.com, tomi.valkeinen@ti.com,
         sam@elite-embedded.com
 Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>, slongerbeam@gmail.com,
-        linux-media@vger.kernel.org
-Subject: [RFC 0/3] media: ov5640: Adjust htot, rework clock tree, add LINK_FREQ
-Date:   Wed, 28 Oct 2020 23:57:03 +0100
-Message-Id: <20201028225706.110078-1-jacopo+renesas@jmondi.org>
+        linux-media@vger.kernel.org, Jacopo Mondi <jacopo@jmondi.org>
+Subject: [RFC 1/3] media: i2c: ov5640: Adjust htot
+Date:   Wed, 28 Oct 2020 23:57:04 +0100
+Message-Id: <20201028225706.110078-2-jacopo+renesas@jmondi.org>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201028225706.110078-1-jacopo+renesas@jmondi.org>
+References: <20201028225706.110078-1-jacopo+renesas@jmondi.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hugues Tomi and Sam
+From: Tomi Valkeinen <tomi.valkeinen@ti.com>
 
-   this small series collects Tomi's patch on adjusting htot which has been
-floating around for some time with a rework of the clock tree based on
-Hugues' and Sam's work on setting pclk_period. It also address the need to
-suppport LINK_FREQUENCY control as pointed out by Hugues.
+Adjust htot for most of the modes. The numbers are from the OV5640
+datasheet, and with these the driver works more reliably on DRA76 EVM +
+OV5640, using 2 datalanes.
 
-I'm sort of happy with the result as I've removed quite some chrun and the clock
-tree calculation is more linear. All modes work except full-resolution which a
-bit annoys me, as I can't select it through s_fmt (to be honest I have not
-investigated that in detail, that's why an RFC).
+Without the patch, I see often ComplexIO (i.e. PHY) errors when
+starting the streaming, and 1280x720 does not work at all without this
+change.
 
-Framerate is better than before, but still off for some combinations:
-640x480@30 gives me ~40 FPS, 1920x1080@15 gives me ~7.
-The other combinations I've tested looks good.
+Signed-off-by: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+---
+ drivers/media/i2c/ov5640.c | 16 ++++++++--------
+ 1 file changed, 8 insertions(+), 8 deletions(-)
 
-Can I have your opinion on these changes and if they help you with your
-platforms?
-
-I've only been able to test YUYV, support for formats with != bpp will need
-some work most probably, but that was like this before (although iirc Hugues
-has captured JPEG, right ?)
-
-There's a bit more cleanup on top to be done (I've left TODOs around) and
-probably the HBLANK calculation should be checked to see if it works with the
-new htot values.
-
-Thanks
-  j
-
-Jacopo Mondi (2):
-  media: i2c: ov5640: Rework CSI-2 clock tree
-  media: i2c: ov5640: Add V4L2_CID_LINK_FREQ support
-
-Tomi Valkeinen (1):
-  media: i2c: ov5640: Adjust htot
-
- drivers/media/i2c/ov5640.c | 176 +++++++++++++++++++++++++------------
- 1 file changed, 118 insertions(+), 58 deletions(-)
-
---
+diff --git a/drivers/media/i2c/ov5640.c b/drivers/media/i2c/ov5640.c
+index 8d0254d0e5ea..117ac22683ad 100644
+--- a/drivers/media/i2c/ov5640.c
++++ b/drivers/media/i2c/ov5640.c
+@@ -553,42 +553,42 @@ static const struct ov5640_mode_info ov5640_mode_init_data = {
+ static const struct ov5640_mode_info
+ ov5640_mode_data[OV5640_NUM_MODES] = {
+ 	{OV5640_MODE_QCIF_176_144, SUBSAMPLING,
+-	 176, 1896, 144, 984,
++	 176, 2844, 144, 984,
+ 	 ov5640_setting_QCIF_176_144,
+ 	 ARRAY_SIZE(ov5640_setting_QCIF_176_144),
+ 	 OV5640_30_FPS},
+ 	{OV5640_MODE_QVGA_320_240, SUBSAMPLING,
+-	 320, 1896, 240, 984,
++	 320, 2844, 240, 984,
+ 	 ov5640_setting_QVGA_320_240,
+ 	 ARRAY_SIZE(ov5640_setting_QVGA_320_240),
+ 	 OV5640_30_FPS},
+ 	{OV5640_MODE_VGA_640_480, SUBSAMPLING,
+-	 640, 1896, 480, 1080,
++	 640, 2844, 480, 1080,
+ 	 ov5640_setting_VGA_640_480,
+ 	 ARRAY_SIZE(ov5640_setting_VGA_640_480),
+ 	 OV5640_60_FPS},
+ 	{OV5640_MODE_NTSC_720_480, SUBSAMPLING,
+-	 720, 1896, 480, 984,
++	 720, 2844, 480, 984,
+ 	 ov5640_setting_NTSC_720_480,
+ 	 ARRAY_SIZE(ov5640_setting_NTSC_720_480),
+ 	OV5640_30_FPS},
+ 	{OV5640_MODE_PAL_720_576, SUBSAMPLING,
+-	 720, 1896, 576, 984,
++	 720, 2844, 576, 984,
+ 	 ov5640_setting_PAL_720_576,
+ 	 ARRAY_SIZE(ov5640_setting_PAL_720_576),
+ 	 OV5640_30_FPS},
+ 	{OV5640_MODE_XGA_1024_768, SUBSAMPLING,
+-	 1024, 1896, 768, 1080,
++	 1024, 2844, 768, 1080,
+ 	 ov5640_setting_XGA_1024_768,
+ 	 ARRAY_SIZE(ov5640_setting_XGA_1024_768),
+ 	 OV5640_30_FPS},
+ 	{OV5640_MODE_720P_1280_720, SUBSAMPLING,
+-	 1280, 1892, 720, 740,
++	 1280, 2844, 720, 740,
+ 	 ov5640_setting_720P_1280_720,
+ 	 ARRAY_SIZE(ov5640_setting_720P_1280_720),
+ 	 OV5640_30_FPS},
+ 	{OV5640_MODE_1080P_1920_1080, SCALING,
+-	 1920, 2500, 1080, 1120,
++	 1920, 2844, 1080, 1120,
+ 	 ov5640_setting_1080P_1920_1080,
+ 	 ARRAY_SIZE(ov5640_setting_1080P_1920_1080),
+ 	 OV5640_30_FPS},
+-- 
 2.28.0
 
