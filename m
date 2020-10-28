@@ -2,44 +2,46 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 83A4129DF42
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 02:01:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 757CB29DE5E
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 01:54:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404001AbgJ2BAL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Oct 2020 21:00:11 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60534 "EHLO mail.kernel.org"
+        id S1731824AbgJ1WTR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Oct 2020 18:19:17 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60528 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731534AbgJ1WR2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:28 -0400
-Received: from mail-ed1-f41.google.com (mail-ed1-f41.google.com [209.85.208.41])
+        id S1731742AbgJ1WRo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:17:44 -0400
+Received: from mail-ed1-f44.google.com (mail-ed1-f44.google.com [209.85.208.44])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C0E052469D;
-        Wed, 28 Oct 2020 09:45:32 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 47F50246B0;
+        Wed, 28 Oct 2020 10:15:17 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603878333;
-        bh=M8m3wt8fV+3UIkqePGnLlIs932qbeqSRdOpauzBIzl4=;
+        s=default; t=1603880117;
+        bh=E57TRRP55Kk9vg5tur1KhYG5qx7b3ky4jZL+p+sXuoY=;
         h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=1WiwlKhsc8n/OIAyFdRPwSKenfKayenRtyuBem2TNnguMJCJq6xZjAxZz7WBpJHYX
-         0Gaho7SDVhp6ubCYS9JGdPtLGlA7nTeICnzwtjulpIWKdc+i5+GzkpI2PEqKS+Esq1
-         miH/Vsarv8wlP3K5uaB7iDx8qweIQkufZbA2i3LQ=
-Received: by mail-ed1-f41.google.com with SMTP id v4so1813875edi.0;
-        Wed, 28 Oct 2020 02:45:32 -0700 (PDT)
-X-Gm-Message-State: AOAM530CCIitoXx0lRQPcvLClevVOjnY3yX1J4PvZprmVSFnigGUOXGe
-        +1MtRzcCcI82AkajSVMFAQxg0kfMPu5r9+6kplg=
-X-Google-Smtp-Source: ABdhPJzibAiayrfnX7e492BygNqJJBTGqPxQbqLX4ZxY4gkXNJonXNomrcKjOfLYhM5y3foaLpxExRMfn5JvGnPF1IQ=
-X-Received: by 2002:aa7:d1d5:: with SMTP id g21mr6950125edp.348.1603878331132;
- Wed, 28 Oct 2020 02:45:31 -0700 (PDT)
+        b=MrdU+GtBcZwjT+vZ+g8Hw6gZHvwWzT4GZ+SrmHeBOThKai89DQFRg3IRa6i/wLsbi
+         9oXfv2GsWan0iTEVWd6s8Uc7GCICsJ7Vb4CS+WAncE8FpLa9n0f9+F/iZgTmtEHQim
+         Sc2XD/nbGU1AmKMLAuCRjVRBJorO4jHJsQVP7IqU=
+Received: by mail-ed1-f44.google.com with SMTP id x1so4523300eds.1;
+        Wed, 28 Oct 2020 03:15:17 -0700 (PDT)
+X-Gm-Message-State: AOAM532qAFPQWwXKiy51ycWtsZvHgS1ewyTUIiBpduGY/UUKlO4W5CHD
+        4gNHuMLG0UkgcDWsp0LIV8MrkxtUQkpcia5swfY=
+X-Google-Smtp-Source: ABdhPJz4yllQgyYZ8Tamki1QBJ8R6wNyadcvzqNfdvF4QwTASSCCiWTVEZ36r/fo7dWTUfe04TsIynmfdLIh/mOJ5uk=
+X-Received: by 2002:a05:6402:cf:: with SMTP id i15mr2651762edu.246.1603880115644;
+ Wed, 28 Oct 2020 03:15:15 -0700 (PDT)
 MIME-Version: 1.0
 References: <20201028091947.93097-1-krzk@kernel.org> <MWHPR11MB0046B799E9AD3648C6F67BFE87170@MWHPR11MB0046.namprd11.prod.outlook.com>
-In-Reply-To: <MWHPR11MB0046B799E9AD3648C6F67BFE87170@MWHPR11MB0046.namprd11.prod.outlook.com>
+ <CAJKOXPePfsRNZkY+L1XM3_iz6dMYFNZAJgrcut9JriuwYkKWsw@mail.gmail.com>
+ <CAJKOXPf6zhpu_3oQZ2bL_FnkBx7-NwH65N_OzVkH=Nh1bYkHxw@mail.gmail.com> <20201028100311.GF26150@paasikivi.fi.intel.com>
+In-Reply-To: <20201028100311.GF26150@paasikivi.fi.intel.com>
 From:   Krzysztof Kozlowski <krzk@kernel.org>
-Date:   Wed, 28 Oct 2020 10:45:19 +0100
-X-Gmail-Original-Message-ID: <CAJKOXPePfsRNZkY+L1XM3_iz6dMYFNZAJgrcut9JriuwYkKWsw@mail.gmail.com>
-Message-ID: <CAJKOXPePfsRNZkY+L1XM3_iz6dMYFNZAJgrcut9JriuwYkKWsw@mail.gmail.com>
+Date:   Wed, 28 Oct 2020 11:15:01 +0100
+X-Gmail-Original-Message-ID: <CAJKOXPcjtZidY1prH1ZCj+i-SM1mhABGbS_6_g1cH5WSGVhOAA@mail.gmail.com>
+Message-ID: <CAJKOXPcjtZidY1prH1ZCj+i-SM1mhABGbS_6_g1cH5WSGVhOAA@mail.gmail.com>
 Subject: Re: [PATCH] media: i2c: imx258: correct mode to GBGB/RGRG
-To:     "Yeh, Andy" <andy.yeh@intel.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     "Yeh, Andy" <andy.yeh@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Tomasz Figa <tfiga@chromium.org>,
         Jason Chen <jasonx.z.chen@intel.com>,
@@ -52,96 +54,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 28 Oct 2020 at 10:43, Yeh, Andy <andy.yeh@intel.com> wrote:
+On Wed, 28 Oct 2020 at 11:03, Sakari Ailus <sakari.ailus@linux.intel.com> wrote:
 >
-> But the sensor settings for the original submission is to output GRBG Bayer RAW.
+> On Wed, Oct 28, 2020 at 10:56:55AM +0100, Krzysztof Kozlowski wrote:
+> > On Wed, 28 Oct 2020 at 10:45, Krzysztof Kozlowski <krzk@kernel.org> wrote:
+> > >
+> > > On Wed, 28 Oct 2020 at 10:43, Yeh, Andy <andy.yeh@intel.com> wrote:
+> > > >
+> > > > But the sensor settings for the original submission is to output GRBG Bayer RAW.
+> > > >
+> > > > Regards, Andy
+> > >
+> > > No, not to my knowledge. There are no settings for color output
+> > > because it is fixed to GBGB/RGRG. I was looking a lot into this driver
+> > > (I have few other problems with it, already few other patches posted)
+> > > and I could not find a setting for this in datasheet. If you know the
+> > > setting for the other color - can you point me to it?
+> >
+> > And except the datasheet which mentions the specific format, the
+> > testing confirms it. With original color the pictures are pink/purple.
+> > With proper color, the pictures are correct (with more green color as
+> > expected for bayer).
 >
-> Regards, Andy
+> Quoting the driver's start_streaming function:
+>
+>         /* Set Orientation be 180 degree */
+>         ret = imx258_write_reg(imx258, REG_MIRROR_FLIP_CONTROL,
+>                                IMX258_REG_VALUE_08BIT, REG_CONFIG_MIRROR_FLIP);
 
-No, not to my knowledge. There are no settings for color output
-because it is fixed to GBGB/RGRG. I was looking a lot into this driver
-(I have few other problems with it, already few other patches posted)
-and I could not find a setting for this in datasheet. If you know the
-setting for the other color - can you point me to it?
+I understand that you think it will replace the lines and columns and
+the first line will be RG, instead of GB.... or actually BG because it
+flips horizontal and vertical? So why does it not work?
+
+BTW, this nicely points that the comment around
+device_property_read_u32() for rotation is a little bit misleading :)
+
+>         if (ret) {
+>                 dev_err(&client->dev, "%s failed to set orientation\n",
+>                         __func__);
+>                 return ret;
+>         }
+>
+> Could it be you're taking pictures of pink objects? ;-)
+
+I can send a few sample pictures taken with GStreamer (RAW8, not
+original RAW10)...
 
 Best regards,
 Krzysztof
-
-> >-----Original Message-----
-> >From: Krzysztof Kozlowski <krzk@kernel.org>
-> >Sent: Wednesday, October 28, 2020 5:20 PM
-> >To: Sakari Ailus <sakari.ailus@linux.intel.com>; Mauro Carvalho Chehab
-> ><mchehab@kernel.org>; Tomasz Figa <tfiga@chromium.org>; Jason Chen
-> ><jasonx.z.chen@intel.com>; Yeh, Andy <andy.yeh@intel.com>; Alan Chiang
-> ><alanx.chiang@intel.com>; linux-media@vger.kernel.org; linux-
-> >kernel@vger.kernel.org
-> >Cc: Krzysztof Kozlowski <krzk@kernel.org>; stable@vger.kernel.org
-> >Subject: [PATCH] media: i2c: imx258: correct mode to GBGB/RGRG
-> >
-> >The IMX258 sensor outputs pixels in GBGB/RGRG mode.  This is described
-> >explicitly in datasheet and was actually mentioned in a comment inside the
-> >driver.  Using other - wrong mode - leads to pinkish pictures.
-> >
-> >Fixes: e4802cb00bfe ("media: imx258: Add imx258 camera sensor driver")
-> >Cc: <stable@vger.kernel.org>
-> >Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> >---
-> > drivers/media/i2c/imx258.c | 10 +++++-----
-> > 1 file changed, 5 insertions(+), 5 deletions(-)
-> >
-> >diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c index
-> >ef069333a969..bf75d4e597af 100644
-> >--- a/drivers/media/i2c/imx258.c
-> >+++ b/drivers/media/i2c/imx258.c
-> >@@ -715,7 +715,7 @@ static int imx258_open(struct v4l2_subdev *sd, struct
-> >v4l2_subdev_fh *fh)
-> >       /* Initialize try_fmt */
-> >       try_fmt->width = supported_modes[0].width;
-> >       try_fmt->height = supported_modes[0].height;
-> >-      try_fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-> >+      try_fmt->code = MEDIA_BUS_FMT_SGBRG10_1X10;
-> >       try_fmt->field = V4L2_FIELD_NONE;
-> >
-> >       return 0;
-> >@@ -827,7 +827,7 @@ static int imx258_enum_mbus_code(struct
-> >v4l2_subdev *sd,
-> >       if (code->index > 0)
-> >               return -EINVAL;
-> >
-> >-      code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
-> >+      code->code = MEDIA_BUS_FMT_SGBRG10_1X10;
-> >
-> >       return 0;
-> > }
-> >@@ -839,7 +839,7 @@ static int imx258_enum_frame_size(struct
-> >v4l2_subdev *sd,
-> >       if (fse->index >= ARRAY_SIZE(supported_modes))
-> >               return -EINVAL;
-> >
-> >-      if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
-> >+      if (fse->code != MEDIA_BUS_FMT_SGBRG10_1X10)
-> >               return -EINVAL;
-> >
-> >       fse->min_width = supported_modes[fse->index].width;
-> >@@ -855,7 +855,7 @@ static void imx258_update_pad_format(const struct
-> >imx258_mode *mode,  {
-> >       fmt->format.width = mode->width;
-> >       fmt->format.height = mode->height;
-> >-      fmt->format.code = MEDIA_BUS_FMT_SGRBG10_1X10;
-> >+      fmt->format.code = MEDIA_BUS_FMT_SGBRG10_1X10;
-> >       fmt->format.field = V4L2_FIELD_NONE;
-> > }
-> >
-> >@@ -902,7 +902,7 @@ static int imx258_set_pad_format(struct v4l2_subdev
-> >*sd,
-> >       mutex_lock(&imx258->mutex);
-> >
-> >       /* Only one raw bayer(GBRG) order is supported */
-> >-      fmt->format.code = MEDIA_BUS_FMT_SGRBG10_1X10;
-> >+      fmt->format.code = MEDIA_BUS_FMT_SGBRG10_1X10;
-> >
-> >       mode = v4l2_find_nearest_size(supported_modes,
-> >               ARRAY_SIZE(supported_modes), width, height,
-> >--
-> >2.25.1
->
