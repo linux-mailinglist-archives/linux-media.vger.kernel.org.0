@@ -2,120 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB0F829D6EE
-	for <lists+linux-media@lfdr.de>; Wed, 28 Oct 2020 23:19:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 289AA29D6EF
+	for <lists+linux-media@lfdr.de>; Wed, 28 Oct 2020 23:19:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731813AbgJ1WTP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 28 Oct 2020 18:19:15 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60504 "EHLO mail.kernel.org"
+        id S1731819AbgJ1WTQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 28 Oct 2020 18:19:16 -0400
+Received: from mail.kernel.org ([198.145.29.99]:60530 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731664AbgJ1WRk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 28 Oct 2020 18:17:40 -0400
-Received: from kernel.org (unknown [87.70.96.83])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1731688AbgJ1WRl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 28 Oct 2020 18:17:41 -0400
+Received: from kozik-lap.proceq-device.com (unknown [194.230.155.184])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 50EBD2465E;
-        Wed, 28 Oct 2020 08:47:07 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id BF9FB2468F;
+        Wed, 28 Oct 2020 09:19:56 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603874836;
-        bh=QEXxMmSUj2Vd+E59vReAFx2mSILQlDhT0GF7L4nT79k=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=qaRJrHspISAML2s3M6ow+As8fnofPQBijjHMbHMdR+I3658FQOTlnTwjnXNz0MlyX
-         aAw8A460MACJ1IDHW1x+02Uv9Atn0b3fP/Jb97ArZSIbrkmzQ92h9/ls1ePhoOhjJH
-         6jiwMskK6vWDnhTMrSRMXIc62N90Wg6wJ7a8TvRg=
-Date:   Wed, 28 Oct 2020 10:47:03 +0200
-From:   Mike Rapoport <rppt@kernel.org>
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        s=default; t=1603876799;
+        bh=C+i9hSG3DC7PYTlPO4OOMAUq70uMqJhl4BFFF/S06X4=;
+        h=From:To:Cc:Subject:Date:From;
+        b=RM7TbMkLhzXq4/+CiVWwwhRX47sqvNzIlBi1osRLRkrdgFVTIQiFT+vkcSt9woh3O
+         Ty7Obt2tA3yjv9dw9ZlmRBw+nHfRwEr7EBWdhx9CLhGz8DDlk5YoPrgLhF45L43hYw
+         n2LfQopbnC1CEPTAuLhWEW71z6y2+RB30bqq+q/U=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
-        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
-        linux-gpio@vger.kernel.org, kvm@vger.kernel.org,
-        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
-        linux-mm@kvack.org, alsa-devel@alsa-project.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: Re: [PATCH 1/8] mm: slab: provide krealloc_array()
-Message-ID: <20201028084703.GC1428094@kernel.org>
-References: <20201027121725.24660-1-brgl@bgdev.pl>
- <20201027121725.24660-2-brgl@bgdev.pl>
+        Tomasz Figa <tfiga@chromium.org>,
+        Jason Chen <jasonx.z.chen@intel.com>,
+        Andy Yeh <andy.yeh@intel.com>,
+        Alan Chiang <alanx.chiang@intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>, stable@vger.kernel.org
+Subject: [PATCH] media: i2c: imx258: correct mode to GBGB/RGRG
+Date:   Wed, 28 Oct 2020 10:19:47 +0100
+Message-Id: <20201028091947.93097-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201027121725.24660-2-brgl@bgdev.pl>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 27, 2020 at 01:17:18PM +0100, Bartosz Golaszewski wrote:
-> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> 
-> When allocating an array of elements, users should check for
-> multiplication overflow or preferably use one of the provided helpers
-> like: kmalloc_array().
-> 
-> There's no krealloc_array() counterpart but there are many users who use
-> regular krealloc() to reallocate arrays. Let's provide an actual
-> krealloc_array() implementation.
-> 
-> Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> ---
->  include/linux/slab.h | 11 +++++++++++
->  1 file changed, 11 insertions(+)
-> 
-> diff --git a/include/linux/slab.h b/include/linux/slab.h
-> index dd6897f62010..0e6683affee7 100644
-> --- a/include/linux/slab.h
-> +++ b/include/linux/slab.h
-> @@ -592,6 +592,17 @@ static inline void *kmalloc_array(size_t n, size_t size, gfp_t flags)
->  	return __kmalloc(bytes, flags);
->  }
->  
+The IMX258 sensor outputs pixels in GBGB/RGRG mode.  This is described
+explicitly in datasheet and was actually mentioned in a comment inside
+the driver.  Using other - wrong mode - leads to pinkish pictures.
 
-Can you please add kernel-doc here and a word or two about this function
-to Documentation/core-api/memory-allocation.rst?
+Fixes: e4802cb00bfe ("media: imx258: Add imx258 camera sensor driver")
+Cc: <stable@vger.kernel.org>
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ drivers/media/i2c/imx258.c | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
-> +static __must_check inline void *
-> +krealloc_array(void *p, size_t new_n, size_t new_size, gfp_t flags)
-> +{
-> +	size_t bytes;
-> +
-> +	if (unlikely(check_mul_overflow(new_n, new_size, &bytes)))
-> +		return NULL;
-> +
-> +	return krealloc(p, bytes, flags);
-> +}
-> +
->  /**
->   * kcalloc - allocate memory for an array. The memory is set to zero.
->   * @n: number of elements.
-> -- 
-> 2.29.1
-> 
-> 
-
+diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+index ef069333a969..bf75d4e597af 100644
+--- a/drivers/media/i2c/imx258.c
++++ b/drivers/media/i2c/imx258.c
+@@ -715,7 +715,7 @@ static int imx258_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ 	/* Initialize try_fmt */
+ 	try_fmt->width = supported_modes[0].width;
+ 	try_fmt->height = supported_modes[0].height;
+-	try_fmt->code = MEDIA_BUS_FMT_SGRBG10_1X10;
++	try_fmt->code = MEDIA_BUS_FMT_SGBRG10_1X10;
+ 	try_fmt->field = V4L2_FIELD_NONE;
+ 
+ 	return 0;
+@@ -827,7 +827,7 @@ static int imx258_enum_mbus_code(struct v4l2_subdev *sd,
+ 	if (code->index > 0)
+ 		return -EINVAL;
+ 
+-	code->code = MEDIA_BUS_FMT_SGRBG10_1X10;
++	code->code = MEDIA_BUS_FMT_SGBRG10_1X10;
+ 
+ 	return 0;
+ }
+@@ -839,7 +839,7 @@ static int imx258_enum_frame_size(struct v4l2_subdev *sd,
+ 	if (fse->index >= ARRAY_SIZE(supported_modes))
+ 		return -EINVAL;
+ 
+-	if (fse->code != MEDIA_BUS_FMT_SGRBG10_1X10)
++	if (fse->code != MEDIA_BUS_FMT_SGBRG10_1X10)
+ 		return -EINVAL;
+ 
+ 	fse->min_width = supported_modes[fse->index].width;
+@@ -855,7 +855,7 @@ static void imx258_update_pad_format(const struct imx258_mode *mode,
+ {
+ 	fmt->format.width = mode->width;
+ 	fmt->format.height = mode->height;
+-	fmt->format.code = MEDIA_BUS_FMT_SGRBG10_1X10;
++	fmt->format.code = MEDIA_BUS_FMT_SGBRG10_1X10;
+ 	fmt->format.field = V4L2_FIELD_NONE;
+ }
+ 
+@@ -902,7 +902,7 @@ static int imx258_set_pad_format(struct v4l2_subdev *sd,
+ 	mutex_lock(&imx258->mutex);
+ 
+ 	/* Only one raw bayer(GBRG) order is supported */
+-	fmt->format.code = MEDIA_BUS_FMT_SGRBG10_1X10;
++	fmt->format.code = MEDIA_BUS_FMT_SGBRG10_1X10;
+ 
+ 	mode = v4l2_find_nearest_size(supported_modes,
+ 		ARRAY_SIZE(supported_modes), width, height,
 -- 
-Sincerely yours,
-Mike.
+2.25.1
+
