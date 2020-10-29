@@ -2,129 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A527C29F871
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 23:37:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5239529F8AB
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 23:52:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725775AbgJ2Wgs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 18:36:48 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56704 "EHLO
+        id S1725769AbgJ2Wwf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 18:52:35 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59094 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725379AbgJ2Wgr (ORCPT
+        with ESMTP id S1725379AbgJ2Wwf (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 18:36:47 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13787C0613CF;
-        Thu, 29 Oct 2020 15:36:47 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id h22so1309407wmb.0;
-        Thu, 29 Oct 2020 15:36:46 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=oG1cfKestOZxKNIqNZ2SCpWsI5ep5X6hHqD8Gth13jc=;
-        b=u91qw3/H0n2KkVRNCw7b94Dx+RbTfoLfXhkaI29lg2ez9EFoiEeeGjW9fdx2bvn1WC
-         SFu/OoNjplccRUfPXpzoINf1Sm50cYBUkQ8buOlEv2RusUdkn1puFNY4alaZFkzPq4qV
-         Bq9KASkNXQ2gfMvNvTk5kWZ6wQFue5pjAxYkjdV/FvwqB+rQuLa+Yr4gxtuPKSw+aCOY
-         haBb/PFDdsL7OOKiSal0no7aVkkVAUFQkVjY4/+62LvZyPa+/tCRQ9tRKqm+KpUwRaNP
-         u1LCJhLf+YIoxHBQ9p/Uq7v2jPPEpTXQCtnUsiF3eD5VEzmX5H6rfjkrh5Ge4nGdKawD
-         mFXQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=oG1cfKestOZxKNIqNZ2SCpWsI5ep5X6hHqD8Gth13jc=;
-        b=fTkm57pvOVHi4yiEWAmnLbQ83IMWg5S1B9yttGiWg22ojBbRdxleh6HW1B6DlrikeP
-         Bo4Pa1x4MOW+nGDIDjnrXBbmP/FqIV+nVkQ47Ta5OZJhWnfEz6OO5qUmbrdJAdafL2FJ
-         3rBdoKL9dP8I4etRzKJhc+S50lWzh0qFFGsh/2mfEOuF/FrJi4nSa8cVhvgJonrPy116
-         sYJfYqUM29TAto+nd7n1X4DqzdppbkhTu163yA1rbAUC7hhrmHCTrbPcnnoBInjTLx63
-         oXUA7Ny5VYFkJGEeKtulw8lBc7n/WHxflWimGJxFg9O9RsKQuRty4IlIWpi1TsKHXUEN
-         MbIA==
-X-Gm-Message-State: AOAM533LWaXxosTcPVMmSv52cAg+zXtdRPK3ju5VupW9MuDXtR2F6PEG
-        PlClboAsM8mOvbKaC/d2ZII=
-X-Google-Smtp-Source: ABdhPJzu5RlBXo5XRbxc76r+XFHoj7bOEsEAPBKjGJeWzSOntEwbEiOJYsMzBNTYaAhIbHskSNsL/A==
-X-Received: by 2002:a1c:7d49:: with SMTP id y70mr1163234wmc.103.1604011005634;
-        Thu, 29 Oct 2020 15:36:45 -0700 (PDT)
-Received: from [192.168.1.211] ([2.29.20.56])
-        by smtp.gmail.com with ESMTPSA id l16sm7578299wrx.5.2020.10.29.15.36.44
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2020 15:36:44 -0700 (PDT)
+        Thu, 29 Oct 2020 18:52:35 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B2A2C0613CF;
+        Thu, 29 Oct 2020 15:52:18 -0700 (PDT)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 7963F50E;
+        Thu, 29 Oct 2020 23:52:13 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1604011933;
+        bh=vzSndNEC2+VUkDZk9LxMGrAa8RXHZZppKTDuEiYcZCk=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=ZktCDXVVdoN8DxlaC77AznsLYPn/9Hx06ldF8z7ULe/ZP+AR1hxO+PKXStPS3Zgcz
+         ntNoeqSbaqTCsFMCEPAQaz1WG2RSgQwmOx9RM7X03nJaBSjDGxK9jVAbSDPNDOmayu
+         7eTfoKkE4WvGfj/ukwXsTNfPgEpNLosjVs8lEbqc=
+Date:   Fri, 30 Oct 2020 00:51:24 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Dan Scally <djrscally@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rob Herring <robh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tsuchiya Yuto <kitakar@gmail.com>
 Subject: Re: [RFC PATCH v3 9/9] ipu3-cio2: Add functionality allowing
  software_node connections to sensors on platforms designed for Windows
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        linus.walleij@linaro.org, prabhakar.mahadev-lad.rj@bp.renesas.com,
-        heikki.krogerus@linux.intel.com, dmitry.torokhov@gmail.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
-        robh@kernel.org, davem@davemloft.net, linux@rasmusvillemoes.dk,
-        sergey.senozhatsky@gmail.com, rostedt@goodmis.org,
-        pmladek@suse.com, mchehab@kernel.org, tian.shu.qiu@intel.com,
-        bingbu.cao@intel.com, sakari.ailus@linux.intel.com,
-        yong.zhi@intel.com, rafael@kernel.org, gregkh@linuxfoundation.org,
-        kitakar@gmail.com
+Message-ID: <20201029225124.GI15024@pendragon.ideasonboard.com>
 References: <20201019225903.14276-1-djrscally@gmail.com>
  <20201019225903.14276-10-djrscally@gmail.com>
  <20201024012411.GT5979@pendragon.ideasonboard.com>
  <d188f8b5-ed3b-f91b-171a-26afeb7d213e@gmail.com>
  <20201024093702.GA3939@pendragon.ideasonboard.com>
- <748d34c3-a146-12fe-22c0-8dfef9006ea0@gmail.com>
- <20201024223628.GG3943@pendragon.ideasonboard.com>
- <703d5108-5b10-802d-2bac-c719150430af@gmail.com>
- <20201026160549.GO4077@smile.fi.intel.com>
- <20201029201742.GC15024@pendragon.ideasonboard.com>
-From:   Dan Scally <djrscally@gmail.com>
-Message-ID: <91258d01-7226-880f-1388-02b43a71e0e3@gmail.com>
-Date:   Thu, 29 Oct 2020 22:36:43 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ <20201026161050.GQ4077@smile.fi.intel.com>
+ <20201029201918.GD15024@pendragon.ideasonboard.com>
+ <CAHp75Vc9uYVvhBe3OyCJzCsU0EY9yi62hsxt3pAwppSfjB+jDg@mail.gmail.com>
+ <20201029212930.GE15024@pendragon.ideasonboard.com>
+ <20201029222215.GI4077@smile.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20201029201742.GC15024@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201029222215.GI4077@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi both
+Hi Andy,
 
-On 29/10/2020 20:17, Laurent Pinchart wrote:
-> Hi Andy,
->
-> On Mon, Oct 26, 2020 at 06:05:49PM +0200, Andy Shevchenko wrote:
->> On Mon, Oct 26, 2020 at 08:20:14AM +0000, Dan Scally wrote:
->>> On 24/10/2020 23:36, Laurent Pinchart wrote:
->>>> On Sat, Oct 24, 2020 at 11:28:06PM +0100, Daniel Scally wrote:
->>>>> On 24/10/2020 10:37, Laurent Pinchart wrote:
->>>>>>>> I wonder if we could avoid depending on the I2C device being created by
->>>>>>>> getting the fwnode from adev, and setting ->secondary manually. adev
->>>>>>>> would need to be passed to get_acpi_ssdb_sensor_data() instead of dev.
->>>>>>> Let me try that; I initially wanted to do
->>>>>>> set_secondary_fwnode(&adev->dev, fwnode) to avoid depending on the I2C
->>>>>>> dev being created but it turns out &adev->dev isn't the same pointer. I
->>>>>>> shall try it and see.
->>>>> Actually, thinking on this further I think maybe we can't avoid that -
->>>>> it's not actually in this patch series but during assigning GPIO
->>>>> resources parsed from PMIC's ACPI node to the sensor, I'm using
->>>>> dev_name() on the i2c dev to pass to .dev_id member of gpiod_lookup_table
->>>> Any chance we can construct the I2C device name from the ACPI device,
->>>> the same way that the ACPI/I2C core does ? It may be a dead end, but if
->>>> we could avoid depending on the I2C device, I think it will make
->>>> initialization easier. I have a feeling that will be difficult though,
->>>> as we'll need the I2C bus number, which won't be readily available.
->>> OK yeah; the i2c core does indeed just prefix "i2c-" onto the acpi
->>> device name, so I will make this change too.
->> This is part of the I²C core and if you go this way, do not home grow the
->> functionality that doesn't belong here.
->>
->> Instead, export a helper function that will do it for you and for I²C core with
->> explanation why it's needed.
-> Agreed, I was actually considering suggesting that. Hardcoding the same
-> naming scheme in two places is asking for trouble, especially if we
-> don't let the I2C maintainers know. It should be easy to do, not
-> necessarily the highest priority task, but something that should be
-> handled to get this merged.
-Understood - I'll have a look at the best way to do this once I'm
-through the current to do list
+On Fri, Oct 30, 2020 at 12:22:15AM +0200, Andy Shevchenko wrote:
+> On Thu, Oct 29, 2020 at 11:29:30PM +0200, Laurent Pinchart wrote:
+> > On Thu, Oct 29, 2020 at 10:26:56PM +0200, Andy Shevchenko wrote:
+> > > On Thu, Oct 29, 2020 at 10:21 PM Laurent Pinchart wrote:
+> > > > On Mon, Oct 26, 2020 at 06:10:50PM +0200, Andy Shevchenko wrote:
+> > > > > On Sat, Oct 24, 2020 at 12:37:02PM +0300, Laurent Pinchart wrote:
+> > > > > > On Sat, Oct 24, 2020 at 09:50:07AM +0100, Dan Scally wrote:
+> > > > > > > On 24/10/2020 02:24, Laurent Pinchart wrote:
+> > > > > > > > On Mon, Oct 19, 2020 at 11:59:03PM +0100, Daniel Scally wrote:
+> > > > >
+> > > > > > > >> +              adev = acpi_dev_get_first_match_dev(supported_devices[i], NULL, -1);
+> > > > > > > >
+> > > > > > > > What if there are multiple sensor of the same model ?
+> > > > > > >
+> > > > > > > Hmm, yeah, that would be a bit of a pickle. I guess the newer
+> > > > > > > smartphones have multiple sensors on the back, which I presume are the
+> > > > > > > same model. So that will probably crop up at some point. How about
+> > > > > > > instead I use bus_for_each_dev() and in the applied function check if
+> > > > > > > the _HID is in the supported list?
+> > > > > >
+> > > > > > Sounds good to me.
+> > > > > >
+> > > > > > > >> +              if (!adev)
+> > > > > > > >> +                      continue;
+> > > > >
+> > > > > Please, don't.
+> > > > >
+> > > > > If we have so weird ACPI tables it must be w/a differently. The all, even badly
+> > > > > formed, ACPI tables I have seen so far are using _UID to distinguish instance
+> > > > > of the device (see second parameter to the above function).
+> > > > >
+> > > > > If we meet the very broken table I would like rather to know about, then
+> > > > > silently think ahead what could be best.
+> > > > >
+> > > > > I.o.w. don't change this until we will have a real example of the problematic
+> > > > > firmware.
+> > > >
+> > > > I'm not sure to follow you. Daniel's current code loops over all the
+> > > > supported HID (as stored in the supported_devices table), and then gets
+> > > > the first ACPI device for each of them. If multiple ACPI devices exist
+> > > > with the same HID, we need to handle them all, so enumerating all ACPI
+> > > > devices and checking whether their HID is one we handle seems to be the
+> > > > right option to me.
+> > > 
+> > > Devices with the same HID should be still different by another
+> > > parameter in ACPI. The above mentioned call just uses the rough
+> > > estimation for relaxed conditions. If you expect more than one device
+> > > with the same HID how do you expect to distinguish them? The correct
+> > > way is to use _UID. It may be absent, or set to a value. And this
+> > > value should be unique (as per U letter in UID abbreviation). That
+> > > said, the above is good enough till we find the firmware with the
+> > > above true (several devices with the same HID). Until then the code is
+> > > fine.
+> > 
+> > I expect those devices with the same _HID to have different _UID values,
+> > yes. On the systems I've seen so far, that assumption is not violated,
+> > and I don't think we need to already plan how we will support systems
+> > where multiple devices would have the same _HID and _UID (within the
+> > same scope). There's no disagreement there.
+> > 
+> > My point is that supported_devices stores HID values, and doesn't care
+> > about UID. The code loops over supported_devices, and for each entry,
+> > calls acpi_dev_get_first_match_dev() and process the ACPI devices
+> > returned by that call. We thus process at most one ACPI device per HID,
+> > which isn't right.
+> 
+> In this case we probably need something like
+> 
+> struct acpi_device *
+> acpi_dev_get_next_match_dev(struct acpi_device *adev,
+> 			    const char *hid, const char *uid, s64 hrv)
+> {
+> 	struct device *start = adev ? &adev->dev : NULL;
+> 	...
+> 	dev = bus_find_device(&acpi_bus_type, start, &match, acpi_dev_match_cb);
+> 	...
+> }
+> 
+> in drivers/acpi/utils.c and
+> 
+> static inline struct acpi_device *
+> acpi_dev_get_first_match_dev(const char *hid, const char *uid, s64 hrv)
+> {
+> 	return acpi_dev_get_next_match_dev(NULL, hid, uid, hrv);
+> }
+> 
+> in include/linux/acpi.h.
+> 
+> Then we may add
+> 
+> #define for_each_acpi_dev_match(adev, hid, uid, hrv)			\
+> 	for (adev = acpi_dev_get_first_match_dev(hid, uid, hrv);	\
+> 	     adev;							\
+> 	     adev = acpi_dev_get_next_match_dev(adev, hid, uid, hrv))
+
+What the cio2-bridge code needs is indeed
+
+	for each hid in supported hids:
+		for each acpi device that is compatible with hid:
+			...
+
+which could also be expressed as
+
+	for each acpi device:
+		if acpi device hid is in supported hids:
+			...
+
+I don't mind either option, I'll happily follow the preference of the
+ACPI maintainers.
+
+-- 
+Regards,
+
+Laurent Pinchart
