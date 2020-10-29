@@ -2,99 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DB73429F5C4
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 21:02:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4134729F5CF
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 21:04:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726433AbgJ2UCk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 16:02:40 -0400
-Received: from mga14.intel.com ([192.55.52.115]:14217 "EHLO mga14.intel.com"
+        id S1726356AbgJ2UEa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 16:04:30 -0400
+Received: from mail.kernel.org ([198.145.29.99]:33896 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725797AbgJ2UC1 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 16:02:27 -0400
-IronPort-SDR: Zty4leyIswXrOtoC5AktnaQkslWEVFbZSDhICG8zkb3/vTqbevXLNdqWHwHgYd7oCoztqR19+z
- rQngUwXOXSCA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9789"; a="167720066"
-X-IronPort-AV: E=Sophos;i="5.77,430,1596524400"; 
-   d="scan'208";a="167720066"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2020 13:02:11 -0700
-IronPort-SDR: DepLkMYYq23M3mgSOpDGfiD69nzPIu15qBYB09FLw8PIFxajH1dGkKJLEF5fHw3/YmEB0BcMsN
- CDFXUEIng5kw==
-X-IronPort-AV: E=Sophos;i="5.77,430,1596524400"; 
-   d="scan'208";a="323831074"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2020 13:02:10 -0700
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@intel.com>)
-        id 1kYE8e-001UBn-R6; Thu, 29 Oct 2020 22:03:12 +0200
-Date:   Mon, 26 Oct 2020 18:10:50 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Dan Scally <djrscally@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linus.walleij@linaro.org,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        heikki.krogerus@linux.intel.com, dmitry.torokhov@gmail.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
-        robh@kernel.org, davem@davemloft.net, linux@rasmusvillemoes.dk,
-        sergey.senozhatsky@gmail.com, rostedt@goodmis.org,
-        pmladek@suse.com, mchehab@kernel.org, tian.shu.qiu@intel.com,
-        bingbu.cao@intel.com, sakari.ailus@linux.intel.com,
-        yong.zhi@intel.com, rafael@kernel.org, gregkh@linuxfoundation.org,
-        kitakar@gmail.com
-Subject: Re: [RFC PATCH v3 9/9] ipu3-cio2: Add functionality allowing
- software_node connections to sensors on platforms designed for Windows
-Message-ID: <20201026161050.GQ4077@smile.fi.intel.com>
-References: <20201019225903.14276-1-djrscally@gmail.com>
- <20201019225903.14276-10-djrscally@gmail.com>
- <20201024012411.GT5979@pendragon.ideasonboard.com>
- <d188f8b5-ed3b-f91b-171a-26afeb7d213e@gmail.com>
- <20201024093702.GA3939@pendragon.ideasonboard.com>
+        id S1725780AbgJ2UE3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Oct 2020 16:04:29 -0400
+Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 63E1520809;
+        Thu, 29 Oct 2020 20:04:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604001868;
+        bh=AOvWudq0ZqsWRnN/qXnDh5LtmEQC83i+z8hhzYFp75c=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=E9pSr6O/G6YE5XFNmqJqljbHx3wSzq6bVnhYgluqrf/H7wEGt4aAL9MLa6Ef2g5bE
+         4w5Ruk1xZvDR0sd7whf/fLVhUkTVh6Yvbg+wvF3ZK42Y28B6ivLMgvYklEgjEcZcBs
+         SnRh+ePJ2S1j6tL012nn1pFY9GPKgLLRWuNt5q28=
+Received: by mail-oo1-f52.google.com with SMTP id o129so1018129ooo.11;
+        Thu, 29 Oct 2020 13:04:28 -0700 (PDT)
+X-Gm-Message-State: AOAM533ddLpQ0DP4oum4dl1uU0tdMPjrBnHgvTBuW+dfRdx3iGpHsSNY
+        WfFOajgru19sxhicxDtFJFKG2yxOpL2rK7CgeA==
+X-Google-Smtp-Source: ABdhPJzY69332/TXD/GEbGo1Phdkm8uP9368uPwVctCb5SZBvuiMltO4sKY7UEYa7BklecuGbw5fafj/oTXoXLnSFpE=
+X-Received: by 2002:a4a:dcc8:: with SMTP id h8mr4529803oou.81.1604001867553;
+ Thu, 29 Oct 2020 13:04:27 -0700 (PDT)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201024093702.GA3939@pendragon.ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+References: <20201020193850.1460644-1-helen.koike@collabora.com> <20201020193850.1460644-6-helen.koike@collabora.com>
+In-Reply-To: <20201020193850.1460644-6-helen.koike@collabora.com>
+From:   Rob Herring <robh+dt@kernel.org>
+Date:   Thu, 29 Oct 2020 15:04:16 -0500
+X-Gmail-Original-Message-ID: <CAL_JsqK3xhPHscbB+waDqEjKeRoeZ0MNu88fp70g9CSC02Qopw@mail.gmail.com>
+Message-ID: <CAL_JsqK3xhPHscbB+waDqEjKeRoeZ0MNu88fp70g9CSC02Qopw@mail.gmail.com>
+Subject: Re: [PATCH v6 5/9] media: staging: rkisp1: remove unecessary clocks
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        devicetree@vger.kernel.org,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+        "heiko@sntech.de" <heiko@sntech.de>,
+        Collabora Kernel ML <kernel@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Mark Rutland <mark.rutland@arm.com>, karthik.poduval@gmail.com,
+        Eddie Cai <eddie.cai.linux@gmail.com>,
+        Johan Jonker <jbx6244@gmail.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Robin Murphy <robin.murphy@arm.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Oct 24, 2020 at 12:37:02PM +0300, Laurent Pinchart wrote:
-> On Sat, Oct 24, 2020 at 09:50:07AM +0100, Dan Scally wrote:
-> > On 24/10/2020 02:24, Laurent Pinchart wrote:
-> > > On Mon, Oct 19, 2020 at 11:59:03PM +0100, Daniel Scally wrote:
+On Tue, Oct 20, 2020 at 2:39 PM Helen Koike <helen.koike@collabora.com> wrote:
+>
+> aclk_isp_wrap is a child of aclk_isp, and hclk_isp_wrap is a child of
+> hclk_isp, thus we can remove parents from the list.
+>
+> Also, for the isp0, we only need the ISP clock, ACLK and HCLK.
+> In the future we'll need a pixel clock for RK3288 and RK3399, and a JPEG
+> clock for RK3288.
+>
+> So with the goal to cleanup the dt-bindings and remove it from staging,
+> simplify clock names to isp, aclk and hclk.
+>
+> Assigned clocks are meant to refer to the full path in the clock tree,
+> i.e. the leaf in the tree.
+> For instance, in RK3399, the clock responsible for ACLK (ISP AXI CLOCK)
+> is aclk_isp0_wrapper.
+>
+> For reference, this is the isp clock topology on RK3399:
+>
+>  xin24m
+>     pll_npll
+>        npll
+>           clk_isp1
+>           clk_isp0
+>     pll_cpll
+>        cpll
+>           aclk_isp1
+>              aclk_isp1_noc
+>              hclk_isp1
+>                 aclk_isp1_wrapper
+>                 hclk_isp1_noc
+>           aclk_isp0
+>              hclk_isp1_wrapper
+>              aclk_isp0_wrapper
+>              aclk_isp0_noc
+>              hclk_isp0
+>                 hclk_isp0_wrapper
+>                 hclk_isp0_noc
+>  pclkin_isp1_wrapper
+>
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+>
+> ---
+>
+> Changes in V6:
+> - Define clocks in the top level, and use if/else schema to define how
+>   many for each compatible as sugested by Rob Herring on
+>   https://patchwork.linuxtv.org/project/linux-media/patch/20200722155533.252844-6-helen.koike@collabora.com/#122626
+> ---
+>  .../bindings/media/rockchip-isp1.yaml         | 44 +++++++++++++------
+>  drivers/staging/media/rkisp1/rkisp1-dev.c     |  8 ++--
+>  2 files changed, 33 insertions(+), 19 deletions(-)
 
-> > >> +		adev = acpi_dev_get_first_match_dev(supported_devices[i], NULL, -1);
-> > >
-> > > What if there are multiple sensor of the same model ?
-> > 
-> > Hmm, yeah, that would be a bit of a pickle. I guess the newer
-> > smartphones have multiple sensors on the back, which I presume are the
-> > same model. So that will probably crop up at some point. How about
-> > instead I use bus_for_each_dev() and in the applied function check if
-> > the _HID is in the supported list?
-> 
-> Sounds good to me.
-> 
-> > >> +		if (!adev)
-> > >> +			continue;
-
-Please, don't.
-
-If we have so weird ACPI tables it must be w/a differently. The all, even badly
-formed, ACPI tables I have seen so far are using _UID to distinguish instance
-of the device (see second parameter to the above function).
-
-If we meet the very broken table I would like rather to know about, then
-silently think ahead what could be best.
-
-I.o.w. don't change this until we will have a real example of the problematic
-firmware.
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+Reviewed-by: Rob Herring <robh@kernel.org>
