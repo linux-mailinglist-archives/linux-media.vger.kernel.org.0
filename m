@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B49FA29F1E2
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 17:44:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B03E729F1E4
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 17:44:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727315AbgJ2Qnj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 12:43:39 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52134 "EHLO mail.kernel.org"
+        id S1727363AbgJ2Qno (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 12:43:44 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52230 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727293AbgJ2Qnh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 12:43:37 -0400
+        id S1727293AbgJ2Qnm (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Oct 2020 12:43:42 -0400
 Received: from localhost.localdomain (adsl-84-226-167-205.adslplus.ch [84.226.167.205])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 320B621548;
-        Thu, 29 Oct 2020 16:43:33 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id D296B206F4;
+        Thu, 29 Oct 2020 16:43:37 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603989816;
-        bh=LIRs0Nt888yt2brtcgTrviGruxEU5fhoxGKpmTlYdbY=;
+        s=default; t=1603989821;
+        bh=GSDOjTR7peYfwSlpauy3HGAZKOaKNwfpUcNoAOlkj1I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=mKC3Zm0qWY2C2TwITtMB+sofFHNzL7J0silJg+Tq6ZRUyNQBRQCOX3+0jWDY7yIer
-         yCeZiH/VYlZwYPY8+jI1lGOLSDUZ7Z7Fu+n1i4FMPs60x67drCx6cfqO8vXShNFO9Y
-         Le4mUlO74M4pR12ZANG0f+yH/2syG6XuPvsAEe/8=
+        b=SLWaCB4DlMjUuHn0jZSdm8YgVo6GXkfT/3mZ7STvnJd670wZPkeCoDesbsk3lE9vn
+         gcuorfquBMhdOag0phYBHiQkz49EiPPLUvdBTvFZs3UrsqrkEt6YLb6Ot2/GLiX3ch
+         FwdkHdDLk7mMiVx8gas1pBYtqL2Vh9MF6bnbs+3o=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Pavel Machek <pavel@ucw.cz>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -43,9 +43,9 @@ To:     Pavel Machek <pavel@ucw.cz>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [RESEND PATCH 12/25] media: i2c: dw9768: simplify getting state container
-Date:   Thu, 29 Oct 2020 17:42:26 +0100
-Message-Id: <20201029164239.84240-12-krzk@kernel.org>
+Subject: [RESEND PATCH 13/25] media: i2c: et8ek8: simplify getting state container
+Date:   Thu, 29 Oct 2020 17:42:27 +0100
+Message-Id: <20201029164239.84240-13-krzk@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201029164239.84240-1-krzk@kernel.org>
 References: <20201029164239.84240-1-krzk@kernel.org>
@@ -66,33 +66,42 @@ dereferences.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/media/i2c/dw9768.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/media/i2c/et8ek8/et8ek8_driver.c | 8 +++-----
+ 1 file changed, 3 insertions(+), 5 deletions(-)
 
-diff --git a/drivers/media/i2c/dw9768.c b/drivers/media/i2c/dw9768.c
-index 45cdd924b565..8b8cb4b077b5 100644
---- a/drivers/media/i2c/dw9768.c
-+++ b/drivers/media/i2c/dw9768.c
-@@ -315,8 +315,7 @@ static int dw9768_release(struct dw9768 *dw9768)
+diff --git a/drivers/media/i2c/et8ek8/et8ek8_driver.c b/drivers/media/i2c/et8ek8/et8ek8_driver.c
+index 256acf73d5ea..122af761c8e3 100644
+--- a/drivers/media/i2c/et8ek8/et8ek8_driver.c
++++ b/drivers/media/i2c/et8ek8/et8ek8_driver.c
+@@ -1237,7 +1237,7 @@ static ssize_t
+ et8ek8_priv_mem_read(struct device *dev, struct device_attribute *attr,
+ 		     char *buf)
+ {
+-	struct v4l2_subdev *subdev = i2c_get_clientdata(to_i2c_client(dev));
++	struct v4l2_subdev *subdev = dev_get_drvdata(dev);
+ 	struct et8ek8_sensor *sensor = to_et8ek8_sensor(subdev);
  
- static int dw9768_runtime_suspend(struct device *dev)
+ #if PAGE_SIZE < ET8EK8_PRIV_MEM_SIZE
+@@ -1374,8 +1374,7 @@ static const struct v4l2_subdev_internal_ops et8ek8_internal_ops = {
+  */
+ static int __maybe_unused et8ek8_suspend(struct device *dev)
  {
 -	struct i2c_client *client = to_i2c_client(dev);
--	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct dw9768 *dw9768 = sd_to_dw9768(sd);
+-	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
++	struct v4l2_subdev *subdev = dev_get_drvdata(dev);
+ 	struct et8ek8_sensor *sensor = to_et8ek8_sensor(subdev);
  
- 	dw9768_release(dw9768);
-@@ -328,8 +327,7 @@ static int dw9768_runtime_suspend(struct device *dev)
+ 	if (!sensor->power_count)
+@@ -1386,8 +1385,7 @@ static int __maybe_unused et8ek8_suspend(struct device *dev)
  
- static int dw9768_runtime_resume(struct device *dev)
+ static int __maybe_unused et8ek8_resume(struct device *dev)
  {
 -	struct i2c_client *client = to_i2c_client(dev);
--	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct dw9768 *dw9768 = sd_to_dw9768(sd);
- 	int ret;
+-	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
++	struct v4l2_subdev *subdev = dev_get_drvdata(dev);
+ 	struct et8ek8_sensor *sensor = to_et8ek8_sensor(subdev);
  
+ 	if (!sensor->power_count)
 -- 
 2.25.1
 
