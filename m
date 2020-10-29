@@ -2,147 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFA2D29F163
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 17:27:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7AD229F1C9
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 17:42:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726732AbgJ2Q1Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 12:27:24 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:48560 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725963AbgJ2Q1X (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 12:27:23 -0400
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 72E621F4171E
-Message-ID: <5a653c86f887bf8f3d34c4d620471300b612a4d8.camel@collabora.com>
-Subject: Re: [PATCH 00/18] Add Hantro regmap and VC8000 h264 decode support
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Robin Murphy <robin.murphy@arm.com>,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>
-Cc:     Fruehberger Peter <Peter.Fruehberger@de.bosch.com>,
+        id S1725892AbgJ2Qmw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 12:42:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51242 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725811AbgJ2Qmw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Oct 2020 12:42:52 -0400
+Received: from localhost.localdomain (adsl-84-226-167-205.adslplus.ch [84.226.167.205])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4DDC7206F4;
+        Thu, 29 Oct 2020 16:42:47 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1603989771;
+        bh=rufIZfzUwOusZfJ1S3FbaAtyMqLXFNBtqVRmnNQKp9A=;
+        h=From:To:Cc:Subject:Date:From;
+        b=kIpUB8eIpOBHJ3mcZyOKOz9gfjlmEbM7nNA0P7TO76BruUFneh5kRmB55KrisMZha
+         p/6XZa2/8dIf51hsJbyZnd/VdMtE5xwKWdSVj5JeRdhkUbi180AT+27R/IgIEh5hY9
+         zLRoQLiEP7u3oUNEJUhJNsO19gBeiAzip6QZbx/s=
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Pavel Machek <pavel@ucw.cz>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        Mark Brown <broonie@kernel.org>,
-        kuhanh.murugasen.krishnan@intel.com,
-        Daniel Vetter <daniel@ffwll.ch>, kernel@collabora.com,
-        linux-media@vger.kernel.org
-Date:   Thu, 29 Oct 2020 13:27:08 -0300
-In-Reply-To: <0dd9fb9d-3f33-b9b0-a7a8-6d3111e92d64@arm.com>
-References: <20201012205957.889185-1-adrian.ratiu@collabora.com>
-         <d4d080658113ad97816eda9262736e5fcc7b017c.camel@collabora.com>
-         <0dd9fb9d-3f33-b9b0-a7a8-6d3111e92d64@arm.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3-1 
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Dongchun Zhu <dongchun.zhu@mediatek.com>,
+        Shawn Tu <shawnx.tu@intel.com>,
+        Ricardo Ribalda <ribalda@kernel.org>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Rui Miguel Silva <rmfrfs@gmail.com>,
+        Shunqian Zheng <zhengsq@rock-chips.com>,
+        Chiranjeevi Rapolu <chiranjeevi.rapolu@intel.com>,
+        Hyungwoo Yang <hyungwoo.yang@intel.com>,
+        Wenyou Yang <wenyou.yang@microchip.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+Subject: [RESEND PATCH 01/25] media: i2c: imx214: simplify getting state container
+Date:   Thu, 29 Oct 2020 17:42:15 +0100
+Message-Id: <20201029164239.84240-1-krzk@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Robin,
+The pointer to 'struct v4l2_subdev' is stored in drvdata via
+v4l2_i2c_subdev_init() so there is no point of a dance like:
 
-On Thu, 2020-10-29 at 14:15 +0000, Robin Murphy wrote:
-> On 2020-10-29 13:07, Ezequiel Garcia wrote:
-> > Hello Adrian,
-> > 
-> > On Mon, 2020-10-12 at 23:59 +0300, Adrian Ratiu wrote:
-> > > Dear all,
-> > > 
-> > > This series introduces a regmap infrastructure for the Hantro driver
-> > > which is used to compensate for different HW-revision register layouts.
-> > > To justify it h264 decoding capability is added for newer VC8000 chips.
-> > > 
-> > > This is a gradual conversion to the new infra - a complete conversion
-> > > would have been very big and I do not have all the HW yet to test (I'm
-> > > expecting a RK3399 shipment next week though ;). I think converting the
-> > > h264 decoder provides a nice blueprint for how the other codecs can be
-> > > converted and enabled for different HW revisions.
-> > > 
-> > > The end goal of this is to make the driver more generic and eliminate
-> > > entirely custom boilerplate like `struct hantro_reg` or headers with
-> > > core-specific bit manipulations like `hantro_g1_regs.h` and instead rely
-> > > on the well-tested albeit more verbose regmap subsytem.
-> > > 
-> > > To give just two examples of bugs which are easily discovered by using
-> > > more verbose regmap fields (very easy to compare with the datasheets)
-> > > instead of relying on bit-magic tricks: G1_REG_DEC_CTRL3_INIT_QP(x) was
-> > > off-by-1 and the wrong .clk_gate bit was set in hantro_postproc.c.
-> > > 
-> > > Anyway, this series also extends the MMIO regmap API to allow relaxed
-> > > writes for the theoretical reason that avoiding unnecessary membarriers
-> > > leads to less CPU usage and small improvements to battery life. However,
-> > > in practice I could not measure differences between relaxed/non-relaxed
-> > > IO, so I'm on the fence whether to keep or remove the relaxed calls.
-> > > 
-> > > What I could masure is the performance impact of adding more sub-reg
-> > > field acesses: a constant ~ 20 microsecond bump per G1 h264 frame. This
-> > > is acceptable considering the total time to decode a frame takes three
-> > > orders of magnitude longer, i.e. miliseconds ranges, depending on the
-> > > frame size and bitstream params, so it is an acceptable trade-off to
-> > > have a more generic driver.
-> > > 
-> > 
-> > Before going forward with using regmap, I would like to have a sense
-> > of the footprint it adds, and see if we can avoid that 20 us penalty.
-> > 
-> > I'd also like to try another approach, something that has less
-> > memory footprint and less runtime penalty.
-> > 
-> > How about something like this:
-> > 
-> > #define G1_PIC_WIDTH 4, 0xff8, 23
-> > #define ...
-> >                                   
-> > struct hantro_swreg {
-> >          u32 value[399 /*whatever size goes here*/];
-> > };
-> >                                                                                   
-> > void hantro_reg_write(struct hantro_swreg *r,
-> >                        unsigned int swreg, u32 mask, u32 offset, u32 new_val)
-> > {
-> >          r->value[swreg] = (r->value[swreg] & ~(mask)) |
-> >                            ((new_val << offset) & mask);
-> > }
-> > 
-> > Which you can then use in a very similar way as the current proposal:
-> > 
-> > hantro_reg_write(&swreg, G1_PIC_WIDTH, width);
-> > 
-> > The first advantage here is that we no longer have any
-> > footprint for the fields.
-> > 
-> > The ugly macros for "4, 0xff8, 23" can be auto-generated from
-> > existing vendor headers, when possible, so that shouldn't
-> > bother us.
-> > 
-> > The register set is "flushed" using _relaxed, but it
-> > could be still costly.
-> > 
-> > If that is indeed costly, perhaps we can avoid writing
-> > the entire set by having a dirty bit somewhere.
-> > 
-> > In any case, it's worth exploring our options first, I think.
-> 
-> Or maybe the regmap API itself deserves extending with a "deferred" 
-> operating mode where updates to the cached state can be separated from 
-> committing that state to the underlying hardware.
-> 
-> ...which, after a brief code search out of curiosity, apparently already 
-> exists in the form of regcache_cache_only()/regcache_sync(), so there's 
-> probably no need to reinvent it :)
-> 
+    struct i2c_client *client = to_i2c_client(struct device *dev)
+    struct v4l2_subdev *sd = i2c_get_clientdata(client);
 
-To be fair, and despite it could seem an anti-pattern, this particular
-wheel is so tiny and trivial, that I'm starting to seriously consider
-reinventing it.
+This allows to remove local variable 'client' and few pointer
+dereferences.  White at it, use 'dev' directly instead of 'imx214->dev'.
 
-I've been thinking long about this but just can't seem to see exactly
-what benefit we're getting from using MMIO regmaps here,
-as opposed to just a simple macro with an index, a mask, and an offset.
+Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+---
+ drivers/media/i2c/imx214.c | 16 ++++++----------
+ 1 file changed, 6 insertions(+), 10 deletions(-)
 
-Ezequiel
-
+diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
+index 1ef5af9a8c8b..dc27c3678f18 100644
+--- a/drivers/media/i2c/imx214.c
++++ b/drivers/media/i2c/imx214.c
+@@ -431,14 +431,13 @@ static inline struct imx214 *to_imx214(struct v4l2_subdev *sd)
+ 
+ static int __maybe_unused imx214_power_on(struct device *dev)
+ {
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct imx214 *imx214 = to_imx214(sd);
+ 	int ret;
+ 
+ 	ret = regulator_bulk_enable(IMX214_NUM_SUPPLIES, imx214->supplies);
+ 	if (ret < 0) {
+-		dev_err(imx214->dev, "failed to enable regulators: %d\n", ret);
++		dev_err(dev, "failed to enable regulators: %d\n", ret);
+ 		return ret;
+ 	}
+ 
+@@ -447,7 +446,7 @@ static int __maybe_unused imx214_power_on(struct device *dev)
+ 	ret = clk_prepare_enable(imx214->xclk);
+ 	if (ret < 0) {
+ 		regulator_bulk_disable(IMX214_NUM_SUPPLIES, imx214->supplies);
+-		dev_err(imx214->dev, "clk prepare enable failed\n");
++		dev_err(dev, "clk prepare enable failed\n");
+ 		return ret;
+ 	}
+ 
+@@ -459,8 +458,7 @@ static int __maybe_unused imx214_power_on(struct device *dev)
+ 
+ static int __maybe_unused imx214_power_off(struct device *dev)
+ {
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct imx214 *imx214 = to_imx214(sd);
+ 
+ 	gpiod_set_value_cansleep(imx214->enable_gpio, 0);
+@@ -910,8 +908,7 @@ static int imx214_parse_fwnode(struct device *dev)
+ 
+ static int __maybe_unused imx214_suspend(struct device *dev)
+ {
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct imx214 *imx214 = to_imx214(sd);
+ 
+ 	if (imx214->streaming)
+@@ -922,8 +919,7 @@ static int __maybe_unused imx214_suspend(struct device *dev)
+ 
+ static int __maybe_unused imx214_resume(struct device *dev)
+ {
+-	struct i2c_client *client = to_i2c_client(dev);
+-	struct v4l2_subdev *sd = i2c_get_clientdata(client);
++	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+ 	struct imx214 *imx214 = to_imx214(sd);
+ 	int ret;
+ 
+-- 
+2.25.1
 
