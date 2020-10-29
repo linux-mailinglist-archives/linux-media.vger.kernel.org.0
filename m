@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C09329F1D8
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 17:43:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A348429F1DB
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 17:43:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726790AbgJ2QnW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 12:43:22 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51824 "EHLO mail.kernel.org"
+        id S1727072AbgJ2Qn0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 12:43:26 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51902 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725805AbgJ2QnU (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 12:43:20 -0400
+        id S1727177AbgJ2QnZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Oct 2020 12:43:25 -0400
 Received: from localhost.localdomain (adsl-84-226-167-205.adslplus.ch [84.226.167.205])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 3DC0321548;
-        Thu, 29 Oct 2020 16:43:16 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5D62621582;
+        Thu, 29 Oct 2020 16:43:20 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603989799;
-        bh=5bLbINpg3KaAkH1MQB5b16lyTj6CxApVEoBZlrf1etw=;
+        s=default; t=1603989804;
+        bh=9fPuwg7DNgdETVrJPGqkZie1vv8h93KMLXIhmpA0GmM=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=O5lr8OfrssYk8MvUkl77C8xecQGo+J9jLCmny0QKZwbesuTwhGkocnHTQTZJmwDMg
-         1M7LG4IeggVKG+5KvjJNwbG7AymwchDA6/DfL3E1S9PBosuv81QW7YUAZFb+1Uc9H2
-         pL1L6a282t6CLVbIPFGpjrxMDAfv+K6nW53eQQiY=
+        b=au0Gf/S0F4lSxB/viRxMRgwaCMFOK/YOGC/r5WXPccAOJJinYJlg5GdHgzDv+/joK
+         0Yh1LIoVG3GS2VKEqjJtUci8Rf49j1Q4og7zvz3Ps9dNW4SQFx559qOT4P8RVZB8R5
+         hgKn0QXnVqDfN2AutH3oNOrS1frmV7WGi/SzcVwI=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Pavel Machek <pavel@ucw.cz>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -43,9 +43,9 @@ To:     Pavel Machek <pavel@ucw.cz>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [RESEND PATCH 08/25] media: i2c: ad5820: simplify getting state container
-Date:   Thu, 29 Oct 2020 17:42:22 +0100
-Message-Id: <20201029164239.84240-8-krzk@kernel.org>
+Subject: [RESEND PATCH 09/25] media: i2c: adp1653: simplify getting state container
+Date:   Thu, 29 Oct 2020 17:42:23 +0100
+Message-Id: <20201029164239.84240-9-krzk@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201029164239.84240-1-krzk@kernel.org>
 References: <20201029164239.84240-1-krzk@kernel.org>
@@ -66,33 +66,33 @@ dereferences.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/media/i2c/ad5820.c | 6 ++----
+ drivers/media/i2c/adp1653.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/ad5820.c b/drivers/media/i2c/ad5820.c
-index 19c74db0649f..2958a4694461 100644
---- a/drivers/media/i2c/ad5820.c
-+++ b/drivers/media/i2c/ad5820.c
-@@ -270,8 +270,7 @@ static const struct v4l2_subdev_internal_ops ad5820_internal_ops = {
-  */
- static int __maybe_unused ad5820_suspend(struct device *dev)
+diff --git a/drivers/media/i2c/adp1653.c b/drivers/media/i2c/adp1653.c
+index 694125a59f64..522a0b10e415 100644
+--- a/drivers/media/i2c/adp1653.c
++++ b/drivers/media/i2c/adp1653.c
+@@ -379,8 +379,7 @@ static const struct v4l2_subdev_internal_ops adp1653_internal_ops = {
+ 
+ static int adp1653_suspend(struct device *dev)
  {
--	struct i2c_client *client = container_of(dev, struct i2c_client, dev);
+-	struct i2c_client *client = to_i2c_client(dev);
 -	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
 +	struct v4l2_subdev *subdev = dev_get_drvdata(dev);
- 	struct ad5820_device *coil = to_ad5820_device(subdev);
+ 	struct adp1653_flash *flash = to_adp1653_flash(subdev);
  
- 	if (!coil->power_count)
-@@ -282,8 +281,7 @@ static int __maybe_unused ad5820_suspend(struct device *dev)
+ 	if (!flash->power_count)
+@@ -391,8 +390,7 @@ static int adp1653_suspend(struct device *dev)
  
- static int __maybe_unused ad5820_resume(struct device *dev)
+ static int adp1653_resume(struct device *dev)
  {
--	struct i2c_client *client = container_of(dev, struct i2c_client, dev);
+-	struct i2c_client *client = to_i2c_client(dev);
 -	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
 +	struct v4l2_subdev *subdev = dev_get_drvdata(dev);
- 	struct ad5820_device *coil = to_ad5820_device(subdev);
+ 	struct adp1653_flash *flash = to_adp1653_flash(subdev);
  
- 	if (!coil->power_count)
+ 	if (!flash->power_count)
 -- 
 2.25.1
 
