@@ -2,87 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 349FC29EEB2
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 15:48:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9174C29EEC2
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 15:50:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727365AbgJ2OsX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 10:48:23 -0400
-Received: from mail.kernel.org ([198.145.29.99]:58418 "EHLO mail.kernel.org"
+        id S1727526AbgJ2Ouy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 10:50:54 -0400
+Received: from retiisi.eu ([95.216.213.190]:59088 "EHLO hillosipuli.retiisi.eu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726375AbgJ2OsW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 10:48:22 -0400
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        id S1726521AbgJ2Ouy (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Oct 2020 10:50:54 -0400
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C2207206E3;
-        Thu, 29 Oct 2020 14:48:21 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603982902;
-        bh=1WVgpSeBTg23BnkNEmrqmNenj4irnsi1ikEUl8Vv6Wo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=i4FEJ5HPwWmEOBfL7UrgMlFlHNz8cK6TPZeEdahQV/hnidqkE5aDW1VXDW8bcEZ3k
-         nKSm+dMHUiYT3k+i5SjzOonCiCk9sfD5brDCx7hZ3DWjgJar4/xK7v3nhCd2yp6IXP
-         r8lt84NFqgwlM37J9zt9IN2eSKblG3BWWGdWZvtI=
-Date:   Thu, 29 Oct 2020 14:48:15 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Robin Murphy <robin.murphy@arm.com>
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Fruehberger Peter <Peter.Fruehberger@de.bosch.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        kuhanh.murugasen.krishnan@intel.com,
-        Daniel Vetter <daniel@ffwll.ch>, kernel@collabora.com,
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 41139634C87;
+        Thu, 29 Oct 2020 16:50:12 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1kY9Fl-0001vS-EP; Thu, 29 Oct 2020 16:50:13 +0200
+Date:   Thu, 29 Oct 2020 16:50:13 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Thierry Reding <treding@nvidia.com>,
         linux-media@vger.kernel.org
-Subject: Re: [PATCH 00/18] Add Hantro regmap and VC8000 h264 decode support
-Message-ID: <20201029144815.GA5042@sirena.org.uk>
-References: <20201012205957.889185-1-adrian.ratiu@collabora.com>
- <d4d080658113ad97816eda9262736e5fcc7b017c.camel@collabora.com>
- <0dd9fb9d-3f33-b9b0-a7a8-6d3111e92d64@arm.com>
+Subject: Re: Suggestion regarding x8 gang mode device tree changes
+Message-ID: <20201029145013.GA6899@valkosipuli.retiisi.org.uk>
+References: <e253fee3-5358-aaf1-d317-162dc8e98afc@nvidia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="1yeeQ81UyVL57Vl7"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <0dd9fb9d-3f33-b9b0-a7a8-6d3111e92d64@arm.com>
-X-Cookie: Monotheism is a gift from the gods.
+In-Reply-To: <e253fee3-5358-aaf1-d317-162dc8e98afc@nvidia.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Sowjanya,
 
---1yeeQ81UyVL57Vl7
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+On Wed, Oct 28, 2020 at 06:48:59PM -0700, Sowjanya Komatineni wrote:
+> Hi Sakari,
+> 
+> Missed to add you to below patch series for HDMI2CSI bridge support
+> 
+> https://patchwork.kernel.org/project/linux-media/cover/1603768763-25590-1-git-send-email-skomatineni@nvidia.com/
+> 
+> Patch-10 of this series is for x8 capture from HDMI2CSI bridge.
+> 
+> Would like to get your suggestion on x8 gang/combined ports capture
+> implementation.
 
-On Thu, Oct 29, 2020 at 02:15:10PM +0000, Robin Murphy wrote:
+The majority of CSI-2 receiver devices support partitioning the lanes among
+different PHYs in various ways. They do support usually up to four lanes,
+but adding four more lanes is not a reason for making the API different.
 
-> Or maybe the regmap API itself deserves extending with a "deferred"
-> operating mode where updates to the cached state can be separated from
-> committing that state to the underlying hardware.
+So instead, you should implement this as a single port that simply has 8
+lanes.
 
-> ...which, after a brief code search out of curiosity, apparently already
-> exists in the form of regcache_cache_only()/regcache_sync(), so there's
-> probably no need to reinvent it :)
+-- 
+Kind regards,
 
-Yes, exactly.  One of the big use cases for regmap on MMIO devices is
-being able to access the register map without the hardware being there,
-this would be another application of the cache stuff.
-
---1yeeQ81UyVL57Vl7
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl+a1i8ACgkQJNaLcl1U
-h9Chkgf/YvgbkyG7kUEIq4QfEROF8JYpkMBdUkwEFiZ29CTsLlroKBVQ5tAuawRY
-pfo16Z2PmnfFoxJ8TOXEZgBjCPiKHpaONRLUICnX6eVBYr0toBty+CCxIYLfZZ9n
-LZscGBuAFAwZx6wbsLmnEFUeB5WemZUelSGwPPLg9pf3Q3o/7ujGCd6jRpkcApCf
-RSxUi+wCAWsXA5RV/loCcfnRWPdtcZTH57uUrLtkYblhZXrsvLyijzErixL1Dhdd
-BSOLkG+c4h/Ji2M7QgUYQVbK5Qnt72Q7CotPmJKtGCnjAu/il+uVZGE+SHziWr/r
-f0wS3wW7YIxIpC71JOo48eKTyJrhCQ==
-=FSAs
------END PGP SIGNATURE-----
-
---1yeeQ81UyVL57Vl7--
+Sakari Ailus
