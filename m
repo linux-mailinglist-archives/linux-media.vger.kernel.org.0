@@ -2,202 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C7C729F656
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 21:41:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC10A29F6DE
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 22:30:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726826AbgJ2UlA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 16:41:00 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38736 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726813AbgJ2Uk7 (ORCPT
+        id S1726681AbgJ2VaX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 17:30:23 -0400
+Received: from perceval.ideasonboard.com ([213.167.242.64]:44904 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726618AbgJ2VaW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 16:40:59 -0400
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13879C0613CF
-        for <linux-media@vger.kernel.org>; Thu, 29 Oct 2020 13:31:06 -0700 (PDT)
-Received: by mail-ot1-x341.google.com with SMTP id 32so3580876otm.3
-        for <linux-media@vger.kernel.org>; Thu, 29 Oct 2020 13:31:06 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=kali.org; s=google;
-        h=subject:to:references:from:message-id:date:user-agent:mime-version
-         :in-reply-to:content-transfer-encoding:content-language;
-        bh=UR5Q0rKVUZjqjZjwnrNInjG9jrCLixcHQwLzgr/1Eis=;
-        b=HV9Vy5DGmPZuj3g+adYzUcMkmIcsObWADfy9IOyMUqA81J85Uo3Ty2Bo9eg3i26o2e
-         VIkP/KwY6N2x9aILFnAobvRCThLVfa0To9qUJrvnjHxvjm+YnAU41QjD/2n1Y43t2iAo
-         H617tuMddEvvZcQDir3Fo516PZG87OshVe0Oxbrc9O517qSdg6bA5T1sKDI7KB+CU+mw
-         jOv9kNKGWk4XSzKEF2VQRtHVUifvDdIrNjw3S9Mut/ZhksfEAgL5aAsj5Z2VuQqs7trn
-         8oHkC7SfSvCcui0a/rLmkUYbfJ2/2Cl5J/7gHGZT7kihnSwJeTLrBdtuqClKdjJ/Bhjn
-         nQsw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=UR5Q0rKVUZjqjZjwnrNInjG9jrCLixcHQwLzgr/1Eis=;
-        b=JhEd1T5Z7ZBcph1l7uCJqogO3uKZvog5CFh3eXhXXRRD/8s+J15FCrQWTUMeJiGJ/A
-         oYnq9BaVVZt9iXlxJtl712wJEbh4zxf2apFMOVhSSBIaNXieZeKNfQygb7MgPQoiPoYJ
-         1q0OUKWrNA41m4tIHYjjMNvOGVsJctBavFiAEWtAaKYfUMNRCTpfmJUC4gXJXDojtjgT
-         bFcHRsxAkfvzBmmrv1wY0NQloQdAPMn56jBEubzp3mOo/vxFkUMf1jaKMmCNitcnviEr
-         F8jD0IfMqtE8NdBoyMWakgzSZruwcI0k4RZlyoARQCFQ/j/X/MPL/LWc6/0FsgY8rfGa
-         7YLQ==
-X-Gm-Message-State: AOAM533E99SetpzpVgTATjL6Ql3jakeeKncvv7cdwIulre60KEMoGHYh
-        mDWG6kAb64dBGdmQ2MrxDgfdJw==
-X-Google-Smtp-Source: ABdhPJxVXE0ig9F8lWwLK4LTAPtkSuv1cfubfW6QDWGisnqAKdobrt19osBEbRph4BPo1fWlhr0gMg==
-X-Received: by 2002:a05:6830:1241:: with SMTP id s1mr4415710otp.366.1604003465489;
-        Thu, 29 Oct 2020 13:31:05 -0700 (PDT)
-Received: from Steevs-MBP.hackershack.net (cpe-173-175-113-3.satx.res.rr.com. [173.175.113.3])
-        by smtp.gmail.com with ESMTPSA id z126sm927764oiz.41.2020.10.29.13.31.03
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 29 Oct 2020 13:31:04 -0700 (PDT)
-Subject: Re: [PATCH v2] venus: venc: Fix setting of profile and level
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-References: <20201027091936.14478-1-stanimir.varbanov@linaro.org>
-From:   Steev Klimaszewski <steev@kali.org>
-Message-ID: <b66a9736-e7ec-82d2-8065-d587c379d298@kali.org>
-Date:   Thu, 29 Oct 2020 15:31:02 -0500
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:68.0)
- Gecko/20100101 Thunderbird/68.12.1
+        Thu, 29 Oct 2020 17:30:22 -0400
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2E59350E;
+        Thu, 29 Oct 2020 22:30:19 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1604007019;
+        bh=JupRYDrACxZi2dan1zmzzAPEpNGLOP2kl4V8Z1CAl1Y=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=jLSaTz9MGLOBsTGSgTKiRzQNQQ4raRNFsKtoqW/1yeFhXvxfnA9rvNdeXCp6M8LP+
+         NpVU8ck4UqME9y+0YNdFpqlIjSdEUSd7vhAqy/a1I6uf30CQT9LJPIwQwZCZZt1tZp
+         EmbVy2GHNqS/UeY3fB/iFYsyhwRuJL3HcGAQBC7o=
+Date:   Thu, 29 Oct 2020 23:29:30 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dan Scally <djrscally@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rob Herring <robh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tsuchiya Yuto <kitakar@gmail.com>
+Subject: Re: [RFC PATCH v3 9/9] ipu3-cio2: Add functionality allowing
+ software_node connections to sensors on platforms designed for Windows
+Message-ID: <20201029212930.GE15024@pendragon.ideasonboard.com>
+References: <20201019225903.14276-1-djrscally@gmail.com>
+ <20201019225903.14276-10-djrscally@gmail.com>
+ <20201024012411.GT5979@pendragon.ideasonboard.com>
+ <d188f8b5-ed3b-f91b-171a-26afeb7d213e@gmail.com>
+ <20201024093702.GA3939@pendragon.ideasonboard.com>
+ <20201026161050.GQ4077@smile.fi.intel.com>
+ <20201029201918.GD15024@pendragon.ideasonboard.com>
+ <CAHp75Vc9uYVvhBe3OyCJzCsU0EY9yi62hsxt3pAwppSfjB+jDg@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201027091936.14478-1-stanimir.varbanov@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <CAHp75Vc9uYVvhBe3OyCJzCsU0EY9yi62hsxt3pAwppSfjB+jDg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Thu, Oct 29, 2020 at 10:26:56PM +0200, Andy Shevchenko wrote:
+> On Thu, Oct 29, 2020 at 10:21 PM Laurent Pinchart wrote:
+> > On Mon, Oct 26, 2020 at 06:10:50PM +0200, Andy Shevchenko wrote:
+> > > On Sat, Oct 24, 2020 at 12:37:02PM +0300, Laurent Pinchart wrote:
+> > > > On Sat, Oct 24, 2020 at 09:50:07AM +0100, Dan Scally wrote:
+> > > > > On 24/10/2020 02:24, Laurent Pinchart wrote:
+> > > > > > On Mon, Oct 19, 2020 at 11:59:03PM +0100, Daniel Scally wrote:
+> > >
+> > > > > >> +              adev = acpi_dev_get_first_match_dev(supported_devices[i], NULL, -1);
+> > > > > >
+> > > > > > What if there are multiple sensor of the same model ?
+> > > > >
+> > > > > Hmm, yeah, that would be a bit of a pickle. I guess the newer
+> > > > > smartphones have multiple sensors on the back, which I presume are the
+> > > > > same model. So that will probably crop up at some point. How about
+> > > > > instead I use bus_for_each_dev() and in the applied function check if
+> > > > > the _HID is in the supported list?
+> > > >
+> > > > Sounds good to me.
+> > > >
+> > > > > >> +              if (!adev)
+> > > > > >> +                      continue;
+> > >
+> > > Please, don't.
+> > >
+> > > If we have so weird ACPI tables it must be w/a differently. The all, even badly
+> > > formed, ACPI tables I have seen so far are using _UID to distinguish instance
+> > > of the device (see second parameter to the above function).
+> > >
+> > > If we meet the very broken table I would like rather to know about, then
+> > > silently think ahead what could be best.
+> > >
+> > > I.o.w. don't change this until we will have a real example of the problematic
+> > > firmware.
+> >
+> > I'm not sure to follow you. Daniel's current code loops over all the
+> > supported HID (as stored in the supported_devices table), and then gets
+> > the first ACPI device for each of them. If multiple ACPI devices exist
+> > with the same HID, we need to handle them all, so enumerating all ACPI
+> > devices and checking whether their HID is one we handle seems to be the
+> > right option to me.
+> 
+> Devices with the same HID should be still different by another
+> parameter in ACPI. The above mentioned call just uses the rough
+> estimation for relaxed conditions. If you expect more than one device
+> with the same HID how do you expect to distinguish them? The correct
+> way is to use _UID. It may be absent, or set to a value. And this
+> value should be unique (as per U letter in UID abbreviation). That
+> said, the above is good enough till we find the firmware with the
+> above true (several devices with the same HID). Until then the code is
+> fine.
 
-On 10/27/20 4:19 AM, Stanimir Varbanov wrote:
-> The profile and level in op_set_ctrl was recently changed but during
-> v4l2_ctrl_handler_setup profile and level control values are mangled.
->
-> Fixes: 435c53c3698f ("media: venus: venc: Use helper to set profile and level")
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->
-> v2: Fixed kernel test robot WARNING
->
->  drivers/media/platform/qcom/venus/core.h      | 15 +++++++--
->  drivers/media/platform/qcom/venus/venc.c      | 31 ++++++++++++++++++-
->  .../media/platform/qcom/venus/venc_ctrls.c    | 14 +++++++--
->  3 files changed, 55 insertions(+), 5 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index 7b79a33dc9d6..05c9fbd51f0c 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -243,8 +243,19 @@ struct venc_controls {
->  
->  	u32 header_mode;
->  
-> -	u32 profile;
-> -	u32 level;
-> +	struct {
-> +		u32 h264;
-> +		u32 mpeg4;
-> +		u32 hevc;
-> +		u32 vp8;
-> +		u32 vp9;
-> +	} profile;
-> +	struct {
-> +		u32 h264;
-> +		u32 mpeg4;
-> +		u32 hevc;
-> +		u32 vp9;
-> +	} level;
->  };
->  
->  struct venus_buffer {
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index f8b1484e7dcd..47246528ac7e 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -537,6 +537,7 @@ static int venc_set_properties(struct venus_inst *inst)
->  	struct hfi_quantization quant;
->  	struct hfi_quantization_range quant_range;
->  	u32 ptype, rate_control, bitrate;
-> +	u32 profile, level;
->  	int ret;
->  
->  	ret = venus_helper_set_work_mode(inst, VIDC_WORK_MODE_2);
-> @@ -684,7 +685,35 @@ static int venc_set_properties(struct venus_inst *inst)
->  	if (ret)
->  		return ret;
->  
-> -	ret = venus_helper_set_profile_level(inst, ctr->profile, ctr->level);
-> +	switch (inst->hfi_codec) {
-> +	case HFI_VIDEO_CODEC_H264:
-> +		profile = ctr->profile.h264;
-> +		level = ctr->level.h264;
-> +		break;
-> +	case HFI_VIDEO_CODEC_MPEG4:
-> +		profile = ctr->profile.mpeg4;
-> +		level = ctr->level.mpeg4;
-> +		break;
-> +	case HFI_VIDEO_CODEC_VP8:
-> +		profile = ctr->profile.vp8;
-> +		level = 0;
-> +		break;
-> +	case HFI_VIDEO_CODEC_VP9:
-> +		profile = ctr->profile.vp9;
-> +		level = ctr->level.vp9;
-> +		break;
-> +	case HFI_VIDEO_CODEC_HEVC:
-> +		profile = ctr->profile.hevc;
-> +		level = ctr->level.hevc;
-> +		break;
-> +	case HFI_VIDEO_CODEC_MPEG2:
-> +	default:
-> +		profile = 0;
-> +		level = 0;
-> +		break;
-> +	}
-> +
-> +	ret = venus_helper_set_profile_level(inst, profile, level);
->  	if (ret)
->  		return ret;
->  
-> diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-> index 0708b3b89d0c..cf860e6446c0 100644
-> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-> @@ -103,15 +103,25 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
->  		ctr->h264_entropy_mode = ctrl->val;
->  		break;
->  	case V4L2_CID_MPEG_VIDEO_MPEG4_PROFILE:
-> +		ctr->profile.mpeg4 = ctrl->val;
-> +		break;
->  	case V4L2_CID_MPEG_VIDEO_H264_PROFILE:
-> +		ctr->profile.h264 = ctrl->val;
-> +		break;
->  	case V4L2_CID_MPEG_VIDEO_HEVC_PROFILE:
-> +		ctr->profile.hevc = ctrl->val;
-> +		break;
->  	case V4L2_CID_MPEG_VIDEO_VP8_PROFILE:
-> -		ctr->profile = ctrl->val;
-> +		ctr->profile.vp8 = ctrl->val;
->  		break;
->  	case V4L2_CID_MPEG_VIDEO_MPEG4_LEVEL:
-> +		ctr->level.mpeg4 = ctrl->val;
-> +		break;
->  	case V4L2_CID_MPEG_VIDEO_H264_LEVEL:
-> +		ctr->level.h264 = ctrl->val;
-> +		break;
->  	case V4L2_CID_MPEG_VIDEO_HEVC_LEVEL:
-> -		ctr->level = ctrl->val;
-> +		ctr->level.hevc = ctrl->val;
->  		break;
->  	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_QP:
->  		ctr->h264_i_qp = ctrl->val;
+I expect those devices with the same _HID to have different _UID values,
+yes. On the systems I've seen so far, that assumption is not violated,
+and I don't think we need to already plan how we will support systems
+where multiple devices would have the same _HID and _UID (within the
+same scope). There's no disagreement there.
 
-Hi Stanimir,
+My point is that supported_devices stores HID values, and doesn't care
+about UID. The code loops over supported_devices, and for each entry,
+calls acpi_dev_get_first_match_dev() and process the ACPI devices
+returned by that call. We thus process at most one ACPI device per HID,
+which isn't right.
 
-When I apply this patch on top of my 5.10rc1 tree - (
-https://github.com/steev/linux/commits/c630-5.10-rc1... my c630 no
-longer boots.  Unfortunately... nothing shows up in the logs, and I have
-no idea how to get debug output from the c630. 
+-- 
+Regards,
 
--- Steev
-
+Laurent Pinchart
