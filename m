@@ -2,138 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 487BC29F295
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 18:07:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A6FA429F338
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 18:29:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726513AbgJ2RHq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 13:07:46 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:5549 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726177AbgJ2RHp (ORCPT
+        id S1726755AbgJ2R3w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 13:29:52 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37176 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725730AbgJ2R3w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 13:07:45 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f9af6e40003>; Thu, 29 Oct 2020 10:07:48 -0700
-Received: from [10.2.62.160] (172.20.13.39) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 29 Oct
- 2020 17:07:45 +0000
-Subject: Re: Suggestion regarding x8 gang mode device tree changes
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-CC:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Thierry Reding <treding@nvidia.com>,
-        <linux-media@vger.kernel.org>
-References: <e253fee3-5358-aaf1-d317-162dc8e98afc@nvidia.com>
- <20201029145013.GA6899@valkosipuli.retiisi.org.uk>
- <59f91ac7-84fc-a9fd-e331-35adf4e5f5b9@nvidia.com>
- <2ac2eb3d-32df-a352-3ce5-918ddbf718af@nvidia.com>
- <20201029165245.GB6899@valkosipuli.retiisi.org.uk>
-From:   Sowjanya Komatineni <skomatineni@nvidia.com>
-Message-ID: <542bbb61-049e-85d8-c2d7-9f38e6625b3d@nvidia.com>
-Date:   Thu, 29 Oct 2020 10:07:42 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 29 Oct 2020 13:29:52 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BFB40C0613D5;
+        Thu, 29 Oct 2020 10:29:51 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id k21so1688149wmi.1;
+        Thu, 29 Oct 2020 10:29:51 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tsIIeip0c9OlJdC8NFlOSS5E1Z7oDwE4UBzxXI1dq7s=;
+        b=GbM6ENuT0F23wMLW0DhxPoEL5YTO4sypFhgCg/Cya8YiHIqmjhEvz9a4gyqPbNG4oi
+         9WNEcxOzrjcxV8esnGytuW8318rfFhDdd/8Tc8hpsPepdJ1FH/x8CQfMHQFQDJdPqKMX
+         +hgfeNncnMqxW6CamPNF3/2yW9YoEKbF8rEw/kzyIPQOCNa3Mp9kdePAqHTFLHsoueAa
+         MSq+0DLegSEY3DT1mBOoDew7YFd8NlO3sbToMv3hu92SovAX4MniCJZkVIlWb/DqsnCO
+         CIrjteUgpmRxKphROrGURmyfzoPI09qWT7Ve8tcpGJoSpupgDW2UyvyNshfJ1zhho36C
+         Ms2g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=tsIIeip0c9OlJdC8NFlOSS5E1Z7oDwE4UBzxXI1dq7s=;
+        b=Tml08oooq6VBELs5oOR5r25dfd5NRI/atnPjYd4A7wHtVTMGJsdodjcsFDdtTJpZoy
+         7fGEI93raZUlmkklahI4SjIoPfIgnGYudlB2juh9IZXt3abGqtQ6RJH6g/qcl3mO4xDK
+         vWI6Fn+vUTsvsyqoSyetJIrAaQh8I+n3Ju0AIynHqP/CtVIbeSkqjmeSU/0d7kgP8C0v
+         t0Ugjpk9KtzTfvCpnsapBkDNaqTL58pBTmme1zGqongpYMZNKJ9lAra5tufUbhST8L+A
+         njsJM0Hg0eQwhxNDFbr+NKK+SZ+V38/QjZC7zdjyAMv0xK6uPT88n8tZRfbHiJTqDhJV
+         fyBw==
+X-Gm-Message-State: AOAM5331H5ZTDXS4MT1ogaz+izI8J7ZcnDujQAyzpeD8Ug2IaT0H6bJt
+        NZaIgGKFBeq0BFhWkmn4S4YdNIR6HtP7vE8I
+X-Google-Smtp-Source: ABdhPJzBKlcpXFAQxlmhKefQ9tQW3qGj5R/Jh5QlUeUBoCbKG1Yj4j7c02bQAjc54td9cBzFIPtWWQ==
+X-Received: by 2002:a1c:ddc4:: with SMTP id u187mr961117wmg.156.1603992590441;
+        Thu, 29 Oct 2020 10:29:50 -0700 (PDT)
+Received: from IcarusMOD.eternityproject.eu ([2.237.20.237])
+        by smtp.gmail.com with ESMTPSA id e11sm5866054wrj.75.2020.10.29.10.29.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 29 Oct 2020 10:29:49 -0700 (PDT)
+From:   kholk11@gmail.com
+To:     mchehab@kernel.org
+Cc:     robh+dt@kernel.org, marijns95@gmail.com, konradybcio@gmail.com,
+        martin.botka1@gmail.com, devicetree@vger.kernel.org,
+        linux-media@vger.kernel.org, phone-devel@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        AngeloGioacchino Del Regno <kholk11@gmail.com>
+Subject: [PATCH v2 0/2] Add support for the Sony Exmor-RS IMX300 camera sensor
+Date:   Thu, 29 Oct 2020 18:29:45 +0100
+Message-Id: <20201029172947.34315-1-kholk11@gmail.com>
+X-Mailer: git-send-email 2.28.0
 MIME-Version: 1.0
-In-Reply-To: <20201029165245.GB6899@valkosipuli.retiisi.org.uk>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
-X-Originating-IP: [172.20.13.39]
-X-ClientProxiedBy: HQMAIL107.nvidia.com (172.20.187.13) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1603991268; bh=RzTHfeolkDhQAv2m3eIq4C/ogbzNHSQr0qYAD1rZDEM=;
-        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-         Content-Language:X-Originating-IP:X-ClientProxiedBy;
-        b=IGlbJMVNduZMXzSV1kYUyVlfkfqaPMjIe+duna4KTMro5jNoJTYIvcOYybNqliMc4
-         9mTvrIYmDBIdQ9uYpoY8J7OzIsagvgoZ0pQlXtmjudL26zEvT9nSVY4Q93tkxosxx/
-         UhllQ1A0C4DPkK+nNzLDzs49D81MJEXk1BQvPsOgt34Uhk+dlbeOojr57orew/dCCq
-         /bG3REATWBww11tAAyvxIXo95fOpdw1I2xHOhxPH8XWnxESVxn166CWMOJKJpi5JT1
-         MU7RjPPulWmbMP9pZT4pa13tEWPy7bflY++PP7s/OCU63qxvcrVOhu3AuWvDldqaSB
-         RNBtMUtC2JZCQ==
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: AngeloGioacchino Del Regno <kholk11@gmail.com>
 
-On 10/29/20 9:52 AM, Sakari Ailus wrote:
-> On Thu, Oct 29, 2020 at 09:49:57AM -0700, Sowjanya Komatineni wrote:
->> On 10/29/20 8:36 AM, Sowjanya Komatineni wrote:
->>> On 10/29/20 7:50 AM, Sakari Ailus wrote:
->>>> Hi Sowjanya,
->>>>
->>>> On Wed, Oct 28, 2020 at 06:48:59PM -0700, Sowjanya Komatineni wrote:
->>>>> Hi Sakari,
->>>>>
->>>>> Missed to add you to below patch series for HDMI2CSI bridge support
->>>>>
->>>>> https://patchwork.kernel.org/project/linux-media/cover/1603768763-25590-1-git-send-email-skomatineni@nvidia.com/
->>>>>
->>>>>
->>>>> Patch-10 of this series is for x8 capture from HDMI2CSI bridge.
->>>>>
->>>>> Would like to get your suggestion on x8 gang/combined ports capture
->>>>> implementation.
->>>> The majority of CSI-2 receiver devices support partitioning the
->>>> lanes among
->>>> different PHYs in various ways. They do support usually up to four
->>>> lanes,
->>>> but adding four more lanes is not a reason for making the API different.
->>>>
->>>> So instead, you should implement this as a single port that simply has 8
->>>> lanes.
->>>>
->>> Thanks Sakari for your reply.
->>>
->>> current v2 series treats as 8 lanes. You mean to not expose 2nd port in
->>> device tree as VI/CSI side takes care of 2nd port as combined to treat
->>> as 8 lane?
-> Correct.
->
-> Although you can have the second port connected if fewer lanes are assigned
-> to the first one.
->
-> How does it work for this device, are the lanes statically allocated to
-> ports, apart from the special 8 lane mode?
+This patch series adds support for the IMX300 camera sensor, (one of the)
+first Exmor-RS Stacked CMOS sensor(s), with support for both of the
+supported aspect ratios (4:3 and 16:9).
+This driver came out from reverse engineering of so called "userspace
+drivers" from Sony Xperia smartphones.
 
-Tegra CSI each port supports max 4 lanes. For x8, 2 x4 ports together 
-are programmed for simultaneous streaming during the same video/subdev 
-stream ops.
+I tried to document all of my findings and giving a sense to the registers
+as much as possible, but that was only partially possible and resembles
+some names from the IMX219 public datasheet, even though the addresses are
+basically completely different.
 
-Physically, CSI RX side 4 lanes goes to x4 port and other 4 lanes goes 
-to another x4 port.
+This camera sensor driver was tested with all the resolutions declared in
+it on two phones: Sony Xperia XA2 and XA2 Ultra, on a SDM630 SoC (camss
+patches for this SoC will come in a later series) and is working great.
 
-HDMI Bridge TX0 -> CSI RX0 (x4 port)
+- Changes in v2:
+  - Changed dt-binding name and fixed a misconception about lane
+    operation (sensor supports 2/4-Lane, driver supports 4-Lane only)
+  - Now using lowercase names for regulator supplies
+  - Fixed redefinition of clock-noncontinuous property
+  - Added informations about constraints on data bus frequencies
+  - Fixed MAINTAINERS: removed git tree
 
-HDMI Bridge TX1 -> CSI RX1 (x4 port)
+AngeloGioacchino Del Regno (2):
+  media: i2c: Add driver for the Sony Exmor-RS IMX300 camera sensor
+  media: dt-bindings: media: i2c: Add IMX300 CMOS sensor binding
 
-HDMI bridge side single image is split into 2 x4 ports and on RX side 
-image from both ports are captured simultaneously with buffer offsets 
-adjusted side-by-side to get combined image for same video buf of video 
-device.
+ .../bindings/media/i2c/sony,imx300.yaml       |  112 +
+ MAINTAINERS                                   |    7 +
+ drivers/media/i2c/Kconfig                     |   13 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/imx300.c                    | 3089 +++++++++++++++++
+ 5 files changed, 3222 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx300.yaml
+ create mode 100644 drivers/media/i2c/imx300.c
 
-Both these 2 x4 ports together are used for streaming by Tegra VI and 
-buffer offsets are adjusted side by side for these ports and for video 
-device node stream, its single buffer which contains combined image from 
-capture.
-
->> AS csi2 bus type supports max 4 data lanes with endpoint parse API.
->>
->> Currently with x8 as single port, I am using bus-width with bus type as
->> parallel in device tree and when using x4 using data-lanes with csi2 bus
->> type and driver gets lanes based on either of this from DT.
->>
->> Instead should we update endpoint parse API for max up to 8 lanes for
->> data-lanes?
-> Yes, please. Could you send a patch?
->
-> The standard AFAIK supports up to four lanes but as we know, hardware
-> sometimes has more than that.
-
-Sure once Hans also agrees with this to have it as single x8 port (just 
-like I have now in v2), will send v3 to update endpoint parse to allow 
-upto max 8 data-lanes and will also update Tegra CSI driver accordingly 
-to retrieve lanes using csi2 bus type.
-
-Hans, Please confirm if you agree with this.
+-- 
+2.28.0
 
