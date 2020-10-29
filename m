@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BBFF29F1E6
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 17:44:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 978E629F1E8
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 17:44:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727382AbgJ2Qnr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 12:43:47 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52338 "EHLO mail.kernel.org"
+        id S1727373AbgJ2Qnw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 12:43:52 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52456 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727373AbgJ2Qnq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 12:43:46 -0400
+        id S1727079AbgJ2Qnv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Oct 2020 12:43:51 -0400
 Received: from localhost.localdomain (adsl-84-226-167-205.adslplus.ch [84.226.167.205])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id F0C8221534;
-        Thu, 29 Oct 2020 16:43:41 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 18B5721481;
+        Thu, 29 Oct 2020 16:43:45 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603989825;
-        bh=z8mPm98zLHjmSrGnZuAlqb0wRBU2ISL59+ICg2rKfmE=;
+        s=default; t=1603989830;
+        bh=6mIHa/ObVyPo2R/u+eryKdODkXE97s7lir+Hh6dLp9I=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=zeGydGcPTeBfHmU/cvkwDiDWGeN25ToabQ9DH/6KZEpVtcevLct7EiR9JQTaq+MkD
-         zNI2ZLOirhRuaHe1DAqdiBEPbrZFzpyQQQtIjqy+KmEOW/JNx+GhEwes3ResQIsROS
-         GOuSmK4cTbsBHV7pItrUfNMdj+1UnoujNkizUdfg=
+        b=m4hbIaDJE9digDF+r1MaUhczhUrRZoYSUwC56+Nr2KYzFydge2S3HIhvHLwQmiQQo
+         FelxSebQLoKAFy8PSxJvfzJBH9kfFY2ugr1vI0z0Cd35RlzSgtGqauEu4dCRK7/ZVk
+         TP9DUvjDZnXQ1P4cnZ0oJ/Ru2UE4HY7kOpu3CFuE=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Pavel Machek <pavel@ucw.cz>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -43,9 +43,9 @@ To:     Pavel Machek <pavel@ucw.cz>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [RESEND PATCH 14/25] media: i2c: hi556: simplify getting state container
-Date:   Thu, 29 Oct 2020 17:42:28 +0100
-Message-Id: <20201029164239.84240-14-krzk@kernel.org>
+Subject: [RESEND PATCH 15/25] media: i2c: ov13858: simplify getting state container
+Date:   Thu, 29 Oct 2020 17:42:29 +0100
+Message-Id: <20201029164239.84240-15-krzk@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201029164239.84240-1-krzk@kernel.org>
 References: <20201029164239.84240-1-krzk@kernel.org>
@@ -66,31 +66,31 @@ dereferences.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/media/i2c/hi556.c | 6 ++----
+ drivers/media/i2c/ov13858.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/hi556.c b/drivers/media/i2c/hi556.c
-index c66cd1446c0f..c74736845d7a 100644
---- a/drivers/media/i2c/hi556.c
-+++ b/drivers/media/i2c/hi556.c
-@@ -839,8 +839,7 @@ static int hi556_set_stream(struct v4l2_subdev *sd, int enable)
+diff --git a/drivers/media/i2c/ov13858.c b/drivers/media/i2c/ov13858.c
+index 236ad2c816b7..2f3be7a80cef 100644
+--- a/drivers/media/i2c/ov13858.c
++++ b/drivers/media/i2c/ov13858.c
+@@ -1505,8 +1505,7 @@ static int ov13858_set_stream(struct v4l2_subdev *sd, int enable)
  
- static int __maybe_unused hi556_suspend(struct device *dev)
+ static int __maybe_unused ov13858_suspend(struct device *dev)
  {
 -	struct i2c_client *client = to_i2c_client(dev);
 -	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct hi556 *hi556 = to_hi556(sd);
+ 	struct ov13858 *ov13858 = to_ov13858(sd);
  
- 	mutex_lock(&hi556->mutex);
-@@ -854,8 +853,7 @@ static int __maybe_unused hi556_suspend(struct device *dev)
+ 	if (ov13858->streaming)
+@@ -1517,8 +1516,7 @@ static int __maybe_unused ov13858_suspend(struct device *dev)
  
- static int __maybe_unused hi556_resume(struct device *dev)
+ static int __maybe_unused ov13858_resume(struct device *dev)
  {
 -	struct i2c_client *client = to_i2c_client(dev);
 -	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct hi556 *hi556 = to_hi556(sd);
+ 	struct ov13858 *ov13858 = to_ov13858(sd);
  	int ret;
  
 -- 
