@@ -2,27 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B836D29F608
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 21:18:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C8BB29F616
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 21:20:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726244AbgJ2USe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 16:18:34 -0400
-Received: from perceval.ideasonboard.com ([213.167.242.64]:44338 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726356AbgJ2USe (ORCPT
+        id S1726510AbgJ2UUL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 16:20:11 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35478 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725780AbgJ2UUL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 16:18:34 -0400
+        Thu, 29 Oct 2020 16:20:11 -0400
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FBB7C0613CF;
+        Thu, 29 Oct 2020 13:20:11 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F35F950E;
-        Thu, 29 Oct 2020 21:18:30 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5607C50E;
+        Thu, 29 Oct 2020 21:20:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1604002711;
-        bh=YRh2kGEjFGrWtSwafy+qlT89Y5Wz7S+SFQZBQwkgXcM=;
+        s=mail; t=1604002807;
+        bh=UnhjckKFeRuTtIPfUUDicRD7MhuMU9sCDF/lmZTn8H4=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=iVHT4pweTbPB0RDbrOiFDF5OpxFsmHRa1IxBlObst/CLgLu/W1OTfNGWLPP1QHmeB
-         4l+aJQ15conIGD+IU+fX/4Nuw2ZoyqV9MjYrTMBg+yWIF9qXGqVrlobCfuFQoceBxe
-         g61QEVA2l/LSGjiZA5O9IkY0vz/0xV7Lyds6aBig=
-Date:   Thu, 29 Oct 2020 22:17:42 +0200
+        b=GG9I+74YilJnDHsYvkBlLyd/uMoNuqRTc2Cid3UkxrfANFAlXBrotpdHQb1czjnSH
+         aisCQjtc/GCJmkVSEAr+bfgSnjdfnVjEWO2iZpcjZt5mtCeSs7BU8sf70IFh1XT8Iu
+         4QFCAhncFFHa0r43HYachb741GgJ3WZ/gGDMbV+g=
+Date:   Thu, 29 Oct 2020 22:19:18 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
 Cc:     Dan Scally <djrscally@gmail.com>, linux-kernel@vger.kernel.org,
@@ -39,66 +42,62 @@ Cc:     Dan Scally <djrscally@gmail.com>, linux-kernel@vger.kernel.org,
         kitakar@gmail.com
 Subject: Re: [RFC PATCH v3 9/9] ipu3-cio2: Add functionality allowing
  software_node connections to sensors on platforms designed for Windows
-Message-ID: <20201029201742.GC15024@pendragon.ideasonboard.com>
+Message-ID: <20201029201918.GD15024@pendragon.ideasonboard.com>
 References: <20201019225903.14276-1-djrscally@gmail.com>
  <20201019225903.14276-10-djrscally@gmail.com>
  <20201024012411.GT5979@pendragon.ideasonboard.com>
  <d188f8b5-ed3b-f91b-171a-26afeb7d213e@gmail.com>
  <20201024093702.GA3939@pendragon.ideasonboard.com>
- <748d34c3-a146-12fe-22c0-8dfef9006ea0@gmail.com>
- <20201024223628.GG3943@pendragon.ideasonboard.com>
- <703d5108-5b10-802d-2bac-c719150430af@gmail.com>
- <20201026160549.GO4077@smile.fi.intel.com>
+ <20201026161050.GQ4077@smile.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201026160549.GO4077@smile.fi.intel.com>
+In-Reply-To: <20201026161050.GQ4077@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Andy,
 
-On Mon, Oct 26, 2020 at 06:05:49PM +0200, Andy Shevchenko wrote:
-> On Mon, Oct 26, 2020 at 08:20:14AM +0000, Dan Scally wrote:
-> > On 24/10/2020 23:36, Laurent Pinchart wrote:
-> > > On Sat, Oct 24, 2020 at 11:28:06PM +0100, Daniel Scally wrote:
-> > >> On 24/10/2020 10:37, Laurent Pinchart wrote:
-> > >>>>> I wonder if we could avoid depending on the I2C device being created by
-> > >>>>> getting the fwnode from adev, and setting ->secondary manually. adev
-> > >>>>> would need to be passed to get_acpi_ssdb_sensor_data() instead of dev.
-> > >>>>
-> > >>>> Let me try that; I initially wanted to do
-> > >>>> set_secondary_fwnode(&adev->dev, fwnode) to avoid depending on the I2C
-> > >>>> dev being created but it turns out &adev->dev isn't the same pointer. I
-> > >>>> shall try it and see.
-> > >>
-> > >> Actually, thinking on this further I think maybe we can't avoid that -
-> > >> it's not actually in this patch series but during assigning GPIO
-> > >> resources parsed from PMIC's ACPI node to the sensor, I'm using
-> > >> dev_name() on the i2c dev to pass to .dev_id member of gpiod_lookup_table
-> > >
-> > > Any chance we can construct the I2C device name from the ACPI device,
-> > > the same way that the ACPI/I2C core does ? It may be a dead end, but if
-> > > we could avoid depending on the I2C device, I think it will make
-> > > initialization easier. I have a feeling that will be difficult though,
-> > > as we'll need the I2C bus number, which won't be readily available.
-> >
-> > OK yeah; the i2c core does indeed just prefix "i2c-" onto the acpi
-> > device name, so I will make this change too.
+On Mon, Oct 26, 2020 at 06:10:50PM +0200, Andy Shevchenko wrote:
+> On Sat, Oct 24, 2020 at 12:37:02PM +0300, Laurent Pinchart wrote:
+> > On Sat, Oct 24, 2020 at 09:50:07AM +0100, Dan Scally wrote:
+> > > On 24/10/2020 02:24, Laurent Pinchart wrote:
+> > > > On Mon, Oct 19, 2020 at 11:59:03PM +0100, Daniel Scally wrote:
 > 
-> This is part of the I²C core and if you go this way, do not home grow the
-> functionality that doesn't belong here.
+> > > >> +		adev = acpi_dev_get_first_match_dev(supported_devices[i], NULL, -1);
+> > > >
+> > > > What if there are multiple sensor of the same model ?
+> > > 
+> > > Hmm, yeah, that would be a bit of a pickle. I guess the newer
+> > > smartphones have multiple sensors on the back, which I presume are the
+> > > same model. So that will probably crop up at some point. How about
+> > > instead I use bus_for_each_dev() and in the applied function check if
+> > > the _HID is in the supported list?
+> > 
+> > Sounds good to me.
+> > 
+> > > >> +		if (!adev)
+> > > >> +			continue;
 > 
-> Instead, export a helper function that will do it for you and for I²C core with
-> explanation why it's needed.
+> Please, don't.
+> 
+> If we have so weird ACPI tables it must be w/a differently. The all, even badly
+> formed, ACPI tables I have seen so far are using _UID to distinguish instance
+> of the device (see second parameter to the above function).
+> 
+> If we meet the very broken table I would like rather to know about, then
+> silently think ahead what could be best.
+> 
+> I.o.w. don't change this until we will have a real example of the problematic
+> firmware.
 
-Agreed, I was actually considering suggesting that. Hardcoding the same
-naming scheme in two places is asking for trouble, especially if we
-don't let the I2C maintainers know. It should be easy to do, not
-necessarily the highest priority task, but something that should be
-handled to get this merged.
+I'm not sure to follow you. Daniel's current code loops over all the
+supported HID (as stored in the supported_devices table), and then gets
+the first ACPI device for each of them. If multiple ACPI devices exist
+with the same HID, we need to handle them all, so enumerating all ACPI
+devices and checking whether their HID is one we handle seems to be the
+right option to me.
 
 -- 
 Regards,
