@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 92D7429F1EC
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 17:44:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8F2CC29F1EE
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 17:44:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727562AbgJ2QoB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 12:44:01 -0400
-Received: from mail.kernel.org ([198.145.29.99]:52678 "EHLO mail.kernel.org"
+        id S1727533AbgJ2QoE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 12:44:04 -0400
+Received: from mail.kernel.org ([198.145.29.99]:52776 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727000AbgJ2Qn7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 12:43:59 -0400
+        id S1727000AbgJ2QoD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Oct 2020 12:44:03 -0400
 Received: from localhost.localdomain (adsl-84-226-167-205.adslplus.ch [84.226.167.205])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D765C20EDD;
-        Thu, 29 Oct 2020 16:43:54 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 04F8F21534;
+        Thu, 29 Oct 2020 16:43:58 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603989838;
-        bh=yn+fZIJ73/uxpxzu+DIH9FgNN9ZUes6fMN5U/XX2iUs=;
+        s=default; t=1603989842;
+        bh=SuIt2NTYlEXZUbdtnMvc08ktKW1WSPW8+MTUSEIg4Hk=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Kf0OxlnjX6t0W5XG3QyV5/ylGzKpQuxxZt9J43hbcp3xga58Cw5+W5LYeMYpEycrR
-         oKIoEoOrg5B+9hWla2LLhZkPs5WkFs7oKjwUDpkD/l2KCfo/Es+qJs/E3cYwYfyUxQ
-         ynqj1asFtnKsOHyGjQQ2u7FRe4IGiAay/ku4r1tM=
+        b=YhxTLC2h2Yv/HkDlinA1h5mUb4sopYz3JH0d82pcvu1yyQmVjGG/wL8Qh4LniHtNF
+         bPg0KI95kyqsI1IYDKCpfY+rnzha06gujpUtmgWAjJ0o2Z1yV/qCj9y4QDnrmukb3U
+         xKIEa1ovfk0O3tU39aGbHPElRu9p3yR2H90p9npk=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Pavel Machek <pavel@ucw.cz>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -43,9 +43,9 @@ To:     Pavel Machek <pavel@ucw.cz>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [RESEND PATCH 17/25] media: i2c: ov2685: simplify getting state container
-Date:   Thu, 29 Oct 2020 17:42:31 +0100
-Message-Id: <20201029164239.84240-17-krzk@kernel.org>
+Subject: [RESEND PATCH 18/25] media: i2c: ov2740: simplify getting state container
+Date:   Thu, 29 Oct 2020 17:42:32 +0100
+Message-Id: <20201029164239.84240-18-krzk@kernel.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201029164239.84240-1-krzk@kernel.org>
 References: <20201029164239.84240-1-krzk@kernel.org>
@@ -66,33 +66,33 @@ dereferences.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/media/i2c/ov2685.c | 6 ++----
+ drivers/media/i2c/ov2740.c | 6 ++----
  1 file changed, 2 insertions(+), 4 deletions(-)
 
-diff --git a/drivers/media/i2c/ov2685.c b/drivers/media/i2c/ov2685.c
-index 6814583d9606..49a2dcedb347 100644
---- a/drivers/media/i2c/ov2685.c
-+++ b/drivers/media/i2c/ov2685.c
-@@ -506,8 +506,7 @@ static int ov2685_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+index bd0d45b0d43f..0d32b0c0ca11 100644
+--- a/drivers/media/i2c/ov2740.c
++++ b/drivers/media/i2c/ov2740.c
+@@ -674,8 +674,7 @@ static int ov2740_set_stream(struct v4l2_subdev *sd, int enable)
  
- static int __maybe_unused ov2685_runtime_resume(struct device *dev)
+ static int __maybe_unused ov2740_suspend(struct device *dev)
  {
 -	struct i2c_client *client = to_i2c_client(dev);
 -	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct ov2685 *ov2685 = to_ov2685(sd);
+ 	struct ov2740 *ov2740 = to_ov2740(sd);
  
- 	return __ov2685_power_on(ov2685);
-@@ -515,8 +514,7 @@ static int __maybe_unused ov2685_runtime_resume(struct device *dev)
+ 	mutex_lock(&ov2740->mutex);
+@@ -689,8 +688,7 @@ static int __maybe_unused ov2740_suspend(struct device *dev)
  
- static int __maybe_unused ov2685_runtime_suspend(struct device *dev)
+ static int __maybe_unused ov2740_resume(struct device *dev)
  {
 -	struct i2c_client *client = to_i2c_client(dev);
 -	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct ov2685 *ov2685 = to_ov2685(sd);
+ 	struct ov2740 *ov2740 = to_ov2740(sd);
+ 	int ret = 0;
  
- 	__ov2685_power_off(ov2685);
 -- 
 2.25.1
 
