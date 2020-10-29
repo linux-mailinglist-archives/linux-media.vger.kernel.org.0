@@ -2,114 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4134729F5CF
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 21:04:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72B9029F5F2
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 21:15:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726356AbgJ2UEa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 16:04:30 -0400
-Received: from mail.kernel.org ([198.145.29.99]:33896 "EHLO mail.kernel.org"
+        id S1726431AbgJ2UP6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 16:15:58 -0400
+Received: from mga05.intel.com ([192.55.52.43]:30164 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725780AbgJ2UE3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 16:04:29 -0400
-Received: from mail-oo1-f52.google.com (mail-oo1-f52.google.com [209.85.161.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 63E1520809;
-        Thu, 29 Oct 2020 20:04:28 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604001868;
-        bh=AOvWudq0ZqsWRnN/qXnDh5LtmEQC83i+z8hhzYFp75c=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=E9pSr6O/G6YE5XFNmqJqljbHx3wSzq6bVnhYgluqrf/H7wEGt4aAL9MLa6Ef2g5bE
-         4w5Ruk1xZvDR0sd7whf/fLVhUkTVh6Yvbg+wvF3ZK42Y28B6ivLMgvYklEgjEcZcBs
-         SnRh+ePJ2S1j6tL012nn1pFY9GPKgLLRWuNt5q28=
-Received: by mail-oo1-f52.google.com with SMTP id o129so1018129ooo.11;
-        Thu, 29 Oct 2020 13:04:28 -0700 (PDT)
-X-Gm-Message-State: AOAM533ddLpQ0DP4oum4dl1uU0tdMPjrBnHgvTBuW+dfRdx3iGpHsSNY
-        WfFOajgru19sxhicxDtFJFKG2yxOpL2rK7CgeA==
-X-Google-Smtp-Source: ABdhPJzY69332/TXD/GEbGo1Phdkm8uP9368uPwVctCb5SZBvuiMltO4sKY7UEYa7BklecuGbw5fafj/oTXoXLnSFpE=
-X-Received: by 2002:a4a:dcc8:: with SMTP id h8mr4529803oou.81.1604001867553;
- Thu, 29 Oct 2020 13:04:27 -0700 (PDT)
+        id S1725764AbgJ2UP5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Oct 2020 16:15:57 -0400
+IronPort-SDR: 7CzOlBksGdLgrkpY+p/IbsbL7JyV9GgkmMNq6vRTrBsees/oW2iVHaKFlGpKIxkfF0GVnuIYUM
+ uGvLEmm+Pprw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9789"; a="253211674"
+X-IronPort-AV: E=Sophos;i="5.77,430,1596524400"; 
+   d="scan'208";a="253211674"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2020 13:15:57 -0700
+IronPort-SDR: 5rwPAQmFu/tcMt34v9+hKKc8LaC9nTkj9uTIQdHTdIIVH7inkJx7j5fDM1jWpntjlPWwULerth
+ eNcQ7ox/TqvA==
+X-IronPort-AV: E=Sophos;i="5.77,430,1596524400"; 
+   d="scan'208";a="319084089"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 29 Oct 2020 13:15:55 -0700
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kYELx-001UeA-Cf; Thu, 29 Oct 2020 22:16:57 +0200
+Date:   Thu, 29 Oct 2020 22:16:57 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bingbu Cao <bingbu.cao@linux.intel.com>
+Cc:     Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>, linux-media@vger.kernel.org,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Subject: Re: [PATCH v1] media: ipu3-cio2: Use macros from mm.h
+Message-ID: <20201029201657.GE4077@smile.fi.intel.com>
 MIME-Version: 1.0
-References: <20201020193850.1460644-1-helen.koike@collabora.com> <20201020193850.1460644-6-helen.koike@collabora.com>
-In-Reply-To: <20201020193850.1460644-6-helen.koike@collabora.com>
-From:   Rob Herring <robh+dt@kernel.org>
-Date:   Thu, 29 Oct 2020 15:04:16 -0500
-X-Gmail-Original-Message-ID: <CAL_JsqK3xhPHscbB+waDqEjKeRoeZ0MNu88fp70g9CSC02Qopw@mail.gmail.com>
-Message-ID: <CAL_JsqK3xhPHscbB+waDqEjKeRoeZ0MNu88fp70g9CSC02Qopw@mail.gmail.com>
-Subject: Re: [PATCH v6 5/9] media: staging: rkisp1: remove unecessary clocks
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        devicetree@vger.kernel.org,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
-        "heiko@sntech.de" <heiko@sntech.de>,
-        Collabora Kernel ML <kernel@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Mark Rutland <mark.rutland@arm.com>, karthik.poduval@gmail.com,
-        Eddie Cai <eddie.cai.linux@gmail.com>,
-        Johan Jonker <jbx6244@gmail.com>,
-        Shunqian Zheng <zhengsq@rock-chips.com>,
-        Robin Murphy <robin.murphy@arm.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Oct 20, 2020 at 2:39 PM Helen Koike <helen.koike@collabora.com> wrote:
->
-> aclk_isp_wrap is a child of aclk_isp, and hclk_isp_wrap is a child of
-> hclk_isp, thus we can remove parents from the list.
->
-> Also, for the isp0, we only need the ISP clock, ACLK and HCLK.
-> In the future we'll need a pixel clock for RK3288 and RK3399, and a JPEG
-> clock for RK3288.
->
-> So with the goal to cleanup the dt-bindings and remove it from staging,
-> simplify clock names to isp, aclk and hclk.
->
-> Assigned clocks are meant to refer to the full path in the clock tree,
-> i.e. the leaf in the tree.
-> For instance, in RK3399, the clock responsible for ACLK (ISP AXI CLOCK)
-> is aclk_isp0_wrapper.
->
-> For reference, this is the isp clock topology on RK3399:
->
->  xin24m
->     pll_npll
->        npll
->           clk_isp1
->           clk_isp0
->     pll_cpll
->        cpll
->           aclk_isp1
->              aclk_isp1_noc
->              hclk_isp1
->                 aclk_isp1_wrapper
->                 hclk_isp1_noc
->           aclk_isp0
->              hclk_isp1_wrapper
->              aclk_isp0_wrapper
->              aclk_isp0_noc
->              hclk_isp0
->                 hclk_isp0_wrapper
->                 hclk_isp0_noc
->  pclkin_isp1_wrapper
->
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
->
-> ---
->
-> Changes in V6:
-> - Define clocks in the top level, and use if/else schema to define how
->   many for each compatible as sugested by Rob Herring on
->   https://patchwork.linuxtv.org/project/linux-media/patch/20200722155533.252844-6-helen.koike@collabora.com/#122626
-> ---
->  .../bindings/media/rockchip-isp1.yaml         | 44 +++++++++++++------
->  drivers/staging/media/rkisp1/rkisp1-dev.c     |  8 ++--
->  2 files changed, 33 insertions(+), 19 deletions(-)
+On Wed, Oct 28, 2020 at 04:11:05PM +0800, Bingbu Cao wrote:
+> Andy, thanks for your patch.
 
-Reviewed-by: Rob Herring <robh@kernel.org>
+> Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+
+Thanks!
+
+> On 10/28/20 2:14 AM, Andy Shevchenko wrote:
+
+> > -	entry[1].second_entry.last_page_available_bytes =
+> > -			(remaining & ~PAGE_MASK) ?
+> > -				(remaining & ~PAGE_MASK) - 1 : PAGE_SIZE - 1;
+> > +	remaining = offset_in_page(remaining);
+> > +	entry[1].second_entry.last_page_available_bytes = (remaining ?: PAGE_SIZE) - 1;
+> 
+> Not really about this change, is there some coding style update? This line obviously over 80
+> chars, but the latest script did not report warning.
+
+There is a relaxation in the script, but now it's ambiguous with the documentation.
+I just realized I can rewrite this as:
+
+	remaining = offset_in_page(remaining) ?: PAGE_SIZE;
+	entry[1].second_entry.last_page_available_bytes = remaining - 1;
+
+Would it work for you?
+
+> >  	/* Fill FBPT */
+> >  	remaining = length;
+> >  	i = 0;
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
