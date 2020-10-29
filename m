@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7AD229F1C9
-	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 17:42:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3195329F1CD
+	for <lists+linux-media@lfdr.de>; Thu, 29 Oct 2020 17:43:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725892AbgJ2Qmw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 12:42:52 -0400
-Received: from mail.kernel.org ([198.145.29.99]:51242 "EHLO mail.kernel.org"
+        id S1726211AbgJ2Qm5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 29 Oct 2020 12:42:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:51308 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725811AbgJ2Qmw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 12:42:52 -0400
+        id S1726051AbgJ2Qmz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 29 Oct 2020 12:42:55 -0400
 Received: from localhost.localdomain (adsl-84-226-167-205.adslplus.ch [84.226.167.205])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 4DDC7206F4;
-        Thu, 29 Oct 2020 16:42:47 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6917D20EDD;
+        Thu, 29 Oct 2020 16:42:51 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1603989771;
-        bh=rufIZfzUwOusZfJ1S3FbaAtyMqLXFNBtqVRmnNQKp9A=;
-        h=From:To:Cc:Subject:Date:From;
-        b=kIpUB8eIpOBHJ3mcZyOKOz9gfjlmEbM7nNA0P7TO76BruUFneh5kRmB55KrisMZha
-         p/6XZa2/8dIf51hsJbyZnd/VdMtE5xwKWdSVj5JeRdhkUbi180AT+27R/IgIEh5hY9
-         zLRoQLiEP7u3oUNEJUhJNsO19gBeiAzip6QZbx/s=
+        s=default; t=1603989775;
+        bh=62tbWUZhtwhdx/5WGWfElJ9O7gQqjsCzRSN58mpUCJE=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=zjhAhCudL6oHOXDXyTrQ7CrZlAAYuHsMUUyo8E1s1AqBt2OoIIKsy0M+HGM0Xj/YR
+         bgkWMGEWdoheuTvEIq7hcDHrs08j0WO1mmKepLaWDTLZBXjmGGABEUXYO5VMMNe896
+         nZAXbZPQYyQiGUsyBgBcaIvXUl3gAT6GiWwOHdqc=
 From:   Krzysztof Kozlowski <krzk@kernel.org>
 To:     Pavel Machek <pavel@ucw.cz>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -43,10 +43,12 @@ To:     Pavel Machek <pavel@ucw.cz>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [RESEND PATCH 01/25] media: i2c: imx214: simplify getting state container
-Date:   Thu, 29 Oct 2020 17:42:15 +0100
-Message-Id: <20201029164239.84240-1-krzk@kernel.org>
+Subject: [RESEND PATCH 02/25] media: i2c: imx219: simplify getting state container
+Date:   Thu, 29 Oct 2020 17:42:16 +0100
+Message-Id: <20201029164239.84240-2-krzk@kernel.org>
 X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201029164239.84240-1-krzk@kernel.org>
+References: <20201029164239.84240-1-krzk@kernel.org>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
@@ -60,71 +62,71 @@ v4l2_i2c_subdev_init() so there is no point of a dance like:
     struct v4l2_subdev *sd = i2c_get_clientdata(client);
 
 This allows to remove local variable 'client' and few pointer
-dereferences.  White at it, use 'dev' directly instead of 'imx214->dev'.
+dereferences.
 
 Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
 ---
- drivers/media/i2c/imx214.c | 16 ++++++----------
+ drivers/media/i2c/imx219.c | 16 ++++++----------
  1 file changed, 6 insertions(+), 10 deletions(-)
 
-diff --git a/drivers/media/i2c/imx214.c b/drivers/media/i2c/imx214.c
-index 1ef5af9a8c8b..dc27c3678f18 100644
---- a/drivers/media/i2c/imx214.c
-+++ b/drivers/media/i2c/imx214.c
-@@ -431,14 +431,13 @@ static inline struct imx214 *to_imx214(struct v4l2_subdev *sd)
- 
- static int __maybe_unused imx214_power_on(struct device *dev)
+diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+index 1cee45e35355..d5349d1ca485 100644
+--- a/drivers/media/i2c/imx219.c
++++ b/drivers/media/i2c/imx219.c
+@@ -1114,22 +1114,21 @@ static int imx219_set_stream(struct v4l2_subdev *sd, int enable)
+ /* Power/clock management functions */
+ static int imx219_power_on(struct device *dev)
  {
 -	struct i2c_client *client = to_i2c_client(dev);
 -	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct imx214 *imx214 = to_imx214(sd);
+ 	struct imx219 *imx219 = to_imx219(sd);
  	int ret;
  
- 	ret = regulator_bulk_enable(IMX214_NUM_SUPPLIES, imx214->supplies);
- 	if (ret < 0) {
--		dev_err(imx214->dev, "failed to enable regulators: %d\n", ret);
-+		dev_err(dev, "failed to enable regulators: %d\n", ret);
+ 	ret = regulator_bulk_enable(IMX219_NUM_SUPPLIES,
+ 				    imx219->supplies);
+ 	if (ret) {
+-		dev_err(&client->dev, "%s: failed to enable regulators\n",
++		dev_err(dev, "%s: failed to enable regulators\n",
+ 			__func__);
  		return ret;
  	}
  
-@@ -447,7 +446,7 @@ static int __maybe_unused imx214_power_on(struct device *dev)
- 	ret = clk_prepare_enable(imx214->xclk);
- 	if (ret < 0) {
- 		regulator_bulk_disable(IMX214_NUM_SUPPLIES, imx214->supplies);
--		dev_err(imx214->dev, "clk prepare enable failed\n");
-+		dev_err(dev, "clk prepare enable failed\n");
- 		return ret;
+ 	ret = clk_prepare_enable(imx219->xclk);
+ 	if (ret) {
+-		dev_err(&client->dev, "%s: failed to enable clock\n",
++		dev_err(dev, "%s: failed to enable clock\n",
+ 			__func__);
+ 		goto reg_off;
  	}
+@@ -1148,8 +1147,7 @@ static int imx219_power_on(struct device *dev)
  
-@@ -459,8 +458,7 @@ static int __maybe_unused imx214_power_on(struct device *dev)
- 
- static int __maybe_unused imx214_power_off(struct device *dev)
+ static int imx219_power_off(struct device *dev)
  {
 -	struct i2c_client *client = to_i2c_client(dev);
 -	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct imx214 *imx214 = to_imx214(sd);
+ 	struct imx219 *imx219 = to_imx219(sd);
  
- 	gpiod_set_value_cansleep(imx214->enable_gpio, 0);
-@@ -910,8 +908,7 @@ static int imx214_parse_fwnode(struct device *dev)
+ 	gpiod_set_value_cansleep(imx219->reset_gpio, 0);
+@@ -1161,8 +1159,7 @@ static int imx219_power_off(struct device *dev)
  
- static int __maybe_unused imx214_suspend(struct device *dev)
+ static int __maybe_unused imx219_suspend(struct device *dev)
  {
 -	struct i2c_client *client = to_i2c_client(dev);
 -	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct imx214 *imx214 = to_imx214(sd);
+ 	struct imx219 *imx219 = to_imx219(sd);
  
- 	if (imx214->streaming)
-@@ -922,8 +919,7 @@ static int __maybe_unused imx214_suspend(struct device *dev)
+ 	if (imx219->streaming)
+@@ -1173,8 +1170,7 @@ static int __maybe_unused imx219_suspend(struct device *dev)
  
- static int __maybe_unused imx214_resume(struct device *dev)
+ static int __maybe_unused imx219_resume(struct device *dev)
  {
 -	struct i2c_client *client = to_i2c_client(dev);
 -	struct v4l2_subdev *sd = i2c_get_clientdata(client);
 +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
- 	struct imx214 *imx214 = to_imx214(sd);
+ 	struct imx219 *imx219 = to_imx219(sd);
  	int ret;
  
 -- 
