@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D5D8B2A025B
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 11:10:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53F7E2A025C
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 11:10:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726459AbgJ3KJr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1726455AbgJ3KJr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 30 Oct 2020 06:09:47 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50328 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50402 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726443AbgJ3KIz (ORCPT
+        with ESMTP id S1726459AbgJ3KI4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 06:08:55 -0400
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6A81BC0613CF
-        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 03:08:53 -0700 (PDT)
-Received: by mail-wm1-x343.google.com with SMTP id c9so764474wml.5
-        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 03:08:53 -0700 (PDT)
+        Fri, 30 Oct 2020 06:08:56 -0400
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1029EC0613D9
+        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 03:08:55 -0700 (PDT)
+Received: by mail-wm1-x342.google.com with SMTP id h22so2416005wmb.0
+        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 03:08:54 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=oGBzVmmcnUwoCpcjwMRu//j69ndtXtCP0NS2ElhXzwU=;
-        b=ddb3ur1/6UNkfQr4L91EGkmgAJ2WFlh64b3krQrxHdXICPqGD1U7KSjV8mliOcYT2T
-         IQK1rF0Fay6IRnqi6Z1rjQW4mkT8UrxQsAja5X4I4Zb0BD7E8rZgI9L3j1sWoJXQiFP2
-         XQzGN/xa46QCrVP1PNnx5Jw7AGsn+9JT27UuU=
+        bh=5W4UqFTJMoDRzu7XpmV7m/mIx7tbXZK4TFNNVek8jNg=;
+        b=OzUM7mbx2/F/oW9bbPe7In3qrMb9VgdikqTSY/EoMsPyXGAHuRv65Nms3OB0mjtIqw
+         GVQCRCl/bcb/ABRytGNQRec8qj5WedF9qpRoNXq/7Q2qAH3BZRTXvZHES4rNIMYTppYX
+         ZyoeN/ZtxE8PEeZM/6gBTeLfJXnqEXHLZdrKg=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=oGBzVmmcnUwoCpcjwMRu//j69ndtXtCP0NS2ElhXzwU=;
-        b=VPA/xreyb9rD9a+6srMRlJg3VG+DuA5Co9mbTn1ht7SX22za5fN4pDuJ+WtTIiv+kb
-         ou3UcJLwfScDejIxjhI8HVoBGIWYyw7E8mPhOOdHe3kBJN9RG4L/1ZynGVyitVxCm9rb
-         YS82RIOPhmnt18qoKLjOsBvFot5RdHYN+eTS/9CzCN5by5x43FpNue4H+GCl/KGkhRne
-         +xI/NK9a+CkllpaTUiT3Z1DqbszdnA9Z3oOCmvt5Tm/gPDidbHJ0IYMC8k/sFpPsG11v
-         240Sgpj/dPqR+ID9uklT+gyaDOeoYgjaC+wq/8CMJKIBxmVers/brx7CGxKnczu6ub7b
-         ESBw==
-X-Gm-Message-State: AOAM533qNCW6owNLPkUuJJwbelbWfZcgFy4LiZmbARrlij69tgFzzBGn
-        mjm9UmZziUjMNKKmbRpve/37iw==
-X-Google-Smtp-Source: ABdhPJwf6UH/CcQRHOKUtt59ycYpiu3snU7M2hjeYaaPa8vODJopyC6lafOLMLKP7+MR3NDzcDgM5Q==
-X-Received: by 2002:a7b:c309:: with SMTP id k9mr1632728wmj.125.1604052532224;
-        Fri, 30 Oct 2020 03:08:52 -0700 (PDT)
+        bh=5W4UqFTJMoDRzu7XpmV7m/mIx7tbXZK4TFNNVek8jNg=;
+        b=rQ7olrO29xdTR6KzK4/jdFLPNB5qDf2VdqG7FjIVyZSvbiMvbUKXQ5303DQ8OEbM84
+         zThfmOiCYy4/vg7DLfB/JPQw9ZsoJHr2pk2Vpk7IP95gNyfy63M3d3dLjz5CVuz5YpDL
+         WL2x0GCPovDaZwQQdTuCy7vG7SzTDfso8kI0MEG8IYX6BIofYgRu6tUjCbd0BSRwxq33
+         iT91ZmUetU3d1LOUrdhYl8JpSgP/H/JWBlfLP7bTlu9j3otLFr67m8mLNnr2kXxQwcFm
+         iYkbqVyZDLdPhyMiRgSDtSnUNJhsoDiAICV9QmnirBtrnAAdOafyFyfDf1FaOlk8wxo7
+         QuXQ==
+X-Gm-Message-State: AOAM533PfE0L2oHEDJp1/LFUq+yNKvgVVONpCvY533eb0aycF1t1t1Y1
+        shzKTGqWuykNzjUc8GdxzsduN/7ZfcFhLIDv
+X-Google-Smtp-Source: ABdhPJwkuxWq70OZDDHUvlvKxagck9TRjPZKU3g23XqCmDUUZEe9Y01RmcL6G8BKldTXxtndJYt3iA==
+X-Received: by 2002:a7b:c085:: with SMTP id r5mr1669161wmh.17.1604052533716;
+        Fri, 30 Oct 2020 03:08:53 -0700 (PDT)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id v189sm4430947wmg.14.2020.10.30.03.08.50
+        by smtp.gmail.com with ESMTPSA id v189sm4430947wmg.14.2020.10.30.03.08.52
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2020 03:08:51 -0700 (PDT)
+        Fri, 30 Oct 2020 03:08:52 -0700 (PDT)
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
 To:     DRI Development <dri-devel@lists.freedesktop.org>,
         LKML <linux-kernel@vger.kernel.org>
@@ -59,12 +59,11 @@ Cc:     kvm@vger.kernel.org, linux-mm@kvack.org,
         Andrew Morton <akpm@linux-foundation.org>,
         John Hubbard <jhubbard@nvidia.com>,
         =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Alex Williamson <alex.williamson@redhat.com>,
-        Cornelia Huck <cohuck@redhat.com>
-Subject: [PATCH v5 10/15] vfio/type1: Mark follow_pfn as unsafe
-Date:   Fri, 30 Oct 2020 11:08:10 +0100
-Message-Id: <20201030100815.2269-11-daniel.vetter@ffwll.ch>
+        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
+        linux-pci@vger.kernel.org
+Subject: [PATCH v5 11/15] PCI: Obey iomem restrictions for procfs mmap
+Date:   Fri, 30 Oct 2020 11:08:11 +0100
+Message-Id: <20201030100815.2269-12-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
 References: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
@@ -75,17 +74,16 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The code seems to stuff these pfns into iommu pts (or something like
-that, I didn't follow), but there's no mmu_notifier to ensure that
-access is synchronized with pte updates.
+There's three ways to access PCI BARs from userspace: /dev/mem, sysfs
+files, and the old proc interface. Two check against
+iomem_is_exclusive, proc never did. And with CONFIG_IO_STRICT_DEVMEM,
+this starts to matter, since we don't want random userspace having
+access to PCI BARs while a driver is loaded and using it.
 
-Hence mark these as unsafe. This means that with
-CONFIG_STRICT_FOLLOW_PFN, these will be rejected.
+Fix this by adding the same iomem_is_exclusive() check we already have
+on the sysfs side in pci_mmap_resource().
 
-Real fix is to wire up an mmu_notifier ... somehow. Probably means any
-invalidate is a fatal fault for this vfio device, but then this
-shouldn't ever happen if userspace is reasonable.
-
+References: 90a545e98126 ("restrict /dev/mem to idle io memory ranges")
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Jason Gunthorpe <jgg@ziepe.ca>
 Cc: Kees Cook <keescook@chromium.org>
@@ -99,36 +97,31 @@ Cc: linux-mm@kvack.org
 Cc: linux-arm-kernel@lists.infradead.org
 Cc: linux-samsung-soc@vger.kernel.org
 Cc: linux-media@vger.kernel.org
-Cc: Alex Williamson <alex.williamson@redhat.com>
-Cc: Cornelia Huck <cohuck@redhat.com>
-Cc: kvm@vger.kernel.org
+Cc: Bjorn Helgaas <bhelgaas@google.com>
+Cc: linux-pci@vger.kernel.org
 Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
+--
+v2: Improve commit message (Bjorn)
 ---
- drivers/vfio/vfio_iommu_type1.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/pci/proc.c | 5 +++++
+ 1 file changed, 5 insertions(+)
 
-diff --git a/drivers/vfio/vfio_iommu_type1.c b/drivers/vfio/vfio_iommu_type1.c
-index bb2684cc245e..eccfee900033 100644
---- a/drivers/vfio/vfio_iommu_type1.c
-+++ b/drivers/vfio/vfio_iommu_type1.c
-@@ -421,7 +421,7 @@ static int follow_fault_pfn(struct vm_area_struct *vma, struct mm_struct *mm,
- {
- 	int ret;
- 
--	ret = follow_pfn(vma, vaddr, pfn);
-+	ret = unsafe_follow_pfn(vma, vaddr, pfn);
- 	if (ret) {
- 		bool unlocked = false;
- 
-@@ -435,7 +435,7 @@ static int follow_fault_pfn(struct vm_area_struct *vma, struct mm_struct *mm,
- 		if (ret)
- 			return ret;
- 
--		ret = follow_pfn(vma, vaddr, pfn);
-+		ret = unsafe_follow_pfn(vma, vaddr, pfn);
+diff --git a/drivers/pci/proc.c b/drivers/pci/proc.c
+index d35186b01d98..3a2f90beb4cb 100644
+--- a/drivers/pci/proc.c
++++ b/drivers/pci/proc.c
+@@ -274,6 +274,11 @@ static int proc_bus_pci_mmap(struct file *file, struct vm_area_struct *vma)
+ 		else
+ 			return -EINVAL;
  	}
- 
- 	return ret;
++
++	if (dev->resource[i].flags & IORESOURCE_MEM &&
++	    iomem_is_exclusive(dev->resource[i].start))
++		return -EINVAL;
++
+ 	ret = pci_mmap_page_range(dev, i, vma,
+ 				  fpriv->mmap_state, write_combine);
+ 	if (ret < 0)
 -- 
 2.28.0
 
