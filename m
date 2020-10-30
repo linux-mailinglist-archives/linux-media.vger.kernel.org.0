@@ -2,215 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28EFC2A00FA
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 10:16:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0F7A2A0175
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 10:33:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726019AbgJ3JQK convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 30 Oct 2020 05:16:10 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:53758 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725876AbgJ3JQJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 05:16:09 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kYQW0-0072Aa-55; Fri, 30 Oct 2020 09:16:08 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kYQYx-00066Q-IH; Fri, 30 Oct 2020 09:19:11 +0000
-Date:   Fri, 30 Oct 2020 09:19:09 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1831193995.19.1604049551559@builder.linuxtv.org>
-In-Reply-To: <1220410247.18.1604047765445@builder.linuxtv.org>
-References: <1220410247.18.1604047765445@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3270
+        id S1726177AbgJ3JdN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 05:33:13 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:37507 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725948AbgJ3JdN (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Oct 2020 05:33:13 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id YQkUknRqdWvjMYQkXkGqDX; Fri, 30 Oct 2020 10:31:10 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604050270; bh=RElqrL7khHx4DZJ3F6RTuvb8jcfHfWCfqYVJiwR4ENY=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=pQkonOURErQkXzujYOYlBQ8YqwCPuJduZKUFLOb51/NFraggPYG7PVKDk3FdkxNBy
+         JYeOrTyH1yK7jz9KiIbG0NgQfthcKkD0biUH7kZLaS0Fe+632ODGwHQiNAlQorayC4
+         rBtczLzeiClj3jVFnD/buWTo+szVHfJAQRez6Icjc0sr+4SonGgLKHSUmEQp7iYtVX
+         BfCxyXaj+UeQN45FJLT9jUEiU749XIHYu2OvQaMbL1EN1RJcFmO0nvU8eBZNhXD779
+         HxNySJKxrVs4Es+JVt2/R0JDg2HO0k7MQKdfktLbqCHlq6WqlyEzyrCclx+JvjcnGf
+         aRb4abAsb8nVw==
+Subject: Re: Suggestion regarding x8 gang mode device tree changes
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Thierry Reding <treding@nvidia.com>, linux-media@vger.kernel.org
+References: <e253fee3-5358-aaf1-d317-162dc8e98afc@nvidia.com>
+ <20201029145013.GA6899@valkosipuli.retiisi.org.uk>
+ <59f91ac7-84fc-a9fd-e331-35adf4e5f5b9@nvidia.com>
+ <2ac2eb3d-32df-a352-3ce5-918ddbf718af@nvidia.com>
+ <20201029165245.GB6899@valkosipuli.retiisi.org.uk>
+ <542bbb61-049e-85d8-c2d7-9f38e6625b3d@nvidia.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <7f64c771-a4ff-8909-4679-1cec58947e94@xs4all.nl>
+Date:   Fri, 30 Oct 2020 10:31:06 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+In-Reply-To: <542bbb61-049e-85d8-c2d7-9f38e6625b3d@nvidia.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfISqC6qw56tboAA6+32sh0SLM4KNd+DtvbMJOOIPYQn1+ymUPS3OA3on+3xSFHMWJ0BKwd8lAB39aFVyCe1wFjmYWkO8hSYbJfXNlXq4pRelsbxc7klK
+ SVSWZVHjZC55b0TImAVD9siFsWkLAnhyGbQP/gUSa4Y6gOHIKDWpTz8yDXXJk44jMGh9FZouOFMGIVUFaj055xHn5wxdkXruuYC0LTyL6e60F+00c6L0Unyc
+ FexPAi8gW2pdQ08S90GpkAOutBMyewZRoOsrVswekDOJTddspChOeqZBXMklGVbN
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3270/display/redirect>
+On 29/10/2020 18:07, Sowjanya Komatineni wrote:
+> 
+> On 10/29/20 9:52 AM, Sakari Ailus wrote:
+>> On Thu, Oct 29, 2020 at 09:49:57AM -0700, Sowjanya Komatineni wrote:
+>>> On 10/29/20 8:36 AM, Sowjanya Komatineni wrote:
+>>>> On 10/29/20 7:50 AM, Sakari Ailus wrote:
+>>>>> Hi Sowjanya,
+>>>>>
+>>>>> On Wed, Oct 28, 2020 at 06:48:59PM -0700, Sowjanya Komatineni wrote:
+>>>>>> Hi Sakari,
+>>>>>>
+>>>>>> Missed to add you to below patch series for HDMI2CSI bridge support
+>>>>>>
+>>>>>> https://patchwork.kernel.org/project/linux-media/cover/1603768763-25590-1-git-send-email-skomatineni@nvidia.com/
+>>>>>>
+>>>>>>
+>>>>>> Patch-10 of this series is for x8 capture from HDMI2CSI bridge.
+>>>>>>
+>>>>>> Would like to get your suggestion on x8 gang/combined ports capture
+>>>>>> implementation.
+>>>>> The majority of CSI-2 receiver devices support partitioning the
+>>>>> lanes among
+>>>>> different PHYs in various ways. They do support usually up to four
+>>>>> lanes,
+>>>>> but adding four more lanes is not a reason for making the API different.
+>>>>>
+>>>>> So instead, you should implement this as a single port that simply has 8
+>>>>> lanes.
+>>>>>
+>>>> Thanks Sakari for your reply.
+>>>>
+>>>> current v2 series treats as 8 lanes. You mean to not expose 2nd port in
+>>>> device tree as VI/CSI side takes care of 2nd port as combined to treat
+>>>> as 8 lane?
+>> Correct.
+>>
+>> Although you can have the second port connected if fewer lanes are assigned
+>> to the first one.
+>>
+>> How does it work for this device, are the lanes statically allocated to
+>> ports, apart from the special 8 lane mode?
+> 
+> Tegra CSI each port supports max 4 lanes. For x8, 2 x4 ports together 
+> are programmed for simultaneous streaming during the same video/subdev 
+> stream ops.
+> 
+> Physically, CSI RX side 4 lanes goes to x4 port and other 4 lanes goes 
+> to another x4 port.
+> 
+> HDMI Bridge TX0 -> CSI RX0 (x4 port)
+> 
+> HDMI Bridge TX1 -> CSI RX1 (x4 port)
+> 
+> HDMI bridge side single image is split into 2 x4 ports and on RX side 
+> image from both ports are captured simultaneously with buffer offsets 
+> adjusted side-by-side to get combined image for same video buf of video 
+> device.
+> 
+> Both these 2 x4 ports together are used for streaming by Tegra VI and 
+> buffer offsets are adjusted side by side for these ports and for video 
+> device node stream, its single buffer which contains combined image from 
+> capture.
+> 
+>>> AS csi2 bus type supports max 4 data lanes with endpoint parse API.
+>>>
+>>> Currently with x8 as single port, I am using bus-width with bus type as
+>>> parallel in device tree and when using x4 using data-lanes with csi2 bus
+>>> type and driver gets lanes based on either of this from DT.
+>>>
+>>> Instead should we update endpoint parse API for max up to 8 lanes for
+>>> data-lanes?
+>> Yes, please. Could you send a patch?
+>>
+>> The standard AFAIK supports up to four lanes but as we know, hardware
+>> sometimes has more than that.
+> 
+> Sure once Hans also agrees with this to have it as single x8 port (just 
+> like I have now in v2), will send v3 to update endpoint parse to allow 
+> upto max 8 data-lanes and will also update Tegra CSI driver accordingly 
+> to retrieve lanes using csi2 bus type.
+> 
+> Hans, Please confirm if you agree with this.
+> 
 
-Changes:
+I'm not sure if I agree with this. Shouldn't a device tree reflect the
+hardware? And how would you represent the use case where the ganging
+mode stitches together two synced sensors (left and right) into a single
+3D side-by-side image? Then you would have:
 
+ Left Sensor TX -> CSI RX0 (x4 port)
+Right Sensor TX -> CSI RX1 (x4 port)
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building on master in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --is-inside-work-tree # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.20.1'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision b5733d0fdc887a215d63eba10c1789e836625975 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f b5733d0fdc887a215d63eba10c1789e836625975 # timeout=10
-Commit message: "Drop unneeded clamp check"
- > git rev-list --no-walk b5733d0fdc887a215d63eba10c1789e836625975 # timeout=10
-[Checks API] No suitable checks publisher found.
-[media-build] $ /bin/sh -xe /tmp/jenkins6434050745189220030.sh
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
-Needed package dependencies are met.
+And for the tc358840 something similar might be true: in the case of the
+Tegra you have this nice ganging mode available, but for other SoCs each
+half would have to go to a separate CSI port and captured via a separate
+video DMA channel, and software or a GPU is needed to combine the two
+halves.
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+In both these examples it is my understanding that you have to model this
+in the DT as separate x4 ports.
 
-Not aborted. It means that the licence was agreed. Proceeding...
+Regards,
 
-****************************
-Updating the building system
-****************************
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2020-10-30 09:19:06--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2020-10-30 09:19:06--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
-
-     0K                                                       100%  210M=0s
-
-2020-10-30 09:19:07 (210 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
-
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-12-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
-patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
-patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
-patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
-patch -s -f -N -p1 -i ../backports/v5.4_dma_buf.patch
-patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
-patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
-patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
-patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
-Patched drivers/media/dvb-core/dvbdev.c
-Patched drivers/media/v4l2-core/v4l2-dev.c
-Patched drivers/media/rc/rc-main.c
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-./scripts/make_kconfig.pl /lib/modules/4.19.0-12-amd64/build /lib/modules/4.19.0-12-amd64/build 1
-File not found: /lib/modules/4.19.0-12-amd64/build/.config at ./scripts/make_kconfig.pl line 33, <IN> line 4.
-Preparing to compile for kernel version 4.19.0
-make[1]: *** [Makefile:379: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+	Hans
