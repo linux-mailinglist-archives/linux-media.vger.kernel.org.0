@@ -2,263 +2,201 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16BF42A0B35
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 17:33:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EE102A0B4E
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 17:37:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727183AbgJ3Qdk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 12:33:40 -0400
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:33992 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725948AbgJ3Qdj (ORCPT
+        id S1726072AbgJ3QhN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 12:37:13 -0400
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:44111 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725808AbgJ3QhM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 12:33:39 -0400
-Received: by mail-oi1-f196.google.com with SMTP id l62so1575333oig.1;
-        Fri, 30 Oct 2020 09:33:39 -0700 (PDT)
+        Fri, 30 Oct 2020 12:37:12 -0400
+Received: by mail-ot1-f67.google.com with SMTP id m26so6047785otk.11;
+        Fri, 30 Oct 2020 09:37:11 -0700 (PDT)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=MwY/vQiiKvOTnY+5d4Wh+IuN2OSwrlDI1QDv3JPHT60=;
-        b=GYC7eeF9CT4KXheEAhAKMOtPnr2Gk492SLREAbyfI8A42sjtKXKHm2aBNGo88UIhv3
-         iqQYiQ4UMSPfvOQk7J3YK/K3v2jo+aQwxrRTrmLk5c2JImcZ/O9bwF2oF7+V+5jpTW8J
-         TAqmlKFYFlvVdM57h4wnJYSeJFf8u7vZdzDRTBTIDUVE/ZDpQxAQQ4tED263njBFrPUa
-         vm95o3JjdyVerawuxZTNaRZ+Ci3jhPNX49b7v2Lnhk9MEJDxAtO688+FP9qa+0UsSGaZ
-         vAQC9pegfnwbRt/hJyWbqPWCG588vnrSYa6EIYAHlX6RpP5BomWnfaSxdfiw4dzNiT4s
-         AdBg==
-X-Gm-Message-State: AOAM530UWidXWWynGdKgWku5lJlLMIhZ6m4LdcxR8GnIzh62Asxk3tks
-        C2u1hw21qFeXDgDGIbIR/Q==
-X-Google-Smtp-Source: ABdhPJy1NHaacIWHlnsek2tAF8Q1rBIIxcawIvq0Pez4qO1EJ2wmCFxJGI5JBYbP/xiW+nLe4IG4XA==
-X-Received: by 2002:aca:d401:: with SMTP id l1mr702570oig.96.1604075618577;
-        Fri, 30 Oct 2020 09:33:38 -0700 (PDT)
+        bh=tON2DYpRhaN1RpQeoSWQVw8FGd03p7OznarWViYiQhQ=;
+        b=TD+bQx0rbOKT/TtUwhSKG6z7l8+j+3NCp6m3cjeZABoMAOzdKzhyllVF7u7UkisWhe
+         kt7Ui/BnytKXew0EnjufLAYz3oVByvqAbljPwCtZuEKqQVprDf/pVR0r3iUCEE6Gq/HF
+         JhcOdm47EYM1A8LQ550TgXMZIr53WY50c9uPZVMilRI1NrY7/+SAycHgU80cb07ht5Ra
+         iR0q/IId09VK07JUeBW7cWBC5gx8IaV1UR+oLIrC4QgLWsDQaZuEOMZi3Bagavh1dby/
+         DRm1woRqk/56CLskXTcap2N5x9zk+eApDoPkQIELO/LKMHQWmXTcyeV+Di4rAoLQBYgH
+         01Jg==
+X-Gm-Message-State: AOAM531SQya5gfuamgu5sxJ5N6Rq0Wr4miog3kZy/Vqq3clqtrJ9jfqf
+        5AR3Y4WRVumgTIcBz8APXg==
+X-Google-Smtp-Source: ABdhPJyArF2iu/YEd1ILY0V/G9i9SCSsBRVS2xnFFvYp1bMQMQVB51XPwuP7kPTqftcIbcWWc3DCFA==
+X-Received: by 2002:a9d:5e14:: with SMTP id d20mr2186323oti.107.1604075831553;
+        Fri, 30 Oct 2020 09:37:11 -0700 (PDT)
 Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id h135sm1509717oib.23.2020.10.30.09.33.36
+        by smtp.gmail.com with ESMTPSA id r8sm1366884otq.43.2020.10.30.09.37.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2020 09:33:37 -0700 (PDT)
-Received: (nullmailer pid 3958664 invoked by uid 1000);
-        Fri, 30 Oct 2020 16:33:36 -0000
-Date:   Fri, 30 Oct 2020 11:33:36 -0500
+        Fri, 30 Oct 2020 09:37:10 -0700 (PDT)
+Received: (nullmailer pid 3962933 invoked by uid 1000);
+        Fri, 30 Oct 2020 16:37:09 -0000
+Date:   Fri, 30 Oct 2020 11:37:09 -0500
 From:   Rob Herring <robh@kernel.org>
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com,
+        linux-kernel@vger.kernel.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Yong Deng <yong.deng@magewell.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com
-Subject: Re: [PATCH 07/14] dt-bindings: media: i2c: Add A31 MIPI CSI-2
- bindings documentation
-Message-ID: <20201030163336.GA3909744@bogus>
-References: <20201023174546.504028-1-paul.kocialkowski@bootlin.com>
- <20201023174546.504028-8-paul.kocialkowski@bootlin.com>
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: media: i2c: Add OV5648 bindings
+ documentation
+Message-ID: <20201030163709.GA3960634@bogus>
+References: <20201023174944.504358-1-paul.kocialkowski@bootlin.com>
+ <20201023174944.504358-2-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201023174546.504028-8-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20201023174944.504358-2-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 23, 2020 at 07:45:39PM +0200, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the A31 MIPI CSI-2
-> controller.
+On Fri, Oct 23, 2020 at 07:49:43PM +0200, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the OV5648
+> image sensor.
 > 
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > ---
->  .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 168 ++++++++++++++++++
->  1 file changed, 168 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
+>  .../bindings/media/i2c/ovti,ov5648.yaml       | 115 ++++++++++++++++++
+>  1 file changed, 115 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
 > 
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
+> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
 > new file mode 100644
-> index 000000000000..9adc0bc27033
+> index 000000000000..347af925b450
 > --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
-> @@ -0,0 +1,168 @@
+> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
+> @@ -0,0 +1,115 @@
 > +# SPDX-License-Identifier: GPL-2.0
 
-Dual license new bindings.
+Dual license please. With that,
+
+Reviewed-by: Rob Herring <robh@kernel.org>
 
 > +%YAML 1.2
 > +---
-> +$id: http://devicetree.org/schemas/media/allwinner,sun6i-a31-mipi-csi2.yaml#
+> +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5648.yaml#
 > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +title: Allwinner A31 MIPI CSI-2 Device Tree Bindings
+> +title: OmniVision OV5648 Image Sensor Device Tree Bindings
 > +
 > +maintainers:
 > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > +
 > +properties:
 > +  compatible:
-> +    oneOf:
-> +      - const: allwinner,sun6i-a31-mipi-csi2
-> +      - items:
-> +          - const: allwinner,sun8i-v3s-mipi-csi2
-> +          - const: allwinner,sun6i-a31-mipi-csi2
+> +    const: ovti,ov5648
 > +
 > +  reg:
 > +    maxItems: 1
 > +
-> +  interrupts:
-> +    maxItems: 1
-> +
 > +  clocks:
 > +    items:
-> +      - description: Bus Clock
-> +      - description: Module Clock
+> +      - description: XVCLK Clock
 > +
 > +  clock-names:
 > +    items:
-> +      - const: bus
-> +      - const: mod
+> +      - const: xvclk
 > +
-> +  phys:
-> +    items:
-> +      - description: MIPI D-PHY
+> +  dvdd-supply:
+> +    description: Digital Domain Power Supply
 > +
-> +  phy-names:
-> +    items:
-> +      - const: dphy
+> +  avdd-supply:
+> +    description: Analog Domain Power Supply (internal AVDD is used if missing)
 > +
-> +  resets:
+> +  dovdd-supply:
+> +    description: I/O Domain Power Supply
+> +
+> +  powerdown-gpios:
 > +    maxItems: 1
+> +    description: Power Down Pin GPIO Control (active low)
 > +
-> +  # See ./video-interfaces.txt for details
-> +  ports:
+> +  reset-gpios:
+> +    maxItems: 1
+> +    description: Reset Pin GPIO Control (active low)
+> +
+> +  port:
 > +    type: object
+> +    description: Input port, connect to a MIPI CSI-2 receiver
 > +
 > +    properties:
-> +      port@0:
+> +      endpoint:
 > +        type: object
-> +        description: Input port, connect to a MIPI CSI-2 sensor
 > +
 > +        properties:
-> +          reg:
-> +            const: 0
+> +          remote-endpoint: true
 > +
-> +          endpoint:
-> +            type: object
+> +          bus-type:
+> +            const: 4
 > +
-> +            properties:
-> +              remote-endpoint: true
+> +          clock-lanes:
+> +            maxItems: 1
 > +
-> +              bus-type:
-> +                const: 4
-> +
-> +              clock-lanes:
-> +                maxItems: 1
-> +
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
-> +
-> +            required:
-> +              - bus-type
-> +              - data-lanes
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
+> +          data-lanes:
+> +            minItems: 1
+> +            maxItems: 2
 > +
 > +        required:
-> +          - endpoint
+> +          - bus-type
+> +          - data-lanes
+> +          - remote-endpoint
 > +
 > +        additionalProperties: false
 > +
-> +      port@1:
-> +        type: object
-> +        description: Output port, connect to a CSI controller
-> +
-> +        properties:
-> +          reg:
-> +            const: 1
-> +
-> +          endpoint:
-> +            type: object
-> +
-> +            properties:
-> +              remote-endpoint: true
-> +
-> +              bus-type:
-> +                const: 4
-> +
-> +            additionalProperties: false
-> +
-> +        required:
-> +          - endpoint
-> +
-> +        additionalProperties: false
+> +    required:
+> +      - endpoint
 > +
 > +required:
 > +  - compatible
 > +  - reg
-> +  - interrupts
 > +  - clocks
 > +  - clock-names
-> +  - resets
+> +  - dvdd-supply
+> +  - dovdd-supply
+> +  - port
 > +
 > +additionalProperties: false
 > +
 > +examples:
 > +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
 > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
-> +    #include <dt-bindings/reset/sun8i-v3s-ccu.h>
+> +    #include <dt-bindings/gpio/gpio.h>
 > +
-> +    mipi_csi2: mipi-csi2@1cb1000 {
-
-I agree with using 'csi' here as that is at least aligned with 'dsi' 
-meaning the host side of the protocol. We've not been consistent here...
-
-> +        compatible = "allwinner,sun8i-v3s-mipi-csi2",
-> +                     "allwinner,sun6i-a31-mipi-csi2";
-> +        reg = <0x01cb1000 0x1000>;
-> +        interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&ccu CLK_BUS_CSI>,
-> +                 <&ccu CLK_CSI1_SCLK>;
-> +        clock-names = "bus", "mod";
-> +        resets = <&ccu RST_BUS_CSI>;
+> +    i2c0 {
+> +        #address-cells = <1>;
+> +        #size-cells = <0>;
 > +
-> +        phys = <&dphy>;
-> +        phy-names = "dphy";
+> +        ov5648: camera@36 {
+> +            compatible = "ovti,ov5648";
+> +            reg = <0x36>;
 > +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
+> +            dvdd-supply = <&ov5648_dvdd>;
+> +            avdd-supply = <&ov5648_avdd>;
+> +            dovdd-supply = <&ov5648_dovdd>;
+> +            clocks = <&ov5648_xvclk 0>;
+> +            clock-names = "xvclk";
 > +
-> +            mipi_csi2_in: port@0 {
-> +                reg = <0>;
-> +
-> +                mipi_csi2_in_ov5648: endpoint {
+> +            ov5648_out: port {
+> +                ov5648_out_mipi_csi2: endpoint {
 > +                    bus-type = <4>; /* MIPI CSI-2 D-PHY */
 > +                    clock-lanes = <0>;
-> +                    data-lanes = <1 2 3 4>;
+> +                    data-lanes = <1 2>;
 > +
-> +                    remote-endpoint = <&ov5648_out_mipi_csi2>;
-> +                };
-> +            };
-> +
-> +            mipi_csi2_out: port@1 {
-> +                reg = <1>;
-> +
-> +                mipi_csi2_out_csi0: endpoint {
-> +                    bus-type = <4>; /* MIPI CSI-2 D-PHY */
-> +                    remote-endpoint = <&csi0_in_mipi_csi2>;
+> +                    remote-endpoint = <&mipi_csi2_in_ov5648>;
 > +                };
 > +            };
 > +        };
 > +    };
-> +
-> +...
 > -- 
 > 2.28.0
 > 
