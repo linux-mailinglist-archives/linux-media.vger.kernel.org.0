@@ -2,112 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88F062A04D4
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 12:54:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6ACAF2A04DD
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 12:58:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726535AbgJ3Lyo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 07:54:44 -0400
-Received: from aserp2130.oracle.com ([141.146.126.79]:35712 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726078AbgJ3Lyo (ORCPT
+        id S1726491AbgJ3L6x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 07:58:53 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:58785 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725355AbgJ3L6w (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 07:54:44 -0400
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09UBjKfL151312;
-        Fri, 30 Oct 2020 11:54:38 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=+Yf2h8kroGa9FFqdyGT38oTbkFb5FaWP6BIQgYe/vpk=;
- b=GHju6cIz4YiEqvk8J9Rjifms3r+YtLhbS/rHupe8MUl7O0i49FTzRdeZH0fMRZZ5THJD
- GYJVB0fQbtWw5vJhQQCU2jwGnSKbxTW/CIZVILbTMTZzg9k3Aq/psityFEMiSjIPMMoR
- 6UA8V8Ifpn+LAhe/jJdp9M68E+3q+M0jX54P4SaRGA8CHGn/N53b+MQMJcowqRjanbSw
- 3OMhIn+KoUgv4Klahu+mLlJosm2WgGCALk3jiPH3+AdvCv7cRQfvcbVXY7h8UQNve7kk
- fW9P3H/Qp/M/fc4q4afIty/zd6vGu1905CR37m2z/AzSJn7s4FttAAfgIRKSQaiTaz+J sg== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2130.oracle.com with ESMTP id 34c9sb9fp0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 30 Oct 2020 11:54:38 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 09UBoRCV074625;
-        Fri, 30 Oct 2020 11:52:37 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userp3020.oracle.com with ESMTP id 34cx1ucp61-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 30 Oct 2020 11:52:37 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 09UBqabZ024884;
-        Fri, 30 Oct 2020 11:52:36 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 30 Oct 2020 04:52:35 -0700
-Date:   Fri, 30 Oct 2020 14:52:30 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Sean Young <sean@mess.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: rc: validate that "rc_proto" is reasonable
-Message-ID: <20201030115230.GF3251003@mwanda>
+        Fri, 30 Oct 2020 07:58:52 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id YT3OkoGvpWvjMYT3RkHK0U; Fri, 30 Oct 2020 12:58:50 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604059130; bh=QTOpKIcgbDQHtlwnaUtmIQCJmnmG8z+TXJliV76g014=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=RoBsC/hCZnZzSo5n482vujzxhPaoq+dE/8+srMj3HLfbK7ZcAUBp0QlTyrEYAMqum
+         fpvpm4nsCd0z1Du0yL/f9sSRBYnvmRGb/Xa9St4guTz4xXik6LBTZ9U8eOHTsC5LQW
+         MFDiBJUMkehW8Xwd/LLdSZcSaWoTRjuRL10VD6vilba+hioOeDjiFcTCR3PiYK/Oqx
+         3ZHzNf07OOuC8DSHAWU90Fj+h4WZJ5B8Hfezq6Z+bs224o+dR1bgOuZpJPw8rfmtKL
+         eYUTx4mDMRYcyWwktC7R1lElmQbptTmLz+iiGBlx8W7OwMDNxLDlHt62+KrZkPq66d
+         max9dGavN+AVg==
+Subject: Re: [PATCH v2 1/2] media: uapi: add MEDIA_BUS_FMT_METADATA_FIXED
+ media bus format.
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, tfiga@chromium.org
+References: <20201020154522.654-1-dafna.hirschfeld@collabora.com>
+ <04d5a149-8745-ae20-a622-bcfcafb69cbb@xs4all.nl>
+ <36159037-bf65-f7be-8deb-735afd726eee@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <0532e316-ff0f-6a6c-8a12-6b013f866e58@xs4all.nl>
+Date:   Fri, 30 Oct 2020 12:58:46 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9789 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 phishscore=0 bulkscore=0
- suspectscore=0 malwarescore=0 mlxlogscore=999 mlxscore=0 adultscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2010300092
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9789 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 impostorscore=0
- mlxlogscore=999 malwarescore=0 lowpriorityscore=0 bulkscore=0
- priorityscore=1501 spamscore=0 phishscore=0 clxscore=1011 suspectscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2010300091
+In-Reply-To: <36159037-bf65-f7be-8deb-735afd726eee@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfPQOXBn2MuSK4FIW2+sKbmS9QBrJiTHCFjcUIRDGS2z5fvZCXzCUkX4tdLwHYs0o/dj/JzSA37IVUya4BvCcFgLcSQqWxk5lKZawRLAMfYiwQvCAPoVP
+ P/q0ieSIkI8hdt5P3VBsx4Q7vNjIjyc7Ze3ua6Tv2CZvo7SKOAYq3pdHdLYVX/neV4kH0SY8+3fyiL4ZkL4gKCbegQpH0lsHe9cdwazePkYnBTicj4+A1ugZ
+ j0oOW15peiQrK5CHGbre9e/b2VuW8j5EOLjZTZVggvDhZJIyX8hmFg2rKjwDUgni5t+bpirlqvMEWMbKu4BpZ8cGuvcTFEK0ebtIhP1aJ5h1hfdJCLc83bul
+ 1CMSPYpG+7OfypjYHn9QVCNWWZEogCsQW1JdZUqAS5i6jX5G3rDRFbvE6Ys+/gWX4QsJea6EP+jpuD0qMmNgLspsy+CXL3SQuTUc5eqEGi++sJZ7kdkoHvlz
+ s9/lbrUwkvBEUU6L/ynjG1p/JHJeZxahL1d0BV0Gm81KA148NVq1wavZ2rFJFAPYO0361d8iqb1bPViFnmf2+Y4qOfgmaUrBPT0I9Q==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Smatch complains that "rc_proto" comes from the user and it can result
-in shift wrapping in ir_raw_encode_scancode()
+On 30/10/2020 12:34, Dafna Hirschfeld wrote:
+> 
+> 
+> Am 30.10.20 um 09:58 schrieb Hans Verkuil:
+>> On 20/10/2020 17:45, Dafna Hirschfeld wrote:
+>>> MEDIA_BUS_FMT_METADATA_FIXED should be used when
+>>> the same driver handles both sides of the link and
+>>> the bus format is a fixed metadata format that is
+>>> not configurable from userspace.
+>>> The width and height will be set to 0 for this format.
+>>>
+>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>>> Acked-by: Helen Koike <helen.koike@collabora.com>
+>>> ---
+>>> changes since v1:
+>>> 1. replace "This format may have 0 height and width."
+>>> with "Width and height will be set to 0 for this format."
+>>> and add it also to the commit log
+>>> 2. s/meida:/media:/ in the patch subject line
+>>>
+>>>   include/uapi/linux/media-bus-format.h | 8 ++++++++
+>>>   1 file changed, 8 insertions(+)
+>>>
+>>> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+>>> index 84fa53ffb13f..2ce3d891d344 100644
+>>> --- a/include/uapi/linux/media-bus-format.h
+>>> +++ b/include/uapi/linux/media-bus-format.h
+>>> @@ -156,4 +156,12 @@
+>>>   /* HSV - next is	0x6002 */
+>>>   #define MEDIA_BUS_FMT_AHSV8888_1X32		0x6001
+>>>   
+>>> +/*
+>>> + * This format should be used when the same driver handles
+>>> + * both sides of the link and the bus format is a fixed
+>>> + * metadata format that is not configurable from userspace.
+>>> + * Width and height will be set to 0 for this format.
+>>> + */
+>>> +#define MEDIA_BUS_FMT_METADATA_FIXED		0x7001
+>>> +
+>>>   #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
+>>>
+>>
+>> Documentation/userspace-api/media/v4l/subdev-formats.rst also needs to
+>> be updated.
+> 
+> hi,
+> I wonder what should be the documentation, since this mbus code
 
-    drivers/media/rc/rc-ir-raw.c:526 ir_raw_encode_scancode()
-    error: undefined (user controlled) shift '1 << protocol'
+Basically the same as you wrote in the comment above.
 
-This is true, but I reviewed the surrounding code and it appears
-harmless.  Anyway, let's verify that "rc_proto" is valid as a kernel
-hardenning measure.
+> is for very specific use case. You think that the 0x7* mbus codes
+> should be 'metadata mbus codes'?
 
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/media/rc/lirc_dev.c | 3 ++-
- include/uapi/linux/lirc.h   | 1 +
- 2 files changed, 3 insertions(+), 1 deletion(-)
+Yes.
 
-diff --git a/include/uapi/linux/lirc.h b/include/uapi/linux/lirc.h
-index f99d9dcae667..c1eb960adde3 100644
---- a/include/uapi/linux/lirc.h
-+++ b/include/uapi/linux/lirc.h
-@@ -226,6 +226,7 @@ enum rc_proto {
- 	RC_PROTO_RCMM24		= 25,
- 	RC_PROTO_RCMM32		= 26,
- 	RC_PROTO_XBOX_DVD	= 27,
-+	RC_PROTO_MAX		= RC_PROTO_XBOX_DVD,
- };
- 
- #endif
-diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
-index 220363b9a868..116daf90c858 100644
---- a/drivers/media/rc/lirc_dev.c
-+++ b/drivers/media/rc/lirc_dev.c
-@@ -263,7 +263,8 @@ static ssize_t lirc_transmit(struct file *file, const char __user *buf,
- 			goto out_unlock;
- 		}
- 
--		if (scan.flags || scan.keycode || scan.timestamp) {
-+		if (scan.flags || scan.keycode || scan.timestamp ||
-+		    scan.rc_proto > RC_PROTO_MAX) {
- 			ret = -EINVAL;
- 			goto out_unlock;
- 		}
--- 
-2.28.0
+Regards,
 
+	Hans
