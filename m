@@ -2,184 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D4032A01EC
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 10:57:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 055E52A01EB
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 10:57:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726171AbgJ3J53 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 05:57:29 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48558 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726014AbgJ3J52 (ORCPT
+        id S1726199AbgJ3J5J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 05:57:09 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:48377 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726014AbgJ3J5J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 05:57:28 -0400
-Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5569BC0613CF
-        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 02:57:28 -0700 (PDT)
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 83C27634C87;
-        Fri, 30 Oct 2020 11:56:41 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kYR9G-00024Q-NN; Fri, 30 Oct 2020 11:56:42 +0200
-Date:   Fri, 30 Oct 2020 11:56:42 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        linux-media@vger.kernel.org
-Subject: Re: Suggestion regarding x8 gang mode device tree changes
-Message-ID: <20201030095642.GC6899@valkosipuli.retiisi.org.uk>
-References: <e253fee3-5358-aaf1-d317-162dc8e98afc@nvidia.com>
- <20201029145013.GA6899@valkosipuli.retiisi.org.uk>
- <59f91ac7-84fc-a9fd-e331-35adf4e5f5b9@nvidia.com>
- <2ac2eb3d-32df-a352-3ce5-918ddbf718af@nvidia.com>
- <20201029165245.GB6899@valkosipuli.retiisi.org.uk>
- <542bbb61-049e-85d8-c2d7-9f38e6625b3d@nvidia.com>
- <7f64c771-a4ff-8909-4679-1cec58947e94@xs4all.nl>
+        Fri, 30 Oct 2020 05:57:09 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id YR9aknaYkWvjMYR9ekGvTG; Fri, 30 Oct 2020 10:57:06 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604051826; bh=qR/xF66rx/kb0/CWlACoiFP6bxZ/h+wixTYAe0Vx8qI=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=RGMc1R3hJRfi42zMJy7AuV+DotPaHfJ6biMuRR4jqJd7H3XQBsRaJ4Fkh5/MqCqkm
+         Q+3bE13AHy2eVgXay44HGlppmRcnQogTSjcc8PIT+pgThcNqTrpZ/dNYuftFnPQRz0
+         fuCF5j3CjtqnhnVkvSc2bQ5ixI5oIShIhDTOkF4Soyn+y8w7WfD0WvAH1JyUXtKGNC
+         m9zvC55/TmdHnM6u5NuwKAUNTuT4e6PaIho8O3DI4eX2r/pw2brWafUDy+48Wr9sPo
+         goHwLxA6uvZ9rDHpM1EmzbLipPGOXYJoerQuVMT50r/7cARrhA50S4hU7sq44O397P
+         GYg/z4W3Zs+jQ==
+Subject: Re: [PATCH] media: platform: ti-vpe: Update the path to firmware
+To:     Nikhil Devshatwar <nikhil.nd@ti.com>, linux-media@vger.kernel.org,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Benoit Parrot <bparrot@ti.com>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Sekhar Nori <nsekhar@ti.com>
+References: <20201012125200.11643-1-nikhil.nd@ti.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <14827fb7-4c2d-426d-cfde-221fd8c39c20@xs4all.nl>
+Date:   Fri, 30 Oct 2020 10:57:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <7f64c771-a4ff-8909-4679-1cec58947e94@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201012125200.11643-1-nikhil.nd@ti.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfIFFxvlx7jw+81EAx/ntmNWSimfrQF98N+UV85NCNmLCEbnAKICKk//bu1o0RyPN8w4NKhWvPOZQNgUf4OSPqRjqmGTNK08/aYgcTKrswgtJD1DnQoIF
+ TGo8yI5BGTuCYHy6fGv6c0REx2Nl7yDn5g0H3KNOC6lAFwrDjeWRSM5lj889nAAYAF853f5zcA4GIQPd/Fxop/f3NGuSeruPjlvHmtdbqRd7cLjeoaVBx+co
+ bLSm/75sJpiHoFDsipvO4+UdVztfuQ92xnHmpJwE1dlHiNYEDvtG60AtO1dX+7wySK2BwTfhRW4UmkfZboJBeNG8HPQVYwdcxHD6u7AceGkOhNA07jJExs2s
+ SgY4ixGZ
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Nikhil,
 
-On Fri, Oct 30, 2020 at 10:31:06AM +0100, Hans Verkuil wrote:
-> On 29/10/2020 18:07, Sowjanya Komatineni wrote:
-> > 
-> > On 10/29/20 9:52 AM, Sakari Ailus wrote:
-> >> On Thu, Oct 29, 2020 at 09:49:57AM -0700, Sowjanya Komatineni wrote:
-> >>> On 10/29/20 8:36 AM, Sowjanya Komatineni wrote:
-> >>>> On 10/29/20 7:50 AM, Sakari Ailus wrote:
-> >>>>> Hi Sowjanya,
-> >>>>>
-> >>>>> On Wed, Oct 28, 2020 at 06:48:59PM -0700, Sowjanya Komatineni wrote:
-> >>>>>> Hi Sakari,
-> >>>>>>
-> >>>>>> Missed to add you to below patch series for HDMI2CSI bridge support
-> >>>>>>
-> >>>>>> https://patchwork.kernel.org/project/linux-media/cover/1603768763-25590-1-git-send-email-skomatineni@nvidia.com/
-> >>>>>>
-> >>>>>>
-> >>>>>> Patch-10 of this series is for x8 capture from HDMI2CSI bridge.
-> >>>>>>
-> >>>>>> Would like to get your suggestion on x8 gang/combined ports capture
-> >>>>>> implementation.
-> >>>>> The majority of CSI-2 receiver devices support partitioning the
-> >>>>> lanes among
-> >>>>> different PHYs in various ways. They do support usually up to four
-> >>>>> lanes,
-> >>>>> but adding four more lanes is not a reason for making the API different.
-> >>>>>
-> >>>>> So instead, you should implement this as a single port that simply has 8
-> >>>>> lanes.
-> >>>>>
-> >>>> Thanks Sakari for your reply.
-> >>>>
-> >>>> current v2 series treats as 8 lanes. You mean to not expose 2nd port in
-> >>>> device tree as VI/CSI side takes care of 2nd port as combined to treat
-> >>>> as 8 lane?
-> >> Correct.
-> >>
-> >> Although you can have the second port connected if fewer lanes are assigned
-> >> to the first one.
-> >>
-> >> How does it work for this device, are the lanes statically allocated to
-> >> ports, apart from the special 8 lane mode?
-> > 
-> > Tegra CSI each port supports max 4 lanes. For x8, 2 x4 ports together 
-> > are programmed for simultaneous streaming during the same video/subdev 
-> > stream ops.
-> > 
-> > Physically, CSI RX side 4 lanes goes to x4 port and other 4 lanes goes 
-> > to another x4 port.
-> > 
-> > HDMI Bridge TX0 -> CSI RX0 (x4 port)
-> > 
-> > HDMI Bridge TX1 -> CSI RX1 (x4 port)
-> > 
-> > HDMI bridge side single image is split into 2 x4 ports and on RX side 
-> > image from both ports are captured simultaneously with buffer offsets 
-> > adjusted side-by-side to get combined image for same video buf of video 
-> > device.
-> > 
-> > Both these 2 x4 ports together are used for streaming by Tegra VI and 
-> > buffer offsets are adjusted side by side for these ports and for video 
-> > device node stream, its single buffer which contains combined image from 
-> > capture.
-> > 
-> >>> AS csi2 bus type supports max 4 data lanes with endpoint parse API.
-> >>>
-> >>> Currently with x8 as single port, I am using bus-width with bus type as
-> >>> parallel in device tree and when using x4 using data-lanes with csi2 bus
-> >>> type and driver gets lanes based on either of this from DT.
-> >>>
-> >>> Instead should we update endpoint parse API for max up to 8 lanes for
-> >>> data-lanes?
-> >> Yes, please. Could you send a patch?
-> >>
-> >> The standard AFAIK supports up to four lanes but as we know, hardware
-> >> sometimes has more than that.
-> > 
-> > Sure once Hans also agrees with this to have it as single x8 port (just 
-> > like I have now in v2), will send v3 to update endpoint parse to allow 
-> > upto max 8 data-lanes and will also update Tegra CSI driver accordingly 
-> > to retrieve lanes using csi2 bus type.
-> > 
-> > Hans, Please confirm if you agree with this.
-> > 
+On 12/10/2020 14:52, Nikhil Devshatwar wrote:
+> vpdma firmware is now available in the linux-firmware repo.
 > 
-> I'm not sure if I agree with this. Shouldn't a device tree reflect the
-> hardware? And how would you represent the use case where the ganging
-> mode stitches together two synced sensors (left and right) into a single
-> 3D side-by-side image? Then you would have:
+> https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/tree/ti-connectivity/vpdma-1b8.bin
 > 
->  Left Sensor TX -> CSI RX0 (x4 port)
-> Right Sensor TX -> CSI RX1 (x4 port)
+> Update the firmware path requested by the VPDMA driver so that
+> it gets looked up correctly in the filesystem.
 > 
-> And for the tc358840 something similar might be true: in the case of the
-> Tegra you have this nice ganging mode available, but for other SoCs each
-> half would have to go to a separate CSI port and captured via a separate
-> video DMA channel, and software or a GPU is needed to combine the two
-> halves.
+> Signed-off-by: Nikhil Devshatwar <nikhil.nd@ti.com>
+> ---
+>  drivers/media/platform/ti-vpe/vpdma.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 > 
-> In both these examples it is my understanding that you have to model this
-> in the DT as separate x4 ports.
+> diff --git a/drivers/media/platform/ti-vpe/vpdma.c b/drivers/media/platform/ti-vpe/vpdma.c
+> index 2e5148ae7a0f..5a378449a4ff 100644
+> --- a/drivers/media/platform/ti-vpe/vpdma.c
+> +++ b/drivers/media/platform/ti-vpe/vpdma.c
+> @@ -23,7 +23,7 @@
+>  #include "vpdma.h"
+>  #include "vpdma_priv.h"
+>  
+> -#define VPDMA_FIRMWARE	"vpdma-1b8.bin"
+> +#define VPDMA_FIRMWARE	"ti-connectivity/vpdma-1b8.bin"
 
-Do note that a "port" as such is a logical concept. On modern hardware, a
-port consists of two or more lanes --- one clock, plus at least one data
-lane. Perhaps an example could be useful. For instance, if you have ten
-lanes on a device, this could be split into following configurations, based
-on the board design:
+Based on the discussion, this will change to ti/vpdma-1b8.bin, right?
+At least once linux-firmware has been updated.
 
-configuration \ data lanes	port 0	port 1	port 2	port 3
+I'll wait for a v2.
 
-1:				4	4
-2:				4	2	1
-3:				2	2	2
-4:				2	2	1	1
+Regards,
 
-So if you add one more, say:
+	Hans
 
-5:				8
+>  
+>  const struct vpdma_data_format vpdma_yuv_fmts[] = {
+>  	[VPDMA_DATA_FMT_Y444] = {
+> 
 
-So what we're discussing is just how the lanes are distributed across the
-ports.
-
-There are usually hardware specific limitations how the lanes can be
-distributed. The interface we have in DT (data-lanes + clock-lanes
-properties) allows describing the hardware in general case, so what the
-interface allows may not be possible in hardware, but what hardware
-implements is supported by the interface.
-
--- 
-Kind regards,
-
-Sakari Ailus
