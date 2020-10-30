@@ -2,75 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C25572A042F
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 12:33:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21B482A0432
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 12:34:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726171AbgJ3Lcx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 07:32:53 -0400
-Received: from mail-wr1-f67.google.com ([209.85.221.67]:42786 "EHLO
-        mail-wr1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725834AbgJ3Lcx (ORCPT
+        id S1726055AbgJ3LeX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 07:34:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35578 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725355AbgJ3LeX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 07:32:53 -0400
-Received: by mail-wr1-f67.google.com with SMTP id w14so6063418wrs.9;
-        Fri, 30 Oct 2020 04:32:49 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=hap6ztNwMjmpscZQ5TX7IlxwkAmalUa6Muelsp2kCkA=;
-        b=tyqy9T5LP6CY7A1N5NG7X6I1NPC5kPC6n1qyDbRlQ+dHplZ9b05hiSZR4LjlkS2w+H
-         0QXP3+dq33JSvChBqztuoOcW5A8J2RLlsMj9DCz09km7FXpBkmfqL1fS2gK2enS7kFq6
-         aZExC9kVsVAKFW7nnRDEfT7rI1j3/fEjwzBDSKO2/mmYsr/gXGwIbV77elHQzdpJk6uy
-         bRfmkzsBFFUqizcdgO9BovtNXx/KdqjHYSmyl6N8ik03ckrkMEKwmpN38zw/jyVvLEq7
-         C9o9mLCBxdOt5RI3dX/Ow/ZxPC3xBFliHMSn2bxXDIvskJQcJo0zz4wkidWo55PFBJU3
-         JrsQ==
-X-Gm-Message-State: AOAM531K8oNMwVAZaIAZ3Diqw/M3ZhDF9JzSSmCtwOJ7E8NNC6qoLy/7
-        nMJzQqmnK0V4M4GfQlDeIBk=
-X-Google-Smtp-Source: ABdhPJzKlBaSS25MdiKT8LGCKeRmdbRIDx3zyM2O2N9VebtMjrl2esOMTev85oxF/KGyIEzyjATfeA==
-X-Received: by 2002:adf:e490:: with SMTP id i16mr2707012wrm.178.1604057569279;
-        Fri, 30 Oct 2020 04:32:49 -0700 (PDT)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.googlemail.com with ESMTPSA id b7sm9560104wrp.16.2020.10.30.04.32.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2020 04:32:48 -0700 (PDT)
-Date:   Fri, 30 Oct 2020 12:32:46 +0100
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: i2c: imx258: validate rotation only if it is
- provided
-Message-ID: <20201030113246.GC36162@kozik-lap>
-References: <20201005151559.12003-1-krzk@kernel.org>
- <20201005151559.12003-2-krzk@kernel.org>
- <20201028092343.GA100461@kozik-lap>
+        Fri, 30 Oct 2020 07:34:23 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2A4E5C0613D2
+        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 04:34:23 -0700 (PDT)
+Received: from [IPv6:2003:c7:cf1c:4d00:58b3:6683:91ae:b6a8] (p200300c7cf1c4d0058b3668391aeb6a8.dip0.t-ipconnect.de [IPv6:2003:c7:cf1c:4d00:58b3:6683:91ae:b6a8])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: dafna)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 640F21F45EBC;
+        Fri, 30 Oct 2020 11:34:21 +0000 (GMT)
+Subject: Re: [PATCH v2 1/2] media: uapi: add MEDIA_BUS_FMT_METADATA_FIXED
+ media bus format.
+To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org
+Cc:     laurent.pinchart@ideasonboard.com, helen.koike@collabora.com,
+        ezequiel@collabora.com, kernel@collabora.com, dafna3@gmail.com,
+        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
+        mchehab@kernel.org, tfiga@chromium.org
+References: <20201020154522.654-1-dafna.hirschfeld@collabora.com>
+ <04d5a149-8745-ae20-a622-bcfcafb69cbb@xs4all.nl>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <36159037-bf65-f7be-8deb-735afd726eee@collabora.com>
+Date:   Fri, 30 Oct 2020 12:34:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201028092343.GA100461@kozik-lap>
+In-Reply-To: <04d5a149-8745-ae20-a622-bcfcafb69cbb@xs4all.nl>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 28, 2020 at 10:23:43AM +0100, Krzysztof Kozlowski wrote:
-> On Mon, Oct 05, 2020 at 05:15:59PM +0200, Krzysztof Kozlowski wrote:
-> > The sensor supports rotation by 180 degrees however the value of
-> > "rotation" property should be validated only if it exists.  If
-> > "rotation" is missing, do not fail the probe:
-> > 
-> >     imx258: probe of 3-001a failed with error -22
-> > 
-> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> 
-> This is actually a fix, so these should be added:
-> Fixes: 17121d12a5c1 ("media: imx258: Check the rotation property has a value of 180")
-> Cc: <stable@vger.kernel.org>
-> 
-> Best regards,
-> Krzysztof
 
-Please drop this patch. I misunderstood the comment.
 
-Best regards,
-Krzysztof
+Am 30.10.20 um 09:58 schrieb Hans Verkuil:
+> On 20/10/2020 17:45, Dafna Hirschfeld wrote:
+>> MEDIA_BUS_FMT_METADATA_FIXED should be used when
+>> the same driver handles both sides of the link and
+>> the bus format is a fixed metadata format that is
+>> not configurable from userspace.
+>> The width and height will be set to 0 for this format.
+>>
+>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+>> Acked-by: Helen Koike <helen.koike@collabora.com>
+>> ---
+>> changes since v1:
+>> 1. replace "This format may have 0 height and width."
+>> with "Width and height will be set to 0 for this format."
+>> and add it also to the commit log
+>> 2. s/meida:/media:/ in the patch subject line
+>>
+>>   include/uapi/linux/media-bus-format.h | 8 ++++++++
+>>   1 file changed, 8 insertions(+)
+>>
+>> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+>> index 84fa53ffb13f..2ce3d891d344 100644
+>> --- a/include/uapi/linux/media-bus-format.h
+>> +++ b/include/uapi/linux/media-bus-format.h
+>> @@ -156,4 +156,12 @@
+>>   /* HSV - next is	0x6002 */
+>>   #define MEDIA_BUS_FMT_AHSV8888_1X32		0x6001
+>>   
+>> +/*
+>> + * This format should be used when the same driver handles
+>> + * both sides of the link and the bus format is a fixed
+>> + * metadata format that is not configurable from userspace.
+>> + * Width and height will be set to 0 for this format.
+>> + */
+>> +#define MEDIA_BUS_FMT_METADATA_FIXED		0x7001
+>> +
+>>   #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
+>>
+> 
+> Documentation/userspace-api/media/v4l/subdev-formats.rst also needs to
+> be updated.
+
+hi,
+I wonder what should be the documentation, since this mbus code
+is for very specific use case. You think that the 0x7* mbus codes
+should be 'metadata mbus codes'?
+
+Thanks,
+Dafna
+
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
