@@ -2,168 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AA382A010B
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 10:18:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28EFC2A00FA
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 10:16:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726028AbgJ3JSO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 05:18:14 -0400
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:36843 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725808AbgJ3JSO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 05:18:14 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id YQXtknNVdWvjMYQXxkGngZ; Fri, 30 Oct 2020 10:18:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1604049491; bh=eJqDFG3kNVE3ve2waqjLKvPfyty1UrKzCD+TRJYT4nQ=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=iRgOU0pOHEx+URk147BRvhkpqT4qeRYEv9tVpLinccZrgIqG++DxtzHxBHAHXTqCR
-         E/YiRx0RgkZ8TnOAErewaD8tT2cy1voY1mVOg7m774cLlyAIM92TRviGbr5IcOurny
-         7DcczPjjM9l9JbNelHrHGM/JcmylC69SYh8QI6LZX9u+R8Q7VBF8U+EhaevDIJEpQz
-         VXzzWrnHBq7ah9eiBYE1X18RSD0SiIRYZyJoYvRM6VfjDbPzgWljBh2zFaqNeBRzPN
-         6jGrIE89L3MJt7C2P/jnUCFVG7Yiwp27Kwui4JxiKYutu/TOim6/32gGR0R9FaiXQg
-         nusEhBnyPJy6A==
-Subject: Re: [PATCH 0/2] destage Rockchip ISP1 driver
-To:     Helen Koike <helen.koike@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
-        heiko@sntech.de, kernel@collabora.com,
-        dafna.hirschfeld@collabora.com, zhengsq@rock-chips.com,
-        laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se,
-        mchehab@kernel.org, tfiga@chromium.org, ribalda@google.com
-References: <20201030055153.1981530-1-helen.koike@collabora.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <822e7152-00c6-28fe-1997-f4f9b33ebce9@xs4all.nl>
-Date:   Fri, 30 Oct 2020 10:18:05 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726019AbgJ3JQK convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 30 Oct 2020 05:16:10 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:53758 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725876AbgJ3JQJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Oct 2020 05:16:09 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kYQW0-0072Aa-55; Fri, 30 Oct 2020 09:16:08 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kYQYx-00066Q-IH; Fri, 30 Oct 2020 09:19:11 +0000
+Date:   Fri, 30 Oct 2020 09:19:09 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1831193995.19.1604049551559@builder.linuxtv.org>
+In-Reply-To: <1220410247.18.1604047765445@builder.linuxtv.org>
+References: <1220410247.18.1604047765445@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3270
 MIME-Version: 1.0
-In-Reply-To: <20201030055153.1981530-1-helen.koike@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJRyz+DT4luHmHHm2mgdYQvH4KqYZq3wa36trLUyRu6kVI0niSbzKbY/nG9zbBUm/IdcJ+AUVN7H0rfFmiNn6o34bFdRg5TAPFNn9vCy2pj5oirHFCP6
- wWjVLg08GWMCBJKknv1oiXkqZ4YdwDEJFB0Ct9BkZAPpf0lQVt/Laz0Hw2nQmuSM25egCh1lb5s0xPaIr1SgiKm9vG8UQOjUXePj0KdbkgljebYxgUV2TvPM
- z8J32fmCl4VsTwT772sEhK4yEH/b8VgLy3kvWrHLK0GqaMzU8GbLeGyvyttPES0QMWL0rIJ8bejNZqPNms/OwCEYHnqA7ECRsjV4fJwOdU/HRYhlMT50bQIU
- qO0A0kS9z491O8D+epVRlVz6TZ8lgV3Rnm9z91hrLZ7ITn59GZjbZDiVPSNvGFkCkF4lgsyLk02Lr0Izh4DAFC0L5ifTHvZ7rmwLwuQiSHcUsAmiNxn3dyXS
- RNq4nMHBZYxmIB/FCLjmVZ2KG2eKc/uWpLnd9eGjoHACJjHs3aODSeqeYzps7rU4WLd8dB9QiA+wYhbrUFz6dja/NZ74NihdZhJdY1RLcP5eKiVVBV6SoLSr
- I6jjvvOg2e9Jq98OL4CGDZS4VKZRS/gF1D0yCyQ2PMlmSNM4uf5qemZi8CCQdinPsRY=
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 30/10/2020 06:51, Helen Koike wrote:
-> Hello,
-> 
-> I think it is time to move this driver out of staging.
-> 
-> Thanks all who contributed, specially to Dafna, who put a lot of
-> effort addressing all the items in the TODO list, fixing bugs,
-> cleaning the code, addressing past comments and testing.
-> 
-> Please, review the driver, see if there is any other thing that should
-> be addressed before this change.
+See <https://builder.linuxtv.org/job/media-build/3270/display/redirect>
 
-I didn't see a MAINTAINERS patch!
+Changes:
 
-Regards,
 
-	Hans
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building on master in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision b5733d0fdc887a215d63eba10c1789e836625975 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f b5733d0fdc887a215d63eba10c1789e836625975 # timeout=10
+Commit message: "Drop unneeded clamp check"
+ > git rev-list --no-walk b5733d0fdc887a215d63eba10c1789e836625975 # timeout=10
+[Checks API] No suitable checks publisher found.
+[media-build] $ /bin/sh -xe /tmp/jenkins6434050745189220030.sh
++ ./build
+Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
+Needed package dependencies are met.
 
-> 
->> media-ctl -p
-> http://ix.io/2Cso
-> 
->> media-ctl --print-dot
-> http://ix.io/2Csp
-> 
->> v4l2-compliance -m0
-> http://ix.io/2Csk
-> 
->> v4l2-compliance -v -d /dev/video0 -s10
-> http://ix.io/2Csq
-> 
->> v4l2-compliance -v -d /dev/video1 -s10
-> http://ix.io/2Css
-> 
-> This patch depends on the following series:
-> 
-> * media: staging: rkisp1: uapi: add "WITH Linux-syscall-note"
->   https://patchwork.linuxtv.org/project/linux-media/patch/20201020132514.26651-1-dafna.hirschfeld@collabora.com/
-> 
-> * [0/2] media: staging: rkisp1: Fix formats for metadata pads
->   https://patchwork.linuxtv.org/project/linux-media/cover/20200325212704.29862-1-dafna.hirschfeld@collabora.com/
-> 
-> * [v2,1/2] media: uapi: add MEDIA_BUS_FMT_METADATA_FIXED media bus format.
->   [v2,2/2] media: staging: rkisp1: isp: set metadata pads to MEDIA_BUS_FMT_METADATA_FIXED
->   https://patchwork.linuxtv.org/project/linux-media/patch/20201020154522.654-1-dafna.hirschfeld@collabora.com/
-> 
-> * [0/6] media: staging: rkisp1: improvements
->   https://patchwork.linuxtv.org/project/linux-media/cover/20201002184222.7094-1-dafna.hirschfeld@collabora.com/
-> 
-> * [0/4] media: staging: rkisp1: send cleanups and checkpatch fixes
->   https://patchwork.linuxtv.org/project/linux-media/cover/20201019205956.6980-1-dafna.hirschfeld@collabora.com/
-> 
-> * media: staging: rkisp1: capture: set default quantization on 'set_fmt'
->   https://patchwork.linuxtv.org/project/linux-media/patch/20201026162848.18310-1-dafna.hirschfeld@collabora.com/
-> 
-> * media: staging: rkisp1: remove TODO item to document quantization handling
->   https://patchwork.linuxtv.org/project/linux-media/patch/20200928152809.27490-1-dafna.hirschfeld@collabora.com/
-> 
-> * [v2] media: staging: rkisp1: cap: refactor enable/disable stream to allow multistreaming
->   https://patchwork.linuxtv.org/project/linux-media/patch/20201019160434.877568-1-helen.koike@collabora.com/
-> 
-> * [v6,0/9] move Rockchip ISP bindings out of staging / add ISP DT nodes for RK3399
->   https://patchwork.linuxtv.org/project/linux-media/patch/20201020193850.1460644-2-helen.koike@collabora.com/
-> 
-> You can also see all of them applied in this branch:
-> 
->     https://gitlab.collabora.com/koike/linux/-/tree/rockchip/isp/destage
-> 
-> Thanks
-> Helen
-> 
-> Helen Koike (1):
->   media: rockchip: rkisp1: destage Rockchip ISP1 driver
-> 
-> Shunqian Zheng (1):
->   media: videodev2.h, v4l2-ioctl: add rkisp1 meta buffer format
-> 
->  .../media/v4l/pixfmt-meta-rkisp1.rst          |  2 +-
->  drivers/media/platform/Kconfig                | 18 ++++++++++++++++++
->  drivers/media/platform/Makefile               |  1 +
->  .../platform/rockchip}/rkisp1/Makefile        |  0
->  .../rockchip}/rkisp1/rkisp1-capture.c         |  0
->  .../platform/rockchip}/rkisp1/rkisp1-common.c |  0
->  .../platform/rockchip}/rkisp1/rkisp1-common.h |  2 +-
->  .../platform/rockchip}/rkisp1/rkisp1-dev.c    |  0
->  .../platform/rockchip}/rkisp1/rkisp1-isp.c    |  0
->  .../platform/rockchip}/rkisp1/rkisp1-params.c |  0
->  .../platform/rockchip}/rkisp1/rkisp1-regs.h   |  0
->  .../rockchip}/rkisp1/rkisp1-resizer.c         |  0
->  .../platform/rockchip}/rkisp1/rkisp1-stats.c  |  0
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  2 ++
->  drivers/staging/media/Kconfig                 |  2 --
->  drivers/staging/media/Makefile                |  1 -
->  drivers/staging/media/rkisp1/Kconfig          | 19 -------------------
->  drivers/staging/media/rkisp1/TODO             |  6 ------
->  .../uapi/linux}/rkisp1-config.h               |  4 ----
->  include/uapi/linux/videodev2.h                |  4 ++++
->  20 files changed, 27 insertions(+), 34 deletions(-)
->  rename drivers/{staging/media => media/platform/rockchip}/rkisp1/Makefile (100%)
->  rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-capture.c (100%)
->  rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-common.c (100%)
->  rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-common.h (99%)
->  rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-dev.c (100%)
->  rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-isp.c (100%)
->  rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-params.c (100%)
->  rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-regs.h (100%)
->  rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-resizer.c (100%)
->  rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-stats.c (100%)
->  delete mode 100644 drivers/staging/media/rkisp1/Kconfig
->  delete mode 100644 drivers/staging/media/rkisp1/TODO
->  rename {drivers/staging/media/rkisp1/uapi => include/uapi/linux}/rkisp1-config.h (99%)
-> 
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
 
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2020-10-30 09:19:06--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2020-10-30 09:19:06--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100%  210M=0s
+
+2020-10-30 09:19:07 (210 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-12-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
+patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
+patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
+patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
+patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
+patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
+patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
+patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
+patch -s -f -N -p1 -i ../backports/v5.4_dma_buf.patch
+patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
+patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
+patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
+patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
+Patched drivers/media/dvb-core/dvbdev.c
+Patched drivers/media/v4l2-core/v4l2-dev.c
+Patched drivers/media/rc/rc-main.c
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+./scripts/make_kconfig.pl /lib/modules/4.19.0-12-amd64/build /lib/modules/4.19.0-12-amd64/build 1
+File not found: /lib/modules/4.19.0-12-amd64/build/.config at ./scripts/make_kconfig.pl line 33, <IN> line 4.
+Preparing to compile for kernel version 4.19.0
+make[1]: *** [Makefile:379: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
