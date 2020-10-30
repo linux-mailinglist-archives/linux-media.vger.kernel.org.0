@@ -2,73 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B43032A0A19
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 16:43:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C7042A0A82
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 16:57:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726962AbgJ3PnJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 11:43:09 -0400
-Received: from mail-ot1-f67.google.com ([209.85.210.67]:33212 "EHLO
-        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725939AbgJ3PnJ (ORCPT
+        id S1726871AbgJ3P50 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 11:57:26 -0400
+Received: from wnew2-smtp.messagingengine.com ([64.147.123.27]:60353 "EHLO
+        wnew2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726178AbgJ3P5Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 11:43:09 -0400
-Received: by mail-ot1-f67.google.com with SMTP id i18so1207064ots.0;
-        Fri, 30 Oct 2020 08:43:08 -0700 (PDT)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=qQnCpTL2n7MfqOJCYXtINnhpLooq+fy/JdUHJMJc17g=;
-        b=WJSSruMkjas+kPjYDqmflBwVMzGBq5eN5e/Wenrt50MlfuKK3qLj9MIHeKEmo/LVSY
-         gO6+OtX1IyEhEkmVW5wtCuWJ80xOzdUHjksRVC/oj2cW0xXfcL478jK4IdKJTNGcw6Ny
-         EgDj2e6Ry5QCXvTTxZII4lZOpbs1GdVlSJDSMQ5q8u/lNaQiNlC6abmUFUk1mdmhabPU
-         gsHdKbxIFO6okgcDK6HsAsJv+i7ONYl+X0UjbGAXUKUl5gdE5njspWXKdkdH2BF9Dnju
-         vKurOoNZ0kK1sZ8WDdZTNt/dKoGczYm57lnGtfoivqJ8bgTWy66Za+pWvDGQqNUh6A36
-         ztDQ==
-X-Gm-Message-State: AOAM53031XQpY6sjM1ejOueZ8H5Gp+zGHVZmtqWp0EuH98RosW5isxCD
-        JKcT4jCpV3gNRDhx9AHleQ==
-X-Google-Smtp-Source: ABdhPJzFC6jxXMm/AwgFxaqnmiQsXOtJlVokFGyvuCqqoZ+wdlTz7QJ0w94vk91/TLuPVMet8ZtG6g==
-X-Received: by 2002:a05:6830:15c8:: with SMTP id j8mr2279776otr.209.1604072588127;
-        Fri, 30 Oct 2020 08:43:08 -0700 (PDT)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id d26sm1377879otp.3.2020.10.30.08.43.05
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 30 Oct 2020 08:43:06 -0700 (PDT)
-Received: (nullmailer pid 3896566 invoked by uid 1000);
-        Fri, 30 Oct 2020 15:43:05 -0000
-Date:   Fri, 30 Oct 2020 10:43:05 -0500
-From:   Rob Herring <robh@kernel.org>
-To:     kholk11@gmail.com
-Cc:     robert.foss@linaro.org, marijns95@gmail.com, agross@kernel.org,
-        bjorn.andersson@linaro.org, mchehab@kernel.org,
-        devicetree@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org, todor.too@gmail.com,
-        konradybcio@gmail.com, martin.botka1@gmail.com,
-        linux-media@vger.kernel.org, robh+dt@kernel.org
-Subject: Re: [PATCH v2 6/7] media: dt-bindings: media: qcom,camss: Add
- bindings for SDM660 camss
-Message-ID: <20201030154305.GA3896512@bogus>
-References: <20201022174706.8813-1-kholk11@gmail.com>
- <20201022174706.8813-7-kholk11@gmail.com>
+        Fri, 30 Oct 2020 11:57:25 -0400
+X-Greylist: delayed 455 seconds by postgrey-1.27 at vger.kernel.org; Fri, 30 Oct 2020 11:57:25 EDT
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.west.internal (Postfix) with ESMTP id BD28EC82;
+        Fri, 30 Oct 2020 11:49:48 -0400 (EDT)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Fri, 30 Oct 2020 11:49:49 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=VAX3nr0UfKRsL8dcSjmQItUjyxQ
+        QXBJdMzAIgrzhQLw=; b=vUERaHr5tIHohUlXRncfJbWrkz6MwBz9jz3Fso9rEfi
+        ikeFYG2FxWuwnWjw+MK6g/RzA5e3QFWZq/Xq2/FyFQ5yKDs9Jf+QcSNNb8EBDSzU
+        21+yvGcx0NyfcJ3dldT2B9pupK9Wg8Fwnu5SvRL6h97tcQKVsg+2Sao7y1IXWW+D
+        gov+r8KAZYmA0XY6nb7N+4a703w6DdNI0KUXc/j9HiPUqDZu9O0QBk/1n1daAwVa
+        CowTUacfvQQanPe10sIc7U9Jirpk0fqQBAsYwkY6du0UkJg7oxcRbj5VX80cku/8
+        9st1+QHwJ1pWvGHggIjIfO16xjcZeZYBTXkFnZffN6g==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=VAX3nr
+        0UfKRsL8dcSjmQItUjyxQQXBJdMzAIgrzhQLw=; b=Mxy3XeioGra6s6scZmbSnC
+        IIiPOUDRe/+mtyjgriv0dDVeOfpVaFAjRKZJfmsRJ7I5Eu9q9FVULd5m5LOnVQS2
+        o8Z9EBh7xsqanKpa3I/2F0mZFuW7Qe8tOu9v4DbQdVTerHp+Eo1pC98hCHL80Qg3
+        uj1e+J7gbjfVEvboM3ik+MHvMQzARSxmLeDRXpa/HCsXl5+DizkMUL09ZduxCZzv
+        0LGU0TEuBZp0vQeGLaap3HT9S63rC1QTkqkeeKyJm8YgHoDGrZymqEyoq8V22qTa
+        58Xud9BLDZsj6tOuaeUFwUYiNNdWgfsum2YhBJoYbywmx4ISrycdpdMOA32mkctw
+        ==
+X-ME-Sender: <xms:GjacX2-73sJOtyVdEWL9xXGjADSy0vvoVmPekTB1GcE0I1Vm9lsiwA>
+    <xme:GjacX2ukhWkk5DET24BECBB8h4GIGRZMZUs2N2p-rnfIvZP-T1lBz7Kle5-R_sDAG
+    UrwOoVCXvHANeuTk28>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrleehgdejiecutefuodetggdotefrodftvf
+    curfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfghnecu
+    uegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmdenuc
+    fjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihimhgv
+    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
+    gvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheeiheeg
+    udenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
+    grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
+X-ME-Proxy: <xmx:GjacX8B7o1Mj5vF0Pb7dJpXeCsL98XDbVr7gAPRn6t8HOluUNdHV9w>
+    <xmx:GjacX-ecrVfv1-pvn2FLmXTviid2eNZGJ8zxvGIJrj3umNDGnkj0lA>
+    <xmx:GjacX7McG4O-g0BG45GN-a3uR7gBO1suxkQaqS_Hnva5ra_mtJ6b-Q>
+    <xmx:HDacX2rFD3QrgtZTM6S0yfQ3ll8LM00a012Z5YEpVrHY9B55UVqu31cOaZo>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 97F02328005D;
+        Fri, 30 Oct 2020 11:49:46 -0400 (EDT)
+Date:   Fri, 30 Oct 2020 16:49:43 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Martin Cerveny <m.cerveny@computer.org>,
+        Chen-Yu Tsai <wens@csie.org>, devel@driverdev.osuosl.org,
+        devicetree@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>
+Subject: Re: [PATCH v2 0/6] ARM: dts: sun8i: v3s: Enable video decoder
+Message-ID: <20201030154943.2cmfa573huvh6lze@gilmour.lan>
+References: <20200912143052.30952-1-m.cerveny@computer.org>
+ <034d8de1-bcf3-88e6-4d23-9a13e8b950c3@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="uufs5p6b6nf52uao"
 Content-Disposition: inline
-In-Reply-To: <20201022174706.8813-7-kholk11@gmail.com>
+In-Reply-To: <034d8de1-bcf3-88e6-4d23-9a13e8b950c3@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 22 Oct 2020 19:47:05 +0200, kholk11@gmail.com wrote:
-> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
-> 
-> Add bindings for qcom,sdm660-camss in order to support the camera
-> subsystem on SDM630/660 and SDA variants.
-> 
-> Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
-> Reviewed-by: Robert Foss <robert.foss@linaro.org>
-> ---
->  Documentation/devicetree/bindings/media/qcom,camss.txt | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
 
-Acked-by: Rob Herring <robh@kernel.org>
+--uufs5p6b6nf52uao
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
+
+Hi!
+
+On Fri, Oct 30, 2020 at 12:06:10PM +0100, Hans Verkuil wrote:
+> Maxime,
+>=20
+> Are you OK with this series? It looks good to me.
+
+I am, you can take it. I'll merge the dt patches through arm-soc=20
+
+Thanks!
+Maxime
+
+--uufs5p6b6nf52uao
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5w2FwAKCRDj7w1vZxhR
+xY+AAQD8o4Tkz0kfe+3yVCldL+pH5eroTwl6fgV5eoCol3cjxwD/d3chMQgaYj27
+eLeYnrMSRMidwglTS9NnxVGyl9tFrgs=
+=EpHk
+-----END PGP SIGNATURE-----
+
+--uufs5p6b6nf52uao--
