@@ -2,98 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 264A52A008B
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 09:58:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C35862A0106
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 10:17:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725876AbgJ3I6X (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 04:58:23 -0400
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:48057 "EHLO
+        id S1726014AbgJ3JRM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 05:17:12 -0400
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:44997 "EHLO
         lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725355AbgJ3I6X (ORCPT
+        by vger.kernel.org with ESMTP id S1725790AbgJ3JRM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 04:58:23 -0400
+        Fri, 30 Oct 2020 05:17:12 -0400
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id YQEhknGriWvjMYQEkkGjz9; Fri, 30 Oct 2020 09:58:21 +0100
+        id YQWwknNCJWvjMYQWzkGnXW; Fri, 30 Oct 2020 10:17:09 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1604048301; bh=hKR/eJ1yTmtG9y/mUnTDtJCLd3zgjl8xKTjdYZPCTAs=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1604049429; bh=VnmiyJcHe1NYpGUSeiZBiBBcgCzW9UrVttLTx0n4F6A=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=eCb1ZYxLLZLJ34eGFRId3ZfjI5NJMk2e1KCDbH+xTvhizWCdUpg5iYsXQ3Aa/nf2j
-         3xv9sM8SQ8V309yB/y0xTIA1S3BJyiuub2+3gfnmDZKYH1SnPXn/a4oMYQ/3Ao/Rmf
-         lGI/05JGfPx1uiLUtf9Afctxx/zgl0PUJOwDe+RFmXvY7qhbOJEEmQmPbPQJgYEyMX
-         NfpZkJ+/3r3jL5r8jBKst0Tj99kyecqK4q8VN21rcVFgBmFKsmWKY2jHBY0dl8TWpP
-         0PJFsada+59o65h4xFNRbwLR32jk6byhKiSUAM7GTfLiMNF2ZqgtXOmyiZJQV+ai+8
-         1fq+M9T7AwgYw==
-Subject: Re: [PATCH v2 1/2] media: uapi: add MEDIA_BUS_FMT_METADATA_FIXED
- media bus format.
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, helen.koike@collabora.com,
-        ezequiel@collabora.com, kernel@collabora.com, dafna3@gmail.com,
-        sakari.ailus@linux.intel.com, linux-rockchip@lists.infradead.org,
-        mchehab@kernel.org, tfiga@chromium.org
-References: <20201020154522.654-1-dafna.hirschfeld@collabora.com>
+        b=uXGh8JrEqn0ApTzz3T3mByzFr6xoryFXAUFP3U8Iy0thEvbVS93PptzHpPa3iB88i
+         x9ME51ScTqkdps7Uq88abrOiMYJymvaRVg7Y/o+dAZLUQWLkUwubw5xr3Wsk7qL/7i
+         b8byDTBnIhgnGE7Q/67NUqsmOqc0qNvi0IYFwAwkqiy00DQgjt6PnARHDtSc48UcqT
+         3Aoq4ixTr4XX1lYMiQ2hYWQF7btU2w30D81x+bTdPvBMsRdB5mKb0+My6FpPDY0blJ
+         iXcogzjAA0HhuKINrX0Cb3dkLb9UJSAqIgJETLH3eZ76zRYoOvaty0Lf7QihB6VlmG
+         gC/U9wIXONDLw==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Helen Koike <helen.koike@collabora.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <04d5a149-8745-ae20-a622-bcfcafb69cbb@xs4all.nl>
-Date:   Fri, 30 Oct 2020 09:58:15 +0100
+Subject: [GIT PULL FOR v5.11] rkisp1 fixes/changes
+Message-ID: <613dc41c-7174-7c32-7c28-c05ff1e8348c@xs4all.nl>
+Date:   Fri, 30 Oct 2020 10:17:06 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201020154522.654-1-dafna.hirschfeld@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfFLMelhytvJkl5ojwxk1QbQO3rLfBBjidcrbZbb2AVnDunRh4ze4GWQIivmPxJVzV5GP6JvNryTaXXUZmZQQopDhahvFib0IGrCQs/jjwM6/GlrXGpSB
- BiUkWpS73pQ+FWlOXdjUl2t5H4NPg9vu2e8igxEuEXqnstcC0diHtIsrLVLGcpmjEhP9esU90mC1CrjoAaUcNKyeiRDCayuU9RNKVFDePTjOpQCRVcwWSB+h
- QUuVAMg4Fy5F0JHnHK513+P/NY3eRnQNaXvp1Xz3JiSpsKLGd6zqFf35e8TxIM/00enKd5Ua9AY8RfkdK7u9ULJqkA8ryb8G4NphbFyOehkxuL8YafUGlpPC
- t7NiVejOtZ9Id3D8I/khuVgezaaJtH1fkK9SIREfW3XZD0kr9xgJZ+LmPJ2GsxcIwf8SGwLIQLfH89sK9EYO7phO5jb3W2FgFIlwM9OQvapWoEoJnd7/WcDG
- wE6Hj/p0Jmzj1QW4lZ7dQLpcne8YPFRt8oMAAY+mMwn7f7X0dGiMqZhBTtBvku9SGN+qOow4sbmRBfsPXKwys+AcE8ZHEL3+WLLKfQ==
+X-CMAE-Envelope: MS4xfKEigmnJ3lCrgqFvTsFS0kzgKlizudHmV0wWWg8YYLNd59uXxGuNFIydOWF7g1AYp6Dw98iMOwL4A36W3j8vRCIOVnsamgdb6Q/0KOduBgigKxRMq4tm
+ bxpq5rVSbcbFSjf/D03TyrubybkM527LJlJDlh+OP+LWHJOXbx4sCVBFQOkFZNKsjWKIlbRjArQp+0UOITWtTr8Mqxlq5jG0qg7/k64bDJZLcqNEg8uDd0eC
+ nSplvX/I6PGxOH2P1R/0aMAMzUHn4ueJ2XGqobNZtRA=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 20/10/2020 17:45, Dafna Hirschfeld wrote:
-> MEDIA_BUS_FMT_METADATA_FIXED should be used when
-> the same driver handles both sides of the link and
-> the bus format is a fixed metadata format that is
-> not configurable from userspace.
-> The width and height will be set to 0 for this format.
-> 
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-> Acked-by: Helen Koike <helen.koike@collabora.com>
-> ---
-> changes since v1:
-> 1. replace "This format may have 0 height and width."
-> with "Width and height will be set to 0 for this format."
-> and add it also to the commit log
-> 2. s/meida:/media:/ in the patch subject line
-> 
->  include/uapi/linux/media-bus-format.h | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-> index 84fa53ffb13f..2ce3d891d344 100644
-> --- a/include/uapi/linux/media-bus-format.h
-> +++ b/include/uapi/linux/media-bus-format.h
-> @@ -156,4 +156,12 @@
->  /* HSV - next is	0x6002 */
->  #define MEDIA_BUS_FMT_AHSV8888_1X32		0x6001
->  
-> +/*
-> + * This format should be used when the same driver handles
-> + * both sides of the link and the bus format is a fixed
-> + * metadata format that is not configurable from userspace.
-> + * Width and height will be set to 0 for this format.
-> + */
-> +#define MEDIA_BUS_FMT_METADATA_FIXED		0x7001
-> +
->  #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
-> 
+After this series there are only a handful patches remaining before this
+driver can be moved out of staging.
 
-Documentation/userspace-api/media/v4l/subdev-formats.rst also needs to
-be updated.
+Dafna, I marked the patches that need a bit more work as 'Changes Requested'.
+It looks like it isn't much work to make a new version of those few patches.
+It would be nice to get this done early in the v5.11 cycle.
 
 Regards,
 
 	Hans
+
+The following changes since commit dfe3d19bd092cefb184c6e65b881602c793edd33:
+
+  Merge tag 'v5.10-rc1' into patchwork (2020-10-29 09:03:21 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.11b
+
+for you to fetch changes up to 698e29d26ee79103310dd09a2b7ba09d9febd41a:
+
+  media: MAINTAINERS: rkisp1: add path to dt-bindings (2020-10-30 10:02:18 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Dafna Hirschfeld (9):
+      media: staging: rkisp1: remove TODO item to document quantization handling
+      media: staging: rkisp1: validate links before powering and streaming
+      media: staging: rkisp1: params: in stop_streaming, use list_splice_init to move the buffers
+      media: staging: rkisp1: initialize buffer lists only on probe
+      media: staging: rkisp1: remove the 'is_streaming' field from stats and params
+      media: staging: rkisp1: params: remove unnecessary "!!"
+      media: staging: rkisp1: params: remove unnecessary parentheses
+      media: staging: rkisp1: uapi: add "WITH Linux-syscall-note"
+      media: staging: rkisp1: capture: set default quantization on 'set_fmt'
+
+Helen Koike (8):
+      media: staging: rkisp1: cap: refactor enable/disable stream to allow multistreaming
+      media: staging: dt-bindings: rkisp1: add missing required nodes
+      media: staging: dt-bindings: rkisp1: drop i2c unit address
+      media: staging: dt-bindings: rkisp1: re-order properties
+      media: staging: dt-bindings: rkisp1: drop parent unit address
+      media: staging: rkisp1: remove unecessary clocks
+      dt-bindings: media: rkisp1: move rockchip-isp1 bindings out of staging
+      media: MAINTAINERS: rkisp1: add path to dt-bindings
+
+ .../devicetree/bindings/media/rockchip-isp1.yaml                     |  81 +++++++----
+ MAINTAINERS                                                          |   2 +
+ drivers/staging/media/rkisp1/TODO                                    |   4 -
+ drivers/staging/media/rkisp1/rkisp1-capture.c                        | 241 ++++++++++++++++---------------
+ drivers/staging/media/rkisp1/rkisp1-common.h                         |  12 +-
+ drivers/staging/media/rkisp1/rkisp1-dev.c                            |   8 +-
+ drivers/staging/media/rkisp1/rkisp1-params.c                         |  87 ++++-------
+ drivers/staging/media/rkisp1/rkisp1-stats.c                          |  21 ---
+ drivers/staging/media/rkisp1/uapi/rkisp1-config.h                    |   2 +-
+ 9 files changed, 216 insertions(+), 242 deletions(-)
+ rename {drivers/staging/media/rkisp1/Documentation => Documentation}/devicetree/bindings/media/rockchip-isp1.yaml (81%)
