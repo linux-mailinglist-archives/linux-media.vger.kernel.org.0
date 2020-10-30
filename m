@@ -2,201 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1EC92A10EA
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 23:32:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02ADE2A1106
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 23:44:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725900AbgJ3WcM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 18:32:12 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53768 "EHLO
+        id S1726007AbgJ3Wol (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 18:44:41 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725791AbgJ3WcL (ORCPT
+        with ESMTP id S1725780AbgJ3Wok (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 18:32:11 -0400
-Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83EC0C0613D5
-        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 15:32:11 -0700 (PDT)
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 6714D634C87;
-        Sat, 31 Oct 2020 00:31:23 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kYcvc-00027I-IN; Sat, 31 Oct 2020 00:31:24 +0200
-Date:   Sat, 31 Oct 2020 00:31:24 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        Thierry Reding <treding@nvidia.com>,
-        linux-media@vger.kernel.org
-Subject: Re: Suggestion regarding x8 gang mode device tree changes
-Message-ID: <20201030223124.GE6899@valkosipuli.retiisi.org.uk>
-References: <e253fee3-5358-aaf1-d317-162dc8e98afc@nvidia.com>
- <20201029145013.GA6899@valkosipuli.retiisi.org.uk>
- <59f91ac7-84fc-a9fd-e331-35adf4e5f5b9@nvidia.com>
- <2ac2eb3d-32df-a352-3ce5-918ddbf718af@nvidia.com>
- <20201029165245.GB6899@valkosipuli.retiisi.org.uk>
- <542bbb61-049e-85d8-c2d7-9f38e6625b3d@nvidia.com>
- <7f64c771-a4ff-8909-4679-1cec58947e94@xs4all.nl>
- <20201030095642.GC6899@valkosipuli.retiisi.org.uk>
- <73cce478-c7b0-43b5-9c87-211b4a7c5b6b@xs4all.nl>
+        Fri, 30 Oct 2020 18:44:40 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 732CEC0613D5;
+        Fri, 30 Oct 2020 15:44:40 -0700 (PDT)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 327E91F45F45
+Subject: Re: [PATCH 00/14] Allwinner MIPI CSI-2 support for A31/V3s/A83T
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Yong Deng <yong.deng@magewell.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com
+References: <20201023174546.504028-1-paul.kocialkowski@bootlin.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <d15d724b-6af7-3e51-1316-7bdde5a42c60@collabora.com>
+Date:   Fri, 30 Oct 2020 19:44:28 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.3.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <73cce478-c7b0-43b5-9c87-211b4a7c5b6b@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201023174546.504028-1-paul.kocialkowski@bootlin.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+Hi Paul,
 
-On Fri, Oct 30, 2020 at 11:06:18AM +0100, Hans Verkuil wrote:
-> On 30/10/2020 10:56, Sakari Ailus wrote:
-> > Hi Hans,
-> > 
-> > On Fri, Oct 30, 2020 at 10:31:06AM +0100, Hans Verkuil wrote:
-> >> On 29/10/2020 18:07, Sowjanya Komatineni wrote:
-> >>>
-> >>> On 10/29/20 9:52 AM, Sakari Ailus wrote:
-> >>>> On Thu, Oct 29, 2020 at 09:49:57AM -0700, Sowjanya Komatineni wrote:
-> >>>>> On 10/29/20 8:36 AM, Sowjanya Komatineni wrote:
-> >>>>>> On 10/29/20 7:50 AM, Sakari Ailus wrote:
-> >>>>>>> Hi Sowjanya,
-> >>>>>>>
-> >>>>>>> On Wed, Oct 28, 2020 at 06:48:59PM -0700, Sowjanya Komatineni wrote:
-> >>>>>>>> Hi Sakari,
-> >>>>>>>>
-> >>>>>>>> Missed to add you to below patch series for HDMI2CSI bridge support
-> >>>>>>>>
-> >>>>>>>> https://patchwork.kernel.org/project/linux-media/cover/1603768763-25590-1-git-send-email-skomatineni@nvidia.com/
-> >>>>>>>>
-> >>>>>>>>
-> >>>>>>>> Patch-10 of this series is for x8 capture from HDMI2CSI bridge.
-> >>>>>>>>
-> >>>>>>>> Would like to get your suggestion on x8 gang/combined ports capture
-> >>>>>>>> implementation.
-> >>>>>>> The majority of CSI-2 receiver devices support partitioning the
-> >>>>>>> lanes among
-> >>>>>>> different PHYs in various ways. They do support usually up to four
-> >>>>>>> lanes,
-> >>>>>>> but adding four more lanes is not a reason for making the API different.
-> >>>>>>>
-> >>>>>>> So instead, you should implement this as a single port that simply has 8
-> >>>>>>> lanes.
-> >>>>>>>
-> >>>>>> Thanks Sakari for your reply.
-> >>>>>>
-> >>>>>> current v2 series treats as 8 lanes. You mean to not expose 2nd port in
-> >>>>>> device tree as VI/CSI side takes care of 2nd port as combined to treat
-> >>>>>> as 8 lane?
-> >>>> Correct.
-> >>>>
-> >>>> Although you can have the second port connected if fewer lanes are assigned
-> >>>> to the first one.
-> >>>>
-> >>>> How does it work for this device, are the lanes statically allocated to
-> >>>> ports, apart from the special 8 lane mode?
-> >>>
-> >>> Tegra CSI each port supports max 4 lanes. For x8, 2 x4 ports together 
-> >>> are programmed for simultaneous streaming during the same video/subdev 
-> >>> stream ops.
-> >>>
-> >>> Physically, CSI RX side 4 lanes goes to x4 port and other 4 lanes goes 
-> >>> to another x4 port.
-> >>>
-> >>> HDMI Bridge TX0 -> CSI RX0 (x4 port)
-> >>>
-> >>> HDMI Bridge TX1 -> CSI RX1 (x4 port)
-> >>>
-> >>> HDMI bridge side single image is split into 2 x4 ports and on RX side 
-> >>> image from both ports are captured simultaneously with buffer offsets 
-> >>> adjusted side-by-side to get combined image for same video buf of video 
-> >>> device.
-> >>>
-> >>> Both these 2 x4 ports together are used for streaming by Tegra VI and 
-> >>> buffer offsets are adjusted side by side for these ports and for video 
-> >>> device node stream, its single buffer which contains combined image from 
-> >>> capture.
-> >>>
-> >>>>> AS csi2 bus type supports max 4 data lanes with endpoint parse API.
-> >>>>>
-> >>>>> Currently with x8 as single port, I am using bus-width with bus type as
-> >>>>> parallel in device tree and when using x4 using data-lanes with csi2 bus
-> >>>>> type and driver gets lanes based on either of this from DT.
-> >>>>>
-> >>>>> Instead should we update endpoint parse API for max up to 8 lanes for
-> >>>>> data-lanes?
-> >>>> Yes, please. Could you send a patch?
-> >>>>
-> >>>> The standard AFAIK supports up to four lanes but as we know, hardware
-> >>>> sometimes has more than that.
-> >>>
-> >>> Sure once Hans also agrees with this to have it as single x8 port (just 
-> >>> like I have now in v2), will send v3 to update endpoint parse to allow 
-> >>> upto max 8 data-lanes and will also update Tegra CSI driver accordingly 
-> >>> to retrieve lanes using csi2 bus type.
-> >>>
-> >>> Hans, Please confirm if you agree with this.
-> >>>
-> >>
-> >> I'm not sure if I agree with this. Shouldn't a device tree reflect the
-> >> hardware? And how would you represent the use case where the ganging
-> >> mode stitches together two synced sensors (left and right) into a single
-> >> 3D side-by-side image? Then you would have:
-> >>
-> >>  Left Sensor TX -> CSI RX0 (x4 port)
-> >> Right Sensor TX -> CSI RX1 (x4 port)
-> >>
-> >> And for the tc358840 something similar might be true: in the case of the
-> >> Tegra you have this nice ganging mode available, but for other SoCs each
-> >> half would have to go to a separate CSI port and captured via a separate
-> >> video DMA channel, and software or a GPU is needed to combine the two
-> >> halves.
-> >>
-> >> In both these examples it is my understanding that you have to model this
-> >> in the DT as separate x4 ports.
-> > 
-> > Do note that a "port" as such is a logical concept. On modern hardware, a
-> > port consists of two or more lanes --- one clock, plus at least one data
-> > lane. Perhaps an example could be useful. For instance, if you have ten
-> > lanes on a device, this could be split into following configurations, based
-> > on the board design:
-> > 
-> > configuration \ data lanes	port 0	port 1	port 2	port 3
-> > 
-> > 1:				4	4
-> > 2:				4	2	1
-> > 3:				2	2	2
-> > 4:				2	2	1	1
-> > 
-> > So if you add one more, say:
-> > 
-> > 5:				8
-> > 
-> > So what we're discussing is just how the lanes are distributed across the
-> > ports.
-> > 
-> > There are usually hardware specific limitations how the lanes can be
-> > distributed. The interface we have in DT (data-lanes + clock-lanes
-> > properties) allows describing the hardware in general case, so what the
-> > interface allows may not be possible in hardware, but what hardware
-> > implements is supported by the interface.
-> > 
+I have some comments through the series, I hope this helps.
+
+On 10/23/20 2:45 PM, Paul Kocialkowski wrote:
+> This series introduces support for MIPI CSI-2, with the A31 controller that is
+> found on most SoCs (A31, V3s and probably V5) as well as the A83T-specific
+> controller. While the former uses the same MIPI D-PHY that is already supported
+> for DSI, the latter embeds its own D-PHY.
 > 
-> So for this particular instance using a single logical 8-lane port would
-> make sense, but in the two other scenarios (left/right sensor or supporting
-> tc358840 in a SoC that doesn't support ganging) I described you would still
-> have to model it as two 4-lane ports.
+> In order to distinguish the use of the D-PHY between Rx mode (for MIPI CSI-2)
+> and Tx mode (for MIPI DSI), a submode is introduced for D-PHY in the PHY API.
+> This allows adding Rx support in the A31 D-PHY driver.
+> 
+> A few changes and fixes are applied to the A31 CSI controller driver, in order
+> to support the MIPI CSI-2 use-case.
+> 
+> Follows is the V4L2 device topology representing the interactions between
+> the MIPI CSI-2 sensor, the MIPI CSI-2 controller (which controls the D-PHY)
+> and the CSI controller:
+> - entity 1: sun6i-csi (1 pad, 1 link)
+>             type Node subtype V4L flags 0
+>             device node name /dev/video0
+> 	pad0: Sink
+> 		<- "sun6i-mipi-csi2":1 [ENABLED,IMMUTABLE]
+> 
+> - entity 5: sun6i-mipi-csi2 (2 pads, 2 links)
+>             type V4L2 subdev subtype Unknown flags 0
+> 	pad0: Sink
+> 		<- "ov5648 0-0036":0 [ENABLED,IMMUTABLE]
+> 	pad1: Source
+> 		-> "sun6i-csi":0 [ENABLED,IMMUTABLE]
+> 
+> - entity 8: ov5648 0-0036 (1 pad, 1 link)
+>             type V4L2 subdev subtype Sensor flags 0
+>             device node name /dev/v4l-subdev0
 
-If you have two sensors, yes, then it'll be two separate ports; one sensor
-connected to each of them. The streams are usually separate, but other
-kinds of implementations exist. Still, they generally have no effect on
-CSI-2 bus configuration.
+Question: I noticed is that sun6i-mipi-csi2 doesn't expose a node under /dev/, but the sensor
+exposes it. Probably because it uses V4L2_SUBDEV_FL_HAS_DEVNODE and sun6i-csi() calls
+v4l2_device_register_subdev_nodes().
 
--- 
-Kind regards,
+I find this weird from a userspace pov, since usually we don't mix manual and auto propagation
+of the configs, so I started wondering if sun6i-csi driver should be calling
+v4l2_device_register_subdev_nodes() in the first place.
 
-Sakari Ailus
+Also, sun6i-csi doesn't seem to be used by any board dts (it's declared on the dtsi, but I
+didn't find any dts enabling it), so I wonder if it would be a bad thing if we update it.
+
+> 	pad0: Source
+> 		[fmt:SBGGR8_1X8/640x480@1/30 field:none colorspace:raw xfer:none ycbcr:601 quantization:full-range]
+> 		-> "sun6i-mipi-csi2":0 [ENABLED,IMMUTABLE]
+
+If I understand correctly, this is very similar to ipu3:
+    sensor->bus->dma_engine
+
+in the case of ipu3-cio2:
+    sensor->ipu3-csi2->ipu3-cio2
+
+in this case:
+    ov5648->sun6i-mipi-csi2->sun6i-csi
+
+On thing that is confusing me is the name csi2 with csi (that makes me think of csi
+vesun6i-csirsion one, which is not the case), I would rename it to sun6i-video (or maybe
+it is just me who gets confused).
+I know this driver is already upstream and not part of this series, but on the other hand it
+doesn't seem to be used.
+
+On another note, I always wonder if we should expose the bus in the topology, I'm not
+sure if it provides any useful API or information for userspace, and you could have
+a cleaner code (maybe code could be under phy subsystem). But at the same time, it
+seems this is a pattern on v4l2.
+
+I'd like to hear what others think on the above.
+
+Regards,
+Helen
+
+> 
+> Happy reviewing!
+> 
+> Paul Kocialkowski (14):
+>   phy: Distinguish between Rx and Tx for MIPI D-PHY with submodes
+>   phy: allwinner: phy-sun6i-mipi-dphy: Support D-PHY Rx mode for MIPI
+>     CSI-2
+>   media: sun6i-csi: Support an optional dedicated memory pool
+>   media: sun6i-csi: Fix the image storage bpp for 10/12-bit Bayer
+>     formats
+>   media: sun6i-csi: Only configure the interface data width for parallel
+>   media: sun6i-csi: Support feeding from the MIPI CSI-2 controller
+>   dt-bindings: media: i2c: Add A31 MIPI CSI-2 bindings documentation
+>   media: sunxi: Add support for the A31 MIPI CSI-2 controller
+>   ARM: dts: sun8i: v3s: Add CSI0 camera interface node
+>   ARM: dts: sun8i: v3s: Add MIPI D-PHY and MIPI CSI-2 interface nodes
+>   dt-bindings: media: i2c: Add A83T MIPI CSI-2 bindings documentation
+>   media: sunxi: Add support for the A83T MIPI CSI-2 controller
+>   ARM: dts: sun8i: a83t: Add MIPI CSI-2 controller node
+>   media: sunxi: sun8i-a83t-mipi-csi2: Avoid using the (unsolicited)
+>     interrupt
+> 
+>  .../media/allwinner,sun6i-a31-mipi-csi2.yaml  | 168 +++++
+>  .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 158 +++++
+>  arch/arm/boot/dts/sun8i-a83t.dtsi             |  26 +
+>  arch/arm/boot/dts/sun8i-v3s.dtsi              |  62 ++
+>  drivers/media/platform/sunxi/Kconfig          |   2 +
+>  drivers/media/platform/sunxi/Makefile         |   2 +
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  54 +-
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.h      |  20 +-
+>  .../platform/sunxi/sun6i-mipi-csi2/Kconfig    |  11 +
+>  .../platform/sunxi/sun6i-mipi-csi2/Makefile   |   4 +
+>  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c   | 635 +++++++++++++++++
+>  .../sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h   | 116 +++
+>  .../sunxi/sun8i-a83t-mipi-csi2/Kconfig        |  11 +
+>  .../sunxi/sun8i-a83t-mipi-csi2/Makefile       |   4 +
+>  .../sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c    |  92 +++
+>  .../sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.h    |  39 ++
+>  .../sun8i_a83t_mipi_csi2.c                    | 660 ++++++++++++++++++
+>  .../sun8i_a83t_mipi_csi2.h                    | 196 ++++++
+>  drivers/phy/allwinner/phy-sun6i-mipi-dphy.c   | 164 ++++-
+>  drivers/staging/media/rkisp1/rkisp1-isp.c     |   3 +-
+>  include/linux/phy/phy-mipi-dphy.h             |  13 +
+>  21 files changed, 2408 insertions(+), 32 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun6i-a31-mipi-csi2.yaml
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Kconfig
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/Makefile
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.c
+>  create mode 100644 drivers/media/platform/sunxi/sun6i-mipi-csi2/sun6i_mipi_csi2.h
+>  create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Kconfig
+>  create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/Makefile
+>  create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.c
+>  create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_dphy.h
+>  create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.c
+>  create mode 100644 drivers/media/platform/sunxi/sun8i-a83t-mipi-csi2/sun8i_a83t_mipi_csi2.h
+> 
