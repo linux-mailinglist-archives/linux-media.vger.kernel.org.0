@@ -2,126 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C69C2A0EB3
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 20:33:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BBF1A2A0F36
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 21:09:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727690AbgJ3TYp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 15:24:45 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52694 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727706AbgJ3TXK (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 15:23:10 -0400
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1CFD9C0613D6
-        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 12:23:10 -0700 (PDT)
-Received: by mail-ej1-x641.google.com with SMTP id s15so10072441ejf.8
-        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 12:23:10 -0700 (PDT)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=intel-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=cL9WOPO2zHT1vQiE1Idu/YzBY6AJ1/e6GyUyFPMSPBE=;
-        b=lEC/i/HaCAbfQosRN4vmMobfCxVR+WZvnS6eUCNPlKWH+DM9vHMj7SqJcRXOIjY3gR
-         X7fqNKkZHnLb3MSxwodUICF97jfOsHKnuDyEcvSjhdLdPJDHWyuIEcOT1bdngZUgm+fB
-         LnvKGjcJua2dQA5V5B17tvYJrJ6z/kJG7BObCa8rMFSzoI2LQncz5V1J1hPiz0LBLrhB
-         ehP68u5wwlkkRu5765qgLOCoQ/hOKUaoLOB0RlxdEAi5wNF8262oDo5KcRXIkHzdad7I
-         P2+qsjLodK5zSNdL+ykfiARoWE6cSX7jXnihb6GRYo+FQOn/ZAgy9c4PIkYJzVJruoKu
-         pI/A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=cL9WOPO2zHT1vQiE1Idu/YzBY6AJ1/e6GyUyFPMSPBE=;
-        b=ehepTiSQ8dLf2jaHLdDRs+uRgksD3p6XZKe7/9aFXg0tdHBwL3PyQOO+Kvgb+ir/Ed
-         cV9Ujk9BQdnP0aT4XWIb6oGnPuTYGiTAkGP1E/4MZW3qw775jctGtwIlZraFnc5dQTbN
-         tW2wOnczvs3Z3mPhhj0D3BVXc50QQRNBWPo3SwiSTUfLb9OiXlydgtJJuRCYqaP6WBcQ
-         86XwGCobKJwM7obIH1v0RbZFJ7jj+KIe1BmzcFfAN5XySxzd+DQ4Y/Mw1q4osDnK1MYp
-         s22/x7fBcJjmuBxv3VXG/iTueqaDqhqzbM9vtROn2uA0p/735xrXFh8mwmzt/s49qp+V
-         k7Og==
-X-Gm-Message-State: AOAM531OSmFx9BttdO9kkKMBETURIhnddh0Meg9LaGEfOpKT10iZozgo
-        dGxr4W3tk6/z61HFnOuSZPklHFL4zHPVmuPFgsSSfg==
-X-Google-Smtp-Source: ABdhPJzvRDFG7BoOZiy9coBum22wqezGCSC0O+U29RY5lD3y+GuATCwmUn+7GqLGOYRtTucrFFIslPSSuBYGYUaG5e4=
-X-Received: by 2002:a17:906:70cf:: with SMTP id g15mr3935941ejk.323.1604085788862;
- Fri, 30 Oct 2020 12:23:08 -0700 (PDT)
+        id S1727154AbgJ3UJm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 16:09:42 -0400
+Received: from mail.kernel.org ([198.145.29.99]:44754 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727044AbgJ3UJY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Oct 2020 16:09:24 -0400
+Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com [209.85.167.178])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id A3C8A20723;
+        Fri, 30 Oct 2020 20:09:22 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604088562;
+        bh=dsb2fGpwSeCxaqOUaIEQtAt8Ev0KBIXRf/w3waNhKws=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=C7kxkKrxR6DMsZCWkCPW2z3xH1cj5sJoA50H0JjBsmJ5y+NZkzIscLRN8uh9+LmvV
+         rC5P1iFjJTq9PMYwOq6pLF4EksuZ9zTcv/WO0lE4JKrT+5pwQPfHId9AoRgXB1u1AJ
+         qyx82wFKRb9ICX5wZkT44IM9eVY6IWMXRzsQqGHk=
+Received: by mail-oi1-f178.google.com with SMTP id j7so7841421oie.12;
+        Fri, 30 Oct 2020 13:09:22 -0700 (PDT)
+X-Gm-Message-State: AOAM530GXqa8PqEBfmITeCu9GjzdWEpL8aO8zreuvqXoxNBnNaNEBHW2
+        8qLHqMTSyIhVXeXHzlY2mt7qACZZuqpez+/8ug==
+X-Google-Smtp-Source: ABdhPJxMveXb1QdoW8X4k60f8AsyuwhhjJRLNbCCb75J76E+r24ilhIfqWLz6ySjO7R/sD1GTdxpf4/zJ14/IGJYpM0=
+X-Received: by 2002:aca:5dc2:: with SMTP id r185mr2849061oib.106.1604088561838;
+ Fri, 30 Oct 2020 13:09:21 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201030100815.2269-1-daniel.vetter@ffwll.ch> <20201030100815.2269-16-daniel.vetter@ffwll.ch>
-In-Reply-To: <20201030100815.2269-16-daniel.vetter@ffwll.ch>
-From:   Dan Williams <dan.j.williams@intel.com>
-Date:   Fri, 30 Oct 2020 12:22:54 -0700
-Message-ID: <CAPcyv4gg=x=M-WEv62=K+MUFsYm-yZ_ndgaTULv7LyHYKHWrzA@mail.gmail.com>
-Subject: Re: [PATCH v5 15/15] PCI: Revoke mappings like devmem
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Linux PCI <linux-pci@vger.kernel.org>
+References: <1603188889-23664-1-git-send-email-hugues.fruchet@st.com>
+ <1603188889-23664-3-git-send-email-hugues.fruchet@st.com> <20201021130033.GI2703@paasikivi.fi.intel.com>
+ <657634eb-690a-53a6-2ac1-de3c06a1cec4@st.com> <20201021214058.GJ2703@paasikivi.fi.intel.com>
+ <327ae9d5-8683-488f-7970-4983e2fec51d@st.com> <20201026141714.GA83693@bogus> <20201030174236.GV26150@paasikivi.fi.intel.com>
+In-Reply-To: <20201030174236.GV26150@paasikivi.fi.intel.com>
+From:   Rob Herring <robh@kernel.org>
+Date:   Fri, 30 Oct 2020 15:09:10 -0500
+X-Gmail-Original-Message-ID: <CAL_Jsq+po4grPDJH6=ayFWrO5J=GzmSHNsgRjQ=ERsVCYzVXQg@mail.gmail.com>
+Message-ID: <CAL_Jsq+po4grPDJH6=ayFWrO5J=GzmSHNsgRjQ=ERsVCYzVXQg@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] media: dt-bindings: media: st,stm32-dcmi: Add
+ support of BT656
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Hugues FRUCHET <hugues.fruchet@st.com>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Alexandre TORGUE <alexandre.torgue@st.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "linux-stm32@st-md-mailman.stormreply.com" 
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Alain VOLMAT <alain.volmat@st.com>,
+        Yannick FERTRE <yannick.fertre@st.com>,
+        Philippe CORNU <philippe.cornu@st.com>
 Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 30, 2020 at 3:09 AM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
-e:
+On Fri, Oct 30, 2020 at 12:42 PM Sakari Ailus
+<sakari.ailus@linux.intel.com> wrote:
 >
-> Since 3234ac664a87 ("/dev/mem: Revoke mappings when a driver claims
-> the region") /dev/kmem zaps ptes when the kernel requests exclusive
-> acccess to an iomem region. And with CONFIG_IO_STRICT_DEVMEM, this is
-> the default for all driver uses.
+> Hi Rob,
 >
-> Except there's two more ways to access PCI BARs: sysfs and proc mmap
-> support. Let's plug that hole.
+> On Mon, Oct 26, 2020 at 09:17:14AM -0500, Rob Herring wrote:
+> > On Thu, Oct 22, 2020 at 02:56:17PM +0000, Hugues FRUCHET wrote:
+> > > Hi Sakari,
+> > >
+> > > + Jacopo for his work on ov772x binding related to BT656
+> > >
+> > > On 10/21/20 11:40 PM, Sakari Ailus wrote:
+> > > > Hi Hugues,
+> > > >
+> > > > On Wed, Oct 21, 2020 at 02:24:08PM +0000, Hugues FRUCHET wrote:
+> > > >> Hi Sakari,
+> > > >>
+> > > >> On 10/21/20 3:00 PM, Sakari Ailus wrote:
+> > > >>> Hi Hugues,
+> > > >>>
+> > > >>> On Tue, Oct 20, 2020 at 12:14:49PM +0200, Hugues Fruchet wrote:
+> > > >>>> Add support of BT656 parallel bus mode in DCMI.
+> > > >>>> This mode is enabled when hsync-active & vsync-active
+> > > >>>> fields are not specified.
+> > > >>>>
+> > > >>>> Signed-off-by: Hugues Fruchet <hugues.fruchet@st.com>
+> > > >>>> ---
+> > > >>>>    .../devicetree/bindings/media/st,stm32-dcmi.yaml   | 30 ++++++++++++++++++++++
+> > > >>>>    1 file changed, 30 insertions(+)
+> > > >>>>
+> > > >>>> diff --git a/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml b/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
+> > > >>>> index 3fe778c..1ee521a 100644
+> > > >>>> --- a/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
+> > > >>>> +++ b/Documentation/devicetree/bindings/media/st,stm32-dcmi.yaml
+> > > >>>> @@ -44,6 +44,36 @@ properties:
+> > > >>>>          bindings defined in
+> > > >>>>          Documentation/devicetree/bindings/media/video-interfaces.txt.
+> > > >>>>
+> > > >>>> +    properties:
+> > > >>>> +      endpoint:
+> > > >>>> +        type: object
+> > > >>>> +
+> > > >>>> +        properties:
+> > > >>>> +          bus-width: true
+> > > >>>> +
+> > > >>>> +          hsync-active:
+> > > >>>> +            description:
+> > > >>>> +              If both HSYNC and VSYNC polarities are not specified, BT656
+> > > >>>> +              embedded synchronization is selected.
+> > > >>>> +            default: 0
+> > > >>>> +
+> > > >>>> +          vsync-active:
+> > > >>>> +            description:
+> > > >>>> +              If both HSYNC and VSYNC polarities are not specified, BT656
+> > > >>>> +              embedded synchronization is selected.
+> > > >>>> +            default: 0
+> > > >>>
+> > > >>> Should I understand this as if the polarities were not specified, BT.656
+> > > >>> will be used?
+> > > >>
+> > > >> Yes, this is what is documented in video-interfaces.txt:
+> > > >> "
+> > > >>     Note, that if HSYNC and VSYNC polarities are not specified, embedded
+> > > >>     synchronization may be required, where supported.
+> > > >> "
+> > > >> and
+> > > >> "
+> > > >>                          /* If hsync-active/vsync-active are missing,
+> > > >>                             embedded BT.656 sync is used */
+> > > >>                          hsync-active = <0>;     /* Active low */
+> > > >>                          vsync-active = <0>;     /* Active low */
+> > > >> "
+> > > >> and I found also this in
+> > > >> Documentation/devicetree/bindings/media/renesas,vin.yaml
+> > > >> "
+> > > >>             hsync-active:
+> > > >>               description:
+> > > >>                 If both HSYNC and VSYNC polarities are not specified,
+> > > >> embedded
+> > > >>                 synchronization is selected.
+> > > >>               default: 1
+> > > >>
+> > > >>             vsync-active:
+> > > >>               description:
+> > > >>                 If both HSYNC and VSYNC polarities are not specified,
+> > > >> embedded
+> > > >>                 synchronization is selected.
+> > > >>               default: 1
+> > > >
+> > > > Having the defaults leads to somewhat weird behaviour: specifying the
+> > > > default value on either property changes the bus type.
+> > > >
+> > > >> "
+> > > >>
+> > > >> In the other hand I've found few occurences of "bus-type"
+> > > >> (marvell,mmp2-ccic.yaml), it is why I asked you if "bus-type" is the new
+> > > >> way to go versus previous way to signal BT656 (without hsync/vsync) ?
+> > > >> As explained previously, I prefer this last way for backward compatibility.
+> > > >
+> > > > If you have a default for bus-type (BT.601), this won't be a problem.
+> > > >
+> > > > The old DT bindings were somewhat, well, opportunistic. The v4l2-of
+> > > > framework-let did its best and sometimes it worked. The behaviour is still
+> > > > supported but not encouraged in new bindings.
+> > > >
+> > >
+> > > OK, so let's go for the new way.
+> > > I've found an interesting patch from Jacopo that is of great help:
+> > > https://patchwork.ozlabs.org/project/devicetree-bindings/patch/20200910162055.614089-4-jacopo+renesas@jmondi.org/
 >
-> For revoke_devmem() to work we need to link our vma into the same
-> address_space, with consistent vma->vm_pgoff. ->pgoff is already
-> adjusted, because that's how (io_)remap_pfn_range works, but for the
-> mapping we need to adjust vma->vm_file->f_mapping. The cleanest way is
-> to adjust this at at ->open time:
+> I wonder if Jacopo tested it. The idea seems interesting nonetheless.
 >
-> - for sysfs this is easy, now that binary attributes support this. We
->   just set bin_attr->mapping when mmap is supported
-> - for procfs it's a bit more tricky, since procfs pci access has only
->   one file per device, and access to a specific resources first needs
->   to be set up with some ioctl calls. But mmap is only supported for
->   the same resources as sysfs exposes with mmap support, and otherwise
->   rejected, so we can set the mapping unconditionally at open time
->   without harm.
+> > >
+> > > Here is a draft proposal before I push a new version, please comment:
+> > >
+> > >          properties:
+> > >            bus-type:
+> > >              enum: [5, 6]
+> > >              default: 5
+> > >
+> > >            bus-width:
+> > >              enum: [8, 10, 12, 14]
+> > >              default: 8
+> > >
+> > >            hsync-active:
+> > >              enum: [0, 1]
+> >
+> > For common properties, you can assume there's a common schema. As 0 and
+> > 1 are the only possible values, you don't need to define them here
+> > unless only a subset is valid for this device.
+> >
+> > >              default: 0
+> > >
+> > >            vsync-active:
+> > >              enum: [0, 1]
+> > >              default: 0
+> > >
+> > >            pclk-sample:
+> > >              enum: [0, 1]
+> > >              default: 0
+> > >
+> > >            remote-endpoint: true
+> > >
+> > >          allOf:
+> > >            - if:
+> > >                properties:
+> > >                  bus-type:
+> > >                    const: 6
+> >
+> > To fix the error, you need:
+> >
+> > required:
+> >   - bus-type
+> >
+> > The problem is the above schema is also true if the property
+> > is not present.
 >
-> A special consideration is for arch_can_pci_mmap_io() - we need to
-> make sure that the ->f_mapping doesn't alias between ioport and iomem
-> space. There's only 2 ways in-tree to support mmap of ioports: generic
-> pci mmap (ARCH_GENERIC_PCI_MMAP_RESOURCE), and sparc as the single
-> architecture hand-rolling. Both approach support ioport mmap through a
-> special pfn range and not through magic pte attributes. Aliasing is
-> therefore not a problem.
->
-> The only difference in access checks left is that sysfs PCI mmap does
-> not check for CAP_RAWIO. I'm not really sure whether that should be
-> added or not.
->
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Kees Cook <keescook@chromium.org>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: John Hubbard <jhubbard@nvidia.com>
-> Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Dan Williams <dan.j.williams@intel.com>
+> Hmm. The idea was that we could keep this consistent with old bindings that
+> only documented parallel mode, and thus didn't need bus-type. This is
+> actually quite common --- adding support for something that wasn't known or
+> cared for during the original review.
 
-Looks good to me:
+TBC, the 'required' here is required for the 'if' in the if/then
+schema to work as you want. It's not making 'bus-type' a required
+property.
 
-Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+Rob
