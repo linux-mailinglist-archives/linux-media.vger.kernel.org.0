@@ -2,63 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AC3312A02A9
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 11:18:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B311A2A02AD
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 11:18:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726199AbgJ3KSa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 06:18:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52006 "EHLO
+        id S1726335AbgJ3KSz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 06:18:55 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52082 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725801AbgJ3KS1 (ORCPT
+        with ESMTP id S1726314AbgJ3KSz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 06:18:27 -0400
-Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A952C0613D7
-        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 03:18:27 -0700 (PDT)
-Received: by mail-oi1-x241.google.com with SMTP id k27so6114130oij.11
-        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 03:18:27 -0700 (PDT)
+        Fri, 30 Oct 2020 06:18:55 -0400
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8F75CC0613D8
+        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 03:18:53 -0700 (PDT)
+Received: by mail-ot1-x342.google.com with SMTP id 32so5115826otm.3
+        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 03:18:53 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=IwY6FSEEQBoBQdBLoaBkXQfT/X+1XphfDMCbhC85FPE=;
-        b=DvmaArxE3OLEtqflsjntfLlw/Wss53+p2/dgBLUeQywMt9TgtmFviI9Ck1dtZoxs0S
-         osEpDNFeaFdOpCvTmssUE0GQLkrYE7+2oesIMZe3W7dBb3WC9jZOuo94KTIjnbM2W3kP
-         7hevmXm2cfinGdnEnBdAJM3QkvRQc5FGjF/jY=
+        bh=qSrgT+Sq6ixZqGRM1ApDzYbdNLSfueKKt5jrYnIpTKg=;
+        b=J/brQsIEXjkMtFsYYqBCMbN7+7Cmh0sjVyNHa6GCk49DXyvdvhr/CvjKzFrLjPezzh
+         Ks4w2XDcjvzJb+PPrLEQgUhcZX1Jm9QbzrgXNMykyjrC8K2BKrEoWVHTDkLX1pQBkosi
+         Ta+c14qVOgbtbcqoDC7k92+K9+TwjtNqNP4zs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=IwY6FSEEQBoBQdBLoaBkXQfT/X+1XphfDMCbhC85FPE=;
-        b=m+di1+XaCIcceZC4LE0tmOFIqi2q5VQMVmOGS1wA0s9+gmacqKyRUH3AwuZCj6apVT
-         AQm8BcQ04WWGvir2Ax1cdwAyaYVgehh02dpAGiv4kkcs1KvIchqCPcKu1ctQ5zVCeh78
-         DBw0AmhMCf1capQerfHDwTEN44B/EYTvn4+1Guwd4v4hFbp7mDWWhT+G18F2P5tsHlOg
-         Xt/5NTyIDSV0P0gv2abHBWf+wNmB6bJsL0Kr5RU8o0wd0zsDiMWJCr10895146bt++UB
-         v/wFMTdURjXutPfy+nw6Q0r7bk6F9OK9TKQiK512lfB9TrEI/TA4dgmMIgsw66MxI0N5
-         p5xA==
-X-Gm-Message-State: AOAM532ybEKI2VOmrFQ7ugBu2JixYwkRZccSEm0a6ZqlEJYdrhBuKSd/
-        UKF44ITE91oYP69MuIDt5PWo9wS90ZB9JA==
-X-Google-Smtp-Source: ABdhPJxYyF1D+4vtIqX3P/lmxc6DafZ09fR+ftDWU4NrPtJzRs9KNBw6Cq1sgb5NNb6SNY/u1XAehw==
-X-Received: by 2002:aca:c410:: with SMTP id u16mr1106949oif.65.1604053106560;
-        Fri, 30 Oct 2020 03:18:26 -0700 (PDT)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com. [209.85.167.179])
-        by smtp.gmail.com with ESMTPSA id a17sm1240176otl.77.2020.10.30.03.18.25
+        bh=qSrgT+Sq6ixZqGRM1ApDzYbdNLSfueKKt5jrYnIpTKg=;
+        b=LknCf5QhGl8DHISVteiashkog+nuSrvhpOYYwlv6TVy1lDMs7UAFJ7AtiOXKeXerZR
+         ylTM5ZYM6+ggemPkB5YPWrKBM2akPQ6WFFhVkgMON3hMpGqYOw6u8PiljTUar0T+Vi9/
+         qPDSZGzFbdYuJwtC/57b17vUBHg7QeL1LCIRH6hKQ7jQGpsAJnn9zXvO5AuHIfu79MGB
+         KbMzI+lpM/icpOGO71wwvoBK6knkiPxsb0nYPH8davDNwOVQ75nAPpmuxwnXfXSWJV9u
+         c4VyJHj0s9rLUwtmTClTbjEbxYYm251H0Ko0+ecyqvttPBIdY7d1F4Y8X298k/1RLuMg
+         mGMg==
+X-Gm-Message-State: AOAM531CmNjSX7Tfx6pJ9HHAW/LowVkoXbEUkrloUDFqdn89uIxo70Mz
+        +UvXygeYnvBChSodMUe2rFw8KbtUhjDzjw==
+X-Google-Smtp-Source: ABdhPJxRwbUBSuzt8GoXUoomyJNIeMg2VkR4vWYNDVNYXXF5IrfYTiYenzTCR2c7kxBLNEU4yGSVqw==
+X-Received: by 2002:a05:6830:22c9:: with SMTP id q9mr1181688otc.48.1604053132575;
+        Fri, 30 Oct 2020 03:18:52 -0700 (PDT)
+Received: from mail-ot1-f44.google.com (mail-ot1-f44.google.com. [209.85.210.44])
+        by smtp.gmail.com with ESMTPSA id a17sm1240346otl.77.2020.10.30.03.18.51
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Fri, 30 Oct 2020 03:18:25 -0700 (PDT)
-Received: by mail-oi1-f179.google.com with SMTP id l62so489092oig.1
-        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 03:18:25 -0700 (PDT)
-X-Received: by 2002:a05:6808:95:: with SMTP id s21mr1001625oic.55.1604053104887;
- Fri, 30 Oct 2020 03:18:24 -0700 (PDT)
+        Fri, 30 Oct 2020 03:18:51 -0700 (PDT)
+Received: by mail-ot1-f44.google.com with SMTP id f97so5089568otb.7
+        for <linux-media@vger.kernel.org>; Fri, 30 Oct 2020 03:18:51 -0700 (PDT)
+X-Received: by 2002:a9d:eca:: with SMTP id 68mr1003531otj.141.1604053131232;
+ Fri, 30 Oct 2020 03:18:51 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201013124428.783025-1-acourbot@chromium.org> <20201013124428.783025-2-acourbot@chromium.org>
-In-Reply-To: <20201013124428.783025-2-acourbot@chromium.org>
+References: <20201013124428.783025-1-acourbot@chromium.org> <20201013124428.783025-3-acourbot@chromium.org>
+In-Reply-To: <20201013124428.783025-3-acourbot@chromium.org>
 From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Fri, 30 Oct 2020 19:18:14 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MUscqohRt4v10=L+yM0KO65Ny6DskvG5V549YByVDDgbA@mail.gmail.com>
-Message-ID: <CAPBb6MUscqohRt4v10=L+yM0KO65Ny6DskvG5V549YByVDDgbA@mail.gmail.com>
-Subject: Re: [PATCH v4 1/2] media: mtk-vcodec: move firmware implementations
- into their own files
+Date:   Fri, 30 Oct 2020 19:18:40 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MXpXEPsgkWXAo0p3u_zFyYk3kYqKx3=+G6XEcGcsKCEYQ@mail.gmail.com>
+Message-ID: <CAPBb6MXpXEPsgkWXAo0p3u_zFyYk3kYqKx3=+G6XEcGcsKCEYQ@mail.gmail.com>
+Subject: Re: [PATCH v4 2/2] media: mtk-vcodec: fix build breakage when one of
+ VPU or SCP is enabled
 To:     Tiffany Lin <tiffany.lin@mediatek.com>,
         Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>
@@ -74,17 +74,21 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 On Tue, Oct 13, 2020 at 9:44 PM Alexandre Courbot <acourbot@chromium.org> wrote:
 >
-> mtk-vcodec supports two kinds of firmware, VPU and SCP. Both were
-> supported from the same source files, but this is clearly unclean and
-> makes it more difficult to disable support for one or the other.
+> The addition of MT8183 support added a dependency on the SCP remoteproc
+> module. However the initial patch used the "select" Kconfig directive,
+> which may result in the SCP module to not be compiled if remoteproc was
+> disabled. In such a case, mtk-vcodec would try to link against
+> non-existent SCP symbols. "select" was clearly misused here as explained
+> in kconfig-language.txt.
 >
-> Move these implementations into their own file, after adding the
-> necessary private interfaces.
+> Replace this by a "depends" directive on at least one of the VPU and
+> SCP modules, to allow the driver to be compiled as long as one of these
+> is enabled, and adapt the code to support this new scenario.
 >
+> Also adapt the Kconfig text to explain the extra requirements for MT8173
+> and MT8183.
+>
+> Reported-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 > Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
 
-This should also have included a
-
 Fixes: bf1d556ad4e0 ("media: mtk-vcodec: abstract firmware interface")
-
-Sorry for the omission.
