@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DDA6C2A0BE3
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 17:56:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0A662A0BE4
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 17:56:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727318AbgJ3Qz4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 12:55:56 -0400
-Received: from mail.kernel.org ([198.145.29.99]:60944 "EHLO mail.kernel.org"
+        id S1727327AbgJ3Qz5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 12:55:57 -0400
+Received: from mail.kernel.org ([198.145.29.99]:32776 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727298AbgJ3Qzy (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 12:55:54 -0400
+        id S1727014AbgJ3Qzz (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Oct 2020 12:55:55 -0400
 Received: from localhost.localdomain (HSI-KBW-46-223-126-90.hsi.kabel-badenwuerttemberg.de [46.223.126.90])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 59E2A20A8B;
-        Fri, 30 Oct 2020 16:55:51 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 25F7122268;
+        Fri, 30 Oct 2020 16:55:52 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604076952;
-        bh=sGX/DvWU03vrodksdVt7VFXxoDe64Y56fpUDhUbUnOA=;
+        s=default; t=1604076954;
+        bh=nD81YqJ3MtrM/BCkwrNITM6ew3jXY2PFsMLpEZfzE5M=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OJJhKm3uAuum+L6I1VW6ro+8m/2lpMALqm7z23o1t5Q14lnaouyLd/m68ZFBxmzKR
-         p7xEoE+GOTEkvAxB2VZxeE6RlLyzFVhiaovl1gT3GXOd3HUUbqGxDJqBoxvLGMyjch
-         zURy6Xo9vMQBV3VmprikviqE2S7HCSr77LXYBXAI=
+        b=zxz5LHC9rzc/gWUoh0qVZdBPrHnsyiANZM2jgaFdtvAxDc8JhwiieMS5hTBJZG5w/
+         yZlNc8HI3S2sABFJ7CuytfdBZr94WUTPtEyclPTnwcyEVeqSHMUYR5LPv04xRcoPVd
+         pokL4QSMolGNE8lKONGKlRQtvLvpsP2zWfrRMClk=
 From:   Arnd Bergmann <arnd@kernel.org>
 To:     Hans Verkuil <hverkuil@xs4all.nl>
 Cc:     Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
         mchehab@kernel.org, hch@lst.de, linux-kernel@vger.kernel.org
-Subject: [PATCH v2 7/8] media: v4l2: remaining compat handlers
-Date:   Fri, 30 Oct 2020 17:55:28 +0100
-Message-Id: <20201030165529.1255175-8-arnd@kernel.org>
+Subject: [PATCH v2 8/8] media: v4l2: remove remaining compat_ioctl
+Date:   Fri, 30 Oct 2020 17:55:29 +0100
+Message-Id: <20201030165529.1255175-9-arnd@kernel.org>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201030165529.1255175-1-arnd@kernel.org>
 References: <20201030165529.1255175-1-arnd@kernel.org>
@@ -41,455 +41,238 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Arnd Bergmann <arnd@arndb.de>
 
-There are eight remaining ioctl commands handled by copying
-incompatible data structures in v4l2_compat_ioctl32(),
-all of them fairly simple.
-
-Change them to instead go through the native ioctl
-infrastructure and only special-case the data copy.
+There are no remaining conversions in v4l2_compat_ioctl32(),
+so all the infrastructure for it can be removed, with the
+only remaining bit being the compat_ioctl32() callback into
+drivers that implement their own incompatible data structures.
 
 Signed-off-by: Arnd Bergmann <arnd@arndb.de>
 ---
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 283 +++++++-----------
- 1 file changed, 109 insertions(+), 174 deletions(-)
+ drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 197 +-----------------
+ 1 file changed, 2 insertions(+), 195 deletions(-)
 
 diff --git a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-index f774a17c9271..f54f49bebea7 100644
+index f54f49bebea7..dfab9f662490 100644
 --- a/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
 +++ b/drivers/media/v4l2-core/v4l2-compat-ioctl32.c
-@@ -338,27 +338,23 @@ struct v4l2_standard32 {
- 	__u32		     reserved[4];
- };
+@@ -23,103 +23,6 @@
+ #include <media/v4l2-ctrls.h>
+ #include <media/v4l2-ioctl.h>
  
--static int get_v4l2_standard32(struct v4l2_standard __user *p64,
-+static int get_v4l2_standard32(struct v4l2_standard *p64,
- 			       struct v4l2_standard32 __user *p32)
- {
- 	/* other fields are not set by the user, nor used by the driver */
--	if (!access_ok(p32, sizeof(*p32)) ||
--	    assign_in_user(&p64->index, &p32->index))
+-/**
+- * assign_in_user() - Copy from one __user var to another one
+- *
+- * @to: __user var where data will be stored
+- * @from: __user var where data will be retrieved.
+- *
+- * As this code very often needs to allocate userspace memory, it is easier
+- * to have a macro that will do both get_user() and put_user() at once.
+- *
+- * This function complements the macros defined at asm-generic/uaccess.h.
+- * It uses the same argument order as copy_in_user()
+- */
+-#define assign_in_user(to, from)					\
+-({									\
+-	typeof(*from) __assign_tmp;					\
+-									\
+-	get_user(__assign_tmp, from) || put_user(__assign_tmp, to);	\
+-})
+-
+-/**
+- * get_user_cast() - Stores at a kernelspace local var the contents from a
+- *		pointer with userspace data that is not tagged with __user.
+- *
+- * @__x: var where data will be stored
+- * @__ptr: var where data will be retrieved.
+- *
+- * Sometimes we need to declare a pointer without __user because it
+- * comes from a pointer struct field that will be retrieved from userspace
+- * by the 64-bit native ioctl handler. This function ensures that the
+- * @__ptr will be cast to __user before calling get_user() in order to
+- * avoid warnings with static code analyzers like smatch.
+- */
+-#define get_user_cast(__x, __ptr)					\
+-({									\
+-	get_user(__x, (typeof(*__ptr) __user *)(__ptr));		\
+-})
+-
+-/**
+- * put_user_force() - Stores the contents of a kernelspace local var
+- *		      into a userspace pointer, removing any __user cast.
+- *
+- * @__x: var where data will be stored
+- * @__ptr: var where data will be retrieved.
+- *
+- * Sometimes we need to remove the __user attribute from some data,
+- * by passing the __force macro. This function ensures that the
+- * @__ptr will be cast with __force before calling put_user(), in order to
+- * avoid warnings with static code analyzers like smatch.
+- */
+-#define put_user_force(__x, __ptr)					\
+-({									\
+-	put_user((typeof(*__x) __force *)(__x), __ptr);			\
+-})
+-
+-/**
+- * assign_in_user_cast() - Copy from one __user var to another one
+- *
+- * @to: __user var where data will be stored
+- * @from: var where data will be retrieved that needs to be cast to __user.
+- *
+- * As this code very often needs to allocate userspace memory, it is easier
+- * to have a macro that will do both get_user_cast() and put_user() at once.
+- *
+- * This function should be used instead of assign_in_user() when the @from
+- * variable was not declared as __user. See get_user_cast() for more details.
+- *
+- * This function complements the macros defined at asm-generic/uaccess.h.
+- * It uses the same argument order as copy_in_user()
+- */
+-#define assign_in_user_cast(to, from)					\
+-({									\
+-	typeof(*from) __assign_tmp;					\
+-									\
+-	get_user_cast(__assign_tmp, from) || put_user(__assign_tmp, to);\
+-})
+-
+-/**
+- * native_ioctl - Ancillary function that calls the native 64 bits ioctl
+- * handler.
+- *
+- * @file: pointer to &struct file with the file handler
+- * @cmd: ioctl to be called
+- * @arg: arguments passed from/to the ioctl handler
+- *
+- * This function calls the native ioctl handler at v4l2-dev, e. g. v4l2_ioctl()
+- */
+-static long native_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+-{
+-	long ret = -ENOIOCTLCMD;
+-
+-	if (file->f_op->unlocked_ioctl)
+-		ret = file->f_op->unlocked_ioctl(file, cmd, arg);
+-
+-	return ret;
+-}
+-
+-
+ /*
+  * Per-ioctl data copy handlers.
+  *
+@@ -1305,103 +1208,6 @@ int v4l2_compat_put_array_args(struct file *file, void __user *user_ptr,
+ 	return err;
+ }
+ 
+-
+-/**
+- * alloc_userspace() - Allocates a 64-bits userspace pointer compatible
+- *	for calling the native 64-bits version of an ioctl.
+- *
+- * @size:	size of the structure itself to be allocated.
+- * @aux_space:	extra size needed to store "extra" data, e.g. space for
+- *		other __user data that is pointed to fields inside the
+- *		structure.
+- * @new_p64:	pointer to a pointer to be filled with the allocated struct.
+- *
+- * Return:
+- *
+- * if it can't allocate memory, either -ENOMEM or -EFAULT will be returned.
+- * Zero otherwise.
+- */
+-static int alloc_userspace(unsigned int size, u32 aux_space,
+-			   void __user **new_p64)
+-{
+-	*new_p64 = compat_alloc_user_space(size + aux_space);
+-	if (!*new_p64)
+-		return -ENOMEM;
+-	if (clear_user(*new_p64, size))
 -		return -EFAULT;
 -	return 0;
-+	return get_user(p64->index, &p32->index);
- }
- 
--static int put_v4l2_standard32(struct v4l2_standard __user *p64,
-+static int put_v4l2_standard32(struct v4l2_standard *p64,
- 			       struct v4l2_standard32 __user *p32)
- {
--	if (!access_ok(p32, sizeof(*p32)) ||
--	    assign_in_user(&p32->index, &p64->index) ||
--	    assign_in_user(&p32->id, &p64->id) ||
--	    copy_in_user(p32->name, p64->name, sizeof(p32->name)) ||
--	    copy_in_user(&p32->frameperiod, &p64->frameperiod,
-+	if (put_user(p64->index, &p32->index) ||
-+	    put_user(p64->id, &p32->id) ||
-+	    copy_to_user(p32->name, p64->name, sizeof(p32->name)) ||
-+	    copy_to_user(&p32->frameperiod, &p64->frameperiod,
- 			 sizeof(p32->frameperiod)) ||
--	    assign_in_user(&p32->framelines, &p64->framelines) ||
--	    copy_in_user(p32->reserved, p64->reserved, sizeof(p32->reserved)))
-+	    put_user(p64->framelines, &p32->framelines) ||
-+	    copy_to_user(p32->reserved, p64->reserved, sizeof(p32->reserved)))
- 		return -EFAULT;
- 	return 0;
- }
-@@ -689,33 +685,30 @@ struct v4l2_framebuffer32 {
- 	} fmt;
- };
- 
--static int get_v4l2_framebuffer32(struct v4l2_framebuffer __user *p64,
-+static int get_v4l2_framebuffer32(struct v4l2_framebuffer *p64,
- 				  struct v4l2_framebuffer32 __user *p32)
- {
- 	compat_caddr_t tmp;
- 
--	if (!access_ok(p32, sizeof(*p32)) ||
--	    get_user(tmp, &p32->base) ||
--	    put_user_force(compat_ptr(tmp), &p64->base) ||
--	    assign_in_user(&p64->capability, &p32->capability) ||
--	    assign_in_user(&p64->flags, &p32->flags) ||
--	    copy_in_user(&p64->fmt, &p32->fmt, sizeof(p64->fmt)))
-+	if (get_user(tmp, &p32->base) ||
-+	    get_user(p64->capability, &p32->capability) ||
-+	    get_user(p64->flags, &p32->flags) ||
-+	    copy_from_user(&p64->fmt, &p32->fmt, sizeof(p64->fmt)))
- 		return -EFAULT;
-+	p64->base = (void __force *)compat_ptr(tmp);
-+
- 	return 0;
- }
- 
--static int put_v4l2_framebuffer32(struct v4l2_framebuffer __user *p64,
-+static int put_v4l2_framebuffer32(struct v4l2_framebuffer *p64,
- 				  struct v4l2_framebuffer32 __user *p32)
- {
--	void *base;
+-}
 -
--	if (!access_ok(p32, sizeof(*p32)) ||
--	    get_user(base, &p64->base) ||
--	    put_user(ptr_to_compat((void __user *)base), &p32->base) ||
--	    assign_in_user(&p32->capability, &p64->capability) ||
--	    assign_in_user(&p32->flags, &p64->flags) ||
--	    copy_in_user(&p32->fmt, &p64->fmt, sizeof(p64->fmt)))
-+	if (put_user((uintptr_t)p64->base, &p32->base) ||
-+	    put_user(p64->capability, &p32->capability) ||
-+	    put_user(p64->flags, &p32->flags) ||
-+	    copy_to_user(&p32->fmt, &p64->fmt, sizeof(p64->fmt)))
- 		return -EFAULT;
-+
- 	return 0;
- }
- 
-@@ -735,18 +728,18 @@ struct v4l2_input32 {
-  * The 64-bit v4l2_input struct has extra padding at the end of the struct.
-  * Otherwise it is identical to the 32-bit version.
-  */
--static inline int get_v4l2_input32(struct v4l2_input __user *p64,
-+static inline int get_v4l2_input32(struct v4l2_input *p64,
- 				   struct v4l2_input32 __user *p32)
- {
--	if (copy_in_user(p64, p32, sizeof(*p32)))
-+	if (copy_from_user(p64, p32, sizeof(*p32)))
- 		return -EFAULT;
- 	return 0;
- }
- 
--static inline int put_v4l2_input32(struct v4l2_input __user *p64,
-+static inline int put_v4l2_input32(struct v4l2_input *p64,
- 				   struct v4l2_input32 __user *p32)
- {
--	if (copy_in_user(p32, p64, sizeof(*p32)))
-+	if (copy_to_user(p32, p64, sizeof(*p32)))
- 		return -EFAULT;
- 	return 0;
- }
-@@ -880,38 +873,38 @@ struct v4l2_event32_time32 {
- 	__u32				reserved[8];
- };
- 
--static int put_v4l2_event32(struct v4l2_event __user *p64,
-+static int put_v4l2_event32(struct v4l2_event *p64,
- 			    struct v4l2_event32 __user *p32)
- {
--	if (!access_ok(p32, sizeof(*p32)) ||
--	    assign_in_user(&p32->type, &p64->type) ||
--	    copy_in_user(&p32->u, &p64->u, sizeof(p64->u)) ||
--	    assign_in_user(&p32->pending, &p64->pending) ||
--	    assign_in_user(&p32->sequence, &p64->sequence) ||
--	    assign_in_user(&p32->timestamp.tv_sec, &p64->timestamp.tv_sec) ||
--	    assign_in_user(&p32->timestamp.tv_nsec, &p64->timestamp.tv_nsec) ||
--	    assign_in_user(&p32->id, &p64->id) ||
--	    copy_in_user(p32->reserved, p64->reserved, sizeof(p32->reserved)))
-+	if (put_user(p64->type, &p32->type) ||
-+	    copy_to_user(&p32->u, &p64->u, sizeof(p64->u)) ||
-+	    put_user(p64->pending, &p32->pending) ||
-+	    put_user(p64->sequence, &p32->sequence) ||
-+	    put_user(p64->timestamp.tv_sec, &p32->timestamp.tv_sec) ||
-+	    put_user(p64->timestamp.tv_nsec, &p32->timestamp.tv_nsec) ||
-+	    put_user(p64->id, &p32->id) ||
-+	    copy_to_user(p32->reserved, p64->reserved, sizeof(p32->reserved)))
- 		return -EFAULT;
- 	return 0;
- }
- 
--static int put_v4l2_event32_time32(struct v4l2_event_time32 __user *p64,
-+#ifdef CONFIG_COMPAT_32BIT_TIME
-+static int put_v4l2_event32_time32(struct v4l2_event *p64,
- 				   struct v4l2_event32_time32 __user *p32)
- {
--	if (!access_ok(p32, sizeof(*p32)) ||
--	    assign_in_user(&p32->type, &p64->type) ||
--	    copy_in_user(&p32->u, &p64->u, sizeof(p64->u)) ||
--	    assign_in_user(&p32->pending, &p64->pending) ||
--	    assign_in_user(&p32->sequence, &p64->sequence) ||
--	    assign_in_user(&p32->timestamp.tv_sec, &p64->timestamp.tv_sec) ||
--	    assign_in_user(&p32->timestamp.tv_nsec, &p64->timestamp.tv_nsec) ||
--	    assign_in_user(&p32->id, &p64->id) ||
--	    copy_in_user(p32->reserved, p64->reserved, sizeof(p32->reserved)))
-+	if (put_user(p64->type, &p32->type) ||
-+	    copy_to_user(&p32->u, &p64->u, sizeof(p64->u)) ||
-+	    put_user(p64->pending, &p32->pending) ||
-+	    put_user(p64->sequence, &p32->sequence) ||
-+	    put_user(p64->timestamp.tv_sec, &p32->timestamp.tv_sec) ||
-+	    put_user(p64->timestamp.tv_nsec, &p32->timestamp.tv_nsec) ||
-+	    put_user(p64->id, &p32->id) ||
-+	    copy_to_user(p32->reserved, p64->reserved, sizeof(p32->reserved)))
- 		return -EFAULT;
- 	return 0;
- }
- #endif
-+#endif
- 
- struct v4l2_edid32 {
- 	__u32 pad;
-@@ -921,34 +914,23 @@ struct v4l2_edid32 {
- 	compat_caddr_t edid;
- };
- 
--static int get_v4l2_edid32(struct v4l2_edid __user *p64,
-+static int get_v4l2_edid32(struct v4l2_edid *p64,
- 			   struct v4l2_edid32 __user *p32)
- {
--	compat_uptr_t tmp;
+-/**
+- * do_video_ioctl() - Ancillary function with handles a compat32 ioctl call
+- *
+- * @file: pointer to &struct file with the file handler
+- * @cmd: ioctl to be called
+- * @arg: arguments passed from/to the ioctl handler
+- *
+- * This function is called when a 32 bits application calls a V4L2 ioctl
+- * and the Kernel is compiled with 64 bits.
+- *
+- * This function is called by v4l2_compat_ioctl32() when the function is
+- * not private to some specific driver.
+- *
+- * It converts a 32-bits struct into a 64 bits one, calls the native 64-bits
+- * ioctl handler and fills back the 32-bits struct with the results of the
+- * native call.
+- */
+-static long do_video_ioctl(struct file *file, unsigned int cmd, unsigned long arg)
+-{
+-	void __user *p32 = compat_ptr(arg);
+-	void __user *new_p64 = NULL;
+-	void __user *aux_buf;
+-	u32 aux_space;
+-	int compatible_arg = 1;
+-	long err = 0;
+-	unsigned int ncmd;
 -
--	if (!access_ok(p32, sizeof(*p32)) ||
--	    assign_in_user(&p64->pad, &p32->pad) ||
--	    assign_in_user(&p64->start_block, &p32->start_block) ||
--	    assign_in_user_cast(&p64->blocks, &p32->blocks) ||
--	    get_user(tmp, &p32->edid) ||
--	    put_user_force(compat_ptr(tmp), &p64->edid) ||
--	    copy_in_user(p64->reserved, p32->reserved, sizeof(p64->reserved)))
-+	compat_uptr_t edid;
-+
-+	if (copy_from_user(p64, p32, offsetof(struct v4l2_edid32, edid)) ||
-+	    get_user(edid, &p32->edid))
- 		return -EFAULT;
-+
-+	p64->edid = (void __force *)compat_ptr(edid);
- 	return 0;
- }
- 
--static int put_v4l2_edid32(struct v4l2_edid __user *p64,
-+static int put_v4l2_edid32(struct v4l2_edid *p64,
- 			   struct v4l2_edid32 __user *p32)
- {
--	void *edid;
--
--	if (!access_ok(p32, sizeof(*p32)) ||
--	    assign_in_user(&p32->pad, &p64->pad) ||
--	    assign_in_user(&p32->start_block, &p64->start_block) ||
--	    assign_in_user(&p32->blocks, &p64->blocks) ||
--	    get_user(edid, &p64->edid) ||
--	    put_user(ptr_to_compat((void __user *)edid), &p32->edid) ||
--	    copy_in_user(p32->reserved, p64->reserved, sizeof(p32->reserved)))
-+	if (copy_to_user(p32, p64, offsetof(struct v4l2_edid32, edid)))
- 		return -EFAULT;
- 	return 0;
- }
-@@ -994,6 +976,10 @@ unsigned int v4l2_compat_translate_cmd(unsigned int cmd)
- 		return VIDIOC_S_FMT;
- 	case VIDIOC_TRY_FMT32:
- 		return VIDIOC_TRY_FMT;
-+	case VIDIOC_G_FBUF32:
-+		return VIDIOC_G_FBUF;
-+	case VIDIOC_S_FBUF32:
-+		return VIDIOC_S_FBUF;
- #ifdef CONFIG_COMPAT_32BIT_TIME
- 	case VIDIOC_QUERYBUF32_TIME32:
- 		return VIDIOC_QUERYBUF;
-@@ -1020,6 +1006,22 @@ unsigned int v4l2_compat_translate_cmd(unsigned int cmd)
- 		return VIDIOC_TRY_EXT_CTRLS;
- 	case VIDIOC_PREPARE_BUF32:
- 		return VIDIOC_PREPARE_BUF;
-+	case VIDIOC_ENUMSTD32:
-+		return VIDIOC_ENUMSTD;
-+	case VIDIOC_ENUMINPUT32:
-+		return VIDIOC_ENUMINPUT;
-+	case VIDIOC_G_EDID32:
-+		return VIDIOC_G_EDID;
-+	case VIDIOC_S_EDID32:
-+		return VIDIOC_S_EDID;
-+#ifdef CONFIG_X86_64
-+	case VIDIOC_DQEVENT32:
-+		return VIDIOC_DQEVENT;
-+#ifdef CONFIG_COMPAT_32BIT_TIME
-+	case VIDIOC_DQEVENT32_TIME32:
-+		return VIDIOC_DQEVENT;
-+#endif
-+#endif
- 	}
- 	return cmd;
- }
-@@ -1031,6 +1033,9 @@ int v4l2_compat_get_user(void __user *arg, void *parg, unsigned int cmd)
- 	case VIDIOC_S_FMT32:
- 	case VIDIOC_TRY_FMT32:
- 		return get_v4l2_format32(parg, arg);
-+
-+	case VIDIOC_S_FBUF32:
-+		return get_v4l2_framebuffer32(parg, arg);
- #ifdef CONFIG_COMPAT_32BIT_TIME
- 	case VIDIOC_QUERYBUF32_TIME32:
- 	case VIDIOC_QBUF32_TIME32:
-@@ -1051,6 +1056,16 @@ int v4l2_compat_get_user(void __user *arg, void *parg, unsigned int cmd)
- 
- 	case VIDIOC_CREATE_BUFS32:
- 		return get_v4l2_create32(parg, arg);
-+
-+	case VIDIOC_ENUMSTD32:
-+		return get_v4l2_standard32(parg, arg);
-+
-+	case VIDIOC_ENUMINPUT32:
-+		return get_v4l2_input32(parg, arg);
-+
-+	case VIDIOC_G_EDID32:
-+	case VIDIOC_S_EDID32:
-+		return get_v4l2_edid32(parg, arg);
- 	}
- 	return 0;
- }
-@@ -1062,6 +1077,9 @@ int v4l2_compat_put_user(void __user *arg, void *parg, unsigned int cmd)
- 	case VIDIOC_S_FMT32:
- 	case VIDIOC_TRY_FMT32:
- 		return put_v4l2_format32(parg, arg);
-+
-+	case VIDIOC_G_FBUF32:
-+		return put_v4l2_framebuffer32(parg, arg);
- #ifdef CONFIG_COMPAT_32BIT_TIME
- 	case VIDIOC_QUERYBUF32_TIME32:
- 	case VIDIOC_QBUF32_TIME32:
-@@ -1082,6 +1100,24 @@ int v4l2_compat_put_user(void __user *arg, void *parg, unsigned int cmd)
- 
- 	case VIDIOC_CREATE_BUFS32:
- 		return put_v4l2_create32(parg, arg);
-+
-+	case VIDIOC_ENUMSTD32:
-+		return put_v4l2_standard32(parg, arg);
-+
-+	case VIDIOC_ENUMINPUT32:
-+		return put_v4l2_input32(parg, arg);
-+
-+	case VIDIOC_G_EDID32:
-+	case VIDIOC_S_EDID32:
-+		return put_v4l2_edid32(parg, arg);
-+#ifdef CONFIG_X86_64
-+	case VIDIOC_DQEVENT32:
-+		return put_v4l2_event32(parg, arg);
-+#ifdef CONFIG_COMPAT_32BIT_TIME
-+	case VIDIOC_DQEVENT32_TIME32:
-+		return put_v4l2_event32_time32(parg, arg);
-+#endif
-+#endif
- 	}
- 	return 0;
- }
-@@ -1327,16 +1363,6 @@ static long do_video_ioctl(struct file *file, unsigned int cmd, unsigned long ar
- 	 * 1. When struct size is different, converts the command.
- 	 */
- 	switch (cmd) {
--	case VIDIOC_G_FBUF32: ncmd = VIDIOC_G_FBUF; break;
--	case VIDIOC_S_FBUF32: ncmd = VIDIOC_S_FBUF; break;
--	case VIDIOC_ENUMSTD32: ncmd = VIDIOC_ENUMSTD; break;
--	case VIDIOC_ENUMINPUT32: ncmd = VIDIOC_ENUMINPUT; break;
--#ifdef CONFIG_X86_64
--	case VIDIOC_DQEVENT32: ncmd = VIDIOC_DQEVENT; break;
--	case VIDIOC_DQEVENT32_TIME32: ncmd = VIDIOC_DQEVENT_TIME32; break;
--#endif
--	case VIDIOC_G_EDID32: ncmd = VIDIOC_G_EDID; break;
--	case VIDIOC_S_EDID32: ncmd = VIDIOC_S_EDID; break;
- 	default: ncmd = cmd; break;
- 	}
- 
-@@ -1346,53 +1372,6 @@ static long do_video_ioctl(struct file *file, unsigned int cmd, unsigned long ar
- 	 * argument into it.
- 	 */
- 	switch (cmd) {
--	case VIDIOC_G_EDID32:
--	case VIDIOC_S_EDID32:
--		err = alloc_userspace(sizeof(struct v4l2_edid), 0, &new_p64);
--		if (!err)
--			err = get_v4l2_edid32(new_p64, p32);
--		compatible_arg = 0;
--		break;
--
--	case VIDIOC_S_FBUF32:
--		err = alloc_userspace(sizeof(struct v4l2_framebuffer), 0,
--				      &new_p64);
--		if (!err)
--			err = get_v4l2_framebuffer32(new_p64, p32);
--		compatible_arg = 0;
--		break;
--
--	case VIDIOC_G_FBUF32:
--		err = alloc_userspace(sizeof(struct v4l2_framebuffer), 0,
--				      &new_p64);
--		compatible_arg = 0;
--		break;
--
--	case VIDIOC_ENUMSTD32:
--		err = alloc_userspace(sizeof(struct v4l2_standard), 0,
--				      &new_p64);
--		if (!err)
--			err = get_v4l2_standard32(new_p64, p32);
--		compatible_arg = 0;
--		break;
--
--	case VIDIOC_ENUMINPUT32:
--		err = alloc_userspace(sizeof(struct v4l2_input), 0, &new_p64);
--		if (!err)
--			err = get_v4l2_input32(new_p64, p32);
--		compatible_arg = 0;
--		break;
--
--#ifdef CONFIG_X86_64
--	case VIDIOC_DQEVENT32:
--		err = alloc_userspace(sizeof(struct v4l2_event), 0, &new_p64);
--		compatible_arg = 0;
--		break;
--	case VIDIOC_DQEVENT32_TIME32:
--		err = alloc_userspace(sizeof(struct v4l2_event_time32), 0, &new_p64);
--		compatible_arg = 0;
--		break;
--#endif
- 	}
- 	if (err)
- 		return err;
-@@ -1414,55 +1393,11 @@ static long do_video_ioctl(struct file *file, unsigned int cmd, unsigned long ar
- 	if (err == -ENOTTY)
- 		return err;
- 
 -	/*
--	 * 4. Special case: even after an error we need to put the
--	 * results back for some ioctls.
--	 *
--	 * In the case of EXT_CTRLS, the error_idx will contain information
--	 * on which control failed.
--	 *
--	 * In the case of S_EDID, the driver can return E2BIG and set
--	 * the blocks to maximum allowed value.
+-	 * 1. When struct size is different, converts the command.
 -	 */
 -	switch (cmd) {
--	case VIDIOC_S_EDID32:
--		if (put_v4l2_edid32(new_p64, p32))
--			err = -EFAULT;
--		break;
+-	default: ncmd = cmd; break;
+-	}
+-
+-	/*
+-	 * 2. Allocates a 64-bits userspace pointer to store the
+-	 * values of the ioctl and copy data from the 32-bits __user
+-	 * argument into it.
+-	 */
+-	switch (cmd) {
 -	}
 -	if (err)
 -		return err;
 -
- 	/*
- 	 * 5. Copy the data returned at the 64 bits userspace pointer to
- 	 * the original 32 bits structure.
- 	 */
- 	switch (cmd) {
--	case VIDIOC_G_FBUF32:
--		err = put_v4l2_framebuffer32(new_p64, p32);
--		break;
+-	/*
+-	 * 3. Calls the native 64-bits ioctl handler.
+-	 *
+-	 * For the functions where a conversion was not needed,
+-	 * compatible_arg is true, and it will call it with the arguments
+-	 * provided by userspace and stored at @p32 var.
+-	 *
+-	 * Otherwise, it will pass the newly allocated @new_p64 argument.
+-	 */
+-	if (compatible_arg)
+-		err = native_ioctl(file, ncmd, (unsigned long)p32);
+-	else
+-		err = native_ioctl(file, ncmd, (unsigned long)new_p64);
 -
--#ifdef CONFIG_X86_64
--	case VIDIOC_DQEVENT32:
--		err = put_v4l2_event32(new_p64, p32);
--		break;
+-	if (err == -ENOTTY)
+-		return err;
 -
--	case VIDIOC_DQEVENT32_TIME32:
--		err = put_v4l2_event32_time32(new_p64, p32);
--		break;
--#endif
+-	/*
+-	 * 5. Copy the data returned at the 64 bits userspace pointer to
+-	 * the original 32 bits structure.
+-	 */
+-	switch (cmd) {
+-	}
+-	return err;
+-}
 -
--	case VIDIOC_G_EDID32:
--		err = put_v4l2_edid32(new_p64, p32);
--		break;
--
--	case VIDIOC_ENUMSTD32:
--		err = put_v4l2_standard32(new_p64, p32);
--		break;
--
--	case VIDIOC_ENUMINPUT32:
--		err = put_v4l2_input32(new_p64, p32);
--		break;
- 	}
- 	return err;
- }
+ /**
+  * v4l2_compat_ioctl32() - Handles a compat32 ioctl call
+  *
+@@ -1425,7 +1231,8 @@ long v4l2_compat_ioctl32(struct file *file, unsigned int cmd, unsigned long arg)
+ 		return ret;
+ 
+ 	if (_IOC_TYPE(cmd) == 'V' && _IOC_NR(cmd) < BASE_VIDIOC_PRIVATE)
+-		ret = do_video_ioctl(file, cmd, arg);
++		ret = file->f_op->unlocked_ioctl(file, cmd,
++					(unsigned long)compat_ptr(arg));
+ 	else if (vdev->fops->compat_ioctl32)
+ 		ret = vdev->fops->compat_ioctl32(file, cmd, arg);
+ 
 -- 
 2.27.0
 
