@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C4A729FC30
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 04:30:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C4DB29FC78
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 05:04:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726155AbgJ3DaS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 29 Oct 2020 23:30:18 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45444 "EHLO
+        id S1726154AbgJ3EEn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 00:04:43 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50828 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726122AbgJ3DaR (ORCPT
+        with ESMTP id S1725780AbgJ3EEm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 29 Oct 2020 23:30:17 -0400
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8059DC0613CF
-        for <linux-media@vger.kernel.org>; Thu, 29 Oct 2020 20:30:17 -0700 (PDT)
-Received: by mail-oi1-x242.google.com with SMTP id k27so5336803oij.11
-        for <linux-media@vger.kernel.org>; Thu, 29 Oct 2020 20:30:17 -0700 (PDT)
+        Fri, 30 Oct 2020 00:04:42 -0400
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B29A6C0613D5
+        for <linux-media@vger.kernel.org>; Thu, 29 Oct 2020 21:04:42 -0700 (PDT)
+Received: by mail-ot1-x343.google.com with SMTP id 32so4506060otm.3
+        for <linux-media@vger.kernel.org>; Thu, 29 Oct 2020 21:04:42 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=6oMY9pxFypCz+sF9iqPwWsJbC9qvwpmj8H4dhF+NfdQ=;
-        b=Cm2BCBaE0HkCTyOU/fbadFmrRd5FXxeBg8UMkDSDS1j6UyRSiTx5urdd8HHKLA6zHR
-         hY06B2HqNpN+dCebixLmWfx7eJpaIQ4VrKXtvWStO+woq17+xkAiZkij8073l2qZVMfM
-         /yge+eZBZQbEZ/DBrYRiyEwSv4qYPr5cGlc8O/WbKQmnfcMStPl+g4wLrSNImh8CLwEI
-         32NkObz9twkgzIWYkvMls7X2hNLrhSJiqi21XNx9Ccop5rYvlKeKtv+Okwy0RirNRC9k
-         UhOiE8R4dvHFjQ6CydKSNwMesYjB2yeiEnVXHYw6SK2UD0VGcyum+RxmbZdvVbJBb7FG
-         MbOA==
+        bh=0QbgsLhT6Fyvwnbaijbhr3l5RA06hcZ/IdPt56ssLa8=;
+        b=GariH0e4pbsh6GGADmUy/dS2os+uR5r4sOXfanz6DN+7fol5JKiM8tWtLEbf8zgBV7
+         2CbQcwrWgKr2vJ11bjvSqQhshoGeY5e0vqec5+fTVIOVHjp10YRzACXkLJ8pU5j+LLJi
+         jkWrGT3zvIYVGwD3MsxAr3AiEtcRzd7LFrM4Pj61lhdQf2ZlyRMd/GghvRRIcNDX5AS5
+         WUnMDK84ziVUNlRa3ulbRSuAOgwlYl4385elWqjoihZT4dKHd6j5wnHhtY+RCqzTy0cU
+         VeE/ZKMq5im3Z3qgeF3HtoYVCllg14h+SWNS5ge/11cQDgvwKYMYi8FAgx8qL+P01K/k
+         k7LQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=6oMY9pxFypCz+sF9iqPwWsJbC9qvwpmj8H4dhF+NfdQ=;
-        b=Sy/CF+/J5vK/PMNPQne+MLktiiFXdzucrnUXhHCgNtB3Z5HZ/6TW+o22VJ9ihvxlT5
-         F4N8yGo4asYxa79Ijj1CQZQkmds+fVW2wzTZ8iVaGqJrGmLmWP/mc5KRSXU0auD6GL54
-         wwe98iLjTz840nOljgy4K7QijTB5xoZXg3wEkEyOsNPcHadlEG6T0CK6jvV0cQDQjnGV
-         1EmK7vkM9g8qf5yIIdNNLEqDwzpX2Bz5A7ej2Z/K6wWgvpLBOZok9ly14YGFS+/JQDqV
-         /dP7VrF6RTUmmZcY/kSbpDydgnRgjvH+NSHPQhyH+jzlc206N18UcXD7mPWge++lmt5g
-         3MUw==
-X-Gm-Message-State: AOAM530/Azf/qdplQ+kDheyeX0lKKRYpbKv01/CCNXP7dRgawFs0lRlG
-        JE49tMwN1wZ9mIW4IwCK6pc6s5c2tJ604eTMOaI3mA==
-X-Google-Smtp-Source: ABdhPJyoYlDfNB9INSs49MENv3IRsfUKToKB7mwBdmNjsIcA5aDVVdbolYFcxBttTKe/8dItjxvA3P8hwe661BVNN2c=
-X-Received: by 2002:aca:1a07:: with SMTP id a7mr224448oia.169.1604028616954;
- Thu, 29 Oct 2020 20:30:16 -0700 (PDT)
+        bh=0QbgsLhT6Fyvwnbaijbhr3l5RA06hcZ/IdPt56ssLa8=;
+        b=S9A9sY/+LE5pVP6YkAFF17xJf+Dctsa0N76B2rXoVx1GELBSF8Q66Imb/i8euguV6W
+         T7K1mFkevqwRnRy0s3pmGoOTYswWyBTWkTFumYBBkBEtIqyOKjM75fEiE+EVeu+3lMNo
+         9ObttChTL4PJlsXNaAoEBEmBRAR+n1n5zDMACZc9SFAgP+ZPITAMc5GjW+LDMRN8WOaE
+         dFpinwYWVUb8unjSeORc98K5eEeBB9MtXcgW1CSOfFUu2WnYo799dB+B1iTN6YL331Fd
+         Sysn3yskXGVKRcjwVrVpAYxRGYl6dgMU/8Ad5nRa6rOQE7Z7kHucCxWP1j6iLGBLZ+qq
+         79rQ==
+X-Gm-Message-State: AOAM530GnMycgum6cLw6M0nf+bi11NeMOFmG9UQ5UTc6WNkeU/21bGLz
+        p5f5jw8JOGx3lukd18CFQCm/xZU20ms0bhrO/qi4wMKxAlDZMA==
+X-Google-Smtp-Source: ABdhPJxrCBDhKCig/L03qPCOkK6xkvYmtMRhhDx50CzXEzRfvqmALH8yZdNAOgx9V2zMS9Ca92cGk+lDn4xB8OMhuZ8=
+X-Received: by 2002:a05:6830:400c:: with SMTP id h12mr271298ots.102.1604030682075;
+ Thu, 29 Oct 2020 21:04:42 -0700 (PDT)
 MIME-Version: 1.0
-References: <20201030023427.3078-1-hdanton@sina.com>
-In-Reply-To: <20201030023427.3078-1-hdanton@sina.com>
+References: <20201030024746.3128-1-hdanton@sina.com>
+In-Reply-To: <20201030024746.3128-1-hdanton@sina.com>
 From:   John Stultz <john.stultz@linaro.org>
-Date:   Thu, 29 Oct 2020 20:30:04 -0700
-Message-ID: <CALAqxLU1=vScNWfxc-Ji9F_cY311z8GuFLiFT0q0PrDyJVxViA@mail.gmail.com>
-Subject: Re: [PATCH v4 5/7] dma-buf: system_heap: Allocate higher order pages
- if available
+Date:   Thu, 29 Oct 2020 21:04:30 -0700
+Message-ID: <CALAqxLVqLdvEWH_jz-urLghVN7SbrktyN877A1QH47Hf6mqo3w@mail.gmail.com>
+Subject: Re: [PATCH v4 7/7] dma-buf: system_heap: Add a system-uncached heap
+ re-using the system heap
 To:     Hillf Danton <hdanton@sina.com>
 Cc:     lkml <linux-kernel@vger.kernel.org>,
         Sumit Semwal <sumit.semwal@linaro.org>,
@@ -59,6 +59,7 @@ Cc:     lkml <linux-kernel@vger.kernel.org>,
         Robin Murphy <robin.murphy@arm.com>,
         Ezequiel Garcia <ezequiel@collabora.com>,
         Simon Ser <contact@emersion.fr>,
+        Christoph Hellwig <hch@infradead.org>,
         James Jones <jajones@nvidia.com>,
         linux-media <linux-media@vger.kernel.org>,
         dri-devel <dri-devel@lists.freedesktop.org>
@@ -67,24 +68,52 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Oct 29, 2020 at 7:34 PM Hillf Danton <hdanton@sina.com> wrote:
-> On Thu, 29 Oct 2020 12:34:51 -0700 John Stultz wrote:
-> > As for your comment on HPAGE_PMD_ORDER (9 on arm64/arm) and
-> > PAGE_ALLOC_COSTLY_ORDER(3), I'm not totally sure I understand your
-> > question? Are you suggesting those values would be more natural orders
-> > to choose from?
+On Thu, Oct 29, 2020 at 7:48 PM Hillf Danton <hdanton@sina.com> wrote:
+> On Thu, 29 Oct 2020 15:28:34 -0700 John Stultz wrote:
+> > On Thu, Oct 29, 2020 at 12:10 AM Hillf Danton <hdanton@sina.com> wrote:
+> > > On Thu, 29 Oct 2020 00:16:24 +0000 John Stultz wrote:
+> > > > @@ -194,6 +210,9 @@ static int system_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
+> > > >       struct sg_page_iter piter;
+> > > >       int ret;
+> > > >
+> > > > +     if (buffer->uncached)
+> > > > +             vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
+> > > > +
+> > >
+> > > Wonder why you turn back to dma_mmap_wc() and friends?
+> >
+> > Sorry, can you expand on what you are proposing here instead?  I'm not
+> > sure I see how dma_alloc/mmap/*_wc() quite fits here.
 >
-> The numbers, 9 and 3, are not magic themselves but under the mm diretory
-> they draw more attentions than others do. Sometimes it would take two
-> minutes for me to work out that HPAGE_PMD_ORDER does not mean 1MiB, on
-> platforms like arm64 or not.
+> I just wondered if *_wc() could save you two minutes or three. Can you
+> shed some light on your concerns about their unfitness?
 
-Yes, I can say it took me longer than two minutes to dig around and
-work out HPAGE_PMD_ORDER for my last reply.  :)
+Sorry, I feel a bit daft here. I'm still not exactly sure what you're
+proposing, and your reply of saving minutes doesn't really clarify
+things.
+So I'm not sure it's a good use of time to try to (most likely,
+incorrectly) refute all the possible things you might be suggesting.
+:)
 
-Though I'm still a bit unsure if you are proposing something more than
-just a comment to explain why order 8 and order 4 allocations are used
-in my patch? Please let me know if so.
+But I'll try to share my thoughts:
+
+So the system heap allows for allocation of non-contiguous buffers
+(currently allocated from page_alloc), which we keep track using
+sglists.
+Since the resulting dmabufs are shared between multiple devices, we
+want to provide a *specific type of memory* (in this case
+non-contiguous system memory), rather than what the underlying
+dma_alloc_attr() allocates for a specific device.
+
+My sense is dma_mmap_wc() likely ought to be paired with switching to
+using dma_alloc_wc() as well, which calls down to dma_alloc_attr().
+Maybe one could use dma_alloc_attr against the heap device to allocate
+chunks that we track in the sglist. But I'm not sure how that saves us
+much other than possibly swapping dma_mmap_wc() for remap_pfn_range()?
+
+But again, I suspect I've mischaracterized what you're actually
+suggesting. So please let me know what you're thinking and I'm happy
+to consider it.
 
 thanks
 -john
