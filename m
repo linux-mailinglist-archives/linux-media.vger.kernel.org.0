@@ -2,22 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD65429FD72
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 06:52:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B315229FD74
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 06:52:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725838AbgJ3FwG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 01:52:06 -0400
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:55398 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725770AbgJ3FwG (ORCPT
+        id S1725855AbgJ3FwK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 01:52:10 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39038 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725847AbgJ3FwK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 01:52:06 -0400
+        Fri, 30 Oct 2020 01:52:10 -0400
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F1CF3C0613CF;
+        Thu, 29 Oct 2020 22:52:09 -0700 (PDT)
 Received: from floko.floko.floko (unknown [IPv6:2804:14c:483:7e3e::1005])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
         (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 1DA1B1F458F6;
-        Fri, 30 Oct 2020 05:52:00 +0000 (GMT)
+        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id F1C7B1F458F8;
+        Fri, 30 Oct 2020 05:52:04 +0000 (GMT)
 From:   Helen Koike <helen.koike@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
@@ -25,120 +28,95 @@ Cc:     linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
         dafna.hirschfeld@collabora.com, zhengsq@rock-chips.com,
         laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se,
         mchehab@kernel.org, tfiga@chromium.org, ribalda@google.com
-Subject: [PATCH 0/2] destage Rockchip ISP1 driver
-Date:   Fri, 30 Oct 2020 02:51:51 -0300
-Message-Id: <20201030055153.1981530-1-helen.koike@collabora.com>
+Subject: [PATCH 1/2] media: videodev2.h, v4l2-ioctl: add rkisp1 meta buffer format
+Date:   Fri, 30 Oct 2020 02:51:52 -0300
+Message-Id: <20201030055153.1981530-2-helen.koike@collabora.com>
 X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201030055153.1981530-1-helen.koike@collabora.com>
+References: <20201030055153.1981530-1-helen.koike@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+From: Shunqian Zheng <zhengsq@rock-chips.com>
+
+Add the Rockchip ISP1 specific processing parameter format
+V4L2_META_FMT_RK_ISP1_PARAMS and metadata format
+V4L2_META_FMT_RK_ISP1_STAT_3A for 3A.
+
+Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
+Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
+Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+
+---
 Hello,
 
-I think it is time to move this driver out of staging.
+This patch is a continuation of:
 
-Thanks all who contributed, specially to Dafna, who put a lot of
-effort addressing all the items in the TODO list, fixing bugs,
-cleaning the code, addressing past comments and testing.
+https://patchwork.kernel.org/project/linux-arm-kernel/patch/20191106120132.6876-2-helen.koike@collabora.com/
 
-Please, review the driver, see if there is any other thing that should
-be addressed before this change.
+These formats are already documented under
+Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
 
-> media-ctl -p
-http://ix.io/2Cso
+We had agreed to keep under
+drivers/staging/media/rkisp1/uapi/rkisp1-config.h while the driver was
+in staging, since we are moving it out of staging, I guess this is the
+time :)
 
-> media-ctl --print-dot
-http://ix.io/2Csp
-
-> v4l2-compliance -m0
-http://ix.io/2Csk
-
-> v4l2-compliance -v -d /dev/video0 -s10
-http://ix.io/2Csq
-
-> v4l2-compliance -v -d /dev/video1 -s10
-http://ix.io/2Css
-
-This patch depends on the following series:
-
-* media: staging: rkisp1: uapi: add "WITH Linux-syscall-note"
-  https://patchwork.linuxtv.org/project/linux-media/patch/20201020132514.26651-1-dafna.hirschfeld@collabora.com/
-
-* [0/2] media: staging: rkisp1: Fix formats for metadata pads
-  https://patchwork.linuxtv.org/project/linux-media/cover/20200325212704.29862-1-dafna.hirschfeld@collabora.com/
-
-* [v2,1/2] media: uapi: add MEDIA_BUS_FMT_METADATA_FIXED media bus format.
-  [v2,2/2] media: staging: rkisp1: isp: set metadata pads to MEDIA_BUS_FMT_METADATA_FIXED
-  https://patchwork.linuxtv.org/project/linux-media/patch/20201020154522.654-1-dafna.hirschfeld@collabora.com/
-
-* [0/6] media: staging: rkisp1: improvements
-  https://patchwork.linuxtv.org/project/linux-media/cover/20201002184222.7094-1-dafna.hirschfeld@collabora.com/
-
-* [0/4] media: staging: rkisp1: send cleanups and checkpatch fixes
-  https://patchwork.linuxtv.org/project/linux-media/cover/20201019205956.6980-1-dafna.hirschfeld@collabora.com/
-
-* media: staging: rkisp1: capture: set default quantization on 'set_fmt'
-  https://patchwork.linuxtv.org/project/linux-media/patch/20201026162848.18310-1-dafna.hirschfeld@collabora.com/
-
-* media: staging: rkisp1: remove TODO item to document quantization handling
-  https://patchwork.linuxtv.org/project/linux-media/patch/20200928152809.27490-1-dafna.hirschfeld@collabora.com/
-
-* [v2] media: staging: rkisp1: cap: refactor enable/disable stream to allow multistreaming
-  https://patchwork.linuxtv.org/project/linux-media/patch/20201019160434.877568-1-helen.koike@collabora.com/
-
-* [v6,0/9] move Rockchip ISP bindings out of staging / add ISP DT nodes for RK3399
-  https://patchwork.linuxtv.org/project/linux-media/patch/20201020193850.1460644-2-helen.koike@collabora.com/
-
-You can also see all of them applied in this branch:
-
-    https://gitlab.collabora.com/koike/linux/-/tree/rockchip/isp/destage
-
-Thanks
+Regards,
 Helen
+---
+ drivers/media/v4l2-core/v4l2-ioctl.c              | 2 ++
+ drivers/staging/media/rkisp1/uapi/rkisp1-config.h | 4 ----
+ include/uapi/linux/videodev2.h                    | 4 ++++
+ 3 files changed, 6 insertions(+), 4 deletions(-)
 
-Helen Koike (1):
-  media: rockchip: rkisp1: destage Rockchip ISP1 driver
-
-Shunqian Zheng (1):
-  media: videodev2.h, v4l2-ioctl: add rkisp1 meta buffer format
-
- .../media/v4l/pixfmt-meta-rkisp1.rst          |  2 +-
- drivers/media/platform/Kconfig                | 18 ++++++++++++++++++
- drivers/media/platform/Makefile               |  1 +
- .../platform/rockchip}/rkisp1/Makefile        |  0
- .../rockchip}/rkisp1/rkisp1-capture.c         |  0
- .../platform/rockchip}/rkisp1/rkisp1-common.c |  0
- .../platform/rockchip}/rkisp1/rkisp1-common.h |  2 +-
- .../platform/rockchip}/rkisp1/rkisp1-dev.c    |  0
- .../platform/rockchip}/rkisp1/rkisp1-isp.c    |  0
- .../platform/rockchip}/rkisp1/rkisp1-params.c |  0
- .../platform/rockchip}/rkisp1/rkisp1-regs.h   |  0
- .../rockchip}/rkisp1/rkisp1-resizer.c         |  0
- .../platform/rockchip}/rkisp1/rkisp1-stats.c  |  0
- drivers/media/v4l2-core/v4l2-ioctl.c          |  2 ++
- drivers/staging/media/Kconfig                 |  2 --
- drivers/staging/media/Makefile                |  1 -
- drivers/staging/media/rkisp1/Kconfig          | 19 -------------------
- drivers/staging/media/rkisp1/TODO             |  6 ------
- .../uapi/linux}/rkisp1-config.h               |  4 ----
- include/uapi/linux/videodev2.h                |  4 ++++
- 20 files changed, 27 insertions(+), 34 deletions(-)
- rename drivers/{staging/media => media/platform/rockchip}/rkisp1/Makefile (100%)
- rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-capture.c (100%)
- rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-common.c (100%)
- rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-common.h (99%)
- rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-dev.c (100%)
- rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-isp.c (100%)
- rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-params.c (100%)
- rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-regs.h (100%)
- rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-resizer.c (100%)
- rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-stats.c (100%)
- delete mode 100644 drivers/staging/media/rkisp1/Kconfig
- delete mode 100644 drivers/staging/media/rkisp1/TODO
- rename {drivers/staging/media/rkisp1/uapi => include/uapi/linux}/rkisp1-config.h (99%)
-
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index eeff398fbdcc1..202597d031c6b 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1402,6 +1402,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
+ 	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
+ 	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
++	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A params"; break;
++	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A statistics"; break;
+ 
+ 	default:
+ 		/* Compressed formats */
+diff --git a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+index 8d906cc7da8fc..6e449e7842605 100644
+--- a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
++++ b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+@@ -9,10 +9,6 @@
+ 
+ #include <linux/types.h>
+ 
+-/* Vendor specific - used for RK_ISP1 camera sub-system */
+-#define V4L2_META_FMT_RK_ISP1_PARAMS   v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 params */
+-#define V4L2_META_FMT_RK_ISP1_STAT_3A  v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A statistics */
+-
+ /* Defect Pixel Cluster Detection */
+ #define RKISP1_CIF_ISP_MODULE_DPCC		(1U << 0)
+ /* Black Level Subtraction */
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 534eaa4d39bc8..c2e13ba81196b 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -770,6 +770,10 @@ struct v4l2_pix_format {
+ #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
+ #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
+ 
++/* Vendor specific - used for RK_ISP1 camera sub-system */
++#define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 params */
++#define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A statistics */
++
+ /* priv field value to indicates that subsequent fields are valid. */
+ #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
+ 
 -- 
 2.28.0
 
