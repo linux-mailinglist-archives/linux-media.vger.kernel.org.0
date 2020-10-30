@@ -2,114 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F8562A03A9
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 12:06:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D8C032A03CB
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 12:13:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726110AbgJ3LGT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 07:06:19 -0400
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:58445 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725808AbgJ3LGT (ORCPT
+        id S1726353AbgJ3LMy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 07:12:54 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60280 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725355AbgJ3LMw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 07:06:19 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id YSEUknz6cWvjMYSEXkHAQf; Fri, 30 Oct 2020 12:06:17 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1604055977; bh=MPINL0x+YgE1zrfqIMBCjq16Ytw83Vxoo5XMTG3tTYM=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=e+vUNUgPZpLxrnDl+BVK9blSVoOJYn9lZMt595T4geL2DEc/Q/XRwGlwC06RMz1jk
-         PWpR8nK7g6/bhVtxebFYbn38zr2RJnaFFhs3vjVF6BVW1QJIt83JpqN4YsN8fgH4lk
-         gl5mYGoZmIpuRgvqgJTDE4h15vIHK+6ogqjEraGrO0eB2HU8y1iPRF4dXR2VsJ63a+
-         lD0xbNkUo13Hmi1sVtdxBL73iwCyfwAXQof9yr1gY9JNvPJylAlesLa0FzUCUXl3Na
-         camzeV1IfLpFSKXLvCx7jlOmEycgrFh9UKCOAaaaruMiWLqeix8Ev/NdSXwMi0HBJ3
-         53uu3QNZvb9YA==
-Subject: Re: [PATCH v2 0/6] ARM: dts: sun8i: v3s: Enable video decoder
-To:     Martin Cerveny <m.cerveny@computer.org>,
-        Maxime Ripard <mripard@kernel.org>
-Cc:     Chen-Yu Tsai <wens@csie.org>, devel@driverdev.osuosl.org,
-        devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>
-References: <20200912143052.30952-1-m.cerveny@computer.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <034d8de1-bcf3-88e6-4d23-9a13e8b950c3@xs4all.nl>
-Date:   Fri, 30 Oct 2020 12:06:10 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Fri, 30 Oct 2020 07:12:52 -0400
+Received: from mail-il1-x143.google.com (mail-il1-x143.google.com [IPv6:2607:f8b0:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3B3FC0613D2;
+        Fri, 30 Oct 2020 04:11:55 -0700 (PDT)
+Received: by mail-il1-x143.google.com with SMTP id x20so6129335ilj.8;
+        Fri, 30 Oct 2020 04:11:55 -0700 (PDT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZV0ThIiPZfP1J2R9nyVt8QkuejC8cSVT80sCSgcOxz0=;
+        b=frLzaxmwhGcVkXjbtKiS94LkaEgTCIqs5lcLgp7qud2oXWRlC0QKI3bu8As+Qe/3+/
+         YswYlbhwudFEROgXLO0RidFvUATOBI7jk1lDLjY+whOmmq9Wr466RzZ5uuDqGV3FbAQG
+         l5ts/Dwn0MzkC2R6n6o7hulkK9e/L4r9462cvEbQnmU+Vp4izCFhUSz5rYUeyvvecom/
+         skR+qlhyOuiRDMt/6fAEhtpRAkvua7TqwnEmsCShc8NHMqgmHLM3NnLpiiyehNei+OWa
+         WZsv0NfFfxPPWvhOiranGCdFjTSZKT7qkP3ITLJ8wRX/70+d0XR4v07v323ob3Nx/pYz
+         m4IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZV0ThIiPZfP1J2R9nyVt8QkuejC8cSVT80sCSgcOxz0=;
+        b=JAHhXcjY+bpshnbwfRMrp/+oTiVji4VSyq64Gpk+BCp9iRc/Sk3DrPeEuWFueDJBD8
+         CbbqlJUq5/Tn+ktyohulyYBO9JsUEOAIVqBIEp2BosfSAThtjdRRnm1heolp6W7ppLGG
+         5ypWoN75ClhN9R95q45gLjfuN4Hk5/8iSynysaJKcz1HeGijSaoa716OnKOlTvlbGqHr
+         v0zwht3duKg50haXgEZKOd9clDVCbhStkn3hvHrd542cXZXQu5Le60Nk3kEEI/8LlLvN
+         c2bEfQYrjgevzJTvQ5lCX2k/OOSUQK0YbwZ13dSAE1vpy+lQGSJ43lrESGD+qXqGGgkm
+         DhYA==
+X-Gm-Message-State: AOAM531XuU18pk3UhSTd3DSUbzeg3sTTlipOkMRIzP6GZ6L31V7pbs5N
+        ZGcAOFXXyrEW1zxrl49zkOD3lGR+9vLedjYd1K0=
+X-Google-Smtp-Source: ABdhPJzTddVFvGcRMfdnfgtj3RhHYeI8lzSbPQsDbDZuu+e8Z0f5KxtsaoxhCUlFTZHA3Ubj6PmYhDwWjpnLL1nJZe4=
+X-Received: by 2002:a92:4442:: with SMTP id a2mr1368452ilm.220.1604056315371;
+ Fri, 30 Oct 2020 04:11:55 -0700 (PDT)
 MIME-Version: 1.0
-In-Reply-To: <20200912143052.30952-1-m.cerveny@computer.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfPk/Quh1gIPsgZdoLL3OS0LA/MmvP72jK4Pqvra+hdcwDaWr2TPMHaJSa/g/6I1V58Bij9/ny2pUg53Amjmyg3aVILlbz3CyRPr9yS3jSMAgtJkiYuJs
- mGLSNfSQNPiuzhHVAOZ9pRpCjmgE8G8pMqOofn+u1InxcFjy9hskNgZlk3ELhCVe3eyEzAymQOZArl/ePtTVllzjcDM2VahpTJVxlTpgl1ufv6dmSQN7rlMF
- 8GaNcO4srz611UC3uo1Vj56F/ItW/zy6RhqL1qEfK4QI4yKcP3LUsyE5pcQt3IGIqN1r1afA2wtvNGJaWNojcDh8R6BZjTQUNz1t2R1A9mHhbvhtakzKLxh8
- HP7QV7WtBK4IOczGKKRuRZRvVE6o47+Dqti4NTE8iezOok0c9MqphYs/XjGuNW0GDHZZNqs/wZdAVWd2AT9itQ3CqNJwuE862UDUqxV+wDeCYND4QCljne11
- CDWQa3nziKnDCcx68/YGo4lp4ykF9l82ExvE5LNHnlMAZxe0kMYS30a+2qfV8hhX0UrBN3XVk+9f0F9A/Fs79H/23OPec+fQl0oZUyZBZhGK4/oL2rrN8jVM
- hajsRByWqpLyL8JmeTX+w0+H
+References: <cover.1604042072.git.mchehab+huawei@kernel.org> <5bc78e5b68ed1e9e39135173857cb2e753be868f.1604042072.git.mchehab+huawei@kernel.org>
+In-Reply-To: <5bc78e5b68ed1e9e39135173857cb2e753be868f.1604042072.git.mchehab+huawei@kernel.org>
+From:   Ilya Dryomov <idryomov@gmail.com>
+Date:   Fri, 30 Oct 2020 12:11:54 +0100
+Message-ID: <CAOi1vP-gKLw7shFy5rUeH6Z14hr_B9fW0epaRyuw45tg4EuCcQ@mail.gmail.com>
+Subject: Re: [PATCH v2 31/39] docs: ABI: cleanup several ABI documents
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        "Gautham R. Shenoy" <ego@linux.vnet.ibm.com>,
+        Jonathan Corbet <corbet@lwn.net>,
+        =?UTF-8?B?TWFyZWsgQmVow7pu?= <marek.behun@nic.cz>,
+        =?UTF-8?Q?Marek_Marczykowski=2DG=C3=B3recki?= 
+        <marmarek@invisiblethingslab.com>,
+        =?UTF-8?Q?Pali_Roh=C3=A1r?= <pali@kernel.org>,
+        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        =?UTF-8?Q?Roger_Pau_Monn=C3=A9?= <roger.pau@citrix.com>,
+        Alexander Antonov <alexander.antonov@linux.intel.com>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Andreas Klinger <ak@it-klinger.de>,
+        Andrew Donnellan <ajd@linux.ibm.com>,
+        Andrew Lunn <andrew@lunn.ch>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Asutosh Das <asutoshd@codeaurora.org>,
+        Bart Van Assche <bvanassche@acm.org>,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Bjorn Helgaas <bhelgaas@google.com>,
+        Boris Brezillon <bbrezillon@kernel.org>,
+        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
+        Cezary Rojewski <cezary.rojewski@intel.com>,
+        Chao Yu <chao@kernel.org>,
+        Christian Gromm <christian.gromm@microchip.com>,
+        Colin Cross <ccross@android.com>, Dan Murphy <dmurphy@ti.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Daniel Thompson <daniel.thompson@linaro.org>,
+        Danil Kipnis <danil.kipnis@cloud.ionos.com>,
+        David Sterba <dsterba@suse.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        Dongsheng Yang <dongsheng.yang@easystack.cn>,
+        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
+        Florian Fainelli <f.fainelli@gmail.com>,
+        Frederic Barrat <fbarrat@linux.ibm.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Hanjun Guo <guohanjun@huawei.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Heiner Kallweit <hkallweit1@gmail.com>,
+        Jack Wang <jinpu.wang@cloud.ionos.com>,
+        Jaegeuk Kim <jaegeuk@kernel.org>,
+        Jarkko Sakkinen <jarkko@kernel.org>,
+        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
+        Jerry Snitselaar <jsnitsel@redhat.com>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        Johan Hovold <johan@kernel.org>,
+        Jonas Meurer <jonas@freesources.org>,
+        Jonathan Cameron <jic23@kernel.org>,
+        Kajol Jain <kjain@linux.ibm.com>,
+        Kees Cook <keescook@chromium.org>,
+        Konstantin Khlebnikov <koct9i@gmail.com>,
+        Kranthi Kuntala <kranthi.kuntala@intel.com>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Mario Limonciello <mario.limonciello@dell.com>,
+        Mark Gross <mgross@linux.intel.com>,
+        Mathieu Poirier <mathieu.poirier@linaro.org>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Mika Westerberg <mika.westerberg@linux.intel.com>,
+        Mike Leach <mike.leach@linaro.org>,
+        Oded Gabbay <oded.gabbay@gmail.com>,
+        Ohad Ben-Cohen <ohad@wizery.com>,
+        Oleh Kravchenko <oleg@kaa.org.ua>, Pavel Machek <pavel@ucw.cz>,
+        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
+        Peter Chen <peter.chen@nxp.com>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Roman Sudarikov <roman.sudarikov@linux.intel.com>,
+        Russell King <linux@armlinux.org.uk>,
+        Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        Saravana Kannan <saravanak@google.com>,
+        Sebastian Reichel <sre@kernel.org>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tom Rix <trix@redhat.com>, Tony Luck <tony.luck@intel.com>,
+        Vaibhav Jain <vaibhav@linux.ibm.com>,
+        Vineela Tummalapalli <vineela.tummalapalli@intel.com>,
+        Wu Hao <hao.wu@intel.com>,
+        Ceph Development <ceph-devel@vger.kernel.org>,
+        coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-f2fs-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i3c@lists.infradead.org,
+        linux-iio@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
+        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
+        linux-remoteproc@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linuxppc-dev@lists.ozlabs.org, netdev <netdev@vger.kernel.org>,
+        Jonathan Cameron <Jonathan.Cameron@huawei.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Maxime,
+On Fri, Oct 30, 2020 at 8:41 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> There are some ABI documents that, while they don't generate
+> any warnings, they have issues when parsed by get_abi.pl script
+> on its output result.
+>
+> Address them, in order to provide a clean output.
+>
+> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for IIO
+> Reviewed-by: Tom Rix <trix@redhat.com> # for fpga-manager
+> Reviewed-By: Kajol Jain<kjain@linux.ibm.com> # for sysfs-bus-event_source-devices-hv_gpci and sysfs-bus-event_source-devices-hv_24x7
+> Acked-by: Oded Gabbay <oded.gabbay@gmail.com> # for Habanalabs
+> Acked-by: Vaibhav Jain <vaibhav@linux.ibm.com> # for sysfs-bus-papr-pmem
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+>
+> [...]
+>
+>  Documentation/ABI/testing/sysfs-bus-rbd       |  37 ++-
 
-Are you OK with this series? It looks good to me.
+Acked-by: Ilya Dryomov <idryomov@gmail.com> # for rbd
 
-Regards,
+Thanks,
 
-	Hans
-
-On 12/09/2020 16:30, Martin Cerveny wrote:
-> First patch extends cedrus capability to all decoders
-> because V3s missing MPEG2 decoder.
-> 
-> Next two patches add system control node (SRAM C1) and 
-> next three patches add support for Cedrus VPU.
-> 
-> Tested on "Lichee Zero" V3s platform with testing LCD patch
-> ( https://github.com/mcerveny/linux/tree/v3s_videocodec_v4 )
-> and V4L2 raw API testing utility
-> ( https://github.com/mcerveny/v4l2-request-test ):
-> - enabled LCD (DRM dual VI and sigle UI planes)
-> - added RGB panel
-> - enabled PWM
-> 
-> There is low memory on V3s (64MB) and maximum must be available to CMA:
-> - CONFIG_CMA_SIZE_MBYTES=28
-> - add swap to swapout other processes
-> - decrease buffers in v4l2-request-test (.buffers_count from 16 to 6)
-> 
-> Only H.264 decoder working - MPEG and H.265 unsupported by V3s,
-> JPEG/MJPEG still unimplemented, encoder unimplemented
-> 
-> best regards,
-> Martin
-> 
-> Changes since v1:
-> - patch 0005 rename
-> - added testing description
-> 
-> Martin Cerveny (6):
->   media: cedrus: Register all codecs as capability
->   dt-bindings: sram: allwinner,sun4i-a10-system-control: Add V3s
->     compatibles
->   ARM: dts: sun8i: v3s: Add node for system control
->   media: cedrus: Add support for V3s
->   dt-bindings: media: cedrus: Add V3s compatible
->   ARM: dts: sun8i: v3s: Add video engine node
-> 
->  .../allwinner,sun4i-a10-video-engine.yaml     |  1 +
->  .../allwinner,sun4i-a10-system-control.yaml   |  6 ++++
->  arch/arm/boot/dts/sun8i-v3s.dtsi              | 33 +++++++++++++++++++
->  drivers/staging/media/sunxi/cedrus/cedrus.c   | 28 +++++++++++++++-
->  drivers/staging/media/sunxi/cedrus/cedrus.h   |  2 ++
->  .../staging/media/sunxi/cedrus/cedrus_video.c |  2 ++
->  6 files changed, 71 insertions(+), 1 deletion(-)
-> 
-
+                Ilya
