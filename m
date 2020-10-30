@@ -2,154 +2,90 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD77A2A01CF
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 10:50:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 549BE2A01C5
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 10:48:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726214AbgJ3JuW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 05:50:22 -0400
-Received: from foss.arm.com ([217.140.110.172]:57622 "EHLO foss.arm.com"
+        id S1726234AbgJ3Jsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 05:48:47 -0400
+Received: from www.linuxtv.org ([130.149.80.248]:59238 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725790AbgJ3JuV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 05:50:21 -0400
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id EEE5C150C;
-        Fri, 30 Oct 2020 02:50:19 -0700 (PDT)
-Received: from [10.57.18.142] (unknown [10.57.18.142])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id E76493F719;
-        Fri, 30 Oct 2020 02:49:51 -0700 (PDT)
-Subject: Re: [PATCH v2 31/39] docs: ABI: cleanup several ABI documents
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     "Gautham R. Shenoy" <ego@linux.vnet.ibm.com>,
-        Jonathan Corbet <corbet@lwn.net>,
-        =?UTF-8?Q?Marek_Beh=c3=ban?= <marek.behun@nic.cz>,
-        =?UTF-8?Q?Marek_Marczykowski-G=c3=b3recki?= 
-        <marmarek@invisiblethingslab.com>,
-        =?UTF-8?Q?Pali_Roh=c3=a1r?= <pali@kernel.org>,
-        "Peter Zijlstra (Intel)" <peterz@infradead.org>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        =?UTF-8?Q?Roger_Pau_Monn=c3=a9?= <roger.pau@citrix.com>,
-        Alexander Antonov <alexander.antonov@linux.intel.com>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Alexandre Torgue <alexandre.torgue@st.com>,
-        Andreas Klinger <ak@it-klinger.de>,
-        Andrew Donnellan <ajd@linux.ibm.com>,
-        Andrew Lunn <andrew@lunn.ch>,
-        Andy Shevchenko <andriy.shevchenko@intel.com>,
-        Anton Vorontsov <anton@enomsg.org>,
-        Asutosh Das <asutoshd@codeaurora.org>,
-        Bart Van Assche <bvanassche@acm.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Bjorn Helgaas <bhelgaas@google.com>,
-        Boris Brezillon <bbrezillon@kernel.org>,
-        Boris Ostrovsky <boris.ostrovsky@oracle.com>,
-        Cezary Rojewski <cezary.rojewski@intel.com>,
-        Chao Yu <chao@kernel.org>,
-        Christian Gromm <christian.gromm@microchip.com>,
-        Colin Cross <ccross@android.com>, Dan Murphy <dmurphy@ti.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Daniel Thompson <daniel.thompson@linaro.org>,
-        Danil Kipnis <danil.kipnis@cloud.ionos.com>,
-        David Sterba <dsterba@suse.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        Dongsheng Yang <dongsheng.yang@easystack.cn>,
-        Enric Balletbo i Serra <enric.balletbo@collabora.com>,
-        Florian Fainelli <f.fainelli@gmail.com>,
-        Frederic Barrat <fbarrat@linux.ibm.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Guenter Roeck <linux@roeck-us.net>,
-        Hanjun Guo <guohanjun@huawei.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Heiner Kallweit <hkallweit1@gmail.com>,
-        Ilya Dryomov <idryomov@gmail.com>,
-        Jack Wang <jinpu.wang@cloud.ionos.com>,
-        Jaegeuk Kim <jaegeuk@kernel.org>,
-        Jarkko Sakkinen <jarkko@kernel.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Jens Axboe <axboe@kernel.dk>,
-        Jerry Snitselaar <jsnitsel@redhat.com>,
-        Jingoo Han <jingoohan1@gmail.com>,
-        Johan Hovold <johan@kernel.org>,
-        Jonas Meurer <jonas@freesources.org>,
-        Jonathan Cameron <jic23@kernel.org>,
-        Kajol Jain <kjain@linux.ibm.com>,
-        Kees Cook <keescook@chromium.org>,
-        Konstantin Khlebnikov <koct9i@gmail.com>,
-        Kranthi Kuntala <kranthi.kuntala@intel.com>,
-        Lars-Peter Clausen <lars@metafoo.de>,
-        Lee Jones <lee.jones@linaro.org>, Len Brown <lenb@kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Mario Limonciello <mario.limonciello@dell.com>,
-        Mark Gross <mgross@linux.intel.com>,
-        Mathieu Poirier <mathieu.poirier@linaro.org>,
-        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
-        Michael Ellerman <mpe@ellerman.id.au>,
-        Michael Hennerich <Michael.Hennerich@analog.com>,
-        Mika Westerberg <mika.westerberg@linux.intel.com>,
-        Mike Leach <mike.leach@linaro.org>,
-        Oded Gabbay <oded.gabbay@gmail.com>,
-        Ohad Ben-Cohen <ohad@wizery.com>,
-        Oleh Kravchenko <oleg@kaa.org.ua>, Pavel Machek <pavel@ucw.cz>,
-        Pawan Gupta <pawan.kumar.gupta@linux.intel.com>,
-        Peter Chen <peter.chen@nxp.com>,
-        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
-        PrasannaKumar Muralidharan <prasannatsmkumar@gmail.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Roman Sudarikov <roman.sudarikov@linux.intel.com>,
-        Russell King <linux@armlinux.org.uk>,
-        Samuel Thibault <samuel.thibault@ens-lyon.org>,
-        Saravana Kannan <saravanak@google.com>,
-        Sebastian Reichel <sre@kernel.org>,
-        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
-        Stefan Achatz <erazor_de@users.sourceforge.net>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Tom Rix <trix@redhat.com>, Tony Luck <tony.luck@intel.com>,
-        Vaibhav Jain <vaibhav@linux.ibm.com>,
-        Vineela Tummalapalli <vineela.tummalapalli@intel.com>,
-        Wu Hao <hao.wu@intel.com>, ceph-devel@vger.kernel.org,
-        coresight@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-acpi@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-f2fs-devel@lists.sourceforge.net, linux-fpga@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-iio@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-pm@vger.kernel.org,
-        linux-remoteproc@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linuxppc-dev@lists.ozlabs.org, netdev@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>
-References: <cover.1604042072.git.mchehab+huawei@kernel.org>
- <5bc78e5b68ed1e9e39135173857cb2e753be868f.1604042072.git.mchehab+huawei@kernel.org>
-From:   Suzuki K Poulose <suzuki.poulose@arm.com>
-Message-ID: <22fc421c-1998-04d5-a7fb-54467644bf13@arm.com>
-Date:   Fri, 30 Oct 2020 09:49:49 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1726208AbgJ3Jsp (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 30 Oct 2020 05:48:45 -0400
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kYR1Y-0074BK-8J; Fri, 30 Oct 2020 09:48:44 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kYR4V-0000Zt-Pz; Fri, 30 Oct 2020 09:51:47 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.11] rkisp1 fixes/changes (#68424)
+Date:   Fri, 30 Oct 2020 09:51:47 +0000
+Message-Id: <20201030095147.2180-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <613dc41c-7174-7c32-7c28-c05ff1e8348c@xs4all.nl>
+References: 
 MIME-Version: 1.0
-In-Reply-To: <5bc78e5b68ed1e9e39135173857cb2e753be868f.1604042072.git.mchehab+huawei@kernel.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/30/20 7:40 AM, Mauro Carvalho Chehab wrote:
-> There are some ABI documents that, while they don't generate
-> any warnings, they have issues when parsed by get_abi.pl script
-> on its output result.
-> 
-> Address them, in order to provide a clean output.
-> 
-> Acked-by: Jonathan Cameron <Jonathan.Cameron@huawei.com> #for IIO
-> Reviewed-by: Tom Rix <trix@redhat.com> # for fpga-manager
-> Reviewed-By: Kajol Jain<kjain@linux.ibm.com> # for sysfs-bus-event_source-devices-hv_gpci and sysfs-bus-event_source-devices-hv_24x7
-> Acked-by: Oded Gabbay <oded.gabbay@gmail.com> # for Habanalabs
-> Acked-by: Vaibhav Jain <vaibhav@linux.ibm.com> # for sysfs-bus-papr-pmem
-> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+From: builder@linuxtv.org
+
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/613dc41c-7174-7c32-7c28-c05ff1e8348c@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/74814/
+Build time: 00:14:06
+Link: https://lore.kernel.org/linux-media/613dc41c-7174-7c32-7c28-c05ff1e8348c@xs4all.nl
+
+gpg: Signature made Fri 30 Oct 2020 09:12:01 AM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+
+Summary: got 5/17 patches with issues, being 0 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0009-media-staging-rkisp1-capture-set-default-quantizatio.patch:
+
+   checkpatch.pl:
+	$ cat patches/0009-media-staging-rkisp1-capture-set-default-quantizatio.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:11: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0012-media-staging-dt-bindings-rkisp1-drop-i2c-unit-addre.patch:
+
+   checkpatch.pl:
+	$ cat patches/0012-media-staging-dt-bindings-rkisp1-drop-i2c-unit-addre.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+	-:10: WARNING: 'unecessary' may be misspelled - perhaps 'unnecessary'?
+
+patches/0014-media-staging-dt-bindings-rkisp1-drop-parent-unit-ad.patch:
+
+   checkpatch.pl:
+	$ cat patches/0014-media-staging-dt-bindings-rkisp1-drop-parent-unit-ad.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+patches/0015-media-staging-rkisp1-remove-unecessary-clocks.patch:
+
+   checkpatch.pl:
+	$ cat patches/0015-media-staging-rkisp1-remove-unecessary-clocks.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:4: WARNING: 'unecessary' may be misspelled - perhaps 'unnecessary'?
+
+patches/0016-dt-bindings-media-rkisp1-move-rockchip-isp1-bindings.patch:
+
+   checkpatch.pl:
+	$ cat patches/0016-dt-bindings-media-rkisp1-move-rockchip-isp1-bindings.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:9: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+	-:18: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
 
+Error #512 when building PDF docs
 
->   .../testing/sysfs-bus-coresight-devices-etb10 |   5 +-
-For the above,
-
-Acked-by: Suzuki K Poulose <suzuki.poulose@arm.com>
