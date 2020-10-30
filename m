@@ -2,438 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F114629FD90
-	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 07:04:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2298D29FDD9
+	for <lists+linux-media@lfdr.de>; Fri, 30 Oct 2020 07:33:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725815AbgJ3GEI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 02:04:08 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40866 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725355AbgJ3GEI (ORCPT
+        id S1725870AbgJ3Gdr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 30 Oct 2020 02:33:47 -0400
+Received: from mx0b-001b2d01.pphosted.com ([148.163.158.5]:48006 "EHLO
+        mx0a-001b2d01.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1725355AbgJ3Gdq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 02:04:08 -0400
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4D2B2C0613CF;
-        Thu, 29 Oct 2020 23:04:08 -0700 (PDT)
-Received: from [IPv6:2804:14c:483:7e3e::1005] (unknown [IPv6:2804:14c:483:7e3e::1005])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: koike)
-        by bhuna.collabora.co.uk (Postfix) with ESMTPSA id 6920A1F4545C;
-        Fri, 30 Oct 2020 06:04:04 +0000 (GMT)
-Subject: Re: [PATCH v2] media: staging: rkisp1: cap: refactor enable/disable
- stream to allow multistreaming
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org
-Cc:     laurent.pinchart@ideasonboard.com, hverkuil@xs4all.nl,
-        kernel@collabora.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        tfiga@chromium.org, linux-kernel@vger.kernel.org
-References: <20201019160434.877568-1-helen.koike@collabora.com>
- <b0657648-2af9-c78a-c55a-9581ff3bd9ee@collabora.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <2262856e-56d0-2bca-d375-fae0fb1d0a5b@collabora.com>
-Date:   Fri, 30 Oct 2020 03:04:00 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.3.2
+        Fri, 30 Oct 2020 02:33:46 -0400
+Received: from pps.filterd (m0098419.ppops.net [127.0.0.1])
+        by mx0b-001b2d01.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 09U6Ud2r194419;
+        Fri, 30 Oct 2020 02:33:44 -0400
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ibm.com; h=from : to : cc : subject
+ : in-reply-to : references : date : message-id : mime-version :
+ content-type; s=pp1; bh=a5fAtWaCtw2lw0dSgLdjA+CSR8i93E5P4UH6V5O3U0U=;
+ b=ASUzYsr9w5PpIlo1FB1Ujvp4AT5YXH/OUre7Gkp3TDu90qGcpRmvyPjU0AUUYnRxmqG0
+ 7vmmN2sP3M7cVc/O+Rda3iOTvpOVji7shv3DHKfGIdcDJXRZZuSMGr6NLUnJbjG+tBFp
+ Juc6oDm95+h5SspcMspge/3HT+LWaYZ9I0uL4oB9nGfzicRJ6Wsfl7zvItlgDNcyTWt4
+ nnY2QLVyYwMf//UzG7l+fzLLAO4V6HLrUQRGqTEM11EUfSLTfK3Sys6tWbG+1CfiTrPZ
+ D3H7tFAQ317lT4utCRZMHCVhNuIYSoO8jmtflcv4DnHKDeKyWHhyzdUDndjk605C6MTD VA== 
+Received: from ppma04fra.de.ibm.com (6a.4a.5195.ip4.static.sl-reverse.com [149.81.74.106])
+        by mx0b-001b2d01.pphosted.com with ESMTP id 34g15h5cq8-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 30 Oct 2020 02:33:44 -0400
+Received: from pps.filterd (ppma04fra.de.ibm.com [127.0.0.1])
+        by ppma04fra.de.ibm.com (8.16.0.42/8.16.0.42) with SMTP id 09U6O1Zx017390;
+        Fri, 30 Oct 2020 06:33:42 GMT
+Received: from b06avi18626390.portsmouth.uk.ibm.com (b06avi18626390.portsmouth.uk.ibm.com [9.149.26.192])
+        by ppma04fra.de.ibm.com with ESMTP id 34f7s3s051-2
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Fri, 30 Oct 2020 06:33:42 +0000
+Received: from d06av26.portsmouth.uk.ibm.com (d06av26.portsmouth.uk.ibm.com [9.149.105.62])
+        by b06avi18626390.portsmouth.uk.ibm.com (8.14.9/8.14.9/NCO v10.0) with ESMTP id 09U6Xc8235455466
+        (version=TLSv1/SSLv3 cipher=DHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Fri, 30 Oct 2020 06:33:38 GMT
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id EA5E7AE04D;
+        Fri, 30 Oct 2020 06:33:37 +0000 (GMT)
+Received: from d06av26.portsmouth.uk.ibm.com (unknown [127.0.0.1])
+        by IMSVA (Postfix) with ESMTP id EF445AE055;
+        Fri, 30 Oct 2020 06:33:04 +0000 (GMT)
+Received: from vajain21.in.ibm.com (unknown [9.79.209.23])
+        by d06av26.portsmouth.uk.ibm.com (Postfix) with SMTP;
+        Fri, 30 Oct 2020 06:33:04 +0000 (GMT)
+Received: by vajain21.in.ibm.com (sSMTP sendmail emulation); Fri, 30 Oct 2020 12:03:03 +0530
+From:   Vaibhav Jain <vaibhav@linux.ibm.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Cc:     Andrew Lunn <andrew@lunn.ch>, Peter Chen <peter.chen@nxp.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Jerry Snitselaar <jsnitsel@redhat.com>,
+        dri-devel@lists.freedesktop.org, Pavel Machek <pavel@ucw.cz>,
+        Christian Gromm <christian.gromm@microchip.com>,
+        ceph-devel@vger.kernel.org, Kan Liang <kan.liang@linux.intel.com>,
+        Bart Van Assche <bvanassche@acm.org>,
+        linux-acpi@vger.kernel.org,
+        Danil Kipnis <danil.kipnis@cloud.ionos.com>,
+        Samuel Thibault <samuel.thibault@ens-lyon.org>,
+        Guenter Roeck <linux@roeck-us.net>,
+        Ohad Ben-Cohen <ohad@wizery.com>, linux-pm@vger.kernel.org,
+        Simon Gaiser <simon@invisiblethingslab.com>,
+        Avri Altman <avri.altman@wdc.com>,
+        Alexander Antonov <alexander.antonov@linux.intel.com>,
+        Dan Murphy <dmurphy@ti.com>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Stefan Achatz <erazor_de@users.sourceforge.net>,
+        Konstantin Khlebnikov <koct9i@gmail.com>,
+        Mathieu Malaterre <malat@debian.org>,
+        Jingoo Han <jingoohan1@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        linux-kernel@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Wu Hao <hao.wu@intel.com>,
+        Peter Meerwald-Stadler <pmeerw@pmeerw.net>,
+        Mimi Zohar <zohar@linux.ibm.com>,
+        Srinivas Kandagatla <srinivas.kandagatla@linaro.org>,
+        Hanjun Guo <guohanjun@huawei.com>,
+        Oleh Kravchenko <oleg@kaa.org.ua>,
+        Lars-Peter Clausen <lars@metafoo.de>,
+        Andy Shevchenko <andriy.shevchenko@intel.com>,
+        Saravana Kannan <saravanak@google.com>,
+        Gregory CLEMENT <gregory.clement@bootlin.com>,
+        Anton Vorontsov <anton@enomsg.org>,
+        Marek =?utf-8?Q?Marczykowski-G=C3=B3r?= =?utf-8?Q?ecki?= 
+        <marmarek@invisiblethingslab.com>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Len Brown <lenb@kernel.org>,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        Michael Hennerich <Michael.Hennerich@analog.com>,
+        Suzuki K Poulose <suzuki.poulose@arm.com>,
+        coresight@lists.linaro.org, linux-media@vger.kernel.org,
+        Frederic@d06av26.portsmouth.uk.ibm.com,
+        "Barrat <fbarrat"@linux.ibm.com
+Subject: Re: [PATCH 30/33] docs: ABI: cleanup several ABI documents
+In-Reply-To: <95ef2cf3a58f4e50f17d9e58e0d9440ad14d0427.1603893146.git.mchehab+huawei@kernel.org>
+References: <cover.1603893146.git.mchehab+huawei@kernel.org>
+ <95ef2cf3a58f4e50f17d9e58e0d9440ad14d0427.1603893146.git.mchehab+huawei@kernel.org>
+Date:   Fri, 30 Oct 2020 12:03:03 +0530
+Message-ID: <87k0v8jk9s.fsf@vajain21.in.ibm.com>
 MIME-Version: 1.0
-In-Reply-To: <b0657648-2af9-c78a-c55a-9581ff3bd9ee@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain
+X-TM-AS-GCONF: 00
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-10-29_12:2020-10-29,2020-10-29 signatures=0
+X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 phishscore=0 mlxlogscore=999
+ priorityscore=1501 suspectscore=2 bulkscore=0 adultscore=0 mlxscore=0
+ spamscore=0 lowpriorityscore=0 clxscore=1011 malwarescore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2010300046
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dafna,
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> writes:
 
-On 10/26/20 2:50 PM, Dafna Hirschfeld wrote:
-> Hi,
-> 
-> 
-> Am 19.10.20 um 18:04 schrieb Helen Koike:
->> Allow streaming from self picture path and main picture path at the same
->> time.
->>
->> Take care for s_stream() callbacks to not be called twice.
->> When starting a stream, s_stream(true) shouldn't be called for the isp
->> and the sensor if the other stream is already enabled (since it was
->> already called).
->> When stopping a stream, s_stream(false) shouldn't be called for isp and
->> the sensor if the other stream is still enabled.
->>
->> Remove the callback function scheme for navigating through the topology,
->> simplifying the code, improving readability.
->>
->> Remove multistreaming item from the TODO list.
->>
->> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->> ---
->>
->> Hello,
->>
->> Since we didn't reach an agreement on the helpers in the core[1], I'm
->> sending this patch to fix this limitation only for rkisp1.
->>
->> [1] https://patchwork.linuxtv.org/project/linux-media/cover/20200415013044.1778572-1-helen.koike@collabora.com/
->>
->> If we decide to add the helpers in the future, we can clean up drivers
->> even more, but I don't want to block this feature.
->>
->> This Patch depends on patch:
->> "media: staging: rkisp1: validate links before powering and streaming"
->> https://patchwork.linuxtv.org/project/linux-media/patch/20201002184222.7094-2-dafna.hirschfeld@collabora.com/
->>
->> Changes in V2:
->> ==============
->> - Rebase on top of patch
->> "media: staging: rkisp1: validate links before powering and streaming"
->> which fixes media_pipeline_{start,stop}() calling order.
->> - Fix commit message
->> - Fix disable order
->> - Disable capture when s_stream(true) of the resizer fails
->>
->> Overview of the patch:
->> ======================
->>
->> * Rename rkisp1_stream_{start,stop}() to
->>    rkisp1_cap_stream_{enable,disable}() to clarify the difference between
->>    other stream enable/disable functions
->>
->> * Implement rkisp1_pipeline_stream_{enable,disable}() to replace
->>    rkisp1_pipeline_{enable,disable}_cb() and rkisp1_pipeline_sink_walk(),
->>    which were removed.
->>
->> * Call rkisp1_cap_stream_{enable,disable}() from
->>    rkisp1_pipeline_stream_{enable,disable}() for better
->>    unwind handling and function name semantics.
->>
->> * Remove item from TODO list (I also reviewed the use of the
->>    is_streaming var in the code and lgtm).
->>
->> This patch was tested on rockpi4 board with:
->> ============================================
->>
->> "media-ctl" "-d" "platform:rkisp1" "-r"
->> "media-ctl" "-d" "platform:rkisp1" "-l" "'imx219 4-0010':0 -> 'rkisp1_isp':0 [1]"
->> "media-ctl" "-d" "platform:rkisp1" "-l" "'rkisp1_isp':2 -> 'rkisp1_resizer_selfpath':0 [1]"
->> "media-ctl" "-d" "platform:rkisp1" "-l" "'rkisp1_isp':2 -> 'rkisp1_resizer_mainpath':0 [1]"
->>
->> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"imx219 4-0010":0 [fmt:SRGGB10_1X10/1640x1232]'
->>
->> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_isp":0 [fmt:SRGGB10_1X10/1640x1232 crop: (0,0)/1600x1200]'
->> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_isp":2 [fmt:YUYV8_2X8/1600x1200 crop: (0,0)/1500x1100]'
->>
->> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_selfpath":0 [fmt:YUYV8_2X8/1500x1100 crop: (300,400)/1400x1000]'
->> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_selfpath":1 [fmt:YUYV8_2X8/900x800]'
->>
->> "v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_selfpath" "-v" "width=900,height=800,"
->> "v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_selfpath" "-v" "pixelformat=422P"
->>
->> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_mainpath":0 [fmt:YUYV8_2X8/1500x1100 crop: (300,400)/1400x1000]'
->> "media-ctl" "-d" "platform:rkisp1" "--set-v4l2" '"rkisp1_resizer_mainpath":1 [fmt:YUYV8_2X8/900x800]'
->>
->> "v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_mainpath" "-v" "width=900,height=800,"
->> "v4l2-ctl" "-z" "platform:rkisp1" "-d" "rkisp1_mainpath" "-v" "pixelformat=422P"
->>
->> sleep 1
->>
->> time v4l2-ctl "-z" "platform:rkisp1" "-d" "rkisp1_mainpath" "--stream-mmap" "--stream-count" "100" &
->> time v4l2-ctl "-z" "platform:rkisp1" "-d" "rkisp1_selfpath" "--stream-mmap" "--stream-count" "100" &
->>
->> wait
->> echo "Completed"
->>
->> Thanks
->> Helen
->> ---
->>   drivers/staging/media/rkisp1/TODO             |   3 -
->>   drivers/staging/media/rkisp1/rkisp1-capture.c | 219 +++++++++---------
->>   2 files changed, 110 insertions(+), 112 deletions(-)
->>
->> diff --git a/drivers/staging/media/rkisp1/TODO b/drivers/staging/media/rkisp1/TODO
->> index e7c8398fc2cef..a2dd0ad951c25 100644
->> --- a/drivers/staging/media/rkisp1/TODO
->> +++ b/drivers/staging/media/rkisp1/TODO
->> @@ -1,9 +1,6 @@
->>   * Fix pad format size for statistics and parameters entities.
->>   * Fix checkpatch errors.
->>   * Add uapi docs. Remember to add documentation of how quantization is handled.
->> -* streaming paths (mainpath and selfpath) check if the other path is streaming
->> -in several places of the code, review this, specially that it doesn't seem it
->> -supports streaming from both paths at the same time.
->>     NOTES:
->>   * All v4l2-compliance test must pass.
->> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
->> index 9b4a12e13f135..13463c899b009 100644
->> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
->> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
->> @@ -830,71 +830,43 @@ static void rkisp1_return_all_buffers(struct rkisp1_capture *cap,
->>   }
->>     /*
->> - * rkisp1_pipeline_sink_walk - Walk through the pipeline and call cb
->> - * @from: entity at which to start pipeline walk
->> - * @until: entity at which to stop pipeline walk
->> - *
->> - * Walk the entities chain starting at the pipeline video node and stop
->> - * all subdevices in the chain.
->> - *
->> - * If the until argument isn't NULL, stop the pipeline walk when reaching the
->> - * until entity. This is used to disable a partially started pipeline due to a
->> - * subdev start error.
->> + * Most of registers inside rockchip ISP1 have shadow register since
->> + * they must be not be changed during processing a frame.
->> + * Usually, each sub-module updates its shadow register after
->> + * processing the last pixel of a frame.
->>    */
->> -static int rkisp1_pipeline_sink_walk(struct media_entity *from,
->> -                     struct media_entity *until,
->> -                     int (*cb)(struct media_entity *from,
->> -                           struct media_entity *curr))
->> +static void rkisp1_cap_stream_enable(struct rkisp1_capture *cap)
->>   {
->> -    struct media_entity *entity = from;
->> -    struct media_pad *pad;
->> -    unsigned int i;
->> -    int ret;
->> -
->> -    while (1) {
->> -        pad = NULL;
->> -        /* Find remote source pad */
->> -        for (i = 0; i < entity->num_pads; i++) {
->> -            struct media_pad *spad = &entity->pads[i];
->> -
->> -            if (!(spad->flags & MEDIA_PAD_FL_SINK))
->> -                continue;
->> -            pad = media_entity_remote_pad(spad);
->> -            if (pad && is_media_entity_v4l2_subdev(pad->entity))
->> -                break;
->> -        }
->> -        if (!pad || !is_media_entity_v4l2_subdev(pad->entity))
->> -            break;
->> +    struct rkisp1_device *rkisp1 = cap->rkisp1;
->> +    struct rkisp1_capture *other = &rkisp1->capture_devs[cap->id ^ 1];
->>   -        entity = pad->entity;
->> -        if (entity == until)
->> -            break;
->> +    cap->ops->set_data_path(cap);
->> +    cap->ops->config(cap);
->>   -        ret = cb(from, entity);
->> -        if (ret)
->> -            return ret;
->> +    /* Setup a buffer for the next frame */
->> +    spin_lock_irq(&cap->buf.lock);
->> +    rkisp1_set_next_buf(cap);
->> +    cap->ops->enable(cap);
->> +    /* It's safe to config ACTIVE and SHADOW regs for the
->> +     * first stream. While when the second is starting, do NOT
->> +     * force update because it also update the first one.
->> +     *
->> +     * The latter case would drop one more buf(that is 2) since
->> +     * there's not buf in shadow when the second FE received. This's
->> +     * also required because the second FE maybe corrupt especially
->> +     * when run at 120fps.
->> +     */
->> +    if (!other->is_streaming) {
->> +        /* force cfg update */
->> +        rkisp1_write(rkisp1,
->> +                 RKISP1_CIF_MI_INIT_SOFT_UPD, RKISP1_CIF_MI_INIT);
->> +        rkisp1_set_next_buf(cap);
->>       }
->> -
->> -    return 0;
->> -}
->> -
->> -static int rkisp1_pipeline_disable_cb(struct media_entity *from,
->> -                      struct media_entity *curr)
->> -{
->> -    struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(curr);
->> -
->> -    return v4l2_subdev_call(sd, video, s_stream, false);
->> -}
->> -
->> -static int rkisp1_pipeline_enable_cb(struct media_entity *from,
->> -                     struct media_entity *curr)
->> -{
->> -    struct v4l2_subdev *sd = media_entity_to_v4l2_subdev(curr);
->> -
->> -    return v4l2_subdev_call(sd, video, s_stream, true);
->> +    spin_unlock_irq(&cap->buf.lock);
->> +    cap->is_streaming = true;
->>   }
->>   -static void rkisp1_stream_stop(struct rkisp1_capture *cap)
->> +static void rkisp1_cap_stream_disable(struct rkisp1_capture *cap)
->>   {
->>       int ret;
->>   @@ -911,6 +883,82 @@ static void rkisp1_stream_stop(struct rkisp1_capture *cap)
->>       }
->>   }
->>   +/*
->> + * rkisp1_pipeline_stream_disable - disable nodes in the pipeline
->> + *
->> + * Call s_stream(false) in the reverse order from
->> + * rkisp1_pipeline_stream_enable() and disable the DMA engine.
->> + * Should be called before media_pipeline_stop()
->> + */
->> +static void rkisp1_pipeline_stream_disable(struct rkisp1_capture *cap)
->> +    __must_hold(&cap->rkisp1->stream_lock)
->> +{
->> +    struct rkisp1_device *rkisp1 = cap->rkisp1;
->> +
->> +    /*
->> +     * If the other capture is streaming, isp and sensor nodes shouldn't
->> +     * be disabled, skip them.
->> +     */
->> +    if (rkisp1->pipe.streaming_count < 2) {
->> +        v4l2_subdev_call(rkisp1->active_sensor->sd, video, s_stream,
->> +                 false);
->> +        v4l2_subdev_call(&rkisp1->isp.sd, video, s_stream, false);
->> +    }
->> +
->> +    v4l2_subdev_call(&rkisp1->resizer_devs[cap->id].sd, video, s_stream,
->> +             false);
->> +
->> +    rkisp1_cap_stream_disable(cap);
->> +}
->> +
->> +/*
->> + * rkisp1_pipeline_stream_enable - enable nodes in the pipeline
->> + *
->> + * Enable the DMA Engine and call s_stream(true) through the pipeline.
->> + * Should be called after media_pipeline_start()
->> + */
->> +static int rkisp1_pipeline_stream_enable(struct rkisp1_capture *cap)
->> +    __must_hold(&cap->rkisp1->stream_lock)
->> +{
->> +    struct rkisp1_device *rkisp1 = cap->rkisp1;
->> +    int ret;
->> +
->> +    rkisp1_cap_stream_enable(cap);
->> +
->> +    ret = v4l2_subdev_call(&rkisp1->resizer_devs[cap->id].sd, video,
->> +                   s_stream, true);
->> +    if (ret)
->> +        goto err_disable_cap;
->> +
->> +    /*
->> +     * If the other capture is streaming, isp and sensor nodes are already
->> +     * enabled, skip them.
->> +     */
->> +    if (rkisp1->pipe.streaming_count > 1)
->> +        return 0;
->> +
->> +    ret = v4l2_subdev_call(&rkisp1->isp.sd, video, s_stream, true);
->> +    if (ret)
->> +        goto err_disable_rsz;
->> +
->> +    ret = v4l2_subdev_call(rkisp1->active_sensor->sd, video, s_stream,
->> +                   true);
->> +    if (ret)
->> +        goto err_disable_isp;
->> +
->> +    return 0;
->> +
->> +err_disable_isp:
->> +    v4l2_subdev_call(&rkisp1->isp.sd, video, s_stream, false);
->> +err_disable_rsz:
->> +    v4l2_subdev_call(&rkisp1->resizer_devs[cap->id].sd, video, s_stream,
->> +             false);
->> +err_disable_cap:
->> +    rkisp1_cap_stream_disable(cap);
->> +
->> +    return ret;
->> +}
->> +
->>   static void rkisp1_vb2_stop_streaming(struct vb2_queue *queue)
->>   {
->>       struct rkisp1_capture *cap = queue->drv_priv;
->> @@ -920,12 +968,7 @@ static void rkisp1_vb2_stop_streaming(struct vb2_queue *queue)
->>         mutex_lock(&cap->rkisp1->stream_lock);
->>   -    rkisp1_stream_stop(cap);
->> -    ret = rkisp1_pipeline_sink_walk(&node->vdev.entity, NULL,
->> -                    rkisp1_pipeline_disable_cb);
->> -    if (ret)
->> -        dev_err(rkisp1->dev,
->> -            "pipeline stream-off failed error:%d\n", ret);
->> +    rkisp1_pipeline_stream_disable(cap);
->>         rkisp1_return_all_buffers(cap, VB2_BUF_STATE_ERROR);
->>   @@ -941,43 +984,6 @@ static void rkisp1_vb2_stop_streaming(struct vb2_queue *queue)
->>       mutex_unlock(&cap->rkisp1->stream_lock);
->>   }
->>   -/*
->> - * Most of registers inside rockchip ISP1 have shadow register since
->> - * they must be not be changed during processing a frame.
->> - * Usually, each sub-module updates its shadow register after
->> - * processing the last pixel of a frame.
->> - */
->> -static void rkisp1_stream_start(struct rkisp1_capture *cap)
->> -{
->> -    struct rkisp1_device *rkisp1 = cap->rkisp1;
->> -    struct rkisp1_capture *other = &rkisp1->capture_devs[cap->id ^ 1];
->> -
->> -    cap->ops->set_data_path(cap);
->> -    cap->ops->config(cap);
->> -
->> -    /* Setup a buffer for the next frame */
->> -    spin_lock_irq(&cap->buf.lock);
->> -    rkisp1_set_next_buf(cap);
->> -    cap->ops->enable(cap);
->> -    /* It's safe to config ACTIVE and SHADOW regs for the
->> -     * first stream. While when the second is starting, do NOT
->> -     * force update because it also update the first one.
->> -     *
->> -     * The latter case would drop one more buf(that is 2) since
->> -     * there's not buf in shadow when the second FE received. This's
->> -     * also required because the second FE maybe corrupt especially
->> -     * when run at 120fps.
->> -     */
->> -    if (!other->is_streaming) {
->> -        /* force cfg update */
->> -        rkisp1_write(rkisp1,
->> -                 RKISP1_CIF_MI_INIT_SOFT_UPD, RKISP1_CIF_MI_INIT);
->> -        rkisp1_set_next_buf(cap);
->> -    }
->> -    spin_unlock_irq(&cap->buf.lock);
->> -    cap->is_streaming = true;
->> -}
->> -
->>   static int
->>   rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
->>   {
->> @@ -1008,20 +1014,15 @@ rkisp1_vb2_start_streaming(struct vb2_queue *queue, unsigned int count)
->>           goto err_pipe_pm_put;
->>       }
->>   -    rkisp1_stream_start(cap);
->> -
->> -    /* start sub-devices */
->> -    ret = rkisp1_pipeline_sink_walk(entity, NULL,
->> -                    rkisp1_pipeline_enable_cb);
-> 
-> We should also make sure that the resizer is connected to the isp
-> and fail if not.
+> There are some ABI documents that, while they don't generate
+> any warnings, they have issues when parsed by get_abi.pl script
+> on its output result.
+>
+> Address them, in order to provide a clean output.
+>
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-As I mentioned in the previous version, this is not required, since the
-pad has MUST_CONNECT flag, media_piipeline_start() will catch it.
+<snip>
+> diff --git a/Documentation/ABI/testing/sysfs-bus-papr-pmem b/Documentation/ABI/testing/sysfs-bus-papr-pmem
+> index c1a67275c43f..8316c33862a0 100644
+> --- a/Documentation/ABI/testing/sysfs-bus-papr-pmem
+> +++ b/Documentation/ABI/testing/sysfs-bus-papr-pmem
+> @@ -11,19 +11,26 @@ Description:
+>  		at 'Documentation/powerpc/papr_hcalls.rst' . Below are
+>  		the flags reported in this sysfs file:
+>  
+> -		* "not_armed"	: Indicates that NVDIMM contents will not
+> +		* "not_armed"
+> +				  Indicates that NVDIMM contents will not
+>  				  survive a power cycle.
+> -		* "flush_fail"	: Indicates that NVDIMM contents
+> +		* "flush_fail"
+> +				  Indicates that NVDIMM contents
+>  				  couldn't be flushed during last
+>  				  shut-down event.
+> -		* "restore_fail": Indicates that NVDIMM contents
+> +		* "restore_fail"
+> +				  Indicates that NVDIMM contents
+>  				  couldn't be restored during NVDIMM
+>  				  initialization.
+> -		* "encrypted"	: NVDIMM contents are encrypted.
+> -		* "smart_notify": There is health event for the NVDIMM.
+> -		* "scrubbed"	: Indicating that contents of the
+> +		* "encrypted"
+> +				  NVDIMM contents are encrypted.
+> +		* "smart_notify"
+> +				  There is health event for the NVDIMM.
+> +		* "scrubbed"
+> +				  Indicating that contents of the
+>  				  NVDIMM have been scrubbed.
+> -		* "locked"	: Indicating that NVDIMM contents cant
+> +		* "locked"
+> +				  Indicating that NVDIMM contents cant
+>  				  be modified until next power cycle.
+>  
+>  What:		/sys/bus/nd/devices/nmemX/papr/perf_stats
+> @@ -51,4 +58,4 @@ Description:
+>  		* "MedWDur " : Media Write Duration
+>  		* "CchRHCnt" : Cache Read Hit Count
+>  		* "CchWHCnt" : Cache Write Hit Count
+> -		* "FastWCnt" : Fast Write Count
+> \ No newline at end of file
+> +		* "FastWCnt" : Fast Write Count
+<snip>
 
-> otherwise,
-> 
-> Reviewed-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Thanks,
 
-Thanks
-Helen
+I am fine with proposed changes to sysfs-bus-papr-pmem.
 
-> 
->> +    ret = rkisp1_pipeline_stream_enable(cap);
->>       if (ret)
->> -        goto err_stop_stream;
->> +        goto err_v4l2_pm_put;
->>         mutex_unlock(&cap->rkisp1->stream_lock);
->>         return 0;
->>   -err_stop_stream:
->> -    rkisp1_stream_stop(cap);
->> +err_v4l2_pm_put:
->>       v4l2_pipeline_pm_put(entity);
->>   err_pipe_pm_put:
->>       pm_runtime_put(cap->rkisp1->dev);
->>
-> 
+Acked-by: Vaibhav Jain <vaibhav@linux.ibm.com> # for sysfs-bus-papr-pmem
+
