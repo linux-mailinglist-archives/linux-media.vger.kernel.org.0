@@ -2,258 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D2302A132E
-	for <lists+linux-media@lfdr.de>; Sat, 31 Oct 2020 03:55:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D89B2A136D
+	for <lists+linux-media@lfdr.de>; Sat, 31 Oct 2020 05:48:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726192AbgJaCz3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 30 Oct 2020 22:55:29 -0400
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:4027 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725794AbgJaCz2 (ORCPT
+        id S1725890AbgJaEsa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 31 Oct 2020 00:48:30 -0400
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:41275 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725794AbgJaEsa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 30 Oct 2020 22:55:28 -0400
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f9cd2220000>; Fri, 30 Oct 2020 19:55:30 -0700
-Received: from [10.2.58.85] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sat, 31 Oct
- 2020 02:55:18 +0000
-Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>
-CC:     <kvm@vger.kernel.org>, <linux-mm@kvack.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-samsung-soc@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        "Jason Gunthorpe" <jgg@ziepe.ca>, Pawel Osciak <pawel@osciak.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        "Tomasz Figa" <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>
-References: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
- <20201030100815.2269-6-daniel.vetter@ffwll.ch>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <446b2d5b-a1a1-a408-f884-f17a04b72c18@nvidia.com>
-Date:   Fri, 30 Oct 2020 19:55:17 -0700
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <20201030100815.2269-6-daniel.vetter@ffwll.ch>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1604112930; bh=kIbuOrZMF2YQAWfUPs6gkqYbyNybPPlpG1DHBddVTeI=;
-        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Language:
-         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-        b=AtOxaAfNPVF2Y8gZFgz8BlJTCY2WnS/ll/uZOpZY6ZM3sYeZDX0wsWzg9kbJTYbtL
-         uIT7SI94Nu0DAKox4tjTnJcLN8XQH4afRazJUVETQXmRDSkforw/ZyajpCSjQdhakD
-         V5TkHQG1hyUHjxO5/EziqQ5QU5HsvmsdLhy0c2pJ17Ik4sdOeRb9MDZW7AgVbI6HUp
-         khbiVPlvAQBqPZreVxuJwdPBCd0dFyD9l044fmdbRBxITLNtDeDmPV0I8qXzaQGtcL
-         05gwU5zD1T2KQ11VFOtz4tXHAh7iSeMGU/Zo8kgIrMlYShlD2P3PVWKbYJ1hjOt5Cc
-         x4G0lu6VoJy1w==
+        Sat, 31 Oct 2020 00:48:30 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id YioUkYcoyAVOrYioVklpAV; Sat, 31 Oct 2020 05:48:27 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604119707; bh=gmT/Yi3LdjlUnwfinRihq2MudeuCjDbrzfeVWmtpDvA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=AhOWZxHVuDmXnpuOhDaRF+Bqb0Vl33L9TZPi7PoR83echPI0uaq2M6c4rpsZFkKfF
+         GH8WRZ7SgtG0szdxswT3dPI6EYpR56uBjNk06ch8P41p+kY5RsQNxGysdCq7E0n84u
+         jhKt7BV3bR0/wmt2EJwNvgJEv8Iz15NH+W6pzamQGqzPIWpSlyGp+K/mSquQbl2+jg
+         VaIfuE7K02y9fI+w1vgEQqzz04JoAhQE6RjSocF+5ZTRk7e48qBL3bLTN/NZ6t5Ujm
+         0O0bU2W5EOm9PCGlpSAvRLOBe0szAKN0IygP2RAXmkZamR0kG5oc+GI+rMlIW1Ea6E
+         586Mh8bMGdjWA==
+Message-ID: <6eaaaa4dbd5a2fbb3f190467115520c0@smtp-cloud7.xs4all.net>
+Date:   Sat, 31 Oct 2020 05:48:26 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfPKccmTSqUI9m8MgclZCKB/dJX4YBN4FdrSYyitvsN4wTlaspNAlN658lObvmdmze9uw8UwXjx6JS7X0taMXmtvcE8qkaRvDYgHCVpXGws0poenFCAej
+ gOUMyb5NKOH5RIgLpdQB5czAzMjB7A2/DYBnf18Dd9mCWgALEsKcokgUeQTLZ2kskbIb2tgkhuBXEm7t/48FuBzFg5LT6QjRjvoKfmJL9SyXSrjiXBIBwyh/
+ xz01jwViPRcflU6zx16eiQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/30/20 3:08 AM, Daniel Vetter wrote:
-> This is used by media/videbuf2 for persistent dma mappings, not just
-> for a single dma operation and then freed again, so needs
-> FOLL_LONGTERM.
->=20
-> Unfortunately current pup_locked doesn't support FOLL_LONGTERM due to
-> locking issues. Rework the code to pull the pup path out from the
-> mmap_sem critical section as suggested by Jason.
->=20
-> By relying entirely on the vma checks in pin_user_pages and follow_pfn
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-There are vma checks in pin_user_pages(), but this patch changes things
-to call pin_user_pages_fast(). And that does not have the vma checks.
-More below about this:
+Results of the daily build of media_tree:
 
-> (for vm_flags and vma_is_fsdax) we can also streamline the code a lot.
->=20
-> Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> Cc: Pawel Osciak <pawel@osciak.com>
-> Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> Cc: Tomasz Figa <tfiga@chromium.org>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Andrew Morton <akpm@linux-foundation.org>
-> Cc: John Hubbard <jhubbard@nvidia.com>
-> Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-> Cc: Jan Kara <jack@suse.cz>
-> Cc: Dan Williams <dan.j.williams@intel.com>
-> Cc: linux-mm@kvack.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-samsung-soc@vger.kernel.org
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> --
-> v2: Streamline the code and further simplify the loop checks (Jason)
->=20
-> v5: Review from Tomasz:
-> - fix page counting for the follow_pfn case by resetting ret
-> - drop gup_flags paramater, now unused
-> ---
->   .../media/common/videobuf2/videobuf2-memops.c |  3 +-
->   include/linux/mm.h                            |  2 +-
->   mm/frame_vector.c                             | 53 ++++++-------------
->   3 files changed, 19 insertions(+), 39 deletions(-)
->=20
-> diff --git a/drivers/media/common/videobuf2/videobuf2-memops.c b/drivers/=
-media/common/videobuf2/videobuf2-memops.c
-> index 6e9e05153f4e..9dd6c27162f4 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-memops.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-memops.c
-> @@ -40,7 +40,6 @@ struct frame_vector *vb2_create_framevec(unsigned long =
-start,
->   	unsigned long first, last;
->   	unsigned long nr;
->   	struct frame_vector *vec;
-> -	unsigned int flags =3D FOLL_FORCE | FOLL_WRITE;
->  =20
->   	first =3D start >> PAGE_SHIFT;
->   	last =3D (start + length - 1) >> PAGE_SHIFT;
-> @@ -48,7 +47,7 @@ struct frame_vector *vb2_create_framevec(unsigned long =
-start,
->   	vec =3D frame_vector_create(nr);
->   	if (!vec)
->   		return ERR_PTR(-ENOMEM);
-> -	ret =3D get_vaddr_frames(start & PAGE_MASK, nr, flags, vec);
-> +	ret =3D get_vaddr_frames(start & PAGE_MASK, nr, vec);
->   	if (ret < 0)
->   		goto out_destroy;
->   	/* We accept only complete set of PFNs */
-> diff --git a/include/linux/mm.h b/include/linux/mm.h
-> index ef360fe70aaf..d6b8e30dce2e 100644
-> --- a/include/linux/mm.h
-> +++ b/include/linux/mm.h
-> @@ -1765,7 +1765,7 @@ struct frame_vector {
->   struct frame_vector *frame_vector_create(unsigned int nr_frames);
->   void frame_vector_destroy(struct frame_vector *vec);
->   int get_vaddr_frames(unsigned long start, unsigned int nr_pfns,
-> -		     unsigned int gup_flags, struct frame_vector *vec);
-> +		     struct frame_vector *vec);
->   void put_vaddr_frames(struct frame_vector *vec);
->   int frame_vector_to_pages(struct frame_vector *vec);
->   void frame_vector_to_pfns(struct frame_vector *vec);
-> diff --git a/mm/frame_vector.c b/mm/frame_vector.c
-> index 10f82d5643b6..f8c34b895c76 100644
-> --- a/mm/frame_vector.c
-> +++ b/mm/frame_vector.c
-> @@ -32,13 +32,12 @@
->    * This function takes care of grabbing mmap_lock as necessary.
->    */
->   int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
-> -		     unsigned int gup_flags, struct frame_vector *vec)
-> +		     struct frame_vector *vec)
->   {
->   	struct mm_struct *mm =3D current->mm;
->   	struct vm_area_struct *vma;
->   	int ret =3D 0;
->   	int err;
-> -	int locked;
->  =20
->   	if (nr_frames =3D=3D 0)
->   		return 0;
-> @@ -48,40 +47,26 @@ int get_vaddr_frames(unsigned long start, unsigned in=
-t nr_frames,
->  =20
->   	start =3D untagged_addr(start);
->  =20
-> -	mmap_read_lock(mm);
-> -	locked =3D 1;
-> -	vma =3D find_vma_intersection(mm, start, start + 1);
-> -	if (!vma) {
-> -		ret =3D -EFAULT;
-> -		goto out;
-> -	}
-> -
-> -	/*
-> -	 * While get_vaddr_frames() could be used for transient (kernel
-> -	 * controlled lifetime) pinning of memory pages all current
-> -	 * users establish long term (userspace controlled lifetime)
-> -	 * page pinning. Treat get_vaddr_frames() like
-> -	 * get_user_pages_longterm() and disallow it for filesystem-dax
-> -	 * mappings.
-> -	 */
-> -	if (vma_is_fsdax(vma)) {
-> -		ret =3D -EOPNOTSUPP;
-> -		goto out;
-> -	}
-> -
-> -	if (!(vma->vm_flags & (VM_IO | VM_PFNMAP))) {
+date:			Sat Oct 31 05:00:15 CET 2020
+media-tree git hash:	dfe3d19bd092cefb184c6e65b881602c793edd33
+media_build git hash:	b5733d0fdc887a215d63eba10c1789e836625975
+v4l-utils git hash:	225c6c2a17bec0e07c13ebb891e062ccef051180
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-By removing this check from this location, and changing from
-pin_user_pages_locked() to pin_user_pages_fast(), I *think* we end up
-losing the check entirely. Is that intended? If so it could use a comment
-somewhere to explain why.
+linux-git-sh: OK
+linux-git-arm-stm32: OK
+linux-git-arm-at91: OK
+linux-git-powerpc64: OK
+linux-git-arm-davinci: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10-rc1-i686: OK
+linux-5.10-rc1-x86_64: WARNINGS
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: OK
 
-thanks,
---=20
-John Hubbard
-NVIDIA
+Logs weren't copied as they are too large (1448 kB)
 
-> +	ret =3D pin_user_pages_fast(start, nr_frames,
-> +				  FOLL_FORCE | FOLL_WRITE | FOLL_LONGTERM,
-> +				  (struct page **)(vec->ptrs));
-> +	if (ret > 0) {
->   		vec->got_ref =3D true;
->   		vec->is_pfns =3D false;
-> -		ret =3D pin_user_pages_locked(start, nr_frames,
-> -			gup_flags, (struct page **)(vec->ptrs), &locked);
-> -		goto out;
-> +		goto out_unlocked;
->   	}
->  =20
-> +	mmap_read_lock(mm);
->   	vec->got_ref =3D false;
->   	vec->is_pfns =3D true;
-> +	ret =3D 0;
->   	do {
->   		unsigned long *nums =3D frame_vector_pfns(vec);
->  =20
-> +		vma =3D find_vma_intersection(mm, start, start + 1);
-> +		if (!vma)
-> +			break;
-> +
->   		while (ret < nr_frames && start + PAGE_SIZE <=3D vma->vm_end) {
->   			err =3D follow_pfn(vma, start, &nums[ret]);
->   			if (err) {
-> @@ -92,17 +77,13 @@ int get_vaddr_frames(unsigned long start, unsigned in=
-t nr_frames,
->   			start +=3D PAGE_SIZE;
->   			ret++;
->   		}
-> -		/*
-> -		 * We stop if we have enough pages or if VMA doesn't completely
-> -		 * cover the tail page.
-> -		 */
-> -		if (ret >=3D nr_frames || start < vma->vm_end)
-> +		/* Bail out if VMA doesn't completely cover the tail page. */
-> +		if (start < vma->vm_end)
->   			break;
-> -		vma =3D find_vma_intersection(mm, start, start + 1);
-> -	} while (vma && vma->vm_flags & (VM_IO | VM_PFNMAP));
-> +	} while (ret < nr_frames);
->   out:
-> -	if (locked)
-> -		mmap_read_unlock(mm);
-> +	mmap_read_unlock(mm);
-> +out_unlocked:
->   	if (!ret)
->   		ret =3D -EFAULT;
->   	if (ret > 0)
->=20
+The Media Infrastructure API from this daily build is here:
 
-
+http://www.xs4all.nl/~hverkuil/spec/index.html
