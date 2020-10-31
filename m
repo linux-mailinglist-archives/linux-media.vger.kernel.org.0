@@ -2,295 +2,210 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 622292A1497
-	for <lists+linux-media@lfdr.de>; Sat, 31 Oct 2020 10:16:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C878B2A1503
+	for <lists+linux-media@lfdr.de>; Sat, 31 Oct 2020 10:58:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726528AbgJaJQO convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Sat, 31 Oct 2020 05:16:14 -0400
-Received: from www.linuxtv.org ([130.149.80.248]:42602 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726456AbgJaJQN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 31 Oct 2020 05:16:13 -0400
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kYmzZ-008UaL-Dz; Sat, 31 Oct 2020 09:16:09 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kYn2X-0006ya-0h; Sat, 31 Oct 2020 09:19:13 +0000
-Date:   Sat, 31 Oct 2020 09:19:12 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1827839544.20.1604135953013@builder.linuxtv.org>
-In-Reply-To: <1831193995.19.1604049551559@builder.linuxtv.org>
-References: <1831193995.19.1604049551559@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3271
+        id S1726627AbgJaJ57 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 31 Oct 2020 05:57:59 -0400
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:46565 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726580AbgJaJ57 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 31 Oct 2020 05:57:59 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id YndwktnDVWvjMYne0kJWJ5; Sat, 31 Oct 2020 10:57:56 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604138276; bh=ppzM36EWvZxzr9SQsgshcXj9K5eECWb+y061duIGk3Y=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=X3m2Pjo5tA4mlKK/Hd/8XHdiitch4uuxC0AZNgUSMYFyU+Pji8Xzl6JLT1IEedqbC
+         3uBTIKZ7MxnzWxKFqqtSOfxjDIK6pp/9zi5FkItprQaF9bwscbdPfNRaIdRPpco+N/
+         EEaF76gLN3lXe9qhGL3vWTkAZcJfKHnUMuJpBV+gieaJUBgifHZ36R339nOVYoOWsy
+         UBJqTODfrzK+7Dx/82P8eKX0V91CXcSYRsaGZieK0m1CW+JvJtidIeOJ9pp/u9K5cA
+         JBzLG6GcV1Gz/+N22XOEvTKYN73vQfivgVLGNTQAlZpAjp0weNYAcpzS6QST2EBpW1
+         56w1fYsJvhAYg==
+Subject: Re: Suggestion regarding x8 gang mode device tree changes
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Thierry Reding <treding@nvidia.com>,
+        linux-media@vger.kernel.org
+References: <e253fee3-5358-aaf1-d317-162dc8e98afc@nvidia.com>
+ <20201029145013.GA6899@valkosipuli.retiisi.org.uk>
+ <59f91ac7-84fc-a9fd-e331-35adf4e5f5b9@nvidia.com>
+ <2ac2eb3d-32df-a352-3ce5-918ddbf718af@nvidia.com>
+ <20201029165245.GB6899@valkosipuli.retiisi.org.uk>
+ <542bbb61-049e-85d8-c2d7-9f38e6625b3d@nvidia.com>
+ <7f64c771-a4ff-8909-4679-1cec58947e94@xs4all.nl>
+ <20201030095642.GC6899@valkosipuli.retiisi.org.uk>
+ <73cce478-c7b0-43b5-9c87-211b4a7c5b6b@xs4all.nl>
+ <20201030223124.GE6899@valkosipuli.retiisi.org.uk>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <5246283a-6cec-cb47-9715-a461fa5961f8@xs4all.nl>
+Date:   Sat, 31 Oct 2020 10:57:52 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+In-Reply-To: <20201030223124.GE6899@valkosipuli.retiisi.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfA3GBvJ/jw6QgjO+XvUf/tTfO6rHVyW+R9h329epKVZexwxmDp5lC6U/oNOi1S+nBBHdov4btdTmo50ldEdRMcjUUtBsToEO3YqpA2ATx84Z3MuAsq+Q
+ nNk9WViWGKQW6z1DWMpGTEH4nGRFCeMzx3a7tHQhdZO6Y3kPmcs1b2M1RhFMednDgEGBYyttmKg79Ni83K4nV/RSKe4Xsg9A4dpY9czasOnmBhQG/wCjm1bu
+ B6wQpWeOJTH/Edjtx/2wX84JK6sRH+UpluaTOfKdhGM7VvaKTX6A7SKoy44WHeLn
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3271/display/redirect>
+On 30/10/2020 23:31, Sakari Ailus wrote:
+> Hi Hans,
+> 
+> On Fri, Oct 30, 2020 at 11:06:18AM +0100, Hans Verkuil wrote:
+>> On 30/10/2020 10:56, Sakari Ailus wrote:
+>>> Hi Hans,
+>>>
+>>> On Fri, Oct 30, 2020 at 10:31:06AM +0100, Hans Verkuil wrote:
+>>>> On 29/10/2020 18:07, Sowjanya Komatineni wrote:
+>>>>>
+>>>>> On 10/29/20 9:52 AM, Sakari Ailus wrote:
+>>>>>> On Thu, Oct 29, 2020 at 09:49:57AM -0700, Sowjanya Komatineni wrote:
+>>>>>>> On 10/29/20 8:36 AM, Sowjanya Komatineni wrote:
+>>>>>>>> On 10/29/20 7:50 AM, Sakari Ailus wrote:
+>>>>>>>>> Hi Sowjanya,
+>>>>>>>>>
+>>>>>>>>> On Wed, Oct 28, 2020 at 06:48:59PM -0700, Sowjanya Komatineni wrote:
+>>>>>>>>>> Hi Sakari,
+>>>>>>>>>>
+>>>>>>>>>> Missed to add you to below patch series for HDMI2CSI bridge support
+>>>>>>>>>>
+>>>>>>>>>> https://patchwork.kernel.org/project/linux-media/cover/1603768763-25590-1-git-send-email-skomatineni@nvidia.com/
+>>>>>>>>>>
+>>>>>>>>>>
+>>>>>>>>>> Patch-10 of this series is for x8 capture from HDMI2CSI bridge.
+>>>>>>>>>>
+>>>>>>>>>> Would like to get your suggestion on x8 gang/combined ports capture
+>>>>>>>>>> implementation.
+>>>>>>>>> The majority of CSI-2 receiver devices support partitioning the
+>>>>>>>>> lanes among
+>>>>>>>>> different PHYs in various ways. They do support usually up to four
+>>>>>>>>> lanes,
+>>>>>>>>> but adding four more lanes is not a reason for making the API different.
+>>>>>>>>>
+>>>>>>>>> So instead, you should implement this as a single port that simply has 8
+>>>>>>>>> lanes.
+>>>>>>>>>
+>>>>>>>> Thanks Sakari for your reply.
+>>>>>>>>
+>>>>>>>> current v2 series treats as 8 lanes. You mean to not expose 2nd port in
+>>>>>>>> device tree as VI/CSI side takes care of 2nd port as combined to treat
+>>>>>>>> as 8 lane?
+>>>>>> Correct.
+>>>>>>
+>>>>>> Although you can have the second port connected if fewer lanes are assigned
+>>>>>> to the first one.
+>>>>>>
+>>>>>> How does it work for this device, are the lanes statically allocated to
+>>>>>> ports, apart from the special 8 lane mode?
+>>>>>
+>>>>> Tegra CSI each port supports max 4 lanes. For x8, 2 x4 ports together 
+>>>>> are programmed for simultaneous streaming during the same video/subdev 
+>>>>> stream ops.
+>>>>>
+>>>>> Physically, CSI RX side 4 lanes goes to x4 port and other 4 lanes goes 
+>>>>> to another x4 port.
+>>>>>
+>>>>> HDMI Bridge TX0 -> CSI RX0 (x4 port)
+>>>>>
+>>>>> HDMI Bridge TX1 -> CSI RX1 (x4 port)
+>>>>>
+>>>>> HDMI bridge side single image is split into 2 x4 ports and on RX side 
+>>>>> image from both ports are captured simultaneously with buffer offsets 
+>>>>> adjusted side-by-side to get combined image for same video buf of video 
+>>>>> device.
+>>>>>
+>>>>> Both these 2 x4 ports together are used for streaming by Tegra VI and 
+>>>>> buffer offsets are adjusted side by side for these ports and for video 
+>>>>> device node stream, its single buffer which contains combined image from 
+>>>>> capture.
+>>>>>
+>>>>>>> AS csi2 bus type supports max 4 data lanes with endpoint parse API.
+>>>>>>>
+>>>>>>> Currently with x8 as single port, I am using bus-width with bus type as
+>>>>>>> parallel in device tree and when using x4 using data-lanes with csi2 bus
+>>>>>>> type and driver gets lanes based on either of this from DT.
+>>>>>>>
+>>>>>>> Instead should we update endpoint parse API for max up to 8 lanes for
+>>>>>>> data-lanes?
+>>>>>> Yes, please. Could you send a patch?
+>>>>>>
+>>>>>> The standard AFAIK supports up to four lanes but as we know, hardware
+>>>>>> sometimes has more than that.
+>>>>>
+>>>>> Sure once Hans also agrees with this to have it as single x8 port (just 
+>>>>> like I have now in v2), will send v3 to update endpoint parse to allow 
+>>>>> upto max 8 data-lanes and will also update Tegra CSI driver accordingly 
+>>>>> to retrieve lanes using csi2 bus type.
+>>>>>
+>>>>> Hans, Please confirm if you agree with this.
+>>>>>
+>>>>
+>>>> I'm not sure if I agree with this. Shouldn't a device tree reflect the
+>>>> hardware? And how would you represent the use case where the ganging
+>>>> mode stitches together two synced sensors (left and right) into a single
+>>>> 3D side-by-side image? Then you would have:
+>>>>
+>>>>  Left Sensor TX -> CSI RX0 (x4 port)
+>>>> Right Sensor TX -> CSI RX1 (x4 port)
+>>>>
+>>>> And for the tc358840 something similar might be true: in the case of the
+>>>> Tegra you have this nice ganging mode available, but for other SoCs each
+>>>> half would have to go to a separate CSI port and captured via a separate
+>>>> video DMA channel, and software or a GPU is needed to combine the two
+>>>> halves.
+>>>>
+>>>> In both these examples it is my understanding that you have to model this
+>>>> in the DT as separate x4 ports.
+>>>
+>>> Do note that a "port" as such is a logical concept. On modern hardware, a
+>>> port consists of two or more lanes --- one clock, plus at least one data
+>>> lane. Perhaps an example could be useful. For instance, if you have ten
+>>> lanes on a device, this could be split into following configurations, based
+>>> on the board design:
+>>>
+>>> configuration \ data lanes	port 0	port 1	port 2	port 3
+>>>
+>>> 1:				4	4
+>>> 2:				4	2	1
+>>> 3:				2	2	2
+>>> 4:				2	2	1	1
+>>>
+>>> So if you add one more, say:
+>>>
+>>> 5:				8
+>>>
+>>> So what we're discussing is just how the lanes are distributed across the
+>>> ports.
+>>>
+>>> There are usually hardware specific limitations how the lanes can be
+>>> distributed. The interface we have in DT (data-lanes + clock-lanes
+>>> properties) allows describing the hardware in general case, so what the
+>>> interface allows may not be possible in hardware, but what hardware
+>>> implements is supported by the interface.
+>>>
+>>
+>> So for this particular instance using a single logical 8-lane port would
+>> make sense, but in the two other scenarios (left/right sensor or supporting
+>> tc358840 in a SoC that doesn't support ganging) I described you would still
+>> have to model it as two 4-lane ports.
+> 
+> If you have two sensors, yes, then it'll be two separate ports; one sensor
+> connected to each of them. The streams are usually separate, but other
+> kinds of implementations exist. Still, they generally have no effect on
+> CSI-2 bus configuration.
+> 
 
-Changes:
+OK, then we go with increasing the number of data lanes to 8.
 
+Regards,
 
-------------------------------------------
-[...truncated 4.28 KB...]
-     0K .......... .......... .......... .......... ..........  0%  162K 43s
-    50K .......... .......... .......... .......... ..........  1%  326K 32s
-   100K .......... .......... .......... .......... ..........  2% 13.9M 21s
-   150K .......... .......... .......... .......... ..........  2% 12.7M 16s
-   200K .......... .......... .......... .......... ..........  3%  335K 17s
-   250K .......... .......... .......... .......... ..........  4% 14.5M 14s
-   300K .......... .......... .......... .......... ..........  4% 13.7M 12s
-   350K .......... .......... .......... .......... ..........  5% 12.6M 10s
-   400K .......... .......... .......... .......... ..........  6%  353K 11s
-   450K .......... .......... .......... .......... ..........  7% 13.7M 10s
-   500K .......... .......... .......... .......... ..........  7% 15.2M 9s
-   550K .......... .......... .......... .......... ..........  8% 18.0M 8s
-   600K .......... .......... .......... .......... ..........  9% 18.7M 8s
-   650K .......... .......... .......... .......... ..........  9% 17.7M 7s
-   700K .......... .......... .......... .......... .......... 10% 23.5M 7s
-   750K .......... .......... .......... .......... .......... 11% 21.3M 6s
-   800K .......... .......... .......... .......... .......... 12% 16.9M 6s
-   850K .......... .......... .......... .......... .......... 12%  382K 6s
-   900K .......... .......... .......... .......... .......... 13% 24.3M 6s
-   950K .......... .......... .......... .......... .......... 14% 20.3M 6s
-  1000K .......... .......... .......... .......... .......... 14% 23.3M 5s
-  1050K .......... .......... .......... .......... .......... 15% 20.7M 5s
-  1100K .......... .......... .......... .......... .......... 16% 16.7M 5s
-  1150K .......... .......... .......... .......... .......... 17% 20.9M 5s
-  1200K .......... .......... .......... .......... .......... 17% 14.0M 4s
-  1250K .......... .......... .......... .......... .......... 18% 21.4M 4s
-  1300K .......... .......... .......... .......... .......... 19% 21.6M 4s
-  1350K .......... .......... .......... .......... .......... 19% 19.9M 4s
-  1400K .......... .......... .......... .......... .......... 20% 21.8M 4s
-  1450K .......... .......... .......... .......... .......... 21% 20.0M 4s
-  1500K .......... .......... .......... .......... .......... 22% 20.6M 3s
-  1550K .......... .......... .......... .......... .......... 22% 22.7M 3s
-  1600K .......... .......... .......... .......... .......... 23% 6.81M 3s
-  1650K .......... .......... .......... .......... .......... 24% 21.5M 3s
-  1700K .......... .......... .......... .......... .......... 24% 21.9M 3s
-  1750K .......... .......... .......... .......... .......... 25%  463K 3s
-  1800K .......... .......... .......... .......... .......... 26% 26.2M 3s
-  1850K .......... .......... .......... .......... .......... 27% 23.4M 3s
-  1900K .......... .......... .......... .......... .......... 27% 28.9M 3s
-  1950K .......... .......... .......... .......... .......... 28% 25.7M 3s
-  2000K .......... .......... .......... .......... .......... 29% 24.6M 3s
-  2050K .......... .......... .......... .......... .......... 29% 26.0M 3s
-  2100K .......... .......... .......... .......... .......... 30% 28.8M 2s
-  2150K .......... .......... .......... .......... .......... 31% 33.9M 2s
-  2200K .......... .......... .......... .......... .......... 32% 30.6M 2s
-  2250K .......... .......... .......... .......... .......... 32% 33.1M 2s
-  2300K .......... .......... .......... .......... .......... 33% 30.0M 2s
-  2350K .......... .......... .......... .......... .......... 34% 27.1M 2s
-  2400K .......... .......... .......... .......... .......... 34% 20.9M 2s
-  2450K .......... .......... .......... .......... .......... 35% 27.3M 2s
-  2500K .......... .......... .......... .......... .......... 36% 27.1M 2s
-  2550K .......... .......... .......... .......... .......... 37% 7.28M 2s
-  2600K .......... .......... .......... .......... .......... 37% 27.1M 2s
-  2650K .......... .......... .......... .......... .......... 38% 24.8M 2s
-  2700K .......... .......... .......... .......... .......... 39% 25.0M 2s
-  2750K .......... .......... .......... .......... .......... 39% 20.1M 2s
-  2800K .......... .......... .......... .......... .......... 40% 18.7M 2s
-  2850K .......... .......... .......... .......... .......... 41% 19.5M 2s
-  2900K .......... .......... .......... .......... .......... 42%  465K 2s
-  2950K .......... .......... .......... .......... .......... 42% 27.9M 2s
-  3000K .......... .......... .......... .......... .......... 43% 23.2M 2s
-  3050K .......... .......... .......... .......... .......... 44% 26.7M 2s
-  3100K .......... .......... .......... .......... .......... 44% 27.9M 2s
-  3150K .......... .......... .......... .......... .......... 45% 21.0M 1s
-  3200K .......... .......... .......... .......... .......... 46% 18.0M 1s
-  3250K .......... .......... .......... .......... .......... 47% 22.2M 1s
-  3300K .......... .......... .......... .......... .......... 47% 19.6M 1s
-  3350K .......... .......... .......... .......... .......... 48% 30.5M 1s
-  3400K .......... .......... .......... .......... .......... 49% 21.4M 1s
-  3450K .......... .......... .......... .......... .......... 49% 21.8M 1s
-  3500K .......... .......... .......... .......... .......... 50% 21.7M 1s
-  3550K .......... .......... .......... .......... .......... 51% 20.8M 1s
-  3600K .......... .......... .......... .......... .......... 52% 19.8M 1s
-  3650K .......... .......... .......... .......... .......... 52% 21.6M 1s
-  3700K .......... .......... .......... .......... .......... 53% 28.9M 1s
-  3750K .......... .......... .......... .......... .......... 54% 12.4M 1s
-  3800K .......... .......... .......... .......... .......... 54% 90.0M 1s
-  3850K .......... .......... .......... .......... .......... 55% 40.2M 1s
-  3900K .......... .......... .......... .......... .......... 56% 26.6M 1s
-  3950K .......... .......... .......... .......... .......... 57% 21.4M 1s
-  4000K .......... .......... .......... .......... .......... 57% 11.7M 1s
-  4050K .......... .......... .......... .......... .......... 58%  478K 1s
-  4100K .......... .......... .......... .......... .......... 59% 30.9M 1s
-  4150K .......... .......... .......... .......... .......... 59% 26.6M 1s
-  4200K .......... .......... .......... .......... .......... 60% 30.7M 1s
-  4250K .......... .......... .......... .......... .......... 61% 26.4M 1s
-  4300K .......... .......... .......... .......... .......... 61% 26.6M 1s
-  4350K .......... .......... .......... .......... .......... 62% 21.7M 1s
-  4400K .......... .......... .......... .......... .......... 63% 18.9M 1s
-  4450K .......... .......... .......... .......... .......... 64% 25.1M 1s
-  4500K .......... .......... .......... .......... .......... 64% 19.4M 1s
-  4550K .......... .......... .......... .......... .......... 65% 35.4M 1s
-  4600K .......... .......... .......... .......... .......... 66% 22.9M 1s
-  4650K .......... .......... .......... .......... .......... 66% 23.6M 1s
-  4700K .......... .......... .......... .......... .......... 67% 19.6M 1s
-  4750K .......... .......... .......... .......... .......... 68% 26.9M 1s
-  4800K .......... .......... .......... .......... .......... 69% 19.0M 1s
-  4850K .......... .......... .......... .......... .......... 69% 7.26M 1s
-  4900K .......... .......... .......... .......... .......... 70%  148M 1s
-  4950K .......... .......... .......... .......... .......... 71%  166M 1s
-  5000K .......... .......... .......... .......... .......... 71% 19.5M 1s
-  5050K .......... .......... .......... .......... .......... 72% 34.7M 1s
-  5100K .......... .......... .......... .......... .......... 73% 32.8M 1s
-  5150K .......... .......... .......... .......... .......... 74% 30.3M 0s
-  5200K .......... .......... .......... .......... .......... 74% 22.9M 0s
-  5250K .......... .......... .......... .......... .......... 75% 16.0M 0s
-  5300K .......... .......... .......... .......... .......... 76%  479K 0s
-  5350K .......... .......... .......... .......... .......... 76% 37.5M 0s
-  5400K .......... .......... .......... .......... .......... 77% 23.7M 0s
-  5450K .......... .......... .......... .......... .......... 78% 60.9M 0s
-  5500K .......... .......... .......... .......... .......... 79% 24.3M 0s
-  5550K .......... .......... .......... .......... .......... 79% 21.7M 0s
-  5600K .......... .......... .......... .......... .......... 80% 16.7M 0s
-  5650K .......... .......... .......... .......... .......... 81% 8.15M 0s
-  5700K .......... .......... .......... .......... .......... 81%  101M 0s
-  5750K .......... .......... .......... .......... .......... 82% 66.1M 0s
-  5800K .......... .......... .......... .......... .......... 83% 83.9M 0s
-  5850K .......... .......... .......... .......... .......... 84% 35.8M 0s
-  5900K .......... .......... .......... .......... .......... 84% 30.4M 0s
-  5950K .......... .......... .......... .......... .......... 85% 28.4M 0s
-  6000K .......... .......... .......... .......... .......... 86% 18.3M 0s
-  6050K .......... .......... .......... .......... .......... 86% 13.9M 0s
-  6100K .......... .......... .......... .......... .......... 87% 75.4M 0s
-  6150K .......... .......... .......... .......... .......... 88% 4.14M 0s
-  6200K .......... .......... .......... .......... .......... 89%  134M 0s
-  6250K .......... .......... .......... .......... .......... 89%  150M 0s
-  6300K .......... .......... .......... .......... .......... 90%  131M 0s
-  6350K .......... .......... .......... .......... .......... 91%  147M 0s
-  6400K .......... .......... .......... .......... .......... 91% 29.2M 0s
-  6450K .......... .......... .......... .......... .......... 92% 34.8M 0s
-  6500K .......... .......... .......... .......... .......... 93% 34.2M 0s
-  6550K .......... .......... .......... .......... .......... 94% 30.0M 0s
-  6600K .......... .......... .......... .......... .......... 94% 1.15M 0s
-  6650K .......... .......... .......... .......... .......... 95%  793K 0s
-  6700K .......... .......... .......... .......... .......... 96% 21.4M 0s
-  6750K .......... .......... .......... .......... .......... 96% 28.3M 0s
-  6800K .......... .......... .......... .......... .......... 97% 26.4M 0s
-  6850K .......... .......... .......... .......... .......... 98% 33.1M 0s
-  6900K .......... .......... .......... .......... .......... 99% 39.9M 0s
-  6950K .......... .......... .......... .......... .......... 99% 22.0M 0s
-  7000K .......... ......                                     100%  104M=1.7s
-
-2020-10-31 09:19:10 (4.02 MB/s) - ‘linux-media.tar.bz2’ saved [7185115/7185115]
-
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-12-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
-patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
-patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
-patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
-patch -s -f -N -p1 -i ../backports/v5.4_dma_buf.patch
-patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
-patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
-patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
-patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
-Patched drivers/media/dvb-core/dvbdev.c
-Patched drivers/media/v4l2-core/v4l2-dev.c
-Patched drivers/media/rc/rc-main.c
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-./scripts/make_kconfig.pl /lib/modules/4.19.0-12-amd64/build /lib/modules/4.19.0-12-amd64/build 1
-File not found: /lib/modules/4.19.0-12-amd64/build/.config at ./scripts/make_kconfig.pl line 33, <IN> line 4.
-Preparing to compile for kernel version 4.19.0
-make[1]: *** [Makefile:379: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+	Hans
