@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9CE642A186F
-	for <lists+linux-media@lfdr.de>; Sat, 31 Oct 2020 16:06:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A5432A1871
+	for <lists+linux-media@lfdr.de>; Sat, 31 Oct 2020 16:06:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727965AbgJaPGT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 31 Oct 2020 11:06:19 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36864 "EHLO
+        id S1728064AbgJaPGX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 31 Oct 2020 11:06:23 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36874 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728038AbgJaPGR (ORCPT
+        with ESMTP id S1728052AbgJaPGV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 31 Oct 2020 11:06:17 -0400
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98DFEC0617A6;
-        Sat, 31 Oct 2020 08:06:17 -0700 (PDT)
-Received: by mail-qt1-x844.google.com with SMTP id m14so6250786qtc.12;
-        Sat, 31 Oct 2020 08:06:17 -0700 (PDT)
+        Sat, 31 Oct 2020 11:06:21 -0400
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DFC06C0617A6;
+        Sat, 31 Oct 2020 08:06:20 -0700 (PDT)
+Received: by mail-qt1-x842.google.com with SMTP id n63so746235qte.4;
+        Sat, 31 Oct 2020 08:06:20 -0700 (PDT)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=PCvO/PPPP7+nQ6uwQgtk8mFv9Z7qqn+sP+8PJKc6iJE=;
-        b=iSChu41JRrmskRgcLjxKMag877VQynA9iS3oa/QPcNgb5YWsm697eH6QSkTS6sYe+n
-         czJyDuGBVC0rde0XDthGO54sF374XndP6WbiX0pmFZbcBnzqWayv4bXSx3vBzU99I4JC
-         5uvkgRrGlFdZzP94jcNNWGVUJ10x9HnB7idIqTBcfgMP1dZvjTK2uY0RfLIlD4xFa2zw
-         OcPuZZEnAIRn4Jg3zMslYU3jj8hAbV2DPafkugDEm5YYuLG5pYGW0frL+sCtTXi4IeF5
-         SVr01J+csH7LhOrgnvf6+fGqzjtZQ+784RksBz68eExZbe5TqdzZkbJL7y9+DGE6vP3D
-         xXfg==
+        bh=QsiEQVnJgPtjofsvEVgHEaYNKMcgYG0VOfEEFck/Y0E=;
+        b=Ons3IwtlqNwytQZtrJPFI7YpsmxmFn+1eH1/8Omx15U4RqEb/fAv8Rwh7d7t4rt/ad
+         kHQbCxounm/RC56gORVH5ZFtncdzhWmizPfjRxECz2LXXtaAuYcRMCAvmvKCSCHCW8Fd
+         XRMQIcxb3bluBOsB6ebcbi40+D5PQ8w9QUj8y5cO3KiyCw8kIPpzvWBBoMKLDEcXZeH0
+         Nwy5Xtc9imzU/A8pgly6eo7JXachxTaZZq8BdGsNTKmPwyK7H0xjpmfPhAhENsOhbzff
+         +sXvgk9fe0xEuRopT3m9CE99FcSLOTzDz8tbgHNr/1X0momp52dxy4LvnZylqhwjnfDE
+         A6WQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=PCvO/PPPP7+nQ6uwQgtk8mFv9Z7qqn+sP+8PJKc6iJE=;
-        b=pm22SREMwzKlU31mrRitHKJ2n3bfvAr5AwJfjrVSNSGi+aqU/QMheTrnRlCX9Mf30U
-         bSbr8TLWmp5P4I9OckqRdS3h0fcMWmd8mhdnwF/kkQtnFMITifwMo/dvGGCh03tU1+Gi
-         yGKbe4iONhjizc/H07H4FCQU76p6/7OBzD71XPM0obwokCS1KVj1uS3fUD7fD77CGkXu
-         nC0jnfGgTd6fY6qIXIz2xpq9A2yyGCl9wbqD/j0Nj0vO/YCY107+GGrJmk40reQpbhE1
-         5B+zAIU+lzvLSjjArdX9KitT8tVyrFzw/1fvhGGPYy5fP7gO3SFHRp0PshOHBJ96BcH4
-         cFbw==
-X-Gm-Message-State: AOAM531tcm2dntpsDLPHcg42PGjwpriEq5gbsV9YopAgRnoQFQU1G3gE
-        KfnA9UNGUfpoMm6XELFLc9e1lxxcM2SDTg==
-X-Google-Smtp-Source: ABdhPJzFOj4nmGsPPa6pVjMDfBC5xphXVmxjJ6IlIYFHn2WAkWk7hH3BW25Nq8X0mtxgpSygo4EVSA==
-X-Received: by 2002:aed:2982:: with SMTP id o2mr6958014qtd.73.1604156776831;
-        Sat, 31 Oct 2020 08:06:16 -0700 (PDT)
+        bh=QsiEQVnJgPtjofsvEVgHEaYNKMcgYG0VOfEEFck/Y0E=;
+        b=OkQ8YH80n1crc0CB89K1GzCUNOyD1gCVSuQL4M7ErZCVNps5jZqw5VXPr54VLtli/Y
+         PllrfGnAq/l5qlkiDGwRnkfu49unx2ARLY2u7ShFJ1hFDBxazzIUYAEQS2uEsWTtpDJn
+         Yr6CGoS/ZLZE8niZ1fNlWE1C0osT//VBnIEUmvPi9D7eGHMxz95lbaR7tM6DuZ7lPDpI
+         6mdvCFBoZwFTX+lhuhmQABfH3jtq4F8XA8dZj1FVZw40Bwyn7rfVun5Mqcjqg0RCxgvj
+         MQjqthx94J2iw22XTKMVg89KxhoHX+Cqs31/0T2k7Hqc3eYlo/PuQ5c+OeU2EHirV4Ob
+         IadA==
+X-Gm-Message-State: AOAM533vkPKBYcPgPt1b5/cY5szpJFXDkW4ToQwhxMFzW0tK2D1CIBiW
+        VWu7yJYjKK7FNKCq37WhMEA=
+X-Google-Smtp-Source: ABdhPJyvKzMo/EH6egGHLYSZQaM7wCaxJM3USy6Z5R1ireViCAw3ezh7IY6TjlAFQAHtlivtdy64mw==
+X-Received: by 2002:aed:3383:: with SMTP id v3mr1261185qtd.353.1604156780081;
+        Sat, 31 Oct 2020 08:06:20 -0700 (PDT)
 Received: from localhost.localdomain ([2804:14d:72b1:8920:a2ce:f815:f14d:bfac])
-        by smtp.gmail.com with ESMTPSA id z125sm2317030qke.54.2020.10.31.08.06.13
+        by smtp.gmail.com with ESMTPSA id z125sm2317030qke.54.2020.10.31.08.06.17
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 31 Oct 2020 08:06:16 -0700 (PDT)
+        Sat, 31 Oct 2020 08:06:19 -0700 (PDT)
 From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
 X-Google-Original-From: Daniel W. S. Almeida
 To:     mchehab+huawei@kernel.org, r.verdejo@samsung.com,
@@ -56,9 +56,9 @@ Cc:     "Daniel W . S . Almeida" <dwlsalmeida@gmail.com>,
         linux-media@vger.kernel.org, skhan@linuxfoundation.org,
         linux-kernel-mentees@lists.linuxfoundation.org,
         linux-kernel@vger.kernel.org
-Subject: [PATCH v2 5/6] media: vidtv: Move s302m specific fields into encoder context
-Date:   Sat, 31 Oct 2020 12:05:51 -0300
-Message-Id: <20201031150552.663598-6-dwlsalmeida@gmail.com>
+Subject: [PATCH v2 6/6] media: vidtv: psi: fix missing assignments in while loops
+Date:   Sat, 31 Oct 2020 12:05:52 -0300
+Message-Id: <20201031150552.663598-7-dwlsalmeida@gmail.com>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201031150552.663598-1-dwlsalmeida@gmail.com>
 References: <20201031150552.663598-1-dwlsalmeida@gmail.com>
@@ -70,123 +70,89 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 
-A few fields used only by the tone generator in the s302m encoder
-are stored in struct vidtv_encoder. Move them into
-struct vidtv_s302m_ctx instead. While we are at it: fix a
-checkpatch warning for long lines.
+Some variables were only assigned once but were used in while
+loops as if they had been updated at every iteration. Fix this.
 
 Signed-off-by: Daniel W. S. Almeida <dwlsalmeida@gmail.com>
 ---
- .../media/test-drivers/vidtv/vidtv_encoder.h  |  3 ---
- .../media/test-drivers/vidtv/vidtv_s302m.c    | 25 +++++++++++--------
- .../media/test-drivers/vidtv/vidtv_s302m.h    |  3 +++
- 3 files changed, 17 insertions(+), 14 deletions(-)
+ drivers/media/test-drivers/vidtv/vidtv_psi.c | 22 +++++++++-----------
+ 1 file changed, 10 insertions(+), 12 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_encoder.h b/drivers/media/test-drivers/vidtv/vidtv_encoder.h
-index 65d81daef4c3..f742d566fbcb 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_encoder.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_encoder.h
-@@ -131,9 +131,6 @@ struct vidtv_encoder {
- 	u32 encoder_buf_offset;
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
+index ad2957efa483..4dda5b0004a3 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_psi.c
++++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
+@@ -1175,9 +1175,7 @@ u32 vidtv_psi_pmt_write_into(struct vidtv_psi_pmt_write_args args)
  
- 	u64 sample_count;
--	int last_duration;
--	int note_offset;
--	enum musical_notes last_tone;
+ 	struct vidtv_psi_desc *table_descriptor   = args.pmt->descriptor;
+ 	struct vidtv_psi_table_pmt_stream *stream = args.pmt->stream;
+-	struct vidtv_psi_desc *stream_descriptor  = (stream) ?
+-						    args.pmt->stream->descriptor :
+-						    NULL;
++	struct vidtv_psi_desc *stream_descriptor;
  
- 	struct vidtv_access_unit *access_units;
+ 	struct header_write_args h_args = {};
+ 	struct psi_write_args psi_args  = {};
+@@ -1237,6 +1235,8 @@ u32 vidtv_psi_pmt_write_into(struct vidtv_psi_pmt_write_args args)
  
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-index a447ccbd68d5..aacf8110d874 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-@@ -230,36 +230,38 @@ static u16 vidtv_s302m_get_sample(struct vidtv_encoder *e)
- {
- 	u16 sample;
- 	int pos;
-+	struct vidtv_s302m_ctx *ctx = e->ctx;
+ 		nbytes += vidtv_psi_ts_psi_write_into(psi_args);
  
- 	if (!e->src_buf) {
- 		/*
- 		 * Simple tone generator: play the tones at the
- 		 * beethoven_5th_symphony array.
- 		 */
--		if (e->last_duration <= 0) {
-+		if (ctx->last_duration <= 0) {
- 			if (e->src_buf_offset >= ARRAY_SIZE(beethoven_5th_symphony))
- 				e->src_buf_offset = 0;
++		stream_descriptor = stream->descriptor;
++
+ 		while (stream_descriptor) {
+ 			/* write the stream descriptors, if any */
+ 			d_args.dest_buf           = args.buf;
+@@ -1324,9 +1324,7 @@ u32 vidtv_psi_sdt_write_into(struct vidtv_psi_sdt_write_args args)
+ 	u32 crc = INITIAL_CRC;
  
--			e->last_tone = beethoven_5th_symphony[e->src_buf_offset].note;
--			e->last_duration = beethoven_5th_symphony[e->src_buf_offset].duration * S302M_SAMPLING_RATE_HZ / COMPASS / 5;
-+			ctx->last_tone = beethoven_5th_symphony[e->src_buf_offset].note;
-+			ctx->last_duration = beethoven_5th_symphony[e->src_buf_offset].duration *
-+					     S302M_SAMPLING_RATE_HZ / COMPASS / 5;
- 			e->src_buf_offset++;
--			e->note_offset = 0;
-+			ctx->note_offset = 0;
- 		} else {
--			e->last_duration--;
-+			ctx->last_duration--;
- 		}
+ 	struct vidtv_psi_table_sdt_service *service = args.sdt->service;
+-	struct vidtv_psi_desc *service_desc = (args.sdt->service) ?
+-					      args.sdt->service->descriptor :
+-					      NULL;
++	struct vidtv_psi_desc *service_desc;
  
- 		/* Handle silent */
--		if (!e->last_tone) {
-+		if (!ctx->last_tone) {
- 			e->src_buf_offset = 0;
- 			return 0x8000;
- 		}
+ 	struct header_write_args h_args = {};
+ 	struct psi_write_args psi_args  = {};
+@@ -1373,6 +1371,8 @@ u32 vidtv_psi_sdt_write_into(struct vidtv_psi_sdt_write_args args)
  
--		pos = (2 * PI * e->note_offset * e->last_tone / S302M_SAMPLING_RATE_HZ);
-+		pos = (2 * PI * ctx->note_offset * ctx->last_tone / S302M_SAMPLING_RATE_HZ);
+ 		nbytes += vidtv_psi_ts_psi_write_into(psi_args);
  
- 		if (pos == 360)
--			e->note_offset = 0;
-+			ctx->note_offset = 0;
- 		else
--			e->note_offset++;
-+			ctx->note_offset++;
++		service_desc = service->descriptor;
++
+ 		while (service_desc) {
+ 			/* copy the service descriptors, if any */
+ 			d_args.dest_buf           = args.buf;
+@@ -1616,9 +1616,7 @@ u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args args)
  
- 		return (fixp_sin32(pos % (2 * PI)) >> 16) + 0x8000;
- 	}
-@@ -442,6 +444,7 @@ struct vidtv_encoder
- {
- 	struct vidtv_encoder *e = kzalloc(sizeof(*e), GFP_KERNEL);
- 	u32 priv_sz = sizeof(struct vidtv_s302m_ctx);
-+	struct vidtv_s302m_ctx *ctx = kzalloc(priv_sz, GFP_KERNEL);
+ 	struct vidtv_psi_desc *table_descriptor     = args.nit->descriptor;
+ 	struct vidtv_psi_table_transport *transport = args.nit->transport;
+-	struct vidtv_psi_desc *transport_descriptor = (transport) ?
+-						       args.nit->transport->descriptor :
+-						       NULL;
++	struct vidtv_psi_desc *transport_descriptor;
  
- 	e->id = S302M;
+ 	struct header_write_args h_args = {};
+ 	struct psi_write_args psi_args  = {};
+@@ -1686,6 +1684,8 @@ u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args args)
  
-@@ -453,14 +456,14 @@ struct vidtv_encoder
- 	e->encoder_buf_offset = 0;
+ 		nbytes += vidtv_psi_ts_psi_write_into(psi_args);
  
- 	e->sample_count = 0;
--	e->last_duration = 0;
++		transport_descriptor = transport->descriptor;
++
+ 		while (transport_descriptor) {
+ 			/* write the transport descriptors, if any */
+ 			d_args.dest_buf           = args.buf;
+@@ -1823,9 +1823,7 @@ u32 vidtv_psi_eit_write_into(struct vidtv_psi_eit_write_args args)
+ 	u32 crc = INITIAL_CRC;
  
- 	e->src_buf = (args.src_buf) ? args.src_buf : NULL;
- 	e->src_buf_sz = (args.src_buf) ? args.src_buf_sz : 0;
- 	e->src_buf_offset = 0;
+ 	struct vidtv_psi_table_eit_event *event = args.eit->event;
+-	struct vidtv_psi_desc *event_descriptor = (args.eit->event) ?
+-						   args.eit->event->descriptor :
+-						   NULL;
++	struct vidtv_psi_desc *event_descriptor;
  
- 	e->is_video_encoder = false;
--	e->ctx = kzalloc(priv_sz, GFP_KERNEL);
-+	e->ctx = ctx;
-+	ctx->last_duration = 0;
- 
- 	e->encode = vidtv_s302m_encode;
- 	e->clear = vidtv_s302m_clear;
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.h b/drivers/media/test-drivers/vidtv/vidtv_s302m.h
-index eca5e3150ede..b1bbe521e766 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_s302m.h
-+++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.h
-@@ -39,6 +39,9 @@ struct vidtv_s302m_ctx {
- 	struct vidtv_encoder *enc;
- 	u32 frame_index;
- 	u32 au_count;
-+	int last_duration;
-+	int note_offset;
-+	enum musical_notes last_tone;
- };
- 
- /**
+ 	struct header_write_args h_args = {};
+ 	struct psi_write_args psi_args  = {};
 -- 
 2.29.2
 
