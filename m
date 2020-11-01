@@ -2,166 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 750AE2A1BD8
-	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 05:40:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 87CBD2A1BED
+	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 06:22:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726304AbgKAEkU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 1 Nov 2020 00:40:20 -0400
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:50365 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726269AbgKAEkU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 1 Nov 2020 00:40:20 -0400
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id Z5A8kXALGTPdiZ5A9k3zUY; Sun, 01 Nov 2020 05:40:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1604205618; bh=uS4+LQbhX0CJ34MzWgewUotSc6129nu1vbkdwGNVze4=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Hp4x0D5nOMoH23OjHbLDVfeS1GCHiF1IGmVyFrc8Bdiw8OtqgtRYrsMt592vb/spc
-         TModeFN23aTLM3RJlsdDnjuaYb6sKxT0hWF5ImAdyTBhErY/XMyC/aMpsZ5XwMmBXu
-         3X8BMPZ+pb5FTOH1MIgB8paW0DFIDLrK1CT9wxuQ2yfU4MMawcp9c+fpSByxmFW6bp
-         hybMupuO1mqY6F7gdlSkhN/ILcDHZzmQFIU1W+nuoqJ3xGJltxXeTYITPD3aR5qryz
-         By+jO7LhCTdtd5jPmKQn6YJjAIPLAiTO9tpA6CbthcfR54PPAkG3mdRqQr4TIJpeKO
-         y8KCu7HU3VdVg==
-Message-ID: <a62d58fe7158a4612da2d339cc0c5079@smtp-cloud8.xs4all.net>
-Date:   Sun, 01 Nov 2020 05:40:16 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfPRMowHY3zy/UqYSccxszi562gMQSZZxu4WNP14u3pfUgjyT/Q0IUOIBKzKDz1bw/mSJ5d2Gvf9Zf3V+3ft6eOK9CsjDzp711QRPKLH4prvo8I5k9kuW
- y18vtyzwjBge6d6uPFruAjl3k/k3xjr/K8nZrzznBAmc2ZZM9qmES75Ek29DEb01sOIR+iUdmwuCT5OVWeES65BtaUd2RmbSf8LnbmWR9xsMBi4oXHi6p6fM
- smaMpdVa2pjZS/YDWsu4Lg==
+        id S1726863AbgKAFWU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Nov 2020 01:22:20 -0400
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:8613 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726117AbgKAFWS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Nov 2020 01:22:18 -0400
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f9e460b0000>; Sat, 31 Oct 2020 22:22:19 -0800
+Received: from [10.2.59.55] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 1 Nov
+ 2020 05:22:12 +0000
+Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+CC:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        "Kyungmin Park" <kyungmin.park@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
+        Dan Williams <dan.j.williams@intel.com>
+References: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
+ <20201030100815.2269-6-daniel.vetter@ffwll.ch>
+ <446b2d5b-a1a1-a408-f884-f17a04b72c18@nvidia.com>
+ <CAKMK7uGDW2f0oOvwgryCHxQFHyh3Tsk6ENsMGmtZ-EnH57tMSA@mail.gmail.com>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <1f7cf690-35e2-c56f-6d3f-94400633edd2@nvidia.com>
+Date:   Sat, 31 Oct 2020 22:22:11 -0700
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <CAKMK7uGDW2f0oOvwgryCHxQFHyh3Tsk6ENsMGmtZ-EnH57tMSA@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1604208139; bh=BviMObXYl4DBSbzSpkoK8hvibl+1Fsc4El3qoj9SER4=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=GDRHpOkpxs1Ufq2SOGdgYR/E9XR+fbuJ8LSdEQnzZVakY5/3RHLrlV0EUPacqB1hx
+         sgcaxSS6kL92YgOCYxV61/vKgMeyJzWv3pbsiGOiPG2yzztyrS+M509X+WJsspP0iX
+         eGYfmD7CUw9Sc7vfW/dXMJFEk0m7LtD6SNXFGO5vEh2idfKwEVzJ6ZAWx2tcCRv74B
+         z9sCh7r8+3axv5dd8sfK1ThmV84FPNw8fCBM1IYOZ3eSLI6P+VCNYX5tGFWyGGRpnN
+         ra2SHoMsB7AY6QbBfc+xZFCAcf9OI3Wzgrvev7r6iT4kkq15E1JGpS1HdFytcI+8SG
+         6LGq3w3+17JOQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 10/31/20 7:45 AM, Daniel Vetter wrote:
+> On Sat, Oct 31, 2020 at 3:55 AM John Hubbard <jhubbard@nvidia.com> wrote:
+>> On 10/30/20 3:08 AM, Daniel Vetter wrote:
+...
+>> By removing this check from this location, and changing from
+>> pin_user_pages_locked() to pin_user_pages_fast(), I *think* we end up
+>> losing the check entirely. Is that intended? If so it could use a comment
+>> somewhere to explain why.
+> 
+> Yeah this wasn't intentional. I think I needed to drop the _locked
+> version to prep for FOLL_LONGTERM, and figured _fast is always better.
+> But I didn't realize that _fast doesn't have the vma checks, gup.c got
+> me a bit confused.
 
-Results of the daily build of media_tree:
+Actually, I thought that the change to _fast was a very nice touch, btw.
 
-date:			Sun Nov  1 05:00:14 CET 2020
-media-tree git hash:	dfe3d19bd092cefb184c6e65b881602c793edd33
-media_build git hash:	b5733d0fdc887a215d63eba10c1789e836625975
-v4l-utils git hash:	225c6c2a17bec0e07c13ebb891e062ccef051180
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+> 
+> I'll remedy this in all the patches where this applies (because a
+> VM_IO | VM_PFNMAP can point at struct page backed memory, and that
+> exact use-case is what we want to stop with the unsafe_follow_pfn work
+> since it wreaks things like cma or security).
+> 
+> Aside: I do wonder whether the lack for that check isn't a problem.
+> VM_IO | VM_PFNMAP generally means driver managed, which means the
+> driver isn't going to consult the page pin count or anything like that
+> (at least not necessarily) when revoking or moving that memory, since
+> we're assuming it's totally under driver control. So if pup_fast can
+> get into such a mapping, we might have a problem.
+> -Daniel
+>
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: WARNINGS
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
-sparse: OK
-smatch: OK
+Yes. I don't know why that check is missing from the _fast path.
+Probably just an oversight, seeing as how it's in the slow path. Maybe
+the appropriate response here is to add a separate patch that adds the
+check.
 
-Logs weren't copied as they are too large (1448 kB)
+I wonder if I'm overlooking something, but it certainly seems correct to
+do that.
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+  thanks,
+-- 
+John Hubbard
+NVIDIA
