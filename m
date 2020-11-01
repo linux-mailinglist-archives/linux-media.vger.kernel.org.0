@@ -2,285 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 891822A2145
-	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 21:15:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C68012A21C8
+	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 22:17:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727023AbgKAUP3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 1 Nov 2020 15:15:29 -0500
-Received: from mx2.suse.de ([195.135.220.15]:57816 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726848AbgKAUP3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 1 Nov 2020 15:15:29 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 372E1AF57;
-        Sun,  1 Nov 2020 20:15:26 +0000 (UTC)
-From:   Davidlohr Bueso <dave@stgolabs.net>
-To:     mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        dave@stgolabs.net, Davidlohr Bueso <dbueso@suse.de>
-Subject: [PATCH] media/siano: kill pointless kmutex definitions
-Date:   Sun,  1 Nov 2020 11:54:24 -0800
-Message-Id: <20201101195424.21040-1-dave@stgolabs.net>
-X-Mailer: git-send-email 2.26.2
+        id S1727213AbgKAVNP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Nov 2020 16:13:15 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13250 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727004AbgKAVNP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Nov 2020 16:13:15 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5f9f24f50000>; Sun, 01 Nov 2020 13:13:25 -0800
+Received: from [10.2.57.191] (10.124.1.5) by HQMAIL107.nvidia.com
+ (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 1 Nov
+ 2020 21:13:08 +0000
+Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+CC:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        "Kyungmin Park" <kyungmin.park@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
+        Dan Williams <dan.j.williams@intel.com>
+References: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
+ <20201030100815.2269-6-daniel.vetter@ffwll.ch>
+ <446b2d5b-a1a1-a408-f884-f17a04b72c18@nvidia.com>
+ <CAKMK7uGDW2f0oOvwgryCHxQFHyh3Tsk6ENsMGmtZ-EnH57tMSA@mail.gmail.com>
+ <1f7cf690-35e2-c56f-6d3f-94400633edd2@nvidia.com>
+ <CAKMK7uFYDSqnNp_xpohzCEidw_iLufNSoX4v55sNZj-nwTckSg@mail.gmail.com>
+From:   John Hubbard <jhubbard@nvidia.com>
+Message-ID: <7f29a42a-c408-525d-90b7-ef3c12b5826c@nvidia.com>
+Date:   Sun, 1 Nov 2020 13:13:07 -0800
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAKMK7uFYDSqnNp_xpohzCEidw_iLufNSoX4v55sNZj-nwTckSg@mail.gmail.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.124.1.5]
+X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
+ HQMAIL107.nvidia.com (172.20.187.13)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1604265205; bh=GWXSjI75ejnpzeAzx+sY3ihD8k46wdcZjw6eIUm7yio=;
+        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Language:
+         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
+        b=TG0DDiiN9wLyRJWPF4CK0bEiJecwbW6ZaU1EN3hcK+iiLqOS9MI5dU3fkfekhcLSo
+         D8Uroub9UM3IxPuTpp/mdgWWmHBWeS5eox6FXTaFdsBWTBNRSgl5Cu5ZtmfE5KMOE7
+         myLAKYSS+2WWJhxLFAZxS4gweCWLuvWhrXyo/YhKjdz4lKGmESIZ+FE4lXpbabFgXi
+         pvFXgZ524Vh7ASupM1Te+PsZY8D0x5iGctVe+fU1Nuogn5PuHPjsxVHvqUnnw+jQJn
+         V6H5EGgGWnRfNNY+MZZaEeCvQaNhrKoJRvhfG/sSJ5h2RgpbPxIN1qVGpViLA1sekZ
+         JTKyA/FR7JJwQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Use the mutex api instead of renaming the calls for this
-driver.
+On 11/1/20 2:30 AM, Daniel Vetter wrote:
+> On Sun, Nov 1, 2020 at 6:22 AM John Hubbard <jhubbard@nvidia.com> wrote:
+>>
+>> On 10/31/20 7:45 AM, Daniel Vetter wrote:
+>>> On Sat, Oct 31, 2020 at 3:55 AM John Hubbard <jhubbard@nvidia.com> wrote:
+>>>> On 10/30/20 3:08 AM, Daniel Vetter wrote:
+>> ...
+>>>> By removing this check from this location, and changing from
+>>>> pin_user_pages_locked() to pin_user_pages_fast(), I *think* we end up
+>>>> losing the check entirely. Is that intended? If so it could use a comment
+>>>> somewhere to explain why.
+>>>
+>>> Yeah this wasn't intentional. I think I needed to drop the _locked
+>>> version to prep for FOLL_LONGTERM, and figured _fast is always better.
+>>> But I didn't realize that _fast doesn't have the vma checks, gup.c got
+>>> me a bit confused.
+>>
+>> Actually, I thought that the change to _fast was a very nice touch, btw.
+>>
+>>>
+>>> I'll remedy this in all the patches where this applies (because a
+>>> VM_IO | VM_PFNMAP can point at struct page backed memory, and that
+>>> exact use-case is what we want to stop with the unsafe_follow_pfn work
+>>> since it wreaks things like cma or security).
+>>>
+>>> Aside: I do wonder whether the lack for that check isn't a problem.
+>>> VM_IO | VM_PFNMAP generally means driver managed, which means the
+>>> driver isn't going to consult the page pin count or anything like that
+>>> (at least not necessarily) when revoking or moving that memory, since
+>>> we're assuming it's totally under driver control. So if pup_fast can
+>>> get into such a mapping, we might have a problem.
+>>> -Daniel
+>>>
+>>
+>> Yes. I don't know why that check is missing from the _fast path.
+>> Probably just an oversight, seeing as how it's in the slow path. Maybe
+>> the appropriate response here is to add a separate patch that adds the
+>> check.
+>>
+>> I wonder if I'm overlooking something, but it certainly seems correct to
+>> do that.
+> 
+> You'll need the mmap_sem to get at the vma to be able to do this
+> check. If you add that to _fast, you made it as fast as the slow one.
 
-Signed-off-by: Davidlohr Bueso <dbueso@suse.de>
----
-This was found while auditing mutex semantics in drivers.
+Arggh, yes of course. Strike that, please. :)
 
- drivers/media/common/siano/smscoreapi.c  | 42 ++++++++++++------------
- drivers/media/common/siano/smscoreapi.h  |  5 ---
- drivers/media/common/siano/smsdvb-main.c | 14 ++++----
- 3 files changed, 28 insertions(+), 33 deletions(-)
+> Plus there's _fast_only due to locking recurion issues in fast-paths
+> (I assume, I didn't check all the callers).
+> 
+> I'm just wondering whether we have a bug somewhere with device
+> drivers. For CMA regions we always check in try_grab_page, but for dax
 
-diff --git a/drivers/media/common/siano/smscoreapi.c b/drivers/media/common/siano/smscoreapi.c
-index c1511094fdc7..410cc3ac6f94 100644
---- a/drivers/media/common/siano/smscoreapi.c
-+++ b/drivers/media/common/siano/smscoreapi.c
-@@ -429,13 +429,13 @@ static struct smscore_registry_entry_t *smscore_find_registry(char *devpath)
- 	struct smscore_registry_entry_t *entry;
- 	struct list_head *next;
- 
--	kmutex_lock(&g_smscore_registrylock);
-+	mutex_lock(&g_smscore_registrylock);
- 	for (next = g_smscore_registry.next;
- 	     next != &g_smscore_registry;
- 	     next = next->next) {
- 		entry = (struct smscore_registry_entry_t *) next;
- 		if (!strncmp(entry->devpath, devpath, sizeof(entry->devpath))) {
--			kmutex_unlock(&g_smscore_registrylock);
-+			mutex_unlock(&g_smscore_registrylock);
- 			return entry;
- 		}
- 	}
-@@ -446,7 +446,7 @@ static struct smscore_registry_entry_t *smscore_find_registry(char *devpath)
- 		list_add(&entry->entry, &g_smscore_registry);
- 	} else
- 		pr_err("failed to create smscore_registry.\n");
--	kmutex_unlock(&g_smscore_registrylock);
-+	mutex_unlock(&g_smscore_registrylock);
- 	return entry;
- }
- 
-@@ -527,7 +527,7 @@ int smscore_register_hotplug(hotplug_t hotplug)
- 	struct list_head *next, *first;
- 	int rc = 0;
- 
--	kmutex_lock(&g_smscore_deviceslock);
-+	mutex_lock(&g_smscore_deviceslock);
- 	notifyee = kmalloc(sizeof(*notifyee), GFP_KERNEL);
- 	if (notifyee) {
- 		/* now notify callback about existing devices */
-@@ -548,7 +548,7 @@ int smscore_register_hotplug(hotplug_t hotplug)
- 	} else
- 		rc = -ENOMEM;
- 
--	kmutex_unlock(&g_smscore_deviceslock);
-+	mutex_unlock(&g_smscore_deviceslock);
- 
- 	return rc;
- }
-@@ -564,7 +564,7 @@ void smscore_unregister_hotplug(hotplug_t hotplug)
- {
- 	struct list_head *next, *first;
- 
--	kmutex_lock(&g_smscore_deviceslock);
-+	mutex_lock(&g_smscore_deviceslock);
- 
- 	first = &g_smscore_notifyees;
- 
-@@ -579,7 +579,7 @@ void smscore_unregister_hotplug(hotplug_t hotplug)
- 		}
- 	}
- 
--	kmutex_unlock(&g_smscore_deviceslock);
-+	mutex_unlock(&g_smscore_deviceslock);
- }
- EXPORT_SYMBOL_GPL(smscore_unregister_hotplug);
- 
-@@ -732,9 +732,9 @@ int smscore_register_device(struct smsdevice_params_t *params,
- 	smscore_registry_settype(dev->devpath, params->device_type);
- 
- 	/* add device to devices list */
--	kmutex_lock(&g_smscore_deviceslock);
-+	mutex_lock(&g_smscore_deviceslock);
- 	list_add(&dev->entry, &g_smscore_devices);
--	kmutex_unlock(&g_smscore_deviceslock);
-+	mutex_unlock(&g_smscore_deviceslock);
- 
- 	*coredev = dev;
- 
-@@ -890,14 +890,14 @@ int smscore_start_device(struct smscore_device_t *coredev)
- 		return rc;
- 	}
- 
--	kmutex_lock(&g_smscore_deviceslock);
-+	mutex_lock(&g_smscore_deviceslock);
- 
- 	rc = smscore_notify_callbacks(coredev, coredev->device, 1);
- 	smscore_init_ir(coredev);
- 
- 	pr_debug("device %p started, rc %d\n", coredev, rc);
- 
--	kmutex_unlock(&g_smscore_deviceslock);
-+	mutex_unlock(&g_smscore_deviceslock);
- 
- 	return rc;
- }
-@@ -1197,7 +1197,7 @@ void smscore_unregister_device(struct smscore_device_t *coredev)
- 	int num_buffers = 0;
- 	int retry = 0;
- 
--	kmutex_lock(&g_smscore_deviceslock);
-+	mutex_lock(&g_smscore_deviceslock);
- 
- 	/* Release input device (IR) resources */
- 	sms_ir_exit(coredev);
-@@ -1224,9 +1224,9 @@ void smscore_unregister_device(struct smscore_device_t *coredev)
- 
- 		pr_debug("waiting for %d buffer(s)\n",
- 			 coredev->num_buffers - num_buffers);
--		kmutex_unlock(&g_smscore_deviceslock);
-+		mutex_unlock(&g_smscore_deviceslock);
- 		msleep(100);
--		kmutex_lock(&g_smscore_deviceslock);
-+		mutex_lock(&g_smscore_deviceslock);
- 	}
- 
- 	pr_debug("freed %d buffers\n", num_buffers);
-@@ -1245,7 +1245,7 @@ void smscore_unregister_device(struct smscore_device_t *coredev)
- 	list_del(&coredev->entry);
- 	kfree(coredev);
- 
--	kmutex_unlock(&g_smscore_deviceslock);
-+	mutex_unlock(&g_smscore_deviceslock);
- 
- 	pr_debug("device %p destroyed\n", coredev);
- }
-@@ -2123,17 +2123,17 @@ static int __init smscore_module_init(void)
- {
- 	INIT_LIST_HEAD(&g_smscore_notifyees);
- 	INIT_LIST_HEAD(&g_smscore_devices);
--	kmutex_init(&g_smscore_deviceslock);
-+	mutex_init(&g_smscore_deviceslock);
- 
- 	INIT_LIST_HEAD(&g_smscore_registry);
--	kmutex_init(&g_smscore_registrylock);
-+	mutex_init(&g_smscore_registrylock);
- 
- 	return 0;
- }
- 
- static void __exit smscore_module_exit(void)
- {
--	kmutex_lock(&g_smscore_deviceslock);
-+	mutex_lock(&g_smscore_deviceslock);
- 	while (!list_empty(&g_smscore_notifyees)) {
- 		struct smscore_device_notifyee_t *notifyee =
- 			(struct smscore_device_notifyee_t *)
-@@ -2142,9 +2142,9 @@ static void __exit smscore_module_exit(void)
- 		list_del(&notifyee->entry);
- 		kfree(notifyee);
- 	}
--	kmutex_unlock(&g_smscore_deviceslock);
-+	mutex_unlock(&g_smscore_deviceslock);
- 
--	kmutex_lock(&g_smscore_registrylock);
-+	mutex_lock(&g_smscore_registrylock);
- 	while (!list_empty(&g_smscore_registry)) {
- 		struct smscore_registry_entry_t *entry =
- 			(struct smscore_registry_entry_t *)
-@@ -2153,7 +2153,7 @@ static void __exit smscore_module_exit(void)
- 		list_del(&entry->entry);
- 		kfree(entry);
- 	}
--	kmutex_unlock(&g_smscore_registrylock);
-+	mutex_unlock(&g_smscore_registrylock);
- 
- 	pr_debug("\n");
- }
-diff --git a/drivers/media/common/siano/smscoreapi.h b/drivers/media/common/siano/smscoreapi.h
-index b3b793b5caf3..4a6b9f4c44ac 100644
---- a/drivers/media/common/siano/smscoreapi.h
-+++ b/drivers/media/common/siano/smscoreapi.h
-@@ -28,11 +28,6 @@ Copyright (C) 2006-2008, Uri Shkolnik, Anatoly Greenblat
- 
- #include "smsir.h"
- 
--#define kmutex_init(_p_) mutex_init(_p_)
--#define kmutex_lock(_p_) mutex_lock(_p_)
--#define kmutex_trylock(_p_) mutex_trylock(_p_)
--#define kmutex_unlock(_p_) mutex_unlock(_p_)
--
- /*
-  * Define the firmware names used by the driver.
-  * Those should match what's used at smscoreapi.c and sms-cards.c
-diff --git a/drivers/media/common/siano/smsdvb-main.c b/drivers/media/common/siano/smsdvb-main.c
-index 88f90dfd368b..633902036e30 100644
---- a/drivers/media/common/siano/smsdvb-main.c
-+++ b/drivers/media/common/siano/smsdvb-main.c
-@@ -630,11 +630,11 @@ static void smsdvb_unregister_client(struct smsdvb_client_t *client)
- 
- static void smsdvb_onremove(void *context)
- {
--	kmutex_lock(&g_smsdvb_clientslock);
-+	mutex_lock(&g_smsdvb_clientslock);
- 
- 	smsdvb_unregister_client((struct smsdvb_client_t *) context);
- 
--	kmutex_unlock(&g_smsdvb_clientslock);
-+	mutex_unlock(&g_smsdvb_clientslock);
- }
- 
- static int smsdvb_start_feed(struct dvb_demux_feed *feed)
-@@ -1151,11 +1151,11 @@ static int smsdvb_hotplug(struct smscore_device_t *coredev,
- 	init_completion(&client->tune_done);
- 	init_completion(&client->stats_done);
- 
--	kmutex_lock(&g_smsdvb_clientslock);
-+	mutex_lock(&g_smsdvb_clientslock);
- 
- 	list_add(&client->entry, &g_smsdvb_clients);
- 
--	kmutex_unlock(&g_smsdvb_clientslock);
-+	mutex_unlock(&g_smsdvb_clientslock);
- 
- 	client->event_fe_state = -1;
- 	client->event_unc_state = -1;
-@@ -1198,7 +1198,7 @@ static int __init smsdvb_module_init(void)
- 	int rc;
- 
- 	INIT_LIST_HEAD(&g_smsdvb_clients);
--	kmutex_init(&g_smsdvb_clientslock);
-+	mutex_init(&g_smsdvb_clientslock);
- 
- 	smsdvb_debugfs_register();
- 
-@@ -1213,14 +1213,14 @@ static void __exit smsdvb_module_exit(void)
- {
- 	smscore_unregister_hotplug(smsdvb_hotplug);
- 
--	kmutex_lock(&g_smsdvb_clientslock);
-+	mutex_lock(&g_smsdvb_clientslock);
- 
- 	while (!list_empty(&g_smsdvb_clients))
- 		smsdvb_unregister_client((struct smsdvb_client_t *)g_smsdvb_clients.next);
- 
- 	smsdvb_debugfs_unregister();
- 
--	kmutex_unlock(&g_smsdvb_clientslock);
-+	mutex_unlock(&g_smsdvb_clientslock);
- }
- 
- module_init(smsdvb_module_init);
+OK, so here you're talking about a different bug than the VM_IO | VM_PFNMAP
+pages, I think. This is about the "FOLL_LONGTERM + CMA + gup/pup _fast"
+combination that is not allowed, right?
+
+For that: try_grab_page() doesn't check anything, but try_grab_compound_head()
+does, but only for pup_fast, not gup_fast. That was added by commit
+df3a0a21b698d ("mm/gup: fix omission of check on FOLL_LONGTERM in gup fast
+path") in April.
+
+I recall that the patch was just plugging a very specific hole, as opposed
+to locking down the API against mistakes or confused callers. And it does
+seem that there are some holes.
+
+> I'm not seeing where the checks in the _fast fastpaths are, and that
+> all still leaves random device driver mappings behind which aren't
+> backed by CMA but still point to something with a struct page behind
+> it. I'm probably just missing something, but no idea what.
+> -Daniel
+> 
+
+Certainly we've established that we can't check VMA flags by that time,
+so I'm not sure that there is much we can check by the time we get to
+gup/pup _fast. Seems like the device drivers have to avoid calling _fast
+with pages that live in VM_IO | VM_PFNMAP, by design, right? Or maybe
+you're talking about CMA checks only?
+
+
+thanks,
 -- 
-2.26.2
-
+John Hubbard
+NVIDIA
