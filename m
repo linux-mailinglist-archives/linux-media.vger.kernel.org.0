@@ -2,165 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6465D2A1D75
-	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 11:55:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C7C72A1D81
+	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 12:04:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726408AbgKAKzT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 1 Nov 2020 05:55:19 -0500
-Received: from gloria.sntech.de ([185.11.138.130]:46566 "EHLO gloria.sntech.de"
+        id S1726343AbgKALEy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Nov 2020 06:04:54 -0500
+Received: from gofer.mess.org ([88.97.38.141]:53451 "EHLO gofer.mess.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726145AbgKAKzT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 1 Nov 2020 05:55:19 -0500
-Received: from p57b773f8.dip0.t-ipconnect.de ([87.183.115.248] helo=phil.localnet)
-        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <heiko@sntech.de>)
-        id 1kZB13-00032r-5V; Sun, 01 Nov 2020 11:55:17 +0100
-From:   Heiko Stuebner <heiko@sntech.de>
-To:     linux-media@vger.kernel.org,
-        Helen Koike <helen.koike@collabora.com>
-Cc:     devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org,
-        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
-        robh+dt@kernel.org, kernel@collabora.com, hverkuil-cisco@xs4all.nl,
-        dafna.hirschfeld@collabora.com, mark.rutland@arm.com,
-        karthik.poduval@gmail.com, eddie.cai.linux@gmail.com,
-        jbx6244@gmail.com, zhengsq@rock-chips.com, robin.murphy@arm.com
-Subject: Re: [PATCH v6 9/9] arm64: dts: rockchip: add isp and sensors for Scarlet
-Date:   Sun, 01 Nov 2020 11:55:16 +0100
-Message-ID: <14722083.QWuEjnDerj@phil>
-In-Reply-To: <20201020193850.1460644-10-helen.koike@collabora.com>
-References: <20201020193850.1460644-1-helen.koike@collabora.com> <20201020193850.1460644-10-helen.koike@collabora.com>
+        id S1726145AbgKALEx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 1 Nov 2020 06:04:53 -0500
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id 45DDAC63A4; Sun,  1 Nov 2020 11:04:52 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1604228692; bh=D5/AIwYi2iRE6p1FOb4Scp2Gxxq7ZdnLg7RG4L99rwE=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=pLYxql5qT1Gci2G5MNKD4CbGwCHMjNQt05a9JJEIC6ZlEwfu4vaZVKCNacn9lP3/G
+         M7VIQUZpf9maDnhc607phaOR1ISzATOOkKozNc6e9VM01TgtQKOFtW0nL8RImkOxgA
+         YOFUyHk2GNCt796itmnL2OU3/ZncPdUj4azDeyjerVwZAab841Gc7uDFYMSyKpqS+7
+         NElvHDb97M8O9w+LrCZtyEvYuc0Gp6bOinI1Hsgue9Rt6sDmELe5v5C35WuJ/yqrQD
+         Mr6o8w3SfYB8gkPEBqE0lhitXM855iaUD7X8+SGdgrJ8nr0vTsh18FrpA+ZSafbfaw
+         i+eWIoKwSkoKA==
+Date:   Sun, 1 Nov 2020 11:04:52 +0000
+From:   Sean Young <sean@mess.org>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] media: rc: validate that "rc_proto" is reasonable
+Message-ID: <20201101110452.GA8281@gofer.mess.org>
+References: <20201030115230.GF3251003@mwanda>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7Bit
-Content-Type: text/plain; charset="us-ascii"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201030115230.GF3251003@mwanda>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Am Dienstag, 20. Oktober 2020, 21:38:50 CET schrieb Helen Koike:
-> From: Eddie Cai <eddie.cai.linux@gmail.com>
+Hi Dan,
+
+On Fri, Oct 30, 2020 at 02:52:30PM +0300, Dan Carpenter wrote:
+> Smatch complains that "rc_proto" comes from the user and it can result
+> in shift wrapping in ir_raw_encode_scancode()
 > 
-> Enable ISP and camera sensor ov2685 and ov5695 for Scarlet Chromebook
+>     drivers/media/rc/rc-ir-raw.c:526 ir_raw_encode_scancode()
+>     error: undefined (user controlled) shift '1 << protocol'
 > 
-> Verified with:
->     make ARCH=arm64 dtbs_check
+> This is true, but I reviewed the surrounding code and it appears
+> harmless.  Anyway, let's verify that "rc_proto" is valid as a kernel
+> hardenning measure.
+
+It would mean that suddenly an invalid rc proto could become valid; also
+like you say, this is a good hardening measure.
+
+Good catch, thank you.
+
+Regards,
+
+Sean
+
 > 
-> Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
-> Signed-off-by: Eddie Cai <eddie.cai.linux@gmail.com>
-> Signed-off-by: Tomasz Figa <tfiga@chromium.org>
-> Signed-off-by: Helen Koike <helen.koike@collabora.com>
-> Reviewed-by: Tomasz Figa <tfiga@chromium.org>
-
-
-looks good, and I'd like to apply this one after the drivers/media-patches
-of this series got applied.
-
-
-Thanks
-Heiko
-
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 > ---
->  .../boot/dts/rockchip/rk3399-gru-scarlet.dtsi | 74 +++++++++++++++++++
->  1 file changed, 74 insertions(+)
+>  drivers/media/rc/lirc_dev.c | 3 ++-
+>  include/uapi/linux/lirc.h   | 1 +
+>  2 files changed, 3 insertions(+), 1 deletion(-)
 > 
-> diff --git a/arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet.dtsi b/arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet.dtsi
-> index 60cd1c18cd4e0..beee5fbb34437 100644
-> --- a/arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet.dtsi
-> +++ b/arch/arm64/boot/dts/rockchip/rk3399-gru-scarlet.dtsi
-> @@ -296,6 +296,52 @@ camera: &i2c7 {
->  
->  	/* 24M mclk is shared between world and user cameras */
->  	pinctrl-0 = <&i2c7_xfer &test_clkout1>;
-> +
-> +	/* Rear-facing camera */
-> +	wcam: camera@36 {
-> +		compatible = "ovti,ov5695";
-> +		reg = <0x36>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&wcam_rst>;
-> +
-> +		clocks = <&cru SCLK_TESTCLKOUT1>;
-> +		clock-names = "xvclk";
-> +
-> +		avdd-supply = <&pp2800_cam>;
-> +		dvdd-supply = <&pp1250_cam>;
-> +		dovdd-supply = <&pp1800_s0>;
-> +		reset-gpios = <&gpio2 5 GPIO_ACTIVE_LOW>;
-> +
-> +		port {
-> +			wcam_out: endpoint {
-> +				remote-endpoint = <&mipi_in_wcam>;
-> +				data-lanes = <1 2>;
-> +			};
-> +		};
-> +	};
-> +
-> +	/* Front-facing camera */
-> +	ucam: camera@3c {
-> +		compatible = "ovti,ov2685";
-> +		reg = <0x3c>;
-> +		pinctrl-names = "default";
-> +		pinctrl-0 = <&ucam_rst>;
-> +
-> +		clocks = <&cru SCLK_TESTCLKOUT1>;
-> +		clock-names = "xvclk";
-> +
-> +		avdd-supply = <&pp2800_cam>;
-> +		dovdd-supply = <&pp1800_s0>;
-> +		dvdd-supply = <&pp1800_s0>;
-> +		reset-gpios = <&gpio2 3 GPIO_ACTIVE_LOW>;
-> +
-> +		port {
-> +			ucam_out: endpoint {
-> +				remote-endpoint = <&mipi_in_ucam>;
-> +				data-lanes = <1>;
-> +			};
-> +		};
-> +	};
+> diff --git a/include/uapi/linux/lirc.h b/include/uapi/linux/lirc.h
+> index f99d9dcae667..c1eb960adde3 100644
+> --- a/include/uapi/linux/lirc.h
+> +++ b/include/uapi/linux/lirc.h
+> @@ -226,6 +226,7 @@ enum rc_proto {
+>  	RC_PROTO_RCMM24		= 25,
+>  	RC_PROTO_RCMM32		= 26,
+>  	RC_PROTO_XBOX_DVD	= 27,
+> +	RC_PROTO_MAX		= RC_PROTO_XBOX_DVD,
 >  };
 >  
->  &cdn_dp {
-> @@ -353,10 +399,38 @@ &io_domains {
->  	gpio1830-supply = <&pp1800_s0>;		/* APIO4_VDD;  4c 4d */
->  };
+>  #endif
+> diff --git a/drivers/media/rc/lirc_dev.c b/drivers/media/rc/lirc_dev.c
+> index 220363b9a868..116daf90c858 100644
+> --- a/drivers/media/rc/lirc_dev.c
+> +++ b/drivers/media/rc/lirc_dev.c
+> @@ -263,7 +263,8 @@ static ssize_t lirc_transmit(struct file *file, const char __user *buf,
+>  			goto out_unlock;
+>  		}
 >  
-> +&isp0 {
-> +	status = "okay";
-> +
-> +	ports {
-> +		port@0 {
-> +			mipi_in_wcam: endpoint@0 {
-> +				reg = <0>;
-> +				remote-endpoint = <&wcam_out>;
-> +				data-lanes = <1 2>;
-> +			};
-> +
-> +			mipi_in_ucam: endpoint@1 {
-> +				reg = <1>;
-> +				remote-endpoint = <&ucam_out>;
-> +				data-lanes = <1>;
-> +			};
-> +		};
-> +	};
-> +};
-> +
-> +&isp0_mmu {
-> +	status = "okay";
-> +};
-> +
->  &max98357a {
->  	sdmode-gpios = <&gpio0 2 GPIO_ACTIVE_HIGH>;
->  };
->  
-> +&mipi_dphy_rx0 {
-> +	status = "okay";
-> +};
-> +
->  &mipi_dsi {
->  	status = "okay";
->  	clock-master;
-> 
-
-
-
-
+> -		if (scan.flags || scan.keycode || scan.timestamp) {
+> +		if (scan.flags || scan.keycode || scan.timestamp ||
+> +		    scan.rc_proto > RC_PROTO_MAX) {
+>  			ret = -EINVAL;
+>  			goto out_unlock;
+>  		}
+> -- 
+> 2.28.0
