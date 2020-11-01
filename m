@@ -2,155 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C68012A21C8
-	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 22:17:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B44E2A21F4
+	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 22:51:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727213AbgKAVNP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 1 Nov 2020 16:13:15 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:13250 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727004AbgKAVNP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Nov 2020 16:13:15 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5f9f24f50000>; Sun, 01 Nov 2020 13:13:25 -0800
-Received: from [10.2.57.191] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Sun, 1 Nov
- 2020 21:13:08 +0000
-Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-CC:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Pawel Osciak <pawel@osciak.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "Kyungmin Park" <kyungmin.park@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        "Mauro Carvalho Chehab" <mchehab@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>
-References: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
- <20201030100815.2269-6-daniel.vetter@ffwll.ch>
- <446b2d5b-a1a1-a408-f884-f17a04b72c18@nvidia.com>
- <CAKMK7uGDW2f0oOvwgryCHxQFHyh3Tsk6ENsMGmtZ-EnH57tMSA@mail.gmail.com>
- <1f7cf690-35e2-c56f-6d3f-94400633edd2@nvidia.com>
- <CAKMK7uFYDSqnNp_xpohzCEidw_iLufNSoX4v55sNZj-nwTckSg@mail.gmail.com>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <7f29a42a-c408-525d-90b7-ef3c12b5826c@nvidia.com>
-Date:   Sun, 1 Nov 2020 13:13:07 -0800
+        id S1727284AbgKAVvE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Nov 2020 16:51:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36248 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727197AbgKAVvE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Nov 2020 16:51:04 -0500
+Received: from mail-ej1-x635.google.com (mail-ej1-x635.google.com [IPv6:2a00:1450:4864:20::635])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1998AC0617A6
+        for <linux-media@vger.kernel.org>; Sun,  1 Nov 2020 13:51:04 -0800 (PST)
+Received: by mail-ej1-x635.google.com with SMTP id k3so16123568ejj.10
+        for <linux-media@vger.kernel.org>; Sun, 01 Nov 2020 13:51:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=to:from:subject:message-id:date:user-agent:mime-version
+         :content-transfer-encoding:content-language;
+        bh=xdCvY3rAYWEBjRWUr94YsfH9blT0ELUSmtW1Ibq9Ggk=;
+        b=ISFHLY1DsfCsYmCGqC/1MMYpZPA6Lyd+LkG9YFq07UbIMW0IujUlrOuNyME3MjlE5B
+         lTC1Zlj0SCTnJnwW/J3PlvQrdsVHlLHzQh7ufcv3BnwcRA27KEyO4WYP961BNftjHvNk
+         ho1cESBtT0QkOqoYBYrXfVPX6J9sfnN66UnjWlL8/32omR/erOyWE/X4Uhvdiqc0oobr
+         UbvrbsOSKns6v51D5Lz0QBJcmPSLEEZZJAC968jcPQdZZvC42DTFDDAivEslhR3zYkOa
+         kfPEiOrrvULz1BcbKAQmKUTagcUAsktOnDwxcj15Lk7XkglfhHVaQ0wD/p/+e8qkgiHW
+         HISQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:to:from:subject:message-id:date:user-agent
+         :mime-version:content-transfer-encoding:content-language;
+        bh=xdCvY3rAYWEBjRWUr94YsfH9blT0ELUSmtW1Ibq9Ggk=;
+        b=ZqUWd1yeY9NyvmInmA/3urZ120dFTgSVoJWodaR4poCMmAQNtTJM5hyqeEGINwa5CE
+         0UgOs8y/TIcoNCw6ijbv8ofLAiThXp0+FsysU2jMYHNmTAzJ5Dqf8i98wpgvGFA6fsjf
+         xnEK9DvjzcfDIdzoTOyb0epQpam7VkA4zTEL7MSjaHBxMfvaGiivHaB0VKfnB5L4BobM
+         AAxL29HM0mAPS2Q0EUNb6si2XVQpwaa5FdJUX7yvOb1OutJyECyFIJ/id/s4jWOjiPXZ
+         UQ5YUePQsB1FeNwxHh029aC+BMXFSTtFJDvo5b277dWEowKPps1eWZKkmva4ZOaOSodc
+         y0gw==
+X-Gm-Message-State: AOAM531qm/q5oyfgfEvTB6lzjW9V9CRIjRrpZeOefkt1iuNDc157HTn0
+        m3MjMHsBN+Y6TAwkxgF6tK7u9AEY11I=
+X-Google-Smtp-Source: ABdhPJwq9Z1vMujbkxhU2aZPx2yisoxz+73EfjmD+PsTtqGfu/sghbdR/3BFi9mkk1h983J9uT5X8A==
+X-Received: by 2002:a17:906:1a57:: with SMTP id j23mr12975193ejf.291.1604267462589;
+        Sun, 01 Nov 2020 13:51:02 -0800 (PST)
+Received: from [192.168.0.100] (dynamic-077-010-176-052.77.10.pool.telefonica.de. [77.10.176.52])
+        by smtp.gmail.com with ESMTPSA id s15sm5378370edj.75.2020.11.01.13.51.01
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 01 Nov 2020 13:51:01 -0800 (PST)
+To:     linux-media@vger.kernel.org
+From:   "filip.mutterer@gmail.com" <filip.mutterer@gmail.com>
+Subject: Linux Mint 20
+Message-ID: <0c9ca3ce-f08c-984e-5be3-f748720de009@gmail.com>
+Date:   Sun, 1 Nov 2020 22:51:01 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAKMK7uFYDSqnNp_xpohzCEidw_iLufNSoX4v55sNZj-nwTckSg@mail.gmail.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
+Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1604265205; bh=GWXSjI75ejnpzeAzx+sY3ihD8k46wdcZjw6eIUm7yio=;
-        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Language:
-         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-        b=TG0DDiiN9wLyRJWPF4CK0bEiJecwbW6ZaU1EN3hcK+iiLqOS9MI5dU3fkfekhcLSo
-         D8Uroub9UM3IxPuTpp/mdgWWmHBWeS5eox6FXTaFdsBWTBNRSgl5Cu5ZtmfE5KMOE7
-         myLAKYSS+2WWJhxLFAZxS4gweCWLuvWhrXyo/YhKjdz4lKGmESIZ+FE4lXpbabFgXi
-         pvFXgZ524Vh7ASupM1Te+PsZY8D0x5iGctVe+fU1Nuogn5PuHPjsxVHvqUnnw+jQJn
-         V6H5EGgGWnRfNNY+MZZaEeCvQaNhrKoJRvhfG/sSJ5h2RgpbPxIN1qVGpViLA1sekZ
-         JTKyA/FR7JJwQ==
+Content-Language: de-DE
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/1/20 2:30 AM, Daniel Vetter wrote:
-> On Sun, Nov 1, 2020 at 6:22 AM John Hubbard <jhubbard@nvidia.com> wrote:
->>
->> On 10/31/20 7:45 AM, Daniel Vetter wrote:
->>> On Sat, Oct 31, 2020 at 3:55 AM John Hubbard <jhubbard@nvidia.com> wrote:
->>>> On 10/30/20 3:08 AM, Daniel Vetter wrote:
->> ...
->>>> By removing this check from this location, and changing from
->>>> pin_user_pages_locked() to pin_user_pages_fast(), I *think* we end up
->>>> losing the check entirely. Is that intended? If so it could use a comment
->>>> somewhere to explain why.
->>>
->>> Yeah this wasn't intentional. I think I needed to drop the _locked
->>> version to prep for FOLL_LONGTERM, and figured _fast is always better.
->>> But I didn't realize that _fast doesn't have the vma checks, gup.c got
->>> me a bit confused.
->>
->> Actually, I thought that the change to _fast was a very nice touch, btw.
->>
->>>
->>> I'll remedy this in all the patches where this applies (because a
->>> VM_IO | VM_PFNMAP can point at struct page backed memory, and that
->>> exact use-case is what we want to stop with the unsafe_follow_pfn work
->>> since it wreaks things like cma or security).
->>>
->>> Aside: I do wonder whether the lack for that check isn't a problem.
->>> VM_IO | VM_PFNMAP generally means driver managed, which means the
->>> driver isn't going to consult the page pin count or anything like that
->>> (at least not necessarily) when revoking or moving that memory, since
->>> we're assuming it's totally under driver control. So if pup_fast can
->>> get into such a mapping, we might have a problem.
->>> -Daniel
->>>
->>
->> Yes. I don't know why that check is missing from the _fast path.
->> Probably just an oversight, seeing as how it's in the slow path. Maybe
->> the appropriate response here is to add a separate patch that adds the
->> check.
->>
->> I wonder if I'm overlooking something, but it certainly seems correct to
->> do that.
-> 
-> You'll need the mmap_sem to get at the vma to be able to do this
-> check. If you add that to _fast, you made it as fast as the slow one.
+Hi there,
 
-Arggh, yes of course. Strike that, please. :)
+I had the following error, which was easy to solve on Linux Mint 20:
 
-> Plus there's _fast_only due to locking recurion issues in fast-paths
-> (I assume, I didn't check all the callers).
-> 
-> I'm just wondering whether we have a bug somewhere with device
-> drivers. For CMA regions we always check in try_grab_page, but for dax
+Checking if the needed tools for Linux Mint 20 are available
+ERROR: please install "Proc::ProcessTable", otherwise, build won't work.
+I don't know distro Linux Mint 20. So, I can't provide you a hint with 
+the package names.
+Be welcome to contribute with a patch for media-build, by submitting a 
+distro-specific hint
+to linux-media@vger.kernel.org
+Build can't procceed as 1 dependency is missing at ./build line 276.
 
-OK, so here you're talking about a different bug than the VM_IO | VM_PFNMAP
-pages, I think. This is about the "FOLL_LONGTERM + CMA + gup/pup _fast"
-combination that is not allowed, right?
+Here is what I installed to have it compile:
 
-For that: try_grab_page() doesn't check anything, but try_grab_compound_head()
-does, but only for pup_fast, not gup_fast. That was added by commit
-df3a0a21b698d ("mm/gup: fix omission of check on FOLL_LONGTERM in gup fast
-path") in April.
+sudo cpan Proc::ProcessTable
 
-I recall that the patch was just plugging a very specific hole, as opposed
-to locking down the API against mistakes or confused callers. And it does
-seem that there are some holes.
+Greetings
 
-> I'm not seeing where the checks in the _fast fastpaths are, and that
-> all still leaves random device driver mappings behind which aren't
-> backed by CMA but still point to something with a struct page behind
-> it. I'm probably just missing something, but no idea what.
-> -Daniel
-> 
+filip
 
-Certainly we've established that we can't check VMA flags by that time,
-so I'm not sure that there is much we can check by the time we get to
-gup/pup _fast. Seems like the device drivers have to avoid calling _fast
-with pages that live in VM_IO | VM_PFNMAP, by design, right? Or maybe
-you're talking about CMA checks only?
-
-
-thanks,
--- 
-John Hubbard
-NVIDIA
