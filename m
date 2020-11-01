@@ -2,131 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DA3C2A1D4A
-	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 11:31:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1086A2A1D72
+	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 11:54:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726407AbgKAKbD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 1 Nov 2020 05:31:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45278 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726329AbgKAKbC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 1 Nov 2020 05:31:02 -0500
-Received: from mail-ot1-x341.google.com (mail-ot1-x341.google.com [IPv6:2607:f8b0:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 327A0C061A04
-        for <linux-media@vger.kernel.org>; Sun,  1 Nov 2020 02:31:01 -0800 (PST)
-Received: by mail-ot1-x341.google.com with SMTP id h62so9827270oth.9
-        for <linux-media@vger.kernel.org>; Sun, 01 Nov 2020 02:31:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=cMohUdqA3mHu1aHkJyF+q3c+LPomnH+bJbyOS5Pjj34=;
-        b=PXdr311jw4o1TK1cA/6mrlvkDVtMBlyy1XYbMpIt3vJC7ClXj7DZJYo+vKllfO49H/
-         YgcjzcGc1VpCnfRMFbloI4quCQ5ndPF+idmxEJoWrUJWkpgS76TUc1DHlMSxRDqofJvd
-         l2sKUL2WW0wKA2NYOf2SZx1Y6sFEl/LXBFDeg=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=cMohUdqA3mHu1aHkJyF+q3c+LPomnH+bJbyOS5Pjj34=;
-        b=Qr+m89QDLojOnvDKyoW/bAWYwSMaYqMEujNubJMmGPVNm8vslZ0ZAJs+p+/whgjiwl
-         FGEBRNrhpLfG/ws74cdpUWEhFzUkIy4qXB+91JpK+oPDUWiCHvtMurevgfqLGb6yiHzz
-         M8WVVxyRH07gKv60A4xJVnVT/u0t7f22l+5Smt4xpgAmZKxD96vQxKbzjqOvMZJW5lRl
-         OqDn7g93Dk6NDw5AT8pXkF7yVNwBcY1KDPO9sb80TFwO/so/0R/n9vD6pKpYMc4+sSpD
-         JLBegCtxt1b0ccN5Eah107aS8qZ2Ieet/s7/mJjDnkmsJhWVPFgwA/1wexfbbTo5N3BY
-         LWQw==
-X-Gm-Message-State: AOAM533MNM5RYZU4j3IfPRhtBX63YTxVpRTmRj84dt7kckMK7/MLu+xt
-        UgPAOCd0hvFCyc1C5/QOOral5aUJxQXO9dAnOMCTYQ==
-X-Google-Smtp-Source: ABdhPJxxfl/j7Y56O7SvvjDInbgd1Huz0SnDjNzTDNqX3oHxJ8qJKEvsr7nAV6GfCrUUP0r8bqY++IYBOL0aDpBKvjo=
-X-Received: by 2002:a05:6830:1647:: with SMTP id h7mr8739299otr.281.1604226660644;
- Sun, 01 Nov 2020 02:31:00 -0800 (PST)
+        id S1726317AbgKAKyo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Nov 2020 05:54:44 -0500
+Received: from gloria.sntech.de ([185.11.138.130]:46494 "EHLO gloria.sntech.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726145AbgKAKyn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 1 Nov 2020 05:54:43 -0500
+Received: from p57b773f8.dip0.t-ipconnect.de ([87.183.115.248] helo=phil.localnet)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1kZB0P-00032L-1l; Sun, 01 Nov 2020 11:54:37 +0100
+From:   Heiko Stuebner <heiko@sntech.de>
+To:     linux-media@vger.kernel.org,
+        Helen Koike <helen.koike@collabora.com>
+Cc:     devicetree@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        robh+dt@kernel.org, kernel@collabora.com, hverkuil-cisco@xs4all.nl,
+        dafna.hirschfeld@collabora.com, mark.rutland@arm.com,
+        karthik.poduval@gmail.com, eddie.cai.linux@gmail.com,
+        jbx6244@gmail.com, zhengsq@rock-chips.com, robin.murphy@arm.com
+Subject: Re: [PATCH v6 8/9] arm64: dts: rockchip: add isp0 node for rk3399
+Date:   Sun, 01 Nov 2020 11:54:36 +0100
+Message-ID: <25468331.GQUMHoxoIT@phil>
+In-Reply-To: <20201020193850.1460644-9-helen.koike@collabora.com>
+References: <20201020193850.1460644-1-helen.koike@collabora.com> <20201020193850.1460644-9-helen.koike@collabora.com>
 MIME-Version: 1.0
-References: <20201030100815.2269-1-daniel.vetter@ffwll.ch> <20201030100815.2269-6-daniel.vetter@ffwll.ch>
- <446b2d5b-a1a1-a408-f884-f17a04b72c18@nvidia.com> <CAKMK7uGDW2f0oOvwgryCHxQFHyh3Tsk6ENsMGmtZ-EnH57tMSA@mail.gmail.com>
- <1f7cf690-35e2-c56f-6d3f-94400633edd2@nvidia.com>
-In-Reply-To: <1f7cf690-35e2-c56f-6d3f-94400633edd2@nvidia.com>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Sun, 1 Nov 2020 11:30:49 +0100
-Message-ID: <CAKMK7uFYDSqnNp_xpohzCEidw_iLufNSoX4v55sNZj-nwTckSg@mail.gmail.com>
-Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Pawel Osciak <pawel@osciak.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 7Bit
+Content-Type: text/plain; charset="us-ascii"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Nov 1, 2020 at 6:22 AM John Hubbard <jhubbard@nvidia.com> wrote:
->
-> On 10/31/20 7:45 AM, Daniel Vetter wrote:
-> > On Sat, Oct 31, 2020 at 3:55 AM John Hubbard <jhubbard@nvidia.com> wrote:
-> >> On 10/30/20 3:08 AM, Daniel Vetter wrote:
-> ...
-> >> By removing this check from this location, and changing from
-> >> pin_user_pages_locked() to pin_user_pages_fast(), I *think* we end up
-> >> losing the check entirely. Is that intended? If so it could use a comment
-> >> somewhere to explain why.
-> >
-> > Yeah this wasn't intentional. I think I needed to drop the _locked
-> > version to prep for FOLL_LONGTERM, and figured _fast is always better.
-> > But I didn't realize that _fast doesn't have the vma checks, gup.c got
-> > me a bit confused.
->
-> Actually, I thought that the change to _fast was a very nice touch, btw.
->
-> >
-> > I'll remedy this in all the patches where this applies (because a
-> > VM_IO | VM_PFNMAP can point at struct page backed memory, and that
-> > exact use-case is what we want to stop with the unsafe_follow_pfn work
-> > since it wreaks things like cma or security).
-> >
-> > Aside: I do wonder whether the lack for that check isn't a problem.
-> > VM_IO | VM_PFNMAP generally means driver managed, which means the
-> > driver isn't going to consult the page pin count or anything like that
-> > (at least not necessarily) when revoking or moving that memory, since
-> > we're assuming it's totally under driver control. So if pup_fast can
-> > get into such a mapping, we might have a problem.
-> > -Daniel
-> >
->
-> Yes. I don't know why that check is missing from the _fast path.
-> Probably just an oversight, seeing as how it's in the slow path. Maybe
-> the appropriate response here is to add a separate patch that adds the
-> check.
->
-> I wonder if I'm overlooking something, but it certainly seems correct to
-> do that.
+Am Dienstag, 20. Oktober 2020, 21:38:49 CET schrieb Helen Koike:
+> From: Shunqian Zheng <zhengsq@rock-chips.com>
+> 
+> RK3399 has two ISPs, but only isp0 was tested.
+> Add isp0 node in rk3399 dtsi
+> 
+> Verified with:
+> make ARCH=arm64 dtbs_check DT_SCHEMA_FILES=Documentation/devicetree/bindings/media/rockchip-isp1.yaml
+> 
+> Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
+> Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
 
-You'll need the mmap_sem to get at the vma to be able to do this
-check. If you add that to _fast, you made it as fast as the slow one.
-Plus there's _fast_only due to locking recurion issues in fast-paths
-(I assume, I didn't check all the callers).
+looks good, and I'd like to apply this one after the drivers/media-patches
+of this series got applied.
 
-I'm just wondering whether we have a bug somewhere with device
-drivers. For CMA regions we always check in try_grab_page, but for dax
-I'm not seeing where the checks in the _fast fastpaths are, and that
-all still leaves random device driver mappings behind which aren't
-backed by CMA but still point to something with a struct page behind
-it. I'm probably just missing something, but no idea what.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+
+Thanks
+Heiko
+
+
+
+> 
+> ---
+> 
+> Changes in v6:
+> - Add status = "disabled" in the isp0 node
+> ---
+>  arch/arm64/boot/dts/rockchip/rk3399.dtsi | 26 ++++++++++++++++++++++++
+>  1 file changed, 26 insertions(+)
+> 
+> diff --git a/arch/arm64/boot/dts/rockchip/rk3399.dtsi b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
+> index ada724b12f014..af5f8e2c5e64d 100644
+> --- a/arch/arm64/boot/dts/rockchip/rk3399.dtsi
+> +++ b/arch/arm64/boot/dts/rockchip/rk3399.dtsi
+> @@ -1723,6 +1723,32 @@ vopb_mmu: iommu@ff903f00 {
+>  		status = "disabled";
+>  	};
+>  
+> +	isp0: isp0@ff910000 {
+> +		compatible = "rockchip,rk3399-cif-isp";
+> +		reg = <0x0 0xff910000 0x0 0x4000>;
+> +		interrupts = <GIC_SPI 43 IRQ_TYPE_LEVEL_HIGH 0>;
+> +		clocks = <&cru SCLK_ISP0>,
+> +			 <&cru ACLK_ISP0_WRAPPER>,
+> +			 <&cru HCLK_ISP0_WRAPPER>;
+> +		clock-names = "isp", "aclk", "hclk";
+> +		iommus = <&isp0_mmu>;
+> +		phys = <&mipi_dphy_rx0>;
+> +		phy-names = "dphy";
+> +		power-domains = <&power RK3399_PD_ISP0>;
+> +		status = "disabled";
+> +
+> +		ports {
+> +			#address-cells = <1>;
+> +			#size-cells = <0>;
+> +
+> +			port@0 {
+> +				reg = <0>;
+> +				#address-cells = <1>;
+> +				#size-cells = <0>;
+> +			};
+> +		};
+> +	};
+> +
+>  	isp0_mmu: iommu@ff914000 {
+>  		compatible = "rockchip,iommu";
+>  		reg = <0x0 0xff914000 0x0 0x100>, <0x0 0xff915000 0x0 0x100>;
+> 
+
+
+
+
