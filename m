@@ -2,88 +2,285 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 500752A209E
-	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 18:42:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 891822A2145
+	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 21:15:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727251AbgKARmK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 1 Nov 2020 12:42:10 -0500
-Received: from mx0b-002e3701.pphosted.com ([148.163.143.35]:31358 "EHLO
-        mx0b-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727024AbgKARmJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sun, 1 Nov 2020 12:42:09 -0500
-Received: from pps.filterd (m0134424.ppops.net [127.0.0.1])
-        by mx0b-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A1HbMp3016477;
-        Sun, 1 Nov 2020 17:41:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=from : to : cc : subject
- : date : message-id : in-reply-to : references; s=pps0720;
- bh=kx2Vnw7P3Ro6SqdUG6oTQ7t5SJMOmmqS0+YD+3z0xdo=;
- b=HRUmIoz80H8Q7VCpXeH01InoCdc92tYsAwU32engmfWnbdaxGz3MtvS3Ss1pl7Bz8LSx
- EGj71j9haVAS6ewqOwbBcRLmPG7pLTn8IGZE8O31EvY/bGPaxKzzp1gtmLHUOv72TOGb
- Bu+UQ/3kGTh55E9Ghj9KKlcAcvZpBQX6jGV1Ihw5vCwcvFYcoUSDot3FrK4DyvDv4o+X
- 2JvomozIlUKDjcx1hLD0MOxTf/BYcA2+LkKRndnGd2SQaaPpkM6KYSNAPcgxQr5AEbQY
- O1UVXmSEyVQmVkcyI6u4jW3G2Wy9rxpCxQZP1cnLHKua82jpjM/CZ0kCI5R1GQFAxK5u ag== 
-Received: from g2t2354.austin.hpe.com (g2t2354.austin.hpe.com [15.233.44.27])
-        by mx0b-002e3701.pphosted.com with ESMTP id 34h07grc2g-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sun, 01 Nov 2020 17:41:54 +0000
-Received: from g2t2360.austin.hpecorp.net (g2t2360.austin.hpecorp.net [16.196.225.135])
-        by g2t2354.austin.hpe.com (Postfix) with ESMTP id 52A47AE;
-        Sun,  1 Nov 2020 17:41:53 +0000 (UTC)
-Received: from rfwz62.ftc.rdlabs.hpecorp.net (rfwz62.americas.hpqcorp.net [10.33.237.8])
-        by g2t2360.austin.hpecorp.net (Postfix) with ESMTP id 4A83336;
-        Sun,  1 Nov 2020 17:41:52 +0000 (UTC)
-From:   rwright@hpe.com
-To:     jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
-        rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        hdegoede@redhat.com, wambui.karugax@gmail.com,
-        chris@chris-wilson.co.uk, matthew.auld@intel.com,
-        akeem.g.abodunrin@intel.com, prathap.kumar.valsan@intel.com,
-        mika.kuoppala@linux.intel.com, rwright@hpe.com
-Cc:     intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH v3 3/3] drm/i915/gt: Force reduced batch size if new QUIRK_RENDERCLEAR_REDUCED is set.
-Date:   Sun,  1 Nov 2020 10:41:32 -0700
-Message-Id: <20201101174132.10513-4-rwright@hpe.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201101174132.10513-1-rwright@hpe.com>
-References: <20201101174132.10513-1-rwright@hpe.com>
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-11-01_05:2020-10-30,2020-11-01 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 suspectscore=2 malwarescore=0
- impostorscore=0 clxscore=1015 lowpriorityscore=0 phishscore=0 spamscore=0
- priorityscore=1501 adultscore=0 mlxlogscore=987 mlxscore=0 bulkscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011010145
+        id S1727023AbgKAUP3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Nov 2020 15:15:29 -0500
+Received: from mx2.suse.de ([195.135.220.15]:57816 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726848AbgKAUP3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 1 Nov 2020 15:15:29 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 372E1AF57;
+        Sun,  1 Nov 2020 20:15:26 +0000 (UTC)
+From:   Davidlohr Bueso <dave@stgolabs.net>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        dave@stgolabs.net, Davidlohr Bueso <dbueso@suse.de>
+Subject: [PATCH] media/siano: kill pointless kmutex definitions
+Date:   Sun,  1 Nov 2020 11:54:24 -0800
+Message-Id: <20201101195424.21040-1-dave@stgolabs.net>
+X-Mailer: git-send-email 2.26.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Randy Wright <rwright@hpe.com>
+Use the mutex api instead of renaming the calls for this
+driver.
 
-In function batch_get_defaults, the smaller batch size
-will be selected if QUIRK_RENDERCLEAR_REDUCED is set.
-
-Signed-off-by: Randy Wright <rwright@hpe.com>
+Signed-off-by: Davidlohr Bueso <dbueso@suse.de>
 ---
- drivers/gpu/drm/i915/gt/gen7_renderclear.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+This was found while auditing mutex semantics in drivers.
 
-diff --git a/drivers/gpu/drm/i915/gt/gen7_renderclear.c b/drivers/gpu/drm/i915/gt/gen7_renderclear.c
-index d93d85cd3027..e5265cdf696b 100644
---- a/drivers/gpu/drm/i915/gt/gen7_renderclear.c
-+++ b/drivers/gpu/drm/i915/gt/gen7_renderclear.c
-@@ -49,7 +49,7 @@ struct batch_vals {
- static void
- batch_get_defaults(struct drm_i915_private *i915, struct batch_vals *bv)
+ drivers/media/common/siano/smscoreapi.c  | 42 ++++++++++++------------
+ drivers/media/common/siano/smscoreapi.h  |  5 ---
+ drivers/media/common/siano/smsdvb-main.c | 14 ++++----
+ 3 files changed, 28 insertions(+), 33 deletions(-)
+
+diff --git a/drivers/media/common/siano/smscoreapi.c b/drivers/media/common/siano/smscoreapi.c
+index c1511094fdc7..410cc3ac6f94 100644
+--- a/drivers/media/common/siano/smscoreapi.c
++++ b/drivers/media/common/siano/smscoreapi.c
+@@ -429,13 +429,13 @@ static struct smscore_registry_entry_t *smscore_find_registry(char *devpath)
+ 	struct smscore_registry_entry_t *entry;
+ 	struct list_head *next;
+ 
+-	kmutex_lock(&g_smscore_registrylock);
++	mutex_lock(&g_smscore_registrylock);
+ 	for (next = g_smscore_registry.next;
+ 	     next != &g_smscore_registry;
+ 	     next = next->next) {
+ 		entry = (struct smscore_registry_entry_t *) next;
+ 		if (!strncmp(entry->devpath, devpath, sizeof(entry->devpath))) {
+-			kmutex_unlock(&g_smscore_registrylock);
++			mutex_unlock(&g_smscore_registrylock);
+ 			return entry;
+ 		}
+ 	}
+@@ -446,7 +446,7 @@ static struct smscore_registry_entry_t *smscore_find_registry(char *devpath)
+ 		list_add(&entry->entry, &g_smscore_registry);
+ 	} else
+ 		pr_err("failed to create smscore_registry.\n");
+-	kmutex_unlock(&g_smscore_registrylock);
++	mutex_unlock(&g_smscore_registrylock);
+ 	return entry;
+ }
+ 
+@@ -527,7 +527,7 @@ int smscore_register_hotplug(hotplug_t hotplug)
+ 	struct list_head *next, *first;
+ 	int rc = 0;
+ 
+-	kmutex_lock(&g_smscore_deviceslock);
++	mutex_lock(&g_smscore_deviceslock);
+ 	notifyee = kmalloc(sizeof(*notifyee), GFP_KERNEL);
+ 	if (notifyee) {
+ 		/* now notify callback about existing devices */
+@@ -548,7 +548,7 @@ int smscore_register_hotplug(hotplug_t hotplug)
+ 	} else
+ 		rc = -ENOMEM;
+ 
+-	kmutex_unlock(&g_smscore_deviceslock);
++	mutex_unlock(&g_smscore_deviceslock);
+ 
+ 	return rc;
+ }
+@@ -564,7 +564,7 @@ void smscore_unregister_hotplug(hotplug_t hotplug)
  {
--	if (IS_HASWELL(i915)) {
-+	if (IS_HASWELL(i915) && !(i915->quirks & QUIRK_RENDERCLEAR_REDUCED)) {
- 		bv->max_primitives = 280;
- 		bv->max_urb_entries = MAX_URB_ENTRIES;
- 		bv->surface_height = 16 * 16;
+ 	struct list_head *next, *first;
+ 
+-	kmutex_lock(&g_smscore_deviceslock);
++	mutex_lock(&g_smscore_deviceslock);
+ 
+ 	first = &g_smscore_notifyees;
+ 
+@@ -579,7 +579,7 @@ void smscore_unregister_hotplug(hotplug_t hotplug)
+ 		}
+ 	}
+ 
+-	kmutex_unlock(&g_smscore_deviceslock);
++	mutex_unlock(&g_smscore_deviceslock);
+ }
+ EXPORT_SYMBOL_GPL(smscore_unregister_hotplug);
+ 
+@@ -732,9 +732,9 @@ int smscore_register_device(struct smsdevice_params_t *params,
+ 	smscore_registry_settype(dev->devpath, params->device_type);
+ 
+ 	/* add device to devices list */
+-	kmutex_lock(&g_smscore_deviceslock);
++	mutex_lock(&g_smscore_deviceslock);
+ 	list_add(&dev->entry, &g_smscore_devices);
+-	kmutex_unlock(&g_smscore_deviceslock);
++	mutex_unlock(&g_smscore_deviceslock);
+ 
+ 	*coredev = dev;
+ 
+@@ -890,14 +890,14 @@ int smscore_start_device(struct smscore_device_t *coredev)
+ 		return rc;
+ 	}
+ 
+-	kmutex_lock(&g_smscore_deviceslock);
++	mutex_lock(&g_smscore_deviceslock);
+ 
+ 	rc = smscore_notify_callbacks(coredev, coredev->device, 1);
+ 	smscore_init_ir(coredev);
+ 
+ 	pr_debug("device %p started, rc %d\n", coredev, rc);
+ 
+-	kmutex_unlock(&g_smscore_deviceslock);
++	mutex_unlock(&g_smscore_deviceslock);
+ 
+ 	return rc;
+ }
+@@ -1197,7 +1197,7 @@ void smscore_unregister_device(struct smscore_device_t *coredev)
+ 	int num_buffers = 0;
+ 	int retry = 0;
+ 
+-	kmutex_lock(&g_smscore_deviceslock);
++	mutex_lock(&g_smscore_deviceslock);
+ 
+ 	/* Release input device (IR) resources */
+ 	sms_ir_exit(coredev);
+@@ -1224,9 +1224,9 @@ void smscore_unregister_device(struct smscore_device_t *coredev)
+ 
+ 		pr_debug("waiting for %d buffer(s)\n",
+ 			 coredev->num_buffers - num_buffers);
+-		kmutex_unlock(&g_smscore_deviceslock);
++		mutex_unlock(&g_smscore_deviceslock);
+ 		msleep(100);
+-		kmutex_lock(&g_smscore_deviceslock);
++		mutex_lock(&g_smscore_deviceslock);
+ 	}
+ 
+ 	pr_debug("freed %d buffers\n", num_buffers);
+@@ -1245,7 +1245,7 @@ void smscore_unregister_device(struct smscore_device_t *coredev)
+ 	list_del(&coredev->entry);
+ 	kfree(coredev);
+ 
+-	kmutex_unlock(&g_smscore_deviceslock);
++	mutex_unlock(&g_smscore_deviceslock);
+ 
+ 	pr_debug("device %p destroyed\n", coredev);
+ }
+@@ -2123,17 +2123,17 @@ static int __init smscore_module_init(void)
+ {
+ 	INIT_LIST_HEAD(&g_smscore_notifyees);
+ 	INIT_LIST_HEAD(&g_smscore_devices);
+-	kmutex_init(&g_smscore_deviceslock);
++	mutex_init(&g_smscore_deviceslock);
+ 
+ 	INIT_LIST_HEAD(&g_smscore_registry);
+-	kmutex_init(&g_smscore_registrylock);
++	mutex_init(&g_smscore_registrylock);
+ 
+ 	return 0;
+ }
+ 
+ static void __exit smscore_module_exit(void)
+ {
+-	kmutex_lock(&g_smscore_deviceslock);
++	mutex_lock(&g_smscore_deviceslock);
+ 	while (!list_empty(&g_smscore_notifyees)) {
+ 		struct smscore_device_notifyee_t *notifyee =
+ 			(struct smscore_device_notifyee_t *)
+@@ -2142,9 +2142,9 @@ static void __exit smscore_module_exit(void)
+ 		list_del(&notifyee->entry);
+ 		kfree(notifyee);
+ 	}
+-	kmutex_unlock(&g_smscore_deviceslock);
++	mutex_unlock(&g_smscore_deviceslock);
+ 
+-	kmutex_lock(&g_smscore_registrylock);
++	mutex_lock(&g_smscore_registrylock);
+ 	while (!list_empty(&g_smscore_registry)) {
+ 		struct smscore_registry_entry_t *entry =
+ 			(struct smscore_registry_entry_t *)
+@@ -2153,7 +2153,7 @@ static void __exit smscore_module_exit(void)
+ 		list_del(&entry->entry);
+ 		kfree(entry);
+ 	}
+-	kmutex_unlock(&g_smscore_registrylock);
++	mutex_unlock(&g_smscore_registrylock);
+ 
+ 	pr_debug("\n");
+ }
+diff --git a/drivers/media/common/siano/smscoreapi.h b/drivers/media/common/siano/smscoreapi.h
+index b3b793b5caf3..4a6b9f4c44ac 100644
+--- a/drivers/media/common/siano/smscoreapi.h
++++ b/drivers/media/common/siano/smscoreapi.h
+@@ -28,11 +28,6 @@ Copyright (C) 2006-2008, Uri Shkolnik, Anatoly Greenblat
+ 
+ #include "smsir.h"
+ 
+-#define kmutex_init(_p_) mutex_init(_p_)
+-#define kmutex_lock(_p_) mutex_lock(_p_)
+-#define kmutex_trylock(_p_) mutex_trylock(_p_)
+-#define kmutex_unlock(_p_) mutex_unlock(_p_)
+-
+ /*
+  * Define the firmware names used by the driver.
+  * Those should match what's used at smscoreapi.c and sms-cards.c
+diff --git a/drivers/media/common/siano/smsdvb-main.c b/drivers/media/common/siano/smsdvb-main.c
+index 88f90dfd368b..633902036e30 100644
+--- a/drivers/media/common/siano/smsdvb-main.c
++++ b/drivers/media/common/siano/smsdvb-main.c
+@@ -630,11 +630,11 @@ static void smsdvb_unregister_client(struct smsdvb_client_t *client)
+ 
+ static void smsdvb_onremove(void *context)
+ {
+-	kmutex_lock(&g_smsdvb_clientslock);
++	mutex_lock(&g_smsdvb_clientslock);
+ 
+ 	smsdvb_unregister_client((struct smsdvb_client_t *) context);
+ 
+-	kmutex_unlock(&g_smsdvb_clientslock);
++	mutex_unlock(&g_smsdvb_clientslock);
+ }
+ 
+ static int smsdvb_start_feed(struct dvb_demux_feed *feed)
+@@ -1151,11 +1151,11 @@ static int smsdvb_hotplug(struct smscore_device_t *coredev,
+ 	init_completion(&client->tune_done);
+ 	init_completion(&client->stats_done);
+ 
+-	kmutex_lock(&g_smsdvb_clientslock);
++	mutex_lock(&g_smsdvb_clientslock);
+ 
+ 	list_add(&client->entry, &g_smsdvb_clients);
+ 
+-	kmutex_unlock(&g_smsdvb_clientslock);
++	mutex_unlock(&g_smsdvb_clientslock);
+ 
+ 	client->event_fe_state = -1;
+ 	client->event_unc_state = -1;
+@@ -1198,7 +1198,7 @@ static int __init smsdvb_module_init(void)
+ 	int rc;
+ 
+ 	INIT_LIST_HEAD(&g_smsdvb_clients);
+-	kmutex_init(&g_smsdvb_clientslock);
++	mutex_init(&g_smsdvb_clientslock);
+ 
+ 	smsdvb_debugfs_register();
+ 
+@@ -1213,14 +1213,14 @@ static void __exit smsdvb_module_exit(void)
+ {
+ 	smscore_unregister_hotplug(smsdvb_hotplug);
+ 
+-	kmutex_lock(&g_smsdvb_clientslock);
++	mutex_lock(&g_smsdvb_clientslock);
+ 
+ 	while (!list_empty(&g_smsdvb_clients))
+ 		smsdvb_unregister_client((struct smsdvb_client_t *)g_smsdvb_clients.next);
+ 
+ 	smsdvb_debugfs_unregister();
+ 
+-	kmutex_unlock(&g_smsdvb_clientslock);
++	mutex_unlock(&g_smsdvb_clientslock);
+ }
+ 
+ module_init(smsdvb_module_init);
 -- 
-2.25.1
+2.26.2
 
