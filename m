@@ -2,140 +2,166 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 659DD2A1B87
-	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 01:43:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 750AE2A1BD8
+	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 05:40:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726243AbgKAAnj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 31 Oct 2020 20:43:39 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40590 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726159AbgKAAnj (ORCPT
+        id S1726304AbgKAEkU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 1 Nov 2020 00:40:20 -0400
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:50365 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726269AbgKAEkU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 31 Oct 2020 20:43:39 -0400
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7FA6C0617A6
-        for <linux-media@vger.kernel.org>; Sat, 31 Oct 2020 17:43:38 -0700 (PDT)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 18027240;
-        Sun,  1 Nov 2020 01:43:35 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1604191415;
-        bh=xYyruJX+L9pMaiADrIOZFyZMi75UTPmFgRR3qaSbJYU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=fNv18ngUXApqc1tpwl/+JzutHR/m4pRXS4hZV4lAzYKHdP9ODP3AY4EuCsXBhwDnn
-         3p96u5DfdfdUPj7B23Stzx7VnUCJVRnjyqeRTAYXieVI16N7P8j+QHLHl5UiAtmIS+
-         iYGjv0gIELFogzz+nmTlMtsj4uiuzFjEM+8ZZU0M=
-Date:   Sun, 1 Nov 2020 02:42:46 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
-Cc:     linux-media@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Dylan Yip <dylany@xilinx.com>, Vishal Sagar <vsagar@xilinx.com>
-Subject: Re: [PATCH/RFC 16/16] media: v4l2: Add 10- and 12-bpc luma-only
- formats with linear packing
-Message-ID: <20201101004246.GE4225@pendragon.ideasonboard.com>
-References: <20200923024333.920-1-laurent.pinchart@ideasonboard.com>
- <20200923024333.920-17-laurent.pinchart@ideasonboard.com>
- <88b9d4edaac40c9a91d88db7c147c2debff79f5c.camel@ndufresne.ca>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <88b9d4edaac40c9a91d88db7c147c2debff79f5c.camel@ndufresne.ca>
+        Sun, 1 Nov 2020 00:40:20 -0400
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id Z5A8kXALGTPdiZ5A9k3zUY; Sun, 01 Nov 2020 05:40:18 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604205618; bh=uS4+LQbhX0CJ34MzWgewUotSc6129nu1vbkdwGNVze4=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=Hp4x0D5nOMoH23OjHbLDVfeS1GCHiF1IGmVyFrc8Bdiw8OtqgtRYrsMt592vb/spc
+         TModeFN23aTLM3RJlsdDnjuaYb6sKxT0hWF5ImAdyTBhErY/XMyC/aMpsZ5XwMmBXu
+         3X8BMPZ+pb5FTOH1MIgB8paW0DFIDLrK1CT9wxuQ2yfU4MMawcp9c+fpSByxmFW6bp
+         hybMupuO1mqY6F7gdlSkhN/ILcDHZzmQFIU1W+nuoqJ3xGJltxXeTYITPD3aR5qryz
+         By+jO7LhCTdtd5jPmKQn6YJjAIPLAiTO9tpA6CbthcfR54PPAkG3mdRqQr4TIJpeKO
+         y8KCu7HU3VdVg==
+Message-ID: <a62d58fe7158a4612da2d339cc0c5079@smtp-cloud8.xs4all.net>
+Date:   Sun, 01 Nov 2020 05:40:16 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfPRMowHY3zy/UqYSccxszi562gMQSZZxu4WNP14u3pfUgjyT/Q0IUOIBKzKDz1bw/mSJ5d2Gvf9Zf3V+3ft6eOK9CsjDzp711QRPKLH4prvo8I5k9kuW
+ y18vtyzwjBge6d6uPFruAjl3k/k3xjr/K8nZrzznBAmc2ZZM9qmES75Ek29DEb01sOIR+iUdmwuCT5OVWeES65BtaUd2RmbSf8LnbmWR9xsMBi4oXHi6p6fM
+ smaMpdVa2pjZS/YDWsu4Lg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-On Thu, Sep 24, 2020 at 02:27:58PM -0400, Nicolas Dufresne wrote:
-> Le mercredi 23 septembre 2020 à 05:43 +0300, Laurent Pinchart a écrit :
-> > Add two new formats storing luma only in 10- and 12-bpc variants, with
-> > linear packing. They are used by the Xilinx Video Frame Buffer
-> > Read/Write IP cores.
-> > 
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > ---
-> >  .../media/v4l/pixfmt-yuv-luma.rst             | 23 +++++++++++++++++++
-> >  include/uapi/linux/videodev2.h                |  2 ++
-> >  2 files changed, 25 insertions(+)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> > index b24947b52cf8..3e2a7af5ed67 100644
-> > --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
-> > @@ -24,6 +24,7 @@ are often referred to as greyscale formats.
-> >     - Y'\ :sub:`x`\ [9:2] denotes bits 9 to 2 of the Y' value for pixel at colum
-> >       `x`.
-> >     - `0` denotes padding bits set to 0.
-> > +   - `-` denotes padding bits with undefined values.
-> >  
-> >  
-> >  .. flat-table:: Luma-Only Image Formats
-> > @@ -82,6 +83,17 @@ are often referred to as greyscale formats.
-> >        - Y'\ :sub:`3`\ [9:2]
-> >        - Y'\ :sub:`3`\ [1:0] Y'\ :sub:`2`\ [1:0] Y'\ :sub:`1`\ [1:0] Y'\ :sub:`0`\ [1:0]
-> >  
-> > +    * .. _V4L2-PIX-FMT-Y10X:
-> 
-> That's interesting, you are using a different convention here. If I
-> refer to the XYUV_2101010 one, usign that convention instead would be
-> XY10X10V10. It's not much more readable, and you have to deduce the 2
-> bits, just like you have to deduce that X here is 6bits. Perhaps we can
-> find a compromises that makes it consistent ? YX_10_2 ?
+Results of the daily build of media_tree:
 
-I'm not sure to follow you. This is a greyscale format, it only stores
-the luma component, so XY10X10V10 doesn't match (and I assume you meant
-XY10U10V10).
+date:			Sun Nov  1 05:00:14 CET 2020
+media-tree git hash:	dfe3d19bd092cefb184c6e65b881602c793edd33
+media_build git hash:	b5733d0fdc887a215d63eba10c1789e836625975
+v4l-utils git hash:	225c6c2a17bec0e07c13ebb891e062ccef051180
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-> > +
-> > +      - ``V4L2_PIX_FMT_Y10X``
-> > +      - 'Y10X'
-> > +
-> > +      - Y'\ :sub:`0`\ [7:0]
-> > +      - Y'\ :sub:`1`\ [5:0] Y'\ :sub:`0`\ [9:8]
-> > +      - Y'\ :sub:`2`\ [3:0] Y'\ :sub:`1`\ [9:6]
-> > +      - `- -` Y'\ :sub:`2`\ [9:4]
-> > +      - ...
-> > +
-> >      * .. _V4L2-PIX-FMT-Y12:
-> >  
-> >        - ``V4L2_PIX_FMT_Y12``
-> > @@ -93,6 +105,17 @@ are often referred to as greyscale formats.
-> >        - ...
-> >        - ...
-> >  
-> > +    * .. _V4L2-PIX-FMT-Y12X:
-> > +
-> > +      - ``V4L2_PIX_FMT_Y12X``
-> > +      - 'Y12X'
-> > +
-> > +      - Y'\ :sub:`0`\ [7:0]
-> > +      - Y'\ :sub:`1`\ [3:0] Y'\ :sub:`0`\ [11:8]
-> > +      - Y'\ :sub:`1`\ [11:4]
-> > +      - Y'\ :sub:`2`\ [7:0]
-> > +      - `- - - -` Y'\ :sub:`2`\ [11:8]
-> > +
-> >      * .. _V4L2-PIX-FMT-Y14:
-> >  
-> >        - ``V4L2_PIX_FMT_Y14``
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > index 9b4cab651df7..3d137a020cdb 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -579,6 +579,8 @@ struct v4l2_pix_format {
-> >  /* Grey bit-packed formats */
-> >  #define V4L2_PIX_FMT_Y10BPACK    v4l2_fourcc('Y', '1', '0', 'B') /* 10  Greyscale bit-packed */
-> >  #define V4L2_PIX_FMT_Y10P    v4l2_fourcc('Y', '1', '0', 'P') /* 10  Greyscale, MIPI RAW10 packed */
-> > +#define V4L2_PIX_FMT_Y10X    v4l2_fourcc('Y', '1', '0', 'X') /* 10  Greyscale, 3 pixels in 4 bytes */
-> > +#define V4L2_PIX_FMT_Y12X    v4l2_fourcc('Y', '1', '2', 'X') /* 12  Greyscale, 4 pixels in 5 bytes */
-> >  
-> >  /* Palette formats */
-> >  #define V4L2_PIX_FMT_PAL8    v4l2_fourcc('P', 'A', 'L', '8') /*  8  8-bit palette */
-> 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10-rc1-i686: OK
+linux-5.10-rc1-x86_64: WARNINGS
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: OK
 
--- 
-Regards,
+Logs weren't copied as they are too large (1448 kB)
 
-Laurent Pinchart
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
