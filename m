@@ -2,76 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCD662A1B33
-	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 00:27:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 855352A1B56
+	for <lists+linux-media@lfdr.de>; Sun,  1 Nov 2020 01:12:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725931AbgJaX1a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 31 Oct 2020 19:27:30 -0400
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57168 "EHLO
+        id S1726122AbgKAAMS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 31 Oct 2020 20:12:18 -0400
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725809AbgJaX1a (ORCPT
+        with ESMTP id S1725987AbgKAAMS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 31 Oct 2020 19:27:30 -0400
+        Sat, 31 Oct 2020 20:12:18 -0400
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1BDE8C0617A6
-        for <linux-media@vger.kernel.org>; Sat, 31 Oct 2020 16:27:29 -0700 (PDT)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9A28CC0617A6
+        for <linux-media@vger.kernel.org>; Sat, 31 Oct 2020 17:12:17 -0700 (PDT)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 87970240;
-        Sun,  1 Nov 2020 00:27:24 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DF1EA240;
+        Sun,  1 Nov 2020 01:12:15 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1604186844;
-        bh=fKp3nRAo/FJsNisqqqcxy/CStk6QnHBK4byI4QV3+ew=;
+        s=mail; t=1604189536;
+        bh=1IpH+2o6so33pA4tvSJBtBEHyDRmtedSFRQzgzNXmRc=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=nlvWs2/CSxz4YDKLqHzoLVpApRY+LJAKw5f4VjrP7Me08cdHJdOjfqZixeyyfzWsR
-         /LboNAYXTwP84kX/SwpVjgyALz8/1kKsUzirHhTY0eJ4WBfAmbq4GRH+g2NCMVWyHZ
-         oaKKjYKHMnICkp4joniSLxSFhsbVi2UeJW8nx1mo=
-Date:   Sun, 1 Nov 2020 01:26:35 +0200
+        b=pXcyJij+v+hMZJHCpKr0P10JeF+Y1usngRlRQuJ3/JC/xkArP+nr0uF1xgkdmXGly
+         EOMVybxt4IUtrGJdDWt+xkmXneRCUFa3xbHIa0K8NeTsfm4nEew48ntttQRWJlNAsS
+         3BC8HE4QqzAlPkcqGv5DzBR87g4xWZ3N9W8nFAk0=
+Date:   Sun, 1 Nov 2020 02:11:26 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
 Cc:     linux-media@vger.kernel.org,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
         Dylan Yip <dylany@xilinx.com>, Vishal Sagar <vsagar@xilinx.com>
 Subject: Re: [PATCH/RFC 06/16] media: doc: pixfmt-rgb: Clarify naming scheme
  for RGB formats
-Message-ID: <20201031232635.GA4225@pendragon.ideasonboard.com>
+Message-ID: <20201101001126.GB4225@pendragon.ideasonboard.com>
 References: <20200923024333.920-1-laurent.pinchart@ideasonboard.com>
  <20200923024333.920-7-laurent.pinchart@ideasonboard.com>
- <df47824cc530e2ac6ef6f40d7d176fb6eea3a241.camel@ndufresne.ca>
+ <2a5c3661-3262-44da-04cb-9bd2056803a8@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <df47824cc530e2ac6ef6f40d7d176fb6eea3a241.camel@ndufresne.ca>
+In-Reply-To: <2a5c3661-3262-44da-04cb-9bd2056803a8@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Nicolas,
+Hi Hans,
 
-On Thu, Sep 24, 2020 at 02:05:57PM -0400, Nicolas Dufresne wrote:
-> Le mercredi 23 septembre 2020 à 05:43 +0300, Laurent Pinchart a écrit :
+On Thu, Oct 01, 2020 at 03:33:51PM +0200, Hans Verkuil wrote:
+> On 23/09/2020 04:43, Laurent Pinchart wrote:
 > > The naming scheme for the RGB pixel formats has been developed
 > > organically, and isn't consistent between formats stored in 1 or 2
 > > bytes, and formats stored in 3 or 4 bytes. For the latter category, the
 > > names use a components order convention that is the opposite of the
 > > first category, and the opposite of DRM pixel formats. This has lead to
+> 
+> lead -> led
+> 
 > > lots of confusion in the past, and would really benefit from being
 > > explained more precisely. Do so, which also prepares for the addition of
 > > additional RGB pixels formats.
-> 
-> This makes it looks like if V4L2 byte order naming is special, while in
-> fact only a subset of DRM format uses the opposite order and outside of
-> the Linux kernel, DRM is the special case. I agree there is this RGB565
-> name that is indeed opposite outside Linux too.
-> 
-> I would rephrase this, otherwise the following changes looks good to
-> me.
-
-I'm not opposed to rephrasing the commit message, but I'm not sure why
-you interpret it as making V4L2 appear special. How do you think it
-could be better phrased ?
-
+> > 
 > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > > ---
 > >  .../userspace-api/media/v4l/pixfmt-rgb.rst    | 196 ++++++++++++------
@@ -91,6 +80,13 @@ could be better phrased ?
 > > +These formats encode each pixel as a triplet of RGB values. They are packed
 > > +formats, meaning that the RGB values for one pixel are stored consecutively in
 > > +memory. Multiple pixels are however not packed in the same byte, each pixel
+> 
+> "Multiple pixels are however not packed in the same byte": that's confusing.
+> I think it can be dropped and instead just say:
+> 
+> "meaning that the RGB values for one pixel are stored consecutively in memory
+> and each pixel consumes an integer number of bytes."
+> 
 > > +consumes an integer number of bytes. When the number of bits required to store
 > > +a pixel is not aligned to a byte boundary, the data is padded with additional
 > > +bits to fill the remaining byte.
@@ -102,6 +98,10 @@ could be better phrased ?
 > > +The formats differ by the number of bits per RGB component (typically but not
 > > +always the same for all components), the order of components in memory, and the
 > > +presence of an alpha component or an additional padding byte.
+> 
+> I think you should say: "or additional padding bits". That is consistent with the
+> previous paragraph.
+> 
 > > +
 > > +The usage and value of the alpha bits in formats that support them (named ARGB
 > > +or a permutation thereof, collectively referred to as alpha formats) depend on
@@ -125,6 +125,39 @@ could be better phrased ?
 > > +Formats that contain padding bits are named XRGB (or a permutation thereof).
 > > +The padding bits contain undefined values and must be ignored by applications,
 > > +devices and drivers, for both :ref:`capture` and :ref:`output` devices.
+> 
+> Should we mention here that it is highly desirable that padding bits are set to 0?
+
+I'll adjust the text according to all the previous comments. Here,
+however, I'm not sure what purpose this would serve. We can't mandate
+that devices write those bits to 0, as not all of them can do so. As a
+consequence, to keep applications generic, they can't rely on the bits
+being 0, so what difference would it make ? There are 3 categories of
+devices I believe:
+
+- Devices that don't write the padding bits or that write them to random
+  values. This is quite uncommon I believe. Not writing padding bits
+  would only work when there's a full padding byte, and it would make
+  DMA pretty inefficient. Writing random values also doesn't make that
+  much sense. Still, this could be possible, and there's not much we
+  could do about it.
+
+- Devices that write a hardcoded value. We can't do much in that case,
+  the value is what it is, drivers can't influence it.
+
+- Devices that write a configurable value. Here the specification
+  advising drivers to set padding bits to 0 could make a difference.
+
+I think the third category should expose an ARGB format with the alpha
+control instead of XRGB, to give flexibility to applications. This
+leaves only the first two categories for XRGB formats, and there drivers
+don't have any choice. I'd even think that devices that write a
+hardcoded value should also expose ARGB formats, with a read-only alpha
+control.
+
+We could recommend usage of ARGB over XRGB for the last two categories,
+but I think that should go in a separate patch.
+
 > > +
 > > +.. note::
 > > +
@@ -349,7 +382,6 @@ could be better phrased ?
 > >  #define V4L2_PIX_FMT_BGR666  v4l2_fourcc('B', 'G', 'R', 'H') /* 18  BGR-6-6-6	  */
 > >  #define V4L2_PIX_FMT_BGR24   v4l2_fourcc('B', 'G', 'R', '3') /* 24  BGR-8-8-8     */
 > >  #define V4L2_PIX_FMT_RGB24   v4l2_fourcc('R', 'G', 'B', '3') /* 24  RGB-8-8-8     */
-> 
 
 -- 
 Regards,
