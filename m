@@ -2,33 +2,33 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B7A0E2A2D9C
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 16:05:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BAFF52A2DAA
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 16:09:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726299AbgKBPFy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 10:05:54 -0500
-Received: from mga11.intel.com ([192.55.52.93]:40040 "EHLO mga11.intel.com"
+        id S1726070AbgKBPI5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 10:08:57 -0500
+Received: from mga07.intel.com ([134.134.136.100]:58334 "EHLO mga07.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726242AbgKBPFx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 2 Nov 2020 10:05:53 -0500
-IronPort-SDR: rXY5eGxnrlp2FWas2lfgnJf3m6PPLCYMO3brzDgPHQyUpN4ekTxblLOUz531Uz69VymUdMTf7F
- Qxt4OsCMYInw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9793"; a="165391995"
+        id S1725791AbgKBPI5 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 2 Nov 2020 10:08:57 -0500
+IronPort-SDR: EyUKyWdZRZt/DLahgFCnB/N1SADy4ohXlm/3ywLuebEJ6uYyFj+8M4pViy7RpQ/L2u4OTubeIU
+ qLO4SG/0C4og==
+X-IronPort-AV: E=McAfee;i="6000,8403,9793"; a="233066361"
 X-IronPort-AV: E=Sophos;i="5.77,445,1596524400"; 
-   d="scan'208";a="165391995"
+   d="scan'208";a="233066361"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2020 07:05:52 -0800
-IronPort-SDR: Rk8KtKoJ0WVtwG02bBKp1DCA0eUAmt8IjohOY2uUVmJxltiamIaBUqjCxBJtRh0gJOGywbmexx
- B7HKWx+fVHeA==
+Received: from fmsmga002.fm.intel.com ([10.253.24.26])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2020 07:08:53 -0800
+IronPort-SDR: VZ15W9VfAAbAUWirdaRc7gN9ji0PujZY3NDoErMegNa8TgfAJq8+QCsei5GNT+sBRNge5xy+jb
+ KcmC8zbcMXGA==
 X-IronPort-AV: E=Sophos;i="5.77,445,1596524400"; 
-   d="scan'208";a="426011235"
+   d="scan'208";a="357353251"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2020 07:05:49 -0800
+  by fmsmga002-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2020 07:08:49 -0800
 Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 8F638208F7; Mon,  2 Nov 2020 17:05:47 +0200 (EET)
-Date:   Mon, 2 Nov 2020 17:05:47 +0200
+        id ED771208F7; Mon,  2 Nov 2020 17:08:47 +0200 (EET)
+Date:   Mon, 2 Nov 2020 17:08:47 +0200
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     Krzysztof Kozlowski <krzk@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -39,18 +39,17 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
         linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        Rob Herring <robh@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org
-Subject: Re: [PATCH v5 1/4] dt-bindings: media: imx258: add bindings for
- IMX258 sensor
-Message-ID: <20201102150547.GY26150@paasikivi.fi.intel.com>
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v5 4/4] media: i2c: imx258: get clock from device
+ properties and enable it via runtime PM
+Message-ID: <20201102150847.GZ26150@paasikivi.fi.intel.com>
 References: <20201019170247.92002-1-krzk@kernel.org>
+ <20201019172617.92815-1-krzk@kernel.org>
+ <20201019172617.92815-3-krzk@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201019170247.92002-1-krzk@kernel.org>
+In-Reply-To: <20201019172617.92815-3-krzk@kernel.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -58,78 +57,195 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Krysztof,
 
-On Mon, Oct 19, 2020 at 07:02:44PM +0200, Krzysztof Kozlowski wrote:
-> Add bindings for the IMX258 camera sensor.  The bindings, just like the
-> driver, are quite limited, e.g. do not support regulator supplies.
+On Mon, Oct 19, 2020 at 07:26:17PM +0200, Krzysztof Kozlowski wrote:
+> The IMX258 sensor driver checked in device properties for a
+> clock-frequency property which actually does not mean that the clock is
+> really running such frequency or is it even enabled.
+> 
+> Get the provided clock and check it frequency.  If none is provided,
+> fall back to old property.
+> 
+> Enable the clock when accessing the IMX258 registers and when streaming
+> starts with runtime PM.
 > 
 > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-> Reviewed-by: Rob Herring <robh@kernel.org>
 > 
 > ---
 > 
 > Changes since v4:
-> 1. Add clock-lanes,
-> 2. Add Rob's review,
-> 3. Add one more example and extend existing one,
-> 4. Add common clock properties (assigned-*).
+> 1. Add missing imx258_power_off.
 > 
 > Changes since v3:
-> 1. Document also two lane setup.
+> 1. None
 > 
 > Changes since v2:
-> 1. Remove clock-frequency, add reset GPIOs, add supplies.
-> 2. Use additionalProperties.
+> 1. Do not try to set drvdata, wrap lines.
+> 2. Use dev_dbg.
 > 
 > Changes since v1:
-> 1. None
+> 1. Use runtime PM for clock toggling
 > ---
->  .../devicetree/bindings/media/i2c/imx258.yaml | 140 ++++++++++++++++++
->  MAINTAINERS                                   |   1 +
->  2 files changed, 141 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx258.yaml
+>  drivers/media/i2c/imx258.c | 73 +++++++++++++++++++++++++++++++++-----
+>  1 file changed, 64 insertions(+), 9 deletions(-)
 > 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/imx258.yaml b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
-> new file mode 100644
-> index 000000000000..4a3471fb88a1
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
-> @@ -0,0 +1,140 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/i2c/imx258.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
+> index ae183b0dbba9..038115471f17 100644
+> --- a/drivers/media/i2c/imx258.c
+> +++ b/drivers/media/i2c/imx258.c
+> @@ -2,6 +2,7 @@
+>  // Copyright (C) 2018 Intel Corporation
+>  
+>  #include <linux/acpi.h>
+> +#include <linux/clk.h>
+>  #include <linux/delay.h>
+>  #include <linux/i2c.h>
+>  #include <linux/module.h>
+> @@ -68,6 +69,9 @@
+>  #define REG_CONFIG_MIRROR_FLIP		0x03
+>  #define REG_CONFIG_FLIP_TEST_PATTERN	0x02
+>  
+> +/* Input clock frequency in Hz */
+> +#define IMX258_INPUT_CLOCK_FREQ		19200000
 > +
-> +title: Sony IMX258 13 Mpixel CMOS Digital Image Sensor
+>  struct imx258_reg {
+>  	u16 address;
+>  	u8 val;
+> @@ -610,6 +614,8 @@ struct imx258 {
+>  
+>  	/* Streaming on/off */
+>  	bool streaming;
 > +
-> +maintainers:
-> +  - Krzysztof Kozlowski <krzk@kernel.org>
+> +	struct clk *clk;
+>  };
+>  
+>  static inline struct imx258 *to_imx258(struct v4l2_subdev *_sd)
+> @@ -972,6 +978,29 @@ static int imx258_stop_streaming(struct imx258 *imx258)
+>  	return 0;
+>  }
+>  
+> +static int imx258_power_on(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct imx258 *imx258 = to_imx258(sd);
+> +	int ret;
 > +
-> +description: |-
-> +  IMX258 is a diagonal 5.867mm (Type 1/3.06) 13 Mega-pixel CMOS active pixel
-> +  type stacked image sensor with a square pixel array of size 4208 x 3120. It
-> +  is programmable through I2C interface.  Image data is sent through MIPI
-> +  CSI-2.
+> +	ret = clk_prepare_enable(imx258->clk);
+> +	if (ret)
+> +		dev_err(dev, "failed to enable clock\n");
 > +
-> +properties:
-> +  compatible:
-> +    const: sony,imx258
+> +	return ret;
+> +}
 > +
-> +  assigned-clocks: true
-> +  assigned-clock-parents: true
-> +  assigned-clock-rates: true
+> +static int imx258_power_off(struct device *dev)
+> +{
+> +	struct v4l2_subdev *sd = dev_get_drvdata(dev);
+> +	struct imx258 *imx258 = to_imx258(sd);
+> +
+> +	clk_disable_unprepare(imx258->clk);
+> +
+> +	return 0;
+> +}
+> +
+>  static int imx258_set_stream(struct v4l2_subdev *sd, int enable)
+>  {
+>  	struct imx258 *imx258 = to_imx258(sd);
+> @@ -1199,9 +1228,28 @@ static int imx258_probe(struct i2c_client *client)
+>  	int ret;
+>  	u32 val = 0;
+>  
+> -	device_property_read_u32(&client->dev, "clock-frequency", &val);
+> -	if (val != 19200000)
+> -		return -EINVAL;
+> +	imx258 = devm_kzalloc(&client->dev, sizeof(*imx258), GFP_KERNEL);
+> +	if (!imx258)
+> +		return -ENOMEM;
+> +
+> +	imx258->clk = devm_clk_get_optional(&client->dev, NULL);
+> +	if (!imx258->clk) {
+> +		dev_dbg(&client->dev,
+> +			"no clock provided, using clock-frequency property\n");
+> +
+> +		device_property_read_u32(&client->dev, "clock-frequency", &val);
+> +		if (val != IMX258_INPUT_CLOCK_FREQ)
+> +			return -EINVAL;
+> +	} else if (IS_ERR(imx258->clk)) {
+> +		return dev_err_probe(&client->dev, PTR_ERR(imx258->clk),
+> +				     "error getting clock\n");
+> +	} else {
+> +		if (clk_get_rate(imx258->clk) != IMX258_INPUT_CLOCK_FREQ) {
 
-I discussed the matter of using assigned clocks with Rob some time ago and
-the conclusion of that was that the sensor driver could use the default
-frequency (set using assigned-clock-rates) instead of the explicit
-frequency in DT. There are use cases (sharing the clock signal between two
-sensors, but different frequencies) that would be affected by this but I
-don't think we have any in mainline so I guess this approach works for now
-without additional changes. If someone needs those use cases, it's likely
-DT clock binding semantings and clock framework changes will be needed.
-That'll be another discussion if it ever happens.
+Please move the check outside the conditional block. May be a separate
+patch if you like.
+
+> +			dev_err(&client->dev,
+> +				"input clock frequency not supported\n");
+> +			return -EINVAL;
+> +		}
+> +	}
+>  
+>  	/*
+>  	 * Check that the device is mounted upside down. The driver only
+> @@ -1211,24 +1259,25 @@ static int imx258_probe(struct i2c_client *client)
+>  	if (ret || val != 180)
+>  		return -EINVAL;
+>  
+> -	imx258 = devm_kzalloc(&client->dev, sizeof(*imx258), GFP_KERNEL);
+> -	if (!imx258)
+> -		return -ENOMEM;
+> -
+>  	/* Initialize subdev */
+>  	v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
+>  
+> +	/* Will be powered off via pm_runtime_idle */
+> +	ret = imx258_power_on(&client->dev);
+> +	if (ret)
+> +		return ret;
+> +
+>  	/* Check module identity */
+>  	ret = imx258_identify_module(imx258);
+>  	if (ret)
+> -		return ret;
+> +		goto error_identify;
+>  
+>  	/* Set default mode to max resolution */
+>  	imx258->cur_mode = &supported_modes[0];
+>  
+>  	ret = imx258_init_controls(imx258);
+>  	if (ret)
+> -		return ret;
+> +		goto error_identify;
+>  
+>  	/* Initialize subdev */
+>  	imx258->sd.internal_ops = &imx258_internal_ops;
+> @@ -1258,6 +1307,9 @@ static int imx258_probe(struct i2c_client *client)
+>  error_handler_free:
+>  	imx258_free_controls(imx258);
+>  
+> +error_identify:
+> +	imx258_power_off(&client->dev);
+> +
+>  	return ret;
+>  }
+>  
+> @@ -1271,6 +1323,8 @@ static int imx258_remove(struct i2c_client *client)
+>  	imx258_free_controls(imx258);
+>  
+>  	pm_runtime_disable(&client->dev);
+> +	if (!pm_runtime_status_suspended(&client->dev))
+> +		imx258_power_off(&client->dev);
+>  	pm_runtime_set_suspended(&client->dev);
+>  
+>  	return 0;
+> @@ -1278,6 +1332,7 @@ static int imx258_remove(struct i2c_client *client)
+>  
+>  static const struct dev_pm_ops imx258_pm_ops = {
+>  	SET_SYSTEM_SLEEP_PM_OPS(imx258_suspend, imx258_resume)
+> +	SET_RUNTIME_PM_OPS(imx258_power_off, imx258_power_on, NULL)
+>  };
+>  
+>  #ifdef CONFIG_ACPI
 
 -- 
-Regards,
+Kind regards,
 
 Sakari Ailus
