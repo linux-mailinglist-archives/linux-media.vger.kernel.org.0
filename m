@@ -2,107 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 176792A2DDD
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 16:15:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C5C72A2E04
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 16:20:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726088AbgKBPP3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 10:15:29 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:50480 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725837AbgKBPP2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 10:15:28 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A2F5Li5129914;
-        Mon, 2 Nov 2020 15:14:53 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=hTYcM0obKnaui2L4hZ/lo0xFq2RXiRhO5eYQuYeRYSU=;
- b=agZD/ae7S4rQzhUBGcACX6IF/DFi67T5iCFByOQgmMUwBq6JFPsoIUzbkORyrbMO4r8K
- T4hHKn+m4KdbCe2QqZY3IjXWKHtRZmMGImFEIfMRAtiQxsuJAuuPQstcALb7pJdAtbR8
- OqTrspu9tIdC5b1XnNw6JT2EX+CbBoxUHoVoaOIX20e019VhnN9W4/YpYZpEifBON213
- k4Ok1a3wtKmZU9a125aOND1W9rUvN1dbo+Ezd1IH3nSG7ZMAuapi93yMtO1hNZEhP+0U
- pT9A+yX56h4cr8llEbUC6mcY0L19eBBohXD02JftdPNQyzklDygI/32cDQT/3ze16keH 2g== 
-Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2120.oracle.com with ESMTP id 34hhvc4cm0-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 02 Nov 2020 15:14:53 +0000
-Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A2F6QKr052723;
-        Mon, 2 Nov 2020 15:12:52 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by aserp3020.oracle.com with ESMTP id 34hw0f6bpm-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 02 Nov 2020 15:12:52 +0000
-Received: from abhmp0011.oracle.com (abhmp0011.oracle.com [141.146.116.17])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0A2FCkBb001606;
-        Mon, 2 Nov 2020 15:12:47 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 02 Nov 2020 07:12:43 -0800
-Date:   Mon, 2 Nov 2020 18:12:36 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Zhang Qilong <zhangqilong3@huawei.com>, devel@driverdev.osuosl.org,
-        gregkh@linuxfoundation.org, paul.kocialkowski@bootlin.com,
-        wens@csie.org, mchehab@kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH -next] media: cedrus: fix reference leak in
- cedrus_start_streaming
-Message-ID: <20201102151236.GD12347@kadam>
-References: <20201102142622.140001-1-zhangqilong3@huawei.com>
- <20201102141838.7oicqkeqy7vy3ki3@gilmour.lan>
+        id S1726449AbgKBPUn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 10:20:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56684 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726241AbgKBPUn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 10:20:43 -0500
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5916C061A4A
+        for <linux-media@vger.kernel.org>; Mon,  2 Nov 2020 07:20:42 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id 23so1259107wmg.1
+        for <linux-media@vger.kernel.org>; Mon, 02 Nov 2020 07:20:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=87j4CzgTjIznAlAGNVYlsLolKCjEqxgXtItxHQqBT+c=;
+        b=Qx6XIDDkn/kgktIUkUO/8COUc5pZ7Xmrd4WIhOhtRKLqRH4jXfWsq4XQF+tviij2AS
+         vQP1d5+o7im6WeNCxad2viztsEaWhYtaJWG1Vhj6E1J8UjnspJVoxf806Ry3jv4BdHop
+         xwURD6IJS7yc8ElYCbGBoudPzERtKy2XkZUjWqe32YJYz8gF1KzLAhJg0Sgft+3IMCWa
+         mV4JR08o+DnkkGEu+pVGUnHdRkfznAvaeW1sFyAveCP1kOZvsLyq+TKkJLfHFzK57TIm
+         KW7GgBKwfAnVfidT0ZnlSAScho5vr6Rjk96VIp+X50g2am696JF1i4Ih5IAkrxiZq5BJ
+         Pdug==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=87j4CzgTjIznAlAGNVYlsLolKCjEqxgXtItxHQqBT+c=;
+        b=SSpQ7djbfGgTYA+9HzHrbShaxZRSwDIX+QTEPt7BshywCymOd01VB1OaHyln8Oqwbv
+         V9KZcf6rD8t51HGnJy/4u7g3RdglML6+TMGSw7SBDCD3pw/Ul1E+sXBXCxMxuP9zddkU
+         DJadJ4zWszTMPKxBwcAOcGZUo/aDu8dESDekC6Fu9Y+ljhd0cwvcyvpuFGeplrBoRk6P
+         S2DS4WhPO2jwsxfQicxLKdoFlVt1d/UuVu/x0JxVrEJ86E6u5gKTCnCYEOqXjg/h2DNK
+         08qvt2QVpHuOc5m+uf/bCZOkdwbF8yua7Zx2pu2ADm+0j/JpivyPEu4vaV+VOfkDJTEw
+         4gdg==
+X-Gm-Message-State: AOAM5318dpHlvqWyQ780e7a3QYhCUqtqtep2J0v+1UX+IIQQL81qMhya
+        XU+EhvUSxLNi86w1Ib/5QEDN3Q==
+X-Google-Smtp-Source: ABdhPJyrNQzSj1QE+Qkm5CWvnTtBNZHgXZdYRD5QsBgAGl8HowPGK/ocdDyRBmSt205H50cLvofh/w==
+X-Received: by 2002:a1c:9848:: with SMTP id a69mr18051505wme.158.1604330441469;
+        Mon, 02 Nov 2020 07:20:41 -0800 (PST)
+Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr. [90.8.158.167])
+        by smtp.gmail.com with ESMTPSA id b18sm15138014wmj.41.2020.11.02.07.20.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2020 07:20:40 -0800 (PST)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
+        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+        netdev@vger.kernel.org, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH v2 0/8] slab: provide and use krealloc_array()
+Date:   Mon,  2 Nov 2020 16:20:29 +0100
+Message-Id: <20201102152037.963-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.29.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201102141838.7oicqkeqy7vy3ki3@gilmour.lan>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9792 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 adultscore=0 bulkscore=0
- mlxscore=0 suspectscore=0 spamscore=0 mlxlogscore=999 malwarescore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011020121
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9792 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0
- impostorscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
- bulkscore=0 phishscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011020121
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 02, 2020 at 03:18:38PM +0100, Maxime Ripard wrote:
-> On Mon, Nov 02, 2020 at 10:26:22PM +0800, Zhang Qilong wrote:
-> > pm_runtime_get_sync will increment pm usage counter even it
-> > failed. Forgetting to pm_runtime_put_noidle will result in
-> > reference leak in cedrus_start_streaming. We should fix it.
-> > 
-> > Fixes: d5aecd289babf ("media: cedrus: Implement runtime PM")
-> > Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
-> 
-> Shouldn't we fix pm_runtime_get_sync instead then? It seems that most of
-> the callers get this wrong, and that's definitely non-obvious.
-> 
-> Maxime
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-The other bug that people run into is that pm_runtime_get_sync() can
-return 1 on success.
+Andy brought to my attention the fact that users allocating an array of
+equally sized elements should check if the size multiplication doesn't
+overflow. This is why we have helpers like kmalloc_array().
 
-drivers/spi/spi-img-spfi.c:734 img_spfi_resume() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/mfd/arizona-core.c:49 arizona_clk32k_enable() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/usb/dwc3/dwc3-pci.c:212 dwc3_pci_resume_work() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/input/keyboard/omap4-keypad.c:279 omap4_keypad_probe() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/gpu/drm/vc4/vc4_dsi.c:839 vc4_dsi_encoder_enable() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/gpu/drm/i915/selftests/mock_gem_device.c:157 mock_gem_device() warn: 'pm_runtime_get_sync(&pdev->dev)' returns positive and negative
-drivers/watchdog/rti_wdt.c:230 rti_wdt_probe() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/media/platform/exynos4-is/mipi-csis.c:513 s5pcsis_s_stream() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c:89 mtk_vcodec_dec_pw_on() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/media/platform/ti-vpe/cal.c:794 cal_probe() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/media/platform/ti-vpe/vpe.c:2478 vpe_runtime_get() warn: pm_runtime_get_sync() also returns 1 on success
-drivers/media/i2c/smiapp/smiapp-core.c:1529 smiapp_pm_get_init() warn: pm_runtime_get_sync() also returns 1 on success
+However we don't have krealloc_array() equivalent and there are many
+users who do their own multiplication when calling krealloc() for arrays.
 
-I don't really understand the point of incrementing the counter on
-failure well enough to write a check for this...
+This series provides krealloc_array() and uses it in a couple places.
 
-regards,
-dan carpenter
+A separate series will follow adding devm_krealloc_array() which is
+needed in the xilinx adc driver.
+
+v1 -> v2:
+- added a kernel doc for krealloc_array()
+- mentioned krealloc et al in the docs
+- collected review tags
+
+Bartosz Golaszewski (8):
+  mm: slab: provide krealloc_array()
+  ALSA: pcm: use krealloc_array()
+  vhost: vringh: use krealloc_array()
+  pinctrl: use krealloc_array()
+  edac: ghes: use krealloc_array()
+  drm: atomic: use krealloc_array()
+  hwtracing: intel: use krealloc_array()
+  dma-buf: use krealloc_array()
+
+ Documentation/core-api/memory-allocation.rst |  4 ++++
+ drivers/dma-buf/sync_file.c                  |  4 ++--
+ drivers/edac/ghes_edac.c                     |  4 ++--
+ drivers/gpu/drm/drm_atomic.c                 |  3 ++-
+ drivers/hwtracing/intel_th/msu.c             |  2 +-
+ drivers/pinctrl/pinctrl-utils.c              |  2 +-
+ drivers/vhost/vringh.c                       |  3 ++-
+ include/linux/slab.h                         | 18 ++++++++++++++++++
+ sound/core/pcm_lib.c                         |  4 ++--
+ 9 files changed, 34 insertions(+), 10 deletions(-)
+
+-- 
+2.29.1
+
