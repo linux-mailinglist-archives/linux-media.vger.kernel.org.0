@@ -2,215 +2,145 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0825A2A26C3
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 10:16:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5BDA2A26DF
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 10:21:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728290AbgKBJQH convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 2 Nov 2020 04:16:07 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:37928 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728005AbgKBJQG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 2 Nov 2020 04:16:06 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kZVwb-00BTEO-2k; Mon, 02 Nov 2020 09:16:05 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kZVzZ-0006E4-OF; Mon, 02 Nov 2020 09:19:09 +0000
-Date:   Mon, 2 Nov 2020 09:19:09 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1249773766.23.1604308749743@builder.linuxtv.org>
-In-Reply-To: <1888550146.22.1604304266987@builder.linuxtv.org>
-References: <1888550146.22.1604304266987@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3274
+        id S1728285AbgKBJVQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 04:21:16 -0500
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:53167 "EHLO
+        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727992AbgKBJVP (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 2 Nov 2020 04:21:15 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 471EA580098;
+        Mon,  2 Nov 2020 04:21:14 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute6.internal (MEProxy); Mon, 02 Nov 2020 04:21:14 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=Io+FlZjpTIADTIzIW74U/CyYabR
+        lDgPOCEmLfu2QH3g=; b=qb9LVfNuiocCc5g3UUl8IPfkntSozd6qT7Sjrjx0tFo
+        4j1JdNHEYnblDITN5DgdPReu0/HzZss+XJSUrKrBVqFK0QMYJdbkeTPoebXS71Kk
+        8Gaex6NAxHWxCkW1Rno52RSemsIWEJ+BwxDpGvW+AiVzaBvsHHY1bHGufvupmaRx
+        1+3tUsW2Au1TvM5EZR8UmZzRzxXUb9tOdpr/oYKWgXDUIgiRaTsFrcw3ffK6EeAM
+        x5o1OoT0t14L5JePEiSj7xAQQVLvmaQBaw3CJn4e4QzuOjSrBOyYCZXCkI6NWx3V
+        EGC89ga7xIDALXACNjfvdnTdQVUAniArhP7Nc4F4KCQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=Io+FlZ
+        jpTIADTIzIW74U/CyYabRlDgPOCEmLfu2QH3g=; b=MMuWHDtj84vswQqq7yMhRs
+        I4Hi/O0pIbQAn/PwSSYTJOXHy/nJrv2FnTS5LJAIdTq3MD/mlaPzVP+gBqAIr6hJ
+        InQAzHpAT9JojXHU5JV9oBq9kZlNGEBJzaRyc0dEl4lRwwRf63oCOprmbPo2joqx
+        NGmp640Y3dHKQ3rHn9VxTD0lJQkt9grNvv3UZomq5znzKXdo4yXE97LfANR7Gvvb
+        N+6n/M4GFO3wqsNzSTd5tnM4eT0hRrSIJgm1V60wwGBHQ4Uh+EnhXiT1vgawuM2d
+        +shTWS/v6VqIaQkKdRZMfhvE3ac0s6Ru+qHfnjJCC+T7VUFS56HOaU1iMVYFOBGg
+        ==
+X-ME-Sender: <xms:iM-fX8KP1DzyxIxewYJWDTSozS9-gVoDmXPk2zOY6_ODB4LqokrUVg>
+    <xme:iM-fX8Kdd-q8qUPTHMcV8g0MKNDgKJqCXQVGuU-Ufu7bshQYH1qaSvo97pFQu1g8s
+    fPiZRlScXIuKC4f7mA>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddtuddgtdefucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
+    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:iM-fX8vP4u6C1aWqNQiiqi2DAvv04qCNBGo_I-w6ohgs_HhoVhV1KQ>
+    <xmx:iM-fX5ZHSlsqCtftC5cEMAkmh35AXyJs73_qu1p6tQH_jnQfxfVHWQ>
+    <xmx:iM-fXzYDfen_Fj9YFR1M3j392v6-Ar4yeTkBirbtJXK5tQyFcM30JQ>
+    <xmx:is-fXwQd6WJuN4-XtgH2ANeSZmZI_z7g2sEa9DGSctnxyKReorADvw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 390F83064674;
+        Mon,  2 Nov 2020 04:21:12 -0500 (EST)
+Date:   Mon, 2 Nov 2020 10:21:10 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Yong Deng <yong.deng@magewell.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com
+Subject: Re: [PATCH 08/14] media: sunxi: Add support for the A31 MIPI CSI-2
+ controller
+Message-ID: <20201102092110.ro6a456lvbrktwoz@gilmour.lan>
+References: <20201023174546.504028-1-paul.kocialkowski@bootlin.com>
+ <20201023174546.504028-9-paul.kocialkowski@bootlin.com>
+ <1a3a615c-a058-e282-2dbb-c99dfa98be68@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="r6wmi6wvpuneeypr"
+Content-Disposition: inline
+In-Reply-To: <1a3a615c-a058-e282-2dbb-c99dfa98be68@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3274/display/redirect>
 
-Changes:
+--r6wmi6wvpuneeypr
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Fri, Oct 30, 2020 at 07:45:18PM -0300, Helen Koike wrote:
+> On 10/23/20 2:45 PM, Paul Kocialkowski wrote:
+> > The A31 MIPI CSI-2 controller is a dedicated MIPI CSI-2 controller
+> > found on Allwinner SoCs such as the A31 and V3/V3s.
+> >=20
+> > It is a standalone block, connected to the CSI controller on one side
+> > and to the MIPI D-PHY block on the other. It has a dedicated address
+> > space, interrupt line and clock.
+> >=20
+> > Currently, the MIPI CSI-2 controller is hard-tied to a specific CSI
+> > controller (CSI0) but newer SoCs (such as the V5) may allow switching
+> > MIPI CSI-2 controllers between CSI controllers.
+> >=20
+> > It is represented as a V4L2 subdev to the CSI controller and takes a
+> > MIPI CSI-2 sensor as its own subdev, all using the fwnode graph and
+> > media controller API.
+>=20
+> Maybe this is a bad idea, but I was thinking:
+> This driver basically just turn on/off and catch some interrupts for erro=
+rs,
+> and all the rest of v4l2 config you just forward to the next subdevice
+> on the pipeline.
+>=20
+> So instead of exposing it as a subdevice, I was wondering if modeling
+> this driver also through the phy subsystem wouldn't be cleaner, so
+> you won't need all the v4l2 subdevice/topology boilerplate code that
+> it seems you are not using (unless you have plans to add controls or
+> some specific configuration on this node later).
+>=20
+> But this would require changes on the sun6i-csi driver.
+>=20
+> What do you think?
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building on master in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --is-inside-work-tree # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.20.1'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision bb0421630712dd7c4c72808d390305cae025876d (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f bb0421630712dd7c4c72808d390305cae025876d # timeout=10
-Commit message: "STACK_FRAME_NON_STANDARD is now in objtool.h"
- > git rev-list --no-walk bb0421630712dd7c4c72808d390305cae025876d # timeout=10
-[Checks API] No suitable checks publisher found.
-[media-build] $ /bin/sh -xe /tmp/jenkins10543789676460576578.sh
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
-Needed package dependencies are met.
+Eventually we'll need to filter the virtual channels / datatypes I
+guess, so it's definitely valuable to have it in v4l2
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+Maxime
 
-Not aborted. It means that the licence was agreed. Proceeding...
+--r6wmi6wvpuneeypr
+Content-Type: application/pgp-signature; name="signature.asc"
 
-****************************
-Updating the building system
-****************************
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2020-11-02 09:19:06--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2020-11-02 09:19:07--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
+-----BEGIN PGP SIGNATURE-----
 
-     0K                                                       100%  168M=0s
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX5/PhgAKCRDj7w1vZxhR
+xdTqAP9BNW3DOvNEhXCUns3+K6kcuMjRRnDvKoZkb+YtDDRnxgD/VYACQnV5UMH0
+6qUJuIMi3BvClNZUn19ZMhW3WnIMkwM=
+=3I1e
+-----END PGP SIGNATURE-----
 
-2020-11-02 09:19:07 (168 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
-
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-12-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
-patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
-patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
-patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
-patch -s -f -N -p1 -i ../backports/v5.4_dma_buf.patch
-patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
-patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
-patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
-patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
-Patched drivers/media/dvb-core/dvbdev.c
-Patched drivers/media/v4l2-core/v4l2-dev.c
-Patched drivers/media/rc/rc-main.c
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-./scripts/make_kconfig.pl /lib/modules/4.19.0-12-amd64/build /lib/modules/4.19.0-12-amd64/build 1
-File not found: /lib/modules/4.19.0-12-amd64/build/.config at ./scripts/make_kconfig.pl line 33, <IN> line 4.
-Preparing to compile for kernel version 4.19.0
-make[1]: *** [Makefile:379: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+--r6wmi6wvpuneeypr--
