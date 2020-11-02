@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04FF32A36BC
+	by mail.lfdr.de (Postfix) with ESMTP id 714482A36BD
 	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 23:42:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726928AbgKBWmQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 17:42:16 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:42350 "EHLO
+        id S1726949AbgKBWmR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 17:42:17 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:42356 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726913AbgKBWmP (ORCPT
+        with ESMTP id S1726920AbgKBWmP (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 17:42:15 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 3D52D1AAE;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D0356FD1;
         Mon,  2 Nov 2020 23:42:03 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1604356923;
-        bh=tJWOaqIl77E2yg0sDbeby8WaXzJDiVBRnfUlVWXVxSk=;
+        s=mail; t=1604356924;
+        bh=dTlhXG+9yHH8WP+v9tvsn2+wtF6rBscX5uLjXNB7GUc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=Xz/L20CqWWdAveDWiWCHj4ixvadkreQVecbu76jB/hk5SRF8Js2yy2vYNPOeTub+y
-         LuDm5BO1k9CKZZUqq+ybvIP8cT2vwhXfijvEyeQNkz2Tt9IYkB4/pC53fKyKwvCpp5
-         Qop2rgku/SKN45zQJgN4bDHeYsevGHI6Ku4CIFpQ=
+        b=ooWJZ2r6YGlRY22CaZ4fF4IzDCNfbJvycWXjr422bL6in11s36qF863bbP7dhMEMH
+         dBnbWQWRtIS6+yyeBfPeOMM94Z0sD10mKrfaeZahXeXyyt4djZ9ZM6QJs143Hb2pin
+         AigZ4EBG9gM99r8AaKpOgseK2sXAV1GQ1Jy3S1+g=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -28,9 +28,9 @@ Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Dylan Yip <dylany@xilinx.com>,
         Vishal Sagar <vsagar@xilinx.com>,
         Nicolas Dufresne <nicolas@ndufresne.ca>
-Subject: [PATCH v2 17/19] media: v4l2: Add 10-, 12- and 16-bpc 4:4:4 packed VUY formats
-Date:   Tue,  3 Nov 2020 00:41:00 +0200
-Message-Id: <20201102224102.30292-18-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 18/19] media: v4l2: Add 10- and 12-bpc luma-only formats with linear packing
+Date:   Tue,  3 Nov 2020 00:41:01 +0200
+Message-Id: <20201102224102.30292-19-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201102224102.30292-1-laurent.pinchart@ideasonboard.com>
 References: <20201102224102.30292-1-laurent.pinchart@ideasonboard.com>
@@ -40,101 +40,77 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add three new formats storing packed YUV 4:4:4 in 10-, 12- and 16-bpc
-variants, with component order VUY. They are used by the Xilinx Video
-Frame Buffer Read/Write IP cores.
+Add two new formats storing luma only in 10- and 12-bpc variants, with
+linear packing. They are used by the Xilinx Video Frame Buffer
+Read/Write IP cores.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
-Changes since v1:
+ .../media/v4l/pixfmt-yuv-luma.rst             | 23 +++++++++++++++++++
+ include/uapi/linux/videodev2.h                |  2 ++
+ 2 files changed, 25 insertions(+)
 
-- Interleave component names and number of bits
----
- .../media/v4l/pixfmt-packed-yuv.rst           | 56 +++++++++++++++++++
- include/uapi/linux/videodev2.h                |  3 +
- 2 files changed, 59 insertions(+)
-
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-index 6824898122aa..7f66d5ba8cfa 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
-@@ -257,6 +257,62 @@ the second byte and Y'\ :sub:`7-0` in the third byte.
-       applications and drivers.
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+index ba8cd895cb0b..7c65d58d9e25 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+@@ -17,6 +17,7 @@ are often referred to as greyscale formats.
+    - Y'\ :sub:`x`\ [9:2] denotes bits 9 to 2 of the Y' value for pixel at colum
+      `x`.
+    - `0` denotes padding bits set to 0.
++   - `-` denotes padding bits with undefined values.
  
  
-+The next table lists the packed YUV 4:4:4 formats with more than 8 bits per
-+component. They are named similarly to the formats with less than 8 bits per
-+components, based on the order of the Y, Cb and Cr components as seen in a
-+word, which is then stored in memory in little endian byte order, and on the
-+number of bits for each component. The component names and the corresponding
-+number of bits are interleaved for clarity.
-+
-+.. flat-table:: Packed YUV Image Formats (more than 8bpc)
-+    :header-rows: 1
-+    :stub-columns: 0
-+
-+    * - Identifier
-+      - Code
-+      - Byte 0
-+      - Byte 1
-+      - Byte 2
-+      - Byte 3
-+      - Byte 4
-+      - Byte 5
-+
-+    * .. _V4L2-PIX-FMT-X2V10U10Y10:
-+
-+      - ``V4L2_PIX_FMT_X2V10U10Y10``
-+      - 'VY30'
-+
-+      - Y'\ :sub:`7-0`
-+      - Cb\ :sub:`5-0` Y'\ :sub:`9-8`
-+      - Cr\ :sub:`3-0` Cb\ :sub:`9-6`
-+      - `-`\ :sub:`1-0` Cr\ :sub:`9-4`
-+      -
-+
-+    * .. _V4L2-PIX-FMT-X4V12U12Y12:
-+
-+      - ``V4L2_PIX_FMT_X4V12U12Y12``
-+      - 'VY36'
-+
-+      - Y'\ :sub:`7-0`
-+      - Cb\ :sub:`3-0` Y'\ :sub:`11-8`
-+      - Cb\ :sub:`11-4`
-+      - Cr\ :sub:`7-0`
-+      - `-`\ :sub:`3-0` Cr\ :sub:`11-8`
-+      -
-+
-+    * .. _V4L2-PIX-FMT-V16U16Y16:
-+
-+      - ``V4L2_PIX_FMT_V16U16Y16``
-+      - 'VY40'
-+
-+      - Y'\ :sub:`7-0`
-+      - Y'\ :sub:`15-8`
-+      - Cb\ :sub:`7-0`
-+      - Cb\ :sub:`15-8`
-+      - Cr\ :sub:`7-0`
-+      - Cr\ :sub:`15-8`
-+
-+
- 4:2:2 Subsampling
- =================
+ .. flat-table:: Luma-Only Image Formats
+@@ -75,6 +76,17 @@ are often referred to as greyscale formats.
+       - Y'\ :sub:`3`\ [9:2]
+       - Y'\ :sub:`3`\ [1:0] Y'\ :sub:`2`\ [1:0] Y'\ :sub:`1`\ [1:0] Y'\ :sub:`0`\ [1:0]
  
++    * .. _V4L2-PIX-FMT-Y10X:
++
++      - ``V4L2_PIX_FMT_Y10X``
++      - 'Y10X'
++
++      - Y'\ :sub:`0`\ [7:0]
++      - Y'\ :sub:`1`\ [5:0] Y'\ :sub:`0`\ [9:8]
++      - Y'\ :sub:`2`\ [3:0] Y'\ :sub:`1`\ [9:6]
++      - `- -` Y'\ :sub:`2`\ [9:4]
++      - ...
++
+     * .. _V4L2-PIX-FMT-Y12:
+ 
+       - ``V4L2_PIX_FMT_Y12``
+@@ -86,6 +98,17 @@ are often referred to as greyscale formats.
+       - ...
+       - ...
+ 
++    * .. _V4L2-PIX-FMT-Y12X:
++
++      - ``V4L2_PIX_FMT_Y12X``
++      - 'Y12X'
++
++      - Y'\ :sub:`0`\ [7:0]
++      - Y'\ :sub:`1`\ [3:0] Y'\ :sub:`0`\ [11:8]
++      - Y'\ :sub:`1`\ [11:4]
++      - Y'\ :sub:`2`\ [7:0]
++      - `- - - -` Y'\ :sub:`2`\ [11:8]
++
+     * .. _V4L2-PIX-FMT-Y14:
+ 
+       - ``V4L2_PIX_FMT_Y14``
 diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index afe3619bc77c..5cdbd1a2fddb 100644
+index 5cdbd1a2fddb..cf9288d270c6 100644
 --- a/include/uapi/linux/videodev2.h
 +++ b/include/uapi/linux/videodev2.h
-@@ -602,6 +602,9 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_YUVA32  v4l2_fourcc('Y', 'U', 'V', 'A') /* 32  YUVA-8-8-8-8  */
- #define V4L2_PIX_FMT_YUVX32  v4l2_fourcc('Y', 'U', 'V', 'X') /* 32  YUVX-8-8-8-8  */
- #define V4L2_PIX_FMT_M420    v4l2_fourcc('M', '4', '2', '0') /* 12  YUV 4:2:0 2 lines y, 1 line uv interleaved */
-+#define V4L2_PIX_FMT_X2V10U10Y10 v4l2_fourcc('V', 'Y', '3', '0') /* 32  XVUY-2-10-10-10 */
-+#define V4L2_PIX_FMT_X4V12U12Y12 v4l2_fourcc('V', 'Y', '3', '6') /* 40  XVUY-4-12-12-12 */
-+#define V4L2_PIX_FMT_V16U16Y16 v4l2_fourcc('V', 'Y', '4', '8') /* 48  VUY-16-16-16 */
+@@ -576,6 +576,8 @@ struct v4l2_pix_format {
+ /* Grey bit-packed formats */
+ #define V4L2_PIX_FMT_Y10BPACK    v4l2_fourcc('Y', '1', '0', 'B') /* 10  Greyscale bit-packed */
+ #define V4L2_PIX_FMT_Y10P    v4l2_fourcc('Y', '1', '0', 'P') /* 10  Greyscale, MIPI RAW10 packed */
++#define V4L2_PIX_FMT_Y10X    v4l2_fourcc('Y', '1', '0', 'X') /* 10  Greyscale, 3 pixels in 4 bytes */
++#define V4L2_PIX_FMT_Y12X    v4l2_fourcc('Y', '1', '2', 'X') /* 12  Greyscale, 4 pixels in 5 bytes */
  
- /* two planes -- one Y, one Cr + Cb interleaved  */
- #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 4:2:0  */
+ /* Palette formats */
+ #define V4L2_PIX_FMT_PAL8    v4l2_fourcc('P', 'A', 'L', '8') /*  8  8-bit palette */
 -- 
 Regards,
 
