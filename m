@@ -2,146 +2,217 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E85DD2A34B9
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 20:58:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DA892A3549
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 21:40:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727002AbgKBT6F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 14:58:05 -0500
-Received: from mx0a-002e3701.pphosted.com ([148.163.147.86]:51136 "EHLO
-        mx0a-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726360AbgKBT52 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 2 Nov 2020 14:57:28 -0500
-Received: from pps.filterd (m0148663.ppops.net [127.0.0.1])
-        by mx0a-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A2JnjMh005906;
-        Mon, 2 Nov 2020 19:57:14 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=date : from : to : cc :
- subject : message-id : reply-to : references : content-type : in-reply-to
- : mime-version; s=pps0720;
- bh=wWs0BUEJ4QSNrRzIaVowN9j/D52jMAm5Em0ykihOTZQ=;
- b=VNiX8vb822xLllVx1v3z5RrsyJUjBMeJ6tcgV+g2nFh3NLk2UMzjHNNQ3CTzo88LOnfq
- LljI1H9HSQQ5cKKYs7MIqptbZWYzV9b8gar9mi/notjhsenBE6pVBf/9LWqbz7sktRok
- eEZxw71kE3LcPaX5elJp8FGaMmGH3vECknTOiBlEwzy53RImjLycd2j6kJi8m5J+DiPW
- +wYwOQurL4OkyCiA75OG90aMfKkh2Zp8HdelJ/yKYgIj0E9ZO1O+TFcHMeSypGrqf6XX
- OLAXpCbT3uR4UfiowjKqlIhq0oAOsqsBjjeDG+8BzQLXwwHt9B0lVrODNIk6hueMupJw Cg== 
-Received: from g4t3426.houston.hpe.com (g4t3426.houston.hpe.com [15.241.140.75])
-        by mx0a-002e3701.pphosted.com with ESMTP id 34hht5d6fj-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Mon, 02 Nov 2020 19:57:14 +0000
-Received: from g4t3433.houston.hpecorp.net (g4t3433.houston.hpecorp.net [16.208.49.245])
-        by g4t3426.houston.hpe.com (Postfix) with ESMTP id A1DD154;
-        Mon,  2 Nov 2020 19:57:12 +0000 (UTC)
-Received: from rfwz62 (rfwz62.americas.hpqcorp.net [10.33.237.8])
-        by g4t3433.houston.hpecorp.net (Postfix) with ESMTP id 413E046;
-        Mon,  2 Nov 2020 19:57:11 +0000 (UTC)
-Date:   Mon, 2 Nov 2020 12:57:11 -0700
-From:   rwright@hpe.com
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
-        rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        wambui.karugax@gmail.com, chris@chris-wilson.co.uk,
-        matthew.auld@intel.com, akeem.g.abodunrin@intel.com,
-        prathap.kumar.valsan@intel.com, mika.kuoppala@linux.intel.com,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] Reduce context clear batch size to avoid gpu hang
-Message-ID: <20201102195710.GA12790@rfwz62>
-Reply-To: rwright@hpe.com
-References: <20201101174132.10513-1-rwright@hpe.com>
- <8cdf0dd0-2a2f-bae9-71ea-89a88fdb14a5@redhat.com>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8cdf0dd0-2a2f-bae9-71ea-89a88fdb14a5@redhat.com>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S1726606AbgKBUkk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 15:40:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50638 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726587AbgKBUj2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 15:39:28 -0500
+Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59F72C0617A6
+        for <linux-media@vger.kernel.org>; Mon,  2 Nov 2020 12:39:28 -0800 (PST)
+Received: by mail-qv1-xf43.google.com with SMTP id g13so6767227qvu.1
+        for <linux-media@vger.kernel.org>; Mon, 02 Nov 2020 12:39:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=c0Os8/MKK/iOo/A1J0r/eH6ZLhJiFOEcbwWq89W7AXE=;
+        b=m8VT9FKx9f3w1fFpSVCrru8oewK59jFb+7TvEoUhOILuIovU1MR0PlHmZZsbut0Z4t
+         Mil0gt+2tt9Bdf0CPpFzhOWv+o3Kd3mqCI3ZhSDhUGvHP9me5A1sHqsdcBz8oQ8iiJwv
+         DlwXqa34VtMLZhvI0djIWiKVEheyl0Fyrabs/7Fr9LkvCG2llT9rQr54HYFN2LuzM+JY
+         cq5Ij34K2QdGhPCjQbFvK9giQw7cfMHPFvK0Jyk9B9b/fbG/QqA0WxoX2gUv12OVH3O3
+         5vKN9HyDWd5D2DUaK+qEBafl1Bf2ZqbwDin30PjI+iJqh4dceYFW/sIT9pl/MdLAntmy
+         QgFw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=c0Os8/MKK/iOo/A1J0r/eH6ZLhJiFOEcbwWq89W7AXE=;
+        b=XIxKH4z1fxxuirIRAU3k9gSXy8QvV6ivOWeBtypIR4GxJR4fFoASfDUCneW4MHrsSd
+         Vkc9HvuxwdIDwy+qJOHkvc0X4i6VCS7i2IOz4by1FjfKDn1mANjqiUAJ4U20wOe0I+dN
+         buBENXfCcHeDDGxGvM1pmGdV5RU+k5qinei/vKcdItYv7twXsrd20xycOWo0XTfMzRFB
+         axq8wjxtkslhGyR6ml7rD5yvZoHZRXxZaKTswwyuBtE+yNycMjaZob78/TvyPJpNHtVA
+         6RqBO0sbdRT/Vn/QoJI+meZrK1VlzlKAveVYuMQAQJHuT5MlkFasZrr5kfU/f/mOKjWF
+         BWyw==
+X-Gm-Message-State: AOAM530cX+/0BIozB6TXZa50q7rxYzwqVj5dD0gzsYr6k8JMuu3cYYO1
+        DlJjrbmPigdyyBA6GnkuU0iKnw==
+X-Google-Smtp-Source: ABdhPJwjHAXyMhAxW6gD9ZOSXFirZObXLguCLbXm+nNQNR7WxSuAl55pg2NmNXMH7xFQL5ScqJZWcA==
+X-Received: by 2002:a0c:f14b:: with SMTP id y11mr24365019qvl.35.1604349567500;
+        Mon, 02 Nov 2020 12:39:27 -0800 (PST)
+Received: from [192.168.43.1] (marriott-chateau-champlain-montreal.sites.intello.com. [66.171.169.34])
+        by smtp.gmail.com with ESMTPSA id g191sm4688887qke.86.2020.11.02.12.39.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 02 Nov 2020 12:39:26 -0800 (PST)
+Message-ID: <62f00dd8b515a94af1e993ad4c3586628d3e2954.camel@ndufresne.ca>
+Subject: Re: [PATCH/RFC 15/16] media: v4l2: Add 10-, 12- and 16-bpc 4:4:4
+ packed VUY formats
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Dylan Yip <dylany@xilinx.com>, Vishal Sagar <vsagar@xilinx.com>
+Date:   Mon, 02 Nov 2020 15:39:25 -0500
+In-Reply-To: <20201101003811.GD4225@pendragon.ideasonboard.com>
+References: <20200923024333.920-1-laurent.pinchart@ideasonboard.com>
+         <20200923024333.920-16-laurent.pinchart@ideasonboard.com>
+         <9254388432492f46a38af8cfe5fb927f63e9e73b.camel@ndufresne.ca>
+         <20201101003811.GD4225@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.1 (3.38.1-1.fc33) 
 MIME-Version: 1.0
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-11-02_13:2020-11-02,2020-11-02 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 malwarescore=0 suspectscore=0
- clxscore=1015 priorityscore=1501 impostorscore=0 mlxscore=0
- mlxlogscore=999 lowpriorityscore=0 adultscore=0 phishscore=0 spamscore=0
- bulkscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011020151
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 02, 2020 at 10:48:54AM +0100, Hans de Goede wrote:
-> Hi,
+Le dimanche 01 novembre 2020 à 02:38 +0200, Laurent Pinchart a écrit :
+> Hi Nicolas,
 > 
-> On 11/1/20 6:41 PM, rwright@hpe.com wrote:
-> > From: Randy Wright <rwright@hpe.com>
+> On Thu, Sep 24, 2020 at 02:24:44PM -0400, Nicolas Dufresne wrote:
+> > Le mercredi 23 septembre 2020 à 05:43 +0300, Laurent Pinchart a écrit :
+> > > Add three new formats storing packed YUV 4:4:4 in 10-, 12- and 16-bpc
+> > > variants, with component order VUY. They are used by the Xilinx Video
+> > > Frame Buffer Read/Write IP cores.
+> > > 
+> > > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > > ---
+> > >  .../media/v4l/pixfmt-packed-yuv.rst           | 55 +++++++++++++++++++
+> > >  include/uapi/linux/videodev2.h                |  3 +
+> > >  2 files changed, 58 insertions(+)
+> > > 
+> > > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> > > index 3c7c8e38b7b7..4753ee8c6b7d 100644
+> > > --- a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> > > +++ b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+> > > @@ -264,6 +264,61 @@ the second byte and Y'\ :sub:`7-0` in the third byte.
+> > >        applications and drivers.
+> > >  
+> > > 
+> > > 
+> > > 
+> > >  
+> > > 
+> > > 
+> > > 
+> > > +The next table lists the packed YUV 4:4:4 formats with more than 8 bits per
+> > > +component. They are named similarly to the formats with less than 8 bits per
+> > > +components, based on the order of the Y, Cb and Cr components as seen in a
+> > > +word, which is then stored in memory in little endian byte order, and on the
+> > > +number of bits for each component.
+> > > +
+> > > +.. flat-table:: Packed YUV Image Formats (more than 8bpc)
+> > > +    :header-rows: 1
+> > > +    :stub-columns: 0
+> > > +
+> > > +    * - Identifier
+> > > +      - Code
+> > > +      - Byte 0
+> > > +      - Byte 1
+> > > +      - Byte 2
+> > > +      - Byte 3
+> > > +      - Byte 4
+> > > +      - Byte 5
+> > > +
+> > > +    * .. _V4L2-PIX-FMT-XVUY2101010:
+> > > +
+> > > +      - ``V4L2_PIX_FMT_XVUY2101010``
+> > > +      - 'VY30'
+> > > +
+> > > +      - Y'\ :sub:`7-0`
+> > > +      - Cb\ :sub:`5-0` Y'\ :sub:`9-8`
+> > > +      - Cr\ :sub:`3-0` Cb\ :sub:`9-6`
+> > > +      - `-`\ :sub:`1-0` Cr\ :sub:`9-4`
+> > > +      -
+> > > +
+> > > +    * .. _V4L2-PIX-FMT-XVUY4121212:
+> > > +
+> > > +      - ``V4L2_PIX_FMT_XVUY4121212``
+> > > +      - 'VY36'
+> > > +
+> > > +      - Y'\ :sub:`7-0`
+> > > +      - Cb\ :sub:`3-0` Y'\ :sub:`11-8`
+> > > +      - Cb\ :sub:`11-4`
+> > > +      - Cr\ :sub:`7-0`
+> > > +      - `-`\ :sub:`3-0` Cr\ :sub:`11-8`
+> > > +      -
+> > > +
+> > > +    * .. _V4L2-PIX-FMT-VUY161616:
+> > > +
+> > > +      - ``V4L2_PIX_FMT_VUY161616``
+> > > +      - 'VY40'
+> > > +
+> > > +      - Y'\ :sub:`7-0`
+> > > +      - Y'\ :sub:`15-8`
+> > > +      - Cb\ :sub:`7-0`
+> > > +      - Cb\ :sub:`15-8`
+> > > +      - Cr\ :sub:`7-0`
+> > > +      - Cr\ :sub:`15-8`
+> > > +
+> > > +
+> > >  4:2:2 Subsampling
+> > >  =================
+> > >  
+> > > 
+> > > 
+> > > 
+> > > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> > > index 503a938ea98c..9b4cab651df7 100644
+> > > --- a/include/uapi/linux/videodev2.h
+> > > +++ b/include/uapi/linux/videodev2.h
+> > > @@ -605,6 +605,9 @@ struct v4l2_pix_format {
+> > >  #define V4L2_PIX_FMT_YUVA32  v4l2_fourcc('Y', 'U', 'V', 'A') /* 32  YUVA-8-8-8-8  */
+> > >  #define V4L2_PIX_FMT_YUVX32  v4l2_fourcc('Y', 'U', 'V', 'X') /* 32  YUVX-8-8-8-8  */
+> > >  #define V4L2_PIX_FMT_M420    v4l2_fourcc('M', '4', '2', '0') /* 12  YUV 4:2:0 2 lines y, 1 line uv interleaved */
+> > > +#define V4L2_PIX_FMT_XVUY2101010 v4l2_fourcc('V', 'Y', '3', '0') /* 32  XVUY-2-10-10-10 */
+> > > +#define V4L2_PIX_FMT_XVUY4121212 v4l2_fourcc('V', 'Y', '3', '6') /* 40  XVUY-4-12-12-12 */
+> > > +#define V4L2_PIX_FMT_VUY161616 v4l2_fourcc('V', 'Y', '4', '8') /* 48  VUY-16-16-16 */
 > > 
-> > For several months, I've been experiencing GPU hangs when  starting
-> > Cinnamon on an HP Pavilion Mini 300-020 if I try to run an upstream
-> > kernel.  I reported this recently in
-> > https://gitlab.freedesktop.org/drm/intel/-/issues/2413 where I have
-> > attached the requested evidence including the state collected from
-> > /sys/class/drm/card0/error and debug output from dmesg.
+> > That is very hard to read. I'm fine with being more verbose, but I
+> > think it would be nice if it remains human readable. A possible fix
+> > could be:
 > > 
-> > I ran a bisect to find the problem, which indicates this is the
-> > troublesome commit:
+> >   V4L2_PIX_FMT_XVUY_2_10_10_10
+> 
+> Hans has proposed an interleave naming scheme in the review of 13/16.
+> This would become X2V10U10Y10. He also mentioned an alternative option
+> that would match your proposal above. I don't have a strong preference.
+> Can you and Hans agree on the best option ?
+
+Not that I have a strong preference, they equally describe the format.
+
+1. V4L2_PIX_FMT_X2V10U10Y10:
+
+This is more compact and more likely to fit 80 to 100 chars when
+coding.
+
+2. V4L2_PIX_FMT_XVUY_2_10_10_10:
+
+It splits the component order and leave the component size easy to
+read. It is overall easier to identify on first read.
+
+I read more code then I write, so my obvious preference would be 2.,
+but I'm fine with any. 
+
+> > Another approach is a bit-per-component and pixel size approach. That
+> > one would be XYUV10_32. It is more cryptic, and you need more doc to
+> > understand.
 > > 
-> >   [47f8253d2b8947d79fd3196bf96c1959c0f25f20] drm/i915/gen7: Clear all EU/L3 residual contexts
-> > ...
-> > I've now cleaned up the patch to employ a new QUIRK_RENDERCLEAR_REDUCED.
-> > The quirk is presently set only for the aforementioned HP Pavilion Mini
-> > 300-020.  The patch now touches three files to define the quirk, set it,
-> > and then check for it in function batch_get_defaults.
+> > That brings me to endianness, I believe it does matter for these
+> > unaligned component, so that should be documented (little).
 > 
-> Note I'm not really an i915 dev.
+> That's already documented in
+> Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst.
+
+Ack.
+
 > 
-> With that said I do wonder if we should not use the
-> reduced batch size in a lot more cases, the machine in question uses a
-> 3558U CPU if the iGPU of that CPU has this issue, then I would expect
-> pretty much all Haswell U models (at a minimum) to have this issue.
-> 
-> So solving this with a quirk for just the HP Pavilion Mini 300-020
-> seems wrong to me. I think we need a more generic way of enabling
-> the reduced batch size. I even wonder if we should not simply use
-> it everywhere. Since you do have a proper Haswell CPU, I guess
-> it being an U model makes the hang easier to trigger, but I suspect
-> the higher TPD ones may also still be susceptible ...
-> 
-> Regards,
-> 
-> Hans
+> > >  /* two planes -- one Y, one Cr + Cb interleaved  */
+> > >  #define V4L2_PIX_FMT_NV12    v4l2_fourcc('N', 'V', '1', '2') /* 12  Y/CbCr 4:2:0  */
 > 
 
-Hi Hans,
 
-As you noted, the 3558U cpu is one of the least powerful processors
-to be designated as a Haswell, but there are others at the low end
-of the Haswell architecture that I also suspect might exhibit
-similar problems.
-
-That leads me to think that more gpu hangs like mine will be reported
-when commit 47f8253d makes its way into widely used kernels. And that's
-why I chose to implement a quirk that would allow enrolling other
-systems as they are identified.
-
-Your remark about applying the reduced batch size in all cases certainly
-would simplify the patch.   However, I don't have any other systems
-using the i915 driver on which I could try to measure the putative
-performance penalty of reducing the batch size on a system that worked
-properly with the large size.   So I couldn't thoroughly investigate
-the consequences of a broader change.
-
-That said, if the i915 maintainers respond in favor of the simpler
-unconditional reduction of the batch size, I will be glad to
-propose a much simpler version of my patch.
-
-I probably should clarify that this patch is to resolve a problem on a
-personally owned system that I use at home.  It is not related to a
-problem with any of HPE's products, and so I don't have a lab full of
-systems using the i915 driver on which I can test a change that would
-have an effect many products.  The consumer products like Pavilions
-stayed with HP when HPE split from HP five years ago.
-
---
-Randy Wright            Usmail: Hewlett Packard Enterprise
-Email: rwright@hpe.com          Servers Linux Enablement
-Phone: (970) 898-0998           3404 E. Harmony Rd, Mailstop 36
-                                Fort Collins, CO 80528-9599 
