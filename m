@@ -2,18 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A049B2A3399
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 20:04:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C44E32A33A1
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 20:05:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726509AbgKBTEd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 14:04:33 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37482 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725805AbgKBTEd (ORCPT
+        id S1726692AbgKBTEw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 14:04:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35780 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726430AbgKBTEd (ORCPT
         <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 14:04:33 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7B099C0617A6;
+        Mon,  2 Nov 2020 11:04:33 -0800 (PST)
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: aratiu)
-        with ESMTPSA id E09A11F44E0E
+        with ESMTPSA id 6D0841F44E1E
 From:   Adrian Ratiu <adrian.ratiu@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -24,94 +27,52 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Jonas Karlman <jonas@kwiboo.se>,
         linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
         kernel@collabora.com
-Subject: [PATCH v5 0/3] media: rkvdec: Add a VP9 backend
-Date:   Mon,  2 Nov 2020 21:05:48 +0200
-Message-Id: <20201102190551.1223389-1-adrian.ratiu@collabora.com>
+Subject: [PATCH v5 1/3] media: rkvdec: Fix .buf_prepare
+Date:   Mon,  2 Nov 2020 21:05:49 +0200
+Message-Id: <20201102190551.1223389-2-adrian.ratiu@collabora.com>
 X-Mailer: git-send-email 2.29.0
+In-Reply-To: <20201102190551.1223389-1-adrian.ratiu@collabora.com>
+References: <20201102190551.1223389-1-adrian.ratiu@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Dear all,
+From: Ezequiel Garcia <ezequiel@collabora.com>
 
-This is v5 of the series adding VP9 profile 0 decoding to rkvdec.
+The driver should only set the payload on .buf_prepare if the
+buffer is CAPTURE type. If an OUTPUT buffer has a zero bytesused
+set by userspace then v4l2-core will set it to buffer length.
 
-All feedback from v4 should be addressed, there's just one thing I did
-not address: ref_frame_sign_biases in the uAPI. The userspace tool I'm
-using [1] apparently doesn't need it or the default hwreg value for it
-is capable of decoding the bitstreams I used on the driver, so I don't
-really have a use-case to change and test that. :)
+Fixes: cd33c830448ba ("media: rkvdec: Add the rkvdec driver")
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Signed-off-by: Adrian Ratiu <adrian.ratiu@collabora.com>
+---
+ drivers/staging/media/rkvdec/rkvdec.c | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
 
-Considering the uAPI is a work in progress and expected to be modified,
-ref_frame_sign_biases can be added later with others which might be
-required to enable more functionality (for eg profiles >= 1).
-
-Series tested on rk3399 and applies on next-20201030.
-
-[1] https://github.com/Kwiboo/FFmpeg/tree/v4l2-request-hwaccel-4.2.2-rkvdec
-
-Changelog
----------
-
-v5:
-
-* Drop unnecessary OUTPUT buffer payload set in .buf_prepare.
-* Drop obsolete .per_request ctrl flag
-* Added new vp9 ctrls to v4l2_ctrl_ptr
-* Fix pahole detected padding issues
-* Send userspace an error if it tries to reconfigure decode resolution
-  as v4l2 or rkvdec-vp9 backend do not support dynamic res changes yet
-* Allow frame ctx probability tables to be non-mandatory so users can
-  set them directly during frame decoding in cases where no defaults
-  have been set previously (eg. ffmpeg vp9 backend)
-* Some comments and documentation clarifications
-* Minor checkpatch fixes
-
-v4:
-
-* Drop color_space field from the VP9 interface.
-  V4L2 API should be used for it.
-* Clarified Segment-ID comments.
-* Moved motion vector probabilities to a separate
-  struct.
-
-v3:
-
-* Fix documentation issues found by Hans.
-* Fix smatch detected issues as pointed out by Hans.
-* Added patch to fix wrong bytesused set on .buf_prepare.
-
-v2:
-
-* Documentation style issues pointed out by Nicolas internally.
-* s/VP9_PROFILE_MAX/V4L2_VP9_PROFILE_MAX/
-* Fix wrong kfree(ctx).
-* constify a couple structs on rkvdec-vp9.c
-
-
-Boris Brezillon (2):
-  media: uapi: Add VP9 stateless decoder controls
-  media: rkvdec: Add the VP9 backend
-
-Ezequiel Garcia (1):
-  media: rkvdec: Fix .buf_prepare
-
- .../userspace-api/media/v4l/biblio.rst        |   10 +
- .../media/v4l/ext-ctrls-codec.rst             |  550 ++++++
- drivers/media/v4l2-core/v4l2-ctrls.c          |  239 +++
- drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
- drivers/staging/media/rkvdec/Makefile         |    2 +-
- drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1577 +++++++++++++++++
- drivers/staging/media/rkvdec/rkvdec.c         |   72 +-
- drivers/staging/media/rkvdec/rkvdec.h         |    6 +
- include/media/v4l2-ctrls.h                    |    5 +
- include/media/vp9-ctrls.h                     |  486 +++++
- 10 files changed, 2942 insertions(+), 6 deletions(-)
- create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
- create mode 100644 include/media/vp9-ctrls.h
-
+diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
+index d25c4a37e2af..0adc3828a4ba 100644
+--- a/drivers/staging/media/rkvdec/rkvdec.c
++++ b/drivers/staging/media/rkvdec/rkvdec.c
+@@ -471,7 +471,15 @@ static int rkvdec_buf_prepare(struct vb2_buffer *vb)
+ 		if (vb2_plane_size(vb, i) < sizeimage)
+ 			return -EINVAL;
+ 	}
+-	vb2_set_plane_payload(vb, 0, f->fmt.pix_mp.plane_fmt[0].sizeimage);
++
++	/*
++	 * Buffer bytesused is written by driver for CAPTURE buffers.
++	 * (if userspace passes 0 bytesused for OUTPUT buffers, v4l2-core sets
++	 * it to buffer length).
++	 */
++	if (!V4L2_TYPE_IS_OUTPUT(vq->type))
++		vb2_set_plane_payload(vb, 0, f->fmt.pix_mp.plane_fmt[0].sizeimage);
++
+ 	return 0;
+ }
+ 
 -- 
 2.29.0
 
