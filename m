@@ -2,77 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 201742A2D18
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 15:39:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B7A0E2A2D9C
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 16:05:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726134AbgKBOjI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 09:39:08 -0500
-Received: from szxga03-in.huawei.com ([45.249.212.189]:2361 "EHLO
-        szxga03-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725788AbgKBOjH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 09:39:07 -0500
-Received: from DGGEMM403-HUB.china.huawei.com (unknown [172.30.72.57])
-        by szxga03-in.huawei.com (SkyGuard) with ESMTP id 4CPwXR0wPTz50fK;
-        Mon,  2 Nov 2020 22:39:03 +0800 (CST)
-Received: from dggema707-chm.china.huawei.com (10.3.20.71) by
- DGGEMM403-HUB.china.huawei.com (10.3.20.211) with Microsoft SMTP Server (TLS)
- id 14.3.487.0; Mon, 2 Nov 2020 22:39:05 +0800
-Received: from dggema755-chm.china.huawei.com (10.1.198.197) by
- dggema707-chm.china.huawei.com (10.3.20.71) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id
- 15.1.1913.5; Mon, 2 Nov 2020 22:39:04 +0800
-Received: from dggema755-chm.china.huawei.com ([10.1.198.197]) by
- dggema755-chm.china.huawei.com ([10.1.198.197]) with mapi id 15.01.1913.007;
- Mon, 2 Nov 2020 22:39:05 +0800
-From:   zhangqilong <zhangqilong3@huawei.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-CC:     "paul.kocialkowski@bootlin.com" <paul.kocialkowski@bootlin.com>,
-        "mchehab@kernel.org" <mchehab@kernel.org>,
-        "wens@csie.org" <wens@csie.org>,
-        "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>
-Subject: =?gb2312?B?tPC4tDogW1BBVENIIC1uZXh0XSBtZWRpYTogY2VkcnVzOiBmaXggcmVmZXJl?=
- =?gb2312?B?bmNlIGxlYWsgaW4gY2VkcnVzX3N0YXJ0X3N0cmVhbWluZw==?=
-Thread-Topic: [PATCH -next] media: cedrus: fix reference leak in
- cedrus_start_streaming
-Thread-Index: AQHWsSMi4cifWjIJq02MoVkfrYwb0am05h5w
-Date:   Mon, 2 Nov 2020 14:39:04 +0000
-Message-ID: <f9f6d225275b466b86591ecfdbffb86f@huawei.com>
-References: <20201102142622.140001-1-zhangqilong3@huawei.com>
- <20201102141838.7oicqkeqy7vy3ki3@gilmour.lan>
-In-Reply-To: <20201102141838.7oicqkeqy7vy3ki3@gilmour.lan>
-Accept-Language: zh-CN, en-US
-Content-Language: zh-CN
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-originating-ip: [10.174.179.28]
-Content-Type: text/plain; charset="gb2312"
-Content-Transfer-Encoding: base64
+        id S1726299AbgKBPFy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 10:05:54 -0500
+Received: from mga11.intel.com ([192.55.52.93]:40040 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726242AbgKBPFx (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 2 Nov 2020 10:05:53 -0500
+IronPort-SDR: rXY5eGxnrlp2FWas2lfgnJf3m6PPLCYMO3brzDgPHQyUpN4ekTxblLOUz531Uz69VymUdMTf7F
+ Qxt4OsCMYInw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9793"; a="165391995"
+X-IronPort-AV: E=Sophos;i="5.77,445,1596524400"; 
+   d="scan'208";a="165391995"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2020 07:05:52 -0800
+IronPort-SDR: Rk8KtKoJ0WVtwG02bBKp1DCA0eUAmt8IjohOY2uUVmJxltiamIaBUqjCxBJtRh0gJOGywbmexx
+ B7HKWx+fVHeA==
+X-IronPort-AV: E=Sophos;i="5.77,445,1596524400"; 
+   d="scan'208";a="426011235"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2020 07:05:49 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 8F638208F7; Mon,  2 Nov 2020 17:05:47 +0200 (EET)
+Date:   Mon, 2 Nov 2020 17:05:47 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Krzysztof Kozlowski <krzk@kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        Rob Herring <robh@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>, linux-clk@vger.kernel.org
+Subject: Re: [PATCH v5 1/4] dt-bindings: media: imx258: add bindings for
+ IMX258 sensor
+Message-ID: <20201102150547.GY26150@paasikivi.fi.intel.com>
+References: <20201019170247.92002-1-krzk@kernel.org>
 MIME-Version: 1.0
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201019170247.92002-1-krzk@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkNCg0KPiANCj4gT24gTW9uLCBOb3YgMDIsIDIwMjAgYXQgMTA6MjY6MjJQTSArMDgwMCwgWmhh
-bmcgUWlsb25nIHdyb3RlOg0KPiA+IHBtX3J1bnRpbWVfZ2V0X3N5bmMgd2lsbCBpbmNyZW1lbnQg
-cG0gdXNhZ2UgY291bnRlciBldmVuIGl0IGZhaWxlZC4NCj4gPiBGb3JnZXR0aW5nIHRvIHBtX3J1
-bnRpbWVfcHV0X25vaWRsZSB3aWxsIHJlc3VsdCBpbiByZWZlcmVuY2UgbGVhayBpbg0KPiA+IGNl
-ZHJ1c19zdGFydF9zdHJlYW1pbmcuIFdlIHNob3VsZCBmaXggaXQuDQo+ID4NCj4gPiBGaXhlczog
-ZDVhZWNkMjg5YmFiZiAoIm1lZGlhOiBjZWRydXM6IEltcGxlbWVudCBydW50aW1lIFBNIikNCj4g
-PiBTaWduZWQtb2ZmLWJ5OiBaaGFuZyBRaWxvbmcgPHpoYW5ncWlsb25nM0BodWF3ZWkuY29tPg0K
-PiANCj4gU2hvdWxkbid0IHdlIGZpeCBwbV9ydW50aW1lX2dldF9zeW5jIGluc3RlYWQgdGhlbj8g
-SXQgc2VlbXMgdGhhdCBtb3N0IG9mIHRoZQ0KPiBjYWxsZXJzIGdldCB0aGlzIHdyb25nLCBhbmQg
-dGhhdCdzIGRlZmluaXRlbHkgbm9uLW9idmlvdXMuDQo+DQoNCiANCkkgaGF2ZSBldmVyIHRob3Vn
-aHQgdG8gZml4IGZpeCBwbV9ydW50aW1lX2dldF9zeW5jLCB0aGVuIEkgd2VudCB0byByZWFkIHRo
-ZSBjb21tZW50IG9uIHRoaXMgZnVuY3Rpb24sIGFuZCBmb3VuZCB0aGF0IHRoaXMgaXMgd2hhdCB0
-aGUgYXV0aG9yIGludGVuZGVkIHRvIGRvKGNvbW1lbnQ6IFRoZSBwb3NzaWJsZSByZXR1cm4gdmFs
-dWVzIG9mIHRoaXMgZnVuY3Rpb24gYXJlIHRoZSBzYW1lIGFzIGZvciBwbV9ydW50aW1lX3Jlc3Vt
-ZSgpIGFuZCB0aGUgcnVudGltZSBQTSB1c2FnZSBjb3VudGVyIG9mIEBkZXYgcmVtYWlucyBpbmNy
-ZW1lbnRlZCBpbiBhbGwgY2FzZXMsIGV2ZW4gaWYgaXQgcmV0dXJucyBhbiBlcnJvciBjb2RlKS4g
-T24gdGhlIG90aGVyIGhhbmQsIEkgZm91bmQgdGhhdCB0aGUgbnVtYmVyIG9mIGNhbGxlcnMgdGhh
-dCBnZXR0aW5nIHRoaXMgcmlnaHQgaXMgbXVjaCBiaWdnZXIgdGhhbiBnZXR0aW5nIHRoaXMgd3Jv
-bmcgZXZlbiBtYW55IGNhbGxlcnMgZ2V0IHdyb25nLiBTbyBJIHN1Ym1pdCBzZXJ2ZXIgcGF0Y2hl
-cyB0byBmaXggdGhlbSBhcyBJIGNvdWxkLg0KDQpUaGFua3MsIGJlc3Qgd2lzaCENCg0KWmhhbmcg
-UWlsb25nDQogDQo+IE1heGltZQ0K
+Hi Krysztof,
+
+On Mon, Oct 19, 2020 at 07:02:44PM +0200, Krzysztof Kozlowski wrote:
+> Add bindings for the IMX258 camera sensor.  The bindings, just like the
+> driver, are quite limited, e.g. do not support regulator supplies.
+> 
+> Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> Reviewed-by: Rob Herring <robh@kernel.org>
+> 
+> ---
+> 
+> Changes since v4:
+> 1. Add clock-lanes,
+> 2. Add Rob's review,
+> 3. Add one more example and extend existing one,
+> 4. Add common clock properties (assigned-*).
+> 
+> Changes since v3:
+> 1. Document also two lane setup.
+> 
+> Changes since v2:
+> 1. Remove clock-frequency, add reset GPIOs, add supplies.
+> 2. Use additionalProperties.
+> 
+> Changes since v1:
+> 1. None
+> ---
+>  .../devicetree/bindings/media/i2c/imx258.yaml | 140 ++++++++++++++++++
+>  MAINTAINERS                                   |   1 +
+>  2 files changed, 141 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/media/i2c/imx258.yaml b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> new file mode 100644
+> index 000000000000..4a3471fb88a1
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/i2c/imx258.yaml
+> @@ -0,0 +1,140 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/i2c/imx258.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Sony IMX258 13 Mpixel CMOS Digital Image Sensor
+> +
+> +maintainers:
+> +  - Krzysztof Kozlowski <krzk@kernel.org>
+> +
+> +description: |-
+> +  IMX258 is a diagonal 5.867mm (Type 1/3.06) 13 Mega-pixel CMOS active pixel
+> +  type stacked image sensor with a square pixel array of size 4208 x 3120. It
+> +  is programmable through I2C interface.  Image data is sent through MIPI
+> +  CSI-2.
+> +
+> +properties:
+> +  compatible:
+> +    const: sony,imx258
+> +
+> +  assigned-clocks: true
+> +  assigned-clock-parents: true
+> +  assigned-clock-rates: true
+
+I discussed the matter of using assigned clocks with Rob some time ago and
+the conclusion of that was that the sensor driver could use the default
+frequency (set using assigned-clock-rates) instead of the explicit
+frequency in DT. There are use cases (sharing the clock signal between two
+sensors, but different frequencies) that would be affected by this but I
+don't think we have any in mainline so I guess this approach works for now
+without additional changes. If someone needs those use cases, it's likely
+DT clock binding semantings and clock framework changes will be needed.
+That'll be another discussion if it ever happens.
+
+-- 
+Regards,
+
+Sakari Ailus
