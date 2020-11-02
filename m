@@ -2,122 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB7612A2E22
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 16:22:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 585D12A2E72
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 16:39:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726734AbgKBPVA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 10:21:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56796 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726713AbgKBPU7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 10:20:59 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B2F55C061A48
-        for <linux-media@vger.kernel.org>; Mon,  2 Nov 2020 07:20:58 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id c9so8229353wml.5
-        for <linux-media@vger.kernel.org>; Mon, 02 Nov 2020 07:20:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=T2w+mckzOvrR699h8x/Xo77oVyHlYkQYkZ/tcGlQNKA=;
-        b=s1X5Rn6M3uEqYAtmP0kMjZBhh9+T3p5FrLN+EMPkAgjibT+uR/uD2Ngl5VYCdQB9ij
-         cQ6fxK8h+9iDfacQPynKZ5VyW7F6bKG7h/Mn2H7upcsowgEdGzkDXW0ZeoKAxWlZFX5x
-         pqI6X7Y1SxJBUvvLsIqozUVcIl4kjDlk/82AQ/NKJkAUAZxchqqk6ZD/i9gwMOE04t7b
-         WEkSas1VOVRvcMuWMty1ScX6mRMpJB2pYQQLO7hPytPI/lP2lQ51TXcmMAV2jxgLlrYn
-         9vORg+bb2oQsagTOeapcQPmylm4ykQl2cpkCX5KomC0i7s4Qx+hD5CK4/4R0xv0vDrV1
-         0OBw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=T2w+mckzOvrR699h8x/Xo77oVyHlYkQYkZ/tcGlQNKA=;
-        b=FAzGcj4tozm6swcspAYBTQgW1LzLd9Mc84Pc23dFpPxkj9TV3kbb3pRePitDpktrxx
-         jlAGMnR/gCRddLLFwsFPWuc5XbLH/g5WOJe+4oHyYS7lB/hWUlz4yBsSE/CWze5tXZA3
-         2h7M/l1/cq98t7qE4DAn8oHHW6A0DStyN/mw7HBQfOc2HCTCcvaFFNres/2dnjrUJbc+
-         JHI0pRg2PubPLX/Ketcca7vWMNQ9h0nebLCmhfad4mQpMDNIBROTsNbOWobdkC/o+YUD
-         IYVH/jJdV9BwU9fyIZcwogB26+0KqlRgm3iuvTZ9D/AdcnHe/Ct/VviH+NWPKfoe0c3j
-         VA/g==
-X-Gm-Message-State: AOAM530cHde0Xl4TTQW6uJ2iNiYI2vwySxoO23QJzMz+0F/C4APC58T5
-        mS50GW6C68CNPyQHnCA0XyT+tA==
-X-Google-Smtp-Source: ABdhPJyD2xFNQ0mA6fkAF0MmLHKBRwPoEVnTSJcs4kw8eo3aVlf+gVmqgA5IOaVwyXiBRsxgcVYV4w==
-X-Received: by 2002:a1c:68c1:: with SMTP id d184mr17928489wmc.74.1604330457481;
-        Mon, 02 Nov 2020 07:20:57 -0800 (PST)
-Received: from debian-brgl.home (amarseille-656-1-4-167.w90-8.abo.wanadoo.fr. [90.8.158.167])
-        by smtp.gmail.com with ESMTPSA id b18sm15138014wmj.41.2020.11.02.07.20.55
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 07:20:56 -0800 (PST)
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
-Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
-        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
-        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        netdev@vger.kernel.org, linux-mm@kvack.org,
-        alsa-devel@alsa-project.org,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Subject: [PATCH v2 8/8] dma-buf: use krealloc_array()
-Date:   Mon,  2 Nov 2020 16:20:37 +0100
-Message-Id: <20201102152037.963-9-brgl@bgdev.pl>
-X-Mailer: git-send-email 2.29.1
-In-Reply-To: <20201102152037.963-1-brgl@bgdev.pl>
-References: <20201102152037.963-1-brgl@bgdev.pl>
+        id S1726511AbgKBPjT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 10:39:19 -0500
+Received: from m42-4.mailgun.net ([69.72.42.4]:58696 "EHLO m42-4.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726228AbgKBPjS (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 2 Nov 2020 10:39:18 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1604331557; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=nWkWyhgDV1pCPYK9XrTbWNIO5s3A7DMr3m4XNRjMFEc=;
+ b=okvrbUBnIuPf+iS6Qi1q4ISf0sVDPiT+GCxkMlNg8vR9nFMV6DUY8T4q7jvtq14xUH3LLYnF
+ pjW7BKpu9mT4+8XaQPtsxNXxOZGIc0iPtSkO5w0MZcahvQqLh+NlVPekM9KPXHBPSpJndW/7
+ qHfWlOJHvUrIjHQoZsflYdGCvFU=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
+ 5fa02825d8a9d167f3387cb8 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 02 Nov 2020 15:39:17
+ GMT
+Sender: vgarodia=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 3836AC433C9; Mon,  2 Nov 2020 15:39:17 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: vgarodia)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 710A0C433CB;
+        Mon,  2 Nov 2020 15:39:15 +0000 (UTC)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Mon, 02 Nov 2020 21:09:15 +0530
+From:   vgarodia@codeaurora.org
+To:     Mansur Alisha Shaik <mansur@codeaurora.org>
+Cc:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org,
+        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
+Subject: Re: [RESEND] venus: fix calculating mbps in calculate_inst_freq()
+In-Reply-To: <1604313097-2178-1-git-send-email-mansur@codeaurora.org>
+References: <1604313097-2178-1-git-send-email-mansur@codeaurora.org>
+Message-ID: <bf8acb0c470207289a09f63d829dfb08@codeaurora.org>
+X-Sender: vgarodia@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Hi Mansur,
 
-Use the helper that checks for overflows internally instead of manually
-calculating the size of the new array.
+On 2020-11-02 16:01, Mansur Alisha Shaik wrote:
+> Currently in calculate_inst_freq(), video driver is calculating
+> macro blocks per frame in stead of macro blocks per second(mpbs).
+instead
 
-Signed-off-by: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Acked-by: Christian König <christian.koenig@amd.com>
----
- drivers/dma-buf/sync_file.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> Which results frequency is always setting to lower frequency (150MB)
+> as per frequency table for sc7180. Hence the playback is not smooth.
+150MHz
 
-diff --git a/drivers/dma-buf/sync_file.c b/drivers/dma-buf/sync_file.c
-index 5a5a1da01a00..2925ea03eef0 100644
---- a/drivers/dma-buf/sync_file.c
-+++ b/drivers/dma-buf/sync_file.c
-@@ -270,8 +270,8 @@ static struct sync_file *sync_file_merge(const char *name, struct sync_file *a,
- 		fences[i++] = dma_fence_get(a_fences[0]);
- 
- 	if (num_fences > i) {
--		nfences = krealloc(fences, i * sizeof(*fences),
--				  GFP_KERNEL);
-+		nfences = krealloc_array(fences, i,
-+					 sizeof(*fences), GFP_KERNEL);
- 		if (!nfences)
- 			goto err;
- 
--- 
-2.29.1
+> 
+> Corrected this by correcting the mbps calculation in 
+> calculate_inst_freq().
+> 
+> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+> ---
+>  drivers/media/platform/qcom/venus/pm_helpers.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c
+> b/drivers/media/platform/qcom/venus/pm_helpers.c
+> index 57877ea..001513f 100644
+> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
+> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
+> @@ -928,7 +928,7 @@ static unsigned long calculate_inst_freq(struct
+> venus_inst *inst,
+>  	u32 fps = (u32)inst->fps;
+>  	u32 mbs_per_sec;
+> 
+> -	mbs_per_sec = load_per_instance(inst) / fps;
+> +	mbs_per_sec = load_per_instance(inst);
 
+Good find.
+
+Thanks,
+Vikash
