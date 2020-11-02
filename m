@@ -2,84 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 64D712A299E
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 12:35:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F26032A2A20
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 12:56:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728632AbgKBLfo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 06:35:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49864 "EHLO
+        id S1728999AbgKBLzo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 06:55:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52872 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728614AbgKBLfl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 06:35:41 -0500
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55F3CC0617A6
-        for <linux-media@vger.kernel.org>; Mon,  2 Nov 2020 03:35:40 -0800 (PST)
-Received: by mail-ed1-x542.google.com with SMTP id p93so13994022edd.7
-        for <linux-media@vger.kernel.org>; Mon, 02 Nov 2020 03:35:40 -0800 (PST)
+        with ESMTP id S1728776AbgKBLyY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 06:54:24 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB659C061A04
+        for <linux-media@vger.kernel.org>; Mon,  2 Nov 2020 03:54:23 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id n15so14288068wrq.2
+        for <linux-media@vger.kernel.org>; Mon, 02 Nov 2020 03:54:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id;
-        bh=5ZRnhbjvF5vhabbPJRjSHqRgQjYY8yji4DiDRURWAfY=;
-        b=G1QX6xet8AfPZqPVhIGOAc5PPJ/F6vo77jLJYQfxWENLGmrR5SkUBtwj5hwE9saITE
-         Rse6H0V0c1RJ1AjWMQwaIX3C8ZFXp3YUd5bz/OcrtxtlS3AhECfIhQNlsO2iTfn+HlBm
-         s77h81JFh3EQRKHT7hLQJOfqb9TQQBBwPUTb3p9L7AXhxzHJFmL+DRNmF5OaWG3+XDrv
-         LmrwUSUfSZtsGroWpYTHadzjUv4Z+J0RYOueB+aW+UheJFWlJoH0rA4KvYdLFVyfsCnB
-         Afmb6WZKH0FzY1fiNt31KbbQGr/aKdbuhRw7h38iWRR9buchM3uFVjpFNks/QNUY9fwy
-         HzRg==
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=sgCfvBJWtLw81z7RjPwr6bormd4FsaQ3wcZ4l8FFWRs=;
+        b=moD0ijFtxs3YDF9szj7mvVpXUGbBcJvo25U/w2SGBdKEu2CJe2/R9I45WDZ0zBMghV
+         33Ou3U3Z8oI1pYoV1NDil2EEJmk2Jk26h50Eo1qoCzP5PKJ05JjvVMb8Hg2emu5oXtdO
+         G/G5/2QBDvcV+xwQHea1IkLwNPNqIpDoKKtCJZjyk+mYoSrpc43UQ53YC9Mfb/ICtOEH
+         1KKjRHcQwq3w9Rud0CHnJYkCGpLRFKJe3xaOCRePtSzfvCimRfWnJ3r9d6/PGbghlgae
+         SXipOAv3fpd6hLpmhNQhXlntG8L3Ky/YcpO7LvVTqTa91x+Pd4Hbd477hn6dmOeA5sMh
+         mvwg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=5ZRnhbjvF5vhabbPJRjSHqRgQjYY8yji4DiDRURWAfY=;
-        b=qcxb1eyGQKErKxUZzqdZr+YGfkBpAVLb7lZowOvUUBbr9vWXeu4U+YXzuX184NY00t
-         KCtzTiXzEx53svXhPi7z++6pGz6VmGEdiwG2eON96K/B5ILVd/Iiz6xvnpKpV2G7g8A6
-         69tBlqBBVq3J/cDnRXnkHpSq7L2axqX2Yflm8+sZGzf6UkiOdQn1UvWIKzbSiwcOlQ2t
-         Es/05zj2z2GRaWh2GahT9aw5ZCytzOhAbu/7Ti4/VeLmBtG+52OCnQ4iTDU/dv8RxALs
-         VGYN56QnX/z5Gc6jLywlqdABC3oLypwmKZ9QqefRv5cy7LMJBK85Qe2GCfQeAycyAbW3
-         yzLQ==
-X-Gm-Message-State: AOAM531xoU93HTqJKvJ7T5SvjD764sgTKi4aYrHDH1iAYGCS9T910d7L
-        tztGzc7WUZionyNzO+hvoBFjCw==
-X-Google-Smtp-Source: ABdhPJzeFdJG4XY7UQ6yHGasew1646U4JPaHzki24LIL7RrLhjFgFTPPb0ZBvGZ5Qz8Y8pVNkYavrg==
-X-Received: by 2002:a05:6402:142c:: with SMTP id c12mr16629660edx.41.1604316939104;
-        Mon, 02 Nov 2020 03:35:39 -0800 (PST)
-Received: from localhost.localdomain (hst-221-54.medicom.bg. [84.238.221.54])
-        by smtp.gmail.com with ESMTPSA id g20sm9424234ejz.88.2020.11.02.03.35.37
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=sgCfvBJWtLw81z7RjPwr6bormd4FsaQ3wcZ4l8FFWRs=;
+        b=MGSLd0z1GJdfV2KqT2KIU+j7MYCnO/7Fe/2VC7A9vID/sYefjslO8iIsL1So68VvRX
+         qNA5aNkqMA4IH5fGqjyEECLWF4gFvOyWrK8wwN4J270gehT1qLKCcqirXJzOXt2T1le5
+         jSYNis5lKjgNjSGs7PR2mHYXua3XI4jm8gDHgj2ZcC+8zkmqzSXcYfQYnvvMVe709riK
+         Nqj2TQABMyfmU5VqFzvpHx3RyCwHidSKGsoqgK73xWCjvlu23U0cC+2i436cUyCzzJsR
+         cEaMR6+XI7YP2EqEgHTO5tPjK9My3lhTCx8ERtoLVvj6cYyYTnxkyT4kLqa5RWx+bEzg
+         7OTw==
+X-Gm-Message-State: AOAM5323mWBAYwP/Q+e+/qmg73oXiPXeUMmpUW3IRSZ+q188TWuHYEh0
+        Sxzt1n9YQJDaxDa4b9vf+7Lq/A==
+X-Google-Smtp-Source: ABdhPJy4Qc6S807GOZhDFOw1vxX6caxNriQqJXpn9auBPJu7Ej+kcF0sDBj8+ECN81+2ejh4BB/VTA==
+X-Received: by 2002:adf:804b:: with SMTP id 69mr19675757wrk.274.1604318062508;
+        Mon, 02 Nov 2020 03:54:22 -0800 (PST)
+Received: from dell.default ([91.110.221.242])
+        by smtp.gmail.com with ESMTPSA id t23sm14284010wmn.13.2020.11.02.03.54.21
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 03:35:38 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org
-Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Georgi Djakov <georgi.djakov@linaro.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH 15/17] arm64: dts: sdm845: Add interconnect properties for Venus
-Date:   Mon,  2 Nov 2020 13:35:29 +0200
-Message-Id: <20201102113529.16152-1-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
+        Mon, 02 Nov 2020 03:54:21 -0800 (PST)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     vigneshr@ti.com
+Cc:     linux-kernel@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Richard Weinberger <richard@nod.at>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-mtd@lists.infradead.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 07/23] mtd: spi-nor: controllers: hisi-sfc: Demote non-conformant kernel-doc
+Date:   Mon,  2 Nov 2020 11:53:50 +0000
+Message-Id: <20201102115406.1074327-8-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
+In-Reply-To: <20201102115406.1074327-1-lee.jones@linaro.org>
+References: <20201102115406.1074327-1-lee.jones@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Populate Venus DT node with interconnect properties.
+Fixes the following W=1 kernel build warning(s):
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+ drivers/mtd/spi-nor/controllers/hisi-sfc.c:328: warning: Function parameter or member 'np' not described in 'hisi_spi_nor_register'
+ drivers/mtd/spi-nor/controllers/hisi-sfc.c:328: warning: Function parameter or member 'host' not described in 'hisi_spi_nor_register'
+
+Cc: Tudor Ambarus <tudor.ambarus@microchip.com>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-mtd@lists.infradead.org
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- arch/arm64/boot/dts/qcom/sdm845.dtsi | 3 +++
- 1 file changed, 3 insertions(+)
+ drivers/mtd/spi-nor/controllers/hisi-sfc.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-index 40e8c11f23ab..aca7e9c954e0 100644
---- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
-+++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
-@@ -3661,6 +3661,9 @@
- 			iommus = <&apps_smmu 0x10a0 0x8>,
- 				 <&apps_smmu 0x10b0 0x0>;
- 			memory-region = <&venus_mem>;
-+			interconnects = <&mmss_noc MASTER_VIDEO_P0 0 &mem_noc SLAVE_EBI1 0>,
-+					<&gladiator_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_VENUS_CFG 0>;
-+			interconnect-names = "video-mem", "cpu-cfg";
+diff --git a/drivers/mtd/spi-nor/controllers/hisi-sfc.c b/drivers/mtd/spi-nor/controllers/hisi-sfc.c
+index 95c502173cbda..7c26f8f565cba 100644
+--- a/drivers/mtd/spi-nor/controllers/hisi-sfc.c
++++ b/drivers/mtd/spi-nor/controllers/hisi-sfc.c
+@@ -320,7 +320,7 @@ static const struct spi_nor_controller_ops hisi_controller_ops = {
+ 	.write = hisi_spi_nor_write,
+ };
  
- 			video-core0 {
- 				compatible = "venus-decoder";
+-/**
++/*
+  * Get spi flash device information and register it as a mtd device.
+  */
+ static int hisi_spi_nor_register(struct device_node *np,
 -- 
-2.17.1
+2.25.1
 
