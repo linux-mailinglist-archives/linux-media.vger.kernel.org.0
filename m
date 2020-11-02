@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D0AE2A306E
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 17:53:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 06AF12A306F
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 17:53:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727534AbgKBQxW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 11:53:22 -0500
-Received: from relay12.mail.gandi.net ([217.70.178.232]:47421 "EHLO
+        id S1727334AbgKBQx0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 11:53:26 -0500
+Received: from relay12.mail.gandi.net ([217.70.178.232]:43419 "EHLO
         relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727497AbgKBQxV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 11:53:21 -0500
+        with ESMTP id S1727216AbgKBQxW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 11:53:22 -0500
 Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id AE56E20000F;
-        Mon,  2 Nov 2020 16:53:16 +0000 (UTC)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 221AE200010;
+        Mon,  2 Nov 2020 16:53:18 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     linux-media@vger.kernel.org
 Cc:     Jacopo Mondi <jacopo@jmondi.org>, naush@raspberrypi.com,
@@ -22,9 +22,9 @@ Cc:     Jacopo Mondi <jacopo@jmondi.org>, naush@raspberrypi.com,
         kieran.bingham@ideasonboard.com, niklas.soderlund@ragnatech.se,
         hverkuil@xs4all.nl, sakari.ailus@iki.fi, nsaenzjulienne@suse.de,
         mchehab+huawei@kernel.org
-Subject: [PATCH v3 1/5] media: uapi: v4l2-core: Add sensor ancillary data V4L2 fourcc type
-Date:   Mon,  2 Nov 2020 17:52:54 +0100
-Message-Id: <20201102165258.408049-2-jacopo@jmondi.org>
+Subject: [PATCH v3 2/5] media: uapi: Add MEDIA_BUS_FMT_SENSOR_DATA media bus format
+Date:   Mon,  2 Nov 2020 17:52:55 +0100
+Message-Id: <20201102165258.408049-3-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201102165258.408049-1-jacopo@jmondi.org>
 References: <20201102165258.408049-1-jacopo@jmondi.org>
@@ -36,95 +36,69 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Naushir Patuck <naush@raspberrypi.com>
 
-Add V4L2_META_FMT_SENSOR_DATA format 4CC.
-
-This new format will be used to return camera sensor embedded data.
+This patch adds MEDIA_BUS_FMT_SENSOR_DATA used by the bcm2835-unicam
+driver to support CSI-2 embedded data streams from camera sensors.
 
 Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- .../userspace-api/media/v4l/meta-formats.rst  |  1 +
- .../media/v4l/pixfmt-meta-sensor-data.rst     | 32 +++++++++++++++++++
- drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
- include/uapi/linux/videodev2.h                |  1 +
- 4 files changed, 35 insertions(+)
- create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
+ .../media/v4l/subdev-formats.rst              | 32 +++++++++++++++++++
+ include/uapi/linux/media-bus-format.h         |  3 ++
+ 2 files changed, 35 insertions(+)
 
-diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-index fff25357fe860..b2201d1524eb6 100644
---- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-+++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-@@ -15,6 +15,7 @@ These formats are used for the :ref:`metadata` interface only.
-     pixfmt-meta-d4xx
-     pixfmt-meta-intel-ipu3
-     pixfmt-meta-rkisp1
-+    pixfmt-meta-sensor-data
-     pixfmt-meta-uvc
-     pixfmt-meta-vsp1-hgo
-     pixfmt-meta-vsp1-hgt
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
-new file mode 100644
-index 0000000000000..639ede1a8fee3
---- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
-@@ -0,0 +1,32 @@
-+.. Permission is granted to copy, distribute and/or modify this
-+.. document under the terms of the GNU Free Documentation License,
-+.. Version 1.1 or any later version published by the Free Software
-+.. Foundation, with no Invariant Sections, no Front-Cover Texts
-+.. and no Back-Cover Texts. A copy of the license is included at
-+.. Documentation/media/uapi/fdl-appendix.rst.
-+..
-+.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+index c9b7bb3ca089d..113d3ac9272ac 100644
+--- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
++++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+@@ -7899,3 +7899,35 @@ formats.
+       - 0x5001
+       - Interleaved raw UYVY and JPEG image format with embedded meta-data
+ 	used by Samsung S3C73MX camera sensors.
 +
-+.. _v4l2-meta-fmt-sensor-data:
 +
-+***********************************
-+V4L2_META_FMT_SENSOR_DATA  ('SENS')
-+***********************************
 +
-+Sensor Ancillary Metadata
++.. _v4l2-mbus-sensor-data:
 +
-+Description
-+===========
++Sensor Ancillary Metadata Formats
++^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 +
-+This format describes ancillary data generated by a camera sensor and
-+transmitted over a stream on the camera bus. Most sensor vendors have their
-+own custom format for this ancillary data. Some vendors follow a generic
-+CSI-2/SMIA embedded data format as described in the `CSI-2 specification.
-+<https://mipi.org/specifications/csi-2>`_
++This section lists ancillary data generated by a camera sensor and
++transmitted over a stream on the camera bus.
 +
-+The size of the embedded buffer is defined as a single line with a pixel width
-+specified in bytes. This is obtained by a call to the
-+:c:type:`VIDIOC_SUBDEV_G_FMT` ioctl on the sensor subdevice where the ``pad``
-+field in :c:type:`v4l2_subdev_format` is set to 1.  Note that this size is fixed
-+and cannot be modified with a call to :c:type:`VIDIOC_SUBDEV_S_FMT`.
++The following table lists the existing sensor ancillary metadata formats:
 +
-diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-index eeff398fbdcc1..d01d9ca6578df 100644
---- a/drivers/media/v4l2-core/v4l2-ioctl.c
-+++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-@@ -1402,6 +1402,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
- 	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
- 	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
- 	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
-+	case V4L2_META_FMT_SENSOR_DATA:	descr = "Sensor Ancillary Metadata"; break;
++
++.. _v4l2-mbus-pixelcode-sensor-metadata:
++
++.. tabularcolumns:: |p{8.0cm}|p{1.4cm}|p{7.7cm}|
++
++.. flat-table:: Sensor ancillary metadata formats
++    :header-rows:  1
++    :stub-columns: 0
++
++    * - Identifier
++      - Code
++      - Comments
++    * .. _MEDIA_BUS_FMT_SENSOR_DATA:
++
++      - MEDIA_BUS_FMT_SENSOR_DATA
++      - 0x7001
++      - Sensor vendor specific ancillary metadata. Some vendors follow a generic
++        CSI-2/SMIA embedded data format as described in the `CSI-2 specification.
++	<https://mipi.org/specifications/csi-2>`_
+diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+index 84fa53ffb13fc..3c2848e91c1b2 100644
+--- a/include/uapi/linux/media-bus-format.h
++++ b/include/uapi/linux/media-bus-format.h
+@@ -156,4 +156,7 @@
+ /* HSV - next is	0x6002 */
+ #define MEDIA_BUS_FMT_AHSV8888_1X32		0x6001
  
- 	default:
- 		/* Compressed formats */
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 534eaa4d39bc8..b7e3185e66631 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -769,6 +769,7 @@ struct v4l2_pix_format {
- #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
- #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
- #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
-+#define V4L2_META_FMT_SENSOR_DATA v4l2_fourcc('S', 'E', 'N', 'S') /* Sensor Ancillary metadata */
- 
- /* priv field value to indicates that subsequent fields are valid. */
- #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
++/* Sensor ancillary metadata formats - next is 0x7002 */
++#define MEDIA_BUS_FMT_SENSOR_DATA		0x7001
++
+ #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
 -- 
 2.29.1
 
