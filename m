@@ -2,97 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 585D12A2E72
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 16:39:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CF2102A2E7E
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 16:41:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726511AbgKBPjT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 10:39:19 -0500
-Received: from m42-4.mailgun.net ([69.72.42.4]:58696 "EHLO m42-4.mailgun.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726228AbgKBPjS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 2 Nov 2020 10:39:18 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1604331557; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=nWkWyhgDV1pCPYK9XrTbWNIO5s3A7DMr3m4XNRjMFEc=;
- b=okvrbUBnIuPf+iS6Qi1q4ISf0sVDPiT+GCxkMlNg8vR9nFMV6DUY8T4q7jvtq14xUH3LLYnF
- pjW7BKpu9mT4+8XaQPtsxNXxOZGIc0iPtSkO5w0MZcahvQqLh+NlVPekM9KPXHBPSpJndW/7
- qHfWlOJHvUrIjHQoZsflYdGCvFU=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n04.prod.us-west-2.postgun.com with SMTP id
- 5fa02825d8a9d167f3387cb8 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Mon, 02 Nov 2020 15:39:17
- GMT
-Sender: vgarodia=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 3836AC433C9; Mon,  2 Nov 2020 15:39:17 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
-        autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: vgarodia)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 710A0C433CB;
-        Mon,  2 Nov 2020 15:39:15 +0000 (UTC)
+        id S1726540AbgKBPli (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 10:41:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60056 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725791AbgKBPlh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 10:41:37 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98B58C0617A6;
+        Mon,  2 Nov 2020 07:41:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=UmWNoo+0jio1rsbpATbpnTKOP6YpDT2+8aHnhsn1BNQ=; b=cf1MSWB7BC+d/XGfBcQ2kzWTKP
+        Peh8sMqwcaL1avawa0skij5vzCJuMhLjyf5+3duC9LV64xK5h7mYlExaCNl16g5xIgy0XYatg9Kkf
+        8MzQdAQ7nqnViyK6PC8RcELKGC+j9GZJ7ckJm169iVg6QlV5ggKqdv+lcQqqbrPMl+FlSrL0fJtVH
+        h3aIS4VO2YSOq9iZcZt7+s5WtKwHYRjz80MESyljeOHnTABAzm0KwnO67EhkQGqAYQ3ow0H2PyBl3
+        OZ6Wcz1eC4cFYhDOYdlGwsV1WdJGKy68/ZW9RvzSJwxRicr1Ax69ZJI0224mH0dP7B11Lada3H09n
+        ylAgZRSA==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kZbx7-0002Pe-5d; Mon, 02 Nov 2020 15:41:01 +0000
+Date:   Mon, 2 Nov 2020 15:41:01 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-gpio@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, alsa-devel@alsa-project.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>,
+        Vlastimil Babka <vbabka@suse.cz>
+Subject: Re: [PATCH v2 1/8] mm: slab: provide krealloc_array()
+Message-ID: <20201102154101.GO27442@casper.infradead.org>
+References: <20201102152037.963-1-brgl@bgdev.pl>
+ <20201102152037.963-2-brgl@bgdev.pl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 02 Nov 2020 21:09:15 +0530
-From:   vgarodia@codeaurora.org
-To:     Mansur Alisha Shaik <mansur@codeaurora.org>
-Cc:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org
-Subject: Re: [RESEND] venus: fix calculating mbps in calculate_inst_freq()
-In-Reply-To: <1604313097-2178-1-git-send-email-mansur@codeaurora.org>
-References: <1604313097-2178-1-git-send-email-mansur@codeaurora.org>
-Message-ID: <bf8acb0c470207289a09f63d829dfb08@codeaurora.org>
-X-Sender: vgarodia@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201102152037.963-2-brgl@bgdev.pl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mansur,
+On Mon, Nov 02, 2020 at 04:20:30PM +0100, Bartosz Golaszewski wrote:
+> +Chunks allocated with `kmalloc` can be resized with `krealloc`. Similarly
+> +to `kmalloc_array`: a helper for resising arrays is provided in the form of
+> +`krealloc_array`.
 
-On 2020-11-02 16:01, Mansur Alisha Shaik wrote:
-> Currently in calculate_inst_freq(), video driver is calculating
-> macro blocks per frame in stead of macro blocks per second(mpbs).
-instead
+Is there any reason you chose to `do_this` instead of do_this()?  The
+automarkup script turns do_this() into a nice link to the documentation
+which you're adding below.
 
-> Which results frequency is always setting to lower frequency (150MB)
-> as per frequency table for sc7180. Hence the playback is not smooth.
-150MHz
-
-> 
-> Corrected this by correcting the mbps calculation in 
-> calculate_inst_freq().
-> 
-> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
-> ---
->  drivers/media/platform/qcom/venus/pm_helpers.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c
-> b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index 57877ea..001513f 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -928,7 +928,7 @@ static unsigned long calculate_inst_freq(struct
-> venus_inst *inst,
->  	u32 fps = (u32)inst->fps;
->  	u32 mbs_per_sec;
-> 
-> -	mbs_per_sec = load_per_instance(inst) / fps;
-> +	mbs_per_sec = load_per_instance(inst);
-
-Good find.
-
-Thanks,
-Vikash
+Typo 'resising' resizing.
