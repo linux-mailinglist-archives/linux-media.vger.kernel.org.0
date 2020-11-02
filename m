@@ -2,44 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B544B2A282D
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 11:25:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B2E762A2851
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 11:32:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728442AbgKBKYz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 05:24:55 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:25653 "EHLO
+        id S1728471AbgKBKby (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 05:31:54 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:33076 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728415AbgKBKYy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 05:24:54 -0500
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 02 Nov 2020 02:24:54 -0800
+        with ESMTP id S1728156AbgKBKby (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 05:31:54 -0500
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 02 Nov 2020 02:31:53 -0800
 X-QCInternal: smtphost
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 02 Nov 2020 02:24:52 -0800
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 02 Nov 2020 02:31:51 -0800
 X-QCInternal: smtphost
 Received: from c-mansur-linux.qualcomm.com ([10.204.90.208])
-  by ironmsg02-blr.qualcomm.com with ESMTP; 02 Nov 2020 15:54:39 +0530
+  by ironmsg01-blr.qualcomm.com with ESMTP; 02 Nov 2020 16:01:39 +0530
 Received: by c-mansur-linux.qualcomm.com (Postfix, from userid 461723)
-        id 32E3D2111B; Mon,  2 Nov 2020 15:54:39 +0530 (IST)
+        id 7B2852111B; Mon,  2 Nov 2020 16:01:38 +0530 (IST)
 From:   Mansur Alisha Shaik <mansur@codeaurora.org>
 To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         vgarodia@codeaurora.org,
         Mansur Alisha Shaik <mansur@codeaurora.org>
-Subject: [PATCH] venus: fix calculating mbps in calculate_inst_freq()
-Date:   Mon,  2 Nov 2020 15:54:34 +0530
-Message-Id: <1604312674-1621-1-git-send-email-mansur@codeaurora.org>
+Subject: [RESEND] venus: fix calculating mbps in calculate_inst_freq()
+Date:   Mon,  2 Nov 2020 16:01:37 +0530
+Message-Id: <1604313097-2178-1-git-send-email-mansur@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently in calculate_inst_freq() video driver is calculating
-macro blocks per frame in steam of macro blocks per second(mpbs).
+Currently in calculate_inst_freq(), video driver is calculating
+macro blocks per frame in stead of macro blocks per second(mpbs).
 Which results frequency is always setting to lower frequency (150MB)
 as per frequency table for sc7180. Hence the playback is not smooth.
 
-Corrected this by correcting the mbps calculation.
+Corrected this by correcting the mbps calculation in calculate_inst_freq().
 
 Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
 ---
