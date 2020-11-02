@@ -2,62 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1DA112A2534
+	by mail.lfdr.de (Postfix) with ESMTP id AC76B2A2536
 	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 08:29:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728129AbgKBH3i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 02:29:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39932 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728064AbgKBH3h (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 02:29:37 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 79640C0617A6;
-        Sun,  1 Nov 2020 23:29:37 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=7kqil5vrmEb2Nddp3OQTQBXQGkc9niPiGcaNE67tBY8=; b=Erkn5URR+wSGh9C0rgWsbo+p9y
-        ppm6PQDbDGHOGGA2h3Hrj/hAaUJmZb7bckVW0bAUthsA1/1XR/stYVsLsHGSL+0cUvzAzwZBKG4Z+
-        1X+JPSn7x/00wDea9bTorvr41bTNvJ1tZplphwfSACELJOmWElB84jaIHXnye8gKSTw7PYtIkp+cK
-        WGyQCz7gr/AM/kILQY6/E3kR8Ur/Rw382iwx+IpLcP8isCw9xGb2Ye7bH/QCr3P+yArX+AJnphOaO
-        aU9VCRUV9hCMajGMKNzrOpgkRoBtDaIgpUmG5ro2Cv7DaRGobrM3PjNsUJlNDtS1sygQt/v3/GLna
-        efXx4F/w==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kZUHU-0004O4-0T; Mon, 02 Nov 2020 07:29:32 +0000
-Date:   Mon, 2 Nov 2020 07:29:31 +0000
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
-        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
-        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        J??r??me Glisse <jglisse@redhat.com>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v5 08/15] mm: Add unsafe_follow_pfn
-Message-ID: <20201102072931.GA16419@infradead.org>
-References: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
- <20201030100815.2269-9-daniel.vetter@ffwll.ch>
+        id S1728167AbgKBH3o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 02:29:44 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59856 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728156AbgKBH3n (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 2 Nov 2020 02:29:43 -0500
+Received: from coco.lan (ip5f5ad5bd.dynamic.kabel-deutschland.de [95.90.213.189])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 10FED2223C;
+        Mon,  2 Nov 2020 07:29:41 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604302182;
+        bh=EDYSId/IkW5h9Ri5D4679FkeZOCdB9NtFRmEIvFp2PI=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=0Ky3Tv+pqMfTTLjoOLstqgE3rUopAaQN/7c2VtGGgFS2LQTym0JUthvu9GvS5Cwbl
+         5K5YZFZuM5MbmHBp522mTSe9C/oXP5ec4labDOOoLEwUzt0xdAvR4dQmF9UG056pmy
+         QWRHkx10RhpfYszj7lit2Eu6RALgku7UKRVBrn5w=
+Date:   Mon, 2 Nov 2020 08:29:38 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "filip.mutterer@gmail.com" <filip.mutterer@gmail.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: Linux Mint 20
+Message-ID: <20201102082938.07054ebc@coco.lan>
+In-Reply-To: <0c9ca3ce-f08c-984e-5be3-f748720de009@gmail.com>
+References: <0c9ca3ce-f08c-984e-5be3-f748720de009@gmail.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201030100815.2269-9-daniel.vetter@ffwll.ch>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 30, 2020 at 11:08:08AM +0100, Daniel Vetter wrote:
-> Also mark up follow_pfn as EXPORT_SYMBOL_GPL. The only safe way to use
-> that by drivers/modules is together with an mmu_notifier, and that's
-> all _GPL stuff.
+Em Sun, 1 Nov 2020 22:51:01 +0100
+"filip.mutterer@gmail.com" <filip.mutterer@gmail.com> escreveu:
 
-I also think it also needs to be renamed to explicitly break any existing
-users out of tree or int the submission queue.
+> Hi there,
+> 
+> I had the following error, which was easy to solve on Linux Mint 20:
+> 
+> Checking if the needed tools for Linux Mint 20 are available
+> ERROR: please install "Proc::ProcessTable", otherwise, build won't work.
+> I don't know distro Linux Mint 20. So, I can't provide you a hint with 
+> the package names.
+> Be welcome to contribute with a patch for media-build, by submitting a 
+> distro-specific hint
+> to linux-media@vger.kernel.org
+> Build can't procceed as 1 dependency is missing at ./build line 276.
+
+Never used Linux Mint. Yet, on a quick search for "ProcessTable linux-mint perl"
+
+Showed a few packages:
+
+	https://community.linuxmint.com/software/view/libproc-processtable-perl
+	https://community.linuxmint.com/software/view/libproc-process-perl
+
+It would be cool if you could send us a patch against ./build adding
+support for Linux Mint dependencies.
+
+If you take a look on it, you'll notice that it should be very easy to
+teach the script about a new distro. You just need to add a new if
+inside sub give_hints(). Something like:
+
+	if ($system_release =~ /Linux Mint/) {
+		give_mint_hints;
+		return;
+	}
+
+And create a new subroutine telling the package names for:
+
+	- the "lsdiff" command;
+	- two perl packages: Digest::SHA and Proc::ProcessTable
+
+Yet, as Mint is based on Debian/Ubuntu, perhaps just the enclosed
+patch would be enough. 
+
+> Here is what I installed to have it compile:
+> 
+> sudo cpan Proc::ProcessTable
+
+Well, you can always install packages via cpan, although
+this perl extension should very likely be there on all
+distros.
+
+Thanks,
+Mauro
+
+diff --git a/build b/build
+index c2067e759213..2aa92cc2e819 100755
+--- a/build
++++ b/build
+@@ -207,6 +207,10 @@ sub give_hints()
+ 		give_ubuntu_hints;
+ 		return;
+ 	}
++	if ($system_release =~ /Linux Mint/) {
++		give_ubuntu_hints;
++		return;
++	}
+ 	if ($system_release =~ /Gentoo/) {
+ 		give_gentoo_hints;
+ 		return;
+
+
