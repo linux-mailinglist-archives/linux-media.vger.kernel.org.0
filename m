@@ -2,119 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6FA792A2EA5
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 16:53:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DA8A2A2F58
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 17:09:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726559AbgKBPw7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 10:52:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33602 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726520AbgKBPw6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 10:52:58 -0500
-Received: from mail-qv1-xf43.google.com (mail-qv1-xf43.google.com [IPv6:2607:f8b0:4864:20::f43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F4AEC061A47
-        for <linux-media@vger.kernel.org>; Mon,  2 Nov 2020 07:52:58 -0800 (PST)
-Received: by mail-qv1-xf43.google.com with SMTP id b11so6305241qvr.9
-        for <linux-media@vger.kernel.org>; Mon, 02 Nov 2020 07:52:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=f4bAkyYQ5JW+w3wAB0B3Wuqs9gDAq+dCKVKb1szgdTE=;
-        b=hqSP56ncN1Xesc0LR+LCBrLcoSGV6TopG9RG3GGTAjXZawK07x4FedOxx8+KwVozhh
-         yTaXjjMacA7HSrB+GRFpwykUXEgHjYuiJRUfTBK6bxwzQkDVZZxpNeA6oR5zy06hcsRr
-         +OWzKfZs32d+rXtNU6sG16vNSbBVRNjen0md3oJEh5m3qEuLJBFDAZd22drwYUhFMUM8
-         jihAo1Zpdxicjpm3k0zP51jRIixb81HpWfJ8CKClqtFak5XKxto5Xo7s7pUz3s+srShN
-         1BUfFqWebwl5tOah1zDSpMj6M1bL9GXyO8wQDz9s59OVdbT9CJgBaBWOD1bIDFUY/B+7
-         N2fQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=f4bAkyYQ5JW+w3wAB0B3Wuqs9gDAq+dCKVKb1szgdTE=;
-        b=j0B8gfYYn8Bho60gvVb080kXAwGrGLHDKPnNx5mqrp8q7KB2VfHWKXH4oiUDBs7U5t
-         Cr43iIETiWql/y/H3m5vjZlu6vetCDoMSqZsv4Enyy4DxDu0z+havxBv6PRFkklGbgAc
-         +7SYXLkdqtjZANzYTGY0NBkktDWI7QV7PB9GDJRTatM6oe5rWuPiZsygo6ogp9BjMV+y
-         +tMJr9oumKcQbKHfwudYTho5HUySu/kas0O2cxFVkpjx32y8P9ZaWZkJIGe2Ne2+u4WO
-         R5v4gWLFWlbsfINNaESy8W0wKFp7s8bhePK83/eOn3SnsdVklcAY778IQhOiAeXvWwMy
-         M7og==
-X-Gm-Message-State: AOAM531lISoqJI6CLyGWx1XJ+HAE9L0m4bdFumMz3tH5/Rqx7hFZK95/
-        hvY9dmcDRd10KsJJwAq2vj/Jww==
-X-Google-Smtp-Source: ABdhPJywaNhw5aFpN/pYIk6/MJ/bkf/gh0tZ3udL0VlE8QqDUlZAs/BeSFGHSpJn56VGOhuQYMqcFg==
-X-Received: by 2002:a0c:a261:: with SMTP id f88mr23351432qva.56.1604332377746;
-        Mon, 02 Nov 2020 07:52:57 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id v92sm8169357qte.33.2020.11.02.07.52.56
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 07:52:56 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kZc8e-00F975-6s; Mon, 02 Nov 2020 11:52:56 -0400
-Date:   Mon, 2 Nov 2020 11:52:56 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Kees Cook <keescook@chromium.org>,
-        Dan Williams <dan.j.williams@intel.com>,
+        id S1726860AbgKBQJX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 11:09:23 -0500
+Received: from mga04.intel.com ([192.55.52.120]:48010 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726459AbgKBQJX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 2 Nov 2020 11:09:23 -0500
+IronPort-SDR: S5fBTiTLnabNmNUgLG8yPmuI3z6OIU1lFuUFnSKGRQLT0sg+/AoumkvQily2XPCE799M42xpW+
+ TvFxYrBhigfg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9793"; a="166316106"
+X-IronPort-AV: E=Sophos;i="5.77,445,1596524400"; 
+   d="scan'208";a="166316106"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2020 08:09:23 -0800
+IronPort-SDR: uAmx+dUdaysdZ8K1ZgB/geKvq5lS0JI21tbuv4XFXThi2WCN7w4HiDrVU0NNXviB6iE/0DR06f
+ TbeWixYEDTxw==
+X-IronPort-AV: E=Sophos;i="5.77,445,1596524400"; 
+   d="scan'208";a="352851467"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Nov 2020 08:09:15 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kZcPQ-003FnO-49; Mon, 02 Nov 2020 18:10:16 +0200
+Date:   Mon, 2 Nov 2020 18:10:16 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Bartosz Golaszewski <brgl@bgdev.pl>
+Cc:     Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
         Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        J??r??me Glisse <jglisse@redhat.com>, Jan Kara <jack@suse.cz>
-Subject: Re: [PATCH v5 08/15] mm: Add unsafe_follow_pfn
-Message-ID: <20201102155256.GG36674@ziepe.ca>
-References: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
- <20201030100815.2269-9-daniel.vetter@ffwll.ch>
- <20201102072931.GA16419@infradead.org>
- <CAKMK7uEe5FQuukYU7RhL90ttC9XyWw6wvdQrZ2JpP0jpbYTO6g@mail.gmail.com>
- <20201102130115.GC36674@ziepe.ca>
- <CAKMK7uHeL=w7GoBaY4XrbRcpJabR9UWnP+oQ9Fg51OzL7=KxiA@mail.gmail.com>
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org,
+        linux-kernel@vger.kernel.org, linux-edac@vger.kernel.org,
+        linux-gpio@vger.kernel.org, kvm@vger.kernel.org,
+        virtualization@lists.linux-foundation.org, netdev@vger.kernel.org,
+        linux-mm@kvack.org, alsa-devel@alsa-project.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: Re: [PATCH v2 8/8] dma-buf: use krealloc_array()
+Message-ID: <20201102161016.GN4077@smile.fi.intel.com>
+References: <20201102152037.963-1-brgl@bgdev.pl>
+ <20201102152037.963-9-brgl@bgdev.pl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAKMK7uHeL=w7GoBaY4XrbRcpJabR9UWnP+oQ9Fg51OzL7=KxiA@mail.gmail.com>
+In-Reply-To: <20201102152037.963-9-brgl@bgdev.pl>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 02, 2020 at 02:23:58PM +0100, Daniel Vetter wrote:
-> On Mon, Nov 2, 2020 at 2:01 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
-> >
-> > On Mon, Nov 02, 2020 at 01:56:10PM +0100, Daniel Vetter wrote:
-> > > On Mon, Nov 2, 2020 at 8:29 AM Christoph Hellwig <hch@infradead.org> wrote:
-> > > >
-> > > > On Fri, Oct 30, 2020 at 11:08:08AM +0100, Daniel Vetter wrote:
-> > > > > Also mark up follow_pfn as EXPORT_SYMBOL_GPL. The only safe way to use
-> > > > > that by drivers/modules is together with an mmu_notifier, and that's
-> > > > > all _GPL stuff.
-> > > >
-> > > > I also think it also needs to be renamed to explicitly break any existing
-> > > > users out of tree or int the submission queue.
-> > >
-> > > Ok I looked at the mmu notifier locking again and noticed that
-> > > mm->subscriptions has its own spinlock. Since there usually shouldn't
-> > > be a huge pile of these I think it's feasible to check for the mmu
-> > > notifier in follow_pfn. And that would stuff this gap for good. I'll
-> > > throw that on top as a final patch and see what people think.
-> >
-> > Probably the simplest is to just check mm_has_notifiers() when in
-> > lockdep or something very simple like that
+On Mon, Nov 02, 2020 at 04:20:37PM +0100, Bartosz Golaszewski wrote:
+> From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 > 
-> lockdep feels wrong, was locking more at CONFIG_DEBUG_VM. And since
-> generally you only have 1 mmu notifier (especially for kvm) I think we
-> can also pay the 2nd cacheline miss and actually check the right mmu
-> notifier is registered.
+> Use the helper that checks for overflows internally instead of manually
+> calculating the size of the new array.
 
-Need to hold the lock to check that and there are two ways to register
-notifiers these days, so it feels to expensive to me.
+...
 
-CH's 'export symbol only for kvm' really does seem the most robust way
-to handle this though.
+> +		nfences = krealloc_array(fences, i,
+> +					 sizeof(*fences), GFP_KERNEL);
 
-Jason
+On 80 position is closing parenthesis, which, I think, makes it okay to put on
+one line.
+
+-- 
+With Best Regards,
+Andy Shevchenko
+
+
