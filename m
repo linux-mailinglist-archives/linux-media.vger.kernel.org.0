@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 17B292A36AE
+	by mail.lfdr.de (Postfix) with ESMTP id 880B52A36AF
 	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 23:42:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbgKBWl5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 17:41:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41428 "EHLO
+        id S1726670AbgKBWl6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 17:41:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41434 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725829AbgKBWl4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 17:41:56 -0500
+        with ESMTP id S1725829AbgKBWl5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 17:41:57 -0500
 Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 53163C0617A6
-        for <linux-media@vger.kernel.org>; Mon,  2 Nov 2020 14:41:56 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F23FC0617A6
+        for <linux-media@vger.kernel.org>; Mon,  2 Nov 2020 14:41:57 -0800 (PST)
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 54F59F8D;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id E6BFDFD1;
         Mon,  2 Nov 2020 23:41:54 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1604356914;
-        bh=A6dVleef+qKD+dPzpe0ECd4hGSMqmsNrYFT7BJkLZW8=;
+        s=mail; t=1604356915;
+        bh=Zy6hmSIwFJbU3k6xWrqtA9NBVPxTIIgZUs9Qn4IVgPY=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fK5gwb6AuMGrKlU4N/rpnJP280IogPlq98xnbjdZ/OSakv9uQeyfi2AYG7CAGHJ7Y
-         uzZxfZp8O42ReaDq+5jNbAyvch9ejxT+SK5vN19KcX3BzvXW4ADtWP5Wno+3785AIH
-         EIJ3Cp+9K9zvAHZjIJBsqb/zBVoA7P02oVJN5L8s=
+        b=TvWgnTAsYg/HqHSY7lHmbToIafYMWMbkhciOkg4UHD+42z4Q3lpQnSw8ez+l8SNlH
+         +2bm3KSOBdILjWb9M2Q9vgaMPFhmIQYo5zJQdknE4iRpHa3COpsfOvg5onYK07IvMw
+         YYpCOGud1y+PDrUA1bCT9odBxQcAzUmC7vM4nqlE=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -31,9 +31,9 @@ Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Dylan Yip <dylany@xilinx.com>,
         Vishal Sagar <vsagar@xilinx.com>,
         Nicolas Dufresne <nicolas@ndufresne.ca>
-Subject: [PATCH v2 03/19] media: videodev2.h: Move HM12 format to YUV semi-planar section
-Date:   Tue,  3 Nov 2020 00:40:46 +0200
-Message-Id: <20201102224102.30292-4-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v2 04/19] media: doc: pixfmt-rgb: Remove layout table for packed RGB formats
+Date:   Tue,  3 Nov 2020 00:40:47 +0200
+Message-Id: <20201102224102.30292-5-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201102224102.30292-1-laurent.pinchart@ideasonboard.com>
 References: <20201102224102.30292-1-laurent.pinchart@ideasonboard.com>
@@ -43,35 +43,97 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-V4L2_PIX_FMT_HM12 is a YUV semi-planar macro-block format. Move it from
-the packed YUV formats section where it was misplaced to the YUV
-semi-planar formats section.
+The packed RGB formats documentation includes a layout table without any
+context. This doesn't bring much useful information, and is confusing at
+best. Remove it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- include/uapi/linux/videodev2.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ .../userspace-api/media/v4l/pixfmt-rgb.rst    | 71 -------------------
+ 1 file changed, 71 deletions(-)
 
-diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-index 2d34a9ec293b..8775aebb3b6b 100644
---- a/include/uapi/linux/videodev2.h
-+++ b/include/uapi/linux/videodev2.h
-@@ -591,7 +591,6 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_XYUV32  v4l2_fourcc('X', 'Y', 'U', 'V') /* 32  XYUV-8-8-8-8  */
- #define V4L2_PIX_FMT_VUYA32  v4l2_fourcc('V', 'U', 'Y', 'A') /* 32  VUYA-8-8-8-8  */
- #define V4L2_PIX_FMT_VUYX32  v4l2_fourcc('V', 'U', 'Y', 'X') /* 32  VUYX-8-8-8-8  */
--#define V4L2_PIX_FMT_HM12    v4l2_fourcc('H', 'M', '1', '2') /*  8  YUV 4:2:0 16x16 macroblocks */
- #define V4L2_PIX_FMT_M420    v4l2_fourcc('M', '4', '2', '0') /* 12  YUV 4:2:0 2 lines y, 1 line uv interleaved */
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+index 9d827097c1d9..731bde23e055 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-rgb.rst
+@@ -999,77 +999,6 @@ The XRGB and XBGR formats contain undefined bits (-). Applications,
+ devices and drivers must ignore those bits, for both
+ :ref:`capture` and :ref:`output` devices.
  
- /* two planes -- one Y, one Cr + Cb interleaved  */
-@@ -601,6 +600,7 @@ struct v4l2_pix_format {
- #define V4L2_PIX_FMT_NV61    v4l2_fourcc('N', 'V', '6', '1') /* 16  Y/CrCb 4:2:2  */
- #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
- #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
-+#define V4L2_PIX_FMT_HM12    v4l2_fourcc('H', 'M', '1', '2') /*  8  YUV 4:2:0 16x16 macroblocks */
+-**Byte Order.**
+-Each cell is one byte.
+-
+-
+-.. raw:: latex
+-
+-    \small
+-
+-.. tabularcolumns:: |p{3.1cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|p{0.8cm}|
+-
+-.. flat-table:: RGB byte order
+-    :header-rows:  0
+-    :stub-columns: 0
+-    :widths:       11 3 3 3 3 3 3 3 3 3 3 3 3
+-
+-    * - start + 0:
+-      - B\ :sub:`00`
+-      - G\ :sub:`00`
+-      - R\ :sub:`00`
+-      - B\ :sub:`01`
+-      - G\ :sub:`01`
+-      - R\ :sub:`01`
+-      - B\ :sub:`02`
+-      - G\ :sub:`02`
+-      - R\ :sub:`02`
+-      - B\ :sub:`03`
+-      - G\ :sub:`03`
+-      - R\ :sub:`03`
+-    * - start + 12:
+-      - B\ :sub:`10`
+-      - G\ :sub:`10`
+-      - R\ :sub:`10`
+-      - B\ :sub:`11`
+-      - G\ :sub:`11`
+-      - R\ :sub:`11`
+-      - B\ :sub:`12`
+-      - G\ :sub:`12`
+-      - R\ :sub:`12`
+-      - B\ :sub:`13`
+-      - G\ :sub:`13`
+-      - R\ :sub:`13`
+-    * - start + 24:
+-      - B\ :sub:`20`
+-      - G\ :sub:`20`
+-      - R\ :sub:`20`
+-      - B\ :sub:`21`
+-      - G\ :sub:`21`
+-      - R\ :sub:`21`
+-      - B\ :sub:`22`
+-      - G\ :sub:`22`
+-      - R\ :sub:`22`
+-      - B\ :sub:`23`
+-      - G\ :sub:`23`
+-      - R\ :sub:`23`
+-    * - start + 36:
+-      - B\ :sub:`30`
+-      - G\ :sub:`30`
+-      - R\ :sub:`30`
+-      - B\ :sub:`31`
+-      - G\ :sub:`31`
+-      - R\ :sub:`31`
+-      - B\ :sub:`32`
+-      - G\ :sub:`32`
+-      - R\ :sub:`32`
+-      - B\ :sub:`33`
+-      - G\ :sub:`33`
+-      - R\ :sub:`33`
+-
+-.. raw:: latex
+-
+-    \normalsize
  
- /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
- #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
+ Formats defined in :ref:`pixfmt-rgb-deprecated` are deprecated and
+ must not be used by new drivers. They are documented here for reference.
 -- 
 Regards,
 
