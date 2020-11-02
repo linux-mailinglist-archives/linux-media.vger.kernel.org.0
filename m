@@ -2,119 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF9A92A2977
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 12:29:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 64D712A299E
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 12:35:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728839AbgKBL2y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 06:28:54 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47892 "EHLO
+        id S1728632AbgKBLfo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 06:35:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49864 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728633AbgKBLY3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 06:24:29 -0500
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AD350C061A49
-        for <linux-media@vger.kernel.org>; Mon,  2 Nov 2020 03:24:27 -0800 (PST)
-Received: by mail-wr1-x443.google.com with SMTP id i16so8724456wrv.1
-        for <linux-media@vger.kernel.org>; Mon, 02 Nov 2020 03:24:27 -0800 (PST)
+        with ESMTP id S1728614AbgKBLfl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 06:35:41 -0500
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 55F3CC0617A6
+        for <linux-media@vger.kernel.org>; Mon,  2 Nov 2020 03:35:40 -0800 (PST)
+Received: by mail-ed1-x542.google.com with SMTP id p93so13994022edd.7
+        for <linux-media@vger.kernel.org>; Mon, 02 Nov 2020 03:35:40 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Ka6oG61s56uSi20zjZOTu4QIASes47AodXCRjQdroWM=;
-        b=hMv2NTjPlHuthCM9UUVLtzFXjBs0VVOim6KBb8hepefDkfx8HzOilWlHKbADVy53mR
-         HrEsOllfzBNwQjIS3Dh+EbIZ1PvdU59dmYvHGGxhd/2SqsjmHoprnfFu3yr57tWm7XoW
-         Ms+zcnJpt9oSSip1LfExS2m283N63Hv6W5fd/dJqNJGmVsOHadtbd1r2Ul+hTzSNj8S3
-         naUiQkmhngjJQOyopaca7rZWYr4PIwZ8Q+2r/jJADgklPXfkTmAQuTyTim4vgwsHKrvv
-         ucUC4UQNMG2Lt5mLhIBQTpR+hpL69TtgFledAviFxkpcqXS78yROoHlrCNWJkGoYyREw
-         bytg==
+        h=from:to:cc:subject:date:message-id;
+        bh=5ZRnhbjvF5vhabbPJRjSHqRgQjYY8yji4DiDRURWAfY=;
+        b=G1QX6xet8AfPZqPVhIGOAc5PPJ/F6vo77jLJYQfxWENLGmrR5SkUBtwj5hwE9saITE
+         Rse6H0V0c1RJ1AjWMQwaIX3C8ZFXp3YUd5bz/OcrtxtlS3AhECfIhQNlsO2iTfn+HlBm
+         s77h81JFh3EQRKHT7hLQJOfqb9TQQBBwPUTb3p9L7AXhxzHJFmL+DRNmF5OaWG3+XDrv
+         LmrwUSUfSZtsGroWpYTHadzjUv4Z+J0RYOueB+aW+UheJFWlJoH0rA4KvYdLFVyfsCnB
+         Afmb6WZKH0FzY1fiNt31KbbQGr/aKdbuhRw7h38iWRR9buchM3uFVjpFNks/QNUY9fwy
+         HzRg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Ka6oG61s56uSi20zjZOTu4QIASes47AodXCRjQdroWM=;
-        b=oCa/cquIpAs+gk8Hyzn16xIy4KTqeV7yXAOuV+DQRiyYDB0tzpGqEFt4z+5F/WeAn3
-         fddtPtFraQVlOxsMPmJjiNNTEYO4F0SqpwP9ao7/PZSxPmEx0KL9QeeyITkeLJnk+UT2
-         rKNIPmys+nPoHQ46vIZX3orhubVf7ZfF2O9y85xNkZKMQC8y8HYczPf2vcpBWNTdrDbp
-         VIvIchZeeJ50OTw+j+jvTAefQ632YzAshM5gZc0FqIRWNeu+KbBNLEDgyxZ7pKa+ZvIr
-         LDQgTXSsCmif92CcB9R42MJ9d4k9u2CtMSpBkM4MYZerrD6/15tfJhurNWUp3S/+42We
-         +Utw==
-X-Gm-Message-State: AOAM532HkRiZRyhmgIVCiDVzn5X345iPXD211l1hoks5CGw4YTuF+QQ1
-        duW56MKVPkLo/omeNXAnZG+y/Q==
-X-Google-Smtp-Source: ABdhPJxeqB5NmAXe81Eexs63FfVCwNj4sGmOhyU4D4wEPt10+eqOdNq7ow/T47NsthmDxpFZzShvSQ==
-X-Received: by 2002:adf:e8d0:: with SMTP id k16mr19555994wrn.362.1604316266442;
-        Mon, 02 Nov 2020 03:24:26 -0800 (PST)
-Received: from dell.default ([91.110.221.242])
-        by smtp.gmail.com with ESMTPSA id m14sm21867354wro.43.2020.11.02.03.24.25
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=5ZRnhbjvF5vhabbPJRjSHqRgQjYY8yji4DiDRURWAfY=;
+        b=qcxb1eyGQKErKxUZzqdZr+YGfkBpAVLb7lZowOvUUBbr9vWXeu4U+YXzuX184NY00t
+         KCtzTiXzEx53svXhPi7z++6pGz6VmGEdiwG2eON96K/B5ILVd/Iiz6xvnpKpV2G7g8A6
+         69tBlqBBVq3J/cDnRXnkHpSq7L2axqX2Yflm8+sZGzf6UkiOdQn1UvWIKzbSiwcOlQ2t
+         Es/05zj2z2GRaWh2GahT9aw5ZCytzOhAbu/7Ti4/VeLmBtG+52OCnQ4iTDU/dv8RxALs
+         VGYN56QnX/z5Gc6jLywlqdABC3oLypwmKZ9QqefRv5cy7LMJBK85Qe2GCfQeAycyAbW3
+         yzLQ==
+X-Gm-Message-State: AOAM531xoU93HTqJKvJ7T5SvjD764sgTKi4aYrHDH1iAYGCS9T910d7L
+        tztGzc7WUZionyNzO+hvoBFjCw==
+X-Google-Smtp-Source: ABdhPJzeFdJG4XY7UQ6yHGasew1646U4JPaHzki24LIL7RrLhjFgFTPPb0ZBvGZ5Qz8Y8pVNkYavrg==
+X-Received: by 2002:a05:6402:142c:: with SMTP id c12mr16629660edx.41.1604316939104;
+        Mon, 02 Nov 2020 03:35:39 -0800 (PST)
+Received: from localhost.localdomain (hst-221-54.medicom.bg. [84.238.221.54])
+        by smtp.gmail.com with ESMTPSA id g20sm9424234ejz.88.2020.11.02.03.35.37
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 02 Nov 2020 03:24:25 -0800 (PST)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     kvalo@codeaurora.org
-Cc:     linux-kernel@vger.kernel.org, Lee Jones <lee.jones@linaro.org>,
-        Arend van Spriel <arend.vanspriel@broadcom.com>,
-        Franky Lin <franky.lin@broadcom.com>,
-        Hante Meuleman <hante.meuleman@broadcom.com>,
-        Chi-Hsien Lin <chi-hsien.lin@cypress.com>,
-        Wright Feng <wright.feng@cypress.com>,
-        "David S. Miller" <davem@davemloft.net>,
-        Jakub Kicinski <kuba@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-wireless@vger.kernel.org,
-        brcm80211-dev-list.pdl@broadcom.com,
-        brcm80211-dev-list@cypress.com, netdev@vger.kernel.org,
-        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 07/41] brcmfmac: pcie: Provide description for missing function parameter 'devinfo'
-Date:   Mon,  2 Nov 2020 11:23:36 +0000
-Message-Id: <20201102112410.1049272-8-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201102112410.1049272-1-lee.jones@linaro.org>
-References: <20201102112410.1049272-1-lee.jones@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+        Mon, 02 Nov 2020 03:35:38 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-kernel@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org
+Cc:     Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Georgi Djakov <georgi.djakov@linaro.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH 15/17] arm64: dts: sdm845: Add interconnect properties for Venus
+Date:   Mon,  2 Nov 2020 13:35:29 +0200
+Message-Id: <20201102113529.16152-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+Populate Venus DT node with interconnect properties.
 
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c:766: warning: Function parameter or member 'devinfo' not described in 'brcmf_pcie_bus_console_read'
-
-Cc: Arend van Spriel <arend.vanspriel@broadcom.com>
-Cc: Franky Lin <franky.lin@broadcom.com>
-Cc: Hante Meuleman <hante.meuleman@broadcom.com>
-Cc: Chi-Hsien Lin <chi-hsien.lin@cypress.com>
-Cc: Wright Feng <wright.feng@cypress.com>
-Cc: Kalle Valo <kvalo@codeaurora.org>
-Cc: "David S. Miller" <davem@davemloft.net>
-Cc: Jakub Kicinski <kuba@kernel.org>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-wireless@vger.kernel.org
-Cc: brcm80211-dev-list.pdl@broadcom.com
-Cc: brcm80211-dev-list@cypress.com
-Cc: netdev@vger.kernel.org
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 ---
- drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c | 1 +
- 1 file changed, 1 insertion(+)
+ arch/arm64/boot/dts/qcom/sdm845.dtsi | 3 +++
+ 1 file changed, 3 insertions(+)
 
-diff --git a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-index 39381cbde89e6..1d3cc1c7c9c50 100644
---- a/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-+++ b/drivers/net/wireless/broadcom/brcm80211/brcmfmac/pcie.c
-@@ -759,6 +759,7 @@ static void brcmf_pcie_bus_console_init(struct brcmf_pciedev_info *devinfo)
- /**
-  * brcmf_pcie_bus_console_read - reads firmware messages
-  *
-+ * @devinfo: pointer to the device data structure
-  * @error: specifies if error has occurred (prints messages unconditionally)
-  */
- static void brcmf_pcie_bus_console_read(struct brcmf_pciedev_info *devinfo,
+diff --git a/arch/arm64/boot/dts/qcom/sdm845.dtsi b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+index 40e8c11f23ab..aca7e9c954e0 100644
+--- a/arch/arm64/boot/dts/qcom/sdm845.dtsi
++++ b/arch/arm64/boot/dts/qcom/sdm845.dtsi
+@@ -3661,6 +3661,9 @@
+ 			iommus = <&apps_smmu 0x10a0 0x8>,
+ 				 <&apps_smmu 0x10b0 0x0>;
+ 			memory-region = <&venus_mem>;
++			interconnects = <&mmss_noc MASTER_VIDEO_P0 0 &mem_noc SLAVE_EBI1 0>,
++					<&gladiator_noc MASTER_APPSS_PROC 0 &config_noc SLAVE_VENUS_CFG 0>;
++			interconnect-names = "video-mem", "cpu-cfg";
+ 
+ 			video-core0 {
+ 				compatible = "venus-decoder";
 -- 
-2.25.1
+2.17.1
 
