@@ -2,322 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECC2B2A32C7
-	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 19:19:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 740512A3367
+	for <lists+linux-media@lfdr.de>; Mon,  2 Nov 2020 19:55:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726096AbgKBSTe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 2 Nov 2020 13:19:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56900 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725977AbgKBSTc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 2 Nov 2020 13:19:32 -0500
-Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 70F67C0617A6
-        for <linux-media@vger.kernel.org>; Mon,  2 Nov 2020 10:19:30 -0800 (PST)
-Received: by mail-ej1-x641.google.com with SMTP id w13so6708680eju.13
-        for <linux-media@vger.kernel.org>; Mon, 02 Nov 2020 10:19:30 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=WiRUc29zxqGsO+d9X8MH7HOz5SXqo6HQakNFN6TG8oI=;
-        b=hn3DSEKB/RMDVIl8+uf/cXIPRq4hEnoahMtBDSqMYwZ0yyCmlA1wr7KtKFj+kR7qmG
-         LPKy+PtIfaItp4eIhNoIYgsEJUlT7mzBAcbZtb+5c4m0QBqJRtz8oSrtjxPOo7XWsTSc
-         2iuELeBrCeMyN6mj2Jj2ucEo0YcivEK6yk290=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=WiRUc29zxqGsO+d9X8MH7HOz5SXqo6HQakNFN6TG8oI=;
-        b=SPfjBPpuOR53r0wubB8k0iKt5y692Nm7fe8zWrbeF5zb8rxxBjtk3tMFdbo+qGa6OU
-         cEtLZB+A2aKbhb7t7ZUFWNzYN8Oj+ENpV5VN9wU5/Fad44uxdUcmNpx/te5lAj5Jdzds
-         LgRKaf9kZr9kaZ7hGZiAagHM0JfKhPx/32L+LPBc1OKvyNDA6MPzUVL1RYr+NMUnKcVl
-         tXiWQYTSUA/tW3nYmo5D8/5e1lKcFt0p7Ou/GbjFIDBF2VmPOYT1V1PLpbJZWLqxzyxW
-         5BHifu3JXwibTACCNZ+Z/1XGZWGeu6Z2qZK3QLx1NUKEOIYXLnNlwaxqR5+HA4Ca+dXb
-         6YIg==
-X-Gm-Message-State: AOAM530o7NP57w17aw9WN+xuDZSwImwNpG56KeCKBb5vwS/Igo86xMxx
-        gIrYZdVnjpSotnU7I1YOjy3bmDc533T0cA==
-X-Google-Smtp-Source: ABdhPJzNWT4YfLIeFH1dweq59QkhvRJ0/qAmInzD6tPxB54xE1UFd4kdZ78i5OYcgds2IMCBHQ9jAg==
-X-Received: by 2002:a17:906:868b:: with SMTP id g11mr12347786ejx.263.1604341164164;
-        Mon, 02 Nov 2020 10:19:24 -0800 (PST)
-Received: from mail-wr1-f49.google.com (mail-wr1-f49.google.com. [209.85.221.49])
-        by smtp.gmail.com with ESMTPSA id 65sm8802277edj.83.2020.11.02.10.19.23
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 02 Nov 2020 10:19:23 -0800 (PST)
-Received: by mail-wr1-f49.google.com with SMTP id s9so15716796wro.8
-        for <linux-media@vger.kernel.org>; Mon, 02 Nov 2020 10:19:23 -0800 (PST)
-X-Received: by 2002:adf:f511:: with SMTP id q17mr21106249wro.192.1604341162894;
- Mon, 02 Nov 2020 10:19:22 -0800 (PST)
-MIME-Version: 1.0
-References: <20201030100815.2269-1-daniel.vetter@ffwll.ch> <20201030100815.2269-6-daniel.vetter@ffwll.ch>
- <CAAFQd5ANOAzVf+tC1iYKXeY0ALahtYrG7xtKHXHmvv1xh7si3g@mail.gmail.com> <CAKMK7uFFNNXtWh5CyDVGnXo+GYdhc-CgZN1pZSmYAhnyrDhXaQ@mail.gmail.com>
-In-Reply-To: <CAKMK7uFFNNXtWh5CyDVGnXo+GYdhc-CgZN1pZSmYAhnyrDhXaQ@mail.gmail.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Mon, 2 Nov 2020 19:19:10 +0100
-X-Gmail-Original-Message-ID: <CAAFQd5B7yuk3G1u8m6i-TmUeoW-D_xPiUj56SvN8dgG7xtTZrw@mail.gmail.com>
-Message-ID: <CAAFQd5B7yuk3G1u8m6i-TmUeoW-D_xPiUj56SvN8dgG7xtTZrw@mail.gmail.com>
-Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>,
-        kvm <kvm@vger.kernel.org>, Jason Gunthorpe <jgg@ziepe.ca>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <linux-arm-kernel@lists.infradead.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        id S1725926AbgKBSy7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 2 Nov 2020 13:54:59 -0500
+Received: from alexa-out-sd-01.qualcomm.com ([199.106.114.38]:7352 "EHLO
+        alexa-out-sd-01.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725817AbgKBSy7 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 2 Nov 2020 13:54:59 -0500
+Received: from unknown (HELO ironmsg01-sd.qualcomm.com) ([10.53.140.141])
+  by alexa-out-sd-01.qualcomm.com with ESMTP; 02 Nov 2020 10:54:58 -0800
+X-QCInternal: smtphost
+Received: from veeras-linux.qualcomm.com ([10.134.68.137])
+  by ironmsg01-sd.qualcomm.com with ESMTP; 02 Nov 2020 10:54:58 -0800
+Received: by veeras-linux.qualcomm.com (Postfix, from userid 330320)
+        id 3A2A22192E; Mon,  2 Nov 2020 10:54:58 -0800 (PST)
+From:   Veera Sundaram Sankaran <veeras@codeaurora.org>
+To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        sumit.semwal@linaro.org, gustavo@padovan.org
+Cc:     Veera Sundaram Sankaran <veeras@codeaurora.org>,
+        robdclark@gmail.com, pdhaval@codeaurora.org,
+        abhinavk@codeaurora.org, jsanka@codeaurora.org
+Subject: [PATCH 1/2] dma-fence: allow signaling drivers to set fence timestamp
+Date:   Mon,  2 Nov 2020 10:54:45 -0800
+Message-Id: <1604343286-3262-1-git-send-email-veeras@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Oct 30, 2020 at 3:38 PM Daniel Vetter <daniel.vetter@ffwll.ch> wrot=
-e:
->
-> On Fri, Oct 30, 2020 at 3:11 PM Tomasz Figa <tfiga@chromium.org> wrote:
-> >
-> > On Fri, Oct 30, 2020 at 11:08 AM Daniel Vetter <daniel.vetter@ffwll.ch>=
- wrote:
-> > >
-> > > This is used by media/videbuf2 for persistent dma mappings, not just
-> > > for a single dma operation and then freed again, so needs
-> > > FOLL_LONGTERM.
-> > >
-> > > Unfortunately current pup_locked doesn't support FOLL_LONGTERM due to
-> > > locking issues. Rework the code to pull the pup path out from the
-> > > mmap_sem critical section as suggested by Jason.
-> > >
-> > > By relying entirely on the vma checks in pin_user_pages and follow_pf=
-n
-> > > (for vm_flags and vma_is_fsdax) we can also streamline the code a lot=
-.
-> > >
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > Cc: Jason Gunthorpe <jgg@ziepe.ca>
-> > > Cc: Pawel Osciak <pawel@osciak.com>
-> > > Cc: Marek Szyprowski <m.szyprowski@samsung.com>
-> > > Cc: Kyungmin Park <kyungmin.park@samsung.com>
-> > > Cc: Tomasz Figa <tfiga@chromium.org>
-> > > Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > > Cc: Andrew Morton <akpm@linux-foundation.org>
-> > > Cc: John Hubbard <jhubbard@nvidia.com>
-> > > Cc: J=C3=A9r=C3=B4me Glisse <jglisse@redhat.com>
-> > > Cc: Jan Kara <jack@suse.cz>
-> > > Cc: Dan Williams <dan.j.williams@intel.com>
-> > > Cc: linux-mm@kvack.org
-> > > Cc: linux-arm-kernel@lists.infradead.org
-> > > Cc: linux-samsung-soc@vger.kernel.org
-> > > Cc: linux-media@vger.kernel.org
-> > > Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
-> > > --
-> > > v2: Streamline the code and further simplify the loop checks (Jason)
-> > >
-> > > v5: Review from Tomasz:
-> > > - fix page counting for the follow_pfn case by resetting ret
-> > > - drop gup_flags paramater, now unused
-> > > ---
-> > >  .../media/common/videobuf2/videobuf2-memops.c |  3 +-
-> > >  include/linux/mm.h                            |  2 +-
-> > >  mm/frame_vector.c                             | 53 ++++++-----------=
---
-> > >  3 files changed, 19 insertions(+), 39 deletions(-)
-> > >
-> >
-> > Thanks, looks good to me now.
-> >
-> > Acked-by: Tomasz Figa <tfiga@chromium.org>
-> >
-> > From reading the code, this is quite unlikely to introduce any
-> > behavior changes, but just to be safe, did you have a chance to test
-> > this with some V4L2 driver?
->
-> Nah, unfortunately not.
+Some drivers have hardware capability to get the precise timestamp of
+certain events based on which the fences are triggered. This allows it
+to set accurate timestamp factoring out any software and IRQ latencies.
+Move the timestamp parameter out of union in dma_fence struct to allow
+signaling drivers to set it. If the parameter is not set, ktime_get is
+used to set the current time to fence timestamp during dma_fence_signal.
 
-I believe we don't have any setup that could exercise the IO/PFNMAP
-user pointers, but it should be possible to exercise the basic userptr
-path by enabling the virtual (fake) video driver, vivid or
-CONFIG_VIDEO_VIVID, in your kernel and then using yavta [1] with
---userptr and --capture=3D<number of frames> (and possibly some more
-options) to grab a couple of frames from the test pattern generator.
+Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
+---
+ drivers/dma-buf/dma-fence.c | 18 ++++++++++--------
+ include/linux/dma-fence.h   | 15 +++------------
+ 2 files changed, 13 insertions(+), 20 deletions(-)
 
-Does it sound like something that you could give a try? Feel free to
-ping me on IRC (tfiga on #v4l or #dri-devel) if you need any help.
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 43624b4..7cef49a 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -4,6 +4,7 @@
+  *
+  * Copyright (C) 2012 Canonical Ltd
+  * Copyright (C) 2012 Texas Instruments
++ * Copyright (c) 2020 The Linux Foundation. All rights reserved.
+  *
+  * Authors:
+  * Rob Clark <robdclark@gmail.com>
+@@ -329,7 +330,6 @@ void __dma_fence_might_wait(void)
+ int dma_fence_signal_locked(struct dma_fence *fence)
+ {
+ 	struct dma_fence_cb *cur, *tmp;
+-	struct list_head cb_list;
+ 
+ 	lockdep_assert_held(fence->lock);
+ 
+@@ -337,16 +337,18 @@ int dma_fence_signal_locked(struct dma_fence *fence)
+ 				      &fence->flags)))
+ 		return -EINVAL;
+ 
+-	/* Stash the cb_list before replacing it with the timestamp */
+-	list_replace(&fence->cb_list, &cb_list);
+-
+-	fence->timestamp = ktime_get();
++	/* set current time, if not set by signaling driver */
++	if (!fence->timestamp)
++		fence->timestamp = ktime_get();
+ 	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
+ 	trace_dma_fence_signaled(fence);
+ 
+-	list_for_each_entry_safe(cur, tmp, &cb_list, node) {
+-		INIT_LIST_HEAD(&cur->node);
+-		cur->func(fence, cur);
++	if (!list_empty(&fence->cb_list)) {
++		list_for_each_entry_safe(cur, tmp, &fence->cb_list, node) {
++			INIT_LIST_HEAD(&cur->node);
++			cur->func(fence, cur);
++		}
++		INIT_LIST_HEAD(&fence->cb_list);
+ 	}
+ 
+ 	return 0;
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 09e23ad..a9eebaf 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -4,6 +4,7 @@
+  *
+  * Copyright (C) 2012 Canonical Ltd
+  * Copyright (C) 2012 Texas Instruments
++ * Copyright (c) 2020 The Linux Foundation. All rights reserved.
+  *
+  * Authors:
+  * Rob Clark <robdclark@gmail.com>
+@@ -70,26 +71,16 @@ struct dma_fence {
+ 	 * release the fence it is unused. No one should be adding to the
+ 	 * cb_list that they don't themselves hold a reference for.
+ 	 *
+-	 * The lifetime of the timestamp is similarly tied to both the
+-	 * rcu freelist and the cb_list. The timestamp is only set upon
+-	 * signaling while simultaneously notifying the cb_list. Ergo, we
+-	 * only use either the cb_list of timestamp. Upon destruction,
+-	 * neither are accessible, and so we can use the rcu. This means
+-	 * that the cb_list is *only* valid until the signal bit is set,
+-	 * and to read either you *must* hold a reference to the fence,
+-	 * and not just the rcu_read_lock.
+-	 *
+ 	 * Listed in chronological order.
+ 	 */
+ 	union {
+ 		struct list_head cb_list;
+-		/* @cb_list replaced by @timestamp on dma_fence_signal() */
+-		ktime_t timestamp;
+-		/* @timestamp replaced by @rcu on dma_fence_release() */
++		/* @cb_list replaced by @rcu on dma_fence_release() */
+ 		struct rcu_head rcu;
+ 	};
+ 	u64 context;
+ 	u64 seqno;
++	ktime_t timestamp;
+ 	unsigned long flags;
+ 	struct kref refcount;
+ 	int error;
+-- 
+2.7.4
 
-[1] https://git.ideasonboard.org/yavta.git
-
-Best regards,
-Tomasz
-
-> -Daniel
->
-> >
-> > Best regards,
-> > Tomasz
-> >
-> > > diff --git a/drivers/media/common/videobuf2/videobuf2-memops.c b/driv=
-ers/media/common/videobuf2/videobuf2-memops.c
-> > > index 6e9e05153f4e..9dd6c27162f4 100644
-> > > --- a/drivers/media/common/videobuf2/videobuf2-memops.c
-> > > +++ b/drivers/media/common/videobuf2/videobuf2-memops.c
-> > > @@ -40,7 +40,6 @@ struct frame_vector *vb2_create_framevec(unsigned l=
-ong start,
-> > >         unsigned long first, last;
-> > >         unsigned long nr;
-> > >         struct frame_vector *vec;
-> > > -       unsigned int flags =3D FOLL_FORCE | FOLL_WRITE;
-> > >
-> > >         first =3D start >> PAGE_SHIFT;
-> > >         last =3D (start + length - 1) >> PAGE_SHIFT;
-> > > @@ -48,7 +47,7 @@ struct frame_vector *vb2_create_framevec(unsigned l=
-ong start,
-> > >         vec =3D frame_vector_create(nr);
-> > >         if (!vec)
-> > >                 return ERR_PTR(-ENOMEM);
-> > > -       ret =3D get_vaddr_frames(start & PAGE_MASK, nr, flags, vec);
-> > > +       ret =3D get_vaddr_frames(start & PAGE_MASK, nr, vec);
-> > >         if (ret < 0)
-> > >                 goto out_destroy;
-> > >         /* We accept only complete set of PFNs */
-> > > diff --git a/include/linux/mm.h b/include/linux/mm.h
-> > > index ef360fe70aaf..d6b8e30dce2e 100644
-> > > --- a/include/linux/mm.h
-> > > +++ b/include/linux/mm.h
-> > > @@ -1765,7 +1765,7 @@ struct frame_vector {
-> > >  struct frame_vector *frame_vector_create(unsigned int nr_frames);
-> > >  void frame_vector_destroy(struct frame_vector *vec);
-> > >  int get_vaddr_frames(unsigned long start, unsigned int nr_pfns,
-> > > -                    unsigned int gup_flags, struct frame_vector *vec=
-);
-> > > +                    struct frame_vector *vec);
-> > >  void put_vaddr_frames(struct frame_vector *vec);
-> > >  int frame_vector_to_pages(struct frame_vector *vec);
-> > >  void frame_vector_to_pfns(struct frame_vector *vec);
-> > > diff --git a/mm/frame_vector.c b/mm/frame_vector.c
-> > > index 10f82d5643b6..f8c34b895c76 100644
-> > > --- a/mm/frame_vector.c
-> > > +++ b/mm/frame_vector.c
-> > > @@ -32,13 +32,12 @@
-> > >   * This function takes care of grabbing mmap_lock as necessary.
-> > >   */
-> > >  int get_vaddr_frames(unsigned long start, unsigned int nr_frames,
-> > > -                    unsigned int gup_flags, struct frame_vector *vec=
-)
-> > > +                    struct frame_vector *vec)
-> > >  {
-> > >         struct mm_struct *mm =3D current->mm;
-> > >         struct vm_area_struct *vma;
-> > >         int ret =3D 0;
-> > >         int err;
-> > > -       int locked;
-> > >
-> > >         if (nr_frames =3D=3D 0)
-> > >                 return 0;
-> > > @@ -48,40 +47,26 @@ int get_vaddr_frames(unsigned long start, unsigne=
-d int nr_frames,
-> > >
-> > >         start =3D untagged_addr(start);
-> > >
-> > > -       mmap_read_lock(mm);
-> > > -       locked =3D 1;
-> > > -       vma =3D find_vma_intersection(mm, start, start + 1);
-> > > -       if (!vma) {
-> > > -               ret =3D -EFAULT;
-> > > -               goto out;
-> > > -       }
-> > > -
-> > > -       /*
-> > > -        * While get_vaddr_frames() could be used for transient (kern=
-el
-> > > -        * controlled lifetime) pinning of memory pages all current
-> > > -        * users establish long term (userspace controlled lifetime)
-> > > -        * page pinning. Treat get_vaddr_frames() like
-> > > -        * get_user_pages_longterm() and disallow it for filesystem-d=
-ax
-> > > -        * mappings.
-> > > -        */
-> > > -       if (vma_is_fsdax(vma)) {
-> > > -               ret =3D -EOPNOTSUPP;
-> > > -               goto out;
-> > > -       }
-> > > -
-> > > -       if (!(vma->vm_flags & (VM_IO | VM_PFNMAP))) {
-> > > +       ret =3D pin_user_pages_fast(start, nr_frames,
-> > > +                                 FOLL_FORCE | FOLL_WRITE | FOLL_LONG=
-TERM,
-> > > +                                 (struct page **)(vec->ptrs));
-> > > +       if (ret > 0) {
-> > >                 vec->got_ref =3D true;
-> > >                 vec->is_pfns =3D false;
-> > > -               ret =3D pin_user_pages_locked(start, nr_frames,
-> > > -                       gup_flags, (struct page **)(vec->ptrs), &lock=
-ed);
-> > > -               goto out;
-> > > +               goto out_unlocked;
-> > >         }
-> > >
-> > > +       mmap_read_lock(mm);
-> > >         vec->got_ref =3D false;
-> > >         vec->is_pfns =3D true;
-> > > +       ret =3D 0;
-> > >         do {
-> > >                 unsigned long *nums =3D frame_vector_pfns(vec);
-> > >
-> > > +               vma =3D find_vma_intersection(mm, start, start + 1);
-> > > +               if (!vma)
-> > > +                       break;
-> > > +
-> > >                 while (ret < nr_frames && start + PAGE_SIZE <=3D vma-=
->vm_end) {
-> > >                         err =3D follow_pfn(vma, start, &nums[ret]);
-> > >                         if (err) {
-> > > @@ -92,17 +77,13 @@ int get_vaddr_frames(unsigned long start, unsigne=
-d int nr_frames,
-> > >                         start +=3D PAGE_SIZE;
-> > >                         ret++;
-> > >                 }
-> > > -               /*
-> > > -                * We stop if we have enough pages or if VMA doesn't =
-completely
-> > > -                * cover the tail page.
-> > > -                */
-> > > -               if (ret >=3D nr_frames || start < vma->vm_end)
-> > > +               /* Bail out if VMA doesn't completely cover the tail =
-page. */
-> > > +               if (start < vma->vm_end)
-> > >                         break;
-> > > -               vma =3D find_vma_intersection(mm, start, start + 1);
-> > > -       } while (vma && vma->vm_flags & (VM_IO | VM_PFNMAP));
-> > > +       } while (ret < nr_frames);
-> > >  out:
-> > > -       if (locked)
-> > > -               mmap_read_unlock(mm);
-> > > +       mmap_read_unlock(mm);
-> > > +out_unlocked:
-> > >         if (!ret)
-> > >                 ret =3D -EFAULT;
-> > >         if (ret > 0)
-> > > --
-> > > 2.28.0
-> > >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
->
->
->
-> --
-> Daniel Vetter
-> Software Engineer, Intel Corporation
-> http://blog.ffwll.ch
