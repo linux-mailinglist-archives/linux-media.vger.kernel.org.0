@@ -2,186 +2,307 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B31CF2A4656
-	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 14:28:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 467972A4686
+	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 14:32:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729242AbgKCN21 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Nov 2020 08:28:27 -0500
-Received: from z5.mailgun.us ([104.130.96.5]:34116 "EHLO z5.mailgun.us"
+        id S1729359AbgKCNbw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Nov 2020 08:31:52 -0500
+Received: from mga09.intel.com ([134.134.136.24]:26994 "EHLO mga09.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729220AbgKCN20 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 3 Nov 2020 08:28:26 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1604410104; h=Content-Transfer-Encoding: Content-Type:
- In-Reply-To: MIME-Version: Date: Message-ID: From: References: Cc: To:
- Subject: Sender; bh=AioMfTW+/+DxAJdzh43uxsKQqNPs+ONJhb/k0pUeDEI=; b=FfI1w9aXB2mwGpuOGjtGFhJ7jj/RxGIBBO+I2GtgSBewXNMbdPMyt3ncfoJtcGYJ20inpk9Z
- 7vCPOx77EUKqOaZt5aze7KKUex8eBSWxEH+50A11l5Y9rfqWargynKBy1Vs/bO5mz9lAz3WH
- zuvptAMDt2cOVkAcmEVGhJv8hW8=
-X-Mailgun-Sending-Ip: 104.130.96.5
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n05.prod.us-east-1.postgun.com with SMTP id
- 5fa15af875bebe827a0015b7 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Tue, 03 Nov 2020 13:28:24
- GMT
-Sender: rnayak=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id 4952BC38526; Tue,  3 Nov 2020 07:43:48 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        NICE_REPLY_A,SPF_FAIL,URIBL_BLOCKED autolearn=no autolearn_force=no
-        version=3.4.0
-Received: from [192.168.0.118] (unknown [49.207.200.92])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        (Authenticated sender: rnayak)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7EC7CC384FE;
-        Tue,  3 Nov 2020 07:43:45 +0000 (UTC)
-DMARC-Filter: OpenDMARC Filter v1.3.2 smtp.codeaurora.org 7EC7CC384FE
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; dmarc=none (p=none dis=none) header.from=codeaurora.org
-Authentication-Results: aws-us-west-2-caf-mail-1.web.codeaurora.org; spf=fail smtp.mailfrom=rnayak@codeaurora.org
-Subject: Re: [PATCH] venus: pm_helpers: Fix kernel module reload
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Matthias Kaehlcke <mka@chromium.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>
-References: <20201101130052.20974-1-stanimir.varbanov@linaro.org>
-From:   Rajendra Nayak <rnayak@codeaurora.org>
-Message-ID: <a23bea60-6ddf-3e77-2bc4-0ffa8a99c2a7@codeaurora.org>
-Date:   Tue, 3 Nov 2020 13:13:42 +0530
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.1
+        id S1729352AbgKCNbw (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 3 Nov 2020 08:31:52 -0500
+IronPort-SDR: FzccuaFalKuTfc0F87a0EJCQPaROjEMeS+25ib13Cu/K6JIclB9uNdTSh+ANRS6qKfS/GmnaDF
+ VXrCyubYIyiA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9793"; a="169183138"
+X-IronPort-AV: E=Sophos;i="5.77,448,1596524400"; 
+   d="scan'208";a="169183138"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2020 05:31:50 -0800
+IronPort-SDR: uMdaK5CiZEP78/7GO9Gp/GSllkNVGoo6Ya74JJl//qmwjYdPzhOy6s5stD9B3KZYpYu5A0awCt
+ Zi/g5O4XNDcA==
+X-IronPort-AV: E=Sophos;i="5.77,448,1596524400"; 
+   d="scan'208";a="426305996"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2020 05:31:47 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id E8606209D9; Tue,  3 Nov 2020 15:31:44 +0200 (EET)
+Date:   Tue, 3 Nov 2020 15:31:44 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Cc:     Petr Mladek <pmladek@suse.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        linux-media@vger.kernel.org,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
+        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joe Perches <joe@perches.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>
+Subject: Re: [RESEND PATCH v3 1/1] lib/vsprintf: Add support for printing
+ V4L2 and DRM fourccs
+Message-ID: <20201103133144.GI26150@paasikivi.fi.intel.com>
+References: <20200427145303.29943-1-sakari.ailus@linux.intel.com>
+ <f97e4cf1-c3c6-80b1-5d17-167d60515236@rasmusvillemoes.dk>
 MIME-Version: 1.0
-In-Reply-To: <20201101130052.20974-1-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f97e4cf1-c3c6-80b1-5d17-167d60515236@rasmusvillemoes.dk>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Rasmus,
 
-On 11/1/2020 6:30 PM, Stanimir Varbanov wrote:
-> After initial kernel module load during kernel boot and removing
-> the module and try to load it again an Unable to handle kernel
-> paging request is observed:
-> 
-> Unable to handle kernel paging request at virtual address ffffa44f7416eae0
->   Mem abort info:
->     ESR = 0x96000047
->     EC = 0x25: DABT (current EL), IL = 32 bits
->     SET = 0, FnV = 0
->     EA = 0, S1PTW = 0
->   Data abort info:
->     ISV = 0, ISS = 0x00000047
->     CM = 0, WnR = 1
->   swapper pgtable: 4k pages, 48-bit VAs, pgdp=000000008147c000
->   [ffffa44f7416eae0] pgd=000000017df9f003, p4d=000000017df9f003,
->   pud=000000017df9e003, pmd=000000017df9b003, pte=0000000000000000
->   Internal error: Oops: 96000047 [#1] PREEMPT SMP
->   Modules linked in: venus_core(+) snd_soc_wsa881x regmap_sdw af_alg
->    snd_soc_wcd934x soundwire_qcom gpio_wcd934x q6asm_dai q6routing
->    q6adm q6afe_dai snd_soc_hdmi_codec q6afe q6asm q6dsp_common q6cor
->    display_connector rmtfs_mem drm ip_tables x_tables ipv6
->    [last unloaded: venus_core]
->   CPU: 6 PID: 889 Comm: modprobe Tainted: G        W      5.10.0-rc1+ #8
->   Hardware name: Thundercomm Dragonboard 845c (DT)
->   pstate: 80400085 (Nzcv daIf +PAN -UAO -TCO BTYPE=--)
->   pc : queued_spin_lock_slowpath+0x1dc/0x3c8
->   lr : do_raw_spin_lock+0xc0/0x118
->   sp : ffff8000142cb7b0
->   x29: ffff8000142cb7b0 x28: 0000000000000013
->   x27: ffffa44f72de5690 x26: 0000000000000003
->   x25: ffff17c2d00f8080 x24: ffff17c2c0d78010
->   x23: ffff17c2c0d4f700 x22: ffff17c2d00f8080
->   x21: 0000000000000000 x20: ffffa44f74148000
->   x19: ffff17c2c0d4f8f8 x18: 0000000000000000
->   x17: 0000000000000000 x16: ffffa44f7342f158
->   x15: 0000000000000040 x14: ffffa44f746e8320
->   x13: 0000000000000228 x12: 0000000000000020
->   x11: 0000000000000000 x10: 00000000001c0000
->   x9 : 0000000000000000 x8 : ffff17c33d746ac0
->   x7 : ffff17c2c109b000 x6 : ffffa44f7416eac0
->   x5 : ffff17c33d746ac0 x4 : 0000000000000000
->   x3 : ffff17c2c0d4f8f8 x2 : ffffa44f7416eae0
->   x1 : ffffa44f7416eae0 x0 : ffff17c33d746ac8
->   Call trace:
->    queued_spin_lock_slowpath+0x1dc/0x3c8
->    do_raw_spin_lock+0xc0/0x118
->    _raw_spin_lock_irqsave+0x80/0x14c
->    __pm_runtime_resume+0x38/0xb8
->    device_link_add+0x3b8/0x5d0
->    core_get_v4+0x268/0x2d8 [venus_core]
->    venus_probe+0x108/0x458 [venus_core]
->    platform_drv_probe+0x54/0xa8
->    really_probe+0xe4/0x3b0
->    driver_probe_device+0x58/0xb8
->    device_driver_attach+0x74/0x80
->    __driver_attach+0x58/0xe8
->    bus_for_each_dev+0x70/0xc0
->    driver_attach+0x24/0x30
->    bus_add_driver+0x150/0x1f8
->    driver_register+0x64/0x120
->    __platform_driver_register+0x48/0x58
->    qcom_venus_driver_init+0x20/0x1000 [venus_core]
->    do_one_initcall+0x84/0x458
->    do_init_module+0x58/0x208
->    load_module+0x1ec0/0x26a8
->    __do_sys_finit_module+0xb8/0xf8
->    __arm64_sys_finit_module+0x20/0x30
->    el0_svc_common.constprop.0+0x7c/0x1c0
->    do_el0_svc+0x24/0x90
->    el0_sync_handler+0x180/0x188
->    el0_sync+0x174/0x180
->   Code: 91002100 8b0200c2 f861d884 aa0203e1 (f8246828)
->   ---[ end trace f1f687c15fd6b2ca ]---
->   note: modprobe[889] exited with preempt_count 1
-> 
-> After revisit the OPP part of the code I found that OPP pmdomain
-> is detached with direct call to dev_pm_domain_detach instead of
-> OPP wraper for detaching pmdomains with OPP table. Correct this
-> by calling the OPP dev_pm_opp_detach_genpd.
+Thanks for the review.
 
-ah, that seems like the right thing to do. Sorry, looks like I hadn't
-really tested the cleanup path by loading/unloading the module :/
+On Mon, Apr 27, 2020 at 05:44:00PM +0200, Rasmus Villemoes wrote:
+> On 27/04/2020 16.53, Sakari Ailus wrote:
+> > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
+> > pixel formats denoted by fourccs. The fourcc encoding is the same for both
+> > so the same implementation can be used.
+> > 
+> > Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> > since v2:
+> > 
+> > - Add comments to explain why things are being done
+> > 
+> > - Print characters under 32 (space) as hexadecimals in parenthesis.
+> > 
+> > - Do not print spaces in the fourcc codes.
+> > 
+> > - Make use of a loop over the fourcc characters instead of
+> >   put_unaligned_le32(). This is necessary to omit spaces in the output.
+> > 
+> > - Use DRM style format instead of V4L2. This provides the precise code as
+> >   a numerical value as well as explicit endianness information.
+> > 
+> > - Added WARN_ON_ONCE() sanity checks. Comments on these are welcome; I'd
+> >   expect them mostly be covered by the tests.
+> > 
+> > - Added tests for %p4cc in lib/test_printf.c
+> > 
+> >  Documentation/core-api/printk-formats.rst | 12 ++++
+> >  lib/test_printf.c                         | 17 +++++
+> >  lib/vsprintf.c                            | 86 +++++++++++++++++++++++
+> >  3 files changed, 115 insertions(+)
+> > 
+> > diff --git a/Documentation/core-api/printk-formats.rst b/Documentation/core-api/printk-formats.rst
+> > index 8ebe46b1af39..7aa0451e06fb 100644
+> > --- a/Documentation/core-api/printk-formats.rst
+> > +++ b/Documentation/core-api/printk-formats.rst
+> > @@ -545,6 +545,18 @@ For printing netdev_features_t.
+> >  
+> >  Passed by reference.
+> >  
+> > +V4L2 and DRM FourCC code (pixel format)
+> > +---------------------------------------
+> > +
+> > +::
+> > +
+> > +	%p4cc
+> > +
+> > +Print a FourCC code used by V4L2 or DRM, including format endianness and
+> > +its numerical value as hexadecimal.
+> > +
+> > +Passed by reference.
+> > +
+> >  Thanks
+> >  ======
+> >  
+> > diff --git a/lib/test_printf.c b/lib/test_printf.c
+> > index 2d9f520d2f27..a14754086707 100644
+> > --- a/lib/test_printf.c
+> > +++ b/lib/test_printf.c
+> > @@ -624,6 +624,22 @@ static void __init fwnode_pointer(void)
+> >  	software_node_unregister_nodes(softnodes);
+> >  }
+> >  
+> > +static void __init fourcc_pointer(void)
+> > +{
+> > +	struct {
+> > +		u32 code;
+> > +		char *str;
+> > +	} const try[] = {
+> > +		{ 0x20104646, "FF(10) little-endian (0x20104646)", },
+> > +		{ 0xa0104646, "FF(10) big-endian (0xa0104646)", },
+> > +		{ 0x10111213, "(13)(12)(11)(10) little-endian (0x10111213)", },
+> > +	};
+> > +	unsigned int i;
+> > +
+> > +	for (i = 0; i < ARRAY_SIZE(try); i++)
+> > +		test(try[i].str, "%p4cc", &try[i].code);
+> > +}
+> > +
+> >  static void __init
+> >  errptr(void)
+> >  {
+> > @@ -668,6 +684,7 @@ test_pointer(void)
+> >  	flags();
+> >  	errptr();
+> >  	fwnode_pointer();
+> > +	fourcc_pointer();
+> >  }
+> >  
+> >  static void __init selftest(void)
+> > diff --git a/lib/vsprintf.c b/lib/vsprintf.c
+> > index 7c488a1ce318..02e7906619c0 100644
+> > --- a/lib/vsprintf.c
+> > +++ b/lib/vsprintf.c
+> > @@ -1721,6 +1721,89 @@ char *netdev_bits(char *buf, char *end, const void *addr,
+> >  	return special_hex_number(buf, end, num, size);
+> >  }
+> >  
+> > +static noinline_for_stack
+> > +char *fourcc_string(char *buf, char *end, const u32 *__fourcc,
+> > +		    struct printf_spec spec, const char *fmt)
+> > +{
+> > +#define FOURCC_HEX_CHAR_STR		"(xx)"
+> > +#define FOURCC_BIG_ENDIAN_STR		" big-endian"
+> > +#define FOURCC_LITTLE_ENDIAN_STR	" little-endian"
+> > +#define FOURCC_HEX_NUMBER		" (0x01234567)"
+> > +#define FOURCC_STRING_MAX						\
+> > +	FOURCC_HEX_CHAR_STR FOURCC_HEX_CHAR_STR FOURCC_HEX_CHAR_STR	\
+> > +	FOURCC_HEX_CHAR_STR FOURCC_LITTLE_ENDIAN_STR FOURCC_HEX_NUMBER
+> > +	struct printf_spec my_spec = {
+> > +		.type = FORMAT_TYPE_UINT,
+> > +		.field_width = 2,
+> > +		.flags = SMALL,
+> > +		.base = 16,
+> > +		.precision = -1,
+> > +	};
+> > +	char __s[sizeof(FOURCC_STRING_MAX)];
+> > +	char *s = __s;
+> > +	unsigned int i;
+> > +	/*
+> > +	 * The 31st bit defines the endianness of the data, so save its printing
+> > +	 * for later.
+> > +	 */
+> > +	u32 fourcc = *__fourcc & ~BIT(31);
+> > +	int ret;
+> 
+> Dereference __fourcc ...
+> 
+> > +	if (check_pointer(&buf, end, __fourcc, spec))
+> > +		return buf;
+> 
+> .. and then sanity check it?
+> 
+> > +	if (fmt[1] != 'c' || fmt[2] != 'c')
+> > +		return error_string(buf, end, "(%p4?)", spec);
+> 
+> Doesn't that want to come before everything else, including the
+> check_pointer()?
 
-Reviewed-by: Rajendra Nayak <rnayak@codeaurora.org>
+Agreed on all three.
 
 > 
-> Fixes: 9a538b83612c ('media: venus: core: Add support for opp tables/perf voting')
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->   drivers/media/platform/qcom/venus/pm_helpers.c | 4 ++--
->   1 file changed, 2 insertions(+), 2 deletions(-)
+> > +	for (i = 0; i < sizeof(fourcc); i++, fourcc >>= 8) {
+> > +		unsigned char c = fourcc;
+> > +
+> > +		/* Weed out spaces */
+> > +		if (c == ' ')
+> > +			continue;
+> > +
+> > +		/* Print non-control characters as-is */
+> > +		if (c > ' ') {
+> > +			*s = c;
+> > +			s++;
+> > +			continue;
+> > +		}
 > 
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index 0ebba8e3bd75..2946547a0df4 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -804,7 +804,7 @@ static int vcodec_domains_get(struct device *dev)
->   	return 0;
->   
->   opp_dl_add_err:
-> -	dev_pm_domain_detach(core->opp_pmdomain, true);
-> +	dev_pm_opp_detach_genpd(core->opp_table);
->   opp_attach_err:
->   	if (core->pd_dl_venus) {
->   		device_link_del(core->pd_dl_venus);
-> @@ -842,7 +842,7 @@ static void vcodec_domains_put(struct device *dev)
->   	if (core->opp_dl_venus)
->   		device_link_del(core->opp_dl_venus);
->   
-> -	dev_pm_domain_detach(core->opp_pmdomain, true);
-> +	dev_pm_opp_detach_genpd(core->opp_table);
->   }
->   
->   static int core_get_v4(struct device *dev)
+> Are you sure you want to pass non-ascii characters through?
+
+I'll print the hexadecimal value in v4.
+
 > 
+> > +		if (WARN_ON_ONCE(sizeof(__s) <
+> > +				 (s - __s) + sizeof(FOURCC_HEX_CHAR_STR)))
+> > +			break;
+> 
+> I really don't see the point of these checks.  Why check here but not
+> before we output a non-control character? That seems rather arbitrary.
+> Also, assume we do take this break, (to be continued below [*])
+
+Will remove.
+
+> 
+> > +		*s = '(';
+> > +		s++;
+> > +		s = number(s, s + 2, c, my_spec);
+> 
+> You can drop my_spec and just use "s = hex_byte_pack(s, c);".
+
+Ack, this cleans it up indeed.
+
+> 
+> > +		*s = ')';
+> > +		s++;
+> > +	}
+> > +
+> > +	ret = strscpy(s, *__fourcc & BIT(31) ? FOURCC_BIG_ENDIAN_STR
+> > +					     : FOURCC_LITTLE_ENDIAN_STR,
+> > +		      sizeof(__s) - (s - __s));
+> > +	if (!WARN_ON_ONCE(ret < 0))
+> > +		s += ret;
+> > +
+> > +	if (!WARN_ON_ONCE(sizeof(__s) <
+> > +			  (s - __s) + sizeof(FOURCC_HEX_NUMBER))) {
+> 
+> [*] then AFAICT this WARN_ON_ONCE is guaranteed to also fire [the
+> left-hand side is the same as before, the right-hand side consists of a
+> quantity s-__s that can only be larger or equal than before and a
+> constant sizeof(FOURCC_HEX_NUMBER) that is definitely larger], hence we
+> do not enter this if () and [**]
+> 
+> > +		*s = ' ';
+> > +		s++;
+> > +		*s = '(';
+> > +		s++;
+> > +		/* subtract parentheses and the space from the size */
+> > +		special_hex_number(s, s + sizeof(FOURCC_HEX_NUMBER) - 3,
+> > +				   *__fourcc, sizeof(u32));
+> 
+> Urgh. Don't we have an ARRAY_END() macro that let's you call this with
+> (s, ARRAY_END(__s)) as buf, end?
+
+We do, yes. In drivers/block/floppy.c. :-)
+
+> 
+> > +		s += sizeof(u32) * 2 + 2 /* 0x */;
+> 
+> Why, when special_hex_number returns a pointer to one-past-its-output?
+
+I'll use that for v4.
+
+> 
+> > +		*s = ')';
+> > +		s++;
+> > +		*s = '\0';
+> > +	}
+> > +
+> > +	return string(buf, end, __s, spec);
+> 
+> [**] __s does not get nul-terminated, so we call string() with stack
+> garbage.
+> 
+> I'd say just drop those checks, and de-obfuscate the sizing of the __s
+> array so it becomes obviously large enough for what the algorithm can
+> produce. Just
+> 
+> char __s[sizeof("(01)(02)(03)(04) little-endian (0x01020304)")]
+> 
+> or something like that should be sufficient.
+
+Done.
 
 -- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-of Code Aurora Forum, hosted by The Linux Foundation
+Kind regards,
+
+Sakari Ailus
