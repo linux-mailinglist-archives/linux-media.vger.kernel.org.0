@@ -2,120 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B45282A415E
-	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 11:12:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 601992A41CC
+	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 11:27:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728067AbgKCKMV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Nov 2020 05:12:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35072 "EHLO
+        id S1726814AbgKCK0T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Nov 2020 05:26:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37286 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728069AbgKCKMP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Nov 2020 05:12:15 -0500
-Received: from mail-il1-x142.google.com (mail-il1-x142.google.com [IPv6:2607:f8b0:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0CA69C061A47
-        for <linux-media@vger.kernel.org>; Tue,  3 Nov 2020 02:12:14 -0800 (PST)
-Received: by mail-il1-x142.google.com with SMTP id p10so15614492ile.3
-        for <linux-media@vger.kernel.org>; Tue, 03 Nov 2020 02:12:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=b9Ktpm35fisVuHEhjhohgaqyboE8BmrrMoCITk9vnK8=;
-        b=0kZJ8Rb9+0/H3MVDUevyCTWAc1pKYDKmZzYacQKCMmC/UQ66qmBgifq30qeC2iVztI
-         ATPY1knKGSXDzJ6+Nm3tm3Ffn81WkUy/sBCmPfD94FibScrq8/Ui+9TUYldHJ7pcnk1t
-         gx+nhhl2zwwSRNNGE6X3g+mK8ICIfWN15TzWFBAm2Ac+Fnp/Nc7mvMvQxol3TgeHLuHe
-         fB2HlcDfVoQUKXEDUTDlyUi1MwQ1IJbHWYhRPhxFdctoJ/ps1THqNVawMwUkgd/uHgQv
-         AYOBJizY9XV1L84dWspkXE7W+jTkhJPV/Ws9WaUAfWMNJujPYu+ExPkpZXByTNBy8wKU
-         VaOg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=b9Ktpm35fisVuHEhjhohgaqyboE8BmrrMoCITk9vnK8=;
-        b=CIeduWMB6+LZH/a1NYAfo6u9dpIQtda08mCyaWvY0VxVta55nBRQpPa4Wpe6CtUSt5
-         thLM9WyjzQhR1Zn7J1I/yd6TVxKYpFv0Admliyy6uXoNp04XVQk7ASLOyOGKbURTxPWz
-         cpD7fFzsdzVQUuaFPQVyYfDUYe5zeQcKGEuAyiRwsaYUw0lRm6NTeN+As+0FordqoAXh
-         jnn4Y0Lf0MevGOrswmyiy3oDJoQaHoAUmvRtV8mKuxDtuHEJgUwa4C92ifTMUwGtas8d
-         4SBdWU+TbDjdEm1Smb5zi08aRFKhFD6afb5VM9+eQHeqqMYd2rr2LS68fbPEuMRAunRw
-         AIHw==
-X-Gm-Message-State: AOAM530OuOoJBoXtAKPG7OcQoWUAwmTrvshBNolljYVuYO9JIblqj6eP
-        IDL+vFtKLMoETbJqBcVrn4B61qLW0vj8yxnFAaR8mQ==
-X-Google-Smtp-Source: ABdhPJxXaKRnidyqbx6iUG254lVJzvxaSAJ3Y8t7tBOtYCNJcNKDXTe4r/tIo6bcU8qIdoqImm6tntmYdwdU1LT5yRY=
-X-Received: by 2002:a05:6e02:926:: with SMTP id o6mr14285653ilt.287.1604398333472;
- Tue, 03 Nov 2020 02:12:13 -0800 (PST)
+        with ESMTP id S1727246AbgKCK0N (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Nov 2020 05:26:13 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 45923C0613D1
+        for <linux-media@vger.kernel.org>; Tue,  3 Nov 2020 02:26:13 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 41D1A332;
+        Tue,  3 Nov 2020 11:26:10 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1604399170;
+        bh=yCMQjKAU05bVdHbXUhs3bPh0x22AEebW/iGjrpPw+M8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=mrUDaUHfpTF83qFQP45w8KMfUHea9Sn5tmh1T0mitSLRks/sgL2VNMmx6Nx09dtAH
+         LjMZb1GHlqesTNq6D9d3kR7u4+LmwhUaO1EpZiHqcuwGV7PdZVdHApBRo2cTTmyXt5
+         LNDKSmabHUpN770xEzNgCWzTJo+rJOW7qDWoi/0A=
+Date:   Tue, 3 Nov 2020 12:25:22 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Dylan Yip <dylany@xilinx.com>,
+        Vishal Sagar <vsagar@xilinx.com>,
+        Nicolas Dufresne <nicolas@ndufresne.ca>
+Subject: Re: [PATCH v2 00/19] media: Add new pixel formats for Xilinx v-frmbuf
+Message-ID: <20201103102522.GA17496@pendragon.ideasonboard.com>
+References: <20201102224102.30292-1-laurent.pinchart@ideasonboard.com>
+ <20201103085752.GF26150@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-References: <20201102152037.963-1-brgl@bgdev.pl> <21d80265fccfcb5d76851c84d1c2d88e0421ab85.camel@perches.com>
-In-Reply-To: <21d80265fccfcb5d76851c84d1c2d88e0421ab85.camel@perches.com>
-From:   Bartosz Golaszewski <brgl@bgdev.pl>
-Date:   Tue, 3 Nov 2020 11:12:02 +0100
-Message-ID: <CAMRc=Me4-4Cmoq3UdpYEEhERP6fvt97bEJsZYhrcFSQf+a_voA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] slab: provide and use krealloc_array()
-To:     Joe Perches <joe@perches.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-edac@vger.kernel.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
-        netdev <netdev@vger.kernel.org>, linux-mm@kvack.org,
-        Linux-ALSA <alsa-devel@alsa-project.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201103085752.GF26150@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 3, 2020 at 5:14 AM Joe Perches <joe@perches.com> wrote:
->
-> On Mon, 2020-11-02 at 16:20 +0100, Bartosz Golaszewski wrote:
-> > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
-> >
-> > Andy brought to my attention the fact that users allocating an array of
-> > equally sized elements should check if the size multiplication doesn't
-> > overflow. This is why we have helpers like kmalloc_array().
-> >
-> > However we don't have krealloc_array() equivalent and there are many
-> > users who do their own multiplication when calling krealloc() for arrays.
-> >
-> > This series provides krealloc_array() and uses it in a couple places.
->
-> My concern about this is a possible assumption that __GFP_ZERO will
-> work, and as far as I know, it will not.
->
+Hi Sakari,
 
-Yeah so I had this concern for devm_krealloc() and even sent a patch
-that extended it to honor __GFP_ZERO before I noticed that regular
-krealloc() silently ignores __GFP_ZERO. I'm not sure if this is on
-purpose. Maybe we should either make krealloc() honor __GFP_ZERO or
-explicitly state in its documentation that it ignores it?
+On Tue, Nov 03, 2020 at 10:57:52AM +0200, Sakari Ailus wrote:
+> On Tue, Nov 03, 2020 at 12:40:43AM +0200, Laurent Pinchart wrote:
+> > Hello,
+> > 
+> > This patch series adds a set of new pixel formats needed for the Xilinx
+> > Video Frame Buffer Read/Write IP cores (see [1]).
+> > 
+> > Compared to v1, the series has been extended to include semi-planar YUV
+> > formats. The code is now based on v5.10-rc2, which uses SPDX license
+> > headers for the media documentation, so new files have been switched to
+> > do so as well. Review comments have also been incorported, thank you
+> > Hans and Nicolas for providing feedback on v1.
+> > 
+> > Documentation of the pixel formats has grown organically in V4L2, and
+> > while it is fairly complete and detailed, it also duplicates lots of
+> > information. I've thus decided to bite the bullet, and try to
+> > consolidate the documentation first before adding new formats.
+> > 
+> > The first three patches address minor issues in videodev2.h, removing a
+> > comment that belongs to a commit message instead (01/19) and moving two
+> > misplaced formats to where they belong (02/19 and 03/19).
+> > 
+> > The next three patches refactor documentation for the RGB formats. Patch
+> > 04/19 removes a confusing table (that likely made sense when it was
+> > added, but not anymore), 05/19 adds a section title for the deprecated
+> > RGB formats to increase clarity, and patch 06/19 documents the naming
+> > scheme followed by our RGB formats. There are two separate naming
+> > schemes, used by 8- and 16-bit formats on one side, and 24- and 32-bit
+> > formats on the other side. The former matches the naming conventions of
+> > DRM, while the latter doesn't, which has often led to confusion and
+> > errors. This can't be changed, but it's now clearly documented.
+> 
+> The patches look nice but it'd be useful to see the resulting
+> documentation. Would you be able to upload that somewhere for reviewers to
+> access?
 
-This concern isn't really related to this patch as such - it's more of
-a general krealloc() inconsistency.
+Sure. Here you are: https://www.ideasonboard.org/media/uapi/v4l/pixfmt.html
 
-Bartosz
+-- 
+Regards,
+
+Laurent Pinchart
