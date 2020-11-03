@@ -2,101 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2C8B72A56FE
-	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 22:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9D29A2A5705
+	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 22:34:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732382AbgKCVc6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Nov 2020 16:32:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57124 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732579AbgKCVc6 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Nov 2020 16:32:58 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD5CBC0613D1
-        for <linux-media@vger.kernel.org>; Tue,  3 Nov 2020 13:32:57 -0800 (PST)
+        id S1732678AbgKCVdP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Nov 2020 16:33:15 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:52632 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387520AbgKCVdA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Nov 2020 16:33:00 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 6CB411F45881
+        with ESMTPSA id 6A6861F45883
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org
 Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
         Philipp Zabel <p.zabel@pengutronix.de>, cphealy@gmail.com,
         Benjamin.Bara@skidata.com, l.stach@pengutronix.de,
-        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com
-Subject: [PATCH v3 0/2] CODA timeout and macroblock error control
-Date:   Tue,  3 Nov 2020 18:32:36 -0300
-Message-Id: <20201103213238.575909-1-ezequiel@collabora.com>
+        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com,
+        Benjamin Bara <benjamin.bara@skidata.com>
+Subject: [PATCH v3 1/2] coda: coda_buffer_meta housekeeping fix
+Date:   Tue,  3 Nov 2020 18:32:37 -0300
+Message-Id: <20201103213238.575909-2-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201103213238.575909-1-ezequiel@collabora.com>
+References: <20201103213238.575909-1-ezequiel@collabora.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all,
+It's possible that the VPU was initialized using just one buffer,
+containing only codec headers.
 
-I'm sending here the patches that are pending in previous series [2].
+In this case, right after the initialization and after updating
+the FIFO read pointer, we need to iterate through all the coda_buffer_meta
+and release any metas that have been already used by the VPU.
 
-The main motivation for this fix is to address a PIC_RUN
-timeout, which we managed to link with a hardware bitstream
-buffer underrun condition.
+This issue is affecting indirectly the bitstream buffer fill
+threshold, which depends on the meta end position of the first
+queued meta, which is passed to coda_bitstream_can_fetch_past().
 
-Upon further investigation we discovered that the underrun
-was produced by a subtle issue in the way buffer_meta's were
-being tracked.
+Without this fix, it's possible that for certain videos, the
+bitstream buffer level is not filled properly, resulting in a PIC_RUN
+timeout.
 
-The issue is fixed by patch "1/2 coda: coda_buffer_meta housekeeping fix".
+Reported-by: Benjamin Bara <benjamin.bara@skidata.com>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+---
+ drivers/media/platform/coda/coda-bit.c | 42 +++++++++++++++++++++++---
+ drivers/media/platform/coda/coda.h     |  1 +
+ 2 files changed, 39 insertions(+), 4 deletions(-)
 
-Also, while testing with corrupted bitstreams we realized
-the driver was logging too verbosely, so patch 2 addresses
-this by introducing a private control to read an macroblock-error
-counter.
-
-These patches have been tested against media's upstream
-and v5.4-based, on i.MX6 (Wandboard) with H.264 and MPEG-2
-streams.
-
-As reported by Benjamin Bara this fix is not sufficient
-to fix all timeouts. However, the fix does help to fix
-some of the cases.
-
-For instance, videos containing small black frames,
-are now fixed. See:
-
-gst-launch-1.0 videotestsrc pattern=black num-buffers=300 ! \
-video/x-raw,format=I420,width=176,height=120 ! avenc_mpeg2video ! \
-mpegvideoparse ! mpegtsmux ! filesink location=black-qcif-10s.ts
-
-Reviews and feedback are appreciated, as always.
-
-[1] https://lkml.org/lkml/2020/8/21/495
-[2] https://patchwork.linuxtv.org/project/linux-media/list/?series=3592
-
-Changelog
----------
-
-v3:
-* Address Hans' feedback on patch 2.
-  In particular, the control is not marked as volatile,
-  since that was incorrect.
-  Also, move the control CID definition inside the driver header.
-
-v2:
-* Keep the error MB message, but move it to coda_dbg(1, ctx).
-* Add per-device rate limitting for the error MB message.
-* Rename V4L2_CID_CODA_ERR_MB description.
-* s/__coda_decoder_drop_used_metas/coda_decoder_drop_used_metas
-
-Ezequiel Garcia (2):
-  coda: coda_buffer_meta housekeeping fix
-  coda: Add a V4L2 user for control error macroblocks count
-
- drivers/media/platform/coda/coda-bit.c    | 52 ++++++++++++++++++++---
- drivers/media/platform/coda/coda-common.c | 18 ++++++++
- drivers/media/platform/coda/coda.h        | 11 +++++
- include/uapi/linux/v4l2-controls.h        |  4 ++
- 4 files changed, 78 insertions(+), 7 deletions(-)
-
+diff --git a/drivers/media/platform/coda/coda-bit.c b/drivers/media/platform/coda/coda-bit.c
+index 659fcf77b0ed..919b36d753ec 100644
+--- a/drivers/media/platform/coda/coda-bit.c
++++ b/drivers/media/platform/coda/coda-bit.c
+@@ -1836,6 +1836,29 @@ static bool coda_reorder_enable(struct coda_ctx *ctx)
+ 	return profile > V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE;
+ }
+ 
++static void coda_decoder_drop_used_metas(struct coda_ctx *ctx)
++{
++	struct coda_buffer_meta *meta, *tmp;
++
++	/*
++	 * All metas that end at or before the RD pointer (fifo out),
++	 * are now consumed by the VPU and should be released.
++	 */
++	spin_lock(&ctx->buffer_meta_lock);
++	list_for_each_entry_safe(meta, tmp, &ctx->buffer_meta_list, list) {
++		if (ctx->bitstream_fifo.kfifo.out >= meta->end) {
++			coda_dbg(2, ctx, "releasing meta: seq=%d start=%d end=%d\n",
++				 meta->sequence, meta->start, meta->end);
++
++			list_del(&meta->list);
++			ctx->num_metas--;
++			ctx->first_frame_sequence++;
++			kfree(meta);
++		}
++	}
++	spin_unlock(&ctx->buffer_meta_lock);
++}
++
+ static int __coda_decoder_seq_init(struct coda_ctx *ctx)
+ {
+ 	struct coda_q_data *q_data_src, *q_data_dst;
+@@ -1921,10 +1944,17 @@ static int __coda_decoder_seq_init(struct coda_ctx *ctx)
+ 	}
+ 	ctx->sequence_offset = ~0U;
+ 	ctx->initialized = 1;
++	ctx->first_frame_sequence = 0;
+ 
+ 	/* Update kfifo out pointer from coda bitstream read pointer */
+ 	coda_kfifo_sync_from_device(ctx);
+ 
++	/*
++	 * After updating the read pointer, we need to check if
++	 * any metas are consumed and should be released.
++	 */
++	coda_decoder_drop_used_metas(ctx);
++
+ 	if (coda_read(dev, CODA_RET_DEC_SEQ_SUCCESS) == 0) {
+ 		v4l2_err(&dev->v4l2_dev,
+ 			"CODA_COMMAND_SEQ_INIT failed, error code = 0x%x\n",
+@@ -2395,12 +2425,16 @@ static void coda_finish_decode(struct coda_ctx *ctx)
+ 		v4l2_err(&dev->v4l2_dev,
+ 			 "decoded frame index out of range: %d\n", decoded_idx);
+ 	} else {
++		int sequence;
++
+ 		decoded_frame = &ctx->internal_frames[decoded_idx];
+ 
+ 		val = coda_read(dev, CODA_RET_DEC_PIC_FRAME_NUM);
+ 		if (ctx->sequence_offset == -1)
+ 			ctx->sequence_offset = val;
+-		val -= ctx->sequence_offset;
++
++		sequence = val + ctx->first_frame_sequence
++			       - ctx->sequence_offset;
+ 		spin_lock(&ctx->buffer_meta_lock);
+ 		if (!list_empty(&ctx->buffer_meta_list)) {
+ 			meta = list_first_entry(&ctx->buffer_meta_list,
+@@ -2415,10 +2449,10 @@ static void coda_finish_decode(struct coda_ctx *ctx)
+ 			 * should be enough to detect most errors and saves us
+ 			 * from doing different things based on the format.
+ 			 */
+-			if ((val & 0xffff) != (meta->sequence & 0xffff)) {
++			if ((sequence & 0xffff) != (meta->sequence & 0xffff)) {
+ 				v4l2_err(&dev->v4l2_dev,
+ 					 "sequence number mismatch (%d(%d) != %d)\n",
+-					 val, ctx->sequence_offset,
++					 sequence, ctx->sequence_offset,
+ 					 meta->sequence);
+ 			}
+ 			decoded_frame->meta = *meta;
+@@ -2428,7 +2462,7 @@ static void coda_finish_decode(struct coda_ctx *ctx)
+ 			v4l2_err(&dev->v4l2_dev, "empty timestamp list!\n");
+ 			memset(&decoded_frame->meta, 0,
+ 			       sizeof(struct coda_buffer_meta));
+-			decoded_frame->meta.sequence = val;
++			decoded_frame->meta.sequence = sequence;
+ 			decoded_frame->meta.last = false;
+ 			ctx->sequence_offset++;
+ 		}
+diff --git a/drivers/media/platform/coda/coda.h b/drivers/media/platform/coda/coda.h
+index b81f3aca9209..e53f7a65d532 100644
+--- a/drivers/media/platform/coda/coda.h
++++ b/drivers/media/platform/coda/coda.h
+@@ -259,6 +259,7 @@ struct coda_ctx {
+ 	struct list_head		buffer_meta_list;
+ 	spinlock_t			buffer_meta_lock;
+ 	int				num_metas;
++	unsigned int			first_frame_sequence;
+ 	struct coda_aux_buf		workbuf;
+ 	int				num_internal_frames;
+ 	int				idx;
 -- 
 2.27.0
 
