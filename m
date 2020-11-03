@@ -2,148 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0C572A582C
-	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 22:50:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C8B72A56FE
+	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 22:33:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731532AbgKCUt1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Nov 2020 15:49:27 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42284 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731535AbgKCUt0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 3 Nov 2020 15:49:26 -0500
-Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 64561223FD;
-        Tue,  3 Nov 2020 20:49:24 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604436564;
-        bh=H/bahLUtNGlRGYIevvmapEfWHWWFAfHpFt8kL4xiXQA=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=fZNhfo31Yy6TcO9SQ1wjM64U4BOIlj6Wt1UcsqvtLGLHktjT5qTQnj1D5bHJoSzzL
-         5urSeXgEO6V+Fn0upevWsZXDInHEwJQUSmzbVXFBSRsRXI0GAFJwPZhSFWRnGbWQCs
-         5dLw7muACcI7fKTFgepnuXq0aF8vAxYvRb32Aa58=
-From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-To:     linux-kernel@vger.kernel.org
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        stable@vger.kernel.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Lucas Stach <l.stach@pengutronix.de>,
-        Russell King <linux+etnaviv@armlinux.org.uk>,
-        Christian Gmeiner <christian.gmeiner@gmail.com>,
-        Inki Dae <inki.dae@samsung.com>,
-        Joonyoung Shim <jy0922.shim@samsung.com>,
-        Seung-Woo Kim <sw0312.kim@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Gerd Hoffmann <kraxel@redhat.com>,
-        Rob Herring <robh@kernel.org>, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        piotr.oniszczuk@gmail.com, Daniel Vetter <daniel.vetter@intel.com>
-Subject: [PATCH 5.9 267/391] drm/shme-helpers: Fix dma_buf_mmap forwarding bug
-Date:   Tue,  3 Nov 2020 21:35:18 +0100
-Message-Id: <20201103203405.042055538@linuxfoundation.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201103203348.153465465@linuxfoundation.org>
-References: <20201103203348.153465465@linuxfoundation.org>
-User-Agent: quilt/0.66
+        id S1732382AbgKCVc6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Nov 2020 16:32:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57124 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732579AbgKCVc6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Nov 2020 16:32:58 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD5CBC0613D1
+        for <linux-media@vger.kernel.org>; Tue,  3 Nov 2020 13:32:57 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 6CB411F45881
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Philipp Zabel <p.zabel@pengutronix.de>, cphealy@gmail.com,
+        Benjamin.Bara@skidata.com, l.stach@pengutronix.de,
+        Ezequiel Garcia <ezequiel@collabora.com>, kernel@collabora.com
+Subject: [PATCH v3 0/2] CODA timeout and macroblock error control
+Date:   Tue,  3 Nov 2020 18:32:36 -0300
+Message-Id: <20201103213238.575909-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Daniel Vetter <daniel.vetter@ffwll.ch>
+Hi all,
 
-commit f49a51bfdc8ea717c97ccd4cc98b7e6daaa5553a upstream.
+I'm sending here the patches that are pending in previous series [2].
 
-When we forward an mmap to the dma_buf exporter, they get to own
-everything. Unfortunately drm_gem_mmap_obj() overwrote
-vma->vm_private_data after the driver callback, wreaking the
-exporter complete. This was noticed because vb2_common_vm_close blew
-up on mali gpu with panfrost after commit 26d3ac3cb04d
-("drm/shmem-helpers: Redirect mmap for imported dma-buf").
+The main motivation for this fix is to address a PIC_RUN
+timeout, which we managed to link with a hardware bitstream
+buffer underrun condition.
 
-Unfortunately drm_gem_mmap_obj also acquires a surplus reference that
-we need to drop in shmem helpers, which is a bit of a mislayer
-situation. Maybe the entire dma_buf_mmap forwarding should be pulled
-into core gem code.
+Upon further investigation we discovered that the underrun
+was produced by a subtle issue in the way buffer_meta's were
+being tracked.
 
-Note that the only two other drivers which forward mmap in their own
-code (etnaviv and exynos) get this somewhat right by overwriting the
-gem mmap code. But they seem to still have the leak. This might be a
-good excuse to move these drivers over to shmem helpers completely.
+The issue is fixed by patch "1/2 coda: coda_buffer_meta housekeeping fix".
 
-Reviewed-by: Boris Brezillon <boris.brezillon@collabora.com>
-Acked-by: Christian König <christian.koenig@amd.com>
-Cc: Christian König <christian.koenig@amd.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Lucas Stach <l.stach@pengutronix.de>
-Cc: Russell King <linux+etnaviv@armlinux.org.uk>
-Cc: Christian Gmeiner <christian.gmeiner@gmail.com>
-Cc: Inki Dae <inki.dae@samsung.com>
-Cc: Joonyoung Shim <jy0922.shim@samsung.com>
-Cc: Seung-Woo Kim <sw0312.kim@samsung.com>
-Cc: Kyungmin Park <kyungmin.park@samsung.com>
-Fixes: 26d3ac3cb04d ("drm/shmem-helpers: Redirect mmap for imported dma-buf")
-Cc: Boris Brezillon <boris.brezillon@collabora.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Gerd Hoffmann <kraxel@redhat.com>
-Cc: Rob Herring <robh@kernel.org>
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Cc: <stable@vger.kernel.org> # v5.9+
-Reported-and-tested-by: piotr.oniszczuk@gmail.com
-Cc: piotr.oniszczuk@gmail.com
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Link: https://patchwork.freedesktop.org/patch/msgid/20201027214922.3566743-1-daniel.vetter@ffwll.ch
-Signed-off-by: Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+Also, while testing with corrupted bitstreams we realized
+the driver was logging too verbosely, so patch 2 addresses
+this by introducing a private control to read an macroblock-error
+counter.
 
----
- drivers/gpu/drm/drm_gem.c              |    4 ++--
- drivers/gpu/drm/drm_gem_shmem_helper.c |    7 ++++++-
- 2 files changed, 8 insertions(+), 3 deletions(-)
+These patches have been tested against media's upstream
+and v5.4-based, on i.MX6 (Wandboard) with H.264 and MPEG-2
+streams.
 
---- a/drivers/gpu/drm/drm_gem.c
-+++ b/drivers/gpu/drm/drm_gem.c
-@@ -1085,6 +1085,8 @@ int drm_gem_mmap_obj(struct drm_gem_obje
- 	 */
- 	drm_gem_object_get(obj);
- 
-+	vma->vm_private_data = obj;
-+
- 	if (obj->funcs && obj->funcs->mmap) {
- 		ret = obj->funcs->mmap(obj, vma);
- 		if (ret) {
-@@ -1107,8 +1109,6 @@ int drm_gem_mmap_obj(struct drm_gem_obje
- 		vma->vm_page_prot = pgprot_decrypted(vma->vm_page_prot);
- 	}
- 
--	vma->vm_private_data = obj;
--
- 	return 0;
- }
- EXPORT_SYMBOL(drm_gem_mmap_obj);
---- a/drivers/gpu/drm/drm_gem_shmem_helper.c
-+++ b/drivers/gpu/drm/drm_gem_shmem_helper.c
-@@ -594,8 +594,13 @@ int drm_gem_shmem_mmap(struct drm_gem_ob
- 	/* Remove the fake offset */
- 	vma->vm_pgoff -= drm_vma_node_start(&obj->vma_node);
- 
--	if (obj->import_attach)
-+	if (obj->import_attach) {
-+		/* Drop the reference drm_gem_mmap_obj() acquired.*/
-+		drm_gem_object_put(obj);
-+		vma->vm_private_data = NULL;
-+
- 		return dma_buf_mmap(obj->dma_buf, vma, 0);
-+	}
- 
- 	shmem = to_drm_gem_shmem_obj(obj);
- 
+As reported by Benjamin Bara this fix is not sufficient
+to fix all timeouts. However, the fix does help to fix
+some of the cases.
 
+For instance, videos containing small black frames,
+are now fixed. See:
+
+gst-launch-1.0 videotestsrc pattern=black num-buffers=300 ! \
+video/x-raw,format=I420,width=176,height=120 ! avenc_mpeg2video ! \
+mpegvideoparse ! mpegtsmux ! filesink location=black-qcif-10s.ts
+
+Reviews and feedback are appreciated, as always.
+
+[1] https://lkml.org/lkml/2020/8/21/495
+[2] https://patchwork.linuxtv.org/project/linux-media/list/?series=3592
+
+Changelog
+---------
+
+v3:
+* Address Hans' feedback on patch 2.
+  In particular, the control is not marked as volatile,
+  since that was incorrect.
+  Also, move the control CID definition inside the driver header.
+
+v2:
+* Keep the error MB message, but move it to coda_dbg(1, ctx).
+* Add per-device rate limitting for the error MB message.
+* Rename V4L2_CID_CODA_ERR_MB description.
+* s/__coda_decoder_drop_used_metas/coda_decoder_drop_used_metas
+
+Ezequiel Garcia (2):
+  coda: coda_buffer_meta housekeeping fix
+  coda: Add a V4L2 user for control error macroblocks count
+
+ drivers/media/platform/coda/coda-bit.c    | 52 ++++++++++++++++++++---
+ drivers/media/platform/coda/coda-common.c | 18 ++++++++
+ drivers/media/platform/coda/coda.h        | 11 +++++
+ include/uapi/linux/v4l2-controls.h        |  4 ++
+ 4 files changed, 78 insertions(+), 7 deletions(-)
+
+-- 
+2.27.0
 
