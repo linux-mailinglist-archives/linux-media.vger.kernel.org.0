@@ -2,113 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 68DDD2A4381
-	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 11:57:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DE5172A43AD
+	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 12:02:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728065AbgKCKy0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Nov 2020 05:54:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42200 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726312AbgKCKyZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Nov 2020 05:54:25 -0500
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A88F3C0613D1;
-        Tue,  3 Nov 2020 02:54:25 -0800 (PST)
-Received: by mail-pf1-x443.google.com with SMTP id y14so13837800pfp.13;
-        Tue, 03 Nov 2020 02:54:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=Pr70uaXWQ5V9OEnpZUw1+PkE5bFME26YS/kMKBh3/j4=;
-        b=Z1nxH0jDHYEqq8hm0bVNqvQCGIZiEpIpb3zSwcYXQieBLtra1nCwDJgpu5pP89uJzE
-         AkhrBgNlD6HCyN456iYZGK8zXMn2VqjNio/0ngfT65e6vFKeH9P/k+YNx0fz0NX90SQM
-         JId+N9RTHwMw0LwsVjrJ0K/iWTlm+/5RRX+O/Qjs6Unhw7bP80fuwGuRg+eAD4HDASkn
-         xBbZ2MPC8C7aomhpP8xQDtCO64OoJw54a0Ax1nTLubP8Yh2DLws0e+6UO7/9eRpRrt3U
-         p4wJZFBQok7bOE/bbaJc+Lng79kYbok1iizF3WW9gFugdQUddODfxMzleDA0d88pCHQj
-         0aaw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=Pr70uaXWQ5V9OEnpZUw1+PkE5bFME26YS/kMKBh3/j4=;
-        b=KhYowi0p4JPdFuQDL4U9C4tbhOF93OAKZnlct2EApYZEkm/24aWOSHYQST80UYw9Yr
-         Hz01mQ38VeKsuixq6djqtVEoXAlbimS/G/zPd50fUq7s0C/pxudSwE3FQOzVzJo8CnfV
-         iy61KrGMAsAafRBFNq6k1+rqPSr6r7WIyenCwsw1XDuuVJqijnJEsH9jdb2PStpPicKK
-         uDTrXLeVkXzIiTOIByj7cSE+E9UGQItmNd1Z4BbFgAdJqpTIPeAhCzELhISZiLioM3Sf
-         jSSm7nk0JPTdIbz9lMiiKM3jZovJY6MKPKF3jsnV4fayJzJsC7/+iAij1IPup5UdBJ4p
-         tsJw==
-X-Gm-Message-State: AOAM531idUhQ0JUOmkBoRSoMwZZ/WLb3JPWwg3u/SYLz0VIGF8kiZbut
-        p/DvF7A2AeJcQI+yQoEGswWkx0SmSbiCDSRpoCE=
-X-Google-Smtp-Source: ABdhPJzFEjyEEdc+kSmf/T1nHeNhjOJHPnuC+7t9Znx2RJFmaAHHYOf4fCTxwiGuX4v/1cJJtqmJw1ySNSiuUS5bxLE=
-X-Received: by 2002:a17:90a:430b:: with SMTP id q11mr3222009pjg.129.1604400865170;
- Tue, 03 Nov 2020 02:54:25 -0800 (PST)
+        id S1727742AbgKCLCr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Nov 2020 06:02:47 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:36409 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727068AbgKCLCr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 3 Nov 2020 06:02:47 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id Zu5JkFhPTlQTrZu5Nk8VKP; Tue, 03 Nov 2020 12:02:45 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604401365; bh=QAyymFnXaba58QfApZkMn7wNpNLqt4UXOM0wwUuKR9k=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=dyv8gfHM72OwFl488ErIQe4h+TTXSsL5fqlGnWIre2HYGoIUnzws6QYSz1CX6QbIr
+         02/2SA9mkh3smIrJXqjbJc7aU6ISzyvpjlPj2G1JyGmAIDWcfYN7vCOrPPfprYmBzZ
+         Se4J/TFaUivNqeg1AV9AzIv5zwMjTN/QoMrPLaRQ4C12L8xr9og2vFz4L7eQozUABq
+         Iuu5ZUOqDtV3LfBWH5gHA5HckcaV9ZUnSnQ3TI8MnoHN++Qs1uaNUHaT+40dIfditT
+         gNOC35ay5IjhKtnRNjqeEmIUp4D4Oafw2YKFUfynaWFxOD+P59l8Vzuy8BKih40V0e
+         BIz7F0J7Jd/Wg==
+Subject: Re: [PATCH v2 108/108] media: ti-vpe: cal: Implement media controller
+ centric API
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Benoit Parrot <bparrot@ti.com>
+References: <20200706183709.12238-1-laurent.pinchart@ideasonboard.com>
+ <20200706183709.12238-109-laurent.pinchart@ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <5266cec4-33ba-ba91-d55e-ff22a9b3e013@xs4all.nl>
+Date:   Tue, 3 Nov 2020 12:02:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20201102152037.963-1-brgl@bgdev.pl> <21d80265fccfcb5d76851c84d1c2d88e0421ab85.camel@perches.com>
- <CAMRc=Me4-4Cmoq3UdpYEEhERP6fvt97bEJsZYhrcFSQf+a_voA@mail.gmail.com>
-In-Reply-To: <CAMRc=Me4-4Cmoq3UdpYEEhERP6fvt97bEJsZYhrcFSQf+a_voA@mail.gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Tue, 3 Nov 2020 12:55:14 +0200
-Message-ID: <CAHp75VdpriwuktGrMpcXXQuHgfDL6SzqmQTsGFNKLBb=QiKuGg@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] slab: provide and use krealloc_array()
-To:     Bartosz Golaszewski <brgl@bgdev.pl>
-Cc:     Joe Perches <joe@perches.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Gustavo Padovan <gustavo@padovan.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Borislav Petkov <bp@alien8.de>,
-        Tony Luck <tony.luck@intel.com>,
-        James Morse <james.morse@arm.com>,
-        Robert Richter <rric@kernel.org>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Maxime Ripard <mripard@kernel.org>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        "Michael S . Tsirkin" <mst@redhat.com>,
-        Jason Wang <jasowang@redhat.com>,
-        Christoph Lameter <cl@linux.com>,
-        Pekka Enberg <penberg@kernel.org>,
-        David Rientjes <rientjes@google.com>,
-        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Jaroslav Kysela <perex@perex.cz>,
-        Takashi Iwai <tiwai@suse.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "open list:DRM PANEL DRIVERS" <dri-devel@lists.freedesktop.org>,
-        linaro-mm-sig@lists.linaro.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-edac@vger.kernel.org,
-        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
-        "open list:VFIO DRIVER" <kvm@vger.kernel.org>,
-        virtualization@lists.linux-foundation.org,
-        netdev <netdev@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
-        Linux-ALSA <alsa-devel@alsa-project.org>,
-        Bartosz Golaszewski <bgolaszewski@baylibre.com>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20200706183709.12238-109-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfNdwztR5zDMwqeJ0G4bMD/mSr51h2RUwAZvLTK/EUyteRFhjN1+TjMEuHZpABNPf2IA8UNAM9T+lAeiBsdNoRqiXX7mZX37jXsBb5I6YvGM5XS4f4fjG
+ +Cdg/5NZKWJGSsyY0K1hGJciYrwRCG+LdxvbZERBMKXlgknD58DJtXEsG+ZXbaloxmcXpDuuDHZgYLWVTD/jkcc33kOJ4JJ2TbuP/fl8TptFm8dBx5OqPEwA
+ tMxMLgSRqtvyc4pNv+vlEi324X9axYqA7aoI8RP1nFaWhluGmlmfVrMnLN9MJsPOYA2II3Ipc6itzV8+AaMBvQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 3, 2020 at 12:13 PM Bartosz Golaszewski <brgl@bgdev.pl> wrote:
-> On Tue, Nov 3, 2020 at 5:14 AM Joe Perches <joe@perches.com> wrote:
-> > On Mon, 2020-11-02 at 16:20 +0100, Bartosz Golaszewski wrote:
-> > > From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Hi Laurent,
 
-> Yeah so I had this concern for devm_krealloc() and even sent a patch
-> that extended it to honor __GFP_ZERO before I noticed that regular
-> krealloc() silently ignores __GFP_ZERO. I'm not sure if this is on
-> purpose. Maybe we should either make krealloc() honor __GFP_ZERO or
-> explicitly state in its documentation that it ignores it?
+This was still on my TODO list to review. Of the other patch only my comment
+for 100/108 needs to be addressed in a v3.
 
-And my voice here is to ignore for the same reasons: respect
-realloc(3) and making common sense with the idea of REallocating
-(capital letters on purpose).
+I have just one comment for this patch:
 
--- 
-With Best Regards,
-Andy Shevchenko
+On 06/07/2020 20:37, Laurent Pinchart wrote:
+
+> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+> index 293cbac905b3..2ce2b6404c92 100644
+> --- a/drivers/media/platform/ti-vpe/cal.c
+> +++ b/drivers/media/platform/ti-vpe/cal.c
+> @@ -43,6 +43,10 @@ unsigned int cal_debug;
+>  module_param_named(debug, cal_debug, uint, 0644);
+>  MODULE_PARM_DESC(debug, "activates debug info");
+>  
+> +bool cal_mc_api;
+> +module_param_named(mc_api, cal_mc_api, bool, 0444);
+> +MODULE_PARM_DESC(mc_api, "activates the MC API");
+
+I think it would be very useful if a Kconfig option is added that selects
+the default of cal_mc_api. If you know that you want the MC API, then you
+can select the option and that will be the default.
+
+It is probably best if you rebase this series, fix 100/108 and (hopefully)
+this patch and post it as a v3. I'll take it.
+
+Regards,
+
+	Hans
+
+> +
+>  /* ------------------------------------------------------------------
+>   *	Format Handling
+>   * ------------------------------------------------------------------
+> @@ -660,13 +664,17 @@ static int cal_async_notifier_complete(struct v4l2_async_notifier *notifier)
+>  {
+>  	struct cal_dev *cal = container_of(notifier, struct cal_dev, notifier);
+>  	unsigned int i;
+> +	int ret = 0;
+>  
+>  	for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
+>  		if (cal->ctx[i])
+>  			cal_ctx_v4l2_register(cal->ctx[i]);
+>  	}
+>  
+> -	return 0;
+> +	if (cal_mc_api)
+> +		ret = v4l2_device_register_subdev_nodes(&cal->v4l2_dev);
+> +
+> +	return ret;
+>  }
+>  
+>  static const struct v4l2_async_notifier_operations cal_async_notifier_ops = {
+> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
+> index 2d935691bf75..f5609216b7c6 100644
+> --- a/drivers/media/platform/ti-vpe/cal.h
+> +++ b/drivers/media/platform/ti-vpe/cal.h
+> @@ -160,6 +160,7 @@ struct cal_camerarx {
+>  	struct device_node	*sensor_ep_node;
+>  	struct device_node	*sensor_node;
+>  	struct v4l2_subdev	*sensor;
+> +	struct media_pipeline	pipe;
+>  
+>  	struct v4l2_subdev	subdev;
+>  	struct media_pad	pads[2];
+> @@ -224,6 +225,7 @@ struct cal_ctx {
+>  
+>  extern unsigned int cal_debug;
+>  extern int cal_video_nr;
+> +extern bool cal_mc_api;
+>  
+>  #define cal_dbg(level, cal, fmt, arg...)				\
+>  	do {								\
+> 
+
