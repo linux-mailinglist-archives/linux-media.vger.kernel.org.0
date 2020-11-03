@@ -2,148 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1A6D82A48C0
-	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 15:56:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65BD02A4936
+	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 16:17:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728109AbgKCO41 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Nov 2020 09:56:27 -0500
-Received: from mga18.intel.com ([134.134.136.126]:21842 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728090AbgKCO4W (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 3 Nov 2020 09:56:22 -0500
-IronPort-SDR: 5K5AZammkKEUe+i7/XNqUZnw0jJdgvQwksvg989VjzxG7RTJOvLAnq6V7TAEnsO5yjN83O7ev1
- AsJODC2cuqNg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9793"; a="156841348"
-X-IronPort-AV: E=Sophos;i="5.77,448,1596524400"; 
-   d="scan'208";a="156841348"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2020 06:56:22 -0800
-IronPort-SDR: KYI2S/nqQuwfQOylVpgemLjwXWSAsuFH0eNZBI3VQ4uLQsyg4Qhf6eguLRBChQdggD6DtpMRXf
- updwEaV03DaQ==
-X-IronPort-AV: E=Sophos;i="5.77,448,1596524400"; 
-   d="scan'208";a="306067752"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Nov 2020 06:56:18 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id BC4DE209D9; Tue,  3 Nov 2020 16:56:16 +0200 (EET)
-Date:   Tue, 3 Nov 2020 16:56:16 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Petr Mladek <pmladek@suse.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joe Perches <joe@perches.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH v4 1/1] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <20201103145616.GJ26150@paasikivi.fi.intel.com>
-References: <20201103133400.24805-1-sakari.ailus@linux.intel.com>
- <20201103144747.GD4077@smile.fi.intel.com>
+        id S1728359AbgKCPRW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Nov 2020 10:17:22 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:47089 "EHLO
+        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728458AbgKCPQK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 3 Nov 2020 10:16:10 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id Zy2VkqwR41KUMZy2YkA6pi; Tue, 03 Nov 2020 16:16:08 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604416568; bh=KPjJ9DHK2lUP+oWBFPO2S3C6j9o7K1NmxIkmJFR3xDM=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=eMtzjso3WegxKoQYwHU8cgZO95VuYXnY5Brsu3X8s/uM4KgNL7KgAQC672jy9167J
+         TTlUnZaqNJzbfSvnW86uTq28MfWFt+HJI4Gm840h0YD1GTeIcB5FchgeAAssovM3hV
+         CfJar5YtzVD7GYUZqTEljwOpyJX3f/cd8iBbzanbStTycyGuPSk0EQh9gVuq28P3rO
+         OMYEFDE2P0sswZ5JtdQZ6Fq6WnIxIfXmMjXQQfDQsL2DaL8jykNipygZeLfUG82VOz
+         60Z/P6PuCGkO5IT0C94iL5xQL+ZpocS//Ove43PwDHYWESnr5/w7NRa/7G6KM5XW65
+         1oCK0waCd6F7Q==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Alexandre Courbot <acourbot@chromium.org>,
+        =?UTF-8?Q?Jernej_=c5=a0krabec?= <jernej.skrabec@siol.net>,
+        Randy Dunlap <rdunlap@infradead.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT FIXES FOR v5.10] Various fixes for v5.10
+Message-ID: <fbf7c3ed-5dea-ada3-f09d-bab2e24a3183@xs4all.nl>
+Date:   Tue, 3 Nov 2020 16:16:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201103144747.GD4077@smile.fi.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfOHVfmeinKlS6F8W05vcxlzm0VDFW2IfeP4RBVwq21l5muuwH1xLdtDHdUDDaqULMqpyuK0nH9Wp4ACS6k90eD284Xx0Gn4jipfu+g7Pvm+cZD9jV5zy
+ w7mrepDanriPLx71Ez96zxudqmWZqJcRdXxL4M1Or/Kh1WXrKqOnUhWC3tjqfwNyzXRtsPkBCADwrlzt9jS3uumwXpVrdaCKpCMRa9fY7hTB3HIAPSmdSR5U
+ vqDtfOqalv0rmqpndkF7cmWCa3H7KmwY4NA08wDWve3EQUwZO7HV1PIt2vfDUqsL
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+Hi Mauro,
 
-On Tue, Nov 03, 2020 at 04:47:47PM +0200, Andy Shevchenko wrote:
-> On Tue, Nov 03, 2020 at 03:34:00PM +0200, Sakari Ailus wrote:
-> > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
-> > pixel formats denoted by fourccs. The fourcc encoding is the same for both
-> > so the same implementation can be used.
-> 
-> ...
-> 
-> > +static noinline_for_stack
-> > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
-> > +		    struct printf_spec spec, const char *fmt)
-> > +{
-> > +	char output[sizeof("(xx)(xx)(xx)(xx) little-endian (0x01234567)")];
-> 
-> I would add a comment that there is another possibility, i.e. big-endian, but
-> it occupies less space.
+Two fixes for build issues and one cedrus bug fix.
 
-This string is here to represent the longest possible output of the
-function. Most of the time it's less. Saying that might make sense but it's
-fairly clear already. Either way works for me though.
-
-> 
-> > +	char *p = output;
-> > +	unsigned int i;
-> > +	u32 val;
-> > +
-> > +	if (fmt[1] != 'c' || fmt[2] != 'c')
-> > +		return error_string(output, end, "(%p4?)", spec);
-> > +
-> > +	if (check_pointer(&buf, end, fourcc, spec))
-> > +		return buf;
-> > +
-> > +	val = *fourcc & ~BIT(31);
-> > +
-> > +	for (i = 0; i < sizeof(*fourcc); i++) {
-> > +		unsigned char c = val >> (i * 8);
-> > +
-> > +		/* Weed out spaces */
-> > +		if (c == ' ')
-> > +			continue;
-> > +
-> > +		/* Print non-control ASCII characters as-is */
-> > +		if (isascii(c) && isprint(c)) {
-> > +			*p++ = c;
-> > +			continue;
-> > +		}
-> > +
-> > +		*p++ = '(';
-> > +		p = hex_byte_pack(p, c);
-> > +		*p++ = ')';
-> > +	}
-> 
-> I guess above loop can be still optimized, but I have to think about it.
-> 
-> > +	strcpy(p, *fourcc & BIT(31) ? " big-endian" : " little-endian");
-> > +	p += strlen(p);
-> > +
-> > +	*p++ = ' ';
-> > +	*p++ = '(';
-> > +	/* subtract parenthesis and the space from the size */
-> 
-> This comment misleading. What you are subtracting is a room for closing
-> parenthesis and NUL.
-
-Agreed, I'll update it for v5.
-
-> 
-> > +	p = special_hex_number(p, output + sizeof(output) - 2, *fourcc,
-> > +			       sizeof(u32));
-> 
-> I would go with one line here.
-
-It's wrapped since the result would be over 80 otherwise.
-
-> 
-> The (theoretical) problem is here that the case when buffer size is not enough
-> to print a value will be like '(0xabc)' but should be rather '(0xabcd' like
-> snprintf() does in general.
-> 
-> > +	*p++ = ')';
-> > +	*p = '\0';
-> > +
-> > +	return string(buf, end, output, spec);
-> > +}
-> 
-
--- 
 Regards,
 
-Sakari Ailus
+	Hans
+
+
+The following changes since commit dfe3d19bd092cefb184c6e65b881602c793edd33:
+
+  Merge tag 'v5.10-rc1' into patchwork (2020-10-29 09:03:21 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.10a
+
+for you to fetch changes up to 4bb9a231d16ca1b35164c438a9bc7b5da788479f:
+
+  media: cedrus: h264: Fix check for presence of scaling matrix (2020-11-03 16:10:07 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Alexandre Courbot (2):
+      media: mtk-vcodec: move firmware implementations into their own files
+      media: mtk-vcodec: fix build breakage when one of VPU or SCP is enabled
+
+Jernej Skrabec (1):
+      media: cedrus: h264: Fix check for presence of scaling matrix
+
+Randy Dunlap (1):
+      media/platform/marvell-ccic: fix warnings when CONFIG_PM is not enabled
+
+ drivers/media/platform/Kconfig                         |  28 ++++++--
+ drivers/media/platform/marvell-ccic/mmp-driver.c       |   2 +
+ drivers/media/platform/mtk-vcodec/Makefile             |  10 ++-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c |   2 +-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c |   2 +-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.c      | 174 ++-------------------------------------------
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_fw.h      |   7 +-
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h |  52 ++++++++++++++
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_scp.c  |  73 +++++++++++++++++++
+ drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c  | 110 ++++++++++++++++++++++++++++
+ drivers/staging/media/sunxi/cedrus/cedrus_h264.c       |   2 +-
+ 11 files changed, 281 insertions(+), 181 deletions(-)
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_scp.c
+ create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c
