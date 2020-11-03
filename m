@@ -2,73 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D6E42A3FFB
-	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 10:28:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A49F2A404C
+	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 10:31:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726018AbgKCJ2S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Nov 2020 04:28:18 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:59540 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725993AbgKCJ2R (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 3 Nov 2020 04:28:17 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kZsbw-00Cwba-JT; Tue, 03 Nov 2020 09:28:16 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kZsev-0002c5-Ar; Tue, 03 Nov 2020 09:31:21 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.11] media: v4l2: simplify compat ioctl handling (#68550)
-Date:   Tue,  3 Nov 2020 09:31:21 +0000
-Message-Id: <20201103093121.10004-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <b16da527-86f2-e28b-0116-997094042142@xs4all.nl>
-References: 
+        id S1727529AbgKCJbQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Nov 2020 04:31:16 -0500
+Received: from fllv0015.ext.ti.com ([198.47.19.141]:58354 "EHLO
+        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725993AbgKCJbQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Nov 2020 04:31:16 -0500
+Received: from lelv0266.itg.ti.com ([10.180.67.225])
+        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0A39V9pG028334;
+        Tue, 3 Nov 2020 03:31:09 -0600
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
+        s=ti-com-17Q1; t=1604395869;
+        bh=8YUhMeCFGdJ9L2TYcFXAkJxTIuBTr+6CLuSIL8/BIBQ=;
+        h=Subject:To:CC:References:From:Date:In-Reply-To;
+        b=tx/lZiWdLAXjyNzLCg7BxVLTvZ/VtgZ7R89ldQSaeaUvM0tS0kkuDfey2jcPqoAd9
+         RUmk9zqKluPb8WmhHfG48yFpS3sOUf4RSNJaGmdRv6HG+fuzUrGnDlsSEgpyHp873R
+         aKKsXe1MfBEy8+ErFz+yuvOuvnkjxCsuV9bKHqcQ=
+Received: from DLEE104.ent.ti.com (dlee104.ent.ti.com [157.170.170.34])
+        by lelv0266.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0A39V87t033527
+        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Tue, 3 Nov 2020 03:31:08 -0600
+Received: from DLEE100.ent.ti.com (157.170.170.30) by DLEE104.ent.ti.com
+ (157.170.170.34) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 3 Nov
+ 2020 03:31:08 -0600
+Received: from lelv0327.itg.ti.com (10.180.67.183) by DLEE100.ent.ti.com
+ (157.170.170.30) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
+ Frontend Transport; Tue, 3 Nov 2020 03:31:08 -0600
+Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
+        by lelv0327.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0A39V6eh025024;
+        Tue, 3 Nov 2020 03:31:07 -0600
+Subject: Re: [RFC 0/3] media: ov5640: Adjust htot, rework clock tree, add
+ LINK_FREQ
+To:     Jacopo Mondi <jacopo@jmondi.org>
+CC:     Jacopo Mondi <jacopo+renesas@jmondi.org>, <hugues.fruchet@st.com>,
+        <sam@elite-embedded.com>, <slongerbeam@gmail.com>,
+        <linux-media@vger.kernel.org>
+References: <20201028225706.110078-1-jacopo+renesas@jmondi.org>
+ <1bc29f6f-20b1-245e-c346-9c57058b9a24@ti.com>
+ <20201103081945.pihysjlqha2noz2m@uno.localdomain>
+ <1123502e-f82f-182d-cf44-899fe54392f8@ti.com>
+ <20201103084544.ocgt33at7tkaumxv@uno.localdomain>
+From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
+Message-ID: <82ccf16d-b9d1-ad95-07cd-442d7696a0bb@ti.com>
+Date:   Tue, 3 Nov 2020 11:31:06 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201103084544.ocgt33at7tkaumxv@uno.localdomain>
+Content-Type: text/plain; charset="utf-8"
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On 03/11/2020 10:45, Jacopo Mondi wrote:
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/b16da527-86f2-e28b-0116-997094042142@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/75386/
-Build time: 00:08:29
-Link: https://lore.kernel.org/linux-media/b16da527-86f2-e28b-0116-997094042142@xs4all.nl
+>> I tested 640x480, 720x480, 720x576.
+>>
+>> I have only this sensor to test the CSI RX on AM6 EVM, so I would not be surprised if there are
+>> issues in the CSI RX driver (too). But this is super frustrating to debug, as the sensor is a badly
+>> documented black box, and I don't have means to probe the CSI lines...
+> 
+> I see.. I'm sure you noticed, but as you mentioned the 'second patch'
+> I'll point it out anyway: the series has to be applied in full, as the
+> last patch adds support for reporting the link frequency, that has
+> been re-calculated by patch 2/3. On imx6 and on Hugues' platforms
+> adjusting the receiver's link frequency based on what's reported makes a
+> difference.
 
-gpg: Signature made Tue 03 Nov 2020 09:05:44 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+Yes, I first tried with all three, then tested one by one, and the second one started failing.
 
-Summary: got 2/8 patches with issues, being 2 at build time, plus one error when buinding PDF document
+drivers/media/platform/ti-vpe/cal-camerarx.c doesn't use V4L2_CID_LINK_FREQ (it uses
+V4L2_CID_PIXEL_RATE), though, so why would the third patch matter? Or do you mean that
+V4L2_CID_LINK_FREQ must be used to get ov5640 work? Aren't pixel rate and link freq directly linked?
 
-Error/warnings:
+ Tomi
 
-patches/0006-media-v4l2-convert-v4l2_format-compat-ioctls.patch:
-
-    allmodconfig: return code #0:
-	../drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1321:6: warning: unused variable ‘aux_space’ [-Wunused-variable]
-	../drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1320:15: warning: unused variable ‘aux_buf’ [-Wunused-variable]
-
-patches/0007-media-v4l2-remaining-compat-handlers.patch:
-
-    allmodconfig: return code #0:
-	../drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1357:6: warning: unused variable ‘aux_space’ [-Wunused-variable]
-	../drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1356:15: warning: unused variable ‘aux_buf’ [-Wunused-variable]
-	At top level:
-	../drivers/media/v4l2-core/v4l2-compat-ioctl32.c:1324:12: warning: ‘alloc_userspace’ defined but not used [-Wunused-function]
-
-
-Error #512 when building PDF docs
-
+-- 
+Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
+Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
