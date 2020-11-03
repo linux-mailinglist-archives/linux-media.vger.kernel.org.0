@@ -2,212 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 20A802A4BEB
-	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 17:50:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C45192A4C02
+	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 17:53:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728523AbgKCQuF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 3 Nov 2020 11:50:05 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:30944 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725997AbgKCQuE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 3 Nov 2020 11:50:04 -0500
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
-  by alexa-out.qualcomm.com with ESMTP; 03 Nov 2020 08:50:04 -0800
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 03 Nov 2020 08:50:02 -0800
-X-QCInternal: smtphost
-Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 03 Nov 2020 22:19:50 +0530
-Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
-        id 0729C55B2; Tue,  3 Nov 2020 22:19:48 +0530 (IST)
-From:   Dikshita Agarwal <dikshita@codeaurora.org>
-To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH] venus: venc: fix handlig of S_SELECTION and G_SELECTION
-Date:   Tue,  3 Nov 2020 22:19:44 +0530
-Message-Id: <1604422184-2019-1-git-send-email-dikshita@codeaurora.org>
-X-Mailer: git-send-email 1.9.1
+        id S1728527AbgKCQxg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Nov 2020 11:53:36 -0500
+Received: from mx07-00178001.pphosted.com ([185.132.182.106]:13692 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725997AbgKCQxf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 3 Nov 2020 11:53:35 -0500
+Received: from pps.filterd (m0046037.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A3GpkPk003285;
+        Tue, 3 Nov 2020 17:53:26 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=from : to : cc : subject
+ : date : message-id : references : in-reply-to : content-type : content-id
+ : content-transfer-encoding : mime-version; s=STMicroelectronics;
+ bh=YrQ75GyPFKmN9P9O68cPGg//GFgq0R0W+NC9MfmGTqk=;
+ b=OX98Tuab/1V8fHJn80VV/g3afxwqqsSrOGUd+YhfClMh4V7c2ge9rkA/K6Y9Not120es
+ 17lytHizWLKDT9AzK+VDBwWb0Bowm6I2COB0Q0wd2yjaAA0Qc3M49F9gKk1BzlCjgwPO
+ jq2tQxezxwJNfowz1nGs8/jAP9ypcP1qkef4XUNvmCWKvQtUumdySrPRLw7kN+GZjIMQ
+ IFm0tKOhwkpF4kxp4rpTb28jbX347ymudBrFkaCLN1ZFYrrZ3o2Oy175zp7fgWrxfaOu
+ LCeB1dhWHVHQwsObwnurrE7DD8Ql1U7xfdsB1rMAfa4wn8VJd0AwXQwvcmeM0urB2aRb EQ== 
+Received: from beta.dmz-us.st.com (beta.dmz-us.st.com [167.4.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 34h00e9mcm-1
+        (version=TLSv1 cipher=ECDHE-RSA-AES256-SHA bits=256 verify=NOT);
+        Tue, 03 Nov 2020 17:53:26 +0100
+Received: from zeta.dmz-us.st.com (ns4.st.com [167.4.16.71])
+        by beta.dmz-us.st.com (STMicroelectronics) with ESMTP id A283F26;
+        Tue,  3 Nov 2020 16:01:04 +0000 (GMT)
+Received: from Webmail-eu.st.com (sfhdag1node1.st.com [10.75.127.1])
+        by zeta.dmz-us.st.com (STMicroelectronics) with ESMTP id 87896D8;
+        Tue,  3 Nov 2020 16:53:22 +0000 (GMT)
+Received: from SFHDAG1NODE1.st.com (10.75.127.1) by SFHDAG1NODE1.st.com
+ (10.75.127.1) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Tue, 3 Nov
+ 2020 17:53:21 +0100
+Received: from SFHDAG1NODE1.st.com ([fe80::91:9840:ca1f:420f]) by
+ SFHDAG1NODE1.st.com ([fe80::91:9840:ca1f:420f%20]) with mapi id
+ 15.00.1473.003; Tue, 3 Nov 2020 17:53:21 +0100
+From:   Hugues FRUCHET <hugues.fruchet@st.com>
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        "tomi.valkeinen@ti.com" <tomi.valkeinen@ti.com>,
+        "sam@elite-embedded.com" <sam@elite-embedded.com>
+CC:     "slongerbeam@gmail.com" <slongerbeam@gmail.com>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
+Subject: Re: [RFC 0/3] media: ov5640: Adjust htot, rework clock tree, add
+ LINK_FREQ
+Thread-Topic: [RFC 0/3] media: ov5640: Adjust htot, rework clock tree, add
+ LINK_FREQ
+Thread-Index: AQHWrX2zcckzQ+FW7UOjkHmIbru1AKm2l+2A
+Date:   Tue, 3 Nov 2020 16:53:21 +0000
+Message-ID: <84c8e00e-92e0-eecf-cb6a-ddb34e9bf36c@st.com>
+References: <20201028225706.110078-1-jacopo+renesas@jmondi.org>
+In-Reply-To: <20201028225706.110078-1-jacopo+renesas@jmondi.org>
+Accept-Language: en-US
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+x-ms-exchange-messagesentrepresentingtype: 1
+x-ms-exchange-transport-fromentityheader: Hosted
+x-originating-ip: [10.75.127.51]
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <3C500BF5243EB84A97D0CE92B9ACEC23@st.com>
+Content-Transfer-Encoding: base64
+MIME-Version: 1.0
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-03_08:2020-11-03,2020-11-03 signatures=0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-- return correct width and height for G_SELECTION
-- update capture port wxh with rectangle wxh.
-- add support for HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_INFO
-  to set stride info and chroma offset to FW.
-
-Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
----
- drivers/media/platform/qcom/venus/helpers.c    | 18 +++++++++++++
- drivers/media/platform/qcom/venus/helpers.h    |  2 ++
- drivers/media/platform/qcom/venus/hfi_cmds.c   | 12 +++++++++
- drivers/media/platform/qcom/venus/hfi_helper.h |  4 +--
- drivers/media/platform/qcom/venus/venc.c       | 36 ++++++++++++++++++--------
- 5 files changed, 59 insertions(+), 13 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index 2b6925b..6545cfb 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -1621,3 +1621,21 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 v4l2_fmt,
- 	return -EINVAL;
- }
- EXPORT_SYMBOL_GPL(venus_helper_get_out_fmts);
-+
-+int venus_helper_set_stride(struct venus_inst *inst,
-+			    unsigned int width, unsigned int height)
-+{
-+	const u32 ptype = HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_INFO;
-+
-+	struct hfi_uncompressed_plane_actual_info plane_actual_info;
-+
-+	plane_actual_info.buffer_type = HFI_BUFFER_INPUT;
-+	plane_actual_info.num_planes = 2;
-+	plane_actual_info.plane_format[0].actual_stride = width;
-+	plane_actual_info.plane_format[0].actual_plane_buffer_height = height;
-+	plane_actual_info.plane_format[1].actual_stride = width;
-+	plane_actual_info.plane_format[1].actual_plane_buffer_height = height / 2;
-+
-+	return hfi_session_set_property(inst, ptype, &plane_actual_info);
-+}
-+EXPORT_SYMBOL_GPL(venus_helper_set_plane_actual_info);
-diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
-index a4a0562..f36c9f71 100644
---- a/drivers/media/platform/qcom/venus/helpers.h
-+++ b/drivers/media/platform/qcom/venus/helpers.h
-@@ -63,4 +63,6 @@ void venus_helper_get_ts_metadata(struct venus_inst *inst, u64 timestamp_us,
- 				  struct vb2_v4l2_buffer *vbuf);
- int venus_helper_get_profile_level(struct venus_inst *inst, u32 *profile, u32 *level);
- int venus_helper_set_profile_level(struct venus_inst *inst, u32 profile, u32 level);
-+int venus_helper_set_stride(struct venus_inst *inst, unsigned int aligned_width,
-+			    unsigned int aligned_height);
- #endif
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-index 7022368..4f75658 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-@@ -1205,6 +1205,18 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
- 		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*cu);
- 		break;
- 	}
-+	case HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_INFO: {
-+		struct hfi_uncompressed_plane_actual_info *in = pdata;
-+		struct hfi_uncompressed_plane_actual_info *info = prop_data;
-+
-+		info->buffer_type = in->buffer_type;
-+		info->num_planes = in->num_planes;
-+		info->plane_format[0] = in->plane_format[0];
-+		if (in->num_planes > 1)
-+			info->plane_format[1] = in->plane_format[1];
-+		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*info);
-+		break;
-+	}
- 	case HFI_PROPERTY_CONFIG_VENC_MAX_BITRATE:
- 	case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER:
- 	case HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE:
-diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-index 60ee247..5938a96 100644
---- a/drivers/media/platform/qcom/venus/hfi_helper.h
-+++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-@@ -908,13 +908,13 @@ struct hfi_uncompressed_plane_actual {
- struct hfi_uncompressed_plane_actual_info {
- 	u32 buffer_type;
- 	u32 num_planes;
--	struct hfi_uncompressed_plane_actual plane_format[1];
-+	struct hfi_uncompressed_plane_actual plane_format[2];
- };
- 
- struct hfi_uncompressed_plane_actual_constraints_info {
- 	u32 buffer_type;
- 	u32 num_planes;
--	struct hfi_uncompressed_plane_constraints plane_format[1];
-+	struct hfi_uncompressed_plane_constraints plane_format[2];
- };
- 
- struct hfi_codec_supported {
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 4ecf78e..99bfabf 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -190,8 +190,10 @@ static int venc_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
- 	pixmp->height = clamp(pixmp->height, frame_height_min(inst),
- 			      frame_height_max(inst));
- 
--	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-+	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
-+		pixmp->width = ALIGN(pixmp->width, 128);
- 		pixmp->height = ALIGN(pixmp->height, 32);
-+	}
- 
- 	pixmp->width = ALIGN(pixmp->width, 2);
- 	pixmp->height = ALIGN(pixmp->height, 2);
-@@ -335,13 +337,13 @@ static int venc_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
- 	switch (s->target) {
- 	case V4L2_SEL_TGT_CROP_DEFAULT:
- 	case V4L2_SEL_TGT_CROP_BOUNDS:
--		s->r.width = inst->width;
--		s->r.height = inst->height;
--		break;
--	case V4L2_SEL_TGT_CROP:
- 		s->r.width = inst->out_width;
- 		s->r.height = inst->out_height;
- 		break;
-+	case V4L2_SEL_TGT_CROP:
-+		s->r.width = inst->width;
-+		s->r.height = inst->height;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -360,12 +362,19 @@ static int venc_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
- 	if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
- 		return -EINVAL;
- 
-+	if (s->r.width > inst->out_width ||
-+	    s->r.height > inst->out_height)
-+		return -EINVAL;
-+
-+	s->r.width = ALIGN(s->r.width, 2);
-+	s->r.height = ALIGN(s->r.height, 2);
-+
- 	switch (s->target) {
- 	case V4L2_SEL_TGT_CROP:
--		if (s->r.width != inst->out_width ||
--		    s->r.height != inst->out_height ||
--		    s->r.top != 0 || s->r.left != 0)
--			return -EINVAL;
-+		s->r.top = 0;
-+		s->r.left = 0;
-+		inst->width = s->r.width;
-+		inst->height = s->r.height;
- 		break;
- 	default:
- 		return -EINVAL;
-@@ -728,6 +737,11 @@ static int venc_init_session(struct venus_inst *inst)
- 	if (ret)
- 		return ret;
- 
-+	ret = venus_helper_set_stride(inst, inst->out_width,
-+				      inst->out_height);
-+	if (ret)
-+		goto deinit;
-+
- 	ret = venus_helper_set_input_resolution(inst, inst->width,
- 						inst->height);
- 	if (ret)
-@@ -816,8 +830,8 @@ static int venc_queue_setup(struct vb2_queue *q,
- 		inst->num_input_bufs = *num_buffers;
- 
- 		sizes[0] = venus_helper_get_framesz(inst->fmt_out->pixfmt,
--						    inst->width,
--						    inst->height);
-+						    inst->out_width,
-+						    inst->out_height);
- 		inst->input_buf_size = sizes[0];
- 		break;
- 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
--- 
-1.9.1
-
+SGkgSmFjb3BvLA0KDQpIZXJlIGlzIHRoZSByZXN1bHRzIG9mIHRlc3RzIHdpdGggMFY1NjQwIENT
+SS0yIG9uIEF2ZW5nZXI5NiBib2FyZC4NCg0KMSkgRmlyc3Qgb2YgYWxsLCB0aGUgZnJhbWVyYXRl
+IGlzIGJyb2tlbiwgaXQgaXMgYWxtb3N0IDIgdGltZXMgZ3JlYXRlciANCnRoYXQgZXhwZWN0ZWQu
+IENoZWNraW5nIGNvZGUgaXQgc2VlbXMgdGhhdCBtaXBpX2RpdiBpcyBtaXNzaW5nIHdoZW4gDQpj
+b21wdXRpbmcgbGlua19mcmVxOg0KDQorCS8qDQogIAkgKiBUaGUgJ3JhdGUnIHBhcmFtZXRlciBp
+cyB0aGUgYml0cmF0ZSA9IFZUT1QgKiBIVE9UICogRlBTICogQlBQDQogIAkgKg0KICAJICogQWRq
+dXN0IGl0IHRvIHJlcHJlc2VudCB0aGUgQ1NJLTIgbGluayBmcmVxdWVuY3kgYW5kIHVzZSBpdCB0
+bw0KICAJICogdXBkYXRlIHRoZSBhc3NvY2lhdGVkIGNvbnRyb2wuDQogIAkgKi8NCi0JbGlua19m
+cmVxID0gcmF0ZSAvIHNlbnNvci0+ZXAuYnVzLm1pcGlfY3NpMi5udW1fZGF0YV9sYW5lcyAvIDI7
+DQorCWxpbmtfZnJlcSA9IHJhdGUgLyBzZW5zb3ItPmVwLmJ1cy5taXBpX2NzaTIubnVtX2RhdGFf
+bGFuZXMgLyAyIC8gbWlwaV9kaXY7DQoNClRvIHRlc3QgdGhlIHNldHVwIEkgaGF2ZSBwYXRjaGVk
+IHRoZSBsaW5rIGZyZXF1ZW5jeSBjb250cm9sIHRvIHJlcG9ydCANCmR5bmFtaWNhbGx5IHRoZSBm
+cmVxdWVuY3kgaW5zdGVhZCBvZiBoYXJkY29kZWQgdmFsdWU6DQorI2lmIDANCiAgCWZyZXFfaW5k
+ZXggPSBPVjU2NDBfTElOS19GUkVRU19OVU0gLSAxOw0KICAJZm9yIChpID0gMDsgaSA8IE9WNTY0
+MF9MSU5LX0ZSRVFTX05VTTsgKytpKSB7DQogIAkJaWYgKG92NTY0MF9saW5rX2ZyZXFzW2ldID09
+IGxpbmtfZnJlcSkgew0KQEAgLTk2NiwxOCArOTc5LDEyIEBAIHN0YXRpYyBpbnQgb3Y1NjQwX3Nl
+dF9taXBpX3BjbGsoc3RydWN0IG92NTY0MF9kZXYgDQoqc2Vuc29yLA0KICAJcmV0ID0gX192NGwy
+X2N0cmxfc19jdHJsKHNlbnNvci0+Y3RybHMubGlua19mcmVxLCBmcmVxX2luZGV4KTsNCiAgCWlm
+IChyZXQgPCAwKQ0KICAJCXJldHVybiByZXQ7DQorI2Vsc2UNCisJb3Y1NjQwX2xpbmtfZnJlcXNb
+MF0gPSBsaW5rX2ZyZXE7DQorCXJldCA9IF9fdjRsMl9jdHJsX3NfY3RybChzZW5zb3ItPmN0cmxz
+LmxpbmtfZnJlcSwgMCk7DQorI2VuZGlmDQoNCjIpIFNlY29uZCBwcm9ibGVtIGNvbWVzIGZyb20g
+Im1lZGlhOiBpMmM6IG92NTY0MDogQWRqdXN0IGh0b3QiLCB0aGlzIGlzIA0KYnJlYWtpbmcgMTAy
+NHg3NjhAMzBmcHMgJiBWR0FAMzBmcHMgd2hpY2ggYXJlIHNsb3dkb3duIHRvIDE1ZnBzDQoNCjMp
+IEkgaGF2ZSBzb21lIGluc3RhYmlsaXRpZXMgd2hlbiBzd2l0Y2hpbmcgYmV0d2VlbiBmcmFtZXJh
+dGUsIEkgaGF2ZSB0byANCmludmVzdGlnYXRlIHRoZSBwb2ludC4gSW4gZmV3IHdvcmRzIHRoaXMg
+aXMgYSByYWNlIHByb2JsZW0gYmV0d2VlbiB0aGUgDQpPVjU2NDAgd2hpY2ggc2V0IHRoZSBmcmVx
+dWVuY3kgY29udHJvbCBhbmQgdGhlIE1JUElEMDIgd2hpY2ggcmVhZCB0aGUgDQpmcmVxdWVuY3kg
+Y29udHJvbC4gSSdsbCBkaWcgaW50byB0aGUgaXNzdWUgdG8gc2VlIGhvdyB0byBmaXggdGhhdC4N
+Cg0KDQpUbyBzdW1tYXJpemU6DQotLS0tLS0tLS0tLS0tDQoxKSAibWVkaWE6IGkyYzogb3Y1NjQw
+OiBSZXdvcmsgQ1NJLTIgY2xvY2sgdHJlZSINCkFsbW9zdCBPSyBidXQgbWlwaV9kaXYgaXMgbWlz
+c2luZw0KDQoyKSAibWVkaWE6IGkyYzogb3Y1NjQwOiBBZGp1c3QgaHRvdCINCklzIGJyZWFraW5n
+IHNvbWUgcmVzb2x1dGlvbnMvZnBzLCBzbyBiZXR0ZXIgdG8gZHJvcC4NClRvbWksIHBlcmhhcHMg
+Y291bGQgeW91IHJlY2hlY2sgd2l0aCB0aGUgZml4ZWQgSmFjb3BvIHNlcmllIGlmIHlvdSBzdGls
+bCANCmVuY291bnRlciB5b3VyIERQSFkgZXJyb3IgaXNzdWVzID8NCg0KV2l0aCAxKSBmaXhlZCBh
+bmQgMikgcmV2ZXJ0ZWQsIEknbSBiYWNrIG9uIHRyYWNrIGFuZCBoYXZlIGEgc3VjY2Vzc2Z1bGwg
+DQpub24tcmVncmVzc2lvbiBvbiBteSBzaWRlICsgc29tZSBiZXR0ZXIgZmlndXJlcyBvbiBzb21l
+IHJlc29sdXRpb25zOg0KLSAxMDI0eDc2OEAzMGZwcyB3aGljaCB3YXMgbm90IGF0IHRoZSByaWdo
+dCBmcmFtZXJhdGUgcHJldmlvdXNseQ0KLSA3MjBwQDMwZnBzIHdoaWNoIHdhcyBub3QgYXQgdGhl
+IHJpZ2h0IGZyYW1lcmF0ZSBwcmV2aW91c2x5DQotIEhEQDE1ZnBzIHdoaWNoIHdhcyBub3QgYXQg
+dGhlIHJpZ2h0IGZyYW1lcmF0ZSBwcmV2aW91c2x5DQoNClBsZWFzZSBub3RlIHRoYXQgSSBjYW5u
+b3QgZ28gYWJvdmUgSERAMTVmcHMgb24gdGhpcyBwbGF0Zm9ybS4NCg0KKiBRQ0lGICAxNzZ4MTQ0
+IFJHQjU2NSAxNWZwcyA9PiBPSywgZ290IDE1DQoqIFFDSUYgIDE3NngxNDQgWVVZViAgIDE1ZnBz
+ID0+IE9LLCBnb3QgMTUNCiogUUNJRiAgMTc2eDE0NCBKUEVHICAgMTVmcHMgPT4gT0ssIGdvdCAx
+NQ0KKiBRQ0lGICAxNzZ4MTQ0IFJHQjU2NSAzMGZwcyA9PiBPSywgZ290IDMwDQoqIFFDSUYgIDE3
+NngxNDQgWVVZViAgIDMwZnBzID0+IE9LLCBnb3QgMzANCiogUUNJRiAgMTc2eDE0NCBKUEVHICAg
+MzBmcHMgPT4gT0ssIGdvdCAzMA0KKiBRVkdBICAzMjB4MjQwIFJHQjU2NSAxNWZwcyA9PiBPSywg
+Z290IDE1DQoqIFFWR0EgIDMyMHgyNDAgWVVZViAgIDE1ZnBzID0+IE9LLCBnb3QgMTUNCiogUVZH
+QSAgMzIweDI0MCBKUEVHICAgMTVmcHMgPT4gT0ssIGdvdCAxNQ0KKiBRVkdBICAzMjB4MjQwIFJH
+QjU2NSAzMGZwcyA9PiBPSywgZ290IDI5DQoqIFFWR0EgIDMyMHgyNDAgWVVZViAgIDMwZnBzID0+
+IE9LLCBnb3QgMzANCiogUVZHQSAgMzIweDI0MCBKUEVHICAgMzBmcHMgPT4gT0ssIGdvdCAyOQ0K
+KiBWR0EgICA2NDB4NDgwIFJHQjU2NSAxNWZwcyA9PiBPSywgZ290IDE1DQoqIFZHQSAgIDY0MHg0
+ODAgWVVZViAgIDE1ZnBzID0+IE9LLCBnb3QgMTUNCiogVkdBICAgNjQweDQ4MCBKUEVHICAgMTVm
+cHMgPT4gT0ssIGdvdCAxNQ0KKiBWR0EgICA2NDB4NDgwIFJHQjU2NSAzMGZwcyA9PiBPSywgZ290
+IDMwDQoqIFZHQSAgIDY0MHg0ODAgWVVZViAgIDMwZnBzID0+IE9LLCBnb3QgMzANCiogVkdBICAg
+NjQweDQ4MCBKUEVHICAgMzBmcHMgPT4gT0ssIGdvdCAzMA0KKiA0ODBwICA3MjB4NDgwIFJHQjU2
+NSAxNWZwcyA9PiBPSywgZ290IDE1DQoqIDQ4MHAgIDcyMHg0ODAgWVVZViAgIDE1ZnBzID0+IE9L
+LCBnb3QgMTUNCiogNDgwcCAgNzIweDQ4MCBKUEVHICAgMTVmcHMgPT4gT0ssIGdvdCAxNQ0KKiA0
+ODBwICA3MjB4NDgwIFJHQjU2NSAzMGZwcyA9PiBPSywgZ290IDMwDQoqIDQ4MHAgIDcyMHg0ODAg
+WVVZViAgIDMwZnBzID0+IE9LLCBnb3QgMzANCiogNDgwcCAgNzIweDQ4MCBKUEVHICAgMzBmcHMg
+PT4gT0ssIGdvdCAzMA0KKiBYR0EgIDEwMjR4NzY4IFJHQjU2NSAxNWZwcyA9PiBPSywgZ290IDE1
+DQoqIFhHQSAgMTAyNHg3NjggWVVZViAgIDE1ZnBzID0+IE9LLCBnb3QgMTUNCiogWEdBICAxMDI0
+eDc2OCBKUEVHICAgMTVmcHMgPT4gT0ssIGdvdCAxNQ0KKiBYR0EgIDEwMjR4NzY4IFJHQjU2NSAz
+MGZwcyA9PiBPSywgZ290IDMwDQoqIFhHQSAgMTAyNHg3NjggWVVZViAgIDMwZnBzID0+IE9LLCBn
+b3QgMzANCiogWEdBICAxMDI0eDc2OCBKUEVHICAgMzBmcHMgPT4gT0ssIGdvdCAzMA0KKiA3MjBw
+IDEyODB4NzIwIFJHQjU2NSAxNWZwcyA9PiBPSywgZ290IDE1DQoqIDcyMHAgMTI4MHg3MjAgWVVZ
+ViAgIDE1ZnBzID0+IE9LLCBnb3QgMTUNCiogNzIwcCAxMjgweDcyMCBKUEVHICAgMTVmcHMgPT4g
+T0ssIGdvdCAxNQ0KKiA3MjBwIDEyODB4NzIwIFJHQjU2NSAzMGZwcyA9PiBPSywgZ290IDMwDQoq
+IDcyMHAgMTI4MHg3MjAgWVVZViAgIDMwZnBzID0+IE9LLCBnb3QgMzANCiogNzIwcCAxMjgweDcy
+MCBKUEVHICAgMzBmcHMgPT4gT0ssIGdvdCAzMA0KKiBIRCAgMTkyMHgxMDgwIFJHQjU2NSAxNWZw
+cyA9PiBPSywgZ290IDE1DQoqIEhEICAxOTIweDEwODAgWVVZViAgIDE1ZnBzID0+IE9LLCBnb3Qg
+MTUNCiogSEQgIDE5MjB4MTA4MCBKUEVHICAgMTVmcHMgPT4gT0ssIGdvdCAxNQ0KDQoNClNvIGlu
+IGZldyB3b3JkcywgaXQgc291bmRzIGdvb2QsIHRoYW5rcyBKYWNvcG8gIQ0KDQoNCk9uIDEwLzI4
+LzIwIDExOjU3IFBNLCBKYWNvcG8gTW9uZGkgd3JvdGU6DQo+IEhpIEh1Z3VlcyBUb21pIGFuZCBT
+YW0NCj4gDQo+ICAgICB0aGlzIHNtYWxsIHNlcmllcyBjb2xsZWN0cyBUb21pJ3MgcGF0Y2ggb24g
+YWRqdXN0aW5nIGh0b3Qgd2hpY2ggaGFzIGJlZW4NCj4gZmxvYXRpbmcgYXJvdW5kIGZvciBzb21l
+IHRpbWUgd2l0aCBhIHJld29yayBvZiB0aGUgY2xvY2sgdHJlZSBiYXNlZCBvbg0KPiBIdWd1ZXMn
+IGFuZCBTYW0ncyB3b3JrIG9uIHNldHRpbmcgcGNsa19wZXJpb2QuIEl0IGFsc28gYWRkcmVzcyB0
+aGUgbmVlZCB0bw0KPiBzdXBwcG9ydCBMSU5LX0ZSRVFVRU5DWSBjb250cm9sIGFzIHBvaW50ZWQg
+b3V0IGJ5IEh1Z3Vlcy4NCj4gDQo+IEknbSBzb3J0IG9mIGhhcHB5IHdpdGggdGhlIHJlc3VsdCBh
+cyBJJ3ZlIHJlbW92ZWQgcXVpdGUgc29tZSBjaHJ1biBhbmQgdGhlIGNsb2NrDQo+IHRyZWUgY2Fs
+Y3VsYXRpb24gaXMgbW9yZSBsaW5lYXIuIEFsbCBtb2RlcyB3b3JrIGV4Y2VwdCBmdWxsLXJlc29s
+dXRpb24gd2hpY2ggYQ0KPiBiaXQgYW5ub3lzIG1lLCBhcyBJIGNhbid0IHNlbGVjdCBpdCB0aHJv
+dWdoIHNfZm10ICh0byBiZSBob25lc3QgSSBoYXZlIG5vdA0KPiBpbnZlc3RpZ2F0ZWQgdGhhdCBp
+biBkZXRhaWwsIHRoYXQncyB3aHkgYW4gUkZDKS4NCj4gDQo+IEZyYW1lcmF0ZSBpcyBiZXR0ZXIg
+dGhhbiBiZWZvcmUsIGJ1dCBzdGlsbCBvZmYgZm9yIHNvbWUgY29tYmluYXRpb25zOg0KPiA2NDB4
+NDgwQDMwIGdpdmVzIG1lIH40MCBGUFMsIDE5MjB4MTA4MEAxNSBnaXZlcyBtZSB+Ny4NCj4gVGhl
+IG90aGVyIGNvbWJpbmF0aW9ucyBJJ3ZlIHRlc3RlZCBsb29rcyBnb29kLg0KPiANCj4gQ2FuIEkg
+aGF2ZSB5b3VyIG9waW5pb24gb24gdGhlc2UgY2hhbmdlcyBhbmQgaWYgdGhleSBoZWxwIHlvdSB3
+aXRoIHlvdXINCj4gcGxhdGZvcm1zPw0KPiANCj4gSSd2ZSBvbmx5IGJlZW4gYWJsZSB0byB0ZXN0
+IFlVWVYsIHN1cHBvcnQgZm9yIGZvcm1hdHMgd2l0aCAhPSBicHAgd2lsbCBuZWVkDQo+IHNvbWUg
+d29yayBtb3N0IHByb2JhYmx5LCBidXQgdGhhdCB3YXMgbGlrZSB0aGlzIGJlZm9yZSAoYWx0aG91
+Z2ggaWlyYyBIdWd1ZXMNCj4gaGFzIGNhcHR1cmVkIEpQRUcsIHJpZ2h0ID8pDQo+IA0KPiBUaGVy
+ZSdzIGEgYml0IG1vcmUgY2xlYW51cCBvbiB0b3AgdG8gYmUgZG9uZSAoSSd2ZSBsZWZ0IFRPRE9z
+IGFyb3VuZCkgYW5kDQo+IHByb2JhYmx5IHRoZSBIQkxBTksgY2FsY3VsYXRpb24gc2hvdWxkIGJl
+IGNoZWNrZWQgdG8gc2VlIGlmIGl0IHdvcmtzIHdpdGggdGhlDQo+IG5ldyBodG90IHZhbHVlcy4N
+Cj4gDQo+IFRoYW5rcw0KPiAgICBqDQo+IA0KPiBKYWNvcG8gTW9uZGkgKDIpOg0KPiAgICBtZWRp
+YTogaTJjOiBvdjU2NDA6IFJld29yayBDU0ktMiBjbG9jayB0cmVlDQo+ICAgIG1lZGlhOiBpMmM6
+IG92NTY0MDogQWRkIFY0TDJfQ0lEX0xJTktfRlJFUSBzdXBwb3J0DQo+IA0KPiBUb21pIFZhbGtl
+aW5lbiAoMSk6DQo+ICAgIG1lZGlhOiBpMmM6IG92NTY0MDogQWRqdXN0IGh0b3QNCj4gDQo+ICAg
+ZHJpdmVycy9tZWRpYS9pMmMvb3Y1NjQwLmMgfCAxNzYgKysrKysrKysrKysrKysrKysrKysrKysr
+Ky0tLS0tLS0tLS0tLQ0KPiAgIDEgZmlsZSBjaGFuZ2VkLCAxMTggaW5zZXJ0aW9ucygrKSwgNTgg
+ZGVsZXRpb25zKC0pDQo+IA0KPiAtLQ0KPiAyLjI4LjANCj4gDQoNCkJlc3QgcmVnYXJkcywNCkh1
+Z3Vlcy4=
