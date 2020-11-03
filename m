@@ -2,295 +2,192 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36DA62A3FC8
-	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 10:16:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 59BF32A4000
+	for <lists+linux-media@lfdr.de>; Tue,  3 Nov 2020 10:30:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726690AbgKCJQY convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Tue, 3 Nov 2020 04:16:24 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:57916 "EHLO www.linuxtv.org"
+        id S1727282AbgKCJaU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 3 Nov 2020 04:30:20 -0500
+Received: from mx2.suse.de ([195.135.220.15]:36864 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725993AbgKCJQV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 3 Nov 2020 04:16:21 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kZsQL-00Cvuy-B9; Tue, 03 Nov 2020 09:16:17 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kZsTK-0005r5-19; Tue, 03 Nov 2020 09:19:22 +0000
-Date:   Tue, 3 Nov 2020 09:19:21 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1447631724.24.1604395162027@builder.linuxtv.org>
-In-Reply-To: <1249773766.23.1604308749743@builder.linuxtv.org>
-References: <1249773766.23.1604308749743@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3275
+        id S1725988AbgKCJaU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 3 Nov 2020 04:30:20 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id A096AADC5;
+        Tue,  3 Nov 2020 09:30:17 +0000 (UTC)
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+To:     maarten.lankhorst@linux.intel.com, mripard@kernel.org,
+        airlied@linux.ie, daniel@ffwll.ch, sam@ravnborg.org,
+        alexander.deucher@amd.com, christian.koenig@amd.com,
+        kraxel@redhat.com, l.stach@pengutronix.de,
+        linux+etnaviv@armlinux.org.uk, christian.gmeiner@gmail.com,
+        inki.dae@samsung.com, jy0922.shim@samsung.com,
+        sw0312.kim@samsung.com, kyungmin.park@samsung.com,
+        kgene@kernel.org, krzk@kernel.org, yuq825@gmail.com,
+        bskeggs@redhat.com, robh@kernel.org, tomeu.vizoso@collabora.com,
+        steven.price@arm.com, alyssa.rosenzweig@collabora.com,
+        hjc@rock-chips.com, heiko@sntech.de, hdegoede@redhat.com,
+        sean@poorly.run, eric@anholt.net, oleksandr_andrushchenko@epam.com,
+        ray.huang@amd.com, sumit.semwal@linaro.org,
+        emil.velikov@collabora.com, luben.tuikov@amd.com, apaneers@amd.com,
+        linus.walleij@linaro.org, melissa.srw@gmail.com,
+        chris@chris-wilson.co.uk, miaoqinglang@huawei.com
+Cc:     dri-devel@lists.freedesktop.org, amd-gfx@lists.freedesktop.org,
+        virtualization@lists.linux-foundation.org,
+        etnaviv@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, lima@lists.freedesktop.org,
+        nouveau@lists.freedesktop.org, spice-devel@lists.freedesktop.org,
+        linux-rockchip@lists.infradead.org, xen-devel@lists.xenproject.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
+        Thomas Zimmermann <tzimmermann@suse.de>
+Subject: [PATCH v7 00/10] Support GEM object mappings from I/O memory
+Date:   Tue,  3 Nov 2020 10:30:05 +0100
+Message-Id: <20201103093015.1063-1-tzimmermann@suse.de>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3275/display/redirect>
+DRM's fbdev console uses regular load and store operations to update
+framebuffer memory. The bochs driver on sparc64 requires the use of
+I/O-specific load and store operations. We have a workaround, but need
+a long-term solution to the problem.
 
-Changes:
+This patchset changes GEM's vmap/vunmap interfaces to forward pointers
+of type struct dma_buf_map and updates the generic fbdev emulation to
+use them correctly. This enables I/O-memory operations on all framebuffers
+that require and support them.
 
+Patches #1 to #4 prepare VRAM helpers and drivers.
 
-------------------------------------------
-[...truncated 4.29 KB...]
-     0K .......... .......... .......... .......... ..........  0% 80.6K 86s
-    50K .......... .......... .......... .......... ..........  1%  108K 75s
-   100K .......... .......... .......... .......... ..........  2%  108K 71s
-   150K .......... .......... .......... .......... ..........  2%  161K 63s
-   200K .......... .......... .......... .......... ..........  3%  161K 59s
-   250K .......... .......... .......... .......... ..........  4%  161K 56s
-   300K .......... .......... .......... .......... ..........  4%  179K 53s
-   350K .......... .......... .......... .......... ..........  5%  220K 49s
-   400K .......... .......... .......... .......... ..........  6%  186K 48s
-   450K .......... .......... .......... .......... ..........  7%  255K 45s
-   500K .......... .......... .......... .......... ..........  7%  186K 44s
-   550K .......... .......... .......... .......... ..........  8%  321K 41s
-   600K .......... .......... .......... .......... ..........  9%  321K 39s
-   650K .......... .......... .......... .......... ..........  9%  321K 38s
-   700K .......... .......... .......... .......... .......... 10%  323K 36s
-   750K .......... .......... .......... .......... .......... 11%  323K 35s
-   800K .......... .......... .......... .......... .......... 12%  318K 34s
-   850K .......... .......... .......... .......... .......... 12%  409K 32s
-   900K .......... .......... .......... .......... .......... 13%  670K 31s
-   950K .......... .......... .......... .......... .......... 14%  434K 30s
-  1000K .......... .......... .......... .......... .......... 14%  625K 29s
-  1050K .......... .......... .......... .......... .......... 15%  437K 28s
-  1100K .......... .......... .......... .......... .......... 16%  435K 27s
-  1150K .......... .......... .......... .......... .......... 17% 1.19M 26s
-  1200K .......... .......... .......... .......... .......... 17%  434K 25s
-  1250K .......... .......... .......... .......... .......... 18% 1.20M 24s
-  1300K .......... .......... .......... .......... .......... 19%  437K 23s
-  1350K .......... .......... .......... .......... .......... 19% 1.20M 23s
-  1400K .......... .......... .......... .......... .......... 20%  437K 22s
-  1450K .......... .......... .......... .......... .......... 21% 1.23M 21s
-  1500K .......... .......... .......... .......... .......... 22%  436K 21s
-  1550K .......... .......... .......... .......... .......... 22% 24.1M 20s
-  1600K .......... .......... .......... .......... .......... 23%  420K 20s
-  1650K .......... .......... .......... .......... .......... 24% 1.35M 19s
-  1700K .......... .......... .......... .......... .......... 24% 1.25M 18s
-  1750K .......... .......... .......... .......... .......... 25%  440K 18s
-  1800K .......... .......... .......... .......... .......... 26% 1.23M 17s
-  1850K .......... .......... .......... .......... .......... 27% 19.2M 17s
-  1900K .......... .......... .......... .......... .......... 27%  441K 17s
-  1950K .......... .......... .......... .......... .......... 28% 1.25M 16s
-  2000K .......... .......... .......... .......... .......... 29% 1.17M 16s
-  2050K .......... .......... .......... .......... .......... 29%  672K 15s
-  2100K .......... .......... .......... .......... .......... 30% 1.23M 15s
-  2150K .......... .......... .......... .......... .......... 31% 24.9M 14s
-  2200K .......... .......... .......... .......... .......... 32%  443K 14s
-  2250K .......... .......... .......... .......... .......... 32% 19.0M 14s
-  2300K .......... .......... .......... .......... .......... 33% 1.25M 13s
-  2350K .......... .......... .......... .......... .......... 34%  627K 13s
-  2400K .......... .......... .......... .......... .......... 34% 1.37M 13s
-  2450K .......... .......... .......... .......... .......... 35% 1.29M 12s
-  2500K .......... .......... .......... .......... .......... 36% 1.20M 12s
-  2550K .......... .......... .......... .......... .......... 37%  671K 12s
-  2600K .......... .......... .......... .......... .......... 37% 14.9M 12s
-  2650K .......... .......... .......... .......... .......... 38% 1.31M 11s
-  2700K .......... .......... .......... .......... .......... 39% 1.21M 11s
-  2750K .......... .......... .......... .......... .......... 39%  670K 11s
-  2800K .......... .......... .......... .......... .......... 40% 13.5M 10s
-  2850K .......... .......... .......... .......... .......... 41% 1.32M 10s
-  2900K .......... .......... .......... .......... .......... 42% 1.22M 10s
-  2950K .......... .......... .......... .......... .......... 42%  671K 10s
-  3000K .......... .......... .......... .......... .......... 43% 20.1M 9s
-  3050K .......... .......... .......... .......... .......... 44% 1.31M 9s
-  3100K .......... .......... .......... .......... .......... 44% 19.5M 9s
-  3150K .......... .......... .......... .......... .......... 45%  627K 9s
-  3200K .......... .......... .......... .......... .......... 46% 1.40M 9s
-  3250K .......... .......... .......... .......... .......... 47% 1.31M 8s
-  3300K .......... .......... .......... .......... .......... 47% 25.5M 8s
-  3350K .......... .......... .......... .......... .......... 48%  624K 8s
-  3400K .......... .......... .......... .......... .......... 49% 1.44M 8s
-  3450K .......... .......... .......... .......... .......... 49% 19.1M 8s
-  3500K .......... .......... .......... .......... .......... 50% 1.32M 7s
-  3550K .......... .......... .......... .......... .......... 51% 24.4M 7s
-  3600K .......... .......... .......... .......... .......... 52%  624K 7s
-  3650K .......... .......... .......... .......... .......... 52% 1.45M 7s
-  3700K .......... .......... .......... .......... .......... 53% 21.1M 7s
-  3750K .......... .......... .......... .......... .......... 54% 1.31M 7s
-  3800K .......... .......... .......... .......... .......... 54% 20.8M 6s
-  3850K .......... .......... .......... .......... .......... 55% 1.26M 6s
-  3900K .......... .......... .......... .......... .......... 56%  679K 6s
-  3950K .......... .......... .......... .......... .......... 57% 21.7M 6s
-  4000K .......... .......... .......... .......... .......... 57% 1.32M 6s
-  4050K .......... .......... .......... .......... .......... 58% 15.2M 6s
-  4100K .......... .......... .......... .......... .......... 59% 1.27M 6s
-  4150K .......... .......... .......... .......... .......... 59% 1.16M 5s
-  4200K .......... .......... .......... .......... .......... 60% 1.47M 5s
-  4250K .......... .......... .......... .......... .......... 61% 19.7M 5s
-  4300K .......... .......... .......... .......... .......... 61% 1.34M 5s
-  4350K .......... .......... .......... .......... .......... 62% 17.0M 5s
-  4400K .......... .......... .......... .......... .......... 63% 1.26M 5s
-  4450K .......... .......... .......... .......... .......... 64%  686K 5s
-  4500K .......... .......... .......... .......... .......... 64% 15.9M 4s
-  4550K .......... .......... .......... .......... .......... 65% 15.6M 4s
-  4600K .......... .......... .......... .......... .......... 66% 1.42M 4s
-  4650K .......... .......... .......... .......... .......... 66% 13.6M 4s
-  4700K .......... .......... .......... .......... .......... 67% 1.29M 4s
-  4750K .......... .......... .......... .......... .......... 68% 1.16M 4s
-  4800K .......... .......... .......... .......... .......... 69% 1.40M 4s
-  4850K .......... .......... .......... .......... .......... 69% 21.0M 4s
-  4900K .......... .......... .......... .......... .......... 70% 1.44M 4s
-  4950K .......... .......... .......... .......... .......... 71% 18.7M 3s
-  5000K .......... .......... .......... .......... .......... 71% 14.2M 3s
-  5050K .......... .......... .......... .......... .......... 72%  653K 3s
-  5100K .......... .......... .......... .......... .......... 73% 1.47M 3s
-  5150K .......... .......... .......... .......... .......... 74% 14.4M 3s
-  5200K .......... .......... .......... .......... .......... 74% 15.7M 3s
-  5250K .......... .......... .......... .......... .......... 75% 1.45M 3s
-  5300K .......... .......... .......... .......... .......... 76% 15.6M 3s
-  5350K .......... .......... .......... .......... .......... 76% 1.31M 3s
-  5400K .......... .......... .......... .......... .......... 77% 1.16M 2s
-  5450K .......... .......... .......... .......... .......... 78% 1.48M 2s
-  5500K .......... .......... .......... .......... .......... 79% 15.7M 2s
-  5550K .......... .......... .......... .......... .......... 79% 20.6M 2s
-  5600K .......... .......... .......... .......... .......... 80% 1.42M 2s
-  5650K .......... .......... .......... .......... .......... 81% 14.9M 2s
-  5700K .......... .......... .......... .......... .......... 81% 1.34M 2s
-  5750K .......... .......... .......... .......... .......... 82% 1.15M 2s
-  5800K .......... .......... .......... .......... .......... 83% 1.51M 2s
-  5850K .......... .......... .......... .......... .......... 84% 20.0M 2s
-  5900K .......... .......... .......... .......... .......... 84% 16.5M 2s
-  5950K .......... .......... .......... .......... .......... 85% 1.42M 2s
-  6000K .......... .......... .......... .......... .......... 86% 17.4M 1s
-  6050K .......... .......... .......... .......... .......... 86% 19.0M 1s
-  6100K .......... .......... .......... .......... .......... 87%  662K 1s
-  6150K .......... .......... .......... .......... .......... 88% 13.7M 1s
-  6200K .......... .......... .......... .......... .......... 89% 1.53M 1s
-  6250K .......... .......... .......... .......... .......... 89% 16.4M 1s
-  6300K .......... .......... .......... .......... .......... 90% 25.0M 1s
-  6350K .......... .......... .......... .......... .......... 91% 1.42M 1s
-  6400K .......... .......... .......... .......... .......... 91% 15.0M 1s
-  6450K .......... .......... .......... .......... .......... 92% 18.9M 1s
-  6500K .......... .......... .......... .......... .......... 93%  669K 1s
-  6550K .......... .......... .......... .......... .......... 94% 1.50M 1s
-  6600K .......... .......... .......... .......... .......... 94% 15.0M 1s
-  6650K .......... .......... .......... .......... .......... 95% 16.0M 0s
-  6700K .......... .......... .......... .......... .......... 96% 19.3M 0s
-  6750K .......... .......... .......... .......... .......... 96% 1.50M 0s
-  6800K .......... .......... .......... .......... .......... 97% 11.7M 0s
-  6850K .......... .......... .......... .......... .......... 98% 17.2M 0s
-  6900K .......... .......... .......... .......... .......... 99% 1.40M 0s
-  6950K .......... .......... .......... .......... .......... 99% 1.17M 0s
-  7000K .......... ......                                     100% 32.1M=9.3s
+Next is the update of the GEM vmap functions. Patch #5 adds vmap and vunmap
+that is usable with TTM-based GEM drivers, and patch #6 updates GEM's
+vmap/vunmap callback to forward instances of type struct dma_buf_map. While
+the patch touches many files throughout the DRM modules, the applied changes
+are mostly trivial interface fixes. Several TTM-based GEM drivers now use
+the new vmap code. Patch #7 updates GEM's internal vmap/vunmap functions to
+forward struct dma_buf_map.
 
-2020-11-03 09:19:18 (756 KB/s) - ‘linux-media.tar.bz2’ saved [7185148/7185148]
+With struct dma_buf_map propagated through the layers, patches #8 to #10
+convert DRM clients and generic fbdev emulation to use it. Updating the
+fbdev framebuffer will select the correct functions, either for system or
+I/O memory.
 
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-12-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
-patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
-patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
-patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
-patch -s -f -N -p1 -i ../backports/v5.4_dma_buf.patch
-patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
-patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
-patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
-patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
-Patched drivers/media/dvb-core/dvbdev.c
-Patched drivers/media/v4l2-core/v4l2-dev.c
-Patched drivers/media/rc/rc-main.c
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-./scripts/make_kconfig.pl /lib/modules/4.19.0-12-amd64/build /lib/modules/4.19.0-12-amd64/build 1
-File not found: /lib/modules/4.19.0-12-amd64/build/.config at ./scripts/make_kconfig.pl line 33, <IN> line 4.
-Preparing to compile for kernel version 4.19.0
-make[1]: *** [Makefile:379: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+There is also a set of IGT testcases for fbdev at [1]. Reading and writting
+fbdev device files has several corner cases near the EOF that the tests cover
+as well. The original fbdev code has different semantics with the different
+implementations (sys, cfb). Patch #10 and the testcases intend to harmonize
+the behaviour and serve as a reference.
+
+v7:
+	* return number of read/written bytes in fbdev code; if any
+	* init QXL cursor from BO buffer (kernel test robot)
+	* use min_t(size_t,) (kernel test robot)
+v6:
+	* don't call page_to_phys() on fbdev framebuffers in I/O memory;
+	  warn instead (Daniel)
+v5:
+	* rebase onto latest TTM changes (Christian)
+	* support TTM premapped memory correctly (Christian)
+	* implement fb_read/fb_write internally (Sam, Daniel)
+	* cleanups
+v4:
+	* provide TTM vmap/vunmap plus GEM helpers and convert drivers
+	  over (Christian, Daniel)
+	* remove several empty functions
+	* more TODOs and documentation (Daniel)
+v3:
+	* recreate the whole patchset on top of struct dma_buf_map
+v2:
+	* RFC patchset
+
+[1] https://gitlab.freedesktop.org/tzimmermann/igt-gpu-tools/-/merge_requests/1
+
+Thomas Zimmermann (10):
+  drm/vram-helper: Remove invariant parameters from internal kmap
+    function
+  drm/cma-helper: Remove empty drm_gem_cma_prime_vunmap()
+  drm/etnaviv: Remove empty etnaviv_gem_prime_vunmap()
+  drm/exynos: Remove empty exynos_drm_gem_prime_{vmap,vunmap}()
+  drm/ttm: Add vmap/vunmap to TTM and TTM GEM helpers
+  drm/gem: Use struct dma_buf_map in GEM vmap ops and convert GEM
+    backends
+  drm/gem: Update internal GEM vmap/vunmap interfaces to use struct
+    dma_buf_map
+  drm/gem: Store client buffer mappings as struct dma_buf_map
+  dma-buf-map: Add memcpy and pointer-increment interfaces
+  drm/fb_helper: Support framebuffers in I/O memory
+
+ Documentation/gpu/todo.rst                  |  37 ++-
+ drivers/gpu/drm/Kconfig                     |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.c |  36 ---
+ drivers/gpu/drm/amd/amdgpu/amdgpu_dma_buf.h |   2 -
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gem.c     |   5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_object.h  |   1 -
+ drivers/gpu/drm/ast/ast_cursor.c            |  27 +--
+ drivers/gpu/drm/ast/ast_drv.h               |   7 +-
+ drivers/gpu/drm/bochs/bochs_kms.c           |   1 -
+ drivers/gpu/drm/drm_client.c                |  38 +--
+ drivers/gpu/drm/drm_fb_helper.c             | 250 ++++++++++++++++++--
+ drivers/gpu/drm/drm_gem.c                   |  29 ++-
+ drivers/gpu/drm/drm_gem_cma_helper.c        |  27 +--
+ drivers/gpu/drm/drm_gem_shmem_helper.c      |  48 ++--
+ drivers/gpu/drm/drm_gem_ttm_helper.c        |  38 +++
+ drivers/gpu/drm/drm_gem_vram_helper.c       | 117 +++++----
+ drivers/gpu/drm/drm_internal.h              |   5 +-
+ drivers/gpu/drm/drm_prime.c                 |  14 +-
+ drivers/gpu/drm/etnaviv/etnaviv_drv.h       |   3 +-
+ drivers/gpu/drm/etnaviv/etnaviv_gem.c       |   1 -
+ drivers/gpu/drm/etnaviv/etnaviv_gem_prime.c |  12 +-
+ drivers/gpu/drm/exynos/exynos_drm_gem.c     |  12 -
+ drivers/gpu/drm/exynos/exynos_drm_gem.h     |   2 -
+ drivers/gpu/drm/lima/lima_gem.c             |   6 +-
+ drivers/gpu/drm/lima/lima_sched.c           |  11 +-
+ drivers/gpu/drm/mgag200/mgag200_mode.c      |  10 +-
+ drivers/gpu/drm/nouveau/Kconfig             |   1 +
+ drivers/gpu/drm/nouveau/nouveau_bo.h        |   2 -
+ drivers/gpu/drm/nouveau/nouveau_gem.c       |   6 +-
+ drivers/gpu/drm/nouveau/nouveau_gem.h       |   2 -
+ drivers/gpu/drm/nouveau/nouveau_prime.c     |  20 --
+ drivers/gpu/drm/panfrost/panfrost_perfcnt.c |  14 +-
+ drivers/gpu/drm/qxl/qxl_display.c           |  15 +-
+ drivers/gpu/drm/qxl/qxl_draw.c              |  14 +-
+ drivers/gpu/drm/qxl/qxl_drv.h               |  11 +-
+ drivers/gpu/drm/qxl/qxl_object.c            |  31 ++-
+ drivers/gpu/drm/qxl/qxl_object.h            |   2 +-
+ drivers/gpu/drm/qxl/qxl_prime.c             |  12 +-
+ drivers/gpu/drm/radeon/radeon.h             |   1 -
+ drivers/gpu/drm/radeon/radeon_gem.c         |   7 +-
+ drivers/gpu/drm/radeon/radeon_prime.c       |  20 --
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.c |  22 +-
+ drivers/gpu/drm/rockchip/rockchip_drm_gem.h |   4 +-
+ drivers/gpu/drm/tiny/cirrus.c               |  10 +-
+ drivers/gpu/drm/tiny/gm12u320.c             |  10 +-
+ drivers/gpu/drm/ttm/ttm_bo_util.c           |  72 ++++++
+ drivers/gpu/drm/udl/udl_modeset.c           |   8 +-
+ drivers/gpu/drm/vboxvideo/vbox_mode.c       |  11 +-
+ drivers/gpu/drm/vc4/vc4_bo.c                |   7 +-
+ drivers/gpu/drm/vc4/vc4_drv.h               |   2 +-
+ drivers/gpu/drm/vgem/vgem_drv.c             |  16 +-
+ drivers/gpu/drm/vkms/vkms_plane.c           |  15 +-
+ drivers/gpu/drm/vkms/vkms_writeback.c       |  22 +-
+ drivers/gpu/drm/xen/xen_drm_front_gem.c     |  18 +-
+ drivers/gpu/drm/xen/xen_drm_front_gem.h     |   6 +-
+ include/drm/drm_client.h                    |   7 +-
+ include/drm/drm_gem.h                       |   5 +-
+ include/drm/drm_gem_cma_helper.h            |   3 +-
+ include/drm/drm_gem_shmem_helper.h          |   4 +-
+ include/drm/drm_gem_ttm_helper.h            |   6 +
+ include/drm/drm_gem_vram_helper.h           |  14 +-
+ include/drm/drm_mode_config.h               |  12 -
+ include/drm/ttm/ttm_bo_api.h                |  28 +++
+ include/linux/dma-buf-map.h                 |  93 +++++++-
+ 64 files changed, 856 insertions(+), 438 deletions(-)
+
+--
+2.29.0
+
