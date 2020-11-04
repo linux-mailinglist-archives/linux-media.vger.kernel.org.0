@@ -2,258 +2,431 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C8FA22A6F9B
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 22:24:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BB7052A6FCC
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 22:42:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732126AbgKDVY7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 16:24:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54564 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732089AbgKDVY7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 16:24:59 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DEE49C0613D3
-        for <linux-media@vger.kernel.org>; Wed,  4 Nov 2020 13:24:58 -0800 (PST)
+        id S1727725AbgKDVmG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 16:42:06 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:36574 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726827AbgKDVmF (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 16:42:05 -0500
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 153D0563;
-        Wed,  4 Nov 2020 22:24:55 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 376E5563;
+        Wed,  4 Nov 2020 22:42:02 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1604525095;
-        bh=ijuBo8DyQVl5cgttjl4X6ci8FBI/6JLAsvb5gSATbHg=;
+        s=mail; t=1604526122;
+        bh=xFPeYZOgeaEhAcw/UEK6X38J9ZJHaqc3qnsqmQ+VnSk=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=bOI4keR+8M2Rwhn9FtNInBgmJ1ec5rcd0af1I+zGmpopDvF7DCPbQFdGHp+WjfcuP
-         Q2Eyg9jr5Cd0jfLGYFqJie+QyF4PatC1UyNo1gVkJ10KENgF0UdCTo+n39ndzyRZFK
-         tMMLl3fhrvnQKeKGfrh64jatTMl5H37deoAT/oDM=
-Date:   Wed, 4 Nov 2020 23:24:54 +0200
+        b=dGaaQ2CfoU9eyvpYuO07f5/TMwjlFYH9XgevUQoSdMRzwQwi+zXsJ76xg1KOJcg8y
+         hvsC+JzSZV1xfhZQ+dRvsp3WFAzXlXC6SgStrUikFJLGd5d1x4Yt/n4WRj/ZkeZl5V
+         D5WbQHxIePghZovx3/dS3VT4tJRgCtvwlIapZFWM=
+Date:   Wed, 4 Nov 2020 23:42:01 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Gregor Hlawacek <g.hlawacek@hzdr.de>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: Philips Monitor with webcam
-Message-ID: <20201104212454.GF29958@pendragon.ideasonboard.com>
-References: <51207fd712e3c1001b80c6642021b1a5d5763ade.camel@hzdr.de>
- <20201104170233.0d405dff@coco.lan>
- <59f848e83354ad72c11dacaf571f20a8084baf58.camel@hzdr.de>
- <20201104174554.4bbec36a@coco.lan>
- <b8fcc03ed79873f9e55ab394b4b95140ab8b215b.camel@hzdr.de>
- <20201104210155.353a0d6a@coco.lan>
- <40a643d5fd9b6dd387d9cbde3e5ba1796b282f6a.camel@hzdr.de>
- <20201104221148.4d5c644d@coco.lan>
+To:     Joe Perches <joe@perches.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 1/7] media: uvcvideo: Use pr_cont() macro
+Message-ID: <20201104214201.GH29958@pendragon.ideasonboard.com>
+References: <20201104180734.286789-1-ribalda@chromium.org>
+ <20201104180734.286789-2-ribalda@chromium.org>
+ <87769d554b4575bf9371380b013e66d70f1b21c4.camel@perches.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201104221148.4d5c644d@coco.lan>
+In-Reply-To: <87769d554b4575bf9371380b013e66d70f1b21c4.camel@perches.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Gregor,
+Hi Joe,
 
-On Wed, Nov 04, 2020 at 10:11:48PM +0100, Mauro Carvalho Chehab wrote:
-> Em Wed, 04 Nov 2020 21:22:55 +0100 Gregor Hlawacek escreveu:
-> > On Wed, 2020-11-04 at 21:01 +0100, Mauro Carvalho Chehab wrote:
-> > > Em Wed, 04 Nov 2020 20:43:27 +0100 Gregor Hlawacek escreveu:
-> > > 
-> > > I'm c/c Laurent, as he is the author of the UVC driver.
-> > >   
-> > > > On Wed, 2020-11-04 at 17:45 +0100, Mauro Carvalho Chehab wrote:  
-> > > > > Em Wed, 04 Nov 2020 17:25:48 +0100 Gregor Hlawacek escreveu:
-> > > > > > On Wed, 2020-11-04 at 17:02 +0100, Mauro Carvalho Chehab wrote:    
-> > > > > > > Em Wed, 04 Nov 2020 14:24:34 +0100 Gregor Hlawacek escreveu:
-> > > > > > >       
-> > > > > > > > Hi all
-> > > > > > > > 
-> > > > > > > > I own a Philips Brilliance 241B which has a webcam attached. The device
-> > > > > > > > is listed as 0412:612b Chicony Electronics Co., Ltd, bubt doesn't work
-> > > > > > > > with the latest UVC stock kernel driver. Is there any hope to get this
-> > > > > > > > supported?
-> > > > > > > > 
-> > > > > > > > uname -a:
-> > > > > > > > Linux it72 5.9.3-arch1-1 #1 SMP PREEMPT Sun, 01 Nov 2020 12:58:59+0000 x86_64 GNU/Linux
-> > > > > > > > 
-> > > > > > > > running Arch Linux on a Lenovo Thinkpad  T490s
-> > > > > > > > 
-> > > > > > > > dmesg:
-> > > > > > > > 
-> > > > > > > > [76850.137838] usb 3-1.1.1.2: New USB device found, idVendor=04f2, idProduct=b612, bcdDevice= 2.10
-> > > > > > > > [76850.137841] usb 3-1.1.1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> > > > > > > > [76850.137843] usb 3-1.1.1.2: Product: USB2.0 FHD UVC WebCam
-> > > > > > > > [76850.137845] usb 3-1.1.1.2: Manufacturer: SunplusIT Inc
-> > > > > > > > [76850.137846] usb 3-1.1.1.2: SerialNumber: 01.00.00
-> > > > > > > > [76850.152761] uvcvideo: Found UVC 1.50 device USB2.0 FHD UVC WebCam (04f2:b612)
-> > > > > > > > [76850.215683] input: USB2.0 FHD UVC WebCam: USB2.0 F as /devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000:3c:00.0/usb3/3-1/3-1.1/3-1.1.1/3-1.1.1.2/3-1.1.1.2:1.0/input/input66
-> > > > > > > > [76850.223642] uvcvideo: Found UVC 1.50 device USB2.0 FHD UVC WebCam (04f2:b612)
-> > > > > > > > [76850.232499] usb 4-1.1.2: new SuperSpeed Gen 1 USB device number 5 using xhci_hcd
-> > > > > > > > [76850.241004] input: USB2.0 FHD UVC WebCam: IR Camer as /devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000:3c:00.0/usb3/3-1/3-1.1/3-1.1.1/3-1.1.1.2/3-1.1.1.2:1.2/input/input67      
-> > > > > > > 
-> > > > > > > Hmm... it sounds that the camera was properly detected here. 
-> > > > > > > 
-> > > > > > > Could you please enclose the contents of the following
-> > > > > > > command?
-> > > > > > > 
-> > > > > > >         $ v4l2-ctl --all
-> > > > > > > 
-> > > > > > > Thanks,
-> > > > > > > Mauro      
-> > > > > > 
-> > > > > > Hi Mauro 
-> > > > > > 
-> > > > > > thanks for the quick answer. Here is the output but I am pretty sure
-> > > > > > that this come from the integrated laptop camera and not the one in the
-> > > > > > external monitor    
-> > > > > 
-> > > > > Well, you can use "-d" parameter to identify the device, like:
-> > > > > 
-> > > > >         $ v4l2-ctl -d /dev/v4l/by-path/pci-0000\:00\:14.0-usb-0\:3.2\:1.0-video-index0 --all
-> > > > > 
-> > > > > The real path depends on your camera - you can take a look at:
-> > > > > 
-> > > > >         $ tree /dev/v4l/
-> > > > >         /dev/v4l/
-> > > > >         ├── by-id
-> > > > >         │   ├── usb-046d_HD_Pro_Webcam_C920_55DA1CCF-video-index0 -> ../../video0
-> > > > >         │   └── usb-046d_HD_Pro_Webcam_C920_55DA1CCF-video-index1 -> ../../video1
-> > > > >         └── by-path
-> > > > >             ├── pci-0000:00:14.0-usb-0:3.2:1.0-video-index0 -> ../../video0
-> > > > >             └── pci-0000:00:14.0-usb-0:3.2:1.0-video-index1 -> ../../video1
-> > > > > 
-> > > > >         
-> > > > > In order to check the ones that were detected.
-> > > >
-> > > > ├── by-id
-> > > > │   ├── usb-Chicony_Electronics_Co._Ltd._Integrated_Camera_0001-video-index0 -> ../../video0
-> > > > │   ├── usb-Chicony_Electronics_Co._Ltd._Integrated_Camera_0001-video-index1 -> ../../video1  
-> > > 
-> > > Ok. So, /dev/video0 is the video streaming device (and /dev/video1
-> > > carries on metadata).
-> > > 
-> > > > │   ├── usb-SunplusIT_Inc_USB2.0_FHD_UVC_WebCam_01.00.00-video-index0 -> ../../video4    
-> > > > │   └── usb-SunplusIT_Inc_USB2.0_FHD_UVC_WebCam_01.00.00-video-index1 -> ../../video5    
-> > > > └── by-path
-> > > >     ├── pci-0000:00:14.0-usb-0:8:1.0-video-index0 -> ../../video0
-> > > >     ├── pci-0000:00:14.0-usb-0:8:1.0-video-index1 -> ../../video1
-> > > >     ├── pci-0000:3c:00.0-usb-0:1.1.1.2:1.0-video-index0 -> ../../video2
-> > > >     ├── pci-0000:3c:00.0-usb-0:1.1.1.2:1.0-video-index1 -> ../../video3
-> > > >     ├── pci-0000:3c:00.0-usb-0:1.1.1.2:1.2-video-index0 -> ../../video4
-> > > >     └── pci-0000:3c:00.0-usb-0:1.1.1.2:1.2-video-index1 -> ../../video5
-> > > > 
-> > > > It seems non of them responds. They are either busy, can not be opened
-> > > > or fail to produce any response.
-> > > > 
-> > > > sudo v4l2-ctl -d /dev/v4l/by-id/usb-sunplusIT_Inc_USB2.0_FHD_UVC_WebCam_01.00.00-video-index0
-> > > > Failed to open /dev/v4l/by-id/usb-SunplusIT_Inc_USB2.0_FHD_UVC_WebCam_01.00.00-video-index0: Device or resource busy  
-> > > 
-> > > Weird. It is not usual to receive -EBUSY if there's no other program
-> > > using the device at the same time.
-> > > 
-> > > Yet, from what I understood, on this device, the camera is hidden inside
-> > > the monitor until an application tries to use it.
-> > > 
-> > > While uvc driver has support for Linux PM, perhaps this specific
-> > > device requires some extra command to turn the camera on and to 
-> > > open it from the monitor case.
-> > > 
-> > > After you called v4l2-ctl, does any message appears at dmesg?
-> > 
-> > Hi Mauro
-> > 
-> > no nothing. 
-> > 
-> > ls -l /dev/video* 
-> > crw-rw----+ 1 root video 81, 0 4. Nov 15:19 /dev/video0
-> > crw-rw----+ 1 root video 81, 1 4. Nov 15:19 /dev/video1
-> > crw-rw----+ 1 root video 81, 2 4. Nov 15:19 /dev/video2
-> > crw-rw----+ 1 root video 81, 3 4. Nov 15:19 /dev/video3
-> > crw-rw----+ 1 root video 81, 4 4. Nov 15:19 /dev/video4
-> > crw-rw----+ 1 root video 81, 5 4. Nov 15:19 /dev/video5
-> > 
-> > video0 and 1 are the laptop cam. video2-5 is related to the not working
-> > one inside the external monitor.
+On Wed, Nov 04, 2020 at 11:29:30AM -0800, Joe Perches wrote:
+> On Wed, 2020-11-04 at 19:07 +0100, Ricardo Ribalda wrote:
+> > Replace all the uses of printk(KERN_CONT ... with pr_cont().
 > 
-> Well, based on the results of your tree command:
+> Perhaps remove the uvc_printk macro and uses and use the more
+> common pr_fmt and pr_<level> mechanisms.
+
+I'd actually go for dev_* instead, to give some context. It's fairly
+common to have multiple UVC devices connected to a system, so printing
+the device name would be useful. It can still be wrapped with
+uvc_printk() if we want to wrap the cast from uvc_device to a struct
+device (we should actually try to get the device corresponding to the
+USB interface where available, so we should use uvc_streaming->intf->dev
+where possible, and fallback to uvc_device->udev->dev otherwise), or
+drop the wrapper completely.
+
+> Something like:
+> ---
+>  drivers/media/usb/uvc/uvc_ctrl.c   |  5 +++--
+>  drivers/media/usb/uvc/uvc_driver.c | 35 +++++++++++++++------------------
+>  drivers/media/usb/uvc/uvc_entity.c | 10 ++++++----
+>  drivers/media/usb/uvc/uvc_status.c |  9 +++++----
+>  drivers/media/usb/uvc/uvc_video.c  | 40 ++++++++++++++++----------------------
+>  drivers/media/usb/uvc/uvcvideo.h   | 25 +++++++++++-------------
+>  6 files changed, 58 insertions(+), 66 deletions(-)
 > 
-> $ tree /dev/v4l/
->         /dev/v4l/
-> 	├── by-id
-> 	│   ├── usb-Chicony_Electronics_Co._Ltd._Integrated_Camera_0001-video-index0 -> ../../video0
-> 	│   ├── usb-Chicony_Electronics_Co._Ltd._Integrated_Camera_0001-video-index1 -> ../../video1
-> 	│   ├── usb-SunplusIT_Inc_USB2.0_FHD_UVC_WebCam_01.00.00-video-index0 -> ../../video4  
-> 	│   └── usb-SunplusIT_Inc_USB2.0_FHD_UVC_WebCam_01.00.00-video-index1 -> ../../video5  
-> 	└── by-path
-> 	    ├── pci-0000:00:14.0-usb-0:8:1.0-video-index0 -> ../../video0
-> 	    ├── pci-0000:00:14.0-usb-0:8:1.0-video-index1 -> ../../video1
-> 	    ├── pci-0000:3c:00.0-usb-0:1.1.1.2:1.0-video-index0 -> ../../video2
-> 	    ├── pci-0000:3c:00.0-usb-0:1.1.1.2:1.0-video-index1 -> ../../video3
-> 	    ├── pci-0000:3c:00.0-usb-0:1.1.1.2:1.2-video-index0 -> ../../video4
-> 	    └── pci-0000:3c:00.0-usb-0:1.1.1.2:1.2-video-index1 -> ../../video5
-> 
-> you have:
-> 	- Chicony devices: video0 and video1
-> 	- SunplusIT FHD WebCam: video4 and video5
-> 	- Two other video devnodes (video2 and video3) that didn't return
-> 	  any ID.
-> 
-> From what you mentioned on your first e-mail, the Chicony device is
-> the webcam mounted inside the Philips monitor. Right?
-> 
+> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
+> index f479d8971dfb..e0b273697d49 100644
+> --- a/drivers/media/usb/uvc/uvc_ctrl.c
+> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
+> @@ -6,6 +6,8 @@
+>   *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
+>  
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+>  #include <linux/kernel.h>
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+> @@ -1317,8 +1319,7 @@ static void uvc_ctrl_status_event_work(struct work_struct *work)
+>  	w->urb->interval = dev->int_ep->desc.bInterval;
+>  	ret = usb_submit_urb(w->urb, GFP_KERNEL);
+>  	if (ret < 0)
+> -		uvc_printk(KERN_ERR, "Failed to resubmit status URB (%d).\n",
+> -			   ret);
+> +		pr_err("Failed to resubmit status URB (%d)\n", ret);
+>  }
+>  
+>  bool uvc_ctrl_status_event(struct urb *urb, struct uvc_video_chain *chain,
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index ddb9eaa11be7..03d68e2b6b70 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -6,6 +6,8 @@
+>   *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
+>  
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+>  #include <linux/atomic.h>
+>  #include <linux/kernel.h>
+>  #include <linux/list.h>
+> @@ -534,8 +536,7 @@ static int uvc_parse_format(struct uvc_device *dev,
+>  				sizeof(format->name));
+>  			format->fcc = fmtdesc->fcc;
+>  		} else {
+> -			uvc_printk(KERN_INFO, "Unknown video format %pUl\n",
+> -				&buffer[5]);
+> +			pr_info("Unknown video format %pUl\n", &buffer[5]);
+>  			snprintf(format->name, sizeof(format->name), "%pUl\n",
+>  				&buffer[5]);
+>  			format->fcc = 0;
+> @@ -1925,7 +1926,7 @@ static int uvc_scan_device(struct uvc_device *dev)
+>  		uvc_scan_fallback(dev);
+>  
+>  	if (list_empty(&dev->chains)) {
+> -		uvc_printk(KERN_INFO, "No valid video chain found.\n");
+> +		pr_info("No valid video chain found\n");
+>  		return -1;
+>  	}
+>  
+> @@ -2077,8 +2078,8 @@ int uvc_register_video_device(struct uvc_device *dev,
+>  
+>  	ret = video_register_device(vdev, VFL_TYPE_VIDEO, -1);
+>  	if (ret < 0) {
+> -		uvc_printk(KERN_ERR, "Failed to register %s device (%d).\n",
+> -			   v4l2_type_names[type], ret);
+> +		pr_err("Failed to register %s device (%d)\n",
+> +		       v4l2_type_names[type], ret);
+>  		return ret;
+>  	}
+>  
+> @@ -2094,8 +2095,7 @@ static int uvc_register_video(struct uvc_device *dev,
+>  	/* Initialize the streaming interface with default parameters. */
+>  	ret = uvc_video_init(stream);
+>  	if (ret < 0) {
+> -		uvc_printk(KERN_ERR, "Failed to initialize the device (%d).\n",
+> -			   ret);
+> +		pr_err("Failed to initialize the device (%d)\n", ret);
+>  		return ret;
+>  	}
+>  
+> @@ -2129,8 +2129,8 @@ static int uvc_register_terms(struct uvc_device *dev,
+>  
+>  		stream = uvc_stream_by_id(dev, term->id);
+>  		if (stream == NULL) {
+> -			uvc_printk(KERN_INFO, "No streaming interface found "
+> -				   "for terminal %u.", term->id);
+> +			pr_info("No streaming interface found for terminal %u\n",
+> +				term->id);
+>  			continue;
+>  		}
+>  
+> @@ -2163,8 +2163,7 @@ static int uvc_register_chains(struct uvc_device *dev)
+>  #ifdef CONFIG_MEDIA_CONTROLLER
+>  		ret = uvc_mc_register_entities(chain);
+>  		if (ret < 0)
+> -			uvc_printk(KERN_INFO,
+> -				   "Failed to register entities (%d).\n", ret);
+> +			pr_info("Failed to register entities (%d)\n", ret);
+>  #endif
+>  	}
+>  
+> @@ -2261,17 +2260,16 @@ static int uvc_probe(struct usb_interface *intf,
+>  		goto error;
+>  	}
+>  
+> -	uvc_printk(KERN_INFO, "Found UVC %u.%02x device %s (%04x:%04x)\n",
+> +	pr_info("Found UVC %u.%02x device %s (%04x:%04x)\n",
+>  		dev->uvc_version >> 8, dev->uvc_version & 0xff,
+>  		udev->product ? udev->product : "<unnamed>",
+>  		le16_to_cpu(udev->descriptor.idVendor),
+>  		le16_to_cpu(udev->descriptor.idProduct));
+>  
+>  	if (dev->quirks != dev->info->quirks) {
+> -		uvc_printk(KERN_INFO, "Forcing device quirks to 0x%x by module "
+> -			"parameter for testing purpose.\n", dev->quirks);
+> -		uvc_printk(KERN_INFO, "Please report required quirks to the "
+> -			"linux-uvc-devel mailing list.\n");
+> +		pr_info("Forcing device quirks to 0x%x by module parameter for testing purpose\n",
+> +			dev->quirks);
+> +		pr_info("Please report required quirks to the linux-uvc-devel mailing list\n");
+>  	}
+>  
+>  	/* Register the V4L2 device. */
+> @@ -2300,9 +2298,8 @@ static int uvc_probe(struct usb_interface *intf,
+>  
+>  	/* Initialize the interrupt URB. */
+>  	if ((ret = uvc_status_init(dev)) < 0) {
+> -		uvc_printk(KERN_INFO, "Unable to initialize the status "
+> -			"endpoint (%d), status interrupt will not be "
+> -			"supported.\n", ret);
+> +		pr_info("Unable to initialize the status endpoint (%d), status interrupt will not be supported\n",
+> +			ret);
+>  	}
+>  
+>  	uvc_trace(UVC_TRACE_PROBE, "UVC device initialized.\n");
+> diff --git a/drivers/media/usb/uvc/uvc_entity.c b/drivers/media/usb/uvc/uvc_entity.c
+> index ca3a9c2eec27..a5c11cde273c 100644
+> --- a/drivers/media/usb/uvc/uvc_entity.c
+> +++ b/drivers/media/usb/uvc/uvc_entity.c
+> @@ -6,6 +6,8 @@
+>   *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
+>  
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+>  #include <linux/kernel.h>
+>  #include <linux/list.h>
+>  #include <linux/videodev2.h>
+> @@ -139,8 +141,8 @@ int uvc_mc_register_entities(struct uvc_video_chain *chain)
+>  	list_for_each_entry(entity, &chain->entities, chain) {
+>  		ret = uvc_mc_init_entity(chain, entity);
+>  		if (ret < 0) {
+> -			uvc_printk(KERN_INFO, "Failed to initialize entity for "
+> -				   "entity %u\n", entity->id);
+> +			pr_info("Failed to initialize entity for entity %u\n",
+> +				entity->id);
+>  			return ret;
+>  		}
+>  	}
+> @@ -148,8 +150,8 @@ int uvc_mc_register_entities(struct uvc_video_chain *chain)
+>  	list_for_each_entry(entity, &chain->entities, chain) {
+>  		ret = uvc_mc_create_links(chain, entity);
+>  		if (ret < 0) {
+> -			uvc_printk(KERN_INFO, "Failed to create links for "
+> -				   "entity %u\n", entity->id);
+> +			pr_info("Failed to create links for entity %u\n",
+> +				entity->id);
+>  			return ret;
+>  		}
+>  	}
+> diff --git a/drivers/media/usb/uvc/uvc_status.c b/drivers/media/usb/uvc/uvc_status.c
+> index 2bdb0ff203f8..4c84525ada71 100644
+> --- a/drivers/media/usb/uvc/uvc_status.c
+> +++ b/drivers/media/usb/uvc/uvc_status.c
+> @@ -6,6 +6,8 @@
+>   *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
+>  
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+>  #include <linux/kernel.h>
+>  #include <linux/input.h>
+>  #include <linux/slab.h>
+> @@ -208,8 +210,8 @@ static void uvc_status_complete(struct urb *urb)
+>  		return;
+>  
+>  	default:
+> -		uvc_printk(KERN_WARNING, "Non-zero status (%d) in status "
+> -			"completion handler.\n", urb->status);
+> +		pr_warn("Non-zero status (%d) in status completion handler\n",
+> +			urb->status);
+>  		return;
+>  	}
+>  
+> @@ -244,8 +246,7 @@ static void uvc_status_complete(struct urb *urb)
+>  	/* Resubmit the URB. */
+>  	urb->interval = dev->int_ep->desc.bInterval;
+>  	if ((ret = usb_submit_urb(urb, GFP_ATOMIC)) < 0) {
+> -		uvc_printk(KERN_ERR, "Failed to resubmit status URB (%d).\n",
+> -			ret);
+> +		pr_err("Failed to resubmit status URB (%d)\n", ret);
+>  	}
+>  }
+>  
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index a6a441d92b94..6d48bcdeac16 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -6,6 +6,8 @@
+>   *          Laurent Pinchart (laurent.pinchart@ideasonboard.com)
+>   */
+>  
+> +#define pr_fmt(fmt) KBUILD_MODNAME ": " fmt
+> +
+>  #include <linux/kernel.h>
+>  #include <linux/list.h>
+>  #include <linux/module.h>
+> @@ -76,9 +78,8 @@ int uvc_query_ctrl(struct uvc_device *dev, u8 query, u8 unit,
+>  	if (likely(ret == size))
+>  		return 0;
+>  
+> -	uvc_printk(KERN_ERR,
+> -		   "Failed to query (%s) UVC control %u on unit %u: %d (exp. %u).\n",
+> -		   uvc_query_name(query), cs, unit, ret, size);
+> +	pr_err("Failed to query (%s) UVC control %u on unit %u: %d (exp. %u)\n",
+> +	       uvc_query_name(query), cs, unit, ret, size);
+>  
+>  	if (ret != -EPIPE)
+>  		return ret;
+> @@ -254,9 +255,8 @@ static int uvc_get_video_ctrl(struct uvc_streaming *stream,
+>  		ret = -EIO;
+>  		goto out;
+>  	} else if (ret != size) {
+> -		uvc_printk(KERN_ERR, "Failed to query (%u) UVC %s control : "
+> -			"%d (exp. %u).\n", query, probe ? "probe" : "commit",
+> -			ret, size);
+> +		pr_err("Failed to query (%u) UVC %s control : %d (exp. %u)\n",
+> +		       query, probe ? "probe" : "commit", ret, size);
+>  		ret = -EIO;
+>  		goto out;
+>  	}
+> @@ -334,9 +334,8 @@ static int uvc_set_video_ctrl(struct uvc_streaming *stream,
+>  		probe ? UVC_VS_PROBE_CONTROL : UVC_VS_COMMIT_CONTROL, data,
+>  		size, uvc_timeout_param);
+>  	if (ret != size) {
+> -		uvc_printk(KERN_ERR, "Failed to set UVC %s control : "
+> -			"%d (exp. %u).\n", probe ? "probe" : "commit",
+> -			ret, size);
+> +		pr_err("Failed to set UVC %s control : %d (exp. %u)\n",
+> +		       probe ? "probe" : "commit", ret, size);
+>  		ret = -EIO;
+>  	}
+>  
+> @@ -1120,8 +1119,7 @@ static void uvc_video_copy_data_work(struct work_struct *work)
+>  
+>  	ret = usb_submit_urb(uvc_urb->urb, GFP_KERNEL);
+>  	if (ret < 0)
+> -		uvc_printk(KERN_ERR, "Failed to resubmit video URB (%d).\n",
+> -			   ret);
+> +		pr_err("Failed to resubmit video URB (%d)\n", ret);
+>  }
+>  
+>  static void uvc_video_decode_data(struct uvc_urb *uvc_urb,
+> @@ -1507,8 +1505,8 @@ static void uvc_video_complete(struct urb *urb)
+>  		break;
+>  
+>  	default:
+> -		uvc_printk(KERN_WARNING, "Non-zero status (%d) in video "
+> -			"completion handler.\n", urb->status);
+> +		pr_warn("Non-zero status (%d) in video completion handler\n",
+> +			urb->status);
+>  		fallthrough;
+>  	case -ENOENT:		/* usb_poison_urb() called. */
+>  		if (stream->frozen)
+> @@ -1545,9 +1543,7 @@ static void uvc_video_complete(struct urb *urb)
+>  	if (!uvc_urb->async_operations) {
+>  		ret = usb_submit_urb(uvc_urb->urb, GFP_ATOMIC);
+>  		if (ret < 0)
+> -			uvc_printk(KERN_ERR,
+> -				   "Failed to resubmit video URB (%d).\n",
+> -				   ret);
+> +			pr_err("Failed to resubmit video URB (%d)\n", ret);
+>  		return;
+>  	}
+>  
+> @@ -1893,8 +1889,8 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
+>  	for_each_uvc_urb(uvc_urb, stream) {
+>  		ret = usb_submit_urb(uvc_urb->urb, gfp_flags);
+>  		if (ret < 0) {
+> -			uvc_printk(KERN_ERR, "Failed to submit URB %u (%d).\n",
+> -				   uvc_urb_index(uvc_urb), ret);
+> +			pr_err("Failed to submit URB %u (%d)\n",
+> +			       uvc_urb_index(uvc_urb), ret);
+>  			uvc_video_stop_transfer(stream, 1);
+>  			return ret;
+>  		}
+> @@ -1989,7 +1985,7 @@ int uvc_video_init(struct uvc_streaming *stream)
+>  	int ret;
+>  
+>  	if (stream->nformats == 0) {
+> -		uvc_printk(KERN_INFO, "No supported video formats found.\n");
+> +		pr_info("No supported video formats found\n");
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -2029,8 +2025,7 @@ int uvc_video_init(struct uvc_streaming *stream)
+>  	}
+>  
+>  	if (format->nframes == 0) {
+> -		uvc_printk(KERN_INFO, "No frame descriptor found for the "
+> -			"default format.\n");
+> +		pr_info("No frame descriptor found for the default format\n");
+>  		return -EINVAL;
+>  	}
+>  
+> @@ -2064,8 +2059,7 @@ int uvc_video_init(struct uvc_streaming *stream)
+>  		if (stream->intf->num_altsetting == 1)
+>  			stream->decode = uvc_video_encode_bulk;
+>  		else {
+> -			uvc_printk(KERN_INFO, "Isochronous endpoints are not "
+> -				"supported for video output devices.\n");
+> +			pr_info("Isochronous endpoints are not supported for video output devices\n");
+>  			return -EINVAL;
+>  		}
+>  	}
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index a3dfacf069c4..724dec20444a 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -725,20 +725,17 @@ extern unsigned int uvc_trace_param;
+>  extern unsigned int uvc_timeout_param;
+>  extern unsigned int uvc_hw_timestamps_param;
+>  
+> -#define uvc_trace(flag, msg...) \
+> -	do { \
+> -		if (uvc_trace_param & flag) \
+> -			printk(KERN_DEBUG "uvcvideo: " msg); \
+> -	} while (0)
 > -
+> -#define uvc_warn_once(dev, warn, msg...) \
+> -	do { \
+> -		if (!test_and_set_bit(warn, &dev->warnings)) \
+> -			printk(KERN_INFO "uvcvideo: " msg); \
+> -	} while (0)
+> -
+> -#define uvc_printk(level, msg...) \
+> -	printk(level "uvcvideo: " msg)
+> +#define uvc_trace(flag, fmt, ...)					\
+> +do {									\
+> +	if (uvc_trace_param & flag)					\
+> +		printk(KERN_DEBUG "uvcvideo: " fmt, ##__VA_ARGS__);	\
+> +} while (0)
+> +
+> +#define uvc_warn_once(dev, warn, fmt, ...)				\
+> +do {									\
+> +	if (!test_and_set_bit(warn, &(dev)->warnings))			\
+> +		pr_info(fmt, ##__VA_ARGS__);				\
+> +} while (0)
+>  
+>  /* --------------------------------------------------------------------------
+>   * Internal functions.
 > 
-> The issue with video2 and video3 can actually put something in
-> perspective.
 > 
-> When systemd/udev detects a video device, it runs the ruleset at:
-> 
-> 	/usr/lib/udev/rules.d/60-persistent-v4l.rules
-> 
-> Which calls a program:
-> 
-> 	/usr/lib/udev/v4l_id
-> 
-> via those rules:
-> 
-> 	SUBSYSTEMS=="usb", IMPORT{builtin}="usb_id"
-> 	KERNEL=="video*", ENV{ID_SERIAL}=="?*", SYMLINK+="v4l/by-id/$env{ID_BUS}-$env{ID_SERIAL}-video-index$attr{index}"
-> 
-> This small program checks the features on all V4L2 devices (a simplified
-> version of v4l2-ctl --all) and populate the aliases under /dev/v4l.
-> 
-> As it didn't create any nodes at /dev/v4l/by-id for video2 and video3,
-> perhaps, due to a bug somewhere, this program is locked, and it is keeping
-> the device opened. If this is the case, you can indeed receive -EBUSY when
-> trying to access the device nodes.
-> 
-> Another weird thing is that the same USB device at:
-> 	
-> 	pci-0000:3c:00.0-usb-0:1.1.1.2:1
-> 
-> is creating 4 devnodes instead of two. This command may help to
-> better understand what's happening:
-> 
-> 	$ lsusb -t
-> 
-> But usually USB camera devices have an internal hub, with multiple
-> ports on it, like my Logitech camera:
-> 
-> /:  Bus 01.Port 1: Dev 1, Class=root_hub, Driver=xhci_hcd/16p, 480M
->     |__ Port 3: Dev 2, If 0, Class=Hub, Driver=hub/4p, 480M
->         |__ Port 4: Dev 5, If 0, Class=Hub, Driver=hub/4p, 480M
->         |__ Port 2: Dev 8, If 2, Class=Audio, Driver=snd-usb-audio, 480M
->         |__ Port 2: Dev 8, If 0, Class=Video, Driver=uvcvideo, 480M
->         |__ Port 2: Dev 8, If 3, Class=Audio, Driver=snd-usb-audio, 480M
->         |__ Port 2: Dev 8, If 1, Class=Video, Driver=uvcvideo, 480M
->         |__ Port 1: Dev 4, If 1, Class=Human Interface Device, Driver=usbhid, 12M
->         |__ Port 1: Dev 4, If 2, Class=Human Interface Device, Driver=usbhid, 12M
->         |__ Port 1: Dev 4, If 0, Class=Human Interface Device, Driver=usbhid, 12M
-> 
-> At the above, uvcvideo is used on port 2.
-> 
-> On your case, both port 0 and port 2 seem to be reporting an UVC
-> camera, which sounds wrong. On a first glance, that sounds to be a
-> problem at the USB descriptors stored at the device's EEPROM.
-
-What's the output of 'lsusb -v -d 04f2:b612' (running as root if
-possible) ?
 
 -- 
 Regards,
