@@ -2,271 +2,146 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 595222A6D45
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 19:57:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 43CDF2A6D5E
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 20:03:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731297AbgKDS45 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 13:56:57 -0500
-Received: from new4-smtp.messagingengine.com ([66.111.4.230]:52823 "EHLO
-        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731897AbgKDS45 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Nov 2020 13:56:57 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id 3E3C2580791;
-        Wed,  4 Nov 2020 13:56:55 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
-  by compute6.internal (MEProxy); Wed, 04 Nov 2020 13:56:55 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=OVc/96aODvJeJoiBmnUW9Y0oJ7/
-        fFA1GzRqunAxPing=; b=tr1DljGPY9MWd7f90ap+INggtuV4FGeMUU+fcZ0zoIN
-        vF8JS4egEUyq61VRW2eRlAhIaa3F2Y8OITQlcc3ddrK2Q5ANgoKh+GuQiUxLSlJj
-        OJj/8aL8x1z1qUpppGGLMzL6Dqa5QllobEh+OtCW4cu0kwQW4L5WTEEtOj3pjkmF
-        bWAdBYQiBx3coHKEmdhQvQlfLE4WGkI0/6+Sivx73NRY4sG0BhN5gFnHqp+ylBWX
-        2QWMbY2TkA/dEVo3Nhia8dGAxo1hxCmGzVOnpvD9W+yB4XFu3TKHA2L68TJM6Q8v
-        jrAxjivO+hQ0ne/T3cHCYYs+Wd80b/8guk6u52gNexQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=OVc/96
-        aODvJeJoiBmnUW9Y0oJ7/fFA1GzRqunAxPing=; b=anMjAzC9sweKpPacv/4IgD
-        WKVDXQJpL4KrjsMH3GnGsJsQr897zB5gs6ioYdraAtq77CqRPHj25uha13q1kp85
-        OB64S87MejQlWhbiL+DoZcSfMmG9aMpk39fewdmcRzlOuI3seGEa6UrlIuu4/4ts
-        WKYOiiXGSgk0eshuamrIKtNOE9YcoR5IQqEWY1fc3pkAiOusIRau0/AdQpqmwOWU
-        vbChV6ooLdEmTkh2NzeQGhpZ6X6968VsFgeS6q33bMr1H+S7yP4KGTKOgM1038d0
-        SOIuVeeGGgbIGOf4yKDGGLg/31NXudsXiTMzf7xBkvBEOjjfv9kK1CNuQ1/NzIZA
-        ==
-X-ME-Sender: <xms:c_miX3rtHcLumC4p-mi0fiMAgww2OegeZq4rdUEYv5PBmj5igP3ckA>
-    <xme:c_miXxrVh4qiQ8EkwuoWJabkpNDGMxDneEE-Aj0zPFSCf312ngsgne6GWc68VEp_K
-    8mrCVQ6abtrHJehNpg>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddthedguddvtdcutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
-    enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
-    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
-    htthgvrhhnpeelkeeghefhuddtleejgfeljeffheffgfeijefhgfeufefhtdevteegheei
-    heegudenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtne
-    curfgrrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:c_miX0Nwo_wpV9cEK464ZgMgFr1GB44ezhZVpbYEZadFEhYfBJzaNQ>
-    <xmx:c_miX65qGkVL_cMX37jJ2twHMrEnhTTgvSTwKzRmww6irSAsU2XT7g>
-    <xmx:c_miX26Ew6AVZJxi2ZRZDctIRVEQRd6lanB4f72B8tO0gmV3mm2YIw>
-    <xmx:d_miXzwLttgMJJHUTB-GWAFeI3FwUd5oJ4EdKCw7gh9JTbMEnktz8A>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 24349328038E;
-        Wed,  4 Nov 2020 13:56:51 -0500 (EST)
-Date:   Wed, 4 Nov 2020 19:56:50 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com,
+        id S1730323AbgKDTC0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 14:02:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60418 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730429AbgKDTCR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 14:02:17 -0500
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5AC13C061A4A
+        for <linux-media@vger.kernel.org>; Wed,  4 Nov 2020 11:02:16 -0800 (PST)
+Received: by mail-qt1-x844.google.com with SMTP id c5so12982224qtw.3
+        for <linux-media@vger.kernel.org>; Wed, 04 Nov 2020 11:02:16 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=/UKgc10BslmqBEq+jaLxahr/MEdpryS7jFqE+Dnr3vI=;
+        b=HhJHYDe4YHd+/a56BdoqnLrywV6UfuBf/DsyHbP4QvtBlGMcnvi67aThLz1LQnQ9C7
+         8EemYt7CTkS9B+W9jO8pXOPnbTizt3Pe9397JG9VN2ZMIG13OJgH9kNFKGqXLgoE3Hzj
+         V1vv8lw5Pa9YVxFQjZfe4EOFce5bInYTuWldtvqSVrDDdmTUopOFroR+gBfYNDg6Uuau
+         3Jp2luUDv74e1JR/3SaJIovsmPrALIHM4h9v9NFcni+HQF+v8Dr91QTVCCYUEOxMud09
+         LLulIis0YmYr2jolcahGS2sbLtv9wbZ7FKZV2VUnjcWsESvH7Lm4q6CoSzm/SgrhfDUT
+         xwVw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=/UKgc10BslmqBEq+jaLxahr/MEdpryS7jFqE+Dnr3vI=;
+        b=mBMYzgLK1AbvHbBoJbgpOSvY5nr7ICGbW3IlWWTlTgpHQ/ll8IxSWbitgcIzHyBmhR
+         BB8nP1Kx8Xgcte7fKRm42o1i3UGn6K5IT69AdkxmVB2TfFeG+aNflzy1S3mj3/rHhi4r
+         9in51F8QQqpxZZGe7gCD6VM8A11tKs8Cskd28wG3iK8JTBMxA5+QXsBGhEiL+NxE4HVh
+         DTrvtcUWCmuzvg5vZymAlU/8m6xPgr76Hvk9n5DcHbJ0OE5zwZpyKGaRmgy1+SAml8S9
+         gGpEc/SALm7SsRwBTxlKenDMqrd1cq6rJc2GdIUmOOutYb+QDYb5RR9BDSBLURIUr/Ph
+         LoyA==
+X-Gm-Message-State: AOAM5328vo64sCReD91xit9RIIWc6oD8X98q442TH6aA+Lbg8n7j4L40
+        +kxH1JAoCYguZZwjsKBm21nGrQ==
+X-Google-Smtp-Source: ABdhPJx0R0pt2rE5Fh6PKobat9BHCWAKjXRAimq+VPJpufi8x0s4Mnx78kA46TVhPrgcaUAjwr3r5w==
+X-Received: by 2002:ac8:5948:: with SMTP id 8mr20543496qtz.215.1604516535414;
+        Wed, 04 Nov 2020 11:02:15 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id h9sm710672qth.78.2020.11.04.11.02.14
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2020 11:02:14 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1kaO2w-00Gbbx-2K; Wed, 04 Nov 2020 15:02:14 -0400
+Date:   Wed, 4 Nov 2020 15:02:14 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>
+Cc:     Christoph Hellwig <hch@infradead.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        J??r??me Glisse <jglisse@redhat.com>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>,
+        KVM list <kvm@vger.kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Yong Deng <yong.deng@magewell.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com
-Subject: Re: [PATCH 08/14] media: sunxi: Add support for the A31 MIPI CSI-2
- controller
-Message-ID: <20201104185650.ii7dlekjtfar2xpp@gilmour.lan>
-References: <20201023174546.504028-1-paul.kocialkowski@bootlin.com>
- <20201023174546.504028-9-paul.kocialkowski@bootlin.com>
- <20201026165407.rrq6ccsexcsub5bm@gilmour.lan>
- <20201104113458.GC287014@aptenodytes>
+        LKML <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
+Message-ID: <20201104190214.GW36674@ziepe.ca>
+References: <7f29a42a-c408-525d-90b7-ef3c12b5826c@nvidia.com>
+ <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
+ <20201104140023.GQ36674@ziepe.ca>
+ <CAKMK7uH69hsFjYUkjg1aTh5f=q_3eswMSS5feFs6+ovz586+0A@mail.gmail.com>
+ <20201104162125.GA13007@infradead.org>
+ <CAKMK7uH=0+3FSR4LxP7bJUB4BsCcnCzfK2=D+2Am9QNmfZEmfw@mail.gmail.com>
+ <20201104163758.GA17425@infradead.org>
+ <20201104164119.GA18218@infradead.org>
+ <20201104181708.GU36674@ziepe.ca>
+ <d3497583-2338-596e-c764-8c571b7d22cf@nvidia.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="ivpywtswxref2r4j"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201104113458.GC287014@aptenodytes>
+In-Reply-To: <d3497583-2338-596e-c764-8c571b7d22cf@nvidia.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed, Nov 04, 2020 at 10:44:56AM -0800, John Hubbard wrote:
+> On 11/4/20 10:17 AM, Jason Gunthorpe wrote:
+> > On Wed, Nov 04, 2020 at 04:41:19PM +0000, Christoph Hellwig wrote:
+> > > On Wed, Nov 04, 2020 at 04:37:58PM +0000, Christoph Hellwig wrote:
+> > > > On Wed, Nov 04, 2020 at 05:26:58PM +0100, Daniel Vetter wrote:
+> > > > > What we're discussing is whether gup_fast and pup_fast also obey this,
+> > > > > or fall over and can give you the struct page that's backing the
+> > > > > dma_mmap_* memory. Since the _fast variant doesn't check for
+> > > > > vma->vm_flags, and afaict that's the only thing which closes this gap.
+> > > > > And like you restate, that would be a bit a problem. So where's that
+> > > > > check which Jason&me aren't spotting?
+> > > > 
+> > > > remap_pte_range uses pte_mkspecial to set up the PTEs, and gup_pte_range
+> > > > errors out on pte_special.  Of course this only works for the
+> > > > CONFIG_ARCH_HAS_PTE_SPECIAL case, for other architectures we do have
+> > > > a real problem.
+> > > 
+> > > Except that we don't really support pte-level gup-fast without
+> > > CONFIG_ARCH_HAS_PTE_SPECIAL, and in fact all architectures selecting
+> > > HAVE_FAST_GUP also select ARCH_HAS_PTE_SPECIAL, so we should be fine.
+> > 
+> > Mm, I thought it was probably the special flag..
+> > 
+> > Knowing that CONFIG_HAVE_FAST_GUP can't be set without
+> > CONFIG_ARCH_HAS_PTE_SPECIAL is pretty insightful, can we put that in
+> > the Kconfig?
+> > 
+> > config HAVE_FAST_GUP
+> >          depends on MMU
+> >          depends on ARCH_HAS_PTE_SPECIAL
+> >          bool
+> > 
+> Well, the !CONFIG_ARCH_HAS_PTE_SPECIAL case points out in a comment that
+> gup-fast is not *completely* unavailable there, so I don't think you want
+> to shut it off like that:
+> 
+> /*
+>  * If we can't determine whether or not a pte is special, then fail immediately
+>  * for ptes. Note, we can still pin HugeTLB and THP as these are guaranteed not
+>  * to be special.
+>  *
+>  * For a futex to be placed on a THP tail page, get_futex_key requires a
+>  * get_user_pages_fast_only implementation that can pin pages. Thus it's still
+>  * useful to have gup_huge_pmd even if we can't operate on ptes.
+>  */
 
---ivpywtswxref2r4j
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+I saw that once and I really couldn't make sense of it..
+What use is having futex's that only work on THP pages? Confused
 
-On Wed, Nov 04, 2020 at 12:34:58PM +0100, Paul Kocialkowski wrote:
-> > > +	regmap_write(regmap, SUN6I_MIPI_CSI2_CFG_REG,
-> > > +		     SUN6I_MIPI_CSI2_CFG_CHANNEL_MODE(1) |
-> > > +		     SUN6I_MIPI_CSI2_CFG_LANE_COUNT(lanes_count));
-> >=20
-> > It's not really clear what the channel is here? The number of virtual
-> > channels? Something else?
->=20
-> That's somewhat described in the controller documentation. Channels refer=
-s to
-> physical channels of the controller, which can be used to redirect data
-> matching either a specific data type, a specific virtual channel, or both.
-> There's a somewhat similar concept of channels in the CSI controller too.
->=20
-> We're currently only using one...
->=20
-> > > +	regmap_write(regmap, SUN6I_MIPI_CSI2_VCDT_RX_REG,
-> > > +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(3, 3) |
-> > > +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(2, 2) |
-> > > +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(1, 1) |
-> > > +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(0, 0) |
-> > > +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_DT(0, data_type));
->=20
-> ... but it's safer to configure them all to virtual channel numbers so we=
- don't
-> end up with multiple channels matching virtual channel 0.
->=20
-> I'll add a comment about that.
+CH said there was no case of HAVE_FAST_GUP !ARCH_HAS_PTE_SPECIAL, is
+one hidden someplace then?
 
-Maybe we should have pads for all of them then, even if we don't support
-changing anything?
-
-> > > +static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_subdev_pad_o=
-ps =3D {
-> > > +	.enum_mbus_code		=3D sun6i_mipi_csi2_enum_mbus_code,
-> > > +	.get_fmt		=3D sun6i_mipi_csi2_get_fmt,
-> > > +	.set_fmt		=3D sun6i_mipi_csi2_set_fmt,
-> > > +	.enum_frame_size	=3D sun6i_mipi_csi2_enum_frame_size,
-> > > +	.enum_frame_interval	=3D sun6i_mipi_csi2_enum_frame_interval,
-> > > +};
-> > > +
-> > > +/* Subdev */
-> > > +
-> > > +static const struct v4l2_subdev_ops sun6i_mipi_csi2_subdev_ops =3D {
-> > > +	.core		=3D &sun6i_mipi_csi2_subdev_core_ops,
-> > > +	.video		=3D &sun6i_mipi_csi2_subdev_video_ops,
-> > > +	.pad		=3D &sun6i_mipi_csi2_subdev_pad_ops,
-> > > +};
-> > > +
-> > > +/* Notifier */
-> > > +
-> > > +static int sun6i_mipi_csi2_notifier_bound(struct v4l2_async_notifier=
- *notifier,
-> > > +					  struct v4l2_subdev *remote_subdev,
-> > > +					  struct v4l2_async_subdev *remote_subdev_async)
-> > > +{
-> > > +	struct v4l2_subdev *subdev =3D notifier->sd;
-> > > +	struct sun6i_mipi_csi2_video *video =3D
-> > > +		sun6i_mipi_csi2_subdev_video(subdev);
-> > > +	struct sun6i_mipi_csi2_dev *cdev =3D sun6i_mipi_csi2_video_dev(vide=
-o);
-> > > +	int source_pad;
-> > > +	int ret;
-> > > +
-> > > +	source_pad =3D media_entity_get_fwnode_pad(&remote_subdev->entity,
-> > > +						 remote_subdev->fwnode,
-> > > +						 MEDIA_PAD_FL_SOURCE);
-> > > +	if (source_pad < 0)
-> > > +		return source_pad;
-> > > +
-> > > +	ret =3D media_create_pad_link(&remote_subdev->entity, source_pad,
-> > > +				    &subdev->entity, 0,
-> > > +				    MEDIA_LNK_FL_ENABLED |
-> > > +				    MEDIA_LNK_FL_IMMUTABLE);
-> > > +	if (ret) {
-> > > +		dev_err(cdev->dev, "failed to create %s:%u -> %s:%u link\n",
-> > > +			remote_subdev->entity.name, source_pad,
-> > > +			subdev->entity.name, 0);
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	video->remote_subdev =3D remote_subdev;
-> > > +	video->remote_pad_index =3D source_pad;
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static const struct v4l2_async_notifier_operations sun6i_mipi_csi2_n=
-otifier_ops =3D {
-> > > +	.bound		=3D sun6i_mipi_csi2_notifier_bound,
-> > > +};
-> > > +
-> > > +/* Media Entity */
-> > > +
-> > > +static int sun6i_mipi_csi2_link_validate(struct media_link *link)
-> > > +{
-> > > +	struct v4l2_subdev *subdev =3D
-> > > +		container_of(link->sink->entity, struct v4l2_subdev, entity);
-> > > +	struct sun6i_mipi_csi2_video *video =3D
-> > > +		sun6i_mipi_csi2_subdev_video(subdev);
-> > > +	struct v4l2_subdev *remote_subdev;
-> > > +	struct v4l2_subdev_format format =3D { 0 };
-> > > +	int ret;
-> > > +
-> > > +	if (!is_media_entity_v4l2_subdev(link->source->entity))
-> > > +		return -EINVAL;
-> > > +
-> > > +	remote_subdev =3D media_entity_to_v4l2_subdev(link->source->entity);
-> > > +
-> > > +	format.which =3D V4L2_SUBDEV_FORMAT_ACTIVE;
-> > > +	format.pad =3D link->source->index;
-> > > +
-> > > +	ret =3D v4l2_subdev_call(remote_subdev, pad, get_fmt, NULL, &format=
-);
-> > > +	if (ret)
-> > > +		return ret;
-> > > +
-> > > +	video->mbus_code =3D format.format.code;
-> > > +
-> > > +	return 0;
-> > > +}
-> >=20
-> > I'm not really sure what you're trying to validate here?
->=20
-> The whole purpose is to retreive video->mbus_code from the subdev, like i=
-t's
-> done in the sun6i-csi driver. Maybe there is a more appropriate op to do =
-it?
-
-I'm not sure why you need to do that in the link_validate though?
-
-You just need to init the pad format, and then you'll have a
-get_fmt/set_fmt for your pads.
-
-> > > +	cdev->regmap =3D devm_regmap_init_mmio_clk(&pdev->dev, "bus", io_ba=
-se,
-> > > +						 &sun6i_mipi_csi2_regmap_config);
-> > > +	if (IS_ERR(cdev->regmap)) {
-> > > +		dev_err(&pdev->dev, "failed to init register map\n");
-> > > +		return PTR_ERR(cdev->regmap);
-> > > +	}
-> >=20
-> > Yeah, so that won't work. regmap expects to have access to those
-> > registers when you enable that clock, but that won't happen since the
-> > reset line can be disabled. You would be better off using runtime_pm
-> > here.
->=20
-> I don't understand what you mean here or what the problem could be.
-> Here we're just initializing regmap and while this is done before the
-> registers are available for I/O, I don't see why it would cause any
-> issue at this point.
-
-The regmap here is supposed to take care of the resources, except it
-only does it for some of the resources here, which kind of breaks the
-expectations. And it doesn't allow you to have the reset / clock
-sequence properly done.
-
-> The exact same thing is done in the CSI driver.
-
-That's not an argument though, is it? :)
-
-Maxime
-
---ivpywtswxref2r4j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX6L5cQAKCRDj7w1vZxhR
-xapUAPkBCQbEYpxpQRc2dQrlYckdrRucLdZjrw4DyHXeRpWXKwD8D9vPu/MJrl2p
-3cE184xWD5PpdHRseodrz4F6IAC7tA4=
-=egrI
------END PGP SIGNATURE-----
-
---ivpywtswxref2r4j--
+Jason
