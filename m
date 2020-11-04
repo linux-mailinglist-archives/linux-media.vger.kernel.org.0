@@ -2,144 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F00702A6422
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 13:20:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 635952A646D
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 13:32:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729633AbgKDMUo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 07:20:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52868 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729309AbgKDMUn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 07:20:43 -0500
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5B7D9C0613D3
-        for <linux-media@vger.kernel.org>; Wed,  4 Nov 2020 04:20:43 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id s9so21803991wro.8
-        for <linux-media@vger.kernel.org>; Wed, 04 Nov 2020 04:20:43 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=lZdzvdy8Sq/De4RJgo6r7FB2yFdSB02eJWDSBMpYBRk=;
-        b=fo4Or3XT0QeNT5saduNiJXJS8Liqaadfz/Q0lKIJZYClqpnQ1BwQodPlnr/9LXVNk7
-         hwu1lpIUmrXoL+ENXZRgR8Llp6Yqe2vh77sDze0HmHFcYy8iOcMFdAbvqKh+uBjNPRDN
-         1yGMf03qRaWwua7rfpGJ5iF/YVP5NRrgoj4Lx7Bp5syag13/e/IceZ8pEhgEvqSXSFTo
-         ZO+cIN8up4rtQgOq2lbBqP6DWBxo0PCOpJyij6NQBB1/0iNBauv/iEA6PNy3fY/Jy1nN
-         0Xs1AY5b+AvnYp9JRhLpdu8DYZzcICTxm2OqXUTpbNDv7VoBDW/jXJZX7dUc2Bj8j8RV
-         XzLQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=lZdzvdy8Sq/De4RJgo6r7FB2yFdSB02eJWDSBMpYBRk=;
-        b=Z1VntOVWYsHWJ4JSOWB8OhOvs2r0MrdgswKtpN4NPMqJz8pESHoaoOxmlfH2FtVjc1
-         oEN2rewcpIjR4Z4uhxCybHf4shol+2imMOtXzu+Owd3QPoXrGAN3tAS0eyO1CKT7k4T0
-         86t+ha1DZjLFpR9PbB0LacvvmNuOpl1aakTx8sADIBkWdEo1oE52L7w3uJmsCtBvc/CE
-         Q0Yt/l16aBU3huZzvksj7boLMIbXfTg+zy2z+Rurd+HFBEWIYKCNmKnqjCrlnrwLPdtB
-         h9gw6kQ6uiKm4tu4g7WpCp3YKCfb8vRRYECC6CAgt0nZ1hSmh7IBFa8nIqcpP6vwFdZo
-         vAog==
-X-Gm-Message-State: AOAM532RnlrrlpOS1N21TFAOSMn7gtUkQoGPDaGKMsM4m8IB1Ze/Xnp8
-        +ePzVeTbRf9rMh8/R+Am9FCXvoU+jig2ctWNfjf2Aw==
-X-Google-Smtp-Source: ABdhPJyDH5PAEDDM3aIm4nxu1r3ZmmPw4zBE1UDIMrybf1d5DTXL6cy0Grkyk3LaMe9ED57DhlZtq61Ac3RZWMuuBBQ=
-X-Received: by 2002:adf:dd90:: with SMTP id x16mr18160884wrl.47.1604492442046;
- Wed, 04 Nov 2020 04:20:42 -0800 (PST)
+        id S1729770AbgKDMc0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 07:32:26 -0500
+Received: from mga02.intel.com ([134.134.136.20]:7261 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729227AbgKDMc0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Nov 2020 07:32:26 -0500
+IronPort-SDR: WN2j2581Y/d5hu/xp2RQ3eZqagDocSyTFItk8lO5THJW33o5x/Q/l+CTNu76BJHEBjpq3TvZyf
+ EHMFdRy+L71Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9794"; a="156197548"
+X-IronPort-AV: E=Sophos;i="5.77,450,1596524400"; 
+   d="scan'208";a="156197548"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga001.fm.intel.com ([10.253.24.23])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2020 04:32:24 -0800
+IronPort-SDR: YHw6fr4NpvYaMsecxJpsx6tDZ4AfP78kSnkfTF+lSC8swYt6M+WFmJRY1TxJ3ktuTFhFbkWT1W
+ yX8B6VWv82iw==
+X-IronPort-AV: E=Sophos;i="5.77,450,1596524400"; 
+   d="scan'208";a="426653312"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2020 04:32:20 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 8131120A2D; Wed,  4 Nov 2020 14:32:18 +0200 (EET)
+Date:   Wed, 4 Nov 2020 14:32:18 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        kernel@collabora.com, dafna3@gmail.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        tfiga@chromium.org
+Subject: Re: [PATCH v3 1/2] media: uapi: add MEDIA_BUS_FMT_METADATA_FIXED
+ media bus format.
+Message-ID: <20201104123218.GQ26150@paasikivi.fi.intel.com>
+References: <20201030134609.30020-1-dafna.hirschfeld@collabora.com>
+ <20201030140241.GQ26150@paasikivi.fi.intel.com>
+ <5c8852f5-a803-1bd0-7798-3cca0d7ee9ea@xs4all.nl>
 MIME-Version: 1.0
-References: <20201104103622.595908-1-jacopo@jmondi.org> <20201104103622.595908-21-jacopo@jmondi.org>
-In-Reply-To: <20201104103622.595908-21-jacopo@jmondi.org>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Wed, 4 Nov 2020 12:20:26 +0000
-Message-ID: <CAPY8ntBEzMwXqQhAaa6QbNx0Dg_BvAcSO3J8BXw57-vjgPqxmg@mail.gmail.com>
-Subject: Re: [PATCH v2 20/30] media: ov5647: Program mode only if it has changed
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>,
-        Naushir Patuck <naush@raspberrypi.com>, erosca@de.adit-jv.com
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <5c8852f5-a803-1bd0-7798-3cca0d7ee9ea@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Jacopo
+Hi Hans,
 
-On Wed, 4 Nov 2020 at 10:37, Jacopo Mondi <jacopo@jmondi.org> wrote:
->
-> Store in the driver structure a pointer to the currently applied mode
-> and program a new one at s_stream(1) time only if it has changed.
+On Wed, Nov 04, 2020 at 01:16:03PM +0100, Hans Verkuil wrote:
+> On 30/10/2020 15:02, Sakari Ailus wrote:
+> > Hi Dafna,
+> > 
+> > On Fri, Oct 30, 2020 at 02:46:08PM +0100, Dafna Hirschfeld wrote:
+> >> MEDIA_BUS_FMT_METADATA_FIXED should be used when
+> >> the same driver handles both sides of the link and
+> >> the bus format is a fixed metadata format that is
+> >> not configurable from userspace.
+> >> The width and height will be set to 0 for this format.
+> >>
+> >> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> >> Acked-by: Helen Koike <helen.koike@collabora.com>
+> >> ---
+> >> changes since v2:
+> >> added documentation in subdev-formats.rst
+> >> changes since v1:
+> >> 1. replace "This format may have 0 height and width."
+> >> with "Width and height will be set to 0 for this format."
+> >> and add it also to the commit log
+> >> 2. s/meida:/media:/ in the patch subject line
+> >>
+> >>  .../media/v4l/subdev-formats.rst              | 27 +++++++++++++++++++
+> >>  include/uapi/linux/media-bus-format.h         |  8 ++++++
+> >>  2 files changed, 35 insertions(+)
+> >>
+> >> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> >> index c9b7bb3ca089..7f16cbe46e5c 100644
+> >> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> >> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> >> @@ -7899,3 +7899,30 @@ formats.
+> >>        - 0x5001
+> >>        - Interleaved raw UYVY and JPEG image format with embedded meta-data
+> >>  	used by Samsung S3C73MX camera sensors.
+> >> +
+> >> +.. _v4l2-mbus-metadata-fmts:
+> >> +
+> >> +Metadata Formats
+> >> +^^^^^^^^^^^^^^^^
+> >> +
+> >> +This section lists all metadata formats.
+> >> +
+> >> +The following table lists the existing metadata formats.
+> >> +
+> >> +.. tabularcolumns:: |p{8.0cm}|p{1.4cm}|p{7.7cm}|
+> >> +
+> >> +.. flat-table:: Metadata formats
+> >> +    :header-rows:  1
+> >> +    :stub-columns: 0
+> >> +
+> >> +    * - Identifier
+> >> +      - Code
+> >> +      - Comments
+> >> +    * .. _MEDIA-BUS-FMT-METADATA-FIXED:
+> >> +
+> >> +      - MEDIA_BUS_FMT_METADATA_FIXED
+> >> +      - 0x7001
+> >> +      - This format should be used when the same driver handles
+> >> +	both sides of the link and the bus format is a fixed
+> >> +	metadata format that is not configurable from userspace.
+> >> +	Width and height will be set to 0 for this format.
+> >> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+> >> index 84fa53ffb13f..2ce3d891d344 100644
+> >> --- a/include/uapi/linux/media-bus-format.h
+> >> +++ b/include/uapi/linux/media-bus-format.h
+> >> @@ -156,4 +156,12 @@
+> >>  /* HSV - next is	0x6002 */
+> >>  #define MEDIA_BUS_FMT_AHSV8888_1X32		0x6001
+> >>  
+> >> +/*
+> >> + * This format should be used when the same driver handles
+> >> + * both sides of the link and the bus format is a fixed
+> >> + * metadata format that is not configurable from userspace.
+> >> + * Width and height will be set to 0 for this format.
+> >> + */
+> > 
+> > Does this mean that metadata with dimensions should not use
+> > MEDIA_BUS_FMT_METADATA_FIXED? I guess that's not the intention? For some
+> > formats the dimensions would be relevant but for others not. I'd thus
+> > replace "will" by "may". Same for the documentation.
+> 
+> struct v4l2_meta_format as used with VIDIOC_G/S/TRY_FMT doesn't have
+> a width or height either. Supporting width and height for metadata
+> doesn't really make sense for me for metadata.
+> 
+> Explicitly specifying the width and height here indicates that the
+> data is basically an array of width x height of some sort which makes
+> sense for video devices.
+> 
+> Metadata is more complex data that cannot be represented like that.
+> If metadata is actually an array, then I'm not sure I would call it
+> metadata, I would probably see it as video with its own pixelformat
+> that contains non-video data.
 
-This patch is redundant as you've moved the power calls into s_stream,
-and you can't change mode whilst streaming.
+Let's say the metadata is laid out in a similar way than an image; you have
+lines of data, followed by some padding at the end, and a line has length
+and a buffer has a number of lines. Sensor metadata falls into this
+description.
 
-It made sense when s_power was independent, as s_power(1), set_mode,
-set_mode, set_mode, s_power(0) was valid and could result in the same
-register set being written multiple times for no gain.
+Would you then use struct v4l2_pix_format for it, and use
+V4L2_BUF_TYPE_VIDEO_CAPTURE for it?
 
-  Dave
+That would make a few things easier but this is still metadata, not video
+data. Albeit I guess it's not important to be so strict about that
+interface-wise, indeed this is not a bad fit for such metadata. Still some
+fields such as colourspace and quantisation are not relevant, but that
+holds also for some pixel formats.
 
-> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> ---
->  drivers/media/i2c/ov5647.c | 15 ++++++++++++++-
->  1 file changed, 14 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> index 21983af55c23f..6e500fb548c74 100644
-> --- a/drivers/media/i2c/ov5647.c
-> +++ b/drivers/media/i2c/ov5647.c
-> @@ -96,6 +96,7 @@ struct ov5647 {
->         bool                            clock_ncont;
->         struct v4l2_ctrl_handler        ctrls;
->         const struct ov5647_mode        *mode;
-> +       const struct ov5647_mode        *current_mode;
->  };
->
->  static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
-> @@ -755,6 +756,9 @@ static int ov5647_set_mode(struct v4l2_subdev *sd)
->         u8 resetval, rdval;
->         int ret;
->
-> +       if (sensor->mode == sensor->current_mode)
-> +               return 0;
-> +
->         ret = ov5647_read(sd, OV5647_SW_STANDBY, &rdval);
->         if (ret < 0)
->                 return ret;
-> @@ -781,6 +785,8 @@ static int ov5647_set_mode(struct v4l2_subdev *sd)
->                         return ret;
->         }
->
-> +       sensor->current_mode = sensor->mode;
-> +
->         return 0;
->  }
->
-> @@ -819,6 +825,7 @@ static int ov5647_stream_on(struct v4l2_subdev *sd)
->
->  static int ov5647_stream_off(struct v4l2_subdev *sd)
->  {
-> +       struct ov5647 *sensor = to_sensor(sd);
->         int ret;
->
->         ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, MIPI_CTRL00_CLOCK_LANE_GATE |
-> @@ -830,7 +837,13 @@ static int ov5647_stream_off(struct v4l2_subdev *sd)
->         if (ret < 0)
->                 return ret;
->
-> -       return ov5647_write(sd, OV5640_REG_PAD_OUT, 0x01);
-> +       ret = ov5647_write(sd, OV5640_REG_PAD_OUT, 0x01);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       sensor->current_mode = NULL;
-> +
-> +       return 0;
->  }
->
->  static int set_sw_standby(struct v4l2_subdev *sd, bool standby)
-> --
-> 2.29.1
->
+-- 
+Regards,
+
+Sakari Ailus
