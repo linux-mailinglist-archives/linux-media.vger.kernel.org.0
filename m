@@ -2,20 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 507652A61BD
+	by mail.lfdr.de (Postfix) with ESMTP id BD1E02A61BE
 	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 11:37:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729097AbgKDKgq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 05:36:46 -0500
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:44723 "EHLO
+        id S1729206AbgKDKgt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 05:36:49 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:42427 "EHLO
         relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728287AbgKDKgp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 05:36:45 -0500
+        with ESMTP id S1728287AbgKDKgs (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 05:36:48 -0500
 X-Originating-IP: 93.34.118.233
 Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id AE7A820011;
-        Wed,  4 Nov 2020 10:36:42 +0000 (UTC)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 2E2D720003;
+        Wed,  4 Nov 2020 10:36:44 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     linux-media@vger.kernel.org
 Cc:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
@@ -24,9 +24,9 @@ Cc:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
         roman.kovalivskyi@globallogic.com, dafna.hirschfeld@collabora.com,
         dave.stevenson@raspberrypi.org, naush@raspberrypi.com,
         erosca@de.adit-jv.com
-Subject: [PATCH v2 02/30] media: ov5647: Add support for PWDN GPIO.
-Date:   Wed,  4 Nov 2020 11:35:54 +0100
-Message-Id: <20201104103622.595908-3-jacopo@jmondi.org>
+Subject: [PATCH v2 03/30] media: ov5647: Add support for non-continuous clock mode
+Date:   Wed,  4 Nov 2020 11:35:55 +0100
+Message-Id: <20201104103622.595908-4-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201104103622.595908-1-jacopo@jmondi.org>
 References: <20201104103622.595908-1-jacopo@jmondi.org>
@@ -38,105 +38,93 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Dave Stevenson <dave.stevenson@raspberrypi.org>
 
-Add support for an optional GPIO connected to PWDN on the sensor. This
-allows the use of hardware standby mode where internal device clock
-and circuit activities are halted.
+Add support for optional non-continuous clock mode to the ov5647
+sensor driver.
 
-Please note that power is off when PWDN is high.
+Non-continuous clock saves a small amount of power and on some SoCs
+is easier to interface with.
 
 Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.org>
 Signed-off-by: Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/media/i2c/ov5647.c | 32 ++++++++++++++++++++++++++++++++
- 1 file changed, 32 insertions(+)
+ drivers/media/i2c/ov5647.c | 24 ++++++++++++++++++++----
+ 1 file changed, 20 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index e7d2e5b4ad4b9..5dde138763eb0 100644
+index 5dde138763eb0..ccb56f9b09fd4 100644
 --- a/drivers/media/i2c/ov5647.c
 +++ b/drivers/media/i2c/ov5647.c
-@@ -21,6 +21,7 @@
+@@ -44,6 +44,7 @@
+ #define PWDN_ACTIVE_DELAY_MS	20
  
- #include <linux/clk.h>
- #include <linux/delay.h>
-+#include <linux/gpio/consumer.h>
- #include <linux/i2c.h>
- #include <linux/init.h>
- #include <linux/io.h>
-@@ -35,6 +36,13 @@
- 
- #define SENSOR_NAME "ov5647"
- 
-+/*
-+ * From the datasheet, "20ms after PWDN goes low or 20ms after RESETB goes
-+ * high if reset is inserted after PWDN goes high, host can access sensor's
-+ * SCCB to initialize sensor."
-+ */
-+#define PWDN_ACTIVE_DELAY_MS	20
-+
  #define MIPI_CTRL00_CLOCK_LANE_GATE		BIT(5)
++#define MIPI_CTRL00_LINE_SYNC_ENABLE		BIT(4)
  #define MIPI_CTRL00_BUS_IDLE			BIT(2)
  #define MIPI_CTRL00_CLOCK_LANE_DISABLE		BIT(0)
-@@ -86,6 +94,7 @@ struct ov5647 {
- 	unsigned int			height;
+ 
+@@ -95,6 +96,7 @@ struct ov5647 {
  	int				power_count;
  	struct clk			*xclk;
-+	struct gpio_desc		*pwdn;
+ 	struct gpio_desc		*pwdn;
++	bool				clock_ncont;
  };
  
  static inline struct ov5647 *to_state(struct v4l2_subdev *sd)
-@@ -355,6 +364,11 @@ static int ov5647_sensor_power(struct v4l2_subdev *sd, int on)
- 	if (on && !ov5647->power_count)	{
- 		dev_dbg(&client->dev, "OV5647 power on\n");
+@@ -269,9 +271,15 @@ static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
  
-+		if (ov5647->pwdn) {
-+			gpiod_set_value_cansleep(ov5647->pwdn, 0);
-+			msleep(PWDN_ACTIVE_DELAY_MS);
-+		}
+ static int ov5647_stream_on(struct v4l2_subdev *sd)
+ {
++	struct ov5647 *ov5647 = to_state(sd);
++	u8 val = MIPI_CTRL00_BUS_IDLE;
+ 	int ret;
+ 
+-	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, MIPI_CTRL00_BUS_IDLE);
++	if (ov5647->clock_ncont)
++		val |= MIPI_CTRL00_CLOCK_LANE_GATE |
++		       MIPI_CTRL00_LINE_SYNC_ENABLE;
 +
- 		ret = clk_prepare_enable(ov5647->xclk);
- 		if (ret < 0) {
- 			dev_err(&client->dev, "clk prepare enable failed\n");
-@@ -392,6 +406,8 @@ static int ov5647_sensor_power(struct v4l2_subdev *sd, int on)
- 			dev_dbg(&client->dev, "soft stby failed\n");
++	ret = ov5647_write(sd, OV5647_REG_MIPI_CTRL00, val);
+ 	if (ret < 0)
+ 		return ret;
  
- 		clk_disable_unprepare(ov5647->xclk);
-+
-+		gpiod_set_value_cansleep(ov5647->pwdn, 1);
- 	}
+@@ -546,9 +554,11 @@ static const struct v4l2_subdev_internal_ops ov5647_subdev_internal_ops = {
+ 	.open = ov5647_open,
+ };
  
- 	/* Update the power count. */
-@@ -581,6 +597,14 @@ static int ov5647_probe(struct i2c_client *client)
+-static int ov5647_parse_dt(struct device_node *np)
++static int ov5647_parse_dt(struct ov5647 *sensor, struct device_node *np)
+ {
+-	struct v4l2_fwnode_endpoint bus_cfg = { .bus_type = 0 };
++	struct v4l2_fwnode_endpoint bus_cfg = {
++		.bus_type = V4L2_MBUS_CSI2_DPHY,
++	};
+ 	struct device_node *ep;
+ 
+ 	int ret;
+@@ -558,7 +568,13 @@ static int ov5647_parse_dt(struct device_node *np)
  		return -EINVAL;
- 	}
  
-+	/* Request the power down GPIO asserted */
-+	sensor->pwdn = devm_gpiod_get_optional(&client->dev, "pwdn",
-+					       GPIOD_OUT_HIGH);
-+	if (IS_ERR(sensor->pwdn)) {
-+		dev_err(dev, "Failed to get 'pwdn' gpio\n");
-+		return -EINVAL;
-+	}
-+
- 	mutex_init(&sensor->lock);
+ 	ret = v4l2_fwnode_endpoint_parse(of_fwnode_handle(ep), &bus_cfg);
++	if (ret)
++		goto out;
  
- 	sd = &sensor->sd;
-@@ -594,7 +618,15 @@ static int ov5647_probe(struct i2c_client *client)
- 	if (ret < 0)
- 		goto mutex_remove;
++	sensor->clock_ncont = bus_cfg.bus.mipi_csi2.flags &
++			      V4L2_MBUS_CSI2_NONCONTINUOUS_CLOCK;
++
++out:
+ 	of_node_put(ep);
+ 	return ret;
+ }
+@@ -577,7 +593,7 @@ static int ov5647_probe(struct i2c_client *client)
+ 		return -ENOMEM;
  
-+	if (sensor->pwdn) {
-+		gpiod_set_value_cansleep(sensor->pwdn, 0);
-+		msleep(PWDN_ACTIVE_DELAY_MS);
-+	}
-+
- 	ret = ov5647_detect(sd);
-+
-+	gpiod_set_value_cansleep(sensor->pwdn, 1);
-+
- 	if (ret < 0)
- 		goto error;
- 
+ 	if (IS_ENABLED(CONFIG_OF) && np) {
+-		ret = ov5647_parse_dt(np);
++		ret = ov5647_parse_dt(sensor, np);
+ 		if (ret) {
+ 			dev_err(dev, "DT parsing error: %d\n", ret);
+ 			return ret;
 -- 
 2.29.1
 
