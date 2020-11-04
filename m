@@ -2,88 +2,134 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 167172A6A09
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 17:41:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DF322A6A2E
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 17:46:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731121AbgKDQlW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 11:41:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38352 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730971AbgKDQlV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 11:41:21 -0500
-Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2FC6C0613D3;
-        Wed,  4 Nov 2020 08:41:21 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
-        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
-        Content-Transfer-Encoding:Content-ID:Content-Description;
-        bh=N+PdC8aIRIGAg2FR28I1P/4kBIo6jnmN4QhPRmCU08A=; b=Y1htN0aBJKelZ9PF10bOpkfzNm
-        AbdmBX7uwg/dy8j86ohk0c2kPpXPZzG0w5faSlS/dCeaixKVHRJuLcLLQ7dQcHXbInbLBAAwWbgY2
-        0+jbViIJWH+PzBiBQWi2s9Jrmk/I8R62cvYgsYWRhrqxOhT5cze01WusTw+gBleoPF6GUkV4wguSf
-        GN2jz0PJcmRTFJ9I/UNw0GwSXF3aEF7PE7twMLwlKVN5jr+K8DmA/zIiIGLLHLjPRHUvfri1ifWkQ
-        lhzs6zF6PkoS5rz5oqYfTnpenyuB+ufAq0MXJl0XWojaqOVac3o65QNUxwOqel58DO/Tkmn/n4Rzl
-        T1oYFK8w==;
-Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
-        id 1kaLqZ-0004uc-8m; Wed, 04 Nov 2020 16:41:19 +0000
-Date:   Wed, 4 Nov 2020 16:41:19 +0000
-From:   Christoph Hellwig <hch@infradead.org>
-To:     Daniel Vetter <daniel.vetter@ffwll.ch>
-Cc:     Christoph Hellwig <hch@infradead.org>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        J??r??me Glisse <jglisse@redhat.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>,
-        KVM list <kvm@vger.kernel.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
-Message-ID: <20201104164119.GA18218@infradead.org>
-References: <CAKMK7uGDW2f0oOvwgryCHxQFHyh3Tsk6ENsMGmtZ-EnH57tMSA@mail.gmail.com>
- <1f7cf690-35e2-c56f-6d3f-94400633edd2@nvidia.com>
- <CAKMK7uFYDSqnNp_xpohzCEidw_iLufNSoX4v55sNZj-nwTckSg@mail.gmail.com>
- <7f29a42a-c408-525d-90b7-ef3c12b5826c@nvidia.com>
- <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
- <20201104140023.GQ36674@ziepe.ca>
- <CAKMK7uH69hsFjYUkjg1aTh5f=q_3eswMSS5feFs6+ovz586+0A@mail.gmail.com>
- <20201104162125.GA13007@infradead.org>
- <CAKMK7uH=0+3FSR4LxP7bJUB4BsCcnCzfK2=D+2Am9QNmfZEmfw@mail.gmail.com>
- <20201104163758.GA17425@infradead.org>
+        id S1731201AbgKDQp7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 11:45:59 -0500
+Received: from mail.kernel.org ([198.145.29.99]:43648 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1730154AbgKDQp7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Nov 2020 11:45:59 -0500
+Received: from coco.lan (ip5f5ad5bc.dynamic.kabel-deutschland.de [95.90.213.188])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 66CCF206CA;
+        Wed,  4 Nov 2020 16:45:57 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604508358;
+        bh=fxaNe/ej4fajTLgXICfQIB9YWUByug5FVwORvoI7kjs=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=kuG45+uJIStMZzDiyWyZ0ODZPLyEawHXJXScFKghKV1B3wUQE/jwL5j99RE+c7w2z
+         nrCNZNpWyCE2Bc6sno0rpHggbGfAhG0w6C89P+FCexVaRvafh/GtU8mhshgSlJTFkz
+         mDLYQ7wvqU16EyB90H7bQrNVA5REZJMsYsAv7Dj0=
+Date:   Wed, 4 Nov 2020 17:45:54 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Gregor Hlawacek <g.hlawacek@hzdr.de>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: Philips Monitor with webcam
+Message-ID: <20201104174554.4bbec36a@coco.lan>
+In-Reply-To: <59f848e83354ad72c11dacaf571f20a8084baf58.camel@hzdr.de>
+References: <51207fd712e3c1001b80c6642021b1a5d5763ade.camel@hzdr.de>
+        <20201104170233.0d405dff@coco.lan>
+        <59f848e83354ad72c11dacaf571f20a8084baf58.camel@hzdr.de>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201104163758.GA17425@infradead.org>
-X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 04, 2020 at 04:37:58PM +0000, Christoph Hellwig wrote:
-> On Wed, Nov 04, 2020 at 05:26:58PM +0100, Daniel Vetter wrote:
-> > What we're discussing is whether gup_fast and pup_fast also obey this,
-> > or fall over and can give you the struct page that's backing the
-> > dma_mmap_* memory. Since the _fast variant doesn't check for
-> > vma->vm_flags, and afaict that's the only thing which closes this gap.
-> > And like you restate, that would be a bit a problem. So where's that
-> > check which Jason&me aren't spotting?
-> 
-> remap_pte_range uses pte_mkspecial to set up the PTEs, and gup_pte_range
-> errors out on pte_special.  Of course this only works for the
-> CONFIG_ARCH_HAS_PTE_SPECIAL case, for other architectures we do have
-> a real problem.
+Em Wed, 04 Nov 2020 17:25:48 +0100
+Gregor Hlawacek <g.hlawacek@hzdr.de> escreveu:
 
-Except that we don't really support pte-level gup-fast without
-CONFIG_ARCH_HAS_PTE_SPECIAL, and in fact all architectures selecting
-HAVE_FAST_GUP also select ARCH_HAS_PTE_SPECIAL, so we should be fine.
+> On Wed, 2020-11-04 at 17:02 +0100, Mauro Carvalho Chehab wrote:
+> > Em Wed, 04 Nov 2020 14:24:34 +0100
+> > Gregor Hlawacek <g.hlawacek@hzdr.de> escreveu:
+> >  =20
+> > > Hi all
+> > >=20
+> > > I own a Philips Brilliance 241B which has a webcam attached. The
+> > > device
+> > > is listed as 0412:612b Chicony Electronics Co., Ltd, bubt doesn't
+> > > work
+> > > with the latest UVC stock kernel driver. Is there any hope to get
+> > > this
+> > > supported?
+> > >=20
+> > > uname -a:
+> > > Linux it72 5.9.3-arch1-1 #1 SMP PREEMPT Sun, 01 Nov 2020 12:58:59
+> > > +0000
+> > > x86_64 GNU/Linux
+> > >=20
+> > > running Arch Linux on a Lenovo Thinkpad =C2=A0T490s
+> > >=20
+> > > dmesg:
+> > >=20
+> > > [76850.137838] usb 3-1.1.1.2: New USB device found, idVendor=3D04f2,
+> > > idProduct=3Db612, bcdDevice=3D 2.10
+> > > [76850.137841] usb 3-1.1.1.2: New USB device strings: Mfr=3D1,
+> > > Product=3D2,
+> > > SerialNumber=3D3
+> > > [76850.137843] usb 3-1.1.1.2: Product: USB2.0 FHD UVC WebCam
+> > > [76850.137845] usb 3-1.1.1.2: Manufacturer: SunplusIT Inc
+> > > [76850.137846] usb 3-1.1.1.2: SerialNumber: 01.00.00
+> > > [76850.152761] uvcvideo: Found UVC 1.50 device USB2.0 FHD UVC
+> > > WebCam
+> > > (04f2:b612)
+> > > [76850.215683] input: USB2.0 FHD UVC WebCam: USB2.0 F as
+> > > /devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000:3c:
+> > > 00.0
+> > > /usb3/3-1/3-1.1/3-1.1.1/3-1.1.1.2/3-1.1.1.2:1.0/input/input66
+> > > [76850.223642] uvcvideo: Found UVC 1.50 device USB2.0 FHD UVC
+> > > WebCam
+> > > (04f2:b612)
+> > > [76850.232499] usb 4-1.1.2: new SuperSpeed Gen 1 USB device number
+> > > 5
+> > > using xhci_hcd
+> > > [76850.241004] input: USB2.0 FHD UVC WebCam: IR Camer as
+> > > /devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000:3c:
+> > > 00.0
+> > > /usb3/3-1/3-1.1/3-1.1.1/3-1.1.1.2/3-1.1.1.2:1.2/input/input67 =20
+> >=20
+> > Hmm... it sounds that the camera was properly detected here.=20
+> >=20
+> > Could you please enclose the contents of the following command?
+> >=20
+> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$ v4l2-ctl --all
+> >=20
+> > Thanks,
+> > Mauro =20
+>=20
+> Hi Mauro=C2=A0
+>=20
+> thanks for the quick answer. Here is the output but I am pretty sure
+> that this come from the integrated laptop camera and not the one in the
+> external monitor
+
+Well, you can use "-d" parameter to identify the device, like:
+
+	$ v4l2-ctl -d /dev/v4l/by-path/pci-0000\:00\:14.0-usb-0\:3.2\:1.0-video-in=
+dex0 --all
+
+The real path depends on your camera - you can take a look at:
+
+	$ tree /dev/v4l/
+	/dev/v4l/
+	=E2=94=9C=E2=94=80=E2=94=80 by-id
+	=E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 usb-046d_HD_Pro_Webcam_C=
+920_55DA1CCF-video-index0 -> ../../video0
+	=E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 usb-046d_HD_Pro_Webcam_C=
+920_55DA1CCF-video-index1 -> ../../video1
+	=E2=94=94=E2=94=80=E2=94=80 by-path
+	    =E2=94=9C=E2=94=80=E2=94=80 pci-0000:00:14.0-usb-0:3.2:1.0-video-index=
+0 -> ../../video0
+	    =E2=94=94=E2=94=80=E2=94=80 pci-0000:00:14.0-usb-0:3.2:1.0-video-index=
+1 -> ../../video1
+
+=09
+In order to check the ones that were detected.
+
+Regards,
+Mauro
