@@ -2,666 +2,191 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70C522A66CB
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 15:55:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E64362A66CE
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 15:55:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726900AbgKDOy4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 09:54:56 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:58368 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728380AbgKDOyz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 09:54:55 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 30351563;
-        Wed,  4 Nov 2020 15:54:50 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1604501690;
-        bh=FGdDIxuLyCWQkdcAsM4DzkQHkty2ZP5gZejra5cMdVQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=pXJYd7F3YA19GC+SPj0B+oFsG4Kwu6yh4QBgJcsDsB/uFi2yDSBtpvHt/MiZegJUm
-         M1qxdwkGWze1Vet5TM+lDCcwavruHuL58dv6bkLq9vyGhHeSmV/yJJf0iX1QW41V1f
-         JvlnfR9kNaDBM1l006XfYxWH3ky8y5Z/YEmxa4nM=
-Date:   Wed, 4 Nov 2020 16:54:02 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Naushir Patuck <naush@raspberrypi.com>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.org>,
-        erosca@de.adit-jv.com
-Subject: Re: [PATCH v2 30/30] media: ov5647: Reflow register-value lists
-Message-ID: <20201104145402.GB29958@pendragon.ideasonboard.com>
-References: <20201104103622.595908-1-jacopo@jmondi.org>
- <20201104104305.596479-1-jacopo@jmondi.org>
- <CAPY8ntCgqBtA+Lu1ejjQUTQkS68wOiU7u5eGP7dxdAm252zt9w@mail.gmail.com>
- <CAEmqJPpmW-OtaN3TOXHON7t6SgDwtBQetGYUS8nk5yA4uUxzgQ@mail.gmail.com>
+        id S1730162AbgKDOzG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 09:55:06 -0500
+Received: from mga09.intel.com ([134.134.136.24]:3854 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728380AbgKDOzC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Nov 2020 09:55:02 -0500
+IronPort-SDR: bLjRYdvqaEH0MIFeuOW+HeTAHv5VoYGB8QQg2sPde1y1z9TTRo5hBUeBRvf1y/SXY3I8YckmNp
+ Nzis6wyAaDGg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9794"; a="169370873"
+X-IronPort-AV: E=Sophos;i="5.77,451,1596524400"; 
+   d="scan'208";a="169370873"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2020 06:55:01 -0800
+IronPort-SDR: K9ceXkebkyg5AG26Y9bkZ8doR2GXgIG/CoM1APC2iDFx+jxJ/7aZFYFSnSmK+PC2+LthD5C0yI
+ c3DEfb5S8B6w==
+X-IronPort-AV: E=Sophos;i="5.77,451,1596524400"; 
+   d="scan'208";a="320829813"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Nov 2020 06:54:58 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id ECF9A20B51; Wed,  4 Nov 2020 16:54:56 +0200 (EET)
+Date:   Wed, 4 Nov 2020 16:54:56 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        kernel@collabora.com, dafna3@gmail.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        tfiga@chromium.org
+Subject: Re: [PATCH v3 1/2] media: uapi: add MEDIA_BUS_FMT_METADATA_FIXED
+ media bus format.
+Message-ID: <20201104145456.GR26150@paasikivi.fi.intel.com>
+References: <20201030134609.30020-1-dafna.hirschfeld@collabora.com>
+ <20201030140241.GQ26150@paasikivi.fi.intel.com>
+ <5c8852f5-a803-1bd0-7798-3cca0d7ee9ea@xs4all.nl>
+ <20201104123218.GQ26150@paasikivi.fi.intel.com>
+ <573fb8b3-e4fd-9239-a407-e904ed18ff3f@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CAEmqJPpmW-OtaN3TOXHON7t6SgDwtBQetGYUS8nk5yA4uUxzgQ@mail.gmail.com>
+In-Reply-To: <573fb8b3-e4fd-9239-a407-e904ed18ff3f@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 04, 2020 at 02:50:52PM +0000, Naushir Patuck wrote:
-> On Wed, 4 Nov 2020 at 14:46, Dave Stevenson wrote:
-> > On Wed, 4 Nov 2020 at 10:43, Jacopo Mondi <jacopo@jmondi.org> wrote:
-> > >
-> > > Reflow the register blob lists to span to 80 columns and make them
-> > > more compact.
-> >
-> > Personally I find this makes it less readable.
-> >
-> > It also means you can't do an easy diff between the register sets as
-> > some registers only appear to be defined in some tables and so it
-> > shifts the tabulation.
-> > eg 0x3800, 0x4800 and 0x3503 are not in 640x480_sbggr8, but 0x4050 and
-> > 0x4051 are when they aren't in the _sbggr10 tables.
-> >
-> > If the same set of registers appeared in all the tables then it could
-> > be considered reasonable to compact them.
+Hi Hans,
+
+On Wed, Nov 04, 2020 at 02:46:39PM +0100, Hans Verkuil wrote:
+> On 04/11/2020 13:32, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > On Wed, Nov 04, 2020 at 01:16:03PM +0100, Hans Verkuil wrote:
+> >> On 30/10/2020 15:02, Sakari Ailus wrote:
+> >>> Hi Dafna,
+> >>>
+> >>> On Fri, Oct 30, 2020 at 02:46:08PM +0100, Dafna Hirschfeld wrote:
+> >>>> MEDIA_BUS_FMT_METADATA_FIXED should be used when
+> >>>> the same driver handles both sides of the link and
+> >>>> the bus format is a fixed metadata format that is
+> >>>> not configurable from userspace.
+> >>>> The width and height will be set to 0 for this format.
+> >>>>
+> >>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> >>>> Acked-by: Helen Koike <helen.koike@collabora.com>
+> >>>> ---
+> >>>> changes since v2:
+> >>>> added documentation in subdev-formats.rst
+> >>>> changes since v1:
+> >>>> 1. replace "This format may have 0 height and width."
+> >>>> with "Width and height will be set to 0 for this format."
+> >>>> and add it also to the commit log
+> >>>> 2. s/meida:/media:/ in the patch subject line
+> >>>>
+> >>>>  .../media/v4l/subdev-formats.rst              | 27 +++++++++++++++++++
+> >>>>  include/uapi/linux/media-bus-format.h         |  8 ++++++
+> >>>>  2 files changed, 35 insertions(+)
+> >>>>
+> >>>> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> >>>> index c9b7bb3ca089..7f16cbe46e5c 100644
+> >>>> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> >>>> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> >>>> @@ -7899,3 +7899,30 @@ formats.
+> >>>>        - 0x5001
+> >>>>        - Interleaved raw UYVY and JPEG image format with embedded meta-data
+> >>>>  	used by Samsung S3C73MX camera sensors.
+> >>>> +
+> >>>> +.. _v4l2-mbus-metadata-fmts:
+> >>>> +
+> >>>> +Metadata Formats
+> >>>> +^^^^^^^^^^^^^^^^
+> >>>> +
+> >>>> +This section lists all metadata formats.
+> >>>> +
+> >>>> +The following table lists the existing metadata formats.
+> >>>> +
+> >>>> +.. tabularcolumns:: |p{8.0cm}|p{1.4cm}|p{7.7cm}|
+> >>>> +
+> >>>> +.. flat-table:: Metadata formats
+> >>>> +    :header-rows:  1
+> >>>> +    :stub-columns: 0
+> >>>> +
+> >>>> +    * - Identifier
+> >>>> +      - Code
+> >>>> +      - Comments
+> >>>> +    * .. _MEDIA-BUS-FMT-METADATA-FIXED:
+> >>>> +
+> >>>> +      - MEDIA_BUS_FMT_METADATA_FIXED
+> >>>> +      - 0x7001
+> >>>> +      - This format should be used when the same driver handles
+> >>>> +	both sides of the link and the bus format is a fixed
+> >>>> +	metadata format that is not configurable from userspace.
+> >>>> +	Width and height will be set to 0 for this format.
+> >>>> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+> >>>> index 84fa53ffb13f..2ce3d891d344 100644
+> >>>> --- a/include/uapi/linux/media-bus-format.h
+> >>>> +++ b/include/uapi/linux/media-bus-format.h
+> >>>> @@ -156,4 +156,12 @@
+> >>>>  /* HSV - next is	0x6002 */
+> >>>>  #define MEDIA_BUS_FMT_AHSV8888_1X32		0x6001
+> >>>>  
+> >>>> +/*
+> >>>> + * This format should be used when the same driver handles
+> >>>> + * both sides of the link and the bus format is a fixed
+> >>>> + * metadata format that is not configurable from userspace.
+> >>>> + * Width and height will be set to 0 for this format.
+> >>>> + */
+> >>>
+> >>> Does this mean that metadata with dimensions should not use
+> >>> MEDIA_BUS_FMT_METADATA_FIXED? I guess that's not the intention? For some
+> >>> formats the dimensions would be relevant but for others not. I'd thus
+> >>> replace "will" by "may". Same for the documentation.
+> >>
+> >> struct v4l2_meta_format as used with VIDIOC_G/S/TRY_FMT doesn't have
+> >> a width or height either. Supporting width and height for metadata
+> >> doesn't really make sense for me for metadata.
+> >>
+> >> Explicitly specifying the width and height here indicates that the
+> >> data is basically an array of width x height of some sort which makes
+> >> sense for video devices.
+> >>
+> >> Metadata is more complex data that cannot be represented like that.
+> >> If metadata is actually an array, then I'm not sure I would call it
+> >> metadata, I would probably see it as video with its own pixelformat
+> >> that contains non-video data.
+> > 
+> > Let's say the metadata is laid out in a similar way than an image; you have
+> > lines of data, followed by some padding at the end, and a line has length
+> > and a buffer has a number of lines. Sensor metadata falls into this
+> > description.
+> > 
+> > Would you then use struct v4l2_pix_format for it, and use
+> > V4L2_BUF_TYPE_VIDEO_CAPTURE for it?
 > 
-> I would agree with Dave on this one.  For me, having a single column in the
-> register list does provide better readability.
+> Yes. It's still metadata, but it has the same 'format' as video data.
+> We have similar situations such as with v4l-touch devices: the data
+> is formatted like video, but it is actually pressure values from a
+> touch pad. But it is 'video-like' in its behavior.
+> 
+> > 
+> > That would make a few things easier but this is still metadata, not video
+> > data. Albeit I guess it's not important to be so strict about that
+> > interface-wise, indeed this is not a bad fit for such metadata. Still some
+> > fields such as colourspace and quantisation are not relevant, but that
+> > holds also for some pixel formats.
+> > 
+> 
+> So are you OK with setting width and height to 0 for MEDIA_BUS_FMT_METADATA_*?
 
-Especially given that hex values should be replaced by named macros.
+One more question.
 
-> > > Cosmetic change only.
-> > >
-> > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > > ---
-> > >  drivers/media/i2c/ov5647.c | 551 ++++++++-----------------------------
-> > >  1 file changed, 112 insertions(+), 439 deletions(-)
-> > >
-> > > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> > > index eb6e06a013057..9d261c786981f 100644
-> > > --- a/drivers/media/i2c/ov5647.c
-> > > +++ b/drivers/media/i2c/ov5647.c
-> > > @@ -123,464 +123,137 @@ static inline struct ov5647 *to_sensor(struct
-> > v4l2_subdev *sd)
-> > >  }
-> > >
-> > >  static const struct regval_list sensor_oe_disable_regs[] = {
-> > > -       {0x3000, 0x00},
-> > > -       {0x3001, 0x00},
-> > > -       {0x3002, 0x00},
-> > > +       {0x3000, 0x00}, {0x3001, 0x00}, {0x3002, 0x00},
-> > >  };
-> > >
-> > >  static const struct regval_list sensor_oe_enable_regs[] = {
-> > > -       {0x3000, 0x0f},
-> > > -       {0x3001, 0xff},
-> > > -       {0x3002, 0xe4},
-> > > +       {0x3000, 0x0f}, {0x3001, 0xff}, {0x3002, 0xe4},
-> > >  };
-> > >
-> > >  static const struct regval_list ov5647_640x480_sbggr8[] = {
-> > > -       {0x0100, 0x00},
-> > > -       {0x0103, 0x01},
-> > > -       {0x3034, 0x08},
-> > > -       {0x3035, 0x21},
-> > > -       {0x3036, 0x46},
-> > > -       {0x303c, 0x11},
-> > > -       {0x3106, 0xf5},
-> > > -       {0x3821, 0x07},
-> > > -       {0x3820, 0x41},
-> > > -       {0x3827, 0xec},
-> > > -       {0x370c, 0x0f},
-> > > -       {0x3612, 0x59},
-> > > -       {0x3618, 0x00},
-> > > -       {0x5000, 0x06},
-> > > -       {0x5002, 0x41},
-> > > -       {0x5003, 0x08},
-> > > -       {0x5a00, 0x08},
-> > > -       {0x3000, 0x00},
-> > > -       {0x3001, 0x00},
-> > > -       {0x3002, 0x00},
-> > > -       {0x3016, 0x08},
-> > > -       {0x3017, 0xe0},
-> > > -       {0x3018, 0x44},
-> > > -       {0x301c, 0xf8},
-> > > -       {0x301d, 0xf0},
-> > > -       {0x3a18, 0x00},
-> > > -       {0x3a19, 0xf8},
-> > > -       {0x3c01, 0x80},
-> > > -       {0x3b07, 0x0c},
-> > > -       {0x380c, 0x07},
-> > > -       {0x380d, 0x68},
-> > > -       {0x3814, 0x31},
-> > > -       {0x3815, 0x31},
-> > > -       {0x3708, 0x64},
-> > > -       {0x3709, 0x52},
-> > > -       {0x3808, 0x02},
-> > > -       {0x3809, 0x80},
-> > > -       {0x380a, 0x01},
-> > > -       {0x380b, 0xe0},
-> > > -       {0x3801, 0x00},
-> > > -       {0x3802, 0x00},
-> > > -       {0x3803, 0x00},
-> > > -       {0x3804, 0x0a},
-> > > -       {0x3805, 0x3f},
-> > > -       {0x3806, 0x07},
-> > > -       {0x3807, 0xa1},
-> > > -       {0x3811, 0x08},
-> > > -       {0x3813, 0x02},
-> > > -       {0x3630, 0x2e},
-> > > -       {0x3632, 0xe2},
-> > > -       {0x3633, 0x23},
-> > > -       {0x3634, 0x44},
-> > > -       {0x3636, 0x06},
-> > > -       {0x3620, 0x64},
-> > > -       {0x3621, 0xe0},
-> > > -       {0x3600, 0x37},
-> > > -       {0x3704, 0xa0},
-> > > -       {0x3703, 0x5a},
-> > > -       {0x3715, 0x78},
-> > > -       {0x3717, 0x01},
-> > > -       {0x3731, 0x02},
-> > > -       {0x370b, 0x60},
-> > > -       {0x3705, 0x1a},
-> > > -       {0x3f05, 0x02},
-> > > -       {0x3f06, 0x10},
-> > > -       {0x3f01, 0x0a},
-> > > -       {0x3a08, 0x01},
-> > > -       {0x3a09, 0x27},
-> > > -       {0x3a0a, 0x00},
-> > > -       {0x3a0b, 0xf6},
-> > > -       {0x3a0d, 0x04},
-> > > -       {0x3a0e, 0x03},
-> > > -       {0x3a0f, 0x58},
-> > > -       {0x3a10, 0x50},
-> > > -       {0x3a1b, 0x58},
-> > > -       {0x3a1e, 0x50},
-> > > -       {0x3a11, 0x60},
-> > > -       {0x3a1f, 0x28},
-> > > -       {0x4001, 0x02},
-> > > -       {0x4004, 0x02},
-> > > -       {0x4000, 0x09},
-> > > -       {0x4837, 0x24},
-> > > -       {0x4050, 0x6e},
-> > > -       {0x4051, 0x8f},
-> > > +       {0x0100, 0x00}, {0x0103, 0x01}, {0x3034, 0x08}, {0x3035, 0x21},
-> > > +       {0x3036, 0x46}, {0x303c, 0x11}, {0x3106, 0xf5}, {0x3821, 0x07},
-> > > +       {0x3820, 0x41}, {0x3827, 0xec}, {0x370c, 0x0f}, {0x3612, 0x59},
-> > > +       {0x3618, 0x00}, {0x5000, 0x06}, {0x5002, 0x41}, {0x5003, 0x08},
-> > > +       {0x5a00, 0x08}, {0x3000, 0x00}, {0x3001, 0x00}, {0x3002, 0x00},
-> > > +       {0x3016, 0x08}, {0x3017, 0xe0}, {0x3018, 0x44}, {0x301c, 0xf8},
-> > > +       {0x301d, 0xf0}, {0x3a18, 0x00}, {0x3a19, 0xf8}, {0x3c01, 0x80},
-> > > +       {0x3b07, 0x0c}, {0x380c, 0x07}, {0x380d, 0x68}, {0x3814, 0x31},
-> > > +       {0x3815, 0x31}, {0x3708, 0x64}, {0x3709, 0x52}, {0x3808, 0x02},
-> > > +       {0x3809, 0x80}, {0x380a, 0x01}, {0x380b, 0xe0}, {0x3801, 0x00},
-> > > +       {0x3802, 0x00}, {0x3803, 0x00}, {0x3804, 0x0a}, {0x3805, 0x3f},
-> > > +       {0x3806, 0x07}, {0x3807, 0xa1}, {0x3811, 0x08}, {0x3813, 0x02},
-> > > +       {0x3630, 0x2e}, {0x3632, 0xe2}, {0x3633, 0x23}, {0x3634, 0x44},
-> > > +       {0x3636, 0x06}, {0x3620, 0x64}, {0x3621, 0xe0}, {0x3600, 0x37},
-> > > +       {0x3704, 0xa0}, {0x3703, 0x5a}, {0x3715, 0x78}, {0x3717, 0x01},
-> > > +       {0x3731, 0x02}, {0x370b, 0x60}, {0x3705, 0x1a}, {0x3f05, 0x02},
-> > > +       {0x3f06, 0x10}, {0x3f01, 0x0a}, {0x3a08, 0x01}, {0x3a09, 0x27},
-> > > +       {0x3a0a, 0x00}, {0x3a0b, 0xf6}, {0x3a0d, 0x04}, {0x3a0e, 0x03},
-> > > +       {0x3a0f, 0x58}, {0x3a10, 0x50}, {0x3a1b, 0x58}, {0x3a1e, 0x50},
-> > > +       {0x3a11, 0x60}, {0x3a1f, 0x28}, {0x4001, 0x02}, {0x4004, 0x02},
-> > > +       {0x4000, 0x09}, {0x4837, 0x24}, {0x4050, 0x6e}, {0x4051, 0x8f},
-> > >         {0x0100, 0x01},
-> > >  };
-> > >
-> > >  static struct regval_list ov5647_2592x1944_sbggr10[] = {
-> > > -       {0x0100, 0x00},
-> > > -       {0x0103, 0x01},
-> > > -       {0x3034, 0x1a},
-> > > -       {0x3035, 0x21},
-> > > -       {0x3036, 0x69},
-> > > -       {0x303c, 0x11},
-> > > -       {0x3106, 0xf5},
-> > > -       {0x3821, 0x06},
-> > > -       {0x3820, 0x00},
-> > > -       {0x3827, 0xec},
-> > > -       {0x370c, 0x03},
-> > > -       {0x3612, 0x5b},
-> > > -       {0x3618, 0x04},
-> > > -       {0x5000, 0x06},
-> > > -       {0x5002, 0x41},
-> > > -       {0x5003, 0x08},
-> > > -       {0x5a00, 0x08},
-> > > -       {0x3000, 0x00},
-> > > -       {0x3001, 0x00},
-> > > -       {0x3002, 0x00},
-> > > -       {0x3016, 0x08},
-> > > -       {0x3017, 0xe0},
-> > > -       {0x3018, 0x44},
-> > > -       {0x301c, 0xf8},
-> > > -       {0x301d, 0xf0},
-> > > -       {0x3a18, 0x00},
-> > > -       {0x3a19, 0xf8},
-> > > -       {0x3c01, 0x80},
-> > > -       {0x3b07, 0x0c},
-> > > -       {0x380c, 0x0b},
-> > > -       {0x380d, 0x1c},
-> > > -       {0x3814, 0x11},
-> > > -       {0x3815, 0x11},
-> > > -       {0x3708, 0x64},
-> > > -       {0x3709, 0x12},
-> > > -       {0x3808, 0x0a},
-> > > -       {0x3809, 0x20},
-> > > -       {0x380a, 0x07},
-> > > -       {0x380b, 0x98},
-> > > -       {0x3800, 0x00},
-> > > -       {0x3801, 0x00},
-> > > -       {0x3802, 0x00},
-> > > -       {0x3803, 0x00},
-> > > -       {0x3804, 0x0a},
-> > > -       {0x3805, 0x3f},
-> > > -       {0x3806, 0x07},
-> > > -       {0x3807, 0xa3},
-> > > -       {0x3811, 0x10},
-> > > -       {0x3813, 0x06},
-> > > -       {0x3630, 0x2e},
-> > > -       {0x3632, 0xe2},
-> > > -       {0x3633, 0x23},
-> > > -       {0x3634, 0x44},
-> > > -       {0x3636, 0x06},
-> > > -       {0x3620, 0x64},
-> > > -       {0x3621, 0xe0},
-> > > -       {0x3600, 0x37},
-> > > -       {0x3704, 0xa0},
-> > > -       {0x3703, 0x5a},
-> > > -       {0x3715, 0x78},
-> > > -       {0x3717, 0x01},
-> > > -       {0x3731, 0x02},
-> > > -       {0x370b, 0x60},
-> > > -       {0x3705, 0x1a},
-> > > -       {0x3f05, 0x02},
-> > > -       {0x3f06, 0x10},
-> > > -       {0x3f01, 0x0a},
-> > > -       {0x3a08, 0x01},
-> > > -       {0x3a09, 0x28},
-> > > -       {0x3a0a, 0x00},
-> > > -       {0x3a0b, 0xf6},
-> > > -       {0x3a0d, 0x08},
-> > > -       {0x3a0e, 0x06},
-> > > -       {0x3a0f, 0x58},
-> > > -       {0x3a10, 0x50},
-> > > -       {0x3a1b, 0x58},
-> > > -       {0x3a1e, 0x50},
-> > > -       {0x3a11, 0x60},
-> > > -       {0x3a1f, 0x28},
-> > > -       {0x4001, 0x02},
-> > > -       {0x4004, 0x04},
-> > > -       {0x4000, 0x09},
-> > > -       {0x4837, 0x19},
-> > > -       {0x4800, 0x24},
-> > > -       {0x3503, 0x03},
-> > > -       {0x0100, 0x01},
-> > > +       {0x0100, 0x00}, {0x0103, 0x01}, {0x3034, 0x1a}, {0x3035, 0x21},
-> > > +       {0x3036, 0x69}, {0x303c, 0x11}, {0x3106, 0xf5}, {0x3821, 0x06},
-> > > +       {0x3820, 0x00}, {0x3827, 0xec}, {0x370c, 0x03}, {0x3612, 0x5b},
-> > > +       {0x3618, 0x04}, {0x5000, 0x06}, {0x5002, 0x41}, {0x5003, 0x08},
-> > > +       {0x5a00, 0x08}, {0x3000, 0x00}, {0x3001, 0x00}, {0x3002, 0x00},
-> > > +       {0x3016, 0x08}, {0x3017, 0xe0}, {0x3018, 0x44}, {0x301c, 0xf8},
-> > > +       {0x301d, 0xf0}, {0x3a18, 0x00}, {0x3a19, 0xf8}, {0x3c01, 0x80},
-> > > +       {0x3b07, 0x0c}, {0x380c, 0x0b}, {0x380d, 0x1c}, {0x3814, 0x11},
-> > > +       {0x3815, 0x11}, {0x3708, 0x64}, {0x3709, 0x12}, {0x3808, 0x0a},
-> > > +       {0x3809, 0x20}, {0x380a, 0x07}, {0x380b, 0x98}, {0x3800, 0x00},
-> > > +       {0x3801, 0x00}, {0x3802, 0x00}, {0x3803, 0x00}, {0x3804, 0x0a},
-> > > +       {0x3805, 0x3f}, {0x3806, 0x07}, {0x3807, 0xa3}, {0x3811, 0x10},
-> > > +       {0x3813, 0x06}, {0x3630, 0x2e}, {0x3632, 0xe2}, {0x3633, 0x23},
-> > > +       {0x3634, 0x44}, {0x3636, 0x06}, {0x3620, 0x64}, {0x3621, 0xe0},
-> > > +       {0x3600, 0x37}, {0x3704, 0xa0}, {0x3703, 0x5a}, {0x3715, 0x78},
-> > > +       {0x3717, 0x01}, {0x3731, 0x02}, {0x370b, 0x60}, {0x3705, 0x1a},
-> > > +       {0x3f05, 0x02}, {0x3f06, 0x10}, {0x3f01, 0x0a}, {0x3a08, 0x01},
-> > > +       {0x3a09, 0x28}, {0x3a0a, 0x00}, {0x3a0b, 0xf6}, {0x3a0d, 0x08},
-> > > +       {0x3a0e, 0x06}, {0x3a0f, 0x58}, {0x3a10, 0x50}, {0x3a1b, 0x58},
-> > > +       {0x3a1e, 0x50}, {0x3a11, 0x60}, {0x3a1f, 0x28}, {0x4001, 0x02},
-> > > +       {0x4004, 0x04}, {0x4000, 0x09}, {0x4837, 0x19}, {0x4800, 0x24},
-> > > +       {0x3503, 0x03}, {0x0100, 0x01},
-> > >  };
-> > >
-> > >  static struct regval_list ov5647_1080p30_sbggr10[] = {
-> > > -       {0x0100, 0x00},
-> > > -       {0x0103, 0x01},
-> > > -       {0x3034, 0x1a},
-> > > -       {0x3035, 0x21},
-> > > -       {0x3036, 0x62},
-> > > -       {0x303c, 0x11},
-> > > -       {0x3106, 0xf5},
-> > > -       {0x3821, 0x06},
-> > > -       {0x3820, 0x00},
-> > > -       {0x3827, 0xec},
-> > > -       {0x370c, 0x03},
-> > > -       {0x3612, 0x5b},
-> > > -       {0x3618, 0x04},
-> > > -       {0x5000, 0x06},
-> > > -       {0x5002, 0x41},
-> > > -       {0x5003, 0x08},
-> > > -       {0x5a00, 0x08},
-> > > -       {0x3000, 0x00},
-> > > -       {0x3001, 0x00},
-> > > -       {0x3002, 0x00},
-> > > -       {0x3016, 0x08},
-> > > -       {0x3017, 0xe0},
-> > > -       {0x3018, 0x44},
-> > > -       {0x301c, 0xf8},
-> > > -       {0x301d, 0xf0},
-> > > -       {0x3a18, 0x00},
-> > > -       {0x3a19, 0xf8},
-> > > -       {0x3c01, 0x80},
-> > > -       {0x3b07, 0x0c},
-> > > -       {0x380c, 0x09},
-> > > -       {0x380d, 0x70},
-> > > -       {0x3814, 0x11},
-> > > -       {0x3815, 0x11},
-> > > -       {0x3708, 0x64},
-> > > -       {0x3709, 0x12},
-> > > -       {0x3808, 0x07},
-> > > -       {0x3809, 0x80},
-> > > -       {0x380a, 0x04},
-> > > -       {0x380b, 0x38},
-> > > -       {0x3800, 0x01},
-> > > -       {0x3801, 0x5c},
-> > > -       {0x3802, 0x01},
-> > > -       {0x3803, 0xb2},
-> > > -       {0x3804, 0x08},
-> > > -       {0x3805, 0xe3},
-> > > -       {0x3806, 0x05},
-> > > -       {0x3807, 0xf1},
-> > > -       {0x3811, 0x04},
-> > > -       {0x3813, 0x02},
-> > > -       {0x3630, 0x2e},
-> > > -       {0x3632, 0xe2},
-> > > -       {0x3633, 0x23},
-> > > -       {0x3634, 0x44},
-> > > -       {0x3636, 0x06},
-> > > -       {0x3620, 0x64},
-> > > -       {0x3621, 0xe0},
-> > > -       {0x3600, 0x37},
-> > > -       {0x3704, 0xa0},
-> > > -       {0x3703, 0x5a},
-> > > -       {0x3715, 0x78},
-> > > -       {0x3717, 0x01},
-> > > -       {0x3731, 0x02},
-> > > -       {0x370b, 0x60},
-> > > -       {0x3705, 0x1a},
-> > > -       {0x3f05, 0x02},
-> > > -       {0x3f06, 0x10},
-> > > -       {0x3f01, 0x0a},
-> > > -       {0x3a08, 0x01},
-> > > -       {0x3a09, 0x4b},
-> > > -       {0x3a0a, 0x01},
-> > > -       {0x3a0b, 0x13},
-> > > -       {0x3a0d, 0x04},
-> > > -       {0x3a0e, 0x03},
-> > > -       {0x3a0f, 0x58},
-> > > -       {0x3a10, 0x50},
-> > > -       {0x3a1b, 0x58},
-> > > -       {0x3a1e, 0x50},
-> > > -       {0x3a11, 0x60},
-> > > -       {0x3a1f, 0x28},
-> > > -       {0x4001, 0x02},
-> > > -       {0x4004, 0x04},
-> > > -       {0x4000, 0x09},
-> > > -       {0x4837, 0x19},
-> > > -       {0x4800, 0x34},
-> > > -       {0x3503, 0x03},
-> > > -       {0x0100, 0x01},
-> > > +       {0x0100, 0x00}, {0x0103, 0x01}, {0x3034, 0x1a}, {0x3035, 0x21},
-> > > +       {0x3036, 0x62}, {0x303c, 0x11}, {0x3106, 0xf5}, {0x3821, 0x06},
-> > > +       {0x3820, 0x00}, {0x3827, 0xec}, {0x370c, 0x03}, {0x3612, 0x5b},
-> > > +       {0x3618, 0x04}, {0x5000, 0x06}, {0x5002, 0x41}, {0x5003, 0x08},
-> > > +       {0x5a00, 0x08}, {0x3000, 0x00}, {0x3001, 0x00}, {0x3002, 0x00},
-> > > +       {0x3016, 0x08}, {0x3017, 0xe0}, {0x3018, 0x44}, {0x301c, 0xf8},
-> > > +       {0x301d, 0xf0}, {0x3a18, 0x00}, {0x3a19, 0xf8}, {0x3c01, 0x80},
-> > > +       {0x3b07, 0x0c}, {0x380c, 0x09}, {0x380d, 0x70}, {0x3814, 0x11},
-> > > +       {0x3815, 0x11}, {0x3708, 0x64}, {0x3709, 0x12}, {0x3808, 0x07},
-> > > +       {0x3809, 0x80}, {0x380a, 0x04}, {0x380b, 0x38}, {0x3800, 0x01},
-> > > +       {0x3801, 0x5c}, {0x3802, 0x01}, {0x3803, 0xb2}, {0x3804, 0x08},
-> > > +       {0x3805, 0xe3}, {0x3806, 0x05}, {0x3807, 0xf1}, {0x3811, 0x04},
-> > > +       {0x3813, 0x02}, {0x3630, 0x2e}, {0x3632, 0xe2}, {0x3633, 0x23},
-> > > +       {0x3634, 0x44}, {0x3636, 0x06}, {0x3620, 0x64}, {0x3621, 0xe0},
-> > > +       {0x3600, 0x37}, {0x3704, 0xa0}, {0x3703, 0x5a}, {0x3715, 0x78},
-> > > +       {0x3717, 0x01}, {0x3731, 0x02}, {0x370b, 0x60}, {0x3705, 0x1a},
-> > > +       {0x3f05, 0x02}, {0x3f06, 0x10}, {0x3f01, 0x0a}, {0x3a08, 0x01},
-> > > +       {0x3a09, 0x4b}, {0x3a0a, 0x01}, {0x3a0b, 0x13}, {0x3a0d, 0x04},
-> > > +       {0x3a0e, 0x03}, {0x3a0f, 0x58}, {0x3a10, 0x50}, {0x3a1b, 0x58},
-> > > +       {0x3a1e, 0x50}, {0x3a11, 0x60}, {0x3a1f, 0x28}, {0x4001, 0x02},
-> > > +       {0x4004, 0x04}, {0x4000, 0x09}, {0x4837, 0x19}, {0x4800, 0x34},
-> > > +       {0x3503, 0x03}, {0x0100, 0x01},
-> > >  };
-> > >
-> > >  static struct regval_list ov5647_2x2binned_sbggr10[] = {
-> > > -       {0x0100, 0x00},
-> > > -       {0x0103, 0x01},
-> > > -       {0x3034, 0x1a},
-> > > -       {0x3035, 0x21},
-> > > -       {0x3036, 0x62},
-> > > -       {0x303c, 0x11},
-> > > -       {0x3106, 0xf5},
-> > > -       {0x3827, 0xec},
-> > > -       {0x370c, 0x03},
-> > > -       {0x3612, 0x59},
-> > > -       {0x3618, 0x00},
-> > > -       {0x5000, 0x06},
-> > > -       {0x5002, 0x41},
-> > > -       {0x5003, 0x08},
-> > > -       {0x5a00, 0x08},
-> > > -       {0x3000, 0x00},
-> > > -       {0x3001, 0x00},
-> > > -       {0x3002, 0x00},
-> > > -       {0x3016, 0x08},
-> > > -       {0x3017, 0xe0},
-> > > -       {0x3018, 0x44},
-> > > -       {0x301c, 0xf8},
-> > > -       {0x301d, 0xf0},
-> > > -       {0x3a18, 0x00},
-> > > -       {0x3a19, 0xf8},
-> > > -       {0x3c01, 0x80},
-> > > -       {0x3b07, 0x0c},
-> > > -       {0x3800, 0x00},
-> > > -       {0x3801, 0x00},
-> > > -       {0x3802, 0x00},
-> > > -       {0x3803, 0x00},
-> > > -       {0x3804, 0x0a},
-> > > -       {0x3805, 0x3f},
-> > > -       {0x3806, 0x07},
-> > > -       {0x3807, 0xa3},
-> > > -       {0x3808, 0x05},
-> > > -       {0x3809, 0x10},
-> > > -       {0x380a, 0x03},
-> > > -       {0x380b, 0xcc},
-> > > -       {0x380c, 0x07},
-> > > -       {0x380d, 0x68},
-> > > -       {0x3811, 0x0c},
-> > > -       {0x3813, 0x06},
-> > > -       {0x3814, 0x31},
-> > > -       {0x3815, 0x31},
-> > > -       {0x3630, 0x2e},
-> > > -       {0x3632, 0xe2},
-> > > -       {0x3633, 0x23},
-> > > -       {0x3634, 0x44},
-> > > -       {0x3636, 0x06},
-> > > -       {0x3620, 0x64},
-> > > -       {0x3621, 0xe0},
-> > > -       {0x3600, 0x37},
-> > > -       {0x3704, 0xa0},
-> > > -       {0x3703, 0x5a},
-> > > -       {0x3715, 0x78},
-> > > -       {0x3717, 0x01},
-> > > -       {0x3731, 0x02},
-> > > -       {0x370b, 0x60},
-> > > -       {0x3705, 0x1a},
-> > > -       {0x3f05, 0x02},
-> > > -       {0x3f06, 0x10},
-> > > -       {0x3f01, 0x0a},
-> > > -       {0x3a08, 0x01},
-> > > -       {0x3a09, 0x28},
-> > > -       {0x3a0a, 0x00},
-> > > -       {0x3a0b, 0xf6},
-> > > -       {0x3a0d, 0x08},
-> > > -       {0x3a0e, 0x06},
-> > > -       {0x3a0f, 0x58},
-> > > -       {0x3a10, 0x50},
-> > > -       {0x3a1b, 0x58},
-> > > -       {0x3a1e, 0x50},
-> > > -       {0x3a11, 0x60},
-> > > -       {0x3a1f, 0x28},
-> > > -       {0x4001, 0x02},
-> > > -       {0x4004, 0x04},
-> > > -       {0x4000, 0x09},
-> > > -       {0x4837, 0x16},
-> > > -       {0x4800, 0x24},
-> > > -       {0x3503, 0x03},
-> > > -       {0x3820, 0x41},
-> > > -       {0x3821, 0x07},
-> > > -       {0x350a, 0x00},
-> > > -       {0x350b, 0x10},
-> > > -       {0x3500, 0x00},
-> > > -       {0x3501, 0x1a},
-> > > -       {0x3502, 0xf0},
-> > > -       {0x3212, 0xa0},
-> > > -       {0x0100, 0x01},
-> > > +       {0x0100, 0x00}, {0x0103, 0x01}, {0x3034, 0x1a}, {0x3035, 0x21},
-> > > +       {0x3036, 0x62}, {0x303c, 0x11}, {0x3106, 0xf5}, {0x3827, 0xec},
-> > > +       {0x370c, 0x03}, {0x3612, 0x59}, {0x3618, 0x00}, {0x5000, 0x06},
-> > > +       {0x5002, 0x41}, {0x5003, 0x08}, {0x5a00, 0x08}, {0x3000, 0x00},
-> > > +       {0x3001, 0x00}, {0x3002, 0x00}, {0x3016, 0x08}, {0x3017, 0xe0},
-> > > +       {0x3018, 0x44}, {0x301c, 0xf8}, {0x301d, 0xf0}, {0x3a18, 0x00},
-> > > +       {0x3a19, 0xf8}, {0x3c01, 0x80}, {0x3b07, 0x0c}, {0x3800, 0x00},
-> > > +       {0x3801, 0x00}, {0x3802, 0x00}, {0x3803, 0x00}, {0x3804, 0x0a},
-> > > +       {0x3805, 0x3f}, {0x3806, 0x07}, {0x3807, 0xa3}, {0x3808, 0x05},
-> > > +       {0x3809, 0x10}, {0x380a, 0x03}, {0x380b, 0xcc}, {0x380c, 0x07},
-> > > +       {0x380d, 0x68}, {0x3811, 0x0c}, {0x3813, 0x06}, {0x3814, 0x31},
-> > > +       {0x3815, 0x31}, {0x3630, 0x2e}, {0x3632, 0xe2}, {0x3633, 0x23},
-> > > +       {0x3634, 0x44}, {0x3636, 0x06}, {0x3620, 0x64}, {0x3621, 0xe0},
-> > > +       {0x3600, 0x37}, {0x3704, 0xa0}, {0x3703, 0x5a}, {0x3715, 0x78},
-> > > +       {0x3717, 0x01}, {0x3731, 0x02}, {0x370b, 0x60}, {0x3705, 0x1a},
-> > > +       {0x3f05, 0x02}, {0x3f06, 0x10}, {0x3f01, 0x0a}, {0x3a08, 0x01},
-> > > +       {0x3a09, 0x28}, {0x3a0a, 0x00}, {0x3a0b, 0xf6}, {0x3a0d, 0x08},
-> > > +       {0x3a0e, 0x06}, {0x3a0f, 0x58}, {0x3a10, 0x50}, {0x3a1b, 0x58},
-> > > +       {0x3a1e, 0x50}, {0x3a11, 0x60}, {0x3a1f, 0x28}, {0x4001, 0x02},
-> > > +       {0x4004, 0x04}, {0x4000, 0x09}, {0x4837, 0x16}, {0x4800, 0x24},
-> > > +       {0x3503, 0x03}, {0x3820, 0x41}, {0x3821, 0x07}, {0x350a, 0x00},
-> > > +       {0x350b, 0x10}, {0x3500, 0x00}, {0x3501, 0x1a}, {0x3502, 0xf0},
-> > > +       {0x3212, 0xa0}, {0x0100, 0x01},
-> > >  };
-> > >
-> > >  static struct regval_list ov5647_640x480_sbggr10[] = {
-> > > -       {0x0100, 0x00},
-> > > -       {0x0103, 0x01},
-> > > -       {0x3035, 0x11},
-> > > -       {0x3036, 0x46},
-> > > -       {0x303c, 0x11},
-> > > -       {0x3821, 0x07},
-> > > -       {0x3820, 0x41},
-> > > -       {0x370c, 0x03},
-> > > -       {0x3612, 0x59},
-> > > -       {0x3618, 0x00},
-> > > -       {0x5000, 0x06},
-> > > -       {0x5003, 0x08},
-> > > -       {0x5a00, 0x08},
-> > > -       {0x3000, 0xff},
-> > > -       {0x3001, 0xff},
-> > > -       {0x3002, 0xff},
-> > > -       {0x301d, 0xf0},
-> > > -       {0x3a18, 0x00},
-> > > -       {0x3a19, 0xf8},
-> > > -       {0x3c01, 0x80},
-> > > -       {0x3b07, 0x0c},
-> > > -       {0x380c, 0x07},
-> > > -       {0x380d, 0x3c},
-> > > -       {0x3814, 0x35},
-> > > -       {0x3815, 0x35},
-> > > -       {0x3708, 0x64},
-> > > -       {0x3709, 0x52},
-> > > -       {0x3808, 0x02},
-> > > -       {0x3809, 0x80},
-> > > -       {0x380a, 0x01},
-> > > -       {0x380b, 0xe0},
-> > > -       {0x3800, 0x00},
-> > > -       {0x3801, 0x10},
-> > > -       {0x3802, 0x00},
-> > > -       {0x3803, 0x00},
-> > > -       {0x3804, 0x0a},
-> > > -       {0x3805, 0x2f},
-> > > -       {0x3806, 0x07},
-> > > -       {0x3807, 0x9f},
-> > > -       {0x3630, 0x2e},
-> > > -       {0x3632, 0xe2},
-> > > -       {0x3633, 0x23},
-> > > -       {0x3634, 0x44},
-> > > -       {0x3620, 0x64},
-> > > -       {0x3621, 0xe0},
-> > > -       {0x3600, 0x37},
-> > > -       {0x3704, 0xa0},
-> > > -       {0x3703, 0x5a},
-> > > -       {0x3715, 0x78},
-> > > -       {0x3717, 0x01},
-> > > -       {0x3731, 0x02},
-> > > -       {0x370b, 0x60},
-> > > -       {0x3705, 0x1a},
-> > > -       {0x3f05, 0x02},
-> > > -       {0x3f06, 0x10},
-> > > -       {0x3f01, 0x0a},
-> > > -       {0x3a08, 0x01},
-> > > -       {0x3a09, 0x2e},
-> > > -       {0x3a0a, 0x00},
-> > > -       {0x3a0b, 0xfb},
-> > > -       {0x3a0d, 0x02},
-> > > -       {0x3a0e, 0x01},
-> > > -       {0x3a0f, 0x58},
-> > > -       {0x3a10, 0x50},
-> > > -       {0x3a1b, 0x58},
-> > > -       {0x3a1e, 0x50},
-> > > -       {0x3a11, 0x60},
-> > > -       {0x3a1f, 0x28},
-> > > -       {0x4001, 0x02},
-> > > -       {0x4004, 0x02},
-> > > -       {0x4000, 0x09},
-> > > -       {0x3000, 0x00},
-> > > -       {0x3001, 0x00},
-> > > -       {0x3002, 0x00},
-> > > -       {0x3017, 0xe0},
-> > > -       {0x301c, 0xfc},
-> > > -       {0x3636, 0x06},
-> > > -       {0x3016, 0x08},
-> > > -       {0x3827, 0xec},
-> > > -       {0x3018, 0x44},
-> > > -       {0x3035, 0x21},
-> > > -       {0x3106, 0xf5},
-> > > -       {0x3034, 0x1a},
-> > > -       {0x301c, 0xf8},
-> > > -       {0x4800, 0x34},
-> > > -       {0x3503, 0x03},
-> > > -       {0x0100, 0x01},
-> > > +       {0x0100, 0x00}, {0x0103, 0x01}, {0x3035, 0x11}, {0x3036, 0x46},
-> > > +       {0x303c, 0x11}, {0x3821, 0x07}, {0x3820, 0x41}, {0x370c, 0x03},
-> > > +       {0x3612, 0x59}, {0x3618, 0x00}, {0x5000, 0x06}, {0x5003, 0x08},
-> > > +       {0x5a00, 0x08}, {0x3000, 0xff}, {0x3001, 0xff}, {0x3002, 0xff},
-> > > +       {0x301d, 0xf0}, {0x3a18, 0x00}, {0x3a19, 0xf8}, {0x3c01, 0x80},
-> > > +       {0x3b07, 0x0c}, {0x380c, 0x07}, {0x380d, 0x3c}, {0x3814, 0x35},
-> > > +       {0x3815, 0x35}, {0x3708, 0x64}, {0x3709, 0x52}, {0x3808, 0x02},
-> > > +       {0x3809, 0x80}, {0x380a, 0x01}, {0x380b, 0xe0}, {0x3800, 0x00},
-> > > +       {0x3801, 0x10}, {0x3802, 0x00}, {0x3803, 0x00}, {0x3804, 0x0a},
-> > > +       {0x3805, 0x2f}, {0x3806, 0x07}, {0x3807, 0x9f}, {0x3630, 0x2e},
-> > > +       {0x3632, 0xe2}, {0x3633, 0x23}, {0x3634, 0x44}, {0x3620, 0x64},
-> > > +       {0x3621, 0xe0}, {0x3600, 0x37}, {0x3704, 0xa0}, {0x3703, 0x5a},
-> > > +       {0x3715, 0x78}, {0x3717, 0x01}, {0x3731, 0x02}, {0x370b, 0x60},
-> > > +       {0x3705, 0x1a}, {0x3f05, 0x02}, {0x3f06, 0x10}, {0x3f01, 0x0a},
-> > > +       {0x3a08, 0x01}, {0x3a09, 0x2e}, {0x3a0a, 0x00}, {0x3a0b, 0xfb},
-> > > +       {0x3a0d, 0x02}, {0x3a0e, 0x01}, {0x3a0f, 0x58}, {0x3a10, 0x50},
-> > > +       {0x3a1b, 0x58}, {0x3a1e, 0x50}, {0x3a11, 0x60}, {0x3a1f, 0x28},
-> > > +       {0x4001, 0x02}, {0x4004, 0x02}, {0x4000, 0x09}, {0x3000, 0x00},
-> > > +       {0x3001, 0x00}, {0x3002, 0x00}, {0x3017, 0xe0}, {0x301c, 0xfc},
-> > > +       {0x3636, 0x06}, {0x3016, 0x08}, {0x3827, 0xec}, {0x3018, 0x44},
-> > > +       {0x3035, 0x21}, {0x3106, 0xf5}, {0x3034, 0x1a}, {0x301c, 0xf8},
-> > > +       {0x4800, 0x34}, {0x3503, 0x03}, {0x0100, 0x01},
-> > >  };
-> > >
-> > >  static const struct ov5647_mode ov5647_sbggr8_modes[] = {
+What do you do if a link can carry both metadata (as in
+V4L2_BUF_TYPE_METADATA_CAPTURE) as well as pixel data, but with a fixed
+format?
+
+I'm not sure we have any such case at the moment but it's not
+inconceivable.
 
 -- 
 Regards,
 
-Laurent Pinchart
+Sakari Ailus
