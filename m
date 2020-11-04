@@ -2,92 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD4882A5FA7
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 09:31:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 528182A5FCC
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 09:44:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728229AbgKDIbv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 03:31:51 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:40280 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725812AbgKDIbv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 03:31:51 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A48TlMT174602;
-        Wed, 4 Nov 2020 08:31:36 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : references : mime-version : content-type :
- in-reply-to; s=corp-2020-01-29;
- bh=wOQLF+xJ/7VE4Y0fP7RL7N20/n8UEBSylhe1dmfPQBE=;
- b=m5Al1zUVRnT6KE5dIjwYeLPDlAtF6pphW3zZkSzdDDGL7ZdBTbd+FntZaNEku9lfqpxj
- LTJ6d3Qk56+NPDcl2RAd/nRUxll38d4EaUTxZO8Yfh6PHlQzvpCNJD5FGkzLRc5tc+RA
- Igvl8PdHVOaDd2FzoQMKAdVC6oRlm1zNJXQ3HgQeYFl024q/ao7TD99I1DazqaiZTpDo
- VRRivO4PoAG65qohV2/tJKRvHXMpiv2QX8d/av2gea6tWbHmTDJMXY+22orQxnqV9osW
- z/Y9Bu0pPXCOStImjiLST/coHbW1Mrhu10as0jwzevYXQPkqS3aUjqHiamZsrcJ+71/m iw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by aserp2120.oracle.com with ESMTP id 34hhvcdfxa-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 04 Nov 2020 08:31:36 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0A48OjVt006745;
-        Wed, 4 Nov 2020 08:31:35 GMT
-Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
-        by userp3020.oracle.com with ESMTP id 34hw0f0uhx-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 04 Nov 2020 08:31:35 +0000
-Received: from abhmp0002.oracle.com (abhmp0002.oracle.com [141.146.116.8])
-        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0A48VWeN026301;
-        Wed, 4 Nov 2020 08:31:32 GMT
-Received: from kadam (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Wed, 04 Nov 2020 00:31:31 -0800
-Date:   Wed, 4 Nov 2020 11:31:21 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Markus Elfring <Markus.Elfring@web.de>
-Cc:     Souptick Joarder <jrdr.linux@gmail.com>,
-        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Daniel Jordan <daniel.m.jordan@oracle.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Ira Weiny <ira.weiny@intel.com>,
-        John Hubbard <jhubbard@nvidia.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michel Lespinasse <walken@google.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Vlastimil Babka <vbabka@suse.cz>
-Subject: Re: [PATCH v2] media: atomisp: Fix error handling path
-Message-ID: <20201104083121.GG18329@kadam>
-References: <1604455331-28031-1-git-send-email-jrdr.linux@gmail.com>
- <65712450-1ee9-2dd3-cd43-f850807ae203@web.de>
+        id S1727787AbgKDIoU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 03:44:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47694 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727851AbgKDIoT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 03:44:19 -0500
+Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C853DC061A4A
+        for <linux-media@vger.kernel.org>; Wed,  4 Nov 2020 00:44:15 -0800 (PST)
+Received: by mail-oi1-x242.google.com with SMTP id m17so128363oie.4
+        for <linux-media@vger.kernel.org>; Wed, 04 Nov 2020 00:44:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ycqoIkcF9lPtiJBVMgjq7zwCX8Gyu6JCtVXT12jKTV8=;
+        b=SO6a9eIH6r+EzFThZ6MTARjwHEtx6LFHOpOvFgwKmnw7LjZXHcgycyhZfUmdSwXoni
+         9VPCbgc6ODqmZSPJVN4eXwn3IqpRr3uXKNjrMKGfBOBHLutZLHhso+mS3OiPqxM7Q6/l
+         K5a5NNqZWoxju2yJSN+OURI61y0XID3dk0Roo=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ycqoIkcF9lPtiJBVMgjq7zwCX8Gyu6JCtVXT12jKTV8=;
+        b=NpZoxS2vUhx467XBbAPBErxmon0tABVgJ1zJxf4Qerwe5x6LnsNjG3QHWc1a1LcDFF
+         m0c6Esp9yUTimffN/jWO2BgsITeO++q/UZJOgI61uJgvN7p2Se6jMWrNNFiyF+YZSliF
+         NUQ3QBfJTuDiUxm6rShIBmODKy3wp9bZC+qbSQMLADF3ZTUMOMo0d7yooud+mUhgIkOW
+         +j9wkKlgfHH3//k2DprqV9JtfHedc8OF7zTUxBDRQMdjyFjHOpoD2CUOv6J3sCiez5MW
+         bpiKfRi9w99XIumYnEPxB5LvSHkwm5SvdtW0Eg9QHvlUwDwjd2fkkdqAfA1Nn6dGIzKF
+         INAg==
+X-Gm-Message-State: AOAM530kpFJyEh3DjQ/SES3csPtDOyC3Jiv5wbws/lkIrbSuO2xYZ/dJ
+        3VoeTY8Mx7w9sfKBq4YRPXlIRafXyFeY9ZHW7H2Hjw==
+X-Google-Smtp-Source: ABdhPJzFeuCQlV5NJZ+3HUxdvXgtCAFGX/0rEF7qnn1uI6qUI3Z5/MsHqFAcH2CxUPAQE20CBPAAF7SeJ5phPHzYaRc=
+X-Received: by 2002:aca:b141:: with SMTP id a62mr1813813oif.101.1604479455139;
+ Wed, 04 Nov 2020 00:44:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <65712450-1ee9-2dd3-cd43-f850807ae203@web.de>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9794 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=999
- phishscore=0 bulkscore=0 spamscore=0 malwarescore=0 mlxscore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011040062
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9794 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 suspectscore=0
- impostorscore=0 malwarescore=0 priorityscore=1501 mlxlogscore=999
- bulkscore=0 phishscore=0 adultscore=0 mlxscore=0 lowpriorityscore=0
- clxscore=1011 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011040062
+References: <20201030100815.2269-12-daniel.vetter@ffwll.ch>
+ <20201103212840.GA266427@bjorn-Precision-5520> <CAPcyv4jCGxWG0opLv4VzBRk5iLwu6CRse4DwF-otWkfXoGWe6A@mail.gmail.com>
+In-Reply-To: <CAPcyv4jCGxWG0opLv4VzBRk5iLwu6CRse4DwF-otWkfXoGWe6A@mail.gmail.com>
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+Date:   Wed, 4 Nov 2020 09:44:04 +0100
+Message-ID: <CAKMK7uF0QjesaNs97N-G8cZkXuAmFgcmTfHvoCP94br_WVcV6Q@mail.gmail.com>
+Subject: Re: [PATCH v5 11/15] PCI: Obey iomem restrictions for procfs mmap
+To:     Dan Williams <dan.j.williams@intel.com>
+Cc:     Bjorn Helgaas <helgaas@kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
+        Linux PCI <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 04, 2020 at 08:15:58AM +0100, Markus Elfring wrote:
-> > Fixes: 14a638ab96c5 ("media: atomisp: use pin_user_pages() for memory
-> > allocation")
-> 
-> Please delete a line break for this tag.
+On Tue, Nov 3, 2020 at 11:09 PM Dan Williams <dan.j.williams@intel.com> wrote:
+> On Tue, Nov 3, 2020 at 1:28 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > On Fri, Oct 30, 2020 at 11:08:11AM +0100, Daniel Vetter wrote:
+> > > There's three ways to access PCI BARs from userspace: /dev/mem, sysfs
+> > > files, and the old proc interface. Two check against
+> > > iomem_is_exclusive, proc never did. And with CONFIG_IO_STRICT_DEVMEM,
+> > > this starts to matter, since we don't want random userspace having
+> > > access to PCI BARs while a driver is loaded and using it.
+> > >
+> > > Fix this by adding the same iomem_is_exclusive() check we already have
+> > > on the sysfs side in pci_mmap_resource().
+> > >
+> > > References: 90a545e98126 ("restrict /dev/mem to idle io memory ranges")
+> > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> >
+> > This is OK with me but it looks like IORESOURCE_EXCLUSIVE is currently
+> > only used in a few places:
+> >
+> >   e1000_probe() calls pci_request_selected_regions_exclusive(),
+> >   ne_pci_probe() calls pci_request_regions_exclusive(),
+> >   vmbus_allocate_mmio() calls request_mem_region_exclusive()
+> >
+> > which raises the question of whether it's worth keeping
+> > IORESOURCE_EXCLUSIVE at all.  I'm totally fine with removing it
+> > completely.
+>
+> Now that CONFIG_IO_STRICT_DEVMEM upgrades IORESOURCE_BUSY to
+> IORESOURCE_EXCLUSIVE semantics the latter has lost its meaning so I'd
+> be in favor of removing it as well.
 
-Markus, the thing is that we all saw the line break and we just thought
-it didn't matter at all...
+Still has some value since it enforces exclusive access even if the
+config isn't enabled, and iirc e1000 had some fun with userspace tools
+clobbering the firmware and bricking the chip.
 
-regards,
-dan carpenter
+Another thing I kinda wondered, since pci maintainer is here: At least
+in drivers/gpu I see very few drivers explicitly requestion regions
+(this might be a historical artifact due to the shadow attach stuff
+before we had real modesetting drivers). And pci core doesn't do that
+either, even when a driver is bound. Is this intentional, or
+should/could we do better? Since drivers work happily without
+reserving regions I don't think "the drivers need to remember to do
+this" will ever really work out well.
+-Daniel
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
