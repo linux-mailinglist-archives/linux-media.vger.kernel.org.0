@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 575D92A6190
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 11:28:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84FFC2A619C
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 11:30:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728969AbgKDK2K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 05:28:10 -0500
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:39619 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729097AbgKDK0s (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 05:26:48 -0500
+        id S1729279AbgKDKaK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 05:30:10 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:51877 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728607AbgKDK33 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 05:29:29 -0500
 X-Originating-IP: 93.29.109.196
 Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 3C79840011;
-        Wed,  4 Nov 2020 10:26:43 +0000 (UTC)
-Date:   Wed, 4 Nov 2020 11:26:43 +0100
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id E660A60003;
+        Wed,  4 Nov 2020 10:29:23 +0000 (UTC)
+Date:   Wed, 4 Nov 2020 11:29:23 +0100
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -27,96 +27,74 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Mark Brown <broonie@kernel.org>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         Hans Verkuil <hverkuil@xs4all.nl>,
-        Maxime Ripard <mripard@kernel.org>, kevin.lhopital@hotmail.com,
-        =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
-Subject: Re: [PATCH 1/3] dt-bindings: media: i2c: Add OV8865 bindings
+        Maxime Ripard <mripard@kernel.org>
+Subject: Re: [PATCH 1/2] dt-bindings: media: i2c: Add OV5648 bindings
  documentation
-Message-ID: <20201104102643.GH2123@aptenodytes>
-References: <20201023175406.504527-1-paul.kocialkowski@bootlin.com>
- <20201023175406.504527-2-paul.kocialkowski@bootlin.com>
- <20201102232411.GD26150@paasikivi.fi.intel.com>
+Message-ID: <20201104102923.GA285779@aptenodytes>
+References: <20201023174944.504358-1-paul.kocialkowski@bootlin.com>
+ <20201023174944.504358-2-paul.kocialkowski@bootlin.com>
+ <20201030163722.GS26150@paasikivi.fi.intel.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="JI+G0+mN8WmwPnOn"
+        protocol="application/pgp-signature"; boundary="8t9RHnE3ZwKMSgU+"
 Content-Disposition: inline
-In-Reply-To: <20201102232411.GD26150@paasikivi.fi.intel.com>
+In-Reply-To: <20201030163722.GS26150@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---JI+G0+mN8WmwPnOn
+--8t9RHnE3ZwKMSgU+
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-Hi Sakari and thanks for the review!
+Hi Sakari,
 
-On Tue 03 Nov 20, 01:24, Sakari Ailus wrote:
-> On Fri, Oct 23, 2020 at 07:54:04PM +0200, Paul Kocialkowski wrote:
-> > This introduces YAML bindings documentation for the OV8865
+On Fri 30 Oct 20, 18:37, Sakari Ailus wrote:
+> On Fri, Oct 23, 2020 at 07:49:43PM +0200, Paul Kocialkowski wrote:
+> > This introduces YAML bindings documentation for the OV5648
 > > image sensor.
 > >=20
-> > Co-developed-by: K=C3=A9vin L'h=C3=B4pital <kevin.lhopital@bootlin.com>
-> > Signed-off-by: K=C3=A9vin L'h=C3=B4pital <kevin.lhopital@bootlin.com>
 > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > > ---
-> >  .../bindings/media/i2c/ovti,ov8865.yaml       | 124 ++++++++++++++++++
-> >  1 file changed, 124 insertions(+)
+> >  .../bindings/media/i2c/ovti,ov5648.yaml       | 115 ++++++++++++++++++
+> >  1 file changed, 115 insertions(+)
 > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov=
-8865.yaml
+5648.yaml
 > >=20
-> > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.ya=
-ml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.ya=
+ml b/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
 > > new file mode 100644
-> > index 000000000000..807f1a94afae
+> > index 000000000000..347af925b450
 > > --- /dev/null
-> > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
-> > @@ -0,0 +1,124 @@
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
+> > @@ -0,0 +1,115 @@
 > > +# SPDX-License-Identifier: GPL-2.0
 > > +%YAML 1.2
 > > +---
-> > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov8865.yaml#
+> > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov5648.yaml#
 > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > > +
-> > +title: OmniVision OV8865 Image Sensor Device Tree Bindings
+> > +title: OmniVision OV5648 Image Sensor Device Tree Bindings
 > > +
 > > +maintainers:
 > > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > > +
 > > +properties:
 > > +  compatible:
-> > +    const: ovti,ov8865
+> > +    const: ovti,ov5648
 > > +
 > > +  reg:
 > > +    maxItems: 1
 > > +
 > > +  clocks:
 > > +    items:
-> > +      - description: EXTCLK Clock
+> > +      - description: XVCLK Clock
 > > +
 > > +  clock-names:
 > > +    items:
-> > +      - const: extclk
->=20
-> Is this needed with a single clock?
-
-Yes I think so: we grab the clock with devm_clk_get which takes a name stri=
-ng
-that matches the clock-names property.
-
-> And... shouldn't this also come with assigned-clock-rates etc., to set the
-> clock frequency?
-
-I'm a bit confused why we would need to do that in the device-tree rather t=
-han
-setting the clock rate with clk_set_rate in the driver, like any other driv=
-er
-does. I think this was discussed before (on the initial ov8865 series) and =
-the
-conclusion was that there is no particular reason for media i2c drivers to
-behave differently. So I believe this is the correct approach.
-
+> > +      - const: xvclk
 > > +
 > > +  dvdd-supply:
 > > +    description: Digital Domain Power Supply
@@ -139,6 +117,13 @@ missing)
 > > +  port:
 > > +    type: object
 > > +    description: Input port, connect to a MIPI CSI-2 receiver
+>=20
+> "Input"? I'd describe this as output.
+>=20
+> How about e.g. "MIPI CSI-2 transmitter port"?
+
+Woops, that's definitely a mistake. Your suggestion sounds good, thanks!
+
 > > +
 > > +    properties:
 > > +      endpoint:
@@ -153,38 +138,18 @@ missing)
 > > +          clock-lanes:
 > > +            maxItems: 1
 >=20
-> I believe you can drop clock-lanes and bus-type; these are both constants.
+> You can drop the two as they're always the same.
 
-I don't understand why bus-type should be dropped because it is constant:
-if bus-type is set to something else, the driver will definitely not probe
-since we're requesting V4L2_MBUS_CSI2_DPHY for v4l2_fwnode_endpoint_parse.
-So I think it's quite important for the bindings to reflect this.
-
-> I presume the device does not support lane remapping?
-
-That's correct so this is indeed not something we can configure.
-But shouldn't we instead specift clock-lanes =3D <0> as a const rather than
-getting rid of it?
-
-> Could you also add link-frequencies, to list which frequencies are known =
-to
-> be good?
-
-Ah right, I had missed it. I'm a bit unsure about what I should do with the
-information from the driver though: should I refuse to use link frequencies=
- that
-are not in the list?
+See my reply to the same comment on the other series.
 
 Cheers,
 
 Paul
 
-> Same comments on the other OV sensor bindings.
->=20
 > > +
 > > +          data-lanes:
 > > +            minItems: 1
-> > +            maxItems: 4
+> > +            maxItems: 2
 > > +
 > > +        required:
 > > +          - bus-type
@@ -209,47 +174,36 @@ Paul
 > > +
 > > +examples:
 > > +  - |
-> > +    #include <dt-bindings/clock/sun8i-a83t-ccu.h>
+> > +    #include <dt-bindings/clock/sun8i-v3s-ccu.h>
 > > +    #include <dt-bindings/gpio/gpio.h>
 > > +
-> > +    i2c2 {
+> > +    i2c0 {
 > > +        #address-cells =3D <1>;
 > > +        #size-cells =3D <0>;
 > > +
-> > +        ov8865: camera@36 {
-> > +            compatible =3D "ovti,ov8865";
+> > +        ov5648: camera@36 {
+> > +            compatible =3D "ovti,ov5648";
 > > +            reg =3D <0x36>;
 > > +
-> > +            pinctrl-names =3D "default";
-> > +            pinctrl-0 =3D <&csi_mclk_pin>;
+> > +            dvdd-supply =3D <&ov5648_dvdd>;
+> > +            avdd-supply =3D <&ov5648_avdd>;
+> > +            dovdd-supply =3D <&ov5648_dovdd>;
+> > +            clocks =3D <&ov5648_xvclk 0>;
+> > +            clock-names =3D "xvclk";
 > > +
-> > +            clocks =3D <&ccu CLK_CSI_MCLK>;
-> > +            clock-names =3D "extclk";
-> > +
-> > +            avdd-supply =3D <&reg_ov8865_avdd>;
-> > +            dovdd-supply =3D <&reg_ov8865_dovdd>;
-> > +            dvdd-supply =3D <&reg_ov8865_dvdd>;
-> > +
-> > +            powerdown-gpios =3D <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
-> > +            reset-gpios =3D <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
-> > +
-> > +            port {
-> > +                ov8865_out_mipi_csi2: endpoint {
+> > +            ov5648_out: port {
+> > +                ov5648_out_mipi_csi2: endpoint {
 > > +                    bus-type =3D <4>; /* MIPI CSI-2 D-PHY */
 > > +                    clock-lanes =3D <0>;
-> > +                    data-lanes =3D <1 2 3 4>;
+> > +                    data-lanes =3D <1 2>;
 > > +
-> > +                    remote-endpoint =3D <&mipi_csi2_in_ov8865>;
+> > +                    remote-endpoint =3D <&mipi_csi2_in_ov5648>;
 > > +                };
 > > +            };
 > > +        };
 > > +    };
-> > +
-> > +...
 >=20
 > --=20
-> Regards,
->=20
 > Sakari Ailus
 
 --=20
@@ -257,19 +211,19 @@ Paul Kocialkowski, Bootlin
 Embedded Linux and kernel engineering
 https://bootlin.com
 
---JI+G0+mN8WmwPnOn
+--8t9RHnE3ZwKMSgU+
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl+igeMACgkQ3cLmz3+f
-v9GD4gf/d6zDky1Bc2fNJdjcVgUx18tpFH1w8Ph3txVlRC1B2ct42ap/t54nNnig
-9LmLH689DbU5cpyvmzec/+j/nwdpOybyKKlAWwGeUpl8EU84juQ7G0MSTzBoSVu4
-JUMFQVbo5VBSNWFZzBfBxUMd1/JOxNC9F5fvboVQXRWMQjz+KZbixWItXXw3lwwd
-OVG9usEHThAp1dLU7kPm3lMRqIdfFFor4uR+Ua37nV1oEeuORaimr+d5JI50HCG4
-Do7Q3yWO97DcYdbD9PH+U9ibo9QdDPFCzcKe2g/0U0IoQaXOsfd2Ypz/OBrQPs2o
-xOMSjWxF0sbjVR1edHd/IfKg238n6Q==
-=lx7E
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl+igoMACgkQ3cLmz3+f
+v9Gi7Af+M3VHc6S+z8frqFhUa3rAyAf4FcwHUgEP3+/auAqIqarIHO+yVkdPhFY2
+Qh4ULYUJWWLChBU7HPXMDPoimuYoTaOr8H0Ijy8vImb1spA+Ey7laIfmbiMn4M6N
+4cOnF6t4JZNu4slFM4A4Rel7QVw7oQT3icHRdFHmGJtPRr1eOWryOsa6R/gV8Cvj
+XkU4tuqBk+oQePoyqMx8acT8x0Cmel8FTT+djw1S+W/IhDb+ZrArBOfQzvaYuik6
+yFGN6KSrbEk7QofF+HsZ5yjNpo8IF7ZtUy7nCUy3RxVK4yIchoogfb+mpENKdqeR
+w/WEJgDHX/e25MgL6A7auNTRfFuSMw==
+=SC2z
 -----END PGP SIGNATURE-----
 
---JI+G0+mN8WmwPnOn--
+--8t9RHnE3ZwKMSgU+--
