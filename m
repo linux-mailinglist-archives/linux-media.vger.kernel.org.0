@@ -2,120 +2,274 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1566A2A615B
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 11:16:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 575D92A6190
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 11:28:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728687AbgKDKPx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 05:15:53 -0500
-Received: from foss.arm.com ([217.140.110.172]:34306 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727001AbgKDKPx (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Nov 2020 05:15:53 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id F301A13D5;
-        Wed,  4 Nov 2020 02:15:51 -0800 (PST)
-Received: from [10.57.54.223] (unknown [10.57.54.223])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 4BDDB3F66E;
-        Wed,  4 Nov 2020 02:15:50 -0800 (PST)
-Subject: Re: use of dma_direct_set_offset in (allwinner) drivers
-To:     Maxime Ripard <maxime@cerno.tech>, Christoph Hellwig <hch@lst.de>
-Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        dri-devel@lists.freedesktop.org,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Chen-Yu Tsai <wens@csie.org>, iommu@lists.linux-foundation.org,
-        Yong Deng <yong.deng@magewell.com>,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org
-References: <20201103095538.GA19136@lst.de>
- <20201104081411.bnt5kixgunaczbzj@gilmour.lan>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <9623c346-c86c-e3ce-332b-95492576a859@arm.com>
-Date:   Wed, 4 Nov 2020 10:15:49 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        id S1728969AbgKDK2K (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 05:28:10 -0500
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:39619 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729097AbgKDK0s (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 05:26:48 -0500
+X-Originating-IP: 93.29.109.196
+Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 3C79840011;
+        Wed,  4 Nov 2020 10:26:43 +0000 (UTC)
+Date:   Wed, 4 Nov 2020 11:26:43 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Maxime Ripard <mripard@kernel.org>, kevin.lhopital@hotmail.com,
+        =?utf-8?B?S8OpdmluIEwnaMO0cGl0YWw=?= <kevin.lhopital@bootlin.com>
+Subject: Re: [PATCH 1/3] dt-bindings: media: i2c: Add OV8865 bindings
+ documentation
+Message-ID: <20201104102643.GH2123@aptenodytes>
+References: <20201023175406.504527-1-paul.kocialkowski@bootlin.com>
+ <20201023175406.504527-2-paul.kocialkowski@bootlin.com>
+ <20201102232411.GD26150@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20201104081411.bnt5kixgunaczbzj@gilmour.lan>
-Content-Type: text/plain; charset=windows-1252; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="JI+G0+mN8WmwPnOn"
+Content-Disposition: inline
+In-Reply-To: <20201102232411.GD26150@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-11-04 08:14, Maxime Ripard wrote:
-> Hi Christoph,
-> 
-> On Tue, Nov 03, 2020 at 10:55:38AM +0100, Christoph Hellwig wrote:
->> Linux 5.10-rc1 switched from having a single dma offset in struct device
->> to a set of DMA ranges, and introduced a new helper to set them,
->> dma_direct_set_offset.
->>
->> This in fact surfaced that a bunch of drivers that violate our layering
->> and set the offset from drivers, which meant we had to reluctantly
->> export the symbol to set up the DMA range.
->>
->> The drivers are:
->>
->> drivers/gpu/drm/sun4i/sun4i_backend.c
->>
->>    This just use dma_direct_set_offset as a fallback.  Is there any good
->>    reason to not just kill off the fallback?
->>
->> drivers/media/platform/sunxi/sun4i-csi/sun4i_csi.c
->>
->>    Same as above.
-> 
-> So, the history of this is:
-> 
->    - We initially introduced the support for those two controllers
->      assuming that there was a direct mapping between the physical and
->      DMA addresses. It turns out it didn't and the DMA accesses were
->      going through a secondary, dedicated, bus that didn't have the same
->      mapping of the RAM than the CPU.
-> 
->      4690803b09c6 ("drm/sun4i: backend: Offset layer buffer address by DRAM starting address")
-> 
->    - This dedicated bus is undocumented and barely used in the vendor
->      kernel so this was overlooked, and it's fairly hard to get infos on
->      it for all the SoCs we support. We added the DT support for it
->      though on some SoCs we had enough infos to do so:
-> 
->      c43a4469402f ("dt-bindings: interconnect: Add a dma interconnect name")
->      22f88e311399 ("ARM: dts: sun5i: Add the MBUS controller")
-> 
->      This explains the check on the interconnect property
-> 
->    - However, due to the stable DT rule, we still need to operate without
->      regressions on older DTs that wouldn't have that property (and for
->      SoCs we haven't figured out). Hence the fallback.
 
-How about having something in the platform code that keys off the 
-top-level SoC compatible and uses a bus notifier to create offsets for 
-the relevant devices if an MBUS description is missing? At least that 
-way the workaround could be confined to a single dedicated place and 
-look somewhat similar to other special cases like sta2x11, rather than 
-being duplicated all over the place.
+--JI+G0+mN8WmwPnOn
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-Robin.
+Hi Sakari and thanks for the review!
 
->> drivers/media/platform/sunxi/sun6i-csi/sun6i_csi.c
->>
->>    This driver unconditionally sets the offset.  Why can't we do this
->>    in the device tree?
->>
->> drivers/staging/media/sunxi/cedrus/cedrus_hw.c
->>
->>    Same as above.
->>
-> 
-> We should make those two match the previous ones, but we'll have the
-> same issue here eventually. Most likely they were never ran on an SoC
-> for which we have the MBUS figured out.
-> 
-> Maxime
-> 
-> 
-> _______________________________________________
-> linux-arm-kernel mailing list
-> linux-arm-kernel@lists.infradead.org
-> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
-> 
+On Tue 03 Nov 20, 01:24, Sakari Ailus wrote:
+> On Fri, Oct 23, 2020 at 07:54:04PM +0200, Paul Kocialkowski wrote:
+> > This introduces YAML bindings documentation for the OV8865
+> > image sensor.
+> >=20
+> > Co-developed-by: K=C3=A9vin L'h=C3=B4pital <kevin.lhopital@bootlin.com>
+> > Signed-off-by: K=C3=A9vin L'h=C3=B4pital <kevin.lhopital@bootlin.com>
+> > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > ---
+> >  .../bindings/media/i2c/ovti,ov8865.yaml       | 124 ++++++++++++++++++
+> >  1 file changed, 124 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov=
+8865.yaml
+> >=20
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.ya=
+ml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+> > new file mode 100644
+> > index 000000000000..807f1a94afae
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+> > @@ -0,0 +1,124 @@
+> > +# SPDX-License-Identifier: GPL-2.0
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov8865.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: OmniVision OV8865 Image Sensor Device Tree Bindings
+> > +
+> > +maintainers:
+> > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: ovti,ov8865
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    items:
+> > +      - description: EXTCLK Clock
+> > +
+> > +  clock-names:
+> > +    items:
+> > +      - const: extclk
+>=20
+> Is this needed with a single clock?
+
+Yes I think so: we grab the clock with devm_clk_get which takes a name stri=
+ng
+that matches the clock-names property.
+
+> And... shouldn't this also come with assigned-clock-rates etc., to set the
+> clock frequency?
+
+I'm a bit confused why we would need to do that in the device-tree rather t=
+han
+setting the clock rate with clk_set_rate in the driver, like any other driv=
+er
+does. I think this was discussed before (on the initial ov8865 series) and =
+the
+conclusion was that there is no particular reason for media i2c drivers to
+behave differently. So I believe this is the correct approach.
+
+> > +
+> > +  dvdd-supply:
+> > +    description: Digital Domain Power Supply
+> > +
+> > +  avdd-supply:
+> > +    description: Analog Domain Power Supply (internal AVDD is used if =
+missing)
+> > +
+> > +  dovdd-supply:
+> > +    description: I/O Domain Power Supply
+> > +
+> > +  powerdown-gpios:
+> > +    maxItems: 1
+> > +    description: Power Down Pin GPIO Control (active low)
+> > +
+> > +  reset-gpios:
+> > +    maxItems: 1
+> > +    description: Reset Pin GPIO Control (active low)
+> > +
+> > +  port:
+> > +    type: object
+> > +    description: Input port, connect to a MIPI CSI-2 receiver
+> > +
+> > +    properties:
+> > +      endpoint:
+> > +        type: object
+> > +
+> > +        properties:
+> > +          remote-endpoint: true
+> > +
+> > +          bus-type:
+> > +            const: 4
+> > +
+> > +          clock-lanes:
+> > +            maxItems: 1
+>=20
+> I believe you can drop clock-lanes and bus-type; these are both constants.
+
+I don't understand why bus-type should be dropped because it is constant:
+if bus-type is set to something else, the driver will definitely not probe
+since we're requesting V4L2_MBUS_CSI2_DPHY for v4l2_fwnode_endpoint_parse.
+So I think it's quite important for the bindings to reflect this.
+
+> I presume the device does not support lane remapping?
+
+That's correct so this is indeed not something we can configure.
+But shouldn't we instead specift clock-lanes =3D <0> as a const rather than
+getting rid of it?
+
+> Could you also add link-frequencies, to list which frequencies are known =
+to
+> be good?
+
+Ah right, I had missed it. I'm a bit unsure about what I should do with the
+information from the driver though: should I refuse to use link frequencies=
+ that
+are not in the list?
+
+Cheers,
+
+Paul
+
+> Same comments on the other OV sensor bindings.
+>=20
+> > +
+> > +          data-lanes:
+> > +            minItems: 1
+> > +            maxItems: 4
+> > +
+> > +        required:
+> > +          - bus-type
+> > +          - data-lanes
+> > +          - remote-endpoint
+> > +
+> > +        additionalProperties: false
+> > +
+> > +    required:
+> > +      - endpoint
+> > +
+> > +required:
+> > +  - compatible
+> > +  - reg
+> > +  - clocks
+> > +  - clock-names
+> > +  - dvdd-supply
+> > +  - dovdd-supply
+> > +  - port
+> > +
+> > +additionalProperties: false
+> > +
+> > +examples:
+> > +  - |
+> > +    #include <dt-bindings/clock/sun8i-a83t-ccu.h>
+> > +    #include <dt-bindings/gpio/gpio.h>
+> > +
+> > +    i2c2 {
+> > +        #address-cells =3D <1>;
+> > +        #size-cells =3D <0>;
+> > +
+> > +        ov8865: camera@36 {
+> > +            compatible =3D "ovti,ov8865";
+> > +            reg =3D <0x36>;
+> > +
+> > +            pinctrl-names =3D "default";
+> > +            pinctrl-0 =3D <&csi_mclk_pin>;
+> > +
+> > +            clocks =3D <&ccu CLK_CSI_MCLK>;
+> > +            clock-names =3D "extclk";
+> > +
+> > +            avdd-supply =3D <&reg_ov8865_avdd>;
+> > +            dovdd-supply =3D <&reg_ov8865_dovdd>;
+> > +            dvdd-supply =3D <&reg_ov8865_dvdd>;
+> > +
+> > +            powerdown-gpios =3D <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
+> > +            reset-gpios =3D <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
+> > +
+> > +            port {
+> > +                ov8865_out_mipi_csi2: endpoint {
+> > +                    bus-type =3D <4>; /* MIPI CSI-2 D-PHY */
+> > +                    clock-lanes =3D <0>;
+> > +                    data-lanes =3D <1 2 3 4>;
+> > +
+> > +                    remote-endpoint =3D <&mipi_csi2_in_ov8865>;
+> > +                };
+> > +            };
+> > +        };
+> > +    };
+> > +
+> > +...
+>=20
+> --=20
+> Regards,
+>=20
+> Sakari Ailus
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--JI+G0+mN8WmwPnOn
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl+igeMACgkQ3cLmz3+f
+v9GD4gf/d6zDky1Bc2fNJdjcVgUx18tpFH1w8Ph3txVlRC1B2ct42ap/t54nNnig
+9LmLH689DbU5cpyvmzec/+j/nwdpOybyKKlAWwGeUpl8EU84juQ7G0MSTzBoSVu4
+JUMFQVbo5VBSNWFZzBfBxUMd1/JOxNC9F5fvboVQXRWMQjz+KZbixWItXXw3lwwd
+OVG9usEHThAp1dLU7kPm3lMRqIdfFFor4uR+Ua37nV1oEeuORaimr+d5JI50HCG4
+Do7Q3yWO97DcYdbD9PH+U9ibo9QdDPFCzcKe2g/0U0IoQaXOsfd2Ypz/OBrQPs2o
+xOMSjWxF0sbjVR1edHd/IfKg238n6Q==
+=lx7E
+-----END PGP SIGNATURE-----
+
+--JI+G0+mN8WmwPnOn--
