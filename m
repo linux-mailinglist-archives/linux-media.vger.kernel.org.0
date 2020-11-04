@@ -2,218 +2,143 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 02B272A6E74
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 21:02:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E8B3C2A6E8F
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 21:12:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731256AbgKDUCD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 15:02:03 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49228 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727013AbgKDUCC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Nov 2020 15:02:02 -0500
-Received: from coco.lan (ip5f5ad5bc.dynamic.kabel-deutschland.de [95.90.213.188])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id AC13D20739;
-        Wed,  4 Nov 2020 20:01:59 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604520120;
-        bh=8AqEeJmzh+T28NQnJP96PJn3PLaUV8SMFxjUcDxF/h0=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=xgRKmHhrR0NpEGqvdDttkeoeY8VRhRLZMdd4qPKcYMMC3PYoT87k1yV3vycoeszFQ
-         0z/bAPfoY5XfTCShtwfo79L0pTRNUnRsW798qpCojWRGIP6zdbjYfFdqWpMdPaOFN3
-         CuZBiihBXqNd3DLdrM12+vLDUUSZbpalpiSofT2M=
-Date:   Wed, 4 Nov 2020 21:01:55 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Gregor Hlawacek <g.hlawacek@hzdr.de>
-Cc:     linux-media@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Subject: Re: Philips Monitor with webcam
-Message-ID: <20201104210155.353a0d6a@coco.lan>
-In-Reply-To: <b8fcc03ed79873f9e55ab394b4b95140ab8b215b.camel@hzdr.de>
-References: <51207fd712e3c1001b80c6642021b1a5d5763ade.camel@hzdr.de>
-        <20201104170233.0d405dff@coco.lan>
-        <59f848e83354ad72c11dacaf571f20a8084baf58.camel@hzdr.de>
-        <20201104174554.4bbec36a@coco.lan>
-        <b8fcc03ed79873f9e55ab394b4b95140ab8b215b.camel@hzdr.de>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1731688AbgKDUM3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 15:12:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43158 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731012AbgKDUM3 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 15:12:29 -0500
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B50FC061A4C
+        for <linux-media@vger.kernel.org>; Wed,  4 Nov 2020 12:12:28 -0800 (PST)
+Received: by mail-qt1-x842.google.com with SMTP id m14so13102734qtc.12
+        for <linux-media@vger.kernel.org>; Wed, 04 Nov 2020 12:12:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=intel-com.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=rEEEXt1os4uvlr5FpRnmuBcc7L7msKpqjcsUXwjQF/c=;
+        b=DLnfeD9J1ORdQ1bfs5+3AntXSfjpW/03OlgMKpfMczcb0Yo31gAQmfKmU/MxwQ17Tz
+         p8ZagfXHFsC1dHS6FW5fSkhChMKNOPBoZuaf0P1ssilDHMYkmfYcvMK/N4bu0vQXK3wy
+         c2tGk1nId5n4tetbAX3T+IoXKixnSiRJU2P+RgF0i9/MzM9vLJQC4pR4SHkQIDhJjOCm
+         nI9uYdoL8DUDIOHzXzueS+XUGj/Xv/0E4OLEq6oqPKUHmkx/sfooqnKn5e06EiNpsCvu
+         pIeS4Ja9kfYHVEpTmDFGZ6rRJqSaQZ+CUMbWPT9DrPeXAPhB8c08+nN3zrd9Xy424Dsr
+         vK5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=rEEEXt1os4uvlr5FpRnmuBcc7L7msKpqjcsUXwjQF/c=;
+        b=AwZw/yxJFbAYvAZ/FDl3Z45xE4e+yFGeXiZcaOSn2Dt+KvsdTBzMNo+MQrw71blzBA
+         Yb0sVbwI57NkE35tR/DRnEzizImbqujvaTVmYkitwbHFfscUOIS5CvT5HkXQrWN4IyxQ
+         dfVs92S9J1gKd4o8JdkaB5Udl9+f2JB2QSczhVHZIE41jYWdFeOIRJVpJB6EzvBUmLB5
+         P7C42XI9vs8QVQbsr9j1hl3NuCNA7Wesqs7tFMfTWYZ1vrjLPftBkp2eG06FQRqmvS8c
+         rg8Y5H8QK/XEV7SnpmJdxCdBGQ46sJqcaZ+CKMibxvpcRKHkRSKpg9qaVIFVJVqGG0jX
+         Xplg==
+X-Gm-Message-State: AOAM530H11V9z5acBIouqdpoL44bGJxSnoOuOz3tceF7ZzQjy20A3xYP
+        Ysm+DpNL+6bsrY0Q73Xknu+1X680JPoCc2BZhCOrVg==
+X-Google-Smtp-Source: ABdhPJyImQ0VMkgJ13gDdAbq5pEtNIjA5jffxfB/P+jRlJioL0jIF2z8jDtJ1zF31+FQiHcdLBXSWIzDRip6n19HrNg=
+X-Received: by 2002:ac8:4b79:: with SMTP id g25mr21823130qts.19.1604520747497;
+ Wed, 04 Nov 2020 12:12:27 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+References: <CAKMK7uF0QjesaNs97N-G8cZkXuAmFgcmTfHvoCP94br_WVcV6Q@mail.gmail.com>
+ <20201104165017.GA352206@bjorn-Precision-5520>
+In-Reply-To: <20201104165017.GA352206@bjorn-Precision-5520>
+From:   Dan Williams <dan.j.williams@intel.com>
+Date:   Wed, 4 Nov 2020 12:12:15 -0800
+Message-ID: <CAPcyv4idORJzHVD2vCOnO3REqWHKVn_-otOzTBf0HhcWq4iJRQ@mail.gmail.com>
+Subject: Re: [PATCH v5 11/15] PCI: Obey iomem restrictions for procfs mmap
+To:     Bjorn Helgaas <helgaas@kernel.org>
+Cc:     Daniel Vetter <daniel.vetter@ffwll.ch>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
+        Linux PCI <linux-pci@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 04 Nov 2020 20:43:27 +0100
-Gregor Hlawacek <g.hlawacek@hzdr.de> escreveu:
+On Wed, Nov 4, 2020 at 8:50 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
+>
+> On Wed, Nov 04, 2020 at 09:44:04AM +0100, Daniel Vetter wrote:
+> > On Tue, Nov 3, 2020 at 11:09 PM Dan Williams <dan.j.williams@intel.com> wrote:
+> > > On Tue, Nov 3, 2020 at 1:28 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
+> > > > On Fri, Oct 30, 2020 at 11:08:11AM +0100, Daniel Vetter wrote:
+> > > > > There's three ways to access PCI BARs from userspace: /dev/mem, sysfs
+> > > > > files, and the old proc interface. Two check against
+> > > > > iomem_is_exclusive, proc never did. And with CONFIG_IO_STRICT_DEVMEM,
+> > > > > this starts to matter, since we don't want random userspace having
+> > > > > access to PCI BARs while a driver is loaded and using it.
+> > > > >
+> > > > > Fix this by adding the same iomem_is_exclusive() check we already have
+> > > > > on the sysfs side in pci_mmap_resource().
+> > > > >
+> > > > > References: 90a545e98126 ("restrict /dev/mem to idle io memory ranges")
+> > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+> > > >
+> > > > This is OK with me but it looks like IORESOURCE_EXCLUSIVE is currently
+> > > > only used in a few places:
+> > > >
+> > > >   e1000_probe() calls pci_request_selected_regions_exclusive(),
+> > > >   ne_pci_probe() calls pci_request_regions_exclusive(),
+> > > >   vmbus_allocate_mmio() calls request_mem_region_exclusive()
+> > > >
+> > > > which raises the question of whether it's worth keeping
+> > > > IORESOURCE_EXCLUSIVE at all.  I'm totally fine with removing it
+> > > > completely.
+> > >
+> > > Now that CONFIG_IO_STRICT_DEVMEM upgrades IORESOURCE_BUSY to
+> > > IORESOURCE_EXCLUSIVE semantics the latter has lost its meaning so I'd
+> > > be in favor of removing it as well.
+> >
+> > Still has some value since it enforces exclusive access even if the
+> > config isn't enabled, and iirc e1000 had some fun with userspace tools
+> > clobbering the firmware and bricking the chip.
+>
+> There's *some* value; I'm just skeptical since only three drivers use
+> it.
+>
+> IORESOURCE_EXCLUSIVE is from e8de1481fd71 ("resource: allow MMIO
+> exclusivity for device drivers"), and the commit message says this is
+> only active when CONFIG_STRICT_DEVMEM is set.  I didn't check to see
+> whether that's still true.
+>
+> That commit adds a bunch of wrappers and "__"-prefixed functions to
+> pass the IORESOURCE_EXCLUSIVE flag around.  That's a fair bit of
+> uglification for three drivers.
+>
+> > Another thing I kinda wondered, since pci maintainer is here: At least
+> > in drivers/gpu I see very few drivers explicitly requestion regions
+> > (this might be a historical artifact due to the shadow attach stuff
+> > before we had real modesetting drivers). And pci core doesn't do that
+> > either, even when a driver is bound. Is this intentional, or
+> > should/could we do better? Since drivers work happily without
+> > reserving regions I don't think "the drivers need to remember to do
+> > this" will ever really work out well.
+>
+> You're right, many drivers don't call pci_request_regions().  Maybe we
+> could do better, but I haven't looked into that recently.  There is a
+> related note in Documentation/PCI/pci.rst that's been there for a long
+> time (it refers to "pci_request_resources()", which has never existed
+> AFAICT).  I'm certainly open to proposals.
 
-I'm c/c Laurent, as he is the author of the UVC driver.
-
-> On Wed, 2020-11-04 at 17:45 +0100, Mauro Carvalho Chehab wrote:
-> > Em Wed, 04 Nov 2020 17:25:48 +0100
-> > Gregor Hlawacek <g.hlawacek@hzdr.de> escreveu:
-> >  =20
-> > > On Wed, 2020-11-04 at 17:02 +0100, Mauro Carvalho Chehab wrote: =20
-> > > > Em Wed, 04 Nov 2020 14:24:34 +0100
-> > > > Gregor Hlawacek <g.hlawacek@hzdr.de> escreveu:
-> > > > =C2=A0  =20
-> > > > > Hi all
-> > > > >=20
-> > > > > I own a Philips Brilliance 241B which has a webcam attached.
-> > > > > The
-> > > > > device
-> > > > > is listed as 0412:612b Chicony Electronics Co., Ltd, bubt
-> > > > > doesn't
-> > > > > work
-> > > > > with the latest UVC stock kernel driver. Is there any hope to
-> > > > > get
-> > > > > this
-> > > > > supported?
-> > > > >=20
-> > > > > uname -a:
-> > > > > Linux it72 5.9.3-arch1-1 #1 SMP PREEMPT Sun, 01 Nov 2020
-> > > > > 12:58:59
-> > > > > +0000
-> > > > > x86_64 GNU/Linux
-> > > > >=20
-> > > > > running Arch Linux on a Lenovo Thinkpad =C2=A0T490s
-> > > > >=20
-> > > > > dmesg:
-> > > > >=20
-> > > > > [76850.137838] usb 3-1.1.1.2: New USB device found,
-> > > > > idVendor=3D04f2,
-> > > > > idProduct=3Db612, bcdDevice=3D 2.10
-> > > > > [76850.137841] usb 3-1.1.1.2: New USB device strings: Mfr=3D1,
-> > > > > Product=3D2,
-> > > > > SerialNumber=3D3
-> > > > > [76850.137843] usb 3-1.1.1.2: Product: USB2.0 FHD UVC WebCam
-> > > > > [76850.137845] usb 3-1.1.1.2: Manufacturer: SunplusIT Inc
-> > > > > [76850.137846] usb 3-1.1.1.2: SerialNumber: 01.00.00
-> > > > > [76850.152761] uvcvideo: Found UVC 1.50 device USB2.0 FHD UVC
-> > > > > WebCam
-> > > > > (04f2:b612)
-> > > > > [76850.215683] input: USB2.0 FHD UVC WebCam: USB2.0 F as
-> > > > > /devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000
-> > > > > :3c:
-> > > > > 00.0
-> > > > > /usb3/3-1/3-1.1/3-1.1.1/3-1.1.1.2/3-1.1.1.2:1.0/input/input66
-> > > > > [76850.223642] uvcvideo: Found UVC 1.50 device USB2.0 FHD UVC
-> > > > > WebCam
-> > > > > (04f2:b612)
-> > > > > [76850.232499] usb 4-1.1.2: new SuperSpeed Gen 1 USB device
-> > > > > number
-> > > > > 5
-> > > > > using xhci_hcd
-> > > > > [76850.241004] input: USB2.0 FHD UVC WebCam: IR Camer as
-> > > > > /devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000
-> > > > > :3c:
-> > > > > 00.0
-> > > > > /usb3/3-1/3-1.1/3-1.1.1/3-1.1.1.2/3-1.1.1.2:1.2/input/input67=C2=
-=A0  =20
-> > > >=20
-> > > > Hmm... it sounds that the camera was properly detected here.=20
-> > > >=20
-> > > > Could you please enclose the contents of the following command?
-> > > >=20
-> > > > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$ v4l2-ctl --all
-> > > >=20
-> > > > Thanks,
-> > > > Mauro=C2=A0  =20
-> > >=20
-> > > Hi Mauro=C2=A0
-> > >=20
-> > > thanks for the quick answer. Here is the output but I am pretty
-> > > sure
-> > > that this come from the integrated laptop camera and not the one in
-> > > the
-> > > external monitor =20
-> >=20
-> > Well, you can use "-d" parameter to identify the device, like:
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$ v4l2-ctl -d /dev/v4l/=
-by-path/pci-0000\:00\:14.0-usb-
-> > 0\:3.2\:1.0-video-index0 --all
-> >=20
-> > The real path depends on your camera - you can take a look at:
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0$ tree /dev/v4l/
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0/dev/v4l/
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=E2=94=9C=E2=94=80=E2=
-=94=80 by-id
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=E2=94=82=C2=A0=C2=A0 =
-=E2=94=9C=E2=94=80=E2=94=80 usb-046d_HD_Pro_Webcam_C920_55DA1CCF-video-inde=
-x0 ->
-> > ../../video0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=E2=94=82=C2=A0=C2=A0 =
-=E2=94=94=E2=94=80=E2=94=80 usb-046d_HD_Pro_Webcam_C920_55DA1CCF-video-inde=
-x1 ->
-> > ../../video1
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=E2=94=94=E2=94=80=E2=
-=94=80 by-path
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=
-=94=9C=E2=94=80=E2=94=80 pci-0000:00:14.0-usb-0:3.2:1.0-video-index0 ->
-> > ../../video0
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0 =E2=
-=94=94=E2=94=80=E2=94=80 pci-0000:00:14.0-usb-0:3.2:1.0-video-index1 ->
-> > ../../video1
-> >=20
-> > =C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0=C2=A0
-> > In order to check the ones that were detected.
-> >=20
-> > Regards,
-> > Mauro =20
-> =E2=94=9C=E2=94=80=E2=94=80 by-id
-> =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 usb-Chicony_Electronics=
-_Co._Ltd._Integrated_Camera_0001-video-
-> index0 -> ../../video0
-> =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 usb-Chicony_Electronics=
-_Co._Ltd._Integrated_Camera_0001-video-
-> index1 -> ../../video1
-
-Ok. So, /dev/video0 is the video streaming device (and /dev/video1
-carries on metadata).
-
-
-> =E2=94=82=C2=A0=C2=A0 =E2=94=9C=E2=94=80=E2=94=80 usb-SunplusIT_Inc_USB2.=
-0_FHD_UVC_WebCam_01.00.00-video-index0 -
-> > ../../video4 =20
-> =E2=94=82=C2=A0=C2=A0 =E2=94=94=E2=94=80=E2=94=80 usb-SunplusIT_Inc_USB2.=
-0_FHD_UVC_WebCam_01.00.00-video-index1 -
-> > ../../video5 =20
-> =E2=94=94=E2=94=80=E2=94=80 by-path
->     =E2=94=9C=E2=94=80=E2=94=80 pci-0000:00:14.0-usb-0:8:1.0-video-index0=
- -> ../../video0
->     =E2=94=9C=E2=94=80=E2=94=80 pci-0000:00:14.0-usb-0:8:1.0-video-index1=
- -> ../../video1
->     =E2=94=9C=E2=94=80=E2=94=80 pci-0000:3c:00.0-usb-0:1.1.1.2:1.0-video-=
-index0 -> ../../video2
->     =E2=94=9C=E2=94=80=E2=94=80 pci-0000:3c:00.0-usb-0:1.1.1.2:1.0-video-=
-index1 -> ../../video3
->     =E2=94=9C=E2=94=80=E2=94=80 pci-0000:3c:00.0-usb-0:1.1.1.2:1.2-video-=
-index0 -> ../../video4
->     =E2=94=94=E2=94=80=E2=94=80 pci-0000:3c:00.0-usb-0:1.1.1.2:1.2-video-=
-index1 -> ../../video5
->=20
-> It seems non of them responds. They are either busy, can not be opened
-> or fail to produce any response.
->=20
-> sudo v4l2-ctl -d /dev/v4l/by-id/usb-
-> sunplusIT_Inc_USB2.0_FHD_UVC_WebCam_01.00.00-video-index0
-> Failed to open /dev/v4l/by-id/usb-
-> SunplusIT_Inc_USB2.0_FHD_UVC_WebCam_01.00.00-video-index0: Device or
-> resource busy
-
-Weird. It is not usual to receive -EBUSY if there's no other program
-using the device at the same time.
-
-Yet, from what I understood, on this device, the camera is hidden inside
-the monitor until an application tries to use it.
-
-While uvc driver has support for Linux PM, perhaps this specific
-device requires some extra command to turn the camera on and to=20
-open it from the monitor case.
-
-After you called v4l2-ctl, does any message appears at dmesg?
-
-Thanks,
-Mauro
+It seems a bug that the kernel permits MMIO regions with side effects
+to be ioremap()'ed without request_mem_region() on the resource. I
+wonder how much log spam would happen if ioremap() reported whenever a
+non-IORESOURE_BUSY range was passed to it? The current state of
+affairs to trust *remap users to have claimed their remap target seems
+too ingrained to unwind now.
