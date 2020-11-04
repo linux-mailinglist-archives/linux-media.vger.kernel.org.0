@@ -2,181 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1678E2A657A
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 14:46:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED82E2A65AA
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 15:00:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729794AbgKDNqv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 08:46:51 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:39361 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728508AbgKDNqv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Nov 2020 08:46:51 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id aJ7Xk5ZXrRiwVaJ7akK0qR; Wed, 04 Nov 2020 14:46:45 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1604497605; bh=j6/VktKqW5UWMitcsHjVm0wjZqEq/p9Pb9DksT80vjQ=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=eC2qkJWs2AXnsSTLhYntHsBuDkzmJCjzAKny3fLS4TRYXnc4UX3exm98AFgg4NZYD
-         B9iXFfEcdR90URTbvHHQZYJnwYI6izTCP7zosBCt/n/SPHdPrz3TYAHm6Y2+4AaVSc
-         VKZo8g4KzbUveUutzm5Lw65hryIzTBl0CpYxqWl+N4fr+trR9NgumGb4sIUuFH9/49
-         XCNPUpWNcy35T/SwDG4NzX+ja17LctAv53WMOvlXtiUvlYfbCLJfgkMyzkSW0TUiu+
-         EO4FeyThyVdDh8qqiZMQmoJ4DUY60LoOFVcRscY6RIXWVEA9GlynHZfchMV+vYLCvm
-         L3LM+qGj3DEIA==
-Subject: Re: [PATCH v3 1/2] media: uapi: add MEDIA_BUS_FMT_METADATA_FIXED
- media bus format.
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        kernel@collabora.com, dafna3@gmail.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        tfiga@chromium.org
-References: <20201030134609.30020-1-dafna.hirschfeld@collabora.com>
- <20201030140241.GQ26150@paasikivi.fi.intel.com>
- <5c8852f5-a803-1bd0-7798-3cca0d7ee9ea@xs4all.nl>
- <20201104123218.GQ26150@paasikivi.fi.intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <573fb8b3-e4fd-9239-a407-e904ed18ff3f@xs4all.nl>
-Date:   Wed, 4 Nov 2020 14:46:39 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1729990AbgKDOA1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 09:00:27 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40142 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726777AbgKDOA0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 09:00:26 -0500
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8AC70C0613D3
+        for <linux-media@vger.kernel.org>; Wed,  4 Nov 2020 06:00:26 -0800 (PST)
+Received: by mail-qk1-x742.google.com with SMTP id s14so19260309qkg.11
+        for <linux-media@vger.kernel.org>; Wed, 04 Nov 2020 06:00:26 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=J6Nw3097qL1FGBO59AefdNEIbSIDtL/HHl1l69CFDp8=;
+        b=Wan5zLNCc03uOg3crmJFeRaNbOEA+qwrbKwCY9LDkg1fZnFvzGEBwk4V+VLFOn5oKx
+         tmcyGIKCw4+CD/juWp2ijPQPLgAyQG0AhFaLumt8mFw7D817cQkKUY2w7oYalFQSRaiQ
+         Vb/ptf8IpP3WfnK3UuZPUxBAXkXY6PqsAqGNVYoZolg0yUEgsR1Di4PcNN7C/aUr2Q/R
+         O0ZcNPr6tO0Ab4yQ9aVnuDw44g3gsPath6hDrZSj4xe9Loas/o/6/OXlQjyqG2MFoi+n
+         R3zy4MV988W7+StxSAydki/+D4rJ/lZx0EB7vwQbsli0N+fpB6onleBpY6HTFL+CpY9E
+         jiFA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=J6Nw3097qL1FGBO59AefdNEIbSIDtL/HHl1l69CFDp8=;
+        b=IQKiA7TyotYGotaZOqqWq+yGUf5Kh4UKXcV5uLlS5aX8T2LRlepddnW12mzontkcRB
+         FqqI6EAaLHloxcPBxs0pWAZKqQnEzxmXxlLqCai1FFTuTz5xbU5VWGsAYdrJH5M5j2FZ
+         2fcW71W4xIcYDL9GnDeiFIuUTnEmuWZPJqUS/qex0lIaSpsTsynw+IlRWoUHh2X8Jdwq
+         WmQvVl6AHDN37/is2iFm8JrQY/8jBfRMM2nu8R9YK9aDrX4UxVzy6zbwVGdIvyH8IUct
+         KTHGY99mLgvrL2Bn14eyp/MzHYT22OsWNOOMTJFy6dM9yqSN1JSaG3wa2li1+1JwTq0s
+         cSzQ==
+X-Gm-Message-State: AOAM5332krAyz+6QBY+CAEhJY+/2s9oRTKV4XfzYlOXI6c2452OYV03P
+        GmLo7PoqqvhfkxQhXoPAUwDc7w==
+X-Google-Smtp-Source: ABdhPJz06+PUPTCOD5MO6YcYJfu8e1guRGyarj130cNdAlQFDKce0Oko/G5bRBr5wbl0qK0lrF7Apg==
+X-Received: by 2002:a37:4ccf:: with SMTP id z198mr26929935qka.348.1604498425743;
+        Wed, 04 Nov 2020 06:00:25 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id y3sm131855qto.2.2020.11.04.06.00.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 04 Nov 2020 06:00:24 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1kaJKp-00GVgS-9E; Wed, 04 Nov 2020 10:00:23 -0400
+Date:   Wed, 4 Nov 2020 10:00:23 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     John Hubbard <jhubbard@nvidia.com>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Pawel Osciak <pawel@osciak.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>,
+        Dan Williams <dan.j.williams@intel.com>
+Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
+Message-ID: <20201104140023.GQ36674@ziepe.ca>
+References: <20201030100815.2269-1-daniel.vetter@ffwll.ch>
+ <20201030100815.2269-6-daniel.vetter@ffwll.ch>
+ <446b2d5b-a1a1-a408-f884-f17a04b72c18@nvidia.com>
+ <CAKMK7uGDW2f0oOvwgryCHxQFHyh3Tsk6ENsMGmtZ-EnH57tMSA@mail.gmail.com>
+ <1f7cf690-35e2-c56f-6d3f-94400633edd2@nvidia.com>
+ <CAKMK7uFYDSqnNp_xpohzCEidw_iLufNSoX4v55sNZj-nwTckSg@mail.gmail.com>
+ <7f29a42a-c408-525d-90b7-ef3c12b5826c@nvidia.com>
+ <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201104123218.GQ26150@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfBKGS3o96G0TyHu13R07jm/faKtHJ+SSOCo9iY0jFUMqT6k9uH2pIxJetbTiQmsqGmjh1EbALmtJk+S17BisgHw8Q7uux1QgG1XXUypVEz29ad7gm1WM
- DR/HN5nqP/46NcwW3SpELHQTPXSfsm7FgxpUUcP3TF3fFkJLm8ct5ekaaSU7eEWfQGcHlS7tn2n/P2pQOZlG0D1fPMeF0w081IHCmyucG8pzveun0KslkUPP
- MwPfbiPZ8ZbX7bjTtoSR+cOaIXQPunTA4kTJpYzj4gI3TdjMp5W9Z4aB0RIRxgoZg4kPfAQljnDV+yykCMTlhEXyy/TwnwPXcT0KRuDY3qUXXDF9gVX9mRAR
- nXI1M/xplzk5B/q6I5QJok6liCkFAwoQFjNsyEYz5EMsMPRnF9TcitBH5c9z2j9wo5fe8Xv4Zt+lti2MGJRPbDSzzVboCaGQZVB3FZYB9WIPXTpb+u/KvAdh
- g0AjWAf3gqDDyfRfjxOH0e9oJzS/o1JQzMFSh8wAaTy9HR4OVrs2VCktXi/I8P92DwCxTXi2hKXZvnnhThMyLILKfGFdNWWp5S9lKA==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/11/2020 13:32, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Wed, Nov 04, 2020 at 01:16:03PM +0100, Hans Verkuil wrote:
->> On 30/10/2020 15:02, Sakari Ailus wrote:
->>> Hi Dafna,
->>>
->>> On Fri, Oct 30, 2020 at 02:46:08PM +0100, Dafna Hirschfeld wrote:
->>>> MEDIA_BUS_FMT_METADATA_FIXED should be used when
->>>> the same driver handles both sides of the link and
->>>> the bus format is a fixed metadata format that is
->>>> not configurable from userspace.
->>>> The width and height will be set to 0 for this format.
->>>>
->>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>> Acked-by: Helen Koike <helen.koike@collabora.com>
->>>> ---
->>>> changes since v2:
->>>> added documentation in subdev-formats.rst
->>>> changes since v1:
->>>> 1. replace "This format may have 0 height and width."
->>>> with "Width and height will be set to 0 for this format."
->>>> and add it also to the commit log
->>>> 2. s/meida:/media:/ in the patch subject line
->>>>
->>>>  .../media/v4l/subdev-formats.rst              | 27 +++++++++++++++++++
->>>>  include/uapi/linux/media-bus-format.h         |  8 ++++++
->>>>  2 files changed, 35 insertions(+)
->>>>
->>>> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
->>>> index c9b7bb3ca089..7f16cbe46e5c 100644
->>>> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
->>>> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
->>>> @@ -7899,3 +7899,30 @@ formats.
->>>>        - 0x5001
->>>>        - Interleaved raw UYVY and JPEG image format with embedded meta-data
->>>>  	used by Samsung S3C73MX camera sensors.
->>>> +
->>>> +.. _v4l2-mbus-metadata-fmts:
->>>> +
->>>> +Metadata Formats
->>>> +^^^^^^^^^^^^^^^^
->>>> +
->>>> +This section lists all metadata formats.
->>>> +
->>>> +The following table lists the existing metadata formats.
->>>> +
->>>> +.. tabularcolumns:: |p{8.0cm}|p{1.4cm}|p{7.7cm}|
->>>> +
->>>> +.. flat-table:: Metadata formats
->>>> +    :header-rows:  1
->>>> +    :stub-columns: 0
->>>> +
->>>> +    * - Identifier
->>>> +      - Code
->>>> +      - Comments
->>>> +    * .. _MEDIA-BUS-FMT-METADATA-FIXED:
->>>> +
->>>> +      - MEDIA_BUS_FMT_METADATA_FIXED
->>>> +      - 0x7001
->>>> +      - This format should be used when the same driver handles
->>>> +	both sides of the link and the bus format is a fixed
->>>> +	metadata format that is not configurable from userspace.
->>>> +	Width and height will be set to 0 for this format.
->>>> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
->>>> index 84fa53ffb13f..2ce3d891d344 100644
->>>> --- a/include/uapi/linux/media-bus-format.h
->>>> +++ b/include/uapi/linux/media-bus-format.h
->>>> @@ -156,4 +156,12 @@
->>>>  /* HSV - next is	0x6002 */
->>>>  #define MEDIA_BUS_FMT_AHSV8888_1X32		0x6001
->>>>  
->>>> +/*
->>>> + * This format should be used when the same driver handles
->>>> + * both sides of the link and the bus format is a fixed
->>>> + * metadata format that is not configurable from userspace.
->>>> + * Width and height will be set to 0 for this format.
->>>> + */
->>>
->>> Does this mean that metadata with dimensions should not use
->>> MEDIA_BUS_FMT_METADATA_FIXED? I guess that's not the intention? For some
->>> formats the dimensions would be relevant but for others not. I'd thus
->>> replace "will" by "may". Same for the documentation.
->>
->> struct v4l2_meta_format as used with VIDIOC_G/S/TRY_FMT doesn't have
->> a width or height either. Supporting width and height for metadata
->> doesn't really make sense for me for metadata.
->>
->> Explicitly specifying the width and height here indicates that the
->> data is basically an array of width x height of some sort which makes
->> sense for video devices.
->>
->> Metadata is more complex data that cannot be represented like that.
->> If metadata is actually an array, then I'm not sure I would call it
->> metadata, I would probably see it as video with its own pixelformat
->> that contains non-video data.
-> 
-> Let's say the metadata is laid out in a similar way than an image; you have
-> lines of data, followed by some padding at the end, and a line has length
-> and a buffer has a number of lines. Sensor metadata falls into this
-> description.
-> 
-> Would you then use struct v4l2_pix_format for it, and use
-> V4L2_BUF_TYPE_VIDEO_CAPTURE for it?
+On Sun, Nov 01, 2020 at 11:50:39PM +0100, Daniel Vetter wrote:
 
-Yes. It's still metadata, but it has the same 'format' as video data.
-We have similar situations such as with v4l-touch devices: the data
-is formatted like video, but it is actually pressure values from a
-touch pad. But it is 'video-like' in its behavior.
+> It's not device drivers, but everyone else. At least my understanding
+> is that VM_IO | VM_PFNMAP means "even if it happens to be backed by a
+> struct page, do not treat it like normal memory". And gup/pup_fast
+> happily break that. I tried to chase the history of that test, didn't
+> turn up anything I understood much:
 
-> 
-> That would make a few things easier but this is still metadata, not video
-> data. Albeit I guess it's not important to be so strict about that
-> interface-wise, indeed this is not a bad fit for such metadata. Still some
-> fields such as colourspace and quantisation are not relevant, but that
-> holds also for some pixel formats.
-> 
+VM_IO isn't suppose do thave struct pages, so how can gup_fast return
+them?
 
-So are you OK with setting width and height to 0 for MEDIA_BUS_FMT_METADATA_*?
+I thought some magic in the PTE flags excluded this?
 
-Regards,
-
-	Hans
+Jason
