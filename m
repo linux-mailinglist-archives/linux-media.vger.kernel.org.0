@@ -2,20 +2,20 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 25BC22A61CA
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 11:37:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E34F2A61CB
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 11:37:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729383AbgKDKhP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 05:37:15 -0500
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:39359 "EHLO
+        id S1729392AbgKDKhS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 05:37:18 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:54917 "EHLO
         relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729370AbgKDKhP (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 05:37:15 -0500
+        with ESMTP id S1729370AbgKDKhS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 05:37:18 -0500
 X-Originating-IP: 93.34.118.233
 Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 2484D20013;
-        Wed,  4 Nov 2020 10:37:11 +0000 (UTC)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 4FA8D20003;
+        Wed,  4 Nov 2020 10:37:14 +0000 (UTC)
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     linux-media@vger.kernel.org
 Cc:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
@@ -23,10 +23,11 @@ Cc:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
         laurent.pinchart@ideasonboard.com,
         roman.kovalivskyi@globallogic.com, dafna.hirschfeld@collabora.com,
         dave.stevenson@raspberrypi.org, naush@raspberrypi.com,
-        erosca@de.adit-jv.com
-Subject: [PATCH v2 14/30] media: ov5647: Break out format handling
-Date:   Wed,  4 Nov 2020 11:36:06 +0100
-Message-Id: <20201104103622.595908-15-jacopo@jmondi.org>
+        erosca@de.adit-jv.com,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>
+Subject: [PATCH v2 15/30] media: ov5647: Add support for get_selection()
+Date:   Wed,  4 Nov 2020 11:36:07 +0100
+Message-Id: <20201104103622.595908-16-jacopo@jmondi.org>
 X-Mailer: git-send-email 2.29.1
 In-Reply-To: <20201104103622.595908-1-jacopo@jmondi.org>
 References: <20201104103622.595908-1-jacopo@jmondi.org>
@@ -36,203 +37,162 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Break format handling out from the main driver structure.
+From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 
-This commit prepares for the introduction of more sensor formats and
-resolutions by instrumenting the existing operation to work on multiple
-modes instead of assuming a single one supported.
+Support the get_selection() pad operation to report the device
+full pixel array size, the currently applied analogue crop rectangle and
+the active pixel array dimensions.
 
+Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 ---
- drivers/media/i2c/ov5647.c | 90 +++++++++++++++++++++++++++-----------
- 1 file changed, 65 insertions(+), 25 deletions(-)
+ drivers/media/i2c/ov5647.c | 93 ++++++++++++++++++++++++++++----------
+ 1 file changed, 70 insertions(+), 23 deletions(-)
 
 diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index 91193706b6fe1..d41c11afe1216 100644
+index d41c11afe1216..65fcd86dcba96 100644
 --- a/drivers/media/i2c/ov5647.c
 +++ b/drivers/media/i2c/ov5647.c
-@@ -84,18 +84,28 @@ struct regval_list {
- 	u8 data;
- };
+@@ -59,25 +59,14 @@
+ #define VAL_TERM 0xfe
+ #define REG_DLY  0xffff
  
-+struct ov5647_mode {
-+	struct v4l2_mbus_framefmt	format;
-+	const struct regval_list	*reg_list;
-+	unsigned int			num_regs;
-+};
+-#define OV5647_ROW_START		0x01
+-#define OV5647_ROW_START_MIN		0
+-#define OV5647_ROW_START_MAX		2004
+-#define OV5647_ROW_START_DEF		54
+-
+-#define OV5647_COLUMN_START		0x02
+-#define OV5647_COLUMN_START_MIN		0
+-#define OV5647_COLUMN_START_MAX		2750
+-#define OV5647_COLUMN_START_DEF		16
+-
+-#define OV5647_WINDOW_HEIGHT		0x03
+-#define OV5647_WINDOW_HEIGHT_MIN	2
+-#define OV5647_WINDOW_HEIGHT_MAX	2006
+-#define OV5647_WINDOW_HEIGHT_DEF	1944
+-
+-#define OV5647_WINDOW_WIDTH		0x04
+-#define OV5647_WINDOW_WIDTH_MIN		2
+-#define OV5647_WINDOW_WIDTH_MAX		2752
+-#define OV5647_WINDOW_WIDTH_DEF		2592
++/* OV5647 native and active pixel array size */
++#define OV5647_NATIVE_WIDTH		2624U
++#define OV5647_NATIVE_HEIGHT		1956U
 +
-+struct ov5647_format_list {
-+	unsigned int			mbus_code;
-+	const struct ov5647_mode	*modes;
-+	unsigned int			num_modes;
-+};
-+
- struct ov5647 {
- 	struct v4l2_subdev		sd;
- 	struct media_pad		pad;
- 	struct mutex			lock;
--	struct v4l2_mbus_framefmt	format;
--	unsigned int			width;
--	unsigned int			height;
- 	int				power_count;
- 	struct clk			*xclk;
- 	struct gpio_desc		*pwdn;
- 	bool				clock_ncont;
- 	struct v4l2_ctrl_handler	ctrls;
-+	const struct ov5647_mode	*mode;
- };
++#define OV5647_PIXEL_ARRAY_LEFT		16U
++#define OV5647_PIXEL_ARRAY_TOP		16U
++#define OV5647_PIXEL_ARRAY_WIDTH	2592U
++#define OV5647_PIXEL_ARRAY_HEIGHT	1944U
  
- static inline struct ov5647 *to_sensor(struct v4l2_subdev *sd)
-@@ -115,7 +125,7 @@ static struct regval_list sensor_oe_enable_regs[] = {
- 	{0x3002, 0xe4},
- };
+ struct regval_list {
+ 	u16 addr;
+@@ -86,6 +75,7 @@ struct regval_list {
  
--static struct regval_list ov5647_640x480[] = {
-+static const struct regval_list ov5647_640x480[] = {
- 	{0x0100, 0x00},
- 	{0x0103, 0x01},
- 	{0x3034, 0x08},
-@@ -205,6 +215,33 @@ static struct regval_list ov5647_640x480[] = {
- 	{0x0100, 0x01},
+ struct ov5647_mode {
+ 	struct v4l2_mbus_framefmt	format;
++	struct v4l2_rect		crop;
+ 	const struct regval_list	*reg_list;
+ 	unsigned int			num_regs;
  };
- 
-+static const struct ov5647_mode ov5647_8bit_modes[] = {
-+	{
-+		.format	= {
-+			.code		= MEDIA_BUS_FMT_SBGGR8_1X8,
-+			.colorspace	= V4L2_COLORSPACE_SRGB,
-+			.field		= V4L2_FIELD_NONE,
-+			.width		= 640,
-+			.height		= 480
+@@ -224,6 +214,12 @@ static const struct ov5647_mode ov5647_8bit_modes[] = {
+ 			.width		= 640,
+ 			.height		= 480
+ 		},
++		.crop = {
++			.left		= 0,
++			.top		= 0,
++			.width		= 1280,
++			.height		= 960,
 +		},
-+		.reg_list	= ov5647_640x480,
-+		.num_regs	= ARRAY_SIZE(ov5647_640x480)
-+	},
-+};
-+
-+static const struct ov5647_format_list ov5647_formats[] = {
-+	{
-+		.mbus_code	= MEDIA_BUS_FMT_SBGGR8_1X8,
-+		.modes		= ov5647_8bit_modes,
-+		.num_modes	= ARRAY_SIZE(ov5647_8bit_modes),
-+	},
-+};
-+
-+#define OV5647_NUM_FORMATS	(ARRAY_SIZE(ov5647_formats))
-+
-+#define OV5647_DEFAULT_MODE	(&ov5647_formats[0].modes[0])
-+#define OV5647_DEFAULT_FORMAT	(ov5647_formats[0].modes[0].format)
-+
- static int ov5647_write(struct v4l2_subdev *sd, u16 reg, u8 val)
- {
- 	unsigned char data[3] = { reg >> 8, reg & 0xff, val};
-@@ -245,7 +282,7 @@ static int ov5647_read(struct v4l2_subdev *sd, u16 reg, u8 *val)
- }
+ 		.reg_list	= ov5647_640x480,
+ 		.num_regs	= ARRAY_SIZE(ov5647_640x480)
+ 	},
+@@ -509,6 +505,20 @@ static const struct v4l2_subdev_core_ops ov5647_subdev_core_ops = {
+ #endif
+ };
  
- static int ov5647_write_array(struct v4l2_subdev *sd,
--			      struct regval_list *regs, int array_size)
-+			      const struct regval_list *regs, int array_size)
- {
- 	int i, ret;
- 
-@@ -275,6 +312,7 @@ static int ov5647_set_virtual_channel(struct v4l2_subdev *sd, int channel)
- static int ov5647_set_mode(struct v4l2_subdev *sd)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(sd);
-+	struct ov5647 *sensor = to_sensor(sd);
- 	u8 resetval, rdval;
- 	int ret;
- 
-@@ -282,8 +320,8 @@ static int ov5647_set_mode(struct v4l2_subdev *sd)
- 	if (ret < 0)
- 		return ret;
- 
--	ret = ov5647_write_array(sd, ov5647_640x480,
--				 ARRAY_SIZE(ov5647_640x480));
-+	ret = ov5647_write_array(sd, sensor->mode->reg_list,
-+				 sensor->mode->num_regs);
- 	if (ret < 0) {
- 		dev_err(&client->dev, "write sensor default regs error\n");
- 		return ret;
-@@ -494,10 +532,10 @@ static int ov5647_enum_mbus_code(struct v4l2_subdev *sd,
- 				 struct v4l2_subdev_pad_config *cfg,
- 				 struct v4l2_subdev_mbus_code_enum *code)
- {
--	if (code->index > 0)
-+	if (code->index >= OV5647_NUM_FORMATS)
- 		return -EINVAL;
- 
--	code->code = MEDIA_BUS_FMT_SBGGR8_1X8;
-+	code->code = ov5647_formats[code->index].mbus_code;
- 
- 	return 0;
- }
-@@ -506,16 +544,24 @@ static int ov5647_enum_frame_size(struct v4l2_subdev *sd,
- 				  struct v4l2_subdev_pad_config *cfg,
- 				  struct v4l2_subdev_frame_size_enum *fse)
- {
--	if (fse->index)
-+	const struct v4l2_mbus_framefmt *fmt;
-+	unsigned int i = 0;
-+
-+	for (; i < OV5647_NUM_FORMATS; ++i) {
-+		if (ov5647_formats[i].mbus_code == fse->code)
-+			break;
++static const struct v4l2_rect *
++__ov5647_get_pad_crop(struct ov5647 *ov5647, struct v4l2_subdev_pad_config *cfg,
++		      unsigned int pad, enum v4l2_subdev_format_whence which)
++{
++	switch (which) {
++	case V4L2_SUBDEV_FORMAT_TRY:
++		return v4l2_subdev_get_try_crop(&ov5647->sd, cfg, pad);
++	case V4L2_SUBDEV_FORMAT_ACTIVE:
++		return &ov5647->mode->crop;
 +	}
-+	if (i == OV5647_NUM_FORMATS)
- 		return -EINVAL;
- 
--	if (fse->code != MEDIA_BUS_FMT_SBGGR8_1X8)
-+	if (fse->index >= ov5647_formats[i].num_modes)
- 		return -EINVAL;
- 
--	fse->min_width = 640;
--	fse->max_width = 640;
--	fse->min_height = 480;
--	fse->max_height = 480;
-+	fmt = &ov5647_formats[i].modes[fse->index].format;
-+	fse->min_width = fmt->width;
-+	fse->max_width = fmt->width;
-+	fse->min_height = fmt->height;
-+	fse->max_height = fmt->height;
- 
- 	return 0;
- }
-@@ -528,11 +574,7 @@ static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
- 
- 	/* Only one format is supported, so return that. */
- 	memset(fmt, 0, sizeof(*fmt));
--	fmt->code = MEDIA_BUS_FMT_SBGGR8_1X8;
--	fmt->colorspace = V4L2_COLORSPACE_SRGB;
--	fmt->field = V4L2_FIELD_NONE;
--	fmt->width = 640;
--	fmt->height = 480;
-+	*fmt = OV5647_DEFAULT_FORMAT;
- 
- 	return 0;
- }
-@@ -591,11 +633,7 @@ static int ov5647_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
- 	crop->width = OV5647_WINDOW_WIDTH_DEF;
- 	crop->height = OV5647_WINDOW_HEIGHT_DEF;
- 
--	format->code = MEDIA_BUS_FMT_SBGGR8_1X8;
--	format->width = 640;
--	format->height = 480;
--	format->field = V4L2_FIELD_NONE;
--	format->colorspace = V4L2_COLORSPACE_SRGB;
-+	*format = OV5647_DEFAULT_FORMAT;
- 
- 	return 0;
- }
-@@ -817,6 +855,8 @@ static int ov5647_probe(struct i2c_client *client)
- 
- 	mutex_init(&sensor->lock);
- 
-+	sensor->mode = OV5647_DEFAULT_MODE;
 +
- 	ret = ov5647_init_controls(sensor);
- 	if (ret)
- 		goto mutex_destroy;
++	return NULL;
++}
++
+ static int ov5647_s_stream(struct v4l2_subdev *sd, int enable)
+ {
+ 	struct ov5647 *sensor = to_sensor(sd);
+@@ -579,11 +589,48 @@ static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
+ 	return 0;
+ }
+ 
++static int ov5647_get_selection(struct v4l2_subdev *sd,
++				struct v4l2_subdev_pad_config *cfg,
++				struct v4l2_subdev_selection *sel)
++{
++	switch (sel->target) {
++	case V4L2_SEL_TGT_CROP: {
++		struct ov5647 *sensor = to_sensor(sd);
++
++		mutex_lock(&sensor->lock);
++		sel->r = *__ov5647_get_pad_crop(sensor, cfg, sel->pad,
++						sel->which);
++		mutex_unlock(&sensor->lock);
++
++		return 0;
++	}
++
++	case V4L2_SEL_TGT_NATIVE_SIZE:
++		sel->r.top = 0;
++		sel->r.left = 0;
++		sel->r.width = OV5647_NATIVE_WIDTH;
++		sel->r.height = OV5647_NATIVE_HEIGHT;
++
++		return 0;
++
++	case V4L2_SEL_TGT_CROP_DEFAULT:
++		sel->r.top = OV5647_PIXEL_ARRAY_TOP;
++		sel->r.left = OV5647_PIXEL_ARRAY_LEFT;
++		sel->r.width = OV5647_PIXEL_ARRAY_WIDTH;
++		sel->r.height = OV5647_PIXEL_ARRAY_HEIGHT;
++
++		return 0;
++	}
++
++	return -EINVAL;
++}
++
+ static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
+ 	.enum_mbus_code		= ov5647_enum_mbus_code,
+ 	.enum_frame_size	= ov5647_enum_frame_size,
+ 	.set_fmt		= ov5647_set_get_fmt,
+ 	.get_fmt		= ov5647_set_get_fmt,
++	.get_selection		= ov5647_get_selection,
+ };
+ 
+ static const struct v4l2_subdev_ops ov5647_subdev_ops = {
+@@ -628,10 +675,10 @@ static int ov5647_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
+ 	struct v4l2_mbus_framefmt *format = v4l2_subdev_get_try_format(sd, fh->pad, 0);
+ 	struct v4l2_rect *crop = v4l2_subdev_get_try_crop(sd, fh->pad, 0);
+ 
+-	crop->left = OV5647_COLUMN_START_DEF;
+-	crop->top = OV5647_ROW_START_DEF;
+-	crop->width = OV5647_WINDOW_WIDTH_DEF;
+-	crop->height = OV5647_WINDOW_HEIGHT_DEF;
++	crop->left = OV5647_PIXEL_ARRAY_LEFT;
++	crop->top = OV5647_PIXEL_ARRAY_TOP;
++	crop->width = OV5647_PIXEL_ARRAY_WIDTH;
++	crop->height = OV5647_PIXEL_ARRAY_HEIGHT;
+ 
+ 	*format = OV5647_DEFAULT_FORMAT;
+ 
 -- 
 2.29.1
 
