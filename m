@@ -2,117 +2,81 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B36002A636C
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 12:38:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C8AA02A6370
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 12:39:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729608AbgKDLiT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 06:38:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46362 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728999AbgKDLiS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 06:38:18 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 07151C0613D3;
-        Wed,  4 Nov 2020 03:38:18 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 60A50563;
-        Wed,  4 Nov 2020 12:38:16 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1604489896;
-        bh=pEQzNBUxGPc25cbcL4wjrjMrKAPMzXaQ8Y5lD+VVScE=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=wmzvU9F+suYRMfVRVUGMVU1SdZtT0rvLgGZooQhF3pyQSzdVNhStiM4LkfedeS+B/
-         a+c4knXJyh9xwdTDLX2izXN/9iuc2TPmW18aDYonnPExxglK3DkOimPdv/5QwpF0uE
-         2uNGM2mzs7RVQ/PEXu59I2nYgTSaRutQbgNW7QLI=
-Date:   Wed, 4 Nov 2020 13:37:29 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org
-Subject: Re: [PATCH 4/6] media: uvcvideo: Add Privacy control based on
- EXT_GPIO
-Message-ID: <20201104113729.GJ26171@pendragon.ideasonboard.com>
-References: <20201022133753.310506-1-ribalda@chromium.org>
- <20201022133753.310506-5-ribalda@chromium.org>
+        id S1729250AbgKDLjU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 06:39:20 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:39793 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726344AbgKDLjS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Nov 2020 06:39:18 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id aH8BkUZiL1R0xaH8EkHbkl; Wed, 04 Nov 2020 12:39:16 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604489956; bh=mdnZSa0WmXZfk5ed1eWFME1f4l9kQcMh77VgrcfApD4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=kTRiRf3GpRFhToP6+XRzrwFkkJixo+CH6443unrnjpqP82RKtm1nAd1F6fFQJ9ndY
+         uBxCrDG7P1683wp4gI0iw+R8EpnIJ9AIrdkotPSO2lJk3qdiI6w1s+x3f1qHicn492
+         BeIrp+w6Szqr7r7zUWBXNEogHkgKD/vxPLnA69OyESFpJ4wg30/9SHnlAfflvR8Ien
+         fAh/sYaIFyCpEtRJg+wvikoJQXZS00y8fTeD6Mqew20leH91ccqIKbsctlpfkVF8A6
+         RT5dL4aLjEoz6BdNrMChGwp+cjjlB0ABQez6SBrBF8Ac+ZF/ypoIRMCfDl4DAQz5GO
+         9m6sa7+EcfLIQ==
+Subject: Re: [PATCH -next] media: cedrus: fix reference leak in
+ cedrus_start_streaming
+To:     Maxime Ripard <maxime@cerno.tech>,
+        Zhang Qilong <zhangqilong3@huawei.com>
+Cc:     paul.kocialkowski@bootlin.com, mchehab@kernel.org, wens@csie.org,
+        gregkh@linuxfoundation.org, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org
+References: <20201102142622.140001-1-zhangqilong3@huawei.com>
+ <20201102141838.7oicqkeqy7vy3ki3@gilmour.lan>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <2eb14a6d-4680-1527-0985-fd371e3ba2e8@xs4all.nl>
+Date:   Wed, 4 Nov 2020 12:39:11 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201022133753.310506-5-ribalda@chromium.org>
+In-Reply-To: <20201102141838.7oicqkeqy7vy3ki3@gilmour.lan>
+Content-Type: text/plain; charset=windows-1252
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfHnm1YGEr/RL/TXp1tttD+GAZZyHHWk1WlJeiQrV/C0vXFNGKNVWjziqTHNlo/Bszim8YO5CEndN2OR0gRoSV0c2NPQMcMzremP4uqAB9IA0FmHu4Hg3
+ SGQcuV8YrspMC4g/ZTbsPp42wnJLAxRttFugaibMAcQVCRsBHtcRA0HHqoCTWh1Vm+UzPIbrL+1Xu3t0PUCqhgFFewThVAv9DmVlVUqDHL1Q7q9qNtZtcDFd
+ 3mMZ1xA9EulkP6M3MGzdsIfoIDP9gwFepjewYMBwRx2Y9qD++ex/8kykyw6jlw7AJYelBQ9Z8tOk4sLBEg8USjFBLBcmSjWKklxSRuunNCbjG1eX1vs9vh2r
+ OLzsAvKTC0xcGK4Ver7xwLPyHuX8Sjy+8omD53tEGS1gBEq3yjQWvSfs6bPVZsfwPQWGSROJ95AGirHY/8SI60QO4I+btg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Ricardo,
-
-Thank you for the patch.
-
-On Thu, Oct 22, 2020 at 03:37:51PM +0200, Ricardo Ribalda wrote:
-> Add a new control and mapping for Privacy controls connected to
-> UVC_GUID_EXT_GPIO_CONTROLLERs.
+On 02/11/2020 15:18, Maxime Ripard wrote:
+> On Mon, Nov 02, 2020 at 10:26:22PM +0800, Zhang Qilong wrote:
+>> pm_runtime_get_sync will increment pm usage counter even it
+>> failed. Forgetting to pm_runtime_put_noidle will result in
+>> reference leak in cedrus_start_streaming. We should fix it.
+>>
+>> Fixes: d5aecd289babf ("media: cedrus: Implement runtime PM")
+>> Signed-off-by: Zhang Qilong <zhangqilong3@huawei.com>
 > 
-> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> ---
->  drivers/media/usb/uvc/uvc_ctrl.c | 20 ++++++++++++++++++++
->  drivers/media/usb/uvc/uvcvideo.h |  2 +-
->  2 files changed, 21 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> index 913739915863..786498e66646 100644
-> --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> @@ -347,6 +347,16 @@ static const struct uvc_control_info uvc_ctrls[] = {
->  				| UVC_CTRL_FLAG_RESTORE
->  				| UVC_CTRL_FLAG_AUTO_UPDATE,
->  	},
-> +	{
-> +		.entity		= UVC_GUID_EXT_GPIO_CONTROLLER,
-> +		.selector	= UVC_CT_PRIVACY_CONTROL,
-> +		.index		= 0,
-> +		.size		= 1,
-> +		.flags		= UVC_CTRL_FLAG_GET_CUR
-> +				| UVC_CTRL_FLAG_AUTO_UPDATE
-> +				| UVC_CTRL_FLAG_ENTITY_GET_INFO
-> +				| UVC_CTRL_FLAG_ENTITY_GET_CUR,
-> +	},
->  };
->  
->  static const struct uvc_menu_info power_line_frequency_controls[] = {
-> @@ -735,6 +745,16 @@ static const struct uvc_control_mapping uvc_ctrl_mappings[] = {
->  		.v4l2_type	= V4L2_CTRL_TYPE_BOOLEAN,
->  		.data_type	= UVC_CTRL_DATA_TYPE_BOOLEAN,
->  	},
-> +	{
-> +		.id		= V4L2_CID_PRIVACY,
-> +		.name		= "Privacy",
-> +		.entity		= UVC_GUID_EXT_GPIO_CONTROLLER,
-> +		.selector	= UVC_CT_PRIVACY_CONTROL,
-> +		.size		= 1,
-> +		.offset		= 0,
-> +		.v4l2_type	= V4L2_CTRL_TYPE_BOOLEAN,
-> +		.data_type	= UVC_CTRL_DATA_TYPE_BOOLEAN,
-> +	},
->  };
->  
->  /* ------------------------------------------------------------------------
-> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> index 8e5a9fc35820..a493bc383d3e 100644
-> --- a/drivers/media/usb/uvc/uvcvideo.h
-> +++ b/drivers/media/usb/uvc/uvcvideo.h
-> @@ -58,7 +58,7 @@
->  	 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x02}
->  #define UVC_GUID_EXT_GPIO_CONTROLLER \
->  	{0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf, \
-> -	0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x01}
-> +	 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x00, 0x01}
+> Shouldn't we fix pm_runtime_get_sync instead then? It seems that most of
+> the callers get this wrong, and that's definitely non-obvious.
 
-This belongs to the previous patch.
+It's been discussed before, but nobody stepped up to address this
+issue. In the end I decided to just accept media patches that fix this
+in the drivers rather than waiting for some mythical future core fix.
 
->  
->  #define UVC_GUID_FORMAT_MJPEG \
->  	{ 'M',  'J',  'P',  'G', 0x00, 0x00, 0x10, 0x00, \
+Nor do I think that you can just 'fix' pm_runtime_get_sync, since
+then you will get cases where pm_runtime_put is called once too
+often.
 
--- 
 Regards,
 
-Laurent Pinchart
+	Hans
+
+> 
+> Maxime
+> 
+
