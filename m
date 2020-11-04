@@ -2,126 +2,185 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BE4402A6D0E
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 19:45:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5AB362A6D15
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 19:46:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730922AbgKDSpF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 13:45:05 -0500
-Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:18264 "EHLO
-        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726737AbgKDSpF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 13:45:05 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5fa2f6af0005>; Wed, 04 Nov 2020 10:45:03 -0800
-Received: from [10.2.49.167] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Wed, 4 Nov
- 2020 18:44:57 +0000
-Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
-To:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Christoph Hellwig <hch@infradead.org>
-CC:     Daniel Vetter <daniel.vetter@ffwll.ch>,
-        J??r??me Glisse <jglisse@redhat.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>,
-        KVM list <kvm@vger.kernel.org>,
+        id S1731090AbgKDSpp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 13:45:45 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:36609 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726737AbgKDSpo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Nov 2020 13:45:44 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id E6A4B580835;
+        Wed,  4 Nov 2020 13:45:42 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Wed, 04 Nov 2020 13:45:42 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=h6gVKgYCHB4jd1QasmgPAb4cVDy
+        Lq5KKdZf8FcfXr70=; b=qonIoKt5ynpSunhkKMoyc09F/y3b4DLCFZaYQc7rQ/I
+        wfU4OIT+8iGVCc/csj8PEB7Nm4usgOlD9Jy8BEkd7mfB++jZ467JbNZWRimFLxgu
+        BQA2gZVq0O0dQ3j3f7FlOEyG+/3u0P9SCHiU0jDh3udHxXqJpma/3rAa6ZJEsRMx
+        PnIm21k/O/r0oVdIqjuXo6OE0+vhLrpBEg0PPuH439P3DpOlg87Xev3Son+qCFtF
+        fgCAMrbQVs0JaEXHUiQl5DiOMw8w3gf0yJwCKM/WA/bcpVQQhWYvsH9OPWGSvjmI
+        SY5eCDuro02ZQPre4Ic8UoIfUCGJy1pRFaiMSGCnbYw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=h6gVKg
+        YCHB4jd1QasmgPAb4cVDyLq5KKdZf8FcfXr70=; b=Qb2E6f+2MnAete1r0wrSxx
+        bxyhhbgSeAG6GGM+C+xBlWEuL4VvD9L6c7v/yZ78XTQH4PNdcFN3btY/A3K/5ak2
+        FGQq8dPvTgTXBZOLESAbOqBv6qmWru6stUtffv02ovtH2ZQvX0Ooet8t8efaE/u/
+        rsz6IKf52nEQ4sjyu7e6Y7vUHywMLusd1HoKDn1rLET8cN7pRyaBvQP9CFByCbTI
+        WWoC/jds3ba07/gVapb1LZYQVgWgoAmMxbYIWZDvL9294xexN28QJhHt9vBj6IC8
+        lFX7tHfTYkkd0Vj8WrkPcdTJIW2rduvf4cNlLUHuTZWAXM2HuzB1zV8iLGUCP4SA
+        ==
+X-ME-Sender: <xms:1PaiX3uIGw44cNMmjGrWphGok82QEI-4XmiIGbjL59CK3Ko8k8NMlg>
+    <xme:1PaiX4e6sYGoZkM9_lFhJE9Q4DmD81-Vyu5h98xs-ETfU7yAt7mRsomycC6xUGDOY
+    kL2MX7SXL4cfSZBLoQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedruddthedguddukecutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeehjedugfduvefhvdfgkeffvddvkeduhfffvdffjeffvdefhfeuuedviedv
+    jeduudenucffohhmrghinheplhhinhhugihtvhdrohhrghdpkhgvrhhnvghlrdhorhhgne
+    cukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghr
+    rghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:1PaiX6wNFuQ3YyPN67e-fzHDzF6VZonIdA2i8nEMrbHvY7JHh11ujQ>
+    <xmx:1PaiX2PGH_U4iQl8I3Z6N8Z6F0t7EhhsYgtK8D6Fk7Sg1SN6-Ta5Pw>
+    <xmx:1PaiX38uTORCesjCckcr2-UKvnNiA9-eYinx33sI5ujyUIvkdFe8qw>
+    <xmx:1vaiX620cpglAM1dYEU9NBoPZ_pcGjiRDgt7d-VdgSgU117MM3Q9iw>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 46CEA328037B;
+        Wed,  4 Nov 2020 13:45:40 -0500 (EST)
+Date:   Wed, 4 Nov 2020 19:45:38 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        "Daniel Vetter" <daniel.vetter@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-References: <1f7cf690-35e2-c56f-6d3f-94400633edd2@nvidia.com>
- <CAKMK7uFYDSqnNp_xpohzCEidw_iLufNSoX4v55sNZj-nwTckSg@mail.gmail.com>
- <7f29a42a-c408-525d-90b7-ef3c12b5826c@nvidia.com>
- <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
- <20201104140023.GQ36674@ziepe.ca>
- <CAKMK7uH69hsFjYUkjg1aTh5f=q_3eswMSS5feFs6+ovz586+0A@mail.gmail.com>
- <20201104162125.GA13007@infradead.org>
- <CAKMK7uH=0+3FSR4LxP7bJUB4BsCcnCzfK2=D+2Am9QNmfZEmfw@mail.gmail.com>
- <20201104163758.GA17425@infradead.org> <20201104164119.GA18218@infradead.org>
- <20201104181708.GU36674@ziepe.ca>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <d3497583-2338-596e-c764-8c571b7d22cf@nvidia.com>
-Date:   Wed, 4 Nov 2020 10:44:56 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Yong Deng <yong.deng@magewell.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com
+Subject: Re: [PATCH 08/14] media: sunxi: Add support for the A31 MIPI CSI-2
+ controller
+Message-ID: <20201104184538.f6qagsmjdoijbzmv@gilmour.lan>
+References: <20201023174546.504028-1-paul.kocialkowski@bootlin.com>
+ <20201023174546.504028-9-paul.kocialkowski@bootlin.com>
+ <1a3a615c-a058-e282-2dbb-c99dfa98be68@collabora.com>
+ <20201102092110.ro6a456lvbrktwoz@gilmour.lan>
+ <20201104111710.GB287014@aptenodytes>
+ <f74e4d59-a391-36ab-74aa-8e02aca1b0bc@collabora.com>
 MIME-Version: 1.0
-In-Reply-To: <20201104181708.GU36674@ziepe.ca>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL111.nvidia.com (172.20.187.18) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1604515503; bh=8Ugq3MVZhAulHFLpXWMZRWPLhPny25VZOQYdcq4TO0Y=;
-        h=Subject:To:CC:References:From:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Language:
-         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-        b=LevZOWfSVNFRWN4kR3miaQt5LJlNcyeB9Ghugs0ySBdOh/MQLGl5DRy1UnBuawKGN
-         MsfMPuReQvwD80mrwk72YzJgprfaPEzy1iWCw2bcBIdepgHc2yIb1Z3tSbNtmEzOtU
-         74pXxKH+MYaO7mcOVRHUIJlaJ+S6YdrrRiDmU5IgDOTF2gsFbVWNUGDqZmjLUVrBs+
-         KGS2R/Zsa7bMMbNrwo9WMhxZao/dnX05W1Igj+s1NtoEdpZL8MR5Y+v8eG6ulR90ea
-         VKoKDEiFK4daZpfXrySmcBWNIL6VlfFacFRqV7CsvPsOFqcDAR/c16xbI63Eet0A3q
-         CwJJD0KoyL0qA==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="omzz5qqvuni2vts6"
+Content-Disposition: inline
+In-Reply-To: <f74e4d59-a391-36ab-74aa-8e02aca1b0bc@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/4/20 10:17 AM, Jason Gunthorpe wrote:
-> On Wed, Nov 04, 2020 at 04:41:19PM +0000, Christoph Hellwig wrote:
->> On Wed, Nov 04, 2020 at 04:37:58PM +0000, Christoph Hellwig wrote:
->>> On Wed, Nov 04, 2020 at 05:26:58PM +0100, Daniel Vetter wrote:
->>>> What we're discussing is whether gup_fast and pup_fast also obey this,
->>>> or fall over and can give you the struct page that's backing the
->>>> dma_mmap_* memory. Since the _fast variant doesn't check for
->>>> vma->vm_flags, and afaict that's the only thing which closes this gap.
->>>> And like you restate, that would be a bit a problem. So where's that
->>>> check which Jason&me aren't spotting?
->>>
->>> remap_pte_range uses pte_mkspecial to set up the PTEs, and gup_pte_range
->>> errors out on pte_special.  Of course this only works for the
->>> CONFIG_ARCH_HAS_PTE_SPECIAL case, for other architectures we do have
->>> a real problem.
->>
->> Except that we don't really support pte-level gup-fast without
->> CONFIG_ARCH_HAS_PTE_SPECIAL, and in fact all architectures selecting
->> HAVE_FAST_GUP also select ARCH_HAS_PTE_SPECIAL, so we should be fine.
-> 
-> Mm, I thought it was probably the special flag..
-> 
-> Knowing that CONFIG_HAVE_FAST_GUP can't be set without
-> CONFIG_ARCH_HAS_PTE_SPECIAL is pretty insightful, can we put that in
-> the Kconfig?
-> 
-> config HAVE_FAST_GUP
->          depends on MMU
->          depends on ARCH_HAS_PTE_SPECIAL
->          bool
-> 
-Well, the !CONFIG_ARCH_HAS_PTE_SPECIAL case points out in a comment that
-gup-fast is not *completely* unavailable there, so I don't think you want
-to shut it off like that:
 
-/*
-  * If we can't determine whether or not a pte is special, then fail immediately
-  * for ptes. Note, we can still pin HugeTLB and THP as these are guaranteed not
-  * to be special.
-  *
-  * For a futex to be placed on a THP tail page, get_futex_key requires a
-  * get_user_pages_fast_only implementation that can pin pages. Thus it's still
-  * useful to have gup_huge_pmd even if we can't operate on ptes.
-  */
+--omzz5qqvuni2vts6
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
+On Wed, Nov 04, 2020 at 01:38:08PM -0300, Helen Koike wrote:
+>=20
+>=20
+> On 11/4/20 8:17 AM, Paul Kocialkowski wrote:
+> > Hi,
+> >=20
+> > On Mon 02 Nov 20, 10:21, Maxime Ripard wrote:
+> >> On Fri, Oct 30, 2020 at 07:45:18PM -0300, Helen Koike wrote:
+> >>> On 10/23/20 2:45 PM, Paul Kocialkowski wrote:
+> >>>> The A31 MIPI CSI-2 controller is a dedicated MIPI CSI-2 controller
+> >>>> found on Allwinner SoCs such as the A31 and V3/V3s.
+> >>>>
+> >>>> It is a standalone block, connected to the CSI controller on one side
+> >>>> and to the MIPI D-PHY block on the other. It has a dedicated address
+> >>>> space, interrupt line and clock.
+> >>>>
+> >>>> Currently, the MIPI CSI-2 controller is hard-tied to a specific CSI
+> >>>> controller (CSI0) but newer SoCs (such as the V5) may allow switching
+> >>>> MIPI CSI-2 controllers between CSI controllers.
+> >>>>
+> >>>> It is represented as a V4L2 subdev to the CSI controller and takes a
+> >>>> MIPI CSI-2 sensor as its own subdev, all using the fwnode graph and
+> >>>> media controller API.
+> >>>
+> >>> Maybe this is a bad idea, but I was thinking:
+> >>> This driver basically just turn on/off and catch some interrupts for =
+errors,
+> >>> and all the rest of v4l2 config you just forward to the next subdevice
+> >>> on the pipeline.
+> >>>
+> >>> So instead of exposing it as a subdevice, I was wondering if modeling
+> >>> this driver also through the phy subsystem wouldn't be cleaner, so
+> >>> you won't need all the v4l2 subdevice/topology boilerplate code that
+> >>> it seems you are not using (unless you have plans to add controls or
+> >>> some specific configuration on this node later).
+> >>>
+> >>> But this would require changes on the sun6i-csi driver.
+> >>>
+> >>> What do you think?
+> >>
+> >> Eventually we'll need to filter the virtual channels / datatypes I
+> >> guess, so it's definitely valuable to have it in v4l2
+>=20
+> Which kind of datatypes?=20
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+MIPI-CSI datatypes. Each packet on the MIPI-CSI bus is assigned a
+virtual channel and data type so that you can multiplex multiple streams
+(like a 3d camera would send for example, through the virtual channels)
+and data types (like frames and metadata) and MIPI-CSI controllers
+usually allow to filter them based on what you want.
+
+> I ask to know if this shouldn't be configured through the video node
+> instead of subdevice.
+
+Not really, some setups have a mux that can split the multiple virtual
+channels to multiple video nodes for example.
+
+> Regarding channels, we had a discussion to implement it through the video
+> node (and not subdevice) [1]. But we discussed about blitters and multi-s=
+calers,
+> so now I'm wondering if we could use the same API for mipi-csi virtual ch=
+annels
+> in the video entity device, or if it doesn't apply and we need another API
+> for that in a subdevice instead.
+>=20
+> [1] https://patchwork.linuxtv.org/project/linux-media/cover/2020071711543=
+5.2632623-1-helen.koike@collabora.com/
+
+There's already an API to deal with MIPI-CSI virtual channels:
+https://patchwork.kernel.org/project/linux-renesas-soc/cover/20190328200608=
+=2E9463-1-jacopo+renesas@jmondi.org/
+
+Maxime
+
+--omzz5qqvuni2vts6
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX6L20gAKCRDj7w1vZxhR
+xaHxAP9LB6Lpk4KycyR1opg5fGkFaTk8pgwzZgebU3CFW+7LvgD+JQUkd4k4fIY7
+xTpXAqCHpDduJ5qtwB9v5M5dAiu+Jgc=
+=vbHI
+-----END PGP SIGNATURE-----
+
+--omzz5qqvuni2vts6--
