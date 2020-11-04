@@ -2,167 +2,348 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 058652A6398
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 12:49:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E84F62A63A3
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 12:53:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729627AbgKDLtq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 06:49:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47962 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729621AbgKDLsj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 06:48:39 -0500
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A6129C0613D3
-        for <linux-media@vger.kernel.org>; Wed,  4 Nov 2020 03:48:39 -0800 (PST)
-Received: by mail-oi1-x243.google.com with SMTP id 9so21858333oir.5
-        for <linux-media@vger.kernel.org>; Wed, 04 Nov 2020 03:48:39 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=y7tj6Pzjp8JR2KC8TChsuwytVkVvMR+s47pe2JATvJU=;
-        b=MsKU1ybVT4f7H+c6z7o6qDsydeSwBR0uaSOc57E+hYVHLDJKTN1erCWU6QbkCZS2Pe
-         2Qfsvh9yqtYza+HWTGTEigZ2QsQHBxni2f+k7TsICC4sKXGNYRkGXo2zAt90spUIoTay
-         K+K3/VONsbCUEaM5tL/dR4Psu3Ip7JJ/5Nm7A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=y7tj6Pzjp8JR2KC8TChsuwytVkVvMR+s47pe2JATvJU=;
-        b=MWil/RAgL7BR7X0jNvE7Fklm7JxwWXiiXXNW4zUuJHr8hGUN7dEujbyZv6sluNL+cl
-         OiRbMJDX9yXkHT2okqYdVMu2mzsEBb3O/sWOR8X6A8sn3lngSs2vNMk+m+WZzxKiGqkp
-         /tOSjPu+QfsGXt5NmBBfug2pZiZjiC5RXQYOPH84G5MIl7t7WXeLTZPDNAoG2/RQ5DBL
-         26Sj2H4Sd1UMXiECeWkcjLpi16iLScAAXk2Qlxro0RYbVw+s9y2GOk++eWOHMYYZdQNR
-         fCJBPC98FeqCtYFkHkOZctXp65wyS2VkZuQyDa0a5CCAZGFAKmWu4lrFNn9KTjzFj/TS
-         /Eyw==
-X-Gm-Message-State: AOAM533En+eXb78THRMyxnbl8MUFu5Ss6n9bN4dCeGf48XdA7TzzsvxQ
-        KFXHACuTc5KyNsDa5bhcofFs9795M+Y+CA==
-X-Google-Smtp-Source: ABdhPJypwoLc/67sjTzMtLlYae56zOtA3XASo5MDWicNFP16joEM2+br6SYEkWtUl7RcDNTEGUZVhw==
-X-Received: by 2002:aca:5710:: with SMTP id l16mr2346519oib.24.1604490518714;
-        Wed, 04 Nov 2020 03:48:38 -0800 (PST)
-Received: from mail-oi1-f179.google.com (mail-oi1-f179.google.com. [209.85.167.179])
-        by smtp.gmail.com with ESMTPSA id w3sm450552oov.48.2020.11.04.03.48.37
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 04 Nov 2020 03:48:37 -0800 (PST)
-Received: by mail-oi1-f179.google.com with SMTP id c21so6860680oic.1
-        for <linux-media@vger.kernel.org>; Wed, 04 Nov 2020 03:48:37 -0800 (PST)
-X-Received: by 2002:aca:d07:: with SMTP id 7mr2193975oin.15.1604490516967;
- Wed, 04 Nov 2020 03:48:36 -0800 (PST)
+        id S1729243AbgKDLxQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 06:53:16 -0500
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:50433 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728700AbgKDLwa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Nov 2020 06:52:30 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id aHKtkUfLD1R0xaHKwkHfqO; Wed, 04 Nov 2020 12:52:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604490743; bh=toNJ5TT0JPby3+Tl2rMCfmEOox/rzcuEcDGj7MXUk8Q=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=jKxNZlDMuc7RB6mOPhjajO/AP0b6TJc0Fo1kDtyc3uU05hNn73A4HngCxuFog9TcR
+         QJHnKb76hSKxqWtWZmfwWDRz8WjqSq73kogpQ7BwTub8Sgu1PxRDrstVXVUVLuUNH+
+         pNrY1abm0xu/f3HDSNjsEjQxHLDJUc5DCBXZ7ZcSXO0Ptl07NLkhwGPh6IOqUeIjoz
+         Jx22QwhXf0k1cNxakn7XlalEzMe81yxJg0JX3zWKkF6iCvUUiXqSfeNU5cWEmE3zMg
+         j4ii647kErwnqB5JgcKfjmE266NUsRlu8woJP7ZSgOfA0YGfutPJDKVm9a7EiZN8F+
+         3K+YGMKuftvpQ==
+Subject: Re: [PATCH v4 00/11] Add V4L2 driver for i.MX8 JPEG Encoder/Decoder
+To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
+        mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org
+Cc:     paul.kocialkowski@bootlin.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-imx@nxp.com,
+        s.hauer@pengutronix.de, aisheng.dong@nxp.com,
+        daniel.baluta@nxp.com, robert.chiras@nxp.com,
+        laurentiu.palcu@nxp.com, mark.rutland@arm.com,
+        devicetree@vger.kernel.org, p.zabel@pengutronix.de,
+        ezequiel@collabora.com, laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        dafna.hirschfeld@collabora.com,
+        Mirela Rabulea <mirela.rabulea@nxp.com>
+References: <20201102030821.3049-1-mirela.rabulea@oss.nxp.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <9c6cf9bf-f6d8-78f5-5f31-d7ea9e25da0d@xs4all.nl>
+Date:   Wed, 4 Nov 2020 12:52:19 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20201022133753.310506-1-ribalda@chromium.org> <20201022133753.310506-2-ribalda@chromium.org>
- <20201104110937.GH26171@pendragon.ideasonboard.com>
-In-Reply-To: <20201104110937.GH26171@pendragon.ideasonboard.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Wed, 4 Nov 2020 12:48:25 +0100
-X-Gmail-Original-Message-ID: <CANiDSCuCJigJ293pMnXT9wALUn3D2=RTKtzVcrD+Hr+u2uCWPA@mail.gmail.com>
-Message-ID: <CANiDSCuCJigJ293pMnXT9wALUn3D2=RTKtzVcrD+Hr+u2uCWPA@mail.gmail.com>
-Subject: Re: [PATCH 1/6] media: uvcvideo: Add UVC_CTRL_FLAG_ENTITY_GET_INFO
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        tfiga@chromium.org
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201102030821.3049-1-mirela.rabulea@oss.nxp.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfEUWeBmrHKObsUsH9Y2REA2s9GY16a1AnauCpf88xRQ5Q7TIh3i3B5Tp83UDHeo1Yz1CAWxoVZqhKmzQNJKzShXQKjUqr2luai0az0E4o0/ij8ZBdGrt
+ T720HDEwVqEbwQo5MbEqSkYVlJPmo1Blx7LXJhZSckP7m89lf1Jp9+qnKgb0OK2YcvjiAYhqaC+C+dePkFhMC4l15eHbMYOMc7il4oTWb4XMVx/+mrXzXX3m
+ 2PZyo2ZwI4e3jYpu2v3cO12TqexbaXTygGoejvE7bovCAuo1RbLx8DVvsne9cpy/yaIExQbPmgBUrCeTq5arW0O6nuPQ4slUYJu7rNRYOWhWNKBCYxxMZKzP
+ xc2aQoi7Vug19IwHqhOXhdGkqKA/u/IiBi83WFOfxRzwvGfruvMydAZp2Ni4nYJusOKyDICwmpthUasAMUnHU7tNtJ9y/tfXvbSmTJCOVDbdx53KJdE6y1IL
+ t9/3u95JMC5auTLSsd42YJ9Yd99J9/MiBNwl6v4x7uunj32PHU0EDuyrmGEhpLjXa/eXv1x2Mj2n3+lKsN3FBsZxR5BDaeY+El1TckCQlVvi0/gr0RJv9J4G
+ 17cP6JQMvzkQ5g49gzKne4a/9ge3fD1YQpPAKn3xmjwJpveh63xmut1I6vgx1EbPH7vHfV/bnlFw17466CPjWKiDZ7XQJjHcfRUMrLwByfXBYMjk9X1yDpUU
+ nPtwY/RzNtdiwYj/I99jrj98+NXxHmiNSKIZBrK9VMvi8n4fn8KfwoOO8CtmgKvLb8rUQditqzzQ1N4znr6U93GGI7bFC4kHM4/kPMZKyCIZSTjpyg6BYLpF
+ VHB5JFGvhJRAvOc9IpmAxOscL31y6CwC01bq1Ys1AJXrmuu0SlEQljG39bNag1uS3TmT6sOO/F1LviM9lCJ18sF7RslSYdyzqqDaWRWHMfH36Vm7gVBjycGM
+ 5T2hHw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 4, 2020 at 12:10 PM Laurent Pinchart
-<laurent.pinchart@ideasonboard.com> wrote:
->
-> Hi Ricardo,
->
-> Thank you for the patch.
->
-> On Thu, Oct 22, 2020 at 03:37:48PM +0200, Ricardo Ribalda wrote:
-> > This flag allows controls to get their properties from an entity defined
->
-> s/entity defined/entity-defined/
->
-> > function instead of via a query to the USB device.
-> >
-> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
-> > ---
-> >  drivers/media/usb/uvc/uvc_ctrl.c | 9 +++++++--
-> >  drivers/media/usb/uvc/uvcvideo.h | 3 +++
-> >  include/uapi/linux/uvcvideo.h    | 2 ++
-> >  3 files changed, 12 insertions(+), 2 deletions(-)
-> >
-> > diff --git a/drivers/media/usb/uvc/uvc_ctrl.c b/drivers/media/usb/uvc/uvc_ctrl.c
-> > index f479d8971dfb..7acdc055613b 100644
-> > --- a/drivers/media/usb/uvc/uvc_ctrl.c
-> > +++ b/drivers/media/usb/uvc/uvc_ctrl.c
-> > @@ -1708,8 +1708,13 @@ static int uvc_ctrl_get_flags(struct uvc_device *dev,
-> >       if (data == NULL)
-> >               return -ENOMEM;
-> >
-> > -     ret = uvc_query_ctrl(dev, UVC_GET_INFO, ctrl->entity->id, dev->intfnum,
-> > -                          info->selector, data, 1);
-> > +     if (ctrl->info.flags & UVC_CTRL_FLAG_ENTITY_GET_INFO)
->
-> Do we need the flag, couldn't we use entity->get_info if it is non-null,
-> and call uvc_query_ctrl() otherwise ?
+On 02/11/2020 04:08, Mirela Rabulea (OSS) wrote:
+> From: Mirela Rabulea <mirela.rabulea@nxp.com>
+> 
+> Changes in v4:
+> The main change is using the common jpeg helpers in imx-jpeg
+> Summary of changes:
+> Patch 1, 2, 3, 5, 6 - no change
+> Patch 4 - small update: VFL_TYPE_VIDEO-> VFL_TYPE_GRABBER and 2 typos
+> Patch 7 - new, fixed a problem with v4l2-compliance streaming tests on decoder
+> Patch 8,9,10 - new, changes in jpeg helpers.
+> Patch 11- new, use jpeg helpers in imx-jpeg, as requested during review, requires patch 8
+> 
+> This patch set adds the V4L2 driver for i.MX8QXP/QM JPEG encoder/decoder
+> and it's dependencies.
+> The driver was tested on i.MX8QXP, using a unit test application and
+> the v4l2-compliance tool, including the  streaming tests for decoder & encoder.
+> 
+> The output of v4l2-compliance (stable-1.20) on i.MX8QXP, decoder & encoder:
+> 
+> root@imx8qxpmek:/unit_tests/JPEG# ./v4l2-compliance-stable-1.20 -d /dev/video0 -s
+> v4l2-compliance SHA: 6c415a11fceb32067cdb5c2e33f90dbf018182a4, 64 bits, 64-bit time_t
 
-The idea behind the flag is to support in the same entity controls
-that are uvc_query_ctrl() based
-and "entity private functions".
+This is much too old. Always compile v4l2-compliance from the v4l-utils git
+repository (https://git.linuxtv.org/v4l-utils.git/) to ensure you use the
+latest version and the latest compliance checks.
 
-As this moment, there is only the " GPIO entity"  that has has private
-functions, and does not require it.
+I.e., the reported SHA should match that of HEAD.
 
-So I can simply remove the flag and add it later (if needed).
+Regards,
 
-Thanks
+	Hans
 
->
-> > +             ret = ctrl->entity->get_info ?
-> > +                     ctrl->entity->get_info(ctrl->entity, ctrl->info.selector, data) :
-> > +                     -EINVAL;
-> > +     else
-> > +             ret = uvc_query_ctrl(dev, UVC_GET_INFO, ctrl->entity->id, dev->intfnum,
-> > +                                  info->selector, data, 1);
-> >       if (!ret)
-> >               info->flags |= (data[0] & UVC_CONTROL_CAP_GET ?
-> >                               UVC_CTRL_FLAG_GET_CUR : 0)
-> > diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-> > index a3dfacf069c4..08922d889bb6 100644
-> > --- a/drivers/media/usb/uvc/uvcvideo.h
-> > +++ b/drivers/media/usb/uvc/uvcvideo.h
-> > @@ -353,6 +353,9 @@ struct uvc_entity {
-> >       u8 bNrInPins;
-> >       u8 *baSourceID;
-> >
-> > +     int (*get_info)(struct uvc_entity *entity, u8 cs, u8 *caps);
-> > +     int (*get_cur)(struct uvc_entity *entity, u8 cs, void *data, u16 size);
->
-> Looks like the second function should be part of patch 2/6 instead. I
-> would however squash 1/6 and 2/6.
->
-> > +
-> >       unsigned int ncontrols;
-> >       struct uvc_control *controls;
-> >  };
-> > diff --git a/include/uapi/linux/uvcvideo.h b/include/uapi/linux/uvcvideo.h
-> > index f80f05b3c423..69b636290c31 100644
-> > --- a/include/uapi/linux/uvcvideo.h
-> > +++ b/include/uapi/linux/uvcvideo.h
-> > @@ -30,6 +30,8 @@
-> >  #define UVC_CTRL_FLAG_AUTO_UPDATE    (1 << 7)
-> >  /* Control supports asynchronous reporting */
-> >  #define UVC_CTRL_FLAG_ASYNCHRONOUS   (1 << 8)
-> > +/* Entity queries */
-> > +#define UVC_CTRL_FLAG_ENTITY_GET_INFO        (1 << 9)
-> >
-> >  #define UVC_CTRL_FLAG_GET_RANGE \
-> >       (UVC_CTRL_FLAG_GET_CUR | UVC_CTRL_FLAG_GET_MIN | \
->
-> --
-> Regards,
->
-> Laurent Pinchart
+> 
+> Compliance test for mxc-jpeg decode device /dev/video0:
+> 
+> Driver Info:
+> 	Driver name      : mxc-jpeg decode
+> 	Card type        : mxc-jpeg decoder
+> 	Bus info         : platform:58400000.jpegdec
+> 	Driver version   : 5.10.0
+> 	Capabilities     : 0x84204000
+> 		Video Memory-to-Memory Multiplanar
+> 		Streaming
+> 		Extended Pix Format
+> 		Device Capabilities
+> 	Device Caps      : 0x04204000
+> 		Video Memory-to-Memory Multiplanar
+> 		Streaming
+> 		Extended Pix Format
+> 	Detected JPEG Decoder
+> 
+> Required ioctls:
+> 	test VIDIOC_QUERYCAP: OK
+> 
+> Allow for multiple opens:
+> 	test second /dev/video0 open: OK
+> 	test VIDIOC_QUERYCAP: OK
+> 	test VIDIOC_G/S_PRIORITY: OK
+> 	test for unlimited opens: OK
+> 
+> 	test invalid ioctls: OK
+> Debug ioctls:
+> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
+> 
+> Input ioctls:
+> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> 	test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls:
+> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+> 	test VIDIOC_QUERYCTRL: OK (Not Supported)
+> 	test VIDIOC_G/S_CTRL: OK (Not Supported)
+> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> 	Standard Controls: 0 Private Controls: 0
+> 
+> Format ioctls:
+> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> 	test VIDIOC_G/S_PARM: OK (Not Supported)
+> 	test VIDIOC_G_FBUF: OK (Not Supported)
+> 	test VIDIOC_G_FMT: OK
+> 	test VIDIOC_TRY_FMT: OK
+> 	test VIDIOC_S_FMT: OK
+> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> 	test Cropping: OK (Not Supported)
+> 	test Composing: OK (Not Supported)
+> 	test Scaling: OK
+> 
+> Codec ioctls:
+> 	test VIDIOC_(TRY_)ENCODER_CMD: OK
+> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> 	test VIDIOC_(TRY_)DECODER_CMD: OK
+> 
+> Buffer ioctls:
+> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> 	test VIDIOC_EXPBUF: OK
+> 	test Requests: OK (Not Supported)
+> 
+> Test input 0:
+> 
+> Streaming ioctls:
+> 	test read/write: OK (Not Supported)
+> 	test blocking wait: OK
+> 	Video Capture Multiplanar: Captured 58 buffers    
+> 	test MMAP (no poll): OK
+> 	Video Capture Multiplanar: Captured 58 buffers    
+> 	test MMAP (select): OK
+> 	Video Capture Multiplanar: Captured 58 buffers    
+> 	test MMAP (epoll): OK
+> 	test USERPTR (no poll): OK (Not Supported)
+> 	test USERPTR (select): OK (Not Supported)
+> 	test DMABUF: Cannot test, specify --expbuf-device
+> 
+> Total for mxc-jpeg decode device /dev/video0: 52, Succeeded: 52, Failed: 0, Warnings: 0
+>  
+> root@imx8qxpmek:/unit_tests/JPEG# ./v4l2-compliance-stable-1.20 -d /dev/video1 -s
+> v4l2-compliance SHA: 6c415a11fceb32067cdb5c2e33f90dbf018182a4, 64 bits, 64-bit time_t
+> 
+> Compliance test for mxc-jpeg decode device /dev/video1:
+> 
+> Driver Info:
+> 	Driver name      : mxc-jpeg decode
+> 	Card type        : mxc-jpeg decoder
+> 	Bus info         : platform:58450000.jpegenc
+> 	Driver version   : 5.10.0
+> 	Capabilities     : 0x84204000
+> 		Video Memory-to-Memory Multiplanar
+> 		Streaming
+> 		Extended Pix Format
+> 		Device Capabilities
+> 	Device Caps      : 0x04204000
+> 		Video Memory-to-Memory Multiplanar
+> 		Streaming
+> 		Extended Pix Format
+> 	Detected JPEG Encoder
+> 
+> Required ioctls:
+> 	test VIDIOC_QUERYCAP: OK
+> 
+> Allow for multiple opens:
+> 	test second /dev/video1 open: OK
+> 	test VIDIOC_QUERYCAP: OK
+> 	test VIDIOC_G/S_PRIORITY: OK
+> 	test for unlimited opens: OK
+> 
+> 	test invalid ioctls: OK
+> Debug ioctls:
+> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
+> 
+> Input ioctls:
+> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
+> 
+> Output ioctls:
+> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
+> 
+> Input/Output configuration ioctls:
+> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+> 	test VIDIOC_G/S_EDID: OK (Not Supported)
+> 
+> Control ioctls:
+> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+> 	test VIDIOC_QUERYCTRL: OK (Not Supported)
+> 	test VIDIOC_G/S_CTRL: OK (Not Supported)
+> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+> 	Standard Controls: 0 Private Controls: 0
+> 
+> Format ioctls:
+> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+> 	test VIDIOC_G/S_PARM: OK (Not Supported)
+> 	test VIDIOC_G_FBUF: OK (Not Supported)
+> 	test VIDIOC_G_FMT: OK
+> 	test VIDIOC_TRY_FMT: OK
+> 	test VIDIOC_S_FMT: OK
+> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+> 	test Cropping: OK (Not Supported)
+> 	test Composing: OK (Not Supported)
+> 	test Scaling: OK (Not Supported)
+> 
+> Codec ioctls:
+> 	test VIDIOC_(TRY_)ENCODER_CMD: OK
+> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+> 	test VIDIOC_(TRY_)DECODER_CMD: OK
+> 
+> Buffer ioctls:
+> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+> 	test VIDIOC_EXPBUF: OK
+> 	test Requests: OK (Not Supported)
+> 
+> Test input 0:
+> 
+> Streaming ioctls:
+> 	test read/write: OK (Not Supported)
+> 	test blocking wait: OK
+> 	Video Capture Multiplanar: Captured 58 buffers    
+> 	test MMAP (no poll): OK
+> 	Video Capture Multiplanar: Captured 58 buffers    
+> 	test MMAP (select): OK
+> 	Video Capture Multiplanar: Captured 58 buffers    
+> 	test MMAP (epoll): OK
+> 	test USERPTR (no poll): OK (Not Supported)
+> 	test USERPTR (select): OK (Not Supported)
+> 	test DMABUF: Cannot test, specify --expbuf-device
+> 
+> Total for mxc-jpeg decode device /dev/video1: 52, Succeeded: 52, Failed: 0, Warnings: 0
+> root@imx8qxpmek:/unit_tests/JPEG# 
+> 
+> 
+> Mirela Rabulea (11):
+>   media: v4l: Add packed YUV444 24bpp pixel format
+>   firmware: imx: scu-pd: Add power domains for imx-jpeg
+>   media: dt-bindings: Add bindings for i.MX8QXP/QM JPEG driver
+>   media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG Encoder/Decoder
+>   arm64: dts: imx8qxp: Add jpeg encoder/decoder nodes
+>   Add maintainer for IMX jpeg v4l2 driver
+>   media: imx-jpeg: Fix v4l2-compliance streaming tests on decoder
+>   media: Add parsing for APP14 data segment in jpeg helpers
+>   media: Quit parsing stream if doesn't start with SOI
+>   media: Avoid parsing quantization and huffman tables
+>   media: imx-jpeg: Use v4l2 jpeg helpers in mxc-jpeg
+> 
+>  .../devicetree/bindings/media/imx8-jpeg.yaml  |   83 +
+>  .../media/v4l/pixfmt-packed-yuv.rst           |   37 +-
+>  MAINTAINERS                                   |    8 +
+>  arch/arm64/boot/dts/freescale/imx8qxp-mek.dts |    8 +
+>  arch/arm64/boot/dts/freescale/imx8qxp.dtsi    |   37 +
+>  drivers/firmware/imx/scu-pd.c                 |    6 +
+>  drivers/media/platform/Kconfig                |    2 +
+>  drivers/media/platform/Makefile               |    1 +
+>  drivers/media/platform/imx-jpeg/Kconfig       |   11 +
+>  drivers/media/platform/imx-jpeg/Makefile      |    3 +
+>  drivers/media/platform/imx-jpeg/mxc-jpeg-hw.c |  168 ++
+>  drivers/media/platform/imx-jpeg/mxc-jpeg-hw.h |  140 ++
+>  drivers/media/platform/imx-jpeg/mxc-jpeg.c    | 2185 +++++++++++++++++
+>  drivers/media/platform/imx-jpeg/mxc-jpeg.h    |  184 ++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+>  drivers/media/v4l2-core/v4l2-jpeg.c           |   52 +-
+>  include/media/v4l2-jpeg.h                     |   16 +-
+>  include/uapi/linux/videodev2.h                |    1 +
+>  18 files changed, 2933 insertions(+), 10 deletions(-)
+>  create mode 100644 Documentation/devicetree/bindings/media/imx8-jpeg.yaml
+>  create mode 100644 drivers/media/platform/imx-jpeg/Kconfig
+>  create mode 100644 drivers/media/platform/imx-jpeg/Makefile
+>  create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg-hw.c
+>  create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg-hw.h
+>  create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg.c
+>  create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg.h
+> 
 
-
-
--- 
-Ricardo Ribalda
