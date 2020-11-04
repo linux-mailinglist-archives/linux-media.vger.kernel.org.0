@@ -2,112 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88CA62A6880
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 16:54:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D8112A68F3
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 17:02:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731310AbgKDPyd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 10:54:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59126 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730898AbgKDPyb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 10:54:31 -0500
-Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 17C93C0613D3
-        for <linux-media@vger.kernel.org>; Wed,  4 Nov 2020 07:54:31 -0800 (PST)
-Received: by mail-ot1-x344.google.com with SMTP id j14so9509044ots.1
-        for <linux-media@vger.kernel.org>; Wed, 04 Nov 2020 07:54:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=y5iSM0n3L7+OTVROVCVTwu3uWAzU5mN6qUkDTEIh4do=;
-        b=PitcG0uAHrmeOMZWf07+5nFovh7kr7Adgn3pV0IjFTvWK31RX96qNAX9Ks5Dh/x/M1
-         BTJhllHwgJtYkqu+DoGQVr+zvfuKEAes8E2EKiqu7lnWd/wgVh9ipY9g1P/exu8Ll0XH
-         MlM5Nev4kEpw3fiAkWDQeeOa/AbBbn0nfEjrM=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=y5iSM0n3L7+OTVROVCVTwu3uWAzU5mN6qUkDTEIh4do=;
-        b=KlYO9ZXuaRU0hCRHKQdHouRq8mK11wAYG/ppVCfzw2vmygvyH+PMZO6QimRZLBvMjv
-         rScyLuq93d3oJ++O/VK+RsvdN1NL4MKgiBdEY+AlHH9zyL7LA/n4Ny4DlK45goE1mKZm
-         gzxNlhhBmD3X6W4oiK8qrFrt6sxONkjNiFokhXiLemRvEdI9iTgRdnHamqf+m6ppIuVl
-         8K2gJOKS7RYdlpRshbRHJP4IRb5qrIwL3MxrAkAN8se3Jz6sho0uvQwOUMZ2Sh+ukhvw
-         8gynUQAylRAw0wAlWcUVgPX721jqutvnJ2wRGRgME4T3GKd2MC/7OF//nEWh3FyXfbPW
-         jNwA==
-X-Gm-Message-State: AOAM5324MFQCC3HDHuHJHQQ/CTXRWOEpFWuaIaPkOcMLYyEz1HrNKKSb
-        Y/98htsnEhIHJ5+tiLmJf+Hh+JXcIb58KWakcWnOiQ==
-X-Google-Smtp-Source: ABdhPJwFTZ6h8d4LZSz0ZdASZtc67ts9b22F6yGqx4swNCRA+uz1tGrz0fV1z6m2B8vN3lXuyoPJEYkFgolkB9M18jE=
-X-Received: by 2002:a9d:3b4:: with SMTP id f49mr18846565otf.188.1604505270511;
- Wed, 04 Nov 2020 07:54:30 -0800 (PST)
+        id S1730819AbgKDQCm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 11:02:42 -0500
+Received: from mail.kernel.org ([198.145.29.99]:50740 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725889AbgKDQCl (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Nov 2020 11:02:41 -0500
+Received: from coco.lan (ip5f5ad5bc.dynamic.kabel-deutschland.de [95.90.213.188])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 1FBCE20786;
+        Wed,  4 Nov 2020 16:02:39 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604505760;
+        bh=IIvdr5gIi8Awn5IRizlmQqB4QFCFHmm5gxRgEOKqQf0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=cf8ucAQZZYgh92rfoKyMzrI9lnAPnrZVmjVq1E+11sU7hwCAuxVSojGJsTmFDknTJ
+         lLVicUk72fuCyH8OkmKU9wl/1PiDr/LZmaW5T3mZJGQaI2qFmL/o2zjKx7nXCWQ93x
+         iR4E88RWOCVoQfsRQKbVTQfWDhOdUx+Ul7BEWRQI=
+Date:   Wed, 4 Nov 2020 17:02:33 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Gregor Hlawacek <g.hlawacek@hzdr.de>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: Philips Monitor with webcam
+Message-ID: <20201104170233.0d405dff@coco.lan>
+In-Reply-To: <51207fd712e3c1001b80c6642021b1a5d5763ade.camel@hzdr.de>
+References: <51207fd712e3c1001b80c6642021b1a5d5763ade.camel@hzdr.de>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <20201030100815.2269-1-daniel.vetter@ffwll.ch> <20201030100815.2269-6-daniel.vetter@ffwll.ch>
- <446b2d5b-a1a1-a408-f884-f17a04b72c18@nvidia.com> <CAKMK7uGDW2f0oOvwgryCHxQFHyh3Tsk6ENsMGmtZ-EnH57tMSA@mail.gmail.com>
- <1f7cf690-35e2-c56f-6d3f-94400633edd2@nvidia.com> <CAKMK7uFYDSqnNp_xpohzCEidw_iLufNSoX4v55sNZj-nwTckSg@mail.gmail.com>
- <7f29a42a-c408-525d-90b7-ef3c12b5826c@nvidia.com> <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
- <20201104140023.GQ36674@ziepe.ca>
-In-Reply-To: <20201104140023.GQ36674@ziepe.ca>
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-Date:   Wed, 4 Nov 2020 16:54:19 +0100
-Message-ID: <CAKMK7uH69hsFjYUkjg1aTh5f=q_3eswMSS5feFs6+ovz586+0A@mail.gmail.com>
-Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
-To:     Jason Gunthorpe <jgg@ziepe.ca>
-Cc:     John Hubbard <jhubbard@nvidia.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Pawel Osciak <pawel@osciak.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        =?UTF-8?B?SsOpcsO0bWUgR2xpc3Nl?= <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>,
-        Dan Williams <dan.j.williams@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 4, 2020 at 3:00 PM Jason Gunthorpe <jgg@ziepe.ca> wrote:
->
-> On Sun, Nov 01, 2020 at 11:50:39PM +0100, Daniel Vetter wrote:
->
-> > It's not device drivers, but everyone else. At least my understanding
-> > is that VM_IO | VM_PFNMAP means "even if it happens to be backed by a
-> > struct page, do not treat it like normal memory". And gup/pup_fast
-> > happily break that. I tried to chase the history of that test, didn't
-> > turn up anything I understood much:
->
-> VM_IO isn't suppose do thave struct pages, so how can gup_fast return
-> them?
->
-> I thought some magic in the PTE flags excluded this?
+Em Wed, 04 Nov 2020 14:24:34 +0100
+Gregor Hlawacek <g.hlawacek@hzdr.de> escreveu:
 
-I don't really have a box here, but dma_mmap_attrs() and friends to
-mmap dma_alloc_coherent memory is set up as VM_IO | VM_PFNMAP (it's
-actually enforced since underneath it uses remap_pfn_range), and
-usually (except if it's pre-cma carveout) that's just normal struct
-page backed memory. Sometimes from a cma region (so will be caught by
-the cma page check), but if you have an iommu to make it
-device-contiguous, that's not needed.
+> Hi all
+>=20
+> I own a Philips Brilliance 241B which has a webcam attached. The device
+> is listed as 0412:612b Chicony Electronics Co., Ltd, bubt doesn't work
+> with the latest UVC stock kernel driver. Is there any hope to get this
+> supported?
+>=20
+> uname -a:
+> Linux it72 5.9.3-arch1-1 #1 SMP PREEMPT Sun, 01 Nov 2020 12:58:59 +0000
+> x86_64 GNU/Linux
+>=20
+> running Arch Linux on a Lenovo Thinkpad =C2=A0T490s
+>=20
+> dmesg:
+>=20
+> [76850.137838] usb 3-1.1.1.2: New USB device found, idVendor=3D04f2,
+> idProduct=3Db612, bcdDevice=3D 2.10
+> [76850.137841] usb 3-1.1.1.2: New USB device strings: Mfr=3D1, Product=3D=
+2,
+> SerialNumber=3D3
+> [76850.137843] usb 3-1.1.1.2: Product: USB2.0 FHD UVC WebCam
+> [76850.137845] usb 3-1.1.1.2: Manufacturer: SunplusIT Inc
+> [76850.137846] usb 3-1.1.1.2: SerialNumber: 01.00.00
+> [76850.152761] uvcvideo: Found UVC 1.50 device USB2.0 FHD UVC WebCam
+> (04f2:b612)
+> [76850.215683] input: USB2.0 FHD UVC WebCam: USB2.0 F as
+> /devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000:3c:00.0
+> /usb3/3-1/3-1.1/3-1.1.1/3-1.1.1.2/3-1.1.1.2:1.0/input/input66
+> [76850.223642] uvcvideo: Found UVC 1.50 device USB2.0 FHD UVC WebCam
+> (04f2:b612)
+> [76850.232499] usb 4-1.1.2: new SuperSpeed Gen 1 USB device number 5
+> using xhci_hcd
+> [76850.241004] input: USB2.0 FHD UVC WebCam: IR Camer as
+> /devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000:3c:00.0
+> /usb3/3-1/3-1.1/3-1.1.1/3-1.1.1.2/3-1.1.1.2:1.2/input/input67
 
-I think only some architectures have a special io pte flag, and those
-are only used for real mmio access. And I think the popular ones all
-don't. But that stuff is really not my expertise, just some drive-by
-reading I've done to understand how the pci mmap stuff works (which is
-special in yet other ways I think).
+Hmm... it sounds that the camera was properly detected here.=20
 
-So probably I'm missing something, but I'm not seeing anything that
-prevents this from coming out of a  pup/gup_fast.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Could you please enclose the contents of the following command?
+
+	$ v4l2-ctl --all
+
+Thanks,
+Mauro
