@@ -2,273 +2,1031 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7411C2A651F
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 14:28:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BB4B2A653F
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 14:32:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730000AbgKDN2D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 08:28:03 -0500
-Received: from mail-db8eur05on2082.outbound.protection.outlook.com ([40.107.20.82]:45921
-        "EHLO EUR05-DB8-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726691AbgKDN2C (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Nov 2020 08:28:02 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=FG4IOfiTHy12qu+rrK9wHAbIPN5XJyy0V7Lp/odk7fulCYjWCdQ6oS77rAwBBkJtM7tQ103rbCYfqmCmSo/oR9Wi26/CiDlUhDQLkJFBkHxUxxwj5QXuAn01c7miBREDLekpBHz3p62MrM93lqo4Emwj1Oz152fLo9VRFoHtG+XDioe0Vvns56lbxkYU2QC84/0/0+umHABrx/ExyxgQbRxko/shIra+4hWt3Jp7kGZxcfFwhsyxh0SAwF/PiiTtokPxGbEadOYOVAl2FOZdExqPfvpMyN0Lmd7dJHRQ36Zh1Ib120b3Jd7fM5qoHLoZTHAu3f9Ow/us6XkW0o/g6g==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BwYNxalfU1scHTYG0Zvydh5Kes4WFuGHpAwhxzWMmQo=;
- b=aOI640Nf4hO3+MfzE4kCAuaCevVNVTJldScTrqzFHy951gb5+JcjQFCzOdQsOuBwQPFPFz06DuruSG25BXVBlnyTVj3k6//yH7iiALIL647vu3hd88wmtFotwZNIvOR1lxa+V75o8w5Yn00MKG3ZujmkqPL6L55Ze73OFXcC6dBD2PboXSD0Igsg74HJ49N06OGVh9aRaNx+pJxlQ+7fHYyvb1SBBJ+nwuXmMlhsotPxVpj2mDqwcNNm+gFYuI3I8ta/cfH09hy+KpyfZAHd/Aw0/VdjaAnGVZLrwPMRn9XFu+IZXHoxpu6yVzYGUwvDI4SeUzEqrT0rVpID+Mndcg==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=nxp.com; dmarc=pass action=none header.from=nxp.com; dkim=pass
- header.d=nxp.com; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nxp.com; s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=BwYNxalfU1scHTYG0Zvydh5Kes4WFuGHpAwhxzWMmQo=;
- b=EkPrR7kR2zUOPXGsQTnYJdnB/muV0UTdYtJVtsXY5WeKc9vYYJKhPKg+mOr+9fJ73MWik5b1Bf9srstyjeoG9N5kisPkoqMAfO/NhGKwwYNAtLW0RA6t1xg40STIoBSAMrbDbs9ithaSJJRZtDGI49NwN8N86Xh/2LMWAgJAbeQ=
-Received: from AM5PR04MB3137.eurprd04.prod.outlook.com (2603:10a6:206:c::18)
- by AM6PR0402MB3542.eurprd04.prod.outlook.com (2603:10a6:209:2::29) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3499.27; Wed, 4 Nov
- 2020 13:27:54 +0000
-Received: from AM5PR04MB3137.eurprd04.prod.outlook.com
- ([fe80::2d75:aaf5:5aa6:5de9]) by AM5PR04MB3137.eurprd04.prod.outlook.com
- ([fe80::2d75:aaf5:5aa6:5de9%6]) with mapi id 15.20.3499.032; Wed, 4 Nov 2020
- 13:27:54 +0000
-From:   Mirela Rabulea <mirela.rabulea@nxp.com>
-To:     "mchehab@kernel.org" <mchehab@kernel.org>,
-        "shawnguo@kernel.org" <shawnguo@kernel.org>,
-        "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
-        "robh+dt@kernel.org" <robh+dt@kernel.org>,
-        "hverkuil-cisco@xs4all.nl" <hverkuil-cisco@xs4all.nl>
-CC:     dl-linux-imx <linux-imx@nxp.com>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        "laurent.pinchart+renesas@ideasonboard.com" 
-        <laurent.pinchart+renesas@ideasonboard.com>,
-        Aisheng Dong <aisheng.dong@nxp.com>,
-        Laurentiu Palcu <laurentiu.palcu@nxp.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Robert Chiras <robert.chiras@nxp.com>,
-        "devicetree@vger.kernel.org" <devicetree@vger.kernel.org>,
-        "paul.kocialkowski@bootlin.com" <paul.kocialkowski@bootlin.com>,
-        "mark.rutland@arm.com" <mark.rutland@arm.com>,
-        "p.zabel@pengutronix.de" <p.zabel@pengutronix.de>,
-        "niklas.soderlund+renesas@ragnatech.se" 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Daniel Baluta <daniel.baluta@nxp.com>,
-        "dafna.hirschfeld@collabora.com" <dafna.hirschfeld@collabora.com>,
-        "ezequiel@collabora.com" <ezequiel@collabora.com>,
-        "s.hauer@pengutronix.de" <s.hauer@pengutronix.de>
-Subject: Re: [EXT] Re: [PATCH v4 00/11] Add V4L2 driver for i.MX8 JPEG
- Encoder/Decoder
-Thread-Topic: [EXT] Re: [PATCH v4 00/11] Add V4L2 driver for i.MX8 JPEG
- Encoder/Decoder
-Thread-Index: AQHWsMWkv7WhjUz/NUWFyddbmpRRQ6m34FqAgAAA2YCAABnagA==
-Date:   Wed, 4 Nov 2020 13:27:54 +0000
-Message-ID: <982d940c4809b843fdc177daf4db349a0e667924.camel@nxp.com>
-References: <20201102030821.3049-1-mirela.rabulea@oss.nxp.com>
-         <9c6cf9bf-f6d8-78f5-5f31-d7ea9e25da0d@xs4all.nl>
-         <ca7a395a-68ea-33a3-1216-0adf225fce7b@xs4all.nl>
-In-Reply-To: <ca7a395a-68ea-33a3-1216-0adf225fce7b@xs4all.nl>
-Accept-Language: en-US
-Content-Language: en-US
-X-MS-Has-Attach: 
-X-MS-TNEF-Correlator: 
-x-mailer: Evolution 3.28.5-0ubuntu0.18.04.2 
-authentication-results: kernel.org; dkim=none (message not signed)
- header.d=none;kernel.org; dmarc=none action=none header.from=nxp.com;
-x-originating-ip: [86.124.170.94]
-x-ms-publictraffictype: Email
-x-ms-office365-filtering-ht: Tenant
-x-ms-office365-filtering-correlation-id: 94fe2f85-7622-4d1e-01fc-08d880c56fc5
-x-ms-traffictypediagnostic: AM6PR0402MB3542:
-x-ms-exchange-transport-forked: True
-x-microsoft-antispam-prvs: <AM6PR0402MB3542FF13C5D2F28C8019E3A68FEF0@AM6PR0402MB3542.eurprd04.prod.outlook.com>
-x-ms-oob-tlc-oobclassifiers: OLM:8273;
-x-ms-exchange-senderadcheck: 1
-x-microsoft-antispam: BCL:0;
-x-microsoft-antispam-message-info: 7J1xhruj389svnM7JfLdMrHea0HMRT3OuyHAKSDSn/I0caENPjBdT9EaxCBVIPhOkEepm4EC2CGUrGYm6xvM73H4qoIzQN8iBTWRVLRdR8vJC1zn6cTB0vC4p3uwuZ346NLq9VPdvW+kqoYr+3aTqbIEKz1Ti+eky2WdVSqPc5JiMB03MPIOVdk626+H3dmUhf4HIaAMcY+8vurCBdDxsbKIyZmpKFvOQyZigEgFckR3dOgDHbHPt123AAKgh9yl0v6Kc1+V5KEUbUbqJUn96i3OUnrDQ3uG7KAZWH1oecYJEjJgCbxVFftaS+cMxNgEKzSdOoieep1q/xohN5jeyPWV4RaVX3rxmmqbyX3GwskmBTB9f0mThab62QFjvII2
-x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM5PR04MB3137.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(396003)(346002)(376002)(39830400003)(366004)(36756003)(2906002)(86362001)(4326008)(8936002)(508600001)(186003)(8676002)(6506007)(6512007)(4001150100001)(6486002)(26005)(83380400001)(7416002)(76116006)(54906003)(66476007)(66946007)(66556008)(91956017)(64756008)(66446008)(2616005)(110136005)(5660300002)(44832011)(71200400001)(99106002);DIR:OUT;SFP:1101;
-x-ms-exchange-antispam-messagedata: eoxsuLWXZpYg/io9lvWC1uzjWYiICdl12QwZw1tQxHh86S0BK0cR2wUN2mMdlcjWGonQXbWvBZFScu1Zi9PEDYGE0MVU+0ziAPTWiSLUBwTwD5AcJt5at4xBlzSM6kaP0iuh0I3mq4PSpvGYeIIxeDxh1QcmNIYQM1MJvCHjGZ7TCxIYIxiF132hOJwD+3nWtD4o2Jr6lEScicUIyVcJiBlXwWwK5UJ2vR2eXCbNBJ2AxH5tNCwz1UV55AyzBpzQ9x3AliHBPlE/nzonfKWa1e4mCwUVL3AJy7E8s7TOSnTlSfksc6Bm0ABeFheZduA4yhaMx6MNogthU1lPDLPWMySHgcbNIGZWHPSMnQCWBQ4RTVhexXuROntUIsua6Jp4XgXc9qN3DrmyBeBfxu2VA5iDm4J1p18QJG3Vc6OrPVLzlVoMNABehtl76lIqt4B49Ns0d7fpXBX6X9PbTYLbJi0HhgUJJpkUVQKK/soEB0adfrPM3Nh3geCaR87Itwi0ew/NUUfnxDmBUEuUSqhYdhK5wzFgM2Iq65g+iZybBFahrLzsc1GEbS2GNB1SeUZJlKM+W3lKrl+v6H79dHZtWPxrblAPhRVJhsAiLvRKMVvHwxUY2u/t0/LkPwt5r5+FYzYIn2MmodrCokbrEK+DpQ==
-Content-Type: text/plain; charset="utf-8"
-Content-ID: <EF321E5159AD2A4CA7AAE315EE87ABB2@eurprd04.prod.outlook.com>
-Content-Transfer-Encoding: base64
+        id S1730168AbgKDNcK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 08:32:10 -0500
+Received: from smtpout2.fz-rossendorf.de ([149.220.4.206]:49850 "EHLO
+        smtpout2.fz-rossendorf.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730143AbgKDNcI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 08:32:08 -0500
+X-Greylist: delayed 447 seconds by postgrey-1.27 at vger.kernel.org; Wed, 04 Nov 2020 08:32:04 EST
+Received: from fz-rossendorf.de (cg1.hzdr.de [149.220.4.64])
+        by smtpout2.fz-rossendorf.de (Postfix) with ESMTPS id 6E0B4402E1
+        for <linux-media@vger.kernel.org>; Wed,  4 Nov 2020 14:24:35 +0100 (CET)
+Received: from [80.137.188.41] (account hlawac90@hzdr.de HELO [192.168.178.54])
+  by hzdr.de (CommuniGate Pro SMTP 6.2.15)
+  with ESMTPSA id 24448580 for linux-media@vger.kernel.org; Wed, 04 Nov 2020 14:24:35 +0100
+Message-ID: <51207fd712e3c1001b80c6642021b1a5d5763ade.camel@hzdr.de>
+Subject: Philips Monitor with webcam
+From:   Gregor Hlawacek <g.hlawacek@hzdr.de>
+To:     linux-media@vger.kernel.org
+Organization: HZDR FWIZ-N
+Content-Type: multipart/signed; micalg="sha-256"; protocol="application/pkcs7-signature";
+        boundary="=-s4BXaf28JynD5BhyeTr0"
+Date:   Wed, 04 Nov 2020 14:24:34 +0100
 MIME-Version: 1.0
-X-OriginatorOrg: nxp.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-AuthSource: AM5PR04MB3137.eurprd04.prod.outlook.com
-X-MS-Exchange-CrossTenant-Network-Message-Id: 94fe2f85-7622-4d1e-01fc-08d880c56fc5
-X-MS-Exchange-CrossTenant-originalarrivaltime: 04 Nov 2020 13:27:54.3440
- (UTC)
-X-MS-Exchange-CrossTenant-fromentityheader: Hosted
-X-MS-Exchange-CrossTenant-id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
-X-MS-Exchange-CrossTenant-userprincipalname: 58PWml7yp1V4b6tIK1KyeW3rmHzL7Byr9xybgDhbWbHlB6rAXSHz0o92dSLKLXrkvSZyGtSyr7m6aVQRfxNBgA==
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM6PR0402MB3542
+User-Agent: Evolution 3.38.1 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgSGFucywNCg0KT24gV2VkLCAyMDIwLTExLTA0IGF0IDEyOjU1ICswMTAwLCBIYW5zIFZlcmt1
-aWwgd3JvdGU6DQo+IA0KPiBTbyBwbGVhc2UgcmVjb21waWxlIHY0bDItY29tcGxpYW5jZSBmcm9t
-IHRoZSBnaXQgcmVwbyBhbmQgcmV0ZXN0LiBJZg0KPiB5b3UgZmluZCBuZXcgZmFpbHVyZXMsIHRo
-ZW4geW91IHByb2JhYmx5IG5lZWQgdG8gcG9zdCBhIHY1LCBvdGhlcndpc2UNCj4gaXQgaXMgZW5v
-dWdoIHRvIHJlcGx5IHRvIHRoaXMgd2l0aCB0aGUgb3V0cHV0IG9mIHRoZSB1cGRhdGVkIHY0bDIt
-DQo+IGNvbXBsaWFuY2UuDQo+IA0KPiANCg0KSSB3YXMgdW5zdXJlIGlmIHRoZSBsYXRlc3Qgb2Yg
-djRsMi1jb21wbGlhbmNlIGlzIHN0YWJsZS4NClRoaXMgY29tbWl0ICh3aGljaCBpcyBub3QgcGFy
-dCBvZiBzdGFibGUgMS4yMCksIGdvdCBtZSBhIGxpdHRsZQ0KY29uZnVzZWQ6DQoNCmNvbW1pdCBl
-NTAwNDExODZiZTlmNjlkZDk0YjY0ZmI5MjQxMTUyMDE3MjZlNzJhDQpBdXRob3I6IEhhbnMgVmVy
-a3VpbCA8aHZlcmt1aWwtY2lzY29AeHM0YWxsLm5sPg0KRGF0ZTogICBUaHUgSnVsIDE2IDEzOjQx
-OjM3IDIwMjAgKzAyMDANCg0KICAgIHY0bDItY29tcGxpYW5jZTogZml4IGNvbG9yc3BhY2UgY2hl
-Y2tzIGZvciBKUEVHIGNvZGVjcw0KICAgIA0KICAgIFRoZSBjb2xvcnNwYWNlIGhhbmRsaW5nIGZv
-ciBKUEVHIGVuY29kZXJzL2RlY29kZXJzIGlzIHF1aXRlDQogICAgZGlmZmVyZW50IGZyb20gb3Ro
-ZXIgbTJtIGRldmljZXMgc2luY2UgdGhlIGNvbG9yc3BhY2Ugb2YgYQ0KICAgIGNvbXByZXNzZWQg
-SlBFRyBmaWxlIGlzIGVmZmVjdGl2ZWx5IGZpeGVkIHRvIHNSR0IuIFNvIHRoZQ0KICAgIHR5cGlj
-YWwgcGFzc3Rocm91Z2ggb2YgY29sb3JzcGFjZSBpbmZvcm1hdGlvbiBmcm9tIG91dHB1dA0KICAg
-IHRvIGNhcHR1cmUgaXMgbm90IHZhbGlkLCBpbnN0ZWFkIHRoZSBjb2xvcnNwYWNlIGluZm9ybWF0
-aW9uIGlzDQogICAgKG1vc3RseSkgZml4ZWQuDQoNCkFuZCBpdCBzb21laG93IGNvbnRyYWRpY3Rz
-KD8pIHdpdGggUGhpbGlwcCdzIGxhdGVzdCBjb21taXRzIG9uIGNvZGENCmpwZWcgZHJpdmVyOg0K
-DQpjb21taXQgMWUzZTJhOWFjNDBhZDRkMTE2OTlhNDlhMWJiYmY0MGNkOGQ0YzhiZA0KQXV0aG9y
-OiBQaGlsaXBwIFphYmVsIDxwLnphYmVsQHBlbmd1dHJvbml4LmRlPg0KRGF0ZTogICBGcmkgSnVu
-IDI5IDA4OjQ2OjQ2IDIwMTggLTA0MDANCg0KICAgIG1lZGlhOiBjb2RhOiBqcGVnOiBhbGxvdyBu
-b24tSlBFRyBjb2xvcnNwYWNlDQogICAgDQogICAgVGhlIGhhcmR3YXJlIGNvZGVjIGlzIG5vdCBj
-b2xvcnNwYWNlIGF3YXJlLiBXZSBzaG91bGQgdHJ1c3QNCnVzZXJzcGFjZSB0bw0KICAgIHNldCB0
-aGUgY29ycmVjdCBjb2xvcmltZXRyeSBpbmZvcm1hdGlvbiBvbiB0aGUgT1VUUFVUIHF1ZXVlIGFu
-ZA0KbWlycm9yDQogICAgdGhlIGV4YWN0IHNhbWUgc2V0dGluZyBvbiB0aGUgQ0FQVFVSRSBxdWV1
-ZS4NCiAgICANCiAgICBUaGVyZSBpcyBubyByZWFzb24gdG8gcmVzdHJpY3QgY29sb3JzcGFjZSB0
-byBKUEVHIGZvciBKUEVHIGltYWdlcywNCmlmDQogICAgdXNlcnNwYWNlIGluamVjdHMgdGhlIGNv
-cnJlY3QgY29sb3JzcGFjZSBpbmZvcm1hdGlvbiBpbnRvIHRoZSBKUEVHDQogICAgaGVhZGVycyBh
-ZnRlciBlbmNvZGluZy4NCiAgICANCiAgICBGaXhlczogYjE0YWM1NDU2ODhkICgiW21lZGlhXSBj
-b2RhOiBpbXByb3ZlIGNvbG9yaW1ldHJ5IGhhbmRsaW5nIikNCg0KSSBhZ3JlZSBvbiB0aGUgc3Rh
-dGVtZW50ICJUaGUgaGFyZHdhcmUgY29kZWMgaXMgbm90IGNvbG9yc3BhY2UgYXdhcmUiLA0KYnkg
-dGhhdCBJIG1lYW4gdGhpcyBjb2xvcnNwYWNlIHdpbGwgbm90IHRyYW5zbGF0ZSBpbnRvIGFueSBz
-ZXR0aW5nIHNlbnQNCnRvIHRoZSBoYXJkd2FyZS4gVGhlIHF1ZXN0aW9uIGlzLCBob3cgdGhlIGRy
-aXZlciBpcyBleHBlY3RlZCB0byBiYWhhdmU/DQpPbmNlIEkgY2xhcmlmeSBvbiB0aGlzLCBJJ2xs
-IGluY2x1ZGUgYSBmaXggaW4gdjUuDQoNCkknbGwgcG9zdCBiZWxvdywgZm9yIHJlZmVyZW5jZSwg
-dGhlIGZ1bGwgbG9nIG9uIGxhdGVzdCBmcm9tIG1hc3Rlci4NCg0KVGhhbmtzLA0KTWlyZWxhDQoN
-CnJvb3RAaW14OHF4cG1lazovdW5pdF90ZXN0cy9KUEVHIyAuL3Y0bDItY29tcGxpYW5jZS1tYXN0
-ZXIgLWQNCi9kZXYvdmlkZW8wIC1zDQp2NGwyLWNvbXBsaWFuY2UgMS4yMS4wLTQ2NzUsIDY0IGJp
-dHMsIDY0LWJpdCB0aW1lX3QNCnY0bDItY29tcGxpYW5jZSBTSEE6IGI4NDU2OWRiNzU2YSAyMDIw
-LTEwLTIzIDEyOjMwOjM4DQoNCkNvbXBsaWFuY2UgdGVzdCBmb3IgbXhjLWpwZWcgZGVjb2RlIGRl
-dmljZSAvZGV2L3ZpZGVvMDoNCg0KRHJpdmVyIEluZm86DQoJRHJpdmVyIG5hbWUgICAgICA6IG14
-Yy1qcGVnIGRlY29kZQ0KCUNhcmQgdHlwZSAgICAgICAgOiBteGMtanBlZyBkZWNvZGVyDQoJQnVz
-IGluZm8gICAgICAgICA6IHBsYXRmb3JtOjU4NDAwMDAwLmpwZWdkZWMNCglEcml2ZXIgdmVyc2lv
-biAgIDogNS4xMC4wDQoJQ2FwYWJpbGl0aWVzICAgICA6IDB4ODQyMDQwMDANCgkJVmlkZW8gTWVt
-b3J5LXRvLU1lbW9yeSBNdWx0aXBsYW5hcg0KCQlTdHJlYW1pbmcNCgkJRXh0ZW5kZWQgUGl4IEZv
-cm1hdA0KCQlEZXZpY2UgQ2FwYWJpbGl0aWVzDQoJRGV2aWNlIENhcHMgICAgICA6IDB4MDQyMDQw
-MDANCgkJVmlkZW8gTWVtb3J5LXRvLU1lbW9yeSBNdWx0aXBsYW5hcg0KCQlTdHJlYW1pbmcNCgkJ
-RXh0ZW5kZWQgUGl4IEZvcm1hdA0KCURldGVjdGVkIEpQRUcgRGVjb2Rlcg0KDQpSZXF1aXJlZCBp
-b2N0bHM6DQoJdGVzdCBWSURJT0NfUVVFUllDQVA6IE9LDQoNCkFsbG93IGZvciBtdWx0aXBsZSBv
-cGVuczoNCgl0ZXN0IHNlY29uZCAvZGV2L3ZpZGVvMCBvcGVuOiBPSw0KCXRlc3QgVklESU9DX1FV
-RVJZQ0FQOiBPSw0KCXRlc3QgVklESU9DX0cvU19QUklPUklUWTogT0sNCgl0ZXN0IGZvciB1bmxp
-bWl0ZWQgb3BlbnM6IE9LDQoNCgl0ZXN0IGludmFsaWQgaW9jdGxzOiBPSw0KRGVidWcgaW9jdGxz
-Og0KCXRlc3QgVklESU9DX0RCR19HL1NfUkVHSVNURVI6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRl
-c3QgVklESU9DX0xPR19TVEFUVVM6IE9LIChOb3QgU3VwcG9ydGVkKQ0KDQpJbnB1dCBpb2N0bHM6
-DQoJdGVzdCBWSURJT0NfRy9TX1RVTkVSL0VOVU1fRlJFUV9CQU5EUzogT0sgKE5vdCBTdXBwb3J0
-ZWQpDQoJdGVzdCBWSURJT0NfRy9TX0ZSRVFVRU5DWTogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJdGVz
-dCBWSURJT0NfU19IV19GUkVRX1NFRUs6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgVklESU9D
-X0VOVU1BVURJTzogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJdGVzdCBWSURJT0NfRy9TL0VOVU1JTlBV
-VDogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJdGVzdCBWSURJT0NfRy9TX0FVRElPOiBPSyAoTm90IFN1
-cHBvcnRlZCkNCglJbnB1dHM6IDAgQXVkaW8gSW5wdXRzOiAwIFR1bmVyczogMA0KDQpPdXRwdXQg
-aW9jdGxzOg0KCXRlc3QgVklESU9DX0cvU19NT0RVTEFUT1I6IE9LIChOb3QgU3VwcG9ydGVkKQ0K
-CXRlc3QgVklESU9DX0cvU19GUkVRVUVOQ1k6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgVklE
-SU9DX0VOVU1BVURPVVQ6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgVklESU9DX0cvUy9FTlVN
-T1VUUFVUOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19HL1NfQVVET1VUOiBPSyAo
-Tm90IFN1cHBvcnRlZCkNCglPdXRwdXRzOiAwIEF1ZGlvIE91dHB1dHM6IDAgTW9kdWxhdG9yczog
-MA0KDQpJbnB1dC9PdXRwdXQgY29uZmlndXJhdGlvbiBpb2N0bHM6DQoJdGVzdCBWSURJT0NfRU5V
-TS9HL1MvUVVFUllfU1REOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19FTlVNL0cv
-Uy9RVUVSWV9EVl9USU1JTkdTOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19EVl9U
-SU1JTkdTX0NBUDogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJdGVzdCBWSURJT0NfRy9TX0VESUQ6IE9L
-IChOb3QgU3VwcG9ydGVkKQ0KDQpDb250cm9sIGlvY3RsczoNCgl0ZXN0IFZJRElPQ19RVUVSWV9F
-WFRfQ1RSTC9RVUVSWU1FTlU6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgVklESU9DX1FVRVJZ
-Q1RSTDogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJdGVzdCBWSURJT0NfRy9TX0NUUkw6IE9LIChOb3Qg
-U3VwcG9ydGVkKQ0KCXRlc3QgVklESU9DX0cvUy9UUllfRVhUX0NUUkxTOiBPSyAoTm90IFN1cHBv
-cnRlZCkNCgl0ZXN0IFZJRElPQ18oVU4pU1VCU0NSSUJFX0VWRU5UL0RRRVZFTlQ6IE9LIChOb3Qg
-U3VwcG9ydGVkKQ0KCXRlc3QgVklESU9DX0cvU19KUEVHQ09NUDogT0sgKE5vdCBTdXBwb3J0ZWQp
-DQoJU3RhbmRhcmQgQ29udHJvbHM6IDAgUHJpdmF0ZSBDb250cm9sczogMA0KDQpGb3JtYXQgaW9j
-dGxzOg0KCXRlc3QgVklESU9DX0VOVU1fRk1UL0ZSQU1FU0laRVMvRlJBTUVJTlRFUlZBTFM6IE9L
-DQoJdGVzdCBWSURJT0NfRy9TX1BBUk06IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgVklESU9D
-X0dfRkJVRjogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJdGVzdCBWSURJT0NfR19GTVQ6IE9LDQoJdGVz
-dCBWSURJT0NfVFJZX0ZNVDogT0sNCgkJZmFpbDogdjRsMi10ZXN0LWZvcm1hdHMuY3BwKDgxMCk6
-DQpmbXRfcmF3LmdfY29sb3JzcGFjZSgpICE9IFY0TDJfQ09MT1JTUEFDRV9TUkdCDQoJdGVzdCBW
-SURJT0NfU19GTVQ6IEZBSUwNCgl0ZXN0IFZJRElPQ19HX1NMSUNFRF9WQklfQ0FQOiBPSyAoTm90
-IFN1cHBvcnRlZCkNCgl0ZXN0IENyb3BwaW5nOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IENv
-bXBvc2luZzogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJdGVzdCBTY2FsaW5nOiBPSw0KDQpDb2RlYyBp
-b2N0bHM6DQoJdGVzdCBWSURJT0NfKFRSWV8pRU5DT0RFUl9DTUQ6IE9LDQoJdGVzdCBWSURJT0Nf
-R19FTkNfSU5ERVg6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgVklESU9DXyhUUllfKURFQ09E
-RVJfQ01EOiBPSw0KDQpCdWZmZXIgaW9jdGxzOg0KCXRlc3QgVklESU9DX1JFUUJVRlMvQ1JFQVRF
-X0JVRlMvUVVFUllCVUY6IE9LDQoJdGVzdCBWSURJT0NfRVhQQlVGOiBPSw0KCXRlc3QgUmVxdWVz
-dHM6IE9LIChOb3QgU3VwcG9ydGVkKQ0KDQpUZXN0IGlucHV0IDA6DQoNClN0cmVhbWluZyBpb2N0
-bHM6DQoJdGVzdCByZWFkL3dyaXRlOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IGJsb2NraW5n
-IHdhaXQ6IE9LDQoJVmlkZW8gQ2FwdHVyZSBNdWx0aXBsYW5hcjogQ2FwdHVyZWQgNTggYnVmZmVy
-cyAgICANCgl0ZXN0IE1NQVAgKG5vIHBvbGwpOiBPSw0KCVZpZGVvIENhcHR1cmUgTXVsdGlwbGFu
-YXI6IENhcHR1cmVkIDU4IGJ1ZmZlcnMgICAgDQoJdGVzdCBNTUFQIChzZWxlY3QpOiBPSw0KCVZp
-ZGVvIENhcHR1cmUgTXVsdGlwbGFuYXI6IENhcHR1cmVkIDU4IGJ1ZmZlcnMgICAgDQoJdGVzdCBN
-TUFQIChlcG9sbCk6IE9LDQoJdGVzdCBVU0VSUFRSIChubyBwb2xsKTogT0sgKE5vdCBTdXBwb3J0
-ZWQpDQoJdGVzdCBVU0VSUFRSIChzZWxlY3QpOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IERN
-QUJVRjogQ2Fubm90IHRlc3QsIHNwZWNpZnkgLS1leHBidWYtZGV2aWNlDQoNClRvdGFsIGZvciBt
-eGMtanBlZyBkZWNvZGUgZGV2aWNlIC9kZXYvdmlkZW8wOiA1MiwgU3VjY2VlZGVkOiA1MSwNCkZh
-aWxlZDogMSwgV2FybmluZ3M6IDANCg0KDQpyb290QGlteDhxeHBtZWs6L3VuaXRfdGVzdHMvSlBF
-RyMgLi92NGwyLWNvbXBsaWFuY2UtbWFzdGVyIC1kDQovZGV2L3ZpZGVvMSAtcw0KdjRsMi1jb21w
-bGlhbmNlIDEuMjEuMC00Njc1LCA2NCBiaXRzLCA2NC1iaXQgdGltZV90DQp2NGwyLWNvbXBsaWFu
-Y2UgU0hBOiBiODQ1NjlkYjc1NmEgMjAyMC0xMC0yMyAxMjozMDozOA0KDQpDb21wbGlhbmNlIHRl
-c3QgZm9yIG14Yy1qcGVnIGRlY29kZSBkZXZpY2UgL2Rldi92aWRlbzE6DQoNCkRyaXZlciBJbmZv
-Og0KCURyaXZlciBuYW1lICAgICAgOiBteGMtanBlZyBkZWNvZGUNCglDYXJkIHR5cGUgICAgICAg
-IDogbXhjLWpwZWcgZGVjb2Rlcg0KCUJ1cyBpbmZvICAgICAgICAgOiBwbGF0Zm9ybTo1ODQ1MDAw
-MC5qcGVnZW5jDQoJRHJpdmVyIHZlcnNpb24gICA6IDUuMTAuMA0KCUNhcGFiaWxpdGllcyAgICAg
-OiAweDg0MjA0MDAwDQoJCVZpZGVvIE1lbW9yeS10by1NZW1vcnkgTXVsdGlwbGFuYXINCgkJU3Ry
-ZWFtaW5nDQoJCUV4dGVuZGVkIFBpeCBGb3JtYXQNCgkJRGV2aWNlIENhcGFiaWxpdGllcw0KCURl
-dmljZSBDYXBzICAgICAgOiAweDA0MjA0MDAwDQoJCVZpZGVvIE1lbW9yeS10by1NZW1vcnkgTXVs
-dGlwbGFuYXINCgkJU3RyZWFtaW5nDQoJCUV4dGVuZGVkIFBpeCBGb3JtYXQNCglEZXRlY3RlZCBK
-UEVHIEVuY29kZXINCg0KUmVxdWlyZWQgaW9jdGxzOg0KCXRlc3QgVklESU9DX1FVRVJZQ0FQOiBP
-Sw0KDQpBbGxvdyBmb3IgbXVsdGlwbGUgb3BlbnM6DQoJdGVzdCBzZWNvbmQgL2Rldi92aWRlbzEg
-b3BlbjogT0sNCgl0ZXN0IFZJRElPQ19RVUVSWUNBUDogT0sNCgl0ZXN0IFZJRElPQ19HL1NfUFJJ
-T1JJVFk6IE9LDQoJdGVzdCBmb3IgdW5saW1pdGVkIG9wZW5zOiBPSw0KDQoJdGVzdCBpbnZhbGlk
-IGlvY3RsczogT0sNCkRlYnVnIGlvY3RsczoNCgl0ZXN0IFZJRElPQ19EQkdfRy9TX1JFR0lTVEVS
-OiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19MT0dfU1RBVFVTOiBPSyAoTm90IFN1
-cHBvcnRlZCkNCg0KSW5wdXQgaW9jdGxzOg0KCXRlc3QgVklESU9DX0cvU19UVU5FUi9FTlVNX0ZS
-RVFfQkFORFM6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgVklESU9DX0cvU19GUkVRVUVOQ1k6
-IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgVklESU9DX1NfSFdfRlJFUV9TRUVLOiBPSyAoTm90
-IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19FTlVNQVVESU86IE9LIChOb3QgU3VwcG9ydGVkKQ0K
-CXRlc3QgVklESU9DX0cvUy9FTlVNSU5QVVQ6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgVklE
-SU9DX0cvU19BVURJTzogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJSW5wdXRzOiAwIEF1ZGlvIElucHV0
-czogMCBUdW5lcnM6IDANCg0KT3V0cHV0IGlvY3RsczoNCgl0ZXN0IFZJRElPQ19HL1NfTU9EVUxB
-VE9SOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19HL1NfRlJFUVVFTkNZOiBPSyAo
-Tm90IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19FTlVNQVVET1VUOiBPSyAoTm90IFN1cHBvcnRl
-ZCkNCgl0ZXN0IFZJRElPQ19HL1MvRU5VTU9VVFBVVDogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJdGVz
-dCBWSURJT0NfRy9TX0FVRE9VVDogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJT3V0cHV0czogMCBBdWRp
-byBPdXRwdXRzOiAwIE1vZHVsYXRvcnM6IDANCg0KSW5wdXQvT3V0cHV0IGNvbmZpZ3VyYXRpb24g
-aW9jdGxzOg0KCXRlc3QgVklESU9DX0VOVU0vRy9TL1FVRVJZX1NURDogT0sgKE5vdCBTdXBwb3J0
-ZWQpDQoJdGVzdCBWSURJT0NfRU5VTS9HL1MvUVVFUllfRFZfVElNSU5HUzogT0sgKE5vdCBTdXBw
-b3J0ZWQpDQoJdGVzdCBWSURJT0NfRFZfVElNSU5HU19DQVA6IE9LIChOb3QgU3VwcG9ydGVkKQ0K
-CXRlc3QgVklESU9DX0cvU19FRElEOiBPSyAoTm90IFN1cHBvcnRlZCkNCg0KQ29udHJvbCBpb2N0
-bHM6DQoJdGVzdCBWSURJT0NfUVVFUllfRVhUX0NUUkwvUVVFUllNRU5VOiBPSyAoTm90IFN1cHBv
-cnRlZCkNCgl0ZXN0IFZJRElPQ19RVUVSWUNUUkw6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3Qg
-VklESU9DX0cvU19DVFJMOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19HL1MvVFJZ
-X0VYVF9DVFJMUzogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJdGVzdCBWSURJT0NfKFVOKVNVQlNDUklC
-RV9FVkVOVC9EUUVWRU5UOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19HL1NfSlBF
-R0NPTVA6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCVN0YW5kYXJkIENvbnRyb2xzOiAwIFByaXZhdGUg
-Q29udHJvbHM6IDANCg0KRm9ybWF0IGlvY3RsczoNCgl0ZXN0IFZJRElPQ19FTlVNX0ZNVC9GUkFN
-RVNJWkVTL0ZSQU1FSU5URVJWQUxTOiBPSw0KCXRlc3QgVklESU9DX0cvU19QQVJNOiBPSyAoTm90
-IFN1cHBvcnRlZCkNCgl0ZXN0IFZJRElPQ19HX0ZCVUY6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRl
-c3QgVklESU9DX0dfRk1UOiBPSw0KCXRlc3QgVklESU9DX1RSWV9GTVQ6IE9LDQoJCWZhaWw6IHY0
-bDItdGVzdC1mb3JtYXRzLmNwcCg4MTApOg0KZm10X3Jhdy5nX2NvbG9yc3BhY2UoKSAhPSBWNEwy
-X0NPTE9SU1BBQ0VfU1JHQg0KCXRlc3QgVklESU9DX1NfRk1UOiBGQUlMDQoJdGVzdCBWSURJT0Nf
-R19TTElDRURfVkJJX0NBUDogT0sgKE5vdCBTdXBwb3J0ZWQpDQoJdGVzdCBDcm9wcGluZzogT0sg
-KE5vdCBTdXBwb3J0ZWQpDQoJdGVzdCBDb21wb3Npbmc6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRl
-c3QgU2NhbGluZzogT0sgKE5vdCBTdXBwb3J0ZWQpDQoNCkNvZGVjIGlvY3RsczoNCgl0ZXN0IFZJ
-RElPQ18oVFJZXylFTkNPREVSX0NNRDogT0sNCgl0ZXN0IFZJRElPQ19HX0VOQ19JTkRFWDogT0sg
-KE5vdCBTdXBwb3J0ZWQpDQoJdGVzdCBWSURJT0NfKFRSWV8pREVDT0RFUl9DTUQ6IE9LDQoNCkJ1
-ZmZlciBpb2N0bHM6DQoJdGVzdCBWSURJT0NfUkVRQlVGUy9DUkVBVEVfQlVGUy9RVUVSWUJVRjog
-T0sNCgl0ZXN0IFZJRElPQ19FWFBCVUY6IE9LDQoJdGVzdCBSZXF1ZXN0czogT0sgKE5vdCBTdXBw
-b3J0ZWQpDQoNClRlc3QgaW5wdXQgMDoNCg0KU3RyZWFtaW5nIGlvY3RsczoNCgl0ZXN0IHJlYWQv
-d3JpdGU6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgYmxvY2tpbmcgd2FpdDogT0sNCglWaWRl
-byBDYXB0dXJlIE11bHRpcGxhbmFyOiBDYXB0dXJlZCA1OCBidWZmZXJzICAgIA0KCXRlc3QgTU1B
-UCAobm8gcG9sbCk6IE9LDQoJVmlkZW8gQ2FwdHVyZSBNdWx0aXBsYW5hcjogQ2FwdHVyZWQgNTgg
-YnVmZmVycyAgICANCgl0ZXN0IE1NQVAgKHNlbGVjdCk6IE9LDQoJVmlkZW8gQ2FwdHVyZSBNdWx0
-aXBsYW5hcjogQ2FwdHVyZWQgNTggYnVmZmVycyAgICANCgl0ZXN0IE1NQVAgKGVwb2xsKTogT0sN
-Cgl0ZXN0IFVTRVJQVFIgKG5vIHBvbGwpOiBPSyAoTm90IFN1cHBvcnRlZCkNCgl0ZXN0IFVTRVJQ
-VFIgKHNlbGVjdCk6IE9LIChOb3QgU3VwcG9ydGVkKQ0KCXRlc3QgRE1BQlVGOiBDYW5ub3QgdGVz
-dCwgc3BlY2lmeSAtLWV4cGJ1Zi1kZXZpY2UNCg0KVG90YWwgZm9yIG14Yy1qcGVnIGRlY29kZSBk
-ZXZpY2UgL2Rldi92aWRlbzE6IDUyLCBTdWNjZWVkZWQ6IDUxLA0KRmFpbGVkOiAxLCBXYXJuaW5n
-czogMA0KDQo=
+
+--=-s4BXaf28JynD5BhyeTr0
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+Hi all
+
+I own a Philips Brilliance 241B which has a webcam attached. The device
+is listed as 0412:612b Chicony Electronics Co., Ltd, bubt doesn't work
+with the latest UVC stock kernel driver. Is there any hope to get this
+supported?
+
+uname -a:
+Linux it72 5.9.3-arch1-1 #1 SMP PREEMPT Sun, 01 Nov 2020 12:58:59 +0000
+x86_64 GNU/Linux
+
+running Arch Linux on a Lenovo Thinkpad =C2=A0T490s
+
+dmesg:
+
+[76850.137838] usb 3-1.1.1.2: New USB device found, idVendor=3D04f2,
+idProduct=3Db612, bcdDevice=3D 2.10
+[76850.137841] usb 3-1.1.1.2: New USB device strings: Mfr=3D1, Product=3D2,
+SerialNumber=3D3
+[76850.137843] usb 3-1.1.1.2: Product: USB2.0 FHD UVC WebCam
+[76850.137845] usb 3-1.1.1.2: Manufacturer: SunplusIT Inc
+[76850.137846] usb 3-1.1.1.2: SerialNumber: 01.00.00
+[76850.152761] uvcvideo: Found UVC 1.50 device USB2.0 FHD UVC WebCam
+(04f2:b612)
+[76850.215683] input: USB2.0 FHD UVC WebCam: USB2.0 F as
+/devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000:3c:00.0
+/usb3/3-1/3-1.1/3-1.1.1/3-1.1.1.2/3-1.1.1.2:1.0/input/input66
+[76850.223642] uvcvideo: Found UVC 1.50 device USB2.0 FHD UVC WebCam
+(04f2:b612)
+[76850.232499] usb 4-1.1.2: new SuperSpeed Gen 1 USB device number 5
+using xhci_hcd
+[76850.241004] input: USB2.0 FHD UVC WebCam: IR Camer as
+/devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000:3c:00.0
+/usb3/3-1/3-1.1/3-1.1.1/3-1.1.1.2/3-1.1.1.2:1.2/input/input67
+
+
+lsusb -v -d 0412:612b:
+
+Bus 003 Device 007: ID 04f2:b612 Chicony Electronics Co., Ltd=20
+Couldn't open device, some information will be missing
+Device Descriptor:
+  bLength                18
+  bDescriptorType         1
+  bcdUSB               2.01
+  bDeviceClass          239 Miscellaneous Device
+  bDeviceSubClass         2=20
+  bDeviceProtocol         1 Interface Association
+  bMaxPacketSize0        64
+  idVendor           0x04f2 Chicony Electronics Co., Ltd
+  idProduct          0xb612=20
+  bcdDevice            2.10
+  iManufacturer           1=20
+  iProduct                2=20
+  iSerial                 3=20
+  bNumConfigurations      1
+  Configuration Descriptor:
+    bLength                 9
+    bDescriptorType         2
+    wTotalLength       0x03e9
+    bNumInterfaces          4
+    bConfigurationValue     1
+    iConfiguration          0=20
+    bmAttributes         0x80
+      (Bus Powered)
+    MaxPower              500mA
+    Interface Association:
+      bLength                 8
+      bDescriptorType        11
+      bFirstInterface         0
+      bInterfaceCount         2
+      bFunctionClass         14 Video
+      bFunctionSubClass       3 Video Interface Collection
+      bFunctionProtocol       0=20
+      iFunction               4=20
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        0
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      1 Video Control
+      bInterfaceProtocol      1=20
+      iInterface              4=20
+      VideoControl Interface Descriptor:
+        bLength                13
+        bDescriptorType        36
+        bDescriptorSubtype      1 (HEADER)
+        bcdUVC               1.50
+        wTotalLength       0x006f
+        dwClockFrequency       48.000000MHz
+        bInCollection           1
+        baInterfaceNr( 0)       1
+      VideoControl Interface Descriptor:
+        bLength                18
+        bDescriptorType        36
+        bDescriptorSubtype      2 (INPUT_TERMINAL)
+        bTerminalID             1
+        wTerminalType      0x0201 Camera Sensor
+        bAssocTerminal          0
+        iTerminal               0=20
+        wObjectiveFocalLengthMin      0
+        wObjectiveFocalLengthMax      0
+        wOcularFocalLength            0
+        bControlSize                  3
+        bmControls           0x0030000a
+          Auto-Exposure Mode
+          Exposure Time (Absolute)
+          Window
+          Region of Interest
+      VideoControl Interface Descriptor:
+        bLength                13
+        bDescriptorType        36
+        bDescriptorSubtype      5 (PROCESSING_UNIT)
+        bUnitID                 2
+        bSourceID               1
+        wMaxMultiplier      16384
+        bControlSize            3
+        bmControls     0x0000157f
+          Brightness
+          Contrast
+          Hue
+          Saturation
+          Sharpness
+          Gamma
+          White Balance Temperature
+          Backlight Compensation
+          Power Line Frequency
+          White Balance Temperature, Auto
+        iProcessing             0=20
+        bmVideoStandards     0x00
+      VideoControl Interface Descriptor:
+        bLength                29
+        bDescriptorType        36
+        bDescriptorSubtype      6 (EXTENSION_UNIT)
+        bUnitID                 3
+        guidExtensionCode         {0fb885c3-68c2-4547-90f7-
+8f47579d95fc}
+        bNumControl             5
+        bNrPins                 1
+        baSourceID( 0)          2
+        bControlSize            4
+        bmControls( 0)       0x1f
+        bmControls( 1)       0x00
+        bmControls( 2)       0x00
+        bmControls( 3)       0x00
+        iExtension              0=20
+      VideoControl Interface Descriptor:
+        bLength                29
+        bDescriptorType        36
+        bDescriptorSubtype      6 (EXTENSION_UNIT)
+        bUnitID                 4
+        guidExtensionCode         {63610682-5070-49ab-b8cc-
+b3855e8d221d}
+        bNumControl            20
+        bNrPins                 1
+        baSourceID( 0)          3
+        bControlSize            4
+        bmControls( 0)       0xff
+        bmControls( 1)       0xff
+        bmControls( 2)       0x71
+        bmControls( 3)       0x00
+        iExtension              0=20
+      VideoControl Interface Descriptor:
+        bLength                 9
+        bDescriptorType        36
+        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+        bTerminalID             5
+        wTerminalType      0x0101 USB Streaming
+        bAssocTerminal          0
+        bSourceID               4
+        iTerminal               0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x87  EP 7 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0010  1x 16 bytes
+        bInterval               8
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       0
+      bNumEndpoints           0
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      VideoStreaming Interface Descriptor:
+        bLength                            15
+        bDescriptorType                    36
+        bDescriptorSubtype                  1 (INPUT_HEADER)
+        bNumFormats                         2
+        wTotalLength                   0x01a9
+        bEndPointAddress                  129
+        bmInfo                              0
+        bTerminalLink                       5
+        bStillCaptureMethod                 1
+        bTriggerSupport                     0
+        bTriggerUsage                       0
+        bControlSize                        1
+        bmaControls( 0)                     4
+        bmaControls( 1)                     0
+      VideoStreaming Interface Descriptor:
+        bLength                            11
+        bDescriptorType                    36
+        bDescriptorSubtype                  6 (FORMAT_MJPEG)
+        bFormatIndex                        1
+        bNumFrameDescriptors                7
+        bFlags                              1
+          Fixed-size samples: Yes
+        bDefaultFrameIndex                  1
+        bAspectRatioX                       0
+        bAspectRatioY                       0
+        bmInterlaceFlags                 0x00
+          Interlaced stream or variable: No
+          Fields per frame: 1 fields
+          Field 1 first: No
+          Field pattern: Field 1 only
+        bCopyProtect                        0
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         1
+        bmCapabilities                   0x01
+          Still image supported
+        wWidth                            640
+        wHeight                           480
+        dwMinBitRate                147456000
+        dwMaxBitRate                147456000
+        dwMaxVideoFrameBufferSize      614400
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         2
+        bmCapabilities                   0x01
+          Still image supported
+        wWidth                           1920
+        wHeight                          1080
+        dwMinBitRate                995328000
+        dwMaxBitRate                995328000
+        dwMaxVideoFrameBufferSize     4147200
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         3
+        bmCapabilities                   0x01
+          Still image supported
+        wWidth                           1280
+        wHeight                           720
+        dwMinBitRate                442368000
+        dwMaxBitRate                442368000
+        dwMaxVideoFrameBufferSize     1843200
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         4
+        bmCapabilities                   0x01
+          Still image supported
+        wWidth                            640
+        wHeight                           360
+        dwMinBitRate                110592000
+        dwMaxBitRate                110592000
+        dwMaxVideoFrameBufferSize      460800
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         5
+        bmCapabilities                   0x01
+          Still image supported
+        wWidth                            352
+        wHeight                           288
+        dwMinBitRate                 48660480
+        dwMaxBitRate                 48660480
+        dwMaxVideoFrameBufferSize      202752
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         6
+        bmCapabilities                   0x01
+          Still image supported
+        wWidth                            320
+        wHeight                           240
+        dwMinBitRate                 36864000
+        dwMaxBitRate                 36864000
+        dwMaxVideoFrameBufferSize      153600
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  7 (FRAME_MJPEG)
+        bFrameIndex                         7
+        bmCapabilities                   0x01
+          Still image supported
+        wWidth                            176
+        wHeight                           144
+        dwMinBitRate                 12165120
+        dwMaxBitRate                 12165120
+        dwMaxVideoFrameBufferSize       50688
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                             6
+        bDescriptorType                    36
+        bDescriptorSubtype                 13 (COLORFORMAT)
+        bColorPrimaries                     1 (BT.709,sRGB)
+        bTransferCharacteristics            1 (BT.709)
+        bMatrixCoefficients                 4 (SMPTE 170M (BT.601))
+      VideoStreaming Interface Descriptor:
+        bLength                            27
+        bDescriptorType                    36
+        bDescriptorSubtype                  4 (FORMAT_UNCOMPRESSED)
+        bFormatIndex                        2
+        bNumFrameDescriptors                5
+        guidFormat                            {32595559-0000-0010-8000-
+00aa00389b71}
+        bBitsPerPixel                      16
+        bDefaultFrameIndex                  1
+        bAspectRatioX                       0
+        bAspectRatioY                       0
+        bmInterlaceFlags                 0x00
+          Interlaced stream or variable: No
+          Fields per frame: 2 fields
+          Field 1 first: No
+          Field pattern: Field 1 only
+        bCopyProtect                        0
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+        bFrameIndex                         1
+        bmCapabilities                   0x01
+          Still image supported
+        wWidth                            640
+        wHeight                           480
+        dwMinBitRate                147456000
+        dwMaxBitRate                147456000
+        dwMaxVideoFrameBufferSize      614400
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+        bFrameIndex                         2
+        bmCapabilities                   0x01
+          Still image supported
+        wWidth                            640
+        wHeight                           360
+        dwMinBitRate                110592000
+        dwMaxBitRate                110592000
+        dwMaxVideoFrameBufferSize      460800
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+        bFrameIndex                         3
+        bmCapabilities                   0x01
+          Still image supported
+        wWidth                            352
+        wHeight                           288
+        dwMinBitRate                 48660480
+        dwMaxBitRate                 48660480
+        dwMaxVideoFrameBufferSize      202752
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+        bFrameIndex                         4
+        bmCapabilities                   0x01
+          Still image supported
+        wWidth                            320
+        wHeight                           240
+        dwMinBitRate                 36864000
+        dwMaxBitRate                 36864000
+        dwMaxVideoFrameBufferSize      153600
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+        bFrameIndex                         5
+        bmCapabilities                   0x01
+          Still image supported
+        wWidth                            176
+        wHeight                           144
+        dwMinBitRate                 12165120
+        dwMaxBitRate                 12165120
+        dwMaxVideoFrameBufferSize       50688
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                             6
+        bDescriptorType                    36
+        bDescriptorSubtype                 13 (COLORFORMAT)
+        bColorPrimaries                     1 (BT.709,sRGB)
+        bTransferCharacteristics            1 (BT.709)
+        bMatrixCoefficients                 4 (SMPTE 170M (BT.601))
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       1
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            5
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Data
+        wMaxPacketSize     0x00c0  1x 192 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       2
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            5
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Data
+        wMaxPacketSize     0x0180  1x 384 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       3
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            5
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Data
+        wMaxPacketSize     0x0200  1x 512 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       4
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            5
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Data
+        wMaxPacketSize     0x0280  1x 640 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       5
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            5
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Data
+        wMaxPacketSize     0x0320  1x 800 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       6
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            5
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Data
+        wMaxPacketSize     0x03b0  1x 944 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       7
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            5
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Data
+        wMaxPacketSize     0x0a80  2x 640 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       8
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            5
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Data
+        wMaxPacketSize     0x0b20  2x 800 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting       9
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            5
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Data
+        wMaxPacketSize     0x0be0  2x 992 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting      10
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            5
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Data
+        wMaxPacketSize     0x13c0  3x 960 bytes
+        bInterval               1
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        1
+      bAlternateSetting      11
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x81  EP 1 IN
+        bmAttributes            5
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Data
+        wMaxPacketSize     0x13fc  3x 1020 bytes
+        bInterval               1
+    Interface Association:
+      bLength                 8
+      bDescriptorType        11
+      bFirstInterface         2
+      bInterfaceCount         2
+      bFunctionClass         14 Video
+      bFunctionSubClass       3 Video Interface Collection
+      bFunctionProtocol       0=20
+      iFunction              11=20
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        2
+      bAlternateSetting       0
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      1 Video Control
+      bInterfaceProtocol      1=20
+      iInterface             11=20
+      VideoControl Interface Descriptor:
+        bLength                13
+        bDescriptorType        36
+        bDescriptorSubtype      1 (HEADER)
+        bcdUVC               1.50
+        wTotalLength       0x006f
+        dwClockFrequency       48.000000MHz
+        bInCollection           1
+        baInterfaceNr( 0)       3
+      VideoControl Interface Descriptor:
+        bLength                18
+        bDescriptorType        36
+        bDescriptorSubtype      2 (INPUT_TERMINAL)
+        bTerminalID             1
+        wTerminalType      0x0201 Camera Sensor
+        bAssocTerminal          0
+        iTerminal               0=20
+        wObjectiveFocalLengthMin      0
+        wObjectiveFocalLengthMax      0
+        wOcularFocalLength            0
+        bControlSize                  3
+        bmControls           0x00300000
+          Window
+          Region of Interest
+      VideoControl Interface Descriptor:
+        bLength                13
+        bDescriptorType        36
+        bDescriptorSubtype      5 (PROCESSING_UNIT)
+        bUnitID                 2
+        bSourceID               1
+        wMaxMultiplier      16384
+        bControlSize            3
+        bmControls     0x00000000
+        iProcessing             0=20
+        bmVideoStandards     0x00
+      VideoControl Interface Descriptor:
+        bLength                29
+        bDescriptorType        36
+        bDescriptorSubtype      6 (EXTENSION_UNIT)
+        bUnitID                 7
+        guidExtensionCode         {0f3f95dc-2632-4c4e-92c9-
+a04782f43bc8}
+        bNumControl             4
+        bNrPins                 1
+        baSourceID( 0)          2
+        bControlSize            4
+        bmControls( 0)       0xe0
+        bmControls( 1)       0x01
+        bmControls( 2)       0x00
+        bmControls( 3)       0x00
+        iExtension              0=20
+      VideoControl Interface Descriptor:
+        bLength                29
+        bDescriptorType        36
+        bDescriptorSubtype      6 (EXTENSION_UNIT)
+        bUnitID                 4
+        guidExtensionCode         {63610682-5070-49ab-b8cc-
+b3855e8d221d}
+        bNumControl            27
+        bNrPins                 1
+        baSourceID( 0)          7
+        bControlSize            4
+        bmControls( 0)       0xff
+        bmControls( 1)       0xff
+        bmControls( 2)       0x77
+        bmControls( 3)       0x1f
+        iExtension              0=20
+      VideoControl Interface Descriptor:
+        bLength                 9
+        bDescriptorType        36
+        bDescriptorSubtype      3 (OUTPUT_TERMINAL)
+        bTerminalID             5
+        wTerminalType      0x0101 USB Streaming
+        bAssocTerminal          0
+        bSourceID               4
+        iTerminal               0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x84  EP 4 IN
+        bmAttributes            3
+          Transfer Type            Interrupt
+          Synch Type               None
+          Usage Type               Data
+        wMaxPacketSize     0x0010  1x 16 bytes
+        bInterval               8
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        3
+      bAlternateSetting       0
+      bNumEndpoints           0
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      VideoStreaming Interface Descriptor:
+        bLength                            14
+        bDescriptorType                    36
+        bDescriptorSubtype                  1 (INPUT_HEADER)
+        bNumFormats                         1
+        wTotalLength                   0x004d
+        bEndPointAddress                  130
+        bmInfo                              0
+        bTerminalLink                       5
+        bStillCaptureMethod                 1
+        bTriggerSupport                     0
+        bTriggerUsage                       0
+        bControlSize                        1
+        bmaControls( 0)                     0
+      VideoStreaming Interface Descriptor:
+        bLength                            27
+        bDescriptorType                    36
+        bDescriptorSubtype                  4 (FORMAT_UNCOMPRESSED)
+        bFormatIndex                        1
+        bNumFrameDescriptors                1
+        guidFormat                            {00000032-0002-0010-8000-
+00aa00389b71}
+        bBitsPerPixel                       8
+        bDefaultFrameIndex                  1
+        bAspectRatioX                       0
+        bAspectRatioY                       0
+        bmInterlaceFlags                 0x00
+          Interlaced stream or variable: No
+          Fields per frame: 2 fields
+          Field 1 first: No
+          Field pattern: Field 1 only
+        bCopyProtect                        0
+      VideoStreaming Interface Descriptor:
+        bLength                            30
+        bDescriptorType                    36
+        bDescriptorSubtype                  5 (FRAME_UNCOMPRESSED)
+        bFrameIndex                         1
+        bmCapabilities                   0x01
+          Still image supported
+        wWidth                            352
+        wHeight                           352
+        dwMinBitRate                 29736960
+        dwMaxBitRate                 29736960
+        dwMaxVideoFrameBufferSize      247808
+        dwDefaultFrameInterval         333333
+        bFrameIntervalType                  1
+        dwFrameInterval( 0)            333333
+      VideoStreaming Interface Descriptor:
+        bLength                             6
+        bDescriptorType                    36
+        bDescriptorSubtype                 13 (COLORFORMAT)
+        bColorPrimaries                     1 (BT.709,sRGB)
+        bTransferCharacteristics            1 (BT.709)
+        bMatrixCoefficients                 4 (SMPTE 170M (BT.601))
+    Interface Descriptor:
+      bLength                 9
+      bDescriptorType         4
+      bInterfaceNumber        3
+      bAlternateSetting       1
+      bNumEndpoints           1
+      bInterfaceClass        14 Video
+      bInterfaceSubClass      2 Video Streaming
+      bInterfaceProtocol      1=20
+      iInterface              0=20
+      Endpoint Descriptor:
+        bLength                 7
+        bDescriptorType         5
+        bEndpointAddress     0x82  EP 2 IN
+        bmAttributes            5
+          Transfer Type            Isochronous
+          Synch Type               Asynchronous
+          Usage Type               Data
+        wMaxPacketSize     0x0a80  2x 640 bytes
+        bInterval               1
+
+--=20
+Dipl.-Ing. Dr. Gregor Hlawacek
+Group leader---Ion induced nanostructures
+Ion Beam Microscopy
+
+Helmholtz-Zentrum=C2=A0=C2=A0Dresden-Rossendorf (HZDR)
+Institute of Ion Beam Physics and Materials Research
+Ion Beam Center
+Office: 710/209
+
+Bautzner Landstr. 400 | 01328 Dresden | Germany
+phone: +49 (0)351 260 3409/3352
+http://www.hzdr.de/
+
+
+Board of Directors: Prof. Dr. Sebastian M. Schmidt,=C2=A0Dr. Heike Wolke
+Company Registration Number VR 1693, Amtsgericht Dresden
+
+
+--=-s4BXaf28JynD5BhyeTr0
+Content-Type: application/pkcs7-signature; name="smime.p7s"
+Content-Disposition: attachment; filename="smime.p7s"
+Content-Transfer-Encoding: base64
+
+MIAGCSqGSIb3DQEHAqCAMIACAQExDzANBglghkgBZQMEAgEFADCABgkqhkiG9w0BBwEAAKCCFpgw
+ggUSMIID+qADAgECAgkA4wvV+K8l2YEwDQYJKoZIhvcNAQELBQAwgYIxCzAJBgNVBAYTAkRFMSsw
+KQYDVQQKDCJULVN5c3RlbXMgRW50ZXJwcmlzZSBTZXJ2aWNlcyBHbWJIMR8wHQYDVQQLDBZULVN5
+c3RlbXMgVHJ1c3QgQ2VudGVyMSUwIwYDVQQDDBxULVRlbGVTZWMgR2xvYmFsUm9vdCBDbGFzcyAy
+MB4XDTE2MDIyMjEzMzgyMloXDTMxMDIyMjIzNTk1OVowgZUxCzAJBgNVBAYTAkRFMUUwQwYDVQQK
+EzxWZXJlaW4genVyIEZvZXJkZXJ1bmcgZWluZXMgRGV1dHNjaGVuIEZvcnNjaHVuZ3NuZXR6ZXMg
+ZS4gVi4xEDAOBgNVBAsTB0RGTi1QS0kxLTArBgNVBAMTJERGTi1WZXJlaW4gQ2VydGlmaWNhdGlv
+biBBdXRob3JpdHkgMjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAMtg1/9moUHN0vqH
+l4pzq5lN6mc5WqFggEcVToyVsuXPztNXS43O+FZsFVV2B+pG/cgDRWM+cNSrVICxI5y+NyipCf8F
+XRgPxJiZN7Mg9mZ4F4fCnQ7MSjLnFp2uDo0peQcAIFTcFV9Kltd4tjTTwXS1nem/wHdN6r1ZB+Ba
+L2w8pQDcNb1lDY9/Mm3yWmpLYgHurDg0WUU2SQXaeMpqbVvAgWsRzNI8qIv4cRrKO+KA3Ra0Z3qL
+NupOkSk9s1FcragMvp0049ENF4N1xDkesJQLEvHVaY4l9Lg9K7/AjsMeO6W/VRCrKq4Xl14zzsjz
+9AkH4wKGMUZrAcUQDBHHWekCAwEAAaOCAXQwggFwMA4GA1UdDwEB/wQEAwIBBjAdBgNVHQ4EFgQU
+k+PYMiba1fFKpZFK4OpL4qIMz+EwHwYDVR0jBBgwFoAUv1kgNgB5oKAia4zV8mHSuCzLgkowEgYD
+VR0TAQH/BAgwBgEB/wIBAjAzBgNVHSAELDAqMA8GDSsGAQQBga0hgiwBAQQwDQYLKwYBBAGBrSGC
+LB4wCAYGZ4EMAQICMEwGA1UdHwRFMEMwQaA/oD2GO2h0dHA6Ly9wa2kwMzM2LnRlbGVzZWMuZGUv
+cmwvVGVsZVNlY19HbG9iYWxSb290X0NsYXNzXzIuY3JsMIGGBggrBgEFBQcBAQR6MHgwLAYIKwYB
+BQUHMAGGIGh0dHA6Ly9vY3NwMDMzNi50ZWxlc2VjLmRlL29jc3ByMEgGCCsGAQUFBzAChjxodHRw
+Oi8vcGtpMDMzNi50ZWxlc2VjLmRlL2NydC9UZWxlU2VjX0dsb2JhbFJvb3RfQ2xhc3NfMi5jZXIw
+DQYJKoZIhvcNAQELBQADggEBAIcL/z4Cm2XIVi3WO5qYi3FP2ropqiH5Ri71sqQPrhE4eTizDnS6
+dl2e6BiClmLbTDPo3flq3zK9LExHYFV/53RrtCyD2HlrtrdNUAtmB7Xts5et6u5/MOaZ/SLick0+
+hFvu+c+Z6n/XUjkurJgARH5pO7917tALOxrN5fcPImxHhPalR6D90Bo0fa3SPXez7vTXTf/D6OWS
+T1k+kEcQSrCFWMBvf/iu7QhCnh7U3xQuTY+8npTD5+32GPg8SecmqKc22CzeIs2LgtjZeOJVEqM7
+h0S2EQvVDFKvaYwPBt/QolOLV5h7z/0HJPT8vcP9SpIClxvyt7bPZYoaorVyGTkwggWsMIIElKAD
+AgECAgcbY7rQHiw9MA0GCSqGSIb3DQEBCwUAMIGVMQswCQYDVQQGEwJERTFFMEMGA1UEChM8VmVy
+ZWluIHp1ciBGb2VyZGVydW5nIGVpbmVzIERldXRzY2hlbiBGb3JzY2h1bmdzbmV0emVzIGUuIFYu
+MRAwDgYDVQQLEwdERk4tUEtJMS0wKwYDVQQDEyRERk4tVmVyZWluIENlcnRpZmljYXRpb24gQXV0
+aG9yaXR5IDIwHhcNMTYwNTI0MTEzODQwWhcNMzEwMjIyMjM1OTU5WjCBjTELMAkGA1UEBhMCREUx
+RTBDBgNVBAoMPFZlcmVpbiB6dXIgRm9lcmRlcnVuZyBlaW5lcyBEZXV0c2NoZW4gRm9yc2NodW5n
+c25ldHplcyBlLiBWLjEQMA4GA1UECwwHREZOLVBLSTElMCMGA1UEAwwcREZOLVZlcmVpbiBHbG9i
+YWwgSXNzdWluZyBDQTCCASIwDQYJKoZIhvcNAQEBBQADggEPADCCAQoCggEBAJ07eRxH3h+Gy8Zp
+1xCeOdfZojDbchwFfylfS2jxrRnWTOFrG7ELf6Gr4HuLi9gtzm6IOhDuV+UefwRRNuu6cG1joL6W
+LkDh0YNMZj0cZGnlm6Stcq5oOVGHecwX064vXWNxSzl660Knl5BpBb+Q/6RAcL0D57+eGIgfn5mI
+TQ5HjUhfZZkQ0tkqSe3BuS0dnxLLFdM/fx5ULzquk1enfnjK1UriGuXtQX1TX8izKvWKMKztFwUk
+P7agCwf9TRqaA1KgNpzeJIdl5Of6x5ZzJBTN0OgbaJ4YWa52fvfRCng8h0uwN89Tyjo4EPPLR22M
+ZD08WkVKusqAfLjz56dMTM0CAwEAAaOCAgUwggIBMBIGA1UdEwEB/wQIMAYBAf8CAQEwDgYDVR0P
+AQH/BAQDAgEGMCkGA1UdIAQiMCAwDQYLKwYBBAGBrSGCLB4wDwYNKwYBBAGBrSGCLAEBBDAdBgNV
+HQ4EFgQUazqYi/nyU4na4K2yMh4JH+iqO3QwHwYDVR0jBBgwFoAUk+PYMiba1fFKpZFK4OpL4qIM
+z+EwgY8GA1UdHwSBhzCBhDBAoD6gPIY6aHR0cDovL2NkcDEucGNhLmRmbi5kZS9nbG9iYWwtcm9v
+dC1nMi1jYS9wdWIvY3JsL2NhY3JsLmNybDBAoD6gPIY6aHR0cDovL2NkcDIucGNhLmRmbi5kZS9n
+bG9iYWwtcm9vdC1nMi1jYS9wdWIvY3JsL2NhY3JsLmNybDCB3QYIKwYBBQUHAQEEgdAwgc0wMwYI
+KwYBBQUHMAGGJ2h0dHA6Ly9vY3NwLnBjYS5kZm4uZGUvT0NTUC1TZXJ2ZXIvT0NTUDBKBggrBgEF
+BQcwAoY+aHR0cDovL2NkcDEucGNhLmRmbi5kZS9nbG9iYWwtcm9vdC1nMi1jYS9wdWIvY2FjZXJ0
+L2NhY2VydC5jcnQwSgYIKwYBBQUHMAKGPmh0dHA6Ly9jZHAyLnBjYS5kZm4uZGUvZ2xvYmFsLXJv
+b3QtZzItY2EvcHViL2NhY2VydC9jYWNlcnQuY3J0MA0GCSqGSIb3DQEBCwUAA4IBAQCBeEWkTqR/
+DlXwCbFqPnjMaDWpHPOVnj/z+N9rOHeJLI21rT7H8pTNoAauusyosa0zCLYkhmI2THhuUPDVbmCN
+T1IxQ5dGdfBi5G5mUcFCMWdQ5UnnOR7Ln8qGSN4IFP8VSytmm6A4nwDO/afr0X9XLchMX9wQEZc+
+lgQCXISoKTlslPwQkgZ7nu7YRrQbtQMMONncsKk/cQYLsgMHM8KNSGMlJTx6e1du94oFOO+4oK4v
+9NsH1VuEGMGpuEvObJAaguS5Pfp38dIfMwK/U+d2+dwmJUFvL6Yb+qQTkPp8ftkLYF3sv8pBoGH7
+EUkp2KgtdRXYShjqFu9VNCIaE40GMIIF5TCCBM2gAwIBAgIMITw++XMeenpZKoHZMA0GCSqGSIb3
+DQEBCwUAMIGNMQswCQYDVQQGEwJERTFFMEMGA1UECgw8VmVyZWluIHp1ciBGb2VyZGVydW5nIGVp
+bmVzIERldXRzY2hlbiBGb3JzY2h1bmdzbmV0emVzIGUuIFYuMRAwDgYDVQQLDAdERk4tUEtJMSUw
+IwYDVQQDDBxERk4tVmVyZWluIEdsb2JhbCBJc3N1aW5nIENBMB4XDTE5MDcwMzE0NTMzM1oXDTIy
+MDcwMjE0NTMzM1owgYMxCzAJBgNVBAYTAkRFMRAwDgYDVQQIDAdTYWNoc2VuMRAwDgYDVQQHDAdE
+cmVzZGVuMTUwMwYDVQQKDCxIZWxtaG9sdHotWmVudHJ1bSBEcmVzZGVuIC0gUm9zc2VuZG9yZiBl
+LiBWLjEZMBcGA1UEAwwQSGxhd2FjZWssIEdyZWdvcjCCASIwDQYJKoZIhvcNAQEBBQADggEPADCC
+AQoCggEBAPT2husCqijBQDUyAd8yXl3PBKBB44b6kSh4kUIsskuSqPIV2Bbdo61wy7inFK/iSt4f
+7DITlGarq3fwKtlDWHuHDyZhpv8gRea7T4Ul/lw8w4oymaimKNz47Ofio2XsosCWX7RQYitgTbr+
+VlPKj36HlEv9BIr1+SxRXESr2FSIYRaFxwW+QA+ic0JJ3iimG8P7BQ+ylVqbnFMU+QqC739qC1HB
+DPTSoi30gEBkQI1gcNL+dN1j0b1WibYZGQXcABjydbpy1ow17OyxpQVXNA4DaEI8VtGldmPqyXo7
+QocVkn3hCoVCgcm23H1WSlFpNoC3C09CvsYPxny5vZ5O3dkCAwEAAaOCAkswggJHMD4GA1UdIAQ3
+MDUwDwYNKwYBBAGBrSGCLAEBBDAQBg4rBgEEAYGtIYIsAQEEBDAQBg4rBgEEAYGtIYIsAgEEBDAJ
+BgNVHRMEAjAAMA4GA1UdDwEB/wQEAwIF4DAdBgNVHSUEFjAUBggrBgEFBQcDAgYIKwYBBQUHAwQw
+HQYDVR0OBBYEFD9v9h1AN9B7JVmbUR3b4sCrEHIqMB8GA1UdIwQYMBaAFGs6mIv58lOJ2uCtsjIe
+CR/oqjt0MB0GA1UdEQQWMBSBEmcuaGxhd2FjZWtAaHpkci5kZTCBjQYDVR0fBIGFMIGCMD+gPaA7
+hjlodHRwOi8vY2RwMS5wY2EuZGZuLmRlL2Rmbi1jYS1nbG9iYWwtZzIvcHViL2NybC9jYWNybC5j
+cmwwP6A9oDuGOWh0dHA6Ly9jZHAyLnBjYS5kZm4uZGUvZGZuLWNhLWdsb2JhbC1nMi9wdWIvY3Js
+L2NhY3JsLmNybDCB2wYIKwYBBQUHAQEEgc4wgcswMwYIKwYBBQUHMAGGJ2h0dHA6Ly9vY3NwLnBj
+YS5kZm4uZGUvT0NTUC1TZXJ2ZXIvT0NTUDBJBggrBgEFBQcwAoY9aHR0cDovL2NkcDEucGNhLmRm
+bi5kZS9kZm4tY2EtZ2xvYmFsLWcyL3B1Yi9jYWNlcnQvY2FjZXJ0LmNydDBJBggrBgEFBQcwAoY9
+aHR0cDovL2NkcDIucGNhLmRmbi5kZS9kZm4tY2EtZ2xvYmFsLWcyL3B1Yi9jYWNlcnQvY2FjZXJ0
+LmNydDANBgkqhkiG9w0BAQsFAAOCAQEAl0uz9sxJ9EKjOX+9CcXVGa219cKWtKWqJh5hlvhfE/0W
+eQAp7cs+5XX9y4a5+huV4z2iqMlwR2Bt4nmlxTrnv6E6LGfQS4z9KGS2LvXLV4eelXFLK8C2z3U1
+gkUJF4VAtCadN1q1zPWMXA4lRgwuurqS0tNCKPJEjYjwc5vJVtzZudfX3vTOCcJ4/HEZts0s5zbO
+TfKmutq0r3/ePxrkUhRnK0SdBYdDeLCZpWIya3VQhLgzH0j54dOKbGO3MT1bjnTdcgThrF7LU+ON
+wTAwxG37DaIU4nD4mTghk01C3iYDvBUmiCLEYEeeOTfOyPzG/FoDj0ZAhj9AXvP0+3sW3TCCBeUw
+ggTNoAMCAQICDCE8PvlzHnp6WSqB2TANBgkqhkiG9w0BAQsFADCBjTELMAkGA1UEBhMCREUxRTBD
+BgNVBAoMPFZlcmVpbiB6dXIgRm9lcmRlcnVuZyBlaW5lcyBEZXV0c2NoZW4gRm9yc2NodW5nc25l
+dHplcyBlLiBWLjEQMA4GA1UECwwHREZOLVBLSTElMCMGA1UEAwwcREZOLVZlcmVpbiBHbG9iYWwg
+SXNzdWluZyBDQTAeFw0xOTA3MDMxNDUzMzNaFw0yMjA3MDIxNDUzMzNaMIGDMQswCQYDVQQGEwJE
+RTEQMA4GA1UECAwHU2FjaHNlbjEQMA4GA1UEBwwHRHJlc2RlbjE1MDMGA1UECgwsSGVsbWhvbHR6
+LVplbnRydW0gRHJlc2RlbiAtIFJvc3NlbmRvcmYgZS4gVi4xGTAXBgNVBAMMEEhsYXdhY2VrLCBH
+cmVnb3IwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQD09obrAqoowUA1MgHfMl5dzwSg
+QeOG+pEoeJFCLLJLkqjyFdgW3aOtcMu4pxSv4kreH+wyE5Rmq6t38CrZQ1h7hw8mYab/IEXmu0+F
+Jf5cPMOKMpmopijc+Ozn4qNl7KLAll+0UGIrYE26/lZTyo9+h5RL/QSK9fksUVxEq9hUiGEWhccF
+vkAPonNCSd4ophvD+wUPspVam5xTFPkKgu9/agtRwQz00qIt9IBAZECNYHDS/nTdY9G9Vom2GRkF
+3AAY8nW6ctaMNezssaUFVzQOA2hCPFbRpXZj6sl6O0KHFZJ94QqFQoHJttx9VkpRaTaAtwtPQr7G
+D8Z8ub2eTt3ZAgMBAAGjggJLMIICRzA+BgNVHSAENzA1MA8GDSsGAQQBga0hgiwBAQQwEAYOKwYB
+BAGBrSGCLAEBBAQwEAYOKwYBBAGBrSGCLAIBBAQwCQYDVR0TBAIwADAOBgNVHQ8BAf8EBAMCBeAw
+HQYDVR0lBBYwFAYIKwYBBQUHAwIGCCsGAQUFBwMEMB0GA1UdDgQWBBQ/b/YdQDfQeyVZm1Ed2+LA
+qxByKjAfBgNVHSMEGDAWgBRrOpiL+fJTidrgrbIyHgkf6Ko7dDAdBgNVHREEFjAUgRJnLmhsYXdh
+Y2VrQGh6ZHIuZGUwgY0GA1UdHwSBhTCBgjA/oD2gO4Y5aHR0cDovL2NkcDEucGNhLmRmbi5kZS9k
+Zm4tY2EtZ2xvYmFsLWcyL3B1Yi9jcmwvY2FjcmwuY3JsMD+gPaA7hjlodHRwOi8vY2RwMi5wY2Eu
+ZGZuLmRlL2Rmbi1jYS1nbG9iYWwtZzIvcHViL2NybC9jYWNybC5jcmwwgdsGCCsGAQUFBwEBBIHO
+MIHLMDMGCCsGAQUFBzABhidodHRwOi8vb2NzcC5wY2EuZGZuLmRlL09DU1AtU2VydmVyL09DU1Aw
+SQYIKwYBBQUHMAKGPWh0dHA6Ly9jZHAxLnBjYS5kZm4uZGUvZGZuLWNhLWdsb2JhbC1nMi9wdWIv
+Y2FjZXJ0L2NhY2VydC5jcnQwSQYIKwYBBQUHMAKGPWh0dHA6Ly9jZHAyLnBjYS5kZm4uZGUvZGZu
+LWNhLWdsb2JhbC1nMi9wdWIvY2FjZXJ0L2NhY2VydC5jcnQwDQYJKoZIhvcNAQELBQADggEBAJdL
+s/bMSfRCozl/vQnF1RmttfXClrSlqiYeYZb4XxP9FnkAKe3LPuV1/cuGufobleM9oqjJcEdgbeJ5
+pcU657+hOixn0EuM/Shkti71y1eHnpVxSyvAts91NYJFCReFQLQmnTdatcz1jFwOJUYMLrq6ktLT
+QijyRI2I8HObyVbc2bnX1970zgnCePxxGbbNLOc2zk3yprratK9/3j8a5FIUZytEnQWHQ3iwmaVi
+Mmt1UIS4Mx9I+eHTimxjtzE9W4503XIE4axey1PjjcEwMMRt+w2iFOJw+Jk4IZNNQt4mA7wVJogi
+xGBHnjk3zsj8xvxaA49GQIY/QF7z9Pt7Ft0xggOdMIIDmQIBATCBnjCBjTELMAkGA1UEBhMCREUx
+RTBDBgNVBAoMPFZlcmVpbiB6dXIgRm9lcmRlcnVuZyBlaW5lcyBEZXV0c2NoZW4gRm9yc2NodW5n
+c25ldHplcyBlLiBWLjEQMA4GA1UECwwHREZOLVBLSTElMCMGA1UEAwwcREZOLVZlcmVpbiBHbG9i
+YWwgSXNzdWluZyBDQQIMITw++XMeenpZKoHZMA0GCWCGSAFlAwQCAQUAoIIBzzAYBgkqhkiG9w0B
+CQMxCwYJKoZIhvcNAQcBMBwGCSqGSIb3DQEJBTEPFw0yMDExMDQxMzI0MzRaMC8GCSqGSIb3DQEJ
+BDEiBCBCtPnyr/NOFeXxZ4nScKj/e5TE4i30WJKHMEdKZd6PRjCBrwYJKwYBBAGCNxAEMYGhMIGe
+MIGNMQswCQYDVQQGEwJERTFFMEMGA1UECgw8VmVyZWluIHp1ciBGb2VyZGVydW5nIGVpbmVzIERl
+dXRzY2hlbiBGb3JzY2h1bmdzbmV0emVzIGUuIFYuMRAwDgYDVQQLDAdERk4tUEtJMSUwIwYDVQQD
+DBxERk4tVmVyZWluIEdsb2JhbCBJc3N1aW5nIENBAgwhPD75cx56elkqgdkwgbEGCyqGSIb3DQEJ
+EAILMYGhoIGeMIGNMQswCQYDVQQGEwJERTFFMEMGA1UECgw8VmVyZWluIHp1ciBGb2VyZGVydW5n
+IGVpbmVzIERldXRzY2hlbiBGb3JzY2h1bmdzbmV0emVzIGUuIFYuMRAwDgYDVQQLDAdERk4tUEtJ
+MSUwIwYDVQQDDBxERk4tVmVyZWluIEdsb2JhbCBJc3N1aW5nIENBAgwhPD75cx56elkqgdkwDQYJ
+KoZIhvcNAQEBBQAEggEAuqwxeJtblOwVU93lvELk4JMRCgjlOIgfwuFomJ/1Nq8t/tTT3bYMkxWh
+FFZoCCJS1vH2O15LDFphobBy1LxcXCyQzlSJltG+LwWIS1SJXwMchfV1Z4TNwEy6L7H8z2YZgK0n
+o1xD7FzrlV1r38kqgUujqT4GeA+Wv9Vy2vosQ6BYzwFnfLzIlAZWgIrzdFCbX/qoSMduC6cZ592y
+A8THlB6dMOhb0mCR+hX02c+yf6Zjq/06+vbXF7etzDqRZoR5Du/m+zoBQnGxy6vNjNFZMa0/mLxa
+p/k0LHVmgXSVwlmgq8oQ+Wa0F2NRbgB/L2Wwb44Xo8igH3NEpWi3D/g8CgAAAAAAAA==
+
+
+--=-s4BXaf28JynD5BhyeTr0--
+
