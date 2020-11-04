@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DCE02A6480
-	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 13:38:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C0C5A2A647D
+	for <lists+linux-media@lfdr.de>; Wed,  4 Nov 2020 13:38:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729947AbgKDMi2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 07:38:28 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:7049 "EHLO
+        id S1729887AbgKDMiV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 07:38:21 -0500
+Received: from szxga05-in.huawei.com ([45.249.212.191]:7054 "EHLO
         szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729826AbgKDMi1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 07:38:27 -0500
+        with ESMTP id S1729198AbgKDMiU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 4 Nov 2020 07:38:20 -0500
 Received: from DGGEMS403-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CR5m14wjJzhgks;
+        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CR5m14HGnzhgkp;
         Wed,  4 Nov 2020 20:38:09 +0800 (CST)
 Received: from huawei.com (10.175.127.227) by DGGEMS403-HUB.china.huawei.com
  (10.3.19.203) with Microsoft SMTP Server id 14.3.487.0; Wed, 4 Nov 2020
- 20:38:01 +0800
+ 20:38:02 +0800
 From:   Yu Kuai <yukuai3@huawei.com>
 To:     <rick.chang@mediatek.com>, <bin.liu@mediatek.com>,
         <mchehab@kernel.org>, <matthias.bgg@gmail.com>,
@@ -29,10 +29,12 @@ CC:     <linux-media@vger.kernel.org>,
         <linux-mediatek@lists.infradead.org>,
         <linux-kernel@vger.kernel.org>, <yukuai3@huawei.com>,
         <yi.zhang@huawei.com>
-Subject: [patch V3 0/6] patches to add missing put_device() call
-Date:   Wed, 4 Nov 2020 20:41:34 +0800
-Message-ID: <20201104124140.3443309-1-yukuai3@huawei.com>
+Subject: [patch V3 1/6] media: platform: add missing put_device() call in mtk_jpeg_clk_init()
+Date:   Wed, 4 Nov 2020 20:41:35 +0800
+Message-ID: <20201104124140.3443309-2-yukuai3@huawei.com>
 X-Mailer: git-send-email 2.25.4
+In-Reply-To: <20201104124140.3443309-1-yukuai3@huawei.com>
+References: <20201104124140.3443309-1-yukuai3@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -42,31 +44,28 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-chagnes in V3:
- - merge patch 2 and patch 3 into one patch, add a help
- mtk_jpeg_clk_release().
+if of_find_device_by_node() succeed, mtk_jpeg_clk_init() doesn't have
+a corresponding put_device(). Thus add put_device() to fix the exception
+handling for this function implementation.
 
-changes in V2:
- - add several patches suggested by Hans
+Fixes: 648372a87cee ("media: platform: Change the call functions of getting/enable/disable the jpeg's clock")
+Signed-off-by: Yu Kuai <yukuai3@huawei.com>
+---
+ drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Yu Kuai (6):
-  media: platform: add missing put_device() call in mtk_jpeg_clk_init()
-  media: platform: add missing put_device() call in mtk_jpeg_probe() and
-    mtk_jpeg_remove()
-  media: mtk-vcodec: add missing put_device() call in
-    mtk_vcodec_init_dec_pm()
-  media: mtk-vcodec: add missing put_device() call in
-    mtk_vcodec_release_dec_pm()
-  media: mtk-vcodec: add missing put_device() call in
-    mtk_vcodec_init_enc_pm()
-  media: mtk-vcodec: add missing put_device() call in
-    mtk_vcodec_release_enc_pm()
-
- .../media/platform/mtk-jpeg/mtk_jpeg_core.c   |  9 ++++++
- .../platform/mtk-vcodec/mtk_vcodec_dec_pm.c   | 19 +++++++++----
- .../platform/mtk-vcodec/mtk_vcodec_enc_pm.c   | 28 ++++++++++++++-----
- 3 files changed, 43 insertions(+), 13 deletions(-)
-
+diff --git a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+index 227245ccaedc..106543391c46 100644
+--- a/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
++++ b/drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c
+@@ -1306,6 +1306,7 @@ static int mtk_jpeg_clk_init(struct mtk_jpeg_dev *jpeg)
+ 				jpeg->variant->clks);
+ 	if (ret) {
+ 		dev_err(&pdev->dev, "failed to get jpeg clock:%d\n", ret);
++		put_device(&pdev->dev);
+ 		return ret;
+ 	}
+ 
 -- 
 2.25.4
 
