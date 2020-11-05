@@ -2,90 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A622C2A7363
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 01:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A1A472A7503
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 02:45:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732947AbgKEAAf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 19:00:35 -0500
-Received: from smtprelay0109.hostedemail.com ([216.40.44.109]:59096 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1732923AbgKDX7O (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Nov 2020 18:59:14 -0500
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay07.hostedemail.com (Postfix) with ESMTP id 2A868181D3039;
-        Wed,  4 Nov 2020 23:59:13 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 50,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:800:960:967:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:1801:2393:2525:2553:2561:2564:2682:2685:2828:2859:2895:2902:2933:2937:2939:2942:2945:2947:2951:2954:3022:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3868:3870:3871:3872:3873:3874:3934:3936:3938:3941:3944:3947:3950:3953:3956:3959:4250:4321:4384:4605:5007:6119:6691:7903:8531:9008:9025:10004:10400:10848:11026:11232:11233:11473:11658:11914:12043:12050:12296:12297:12438:12555:12740:12760:12895:13069:13161:13229:13311:13357:13439:13618:14180:14181:14659:14721:21060:21080:21365:21451:21499:21627:21939:30012:30054:30060:30070:30080:30090:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
-X-HE-Tag: rake48_560ecb1272c5
-X-Filterd-Recvd-Size: 2627
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf19.hostedemail.com (Postfix) with ESMTPA;
-        Wed,  4 Nov 2020 23:59:12 +0000 (UTC)
-Message-ID: <79cad1a6a296761e672cfb0d85e7424fcb740032.camel@perches.com>
-Subject: Re: [PATCH v2 1/7] media: uvcvideo: Use pr_cont() macro
-From:   Joe Perches <joe@perches.com>
-To:     Ricardo Ribalda <ribalda@chromium.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        id S1731596AbgKEBpM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 4 Nov 2020 20:45:12 -0500
+Received: from rere.qmqm.pl ([91.227.64.183]:21313 "EHLO rere.qmqm.pl"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725862AbgKEBpK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 4 Nov 2020 20:45:10 -0500
+Received: from remote.user (localhost [127.0.0.1])
+        by rere.qmqm.pl (Postfix) with ESMTPSA id 4CRRCz3W7Zz8p;
+        Thu,  5 Nov 2020 02:45:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=rere.qmqm.pl; s=1;
+        t=1604540706; bh=aBt8pSRmlerJrDlZ6D4FmnV067XCrMRhQWKKKTapOdw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=GyZeaKLwRHgqCMhnbX5TNybo0ANsgA3gM3TWkXagDl6z0z7YM2HVQ82gMuN0HVIHU
+         7dp8iHeNlS1eCBKDju4naxFTjiE1S2c/jSNLdP0XdCQTQpCQrpbVB68WwxmQ5A1XTf
+         HnQ5aLlJ45qUjgU2s/chEVHj9kK0YGzx1K0TBruAnEEtNFfEy/FeB5JRFXlnjVynQ2
+         xj8dJwAqPPCRcBHEJBgull7vLVSSBUGpiGDT2jaC/jhSLrzGCOZ+TGsXznXqjpE9Bx
+         c3X8v/y5wwipUDKK02Lc2jvLGWIt7L90BZ89QWrFtHZZdjtuMz767NBYOLe9wQce1i
+         Ueh8sEtC2RP0g==
+X-Virus-Status: Clean
+X-Virus-Scanned: clamav-milter 0.102.4 at mail
+Date:   Thu, 5 Nov 2020 02:45:02 +0100
+From:   =?iso-8859-2?Q?Micha=B3_Miros=B3aw?= <mirq-linux@rere.qmqm.pl>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Uwe =?iso-8859-2?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Date:   Wed, 04 Nov 2020 15:59:10 -0800
-In-Reply-To: <CANiDSCteVWin-Yy2ZVSMUJBPvJ-F0Ti+fEpi26apsDW0XXrpwg@mail.gmail.com>
-References: <20201104180734.286789-1-ribalda@chromium.org>
-         <20201104180734.286789-2-ribalda@chromium.org>
-         <87769d554b4575bf9371380b013e66d70f1b21c4.camel@perches.com>
-         <20201104214201.GH29958@pendragon.ideasonboard.com>
-         <9d439214e8c83ebf7b93dccca2f848fbaf75b9d4.camel@perches.com>
-         <CANiDSCvwvQUTt1QMQGGyZPag9VeHj4Ugmj8QJdBNtw00UNt6Pg@mail.gmail.com>
-         <a00078e1311c09361e9e3357ba5dca037d7a8bff.camel@perches.com>
-         <CANiDSCteVWin-Yy2ZVSMUJBPvJ-F0Ti+fEpi26apsDW0XXrpwg@mail.gmail.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+        Rob Herring <robh+dt@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v1 00/30] Introduce core voltage scaling for NVIDIA
+ Tegra20/30 SoCs
+Message-ID: <20201105014502.GB17266@qmqm.qmqm.pl>
+References: <20201104234427.26477-1-digetx@gmail.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=iso-8859-2
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201104234427.26477-1-digetx@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, 2020-11-05 at 00:01 +0100, Ricardo Ribalda wrote:
-> Hi Joe
-> 
-> On Thu, Nov 5, 2020 at 12:00 AM Joe Perches <joe@perches.com> wrote:
-> > 
-> > On Wed, 2020-11-04 at 23:31 +0100, Ricardo Ribalda wrote:
-> > 
-> > > I have updated my tree with the dev_ variants
-> > > 
-> > > https://github.com/ribalda/linux/commit/b8785fd8efb4f2e5bbf5d0f2df3e0d69a5439015
-> > 
-> > I looked at this link and was confused so you made me look.
-> > I think you meant:
-> > 
-> > https://github.com/ribalda/linux/commit/83cb6eb3a9f7bd1954acbfb4fb3d56ddf54bce73
-> 
-> Yes, thanks :) Sorry about that
-> 
-> This is why I should be away from a keyboard after 23:00 :)
+On Thu, Nov 05, 2020 at 02:43:57AM +0300, Dmitry Osipenko wrote:
+> Introduce core voltage scaling for NVIDIA Tegra20/30 SoCs, which reduces
+> power consumption and heating of the Tegra chips. Tegra SoC has multiple
+> hardware units which belong to a core power domain of the SoC and share
+> the core voltage. The voltage must be selected in accordance to a minimum
+> requirement of every core hardware unit.
+[...]
 
-Sleep is good.
-There are lots of sleep deprived people here in the US today though.
+Just looked briefly through the series - it looks like there is a lot of
+code duplication in *_init_opp_table() functions. Could this be made
+more generic / data-driven?
 
-It looks as if all the pr_cont uses in the code are odd and repetitive.
-
-Perhaps it'd be sensible to add something like:
-
-#define uvc_trace_cont(flag, fmt, ...)					\
-do {									\
-	if (uvc_trace_param & (flag))					\
-		pr_cont(fmt, ##__VA_ARGS__);				\
-} while (0)
-
-and change all the uses like:
-
--               if (uvc_trace_param & UVC_TRACE_PROBE)
--                       printk(KERN_CONT " <- SU %d", entity->id);
-+               uvc_trace_cont(UVC_TRACE_PROBE, " <- SU %d", entity->id);
-
-
+Best Regards
+Micha³ Miros³aw
