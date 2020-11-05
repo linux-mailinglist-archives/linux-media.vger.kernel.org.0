@@ -2,117 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E0512A79F9
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 10:04:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E670E2A7A4E
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 10:19:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726787AbgKEJEl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 04:04:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48792 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725827AbgKEJEk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 04:04:40 -0500
-Received: from coco.lan (unknown [95.90.213.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id BB096206FB;
-        Thu,  5 Nov 2020 09:04:38 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604567079;
-        bh=o1BOKc8oc8Zf6jNWwb3C5sMendnBzwpP/u0Myph/PAU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=p6cbUcXTw2/2TyV9T3Zck5T7vNPW2MIFs8ZHHtmDc4AkcOmSvvmxwvXv0EjG/UTDV
-         bL3X94Qv/aeAGgyF3gzrJsVVRlLPEbxIPbC5pCYChZXiBAQYChrA5THdTetBeDn0Lf
-         npzRu3BT23KvHJzAKXl3tjsdkD5XkoOszl6eLXZw=
-Date:   Thu, 5 Nov 2020 10:04:36 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 001/106] smiapp: Generate CCS register definitions
- and limits
-Message-ID: <20201105100436.67300628@coco.lan>
-In-Reply-To: <20201105080105.GU26150@paasikivi.fi.intel.com>
-References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
-        <20201007084557.25843-1-sakari.ailus@linux.intel.com>
-        <20201105081950.43f0613f@coco.lan>
-        <20201105080105.GU26150@paasikivi.fi.intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1730145AbgKEJTL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 04:19:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52364 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726371AbgKEJTL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 04:19:11 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C784CC0613CF
+        for <linux-media@vger.kernel.org>; Thu,  5 Nov 2020 01:19:10 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 61530B93;
+        Thu,  5 Nov 2020 10:19:06 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1604567946;
+        bh=4SVIyNC7fF2x1a84grCvIts8TeUX6eJZdxFQa4KTXE4=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=lHGJ5M2PDYC4jBNXvOXovPCbyleNip1W/gJ6odfjLxQxeLqhdEKkURgh59OlmfF3x
+         FoHciN0d2E7fTAfLeOl7PfKmL9FJDhKYmK9wRG3b7pkpeh7RmEmh0oalG7QSrYNOw9
+         O+bwJCIks16dOP39AfD0tadloVAi713ShhniFryc=
+Date:   Thu, 5 Nov 2020 11:19:05 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Gregor Hlawacek <g.hlawacek@hzdr.de>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: Philips Monitor with webcam
+Message-ID: <20201105091905.GD3988@pendragon.ideasonboard.com>
+References: <51207fd712e3c1001b80c6642021b1a5d5763ade.camel@hzdr.de>
+ <20201104170233.0d405dff@coco.lan>
+ <59f848e83354ad72c11dacaf571f20a8084baf58.camel@hzdr.de>
+ <20201104174554.4bbec36a@coco.lan>
+ <b8fcc03ed79873f9e55ab394b4b95140ab8b215b.camel@hzdr.de>
+ <20201104210155.353a0d6a@coco.lan>
+ <40a643d5fd9b6dd387d9cbde3e5ba1796b282f6a.camel@hzdr.de>
+ <20201104221148.4d5c644d@coco.lan>
+ <20201104212454.GF29958@pendragon.ideasonboard.com>
+ <73b62785d882113351d0e69e3b552f0f271e4f2d.camel@hzdr.de>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <73b62785d882113351d0e69e3b552f0f271e4f2d.camel@hzdr.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 5 Nov 2020 10:01:05 +0200
-Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+Hi Gregor,
 
-> Hi Mauro,
+On Thu, Nov 05, 2020 at 08:41:27AM +0100, Gregor Hlawacek wrote:
+
+[snip]
+
+> Hi Mauro and Laurent
 > 
-> Thank you for the review.
+> @Mauro:
 > 
-> On Thu, Nov 05, 2020 at 08:19:50AM +0100, Mauro Carvalho Chehab wrote:
-> > Hi,
-> > 
-> > Em Wed,  7 Oct 2020 11:44:21 +0300
-> > Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
-> >   
-> > > Add register definitions of the MIPI CCS 1.1 standard.
-> > > 
-> > > The CCS driver makes extended use of device's capability registers that
-> > > are dependent on CCS version. This involves having an in-memory data
-> > > structure for limit and capability information, creating that data
-> > > structure and accessing it.
-> > > 
-> > > The register definitions as well as the definitions of this data structure
-> > > are generated from a text file using a Perl script. Do the generation here
-> > > and so avoid making manual, error-prone changes to the several generated
-> > > files.  
-> > 
-> > I understand the reason behind using a perl script to parse some
-> > text file in order to generate register's definition files,
-> > but I can't see what's the sense of storing the perl script and
-> > such texts together with the Kernel building system, re-generating them
-> > every time.
-> > 
-> > I mean: register definitions is something that it is supposed to be
-> > stable, and nothing something that will change on every Kernel
-> > compilation.
-> > 
-> > How often are you expecting changes at ccs-regs.txt?  
+> I think there is a confusion, which might be my fault as I talked about
+> a chicony cam in the external monitor. The chicony cam that shows up as
+> video0/1 is my internal laptop camera which is working fine. The
+> problematic one is the sunplusIT camera which has a chicony usb
+> identifier (0412). This is connected to video2-5 and also the one for
+> which I reported the above information.
 > 
-> When there's a new version of the standard, or a bug is found. At least. So
-> not very often.
+> @Laurent:
+> 
+> lsusb -v -d 0412:612b:
 
-So, it should likely take a couple of years before any changes on it.
+[snip]
 
-> After pushing the set to a branch in my linuxtv.org tree, I also noticed
-> that some architectures are built by kbuild bot without Perl interpreter
-> being present.
+Thank for the information. Nothing strikes me as weird. Could you
 
-Well, kbuild bot is doing the wrong thing here: it means that it is not
-testing documentation - as building it requires perl ;-)
+- Set the uvcvideo trace parameter to 0xffff:
 
-> This suggests that Perl is not currently universally
-> required for building the kernel albeit there seems to be some PowerPC
-> hardware (?) related driver needing it to be built.
+  sudo echo 0xffff > /sys/module/uvcvideo/parameters/trace
 
-I doubt that Perl is a requirement for building the Kernel itself.
+- Unplug and replug the monitor
+- Open the video devices in turn with v4l2-ctl (use the video device
+  nodes /dev/video* directly, not the by-id links)
+- Send send the output of 'sudo dmesg'
 
-Adding such requirement could cause troubles on some embedded distros,
-like Yocto, OpenWrt, etc, whose have a distinct toolchain that needs
-to be compiled on some early step.
+You can clear the kernel log with 'sudo dmesg -c' before doing so to
+avoid including unrelated data (or just strip it from the dmesg output
+manually when copying it to an e-mail).
 
-If this were something that would require dynamic changes on every
-single compilation, it would make sense to add such extra dependency,
-but this is not the case here.
+-- 
+Regards,
 
-> I was thinking of putting the files produced by the script into a new patch
-> and leaving the script and the text file in the directory. The files would
-> be rebuilt when a specific environment variable is set. This would in line
-> with what crypto drivers are doing.
-
-I would, instead, place the script and instructions about how to use
-it inside Documentation/driver-api/media.
-
-Thanks,
-Mauro
+Laurent Pinchart
