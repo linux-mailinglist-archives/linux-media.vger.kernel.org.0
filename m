@@ -2,98 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F0B372A8597
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 19:02:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B65C52A85BF
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 19:11:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731779AbgKESCK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 13:02:10 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49862 "EHLO
+        id S1731744AbgKESLB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 13:11:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51246 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730246AbgKESCJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 13:02:09 -0500
-Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59854C0613CF;
-        Thu,  5 Nov 2020 10:02:07 -0800 (PST)
-Received: by mail-lj1-x244.google.com with SMTP id v18so691639ljc.3;
-        Thu, 05 Nov 2020 10:02:07 -0800 (PST)
+        with ESMTP id S1731740AbgKESLA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 13:11:00 -0500
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41A08C0613D3
+        for <linux-media@vger.kernel.org>; Thu,  5 Nov 2020 10:10:58 -0800 (PST)
+Received: by mail-wr1-x442.google.com with SMTP id b8so2867472wrn.0
+        for <linux-media@vger.kernel.org>; Thu, 05 Nov 2020 10:10:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=Al4h4rmGhqwiEGe133XHwebc8D8nOD3olrp8Vml5Ma4=;
-        b=ns839VcoCfQlmSawliO3BW+/1vwbWsC0SuMDgd2rWP8iV711Mqqtf4m0MCEmnLvl6U
-         3vb8CBUhCZHuLBbT/vy/0iMtjPX+V3C6uUIb2OPOXdjLYjIP6UI/e87eGPrrzJ+xbk0U
-         lPuFmuT1kZYJ9xA2IDMRS58fh3QHtxbqkhAxXI9q2n4iD1UkN9wCV6XZxUKCW+jG4fl1
-         bhur1vx8ueIhfdY8E1LoNLWhfnSqc8Cz4pG2mSMrLt8qiqsSVAo166ZZkzVsvdwhvofK
-         JB2HZrGV3JeU2U3FG6Z6xcUm8hK1QDD32JbxQ1HpcmJHxS8qabOilxvrGXG1/u5lCDmu
-         kXEw==
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=FhFtY5ciaW1nlR2U+pWYBqVAzPK41Vz6Hz2tFwAkb5Q=;
+        b=GatAPuXOOWtl2nhpT9e99ah3GFLcKM+HdeOOkC5pSs78XvvdyMoY7/8vu0nKhJBTAi
+         ULzFLk2UAxyoo+3Evefw/CCJcgxeJdm/3As86gobVyRvGkioR0Yg0Vk06+ly3ZT1Iw4c
+         vWDYVSEp7DJ/ryuKbJRodv3lC/n12GCOM19ezNTRqhekjK3J/FUTXtxYyQGZK6Ec+X+u
+         4TF1Xpbbx7qXCIt1ap/QpJ/p7OSbix6+UbPt/19fhQThBEaY4kUCHeOHR7xeN5T5ugMQ
+         FfV9R50g/c2fPLTAz8eG++boM2RcFaq0a3MzSidP9GytvPcXivsAZCyMSDEbhqPWcOtr
+         hZ/A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Al4h4rmGhqwiEGe133XHwebc8D8nOD3olrp8Vml5Ma4=;
-        b=kogleMfcIzCNRGSmtj2Mp4vuVz9hj/KZxXiPi3KwKdtUMTJ9cBrEPYkhZaOqsVlB+f
-         Iqus4nDIr7p0LeKRAwa0TJgf8lRaxP4Ya2c9LifYDYfFGCE6TEbnmjZ2f1YAlAveVNIP
-         H9I/IxuZ7Hg19SLdTK8O1FpAVe2t27aolQ6k5aOhsyO4x7CQxAYbSLOKM7E2nkb3ao08
-         FGWqd2VtGS6Ntqwbgzmu+rmjdZ0OGtOvurTiPTwTQ7WFUAIxDBZVun4OH4aFtl6oAarT
-         Gzy77dz0ksLbCsc5XtHcEb7Z12lG4Xd1pPX5DVDjt9QCa4yrbBoOxMkeAKDmiCOCRalw
-         sJkQ==
-X-Gm-Message-State: AOAM532CPsJwyMLw6SUhYB57bqVpvrs/rICa2rAQkJNaNWSl8s0Q3rex
-        vdzPEl8013fAOXJnbXDwAFnS5A/lpJk=
-X-Google-Smtp-Source: ABdhPJyGo1QPlqd8Bg9dlBjbnD5b7q3iSRiSvONPHwwdeYcMEjv8aISie0TROJMehCbGPKS7ntWyVA==
-X-Received: by 2002:a2e:5007:: with SMTP id e7mr1293766ljb.196.1604599324582;
-        Thu, 05 Nov 2020 10:02:04 -0800 (PST)
-Received: from [192.168.2.145] (109-252-192-83.dynamic.spd-mgts.ru. [109.252.192.83])
-        by smtp.googlemail.com with ESMTPSA id q28sm251319lfn.7.2020.11.05.10.02.02
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2020 10:02:03 -0800 (PST)
-Subject: Re: [PATCH v1 21/30] usb: host: ehci-tegra: Support OPP and SoC core
- voltage scaling
-To:     Alan Stern <stern@rowland.harvard.edu>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-22-digetx@gmail.com>
- <20201105160743.GA1613614@rowland.harvard.edu>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <a6030abc-3727-01ca-91b6-faf02d8083fd@gmail.com>
-Date:   Thu, 5 Nov 2020 21:02:02 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=FhFtY5ciaW1nlR2U+pWYBqVAzPK41Vz6Hz2tFwAkb5Q=;
+        b=IcWHwKlVRPYQ6e/sS+3Wr1D+cIBeuLyXHFqCqPYx1pAWDlbouS+LigjGyGQZ4cdmB6
+         y7nn1Jw2DpoX7cbT5L8S784WkuaiGbEusYo4wrU2X0BMCJPptB0UY7tAXFSKtLgtTxaT
+         OyCxtzLitqcXdQjhD6ox5ywU38oYtGxNT/xvgdQCIkY0plpvKrriwHTjhwVc8RLCyY/o
+         vv/xuMBmqaIxfCwVoNv0d/zcupYbcmirxzkWvxSQEtiUqZUf/AMrHkA/rCZmNcd+9h/g
+         Ch+jWqREJEOGYhUWA4OII5ST3+3w9P2MYH1i9WF+68YhqpRQbB2j6UiAwZJ7O/m8Tihm
+         ILtw==
+X-Gm-Message-State: AOAM533Ig0IoNLgclwLzw9QOTtKbBL0/1fDJLW8P1P3iuAEITVxo3Ern
+        LagLi7vWtr4U/iSSM9Cc13f6ig==
+X-Google-Smtp-Source: ABdhPJxfovDmA2/SEwd5OqdAtrF75aOW/Ch8IL1Xl3o7TEZiRRobO1BFwQiv29SzGPrtgzVY78mRyw==
+X-Received: by 2002:a5d:4747:: with SMTP id o7mr4604227wrs.423.1604599856823;
+        Thu, 05 Nov 2020 10:10:56 -0800 (PST)
+Received: from dell ([91.110.221.242])
+        by smtp.gmail.com with ESMTPSA id m126sm3705212wmm.0.2020.11.05.10.10.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2020 10:10:55 -0800 (PST)
+Date:   Thu, 5 Nov 2020 18:10:53 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     linux-kernel@vger.kernel.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        David Francis <David.Francis@amd.com>,
+        dri-devel@lists.freedesktop.org,
+        Fabio Estevam <festevam@gmail.com>,
+        Gareth Hughes <gareth@valinux.com>,
+        Huang Rui <ray.huang@amd.com>, Jason Yan <yanaijie@huawei.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Jingoo Han <jg1.han@samsung.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linaro-mm-sig@lists.linaro.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        Lyude Paul <lyude@redhat.com>,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Nirmoy Das <nirmoy.aiemd@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Clark <rob.clark@linaro.org>,
+        Sam Ravnborg <sam@ravnborg.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH 00/19] [Set 1] Rid W=1 warnings from GPU
+Message-ID: <20201105181053.GP4488@dell>
+References: <20201105144517.1826692-1-lee.jones@linaro.org>
+ <20201105164841.GH485884@ulmo>
 MIME-Version: 1.0
-In-Reply-To: <20201105160743.GA1613614@rowland.harvard.edu>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201105164841.GH485884@ulmo>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-05.11.2020 19:07, Alan Stern пишет:
->> +	err = devm_tegra_ehci_init_opp_table(&pdev->dev);
->> +	if (err)
->> +		return dev_err_probe(&pdev->dev, err,
->> +				     "Failed to initialize OPP\n");
-> Why log a second error message?  Just return err.
+On Thu, 05 Nov 2020, Thierry Reding wrote:
 
-Indeed, thanks.
+> On Thu, Nov 05, 2020 at 02:44:58PM +0000, Lee Jones wrote:
+> > This set is part of a larger effort attempting to clean-up W=1
+> > kernel builds, which are currently overwhelmingly riddled with
+> > niggly little warnings.
+> > 
+> > There are 5000 warnings to work through.
+> > 
+> > It will take a couple more sets.
+> > 
+> > Lee Jones (19):
+> >   gpu: host1x: bus: Add missing description for 'driver'
+> >   gpu: ipu-v3: ipu-di: Strip out 2 unused 'di_sync_config' entries
+> >   gpu: drm: imx: ipuv3-plane: Mark 'crtc_state' as __always_unused
+> >   gpu: drm: omapdrm: omap_irq: Fix a couple of doc-rot issues
+> >   gpu: drm: selftests: test-drm_mm: Mark 'hole_end' as always_unused
+> >   gpu: drm: scheduler: sched_main: Provide missing description for
+> >     'sched' paramter
+> >   gpu: drm: scheduler: sched_entity: Demote non-conformant kernel-doc
+> >     headers
+> >   gpu: drm: omapdrm: dss: dsi: Rework and remove a few unused variables
+> >   gpu: drm: selftests: test-drm_framebuffer: Remove set but unused
+> >     variable 'fb'
+> >   gpu: drm: ttm: ttm_bo: Fix one function header - demote lots of
+> >     kernel-doc abuses
+> >   gpu: drm: panel: panel-simple: Fix 'struct panel_desc's header
+> >   gpu: drm: bridge: analogix: analogix_dp_reg: Remove unused function
+> >     'analogix_dp_write_byte_to_dpcd'
+> >   gpu: drm: ttm: ttm_tt: Demote kernel-doc header format abuses
+> >   gpu: drm: selftests: test-drm_dp_mst_helper: Place 'struct
+> >     drm_dp_sideband_msg_req_body' onto the heap
+> >   gpu: drm: radeon: radeon_drv: Remove unused variable 'ret'
+> >   gpu: drm: panel: panel-ilitek-ili9322: Demote non-conformant
+> >     kernel-doc header
+> >   gpu: drm: radeon: radeon_device: Fix a bunch of kernel-doc
+> >     misdemeanours
+> >   gpu: drm: amd: amdgpu: amdgpu: Mark global variables as __maybe_unused
+> >   gpu: drm: bridge: analogix: analogix_dp_reg: Remove unused function
+> >     'analogix_dp_start_aux_transaction'
+> 
+> As commented on the other patches, the subject prefixes on most of these
+> look wrong, but it's generally a nice cleanup.
+
+The prefixes are automated.  I'll add this to my list of awkward
+subsystems and go through them all manually again tomorrow. :D
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
