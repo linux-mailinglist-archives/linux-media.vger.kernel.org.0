@@ -2,109 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 511FE2A7ED0
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 13:42:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B42AC2A7ED1
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 13:42:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726874AbgKEMmB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 07:42:01 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:51441 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725468AbgKEMmA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 07:42:00 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id aeaRkCxE3NanzaeaVkoLdx; Thu, 05 Nov 2020 13:41:59 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1604580119; bh=jqHcqG5+Hw27GEBQppj1Jp5agjk2Ih5aC0SwUkpUF1E=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=NSyIJ6L7XzzFCOEc8igGKSa0PC379TwnMw78aVraMo+YL7ovv4ZCnfsFhVoLBJmA1
-         FiPrTeWyoNl6wiuhlPUTJcUcVU7DerAnaUEp9tmX4YR3TBsBxmqRO85v5K6EGczr8S
-         BeXv4z76ABi9U/8mqPzOR7VfLuaDvoEOdDap3DSj6I0fNimkMM0Py/O1Av1/87Fgye
-         ZZrp3qntB9pMIdl2krg4nDAPTXxe8/ClUZra9Z4cz6TFx7ojs+NP5Hvzo74qzHJHrn
-         yQqlcXck9HPmP/8Y85n8Rq0wKTuDYxI3VbmT/zjbOyKecr9I6GA4PnhRakECt9+YHe
-         Jt9F0mn2SnW/A==
-Subject: Re: [PATCH v2 099/106] v4l: uapi: ccs: Add controls for analogue gain
- constants
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
+        id S1726874AbgKEMmt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 07:42:49 -0500
+Received: from mail.kernel.org ([198.145.29.99]:46292 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725468AbgKEMmt (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 07:42:49 -0500
+Received: from coco.lan (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E8F8320756;
+        Thu,  5 Nov 2020 12:42:46 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604580168;
+        bh=+u26YhO3IgIzz3xegyy+dJ6m1Su3/k6aGUyM7Qz2A8Y=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=toM/vAzLarEQokDNXbQOSDGbRl0bMknIKt93gOfk90oZcznBYbjRwbP7i3UfM9t77
+         t2Ycd6AvixCyrhRZ72NBQGSPDa4G6J93f1HLVu0B4LaC5h2eXzzjFFKXgIIWQXSDys
+         wBTl0vhda8IDmst7/wtmZRYgAvZow3KZXiQ4rlj0=
+Date:   Thu, 5 Nov 2020 13:42:43 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH v2 105/106] ccs: Add shading correction and luminance
+ correction level controls
+Message-ID: <20201105134243.62ef1938@coco.lan>
+In-Reply-To: <20201007084557.25843-96-sakari.ailus@linux.intel.com>
 References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
- <20201007084557.25843-1-sakari.ailus@linux.intel.com>
- <20201007084557.25843-90-sakari.ailus@linux.intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <bccb9a91-99bf-71d2-f3e5-caa429c90f64@xs4all.nl>
-Date:   Thu, 5 Nov 2020 13:41:55 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        <20201007084557.25843-1-sakari.ailus@linux.intel.com>
+        <20201007084557.25843-96-sakari.ailus@linux.intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-In-Reply-To: <20201007084557.25843-90-sakari.ailus@linux.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain; charset=US-ASCII
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfBxQgoXx9uDPDE/H6YiJMY2qZZZ5avhHAX0ACCfr0lePY4MWIncIe2Uo/sw+psEQ2nm7ezvkmj3gxyqCikCluumY30xoBCLr4SZ7WYiQuwi24azcKcTI
- WtSjsJwjf3xjL5uoihO93o1DKLUbf7A6Gqi2KDCb60g1TKsvS1MeulqGZmCHhJ0JTR3+oWft5R8BHYqnNsmtkZdFpwWp3WBDrqReH4RahI8u6Gu2Y5+s9kCi
- ZSPViMifxwWaZYrrmVI0uQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/10/2020 10:45, Sakari Ailus wrote:
-> Add a V4L2 controls for analogue gai constants required to control
+Em Wed,  7 Oct 2020 11:45:56 +0300
+Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
 
-gai -> gain
-
-> analogue gain. The values are device specific and thus need to be obtained
-> from the driver.
+> Add controls for supporting lens shading correction.
 > 
 > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  MAINTAINERS              |  1 +
->  include/uapi/linux/ccs.h | 14 ++++++++++++++
->  2 files changed, 15 insertions(+)
->  create mode 100644 include/uapi/linux/ccs.h
-> 
-> diff --git a/MAINTAINERS b/MAINTAINERS
-> index b72f666b8b60..c173e503b0b7 100644
-> --- a/MAINTAINERS
-> +++ b/MAINTAINERS
-> @@ -11569,6 +11569,7 @@ F:	drivers/media/i2c/ccs/
->  F:	drivers/media/i2c/ccs-pll.c
->  F:	drivers/media/i2c/ccs-pll.h
->  F:	include/uapi/linux/smiapp.h
-> +F:	include/uapi/linux/ccs.h
->  
->  MIPS
->  M:	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> diff --git a/include/uapi/linux/ccs.h b/include/uapi/linux/ccs.h
-> new file mode 100644
-> index 000000000000..bcdce95955b0
-> --- /dev/null
-> +++ b/include/uapi/linux/ccs.h
-> @@ -0,0 +1,14 @@
-> +/* SPDX-License-Identifier: GPL-2.0-only AND BSD-3-Clause */
-> +/* Copyright (C) 2020 Intel Corporation */
-> +
-> +#ifndef __UAPI_CCS_H__
-> +#define __UAPI_CCS_H__
-> +
-> +#include <linux/videodev2.h>
-> +
-> +#define V4L2_CID_CCS_ANALOGUE_GAIN_M0		(V4L2_CID_USER_CCS_BASE + 1)
-> +#define V4L2_CID_CCS_ANALOGUE_GAIN_C0		(V4L2_CID_USER_CCS_BASE + 2)
-> +#define V4L2_CID_CCS_ANALOGUE_GAIN_M1		(V4L2_CID_USER_CCS_BASE + 3)
-> +#define V4L2_CID_CCS_ANALOGUE_GAIN_C1		(V4L2_CID_USER_CCS_BASE + 4)
 
-Please document these controls. Ditto for the later patches that add more
-of these controls.
+For patches 098 to 105, we should at least have those new controls
+documented at the uAPI documents.
 
-This header is a good place to put the documentation.
+I'm not convinced yet that we shouldn't instead place them inside
+V4L2_CTRL_CLASS_CAMERA.
+
+As those are part of a MIPI standard, I won't doubt that sooner or
+later, other drivers may need them.
 
 Regards,
+Mauro
 
-	Hans
-
-> +
-> +#endif
+> ---
+>  drivers/media/i2c/ccs/ccs-core.c | 74 ++++++++++++++++++++++++++++++++
+>  1 file changed, 74 insertions(+)
 > 
+> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> index 0ba06a580951..10ed3d01af16 100644
+> --- a/drivers/media/i2c/ccs/ccs-core.c
+> +++ b/drivers/media/i2c/ccs/ccs-core.c
+> @@ -757,6 +757,25 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
+>  	case V4L2_CID_TEST_PATTERN_GREENB:
+>  		rval = ccs_write(sensor, TEST_DATA_GREENB, ctrl->val);
+>  
+> +		break;
+> +	case V4L2_CID_CCS_SHADING_CORRECTION:
+> +		if (!(CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +		      (CCS_SHADING_CORRECTION_CAPABILITY_COLOR_SHADING |
+> +		       CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION)))
+> +			break;
+> +
+> +		rval = ccs_write(sensor, SHADING_CORRECTION_EN,
+> +				 ctrl->val ? CCS_SHADING_CORRECTION_EN_ENABLE :
+> +				 0);
+> +
+> +		break;
+> +	case V4L2_CID_CCS_LUMINANCE_SHADING_CORRECTION:
+> +		if (!(CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +		      CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION))
+> +			break;
+> +
+> +		rval = ccs_write(sensor, LUMINANCE_CORRECTION_LEVEL, ctrl->val);
+> +
+>  		break;
+>  	case V4L2_CID_PIXEL_RATE:
+>  		/* For v4l2_ctrl_s_ctrl_int64() used internally. */
+> @@ -878,6 +897,61 @@ static int ccs_init_controls(struct ccs_sensor *sensor)
+>  	}
+>  	}
+>  
+> +	if (CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +	    CCS_SHADING_CORRECTION_CAPABILITY_COLOR_SHADING) {
+> +		const struct v4l2_ctrl_config ctrl_cfg = {
+> +			.name = "Shading Correction",
+> +			.type = V4L2_CTRL_TYPE_BOOLEAN,
+> +			.id = V4L2_CID_CCS_SHADING_CORRECTION,
+> +			.ops = &ccs_ctrl_ops,
+> +			.max = 1,
+> +			.step = 1,
+> +		};
+> +
+> +		v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
+> +				     &ctrl_cfg, NULL);
+> +	}
+> +
+> +	if (CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +	    CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION) {
+> +		const struct v4l2_ctrl_config ctrl_cfg = {
+> +			.name = "Luminance Shading Correction",
+> +			.type = V4L2_CTRL_TYPE_BOOLEAN,
+> +			.id = V4L2_CID_CCS_LUMINANCE_SHADING_CORRECTION,
+> +			.ops = &ccs_ctrl_ops,
+> +			.max = 255,
+> +			.step = 1,
+> +			.def = 128,
+> +		};
+> +
+> +		v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
+> +				     &ctrl_cfg, NULL);
+> +	}
+> +
+> +	if (CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +	    (CCS_SHADING_CORRECTION_CAPABILITY_COLOR_SHADING |
+> +	     CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION)) {
+> +		u32 val =
+> +			((CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +			  CCS_SHADING_CORRECTION_CAPABILITY_COLOR_SHADING) ?
+> +			 V4L2_CCS_SHADING_CORRECTION_COLOUR : 0) |
+> +			((CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +			   CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION) ?
+> +			 V4L2_CCS_SHADING_CORRECTION_LUMINANCE : 0);
+> +		const struct v4l2_ctrl_config ctrl_cfg = {
+> +			.name = "Shading Correction Capability",
+> +			.type = V4L2_CTRL_TYPE_BITMASK,
+> +			.id = V4L2_CID_CCS_SHADING_CORRECTION_CAPABILITY,
+> +			.ops = &ccs_ctrl_ops,
+> +			.max = val,
+> +			.def = val,
+> +			.flags = V4L2_CTRL_FLAG_READ_ONLY,
+> +		};
+> +
+> +		v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
+> +				     &ctrl_cfg, NULL);
+> +	}
+> +
+>  	if (CCS_LIM(sensor, DIGITAL_GAIN_CAPABILITY) ==
+>  	    CCS_DIGITAL_GAIN_CAPABILITY_GLOBAL ||
+>  	    CCS_LIM(sensor, DIGITAL_GAIN_CAPABILITY) ==
 
+
+
+Thanks,
+Mauro
