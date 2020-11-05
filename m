@@ -2,178 +2,212 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E8512A7688
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 05:40:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 248D12A770C
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 06:25:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728632AbgKEEkR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 4 Nov 2020 23:40:17 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:55975 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726626AbgKEEkR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 4 Nov 2020 23:40:17 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id aX4HkANzwNanzaX4Ikn48z; Thu, 05 Nov 2020 05:40:14 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1604551214; bh=lZJP76m6j563oFwNKIdLPnU2pXogcpq+wFdslJyunGM=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=KUMZTNS3DY7H2UZQ5SibBKqpUVqOEEcgKasUH4VpAqyFyeZFkaMS12bt5a0uwszFJ
-         Rm2HweChrQ8tqfOsEtumqwkWHW57YE0xNnqugZIAT440izYppVBHDJBm9pq8uxSbNH
-         OeCHyC2WYnY0RnmLRFjhhVQ8KTiqrEg7SnGGv3j+7P+EDQC7RMbcB8jDUKrxTHYZKE
-         VaHR+Ue2wmBWXv6Q6RFqc+gktEdPMjqsv3MluuHWdJeOygdrUaR9E3FQGoazz1fOKc
-         CQQpk59RoEhSpvsEpEJtpZukzp8iTrJdl45fj7sn3SRUqT+1F6YJeeSkxBypThjsUH
-         NP+blgmyue1Tg==
-Message-ID: <bd96db4fbfc44e7696074485370ab4f9@smtp-cloud8.xs4all.net>
-Date:   Thu, 05 Nov 2020 05:40:13 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfNYN8bAqVLpoJthMC5QE0iPF49jB2dF65XjFyB6msN3fN7qrZUta0Br6JHg9nM/y5QN/vgdkBh+/dU6h8JcL8c594U5h+iKgQaaRDmf/LYFh1zADrkDu
- y70P8AnbJ0bl5PHu7vr6j+oJYwF9qLKxA+JQHhFQwkt/ABYWk76XhtI9WpwloLePglH5fX0sHryOLlSPbKUMf/NDG0HNhFhhuX4dNK90evNLaN7yP2Os/j2N
- e0a9ootcYi2CUekhiJymjQ==
+        id S1729860AbgKEFZP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 00:25:15 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:56760 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727711AbgKEFZO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 00:25:14 -0500
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 04 Nov 2020 21:25:13 -0800
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 04 Nov 2020 21:25:11 -0800
+X-QCInternal: smtphost
+Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 05 Nov 2020 10:54:59 +0530
+Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
+        id 08AC455F9; Thu,  5 Nov 2020 10:54:57 +0530 (IST)
+From:   Dikshita Agarwal <dikshita@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
+Subject: [PATCH v2] venus: venc: fix handlig of S_SELECTION and G_SELECTION
+Date:   Thu,  5 Nov 2020 10:54:56 +0530
+Message-Id: <1604553896-10301-1-git-send-email-dikshita@codeaurora.org>
+X-Mailer: git-send-email 1.9.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+- return correct width and height for G_SELECTION
+- update capture port wxh with rectangle wxh.
+- add support for HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_INFO
+  to set stride info and chroma offset to FW.
 
-Results of the daily build of media_tree:
+Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+---
+ drivers/media/platform/qcom/venus/helpers.c    | 18 +++++++++++++
+ drivers/media/platform/qcom/venus/helpers.h    |  2 ++
+ drivers/media/platform/qcom/venus/hfi_cmds.c   | 12 +++++++++
+ drivers/media/platform/qcom/venus/hfi_helper.h |  4 +--
+ drivers/media/platform/qcom/venus/venc.c       | 36 ++++++++++++++++++--------
+ 5 files changed, 59 insertions(+), 13 deletions(-)
 
-date:			Thu Nov  5 05:00:13 CET 2020
-media-tree git hash:	dfe3d19bd092cefb184c6e65b881602c793edd33
-media_build git hash:	bb0421630712dd7c4c72808d390305cae025876d
-v4l-utils git hash:	225c6c2a17bec0e07c13ebb891e062ccef051180
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+index 2b6925b..efa2781 100644
+--- a/drivers/media/platform/qcom/venus/helpers.c
++++ b/drivers/media/platform/qcom/venus/helpers.c
+@@ -1621,3 +1621,21 @@ int venus_helper_get_out_fmts(struct venus_inst *inst, u32 v4l2_fmt,
+ 	return -EINVAL;
+ }
+ EXPORT_SYMBOL_GPL(venus_helper_get_out_fmts);
++
++int venus_helper_set_stride(struct venus_inst *inst,
++			    unsigned int width, unsigned int height)
++{
++	const u32 ptype = HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_INFO;
++
++	struct hfi_uncompressed_plane_actual_info plane_actual_info;
++
++	plane_actual_info.buffer_type = HFI_BUFFER_INPUT;
++	plane_actual_info.num_planes = 2;
++	plane_actual_info.plane_format[0].actual_stride = width;
++	plane_actual_info.plane_format[0].actual_plane_buffer_height = height;
++	plane_actual_info.plane_format[1].actual_stride = width;
++	plane_actual_info.plane_format[1].actual_plane_buffer_height = height / 2;
++
++	return hfi_session_set_property(inst, ptype, &plane_actual_info);
++}
++EXPORT_SYMBOL_GPL(venus_helper_set_stride);
+diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
+index a4a0562..f36c9f71 100644
+--- a/drivers/media/platform/qcom/venus/helpers.h
++++ b/drivers/media/platform/qcom/venus/helpers.h
+@@ -63,4 +63,6 @@ void venus_helper_get_ts_metadata(struct venus_inst *inst, u64 timestamp_us,
+ 				  struct vb2_v4l2_buffer *vbuf);
+ int venus_helper_get_profile_level(struct venus_inst *inst, u32 *profile, u32 *level);
+ int venus_helper_set_profile_level(struct venus_inst *inst, u32 profile, u32 level);
++int venus_helper_set_stride(struct venus_inst *inst, unsigned int aligned_width,
++			    unsigned int aligned_height);
+ #endif
+diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
+index 7022368..4f75658 100644
+--- a/drivers/media/platform/qcom/venus/hfi_cmds.c
++++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
+@@ -1205,6 +1205,18 @@ static int pkt_session_set_property_1x(struct hfi_session_set_property_pkt *pkt,
+ 		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*cu);
+ 		break;
+ 	}
++	case HFI_PROPERTY_PARAM_UNCOMPRESSED_PLANE_ACTUAL_INFO: {
++		struct hfi_uncompressed_plane_actual_info *in = pdata;
++		struct hfi_uncompressed_plane_actual_info *info = prop_data;
++
++		info->buffer_type = in->buffer_type;
++		info->num_planes = in->num_planes;
++		info->plane_format[0] = in->plane_format[0];
++		if (in->num_planes > 1)
++			info->plane_format[1] = in->plane_format[1];
++		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*info);
++		break;
++	}
+ 	case HFI_PROPERTY_CONFIG_VENC_MAX_BITRATE:
+ 	case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER:
+ 	case HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE:
+diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
+index 60ee247..5938a96 100644
+--- a/drivers/media/platform/qcom/venus/hfi_helper.h
++++ b/drivers/media/platform/qcom/venus/hfi_helper.h
+@@ -908,13 +908,13 @@ struct hfi_uncompressed_plane_actual {
+ struct hfi_uncompressed_plane_actual_info {
+ 	u32 buffer_type;
+ 	u32 num_planes;
+-	struct hfi_uncompressed_plane_actual plane_format[1];
++	struct hfi_uncompressed_plane_actual plane_format[2];
+ };
+ 
+ struct hfi_uncompressed_plane_actual_constraints_info {
+ 	u32 buffer_type;
+ 	u32 num_planes;
+-	struct hfi_uncompressed_plane_constraints plane_format[1];
++	struct hfi_uncompressed_plane_constraints plane_format[2];
+ };
+ 
+ struct hfi_codec_supported {
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index 4ecf78e..99bfabf 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -190,8 +190,10 @@ static int venc_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+ 	pixmp->height = clamp(pixmp->height, frame_height_min(inst),
+ 			      frame_height_max(inst));
+ 
+-	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
++	if (f->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE) {
++		pixmp->width = ALIGN(pixmp->width, 128);
+ 		pixmp->height = ALIGN(pixmp->height, 32);
++	}
+ 
+ 	pixmp->width = ALIGN(pixmp->width, 2);
+ 	pixmp->height = ALIGN(pixmp->height, 2);
+@@ -335,13 +337,13 @@ static int venc_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
+ 	switch (s->target) {
+ 	case V4L2_SEL_TGT_CROP_DEFAULT:
+ 	case V4L2_SEL_TGT_CROP_BOUNDS:
+-		s->r.width = inst->width;
+-		s->r.height = inst->height;
+-		break;
+-	case V4L2_SEL_TGT_CROP:
+ 		s->r.width = inst->out_width;
+ 		s->r.height = inst->out_height;
+ 		break;
++	case V4L2_SEL_TGT_CROP:
++		s->r.width = inst->width;
++		s->r.height = inst->height;
++		break;
+ 	default:
+ 		return -EINVAL;
+ 	}
+@@ -360,12 +362,19 @@ static int venc_g_fmt(struct file *file, void *fh, struct v4l2_format *f)
+ 	if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
+ 		return -EINVAL;
+ 
++	if (s->r.width > inst->out_width ||
++	    s->r.height > inst->out_height)
++		return -EINVAL;
++
++	s->r.width = ALIGN(s->r.width, 2);
++	s->r.height = ALIGN(s->r.height, 2);
++
+ 	switch (s->target) {
+ 	case V4L2_SEL_TGT_CROP:
+-		if (s->r.width != inst->out_width ||
+-		    s->r.height != inst->out_height ||
+-		    s->r.top != 0 || s->r.left != 0)
+-			return -EINVAL;
++		s->r.top = 0;
++		s->r.left = 0;
++		inst->width = s->r.width;
++		inst->height = s->r.height;
+ 		break;
+ 	default:
+ 		return -EINVAL;
+@@ -728,6 +737,11 @@ static int venc_init_session(struct venus_inst *inst)
+ 	if (ret)
+ 		return ret;
+ 
++	ret = venus_helper_set_stride(inst, inst->out_width,
++				      inst->out_height);
++	if (ret)
++		goto deinit;
++
+ 	ret = venus_helper_set_input_resolution(inst, inst->width,
+ 						inst->height);
+ 	if (ret)
+@@ -816,8 +830,8 @@ static int venc_queue_setup(struct vb2_queue *q,
+ 		inst->num_input_bufs = *num_buffers;
+ 
+ 		sizes[0] = venus_helper_get_framesz(inst->fmt_out->pixfmt,
+-						    inst->width,
+-						    inst->height);
++						    inst->out_width,
++						    inst->out_height);
+ 		inst->input_buf_size = sizes[0];
+ 		break;
+ 	case V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE:
+-- 
+1.9.1
 
-linux-git-powerpc64: OK
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
