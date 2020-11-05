@@ -2,87 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10FDC2A7EDB
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 13:44:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 78E822A7EE0
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 13:45:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730429AbgKEMoQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 07:44:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:46508 "EHLO mail.kernel.org"
+        id S1730044AbgKEMps (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 07:45:48 -0500
+Received: from mga02.intel.com ([134.134.136.20]:64082 "EHLO mga02.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730418AbgKEMoP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 07:44:15 -0500
-Received: from coco.lan (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EBEB820782;
-        Thu,  5 Nov 2020 12:44:13 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604580254;
-        bh=YP50ClQ5W94WexJmyMNgTYYaS0+7op1hN0UJWch/R3E=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=PljPB8IHzsvtzFmvzZMVKf/qY/ltDBV20QsROXleSiP20P9OFtuesxyVaIZbDrUxn
-         B6ByeSduoMPNaI6naN8J0vD2ldE3ELsEa2A1K10n1+xI/dSB+MUXULs8BnPQtGyNSD
-         HD0IXnrwBBEQx6gANtyoyCbOpIt7omfBvjt9KtDc=
-Date:   Thu, 5 Nov 2020 13:44:11 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 106/106] ccs: Add CCS ACPI device ID
-Message-ID: <20201105134411.69140aa7@coco.lan>
-In-Reply-To: <20201007084557.25843-97-sakari.ailus@linux.intel.com>
-References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
-        <20201007084557.25843-1-sakari.ailus@linux.intel.com>
-        <20201007084557.25843-97-sakari.ailus@linux.intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726067AbgKEMps (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 07:45:48 -0500
+IronPort-SDR: FzWvr/Rsg5P+ZzO7uHGhqFBeCY1Sa6YtZ6q4APHB3inbgAv6BEe7M8cl72neUMK7lpqeh2pzPs
+ hg6m0o6hRzVg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="156365246"
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
+   d="scan'208";a="156365246"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 04:45:47 -0800
+IronPort-SDR: yqTSIO2GTivWHZRzCY+NspmOt3C+DlopwlCwFr2MhGM4+Jli0aA1ogrTVejI/W153ev60zbWuO
+ 5dQC2j1a/29A==
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
+   d="scan'208";a="353025366"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 04:45:44 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 9522E20901; Thu,  5 Nov 2020 14:45:42 +0200 (EET)
+Date:   Thu, 5 Nov 2020 14:45:42 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
+        helen.koike@collabora.com, ezequiel@collabora.com,
+        kernel@collabora.com, dafna3@gmail.com,
+        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
+        tfiga@chromium.org
+Subject: Re: [PATCH v3 1/2] media: uapi: add MEDIA_BUS_FMT_METADATA_FIXED
+ media bus format.
+Message-ID: <20201105124542.GE26150@paasikivi.fi.intel.com>
+References: <20201030134609.30020-1-dafna.hirschfeld@collabora.com>
+ <20201030140241.GQ26150@paasikivi.fi.intel.com>
+ <5c8852f5-a803-1bd0-7798-3cca0d7ee9ea@xs4all.nl>
+ <20201104123218.GQ26150@paasikivi.fi.intel.com>
+ <573fb8b3-e4fd-9239-a407-e904ed18ff3f@xs4all.nl>
+ <20201104145456.GR26150@paasikivi.fi.intel.com>
+ <98059490-6ab1-c895-5a20-e1b14b70c624@xs4all.nl>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <98059490-6ab1-c895-5a20-e1b14b70c624@xs4all.nl>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed,  7 Oct 2020 11:45:57 +0300
-Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
-
-> The CCS compliant sensors use device ID "MIPI0200". Use this id for ACPI
-> device matching.
-
-Better to place this patch before the one dropping I2C table, as it
-helps to understand why you dropped the I2C table.
-
+On Thu, Nov 05, 2020 at 01:35:00PM +0100, Hans Verkuil wrote:
+> On 04/11/2020 15:54, Sakari Ailus wrote:
+> > Hi Hans,
+> > 
+> > On Wed, Nov 04, 2020 at 02:46:39PM +0100, Hans Verkuil wrote:
+> >> On 04/11/2020 13:32, Sakari Ailus wrote:
+> >>> Hi Hans,
+> >>>
+> >>> On Wed, Nov 04, 2020 at 01:16:03PM +0100, Hans Verkuil wrote:
+> >>>> On 30/10/2020 15:02, Sakari Ailus wrote:
+> >>>>> Hi Dafna,
+> >>>>>
+> >>>>> On Fri, Oct 30, 2020 at 02:46:08PM +0100, Dafna Hirschfeld wrote:
+> >>>>>> MEDIA_BUS_FMT_METADATA_FIXED should be used when
+> >>>>>> the same driver handles both sides of the link and
+> >>>>>> the bus format is a fixed metadata format that is
+> >>>>>> not configurable from userspace.
+> >>>>>> The width and height will be set to 0 for this format.
+> >>>>>>
+> >>>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> >>>>>> Acked-by: Helen Koike <helen.koike@collabora.com>
+> >>>>>> ---
+> >>>>>> changes since v2:
+> >>>>>> added documentation in subdev-formats.rst
+> >>>>>> changes since v1:
+> >>>>>> 1. replace "This format may have 0 height and width."
+> >>>>>> with "Width and height will be set to 0 for this format."
+> >>>>>> and add it also to the commit log
+> >>>>>> 2. s/meida:/media:/ in the patch subject line
+> >>>>>>
+> >>>>>>  .../media/v4l/subdev-formats.rst              | 27 +++++++++++++++++++
+> >>>>>>  include/uapi/linux/media-bus-format.h         |  8 ++++++
+> >>>>>>  2 files changed, 35 insertions(+)
+> >>>>>>
+> >>>>>> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> >>>>>> index c9b7bb3ca089..7f16cbe46e5c 100644
+> >>>>>> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> >>>>>> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> >>>>>> @@ -7899,3 +7899,30 @@ formats.
+> >>>>>>        - 0x5001
+> >>>>>>        - Interleaved raw UYVY and JPEG image format with embedded meta-data
+> >>>>>>  	used by Samsung S3C73MX camera sensors.
+> >>>>>> +
+> >>>>>> +.. _v4l2-mbus-metadata-fmts:
+> >>>>>> +
+> >>>>>> +Metadata Formats
+> >>>>>> +^^^^^^^^^^^^^^^^
+> >>>>>> +
+> >>>>>> +This section lists all metadata formats.
+> >>>>>> +
+> >>>>>> +The following table lists the existing metadata formats.
+> >>>>>> +
+> >>>>>> +.. tabularcolumns:: |p{8.0cm}|p{1.4cm}|p{7.7cm}|
+> >>>>>> +
+> >>>>>> +.. flat-table:: Metadata formats
+> >>>>>> +    :header-rows:  1
+> >>>>>> +    :stub-columns: 0
+> >>>>>> +
+> >>>>>> +    * - Identifier
+> >>>>>> +      - Code
+> >>>>>> +      - Comments
+> >>>>>> +    * .. _MEDIA-BUS-FMT-METADATA-FIXED:
+> >>>>>> +
+> >>>>>> +      - MEDIA_BUS_FMT_METADATA_FIXED
+> >>>>>> +      - 0x7001
+> >>>>>> +      - This format should be used when the same driver handles
+> >>>>>> +	both sides of the link and the bus format is a fixed
+> >>>>>> +	metadata format that is not configurable from userspace.
+> >>>>>> +	Width and height will be set to 0 for this format.
+> >>>>>> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+> >>>>>> index 84fa53ffb13f..2ce3d891d344 100644
+> >>>>>> --- a/include/uapi/linux/media-bus-format.h
+> >>>>>> +++ b/include/uapi/linux/media-bus-format.h
+> >>>>>> @@ -156,4 +156,12 @@
+> >>>>>>  /* HSV - next is	0x6002 */
+> >>>>>>  #define MEDIA_BUS_FMT_AHSV8888_1X32		0x6001
+> >>>>>>  
+> >>>>>> +/*
+> >>>>>> + * This format should be used when the same driver handles
+> >>>>>> + * both sides of the link and the bus format is a fixed
+> >>>>>> + * metadata format that is not configurable from userspace.
+> >>>>>> + * Width and height will be set to 0 for this format.
+> >>>>>> + */
+> >>>>>
+> >>>>> Does this mean that metadata with dimensions should not use
+> >>>>> MEDIA_BUS_FMT_METADATA_FIXED? I guess that's not the intention? For some
+> >>>>> formats the dimensions would be relevant but for others not. I'd thus
+> >>>>> replace "will" by "may". Same for the documentation.
+> >>>>
+> >>>> struct v4l2_meta_format as used with VIDIOC_G/S/TRY_FMT doesn't have
+> >>>> a width or height either. Supporting width and height for metadata
+> >>>> doesn't really make sense for me for metadata.
+> >>>>
+> >>>> Explicitly specifying the width and height here indicates that the
+> >>>> data is basically an array of width x height of some sort which makes
+> >>>> sense for video devices.
+> >>>>
+> >>>> Metadata is more complex data that cannot be represented like that.
+> >>>> If metadata is actually an array, then I'm not sure I would call it
+> >>>> metadata, I would probably see it as video with its own pixelformat
+> >>>> that contains non-video data.
+> >>>
+> >>> Let's say the metadata is laid out in a similar way than an image; you have
+> >>> lines of data, followed by some padding at the end, and a line has length
+> >>> and a buffer has a number of lines. Sensor metadata falls into this
+> >>> description.
+> >>>
+> >>> Would you then use struct v4l2_pix_format for it, and use
+> >>> V4L2_BUF_TYPE_VIDEO_CAPTURE for it?
+> >>
+> >> Yes. It's still metadata, but it has the same 'format' as video data.
+> >> We have similar situations such as with v4l-touch devices: the data
+> >> is formatted like video, but it is actually pressure values from a
+> >> touch pad. But it is 'video-like' in its behavior.
+> >>
+> >>>
+> >>> That would make a few things easier but this is still metadata, not video
+> >>> data. Albeit I guess it's not important to be so strict about that
+> >>> interface-wise, indeed this is not a bad fit for such metadata. Still some
+> >>> fields such as colourspace and quantisation are not relevant, but that
+> >>> holds also for some pixel formats.
+> >>>
+> >>
+> >> So are you OK with setting width and height to 0 for MEDIA_BUS_FMT_METADATA_*?
+> > 
+> > One more question.
+> > 
+> > What do you do if a link can carry both metadata (as in
+> > V4L2_BUF_TYPE_METADATA_CAPTURE) as well as pixel data, but with a fixed
+> > format?
+> > 
+> > I'm not sure we have any such case at the moment but it's not
+> > inconceivable.
+> > 
 > 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/ccs/ccs-core.c | 7 +++++++
->  1 file changed, 7 insertions(+)
-> 
-> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-> index 10ed3d01af16..297c5373a305 100644
-> --- a/drivers/media/i2c/ccs/ccs-core.c
-> +++ b/drivers/media/i2c/ccs/ccs-core.c
-> @@ -3604,6 +3604,12 @@ static const struct ccs_device smia_device = {
->  
->  static const struct ccs_device ccs_device = {};
->  
-> +static const struct acpi_device_id ccs_acpi_table[] = {
-> +	{ .id = "MIPI0200", .driver_data = (unsigned long)&ccs_device },
-> +	{ },
-> +};
-> +MODULE_DEVICE_TABLE(acpi, ccs_acpi_table);
-> +
->  static const struct of_device_id ccs_of_table[] = {
->  	{ .compatible = "mipi-ccs-1.1", .data = &ccs_device },
->  	{ .compatible = "mipi-ccs-1.0", .data = &ccs_device },
-> @@ -3620,6 +3626,7 @@ static const struct dev_pm_ops ccs_pm_ops = {
->  
->  static struct i2c_driver ccs_i2c_driver = {
->  	.driver	= {
-> +		.acpi_match_table = ccs_acpi_table,
->  		.of_match_table = ccs_of_table,
->  		.name = CCS_NAME,
->  		.pm = &ccs_pm_ops,
+> This should be reflected in the mediabus format. So METADATA_FIXED if it carries
+> metadata, or a video format if it carries video. Userspace could configure this
+> with VIDIOC_SUBDEV_S_FMT if it is something that userspace can actually change.
 
+Works for me.
 
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-Thanks,
-Mauro
+-- 
+Sakari Ailus
