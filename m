@@ -2,201 +2,180 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5FEBE2A7EAD
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 13:35:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ABF532A7EC1
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 13:37:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730577AbgKEMfK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 07:35:10 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:49501 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730344AbgKEMfJ (ORCPT
+        id S1730681AbgKEMgw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 07:36:52 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:54561 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728371AbgKEMgl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 07:35:09 -0500
+        Thu, 5 Nov 2020 07:36:41 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id aeTkkCup0NanzaeTnkoKTw; Thu, 05 Nov 2020 13:35:07 +0100
+        id aeVGkCvLkNanzaeVJkoKjC; Thu, 05 Nov 2020 13:36:38 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1604579707; bh=CvSxDX9wQb32LlMB7/lzKcwReuyk6sk83rE6bpZrRTg=;
+        t=1604579798; bh=P4E26n1MJrzrkJ2BRBbM1Fj1NgVEkyFGFQpgoUFh2PY=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=cue1Zrhw+WDA0Kno/d/AhCIaXxTc7ejXyUMgPtnC0AR6Lg6dWB00+c4SdYLrNWrA/
-         twVvivBK0jdkg/38zPJdzVZahmX0zFOlhJRNJ3MyYi+6icttGT005c2pNKR/kOAzKR
-         7/b9JqwWKSpKvUYZ3t2PahLgg1ATVNv1N5BYA/daAeBbTa9sMyb5dcD0k5OxGyjJj+
-         BUs076Mc3JKv6fCHrbgRhoK/kI9I+XtzywODZEhjSWBcFiQGxbi53wIgsg6oCVYZE7
-         bq/uOx2ZeC2fu7b9kP1fkjgC0mP4C5OPYRJdYEeiBqfu9yRKPrU6xRaUAp4hRq/I1d
-         OuKKsn5XgmPYw==
-Subject: Re: [PATCH v3 1/2] media: uapi: add MEDIA_BUS_FMT_METADATA_FIXED
- media bus format.
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        linux-media@vger.kernel.org, laurent.pinchart@ideasonboard.com,
-        helen.koike@collabora.com, ezequiel@collabora.com,
-        kernel@collabora.com, dafna3@gmail.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        tfiga@chromium.org
-References: <20201030134609.30020-1-dafna.hirschfeld@collabora.com>
- <20201030140241.GQ26150@paasikivi.fi.intel.com>
- <5c8852f5-a803-1bd0-7798-3cca0d7ee9ea@xs4all.nl>
- <20201104123218.GQ26150@paasikivi.fi.intel.com>
- <573fb8b3-e4fd-9239-a407-e904ed18ff3f@xs4all.nl>
- <20201104145456.GR26150@paasikivi.fi.intel.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <98059490-6ab1-c895-5a20-e1b14b70c624@xs4all.nl>
-Date:   Thu, 5 Nov 2020 13:35:00 +0100
+        b=ksi+PJfIxpSrYn9zCen1lqmNWkv8DlLrX3mYLqZST07O5M9uAzClmVwIJy30YVSXu
+         mgOzjIiKDTXPvYIgsn+BHmqeBz61BTgyI/v35swQasMeoRSM1U+WUn13DECpiifmR8
+         LekXUM8t5LCoyGsT37zbvefPY44GfSsXU/D9+2vTbeKqEFrrLmOhGSzaUJ2PxC/ots
+         5bO5bLTeAyIygt/7X583A4DJjuz+RvDOntIgOAPh2IcHv4kLI+oOMdirPHCaFti0al
+         Rp/cIocanYEYKqU/2klYJnBe0IOoueicOuvNI7GKd0+zD6fNcS6FXh9BZLq4b9F5Yl
+         fPifmIcgadedQ==
+Subject: Re: [PATCH] media: v4l2-mem2mem: always call poll_wait() on queues
+To:     Alexandre Courbot <gnurou@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+References: <20201022122421.133976-1-gnurou@gmail.com>
+ <c6454292-935b-f14a-e743-838ccabc6590@xs4all.nl>
+ <CAAVeFuKCEQYBs84ssCvwAkGUxGikeDFc+XNX2LzkENGc5B1n8g@mail.gmail.com>
+ <db7a95b0-3d63-ed38-fb8a-62f32c83c13e@xs4all.nl>
+ <CAAVeFuL8TaArTd_fOLSSE-854n9vwpob5LxdqgHNa-bTTn5Gxg@mail.gmail.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <695e6163-7bdc-d120-cd02-0cff6efb53ef@xs4all.nl>
+Date:   Thu, 5 Nov 2020 13:36:34 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201104145456.GR26150@paasikivi.fi.intel.com>
+In-Reply-To: <CAAVeFuL8TaArTd_fOLSSE-854n9vwpob5LxdqgHNa-bTTn5Gxg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfESwrLD7Q/5VLr5TD8KhPZRccYDg4FzA8PK+X+KDPqAlmw5DszWyPAJgSYZQrVAsoAlwuWl7vRXOQcR1aDILVfic+aUyhv2b4KRX4erDVJgs8af5Wds5
- N7iLPDysEGpMjucDbOZjscwipWsJdvb7D/jq7uOu3toS9enS2RJODU3+iEl1pS+AWM2d/eG+dn29OKaQ82QQHJB9anxRcktdiB5B8AOvjom7RYUi80o/XR6r
- HjEd5XlhrMJdHbTciO4Ltb9a3SFwnxJu6nD4U8rFSR21feN16pOw2P6qVAX+1DyYxG/pzcn8ICZy3XQOCvzOJnDkAvAPd2oEh6ryvwp6qahbogGjeaIo5GTi
- WhWTkHLyo5zdsyKGX234PQ6JgKGqxU/YOr0cqFRBZ0vJRN0iS+y4nf+3MO25AkPTrYTFCj3y2th/pZORMpyeE8YbV0IU0mPypX7JMaYbkyPa5gea5PwwKLFZ
- PMmsR0Jxui2tD5NIZ6zMlPkhJKD+taM5I8A3xKHD1hF61BFPRzuUj8mHUSVh5HYbwG1aedPJehSuidmn9xumNX7JEF5kb6UEQXb+Wg==
+X-CMAE-Envelope: MS4xfNcGXtHXNq/iZVASkE2z7dcJw88GClwRw+cZbTPA4ITww+IQdKxsGgvXk8ePFP7pec4E/8WllbIPQX1uK1maKD+m7vwT0n6BCsJ+zbw8s++7XpLWQeDb
+ YsUj2cnVy53NCPa+7J2JzXC6ODpeiCCh0J1qWe/ACGeLV3+f/EmEEV3P+em09NHQlKtq7OFVIJjaUrvEzSpFoY92/WT0u5nv5RD2lGyxP0gKaSaOBJ5vZpxJ
+ 2KdEDee+Xyavl3VcWmJVOsHc6V5/LhkOaCshheV/hlhE8hdYvZ0ZNSX/uvUG3gMkgyGZg4tD16LM9zDhmrdI7A==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 04/11/2020 15:54, Sakari Ailus wrote:
-> Hi Hans,
-> 
-> On Wed, Nov 04, 2020 at 02:46:39PM +0100, Hans Verkuil wrote:
->> On 04/11/2020 13:32, Sakari Ailus wrote:
+On 05/11/2020 13:21, Alexandre Courbot wrote:
+> On Tue, Nov 3, 2020 at 6:48 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>
+>> On 03/11/2020 09:51, Alexandre Courbot wrote:
 >>> Hi Hans,
 >>>
->>> On Wed, Nov 04, 2020 at 01:16:03PM +0100, Hans Verkuil wrote:
->>>> On 30/10/2020 15:02, Sakari Ailus wrote:
->>>>> Hi Dafna,
+>>> On Sat, Oct 31, 2020 at 12:09 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>>>>
+>>>> On 22/10/2020 14:24, Alexandre Courbot wrote:
+>>>>> do_poll()/do_select() seem to set the _qproc member of poll_table to
+>>>>> NULL the first time they are called on a given table, making subsequent
+>>>>> calls of poll_wait() on that table no-ops. This is a problem for mem2mem
+>>>>> which calls poll_wait() on the V4L2 queues' waitqueues only when a
+>>>>> queue-related event is requested, which may not necessarily be the case
+>>>>> during the first poll.
 >>>>>
->>>>> On Fri, Oct 30, 2020 at 02:46:08PM +0100, Dafna Hirschfeld wrote:
->>>>>> MEDIA_BUS_FMT_METADATA_FIXED should be used when
->>>>>> the same driver handles both sides of the link and
->>>>>> the bus format is a fixed metadata format that is
->>>>>> not configurable from userspace.
->>>>>> The width and height will be set to 0 for this format.
->>>>>>
->>>>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
->>>>>> Acked-by: Helen Koike <helen.koike@collabora.com>
->>>>>> ---
->>>>>> changes since v2:
->>>>>> added documentation in subdev-formats.rst
->>>>>> changes since v1:
->>>>>> 1. replace "This format may have 0 height and width."
->>>>>> with "Width and height will be set to 0 for this format."
->>>>>> and add it also to the commit log
->>>>>> 2. s/meida:/media:/ in the patch subject line
->>>>>>
->>>>>>  .../media/v4l/subdev-formats.rst              | 27 +++++++++++++++++++
->>>>>>  include/uapi/linux/media-bus-format.h         |  8 ++++++
->>>>>>  2 files changed, 35 insertions(+)
->>>>>>
->>>>>> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
->>>>>> index c9b7bb3ca089..7f16cbe46e5c 100644
->>>>>> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
->>>>>> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
->>>>>> @@ -7899,3 +7899,30 @@ formats.
->>>>>>        - 0x5001
->>>>>>        - Interleaved raw UYVY and JPEG image format with embedded meta-data
->>>>>>  	used by Samsung S3C73MX camera sensors.
->>>>>> +
->>>>>> +.. _v4l2-mbus-metadata-fmts:
->>>>>> +
->>>>>> +Metadata Formats
->>>>>> +^^^^^^^^^^^^^^^^
->>>>>> +
->>>>>> +This section lists all metadata formats.
->>>>>> +
->>>>>> +The following table lists the existing metadata formats.
->>>>>> +
->>>>>> +.. tabularcolumns:: |p{8.0cm}|p{1.4cm}|p{7.7cm}|
->>>>>> +
->>>>>> +.. flat-table:: Metadata formats
->>>>>> +    :header-rows:  1
->>>>>> +    :stub-columns: 0
->>>>>> +
->>>>>> +    * - Identifier
->>>>>> +      - Code
->>>>>> +      - Comments
->>>>>> +    * .. _MEDIA-BUS-FMT-METADATA-FIXED:
->>>>>> +
->>>>>> +      - MEDIA_BUS_FMT_METADATA_FIXED
->>>>>> +      - 0x7001
->>>>>> +      - This format should be used when the same driver handles
->>>>>> +	both sides of the link and the bus format is a fixed
->>>>>> +	metadata format that is not configurable from userspace.
->>>>>> +	Width and height will be set to 0 for this format.
->>>>>> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
->>>>>> index 84fa53ffb13f..2ce3d891d344 100644
->>>>>> --- a/include/uapi/linux/media-bus-format.h
->>>>>> +++ b/include/uapi/linux/media-bus-format.h
->>>>>> @@ -156,4 +156,12 @@
->>>>>>  /* HSV - next is	0x6002 */
->>>>>>  #define MEDIA_BUS_FMT_AHSV8888_1X32		0x6001
->>>>>>  
->>>>>> +/*
->>>>>> + * This format should be used when the same driver handles
->>>>>> + * both sides of the link and the bus format is a fixed
->>>>>> + * metadata format that is not configurable from userspace.
->>>>>> + * Width and height will be set to 0 for this format.
->>>>>> + */
+>>>>> For instance, a stateful decoder is typically only interested in
+>>>>> EPOLLPRI events when it starts, and will switch to listening to both
+>>>>> EPOLLPRI and EPOLLIN after receiving the initial resolution change event
+>>>>> and configuring the CAPTURE queue. However by the time that switch
+>>>>> happens and v4l2_m2m_poll_for_data() is called for the first time,
+>>>>> poll_wait() has become a no-op and the V4L2 queues waitqueues thus
+>>>>> cannot be registered.
 >>>>>
->>>>> Does this mean that metadata with dimensions should not use
->>>>> MEDIA_BUS_FMT_METADATA_FIXED? I guess that's not the intention? For some
->>>>> formats the dimensions would be relevant but for others not. I'd thus
->>>>> replace "will" by "may". Same for the documentation.
+>>>>> Fix this by moving the registration to v4l2_m2m_poll() and do it whether
+>>>>> or not one of the queue-related events are requested.
 >>>>
->>>> struct v4l2_meta_format as used with VIDIOC_G/S/TRY_FMT doesn't have
->>>> a width or height either. Supporting width and height for metadata
->>>> doesn't really make sense for me for metadata.
+>>>> This looks good, but would it be possible to add a test for this to
+>>>> v4l2-compliance? (Look for POLL_MODE_EPOLL in v4l2-test-buffers.cpp)
 >>>>
->>>> Explicitly specifying the width and height here indicates that the
->>>> data is basically an array of width x height of some sort which makes
->>>> sense for video devices.
+>>>> If I understand this right, calling EPOLL_CTL_ADD for EPOLLPRI, then
+>>>> calling EPOLL_CTL_ADD for EPOLLIN/OUT would trigger this? Or does there
+>>>> have to be an epoll_wait call in between?
+>>>
+>>> Even without an epoll_wait() in between the behavior is visible.
+>>> v4l2_m2m_poll() will be called once during the initial EPOLL_CTL_ADD
+>>> and this will trigger the bug.
+>>>
+>>>> Another reason for adding this test is that I wonder if regular capture
+>>>> or output V4L2 devices don't have the same issue.
 >>>>
->>>> Metadata is more complex data that cannot be represented like that.
->>>> If metadata is actually an array, then I'm not sure I would call it
->>>> metadata, I would probably see it as video with its own pixelformat
->>>> that contains non-video data.
+>>>> It's a very subtle bug and so adding a test for this to v4l2-compliance
+>>>> would be very useful.
 >>>
->>> Let's say the metadata is laid out in a similar way than an image; you have
->>> lines of data, followed by some padding at the end, and a line has length
->>> and a buffer has a number of lines. Sensor metadata falls into this
->>> description.
+>>> I fully agree, this is very counter-intuitive since what basically
+>>> happens is that the kernel's poll_wait() function becomes a no-op
+>>> after the poll() hook of a driver is called for the first time. There
+>>> is no way one can expect this behavior just from browsing the code so
+>>> this is likely to affect other drivers.
 >>>
->>> Would you then use struct v4l2_pix_format for it, and use
->>> V4L2_BUF_TYPE_VIDEO_CAPTURE for it?
+>>> As for the test itself, we can easily reproduce the conditions for
+>>> failure in v4l2-test-buffers.cpp's captureBufs() function, but doing
+>>> so will make the streaming tests fail without being specific about the
+>>> cause. Or maybe we should add another pollmode to specifically test
+>>> epoll in this setup? Can I get your thoughts?
 >>
->> Yes. It's still metadata, but it has the same 'format' as video data.
->> We have similar situations such as with v4l-touch devices: the data
->> is formatted like video, but it is actually pressure values from a
->> touch pad. But it is 'video-like' in its behavior.
+>> No, just keep it as part of the poll test. Just add comments at the place
+>> where it fails describing this error.
 >>
->>>
->>> That would make a few things easier but this is still metadata, not video
->>> data. Albeit I guess it's not important to be so strict about that
->>> interface-wise, indeed this is not a bad fit for such metadata. Still some
->>> fields such as colourspace and quantisation are not relevant, but that
->>> holds also for some pixel formats.
->>>
+>> After all, it *is* a poll() bug, so it is only fair that it is tested as
+>> part of the epoll test.
 >>
->> So are you OK with setting width and height to 0 for MEDIA_BUS_FMT_METADATA_*?
+>> Can you call EPOLL_CTL_ADD with ev.events set to 0? And then call it again
+>> with the actual value that you need? If that triggers this issue as well,
+>> then that is a nice test (but perhaps EPOLL_CTL_ADD won't call poll() if
+>> ev.events is 0, but perhaps EPOLLERR would work instead of 0).
 > 
-> One more question.
-> 
-> What do you do if a link can carry both metadata (as in
-> V4L2_BUF_TYPE_METADATA_CAPTURE) as well as pixel data, but with a fixed
-> format?
-> 
-> I'm not sure we have any such case at the moment but it's not
-> inconceivable.
-> 
+> Yup, actually the following is enough to make v4l2-compliance -s fail
+> with vicodec:
 
-This should be reflected in the mediabus format. So METADATA_FIXED if it carries
-metadata, or a video format if it carries video. Userspace could configure this
-with VIDIOC_SUBDEV_S_FMT if it is something that userspace can actually change.
+Does it also fail with vivid? I am curious to know whether this issue is
+m2m specific or a more general problem.
 
 Regards,
 
 	Hans
+
+> 
+> diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> index 8000db23..b63326cd 100644
+> --- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> +++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+> @@ -903,6 +903,10 @@ static int captureBufs(struct node *node, struct
+> node *node_m2m_cap, const cv4l_
+>                 epollfd = epoll_create1(0);
+> 
+>                 fail_on_test(epollfd < 0);
+> +
+> +               ev.events = 0;
+> +               fail_on_test(epoll_ctl(epollfd, EPOLL_CTL_ADD,
+> node->g_fd(), &ev));
+> +
+>                 if (node->is_m2m)
+>                         ev.events = EPOLLIN | EPOLLOUT | EPOLLPRI;
+>                 else if (v4l_type_is_output(q.g_type()))
+> @@ -910,7 +914,7 @@ static int captureBufs(struct node *node, struct
+> node *node_m2m_cap, const cv4l_
+>                 else
+>                         ev.events = EPOLLIN;
+>                 ev.data.fd = node->g_fd();
+> -               fail_on_test(epoll_ctl(epollfd, EPOLL_CTL_ADD,
+> node->g_fd(), &ev));
+> +               fail_on_test(epoll_ctl(epollfd, EPOLL_CTL_MOD,
+> node->g_fd(), &ev));
+>         }
+> 
+>         if (pollmode)
+> 
+>>
+>> The epoll_wait() will fail when this issue hits, so that's a good place
+>> to add comments explaining this problem.
+>>
+>> There is one other place where this needs to be tested: testEvents() in
+>> v4l2-test-controls.cpp: currently this only tests select(), but there
+>> should be a second epoll test here as well that just tests EPOLLPRI.
+>>
+>> This would catch drivers that do not stream (i.e. no EPOLLIN/OUT) but
+>> that do have controls (so support EPOLLPRI).
+> 
+> I'll take a look there as well, and think about a proper comment
+> before sending a patch towards you.
+> 
+> Cheers,
+> Alex.
+> 
+
