@@ -2,254 +2,117 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F5092A79A0
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 09:49:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E0512A79F9
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 10:04:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727731AbgKEItN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 03:49:13 -0500
-Received: from mga04.intel.com ([192.55.52.120]:43169 "EHLO mga04.intel.com"
+        id S1726787AbgKEJEl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 04:04:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48792 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725827AbgKEItM (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 03:49:12 -0500
-IronPort-SDR: Xa6pS323LmCgAdAN1Hgb++UA1jc+OAHjpVrztGfQDe75iE6MCvNHaTsq7QpwaAh2zfsTB96qXL
- v5nihRkUXQww==
-X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="166759811"
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
-   d="scan'208";a="166759811"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 00:49:02 -0800
-IronPort-SDR: zeDz80cwtr5wzyggCKqBu7UeVVw/aWKtbcnIb0FCNl5tR3p10c5Kkq2Q0/T0mSONCICPYxYFiX
- Syy2fs2GyH9Q==
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
-   d="scan'208";a="539303094"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 00:48:57 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 864AA20901; Thu,  5 Nov 2020 10:48:55 +0200 (EET)
-Date:   Thu, 5 Nov 2020 10:48:55 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>,
-        Yong Deng <yong.deng@magewell.com>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com
-Subject: Re: [PATCH 11/14] dt-bindings: media: i2c: Add A83T MIPI CSI-2
- bindings documentation
-Message-ID: <20201105084855.GA26150@paasikivi.fi.intel.com>
-References: <20201023174546.504028-1-paul.kocialkowski@bootlin.com>
- <20201023174546.504028-12-paul.kocialkowski@bootlin.com>
+        id S1725827AbgKEJEk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 04:04:40 -0500
+Received: from coco.lan (unknown [95.90.213.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id BB096206FB;
+        Thu,  5 Nov 2020 09:04:38 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604567079;
+        bh=o1BOKc8oc8Zf6jNWwb3C5sMendnBzwpP/u0Myph/PAU=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=p6cbUcXTw2/2TyV9T3Zck5T7vNPW2MIFs8ZHHtmDc4AkcOmSvvmxwvXv0EjG/UTDV
+         bL3X94Qv/aeAGgyF3gzrJsVVRlLPEbxIPbC5pCYChZXiBAQYChrA5THdTetBeDn0Lf
+         npzRu3BT23KvHJzAKXl3tjsdkD5XkoOszl6eLXZw=
+Date:   Thu, 5 Nov 2020 10:04:36 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 001/106] smiapp: Generate CCS register definitions
+ and limits
+Message-ID: <20201105100436.67300628@coco.lan>
+In-Reply-To: <20201105080105.GU26150@paasikivi.fi.intel.com>
+References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
+        <20201007084557.25843-1-sakari.ailus@linux.intel.com>
+        <20201105081950.43f0613f@coco.lan>
+        <20201105080105.GU26150@paasikivi.fi.intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201023174546.504028-12-paul.kocialkowski@bootlin.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Em Thu, 5 Nov 2020 10:01:05 +0200
+Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
 
-On Fri, Oct 23, 2020 at 07:45:43PM +0200, Paul Kocialkowski wrote:
-> This introduces YAML bindings documentation for the A83T MIPI CSI-2
-> controller.
+> Hi Mauro,
 > 
-> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> ---
->  .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 158 ++++++++++++++++++
->  1 file changed, 158 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+> Thank you for the review.
 > 
-> diff --git a/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
-> new file mode 100644
-> index 000000000000..2384ae4e7be0
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
-> @@ -0,0 +1,158 @@
-> +# SPDX-License-Identifier: GPL-2.0
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/allwinner,sun8i-a83t-mipi-csi2.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Allwinner A83T MIPI CSI-2 Device Tree Bindings
-> +
-> +maintainers:
-> +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> +
-> +properties:
-> +  compatible:
-> +    const: allwinner,sun8i-a83t-mipi-csi2
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  interrupts:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    items:
-> +      - description: Bus Clock
-> +      - description: Module Clock
-> +      - description: MIPI-specific Clock
-> +      - description: Misc CSI Clock
-> +
-> +  clock-names:
-> +    items:
-> +      - const: bus
-> +      - const: mod
-> +      - const: mipi
-> +      - const: misc
-> +
-> +  resets:
-> +    maxItems: 1
-> +
-> +  # See ./video-interfaces.txt for details
-> +  ports:
-> +    type: object
-> +
-> +    properties:
-> +      port@0:
-> +        type: object
-> +        description: Input port, connect to a MIPI CSI-2 sensor
-> +
-> +        properties:
-> +          reg:
-> +            const: 0
-> +
-> +          endpoint:
-> +            type: object
-> +
-> +            properties:
-> +              remote-endpoint: true
-> +
-> +              bus-type:
-> +                const: 4
+> On Thu, Nov 05, 2020 at 08:19:50AM +0100, Mauro Carvalho Chehab wrote:
+> > Hi,
+> > 
+> > Em Wed,  7 Oct 2020 11:44:21 +0300
+> > Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+> >   
+> > > Add register definitions of the MIPI CCS 1.1 standard.
+> > > 
+> > > The CCS driver makes extended use of device's capability registers that
+> > > are dependent on CCS version. This involves having an in-memory data
+> > > structure for limit and capability information, creating that data
+> > > structure and accessing it.
+> > > 
+> > > The register definitions as well as the definitions of this data structure
+> > > are generated from a text file using a Perl script. Do the generation here
+> > > and so avoid making manual, error-prone changes to the several generated
+> > > files.  
+> > 
+> > I understand the reason behind using a perl script to parse some
+> > text file in order to generate register's definition files,
+> > but I can't see what's the sense of storing the perl script and
+> > such texts together with the Kernel building system, re-generating them
+> > every time.
+> > 
+> > I mean: register definitions is something that it is supposed to be
+> > stable, and nothing something that will change on every Kernel
+> > compilation.
+> > 
+> > How often are you expecting changes at ccs-regs.txt?  
+> 
+> When there's a new version of the standard, or a bug is found. At least. So
+> not very often.
 
-Again, if this is D-PHY only, you can remove this.
+So, it should likely take a couple of years before any changes on it.
 
-> +
-> +              clock-lanes:
-> +                maxItems: 1
-> +
-> +              data-lanes:
-> +                minItems: 1
-> +                maxItems: 4
+> After pushing the set to a branch in my linuxtv.org tree, I also noticed
+> that some architectures are built by kbuild bot without Perl interpreter
+> being present.
 
-Does the device support lane reordering? If not, you can remove
-clock-lanes.
+Well, kbuild bot is doing the wrong thing here: it means that it is not
+testing documentation - as building it requires perl ;-)
 
-> +
-> +            required:
-> +              - bus-type
-> +              - data-lanes
-> +              - remote-endpoint
-> +
-> +            additionalProperties: false
-> +
-> +        required:
-> +          - endpoint
-> +
-> +        additionalProperties: false
-> +
-> +      port@1:
-> +        type: object
-> +        description: Output port, connect to a CSI controller
-> +
-> +        properties:
-> +          reg:
-> +            const: 1
-> +
-> +          endpoint:
-> +            type: object
-> +
-> +            properties:
-> +              remote-endpoint: true
-> +
-> +              bus-type:
-> +                const: 4
+> This suggests that Perl is not currently universally
+> required for building the kernel albeit there seems to be some PowerPC
+> hardware (?) related driver needing it to be built.
 
-Is it a MIPI CSI-2 D-PHY -> MIPI CSI-2 D-PHY device? I call that "cable".
-:-)
+I doubt that Perl is a requirement for building the Kernel itself.
 
-> +
-> +            additionalProperties: false
-> +
-> +        required:
-> +          - endpoint
-> +
-> +        additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - interrupts
-> +  - clocks
-> +  - clock-names
-> +  - resets
-> +
-> +additionalProperties: false
-> +
-> +examples:
-> +  - |
-> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
-> +    #include <dt-bindings/clock/sun8i-a83t-ccu.h>
-> +    #include <dt-bindings/reset/sun8i-a83t-ccu.h>
-> +
-> +    mipi_csi2: mipi-csi2@1cb1000 {
-> +        compatible = "allwinner,sun8i-a83t-mipi-csi2";
-> +        reg = <0x01cb1000 0x1000>;
-> +        interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
-> +        clocks = <&ccu CLK_BUS_CSI>,
-> +                 <&ccu CLK_CSI_SCLK>,
-> +                 <&ccu CLK_MIPI_CSI>,
-> +                 <&ccu CLK_CSI_MISC>;
-> +        clock-names = "bus", "mod", "mipi", "misc";
-> +        resets = <&ccu RST_BUS_CSI>;
-> +
-> +        ports {
-> +            #address-cells = <1>;
-> +            #size-cells = <0>;
-> +
-> +            mipi_csi2_in: port@0 {
-> +                reg = <0>;
-> +
-> +                mipi_csi2_in_ov8865: endpoint {
-> +                    bus-type = <4>; /* MIPI CSI-2 D-PHY */
-> +                    clock-lanes = <0>;
-> +                    data-lanes = <1 2 3 4>;
-> +
-> +                    remote-endpoint = <&ov8865_out_mipi_csi2>;
-> +                };
-> +            };
-> +
-> +            mipi_csi2_out: port@1 {
-> +                reg = <1>;
-> +
-> +                mipi_csi2_out_csi: endpoint {
-> +                    bus-type = <4>; /* MIPI CSI-2 D-PHY */
-> +                    remote-endpoint = <&csi_in_mipi_csi2>;
-> +                };
-> +            };
-> +        };
-> +    };
-> +
-> +...
+Adding such requirement could cause troubles on some embedded distros,
+like Yocto, OpenWrt, etc, whose have a distinct toolchain that needs
+to be compiled on some early step.
 
--- 
-Regards,
+If this were something that would require dynamic changes on every
+single compilation, it would make sense to add such extra dependency,
+but this is not the case here.
 
-Sakari Ailus
+> I was thinking of putting the files produced by the script into a new patch
+> and leaving the script and the text file in the directory. The files would
+> be rebuilt when a specific environment variable is set. This would in line
+> with what crypto drivers are doing.
+
+I would, instead, place the script and instructions about how to use
+it inside Documentation/driver-api/media.
+
+Thanks,
+Mauro
