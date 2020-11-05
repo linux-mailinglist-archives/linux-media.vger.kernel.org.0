@@ -2,166 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3721D2A83EF
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 17:49:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 386B42A846C
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 18:06:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729980AbgKEQsr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 11:48:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38270 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726557AbgKEQsq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 11:48:46 -0500
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03731C0613CF;
-        Thu,  5 Nov 2020 08:48:45 -0800 (PST)
-Received: by mail-ed1-x541.google.com with SMTP id e18so2250479edy.6;
-        Thu, 05 Nov 2020 08:48:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=yX39kTh1HHCiE7a4ozj9S+V+l033SuDnzUBvvzJ5DSA=;
-        b=qh8F9+Bv/qy6tDCwwb+PEaXxyVWA7Xq2gVdU1smCegVmFklmD+gxgnUaRGmQ0LODVr
-         qkTIu7Wtw41lEWjrAiDZJwMwW3H9dXGEvkrVKsnpztVYnkSDHtmSN7nCOa5Xw7DuDU76
-         kYrut4EaLB+TcqA3ukK1Ait/cG9RFUoNe6j6/G2K8guZNGpQj8n5HmE101VfTFgB8Ul+
-         VOlhsdytM53K874JOG4FmneJAL+sErho7nMYAd9Bv8sODNEjbZaTGXHFAzyJM9+Pp7nV
-         ASFaFZjPP3wvQ7VXrcinAw3Cjt3oqvQrhBpl0hphQVGfL0c29ZboNG8h+EuZHVy5fPqp
-         1AIw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=yX39kTh1HHCiE7a4ozj9S+V+l033SuDnzUBvvzJ5DSA=;
-        b=MIjE74AJ96krtpZeblAHxxsmSF6+EE3vJmxUTVYIYVg2Zsf/YG7K0YlwgQ3aYl2nqU
-         mctUHA5a3XhkbZaIrksUBqkL/ugHeuI5oS0Gr+pRiCQ0SuCOeysUbExkJ+Gw67BUNr7G
-         bhXcrY1M+VM6PEubuAaEmRlyJvdH8yqITHZF+zfjv6kWc2gfu3LtvgUIT+76NjokGBDo
-         Jy/56S4fWfz4q7/2TE958Mg9cy5LKDgjhsUpIRA2qpVyIEHPJUnKeIUTPVcyeegkBkfa
-         gjr0CGPNl4MjW8NC8dhubZlCyfXS0f8ohYBb9M5nLzMw+RIm8fFRVKTf4ztNZrDEw7/h
-         gLQA==
-X-Gm-Message-State: AOAM532cxg0wcopPeWWqL3Olj/ge0SOgXRb6t84VGZebFKi754+B4sW1
-        VJpMkHFHf7Hm2t00ljg/fCo=
-X-Google-Smtp-Source: ABdhPJyiERgZeAUS31dkT4tl4RNTxwY6ZlLP3JkbXUfS5vHH5jSTMFA1rjwEXqQlBo5vKebs0Q+I/g==
-X-Received: by 2002:a50:e041:: with SMTP id g1mr3548640edl.385.1604594923722;
-        Thu, 05 Nov 2020 08:48:43 -0800 (PST)
-Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id s20sm1222145edw.26.2020.11.05.08.48.42
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2020 08:48:42 -0800 (PST)
-Date:   Thu, 5 Nov 2020 17:48:41 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     linux-kernel@vger.kernel.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        amd-gfx@lists.freedesktop.org, Andrzej Hajda <a.hajda@samsung.com>,
-        Christian Koenig <christian.koenig@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        David Francis <David.Francis@amd.com>,
-        dri-devel@lists.freedesktop.org,
-        Fabio Estevam <festevam@gmail.com>,
-        Gareth Hughes <gareth@valinux.com>,
-        Huang Rui <ray.huang@amd.com>, Jason Yan <yanaijie@huawei.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jingoo Han <jg1.han@samsung.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linaro-mm-sig@lists.linaro.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
-        Lyude Paul <lyude@redhat.com>,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Nirmoy Das <nirmoy.aiemd@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rob Clark <rob.clark@linaro.org>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 00/19] [Set 1] Rid W=1 warnings from GPU
-Message-ID: <20201105164841.GH485884@ulmo>
-References: <20201105144517.1826692-1-lee.jones@linaro.org>
+        id S1731604AbgKERG3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 12:06:29 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55560 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725862AbgKERG2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 12:06:28 -0500
+Received: from coco.lan (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 28A1E20756;
+        Thu,  5 Nov 2020 17:06:26 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604595987;
+        bh=+n+w/1hHZGrKSZYjmbc1DjktrNb4ft0D6QRN4d1Z6LQ=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=fZR//xCEJJ0QKz3dcqM3sdzUciLiqfXyAj6SqP2tD88qQ0C3i2kwn9WzLeE8Nw0Zx
+         Z2x9IImICGx146D78B3mKyGFtmt+vAyRLv8+6+ida80bwUFaqCRt1xXVIPzfcBA4CA
+         J2Jfw2soUA8RKNrTRWjs4qUJLYq/IkbHPB9YNuuY=
+Date:   Thu, 5 Nov 2020 18:06:23 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Subject: Re: [GIT PULL FOR v5.11] v2: Various fixes
+Message-ID: <20201105180623.48b135d0@coco.lan>
+In-Reply-To: <f3b8e5e2-5f0e-fb6f-e5b2-7f44f7e365e7@xs4all.nl>
+References: <f3b8e5e2-5f0e-fb6f-e5b2-7f44f7e365e7@xs4all.nl>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="fd5uyaI9j6xoeUBo"
-Content-Disposition: inline
-In-Reply-To: <20201105144517.1826692-1-lee.jones@linaro.org>
-User-Agent: Mutt/1.14.7 (2020-08-29)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Em Thu, 5 Nov 2020 14:50:00 +0100
+Hans Verkuil <hverkuil@xs4all.nl> escreveu:
 
---fd5uyaI9j6xoeUBo
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+> Supersedes https://patchwork.linuxtv.org/project/linux-media/patch/01dbfda7-c126-8b8b-4af5-2cc767b34e19@xs4all.nl/
+> 
+> The only change is that two patches from Jernej were added.
+> 
+> Regards,
+> 
+> 	Hans
+> 
+> The following changes since commit dfe3d19bd092cefb184c6e65b881602c793edd33:
+> 
+>   Merge tag 'v5.10-rc1' into patchwork (2020-10-29 09:03:21 +0100)
+> 
+> are available in the Git repository at:
+> 
+>   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.11e
+> 
+> for you to fetch changes up to 451afd8c2a0a889105c27f16a38a8897086532f3:
+> 
+>   media: cedrus: Add support for R40 (2020-11-05 14:44:59 +0100)
+> 
+> ----------------------------------------------------------------
+> Tag branch
+> 
+> ----------------------------------------------------------------
+> Dafna Hirschfeld (2):
+>       media: uapi: add MEDIA_BUS_FMT_METADATA_FIXED media bus format.
+>       media: staging: rkisp1: isp: set metadata pads to MEDIA_BUS_FMT_METADATA_FIXED
+> 
+> Evgeny Novikov (1):
+>       media: isif: reset global state
+> 
+> Ezequiel Garcia (2):
+>       coda: coda_buffer_meta housekeeping fix
+>       coda: Add a V4L2 user for control error macroblocks count
+> 
+> Hsin-Yi Wang (1):
+>       media: mtk-vcodec: remove allocated dma_parms
+> 
+> Jernej Skrabec (2):
+>       dt-bindings: media: allwinner,sun4i-a10-video-engine: Add R40 compatible
+>       media: cedrus: Add support for R40
+> 
+> Liu Shixin (1):
+>       media: media/pci: simplify the return expression of verify_window_lock
+> 
+> Yu Kuai (6):
+>       media: platform: add missing put_device() call in mtk_jpeg_clk_init()
+>       media: platform: add missing put_device() call in mtk_jpeg_probe() and mtk_jpeg_remove()
+>       media: mtk-vcodec: add missing put_device() call in mtk_vcodec_init_dec_pm()
+>       media: mtk-vcodec: add missing put_device() call in mtk_vcodec_release_dec_pm()
+>       media: mtk-vcodec: add missing put_device() call in mtk_vcodec_init_enc_pm()
+>       media: mtk-vcodec: add missing put_device() call in mtk_vcodec_release_enc_pm()
+> 
+> Zhang Qilong (2):
+>       media: staging: rkisp1: cap: fix runtime PM imbalance on error
+>       media: cedrus: fix reference leak in cedrus_start_streaming
 
-On Thu, Nov 05, 2020 at 02:44:58PM +0000, Lee Jones wrote:
-> This set is part of a larger effort attempting to clean-up W=3D1
-> kernel builds, which are currently overwhelmingly riddled with
-> niggly little warnings.
->=20
-> There are 5000 warnings to work through.
->=20
-> It will take a couple more sets.
->=20
-> Lee Jones (19):
->   gpu: host1x: bus: Add missing description for 'driver'
->   gpu: ipu-v3: ipu-di: Strip out 2 unused 'di_sync_config' entries
->   gpu: drm: imx: ipuv3-plane: Mark 'crtc_state' as __always_unused
->   gpu: drm: omapdrm: omap_irq: Fix a couple of doc-rot issues
->   gpu: drm: selftests: test-drm_mm: Mark 'hole_end' as always_unused
->   gpu: drm: scheduler: sched_main: Provide missing description for
->     'sched' paramter
->   gpu: drm: scheduler: sched_entity: Demote non-conformant kernel-doc
->     headers
->   gpu: drm: omapdrm: dss: dsi: Rework and remove a few unused variables
->   gpu: drm: selftests: test-drm_framebuffer: Remove set but unused
->     variable 'fb'
->   gpu: drm: ttm: ttm_bo: Fix one function header - demote lots of
->     kernel-doc abuses
->   gpu: drm: panel: panel-simple: Fix 'struct panel_desc's header
->   gpu: drm: bridge: analogix: analogix_dp_reg: Remove unused function
->     'analogix_dp_write_byte_to_dpcd'
->   gpu: drm: ttm: ttm_tt: Demote kernel-doc header format abuses
->   gpu: drm: selftests: test-drm_dp_mst_helper: Place 'struct
->     drm_dp_sideband_msg_req_body' onto the heap
->   gpu: drm: radeon: radeon_drv: Remove unused variable 'ret'
->   gpu: drm: panel: panel-ilitek-ili9322: Demote non-conformant
->     kernel-doc header
->   gpu: drm: radeon: radeon_device: Fix a bunch of kernel-doc
->     misdemeanours
->   gpu: drm: amd: amdgpu: amdgpu: Mark global variables as __maybe_unused
->   gpu: drm: bridge: analogix: analogix_dp_reg: Remove unused function
->     'analogix_dp_start_aux_transaction'
+A few patches on this sereis didn't apply:
 
-As commented on the other patches, the subject prefixes on most of these
-look wrong, but it's generally a nice cleanup.
+	0010-0017-media-platform-add-missing-put_device-call-in-mtk_jp.patch
+	0012-0017-media-mtk-vcodec-add-missing-put_device-call-in-mtk_.patch
+	0013-0017-media-mtk-vcodec-add-missing-put_device-call-in-mtk_.patch
+	0014-0017-media-mtk-vcodec-add-missing-put_device-call-in-mtk_.patch
+	0015-0017-media-mtk-vcodec-add-missing-put_device-call-in-mtk_.patch
 
-Thanks!
-Thierry
+I suspect that those were merged via some other tree.
 
---fd5uyaI9j6xoeUBo
-Content-Type: application/pgp-signature; name="signature.asc"
 
------BEGIN PGP SIGNATURE-----
+> 
+>  .../devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml  |  1 +
+>  Documentation/userspace-api/media/v4l/subdev-formats.rst             | 27 +++++++++++++++++
+>  drivers/media/pci/bt8xx/bttv-driver.c                                | 12 +++-----
+>  drivers/media/platform/coda/coda-bit.c                               | 52 +++++++++++++++++++++++++++-----
+>  drivers/media/platform/coda/coda-common.c                            | 18 +++++++++++
+>  drivers/media/platform/coda/coda.h                                   | 11 +++++++
+>  drivers/media/platform/davinci/isif.c                                | 11 +++++--
+>  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c                      |  9 ++++++
+>  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c               |  9 +-----
+>  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c                | 19 ++++++++----
+>  drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c               |  9 +-----
+>  drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c                | 28 ++++++++++++-----
+>  drivers/staging/media/rkisp1/TODO                                    |  1 -
+>  drivers/staging/media/rkisp1/rkisp1-capture.c                        |  1 +
+>  drivers/staging/media/rkisp1/rkisp1-isp.c                            |  8 ++---
+>  drivers/staging/media/sunxi/cedrus/cedrus.c                          |  9 ++++++
+>  drivers/staging/media/sunxi/cedrus/cedrus_video.c                    |  4 ++-
+>  include/uapi/linux/media-bus-format.h                                |  8 +++++
+>  include/uapi/linux/v4l2-controls.h                                   |  6 ++++
+>  19 files changed, 191 insertions(+), 52 deletions(-)
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+kLOkACgkQ3SOs138+
-s6HE2A/+PdAvZ2+F78DJkdsaNjJu085jUQleXGtXuqh1lQ+yUWWTHYiXOdmLAaru
-GaEmINYkOF2LvdLY5vIwyX+TY2lp9PYd0oo4UHBKei3IrhrHzGM+f1mHxvDfp2fF
-ENihVfG/CNzk1RUnCensuwsBl/NHC/yepie9ykDBthaD5cfAaMpcFxw+KIHErtBh
-I0T8UHO2bbqaU8Oz3r0My3Owk4H/1sNgZ7GBvqKQeWveHpz2FenHke0ZI6tXre2J
-zj1vtgcRPNl6cE3aBxlSd8uIhdjAjGK/iShwI1N868ESy4w4ahGOMdX4i+BRlRL4
-bObmEnqqPIl7n7NxvBvCBZFJQ19RMtkhcAtBT/IbYSiEN4AOS/TFq9iGxXefgNbU
-I3BfMXl4aFQMhIDYHxG97bSr4Njec7KZf1cfTPRaCpcluulvb2geKvwDdDrhtKZW
-LQQjv0hq4l9EDHGMOq5QdyIL9ay13S+ctmBzUN/b5N4YdSyDw9Ixt141zH9Eygdm
-L+BzflS3sGx9roS0adeanIYgqMLV558yzqnC+pg9yaaR/AtaredjWs9+hnpT3XVC
-JltHngRXupmBTRe4i0+YGYrlHFFWTtR+TuWOH4tSHUl5oL5/DL9yjtGLvlB6lNbC
-ohT4UGDQZ8lITaiToRQyBOAh54Zc485krb7QAPVT0HOfLPenxF8=
-=euSt
------END PGP SIGNATURE-----
 
---fd5uyaI9j6xoeUBo--
+
+Thanks,
+Mauro
