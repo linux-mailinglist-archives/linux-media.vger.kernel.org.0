@@ -2,112 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AEF72A7EF4
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 13:50:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 19BB22A7EFB
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 13:50:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730461AbgKEMtx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 07:49:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57008 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726777AbgKEMtw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 07:49:52 -0500
-Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33724C0613D3
-        for <linux-media@vger.kernel.org>; Thu,  5 Nov 2020 04:49:52 -0800 (PST)
-Received: by mail-qt1-x844.google.com with SMTP id c5so941177qtw.3
-        for <linux-media@vger.kernel.org>; Thu, 05 Nov 2020 04:49:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ziepe.ca; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=c/75nGkQrQ26C3oLWTOAYAjfB1zI6lLeh7OxDvBkYU4=;
-        b=ey9/JXPqLzTLqSC0JUXYcVxUXf6bgAVzYD4I4rO+pMYwL+MZhAaGFEUE/+P8Locz8v
-         LJ+RhibI0qf9gLCV/mRJ83hORIvqSMnJCg5JZJzCh+xHF7VIlIbjuRPAp0C63CSZuqsG
-         vYgc5f9BkYulbWJWSx8NN3DJBDW1+TKWxoIWvVybUSqXDpV2fkacRRICo8Tgpy2bpeGk
-         Ltiq/5WP3OM3AF7WaYqeeBRq6dKQGJ/PL2Qyomfzz0Quj8y3hj/F49F0vpFao5oEjJKE
-         yviSyey2jqX+EBs1TWKrdjoCX5L1qgaPHh/4yTZi2biI/4T2G6/5ZjvS2T05bvZ3lDtu
-         PdhQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=c/75nGkQrQ26C3oLWTOAYAjfB1zI6lLeh7OxDvBkYU4=;
-        b=pOxFw2zazy78cZYTozV5QTYcm3hmheEXe0z8CMaVTX5VrvYVqmCyNcKs/SieN439v5
-         WGtyMEoOukL25mZQTeoYAvgI4OKZ82RRzFfQmPDfj8jzrQIqdonzr/JQ3eBRciiojVAt
-         pyPvY0eEYZk774YhFLbCqWM19U1QiK6Og0D9ZJZez8a7zXTYJcGKsfxgYHImVuEklca5
-         hR1dEqX9oH7s2hnOCp+qJmIzDLSmdtTuVaYiABuxpUOVTZKvNXYjViKY+KlQ7wcmMNgV
-         dmHjVkoPHB+liXkGIsHAJ4h10iOutFxFoH/UZcR6FDk2aB9S8zoJtuyEx+2f2Xg6cBjN
-         KWfQ==
-X-Gm-Message-State: AOAM531I4vHfGdTSKmu1mQx6TSetcHumPcIVXQec6n6Fuye6CdUQ0bdy
-        54gbmlnD3Ij96G/2+Te1EpTptg==
-X-Google-Smtp-Source: ABdhPJyp3xdvhiGf3T//L8CChJ12FUSiNzGQbei5PswIE841BlFiQ3KzgYdb3JVW6KR7+PP7QIWQow==
-X-Received: by 2002:ac8:46c1:: with SMTP id h1mr1733189qto.361.1604580591377;
-        Thu, 05 Nov 2020 04:49:51 -0800 (PST)
-Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
-        by smtp.gmail.com with ESMTPSA id u31sm763588qtu.87.2020.11.05.04.49.50
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2020 04:49:50 -0800 (PST)
-Received: from jgg by mlx with local (Exim 4.94)
-        (envelope-from <jgg@ziepe.ca>)
-        id 1kaei6-00H0yJ-2m; Thu, 05 Nov 2020 08:49:50 -0400
-Date:   Thu, 5 Nov 2020 08:49:50 -0400
-From:   Jason Gunthorpe <jgg@ziepe.ca>
-To:     John Hubbard <jhubbard@nvidia.com>,
-        Christoph Hellwig <hch@infradead.org>,
-        J??r??me Glisse <jglisse@redhat.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>,
-        KVM list <kvm@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
-Message-ID: <20201105124950.GZ36674@ziepe.ca>
-References: <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
- <20201104140023.GQ36674@ziepe.ca>
- <CAKMK7uH69hsFjYUkjg1aTh5f=q_3eswMSS5feFs6+ovz586+0A@mail.gmail.com>
- <20201104162125.GA13007@infradead.org>
- <CAKMK7uH=0+3FSR4LxP7bJUB4BsCcnCzfK2=D+2Am9QNmfZEmfw@mail.gmail.com>
- <20201104163758.GA17425@infradead.org>
- <20201104164119.GA18218@infradead.org>
- <20201104181708.GU36674@ziepe.ca>
- <d3497583-2338-596e-c764-8c571b7d22cf@nvidia.com>
- <20201105092524.GQ401619@phenom.ffwll.local>
+        id S1730501AbgKEMu2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 07:50:28 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:37367 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730577AbgKEMu2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 07:50:28 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id aeibkD0GHNanzaeifkoNB7; Thu, 05 Nov 2020 13:50:25 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604580625; bh=gLIsuZG8GTY+QYVfWWAesdsXd2UfBf7dmJxTf1nR7WY=;
+        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=MMWilpbQMpT8oDSacKEBLrQz28T3FlXJgoruPt65sQ4VhboysfAnsPfipuZ8Yog6m
+         g9DHQq1Lllu4sRwjPGMWFMs4z5vIBDprulYa67pxnjmBGqjrZuI9ue01Gk7U1eqg2r
+         U9EK2yUt0oCXrXaYPbgv4MeEr1/p7F/MDNrhbTr9Wcoss6KWHvxtLR/sk/FSgUSynv
+         i+1tQN01i7/UlsdaHPwHnoi1xHxebfJnPfTY0JpdADnx7iJANIy/wXSNipQfbMX0r8
+         wYmNMDOwHYTCNwaWj0Fj5RonMjzp3rFTGBX8XHNJdaiymr149uHnyYRZAkUSpx8tQP
+         95yGowwp5h4hQ==
+Subject: Re: [PATCH v2 100/106] ccs: Add support for analogue gain coefficient
+ controls
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
+References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
+ <20201007084557.25843-1-sakari.ailus@linux.intel.com>
+ <20201007084557.25843-91-sakari.ailus@linux.intel.com>
+ <074fd0e4-f16c-c2cd-1d30-f55a1993ad36@xs4all.nl>
+Message-ID: <de88c362-f0cd-52ba-0628-3bdcd370219c@xs4all.nl>
+Date:   Thu, 5 Nov 2020 13:50:21 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201105092524.GQ401619@phenom.ffwll.local>
+In-Reply-To: <074fd0e4-f16c-c2cd-1d30-f55a1993ad36@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfIcah9w9auePvrwnkuIyDEUFGU419/Of4EZ/3dZFZCoFtTRA7HEdF9PCOPB8kKK3I7vOHMjqfswmy3x5qDMxFjcHLQqfyPqyRmhVHSF+4D3+iRIBjgWc
+ dTbsEE7SGDOyY6tMG3OABvxD5ZdhJL5aElbo8XRJ/ZY9hlP4u89hK3/ifj2BTm1hiCRwYachKHTUASLwAlutyXehOjDhFcOBZ7vVxWPU2MjkXzMpGqG//w7y
+ N1aleHvOiuC1GOjU7McGjA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 05, 2020 at 10:25:24AM +0100, Daniel Vetter wrote:
-> > /*
-> >  * If we can't determine whether or not a pte is special, then fail immediately
-> >  * for ptes. Note, we can still pin HugeTLB and THP as these are guaranteed not
-> >  * to be special.
-> >  *
-> >  * For a futex to be placed on a THP tail page, get_futex_key requires a
-> >  * get_user_pages_fast_only implementation that can pin pages. Thus it's still
-> >  * useful to have gup_huge_pmd even if we can't operate on ptes.
-> >  */
+On 05/11/2020 13:46, Hans Verkuil wrote:
+> On 07/10/2020 10:45, Sakari Ailus wrote:
+>> Add four controls for reading CCS analogue gain coefficients. The
+>> values are constants that are device specific.
+>>
+>> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>> ---
+>>  drivers/media/i2c/ccs/ccs-core.c | 38 ++++++++++++++++++++++++++++++--
+>>  1 file changed, 36 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+>> index d6d6aeceb415..2a507b63bafc 100644
+>> --- a/drivers/media/i2c/ccs/ccs-core.c
+>> +++ b/drivers/media/i2c/ccs/ccs-core.c
+>> @@ -28,6 +28,7 @@
+>>  #include <linux/v4l2-mediabus.h>
+>>  #include <media/v4l2-fwnode.h>
+>>  #include <media/v4l2-device.h>
+>> +#include <uapi/linux/ccs.h>
+>>  
+>>  #include "ccs.h"
+>>  
+>> @@ -772,14 +773,46 @@ static int ccs_init_controls(struct ccs_sensor *sensor)
+>>  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+>>  	int rval;
+>>  
+>> -	rval = v4l2_ctrl_handler_init(&sensor->pixel_array->ctrl_handler, 13);
+>> +	rval = v4l2_ctrl_handler_init(&sensor->pixel_array->ctrl_handler, 17);
+>>  	if (rval)
+>>  		return rval;
+>>  
+>>  	sensor->pixel_array->ctrl_handler.lock = &sensor->mutex;
+>>  
+>>  	switch (CCS_LIM(sensor, ANALOG_GAIN_CAPABILITY)) {
+>> -	case CCS_ANALOG_GAIN_CAPABILITY_GLOBAL:
+>> +	case CCS_ANALOG_GAIN_CAPABILITY_GLOBAL: {
+>> +		struct {
 > 
-> We support hugepage faults in gpu drivers since recently, and I'm not
-> seeing a pud_mkhugespecial anywhere. So not sure this works, but probably
-> just me missing something again.
+> Can this be static?
 
-It means ioremap can't create an IO page PUD, it has to be broken up.
+Ah, no. The value is sensor dependent. Sorry, ignore this.
 
-Does ioremap even create anything larger than PTEs?
+> 
+>> +			const char *name;
+>> +			u32 id;
+>> +			s32 value;
+>> +		} const gain_ctrls[] = {
+>> +			{ "Analogue Gain m0", V4L2_CID_CCS_ANALOGUE_GAIN_M0,
+> 
+> Why lower case 'm0/1' and 'c0/1'? It looks odd.
+> 
+>> +			  CCS_LIM(sensor, ANALOG_GAIN_M0), },
+>> +			{ "Analogue Gain c0", V4L2_CID_CCS_ANALOGUE_GAIN_C0,
+>> +			  CCS_LIM(sensor, ANALOG_GAIN_C0), },
+>> +			{ "Analogue Gain m1", V4L2_CID_CCS_ANALOGUE_GAIN_M1,
+>> +			  CCS_LIM(sensor, ANALOG_GAIN_M1), },
+>> +			{ "Analogue Gain c1", V4L2_CID_CCS_ANALOGUE_GAIN_C1,
+>> +			  CCS_LIM(sensor, ANALOG_GAIN_C1), },
+>> +		};
+>> +		struct v4l2_ctrl_config ctrl_cfg = {
+>> +			.type = V4L2_CTRL_TYPE_INTEGER,
+>> +			.ops = &ccs_ctrl_ops,
+>> +			.flags = V4L2_CTRL_FLAG_READ_ONLY,
+>> +			.step = 1,
+>> +		};
+> 
+> This looks a bit weird. Most drivers just define each control separately in
+> a static const struct v4l2_ctrl_config, then add them with v4l2_ctrl_new_custom.
+> 
+> Now the control definition data is split up in two data structures.
+> 
+> It's not wrong, it is just non-standard, and a bit harder to review.
 
-Jason
+Ignore this as well, it's because some values aren't constant.
+
+Regards,
+
+	Hans
+
+> 
+>> +		unsigned int i;
+>> +
+>> +		for (i = 0; i < ARRAY_SIZE(gain_ctrls); i++) {
+>> +			ctrl_cfg.name = gain_ctrls[i].name;
+>> +			ctrl_cfg.id = gain_ctrls[i].id;
+>> +			ctrl_cfg.min = ctrl_cfg.max = ctrl_cfg.def =
+>> +				gain_ctrls[i].value;
+>> +
+>> +			v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
+>> +					     &ctrl_cfg, NULL);
+>> +		}
+>> +
+>>  		v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler,
+>>  				  &ccs_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
+>>  				  CCS_LIM(sensor, ANALOG_GAIN_CODE_MIN),
+>> @@ -788,6 +821,7 @@ static int ccs_init_controls(struct ccs_sensor *sensor)
+>>  				      1U),
+>>  				  CCS_LIM(sensor, ANALOG_GAIN_CODE_MIN));
+>>  	}
+>> +	}
+>>  
+>>  	if (CCS_LIM(sensor, DIGITAL_GAIN_CAPABILITY) ==
+>>  	    CCS_DIGITAL_GAIN_CAPABILITY_GLOBAL ||
+>>
+> 
+> Regards,
+> 
+> 	Hans
+> 
+
