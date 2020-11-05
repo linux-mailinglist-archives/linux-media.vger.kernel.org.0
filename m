@@ -2,165 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F090C2A7A62
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 10:25:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7C672A7A6A
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 10:27:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727731AbgKEJZa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 04:25:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53364 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726371AbgKEJZ3 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 04:25:29 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DDD95C0613D2
-        for <linux-media@vger.kernel.org>; Thu,  5 Nov 2020 01:25:28 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id h2so848680wmm.0
-        for <linux-media@vger.kernel.org>; Thu, 05 Nov 2020 01:25:28 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=6viq27xeTxIz8acrTQ2jRGDu1L7mOoiJCMIWrZFHf74=;
-        b=Pk45fCQQ7XngdYs3ziaP+ymxGzpakbhoUL7YEZ1pNacSF/8myikkPFyZUaHYgYV+MI
-         jUFI0zhMI1Q5QNm1leQcIJl/cJaDXfbVVx+4uWz9xdSA/Fb7U7QrV97m7ySMNgMlnXw7
-         FTghP2yCD22NR5UHFnL7m1NqQXsahfUUgl95A=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=6viq27xeTxIz8acrTQ2jRGDu1L7mOoiJCMIWrZFHf74=;
-        b=RCeLF8LO8zIDSrqztyGbHL/CJkoe/fRZZo3iv+wvpuSKjwBUmskE6RnOfBbz5rJpAJ
-         kvS+RjPcYzqdcm49nAFvTtvyLmrHcD+tzG1xgwaod7c9MPWw48OTgSFZjCbUtnvgPw6H
-         hbRdSLEbEmwQ+dLN19NVrI1dvB+jjctD+IrYcOUwhdzpUvYEJL0Jl5U4O24+IihxQ5UC
-         BKwrNTHYVY2dS5CP5Oixm0FNi+TkkmB0MILiU/IByavXTt2WaFY+HA/lyChVBS6Ekd+Q
-         QnsyajCQWVGXKqWm44BNeo/pVfdpFsX4v+LOOtAvnibG7oudvBxIBFiYAm3uyxnTw4YG
-         pTow==
-X-Gm-Message-State: AOAM533ge4aBRT5OboPv/TCKJggDoMN4woL6RyzWpyBbE3q3mUd6R0IV
-        eIQuWJm+gvDm9KRKQYUfhEZjIA==
-X-Google-Smtp-Source: ABdhPJy3n17GilkYmW9UEcOuB53n8WrP7NQoee5RAk40ap5hD72YnDNsNHhquJauR7fQm17EWWmhuQ==
-X-Received: by 2002:a1c:497:: with SMTP id 145mr1699932wme.127.1604568327398;
-        Thu, 05 Nov 2020 01:25:27 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id d63sm209171wmd.12.2020.11.05.01.25.25
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2020 01:25:26 -0800 (PST)
-Date:   Thu, 5 Nov 2020 10:25:24 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     John Hubbard <jhubbard@nvidia.com>
-Cc:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Christoph Hellwig <hch@infradead.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        J??r??me Glisse <jglisse@redhat.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>,
-        KVM list <kvm@vger.kernel.org>,
+        id S1726849AbgKEJ12 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 04:27:28 -0500
+Received: from mx08-00178001.pphosted.com ([91.207.212.93]:27474 "EHLO
+        mx07-00178001.pphosted.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1726737AbgKEJ11 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 04:27:27 -0500
+Received: from pps.filterd (m0046660.ppops.net [127.0.0.1])
+        by mx07-00178001.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A59RCmh022319;
+        Thu, 5 Nov 2020 10:27:14 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=st.com; h=subject : to : cc :
+ references : from : message-id : date : mime-version : in-reply-to :
+ content-type : content-transfer-encoding; s=STMicroelectronics;
+ bh=90DBQmVTazKJUz/HsVZp0MWtq8Z4KmCVtWCSf/TO+FA=;
+ b=jTqLMT2vzOFEeFQODMBv723JkV/M7U/yvqBGbKWKx5kb9aSlUo6ZXYZegOyZNfSudr2O
+ vuvgZfPWQBw7AomkbPnuxfi3XK20c7L+PIqGsmKFe69Ws155ST4rEkTRqhmI2EskFDQ2
+ UwfpVKBjmhtnnBnnNVdOA6C7OxPSDNJMKhRZy+8iKzulmaAUXnmdqqZOqesJ4gWN+JnE
+ PyWplvQ3y0G+esOoFhvXbcjM6e5QkfhLVEXbL44qqQcD2/y4ssylLVlkMGiOzSxFbAkG
+ 6a+qDJdoqYi8RL3cvdTh0I/2n+TnIWXN23+hyUx6xvBEJgNq/nUFS7bphfFEiFiziW93 zg== 
+Received: from beta.dmz-eu.st.com (beta.dmz-eu.st.com [164.129.1.35])
+        by mx07-00178001.pphosted.com with ESMTP id 34h031ykye-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
+        Thu, 05 Nov 2020 10:27:14 +0100
+Received: from euls16034.sgp.st.com (euls16034.sgp.st.com [10.75.44.20])
+        by beta.dmz-eu.st.com (STMicroelectronics) with ESMTP id 92DC0100039;
+        Thu,  5 Nov 2020 10:27:12 +0100 (CET)
+Received: from Webmail-eu.st.com (sfhdag3node2.st.com [10.75.127.8])
+        by euls16034.sgp.st.com (STMicroelectronics) with ESMTP id 7875D230660;
+        Thu,  5 Nov 2020 10:27:12 +0100 (CET)
+Received: from lmecxl0912.lme.st.com (10.75.127.50) by SFHDAG3NODE2.st.com
+ (10.75.127.8) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 5 Nov
+ 2020 10:27:11 +0100
+Subject: Re: [PATCH v5 0/4] DCMI BT656 parallel bus mode support
+To:     Hugues Fruchet <hugues.fruchet@st.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
-Message-ID: <20201105092524.GQ401619@phenom.ffwll.local>
-Mail-Followup-To: John Hubbard <jhubbard@nvidia.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Christoph Hellwig <hch@infradead.org>,
-        J??r??me Glisse <jglisse@redhat.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>,
-        KVM list <kvm@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Tomasz Figa <tfiga@chromium.org>, Linux MM <linux-mm@kvack.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>
-References: <7f29a42a-c408-525d-90b7-ef3c12b5826c@nvidia.com>
- <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
- <20201104140023.GQ36674@ziepe.ca>
- <CAKMK7uH69hsFjYUkjg1aTh5f=q_3eswMSS5feFs6+ovz586+0A@mail.gmail.com>
- <20201104162125.GA13007@infradead.org>
- <CAKMK7uH=0+3FSR4LxP7bJUB4BsCcnCzfK2=D+2Am9QNmfZEmfw@mail.gmail.com>
- <20201104163758.GA17425@infradead.org>
- <20201104164119.GA18218@infradead.org>
- <20201104181708.GU36674@ziepe.ca>
- <d3497583-2338-596e-c764-8c571b7d22cf@nvidia.com>
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Rob Herring <robh+dt@kernel.org>
+CC:     <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-stm32@st-md-mailman.stormreply.com>,
+        Alain Volmat <alain.volmat@st.com>,
+        Yannick Fertre <yannick.fertre@st.com>,
+        Philippe CORNU <philippe.cornu@st.com>
+References: <1604511132-4014-1-git-send-email-hugues.fruchet@st.com>
+From:   Alexandre Torgue <alexandre.torgue@st.com>
+Message-ID: <016661fc-e9dd-bd4a-f26d-00e54626f030@st.com>
+Date:   Thu, 5 Nov 2020 10:26:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <d3497583-2338-596e-c764-8c571b7d22cf@nvidia.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <1604511132-4014-1-git-send-email-hugues.fruchet@st.com>
+Content-Type: text/plain; charset="utf-8"; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Originating-IP: [10.75.127.50]
+X-ClientProxiedBy: SFHDAG1NODE2.st.com (10.75.127.2) To SFHDAG3NODE2.st.com
+ (10.75.127.8)
+X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
+ definitions=2020-11-05_05:2020-11-05,2020-11-05 signatures=0
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 04, 2020 at 10:44:56AM -0800, John Hubbard wrote:
-> On 11/4/20 10:17 AM, Jason Gunthorpe wrote:
-> > On Wed, Nov 04, 2020 at 04:41:19PM +0000, Christoph Hellwig wrote:
-> > > On Wed, Nov 04, 2020 at 04:37:58PM +0000, Christoph Hellwig wrote:
-> > > > On Wed, Nov 04, 2020 at 05:26:58PM +0100, Daniel Vetter wrote:
-> > > > > What we're discussing is whether gup_fast and pup_fast also obey this,
-> > > > > or fall over and can give you the struct page that's backing the
-> > > > > dma_mmap_* memory. Since the _fast variant doesn't check for
-> > > > > vma->vm_flags, and afaict that's the only thing which closes this gap.
-> > > > > And like you restate, that would be a bit a problem. So where's that
-> > > > > check which Jason&me aren't spotting?
-> > > > 
-> > > > remap_pte_range uses pte_mkspecial to set up the PTEs, and gup_pte_range
-> > > > errors out on pte_special.  Of course this only works for the
-> > > > CONFIG_ARCH_HAS_PTE_SPECIAL case, for other architectures we do have
-> > > > a real problem.
-> > > 
-> > > Except that we don't really support pte-level gup-fast without
-> > > CONFIG_ARCH_HAS_PTE_SPECIAL, and in fact all architectures selecting
-> > > HAVE_FAST_GUP also select ARCH_HAS_PTE_SPECIAL, so we should be fine.
+Hi Huges
 
-Thanks for the explainer. I guess I can go back to _fast and instead
-adjust the commit message to explain why that's all fine.
-
-> > Mm, I thought it was probably the special flag..
-> > 
-> > Knowing that CONFIG_HAVE_FAST_GUP can't be set without
-> > CONFIG_ARCH_HAS_PTE_SPECIAL is pretty insightful, can we put that in
-> > the Kconfig?
-> > 
-> > config HAVE_FAST_GUP
-> >          depends on MMU
-> >          depends on ARCH_HAS_PTE_SPECIAL
-> >          bool
-> > 
-> Well, the !CONFIG_ARCH_HAS_PTE_SPECIAL case points out in a comment that
-> gup-fast is not *completely* unavailable there, so I don't think you want
-> to shut it off like that:
+On 11/4/20 6:32 PM, Hugues Fruchet wrote:
+> Add support of BT656 embedded synchronization bus.
+> This mode allows to save hardware synchro lines hsync & vsync
+> by replacing them with synchro codes embedded in data stream.
+> Add "bus-type" property and make it required so that there is no
+> ambiguity between parallel mode (bus-type=5) and BT656 mode (bus-type=6).
 > 
-> /*
->  * If we can't determine whether or not a pte is special, then fail immediately
->  * for ptes. Note, we can still pin HugeTLB and THP as these are guaranteed not
->  * to be special.
->  *
->  * For a futex to be placed on a THP tail page, get_futex_key requires a
->  * get_user_pages_fast_only implementation that can pin pages. Thus it's still
->  * useful to have gup_huge_pmd even if we can't operate on ptes.
->  */
+> ===========
+> = history =
+> ===========
+> version 5:
+>    - Add revisited bindings and devicetree with explicit use of "bus-type"
+> 
+> version 4:
+>    - Fix typo in commit message
+> 
+> version 3:
+>    - Fix bus_width print to %u as per Sakari comment
+> 
+> version 2:
+>    - As per Sakari remark, revisit commit message and document
+>      BT656 parallel bus mode in bindings
+> 
+> version 1:
+>    - Initial submission
+> 
+> Hugues Fruchet (4):
+>    media: stm32-dcmi: add support of BT656 bus
+>    media: dt-bindings: media: st,stm32-dcmi: add support of BT656 bus
+>    ARM: dts: stm32: set bus-type in DCMI endpoint for stm32mp157c-ev1
+>      board
+>    ARM: dts: stm32: set bus-type in DCMI endpoint for stm32429i-eval
+>      board
+> 
+>   .../devicetree/bindings/media/st,stm32-dcmi.yaml   | 38 ++++++++++++++++++++++
+>   arch/arm/boot/dts/stm32429i-eval.dts               |  1 +
+>   arch/arm/boot/dts/stm32mp157c-ev1.dts              |  1 +
+>   drivers/media/platform/stm32/stm32-dcmi.c          | 37 +++++++++++++++++++--
+>   4 files changed, 75 insertions(+), 2 deletions(-)
+> 
 
-We support hugepage faults in gpu drivers since recently, and I'm not
-seeing a pud_mkhugespecial anywhere. So not sure this works, but probably
-just me missing something again.
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+I'll take DT patches on stm32-next tree.
+
+regards
+alex
