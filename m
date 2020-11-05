@@ -2,229 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 821302A7B71
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 11:14:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBFF92A7BEE
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 11:35:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726371AbgKEKOH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 05:14:07 -0500
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:54255 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726152AbgKEKOH (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 05:14:07 -0500
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 74D1E2001D;
-        Thu,  5 Nov 2020 10:14:03 +0000 (UTC)
-Date:   Thu, 5 Nov 2020 11:14:03 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hugues FRUCHET <hugues.fruchet@st.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        "tomi.valkeinen@ti.com" <tomi.valkeinen@ti.com>,
-        "sam@elite-embedded.com" <sam@elite-embedded.com>,
-        "slongerbeam@gmail.com" <slongerbeam@gmail.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [RFC 0/3] media: ov5640: Adjust htot, rework clock tree, add
- LINK_FREQ
-Message-ID: <20201105101403.tqxjellllwunfgk4@uno.localdomain>
-References: <20201028225706.110078-1-jacopo+renesas@jmondi.org>
- <84c8e00e-92e0-eecf-cb6a-ddb34e9bf36c@st.com>
+        id S1729819AbgKEKfF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 05:35:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36080 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725827AbgKEKfE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 05:35:04 -0500
+Received: from mail-vs1-xe41.google.com (mail-vs1-xe41.google.com [IPv6:2607:f8b0:4864:20::e41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B6F6BC0613D4
+        for <linux-media@vger.kernel.org>; Thu,  5 Nov 2020 02:35:03 -0800 (PST)
+Received: by mail-vs1-xe41.google.com with SMTP id l22so489281vsa.4
+        for <linux-media@vger.kernel.org>; Thu, 05 Nov 2020 02:35:03 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ZdAvLjoOXomWCs8t6TmIL4j/I5mepz3FWTuHztdBTlc=;
+        b=BiAiD4e1h7itpTTBhs3DR4K8CfgZymL8qj1e7tZjDyvL22TAbVaJrB6OdCOJ9dCgt8
+         uMo1WI+cg7RQpxF0bBlJEyznK83VkivtEouWpjXE0uDzswIn9ngEEIWZkBVtGoJKPI5a
+         3gYONlFV9O8ISMzu91uUEboniTdwBNNIgS1GVf+ZVCHpgeExfkJ3HUKHZ4pHVFwQwMtx
+         5vGFFB38gJyFP7FBlRczIoGJ/8EUs8e6gc59Rm7O/sKD+Kj4+eFQl2/7R5M52mOjdRQY
+         23FqbRx5TWg7iDot8DaIDKVfEKsFUNqqGSEPkpoltdKL/CwkFxGm9pZGSMzsaqx/PW9N
+         dskg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ZdAvLjoOXomWCs8t6TmIL4j/I5mepz3FWTuHztdBTlc=;
+        b=sAxpzpgQ4ZAM8fl6hAzL/UwRcV+6osol9JrB4eYIpWsMVerrGjIeiJl0Pig3QHp4Yf
+         59zSQJPAy59JcqUzjrEZJT8WRihKOeJxX53cYfuY9hMVNxOx0jTrSlfOFo0x1y+qQkiY
+         VoOiq5CAIOTUv7/vipSJQRoWTseDrUgyDcKJ2UC5qXsZAI/kAzKiStT+71pn/YnYHiAm
+         7FaPHHAp6zKqr0bWsT7OYYe7mvcpEhmL3mAcmnDw49GqACtsSYWhs4W+03NHJitkgkhj
+         Ln3vrnvj2CFzRkdziJsv/j990h0ea07Lt0ZkK9IiTRhcVFUR0Zy6lUCoMhZtQVF2mmD+
+         jaew==
+X-Gm-Message-State: AOAM530uzIKJAOCSVnu7BkeBkcMdWzFNJV8q820c4PmN6temLZPjgFKh
+        8u7IPCeMO5Qk0sZ1hlaRUsGM4h0P0LEtCxpjL+3vUQ==
+X-Google-Smtp-Source: ABdhPJxVfapO8HtgRahAnJ4wz7s9HOgbHIAKW7gtu7MmcNt2t4MXd/COFLbP0begvsat+FQbNQGgY8Hv6gEHSKm9IGw=
+X-Received: by 2002:a67:f417:: with SMTP id p23mr725992vsn.42.1604572502741;
+ Thu, 05 Nov 2020 02:35:02 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <84c8e00e-92e0-eecf-cb6a-ddb34e9bf36c@st.com>
+References: <20201104234427.26477-1-digetx@gmail.com> <CAPDyKFr7qTU2RPhA_ZrbCayoTTNUEno1zdmvmv+8HBe-Owrfeg@mail.gmail.com>
+ <20201105100603.skrirm7uke4s2xyl@vireshk-i7>
+In-Reply-To: <20201105100603.skrirm7uke4s2xyl@vireshk-i7>
+From:   Ulf Hansson <ulf.hansson@linaro.org>
+Date:   Thu, 5 Nov 2020 11:34:26 +0100
+Message-ID: <CAPDyKFoCJt5MBSKBJ8n1OAMdVsWHdwXTx0zFEcZw_F_gQ6Ug0w@mail.gmail.com>
+Subject: Re: [PATCH v1 00/30] Introduce core voltage scaling for NVIDIA
+ Tegra20/30 SoCs
+To:     Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Dmitry Osipenko <digetx@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        linux-pwm@vger.kernel.org,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        DTML <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello Hugues,
-
-    thanks so much for testing
-
-On Tue, Nov 03, 2020 at 04:53:21PM +0000, Hugues FRUCHET wrote:
-> Hi Jacopo,
+On Thu, 5 Nov 2020 at 11:06, Viresh Kumar <viresh.kumar@linaro.org> wrote:
 >
-> Here is the results of tests with 0V5640 CSI-2 on Avenger96 board.
+> On 05-11-20, 10:45, Ulf Hansson wrote:
+> > + Viresh
 >
-> 1) First of all, the framerate is broken, it is almost 2 times greater
-> that expected. Checking code it seems that mipi_div is missing when
-> computing link_freq:
->
-> +	/*
->   	 * The 'rate' parameter is the bitrate = VTOT * HTOT * FPS * BPP
->   	 *
->   	 * Adjust it to represent the CSI-2 link frequency and use it to
->   	 * update the associated control.
->   	 */
-> -	link_freq = rate / sensor->ep.bus.mipi_csi2.num_data_lanes / 2;
-> +	link_freq = rate / sensor->ep.bus.mipi_csi2.num_data_lanes / 2 / mipi_div;
+> Thanks Ulf. I found a bug in OPP core because you cc'd me here :)
 
-I don't think this is correct I'm sorry.
-
-In my platform this fixes (in example) 640x480@30FPS but breaks
-640x480@15FPS which now runs at 7.5FPS (with Tomi's patch reverted)..
-What a weird behaviour
-
-The reasoning behing link_frequency calculation is that
-
-pixel_rate = vtot * htot * fps
-bit_rate = pixel_rate * bpp
-link_freq = bit_rate / num_lanes / 2 (CSI-2 DDR)
-
-MIPI_DIV is not yet into play, as we're calculating the CSI-2 clock
-lane freqeuency without applying it to the clock tree
-
-In my clock diagram link_freq is what is the MIPI_CLK output
-To transform it in SYSCLK you walk the clock tree backward and
-
-sysclk = link_freq * 2 * mipi_div
+Happy to help. :-)
 
 >
-> To test the setup I have patched the link frequency control to report
-> dynamically the frequency instead of hardcoded value:
-> +#if 0
->   	freq_index = OV5640_LINK_FREQS_NUM - 1;
->   	for (i = 0; i < OV5640_LINK_FREQS_NUM; ++i) {
->   		if (ov5640_link_freqs[i] == link_freq) {
-> @@ -966,18 +979,12 @@ static int ov5640_set_mipi_pclk(struct ov5640_dev
-> *sensor,
->   	ret = __v4l2_ctrl_s_ctrl(sensor->ctrls.link_freq, freq_index);
->   	if (ret < 0)
->   		return ret;
-> +#else
-> +	ov5640_link_freqs[0] = link_freq;
-> +	ret = __v4l2_ctrl_s_ctrl(sensor->ctrls.link_freq, 0);
-> +#endif
-
-I wonder if this is acceptable for mainline. Pre-calculating the link
-frequency is really a pain. I wonder why LINK_FREQ is a menu control
-in first place :/
-
->
-> 2) Second problem comes from "media: i2c: ov5640: Adjust htot", this is
-> breaking 1024x768@30fps & VGA@30fps which are slowdown to 15fps
-
-Weird, as 'Adjust htot' -increases- the htot values resulting in a
--faster- clock output, right ? Are you sure this is not due to the
-above "/ mipi_div;" you've added ?
-
->
-> 3) I have some instabilities when switching between framerate, I have to
-> investigate the point. In few words this is a race problem between the
-> OV5640 which set the frequency control and the MIPID02 which read the
-> frequency control. I'll dig into the issue to see how to fix that.
->
->
-> To summarize:
-> -------------
-> 1) "media: i2c: ov5640: Rework CSI-2 clock tree"
-> Almost OK but mipi_div is missing
->
-> 2) "media: i2c: ov5640: Adjust htot"
-> Is breaking some resolutions/fps, so better to drop.
-> Tomi, perhaps could you recheck with the fixed Jacopo serie if you still
-> encounter your DPHY error issues ?
->
-> With 1) fixed and 2) reverted, I'm back on track and have a successfull
-> non-regression on my side + some better figures on some resolutions:
-> - 1024x768@30fps which was not at the right framerate previously
-> - 720p@30fps which was not at the right framerate previously
-> - HD@15fps which was not at the right framerate previously
->
-> Please note that I cannot go above HD@15fps on this platform.
->
-> * QCIF  176x144 RGB565 15fps => OK, got 15
-> * QCIF  176x144 YUYV   15fps => OK, got 15
-> * QCIF  176x144 JPEG   15fps => OK, got 15
-> * QCIF  176x144 RGB565 30fps => OK, got 30
-> * QCIF  176x144 YUYV   30fps => OK, got 30
-> * QCIF  176x144 JPEG   30fps => OK, got 30
-> * QVGA  320x240 RGB565 15fps => OK, got 15
-> * QVGA  320x240 YUYV   15fps => OK, got 15
-> * QVGA  320x240 JPEG   15fps => OK, got 15
-> * QVGA  320x240 RGB565 30fps => OK, got 29
-> * QVGA  320x240 YUYV   30fps => OK, got 30
-> * QVGA  320x240 JPEG   30fps => OK, got 29
-> * VGA   640x480 RGB565 15fps => OK, got 15
-> * VGA   640x480 YUYV   15fps => OK, got 15
-> * VGA   640x480 JPEG   15fps => OK, got 15
-> * VGA   640x480 RGB565 30fps => OK, got 30
-> * VGA   640x480 YUYV   30fps => OK, got 30
-> * VGA   640x480 JPEG   30fps => OK, got 30
-> * 480p  720x480 RGB565 15fps => OK, got 15
-> * 480p  720x480 YUYV   15fps => OK, got 15
-> * 480p  720x480 JPEG   15fps => OK, got 15
-> * 480p  720x480 RGB565 30fps => OK, got 30
-> * 480p  720x480 YUYV   30fps => OK, got 30
-> * 480p  720x480 JPEG   30fps => OK, got 30
-> * XGA  1024x768 RGB565 15fps => OK, got 15
-> * XGA  1024x768 YUYV   15fps => OK, got 15
-> * XGA  1024x768 JPEG   15fps => OK, got 15
-> * XGA  1024x768 RGB565 30fps => OK, got 30
-> * XGA  1024x768 YUYV   30fps => OK, got 30
-> * XGA  1024x768 JPEG   30fps => OK, got 30
-> * 720p 1280x720 RGB565 15fps => OK, got 15
-> * 720p 1280x720 YUYV   15fps => OK, got 15
-> * 720p 1280x720 JPEG   15fps => OK, got 15
-> * 720p 1280x720 RGB565 30fps => OK, got 30
-> * 720p 1280x720 YUYV   30fps => OK, got 30
-> * 720p 1280x720 JPEG   30fps => OK, got 30
-> * HD  1920x1080 RGB565 15fps => OK, got 15
-> * HD  1920x1080 YUYV   15fps => OK, got 15
-> * HD  1920x1080 JPEG   15fps => OK, got 15
->
->
-> So in few words, it sounds good, thanks Jacopo !
-
-That's sweet, but doesn't match what I see on iMX.6 /o\
-
-
->
->
-> On 10/28/20 11:57 PM, Jacopo Mondi wrote:
-> > Hi Hugues Tomi and Sam
+> > On Thu, 5 Nov 2020 at 00:44, Dmitry Osipenko <digetx@gmail.com> wrote:
+> > I need some more time to review this, but just a quick check found a
+> > few potential issues...
 > >
-> >     this small series collects Tomi's patch on adjusting htot which has been
-> > floating around for some time with a rework of the clock tree based on
-> > Hugues' and Sam's work on setting pclk_period. It also address the need to
-> > suppport LINK_FREQUENCY control as pointed out by Hugues.
-> >
-> > I'm sort of happy with the result as I've removed quite some chrun and the clock
-> > tree calculation is more linear. All modes work except full-resolution which a
-> > bit annoys me, as I can't select it through s_fmt (to be honest I have not
-> > investigated that in detail, that's why an RFC).
-> >
-> > Framerate is better than before, but still off for some combinations:
-> > 640x480@30 gives me ~40 FPS, 1920x1080@15 gives me ~7.
-> > The other combinations I've tested looks good.
-> >
-> > Can I have your opinion on these changes and if they help you with your
-> > platforms?
-> >
-> > I've only been able to test YUYV, support for formats with != bpp will need
-> > some work most probably, but that was like this before (although iirc Hugues
-> > has captured JPEG, right ?)
-> >
-> > There's a bit more cleanup on top to be done (I've left TODOs around) and
-> > probably the HBLANK calculation should be checked to see if it works with the
-> > new htot values.
-> >
-> > Thanks
-> >    j
-> >
-> > Jacopo Mondi (2):
-> >    media: i2c: ov5640: Rework CSI-2 clock tree
-> >    media: i2c: ov5640: Add V4L2_CID_LINK_FREQ support
-> >
-> > Tomi Valkeinen (1):
-> >    media: i2c: ov5640: Adjust htot
-> >
-> >   drivers/media/i2c/ov5640.c | 176 +++++++++++++++++++++++++------------
-> >   1 file changed, 118 insertions(+), 58 deletions(-)
-> >
-> > --
-> > 2.28.0
-> >
+> > The "core-supply", that you specify as a regulator for each
+> > controller's device node, is not the way we describe power domains.
 >
-> Best regards,
-> Hugues.
+> Maybe I misunderstood your comment here, but there are two ways of
+> scaling the voltage of a device depending on if it is a regulator (and
+> can be modeled as one in the kernel) or a power domain.
+
+I am not objecting about scaling the voltage through a regulator,
+that's fine to me. However, encoding a power domain as a regulator
+(even if it may seem like a regulator) isn't. Well, unless Mark Brown
+has changed his mind about this.
+
+In this case, it seems like the regulator supply belongs in the
+description of the power domain provider.
+
+>
+> In case of Qcom earlier (when we added the performance-state stuff),
+> the eventual hardware was out of kernel's control and we didn't wanted
+> (allowed) to model it as a virtual regulator just to pass the votes to
+> the RPM. And so we did what we did.
+>
+> But if the hardware (where the voltage is required to be changed) is
+> indeed a regulator and is modeled as one, then what Dmitry has done
+> looks okay. i.e. add a supply in the device's node and microvolt
+> property in the DT entries.
+
+I guess I haven't paid enough attention how power domain regulators
+are being described then. I was under the impression that the CPUfreq
+case was a bit specific - and we had legacy bindings to stick with.
+
+Can you point me to some other existing examples of where power domain
+regulators are specified as a regulator in each device's node?
+
+Kind regards
+Uffe
