@@ -2,163 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 85A792A7867
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 08:59:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 146842A787D
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 09:01:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726428AbgKEH7E (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 02:59:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:53684 "EHLO mail.kernel.org"
+        id S1729825AbgKEIBK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 03:01:10 -0500
+Received: from mga01.intel.com ([192.55.52.88]:11122 "EHLO mga01.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725287AbgKEH7E (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 02:59:04 -0500
-Received: from coco.lan (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 7F22A2071A;
-        Thu,  5 Nov 2020 07:59:02 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604563143;
-        bh=UXfWX6hHeHhg5Ax1bmRo9i70QcWzhpzD1F9qWVpCrEU=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=oUgRIqlDADuK20G9Dcpxd5t/a7X+D+/CBGIM/UVZCSfLV4lphrh3KP+W9pIXSsq2E
-         kfC73i39XGvMF5cAnwq545pJxY2MAHgpOAceWyfN/HwjnK0pXn3J9fixyj/Wx73PPI
-         pJhA9BzCfVBoSPe6fGsBKpNpV9nh53ZFCLpyp3wc=
-Date:   Thu, 5 Nov 2020 08:58:59 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+        id S1729495AbgKEIBK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 03:01:10 -0500
+IronPort-SDR: Zfj0q8zkSP4qUr3dha7/cCzpmrFM7T9599eKx9FVAhSEY/fySOk5Y6rmIRgaJr2cZSXY/tDqb/
+ FNwc8ipkCDag==
+X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="187248461"
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
+   d="scan'208";a="187248461"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 00:01:09 -0800
+IronPort-SDR: tt3fXPOqlHfi97+t4bFnwcWEyIrfOG5l1otuNcSARW9NIUqT2gdUVTDxVVttinLJDAiqzgLfVd
+ EAFRiHO2T6XA==
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
+   d="scan'208";a="321114831"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 00:01:08 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 987DA20901; Thu,  5 Nov 2020 10:01:05 +0200 (EET)
+Date:   Thu, 5 Nov 2020 10:01:05 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 003/106] smiapp: Calculate CCS limit offsets and
- limit buffer size
-Message-ID: <20201105085859.250ff135@coco.lan>
-In-Reply-To: <20201105084338.23327eea@coco.lan>
+Subject: Re: [PATCH v2 001/106] smiapp: Generate CCS register definitions and
+ limits
+Message-ID: <20201105080105.GU26150@paasikivi.fi.intel.com>
 References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
-        <20201007084557.25843-1-sakari.ailus@linux.intel.com>
-        <20201007084557.25843-3-sakari.ailus@linux.intel.com>
-        <20201105084338.23327eea@coco.lan>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+ <20201007084557.25843-1-sakari.ailus@linux.intel.com>
+ <20201105081950.43f0613f@coco.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201105081950.43f0613f@coco.lan>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 5 Nov 2020 08:43:38 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
+Hi Mauro,
 
-> Em Wed,  7 Oct 2020 11:44:23 +0300
+Thank you for the review.
+
+On Thu, Nov 05, 2020 at 08:19:50AM +0100, Mauro Carvalho Chehab wrote:
+> Hi,
+> 
+> Em Wed,  7 Oct 2020 11:44:21 +0300
 > Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
 > 
-> > Calculate the limit offsets and the size of the limit buffer. CCS limits
-> > are read into this buffer, and the offsets are helpful in accessing the
-> > information in it.
+> > Add register definitions of the MIPI CCS 1.1 standard.
 > > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  drivers/media/i2c/smiapp/smiapp-core.c | 40 +++++++++++++++++++++++++-
-> >  1 file changed, 39 insertions(+), 1 deletion(-)
+> > The CCS driver makes extended use of device's capability registers that
+> > are dependent on CCS version. This involves having an in-memory data
+> > structure for limit and capability information, creating that data
+> > structure and accessing it.
 > > 
-> > diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
-> > index 105ef29152e8..47e983e9cd87 100644
-> > --- a/drivers/media/i2c/smiapp/smiapp-core.c
-> > +++ b/drivers/media/i2c/smiapp/smiapp-core.c
-> > @@ -27,6 +27,7 @@
-> >  #include <media/v4l2-fwnode.h>
-> >  #include <media/v4l2-device.h>
-> >  
-> > +#include "ccs-limits.h"
-> >  #include "smiapp.h"
-> >  
-> >  #define SMIAPP_ALIGN_DIM(dim, flags)	\
-> > @@ -34,6 +35,11 @@
-> >  	 ? ALIGN((dim), 2)		\
-> >  	 : (dim) & ~1)
-> >  
-> > +struct ccs_limit_offset {
-> > +	u16	lim;
-> > +	u16	info;
-> > +} ccs_limit_offsets[CCS_L_LAST + 1];
-> > +  
+> > The register definitions as well as the definitions of this data structure
+> > are generated from a text file using a Perl script. Do the generation here
+> > and so avoid making manual, error-prone changes to the several generated
+> > files.
 > 
-> Hmm... that sounds weird. 
+> I understand the reason behind using a perl script to parse some
+> text file in order to generate register's definition files,
+> but I can't see what's the sense of storing the perl script and
+> such texts together with the Kernel building system, re-generating them
+> every time.
 > 
-> As you're declaring the struct inside smiapp-core.c, this
-> should be static...
+> I mean: register definitions is something that it is supposed to be
+> stable, and nothing something that will change on every Kernel
+> compilation.
 > 
-> >  /*
-> >   * smiapp_module_idents - supported camera modules
-> >   */
-> > @@ -3166,7 +3172,39 @@ static struct i2c_driver smiapp_i2c_driver = {
-> >  	.id_table = smiapp_id_table,
-> >  };
-> >  
-> > -module_i2c_driver(smiapp_i2c_driver);
-> > +static int smiapp_module_init(void)
-> > +{
-> > +	unsigned int i, l;
-> > +
-> > +	for (i = 0, l = 0; ccs_limits[i].size && l < CCS_L_LAST; i++) {
-> > +		if (!(ccs_limits[i].flags & CCS_L_FL_SAME_REG)) {
-> > +			ccs_limit_offsets[l + 1].lim =
-> > +				ALIGN(ccs_limit_offsets[l].lim +
-> > +				      ccs_limits[i].size,
-> > +				      ccs_reg_width(ccs_limits[i + 1].reg));
-> > +			ccs_limit_offsets[l].info = i;
-> > +			l++;
-> > +		} else {
-> > +			ccs_limit_offsets[l].lim += ccs_limits[i].size;
-> > +		}
-> > +	}
-> > +
-> > +	if (WARN_ON(ccs_limits[i].size))
-> > +		return -EINVAL;  
-> 
-> ... yet, this is the only place where this is used.
-> 
-> It sounds to me that you should move the var to be inside this function,
-> 
-> e. g. changing the above to:
-> 
-> struct ccs_limit_offset {
-> 	u16	lim;
-> 	u16	info;
-> };
-> 
-> static int smiapp_module_init(void)
-> {
-> 	struct ccs_limit_offset ccs_limit_offsets[CCS_L_LAST + 1];
-> 	unsigned int i, l;
+> How often are you expecting changes at ccs-regs.txt?
 
+When there's a new version of the standard, or a bug is found. At least. So
+not very often.
 
-Ok, it sounds that you start using this on patch 007/106.
+After pushing the set to a branch in my linuxtv.org tree, I also noticed
+that some architectures are built by kbuild bot without Perl interpreter
+being present. This suggests that Perl is not currently universally
+required for building the kernel albeit there seems to be some PowerPC
+hardware (?) related driver needing it to be built.
 
-So, it sounds that you should just need to add "static" to its definition.
-> 
-> 
-> > +
-> > +	if (WARN_ON(l != CCS_L_LAST))
-> > +		return -EINVAL;
-> > +
-> > +	return i2c_register_driver(THIS_MODULE, &smiapp_i2c_driver);
-> > +}
-> > +
-> > +static void smiapp_module_cleanup(void)
-> > +{
-> > +	i2c_del_driver(&smiapp_i2c_driver);
-> > +}
-> > +
-> > +module_init(smiapp_module_init);
-> > +module_exit(smiapp_module_cleanup);
-> >  
-> >  MODULE_AUTHOR("Sakari Ailus <sakari.ailus@iki.fi>");
-> >  MODULE_DESCRIPTION("Generic SMIA/SMIA++ camera module driver");  
-> 
-> 
-> 
-> Thanks,
-> Mauro
+I was thinking of putting the files produced by the script into a new patch
+and leaving the script and the text file in the directory. The files would
+be rebuilt when a specific environment variable is set. This would in line
+with what crypto drivers are doing.
 
+-- 
+Kind regards,
 
-
-Thanks,
-Mauro
+Sakari Ailus
