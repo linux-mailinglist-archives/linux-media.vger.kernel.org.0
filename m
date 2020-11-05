@@ -2,73 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9E6C2A794C
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 09:30:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C2EE2A795F
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 09:30:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730124AbgKEI37 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 03:29:59 -0500
-Received: from mga14.intel.com ([192.55.52.115]:38466 "EHLO mga14.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725827AbgKEI37 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 03:29:59 -0500
-IronPort-SDR: Cj+uM4S8BHz0vTOEMHfjAtiQjHqSEfCpwFwSKXwodAWEJY8DQlCSmVxCiua/HXacAgHfU/VWq8
- Kna28syZ91cw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="168564869"
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
-   d="scan'208";a="168564869"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 00:29:59 -0800
-IronPort-SDR: bIpWq1MLoGbvv+4fLB/sb1nvEAbF/YGJYWVHJmiYLBDG12K4o23kaNDfCyCukglqXZYbgG63yr
- BK6hOCaBOnEw==
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
-   d="scan'208";a="306758610"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 00:29:54 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 4B1AE20901; Thu,  5 Nov 2020 10:29:51 +0200 (EET)
-Date:   Thu, 5 Nov 2020 10:29:51 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hugues Fruchet <hugues.fruchet@st.com>
-Cc:     Alexandre Torgue <alexandre.torgue@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Alain Volmat <alain.volmat@st.com>,
-        Yannick Fertre <yannick.fertre@st.com>,
-        Philippe CORNU <philippe.cornu@st.com>
-Subject: Re: [PATCH v5 0/4] DCMI BT656 parallel bus mode support
-Message-ID: <20201105082951.GY26150@paasikivi.fi.intel.com>
-References: <1604511132-4014-1-git-send-email-hugues.fruchet@st.com>
+        id S1730381AbgKEIax (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 03:30:53 -0500
+Received: from mail.fullbizgoal.com ([80.211.27.207]:50846 "EHLO
+        server1.mail.fullbizgoal.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729301AbgKEIax (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 03:30:53 -0500
+Received: by server1.mail.fullbizgoal.com (Postfix, from userid 1001)
+        id 2BDF3A5406; Thu,  5 Nov 2020 08:30:37 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=fullbizgoal.com;
+        s=mail; t=1604565052;
+        bh=1A+RQztZunBjkjQlXgr2uQY18vlGaIq8j7jGOmWqiI0=;
+        h=Date:From:To:Subject:From;
+        b=gGUD+jnYrkiVsh8wyAGuKI+tZFSQNBV5QOmDtj1KrxvkVNJOmqFavVkHHoTk6oomj
+         70wEXnp0UPoVqMUIkzNyGBG9JrQfnLE1PTSFAdyIIlHqXQZoBrTvBw8tH8E/D8wKVZ
+         /2Gl0jpBG7VaDawzCqcLElvYFC/ddUo/NKRxT0utr1qMrXpHM12KS2JB+2gEkkNZrG
+         3y6EkHj8PfxoN1DNmvnuU7RT3cRD/e7bNjilkbfs53cKvODptIL8PDh6/OMAKUYFcO
+         ZtpWjnzvgZTRIGChx7Gl6jp1AzaBsjLjSNM8QRUe4QgbHcGcbDnR56s05TpxHlpZ9I
+         BKxwXYLnKQsmQ==
+Received: by mail.fullbizgoal.com for <linux-media@vger.kernel.org>; Thu,  5 Nov 2020 08:30:14 GMT
+Message-ID: <20201105074501-0.1.2o.eze5.0.vjdh3vmmyt@fullbizgoal.com>
+Date:   Thu,  5 Nov 2020 08:30:14 GMT
+From:   "Ethan Smith" <ethan.smith@fullbizgoal.com>
+To:     <linux-media@vger.kernel.org>
+Subject: Disinfectant
+X-Mailer: mail.fullbizgoal.com
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1604511132-4014-1-git-send-email-hugues.fruchet@st.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hugues,
+Good morning,
 
-On Wed, Nov 04, 2020 at 06:32:08PM +0100, Hugues Fruchet wrote:
-> Add support of BT656 embedded synchronization bus.
-> This mode allows to save hardware synchro lines hsync & vsync
-> by replacing them with synchro codes embedded in data stream.
-> Add "bus-type" property and make it required so that there is no
-> ambiguity between parallel mode (bus-type=5) and BT656 mode (bus-type=6).
+looking for companies interested in raising additional capital by diversi=
+fying their offer in soaps, liquids and gels for hand disinfection and co=
+smetics for body and hair care.
 
-Thanks for the update.
+The distribution of innovative products corresponding to the current pref=
+erences of customers in the field of hygiene and preventive healthcare al=
+lows our partners to gain new markets and achieve better economic results=
+=2E
 
-Regarding the two last patches, which tree they're intended to go to?
-Something else than media? I can also take them if it's ok for the
-maintainer of the "right" tree.
+In addition to products with bactericidal action, our range includes show=
+er gels, shampoos and hair conditioners, as well as efficient, concentrat=
+ed detergents.
 
--- 
-Kind regards,
+The versatility (suitable for all skin types) combined with an affordable=
+ price means that customers make an informed choice of a product among ot=
+hers available on the market.
 
-Sakari Ailus
+Are you interested in cooperation?
+
+Ethan Smith
