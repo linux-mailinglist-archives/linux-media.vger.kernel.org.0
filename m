@@ -2,137 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 386B42A846C
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 18:06:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D52902A8530
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 18:43:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731604AbgKERG3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 12:06:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55560 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725862AbgKERG2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 12:06:28 -0500
-Received: from coco.lan (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 28A1E20756;
-        Thu,  5 Nov 2020 17:06:26 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604595987;
-        bh=+n+w/1hHZGrKSZYjmbc1DjktrNb4ft0D6QRN4d1Z6LQ=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=fZR//xCEJJ0QKz3dcqM3sdzUciLiqfXyAj6SqP2tD88qQ0C3i2kwn9WzLeE8Nw0Zx
-         Z2x9IImICGx146D78B3mKyGFtmt+vAyRLv8+6+ida80bwUFaqCRt1xXVIPzfcBA4CA
-         J2Jfw2soUA8RKNrTRWjs4qUJLYq/IkbHPB9YNuuY=
-Date:   Thu, 5 Nov 2020 18:06:23 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
-Subject: Re: [GIT PULL FOR v5.11] v2: Various fixes
-Message-ID: <20201105180623.48b135d0@coco.lan>
-In-Reply-To: <f3b8e5e2-5f0e-fb6f-e5b2-7f44f7e365e7@xs4all.nl>
-References: <f3b8e5e2-5f0e-fb6f-e5b2-7f44f7e365e7@xs4all.nl>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1731666AbgKERnd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 12:43:33 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:39501 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728523AbgKERnd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 12:43:33 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id ajI8kCLahRiwVajICkN8oN; Thu, 05 Nov 2020 18:43:31 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604598211; bh=AF/68IsCoCoaXJfmouTQI7+Xa0mxZphJKln8/rTlTOw=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=qXx9diOz1VOSNXc6KwZ8eqJaKJzva5beMIg+NyKQGCytPhSFKLFy4fdOwRfzl/PJP
+         S2HVQbOGqZIRqBHuDp3pfsmxC5/m/c07GSlhJGq8r8wiY9gR/BLIi4ZtZ57RNrBE6p
+         zWcjYcRgv0MZ1q5u705N36auilHOOt8yDEnGx7J6cmB2FSoPY0m1pl8UcQJSGvaleX
+         YRLDRYeinE75B/VxN/w1d3h9CujCYAksWgYGdOi7A53dRUrwIIsN2/r82sU4nrHDKS
+         NBzbuoIlijwOt6X735R+MFyN4NsGZ+fEOdRueukvmnRE7khbRT6M98OzpNmAGwyUO+
+         +PU+ErPe5ZSvQ==
+Subject: Re: [PATCH v2 1/3] media: videodev2.h, v4l2-ioctl: add rkisp1 meta
+ buffer format
+To:     Helen Koike <helen.koike@collabora.com>,
+        linux-media@vger.kernel.org
+Cc:     linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        heiko@sntech.de, kernel@collabora.com,
+        dafna.hirschfeld@collabora.com, zhengsq@rock-chips.com,
+        laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se,
+        mchehab@kernel.org, tfiga@chromium.org, ribalda@google.com
+References: <20201030112225.2095909-1-helen.koike@collabora.com>
+ <20201030112225.2095909-2-helen.koike@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <89711cf3-fc1d-68e2-1de0-c6cc88c6f7d0@xs4all.nl>
+Date:   Thu, 5 Nov 2020 18:43:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20201030112225.2095909-2-helen.koike@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfFQzZsLG4IoaX3MK9lUP4P9bGhv1ECFdNeJQOiElLglacYI/BsXbPysNb+04DVFyoEdgVkJ7Rek3vDJnPt7hIT5P1xB9L1+qCYErrvCNOGtKMS7Auwoe
+ 6RkflstvARa0zkSt33v+m67BTBNKl5m7CkVR3yPJagUJh7MeTU7zCszSzL13ENT5mam7TNv8d3cHoYK8I1lG0kOcxWqk2svg+DawLaEKjG7sHJuktyrNu7br
+ 27MYthrYwpWvtyjpsJqqKq+AELe04UoyZtA9OWbPhUJupEJCtNMzgCCLwoGD3bcX8PohfOoZEPXm9aWBHF3LRXA8aG55RvOrL8xtg4cMRyYk9Uxfm2vSCT+r
+ n6/7CW2P0mgPLH/YgW1EduBVXCJwOP1n+cBzOODF1gknVTZ7g7M6zarTXS82LeK1jTvC6Q1HogcxbZLhD8/f2zQ691AQvwlwZiAw2+s5XOCu5D3OGO4uxh/P
+ 1qwX+4ag8hN4RvzhtgiPr9rSFID4/+b6HU+YbZQgUIwW+SlKkXLE0jIqDKqClfsDUdFeTZYNpVEWqXtaIFWrkpA6jBlPYJKqCPI2q0W+El77NfUnbcgZonuv
+ rViyJ/audj+z2xutflGBI8RWGUhZ3JAvAu7/OyDkFMldAPtOx0/t5/AQha6Ozk7+GCI=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 5 Nov 2020 14:50:00 +0100
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
-
-> Supersedes https://patchwork.linuxtv.org/project/linux-media/patch/01dbfda7-c126-8b8b-4af5-2cc767b34e19@xs4all.nl/
+On 30/10/2020 12:22, Helen Koike wrote:
+> From: Shunqian Zheng <zhengsq@rock-chips.com>
 > 
-> The only change is that two patches from Jernej were added.
+> Add the Rockchip ISP1 specific processing parameter format
+> V4L2_META_FMT_RK_ISP1_PARAMS and metadata format
+> V4L2_META_FMT_RK_ISP1_STAT_3A for 3A.
+> 
+> Signed-off-by: Shunqian Zheng <zhengsq@rock-chips.com>
+> Signed-off-by: Jacob Chen <jacob2.chen@rock-chips.com>
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> 
+> ---
+> Hello,
+> 
+> This patch is a continuation of:
+> 
+> https://patchwork.kernel.org/project/linux-arm-kernel/patch/20191106120132.6876-2-helen.koike@collabora.com/
+> 
+> These formats are already documented under
+> Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst
+> 
+> We had agreed to keep under
+> drivers/staging/media/rkisp1/uapi/rkisp1-config.h while the driver was
+> in staging, since we are moving it out of staging, I guess this is the
+> time :)
 > 
 > Regards,
+> Helen
+> ---
+>  drivers/media/v4l2-core/v4l2-ioctl.c              | 2 ++
+>  drivers/staging/media/rkisp1/uapi/rkisp1-config.h | 4 ----
+>  include/uapi/linux/videodev2.h                    | 4 ++++
+>  3 files changed, 6 insertions(+), 4 deletions(-)
 > 
-> 	Hans
-> 
-> The following changes since commit dfe3d19bd092cefb184c6e65b881602c793edd33:
-> 
->   Merge tag 'v5.10-rc1' into patchwork (2020-10-29 09:03:21 +0100)
-> 
-> are available in the Git repository at:
-> 
->   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.11e
-> 
-> for you to fetch changes up to 451afd8c2a0a889105c27f16a38a8897086532f3:
-> 
->   media: cedrus: Add support for R40 (2020-11-05 14:44:59 +0100)
-> 
-> ----------------------------------------------------------------
-> Tag branch
-> 
-> ----------------------------------------------------------------
-> Dafna Hirschfeld (2):
->       media: uapi: add MEDIA_BUS_FMT_METADATA_FIXED media bus format.
->       media: staging: rkisp1: isp: set metadata pads to MEDIA_BUS_FMT_METADATA_FIXED
-> 
-> Evgeny Novikov (1):
->       media: isif: reset global state
-> 
-> Ezequiel Garcia (2):
->       coda: coda_buffer_meta housekeeping fix
->       coda: Add a V4L2 user for control error macroblocks count
-> 
-> Hsin-Yi Wang (1):
->       media: mtk-vcodec: remove allocated dma_parms
-> 
-> Jernej Skrabec (2):
->       dt-bindings: media: allwinner,sun4i-a10-video-engine: Add R40 compatible
->       media: cedrus: Add support for R40
-> 
-> Liu Shixin (1):
->       media: media/pci: simplify the return expression of verify_window_lock
-> 
-> Yu Kuai (6):
->       media: platform: add missing put_device() call in mtk_jpeg_clk_init()
->       media: platform: add missing put_device() call in mtk_jpeg_probe() and mtk_jpeg_remove()
->       media: mtk-vcodec: add missing put_device() call in mtk_vcodec_init_dec_pm()
->       media: mtk-vcodec: add missing put_device() call in mtk_vcodec_release_dec_pm()
->       media: mtk-vcodec: add missing put_device() call in mtk_vcodec_init_enc_pm()
->       media: mtk-vcodec: add missing put_device() call in mtk_vcodec_release_enc_pm()
-> 
-> Zhang Qilong (2):
->       media: staging: rkisp1: cap: fix runtime PM imbalance on error
->       media: cedrus: fix reference leak in cedrus_start_streaming
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index eeff398fbdcc1..202597d031c6b 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1402,6 +1402,8 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
+>  	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
+>  	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
+> +	case V4L2_META_FMT_RK_ISP1_PARAMS:	descr = "Rockchip ISP1 3A params"; break;
+> +	case V4L2_META_FMT_RK_ISP1_STAT_3A:	descr = "Rockchip ISP1 3A statistics"; break;
 
-A few patches on this sereis didn't apply:
+Use 'Params' and 'Statistics' to conform to the other descriptions.
 
-	0010-0017-media-platform-add-missing-put_device-call-in-mtk_jp.patch
-	0012-0017-media-mtk-vcodec-add-missing-put_device-call-in-mtk_.patch
-	0013-0017-media-mtk-vcodec-add-missing-put_device-call-in-mtk_.patch
-	0014-0017-media-mtk-vcodec-add-missing-put_device-call-in-mtk_.patch
-	0015-0017-media-mtk-vcodec-add-missing-put_device-call-in-mtk_.patch
+Regards,
 
-I suspect that those were merged via some other tree.
+	Hans
 
-
+>  
+>  	default:
+>  		/* Compressed formats */
+> diff --git a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> index 8d906cc7da8fc..6e449e7842605 100644
+> --- a/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> +++ b/drivers/staging/media/rkisp1/uapi/rkisp1-config.h
+> @@ -9,10 +9,6 @@
+>  
+>  #include <linux/types.h>
+>  
+> -/* Vendor specific - used for RK_ISP1 camera sub-system */
+> -#define V4L2_META_FMT_RK_ISP1_PARAMS   v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 params */
+> -#define V4L2_META_FMT_RK_ISP1_STAT_3A  v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A statistics */
+> -
+>  /* Defect Pixel Cluster Detection */
+>  #define RKISP1_CIF_ISP_MODULE_DPCC		(1U << 0)
+>  /* Black Level Subtraction */
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 534eaa4d39bc8..c2e13ba81196b 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -770,6 +770,10 @@ struct v4l2_pix_format {
+>  #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
+>  #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
+>  
+> +/* Vendor specific - used for RK_ISP1 camera sub-system */
+> +#define V4L2_META_FMT_RK_ISP1_PARAMS	v4l2_fourcc('R', 'K', '1', 'P') /* Rockchip ISP1 params */
+> +#define V4L2_META_FMT_RK_ISP1_STAT_3A	v4l2_fourcc('R', 'K', '1', 'S') /* Rockchip ISP1 3A statistics */
+> +
+>  /* priv field value to indicates that subsequent fields are valid. */
+>  #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
+>  
 > 
->  .../devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml  |  1 +
->  Documentation/userspace-api/media/v4l/subdev-formats.rst             | 27 +++++++++++++++++
->  drivers/media/pci/bt8xx/bttv-driver.c                                | 12 +++-----
->  drivers/media/platform/coda/coda-bit.c                               | 52 +++++++++++++++++++++++++++-----
->  drivers/media/platform/coda/coda-common.c                            | 18 +++++++++++
->  drivers/media/platform/coda/coda.h                                   | 11 +++++++
->  drivers/media/platform/davinci/isif.c                                | 11 +++++--
->  drivers/media/platform/mtk-jpeg/mtk_jpeg_core.c                      |  9 ++++++
->  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_drv.c               |  9 +-----
->  drivers/media/platform/mtk-vcodec/mtk_vcodec_dec_pm.c                | 19 ++++++++----
->  drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_drv.c               |  9 +-----
->  drivers/media/platform/mtk-vcodec/mtk_vcodec_enc_pm.c                | 28 ++++++++++++-----
->  drivers/staging/media/rkisp1/TODO                                    |  1 -
->  drivers/staging/media/rkisp1/rkisp1-capture.c                        |  1 +
->  drivers/staging/media/rkisp1/rkisp1-isp.c                            |  8 ++---
->  drivers/staging/media/sunxi/cedrus/cedrus.c                          |  9 ++++++
->  drivers/staging/media/sunxi/cedrus/cedrus_video.c                    |  4 ++-
->  include/uapi/linux/media-bus-format.h                                |  8 +++++
->  include/uapi/linux/v4l2-controls.h                                   |  6 ++++
->  19 files changed, 191 insertions(+), 52 deletions(-)
 
-
-
-Thanks,
-Mauro
