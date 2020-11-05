@@ -2,161 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 19BB22A7EFB
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 13:50:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0DAB42A7F05
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 13:52:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730501AbgKEMu2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 07:50:28 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:37367 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730577AbgKEMu2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 07:50:28 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id aeibkD0GHNanzaeifkoNB7; Thu, 05 Nov 2020 13:50:25 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1604580625; bh=gLIsuZG8GTY+QYVfWWAesdsXd2UfBf7dmJxTf1nR7WY=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=MMWilpbQMpT8oDSacKEBLrQz28T3FlXJgoruPt65sQ4VhboysfAnsPfipuZ8Yog6m
-         g9DHQq1Lllu4sRwjPGMWFMs4z5vIBDprulYa67pxnjmBGqjrZuI9ue01Gk7U1eqg2r
-         U9EK2yUt0oCXrXaYPbgv4MeEr1/p7F/MDNrhbTr9Wcoss6KWHvxtLR/sk/FSgUSynv
-         i+1tQN01i7/UlsdaHPwHnoi1xHxebfJnPfTY0JpdADnx7iJANIy/wXSNipQfbMX0r8
-         wYmNMDOwHYTCNwaWj0Fj5RonMjzp3rFTGBX8XHNJdaiymr149uHnyYRZAkUSpx8tQP
-         95yGowwp5h4hQ==
-Subject: Re: [PATCH v2 100/106] ccs: Add support for analogue gain coefficient
- controls
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org
-References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
- <20201007084557.25843-1-sakari.ailus@linux.intel.com>
- <20201007084557.25843-91-sakari.ailus@linux.intel.com>
- <074fd0e4-f16c-c2cd-1d30-f55a1993ad36@xs4all.nl>
-Message-ID: <de88c362-f0cd-52ba-0628-3bdcd370219c@xs4all.nl>
-Date:   Thu, 5 Nov 2020 13:50:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1730429AbgKEMwa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 07:52:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57472 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726777AbgKEMwa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 07:52:30 -0500
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 021BBC0613CF;
+        Thu,  5 Nov 2020 04:52:30 -0800 (PST)
+Received: by mail-lj1-x243.google.com with SMTP id p15so1437616ljj.8;
+        Thu, 05 Nov 2020 04:52:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=3l1aRcqcF78cHksRWV2XnGoE+BVDrbrW5Cq1V4B7e5Y=;
+        b=kFimWqOSZmu7KJoGa7QTQRAC4Ob+z+sncY88iSFZ7UBMu8Refa4KM4RzahvxmQfcrI
+         cSvRUa3GRIRuFTBT50mEXd3b68yS2I/fhlPfbvQEDPOgwnAFWczHt8TXzS7uBVDvpqP4
+         MKnhv1qk0+1Yc7is2/z4hQYX8UKpeh0fQBU1tSgtgn8d04Bg7gxXvBW+Hdb4Y8MghVeg
+         Wt8C7NfZ+yrmMMhEF9/ZMQlRBkouZgwtrU598BkNVwORvgX+Mv7zivAeldVQRW3/0fNQ
+         MOvtaYBMDSZ1SROZ5riHHWnHTSc19OsoMFKRrEm3KKexGyiwIsHBTc0o/ugk4KxLcXhT
+         Ngeg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=3l1aRcqcF78cHksRWV2XnGoE+BVDrbrW5Cq1V4B7e5Y=;
+        b=MXDYUvkEZLbr+3YpiJGXAlqX9uhO2iKiSoo7bftqvBFspnVuPwe+cbMavzmh2kXlko
+         vt/EMHYB6hOSFDel3s9oRTp0PBgwhrG+dzGoawIWo0A2nrFULkEdd2tk0w3TuhMLtzQD
+         V7ZgIgVm0GtMHiWXj9pp+NVyYSlLEXC596tJKvHyE0qz7m2gkH7gg+j0/vNmqqhKir1r
+         6nhGDj3F4YlNTXvrob8nDlOJXn/8E3M1ZnVN2W8LSrNlUUYh9TxK6yN3eoxch+puzmBs
+         QokP8y1zUnDbRYy0MhkN8TyLYj7FFLj9WS7uBa0aAC24xseOmCevnFTBn1q4ZMQzvL8z
+         zhPw==
+X-Gm-Message-State: AOAM531LtfR4LcN/T/wkaubRkx2NDmOw6ySXQHEYOxj7F1L6HpwpJGob
+        rfo/6DiJWEpp/PqpjqQN7JCjg85squ4t+19vm1I=
+X-Google-Smtp-Source: ABdhPJyQvxIX/9k9mK7mLKasQAhCaUeMNWg9f7J+uPoiuRykNbmj5pFjdEzXQb01dkIcn1y3wHEAH7eGiIjCVUiNHSA=
+X-Received: by 2002:a2e:b169:: with SMTP id a9mr896988ljm.84.1604580748404;
+ Thu, 05 Nov 2020 04:52:28 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <074fd0e4-f16c-c2cd-1d30-f55a1993ad36@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfIcah9w9auePvrwnkuIyDEUFGU419/Of4EZ/3dZFZCoFtTRA7HEdF9PCOPB8kKK3I7vOHMjqfswmy3x5qDMxFjcHLQqfyPqyRmhVHSF+4D3+iRIBjgWc
- dTbsEE7SGDOyY6tMG3OABvxD5ZdhJL5aElbo8XRJ/ZY9hlP4u89hK3/ifj2BTm1hiCRwYachKHTUASLwAlutyXehOjDhFcOBZ7vVxWPU2MjkXzMpGqG//w7y
- N1aleHvOiuC1GOjU7McGjA==
+References: <20201022122421.133976-1-gnurou@gmail.com> <c6454292-935b-f14a-e743-838ccabc6590@xs4all.nl>
+ <CAAVeFuKCEQYBs84ssCvwAkGUxGikeDFc+XNX2LzkENGc5B1n8g@mail.gmail.com>
+ <db7a95b0-3d63-ed38-fb8a-62f32c83c13e@xs4all.nl> <CAAVeFuL8TaArTd_fOLSSE-854n9vwpob5LxdqgHNa-bTTn5Gxg@mail.gmail.com>
+ <695e6163-7bdc-d120-cd02-0cff6efb53ef@xs4all.nl>
+In-Reply-To: <695e6163-7bdc-d120-cd02-0cff6efb53ef@xs4all.nl>
+From:   Alexandre Courbot <gnurou@gmail.com>
+Date:   Thu, 5 Nov 2020 21:52:16 +0900
+Message-ID: <CAAVeFuL9PDgirADEVXUNbNKY4YVw9uFpjbr5Zmt_Vb-3K4-2Yg@mail.gmail.com>
+Subject: Re: [PATCH] media: v4l2-mem2mem: always call poll_wait() on queues
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05/11/2020 13:46, Hans Verkuil wrote:
-> On 07/10/2020 10:45, Sakari Ailus wrote:
->> Add four controls for reading CCS analogue gain coefficients. The
->> values are constants that are device specific.
->>
->> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
->> ---
->>  drivers/media/i2c/ccs/ccs-core.c | 38 ++++++++++++++++++++++++++++++--
->>  1 file changed, 36 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
->> index d6d6aeceb415..2a507b63bafc 100644
->> --- a/drivers/media/i2c/ccs/ccs-core.c
->> +++ b/drivers/media/i2c/ccs/ccs-core.c
->> @@ -28,6 +28,7 @@
->>  #include <linux/v4l2-mediabus.h>
->>  #include <media/v4l2-fwnode.h>
->>  #include <media/v4l2-device.h>
->> +#include <uapi/linux/ccs.h>
->>  
->>  #include "ccs.h"
->>  
->> @@ -772,14 +773,46 @@ static int ccs_init_controls(struct ccs_sensor *sensor)
->>  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
->>  	int rval;
->>  
->> -	rval = v4l2_ctrl_handler_init(&sensor->pixel_array->ctrl_handler, 13);
->> +	rval = v4l2_ctrl_handler_init(&sensor->pixel_array->ctrl_handler, 17);
->>  	if (rval)
->>  		return rval;
->>  
->>  	sensor->pixel_array->ctrl_handler.lock = &sensor->mutex;
->>  
->>  	switch (CCS_LIM(sensor, ANALOG_GAIN_CAPABILITY)) {
->> -	case CCS_ANALOG_GAIN_CAPABILITY_GLOBAL:
->> +	case CCS_ANALOG_GAIN_CAPABILITY_GLOBAL: {
->> +		struct {
-> 
-> Can this be static?
+On Thu, Nov 5, 2020 at 9:36 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+>
+> On 05/11/2020 13:21, Alexandre Courbot wrote:
+> > On Tue, Nov 3, 2020 at 6:48 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> >>
+> >> On 03/11/2020 09:51, Alexandre Courbot wrote:
+> >>> Hi Hans,
+> >>>
+> >>> On Sat, Oct 31, 2020 at 12:09 AM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
+> >>>>
+> >>>> On 22/10/2020 14:24, Alexandre Courbot wrote:
+> >>>>> do_poll()/do_select() seem to set the _qproc member of poll_table to
+> >>>>> NULL the first time they are called on a given table, making subsequent
+> >>>>> calls of poll_wait() on that table no-ops. This is a problem for mem2mem
+> >>>>> which calls poll_wait() on the V4L2 queues' waitqueues only when a
+> >>>>> queue-related event is requested, which may not necessarily be the case
+> >>>>> during the first poll.
+> >>>>>
+> >>>>> For instance, a stateful decoder is typically only interested in
+> >>>>> EPOLLPRI events when it starts, and will switch to listening to both
+> >>>>> EPOLLPRI and EPOLLIN after receiving the initial resolution change event
+> >>>>> and configuring the CAPTURE queue. However by the time that switch
+> >>>>> happens and v4l2_m2m_poll_for_data() is called for the first time,
+> >>>>> poll_wait() has become a no-op and the V4L2 queues waitqueues thus
+> >>>>> cannot be registered.
+> >>>>>
+> >>>>> Fix this by moving the registration to v4l2_m2m_poll() and do it whether
+> >>>>> or not one of the queue-related events are requested.
+> >>>>
+> >>>> This looks good, but would it be possible to add a test for this to
+> >>>> v4l2-compliance? (Look for POLL_MODE_EPOLL in v4l2-test-buffers.cpp)
+> >>>>
+> >>>> If I understand this right, calling EPOLL_CTL_ADD for EPOLLPRI, then
+> >>>> calling EPOLL_CTL_ADD for EPOLLIN/OUT would trigger this? Or does there
+> >>>> have to be an epoll_wait call in between?
+> >>>
+> >>> Even without an epoll_wait() in between the behavior is visible.
+> >>> v4l2_m2m_poll() will be called once during the initial EPOLL_CTL_ADD
+> >>> and this will trigger the bug.
+> >>>
+> >>>> Another reason for adding this test is that I wonder if regular capture
+> >>>> or output V4L2 devices don't have the same issue.
+> >>>>
+> >>>> It's a very subtle bug and so adding a test for this to v4l2-compliance
+> >>>> would be very useful.
+> >>>
+> >>> I fully agree, this is very counter-intuitive since what basically
+> >>> happens is that the kernel's poll_wait() function becomes a no-op
+> >>> after the poll() hook of a driver is called for the first time. There
+> >>> is no way one can expect this behavior just from browsing the code so
+> >>> this is likely to affect other drivers.
+> >>>
+> >>> As for the test itself, we can easily reproduce the conditions for
+> >>> failure in v4l2-test-buffers.cpp's captureBufs() function, but doing
+> >>> so will make the streaming tests fail without being specific about the
+> >>> cause. Or maybe we should add another pollmode to specifically test
+> >>> epoll in this setup? Can I get your thoughts?
+> >>
+> >> No, just keep it as part of the poll test. Just add comments at the place
+> >> where it fails describing this error.
+> >>
+> >> After all, it *is* a poll() bug, so it is only fair that it is tested as
+> >> part of the epoll test.
+> >>
+> >> Can you call EPOLL_CTL_ADD with ev.events set to 0? And then call it again
+> >> with the actual value that you need? If that triggers this issue as well,
+> >> then that is a nice test (but perhaps EPOLL_CTL_ADD won't call poll() if
+> >> ev.events is 0, but perhaps EPOLLERR would work instead of 0).
+> >
+> > Yup, actually the following is enough to make v4l2-compliance -s fail
+> > with vicodec:
+>
+> Does it also fail with vivid? I am curious to know whether this issue is
+> m2m specific or a more general problem.
 
-Ah, no. The value is sensor dependent. Sorry, ignore this.
-
-> 
->> +			const char *name;
->> +			u32 id;
->> +			s32 value;
->> +		} const gain_ctrls[] = {
->> +			{ "Analogue Gain m0", V4L2_CID_CCS_ANALOGUE_GAIN_M0,
-> 
-> Why lower case 'm0/1' and 'c0/1'? It looks odd.
-> 
->> +			  CCS_LIM(sensor, ANALOG_GAIN_M0), },
->> +			{ "Analogue Gain c0", V4L2_CID_CCS_ANALOGUE_GAIN_C0,
->> +			  CCS_LIM(sensor, ANALOG_GAIN_C0), },
->> +			{ "Analogue Gain m1", V4L2_CID_CCS_ANALOGUE_GAIN_M1,
->> +			  CCS_LIM(sensor, ANALOG_GAIN_M1), },
->> +			{ "Analogue Gain c1", V4L2_CID_CCS_ANALOGUE_GAIN_C1,
->> +			  CCS_LIM(sensor, ANALOG_GAIN_C1), },
->> +		};
->> +		struct v4l2_ctrl_config ctrl_cfg = {
->> +			.type = V4L2_CTRL_TYPE_INTEGER,
->> +			.ops = &ccs_ctrl_ops,
->> +			.flags = V4L2_CTRL_FLAG_READ_ONLY,
->> +			.step = 1,
->> +		};
-> 
-> This looks a bit weird. Most drivers just define each control separately in
-> a static const struct v4l2_ctrl_config, then add them with v4l2_ctrl_new_custom.
-> 
-> Now the control definition data is split up in two data structures.
-> 
-> It's not wrong, it is just non-standard, and a bit harder to review.
-
-Ignore this as well, it's because some values aren't constant.
-
-Regards,
-
-	Hans
-
-> 
->> +		unsigned int i;
->> +
->> +		for (i = 0; i < ARRAY_SIZE(gain_ctrls); i++) {
->> +			ctrl_cfg.name = gain_ctrls[i].name;
->> +			ctrl_cfg.id = gain_ctrls[i].id;
->> +			ctrl_cfg.min = ctrl_cfg.max = ctrl_cfg.def =
->> +				gain_ctrls[i].value;
->> +
->> +			v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
->> +					     &ctrl_cfg, NULL);
->> +		}
->> +
->>  		v4l2_ctrl_new_std(&sensor->pixel_array->ctrl_handler,
->>  				  &ccs_ctrl_ops, V4L2_CID_ANALOGUE_GAIN,
->>  				  CCS_LIM(sensor, ANALOG_GAIN_CODE_MIN),
->> @@ -788,6 +821,7 @@ static int ccs_init_controls(struct ccs_sensor *sensor)
->>  				      1U),
->>  				  CCS_LIM(sensor, ANALOG_GAIN_CODE_MIN));
->>  	}
->> +	}
->>  
->>  	if (CCS_LIM(sensor, DIGITAL_GAIN_CAPABILITY) ==
->>  	    CCS_DIGITAL_GAIN_CAPABILITY_GLOBAL ||
->>
-> 
-> Regards,
-> 
-> 	Hans
-> 
-
+It does fail actually! And that made me notice that vb2_poll() uses
+the same pattern as v4l2_m2m_poll() (probably because the latter is
+inspired by the former?) and needs to be fixed similarly. I will send
+another patch to fix vb2_poll() as well, thanks for pointing it out!
