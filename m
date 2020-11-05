@@ -2,134 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2887D2A7B01
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 10:51:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F100A2A7B2C
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 10:58:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726737AbgKEJvC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 04:51:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57428 "EHLO
+        id S1726874AbgKEJ6t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 04:58:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58652 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725468AbgKEJvA (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 04:51:00 -0500
-Received: from mail-oo1-xc43.google.com (mail-oo1-xc43.google.com [IPv6:2607:f8b0:4864:20::c43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 554CBC0613D2
-        for <linux-media@vger.kernel.org>; Thu,  5 Nov 2020 01:50:59 -0800 (PST)
-Received: by mail-oo1-xc43.google.com with SMTP id j41so271125oof.12
-        for <linux-media@vger.kernel.org>; Thu, 05 Nov 2020 01:50:59 -0800 (PST)
+        with ESMTP id S1725308AbgKEJ6s (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 04:58:48 -0500
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D513FC0613CF;
+        Thu,  5 Nov 2020 01:58:46 -0800 (PST)
+Received: by mail-ej1-x643.google.com with SMTP id w13so1697028eju.13;
+        Thu, 05 Nov 2020 01:58:46 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=dX0vDqom8ha6YU5ZReUcsQtcVPHPjeNXiBGF2ngLEnw=;
-        b=FQiVrGaLODrUUaqHrd8MUV+2jfG4zXyZcp645Hz8Hi2Z2Eh0gNkwuONW1bano0KYSf
-         OUPgJ7K0ia9zwh2Ic5E5yR+0sJQsounbGX5x1hedn1xg0hN/GKElRrLU+WMF8mU6AgWF
-         3oeLNr8r2BYpCFPbh4qyNmGJGpVGif0bCmE+g=
+        bh=8/0+xGMrqmCQCrjRIhp34cgoVWyVPh+6Sc63/MCPbP8=;
+        b=i+mDDBQGg9bf9ZIFzChyy7Rq+AK2ujK0vNsYtVg1phv8sxI4NYIxwWWLXmBO1AoPnr
+         2uAFrojlzm/ql3PTMenBeK5Xq0Ad0WXHmPNn+Zt5r98YKoAxvp2wSLmxnWNwYgCvB4CN
+         lRm9qRiNr4WJ1qN37G+/1M5YXyx4EmkOfDqMpjAfr9MPFTJ7M8zyrThQ9cssePg7fEGo
+         5AAqlqj48wJIvqREQzT41ALbORJ0Ke8tq/ZFNwNADWHAos3p8LRY0+kFTfxfvmQpfEYt
+         J2J4a7RvoVFp+QSO8Q29MM0YfPsa+NYD2yQ4RoaPzew1LRwJnQfhkx6+8bZPNJFsNw4N
+         H0LA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=dX0vDqom8ha6YU5ZReUcsQtcVPHPjeNXiBGF2ngLEnw=;
-        b=Gl+wtQhWbj/G5kftGX3s/VbkCPgzaAmmiwilOwcYIOo3q1FeeJG/he7REzKYksILFl
-         nxKwuZMZdw9V4cvXVFjwgV6ZnO96cu+ttej5NY8IfUfi5IBt88oPvbKSQmSDfhTzZdtZ
-         XGOP8qmXg73iiCKEtNB54TdxdLyuI4Xy4/AOPPmpv46fvecBDfajiQZ9aHqqEaHgyexn
-         0fTiuGXhRQxvlxJWxsA7yf3x1iciv++5WFzcYxosUo0V+o6cf/i7NLB5VLERR0NiKxb2
-         CsvnQ1f339Fo+1uJAMcGWBLaA3y3iAV3OHZvekOdA/e0mkspVEAhpFMqH8z5dBXaA7mq
-         Nn/g==
-X-Gm-Message-State: AOAM530oZCQvd0C4wsYE1pfCkspmg0n6eXIh1a1puKJmt7/0BrqxWR1h
-        ASoVL/IMO0gMyufO+U/sJGfYYMSARs4U/OTB
-X-Google-Smtp-Source: ABdhPJw1RPHe765j5/oK0ShC6+y7Gt5NhRKmL7okRXLCel7GQxFICPBHYbJQYAYz/sjG8TBLC17Tlg==
-X-Received: by 2002:a4a:a402:: with SMTP id v2mr1196688ool.82.1604569858472;
-        Thu, 05 Nov 2020 01:50:58 -0800 (PST)
-Received: from mail-oo1-f41.google.com (mail-oo1-f41.google.com. [209.85.161.41])
-        by smtp.gmail.com with ESMTPSA id j10sm237858oou.4.2020.11.05.01.50.57
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 05 Nov 2020 01:50:57 -0800 (PST)
-Received: by mail-oo1-f41.google.com with SMTP id l4so276219oos.7
-        for <linux-media@vger.kernel.org>; Thu, 05 Nov 2020 01:50:57 -0800 (PST)
-X-Received: by 2002:a4a:6251:: with SMTP id y17mr837922oog.17.1604569856931;
- Thu, 05 Nov 2020 01:50:56 -0800 (PST)
+        bh=8/0+xGMrqmCQCrjRIhp34cgoVWyVPh+6Sc63/MCPbP8=;
+        b=kzmvHvs3ZJroBVFHFZFT07r1boly2Z3teu4PGHAoeEkiUM0w1t+9LFjHfovCbkO8TY
+         T6M3k/Qgau6HS1RuH2g+YvJc3DZXnLigkp7BLMmEiCfLVSZ78hJYeznmuI3bTXZvDGHb
+         uXUPh8Xe87IFAikknPq/yg5F2NwMCcsYNi/w536H5JVnRARY1VrUhGfBnxaiz7E4q5cA
+         B7bY971Z2nF1ew76nVkO1ba/d1XojGLadFpebylK7oB8NU4a/7Ql3vQrp7jsOspFepvM
+         EmSXeCk9emuasIKU9+Olz9iP+xFA/e1Y3BP7pcBG353WjA9xdudWs5z6wtFDvdldGVac
+         aE7Q==
+X-Gm-Message-State: AOAM5321qAQuUb8Ps3CS3v1DO6wTLWJgMIai9OVu1LWSKx+t00D8exgt
+        ZU2CwpKVfnowlEOP+ui2ikRvJ24ixXZTFffPcSQ=
+X-Google-Smtp-Source: ABdhPJyn8dHU+iql4LIPEGykzYeJPOpKnFuZLrqcQJDf2Cin2XWenUKK05ejEnpNpXJIWT3fxGVNQdHuR8JyYUjfQ0g=
+X-Received: by 2002:a17:906:3689:: with SMTP id a9mr1424841ejc.403.1604570325540;
+ Thu, 05 Nov 2020 01:58:45 -0800 (PST)
 MIME-Version: 1.0
-References: <20201104180734.286789-1-ribalda@chromium.org> <20201104180734.286789-2-ribalda@chromium.org>
- <87769d554b4575bf9371380b013e66d70f1b21c4.camel@perches.com>
- <20201104214201.GH29958@pendragon.ideasonboard.com> <9d439214e8c83ebf7b93dccca2f848fbaf75b9d4.camel@perches.com>
- <CANiDSCvwvQUTt1QMQGGyZPag9VeHj4Ugmj8QJdBNtw00UNt6Pg@mail.gmail.com>
- <a00078e1311c09361e9e3357ba5dca037d7a8bff.camel@perches.com>
- <CANiDSCteVWin-Yy2ZVSMUJBPvJ-F0Ti+fEpi26apsDW0XXrpwg@mail.gmail.com> <79cad1a6a296761e672cfb0d85e7424fcb740032.camel@perches.com>
-In-Reply-To: <79cad1a6a296761e672cfb0d85e7424fcb740032.camel@perches.com>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Thu, 5 Nov 2020 10:50:45 +0100
-X-Gmail-Original-Message-ID: <CANiDSCt8twP=JTkGjSVKdDwRhuHb7Jkv+=08U6oFdGtAjtrELw@mail.gmail.com>
-Message-ID: <CANiDSCt8twP=JTkGjSVKdDwRhuHb7Jkv+=08U6oFdGtAjtrELw@mail.gmail.com>
-Subject: Re: [PATCH v2 1/7] media: uvcvideo: Use pr_cont() macro
-To:     Joe Perches <joe@perches.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+References: <20201104234427.26477-1-digetx@gmail.com> <20201104234427.26477-18-digetx@gmail.com>
+In-Reply-To: <20201104234427.26477-18-digetx@gmail.com>
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+Date:   Thu, 5 Nov 2020 15:28:34 +0530
+Message-ID: <CAOh2x==sy1w7_oEV8=toC6uQnSN44wyOixbP_X0BrMsnm1AUFg@mail.gmail.com>
+Subject: Re: [PATCH v1 17/30] mmc: sdhci-tegra: Support OPP and core voltage scaling
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine=2DK=C3=B6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+        Rob Herring <robh+dt@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        driver-dev <devel@driverdev.osuosl.org>,
+        linux-pwm@vger.kernel.org,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        DTML <devicetree@vger.kernel.org>, linux-usb@vger.kernel.org,
+        "open list:SECURE DIGITAL HO..." <linux-mmc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Joe
+On Thu, Nov 5, 2020 at 5:15 AM Dmitry Osipenko <digetx@gmail.com> wrote:
 
-On Thu, Nov 5, 2020 at 12:59 AM Joe Perches <joe@perches.com> wrote:
+> diff --git a/drivers/mmc/host/sdhci-tegra.c b/drivers/mmc/host/sdhci-tegra.c
+
+> +static void sdhci_tegra_deinit_opp_table(void *data)
+> +{
+> +       struct device *dev = data;
+> +       struct opp_table *opp_table;
+> +
+> +       opp_table = dev_pm_opp_get_opp_table(dev);
+
+So you need to get an OPP table to put one :)
+You need to save the pointer returned by dev_pm_opp_set_regulators() instead.
+
+> +       dev_pm_opp_of_remove_table(dev);
+> +       dev_pm_opp_put_regulators(opp_table);
+> +       dev_pm_opp_put_opp_table(opp_table);
+> +}
+> +
+> +static int devm_sdhci_tegra_init_opp_table(struct device *dev)
+> +{
+> +       struct opp_table *opp_table;
+> +       const char *rname = "core";
+> +       int err;
+> +
+> +       /* voltage scaling is optional */
+> +       if (device_property_present(dev, "core-supply"))
+> +               opp_table = dev_pm_opp_set_regulators(dev, &rname, 1);
+> +       else
+
+
+> +               opp_table = dev_pm_opp_get_opp_table(dev);
+
+Nice. I didn't think that someone will end up abusing this API and so made it
+available for all, but someone just did that. I will fix that in the OPP core.
+
+Any idea why you are doing what you are doing here ?
+
+> +
+> +       if (IS_ERR(opp_table))
+> +               return dev_err_probe(dev, PTR_ERR(opp_table),
+> +                                   "failed to prepare OPP table\n");
+> +
+> +       /*
+> +        * OPP table presence is optional and we want the set_rate() of OPP
+> +        * API to work similarly to clk_set_rate() if table is missing in a
+> +        * device-tree.  The add_table() errors out if OPP is missing in DT.
+> +        */
+> +       if (device_property_present(dev, "operating-points-v2")) {
+> +               err = dev_pm_opp_of_add_table(dev);
+> +               if (err) {
+> +                       dev_err(dev, "failed to add OPP table: %d\n", err);
+> +                       goto put_table;
+> +               }
+> +       }
+> +
+> +       err = devm_add_action(dev, sdhci_tegra_deinit_opp_table, dev);
+> +       if (err)
+> +               goto remove_table;
+> +
+> +       return 0;
+> +
+> +remove_table:
+> +       dev_pm_opp_of_remove_table(dev);
+> +put_table:
+> +       dev_pm_opp_put_regulators(opp_table);
+> +
+> +       return err;
+> +}
+> +
+>  static int sdhci_tegra_probe(struct platform_device *pdev)
+>  {
+>         const struct of_device_id *match;
+> @@ -1621,6 +1681,10 @@ static int sdhci_tegra_probe(struct platform_device *pdev)
+>                 goto err_power_req;
+>         }
 >
-> On Thu, 2020-11-05 at 00:01 +0100, Ricardo Ribalda wrote:
-> > Hi Joe
-> >
-> > On Thu, Nov 5, 2020 at 12:00 AM Joe Perches <joe@perches.com> wrote:
-> > >
-> > > On Wed, 2020-11-04 at 23:31 +0100, Ricardo Ribalda wrote:
-> > >
-> > > > I have updated my tree with the dev_ variants
-> > > >
-> > > > https://github.com/ribalda/linux/commit/b8785fd8efb4f2e5bbf5d0f2df3e0d69a5439015
-> > >
-> > > I looked at this link and was confused so you made me look.
-> > > I think you meant:
-> > >
-> > > https://github.com/ribalda/linux/commit/83cb6eb3a9f7bd1954acbfb4fb3d56ddf54bce73
-> >
-> > Yes, thanks :) Sorry about that
-> >
-> > This is why I should be away from a keyboard after 23:00 :)
+> +       rc = devm_sdhci_tegra_init_opp_table(&pdev->dev);
+> +       if (rc)
+> +               goto err_parse_dt;
+> +
+>         /*
+>          * Tegra210 has a separate SDMMC_LEGACY_TM clock used for host
+>          * timeout clock and SW can choose TMCLK or SDCLK for hardware
+> --
+> 2.27.0
 >
-> Sleep is good.
-> There are lots of sleep deprived people here in the US today though.
-
-Today and tomorrow and the day after. Seems like you are not going to
-sleep for a week if you want a final result.
-
->
-> It looks as if all the pr_cont uses in the code are odd and repetitive.
->
-> Perhaps it'd be sensible to add something like:
-
-Looks like a great idea. Queued for my v3
-
-https://github.com/ribalda/linux/commit/1623b648331d7f69c8a9f6b199e119f6c8ee61c6
-
-I let Laurent decide if we should squash with the previous patch or not.
-
-Thanks!
-
->
-> #define uvc_trace_cont(flag, fmt, ...)                                  \
-> do {                                                                    \
->         if (uvc_trace_param & (flag))                                   \
->                 pr_cont(fmt, ##__VA_ARGS__);                            \
-> } while (0)
->
-> and change all the uses like:
->
-> -               if (uvc_trace_param & UVC_TRACE_PROBE)
-> -                       printk(KERN_CONT " <- SU %d", entity->id);
-> +               uvc_trace_cont(UVC_TRACE_PROBE, " <- SU %d", entity->id);
->
->
-
-
--- 
-Ricardo Ribalda
+> _______________________________________________
+> devel mailing list
+> devel@linuxdriverproject.org
+> http://driverdev.linuxdriverproject.org/mailman/listinfo/driverdev-devel
