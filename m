@@ -2,107 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 36ACF2A7EEB
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 13:47:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1AEF72A7EF4
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 13:50:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726874AbgKEMrz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 07:47:55 -0500
-Received: from mga01.intel.com ([192.55.52.88]:35011 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726067AbgKEMry (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 07:47:54 -0500
-IronPort-SDR: 67pHDi4rSgm8NGPdmz2I1intbSH1YjR9zh+RhdzI2Mgg8MfumpWaTqQJWJipjIY23HTyyOe2Oq
- Q2i8LZMVf4Yw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="187282075"
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
-   d="scan'208";a="187282075"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 04:47:53 -0800
-IronPort-SDR: VNh0k/QGsn2IudBfywlT+Yg4gFH9z+w+uhalKXT5FA56EAFZew1g6p/JNPHOK0hoH3WKl13ytk
- lnTTMinsa/pw==
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
-   d="scan'208";a="363798336"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 04:47:53 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 2B76B20901; Thu,  5 Nov 2020 14:47:51 +0200 (EET)
-Date:   Thu, 5 Nov 2020 14:47:51 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 099/106] v4l: uapi: ccs: Add controls for analogue
- gain constants
-Message-ID: <20201105124751.GF26150@paasikivi.fi.intel.com>
-References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
- <20201007084557.25843-1-sakari.ailus@linux.intel.com>
- <20201007084557.25843-90-sakari.ailus@linux.intel.com>
- <bccb9a91-99bf-71d2-f3e5-caa429c90f64@xs4all.nl>
+        id S1730461AbgKEMtx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 07:49:53 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57008 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726777AbgKEMtw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 07:49:52 -0500
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 33724C0613D3
+        for <linux-media@vger.kernel.org>; Thu,  5 Nov 2020 04:49:52 -0800 (PST)
+Received: by mail-qt1-x844.google.com with SMTP id c5so941177qtw.3
+        for <linux-media@vger.kernel.org>; Thu, 05 Nov 2020 04:49:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=c/75nGkQrQ26C3oLWTOAYAjfB1zI6lLeh7OxDvBkYU4=;
+        b=ey9/JXPqLzTLqSC0JUXYcVxUXf6bgAVzYD4I4rO+pMYwL+MZhAaGFEUE/+P8Locz8v
+         LJ+RhibI0qf9gLCV/mRJ83hORIvqSMnJCg5JZJzCh+xHF7VIlIbjuRPAp0C63CSZuqsG
+         vYgc5f9BkYulbWJWSx8NN3DJBDW1+TKWxoIWvVybUSqXDpV2fkacRRICo8Tgpy2bpeGk
+         Ltiq/5WP3OM3AF7WaYqeeBRq6dKQGJ/PL2Qyomfzz0Quj8y3hj/F49F0vpFao5oEjJKE
+         yviSyey2jqX+EBs1TWKrdjoCX5L1qgaPHh/4yTZi2biI/4T2G6/5ZjvS2T05bvZ3lDtu
+         PdhQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=c/75nGkQrQ26C3oLWTOAYAjfB1zI6lLeh7OxDvBkYU4=;
+        b=pOxFw2zazy78cZYTozV5QTYcm3hmheEXe0z8CMaVTX5VrvYVqmCyNcKs/SieN439v5
+         WGtyMEoOukL25mZQTeoYAvgI4OKZ82RRzFfQmPDfj8jzrQIqdonzr/JQ3eBRciiojVAt
+         pyPvY0eEYZk774YhFLbCqWM19U1QiK6Og0D9ZJZez8a7zXTYJcGKsfxgYHImVuEklca5
+         hR1dEqX9oH7s2hnOCp+qJmIzDLSmdtTuVaYiABuxpUOVTZKvNXYjViKY+KlQ7wcmMNgV
+         dmHjVkoPHB+liXkGIsHAJ4h10iOutFxFoH/UZcR6FDk2aB9S8zoJtuyEx+2f2Xg6cBjN
+         KWfQ==
+X-Gm-Message-State: AOAM531I4vHfGdTSKmu1mQx6TSetcHumPcIVXQec6n6Fuye6CdUQ0bdy
+        54gbmlnD3Ij96G/2+Te1EpTptg==
+X-Google-Smtp-Source: ABdhPJyp3xdvhiGf3T//L8CChJ12FUSiNzGQbei5PswIE841BlFiQ3KzgYdb3JVW6KR7+PP7QIWQow==
+X-Received: by 2002:ac8:46c1:: with SMTP id h1mr1733189qto.361.1604580591377;
+        Thu, 05 Nov 2020 04:49:51 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id u31sm763588qtu.87.2020.11.05.04.49.50
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 05 Nov 2020 04:49:50 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1kaei6-00H0yJ-2m; Thu, 05 Nov 2020 08:49:50 -0400
+Date:   Thu, 5 Nov 2020 08:49:50 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     John Hubbard <jhubbard@nvidia.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        J??r??me Glisse <jglisse@redhat.com>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>,
+        KVM list <kvm@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
+Message-ID: <20201105124950.GZ36674@ziepe.ca>
+References: <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
+ <20201104140023.GQ36674@ziepe.ca>
+ <CAKMK7uH69hsFjYUkjg1aTh5f=q_3eswMSS5feFs6+ovz586+0A@mail.gmail.com>
+ <20201104162125.GA13007@infradead.org>
+ <CAKMK7uH=0+3FSR4LxP7bJUB4BsCcnCzfK2=D+2Am9QNmfZEmfw@mail.gmail.com>
+ <20201104163758.GA17425@infradead.org>
+ <20201104164119.GA18218@infradead.org>
+ <20201104181708.GU36674@ziepe.ca>
+ <d3497583-2338-596e-c764-8c571b7d22cf@nvidia.com>
+ <20201105092524.GQ401619@phenom.ffwll.local>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <bccb9a91-99bf-71d2-f3e5-caa429c90f64@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201105092524.GQ401619@phenom.ffwll.local>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
+On Thu, Nov 05, 2020 at 10:25:24AM +0100, Daniel Vetter wrote:
+> > /*
+> >  * If we can't determine whether or not a pte is special, then fail immediately
+> >  * for ptes. Note, we can still pin HugeTLB and THP as these are guaranteed not
+> >  * to be special.
+> >  *
+> >  * For a futex to be placed on a THP tail page, get_futex_key requires a
+> >  * get_user_pages_fast_only implementation that can pin pages. Thus it's still
+> >  * useful to have gup_huge_pmd even if we can't operate on ptes.
+> >  */
+> 
+> We support hugepage faults in gpu drivers since recently, and I'm not
+> seeing a pud_mkhugespecial anywhere. So not sure this works, but probably
+> just me missing something again.
 
-On Thu, Nov 05, 2020 at 01:41:55PM +0100, Hans Verkuil wrote:
-> On 07/10/2020 10:45, Sakari Ailus wrote:
-> > Add a V4L2 controls for analogue gai constants required to control
-> 
-> gai -> gain
-> 
-> > analogue gain. The values are device specific and thus need to be obtained
-> > from the driver.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  MAINTAINERS              |  1 +
-> >  include/uapi/linux/ccs.h | 14 ++++++++++++++
-> >  2 files changed, 15 insertions(+)
-> >  create mode 100644 include/uapi/linux/ccs.h
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index b72f666b8b60..c173e503b0b7 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -11569,6 +11569,7 @@ F:	drivers/media/i2c/ccs/
-> >  F:	drivers/media/i2c/ccs-pll.c
-> >  F:	drivers/media/i2c/ccs-pll.h
-> >  F:	include/uapi/linux/smiapp.h
-> > +F:	include/uapi/linux/ccs.h
-> >  
-> >  MIPS
-> >  M:	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> > diff --git a/include/uapi/linux/ccs.h b/include/uapi/linux/ccs.h
-> > new file mode 100644
-> > index 000000000000..bcdce95955b0
-> > --- /dev/null
-> > +++ b/include/uapi/linux/ccs.h
-> > @@ -0,0 +1,14 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only AND BSD-3-Clause */
-> > +/* Copyright (C) 2020 Intel Corporation */
-> > +
-> > +#ifndef __UAPI_CCS_H__
-> > +#define __UAPI_CCS_H__
-> > +
-> > +#include <linux/videodev2.h>
-> > +
-> > +#define V4L2_CID_CCS_ANALOGUE_GAIN_M0		(V4L2_CID_USER_CCS_BASE + 1)
-> > +#define V4L2_CID_CCS_ANALOGUE_GAIN_C0		(V4L2_CID_USER_CCS_BASE + 2)
-> > +#define V4L2_CID_CCS_ANALOGUE_GAIN_M1		(V4L2_CID_USER_CCS_BASE + 3)
-> > +#define V4L2_CID_CCS_ANALOGUE_GAIN_C1		(V4L2_CID_USER_CCS_BASE + 4)
-> 
-> Please document these controls. Ditto for the later patches that add more
-> of these controls.
-> 
-> This header is a good place to put the documentation.
+It means ioremap can't create an IO page PUD, it has to be broken up.
 
-Yes, I'll add that for v3.
+Does ioremap even create anything larger than PTEs?
 
--- 
-Sakari Ailus
+Jason
