@@ -2,179 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 09A262A7AA5
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 10:34:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBCB12A7AAC
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 10:34:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731124AbgKEJeP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 04:34:15 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54772 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730990AbgKEJeO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 04:34:14 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 24A97C0613D6
-        for <linux-media@vger.kernel.org>; Thu,  5 Nov 2020 01:34:14 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id a65so536271wme.1
-        for <linux-media@vger.kernel.org>; Thu, 05 Nov 2020 01:34:14 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=dhezt058VYAXUzsmT6wFAloMyt6Frs+cE6TCkSAcHPs=;
-        b=ST87g3boTQObR5JxsvDJGIfMAlcgsXvr+F3JKuft7VsNKm+GuZmFkRWYBz/N9m+nP5
-         gUOFOdjErnnQz3ZNReWuFokDdnl7uPc7ZMOj6kqNide21CEbt+Pus48kXLDRURvnNC2N
-         3RAKhoWa6Hje1zG3vURpcraCOdJW7Q+XZ+t28=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :in-reply-to;
-        bh=dhezt058VYAXUzsmT6wFAloMyt6Frs+cE6TCkSAcHPs=;
-        b=VvRoNSXRC/I4+Q7bdn/YlwBzqOTHrHnR6OQQBZiGMqqQajQSWLWaGYgnWUca8hoiVX
-         vNJCZbEIX1KsXi9Rk0xW5R+iaPsQc7/qcr1xDmlBdpQh+8C4TdLVeznGc3Wig9FrM56V
-         zM5wXu5ZsqKfM7NOKE0nIjQNRj2xuot6acgQ+72lJiM1BXmoayLFNU9y7Kya58x8QFQn
-         4eCnGDGP/walCZctoeivAT0Xs/L5M7P74zsya9OYSkZWLIBc0CoyldnaFY+SFx+EIOqP
-         gRTAzDgwA/oB7zeqabR2Iu4YihGk9669FZWEZVGCHVFNi4U0x/dLWPqbWqvqZnOzRgBr
-         SyYg==
-X-Gm-Message-State: AOAM531dk8r6yhMPOzZshaSWAjpYiZ9zAC3On2RyVAaOT8TIF+gsvQW8
-        Rwh7SbTOXOHJMVuMdeD9xXPONg==
-X-Google-Smtp-Source: ABdhPJwBx2+thaZ4Z7KLrdw1GbhrDGTHyh3vgC78jGbXnmbFtcgLmot8B2SlqilS+tbAOr47w4H/Mg==
-X-Received: by 2002:a1c:21c1:: with SMTP id h184mr1802586wmh.106.1604568852772;
-        Thu, 05 Nov 2020 01:34:12 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id s202sm1648809wme.39.2020.11.05.01.34.11
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2020 01:34:11 -0800 (PST)
-Date:   Thu, 5 Nov 2020 10:34:09 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Dan Williams <dan.j.williams@intel.com>
-Cc:     Bjorn Helgaas <helgaas@kernel.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        KVM list <kvm@vger.kernel.org>, Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>,
-        Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
-        Linux PCI <linux-pci@vger.kernel.org>
-Subject: Re: [PATCH v5 11/15] PCI: Obey iomem restrictions for procfs mmap
-Message-ID: <20201105093409.GR401619@phenom.ffwll.local>
-Mail-Followup-To: Dan Williams <dan.j.williams@intel.com>,
-        Bjorn Helgaas <helgaas@kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>, KVM list <kvm@vger.kernel.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        "Linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Jason Gunthorpe <jgg@ziepe.ca>, Kees Cook <keescook@chromium.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        John Hubbard <jhubbard@nvidia.com>,
-        =?iso-8859-1?B?Suly9G1l?= Glisse <jglisse@redhat.com>,
-        Jan Kara <jack@suse.cz>, Bjorn Helgaas <bhelgaas@google.com>,
-        Linux PCI <linux-pci@vger.kernel.org>
-References: <CAKMK7uF0QjesaNs97N-G8cZkXuAmFgcmTfHvoCP94br_WVcV6Q@mail.gmail.com>
- <20201104165017.GA352206@bjorn-Precision-5520>
- <CAPcyv4idORJzHVD2vCOnO3REqWHKVn_-otOzTBf0HhcWq4iJRQ@mail.gmail.com>
+        id S1730406AbgKEJew (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 04:34:52 -0500
+Received: from mail.kernel.org ([198.145.29.99]:60606 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729862AbgKEJew (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 04:34:52 -0500
+Received: from coco.lan (unknown [95.90.213.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 4294C2080D;
+        Thu,  5 Nov 2020 09:34:50 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604568891;
+        bh=dqyUTPHLhmN1Zu8jHgln0c6PwDsXF91EsPR1TRMZgi0=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=sb8eWN8nLNA8YIQEc9uluTBpsExNB8MilUqcg3Uz/qz6xhB3wOTFBrPpBvmCIFump
+         9edmZV2RCFcWklCQf/2BL9UYnhqe74YlzYL7014fhHROPTSTNQ7pDhusKx9PHtioVO
+         63Sv7ENu69fEJeEi/iIitbzP5VxT3H0YkKWDmR88=
+Date:   Thu, 5 Nov 2020 10:34:45 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 029/106] ccs: Remove the =?UTF-8?B?ScKyQw==?= ID
+ table
+Message-ID: <20201105103445.36d6c5ee@coco.lan>
+In-Reply-To: <20201007084557.25843-22-sakari.ailus@linux.intel.com>
+References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
+        <20201007084557.25843-1-sakari.ailus@linux.intel.com>
+        <20201007084557.25843-22-sakari.ailus@linux.intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CAPcyv4idORJzHVD2vCOnO3REqWHKVn_-otOzTBf0HhcWq4iJRQ@mail.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 04, 2020 at 12:12:15PM -0800, Dan Williams wrote:
-> On Wed, Nov 4, 2020 at 8:50 AM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> >
-> > On Wed, Nov 04, 2020 at 09:44:04AM +0100, Daniel Vetter wrote:
-> > > On Tue, Nov 3, 2020 at 11:09 PM Dan Williams <dan.j.williams@intel.com> wrote:
-> > > > On Tue, Nov 3, 2020 at 1:28 PM Bjorn Helgaas <helgaas@kernel.org> wrote:
-> > > > > On Fri, Oct 30, 2020 at 11:08:11AM +0100, Daniel Vetter wrote:
-> > > > > > There's three ways to access PCI BARs from userspace: /dev/mem, sysfs
-> > > > > > files, and the old proc interface. Two check against
-> > > > > > iomem_is_exclusive, proc never did. And with CONFIG_IO_STRICT_DEVMEM,
-> > > > > > this starts to matter, since we don't want random userspace having
-> > > > > > access to PCI BARs while a driver is loaded and using it.
-> > > > > >
-> > > > > > Fix this by adding the same iomem_is_exclusive() check we already have
-> > > > > > on the sysfs side in pci_mmap_resource().
-> > > > > >
-> > > > > > References: 90a545e98126 ("restrict /dev/mem to idle io memory ranges")
-> > > > > > Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-> > > > >
-> > > > > This is OK with me but it looks like IORESOURCE_EXCLUSIVE is currently
-> > > > > only used in a few places:
-> > > > >
-> > > > >   e1000_probe() calls pci_request_selected_regions_exclusive(),
-> > > > >   ne_pci_probe() calls pci_request_regions_exclusive(),
-> > > > >   vmbus_allocate_mmio() calls request_mem_region_exclusive()
-> > > > >
-> > > > > which raises the question of whether it's worth keeping
-> > > > > IORESOURCE_EXCLUSIVE at all.  I'm totally fine with removing it
-> > > > > completely.
-> > > >
-> > > > Now that CONFIG_IO_STRICT_DEVMEM upgrades IORESOURCE_BUSY to
-> > > > IORESOURCE_EXCLUSIVE semantics the latter has lost its meaning so I'd
-> > > > be in favor of removing it as well.
-> > >
-> > > Still has some value since it enforces exclusive access even if the
-> > > config isn't enabled, and iirc e1000 had some fun with userspace tools
-> > > clobbering the firmware and bricking the chip.
-> >
-> > There's *some* value; I'm just skeptical since only three drivers use
-> > it.
-> >
-> > IORESOURCE_EXCLUSIVE is from e8de1481fd71 ("resource: allow MMIO
-> > exclusivity for device drivers"), and the commit message says this is
-> > only active when CONFIG_STRICT_DEVMEM is set.  I didn't check to see
-> > whether that's still true.
-> >
-> > That commit adds a bunch of wrappers and "__"-prefixed functions to
-> > pass the IORESOURCE_EXCLUSIVE flag around.  That's a fair bit of
-> > uglification for three drivers.
-> >
-> > > Another thing I kinda wondered, since pci maintainer is here: At least
-> > > in drivers/gpu I see very few drivers explicitly requestion regions
-> > > (this might be a historical artifact due to the shadow attach stuff
-> > > before we had real modesetting drivers). And pci core doesn't do that
-> > > either, even when a driver is bound. Is this intentional, or
-> > > should/could we do better? Since drivers work happily without
-> > > reserving regions I don't think "the drivers need to remember to do
-> > > this" will ever really work out well.
-> >
-> > You're right, many drivers don't call pci_request_regions().  Maybe we
-> > could do better, but I haven't looked into that recently.  There is a
-> > related note in Documentation/PCI/pci.rst that's been there for a long
-> > time (it refers to "pci_request_resources()", which has never existed
-> > AFAICT).  I'm certainly open to proposals.
-> 
-> It seems a bug that the kernel permits MMIO regions with side effects
-> to be ioremap()'ed without request_mem_region() on the resource. I
-> wonder how much log spam would happen if ioremap() reported whenever a
-> non-IORESOURE_BUSY range was passed to it? The current state of
-> affairs to trust *remap users to have claimed their remap target seems
-> too ingrained to unwind now.
+Em Wed,  7 Oct 2020 11:44:42 +0300
+Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
 
-Yeah I think that's hopeless. I think the only feasible approach is if bus
-drivers claim resources by default when a driver is bound (it should nest,
-so if the driver claims again, I think that should all keep working), just
-using the driver name. Probably with some special casing for legacy io
-(vgaarb.c should claim these I guess). Still probably tons of fallout.
+> The I=C2=B2C ID table is no longer needed; remove it.
 
-Once that's rolled out to all bus drivers we could perhaps add the ioremap
-check without drowning in log spam. Still a multi-year project I think :-/
--Daniel
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Why not? Please provide more information.
+
+In summary, please change the description in order to answer the
+following questions:
+
+For OF-based drivers, removing I2C probing won't cause any harm,
+as the patch is keeping css_of_able, but wouldn't it affect other=20
+drivers that could, for example, be using ACPI, instead?
+
+Or is this driver incompatible with other probing methods?
+
+>=20
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/ccs/ccs-core.c | 7 -------
+>  1 file changed, 7 deletions(-)
+>=20
+> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs=
+-core.c
+> index e348f55c62a6..660d5ab2c89d 100644
+> --- a/drivers/media/i2c/ccs/ccs-core.c
+> +++ b/drivers/media/i2c/ccs/ccs-core.c
+> @@ -3244,12 +3244,6 @@ static const struct of_device_id ccs_of_table[] =
+=3D {
+>  };
+>  MODULE_DEVICE_TABLE(of, ccs_of_table);
+> =20
+> -static const struct i2c_device_id ccs_id_table[] =3D {
+> -	{ SMIAPP_NAME, 0 },
+> -	{ },
+> -};
+> -MODULE_DEVICE_TABLE(i2c, ccs_id_table);
+> -
+>  static const struct dev_pm_ops ccs_pm_ops =3D {
+>  	SET_SYSTEM_SLEEP_PM_OPS(ccs_suspend, ccs_resume)
+>  	SET_RUNTIME_PM_OPS(ccs_power_off, ccs_power_on, NULL)
+> @@ -3263,7 +3257,6 @@ static struct i2c_driver ccs_i2c_driver =3D {
+>  	},
+>  	.probe_new =3D ccs_probe,
+>  	.remove	=3D ccs_remove,
+> -	.id_table =3D ccs_id_table,
+>  };
+> =20
+>  static int ccs_module_init(void)
+
+
+
+Thanks,
+Mauro
