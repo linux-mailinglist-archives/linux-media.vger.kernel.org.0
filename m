@@ -2,174 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F30E92A8311
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 17:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE9A02A8386
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 17:29:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730898AbgKEQHq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 11:07:46 -0500
-Received: from netrider.rowland.org ([192.131.102.5]:54091 "HELO
-        netrider.rowland.org" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with SMTP id S1730174AbgKEQHp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 11:07:45 -0500
-Received: (qmail 1615519 invoked by uid 1000); 5 Nov 2020 11:07:43 -0500
-Date:   Thu, 5 Nov 2020 11:07:43 -0500
-From:   Alan Stern <stern@rowland.harvard.edu>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v1 21/30] usb: host: ehci-tegra: Support OPP and SoC core
- voltage scaling
-Message-ID: <20201105160743.GA1613614@rowland.harvard.edu>
-References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-22-digetx@gmail.com>
+        id S1727836AbgKEQ3W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 11:29:22 -0500
+Received: from mga14.intel.com ([192.55.52.115]:19253 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725998AbgKEQ3W (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 11:29:22 -0500
+IronPort-SDR: v4CqMQQZP1PeG8ZFvbfbhgOpdtPLH2g+kSAXovnuYhIJRm1uMhKT26vhKLvGjxDB/WW1zRfJP5
+ t+uqMpppbOYg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="168632299"
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
+   d="scan'208";a="168632299"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga003.fm.intel.com ([10.253.24.29])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 08:29:21 -0800
+IronPort-SDR: kbYD3vmXkR3od5jmlJyjmNq1OhUU6HQrhjx+Wep4g59R7+yZ5QfOVjLOiREntksOUhi6c5Rp6z
+ BKnrNg+cP8bw==
+X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
+   d="scan'208";a="363870362"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 08:29:20 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 99CD720901; Thu,  5 Nov 2020 18:29:18 +0200 (EET)
+Date:   Thu, 5 Nov 2020 18:29:18 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     linux-media@vger.kernel.org, Hans Verkuil <hverkuil@xs4all.nl>
+Subject: Re: [PATCH v2 105/106] ccs: Add shading correction and luminance
+ correction level controls
+Message-ID: <20201105162918.GK26150@paasikivi.fi.intel.com>
+References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
+ <20201007084557.25843-1-sakari.ailus@linux.intel.com>
+ <20201007084557.25843-96-sakari.ailus@linux.intel.com>
+ <20201105134243.62ef1938@coco.lan>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201104234427.26477-22-digetx@gmail.com>
+In-Reply-To: <20201105134243.62ef1938@coco.lan>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 05, 2020 at 02:44:18AM +0300, Dmitry Osipenko wrote:
-> Add initial OPP and SoC core voltage scaling support to the Tegra EHCI
-> driver. This is required for enabling system-wide DVFS on older Tegra
-> SoCs.
+Hi Mauro,
+
+Thanks for the review comments.
+
+On Thu, Nov 05, 2020 at 01:42:43PM +0100, Mauro Carvalho Chehab wrote:
+> Em Wed,  7 Oct 2020 11:45:56 +0300
+> Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
 > 
-> Tested-by: Peter Geis <pgwipeout@gmail.com>
-> Tested-by: Nicolas Chauvet <kwizart@gmail.com>
-> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
-> ---
+> > Add controls for supporting lens shading correction.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> 
+> For patches 098 to 105, we should at least have those new controls
+> documented at the uAPI documents.
 
-I'm no expert on OPP stuff, but some of what you have done here looks 
-peculiar.
+Agreed.
 
-> diff --git a/drivers/usb/host/ehci-tegra.c b/drivers/usb/host/ehci-tegra.c
-> index 869d9c4de5fc..0976577f54b4 100644
-> --- a/drivers/usb/host/ehci-tegra.c
-> +++ b/drivers/usb/host/ehci-tegra.c
-> @@ -17,6 +17,7 @@
->  #include <linux/of_device.h>
->  #include <linux/of_gpio.h>
->  #include <linux/platform_device.h>
-> +#include <linux/pm_opp.h>
->  #include <linux/pm_runtime.h>
->  #include <linux/reset.h>
->  #include <linux/slab.h>
-> @@ -364,6 +365,79 @@ static void tegra_ehci_unmap_urb_for_dma(struct usb_hcd *hcd, struct urb *urb)
->  	free_dma_aligned_buffer(urb);
->  }
->  
-> +static void tegra_ehci_deinit_opp_table(void *data)
-> +{
-> +	struct device *dev = data;
-> +	struct opp_table *opp_table;
-> +
-> +	opp_table = dev_pm_opp_get_opp_table(dev);
-> +	dev_pm_opp_of_remove_table(dev);
-> +	dev_pm_opp_put_regulators(opp_table);
-> +	dev_pm_opp_put_opp_table(opp_table);
-> +}
-> +
-> +static int devm_tegra_ehci_init_opp_table(struct device *dev)
-> +{
-> +	unsigned long rate = ULONG_MAX;
-> +	struct opp_table *opp_table;
-> +	const char *rname = "core";
-> +	struct dev_pm_opp *opp;
-> +	int err;
-> +
-> +	/* legacy device-trees don't have OPP table */
-> +	if (!device_property_present(dev, "operating-points-v2"))
-> +		return 0;
-> +
-> +	/* voltage scaling is optional */
-> +	if (device_property_present(dev, "core-supply"))
-> +		opp_table = dev_pm_opp_set_regulators(dev, &rname, 1);
-> +	else
-> +		opp_table = dev_pm_opp_get_opp_table(dev);
-> +
-> +	if (IS_ERR(opp_table))
-> +		return dev_err_probe(dev, PTR_ERR(opp_table),
-> +				     "failed to prepare OPP table\n");
-> +
-> +	err = dev_pm_opp_of_add_table(dev);
-> +	if (err) {
-> +		dev_err(dev, "failed to add OPP table: %d\n", err);
-> +		goto put_table;
-> +	}
-> +
-> +	/* find suitable OPP for the maximum clock rate */
-> +	opp = dev_pm_opp_find_freq_floor(dev, &rate);
-> +	err = PTR_ERR_OR_ZERO(opp);
-> +	if (err) {
-> +		dev_err(dev, "failed to get OPP: %d\n", err);
-> +		goto remove_table;
-> +	}
-> +
-> +	dev_pm_opp_put(opp);
-> +
-> +	/*
-> +	 * First dummy rate-set initializes voltage vote by setting voltage
-> +	 * in accordance to the clock rate.
-> +	 */
-> +	err = dev_pm_opp_set_rate(dev, rate);
-> +	if (err) {
-> +		dev_err(dev, "failed to initialize OPP clock: %d\n", err);
-> +		goto remove_table;
-> +	}
-> +
-> +	err = devm_add_action(dev, tegra_ehci_deinit_opp_table, dev);
-> +	if (err)
-> +		goto remove_table;
-> +
-> +	return 0;
-> +
-> +remove_table:
-> +	dev_pm_opp_of_remove_table(dev);
-> +put_table:
-> +	dev_pm_opp_put_regulators(opp_table);
+> 
+> I'm not convinced yet that we shouldn't instead place them inside
+> V4L2_CTRL_CLASS_CAMERA.
+> 
+> As those are part of a MIPI standard, I won't doubt that sooner or
+> later, other drivers may need them.
 
-Do you really want to use the same error unwinding for opp_table values 
-obtained from dev_pm_opp_set_regulators() as from 
-dev_pm_opp_get_opp_table()?
+They are part of a MIPI standard, but that standard defines a control
+interface for camera sensors which this driver uses. I don't see a need to
+implement other drivers for devices this driver already supports.
 
-> +
-> +	return err;
-> +}
-> +
->  static const struct tegra_ehci_soc_config tegra30_soc_config = {
->  	.has_hostpc = true,
->  };
-> @@ -431,6 +505,11 @@ static int tegra_ehci_probe(struct platform_device *pdev)
->  		goto cleanup_hcd_create;
->  	}
->  
-> +	err = devm_tegra_ehci_init_opp_table(&pdev->dev);
-> +	if (err)
-> +		return dev_err_probe(&pdev->dev, err,
-> +				     "Failed to initialize OPP\n");
+Note that while MIPI standards are originally centered around cross-chip
+busses, the functionality that is being controlled here is entirely local
+to the device.
 
-Why log a second error message?  Just return err.
+Quite a few of the controls are still somehow specific to the device.
 
-Alan Stern
+That said, the same analogue gain model is very likely present on a range
+of devices even though they are not CCS (or SMIA) compatible, for
+historical reasons. Perhaps these could be actually made a single array
+control in the camera control class, with indices defined for the different
+factors.
+
+-- 
+Kind regards,
+
+Sakari Ailus
