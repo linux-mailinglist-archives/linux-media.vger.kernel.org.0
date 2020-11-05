@@ -2,73 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CEA7C2A7CC9
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 12:18:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 447272A7D15
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 12:34:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726715AbgKELSM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 06:18:12 -0500
-Received: from mga18.intel.com ([134.134.136.126]:26310 "EHLO mga18.intel.com"
+        id S1729748AbgKELeW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 06:34:22 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54538 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726067AbgKELSL (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 06:18:11 -0500
-IronPort-SDR: Ps+UUsa8kcDZgfUqAQ3hcAbWGuhMU/j/H7Fi56ajcc09aBsewMsZNt1WS1i30Hcc+uIBhbZLy2
- L3AsbD3vrOoQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="157144308"
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
-   d="scan'208";a="157144308"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 03:18:11 -0800
-IronPort-SDR: ylHE/88QJjqEgJs1FTjnDXgKCj2TlHxuKiLC73suMgTG4KCjjm9W2Q5vb1sgOZel/UtjbImNhn
- p2R5fQOFQ+pA==
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
-   d="scan'208";a="539360308"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 03:18:10 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 497EB20901; Thu,  5 Nov 2020 13:18:07 +0200 (EET)
-Date:   Thu, 5 Nov 2020 13:18:07 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+        id S1730424AbgKELeT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 06:34:19 -0500
+Received: from coco.lan (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id D98C420867;
+        Thu,  5 Nov 2020 11:34:16 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604576058;
+        bh=AYcXlcmrh5lYQWwJ1YFXhk9piO+ZIueaUH2lWNsv75k=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=tacoHp5foPNDjC/BdJzmt5Xy8YIYav1eLqyti9XyZVP47uMT3P+LfIkc/cvv4NxUU
+         Fd171RMdL/SMLf3Fhbr/i0Z9CC+baazqtRN+rHK3Mx3vzBzaPwVXP5m0t1xMWbAdVp
+         yMCHXfFf4qrYLpkt+VrNh/wFenv1b1+onLRW2GLI=
+Date:   Thu, 5 Nov 2020 12:34:13 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
 Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 033/106] ccs: Add CCS static data parser library
-Message-ID: <20201105111807.GB26150@paasikivi.fi.intel.com>
+Subject: Re: [PATCH v2 046/106] ccs: Add support for manufacturer regs from
+ sensor and module files
+Message-ID: <20201105123413.07eb4a9a@coco.lan>
+In-Reply-To: <20201007084557.25843-39-sakari.ailus@linux.intel.com>
 References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
- <20201007084557.25843-1-sakari.ailus@linux.intel.com>
- <20201007084557.25843-26-sakari.ailus@linux.intel.com>
- <20201105115032.53381197@coco.lan>
+        <20201007084557.25843-1-sakari.ailus@linux.intel.com>
+        <20201007084557.25843-39-sakari.ailus@linux.intel.com>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201105115032.53381197@coco.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Em Wed,  7 Oct 2020 11:44:59 +0300
+Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
 
-Thanks for the review.
-
-On Thu, Nov 05, 2020 at 11:50:32AM +0100, Mauro Carvalho Chehab wrote:
-
-...
-
-> > +struct __ccs_data_block_end {
-> > +	uint8_t crc[4];
-> > +} __attribute__((packed));
-> > +
-> > +#endif /* __CCS_DATA_DEFS_H__ */
+> Write manufacturer specific registers (MSRs) from file to the sensor on
+> sensor power-on.
 > 
-> Nitpick: why all the above struct/enums start with "__"?
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/ccs/ccs-core.c       | 23 +++++++
+>  drivers/media/i2c/ccs/ccs-reg-access.c | 94 ++++++++++++++++++++------
+>  drivers/media/i2c/ccs/ccs-reg-access.h |  2 +
+>  3 files changed, 97 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> index 5d7c5ece578d..6c2f18abc921 100644
+> --- a/drivers/media/i2c/ccs/ccs-core.c
+> +++ b/drivers/media/i2c/ccs/ccs-core.c
+> @@ -1272,6 +1272,21 @@ static int ccs_setup_flash_strobe(struct ccs_sensor *sensor)
+>   * Power management
+>   */
+>  
+> +static int ccs_write_msr_regs(struct ccs_sensor *sensor)
+> +{
+> +	int rval;
+> +
+> +	rval = ccs_write_data_regs(sensor,
+> +				   sensor->sdata.sensor_manufacturer_regs,
+> +				   sensor->sdata.num_sensor_manufacturer_regs);
+> +	if (rval)
+> +		return rval;
+> +
+> +	return ccs_write_data_regs(sensor,
+> +				   sensor->mdata.module_manufacturer_regs,
+> +				   sensor->mdata.num_module_manufacturer_regs);
+> +}
+> +
+>  static int ccs_power_on(struct device *dev)
+>  {
+>  	struct v4l2_subdev *subdev = dev_get_drvdata(dev);
+> @@ -1377,6 +1392,10 @@ static int ccs_power_on(struct device *dev)
+>  	if (rval < 0)
+>  		goto out_cci_addr_fail;
+>  
+> +	rval = ccs_write_msr_regs(sensor);
+> +	if (rval)
+> +		goto out_cci_addr_fail;
+> +
+>  	rval = ccs_call_quirk(sensor, post_poweron);
+>  	if (rval) {
+>  		dev_err(dev, "post_poweron quirks failed\n");
+> @@ -3205,6 +3224,10 @@ static int ccs_probe(struct i2c_client *client)
+>  	if (rval < 0)
+>  		goto out_media_entity_cleanup;
+>  
+> +	rval = ccs_write_msr_regs(sensor);
+> +	if (rval)
+> +		goto out_media_entity_cleanup;
+> +
+>  	pm_runtime_set_active(&client->dev);
+>  	pm_runtime_get_noresume(&client->dev);
+>  	pm_runtime_enable(&client->dev);
+> diff --git a/drivers/media/i2c/ccs/ccs-reg-access.c b/drivers/media/i2c/ccs/ccs-reg-access.c
+> index aad2727570ec..9fda16b221a7 100644
+> --- a/drivers/media/i2c/ccs/ccs-reg-access.c
+> +++ b/drivers/media/i2c/ccs/ccs-reg-access.c
+> @@ -236,12 +236,38 @@ int ccs_read_addr_noconv(struct ccs_sensor *sensor, u32 reg, u32 *val)
+>  	return ccs_read_addr_raw(sensor, reg, val, false, true, false);
+>  }
+>  
+> +static int ccs_write_retry(struct i2c_client *client, struct i2c_msg *msg)
+> +{
+> +	unsigned int retries;
+> +	int r;
+> +
+> +	for (retries = 0; retries < 5; retries++) {
+> +		/*
+> +		 * Due to unknown reason sensor stops responding. This
+> +		 * loop is a temporaty solution until the root cause
+> +		 * is found.
+> +		 */
+> +		r = i2c_transfer(client->adapter, msg, 1);
+> +		if (r != 1) {
+> +			usleep_range(2000, 2000);
 
-We have two sets of data structure: those that are related to the binary
-file format (these, so they're packed) as well as the in-kernel
-representation. So I've used the underscores to designate these are the
-binary format ones. They're only used in ccs-data.c.
+Huh? Does it need to sleep precisely for 2000 us?
 
--- 
-Kind regards,
+> +			continue;
+> +		}
+> +
+> +		if (retries)
+> +			dev_err(&client->dev,
+> +				"sensor i2c stall encountered. retries: %d\n",
+> +				retries);
+> +		return 0;
+> +	}
+> +
+> +	return r;
+> +}
+> +
+>  int ccs_write_addr_no_quirk(struct ccs_sensor *sensor, u32 reg, u32 val)
+>  {
+>  	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+>  	struct i2c_msg msg;
+>  	unsigned char data[6];
+> -	unsigned int retries;
+>  	unsigned int len = ccs_reg_width(reg);
+>  	int r;
+>  
+> @@ -256,27 +282,11 @@ int ccs_write_addr_no_quirk(struct ccs_sensor *sensor, u32 reg, u32 val)
+>  	put_unaligned_be16(CCS_REG_ADDR(reg), data);
+>  	put_unaligned_be32(val << (8 * (sizeof(val) - len)), data + 2);
+>  
+> -	for (retries = 0; retries < 5; retries++) {
+> -		/*
+> -		 * Due to unknown reason sensor stops responding. This
+> -		 * loop is a temporaty solution until the root cause
+> -		 * is found.
+> -		 */
+> -		r = i2c_transfer(client->adapter, &msg, 1);
+> -		if (r == 1) {
+> -			if (retries)
+> -				dev_err(&client->dev,
+> -					"sensor i2c stall encountered. retries: %d\n",
+> -					retries);
+> -			return 0;
+> -		}
+> -
+> -		usleep_range(2000, 2000);
+> -	}
+> -
+> -	dev_err(&client->dev,
+> -		"wrote 0x%x to offset 0x%x error %d\n", val,
+> -		CCS_REG_ADDR(reg), r);
+> +	r = ccs_write_retry(client, &msg);
+> +	if (r)
+> +		dev_err(&client->dev,
+> +			"wrote 0x%x to offset 0x%x error %d\n", val,
+> +			CCS_REG_ADDR(reg), r);
+>  
+>  	return r;
+>  }
+> @@ -297,3 +307,43 @@ int ccs_write_addr(struct ccs_sensor *sensor, u32 reg, u32 val)
+>  
+>  	return ccs_write_addr_no_quirk(sensor, reg, val);
+>  }
+> +
+> +#define MAX_WRITE_LEN	32U
+> +
+> +int ccs_write_data_regs(struct ccs_sensor *sensor, struct ccs_reg *regs,
+> +			size_t num_regs)
+> +{
+> +	struct i2c_client *client = v4l2_get_subdevdata(&sensor->src->sd);
+> +	unsigned char buf[2 + MAX_WRITE_LEN];
+> +	struct i2c_msg msg = {
+> +		.addr = client->addr,
+> +		.buf = buf,
+> +	};
+> +	size_t i;
+> +
+> +	for (i = 0; i < num_regs; i++, regs++) {
+> +		unsigned char *regdata = regs->value;
+> +		unsigned int j;
+> +
+> +		for (j = 0; j < regs->len;
+> +		     j += msg.len - 2, regdata += msg.len - 2) {
+> +			int rval;
+> +
+> +			msg.len = min(regs->len - j, MAX_WRITE_LEN);
+> +
+> +			put_unaligned_be16(regs->addr + j, buf);
+> +			memcpy(buf + 2, regdata, msg.len);
+> +			msg.len += 2;
+> +
+> +			rval = ccs_write_retry(client, &msg);
+> +			if (rval) {
+> +				dev_err(&client->dev,
+> +					"error writing %u octets to address 0x%4.4x\n",
+> +					msg.len, regs->addr + j);
+> +				return rval;
+> +			}
+> +		}
+> +	}
+> +
+> +	return 0;
+> +}
+> diff --git a/drivers/media/i2c/ccs/ccs-reg-access.h b/drivers/media/i2c/ccs/ccs-reg-access.h
+> index cfad2e520fe2..78c43f92d99a 100644
+> --- a/drivers/media/i2c/ccs/ccs-reg-access.h
+> +++ b/drivers/media/i2c/ccs/ccs-reg-access.h
+> @@ -27,6 +27,8 @@ int ccs_read_addr_8only(struct ccs_sensor *sensor, u32 reg, u32 *val);
+>  int ccs_read_addr_noconv(struct ccs_sensor *sensor, u32 reg, u32 *val);
+>  int ccs_write_addr_no_quirk(struct ccs_sensor *sensor, u32 reg, u32 val);
+>  int ccs_write_addr(struct ccs_sensor *sensor, u32 reg, u32 val);
+> +int ccs_write_data_regs(struct ccs_sensor *sensor, struct ccs_reg *regs,
+> +			size_t num_regs);
+>  
+>  unsigned int ccs_reg_width(u32 reg);
+>  u32 ccs_reg_conv(struct ccs_sensor *sensor, u32 reg, u32 val);
 
-Sakari Ailus
+
+
+Thanks,
+Mauro
