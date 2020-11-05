@@ -2,104 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A802D2A7F48
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 13:58:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CC10F2A7F6A
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 14:03:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730484AbgKEM6b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 07:58:31 -0500
-Received: from mga05.intel.com ([192.55.52.43]:58714 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726777AbgKEM6b (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 07:58:31 -0500
-IronPort-SDR: 7J/8b7NAtNvFj8pp7F94jMlY9W7Zm+UvJrSXn7NY3UdzUKrNBvGR5hy4v68wvBJm4z5Rluc8ad
- xfVmfLPXrWyA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9795"; a="254082198"
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
-   d="scan'208";a="254082198"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 04:58:31 -0800
-IronPort-SDR: JOIy50hxA0eDjLE7kfO0qWVKnXwU+pruQuLUB5NQHuLHzWEHVFXXXRcnW2CHLJxIHuBi/S6LFn
- frgGug74NgqQ==
-X-IronPort-AV: E=Sophos;i="5.77,453,1596524400"; 
-   d="scan'208";a="527953307"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 04:58:30 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 263A220901; Thu,  5 Nov 2020 14:58:29 +0200 (EET)
-Date:   Thu, 5 Nov 2020 14:58:29 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 099/106] v4l: uapi: ccs: Add controls for analogue
- gain constants
-Message-ID: <20201105125828.GH26150@paasikivi.fi.intel.com>
+        id S1730672AbgKENDm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 08:03:42 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:38627 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730466AbgKENDm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 08:03:42 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id aevRkD4wRNanzaevUkoPZt; Thu, 05 Nov 2020 14:03:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604581420; bh=hvXjIgji52vY+aeu2D4kIpN83iogbgLFrGDBu+GqxB4=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=sYmUuLn9VFw0GZWdRdez04WwuxYv5MVNgqONGKphV0eUcjkT0STm7X1Mg5Gq/RNfU
+         jH+k2Cg2ZMfJN4KKpjtNTFmxfCU3+UFlaX/O/KFm1O8SRzOD5xlc23IaTXBCa5Fc2I
+         ZXG9N+04qMSt/mV7PxP9FAqBcxQYDsyBOAkJa/4eEnQh0OTxA87hFMMGXP/WR/Z74y
+         ta3Jgcbpudu2C0JbVzd1wbuLod+s0z6YXfJThxXWUb2+cKLVMCn4uRPHIBcC8FFzJG
+         p1haZJBvmS+OcA1bYRGvfjhbDBdOhI38yr4xQjR23tYk7CvcrQntgaMcTVoAOPZj4I
+         at2EhBicVDc6w==
+Subject: Re: [PATCH v2 105/106] ccs: Add shading correction and luminance
+ correction level controls
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org
 References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
  <20201007084557.25843-1-sakari.ailus@linux.intel.com>
- <20201007084557.25843-90-sakari.ailus@linux.intel.com>
- <8dd2be66-e253-e535-ecfc-f51747204424@xs4all.nl>
+ <20201007084557.25843-96-sakari.ailus@linux.intel.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <eaf54ce4-54c5-6d1e-e8a1-29c6346dab04@xs4all.nl>
+Date:   Thu, 5 Nov 2020 14:03:37 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <8dd2be66-e253-e535-ecfc-f51747204424@xs4all.nl>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201007084557.25843-96-sakari.ailus@linux.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfP56hQOHgPiD8B9FFLyMmWFFBd4viyNCPzA0vKsgjXoiPbE2+3XmIheXpBnFXDYpEEzi9v7xBOaFiA9A9fIXjJ/VBznkQANAmeg52gNWSqKe+yQA2nHj
+ tnKFo5yGcqnJ6qU9/Ck9Ie8LgTUzJndfscT19lwXnW+PMVhrZl9/wZvva4NF2J4RlVagTw1W0gsJFikOUspqDTZgvFk11xLC4uxHkXFJ9n5VSNeEAF0cziW+
+ 67F92glJcMVQInnAP6Uk6A==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans,
-
-On Thu, Nov 05, 2020 at 01:56:02PM +0100, Hans Verkuil wrote:
-> On 07/10/2020 10:45, Sakari Ailus wrote:
-> > Add a V4L2 controls for analogue gai constants required to control
-> > analogue gain. The values are device specific and thus need to be obtained
-> > from the driver.
-> > 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > ---
-> >  MAINTAINERS              |  1 +
-> >  include/uapi/linux/ccs.h | 14 ++++++++++++++
-> >  2 files changed, 15 insertions(+)
-> >  create mode 100644 include/uapi/linux/ccs.h
-> > 
-> > diff --git a/MAINTAINERS b/MAINTAINERS
-> > index b72f666b8b60..c173e503b0b7 100644
-> > --- a/MAINTAINERS
-> > +++ b/MAINTAINERS
-> > @@ -11569,6 +11569,7 @@ F:	drivers/media/i2c/ccs/
-> >  F:	drivers/media/i2c/ccs-pll.c
-> >  F:	drivers/media/i2c/ccs-pll.h
-> >  F:	include/uapi/linux/smiapp.h
-> > +F:	include/uapi/linux/ccs.h
-> >  
-> >  MIPS
-> >  M:	Thomas Bogendoerfer <tsbogend@alpha.franken.de>
-> > diff --git a/include/uapi/linux/ccs.h b/include/uapi/linux/ccs.h
-> > new file mode 100644
-> > index 000000000000..bcdce95955b0
-> > --- /dev/null
-> > +++ b/include/uapi/linux/ccs.h
-> > @@ -0,0 +1,14 @@
-> > +/* SPDX-License-Identifier: GPL-2.0-only AND BSD-3-Clause */
-> > +/* Copyright (C) 2020 Intel Corporation */
-> > +
-> > +#ifndef __UAPI_CCS_H__
-> > +#define __UAPI_CCS_H__
+On 07/10/2020 10:45, Sakari Ailus wrote:
+> Add controls for supporting lens shading correction.
 > 
-> What does CCS stand for? Provide a reference to the standard as well.
+> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> ---
+>  drivers/media/i2c/ccs/ccs-core.c | 74 ++++++++++++++++++++++++++++++++
+>  1 file changed, 74 insertions(+)
 > 
-> Just looking at this header doesn't give you any clue as to what it
-> related to.
+> diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
+> index 0ba06a580951..10ed3d01af16 100644
+> --- a/drivers/media/i2c/ccs/ccs-core.c
+> +++ b/drivers/media/i2c/ccs/ccs-core.c
+> @@ -757,6 +757,25 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
+>  	case V4L2_CID_TEST_PATTERN_GREENB:
+>  		rval = ccs_write(sensor, TEST_DATA_GREENB, ctrl->val);
+>  
+> +		break;
+> +	case V4L2_CID_CCS_SHADING_CORRECTION:
+> +		if (!(CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +		      (CCS_SHADING_CORRECTION_CAPABILITY_COLOR_SHADING |
+> +		       CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION)))
+> +			break;
+> +
+> +		rval = ccs_write(sensor, SHADING_CORRECTION_EN,
+> +				 ctrl->val ? CCS_SHADING_CORRECTION_EN_ENABLE :
+> +				 0);
+> +
+> +		break;
+> +	case V4L2_CID_CCS_LUMINANCE_SHADING_CORRECTION:
+> +		if (!(CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +		      CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION))
+> +			break;
+> +
+> +		rval = ccs_write(sensor, LUMINANCE_CORRECTION_LEVEL, ctrl->val);
+> +
+>  		break;
+>  	case V4L2_CID_PIXEL_RATE:
+>  		/* For v4l2_ctrl_s_ctrl_int64() used internally. */
+> @@ -878,6 +897,61 @@ static int ccs_init_controls(struct ccs_sensor *sensor)
+>  	}
+>  	}
+>  
+> +	if (CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +	    CCS_SHADING_CORRECTION_CAPABILITY_COLOR_SHADING) {
+> +		const struct v4l2_ctrl_config ctrl_cfg = {
 
-I'll add references to driver documentation I'm about to write to address
-Mauro's review comments. CCS stands for Camera Command Set.
+Can be static.
 
-The spec can be found here:
+> +			.name = "Shading Correction",
 
-<URL:https://www.mipi.org/specifications/camera-command-set>
+Should this perhaps be called "Chroma Shading Correction"? Since there is a luminance
+shading correction as well...
 
--- 
+Since these controls are all CCS specific, should the names of these controls begin
+with "CCS "? (Not just the controls in this patch, but also from previous patches).
+
+> +			.type = V4L2_CTRL_TYPE_BOOLEAN,
+> +			.id = V4L2_CID_CCS_SHADING_CORRECTION,
+> +			.ops = &ccs_ctrl_ops,
+> +			.max = 1,
+> +			.step = 1,
+> +		};
+> +
+> +		v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
+> +				     &ctrl_cfg, NULL);
+> +	}
+> +
+> +	if (CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +	    CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION) {
+> +		const struct v4l2_ctrl_config ctrl_cfg = {
+
+Can be static.
+
+> +			.name = "Luminance Shading Correction",
+> +			.type = V4L2_CTRL_TYPE_BOOLEAN,
+> +			.id = V4L2_CID_CCS_LUMINANCE_SHADING_CORRECTION,
+> +			.ops = &ccs_ctrl_ops,
+> +			.max = 255,
+> +			.step = 1,
+> +			.def = 128,
+> +		};
+> +
+> +		v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
+> +				     &ctrl_cfg, NULL);
+> +	}
+> +
+> +	if (CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +	    (CCS_SHADING_CORRECTION_CAPABILITY_COLOR_SHADING |
+> +	     CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION)) {
+> +		u32 val =
+> +			((CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +			  CCS_SHADING_CORRECTION_CAPABILITY_COLOR_SHADING) ?
+> +			 V4L2_CCS_SHADING_CORRECTION_COLOUR : 0) |
+> +			((CCS_LIM(sensor, SHADING_CORRECTION_CAPABILITY) &
+> +			   CCS_SHADING_CORRECTION_CAPABILITY_LUMINANCE_CORRECTION) ?
+> +			 V4L2_CCS_SHADING_CORRECTION_LUMINANCE : 0);
+> +		const struct v4l2_ctrl_config ctrl_cfg = {
+> +			.name = "Shading Correction Capability",
+> +			.type = V4L2_CTRL_TYPE_BITMASK,
+> +			.id = V4L2_CID_CCS_SHADING_CORRECTION_CAPABILITY,
+> +			.ops = &ccs_ctrl_ops,
+> +			.max = val,
+> +			.def = val,
+> +			.flags = V4L2_CTRL_FLAG_READ_ONLY,
+> +		};
+
+Is this needed? If e.g. V4L2_CCS_SHADING_CORRECTION_COLOUR is not supported,
+then the V4L2_CID_CCS_SHADING_CORRECTION control is simply not created.
+So calling VIDIOC_QUERYCTRL would simply fail and so indicate that this
+capability is not present.
+
+If it really is needed, then having two bool controls makes more sense
+because a bitmask is less intuitive.
+
 Regards,
 
-Sakari Ailus
+	Hans
+
+> +
+> +		v4l2_ctrl_new_custom(&sensor->pixel_array->ctrl_handler,
+> +				     &ctrl_cfg, NULL);
+> +	}
+> +
+>  	if (CCS_LIM(sensor, DIGITAL_GAIN_CAPABILITY) ==
+>  	    CCS_DIGITAL_GAIN_CAPABILITY_GLOBAL ||
+>  	    CCS_LIM(sensor, DIGITAL_GAIN_CAPABILITY) ==
+> 
+
