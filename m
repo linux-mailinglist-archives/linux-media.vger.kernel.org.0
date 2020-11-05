@@ -2,149 +2,104 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F07C2A7828
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 08:43:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA8F92A7857
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 08:53:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727018AbgKEHno (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 02:43:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49292 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725320AbgKEHnn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 02:43:43 -0500
-Received: from coco.lan (ip5f5ad5d8.dynamic.kabel-deutschland.de [95.90.213.216])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B040320936;
-        Thu,  5 Nov 2020 07:43:41 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604562222;
-        bh=TpQRQSKfnEsyI7zbs1YM0hwAPhxQt3TDcY1O28o52Hw=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=klKcQHiPtLF0ik80B+w91Sq2HckwmFmQ+rp1F/N3Pxkh0Rq/h6T/hHnKRXekrW9VI
-         /ra2krRS9nbMXRMYj25zHa0mva52ZKI3jNKB38GQqXcVR0WU6/fnuK3CaWU0r4mjqe
-         JaiS4SoDdu4AKp0GA2vD3HQmkv+oKF+6QtwW3/LM=
-Date:   Thu, 5 Nov 2020 08:43:38 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 003/106] smiapp: Calculate CCS limit offsets and
- limit buffer size
-Message-ID: <20201105084338.23327eea@coco.lan>
-In-Reply-To: <20201007084557.25843-3-sakari.ailus@linux.intel.com>
-References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
-        <20201007084557.25843-1-sakari.ailus@linux.intel.com>
-        <20201007084557.25843-3-sakari.ailus@linux.intel.com>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1726756AbgKEHxw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 02:53:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39048 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726152AbgKEHxw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 02:53:52 -0500
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2927AC0613D2
+        for <linux-media@vger.kernel.org>; Wed,  4 Nov 2020 23:53:52 -0800 (PST)
+Received: by mail-lj1-x242.google.com with SMTP id 11so567716ljf.2
+        for <linux-media@vger.kernel.org>; Wed, 04 Nov 2020 23:53:52 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=uWxXaFjaX2JSFXvoISaJ2nJGcPKFBfvWFO1ioi84K5o=;
+        b=LJEtMmMPnPNPuMOUjflAShtf/tGL+Srg3vIXk+Lh9SsAUj7yk2rRC4aN2nBaIEeBaH
+         7srSBNMaaQU4FOWJVKx5aYqjKLliAMLz9fH3ilnVAdUb8Aw4B2moCRMuzCCkF9X2ZKR7
+         idPu03npS0S+dIGpYKBd1q5mep93sRahA0zoeHLrMJpedNtAyosrk4IeNLEFVhV84rRi
+         YMtdyjACyWB3SkSjjAC+T4HWDmo+63ag4qIcV9tlCSWgI4nUnkUPHHXQ9LQNoh5P1xK1
+         X5oXHgtp+BLLQj0ouYR5zkyglNR0i1dk6IyQB642/q+WU6l+tApxCj0NZaZpp3Ktyd5X
+         zHlA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=uWxXaFjaX2JSFXvoISaJ2nJGcPKFBfvWFO1ioi84K5o=;
+        b=VuUzYjfelih52soFvUDgKTRTtq3rk+UYcL0/cc64RiLDHW7dPfi1POQAkO9YgYsu/H
+         Z+KRiuksRuRmg3FbRflehlHMDD52EyD+4Tnj5DISLSfBv91qFOgBqlDVdlA8IXfn2IW9
+         CSzVSJqCyFObsrhrO4XWaH7QtD4kA9sb2UOXQvjf+gYTWf6Zigj4QzAuV8QG9ylqAmxc
+         +IiA7lFCscHrip28ZnC4JrVXOIILjF/3SYJFBhXVHc6EBmLaCUXgSZzcDh0O+qBSTrau
+         KaALjicGXcviL5brFjCW9F84id1ldwGC33wgZsncvJaH2J1ueU9R33Q4w5wtcBryhVNJ
+         lReQ==
+X-Gm-Message-State: AOAM533A92he4F+p1UbGaROvB0V4za0fxHRaDB53uEbYWDO7C6bLL3+a
+        7xKBMOwtESOJ2K7la4Qk7s/dKuA4XVJoCWJthiWJLCxkT1wNmQ==
+X-Google-Smtp-Source: ABdhPJxm7yZCg2+JWcvzDpHbnsyXEVmR6Ak6pvhrNxzGAq4WPHDY8br8g2VKo+Vo2nD1GExdkdG3YDlede23s3WS2do=
+X-Received: by 2002:a05:651c:1205:: with SMTP id i5mr449252lja.283.1604562830673;
+ Wed, 04 Nov 2020 23:53:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+References: <20201030143715.577641-1-narmstrong@baylibre.com>
+In-Reply-To: <20201030143715.577641-1-narmstrong@baylibre.com>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Thu, 5 Nov 2020 08:53:39 +0100
+Message-ID: <CACRpkdZnpjas-WYuXhJ_mwCTqTP5DpWHcnNmGpdCQjrr3xGnYg@mail.gmail.com>
+Subject: Re: [PATCH v2 0/4] media: meson: Add support for the Amlogic GE2D
+ Accelerator Unit
+To:     Neil Armstrong <narmstrong@baylibre.com>,
+        Todd Kjos <tkjos@google.com>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:ARM/Amlogic Meson..." <linux-amlogic@lists.infradead.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        John Stultz <john.stultz@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed,  7 Oct 2020 11:44:23 +0300
-Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
+Hi Neil,
 
-> Calculate the limit offsets and the size of the limit buffer. CCS limits
-> are read into this buffer, and the offsets are helpful in accessing the
-> information in it.
-> 
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> ---
->  drivers/media/i2c/smiapp/smiapp-core.c | 40 +++++++++++++++++++++++++-
->  1 file changed, 39 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/smiapp/smiapp-core.c b/drivers/media/i2c/smiapp/smiapp-core.c
-> index 105ef29152e8..47e983e9cd87 100644
-> --- a/drivers/media/i2c/smiapp/smiapp-core.c
-> +++ b/drivers/media/i2c/smiapp/smiapp-core.c
-> @@ -27,6 +27,7 @@
->  #include <media/v4l2-fwnode.h>
->  #include <media/v4l2-device.h>
->  
-> +#include "ccs-limits.h"
->  #include "smiapp.h"
->  
->  #define SMIAPP_ALIGN_DIM(dim, flags)	\
-> @@ -34,6 +35,11 @@
->  	 ? ALIGN((dim), 2)		\
->  	 : (dim) & ~1)
->  
-> +struct ccs_limit_offset {
-> +	u16	lim;
-> +	u16	info;
-> +} ccs_limit_offsets[CCS_L_LAST + 1];
-> +
+this is just a drive-by question and I'm looping in Todd in the hopes for
+a discussion or clarification.
 
-Hmm... that sounds weird. 
+On Fri, Oct 30, 2020 at 3:37 PM Neil Armstrong <narmstrong@baylibre.com> wrote:
 
-As you're declaring the struct inside smiapp-core.c, this
-should be static...
+> The GE2D is a 2D accelerator with various features like configurable blitter
+> with alpha blending, frame rotation, scaling, format conversion and colorspace
+> conversion.
+>
+> The driver implements a Memory2Memory VB2 V4L2 streaming device permitting:
+> - 0, 90, 180, 270deg rotation
+> - horizontal/vertical flipping
+> - source cropping
+> - destination compositing
+> - 32bit/24bit/16bit format conversion
+>
+> This adds the support for the GE2D version found in the AXG SoCs Family.
 
->  /*
->   * smiapp_module_idents - supported camera modules
->   */
-> @@ -3166,7 +3172,39 @@ static struct i2c_driver smiapp_i2c_driver = {
->  	.id_table = smiapp_id_table,
->  };
->  
-> -module_i2c_driver(smiapp_i2c_driver);
-> +static int smiapp_module_init(void)
-> +{
-> +	unsigned int i, l;
-> +
-> +	for (i = 0, l = 0; ccs_limits[i].size && l < CCS_L_LAST; i++) {
-> +		if (!(ccs_limits[i].flags & CCS_L_FL_SAME_REG)) {
-> +			ccs_limit_offsets[l + 1].lim =
-> +				ALIGN(ccs_limit_offsets[l].lim +
-> +				      ccs_limits[i].size,
-> +				      ccs_reg_width(ccs_limits[i + 1].reg));
-> +			ccs_limit_offsets[l].info = i;
-> +			l++;
-> +		} else {
-> +			ccs_limit_offsets[l].lim += ccs_limits[i].size;
-> +		}
-> +	}
-> +
-> +	if (WARN_ON(ccs_limits[i].size))
-> +		return -EINVAL;
+We are starting to see a bunch of these really nicely abstracted blitters
+and other 2D-accelerators now.
 
-... yet, this is the only place where this is used.
+Is stuff like Android going to pick up and use this to blit and blend
+generic buffers?
 
-It sounds to me that you should move the var to be inside this function,
+Or is this in essence a camera and/or video out accelerator thing?
 
-e. g. changing the above to:
+The placement of this driver in drivers/media makes me think that
+it is for cameras or video output, but the functionality is actually
+quite generic.
 
-struct ccs_limit_offset {
-	u16	lim;
-	u16	info;
-};
+I've been half-guessing that userspace like Android actually mostly
+use GPUs to composit their graphics, but IIUC this can sometimes be
+used for 2D compositing, and when used will often be quicker and/or
+more energy efficient than using a GPU for the same task.
 
-static int smiapp_module_init(void)
-{
-	struct ccs_limit_offset ccs_limit_offsets[CCS_L_LAST + 1];
-	unsigned int i, l;
-
-
-> +
-> +	if (WARN_ON(l != CCS_L_LAST))
-> +		return -EINVAL;
-> +
-> +	return i2c_register_driver(THIS_MODULE, &smiapp_i2c_driver);
-> +}
-> +
-> +static void smiapp_module_cleanup(void)
-> +{
-> +	i2c_del_driver(&smiapp_i2c_driver);
-> +}
-> +
-> +module_init(smiapp_module_init);
-> +module_exit(smiapp_module_cleanup);
->  
->  MODULE_AUTHOR("Sakari Ailus <sakari.ailus@iki.fi>");
->  MODULE_DESCRIPTION("Generic SMIA/SMIA++ camera module driver");
-
-
-
-Thanks,
-Mauro
+Yours,
+Linus Walleij
