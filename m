@@ -2,117 +2,278 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 167F82A818A
-	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 15:53:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1F932A818F
+	for <lists+linux-media@lfdr.de>; Thu,  5 Nov 2020 15:53:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731146AbgKEOw7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 09:52:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48200 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731202AbgKEOwi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 09:52:38 -0500
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F82BC0613D4
-        for <linux-media@vger.kernel.org>; Thu,  5 Nov 2020 06:52:38 -0800 (PST)
-Received: by mail-wr1-x443.google.com with SMTP id w14so2084225wrs.9
-        for <linux-media@vger.kernel.org>; Thu, 05 Nov 2020 06:52:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=aFGC0ytSE2C9dt0H5Lm6tpZnXpH56uqHjPZdDctt26w=;
-        b=wfiAsdlt6epXo2Z0lyQ2vFG5VIANzrYi7k+Kj7DSPrq0Wlu7lE/C7PyBaDtKnFt5W3
-         ss6q9w+fsheDQAj9Qg22QH+HM8yU1kpflALNQwljtfRtDwIlCCGravQG8EHFfj/kpG1Y
-         FEzypD0aYD9XfDVxFcUTqvOQu5NR5igeobiejNnTe3Idb/HE8ochjkpI+47Yygo0GaRN
-         7aeAWTVLBX8UdQbRzfNLEcs84NSw+tI8FIqPamYKU2xJ2J2QG9/PsJHOthgrZI8DXhnq
-         eYE1IUn/Dky5zKBZjcjsHDXk7MpSiXTc/WeaJzAxEQ2MrL3ItGYCnlcRVglXawLV2AxM
-         0ibw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=aFGC0ytSE2C9dt0H5Lm6tpZnXpH56uqHjPZdDctt26w=;
-        b=FwuRmk0pIGt/i4IsMzYCkGGg6kv7sW8/wUUXVnu3RkrFJuRHXozyNCyNLSSGmrrVba
-         6jCVJ1V9KkXPSDPF1b/3Q0efHUrSqw+dcdACO/nNERURULbqWOhjkkbyAjHZCBN/qYGB
-         ghfHzVGe3Io3cTKA0DcxAch3C/QP8MufkgH4ZcQTp/wot8GxoujCA+3STNlOP5JTUlk3
-         d5FmYjAzA1JUrRb6PAMLAYkOwpuMDbOyRaD9ly0xVeuexG4MeY5I4jzr2nY9iJK6oazC
-         QnCZ6OJ5oLdjNdlUG/cxm4Euy9JywFjXnvUDK6GIJKym/4ceTfrh5wcjLILzyRKYCtMm
-         MYPQ==
-X-Gm-Message-State: AOAM5333TC3ZDjWbUsk9gP1Eke7y6pz08lvkm8hZD1RHwmAQZgrtrtjY
-        wyxkua+F2ny8BqqgPt8D8zNEWQ==
-X-Google-Smtp-Source: ABdhPJzXmfpypPEGh1sjthrWtYAHtbC+T4FEWZkqUKOyrF6tmldqGj0XtFoQ6I7iSmVwj8o3PG+jxg==
-X-Received: by 2002:adf:9150:: with SMTP id j74mr3668000wrj.57.1604587956920;
-        Thu, 05 Nov 2020 06:52:36 -0800 (PST)
-Received: from dell.default ([91.110.221.242])
-        by smtp.gmail.com with ESMTPSA id f5sm2631243wmh.16.2020.11.05.06.52.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 05 Nov 2020 06:52:36 -0800 (PST)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 18/19] gpu: drm: amd: amdgpu: amdgpu: Mark global variables as __maybe_unused
-Date:   Thu,  5 Nov 2020 14:45:16 +0000
-Message-Id: <20201105144517.1826692-19-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201105144517.1826692-1-lee.jones@linaro.org>
-References: <20201105144517.1826692-1-lee.jones@linaro.org>
+        id S1731564AbgKEOxH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 09:53:07 -0500
+Received: from relay5-d.mail.gandi.net ([217.70.183.197]:40035 "EHLO
+        relay5-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731451AbgKEOwc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 09:52:32 -0500
+X-Originating-IP: 93.29.109.196
+Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay5-d.mail.gandi.net (Postfix) with ESMTPSA id D36D71C000D;
+        Thu,  5 Nov 2020 14:52:24 +0000 (UTC)
+Date:   Thu, 5 Nov 2020 15:52:24 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Maxime Ripard <maxime@cerno.tech>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        devel@driverdev.osuosl.org, linux-sunxi@googlegroups.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Yong Deng <yong.deng@magewell.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com
+Subject: Re: [PATCH 08/14] media: sunxi: Add support for the A31 MIPI CSI-2
+ controller
+Message-ID: <20201105145224.GA615923@aptenodytes>
+References: <20201023174546.504028-1-paul.kocialkowski@bootlin.com>
+ <20201023174546.504028-9-paul.kocialkowski@bootlin.com>
+ <20201026165407.rrq6ccsexcsub5bm@gilmour.lan>
+ <20201104113458.GC287014@aptenodytes>
+ <20201104185650.ii7dlekjtfar2xpp@gilmour.lan>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="VS++wcV0S1rZb1Fb"
+Content-Disposition: inline
+In-Reply-To: <20201104185650.ii7dlekjtfar2xpp@gilmour.lan>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-These 3 variables are used in *some* sourcefiles which include
-amdgpu.h, but not *all*.  This leads to a flurry of build warnings.
 
-Fixes the following W=1 kernel build warning(s):
+--VS++wcV0S1rZb1Fb
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
- from drivers/gpu/drm/amd/amdgpu/amdgpu.h:67,
- drivers/gpu/drm/amd/amdgpu/amdgpu.h:198:19: warning: ‘no_system_mem_limit’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/amdgpu.h:197:19: warning: ‘debug_evictions’ defined but not used [-Wunused-const-variable=]
- drivers/gpu/drm/amd/amdgpu/amdgpu.h:196:18: warning: ‘sched_policy’ defined but not used [-Wunused-const-variable=]
+Hi,
 
- NB: Repeats ~650 times - snipped for brevity.
+On Wed 04 Nov 20, 19:56, Maxime Ripard wrote:
+> On Wed, Nov 04, 2020 at 12:34:58PM +0100, Paul Kocialkowski wrote:
+> > > > +	regmap_write(regmap, SUN6I_MIPI_CSI2_CFG_REG,
+> > > > +		     SUN6I_MIPI_CSI2_CFG_CHANNEL_MODE(1) |
+> > > > +		     SUN6I_MIPI_CSI2_CFG_LANE_COUNT(lanes_count));
+> > >=20
+> > > It's not really clear what the channel is here? The number of virtual
+> > > channels? Something else?
+> >=20
+> > That's somewhat described in the controller documentation. Channels ref=
+ers to
+> > physical channels of the controller, which can be used to redirect data
+> > matching either a specific data type, a specific virtual channel, or bo=
+th.
+> > There's a somewhat similar concept of channels in the CSI controller to=
+o.
+> >=20
+> > We're currently only using one...
+> >=20
+> > > > +	regmap_write(regmap, SUN6I_MIPI_CSI2_VCDT_RX_REG,
+> > > > +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(3, 3) |
+> > > > +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(2, 2) |
+> > > > +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(1, 1) |
+> > > > +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_VC(0, 0) |
+> > > > +		     SUN6I_MIPI_CSI2_VCDT_RX_CH_DT(0, data_type));
+> >=20
+> > ... but it's safer to configure them all to virtual channel numbers so =
+we don't
+> > end up with multiple channels matching virtual channel 0.
+> >=20
+> > I'll add a comment about that.
+>=20
+> Maybe we should have pads for all of them then, even if we don't support
+> changing anything?
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu.h | 6 +++---
- 1 file changed, 3 insertions(+), 3 deletions(-)
+If that's something we can add later (I think it is), I would rather do thi=
+s in
+a sub-sequent series to keep the current one lightweight and merged ASAP.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-index 183b09d71b64a..5939753080056 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-@@ -193,9 +193,9 @@ extern int sched_policy;
- extern bool debug_evictions;
- extern bool no_system_mem_limit;
- #else
--static const int sched_policy = KFD_SCHED_POLICY_HWS;
--static const bool debug_evictions; /* = false */
--static const bool no_system_mem_limit;
-+static const int __maybe_unused sched_policy = KFD_SCHED_POLICY_HWS;
-+static const bool __maybe_unused debug_evictions; /* = false */
-+static const bool __maybe_unused no_system_mem_limit;
- #endif
- 
- extern int amdgpu_tmz;
--- 
-2.25.1
+It would also require some investigation to find out if the MIPI CSI-2 chan=
+nel
+number i goes directly to the CSI controller channel number i or if some
+remapping can take place.
 
+What do you think?
+
+> > > > +static const struct v4l2_subdev_pad_ops sun6i_mipi_csi2_subdev_pad=
+_ops =3D {
+> > > > +	.enum_mbus_code		=3D sun6i_mipi_csi2_enum_mbus_code,
+> > > > +	.get_fmt		=3D sun6i_mipi_csi2_get_fmt,
+> > > > +	.set_fmt		=3D sun6i_mipi_csi2_set_fmt,
+> > > > +	.enum_frame_size	=3D sun6i_mipi_csi2_enum_frame_size,
+> > > > +	.enum_frame_interval	=3D sun6i_mipi_csi2_enum_frame_interval,
+> > > > +};
+> > > > +
+> > > > +/* Subdev */
+> > > > +
+> > > > +static const struct v4l2_subdev_ops sun6i_mipi_csi2_subdev_ops =3D=
+ {
+> > > > +	.core		=3D &sun6i_mipi_csi2_subdev_core_ops,
+> > > > +	.video		=3D &sun6i_mipi_csi2_subdev_video_ops,
+> > > > +	.pad		=3D &sun6i_mipi_csi2_subdev_pad_ops,
+> > > > +};
+> > > > +
+> > > > +/* Notifier */
+> > > > +
+> > > > +static int sun6i_mipi_csi2_notifier_bound(struct v4l2_async_notifi=
+er *notifier,
+> > > > +					  struct v4l2_subdev *remote_subdev,
+> > > > +					  struct v4l2_async_subdev *remote_subdev_async)
+> > > > +{
+> > > > +	struct v4l2_subdev *subdev =3D notifier->sd;
+> > > > +	struct sun6i_mipi_csi2_video *video =3D
+> > > > +		sun6i_mipi_csi2_subdev_video(subdev);
+> > > > +	struct sun6i_mipi_csi2_dev *cdev =3D sun6i_mipi_csi2_video_dev(vi=
+deo);
+> > > > +	int source_pad;
+> > > > +	int ret;
+> > > > +
+> > > > +	source_pad =3D media_entity_get_fwnode_pad(&remote_subdev->entity,
+> > > > +						 remote_subdev->fwnode,
+> > > > +						 MEDIA_PAD_FL_SOURCE);
+> > > > +	if (source_pad < 0)
+> > > > +		return source_pad;
+> > > > +
+> > > > +	ret =3D media_create_pad_link(&remote_subdev->entity, source_pad,
+> > > > +				    &subdev->entity, 0,
+> > > > +				    MEDIA_LNK_FL_ENABLED |
+> > > > +				    MEDIA_LNK_FL_IMMUTABLE);
+> > > > +	if (ret) {
+> > > > +		dev_err(cdev->dev, "failed to create %s:%u -> %s:%u link\n",
+> > > > +			remote_subdev->entity.name, source_pad,
+> > > > +			subdev->entity.name, 0);
+> > > > +		return ret;
+> > > > +	}
+> > > > +
+> > > > +	video->remote_subdev =3D remote_subdev;
+> > > > +	video->remote_pad_index =3D source_pad;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > > > +
+> > > > +static const struct v4l2_async_notifier_operations sun6i_mipi_csi2=
+_notifier_ops =3D {
+> > > > +	.bound		=3D sun6i_mipi_csi2_notifier_bound,
+> > > > +};
+> > > > +
+> > > > +/* Media Entity */
+> > > > +
+> > > > +static int sun6i_mipi_csi2_link_validate(struct media_link *link)
+> > > > +{
+> > > > +	struct v4l2_subdev *subdev =3D
+> > > > +		container_of(link->sink->entity, struct v4l2_subdev, entity);
+> > > > +	struct sun6i_mipi_csi2_video *video =3D
+> > > > +		sun6i_mipi_csi2_subdev_video(subdev);
+> > > > +	struct v4l2_subdev *remote_subdev;
+> > > > +	struct v4l2_subdev_format format =3D { 0 };
+> > > > +	int ret;
+> > > > +
+> > > > +	if (!is_media_entity_v4l2_subdev(link->source->entity))
+> > > > +		return -EINVAL;
+> > > > +
+> > > > +	remote_subdev =3D media_entity_to_v4l2_subdev(link->source->entit=
+y);
+> > > > +
+> > > > +	format.which =3D V4L2_SUBDEV_FORMAT_ACTIVE;
+> > > > +	format.pad =3D link->source->index;
+> > > > +
+> > > > +	ret =3D v4l2_subdev_call(remote_subdev, pad, get_fmt, NULL, &form=
+at);
+> > > > +	if (ret)
+> > > > +		return ret;
+> > > > +
+> > > > +	video->mbus_code =3D format.format.code;
+> > > > +
+> > > > +	return 0;
+> > > > +}
+> > >=20
+> > > I'm not really sure what you're trying to validate here?
+> >=20
+> > The whole purpose is to retreive video->mbus_code from the subdev, like=
+ it's
+> > done in the sun6i-csi driver. Maybe there is a more appropriate op to d=
+o it?
+>=20
+> I'm not sure why you need to do that in the link_validate though?
+>=20
+> You just need to init the pad format, and then you'll have a
+> get_fmt/set_fmt for your pads.
+
+Okay I may have misunderstood how manual/automatic propagation is supposed =
+to
+work then. The fact that this is done this way in the CSI driver maybe gave=
+ me
+a bad example to follow. I'll revisit this.
+
+> > > > +	cdev->regmap =3D devm_regmap_init_mmio_clk(&pdev->dev, "bus", io_=
+base,
+> > > > +						 &sun6i_mipi_csi2_regmap_config);
+> > > > +	if (IS_ERR(cdev->regmap)) {
+> > > > +		dev_err(&pdev->dev, "failed to init register map\n");
+> > > > +		return PTR_ERR(cdev->regmap);
+> > > > +	}
+> > >=20
+> > > Yeah, so that won't work. regmap expects to have access to those
+> > > registers when you enable that clock, but that won't happen since the
+> > > reset line can be disabled. You would be better off using runtime_pm
+> > > here.
+> >=20
+> > I don't understand what you mean here or what the problem could be.
+> > Here we're just initializing regmap and while this is done before the
+> > registers are available for I/O, I don't see why it would cause any
+> > issue at this point.
+>=20
+> The regmap here is supposed to take care of the resources, except it
+> only does it for some of the resources here, which kind of breaks the
+> expectations. And it doesn't allow you to have the reset / clock
+> sequence properly done.
+
+I'm not following any of this. Could you break it down some more?
+In particular I don't see the relationship between initializing the regmap
+API (which does take IORESOURCE_MEM in) and reset / clocks.
+
+Just initializing the regmap API for I/O mem doesn't mean that the registers
+are ready for use, does it? We're not requesting any I/O operation from it
+at this point.
+
+> > The exact same thing is done in the CSI driver.
+>=20
+> That's not an argument though, is it? :)
+
+That's not the point, the point is rather that if this is wrong, we should =
+fix
+it in the CSI driver as well.
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--VS++wcV0S1rZb1Fb
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl+kEagACgkQ3cLmz3+f
+v9HuSAf9Gkn+ldPjpLI6G6VyL2L/bdS/Ue56m5gMEw2d9X14pvDHAIB9GySZd9PW
+mLsWayeu3/V6sDacK3y1zwh9RLyRLg5TyaBV6w2UkgImNJcnpQRkhhUOEB9W+Ua7
+aDDIUiRynclnqXET0VptEp1MX/qJHBoA63UMuJKQaKDc/1oR3ozyJTC2R8GM7Uyx
+AWz4rgxLEkiw7VMe30gLiv2j4udFag6iZjk5zNJ7CyEXpBdzDTizXK2SCc1C54Yq
+/090KaJgH5Mn0qUocqVTEhUXoLPaFXPLx7Ue2c1YrPGRny1+HIweiNMsu9OegVQ9
+WX7GAGxkLn/VLwFvjVN5/B4laAYcsA==
+=WdiC
+-----END PGP SIGNATURE-----
+
+--VS++wcV0S1rZb1Fb--
