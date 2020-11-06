@@ -2,185 +2,190 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8012B2A8F4A
-	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 07:15:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 664F72A8F91
+	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 07:43:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726311AbgKFGPT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Nov 2020 01:15:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51058 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726300AbgKFGPS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Nov 2020 01:15:18 -0500
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D7438C0613D4
-        for <linux-media@vger.kernel.org>; Thu,  5 Nov 2020 22:15:17 -0800 (PST)
-Received: by mail-pl1-x643.google.com with SMTP id u2so181442pls.10
-        for <linux-media@vger.kernel.org>; Thu, 05 Nov 2020 22:15:17 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to
-         :user-agent;
-        bh=F6tmY/1EFEb7yGiRngVYTKYYAOLMtuHBKlHb/X3FBro=;
-        b=HzLmr6JaFIcMravMY3wIPry/F1073BkN3VM3cd8Gi2O7jw7et61EBNfNlEzqqyIEDr
-         O9QiSB84NaObwQzvoVVuxKeOGt8VndPGxRzphlfH+7cLMvRgCXLb/PtEMTpcP1H83oxY
-         b+191SXYF8ylE2gKUBgugVqSge7yMZjugqqrlBWgxtA673su21UfCt+IML3oDpN4vxti
-         8gs+7/IuMoCGcBYg+3V7fWv1iCZUsugnMa0A4fQsRR3hvDwRfUGjQ+Urs3m1MNcObuQw
-         SCG2Y8JOLZc95bYGIDT0kkK9vrovP4jkrz7oM7qStmXfzFjQgjgOi7MZJht8PgCtGzrM
-         RfPg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to:user-agent;
-        bh=F6tmY/1EFEb7yGiRngVYTKYYAOLMtuHBKlHb/X3FBro=;
-        b=PJAe0869fWfxP6Fvr1l2jnlToebWvAUEvCODRB2V5juFoJqWBHIe3ZLjW2bR6P2ega
-         UineNhcuaelJsJC/MwKn+hQ9DtUmxp7qeGC5AlxoQ8+dnJb2KPRSXdJTWKaXBAcp65+A
-         mvLCuJgcnwE2/KlNwweVuYnaJZCf3XdMENFX7OV+wpMgRgaNDHamfMySLAX2wJSczr/9
-         2M7YTkbjB4hSgPaGTNuDnamb7LW/k2vH/h7XI/THYQg3vmAU9We0yjugzVye/5fqJQdm
-         L3i9vbSflze1ouP2Edc0bJFkT2QLhGR9x5EHrBMy6isL8x+NRLQZJ9OJ8FrZJqp0R29S
-         cTcg==
-X-Gm-Message-State: AOAM532FlIMBku/2pNtdSxVsOSSNGewsSkuvNXOawHe4VF0J+2K9j/oN
-        IizzEA7ZVFvwWc7eG+XWPuz2ow==
-X-Google-Smtp-Source: ABdhPJxg63tT7kf2/vWsP55uyoDC2lQuTRCTVcejh0K/L0eGZvU7H1zdtru1IjirtMh06PtAF/i6Ug==
-X-Received: by 2002:a17:902:9a83:b029:d6:e05e:c7e9 with SMTP id w3-20020a1709029a83b02900d6e05ec7e9mr430546plp.49.1604643317224;
-        Thu, 05 Nov 2020 22:15:17 -0800 (PST)
-Received: from localhost ([122.172.12.172])
-        by smtp.gmail.com with ESMTPSA id h16sm703800pjz.10.2020.11.05.22.15.14
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 05 Nov 2020 22:15:15 -0800 (PST)
-Date:   Fri, 6 Nov 2020 11:45:13 +0530
-From:   Viresh Kumar <viresh.kumar@linaro.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        driver-dev <devel@driverdev.osuosl.org>,
-        linux-pwm@vger.kernel.org,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>, linux-usb@vger.kernel.org,
-        "open list:SECURE DIGITAL HO..." <linux-mmc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-tegra@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v1 17/30] mmc: sdhci-tegra: Support OPP and core voltage
- scaling
-Message-ID: <20201106061513.uyys7njcqcdlah67@vireshk-i7>
-References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-18-digetx@gmail.com>
- <CAOh2x==sy1w7_oEV8=toC6uQnSN44wyOixbP_X0BrMsnm1AUFg@mail.gmail.com>
- <6fa54ce6-d5ae-d04f-7c77-b62c148d92b7@gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <6fa54ce6-d5ae-d04f-7c77-b62c148d92b7@gmail.com>
-User-Agent: NeoMutt/20180716-391-311a52
+        id S1726226AbgKFGnr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Nov 2020 01:43:47 -0500
+Received: from mga11.intel.com ([192.55.52.93]:23052 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725828AbgKFGnr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 6 Nov 2020 01:43:47 -0500
+IronPort-SDR: tddEHV1bQvGH7jSDVhSBq3sxMO5kOvJgIYCcWUDhZU2MTjGqgVndlnNutNfMzaAPQZZCdfw4uO
+ FeFbQm4eF1Tg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="166000802"
+X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; 
+   d="scan'208";a="166000802"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 22:43:46 -0800
+IronPort-SDR: XXZSWhoTYETnLoDOSsIs+4oCkJyvKWzdTn6alWUpeZ+ggTC9odKpcUo7d44qTLm8WHPj/Yfs1U
+ s4HeHz/ahnNg==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; 
+   d="scan'208";a="354596663"
+Received: from ipu5-build.bj.intel.com ([10.238.232.196])
+  by fmsmga004.fm.intel.com with ESMTP; 05 Nov 2020 22:43:44 -0800
+From:   Bingbu Cao <bingbu.cao@intel.com>
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com
+Cc:     tfiga@chromium.org, senozhatsky@chromium.org, bingbu.cao@intel.com,
+        bingbu.cao@linux.intel.com, qingwu.zhang@intel.com
+Subject: [PATCH 1/2] media: ov2740: only do OTP data read on demand from user
+Date:   Fri,  6 Nov 2020 14:40:43 +0800
+Message-Id: <1604644844-1551-1-git-send-email-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 05-11-20, 17:18, Dmitry Osipenko wrote:
-> 05.11.2020 12:58, Viresh Kumar пишет:
-> >> +static void sdhci_tegra_deinit_opp_table(void *data)
-> >> +{
-> >> +       struct device *dev = data;
-> >> +       struct opp_table *opp_table;
-> >> +
-> >> +       opp_table = dev_pm_opp_get_opp_table(dev);
-> > So you need to get an OPP table to put one :)
-> > You need to save the pointer returned by dev_pm_opp_set_regulators() instead.
-> 
-> This is intentional because why do we need to save the pointer if we're
-> not using it and we know that we could get this pointer using OPP API?
+OTP data access of ov2740 in probe need power up, it may cause
+the camera flash LED blink during probe if the LED use same power
+rail with camera, this patch move the OTP data access out of
+probe, it will only occur on demand from user by nvmem sysfs.
 
-Because it is highly inefficient and it doesn't follow the rules set
-by the OPP core. Hypothetically speaking, the OPP core is free to
-allocate the OPP table structure as much as it wants, and if you don't
-use the value returned back to you earlier (think of it as a cookie
-assigned to your driver), then it will eventually lead to memory leak.
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Qingwu Zhang <qingwu.zhang@intel.com>
+---
+ drivers/media/i2c/ov2740.c | 63 +++++++++++++++++++++++++++++++++++-----------
+ 1 file changed, 48 insertions(+), 15 deletions(-)
 
-> This is exactly the same what I did for the CPUFreq driver [1] :)
-
-I will strongly suggest you to save the pointer here and do the same
-in the cpufreq driver as well.
-
-> >> +static int devm_sdhci_tegra_init_opp_table(struct device *dev)
-> >> +{
-> >> +       struct opp_table *opp_table;
-> >> +       const char *rname = "core";
-> >> +       int err;
-> >> +
-> >> +       /* voltage scaling is optional */
-> >> +       if (device_property_present(dev, "core-supply"))
-> >> +               opp_table = dev_pm_opp_set_regulators(dev, &rname, 1);
-> >> +       else
-> > 
-> >> +               opp_table = dev_pm_opp_get_opp_table(dev);
-
-To make it further clear, this will end up allocating an OPP table for
-you, which it shouldn't have.
-
-> > Nice. I didn't think that someone will end up abusing this API and so made it
-> > available for all, but someone just did that. I will fix that in the OPP core.
-
-To be fair, I allowed the cpufreq-dt driver to abuse it too, which I
-am going to fix shortly.
-
-> The dev_pm_opp_put_regulators() handles the case where regulator is
-> missing by acting as dev_pm_opp_get_opp_table(), but the
-> dev_pm_opp_set_regulators() doesn't do it. Hence I don't think this is
-> an abuse, but the OPP API drawback.
-
-I am not sure what you meant here. Normally you are required to call
-dev_pm_opp_put_regulators() only if you have called
-dev_pm_opp_set_regulators() earlier. And the refcount stays in
-balance.
-
-> > Any idea why you are doing what you are doing here ?
-> 
-> Two reasons:
-> 
-> 1. Voltage regulator is optional, but dev_pm_opp_set_regulators()
-> doesn't support optional regulators.
-> 
-> 2. We need to balance the opp_table refcount in order to use OPP API
-> without polluting code with if(have_regulator), hence the
-> dev_pm_opp_get_opp_table() is needed for taking the opp_table reference
-> to have the same refcount as in the case of the dev_pm_opp_set_regulators().
-
-I am going to send a patchset shortly after which this call to
-dev_pm_opp_get_opp_table() will fail, if it is called before adding
-the OPP table.
-
-> I guess we could make dev_pm_opp_set_regulators(dev, count) to accept
-> regulators count=0 and then act as dev_pm_opp_get_opp_table(dev), will
-> it be acceptable?
-
-Setting regulators for count as 0 doesn't sound good to me.
-
-But, I understand that you don't want to have that if (have_regulator)
-check, and it is a fair request. What I will instead do is, allow all
-dev_pm_opp_put*() API to start accepting a NULL pointer for the OPP
-table and fail silently. And so you won't be required to have this
-unwanted check. But you will be required to save the pointer returned
-back by dev_pm_opp_set_regulators(), which is the right thing to do
-anyways.
-
+diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+index 64ecb6917dd3..716c26c13c97 100644
+--- a/drivers/media/i2c/ov2740.c
++++ b/drivers/media/i2c/ov2740.c
+@@ -71,9 +71,11 @@
+ #define OV2740_REG_OTP_CUSTOMER		0x7010
+ 
+ struct nvm_data {
+-	char *nvm_buffer;
++	struct i2c_client *client;
+ 	struct nvmem_device *nvmem;
+ 	struct regmap *regmap;
++	char *nvm_buffer;
++	bool ready;
+ };
+ 
+ enum {
+@@ -335,6 +337,9 @@ struct ov2740 {
+ 
+ 	/* Streaming on/off */
+ 	bool streaming;
++
++	/* NVM data inforamtion */
++	struct nvm_data *nvm;
+ };
+ 
+ static inline struct ov2740 *to_ov2740(struct v4l2_subdev *subdev)
+@@ -930,8 +935,9 @@ static int ov2740_remove(struct i2c_client *client)
+ 	return 0;
+ }
+ 
+-static int ov2740_load_otp_data(struct i2c_client *client, struct nvm_data *nvm)
++static int ov2740_load_otp_data(struct nvm_data *nvm)
+ {
++	struct i2c_client *client = nvm->client;
+ 	struct ov2740 *ov2740 = to_ov2740(i2c_get_clientdata(client));
+ 	u32 isp_ctrl00 = 0;
+ 	u32 isp_ctrl01 = 0;
+@@ -967,7 +973,7 @@ static int ov2740_load_otp_data(struct i2c_client *client, struct nvm_data *nvm)
+ 	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
+ 			       OV2740_MODE_STREAMING);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to start streaming\n");
++		dev_err(&client->dev, "failed to set streaming mode\n");
+ 		goto exit;
+ 	}
+ 
+@@ -997,20 +1003,48 @@ static int ov2740_nvmem_read(void *priv, unsigned int off, void *val,
+ 			     size_t count)
+ {
+ 	struct nvm_data *nvm = priv;
++	struct v4l2_subdev *sd = i2c_get_clientdata(nvm->client);
++	struct device *dev = &nvm->client->dev;
++	struct ov2740 *ov2740 = to_ov2740(sd);
++	int ret = 0;
++
++	mutex_lock(&ov2740->mutex);
+ 
+-	memcpy(val, nvm->nvm_buffer + off, count);
++	if (!nvm->ready) {
++		if (ov2740->streaming) {
++			ret = -EBUSY;
++			goto exit;
++		}
+ 
+-	return 0;
++		ret = pm_runtime_get_sync(dev);
++		if (ret < 0) {
++			pm_runtime_put_noidle(dev);
++			goto exit;
++		}
++		ret = ov2740_load_otp_data(nvm);
++		if (!ret)
++			nvm->ready = true;
++		pm_runtime_put(dev);
++	}
++
++exit:
++	mutex_unlock(&ov2740->mutex);
++
++	if (!ret)
++		memcpy(val, nvm->nvm_buffer + off, count);
++
++	return ret;
+ }
+ 
+-static int ov2740_register_nvmem(struct i2c_client *client)
++static int ov2740_register_nvmem(struct i2c_client *client,
++				 struct ov2740 *ov2740)
+ {
+ 	struct nvm_data *nvm;
+ 	struct regmap_config regmap_config = { };
+ 	struct nvmem_config nvmem_config = { };
+ 	struct regmap *regmap;
+ 	struct device *dev = &client->dev;
+-	int ret = 0;
++	int ret;
+ 
+ 	nvm = devm_kzalloc(dev, sizeof(*nvm), GFP_KERNEL);
+ 	if (!nvm)
+@@ -1028,12 +1062,7 @@ static int ov2740_register_nvmem(struct i2c_client *client)
+ 		return PTR_ERR(regmap);
+ 
+ 	nvm->regmap = regmap;
+-
+-	ret = ov2740_load_otp_data(client, nvm);
+-	if (ret) {
+-		dev_err(dev, "failed to load OTP data, ret %d\n", ret);
+-		return ret;
+-	}
++	nvm->client = client;
+ 
+ 	nvmem_config.name = dev_name(dev);
+ 	nvmem_config.dev = dev;
+@@ -1051,7 +1080,11 @@ static int ov2740_register_nvmem(struct i2c_client *client)
+ 
+ 	nvm->nvmem = devm_nvmem_register(dev, &nvmem_config);
+ 
+-	return PTR_ERR_OR_ZERO(nvm->nvmem);
++	ret = PTR_ERR_OR_ZERO(nvm->nvmem);
++	if (!ret)
++		ov2740->nvm = nvm;
++
++	return ret;
+ }
+ 
+ static int ov2740_probe(struct i2c_client *client)
+@@ -1103,7 +1136,7 @@ static int ov2740_probe(struct i2c_client *client)
+ 		goto probe_error_media_entity_cleanup;
+ 	}
+ 
+-	ret = ov2740_register_nvmem(client);
++	ret = ov2740_register_nvmem(client, ov2740);
+ 	if (ret)
+ 		dev_warn(&client->dev, "register nvmem failed, ret %d\n", ret);
+ 
 -- 
-viresh
+2.7.4
+
