@@ -2,178 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 72CC82A8E6A
-	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 05:34:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 97B0E2A8E9B
+	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 06:10:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725835AbgKFEeS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 23:34:18 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:51341 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725828AbgKFEeS (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 5 Nov 2020 23:34:18 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id atS3kFIIWRiwVatS4kO7PG; Fri, 06 Nov 2020 05:34:16 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1604637256; bh=DFfqt9Jk38pIPPy7g1PUfdVoKHZ6sPck30N1KEcmDrA=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=plaTkEQB+uaUVqeyZqEU2FXFAV/wuEvlzd0THpuE9A1gpvfbfBCscyjV9kTa2ms/Q
-         PP56ymnGZnOu7Uc0zRi9wGdj5OtVB6UUmuaDu2LkkosouAgKY+JVylyZmvr0YK+Wdx
-         HDO/IhC3h7E5VjJQh4z2Ha81WDZLhG6MbydsM98VxEKpEolH6HlG3DC1mrjXdshTIy
-         AfxJbfDj0C/uTPqve/k1bhzJKpq5BijelwWexxDSg6Q7tohdhacYJmuamPLx+Q1TrW
-         tQUPjhg2XZFagXEi3FwhORAKuhtffyfcIzNF76rPtkY9xe6p+gpdYN9l7Q42ahixNH
-         toh45Ku2S7f2w==
-Message-ID: <dce3618a9cd9bf77d931216459996941@smtp-cloud7.xs4all.net>
-Date:   Fri, 06 Nov 2020 05:34:15 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfJnNQsynfsRg7l7pI4WJrDgqwYnh26dnBvOVh+Z+Mgf9uMkqW7YS0eCmAJ6w/JP/wPbXEFy0QH5xZC1fZKiRMNpV1TzzuD3Uq9vWfj7xTJ1RmiVhNmHR
- NxPqHiO6xdD0UtVi6kwvzb9OvmsKCDy4z3myXccIIHohD+q3xuUWFWzyz3R6roz8vuZfH80/GHC7VLgV0hS/X5zKJKXz6FCpL3ZYRDLJo2orJdFYnkX+5aZ0
- 7QzmvBK5jKLHADlMKeeqGQ==
+        id S1726103AbgKFFKn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Nov 2020 00:10:43 -0500
+Received: from m42-4.mailgun.net ([69.72.42.4]:53741 "EHLO m42-4.mailgun.net"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725776AbgKFFKn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 6 Nov 2020 00:10:43 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1604639442; h=Message-ID: Subject: Cc: To: From: Date:
+ Content-Transfer-Encoding: Content-Type: MIME-Version: Sender;
+ bh=4UR8D5/5hBJVI24Xm9gMBoDEqojzX5OtDodI21zNGEU=; b=qVWo7F2ACw5jitA8YsRhjd60cNUzqZ6TI0W42p5MG5Y4jctg0NFwF3lsHEoEBNnj5EevF/4r
+ 56CalyQ4y1kwseGd4Q/Ys0PxetWk4/5iiigMiGzkfawk9oV0LdgPwm3qYGJAIn1UB3NKAKiB
+ cfh9tx6+m3AftpnPgV3xC+wzuPw=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n06.prod.us-east-1.postgun.com with SMTP id
+ 5fa4dac41f7506a997b09064 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Fri, 06 Nov 2020 05:10:28
+ GMT
+Sender: asitshah=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id 06704C433FF; Fri,  6 Nov 2020 05:10:28 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00
+        autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        (Authenticated sender: asitshah)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id 7A664C433C8;
+        Fri,  6 Nov 2020 05:10:27 +0000 (UTC)
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Fri, 06 Nov 2020 10:40:27 +0530
+From:   asitshah@codeaurora.org
+To:     linux-firmware@kernel.org, linux-arm-kernel@lists.infradead.org,
+        mchehab@infradead.org, linux-media@vger.kernel.org,
+        stanimir.varbanov@linaro.org, linux-media-owner@vger.kernel.org
+Cc:     vgarodia@codeaurora.org, dikshita@codeaurora.org
+Subject: Update venus firmware files for v5.4
+Message-ID: <c1bcb5eedc160e99d65576d431816a41@codeaurora.org>
+X-Sender: asitshah@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hi Team,
 
-Results of the daily build of media_tree:
+Please include updated Venus Firmware bins for v5.4.
 
-date:			Fri Nov  6 05:00:16 CET 2020
-media-tree git hash:	0ab4f9087ea94ff92dc2ae68180faaf6bd443021
-media_build git hash:	bb0421630712dd7c4c72808d390305cae025876d
-v4l-utils git hash:	225c6c2a17bec0e07c13ebb891e062ccef051180
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Snapshot of pull request is as below, let me know if anything is 
+missing.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.238-i686: ERRORS
-linux-4.4.238-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.238-i686: ERRORS
-linux-4.9.238-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.200-i686: ERRORS
-linux-4.14.200-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.149-i686: ERRORS
-linux-4.19.149-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: ERRORS
-linux-5.1.21-x86_64: ERRORS
-linux-5.2.21-i686: ERRORS
-linux-5.2.21-x86_64: ERRORS
-linux-5.3.18-i686: ERRORS
-linux-5.3.18-x86_64: ERRORS
-linux-5.4.69-i686: ERRORS
-linux-5.4.69-x86_64: ERRORS
-linux-5.5.19-i686: ERRORS
-linux-5.5.19-x86_64: ERRORS
-linux-5.6.19-i686: ERRORS
-linux-5.6.19-x86_64: ERRORS
-linux-5.7.19-i686: ERRORS
-linux-5.7.19-x86_64: ERRORS
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: ERRORS
+>>>>>> 
 
-Detailed results are available here:
+The following changes since commit 
+dae4b4cd084102cd49c37aa8b579b208028ab025:
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+   Merge branch 'v1.1.5' of 
+https://github.com/irui-wang/linux_fw_vpu_v1.1.5 into main (2020-10-23 
+08:10:37 -0400)
 
-Detailed regression test results are available here:
+are available in the git repository at:
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+   https://github.com/shahasit/video-linux-firmware/tree/master
 
-Full logs are available here:
+for you to fetch changes up to 8a46c32a26b3f22835543b158877aa0b0e01e8d6:
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+   qcom : updated venus firmware files for v5.4 (2020-11-06 10:33:37 
++0530)
 
-The Media Infrastructure API from this daily build is here:
+----------------------------------------------------------------
+Asit Shah (1):
+       qcom : updated venus firmware files for v5.4
 
-http://www.xs4all.nl/~hverkuil/spec/index.html
+  qcom/venus-5.4/venus.b00 | Bin 212 -> 212 bytes
+  qcom/venus-5.4/venus.b01 | Bin 6808 -> 6808 bytes
+  qcom/venus-5.4/venus.b02 | Bin 873100 -> 873680 bytes
+  qcom/venus-5.4/venus.b03 | Bin 33792 -> 33792 bytes
+  qcom/venus-5.4/venus.mbn | Bin 919212 -> 919792 bytes
+  qcom/venus-5.4/venus.mdt | Bin 7020 -> 7020 bytes
+  6 files changed, 0 insertions(+), 0 deletions(-)
+
+<<<<<<
+
+Regards,
+Asit
