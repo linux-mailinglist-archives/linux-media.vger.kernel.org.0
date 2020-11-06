@@ -2,109 +2,168 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 16C5C2A9F28
-	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 22:37:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 209992A9F58
+	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 22:49:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728493AbgKFVhM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Nov 2020 16:37:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54864 "EHLO
+        id S1728547AbgKFVty (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Nov 2020 16:49:54 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728463AbgKFVhL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Nov 2020 16:37:11 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7ED8C0613CF
-        for <linux-media@vger.kernel.org>; Fri,  6 Nov 2020 13:37:10 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id p19so1763126wmg.0
-        for <linux-media@vger.kernel.org>; Fri, 06 Nov 2020 13:37:10 -0800 (PST)
+        with ESMTP id S1725868AbgKFVty (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Nov 2020 16:49:54 -0500
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5EBBCC0613CF
+        for <linux-media@vger.kernel.org>; Fri,  6 Nov 2020 13:49:54 -0800 (PST)
+Received: by mail-wm1-x341.google.com with SMTP id v5so2842253wmh.1
+        for <linux-media@vger.kernel.org>; Fri, 06 Nov 2020 13:49:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=LEqBSYfgnwhk/ZNzzzB95lzeseOVAaohNofEs1LOZBI=;
-        b=IyOOm4YcLu9epqYYgxHeyW701rsjmtWIg0P/DKB/8Q6IPcQ/t6MO1R6yd0fJQntORL
-         BDMp5hef0aEIh7KkNlZRjMDPR/LMbrm2WiyYP1Y64OpSOX8OfWqHC7XCKtwCXRJ59xd8
-         3A/YJPWDUiuHL6MrobUBvhafqHh21djh09wT76h1G9LAgFrUGneAdBxgvV275Real/sp
-         mYTid3SjqWCnTfW7H40GyyfREXgKr6MBwPcS3WQ92MKaFJdbDa3MX5MrKY+DIB9UvRI7
-         VEftWw5YuIZMb3MYgoIr3osQRBXO+NcAHvQDY5J9mpspRUZuT7z7IlQNnxz+YJWxBKYm
-         O0dA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=atRaJCXFVxAlihI4r4ojii808StzDT60z5Ec9SQAR/c=;
+        b=AjBsI4km7LOdpe3juQ0sb1PHk/smmBYDMBsiL8eKHCnqoSJbL14NUE8SdDRfeZgPkZ
+         +DxjrVqLYfdQ0RUisTVflMg4C+aK/13Y91yRQNt2TRkZa19sIVT0k9UG106xPxHr6j7u
+         yn20MAvlzzXtrV9HRoflVyWEBTeSdPv5cyZTveSv2dOvhkfAkOWkFbygv3qVFTMMjxy/
+         52UcUdPLLPv8JITzUPM4dNiblkAqiuytJJE/0W4mNpW0bhv8k+sQE+MplDFJdyAjcc3S
+         woDB1b9+/GwiKQm9qX3IEGWBR8b2Cqs2XAwypLa7SZ34SqSlqqYer1GahSbc0rV+0zfI
+         MYiQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=LEqBSYfgnwhk/ZNzzzB95lzeseOVAaohNofEs1LOZBI=;
-        b=ocifKa+UHycTcex2+0m9uS5U0EEFY64BDMhjr8A1KjyOEfxQ4tC1xrEPlrJHWmL/DK
-         DjM0clmUjPjq4Qv5J9Au346BadaM5UWv8SHYm0RKCBIdrLjcJ0llXkK1seW5azvgG+Xv
-         NEwIcdHelTBC4CmmfOYBKeNtDfMY3OLLPJzmCV83XzMA1Azlxt8l0yF/HUlJRZDVNuYp
-         JJd0YtzGoKsTkXggzfAVl0C/ZriqX0nu1asb2HIHhwzBiFHz8G7pgBiOC037REKF1r6w
-         xYHVD4rLzemn9TPYUL1Szsq1bFw9gqpmuLPZ7A2l6pSQN42QaBguN5W747U6FWyr7WAh
-         Vbfg==
-X-Gm-Message-State: AOAM5326hlqFUWqQfex7bIpFCEfSP6YZu+o17kMHXyH3OPx5+Uf0GVpu
-        v5IVA7SKKFgYCzCtXtQiyfV+Rw==
-X-Google-Smtp-Source: ABdhPJyI/kQHXmPF4Z5CgPRI1VUuTI0/V4ur2ouYJtT6Jh5hdOLOZyTcKKjzaUGMQ1xe1j6Go+iccA==
-X-Received: by 2002:a1c:7215:: with SMTP id n21mr1511403wmc.173.1604698629494;
-        Fri, 06 Nov 2020 13:37:09 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=atRaJCXFVxAlihI4r4ojii808StzDT60z5Ec9SQAR/c=;
+        b=MAe78RZKdlEQcoTTjKMEavqrwmGAyz51omviATqlSNYf1K1xNZyzyDatZHAnKWACAN
+         Z+tMyjwxZ5jd0dHdY6z3ssyOaT8xjFQRadD/uyFeRS/T+iUAZeIxV6jgLNEv8OBX9S2e
+         Kn/IWIon3+eZrVB6bP9Io4LLncoNcgnWw7u+98H+ThAt2ZG6GR45PY9GuO7FdKTxHCZw
+         26wU0k3IhATCMn0lzF+XdZwb1UgELIVZ5reXSSv13xdAcFML0UlqeQfvdrt6pBsQ7kwr
+         tqun4Nvw86/Swn2aN4v9uQpqvOS2JHoA2KOgFWTRlW6JwIcBaOprFKy/SI8LWrS3Ofm8
+         dMDw==
+X-Gm-Message-State: AOAM533Kyx+eoH9DZ2usPnu5SJgNb3k44L4Dsdx8RfJSJI0yr5Knd3Sa
+        0kG4Q/rjZg5ge5rZjNqrs2+iWQ==
+X-Google-Smtp-Source: ABdhPJyxSilLymaZgbLjfvWQZDTgj2OWOjONwp5UO++dwOgGyrFaukmAGiTHKU2EcOOknhLQDmeuVQ==
+X-Received: by 2002:a7b:c24b:: with SMTP id b11mr1515570wmj.109.1604699393111;
+        Fri, 06 Nov 2020 13:49:53 -0800 (PST)
 Received: from dell.default ([91.110.221.236])
-        by smtp.gmail.com with ESMTPSA id d16sm3984942wrw.17.2020.11.06.13.37.08
+        by smtp.gmail.com with ESMTPSA id t199sm3981084wmt.46.2020.11.06.13.49.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2020 13:37:08 -0800 (PST)
+        Fri, 06 Nov 2020 13:49:52 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
-        Tudor Ambarus <tudor.ambarus@microchip.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Richard Weinberger <richard@nod.at>,
-        Vignesh Raghavendra <vigneshr@ti.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org, Andy Gross <andy.gross@ti.com>,
+        by <jhartmann@precisioninsight.com>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, Eric Anholt <eric@anholt.net>,
+        Faith <faith@valinux.com>, Gareth Hughes <gareth@valinux.com>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Huang Rui <ray.huang@amd.com>,
+        Jeff Hartmann <jhartmann@valinux.com>,
+        Keith Whitwell <keith@tungstengraphics.com>,
+        Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Clark <rob.clark@linaro.org>, Rob Clark <rob@ti.com>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-mtd@lists.infradead.org, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH v2 07/23] mtd: spi-nor: controllers: hisi-sfc: Demote non-conformant kernel-doc
-Date:   Fri,  6 Nov 2020 21:36:39 +0000
-Message-Id: <20201106213655.1838861-8-lee.jones@linaro.org>
+        Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: [PATCH 00/19] [Set 2] Rid W=1 warnings from GPU
+Date:   Fri,  6 Nov 2020 21:49:30 +0000
+Message-Id: <20201106214949.2042120-1-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201106213655.1838861-1-lee.jones@linaro.org>
-References: <20201106213655.1838861-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
- drivers/mtd/spi-nor/controllers/hisi-sfc.c:328: warning: Function parameter or member 'np' not described in 'hisi_spi_nor_register'
- drivers/mtd/spi-nor/controllers/hisi-sfc.c:328: warning: Function parameter or member 'host' not described in 'hisi_spi_nor_register'
+There are 5000 warnings to work through.  It will take a couple more
+sets.  Although, ("drm/amd/display/dc/basics/fixpt31_32: Move
+variables to where they're used") does take care of 2000 of them!
 
-Cc: Tudor Ambarus <tudor.ambarus@microchip.com>
-Cc: Miquel Raynal <miquel.raynal@bootlin.com>
-Cc: Richard Weinberger <richard@nod.at>
-Cc: Vignesh Raghavendra <vigneshr@ti.com>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Lee Jones (19):
+  drm/ttm/ttm_range_manager: Demote non-conformant kernel-doc header
+  drm/r128/ati_pcigart: Source file headers are not good candidates for
+    kernel-doc
+  drm/selftests/test-drm_dp_mst_helper: Move
+    'sideband_msg_req_encode_decode' onto the heap
+  drm/mga/mga_dma: Demote kernel-doc abusers to standard comment blocks
+  drm/mga/mga_state: Remove unused variable 'buf_priv'
+  drm/radeon/atom: Move prototype into shared location
+  drm/radeon/radeon_kms: Include header containing our own prototypes
+  drm/omapdrm/omap_gem: Fix misnamed and missing parameter descriptions
+  drm/omapdrm/omap_dmm_tiler: Demote abusive use of kernel-doc format
+  drm/radeon/radeon: Move prototype into shared header
+  drm/radeon/radeon_drv: Source file headers are not good candidates for
+    kernel-doc
+  drm/amd/display/dc/basics/fixpt31_32: Move variables to where they're
+    used
+  drm/radeon/radeon_drv: Move prototypes to a shared headerfile
+  drm/amd/amdgpu/amdgpu_device: Provide documentation for 'reg_addr'
+    params
+  drm/radeon: Move prototypes to shared header
+  drm/amd/amdgpu/amdgpu_kms: Remove 'struct drm_amdgpu_info_device
+    dev_info' from the stack
+  drm/radeon/radeon_kms: Fix misnaming of 'radeon_info_ioctl's dev param
+  drm/radeon/atombios_crtc: Remove description of non-existent function
+    param 'encoder'
+  drm/v3d/v3d_drv: Remove unused static variable 'v3d_v3d_pm_ops'
+
+ drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |   2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       | 104 +++++++++---------
+ .../drm/amd/display/dc/basics/fixpt31_32.c    |   5 +
+ .../gpu/drm/amd/display/include/fixed31_32.h  |   6 -
+ drivers/gpu/drm/mga/mga_dma.c                 |  10 +-
+ drivers/gpu/drm/mga/mga_state.c               |   2 -
+ drivers/gpu/drm/omapdrm/omap_dmm_tiler.c      |   6 +-
+ drivers/gpu/drm/omapdrm/omap_gem.c            |   3 +-
+ drivers/gpu/drm/r128/ati_pcigart.c            |   2 +-
+ drivers/gpu/drm/radeon/atom.h                 |   6 +
+ drivers/gpu/drm/radeon/atombios_crtc.c        |   1 -
+ drivers/gpu/drm/radeon/atombios_encoders.c    |   4 -
+ drivers/gpu/drm/radeon/radeon.h               |   6 +
+ drivers/gpu/drm/radeon/radeon_device.c        |   1 +
+ drivers/gpu/drm/radeon/radeon_device.h        |  32 ++++++
+ drivers/gpu/drm/radeon/radeon_display.c       |   4 -
+ drivers/gpu/drm/radeon/radeon_drv.c           |  11 +-
+ drivers/gpu/drm/radeon/radeon_drv.h           |   7 ++
+ drivers/gpu/drm/radeon/radeon_kms.c           |   3 +-
+ .../drm/selftests/test-drm_dp_mst_helper.c    |  11 +-
+ drivers/gpu/drm/ttm/ttm_range_manager.c       |   2 +-
+ drivers/gpu/drm/v3d/v3d_drv.c                 |  36 ------
+ 22 files changed, 138 insertions(+), 126 deletions(-)
+ create mode 100644 drivers/gpu/drm/radeon/radeon_device.h
+
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: Andy Gross <andy.gross@ti.com>
+Cc: by <jhartmann@precisioninsight.com>
+Cc: Christian Koenig <christian.koenig@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-mtd@lists.infradead.org
-Cc: linux-media@vger.kernel.org
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@linux.ie>
 Cc: dri-devel@lists.freedesktop.org
+Cc: Eric Anholt <eric@anholt.net>
+Cc: Faith <faith@valinux.com>
+Cc: Gareth Hughes <gareth@valinux.com>
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Huang Rui <ray.huang@amd.com>
+Cc: Jeff Hartmann <jhartmann@valinux.com>
+Cc: Keith Whitwell <keith@tungstengraphics.com>
+Cc: Leo Li <sunpeng.li@amd.com>
 Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
-Reviewed-by: Vignesh Raghavendra <vigneshr@ti.com>
----
- drivers/mtd/spi-nor/controllers/hisi-sfc.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/mtd/spi-nor/controllers/hisi-sfc.c b/drivers/mtd/spi-nor/controllers/hisi-sfc.c
-index 95c502173cbda..7c26f8f565cba 100644
---- a/drivers/mtd/spi-nor/controllers/hisi-sfc.c
-+++ b/drivers/mtd/spi-nor/controllers/hisi-sfc.c
-@@ -320,7 +320,7 @@ static const struct spi_nor_controller_ops hisi_controller_ops = {
- 	.write = hisi_spi_nor_write,
- };
- 
--/**
-+/*
-  * Get spi flash device information and register it as a mtd device.
-  */
- static int hisi_spi_nor_register(struct device_node *np,
+Cc: linux-media@vger.kernel.org
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Rob Clark <rob.clark@linaro.org>
+Cc: Rob Clark <rob@ti.com>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
 -- 
 2.25.1
 
