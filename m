@@ -2,102 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F3E5D2A8E0B
-	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 05:08:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 72CC82A8E6A
+	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 05:34:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726050AbgKFEIT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 5 Nov 2020 23:08:19 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:16193 "EHLO
-        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725616AbgKFEIT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 5 Nov 2020 23:08:19 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5fa4cc360002>; Thu, 05 Nov 2020 20:08:22 -0800
-Received: from [10.2.49.167] (10.124.1.5) by HQMAIL107.nvidia.com
- (172.20.187.13) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 6 Nov
- 2020 04:08:11 +0000
-Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
-To:     Jason Gunthorpe <jgg@ziepe.ca>,
-        Christoph Hellwig <hch@infradead.org>,
-        J??r??me Glisse <jglisse@redhat.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>,
-        KVM list <kvm@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Linux MM <linux-mm@kvack.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        "Daniel Vetter" <daniel.vetter@intel.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Dan Williams <dan.j.williams@intel.com>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>
-References: <CAKMK7uEw701AWXNJbRNM8Z+FkyUB5FbWegmSzyWPy9cG4W7OLA@mail.gmail.com>
- <20201104140023.GQ36674@ziepe.ca>
- <CAKMK7uH69hsFjYUkjg1aTh5f=q_3eswMSS5feFs6+ovz586+0A@mail.gmail.com>
- <20201104162125.GA13007@infradead.org>
- <CAKMK7uH=0+3FSR4LxP7bJUB4BsCcnCzfK2=D+2Am9QNmfZEmfw@mail.gmail.com>
- <20201104163758.GA17425@infradead.org> <20201104164119.GA18218@infradead.org>
- <20201104181708.GU36674@ziepe.ca>
- <d3497583-2338-596e-c764-8c571b7d22cf@nvidia.com>
- <20201105092524.GQ401619@phenom.ffwll.local>
- <20201105124950.GZ36674@ziepe.ca>
-From:   John Hubbard <jhubbard@nvidia.com>
-Message-ID: <7ae3486d-095e-cf4e-6b0f-339d99709996@nvidia.com>
-Date:   Thu, 5 Nov 2020 20:08:10 -0800
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <20201105124950.GZ36674@ziepe.ca>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.124.1.5]
-X-ClientProxiedBy: HQMAIL105.nvidia.com (172.20.187.12) To
- HQMAIL107.nvidia.com (172.20.187.13)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1604635702; bh=Zxaf2o6Bf8KCt8GGVyqkabRsYvK65I+alpkY1bpXUj4=;
-        h=Subject:To:References:From:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Language:
-         Content-Transfer-Encoding:X-Originating-IP:X-ClientProxiedBy;
-        b=XUcqFVIT6wpyCLo/7MIMA70nfnEAQlMnvxS6BpI49u8niHEonhjOFRr5jpKAiDgSb
-         NruirMHJ0lklnJPVstdxDDpsNeDoRzXNbc/ZwNiwsnyeDHnXN2zye8BykFo4BmM8pn
-         eb+ONcJpKqq41slnim2JQO2fNKWYRjv2D8SW2MtwUNBsIi33cxfub4Kh3D4Qd5ngz+
-         xrhVX4XmfgwdyAZcB6p78K3Qsl/oPr5iUR4d6pKEmurex3ZAnsYGQ2ya0g2Vdsm1vi
-         TmzogOYW7iQNIRy5mgIxCPwKcT0KL2pFOmPHkECsQklCGjQEZmxD/3b/wK/ZG9ox5k
-         l2KSFxiaOUvow==
+        id S1725835AbgKFEeS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 5 Nov 2020 23:34:18 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:51341 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725828AbgKFEeS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 5 Nov 2020 23:34:18 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id atS3kFIIWRiwVatS4kO7PG; Fri, 06 Nov 2020 05:34:16 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604637256; bh=DFfqt9Jk38pIPPy7g1PUfdVoKHZ6sPck30N1KEcmDrA=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=plaTkEQB+uaUVqeyZqEU2FXFAV/wuEvlzd0THpuE9A1gpvfbfBCscyjV9kTa2ms/Q
+         PP56ymnGZnOu7Uc0zRi9wGdj5OtVB6UUmuaDu2LkkosouAgKY+JVylyZmvr0YK+Wdx
+         HDO/IhC3h7E5VjJQh4z2Ha81WDZLhG6MbydsM98VxEKpEolH6HlG3DC1mrjXdshTIy
+         AfxJbfDj0C/uTPqve/k1bhzJKpq5BijelwWexxDSg6Q7tohdhacYJmuamPLx+Q1TrW
+         tQUPjhg2XZFagXEi3FwhORAKuhtffyfcIzNF76rPtkY9xe6p+gpdYN9l7Q42ahixNH
+         toh45Ku2S7f2w==
+Message-ID: <dce3618a9cd9bf77d931216459996941@smtp-cloud7.xs4all.net>
+Date:   Fri, 06 Nov 2020 05:34:15 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfJnNQsynfsRg7l7pI4WJrDgqwYnh26dnBvOVh+Z+Mgf9uMkqW7YS0eCmAJ6w/JP/wPbXEFy0QH5xZC1fZKiRMNpV1TzzuD3Uq9vWfj7xTJ1RmiVhNmHR
+ NxPqHiO6xdD0UtVi6kwvzb9OvmsKCDy4z3myXccIIHohD+q3xuUWFWzyz3R6roz8vuZfH80/GHC7VLgV0hS/X5zKJKXz6FCpL3ZYRDLJo2orJdFYnkX+5aZ0
+ 7QzmvBK5jKLHADlMKeeqGQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/5/20 4:49 AM, Jason Gunthorpe wrote:
-> On Thu, Nov 05, 2020 at 10:25:24AM +0100, Daniel Vetter wrote:
->>> /*
->>>   * If we can't determine whether or not a pte is special, then fail immediately
->>>   * for ptes. Note, we can still pin HugeTLB and THP as these are guaranteed not
->>>   * to be special.
->>>   *
->>>   * For a futex to be placed on a THP tail page, get_futex_key requires a
->>>   * get_user_pages_fast_only implementation that can pin pages. Thus it's still
->>>   * useful to have gup_huge_pmd even if we can't operate on ptes.
->>>   */
->>
->> We support hugepage faults in gpu drivers since recently, and I'm not
->> seeing a pud_mkhugespecial anywhere. So not sure this works, but probably
->> just me missing something again.
-> 
-> It means ioremap can't create an IO page PUD, it has to be broken up.
-> 
-> Does ioremap even create anything larger than PTEs?
-> 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
- From my reading, yes. See ioremap_try_huge_pmd().
+Results of the daily build of media_tree:
 
-thanks,
--- 
-John Hubbard
-NVIDIA
+date:			Fri Nov  6 05:00:16 CET 2020
+media-tree git hash:	0ab4f9087ea94ff92dc2ae68180faaf6bd443021
+media_build git hash:	bb0421630712dd7c4c72808d390305cae025876d
+v4l-utils git hash:	225c6c2a17bec0e07c13ebb891e062ccef051180
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: ERRORS
+linux-3.10.108-x86_64: ERRORS
+linux-3.11.10-i686: ERRORS
+linux-3.11.10-x86_64: ERRORS
+linux-3.12.74-i686: ERRORS
+linux-3.12.74-x86_64: ERRORS
+linux-3.13.11-i686: ERRORS
+linux-3.13.11-x86_64: ERRORS
+linux-3.14.79-i686: ERRORS
+linux-3.14.79-x86_64: ERRORS
+linux-3.15.10-i686: ERRORS
+linux-3.15.10-x86_64: ERRORS
+linux-3.16.81-i686: ERRORS
+linux-3.16.81-x86_64: ERRORS
+linux-3.17.8-i686: ERRORS
+linux-3.17.8-x86_64: ERRORS
+linux-3.18.136-i686: ERRORS
+linux-3.18.136-x86_64: ERRORS
+linux-3.19.8-i686: ERRORS
+linux-3.19.8-x86_64: ERRORS
+linux-4.0.9-i686: ERRORS
+linux-4.0.9-x86_64: ERRORS
+linux-4.1.52-i686: ERRORS
+linux-4.1.52-x86_64: ERRORS
+linux-4.2.8-i686: ERRORS
+linux-4.2.8-x86_64: ERRORS
+linux-4.3.6-i686: ERRORS
+linux-4.3.6-x86_64: ERRORS
+linux-4.4.238-i686: ERRORS
+linux-4.4.238-x86_64: ERRORS
+linux-4.5.7-i686: ERRORS
+linux-4.5.7-x86_64: ERRORS
+linux-4.6.7-i686: ERRORS
+linux-4.6.7-x86_64: ERRORS
+linux-4.7.10-i686: ERRORS
+linux-4.7.10-x86_64: ERRORS
+linux-4.8.17-i686: ERRORS
+linux-4.8.17-x86_64: ERRORS
+linux-4.9.238-i686: ERRORS
+linux-4.9.238-x86_64: ERRORS
+linux-4.10.17-i686: ERRORS
+linux-4.10.17-x86_64: ERRORS
+linux-4.11.12-i686: ERRORS
+linux-4.11.12-x86_64: ERRORS
+linux-4.12.14-i686: ERRORS
+linux-4.12.14-x86_64: ERRORS
+linux-4.13.16-i686: ERRORS
+linux-4.13.16-x86_64: ERRORS
+linux-4.14.200-i686: ERRORS
+linux-4.14.200-x86_64: ERRORS
+linux-4.15.18-i686: ERRORS
+linux-4.15.18-x86_64: ERRORS
+linux-4.16.18-i686: ERRORS
+linux-4.16.18-x86_64: ERRORS
+linux-4.17.19-i686: ERRORS
+linux-4.17.19-x86_64: ERRORS
+linux-4.18.20-i686: ERRORS
+linux-4.18.20-x86_64: ERRORS
+linux-4.19.149-i686: ERRORS
+linux-4.19.149-x86_64: ERRORS
+linux-4.20.17-i686: ERRORS
+linux-4.20.17-x86_64: ERRORS
+linux-5.0.21-i686: ERRORS
+linux-5.0.21-x86_64: ERRORS
+linux-5.1.21-i686: ERRORS
+linux-5.1.21-x86_64: ERRORS
+linux-5.2.21-i686: ERRORS
+linux-5.2.21-x86_64: ERRORS
+linux-5.3.18-i686: ERRORS
+linux-5.3.18-x86_64: ERRORS
+linux-5.4.69-i686: ERRORS
+linux-5.4.69-x86_64: ERRORS
+linux-5.5.19-i686: ERRORS
+linux-5.5.19-x86_64: ERRORS
+linux-5.6.19-i686: ERRORS
+linux-5.6.19-x86_64: ERRORS
+linux-5.7.19-i686: ERRORS
+linux-5.7.19-x86_64: ERRORS
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10-rc1-i686: OK
+linux-5.10-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: OK
+smatch: ERRORS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
