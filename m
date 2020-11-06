@@ -2,61 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 70D012AA086
-	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 23:48:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C22B42AA0A6
+	for <lists+linux-media@lfdr.de>; Sat,  7 Nov 2020 00:02:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728967AbgKFWsX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Nov 2020 17:48:23 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48734 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728358AbgKFWsN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 6 Nov 2020 17:48:13 -0500
-Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 9578E2087E;
-        Fri,  6 Nov 2020 22:48:12 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604702893;
-        bh=Oj1ydksyNqQ3ZwyWkWH+O74qkDDreoYI/9+2rwNutow=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=GgJzvJbYnUHZVh/KVjPbUkpsfTIS+ixIdR5hDbc8e6O11e3cdgusrJ+SXHU1mNK02
-         T1pf6Ysk+sGbT7IeHtbS79IjEOVb10BsqWj7Z/BpfjH8Hjsl5L51bZ3setY8WJNtnr
-         JcdIhGHQmomXcxD8lLvJYy+d8B/elDLs+I2TO9iQ=
-Date:   Fri, 6 Nov 2020 14:48:11 -0800
-From:   Andrew Morton <akpm@linux-foundation.org>
-To:     =?ISO-8859-1?Q? "Christian_K=F6nig" ?= 
-        <ckoenig.leichtzumerken@gmail.com>
-Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 1/2] mm: mmap: fix fput in error path v2
-Message-Id: <20201106144811.cf228ca9278ec78887d42960@linux-foundation.org>
-In-Reply-To: <20201106114806.46015-2-christian.koenig@amd.com>
-References: <20201106114806.46015-1-christian.koenig@amd.com>
-        <20201106114806.46015-2-christian.koenig@amd.com>
-X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
-Mime-Version: 1.0
-Content-Type: text/plain; charset=ISO-8859-1
-Content-Transfer-Encoding: quoted-printable
+        id S1729023AbgKFXCw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Nov 2020 18:02:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40080 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729011AbgKFXCv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Nov 2020 18:02:51 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5E04C0613CF;
+        Fri,  6 Nov 2020 15:02:50 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id D1AD01F46BD1
+From:   Helen Koike <helen.koike@collabora.com>
+To:     linux-media@vger.kernel.org
+Cc:     linux-rockchip@lists.infradead.org, linux-kernel@vger.kernel.org,
+        heiko@sntech.de, kernel@collabora.com, hverkuil-cisco@xs4all.nl,
+        dafna.hirschfeld@collabora.com, zhengsq@rock-chips.com,
+        laurent.pinchart@ideasonboard.com, niklas.soderlund@ragnatech.se,
+        mchehab@kernel.org, tfiga@chromium.org, ribalda@google.com
+Subject: [PATCH] media: staging: rkisp1: cap: fix timeout when stopping the stream
+Date:   Fri,  6 Nov 2020 20:02:36 -0300
+Message-Id: <20201106230236.1884387-1-helen.koike@collabora.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri,  6 Nov 2020 12:48:05 +0100 "Christian K=F6nig" <ckoenig.leichtzumer=
-ken@gmail.com> wrote:
+The dma engine should be stopped first.
+The driver waits for an interrupt to stop the stream in a known state
+after a frame.
+If rkisp1_cap_stream_disable() is called after stopping the rest of the
+pipeline, then most likely the interrupt won't arrive, we'll get a
+timeout and debugfs variables mp_stop_timeout or sp_stop_timeout will
+be incremented.
 
-> Patch "495c10cc1c0c CHROMIUM: dma-buf: restore args..."
-> adds a workaround for a bug in mmap_region.
->=20
-> As the comment states ->mmap() callback can change
-> vma->vm_file and so we might call fput() on the wrong file.
->=20
-> Revert the workaround and proper fix this in mmap_region.
->=20
+Fixes: 37db540bb9d1f ("media: staging: rkisp1: cap: refactor enable/disable stream to allow multistreaming")
+Signed-off-by: Helen Koike <helen.koike@collabora.com>
+---
+ drivers/staging/media/rkisp1/rkisp1-capture.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
 
-Seems correct, best I can tell.  Presumably all ->mmap() instances will
-correctly fput() to original file* if they're rewriting vma->vm_file.
-
-
+diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+index 6d2fd27970f28..b81235afd0534 100644
+--- a/drivers/staging/media/rkisp1/rkisp1-capture.c
++++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+@@ -895,6 +895,8 @@ static void rkisp1_pipeline_stream_disable(struct rkisp1_capture *cap)
+ {
+ 	struct rkisp1_device *rkisp1 = cap->rkisp1;
+ 
++	rkisp1_cap_stream_disable(cap);
++
+ 	/*
+ 	 * If the other capture is streaming, isp and sensor nodes shouldn't
+ 	 * be disabled, skip them.
+@@ -907,8 +909,6 @@ static void rkisp1_pipeline_stream_disable(struct rkisp1_capture *cap)
+ 
+ 	v4l2_subdev_call(&rkisp1->resizer_devs[cap->id].sd, video, s_stream,
+ 			 false);
+-
+-	rkisp1_cap_stream_disable(cap);
+ }
+ 
+ /*
+-- 
+2.29.2
 
