@@ -2,216 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C23F2A8F92
-	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 07:43:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65F562A8FE4
+	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 08:06:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726309AbgKFGnt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Nov 2020 01:43:49 -0500
-Received: from mga11.intel.com ([192.55.52.93]:23052 "EHLO mga11.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725828AbgKFGnt (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 6 Nov 2020 01:43:49 -0500
-IronPort-SDR: nuns4aOjODvOOXSoGa/tT1z4LtCiDaPm9zNdmJSrBzxcIoLOQL7XJ44fSaw3879lu/pt6adT9R
- bwb2mULZ3oVQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9796"; a="166000809"
-X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; 
-   d="scan'208";a="166000809"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 05 Nov 2020 22:43:49 -0800
-IronPort-SDR: VoE66q5NvP3WqE9PS39guQhI9r0hwWp4u9e2MvMfBOhc3BKMD3f5QSMnt9NcT4jVEwdmTB1Bhq
- NjVyJoA8jbTA==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.77,455,1596524400"; 
-   d="scan'208";a="354596683"
-Received: from ipu5-build.bj.intel.com ([10.238.232.196])
-  by fmsmga004.fm.intel.com with ESMTP; 05 Nov 2020 22:43:47 -0800
-From:   Bingbu Cao <bingbu.cao@intel.com>
-To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com
-Cc:     tfiga@chromium.org, senozhatsky@chromium.org, bingbu.cao@intel.com,
-        bingbu.cao@linux.intel.com, qingwu.zhang@intel.com
-Subject: [PATCH 2/2] media: ov2740: allow OTP data access during streaming
-Date:   Fri,  6 Nov 2020 14:40:44 +0800
-Message-Id: <1604644844-1551-2-git-send-email-bingbu.cao@intel.com>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1604644844-1551-1-git-send-email-bingbu.cao@intel.com>
-References: <1604644844-1551-1-git-send-email-bingbu.cao@intel.com>
+        id S1726320AbgKFHFT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Nov 2020 02:05:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58868 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726050AbgKFHFT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Nov 2020 02:05:19 -0500
+Received: from mail-pf1-x444.google.com (mail-pf1-x444.google.com [IPv6:2607:f8b0:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3A620C0613D4
+        for <linux-media@vger.kernel.org>; Thu,  5 Nov 2020 23:05:19 -0800 (PST)
+Received: by mail-pf1-x444.google.com with SMTP id y7so447740pfq.11
+        for <linux-media@vger.kernel.org>; Thu, 05 Nov 2020 23:05:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=X+vlFfwXaQyT67tNUyi81s2s5dR5xJEgy0PknD0rbz4=;
+        b=x7tyrPdaqh682SqGflCsojgjTQx+BXzkcw1rNmmcDJ4f1/CcNFqWsU2TeslilqRYW6
+         zc5/q2J7DYA6GaZpIl9YJEuw5A+2BygaKtcNZGbiJXmhxkSHLYjjXBFUVrm/3kU2FfxF
+         HOpl09BHz7pxQM1vSb758PMQEHgdQo7a0vFwzSK04ezcCvy5z2tN77zFwQKb0oCEVS7Z
+         5Wf5xaSLDOcwVEQi6x3vCm1v9HcJ36wHsCS7oCefyqpWqoytt13+6MJpeHbxPKWMFUZ8
+         7D71Y1LBl2lTl2Ui7t2WW7/HoEOYoPNzVDuHeqlnp7Y7cKSpCWRT/VBoOVOVT9t0JXT2
+         P84Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=X+vlFfwXaQyT67tNUyi81s2s5dR5xJEgy0PknD0rbz4=;
+        b=B3OwofM0saoq8YpK8iVSmTeMlVlIXmz5A6xs8F18sXkSHSkvYgi8XhcRguSFCxYFJB
+         XRBg0jwrG9DMJ2T+ALDBc6psyCJ4DghEkiaImtPU/K3FEeXTNcMWqIg1irlsdcp1fjkM
+         eEcxrMmrAARF48vIvMgAXNqUf4zYG8wbEZ7F6lKT6iC3+rum0/XDVUw52KTdEXsrBmwj
+         sHtKq7MlHC7o0GeHa4V6Z6nhxysZUb54Z7N6zvaos2ERN1JJytMgtfC6ttARIJT8ntyg
+         D94vZnZ5loQQwRZ92tdO0cDgcURX70+BM4rb6Ib3xb6sQHLShkKFqq6pP4iXe815PTvw
+         K+Kg==
+X-Gm-Message-State: AOAM531luRGM9dMiXXvgkwXeiG+YiUgSzUewx5GWc0zB/h05JGIpehas
+        OkRRDKeucu/2KusL3N4yVmDf+w==
+X-Google-Smtp-Source: ABdhPJwjHQpNsy+GXHXCwxvkwHWtDNd475+Vq8i4kMmtZzheVVRcd/hAft+93Mx61nTSrMPFd3mZ/Q==
+X-Received: by 2002:a17:90a:af89:: with SMTP id w9mr989921pjq.72.1604646318621;
+        Thu, 05 Nov 2020 23:05:18 -0800 (PST)
+Received: from localhost ([122.172.12.172])
+        by smtp.gmail.com with ESMTPSA id r3sm1023098pjl.23.2020.11.05.23.05.17
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 05 Nov 2020 23:05:17 -0800 (PST)
+From:   Viresh Kumar <viresh.kumar@linaro.org>
+To:     Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
+        Andy Gross <agross@kernel.org>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Chanwoo Choi <cw00.choi@samsung.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        Ilia Lin <ilia.lin@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        MyungJoo Ham <myungjoo.ham@samsung.com>,
+        Nishanth Menon <nm@ti.com>, Qiang Yu <yuq825@gmail.com>,
+        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
+        Rob Herring <robh@kernel.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Steven Price <steven.price@arm.com>,
+        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
+        Viresh Kumar <vireshk@kernel.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     linux-pm@vger.kernel.org,
+        Vincent Guittot <vincent.guittot@linaro.org>, digetx@gmail.com,
+        dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
+Subject: [PATCH 0/7] opp: Allow dev_pm_opp_put_*() APIs to accept NULL opp_table
+Date:   Fri,  6 Nov 2020 12:33:20 +0530
+Message-Id: <cover.1604646059.git.viresh.kumar@linaro.org>
+X-Mailer: git-send-email 2.25.0.rc1.19.g042ed3e048af
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-OTP data access of ov2740 need enable the streaming mode to load
-and it could be done in any time, so driver need allow the OTP
-data access during streaming instead of return EBUSY, this patch
-try to read the OTP data out in STREAMON if OTP data is not ready
-before first time streaming start.
+Hello,
 
-Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
----
- drivers/media/i2c/ov2740.c | 135 ++++++++++++++++++++++++---------------------
- 1 file changed, 71 insertions(+), 64 deletions(-)
+This patchset updates the dev_pm_opp_put_*() helpers to accept a NULL
+pointer for the OPP table, in order to allow the callers to drop the
+unnecessary checks they had to carry.
 
-diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-index 716c26c13c97..198ce5b37888 100644
---- a/drivers/media/i2c/ov2740.c
-+++ b/drivers/media/i2c/ov2740.c
-@@ -599,13 +599,84 @@ static void ov2740_update_pad_format(const struct ov2740_mode *mode,
- 	fmt->field = V4L2_FIELD_NONE;
- }
- 
-+static int ov2740_load_otp_data(struct nvm_data *nvm)
-+{
-+	struct i2c_client *client = nvm->client;
-+	struct ov2740 *ov2740 = to_ov2740(i2c_get_clientdata(client));
-+	u32 isp_ctrl00 = 0;
-+	u32 isp_ctrl01 = 0;
-+	int ret;
-+
-+	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, &isp_ctrl00);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to read ISP CTRL00\n");
-+		goto exit;
-+	}
-+	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, &isp_ctrl01);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to read ISP CTRL01\n");
-+		goto exit;
-+	}
-+
-+	/* Clear bit 5 of ISP CTRL00 */
-+	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1,
-+			       isp_ctrl00 & ~BIT(5));
-+	if (ret) {
-+		dev_err(&client->dev, "failed to write ISP CTRL00\n");
-+		goto exit;
-+	}
-+
-+	/* Clear bit 7 of ISP CTRL01 */
-+	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1,
-+			       isp_ctrl01 & ~BIT(7));
-+	if (ret) {
-+		dev_err(&client->dev, "failed to write ISP CTRL01\n");
-+		goto exit;
-+	}
-+
-+	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-+			       OV2740_MODE_STREAMING);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to set streaming mode\n");
-+		goto exit;
-+	}
-+
-+	/*
-+	 * Users are not allowed to access OTP-related registers and memory
-+	 * during the 20 ms period after streaming starts (0x100 = 0x01).
-+	 */
-+	msleep(20);
-+
-+	ret = regmap_bulk_read(nvm->regmap, OV2740_REG_OTP_CUSTOMER,
-+			       nvm->nvm_buffer, CUSTOMER_USE_OTP_SIZE);
-+	if (ret) {
-+		dev_err(&client->dev, "failed to read OTP data, ret %d\n", ret);
-+		goto exit;
-+	}
-+
-+	ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-+			 OV2740_MODE_STANDBY);
-+	ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, isp_ctrl01);
-+	ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, isp_ctrl00);
-+
-+exit:
-+	return ret;
-+}
-+
- static int ov2740_start_streaming(struct ov2740 *ov2740)
- {
- 	struct i2c_client *client = v4l2_get_subdevdata(&ov2740->sd);
-+	struct nvm_data *nvm = ov2740->nvm;
- 	const struct ov2740_reg_list *reg_list;
- 	int link_freq_index;
- 	int ret = 0;
- 
-+	if (nvm && !nvm->ready) {
-+		ret = ov2740_load_otp_data(nvm);
-+		if (!ret)
-+			nvm->ready = true;
-+	}
-+
- 	link_freq_index = ov2740->cur_mode->link_freq_index;
- 	reg_list = &link_freq_configs[link_freq_index].reg_list;
- 	ret = ov2740_write_reg_list(ov2740, reg_list);
-@@ -935,70 +1006,6 @@ static int ov2740_remove(struct i2c_client *client)
- 	return 0;
- }
- 
--static int ov2740_load_otp_data(struct nvm_data *nvm)
--{
--	struct i2c_client *client = nvm->client;
--	struct ov2740 *ov2740 = to_ov2740(i2c_get_clientdata(client));
--	u32 isp_ctrl00 = 0;
--	u32 isp_ctrl01 = 0;
--	int ret;
--
--	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, &isp_ctrl00);
--	if (ret) {
--		dev_err(&client->dev, "failed to read ISP CTRL00\n");
--		goto exit;
--	}
--	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, &isp_ctrl01);
--	if (ret) {
--		dev_err(&client->dev, "failed to read ISP CTRL01\n");
--		goto exit;
--	}
--
--	/* Clear bit 5 of ISP CTRL00 */
--	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1,
--			       isp_ctrl00 & ~BIT(5));
--	if (ret) {
--		dev_err(&client->dev, "failed to write ISP CTRL00\n");
--		goto exit;
--	}
--
--	/* Clear bit 7 of ISP CTRL01 */
--	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1,
--			       isp_ctrl01 & ~BIT(7));
--	if (ret) {
--		dev_err(&client->dev, "failed to write ISP CTRL01\n");
--		goto exit;
--	}
--
--	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
--			       OV2740_MODE_STREAMING);
--	if (ret) {
--		dev_err(&client->dev, "failed to set streaming mode\n");
--		goto exit;
--	}
--
--	/*
--	 * Users are not allowed to access OTP-related registers and memory
--	 * during the 20 ms period after streaming starts (0x100 = 0x01).
--	 */
--	msleep(20);
--
--	ret = regmap_bulk_read(nvm->regmap, OV2740_REG_OTP_CUSTOMER,
--			       nvm->nvm_buffer, CUSTOMER_USE_OTP_SIZE);
--	if (ret) {
--		dev_err(&client->dev, "failed to read OTP data, ret %d\n", ret);
--		goto exit;
--	}
--
--	ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
--			 OV2740_MODE_STANDBY);
--	ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, isp_ctrl01);
--	ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, isp_ctrl00);
--
--exit:
--	return ret;
--}
--
- static int ov2740_nvmem_read(void *priv, unsigned int off, void *val,
- 			     size_t count)
- {
+All these must get merged upstream through the OPP tree as there is a
+hard dependency on the first patch here. Thanks.
+
+Viresh Kumar (7):
+  opp: Allow dev_pm_opp_put_*() APIs to accept NULL opp_table
+  cpufreq: dt: dev_pm_opp_put_regulators() accepts NULL argument
+  cpufreq: qcom-cpufreq-nvmem: dev_pm_opp_put_*() accepts NULL argument
+  devfreq: exynos: dev_pm_opp_put_*() accepts NULL argument
+  drm/lima: dev_pm_opp_put_*() accepts NULL argument
+  drm/panfrost: dev_pm_opp_put_*() accepts NULL argument
+  media: venus: dev_pm_opp_put_*() accepts NULL argument
+
+ drivers/cpufreq/cpufreq-dt.c                   |  6 ++----
+ drivers/cpufreq/qcom-cpufreq-nvmem.c           | 15 ++++++---------
+ drivers/devfreq/exynos-bus.c                   | 12 ++++--------
+ drivers/gpu/drm/lima/lima_devfreq.c            | 13 ++++---------
+ drivers/gpu/drm/panfrost/panfrost_devfreq.c    |  6 ++----
+ drivers/media/platform/qcom/venus/pm_helpers.c |  3 +--
+ drivers/opp/core.c                             | 18 ++++++++++++++++++
+ 7 files changed, 37 insertions(+), 36 deletions(-)
+
 -- 
-2.7.4
+2.25.0.rc1.19.g042ed3e048af
 
