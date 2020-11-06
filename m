@@ -2,338 +2,668 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CBCCB2A913E
-	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 09:26:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF2632A9151
+	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 09:32:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726625AbgKFI0k (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Nov 2020 03:26:40 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:45489 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726586AbgKFI0k (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Nov 2020 03:26:40 -0500
+        id S1726027AbgKFIc4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Nov 2020 03:32:56 -0500
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:63195 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725830AbgKFIc4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Nov 2020 03:32:56 -0500
 X-Originating-IP: 2.224.242.101
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 35601C0007;
-        Fri,  6 Nov 2020 08:26:35 +0000 (UTC)
-Date:   Fri, 6 Nov 2020 09:26:36 +0100
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 9D28F40006;
+        Fri,  6 Nov 2020 08:32:49 +0000 (UTC)
+Date:   Fri, 6 Nov 2020 09:32:50 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Hugues FRUCHET <hugues.fruchet@st.com>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        "tomi.valkeinen@ti.com" <tomi.valkeinen@ti.com>,
-        "sam@elite-embedded.com" <sam@elite-embedded.com>,
-        "slongerbeam@gmail.com" <slongerbeam@gmail.com>,
-        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>
-Subject: Re: [RFC 0/3] media: ov5640: Adjust htot, rework clock tree, add
- LINK_FREQ
-Message-ID: <20201106082636.qduds2anq2jcwczj@uno.localdomain>
-References: <20201028225706.110078-1-jacopo+renesas@jmondi.org>
- <84c8e00e-92e0-eecf-cb6a-ddb34e9bf36c@st.com>
- <20201105101403.tqxjellllwunfgk4@uno.localdomain>
- <f2f7e42e-f3ed-12b5-61fe-e7f77ed04fc5@st.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Naushir Patuck <naush@raspberrypi.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Roman Kovalivskyi <roman.kovalivskyi@globallogic.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.org>,
+        erosca@de.adit-jv.com
+Subject: Re: [PATCH v2 30/30] media: ov5647: Reflow register-value lists
+Message-ID: <20201106083250.5vqdnbtxnllzaft7@uno.localdomain>
+References: <20201104103622.595908-1-jacopo@jmondi.org>
+ <20201104104305.596479-1-jacopo@jmondi.org>
+ <CAPY8ntCgqBtA+Lu1ejjQUTQkS68wOiU7u5eGP7dxdAm252zt9w@mail.gmail.com>
+ <CAEmqJPpmW-OtaN3TOXHON7t6SgDwtBQetGYUS8nk5yA4uUxzgQ@mail.gmail.com>
+ <20201104145402.GB29958@pendragon.ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <f2f7e42e-f3ed-12b5-61fe-e7f77ed04fc5@st.com>
+In-Reply-To: <20201104145402.GB29958@pendragon.ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hugues,
-   thanks for the detail, as soon as I have a bit of time I'll re-look
-into this.
+Hello,
 
-But in the meantime, I wonder, are you testing with JPEG only ?
-What is the bpp of a JPEG image ?
+On Wed, Nov 04, 2020 at 04:54:02PM +0200, Laurent Pinchart wrote:
+> On Wed, Nov 04, 2020 at 02:50:52PM +0000, Naushir Patuck wrote:
+> > On Wed, 4 Nov 2020 at 14:46, Dave Stevenson wrote:
+> > > On Wed, 4 Nov 2020 at 10:43, Jacopo Mondi <jacopo@jmondi.org> wrote:
+> > > >
+> > > > Reflow the register blob lists to span to 80 columns and make them
+> > > > more compact.
+> > >
+> > > Personally I find this makes it less readable.
+> > >
+> > > It also means you can't do an easy diff between the register sets as
+> > > some registers only appear to be defined in some tables and so it
+> > > shifts the tabulation.
+> > > eg 0x3800, 0x4800 and 0x3503 are not in 640x480_sbggr8, but 0x4050 and
+> > > 0x4051 are when they aren't in the _sbggr10 tables.
+> > >
+> > > If the same set of registers appeared in all the tables then it could
+> > > be considered reasonable to compact them.
+> >
+> > I would agree with Dave on this one.  For me, having a single column in the
+> > register list does provide better readability.
+>
+> Especially given that hex values should be replaced by named macros.
+>
 
-So far, I only tested with YUYV as that's what I can capture on my
-platform...
+This was just cosmetic, so I'm happy to drop it!
 
-On Thu, Nov 05, 2020 at 03:33:18PM +0000, Hugues FRUCHET wrote:
-> Hi Jacopo,
+> > > > Cosmetic change only.
+> > > >
+> > > > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > > > ---
+> > > >  drivers/media/i2c/ov5647.c | 551 ++++++++-----------------------------
+> > > >  1 file changed, 112 insertions(+), 439 deletions(-)
+> > > >
+> > > > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> > > > index eb6e06a013057..9d261c786981f 100644
+> > > > --- a/drivers/media/i2c/ov5647.c
+> > > > +++ b/drivers/media/i2c/ov5647.c
+> > > > @@ -123,464 +123,137 @@ static inline struct ov5647 *to_sensor(struct
+> > > v4l2_subdev *sd)
+> > > >  }
+> > > >
+> > > >  static const struct regval_list sensor_oe_disable_regs[] = {
+> > > > -       {0x3000, 0x00},
+> > > > -       {0x3001, 0x00},
+> > > > -       {0x3002, 0x00},
+> > > > +       {0x3000, 0x00}, {0x3001, 0x00}, {0x3002, 0x00},
+> > > >  };
+> > > >
+> > > >  static const struct regval_list sensor_oe_enable_regs[] = {
+> > > > -       {0x3000, 0x0f},
+> > > > -       {0x3001, 0xff},
+> > > > -       {0x3002, 0xe4},
+> > > > +       {0x3000, 0x0f}, {0x3001, 0xff}, {0x3002, 0xe4},
+> > > >  };
+> > > >
+> > > >  static const struct regval_list ov5647_640x480_sbggr8[] = {
+> > > > -       {0x0100, 0x00},
+> > > > -       {0x0103, 0x01},
+> > > > -       {0x3034, 0x08},
+> > > > -       {0x3035, 0x21},
+> > > > -       {0x3036, 0x46},
+> > > > -       {0x303c, 0x11},
+> > > > -       {0x3106, 0xf5},
+> > > > -       {0x3821, 0x07},
+> > > > -       {0x3820, 0x41},
+> > > > -       {0x3827, 0xec},
+> > > > -       {0x370c, 0x0f},
+> > > > -       {0x3612, 0x59},
+> > > > -       {0x3618, 0x00},
+> > > > -       {0x5000, 0x06},
+> > > > -       {0x5002, 0x41},
+> > > > -       {0x5003, 0x08},
+> > > > -       {0x5a00, 0x08},
+> > > > -       {0x3000, 0x00},
+> > > > -       {0x3001, 0x00},
+> > > > -       {0x3002, 0x00},
+> > > > -       {0x3016, 0x08},
+> > > > -       {0x3017, 0xe0},
+> > > > -       {0x3018, 0x44},
+> > > > -       {0x301c, 0xf8},
+> > > > -       {0x301d, 0xf0},
+> > > > -       {0x3a18, 0x00},
+> > > > -       {0x3a19, 0xf8},
+> > > > -       {0x3c01, 0x80},
+> > > > -       {0x3b07, 0x0c},
+> > > > -       {0x380c, 0x07},
+> > > > -       {0x380d, 0x68},
+> > > > -       {0x3814, 0x31},
+> > > > -       {0x3815, 0x31},
+> > > > -       {0x3708, 0x64},
+> > > > -       {0x3709, 0x52},
+> > > > -       {0x3808, 0x02},
+> > > > -       {0x3809, 0x80},
+> > > > -       {0x380a, 0x01},
+> > > > -       {0x380b, 0xe0},
+> > > > -       {0x3801, 0x00},
+> > > > -       {0x3802, 0x00},
+> > > > -       {0x3803, 0x00},
+> > > > -       {0x3804, 0x0a},
+> > > > -       {0x3805, 0x3f},
+> > > > -       {0x3806, 0x07},
+> > > > -       {0x3807, 0xa1},
+> > > > -       {0x3811, 0x08},
+> > > > -       {0x3813, 0x02},
+> > > > -       {0x3630, 0x2e},
+> > > > -       {0x3632, 0xe2},
+> > > > -       {0x3633, 0x23},
+> > > > -       {0x3634, 0x44},
+> > > > -       {0x3636, 0x06},
+> > > > -       {0x3620, 0x64},
+> > > > -       {0x3621, 0xe0},
+> > > > -       {0x3600, 0x37},
+> > > > -       {0x3704, 0xa0},
+> > > > -       {0x3703, 0x5a},
+> > > > -       {0x3715, 0x78},
+> > > > -       {0x3717, 0x01},
+> > > > -       {0x3731, 0x02},
+> > > > -       {0x370b, 0x60},
+> > > > -       {0x3705, 0x1a},
+> > > > -       {0x3f05, 0x02},
+> > > > -       {0x3f06, 0x10},
+> > > > -       {0x3f01, 0x0a},
+> > > > -       {0x3a08, 0x01},
+> > > > -       {0x3a09, 0x27},
+> > > > -       {0x3a0a, 0x00},
+> > > > -       {0x3a0b, 0xf6},
+> > > > -       {0x3a0d, 0x04},
+> > > > -       {0x3a0e, 0x03},
+> > > > -       {0x3a0f, 0x58},
+> > > > -       {0x3a10, 0x50},
+> > > > -       {0x3a1b, 0x58},
+> > > > -       {0x3a1e, 0x50},
+> > > > -       {0x3a11, 0x60},
+> > > > -       {0x3a1f, 0x28},
+> > > > -       {0x4001, 0x02},
+> > > > -       {0x4004, 0x02},
+> > > > -       {0x4000, 0x09},
+> > > > -       {0x4837, 0x24},
+> > > > -       {0x4050, 0x6e},
+> > > > -       {0x4051, 0x8f},
+> > > > +       {0x0100, 0x00}, {0x0103, 0x01}, {0x3034, 0x08}, {0x3035, 0x21},
+> > > > +       {0x3036, 0x46}, {0x303c, 0x11}, {0x3106, 0xf5}, {0x3821, 0x07},
+> > > > +       {0x3820, 0x41}, {0x3827, 0xec}, {0x370c, 0x0f}, {0x3612, 0x59},
+> > > > +       {0x3618, 0x00}, {0x5000, 0x06}, {0x5002, 0x41}, {0x5003, 0x08},
+> > > > +       {0x5a00, 0x08}, {0x3000, 0x00}, {0x3001, 0x00}, {0x3002, 0x00},
+> > > > +       {0x3016, 0x08}, {0x3017, 0xe0}, {0x3018, 0x44}, {0x301c, 0xf8},
+> > > > +       {0x301d, 0xf0}, {0x3a18, 0x00}, {0x3a19, 0xf8}, {0x3c01, 0x80},
+> > > > +       {0x3b07, 0x0c}, {0x380c, 0x07}, {0x380d, 0x68}, {0x3814, 0x31},
+> > > > +       {0x3815, 0x31}, {0x3708, 0x64}, {0x3709, 0x52}, {0x3808, 0x02},
+> > > > +       {0x3809, 0x80}, {0x380a, 0x01}, {0x380b, 0xe0}, {0x3801, 0x00},
+> > > > +       {0x3802, 0x00}, {0x3803, 0x00}, {0x3804, 0x0a}, {0x3805, 0x3f},
+> > > > +       {0x3806, 0x07}, {0x3807, 0xa1}, {0x3811, 0x08}, {0x3813, 0x02},
+> > > > +       {0x3630, 0x2e}, {0x3632, 0xe2}, {0x3633, 0x23}, {0x3634, 0x44},
+> > > > +       {0x3636, 0x06}, {0x3620, 0x64}, {0x3621, 0xe0}, {0x3600, 0x37},
+> > > > +       {0x3704, 0xa0}, {0x3703, 0x5a}, {0x3715, 0x78}, {0x3717, 0x01},
+> > > > +       {0x3731, 0x02}, {0x370b, 0x60}, {0x3705, 0x1a}, {0x3f05, 0x02},
+> > > > +       {0x3f06, 0x10}, {0x3f01, 0x0a}, {0x3a08, 0x01}, {0x3a09, 0x27},
+> > > > +       {0x3a0a, 0x00}, {0x3a0b, 0xf6}, {0x3a0d, 0x04}, {0x3a0e, 0x03},
+> > > > +       {0x3a0f, 0x58}, {0x3a10, 0x50}, {0x3a1b, 0x58}, {0x3a1e, 0x50},
+> > > > +       {0x3a11, 0x60}, {0x3a1f, 0x28}, {0x4001, 0x02}, {0x4004, 0x02},
+> > > > +       {0x4000, 0x09}, {0x4837, 0x24}, {0x4050, 0x6e}, {0x4051, 0x8f},
+> > > >         {0x0100, 0x01},
+> > > >  };
+> > > >
+> > > >  static struct regval_list ov5647_2592x1944_sbggr10[] = {
+> > > > -       {0x0100, 0x00},
+> > > > -       {0x0103, 0x01},
+> > > > -       {0x3034, 0x1a},
+> > > > -       {0x3035, 0x21},
+> > > > -       {0x3036, 0x69},
+> > > > -       {0x303c, 0x11},
+> > > > -       {0x3106, 0xf5},
+> > > > -       {0x3821, 0x06},
+> > > > -       {0x3820, 0x00},
+> > > > -       {0x3827, 0xec},
+> > > > -       {0x370c, 0x03},
+> > > > -       {0x3612, 0x5b},
+> > > > -       {0x3618, 0x04},
+> > > > -       {0x5000, 0x06},
+> > > > -       {0x5002, 0x41},
+> > > > -       {0x5003, 0x08},
+> > > > -       {0x5a00, 0x08},
+> > > > -       {0x3000, 0x00},
+> > > > -       {0x3001, 0x00},
+> > > > -       {0x3002, 0x00},
+> > > > -       {0x3016, 0x08},
+> > > > -       {0x3017, 0xe0},
+> > > > -       {0x3018, 0x44},
+> > > > -       {0x301c, 0xf8},
+> > > > -       {0x301d, 0xf0},
+> > > > -       {0x3a18, 0x00},
+> > > > -       {0x3a19, 0xf8},
+> > > > -       {0x3c01, 0x80},
+> > > > -       {0x3b07, 0x0c},
+> > > > -       {0x380c, 0x0b},
+> > > > -       {0x380d, 0x1c},
+> > > > -       {0x3814, 0x11},
+> > > > -       {0x3815, 0x11},
+> > > > -       {0x3708, 0x64},
+> > > > -       {0x3709, 0x12},
+> > > > -       {0x3808, 0x0a},
+> > > > -       {0x3809, 0x20},
+> > > > -       {0x380a, 0x07},
+> > > > -       {0x380b, 0x98},
+> > > > -       {0x3800, 0x00},
+> > > > -       {0x3801, 0x00},
+> > > > -       {0x3802, 0x00},
+> > > > -       {0x3803, 0x00},
+> > > > -       {0x3804, 0x0a},
+> > > > -       {0x3805, 0x3f},
+> > > > -       {0x3806, 0x07},
+> > > > -       {0x3807, 0xa3},
+> > > > -       {0x3811, 0x10},
+> > > > -       {0x3813, 0x06},
+> > > > -       {0x3630, 0x2e},
+> > > > -       {0x3632, 0xe2},
+> > > > -       {0x3633, 0x23},
+> > > > -       {0x3634, 0x44},
+> > > > -       {0x3636, 0x06},
+> > > > -       {0x3620, 0x64},
+> > > > -       {0x3621, 0xe0},
+> > > > -       {0x3600, 0x37},
+> > > > -       {0x3704, 0xa0},
+> > > > -       {0x3703, 0x5a},
+> > > > -       {0x3715, 0x78},
+> > > > -       {0x3717, 0x01},
+> > > > -       {0x3731, 0x02},
+> > > > -       {0x370b, 0x60},
+> > > > -       {0x3705, 0x1a},
+> > > > -       {0x3f05, 0x02},
+> > > > -       {0x3f06, 0x10},
+> > > > -       {0x3f01, 0x0a},
+> > > > -       {0x3a08, 0x01},
+> > > > -       {0x3a09, 0x28},
+> > > > -       {0x3a0a, 0x00},
+> > > > -       {0x3a0b, 0xf6},
+> > > > -       {0x3a0d, 0x08},
+> > > > -       {0x3a0e, 0x06},
+> > > > -       {0x3a0f, 0x58},
+> > > > -       {0x3a10, 0x50},
+> > > > -       {0x3a1b, 0x58},
+> > > > -       {0x3a1e, 0x50},
+> > > > -       {0x3a11, 0x60},
+> > > > -       {0x3a1f, 0x28},
+> > > > -       {0x4001, 0x02},
+> > > > -       {0x4004, 0x04},
+> > > > -       {0x4000, 0x09},
+> > > > -       {0x4837, 0x19},
+> > > > -       {0x4800, 0x24},
+> > > > -       {0x3503, 0x03},
+> > > > -       {0x0100, 0x01},
+> > > > +       {0x0100, 0x00}, {0x0103, 0x01}, {0x3034, 0x1a}, {0x3035, 0x21},
+> > > > +       {0x3036, 0x69}, {0x303c, 0x11}, {0x3106, 0xf5}, {0x3821, 0x06},
+> > > > +       {0x3820, 0x00}, {0x3827, 0xec}, {0x370c, 0x03}, {0x3612, 0x5b},
+> > > > +       {0x3618, 0x04}, {0x5000, 0x06}, {0x5002, 0x41}, {0x5003, 0x08},
+> > > > +       {0x5a00, 0x08}, {0x3000, 0x00}, {0x3001, 0x00}, {0x3002, 0x00},
+> > > > +       {0x3016, 0x08}, {0x3017, 0xe0}, {0x3018, 0x44}, {0x301c, 0xf8},
+> > > > +       {0x301d, 0xf0}, {0x3a18, 0x00}, {0x3a19, 0xf8}, {0x3c01, 0x80},
+> > > > +       {0x3b07, 0x0c}, {0x380c, 0x0b}, {0x380d, 0x1c}, {0x3814, 0x11},
+> > > > +       {0x3815, 0x11}, {0x3708, 0x64}, {0x3709, 0x12}, {0x3808, 0x0a},
+> > > > +       {0x3809, 0x20}, {0x380a, 0x07}, {0x380b, 0x98}, {0x3800, 0x00},
+> > > > +       {0x3801, 0x00}, {0x3802, 0x00}, {0x3803, 0x00}, {0x3804, 0x0a},
+> > > > +       {0x3805, 0x3f}, {0x3806, 0x07}, {0x3807, 0xa3}, {0x3811, 0x10},
+> > > > +       {0x3813, 0x06}, {0x3630, 0x2e}, {0x3632, 0xe2}, {0x3633, 0x23},
+> > > > +       {0x3634, 0x44}, {0x3636, 0x06}, {0x3620, 0x64}, {0x3621, 0xe0},
+> > > > +       {0x3600, 0x37}, {0x3704, 0xa0}, {0x3703, 0x5a}, {0x3715, 0x78},
+> > > > +       {0x3717, 0x01}, {0x3731, 0x02}, {0x370b, 0x60}, {0x3705, 0x1a},
+> > > > +       {0x3f05, 0x02}, {0x3f06, 0x10}, {0x3f01, 0x0a}, {0x3a08, 0x01},
+> > > > +       {0x3a09, 0x28}, {0x3a0a, 0x00}, {0x3a0b, 0xf6}, {0x3a0d, 0x08},
+> > > > +       {0x3a0e, 0x06}, {0x3a0f, 0x58}, {0x3a10, 0x50}, {0x3a1b, 0x58},
+> > > > +       {0x3a1e, 0x50}, {0x3a11, 0x60}, {0x3a1f, 0x28}, {0x4001, 0x02},
+> > > > +       {0x4004, 0x04}, {0x4000, 0x09}, {0x4837, 0x19}, {0x4800, 0x24},
+> > > > +       {0x3503, 0x03}, {0x0100, 0x01},
+> > > >  };
+> > > >
+> > > >  static struct regval_list ov5647_1080p30_sbggr10[] = {
+> > > > -       {0x0100, 0x00},
+> > > > -       {0x0103, 0x01},
+> > > > -       {0x3034, 0x1a},
+> > > > -       {0x3035, 0x21},
+> > > > -       {0x3036, 0x62},
+> > > > -       {0x303c, 0x11},
+> > > > -       {0x3106, 0xf5},
+> > > > -       {0x3821, 0x06},
+> > > > -       {0x3820, 0x00},
+> > > > -       {0x3827, 0xec},
+> > > > -       {0x370c, 0x03},
+> > > > -       {0x3612, 0x5b},
+> > > > -       {0x3618, 0x04},
+> > > > -       {0x5000, 0x06},
+> > > > -       {0x5002, 0x41},
+> > > > -       {0x5003, 0x08},
+> > > > -       {0x5a00, 0x08},
+> > > > -       {0x3000, 0x00},
+> > > > -       {0x3001, 0x00},
+> > > > -       {0x3002, 0x00},
+> > > > -       {0x3016, 0x08},
+> > > > -       {0x3017, 0xe0},
+> > > > -       {0x3018, 0x44},
+> > > > -       {0x301c, 0xf8},
+> > > > -       {0x301d, 0xf0},
+> > > > -       {0x3a18, 0x00},
+> > > > -       {0x3a19, 0xf8},
+> > > > -       {0x3c01, 0x80},
+> > > > -       {0x3b07, 0x0c},
+> > > > -       {0x380c, 0x09},
+> > > > -       {0x380d, 0x70},
+> > > > -       {0x3814, 0x11},
+> > > > -       {0x3815, 0x11},
+> > > > -       {0x3708, 0x64},
+> > > > -       {0x3709, 0x12},
+> > > > -       {0x3808, 0x07},
+> > > > -       {0x3809, 0x80},
+> > > > -       {0x380a, 0x04},
+> > > > -       {0x380b, 0x38},
+> > > > -       {0x3800, 0x01},
+> > > > -       {0x3801, 0x5c},
+> > > > -       {0x3802, 0x01},
+> > > > -       {0x3803, 0xb2},
+> > > > -       {0x3804, 0x08},
+> > > > -       {0x3805, 0xe3},
+> > > > -       {0x3806, 0x05},
+> > > > -       {0x3807, 0xf1},
+> > > > -       {0x3811, 0x04},
+> > > > -       {0x3813, 0x02},
+> > > > -       {0x3630, 0x2e},
+> > > > -       {0x3632, 0xe2},
+> > > > -       {0x3633, 0x23},
+> > > > -       {0x3634, 0x44},
+> > > > -       {0x3636, 0x06},
+> > > > -       {0x3620, 0x64},
+> > > > -       {0x3621, 0xe0},
+> > > > -       {0x3600, 0x37},
+> > > > -       {0x3704, 0xa0},
+> > > > -       {0x3703, 0x5a},
+> > > > -       {0x3715, 0x78},
+> > > > -       {0x3717, 0x01},
+> > > > -       {0x3731, 0x02},
+> > > > -       {0x370b, 0x60},
+> > > > -       {0x3705, 0x1a},
+> > > > -       {0x3f05, 0x02},
+> > > > -       {0x3f06, 0x10},
+> > > > -       {0x3f01, 0x0a},
+> > > > -       {0x3a08, 0x01},
+> > > > -       {0x3a09, 0x4b},
+> > > > -       {0x3a0a, 0x01},
+> > > > -       {0x3a0b, 0x13},
+> > > > -       {0x3a0d, 0x04},
+> > > > -       {0x3a0e, 0x03},
+> > > > -       {0x3a0f, 0x58},
+> > > > -       {0x3a10, 0x50},
+> > > > -       {0x3a1b, 0x58},
+> > > > -       {0x3a1e, 0x50},
+> > > > -       {0x3a11, 0x60},
+> > > > -       {0x3a1f, 0x28},
+> > > > -       {0x4001, 0x02},
+> > > > -       {0x4004, 0x04},
+> > > > -       {0x4000, 0x09},
+> > > > -       {0x4837, 0x19},
+> > > > -       {0x4800, 0x34},
+> > > > -       {0x3503, 0x03},
+> > > > -       {0x0100, 0x01},
+> > > > +       {0x0100, 0x00}, {0x0103, 0x01}, {0x3034, 0x1a}, {0x3035, 0x21},
+> > > > +       {0x3036, 0x62}, {0x303c, 0x11}, {0x3106, 0xf5}, {0x3821, 0x06},
+> > > > +       {0x3820, 0x00}, {0x3827, 0xec}, {0x370c, 0x03}, {0x3612, 0x5b},
+> > > > +       {0x3618, 0x04}, {0x5000, 0x06}, {0x5002, 0x41}, {0x5003, 0x08},
+> > > > +       {0x5a00, 0x08}, {0x3000, 0x00}, {0x3001, 0x00}, {0x3002, 0x00},
+> > > > +       {0x3016, 0x08}, {0x3017, 0xe0}, {0x3018, 0x44}, {0x301c, 0xf8},
+> > > > +       {0x301d, 0xf0}, {0x3a18, 0x00}, {0x3a19, 0xf8}, {0x3c01, 0x80},
+> > > > +       {0x3b07, 0x0c}, {0x380c, 0x09}, {0x380d, 0x70}, {0x3814, 0x11},
+> > > > +       {0x3815, 0x11}, {0x3708, 0x64}, {0x3709, 0x12}, {0x3808, 0x07},
+> > > > +       {0x3809, 0x80}, {0x380a, 0x04}, {0x380b, 0x38}, {0x3800, 0x01},
+> > > > +       {0x3801, 0x5c}, {0x3802, 0x01}, {0x3803, 0xb2}, {0x3804, 0x08},
+> > > > +       {0x3805, 0xe3}, {0x3806, 0x05}, {0x3807, 0xf1}, {0x3811, 0x04},
+> > > > +       {0x3813, 0x02}, {0x3630, 0x2e}, {0x3632, 0xe2}, {0x3633, 0x23},
+> > > > +       {0x3634, 0x44}, {0x3636, 0x06}, {0x3620, 0x64}, {0x3621, 0xe0},
+> > > > +       {0x3600, 0x37}, {0x3704, 0xa0}, {0x3703, 0x5a}, {0x3715, 0x78},
+> > > > +       {0x3717, 0x01}, {0x3731, 0x02}, {0x370b, 0x60}, {0x3705, 0x1a},
+> > > > +       {0x3f05, 0x02}, {0x3f06, 0x10}, {0x3f01, 0x0a}, {0x3a08, 0x01},
+> > > > +       {0x3a09, 0x4b}, {0x3a0a, 0x01}, {0x3a0b, 0x13}, {0x3a0d, 0x04},
+> > > > +       {0x3a0e, 0x03}, {0x3a0f, 0x58}, {0x3a10, 0x50}, {0x3a1b, 0x58},
+> > > > +       {0x3a1e, 0x50}, {0x3a11, 0x60}, {0x3a1f, 0x28}, {0x4001, 0x02},
+> > > > +       {0x4004, 0x04}, {0x4000, 0x09}, {0x4837, 0x19}, {0x4800, 0x34},
+> > > > +       {0x3503, 0x03}, {0x0100, 0x01},
+> > > >  };
+> > > >
+> > > >  static struct regval_list ov5647_2x2binned_sbggr10[] = {
+> > > > -       {0x0100, 0x00},
+> > > > -       {0x0103, 0x01},
+> > > > -       {0x3034, 0x1a},
+> > > > -       {0x3035, 0x21},
+> > > > -       {0x3036, 0x62},
+> > > > -       {0x303c, 0x11},
+> > > > -       {0x3106, 0xf5},
+> > > > -       {0x3827, 0xec},
+> > > > -       {0x370c, 0x03},
+> > > > -       {0x3612, 0x59},
+> > > > -       {0x3618, 0x00},
+> > > > -       {0x5000, 0x06},
+> > > > -       {0x5002, 0x41},
+> > > > -       {0x5003, 0x08},
+> > > > -       {0x5a00, 0x08},
+> > > > -       {0x3000, 0x00},
+> > > > -       {0x3001, 0x00},
+> > > > -       {0x3002, 0x00},
+> > > > -       {0x3016, 0x08},
+> > > > -       {0x3017, 0xe0},
+> > > > -       {0x3018, 0x44},
+> > > > -       {0x301c, 0xf8},
+> > > > -       {0x301d, 0xf0},
+> > > > -       {0x3a18, 0x00},
+> > > > -       {0x3a19, 0xf8},
+> > > > -       {0x3c01, 0x80},
+> > > > -       {0x3b07, 0x0c},
+> > > > -       {0x3800, 0x00},
+> > > > -       {0x3801, 0x00},
+> > > > -       {0x3802, 0x00},
+> > > > -       {0x3803, 0x00},
+> > > > -       {0x3804, 0x0a},
+> > > > -       {0x3805, 0x3f},
+> > > > -       {0x3806, 0x07},
+> > > > -       {0x3807, 0xa3},
+> > > > -       {0x3808, 0x05},
+> > > > -       {0x3809, 0x10},
+> > > > -       {0x380a, 0x03},
+> > > > -       {0x380b, 0xcc},
+> > > > -       {0x380c, 0x07},
+> > > > -       {0x380d, 0x68},
+> > > > -       {0x3811, 0x0c},
+> > > > -       {0x3813, 0x06},
+> > > > -       {0x3814, 0x31},
+> > > > -       {0x3815, 0x31},
+> > > > -       {0x3630, 0x2e},
+> > > > -       {0x3632, 0xe2},
+> > > > -       {0x3633, 0x23},
+> > > > -       {0x3634, 0x44},
+> > > > -       {0x3636, 0x06},
+> > > > -       {0x3620, 0x64},
+> > > > -       {0x3621, 0xe0},
+> > > > -       {0x3600, 0x37},
+> > > > -       {0x3704, 0xa0},
+> > > > -       {0x3703, 0x5a},
+> > > > -       {0x3715, 0x78},
+> > > > -       {0x3717, 0x01},
+> > > > -       {0x3731, 0x02},
+> > > > -       {0x370b, 0x60},
+> > > > -       {0x3705, 0x1a},
+> > > > -       {0x3f05, 0x02},
+> > > > -       {0x3f06, 0x10},
+> > > > -       {0x3f01, 0x0a},
+> > > > -       {0x3a08, 0x01},
+> > > > -       {0x3a09, 0x28},
+> > > > -       {0x3a0a, 0x00},
+> > > > -       {0x3a0b, 0xf6},
+> > > > -       {0x3a0d, 0x08},
+> > > > -       {0x3a0e, 0x06},
+> > > > -       {0x3a0f, 0x58},
+> > > > -       {0x3a10, 0x50},
+> > > > -       {0x3a1b, 0x58},
+> > > > -       {0x3a1e, 0x50},
+> > > > -       {0x3a11, 0x60},
+> > > > -       {0x3a1f, 0x28},
+> > > > -       {0x4001, 0x02},
+> > > > -       {0x4004, 0x04},
+> > > > -       {0x4000, 0x09},
+> > > > -       {0x4837, 0x16},
+> > > > -       {0x4800, 0x24},
+> > > > -       {0x3503, 0x03},
+> > > > -       {0x3820, 0x41},
+> > > > -       {0x3821, 0x07},
+> > > > -       {0x350a, 0x00},
+> > > > -       {0x350b, 0x10},
+> > > > -       {0x3500, 0x00},
+> > > > -       {0x3501, 0x1a},
+> > > > -       {0x3502, 0xf0},
+> > > > -       {0x3212, 0xa0},
+> > > > -       {0x0100, 0x01},
+> > > > +       {0x0100, 0x00}, {0x0103, 0x01}, {0x3034, 0x1a}, {0x3035, 0x21},
+> > > > +       {0x3036, 0x62}, {0x303c, 0x11}, {0x3106, 0xf5}, {0x3827, 0xec},
+> > > > +       {0x370c, 0x03}, {0x3612, 0x59}, {0x3618, 0x00}, {0x5000, 0x06},
+> > > > +       {0x5002, 0x41}, {0x5003, 0x08}, {0x5a00, 0x08}, {0x3000, 0x00},
+> > > > +       {0x3001, 0x00}, {0x3002, 0x00}, {0x3016, 0x08}, {0x3017, 0xe0},
+> > > > +       {0x3018, 0x44}, {0x301c, 0xf8}, {0x301d, 0xf0}, {0x3a18, 0x00},
+> > > > +       {0x3a19, 0xf8}, {0x3c01, 0x80}, {0x3b07, 0x0c}, {0x3800, 0x00},
+> > > > +       {0x3801, 0x00}, {0x3802, 0x00}, {0x3803, 0x00}, {0x3804, 0x0a},
+> > > > +       {0x3805, 0x3f}, {0x3806, 0x07}, {0x3807, 0xa3}, {0x3808, 0x05},
+> > > > +       {0x3809, 0x10}, {0x380a, 0x03}, {0x380b, 0xcc}, {0x380c, 0x07},
+> > > > +       {0x380d, 0x68}, {0x3811, 0x0c}, {0x3813, 0x06}, {0x3814, 0x31},
+> > > > +       {0x3815, 0x31}, {0x3630, 0x2e}, {0x3632, 0xe2}, {0x3633, 0x23},
+> > > > +       {0x3634, 0x44}, {0x3636, 0x06}, {0x3620, 0x64}, {0x3621, 0xe0},
+> > > > +       {0x3600, 0x37}, {0x3704, 0xa0}, {0x3703, 0x5a}, {0x3715, 0x78},
+> > > > +       {0x3717, 0x01}, {0x3731, 0x02}, {0x370b, 0x60}, {0x3705, 0x1a},
+> > > > +       {0x3f05, 0x02}, {0x3f06, 0x10}, {0x3f01, 0x0a}, {0x3a08, 0x01},
+> > > > +       {0x3a09, 0x28}, {0x3a0a, 0x00}, {0x3a0b, 0xf6}, {0x3a0d, 0x08},
+> > > > +       {0x3a0e, 0x06}, {0x3a0f, 0x58}, {0x3a10, 0x50}, {0x3a1b, 0x58},
+> > > > +       {0x3a1e, 0x50}, {0x3a11, 0x60}, {0x3a1f, 0x28}, {0x4001, 0x02},
+> > > > +       {0x4004, 0x04}, {0x4000, 0x09}, {0x4837, 0x16}, {0x4800, 0x24},
+> > > > +       {0x3503, 0x03}, {0x3820, 0x41}, {0x3821, 0x07}, {0x350a, 0x00},
+> > > > +       {0x350b, 0x10}, {0x3500, 0x00}, {0x3501, 0x1a}, {0x3502, 0xf0},
+> > > > +       {0x3212, 0xa0}, {0x0100, 0x01},
+> > > >  };
+> > > >
+> > > >  static struct regval_list ov5647_640x480_sbggr10[] = {
+> > > > -       {0x0100, 0x00},
+> > > > -       {0x0103, 0x01},
+> > > > -       {0x3035, 0x11},
+> > > > -       {0x3036, 0x46},
+> > > > -       {0x303c, 0x11},
+> > > > -       {0x3821, 0x07},
+> > > > -       {0x3820, 0x41},
+> > > > -       {0x370c, 0x03},
+> > > > -       {0x3612, 0x59},
+> > > > -       {0x3618, 0x00},
+> > > > -       {0x5000, 0x06},
+> > > > -       {0x5003, 0x08},
+> > > > -       {0x5a00, 0x08},
+> > > > -       {0x3000, 0xff},
+> > > > -       {0x3001, 0xff},
+> > > > -       {0x3002, 0xff},
+> > > > -       {0x301d, 0xf0},
+> > > > -       {0x3a18, 0x00},
+> > > > -       {0x3a19, 0xf8},
+> > > > -       {0x3c01, 0x80},
+> > > > -       {0x3b07, 0x0c},
+> > > > -       {0x380c, 0x07},
+> > > > -       {0x380d, 0x3c},
+> > > > -       {0x3814, 0x35},
+> > > > -       {0x3815, 0x35},
+> > > > -       {0x3708, 0x64},
+> > > > -       {0x3709, 0x52},
+> > > > -       {0x3808, 0x02},
+> > > > -       {0x3809, 0x80},
+> > > > -       {0x380a, 0x01},
+> > > > -       {0x380b, 0xe0},
+> > > > -       {0x3800, 0x00},
+> > > > -       {0x3801, 0x10},
+> > > > -       {0x3802, 0x00},
+> > > > -       {0x3803, 0x00},
+> > > > -       {0x3804, 0x0a},
+> > > > -       {0x3805, 0x2f},
+> > > > -       {0x3806, 0x07},
+> > > > -       {0x3807, 0x9f},
+> > > > -       {0x3630, 0x2e},
+> > > > -       {0x3632, 0xe2},
+> > > > -       {0x3633, 0x23},
+> > > > -       {0x3634, 0x44},
+> > > > -       {0x3620, 0x64},
+> > > > -       {0x3621, 0xe0},
+> > > > -       {0x3600, 0x37},
+> > > > -       {0x3704, 0xa0},
+> > > > -       {0x3703, 0x5a},
+> > > > -       {0x3715, 0x78},
+> > > > -       {0x3717, 0x01},
+> > > > -       {0x3731, 0x02},
+> > > > -       {0x370b, 0x60},
+> > > > -       {0x3705, 0x1a},
+> > > > -       {0x3f05, 0x02},
+> > > > -       {0x3f06, 0x10},
+> > > > -       {0x3f01, 0x0a},
+> > > > -       {0x3a08, 0x01},
+> > > > -       {0x3a09, 0x2e},
+> > > > -       {0x3a0a, 0x00},
+> > > > -       {0x3a0b, 0xfb},
+> > > > -       {0x3a0d, 0x02},
+> > > > -       {0x3a0e, 0x01},
+> > > > -       {0x3a0f, 0x58},
+> > > > -       {0x3a10, 0x50},
+> > > > -       {0x3a1b, 0x58},
+> > > > -       {0x3a1e, 0x50},
+> > > > -       {0x3a11, 0x60},
+> > > > -       {0x3a1f, 0x28},
+> > > > -       {0x4001, 0x02},
+> > > > -       {0x4004, 0x02},
+> > > > -       {0x4000, 0x09},
+> > > > -       {0x3000, 0x00},
+> > > > -       {0x3001, 0x00},
+> > > > -       {0x3002, 0x00},
+> > > > -       {0x3017, 0xe0},
+> > > > -       {0x301c, 0xfc},
+> > > > -       {0x3636, 0x06},
+> > > > -       {0x3016, 0x08},
+> > > > -       {0x3827, 0xec},
+> > > > -       {0x3018, 0x44},
+> > > > -       {0x3035, 0x21},
+> > > > -       {0x3106, 0xf5},
+> > > > -       {0x3034, 0x1a},
+> > > > -       {0x301c, 0xf8},
+> > > > -       {0x4800, 0x34},
+> > > > -       {0x3503, 0x03},
+> > > > -       {0x0100, 0x01},
+> > > > +       {0x0100, 0x00}, {0x0103, 0x01}, {0x3035, 0x11}, {0x3036, 0x46},
+> > > > +       {0x303c, 0x11}, {0x3821, 0x07}, {0x3820, 0x41}, {0x370c, 0x03},
+> > > > +       {0x3612, 0x59}, {0x3618, 0x00}, {0x5000, 0x06}, {0x5003, 0x08},
+> > > > +       {0x5a00, 0x08}, {0x3000, 0xff}, {0x3001, 0xff}, {0x3002, 0xff},
+> > > > +       {0x301d, 0xf0}, {0x3a18, 0x00}, {0x3a19, 0xf8}, {0x3c01, 0x80},
+> > > > +       {0x3b07, 0x0c}, {0x380c, 0x07}, {0x380d, 0x3c}, {0x3814, 0x35},
+> > > > +       {0x3815, 0x35}, {0x3708, 0x64}, {0x3709, 0x52}, {0x3808, 0x02},
+> > > > +       {0x3809, 0x80}, {0x380a, 0x01}, {0x380b, 0xe0}, {0x3800, 0x00},
+> > > > +       {0x3801, 0x10}, {0x3802, 0x00}, {0x3803, 0x00}, {0x3804, 0x0a},
+> > > > +       {0x3805, 0x2f}, {0x3806, 0x07}, {0x3807, 0x9f}, {0x3630, 0x2e},
+> > > > +       {0x3632, 0xe2}, {0x3633, 0x23}, {0x3634, 0x44}, {0x3620, 0x64},
+> > > > +       {0x3621, 0xe0}, {0x3600, 0x37}, {0x3704, 0xa0}, {0x3703, 0x5a},
+> > > > +       {0x3715, 0x78}, {0x3717, 0x01}, {0x3731, 0x02}, {0x370b, 0x60},
+> > > > +       {0x3705, 0x1a}, {0x3f05, 0x02}, {0x3f06, 0x10}, {0x3f01, 0x0a},
+> > > > +       {0x3a08, 0x01}, {0x3a09, 0x2e}, {0x3a0a, 0x00}, {0x3a0b, 0xfb},
+> > > > +       {0x3a0d, 0x02}, {0x3a0e, 0x01}, {0x3a0f, 0x58}, {0x3a10, 0x50},
+> > > > +       {0x3a1b, 0x58}, {0x3a1e, 0x50}, {0x3a11, 0x60}, {0x3a1f, 0x28},
+> > > > +       {0x4001, 0x02}, {0x4004, 0x02}, {0x4000, 0x09}, {0x3000, 0x00},
+> > > > +       {0x3001, 0x00}, {0x3002, 0x00}, {0x3017, 0xe0}, {0x301c, 0xfc},
+> > > > +       {0x3636, 0x06}, {0x3016, 0x08}, {0x3827, 0xec}, {0x3018, 0x44},
+> > > > +       {0x3035, 0x21}, {0x3106, 0xf5}, {0x3034, 0x1a}, {0x301c, 0xf8},
+> > > > +       {0x4800, 0x34}, {0x3503, 0x03}, {0x0100, 0x01},
+> > > >  };
+> > > >
+> > > >  static const struct ov5647_mode ov5647_sbggr8_modes[] = {
 >
-> On 11/5/20 11:14 AM, Jacopo Mondi wrote:
-> > Hello Hugues,
-> >
-> >      thanks so much for testing
-> >
-> > On Tue, Nov 03, 2020 at 04:53:21PM +0000, Hugues FRUCHET wrote:
-> >> Hi Jacopo,
-> >>
-> >> Here is the results of tests with 0V5640 CSI-2 on Avenger96 board.
-> >>
-> >> 1) First of all, the framerate is broken, it is almost 2 times greater
-> >> that expected. Checking code it seems that mipi_div is missing when
-> >> computing link_freq:
-> >>
-> >> +	/*
-> >>    	 * The 'rate' parameter is the bitrate = VTOT * HTOT * FPS * BPP
-> >>    	 *
-> >>    	 * Adjust it to represent the CSI-2 link frequency and use it to
-> >>    	 * update the associated control.
-> >>    	 */
-> >> -	link_freq = rate / sensor->ep.bus.mipi_csi2.num_data_lanes / 2;
-> >> +	link_freq = rate / sensor->ep.bus.mipi_csi2.num_data_lanes / 2 / mipi_div;
-> >
-> > I don't think this is correct I'm sorry.
-> >
+> --
+> Regards,
 >
-> But this is what is observed with oscilloscope:
->
-> v4l2-ctl --set-ctrl=test_pattern=1;v4l2-ctl --set-parm=30;v4l2-ctl
-> --set-fmt-video=width=640,height=480,pixelformat=JPEG --stream-mmap
-> --stream-count=-1
-> Frame rate set to 30.000 fps
-> [ 3501.482829] ov5640 1-003c: Bandwidth Per Lane=491443200, 640x480 from
-> 1896x1080
-> [ 3501.488822] ov5640 1-003c: ov5640_set_mipi_pclk: __v4l2_ctrl_s_ctrl 0
-> 122860800 Hz
-> [ 3501.496415] ov5640 1-003c: sysclk=491443200, _rate=492000000,
-> mipi_div=2, prediv=3, mult=123, sysdiv=2
-> [ 3501.511064] ov5640 1-003c: PCLK PERIOD 0x4837=0x20
-> [ 3501.569487] st-mipid02 2-0014: clk_lane_reg1=0x41
-> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 30.00 fps
-> Measured #8ns (125MHz) ==> in line with 122860800 Hz
->
-> v4l2-ctl --set-ctrl=test_pattern=1;v4l2-ctl --set-parm=15;v4l2-ctl
-> --set-fmt-video=width=640,height=480,pixelformat=JPEG --stream-mmap
-> --stream-count=-1
-> Frame rate set to 15.000 fps
-> [ 5019.240550] ov5640 1-003c: Bandwidth Per Lane=245721600, 640x480 from
-> 1896x1080
-> [ 5019.246542] ov5640 1-003c: ov5640_set_mipi_pclk: __v4l2_ctrl_s_ctrl 0
-> 61430400 Hz
-> [ 5019.257485] ov5640 1-003c: sysclk=245721600, _rate=246000000,
-> mipi_div=2, prediv=3, mult=123, sysdiv=4
-> [ 5019.271894] ov5640 1-003c: PCLK PERIOD 0x4837=0x41
-> [ 5019.329693] st-mipid02 2-0014: clk_lane_reg1=0x81
-> <<<<<<<<<<<<<<<<< 15.09 fps
-> Measured #16ns (62.5MHz) => in line with 61430400 Hz
->
->
-> > In my platform this fixes (in example) 640x480@30FPS but breaks
-> > 640x480@15FPS which now runs at 7.5FPS (with Tomi's patch reverted)..
-> > What a weird behaviour
-> >
-> > The reasoning behing link_frequency calculation is that
-> >
-> > pixel_rate = vtot * htot * fps
-> > bit_rate = pixel_rate * bpp
-> > link_freq = bit_rate / num_lanes / 2 (CSI-2 DDR)
-> >
-> > MIPI_DIV is not yet into play, as we're calculating the CSI-2 clock
-> > lane freqeuency without applying it to the clock tree
-> >
-> > In my clock diagram link_freq is what is the MIPI_CLK output
-> > To transform it in SYSCLK you walk the clock tree backward and
-> >
-> > sysclk = link_freq * 2 * mipi_div
-> >
->
-> Could you add in your codebase the debug patches below and measure the
-> clock lane frequency with oscilloscope so that we have a chance to
-> understand what happens ?
->
->
-> @@ -1842,6 +1842,7 @@ static int ov5640_set_mode(struct ov5640_dev *sensor)
->   	bool auto_exp =  sensor->ctrls.auto_exp->val == V4L2_EXPOSURE_AUTO;
->   	unsigned long rate;
->   	int ret;
-> +	struct i2c_client *client = sensor->i2c_client;
->
->   	if (!orig_mode)
->   		orig_mode = mode;
-> @@ -1867,6 +1868,10 @@ static int ov5640_set_mode(struct ov5640_dev *sensor)
->   	 * the same rate than YUV, so we can just use 16 bpp all the time.
->   	 */
->   	rate = ov5640_calc_pixel_rate(sensor) * 16;
-> +
-> +	dev_info(&client->dev, "Bandwidth Per Lane=%lu, %dx%d from %dx%d\n",
-> +		 rate / sensor->ep.bus.mipi_csi2.num_data_lanes, mode->hact,
-> mode->vact, mode->htot, mode->vtot);
-> +
->   	if (sensor->ep.bus_type == V4L2_MBUS_CSI2) {
->
->
->
-> @@ -944,6 +944,8 @@ static int ov5640_set_mipi_pclk(struct ov5640_dev
-> *sensor,
->   	unsigned long sysclk;
->   	u8 pclk_period;
->   	int ret;
-> +	struct i2c_client *client = sensor->i2c_client;
-> +	unsigned long _rate;
->
->
->   	sysclk = link_freq * 2 * mipi_div;
-> -	ov5640_calc_sys_clk(sensor, sysclk, &prediv, &mult, &sysdiv);
-> +	_rate = ov5640_calc_sys_clk(sensor, sysclk, &prediv, &mult, &sysdiv);
-> +
-> +	dev_info(&client->dev, "sysclk=%lu, _rate=%lu, mipi_div=%d, prediv=%d,
-> mult=%d, sysdiv=%d\n",
-> +		 sysclk, _rate, mipi_div, prediv, mult, sysdiv);
->
->
->
-> >>
-> >> To test the setup I have patched the link frequency control to report
-> >> dynamically the frequency instead of hardcoded value:
-> >> +#if 0
-> >>    	freq_index = OV5640_LINK_FREQS_NUM - 1;
-> >>    	for (i = 0; i < OV5640_LINK_FREQS_NUM; ++i) {
-> >>    		if (ov5640_link_freqs[i] == link_freq) {
-> >> @@ -966,18 +979,12 @@ static int ov5640_set_mipi_pclk(struct ov5640_dev
-> >> *sensor,
-> >>    	ret = __v4l2_ctrl_s_ctrl(sensor->ctrls.link_freq, freq_index);
-> >>    	if (ret < 0)
-> >>    		return ret;
-> >> +#else
-> >> +	ov5640_link_freqs[0] = link_freq;
-> >> +	ret = __v4l2_ctrl_s_ctrl(sensor->ctrls.link_freq, 0);
-> >> +#endif
-> >
-> > I wonder if this is acceptable for mainline. Pre-calculating the link
-> > frequency is really a pain. I wonder why LINK_FREQ is a menu control
-> > in first place :/
-> >
->
-> Yes would be nice to get rid of that.
->
-> >>
-> >> 2) Second problem comes from "media: i2c: ov5640: Adjust htot", this is
-> >> breaking 1024x768@30fps & VGA@30fps which are slowdown to 15fps
-> >
-> > Weird, as 'Adjust htot' -increases- the htot values resulting in a
-> > -faster- clock output, right ? Are you sure this is not due to the
-> > above "/ mipi_div;" you've added ?
-> >
->
-> Another explanation is that there are errors so that 1/2 frame is dropped.
->
-> >>
-> >> 3) I have some instabilities when switching between framerate, I have to
-> >> investigate the point. In few words this is a race problem between the
-> >> OV5640 which set the frequency control and the MIPID02 which read the
-> >> frequency control. I'll dig into the issue to see how to fix that.
-> >>
-> >>
-> >> To summarize:
-> >> -------------
-> >> 1) "media: i2c: ov5640: Rework CSI-2 clock tree"
-> >> Almost OK but mipi_div is missing
-> >>
-> >> 2) "media: i2c: ov5640: Adjust htot"
-> >> Is breaking some resolutions/fps, so better to drop.
-> >> Tomi, perhaps could you recheck with the fixed Jacopo serie if you still
-> >> encounter your DPHY error issues ?
-> >>
-> >> With 1) fixed and 2) reverted, I'm back on track and have a successfull
-> >> non-regression on my side + some better figures on some resolutions:
-> >> - 1024x768@30fps which was not at the right framerate previously
-> >> - 720p@30fps which was not at the right framerate previously
-> >> - HD@15fps which was not at the right framerate previously
-> >>
-> >> Please note that I cannot go above HD@15fps on this platform.
-> >>
-> >> * QCIF  176x144 RGB565 15fps => OK, got 15
-> >> * QCIF  176x144 YUYV   15fps => OK, got 15
-> >> * QCIF  176x144 JPEG   15fps => OK, got 15
-> >> * QCIF  176x144 RGB565 30fps => OK, got 30
-> >> * QCIF  176x144 YUYV   30fps => OK, got 30
-> >> * QCIF  176x144 JPEG   30fps => OK, got 30
-> >> * QVGA  320x240 RGB565 15fps => OK, got 15
-> >> * QVGA  320x240 YUYV   15fps => OK, got 15
-> >> * QVGA  320x240 JPEG   15fps => OK, got 15
-> >> * QVGA  320x240 RGB565 30fps => OK, got 29
-> >> * QVGA  320x240 YUYV   30fps => OK, got 30
-> >> * QVGA  320x240 JPEG   30fps => OK, got 29
-> >> * VGA   640x480 RGB565 15fps => OK, got 15
-> >> * VGA   640x480 YUYV   15fps => OK, got 15
-> >> * VGA   640x480 JPEG   15fps => OK, got 15
-> >> * VGA   640x480 RGB565 30fps => OK, got 30
-> >> * VGA   640x480 YUYV   30fps => OK, got 30
-> >> * VGA   640x480 JPEG   30fps => OK, got 30
-> >> * 480p  720x480 RGB565 15fps => OK, got 15
-> >> * 480p  720x480 YUYV   15fps => OK, got 15
-> >> * 480p  720x480 JPEG   15fps => OK, got 15
-> >> * 480p  720x480 RGB565 30fps => OK, got 30
-> >> * 480p  720x480 YUYV   30fps => OK, got 30
-> >> * 480p  720x480 JPEG   30fps => OK, got 30
-> >> * XGA  1024x768 RGB565 15fps => OK, got 15
-> >> * XGA  1024x768 YUYV   15fps => OK, got 15
-> >> * XGA  1024x768 JPEG   15fps => OK, got 15
-> >> * XGA  1024x768 RGB565 30fps => OK, got 30
-> >> * XGA  1024x768 YUYV   30fps => OK, got 30
-> >> * XGA  1024x768 JPEG   30fps => OK, got 30
-> >> * 720p 1280x720 RGB565 15fps => OK, got 15
-> >> * 720p 1280x720 YUYV   15fps => OK, got 15
-> >> * 720p 1280x720 JPEG   15fps => OK, got 15
-> >> * 720p 1280x720 RGB565 30fps => OK, got 30
-> >> * 720p 1280x720 YUYV   30fps => OK, got 30
-> >> * 720p 1280x720 JPEG   30fps => OK, got 30
-> >> * HD  1920x1080 RGB565 15fps => OK, got 15
-> >> * HD  1920x1080 YUYV   15fps => OK, got 15
-> >> * HD  1920x1080 JPEG   15fps => OK, got 15
-> >>
-> >>
-> >> So in few words, it sounds good, thanks Jacopo !
-> >
-> > That's sweet, but doesn't match what I see on iMX.6 /o\
->
-> Yes, I feel that debug traces and oscilloscope will help to understand
-> what happens.
->
-> >
-> >
-> >>
-> >>
-> >> On 10/28/20 11:57 PM, Jacopo Mondi wrote:
-> >>> Hi Hugues Tomi and Sam
-> >>>
-> >>>      this small series collects Tomi's patch on adjusting htot which has been
-> >>> floating around for some time with a rework of the clock tree based on
-> >>> Hugues' and Sam's work on setting pclk_period. It also address the need to
-> >>> suppport LINK_FREQUENCY control as pointed out by Hugues.
-> >>>
-> >>> I'm sort of happy with the result as I've removed quite some chrun and the clock
-> >>> tree calculation is more linear. All modes work except full-resolution which a
-> >>> bit annoys me, as I can't select it through s_fmt (to be honest I have not
-> >>> investigated that in detail, that's why an RFC).
-> >>>
-> >>> Framerate is better than before, but still off for some combinations:
-> >>> 640x480@30 gives me ~40 FPS, 1920x1080@15 gives me ~7.
-> >>> The other combinations I've tested looks good.
-> >>>
-> >>> Can I have your opinion on these changes and if they help you with your
-> >>> platforms?
-> >>>
-> >>> I've only been able to test YUYV, support for formats with != bpp will need
-> >>> some work most probably, but that was like this before (although iirc Hugues
-> >>> has captured JPEG, right ?)
-> >>>
-> >>> There's a bit more cleanup on top to be done (I've left TODOs around) and
-> >>> probably the HBLANK calculation should be checked to see if it works with the
-> >>> new htot values.
-> >>>
-> >>> Thanks
-> >>>     j
-> >>>
-> >>> Jacopo Mondi (2):
-> >>>     media: i2c: ov5640: Rework CSI-2 clock tree
-> >>>     media: i2c: ov5640: Add V4L2_CID_LINK_FREQ support
-> >>>
-> >>> Tomi Valkeinen (1):
-> >>>     media: i2c: ov5640: Adjust htot
-> >>>
-> >>>    drivers/media/i2c/ov5640.c | 176 +++++++++++++++++++++++++------------
-> >>>    1 file changed, 118 insertions(+), 58 deletions(-)
-> >>>
-> >>> --
-> >>> 2.28.0
-> >>>
-> >>
-> >> Best regards,
-> >> Hugues.
->
-> BR,
-> Hugues.
+> Laurent Pinchart
