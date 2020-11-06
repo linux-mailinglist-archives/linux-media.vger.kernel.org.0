@@ -2,65 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A547A2A9F82
+	by mail.lfdr.de (Postfix) with ESMTP id 10D692A9F81
 	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 22:50:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728765AbgKFVux (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Nov 2020 16:50:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56922 "EHLO
+        id S1728753AbgKFVuw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Nov 2020 16:50:52 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56936 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728724AbgKFVuG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Nov 2020 16:50:06 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B495EC0613D2
-        for <linux-media@vger.kernel.org>; Fri,  6 Nov 2020 13:50:04 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id p19so1779612wmg.0
-        for <linux-media@vger.kernel.org>; Fri, 06 Nov 2020 13:50:04 -0800 (PST)
+        with ESMTP id S1728729AbgKFVuH (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Nov 2020 16:50:07 -0500
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44A99C0613CF
+        for <linux-media@vger.kernel.org>; Fri,  6 Nov 2020 13:50:07 -0800 (PST)
+Received: by mail-wm1-x344.google.com with SMTP id p22so2839293wmg.3
+        for <linux-media@vger.kernel.org>; Fri, 06 Nov 2020 13:50:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=socaU7um35iwEdYbuZIG6DpwnbxHw+sI5ykPEkbUzts=;
-        b=u2YdzXP+cI8hNzxPMwK6P2NcmDOFEzfBJQ1EpULD/0QTAzDAFswU3D9HeqnrXDaHgs
-         Oy1MEtKUiI0ihnz/ecIt2Zgh/i8gi71GIO72wLjJAI/LL7YwzoMcf0+q+tmjnKo6QcuJ
-         +Pey6urIMQgILLkxbg12Gxzk65TaqpK+n5BAvblzKUfHnkTnovij7Oz3MZsQst54SD4J
-         nN9l+QaZBIpPJG2iHMDHMANkmJHJXM/PXJq3dYk1iUFhneAtRGIYLAUkr2iWoOZDT5V0
-         /pv6XxQ+ZFkcmR/MEtxE2C/os+HjFieodE3x8YaO2IXZw4PxzJnvCd0D5EwooPWjpxl5
-         FXig==
+        bh=xaVwrMr6e/jbnTc5qGRYSEriQiljvoWqO6b2JcTWvj4=;
+        b=eXZxFJ0DJnXnG4PTRnW4zbY40yCi26ZRguq8FgTlJbA5SNWLBT9jWR5zy1R2sUX1TM
+         CMHOP+N7nrftop8HRYZB+EagLdSwgk3Z/SXWWqj/O97kqn1n+TDDyqo8b0KoNy3bReyb
+         HPe4pHgcNYeo3m2J+aH4PH4Lc+6HNLQwlmWJ1Yqo5OXuPcc336PxwRnc7u3uPpoqoeQm
+         EcbvtA9V1xc983pr9fJX2OQTH+ogpHZKb4opW6oKP9iDkH2ZS+wUuhPTYB4AH4SQRTiJ
+         i7HVBe4elFUAD88VJK0DZAAZSjIQE0ehoP3LF/KWBD7ru9eGI0jGKdsWChjT9uWyOavh
+         emoQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=socaU7um35iwEdYbuZIG6DpwnbxHw+sI5ykPEkbUzts=;
-        b=FCK6G2LGdK3fTe5dk71fDEyqwl2lu7RejHEV8CMMK4iMOi1Gp8tENPuUlc9l9StZV+
-         H4OGnjWH8RhDaSIZGaY7SKM9rvobwBwRgFNgPHxfBG67eUTS3aH5lCKFdtLAAFQR1oDe
-         6wkxdQb+dOM7l9Woa39jSvdJJWMVOMLooP7ie/Qds1iFcja2ifLfQT9CXxvCOfuLCYmh
-         3ZLH9/+n9YC/naU6vU0RLUsKB8sSDTWDRfHI5EdC79e9Oj+WY9SGlJKFnLhpIUrwyyAX
-         WNn4YRPX7yOs3Kit3OpuoQEgtjAWk45KjFvTV2ddHSyWDrGI04a2nC4LCFfQUxoQOc1X
-         VOSA==
-X-Gm-Message-State: AOAM532O0Is48VVjYoBEwTOIRgTODjn4Z34EdhcyvLlTOdEEOwNYg6sV
-        w1VPGVVpWGhd0v0PzXMjdvq7Gg==
-X-Google-Smtp-Source: ABdhPJxf2Mvms/vp2uquszu6id9VkQjR791be6+7w0PjmFHlbmzZeAI2kpvTw7QIRDdYtY7cmrQZ9w==
-X-Received: by 2002:a05:600c:210a:: with SMTP id u10mr1644995wml.98.1604699403507;
-        Fri, 06 Nov 2020 13:50:03 -0800 (PST)
+        bh=xaVwrMr6e/jbnTc5qGRYSEriQiljvoWqO6b2JcTWvj4=;
+        b=VVlqlRsAYirjEYTBEsPuKpcjzdasAzzR1TXE5WOqFK8CmibvjOeAB2fCMtVwFl0Yxj
+         qNECHHZdZUcmJHkT4MlLyXy4ej7SFiTEl+IoQWl2nMwAxFs4IDljycVuuF+A2Hmh17VY
+         /oaz/RpjIn/wwgoNovMMs9cQ8GPb3nOh7tH5s7ZqwhA3SZ4yIlxH4EEjh8CyaGzfY45o
+         zNXs1pPu+z1+3IxG8RkgSW9it9ZQ/chw5tmwJ7bCIj5ZuUDYSGd0tuw//Zc4zc1oBvhW
+         wRYf5fQsGw2sxFvUewYRqDzYZWaAacN9qLXCFA+GTJa8FvunngyOaEy65sGg80vde9eV
+         CPZA==
+X-Gm-Message-State: AOAM531NWD2AX1gkAxVEsVG/fbe84HtWZt0cSneG9hgLcay8ZAYAhyqK
+        7s+4Eq0nfFoNYt3ag0ULVOXMSA==
+X-Google-Smtp-Source: ABdhPJxTmyerXkl8RR0eJrnwM1v2u23YYZVK3Ps71Ip7mBI6xQdbKTgb9Ow5+TUh5vKokN7ikvoPkg==
+X-Received: by 2002:a1c:5605:: with SMTP id k5mr1502624wmb.99.1604699406015;
+        Fri, 06 Nov 2020 13:50:06 -0800 (PST)
 Received: from dell.default ([91.110.221.236])
-        by smtp.gmail.com with ESMTPSA id t199sm3981084wmt.46.2020.11.06.13.50.02
+        by smtp.gmail.com with ESMTPSA id t199sm3981084wmt.46.2020.11.06.13.50.04
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 06 Nov 2020 13:50:02 -0800 (PST)
+        Fri, 06 Nov 2020 13:50:05 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
         Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        Rob Clark <rob.clark@linaro.org>,
-        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 08/19] drm/omapdrm/omap_gem: Fix misnamed and missing parameter descriptions
-Date:   Fri,  6 Nov 2020 21:49:38 +0000
-Message-Id: <20201106214949.2042120-9-lee.jones@linaro.org>
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH 10/19] drm/radeon/radeon: Move prototype into shared header
+Date:   Fri,  6 Nov 2020 21:49:40 +0000
+Message-Id: <20201106214949.2042120-11-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201106214949.2042120-1-lee.jones@linaro.org>
 References: <20201106214949.2042120-1-lee.jones@linaro.org>
@@ -71,47 +70,102 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Unfortunately, a suitable one didn't already exist.
+
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/omapdrm/omap_gem.c:593: warning: Function parameter or member 'file' not described in 'omap_gem_dumb_create'
- drivers/gpu/drm/omapdrm/omap_gem.c:593: warning: Excess function parameter 'drm_file' description in 'omap_gem_dumb_create'
- drivers/gpu/drm/omapdrm/omap_gem.c:619: warning: Function parameter or member 'offset' not described in 'omap_gem_dumb_map_offset'
+ drivers/gpu/drm/radeon/radeon_device.c:637:6: warning: no previous prototype for ‘radeon_device_is_virtual’ [-Wmissing-prototypes]
+ 637 | bool radeon_device_is_virtual(void)
+ | ^~~~~~~~~~~~~~~~~~~~~~~~
 
-Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: "Christian König" <christian.koenig@amd.com>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: Rob Clark <rob.clark@linaro.org>
+Cc: amd-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/omapdrm/omap_gem.c | 3 ++-
- 1 file changed, 2 insertions(+), 1 deletion(-)
+ drivers/gpu/drm/radeon/radeon_device.c |  1 +
+ drivers/gpu/drm/radeon/radeon_device.h | 32 ++++++++++++++++++++++++++
+ drivers/gpu/drm/radeon/radeon_drv.c    |  3 +--
+ 3 files changed, 34 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/radeon/radeon_device.h
 
-diff --git a/drivers/gpu/drm/omapdrm/omap_gem.c b/drivers/gpu/drm/omapdrm/omap_gem.c
-index d8e09792793ab..0e5adfaae6455 100644
---- a/drivers/gpu/drm/omapdrm/omap_gem.c
-+++ b/drivers/gpu/drm/omapdrm/omap_gem.c
-@@ -580,7 +580,7 @@ int omap_gem_mmap_obj(struct drm_gem_object *obj,
+diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/radeon/radeon_device.c
+index 7f384ffe848a7..ad572f965190b 100644
+--- a/drivers/gpu/drm/radeon/radeon_device.c
++++ b/drivers/gpu/drm/radeon/radeon_device.c
+@@ -42,6 +42,7 @@
+ #include <drm/drm_probe_helper.h>
+ #include <drm/radeon_drm.h>
  
- /**
-  * omap_gem_dumb_create	-	create a dumb buffer
-- * @drm_file: our client file
-+ * @file: our client file
-  * @dev: our device
-  * @args: the requested arguments copied from userspace
-  *
-@@ -610,6 +610,7 @@ int omap_gem_dumb_create(struct drm_file *file, struct drm_device *dev,
-  * @file: our drm client file
-  * @dev: drm device
-  * @handle: GEM handle to the object (from dumb_create)
-+ * @offset: memory map offset placeholder
-  *
-  * Do the necessary setup to allow the mapping of the frame buffer
-  * into user memory. We don't have to do much here at the moment.
++#include "radeon_device.h"
+ #include "radeon_reg.h"
+ #include "radeon.h"
+ #include "atom.h"
+diff --git a/drivers/gpu/drm/radeon/radeon_device.h b/drivers/gpu/drm/radeon/radeon_device.h
+new file mode 100644
+index 0000000000000..c8e6dd2005224
+--- /dev/null
++++ b/drivers/gpu/drm/radeon/radeon_device.h
+@@ -0,0 +1,32 @@
++/* radeon_drv.h -- Private header for radeon device -*- linux-c -*-
++ *
++ * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
++ * Copyright 2000 VA Linux Systems, Inc., Fremont, California.
++ * All rights reserved.
++ *
++ * Permission is hereby granted, free of charge, to any person obtaining a
++ * copy of this software and associated documentation files (the "Software"),
++ * to deal in the Software without restriction, including without limitation
++ * the rights to use, copy, modify, merge, publish, distribute, sublicense,
++ * and/or sell copies of the Software, and to permit persons to whom the
++ * Software is furnished to do so, subject to the following conditions:
++ *
++ * The above copyright notice and this permission notice (including the next
++ * paragraph) shall be included in all copies or substantial portions of the
++ * Software.
++ *
++ * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
++ * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
++ * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.  IN NO EVENT SHALL
++ * PRECISION INSIGHT AND/OR ITS SUPPLIERS BE LIABLE FOR ANY CLAIM, DAMAGES OR
++ * OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE,
++ * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER
++ * DEALINGS IN THE SOFTWARE.
++ */
++
++#ifndef __RADEON_DEV_H__
++#define __RADEON_DEV_H__
++
++bool radeon_device_is_virtual(void);
++
++#endif				/* __RADEON_DEV_H__ */
+diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon/radeon_drv.c
+index f5f1cb700d873..560267cc25892 100644
+--- a/drivers/gpu/drm/radeon/radeon_drv.c
++++ b/drivers/gpu/drm/radeon/radeon_drv.c
+@@ -51,6 +51,7 @@
+ #include <drm/radeon_drm.h>
+ 
+ #include "radeon_drv.h"
++#include "radeon_device.h"
+ 
+ /*
+  * KMS wrapper.
+@@ -300,8 +301,6 @@ MODULE_DEVICE_TABLE(pci, pciidlist);
+ 
+ static struct drm_driver kms_driver;
+ 
+-bool radeon_device_is_virtual(void);
+-
+ static int radeon_pci_probe(struct pci_dev *pdev,
+ 			    const struct pci_device_id *ent)
+ {
 -- 
 2.25.1
 
