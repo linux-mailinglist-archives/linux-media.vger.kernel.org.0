@@ -2,275 +2,96 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B454A2A936B
-	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 10:52:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 216B42A937B
+	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 10:55:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726242AbgKFJwj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Nov 2020 04:52:39 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:46109 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726165AbgKFJwj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 6 Nov 2020 04:52:39 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id ayQ5kJXFhNanzayQ8krho9; Fri, 06 Nov 2020 10:52:36 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1604656356; bh=7m0T8V+mPF741hQuWalTQkA4DDbjEHkvhzsP8W0TV58=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=BnzP2CqchXUhRLWxfNBHkjDCuHr0369+mIsxHb8P3GkE+vz7/00pmfbXFDJyvBH3M
-         oe5GR4jA7yrIS57zhy0MvEDpmR851PeTEnieYzejaAIb2ymuRc73HA7IqaCeE50fAa
-         FIdhCmfa3VzFqlbp0Bz9JWO2IxxKEBNn+fDEe0NLaDrdyfH2FYEx/AG8mb6j2Eci1d
-         rKZbRRIPdwng+TgnXEXFYK2sm8I73vBRH9ht2CKnDKMUOy+6VJEOyHopuDfJuiO2mP
-         1bb48/9RwZzX8hpuRktswup+3TvF6orF87TPPad+Y6OlDZgEoZyIdbMiLz6SrPC3wY
-         IEzNFcPGrFyxg==
-Subject: Re: [PATCH v3 0/5] media: staging: Add bcm2835-unicam driver
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org
-Cc:     naush@raspberrypi.com, dave.stevenson@raspberrypi.com,
-        laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com,
-        niklas.soderlund@ragnatech.se, sakari.ailus@iki.fi,
-        nsaenzjulienne@suse.de, mchehab+huawei@kernel.org
-References: <20201102165258.408049-1-jacopo@jmondi.org>
- <ce180f34-9fdb-412f-b0f2-a5444b5f6e22@xs4all.nl>
-Message-ID: <3c977b49-4c95-6532-cb55-337494ed4a43@xs4all.nl>
-Date:   Fri, 6 Nov 2020 10:52:33 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726621AbgKFJzE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Nov 2020 04:55:04 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37882 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726075AbgKFJzE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 6 Nov 2020 04:55:04 -0500
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id E42C721734;
+        Fri,  6 Nov 2020 09:55:01 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604656503;
+        bh=fq0Ui8t6PiSDl63PaQnqQ+wD7V5/mQ8ZBFhNNG3yCok=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iOqu7iq8fkqhQinW+HWeXRONm4gVqP0ORpaGzDUMT9zotN8/ZoAt8k4smbdnLkRfA
+         gQF4QwYnBsQf3JTygZryT4dYi6nYvqpqKGLuqzS6PEjkhnobvGexT83gHte/RclSzw
+         WjuqDzk0ase4qrOZuSmZgJVWNdu/bBS1goiCMzjw=
+Date:   Fri, 6 Nov 2020 10:54:50 +0100
+From:   Greg Kroah-Hartman <gregkh@linuxfoundation.org>
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     linux-kernel@vger.kernel.org,
+        Alexandre Torgue <alexandre.torgue@st.com>,
+        "Andrew J. Kroll" <ag784@freenet.buffalo.edu>,
+        Andrew Morton <andrewm@uow.edu.eu>,
+        Andy Gross <agross@kernel.org>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Bill Hawes <whawes@star.net>,
+        Bjorn Andersson <bjorn.andersson@linaro.org>,
+        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        "C. Scott Ananian" <cananian@alumni.princeton.edu>,
+        "David A. Hinds" <dahinds@users.sourceforge.net>,
+        dri-devel@lists.freedesktop.org, Filip Aben <f.aben@option.com>,
+        Gerald Baeza <gerald.baeza@st.com>,
+        Jakub Jelinek <jj@ultra.linux.cz>,
+        Jan Dumon <j.dumon@option.com>,
+        Jiri Slaby <jirislaby@kernel.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Joseph Barrow <d.barow@option.com>,
+        -- <julian@uhunix.uhcc.hawaii.edu>,
+        Kevin Wells <kevin.wells@nxp.com>,
+        Laxman Dewangan <ldewangan@nvidia.com>,
+        linaro-mm-sig@lists.linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-media@vger.kernel.org, linuxppc-dev@lists.ozlabs.org,
+        linux-riscv@lists.infradead.org, linux-serial@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-tegra@vger.kernel.org, Marko Kohtala <Marko.Kohtala@hut.fi>,
+        Maxime Coquelin <mcoquelin.stm32@gmail.com>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Michal Simek <michal.simek@xilinx.com>,
+        Mike Hudson <Exoray@isys.ca>, Miloslav Trmac <mitr@redhat.com>,
+        Nick Holloway <alfie@dcs.warwick.ac.uk>,
+        Palmer Dabbelt <palmer@dabbelt.com>, paulkf@microgate.com,
+        Paul Mackerras <paulus@samba.org>,
+        Paul Walmsley <paul.walmsley@sifive.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        processes-Sapan Bhatia <sapan@corewars.org>,
+        Robert Love <rlove@google.com>, Rob Herring <robh@kernel.org>,
+        Roland Stigge <stigge@antcom.de>,
+        Russell King <linux@armlinux.org.uk>,
+        Russell King <rmk@arm.linux.org.uk>,
+        Russ Gorby <russ.gorby@intel.com>,
+        Stanislav Voronyi <stas@cnti.uanet.kharkov.ua>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Sylvain Lemieux <slemieux.tyco@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Vladimir Zapolskiy <vz@mleia.com>
+Subject: Re: [PATCH 00/36] Rid W=1 issues from TTY
+Message-ID: <20201106095450.GA2660312@kroah.com>
+References: <20201104193549.4026187-1-lee.jones@linaro.org>
 MIME-Version: 1.0
-In-Reply-To: <ce180f34-9fdb-412f-b0f2-a5444b5f6e22@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfIFG4oRqJzWaRCZDKb80dck+GVcA6rnKQTC30j+EWdrm3tYUUXbEv3Br45zUFVrimaQeqhS1Vvlt/v6Y+l50eXwaBlLWAAehIU2cR911QjqZT1jN5xgl
- MZsct9f0maBA5L0DznkOwuO7UzJDlWFlAGaKSXJiICtzqPVcQXn2RwE+mZwGtEqUWeWVMKYKa8cI3DYrx+IN4/s/e3c+qqFYT4qpf7rCDh8OckflqV4wa2wd
- 5VvgsWVcoLFUD2S5DKtdTQtG4L6j8I7qsnsQtENv3QlgBzEICMwjaXrdPhgg4ByK1KFYHISlsC2oUUpnjH1PbRNc0NgyaZECflI6ycyTF+G1ZkYeAB5qcgYX
- LrjPDCwICla5pKudJYGVqvUkH0dB41wvGm14C7+CueO6+QOyonESLKEwpELIg8A49Qz112gx9cSL2kIIuux8Th6bi38DnBGkvaHDkIjLVnAGNSCi2B1Ge5Io
- WSLwrEGJu/XZfz9tCS1uwjHilzd7fwfOa81a6UFa1whnc9LmJR4Dee/wIuP2dE4HZ1EW4dpYDJqnHesE
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201104193549.4026187-1-lee.jones@linaro.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/11/2020 10:50, Hans Verkuil wrote:
-> On 02/11/2020 17:52, Jacopo Mondi wrote:
->> Hello, this v3 breaks out the support for bcm2835-unicam driver from:
->> "[PATCH v2 00/34] Drivers for the BCM283x CSI-2/CCP2 receiver and ISP"
->> https://lwn.net/Articles/819425/
->>
->> The major changes can be summarized as:
->> - Rebase on most recent media master
->> - Move to staging
->>   The unicam driver links to sensor drivers with 2 pads to transport the
->>   sensor embedded data to a dedicated video device node. It also handles
->>   communications with the sub-device and format negotiation by using the kAPI
->>   provided by v4l2-subdev, but at the same exposes a media controller node.
->>   There's a lenghty discussion involving Sakari, Laurent and Dave, and not to
->>   block the driver upstreaming I've decided moving it to staging would make
->>   the current implementation acceptable.
->> - Bump driver version to the current rpi-5.9.y branch
->> - Address comments from Hans and Sakari
->>   - Use the dev_ logging infrastructure and replace custom printouts
->>   - Rework endpoint parsing and registration
->>   - Remove pm function wrappers
->>   - Add V4L2_DEVICE_CAPS to capabilities in querycap()
->>   - Remove some minor development leftovers and beautify debug messages
->> - Fix DTS warning on CSI-2 nodes:
->> ../arch/arm/boot/dts/bcm2711.dtsi:297.22-317.5: Warning (avoid_unnecessary_addr_size): /soc/csi@7e800000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->> ../arch/arm/boot/dts/bcm2711.dtsi:319.22-339.5: Warning (avoid_unnecessary_addr_size): /soc/csi@7e801000: unnecessary #address-cells/#size-cells without "ranges" or child "reg" property
->>
->> Note:
->>
->> In the patches upported from the 5.9.y branch the following is included
->> "media: bcm2835: unicam: Set VPU min clock freq to 250Mhz."
->> Which requires adding a second clock provider to the csi2 nodes in the DTS.
->>
->> Test:
->>
->> Tested with ov5647 (Pi Camera v1) capturing 10-bit SBGGR formats.
->> Capturing 8-bit SBGGR seems broken. Dave/Naush did am I mistaken or was this
->> a known issue on sensor side ?
->>
->> The usual v4l2-compliance log is below provided.
-> 
-> For the next version, can you test with 'v4l2-compliance -s -f'?
-> 
-> That tests streaming as well and also streaming for all supported formats.
+On Wed, Nov 04, 2020 at 07:35:13PM +0000, Lee Jones wrote:
+> This set is part of a larger effort attempting to clean-up W=1
+> kernel builds, which are currently overwhelmingly riddled with
+> niggly little warnings.
 
-Actually, use 'v4l2-compliance -s -f -m0': that tests all interfaces exposed
-through /dev/media0.
+Many of these now applied, please update the series against my
+tty-testing branch and resend the rest.
 
-Regards,
+thanks,
 
-	Hans
-
-> 
-> Regards,
-> 
-> 	Hans
-> 
->> 1 test fails. The reson is reported in this comment block but I can't get
->> what the intended behaviour should be:
->>
->> /*
->>  * If either CROPCAP or G_CROP works, then G_SELECTION should
->>  * work as well.
->>  * If neither CROPCAP nor G_CROP work, then G_SELECTION shouldn't
->>  * work either.
->>  */
->>
->> --------------------------------------------------------------------------------
->> v4l2-compliance 1.21.0-4679, 32 bits, 32-bit time_t
->> v4l2-compliance SHA: 225c6c2a17be 2020-10-30 15:13:07
->>
->> Compliance test for unicam device /dev/video0:
->>
->> Driver Info:
->> 	Driver name      : unicam
->> 	Card type        : unicam
->> 	Bus info         : platform:fe801000.csi
->> 	Driver version   : 5.10.0
->> 	Capabilities     : 0x85a00001
->> 		Video Capture
->> 		Metadata Capture
->> 		Read/Write
->> 		Streaming
->> 		Extended Pix Format
->> 		Device Capabilities
->> 	Device Caps      : 0x05200001
->> 		Video Capture
->> 		Read/Write
->> 		Streaming
->> 		Extended Pix Format
->> Media Driver Info:
->> 	Driver name      : unicam
->> 	Model            : unicam
->> 	Serial           :
->> 	Bus info         : platform:fe801000.csi
->> 	Media version    : 5.10.0
->> 	Hardware revision: 0x00000000 (0)
->> 	Driver version   : 5.10.0
->> Interface Info:
->> 	ID               : 0x03000005
->> 	Type             : V4L Video
->> Entity Info:
->> 	ID               : 0x00000003 (3)
->> 	Name             : unicam-image
->> 	Function         : V4L2 I/O
->> 	Flags         : default
->> 	Pad 0x01000004   : 0: Sink
->> 	  Link 0x02000007: from remote pad 0x1000002 of entity 'ov5647 10-0036': Data, Enabled, Immutable
->>
->> Required ioctls:
->> 	test MC information (see 'Media Driver Info' above): OK
->> 	test VIDIOC_QUERYCAP: OK
->>
->> Allow for multiple opens:
->> 	test second /dev/video0 open: OK
->> 	test VIDIOC_QUERYCAP: OK
->> 	test VIDIOC_G/S_PRIORITY: OK
->> 	test for unlimited opens: OK
->>
->> 	test invalid ioctls: OK
->> Debug ioctls:
->> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
->> 	test VIDIOC_LOG_STATUS: OK
->>
->> Input ioctls:
->> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
->> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
->> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
->> 	test VIDIOC_G/S/ENUMINPUT: OK
->> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
->> 	Inputs: 1 Audio Inputs: 0 Tuners: 0
->>
->> Output ioctls:
->> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
->> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
->> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
->> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
->> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
->> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
->>
->> Input/Output configuration ioctls:
->> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
->> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
->> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
->> 	test VIDIOC_G/S_EDID: OK (Not Supported)
->>
->> Control ioctls (Input 0):
->> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
->> 	test VIDIOC_QUERYCTRL: OK
->> 	test VIDIOC_G/S_CTRL: OK
->> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
->> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
->> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
->> 	Standard Controls: 12 Private Controls: 0
->>
->> Format ioctls (Input 0):
->> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
->> 	test VIDIOC_G/S_PARM: OK (Not Supported)
->> 	test VIDIOC_G_FBUF: OK (Not Supported)
->> 	test VIDIOC_G_FMT: OK
->> 	test VIDIOC_TRY_FMT: OK
->> 	test VIDIOC_S_FMT: OK
->> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
->> 		fail: v4l2-test-formats.cpp(1606): !doioctl(node, VIDIOC_G_SELECTION, &sel)
->> 		fail: v4l2-test-formats.cpp(1624): testLegacyCrop(node)
->> 	test Cropping: FAIL
->> 	test Composing: OK (Not Supported)
->> 	test Scaling: OK (Not Supported)
->>
->> Codec ioctls (Input 0):
->> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
->> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
->> 	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
->>
->> Buffer ioctls (Input 0):
->> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
->> 	test VIDIOC_EXPBUF: OK
->> 	test Requests: OK (Not Supported)
->>
->> Total for unicam device /dev/video0: 46, Succeeded: 45, Failed: 1, Warnings: 0
->> --------------------------------------------------------------------------------
->>
->> Dave Stevenson (1):
->>   dt-bindings: media: Document BCM283x CSI2/CCP2 receiver
->>
->> Laurent Pinchart (1):
->>   ARM: dts: bcm2711: Add Unicam DT nodes
->>
->> Naushir Patuck (3):
->>   media: uapi: v4l2-core: Add sensor ancillary data V4L2 fourcc type
->>   media: uapi: Add MEDIA_BUS_FMT_SENSOR_DATA media bus format
->>   media: bcm2835-unicam: Driver for CCP2/CSI2 camera interface
->>
->>  .../bindings/media/brcm,bcm2835-unicam.yaml   |  155 +
->>  .../userspace-api/media/v4l/meta-formats.rst  |    1 +
->>  .../media/v4l/pixfmt-meta-sensor-data.rst     |   32 +
->>  .../media/v4l/subdev-formats.rst              |   32 +
->>  MAINTAINERS                                   |    7 +
->>  arch/arm/boot/dts/bcm2711.dtsi                |   45 +
->>  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
->>  drivers/staging/media/Kconfig                 |    2 +
->>  drivers/staging/media/Makefile                |    1 +
->>  drivers/staging/media/bcm2835-unicam/Kconfig  |   21 +
->>  drivers/staging/media/bcm2835-unicam/Makefile |    3 +
->>  .../media/bcm2835-unicam/bcm2835-unicam.c     | 2800 +++++++++++++++++
->>  .../media/bcm2835-unicam/vc4-regs-unicam.h    |  253 ++
->>  include/uapi/linux/media-bus-format.h         |    3 +
->>  include/uapi/linux/videodev2.h                |    1 +
->>  15 files changed, 3357 insertions(+)
->>  create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
->>  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
->>  create mode 100644 drivers/staging/media/bcm2835-unicam/Kconfig
->>  create mode 100644 drivers/staging/media/bcm2835-unicam/Makefile
->>  create mode 100644 drivers/staging/media/bcm2835-unicam/bcm2835-unicam.c
->>  create mode 100644 drivers/staging/media/bcm2835-unicam/vc4-regs-unicam.h
->>
->> --
->> 2.29.1
->>
-> 
-
+greg k-h
