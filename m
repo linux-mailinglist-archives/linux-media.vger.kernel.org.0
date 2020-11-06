@@ -2,96 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 602292AA060
-	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 23:29:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70D012AA086
+	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 23:48:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728666AbgKFW0g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 6 Nov 2020 17:26:36 -0500
-Received: from asavdk3.altibox.net ([109.247.116.14]:43772 "EHLO
-        asavdk3.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728482AbgKFW0f (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 6 Nov 2020 17:26:35 -0500
-Received: from ravnborg.org (unknown [188.228.123.71])
+        id S1728967AbgKFWsX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Nov 2020 17:48:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48734 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728358AbgKFWsN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 6 Nov 2020 17:48:13 -0500
+Received: from localhost.localdomain (c-73-231-172-41.hsd1.ca.comcast.net [73.231.172.41])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by asavdk3.altibox.net (Postfix) with ESMTPS id 89B9520068;
-        Fri,  6 Nov 2020 23:26:31 +0100 (CET)
-Date:   Fri, 6 Nov 2020 23:26:30 +0100
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     David Airlie <airlied@linux.ie>, dri-devel@lists.freedesktop.org,
-        Huang Rui <ray.huang@amd.com>, Rob Clark <rob@ti.com>,
-        Gareth Hughes <gareth@valinux.com>,
-        amd-gfx@lists.freedesktop.org, Rob Clark <rob.clark@linaro.org>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Keith Whitwell <keith@tungstengraphics.com>,
-        Andy Gross <andy.gross@ti.com>, linux-media@vger.kernel.org,
-        Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
-        by <jhartmann@precisioninsight.com>,
-        Jeff Hartmann <jhartmann@valinux.com>,
-        linux-kernel@vger.kernel.org, Faith <faith@valinux.com>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        Christian Koenig <christian.koenig@amd.com>
-Subject: Re: [PATCH 00/19] [Set 2] Rid W=1 warnings from GPU
-Message-ID: <20201106222630.GD826715@ravnborg.org>
-References: <20201106214949.2042120-1-lee.jones@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201106214949.2042120-1-lee.jones@linaro.org>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=VbvZwmh9 c=1 sm=1 tr=0
-        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
-        a=kj9zAlcOel0A:10 a=jxsCkVyRRZrjTV7aRhQA:9 a=CjuIK1q_8ugA:10
+        by mail.kernel.org (Postfix) with ESMTPSA id 9578E2087E;
+        Fri,  6 Nov 2020 22:48:12 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604702893;
+        bh=Oj1ydksyNqQ3ZwyWkWH+O74qkDDreoYI/9+2rwNutow=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=GgJzvJbYnUHZVh/KVjPbUkpsfTIS+ixIdR5hDbc8e6O11e3cdgusrJ+SXHU1mNK02
+         T1pf6Ysk+sGbT7IeHtbS79IjEOVb10BsqWj7Z/BpfjH8Hjsl5L51bZ3setY8WJNtnr
+         JcdIhGHQmomXcxD8lLvJYy+d8B/elDLs+I2TO9iQ=
+Date:   Fri, 6 Nov 2020 14:48:11 -0800
+From:   Andrew Morton <akpm@linux-foundation.org>
+To:     =?ISO-8859-1?Q? "Christian_K=F6nig" ?= 
+        <ckoenig.leichtzumerken@gmail.com>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/2] mm: mmap: fix fput in error path v2
+Message-Id: <20201106144811.cf228ca9278ec78887d42960@linux-foundation.org>
+In-Reply-To: <20201106114806.46015-2-christian.koenig@amd.com>
+References: <20201106114806.46015-1-christian.koenig@amd.com>
+        <20201106114806.46015-2-christian.koenig@amd.com>
+X-Mailer: Sylpheed 3.5.1 (GTK+ 2.24.31; x86_64-pc-linux-gnu)
+Mime-Version: 1.0
+Content-Type: text/plain; charset=ISO-8859-1
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Lee and DRM folks.
+On Fri,  6 Nov 2020 12:48:05 +0100 "Christian K=F6nig" <ckoenig.leichtzumer=
+ken@gmail.com> wrote:
 
-On Fri, Nov 06, 2020 at 09:49:30PM +0000, Lee Jones wrote:
-> This set is part of a larger effort attempting to clean-up W=1
-> kernel builds, which are currently overwhelmingly riddled with
-> niggly little warnings.
-> 
-> There are 5000 warnings to work through.  It will take a couple more
-> sets.  Although, ("drm/amd/display/dc/basics/fixpt31_32: Move
-> variables to where they're used") does take care of 2000 of them!
-> 
-> Lee Jones (19):
->   drm/ttm/ttm_range_manager: Demote non-conformant kernel-doc header
->   drm/r128/ati_pcigart: Source file headers are not good candidates for
->     kernel-doc
-Applied
+> Patch "495c10cc1c0c CHROMIUM: dma-buf: restore args..."
+> adds a workaround for a bug in mmap_region.
+>=20
+> As the comment states ->mmap() callback can change
+> vma->vm_file and so we might call fput() on the wrong file.
+>=20
+> Revert the workaround and proper fix this in mmap_region.
+>=20
 
->   drm/selftests/test-drm_dp_mst_helper: Move
->     'sideband_msg_req_encode_decode' onto the heap
->   drm/mga/mga_dma: Demote kernel-doc abusers to standard comment blocks
->   drm/mga/mga_state: Remove unused variable 'buf_priv'
-Applied x2
+Seems correct, best I can tell.  Presumably all ->mmap() instances will
+correctly fput() to original file* if they're rewriting vma->vm_file.
 
->   drm/radeon/atom: Move prototype into shared location
->   drm/radeon/radeon_kms: Include header containing our own prototypes
->   drm/omapdrm/omap_gem: Fix misnamed and missing parameter descriptions
->   drm/omapdrm/omap_dmm_tiler: Demote abusive use of kernel-doc format
->   drm/radeon/radeon: Move prototype into shared header
->   drm/radeon/radeon_drv: Source file headers are not good candidates for
->     kernel-doc
->   drm/amd/display/dc/basics/fixpt31_32: Move variables to where they're
->     used
->   drm/radeon/radeon_drv: Move prototypes to a shared headerfile
->   drm/amd/amdgpu/amdgpu_device: Provide documentation for 'reg_addr'
->     params
->   drm/radeon: Move prototypes to shared header
->   drm/amd/amdgpu/amdgpu_kms: Remove 'struct drm_amdgpu_info_device
->     dev_info' from the stack
->   drm/radeon/radeon_kms: Fix misnaming of 'radeon_info_ioctl's dev param
->   drm/radeon/atombios_crtc: Remove description of non-existent function
->     param 'encoder'
->   drm/v3d/v3d_drv: Remove unused static variable 'v3d_v3d_pm_ops'
 
-I have applied the three patches that has no obvious maintainer as indicated
-above. I assume the respective maintaines to pick radeon, omapdrm, ttm,
-amd, v3d and selftest patches.
 
-	Sam
