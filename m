@@ -2,216 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BCFFA2A923C
-	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 10:16:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8C9952A926D
+	for <lists+linux-media@lfdr.de>; Fri,  6 Nov 2020 10:24:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726190AbgKFJQI convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 6 Nov 2020 04:16:08 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:47874 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725893AbgKFJQH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 6 Nov 2020 04:16:07 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kaxql-00HNbG-M1; Fri, 06 Nov 2020 09:16:03 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kaxtl-0005Qk-Ts; Fri, 06 Nov 2020 09:19:10 +0000
-Date:   Fri, 6 Nov 2020 09:19:09 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <736620232.28.1604654349918@builder.linuxtv.org>
-In-Reply-To: <73422485.27.1604653468406@builder.linuxtv.org>
-References: <73422485.27.1604653468406@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3279
+        id S1726345AbgKFJYJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 6 Nov 2020 04:24:09 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:35555 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726165AbgKFJYI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 6 Nov 2020 04:24:08 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id axyRkJM3KNanzaxyUkraCB; Fri, 06 Nov 2020 10:24:06 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1604654646; bh=+SRU62A1TNMW2XcktsIfP/8EVTr1hndZCqONhoCXAYU=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=cTq71RpQeXlpg6vupxcbb0sWwyJvaOuGkL2wl6+u8IdEoHFEL3r3aXyeLfJOXBdDt
+         GlwOMB4txHFRyCbRPP7FFceFgLrwwrQoeE5N3QXSukQlinXkEJqTz+RwK+0ODzms8c
+         VIvTYYEZFl7lWBsFQaXSr4NsB6KSy0RXlWQ1rv1HYlvPT8EuYO16wCzQTWrR01bcOM
+         ZN0IHp3Cj+XMmwOsyQ+RryuM3E2IBRmZbSKM41Ufb54lXYMyA2fuxalx+TJxV9AH06
+         7hMudSRXbjG3WmpdRfo6lE8+415XUq2nDh6IP8s7ALAel7lyj7/nLCbAxDXxG09Nq8
+         nmaWJ5brufSew==
+Subject: Re: [PATCH v3 1/5] media: uapi: v4l2-core: Add sensor ancillary data
+ V4L2 fourcc type
+To:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org
+Cc:     naush@raspberrypi.com, dave.stevenson@raspberrypi.com,
+        laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com,
+        niklas.soderlund@ragnatech.se, sakari.ailus@iki.fi,
+        nsaenzjulienne@suse.de, mchehab+huawei@kernel.org
+References: <20201102165258.408049-1-jacopo@jmondi.org>
+ <20201102165258.408049-2-jacopo@jmondi.org>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <d7d041b6-92d7-d1fa-f74f-ff4a63e5ad89@xs4all.nl>
+Date:   Fri, 6 Nov 2020 10:23:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+In-Reply-To: <20201102165258.408049-2-jacopo@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfN4TvxmpVhulHXOiArsttRWXwzRMpQahRWe+xdPjPT1cNu+jCsRz+Kj8b1emwUv/W6C+ptXCVYvvX4Aip0cxHnjS8l6DEwixjmCoRVOpHUkjPaJgm6nW
+ w07FmEXj9KYzQTVIwyCsWNc4T/4cnLUppr90SgP9Jgn4Y+KsenqfPSUcpcfispG3M+3Mz55Lnfoqrq1rMHHMYvNpbK37b+6fSgt7JPFB8hfPlVNV4RfgeOc2
+ MTA3dnnWmkjK33pq4j5sysws1emruilYtWMHo5C+LlD3rDgDogofTJfyP2unep/ktYobtRgYlOfDi/AGG8iImEWQ+t1+/0rJff8CMWb6/4PD8Og+ms6x28zQ
+ L6x4NMaHyBYvPEHa8USubX7ZQsVfPBUvtZ6N5uHBuqAAwKdDcKMMctwOfOJvx4rfZwWeBcNPCS22PMDXcmLZczAHuse8jb1T8dK3XYPohjWU2xa3i1/nxcJU
+ 4ET7lHrN7T5tJY48SSgqkxwqgDNtVKUZwnpNICndvmFB7YUnQU0kRm96bUXtT3bH1vmUHb6YlHAQlGFv
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3279/display/redirect>
+Hi Jacopo, Naushir,
 
-Changes:
+On 02/11/2020 17:52, Jacopo Mondi wrote:
+> From: Naushir Patuck <naush@raspberrypi.com>
+> 
+> Add V4L2_META_FMT_SENSOR_DATA format 4CC.
+> 
+> This new format will be used to return camera sensor embedded data.
+> 
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  .../userspace-api/media/v4l/meta-formats.rst  |  1 +
+>  .../media/v4l/pixfmt-meta-sensor-data.rst     | 32 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+>  include/uapi/linux/videodev2.h                |  1 +
+>  4 files changed, 35 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> index fff25357fe860..b2201d1524eb6 100644
+> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> @@ -15,6 +15,7 @@ These formats are used for the :ref:`metadata` interface only.
+>      pixfmt-meta-d4xx
+>      pixfmt-meta-intel-ipu3
+>      pixfmt-meta-rkisp1
+> +    pixfmt-meta-sensor-data
+>      pixfmt-meta-uvc
+>      pixfmt-meta-vsp1-hgo
+>      pixfmt-meta-vsp1-hgt
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
+> new file mode 100644
+> index 0000000000000..639ede1a8fee3
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
+> @@ -0,0 +1,32 @@
+> +.. Permission is granted to copy, distribute and/or modify this
+> +.. document under the terms of the GNU Free Documentation License,
+> +.. Version 1.1 or any later version published by the Free Software
+> +.. Foundation, with no Invariant Sections, no Front-Cover Texts
+> +.. and no Back-Cover Texts. A copy of the license is included at
+> +.. Documentation/media/uapi/fdl-appendix.rst.
+> +..
+> +.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
 
+You can now use this:
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building on master in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --is-inside-work-tree # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.20.1'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision f35757b57d73086429b0b3a8ebfacbf3f4df8c56 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f f35757b57d73086429b0b3a8ebfacbf3f4df8c56 # timeout=10
-Commit message: "v4l/compat.h: add support for in_compat_syscall"
- > git rev-list --no-walk f35757b57d73086429b0b3a8ebfacbf3f4df8c56 # timeout=10
-[Checks API] No suitable checks publisher found.
-[media-build] $ /bin/sh -xe /tmp/jenkins10721107804908208194.sh
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
-Needed package dependencies are met.
+.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+and drop the TODO and license notice.
 
-Not aborted. It means that the licence was agreed. Proceeding...
+> +
+> +.. _v4l2-meta-fmt-sensor-data:
+> +
+> +***********************************
+> +V4L2_META_FMT_SENSOR_DATA  ('SENS')
+> +***********************************
+> +
+> +Sensor Ancillary Metadata
+> +
+> +Description
+> +===========
+> +
+> +This format describes ancillary data generated by a camera sensor and
+> +transmitted over a stream on the camera bus. Most sensor vendors have their
+> +own custom format for this ancillary data. Some vendors follow a generic
+> +CSI-2/SMIA embedded data format as described in the `CSI-2 specification.
+> +<https://mipi.org/specifications/csi-2>`_
 
-****************************
-Updating the building system
-****************************
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2020-11-06 09:19:06--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2020-11-06 09:19:07--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
+There are really two metadata formats here: one is a custom sensor format and one
+a CSI2 format. That's two pixel formats.
 
-     0K                                                       100%  188M=0s
+Of course, if the custom format used by a sensor (or sensor vendor) is known,
+then it should get its own fourcc.
 
-2020-11-06 09:19:07 (188 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+I suggest creating two metadata formats:
 
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-12-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
-patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
-patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
-patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
-patch -s -f -N -p1 -i ../backports/v5.4_dma_buf.patch
-patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
-patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
-patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
-patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
-Patched drivers/media/dvb-core/dvbdev.c
-Patched drivers/media/v4l2-core/v4l2-dev.c
-Patched drivers/media/rc/rc-main.c
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-./scripts/make_kconfig.pl /lib/modules/4.19.0-12-amd64/build /lib/modules/4.19.0-12-amd64/build 1
-File not found: /lib/modules/4.19.0-12-amd64/build/.config at ./scripts/make_kconfig.pl line 33, <IN> line 4.
-Preparing to compile for kernel version 4.19.0
-make[1]: *** [Makefile:379: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+V4L2_META_FMT_CSI2_SENSOR_DATA
+V4L2_META_FMT_CUSTOM_SENSOR_DATA
+
+Where the format of the latter is unknown (unless you have the information
+from the sensor vendor under NDA).
+
+> +
+> +The size of the embedded buffer is defined as a single line with a pixel width
+> +specified in bytes. This is obtained by a call to the
+> +:c:type:`VIDIOC_SUBDEV_G_FMT` ioctl on the sensor subdevice where the ``pad``
+> +field in :c:type:`v4l2_subdev_format` is set to 1.  Note that this size is fixed
+> +and cannot be modified with a call to :c:type:`VIDIOC_SUBDEV_S_FMT`.
+> +
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index eeff398fbdcc1..d01d9ca6578df 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1402,6 +1402,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
+>  	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
+>  	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
+> +	case V4L2_META_FMT_SENSOR_DATA:	descr = "Sensor Ancillary Metadata"; break;
+>  
+>  	default:
+>  		/* Compressed formats */
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 534eaa4d39bc8..b7e3185e66631 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -769,6 +769,7 @@ struct v4l2_pix_format {
+>  #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
+>  #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
+>  #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
+> +#define V4L2_META_FMT_SENSOR_DATA v4l2_fourcc('S', 'E', 'N', 'S') /* Sensor Ancillary metadata */
+>  
+>  /* priv field value to indicates that subsequent fields are valid. */
+>  #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
+> 
+
+Regards,
+
+	Hans
