@@ -2,91 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A29832AA758
-	for <lists+linux-media@lfdr.de>; Sat,  7 Nov 2020 18:58:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7EC362AA772
+	for <lists+linux-media@lfdr.de>; Sat,  7 Nov 2020 19:41:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728506AbgKGR6Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Nov 2020 12:58:16 -0500
-Received: from mx0b-002e3701.pphosted.com ([148.163.143.35]:15900 "EHLO
-        mx0b-002e3701.pphosted.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726021AbgKGR6P (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 7 Nov 2020 12:58:15 -0500
-Received: from pps.filterd (m0134424.ppops.net [127.0.0.1])
-        by mx0b-002e3701.pphosted.com (8.16.0.42/8.16.0.42) with SMTP id 0A7HpUIT030820;
-        Sat, 7 Nov 2020 17:57:57 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=hpe.com; h=date : from : to : cc :
- subject : message-id : reply-to : references : content-type : in-reply-to
- : mime-version; s=pps0720;
- bh=19AOhJSg8287gbPV9wDB4l5dczCLNW+uqRNvFL42X6U=;
- b=bigOhbIaNPut4w8m9qKIQWF7/d+s3mOe5gd3a+QTMpO9bczduiadQLGoik5NmVu61jT9
- Hvrv/wsJoD8DNgSzPdP7IWBJjzibeZzQF7bw5Y8kS0jmlXCPMyC+dMaZk54aXtfTfLr2
- B0KNJDg5R+W6M1nQ3Omo8Gj+BApLmqfP17OaiHRkXrKNvyS0MDbYeelwsM4lBqZFYfS3
- QBwUaJ1sJuP1hbyQ4KRvT4t2viCotSyHmUm3uXHGsbyWWzk79UJtBOvebZ6zkaJwa7Fl
- x7TWo7W4xL0X4yo0lQF8Z9chviFzJNWY68XJ8P9Jibk5ids/kDaAMk25O49fkH+tCjKc TQ== 
-Received: from g2t2354.austin.hpe.com (g2t2354.austin.hpe.com [15.233.44.27])
-        by mx0b-002e3701.pphosted.com with ESMTP id 34nmm4awuf-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=NOT);
-        Sat, 07 Nov 2020 17:57:57 +0000
-Received: from g2t2360.austin.hpecorp.net (g2t2360.austin.hpecorp.net [16.196.225.135])
-        by g2t2354.austin.hpe.com (Postfix) with ESMTP id 2F66081;
-        Sat,  7 Nov 2020 17:57:56 +0000 (UTC)
-Received: from rfwz62 (rfwz62.americas.hpqcorp.net [10.33.237.8])
-        by g2t2360.austin.hpecorp.net (Postfix) with ESMTP id 513553A;
-        Sat,  7 Nov 2020 17:57:54 +0000 (UTC)
-Date:   Sat, 7 Nov 2020 10:57:54 -0700
-From:   rwright@hpe.com
-To:     Hans de Goede <hdegoede@redhat.com>
-Cc:     jani.nikula@linux.intel.com, joonas.lahtinen@linux.intel.com,
-        rodrigo.vivi@intel.com, airlied@linux.ie, daniel@ffwll.ch,
-        sumit.semwal@linaro.org, christian.koenig@amd.com,
-        wambui.karugax@gmail.com, chris@chris-wilson.co.uk,
-        matthew.auld@intel.com, akeem.g.abodunrin@intel.com,
-        prathap.kumar.valsan@intel.com, mika.kuoppala@linux.intel.com,
-        intel-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: Re: [PATCH v3 0/3] Reduce context clear batch size to avoid gpu hang
-Message-ID: <20201107175754.GA13311@rfwz62>
-Reply-To: rwright@hpe.com
-References: <20201101174132.10513-1-rwright@hpe.com>
- <8cdf0dd0-2a2f-bae9-71ea-89a88fdb14a5@redhat.com>
- <20201102195710.GA12790@rfwz62>
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201102195710.GA12790@rfwz62>
-User-Agent: Mutt/1.9.4 (2018-02-28)
-X-Proofpoint-UnRewURL: 0 URL was un-rewritten
+        id S1728602AbgKGSln (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 7 Nov 2020 13:41:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52306 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728574AbgKGSln (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sat, 7 Nov 2020 13:41:43 -0500
+Received: from mail-wm1-x32b.google.com (mail-wm1-x32b.google.com [IPv6:2a00:1450:4864:20::32b])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1E668C0613D2
+        for <linux-media@vger.kernel.org>; Sat,  7 Nov 2020 10:41:43 -0800 (PST)
+Received: by mail-wm1-x32b.google.com with SMTP id h2so4488809wmm.0
+        for <linux-media@vger.kernel.org>; Sat, 07 Nov 2020 10:41:43 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=VIFvmjQkWdDW6b37HhMnD+C4qQoz3DcHwcIERG/uILw=;
+        b=uUhdDeWrWvg3kBhnJ3Z5YbNUUjnHf8w9qNV7Jplf6JSbdZ7NN9mecduDua0Ypen4LI
+         q3RGxZW6lSDcmREgAEbrTek0BAC4ZPw3kSH8EZAB27hPAJ2kDdYvfEODw7qFdIy7DDdd
+         PHbbkdyxd+Pu1lLwuRITcSqgd8dC7RL2lwV1XC+4fwKpT6yoXraAQXBmVaAoqOuKuPvK
+         FhMbqAoO3BK3KHXAaNJ2ojFcmrUx92pVsgd7G78Bq+YoNIPXIb6aeM4kboMNyhspppIk
+         /lv5sxHY+q2QuKUuxjBexspwuSO9Yhqp3S4NzwWjBlsFoRMNMMycqFbGs1V1+OPw8lzb
+         80/g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=VIFvmjQkWdDW6b37HhMnD+C4qQoz3DcHwcIERG/uILw=;
+        b=Qkssh7VBMzAoiGNO9wM2cX3hgmLqNtb3G5ms7dBdM9LA2/C2Lr8a6D/EZu6o4KeU1I
+         Bsjg67+exIIhd9ILY0by8MErKCqGcKoUSFWc/ymFl7/mLcAaXTusBPis86/UttKiURKB
+         bBi2gNFyTitD58XSIl6Q1d0lnyOzMjoJ41bhSYu0ovT45hgndnqjDXUkVcWGGvRtxV67
+         gbdZLGM1M9QYkLpKP39QJhGufzW61tVKBkvcOqLNnzJUYSukgZe04q7BhH7dj9tX18Gr
+         f7tEHuIfXBrfMxIqV5RyttSULqioBQnjQBxXLw/3vBWoFCNfJHpM8mmxIP58gkbL2MjH
+         mWXQ==
+X-Gm-Message-State: AOAM531XOYDceuAg/5OZfmux3VqybFl3sYFB6oDOh1Oys0ia35C7yZQY
+        feN57sdBPIFQ1krK2wdBL/l5cQ==
+X-Google-Smtp-Source: ABdhPJweZLZnBdauFcGjFjaKCOPZtQ1RPvK4RlU+S0OevZUoKH28NQgQTvj7HEfsbFBzHknvb1VdXQ==
+X-Received: by 2002:a7b:c5c3:: with SMTP id n3mr5782826wmk.44.1604774501714;
+        Sat, 07 Nov 2020 10:41:41 -0800 (PST)
+Received: from dell ([91.110.221.236])
+        by smtp.gmail.com with ESMTPSA id d8sm7061086wmb.11.2020.11.07.10.41.40
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Nov 2020 10:41:40 -0800 (PST)
+Date:   Sat, 7 Nov 2020 18:41:38 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     Sam Ravnborg <sam@ravnborg.org>
+Cc:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, Huang Rui <ray.huang@amd.com>,
+        Rob Clark <rob@ti.com>, Gareth Hughes <gareth@valinux.com>,
+        amd-gfx@lists.freedesktop.org, Rob Clark <rob.clark@linaro.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Keith Whitwell <keith@tungstengraphics.com>,
+        Andy Gross <andy.gross@ti.com>, linux-media@vger.kernel.org,
+        Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
+        by <jhartmann@precisioninsight.com>,
+        Jeff Hartmann <jhartmann@valinux.com>,
+        linux-kernel@vger.kernel.org, Faith <faith@valinux.com>,
+        Alex Deucher <alexander.deucher@amd.com>
+Subject: Re: [PATCH 00/19] [Set 2] Rid W=1 warnings from GPU
+Message-ID: <20201107184138.GS2063125@dell>
+References: <20201106214949.2042120-1-lee.jones@linaro.org>
+ <9d4be6a4-4f39-b908-4086-2b6adb695465@amd.com>
+ <20201107173406.GA1030984@ravnborg.org>
 MIME-Version: 1.0
-X-HPE-SCL: -1
-X-Proofpoint-Virus-Version: vendor=fsecure engine=2.50.10434:6.0.312,18.0.737
- definitions=2020-11-07_09:2020-11-05,2020-11-07 signatures=0
-X-Proofpoint-Spam-Details: rule=outbound_notspam policy=outbound score=0 lowpriorityscore=0
- bulkscore=0 adultscore=0 phishscore=0 mlxlogscore=690 spamscore=0
- clxscore=1015 priorityscore=1501 suspectscore=0 impostorscore=0 mlxscore=0
- malwarescore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011070129
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201107173406.GA1030984@ravnborg.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 02, 2020 at 12:57:10PM -0700, rwright@hpe.com wrote:
-> On Mon, Nov 02, 2020 at 10:48:54AM +0100, Hans de Goede wrote:
-> > Hi,
-> > 
-> ...
-> That said, if the i915 maintainers respond in favor of the simpler
-> unconditional reduction of the batch size, I will be glad to
-> propose a much simpler version of my patch.
-> ...
+On Sat, 07 Nov 2020, Sam Ravnborg wrote:
 
-I received a suggestion from Mika Kuoppala to test 
-https://patchwork.freedesktop.org/patch/399174/?series=83531&rev=1 as a
-solution for the GPU hang I observed, and the test was successful.
-I recommend this patch as a better approch than my own, as it 
-addresses more general cases without introducing a new quirk.
+> Hi Christian.
+> 
+> > I'm not sure if we want to do some of the suggested changes to radeon.
+> 
+> All patches for radeon looks good to me except "drm/radeon/radeon: Move
+> prototype into shared header".
 
---
-Randy Wright            Usmail: Hewlett Packard Enterprise
-Email: rwright@hpe.com          Servers Linux Enablement
-Phone: (970) 898-0998           3404 E. Harmony Rd, Mailstop 36
-                                Fort Collins, CO 80528-9599 
+Was that the one where the prototype needs moving to radeon.h?
+
+> Acked-by: Sam Ravnborg <sam@ravnborg.org>
+> from me to have them applied (except the shared header one).
+
+Thanks Sam.
+
+> I can reply to the individual patches if you like.
+
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
