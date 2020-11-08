@@ -2,178 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 313272AA917
-	for <lists+linux-media@lfdr.de>; Sun,  8 Nov 2020 05:38:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BCF412AAA38
+	for <lists+linux-media@lfdr.de>; Sun,  8 Nov 2020 10:16:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726144AbgKHEiU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 7 Nov 2020 23:38:20 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:57241 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726062AbgKHEiU (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Sat, 7 Nov 2020 23:38:20 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id bcT2kSRWoRiwVbcT3kScZT; Sun, 08 Nov 2020 05:38:17 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1604810298; bh=2GRvBjlfW6HQFZB43ptlirQxlHzJfgO7UuPVVO/ZXNk=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=YlniOz9GYOcyulEGn9Gyhqasm/QytyT7zMa8jzOvI9WTdmydH0v5t00F6JuRIumj9
-         rEdd9/IZEjXOjIUFq0I0H7CfSkYFMiUm/LXGSlXxEA4InPeziEWpEm65m/82xV7XiY
-         d8XChIm6O5IFv6coNr1PMUkL2vCBvK7jRH9cRhNhYTw4TnkEK8mcVDJtLcd0CIFw0n
-         rI8l/Qk5GGR+847iQljH4Ho4RA3BaDy7RUJF0/RWtHROva9ItIT0s4wY2sywGzQxmc
-         is2CHjf/ia3/0rXaDfvTRaKI1fzKVTCzCxioGutZlBXbQYDm0fduXv10Pt9jJOTQSM
-         rtf4aP/IQUtOw==
-Message-ID: <84ae54fc3e4f5a835837eb20b7e60e46@smtp-cloud7.xs4all.net>
-Date:   Sun, 08 Nov 2020 05:38:16 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfCuSFSLwHPLkm4JrtWIav1dMWTszx8Szn4DzOKIHBUcNPNOVf1WhUMORuRUcVGFUuruvOSr2LBXPpHXPx85rRKE2k8tGA+PG9iceKsEV9P6yo1C+L9zY
- NMqalKVZ051GeZvtU2aMLUNHmUwu/JjkqhXrT9jQAgnsITJcCLebCUUoQ9APrOGDNHulbYaxK82ADgQWClS0vvCCqWr2KNcLN4zw+JAt4CEZ8/dmcetJKK73
- wK9qO10ohM1O8GNyApxHhQ==
+        id S1726178AbgKHJQI convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Sun, 8 Nov 2020 04:16:08 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:40358 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726099AbgKHJQI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 8 Nov 2020 04:16:08 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kbgnr-002i2y-Nu; Sun, 08 Nov 2020 09:16:03 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kbgqs-0006Fx-Nc; Sun, 08 Nov 2020 09:19:10 +0000
+Date:   Sun, 8 Nov 2020 09:19:09 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1102464065.31.1604827150722@builder.linuxtv.org>
+In-Reply-To: <1831659458.30.1604757859106@builder.linuxtv.org>
+References: <1831659458.30.1604757859106@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3282
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+See <https://builder.linuxtv.org/job/media-build/3282/display/redirect>
 
-Results of the daily build of media_tree:
+Changes:
 
-date:			Sun Nov  8 05:00:14 CET 2020
-media-tree git hash:	0ab4f9087ea94ff92dc2ae68180faaf6bd443021
-media_build git hash:	408180421c5e0dc4aa760e6f2348daabc757730d
-v4l-utils git hash:	57451f856524bf2b02ffe8e43ba2709a72cdd4f5
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: ERRORS
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: ERRORS
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: ERRORS
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: ERRORS
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building on master in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 408180421c5e0dc4aa760e6f2348daabc757730d (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 408180421c5e0dc4aa760e6f2348daabc757730d # timeout=10
+Commit message: "Update backports/v5.0_time32.patch"
+ > git rev-list --no-walk 408180421c5e0dc4aa760e6f2348daabc757730d # timeout=10
+[Checks API] No suitable checks publisher found.
+[media-build] $ /bin/sh -xe /tmp/jenkins9936025930932594804.sh
++ ./build
+Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
+Needed package dependencies are met.
 
-Detailed results are available here:
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+Not aborted. It means that the licence was agreed. Proceeding...
 
-Detailed regression test results are available here:
+****************************
+Updating the building system
+****************************
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2020-11-08 09:19:06--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2020-11-08 09:19:07--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+     0K                                                       100%  179M=0s
 
-Full logs are available here:
+2020-11-08 09:19:07 (179 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-12-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
+patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
+patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
+patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
+patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
+patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
+patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
+patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
+patch -s -f -N -p1 -i ../backports/v5.4_dma_buf.patch
+patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
+patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
+patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
+patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
+Patched drivers/media/dvb-core/dvbdev.c
+Patched drivers/media/v4l2-core/v4l2-dev.c
+Patched drivers/media/rc/rc-main.c
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+./scripts/make_kconfig.pl /lib/modules/4.19.0-12-amd64/build /lib/modules/4.19.0-12-amd64/build 1
+File not found: /lib/modules/4.19.0-12-amd64/build/.config at ./scripts/make_kconfig.pl line 33, <IN> line 4.
+Preparing to compile for kernel version 4.19.0
+make[1]: *** [Makefile:379: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
