@@ -2,107 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4C1CF2AAA4E
-	for <lists+linux-media@lfdr.de>; Sun,  8 Nov 2020 10:26:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08B922AAAF8
+	for <lists+linux-media@lfdr.de>; Sun,  8 Nov 2020 13:19:28 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728179AbgKHJZl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 8 Nov 2020 04:25:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:51886 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726099AbgKHJZh (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 8 Nov 2020 04:25:37 -0500
-Received: from mail-lj1-f171.google.com (mail-lj1-f171.google.com [209.85.208.171])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D0D0720719;
-        Sun,  8 Nov 2020 09:25:35 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604827536;
-        bh=0Re+BH04OjvQtiodOP0PAVO/kqbxE/PMUbtENeeHUCU=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=T8aftoYJoOfJoY2D59wtyqCFPrcSPDuCqBe6z9Y88z18itxLZYrLQQoUiySYprX/w
-         CeltL21788RGxrGqCPGHjUWJsuUW/aiyLgkfQF5xQteJWVIw4gGxwp93kbsT47/9ed
-         KFVVrs14i0T/haKa/knwEHH/Xo7Crf9KJaPhdmXY=
-Received: by mail-lj1-f171.google.com with SMTP id r17so693827ljg.5;
-        Sun, 08 Nov 2020 01:25:35 -0800 (PST)
-X-Gm-Message-State: AOAM5335wt3uT3SLq365qpcyGeMWT4K9imATGHktiEFQSWv9lqgxs+Pk
-        re73Q0gs2V+w/MHHyiwkoNSjw5m3HQY3g0MvC+g=
-X-Google-Smtp-Source: ABdhPJyddR8brDR4uTwLcrWRTsQ0eYz6SRGBrDUoAv5c7VKMt2AwiBlznvTTelNyXgQ/X1oyJ30XbCrkOlR4o4w9iyo=
-X-Received: by 2002:a2e:b536:: with SMTP id z22mr4077018ljm.177.1604827534166;
- Sun, 08 Nov 2020 01:25:34 -0800 (PST)
-MIME-Version: 1.0
-References: <cover.1604646059.git.viresh.kumar@linaro.org>
-In-Reply-To: <cover.1604646059.git.viresh.kumar@linaro.org>
-From:   Ilia Lin <ilia.lin@kernel.org>
-Date:   Sun, 8 Nov 2020 11:25:22 +0200
-X-Gmail-Original-Message-ID: <CA+5LGR0UwGUeXPw3Jbd7=VkY7fY_rKV_YjLpWV4GbHnvP23Ejg@mail.gmail.com>
-Message-ID: <CA+5LGR0UwGUeXPw3Jbd7=VkY7fY_rKV_YjLpWV4GbHnvP23Ejg@mail.gmail.com>
-Subject: Re: [PATCH 0/7] opp: Allow dev_pm_opp_put_*() APIs to accept NULL opp_table
-To:     Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Alyssa Rosenzweig <alyssa.rosenzweig@collabora.com>,
-        Andy Gross <agross@kernel.org>,
-        Bjorn Andersson <bjorn.andersson@linaro.org>,
-        Chanwoo Choi <cw00.choi@samsung.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Ilia Lin <ilia.lin@kernel.org>,
+        id S1728433AbgKHMTW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 8 Nov 2020 07:19:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46002 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728197AbgKHMTV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Nov 2020 07:19:21 -0500
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0198C0613CF;
+        Sun,  8 Nov 2020 04:19:20 -0800 (PST)
+Received: by mail-lf1-x142.google.com with SMTP id l2so8264578lfk.0;
+        Sun, 08 Nov 2020 04:19:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:from:to:cc:references:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=2sZ4icayrxxDWpa2xJypEQHGIoro/hg/XjsXfIMVIO0=;
+        b=rFpONZz/Kl33uh/dizvuNJQR2av8Rv5uFlJ5DePIU/DxOtnlMkNpGoI3JXUj2MWsEF
+         ir6IGHMPuOz5Ha0JkEbKS4xflgVuaxejRvr3J7nUUQOCUdjtzTtB+/2LCSIwZ1YYD/TJ
+         lKE8uooAVEPA5V7sGNiXi7IF5izcclg1E7XOW+XQRLEz/SOzhIs5xZCH9hY7R371YhQJ
+         LdeTxesJm0/t9nWD/LlBWtdARIzCuiHjTsZN8sOpocViLXo7UpaGVp/CBzAK20Ddkauz
+         tbH9apGbBjlfs/0xTDfRayemP603Ij5uZuDJzOs53HjDllldmig65ToOUo4o93xa8AYC
+         tAvw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=2sZ4icayrxxDWpa2xJypEQHGIoro/hg/XjsXfIMVIO0=;
+        b=a0VrwSjIo7DPx418VgQPnP7O7neTTCqu0icPt2WzwWobZaZX1emMwqLA2mUVDMX658
+         52FSjkV2QnBRR4J78NbYum7oKX0gTvu2Dw9twhUdkxnlfVUTX1rGhgpUELBgHg3qIL61
+         scNfR/wW9t5p1secyzgnGI8+dgkBPJNAdTJf+qVWH4ejy5/GudXp2ObX6C3QgYvdOrkU
+         PwIbCk/kDjaTc09rRblXGAqkasN4vEsF58vS5kOtsrc/wuiu8TCvVOMqcd/nBIefEvi0
+         7+d70o5zJ6ENSEwPttjK9P08P15Ds7UStyF7yq5yWzRZHYY8VnLsh+qMqDFtTtx86CBF
+         1JXg==
+X-Gm-Message-State: AOAM532WNQm7NkHr9PMosQY1fp/5mdNCTavtHa/F9S0seojw693xnAA6
+        eQg4GAvPsnQi0Y+/Emf2qficb/gmkfA=
+X-Google-Smtp-Source: ABdhPJx2JpfTMAfVNhGgqvUuTHG0na3AuqFBXgT3nmIXEBqvHyuzg1Il4cTfxq8l0jMElMVqEADDJg==
+X-Received: by 2002:a05:6512:3250:: with SMTP id c16mr469413lfr.404.1604837959047;
+        Sun, 08 Nov 2020 04:19:19 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
+        by smtp.googlemail.com with ESMTPSA id d26sm1479402ljj.102.2020.11.08.04.19.17
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 08 Nov 2020 04:19:18 -0800 (PST)
+Subject: Re: [PATCH v1 00/30] Introduce core voltage scaling for NVIDIA
+ Tegra20/30 SoCs
+From:   Dmitry Osipenko <digetx@gmail.com>
+To:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
         Krzysztof Kozlowski <krzk@kernel.org>,
-        Kukjin Kim <kgene@kernel.org>,
-        Kyungmin Park <kyungmin.park@samsung.com>,
-        MyungJoo Ham <myungjoo.ham@samsung.com>,
-        Nishanth Menon <nm@ti.com>, Qiang Yu <yuq825@gmail.com>,
-        "Rafael J. Wysocki" <rjw@rjwysocki.net>,
-        Rob Herring <robh@kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Steven Price <steven.price@arm.com>,
-        Tomeu Vizoso <tomeu.vizoso@collabora.com>,
-        Viresh Kumar <vireshk@kernel.org>,
-        "open list:QUALCOMM CPUFREQ DRIVER MSM8996/APQ8096" 
-        <linux-pm@vger.kernel.org>,
-        Vincent Guittot <vincent.guittot@linaro.org>, digetx@gmail.com,
-        dri-devel@lists.freedesktop.org, lima@lists.freedesktop.org,
-        linux-arm-kernel@lists.infradead.org,
-        "open list:ARM/QUALCOMM SUPPORT" <linux-arm-msm@vger.kernel.org>,
-        open list <linux-kernel@vger.kernel.org>,
-        linux-media@vger.kernel.org, linux-samsung-soc@vger.kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        linux-pwm@vger.kernel.org,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        DTML <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <20201104234427.26477-1-digetx@gmail.com>
+ <CAPDyKFr7qTU2RPhA_ZrbCayoTTNUEno1zdmvmv+8HBe-Owrfeg@mail.gmail.com>
+ <cd147ab0-1304-a491-7a56-ee6199c02d32@gmail.com>
+Message-ID: <2716c195-083a-112f-f1e5-2f6b7152a4b5@gmail.com>
+Date:   Sun, 8 Nov 2020 15:19:16 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <cd147ab0-1304-a491-7a56-ee6199c02d32@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Reviewed-by: Ilia Lin <ilia.lin@kernel.org>
+05.11.2020 18:22, Dmitry Osipenko пишет:
+> 05.11.2020 12:45, Ulf Hansson пишет:
+> ...
+>> I need some more time to review this, but just a quick check found a
+>> few potential issues...
+> 
+> Thank you for starting the review! I'm pretty sure it will take a couple
+> revisions until all the questions will be resolved :)
+> 
+>> The "core-supply", that you specify as a regulator for each
+>> controller's device node, is not the way we describe power domains.
+>> Instead, it seems like you should register a power-domain provider
+>> (with the help of genpd) and implement the ->set_performance_state()
+>> callback for it. Each device node should then be hooked up to this
+>> power-domain, rather than to a "core-supply". For DT bindings, please
+>> have a look at Documentation/devicetree/bindings/power/power-domain.yaml
+>> and Documentation/devicetree/bindings/power/power_domain.txt.
+>>
+>> In regards to the "sync state" problem (preventing to change
+>> performance states until all consumers have been attached), this can
+>> then be managed by the genpd provider driver instead.
+> 
+> I'll need to take a closer look at GENPD, thank you for the suggestion.
+> 
+> Sounds like a software GENPD driver which manages clocks and voltages
+> could be a good idea, but it also could be an unnecessary
+> over-engineering. Let's see..
+> 
 
+Hello Ulf and all,
 
-On Fri, Nov 6, 2020 at 9:05 AM Viresh Kumar <viresh.kumar@linaro.org> wrote:
->
-> Hello,
->
-> This patchset updates the dev_pm_opp_put_*() helpers to accept a NULL
-> pointer for the OPP table, in order to allow the callers to drop the
-> unnecessary checks they had to carry.
->
-> All these must get merged upstream through the OPP tree as there is a
-> hard dependency on the first patch here. Thanks.
->
-> Viresh Kumar (7):
->   opp: Allow dev_pm_opp_put_*() APIs to accept NULL opp_table
->   cpufreq: dt: dev_pm_opp_put_regulators() accepts NULL argument
->   cpufreq: qcom-cpufreq-nvmem: dev_pm_opp_put_*() accepts NULL argument
->   devfreq: exynos: dev_pm_opp_put_*() accepts NULL argument
->   drm/lima: dev_pm_opp_put_*() accepts NULL argument
->   drm/panfrost: dev_pm_opp_put_*() accepts NULL argument
->   media: venus: dev_pm_opp_put_*() accepts NULL argument
->
->  drivers/cpufreq/cpufreq-dt.c                   |  6 ++----
->  drivers/cpufreq/qcom-cpufreq-nvmem.c           | 15 ++++++---------
->  drivers/devfreq/exynos-bus.c                   | 12 ++++--------
->  drivers/gpu/drm/lima/lima_devfreq.c            | 13 ++++---------
->  drivers/gpu/drm/panfrost/panfrost_devfreq.c    |  6 ++----
->  drivers/media/platform/qcom/venus/pm_helpers.c |  3 +--
->  drivers/opp/core.c                             | 18 ++++++++++++++++++
->  7 files changed, 37 insertions(+), 36 deletions(-)
->
-> --
-> 2.25.0.rc1.19.g042ed3e048af
->
+I took a detailed look at the GENPD and tried to implement it. Here is
+what was found:
+
+1. GENPD framework doesn't aggregate performance requests from the
+attached devices. This means that if deviceA requests performance state
+10 and then deviceB requests state 3, then framework will set domain's
+state to 3 instead of 10.
+
+https://elixir.bootlin.com/linux/v5.10-rc2/source/drivers/base/power/domain.c#L376
+
+2. GENPD framework has a sync() callback in the genpd.domain structure,
+but this callback isn't allowed to be used by the GENPD implementation.
+The GENPD framework always overrides that callback for its own needs.
+Hence GENPD doesn't allow to solve the bootstrapping
+state-synchronization problem in a nice way.
+
+https://elixir.bootlin.com/linux/v5.10-rc2/source/drivers/base/power/domain.c#L2606
+
+3. Tegra doesn't have a dedicated hardware power-controller for the core
+domain, instead there is only an external voltage regulator. Hence we
+will need to create a phony device-tree node for the virtual power
+domain, which is probably a wrong thing to do.
+
+===
+
+Perhaps it should be possible to create some hacks to work around
+bullets 2 and 3 in order to achieve what we need for DVFS on Tegra, but
+bullet 1 isn't solvable without changing how the GENPD core works.
+
+Altogether, the GENPD in its current form is a wrong abstraction for a
+system-wide DVFS in a case where multiple devices share power domain and
+this domain is a voltage regulator. The regulator framework is the
+correct abstraction in this case for today.
