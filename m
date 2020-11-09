@@ -2,159 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7A3F42AB5DF
-	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 12:06:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5B6FB2AB623
+	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 12:08:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729302AbgKILGN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Nov 2020 06:06:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59342 "EHLO
+        id S1729431AbgKILHB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Nov 2020 06:07:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59478 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727774AbgKILGM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 06:06:12 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8162DC0613D3
-        for <linux-media@vger.kernel.org>; Mon,  9 Nov 2020 03:06:12 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id p22so7569195wmg.3
-        for <linux-media@vger.kernel.org>; Mon, 09 Nov 2020 03:06:12 -0800 (PST)
+        with ESMTP id S1729289AbgKILHB (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 06:07:01 -0500
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1C65C0613D4
+        for <linux-media@vger.kernel.org>; Mon,  9 Nov 2020 03:07:00 -0800 (PST)
+Received: by mail-wr1-x444.google.com with SMTP id b8so8231742wrn.0
+        for <linux-media@vger.kernel.org>; Mon, 09 Nov 2020 03:07:00 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=/TTLN5u5ntD12Tf50xVKp1qDLZNw1PZvWBuHFthUL88=;
-        b=TKPmIbHz/sJNchjhXki9tBdowYhfzhopEljHcLDYcu2bt52SrzWKjteWCU58KX353a
-         /P/wKKssgcalNm6WMoiInsUU0tYzqmWTdvvP1x2IC4lMkbZRYpg+8gP5TNFHScYSbQbf
-         zNFvHFuDW2gZ2fs7lZw50G9oLfMph4J7tRayNoOEWmnQba2vledcJcf/7z8jURCZlZ7a
-         q1nHIvFPWzIZXH/8EdX8up20/kjt7+d1ENZ+xWOQBxc7IIpx9GwZzr2Y1ubWdpjsgzd2
-         Ul6YISZB4Gbk64r1IG9P7c6sH25ulfmr2nRzCJeRtHvEfs63vwtVjnue1xJMXbGaFrRS
-         Tfug==
+        d=bgdev-pl.20150623.gappssmtp.com; s=20150623;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/BZufo5GeZBBjJpVBhVfUUqf7bDRhIufHOC+GeAXTjw=;
+        b=h63NN6JIr7BPg/L5K4tALUY+/tMHu7b/AohNm+Sq0AHtLr7C775RNCqPF5N91xMyBI
+         MOiY+0CB7+nr/djuF77eQh2JjzNwZIgYaGZcGaavyRIGIDOMtNAYYoguPo3Q8xFlwx6L
+         QddH+S2xNU+tvs03WMAyY063pe678sUddwGJwNwh+sGNbGg5ToLYxAiebC7qHygj5JKC
+         wX/om83DYWGS2MTV/IcOR6891AOSOJx6pnI6tFAZh8FUdpFrpM+edanMCufFGJCkBefi
+         wPu7sueEx5oa9fOWdtBQSKZ4a7oTEsuZvbf1jYwrHa9aigN1cKpCLLxVES7TkXXM96mf
+         VUKg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=/TTLN5u5ntD12Tf50xVKp1qDLZNw1PZvWBuHFthUL88=;
-        b=sIQRykMOe4LOtaNpa2gChpD85+BUo+7BdrlXfOngFS8t6BxFCpntWW9vyQwX0uQq2H
-         h1EdT0NlC1lI3psKS5Gn3zH8iU2ZzB69dj0VvizaMFR6gxDtsT0sy/RCVTNO2a5mDW4L
-         SZFTAOBD0nHGEdEzj+af6/q46tUlOx12UJuPdDZrWBwvxzSyfYmSy3YOA8SSwNlKOV1L
-         t191ib+4gKnumTZNwCRsdzZo8PAzRCaKf6q6FqXwb6scbzUST9PgPlw/XFiKsR4fDMsW
-         BDa67QcuD54eWCOoNFnc6OMs2/8AvLu8XedcLI745edW6ySsdyQeBjgPIcjzGRZOSOXU
-         cWhA==
-X-Gm-Message-State: AOAM532WD9MDp2q1GI5odH+YahpLPfL0RZYfVvCVitKnX2GlYJsMCqzk
-        2Lg5A4DPqes+lwmGms8wZpybsg==
-X-Google-Smtp-Source: ABdhPJwCQni2iqmE/lW8/SqfwjZzXNoAzBmb14stJp2vUaJpNmwq4rT99zQtmmQXUZir2cge7Fg/tA==
-X-Received: by 2002:a1c:67d5:: with SMTP id b204mr14273334wmc.92.1604919971242;
-        Mon, 09 Nov 2020 03:06:11 -0800 (PST)
-Received: from dell ([91.110.221.180])
-        by smtp.gmail.com with ESMTPSA id h62sm13193538wrh.82.2020.11.09.03.06.07
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=/BZufo5GeZBBjJpVBhVfUUqf7bDRhIufHOC+GeAXTjw=;
+        b=jGSTRpdTy+OVsFLBTjcANA83+71BVrwgZGf8WC5JTGAUNytjXUWsFQ9vQfgoRIz5qB
+         3j13qLcgIZZZUPJpVtQ6zaE8IvsQU+XcmnDhaqTWh9V8J/3bjAuSsvAI+e/OkbD+n+rM
+         BzY7DuVnuBTAzG1um2V4abig1BU3W53RXd/vteT8097tVtdTIToiMjXT3NEtBx4JBtl/
+         PjqCg3chYfW35F6eGstgQKBEkCNo+EA7yH62lWoFx/EjEH+IQSsHvx4i5H+jNLGInGzP
+         1e81qERvgVz8ONCcVyYjCgd5Qoz7/+YItWfExuRw46+SZljx9UVnv4Hd2jdF1KA3Mmns
+         9Khg==
+X-Gm-Message-State: AOAM533xc5hHd1S5mhpV/rs1K/yIA5+tX0fro1p/LO/4Zb2DDu24BLNd
+        vShLk6erbK6nMr1h/Q453d6r0A==
+X-Google-Smtp-Source: ABdhPJyoLN1aG0XKVyv+yWfCk24OCLDvJjyIFGdAfhV/HDRuWRPPB2x0i9RWfrD3NWEqtPTk5g+kWQ==
+X-Received: by 2002:adf:9066:: with SMTP id h93mr18252220wrh.166.1604920019608;
+        Mon, 09 Nov 2020 03:06:59 -0800 (PST)
+Received: from localhost.localdomain (lfbn-nic-1-190-206.w2-15.abo.wanadoo.fr. [2.15.39.206])
+        by smtp.gmail.com with ESMTPSA id d3sm12815582wre.91.2020.11.09.03.06.57
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2020 03:06:10 -0800 (PST)
-Date:   Mon, 9 Nov 2020 11:06:03 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Sam Ravnborg <sam@ravnborg.org>
-Cc:     David Airlie <airlied@linux.ie>, linux-kernel@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org,
-        Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>,
-        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH 10/19] drm/radeon/radeon: Move prototype into shared
- header
-Message-ID: <20201109110603.GV2063125@dell>
-References: <20201106214949.2042120-1-lee.jones@linaro.org>
- <20201106214949.2042120-11-lee.jones@linaro.org>
- <20201107142651.GA1014611@ravnborg.org>
+        Mon, 09 Nov 2020 03:06:58 -0800 (PST)
+From:   Bartosz Golaszewski <brgl@bgdev.pl>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Borislav Petkov <bp@alien8.de>,
+        Tony Luck <tony.luck@intel.com>,
+        James Morse <james.morse@arm.com>,
+        Robert Richter <rric@kernel.org>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Alexander Shishkin <alexander.shishkin@linux.intel.com>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        "Michael S . Tsirkin" <mst@redhat.com>,
+        Jason Wang <jasowang@redhat.com>,
+        Christoph Lameter <cl@linux.com>,
+        Pekka Enberg <penberg@kernel.org>,
+        David Rientjes <rientjes@google.com>,
+        Joonsoo Kim <iamjoonsoo.kim@lge.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Jaroslav Kysela <perex@perex.cz>, Takashi Iwai <tiwai@suse.com>
+Cc:     linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org, linux-kernel@vger.kernel.org,
+        linux-edac@vger.kernel.org, linux-gpio@vger.kernel.org,
+        kvm@vger.kernel.org, virtualization@lists.linux-foundation.org,
+        netdev@vger.kernel.org, linux-mm@kvack.org,
+        alsa-devel@alsa-project.org,
+        Bartosz Golaszewski <bgolaszewski@baylibre.com>
+Subject: [PATCH v3 0/9] slab: provide and use krealloc_array()
+Date:   Mon,  9 Nov 2020 12:06:45 +0100
+Message-Id: <20201109110654.12547-1-brgl@bgdev.pl>
+X-Mailer: git-send-email 2.29.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201107142651.GA1014611@ravnborg.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 07 Nov 2020, Sam Ravnborg wrote:
+From: Bartosz Golaszewski <bgolaszewski@baylibre.com>
 
-> Hi Lee,
-> 
-> On Fri, Nov 06, 2020 at 09:49:40PM +0000, Lee Jones wrote:
-> > Unfortunately, a suitable one didn't already exist.
-> > 
-> > Fixes the following W=1 kernel build warning(s):
-> > 
-> >  drivers/gpu/drm/radeon/radeon_device.c:637:6: warning: no previous prototype for ‘radeon_device_is_virtual’ [-Wmissing-prototypes]
-> >  637 | bool radeon_device_is_virtual(void)
-> >  | ^~~~~~~~~~~~~~~~~~~~~~~~
-> > 
-> > Cc: Alex Deucher <alexander.deucher@amd.com>
-> > Cc: "Christian König" <christian.koenig@amd.com>
-> > Cc: David Airlie <airlied@linux.ie>
-> > Cc: Daniel Vetter <daniel@ffwll.ch>
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: amd-gfx@lists.freedesktop.org
-> > Cc: dri-devel@lists.freedesktop.org
-> > Cc: linux-media@vger.kernel.org
-> > Cc: linaro-mm-sig@lists.linaro.org
-> > Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> > ---
-> >  drivers/gpu/drm/radeon/radeon_device.c |  1 +
-> >  drivers/gpu/drm/radeon/radeon_device.h | 32 ++++++++++++++++++++++++++
-> >  drivers/gpu/drm/radeon/radeon_drv.c    |  3 +--
-> >  3 files changed, 34 insertions(+), 2 deletions(-)
-> >  create mode 100644 drivers/gpu/drm/radeon/radeon_device.h
-> 
-> Other public functions in radeon_device.c have their prototype in
-> radeon.h - for example radeon_is_px()
-> 
-> Add radeon_device_is_virtual() there so we avoiid this new header.
+Andy brought to my attention the fact that users allocating an array of
+equally sized elements should check if the size multiplication doesn't
+overflow. This is why we have helpers like kmalloc_array().
 
-Oh yes, I remember why this wasn't a suitable solution now:
+However we don't have krealloc_array() equivalent and there are many
+users who do their own multiplication when calling krealloc() for arrays.
 
-The macro "radeon_init" in radeon.h clashes with the init function of
-the same name in radeon_drv.c:
+This series provides krealloc_array() and uses it in a couple places.
 
-  In file included from drivers/gpu/drm/radeon/radeon_drv.c:53:
-  drivers/gpu/drm/radeon/radeon_drv.c:620:31: error: expected identifier or ‘(’ before ‘void’
-  620 | static int __init radeon_init(void)
-  | ^~~~
-  drivers/gpu/drm/radeon/radeon.h:2705:28: note: in definition of macro ‘radeon_init’
-  2705 | #define radeon_init(rdev) (rdev)->asic->init((rdev))
-  | ^~~~
-  In file included from drivers/gpu/drm/radeon/radeon_drv.c:35:
-  drivers/gpu/drm/radeon/radeon_drv.c: In function ‘__inittest’:
-  drivers/gpu/drm/radeon/radeon_drv.c:653:13: error: ‘radeon_init’ undeclared (first use in this function); did you mean ‘radeon_exit’?
-  653 | module_init(radeon_init);
-  | ^~~~~~~~~~~
-  include/linux/module.h:133:11: note: in definition of macro ‘module_init’
-  133 | { return initfn; } | ^~~~~~
-  drivers/gpu/drm/radeon/radeon_drv.c:653:13: note: each undeclared identifier is reported only once for each function it appears in
-  653 | module_init(radeon_init);
-  | ^~~~~~~~~~~
-  include/linux/module.h:133:11: note: in definition of macro ‘module_init’
-  133 | { return initfn; } | ^~~~~~
-  In file included from include/linux/compiler_types.h:65,
-  from <command-line>:
-  drivers/gpu/drm/radeon/radeon_drv.c: At top level:
-  drivers/gpu/drm/radeon/radeon_drv.c:653:13: error: ‘radeon_init’ undeclared here (not in a function); did you mean ‘radeon_exit’?
-  653 | module_init(radeon_init);
-  | ^~~~~~~~~~~
-  include/linux/compiler_attributes.h:109:65: note: in definition of macro ‘__copy’
-  109 | # define __copy(symbol) __attribute__((__copy__(symbol)))
-  | ^~~~~~
-  drivers/gpu/drm/radeon/radeon_drv.c:653:1: note: in expansion of macro ‘module_init’
-  653 | module_init(radeon_init);
-  | ^~~~~~~~~~~
-  In file included from drivers/gpu/drm/radeon/radeon_drv.c:35:
-  include/linux/module.h:134:6: error: ‘init_module’ aliased to undefined symbol ‘radeon_init’
-  134 | int init_module(void) __copy(initfn) __attribute__((alias(#initfn)));
-  | ^~~~~~~~~~~
-  drivers/gpu/drm/radeon/radeon_drv.c:653:1: note: in expansion of macro ‘module_init’
-  653 | module_init(radeon_init);
-  | ^~~~~~~~~~~
+A separate series will follow adding devm_krealloc_array() which is
+needed in the xilinx adc driver.
 
-How would you like me to move forward?
+v1 -> v2:
+- added a kernel doc for krealloc_array()
+- mentioned krealloc et al in the docs
+- collected review tags
+
+v2 -> v3:
+- add a patch improving krealloc()'s kerneldoc
+- fix a typo
+- improve .rst doc
+- tweak line breaks
+
+Bartosz Golaszewski (9):
+  mm: slab: clarify krealloc()'s behavior with __GFP_ZERO
+  mm: slab: provide krealloc_array()
+  ALSA: pcm: use krealloc_array()
+  vhost: vringh: use krealloc_array()
+  pinctrl: use krealloc_array()
+  edac: ghes: use krealloc_array()
+  drm: atomic: use krealloc_array()
+  hwtracing: intel: use krealloc_array()
+  dma-buf: use krealloc_array()
+
+ Documentation/core-api/memory-allocation.rst |  4 ++++
+ drivers/dma-buf/sync_file.c                  |  3 +--
+ drivers/edac/ghes_edac.c                     |  4 ++--
+ drivers/gpu/drm/drm_atomic.c                 |  3 ++-
+ drivers/hwtracing/intel_th/msu.c             |  2 +-
+ drivers/pinctrl/pinctrl-utils.c              |  2 +-
+ drivers/vhost/vringh.c                       |  3 ++-
+ include/linux/slab.h                         | 18 ++++++++++++++++++
+ mm/slab_common.c                             |  6 +++---
+ sound/core/pcm_lib.c                         |  4 ++--
+ 10 files changed, 36 insertions(+), 13 deletions(-)
 
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.29.1
+
