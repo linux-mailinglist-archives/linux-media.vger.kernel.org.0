@@ -2,234 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 049012AC171
-	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 17:54:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B448D2AC258
+	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 18:32:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730748AbgKIQxF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Nov 2020 11:53:05 -0500
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:51777 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730700AbgKIQxF (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 11:53:05 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id AA9062000B;
-        Mon,  9 Nov 2020 16:53:01 +0000 (UTC)
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     linux-media@vger.kernel.org
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, mchehab@kernel.org,
-        sakari.ailus@linux.intel.com, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com,
-        roman.kovalivskyi@globallogic.com, dafna.hirschfeld@collabora.com,
-        dave.stevenson@raspberrypi.org, naush@raspberrypi.com,
-        erosca@de.adit-jv.com
-Subject: [PATCH v3 29/29] media: ov5647: Remove 640x480 SBGGR8 mode
-Date:   Mon,  9 Nov 2020 17:49:34 +0100
-Message-Id: <20201109164934.134919-30-jacopo@jmondi.org>
-X-Mailer: git-send-email 2.29.1
-In-Reply-To: <20201109164934.134919-1-jacopo@jmondi.org>
-References: <20201109164934.134919-1-jacopo@jmondi.org>
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        id S1731778AbgKIRcR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Nov 2020 12:32:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729814AbgKIRcR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 12:32:17 -0500
+Received: from mail-ej1-x634.google.com (mail-ej1-x634.google.com [IPv6:2a00:1450:4864:20::634])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9C7DEC0613CF
+        for <linux-media@vger.kernel.org>; Mon,  9 Nov 2020 09:32:15 -0800 (PST)
+Received: by mail-ej1-x634.google.com with SMTP id f23so6798224ejk.2
+        for <linux-media@vger.kernel.org>; Mon, 09 Nov 2020 09:32:15 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=3GbLYzMwvp6EZcDPr1mAsVCZayr8g+ANCOELRW9x3oI=;
+        b=lD9EKUCy7oUECftLGz0pJuJXfWUST9vdn8zNy7aZ0sJ1i2+htwpMpx18p1su3Hvqa7
+         KKWbeffmklr0iutDQZf5HVJhX6zpyJ2Jtfj+SlbscdNWWQBZETnFK6oabvbul+7HyWv3
+         iqUV4WCq2d6jBbBPdL2h+n62FPZ795ybRj/Y/LQI7KY47A9dPPFcXf/xEWuafxfJUew2
+         6z9mwI/ApECmiPKdiVDemmddiR07Flf/AF6B0urxkpX+RC0nobTwavyHBq3qIXOZ5yQW
+         qxLrdxpOe3XjZFBWgbTmhLWEOUUcyTxcJutA/lpOyZDJmL2/sOzN1Wbmdx3JTEQncVs+
+         IPAw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=3GbLYzMwvp6EZcDPr1mAsVCZayr8g+ANCOELRW9x3oI=;
+        b=dKdvFuxDYioV4G7TKaqtGJbZICXj7HP11zuCF4E2/r34BwekKtYaPYfvluHWPBoGPJ
+         6COkmd5x/rbnOM0TxOqvtXAk2xh5tP8jjpZIeFbLIQwPzTfPfBonWLkcJqHDVaUy33ih
+         jGM2t6JFtWUsk9mpLqQIHriZaobsneriqe9EZQd6yEIe+y8/iw9+vaEhUlUkVT50pAuD
+         yDLsGlu0KbpWtwl6YWJL4eiV8HI0cPRhp0GNCo5xkZ1g2UrIV4L9EHa3NHOanNBxM7NC
+         uj8T1l8uxu/EKwWWnIUfZEVfRhyKmBgN7ERenpSsI2honPrqUMnF+PJdQyQ2WPcmBunD
+         3uKA==
+X-Gm-Message-State: AOAM531io+eHWjQ3x0gKITTyKxhxVDhoMTlqzjGJjY0EGI4aYIHPRMXY
+        YOttx9SEJg2rhn8VdLE/dwz7D5gcJf+0K/8k
+X-Google-Smtp-Source: ABdhPJxX5c+OTDNapq6/UahETFkImzuMZoJ3WkHepRM8Jo8FjtVUZvBKfvF6IxDMzUP2zR9aTpFDTQ==
+X-Received: by 2002:a17:906:a149:: with SMTP id bu9mr15636458ejb.115.1604943133905;
+        Mon, 09 Nov 2020 09:32:13 -0800 (PST)
+Received: from localhost.localdomain (hst-221-32.medicom.bg. [84.238.221.32])
+        by smtp.gmail.com with ESMTPSA id w18sm5037005edq.43.2020.11.09.09.32.12
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2020 09:32:12 -0800 (PST)
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Subject: [PATCH 0/3] HDR10 static metadata
+Date:   Mon,  9 Nov 2020 19:31:50 +0200
+Message-Id: <20201109173153.23720-1-stanimir.varbanov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Capturing in 640x480 SBGGR8_1X8 hangs the system when capturing
-with the unicam driver on RaspberryPi 4 platform.
+Hello,
 
-Remove it.
+This patchset adds two HDR10 HEVC v4l2 controls for Content Light Level
+and Mastering display colour volume plus implenmentation in Venus encoder
+driver.
 
-Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
----
- drivers/media/i2c/ov5647.c | 139 ++-----------------------------------
- 1 file changed, 4 insertions(+), 135 deletions(-)
+Comments are welcome!
 
-diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-index 5235045ef0012..43bebf1f36f8d 100644
---- a/drivers/media/i2c/ov5647.c
-+++ b/drivers/media/i2c/ov5647.c
-@@ -134,94 +134,6 @@ static const struct regval_list sensor_oe_enable_regs[] = {
- 	{0x3002, 0xe4},
- };
- 
--static const struct regval_list ov5647_640x480_8bpp[] = {
--	{0x0100, 0x00},
--	{0x0103, 0x01},
--	{0x3034, 0x08},
--	{0x3035, 0x21},
--	{0x3036, 0x46},
--	{0x303c, 0x11},
--	{0x3106, 0xf5},
--	{0x3821, 0x07},
--	{0x3820, 0x41},
--	{0x3827, 0xec},
--	{0x370c, 0x0f},
--	{0x3612, 0x59},
--	{0x3618, 0x00},
--	{0x5000, 0x06},
--	{0x5002, 0x41},
--	{0x5003, 0x08},
--	{0x5a00, 0x08},
--	{0x3000, 0x00},
--	{0x3001, 0x00},
--	{0x3002, 0x00},
--	{0x3016, 0x08},
--	{0x3017, 0xe0},
--	{0x3018, 0x44},
--	{0x301c, 0xf8},
--	{0x301d, 0xf0},
--	{0x3a18, 0x00},
--	{0x3a19, 0xf8},
--	{0x3c01, 0x80},
--	{0x3b07, 0x0c},
--	{0x380c, 0x07},
--	{0x380d, 0x68},
--	{0x3814, 0x31},
--	{0x3815, 0x31},
--	{0x3708, 0x64},
--	{0x3709, 0x52},
--	{0x3808, 0x02},
--	{0x3809, 0x80},
--	{0x380a, 0x01},
--	{0x380b, 0xe0},
--	{0x3801, 0x00},
--	{0x3802, 0x00},
--	{0x3803, 0x00},
--	{0x3804, 0x0a},
--	{0x3805, 0x3f},
--	{0x3806, 0x07},
--	{0x3807, 0xa1},
--	{0x3811, 0x08},
--	{0x3813, 0x02},
--	{0x3630, 0x2e},
--	{0x3632, 0xe2},
--	{0x3633, 0x23},
--	{0x3634, 0x44},
--	{0x3636, 0x06},
--	{0x3620, 0x64},
--	{0x3621, 0xe0},
--	{0x3600, 0x37},
--	{0x3704, 0xa0},
--	{0x3703, 0x5a},
--	{0x3715, 0x78},
--	{0x3717, 0x01},
--	{0x3731, 0x02},
--	{0x370b, 0x60},
--	{0x3705, 0x1a},
--	{0x3f05, 0x02},
--	{0x3f06, 0x10},
--	{0x3f01, 0x0a},
--	{0x3a08, 0x01},
--	{0x3a09, 0x27},
--	{0x3a0a, 0x00},
--	{0x3a0b, 0xf6},
--	{0x3a0d, 0x04},
--	{0x3a0e, 0x03},
--	{0x3a0f, 0x58},
--	{0x3a10, 0x50},
--	{0x3a1b, 0x58},
--	{0x3a1e, 0x50},
--	{0x3a11, 0x60},
--	{0x3a1f, 0x28},
--	{0x4001, 0x02},
--	{0x4004, 0x02},
--	{0x4000, 0x09},
--	{0x4837, 0x24},
--	{0x4050, 0x6e},
--	{0x4051, 0x8f},
--	{0x0100, 0x01},
--};
--
- static struct regval_list ov5647_2592x1944_10bpp[] = {
- 	{0x0100, 0x00},
- 	{0x0103, 0x01},
-@@ -583,30 +495,6 @@ static struct regval_list ov5647_640x480_10bpp[] = {
- 	{0x0100, 0x01},
- };
- 
--static const struct ov5647_mode ov5647_8bpp_modes[] = {
--	/* 8-bit VGA mode: Uncentred crop 2x2 binned 1296x972 image. */
--	{
--		.format	= {
--			.code		= MEDIA_BUS_FMT_SBGGR8_1X8,
--			.colorspace	= V4L2_COLORSPACE_SRGB,
--			.field		= V4L2_FIELD_NONE,
--			.width		= 640,
--			.height		= 480
--		},
--		.crop = {
--			.left		= OV5647_PIXEL_ARRAY_LEFT,
--			.top		= OV5647_PIXEL_ARRAY_TOP,
--			.width		= 1280,
--			.height		= 960,
--		},
--		.pixel_rate	= 77291670,
--		.hts		= 1896,
--		.vts		= 0x3d8,
--		.reg_list	= ov5647_640x480_8bpp,
--		.num_regs	= ARRAY_SIZE(ov5647_640x480_8bpp)
--	},
--};
--
- static const struct ov5647_mode ov5647_10bpp_modes[] = {
- 	/* 2592x1944 full resolution full FOV 10-bit mode. */
- 	{
-@@ -695,23 +583,17 @@ static const struct ov5647_mode ov5647_10bpp_modes[] = {
- };
- 
- static const struct ov5647_format_list ov5647_formats[] = {
--	{
--		.mbus_code	= MEDIA_BUS_FMT_SBGGR8_1X8,
--		.modes		= ov5647_8bpp_modes,
--		.num_modes	= ARRAY_SIZE(ov5647_8bpp_modes),
--	},
- 	{
- 		.mbus_code	= MEDIA_BUS_FMT_SBGGR10_1X10,
- 		.modes		= ov5647_10bpp_modes,
- 		.num_modes	= ARRAY_SIZE(ov5647_10bpp_modes),
- 	},
- };
--
- #define OV5647_NUM_FORMATS	(ARRAY_SIZE(ov5647_formats))
- 
- /* Default sensor mode is 2x2 binned 640x480 SBGGR10_1X10. */
--#define OV5647_DEFAULT_MODE	(&ov5647_formats[1].modes[3])
--#define OV5647_DEFAULT_FORMAT	(ov5647_formats[1].modes[3].format)
-+#define OV5647_DEFAULT_MODE	(&ov5647_formats[0].modes[3])
-+#define OV5647_DEFAULT_FORMAT	(ov5647_formats[0].modes[3].format)
- 
- static int ov5647_write16(struct v4l2_subdev *sd, u16 reg, u16 val)
- {
-@@ -1116,25 +998,12 @@ static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
- 			      struct v4l2_subdev_format *format)
- {
- 	struct v4l2_mbus_framefmt *fmt = &format->format;
--	const struct ov5647_mode *ov5647_mode_list;
- 	struct ov5647 *sensor = to_sensor(sd);
- 	int hblank, exposure_max, exposure_def;
- 	const struct ov5647_mode *mode;
--	unsigned int num_modes;
--
--	/*
--	 * Default mbus code MEDIA_BUS_FMT_SBGGR10_1X10 if the requested one
--	 * is not supported.
--	 */
--	if (fmt->code == MEDIA_BUS_FMT_SBGGR8_1X8) {
--		ov5647_mode_list = ov5647_8bpp_modes;
--		num_modes = ARRAY_SIZE(ov5647_8bpp_modes);
--	} else {
--		ov5647_mode_list = ov5647_10bpp_modes;
--		num_modes = ARRAY_SIZE(ov5647_10bpp_modes);
--	}
- 
--	mode = v4l2_find_nearest_size(ov5647_mode_list, num_modes,
-+	mode = v4l2_find_nearest_size(ov5647_10bpp_modes,
-+				      ARRAY_SIZE(ov5647_10bpp_modes),
- 				      format.width, format.height,
- 				      fmt->width, fmt->height);
- 
+regards,
+Stan
+
+Stanimir Varbanov (3):
+  v4l: Add HDR10 HEVC static metadata controls
+  docs: media: Document CLL and Mastering display
+  venus: venc: Add support for CLL and Mastering display controls
+
+ .../media/v4l/ext-ctrls-codec.rst             | 61 +++++++++++++++++++
+ drivers/media/platform/qcom/venus/core.h      |  3 +
+ drivers/media/platform/qcom/venus/hfi_cmds.c  |  8 +++
+ .../media/platform/qcom/venus/hfi_helper.h    | 20 ++++++
+ drivers/media/platform/qcom/venus/venc.c      | 29 +++++++++
+ .../media/platform/qcom/venus/venc_ctrls.c    | 16 ++++-
+ drivers/media/v4l2-core/v4l2-ctrls.c          | 61 +++++++++++++++++++
+ include/media/hevc-ctrls.h                    | 41 +++++++++++++
+ include/media/v4l2-ctrls.h                    |  2 +
+ 9 files changed, 240 insertions(+), 1 deletion(-)
+
 -- 
-2.29.1
+2.17.1
 
