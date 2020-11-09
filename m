@@ -2,102 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 343552AC3DF
-	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 19:32:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1592C2AC444
+	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 19:57:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729454AbgKIScJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Nov 2020 13:32:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44512 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726952AbgKIScJ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 13:32:09 -0500
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8287C0613D3
-        for <linux-media@vger.kernel.org>; Mon,  9 Nov 2020 10:32:08 -0800 (PST)
-Received: by mail-ej1-x642.google.com with SMTP id za3so13718367ejb.5
-        for <linux-media@vger.kernel.org>; Mon, 09 Nov 2020 10:32:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=IleGIJZzQ/fVs3LTovTtPZbHIKvQDjde3rU/8zBLt+Y=;
-        b=EtajP82pPEWPNnuIMtZD9zDC0LVEjGeiy8Apk4BGecDfoXybbYQ/aAIolsdroW2DaU
-         eOB6zzKtGOvK6uDn/Mdm6f07Nqwz9BCc4pXgFcAn65dqhIX2G4nWPVpCpmHCEuHXvw5/
-         ion83q0HLIhTu0slRxGmhsZW+3QAWvKDoobJE=
+        id S1729933AbgKIS5a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Nov 2020 13:57:30 -0500
+Received: from mail-ot1-f67.google.com ([209.85.210.67]:35826 "EHLO
+        mail-ot1-f67.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729451AbgKIS53 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 13:57:29 -0500
+Received: by mail-ot1-f67.google.com with SMTP id n11so10000353ota.2;
+        Mon, 09 Nov 2020 10:57:28 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=IleGIJZzQ/fVs3LTovTtPZbHIKvQDjde3rU/8zBLt+Y=;
-        b=WUOIjQPe6iOgOXi8jyIwotosH3hy1WcXZSicz87PR4OTM8kQ6fPPGouxygmtJX2aOt
-         2Kkn3TXh5vIwcbhPl3ilvdWHkxWaEE5JFqWa6edfEIo+b4y9aO2kZT4BX6KwBm1lALCw
-         2a37I/GjbpDHOaPyRlwGBvt5z+be7um4RiVE7sj6OBgPOSD1Hzqxs6yAU5ld4B9YebAs
-         RrTZfJSuFDl7x8kj4QZq5fgCLE5paTEqBj/XLiDwMcpmqFshdJygL6W4qXdn5tGZ5MAq
-         7mgPP50OlM4yGdm+Gt0ufZtzJMIkH2/NyCjCbnPOdU/GdcATBf/e60JfehRFRDDREsK3
-         0pvQ==
-X-Gm-Message-State: AOAM532RQeSQCk5/ZNfuvBBv4vXG2Yqusb8QHdX6UV3T/4BcwGfBtRmL
-        iCct/ciq6t0fsllxXsCXH/HMnqqe9hjWDQ==
-X-Google-Smtp-Source: ABdhPJzPJVjjQtNULOcusnYvkur7yb4kPdICzLDDgE4Klt5/val+jZkCQGSzvAhGoD+58XpMQuNbnw==
-X-Received: by 2002:a17:906:934d:: with SMTP id p13mr15839281ejw.245.1604946727188;
-        Mon, 09 Nov 2020 10:32:07 -0800 (PST)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com. [209.85.128.54])
-        by smtp.gmail.com with ESMTPSA id x1sm5530064edl.82.2020.11.09.10.32.06
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 09 Nov 2020 10:32:06 -0800 (PST)
-Received: by mail-wm1-f54.google.com with SMTP id c9so416034wml.5
-        for <linux-media@vger.kernel.org>; Mon, 09 Nov 2020 10:32:06 -0800 (PST)
-X-Received: by 2002:a1c:1c3:: with SMTP id 186mr488018wmb.39.1604946725873;
- Mon, 09 Nov 2020 10:32:05 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=Yp+Myu+RbCp/hhggXGpFgymnJTdUJhcL8XQ+E+Agqsg=;
+        b=uF4ICZHwbNkw+7QU963JESi95i2PMWWRg5B3jNapcoVYnUNZhyHvFCP507UwGqtAUV
+         ZN8PnOGC8FMktOUxkw9j04RYTcPKKTdHS6XQcox8mN+/o8BfxvWPjLQVBVUWTicQKMd5
+         NxVuK/dPL1ETwELkKsyQ20kand+UKcOGVVwY3znsfjO7AAku4U2CE11AiYRlEbcoZqUh
+         ROFm+nulGhwqRdzNwg5xqngAqeek5zhUqVW2A66dh7lzgV3Te6kEJ5qNkJ/0nNkxDHFl
+         3tIXRDYzK+W4cwK8/m/nvbNU9ZlvEhelrA7v8JHyqhzK+m2xTWVFrdnflT7MOT9benoz
+         SXww==
+X-Gm-Message-State: AOAM5339xECIA6+Y8hThpXO0StsvzSD3qk/Rw95Ptp3u5NHP4qSZoaVx
+        2wxQ0Z+Gjq8B7ACJZkpsgg==
+X-Google-Smtp-Source: ABdhPJwTrJM8+DV6yoj0yZkvksdAC3aJsLLLrx1WHxgB39fkbPYVnHOpW6Iq5AkW4A4fHBNfxiLHQg==
+X-Received: by 2002:a05:6830:2093:: with SMTP id y19mr10923388otq.219.1604948248350;
+        Mon, 09 Nov 2020 10:57:28 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id o29sm2726530ote.7.2020.11.09.10.57.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2020 10:57:27 -0800 (PST)
+Received: (nullmailer pid 1586563 invoked by uid 1000);
+        Mon, 09 Nov 2020 18:57:25 -0000
+Date:   Mon, 9 Nov 2020 12:57:25 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     devel@driverdev.osuosl.org, Ulf Hansson <ulf.hansson@linaro.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-usb@vger.kernel.org, Alan Stern <stern@rowland.harvard.edu>,
+        linux-pwm@vger.kernel.org, linux-samsung-soc@vger.kernel.org,
+        Peter Geis <pgwipeout@gmail.com>, linux-mmc@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        dri-devel@lists.freedesktop.org, linux-tegra@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Lee Jones <lee.jones@linaro.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>
+Subject: Re: [PATCH v1 01/30] dt-bindings: host1x: Document OPP and voltage
+ regulator properties
+Message-ID: <20201109185725.GA1586511@bogus>
+References: <20201104234427.26477-1-digetx@gmail.com>
+ <20201104234427.26477-2-digetx@gmail.com>
 MIME-Version: 1.0
-References: <1604312674-1621-1-git-send-email-mansur@codeaurora.org>
-In-Reply-To: <1604312674-1621-1-git-send-email-mansur@codeaurora.org>
-From:   Fritz Koenig <frkoenig@chromium.org>
-Date:   Mon, 9 Nov 2020 10:31:53 -0800
-X-Gmail-Original-Message-ID: <CAMfZQbywEfmKHabwpC=6AuBXjiGpswE=+S4qKRRHArhOLGg7dQ@mail.gmail.com>
-Message-ID: <CAMfZQbywEfmKHabwpC=6AuBXjiGpswE=+S4qKRRHArhOLGg7dQ@mail.gmail.com>
-Subject: Re: [PATCH] venus: fix calculating mbps in calculate_inst_freq()
-To:     Mansur Alisha Shaik <mansur@codeaurora.org>
-Cc:     linux-media@vger.kernel.org,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        Vikash Garodia <vgarodia@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201104234427.26477-2-digetx@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 2, 2020 at 2:25 AM Mansur Alisha Shaik
-<mansur@codeaurora.org> wrote:
->
-> Currently in calculate_inst_freq() video driver is calculating
-> macro blocks per frame in steam of macro blocks per second(mpbs).
-> Which results frequency is always setting to lower frequency (150MB)
-> as per frequency table for sc7180. Hence the playback is not smooth.
->
-> Corrected this by correcting the mbps calculation.
->
-> Signed-off-by: Mansur Alisha Shaik <mansur@codeaurora.org>
+On Thu, 05 Nov 2020 02:43:58 +0300, Dmitry Osipenko wrote:
+> Document new DVFS OPP table and voltage regulator properties of the
+> Host1x bus and devices sitting on the bus.
+> 
+> Signed-off-by: Dmitry Osipenko <digetx@gmail.com>
 > ---
->  drivers/media/platform/qcom/venus/pm_helpers.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index 57877ea..001513f 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -928,7 +928,7 @@ static unsigned long calculate_inst_freq(struct venus_inst *inst,
->         u32 fps = (u32)inst->fps;
->         u32 mbs_per_sec;
->
-> -       mbs_per_sec = load_per_instance(inst) / fps;
-> +       mbs_per_sec = load_per_instance(inst);
->
->         vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
->         /* 21 / 20 is overhead factor */
-> --
-> QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member
-> of Code Aurora Forum, hosted by The Linux Foundation
->
+>  .../display/tegra/nvidia,tegra20-host1x.txt   | 56 +++++++++++++++++++
+>  1 file changed, 56 insertions(+)
+> 
 
-Reviewed-by: Fritz Koenig <frkoenig@chromium.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
