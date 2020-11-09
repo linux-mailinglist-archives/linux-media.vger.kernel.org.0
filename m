@@ -2,89 +2,186 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 45C0E2AB297
-	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 09:41:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D75AA2AB2AA
+	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 09:44:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728462AbgKIIl1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Nov 2020 03:41:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36836 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726176AbgKIIl0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 03:41:26 -0500
-Received: from mail-io1-xd42.google.com (mail-io1-xd42.google.com [IPv6:2607:f8b0:4864:20::d42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8D928C0613CF;
-        Mon,  9 Nov 2020 00:41:26 -0800 (PST)
-Received: by mail-io1-xd42.google.com with SMTP id p7so8956493ioo.6;
-        Mon, 09 Nov 2020 00:41:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7btXjqBRuinpD7KiP3l3qzjmEFoY9IFXHxyguH0t/3M=;
-        b=vE+TwcYjMnjl7AwZgEbE4ExgYLtEzLZ9W1b12PN/XLNI4hdFVJEqSNaLrYq4mSUvL7
-         UgKnP1i5dxJ3kDif5t4HQiE0FPwh1LxyLOx5fSx4In0KbMRsn+MZrDNjHTLfwr7dotcO
-         xXnXq8aGkjCMBOgz0PlJtjzZr/TwmZNrMcBTYHOy9nZgJH14mNG8Tj6hAaeNd5t40X7U
-         BLyC9irvrGwNBIeXDt3+A8yyTUVjQD5lRDXq9wcMPMmIP5IOOQJX/nh3qUy7SoKkfV39
-         d83cJyDyCveUE/SmLpStqBViRd5GPJ0FNASEEORHcEgKogLCV5J6Vs0w+9QitwI20Swe
-         +x9Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=7btXjqBRuinpD7KiP3l3qzjmEFoY9IFXHxyguH0t/3M=;
-        b=FxxdsbcNZRtqHssxXmSCgP3A6dRhu1qXNpLegnDvRJ3CU6RK3SBVn7hSa4GMLopw47
-         8jvwiq2o5JDv+LmrF2ZbayLkDPmawd4xLxD6FV1F8v8K4tEdVsASiVMA/r//KUIE2ys4
-         Ok6wOLofrAGlJPN1MuiFcYewTBmXKOSE3ZRZonhvezqHuamRPyg3wOg6FZ1NNkJq5KMP
-         kRtlCkvyELRZcDWOloM1CuocYvKWhJ/xeedFpLZG1Mn7HAKPW0PLc/w664IPNjHDDUUF
-         KuxFKd49FQQeyNog/TzD0cwFrWS3HplkIixjpNqx4NQ668v9ZiPwLZgiEyIV0xAoNjlp
-         dbnQ==
-X-Gm-Message-State: AOAM532v99sR4wpcFVMkqX4KSzoNBzwMl3+8XZinlBoPoNUMeELHJZl0
-        w/5dZzPRfEknTcp8rfSVgWg=
-X-Google-Smtp-Source: ABdhPJw6hiS0UuWmPf3RDP3SsSRa2LK8tkwaoyxOfK5zCkid0TToP32VMAetRrUoPeVzj38GlOn+CA==
-X-Received: by 2002:a5d:9a19:: with SMTP id s25mr4307991iol.94.1604911285982;
-        Mon, 09 Nov 2020 00:41:25 -0800 (PST)
-Received: from localhost.localdomain ([156.146.54.75])
-        by smtp.gmail.com with ESMTPSA id t15sm5475191ili.64.2020.11.09.00.41.19
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2020 00:41:25 -0800 (PST)
-From:   Bhaskar Chowdhury <unixbhaskar@gmail.com>
-To:     alexander.deucher@amd.com, christian.koenig@amd.com,
-        airlied@linux.ie, daniel@ffwll.ch, amd-gfx@lists.freedesktop.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org,
-        ray.huang@amd.com, nicholas.kazlauskas@amd.com, jdelvare@suse.de
-Cc:     gregkh@linuxfoundation.org,
-        Bhaskar Chowdhury <unixbhaskar@gmail.com>
-Subject: [PATCH] drivers: amdgpu: amdgpu_display.c: Fix a spelling  doens\'t  to doesn\'t
-Date:   Mon,  9 Nov 2020 14:08:24 +0530
-Message-Id: <20201109083824.14664-1-unixbhaskar@gmail.com>
-X-Mailer: git-send-email 2.26.2
+        id S1729766AbgKIIoq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Nov 2020 03:44:46 -0500
+Received: from mga06.intel.com ([134.134.136.31]:5481 "EHLO mga06.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726127AbgKIIop (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 9 Nov 2020 03:44:45 -0500
+IronPort-SDR: Qs8cHwYvmGnic3fcikFX1xyYzk+48O3hIDKyyHuMP/R7n6yYh3j7A6Y/9L2c1W6sMXAXbBUBl+
+ fosXP9MpGzrA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9799"; a="231401659"
+X-IronPort-AV: E=Sophos;i="5.77,463,1596524400"; 
+   d="scan'208";a="231401659"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 00:44:45 -0800
+IronPort-SDR: IfG8q/sA5EMlyMjSvfUVNc+EaAlzDVZgRGJpX0K7ztOK0lomesX1KEuchnWCGhkYW9POxwry58
+ wHJVsBh0G9fA==
+X-IronPort-AV: E=Sophos;i="5.77,463,1596524400"; 
+   d="scan'208";a="540750920"
+Received: from sfhansen-mobl.ger.corp.intel.com ([10.249.254.141])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 00:44:40 -0800
+Message-ID: <504d77b87c81b7027157e0c7b5286e17123c59d9.camel@linux.intel.com>
+Subject: Re: [PATCH v5 05/15] mm/frame-vector: Use FOLL_LONGTERM
+From:   Thomas =?ISO-8859-1?Q?Hellstr=F6m?= 
+        <thomas.hellstrom@linux.intel.com>
+To:     Jason Gunthorpe <jgg@ziepe.ca>, Daniel Vetter <daniel@ffwll.ch>
+Cc:     John Hubbard <jhubbard@nvidia.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        J??r??me Glisse <jglisse@redhat.com>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        Jan Kara <jack@suse.cz>, Pawel Osciak <pawel@osciak.com>,
+        KVM list <kvm@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        DRI Development <dri-devel@lists.freedesktop.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Linux MM <linux-mm@kvack.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Date:   Mon, 09 Nov 2020 09:44:02 +0100
+In-Reply-To: <20201106125505.GO36674@ziepe.ca>
+References: <CAKMK7uH=0+3FSR4LxP7bJUB4BsCcnCzfK2=D+2Am9QNmfZEmfw@mail.gmail.com>
+         <20201104163758.GA17425@infradead.org>
+         <20201104164119.GA18218@infradead.org> <20201104181708.GU36674@ziepe.ca>
+         <d3497583-2338-596e-c764-8c571b7d22cf@nvidia.com>
+         <20201105092524.GQ401619@phenom.ffwll.local>
+         <20201105124950.GZ36674@ziepe.ca>
+         <7ae3486d-095e-cf4e-6b0f-339d99709996@nvidia.com>
+         <CAKMK7uGRw=xXE+D=JJsNeRav9+hdO4tcDSvDbAuWfc3T4VkoJw@mail.gmail.com>
+         <CAKMK7uFb2uhfRCwe1y5Kafd-WWqE_F3_FfpHR9f8-X-aHhgjOQ@mail.gmail.com>
+         <20201106125505.GO36674@ziepe.ca>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.36.5 (3.36.5-1.fc32) 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-s/doens't/doesn't/p
+On Fri, 2020-11-06 at 08:55 -0400, Jason Gunthorpe wrote:
+> On Fri, Nov 06, 2020 at 11:27:59AM +0100, Daniel Vetter wrote:
+> > On Fri, Nov 6, 2020 at 11:01 AM Daniel Vetter <daniel@ffwll.ch>
+> > wrote:
+> > > On Fri, Nov 6, 2020 at 5:08 AM John Hubbard <jhubbard@nvidia.com>
+> > > wrote:
+> > > > On 11/5/20 4:49 AM, Jason Gunthorpe wrote:
+> > > > > On Thu, Nov 05, 2020 at 10:25:24AM +0100, Daniel Vetter
+> > > > > wrote:
+> > > > > > > /*
+> > > > > > >   * If we can't determine whether or not a pte is
+> > > > > > > special, then fail immediately
+> > > > > > >   * for ptes. Note, we can still pin HugeTLB and THP as
+> > > > > > > these are guaranteed not
+> > > > > > >   * to be special.
+> > > > > > >   *
+> > > > > > >   * For a futex to be placed on a THP tail page,
+> > > > > > > get_futex_key requires a
+> > > > > > >   * get_user_pages_fast_only implementation that can pin
+> > > > > > > pages. Thus it's still
+> > > > > > >   * useful to have gup_huge_pmd even if we can't operate
+> > > > > > > on ptes.
+> > > > > > >   */
+> > > > > > 
+> > > > > > We support hugepage faults in gpu drivers since recently,
+> > > > > > and I'm not
+> > > > > > seeing a pud_mkhugespecial anywhere. So not sure this
+> > > > > > works, but probably
+> > > > > > just me missing something again.
+> > > > > 
+> > > > > It means ioremap can't create an IO page PUD, it has to be
+> > > > > broken up.
+> > > > > 
+> > > > > Does ioremap even create anything larger than PTEs?
+> > > 
+> > > gpu drivers also tend to use vmf_insert_pfn* directly, so we can
+> > > do
+> > > on-demand paging and move buffers around. From what I glanced for
+> > > lowest level we to the pte_mkspecial correctly (I think I
+> > > convinced
+> > > myself that vm_insert_pfn does that), but for pud/pmd levels it
+> > > seems
+> > > just yolo.
+> > 
+> > So I dug around a bit more and ttm sets PFN_DEV | PFN_MAP to get
+> > past
+> > the various pft_t_devmap checks (see e.g.
+> > vmf_insert_pfn_pmd_prot()).
+> > x86-64 has ARCH_HAS_PTE_DEVMAP, and gup.c seems to handle these
+> > specially, but frankly I got totally lost in what this does.
+> 
+> The fact vmf_insert_pfn_pmd_prot() has all those BUG_ON's to prevent
+> putting VM_PFNMAP pages into the page tables seems like a big red
+> flag.
+> 
+> The comment seems to confirm what we are talking about here:
+> 
+> 	/*
+> 	 * If we had pmd_special, we could avoid all these
+> restrictions,
+> 	 * but we need to be consistent with PTEs and architectures
+> that
+> 	 * can't support a 'special' bit.
+> 	 */
+> 
+> ie without the ability to mark special we can't block fast gup and
+> anyone who does O_DIRECT on these ranges will crash the kernel when
+> it
+> tries to convert a IO page into a struct page.
+> 
+> Should be easy enough to directly test?
+> 
+> Putting non-struct page PTEs into a VMA without setting VM_PFNMAP
+> just
+> seems horribly wrong to me.
 
-Signed-off-by: Bhaskar Chowdhury <unixbhaskar@gmail.com>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Although core mm special huge-page support is currently quite limited,
+some time ago, I extended the pre-existing vma_is_dax() to
+vma_is_special_huge():
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-index 7cc7af2a6822..a92cb137293a 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-@@ -512,7 +512,7 @@ uint32_t amdgpu_display_supported_domains(struct amdgpu_device *adev,
- 	 * to avoid hang caused by placement of scanout BO in GTT on certain
- 	 * APUs. So force the BO placement to VRAM in case this architecture
- 	 * will not allow USWC mappings.
--	 * Also, don't allow GTT domain if the BO doens't have USWC falg set.
-+	 * Also, don't allow GTT domain if the BO doesn't have USWC falg set.
- 	 */
- 	if ((bo_flags & AMDGPU_GEM_CREATE_CPU_GTT_USWC) &&
- 	    amdgpu_bo_support_uswc(bo_flags) &&
---
-2.26.2
+/**
+ * vma_is_special_huge - Are transhuge page-table entries considered
+special?
+ * @vma: Pointer to the struct vm_area_struct to consider
+ *
+ * Whether transhuge page-table entries are considered "special"
+following
+ * the definition in vm_normal_page().
+ *
+ * Return: true if transhuge page-table entries should be considered
+special,
+ * false otherwise.
+ */
+static inline bool vma_is_special_huge(const struct vm_area_struct
+*vma)
+{
+	return vma_is_dax(vma) || (vma->vm_file &&
+				   (vma->vm_flags & (VM_PFNMAP |
+VM_MIXEDMAP)));
+}
+
+meaning that currently all transhuge page-table-entries in a PFNMAP or
+MIXEDMAP vma are considered "special". The number of calls to this
+function (mainly in the page-splitting code) is quite limited so
+replacing it with a more elaborate per-page-table-entry scheme would, I
+guess, definitely be possible. Although all functions using it would
+need to require a fallback path for architectures not supporting it.
+
+/Thomas
+
+
+
+> 
+> Jason
 
