@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0E9F2AC6E3
-	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 22:21:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A5D792AC6E7
+	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 22:21:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729247AbgKIVTI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Nov 2020 16:19:08 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42078 "EHLO
+        id S1730860AbgKIVTL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Nov 2020 16:19:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730583AbgKIVTI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 16:19:08 -0500
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A08B5C0613D3
-        for <linux-media@vger.kernel.org>; Mon,  9 Nov 2020 13:19:07 -0800 (PST)
-Received: by mail-wr1-x442.google.com with SMTP id d12so8860345wrr.13
-        for <linux-media@vger.kernel.org>; Mon, 09 Nov 2020 13:19:07 -0800 (PST)
+        with ESMTP id S1730821AbgKIVTL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 16:19:11 -0500
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B1B0DC0613D3
+        for <linux-media@vger.kernel.org>; Mon,  9 Nov 2020 13:19:10 -0800 (PST)
+Received: by mail-wr1-x444.google.com with SMTP id w1so10397683wrm.4
+        for <linux-media@vger.kernel.org>; Mon, 09 Nov 2020 13:19:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=zaj9PQ1+4jRxFdQPS9IoWMCG22fw+6XqKxYZ9+Me3Xg=;
-        b=G98UJ0t6Uf8XyAe1ROYsF/XIMBcEriB62SabFOr3x7XylyO8f9EbS45rVGhEBLXDKc
-         hsQWYFs4zJrYc8FmqhCl4m5tFEmUxtb/xdNjP38hGmTM+qJYlf6lSeEtXHgBY1Lxc1SA
-         woIBgG5kTOcPnd9oN2qSk/gOYKj/NVFn+xnPT8PufPJK9ISuPMYdystjas8QpGyhxCK+
-         WtcpnuN2ItVwsIy5aLglVDP5NcL4TDQ+65zCqarczO7dPo3xQQ7A1fqgdOtMQ8sFQoBt
-         TSwqrf1ReLTffFk2GBD4UR3j4VhzU9yKA8Fb0Q9ctsBiVMwkr9lJ2Lss+sSdO0Qjq+Zn
-         hz3w==
+        bh=9QRM042GtogSyG7+rZpj/l/1G+WGXOLxnrrF/vvxVJY=;
+        b=sYB8KKFz2Jqz6gYGNdkuwzwig/UrIQLC4jkCLB/qG9c32GQmE4Wy7/z/7UC1U4CeSQ
+         NEY4vmIHF+LE5hK2gP1lO/VnKsVAJ3KPOH1xTVygdnTEjoMQtAS5asJdudEZYQlKonBX
+         aZIvDgG3rHrWOd56KO+sOGIwnUpoxEvbrIcnCdfK8VZ5QgWCcyzY6XveCPguPjHOXu2z
+         0vkc4atHMwUh62yCPRuO8EJXEGI5dwbF+p8xCPuf0obxUJqwvT8eTvFkMqjWITYwvX5W
+         BoBbgWbPvlVD0L8Usa9WIcrRGNt/AY9Hi8zm0b5nPLL3+eAI2paSOfsc4E1dYVapf85+
+         tfuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=zaj9PQ1+4jRxFdQPS9IoWMCG22fw+6XqKxYZ9+Me3Xg=;
-        b=cm+kLxBfuIhiiB3d7I+nBA/cFzWod7W0jySYNYeWtIaWbCMXSQvl1bduggIynU8TVK
-         bAT6NCnsYwAkS9mTNwA5l8MpHESq0QdbT51gClk+YvNgQiKMFMhDq115JBodjlnk41Sg
-         ynsWXvKxe/ojJs6TuMFDdeDeC45ovdkjkq8b7MAun8/sioDPspPT9mMZkcmj/fRbfMCc
-         yUnlqcQje+Kb+0dTivBuOv7ev2T4ZkE7jttmdiE0eR1njj7f+lOpYOCd0viGV8y5LLXd
-         r9V0Id/kUgV/rSksv6fqn0mY3bSKXwF6rfdQ11Wm2GUrhA9QmUQSd2sNpcXFn97QnvPi
-         htXA==
-X-Gm-Message-State: AOAM533chx+K/zzUfruQeL9YSweJT+syq3+gY0r72FAYjDJwIbFa0oj7
-        kzGNWe/fiPlT17WperPaFtJCmQ==
-X-Google-Smtp-Source: ABdhPJwBysRZoAQuR+8rQwerSjF7CGhlBAXduxk3l2+at9VV/7M8Sv74lR+5Ws5WSF+dHOXHmcBybQ==
-X-Received: by 2002:a5d:4bc7:: with SMTP id l7mr7212779wrt.105.1604956746318;
-        Mon, 09 Nov 2020 13:19:06 -0800 (PST)
+        bh=9QRM042GtogSyG7+rZpj/l/1G+WGXOLxnrrF/vvxVJY=;
+        b=VjdHhJq5tJS8lQF9YiTwl8iC/ePlByL5/3JuDyx7T4U4rsq7hWkojUmlgcyY94/JCX
+         KWIpJsrry4esMD5ubUUlnhxtFOJ2n9bd9YGjICgx/80/zBMkVY38hIY8eFItBrF78KLv
+         Iacyo8Oqm/ulYW9EPhXaE8DRiujxrwus8DnFprCgqY6Iwrrar5bk+mfZQiTe1glN0HJj
+         RQzDIlQscZnwbLWO/20ElqdFxItxd642/WbaK4hT0VPRo/IF3TzX93lCX5tb/gpq+Nux
+         PsbpbxV8fRf9TRSski8MmfLJZ4Ozcx7fjV8XiTMkbe6OZXsJ2olvEXf5YE5e1sLlmLwG
+         9Wew==
+X-Gm-Message-State: AOAM532NGfoNnDR4vfXo947K9/ZrQPcEfMncydJh55zXjJRMq04g//O8
+        CzaydolIWaxoWOgCLyVK2SRCfg==
+X-Google-Smtp-Source: ABdhPJx+8D91GN4vBrp6RpD70yxFoPTEG4/f/iF2ytiqTOOf0RR6fQffoDlm+OFr+Y16Dp6eKwfNdA==
+X-Received: by 2002:adf:f5c8:: with SMTP id k8mr13463869wrp.2.1604956749484;
+        Mon, 09 Nov 2020 13:19:09 -0800 (PST)
 Received: from dell.default ([91.110.221.139])
-        by smtp.gmail.com with ESMTPSA id 71sm15170630wrm.20.2020.11.09.13.19.04
+        by smtp.gmail.com with ESMTPSA id 71sm15170630wrm.20.2020.11.09.13.19.07
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2020 13:19:05 -0800 (PST)
+        Mon, 09 Nov 2020 13:19:08 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -55,11 +55,12 @@ Cc:     linux-kernel@vger.kernel.org,
         David Airlie <airlied@linux.ie>,
         Daniel Vetter <daniel@ffwll.ch>,
         Sumit Semwal <sumit.semwal@linaro.org>,
+        Jerome Glisse <glisse@freedesktop.org>,
         amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 02/20] drm/radeon: Move radeon_ttm{init,fini} to shared location
-Date:   Mon,  9 Nov 2020 21:18:37 +0000
-Message-Id: <20201109211855.3340030-3-lee.jones@linaro.org>
+Subject: [PATCH 03/20] drm/radeon/radeon_fence: Demote some non-conformant kernel-doc headers and fix another
+Date:   Mon,  9 Nov 2020 21:18:38 +0000
+Message-Id: <20201109211855.3340030-4-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201109211855.3340030-1-lee.jones@linaro.org>
 References: <20201109211855.3340030-1-lee.jones@linaro.org>
@@ -72,57 +73,61 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/radeon/radeon_ttm.c: At top level:
- drivers/gpu/drm/radeon/radeon_ttm.c:817:5: warning: no previous prototype for ‘radeon_ttm_init’ [-Wmissing-prototypes]
- 817 | int radeon_ttm_init(struct radeon_device *rdev)
- | ^~~~~~~~~~~~~~~
- drivers/gpu/drm/radeon/radeon_ttm.c:878:6: warning: no previous prototype for ‘radeon_ttm_fini’ [-Wmissing-prototypes]
- 878 | void radeon_ttm_fini(struct radeon_device *rdev)
- | ^~~~~~~~~~~~~~~
+ drivers/gpu/drm/radeon/radeon_fence.c:168: warning: Function parameter or member 'wait' not described in 'radeon_fence_check_signaled'
+ drivers/gpu/drm/radeon/radeon_fence.c:168: warning: Function parameter or member 'mode' not described in 'radeon_fence_check_signaled'
+ drivers/gpu/drm/radeon/radeon_fence.c:168: warning: Function parameter or member 'flags' not described in 'radeon_fence_check_signaled'
+ drivers/gpu/drm/radeon/radeon_fence.c:168: warning: Function parameter or member 'key' not described in 'radeon_fence_check_signaled'
+ drivers/gpu/drm/radeon/radeon_fence.c:393: warning: Function parameter or member 'f' not described in 'radeon_fence_enable_signaling'
+ drivers/gpu/drm/radeon/radeon_fence.c:393: warning: Excess function parameter 'fence' description in 'radeon_fence_enable_signaling'
+ drivers/gpu/drm/radeon/radeon_fence.c:1010: warning: Function parameter or member 'm' not described in 'radeon_debugfs_gpu_reset'
+ drivers/gpu/drm/radeon/radeon_fence.c:1010: warning: Function parameter or member 'data' not described in 'radeon_debugfs_gpu_reset'
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
 Cc: David Airlie <airlied@linux.ie>
 Cc: Daniel Vetter <daniel@ffwll.ch>
 Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Jerome Glisse <glisse@freedesktop.org>
 Cc: amd-gfx@lists.freedesktop.org
 Cc: dri-devel@lists.freedesktop.org
 Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/radeon/radeon.h        | 4 ++++
- drivers/gpu/drm/radeon/radeon_object.c | 2 --
- 2 files changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/radeon/radeon_fence.c | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
 
-diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/radeon.h
-index 53d9898e9871e..a0c2497cd4cf4 100644
---- a/drivers/gpu/drm/radeon/radeon.h
-+++ b/drivers/gpu/drm/radeon/radeon.h
-@@ -451,6 +451,10 @@ struct radeon_surface_reg {
- /*
-  * TTM.
-  */
-+
-+int radeon_ttm_init(struct radeon_device *rdev);
-+void radeon_ttm_fini(struct radeon_device *rdev);
-+
- struct radeon_mman {
- 	struct ttm_bo_device		bdev;
- 	bool				initialized;
-diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
-index ab81e35cb0606..048d83d0ca996 100644
---- a/drivers/gpu/drm/radeon/radeon_object.c
-+++ b/drivers/gpu/drm/radeon/radeon_object.c
-@@ -41,8 +41,6 @@
- #include "radeon.h"
- #include "radeon_trace.h"
+diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/radeon/radeon_fence.c
+index 8735bf2bb8b5c..9ee6e599ef83b 100644
+--- a/drivers/gpu/drm/radeon/radeon_fence.c
++++ b/drivers/gpu/drm/radeon/radeon_fence.c
+@@ -157,7 +157,7 @@ int radeon_fence_emit(struct radeon_device *rdev,
+ 	return 0;
+ }
  
--int radeon_ttm_init(struct radeon_device *rdev);
--void radeon_ttm_fini(struct radeon_device *rdev);
- static void radeon_bo_clear_surface_reg(struct radeon_bo *bo);
+-/**
++/*
+  * radeon_fence_check_signaled - callback from fence_queue
+  *
+  * this function is called with fence_queue lock held, which is also used
+@@ -383,7 +383,7 @@ static bool radeon_fence_is_signaled(struct dma_fence *f)
  
- /*
+ /**
+  * radeon_fence_enable_signaling - enable signalling on fence
+- * @fence: fence
++ * @f: fence
+  *
+  * This function is called with fence_queue lock held, and adds a callback
+  * to fence_queue that checks if this fence is signaled, and if so it
+@@ -1001,7 +1001,7 @@ static int radeon_debugfs_fence_info(struct seq_file *m, void *data)
+ 	return 0;
+ }
+ 
+-/**
++/*
+  * radeon_debugfs_gpu_reset - manually trigger a gpu reset
+  *
+  * Manually trigger a gpu reset at the next fence wait.
 -- 
 2.25.1
 
