@@ -2,160 +2,241 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 08B922AAAF8
-	for <lists+linux-media@lfdr.de>; Sun,  8 Nov 2020 13:19:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 739E32AAE90
+	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 01:47:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728433AbgKHMTW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 8 Nov 2020 07:19:22 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46002 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728197AbgKHMTV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 8 Nov 2020 07:19:21 -0500
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C0198C0613CF;
-        Sun,  8 Nov 2020 04:19:20 -0800 (PST)
-Received: by mail-lf1-x142.google.com with SMTP id l2so8264578lfk.0;
-        Sun, 08 Nov 2020 04:19:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=2sZ4icayrxxDWpa2xJypEQHGIoro/hg/XjsXfIMVIO0=;
-        b=rFpONZz/Kl33uh/dizvuNJQR2av8Rv5uFlJ5DePIU/DxOtnlMkNpGoI3JXUj2MWsEF
-         ir6IGHMPuOz5Ha0JkEbKS4xflgVuaxejRvr3J7nUUQOCUdjtzTtB+/2LCSIwZ1YYD/TJ
-         lKE8uooAVEPA5V7sGNiXi7IF5izcclg1E7XOW+XQRLEz/SOzhIs5xZCH9hY7R371YhQJ
-         LdeTxesJm0/t9nWD/LlBWtdARIzCuiHjTsZN8sOpocViLXo7UpaGVp/CBzAK20Ddkauz
-         tbH9apGbBjlfs/0xTDfRayemP603Ij5uZuDJzOs53HjDllldmig65ToOUo4o93xa8AYC
-         tAvw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=2sZ4icayrxxDWpa2xJypEQHGIoro/hg/XjsXfIMVIO0=;
-        b=a0VrwSjIo7DPx418VgQPnP7O7neTTCqu0icPt2WzwWobZaZX1emMwqLA2mUVDMX658
-         52FSjkV2QnBRR4J78NbYum7oKX0gTvu2Dw9twhUdkxnlfVUTX1rGhgpUELBgHg3qIL61
-         scNfR/wW9t5p1secyzgnGI8+dgkBPJNAdTJf+qVWH4ejy5/GudXp2ObX6C3QgYvdOrkU
-         PwIbCk/kDjaTc09rRblXGAqkasN4vEsF58vS5kOtsrc/wuiu8TCvVOMqcd/nBIefEvi0
-         7+d70o5zJ6ENSEwPttjK9P08P15Ds7UStyF7yq5yWzRZHYY8VnLsh+qMqDFtTtx86CBF
-         1JXg==
-X-Gm-Message-State: AOAM532WNQm7NkHr9PMosQY1fp/5mdNCTavtHa/F9S0seojw693xnAA6
-        eQg4GAvPsnQi0Y+/Emf2qficb/gmkfA=
-X-Google-Smtp-Source: ABdhPJx2JpfTMAfVNhGgqvUuTHG0na3AuqFBXgT3nmIXEBqvHyuzg1Il4cTfxq8l0jMElMVqEADDJg==
-X-Received: by 2002:a05:6512:3250:: with SMTP id c16mr469413lfr.404.1604837959047;
-        Sun, 08 Nov 2020 04:19:19 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
-        by smtp.googlemail.com with ESMTPSA id d26sm1479402ljj.102.2020.11.08.04.19.17
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 08 Nov 2020 04:19:18 -0800 (PST)
-Subject: Re: [PATCH v1 00/30] Introduce core voltage scaling for NVIDIA
- Tegra20/30 SoCs
-From:   Dmitry Osipenko <digetx@gmail.com>
-To:     Ulf Hansson <ulf.hansson@linaro.org>,
-        Viresh Kumar <viresh.kumar@linaro.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
-        driverdevel <devel@driverdev.osuosl.org>,
-        Linux USB List <linux-usb@vger.kernel.org>,
-        linux-pwm@vger.kernel.org,
-        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        DTML <devicetree@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-tegra <linux-tegra@vger.kernel.org>
-References: <20201104234427.26477-1-digetx@gmail.com>
- <CAPDyKFr7qTU2RPhA_ZrbCayoTTNUEno1zdmvmv+8HBe-Owrfeg@mail.gmail.com>
- <cd147ab0-1304-a491-7a56-ee6199c02d32@gmail.com>
-Message-ID: <2716c195-083a-112f-f1e5-2f6b7152a4b5@gmail.com>
-Date:   Sun, 8 Nov 2020 15:19:16 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728918AbgKIAqq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 8 Nov 2020 19:46:46 -0500
+Received: from mga02.intel.com ([134.134.136.20]:2448 "EHLO mga02.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728104AbgKIAqq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 8 Nov 2020 19:46:46 -0500
+IronPort-SDR: xQ6HmD4Z3++O0NVE5rYdFMG+DD1fcOLTuGFejbX1Guk3cVQA0zywGaGC18W4reAVufF9hr6WL+
+ W9okeDafFP2w==
+X-IronPort-AV: E=McAfee;i="6000,8403,9799"; a="156742013"
+X-IronPort-AV: E=Sophos;i="5.77,462,1596524400"; 
+   d="scan'208";a="156742013"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga101.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Nov 2020 16:46:45 -0800
+IronPort-SDR: DxDkg+9Bqlds04qwY8lPbCcofFPOeKMhqLCj5G+OirRqdh6QgFEPuQ3yeeljZ3P8MRYvEs5Pjx
+ dta0/HU2j0aQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,462,1596524400"; 
+   d="scan'208";a="540621842"
+Received: from lkp-server02.sh.intel.com (HELO defa7f6e4f65) ([10.239.97.151])
+  by orsmga005.jf.intel.com with ESMTP; 08 Nov 2020 16:46:44 -0800
+Received: from kbuild by defa7f6e4f65 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kbvKV-00001T-KS; Mon, 09 Nov 2020 00:46:43 +0000
+Date:   Mon, 09 Nov 2020 08:46:27 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ 0ab4f9087ea94ff92dc2ae68180faaf6bd443021
+Message-ID: <5fa89163.u8JR6K32MeFBBCKK%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <cd147ab0-1304-a491-7a56-ee6199c02d32@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-05.11.2020 18:22, Dmitry Osipenko пишет:
-> 05.11.2020 12:45, Ulf Hansson пишет:
-> ...
->> I need some more time to review this, but just a quick check found a
->> few potential issues...
-> 
-> Thank you for starting the review! I'm pretty sure it will take a couple
-> revisions until all the questions will be resolved :)
-> 
->> The "core-supply", that you specify as a regulator for each
->> controller's device node, is not the way we describe power domains.
->> Instead, it seems like you should register a power-domain provider
->> (with the help of genpd) and implement the ->set_performance_state()
->> callback for it. Each device node should then be hooked up to this
->> power-domain, rather than to a "core-supply". For DT bindings, please
->> have a look at Documentation/devicetree/bindings/power/power-domain.yaml
->> and Documentation/devicetree/bindings/power/power_domain.txt.
->>
->> In regards to the "sync state" problem (preventing to change
->> performance states until all consumers have been attached), this can
->> then be managed by the genpd provider driver instead.
-> 
-> I'll need to take a closer look at GENPD, thank you for the suggestion.
-> 
-> Sounds like a software GENPD driver which manages clocks and voltages
-> could be a good idea, but it also could be an unnecessary
-> over-engineering. Let's see..
-> 
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: 0ab4f9087ea94ff92dc2ae68180faaf6bd443021  media: platform: add missing put_device() call in mtk_jpeg_probe() and mtk_jpeg_remove()
 
-Hello Ulf and all,
+elapsed time: 4756m
 
-I took a detailed look at the GENPD and tried to implement it. Here is
-what was found:
+configs tested: 177
+configs skipped: 3
 
-1. GENPD framework doesn't aggregate performance requests from the
-attached devices. This means that if deviceA requests performance state
-10 and then deviceB requests state 3, then framework will set domain's
-state to 3 instead of 10.
+The following configs have been built successfully.
+More configs may be tested in the coming days.
 
-https://elixir.bootlin.com/linux/v5.10-rc2/source/drivers/base/power/domain.c#L376
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm64                               defconfig
+arm                              allyesconfig
+arm                              allmodconfig
+powerpc                      tqm8xx_defconfig
+sh                          rsk7269_defconfig
+sh                        sh7763rdp_defconfig
+powerpc                      cm5200_defconfig
+mips                        maltaup_defconfig
+arm                           viper_defconfig
+arm                  colibri_pxa300_defconfig
+arm                         lpc18xx_defconfig
+arm                      tct_hammer_defconfig
+powerpc                       ebony_defconfig
+powerpc                 mpc8313_rdb_defconfig
+sh                           se7705_defconfig
+openrisc                         alldefconfig
+powerpc                    amigaone_defconfig
+arm                         mv78xx0_defconfig
+powerpc                      makalu_defconfig
+powerpc                 mpc834x_itx_defconfig
+c6x                                 defconfig
+mips                       bmips_be_defconfig
+sparc                       sparc32_defconfig
+arm                            zeus_defconfig
+arm                            pleb_defconfig
+arm                     am200epdkit_defconfig
+powerpc                     stx_gp3_defconfig
+sh                           se7724_defconfig
+mips                        nlm_xlr_defconfig
+arm                  colibri_pxa270_defconfig
+mips                       lemote2f_defconfig
+s390                             allyesconfig
+sh                           se7206_defconfig
+powerpc                     ep8248e_defconfig
+xtensa                       common_defconfig
+powerpc                     kilauea_defconfig
+s390                          debug_defconfig
+arm                        mini2440_defconfig
+arm                       versatile_defconfig
+sh                            shmin_defconfig
+powerpc                 mpc834x_mds_defconfig
+c6x                        evmc6457_defconfig
+arm                           tegra_defconfig
+mips                         rt305x_defconfig
+powerpc                     powernv_defconfig
+powerpc                     taishan_defconfig
+powerpc                mpc7448_hpc2_defconfig
+arm                       multi_v4t_defconfig
+powerpc64                        alldefconfig
+mips                        bcm63xx_defconfig
+powerpc                 mpc836x_rdk_defconfig
+mips                malta_kvm_guest_defconfig
+sh                          rsk7264_defconfig
+arm                          lpd270_defconfig
+powerpc                 mpc837x_rdb_defconfig
+arm                         hackkit_defconfig
+arc                     haps_hs_smp_defconfig
+riscv                            alldefconfig
+arm                         s3c2410_defconfig
+powerpc                         ps3_defconfig
+m68k                            mac_defconfig
+ia64                        generic_defconfig
+mips                       capcella_defconfig
+openrisc                 simple_smp_defconfig
+nds32                            alldefconfig
+sh                         ap325rxa_defconfig
+arm                          gemini_defconfig
+arm                            xcep_defconfig
+mips                          ath79_defconfig
+nios2                         3c120_defconfig
+xtensa                  audio_kc705_defconfig
+arm                        multi_v7_defconfig
+mips                      maltaaprp_defconfig
+mips                           ip27_defconfig
+powerpc                     sequoia_defconfig
+mips                        bcm47xx_defconfig
+sh                         ecovec24_defconfig
+arm                          moxart_defconfig
+arm                      footbridge_defconfig
+powerpc                     kmeter1_defconfig
+sh                           se7722_defconfig
+mips                      malta_kvm_defconfig
+powerpc                      ppc44x_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+csky                                defconfig
+alpha                               defconfig
+nios2                            allyesconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+parisc                           allyesconfig
+s390                                defconfig
+sparc                               defconfig
+i386                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a004-20201105
+x86_64               randconfig-a003-20201105
+x86_64               randconfig-a005-20201105
+x86_64               randconfig-a002-20201105
+x86_64               randconfig-a006-20201105
+x86_64               randconfig-a001-20201105
+i386                 randconfig-a004-20201104
+i386                 randconfig-a006-20201104
+i386                 randconfig-a005-20201104
+i386                 randconfig-a001-20201104
+i386                 randconfig-a002-20201104
+i386                 randconfig-a003-20201104
+i386                 randconfig-a004-20201105
+i386                 randconfig-a006-20201105
+i386                 randconfig-a005-20201105
+i386                 randconfig-a001-20201105
+i386                 randconfig-a002-20201105
+i386                 randconfig-a003-20201105
+x86_64               randconfig-a012-20201104
+x86_64               randconfig-a015-20201104
+x86_64               randconfig-a013-20201104
+x86_64               randconfig-a011-20201104
+x86_64               randconfig-a014-20201104
+x86_64               randconfig-a016-20201104
+x86_64               randconfig-a012-20201106
+x86_64               randconfig-a011-20201106
+x86_64               randconfig-a013-20201106
+x86_64               randconfig-a014-20201106
+x86_64               randconfig-a016-20201106
+x86_64               randconfig-a015-20201106
+i386                 randconfig-a015-20201104
+i386                 randconfig-a013-20201104
+i386                 randconfig-a014-20201104
+i386                 randconfig-a016-20201104
+i386                 randconfig-a011-20201104
+i386                 randconfig-a012-20201104
+i386                 randconfig-a015-20201105
+i386                 randconfig-a013-20201105
+i386                 randconfig-a014-20201105
+i386                 randconfig-a016-20201105
+i386                 randconfig-a011-20201105
+i386                 randconfig-a012-20201105
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                              defconfig
+x86_64                                  kexec
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                               rhel-8.3
 
-2. GENPD framework has a sync() callback in the genpd.domain structure,
-but this callback isn't allowed to be used by the GENPD implementation.
-The GENPD framework always overrides that callback for its own needs.
-Hence GENPD doesn't allow to solve the bootstrapping
-state-synchronization problem in a nice way.
+clang tested configs:
+x86_64               randconfig-a004-20201104
+x86_64               randconfig-a003-20201104
+x86_64               randconfig-a005-20201104
+x86_64               randconfig-a002-20201104
+x86_64               randconfig-a006-20201104
+x86_64               randconfig-a001-20201104
 
-https://elixir.bootlin.com/linux/v5.10-rc2/source/drivers/base/power/domain.c#L2606
-
-3. Tegra doesn't have a dedicated hardware power-controller for the core
-domain, instead there is only an external voltage regulator. Hence we
-will need to create a phony device-tree node for the virtual power
-domain, which is probably a wrong thing to do.
-
-===
-
-Perhaps it should be possible to create some hacks to work around
-bullets 2 and 3 in order to achieve what we need for DVFS on Tegra, but
-bullet 1 isn't solvable without changing how the GENPD core works.
-
-Altogether, the GENPD in its current form is a wrong abstraction for a
-system-wide DVFS in a case where multiple devices share power domain and
-this domain is a voltage regulator. The regulator framework is the
-correct abstraction in this case for today.
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
