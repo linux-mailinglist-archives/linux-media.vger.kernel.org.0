@@ -2,188 +2,321 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E5E82ABE87
-	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 15:21:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4E8452ABF41
+	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 15:54:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730307AbgKIOVw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Nov 2020 09:21:52 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:57315 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729973AbgKIOVv (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 9 Nov 2020 09:21:51 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id c83CkyBtA1R0xc83GkX0pk; Mon, 09 Nov 2020 15:21:46 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1604931706; bh=gowLr2v+tp3iKFSKQG+TrDi3wEyC3IlEykNqnRk+nJM=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=iPse7ovUa++b3XLXLHaXOHlvmY6CGRhe+XLnY3dDd+DwM7mkRP7JrQaflsdEvHkwr
-         a/rd2aaDgDVuNRZqNGr5Q/l4gm/6nbn9G6XGB4b+7ZccZOgHb9wCuPW2YRwFdfbd4C
-         i6+uiTOBtL4aJjKnEZFnfHQxbCLxyB890grdpfFiBB8k74UUTF4nHbU+3SSdfjlVtU
-         PQ680MATmIzuBBV4J12eWQxz7sfXP+fSR5ms4wp/5mlElghDBMrz9yPV1kL5IeJW5D
-         EgVGfRU6FhkRHl6P7+CxVDy+xOseFvbZi6fP0bwSKIAlt+EbMlQ3lrua0bRp07NNFS
-         zo2nFwxQ82pHA==
-Subject: Re: On test-media script integration for vidtv
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org,
-        linux-kernel-mentees@lists.linuxfoundation.org
-References: <838fdbcc-87b1-a40a-ebd3-59fce07f2d51@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6cd794fc-90f5-52fe-97d6-69692ec31333@xs4all.nl>
-Date:   Mon, 9 Nov 2020 15:21:42 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1731258AbgKIOyJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Nov 2020 09:54:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38644 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730637AbgKIOyJ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 09:54:09 -0500
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D1596C0613D4
+        for <linux-media@vger.kernel.org>; Mon,  9 Nov 2020 06:54:08 -0800 (PST)
+Received: by mail-oi1-x243.google.com with SMTP id m143so10461702oig.7
+        for <linux-media@vger.kernel.org>; Mon, 09 Nov 2020 06:54:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=+H+sh7Xx5cfQ4qCc62GuweRPK+p13Oni3c8PkkMskeE=;
+        b=Pd5SRD8Ddmf2dmCkFmXc1uKc1DaEiWNLoBkYCIyJnSvckbTdi29dmZtkp+Or3xrRDX
+         gxhd2iyJBBotLe7amIJ4fcv9cam6LALfBMeQDnFnJtRYCJDSk+a47VVb7Rnak/Yobz3m
+         y3K2X6j2wcyf/Id5omdFuxvO2PZvful6gQgD4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=+H+sh7Xx5cfQ4qCc62GuweRPK+p13Oni3c8PkkMskeE=;
+        b=kKEWVl2obsxIANj9Y1tTqCF5bOKSmyk0xIQVvpwkQV6uiqVjwm/IghXIfOn0tuwWmv
+         LP77Tc22sUKYPbRbyAu3OtySbvVtNlvv4ETbvaFKbp8zVR3T1vHXlc+laJGsgRlxxPgw
+         DqCO6LUexbAw2N9Lz95MseQbbM+nOinXdy3UD9lmCXhDKn0GPmF4thxuD6i8rEgXggHz
+         obQL5Y9ymgnOegC6IU+Nq+LeDq/cQFhVjMP5iX09A51Y4bBYH3qPGR4X94+xC7NqH4Ym
+         VaZsGdDih8HTDOorhSpdPsnRnqEeAp+SWsTq2I+fDbH8lPMfOWP99jRJ0KP6XnfbXEjN
+         HS2w==
+X-Gm-Message-State: AOAM532tzK2XpFrjLCB1gLg/apGRp5RDM7kZpGp2NwMOmkokid/GrVcP
+        UGJ7WgFk9pf0ccRGnG/KvX4Ua5OjqH0aqg==
+X-Google-Smtp-Source: ABdhPJy6xl/SnbojWOqsDNlKPURMLyoHZfP+h5KJDVX+AcSQ5IODNXJtSMmL+xQVyEuja9YywYxLgQ==
+X-Received: by 2002:aca:ddc6:: with SMTP id u189mr9299318oig.59.1604933647853;
+        Mon, 09 Nov 2020 06:54:07 -0800 (PST)
+Received: from mail-oi1-f182.google.com (mail-oi1-f182.google.com. [209.85.167.182])
+        by smtp.gmail.com with ESMTPSA id n129sm2425927ooa.17.2020.11.09.06.54.06
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 09 Nov 2020 06:54:07 -0800 (PST)
+Received: by mail-oi1-f182.google.com with SMTP id m13so10457098oih.8
+        for <linux-media@vger.kernel.org>; Mon, 09 Nov 2020 06:54:06 -0800 (PST)
+X-Received: by 2002:a05:6808:983:: with SMTP id a3mr5075572oic.15.1604933646157;
+ Mon, 09 Nov 2020 06:54:06 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <838fdbcc-87b1-a40a-ebd3-59fce07f2d51@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfF6cVYi/PoAvfJDQ2jDxWwZe3LmlktHnlitAM4Vzcw1r6HllTyixqgOMgKky87aom+2rGQUdxn42okXG8hnpK2EvrT8D6evQToiLjmoRV2htzvv7oItb
- 2TXSAinBS/bHeXPCIt/znf4Ie9Ox85KQoDs2ypoZlh3CPC/rEoNwJYqeQcM8x/dYgBbom3o7OHMWJhz8MRzFu7sFSRNy0x72JouYG3AlRtzG1mNX/5i1orcU
- MIDk8uhfd3S/u+7FGwuVEjCKOZKsdvwPFqbakMbQ5XVJ4QAIB23zvKfUIL5ec6LyulByzVzJqYlXBYEtoUcFfhQ9i/fqQ1gICjRJE36O760=
+References: <20200930160917.1234225-1-hch@lst.de> <20200930160917.1234225-9-hch@lst.de>
+ <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com>
+In-Reply-To: <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Mon, 9 Nov 2020 15:53:55 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtefXKw-xC3bskyggW-BzCmVPj6GGLvO=cCPZHbS1oTDA@mail.gmail.com>
+Message-ID: <CANiDSCtefXKw-xC3bskyggW-BzCmVPj6GGLvO=cCPZHbS1oTDA@mail.gmail.com>
+Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/11/2020 12:54, Daniel W. S. Almeida wrote:
-> Hi Hans & Mauro.
-> 
-> Well I now have some more time to work on vidtv so I'd like to start off 
-> with the test-media script integration as mentioned by Hans some time ago.
-> 
-> Let's recap:
-> 
-> 
-> 
->> For regression testing of vidtv during the daily build it would be great if
->> the contrib/test/test-media script can be enhanced to include vidtv.
->>
->> This is run during the daily build with a kernel that has lockdep and many
->> other checks enabled, so it is very helpful to verify that no regressions
->> happened.
->>
->> Note that this script relies on the /dev/mediaX devices to run the tests. I
->> noticed that vidtv doesn't appear to create a /dev/mediaX device, even though
->> CONFIG_MEDIA_CONTROLLER_DVB=y. This is definitely something that would be good
->> to support in vidtv.
->>
->> Regards,
->>
->> Hans
-> 
-> 
-> So I have been looking at the documentation for a bit, i.e.
-> 
->> https://www.kernel.org/doc/html/v4.14/media/uapi/mediactl/media-controller-intro.html
-> 
-> What I understood from that is that entities and interfaces under 
-> /dev/media/ are created to model actual hardware, but vidtv is a virtual 
-> driver. Can this be clarified?
+Hi Christoph
 
-For virtual drivers it models the virtual hardware. Userspace doesn't know
-that it is actually all emulated, it just looks like real hardware.
+I have started now to give a try to your patchset. Sorry for the delay.
 
-> 
-> Is this separate from the files created by the dvb core as part of the 
-> driver initialization?
-> e.g. (for a single adapter):
-> 
-> /dev/adapter0/frontend0
-> /dev/adapter0/demux0
-> /dev/adapter0/dvr0
+For uvc I have prepared this patch:
+https://github.com/ribalda/linux/commit/9094fe223fe38f8c8ff21366d893b43cbbdf0113
 
-Yes, it is separate. If CONFIG_MEDIA_CONTROLLER_DVB=y then an additional
-device node /dev/media0 is created.
+I have tested successfully in a x86_64 noteboot..., yes I know there
+is no change for that platform :).
+I am trying to get hold of an arm device that can run the latest
+kernel from upstream.
 
-> 
-> Btw I noticed some drivers call dvb_create_media_graph() as part of 
-> their initialization, e.g. au0828-dvb.c, em28xx-dvb.c, cx231xx-dvb.c, 
-> but some (most) do not, why is this?
+On the meanwhile if you could take a look to the patch to verify that
+this the way that you expect the drivers to use your api I would
+appreciate it
 
-I think that's because only a subset of DVB drivers support the media controller.
+Thanks
 
-> 
-> 
->> Daniel, if you look at the test-media script, then you'll see that it has
->> separate sections for each virtual driver. It's probably best to look at
->> the vim2m driver tests since that's the easiest.
->>
->> It loads the module, then it starts v4l2-compliance to test the API. This
->> utility basically tries all V4L2 APIs and checks that the driver conforms to
->> the spec.
->>
->> Note that you see options like '-m platform:vim2m' that selects which /dev/media
->> device to use based on the name and v4l2-compliance (or v4l2-ctl with the -z option)
->> then walks the topology of the media device and tests all interfaces it finds.
->>
->> Hence my question about media controller support in vidtv: this should be
->> supported there as well since it allows you to write these test sequences without
->> having to know which /dev/fooX device should be used.
->>
->> After the compliance test is run the script tests unbind/bind (always a nasty test)
->> and checks for memory leaks (if enabled in the kernel).
->>
->> Much of this test sequence can be copied for vidtv, but you need something else for
->> the compliance test. It would for now be enough to have some quick check with the
->> existing dvb utils from v4l-utils to see that the basics work.
->>
->> IMHO I think a dtv-compliance utility along the lines of v4l2-compliance and
->> cec-compliance should be created.
->>
->> I'm actually wondering whether the dtv compliance tests shouldn't be part of
->> v4l2-compliance (which would have to be renamed to media-compliance in that case)
->> since there are hybrid drivers supporting both in the same media topology.
->>
->> This would make compliance tests possible where analog/digital TV mode handling
->> is tested (i.e. if analog TV is in use, then trying to use digital TV would return
->> EBUSY and vice versa).
->>
->> It would require some work in v4l2-compliance.cpp to make this possible, but I
->> can do that myself.
->>
->> Compliance tests have proven to be a great method of testing for regressions and
->> testing drivers in general.
->>
->> Note that it takes a lot of time to create good compliance tests, but you just start
->> with some simple tests and expand it over time.
->>
->> Regards,
->>
->> Hans
-> 
-> 
-> Well, I checked the test-media script and it seems to be easy to add 
-> support for vidtv there, as Hans said most of the sequence there can be 
-> copied from the other drivers. However..
-> 
->  >It would for now be enough to have some quick check with the existing 
-> dvb utils from v4l-utils to see that the basics work.
-> 
-> Can we discuss this in further depth please? Maybe a few examples?
-> 
-> What I currently do is:
-> 
-> 1. zap the stream & open it in dvbinspector, manually check for mistakes
-> 2. manually check dmesg for errors
-> 3. maybe play the stream using vlc or Kaffeine
 
-I'm not a DVB expert, but I was thinking of testing if it can discover
-channels, and perhaps just a test to stream data without checking if it is
-actually valid video.
 
-The problem is that I am not all that familiar with the DVB utilities so I
-don't know if anything can be automated.
+On Wed, Oct 14, 2020 at 3:20 PM Tomasz Figa <tfiga@chromium.org> wrote:
+>
+> +CC Ricardo who will be looking into using this in the USB stack (UVC
+> camera driver).
+>
+> On Wed, Sep 30, 2020 at 6:09 PM Christoph Hellwig <hch@lst.de> wrote:
+> >
+> > Add a new API that returns a virtually non-contigous array of pages
+> > and dma address.  This API is only implemented for dma-iommu and will
+> > not be implemented for non-iommu DMA API instances that have to allocate
+> > contiguous memory.  It is up to the caller to check if the API is
+> > available.
+> >
+> > The intent is that media drivers can use this API if either:
+> >
+> >  - no kernel mapping or only temporary kernel mappings are required.
+> >    That is as a better replacement for DMA_ATTR_NO_KERNEL_MAPPING
+> >  - a kernel mapping is required for cached and DMA mapped pages, but
+> >    the driver also needs the pages to e.g. map them to userspace.
+> >    In that sense it is a replacement for some aspects of the recently
+> >    removed and never fully implemented DMA_ATTR_NON_CONSISTENT
+> >
+> > Signed-off-by: Christoph Hellwig <hch@lst.de>
+> > ---
+> >  drivers/iommu/dma-iommu.c   | 73 +++++++++++++++++++++++++------------
+> >  include/linux/dma-mapping.h |  9 +++++
+> >  kernel/dma/mapping.c        | 35 ++++++++++++++++++
+> >  3 files changed, 93 insertions(+), 24 deletions(-)
+> >
+> > diff --git a/drivers/iommu/dma-iommu.c b/drivers/iommu/dma-iommu.c
+> > index 7922f545cd5eef..158026a856622c 100644
+> > --- a/drivers/iommu/dma-iommu.c
+> > +++ b/drivers/iommu/dma-iommu.c
+> > @@ -565,23 +565,12 @@ static struct page **__iommu_dma_alloc_pages(struct device *dev,
+> >         return pages;
+> >  }
+> >
+> > -/**
+> > - * iommu_dma_alloc_remap - Allocate and map a buffer contiguous in IOVA space
+> > - * @dev: Device to allocate memory for. Must be a real device
+> > - *      attached to an iommu_dma_domain
+> > - * @size: Size of buffer in bytes
+> > - * @dma_handle: Out argument for allocated DMA handle
+> > - * @gfp: Allocation flags
+> > - * @prot: pgprot_t to use for the remapped mapping
+> > - * @attrs: DMA attributes for this allocation
+> > - *
+> > - * If @size is less than PAGE_SIZE, then a full CPU page will be allocated,
+> > +/*
+> > + * If size is less than PAGE_SIZE, then a full CPU page will be allocated,
+> >   * but an IOMMU which supports smaller pages might not map the whole thing.
+> > - *
+> > - * Return: Mapped virtual address, or NULL on failure.
+> >   */
+> > -static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+> > -               dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
+> > +static struct page **__iommu_dma_alloc_noncontiguous(struct device *dev,
+> > +               size_t size, dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
+> >                 unsigned long attrs)
+> >  {
+> >         struct iommu_domain *domain = iommu_get_dma_domain(dev);
+> > @@ -593,7 +582,6 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+> >         struct page **pages;
+> >         struct sg_table sgt;
+> >         dma_addr_t iova;
+> > -       void *vaddr;
+> >
+> >         *dma_handle = DMA_MAPPING_ERROR;
+> >
+> > @@ -636,17 +624,10 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+> >                         < size)
+> >                 goto out_free_sg;
+> >
+> > -       vaddr = dma_common_pages_remap(pages, size, prot,
+> > -                       __builtin_return_address(0));
+> > -       if (!vaddr)
+> > -               goto out_unmap;
+> > -
+> >         *dma_handle = iova;
+> >         sg_free_table(&sgt);
+> > -       return vaddr;
+> > +       return pages;
+> >
+> > -out_unmap:
+> > -       __iommu_dma_unmap(dev, iova, size);
+> >  out_free_sg:
+> >         sg_free_table(&sgt);
+> >  out_free_iova:
+> > @@ -656,6 +637,46 @@ static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+> >         return NULL;
+> >  }
+> >
+> > +static void *iommu_dma_alloc_remap(struct device *dev, size_t size,
+> > +               dma_addr_t *dma_handle, gfp_t gfp, pgprot_t prot,
+> > +               unsigned long attrs)
+> > +{
+> > +       struct page **pages;
+> > +       void *vaddr;
+> > +
+> > +       pages = __iommu_dma_alloc_noncontiguous(dev, size, dma_handle, gfp,
+> > +                                               prot, attrs);
+> > +       if (!pages)
+> > +               return NULL;
+> > +       vaddr = dma_common_pages_remap(pages, size, prot,
+> > +                       __builtin_return_address(0));
+> > +       if (!vaddr)
+> > +               goto out_unmap;
+> > +       return vaddr;
+> > +
+> > +out_unmap:
+> > +       __iommu_dma_unmap(dev, *dma_handle, size);
+> > +       __iommu_dma_free_pages(pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
+> > +       return NULL;
+> > +}
+> > +
+> > +#ifdef CONFIG_DMA_REMAP
+> > +static struct page **iommu_dma_alloc_noncontiguous(struct device *dev,
+> > +               size_t size, dma_addr_t *dma_handle, gfp_t gfp,
+> > +               unsigned long attrs)
+> > +{
+> > +       return __iommu_dma_alloc_noncontiguous(dev, size, dma_handle, gfp,
+> > +                                              PAGE_KERNEL, attrs);
+> > +}
+> > +
+> > +static void iommu_dma_free_noncontiguous(struct device *dev, size_t size,
+> > +               struct page **pages, dma_addr_t dma_handle)
+> > +{
+> > +       __iommu_dma_unmap(dev, dma_handle, size);
+> > +       __iommu_dma_free_pages(pages, PAGE_ALIGN(size) >> PAGE_SHIFT);
+> > +}
+> > +#endif
+> > +
+> >  static void iommu_dma_sync_single_for_cpu(struct device *dev,
+> >                 dma_addr_t dma_handle, size_t size, enum dma_data_direction dir)
+> >  {
+> > @@ -1110,6 +1131,10 @@ static const struct dma_map_ops iommu_dma_ops = {
+> >         .free                   = iommu_dma_free,
+> >         .alloc_pages            = dma_common_alloc_pages,
+> >         .free_pages             = dma_common_free_pages,
+> > +#ifdef CONFIG_DMA_REMAP
+> > +       .alloc_noncontiguous    = iommu_dma_alloc_noncontiguous,
+> > +       .free_noncontiguous     = iommu_dma_free_noncontiguous,
+> > +#endif
+> >         .mmap                   = iommu_dma_mmap,
+> >         .get_sgtable            = iommu_dma_get_sgtable,
+> >         .map_page               = iommu_dma_map_page,
+> > diff --git a/include/linux/dma-mapping.h b/include/linux/dma-mapping.h
+> > index 4b9b1d64f5ec9e..51bbc32365bb8d 100644
+> > --- a/include/linux/dma-mapping.h
+> > +++ b/include/linux/dma-mapping.h
+> > @@ -74,6 +74,10 @@ struct dma_map_ops {
+> >                         gfp_t gfp);
+> >         void (*free_pages)(struct device *dev, size_t size, struct page *vaddr,
+> >                         dma_addr_t dma_handle, enum dma_data_direction dir);
+> > +       struct page **(*alloc_noncontiguous)(struct device *dev, size_t size,
+> > +                       dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs);
+> > +       void (*free_noncontiguous)(struct device *dev, size_t size,
+> > +                       struct page **pages, dma_addr_t dma_handle);
+> >         int (*mmap)(struct device *, struct vm_area_struct *,
+> >                           void *, dma_addr_t, size_t,
+> >                           unsigned long attrs);
+> > @@ -384,6 +388,11 @@ void *dma_alloc_noncoherent(struct device *dev, size_t size,
+> >                 dma_addr_t *dma_handle, enum dma_data_direction dir, gfp_t gfp);
+> >  void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
+> >                 dma_addr_t dma_handle, enum dma_data_direction dir);
+> > +bool dma_can_alloc_noncontiguous(struct device *dev);
+> > +struct page **dma_alloc_noncontiguous(struct device *dev, size_t size,
+> > +               dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs);
+> > +void dma_free_noncontiguous(struct device *dev, size_t size,
+> > +               struct page **pages, dma_addr_t dma_handle);
+> >
+> >  static inline dma_addr_t dma_map_single_attrs(struct device *dev, void *ptr,
+> >                 size_t size, enum dma_data_direction dir, unsigned long attrs)
+> > diff --git a/kernel/dma/mapping.c b/kernel/dma/mapping.c
+> > index 06115f59f4ffbf..6d975d1a20dd72 100644
+> > --- a/kernel/dma/mapping.c
+> > +++ b/kernel/dma/mapping.c
+> > @@ -529,6 +529,41 @@ void dma_free_noncoherent(struct device *dev, size_t size, void *vaddr,
+> >  }
+> >  EXPORT_SYMBOL_GPL(dma_free_noncoherent);
+> >
+> > +bool dma_can_alloc_noncontiguous(struct device *dev)
+> > +{
+> > +       const struct dma_map_ops *ops = get_dma_ops(dev);
+> > +
+> > +       return ops && ops->free_noncontiguous;
+> > +}
+> > +EXPORT_SYMBOL_GPL(dma_can_alloc_noncontiguous);
+> > +
+> > +struct page **dma_alloc_noncontiguous(struct device *dev, size_t size,
+> > +               dma_addr_t *dma_handle, gfp_t gfp, unsigned long attrs)
+> > +{
+> > +       const struct dma_map_ops *ops = get_dma_ops(dev);
+> > +
+> > +       if (WARN_ON_ONCE(!dma_can_alloc_noncontiguous(dev)))
+> > +               return NULL;
+> > +       if (attrs & ~DMA_ATTR_ALLOC_SINGLE_PAGES) {
+> > +               dev_warn(dev, "invalid flags (0x%lx) for %s\n",
+> > +                        attrs, __func__);
+> > +               return NULL;
+> > +       }
+> > +       return ops->alloc_noncontiguous(dev, size, dma_handle, gfp, attrs);
+> > +}
+> > +EXPORT_SYMBOL_GPL(dma_alloc_noncontiguous);
+> > +
+> > +void dma_free_noncontiguous(struct device *dev, size_t size,
+> > +               struct page **pages, dma_addr_t dma_handle)
+> > +{
+> > +       const struct dma_map_ops *ops = get_dma_ops(dev);
+> > +
+> > +       if (WARN_ON_ONCE(!dma_can_alloc_noncontiguous(dev)))
+> > +               return;
+> > +       ops->free_noncontiguous(dev, size, pages, dma_handle);
+> > +}
+> > +EXPORT_SYMBOL_GPL(dma_free_noncontiguous);
+> > +
+> >  int dma_supported(struct device *dev, u64 mask)
+> >  {
+> >         const struct dma_map_ops *ops = get_dma_ops(dev);
+> > --
+> > 2.28.0
+> >
 
-An alternative is to start adding dtv support to v4l2-compliance. That utility
-already has media controller support, but it needs a bit of work to comfortably
-integrate DTV support as well. I can help with that if you want to go in that
-direction. v4l2-compliance would need a bit of refactoring, but it is nice to
-have the tests there since that makes it easy to support hybrid devices with a
-single compliance utility.
 
-Regards,
 
-	Hans
+-- 
+Ricardo Ribalda
