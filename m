@@ -2,106 +2,213 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E82292AC285
-	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 18:36:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3B032AC39E
+	for <lists+linux-media@lfdr.de>; Mon,  9 Nov 2020 19:22:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732223AbgKIRgk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Nov 2020 12:36:40 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35738 "EHLO
+        id S1730007AbgKISWR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Nov 2020 13:22:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42918 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732068AbgKIRgI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 12:36:08 -0500
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7D2AEC0613CF
-        for <linux-media@vger.kernel.org>; Mon,  9 Nov 2020 09:36:08 -0800 (PST)
-Received: by mail-ej1-x643.google.com with SMTP id oq3so13450181ejb.7
-        for <linux-media@vger.kernel.org>; Mon, 09 Nov 2020 09:36:08 -0800 (PST)
+        with ESMTP id S1729740AbgKISWQ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 13:22:16 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D9036C0613D3
+        for <linux-media@vger.kernel.org>; Mon,  9 Nov 2020 10:22:14 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id c17so9798038wrc.11
+        for <linux-media@vger.kernel.org>; Mon, 09 Nov 2020 10:22:14 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=L9F3HkMW13rcGTb3bzExEGKic5ytenCIez631dN7HLE=;
-        b=PitAaj9RXayVuhqFAVZImb2FJzaptvJrhnw4hRd7qLhtpHZt3/13gByfP2V52MOaUX
-         aH5Y7+o8Wug0hJs2gyg/kpATu+uz4xGJqpaA+qMwMJNMx93z7o1RSZbdhe60teDElpma
-         MZWjsED9bHeNSqbizQ32mr7FDj01m120ZIF+PLqQ2hWlxXqmbfq7/C7qIMbzCia4vpk0
-         wNo+WpH7HTWxUI88xYoFekEvbl+0OmG3mqHshaIormsO/9qngltHSg3J2kMiMZiybVvo
-         rnnAax8INabenQwe0yl5nNUwZISmh+wVD3Xw0HE3/3I67qQhxFnAtuHbilgLmxjQDOnA
-         wLSQ==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4P2xmgevp6DARNoI93TPQjmwkxCbh1dSMEz+Iq7USWQ=;
+        b=Pxyzv6hbcgjcrX05VpRCx6Ets2223lXot8ZTbClQRJLprCn0ly07zluqvcckUwBv2G
+         NIq6z87PB5x9f1wUlv638Irwanc+OCehWWNhnOFFti+l0O7APSHjCjOl9+k8Py5fD6m9
+         eUpg7v2rXyNZtFFFL5AWVl1eAmjGjlADa7/4FvXsH5K8UheAwCD+/fH3EMyvjWDiOJnR
+         o/SHANbbNGirUUevHyRC0LQBOS2jxr2hOW4gi0YMIrz48DvJrVIRIgs8jWlx4/g9EeoX
+         e4kt601ZYAkpa0jtbL1BheC/y7YKMhB1t8j8y3TcDYijFThVu98lbFsKHZPh0lS2XuxR
+         q3kQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=L9F3HkMW13rcGTb3bzExEGKic5ytenCIez631dN7HLE=;
-        b=VY5dMUKl7TPoWDxiaxshCo39m82DbHzTM/tpO1SQYuP6surzE36/09ykH8n5X0vvHL
-         OG6II1vL1qkBr3ZagT2ChRgee0YYYdr5W0Pt+gpFzZc0Pk96R3NMcUEQJRVeQcFZM2y/
-         spZmJtbvxmjqwGQMK7ec5OcWODVPBVJLJGgJCrFkI8VqglPz1LaTm5cuhSSuHBH4a46S
-         fBzyDyTdnhH3LfIaer2Nm8xiaC7YpDXyog6Y0TByOiPue2KZxj/vR9xW3qmZuqNSJ+b+
-         hl5UVH543usLAl8erS4BcH/Lzz6xo8WeHDDirxel38RbmGe1bpv7CUGgaUZvn0DGgrUv
-         P7nw==
-X-Gm-Message-State: AOAM532DD+5kcXtTGngw+2atc/Ygf//kvXhc3seWFKKqoik5t+7JeNw1
-        1qoco5Z9CqhOr/dyWK/xvJqcX2u1vFpKUYKs
-X-Google-Smtp-Source: ABdhPJyPOQ+Ryay5dRFIcvl4AnOiW4HTmIeH+B3sow5u7A2Zn8mHc5EEGOQcqZwKV+qqfynNNsUwQQ==
-X-Received: by 2002:a17:906:1381:: with SMTP id f1mr15609974ejc.87.1604943367038;
-        Mon, 09 Nov 2020 09:36:07 -0800 (PST)
-Received: from localhost.localdomain (hst-221-89.medicom.bg. [84.238.221.89])
-        by smtp.gmail.com with ESMTPSA id jw7sm9123981ejb.54.2020.11.09.09.36.05
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=4P2xmgevp6DARNoI93TPQjmwkxCbh1dSMEz+Iq7USWQ=;
+        b=B71PZ5tc8cbaTxc7lHyY4ZoKuI2qA8xtM96uhHfwnw8zDmoNLxcJlGdE5Q5X0iFwU2
+         FlcQOmHkUjlHuCJKhqtWHs1cADj78ULshnJyvuKr2AzbWVKf0Rz7wWKR5FyYFuwxDijt
+         YStktZl1fRFqZHwvlkMUwoF5GX1oE+gqnZppHBvRDE9VQrl/0Rn+Pwda8xTh1xspKv37
+         kcYPuyHEIvZ7d0YdudSeFZiWBYWyswBR5m1ELrzvjmVia2Ib2eB/YRlo4HPdTBdAR/cp
+         4BXpLHiCQdm4kvtQ6KObU3uNXDBJZLFxXPvuYq/hSIb2muB4ZMO+p5hR9642+AohGzuo
+         Z/hQ==
+X-Gm-Message-State: AOAM5302RIvEpZtFN5gpGmiGFdmloIgF55YCwDLxys630eziiZV9EdIB
+        O8tDD06Y6HIg6I+lYx1AmyvUQg==
+X-Google-Smtp-Source: ABdhPJxhRwyrEVueE23+RLeJQ/TbrawEL5WZ/GkvIUQxW/l/GeVywuz/qg1kBRs7igqCfZa2ZMZnvw==
+X-Received: by 2002:adf:de85:: with SMTP id w5mr4447254wrl.90.1604946133526;
+        Mon, 09 Nov 2020 10:22:13 -0800 (PST)
+Received: from dell.default ([91.110.221.180])
+        by smtp.gmail.com with ESMTPSA id g186sm735365wma.1.2020.11.09.10.22.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2020 09:36:06 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc:     Kyungmin Park <kyungmin.park@samsung.com>,
-        Kamil Debski <kamil@wypas.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH 4/4] docs: Deprecate mfc display delay controls
-Date:   Mon,  9 Nov 2020 19:35:41 +0200
-Message-Id: <20201109173541.10016-5-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201109173541.10016-1-stanimir.varbanov@linaro.org>
-References: <20201109173541.10016-1-stanimir.varbanov@linaro.org>
+        Mon, 09 Nov 2020 10:22:12 -0800 (PST)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org,
+        Adrian Hunter <ext-adrian.hunter@nokia.com>,
+        bcm-kernel-feedback-list@broadcom.com,
+        Ben Dooks <ben@simtec.co.uk>,
+        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
+        Boris BREZILLON <b.brezillon.dev@gmail.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Brian Norris <computersforpeace@gmail.com>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Choudary Kalluri <punnaia@xilinx.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Dan Brown <dan_brown@ieee.org>,
+        David Woodhouse <dwmw2@infradead.org>,
+        Dmitriy B <rzk333@gmail.com>, dri-devel@lists.freedesktop.org,
+        Frieder Schrempf <frieder.schrempf@kontron.de>,
+        Jian Zhang <jzhang@ti.com>,
+        =?UTF-8?q?Jochen=20Sch=C3=A4uble?= <psionic@psionic.de>,
+        Kamal Dasu <kdasu.kdev@gmail.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Kukjin Kim <kgene@kernel.org>,
+        Kyungmin Park <kyungmin.park@samsung.com>,
+        linaro-mm-sig@lists.linaro.org, linux-media@vger.kernel.org,
+        linux-mtd@lists.infradead.org, linuxppc-dev@lists.ozlabs.org,
+        linux-samsung-soc@vger.kernel.org,
+        Maxime Ripard <mripard@kernel.org>,
+        Michael Ellerman <mpe@ellerman.id.au>,
+        Miquel Raynal <miquel.raynal@bootlin.com>,
+        Naga Sureshkumar Relli <nagasure@xilinx.com>,
+        Nicolas Pitre <nico@fluxnic.net>,
+        Paul Mackerras <paulus@samba.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Qiang Yu <yuq825@gmail.com>,
+        Richard Weinberger <richard@nod.at>,
+        Robert Jarzmik <robert.jarzmik@free.fr>,
+        Sergey Lapin <slapin@ossfans.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thomas Gleixner <gleixner@linutronix.de>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Tudor Ambarus <tudor.ambarus@microchip.com>,
+        Vignesh Raghavendra <vigneshr@ti.com>,
+        Yoshio Furuyama <ytc-mb-yfuruyama7@kioxia.com>
+Subject: [PATCH v3 00/23] Rid W=1 warnings in MTD
+Date:   Mon,  9 Nov 2020 18:21:43 +0000
+Message-Id: <20201109182206.3037326-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Deprecate mfc private display delay and display enable controls for
-new clients and use the standard controls instead.
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- .../userspace-api/media/v4l/ext-ctrls-codec.rst        | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+v2 => v3:
+  - Reworded subject lines
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index 82c9cda40270..b8f69c52b2a2 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -2771,6 +2771,11 @@ MFC 5.1 Control IDs
-     feature can be used for example for generating thumbnails of videos.
-     Applicable to the H264 decoder.
- 
-+    .. note::
-+
-+       This control is deprecated. Use the standard
-+       ``V4L2_CID_MPEG_VIDEO_DECODER_DISPLAY_DELAY_ENABLE`` control instead.
-+
- ``V4L2_CID_MPEG_MFC51_VIDEO_DECODER_H264_DISPLAY_DELAY (integer)``
-     Display delay value for H264 decoder. The decoder is forced to
-     return a decoded frame after the set 'display delay' number of
-@@ -2778,6 +2783,11 @@ MFC 5.1 Control IDs
-     of display order, in addition the hardware may still be using the
-     returned buffer as a reference picture for subsequent frames.
- 
-+    .. note::
-+
-+       This control is deprecated. Use the standard
-+       ``V4L2_CID_MPEG_VIDEO_DECODER_DISPLAY_DELAY`` control instead.
-+
- ``V4L2_CID_MPEG_MFC51_VIDEO_H264_NUM_REF_PIC_FOR_P (integer)``
-     The number of reference pictures used for encoding a P picture.
-     Applicable to the H264 encoder.
+v1 => v2:
+  - Added tags
+  - Satisfied Miquel's review comments
+  
+Lee Jones (23):
+  mtd: mtdpart: Fix misdocumented function parameter 'mtd'
+  mtd: devices: phram: File headers are not good candidates for
+    kernel-doc
+  mtd: onenand: onenand_base: Fix expected kernel-doc formatting
+  mtd: devices: docg3: Fix kernel-doc 'bad line' and 'excessive doc'
+    issues
+  mtd: Fix misspelled function parameter 'section'
+  mtd: onenand: onenand_bbt: Fix expected kernel-doc formatting
+  mtd: spi-nor: hisi-sfc: Demote non-conformant kernel-doc
+  mtd: ubi: build: Document 'ubi_num' in struct mtd_dev_param
+  mtd: spinand: toshiba: Demote non-conformant kernel-doc header
+  mtd: ubi: kapi: Correct documentation for 'ubi_leb_read_sg's 'sgl'
+    parameter
+  mtd: ubi: eba: Fix a couple of misdocumentation issues
+  mtd: ubi: wl: Fix a couple of kernel-doc issues
+  mtd: rawnand: brcmnand: Demote non-conformant kernel-doc headers
+  mtd: ubi: gluebi: Fix misnamed function parameter documentation
+  mtd: rawnand: diskonchip: Marking unused variables as __always_unused
+  mtd: rawnand: cafe_nand: Remove superfluous param doc and add another
+  mtd: rawnand: s3c2410: Add documentation for 2 missing struct members
+  mtd: rawnand: omap_elm: Finish half populated function header, demote
+    empty ones
+  mtd: rawnand: omap2: Fix a bunch of kernel-doc misdemeanours
+  mtd: rawnand: sunxi: Document 'sunxi_nfc's 'caps' member
+  mtd: rawnand: arasan: Document 'anfc_op's 'buf' member
+  mtd: onenand: Fix some kernel-doc misdemeanours
+  mtd: devices: powernv_flash: Add function names to headers and fix
+    'dev'
+
+ drivers/mtd/devices/docg3.c                   |   5 +-
+ drivers/mtd/devices/phram.c                   |   2 +-
+ drivers/mtd/devices/powernv_flash.c           |   5 +-
+ drivers/mtd/mtdcore.c                         |   2 +-
+ drivers/mtd/mtdpart.c                         |   2 +-
+ drivers/mtd/nand/onenand/onenand_base.c       | 444 +++++++++---------
+ drivers/mtd/nand/onenand/onenand_bbt.c        |  32 +-
+ drivers/mtd/nand/raw/arasan-nand-controller.c |   1 +
+ drivers/mtd/nand/raw/brcmnand/brcmnand.c      |   6 +-
+ drivers/mtd/nand/raw/cafe_nand.c              |   2 +-
+ drivers/mtd/nand/raw/diskonchip.c             |   4 +-
+ drivers/mtd/nand/raw/omap2.c                  |  18 +-
+ drivers/mtd/nand/raw/omap_elm.c               |   7 +-
+ drivers/mtd/nand/raw/s3c2410.c                |   4 +-
+ drivers/mtd/nand/raw/sunxi_nand.c             |   1 +
+ drivers/mtd/nand/spi/toshiba.c                |   2 +-
+ drivers/mtd/spi-nor/controllers/hisi-sfc.c    |   2 +-
+ drivers/mtd/ubi/build.c                       |   1 +
+ drivers/mtd/ubi/eba.c                         |   3 +-
+ drivers/mtd/ubi/gluebi.c                      |   2 +-
+ drivers/mtd/ubi/kapi.c                        |   2 +-
+ drivers/mtd/ubi/wl.c                          |   3 +-
+ 22 files changed, 278 insertions(+), 272 deletions(-)
+
+Cc: Adrian Hunter <ext-adrian.hunter@nokia.com>
+Cc: bcm-kernel-feedback-list@broadcom.com
+Cc: Ben Dooks <ben@simtec.co.uk>
+Cc: Benjamin Herrenschmidt <benh@kernel.crashing.org>
+Cc: Boris BREZILLON <b.brezillon.dev@gmail.com>
+Cc: Boris Brezillon <boris.brezillon@collabora.com>
+Cc: Brian Norris <computersforpeace@gmail.com>
+Cc: Chen-Yu Tsai <wens@csie.org>
+Cc: Choudary Kalluri <punnaia@xilinx.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Dan Brown <dan_brown@ieee.org>
+Cc: David Woodhouse <dwmw2@infradead.org>
+Cc: Dmitriy B <rzk333@gmail.com>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Frieder Schrempf <frieder.schrempf@kontron.de>
+Cc: Jian Zhang <jzhang@ti.com>
+Cc: "Jochen Schäuble" <psionic@psionic.de>
+Cc: Kamal Dasu <kdasu.kdev@gmail.com>
+Cc: Krzysztof Kozlowski <krzk@kernel.org>
+Cc: Kukjin Kim <kgene@kernel.org>
+Cc: Kyungmin Park <kyungmin.park@samsung.com>
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: linux-media@vger.kernel.org
+Cc: linux-mtd@lists.infradead.org
+Cc: linuxppc-dev@lists.ozlabs.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Michael Ellerman <mpe@ellerman.id.au>
+Cc: Miquel Raynal <miquel.raynal@bootlin.com>
+Cc: Naga Sureshkumar Relli <nagasure@xilinx.com>
+Cc: Nicolas Pitre <nico@fluxnic.net>
+Cc: Paul Mackerras <paulus@samba.org>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Qiang Yu <yuq825@gmail.com>
+Cc: Richard Weinberger <richard@nod.at>
+Cc: Robert Jarzmik <robert.jarzmik@free.fr>
+Cc: Sergey Lapin <slapin@ossfans.org>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Thomas Gleixner <gleixner@linutronix.de>
+Cc: Thomas Gleixner <tglx@linutronix.de>
+Cc: Tudor Ambarus <tudor.ambarus@microchip.com>
+Cc: Vignesh Raghavendra <vigneshr@ti.com>
+Cc: Yoshio Furuyama <ytc-mb-yfuruyama7@kioxia.com>
 -- 
-2.17.1
+2.25.1
 
