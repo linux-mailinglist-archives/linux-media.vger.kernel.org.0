@@ -2,131 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2B9DF2AE21C
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 22:48:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AF3582AE227
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 22:50:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731985AbgKJVsj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 16:48:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44730 "EHLO
+        id S1727018AbgKJVun (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 16:50:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45048 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731722AbgKJVsi (ORCPT
+        with ESMTP id S1726688AbgKJVum (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 16:48:38 -0500
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8917DC0613D1;
-        Tue, 10 Nov 2020 13:48:38 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id k2so10974634wrx.2;
-        Tue, 10 Nov 2020 13:48:38 -0800 (PST)
+        Tue, 10 Nov 2020 16:50:42 -0500
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56985C0613D1;
+        Tue, 10 Nov 2020 13:50:42 -0800 (PST)
+Received: by mail-lj1-x243.google.com with SMTP id v18so16546150ljc.3;
+        Tue, 10 Nov 2020 13:50:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=Up1aG6ydtrr1/JYHxw8NlS2buR9mdLMPGDsROtKbZk8=;
-        b=cYI9zgZDB3t1XzLKMSr8g7Z5wHFN4jdHxMIv9jFAeSZadz1dNiLKs8Nj4gx3O903O2
-         LWtCIncvDlZ8nHTMRg2VFI8VLAa7isUGYPslLnF3CqAEFxBgElFv/nF1JIVn3gDWlpLm
-         32oWoXTz4l/HSEHf1F7jQWd/JGV4zIWQU3Fk12+8Rb7bgdkpImPb/FuvSqH4cA/B5Mw5
-         2grvW9CBXll/TJzcvLM+LwPJASQAKE2FBb+dMZ30SH8l9vo85MPJcfJcznBEvnlvjZdt
-         hwLjihO75N9zeH8RHPSPM1Y+Zp4wp3crUvsuiBAQWEC2FSHyaRckztAABipNeRxcwfkN
-         +O6w==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=QumWPjldyhkIYYrKZybLDjf0NEcp9tE/cFj+ALYFR9A=;
+        b=JajzXzj+taW37LHKKk1rBUu2Z4ElUMNSSHS0K95OnI5UImwAIF74Qu+QTmiVzypvAS
+         gAQiDrdU4a2B6Z9A/XX/OOpJu3zamPLYGVpiOdVUDJw7ZsRpBauLkm/3QQp5PvJ2UM4A
+         LlfneuREhApeooZpB9lnnAX6U7j1XdRX88sCUzdxugTvIG1jP5PTHJPC3/8IUgW/bc/i
+         LWgLoXa7caMAbqITehUnmz/UH2tBulw/gQUU8Cd3shJtQ+zvYfoUG1N8jDZq2ZIllOe/
+         aCD81lT6Dj2NRU8sGRrZHHc26lsCxBQnWNgpAjWLB1z+6WE0AmdSq+A5dXHYbs0KDWUd
+         P/Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=Up1aG6ydtrr1/JYHxw8NlS2buR9mdLMPGDsROtKbZk8=;
-        b=Ylb+AygoYf6QN9iDIdlDU93QXUWXRW4PT2e3Ek9oA/QUCnWqNmAF/vjPI7n0SLKQeS
-         K+8OOfsPho+VMQTD3h5DMnKdH3EeC6c1HQgirhKdypCD+EM83mQgFdJ0ZLGlD9+K3fdl
-         P9ZTSWP01RmRjMBA24fKpyMgh0HvnioBdiMEnx9sOVOeUFwjo2l90GJe0KBSApuXmAO2
-         NHsX8twjoXAft0V037By8lXXS+Pf2qLh8vDzj/17LjV9hPfYXnmKvWcAznEkKlF/7sA1
-         gcK2MDklKgIxJe+q+cPSf3x0nW5h+Yh169s3bGibXhAE/d624v3FG1OrY1gnsddin1xZ
-         vF1A==
-X-Gm-Message-State: AOAM531zJkon8EAW4JrGuBo80jv+D7ZssP+tlIb5AbKWOnA0I13mLGf1
-        6q3wJCONKeZx9/IrA8o/aLMFRKP+KypO4dPTRTI=
-X-Google-Smtp-Source: ABdhPJy0RUmp6/kZ5soVHYMu10l5Y1AvwxF0c1Q4+XZ4V5PKLlnBkZmIH1vULyJL9AQs6Yc/XgVzbGFetswrD7SAgog=
-X-Received: by 2002:adf:e350:: with SMTP id n16mr26964608wrj.419.1605044917283;
- Tue, 10 Nov 2020 13:48:37 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=QumWPjldyhkIYYrKZybLDjf0NEcp9tE/cFj+ALYFR9A=;
+        b=KtRbblHfKi1Ay5PEaAn1KZJFAZ3msWs02D6BzwC7cpXqRlnOnvOsDkoWebzQgSmqRn
+         D0/46SSJdZtmRc8TYtLDSTqBcdmtD/q0X84oyL6u/lKoxtv+nppRHfvWEano4m6qmEmi
+         rXQQvksoL6RzOfdbBrJHfSycz4On2/LJmHdR2XfZTqHuG++IzKFo82z+nNIQWQIJJ+gC
+         z54/p8NqoA0PQEl1qM9KDrr6k3p55B55fy5vJteEuIRfeWw9c+VaI4mYgd82bPDT/auF
+         QrpRkldWJXDRAM45Qad3pyoo7E/xRG8TWtB25rXPHZpkOFrL4IPkA2bBj06S5X6rNR1s
+         bjyg==
+X-Gm-Message-State: AOAM532fAQDNrGzkhk75e2G6DC7w9w8rVE8dImJHRYvrpFlR5L1Yu6V0
+        q6s7cZc8D4FtniHhyZAm0VzFtSlyNKo=
+X-Google-Smtp-Source: ABdhPJxca3fiSpZnzLwSSmf1STAmFU4WFUoLoBVs2ZCeEEkdDu9neVJtNB2ucZnGCMuP/Af+mNHRXw==
+X-Received: by 2002:a2e:9583:: with SMTP id w3mr9542353ljh.25.1605045040627;
+        Tue, 10 Nov 2020 13:50:40 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
+        by smtp.googlemail.com with ESMTPSA id x9sm12074lfg.93.2020.11.10.13.50.39
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Nov 2020 13:50:39 -0800 (PST)
+Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
+ scaling
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <20201104234427.26477-1-digetx@gmail.com>
+ <20201104234427.26477-12-digetx@gmail.com> <20201110202945.GF2375022@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <7b0052e1-0ea7-b28f-ae46-52e669a980ac@gmail.com>
+Date:   Wed, 11 Nov 2020 00:50:38 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-References: <20201105144517.1826692-1-lee.jones@linaro.org> <20201105144517.1826692-19-lee.jones@linaro.org>
-In-Reply-To: <20201105144517.1826692-19-lee.jones@linaro.org>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 10 Nov 2020 16:48:26 -0500
-Message-ID: <CADnq5_PUZbPh0gmrTcY-cuLeUjfXNt8bS5YBz8g3VgCskYeh4A@mail.gmail.com>
-Subject: Re: [PATCH 18/19] gpu: drm: amd: amdgpu: amdgpu: Mark global
- variables as __maybe_unused
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     David Airlie <airlied@linux.ie>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20201110202945.GF2375022@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 5, 2020 at 9:52 AM Lee Jones <lee.jones@linaro.org> wrote:
->
-> These 3 variables are used in *some* sourcefiles which include
-> amdgpu.h, but not *all*.  This leads to a flurry of build warnings.
->
-> Fixes the following W=3D1 kernel build warning(s):
->
->  from drivers/gpu/drm/amd/amdgpu/amdgpu.h:67,
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h:198:19: warning: =E2=80=98no_system_=
-mem_limit=E2=80=99 defined but not used [-Wunused-const-variable=3D]
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h:197:19: warning: =E2=80=98debug_evic=
-tions=E2=80=99 defined but not used [-Wunused-const-variable=3D]
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h:196:18: warning: =E2=80=98sched_poli=
-cy=E2=80=99 defined but not used [-Wunused-const-variable=3D]
->
->  NB: Repeats ~650 times - snipped for brevity.
->
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+10.11.2020 23:29, Thierry Reding пишет:
+>> +	/* legacy device-trees don't have OPP table */
+>> +	if (!device_property_present(dc->dev, "operating-points-v2"))
+>> +		return 0;
+> "Legacy" is a bit confusing here. For one, no device trees currently
+> have these tables and secondly, for newer SoCs we may never need them.
+> 
 
-Applied.  Thanks!
-
-Alex
-
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu.h | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu.h b/drivers/gpu/drm/amd/am=
-dgpu/amdgpu.h
-> index 183b09d71b64a..5939753080056 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu.h
-> @@ -193,9 +193,9 @@ extern int sched_policy;
->  extern bool debug_evictions;
->  extern bool no_system_mem_limit;
->  #else
-> -static const int sched_policy =3D KFD_SCHED_POLICY_HWS;
-> -static const bool debug_evictions; /* =3D false */
-> -static const bool no_system_mem_limit;
-> +static const int __maybe_unused sched_policy =3D KFD_SCHED_POLICY_HWS;
-> +static const bool __maybe_unused debug_evictions; /* =3D false */
-> +static const bool __maybe_unused no_system_mem_limit;
->  #endif
->
->  extern int amdgpu_tmz;
-> --
-> 2.25.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+I had the same thought and already improved such comments a day ago.
