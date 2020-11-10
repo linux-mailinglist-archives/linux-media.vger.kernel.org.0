@@ -2,148 +2,182 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DAB82AE31A
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 23:17:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D1092AE359
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 23:26:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731907AbgKJWR1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 17:17:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49356 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727275AbgKJWR1 (ORCPT
+        id S1732231AbgKJW03 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 17:26:29 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:59612 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731919AbgKJW03 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 17:17:27 -0500
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9866C0613D1;
-        Tue, 10 Nov 2020 14:17:26 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id 23so14403259wrc.8;
-        Tue, 10 Nov 2020 14:17:26 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=PybHYHD7oH2aLnG+yvTddEPZqr7VRvhfNzCANa+XKfA=;
-        b=AnT0B68fsoy6LnsJzwe/Fm7jjXUzfkVseEBGHrDF8afef5eVu8t5Vc4WHB44H01snU
-         Y0XxjtlSavsWQJ++9Q7cyNMhWTMUCQItMA1xUjro37jdTV1GN3Oi81zHV6/cufsj3hrh
-         IbKlbsH8DnVVcNymAVVEOE4yAhcrgeMFMicm0ObvYEyOPNLwHhMoxAp893ou/pn9lkII
-         riGVsX9X2H6Q3gGnUmc3HIu9VSXp88vjmHfYWlsUCEybqYt0eNc7Nv1H84cBIiCbYmbB
-         Io9FqVA5KHeCT5mAPSrAlLl3ZoQpUTnhdd4q1T5VW47Ta+3f6INB3cihUIhZe6ZS8x6W
-         3PGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=PybHYHD7oH2aLnG+yvTddEPZqr7VRvhfNzCANa+XKfA=;
-        b=SMXMaRMziqBAclovM2b/SGZtm/F0d5l9SqCRQCFobp1gi4alvFGdC39rY/u5CbMAVe
-         yu3Ercmu1o4/i+Lr5f/fdom06rrgy3p97KB1xYwLXznp/eh6V4FPJXqfHluq8UKYZSMz
-         Nz9mXUu8zR+/EB82So59gUG9zDP6E2KaiS/rx2BaI6rY0uQ9kUMo2Y9EoQSji2OK9YQG
-         jjQofT6QUaX+bLMsaW9PPy0ausxdYRMWWngJFMzbIfD5a+d4skj/I26Oq2XOPStG2g0k
-         3L/d52LSuOlQa0F5XflG23e07rg5oNv0s2BxIye2ifyssmBS5niR/t/Rp9ZXLE7sXehv
-         Gl0g==
-X-Gm-Message-State: AOAM530fWyLq1yFU1X+oLKUtxc5IpX9uYU6neadyLDvgCHujkceILpNp
-        PQQYO1KP2XRGvUDLPlSsN3vjYBU8Z4pOMmn1ObY=
-X-Google-Smtp-Source: ABdhPJxh2GeljpewW2T0ti487h5NvVsa43l5KqIELZfR5hDC7Aj0bILRpfkBVbdUXZQrjDANOnsCVpXmp8jNi1eT12o=
-X-Received: by 2002:adf:e9c9:: with SMTP id l9mr27815711wrn.124.1605046645534;
- Tue, 10 Nov 2020 14:17:25 -0800 (PST)
+        Tue, 10 Nov 2020 17:26:29 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: aratiu)
+        with ESMTPSA id 6323F1F454F7
+From:   Adrian Ratiu <adrian.ratiu@collabora.com>
+To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel@collabora.com
+Subject: Re: [PATCH v5 0/3] media: rkvdec: Add a VP9 backend
+In-Reply-To: <CAAEAJfA1N1k9Vho4weZ9VnM_v6K4RXdmERyrWcWPCj64NMzDoQ@mail.gmail.com>
+References: <20201102190551.1223389-1-adrian.ratiu@collabora.com>
+ <CAAEAJfA1N1k9Vho4weZ9VnM_v6K4RXdmERyrWcWPCj64NMzDoQ@mail.gmail.com>
+Date:   Wed, 11 Nov 2020 00:28:03 +0200
+Message-ID: <87y2j8hmoc.fsf@collabora.com>
 MIME-Version: 1.0
-References: <20201109211855.3340030-1-lee.jones@linaro.org> <20201109211855.3340030-12-lee.jones@linaro.org>
-In-Reply-To: <20201109211855.3340030-12-lee.jones@linaro.org>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 10 Nov 2020 17:17:13 -0500
-Message-ID: <CADnq5_MJQExKjyigHaYc4Vqy7H755qQC80Y7uSqxBPdR41B1cQ@mail.gmail.com>
-Subject: Re: [PATCH 11/20] drm/radeon/r600: Strip out set but unused 'tmp' variables
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     David Airlie <airlied@linux.ie>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; format=flowed
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 9, 2020 at 4:19 PM Lee Jones <lee.jones@linaro.org> wrote:
->
-> Fixes the following W=3D1 kernel build warning(s):
->
->  drivers/gpu/drm/radeon/r600.c: In function =E2=80=98r600_pcie_gart_tlb_f=
-lush=E2=80=99:
->  drivers/gpu/drm/radeon/r600.c:1083:7: warning: variable =E2=80=98tmp=E2=
-=80=99 set but not used [-Wunused-but-set-variable]
->  drivers/gpu/drm/radeon/r600.c: At top level:
->  drivers/gpu/drm/radeon/r600.c: In function =E2=80=98r600_mmio_hdp_flush=
-=E2=80=99:
->  drivers/gpu/drm/radeon/r600.c:4393:7: warning: variable =E2=80=98tmp=E2=
-=80=99 set but not used [-Wunused-but-set-variable]
->
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+Hi Ezequiel,
+ 
+On Tue, 10 Nov 2020, Ezequiel Garcia 
+<ezequiel@vanguardiasur.com.ar> wrote:
+> On Mon, 2 Nov 2020 at 16:04, Adrian Ratiu 
+> <adrian.ratiu@collabora.com> wrote: 
+>> 
+>> Dear all, 
+>> 
+>> This is v5 of the series adding VP9 profile 0 decoding to 
+>> rkvdec. 
+>> 
+>> All feedback from v4 should be addressed, there's just one 
+>> thing I did not address: ref_frame_sign_biases in the uAPI. The 
+>> userspace tool I'm 
+> 
+> I believe that Hantro G2 VP9 needs ref_frame_sign_biases. 
+> 
+> I think that it's also needed for the MTK decoder.  Might be 
+> worth checking that as well, if the code is publicly available 
+> somewhere.
 
-Applied.  Thanks!
+I consulted the imx8m app ref manual for the Hantro G2 core and 
+indeed there's not one, but three fields at SWREG11 and 13 (last, 
+gold, alt) to signify sign biases for ref frames. Thanks for the 
+hint!
+ 
+> 
+> Coming to think about it, I think we are really close to having 
+> this uAPI directly upstream. 
+> 
+> Let's take a step back on why we have these uAPIs in the staging 
+> area. Couple years ago, there were some doubts in the media 
+> community about these uAPIs, and we wanted to wait a bit for 
+> more users before moving to public land. 
+> 
+> The uAPIs were meant to be in staging until enough users 
+> appeared and we were confident enough to move to stable. 
+> 
+> For VP9, given the feedback received through the year was 
+> already addressed, I think all that's left is to check the 
+> interface and make sure it can support Rockchip (RK3399, RK3326, 
+> etc), Hantro G2 and Mediatek, 
+> 
+> We will be very close to having a public API, and we could even 
+> merge it directly there.
 
-Alex
+Thank you very much for this background. I understand that the 
+uAPI is independent from the driver implementations, so having a 
+good stable uAPI is beneficial when (for example) adding support 
+for VP9 on G2 in  hantro or for upstream adoption of these 
+drivers.
 
-> ---
->  drivers/gpu/drm/radeon/r600.c | 6 ++----
->  1 file changed, 2 insertions(+), 4 deletions(-)
+Given this rkvdec driver implementation is also adding the VP9 
+uAPI and it's very close to stability (maybe only missing ref 
+frame sign bias, but who knows?) would you like to block its 
+submission until the uAPI is finalized or would it make sense to 
+treat the uAPI de-staging process separately because the uAPI is 
+independent from the driver? 
+
+Thanks,
+Adrian
+
 >
-> diff --git a/drivers/gpu/drm/radeon/r600.c b/drivers/gpu/drm/radeon/r600.=
-c
-> index d9a33ca768f34..6e780b0109995 100644
-> --- a/drivers/gpu/drm/radeon/r600.c
-> +++ b/drivers/gpu/drm/radeon/r600.c
-> @@ -1080,7 +1080,6 @@ void r600_pcie_gart_tlb_flush(struct radeon_device =
-*rdev)
->         if ((rdev->family >=3D CHIP_RV770) && (rdev->family <=3D CHIP_RV7=
-40) &&
->             !(rdev->flags & RADEON_IS_AGP)) {
->                 void __iomem *ptr =3D (void *)rdev->gart.ptr;
-> -               u32 tmp;
+> Thanks,
+> Ezequiel
 >
->                 /* r7xx hw bug.  write to HDP_DEBUG1 followed by fb read
->                  * rather than write to HDP_REG_COHERENCY_FLUSH_CNTL
-> @@ -1088,7 +1087,7 @@ void r600_pcie_gart_tlb_flush(struct radeon_device =
-*rdev)
->                  * method for them.
->                  */
->                 WREG32(HDP_DEBUG1, 0);
-> -               tmp =3D readl((void __iomem *)ptr);
-> +               readl((void __iomem *)ptr);
->         } else
->                 WREG32(R_005480_HDP_MEM_COHERENCY_FLUSH_CNTL, 0x1);
->
-> @@ -4390,10 +4389,9 @@ void r600_mmio_hdp_flush(struct radeon_device *rde=
-v)
->         if ((rdev->family >=3D CHIP_RV770) && (rdev->family <=3D CHIP_RV7=
-40) &&
->             rdev->vram_scratch.ptr && !(rdev->flags & RADEON_IS_AGP)) {
->                 void __iomem *ptr =3D (void *)rdev->vram_scratch.ptr;
-> -               u32 tmp;
->
->                 WREG32(HDP_DEBUG1, 0);
-> -               tmp =3D readl((void __iomem *)ptr);
-> +               readl((void __iomem *)ptr);
->         } else
->                 WREG32(R_005480_HDP_MEM_COHERENCY_FLUSH_CNTL, 0x1);
->  }
-> --
-> 2.25.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>> using [1] apparently doesn't need it or the default hwreg value for it
+>> is capable of decoding the bitstreams I used on the driver, so I don't
+>> really have a use-case to change and test that. :)
+>>
+>> Considering the uAPI is a work in progress and expected to be modified,
+>> ref_frame_sign_biases can be added later with others which might be
+>> required to enable more functionality (for eg profiles >= 1).
+>>
+>> Series tested on rk3399 and applies on next-20201030.
+>>
+>> [1] https://github.com/Kwiboo/FFmpeg/tree/v4l2-request-hwaccel-4.2.2-rkvdec
+>>
+>> Changelog
+>> ---------
+>>
+>> v5:
+>>
+>> * Drop unnecessary OUTPUT buffer payload set in .buf_prepare.
+>> * Drop obsolete .per_request ctrl flag
+>> * Added new vp9 ctrls to v4l2_ctrl_ptr
+>> * Fix pahole detected padding issues
+>> * Send userspace an error if it tries to reconfigure decode resolution
+>>   as v4l2 or rkvdec-vp9 backend do not support dynamic res changes yet
+>> * Allow frame ctx probability tables to be non-mandatory so users can
+>>   set them directly during frame decoding in cases where no defaults
+>>   have been set previously (eg. ffmpeg vp9 backend)
+>> * Some comments and documentation clarifications
+>> * Minor checkpatch fixes
+>>
+>> v4:
+>>
+>> * Drop color_space field from the VP9 interface.
+>>   V4L2 API should be used for it.
+>> * Clarified Segment-ID comments.
+>> * Moved motion vector probabilities to a separate
+>>   struct.
+>>
+>> v3:
+>>
+>> * Fix documentation issues found by Hans.
+>> * Fix smatch detected issues as pointed out by Hans.
+>> * Added patch to fix wrong bytesused set on .buf_prepare.
+>>
+>> v2:
+>>
+>> * Documentation style issues pointed out by Nicolas internally.
+>> * s/VP9_PROFILE_MAX/V4L2_VP9_PROFILE_MAX/
+>> * Fix wrong kfree(ctx).
+>> * constify a couple structs on rkvdec-vp9.c
+>>
+>>
+>> Boris Brezillon (2):
+>>   media: uapi: Add VP9 stateless decoder controls
+>>   media: rkvdec: Add the VP9 backend
+>>
+>> Ezequiel Garcia (1):
+>>   media: rkvdec: Fix .buf_prepare
+>>
+>>  .../userspace-api/media/v4l/biblio.rst        |   10 +
+>>  .../media/v4l/ext-ctrls-codec.rst             |  550 ++++++
+>>  drivers/media/v4l2-core/v4l2-ctrls.c          |  239 +++
+>>  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+>>  drivers/staging/media/rkvdec/Makefile         |    2 +-
+>>  drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1577 +++++++++++++++++
+>>  drivers/staging/media/rkvdec/rkvdec.c         |   72 +-
+>>  drivers/staging/media/rkvdec/rkvdec.h         |    6 +
+>>  include/media/v4l2-ctrls.h                    |    5 +
+>>  include/media/vp9-ctrls.h                     |  486 +++++
+>>  10 files changed, 2942 insertions(+), 6 deletions(-)
+>>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
+>>  create mode 100644 include/media/vp9-ctrls.h
+>>
+>> --
+>> 2.29.0
+>>
