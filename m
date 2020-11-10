@@ -2,138 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 795F12AD22D
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 10:16:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3BC12AD22E
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 10:16:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727046AbgKJJQE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 04:16:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39938 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726213AbgKJJQE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 04:16:04 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2258EC0613CF
-        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 01:16:04 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id EB923C6389; Tue, 10 Nov 2020 09:15:57 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1604999757; bh=tDnE0GizgWhHBHXSTNsrdayXMk2UGr+MnzFQqwiAo9A=;
-        h=From:To:Subject:Date:In-Reply-To:References:From;
-        b=KQVWnnw5+R8DQxEGKXFG96hqFSPAWiXpIJ6znsCMa9a9x8avvRQFlbLxeB4al5Ndn
-         F+q4dPskc/rsoYknhE6efwG0O97nGyZAaTz0T3hqO5yTF/wrWDxMK0T+ePY/AX3Uqf
-         94SrqeKaBqxIlaMub3Ef1gMdSjbgjYHH1N3riEox+UkPq7mthU4+Z+L4dpwFqo5Q3Q
-         gYw090XfJZRic4w5G0ajdHDsLsLTzUdGi0hVzmIFA95/kfIIBP5AC5A0YdubUdlLf2
-         df9FAX7rbLVU5mIsUfu92qEew0INB+FWR0NcyQ6l3CZFzAxTYEbEq8Q06gjYFh0dj9
-         FI9UuLZw859Zw==
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        linux-arm-kernel@lists.infradead.org
-Subject: [PATCH 2/2] media: sunxi-cir: allow timeout to be set at runtime
-Date:   Tue, 10 Nov 2020 09:15:57 +0000
-Message-Id: <20201110091557.25680-2-sean@mess.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201110091557.25680-1-sean@mess.org>
-References: <20201110091557.25680-1-sean@mess.org>
+        id S1727114AbgKJJQI convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 10 Nov 2020 04:16:08 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:35866 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726213AbgKJJQI (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Nov 2020 04:16:08 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kcPky-005eNa-Ux; Tue, 10 Nov 2020 09:16:05 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kcPo0-0005lF-3M; Tue, 10 Nov 2020 09:19:12 +0000
+Date:   Tue, 10 Nov 2020 09:19:11 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <357979649.33.1604999952078@builder.linuxtv.org>
+In-Reply-To: <182897449.32.1604913550235@builder.linuxtv.org>
+References: <182897449.32.1604913550235@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3284
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This allows the timeout to be set with the LIRC_SET_REC_TIMEOUT ioctl.
+See <https://builder.linuxtv.org/job/media-build/3284/display/redirect>
 
-The timeout was hardcoded at just over 20ms, but returned 120ms when
-queried with the LIRC_GET_REC_TIMEOUT ioctl.
+Changes:
 
-This also ensures the idle threshold is set correctly with a base clock
-other than 8000000Mhz.
 
-Signed-off-by: Sean Young <sean@mess.org>
----
- drivers/media/rc/sunxi-cir.c | 46 +++++++++++++++++++++++++++++-------
- 1 file changed, 38 insertions(+), 8 deletions(-)
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building on master in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 408180421c5e0dc4aa760e6f2348daabc757730d (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 408180421c5e0dc4aa760e6f2348daabc757730d # timeout=10
+Commit message: "Update backports/v5.0_time32.patch"
+ > git rev-list --no-walk 408180421c5e0dc4aa760e6f2348daabc757730d # timeout=10
+[Checks API] No suitable checks publisher found.
+[media-build] $ /bin/sh -xe /tmp/jenkins10265063642187446058.sh
++ ./build
+Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
+Needed package dependencies are met.
 
-diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-index 4afc5895bee74..3c25db25e55c6 100644
---- a/drivers/media/rc/sunxi-cir.c
-+++ b/drivers/media/rc/sunxi-cir.c
-@@ -73,10 +73,6 @@
- #define SUNXI_IR_BASE_CLK     8000000
- /* Noise threshold in samples  */
- #define SUNXI_IR_RXNOISE      1
--/* Idle Threshold in samples */
--#define SUNXI_IR_RXIDLE       20
--/* Time after which device stops sending data in ms */
--#define SUNXI_IR_TIMEOUT      120
- 
- /**
-  * struct sunxi_ir_quirks - Differences between SoC variants.
-@@ -146,6 +142,39 @@ static irqreturn_t sunxi_ir_irq(int irqno, void *dev_id)
- 	return IRQ_HANDLED;
- }
- 
-+/* Convert idle threshold to usec */
-+static unsigned int sunxi_ithr_to_usec(unsigned int base_clk, unsigned int ithr)
-+{
-+	return (USEC_PER_SEC * (ithr + 1)) / (base_clk / (128 * 64));
-+}
-+
-+/* Convert usec to idle threshold */
-+static unsigned int sunxi_usec_to_ithr(unsigned int base_clk, unsigned int usec)
-+{
-+	return ((base_clk / (128 * 64)) * usec) / USEC_PER_SEC;
-+}
-+
-+static int sunxi_ir_set_timeout(struct rc_dev *rc_dev, unsigned int timeout)
-+{
-+	struct sunxi_ir *ir = rc_dev->priv;
-+	unsigned int base_clk = clk_get_rate(ir->clk);
-+	unsigned long flags;
-+
-+	unsigned int ithr = sunxi_usec_to_ithr(base_clk, timeout);
-+
-+	dev_dbg(rc_dev->dev.parent, "setting idle threshold to %u\n", ithr);
-+
-+	spin_lock_irqsave(&ir->ir_lock, flags);
-+	/* Set noise threshold and idle threshold */
-+	writel(REG_CIR_NTHR(SUNXI_IR_RXNOISE) | REG_CIR_ITHR(ithr),
-+	       ir->base + SUNXI_IR_CIR_REG);
-+	spin_unlock_irqrestore(&ir->ir_lock, flags);
-+
-+	rc_dev->timeout = sunxi_ithr_to_usec(base_clk, ithr);
-+
-+	return 0;
-+}
-+
- static int sunxi_ir_probe(struct platform_device *pdev)
- {
- 	int ret = 0;
-@@ -242,9 +271,11 @@ static int sunxi_ir_probe(struct platform_device *pdev)
- 	ir->rc->map_name = ir->map_name ?: RC_MAP_EMPTY;
- 	ir->rc->dev.parent = dev;
- 	ir->rc->allowed_protocols = RC_PROTO_BIT_ALL_IR_DECODER;
--	/* Frequency after IR internal divider with sample period in ns */
-+	/* Frequency after IR internal divider with sample period in us */
- 	ir->rc->rx_resolution = (USEC_PER_SEC / (b_clk_freq / 64));
--	ir->rc->timeout = MS_TO_US(SUNXI_IR_TIMEOUT);
-+	ir->rc->min_timeout = sunxi_ithr_to_usec(b_clk_freq, 0);
-+	ir->rc->max_timeout = sunxi_ithr_to_usec(b_clk_freq, 255);
-+	ir->rc->s_timeout = sunxi_ir_set_timeout;
- 	ir->rc->driver_name = SUNXI_IR_DEV;
- 
- 	ret = rc_register_device(ir->rc);
-@@ -272,8 +303,7 @@ static int sunxi_ir_probe(struct platform_device *pdev)
- 	writel(REG_CTL_MD, ir->base+SUNXI_IR_CTL_REG);
- 
- 	/* Set noise threshold and idle threshold */
--	writel(REG_CIR_NTHR(SUNXI_IR_RXNOISE)|REG_CIR_ITHR(SUNXI_IR_RXIDLE),
--	       ir->base + SUNXI_IR_CIR_REG);
-+	sunxi_ir_set_timeout(ir->rc, IR_DEFAULT_TIMEOUT);
- 
- 	/* Invert Input Signal */
- 	writel(REG_RXCTL_RPPI, ir->base + SUNXI_IR_RXCTL_REG);
--- 
-2.28.0
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
 
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2020-11-10 09:19:06--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2020-11-10 09:19:07--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100%  199M=0s
+
+2020-11-10 09:19:07 (199 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-12-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
+patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
+patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
+patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
+patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
+patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
+patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
+patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
+patch -s -f -N -p1 -i ../backports/v5.4_dma_buf.patch
+patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
+patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
+patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
+patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
+Patched drivers/media/dvb-core/dvbdev.c
+Patched drivers/media/v4l2-core/v4l2-dev.c
+Patched drivers/media/rc/rc-main.c
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+./scripts/make_kconfig.pl /lib/modules/4.19.0-12-amd64/build /lib/modules/4.19.0-12-amd64/build 1
+File not found: /lib/modules/4.19.0-12-amd64/build/.config at ./scripts/make_kconfig.pl line 33, <IN> line 4.
+Preparing to compile for kernel version 4.19.0
+make[1]: *** [Makefile:379: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
