@@ -2,70 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BED0F2AD43A
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 11:58:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36B5B2AD47E
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 12:13:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730105AbgKJK6w (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 05:58:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55996 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726428AbgKJK6w (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 05:58:52 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E22AFC0613CF
-        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 02:58:51 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 7E01EC635E; Tue, 10 Nov 2020 10:58:50 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1605005930; bh=aokA0Hr/bcu+G/jYD68sGBsrhQel2wH4YXjz33tdqbY=;
-        h=Date:From:To:Subject:From;
-        b=jIDxo/pSC5iIGpzIja52KUZr+iyTd6+5uy5Txt5rOEYU4o0ceKzoykVMer4oVTpzx
-         Xe18Bn1y5b5KW085N4W16qfumGoygpJPOSV0CuFgwu6v6GdTfE/Qr5ZsUjgYzSFC20
-         SxaKjM++XL+VvMCKLJYzH1lRwiHmfXbYdl86aVzTu/3nBEZl20+4nuVe8Ro0fmnl+K
-         PfjMGEyB2VSLx9uhZdCdhmURqC+0X68AQYnBN0JB78KOtGeuIeyhfi0anpRnu9S3YZ
-         wbVo8B3da91ElI08HY8VlAe5lrXtGA4ZCaIRFQX/5vJu4KJ9ayx5RbEeWChkyg5G4y
-         5BypDiPETe6EQ==
-Date:   Tue, 10 Nov 2020 10:58:50 +0000
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.11] Minor DVB & RC fixes
-Message-ID: <20201110105850.GA27501@gofer.mess.org>
+        id S1727698AbgKJLNo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 06:13:44 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:47688 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726219AbgKJLNo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Nov 2020 06:13:44 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kcRao-005lbV-AA; Tue, 10 Nov 2020 11:13:42 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kcRdp-00073a-Ss; Tue, 10 Nov 2020 11:16:49 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.11] Minor DVB & RC fixes (#68791)
+Date:   Tue, 10 Nov 2020 11:16:49 +0000
+Message-Id: <20201110111649.27085-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201110105850.GA27501@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 0ab4f9087ea94ff92dc2ae68180faaf6bd443021:
+From: builder@linuxtv.org
 
-  media: platform: add missing put_device() call in mtk_jpeg_probe() and mtk_jpeg_remove() (2020-11-05 18:03:11 +0100)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20201110105850.GA27501@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/76405/
+Build time: 00:04:39
+Link: https://lore.kernel.org/linux-media/20201110105850.GA27501@gofer.mess.org
 
-are available in the Git repository at:
+gpg: Signature made Tue 10 Nov 2020 10:50:12 AM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.11a
+Summary: got 0/3 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to 24b0887fbf24b58278ae60d02ee41c642f5b1d84:
+Error/warnings:
 
-  media: dvbdev: Fix memleak in dvb_register_device (2020-11-10 10:42:01 +0000)
 
-----------------------------------------------------------------
-v5.11a
+Error #512 when building PDF docs
 
-----------------------------------------------------------------
-Dan Carpenter (1):
-      media: rc: validate that "rc_proto" is reasonable
-
-Dinghao Liu (1):
-      media: dvbdev: Fix memleak in dvb_register_device
-
-Qinglang Miao (1):
-      media: usb: dvb-usb-v2: zd1301: fix missing platform_device_unregister()
-
- drivers/media/dvb-core/dvbdev.c       | 3 +++
- drivers/media/rc/lirc_dev.c           | 3 ++-
- drivers/media/usb/dvb-usb-v2/zd1301.c | 2 +-
- include/uapi/linux/lirc.h             | 1 +
- 4 files changed, 7 insertions(+), 2 deletions(-)
