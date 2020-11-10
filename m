@@ -2,93 +2,89 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 559642AD5CE
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 13:01:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83D682AD6D8
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 13:51:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730074AbgKJMBx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 07:01:53 -0500
-Received: from fllv0015.ext.ti.com ([198.47.19.141]:39840 "EHLO
-        fllv0015.ext.ti.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730059AbgKJMBw (ORCPT
+        id S1730059AbgKJMvO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 07:51:14 -0500
+Received: from mo4-p01-ob.smtp.rzone.de ([85.215.255.51]:26556 "EHLO
+        mo4-p01-ob.smtp.rzone.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729898AbgKJMvN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 07:01:52 -0500
-Received: from lelv0265.itg.ti.com ([10.180.67.224])
-        by fllv0015.ext.ti.com (8.15.2/8.15.2) with ESMTP id 0AAC1maK031739;
-        Tue, 10 Nov 2020 06:01:48 -0600
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=ti.com;
-        s=ti-com-17Q1; t=1605009708;
-        bh=wCRTJJjnhbgI5KP8iM2EISON2IZQ8Ci3jNba4ttYH7U=;
-        h=Subject:To:CC:References:From:Date:In-Reply-To;
-        b=hI/7kiTJ27/GEsOKXfXA/48MDnO53qTcyDIkn5FAIPk5uXXoTQ4yWj7BCFcMx1rqI
-         fqBt7uA/mE/zZ9JSWU+27UMuIx2fr7XUUNEpZb0oY5uwcP2xM3LGdz4cVPgNt0qM83
-         Vgu07tuymKFdexNxmyKU/p7dEGqZEnpWzOPfrwyo=
-Received: from DFLE103.ent.ti.com (dfle103.ent.ti.com [10.64.6.24])
-        by lelv0265.itg.ti.com (8.15.2/8.15.2) with ESMTPS id 0AAC1m08086548
-        (version=TLSv1.2 cipher=AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 10 Nov 2020 06:01:48 -0600
-Received: from DFLE100.ent.ti.com (10.64.6.21) by DFLE103.ent.ti.com
- (10.64.6.24) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3; Tue, 10
- Nov 2020 06:01:47 -0600
-Received: from fllv0039.itg.ti.com (10.64.41.19) by DFLE100.ent.ti.com
- (10.64.6.21) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_CBC_SHA256_P256) id 15.1.1979.3 via
- Frontend Transport; Tue, 10 Nov 2020 06:01:47 -0600
-Received: from [192.168.2.6] (ileax41-snat.itg.ti.com [10.172.224.153])
-        by fllv0039.itg.ti.com (8.15.2/8.15.2) with ESMTP id 0AAC1jul051383;
-        Tue, 10 Nov 2020 06:01:45 -0600
-Subject: Re: [PATCH 08/19] drm/omapdrm/omap_gem: Fix misnamed and missing
- parameter descriptions
-To:     Lee Jones <lee.jones@linaro.org>
-CC:     <linux-kernel@vger.kernel.org>, David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>,
-        Rob Clark <rob.clark@linaro.org>,
-        <dri-devel@lists.freedesktop.org>, <linux-media@vger.kernel.org>,
-        <linaro-mm-sig@lists.linaro.org>
-References: <20201106214949.2042120-1-lee.jones@linaro.org>
- <20201106214949.2042120-9-lee.jones@linaro.org>
-From:   Tomi Valkeinen <tomi.valkeinen@ti.com>
-Message-ID: <3d5dc164-d26a-5999-1e7f-9cabfdd84c36@ti.com>
-Date:   Tue, 10 Nov 2020 14:01:44 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 10 Nov 2020 07:51:13 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; t=1605012672;
+        s=strato-dkim-0002; d=fossekall.de;
+        h=In-Reply-To:References:Message-ID:Subject:Cc:To:From:Date:
+        X-RZG-CLASS-ID:X-RZG-AUTH:From:Subject:Sender;
+        bh=p/FJZ5G/5knoAN9UbJJvfgvhABVOVVQA4NmR7zumTXg=;
+        b=lefBLRFDjnqPzy1aKFY3XNnwaTsw4i23xXxjEVpevNw2ibocLo59z881HwXupWdymj
+        4VCDsffombTblPHmfZlOXyzF+Bl0a4SCoWIqgUsUkqR0dSwwp2H6F1rssMpAw+n6R77M
+        1H1MLZ+fI0mRntl32OrCcsRJbV47+KCRhs0WzhfVf2VQP0uGmyVHJEOMIV4elCmOIRGn
+        SyUGPOJfAdUleCWZ8lOuyoWsYMNEixqseqaS5ZKIOTPXM3+wgupzxOU64bDdVjbnln10
+        IQa0SqDb9qDbXeghgWSxzscVfPBudOfty7I8GTdpgjDpcOD2K9+FTHFXnxii9ewH/cQT
+        pKrA==
+X-RZG-AUTH: ":O2kGeEG7b/pS1EzgE2y7nF0STYsSLflpbjNKxx7cGrBOdI6BL9pkS3QW19mO7I+/JwRspuzJFZuRzQ=="
+X-RZG-CLASS-ID: mo00
+Received: from aerfugl
+        by smtp.strato.de (RZmta 47.3.4 AUTH)
+        with ESMTPSA id g02087wAACm70mD
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (curve X9_62_prime256v1 with 256 ECDH bits, eq. 3072 bits RSA))
+        (Client did not present a certificate);
+        Tue, 10 Nov 2020 13:48:07 +0100 (CET)
+Received: from koltrast.a98shuttle.de ([192.168.1.27] helo=a98shuttle.de)
+        by aerfugl with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.89)
+        (envelope-from <michael@fossekall.de>)
+        id 1kcT4A-000399-Ji; Tue, 10 Nov 2020 13:48:06 +0100
+Date:   Tue, 10 Nov 2020 13:48:05 +0100
+From:   Michael Klein <michael@fossekall.de>
+To:     Sean Young <sean@mess.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org
+Subject: Re: [PATCH RESEND v2 0/2] media: rc: gpio-ir-recv: add timeout
+ property
+Message-ID: <20201110124805.GA29796@a98shuttle.de>
+References: <cover.1604589023.git.michael@fossekall.de>
+ <20201110101727.GA26198@gofer.mess.org>
 MIME-Version: 1.0
-In-Reply-To: <20201106214949.2042120-9-lee.jones@linaro.org>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
-X-EXCLAIMER-MD-CONFIG: e1e8a2fd-e40a-4ac6-ac9b-f7e9cc9ee180
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20201110101727.GA26198@gofer.mess.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 06/11/2020 23:49, Lee Jones wrote:
-> Fixes the following W=1 kernel build warning(s):
-> 
->  drivers/gpu/drm/omapdrm/omap_gem.c:593: warning: Function parameter or member 'file' not described in 'omap_gem_dumb_create'
->  drivers/gpu/drm/omapdrm/omap_gem.c:593: warning: Excess function parameter 'drm_file' description in 'omap_gem_dumb_create'
->  drivers/gpu/drm/omapdrm/omap_gem.c:619: warning: Function parameter or member 'offset' not described in 'omap_gem_dumb_map_offset'
-> 
-> Cc: Tomi Valkeinen <tomi.valkeinen@ti.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian König" <christian.koenig@amd.com>
-> Cc: Rob Clark <rob.clark@linaro.org>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> ---
->  drivers/gpu/drm/omapdrm/omap_gem.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
+On Tue, Nov 10, 2020 at 10:17:27AM +0000, Sean Young wrote:
+>On Mon, Nov 09, 2020 at 04:23:09PM +0100, Michael Klein wrote:
+>> The default recorder timeout of 125ms is too high for some BPF protocol
+>> decoders when a remote sends repeat codes at high rates. This makes the
+>> timeout configurable via the devicetree.
+>
+>To be honest, 125ms is too much by any measurement. The longest space
+>in any protocol I'm aware of is 40ms in the sharp ir protocol. I think
+>changing IR_DEFAUL_TIMEOUT to something like 50ms would make sense.
 
-Thanks! I'll pick this one and the next to drm-misc-next.
+Seconded. I'm happy to prepare a patch if changing the default value is 
+acceptable.
 
- Tomi
+>Also, when an BPF protocol is loaded, user-space can set the timeout
+>with the LIRC_SET_REC_TIMEOUT ioctl which can depend on the protocol
+>(set to longest space + 10ms error margin).
 
--- 
-Texas Instruments Finland Oy, Porkkalankatu 22, 00180 Helsinki.
-Y-tunnus/Business ID: 0615521-4. Kotipaikka/Domicile: Helsinki
+Right, although this is a bit cumbersome with current user-space tools. 
+The BPF is loaded with ir-keytable, while the recorder timeout needs to 
+be set with it-ctl. In the Debian world, those tools are even in 
+different packages.
+
+>This would mean that the
+>bare minimum timeout can be set, which means decoding is as responsive
+>as can be.
+>
+>I'm not sure that device tree is really the place for this.
+
+Not arguing about this, but IMHO no less than for rc-map-name. So this 
+seems to be at least consistent.
+
+Thanks,
+
+Michael
