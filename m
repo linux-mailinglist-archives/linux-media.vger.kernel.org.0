@@ -2,153 +2,139 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 49E462AD2DA
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 10:51:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D7A6A2AD2D4
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 10:51:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731306AbgKJJu6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 04:50:58 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:55871 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730559AbgKJJuc (ORCPT
+        id S1731442AbgKJJut (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 04:50:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45330 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731671AbgKJJus (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 04:50:32 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id cQIDkkqmfNanzcQIHk5Fhn; Tue, 10 Nov 2020 10:50:29 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1605001829; bh=o/Slietjg3JS+yzZDR327jrRld/7IiJNzS3HQkfzM9c=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=iX3PQ2/TJZdjnQ8kMvJ7Tsl0f67sEizpx8xn1fP0OyCFdOwAA5jjyeDfArInbBEd1
-         QCsYS949zjWLr9F5HNeHBWnXsKUaUJleZUoZS4R6IMA6tYY9NHhtY8aZPG2hVcYj70
-         Rr2WdpzRBTxJP1ckWmZiBX8jjdWOYdjOMD2w1ECz0jGqHqn0mLtno9qr23gi9waWx2
-         RzbDDIWcNWMrSRd8PeS+Nqnk9gRAocXrHVKmzJDvbQ6lEils9glEP9+F4y222Tl+Kp
-         oCPG62vNpWBSCT6ZLsoLqvrBMBNnYd+omrPK1+bkANo72qtC/ROenYQTCYUaBmtYFY
-         P1ML44WrrT17w==
-Subject: Re: [PATCH 2/3] docs: media: Document CLL and Mastering display
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-References: <20201109173153.23720-1-stanimir.varbanov@linaro.org>
- <20201109173153.23720-3-stanimir.varbanov@linaro.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <c907b185-a272-bef5-1aa0-313c7789b07d@xs4all.nl>
-Date:   Tue, 10 Nov 2020 10:50:25 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Tue, 10 Nov 2020 04:50:48 -0500
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18C87C0613D3
+        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 01:50:47 -0800 (PST)
+Received: by mail-ej1-x643.google.com with SMTP id f23so9964921ejk.2
+        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 01:50:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=/xvo1QegjGszfBVPbZfwcJiTRf9LyLsH4tfXgS3DTXk=;
+        b=XBZqy3t9IZQRFydJbi3EOQsbNKSoGIh1pco/g0+bITyoIUkri4wfPjhNf10PvUjdHM
+         oiUisGj+v2Bm78WVce9YT8uqvFdrkdOzLCpu67P/MAJzNpCqHb4m8FThormd6bSjouLr
+         54cSY+5h7nBsSNX31MZu8MmYatBGeKY3cH/a8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=/xvo1QegjGszfBVPbZfwcJiTRf9LyLsH4tfXgS3DTXk=;
+        b=OaHj4oNThfUbhxJgBQbVItgfYINZkYJSeXR/J9HMZBHT5bdPxiBEyKBMIH+tQhCBkc
+         jx3JHbIRWIioxIvbVh9+bKHbBnELiDobsfJGa6qEreM87n8+HAs2G2F8s0Qsr0b661iH
+         dV6gbi0mrLRmzk46j4Mllitb7nUSUgjr2cH04aVAxNW7KdBOaGZW9PV+tqIC/lGPwSru
+         uhMUsiL5ET0BXHLOSG2Dm2AOjb5+8FO2pqQbSQOWHKBa0dEaazmMTOAGFGaUO6NnG/37
+         Gr4jIKIng3Xmh/Hk/2vwnODm8wsYYtw2jkhS8VzwaITVENCDhhUpVxHMJh/4X6/pWN6F
+         KEXQ==
+X-Gm-Message-State: AOAM5304UnQuhvRbW/TFPPnhbYQ+xKd8CbEdfq3Qbxf37+D8ikZ8Aeep
+        Za3fOtNCDdZwwha4FmG7+cXK9GyF+8q9CQ==
+X-Google-Smtp-Source: ABdhPJyp7L18yfX+a3+74m3WSmf82NX+348FHIw3+ta56kuNj54YEERcYeSPKnjO8DjnXv3ji0PBXQ==
+X-Received: by 2002:a17:906:b0f:: with SMTP id u15mr19092856ejg.109.1605001845520;
+        Tue, 10 Nov 2020 01:50:45 -0800 (PST)
+Received: from mail-wr1-f46.google.com (mail-wr1-f46.google.com. [209.85.221.46])
+        by smtp.gmail.com with ESMTPSA id og19sm10071071ejb.7.2020.11.10.01.50.44
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Nov 2020 01:50:44 -0800 (PST)
+Received: by mail-wr1-f46.google.com with SMTP id l1so7539185wrb.9
+        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 01:50:44 -0800 (PST)
+X-Received: by 2002:adf:ed11:: with SMTP id a17mr8193482wro.197.1605001843595;
+ Tue, 10 Nov 2020 01:50:43 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201109173153.23720-3-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfATtX920J02neZzjkurJjTu4twjJVU1mDc7wO+Lo5PvApGbQkudw8FTYKIvi1Uv4m1276ltKCNCd/DHIhTkXQrudiliiAQp33BjeCk8N1R3qn3Sptz5O
- 0YjkKscoItmXuf4rueKiMtk/G02AzdYGGwQpwfTIuKzSCgxuNg1dp5JATtG/cvQQofbRyxo/P7YF6Ax/5BAfrFcGT9m8fI4YDHULD1Ycfd3zRpn74WhrbK4h
- ZTchkT28fyvkhqEkzwhjlZZ5+nOkoibI0r0avfunqUzI3fNj6SVt5aPgdHOUKkoB8SoXsJMWEEtIQfn4Ad9ak/PyyGYtO0AGR+xgj9j31KAEWEyljV80j0pI
- NtLN/lz/zDCw5UGPPoiS6SiPaUhOTqrc5y/haXVk0ReS4BHOD7TWASDRJHn6ruTS+UUuKGeL
+References: <20200930160917.1234225-1-hch@lst.de> <20200930160917.1234225-9-hch@lst.de>
+ <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com>
+ <CANiDSCtefXKw-xC3bskyggW-BzCmVPj6GGLvO=cCPZHbS1oTDA@mail.gmail.com>
+ <20201110092506.GA24469@lst.de> <CANiDSCsBUBV1WA2To9x26Uhc5SU-4xuh3m4wUwXBcGwA6n8now@mail.gmail.com>
+In-Reply-To: <CANiDSCsBUBV1WA2To9x26Uhc5SU-4xuh3m4wUwXBcGwA6n8now@mail.gmail.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 10 Nov 2020 18:50:32 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5CCOrp0OA_n_SHNO5RAhV-MQ2KuQJA+oWHQ76h_So=M2Q@mail.gmail.com>
+Message-ID: <CAAFQd5CCOrp0OA_n_SHNO5RAhV-MQ2KuQJA+oWHQ76h_So=M2Q@mail.gmail.com>
+Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
+To:     Ricardo Ribalda <ribalda@chromium.org>,
+        Christoph Hellwig <hch@lst.de>,
+        Kieran Bingham <kieran.bingham@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
+        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 09/11/2020 18:31, Stanimir Varbanov wrote:
-> Document Content light level and Mastering display colour volume.
-> 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->  .../media/v4l/ext-ctrls-codec.rst             | 61 +++++++++++++++++++
->  1 file changed, 61 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index ce728c757eaf..39d0aab5ca3d 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -4382,3 +4382,64 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->        - Selecting this value specifies that HEVC slices are expected
->          to be prefixed by Annex B start codes. According to :ref:`hevc`
->          valid start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001.
-> +
-> +``V4L2_CID_MPEG_VIDEO_HEVC_CLL_INFO (struct)``
-> +    The Content Light Level defines upper bounds for the nominal target
-> +    brightness light level of the pictures.
-> +
-> +.. c:type:: v4l2_ctrl_hevc_cll_info
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table:: struct v4l2_ctrl_hevc_cll_info
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u16
-> +      - ``max_content_light_level``
-> +      - An upper bound on the maximum light level among all individual
-> +        samples for the pictures of coded video sequence, cd/m2.
-> +    * - __u16
-> +      - ``max_pic_average_light_level``
-> +      - An upper bound on the maximum average light level among the
-> +        samples for any idividual picture of coded video sequence, cd/m2.
+On Tue, Nov 10, 2020 at 6:33 PM Ricardo Ribalda <ribalda@chromium.org> wrote:
+>
+> Hi Christoph
+>
+> On Tue, Nov 10, 2020 at 10:25 AM Christoph Hellwig <hch@lst.de> wrote:
+> >
+> > On Mon, Nov 09, 2020 at 03:53:55PM +0100, Ricardo Ribalda wrote:
+> > > Hi Christoph
+> > >
+> > > I have started now to give a try to your patchset. Sorry for the delay.
+> > >
+> > > For uvc I have prepared this patch:
+> > > https://github.com/ribalda/linux/commit/9094fe223fe38f8c8ff21366d893b43cbbdf0113
+> > >
+> > > I have tested successfully in a x86_64 noteboot..., yes I know there
+> > > is no change for that platform :).
+> > > I am trying to get hold of an arm device that can run the latest
+> > > kernel from upstream.
+> > >
+> > > On the meanwhile if you could take a look to the patch to verify that
+> > > this the way that you expect the drivers to use your api I would
+> > > appreciate it
+> >
+> > This looks pretty reaosnable.
+> >
+>
+> Great
+>
 
-idividual -> individual
+Thanks Christoph for taking a look quickly.
 
-In the CTA-861-G spec value 0 is used to indicate that this information is
-not present. How is that handled here? Can it be 0 as well in an HEVC stream?
+> Also FYI, I managed to boot an ARM device with that tree. But I could
+> not test the uvc driver (it was a remote device with no usb device
+> attached)
+>
+> Hopefully I will be able to test it for real this week.
+>
+> Any suggestions for how to measure performance difference?
 
-Same for the next control.
+Back in time Kieran (+CC) shared a patch to add extra statistics for
+packet processing and payload assembly, with results of various
+approaches summarized in a spreadsheet:
+https://docs.google.com/spreadsheets/d/1uPdbdVcebO9OQ0LQ8hR2LGIEySWgSnGwwhzv7LPXAlU/edit#gid=0
 
-> +
-> +``V4L2_CID_MPEG_VIDEO_HEVC_MASTERING_DISPLAY (struct)``
-> +    The mastering display defines the colour volume (the colour primaries,
-> +    white point and luminance range) of a display considered to be the
-> +    mastering display for current video content.
-> +
-> +.. c:type:: v4l2_ctrl_hevc_mastering_display
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table:: struct v4l2_ctrl_hevc_mastering_display
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u16
-> +      - ``display_primaries_x[3]``
-> +      - Specifies the normalized x chromaticity coordinate of the colour
-> +        primary component of the mastering display.
+That and just simple CPU usage comparison would be enough.
 
-CTA-861-G defines this as: "coded as unsigned 16-bit values in units
-of 0.00002, where 0x0000 represents zero and 0xC350 represents 1.0000."
+>
+> Thanks!
+>
+> > Note that ifdef  CONFIG_DMA_NONCOHERENT in the old code doesn't actually
+> > work, as that option is an internal thing just for mips and sh..
 
-Is that true here as well? If so, then this should be documented because
-"normalized x chromaticity coordinate" doesn't say anything meaningful.
+In what terms it doesn't actually work? Last time I checked some
+platforms actually defined CONFIG_DMA_NONCOHERENT, so those would
+instead use the kmalloc() + dma_map() path. I don't have any
+background on why that was added and whether it needs to be preserved,
+though. Kieran, Laurent, do you have any insight?
 
-> +    * - __u16
-> +      - ``display_primaries_y[3]``
-> +      - Specifies the normalized y chromaticity coordinate of the colour
-> +        primary component of the mastering display.
-> +    * - __u16
-> +      - ``white_point_x``
-> +      - Specifies the normalized x chromaticity coordinate of the white
-> +        point of the mastering display.
-> +    * - __u16
-> +      - ``white_point_y``
-> +      - Specifies the normalized y chromaticity coordinate of the white
-> +        point of the mastering display.
-> +    * - __u32
-> +      - ``max_luminance``
-> +      - Specifies the nominal maximum display luminance of the mastering
-> +        display.
-
-In CTA-861-G this is in 1 cd/m^2 units.
-
-> +    * - __u32
-> +      - ``min_luminance``
-> +      - specifies the nominal minimum display luminance of the mastering
-> +        display.
-
-And this in units of 0.0001 cd/m^2.
-
-Regards,
-
-	Hans
+Best regards,
+Tomasz
