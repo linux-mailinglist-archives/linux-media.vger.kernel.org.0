@@ -2,175 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F1C742AE10B
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 21:51:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 949BC2AE153
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 22:04:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731687AbgKJUvD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 15:51:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35738 "EHLO
+        id S1726706AbgKJVEH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 16:04:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37760 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725862AbgKJUvC (ORCPT
+        with ESMTP id S1726214AbgKJVEH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 15:51:02 -0500
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DF2AAC0613D1;
-        Tue, 10 Nov 2020 12:51:01 -0800 (PST)
-Received: by mail-wr1-x441.google.com with SMTP id c17so14209859wrc.11;
-        Tue, 10 Nov 2020 12:51:01 -0800 (PST)
+        Tue, 10 Nov 2020 16:04:07 -0500
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00480C0613D1
+        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 13:04:06 -0800 (PST)
+Received: by mail-ed1-x544.google.com with SMTP id t11so14274140edj.13
+        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 13:04:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to:user-agent;
-        bh=7HIcKzFu5PUUQcFiE5YVq2OrMCSk+O2P2oBdDfJbjm4=;
-        b=p3IuKkDXlF3/hpGET8e431R9TjI8VmaD+tYyRxHQGfyz1Zii2UqQIUz90t+lwWNG3V
-         BSvrTnzMRaDza3nj7lIX82CRMGAvsjEdjNzfHjEnvpAFxV5wVG9/Tdztnp70jZFTX9n7
-         XVoGGmB3AUEEriWlJRtubCXxQZ+7IfKCFRLa1Bs/eq7/b3hujUOOe/nhApmQ3zZBcQr6
-         XTN4tHq9WBwGu9zozNsOUEZcudsB0kAiBu+SsVkmAu2gY+R5sjJku3BNQyWBpCWiG0dn
-         F9Q53i5FcdYDhmSQYf/6sS4PokOHp+ScuogduJxME0MCnBiwFP3QWlpGVvuQch6XGJqx
-         df+Q==
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=xI45YnQNiC4P8J4lgBXG/z8cHmMzcRB6aMt37sREgLU=;
+        b=Ffv7bCnbSiujBe1FuKScR6+7em4yb0WJLyXysMA6NcrvjYpAtWgIyLHNA+jRVlDsdU
+         4u5wVWxcT3+j9Wl67L0rtT6CdCkfn6Oy6t5M1Y/Cp9UEaNL8UnbqbFkWs2VCwLtXqxSE
+         cHPycBFCvM/absTS5+alHKmvnhds4dcyIbLjZvSraRbFx7+0YEVCZt0csdnIVX4QYwo1
+         6ZCYX/ldY5YiVAFMlO0iSr+Gnf5itKawwyv88+ZwNObEQ2AQ4Q1oGmHzCTjzkv3HhgzC
+         YI5LNiGNTAjXGJ16IcLPFMWs5z824tT9wonIddIe3cj41Rs6+vO8Y2LZ+I89oMXgslzd
+         rHmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to:user-agent;
-        bh=7HIcKzFu5PUUQcFiE5YVq2OrMCSk+O2P2oBdDfJbjm4=;
-        b=V/NHP2WbXVovV9P8XI6d8spuqAj6J4vGunak1qh/2ENHWRJzfoAPfwTrlb/naj3HCX
-         hlfkFjsaEAVzoqbm0j3XxyJkqL8HEpqSuGi6bGLPWVBbiurlX1/N494VF4Pnn843fGba
-         Yhuapk6UsAbWWZcNTLbqQ3MeZVPlWp2BThv/oKmpOD8F9qMymp/sIl8PxFVm+RQttNsG
-         3XkVFWaHeKxWqDiTh8om4Be2Tja9+Y9deVZpcP/P3KeV7zbgJrvFfDq370BfQ7X2BSRj
-         9/S++B4mt3ZGtKfOx8pEREsQbB8wechvFBoC3t+5Cm1YcZ3O+mfMm0u4VZ/hMz6wBgqo
-         0wQw==
-X-Gm-Message-State: AOAM531SasjoXAENlgwHamyZkY1QKIFDSVWkrxCJrqFsHQK8KtWNl1S3
-        6hgrcaj3VLRRWKWd/OQO8uM=
-X-Google-Smtp-Source: ABdhPJxzIEmPPnLANkIp2K03g8rC5eaOPrtyiZGMeuwPXYl02/6Hg+v9qU2Prx3ft4ivHx0jS/Q3dA==
-X-Received: by 2002:a5d:51c2:: with SMTP id n2mr12551938wrv.326.1605041460687;
-        Tue, 10 Nov 2020 12:51:00 -0800 (PST)
-Received: from localhost ([217.111.27.204])
-        by smtp.gmail.com with ESMTPSA id z5sm18029459wrw.87.2020.11.10.12.50.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 10 Nov 2020 12:50:59 -0800 (PST)
-Date:   Tue, 10 Nov 2020 21:50:57 +0100
-From:   Thierry Reding <thierry.reding@gmail.com>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?utf-8?Q?Kleine-K=C3=B6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v1 18/30] pwm: tegra: Support OPP and core voltage scaling
-Message-ID: <20201110205057.GH2375022@ulmo>
-References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-19-digetx@gmail.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=xI45YnQNiC4P8J4lgBXG/z8cHmMzcRB6aMt37sREgLU=;
+        b=d992SwRvdfAjsnlYXDmQKmuXGL+ZiJJjoEy1AhVjuXjABXuleDFwRaB7b4B+KiSonp
+         bnCfkfZMnUnflFntVYqwJmja/b+stVasnycTXxFy0fXfK/HCu6TarB8pr1Y3/RoYK2VB
+         4YDCr5HB+aypxEJgLjYdP16oP2rcOUQzKh9Ed69mlVpS9sGO/nnlG11kOyDnMfWIaxkr
+         +QAYG3/driXeLjHtjWBxisuhB/sEVciFUCBr1jXUao8RBhhslnYua5gkQkMBcSXZ3bR0
+         wF7t/a/Q7ZUYfvx3x5EeCr4PqBCP0JAzYqj7Prl93a+93bUZWTRvvbiVdVdJVRRKqIAo
+         woBA==
+X-Gm-Message-State: AOAM532VJxdqfDKPuKrQie6F2ifCHxjJh/hnL7u2IIjaUpX65r58xGxj
+        6kd7t10JFiEvsmp6Z5OWpi67funi57ZvERijEPUpjw==
+X-Google-Smtp-Source: ABdhPJxnvRuAM7u4ej4H8i/UnTcYekXKkcAUFyy9rn3ApxSLFAp/Wb5qXGtnMFV/hiewsNMPOeQvdI0XagDPBEoM/tw=
+X-Received: by 2002:a05:6402:2059:: with SMTP id bc25mr1429498edb.13.1605042245675;
+ Tue, 10 Nov 2020 13:04:05 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="v2Uk6McLiE8OV1El"
-Content-Disposition: inline
-In-Reply-To: <20201104234427.26477-19-digetx@gmail.com>
-User-Agent: Mutt/1.14.7 (2020-08-29)
+References: <20201102190551.1223389-1-adrian.ratiu@collabora.com>
+In-Reply-To: <20201102190551.1223389-1-adrian.ratiu@collabora.com>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Tue, 10 Nov 2020 18:03:54 -0300
+Message-ID: <CAAEAJfA1N1k9Vho4weZ9VnM_v6K4RXdmERyrWcWPCj64NMzDoQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/3] media: rkvdec: Add a VP9 backend
+To:     Adrian Ratiu <adrian.ratiu@collabora.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel@collabora.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, 2 Nov 2020 at 16:04, Adrian Ratiu <adrian.ratiu@collabora.com> wrote:
+>
+> Dear all,
+>
+> This is v5 of the series adding VP9 profile 0 decoding to rkvdec.
+>
+> All feedback from v4 should be addressed, there's just one thing I did
+> not address: ref_frame_sign_biases in the uAPI. The userspace tool I'm
 
---v2Uk6McLiE8OV1El
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+I believe that Hantro G2 VP9 needs ref_frame_sign_biases.
 
-On Thu, Nov 05, 2020 at 02:44:15AM +0300, Dmitry Osipenko wrote:
-[...]
-> +static void tegra_pwm_deinit_opp_table(void *data)
-> +{
-> +	struct device *dev = data;
-> +	struct opp_table *opp_table;
-> +
-> +	opp_table = dev_pm_opp_get_opp_table(dev);
-> +	dev_pm_opp_of_remove_table(dev);
-> +	dev_pm_opp_put_regulators(opp_table);
-> +	dev_pm_opp_put_opp_table(opp_table);
-> +}
-> +
-> +static int devm_tegra_pwm_init_opp_table(struct device *dev)
-> +{
-> +	struct opp_table *opp_table;
-> +	const char *rname = "core";
-> +	int err;
-> +
-> +	/* voltage scaling is optional */
-> +	if (device_property_present(dev, "core-supply"))
-> +		opp_table = dev_pm_opp_set_regulators(dev, &rname, 1);
-> +	else
-> +		opp_table = dev_pm_opp_get_opp_table(dev);
-> +
-> +	if (IS_ERR(opp_table))
-> +		return dev_err_probe(dev, PTR_ERR(opp_table),
-> +				     "failed to prepare OPP table\n");
-> +
-> +	/*
-> +	 * OPP table presence is optional and we want the set_rate() of OPP
-> +	 * API to work similarly to clk_set_rate() if table is missing in a
-> +	 * device-tree.  The add_table() errors out if OPP is missing in DT.
-> +	 */
-> +	if (device_property_present(dev, "operating-points-v2")) {
-> +		err = dev_pm_opp_of_add_table(dev);
-> +		if (err) {
-> +			dev_err(dev, "failed to add OPP table: %d\n", err);
-> +			goto put_table;
-> +		}
-> +	}
-> +
-> +	err = devm_add_action(dev, tegra_pwm_deinit_opp_table, dev);
-> +	if (err)
-> +		goto remove_table;
-> +
-> +	return 0;
-> +
-> +remove_table:
-> +	dev_pm_opp_of_remove_table(dev);
-> +put_table:
-> +	dev_pm_opp_put_regulators(opp_table);
-> +
-> +	return err;
-> +}
+I think that it's also needed for the MTK decoder.
+Might be worth checking that as well, if the code is publicly
+available somewhere.
 
-These two functions seem to be heavily boilerplate across all these
-drivers. Have you considered splitting these out into separate helpers?
+Coming to think about it, I think we are really close to having
+this uAPI directly upstream.
 
-Thierry
+Let's take a step back on why we have these uAPIs in the staging
+area. Couple years ago, there were some doubts in the media community
+about these uAPIs, and we wanted to wait a bit for more users
+before moving to public land.
 
---v2Uk6McLiE8OV1El
-Content-Type: application/pgp-signature; name="signature.asc"
+The uAPIs were meant to be in staging until enough users
+appeared and we were confident enough to move to stable.
 
------BEGIN PGP SIGNATURE-----
+For VP9, given the feedback received through the year was already
+addressed, I think all that's left is to check the interface and make sure
+it can support Rockchip (RK3399, RK3326, etc), Hantro G2 and Mediatek,
 
-iQIzBAABCAAdFiEEiOrDCAFJzPfAjcif3SOs138+s6EFAl+q/TEACgkQ3SOs138+
-s6FEeBAAokltgZ7HHYhhwbbWHXNUkzO/NUlYWsInWSSKGta8fNY21NFKFf6nxcqg
-ysIyLPN9dv8a9saNwqn3LEtMcfrRlwhNI22SJT9qeJccG/FrVSt9wPszq4Sm/6+/
-XjySJpMVvKGnrZTlrDIqTPjxnocpBDumCM+jSDtNH/VPaGozHg1Zx0qh8/beFTmv
-Vtb0OcnD4qtkufaD0UNVfgFgwtFA3kRYS4cn6HfvqtjefLPSoQPAsdm7Bv4k7x5c
-KT12aYsPstalOtHu+FLiNVpazIpRiQcf1r4C/NtBsZcakeN5yuDe5TjP81BWYYmL
-q2d7TSeKz7bETNVkYlHJYDjvmDKdxfSaCkZYzfrHZlGIIFkDVUldkWLqi3g7SFe8
-SZTVRmWNiXrs6yvvJLLATV+By1fXEUHT+5EncaaS2KKWIER/rkBfZaTU5sm1Dh2e
-1uYKgu1HT00/215AdNLi/QpUSCMoP+RUixydwl9b0+dkJ5mbcY3Zyqz0iyFKEPg6
-EnkFO/edSWtmvQeFqqapWBfvO7ilH+yrlO8usp0A4pFhHFrs5D7k+oij9lDKVDPO
-LT092WpWBVzCxAYioMUGADderKfCTP3Tp4W5Lw9Tp2zyHG6Qze+UsbvNoPwYhb8G
-l0UKpbDA7nfIhJ3zrFcENxPPGXWP7aDaL8sG6HnZ5FQZoyj/w2Y=
-=OvzO
------END PGP SIGNATURE-----
+We will be very close to having a public API, and we could even merge it
+directly there.
 
---v2Uk6McLiE8OV1El--
+Thanks,
+Ezequiel
+
+> using [1] apparently doesn't need it or the default hwreg value for it
+> is capable of decoding the bitstreams I used on the driver, so I don't
+> really have a use-case to change and test that. :)
+>
+> Considering the uAPI is a work in progress and expected to be modified,
+> ref_frame_sign_biases can be added later with others which might be
+> required to enable more functionality (for eg profiles >= 1).
+>
+> Series tested on rk3399 and applies on next-20201030.
+>
+> [1] https://github.com/Kwiboo/FFmpeg/tree/v4l2-request-hwaccel-4.2.2-rkvdec
+>
+> Changelog
+> ---------
+>
+> v5:
+>
+> * Drop unnecessary OUTPUT buffer payload set in .buf_prepare.
+> * Drop obsolete .per_request ctrl flag
+> * Added new vp9 ctrls to v4l2_ctrl_ptr
+> * Fix pahole detected padding issues
+> * Send userspace an error if it tries to reconfigure decode resolution
+>   as v4l2 or rkvdec-vp9 backend do not support dynamic res changes yet
+> * Allow frame ctx probability tables to be non-mandatory so users can
+>   set them directly during frame decoding in cases where no defaults
+>   have been set previously (eg. ffmpeg vp9 backend)
+> * Some comments and documentation clarifications
+> * Minor checkpatch fixes
+>
+> v4:
+>
+> * Drop color_space field from the VP9 interface.
+>   V4L2 API should be used for it.
+> * Clarified Segment-ID comments.
+> * Moved motion vector probabilities to a separate
+>   struct.
+>
+> v3:
+>
+> * Fix documentation issues found by Hans.
+> * Fix smatch detected issues as pointed out by Hans.
+> * Added patch to fix wrong bytesused set on .buf_prepare.
+>
+> v2:
+>
+> * Documentation style issues pointed out by Nicolas internally.
+> * s/VP9_PROFILE_MAX/V4L2_VP9_PROFILE_MAX/
+> * Fix wrong kfree(ctx).
+> * constify a couple structs on rkvdec-vp9.c
+>
+>
+> Boris Brezillon (2):
+>   media: uapi: Add VP9 stateless decoder controls
+>   media: rkvdec: Add the VP9 backend
+>
+> Ezequiel Garcia (1):
+>   media: rkvdec: Fix .buf_prepare
+>
+>  .../userspace-api/media/v4l/biblio.rst        |   10 +
+>  .../media/v4l/ext-ctrls-codec.rst             |  550 ++++++
+>  drivers/media/v4l2-core/v4l2-ctrls.c          |  239 +++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+>  drivers/staging/media/rkvdec/Makefile         |    2 +-
+>  drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1577 +++++++++++++++++
+>  drivers/staging/media/rkvdec/rkvdec.c         |   72 +-
+>  drivers/staging/media/rkvdec/rkvdec.h         |    6 +
+>  include/media/v4l2-ctrls.h                    |    5 +
+>  include/media/vp9-ctrls.h                     |  486 +++++
+>  10 files changed, 2942 insertions(+), 6 deletions(-)
+>  create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
+>  create mode 100644 include/media/vp9-ctrls.h
+>
+> --
+> 2.29.0
+>
