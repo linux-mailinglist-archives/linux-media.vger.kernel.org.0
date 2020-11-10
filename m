@@ -2,238 +2,268 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A00D2AD8D3
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 15:30:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 41D212AD916
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 15:43:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730715AbgKJOay (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 09:30:54 -0500
-Received: from mail-eopbgr70089.outbound.protection.outlook.com ([40.107.7.89]:37056
-        "EHLO EUR04-HE1-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1730070AbgKJOax (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 09:30:53 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=WuAqz5hzgSGWBQqUi1ZdxuUKem6OZ79uli3NXDuf9yeXPGmZJtzpPKi5cER+XdNb/Bk3lv9RZEVTU3By7vMeoL9EPs9mMZF5l1NRt6PXSiY81Y9XAAVpPlw61qxrBmvblwqpbRnCbEsg5Xr62S017YGzvfsEvOh0O+oIPSLIcReJwosWzw4WC/wU13cYpOrFvKNuyY9sF2hpBAqZCDC2+8PP5VXndLoI3hZ2OkfY9CjhKpvS9PmcAxPc31cXxlidZydps55iHAZWLdnghU0VqGWRDhl/b7mo9WOj/QYkzoZA7CUu2zyt5Cs4d6NUejft7aUmBf066YNG380cJeA0Aw==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G+fwrQ5bg6jQji/k+oYT5Z48k/oj7/qNWMefyHWQLDs=;
- b=gOnuO7SGUVgKtfFbryBp8C3KjGW30CIZTE52VUmX7yT0CPrDpIz1B4uHq/ntCswyFuuN02mbJzugpA5UNZnP97dTBQ7R1D58vY7pSjyz1Ax0g4Gps38K2eQ6iblw5YmPRpKBtSNzpevbrEmklJTqx9PuJlhBsI7cPUf/QwTDltFadZtqvatxbmQEAe5eR97ZncWVEcSylENft4I5ZG+deQZLFg5q4XvnzrlLNRLhi53StgtL2XOo61cM2hIHGJpaVF7IfWATeZeOqcFkcG762rgOyaLNgaJb5TmH5jdqcHHIKojH1To075JIJImoXXE2TGxA97cS7MpN08yioat/pA==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
- smtp.mailfrom=wolfvision.net; dmarc=pass action=none
- header.from=wolfvision.net; dkim=pass header.d=wolfvision.net; arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=wolfvision.net;
- s=selector2;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=G+fwrQ5bg6jQji/k+oYT5Z48k/oj7/qNWMefyHWQLDs=;
- b=MKqX7FEXvRdyIn0KWVUfS4O8iMihAjiKJstsL2+czCJq92zTVvPyDAyzoNOZ/sRi8l45ZCaNofmWUbMs6K7gmiP+rjJWojOtazwlLYZtJEaHWGFNC9q8bEJtNdDRmA3gYR+b+dk+SoQar1y8g0Ho6jKDzRh+agWkeqEbbV6sshg=
-Authentication-Results: linuxfoundation.org; dkim=none (message not signed)
- header.d=none;linuxfoundation.org; dmarc=none action=none
- header.from=wolfvision.net;
-Received: from VI1PR08MB4064.eurprd08.prod.outlook.com (2603:10a6:803:e5::10)
- by VI1PR08MB4368.eurprd08.prod.outlook.com (2603:10a6:803:fe::16) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.24; Tue, 10 Nov
- 2020 14:30:47 +0000
-Received: from VI1PR08MB4064.eurprd08.prod.outlook.com
- ([fe80::3cab:8098:fc6c:df30]) by VI1PR08MB4064.eurprd08.prod.outlook.com
- ([fe80::3cab:8098:fc6c:df30%4]) with mapi id 15.20.3541.025; Tue, 10 Nov 2020
- 14:30:47 +0000
-From:   thomas.haemmerle@wolfvision.net
-To:     gregkh@linuxfoundation.org
+        id S1731961AbgKJOnm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 09:43:42 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:59545 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730231AbgKJOnm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 10 Nov 2020 09:43:42 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id cUrvk4Rqk1R0xcUrykZt2r; Tue, 10 Nov 2020 15:43:39 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1605019419; bh=CMilisjdnqJV6NxDNuxL0wK4UZx+/DMKK+SFr0jHB6M=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=DTSUhBHSSXhnBwFzWdOKMwgREbSbrC1XOuzeFMPXTo5pgAUsOvpaztnJ7y518uy3v
+         MOpwz5As0NRQX8ccc67zKfPtMMFmh4B7/hvcjOBA89vVYgT60ix7XtbfvGpsFh7NFt
+         0skdAI0oIGIl+0nUyYPfNBB/IyP6rCc7J9/kKZ8uu5lxAo9a5tPMhi8uAnbeuUY8A6
+         QnjLlsZkclU518Fgrwz6Hi4I2plIhPNiQ10jldzPkwrLpzkPyTi349npJZ8GwcEw6p
+         At1B8sKq6og8zjUFMBrubMcbPO9p3E9zdGsCIwVBqmGnDR8CMCHWxfhfytXKZOwgLk
+         GpJWtneHP+POg==
+Subject: Re: [PATCH v2] usb: gadget: uvc: fix multiple opens
+To:     =?UTF-8?Q?Thomas_H=c3=a4mmerle?= <thomas.haemmerle@wolfvision.net>,
+        gregkh@linuxfoundation.org
 Cc:     laurent.pinchart@ideasonboard.com, balbi@kernel.org,
-        hverkuil@xs4all.nl, linux-usb@vger.kernel.org,
-        m.tretter@pengutronix.de, linux-media@vger.kernel.org,
-        Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
-Subject: [PATCH v3] usb: gadget: uvc: fix multiple opens
-Date:   Tue, 10 Nov 2020 15:30:15 +0100
-Message-Id: <20201110143015.15134-1-thomas.haemmerle@wolfvision.net>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <X6pmMFYmzO088p4g@kroah.com>
-References: <X6pmMFYmzO088p4g@kroah.com>
-Content-Type: text/plain
-X-Originating-IP: [91.118.163.37]
-X-ClientProxiedBy: VI1P195CA0074.EURP195.PROD.OUTLOOK.COM
- (2603:10a6:802:59::27) To VI1PR08MB4064.eurprd08.prod.outlook.com
- (2603:10a6:803:e5::10)
+        linux-usb@vger.kernel.org, m.tretter@pengutronix.de,
+        linux-media@vger.kernel.org
+References: <20201105103758.GA4033354@kroah.com>
+ <20201110082504.26134-1-thomas.haemmerle@wolfvision.net>
+ <2bf6f3b3-6475-9cd9-b6f9-dfc4b444c955@xs4all.nl>
+ <03c81d2f-24c3-0c15-3a8a-506ea955bf67@wolfvision.net>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <7410ad3c-eaf9-9722-e269-d737b85ab696@xs4all.nl>
+Date:   Tue, 10 Nov 2020 15:43:35 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from wvls01.wolfvision-at.intra (91.118.163.37) by VI1P195CA0074.EURP195.PROD.OUTLOOK.COM (2603:10a6:802:59::27) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3541.21 via Frontend Transport; Tue, 10 Nov 2020 14:30:46 +0000
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 9dc9bffd-10a7-4ead-6a40-08d8858536d8
-X-MS-TrafficTypeDiagnostic: VI1PR08MB4368:
-X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <VI1PR08MB436865260E7B8395A8E785B1EDE90@VI1PR08MB4368.eurprd08.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:8882;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: nmqOBSPlPzOPX8Z1R1QYerjyHgF2Jn3ohir+um7RVyVvrlQDrF+MTo4410dO+Yydt+E8Kev5G+JbZmPQhl+Aim96p0vtx5Gr5B+8l8zS2f2o796kqNN8FwCOYUzItUjEYwEMT1FmZgLsXg+qDLlmmUMzjyJkOv4eUeIUVSu6JakuOC+68ZN+FvsYtXDF0SgazZsHHbQxbLGo9TAy59bbPJgaxJz4qWCV9Tfa4QAaWZ6AlztaQyJ8ReSD8zNWLGU5L8LtrHRt1Yq3l+eyoor8820lceoS2AXlIpGUh0k0ENlEfCCVI1xYzMQx9lo1pt1B1zjX5+wif2H0vIbDxppE+w==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:VI1PR08MB4064.eurprd08.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(136003)(346002)(39840400004)(376002)(396003)(316002)(6486002)(6666004)(86362001)(5660300002)(107886003)(186003)(2906002)(6512007)(36756003)(956004)(26005)(9686003)(4326008)(66556008)(52116002)(8676002)(8936002)(66476007)(1076003)(16526019)(478600001)(66946007)(2616005)(6916009)(6506007)(83380400001);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: QdspLon4zh0hLSRtA+ongvt91eyCqTj/WRLlUNcSZi3jLMzr1iWfsQcMSPWHlWuzyNqvlALjYlIC4T+h0Kg6tgrlmW5QKm/nRz5c85Sw1GO8UFVgsxO1Z6euJEa6/XYTCwT0uyMQRAzzRIpyMJo7pmgkk8GInJR73LLyqMQ6429Hf++w1MvSHsaRG/W3CEmYoOcP1KYq48esF5J1wiF+EYL46N2aOu56nkNv+5h/34H+EM3fzOsOyE1wL8k9HQQcnvjGPIdueUNMYaLmWQnxeDHEnNRcKNuXaLI7LDK39uu5/3yopr3wexG3iZWOBq31x8sq9OyrBm72w6BPyFimWqfo+zpzlpmy9Jci+lEi9zDYpwgjJLhn+m0zTr2Sw1viYHxFCeSlezU69NUlR6drvxRcJEBKz7yQRFIWuwxqW4Mb3Cl2dZlUBcIXlL7YsQiUDzSaQD4L5JxrNF1TvaW5r3hsGUXQKA2COG+0tWP4T6iy7xc6ys1/HrWHbqlEUyTrDJ3A2mMe/QqfJOoz03uzaakA/rcvUhfP1787SQaeAGKk1f+0wIIQJqs55+UaM+85ArA+3r2GY19R8VGykhTrHanxS6VX/Mnhe84fTwjo6NmsLO6KK/EhfBT4nR/C7puj0m54k7HwcK9Corw3FRNHnst+akx9acN0sd5Yp0siQK6GjX+OLp5VPiFV82jAhQ/fFCvItc/N7vrRRhphFzqICRSeCEn50ImJeRu/KtQEjTl8RBd1TfUNuFlMbsif3qRf4/H0FOnReJdKBsQ12ADAgmGaM/gyIGogLajOG+UUJ2aZ8d/q6S2gyGKKijXCaWpxiLZ8Bgyq+wb1/h43WxnV776E4OHaSbxmawBgRyJkOqlK2rFN/0d5LycU0vwcdgjZIHunWlhtxDM8zQyJ4Z7atA==
-X-OriginatorOrg: wolfvision.net
-X-MS-Exchange-CrossTenant-Network-Message-Id: 9dc9bffd-10a7-4ead-6a40-08d8858536d8
-X-MS-Exchange-CrossTenant-AuthSource: VI1PR08MB4064.eurprd08.prod.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 10 Nov 2020 14:30:47.3520
- (UTC)
-X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
-X-MS-Exchange-CrossTenant-Id: e94ec9da-9183-471e-83b3-51baa8eb804f
-X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: 9FNS3fEsxVEtFnEA5V+Ngnp9KLy2kCRx/2NTUztKQkrhlqGHmYGdwDulhfYCXUSSwVFy7AXq4oqSlr2aDCVhyPdhrHoND/jKiY/x28BPN+w=
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: VI1PR08MB4368
+In-Reply-To: <03c81d2f-24c3-0c15-3a8a-506ea955bf67@wolfvision.net>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfNCOFgeieZ9DJOR6L/2r/6rOUon6aawxl3rdmtvB+fsmeK96Kp97cyWUw7YvCq5Jo3127/b464MwOiXj8i09Lwp0jLvFrB0ONxmlbVjZ1pMCzGSKeQ7p
+ +/bkfr28AhuMIt5f9lz4jzsOS5564L7eCIJUxIDPtO8O8KlWK7XiNIPAza5B2cgWn230WvI8BAvjlm4vlDtv6vP5yAPBYUdXNWTOqDdWg0D/nXvq7pEiAAEU
+ O8AzNODarWZzSYWcnj37u8k5/GwUPfI8wzk5upou9tNjfxCEExaLRqAB44/Hlbp4ZFAwMzYbXT2hsb6MrCA8Y0k+YqrRN2tkgLStBr5dc6UrgGXOpOVRTgz+
+ 8S+iYluMWGgiT41GX6NtD11Zd4Ga2QfYd8S1sUlW7z6u1y4CEFtDBFoW6JuITt0Kw9FPsua0I44ljKpdPhnFib15OM/BqA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+On 10/11/2020 12:53, Thomas Hämmerle wrote:
+> On 10.11.20 11:31, Hans Verkuil wrote:
+>> On 10/11/2020 09:25, thomas.haemmerle@wolfvision.net wrote:
+>>> From: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+>>>
+>>> Currently, the UVC function is activated when open on the corresponding
+>>> v4l2 device is called.
+>>> On another open the activation of the function fails since the
+>>> deactivation counter in `usb_function_activate` equals 0. However the
+>>> error is not returned to userspace since the open of the v4l2 device is
+>>> successful.
+>>>
+>>> On a close the function is deactivated (since deactivation counter still
+>>> equals 0) and the video is disabled in `uvc_v4l2_release`, although
+>>> another process potentially is streaming.
+>>>
+>>> Move activation of UVC function to subscription on UVC_EVENT_SETUP and
+>>> keep track of the number of subscribers (limited to 1) because there we
+>>> can guarantee for a userspace program utilizing UVC.
+>>> Extend the `struct uvc_file_handle` with member `bool connected` to tag
+>>> it for a deactivation of the function.
+>>>
+>>> With this a process is able to check capabilities of the v4l2 device
+>>> without deactivating the function for another process actually using the
+>>> device for UVC streaming.
+>>>
+>>> Signed-off-by: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+>>> ---
+>>> v2:
+>>>   - fix deadlock in `uvc_v4l2_unsubscribe_event()` (mutex is already
+>>>     locked in v4l2-core) introduced in v1
+>>>   - lock mutex in `uvc_v4l2_release()` to suppress ioctls and protect
+>>>     connected
+>>>
+>>>   drivers/usb/gadget/function/uvc.h      |  2 +
+>>>   drivers/usb/gadget/function/uvc_v4l2.c | 56 +++++++++++++++++++++-----
+>>>   2 files changed, 48 insertions(+), 10 deletions(-)
+>>>
+>>> diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+>>> index 73da4f9a8d4c..0d0bcbffc8fd 100644
+>>> --- a/drivers/usb/gadget/function/uvc.h
+>>> +++ b/drivers/usb/gadget/function/uvc.h
+>>> @@ -117,6 +117,7 @@ struct uvc_device {
+>>>   	enum uvc_state state;
+>>>   	struct usb_function func;
+>>>   	struct uvc_video video;
+>>> +	unsigned int connections;
+>>>   
+>>>   	/* Descriptors */
+>>>   	struct {
+>>> @@ -147,6 +148,7 @@ static inline struct uvc_device *to_uvc(struct usb_function *f)
+>>>   struct uvc_file_handle {
+>>>   	struct v4l2_fh vfh;
+>>>   	struct uvc_video *device;
+>>> +	bool connected;
+>>>   };
+>>>   
+>>>   #define to_uvc_file_handle(handle) \
+>>> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+>>> index 67922b1355e6..aee4888e17b1 100644
+>>> --- a/drivers/usb/gadget/function/uvc_v4l2.c
+>>> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
+>>> @@ -228,17 +228,57 @@ static int
+>>>   uvc_v4l2_subscribe_event(struct v4l2_fh *fh,
+>>>   			 const struct v4l2_event_subscription *sub)
+>>>   {
+>>> +	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
+>>> +	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
+>>> +	int ret;
+>>> +
+>>>   	if (sub->type < UVC_EVENT_FIRST || sub->type > UVC_EVENT_LAST)
+>>>   		return -EINVAL;
+>>>   
+>>> -	return v4l2_event_subscribe(fh, sub, 2, NULL);
+>>> +	if ((sub->type == UVC_EVENT_SETUP) && (uvc->connections >= 1))
+>>> +		return -EBUSY;
+>>> +
+>>> +	ret = v4l2_event_subscribe(fh, sub, 2, NULL);
+>>> +	if (ret < 0)
+>>> +		return ret;
+>>> +
+>>> +	if (sub->type == UVC_EVENT_SETUP) {
+>>> +		uvc->connections++;
+>>> +		handle->connected = true;
+>>> +		uvc_function_connect(uvc);
+>>> +	}
+>>
+>> This makes no sense. Why would subscribing to a SETUP event
+>> mean that you are 'connected'?
+> 
+> Subscribing to a SETUP does not mean that you are connected - on a 
+> subscription to SETUP we can expect that there is a userspace process, 
+> utilizing UVC -- which is required for the UVC gadget function -- and 
+> everything is ready to enable the function by calling uvc_function_connect.
+> How about calling it `function_connected`?
 
-Currently, the UVC function is activated when open on the corresponding
-v4l2 device is called.
-On another open the activation of the function fails since the
-deactivation counter in `usb_function_activate` equals 0. However the
-error is not returned to userspace since the open of the v4l2 device is
-successful.
+Any application can open the device node and subscribe to this event.
+This is not a good place to call uvc_function_connect(), it's an abuse of
+the V4L2 API.
 
-On a close the function is deactivated (since deactivation counter still
-equals 0) and the video is disabled in `uvc_v4l2_release`, although the
-UVC application potentially is streaming.
+I dug a bit more into this (I have very little gadget driver experience),
+and isn't calling uvc_function_connect() something that should be done
+on the first open? And when the last filehandle is closed, then
+uvc_function_disconnect() can be called to clean up?
 
-Move activation of UVC function to subscription on UVC_EVENT_SETUP
-because there we can guarantee for a userspace application utilizing UVC.
-Block subscription on UVC_EVENT_SETUP while another application already
-is subscribed to it, indicated by `bool func_connected` in
-`struct uvc_device`.
-Extend the `struct uvc_file_handle` with member `bool is_uvc_app_handle`
-to tag it as the handle used by the userspace UVC application.
+That would make much more sense. Grep for v4l2_fh_is_singular_file() on how
+to do this, quite a few media drivers need this.
 
-With this a process is able to check capabilities of the v4l2 device
-without deactivating the function for the actual UVC application.
+Regards,
 
-Signed-off-by: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
----
-v3:
- - replace `unsigned int connections` with `bool func_connected`
- - rename `bool connected` to `bool is_uvc_app_handle`
+	Hans
 
-v2:
- - fix deadlock in `uvc_v4l2_unsubscribe_event()` (mutex is already
-   locked in v4l2-core) introduced in v1
- - lock mutex in `uvc_v4l2_release()` to suppress ioctls and protect
-   connected
-
- drivers/usb/gadget/function/uvc.h      |  2 +
- drivers/usb/gadget/function/uvc_v4l2.c | 54 +++++++++++++++++++++-----
- 2 files changed, 46 insertions(+), 10 deletions(-)
-
-diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-index 73da4f9a8d4c..d6d0fd2dffa0 100644
---- a/drivers/usb/gadget/function/uvc.h
-+++ b/drivers/usb/gadget/function/uvc.h
-@@ -117,6 +117,7 @@ struct uvc_device {
- 	enum uvc_state state;
- 	struct usb_function func;
- 	struct uvc_video video;
-+	bool func_connected;
- 
- 	/* Descriptors */
- 	struct {
-@@ -147,6 +148,7 @@ static inline struct uvc_device *to_uvc(struct usb_function *f)
- struct uvc_file_handle {
- 	struct v4l2_fh vfh;
- 	struct uvc_video *device;
-+	bool is_uvc_app_handle;
- };
- 
- #define to_uvc_file_handle(handle) \
-diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-index 67922b1355e6..3c0b7a969107 100644
---- a/drivers/usb/gadget/function/uvc_v4l2.c
-+++ b/drivers/usb/gadget/function/uvc_v4l2.c
-@@ -228,17 +228,55 @@ static int
- uvc_v4l2_subscribe_event(struct v4l2_fh *fh,
- 			 const struct v4l2_event_subscription *sub)
- {
-+	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
-+	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
-+	int ret;
-+
- 	if (sub->type < UVC_EVENT_FIRST || sub->type > UVC_EVENT_LAST)
- 		return -EINVAL;
- 
--	return v4l2_event_subscribe(fh, sub, 2, NULL);
-+	if ((sub->type == UVC_EVENT_SETUP) && uvc->func_connected)
-+		return -EBUSY;
-+
-+	ret = v4l2_event_subscribe(fh, sub, 2, NULL);
-+	if (ret < 0)
-+		return ret;
-+
-+	if (sub->type == UVC_EVENT_SETUP) {
-+		uvc->func_connected = true;
-+		handle->is_uvc_app_handle = true;
-+		uvc_function_connect(uvc);
-+	}
-+
-+	return 0;
-+}
-+
-+static void uvc_v4l2_disable(struct uvc_device *uvc)
-+{
-+	uvc->func_connected = false;
-+	uvc_function_disconnect(uvc);
-+	uvcg_video_enable(&uvc->video, 0);
-+	uvcg_free_buffers(&uvc->video.queue);
- }
- 
- static int
- uvc_v4l2_unsubscribe_event(struct v4l2_fh *fh,
- 			   const struct v4l2_event_subscription *sub)
- {
--	return v4l2_event_unsubscribe(fh, sub);
-+	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
-+	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
-+	int ret;
-+
-+	ret = v4l2_event_unsubscribe(fh, sub);
-+	if (ret < 0)
-+		return ret;
-+
-+	if ((sub->type == UVC_EVENT_SETUP) && handle->is_uvc_app_handle) {
-+		uvc_v4l2_disable(uvc);
-+		handle->is_uvc_app_handle = false;
-+	}
-+
-+	return 0;
- }
- 
- static long
-@@ -293,7 +331,6 @@ uvc_v4l2_open(struct file *file)
- 	handle->device = &uvc->video;
- 	file->private_data = &handle->vfh;
- 
--	uvc_function_connect(uvc);
- 	return 0;
- }
- 
-@@ -303,14 +340,11 @@ uvc_v4l2_release(struct file *file)
- 	struct video_device *vdev = video_devdata(file);
- 	struct uvc_device *uvc = video_get_drvdata(vdev);
- 	struct uvc_file_handle *handle = to_uvc_file_handle(file->private_data);
--	struct uvc_video *video = handle->device;
--
--	uvc_function_disconnect(uvc);
- 
--	mutex_lock(&video->mutex);
--	uvcg_video_enable(video, 0);
--	uvcg_free_buffers(&video->queue);
--	mutex_unlock(&video->mutex);
-+	mutex_lock(&uvc->video.mutex);
-+	if (handle->is_uvc_app_handle)
-+		uvc_v4l2_disable(uvc);
-+	mutex_unlock(&uvc->video.mutex);
- 
- 	file->private_data = NULL;
- 	v4l2_fh_del(&handle->vfh);
--- 
-2.17.1
+> 
+>>
+>> It should be possible to open a V4L2 device node any number of times,
+>> and any filehandle can subscribe to any event, but typically once
+>> userspace allocates buffers (VIDIOC_REQBUFS or VIDIOC_CREATE_BUFS)
+>> then that filehandle is marked as the owner of the device and other
+>> open filehandles are no longer allowed to allocate buffers or stream video.
+> 
+> Sure - this can be also done if userspace allocates buffers.
+> But why does it make more sense to call uvc_function_connect on 
+> VIDIOC_REQBUFS or VIDIOC_CREATE_BUFS instead of subscribtion to a UVC event?
+> 
+>>
+>> See e.g. drivers/media/common/videobuf2/videobuf2-v4l2.c
+>> and vb2_ioctl_reqbufs and other vb2_ioctl_* functions.
+>>
+>> Unfortunately this UVC gadget driver is rather old and is not using
+>> these helper functions.
+>>
+>> Running 'v4l2-compliance' will likely fail on a lot of tests for this
+>> driver.
+>>
+>> This driver probably could use some TLC.
+> 
+> I totally agree with that, however this change fixes at least one test 
+> of 'v4l2-compliance'.
+> Currently a running UVC connection can be corrupted by another process 
+> which just opens and closes the device.
+> 
+> Thomas
+> 
+>>
+>> Regards,
+>>
+>> 	Hans
+>>
+>>> +
+>>> +	return 0;
+>>> +}
+>>> +
+>>> +static void uvc_v4l2_disable(struct uvc_device *uvc)
+>>> +{
+>>> +	if (--uvc->connections)
+>>> +		return;
+>>> +
+>>> +	uvc_function_disconnect(uvc);
+>>> +	uvcg_video_enable(&uvc->video, 0);
+>>> +	uvcg_free_buffers(&uvc->video.queue);
+>>>   }
+>>>   
+>>>   static int
+>>>   uvc_v4l2_unsubscribe_event(struct v4l2_fh *fh,
+>>>   			   const struct v4l2_event_subscription *sub)
+>>>   {
+>>> -	return v4l2_event_unsubscribe(fh, sub);
+>>> +	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
+>>> +	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
+>>> +	int ret;
+>>> +
+>>> +	ret = v4l2_event_unsubscribe(fh, sub);
+>>> +	if (ret < 0)
+>>> +		return ret;
+>>> +
+>>> +	if ((sub->type == UVC_EVENT_SETUP) && handle->connected) {
+>>> +		uvc_v4l2_disable(uvc);
+>>> +		handle->connected = false;
+>>> +	}
+>>> +
+>>> +	return 0;
+>>>   }
+>>>   
+>>>   static long
+>>> @@ -293,7 +333,6 @@ uvc_v4l2_open(struct file *file)
+>>>   	handle->device = &uvc->video;
+>>>   	file->private_data = &handle->vfh;
+>>>   
+>>> -	uvc_function_connect(uvc);
+>>>   	return 0;
+>>>   }
+>>>   
+>>> @@ -303,14 +342,11 @@ uvc_v4l2_release(struct file *file)
+>>>   	struct video_device *vdev = video_devdata(file);
+>>>   	struct uvc_device *uvc = video_get_drvdata(vdev);
+>>>   	struct uvc_file_handle *handle = to_uvc_file_handle(file->private_data);
+>>> -	struct uvc_video *video = handle->device;
+>>> -
+>>> -	uvc_function_disconnect(uvc);
+>>>   
+>>> -	mutex_lock(&video->mutex);
+>>> -	uvcg_video_enable(video, 0);
+>>> -	uvcg_free_buffers(&video->queue);
+>>> -	mutex_unlock(&video->mutex);
+>>> +	mutex_lock(&uvc->video.mutex);
+>>> +	if (handle->connected)
+>>> +		uvc_v4l2_disable(uvc);
+>>> +	mutex_unlock(&uvc->video.mutex);
+>>>   
+>>>   	file->private_data = NULL;
+>>>   	v4l2_fh_del(&handle->vfh);
+>>>
+>>
 
