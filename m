@@ -2,395 +2,219 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E73202ACC0C
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 04:49:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D11C2ACDB0
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 05:04:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731612AbgKJDtt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Nov 2020 22:49:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46254 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731341AbgKJDts (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 22:49:48 -0500
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 75F6CC0613CF
-        for <linux-media@vger.kernel.org>; Mon,  9 Nov 2020 19:49:48 -0800 (PST)
-Received: by mail-pg1-x543.google.com with SMTP id i26so8997098pgl.5
-        for <linux-media@vger.kernel.org>; Mon, 09 Nov 2020 19:49:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=Dg+HWiattbb0YUCixG+Sovx8a/O69Dm3KomejO6pPhc=;
-        b=GXOQC/bGP2utp1lXw96zPu6QCZnqJ8frrwBLVTFaNXz+KRxUtFxCqsiiJ67RfkloJx
-         iDDWwwqQmTvDSrb/fW7lYfKkdx50Xpibi99alFHlapg6dh3Jlne3jl3yrBndukKEcENG
-         vNu6bi9kMGmUSvNGyDGdU/uUsfLUockjoeNNXWb988htABXF4aKqPKyOG2ppvrZ0c4vg
-         SgrMAV31Xara/14LkJ408CkzxrXPpLsqZZQSuvFbAQVkSlwj+dCwFMHl1uY2ge1hpiVn
-         aNQZH/rUTHBa1bi7q6niUHGCOMktv8Bx7aJS/3Pb7RJ+Fp4BrBum5OUCGuMzIsFxHekQ
-         P/YQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=Dg+HWiattbb0YUCixG+Sovx8a/O69Dm3KomejO6pPhc=;
-        b=LQyxr/RQjoNAlqEKAVvJDpZ73lB/aWCna/t5bO8XylRGRidpnHWrIaUsl37ufMsexV
-         g8Zy+kwu4LqGWmoPCUZWB13AgMjHjr4YIRf5EqD3KbPOOMKeXBqOtspoJoE329eVXpv4
-         BoiLB6dqL1GtCKqMPzX/MADwrjaMaWEaChIBeuHTBc4lX5/XxwDNg8WPw4NJfXKohd03
-         33e4mfNFjqyFvd33s8bl0UwH7hnijElpwUnFEVpfBvoIYJ5W5kR5cdzuofVQtWeDnsFL
-         g9vavSWhX113jpwLDKg08gVmA0ycImZjGoK3yurpZFgdKstf5Ukk6osBQ3cAPCiTunc3
-         9Ndg==
-X-Gm-Message-State: AOAM533bSqk5OMf5akpXxizlefungtOnNEKdXz/OchmSQKal2180rcvl
-        BoMUU1cfLXN1wa8XAw6zFZDEaQ==
-X-Google-Smtp-Source: ABdhPJzfl1SE5LpW7JFvdGVZ0+BnnjHoLcBA4CttW0wiaba+tHDmDKOXhcA8yifyORzec/jxtkK1cw==
-X-Received: by 2002:a17:90a:d201:: with SMTP id o1mr2775325pju.46.1604980188022;
-        Mon, 09 Nov 2020 19:49:48 -0800 (PST)
-Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
-        by smtp.gmail.com with ESMTPSA id b4sm12380693pfi.208.2020.11.09.19.49.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 09 Nov 2020 19:49:47 -0800 (PST)
-From:   John Stultz <john.stultz@linaro.org>
-To:     lkml <linux-kernel@vger.kernel.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
-        dri-devel@lists.freedesktop.org
-Subject: [PATCH v5 7/7] dma-buf: system_heap: Add a system-uncached heap re-using the system heap
-Date:   Tue, 10 Nov 2020 03:49:34 +0000
-Message-Id: <20201110034934.70898-8-john.stultz@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201110034934.70898-1-john.stultz@linaro.org>
-References: <20201110034934.70898-1-john.stultz@linaro.org>
+        id S1732661AbgKJEEQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Nov 2020 23:04:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55402 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731960AbgKJDy3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 9 Nov 2020 22:54:29 -0500
+Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id B838720731;
+        Tue, 10 Nov 2020 03:54:27 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1604980469;
+        bh=HJPSa0KmKV95ZybTLaMu/IKpYZrY18GvP37V/Fllc/A=;
+        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
+        b=IwJTRFwHXcu69xXgkHndxHFheCIkaqqJBMiKe3n6wiq+Ja+RKehIWT10m17dif05H
+         7AdCPULCCEihdzA9uG8JQ61jTjOa9nFotqQHxKLUkb3MfuVkRFum9ilbhC7Rkadl2V
+         Ll3hHXIWLZNb9XlB2ECgMUpv7JIMxAYhqvG+217E=
+From:   Sasha Levin <sashal@kernel.org>
+To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
+Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Wolfram Sang <wsa@kernel.org>, Sasha Levin <sashal@kernel.org>,
+        linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH AUTOSEL 5.9 49/55] i2c: sh_mobile: implement atomic transfers
+Date:   Mon,  9 Nov 2020 22:53:12 -0500
+Message-Id: <20201110035318.423757-49-sashal@kernel.org>
+X-Mailer: git-send-email 2.27.0
+In-Reply-To: <20201110035318.423757-1-sashal@kernel.org>
+References: <20201110035318.423757-1-sashal@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
+X-stable: review
+X-Patchwork-Hint: Ignore
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This adds a heap that allocates non-contiguous buffers that are
-marked as writecombined, so they are not cached by the CPU.
+From: Ulrich Hecht <uli+renesas@fpond.eu>
 
-This is useful, as most graphics buffers are usually not touched
-by the CPU or only written into once by the CPU. So when mapping
-the buffer over and over between devices, we can skip the CPU
-syncing, which saves a lot of cache management overhead, greatly
-improving performance.
+[ Upstream commit a49cc1fe9d64a2dc4e19b599204f403e5d25f44b ]
 
-For folk using ION, there was a ION_FLAG_CACHED flag, which
-signaled if the returned buffer should be CPU cacheable or not.
-With DMA-BUF heaps, we do not yet have such a flag, and by default
-the current heaps (system and cma) produce CPU cachable buffers.
-So for folks transitioning from ION to DMA-BUF Heaps, this fills
-in some of that missing functionality.
+Implements atomic transfers to fix reboot/shutdown on r8a7790 Lager and
+similar boards.
 
-There has been a suggestion to make this functionality a flag
-(DMAHEAP_FLAG_UNCACHED?) on the system heap, similar to how
-ION used the ION_FLAG_CACHED. But I want to make sure an
-_UNCACHED flag would truely be a generic attribute across all
-heaps. So far that has been unclear, so having it as a separate
-heap seemes better for now. (But I'm open to discussion on this
-point!)
-
-This is a rework of earlier efforts to add a uncached system heap,
-done utilizing the exisitng system heap, adding just a bit of
-logic to handle the uncached case.
-
-Feedback would be very welcome!
-
-Many thanks to Liam Mark for his help to get this working.
-
-Pending opensource users of this code include:
-* AOSP HiKey960 gralloc:
-  - https://android-review.googlesource.com/c/device/linaro/hikey/+/1399519
-  - Visibly improves performance over the system heap
-* AOSP Codec2 (possibly, needs more review):
-  - https://android-review.googlesource.com/c/platform/frameworks/av/+/1360640/17/media/codec2/vndk/C2DmaBufAllocator.cpp#325
-
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Liam Mark <lmark@codeaurora.org>
-Cc: Laura Abbott <labbott@kernel.org>
-Cc: Brian Starkey <Brian.Starkey@arm.com>
-Cc: Hridya Valsaraju <hridya@google.com>
-Cc: Suren Baghdasaryan <surenb@google.com>
-Cc: Sandeep Patil <sspatil@google.com>
-Cc: Daniel Mentz <danielmentz@google.com>
-Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-Cc: Ørjan Eide <orjan.eide@arm.com>
-Cc: Robin Murphy <robin.murphy@arm.com>
-Cc: Ezequiel Garcia <ezequiel@collabora.com>
-Cc: Simon Ser <contact@emersion.fr>
-Cc: James Jones <jajones@nvidia.com>
-Cc: linux-media@vger.kernel.org
-Cc: dri-devel@lists.freedesktop.org
-Signed-off-by: John Stultz <john.stultz@linaro.org>
+Signed-off-by: Ulrich Hecht <uli+renesas@fpond.eu>
+Tested-by: Wolfram Sang <wsa+renesas@sang-engineering.com>
+Tested-by: Geert Uytterhoeven <geert+renesas@glider.be>
+[wsa: some whitespace fixing]
+Signed-off-by: Wolfram Sang <wsa@kernel.org>
+Signed-off-by: Sasha Levin <sashal@kernel.org>
 ---
-v4:
-* Make sys_uncached_heap static, as
-    Reported-by: kernel test robot <lkp@intel.com>
-* Fix wrong return value, caught by smatch
-    Reported-by: kernel test robot <lkp@intel.com>
-    Reported-by: Dan Carpenter <dan.carpenter@oracle.com>
-* Ensure we call flush/invalidate_kernel_vmap_range() in the
-  uncached cases to try to address feedback about VIVT caches
-  from Christoph
-* Reorder a few lines as suggested by BrianS
-* Avoid holding the initial mapping for the lifetime of the buffer
-  as suggested by BrianS
-* Fix a unlikely race between allocate and updating the dma_mask
-  that BrianS noticed.
----
- drivers/dma-buf/heaps/system_heap.c | 111 ++++++++++++++++++++++++----
- 1 file changed, 95 insertions(+), 16 deletions(-)
+ drivers/i2c/busses/i2c-sh_mobile.c | 86 +++++++++++++++++++++++-------
+ 1 file changed, 66 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/dma-buf/heaps/system_heap.c b/drivers/dma-buf/heaps/system_heap.c
-index 55367266a47b..1fc5b38cbc59 100644
---- a/drivers/dma-buf/heaps/system_heap.c
-+++ b/drivers/dma-buf/heaps/system_heap.c
-@@ -22,6 +22,7 @@
- #include <linux/vmalloc.h>
+diff --git a/drivers/i2c/busses/i2c-sh_mobile.c b/drivers/i2c/busses/i2c-sh_mobile.c
+index cab7255599991..bdd60770779ad 100644
+--- a/drivers/i2c/busses/i2c-sh_mobile.c
++++ b/drivers/i2c/busses/i2c-sh_mobile.c
+@@ -129,6 +129,7 @@ struct sh_mobile_i2c_data {
+ 	int sr;
+ 	bool send_stop;
+ 	bool stop_after_dma;
++	bool atomic_xfer;
  
- static struct dma_heap *sys_heap;
-+static struct dma_heap *sys_uncached_heap;
+ 	struct resource *res;
+ 	struct dma_chan *dma_tx;
+@@ -330,13 +331,15 @@ static unsigned char i2c_op(struct sh_mobile_i2c_data *pd, enum sh_mobile_i2c_op
+ 		ret = iic_rd(pd, ICDR);
+ 		break;
+ 	case OP_RX_STOP: /* enable DTE interrupt, issue stop */
+-		iic_wr(pd, ICIC,
+-		       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
++		if (!pd->atomic_xfer)
++			iic_wr(pd, ICIC,
++			       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
+ 		iic_wr(pd, ICCR, ICCR_ICE | ICCR_RACK);
+ 		break;
+ 	case OP_RX_STOP_DATA: /* enable DTE interrupt, read data, issue stop */
+-		iic_wr(pd, ICIC,
+-		       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
++		if (!pd->atomic_xfer)
++			iic_wr(pd, ICIC,
++			       ICIC_DTEE | ICIC_WAITE | ICIC_ALE | ICIC_TACKE);
+ 		ret = iic_rd(pd, ICDR);
+ 		iic_wr(pd, ICCR, ICCR_ICE | ICCR_RACK);
+ 		break;
+@@ -429,7 +432,8 @@ static irqreturn_t sh_mobile_i2c_isr(int irq, void *dev_id)
  
- struct system_heap_buffer {
- 	struct dma_heap *heap;
-@@ -31,6 +32,8 @@ struct system_heap_buffer {
- 	struct sg_table sg_table;
- 	int vmap_cnt;
- 	void *vaddr;
+ 	if (wakeup) {
+ 		pd->sr |= SW_DONE;
+-		wake_up(&pd->wait);
++		if (!pd->atomic_xfer)
++			wake_up(&pd->wait);
+ 	}
+ 
+ 	/* defeat write posting to avoid spurious WAIT interrupts */
+@@ -581,6 +585,9 @@ static void start_ch(struct sh_mobile_i2c_data *pd, struct i2c_msg *usr_msg,
+ 	pd->pos = -1;
+ 	pd->sr = 0;
+ 
++	if (pd->atomic_xfer)
++		return;
 +
-+	bool uncached;
- };
+ 	pd->dma_buf = i2c_get_dma_safe_msg_buf(pd->msg, 8);
+ 	if (pd->dma_buf)
+ 		sh_mobile_i2c_xfer_dma(pd);
+@@ -637,15 +644,13 @@ static int poll_busy(struct sh_mobile_i2c_data *pd)
+ 	return i ? 0 : -ETIMEDOUT;
+ }
  
- struct dma_heap_attachment {
-@@ -38,6 +41,8 @@ struct dma_heap_attachment {
- 	struct sg_table *table;
- 	struct list_head list;
- 	bool mapped;
-+
-+	bool uncached;
- };
+-static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
+-			      struct i2c_msg *msgs,
+-			      int num)
++static int sh_mobile_xfer(struct sh_mobile_i2c_data *pd,
++			 struct i2c_msg *msgs, int num)
+ {
+-	struct sh_mobile_i2c_data *pd = i2c_get_adapdata(adapter);
+ 	struct i2c_msg	*msg;
+ 	int err = 0;
+ 	int i;
+-	long timeout;
++	long time_left;
  
- #define HIGH_ORDER_GFP  (((GFP_HIGHUSER | __GFP_ZERO | __GFP_NOWARN \
-@@ -100,7 +105,7 @@ static int system_heap_attach(struct dma_buf *dmabuf,
- 	a->dev = attachment->dev;
- 	INIT_LIST_HEAD(&a->list);
- 	a->mapped = false;
+ 	/* Wake up device and enable clock */
+ 	pm_runtime_get_sync(pd->dev);
+@@ -662,15 +667,35 @@ static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
+ 		if (do_start)
+ 			i2c_op(pd, OP_START);
+ 
+-		/* The interrupt handler takes care of the rest... */
+-		timeout = wait_event_timeout(pd->wait,
+-				       pd->sr & (ICSR_TACK | SW_DONE),
+-				       adapter->timeout);
 -
-+	a->uncached = buffer->uncached;
- 	attachment->priv = a;
- 
- 	mutex_lock(&buffer->lock);
-@@ -130,9 +135,13 @@ static struct sg_table *system_heap_map_dma_buf(struct dma_buf_attachment *attac
- {
- 	struct dma_heap_attachment *a = attachment->priv;
- 	struct sg_table *table = a->table;
-+	int attr = 0;
- 	int ret;
- 
--	ret = dma_map_sgtable(attachment->dev, table, direction, 0);
-+	if (a->uncached)
-+		attr = DMA_ATTR_SKIP_CPU_SYNC;
+-		/* 'stop_after_dma' tells if DMA transfer was complete */
+-		i2c_put_dma_safe_msg_buf(pd->dma_buf, pd->msg, pd->stop_after_dma);
++		if (pd->atomic_xfer) {
++			unsigned long j = jiffies + pd->adap.timeout;
 +
-+	ret = dma_map_sgtable(attachment->dev, table, direction, attr);
- 	if (ret)
- 		return ERR_PTR(ret);
- 
-@@ -145,9 +154,12 @@ static void system_heap_unmap_dma_buf(struct dma_buf_attachment *attachment,
- 				      enum dma_data_direction direction)
- {
- 	struct dma_heap_attachment *a = attachment->priv;
-+	int attr = 0;
- 
-+	if (a->uncached)
-+		attr = DMA_ATTR_SKIP_CPU_SYNC;
- 	a->mapped = false;
--	dma_unmap_sgtable(attachment->dev, table, direction, 0);
-+	dma_unmap_sgtable(attachment->dev, table, direction, attr);
- }
- 
- static int system_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-@@ -161,10 +173,12 @@ static int system_heap_dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
- 	if (buffer->vmap_cnt)
- 		invalidate_kernel_vmap_range(buffer->vaddr, buffer->len);
- 
--	list_for_each_entry(a, &buffer->attachments, list) {
--		if (!a->mapped)
--			continue;
--		dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
-+	if (!buffer->uncached) {
-+		list_for_each_entry(a, &buffer->attachments, list) {
-+			if (!a->mapped)
-+				continue;
-+			dma_sync_sgtable_for_cpu(a->dev, a->table, direction);
++			time_left = time_before_eq(jiffies, j);
++			while (time_left &&
++			       !(pd->sr & (ICSR_TACK | SW_DONE))) {
++				unsigned char sr = iic_rd(pd, ICSR);
++
++				if (sr & (ICSR_AL   | ICSR_TACK |
++					  ICSR_WAIT | ICSR_DTE)) {
++					sh_mobile_i2c_isr(0, pd);
++					udelay(150);
++				} else {
++					cpu_relax();
++				}
++				time_left = time_before_eq(jiffies, j);
++			}
++		} else {
++			/* The interrupt handler takes care of the rest... */
++			time_left = wait_event_timeout(pd->wait,
++					pd->sr & (ICSR_TACK | SW_DONE),
++					pd->adap.timeout);
++
++			/* 'stop_after_dma' tells if DMA xfer was complete */
++			i2c_put_dma_safe_msg_buf(pd->dma_buf, pd->msg,
++						 pd->stop_after_dma);
 +		}
- 	}
- 	mutex_unlock(&buffer->lock);
  
-@@ -182,10 +196,12 @@ static int system_heap_dma_buf_end_cpu_access(struct dma_buf *dmabuf,
- 	if (buffer->vmap_cnt)
- 		flush_kernel_vmap_range(buffer->vaddr, buffer->len);
- 
--	list_for_each_entry(a, &buffer->attachments, list) {
--		if (!a->mapped)
--			continue;
--		dma_sync_sgtable_for_device(a->dev, a->table, direction);
-+	if (!buffer->uncached) {
-+		list_for_each_entry(a, &buffer->attachments, list) {
-+			if (!a->mapped)
-+				continue;
-+			dma_sync_sgtable_for_device(a->dev, a->table, direction);
-+		}
- 	}
- 	mutex_unlock(&buffer->lock);
- 
-@@ -200,6 +216,9 @@ static int system_heap_mmap(struct dma_buf *dmabuf, struct vm_area_struct *vma)
- 	struct sg_page_iter piter;
- 	int ret;
- 
-+	if (buffer->uncached)
-+		vma->vm_page_prot = pgprot_writecombine(vma->vm_page_prot);
-+
- 	for_each_sgtable_page(table, &piter, vma->vm_pgoff) {
- 		struct page *page = sg_page_iter_page(&piter);
- 
-@@ -221,17 +240,21 @@ static void *system_heap_do_vmap(struct system_heap_buffer *buffer)
- 	struct page **pages = vmalloc(sizeof(struct page *) * npages);
- 	struct page **tmp = pages;
- 	struct sg_page_iter piter;
-+	pgprot_t pgprot = PAGE_KERNEL;
- 	void *vaddr;
- 
- 	if (!pages)
- 		return ERR_PTR(-ENOMEM);
- 
-+	if (buffer->uncached)
-+		pgprot = pgprot_writecombine(PAGE_KERNEL);
-+
- 	for_each_sgtable_page(table, &piter, 0) {
- 		WARN_ON(tmp - pages >= npages);
- 		*tmp++ = sg_page_iter_page(&piter);
- 	}
- 
--	vaddr = vmap(pages, npages, VM_MAP, PAGE_KERNEL);
-+	vaddr = vmap(pages, npages, VM_MAP, pgprot);
- 	vfree(pages);
- 
- 	if (!vaddr)
-@@ -326,10 +349,11 @@ static struct page *alloc_largest_available(unsigned long size,
- 	return NULL;
+-		if (!timeout) {
++		if (!time_left) {
+ 			dev_err(pd->dev, "Transfer request timed out\n");
+ 			if (pd->dma_direction != DMA_NONE)
+ 				sh_mobile_i2c_cleanup_dma(pd);
+@@ -696,14 +721,35 @@ static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
+ 	return err ?: num;
  }
  
--static int system_heap_allocate(struct dma_heap *heap,
--				unsigned long len,
--				unsigned long fd_flags,
--				unsigned long heap_flags)
-+static int system_heap_do_allocate(struct dma_heap *heap,
-+				   unsigned long len,
-+				   unsigned long fd_flags,
-+				   unsigned long heap_flags,
-+				   bool uncached)
- {
- 	struct system_heap_buffer *buffer;
- 	DEFINE_DMA_BUF_EXPORT_INFO(exp_info);
-@@ -350,6 +374,7 @@ static int system_heap_allocate(struct dma_heap *heap,
- 	mutex_init(&buffer->lock);
- 	buffer->heap = heap;
- 	buffer->len = len;
-+	buffer->uncached = uncached;
- 
- 	INIT_LIST_HEAD(&pages);
- 	i = 0;
-@@ -399,6 +424,18 @@ static int system_heap_allocate(struct dma_heap *heap,
- 		/* just return, as put will call release and that will free */
- 		return ret;
- 	}
-+
-+	/*
-+	 * For uncached buffers, we need to initially flush cpu cache, since
-+	 * the __GFP_ZERO on the allocation means the zeroing was done by the
-+	 * cpu and thus it is likely cached. Map (and implicitly flush) and
-+	 * unmap it now so we don't get corruption later on.
-+	 */
-+	if (buffer->uncached) {
-+		dma_map_sgtable(dma_heap_get_dev(heap), table, DMA_BIDIRECTIONAL, 0);
-+		dma_unmap_sgtable(dma_heap_get_dev(heap), table, DMA_BIDIRECTIONAL, 0);
-+	}
-+
- 	return ret;
- 
- free_pages:
-@@ -416,10 +453,40 @@ static int system_heap_allocate(struct dma_heap *heap,
- 	return ret;
- }
- 
-+static int system_heap_allocate(struct dma_heap *heap,
-+				unsigned long len,
-+				unsigned long fd_flags,
-+				unsigned long heap_flags)
++static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
++			      struct i2c_msg *msgs,
++			      int num)
 +{
-+	return system_heap_do_allocate(heap, len, fd_flags, heap_flags, false);
++	struct sh_mobile_i2c_data *pd = i2c_get_adapdata(adapter);
++
++	pd->atomic_xfer = false;
++	return sh_mobile_xfer(pd, msgs, num);
 +}
 +
- static const struct dma_heap_ops system_heap_ops = {
- 	.allocate = system_heap_allocate,
++static int sh_mobile_i2c_xfer_atomic(struct i2c_adapter *adapter,
++				     struct i2c_msg *msgs,
++				     int num)
++{
++	struct sh_mobile_i2c_data *pd = i2c_get_adapdata(adapter);
++
++	pd->atomic_xfer = true;
++	return sh_mobile_xfer(pd, msgs, num);
++}
++
+ static u32 sh_mobile_i2c_func(struct i2c_adapter *adapter)
+ {
+ 	return I2C_FUNC_I2C | I2C_FUNC_SMBUS_EMUL | I2C_FUNC_PROTOCOL_MANGLING;
+ }
+ 
+ static const struct i2c_algorithm sh_mobile_i2c_algorithm = {
+-	.functionality	= sh_mobile_i2c_func,
+-	.master_xfer	= sh_mobile_i2c_xfer,
++	.functionality = sh_mobile_i2c_func,
++	.master_xfer = sh_mobile_i2c_xfer,
++	.master_xfer_atomic = sh_mobile_i2c_xfer_atomic,
  };
  
-+static int system_uncached_heap_allocate(struct dma_heap *heap,
-+					 unsigned long len,
-+					 unsigned long fd_flags,
-+					 unsigned long heap_flags)
-+{
-+	return system_heap_do_allocate(heap, len, fd_flags, heap_flags, true);
-+}
-+
-+/* Dummy function to be used until we can call coerce_mask_and_coherent */
-+static int system_uncached_heap_not_initialized(struct dma_heap *heap,
-+						unsigned long len,
-+						unsigned long fd_flags,
-+						unsigned long heap_flags)
-+{
-+	return -EBUSY;
-+}
-+
-+static struct dma_heap_ops system_uncached_heap_ops = {
-+	/* After system_heap_create is complete, we will swap this */
-+	.allocate = system_uncached_heap_not_initialized,
-+};
-+
- static int system_heap_create(void)
- {
- 	struct dma_heap_export_info exp_info;
-@@ -432,6 +499,18 @@ static int system_heap_create(void)
- 	if (IS_ERR(sys_heap))
- 		return PTR_ERR(sys_heap);
- 
-+	exp_info.name = "system-uncached";
-+	exp_info.ops = &system_uncached_heap_ops;
-+	exp_info.priv = NULL;
-+
-+	sys_uncached_heap = dma_heap_add(&exp_info);
-+	if (IS_ERR(sys_uncached_heap))
-+		return PTR_ERR(sys_uncached_heap);
-+
-+	dma_coerce_mask_and_coherent(dma_heap_get_dev(sys_uncached_heap), DMA_BIT_MASK(64));
-+	mb(); /* make sure we only set allocate after dma_mask is set */
-+	system_uncached_heap_ops.allocate = system_uncached_heap_allocate;
-+
- 	return 0;
- }
- module_init(system_heap_create);
+ static const struct i2c_adapter_quirks sh_mobile_i2c_quirks = {
 -- 
-2.17.1
+2.27.0
 
