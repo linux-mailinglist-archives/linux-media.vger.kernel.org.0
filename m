@@ -2,708 +2,435 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6DBE82ADD11
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 18:37:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ED5652ADD22
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 18:40:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731133AbgKJRhZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 12:37:25 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33630 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730299AbgKJRhY (ORCPT
+        id S1728272AbgKJRkq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 12:40:46 -0500
+Received: from relay9-d.mail.gandi.net ([217.70.183.199]:57855 "EHLO
+        relay9-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726179AbgKJRkq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 12:37:24 -0500
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C40CC0613D3
-        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 09:37:24 -0800 (PST)
-Received: by mail-ed1-x543.google.com with SMTP id cq7so13445251edb.4
-        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 09:37:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=VY0+HM4nF4H73yy3/jhQVbP6bMeJGPkzJIGkmZyiRq4=;
-        b=WKkmZOp0ZIxVL8l4quUJV3CBHHMM84kim514hFqIV7THpzjeBfyT+zvmMfMQGxTTuO
-         m96XIibSUXCRMdQa0bF8DPI3WkxE1vdm7tgqYNqKZQ5sL6DbsaB/ljkZNy9a89svoXeQ
-         let9sxI1aSwdjssvpwoBeycVUulZNvazeWJfI=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=VY0+HM4nF4H73yy3/jhQVbP6bMeJGPkzJIGkmZyiRq4=;
-        b=Yx9Z6dVnNd1j6+qFPuaR93ZF5lanyqG9huHDONmGUjDNwUg1kygtFm+2yyr8IRVcrZ
-         r9a+isKLYbiqsVQNSyU/BEOZb5cG0Hkd8O/hshF/0HJ4UN06ImhPQYDhRSNIFjoOPfK7
-         8AQ5aryRwEdSod8VreA6kpEz4qs9jltwgaHobIHn8FAKkltbY3k/vWwr+OyWpOfrXlaI
-         1Qd/el5bQt6B5fkAxoI6vaLy8qnH7twFc5TH1dBHIfhZVeeoOQohhm3vsQ5B7bc1ei9D
-         SoTgCS9nISWIVPeU1w0Y+cNVi9p1mKt97nVDygKCPC7ivBhpf2XgCRgSK6kI7cJKD7GS
-         +pxA==
-X-Gm-Message-State: AOAM533hAyMJB18BPQXPZav4AAA/3sZREbdUsNhTNwSCMR19fIE+7Ob4
-        9v8HgpXcwIS4eP/8TMPYr0x4P89Iecw9/Q==
-X-Google-Smtp-Source: ABdhPJyKTW79F0EtPdIs5NgTnYzMtYVxbJ6e4yjuUoKomt8Iza6GTOOFINNkFWeqyMpJlnVHCc/6JA==
-X-Received: by 2002:a50:c40d:: with SMTP id v13mr6203905edf.1.1605029842192;
-        Tue, 10 Nov 2020 09:37:22 -0800 (PST)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
-        by smtp.gmail.com with ESMTPSA id op24sm10198725ejb.56.2020.11.10.09.37.20
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2020 09:37:21 -0800 (PST)
-Received: by mail-wm1-f43.google.com with SMTP id s13so3907419wmh.4
-        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 09:37:20 -0800 (PST)
-X-Received: by 2002:a1c:2d93:: with SMTP id t141mr221406wmt.104.1605029839860;
- Tue, 10 Nov 2020 09:37:19 -0800 (PST)
+        Tue, 10 Nov 2020 12:40:46 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.lan (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay9-d.mail.gandi.net (Postfix) with ESMTPSA id 31272FF802;
+        Tue, 10 Nov 2020 17:40:40 +0000 (UTC)
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     linux-media@vger.kernel.org
+Cc:     Jacopo Mondi <jacopo@jmondi.org>, naush@raspberrypi.com,
+        dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+        kieran.bingham@ideasonboard.com, niklas.soderlund@ragnatech.se,
+        dafna.hirschfeld@collabora.com, hverkuil@xs4all.nl,
+        sakari.ailus@iki.fi, nsaenzjulienne@suse.de,
+        mchehab+huawei@kernel.org
+Subject: [PATCH v4 0/5] media: staging: Add bcm2835-unicam driver
+Date:   Tue, 10 Nov 2020 18:40:31 +0100
+Message-Id: <20201110174036.220883-1-jacopo@jmondi.org>
+X-Mailer: git-send-email 2.29.1
 MIME-Version: 1.0
-References: <20201023125704.4984-1-stanimir.varbanov@linaro.org>
- <20201023125704.4984-4-stanimir.varbanov@linaro.org> <CAMfZQbywe7OcSRebeh0fmphmz8xz8KUyMUMOhxLgh1Uc-gyWQA@mail.gmail.com>
- <aec00b8a87e1e238b755a547b88593f0@codeaurora.org> <393cc53f-6b79-faf0-00f5-c1205294a54a@linaro.org>
- <CAMfZQbw3WBU6GbLHQV=WpSOekF8rWogB0cQhOSRjupL0tRTbPA@mail.gmail.com>
-In-Reply-To: <CAMfZQbw3WBU6GbLHQV=WpSOekF8rWogB0cQhOSRjupL0tRTbPA@mail.gmail.com>
-From:   Fritz Koenig <frkoenig@chromium.org>
-Date:   Tue, 10 Nov 2020 09:37:07 -0800
-X-Gmail-Original-Message-ID: <CAMfZQbxiSs3UCxrv8fFEOa-SFLAL5qeZZ3ky=RHgh1FS35GgMQ@mail.gmail.com>
-Message-ID: <CAMfZQbxiSs3UCxrv8fFEOa-SFLAL5qeZZ3ky=RHgh1FS35GgMQ@mail.gmail.com>
-Subject: Re: [PATCH 3/4] venus: venc: Handle reset encoder state
-To:     Fritz Koenig <frkoenig@chromium.org>
-Cc:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Vikash Garodia <vgarodia@codeaurora.org>,
-        linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Dikshita Agarwal <dikshita@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 9, 2020 at 9:48 PM Fritz Koenig <frkoenig@chromium.org> wrote:
->
-> On Thu, Nov 5, 2020 at 3:51 AM Stanimir Varbanov
-> <stanimir.varbanov@linaro.org> wrote:
-> >
-> >
-> >
-> > On 11/4/20 12:44 PM, vgarodia@codeaurora.org wrote:
-> > > Hi Stan,
-> > >
-> > > On 2020-11-03 06:46, Fritz Koenig wrote:
-> > >> On Fri, Oct 23, 2020 at 5:57 AM Stanimir Varbanov
-> > >> <stanimir.varbanov@linaro.org> wrote:
-> > >>>
-> > >>> Redesign the encoder driver to be compliant with stateful encoder
-> > >>> spec - specifically adds handling of Reset state.
-> > >>>
-> > >>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> > >>> ---
-> > >>>  drivers/media/platform/qcom/venus/core.h |  10 +-
-> > >>>  drivers/media/platform/qcom/venus/venc.c | 242 ++++++++++++++++++-----
-> > >>>  2 files changed, 197 insertions(+), 55 deletions(-)
-> > >>>
-> > >>> diff --git a/drivers/media/platform/qcom/venus/core.h
-> > >>> b/drivers/media/platform/qcom/venus/core.h
-> > >>> index 5c4693678e3f..294d5467a6a1 100644
-> > >>> --- a/drivers/media/platform/qcom/venus/core.h
-> > >>> +++ b/drivers/media/platform/qcom/venus/core.h
-> > >>> @@ -277,11 +277,11 @@ enum venus_dec_state {
-> > >>>  };
-> > >>>
-> > >>>  enum venus_enc_state {
-> > >>> -       VENUS_ENC_STATE_DEINIT          = 0,
-> > >>> -       VENUS_ENC_STATE_INIT            = 1,
-> > >>> -       VENUS_ENC_STATE_ENCODING        = 2,
-> > >>> -       VENUS_ENC_STATE_STOPPED         = 3,
-> > >>> -       VENUS_ENC_STATE_DRAIN           = 4,
-> > >>> +       VENUS_ENC_STATE_INIT            = 0,
-> > >>> +       VENUS_ENC_STATE_ENCODING        = 1,
-> > >>> +       VENUS_ENC_STATE_STOPPED         = 2,
-> > >>> +       VENUS_ENC_STATE_DRAIN           = 3,
-> > >>> +       VENUS_ENC_STATE_RESET           = 4,
-> > >>>  };
-> > >>>
-> > >>>  struct venus_ts_metadata {
-> > >>> diff --git a/drivers/media/platform/qcom/venus/venc.c
-> > >>> b/drivers/media/platform/qcom/venus/venc.c
-> > >>> index c6143b07914c..aa9255ddb0a5 100644
-> > >>> --- a/drivers/media/platform/qcom/venus/venc.c
-> > >>> +++ b/drivers/media/platform/qcom/venus/venc.c
-> > >>> @@ -565,6 +565,7 @@ static const struct v4l2_ioctl_ops venc_ioctl_ops
-> > >>> = {
-> > >>>         .vidioc_enum_frameintervals = venc_enum_frameintervals,
-> > >>>         .vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-> > >>>         .vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-> > >>> +       .vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
-> > >>>         .vidioc_encoder_cmd = venc_encoder_cmd,
-> > >>>  };
-> > >>>
-> > >>> @@ -850,6 +851,69 @@ static int venc_queue_setup(struct vb2_queue *q,
-> > >>>         return ret;
-> > >>>  }
-> > >>>
-> > >>> +static void venc_release_session(struct venus_inst *inst)
-> > >>> +{
-> > >>> +       struct venus_core *core = inst->core;
-> > >>> +       int ret, abort = 0;
-> > >>> +
-> > >>> +       mutex_lock(&inst->lock);
-> > >>> +
-> > >>> +       if (inst->enc_state != VENUS_ENC_STATE_RESET)
-> > >>> +               dev_dbg(core->dev_enc, VDBGH "wrong state!\n");
-> > >>> +
-> > >>> +       ret = hfi_session_stop(inst);
-> > >>> +       abort |= (ret && ret != -EINVAL) ? 1 : 0;
-> > >>> +       ret = hfi_session_unload_res(inst);
-> > >>> +       abort |= (ret && ret != -EINVAL) ? 1 : 0;
-> > >>> +       ret = venus_helper_unregister_bufs(inst);
-> > >>> +       abort |= (ret && ret != -EINVAL) ? 1 : 0;
-> > >>> +       ret = venus_helper_intbufs_free(inst);
-> > >>> +       abort |= (ret && ret != -EINVAL) ? 1 : 0;
-> > >>> +       ret = hfi_session_deinit(inst);
-> > >>> +       abort |= (ret && ret != -EINVAL) ? 1 : 0;
-> > >>> +
-> > >>> +       if (inst->session_error)
-> > >>> +               abort = 1;
-> > >>> +
-> > >>> +       if (abort)
-> > >>> +               hfi_session_abort(inst);
-> > >>> +
-> > >>> +       venus_pm_load_scale(inst);
-> > >>
-> > >> venus_pm_load_scale depends on inst->clk_data.codec_freq_data being
-> > >> set up. This occurs in venc_init_session().  I am seeing scenarios
-> > >> where the encoder is getting setup up, but before it is finished,
-> > >> teardown occurs.  If this teardown occurs before
-> > >> inst->clk_data.codec_freq_data is initalized, a crash occurs.  (also
-> > >> "wrong state!" is printed out)
-> > >
-> > > venus_pm_load_scale(inst) is called here to remove the votes for clock
-> > > and bus bandwidth. This is not needed for instances which are closed
-> > > just after moving them to INIT state. I have tried with below state
-> > > handling
-> > > and it works well i.e call for venus_pm_load_scale(inst) from state other
-> > > than the INIT state.
-> >
-> > IMO we have to check the INST state in venus_pm_load_scale(). We made
-> > similar check in min_loaded_core() here [1].
-> >
-> > [1] https://www.spinics.net/lists/kernel/msg3498215.html
-> >
->
-> I took a look at putting this check in venus_pm_load_scale.  The
-> problem I see with that is venus_pm_load_scale is shared between
-> encoder and decoder.  So checking for VENUS_ENC_STATE_INIT during
-> decode doesn't make sense.  I tried to match up with the instance
-> states in hfi.h, but it doesn't appear to align well.  Is there a hfi
-> state that this would work for?
->
-> -Fritz
->
-I think I found a reasonable approach:
-https://www.spinics.net/lists/linux-media/msg180866.html
+Hello,
+  new iteration following
+v3: https://patchwork.linuxtv.org/project/linux-media/list/?series=3768
 
--Fritz
+Major changelog:
+- Use v4l2_dev.release and drop manual ref-counting as suggested by Dafna
+- Address Hans' comments on queue setup and metadata format handling function
+- s/MEDIA_BUS_FMT_SENSOR_DATA/MEDIA_BUS_FMT_CUSTOM_SENSOR_DATA as suggested by
+  Hans and rebase on Dafna's fixed metadata format patch
+- Add a TODO file to explain why the driver is in staging.
+- Conditionally register the unicam-embedded video device node on the presence
+  of the sensor's metadata source pad.
 
-> > >
-> > > -       venus_pm_load_scale(inst);
-> > > +       if(inst->enc_state != VENUS_ENC_STATE_INIT)
-> > > +               venus_pm_load_scale(inst);
-> > >
-> > >>
-> > >> [  106.593198] Unable to handle kernel NULL pointer dereference at
-> > >> virtual address 0000000000000008
-> > >> [  106.603916] Mem abort info:
-> > >> [  106.608470]   ESR = 0x96000006
-> > >> [  106.613802]   EC = 0x25: DABT (current EL), IL = 32 bits
-> > >> [  106.619426]   SET = 0, FnV = 0
-> > >> [  106.622619]   EA = 0, S1PTW = 0
-> > >> [  106.625862] Data abort info:
-> > >> [  106.628835]   ISV = 0, ISS = 0x00000006
-> > >> [  106.632785]   CM = 0, WnR = 0
-> > >> [  106.635850] user pgtable: 4k pages, 39-bit VAs, pgdp=000000014839f000
-> > >> [  106.642472] [0000000000000008] pgd=000000016ab1f003,
-> > >> pud=000000016ab1f003, pmd=0000000000000000
-> > >> [  106.651410] Internal error: Oops: 96000006 [#1] PREEMPT SMP
-> > >> [  106.657132] Modules linked in: rfcomm algif_hash algif_skcipher
-> > >> af_alg uinput venus_dec venus_enc videobuf2_dma_sg hci_uart btqca
-> > >> venus_core qcom_spmi_adc5 qcom_spmi_temp_alarm qcom_vadc_common
-> > >> snd_soc_rt5682_i2c v4l2_mem2mem snd_soc_sc7180 snd_soc_rt5682
-> > >> snd_soc_qcom_common snd_soc_rl6231 bluetooth ecdh_generic ecc
-> > >> snd_soc_lpass_sc7180 snd_soc_lpass_hdmi snd_soc_lpass_cpu
-> > >> snd_soc_lpass_platform snd_soc_max98357a xt_MASQUERADE fuse
-> > >> iio_trig_sysfs cros_ec_lid_angle cros_ec_sensors cros_ec_sensors_core
-> > >> industrialio_triggered_buffer cros_ec_sensors_ring rmtfs_mem kfifo_buf
-> > >> cros_ec_sensorhub ath10k_snoc lzo_rle ath10k_core lzo_compress ath
-> > >> zram mac80211 ipa qmi_helpers cfg80211 qcom_q6v5_mss qcom_pil_info
-> > >> qcom_q6v5 qcom_common cdc_ether usbnet r8152 mii uvcvideo
-> > >> videobuf2_vmalloc videobuf2_memops videobuf2_v4l2 videobuf2_common
-> > >> joydev
-> > >> [  106.732576] CPU: 7 PID: 3622 Comm: DrmThread Not tainted 5.4.72 #40
-> > >> [  106.739004] Hardware name: Google Lazor (rev1+) (DT)
-> > >> [  106.744103] pstate: 60400009 (nZCv daif +PAN -UAO)
-> > >> [  106.749027] pc : load_scale_v4+0x160/0x3a4 [venus_core]
-> > >> [  106.754396] lr : load_scale_v4+0x154/0x3a4 [venus_core]
-> > >> [  106.759766] sp : ffffffc0120ab9e0
-> > >> [  106.763171] x29: ffffffc0120ab9e0 x28: 0000000000000005
-> > >> [  106.768629] x27: 0000000000000000 x26: 0000000000000000
-> > >> [  106.774080] x25: 0000000000000000 x24: 000000000000001e
-> > >> [  106.779530] x23: 0000000000000000 x22: ffffff80b41a8000
-> > >> [  106.784980] x21: ffffffd344e97e98 x20: ffffff80cb5b8080
-> > >> [  106.790431] x19: ffffff80fa3b1410 x18: 00000000ffff0a10
-> > >> [  106.795881] x17: 000000000000003c x16: ffffffd398ec2e88
-> > >> [  106.801329] x15: 0000000000000006 x14: ffff001000000600
-> > >> [  106.806779] x13: 000000000002cca2 x12: 0000000000000000
-> > >> [  106.812229] x11: 0000000000000000 x10: 0000000000000000
-> > >> [  106.817679] x9 : 472cbd12793c4600 x8 : 0000000000000000
-> > >> [  106.823137] x7 : 0000000000000000 x6 : ffffffd399dbcc6c
-> > >> [  106.828585] x5 : 0000000000000000 x4 : 0000000000000000
-> > >> [  106.834035] x3 : 0000000000000000 x2 : ffffff80ff6ae5c0
-> > >> [  106.839487] x1 : ffffff80ff69e018 x0 : ffffffd344e990ac
-> > >> [  106.844937] Call trace:
-> > >> [  106.847460]  load_scale_v4+0x160/0x3a4 [venus_core]
-> > >> [  106.852473]  venc_buf_cleanup+0x198/0x1f0 [venus_enc]
-> > >> [  106.857656]  __vb2_queue_free+0x90/0x1f4 [videobuf2_common]
-> > >> [  106.863374]  vb2_core_queue_release+0x3c/0x50 [videobuf2_common]
-> > >> [  106.869541]  vb2_queue_release+0x1c/0x28 [videobuf2_v4l2]
-> > >> [  106.875082]  v4l2_m2m_ctx_release+0x24/0x40 [v4l2_mem2mem]
-> > >> [  106.880710]  venc_close+0x24/0x78 [venus_enc]
-> > >> [  106.885188]  v4l2_release+0x8c/0xdc
-> > >> [  106.888779]  __fput+0xe0/0x214
-> > >> [  106.891916]  ____fput+0x1c/0x28
-> > >> [  106.895148]  task_work_run+0x94/0xc4
-> > >> [  106.898828]  do_exit+0x244/0x7c8
-> > >> [  106.902147]  do_group_exit+0x88/0x98
-> > >> [  106.905825]  get_signal+0x1cc/0x674
-> > >> [  106.909415]  do_notify_resume+0x134/0x1410
-> > >> [  106.913619]  work_pending+0x8/0x10
-> > >> [  106.917119] Code: 97ffd58d f94032c8 90000020 9102b000 (f9400501)
-> > >> [  106.923377] ---[ end trace a9caaf72c228e386 ]---
-> > >> [  106.928767] Kernel panic - not syncing: Fatal exception
-> > >> [  106.934131] SMP: stopping secondary CPUs
-> > >> [  106.938347] Kernel Offset: 0x1388a00000 from 0xffffffc010000000
-> > >> [  106.944426] PHYS_OFFSET: 0xffffffd900000000
-> > >> [  106.948722] CPU features: 0x08102e,2a80aa18
-> > >> [  106.953015] Memory Limit: none
-> > >>
-> > >>
-> > >> This is the debug log before the crash:
-> > >> [Nov 2 15:33] qcom-venus aa00000.video-codec: VenusLow : venus hw
-> > >> version 4.44.20a
-> > >> [  +0.000065] videodev: v4l2_open: video2: open (0)
-> > >> [  +0.000019] video2: VIDIOC_ENUM_FMT: index=0, type=vid-cap-mplane,
-> > >> flags=0x1, pixelformat=H264, description='H.264'
-> > >> [  +0.000017] video2: VIDIOC_ENUM_FMT: index=1, type=vid-cap-mplane,
-> > >> flags=0x1, pixelformat=VP80, description='VP8'
-> > >> [  +0.000042] video2: VIDIOC_ENUM_FMT: index=2, type=vid-cap-mplane,
-> > >> flags=0x1, pixelformat=HEVC, description='HEVC'
-> > >> [  +0.000030] video2: VIDIOC_ENUM_FMT: error -22: index=3,
-> > >> type=vid-cap-mplane, flags=0x0, pixelformat=\x00\x00\x00\x00,
-> > >> description=''
-> > >> [  +0.000068] videodev: v4l2_release: video2: release
-> > >> [  +0.002752] qcom-venus aa00000.video-codec: VenusLow : venus hw
-> > >> version 4.44.20a
-> > >> [  +0.000062] videodev: v4l2_open: video2: open (0)
-> > >> [  +0.000071] video2: VIDIOC_ENUM_FRAMESIZES: index=0,
-> > >> pixelformat=H264, type=3, min=96x96, max=4096x4096, step=16x16
-> > >> [  +0.000012] video2: VIDIOC_TRY_ENCODER_CMD: cmd=1, flags=0x0
-> > >> [  +0.000005] video2: VIDIOC_QUERYCAP: driver=qcom-venus,
-> > >> card=Qualcomm Venus video encoder, bus=platform:qcom-venus,
-> > >> version=0x00050448, capabilities=0x84204000, device_caps=0x04204000
-> > >> [  +0.001055] video2: VIDIOC_REQBUFS: count=0, type=vid-out-mplane,
-> > >> memory=mmap
-> > >> [  +0.000382] video2: VIDIOC_REQBUFS: count=0, type=vid-cap-mplane,
-> > >> memory=mmap
-> > >> [  +0.000227] video2: VIDIOC_S_FMT: type=vid-cap-mplane, width=96,
-> > >> height=96, format=H264, field=none, colorspace=0, num_planes=1,
-> > >> flags=0x0, ycbcr_enc=0, quantization=0, xfer_func=0
-> > >> [  +0.000027] plane 0: bytesperline=0 sizeimage=2097152
-> > >> [  +0.000527] video2: VIDIOC_S_FMT: type=vid-out-mplane, width=384,
-> > >> height=192, format=NV12, field=none, colorspace=0, num_planes=1,
-> > >> flags=0x0, ycbcr_enc=0, quantization=0, xfer_func=0
-> > >> [  +0.000024] plane 0: bytesperline=384 sizeimage=122880
-> > >> [  +0.000032] video2: VIDIOC_S_FMT: type=vid-out-mplane, width=384,
-> > >> height=192, format=NV12, field=none, colorspace=0, num_planes=1,
-> > >> flags=0x0, ycbcr_enc=0, quantization=0, xfer_func=0
-> > >> [  +0.000017] plane 0: bytesperline=384 sizeimage=122880
-> > >> [  +0.000024] video2: VIDIOC_S_FMT: type=vid-out-mplane, width=384,
-> > >> height=192, format=NV12, field=none, colorspace=0, num_planes=1,
-> > >> flags=0x0, ycbcr_enc=0, quantization=0, xfer_func=0
-> > >> [  +0.000017] plane 0: bytesperline=384 sizeimage=122880
-> > >> [  +0.000075] video2: VIDIOC_S_SELECTION: type=vid-out, target=0,
-> > >> flags=0x0, wxh=320x192, x,y=0,0
-> > >> [  +0.028300] video2: VIDIOC_S_FMT: type=vid-out-mplane, width=384,
-> > >> height=192, format=NV12, field=none, colorspace=0, num_planes=1,
-> > >> flags=0x0, ycbcr_enc=0, quantization=0, xfer_func=0
-> > >> [  +0.000036] plane 0: bytesperline=384 sizeimage=122880
-> > >> [  +0.000033] video2: VIDIOC_S_FMT: type=vid-out-mplane, width=384,
-> > >> height=192, format=NV12, field=none, colorspace=0, num_planes=1,
-> > >> flags=0x0, ycbcr_enc=0, quantization=0, xfer_func=0
-> > >> [  +0.000014] plane 0: bytesperline=384 sizeimage=122880
-> > >> [  +0.000020] video2: VIDIOC_S_FMT: type=vid-out-mplane, width=384,
-> > >> height=192, format=NV12, field=none, colorspace=0, num_planes=1,
-> > >> flags=0x0, ycbcr_enc=0, quantization=0, xfer_func=0
-> > >> [  +0.000120] plane 0: bytesperline=384 sizeimage=122880
-> > >> [  +0.000157] video2: VIDIOC_S_SELECTION: type=vid-out, target=0,
-> > >> flags=0x0, wxh=320x192, x,y=0,0
-> > >> [  +0.000250] video2: VIDIOC_S_EXT_CTRLS: which=0x990000, count=1,
-> > >> error_idx=0, request_fd=0, id/val=0x9909d7/0x1
-> > >> [  +0.000120] video2: VIDIOC_QUERYCTRL: error -22: id=0x990b84,
-> > >> type=0, name=, min/max=0/0, step=0, default=0, flags=0x00000000
-> > >> [  +0.000368] v4l2-ctrls: try_set_ext_ctrls: video2: video2:
-> > >> try_set_ext_ctrls_common failed (-22)
-> > >> [  +0.000087] video2: VIDIOC_S_EXT_CTRLS: error -22: which=0x990000,
-> > >> count=5, error_idx=5, request_fd=0, id/val=0x9909ca/0x0,
-> > >> id/val=0x990a62/0x33, id/val=0x990a6b/0x2, id/val=0x990a67/0xb,
-> > >> id/val=0x9909d8/0x1
-> > >> [  +0.000290] v4l2-ctrls: prepare_ext_ctrls: video2: cannot find
-> > >> control id 0x9909da
-> > >> [  +0.000010] v4l2-ctrls: try_set_ext_ctrls: video2: video2:
-> > >> try_set_ext_ctrls_common failed (-22)
-> > >> [  +0.000014] video2: VIDIOC_S_EXT_CTRLS: error -22: which=0x990000,
-> > >> count=2, error_idx=2, request_fd=0, id/val=0x9909da/0x1,
-> > >> id/val=0x9909cb/0x0
-> > >> [  +0.000225] video2: VIDIOC_G_FMT: type=vid-cap-mplane, width=320,
-> > >> height=192, format=H264, field=none, colorspace=0, num_planes=1,
-> > >> flags=0x0, ycbcr_enc=0, quantization=0, xfer_func=0
-> > >> [  +0.000028] plane 0: bytesperline=0 sizeimage=49152
-> > >> [  +0.002272] video2: VIDIOC_REQBUFS: count=4, type=vid-cap-mplane,
-> > >> memory=mmap
-> > >> [  +0.001661] video2: VIDIOC_QUERYBUF: 00:00:00.00000000 index=0,
-> > >> type=vid-cap-mplane, request_fd=0, flags=0x00004000, field=any,
-> > >> sequence=0, memory=mmap
-> > >> [  +0.000034] plane 0: bytesused=0, data_offset=0x00000000,
-> > >> offset/userptr=0xee18ad4840000000, length=2097152
-> > >> [  +0.000009] timecode=00:00:00 type=0, flags=0x00000000, frames=0,
-> > >> userbits=0x00000000
-> > >> [  +0.000142] video2: VIDIOC_QUERYBUF: 00:00:00.00000000 index=1,
-> > >> type=vid-cap-mplane, request_fd=0, flags=0x00004000, field=any,
-> > >> sequence=0, memory=mmap
-> > >> [  +0.000023] plane 0: bytesused=0, data_offset=0x00000000,
-> > >> offset/userptr=0xee18ad4840200000, length=2097152
-> > >> [  +0.000008] timecode=00:00:00 type=0, flags=0x00000000, frames=0,
-> > >> userbits=0x00000000
-> > >> [  +0.000409] video2: VIDIOC_QUERYBUF: 00:00:00.00000000 index=2,
-> > >> type=vid-cap-mplane, request_fd=0, flags=0x00004000, field=any,
-> > >> sequence=0, memory=mmap
-> > >> [  +0.000027] plane 0: bytesused=0, data_offset=0x00000000,
-> > >> offset/userptr=0xee18ad4840400000, length=2097152
-> > >> [  +0.000007] timecode=00:00:00 type=0, flags=0x00000000, frames=0,
-> > >> userbits=0x00000000
-> > >> [  +0.000233] video2: VIDIOC_QUERYBUF: 00:00:00.00000000 index=3,
-> > >> type=vid-cap-mplane, request_fd=0, flags=0x00004000, field=any,
-> > >> sequence=0, memory=mmap
-> > >> [  +0.000023] plane 0: bytesused=0, data_offset=0x00000000,
-> > >> offset/userptr=0xee18ad4840600000, length=2097152
-> > >> [  +0.000015] timecode=00:00:00 type=0, flags=0x00000000, frames=0,
-> > >> userbits=0x00000000
-> > >> [  +0.000288] video2: VIDIOC_S_EXT_CTRLS: which=0x990000, count=1,
-> > >> error_idx=0, request_fd=0, id/val=0x9909cf/0x30d40
-> > >> [  +0.000184] video2: VIDIOC_S_PARM: type=vid-out-mplane,
-> > >> capability=0x1000, outputmode=0x0, timeperframe=1/30, extendedmode=0,
-> > >> writebuffers=0
-> > >> [  +0.310832] qcom-venus-encoder aa00000.video-codec:video-encoder:
-> > >> VenusHigh: wrong state!
-> > >>
-> > >>> +       INIT_LIST_HEAD(&inst->registeredbufs);
-> > >>> +
-> > >>> +       inst->enc_state = VENUS_ENC_STATE_INIT;
-> > >>> +
-> > >>> +       mutex_unlock(&inst->lock);
-> > >>> +
-> > >>> +       venus_pm_release_core(inst);
-> > >>> +}
-> > >>> +
-> > >>> +static int venc_buf_init(struct vb2_buffer *vb)
-> > >>> +{
-> > >>> +       struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
-> > >>> +
-> > >>> +       inst->buf_count++;
-> > >>> +
-> > >>> +       return venus_helper_vb2_buf_init(vb);
-> > >>> +}
-> > >>> +
-> > >>> +static void venc_buf_cleanup(struct vb2_buffer *vb)
-> > >>> +{
-> > >>> +       struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
-> > >>> +       struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> > >>> +       struct venus_buffer *buf = to_venus_buffer(vbuf);
-> > >>> +
-> > >>> +       mutex_lock(&inst->lock);
-> > >>> +       if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-> > >>> +               if (!list_empty(&inst->registeredbufs))
-> > >>> +                       list_del_init(&buf->reg_list);
-> > >>> +       mutex_unlock(&inst->lock);
-> > >>> +
-> > >>> +       inst->buf_count--;
-> > >>> +       if (!inst->buf_count)
-> > >>> +               venc_release_session(inst);
-> > >>> +}
-> > >>> +
-> > >>>  static int venc_verify_conf(struct venus_inst *inst)
-> > >>>  {
-> > >>>         enum hfi_version ver = inst->core->res->hfi_version;
-> > >>> @@ -881,61 +945,73 @@ static int venc_verify_conf(struct venus_inst
-> > >>> *inst)
-> > >>>  static int venc_start_streaming(struct vb2_queue *q, unsigned int
-> > >>> count)
-> > >>>  {
-> > >>>         struct venus_inst *inst = vb2_get_drv_priv(q);
-> > >>> -       int ret;
-> > >>> +       int ret = 0;
-> > >>>
-> > >>>         mutex_lock(&inst->lock);
-> > >>>
-> > >>> -       if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-> > >>> +       if (V4L2_TYPE_IS_OUTPUT(q->type))
-> > >>>                 inst->streamon_out = 1;
-> > >>>         else
-> > >>>                 inst->streamon_cap = 1;
-> > >>>
-> > >>> -       if (!(inst->streamon_out & inst->streamon_cap)) {
-> > >>> -               mutex_unlock(&inst->lock);
-> > >>> -               return 0;
-> > >>> -       }
-> > >>> +       if (!(inst->streamon_out & inst->streamon_cap))
-> > >>> +               goto unlock;
-> > >>>
-> > >>> -       venus_helper_init_instance(inst);
-> > >>> +       if (inst->enc_state == VENUS_ENC_STATE_INIT) {
-> > >>> +               venus_helper_init_instance(inst);
-> > >>>
-> > >>> -       inst->sequence_cap = 0;
-> > >>> -       inst->sequence_out = 0;
-> > >>> +               inst->sequence_cap = 0;
-> > >>> +               inst->sequence_out = 0;
-> > >>>
-> > >>> -       ret = venc_init_session(inst);
-> > >>> -       if (ret)
-> > >>> -               goto bufs_done;
-> > >>> +               ret = venc_init_session(inst);
-> > >>> +               if (ret)
-> > >>> +                       goto bufs_done;
-> > >>>
-> > >>> -       ret = venus_pm_acquire_core(inst);
-> > >>> -       if (ret)
-> > >>> -               goto deinit_sess;
-> > >>> +               ret = venus_pm_acquire_core(inst);
-> > >>> +               if (ret)
-> > >>> +                       goto deinit_sess;
-> > >>>
-> > >>> -       ret = venc_set_properties(inst);
-> > >>> -       if (ret)
-> > >>> -               goto deinit_sess;
-> > >>> +               ret = venc_verify_conf(inst);
-> > >>> +               if (ret)
-> > >>> +                       goto deinit_sess;
-> > >>>
-> > >>> -       ret = venc_verify_conf(inst);
-> > >>> -       if (ret)
-> > >>> -               goto deinit_sess;
-> > >>> +               ret = venus_helper_set_num_bufs(inst,
-> > >>> inst->num_input_bufs,
-> > >>> +
-> > >>> inst->num_output_bufs, 0);
-> > >>> +               if (ret)
-> > >>> +                       goto deinit_sess;
-> > >>>
-> > >>> -       ret = venus_helper_set_num_bufs(inst, inst->num_input_bufs,
-> > >>> -                                       inst->num_output_bufs, 0);
-> > >>> -       if (ret)
-> > >>> -               goto deinit_sess;
-> > >>> +               ret = venus_helper_vb2_start_streaming(inst);
-> > >>> +               if (ret)
-> > >>> +                       goto deinit_sess;
-> > >>>
-> > >>> -       ret = venus_helper_vb2_start_streaming(inst);
-> > >>> -       if (ret)
-> > >>> -               goto deinit_sess;
-> > >>> +               venus_helper_process_initial_out_bufs(inst);
-> > >>> +               venus_helper_process_initial_cap_bufs(inst);
-> > >>>
-> > >>> -       inst->enc_state = VENUS_ENC_STATE_ENCODING;
-> > >>> +               inst->enc_state = VENUS_ENC_STATE_ENCODING;
-> > >>> +       } else if (inst->enc_state == VENUS_ENC_STATE_RESET &&
-> > >>> +                  V4L2_TYPE_IS_CAPTURE(q->type)) {
-> > >>> +               ret = venus_helper_vb2_start_streaming(inst);
-> > >>> +               if (ret)
-> > >>> +                       goto bufs_done;
-> > >>>
-> > >>> -       mutex_unlock(&inst->lock);
-> > >>> +               venus_helper_process_initial_out_bufs(inst);
-> > >>> +               venus_helper_process_initial_cap_bufs(inst);
-> > >>>
-> > >>> -       return 0;
-> > >>> +               inst->enc_state = VENUS_ENC_STATE_ENCODING;
-> > >>> +       } else if (inst->enc_state == VENUS_ENC_STATE_STOPPED &&
-> > >>> +                  V4L2_TYPE_IS_OUTPUT(q->type)) {
-> > >>> +               inst->enc_state = VENUS_ENC_STATE_ENCODING;
-> > >>> +       }
-> > >>> +
-> > >>> +unlock:
-> > >>> +       mutex_unlock(&inst->lock);
-> > >>> +       return ret;
-> > >>>
-> > >>>  deinit_sess:
-> > >>>         hfi_session_deinit(inst);
-> > >>>  bufs_done:
-> > >>>         venus_helper_buffers_done(inst, q->type, VB2_BUF_STATE_QUEUED);
-> > >>> -       if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-> > >>> +       if (V4L2_TYPE_IS_OUTPUT(q->type))
-> > >>>                 inst->streamon_out = 0;
-> > >>>         else
-> > >>>                 inst->streamon_cap = 0;
-> > >>> @@ -943,33 +1019,97 @@ static int venc_start_streaming(struct
-> > >>> vb2_queue *q, unsigned int count)
-> > >>>         return ret;
-> > >>>  }
-> > >>>
-> > >>> -static void venc_vb2_buf_queue(struct vb2_buffer *vb)
-> > >>> +static int venc_stop_capture(struct venus_inst *inst)
-> > >>> +{
-> > >>> +       int ret;
-> > >>> +
-> > >>> +       switch (inst->enc_state) {
-> > >>> +       case VENUS_ENC_STATE_ENCODING:
-> > >>> +       case VENUS_ENC_STATE_DRAIN:
-> > >>> +       case VENUS_ENC_STATE_STOPPED:
-> > >>> +               inst->enc_state = VENUS_ENC_STATE_RESET;
-> > >>> +               break;
-> > >>> +       default:
-> > >>> +               return -EINVAL;
-> > >>> +       }
-> > >>> +
-> > >>> +       ret = hfi_session_stop(inst);
-> > >>> +       ret |= hfi_session_unload_res(inst);
-> > >>> +       ret |= venus_helper_unregister_bufs(inst);
-> > >>> +       ret |= venus_helper_intbufs_free(inst);
-> > >>> +
-> > >>> +       return ret;
-> > >>> +}
-> > >>> +
-> > >>> +static int venc_stop_output(struct venus_inst *inst)
-> > >>> +{
-> > >>> +       switch (inst->enc_state) {
-> > >>> +       case VENUS_ENC_STATE_ENCODING:
-> > >>> +               inst->enc_state = VENUS_ENC_STATE_STOPPED;
-> > >>> +               break;
-> > >>> +       case VENUS_ENC_STATE_DRAIN:
-> > >>> +               inst->enc_state = VENUS_ENC_STATE_STOPPED;
-> > >>> +               break;
-> > >>> +       default:
-> > >>> +               return -EINVAL;
-> > >>> +       }
-> > >>> +
-> > >>> +       return 0;
-> > >>> +}
-> > >>> +
-> > >>> +static void venc_stop_streaming(struct vb2_queue *q)
-> > >>> +{
-> > >>> +       struct venus_inst *inst = vb2_get_drv_priv(q);
-> > >>> +       int ret = -EINVAL;
-> > >>> +
-> > >>> +       mutex_lock(&inst->lock);
-> > >>> +
-> > >>> +       if (V4L2_TYPE_IS_OUTPUT(q->type))
-> > >>> +               ret = venc_stop_output(inst);
-> > >>> +       else
-> > >>> +               ret = venc_stop_capture(inst);
-> > >>> +
-> > >>> +       venus_helper_buffers_done(inst, q->type, VB2_BUF_STATE_ERROR);
-> > >>> +
-> > >>> +       if (ret)
-> > >>> +               goto unlock;
-> > >>> +
-> > >>> +       if (V4L2_TYPE_IS_OUTPUT(q->type))
-> > >>> +               inst->streamon_out = 0;
-> > >>> +       else
-> > >>> +               inst->streamon_cap = 0;
-> > >>> +
-> > >>> +unlock:
-> > >>> +       mutex_unlock(&inst->lock);
-> > >>> +}
-> > >>> +
-> > >>> +static void venc_buf_queue(struct vb2_buffer *vb)
-> > >>>  {
-> > >>>         struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
-> > >>>         struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> > >>> +       struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
-> > >>>
-> > >>>         mutex_lock(&inst->lock);
-> > >>>
-> > >>> -       if (inst->enc_state == VENUS_ENC_STATE_STOPPED) {
-> > >>> -               vbuf->sequence = inst->sequence_cap++;
-> > >>> -               vbuf->field = V4L2_FIELD_NONE;
-> > >>> -               vb2_set_plane_payload(vb, 0, 0);
-> > >>> -               v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_DONE);
-> > >>> -               mutex_unlock(&inst->lock);
-> > >>> -               return;
-> > >>> -       }
-> > >>> +       v4l2_m2m_buf_queue(m2m_ctx, vbuf);
-> > >>> +
-> > >>> +       if (!(inst->streamon_out && inst->streamon_cap))
-> > >>> +               goto unlock;
-> > >>> +
-> > >>> +       venus_helper_process_buf(vb);
-> > >>>
-> > >>> -       venus_helper_vb2_buf_queue(vb);
-> > >>> +unlock:
-> > >>>         mutex_unlock(&inst->lock);
-> > >>>  }
-> > >>>
-> > >>>  static const struct vb2_ops venc_vb2_ops = {
-> > >>>         .queue_setup = venc_queue_setup,
-> > >>> -       .buf_init = venus_helper_vb2_buf_init,
-> > >>> +       .buf_init = venc_buf_init,
-> > >>> +       .buf_cleanup = venc_buf_cleanup,
-> > >>>         .buf_prepare = venus_helper_vb2_buf_prepare,
-> > >>>         .start_streaming = venc_start_streaming,
-> > >>> -       .stop_streaming = venus_helper_vb2_stop_streaming,
-> > >>> -       .buf_queue = venc_vb2_buf_queue,
-> > >>> +       .stop_streaming = venc_stop_streaming,
-> > >>> +       .buf_queue = venc_buf_queue,
-> > >>>  };
-> > >>>
-> > >>>  static void venc_buf_done(struct venus_inst *inst, unsigned int
-> > >>> buf_type,
-> > >>> @@ -1025,8 +1165,12 @@ static const struct hfi_inst_ops venc_hfi_ops = {
-> > >>>         .event_notify = venc_event_notify,
-> > >>>  };
-> > >>>
-> > >>> +static void venc_m2m_device_run(void *priv)
-> > >>> +{
-> > >>> +}
-> > >>> +
-> > >>>  static const struct v4l2_m2m_ops venc_m2m_ops = {
-> > >>> -       .device_run = venus_helper_m2m_device_run,
-> > >>> +       .device_run = venc_m2m_device_run,
-> > >>>         .job_abort = venus_helper_m2m_job_abort,
-> > >>>  };
-> > >>>
-> > >>> @@ -1098,11 +1242,9 @@ static int venc_open(struct file *file)
-> > >>>         inst->core = core;
-> > >>>         inst->session_type = VIDC_SESSION_TYPE_ENC;
-> > >>>         inst->clk_data.core_id = VIDC_CORE_ID_DEFAULT;
-> > >>> +       inst->enc_state = VENUS_ENC_STATE_INIT;
-> > >>>         inst->core_acquired = false;
-> > >>>
-> > >>> -       if (inst->enc_state == VENUS_ENC_STATE_DEINIT)
-> > >>> -               inst->enc_state = VENUS_ENC_STATE_INIT;
-> > >>> -
-> > >>>         venus_helper_init_instance(inst);
-> > >>>
-> > >>>         ret = pm_runtime_get_sync(core->dev_enc);
-> > >>> @@ -1167,7 +1309,7 @@ static int venc_close(struct file *file)
-> > >>>         mutex_destroy(&inst->lock);
-> > >>>         v4l2_fh_del(&inst->fh);
-> > >>>         v4l2_fh_exit(&inst->fh);
-> > >>> -       inst->enc_state = VENUS_ENC_STATE_DEINIT;
-> > >>> +
-> > >>>         pm_runtime_put_sync(inst->core->dev_enc);
-> > >>>
-> > >>>         kfree(inst);
-> > >>> --
-> > >>> 2.17.1
-> > >>>
-> > >
-> > > Thanks,
-> > > Vikash
-> >
-> > --
-> > regards,
-> > Stan
+  The media graph, when connected to a sensor that does not report metadata
+  looks like:
+
+	Media controller API version 5.10.0
+
+	Media device information
+	------------------------
+	driver          unicam
+	model           unicam
+	serial
+	bus info        platform:fe801000.csi
+	hw revision     0x0
+	driver version  5.10.0
+
+	Device topology
+	- entity 1: ov5647 10-0036 (1 pad, 1 link)
+		    type V4L2 subdev subtype Sensor flags 0
+		    device node name /dev/v4l-subdev0
+		pad0: Source
+			[fmt:SBGGR10_1X10/640x480 field:none colorspace:srgb
+			 crop.bounds:(16,16)/2592x1944
+			 crop:(32,16)/2560x1920]
+			-> "unicam-image":0 [ENABLED,IMMUTABLE]
+
+	- entity 3: unicam-image (1 pad, 1 link)
+		    type Node subtype V4L flags 1
+		    device node name /dev/video0
+		pad0: Sink
+			<- "ov5647 10-0036":0 [ENABLED,IMMUTABLE]
+
+
+  If the sensor reports an additional metadata pad:
+
+	Media controller API version 5.10.0
+
+	Media device information
+	------------------------
+	driver          unicam
+	model           unicam
+	serial
+	bus info        platform:fe801000.csi
+	hw revision     0x0
+	driver version  5.10.0
+
+	Device topology
+	- entity 1: imx219 10-0010 (2 pads, 2 links)
+		    type V4L2 subdev subtype Sensor flags 0
+		    device node name /dev/v4l-subdev0
+		pad0: Source
+			[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
+			 crop:(0,0)/3280x2464]
+			-> "unicam-image":0 [ENABLED,IMMUTABLE]
+		pad1: Source
+			[fmt:unknown/16384x1 field:none
+			 crop:(0,0)/3280x2464]
+			-> "unicam-embedded":0 [ENABLED,IMMUTABLE]
+
+	- entity 4: unicam-image (1 pad, 1 link)
+		    type Node subtype V4L flags 1
+		    device node name /dev/video0
+		pad0: Sink
+			<- "imx219 10-0010":0 [ENABLED,IMMUTABLE]
+
+	- entity 10: unicam-embedded (1 pad, 1 link)
+		     type Node subtype V4L flags 0
+		     device node name /dev/video1
+		pad0: Sink
+			<- "imx219 10-0010":1 [ENABLED,IMMUTABLE]
+
+  Conditionally registering the metadata video node allows to simplify the
+  code in the driver as well, removing the 'sensor_embedded_data' flag.
+
+  An additional note: this version will break the libcamera pipeline handler
+  which assume the unicam-embedded video device node to always be there.
+
+  From Dave's reply to Dafna's comments I get instead that for the existing
+  applications ecosystem, having the metadata node not registered if the sensor
+  does not support it is not an issue.
+
+The v4l2-compliance output is reported below, with one test failing, again
+on the selection API, and again I'm not sure about the root cause. Seems like
+the compliance tool complains because a list of discrete formats is reported and
+the selection APIs are supported at the same time. Seems unlikely though.
+
+-------------------------------------------------------------------------------
+v4l2-compliance 1.21.0-4679, 32 bits, 32-bit time_t
+v4l2-compliance SHA: 225c6c2a17be 2020-10-30 15:13:07
+
+Compliance test for unicam device /dev/media0:
+
+Media Driver Info:
+	Driver name      : unicam
+	Model            : unicam
+	Serial           :
+	Bus info         : platform:fe801000.csi
+	Media version    : 5.10.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 5.10.0
+
+Required ioctls:
+	test MEDIA_IOC_DEVICE_INFO: OK
+
+Allow for multiple opens:
+	test second /dev/media0 open: OK
+	test MEDIA_IOC_DEVICE_INFO: OK
+	test for unlimited opens: OK
+
+Media Controller ioctls:
+	test MEDIA_IOC_G_TOPOLOGY: OK
+	Entities: 2 Interfaces: 2 Pads: 2 Links: 3
+	test MEDIA_IOC_ENUM_ENTITIES/LINKS: OK
+	test MEDIA_IOC_SETUP_LINK: OK
+	test invalid ioctls: OK
+
+Total for unicam device /dev/media0: 8, Succeeded: 8, Failed: 0, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for unicam device /dev/video0:
+
+Driver Info:
+	Driver name      : unicam
+	Card type        : unicam
+	Bus info         : platform:fe801000.csi
+	Driver version   : 5.10.0
+	Capabilities     : 0x85a00001
+		Video Capture
+		Metadata Capture
+		Read/Write
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x05200001
+		Video Capture
+		Read/Write
+		Streaming
+		Extended Pix Format
+Media Driver Info:
+	Driver name      : unicam
+	Model            : unicam
+	Serial           :
+	Bus info         : platform:fe801000.csi
+	Media version    : 5.10.0
+	Hardware revision: 0x00000000 (0)
+	Driver version   : 5.10.0
+Interface Info:
+	ID               : 0x03000005
+	Type             : V4L Video
+Entity Info:
+	ID               : 0x00000003 (3)
+	Name             : unicam-image
+	Function         : V4L2 I/O
+	Flags         : default
+	Pad 0x01000004   : 0: Sink
+	  Link 0x02000007: from remote pad 0x1000002 of entity 'ov5647 10-0036': Data, Enabled, Immutable
+
+Required ioctls:
+	test MC information (see 'Media Driver Info' above): OK
+	test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+	test second /dev/video0 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+	test invalid ioctls: OK
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 1 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls (Input 0):
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 12 Private Controls: 0
+
+Format ioctls (Input 0):
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+		fail: v4l2-test-formats.cpp(1505): node->frmsizes_count[pixfmt] > 1
+	test Cropping: FAIL
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls (Input 0):
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls (Input 0):
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK
+	test blocking wait: OK
+	test MMAP (no poll): OK
+	test MMAP (select): OK
+	test MMAP (epoll): OK
+	test USERPTR (no poll): OK (Not Supported)
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Stream using all formats:
+	test MMAP for Format pBAA, Frame Size 2592x1944:
+		Crop 2592x1944@16x16, Stride 3264, Field None: OK
+		Crop 2592x1944@16x16, Stride 3328, Field None: OK
+	test MMAP for Format pBAA, Frame Size 1920x1080:
+		Crop 1928x1080@364x450, Stride 2400, Field None: OK
+		Crop 1928x1080@364x450, Stride 2464, Field None: OK
+	test MMAP for Format pBAA, Frame Size 1296x972:
+		Crop 2592x1944@16x16, Stride 1632, Field None: OK
+		Crop 2592x1944@16x16, Stride 1696, Field None: OK
+	test MMAP for Format pBAA, Frame Size 640x480:
+		Crop 2560x1920@32x16, Stride 800, Field None: OK
+		Crop 2560x1920@32x16, Stride 864, Field None: OK
+	test MMAP for Format BG10, Frame Size 2592x1944:
+		Crop 2592x1944@16x16, Stride 5184, Field None: OK
+		Crop 2592x1944@16x16, Stride 5248, Field None: OK
+	test MMAP for Format BG10, Frame Size 1920x1080:
+		Crop 1928x1080@364x450, Stride 3840, Field None: OK
+		Crop 1928x1080@364x450, Stride 3904, Field None: OK
+	test MMAP for Format BG10, Frame Size 1296x972:
+		Crop 2592x1944@16x16, Stride 2592, Field None: OK
+		Crop 2592x1944@16x16, Stride 2656, Field None: OK
+	test MMAP for Format BG10, Frame Size 640x480:
+		Crop 2560x1920@32x16, Stride 1280, Field None: OK
+		Crop 2560x1920@32x16, Stride 1344, Field None: OK
+Total for unicam device /dev/video0: 69, Succeeded: 68, Failed: 1, Warnings: 0
+--------------------------------------------------------------------------------
+Compliance test for device /dev/v4l-subdev0:
+
+
+Required ioctls:
+
+Allow for multiple opens:
+	test second /dev/v4l-subdev0 open: OK
+	test for unlimited opens: OK
+
+	test invalid ioctls: OK
+Debug ioctls:
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 12 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK (Not Supported)
+	test VIDIOC_TRY_FMT: OK (Not Supported)
+	test VIDIOC_S_FMT: OK (Not Supported)
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
+	test VIDIOC_EXPBUF: OK (Not Supported)
+	test Requests: OK (Not Supported)
+
+Total for device /dev/v4l-subdev0: 41, Succeeded: 41, Failed: 0, Warnings: 0
+
+Grand Total for unicam device /dev/media0: 118, Succeeded: 117, Failed: 1, Warnings: 0
+-------------------------------------------------------------------------------
+
+Tested by capturing frames from RPi Camera Module v1 (ov5647) and v2 (imx219)
+in 10-bit formats and 8-bit formats (imx219 only).
+
+Image are captured in a format I cannot inspect (raw2rgbpnm and 7yuv do not
+support the sensor's Bayern pattern), but I can spot shapes when converting to
+a format with a different pattern permutation, so I assume data is there.
+
+Thanks
+  j
+
+Dave Stevenson (1):
+  dt-bindings: media: Document BCM283x CSI2/CCP2 receiver
+
+Jacopo Mondi (1):
+  media: bcm2835-unicam: Add TODO file
+
+Laurent Pinchart (1):
+  ARM: dts: bcm2711: Add Unicam DT nodes
+
+Naushir Patuck (2):
+  media: uapi: Add MEDIA_BUS_FMT_CUSTOM_SENSOR_DATA
+  media: bcm2835-unicam: Driver for CCP2/CSI2 camera interface
+
+ .../bindings/media/brcm,bcm2835-unicam.yaml   |  155 +
+ .../userspace-api/media/v4l/meta-formats.rst  |    1 +
+ .../media/v4l/pixfmt-meta-sensor-data.rst     |   24 +
+ .../media/v4l/subdev-formats.rst              |   29 +
+ MAINTAINERS                                   |    7 +
+ arch/arm/boot/dts/bcm2711.dtsi                |   41 +
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+ drivers/staging/media/Kconfig                 |    2 +
+ drivers/staging/media/Makefile                |    1 +
+ drivers/staging/media/bcm2835-unicam/Kconfig  |   21 +
+ drivers/staging/media/bcm2835-unicam/Makefile |    3 +
+ drivers/staging/media/bcm2835-unicam/TODO     |   37 +
+ .../media/bcm2835-unicam/bcm2835-unicam.c     | 2750 +++++++++++++++++
+ .../media/bcm2835-unicam/vc4-regs-unicam.h    |  253 ++
+ include/uapi/linux/media-bus-format.h         |    3 +
+ include/uapi/linux/videodev2.h                |    1 +
+ 16 files changed, 3329 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
+ create mode 100644 drivers/staging/media/bcm2835-unicam/Kconfig
+ create mode 100644 drivers/staging/media/bcm2835-unicam/Makefile
+ create mode 100644 drivers/staging/media/bcm2835-unicam/TODO
+ create mode 100644 drivers/staging/media/bcm2835-unicam/bcm2835-unicam.c
+ create mode 100644 drivers/staging/media/bcm2835-unicam/vc4-regs-unicam.h
+
+--
+2.29.1
+
