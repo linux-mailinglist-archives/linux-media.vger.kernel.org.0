@@ -2,122 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E3F0B2AC987
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 00:46:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECDB42ACB9D
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 04:21:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729785AbgKIXqp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Nov 2020 18:46:45 -0500
-Received: from mga03.intel.com ([134.134.136.65]:55405 "EHLO mga03.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727311AbgKIXqp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 9 Nov 2020 18:46:45 -0500
-IronPort-SDR: ARip3f3Q5s2qAx3piaL9nkJdSJITktv8PFawiWibhHy4MSOoq9BgAF86XsoHsdVp/IOu59V7Wm
- KphL295KnIhQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9800"; a="170001075"
-X-IronPort-AV: E=Sophos;i="5.77,464,1596524400"; 
-   d="scan'208";a="170001075"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 15:46:44 -0800
-IronPort-SDR: 8yHss2GP6+rx8lVgQdr/uzPkKA29kGB2KjnH0jlk4TvqNbcBsIWE49xMSQn2O3Fv4/GjzKsE0J
- 28pYfrGVjMbA==
-X-IronPort-AV: E=Sophos;i="5.77,464,1596524400"; 
-   d="scan'208";a="541089940"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 09 Nov 2020 15:46:41 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 89C3220867; Tue, 10 Nov 2020 01:46:38 +0200 (EET)
-Date:   Tue, 10 Nov 2020 01:46:38 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Alexandre Torgue <alexandre.torgue@st.com>
-Cc:     Hugues Fruchet <hugues.fruchet@st.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Rob Herring <robh+dt@kernel.org>, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        Alain Volmat <alain.volmat@st.com>,
-        Yannick Fertre <yannick.fertre@st.com>,
-        Philippe CORNU <philippe.cornu@st.com>
-Subject: Re: [PATCH v5 0/4] DCMI BT656 parallel bus mode support
-Message-ID: <20201109234638.GQ26150@paasikivi.fi.intel.com>
-References: <1604511132-4014-1-git-send-email-hugues.fruchet@st.com>
- <016661fc-e9dd-bd4a-f26d-00e54626f030@st.com>
- <20201106115308.GO26150@paasikivi.fi.intel.com>
- <027a0bb1-788e-dc73-a941-4d55c8ec5481@st.com>
+        id S1729706AbgKJDVX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Nov 2020 22:21:23 -0500
+Received: from mail.codeweavers.com ([50.203.203.244]:42478 "EHLO
+        mail.codeweavers.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729243AbgKJDVX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 22:21:23 -0500
+X-Greylist: delayed 1027 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Nov 2020 22:21:23 EST
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:MIME-Version:
+        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=/ZuODjsCGNjBdFOIqlZlXT70GJUC3IHxOLn8UfvUPCw=; b=Z/2TE/jAK4uvAAK8H30hGo+5/r
+        kbtQ3MM5J5h2DnTf7S4CNKqs47a5EaqkmIOwCleS9zUszCh7Z0bZpdIbwIsw+1nPsGnBNcc2UNycy
+        pbt6aXbdCDFfygBaWZpfp3QcvmJKNmbM4e6UmAfHcRtGF4F+y/A2VME1ReTevTQM0cR4=;
+Received: from [64.191.7.9] (helo=watership.localdomain)
+        by mail.codeweavers.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <zfigura@codeweavers.com>)
+        id 1kcJx7-0001gI-Q7; Mon, 09 Nov 2020 21:04:15 -0600
+From:   Zebediah Figura <zfigura@codeweavers.com>
+To:     linux-media@vger.kernel.org
+Cc:     Zebediah Figura <zfigura@codeweavers.com>
+Subject: [PATCH] media: cx231xx: Use snd_card_free_when_closed() instead of snd_card_free().
+Date:   Mon,  9 Nov 2020 21:04:03 -0600
+Message-Id: <20201110030403.118606-1-zfigura@codeweavers.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <027a0bb1-788e-dc73-a941-4d55c8ec5481@st.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
+X-Spam-Score: -35.2
+X-Spam-Report: Spam detection software, running on the system "mail.codeweavers.com",
+ has NOT identified this incoming email as spam.  The original
+ message has been attached to this so you can view it or label
+ similar future email.  If you have any questions, see
+ the administrator of that system for details.
+ Content preview:  cx231xx_close_extension and hence cx231xx_audio_fini() are
+    called with the cx231xx device lock held, but snd_cx231xx_pcm_close() also
+    grabs that mutex when closing the file on behalf of arecord. There [...] 
+ Content analysis details:   (-35.2 points, 5.0 required)
+  pts rule name              description
+ ---- ---------------------- --------------------------------------------------
+ -0.0 USER_IN_WELCOMELIST    user is listed in 'welcomelist_from'
+  -20 USER_IN_WHITELIST      DEPRECATED: See USER_IN_WELCOMELIST
+  -20 ALL_TRUSTED            Passed through trusted hosts only via SMTP
+ -0.5 BAYES_00               BODY: Bayes spam probability is 0 to 1%
+                             [score: 0.0000]
+  5.3 AWL                    AWL: Adjusted score from AWL reputation of From: address
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 09, 2020 at 09:37:51AM +0100, Alexandre Torgue wrote:
-> Hi Sakari
-> 
-> On 11/6/20 12:53 PM, Sakari Ailus wrote:
-> > Hi Alexandre,
-> > 
-> > On Thu, Nov 05, 2020 at 10:26:37AM +0100, Alexandre Torgue wrote:
-> > > Hi Huges
-> > > 
-> > > On 11/4/20 6:32 PM, Hugues Fruchet wrote:
-> > > > Add support of BT656 embedded synchronization bus.
-> > > > This mode allows to save hardware synchro lines hsync & vsync
-> > > > by replacing them with synchro codes embedded in data stream.
-> > > > Add "bus-type" property and make it required so that there is no
-> > > > ambiguity between parallel mode (bus-type=5) and BT656 mode (bus-type=6).
-> > > > 
-> > > > ===========
-> > > > = history =
-> > > > ===========
-> > > > version 5:
-> > > >     - Add revisited bindings and devicetree with explicit use of "bus-type"
-> > > > 
-> > > > version 4:
-> > > >     - Fix typo in commit message
-> > > > 
-> > > > version 3:
-> > > >     - Fix bus_width print to %u as per Sakari comment
-> > > > 
-> > > > version 2:
-> > > >     - As per Sakari remark, revisit commit message and document
-> > > >       BT656 parallel bus mode in bindings
-> > > > 
-> > > > version 1:
-> > > >     - Initial submission
-> > > > 
-> > > > Hugues Fruchet (4):
-> > > >     media: stm32-dcmi: add support of BT656 bus
-> > > >     media: dt-bindings: media: st,stm32-dcmi: add support of BT656 bus
-> > > >     ARM: dts: stm32: set bus-type in DCMI endpoint for stm32mp157c-ev1
-> > > >       board
-> > > >     ARM: dts: stm32: set bus-type in DCMI endpoint for stm32429i-eval
-> > > >       board
-> > > > 
-> > > >    .../devicetree/bindings/media/st,stm32-dcmi.yaml   | 38 ++++++++++++++++++++++
-> > > >    arch/arm/boot/dts/stm32429i-eval.dts               |  1 +
-> > > >    arch/arm/boot/dts/stm32mp157c-ev1.dts              |  1 +
-> > > >    drivers/media/platform/stm32/stm32-dcmi.c          | 37 +++++++++++++++++++--
-> > > >    4 files changed, 75 insertions(+), 2 deletions(-)
-> > > > 
-> > > 
-> > > I'll take DT patches on stm32-next tree.
-> > 
-> > Just checking: that is only the two last patches in the set, or also the
-> > binding patch?
-> 
-> Usually I let drivers/subsystem maintainer taking dt-bindings patches with
-> drivers patches.
-> (If binding changes come only with dts(i) patches I take them in my tree)
-> 
-> -->So yes I'll take only the last two patches.
+cx231xx_close_extension and hence cx231xx_audio_fini() are called with the
+cx231xx device lock held, but snd_cx231xx_pcm_close() also grabs that mutex
+when closing the file on behalf of arecord. There seems to be no reason to
+wait for sound card resources to be released, so let the release be
+asynchronous.
 
-Ack, thanks!
+Tested with a Hauppauge 955Q (2040:b123) and Linux 5.9.6; the hang described in
+the bug no longer occurs and disconnecting the device correctly terminates
+arecord with ENODEV.
 
+Fixes: https://bugzilla.kernel.org/show_bug.cgi?id=204087
+Signed-off-by: Zebediah Figura <zfigura@codeweavers.com>
+---
+On the model of the USB audio driver (among others), I am inclined to believe
+this is a correct approach. I have also tried to check for any potential
+use-after-free bugs that might occur as a result of this patch, and been unable
+to easily find any. However, as a new contributor, I am not familiar with the
+USB, ALSA, or DVB frameworks, and there is a good chance that I have missed
+something.
+
+ drivers/media/usb/cx231xx/cx231xx-audio.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/usb/cx231xx/cx231xx-audio.c b/drivers/media/usb/cx231xx/cx231xx-audio.c
+index de42db6f6ad1..9c71b32552df 100644
+--- a/drivers/media/usb/cx231xx/cx231xx-audio.c
++++ b/drivers/media/usb/cx231xx/cx231xx-audio.c
+@@ -670,7 +670,7 @@ static int cx231xx_audio_fini(struct cx231xx *dev)
+ 	}
+ 
+ 	if (dev->adev.sndcard) {
+-		snd_card_free(dev->adev.sndcard);
++		snd_card_free_when_closed(dev->adev.sndcard);
+ 		kfree(dev->adev.alt_max_pkt_size);
+ 		dev->adev.sndcard = NULL;
+ 	}
 -- 
-Sakari Ailus
+2.29.2
+
