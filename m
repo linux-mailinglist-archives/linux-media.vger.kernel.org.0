@@ -2,198 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3A2DE2AE36E
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 23:39:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F41F92AE378
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 23:42:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731746AbgKJWjt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 17:39:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52842 "EHLO
+        id S1732280AbgKJWmK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 17:42:10 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53202 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731558AbgKJWjt (ORCPT
+        with ESMTP id S1730254AbgKJWmJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 17:39:49 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FDE9C0613D1;
-        Tue, 10 Nov 2020 14:39:49 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id DB7A61F4554F
-Message-ID: <ee12e70c92bacf1080ceae82feafa736c0719a2e.camel@collabora.com>
-Subject: Re: [PATCH v5 0/3] media: rkvdec: Add a VP9 backend
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Adrian Ratiu <adrian.ratiu@collabora.com>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     linux-media <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jonas Karlman <jonas@kwiboo.se>,
-        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        kernel@collabora.com
-Date:   Tue, 10 Nov 2020 19:39:38 -0300
-In-Reply-To: <87y2j8hmoc.fsf@collabora.com>
-References: <20201102190551.1223389-1-adrian.ratiu@collabora.com>
-         <CAAEAJfA1N1k9Vho4weZ9VnM_v6K4RXdmERyrWcWPCj64NMzDoQ@mail.gmail.com>
-         <87y2j8hmoc.fsf@collabora.com>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3-1 
+        Tue, 10 Nov 2020 17:42:09 -0500
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4F65C0613D1;
+        Tue, 10 Nov 2020 14:42:08 -0800 (PST)
+Received: by mail-wr1-x442.google.com with SMTP id k2so105284wrx.2;
+        Tue, 10 Nov 2020 14:42:08 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=hn1gX8PspkDOj8Q527Btx4yJgJJQpfPQNotleBd9s78=;
+        b=RNbImXQqxewVikynVYlsIc5eJiPiI52a7pExrDU21je2KF48bwcH63mSvvUs302Sgb
+         Z/kCa79a/J+G54zd4Ar7skX+R5U6eB+LJ/JImPH+NtKz0e60LTFVZhwZulB5BDGIt+Yk
+         +EnKirDwthqU7BWQpqd2knWu3F31wrB1kNQ6DpITjm5QGJaUw7Wfj1x8YCslrVyDgWfW
+         akZsyQUEMz9O+6/Lu67v+gpy9y1zPV7aV2Gvj8vugD2xxdq7t8OuFdqsj2BSR0GLlNvi
+         1dGdu5vL1SIWczA7+0sg0IJtSPCylkL6OY3IvGXBx6SwtUAWB+LLhTueT73DEdotRN6x
+         lM6Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=hn1gX8PspkDOj8Q527Btx4yJgJJQpfPQNotleBd9s78=;
+        b=Wk1VDtscNT6Hu9gTFshACc9ohA7JYhkQTeCrsT+yeZ8j1LGffCvkrQlXzRjP72y1J3
+         Ac5Ec0nGqVq1K7+AnUO8GWTpjXS1KXeirRoZXilhCEaVSF/cVS33iAlrkHAGRtWm9BKC
+         AuIPMDUTbx7hN9NLGOnoVwnSm3maZvvHpr9DCLaM4EdMVSsclVh4QHtv0rzpMYDBFwhp
+         X7I0Flt2f4ZcqEEolSeCZsz4Z0RzOkWmVPdItfaLHKqNejoMKk+bdQKO1plbBW+YABR3
+         crSaUwIEuuXZNqcfLs8aYoFQEPT1oTUsvwDYy6lJqnJGPFfKoKzM1ypP7FZjPAyW0BU6
+         oUpA==
+X-Gm-Message-State: AOAM531lY5Mu1kO++2sI8oTSUsFd/s5wCo9AMwykiRmRfrOdWnB+Ldie
+        W2JpDdYGsa3HkKH+rvY2kKvWO1m8hcqMa891z3Y=
+X-Google-Smtp-Source: ABdhPJzpeprw0TRKEK/mcA0vV7/Yvkxpg9VGgvNrS9j5WDhVBOU+5lem10Hfpdjv+l80DR3N6054qdXwIeCfk1LsAs4=
+X-Received: by 2002:adf:e8d0:: with SMTP id k16mr26053226wrn.362.1605048127616;
+ Tue, 10 Nov 2020 14:42:07 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+References: <20201109211855.3340030-1-lee.jones@linaro.org> <20201109211855.3340030-13-lee.jones@linaro.org>
+In-Reply-To: <20201109211855.3340030-13-lee.jones@linaro.org>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Tue, 10 Nov 2020 17:41:55 -0500
+Message-ID: <CADnq5_O7nnvqxXGc4pyZZhMem4+-_mYmLNMU6UyT=6WtPfVSEg@mail.gmail.com>
+Subject: Re: [PATCH 12/20] drm/radeon/radeon_cs: Fix a bunch of doc-rot issues
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     David Airlie <airlied@linux.ie>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Jerome Glisse <glisse@freedesktop.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2020-11-11 at 00:28 +0200, Adrian Ratiu wrote:
-> Hi Ezequiel,
->  
-> On Tue, 10 Nov 2020, Ezequiel Garcia 
-> <ezequiel@vanguardiasur.com.ar> wrote:
-> > On Mon, 2 Nov 2020 at 16:04, Adrian Ratiu 
-> > <adrian.ratiu@collabora.com> wrote: 
-> > > Dear all, 
-> > > 
-> > > This is v5 of the series adding VP9 profile 0 decoding to 
-> > > rkvdec. 
-> > > 
-> > > All feedback from v4 should be addressed, there's just one 
-> > > thing I did not address: ref_frame_sign_biases in the uAPI. The 
-> > > userspace tool I'm 
-> > 
-> > I believe that Hantro G2 VP9 needs ref_frame_sign_biases. 
-> > 
-> > I think that it's also needed for the MTK decoder.  Might be 
-> > worth checking that as well, if the code is publicly available 
-> > somewhere.
-> 
-> I consulted the imx8m app ref manual for the Hantro G2 core and 
-> indeed there's not one, but three fields at SWREG11 and 13 (last, 
-> gold, alt) to signify sign biases for ref frames. Thanks for the 
-> hint!
->  
-> > Coming to think about it, I think we are really close to having 
-> > this uAPI directly upstream. 
-> > 
-> > Let's take a step back on why we have these uAPIs in the staging 
-> > area. Couple years ago, there were some doubts in the media 
-> > community about these uAPIs, and we wanted to wait a bit for 
-> > more users before moving to public land. 
-> > 
-> > The uAPIs were meant to be in staging until enough users 
-> > appeared and we were confident enough to move to stable. 
-> > 
-> > For VP9, given the feedback received through the year was 
-> > already addressed, I think all that's left is to check the 
-> > interface and make sure it can support Rockchip (RK3399, RK3326, 
-> > etc), Hantro G2 and Mediatek, 
-> > 
-> > We will be very close to having a public API, and we could even 
-> > merge it directly there.
-> 
-> Thank you very much for this background. I understand that the 
-> uAPI is independent from the driver implementations, so having a 
-> good stable uAPI is beneficial when (for example) adding support 
-> for VP9 on G2 in  hantro or for upstream adoption of these 
-> drivers.
-> 
-> Given this rkvdec driver implementation is also adding the VP9 
-> uAPI and it's very close to stability (maybe only missing ref 
-> frame sign bias, but who knows?) would you like to block its 
-> submission until the uAPI is finalized or would it make sense to 
-> treat the uAPI de-staging process separately because the uAPI is 
-> independent from the driver? 
-> 
+On Mon, Nov 9, 2020 at 4:19 PM Lee Jones <lee.jones@linaro.org> wrote:
+>
+> Fixes the following W=3D1 kernel build warning(s):
+>
+>  drivers/gpu/drm/radeon/radeon_cs.c:416: warning: Function parameter or m=
+ember 'backoff' not described in 'radeon_cs_parser_fini'
+>  drivers/gpu/drm/radeon/radeon_cs.c:735: warning: Function parameter or m=
+ember 'p' not described in 'radeon_cs_packet_parse'
+>  drivers/gpu/drm/radeon/radeon_cs.c:735: warning: Function parameter or m=
+ember 'idx' not described in 'radeon_cs_packet_parse'
+>  drivers/gpu/drm/radeon/radeon_cs.c:735: warning: Excess function paramet=
+er 'parser' description in 'radeon_cs_packet_parse'
+>  drivers/gpu/drm/radeon/radeon_cs.c:844: warning: Function parameter or m=
+ember 'p' not described in 'radeon_cs_packet_next_reloc'
+>  drivers/gpu/drm/radeon/radeon_cs.c:844: warning: Function parameter or m=
+ember 'cs_reloc' not described in 'radeon_cs_packet_next_reloc'
+>  drivers/gpu/drm/radeon/radeon_cs.c:844: warning: Function parameter or m=
+ember 'nomm' not described in 'radeon_cs_packet_next_reloc'
+>  drivers/gpu/drm/radeon/radeon_cs.c:844: warning: Excess function paramet=
+er 'parser' description in 'radeon_cs_packet_next_reloc'
+>  drivers/gpu/drm/radeon/radeon_cs.c:844: warning: Excess function paramet=
+er 'data' description in 'radeon_cs_packet_next_reloc'
+>  drivers/gpu/drm/radeon/radeon_cs.c:844: warning: Excess function paramet=
+er 'offset_start' description in 'radeon_cs_packet_next_reloc'
+>  drivers/gpu/drm/radeon/radeon_cs.c:844: warning: Excess function paramet=
+er 'offset_mask' description in 'radeon_cs_packet_next_reloc'
+>  drivers/gpu/drm/radeon/radeon_cs.c:844: warning: Excess function paramet=
+er 'reloc' description in 'radeon_cs_packet_next_reloc'
+>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Jerome Glisse <glisse@freedesktop.org>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
 
-I don't mean to block it, quite the opposite, to make sure
-we take this opportunity to go through Rockchip, Hantro and Mediatek,
-double-check the uAPI is covering all the VP9 syntax, and then
-target for public API.
+Applied with some minor fixups.
 
-Cheers,
-Ezequiel
+Thanks!
 
-> Thanks,
-> Adrian
-> 
-> > Thanks,
-> > Ezequiel
-> > 
-> > > using [1] apparently doesn't need it or the default hwreg value for it
-> > > is capable of decoding the bitstreams I used on the driver, so I don't
-> > > really have a use-case to change and test that. :)
-> > > 
-> > > Considering the uAPI is a work in progress and expected to be modified,
-> > > ref_frame_sign_biases can be added later with others which might be
-> > > required to enable more functionality (for eg profiles >= 1).
-> > > 
-> > > Series tested on rk3399 and applies on next-20201030.
-> > > 
-> > > [1] https://github.com/Kwiboo/FFmpeg/tree/v4l2-request-hwaccel-4.2.2-rkvdec
-> > > 
-> > > Changelog
-> > > ---------
-> > > 
-> > > v5:
-> > > 
-> > > * Drop unnecessary OUTPUT buffer payload set in .buf_prepare.
-> > > * Drop obsolete .per_request ctrl flag
-> > > * Added new vp9 ctrls to v4l2_ctrl_ptr
-> > > * Fix pahole detected padding issues
-> > > * Send userspace an error if it tries to reconfigure decode resolution
-> > >   as v4l2 or rkvdec-vp9 backend do not support dynamic res changes yet
-> > > * Allow frame ctx probability tables to be non-mandatory so users can
-> > >   set them directly during frame decoding in cases where no defaults
-> > >   have been set previously (eg. ffmpeg vp9 backend)
-> > > * Some comments and documentation clarifications
-> > > * Minor checkpatch fixes
-> > > 
-> > > v4:
-> > > 
-> > > * Drop color_space field from the VP9 interface.
-> > >   V4L2 API should be used for it.
-> > > * Clarified Segment-ID comments.
-> > > * Moved motion vector probabilities to a separate
-> > >   struct.
-> > > 
-> > > v3:
-> > > 
-> > > * Fix documentation issues found by Hans.
-> > > * Fix smatch detected issues as pointed out by Hans.
-> > > * Added patch to fix wrong bytesused set on .buf_prepare.
-> > > 
-> > > v2:
-> > > 
-> > > * Documentation style issues pointed out by Nicolas internally.
-> > > * s/VP9_PROFILE_MAX/V4L2_VP9_PROFILE_MAX/
-> > > * Fix wrong kfree(ctx).
-> > > * constify a couple structs on rkvdec-vp9.c
-> > > 
-> > > 
-> > > Boris Brezillon (2):
-> > >   media: uapi: Add VP9 stateless decoder controls
-> > >   media: rkvdec: Add the VP9 backend
-> > > 
-> > > Ezequiel Garcia (1):
-> > >   media: rkvdec: Fix .buf_prepare
-> > > 
-> > >  .../userspace-api/media/v4l/biblio.rst        |   10 +
-> > >  .../media/v4l/ext-ctrls-codec.rst             |  550 ++++++
-> > >  drivers/media/v4l2-core/v4l2-ctrls.c          |  239 +++
-> > >  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
-> > >  drivers/staging/media/rkvdec/Makefile         |    2 +-
-> > >  drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1577 +++++++++++++++++
-> > >  drivers/staging/media/rkvdec/rkvdec.c         |   72 +-
-> > >  drivers/staging/media/rkvdec/rkvdec.h         |    6 +
-> > >  include/media/v4l2-ctrls.h                    |    5 +
-> > >  include/media/vp9-ctrls.h                     |  486 +++++
-> > >  10 files changed, 2942 insertions(+), 6 deletions(-)
-> > >  create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
-> > >  create mode 100644 include/media/vp9-ctrls.h
-> > > 
-> > > --
-> > > 2.29.0
-> > > 
+Alex
 
-
+> ---
+>  drivers/gpu/drm/radeon/radeon_cs.c | 12 ++++++------
+>  1 file changed, 6 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon_cs.c b/drivers/gpu/drm/radeon/=
+radeon_cs.c
+> index 21ce2f9502c09..729939df29cc5 100644
+> --- a/drivers/gpu/drm/radeon/radeon_cs.c
+> +++ b/drivers/gpu/drm/radeon/radeon_cs.c
+> @@ -408,6 +408,7 @@ static int cmp_size_smaller_first(void *priv, struct =
+list_head *a,
+>   * cs_parser_fini() - clean parser states
+>   * @parser:    parser structure holding parsing context.
+>   * @error:     error number
+> + * @backoff:   indicator to backoff the reservation
+>   *
+>   * If error is set than unvalidate buffer, otherwise just free memory
+>   * used by parsing context.
+> @@ -723,8 +724,9 @@ int radeon_cs_ioctl(struct drm_device *dev, void *dat=
+a, struct drm_file *filp)
+>
+>  /**
+>   * radeon_cs_packet_parse() - parse cp packet and point ib index to next=
+ packet
+> - * @parser:    parser structure holding parsing context.
+> + * @p:         parser structure holding parsing context.
+>   * @pkt:       where to store packet information
+> + * @idx:       packet index
+>   *
+>   * Assume that chunk_ib_index is properly set. Will return -EINVAL
+>   * if packet is bigger than remaining ib size. or if packets is unknown.
+> @@ -829,11 +831,9 @@ void radeon_cs_dump_packet(struct radeon_cs_parser *=
+p,
+>
+>  /**
+>   * radeon_cs_packet_next_reloc() - parse next (should be reloc) packet
+> - * @parser:            parser structure holding parsing context.
+> - * @data:              pointer to relocation data
+> - * @offset_start:      starting offset
+> - * @offset_mask:       offset mask (to align start offset on)
+> - * @reloc:             reloc informations
+> + * @p:                 parser structure holding parsing context.
+> + * @cs_reloc:          reloc informations
+> + * @nomm:              never actually used
+>   *
+>   * Check if next packet is relocation packet3, do bo validation and comp=
+ute
+>   * GPU offset using the provided start.
+> --
+> 2.25.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
