@@ -2,97 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECDB42ACB9D
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 04:21:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 115992ACC04
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 04:49:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729706AbgKJDVX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Nov 2020 22:21:23 -0500
-Received: from mail.codeweavers.com ([50.203.203.244]:42478 "EHLO
-        mail.codeweavers.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729243AbgKJDVX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 22:21:23 -0500
-X-Greylist: delayed 1027 seconds by postgrey-1.27 at vger.kernel.org; Mon, 09 Nov 2020 22:21:23 EST
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
-        d=codeweavers.com; s=6377696661; h=Content-Transfer-Encoding:MIME-Version:
-        Message-Id:Date:Subject:Cc:To:From:Sender:Reply-To:Content-Type:Content-ID:
-        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
-        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
-        List-Subscribe:List-Post:List-Owner:List-Archive;
-        bh=/ZuODjsCGNjBdFOIqlZlXT70GJUC3IHxOLn8UfvUPCw=; b=Z/2TE/jAK4uvAAK8H30hGo+5/r
-        kbtQ3MM5J5h2DnTf7S4CNKqs47a5EaqkmIOwCleS9zUszCh7Z0bZpdIbwIsw+1nPsGnBNcc2UNycy
-        pbt6aXbdCDFfygBaWZpfp3QcvmJKNmbM4e6UmAfHcRtGF4F+y/A2VME1ReTevTQM0cR4=;
-Received: from [64.191.7.9] (helo=watership.localdomain)
-        by mail.codeweavers.com with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <zfigura@codeweavers.com>)
-        id 1kcJx7-0001gI-Q7; Mon, 09 Nov 2020 21:04:15 -0600
-From:   Zebediah Figura <zfigura@codeweavers.com>
-To:     linux-media@vger.kernel.org
-Cc:     Zebediah Figura <zfigura@codeweavers.com>
-Subject: [PATCH] media: cx231xx: Use snd_card_free_when_closed() instead of snd_card_free().
-Date:   Mon,  9 Nov 2020 21:04:03 -0600
-Message-Id: <20201110030403.118606-1-zfigura@codeweavers.com>
-X-Mailer: git-send-email 2.29.2
+        id S1730482AbgKJDtj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Nov 2020 22:49:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46204 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730249AbgKJDti (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 9 Nov 2020 22:49:38 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2231C0613CF
+        for <linux-media@vger.kernel.org>; Mon,  9 Nov 2020 19:49:38 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id w6so4653281pfu.1
+        for <linux-media@vger.kernel.org>; Mon, 09 Nov 2020 19:49:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sDoxEoYXzOGDTRqKHmsK1PmkQ+v+kjtjORMumiaAdaY=;
+        b=VRHtKHrHp+YYnxmp5gRTU5t79Mq1+WJABfC0oh+1Cza26fX35vqeIx0L7pTcKEGdU6
+         oE7L7TMvPdmMiAWjDBxnEqqH6vZuu7nkQdgMtO4ya0zUSdp7zFPLHG3cAA/4+I6iJTSv
+         Dfl+SskuSqxVcP06diQkjLgkoaYUzFobZyNAuAzBxuDJ8rW3bYmniabBkXEE0iYn6lKD
+         2Offn4yIOhOBLAHNJbPGPN85qS+phnyo+6ye4t7WOzp8VkUz/Fdu0eGL1ZJ/ssKFriBO
+         NlMBufWsCcZcYF5pfeFv30h41qabhd8gLf3ysS0yokatYdlM5+pOlK+I6mntknRC7TcX
+         En8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=sDoxEoYXzOGDTRqKHmsK1PmkQ+v+kjtjORMumiaAdaY=;
+        b=FTm9vkJXzszdrmG5PRQC1lFJQTzCh40Q7L41NfKn4CPbIhd3rk8wuPMTFXoBi5P3bn
+         sktiOt3l3uOpC1/bGpVrhysmD/mFkN/Igf6jSv/7rjSMohLH25YoAK1ouh0HDzzpwxLc
+         pbEKJeLH6b7RZD9s0gGTK6toiypvFT2RQMK86hm6dX6QG8DuHz4pqm1FY4dAJ2W01ynu
+         U12ygefLL5X1JRRlmqg0Ay+MBETTkvAqmyif8Huy2nZCl3UXw6ZRhwqtosEScube81SP
+         gQYxqlklU3mGq0Kmkh+UQSoo/EURkDF0cXIoDTz4oIT5QK1NGfeZJiQ6s6muq0eve63q
+         9hKg==
+X-Gm-Message-State: AOAM5315WiK163A+4BV7MI38YFoTzuD/4wV1rULrTXb4uhNhLRFZniy0
+        8VX5/PsrxlflMKT+GLWjsCwJlQ==
+X-Google-Smtp-Source: ABdhPJzH2pSKF1PV/0DDDEBwUaDZ0Qy7l115AmJfeyhAyHCxq657BbYMJVv7zdoWvPj0zHB54WdOCw==
+X-Received: by 2002:a17:90b:3708:: with SMTP id mg8mr2765897pjb.192.1604980178162;
+        Mon, 09 Nov 2020 19:49:38 -0800 (PST)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+        by smtp.gmail.com with ESMTPSA id b4sm12380693pfi.208.2020.11.09.19.49.36
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 09 Nov 2020 19:49:37 -0800 (PST)
+From:   John Stultz <john.stultz@linaro.org>
+To:     lkml <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: [PATCH v5 0/7] dma-buf: Performance improvements for system heap & a system-uncached implementation
+Date:   Tue, 10 Nov 2020 03:49:27 +0000
+Message-Id: <20201110034934.70898-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
-X-Spam-Score: -35.2
-X-Spam-Report: Spam detection software, running on the system "mail.codeweavers.com",
- has NOT identified this incoming email as spam.  The original
- message has been attached to this so you can view it or label
- similar future email.  If you have any questions, see
- the administrator of that system for details.
- Content preview:  cx231xx_close_extension and hence cx231xx_audio_fini() are
-    called with the cx231xx device lock held, but snd_cx231xx_pcm_close() also
-    grabs that mutex when closing the file on behalf of arecord. There [...] 
- Content analysis details:   (-35.2 points, 5.0 required)
-  pts rule name              description
- ---- ---------------------- --------------------------------------------------
- -0.0 USER_IN_WELCOMELIST    user is listed in 'welcomelist_from'
-  -20 USER_IN_WHITELIST      DEPRECATED: See USER_IN_WELCOMELIST
-  -20 ALL_TRUSTED            Passed through trusted hosts only via SMTP
- -0.5 BAYES_00               BODY: Bayes spam probability is 0 to 1%
-                             [score: 0.0000]
-  5.3 AWL                    AWL: Adjusted score from AWL reputation of From: address
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-cx231xx_close_extension and hence cx231xx_audio_fini() are called with the
-cx231xx device lock held, but snd_cx231xx_pcm_close() also grabs that mutex
-when closing the file on behalf of arecord. There seems to be no reason to
-wait for sound card resources to be released, so let the release be
-asynchronous.
+Hey All,
+  So just wanted to send my last revision of my patch series
+of performance optimizations to the dma-buf system heap.
 
-Tested with a Hauppauge 955Q (2040:b123) and Linux 5.9.6; the hang described in
-the bug no longer occurs and disconnecting the device correctly terminates
-arecord with ENODEV.
+This series reworks the system heap to use sgtables, and then
+consolidates the pagelist method from the heap-helpers into the
+CMA heap. After which the heap-helpers logic is removed (as it
+is unused). I'd still like to find a better way to avoid some of
+the logic duplication in implementing the entire dma_buf_ops
+handlers per heap. But unfortunately that code is tied somewhat
+to how the buffer's memory is tracked. As more heaps show up I
+think we'll have a better idea how to best share code, so for
+now I think this is ok.
 
-Fixes: https://bugzilla.kernel.org/show_bug.cgi?id=204087
-Signed-off-by: Zebediah Figura <zfigura@codeweavers.com>
----
-On the model of the USB audio driver (among others), I am inclined to believe
-this is a correct approach. I have also tried to check for any potential
-use-after-free bugs that might occur as a result of this patch, and been unable
-to easily find any. However, as a new contributor, I am not familiar with the
-USB, ALSA, or DVB frameworks, and there is a good chance that I have missed
-something.
+After this, the series introduces an optimization that
+Ørjan Eide implemented for ION that avoids calling sync on
+attachments that don't have a mapping.
 
- drivers/media/usb/cx231xx/cx231xx-audio.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Next, an optimization to use larger order pages for the system
+heap. This change brings us closer to the current performance
+of the ION allocation code (though there still is a gap due
+to ION using a mix of deferred-freeing and page pools, I'll be
+looking at integrating those eventually).
 
-diff --git a/drivers/media/usb/cx231xx/cx231xx-audio.c b/drivers/media/usb/cx231xx/cx231xx-audio.c
-index de42db6f6ad1..9c71b32552df 100644
---- a/drivers/media/usb/cx231xx/cx231xx-audio.c
-+++ b/drivers/media/usb/cx231xx/cx231xx-audio.c
-@@ -670,7 +670,7 @@ static int cx231xx_audio_fini(struct cx231xx *dev)
- 	}
- 
- 	if (dev->adev.sndcard) {
--		snd_card_free(dev->adev.sndcard);
-+		snd_card_free_when_closed(dev->adev.sndcard);
- 		kfree(dev->adev.alt_max_pkt_size);
- 		dev->adev.sndcard = NULL;
- 	}
+Finally, a reworked version of my uncached system heap
+implementation I was submitting a few weeks back. Since it
+duplicated a lot of the now reworked system heap code, I
+realized it would be much simpler to add the functionality to
+the system_heap implementation itself.
+
+While not improving the core allocation performance, the
+uncached heap allocations do result in *much* improved
+performance on HiKey960 as it avoids a lot of flushing and
+invalidating buffers that the cpu doesn't touch often.
+
+Feedback on these would be great!
+
+thanks
+-john
+
+New in v5:
+* Added a comment explaining why the order sizes are
+  chosen as they are
+
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: Daniel Mentz <danielmentz@google.com>
+Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+Cc: Ørjan Eide <orjan.eide@arm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Ezequiel Garcia <ezequiel@collabora.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: James Jones <jajones@nvidia.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+
+John Stultz (7):
+  dma-buf: system_heap: Rework system heap to use sgtables instead of
+    pagelists
+  dma-buf: heaps: Move heap-helper logic into the cma_heap
+    implementation
+  dma-buf: heaps: Remove heap-helpers code
+  dma-buf: heaps: Skip sync if not mapped
+  dma-buf: system_heap: Allocate higher order pages if available
+  dma-buf: dma-heap: Keep track of the heap device struct
+  dma-buf: system_heap: Add a system-uncached heap re-using the system
+    heap
+
+ drivers/dma-buf/dma-heap.c           |  33 +-
+ drivers/dma-buf/heaps/Makefile       |   1 -
+ drivers/dma-buf/heaps/cma_heap.c     | 324 +++++++++++++++---
+ drivers/dma-buf/heaps/heap-helpers.c | 270 ---------------
+ drivers/dma-buf/heaps/heap-helpers.h |  53 ---
+ drivers/dma-buf/heaps/system_heap.c  | 494 ++++++++++++++++++++++++---
+ include/linux/dma-heap.h             |   9 +
+ 7 files changed, 753 insertions(+), 431 deletions(-)
+ delete mode 100644 drivers/dma-buf/heaps/heap-helpers.c
+ delete mode 100644 drivers/dma-buf/heaps/heap-helpers.h
+
 -- 
-2.29.2
+2.17.1
 
