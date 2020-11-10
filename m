@@ -2,99 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF3582AE227
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 22:50:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5D6252AE25A
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 23:00:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727018AbgKJVun (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 16:50:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45048 "EHLO
+        id S1732193AbgKJWAE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 17:00:04 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46530 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726688AbgKJVum (ORCPT
+        with ESMTP id S1732199AbgKJWAD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 16:50:42 -0500
-Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 56985C0613D1;
-        Tue, 10 Nov 2020 13:50:42 -0800 (PST)
-Received: by mail-lj1-x243.google.com with SMTP id v18so16546150ljc.3;
-        Tue, 10 Nov 2020 13:50:42 -0800 (PST)
+        Tue, 10 Nov 2020 17:00:03 -0500
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D195FC0613D1;
+        Tue, 10 Nov 2020 14:00:02 -0800 (PST)
+Received: by mail-wm1-x343.google.com with SMTP id 10so4713027wml.2;
+        Tue, 10 Nov 2020 14:00:02 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=QumWPjldyhkIYYrKZybLDjf0NEcp9tE/cFj+ALYFR9A=;
-        b=JajzXzj+taW37LHKKk1rBUu2Z4ElUMNSSHS0K95OnI5UImwAIF74Qu+QTmiVzypvAS
-         gAQiDrdU4a2B6Z9A/XX/OOpJu3zamPLYGVpiOdVUDJw7ZsRpBauLkm/3QQp5PvJ2UM4A
-         LlfneuREhApeooZpB9lnnAX6U7j1XdRX88sCUzdxugTvIG1jP5PTHJPC3/8IUgW/bc/i
-         LWgLoXa7caMAbqITehUnmz/UH2tBulw/gQUU8Cd3shJtQ+zvYfoUG1N8jDZq2ZIllOe/
-         aCD81lT6Dj2NRU8sGRrZHHc26lsCxBQnWNgpAjWLB1z+6WE0AmdSq+A5dXHYbs0KDWUd
-         P/Cw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=kQXXRFyXwxRS/I2RgZpEGIowDOXzMpZPv5s9Y3k7QhI=;
+        b=j2cdkNt2/4bsAh1RBkbd/u0wSdArQ78T4xxdeBsW+/M6f6LD/81+RHepLgSU8jEJ9c
+         f9WemXa2FyA/zxrsTylztAKXuq0YJuj9cxdDPXcF7kjC/E/wnutNAoTNsa9/fRwyPiWc
+         +78MWhXNIm57moM4vMRvWf1DcGUnsFSno5zHoldcv7YKQV4FGO0ZtFk2dcIByjtQAluG
+         A1AXBA7Dw8JTOoDYGL3iJ5mulzzCccTJTlyU+yBela+/iTpOeOh4bAXiakRfdECIEnLG
+         1LS6PeRzptHzcsSiTkg+tTBbKxjaYaB3ughnn3vmOkXcH4rq3iY2DLIXN3VvS84y2WHj
+         K6PQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=QumWPjldyhkIYYrKZybLDjf0NEcp9tE/cFj+ALYFR9A=;
-        b=KtRbblHfKi1Ay5PEaAn1KZJFAZ3msWs02D6BzwC7cpXqRlnOnvOsDkoWebzQgSmqRn
-         D0/46SSJdZtmRc8TYtLDSTqBcdmtD/q0X84oyL6u/lKoxtv+nppRHfvWEano4m6qmEmi
-         rXQQvksoL6RzOfdbBrJHfSycz4On2/LJmHdR2XfZTqHuG++IzKFo82z+nNIQWQIJJ+gC
-         z54/p8NqoA0PQEl1qM9KDrr6k3p55B55fy5vJteEuIRfeWw9c+VaI4mYgd82bPDT/auF
-         QrpRkldWJXDRAM45Qad3pyoo7E/xRG8TWtB25rXPHZpkOFrL4IPkA2bBj06S5X6rNR1s
-         bjyg==
-X-Gm-Message-State: AOAM532fAQDNrGzkhk75e2G6DC7w9w8rVE8dImJHRYvrpFlR5L1Yu6V0
-        q6s7cZc8D4FtniHhyZAm0VzFtSlyNKo=
-X-Google-Smtp-Source: ABdhPJxca3fiSpZnzLwSSmf1STAmFU4WFUoLoBVs2ZCeEEkdDu9neVJtNB2ucZnGCMuP/Af+mNHRXw==
-X-Received: by 2002:a2e:9583:: with SMTP id w3mr9542353ljh.25.1605045040627;
-        Tue, 10 Nov 2020 13:50:40 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
-        by smtp.googlemail.com with ESMTPSA id x9sm12074lfg.93.2020.11.10.13.50.39
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2020 13:50:39 -0800 (PST)
-Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
- scaling
-To:     Thierry Reding <thierry.reding@gmail.com>
-Cc:     Jonathan Hunter <jonathanh@nvidia.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Mark Brown <broonie@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-12-digetx@gmail.com> <20201110202945.GF2375022@ulmo>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <7b0052e1-0ea7-b28f-ae46-52e669a980ac@gmail.com>
-Date:   Wed, 11 Nov 2020 00:50:38 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=kQXXRFyXwxRS/I2RgZpEGIowDOXzMpZPv5s9Y3k7QhI=;
+        b=X1Bh8GyxLUyYypWMtHSgJYlKd8HGsPB753k0yBgG4iKo3YIU2uPRPg5ehZYGovTx17
+         nQIdJJAq63aF8eXNiQ1tk4+cVbTpxDLMUSgpbKtj5X4G0GYKa9TL10vT+wu7BV/W4VD7
+         Qicywt36K0waTQzkKzP6Rg8YvSQk1V7THpnoKTsurtoXNmT6ceLarcGOVA72b0bypD8l
+         qTEDPKzNT9oSllMqHBoZZsGmm8Zb4hMK/PLoEOAjg2vqeByKKJQc3GHU1dnXcwIws7bT
+         7vsxtucJ1MTCtHDWNQFyKOolOlDvEFENKEplkxBjwcegbI9Oz1nFvsgxpV1Grw+PDosm
+         ozVA==
+X-Gm-Message-State: AOAM530kU0CKxEaosbXFkPAQ95LHDy6u4Dh2MPrSZZ1aiDZAhwXg/hLM
+        AeNRxljl7cQkqnBIrk3sPGBbLlF+0aJO3lg+0Yw=
+X-Google-Smtp-Source: ABdhPJyA6KMQLGspxDQuMB3AJjwy1n4N6vTF1NTBv7oDFWmt8buswnwQw/m1E/kYfC65a/uWB9XotDCuHrLZ3DbVAI0=
+X-Received: by 2002:a1c:46c6:: with SMTP id t189mr192270wma.79.1605045601646;
+ Tue, 10 Nov 2020 14:00:01 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201110202945.GF2375022@ulmo>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20201106214949.2042120-1-lee.jones@linaro.org> <20201106214949.2042120-16-lee.jones@linaro.org>
+In-Reply-To: <20201106214949.2042120-16-lee.jones@linaro.org>
+From:   Alex Deucher <alexdeucher@gmail.com>
+Date:   Tue, 10 Nov 2020 16:59:50 -0500
+Message-ID: <CADnq5_MYU0FMVm-ALPRAeF1O29TnZc83xpY+W-=iiSJY2AX2LQ@mail.gmail.com>
+Subject: Re: [PATCH 15/19] drm/radeon: Move prototypes to shared header
+To:     Lee Jones <lee.jones@linaro.org>
+Cc:     David Airlie <airlied@linux.ie>,
+        LKML <linux-kernel@vger.kernel.org>,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Maling list - DRI developers 
+        <dri-devel@lists.freedesktop.org>,
+        Alex Deucher <alexander.deucher@amd.com>,
+        linux-media <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-10.11.2020 23:29, Thierry Reding пишет:
->> +	/* legacy device-trees don't have OPP table */
->> +	if (!device_property_present(dc->dev, "operating-points-v2"))
->> +		return 0;
-> "Legacy" is a bit confusing here. For one, no device trees currently
-> have these tables and secondly, for newer SoCs we may never need them.
-> 
+On Fri, Nov 6, 2020 at 4:50 PM Lee Jones <lee.jones@linaro.org> wrote:
+>
+> Fixes the following W=3D1 kernel build warning(s):
+>
+>  drivers/gpu/drm/radeon/radeon_kms.c:756:5: warning: no previous prototyp=
+e for =E2=80=98radeon_get_vblank_counter_kms=E2=80=99 [-Wmissing-prototypes=
+]
+>  756 | u32 radeon_get_vblank_counter_kms(struct drm_crtc *crtc)
+>  | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  drivers/gpu/drm/radeon/radeon_kms.c:826:5: warning: no previous prototyp=
+e for =E2=80=98radeon_enable_vblank_kms=E2=80=99 [-Wmissing-prototypes]
+>  826 | int radeon_enable_vblank_kms(struct drm_crtc *crtc)
+>  | ^~~~~~~~~~~~~~~~~~~~~~~~
+>  drivers/gpu/drm/radeon/radeon_kms.c:853:6: warning: no previous prototyp=
+e for =E2=80=98radeon_disable_vblank_kms=E2=80=99 [-Wmissing-prototypes]
+>  853 | void radeon_disable_vblank_kms(struct drm_crtc *crtc)
+>  | ^~~~~~~~~~~~~~~~~~~~~~~~~
+>
+> Cc: Alex Deucher <alexander.deucher@amd.com>
+> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: David Airlie <airlied@linux.ie>
+> Cc: Daniel Vetter <daniel@ffwll.ch>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: amd-gfx@lists.freedesktop.org
+> Cc: dri-devel@lists.freedesktop.org
+> Cc: linux-media@vger.kernel.org
+> Cc: linaro-mm-sig@lists.linaro.org
+> Signed-off-by: Lee Jones <lee.jones@linaro.org>
 
-I had the same thought and already improved such comments a day ago.
+Applied.  Thanks!
+
+Alex
+
+
+> ---
+>  drivers/gpu/drm/radeon/radeon.h         | 6 ++++++
+>  drivers/gpu/drm/radeon/radeon_display.c | 4 ----
+>  2 files changed, 6 insertions(+), 4 deletions(-)
+>
+> diff --git a/drivers/gpu/drm/radeon/radeon.h b/drivers/gpu/drm/radeon/rad=
+eon.h
+> index e1132d86d2507..961a31b8805c2 100644
+> --- a/drivers/gpu/drm/radeon/radeon.h
+> +++ b/drivers/gpu/drm/radeon/radeon.h
+> @@ -2832,6 +2832,12 @@ extern void radeon_program_register_sequence(struc=
+t radeon_device *rdev,
+>                                              const u32 array_size);
+>  struct radeon_device *radeon_get_rdev(struct ttm_bo_device *bdev);
+>
+> +/* KMS */
+> +
+> +u32 radeon_get_vblank_counter_kms(struct drm_crtc *crtc);
+> +int radeon_enable_vblank_kms(struct drm_crtc *crtc);
+> +void radeon_disable_vblank_kms(struct drm_crtc *crtc);
+> +
+>  /*
+>   * vm
+>   */
+> diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/ra=
+deon/radeon_display.c
+> index b79686cf8bdbd..bd60f16fd0d78 100644
+> --- a/drivers/gpu/drm/radeon/radeon_display.c
+> +++ b/drivers/gpu/drm/radeon/radeon_display.c
+> @@ -45,10 +45,6 @@
+>  #include "atom.h"
+>  #include "radeon.h"
+>
+> -u32 radeon_get_vblank_counter_kms(struct drm_crtc *crtc);
+> -int radeon_enable_vblank_kms(struct drm_crtc *crtc);
+> -void radeon_disable_vblank_kms(struct drm_crtc *crtc);
+> -
+>  static void avivo_crtc_load_lut(struct drm_crtc *crtc)
+>  {
+>         struct radeon_crtc *radeon_crtc =3D to_radeon_crtc(crtc);
+> --
+> 2.25.1
+>
+> _______________________________________________
+> dri-devel mailing list
+> dri-devel@lists.freedesktop.org
+> https://lists.freedesktop.org/mailman/listinfo/dri-devel
