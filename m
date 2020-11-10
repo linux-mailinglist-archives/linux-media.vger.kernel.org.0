@@ -2,119 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A7EB2AD287
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 10:33:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B011D2AD29B
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 10:38:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727046AbgKJJdU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 04:33:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42626 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726213AbgKJJdT (ORCPT
+        id S1726827AbgKJJis (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 04:38:48 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:38363 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726690AbgKJJir (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 04:33:19 -0500
-Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76F08C0613D3
-        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 01:33:19 -0800 (PST)
-Received: by mail-oi1-x244.google.com with SMTP id m143so13594876oig.7
-        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 01:33:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=4UkFzS0xqfoJt9doPeSUXNjV1Z9m4QzgZeqM5Nk8Yss=;
-        b=i7K+5/+7cLZ5ZRdhNEamXRcWw2QQ5XKCYG2d+/ImIPCzSBjpmq/0TvrywlA9n7NxpH
-         B766buJa+ieQ3fgGJlGjHosI3xzo0781KmeChVDqeRbxFFNxJfRC7WWIFV7adexCwpx+
-         NTIuE0Bpoi0kHCRsaU97HNjA1Reud/62RUqaQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=4UkFzS0xqfoJt9doPeSUXNjV1Z9m4QzgZeqM5Nk8Yss=;
-        b=Ky0d8blhGhUEwX+vY+xp+x7g+EbbKP8Xmic6qVehj7j6SW0/C1poXmIcu1+u7oIJPX
-         /LNc1fLmO3S4fClhNvinobUAbE3YHcSNu8jGBk7LOZyycM15IrhlqiU6XSB3rcucb2Eo
-         E0223tT/SWK9NEG9EDvLHohqI59yTk/YVSs0oRjTLiQ8H4i8yKW+dPolxpHMOP3ws8QT
-         tUGVsasfeieMEqxMYVVkAmEYPaj3Q1nYvUfutDqvB4GmltU9naLYibJm8Ivq4P3PiGm7
-         4cphqL93eU8b4PN4jxLLbKGqo1H1m/BVf83tJFuY80n/RAMFolmDT9zwLt6m7y3SLhNP
-         OlyA==
-X-Gm-Message-State: AOAM530OEMpwHM5L+sHRgZovKhzmwK7S/oM6tZh5Dp+imXkgZ6EYeWt0
-        wB1MgNQpZ2X9qNEFCF1S56xRG3xNy6CrNkZp
-X-Google-Smtp-Source: ABdhPJx/U1lHUQRnae1YcE6rLyFIK6iI5+dNc672E33LYlkT2KX73wjxooXrNIhyFRcbaHevIkO21w==
-X-Received: by 2002:aca:c4c3:: with SMTP id u186mr2314432oif.4.1605000798554;
-        Tue, 10 Nov 2020 01:33:18 -0800 (PST)
-Received: from mail-oi1-f174.google.com (mail-oi1-f174.google.com. [209.85.167.174])
-        by smtp.gmail.com with ESMTPSA id u4sm106942oib.0.2020.11.10.01.33.17
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2020 01:33:17 -0800 (PST)
-Received: by mail-oi1-f174.google.com with SMTP id c80so13602534oib.2
-        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 01:33:17 -0800 (PST)
-X-Received: by 2002:aca:3c54:: with SMTP id j81mr551270oia.11.1605000796616;
- Tue, 10 Nov 2020 01:33:16 -0800 (PST)
+        Tue, 10 Nov 2020 04:38:47 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id cQ6rkkm8ENanzcQ6uk5Cft; Tue, 10 Nov 2020 10:38:45 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1605001125; bh=hv01Kk2652coHy4On3dL8LtUYjb1Cu0evmgcwltbS2g=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=p43vMlCWUcY7EIwJd/zAboLnwAo21/JPQz2g63kIDXBoSX8mOoxPDFmGzXVgQ6uak
+         fS2el7KGr76MErdLR0gjKS/h1JZ1SUNVZj/FKK2iTk5XyH1Mqxdbdr5f/RFz82Xl38
+         LyQYhm5t39lhk0s+4XNpcIWTeLEa2oAR6agr+cw/lNVTfaxoxCEwzv5/1QIxxclShq
+         R/L9Zr0uFS7r5rxHxs4Xz7SerodpmvDC3lOc1ZTQhZC4oXv/Vhd91Egxm56FRmD4eN
+         K0QW3RwXq6VColiDNsWC/524JHEWTGt+XhWLRYuUERjZAWzZT44PNZz2OfmMwVndP4
+         PCCagogYqiUTw==
+Subject: Re: [PATCH 0/3] HDR10 static metadata
+To:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>
+References: <20201109173153.23720-1-stanimir.varbanov@linaro.org>
+ <2f907743dbb77f4c2f871675070065dd372514be.camel@collabora.com>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <79148cf4-96dc-0c00-2864-183e526a65e9@xs4all.nl>
+Date:   Tue, 10 Nov 2020 10:38:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-References: <20200930160917.1234225-1-hch@lst.de> <20200930160917.1234225-9-hch@lst.de>
- <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com>
- <CANiDSCtefXKw-xC3bskyggW-BzCmVPj6GGLvO=cCPZHbS1oTDA@mail.gmail.com> <20201110092506.GA24469@lst.de>
-In-Reply-To: <20201110092506.GA24469@lst.de>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 10 Nov 2020 10:33:05 +0100
-X-Gmail-Original-Message-ID: <CANiDSCsBUBV1WA2To9x26Uhc5SU-4xuh3m4wUwXBcGwA6n8now@mail.gmail.com>
-Message-ID: <CANiDSCsBUBV1WA2To9x26Uhc5SU-4xuh3m4wUwXBcGwA6n8now@mail.gmail.com>
-Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <2f907743dbb77f4c2f871675070065dd372514be.camel@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
+X-CMAE-Envelope: MS4xfF7Kw0R/bZ69mWXhzR8X4MduX3aPBOFRa9O5RJOWe1Z4f1EQ6Vov5KtHbM1FIixAH3ZV55idg6X5TVwlT6pHfduWtQlT0g3/IQkeF2rgqepIIWv2ljd/
+ 2Kj6THfk7jm78ahdyMGIGqkJciIuutqgoVmltIO4/0LH4PlSw6rNCZYzkrM9+9YbW270iS66gXvxL9POYzWJU+cDDUz/t0GhDSOIRuAUyodbSrhig9i6VHDW
+ PZXzCo/nMJTqu/7rmPHhRbbi+37t6OxP8uVT0kIe1AWmqeR/wD8HjWkXUK7MhzCY/UIri3UtVejW6lSlSJbZlM+23VIaFLDNTifo2wsCFCCVWbyfokVlmked
+ aHFnh42iPVjpHKmioGDcWPtsvdTlxQ3/gD2jeVkobuEEpkJRu1lk2EuBsS2AXhhPfdDb+67B
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christoph
+On 09/11/2020 20:53, Nicolas Dufresne wrote:
+> Le lundi 09 novembre 2020 à 19:31 +0200, Stanimir Varbanov a écrit :
+>> Hello,
+>>
+>> This patchset adds two HDR10 HEVC v4l2 controls for Content Light Level
+>> and Mastering display colour volume plus implenmentation in Venus encoder
+>> driver.
+>>
+>> Comments are welcome!
+> 
+> It is not a formal review, but I did walked through the new API and
+> everything looks fine to me. One question though, are you aware that
+> the H.264/AVC equivalent is identical ? What is you plan for that ?
 
-On Tue, Nov 10, 2020 at 10:25 AM Christoph Hellwig <hch@lst.de> wrote:
->
-> On Mon, Nov 09, 2020 at 03:53:55PM +0100, Ricardo Ribalda wrote:
-> > Hi Christoph
-> >
-> > I have started now to give a try to your patchset. Sorry for the delay.
-> >
-> > For uvc I have prepared this patch:
-> > https://github.com/ribalda/linux/commit/9094fe223fe38f8c8ff21366d893b43cbbdf0113
-> >
-> > I have tested successfully in a x86_64 noteboot..., yes I know there
-> > is no change for that platform :).
-> > I am trying to get hold of an arm device that can run the latest
-> > kernel from upstream.
-> >
-> > On the meanwhile if you could take a look to the patch to verify that
-> > this the way that you expect the drivers to use your api I would
-> > appreciate it
->
-> This looks pretty reaosnable.
->
+Not only that, but these structures are lifted straight from the
+CTA-861-G standard: see "6.9 Dynamic Range and Mastering InfoFrame"
+and "6.9.1 Static Metadata Type 1".
 
-Great
+So this is equally useful for HDMI receivers and transmitters.
 
-Also FYI, I managed to boot an ARM device with that tree. But I could
-not test the uvc driver (it was a remote device with no usb device
-attached)
+Actually, include/linux/hdmi.h contains a struct for that, but it seems
+to be missing a lot of fields. But we need a v4l2 control anyway and hdmi.h
+isn't a good fit for that.
 
-Hopefully I will be able to test it for real this week.
+Regards,
 
-Any suggestions for how to measure performance difference?
+	Hans
 
-Thanks!
+> 
+>>
+>> regards,
+>> Stan
+>>
+>> Stanimir Varbanov (3):
+>>   v4l: Add HDR10 HEVC static metadata controls
+>>   docs: media: Document CLL and Mastering display
+>>   venus: venc: Add support for CLL and Mastering display controls
+>>
+>>  .../media/v4l/ext-ctrls-codec.rst             | 61 +++++++++++++++++++
+>>  drivers/media/platform/qcom/venus/core.h      |  3 +
+>>  drivers/media/platform/qcom/venus/hfi_cmds.c  |  8 +++
+>>  .../media/platform/qcom/venus/hfi_helper.h    | 20 ++++++
+>>  drivers/media/platform/qcom/venus/venc.c      | 29 +++++++++
+>>  .../media/platform/qcom/venus/venc_ctrls.c    | 16 ++++-
+>>  drivers/media/v4l2-core/v4l2-ctrls.c          | 61 +++++++++++++++++++
+>>  include/media/hevc-ctrls.h                    | 41 +++++++++++++
+>>  include/media/v4l2-ctrls.h                    |  2 +
+>>  9 files changed, 240 insertions(+), 1 deletion(-)
+>>
+> 
 
-> Note that ifdef  CONFIG_DMA_NONCOHERENT in the old code doesn't actually
-> work, as that option is an internal thing just for mips and sh..
-
-
-
--- 
-Ricardo Ribalda
