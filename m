@@ -2,55 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 731A62AE47F
-	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 00:56:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD60C2AE484
+	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 00:58:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732322AbgKJX4c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 18:56:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36552 "EHLO
+        id S1732052AbgKJX6J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 18:58:09 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732120AbgKJX4c (ORCPT
+        with ESMTP id S1727275AbgKJX6J (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 18:56:32 -0500
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D64EDC0613D1;
-        Tue, 10 Nov 2020 15:56:31 -0800 (PST)
-Received: by mail-wr1-x442.google.com with SMTP id j7so424274wrp.3;
-        Tue, 10 Nov 2020 15:56:31 -0800 (PST)
+        Tue, 10 Nov 2020 18:58:09 -0500
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB4D7C0613D1;
+        Tue, 10 Nov 2020 15:58:07 -0800 (PST)
+Received: by mail-wm1-x341.google.com with SMTP id 19so208275wmf.1;
+        Tue, 10 Nov 2020 15:58:07 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=WfB5Zmw3Ux9CKhPt9P+tELn8R3tbn83JjmD6s3cqA8Y=;
-        b=c9GbbbX262i+//lwyN4ABDp41NxBzHGtWZq7nQyCdbooeI+usENJXE6Nz+cVyC05Cs
-         qUC5+HAW2VUn6TxyQfhXa0ZdFtY4b8eyUTH2yDFGy/kqrNAZe2MXG6pg0c6viy7mmQDh
-         x+ma6hb3dQyFRN6LiNBRorma69lXljTii322GH8cdgf9dKJF2ZKdV6j5Hfd5gkDSgiBs
-         Y1vcKeqBk4NCoqK7jgjv/kF4MPoNsL3z7st3PabSApeMZKCAiM8Sr1TW3N7BQroGP3wn
-         zUay39jqPsc2IglPSulSPBVHRrRpig9t0kNsshJh/WrxnxI4soTjwoKewH1GCjZRst3Z
-         5jqQ==
+        bh=sVHw44prgkhLl+wZoJDl9y1Sv84cjPWTxQBG3axW3YI=;
+        b=Fgj/gQYKkyen7e5H6J7aIP6pfShNXewwImkCyWp5IXS9p6js8HtD5W/sdec1EctQ00
+         5WN5HYbtFQqBafMliHQcbEaJ5G66ajncFFRYTrverGRb9lI763sgcJatSONy2h0alv/o
+         DYAZ6dqOdCUYl7iyaxpVFHrV2EVAm6hc4QAplBckBzTV5ZFHYO7maZeikWJCNlB9Y/EY
+         6BgucQPZOdHYc7N29acSZMaYUbOR6qMNBNTv7ZJskbiB8AmOmQUDcvORYf4PKv2b4Kmm
+         PTDx56GqMRaiwmZnPs5P7/bNw7fKYjDdNq+D1QAXUTIAJkKU+Dhyn5BxtsamN+cgl1jH
+         QeDg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=WfB5Zmw3Ux9CKhPt9P+tELn8R3tbn83JjmD6s3cqA8Y=;
-        b=mvpH4cglvRvqt3A1eK3Yxx9Af2tY8nRk5bVKoahln5NIxTCqF9Nj7jD4CSv18cD5EL
-         cTn6c3NZhqvXWLMsn8C9vwKJCt4IoU8xBLSc7eHpHC1IXQGGBJ5ivL0pquEVjCBj21qn
-         w9QKxyF3NZ01eC2FbxaF8U07QF1JXQ0SSoKmQM8rCWTA/8GQmh40gqG+IE+7IffsZhNx
-         stpgO/mm7lyVmplGLVZRkBFWf7AuC1SgKgD2OQ3ejtJd1XSZxjhdlqaq9thMI0OnH1NU
-         B9767FTd7RjOI0FpU38Wd9dxEqbbYBiUJT0u8V9QJF5ruH7e2gA7DOPgymAv6tsnhbSZ
-         QVYw==
-X-Gm-Message-State: AOAM532g7rbNWPSTNXtkBDcl8sDLnuUqGHy507od41LVItgDLxsWeN6r
-        2n9fdn0jNfNtx4wI80l1+TVZWzPwBvbFTMKKNHg=
-X-Google-Smtp-Source: ABdhPJwsnW0y/kx7DL1j2p8r9N9uPNtVRi5fDJKmOzzqoro5WBcd2tHjiHixkDcYOyQM+BTSPEn2FX4iUDM/izxfwkM=
-X-Received: by 2002:adf:f246:: with SMTP id b6mr26221425wrp.111.1605052590670;
- Tue, 10 Nov 2020 15:56:30 -0800 (PST)
+        bh=sVHw44prgkhLl+wZoJDl9y1Sv84cjPWTxQBG3axW3YI=;
+        b=kbVqWHdODY+X7DxW1yDZrAR63Vm8mLnkKbFP2IYD5BXo02soSU1z0YCYMX7JhA6s59
+         g9QNXs8KX+BOW6kOFqUoqaGWLpQl2UECpjD0EdAqiQq4/4icDHsAWWq0es7zG2/dcGG6
+         jbSbqgVF6T3uX0Mm1iYVSvqjnF6fco8HNfrFEJ/pMxEJR6HPbSXrS7ur/8Fpcz9bBqWB
+         fOGU60DIDAuT6fCflRV57Wn4WD4QWJKxDP7INTrAEKurbYj1zy13z8AGJLu0iols4DC1
+         ZCHHNBfoBhQrxYcGG0GdpD1IIL+InQmWr0nxWkYBG2DKy+qHWcpqfHpdsMf3f81cSUkf
+         6Mlw==
+X-Gm-Message-State: AOAM531IC3S89Wj6PDu3s8Gfa37uk48Qsq+kn/6wR8IeDWzgK9xJ8ELt
+        JscFBb+OkDJMk2yOwNxoBZb6k56h5qMUC3K2Cpk=
+X-Google-Smtp-Source: ABdhPJwGVm8zxKOpbuvLzIOHTQhYo2DrNr+mXrvd1xPnYkBEHOZz9oYFfEfo+lAFTQEnLFs0aW5uGXu88lIbYUyf+QQ=
+X-Received: by 2002:a7b:c157:: with SMTP id z23mr639254wmi.70.1605052686774;
+ Tue, 10 Nov 2020 15:58:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20201110193112.988999-1-lee.jones@linaro.org> <20201110193112.988999-16-lee.jones@linaro.org>
-In-Reply-To: <20201110193112.988999-16-lee.jones@linaro.org>
+References: <20201110193112.988999-1-lee.jones@linaro.org> <20201110193112.988999-15-lee.jones@linaro.org>
+In-Reply-To: <20201110193112.988999-15-lee.jones@linaro.org>
 From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 10 Nov 2020 18:56:19 -0500
-Message-ID: <CADnq5_Pq7ODBSwnjRQy8Hu1mTP+t9d8ofcO9KD0_89d9GpWpUQ@mail.gmail.com>
-Subject: Re: [PATCH 15/30] drm/radeon/cik_sdma: Demote vague attempt at kernel-doc
+Date:   Tue, 10 Nov 2020 18:57:55 -0500
+Message-ID: <CADnq5_M28RPCQR27JXOiugvPPfHh2CnCedVFmBfkMb3kZ8RzzA@mail.gmail.com>
+Subject: Re: [PATCH 14/30] drm/radeon/evergreen_dma: Fix doc-rot of function
+ parameter 'resv'
 To:     Lee Jones <lee.jones@linaro.org>
 Cc:     David Airlie <airlied@linux.ie>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -72,12 +73,10 @@ On Tue, Nov 10, 2020 at 2:31 PM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/radeon/cik_sdma.c:949: warning: Function parameter or me=
-mber 'ring' not described in 'cik_dma_vm_flush'
->  drivers/gpu/drm/radeon/cik_sdma.c:949: warning: Function parameter or me=
-mber 'vm_id' not described in 'cik_dma_vm_flush'
->  drivers/gpu/drm/radeon/cik_sdma.c:949: warning: Function parameter or me=
-mber 'pd_addr' not described in 'cik_dma_vm_flush'
+>  drivers/gpu/drm/radeon/evergreen_dma.c:112: warning: Function parameter =
+or member 'resv' not described in 'evergreen_copy_dma'
+>  drivers/gpu/drm/radeon/evergreen_dma.c:112: warning: Excess function par=
+ameter 'fence' description in 'evergreen_copy_dma'
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
@@ -95,28 +94,24 @@ Applied.  Thanks!
 Alex
 
 > ---
->  drivers/gpu/drm/radeon/cik_sdma.c | 4 +---
->  1 file changed, 1 insertion(+), 3 deletions(-)
+>  drivers/gpu/drm/radeon/evergreen_dma.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/radeon/cik_sdma.c b/drivers/gpu/drm/radeon/c=
-ik_sdma.c
-> index 68403e77756d3..3c709ebe8d1ab 100644
-> --- a/drivers/gpu/drm/radeon/cik_sdma.c
-> +++ b/drivers/gpu/drm/radeon/cik_sdma.c
-> @@ -936,11 +936,9 @@ void cik_sdma_vm_pad_ib(struct radeon_ib *ib)
->                 ib->ptr[ib->length_dw++] =3D SDMA_PACKET(SDMA_OPCODE_NOP,=
- 0, 0);
->  }
->
-> -/**
-> +/*
->   * cik_dma_vm_flush - cik vm flush using sDMA
+> diff --git a/drivers/gpu/drm/radeon/evergreen_dma.c b/drivers/gpu/drm/rad=
+eon/evergreen_dma.c
+> index a46ee6c2099dd..767857d4a8c5c 100644
+> --- a/drivers/gpu/drm/radeon/evergreen_dma.c
+> +++ b/drivers/gpu/drm/radeon/evergreen_dma.c
+> @@ -98,7 +98,7 @@ void evergreen_dma_ring_ib_execute(struct radeon_device=
+ *rdev,
+>   * @src_offset: src GPU address
+>   * @dst_offset: dst GPU address
+>   * @num_gpu_pages: number of GPU pages to xfer
+> - * @fence: radeon fence object
+> + * @resv: reservation object with embedded fence
 >   *
-> - * @rdev: radeon_device pointer
-> - *
->   * Update the page table base and flush the VM TLB
->   * using sDMA (CIK).
->   */
+>   * Copy GPU paging using the DMA engine (evergreen-cayman).
+>   * Used by the radeon ttm implementation to move pages if
 > --
 > 2.25.1
 >
