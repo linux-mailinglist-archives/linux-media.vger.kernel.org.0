@@ -2,225 +2,257 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B78B22AD3D3
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 11:31:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A4D932AD3F2
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 11:40:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726900AbgKJKbv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 05:31:51 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:44779 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726690AbgKJKbv (ORCPT
+        id S1730239AbgKJKkW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 05:40:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53100 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726219AbgKJKkV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 05:31:51 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id cQwCkl89cNanzcQwFk5Qw2; Tue, 10 Nov 2020 11:31:48 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1605004308; bh=sSUZeBbALipBVaAcCxxvxF92gzHg1s0qI8782LffVyw=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=r5dPlNsY6mZo891vK/ccSQsEJK/hyKbIH9c8V+0MAAJmXvuCuJcBuJrvFw7nJ4nM/
-         xT7BlXeu2gpLnnlbhheZLhB/+B2Ae5XtJVpQ9OrhJVNOdZjZNW/Z5FUbf/UcBFGR+d
-         dO4F0qlSdJEFQxsmsDUa5L+Y+AEUIZe6n/7U07LiTkiSvjkA/QKsN129ryfRRkkHCe
-         muGrXMdpuJznHNQXW8zr7vpedfO4Z0iljm4ouATil+lvqMg7knpf+ShuMTeVPEl9U+
-         lSu04F5kHwAPf3EdciZA3MzS8jg3pYPBC6+9JSwgP45NO4BKSE+sVlIfi/Xqv+5kZV
-         6jW80gMLNU1FQ==
-Subject: Re: [PATCH v2] usb: gadget: uvc: fix multiple opens
-To:     thomas.haemmerle@wolfvision.net, gregkh@linuxfoundation.org
-Cc:     laurent.pinchart@ideasonboard.com, balbi@kernel.org,
-        linux-usb@vger.kernel.org, m.tretter@pengutronix.de,
-        linux-media@vger.kernel.org
-References: <20201105103758.GA4033354@kroah.com>
- <20201110082504.26134-1-thomas.haemmerle@wolfvision.net>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <2bf6f3b3-6475-9cd9-b6f9-dfc4b444c955@xs4all.nl>
-Date:   Tue, 10 Nov 2020 11:31:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Tue, 10 Nov 2020 05:40:21 -0500
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63D51C0613CF
+        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 02:40:21 -0800 (PST)
+Received: by mail-ej1-x643.google.com with SMTP id o9so16860136ejg.1
+        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 02:40:21 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=h1CiCaWNTDTWaZ9Bu49enQinQUFWYt7Tgp79S2fH2C4=;
+        b=ELLMJUYViEjvWsM+mCbJHlfbYk54gs4RGAAc9PI6+oRdmmuOrgVidJ4GzKO7OO/2H/
+         XZOe9aPCmYVVELkPMS6PDmTj4bTnD11Mw/BE6lrwrfc1XDaC4K50y8A+K+Z9FmdYjlri
+         5/zDzpdxphlsnEng/97VAWFMkvmIMOzSMoL1Q=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=h1CiCaWNTDTWaZ9Bu49enQinQUFWYt7Tgp79S2fH2C4=;
+        b=NCTP70z9I48EByobXgasmPYBEfNFPFVylHxmXXmPl7HUnV83DHjDO/0a22wls4S9J/
+         0FuDh4VJ83H0fyywa1LU/08dcxTX4uVwx0T8zuKayh2le65kFrlIIkRLmx19RO7gsmRq
+         gM51zB26PhowJ8QkHq3f5Fi0FYiQ3WOFMFR6cNtuXclXpuad7ZnXba/tF45lWZv5+mtO
+         iwh3d6urE4zSWOBOsw1H85fdD5Zhv7056jT50xwNwLZT79BWTOeEy6SUBVUf9jZR5Kwe
+         pB9AlP44A3zxofY5B7c/JO2uyrHbo3Ec28BHaQ8aZsEdVcYfKJir6u6jRxr4V+vNOaV4
+         fnSQ==
+X-Gm-Message-State: AOAM533SIHj6srS5iJOM6dmq/uPhj84UKhujV4mgTmvcq0Yn5onOxCB6
+        4K7Dvee8b8HgiL3PVrkjexWMeroAhNi3JFzK
+X-Google-Smtp-Source: ABdhPJyfBQCNy8rLv6VlUdiXkcNhIfTx4xsMyde4Fj9+9YkR/rFBPFCjgM1EUlRB6EqMSiF8gf4OCg==
+X-Received: by 2002:a17:906:b01:: with SMTP id u1mr15138992ejg.427.1605004819697;
+        Tue, 10 Nov 2020 02:40:19 -0800 (PST)
+Received: from mail-wr1-f42.google.com (mail-wr1-f42.google.com. [209.85.221.42])
+        by smtp.gmail.com with ESMTPSA id f16sm10186861edc.44.2020.11.10.02.40.18
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Nov 2020 02:40:18 -0800 (PST)
+Received: by mail-wr1-f42.google.com with SMTP id r17so8198464wrw.1
+        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 02:40:18 -0800 (PST)
+X-Received: by 2002:adf:ed11:: with SMTP id a17mr8446143wro.197.1605004817647;
+ Tue, 10 Nov 2020 02:40:17 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201110082504.26134-1-thomas.haemmerle@wolfvision.net>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfAWwltG6ZRf8zb9NVmxM+GJc07KHQ0legS+bi2bENofERX9Ov++J4NgpnTW4kTWoq2PVSMqvkjvqR8LFb5woK3qSDRlhh2qO+zdhcIZKfzrh4yGT/Y/P
- FR9tmNzMa/vnUnzoKVqZGtsqwqyIhm4+0fopz8/JLiM3coXofsooegHBwOfZXHov4cDTFAFwZ/XTQBNF3G/J6i31/WksFu86aGm8jFGOLnU6V40jS30jQde3
- j4v+vrPu5Ivu8yKG7I5HrwMYOo3+BB3P/XT3DywAm156Vna6/D3fp74ISrmdD0xDZf4OmQNIpaoxLFKQdvJ4OFMZdZ+xaUuE2IEBS4z5VbTnJmclORtdPWN1
- olfhpIuELTEw286DPWj5AWj5mX2qFU5/pzpuK6tVp6YOhS0A6IG8nSVfZ24eMLzVoFst8hmD+Otk3nChVGxdhVHJT4P6vw==
+References: <20200922113402.12442-1-dafna.hirschfeld@collabora.com>
+ <20200922113402.12442-7-dafna.hirschfeld@collabora.com> <20200925204222.GG3607091@chromium.org>
+ <bebacafe-11bb-5d9a-f889-4d16bb5d1817@collabora.com> <CAAFQd5BeWOYadUU8nBtFpaA5Eb2T0qFk0kDVf9eYmYzXJj+sZA@mail.gmail.com>
+ <d6b893e1-1177-ba6d-0499-a3e45f79503b@collabora.com>
+In-Reply-To: <d6b893e1-1177-ba6d-0499-a3e45f79503b@collabora.com>
+From:   Tomasz Figa <tfiga@chromium.org>
+Date:   Tue, 10 Nov 2020 19:40:06 +0900
+X-Gmail-Original-Message-ID: <CAAFQd5BWAuzRMCDhYGAtBW-J61k81a-J-MXWgC7fD7kEne4sTg@mail.gmail.com>
+Message-ID: <CAAFQd5BWAuzRMCDhYGAtBW-J61k81a-J-MXWgC7fD7kEne4sTg@mail.gmail.com>
+Subject: Re: [PATCH v3 06/12] media: staging: rkisp1: remove atomic operations
+ for frame sequence
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>, kernel@collabora.com,
+        Dafna Hirschfeld <dafna3@gmail.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/11/2020 09:25, thomas.haemmerle@wolfvision.net wrote:
-> From: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
-> 
-> Currently, the UVC function is activated when open on the corresponding
-> v4l2 device is called.
-> On another open the activation of the function fails since the
-> deactivation counter in `usb_function_activate` equals 0. However the
-> error is not returned to userspace since the open of the v4l2 device is
-> successful.
-> 
-> On a close the function is deactivated (since deactivation counter still
-> equals 0) and the video is disabled in `uvc_v4l2_release`, although
-> another process potentially is streaming.
-> 
-> Move activation of UVC function to subscription on UVC_EVENT_SETUP and
-> keep track of the number of subscribers (limited to 1) because there we
-> can guarantee for a userspace program utilizing UVC.
-> Extend the `struct uvc_file_handle` with member `bool connected` to tag 
-> it for a deactivation of the function.
-> 
-> With this a process is able to check capabilities of the v4l2 device
-> without deactivating the function for another process actually using the
-> device for UVC streaming.
-> 
-> Signed-off-by: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
-> ---
-> v2:
->  - fix deadlock in `uvc_v4l2_unsubscribe_event()` (mutex is already
->    locked in v4l2-core) introduced in v1
->  - lock mutex in `uvc_v4l2_release()` to suppress ioctls and protect
->    connected
-> 
->  drivers/usb/gadget/function/uvc.h      |  2 +
->  drivers/usb/gadget/function/uvc_v4l2.c | 56 +++++++++++++++++++++-----
->  2 files changed, 48 insertions(+), 10 deletions(-)
-> 
-> diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
-> index 73da4f9a8d4c..0d0bcbffc8fd 100644
-> --- a/drivers/usb/gadget/function/uvc.h
-> +++ b/drivers/usb/gadget/function/uvc.h
-> @@ -117,6 +117,7 @@ struct uvc_device {
->  	enum uvc_state state;
->  	struct usb_function func;
->  	struct uvc_video video;
-> +	unsigned int connections;
->  
->  	/* Descriptors */
->  	struct {
-> @@ -147,6 +148,7 @@ static inline struct uvc_device *to_uvc(struct usb_function *f)
->  struct uvc_file_handle {
->  	struct v4l2_fh vfh;
->  	struct uvc_video *device;
-> +	bool connected;
->  };
->  
->  #define to_uvc_file_handle(handle) \
-> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
-> index 67922b1355e6..aee4888e17b1 100644
-> --- a/drivers/usb/gadget/function/uvc_v4l2.c
-> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
-> @@ -228,17 +228,57 @@ static int
->  uvc_v4l2_subscribe_event(struct v4l2_fh *fh,
->  			 const struct v4l2_event_subscription *sub)
->  {
-> +	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
-> +	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
-> +	int ret;
-> +
->  	if (sub->type < UVC_EVENT_FIRST || sub->type > UVC_EVENT_LAST)
->  		return -EINVAL;
->  
-> -	return v4l2_event_subscribe(fh, sub, 2, NULL);
-> +	if ((sub->type == UVC_EVENT_SETUP) && (uvc->connections >= 1))
-> +		return -EBUSY;
-> +
-> +	ret = v4l2_event_subscribe(fh, sub, 2, NULL);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if (sub->type == UVC_EVENT_SETUP) {
-> +		uvc->connections++;
-> +		handle->connected = true;
-> +		uvc_function_connect(uvc);
-> +	}
+Hi Helen,
 
-This makes no sense. Why would subscribing to a SETUP event
-mean that you are 'connected'?
+On Fri, Nov 6, 2020 at 11:43 PM Helen Koike <helen.koike@collabora.com> wrote:
+>
+> Hi Tomasz,
+>
+> (sorry for not had replied this earlier)
+>
+> On 10/2/20 12:30 PM, Tomasz Figa wrote:
+> > On Fri, Oct 2, 2020 at 11:16 AM Dafna Hirschfeld
+> > <dafna.hirschfeld@collabora.com> wrote:
+> >>
+> >> Hi,
+> >>
+> >> Am 25.09.20 um 22:42 schrieb Tomasz Figa:
+> >>> Hi Dafna,
+> >>>
+> >>> On Tue, Sep 22, 2020 at 01:33:56PM +0200, Dafna Hirschfeld wrote:
+> >>>> The isp.frame_sequence is now read only from the irq handlers
+> >>>> that are all fired from the same interrupt, so there is not need
+> >>>> for atomic operation.
+> >>>> In addition, the frame seq incrementation is moved from
+> >>>> rkisp1_isp_queue_event_sof to rkisp1_isp_isr to make the code
+> >>>> clearer and the incorrect inline comment is removed.
+> >>>>
+> >>>> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> >>>> Acked-by: Helen Koike <helen.koike@collabora.com>
+> >>>>
+> >>>> ---
+> >>>> changes since v2:
+> >>>> add a closing "}" to if condition
+> >>>> remove usless inline comment
+> >>>> ---
+> >>>>   drivers/staging/media/rkisp1/rkisp1-capture.c |  2 +-
+> >>>>   drivers/staging/media/rkisp1/rkisp1-common.h  |  2 +-
+> >>>>   drivers/staging/media/rkisp1/rkisp1-isp.c     | 16 +++++-----------
+> >>>>   drivers/staging/media/rkisp1/rkisp1-params.c  |  2 +-
+> >>>>   drivers/staging/media/rkisp1/rkisp1-stats.c   |  3 +--
+> >>>>   5 files changed, 9 insertions(+), 16 deletions(-)
+> >>>>
+> >>>
+> >>> Thank you for the patch. Please see my comments inline.
+> >>>
+> >>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-capture.c b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> >>>> index 0632582a95b4..1c762a369b63 100644
+> >>>> --- a/drivers/staging/media/rkisp1/rkisp1-capture.c
+> >>>> +++ b/drivers/staging/media/rkisp1/rkisp1-capture.c
+> >>>> @@ -632,7 +632,7 @@ static void rkisp1_handle_buffer(struct rkisp1_capture *cap)
+> >>>>      curr_buf = cap->buf.curr;
+> >>>>
+> >>>>      if (curr_buf) {
+> >>>> -            curr_buf->vb.sequence = atomic_read(&isp->frame_sequence);
+> >>>> +            curr_buf->vb.sequence = isp->frame_sequence;
+> >>>
+> >>> I wonder if with higher resolutions, let's say full 5 Mpix, and/or some
+> >>> memory-intensive system load, like video encoding and graphics rendering,
+> >>> the DMA wouldn't take enough time to have the MI_FRAME interrupt fire after
+> >>> the V_START for the next frame.
+> >>>
+> >>> I recall you did some testing back in time [1], showing that the two are
+> >>> interleaved. Do you remember what CAPTURE resolution was it?
+> >>
+> >> I ran the testing again, I added a patch to allow streaming simultanously from
+> >> both pathes: https://gitlab.collabora.com/dafna/linux/-/commit/8df0d15567b27cb88674fbbe33d1906c3c5a91da
+> >> Then I ran two tests:
+> >> stream simultaneously with 3280x2464 frames from the camera, and then downscaling them to 1920x1080 on selfpath, this is http://ix.io/2zoP
+> >> stream simultaneously with 640x480 frames from the camera, and upscaling them to 1920x1080 on the selfpath. this is http://ix.io/2zoR
+> >>
+> >> the pixelformat for both is 422P.
+> >> I don't know how meaningful and useful is to test it on the rockchip-pi4 board, I only use it with a serial console.
+> >> The functionality can probably only be tested on the scarlet.
+> >
+> > Okay, thanks. It looks like there is always plenty of time margin on
+> > the hardware side and if the interrupt handling is delayed for a short
+> > time and both are handled by the same handler call, it's also going to
+> > be handled fine because of rkisp1_capture_isr() being called before
+> > rkisp1_isp_isr().
+> >
+> > By the way, do we need the MIPI interrupts every frame? Perhaps we
+> > could enable the RKISP1_CIF_MIPI_ERR_CTRL* interrupts only and then,
+> > when we get an error, we disable it and enable
+> > RKISP1_CIF_MIPI_FRAME_END, which would then re-enable
+> > RKISP1_CIF_MIPI_ERR_CTRL* and disable itself? WDYT?
+>
+> The driver already do this in a sense, it disables these interrupts on
+> the first MIPI error and re-enable them on RKISP1_CIF_MIPI_FRAME_END.
 
-It should be possible to open a V4L2 device node any number of times,
-and any filehandle can subscribe to any event, but typically once
-userspace allocates buffers (VIDIOC_REQBUFS or VIDIOC_CREATE_BUFS)
-then that filehandle is marked as the owner of the device and other
-open filehandles are no longer allowed to allocate buffers or stream video.
+Yes, it disables the ERR interrupts, but doesn't it keep the FRAME_END
+interrupt enabled all the time? (At least that seems to be the case in
+your traces.) Is it necessary?
 
-See e.g. drivers/media/common/videobuf2/videobuf2-v4l2.c
-and vb2_ioctl_reqbufs and other vb2_ioctl_* functions.
+Best regards,
+Tomasz
 
-Unfortunately this UVC gadget driver is rather old and is not using
-these helper functions.
-
-Running 'v4l2-compliance' will likely fail on a lot of tests for this
-driver.
-
-This driver probably could use some TLC.
-
-Regards,
-
-	Hans
-
-> +
-> +	return 0;
-> +}
-> +
-> +static void uvc_v4l2_disable(struct uvc_device *uvc)
-> +{
-> +	if (--uvc->connections)
-> +		return;
-> +
-> +	uvc_function_disconnect(uvc);
-> +	uvcg_video_enable(&uvc->video, 0);
-> +	uvcg_free_buffers(&uvc->video.queue);
->  }
->  
->  static int
->  uvc_v4l2_unsubscribe_event(struct v4l2_fh *fh,
->  			   const struct v4l2_event_subscription *sub)
->  {
-> -	return v4l2_event_unsubscribe(fh, sub);
-> +	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
-> +	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
-> +	int ret;
-> +
-> +	ret = v4l2_event_unsubscribe(fh, sub);
-> +	if (ret < 0)
-> +		return ret;
-> +
-> +	if ((sub->type == UVC_EVENT_SETUP) && handle->connected) {
-> +		uvc_v4l2_disable(uvc);
-> +		handle->connected = false;
-> +	}
-> +
-> +	return 0;
->  }
->  
->  static long
-> @@ -293,7 +333,6 @@ uvc_v4l2_open(struct file *file)
->  	handle->device = &uvc->video;
->  	file->private_data = &handle->vfh;
->  
-> -	uvc_function_connect(uvc);
->  	return 0;
->  }
->  
-> @@ -303,14 +342,11 @@ uvc_v4l2_release(struct file *file)
->  	struct video_device *vdev = video_devdata(file);
->  	struct uvc_device *uvc = video_get_drvdata(vdev);
->  	struct uvc_file_handle *handle = to_uvc_file_handle(file->private_data);
-> -	struct uvc_video *video = handle->device;
-> -
-> -	uvc_function_disconnect(uvc);
->  
-> -	mutex_lock(&video->mutex);
-> -	uvcg_video_enable(video, 0);
-> -	uvcg_free_buffers(&video->queue);
-> -	mutex_unlock(&video->mutex);
-> +	mutex_lock(&uvc->video.mutex);
-> +	if (handle->connected)
-> +		uvc_v4l2_disable(uvc);
-> +	mutex_unlock(&uvc->video.mutex);
->  
->  	file->private_data = NULL;
->  	v4l2_fh_del(&handle->vfh);
-> 
-
+>
+> Please check:
+>
+> https://git.linuxtv.org/media_tree.git/tree/drivers/staging/media/rkisp1/rkisp1-isp.c#n1069
+>
+> For convenience:
+>
+> void rkisp1_mipi_isr(struct rkisp1_device *rkisp1)
+> {
+>         u32 val, status;
+>
+>         status = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_MIS);
+>         if (!status)
+>                 return;
+>
+>         rkisp1_write(rkisp1, status, RKISP1_CIF_MIPI_ICR);
+>
+>         /*
+>          * Disable DPHY errctrl interrupt, because this dphy
+>          * erctrl signal is asserted until the next changes
+>          * of line state. This time is may be too long and cpu
+>          * is hold in this interrupt.
+>          */
+>         if (status & RKISP1_CIF_MIPI_ERR_CTRL(0x0f)) {
+>                 val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_IMSC);
+>                 rkisp1_write(rkisp1, val & ~RKISP1_CIF_MIPI_ERR_CTRL(0x0f),
+>                              RKISP1_CIF_MIPI_IMSC);
+>                 rkisp1->isp.is_dphy_errctrl_disabled = true;
+>         }
+>
+>         /*
+>          * Enable DPHY errctrl interrupt again, if mipi have receive
+>          * the whole frame without any error.
+>          */
+>         if (status == RKISP1_CIF_MIPI_FRAME_END) {
+>                 /*
+>                  * Enable DPHY errctrl interrupt again, if mipi have receive
+>                  * the whole frame without any error.
+>                  */
+>                 if (rkisp1->isp.is_dphy_errctrl_disabled) {
+>                         val = rkisp1_read(rkisp1, RKISP1_CIF_MIPI_IMSC);
+>                         val |= RKISP1_CIF_MIPI_ERR_CTRL(0x0f);
+>                         rkisp1_write(rkisp1, val, RKISP1_CIF_MIPI_IMSC);
+>                         rkisp1->isp.is_dphy_errctrl_disabled = false;
+>                 }
+>         } else {
+>                 rkisp1->debug.mipi_error++;
+>         }
+> }
+>
+> Regards,
+> Helen
+>
+> >
+> > Best regards,
+> > Tomasz
+> >
+> >>
+> >> Thanks,
+> >> Dafna
+> >>
+> >>
+> >>
+> >>>
+> >>>>              curr_buf->vb.vb2_buf.timestamp = ktime_get_boottime_ns();
+> >>>>              curr_buf->vb.field = V4L2_FIELD_NONE;
+> >>>>              vb2_buffer_done(&curr_buf->vb.vb2_buf, VB2_BUF_STATE_DONE);
+> >>>> diff --git a/drivers/staging/media/rkisp1/rkisp1-common.h b/drivers/staging/media/rkisp1/rkisp1-common.h
+> >>>> index 232bee92d0eb..51c92a251ea5 100644
+> >>>> --- a/drivers/staging/media/rkisp1/rkisp1-common.h
+> >>>> +++ b/drivers/staging/media/rkisp1/rkisp1-common.h
+> >>>> @@ -131,7 +131,7 @@ struct rkisp1_isp {
+> >>>>      const struct rkisp1_isp_mbus_info *src_fmt;
+> >>>>      struct mutex ops_lock; /* serialize the subdevice ops */
+> >>>>      bool is_dphy_errctrl_disabled;
+> >>>> -    atomic_t frame_sequence;
+> >>>> +    __u32 frame_sequence;
+> >>>
+> >>> nit: The __ prefixed types are defined for the UAPI to avoid covering userspace
+> >>> types. For kernel types please just use the plain u32.
+> >>>
+> >>> Best regards,
+> >>> Tomasz
+> >>>
+> >
