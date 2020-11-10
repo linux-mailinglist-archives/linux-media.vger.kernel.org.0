@@ -2,27 +2,27 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D11C2ACDB0
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 05:04:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D39DB2ACD56
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 05:01:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732661AbgKJEEQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 9 Nov 2020 23:04:16 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55402 "EHLO mail.kernel.org"
+        id S1733207AbgKJEB1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 9 Nov 2020 23:01:27 -0500
+Received: from mail.kernel.org ([198.145.29.99]:57032 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731960AbgKJDy3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 9 Nov 2020 22:54:29 -0500
+        id S1733221AbgKJDzg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 9 Nov 2020 22:55:36 -0500
 Received: from sasha-vm.mshome.net (c-73-47-72-35.hsd1.nh.comcast.net [73.47.72.35])
         (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B838720731;
-        Tue, 10 Nov 2020 03:54:27 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 0CC2220731;
+        Tue, 10 Nov 2020 03:55:33 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1604980469;
-        bh=HJPSa0KmKV95ZybTLaMu/IKpYZrY18GvP37V/Fllc/A=;
+        s=default; t=1604980535;
+        bh=wRygLvCtjXO9zyXTuPCpxEht8iiV7VqpMAv+S81UJiI=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=IwJTRFwHXcu69xXgkHndxHFheCIkaqqJBMiKe3n6wiq+Ja+RKehIWT10m17dif05H
-         7AdCPULCCEihdzA9uG8JQ61jTjOa9nFotqQHxKLUkb3MfuVkRFum9ilbhC7Rkadl2V
-         Ll3hHXIWLZNb9XlB2ECgMUpv7JIMxAYhqvG+217E=
+        b=w+7ts3kb/lSx84/W146iSYhU8tlRvTvH5bQ+Kno/D0Ao5t6RJjLDpiTiVimXbMqeR
+         H7oTYtrhgtEHxQwnrZ8Xi12OdXrj4YvJfmtA2UICL7ONBe7mI4dYd1Boen2h5Mjz5a
+         vHsmpxg5YLzHhdak1LQOvctcPGtosQ6qWRvKIjng=
 From:   Sasha Levin <sashal@kernel.org>
 To:     linux-kernel@vger.kernel.org, stable@vger.kernel.org
 Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
@@ -31,12 +31,12 @@ Cc:     Ulrich Hecht <uli+renesas@fpond.eu>,
         Wolfram Sang <wsa@kernel.org>, Sasha Levin <sashal@kernel.org>,
         linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
         dri-devel@lists.freedesktop.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH AUTOSEL 5.9 49/55] i2c: sh_mobile: implement atomic transfers
-Date:   Mon,  9 Nov 2020 22:53:12 -0500
-Message-Id: <20201110035318.423757-49-sashal@kernel.org>
+Subject: [PATCH AUTOSEL 5.4 39/42] i2c: sh_mobile: implement atomic transfers
+Date:   Mon,  9 Nov 2020 22:54:37 -0500
+Message-Id: <20201110035440.424258-39-sashal@kernel.org>
 X-Mailer: git-send-email 2.27.0
-In-Reply-To: <20201110035318.423757-1-sashal@kernel.org>
-References: <20201110035318.423757-1-sashal@kernel.org>
+In-Reply-To: <20201110035440.424258-1-sashal@kernel.org>
+References: <20201110035440.424258-1-sashal@kernel.org>
 MIME-Version: 1.0
 X-stable: review
 X-Patchwork-Hint: Ignore
@@ -63,7 +63,7 @@ Signed-off-by: Sasha Levin <sashal@kernel.org>
  1 file changed, 66 insertions(+), 20 deletions(-)
 
 diff --git a/drivers/i2c/busses/i2c-sh_mobile.c b/drivers/i2c/busses/i2c-sh_mobile.c
-index cab7255599991..bdd60770779ad 100644
+index 8777af4c695e9..d5dd58c27ce5f 100644
 --- a/drivers/i2c/busses/i2c-sh_mobile.c
 +++ b/drivers/i2c/busses/i2c-sh_mobile.c
 @@ -129,6 +129,7 @@ struct sh_mobile_i2c_data {
@@ -74,7 +74,7 @@ index cab7255599991..bdd60770779ad 100644
  
  	struct resource *res;
  	struct dma_chan *dma_tx;
-@@ -330,13 +331,15 @@ static unsigned char i2c_op(struct sh_mobile_i2c_data *pd, enum sh_mobile_i2c_op
+@@ -333,13 +334,15 @@ static unsigned char i2c_op(struct sh_mobile_i2c_data *pd, enum sh_mobile_i2c_op
  		ret = iic_rd(pd, ICDR);
  		break;
  	case OP_RX_STOP: /* enable DTE interrupt, issue stop */
@@ -94,7 +94,7 @@ index cab7255599991..bdd60770779ad 100644
  		ret = iic_rd(pd, ICDR);
  		iic_wr(pd, ICCR, ICCR_ICE | ICCR_RACK);
  		break;
-@@ -429,7 +432,8 @@ static irqreturn_t sh_mobile_i2c_isr(int irq, void *dev_id)
+@@ -435,7 +438,8 @@ static irqreturn_t sh_mobile_i2c_isr(int irq, void *dev_id)
  
  	if (wakeup) {
  		pd->sr |= SW_DONE;
@@ -104,7 +104,7 @@ index cab7255599991..bdd60770779ad 100644
  	}
  
  	/* defeat write posting to avoid spurious WAIT interrupts */
-@@ -581,6 +585,9 @@ static void start_ch(struct sh_mobile_i2c_data *pd, struct i2c_msg *usr_msg,
+@@ -587,6 +591,9 @@ static void start_ch(struct sh_mobile_i2c_data *pd, struct i2c_msg *usr_msg,
  	pd->pos = -1;
  	pd->sr = 0;
  
@@ -114,7 +114,7 @@ index cab7255599991..bdd60770779ad 100644
  	pd->dma_buf = i2c_get_dma_safe_msg_buf(pd->msg, 8);
  	if (pd->dma_buf)
  		sh_mobile_i2c_xfer_dma(pd);
-@@ -637,15 +644,13 @@ static int poll_busy(struct sh_mobile_i2c_data *pd)
+@@ -643,15 +650,13 @@ static int poll_busy(struct sh_mobile_i2c_data *pd)
  	return i ? 0 : -ETIMEDOUT;
  }
  
@@ -133,7 +133,7 @@ index cab7255599991..bdd60770779ad 100644
  
  	/* Wake up device and enable clock */
  	pm_runtime_get_sync(pd->dev);
-@@ -662,15 +667,35 @@ static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
+@@ -668,15 +673,35 @@ static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
  		if (do_start)
  			i2c_op(pd, OP_START);
  
@@ -177,7 +177,7 @@ index cab7255599991..bdd60770779ad 100644
  			dev_err(pd->dev, "Transfer request timed out\n");
  			if (pd->dma_direction != DMA_NONE)
  				sh_mobile_i2c_cleanup_dma(pd);
-@@ -696,14 +721,35 @@ static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
+@@ -702,14 +727,35 @@ static int sh_mobile_i2c_xfer(struct i2c_adapter *adapter,
  	return err ?: num;
  }
  
