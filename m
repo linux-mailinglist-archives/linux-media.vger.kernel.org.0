@@ -2,200 +2,225 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E24C42AD3C5
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 11:28:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B78B22AD3D3
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 11:31:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731423AbgKJK2L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 05:28:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726944AbgKJK2L (ORCPT
+        id S1726900AbgKJKbv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 05:31:51 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:44779 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726690AbgKJKbv (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 05:28:11 -0500
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 755BCC0613D3
-        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 02:28:10 -0800 (PST)
-Received: by mail-wr1-x443.google.com with SMTP id 33so12063257wrl.7
-        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 02:28:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pqIDM/rZ/Y9RAfg0dyKOEzplrtUBtkplsmTM06tMDJQ=;
-        b=BcAb/EpoDs9F+v8Ugn793tbnYiNlQmUpjuGyNpNKzX4yjbKBv/0r7MEILs5WCoPzhD
-         fNMs2XkoRS+mJ/NFjN4OBygs4qBsWWlb1VSmQAiCKO/AIajH1dTD3Lygh6OEZvM5MUga
-         oFF7nX3RpsXyXYrwW7YlAWso8AvoMlJlN0P1lpckrYoAbjrjbAuxzW3s4MvJt51WQatU
-         cexAGXQXxSUBTpyGm/8+TR5w1+5/E9s1T2EwBL0xRVW9SAcegjg6esqn/6m3r5YfhrX7
-         lFv+3/HjjjiGyeQilK12WlaseZIcOBf8Tn7qqIxzU+l/HtjVN/GNk4iEPTznIQg1YMJs
-         IaxA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pqIDM/rZ/Y9RAfg0dyKOEzplrtUBtkplsmTM06tMDJQ=;
-        b=Zel4pgs/lSRdAenz9OiCBxY05RlGPs5eF/vn2Ic1FU1go6j7GZ81FFPWPoGjrrLiZK
-         O1z7Tqvu7ukdYhQ24EGa/Jsctx6jOCZjCSs+L6uTFuw+U9ruFQYcfC+6ospuDSaNTD1L
-         5eRqxpPbtdWj2shV56PDvzoKY8LHV8ytgPgIb78dr169N2+pZwQghgh40cg0t7WRSRny
-         AAlP+rbgdprv1ocW/H9DQSf9sjon81pJ6Ul6XdlSQbZwWRAThZVwvo8BjMwIk1g/xwo1
-         qYVrQ2qoGaxV1mrqlwEnxKxCVZPbIKOFCt8n7VSQEHqDHrgg+AdlFHwsYEap5F5oS9Qn
-         FaSA==
-X-Gm-Message-State: AOAM533WWPJjPxLHsWYG1ZrEA5DvEfXVYUqvDswTCOirjBfBZ/TVJ9Dn
-        lmlTW3WRmThsPZj0S3IOJFd5nA==
-X-Google-Smtp-Source: ABdhPJwxQlud3/H/xV2Dbfu6P6pYfPXGlRqele+HoGoUBj0HGH9j/JHGsKTEVZU7XxN2PY+0LDQPYQ==
-X-Received: by 2002:a5d:5342:: with SMTP id t2mr21947899wrv.243.1605004089054;
-        Tue, 10 Nov 2020 02:28:09 -0800 (PST)
-Received: from [192.168.0.4] (hst-208-208.medicom.bg. [84.238.208.208])
-        by smtp.googlemail.com with ESMTPSA id w11sm2639462wmg.36.2020.11.10.02.28.07
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 10 Nov 2020 02:28:08 -0800 (PST)
-Subject: Re: [PATCH 2/3] docs: media: Document CLL and Mastering display
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-References: <20201109173153.23720-1-stanimir.varbanov@linaro.org>
- <20201109173153.23720-3-stanimir.varbanov@linaro.org>
- <c907b185-a272-bef5-1aa0-313c7789b07d@xs4all.nl>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <58fda2db-4c2a-0fde-91ce-39af4fbccf99@linaro.org>
-Date:   Tue, 10 Nov 2020 12:28:07 +0200
+        Tue, 10 Nov 2020 05:31:51 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id cQwCkl89cNanzcQwFk5Qw2; Tue, 10 Nov 2020 11:31:48 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1605004308; bh=sSUZeBbALipBVaAcCxxvxF92gzHg1s0qI8782LffVyw=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=r5dPlNsY6mZo891vK/ccSQsEJK/hyKbIH9c8V+0MAAJmXvuCuJcBuJrvFw7nJ4nM/
+         xT7BlXeu2gpLnnlbhheZLhB/+B2Ae5XtJVpQ9OrhJVNOdZjZNW/Z5FUbf/UcBFGR+d
+         dO4F0qlSdJEFQxsmsDUa5L+Y+AEUIZe6n/7U07LiTkiSvjkA/QKsN129ryfRRkkHCe
+         muGrXMdpuJznHNQXW8zr7vpedfO4Z0iljm4ouATil+lvqMg7knpf+ShuMTeVPEl9U+
+         lSu04F5kHwAPf3EdciZA3MzS8jg3pYPBC6+9JSwgP45NO4BKSE+sVlIfi/Xqv+5kZV
+         6jW80gMLNU1FQ==
+Subject: Re: [PATCH v2] usb: gadget: uvc: fix multiple opens
+To:     thomas.haemmerle@wolfvision.net, gregkh@linuxfoundation.org
+Cc:     laurent.pinchart@ideasonboard.com, balbi@kernel.org,
+        linux-usb@vger.kernel.org, m.tretter@pengutronix.de,
+        linux-media@vger.kernel.org
+References: <20201105103758.GA4033354@kroah.com>
+ <20201110082504.26134-1-thomas.haemmerle@wolfvision.net>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <2bf6f3b3-6475-9cd9-b6f9-dfc4b444c955@xs4all.nl>
+Date:   Tue, 10 Nov 2020 11:31:44 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <c907b185-a272-bef5-1aa0-313c7789b07d@xs4all.nl>
+In-Reply-To: <20201110082504.26134-1-thomas.haemmerle@wolfvision.net>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfAWwltG6ZRf8zb9NVmxM+GJc07KHQ0legS+bi2bENofERX9Ov++J4NgpnTW4kTWoq2PVSMqvkjvqR8LFb5woK3qSDRlhh2qO+zdhcIZKfzrh4yGT/Y/P
+ FR9tmNzMa/vnUnzoKVqZGtsqwqyIhm4+0fopz8/JLiM3coXofsooegHBwOfZXHov4cDTFAFwZ/XTQBNF3G/J6i31/WksFu86aGm8jFGOLnU6V40jS30jQde3
+ j4v+vrPu5Ivu8yKG7I5HrwMYOo3+BB3P/XT3DywAm156Vna6/D3fp74ISrmdD0xDZf4OmQNIpaoxLFKQdvJ4OFMZdZ+xaUuE2IEBS4z5VbTnJmclORtdPWN1
+ olfhpIuELTEw286DPWj5AWj5mX2qFU5/pzpuK6tVp6YOhS0A6IG8nSVfZ24eMLzVoFst8hmD+Otk3nChVGxdhVHJT4P6vw==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 11/10/20 11:50 AM, Hans Verkuil wrote:
-> On 09/11/2020 18:31, Stanimir Varbanov wrote:
->> Document Content light level and Mastering display colour volume.
->>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  .../media/v4l/ext-ctrls-codec.rst             | 61 +++++++++++++++++++
->>  1 file changed, 61 insertions(+)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> index ce728c757eaf..39d0aab5ca3d 100644
->> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
->> @@ -4382,3 +4382,64 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->>        - Selecting this value specifies that HEVC slices are expected
->>          to be prefixed by Annex B start codes. According to :ref:`hevc`
->>          valid start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001.
->> +
->> +``V4L2_CID_MPEG_VIDEO_HEVC_CLL_INFO (struct)``
->> +    The Content Light Level defines upper bounds for the nominal target
->> +    brightness light level of the pictures.
->> +
->> +.. c:type:: v4l2_ctrl_hevc_cll_info
->> +
->> +.. cssclass:: longtable
->> +
->> +.. flat-table:: struct v4l2_ctrl_hevc_cll_info
->> +    :header-rows:  0
->> +    :stub-columns: 0
->> +    :widths:       1 1 2
->> +
->> +    * - __u16
->> +      - ``max_content_light_level``
->> +      - An upper bound on the maximum light level among all individual
->> +        samples for the pictures of coded video sequence, cd/m2.
->> +    * - __u16
->> +      - ``max_pic_average_light_level``
->> +      - An upper bound on the maximum average light level among the
->> +        samples for any idividual picture of coded video sequence, cd/m2.
+On 10/11/2020 09:25, thomas.haemmerle@wolfvision.net wrote:
+> From: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
 > 
-> idividual -> individual
+> Currently, the UVC function is activated when open on the corresponding
+> v4l2 device is called.
+> On another open the activation of the function fails since the
+> deactivation counter in `usb_function_activate` equals 0. However the
+> error is not returned to userspace since the open of the v4l2 device is
+> successful.
 > 
-> In the CTA-861-G spec value 0 is used to indicate that this information is
-> not present. How is that handled here? Can it be 0 as well in an HEVC stream?
+> On a close the function is deactivated (since deactivation counter still
+> equals 0) and the video is disabled in `uvc_v4l2_release`, although
+> another process potentially is streaming.
+> 
+> Move activation of UVC function to subscription on UVC_EVENT_SETUP and
+> keep track of the number of subscribers (limited to 1) because there we
+> can guarantee for a userspace program utilizing UVC.
+> Extend the `struct uvc_file_handle` with member `bool connected` to tag 
+> it for a deactivation of the function.
+> 
+> With this a process is able to check capabilities of the v4l2 device
+> without deactivating the function for another process actually using the
+> device for UVC streaming.
+> 
+> Signed-off-by: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+> ---
+> v2:
+>  - fix deadlock in `uvc_v4l2_unsubscribe_event()` (mutex is already
+>    locked in v4l2-core) introduced in v1
+>  - lock mutex in `uvc_v4l2_release()` to suppress ioctls and protect
+>    connected
+> 
+>  drivers/usb/gadget/function/uvc.h      |  2 +
+>  drivers/usb/gadget/function/uvc_v4l2.c | 56 +++++++++++++++++++++-----
+>  2 files changed, 48 insertions(+), 10 deletions(-)
+> 
+> diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+> index 73da4f9a8d4c..0d0bcbffc8fd 100644
+> --- a/drivers/usb/gadget/function/uvc.h
+> +++ b/drivers/usb/gadget/function/uvc.h
+> @@ -117,6 +117,7 @@ struct uvc_device {
+>  	enum uvc_state state;
+>  	struct usb_function func;
+>  	struct uvc_video video;
+> +	unsigned int connections;
+>  
+>  	/* Descriptors */
+>  	struct {
+> @@ -147,6 +148,7 @@ static inline struct uvc_device *to_uvc(struct usb_function *f)
+>  struct uvc_file_handle {
+>  	struct v4l2_fh vfh;
+>  	struct uvc_video *device;
+> +	bool connected;
+>  };
+>  
+>  #define to_uvc_file_handle(handle) \
+> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+> index 67922b1355e6..aee4888e17b1 100644
+> --- a/drivers/usb/gadget/function/uvc_v4l2.c
+> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
+> @@ -228,17 +228,57 @@ static int
+>  uvc_v4l2_subscribe_event(struct v4l2_fh *fh,
+>  			 const struct v4l2_event_subscription *sub)
+>  {
+> +	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
+> +	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
+> +	int ret;
+> +
+>  	if (sub->type < UVC_EVENT_FIRST || sub->type > UVC_EVENT_LAST)
+>  		return -EINVAL;
+>  
+> -	return v4l2_event_subscribe(fh, sub, 2, NULL);
+> +	if ((sub->type == UVC_EVENT_SETUP) && (uvc->connections >= 1))
+> +		return -EBUSY;
+> +
+> +	ret = v4l2_event_subscribe(fh, sub, 2, NULL);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if (sub->type == UVC_EVENT_SETUP) {
+> +		uvc->connections++;
+> +		handle->connected = true;
+> +		uvc_function_connect(uvc);
+> +	}
 
-ITU-T Rec. H265 says: When equal to 0, no such upper bound is indicated
-by max_content_light_level.
+This makes no sense. Why would subscribing to a SETUP event
+mean that you are 'connected'?
 
-So, the meaning is the same as in CTA-861-G.
+It should be possible to open a V4L2 device node any number of times,
+and any filehandle can subscribe to any event, but typically once
+userspace allocates buffers (VIDIOC_REQBUFS or VIDIOC_CREATE_BUFS)
+then that filehandle is marked as the owner of the device and other
+open filehandles are no longer allowed to allocate buffers or stream video.
 
-> 
-> Same for the next control.
-> 
->> +
->> +``V4L2_CID_MPEG_VIDEO_HEVC_MASTERING_DISPLAY (struct)``
->> +    The mastering display defines the colour volume (the colour primaries,
->> +    white point and luminance range) of a display considered to be the
->> +    mastering display for current video content.
->> +
->> +.. c:type:: v4l2_ctrl_hevc_mastering_display
->> +
->> +.. cssclass:: longtable
->> +
->> +.. flat-table:: struct v4l2_ctrl_hevc_mastering_display
->> +    :header-rows:  0
->> +    :stub-columns: 0
->> +    :widths:       1 1 2
->> +
->> +    * - __u16
->> +      - ``display_primaries_x[3]``
->> +      - Specifies the normalized x chromaticity coordinate of the colour
->> +        primary component of the mastering display.
-> 
-> CTA-861-G defines this as: "coded as unsigned 16-bit values in units
-> of 0.00002, where 0x0000 represents zero and 0xC350 represents 1.0000."
-> 
-> Is that true here as well? If so, then this should be documented because
-> "normalized x chromaticity coordinate" doesn't say anything meaningful.
+See e.g. drivers/media/common/videobuf2/videobuf2-v4l2.c
+and vb2_ioctl_reqbufs and other vb2_ioctl_* functions.
 
-Yes, it is the same. Will document that in next version.
+Unfortunately this UVC gadget driver is rather old and is not using
+these helper functions.
 
-> 
->> +    * - __u16
->> +      - ``display_primaries_y[3]``
->> +      - Specifies the normalized y chromaticity coordinate of the colour
->> +        primary component of the mastering display.
->> +    * - __u16
->> +      - ``white_point_x``
->> +      - Specifies the normalized x chromaticity coordinate of the white
->> +        point of the mastering display.
->> +    * - __u16
->> +      - ``white_point_y``
->> +      - Specifies the normalized y chromaticity coordinate of the white
->> +        point of the mastering display.
->> +    * - __u32
->> +      - ``max_luminance``
->> +      - Specifies the nominal maximum display luminance of the mastering
->> +        display.
-> 
-> In CTA-861-G this is in 1 cd/m^2 units.
+Running 'v4l2-compliance' will likely fail on a lot of tests for this
+driver.
 
-In Rec. H265 max_luminance is in the range of 50 000 to 100 000 000 and
-units of 0.0001 cd/m2.
+This driver probably could use some TLC.
 
-> 
->> +    * - __u32
->> +      - ``min_luminance``
->> +      - specifies the nominal minimum display luminance of the mastering
->> +        display.
-> 
-> And this in units of 0.0001 cd/m^2.
+Regards,
 
-min_luminance - range of 1 to 50 000 and units of 0.0001 cd/m2.
+	Hans
 
-I will update all these in next patchset version.
+> +
+> +	return 0;
+> +}
+> +
+> +static void uvc_v4l2_disable(struct uvc_device *uvc)
+> +{
+> +	if (--uvc->connections)
+> +		return;
+> +
+> +	uvc_function_disconnect(uvc);
+> +	uvcg_video_enable(&uvc->video, 0);
+> +	uvcg_free_buffers(&uvc->video.queue);
+>  }
+>  
+>  static int
+>  uvc_v4l2_unsubscribe_event(struct v4l2_fh *fh,
+>  			   const struct v4l2_event_subscription *sub)
+>  {
+> -	return v4l2_event_unsubscribe(fh, sub);
+> +	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
+> +	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
+> +	int ret;
+> +
+> +	ret = v4l2_event_unsubscribe(fh, sub);
+> +	if (ret < 0)
+> +		return ret;
+> +
+> +	if ((sub->type == UVC_EVENT_SETUP) && handle->connected) {
+> +		uvc_v4l2_disable(uvc);
+> +		handle->connected = false;
+> +	}
+> +
+> +	return 0;
+>  }
+>  
+>  static long
+> @@ -293,7 +333,6 @@ uvc_v4l2_open(struct file *file)
+>  	handle->device = &uvc->video;
+>  	file->private_data = &handle->vfh;
+>  
+> -	uvc_function_connect(uvc);
+>  	return 0;
+>  }
+>  
+> @@ -303,14 +342,11 @@ uvc_v4l2_release(struct file *file)
+>  	struct video_device *vdev = video_devdata(file);
+>  	struct uvc_device *uvc = video_get_drvdata(vdev);
+>  	struct uvc_file_handle *handle = to_uvc_file_handle(file->private_data);
+> -	struct uvc_video *video = handle->device;
+> -
+> -	uvc_function_disconnect(uvc);
+>  
+> -	mutex_lock(&video->mutex);
+> -	uvcg_video_enable(video, 0);
+> -	uvcg_free_buffers(&video->queue);
+> -	mutex_unlock(&video->mutex);
+> +	mutex_lock(&uvc->video.mutex);
+> +	if (handle->connected)
+> +		uvc_v4l2_disable(uvc);
+> +	mutex_unlock(&uvc->video.mutex);
+>  
+>  	file->private_data = NULL;
+>  	v4l2_fh_del(&handle->vfh);
+> 
 
-> 
-> Regards,
-> 
-> 	Hans
-> 
-
--- 
-regards,
-Stan
