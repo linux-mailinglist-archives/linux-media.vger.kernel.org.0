@@ -2,83 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id ECD622AD34E
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 11:17:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E24C42AD3C5
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 11:28:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726467AbgKJKRa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 05:17:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49490 "EHLO
+        id S1731423AbgKJK2L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 05:28:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51232 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726344AbgKJKR3 (ORCPT
+        with ESMTP id S1726944AbgKJK2L (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 05:17:29 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 673A3C0613CF
-        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 02:17:29 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 61F22C6398; Tue, 10 Nov 2020 10:17:27 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1605003447; bh=dLSf2iC5vmH/166R59kNeYN3030PMwIKUuK87+FRvIY=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XtubxTJNjouMCPqptQ6uJm1P463ZRBQdaV+MsrtBIOjkj+bPrjKvZk5Hb0u87H9Eq
-         lHAvw5Zq202sUZDyojG/nkDYZqEfYRStwOa8JqFeVI4DsWuGDyhqqdxyKnZZcME051
-         BqXe3nvCUv+ng4Y6yyr5GMtK5r5FYMfla3OCaWJAFvfC2yyAoeCCg7hmWAIeDNHy2Q
-         GIFwD6H3XscN8VeyGOdJO/6g9qgz2Kw3M0LfrjzEj7ClWD3oVDJw5Ea2sJExwQAQ+7
-         0+VXasYSEsHre68EH17T+d8m12l0Rqgnmpq/XfDSoOvAv4IOJ434qw6LFo5uZ0dVOK
-         G9OSCmH06+isg==
-Date:   Tue, 10 Nov 2020 10:17:27 +0000
-From:   Sean Young <sean@mess.org>
-To:     Michael Klein <michael@fossekall.de>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org
-Subject: Re: [PATCH RESEND v2 0/2] media: rc: gpio-ir-recv: add timeout
- property
-Message-ID: <20201110101727.GA26198@gofer.mess.org>
-References: <cover.1604589023.git.michael@fossekall.de>
+        Tue, 10 Nov 2020 05:28:11 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 755BCC0613D3
+        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 02:28:10 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id 33so12063257wrl.7
+        for <linux-media@vger.kernel.org>; Tue, 10 Nov 2020 02:28:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=pqIDM/rZ/Y9RAfg0dyKOEzplrtUBtkplsmTM06tMDJQ=;
+        b=BcAb/EpoDs9F+v8Ugn793tbnYiNlQmUpjuGyNpNKzX4yjbKBv/0r7MEILs5WCoPzhD
+         fNMs2XkoRS+mJ/NFjN4OBygs4qBsWWlb1VSmQAiCKO/AIajH1dTD3Lygh6OEZvM5MUga
+         oFF7nX3RpsXyXYrwW7YlAWso8AvoMlJlN0P1lpckrYoAbjrjbAuxzW3s4MvJt51WQatU
+         cexAGXQXxSUBTpyGm/8+TR5w1+5/E9s1T2EwBL0xRVW9SAcegjg6esqn/6m3r5YfhrX7
+         lFv+3/HjjjiGyeQilK12WlaseZIcOBf8Tn7qqIxzU+l/HtjVN/GNk4iEPTznIQg1YMJs
+         IaxA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=pqIDM/rZ/Y9RAfg0dyKOEzplrtUBtkplsmTM06tMDJQ=;
+        b=Zel4pgs/lSRdAenz9OiCBxY05RlGPs5eF/vn2Ic1FU1go6j7GZ81FFPWPoGjrrLiZK
+         O1z7Tqvu7ukdYhQ24EGa/Jsctx6jOCZjCSs+L6uTFuw+U9ruFQYcfC+6ospuDSaNTD1L
+         5eRqxpPbtdWj2shV56PDvzoKY8LHV8ytgPgIb78dr169N2+pZwQghgh40cg0t7WRSRny
+         AAlP+rbgdprv1ocW/H9DQSf9sjon81pJ6Ul6XdlSQbZwWRAThZVwvo8BjMwIk1g/xwo1
+         qYVrQ2qoGaxV1mrqlwEnxKxCVZPbIKOFCt8n7VSQEHqDHrgg+AdlFHwsYEap5F5oS9Qn
+         FaSA==
+X-Gm-Message-State: AOAM533WWPJjPxLHsWYG1ZrEA5DvEfXVYUqvDswTCOirjBfBZ/TVJ9Dn
+        lmlTW3WRmThsPZj0S3IOJFd5nA==
+X-Google-Smtp-Source: ABdhPJwxQlud3/H/xV2Dbfu6P6pYfPXGlRqele+HoGoUBj0HGH9j/JHGsKTEVZU7XxN2PY+0LDQPYQ==
+X-Received: by 2002:a5d:5342:: with SMTP id t2mr21947899wrv.243.1605004089054;
+        Tue, 10 Nov 2020 02:28:09 -0800 (PST)
+Received: from [192.168.0.4] (hst-208-208.medicom.bg. [84.238.208.208])
+        by smtp.googlemail.com with ESMTPSA id w11sm2639462wmg.36.2020.11.10.02.28.07
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 10 Nov 2020 02:28:08 -0800 (PST)
+Subject: Re: [PATCH 2/3] docs: media: Document CLL and Mastering display
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+References: <20201109173153.23720-1-stanimir.varbanov@linaro.org>
+ <20201109173153.23720-3-stanimir.varbanov@linaro.org>
+ <c907b185-a272-bef5-1aa0-313c7789b07d@xs4all.nl>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <58fda2db-4c2a-0fde-91ce-39af4fbccf99@linaro.org>
+Date:   Tue, 10 Nov 2020 12:28:07 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <cover.1604589023.git.michael@fossekall.de>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <c907b185-a272-bef5-1aa0-313c7789b07d@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 09, 2020 at 04:23:09PM +0100, Michael Klein wrote:
-> The default recorder timeout of 125ms is too high for some BPF protocol 
-> decoders when a remote sends repeat codes at high rates. This makes the 
-> timeout configurable via the devicetree.
 
-To be honest, 125ms is too much by any measurement. The longest space
-in any protocol I'm aware of is 40ms in the sharp ir protocol. I think
-changing IR_DEFAUL_TIMEOUT to something like 50ms would make sense.
 
-Also, when an BPF protocol is loaded, user-space can set the timeout
-with the LIRC_SET_REC_TIMEOUT ioctl which can depend on the protocol
-(set to longest space + 10ms error margin). This would mean that the
-bare minimum timeout can be set, which means decoding is as responsive
-as can be.
+On 11/10/20 11:50 AM, Hans Verkuil wrote:
+> On 09/11/2020 18:31, Stanimir Varbanov wrote:
+>> Document Content light level and Mastering display colour volume.
+>>
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> ---
+>>  .../media/v4l/ext-ctrls-codec.rst             | 61 +++++++++++++++++++
+>>  1 file changed, 61 insertions(+)
+>>
+>> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> index ce728c757eaf..39d0aab5ca3d 100644
+>> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+>> @@ -4382,3 +4382,64 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>>        - Selecting this value specifies that HEVC slices are expected
+>>          to be prefixed by Annex B start codes. According to :ref:`hevc`
+>>          valid start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001.
+>> +
+>> +``V4L2_CID_MPEG_VIDEO_HEVC_CLL_INFO (struct)``
+>> +    The Content Light Level defines upper bounds for the nominal target
+>> +    brightness light level of the pictures.
+>> +
+>> +.. c:type:: v4l2_ctrl_hevc_cll_info
+>> +
+>> +.. cssclass:: longtable
+>> +
+>> +.. flat-table:: struct v4l2_ctrl_hevc_cll_info
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       1 1 2
+>> +
+>> +    * - __u16
+>> +      - ``max_content_light_level``
+>> +      - An upper bound on the maximum light level among all individual
+>> +        samples for the pictures of coded video sequence, cd/m2.
+>> +    * - __u16
+>> +      - ``max_pic_average_light_level``
+>> +      - An upper bound on the maximum average light level among the
+>> +        samples for any idividual picture of coded video sequence, cd/m2.
+> 
+> idividual -> individual
+> 
+> In the CTA-861-G spec value 0 is used to indicate that this information is
+> not present. How is that handled here? Can it be 0 as well in an HEVC stream?
 
-I'm not sure that device tree is really the place for this.
+ITU-T Rec. H265 says: When equal to 0, no such upper bound is indicated
+by max_content_light_level.
 
-Thanks,
-
-Sean
-
+So, the meaning is the same as in CTA-861-G.
 
 > 
-> Changes in v2:
->   fix checkpatch.pl warnings
+> Same for the next control.
 > 
-> Michael Klein (2):
->   media: rc: gpio-ir-recv: add recorder timeout property
->   media: bindings: media: gpio-ir-receiver: add linux,timeout-us
->     property
+>> +
+>> +``V4L2_CID_MPEG_VIDEO_HEVC_MASTERING_DISPLAY (struct)``
+>> +    The mastering display defines the colour volume (the colour primaries,
+>> +    white point and luminance range) of a display considered to be the
+>> +    mastering display for current video content.
+>> +
+>> +.. c:type:: v4l2_ctrl_hevc_mastering_display
+>> +
+>> +.. cssclass:: longtable
+>> +
+>> +.. flat-table:: struct v4l2_ctrl_hevc_mastering_display
+>> +    :header-rows:  0
+>> +    :stub-columns: 0
+>> +    :widths:       1 1 2
+>> +
+>> +    * - __u16
+>> +      - ``display_primaries_x[3]``
+>> +      - Specifies the normalized x chromaticity coordinate of the colour
+>> +        primary component of the mastering display.
 > 
->  .../devicetree/bindings/media/gpio-ir-receiver.txt          | 3 +++
->  Documentation/devicetree/bindings/media/rc.yaml             | 6 ++++++
->  drivers/media/rc/gpio-ir-recv.c                             | 3 ++-
->  3 files changed, 11 insertions(+), 1 deletion(-)
+> CTA-861-G defines this as: "coded as unsigned 16-bit values in units
+> of 0.00002, where 0x0000 represents zero and 0xC350 represents 1.0000."
 > 
-> -- 
-> 2.28.0
+> Is that true here as well? If so, then this should be documented because
+> "normalized x chromaticity coordinate" doesn't say anything meaningful.
+
+Yes, it is the same. Will document that in next version.
+
+> 
+>> +    * - __u16
+>> +      - ``display_primaries_y[3]``
+>> +      - Specifies the normalized y chromaticity coordinate of the colour
+>> +        primary component of the mastering display.
+>> +    * - __u16
+>> +      - ``white_point_x``
+>> +      - Specifies the normalized x chromaticity coordinate of the white
+>> +        point of the mastering display.
+>> +    * - __u16
+>> +      - ``white_point_y``
+>> +      - Specifies the normalized y chromaticity coordinate of the white
+>> +        point of the mastering display.
+>> +    * - __u32
+>> +      - ``max_luminance``
+>> +      - Specifies the nominal maximum display luminance of the mastering
+>> +        display.
+> 
+> In CTA-861-G this is in 1 cd/m^2 units.
+
+In Rec. H265 max_luminance is in the range of 50 000 to 100 000 000 and
+units of 0.0001 cd/m2.
+
+> 
+>> +    * - __u32
+>> +      - ``min_luminance``
+>> +      - specifies the nominal minimum display luminance of the mastering
+>> +        display.
+> 
+> And this in units of 0.0001 cd/m^2.
+
+min_luminance - range of 1 to 50 000 and units of 0.0001 cd/m2.
+
+I will update all these in next patchset version.
+
+> 
+> Regards,
+> 
+> 	Hans
+> 
+
+-- 
+regards,
+Stan
