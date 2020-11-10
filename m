@@ -2,56 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 150C72AE281
-	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 23:07:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ECE02AE29A
+	for <lists+linux-media@lfdr.de>; Tue, 10 Nov 2020 23:10:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732061AbgKJWG7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 17:06:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47632 "EHLO
+        id S1731746AbgKJWJ6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 17:09:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48092 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732031AbgKJWG6 (ORCPT
+        with ESMTP id S1731558AbgKJWJ6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 17:06:58 -0500
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E06DC0613D1;
-        Tue, 10 Nov 2020 14:06:58 -0800 (PST)
-Received: by mail-wr1-x443.google.com with SMTP id j7so7132813wrp.3;
-        Tue, 10 Nov 2020 14:06:58 -0800 (PST)
+        Tue, 10 Nov 2020 17:09:58 -0500
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5DEE4C0613D1;
+        Tue, 10 Nov 2020 14:09:58 -0800 (PST)
+Received: by mail-wr1-x442.google.com with SMTP id c17so14386416wrc.11;
+        Tue, 10 Nov 2020 14:09:58 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=fOBPjcNpz91mCMYtlgOYiEJnJpHJJ7wowgArIUAKBpQ=;
-        b=pyUOxBordCoypUr4bkRWCoKGbKwBgSPl6xu5gaWatHcfXzWftuuua4v/W9oleoPJhQ
-         4MXaC16vrhJBLJ7T4IZzFCJ1IGPjPuMRNqs6xDLgteZX5CG1j+f1DEirGD0pXlMcsabd
-         vwq5iIii4TIM3rvxsptUlZAz5zNCBh5d86aUfJZqwKnwZlQoA9kglclN/XM0xKL+aqyi
-         Qbn4vqwjpSoD2Hp6dGoz4J0V5GQzuBlfon0gxyGUXV92KmuwrGgSM16n3dXCKS8AtVZP
-         Qw3uk8KGo2CW9YQvNwQDppHcr5MKdvJx06ReeSEF8hIQHar8+aRjAvE79UqoqV00jAZ9
-         EpdQ==
+        bh=YcAOS59prb8VFAixQsta0ytgU5jtgd3crgL2WI0lqHU=;
+        b=kUOTnCoLAeRSmj0UAOAE3+x2hPe/pDX+HPK7mpEEd9IDCAcZFkmJZOQhHgqvYPgXUc
+         IlSEjlANGEGWeeYj96Euc12mtNhmrKnraPANYRx+MCzRIXS1IvrH0EUUp3yLtwoRn6cl
+         UYrnyT43isSnVbWjXwWIwYvexHUJwlUlZwRp/oJvJHsdhQJ004txOeefHQZ7DL6DsJFF
+         oB2lORCdBLNERQX3xWfQhTbd3T/cKNsqEqhPfibVli/J44Bqy9teCuxyEfAvw/dUgCaq
+         GcEZMk13pOvzoKszmKYGacw+47l1rlLVD2lTqt/BjjfzeeM9obi97YZxxQI4FQjihPS0
+         C0DQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=fOBPjcNpz91mCMYtlgOYiEJnJpHJJ7wowgArIUAKBpQ=;
-        b=Uxmar6jq/y9k7mAgIvcPIafICzxeZhjR3CjVo1Sp1qr60x2/Rf6JQxcPis3y5WbJ/W
-         tsBtv/rBfqomxrvWq2/nfzzev4ckIDPwKB9nXgYUyh6vO7kJMjMY7iCFyxl80o+7u/bX
-         PfaKL5YAZ4O8YBe8gLnMRI/IO8hUtpsTFyEq8bplFbu6JmDve6j5OaBIBnL1pahfFeIC
-         /0kxxZrVPP2bJpaskvrAFkLVGSkdS/GLOGjUE92lTLtlXqTsfZbS5H8Lieh8ioyKA6T9
-         ZhviI7XhRalrGehIXgsQp6yZEVw00u7zFrvZnZS1akrDZRdiR+A5mlEG0XpHWbt4Ct2W
-         y50Q==
-X-Gm-Message-State: AOAM533GZTK2rrL+HjAv8lZ61XAgBIYigUrzbd3vygASRTRvgyV9jXGo
-        kXP67pA/Ackg5laHzYXJeejC6ZVQAnDcHbpt8iY=
-X-Google-Smtp-Source: ABdhPJwp3lXAPU50agZOEqw4doQ3R4tIdinA9SliisR1tkW2IKPNfSZxOF5yGat2GbhQxN0UAuZdd3elAtRyCEiVtJY=
-X-Received: by 2002:adf:f246:: with SMTP id b6mr25860054wrp.111.1605046017139;
- Tue, 10 Nov 2020 14:06:57 -0800 (PST)
+        bh=YcAOS59prb8VFAixQsta0ytgU5jtgd3crgL2WI0lqHU=;
+        b=TRGZdViqYvVKet0WFEvBm3t3rsn0uK6xFfwmuoT3dR/FDqzhsICD7YMjZsufEr/MqH
+         tgnbM4bAPBcbN4zIZEDD5+1fMNR12JyNbm6hHVYJP52O3UcyJz+Xtm750TOG/tVk0qXk
+         K50GAJYFbTttPIbuSATGPmiZEgxZqcV1QPlbEKg6L7ew2DveokbX92PV3gu6tcbuqrM3
+         p4oNa9f9WUEh+mRrFieY62Lb1W3gTlIEixa9JMeqTtgB5HUvmO25wdfvTz0ibfwEUNjA
+         W2jIjAQOGzlaxK9jw4h5DupilwbTqIxLjGfAK8iE6ekVZ3h2SXT7hRY79ldto+Ysy9jc
+         AE7g==
+X-Gm-Message-State: AOAM530GWtyHbavj8gxVCnv7OX0hd83eqPCicV1LPhKOoPBbhGSyVcz4
+        yzEAOZfhKB56Ocfo0l+JbsR6DQpKXg784cuqJ1Q=
+X-Google-Smtp-Source: ABdhPJzYq8S8HxJ8eUtKIYm1d5SwL0ef0M3FjeAuSs+qo8BL/c4huOEldmmpwCCzireXzEYfm4tAWkHJxsxcP323JV8=
+X-Received: by 2002:adf:e9c9:: with SMTP id l9mr27789872wrn.124.1605046197171;
+ Tue, 10 Nov 2020 14:09:57 -0800 (PST)
 MIME-Version: 1.0
-References: <20201109211855.3340030-1-lee.jones@linaro.org> <20201109211855.3340030-4-lee.jones@linaro.org>
-In-Reply-To: <20201109211855.3340030-4-lee.jones@linaro.org>
+References: <20201109211855.3340030-1-lee.jones@linaro.org> <20201109211855.3340030-8-lee.jones@linaro.org>
+In-Reply-To: <20201109211855.3340030-8-lee.jones@linaro.org>
 From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 10 Nov 2020 17:06:46 -0500
-Message-ID: <CADnq5_PC1=sxZP2wT-jfeBwObHCRBHOdW4ceEt-2=8PaA3aYzQ@mail.gmail.com>
-Subject: Re: [PATCH 03/20] drm/radeon/radeon_fence: Demote some non-conformant
- kernel-doc headers and fix another
+Date:   Tue, 10 Nov 2020 17:09:46 -0500
+Message-ID: <CADnq5_Py-VzeGQMzzGZAO=9OqeniBiXT8625YRcTjVe+bRSNSw@mail.gmail.com>
+Subject: Re: [PATCH 07/20] drm/radeon/radeon_display: Remove unused variable 'mod'
 To:     Lee Jones <lee.jones@linaro.org>
 Cc:     David Airlie <airlied@linux.ie>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -59,10 +58,10 @@ Cc:     David Airlie <airlied@linux.ie>,
         =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
         "moderated list:DMA BUFFER SHARING FRAMEWORK" 
         <linaro-mm-sig@lists.linaro.org>,
-        Jerome Glisse <glisse@freedesktop.org>,
         Maling list - DRI developers 
         <dri-devel@lists.freedesktop.org>,
         Alex Deucher <alexander.deucher@amd.com>,
+        report to <xorg-driver-ati@lists.x.org>,
         linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -74,79 +73,50 @@ On Mon, Nov 9, 2020 at 4:19 PM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/radeon/radeon_fence.c:168: warning: Function parameter o=
-r member 'wait' not described in 'radeon_fence_check_signaled'
->  drivers/gpu/drm/radeon/radeon_fence.c:168: warning: Function parameter o=
-r member 'mode' not described in 'radeon_fence_check_signaled'
->  drivers/gpu/drm/radeon/radeon_fence.c:168: warning: Function parameter o=
-r member 'flags' not described in 'radeon_fence_check_signaled'
->  drivers/gpu/drm/radeon/radeon_fence.c:168: warning: Function parameter o=
-r member 'key' not described in 'radeon_fence_check_signaled'
->  drivers/gpu/drm/radeon/radeon_fence.c:393: warning: Function parameter o=
-r member 'f' not described in 'radeon_fence_enable_signaling'
->  drivers/gpu/drm/radeon/radeon_fence.c:393: warning: Excess function para=
-meter 'fence' description in 'radeon_fence_enable_signaling'
->  drivers/gpu/drm/radeon/radeon_fence.c:1010: warning: Function parameter =
-or member 'm' not described in 'radeon_debugfs_gpu_reset'
->  drivers/gpu/drm/radeon/radeon_fence.c:1010: warning: Function parameter =
-or member 'data' not described in 'radeon_debugfs_gpu_reset'
+>  drivers/gpu/drm/radeon/radeon_display.c: In function =E2=80=98radeon_div=
+=E2=80=99:
+>  drivers/gpu/drm/radeon/radeon_display.c:1094:11: warning: variable =E2=
+=80=98mod=E2=80=99 set but not used [-Wunused-but-set-variable]
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Jerome Glisse <glisse@freedesktop.org>
+> Cc: report to <xorg-driver-ati@lists.x.org>
 > Cc: amd-gfx@lists.freedesktop.org
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: linux-media@vger.kernel.org
 > Cc: linaro-mm-sig@lists.linaro.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 
-Applied.  Thanks.
+Applied.  Thanks!
 
 Alex
 
 > ---
->  drivers/gpu/drm/radeon/radeon_fence.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
+>  drivers/gpu/drm/radeon/radeon_display.c | 4 +---
+>  1 file changed, 1 insertion(+), 3 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/radeon/radeon_fence.c b/drivers/gpu/drm/rade=
-on/radeon_fence.c
-> index 8735bf2bb8b5c..9ee6e599ef83b 100644
-> --- a/drivers/gpu/drm/radeon/radeon_fence.c
-> +++ b/drivers/gpu/drm/radeon/radeon_fence.c
-> @@ -157,7 +157,7 @@ int radeon_fence_emit(struct radeon_device *rdev,
->         return 0;
+> diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/ra=
+deon/radeon_display.c
+> index bd60f16fd0d78..78fceedfd9255 100644
+> --- a/drivers/gpu/drm/radeon/radeon_display.c
+> +++ b/drivers/gpu/drm/radeon/radeon_display.c
+> @@ -1091,11 +1091,9 @@ void radeon_compute_pll_avivo(struct radeon_pll *p=
+ll,
+>  /* pre-avivo */
+>  static inline uint32_t radeon_div(uint64_t n, uint32_t d)
+>  {
+> -       uint64_t mod;
+> -
+>         n +=3D d / 2;
+>
+> -       mod =3D do_div(n, d);
+> +       do_div(n, d);
+>         return n;
 >  }
 >
-> -/**
-> +/*
->   * radeon_fence_check_signaled - callback from fence_queue
->   *
->   * this function is called with fence_queue lock held, which is also use=
-d
-> @@ -383,7 +383,7 @@ static bool radeon_fence_is_signaled(struct dma_fence=
- *f)
->
->  /**
->   * radeon_fence_enable_signaling - enable signalling on fence
-> - * @fence: fence
-> + * @f: fence
->   *
->   * This function is called with fence_queue lock held, and adds a callba=
-ck
->   * to fence_queue that checks if this fence is signaled, and if so it
-> @@ -1001,7 +1001,7 @@ static int radeon_debugfs_fence_info(struct seq_fil=
-e *m, void *data)
->         return 0;
->  }
->
-> -/**
-> +/*
->   * radeon_debugfs_gpu_reset - manually trigger a gpu reset
->   *
->   * Manually trigger a gpu reset at the next fence wait.
 > --
 > 2.25.1
 >
