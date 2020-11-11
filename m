@@ -2,178 +2,275 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DF8682AE78C
-	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 05:41:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8A9692AE931
+	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 07:43:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725975AbgKKElS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 23:41:18 -0500
-Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:45029 "EHLO
-        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725972AbgKKElR (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 23:41:17 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id chwXk8Rgk1R0xchwYkbS55; Wed, 11 Nov 2020 05:41:14 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1605069674; bh=AN7JyQ0a4+lLQZW1ZxF31fbSiiVQR6W1/LeFuNJ8EjQ=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=k+mgz4uv2Sju6Kl+0gdviUJQKNQwzrPWzh/QuMQfWQ55KjMxxrDMY+vUmIJ725A/E
-         G5y0T8zpnnCiZzC6a7+8MSlzL1X9/ncIfEbNjkUrLrnN2m0sP7oTNMgOYTg+Tdf7yl
-         pg0zgRACcjfugQquqJMq4wanW6Ld+2SyC2DiJlscdbiVrYiif7gTee1rxOtizPc7me
-         sJQvvFgmigDUWraamXadMoT5YcMckO1TX9xxYEOwz6xSjTjsUDx1HvxCHXvFvJATOP
-         tna7D+pVfilJ9iXFNkgTrK0fzyyMahHyUy9HByt1BrsDBMbheidOwIV+WfH2NNI1kH
-         zK2UhKciPSyfQ==
-Message-ID: <327e6a3108074dbca879360e7fc017ab@smtp-cloud9.xs4all.net>
-Date:   Wed, 11 Nov 2020 05:41:13 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfARiucd8489OWtXg/Vhamqkx3custUiLL4Y7q8Pfmfwa/ROqNRMhFNhnkgFSiIBEv/XS8sy6FKOPo9xP7Jqsq4xOFTPy+Ev9+6nTStMyhQQ49m8JWZKv
- wOqEgJEPLPgWlJRGxciSwLRyYQmJ4GFfelPzri1oR5yAJOOGA/eCMuhBD217/OWQJUEzKOcaM7MPrAOd0Tp9blEYRydc7a4UScYhN8H/d+8cb7p5JTKLbCT6
- 33yC5yNRsi5XpLE+WBMAIg==
+        id S1725925AbgKKGnG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Nov 2020 01:43:06 -0500
+Received: from mga18.intel.com ([134.134.136.126]:14272 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725900AbgKKGnG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Nov 2020 01:43:06 -0500
+IronPort-SDR: Qi7aSLH/x7ar3CqKqQSP4PpTVdlL/iuALgf4BTHndQnQmMGQh6PjZgPFU2bQlgTRDpQqxtP78Z
+ Oz1jbZaXsvLw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="157883637"
+X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; 
+   d="scan'208";a="157883637"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Nov 2020 22:42:56 -0800
+IronPort-SDR: hW8hIFhWVmE/wiouHHPUuaOTZgfE4qy/xUCPfZhmbAKWJhiJKnNdOJvlTu223ead8lO4BS91QN
+ AZpn73Xp0nTQ==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.77,468,1596524400"; 
+   d="scan'208";a="541656731"
+Received: from ipu5-build.bj.intel.com ([10.238.232.196])
+  by orsmga005.jf.intel.com with ESMTP; 10 Nov 2020 22:42:53 -0800
+From:   Bingbu Cao <bingbu.cao@intel.com>
+To:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com
+Cc:     tfiga@chromium.org, senozhatsky@chromium.org, bingbu.cao@intel.com,
+        bingbu.cao@linux.intel.com, qingwu.zhang@intel.com
+Subject: [PATCH v3 1/2] media: ov2740: only do OTP data read on demand from user
+Date:   Wed, 11 Nov 2020 14:39:56 +0800
+Message-Id: <1605076797-31058-1-git-send-email-bingbu.cao@intel.com>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+OTP data access of ov2740 in probe need power up, it may cause
+the camera flash LED blink during probe if the LED use same power
+rail with camera, this patch move the OTP data access out of
+probe, it will only occur on demand from user by nvmem sysfs.
 
-Results of the daily build of media_tree:
+Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
+Signed-off-by: Qingwu Zhang <qingwu.zhang@intel.com>
+---
+ drivers/media/i2c/ov2740.c | 111 ++++++++++++++++++++++++++++++++-------------
+ 1 file changed, 79 insertions(+), 32 deletions(-)
 
-date:			Wed Nov 11 05:00:15 CET 2020
-media-tree git hash:	0ab4f9087ea94ff92dc2ae68180faaf6bd443021
-media_build git hash:	bca336c7d6379c723eb388bb9e606db6785a953b
-v4l-utils git hash:	57451f856524bf2b02ffe8e43ba2709a72cdd4f5
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
+index 64ecb6917dd3..41c17df46f47 100644
+--- a/drivers/media/i2c/ov2740.c
++++ b/drivers/media/i2c/ov2740.c
+@@ -71,9 +71,10 @@
+ #define OV2740_REG_OTP_CUSTOMER		0x7010
+ 
+ struct nvm_data {
+-	char *nvm_buffer;
++	struct i2c_client *client;
+ 	struct nvmem_device *nvmem;
+ 	struct regmap *regmap;
++	char *nvm_buffer;
+ };
+ 
+ enum {
+@@ -335,6 +336,9 @@ struct ov2740 {
+ 
+ 	/* Streaming on/off */
+ 	bool streaming;
++
++	/* NVM data inforamtion */
++	struct nvm_data *nvm;
+ };
+ 
+ static inline struct ov2740 *to_ov2740(struct v4l2_subdev *subdev)
+@@ -930,45 +934,57 @@ static int ov2740_remove(struct i2c_client *client)
+ 	return 0;
+ }
+ 
+-static int ov2740_load_otp_data(struct i2c_client *client, struct nvm_data *nvm)
++static int ov2740_load_otp_data(struct nvm_data *nvm)
+ {
++	struct i2c_client *client = nvm->client;
+ 	struct ov2740 *ov2740 = to_ov2740(i2c_get_clientdata(client));
+ 	u32 isp_ctrl00 = 0;
+ 	u32 isp_ctrl01 = 0;
+ 	int ret;
+ 
++	if (!nvm)
++		return -EINVAL;
++
++	if (nvm->nvm_buffer)
++		return 0;
++
++	nvm->nvm_buffer = kzalloc(CUSTOMER_USE_OTP_SIZE, GFP_KERNEL);
++	if (!nvm->nvm_buffer)
++		return -ENOMEM;
++
+ 	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, &isp_ctrl00);
+ 	if (ret) {
+ 		dev_err(&client->dev, "failed to read ISP CTRL00\n");
+-		goto exit;
++		goto err;
+ 	}
++
+ 	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, &isp_ctrl01);
+ 	if (ret) {
+ 		dev_err(&client->dev, "failed to read ISP CTRL01\n");
+-		goto exit;
++		goto err;
+ 	}
+ 
+ 	/* Clear bit 5 of ISP CTRL00 */
+ 	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1,
+ 			       isp_ctrl00 & ~BIT(5));
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to write ISP CTRL00\n");
+-		goto exit;
++		dev_err(&client->dev, "failed to set ISP CTRL00\n");
++		goto err;
+ 	}
+ 
+ 	/* Clear bit 7 of ISP CTRL01 */
+ 	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1,
+ 			       isp_ctrl01 & ~BIT(7));
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to write ISP CTRL01\n");
+-		goto exit;
++		dev_err(&client->dev, "failed to set ISP CTRL01\n");
++		goto err;
+ 	}
+ 
+ 	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
+ 			       OV2740_MODE_STREAMING);
+ 	if (ret) {
+-		dev_err(&client->dev, "failed to start streaming\n");
+-		goto exit;
++		dev_err(&client->dev, "failed to set streaming mode\n");
++		goto err;
+ 	}
+ 
+ 	/*
+@@ -981,15 +997,33 @@ static int ov2740_load_otp_data(struct i2c_client *client, struct nvm_data *nvm)
+ 			       nvm->nvm_buffer, CUSTOMER_USE_OTP_SIZE);
+ 	if (ret) {
+ 		dev_err(&client->dev, "failed to read OTP data, ret %d\n", ret);
+-		goto exit;
++		goto err;
+ 	}
+ 
+-	ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
+-			 OV2740_MODE_STANDBY);
+-	ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, isp_ctrl01);
+-	ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, isp_ctrl00);
++	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
++			       OV2740_MODE_STANDBY);
++	if (ret) {
++		dev_err(&client->dev, "failed to set streaming mode\n");
++		goto err;
++	}
++
++	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, isp_ctrl01);
++	if (ret) {
++		dev_err(&client->dev, "failed to set ISP CTRL01\n");
++		goto err;
++	}
++
++	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, isp_ctrl00);
++	if (ret) {
++		dev_err(&client->dev, "failed to set ISP CTRL00\n");
++		goto err;
++	}
++
++	return 0;
++err:
++	kfree(nvm->nvm_buffer);
++	nvm->nvm_buffer = NULL;
+ 
+-exit:
+ 	return ret;
+ }
+ 
+@@ -997,29 +1031,43 @@ static int ov2740_nvmem_read(void *priv, unsigned int off, void *val,
+ 			     size_t count)
+ {
+ 	struct nvm_data *nvm = priv;
++	struct v4l2_subdev *sd = i2c_get_clientdata(nvm->client);
++	struct device *dev = &nvm->client->dev;
++	struct ov2740 *ov2740 = to_ov2740(sd);
++	int ret = 0;
++
++	mutex_lock(&ov2740->mutex);
+ 
+-	memcpy(val, nvm->nvm_buffer + off, count);
++	ret = pm_runtime_get_sync(dev);
++	if (ret < 0) {
++		pm_runtime_put_noidle(dev);
++		goto exit;
++	}
+ 
+-	return 0;
++	ret = ov2740_load_otp_data(nvm);
++	if (!ret)
++		memcpy(val, nvm->nvm_buffer + off, count);
++
++	pm_runtime_put(dev);
++exit:
++	mutex_unlock(&ov2740->mutex);
++	return ret;
+ }
+ 
+-static int ov2740_register_nvmem(struct i2c_client *client)
++static int ov2740_register_nvmem(struct i2c_client *client,
++				 struct ov2740 *ov2740)
+ {
+ 	struct nvm_data *nvm;
+ 	struct regmap_config regmap_config = { };
+ 	struct nvmem_config nvmem_config = { };
+ 	struct regmap *regmap;
+ 	struct device *dev = &client->dev;
+-	int ret = 0;
++	int ret;
+ 
+ 	nvm = devm_kzalloc(dev, sizeof(*nvm), GFP_KERNEL);
+ 	if (!nvm)
+ 		return -ENOMEM;
+ 
+-	nvm->nvm_buffer = devm_kzalloc(dev, CUSTOMER_USE_OTP_SIZE, GFP_KERNEL);
+-	if (!nvm->nvm_buffer)
+-		return -ENOMEM;
+-
+ 	regmap_config.val_bits = 8;
+ 	regmap_config.reg_bits = 16;
+ 	regmap_config.disable_locking = true;
+@@ -1028,12 +1076,7 @@ static int ov2740_register_nvmem(struct i2c_client *client)
+ 		return PTR_ERR(regmap);
+ 
+ 	nvm->regmap = regmap;
+-
+-	ret = ov2740_load_otp_data(client, nvm);
+-	if (ret) {
+-		dev_err(dev, "failed to load OTP data, ret %d\n", ret);
+-		return ret;
+-	}
++	nvm->client = client;
+ 
+ 	nvmem_config.name = dev_name(dev);
+ 	nvmem_config.dev = dev;
+@@ -1051,7 +1094,11 @@ static int ov2740_register_nvmem(struct i2c_client *client)
+ 
+ 	nvm->nvmem = devm_nvmem_register(dev, &nvmem_config);
+ 
+-	return PTR_ERR_OR_ZERO(nvm->nvmem);
++	ret = PTR_ERR_OR_ZERO(nvm->nvmem);
++	if (!ret)
++		ov2740->nvm = nvm;
++
++	return ret;
+ }
+ 
+ static int ov2740_probe(struct i2c_client *client)
+@@ -1103,7 +1150,7 @@ static int ov2740_probe(struct i2c_client *client)
+ 		goto probe_error_media_entity_cleanup;
+ 	}
+ 
+-	ret = ov2740_register_nvmem(client);
++	ret = ov2740_register_nvmem(client, ov2740);
+ 	if (ret)
+ 		dev_warn(&client->dev, "register nvmem failed, ret %d\n", ret);
+ 
+-- 
+2.7.4
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: OK
-smatch: ERRORS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
