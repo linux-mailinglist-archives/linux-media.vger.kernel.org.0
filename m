@@ -2,120 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD60C2AE484
-	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 00:58:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C0872AE4B3
+	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 01:10:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732052AbgKJX6J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 18:58:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36798 "EHLO
+        id S1732023AbgKKAJ4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 19:09:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38606 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727275AbgKJX6J (ORCPT
+        with ESMTP id S1726706AbgKKAJz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 18:58:09 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EB4D7C0613D1;
-        Tue, 10 Nov 2020 15:58:07 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id 19so208275wmf.1;
-        Tue, 10 Nov 2020 15:58:07 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=sVHw44prgkhLl+wZoJDl9y1Sv84cjPWTxQBG3axW3YI=;
-        b=Fgj/gQYKkyen7e5H6J7aIP6pfShNXewwImkCyWp5IXS9p6js8HtD5W/sdec1EctQ00
-         5WN5HYbtFQqBafMliHQcbEaJ5G66ajncFFRYTrverGRb9lI763sgcJatSONy2h0alv/o
-         DYAZ6dqOdCUYl7iyaxpVFHrV2EVAm6hc4QAplBckBzTV5ZFHYO7maZeikWJCNlB9Y/EY
-         6BgucQPZOdHYc7N29acSZMaYUbOR6qMNBNTv7ZJskbiB8AmOmQUDcvORYf4PKv2b4Kmm
-         PTDx56GqMRaiwmZnPs5P7/bNw7fKYjDdNq+D1QAXUTIAJkKU+Dhyn5BxtsamN+cgl1jH
-         QeDg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=sVHw44prgkhLl+wZoJDl9y1Sv84cjPWTxQBG3axW3YI=;
-        b=kbVqWHdODY+X7DxW1yDZrAR63Vm8mLnkKbFP2IYD5BXo02soSU1z0YCYMX7JhA6s59
-         g9QNXs8KX+BOW6kOFqUoqaGWLpQl2UECpjD0EdAqiQq4/4icDHsAWWq0es7zG2/dcGG6
-         jbSbqgVF6T3uX0Mm1iYVSvqjnF6fco8HNfrFEJ/pMxEJR6HPbSXrS7ur/8Fpcz9bBqWB
-         fOGU60DIDAuT6fCflRV57Wn4WD4QWJKxDP7INTrAEKurbYj1zy13z8AGJLu0iols4DC1
-         ZCHHNBfoBhQrxYcGG0GdpD1IIL+InQmWr0nxWkYBG2DKy+qHWcpqfHpdsMf3f81cSUkf
-         6Mlw==
-X-Gm-Message-State: AOAM531IC3S89Wj6PDu3s8Gfa37uk48Qsq+kn/6wR8IeDWzgK9xJ8ELt
-        JscFBb+OkDJMk2yOwNxoBZb6k56h5qMUC3K2Cpk=
-X-Google-Smtp-Source: ABdhPJwGVm8zxKOpbuvLzIOHTQhYo2DrNr+mXrvd1xPnYkBEHOZz9oYFfEfo+lAFTQEnLFs0aW5uGXu88lIbYUyf+QQ=
-X-Received: by 2002:a7b:c157:: with SMTP id z23mr639254wmi.70.1605052686774;
- Tue, 10 Nov 2020 15:58:06 -0800 (PST)
+        Tue, 10 Nov 2020 19:09:55 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 13929C0613D1;
+        Tue, 10 Nov 2020 16:09:55 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: aratiu)
+        with ESMTPSA id 8B8EE1F455B5
+From:   Adrian Ratiu <adrian.ratiu@collabora.com>
+To:     Ezequiel Garcia <ezequiel@collabora.com>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jonas Karlman <jonas@kwiboo.se>,
+        "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel@collabora.com
+Subject: Re: [PATCH v5 0/3] media: rkvdec: Add a VP9 backend
+In-Reply-To: <ee12e70c92bacf1080ceae82feafa736c0719a2e.camel@collabora.com>
+References: <20201102190551.1223389-1-adrian.ratiu@collabora.com>
+ <CAAEAJfA1N1k9Vho4weZ9VnM_v6K4RXdmERyrWcWPCj64NMzDoQ@mail.gmail.com>
+ <87y2j8hmoc.fsf@collabora.com>
+ <ee12e70c92bacf1080ceae82feafa736c0719a2e.camel@collabora.com>
+Date:   Wed, 11 Nov 2020 02:11:30 +0200
+Message-ID: <87pn4khhvx.fsf@collabora.com>
 MIME-Version: 1.0
-References: <20201110193112.988999-1-lee.jones@linaro.org> <20201110193112.988999-15-lee.jones@linaro.org>
-In-Reply-To: <20201110193112.988999-15-lee.jones@linaro.org>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 10 Nov 2020 18:57:55 -0500
-Message-ID: <CADnq5_M28RPCQR27JXOiugvPPfHh2CnCedVFmBfkMb3kZ8RzzA@mail.gmail.com>
-Subject: Re: [PATCH 14/30] drm/radeon/evergreen_dma: Fix doc-rot of function
- parameter 'resv'
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     David Airlie <airlied@linux.ie>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; format=flowed
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 10, 2020 at 2:31 PM Lee Jones <lee.jones@linaro.org> wrote:
->
-> Fixes the following W=3D1 kernel build warning(s):
->
->  drivers/gpu/drm/radeon/evergreen_dma.c:112: warning: Function parameter =
-or member 'resv' not described in 'evergreen_copy_dma'
->  drivers/gpu/drm/radeon/evergreen_dma.c:112: warning: Excess function par=
-ameter 'fence' description in 'evergreen_copy_dma'
->
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+On Tue, 10 Nov 2020, Ezequiel Garcia <ezequiel@collabora.com> 
+wrote:
+> On Wed, 2020-11-11 at 00:28 +0200, Adrian Ratiu wrote: 
+>> Hi Ezequiel, 
+>>   
+>> On Tue, 10 Nov 2020, Ezequiel Garcia 
+>> <ezequiel@vanguardiasur.com.ar> wrote: 
+>> > On Mon, 2 Nov 2020 at 16:04, Adrian Ratiu 
+>> > <adrian.ratiu@collabora.com> wrote:  
+>> > > Dear all,   This is v5 of the series adding VP9 profile 0 
+>> > > decoding to  rkvdec.    All feedback from v4 should be 
+>> > > addressed, there's just one  thing I did not address: 
+>> > > ref_frame_sign_biases in the uAPI. The  userspace tool I'm  
+>> >  I believe that Hantro G2 VP9 needs ref_frame_sign_biases. 
+>> > I think that it's also needed for the MTK decoder.  Might be 
+>> > worth checking that as well, if the code is publicly 
+>> > available  somewhere. 
+>>  I consulted the imx8m app ref manual for the Hantro G2 core 
+>> and  indeed there's not one, but three fields at SWREG11 and 13 
+>> (last,  gold, alt) to signify sign biases for ref 
+>> frames. Thanks for the  hint! 
+>>   
+>> > Coming to think about it, I think we are really close to 
+>> > having  this uAPI directly upstream.    Let's take a step 
+>> > back on why we have these uAPIs in the staging  area. Couple 
+>> > years ago, there were some doubts in the media  community 
+>> > about these uAPIs, and we wanted to wait a bit for  more 
+>> > users before moving to public land.    The uAPIs were meant 
+>> > to be in staging until enough users  appeared and we were 
+>> > confident enough to move to stable.    For VP9, given the 
+>> > feedback received through the year was  already addressed, I 
+>> > think all that's left is to check the  interface and make 
+>> > sure it can support Rockchip (RK3399, RK3326,  etc), Hantro 
+>> > G2 and Mediatek,   We will be very close to having a public 
+>> > API, and we could even  merge it directly there. 
+>>  Thank you very much for this background. I understand that the 
+>> uAPI is independent from the driver implementations, so having 
+>> a  good stable uAPI is beneficial when (for example) adding 
+>> support  for VP9 on G2 in  hantro or for upstream adoption of 
+>> these  drivers.   Given this rkvdec driver implementation is 
+>> also adding the VP9  uAPI and it's very close to stability 
+>> (maybe only missing ref  frame sign bias, but who knows?) would 
+>> you like to block its  submission until the uAPI is finalized 
+>> or would it make sense to  treat the uAPI de-staging process 
+>> separately because the uAPI is  independent from the driver?   
+> 
+> I don't mean to block it, quite the opposite, to make sure we 
+> take this opportunity to go through Rockchip, Hantro and 
+> Mediatek, double-check the uAPI is covering all the VP9 syntax, 
+> and then target for public API.
 
-Applied.  Thanks!
+That makes sense. I'm just cautious to not directly botch the 
+public API, but that's what reviews are for, right? :) Thanks 
+again for helping with background & direction.
 
-Alex
-
-> ---
->  drivers/gpu/drm/radeon/evergreen_dma.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/radeon/evergreen_dma.c b/drivers/gpu/drm/rad=
-eon/evergreen_dma.c
-> index a46ee6c2099dd..767857d4a8c5c 100644
-> --- a/drivers/gpu/drm/radeon/evergreen_dma.c
-> +++ b/drivers/gpu/drm/radeon/evergreen_dma.c
-> @@ -98,7 +98,7 @@ void evergreen_dma_ring_ib_execute(struct radeon_device=
- *rdev,
->   * @src_offset: src GPU address
->   * @dst_offset: dst GPU address
->   * @num_gpu_pages: number of GPU pages to xfer
-> - * @fence: radeon fence object
-> + * @resv: reservation object with embedded fence
->   *
->   * Copy GPU paging using the DMA engine (evergreen-cayman).
->   * Used by the radeon ttm implementation to move pages if
-> --
-> 2.25.1
+> Cheers,
+> Ezequiel
 >
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+>> Thanks,
+>> Adrian
+>> 
+>> > Thanks,
+>> > Ezequiel
+>> > 
+>> > > using [1] apparently doesn't need it or the default hwreg value for it
+>> > > is capable of decoding the bitstreams I used on the driver, so I don't
+>> > > really have a use-case to change and test that. :)
+>> > > 
+>> > > Considering the uAPI is a work in progress and expected to be modified,
+>> > > ref_frame_sign_biases can be added later with others which might be
+>> > > required to enable more functionality (for eg profiles >= 1).
+>> > > 
+>> > > Series tested on rk3399 and applies on next-20201030.
+>> > > 
+>> > > [1] https://github.com/Kwiboo/FFmpeg/tree/v4l2-request-hwaccel-4.2.2-rkvdec
+>> > > 
+>> > > Changelog
+>> > > ---------
+>> > > 
+>> > > v5:
+>> > > 
+>> > > * Drop unnecessary OUTPUT buffer payload set in .buf_prepare.
+>> > > * Drop obsolete .per_request ctrl flag
+>> > > * Added new vp9 ctrls to v4l2_ctrl_ptr
+>> > > * Fix pahole detected padding issues
+>> > > * Send userspace an error if it tries to reconfigure decode resolution
+>> > >   as v4l2 or rkvdec-vp9 backend do not support dynamic res changes yet
+>> > > * Allow frame ctx probability tables to be non-mandatory so users can
+>> > >   set them directly during frame decoding in cases where no defaults
+>> > >   have been set previously (eg. ffmpeg vp9 backend)
+>> > > * Some comments and documentation clarifications
+>> > > * Minor checkpatch fixes
+>> > > 
+>> > > v4:
+>> > > 
+>> > > * Drop color_space field from the VP9 interface.
+>> > >   V4L2 API should be used for it.
+>> > > * Clarified Segment-ID comments.
+>> > > * Moved motion vector probabilities to a separate
+>> > >   struct.
+>> > > 
+>> > > v3:
+>> > > 
+>> > > * Fix documentation issues found by Hans.
+>> > > * Fix smatch detected issues as pointed out by Hans.
+>> > > * Added patch to fix wrong bytesused set on .buf_prepare.
+>> > > 
+>> > > v2:
+>> > > 
+>> > > * Documentation style issues pointed out by Nicolas internally.
+>> > > * s/VP9_PROFILE_MAX/V4L2_VP9_PROFILE_MAX/
+>> > > * Fix wrong kfree(ctx).
+>> > > * constify a couple structs on rkvdec-vp9.c
+>> > > 
+>> > > 
+>> > > Boris Brezillon (2):
+>> > >   media: uapi: Add VP9 stateless decoder controls
+>> > >   media: rkvdec: Add the VP9 backend
+>> > > 
+>> > > Ezequiel Garcia (1):
+>> > >   media: rkvdec: Fix .buf_prepare
+>> > > 
+>> > >  .../userspace-api/media/v4l/biblio.rst        |   10 +
+>> > >  .../media/v4l/ext-ctrls-codec.rst             |  550 ++++++
+>> > >  drivers/media/v4l2-core/v4l2-ctrls.c          |  239 +++
+>> > >  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+>> > >  drivers/staging/media/rkvdec/Makefile         |    2 +-
+>> > >  drivers/staging/media/rkvdec/rkvdec-vp9.c     | 1577 +++++++++++++++++
+>> > >  drivers/staging/media/rkvdec/rkvdec.c         |   72 +-
+>> > >  drivers/staging/media/rkvdec/rkvdec.h         |    6 +
+>> > >  include/media/v4l2-ctrls.h                    |    5 +
+>> > >  include/media/vp9-ctrls.h                     |  486 +++++
+>> > >  10 files changed, 2942 insertions(+), 6 deletions(-)
+>> > >  create mode 100644 drivers/staging/media/rkvdec/rkvdec-vp9.c
+>> > >  create mode 100644 include/media/vp9-ctrls.h
+>> > > 
+>> > > --
+>> > > 2.29.0
+>> > > 
