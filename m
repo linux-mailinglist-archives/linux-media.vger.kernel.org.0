@@ -2,295 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A033F2AEED3
-	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 11:36:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 393602AEF0E
+	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 11:59:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725860AbgKKKgd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Nov 2020 05:36:33 -0500
-Received: from mga12.intel.com ([192.55.52.136]:12629 "EHLO mga12.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725922AbgKKKgc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Nov 2020 05:36:32 -0500
-IronPort-SDR: nxRv2d4VEnkCCfhJjExbHdMGkWFV8xmLaDlSSqOB3eD3y9wzAmrfTCYKzWmWRToeIElED2SXsF
- Q8pn58cdb4pw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="149401486"
-X-IronPort-AV: E=Sophos;i="5.77,469,1596524400"; 
-   d="scan'208";a="149401486"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2020 02:36:28 -0800
-IronPort-SDR: l07CjZ3a0NgnIhiF16rgWpZMu6+2IFswtNEozzdMtFQ4U4frP9cFGY6+O3wkcj99vEk+BbanvU
- OQlI8gDaF7KQ==
-X-IronPort-AV: E=Sophos;i="5.77,469,1596524400"; 
-   d="scan'208";a="366200283"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2020 02:36:26 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 0D65E20815; Wed, 11 Nov 2020 12:36:24 +0200 (EET)
-Date:   Wed, 11 Nov 2020 12:36:24 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Bingbu Cao <bingbu.cao@intel.com>
-Cc:     linux-media@vger.kernel.org, tfiga@chromium.org,
-        senozhatsky@chromium.org, bingbu.cao@linux.intel.com,
-        qingwu.zhang@intel.com
-Subject: Re: [PATCH v3 1/2] media: ov2740: only do OTP data read on demand
- from user
-Message-ID: <20201111103623.GY26150@paasikivi.fi.intel.com>
-References: <1605076797-31058-1-git-send-email-bingbu.cao@intel.com>
+        id S1725925AbgKKK7P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Nov 2020 05:59:15 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:51091 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725830AbgKKK7O (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Nov 2020 05:59:14 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id cnprkmetpRiwVcnpyka7oT; Wed, 11 Nov 2020 11:59:09 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1605092351; bh=y4PUPqKzdjq6/CnDP/ufpTlrdhMvKRzy8bwEmyJnUD0=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=c06ArxHaYBD28Iyup3gHiS8vTd37EsgCWCtcEdyM8M+rS8p+xAcDQf6HAKzcdclGI
+         QknoE2CpElK/QVDBP99q9hyutOogg+O9i5HH0Y0RgWS/JiCsR31MTJxiXw1DYGew7M
+         A6MOZtfLZxPOW+RHTuz/BUJx+uAqPM2Ea+J17oWGCMW/j1kLQm3bvQPUhernNoVBjs
+         f/fQqoMa4zknQIS0NHMNOm+mMjUDba420V0y0oTossmXzrFKRmMhRA4GRoaxyEeHOL
+         7GPF91tE2Wk3MDJ85uGz6ZsKeXJyEYSfT3hAiXSOdNQ1HoVIntvU9ALuhHMRZFuaGg
+         6RIuZeaqx9xGw==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.11] rockchip: rkisp1: destage Rockchip ISP1 driver
+Message-ID: <8ff17e72-34b8-58f8-9b3e-47453a79e6e5@xs4all.nl>
+Date:   Wed, 11 Nov 2020 11:58:43 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1605076797-31058-1-git-send-email-bingbu.cao@intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfIhzr+8g4d2UQvP8f/vJX/OQPF/zDX5BjFB1djAiXWmTt9/bcm3pTz9WJsfDij4Z2p5ULRZV//1XKXnzcYmZszS1k4nKq+OrDXCVkQMe431LhvSPp+hu
+ IfDW+VDAb/lQ7hZuWE8bq6TdlQEBcwZ5nQbN/R1yb3MHGLTVFpq2oeC8Fovghiomfqy4Bfx79hIkpuXKR/6biUmcF3rOVz/CW4vCr/gUBpUA1wHVLNXrmdFk
+ qpEm3i+oN/gF/HqT19u3W7AaPUuzF7t3ajIqdELTABc=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Bingbu,
+The following changes since commit 0ab4f9087ea94ff92dc2ae68180faaf6bd443021:
 
-On Wed, Nov 11, 2020 at 02:39:56PM +0800, Bingbu Cao wrote:
-> OTP data access of ov2740 in probe need power up, it may cause
-> the camera flash LED blink during probe if the LED use same power
-> rail with camera, this patch move the OTP data access out of
-> probe, it will only occur on demand from user by nvmem sysfs.
-> 
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> Signed-off-by: Qingwu Zhang <qingwu.zhang@intel.com>
-> ---
->  drivers/media/i2c/ov2740.c | 111 ++++++++++++++++++++++++++++++++-------------
->  1 file changed, 79 insertions(+), 32 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> index 64ecb6917dd3..41c17df46f47 100644
-> --- a/drivers/media/i2c/ov2740.c
-> +++ b/drivers/media/i2c/ov2740.c
-> @@ -71,9 +71,10 @@
->  #define OV2740_REG_OTP_CUSTOMER		0x7010
->  
->  struct nvm_data {
-> -	char *nvm_buffer;
-> +	struct i2c_client *client;
->  	struct nvmem_device *nvmem;
->  	struct regmap *regmap;
-> +	char *nvm_buffer;
->  };
->  
->  enum {
-> @@ -335,6 +336,9 @@ struct ov2740 {
->  
->  	/* Streaming on/off */
->  	bool streaming;
-> +
-> +	/* NVM data inforamtion */
-> +	struct nvm_data *nvm;
->  };
->  
->  static inline struct ov2740 *to_ov2740(struct v4l2_subdev *subdev)
-> @@ -930,45 +934,57 @@ static int ov2740_remove(struct i2c_client *client)
->  	return 0;
->  }
->  
-> -static int ov2740_load_otp_data(struct i2c_client *client, struct nvm_data *nvm)
-> +static int ov2740_load_otp_data(struct nvm_data *nvm)
->  {
-> +	struct i2c_client *client = nvm->client;
->  	struct ov2740 *ov2740 = to_ov2740(i2c_get_clientdata(client));
->  	u32 isp_ctrl00 = 0;
->  	u32 isp_ctrl01 = 0;
->  	int ret;
->  
-> +	if (!nvm)
-> +		return -EINVAL;
-> +
-> +	if (nvm->nvm_buffer)
-> +		return 0;
-> +
-> +	nvm->nvm_buffer = kzalloc(CUSTOMER_USE_OTP_SIZE, GFP_KERNEL);
-> +	if (!nvm->nvm_buffer)
-> +		return -ENOMEM;
-> +
->  	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, &isp_ctrl00);
->  	if (ret) {
->  		dev_err(&client->dev, "failed to read ISP CTRL00\n");
-> -		goto exit;
-> +		goto err;
->  	}
-> +
->  	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, &isp_ctrl01);
->  	if (ret) {
->  		dev_err(&client->dev, "failed to read ISP CTRL01\n");
-> -		goto exit;
-> +		goto err;
->  	}
->  
->  	/* Clear bit 5 of ISP CTRL00 */
->  	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1,
->  			       isp_ctrl00 & ~BIT(5));
->  	if (ret) {
-> -		dev_err(&client->dev, "failed to write ISP CTRL00\n");
-> -		goto exit;
-> +		dev_err(&client->dev, "failed to set ISP CTRL00\n");
-> +		goto err;
->  	}
->  
->  	/* Clear bit 7 of ISP CTRL01 */
->  	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1,
->  			       isp_ctrl01 & ~BIT(7));
->  	if (ret) {
-> -		dev_err(&client->dev, "failed to write ISP CTRL01\n");
-> -		goto exit;
-> +		dev_err(&client->dev, "failed to set ISP CTRL01\n");
-> +		goto err;
->  	}
->  
->  	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
->  			       OV2740_MODE_STREAMING);
->  	if (ret) {
-> -		dev_err(&client->dev, "failed to start streaming\n");
-> -		goto exit;
-> +		dev_err(&client->dev, "failed to set streaming mode\n");
-> +		goto err;
->  	}
->  
->  	/*
-> @@ -981,15 +997,33 @@ static int ov2740_load_otp_data(struct i2c_client *client, struct nvm_data *nvm)
->  			       nvm->nvm_buffer, CUSTOMER_USE_OTP_SIZE);
->  	if (ret) {
->  		dev_err(&client->dev, "failed to read OTP data, ret %d\n", ret);
-> -		goto exit;
-> +		goto err;
->  	}
->  
-> -	ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-> -			 OV2740_MODE_STANDBY);
-> -	ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, isp_ctrl01);
-> -	ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, isp_ctrl00);
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-> +			       OV2740_MODE_STANDBY);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to set streaming mode\n");
-> +		goto err;
-> +	}
-> +
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, isp_ctrl01);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to set ISP CTRL01\n");
-> +		goto err;
-> +	}
-> +
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, isp_ctrl00);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to set ISP CTRL00\n");
-> +		goto err;
-> +	}
-> +
-> +	return 0;
-> +err:
-> +	kfree(nvm->nvm_buffer);
-> +	nvm->nvm_buffer = NULL;
->  
-> -exit:
->  	return ret;
->  }
->  
-> @@ -997,29 +1031,43 @@ static int ov2740_nvmem_read(void *priv, unsigned int off, void *val,
->  			     size_t count)
->  {
->  	struct nvm_data *nvm = priv;
-> +	struct v4l2_subdev *sd = i2c_get_clientdata(nvm->client);
-> +	struct device *dev = &nvm->client->dev;
-> +	struct ov2740 *ov2740 = to_ov2740(sd);
-> +	int ret = 0;
-> +
-> +	mutex_lock(&ov2740->mutex);
->  
-> -	memcpy(val, nvm->nvm_buffer + off, count);
-> +	ret = pm_runtime_get_sync(dev);
-> +	if (ret < 0) {
-> +		pm_runtime_put_noidle(dev);
-> +		goto exit;
-> +	}
->  
-> -	return 0;
-> +	ret = ov2740_load_otp_data(nvm);
+  media: platform: add missing put_device() call in mtk_jpeg_probe() and mtk_jpeg_remove() (2020-11-05 18:03:11 +0100)
 
-ov2740_load_otp_data() only needs to access the device on the first time.
-Could you move resuming the device where it's really needed, please?
+are available in the Git repository at:
 
-Can be a separate patch. Up to you.
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.11f
 
-> +	if (!ret)
-> +		memcpy(val, nvm->nvm_buffer + off, count);
-> +
-> +	pm_runtime_put(dev);
-> +exit:
-> +	mutex_unlock(&ov2740->mutex);
-> +	return ret;
->  }
->  
-> -static int ov2740_register_nvmem(struct i2c_client *client)
-> +static int ov2740_register_nvmem(struct i2c_client *client,
-> +				 struct ov2740 *ov2740)
->  {
->  	struct nvm_data *nvm;
->  	struct regmap_config regmap_config = { };
->  	struct nvmem_config nvmem_config = { };
->  	struct regmap *regmap;
->  	struct device *dev = &client->dev;
-> -	int ret = 0;
-> +	int ret;
->  
->  	nvm = devm_kzalloc(dev, sizeof(*nvm), GFP_KERNEL);
->  	if (!nvm)
->  		return -ENOMEM;
->  
-> -	nvm->nvm_buffer = devm_kzalloc(dev, CUSTOMER_USE_OTP_SIZE, GFP_KERNEL);
-> -	if (!nvm->nvm_buffer)
-> -		return -ENOMEM;
-> -
->  	regmap_config.val_bits = 8;
->  	regmap_config.reg_bits = 16;
->  	regmap_config.disable_locking = true;
-> @@ -1028,12 +1076,7 @@ static int ov2740_register_nvmem(struct i2c_client *client)
->  		return PTR_ERR(regmap);
->  
->  	nvm->regmap = regmap;
-> -
-> -	ret = ov2740_load_otp_data(client, nvm);
-> -	if (ret) {
-> -		dev_err(dev, "failed to load OTP data, ret %d\n", ret);
-> -		return ret;
-> -	}
-> +	nvm->client = client;
->  
->  	nvmem_config.name = dev_name(dev);
->  	nvmem_config.dev = dev;
-> @@ -1051,7 +1094,11 @@ static int ov2740_register_nvmem(struct i2c_client *client)
->  
->  	nvm->nvmem = devm_nvmem_register(dev, &nvmem_config);
->  
-> -	return PTR_ERR_OR_ZERO(nvm->nvmem);
-> +	ret = PTR_ERR_OR_ZERO(nvm->nvmem);
-> +	if (!ret)
-> +		ov2740->nvm = nvm;
-> +
-> +	return ret;
->  }
->  
->  static int ov2740_probe(struct i2c_client *client)
-> @@ -1103,7 +1150,7 @@ static int ov2740_probe(struct i2c_client *client)
->  		goto probe_error_media_entity_cleanup;
->  	}
->  
-> -	ret = ov2740_register_nvmem(client);
-> +	ret = ov2740_register_nvmem(client, ov2740);
->  	if (ret)
->  		dev_warn(&client->dev, "register nvmem failed, ret %d\n", ret);
->  
-> -- 
-> 2.7.4
-> 
+for you to fetch changes up to 64ac96b6b758dba131e9599686451edf050eee61:
 
--- 
-Sakari Ailus
+  media: rockchip: rkisp1: destage Rockchip ISP1 driver (2020-11-11 11:49:25 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Helen Koike (2):
+      media: staging: rkisp1: cap: fix timeout when stopping the stream
+      media: rockchip: rkisp1: destage Rockchip ISP1 driver
+
+Shunqian Zheng (1):
+      media: videodev2.h, v4l2-ioctl: add rkisp1 meta buffer format
+
+ .../devicetree/bindings/media/rockchip-isp1.yaml                     |  0
+ Documentation/userspace-api/media/v4l/pixfmt-meta-rkisp1.rst         |  2 +-
+ MAINTAINERS                                                          |  5 +-
+ drivers/media/platform/Kconfig                                       | 18 +++++++
+ drivers/media/platform/Makefile                                      |  1 +
+ drivers/{staging/media => media/platform/rockchip}/rkisp1/Makefile   |  0
+ .../media => media/platform/rockchip}/rkisp1/rkisp1-capture.c        |  4 +-
+ .../media => media/platform/rockchip}/rkisp1/rkisp1-common.c         |  0
+ .../media => media/platform/rockchip}/rkisp1/rkisp1-common.h         |  2 +-
+ .../{staging/media => media/platform/rockchip}/rkisp1/rkisp1-dev.c   |  3 +-
+ .../{staging/media => media/platform/rockchip}/rkisp1/rkisp1-isp.c   |  1 -
+ .../media => media/platform/rockchip}/rkisp1/rkisp1-params.c         | 86 ++++++++++++++++----------------
+ .../{staging/media => media/platform/rockchip}/rkisp1/rkisp1-regs.h  |  0
+ .../media => media/platform/rockchip}/rkisp1/rkisp1-resizer.c        |  4 +-
+ .../{staging/media => media/platform/rockchip}/rkisp1/rkisp1-stats.c |  0
+ drivers/media/v4l2-core/v4l2-ioctl.c                                 |  2 +
+ drivers/staging/media/Kconfig                                        |  2 -
+ drivers/staging/media/Makefile                                       |  1 -
+ drivers/staging/media/rkisp1/Kconfig                                 | 19 -------
+ drivers/staging/media/rkisp1/TODO                                    |  8 ---
+ .../staging/media/rkisp1/uapi => include/uapi/linux}/rkisp1-config.h |  4 --
+ include/uapi/linux/videodev2.h                                       |  4 ++
+ 22 files changed, 80 insertions(+), 86 deletions(-)
+ rename {drivers/staging/media/rkisp1/Documentation => Documentation}/devicetree/bindings/media/rockchip-isp1.yaml (100%)
+ rename drivers/{staging/media => media/platform/rockchip}/rkisp1/Makefile (100%)
+ rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-capture.c (100%)
+ rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-common.c (100%)
+ rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-common.h (99%)
+ rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-dev.c (99%)
+ rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-isp.c (99%)
+ rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-params.c (96%)
+ rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-regs.h (100%)
+ rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-resizer.c (99%)
+ rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-stats.c (100%)
+ delete mode 100644 drivers/staging/media/rkisp1/Kconfig
+ delete mode 100644 drivers/staging/media/rkisp1/TODO
+ rename {drivers/staging/media/rkisp1/uapi => include/uapi/linux}/rkisp1-config.h (99%)
