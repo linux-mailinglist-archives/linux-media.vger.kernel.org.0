@@ -2,152 +2,130 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D1722AF015
-	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 12:55:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9842F2AF01E
+	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 12:55:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726430AbgKKLze (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Nov 2020 06:55:34 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:41197 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725995AbgKKLzd (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Nov 2020 06:55:33 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id coiQkmu7HRiwVcoiYkaFAK; Wed, 11 Nov 2020 12:55:28 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1605095730; bh=HDa7FQ+sDo6ODRLOp2q9uk1S/MYb4VsfJup3IA08iR4=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=JgGE6hffu5BzoWZs43uzImp9z946WleJZ6OwbT2VQdwBfVGdBNWHv6HQKAJb/b+bi
-         du9nDvvdZbgJaHLBzdLyUFu8AbcQUFMsgYSJ4rAj/xpwsq6W7zAt7VgTkpVeUDr15l
-         EEM7Eg2zeDE9wgxBOnef92vLDmijUl3cIbvSjvNJ+osPJ1juVncNX9LVViasDi/02I
-         C8MxmDPd+LslOgfJHYNZ+6xnXayTSXHP6Ph3g/fIeOgC2fX261ErtIjc4ncUnAwl2+
-         Ctxix7sQ/OG3XuzL6oGjjGSOb2wnpbjIwyxoSFJYDgBxdxdu5GSpyWOmfjb/GaFwKp
-         fY2Z9yAdZ3Inw==
-Subject: Re: [PATCH v2 2/2] media: v4l2-ctrl: Add layer wise bitrate controls
- for h264
-To:     Dikshita Agarwal <dikshita@codeaurora.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     mchehab@kernel.org, ezequiel@collabora.com,
-        stanimir.varbanov@linaro.org, vgarodia@codeaurora.org,
-        majja@codeaurora.org
-References: <1600693440-3015-1-git-send-email-dikshita@codeaurora.org>
- <1600693440-3015-3-git-send-email-dikshita@codeaurora.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <f6c94a1a-9f5b-ecec-9077-95548ea9838f@xs4all.nl>
-Date:   Wed, 11 Nov 2020 12:55:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726494AbgKKLzv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Nov 2020 06:55:51 -0500
+Received: from mail.kernel.org ([198.145.29.99]:51576 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725995AbgKKLzu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Nov 2020 06:55:50 -0500
+Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id CB5A32075A;
+        Wed, 11 Nov 2020 11:55:48 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605095749;
+        bh=E+ly9ONWTiIZggNniJcApnyy3E6yqB0BJhEeVuwf6a8=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=rNDu7zw94N4bZLodrCeHyIJ7vJNyhJ86AqVVUXxbfWXwe3kmN8aHYbMyE79lDIAVJ
+         U//1q2PZZNQKS7NWkJLc5cU3FdavNRU69OF11MYqFfm6gLE6mUcQFHwIDVTaIZQG1g
+         rB6oruPIYVSGgedkrijP4GnWAAoahL9Jn5/5VUw8=
+Date:   Wed, 11 Nov 2020 11:55:34 +0000
+From:   Mark Brown <broonie@kernel.org>
+To:     Dmitry Osipenko <digetx@gmail.com>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
+        <u.kleine-koenig@pengutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
+Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
+ scaling
+Message-ID: <20201111115534.GA4847@sirena.org.uk>
+References: <20201104234427.26477-1-digetx@gmail.com>
+ <20201104234427.26477-12-digetx@gmail.com>
+ <20201110202945.GF2375022@ulmo>
+ <20201110203257.GC5957@sirena.org.uk>
+ <72ae6462-13df-9fcb-510e-8e57eee0f035@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <1600693440-3015-3-git-send-email-dikshita@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfPvegNORkRbCZqZp8V9rwKA2dm4lWEyRZhuxTHHxYpiQFjcEY4Ntqpdv2cq5F/F0gHtiiHQxgMnjO3nbwr64Y855jbO/e9s/vjkjgfD2eeOvaQRNcQwi
- oJUVmu1y64HkdN5ThASiGA4Cvt0cClszD53X5rQLkVwii34ANKStFujLr/+LXXEXWF6kwuzRNZ5hi0aHSvwLAp2jEQ2S1b/ECol99HQuefaJr4kWDX2j1l2Z
- 0591yzpet6z0g9oEjTmIjLEci+EXEREh3mr0PvmaVuNTuiSo9qB5u7ht0qpPKZhvSORiNISJ8/DCktCOzfKbICWL5t5bv8m43S0S3gsoYu/3nr5OfHGgPJPJ
- ZDD6Fj1Llcci03UpdPp+OFufUuxF3Db59/jIzxPxorjM3nVdDg/IXog5rN95gKEJ+khBbcUCeRn2LH94Oqa1uQeblLLhMfHZ5Fdl7j4sB/hfzVH9VT+IcrUQ
- QyRK4mAypFrCow0XbOIKUCXNeEwymv3BsSLdIQ==
+Content-Type: multipart/signed; micalg=pgp-sha512;
+        protocol="application/pgp-signature"; boundary="82I3+IH0IqGh5yIs"
+Content-Disposition: inline
+In-Reply-To: <72ae6462-13df-9fcb-510e-8e57eee0f035@gmail.com>
+X-Cookie: I'm not available for comment..
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 21/09/2020 15:04, Dikshita Agarwal wrote:
-> Adds bitrate control for all coding layers for h264
-> same as hevc.
-> 
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> ---
->  .../userspace-api/media/v4l/ext-ctrls-codec.rst      | 20 ++++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ctrls.c                 |  7 +++++++
->  include/uapi/linux/v4l2-controls.h                   |  8 ++++++++
->  3 files changed, 35 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 26f8220..690b066 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -1513,6 +1513,26 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
->      * - Bit 16:32
->        - Layer number
->  
-> +``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L0_BR (integer)``
-> +    Indicates bit rate for hierarchical coding layer 0 for H264 encoder.
-> +
-> +``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L1_BR (integer)``
-> +    Indicates bit rate for hierarchical coding layer 1 for H264 encoder.
-> +
-> +``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L2_BR (integer)``
-> +    Indicates bit rate for hierarchical coding layer 2 for H264 encoder.
-> +
-> +``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L3_BR (integer)``
-> +    Indicates bit rate for hierarchical coding layer 3 for H264 encoder.
-> +
-> +``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L4_BR (integer)``
-> +    Indicates bit rate for hierarchical coding layer 4 for H264 encoder.
-> +
-> +``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L5_BR (integer)``
-> +    Indicates bit rate for hierarchical coding layer 5 for H264 encoder.
-> +
-> +``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L6_BR (integer)``
-> +    Indicates bit rate for hierarchical coding layer 6 for H264 encoder.
 
-The unit isn't specified here. I assume it is bits per second, but that should
-be stated explicitly.
+--82I3+IH0IqGh5yIs
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
->  
->  .. _v4l2-mpeg-h264:
->  
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index abef73e..9296294 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -922,6 +922,13 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MAX_QP:		return "H264 P-Frame Maximum QP Value";
->  	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MIN_QP:		return "H264 B-Frame Minimum QP Value";
->  	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MAX_QP:		return "H264 B-Frame Maximum QP Value";
-> +	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L0_BR:	return "H264 Hierarchical Lay 0 BitRate";
-> +	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L1_BR:	return "H264 Hierarchical Lay 1 BitRate";
-> +	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L2_BR:	return "H264 Hierarchical Lay 2 BitRate";
-> +	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L3_BR:	return "H264 Hierarchical Lay 3 BitRate";
-> +	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L4_BR:	return "H264 Hierarchical Lay 4 BitRate";
-> +	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L5_BR:	return "H264 Hierarchical Lay 5 BitRate";
-> +	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L6_BR:	return "H264 Hierarchical Lay 6 BitRate";
+On Wed, Nov 11, 2020 at 12:23:41AM +0300, Dmitry Osipenko wrote:
+> 10.11.2020 23:32, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
 
-BitRate -> Bitrate
+> >>> +	if (!device_property_present(dc->dev, "core-supply"))
+> >>> +		return;
 
->  	case V4L2_CID_MPEG_VIDEO_H264_SPS:			return "H264 Sequence Parameter Set";
->  	case V4L2_CID_MPEG_VIDEO_H264_PPS:			return "H264 Picture Parameter Set";
->  	case V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX:		return "H264 Scaling Matrix";
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 7ba05fe..b869b54 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -580,12 +580,20 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type {
->  #define V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MAX_QP	(V4L2_CID_MPEG_BASE+388)
->  #define V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MIN_QP	(V4L2_CID_MPEG_BASE+389)
->  #define V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MAX_QP	(V4L2_CID_MPEG_BASE+390)
-> +#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L0_BR	(V4L2_CID_MPEG_BASE + 391)
-> +#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L1_BR	(V4L2_CID_MPEG_BASE + 392)
-> +#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L2_BR	(V4L2_CID_MPEG_BASE + 393)
-> +#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L3_BR	(V4L2_CID_MPEG_BASE + 394)
-> +#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L4_BR	(V4L2_CID_MPEG_BASE + 395)
-> +#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L5_BR	(V4L2_CID_MPEG_BASE + 396)
-> +#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L6_BR	(V4L2_CID_MPEG_BASE + 397)
->  #define V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP	(V4L2_CID_MPEG_BASE+400)
->  #define V4L2_CID_MPEG_VIDEO_MPEG4_P_FRAME_QP	(V4L2_CID_MPEG_BASE+401)
->  #define V4L2_CID_MPEG_VIDEO_MPEG4_B_FRAME_QP	(V4L2_CID_MPEG_BASE+402)
->  #define V4L2_CID_MPEG_VIDEO_MPEG4_MIN_QP	(V4L2_CID_MPEG_BASE+403)
->  #define V4L2_CID_MPEG_VIDEO_MPEG4_MAX_QP	(V4L2_CID_MPEG_BASE+404)
->  #define V4L2_CID_MPEG_VIDEO_MPEG4_LEVEL		(V4L2_CID_MPEG_BASE+405)
-> +
->  enum v4l2_mpeg_video_mpeg4_level {
->  	V4L2_MPEG_VIDEO_MPEG4_LEVEL_0	= 0,
->  	V4L2_MPEG_VIDEO_MPEG4_LEVEL_0B	= 1,
-> 
+> >> This is a potentially heavy operation, so I think we should avoid that
+> >> here. How about you use devm_regulator_get_optional() in ->probe()? Th=
+at
+> >> returns -ENODEV if no regulator was specified, in which case you can s=
+et
+> >> dc->core_reg =3D NULL and use that as the condition here.
 
-Regards,
+> > Or enumerate the configurable voltages after getting the regulator and
+> > handle that appropriately which would be more robust in case there's
+> > missing or unusual constraints.
 
-	Hans
+> I already changed that code to use regulator_get_optional() for v2.
+
+That doesn't look entirely appropriate given that the core does most
+likely require some kind of power to operate.
+
+> Regarding the enumerating supported voltage.. I think this should be
+> done by the OPP core, but regulator core doesn't work well if
+> regulator_get() is invoked more than one time for the same device, at
+> least there is a loud debugfs warning about an already existing
+
+I don't understand why this would be an issue - if nothing else the core
+could just offer an interface to trigger the check.
+
+> directory for a regulator. It's easy to check whether the debug
+> directory exists before creating it, like thermal framework does it for
+> example, but then there were some other more difficult issues.. I don't
+> recall what they were right now. Perhaps will be easier to simply get a
+> error from regulator_set_voltage() for now because it shouldn't ever
+> happen in practice, unless device-tree has wrong constraints.
+
+The constraints might not be wrong, there might be some board which has
+a constraint somewhere for=20
+
+--82I3+IH0IqGh5yIs
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl+r0TUACgkQJNaLcl1U
+h9DWcQf+JKUKAAmCRoCIJy9RMbwbcNzS1ehBtOpcozk+MMyJ3P+dgcBahHKBBMnb
+2YhGKsKdqzaBELqpXe/hFWKxA6hYHTpyIwMRTywEojcGmDs9uiuCKocCerJTuVTF
+c7JBE5R3F/wViCJVqkKUG3nJ+lD6uzzbhw7EcuFL6JVLHZOkHoaRaETw80+7VEIq
+7vhNoSmt6p8IBr/zqV8bM+x5x0dsI4IArhh1ATC/NHeoZ4SHMbpLFYN5nGbiJwGA
+sHHjt0L1+msYcrgr36dQPACoykphP2BAa+7Yp09e8YGXThSsIhDCBQi5ouFpQa4k
+3/iI/vaOSikf2BEi1DqjIHKngrsjBQ==
+=Ohk2
+-----END PGP SIGNATURE-----
+
+--82I3+IH0IqGh5yIs--
