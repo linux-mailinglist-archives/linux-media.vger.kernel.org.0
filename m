@@ -2,66 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E7FA12AE6F0
-	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 04:17:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF8682AE78C
+	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 05:41:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726411AbgKKDRF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 10 Nov 2020 22:17:05 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:7168 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726196AbgKKDRE (ORCPT
+        id S1725975AbgKKElS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 10 Nov 2020 23:41:18 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:45029 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725972AbgKKElR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 10 Nov 2020 22:17:04 -0500
-Received: from DGGEMS402-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CW8z92d00z15TpW;
-        Wed, 11 Nov 2020 11:16:53 +0800 (CST)
-Received: from localhost.localdomain.localdomain (10.175.113.25) by
- DGGEMS402-HUB.china.huawei.com (10.3.19.202) with Microsoft SMTP Server id
- 14.3.487.0; Wed, 11 Nov 2020 11:16:51 +0800
-From:   Qinglang Miao <miaoqinglang@huawei.com>
-To:     Bluecherry Maintainers <maintainers@bluecherrydvr.com>,
-        Anton Sviridenko <anton@corp.bluecherry.net>,
-        Andrey Utkin <andrey_utkin@fastmail.com>,
-        "Ismael Luceno" <ismael@iodev.co.uk>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-CC:     <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        "Qinglang Miao" <miaoqinglang@huawei.com>
-Subject: [PATCH] media: solo6x10: fix missing snd_card_free in error handling case
-Date:   Wed, 11 Nov 2020 11:22:01 +0800
-Message-ID: <20201111032201.17879-1-miaoqinglang@huawei.com>
-X-Mailer: git-send-email 2.20.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.113.25]
-X-CFilter-Loop: Reflected
+        Tue, 10 Nov 2020 23:41:17 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id chwXk8Rgk1R0xchwYkbS55; Wed, 11 Nov 2020 05:41:14 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1605069674; bh=AN7JyQ0a4+lLQZW1ZxF31fbSiiVQR6W1/LeFuNJ8EjQ=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=k+mgz4uv2Sju6Kl+0gdviUJQKNQwzrPWzh/QuMQfWQ55KjMxxrDMY+vUmIJ725A/E
+         G5y0T8zpnnCiZzC6a7+8MSlzL1X9/ncIfEbNjkUrLrnN2m0sP7oTNMgOYTg+Tdf7yl
+         pg0zgRACcjfugQquqJMq4wanW6Ld+2SyC2DiJlscdbiVrYiif7gTee1rxOtizPc7me
+         sJQvvFgmigDUWraamXadMoT5YcMckO1TX9xxYEOwz6xSjTjsUDx1HvxCHXvFvJATOP
+         tna7D+pVfilJ9iXFNkgTrK0fzyyMahHyUy9HByt1BrsDBMbheidOwIV+WfH2NNI1kH
+         zK2UhKciPSyfQ==
+Message-ID: <327e6a3108074dbca879360e7fc017ab@smtp-cloud9.xs4all.net>
+Date:   Wed, 11 Nov 2020 05:41:13 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfARiucd8489OWtXg/Vhamqkx3custUiLL4Y7q8Pfmfwa/ROqNRMhFNhnkgFSiIBEv/XS8sy6FKOPo9xP7Jqsq4xOFTPy+Ev9+6nTStMyhQQ49m8JWZKv
+ wOqEgJEPLPgWlJRGxciSwLRyYQmJ4GFfelPzri1oR5yAJOOGA/eCMuhBD217/OWQJUEzKOcaM7MPrAOd0Tp9blEYRydc7a4UScYhN8H/d+8cb7p5JTKLbCT6
+ 33yC5yNRsi5XpLE+WBMAIg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fix to goto snd_error in error handling case when fails
-to do snd_ctl_add, as done elsewhere in this function.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Fixes: 28cae868cd24 ("[media] solo6x10: move out of staging into drivers/media/pci.")
-Reported-by: Hulk Robot <hulkci@huawei.com>
-Signed-off-by: Qinglang Miao <miaoqinglang@huawei.com>
----
- drivers/media/pci/solo6x10/solo6x10-g723.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/media/pci/solo6x10/solo6x10-g723.c b/drivers/media/pci/solo6x10/solo6x10-g723.c
-index 906ce86437ae..d137b94869d8 100644
---- a/drivers/media/pci/solo6x10/solo6x10-g723.c
-+++ b/drivers/media/pci/solo6x10/solo6x10-g723.c
-@@ -385,7 +385,7 @@ int solo_g723_init(struct solo_dev *solo_dev)
- 
- 	ret = snd_ctl_add(card, snd_ctl_new1(&kctl, solo_dev));
- 	if (ret < 0)
--		return ret;
-+		goto snd_error;
- 
- 	ret = solo_snd_pcm_init(solo_dev);
- 	if (ret < 0)
--- 
-2.23.0
+date:			Wed Nov 11 05:00:15 CET 2020
+media-tree git hash:	0ab4f9087ea94ff92dc2ae68180faaf6bd443021
+media_build git hash:	bca336c7d6379c723eb388bb9e606db6785a953b
+v4l-utils git hash:	57451f856524bf2b02ffe8e43ba2709a72cdd4f5
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10-rc1-i686: OK
+linux-5.10-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
+sparse: OK
+smatch: ERRORS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
