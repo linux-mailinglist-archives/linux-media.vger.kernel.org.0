@@ -2,82 +2,64 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C3E92AF069
-	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 13:18:43 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C31C72AF0AC
+	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 13:32:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726204AbgKKMSe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Nov 2020 07:18:34 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:47395 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726554AbgKKMRn (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Nov 2020 07:17:43 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id cp3xkn037RiwVcp43kaHqP; Wed, 11 Nov 2020 13:17:32 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1605097056; bh=OCfUI1dIxxgMYtYx1GNR3eRvdiQRLIsTm24Upmk5vlY=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=fO0j8AFmSw5WAhudcMl2MePaLRbSVwD4BNeUiEYBRNyhRRyltvDb7J8KQY9816b5f
-         D9iJ/heVAFRRMU5GnR+NjlJuHn/R5Zpp8mMV+sAIqbpaCZhXZ8HnI5nZgV0MnFycxn
-         DVAwFTDpUkHo6IpHkKI/Dql46ReBazpC+G610/8P4KKVsY9XczUYJJpKO/v9wPgRMd
-         PvjUYKR/NsaCMhl3B0hawy47Fh0BswsadoAaN2Ks2ZTcCZEKDwPX/SJlkLdXCHqEXA
-         9hqNegnxgMHJ47W9HSR7Vtd80EbgQzz96qMGXIOXFIGo/zgm+3rLO2VoLkVLGMr5Ok
-         8ngeaTQYAQuAQ==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.11] Various fixes
-Message-ID: <98f214b8-f017-4fa2-28ea-cbad2812833d@xs4all.nl>
-Date:   Wed, 11 Nov 2020 13:17:21 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726412AbgKKMcg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Nov 2020 07:32:36 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:49426 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726274AbgKKMcf (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Nov 2020 07:32:35 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kcpIe-007HvV-AQ; Wed, 11 Nov 2020 12:32:32 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kcpLg-0006rf-7o; Wed, 11 Nov 2020 12:35:40 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.11] Various fixes (#68817)
+Date:   Wed, 11 Nov 2020 12:35:40 +0000
+Message-Id: <20201111123540.26346-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <98f214b8-f017-4fa2-28ea-cbad2812833d@xs4all.nl>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfBYjn03nG60iu/MPiDYZ1Fvw3E40SYzbGBIE4ykeyroKCuywj15AZfQOe0+LM5wFG38/huq2dDfCP/OeHc/UumhRzPU9tHNBfWIIvPatudXJ2XVCEb+U
- GdqyeuHKFStchzJvo2b4DREVH8ZplBJX/1QaYReY6zvHDGSMIc8RS7ejnswlwZD/FcIErEmAkQus18UvQznzT7qtSHeqq1A82o4=
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 0ab4f9087ea94ff92dc2ae68180faaf6bd443021:
+From: builder@linuxtv.org
 
-  media: platform: add missing put_device() call in mtk_jpeg_probe() and mtk_jpeg_remove() (2020-11-05 18:03:11 +0100)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/98f214b8-f017-4fa2-28ea-cbad2812833d@xs4all.nl/
+Build log: https://builder.linuxtv.org/job/patchwork/76557/
+Build time: 00:04:19
+Link: https://lore.kernel.org/linux-media/98f214b8-f017-4fa2-28ea-cbad2812833d@xs4all.nl
 
-are available in the Git repository at:
+gpg: Signature made Wed 11 Nov 2020 12:16:42 PM UTC
+gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
+gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
+gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
+gpg: Note: This key has expired!
+Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
+     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
 
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.11g
+Summary: got 1/6 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to 8b1bad443e65afcd03657b01aec8722f2d7fa61e:
+Error/warnings:
 
-  media: solo6x10: fix missing snd_card_free in error handling case (2020-11-11 12:18:08 +0100)
+patches/0005-saa7134-improve-f-fmt.win.clips-NULL-check.patch:
 
-----------------------------------------------------------------
-Tag branch
+   checkpatch.pl:
+	$ cat patches/0005-saa7134-improve-f-fmt.win.clips-NULL-check.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:8: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
 
-----------------------------------------------------------------
-Dikshita Agarwal (1):
-      v4l2-ctrls: allow V4L2_CTRL_TYPE_BUTTON with request api
 
-Hans Verkuil (2):
-      v4l2-compat-ioctl32.c: add missing #ifdef CONFIG_COMPAT_32BIT_TIMEs
-      saa7134: improve f->fmt.win.clips NULL check
+Error #512 when building PDF docs
 
-Qinglang Miao (1):
-      media: solo6x10: fix missing snd_card_free in error handling case
-
-Sakari Ailus (1):
-      vim2m: Register video device after setting up internals
-
-Zebediah Figura (1):
-      media: cx231xx: Use snd_card_free_when_closed() instead of snd_card_free().
-
- drivers/media/pci/saa7134/saa7134-video.c     |  6 ++++--
- drivers/media/pci/solo6x10/solo6x10-g723.c    |  2 +-
- drivers/media/test-drivers/vim2m.c            | 20 +++++++++++---------
- drivers/media/usb/cx231xx/cx231xx-audio.c     |  2 +-
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c |  4 ++++
- drivers/media/v4l2-core/v4l2-ctrls.c          |  6 +-----
- 6 files changed, 22 insertions(+), 18 deletions(-)
