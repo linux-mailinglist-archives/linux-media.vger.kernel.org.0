@@ -2,203 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 29F852AF1E3
-	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 14:19:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2AF3B2AF29F
+	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 14:55:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726592AbgKKNTN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Nov 2020 08:19:13 -0500
-Received: from mga01.intel.com ([192.55.52.88]:27319 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725912AbgKKNTN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Nov 2020 08:19:13 -0500
-IronPort-SDR: 78SL6KyKK2YKcWiKL7CbshwOjGP3kP/fkUqAGgQlJA17rb83E9n5zRxBfggCdRY42lFPlyysi8
- 0VAg9SFz5JUg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9801"; a="188123837"
-X-IronPort-AV: E=Sophos;i="5.77,469,1596524400"; 
-   d="scan'208";a="188123837"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga007.fm.intel.com ([10.253.24.52])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2020 05:19:04 -0800
-IronPort-SDR: mSF6DKR1d7plVEUXtdZXIU68gckRtwFsoIo4F0Bp69Q5D6Vw/A0ftz7nd7zkDt5+7TYksJvtVv
- aTSNnELYEzlA==
-X-IronPort-AV: E=Sophos;i="5.77,469,1596524400"; 
-   d="scan'208";a="308827889"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga007-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Nov 2020 05:19:00 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id AECA420867; Wed, 11 Nov 2020 15:18:57 +0200 (EET)
-Date:   Wed, 11 Nov 2020 15:18:57 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Maxime Ripard <mripard@kernel.org>, kevin.lhopital@hotmail.com,
-        =?iso-8859-1?Q?K=E9vin_L'h=F4pital?= <kevin.lhopital@bootlin.com>
-Subject: Re: [PATCH 1/3] dt-bindings: media: i2c: Add OV8865 bindings
- documentation
-Message-ID: <20201111131857.GC26150@paasikivi.fi.intel.com>
-References: <20201023175406.504527-1-paul.kocialkowski@bootlin.com>
- <20201023175406.504527-2-paul.kocialkowski@bootlin.com>
- <20201102232411.GD26150@paasikivi.fi.intel.com>
- <20201104102643.GH2123@aptenodytes>
- <20201105081954.GX26150@paasikivi.fi.intel.com>
- <20201105153534.GD615923@aptenodytes>
+        id S1727205AbgKKNz2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Nov 2020 08:55:28 -0500
+Received: from mail-il1-f198.google.com ([209.85.166.198]:41981 "EHLO
+        mail-il1-f198.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727171AbgKKNz1 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 11 Nov 2020 08:55:27 -0500
+Received: by mail-il1-f198.google.com with SMTP id h4so1366982ilj.8
+        for <linux-media@vger.kernel.org>; Wed, 11 Nov 2020 05:55:26 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=AfwyT0oEwq2fMzy5Nzeby/PEIIbu4MsdDfgXVxHMlRA=;
+        b=tAWe6cBGowMfNZq3X45yoGDb+K4rEDwI2iEycM7Ie/rY6Yq0Bp9dfCJ/pjv5eUsCIh
+         L1aNniDzlj1mfOXyAzvR6v+V95WxncUZNZ8Nu5EMyR4GgQKOVA5LtAC8zzEAfO3lf5y3
+         57K7mOlxdOSaO0apx3xR1PPhmZKT43QHYDp+cyY8I225QqiBmusALAMXdMGfpwwXmOfZ
+         zkkg8nJg7OCALSEG4TTbNXHIYtKm2lbIPTs7bmAVGsarQKpQdqPt57k8lIHs6eoNzf1I
+         ZBsNHTAJElkWDP2ZCZdyQ3byhvqV9E9l0FAY5a+5idry8Q5V8DYD8qGDry+ucF6wfAsZ
+         hIIQ==
+X-Gm-Message-State: AOAM533nleL7K1Ky5PkC6pMo8n02L2Ceypo+cowpGvbmxZVEAji69qRE
+        wh2OZujZydhJNwqATfP5gw9UpMASy3ASZmzZVANV2b6U7Eyr
+X-Google-Smtp-Source: ABdhPJxr+mEdcRwJ0Z5xy/D380R7Fd8HMB0EF8vGO5g5aD3jadKyQh3n+QYO3nMMdKIoXL2uxUpyD65VXpMurLVwtWAyuGxeDC/A
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201105153534.GD615923@aptenodytes>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+X-Received: by 2002:a05:6e02:111:: with SMTP id t17mr19651219ilm.79.1605102926684;
+ Wed, 11 Nov 2020 05:55:26 -0800 (PST)
+Date:   Wed, 11 Nov 2020 05:55:26 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <000000000000c5eece05b3d5256c@google.com>
+Subject: memory leak in dvb_create_media_graph
+From:   syzbot <syzbot+7f09440acc069a0d38ac@syzkaller.appspotmail.com>
+To:     brad@nextdimension.cc, laurent.pinchart@ideasonboard.com,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        mchehab@kernel.org, sean@mess.org, syzkaller-bugs@googlegroups.com,
+        wsa+renesas@sang-engineering.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Hello,
 
-On Thu, Nov 05, 2020 at 04:35:34PM +0100, Paul Kocialkowski wrote:
-> Hi Sakari,
-> 
-> On Thu 05 Nov 20, 10:19, Sakari Ailus wrote:
-> > Hi Paul,
-> > 
-> > On Wed, Nov 04, 2020 at 11:26:43AM +0100, Paul Kocialkowski wrote:
-> > > Hi Sakari and thanks for the review!
-> > > 
-> > > On Tue 03 Nov 20, 01:24, Sakari Ailus wrote:
-> > > > On Fri, Oct 23, 2020 at 07:54:04PM +0200, Paul Kocialkowski wrote:
-> > > > > This introduces YAML bindings documentation for the OV8865
-> > > > > image sensor.
-> > > > > 
-> > > > > Co-developed-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-> > > > > Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-> > > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > > ---
-> > > > >  .../bindings/media/i2c/ovti,ov8865.yaml       | 124 ++++++++++++++++++
-> > > > >  1 file changed, 124 insertions(+)
-> > > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
-> > > > > 
-> > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
-> > > > > new file mode 100644
-> > > > > index 000000000000..807f1a94afae
-> > > > > --- /dev/null
-> > > > > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
-> > > > > @@ -0,0 +1,124 @@
-> > > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > > +%YAML 1.2
-> > > > > +---
-> > > > > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov8865.yaml#
-> > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > +
-> > > > > +title: OmniVision OV8865 Image Sensor Device Tree Bindings
-> > > > > +
-> > > > > +maintainers:
-> > > > > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > > +
-> > > > > +properties:
-> > > > > +  compatible:
-> > > > > +    const: ovti,ov8865
-> > > > > +
-> > > > > +  reg:
-> > > > > +    maxItems: 1
-> > > > > +
-> > > > > +  clocks:
-> > > > > +    items:
-> > > > > +      - description: EXTCLK Clock
-> > > > > +
-> > > > > +  clock-names:
-> > > > > +    items:
-> > > > > +      - const: extclk
-> > > > 
-> > > > Is this needed with a single clock?
-> > > 
-> > > Yes I think so: we grab the clock with devm_clk_get which takes a name string
-> > > that matches the clock-names property.
-> > 
-> > That argument may be NULL.
-> 
-> Understood, let's get rid of clock-names then. I see this is done in a few
-> drivers already, but many also give it a name with a single clock.
-> 
-> It would be nice if that was consistent across all drivers just so that the
-> expectation is clear (that the best way for that to happen is probably to
-> fix up a patch myself though).
+syzbot found the following issue on:
 
-I guess somewhat different practices exist depending on the tree albeit
-it's all DT bindings. It's also not wrong to have the name of the clock
-there, no, but virtually all camera sensors consume a single clock, so you
-may as well omit the information.
+HEAD commit:    407ab579 Merge tag 'for-linus' of git://git.kernel.org/pub..
+git tree:       upstream
+console output: https://syzkaller.appspot.com/x/log.txt?x=1472cf3a500000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=a3f13716fa0212fd
+dashboard link: https://syzkaller.appspot.com/bug?extid=7f09440acc069a0d38ac
+compiler:       gcc (GCC) 10.1.0-syz 20200507
+syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1496773a500000
+C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=11f5d04e500000
 
-> 
-> > > > And... shouldn't this also come with assigned-clock-rates etc., to set the
-> > > > clock frequency?
-> > > 
-> > > I'm a bit confused why we would need to do that in the device-tree rather than
-> > > setting the clock rate with clk_set_rate in the driver, like any other driver
-> > > does. I think this was discussed before (on the initial ov8865 series) and the
-> > > conclusion was that there is no particular reason for media i2c drivers to
-> > > behave differently. So I believe this is the correct approach.
-> > 
-> > I'm not exactly sure about that conclusion.
-> 
-> I may have jumped too far here. It's not exactly clear to me what was the
-> conclusion from...
-> https://lore.kernel.org/linux-arm-kernel/20200401080705.j4goeqcqhoswhx4u@gilmour.lan/
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+7f09440acc069a0d38ac@syzkaller.appspotmail.com
 
-Yes, there has been more discussion on the topic, most recently in this
-thread:
+BUG: memory leak
+unreferenced object 0xffff888109ceb880 (size 128):
+  comm "kworker/0:4", pid 4908, jiffies 4294942256 (age 13.710s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 06 05 00 00 00 00 00 00  ................
+    00 01 00 00 00 00 ad de 22 01 00 00 00 00 ad de  ........".......
+  backtrace:
+    [<0000000063129123>] kmalloc include/linux/slab.h:552 [inline]
+    [<0000000063129123>] kzalloc include/linux/slab.h:664 [inline]
+    [<0000000063129123>] dvb_create_media_graph+0x301/0x7d0 drivers/media/dvb-core/dvbdev.c:662
+    [<00000000446ffd59>] dvb_usb_adapter_frontend_init+0x180/0x1b0 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:327
+    [<000000004de3ceb1>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:84 [inline]
+    [<000000004de3ceb1>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
+    [<000000004de3ceb1>] dvb_usb_device_init.cold+0x4d0/0x6ae drivers/media/usb/dvb-usb/dvb-usb-init.c:287
+    [<0000000044208faf>] gp8psk_usb_probe+0x2a/0x50 drivers/media/usb/dvb-usb/gp8psk.c:304
+    [<000000001403cbb0>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
+    [<000000009ed11d03>] really_probe+0x159/0x480 drivers/base/dd.c:554
+    [<000000000cd27108>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
+    [<000000005568f559>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
+    [<00000000f9838db7>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
+    [<000000006449b02e>] __device_attach+0x122/0x250 drivers/base/dd.c:912
+    [<000000007f8d4f6c>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
+    [<0000000023ea078a>] device_add+0x5ac/0xc30 drivers/base/core.c:2936
+    [<0000000024710aa6>] usb_set_configuration+0x9de/0xb90 drivers/usb/core/message.c:2159
+    [<000000009af942e5>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
+    [<00000000a5638b3c>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
+    [<000000009ed11d03>] really_probe+0x159/0x480 drivers/base/dd.c:554
 
-<URL:https://lore.kernel.org/linux-arm-kernel/20201102150547.GY26150@paasikivi.fi.intel.com/>
+BUG: memory leak
+unreferenced object 0xffff888110cbec80 (size 128):
+  comm "kworker/1:2", pid 4591, jiffies 4294942850 (age 7.770s)
+  hex dump (first 32 bytes):
+    00 00 00 00 00 00 00 00 06 05 00 00 00 00 00 00  ................
+    00 01 00 00 00 00 ad de 22 01 00 00 00 00 ad de  ........".......
+  backtrace:
+    [<0000000063129123>] kmalloc include/linux/slab.h:552 [inline]
+    [<0000000063129123>] kzalloc include/linux/slab.h:664 [inline]
+    [<0000000063129123>] dvb_create_media_graph+0x301/0x7d0 drivers/media/dvb-core/dvbdev.c:662
+    [<00000000446ffd59>] dvb_usb_adapter_frontend_init+0x180/0x1b0 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:327
+    [<000000004de3ceb1>] dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:84 [inline]
+    [<000000004de3ceb1>] dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
+    [<000000004de3ceb1>] dvb_usb_device_init.cold+0x4d0/0x6ae drivers/media/usb/dvb-usb/dvb-usb-init.c:287
+    [<0000000044208faf>] gp8psk_usb_probe+0x2a/0x50 drivers/media/usb/dvb-usb/gp8psk.c:304
+    [<000000001403cbb0>] usb_probe_interface+0x177/0x370 drivers/usb/core/driver.c:396
+    [<000000009ed11d03>] really_probe+0x159/0x480 drivers/base/dd.c:554
+    [<000000000cd27108>] driver_probe_device+0x84/0x100 drivers/base/dd.c:738
+    [<000000005568f559>] __device_attach_driver+0xee/0x110 drivers/base/dd.c:844
+    [<00000000f9838db7>] bus_for_each_drv+0xb7/0x100 drivers/base/bus.c:431
+    [<000000006449b02e>] __device_attach+0x122/0x250 drivers/base/dd.c:912
+    [<000000007f8d4f6c>] bus_probe_device+0xc6/0xe0 drivers/base/bus.c:491
+    [<0000000023ea078a>] device_add+0x5ac/0xc30 drivers/base/core.c:2936
+    [<0000000024710aa6>] usb_set_configuration+0x9de/0xb90 drivers/usb/core/message.c:2159
+    [<000000009af942e5>] usb_generic_driver_probe+0x8c/0xc0 drivers/usb/core/generic.c:238
+    [<00000000a5638b3c>] usb_probe_device+0x5c/0x140 drivers/usb/core/driver.c:293
+    [<000000009ed11d03>] really_probe+0x159/0x480 drivers/base/dd.c:554
 
-I think this deserves to be added to camera-sensor.rst .
 
-> 
-> > You can use clk_set_rate() if you get the frequency from DT, but we
-> > recently did conclude that camera sensor drivers can expect to get the
-> > frequency indicated by assigned-clock-rate property.
-> 
-> ...but it looks like clock-frequency was preferred over assigned-clock-rates
-> and this is what the binding that was merged suggests. Is that correct?
 
-assigned-clock-rates is fine. The assumption is that the clock frequency
-does not change from the value set through DT, and the driver gets that
-exact frequency.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-> 
-> I now understand that the clock frequency may depend on the system integration
-> for this special case so we have to specify it via dt.
-
-Correct.
-
-> 
-> > In other words, the driver may not be specific to a particular board and
-> > SoC you have.
-> 
-> Although this is sadly more than often the case, because handling a variable
-> clock rate in the driver is quite complex (and even more with static init tables
-> that include PLL configuration). And sadly my driver is no exception and
-> only supports 24 MHz input.
-
-That's fine. If someone needs other frequencies, they can always add
-support for those in the driver.
-
-> 
-> > Please also read Documentation/driver-api/media/camera-sensor.rst .
-> 
-> Thanks, I hadn't seen that document before. It's great that it exists!
-
-You're welcome!
-
-This was indeed written to reduce the number of patch revisions needed ot
-get a driver to upstream. :-)
-
--- 
-Kind regards,
-
-Sakari Ailus
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+syzbot can test patches for this issue, for details see:
+https://goo.gl/tpsmEJ#testing-patches
