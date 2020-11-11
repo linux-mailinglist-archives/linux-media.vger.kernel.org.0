@@ -2,143 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 359512AF3C9
-	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 15:39:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5A3882AF3F4
+	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 15:43:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727248AbgKKOjD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Nov 2020 09:39:03 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35880 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727153AbgKKOik (ORCPT
+        id S1726988AbgKKOnQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Nov 2020 09:43:16 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:34221 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726579AbgKKOnO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Nov 2020 09:38:40 -0500
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3F0A7C061A56
-        for <linux-media@vger.kernel.org>; Wed, 11 Nov 2020 06:38:38 -0800 (PST)
-Received: by mail-wr1-x442.google.com with SMTP id p8so2761044wrx.5
-        for <linux-media@vger.kernel.org>; Wed, 11 Nov 2020 06:38:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=DzUjnsp2X4OnTCyXgn/JbY+DNy5G4LB8TIDONuAc8II=;
-        b=Qzf64FhVyFPIfQD1gu6EoyuhzvYG1X3bVXltED54Gqv32hegCwzWHi3W3muW0j04+T
-         jgF9K5kF2vVLRSanLBmu7r32YPYE4t+qTKbOE2uDoby4tKP1z9dD3DLPJK14KCXR4QTc
-         eFR+8+lixZGzRPhGBRbEoXFm55q7HJat3WH2EW0cgpvQUM5ZTEWWbJPYycrVX/3rIesY
-         k90QNUFB4yXAlAxx7o6lA8seBS45akDOwgrR3E4Khpm4kNnL/ecBUeAhHuUvzNhUjx28
-         QtYZy+mt6U7R+CB10xXZKxvKyabezUpyRU4G2CSa/OUYhKoobPe0APxaBd5zoFnxf/1p
-         x6zA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=DzUjnsp2X4OnTCyXgn/JbY+DNy5G4LB8TIDONuAc8II=;
-        b=BcKGM/fKEPyj6ddT2PYum/xXftlR8OV+mxKnr9veQvSv01kQxVOiUeTFiw2c+QkRgc
-         o+62CD3HGzF2t24FhPoQ2ba7I83D1KzEdcIkjR9ZyjqRW7b9lZQbeSEcj2d2Iy1Qff3V
-         Cv42mOofBhnxdh25hxw1gphvd0qS+mqYBHoSdCe31f3Mxku2VWb7aioOtchMYRI6iC7y
-         as5ZBnHJxuaJq6iiZvvIDq85RrXm7bHVAydiiHSevBv1GpHmWnawU8UPjpxIz5cLEt4T
-         EvBhs9vdhOWxYRgX+G+CIQGvdcIDY0PHO3NG0aWRuijGUoOSr5PpmWhnyeoqQpnz3VQn
-         BnZA==
-X-Gm-Message-State: AOAM532nOdL1/WBZtUFl15KLlZPe21G4s39Ys89ip773PuI+PYWDvXUO
-        6BF73oVDcAVm4BrA7ycBmBk+wuSuMb2YsG2q
-X-Google-Smtp-Source: ABdhPJz3exYiT8GJMsh3/W6jpnBZ3DjMRWetrng5MyjLQM4Di85RFaHmr5jjqSjwNZucXT7uhaHc8Q==
-X-Received: by 2002:adf:f304:: with SMTP id i4mr17619843wro.268.1605105516778;
-        Wed, 11 Nov 2020 06:38:36 -0800 (PST)
-Received: from localhost.localdomain (hst-221-89.medicom.bg. [84.238.221.89])
-        by smtp.gmail.com with ESMTPSA id b8sm2991405wrv.57.2020.11.11.06.38.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2020 06:38:36 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     Vikash Garodia <vgarodia@codeaurora.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v2 8/8] venus: helpers: Delete unused stop streaming helper
-Date:   Wed, 11 Nov 2020 16:37:55 +0200
-Message-Id: <20201111143755.24541-9-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201111143755.24541-1-stanimir.varbanov@linaro.org>
-References: <20201111143755.24541-1-stanimir.varbanov@linaro.org>
+        Wed, 11 Nov 2020 09:43:14 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id crKtkC4mY1R0xcrKwkdPLD; Wed, 11 Nov 2020 15:43:12 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1605105792; bh=0NVL4vfED5OvbJq2XB5B3W6lWJSu6NdYA6DvnKQvUps=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=lpOJprwSCLpQWyU/LOYFDa1qo25qI1AHQ6cNttM1JVDb0fdI8O2BsGJD3OfjPi33g
+         1fMY7QuJIYSftMTb7+73cOLPRK2jiKodtTEjbSti7jl6nI7Qkj2DKdFMGhUwhxlNLY
+         TyAnwlUzTgSXN3Z9RZFveL2iA6dlp8RsN3c1jjnZuExh18Ls8ZtsDSghRxToh1/syH
+         SEwYapLZaI3ytIOZSiZ6l97eLKjEvPOCFyNahaPA1ChnhY6eAr48x4ZcdL3g2KiP3m
+         rvWcApFblu/V8e4+65hlwsafiQXr1OZ2OTCN+B4UsaiR9tXVLijNrpUMYwe9zsfqVc
+         Bkf4WA78JDoxg==
+Subject: Re: [PATCH 0/7] sunxi: Remove the calls to dma_direct_set_offset
+To:     Maxime Ripard <maxime@cerno.tech>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>, Christoph Hellwig <hch@lst.de>
+Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Robin Murphy <robin.murphy@arm.com>
+References: <20201106151411.321743-1-maxime@cerno.tech>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <33ed44c6-e54d-3769-2a59-ab6c50b49053@xs4all.nl>
+Date:   Wed, 11 Nov 2020 15:42:59 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
+MIME-Version: 1.0
+In-Reply-To: <20201106151411.321743-1-maxime@cerno.tech>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfGWKT/xz8lGQdJjgDVMSGoVA8Hwp4UdhceAu0LGX+mTjEfjeMRkngyPZ4+U5ztVBAFtyPA8cLTXLWbBeHzTSRcAAUaQ3FoSMQBCXKPm7WjqaxMbZt51e
+ MVaAZIlGQU0+PqOe4wzBEt+aisx7jLWq+BMkCG/pk4d36IRWMFJuaauCGo7sYK/sd3u+/KgFopMsaX8nsiFGsQ7ZZjAkS7UtFib5I/ie5e+f7FEYzgeSrQ0N
+ URxBJtS+soe40GR6t3kCWqBXPrRQv9kF7OcEqe46oKowd4RnF/X1McYk3ewDxLdlaBbajLUrnSwM6BRf85XN5Iq+CN4p2OImjzjACm0zy6I2WM0n4BZMjlTu
+ QWIyf5100NQ+/OpW/rbZdKY7XhH0shcHS+18/n0jsDeOV0x7P/YjMBvucz0UPeJ8JXzF4wvQvlYBslWMjMGIzOf5OlgCnlP4YMv2+/mqa5QuEW15yTF/a3EB
+ If4MQbKKcouCJ5chqk8j30lZ/9/1z25rXRYQYDUG84Gjz/NyUfv+3N3fEHb6S7jBMIPt5KWSCf3QyNxs/OSv1+VOsCRQPl27gm+A3Ew2IT5E7CCq/gFsEY1z
+ 52xhREXnWU29JEyG8insmmcwsQtXQVHbpO6ZYDAHKnBfWA5mSrwfuCS+/hmBzT7ZxpzY6N4tgwXfZpoQFcVh/HtgLupKlp58k4yAb/PNxVJlBqvizDjn4Jdz
+ iZJm8zcJs9ALpgb89W4KW/zywpoyW6DOSdZkLfTc6rd73k58gEOCaA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-After re-design of encoder driver this helper is not needed
-anymore.
+On 06/11/2020 16:14, Maxime Ripard wrote:
+> Hi,
+> 
+> Here's an attempt to removing the dma_direct_set_offset calls we have in
+> numerous drivers and move all those quirks into a global notifier as suggested
+> by Robin.
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/helpers.c | 43 ---------------------
- drivers/media/platform/qcom/venus/helpers.h |  1 -
- 2 files changed, 44 deletions(-)
+For patches 4-7:
 
-diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-index 490c026b58a3..51c80417f361 100644
---- a/drivers/media/platform/qcom/venus/helpers.c
-+++ b/drivers/media/platform/qcom/venus/helpers.c
-@@ -1406,49 +1406,6 @@ void venus_helper_buffers_done(struct venus_inst *inst, unsigned int type,
- }
- EXPORT_SYMBOL_GPL(venus_helper_buffers_done);
- 
--void venus_helper_vb2_stop_streaming(struct vb2_queue *q)
--{
--	struct venus_inst *inst = vb2_get_drv_priv(q);
--	struct venus_core *core = inst->core;
--	int ret;
--
--	mutex_lock(&inst->lock);
--
--	if (inst->streamon_out & inst->streamon_cap) {
--		ret = hfi_session_stop(inst);
--		ret |= hfi_session_unload_res(inst);
--		ret |= venus_helper_unregister_bufs(inst);
--		ret |= venus_helper_intbufs_free(inst);
--		ret |= hfi_session_deinit(inst);
--
--		if (inst->session_error || core->sys_error)
--			ret = -EIO;
--
--		if (ret)
--			hfi_session_abort(inst);
--
--		venus_helper_free_dpb_bufs(inst);
--
--		venus_pm_load_scale(inst);
--		INIT_LIST_HEAD(&inst->registeredbufs);
--	}
--
--	venus_helper_buffers_done(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
--				  VB2_BUF_STATE_ERROR);
--	venus_helper_buffers_done(inst, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
--				  VB2_BUF_STATE_ERROR);
--
--	if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
--		inst->streamon_out = 0;
--	else
--		inst->streamon_cap = 0;
--
--	venus_pm_release_core(inst);
--
--	mutex_unlock(&inst->lock);
--}
--EXPORT_SYMBOL_GPL(venus_helper_vb2_stop_streaming);
--
- int venus_helper_process_initial_cap_bufs(struct venus_inst *inst)
- {
- 	struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
-diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
-index 231af29667e7..3eae2acbcc8e 100644
---- a/drivers/media/platform/qcom/venus/helpers.h
-+++ b/drivers/media/platform/qcom/venus/helpers.h
-@@ -20,7 +20,6 @@ int venus_helper_vb2_buf_init(struct vb2_buffer *vb);
- int venus_helper_vb2_buf_prepare(struct vb2_buffer *vb);
- void venus_helper_vb2_buf_queue(struct vb2_buffer *vb);
- void venus_helper_process_buf(struct vb2_buffer *vb);
--void venus_helper_vb2_stop_streaming(struct vb2_queue *q);
- int venus_helper_vb2_start_streaming(struct venus_inst *inst);
- void venus_helper_m2m_device_run(void *priv);
- void venus_helper_m2m_job_abort(void *priv);
--- 
-2.17.1
+Acked-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+
+It's fine by me if this series is merged via the drm subsystem.
+
+Regards,
+
+	Hans
+
+> 
+> Let me know what you think,
+> Maxime
+> 
+> Maxime Ripard (7):
+>   drm/sun4i: backend: Fix probe failure with multiple backends
+>   soc: sunxi: Deal with the MBUS DMA offsets in a central place
+>   drm/sun4i: backend: Remove the MBUS quirks
+>   media: sun4i: Remove the MBUS quirks
+>   media: sun6i: Remove the MBUS quirks
+>   media: cedrus: Remove the MBUS quirks
+>   media: sun8i-di: Remove the call to of_dma_configure
+> 
+>  drivers/gpu/drm/sun4i/sun4i_backend.c         |  13 --
+>  .../platform/sunxi/sun4i-csi/sun4i_csi.c      |  27 ----
+>  .../platform/sunxi/sun6i-csi/sun6i_csi.c      |  17 ---
+>  .../media/platform/sunxi/sun8i-di/sun8i-di.c  |   4 -
+>  drivers/soc/sunxi/Kconfig                     |   8 ++
+>  drivers/soc/sunxi/Makefile                    |   1 +
+>  drivers/soc/sunxi/sunxi_mbus.c                | 132 ++++++++++++++++++
+>  drivers/staging/media/sunxi/cedrus/cedrus.c   |   1 -
+>  drivers/staging/media/sunxi/cedrus/cedrus.h   |   3 -
+>  .../staging/media/sunxi/cedrus/cedrus_hw.c    |  18 ---
+>  10 files changed, 141 insertions(+), 83 deletions(-)
+>  create mode 100644 drivers/soc/sunxi/sunxi_mbus.c
+> 
 
