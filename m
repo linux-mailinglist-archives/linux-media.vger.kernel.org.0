@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA41F2AF843
-	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 19:37:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6584A2AF835
+	for <lists+linux-media@lfdr.de>; Wed, 11 Nov 2020 19:37:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726575AbgKKSh1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 11 Nov 2020 13:37:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44566 "EHLO
+        id S1727819AbgKKSgP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 11 Nov 2020 13:36:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44602 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727767AbgKKSgE (ORCPT
+        with ESMTP id S1727809AbgKKSgN (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 11 Nov 2020 13:36:04 -0500
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 988D7C0617A6
-        for <linux-media@vger.kernel.org>; Wed, 11 Nov 2020 10:36:03 -0800 (PST)
-Received: by mail-wm1-x342.google.com with SMTP id 19so3188858wmf.1
-        for <linux-media@vger.kernel.org>; Wed, 11 Nov 2020 10:36:03 -0800 (PST)
+        Wed, 11 Nov 2020 13:36:13 -0500
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F18FEC061A04
+        for <linux-media@vger.kernel.org>; Wed, 11 Nov 2020 10:36:12 -0800 (PST)
+Received: by mail-wm1-x343.google.com with SMTP id c9so3149405wml.5
+        for <linux-media@vger.kernel.org>; Wed, 11 Nov 2020 10:36:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Qh+SB3F0wBSwPJdxJvDqep6O/eLLWzPpPvay6C9QqmM=;
-        b=Z3euSqifNwhu6ebXW5Gn4HJE9Yrd49M2yyiJejyPG3OBZSHtj/wbH/SAXvd9F/iwBQ
-         8FDI9vSOlm7tmv2uIeobzdDRXa9KBXZnAGQQ8LCyZsMtyagmQRTmyRw6G1pyBIJfj4sT
-         LZ5qoVGnqhXDxbs0M9QvOx6n4nolTJmxEXKS9nFIJ3MbERYVarJ1SrfEnjbYy08ct8v+
-         hNdwbpEouUdQK5qYj5eOLFjoupuVUuETdzgN8bKKbT0Pxw1LCqh7g3+BTFeoov1iiTWO
-         IsdNw7GqJvo3N1osqhhyB3/R6T1BA8EdglHEtkCt1UNLq15nd6wAASH4X8ieuXoVFVZ8
-         rwUw==
+        bh=spCm618rU4+U7z1bfdflo8X7NldT43iivpTuZ8WssFA=;
+        b=w++rpOszkxweKlNZMXoxmKyy4U42RAzQDXbaasLv0JL6Mz+/P2AanrfR3DqMvCG6c1
+         6NYHQlNcK1yEneyt/TJesz+g5TEv6/JyNC/pI3IvwLglHc9XS5o1OSu4jFsJARQenUoq
+         hlVMNdPMbEo/yCbB22dgrmPaYhbTe2sXVLiN4WH6c5/eTSKDSUwbrSpxpm/b/wxKo2l2
+         t6DEf/qObRqR0J5jb0GnJuV/3qiaKr3eUdjqwz8Y+DVyVz74dyN7lvLkK94HeFmurkGG
+         X2mFN8tNmqv4Ps0arCz3R/jDCYaUObb4KFZDRR/s3vPci46Mdn1FuljOWkDgCvy892l5
+         Hg5w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Qh+SB3F0wBSwPJdxJvDqep6O/eLLWzPpPvay6C9QqmM=;
-        b=sgl/2RaaWMCTR5cV6+qoqkMrpLenR3qYFXw8JRRaRjwFddztw9eKWruFyFF/QRCllK
-         kfpOiSlTi6Rrme2ReEBJRL+zbqIW4ZL6xEx+8coZLE0e7erdMas/IV2vO7kpqyDFwwHH
-         ZhbsPBShXIvWtZpH6AfAN5YZwMsyKNE0RXi6yTdyZRio4NUvs/rDjj0PJlgzWaQAFUcx
-         byLRLYefzUCu+MYsoHsiTact2WwKuc0LRRp24dgIwhUqbB3KbF85tZAfcW1GMlFgIKIa
-         jglyufzGF8bM8jjXCWajBNqmzmKdQcgI0Pc7mybrC6FocVdlvhWVC9zLuVvxN/7Owjqg
-         ER8g==
-X-Gm-Message-State: AOAM531mmHheMmuJo+ww95qIz3VmTJww0n2V3Mvqr4V+WrI7ptx9vy79
-        ZtIQzjL6c2gxW+OHvhbU63Gtzw==
-X-Google-Smtp-Source: ABdhPJyfo7uTY2z4gmHdm1uuxT1G2gAONrvqZZUGMNaI7L96tmelOOFAX8Hqqy4Wnne45p+mgl5f0A==
-X-Received: by 2002:a7b:c453:: with SMTP id l19mr5463021wmi.2.1605119762301;
-        Wed, 11 Nov 2020 10:36:02 -0800 (PST)
+        bh=spCm618rU4+U7z1bfdflo8X7NldT43iivpTuZ8WssFA=;
+        b=UpAmUJfmnWlhnmDcjIY1Jp3KlSgeBP4xGDa02i0wFwXb5xhSa3t3Htfh3ETJ4ncIpl
+         GWo4DLTs7NDrBKMchZKiHhDjQZ7TM+jHy3PiJY1hkR34socc0XmDju1BODFto7tPJ5mE
+         A9XQV9tOpHlIp3QZcFGVN6KdUww6BtmzO/vshQC6wLuS0sLZ01tPKYx2QsSzjqsBJLve
+         2upMmcotknfre4R8MazjVruat5F90jtm2+ot6Or6l1nefs5OoD2w7g/OnLCzfMFC2cgg
+         qvm6eMD6H6/2hURlIhnAlCdmUwDDxvj1w7QeEsazx1GtYf0vWmGUOU0jce85Eu3gBshW
+         cagQ==
+X-Gm-Message-State: AOAM5317q7vblR/cGFLfeYTDuYJkqWg2VgIvfWMFItxXgWqKTKiW4BBl
+        HMZ8aQKEaNAxeRS+cqK0Ojxa8w==
+X-Google-Smtp-Source: ABdhPJwiXiLRxkllwzQfnctFOzMf0dtjCV4IwfvBUqJ+unZBgE6lrxNBj3LWkUavdfnVECn/mYqEvg==
+X-Received: by 2002:a1c:4808:: with SMTP id v8mr5734129wma.110.1605119771722;
+        Wed, 11 Nov 2020 10:36:11 -0800 (PST)
 Received: from dell.default ([91.110.221.159])
-        by smtp.gmail.com with ESMTPSA id k84sm3558311wmf.42.2020.11.11.10.36.01
+        by smtp.gmail.com with ESMTPSA id k84sm3558311wmf.42.2020.11.11.10.36.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2020 10:36:01 -0800 (PST)
+        Wed, 11 Nov 2020 10:36:11 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -58,9 +58,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
         amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 09/19] drm/radeon/cik: Move 'si_*()'s prototypes to shared header
-Date:   Wed, 11 Nov 2020 18:35:35 +0000
-Message-Id: <20201111183545.1756994-10-lee.jones@linaro.org>
+Subject: [PATCH 16/19] drm/radeon/cik: Move 'Move 'cik_sdma_*()'s prototypes to shared header
+Date:   Wed, 11 Nov 2020 18:35:42 +0000
+Message-Id: <20201111183545.1756994-17-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201111183545.1756994-1-lee.jones@linaro.org>
 References: <20201111183545.1756994-1-lee.jones@linaro.org>
@@ -73,15 +73,15 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/radeon/si.c:4186:6: warning: no previous prototype for ‘si_vram_gtt_location’ [-Wmissing-prototypes]
- 4186 | void si_vram_gtt_location(struct radeon_device *rdev,
- | ^~~~~~~~~~~~~~~~~~~~
- drivers/gpu/drm/radeon/si.c:5186:6: warning: no previous prototype for ‘si_init_uvd_internal_cg’ [-Wmissing-prototypes]
- 5186 | void si_init_uvd_internal_cg(struct radeon_device *rdev)
- | ^~~~~~~~~~~~~~~~~~~~~~~
- drivers/gpu/drm/radeon/si.c:5801:6: warning: no previous prototype for ‘si_rlc_reset’ [-Wmissing-prototypes]
- 5801 | void si_rlc_reset(struct radeon_device *rdev)
- | ^~~~~~~~~~~~
+ drivers/gpu/drm/radeon/cik_sdma.c:331:6: warning: no previous prototype for ‘cik_sdma_enable’ [-Wmissing-prototypes]
+ 331 | void cik_sdma_enable(struct radeon_device *rdev, bool enable)
+ | ^~~~~~~~~~~~~~~
+ drivers/gpu/drm/radeon/cik_sdma.c:528:5: warning: no previous prototype for ‘cik_sdma_resume’ [-Wmissing-prototypes]
+ 528 | int cik_sdma_resume(struct radeon_device *rdev)
+ | ^~~~~~~~~~~~~~~
+ drivers/gpu/drm/radeon/cik_sdma.c:557:6: warning: no previous prototype for ‘cik_sdma_fini’ [-Wmissing-prototypes]
+ 557 | void cik_sdma_fini(struct radeon_device *rdev)
+ | ^~~~~~~~~~~~~
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
@@ -94,49 +94,36 @@ Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/radeon/cik.c | 4 +---
- drivers/gpu/drm/radeon/si.h  | 4 ++++
- 2 files changed, 5 insertions(+), 3 deletions(-)
+ drivers/gpu/drm/radeon/cik.c | 3 ---
+ drivers/gpu/drm/radeon/cik.h | 3 +++
+ 2 files changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/cik.c
-index af08d6f1be53e..0330ee86a372b 100644
+index 0330ee86a372b..4520ec4c7b2e2 100644
 --- a/drivers/gpu/drm/radeon/cik.c
 +++ b/drivers/gpu/drm/radeon/cik.c
-@@ -40,6 +40,7 @@
- #include "radeon_asic.h"
- #include "radeon_audio.h"
- #include "radeon_ucode.h"
-+#include "si.h"
- 
- #define SH_MEM_CONFIG_GFX_DEFAULT \
- 	ALIGNMENT_MODE(SH_MEM_ALIGNMENT_MODE_UNALIGNED)
-@@ -127,9 +128,6 @@ MODULE_FIRMWARE("radeon/mullins_mec.bin");
- MODULE_FIRMWARE("radeon/mullins_rlc.bin");
+@@ -129,9 +129,6 @@ MODULE_FIRMWARE("radeon/mullins_rlc.bin");
  MODULE_FIRMWARE("radeon/mullins_sdma.bin");
  
--extern void si_vram_gtt_location(struct radeon_device *rdev, struct radeon_mc *mc);
--extern void si_rlc_reset(struct radeon_device *rdev);
--extern void si_init_uvd_internal_cg(struct radeon_device *rdev);
  static u32 cik_get_cu_active_bitmap(struct radeon_device *rdev, u32 se, u32 sh);
- extern int cik_sdma_resume(struct radeon_device *rdev);
- extern void cik_sdma_enable(struct radeon_device *rdev, bool enable);
-diff --git a/drivers/gpu/drm/radeon/si.h b/drivers/gpu/drm/radeon/si.h
-index a1751ae560f02..f483a64d17050 100644
---- a/drivers/gpu/drm/radeon/si.h
-+++ b/drivers/gpu/drm/radeon/si.h
-@@ -25,8 +25,12 @@
- #define __SI_H__
+-extern int cik_sdma_resume(struct radeon_device *rdev);
+-extern void cik_sdma_enable(struct radeon_device *rdev, bool enable);
+-extern void cik_sdma_fini(struct radeon_device *rdev);
+ extern void vce_v2_0_enable_mgcg(struct radeon_device *rdev, bool enable);
+ static void cik_rlc_stop(struct radeon_device *rdev);
+ static void cik_pcie_gen3_enable(struct radeon_device *rdev);
+diff --git a/drivers/gpu/drm/radeon/cik.h b/drivers/gpu/drm/radeon/cik.h
+index 420207d19de52..d1bf541da5923 100644
+--- a/drivers/gpu/drm/radeon/cik.h
++++ b/drivers/gpu/drm/radeon/cik.h
+@@ -34,4 +34,7 @@ void cik_init_cp_pg_table(struct radeon_device *rdev);
+ u32 cik_get_csb_size(struct radeon_device *rdev);
+ void cik_get_csb_buffer(struct radeon_device *rdev, volatile u32 *buffer);
  
- struct radeon_device;
-+struct radeon_mc;
- 
- int si_mc_load_microcode(struct radeon_device *rdev);
- u32 si_gpu_check_soft_reset(struct radeon_device *rdev);
-+void si_vram_gtt_location(struct radeon_device *rdev, struct radeon_mc *mc);
-+void si_rlc_reset(struct radeon_device *rdev);
-+void si_init_uvd_internal_cg(struct radeon_device *rdev);
- 
- #endif                         /* __SI_H__ */
++int cik_sdma_resume(struct radeon_device *rdev);
++void cik_sdma_enable(struct radeon_device *rdev, bool enable);
++void cik_sdma_fini(struct radeon_device *rdev);
+ #endif                         /* __CIK_H__ */
 -- 
 2.25.1
 
