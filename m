@@ -2,89 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BFC9B2B068B
-	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 14:35:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 468302B07F5
+	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 15:58:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728344AbgKLNev (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Nov 2020 08:34:51 -0500
-Received: from esa2.microchip.iphmx.com ([68.232.149.84]:30366 "EHLO
-        esa2.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728322AbgKLNeu (ORCPT
+        id S1728507AbgKLO6t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Nov 2020 09:58:49 -0500
+Received: from mail-oi1-f196.google.com ([209.85.167.196]:37136 "EHLO
+        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727035AbgKLO6s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Nov 2020 08:34:50 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
-  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
-  t=1605188089; x=1636724089;
-  h=from:to:cc:subject:date:message-id:in-reply-to:
-   references:mime-version:content-transfer-encoding;
-  bh=mZMYZuBCXD1r2QBjxb/5Nxy7uEFXyX6auS5QNy3Y63g=;
-  b=MnQan7/hpBg5CcC6J95C7S2borftQ+Jw5G8OJdGugW6ybYcbGWttF+5h
-   yBlr7TvLusk05+2qAcVZd8Zvl73G9d7ExbvRfxQNiMj3tUXukOYF1p2nT
-   YrgLV0svUgbDH9k+x3Tw1RXluYltsM0UU4Oj4uy0whPp0WR5Nji+qz4NG
-   MFaCMwuIWfokfeFmv6mbd7ErDBhniHMBwTpDFj/XF/VaIh3yB0K73IjmS
-   LZ8MaHn/1RkGuvnO9DAh/pJMvlKTDhVb1VpASzmt1Jk0p/CiXJu+xYN67
-   U+mISZcCns+EqXc9V2NjFCnBzvthAKRt20UkLpY2WqoIy4R3uQoLtA71/
-   g==;
-IronPort-SDR: EaF931/VbbnvEQ6rG5uaWC6ZlBcibNqP/IWoUJKzErE+vdxihPOavXbA2mDuyBIOEs10a1nMuK
- abh33OTIfmfYQ6HGlD5MUnJ1H6wiGoQw89xH0EH5rO9rv+1mYAePiiyXnf8mGs/x0g3qOLDtr3
- XSJ3xbztu2ikkXIlh0TbZRL4S3JzlVDcCHVQXcDgegXgd1339LqMfy07X0UysgZxKDnBEzN93W
- wikBLSkaEtq1miVcCkJHZpjzvH32Rf8C7rMkCTqbZOr9YcSfiqCs6CLWN515n17TtR/bWlFfir
- 5Cg=
-X-IronPort-AV: E=Sophos;i="5.77,472,1596524400"; 
-   d="scan'208";a="96064559"
-Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
-  by esa2.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 12 Nov 2020 06:34:48 -0700
-Received: from chn-vm-ex02.mchp-main.com (10.10.85.144) by
- chn-vm-ex03.mchp-main.com (10.10.85.151) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1979.3; Thu, 12 Nov 2020 06:34:48 -0700
-Received: from ROB-ULT-M18282.microchip.com (10.10.115.15) by
- chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server id
- 15.1.1979.3 via Frontend Transport; Thu, 12 Nov 2020 06:34:45 -0700
-From:   Eugen Hristev <eugen.hristev@microchip.com>
-To:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <devicetree@vger.kernel.org>, <robh+dt@kernel.org>,
-        <sakari.ailus@iki.fi>, <laurent.pinchart@ideasonboard.com>,
-        <jacopo@jmondi.org>
-CC:     Eugen Hristev <eugen.hristev@microchip.com>
-Subject: [PATCH v5 3/3] MAINTAINERS: add microchip csi2dc
-Date:   Thu, 12 Nov 2020 15:34:37 +0200
-Message-ID: <20201112133437.372475-3-eugen.hristev@microchip.com>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201112133437.372475-1-eugen.hristev@microchip.com>
-References: <20201112133437.372475-1-eugen.hristev@microchip.com>
+        Thu, 12 Nov 2020 09:58:48 -0500
+Received: by mail-oi1-f196.google.com with SMTP id m17so6675792oie.4;
+        Thu, 12 Nov 2020 06:58:48 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=WLzNUTlYdAOChD/OrfQl6sAi8zolpG+MVa+pwutnNGA=;
+        b=nxuiNzU8mlyhOWzeVM/yZzcyqYnaDV4UcqP0fOwRx151qpwoc+2+SD4acaYrjAN4BP
+         bzDtCSA6Cc0NcLhJvUiYSduPd6bVI/QETOoR/TviZX/YOU5gxKV8mrnGzTieRzxPvOj6
+         iJfLCF5MzBCBgEWG/Gt0xhb119f5T9Gt6BWjROf+837nPXezchPqfubONP9PyrtR+1gV
+         k1SLktxVokjjESy1s2crNYWKOzW2VnRRXlXwc74TJTmSod15WNt2O2mgR7OnOqOQ5Mq2
+         /8igpzxOlRXG2PfbYPZvRhLrgtJoEcNQm2Mu5edsyJ7pEGiaB14W4A+G3niM2zRzFkXm
+         nYFg==
+X-Gm-Message-State: AOAM5320hDGAM9I/N8hfPMwj7bX26cQM/yE3YQ8C9rXOHtNn7Pzp7Axo
+        UvvBE9qm2psGDnEGN/6Vog==
+X-Google-Smtp-Source: ABdhPJwevsP+d5IiXnXfxzejc+VnA++zm291UgVkC1X1zIf3QbQ2dGa9ppy3G1EAyIhZs0A/0zI1zg==
+X-Received: by 2002:aca:df8b:: with SMTP id w133mr5932336oig.131.1605193127785;
+        Thu, 12 Nov 2020 06:58:47 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id d8sm1268173otl.15.2020.11.12.06.58.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2020 06:58:47 -0800 (PST)
+Received: (nullmailer pid 3589542 invoked by uid 1000);
+        Thu, 12 Nov 2020 14:58:46 -0000
+Date:   Thu, 12 Nov 2020 08:58:46 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        newbytee@protonmail.com, linux-leds@vger.kernel.org,
+        Dan Murphy <dmurphy@ti.com>,
+        Sakari Ailus <sakari.ailus@iki.fi>, devicetree@vger.kernel.org,
+        phone-devel@vger.kernel.org, linux-media@vger.kernel.org,
+        Stephan Gerhold <stephan@gerhold.net>,
+        Pavel Machek <pavel@ucw.cz>
+Subject: Re: [PATCH 1/2 v4] dt-bindings: leds: Add DT binding for Richtek
+ RT8515
+Message-ID: <20201112145846.GA3588803@bogus>
+References: <20201112115646.2562467-1-linus.walleij@linaro.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-Content-Type: text/plain
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201112115646.2562467-1-linus.walleij@linaro.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add Microchip CSI2DC driver in the list.
+On Thu, 12 Nov 2020 12:56:45 +0100, Linus Walleij wrote:
+> Add a YAML devicetree binding for the Richtek RT8515
+> dual channel flash/torch LED driver.
+> 
+> Cc: Sakari Ailus <sakari.ailus@iki.fi>
+> Cc: newbytee@protonmail.com
+> Cc: Stephan Gerhold <stephan@gerhold.net>
+> Cc: phone-devel@vger.kernel.org
+> Cc: linux-media@vger.kernel.org
+> Cc: devicetree@vger.kernel.org
+> Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+> ---
+> ChangeLog v3->v4:
+> - Add DT attributes for the RFS and RTS resistors, so that
+>   the hardware-defined maximum current can be determined.
+> - Add torch-max-microamp to the common bindings so we can
+>   set an attribute for the max microamp in torch mode.
+> - Add flash-max-microamp and torch-max-microamp as optional
+>   to the LED node.
+> - Slot in some elabortative descriptions of the new
+>   properties and describe what the hardware is doing.
+> - Cc phone-devel@vger.kernel.org
+> ChangeLog v2->v3:
+> - Add Sakari to CC
+> - Resend
+> ChangeLog v1->v2:
+> - Explicitly inherit function, color and flash-max-timeout-us
+>   from common.yaml
+> - Add "led" node as required.
+> ---
+>  .../devicetree/bindings/leds/common.yaml      |   6 +
+>  .../bindings/leds/richtek,rt8515.yaml         | 111 ++++++++++++++++++
+>  2 files changed, 117 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
+> 
 
-Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
----
- MAINTAINERS | 7 +++++++
- 1 file changed, 7 insertions(+)
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 2ec6fda103f8..3392a5803743 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -11472,6 +11472,13 @@ L:	alsa-devel@alsa-project.org (moderated for non-subscribers)
- S:	Supported
- F:	sound/soc/atmel
- 
-+MICROCHIP CSI2DC DRIVER
-+M:	Eugen Hristev <eugen.hristev@microchip.com>
-+L:	linux-media@vger.kernel.org
-+S:	Supported
-+F:	Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
-+F:	drivers/media/platform/atmel/microchip-csi2dc.c
-+
- MICROCHIP ECC DRIVER
- M:	Tudor Ambarus <tudor.ambarus@microchip.com>
- L:	linux-crypto@vger.kernel.org
--- 
-2.25.1
+My bot found errors running 'make dt_binding_check' on your patch:
+
+yamllint warnings/errors:
+
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml: properties:richtek,rts:maximum: False schema does not allow 367000
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml: properties:richtek,rts:minimum: False schema does not allow 7680
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml: properties:richtek,rfs:maximum: False schema does not allow 367000
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml: properties:richtek,rfs:minimum: False schema does not allow 7680
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml: properties:richtek,rts: 'oneOf' conditional failed, one must be fixed:
+	'type' is a required property
+	Additional properties are not allowed ('maximum', 'minimum', 'maxItems' were unexpected)
+	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml: properties:richtek,rts: 'oneOf' conditional failed, one must be fixed:
+		'enum' is a required property
+		'const' is a required property
+	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml: properties:richtek,rts: 'oneOf' conditional failed, one must be fixed:
+		'$ref' is a required property
+		'allOf' is a required property
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml: properties:richtek,rfs: 'oneOf' conditional failed, one must be fixed:
+	'type' is a required property
+	Additional properties are not allowed ('maximum', 'minimum', 'maxItems' were unexpected)
+	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml: properties:richtek,rfs: 'oneOf' conditional failed, one must be fixed:
+		'enum' is a required property
+		'const' is a required property
+	/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml: properties:richtek,rfs: 'oneOf' conditional failed, one must be fixed:
+		'$ref' is a required property
+		'allOf' is a required property
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml: ignoring, error in schema: properties: richtek,rfs: maximum
+warning: no schema found in file: ./Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
+
+
+See https://patchwork.ozlabs.org/patch/1398897
+
+The base for the patch is generally the last rc1. Any dependencies
+should be noted.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
 
