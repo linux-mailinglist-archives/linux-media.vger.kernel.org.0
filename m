@@ -2,132 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DEB52B1069
-	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 22:29:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C32C52B1129
+	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 23:15:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727199AbgKLV2z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Nov 2020 16:28:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39782 "EHLO
+        id S1727481AbgKLWPA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Nov 2020 17:15:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46824 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726960AbgKLV2y (ORCPT
+        with ESMTP id S1727294AbgKLWO7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Nov 2020 16:28:54 -0500
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40AF4C0613D1;
-        Thu, 12 Nov 2020 13:28:54 -0800 (PST)
-Received: by mail-wm1-x342.google.com with SMTP id c9so6468664wml.5;
-        Thu, 12 Nov 2020 13:28:54 -0800 (PST)
+        Thu, 12 Nov 2020 17:14:59 -0500
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9EE63C0613D1;
+        Thu, 12 Nov 2020 14:14:49 -0800 (PST)
+Received: by mail-lf1-x142.google.com with SMTP id a9so9827525lfh.2;
+        Thu, 12 Nov 2020 14:14:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=G2BYNuIxlaObS9p75wcHPXenJKV2OHZTqCiRZ3u3/NU=;
-        b=MjSmxuzUy3A5nn2fW066uU93yV94ooVSUHoz6odmOf1nsFJ03GGRyLVDJVCSyYOY85
-         8u7A1f43k99+/zp9KJUZ2aXt3pkZ1x1fbWRfRDFXLwnOd0EX6W7bfBuG6Ww0CSZQOD5K
-         xeM7/Xw2pc+2/ZRW7NKqr3he6CaUEQfzuswJ5vpMnSp0tz3natDcFiqp0DOwAisWXBdt
-         AShV7rRe5dbd74S0/maGQK0u88EIwPn/JgtF5Rc0Xy8N2FCLafPZGvKYSWRxzZVYUYdT
-         VaTklWmbH8dCI6aK/0sv1qpWkNgSP5u7yc9wmLkaf+yGTYudq1KpsVZFEnrfGDH6K0Ir
-         rPkA==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=6I7BUpsnPeFRDPSie+hImwdRFU/lPQPc9b4Pu6iDC2E=;
+        b=rTk36LmZQcm5DdyOg9CK1Elk91TFk0T8lyUlO9RxBsp5ITaOWlFWcg3AV0rTW9G7Fl
+         B6TACsnPLGb34KzxDAUE5JNpA8rKCiIYmwnsooKuQ5CJPenNHaDkySPSIz0N4dA2mLC2
+         ceGHtL+0omSK/rfvc/iBFGMPW7YFmDKVdtwAqouRvCKmxOe0YX6rh655e/OEj8aNiO7i
+         2TnSG5M0WfSwHXJLwfwFsxeQVYZO/NoD6krHxrPimFlpUvEHQ0Flcj2/UVNE7RA8OKWv
+         F5nTBOfRpIsNskD3f1jdTo1Fs37JxPEI37HHCcMNOqLF/lrAhV14qvEdFLt3uc4uef0i
+         siZw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=G2BYNuIxlaObS9p75wcHPXenJKV2OHZTqCiRZ3u3/NU=;
-        b=i/iGoyfyIjf2dsb9ZFQ2thEEsBDWlYfIOyOlCq/SB+q+rk5HPM47/3rXwjGfxdR6pu
-         bD7q7yLg1PMkytykz9it7OdevLoGLmtyl5XJn9ssY5A+sYN4M3Bmx+YlTJdYbodNqgVA
-         R/HcmbavJ+ZrU23c/FPXEEltzuBVjs4hsVb7jTQQIznO5Pmezo/4ispwU0FlzPcZutQw
-         u9Lm7h4mTa9iQfTZs/pjqWsrhQZLxJ4kqzCWdznMZAR5tEHLYrLBLIOC++i8Xv5vgdNL
-         i+pQox5uWcLti1MGzPZ+ySDg1GcqacriiaXKmEe8XfscdS0MWbg3Pvl2Pd9JzaRW/xX2
-         2trw==
-X-Gm-Message-State: AOAM5306ZAJwUZmj+U6LgOtO0BJqubbJSzvEkLbmzJ/VbyJ8xeSHRV61
-        IASs7uKyycrohwaEvq42H9fmIJszOQKr37ETrGU=
-X-Google-Smtp-Source: ABdhPJwACnsJDr0htDUIcZ1390M+ztGM6mHPEVrjB75T5GqTdIpxllFizlL3nKTN1oMXRIMVR4CpDhPQIZX/zXW37Sk=
-X-Received: by 2002:a1c:8150:: with SMTP id c77mr1687617wmd.26.1605216522204;
- Thu, 12 Nov 2020 13:28:42 -0800 (PST)
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=6I7BUpsnPeFRDPSie+hImwdRFU/lPQPc9b4Pu6iDC2E=;
+        b=hHAizrxY+VJb5l5W2edCSRf+4HZsiI3pltpE4Dn2oGPDZe23cMH92eN5VbyxSb0Vg8
+         kmDPJYayq2yL+JF74vdFWMsD5/J3s0FB9Wx9iu+6Qmz4/rGw6iBNsBKmKZkTnoIYFWGi
+         ekq7yhPBnoeQccu23e3nkeSFQu/QZQBtvQn62/mo3NHHsYGEvZG/NMQzz+LjyEeIGKpy
+         +8GCPJFWTSo9ZJ8TghjyGMMXUVh6VODtLqilM8ERPBJNnKhwv8I2G9OFivOSNc/kzLmt
+         oPYMQgdX4QvHQBsB3j0aOaWixCuErAgNcx5165YHejhUEeILcQHD6W5KBqVwyQ4Gp8Px
+         f1HA==
+X-Gm-Message-State: AOAM5330jmLucZewCHq+mDg7YVTatJh3HlsrTKyXmIGY3Dh+hJAeKG7Z
+        VuFeLsNcgHpy2QIQbLxOWZwoS8EIfBU=
+X-Google-Smtp-Source: ABdhPJyBaFcKp4/EPF+acP6+aR+EtI8BnydIDUm/bvPzHQQAYMYoVmfy0wH61huOt4WJ1kuffSiKGA==
+X-Received: by 2002:a19:7108:: with SMTP id m8mr661367lfc.246.1605219287612;
+        Thu, 12 Nov 2020 14:14:47 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
+        by smtp.googlemail.com with ESMTPSA id z200sm968935lfc.189.2020.11.12.14.14.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2020 14:14:46 -0800 (PST)
+Subject: Re: [PATCH v1 00/30] Introduce core voltage scaling for NVIDIA
+ Tegra20/30 SoCs
+To:     Thierry Reding <thierry.reding@gmail.com>
+Cc:     Ulf Hansson <ulf.hansson@linaro.org>,
+        Viresh Kumar <viresh.kumar@linaro.org>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Mark Brown <broonie@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        linux-samsung-soc <linux-samsung-soc@vger.kernel.org>,
+        driverdevel <devel@driverdev.osuosl.org>,
+        Linux USB List <linux-usb@vger.kernel.org>,
+        linux-pwm@vger.kernel.org,
+        "linux-mmc@vger.kernel.org" <linux-mmc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        DTML <devicetree@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-tegra <linux-tegra@vger.kernel.org>
+References: <20201104234427.26477-1-digetx@gmail.com>
+ <CAPDyKFr7qTU2RPhA_ZrbCayoTTNUEno1zdmvmv+8HBe-Owrfeg@mail.gmail.com>
+ <cd147ab0-1304-a491-7a56-ee6199c02d32@gmail.com>
+ <2716c195-083a-112f-f1e5-2f6b7152a4b5@gmail.com>
+ <CAPDyKFqUMsH9dCZ=OYqfdLt==+-8NjK9n=S5jGGNXZu6Y9q=2w@mail.gmail.com>
+ <1f7e90c4-6134-2e2b-4869-5afbda18ead3@gmail.com>
+ <20201112204358.GA1027187@ulmo>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <25942da9-b527-c0aa-5403-53c9cc34ad93@gmail.com>
+Date:   Fri, 13 Nov 2020 01:14:45 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-References: <20201112190039.2785914-1-lee.jones@linaro.org> <20201112190039.2785914-20-lee.jones@linaro.org>
-In-Reply-To: <20201112190039.2785914-20-lee.jones@linaro.org>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Thu, 12 Nov 2020 16:28:30 -0500
-Message-ID: <CADnq5_Pu0v=JHsRnB_M1OJNqKOZT0otcU1GCtif12GnKt4ArAg@mail.gmail.com>
-Subject: Re: [PATCH 19/30] drm/amd/amdgpu/amdgpu_cs: Add a couple of missing
- function param descriptions
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     David Airlie <airlied@linux.ie>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Jerome Glisse <glisse@freedesktop.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20201112204358.GA1027187@ulmo>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 12, 2020 at 2:07 PM Lee Jones <lee.jones@linaro.org> wrote:
->
-> Fixes the following W=3D1 kernel build warning(s):
->
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:685: warning: Function parameter =
-or member 'backoff' not described in 'amdgpu_cs_parser_fini'
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1655: warning: Function parameter=
- or member 'map' not described in 'amdgpu_cs_find_mapping'
->
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Jerome Glisse <glisse@freedesktop.org>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+12.11.2020 23:43, Thierry Reding пишет:
+>> The difference in comparison to using voltage regulator directly is
+>> minimal, basically the core-supply phandle is replaced is replaced with
+>> a power-domain phandle in a device tree.
+> These new power-domain handles would have to be added to devices that
+> potentially already have a power-domain handle, right? Isn't that going
+> to cause issues? I vaguely recall that we already have multiple power
+> domains for the XUSB controller and we have to jump through extra hoops
+> to make that work.
 
-Applied.  Thanks!
+I modeled the core PD as a parent of the PMC sub-domains, which
+presumably is a correct way to represent the domains topology.
 
-Alex
+https://gist.github.com/digetx/dfd92c7f7e0aa6cef20403c4298088d7
 
+>> The only thing which makes me feel a bit uncomfortable is that there is
+>> no real hardware node for the power domain node in a device-tree.
+> Could we anchor the new power domain at the PMC for example? That would
+> allow us to avoid the "virtual" node.
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 ++
->  1 file changed, 2 insertions(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd=
-/amdgpu/amdgpu_cs.c
-> index 8d2878e950dab..594a0108e90fa 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-> @@ -676,6 +676,7 @@ static int amdgpu_cs_sync_rings(struct amdgpu_cs_pars=
-er *p)
->   * cs_parser_fini() - clean parser states
->   * @parser:    parser structure holding parsing context.
->   * @error:     error number
-> + * @backoff:   indicator to backoff the reservation
->   *
->   * If error is set than unvalidate buffer, otherwise just free memory
->   * used by parsing context.
-> @@ -1644,6 +1645,7 @@ int amdgpu_cs_wait_fences_ioctl(struct drm_device *=
-dev, void *data,
->   * @parser: command submission parser context
->   * @addr: VM address
->   * @bo: resulting BO of the mapping found
-> + * @map: Placeholder to return found BO mapping
->   *
->   * Search the buffer objects in the command submission context for a cer=
-tain
->   * virtual memory address. Returns allocation structure when found, NULL
-> --
-> 2.25.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+I had a thought about using PMC for the core domain, but not sure
+whether it will be an entirely correct hardware description. Although,
+it will be nice to have it this way.
+
+This is what Tegra TRM says about PMC:
+
+"The Power Management Controller (PMC) block interacts with an external
+or Power Manager Unit (PMU). The PMC mostly controls the entry and exit
+of the system from different sleep modes. It provides power-gating
+controllers for SOC and CPU power-islands and also provides scratch
+storage to save some of the context during sleep modes (when CPU and/or
+SOC power rails are off). Additionally, PMC interacts with the external
+Power Manager Unit (PMU)."
+
+The core voltage regulator is a part of the PMU.
+
+Not all core SoC devices are behind PMC, IIUC.
+
+> On the other hand, if we were to
+> use a regulator, we'd be adding a node for that, right? So isn't this
+> effectively going to be the same node if we use a power domain? Both
+> software constructs are using the same voltage regulator, so they should
+> be able to be described by the same device tree node, shouldn't they?
+
+I'm not exactly sure what you're meaning by "use a regulator" and "we'd
+be adding a node for that", could you please clarify? This v1 approach
+uses a core-supply phandle (i.e. regulator is used), it doesn't require
+extra nodes.
