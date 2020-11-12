@@ -2,94 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 23AB32B04FA
-	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 13:31:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 073F52B04FC
+	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 13:34:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728155AbgKLMbO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Nov 2020 07:31:14 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:39007 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727909AbgKLMbO (ORCPT
+        id S1727739AbgKLMes (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Nov 2020 07:34:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41282 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727223AbgKLMes (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Nov 2020 07:31:14 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id dBkmkUJ9GlMRadBkqks5yQ; Thu, 12 Nov 2020 13:31:11 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1605184271; bh=9onKt8PsxxxHPi9pt4aWFWWnV0wip3PDrR3ylVPB8eo=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=Z56WVTTSKHFkKcBuLuKiwRLIXgPuxFstGWtrsHwBDF1MOmgKf49pdVvOaTvQnVoIs
-         XD3h84wRcaHCJP1wHRiwLzHp5u7n/jgCEfx89cv4zUaqwmporVzmPK3NhjFXjY31KB
-         xgk873x7cUnT/LWyNVcVYONQEeOFtalKtevRKkwFC5Sk67O3WCh0NUYTev12+1DFws
-         I9G50FwA+XiQS54KJxvtqikzMHfMmZFxDLZ/mRuUTNU2kXQb8XMsY9PQZZCGe4SgGu
-         aw0oeQtxRD+T3T4VLP8ENhpf9MyoXppQRJ4pwzjyP8wH71oye4OgmzHazqm8S825ov
-         aOqhLP/cruqiA==
-Subject: Re: [PATCH 1/2] media: sunxi-cir: ensure IR is handled when it is
- continuous
-To:     Sean Young <sean@mess.org>, linux-media@vger.kernel.org,
-        Chen-Yu Tsai <wens@csie.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        linux-arm-kernel@lists.infradead.org
-Cc:     stable@vger.kernel.org
-References: <20201110091557.25680-1-sean@mess.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6ea783d6-dcf0-eb40-891a-35112fd9bf8a@xs4all.nl>
-Date:   Thu, 12 Nov 2020 13:31:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Thu, 12 Nov 2020 07:34:48 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10952C0613D1
+        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 04:34:48 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id D36B71F4634A
+Subject: Re: [PATCH v3 0/2] destage Rockchip ISP1 driver
+To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        dave.stevenson@raspberrypi.com
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Collabora Kernel ML <kernel@collabora.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>
+References: <20201106121937.1459948-1-helen.koike@collabora.com>
+ <7eb69eee-996c-6efb-8bee-6276d16a61e3@collabora.com>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <6ff30595-16d0-590d-bb3b-7ff9f2e380d1@collabora.com>
+Date:   Thu, 12 Nov 2020 09:34:40 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201110091557.25680-1-sean@mess.org>
+In-Reply-To: <7eb69eee-996c-6efb-8bee-6276d16a61e3@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfDKs49XeI+i/zv2wibBZSiGY7jRtTKTLZ8Fz0ifsc38yJs2dS55EAhWvWPRIfmudjGZ29SmLbiV2vRCPI943pq9UrbaeKonx2CL3Up8CyBtTVcMPJ9wo
- 4UjFizn8o48ybLRDNUCInl5dXLiZxLEpx1jPHswZA7crt4ugzEn7pBOfIIGaZ6lyCacbuRC5ynhm/QaBTHeNkmpsSNckMpaRcE+qVghnUv0im/Nx52uhSf7S
- 00rk5Y1zzrUlAY5yDdvf+zNIeNpSwaRLMqtxkcOheTlK80eFb886kSpN1KsO9008owwcIN+ZU4PIf0IRzofbDWsZoA79TKVdLEZI5OI5hEg0tAI3Ul5cGaWn
- /fYGi0es
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/11/2020 10:15, Sean Young wrote:
-> If a user holds a button down on a remote, then no ir idle interrupt will
-> be generated until the user releases the button, depending on how quickly
-> the remote repeats. No IR is processed until that point, which means that
-> holding down a button may not do anything.
+
+
+On 11/12/20 7:25 AM, Dafna Hirschfeld wrote:
 > 
-> This also resolves an issue on a Cubieboard 1 where the IR receiver is
-> picking up ambient infrared as IR and spews out endless
-> "rc rc0: IR event FIFO is full!" messages unless you choose to live in
-> the dark.
 > 
-> Cc: stable@vger.kernel.org
-> Reported-by: Hans Verkuil <hverkuil@xs4all.nl>
-> Signed-off-by: Sean Young <sean@mess.org>
-
-Tested-by: Hans Verkuil <hverkuil@xs4all.nl>
-
-Nice! No more spam in the kernel log for my Cubieboard 1!
-
-Thank you,
-
-	Hans
-
-> ---
->  drivers/media/rc/sunxi-cir.c | 2 ++
->  1 file changed, 2 insertions(+)
+> Am 06.11.20 um 13:19 schrieb Helen Koike:
+>> Hello,
+>>
+>> Changes in v3:
+>> - Moved Kconfig entry from M2M to Platform devices
+>> - Rename description and comment to Parameters and Statistics.
+>> - Patches squashed:
+>> dt-bindings: media: rkisp1: move rockchip-isp1 bindings out of staging
+>> media: MAINTAINERS: rkisp1: add path to dt-bindings
+>> media: rockchip: rkisp1: destage Rockchip ISP1 driver
+>> media: MAINTAINERS: Update rkisp1 files with new location
+>>
+>> Changes in v2:
+>> - New patch updating MAINTAINERS file
+>> - No changes in other patches
+>>
+>>> media-ctl -p
+>> http://ix.io/2Cso
+>>
+>>> media-ctl --print-dot
+>> http://ix.io/2Csp
+>>
+>>> v4l2-compliance -m0
+>> http://ix.io/2Csk
 > 
-> diff --git a/drivers/media/rc/sunxi-cir.c b/drivers/media/rc/sunxi-cir.c
-> index ddee6ee37bab1..4afc5895bee74 100644
-> --- a/drivers/media/rc/sunxi-cir.c
-> +++ b/drivers/media/rc/sunxi-cir.c
-> @@ -137,6 +137,8 @@ static irqreturn_t sunxi_ir_irq(int irqno, void *dev_id)
->  	} else if (status & REG_RXSTA_RPE) {
->  		ir_raw_event_set_idle(ir->rc, true);
->  		ir_raw_event_handle(ir->rc);
-> +	} else {
-> +		ir_raw_event_handle(ir->rc);
->  	}
->  
->  	spin_unlock(&ir->ir_lock);
+> Hello Dave,
 > 
+> I see the above link that the imx219 does not pass the compliance:
+> 
+> fail: v4l2-test-controls.cpp(830): failed to find event for control 'Exposure'
+>     test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
+> 
+> I see this patch on downstream
+> "media: i2c: imx219: Declare that the driver can create events"
+> 
+> That adds the flag V4L2_SUBDEV_FL_HAS_EVENTS, I suspect that is the patch
+> that fixes the compliance issue.
+> 
+> I can verify that and send the patch to the mailing list,
+> is it ok with you?
 
+Sure, thanks!
+
+Helen
+
+> 
+> Thanks,
+> Dafna
+> 
+> 
+> 
+>>
+>>> v4l2-compliance -v -d /dev/video0 -s10
+>> http://ix.io/2Csq
+>>
+>>> v4l2-compliance -v -d /dev/video1 -s10
+>> http://ix.io/2Css
+>>
+>> Helen Koike (1):
+>>    media: rockchip: rkisp1: destage Rockchip ISP1 driver
+>>
+>> Shunqian Zheng (1):
+>>    media: videodev2.h, v4l2-ioctl: add rkisp1 meta buffer format
+>>
+>>   .../bindings/media/rockchip-isp1.yaml         |  0
+>>   .../media/v4l/pixfmt-meta-rkisp1.rst          |  2 +-
+>>   MAINTAINERS                                   |  5 ++++-
+>>   drivers/media/platform/Kconfig                | 18 ++++++++++++++++++
+>>   drivers/media/platform/Makefile               |  1 +
+>>   .../platform/rockchip}/rkisp1/Makefile        |  0
+>>   .../rockchip}/rkisp1/rkisp1-capture.c         |  0
+>>   .../platform/rockchip}/rkisp1/rkisp1-common.c |  0
+>>   .../platform/rockchip}/rkisp1/rkisp1-common.h |  2 +-
+>>   .../platform/rockchip}/rkisp1/rkisp1-dev.c    |  0
+>>   .../platform/rockchip}/rkisp1/rkisp1-isp.c    |  0
+>>   .../platform/rockchip}/rkisp1/rkisp1-params.c |  0
+>>   .../platform/rockchip}/rkisp1/rkisp1-regs.h   |  0
+>>   .../rockchip}/rkisp1/rkisp1-resizer.c         |  0
+>>   .../platform/rockchip}/rkisp1/rkisp1-stats.c  |  0
+>>   drivers/media/v4l2-core/v4l2-ioctl.c          |  2 ++
+>>   drivers/staging/media/Kconfig                 |  2 --
+>>   drivers/staging/media/Makefile                |  1 -
+>>   drivers/staging/media/rkisp1/Kconfig          | 19 -------------------
+>>   drivers/staging/media/rkisp1/TODO             |  6 ------
+>>   .../uapi/linux}/rkisp1-config.h               |  4 ----
+>>   include/uapi/linux/videodev2.h                |  4 ++++
+>>   22 files changed, 31 insertions(+), 35 deletions(-)
+>>   rename {drivers/staging/media/rkisp1/Documentation => Documentation}/devicetree/bindings/media/rockchip-isp1.yaml (100%)
+>>   rename drivers/{staging/media => media/platform/rockchip}/rkisp1/Makefile (100%)
+>>   rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-capture.c (100%)
+>>   rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-common.c (100%)
+>>   rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-common.h (99%)
+>>   rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-dev.c (100%)
+>>   rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-isp.c (100%)
+>>   rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-params.c (100%)
+>>   rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-regs.h (100%)
+>>   rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-resizer.c (100%)
+>>   rename drivers/{staging/media => media/platform/rockchip}/rkisp1/rkisp1-stats.c (100%)
+>>   delete mode 100644 drivers/staging/media/rkisp1/Kconfig
+>>   delete mode 100644 drivers/staging/media/rkisp1/TODO
+>>   rename {drivers/staging/media/rkisp1/uapi => include/uapi/linux}/rkisp1-config.h (99%)
+>>
