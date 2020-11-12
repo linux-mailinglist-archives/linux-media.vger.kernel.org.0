@@ -2,216 +2,232 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D2522B01DA
-	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 10:16:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C9B052B01FF
+	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 10:32:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726671AbgKLJQK convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 12 Nov 2020 04:16:10 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:33958 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726061AbgKLJQK (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Nov 2020 04:16:10 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kd8i7-008bMN-3V; Thu, 12 Nov 2020 09:16:07 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kd8l6-0000pI-3E; Thu, 12 Nov 2020 09:19:15 +0000
-Date:   Thu, 12 Nov 2020 09:19:11 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <723178075.38.1605172752092@builder.linuxtv.org>
-In-Reply-To: <230088031.36.1605086350623@builder.linuxtv.org>
-References: <230088031.36.1605086350623@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3286
+        id S1726107AbgKLJco (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Nov 2020 04:32:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41064 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725928AbgKLJcn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Nov 2020 04:32:43 -0500
+Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14CA7C0613D4
+        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 01:32:42 -0800 (PST)
+Received: by mail-wm1-x344.google.com with SMTP id c16so4831606wmd.2
+        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 01:32:41 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=date:from:to:cc:subject:message-id:mail-followup-to:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=yi1OMf/gd5HyvbzJ7IKPIRAKF/of2XlvAeMy3R2I3KU=;
+        b=ClGwd9PImy4lshiA+U9TgHm3wMtpgX29mRHTW1PJ2Z/B04KEA5sYxSwmqwHFInajPL
+         bBgGwHoANnPrek4f/2fTZmkNXn4ZXMfy6/P/wzzDLZ0D+o59/USQC5sh8s8BLMNMRT23
+         2JQ2SimoqOAPzXBp9UgIXN67enji1ANRDCQMA=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id
+         :mail-followup-to:references:mime-version:content-disposition
+         :content-transfer-encoding:in-reply-to;
+        bh=yi1OMf/gd5HyvbzJ7IKPIRAKF/of2XlvAeMy3R2I3KU=;
+        b=XqugfYa0AK2Pg9ldLHrOCjBzhq2Jp9CV0AiGTqrNeqfAeb0YnFu7DeLkLt53YY/rIF
+         EduI3a32aRqnpgFupHa8zF8aCB7eiOLEy2zloRaO0+SBbuhLAqPmpoRXvwNOdBfp273m
+         8fFNEt8T1FOI0snHqrZcT4Whxy5eentofwRk+X7MM0fLaHk5pTwb/0fObqrT5AHOxxsb
+         70faDfOW5Uhhtm/4YUC4xMEsS/5XwXwggGkVz44T/odHqjXopXcHGwFglWYjP0L7GBr2
+         jsXAB2YPbj1I7Nl+IGpDdwToNhDSFhxfo8QmTkyoJUdjy/CeCkIbLb4b2Lc1sXT8M6Bn
+         SiVA==
+X-Gm-Message-State: AOAM533jFSk56sSQZ5qUxRZrfkkSNld6wBiXK/G4xtDTLL9axodcxTRb
+        4fznd1KMOnEyKg0OQid6LgUqOQ==
+X-Google-Smtp-Source: ABdhPJyCyDhy97NTajt/L+ZmaByBkxvp9KnxOaVEKwIx5lRydWZdS/DGH3dvRWY0NjD8L6XIb4eELw==
+X-Received: by 2002:a1c:2d5:: with SMTP id 204mr8871662wmc.181.1605173560677;
+        Thu, 12 Nov 2020 01:32:40 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id g20sm5717032wmh.20.2020.11.12.01.32.39
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2020 01:32:39 -0800 (PST)
+Date:   Thu, 12 Nov 2020 10:32:37 +0100
+From:   Daniel Vetter <daniel@ffwll.ch>
+To:     Sumit Semwal <sumit.semwal@linaro.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christian Koenig <christian.koenig@amd.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>
+Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
+ & a system-uncached implementation
+Message-ID: <20201112093237.GS401619@phenom.ffwll.local>
+Mail-Followup-To: Sumit Semwal <sumit.semwal@linaro.org>,
+        John Stultz <john.stultz@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>, James Jones <jajones@nvidia.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>
+References: <20201110034934.70898-1-john.stultz@linaro.org>
+ <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Type: text/plain; charset=iso-8859-1
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
+X-Operating-System: Linux phenom 5.7.0-1-amd64 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3286/display/redirect>
+On Thu, Nov 12, 2020 at 11:09:04AM +0530, Sumit Semwal wrote:
+> Hi John,
+> 
+> On Tue, 10 Nov 2020 at 09:19, John Stultz <john.stultz@linaro.org> wrote:
+> >
+> > Hey All,
+> >   So just wanted to send my last revision of my patch series
+> > of performance optimizations to the dma-buf system heap.
+> 
+> Thanks very much for your patches - I think the first 5 patches look good to me.
+> 
+> I know there was a bit of discussion over adding a new system-uncached
+> heap v/s using a flag to identify that; I think I prefer the separate
+> heap idea, but lets ask one last time if any one else has any real
+> objections to it.
+> 
+> Daniel, Christian: any comments from your side on this?
 
-Changes:
+I do wonder a bit where the userspace stack for this all is, since tuning
+allocators without a full stack is fairly pointless. dma-buf heaps is a
+bit in a limbo situation here it feels like.
 
+Plus I'm vary of anything related to leaking this kind of stuff beyond the
+dma-api because dma api maintainers don't like us doing that. But
+personally no concern on that front really, gpus need this. It's just that
+we do need solid justification I think if we land this. Hence back to
+first point.
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building on master in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --is-inside-work-tree # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.20.1'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 408180421c5e0dc4aa760e6f2348daabc757730d (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 408180421c5e0dc4aa760e6f2348daabc757730d # timeout=10
-Commit message: "Update backports/v5.0_time32.patch"
- > git rev-list --no-walk 408180421c5e0dc4aa760e6f2348daabc757730d # timeout=10
-[Checks API] No suitable checks publisher found.
-[media-build] $ /bin/sh -xe /tmp/jenkins14405981864866355723.sh
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
-Needed package dependencies are met.
+Ideally first point comes in the form of benchmarking on android together
+with a mesa driver (or mesa + some v4l driver or whatever it takes to
+actually show the benefits, I have no idea).
+-Daniel
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+> 
+> I am planning to merge this series to drm-misc this week if I hear no
+> objections.
+> >
+> > This series reworks the system heap to use sgtables, and then
+> > consolidates the pagelist method from the heap-helpers into the
+> > CMA heap. After which the heap-helpers logic is removed (as it
+> > is unused). I'd still like to find a better way to avoid some of
+> > the logic duplication in implementing the entire dma_buf_ops
+> > handlers per heap. But unfortunately that code is tied somewhat
+> > to how the buffer's memory is tracked. As more heaps show up I
+> > think we'll have a better idea how to best share code, so for
+> > now I think this is ok.
+> >
+> > After this, the series introduces an optimization that
+> > �rjan Eide implemented for ION that avoids calling sync on
+> > attachments that don't have a mapping.
+> >
+> > Next, an optimization to use larger order pages for the system
+> > heap. This change brings us closer to the current performance
+> > of the ION allocation code (though there still is a gap due
+> > to ION using a mix of deferred-freeing and page pools, I'll be
+> > looking at integrating those eventually).
+> >
+> > Finally, a reworked version of my uncached system heap
+> > implementation I was submitting a few weeks back. Since it
+> > duplicated a lot of the now reworked system heap code, I
+> > realized it would be much simpler to add the functionality to
+> > the system_heap implementation itself.
+> >
+> > While not improving the core allocation performance, the
+> > uncached heap allocations do result in *much* improved
+> > performance on HiKey960 as it avoids a lot of flushing and
+> > invalidating buffers that the cpu doesn't touch often.
+> >
+> > Feedback on these would be great!
+> >
+> > thanks
+> > -john
+> >
+> > New in v5:
+> > * Added a comment explaining why the order sizes are
+> >   chosen as they are
+> >
+> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> > Cc: Liam Mark <lmark@codeaurora.org>
+> > Cc: Laura Abbott <labbott@kernel.org>
+> > Cc: Brian Starkey <Brian.Starkey@arm.com>
+> > Cc: Hridya Valsaraju <hridya@google.com>
+> > Cc: Suren Baghdasaryan <surenb@google.com>
+> > Cc: Sandeep Patil <sspatil@google.com>
+> > Cc: Daniel Mentz <danielmentz@google.com>
+> > Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+> > Cc: �rjan Eide <orjan.eide@arm.com>
+> > Cc: Robin Murphy <robin.murphy@arm.com>
+> > Cc: Ezequiel Garcia <ezequiel@collabora.com>
+> > Cc: Simon Ser <contact@emersion.fr>
+> > Cc: James Jones <jajones@nvidia.com>
+> > Cc: linux-media@vger.kernel.org
+> > Cc: dri-devel@lists.freedesktop.org
+> >
+> > John Stultz (7):
+> >   dma-buf: system_heap: Rework system heap to use sgtables instead of
+> >     pagelists
+> >   dma-buf: heaps: Move heap-helper logic into the cma_heap
+> >     implementation
+> >   dma-buf: heaps: Remove heap-helpers code
+> >   dma-buf: heaps: Skip sync if not mapped
+> >   dma-buf: system_heap: Allocate higher order pages if available
+> >   dma-buf: dma-heap: Keep track of the heap device struct
+> >   dma-buf: system_heap: Add a system-uncached heap re-using the system
+> >     heap
+> >
+> >  drivers/dma-buf/dma-heap.c           |  33 +-
+> >  drivers/dma-buf/heaps/Makefile       |   1 -
+> >  drivers/dma-buf/heaps/cma_heap.c     | 324 +++++++++++++++---
+> >  drivers/dma-buf/heaps/heap-helpers.c | 270 ---------------
+> >  drivers/dma-buf/heaps/heap-helpers.h |  53 ---
+> >  drivers/dma-buf/heaps/system_heap.c  | 494 ++++++++++++++++++++++++---
+> >  include/linux/dma-heap.h             |   9 +
+> >  7 files changed, 753 insertions(+), 431 deletions(-)
+> >  delete mode 100644 drivers/dma-buf/heaps/heap-helpers.c
+> >  delete mode 100644 drivers/dma-buf/heaps/heap-helpers.h
+> >
+> > --
+> > 2.17.1
+> >
+> Thanks much,
+> 
+> Best,
+> Sumit.
 
-Not aborted. It means that the licence was agreed. Proceeding...
-
-****************************
-Updating the building system
-****************************
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2020-11-12 09:19:06--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2020-11-12 09:19:07--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
-
-     0K                                                       100%  148M=0s
-
-2020-11-12 09:19:07 (148 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
-
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-12-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
-patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
-patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
-patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
-patch -s -f -N -p1 -i ../backports/v5.4_dma_buf.patch
-patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
-patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
-patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
-patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
-Patched drivers/media/dvb-core/dvbdev.c
-Patched drivers/media/v4l2-core/v4l2-dev.c
-Patched drivers/media/rc/rc-main.c
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-./scripts/make_kconfig.pl /lib/modules/4.19.0-12-amd64/build /lib/modules/4.19.0-12-amd64/build 1
-File not found: /lib/modules/4.19.0-12-amd64/build/.config at ./scripts/make_kconfig.pl line 33, <IN> line 4.
-Preparing to compile for kernel version 4.19.0
-make[1]: *** [Makefile:379: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
