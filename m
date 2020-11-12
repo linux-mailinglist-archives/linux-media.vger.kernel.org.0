@@ -2,232 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C9B052B01FF
-	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 10:32:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BF9632B0212
+	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 10:38:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726107AbgKLJco (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Nov 2020 04:32:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41064 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725928AbgKLJcn (ORCPT
+        id S1726107AbgKLJiZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Nov 2020 04:38:25 -0500
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:60715 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725928AbgKLJiZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Nov 2020 04:32:43 -0500
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14CA7C0613D4
-        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 01:32:42 -0800 (PST)
-Received: by mail-wm1-x344.google.com with SMTP id c16so4831606wmd.2
-        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 01:32:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:mail-followup-to:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=yi1OMf/gd5HyvbzJ7IKPIRAKF/of2XlvAeMy3R2I3KU=;
-        b=ClGwd9PImy4lshiA+U9TgHm3wMtpgX29mRHTW1PJ2Z/B04KEA5sYxSwmqwHFInajPL
-         bBgGwHoANnPrek4f/2fTZmkNXn4ZXMfy6/P/wzzDLZ0D+o59/USQC5sh8s8BLMNMRT23
-         2JQ2SimoqOAPzXBp9UgIXN67enji1ANRDCQMA=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id
-         :mail-followup-to:references:mime-version:content-disposition
-         :content-transfer-encoding:in-reply-to;
-        bh=yi1OMf/gd5HyvbzJ7IKPIRAKF/of2XlvAeMy3R2I3KU=;
-        b=XqugfYa0AK2Pg9ldLHrOCjBzhq2Jp9CV0AiGTqrNeqfAeb0YnFu7DeLkLt53YY/rIF
-         EduI3a32aRqnpgFupHa8zF8aCB7eiOLEy2zloRaO0+SBbuhLAqPmpoRXvwNOdBfp273m
-         8fFNEt8T1FOI0snHqrZcT4Whxy5eentofwRk+X7MM0fLaHk5pTwb/0fObqrT5AHOxxsb
-         70faDfOW5Uhhtm/4YUC4xMEsS/5XwXwggGkVz44T/odHqjXopXcHGwFglWYjP0L7GBr2
-         jsXAB2YPbj1I7Nl+IGpDdwToNhDSFhxfo8QmTkyoJUdjy/CeCkIbLb4b2Lc1sXT8M6Bn
-         SiVA==
-X-Gm-Message-State: AOAM533jFSk56sSQZ5qUxRZrfkkSNld6wBiXK/G4xtDTLL9axodcxTRb
-        4fznd1KMOnEyKg0OQid6LgUqOQ==
-X-Google-Smtp-Source: ABdhPJyCyDhy97NTajt/L+ZmaByBkxvp9KnxOaVEKwIx5lRydWZdS/DGH3dvRWY0NjD8L6XIb4eELw==
-X-Received: by 2002:a1c:2d5:: with SMTP id 204mr8871662wmc.181.1605173560677;
-        Thu, 12 Nov 2020 01:32:40 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id g20sm5717032wmh.20.2020.11.12.01.32.39
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2020 01:32:39 -0800 (PST)
-Date:   Thu, 12 Nov 2020 10:32:37 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Sumit Semwal <sumit.semwal@linaro.org>
-Cc:     John Stultz <john.stultz@linaro.org>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Christian Koenig <christian.koenig@amd.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>
-Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
- & a system-uncached implementation
-Message-ID: <20201112093237.GS401619@phenom.ffwll.local>
-Mail-Followup-To: Sumit Semwal <sumit.semwal@linaro.org>,
-        John Stultz <john.stultz@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Liam Mark <lmark@codeaurora.org>, Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        =?iso-8859-1?Q?=D8rjan?= Eide <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>, James Jones <jajones@nvidia.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>
-References: <20201110034934.70898-1-john.stultz@linaro.org>
- <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
+        Thu, 12 Nov 2020 04:38:25 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 030ABE0006;
+        Thu, 12 Nov 2020 09:38:19 +0000 (UTC)
+Date:   Thu, 12 Nov 2020 10:38:21 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org, naush@raspberrypi.com,
+        dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+        kieran.bingham@ideasonboard.com, niklas.soderlund@ragnatech.se,
+        hverkuil@xs4all.nl, nsaenzjulienne@suse.de,
+        mchehab+huawei@kernel.org
+Subject: Re: [PATCH v3 1/5] media: uapi: v4l2-core: Add sensor ancillary data
+ V4L2 fourcc type
+Message-ID: <20201112093821.y676dnvtjxkbpxah@uno.localdomain>
+References: <20201102165258.408049-1-jacopo@jmondi.org>
+ <20201102165258.408049-2-jacopo@jmondi.org>
+ <20201111171929.GA6899@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
-X-Operating-System: Linux phenom 5.7.0-1-amd64 
+In-Reply-To: <20201111171929.GA6899@valkosipuli.retiisi.org.uk>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 12, 2020 at 11:09:04AM +0530, Sumit Semwal wrote:
-> Hi John,
-> 
-> On Tue, 10 Nov 2020 at 09:19, John Stultz <john.stultz@linaro.org> wrote:
-> >
-> > Hey All,
-> >   So just wanted to send my last revision of my patch series
-> > of performance optimizations to the dma-buf system heap.
-> 
-> Thanks very much for your patches - I think the first 5 patches look good to me.
-> 
-> I know there was a bit of discussion over adding a new system-uncached
-> heap v/s using a flag to identify that; I think I prefer the separate
-> heap idea, but lets ask one last time if any one else has any real
-> objections to it.
-> 
-> Daniel, Christian: any comments from your side on this?
+Hi Sakari,
+   I'll attempt a reply, Dave and Naush which first authored the patch
+might provide more valuable feedback than me.
 
-I do wonder a bit where the userspace stack for this all is, since tuning
-allocators without a full stack is fairly pointless. dma-buf heaps is a
-bit in a limbo situation here it feels like.
+Also, please note v4 is out
 
-Plus I'm vary of anything related to leaking this kind of stuff beyond the
-dma-api because dma api maintainers don't like us doing that. But
-personally no concern on that front really, gpus need this. It's just that
-we do need solid justification I think if we land this. Hence back to
-first point.
+On Wed, Nov 11, 2020 at 07:19:29PM +0200, Sakari Ailus wrote:
+> Hi Jacopo,
+>
+> On Mon, Nov 02, 2020 at 05:52:54PM +0100, Jacopo Mondi wrote:
+> > From: Naushir Patuck <naush@raspberrypi.com>
+> >
+> > Add V4L2_META_FMT_SENSOR_DATA format 4CC.
+> >
+> > This new format will be used to return camera sensor embedded data.
+> >
+> > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> > ---
+> >  .../userspace-api/media/v4l/meta-formats.rst  |  1 +
+> >  .../media/v4l/pixfmt-meta-sensor-data.rst     | 32 +++++++++++++++++++
+> >  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+> >  include/uapi/linux/videodev2.h                |  1 +
+> >  4 files changed, 35 insertions(+)
+> >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
+> >
+> > diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> > index fff25357fe860..b2201d1524eb6 100644
+> > --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
+> > +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> > @@ -15,6 +15,7 @@ These formats are used for the :ref:`metadata` interface only.
+> >      pixfmt-meta-d4xx
+> >      pixfmt-meta-intel-ipu3
+> >      pixfmt-meta-rkisp1
+> > +    pixfmt-meta-sensor-data
+> >      pixfmt-meta-uvc
+> >      pixfmt-meta-vsp1-hgo
+> >      pixfmt-meta-vsp1-hgt
+> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
+> > new file mode 100644
+> > index 0000000000000..639ede1a8fee3
+> > --- /dev/null
+> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
+> > @@ -0,0 +1,32 @@
+> > +.. Permission is granted to copy, distribute and/or modify this
+> > +.. document under the terms of the GNU Free Documentation License,
+> > +.. Version 1.1 or any later version published by the Free Software
+> > +.. Foundation, with no Invariant Sections, no Front-Cover Texts
+> > +.. and no Back-Cover Texts. A copy of the license is included at
+> > +.. Documentation/media/uapi/fdl-appendix.rst.
+> > +..
+> > +.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
+> > +
+> > +.. _v4l2-meta-fmt-sensor-data:
+> > +
+> > +***********************************
+> > +V4L2_META_FMT_SENSOR_DATA  ('SENS')
+> > +***********************************
+> > +
+> > +Sensor Ancillary Metadata
+> > +
+> > +Description
+> > +===========
+> > +
+> > +This format describes ancillary data generated by a camera sensor and
+> > +transmitted over a stream on the camera bus. Most sensor vendors have their
+> > +own custom format for this ancillary data. Some vendors follow a generic
+> > +CSI-2/SMIA embedded data format as described in the `CSI-2 specification.
+> > +<https://mipi.org/specifications/csi-2>`_
+> > +
+> > +The size of the embedded buffer is defined as a single line with a pixel width
+> > +specified in bytes. This is obtained by a call to the
+> > +:c:type:`VIDIOC_SUBDEV_G_FMT` ioctl on the sensor subdevice where the ``pad``
+> > +field in :c:type:`v4l2_subdev_format` is set to 1.  Note that this size is fixed
+> > +and cannot be modified with a call to :c:type:`VIDIOC_SUBDEV_S_FMT`.
+> > +
+> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > index eeff398fbdcc1..d01d9ca6578df 100644
+> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> > @@ -1402,6 +1402,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+> >  	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
+> >  	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
+> >  	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
+> > +	case V4L2_META_FMT_SENSOR_DATA:	descr = "Sensor Ancillary Metadata"; break;
+>
+> How about "Embedded" instead? This is called embedded data virtually
+> everywhere.
 
-Ideally first point comes in the form of benchmarking on android together
-with a mesa driver (or mesa + some v4l driver or whatever it takes to
-actually show the benefits, I have no idea).
--Daniel
+I like it better too, and that's the term also used by the csi-2
+and ccs specs if I'm not mistaken
 
-> 
-> I am planning to merge this series to drm-misc this week if I hear no
-> objections.
-> >
-> > This series reworks the system heap to use sgtables, and then
-> > consolidates the pagelist method from the heap-helpers into the
-> > CMA heap. After which the heap-helpers logic is removed (as it
-> > is unused). I'd still like to find a better way to avoid some of
-> > the logic duplication in implementing the entire dma_buf_ops
-> > handlers per heap. But unfortunately that code is tied somewhat
-> > to how the buffer's memory is tracked. As more heaps show up I
-> > think we'll have a better idea how to best share code, so for
-> > now I think this is ok.
-> >
-> > After this, the series introduces an optimization that
-> > Ørjan Eide implemented for ION that avoids calling sync on
-> > attachments that don't have a mapping.
-> >
-> > Next, an optimization to use larger order pages for the system
-> > heap. This change brings us closer to the current performance
-> > of the ION allocation code (though there still is a gap due
-> > to ION using a mix of deferred-freeing and page pools, I'll be
-> > looking at integrating those eventually).
-> >
-> > Finally, a reworked version of my uncached system heap
-> > implementation I was submitting a few weeks back. Since it
-> > duplicated a lot of the now reworked system heap code, I
-> > realized it would be much simpler to add the functionality to
-> > the system_heap implementation itself.
-> >
-> > While not improving the core allocation performance, the
-> > uncached heap allocations do result in *much* improved
-> > performance on HiKey960 as it avoids a lot of flushing and
-> > invalidating buffers that the cpu doesn't touch often.
-> >
-> > Feedback on these would be great!
-> >
-> > thanks
-> > -john
-> >
-> > New in v5:
-> > * Added a comment explaining why the order sizes are
-> >   chosen as they are
-> >
-> > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> > Cc: Liam Mark <lmark@codeaurora.org>
-> > Cc: Laura Abbott <labbott@kernel.org>
-> > Cc: Brian Starkey <Brian.Starkey@arm.com>
-> > Cc: Hridya Valsaraju <hridya@google.com>
-> > Cc: Suren Baghdasaryan <surenb@google.com>
-> > Cc: Sandeep Patil <sspatil@google.com>
-> > Cc: Daniel Mentz <danielmentz@google.com>
-> > Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
-> > Cc: Ørjan Eide <orjan.eide@arm.com>
-> > Cc: Robin Murphy <robin.murphy@arm.com>
-> > Cc: Ezequiel Garcia <ezequiel@collabora.com>
-> > Cc: Simon Ser <contact@emersion.fr>
-> > Cc: James Jones <jajones@nvidia.com>
-> > Cc: linux-media@vger.kernel.org
-> > Cc: dri-devel@lists.freedesktop.org
-> >
-> > John Stultz (7):
-> >   dma-buf: system_heap: Rework system heap to use sgtables instead of
-> >     pagelists
-> >   dma-buf: heaps: Move heap-helper logic into the cma_heap
-> >     implementation
-> >   dma-buf: heaps: Remove heap-helpers code
-> >   dma-buf: heaps: Skip sync if not mapped
-> >   dma-buf: system_heap: Allocate higher order pages if available
-> >   dma-buf: dma-heap: Keep track of the heap device struct
-> >   dma-buf: system_heap: Add a system-uncached heap re-using the system
-> >     heap
-> >
-> >  drivers/dma-buf/dma-heap.c           |  33 +-
-> >  drivers/dma-buf/heaps/Makefile       |   1 -
-> >  drivers/dma-buf/heaps/cma_heap.c     | 324 +++++++++++++++---
-> >  drivers/dma-buf/heaps/heap-helpers.c | 270 ---------------
-> >  drivers/dma-buf/heaps/heap-helpers.h |  53 ---
-> >  drivers/dma-buf/heaps/system_heap.c  | 494 ++++++++++++++++++++++++---
-> >  include/linux/dma-heap.h             |   9 +
-> >  7 files changed, 753 insertions(+), 431 deletions(-)
-> >  delete mode 100644 drivers/dma-buf/heaps/heap-helpers.c
-> >  delete mode 100644 drivers/dma-buf/heaps/heap-helpers.h
-> >
-> > --
-> > 2.17.1
-> >
-> Thanks much,
-> 
-> Best,
-> Sumit.
+>
+> Is it meant that all sensors would use this mbus code, or just some? I was
+> thinking we'd have sensor specific embedded data formats, but this approach
+> admittedly makes implementation easier in quite a few places. What will be
+> the documentation requirements for embedded data formats? Anything goes,
+> or...? I'm not sure I like that idea. Thoughts, anyone?
+>
+> If we use an opaque format here, it'll be impossible for the receiver
+> driver to know how to pack the data in memory. Although... I guess this is
+> generally the responsibility of the software.
+>
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+Dave gave a great summary of how defining less opaque formats might
+not be practical in his reply to Hans.
+
+In the current design sensors that produce embedded data expose and
+additional pad where it is possible to call the usual subdev_g_fmt to
+retrieve the size information. That's all the receiver needs to know
+to allocate buffers and properly transfer data there.
+
+I see the CSS specs prescribing embedded data to have the same bit
+depth as the image data, but I assume not all vendors might comply,
+so this should probably be advertised. The simple solution is to
+return a format.width in bytes. You can see that in the unicam driver:
+
+		node->v_fmt.fmt.meta.buffersize = mbus_fmt.width
+						* mbus_fmt.height;
+
+Where the mbus_fmt is fetched from pad #1 of the sensor subdev.
+
+There's no unpacking or parsing as far as I'm aware, and this makes
+sense to me as knowledge of the sensor-specific format should not be
+in the receiver driver but delegated to a specialized user-space
+component. Having it in kernel simply doesn't scale imho (and I fail
+to see a need to do so, in the general case).
+
+> This approach will also have the consequence that we'll have an opaque
+> sensor embedded data format.
+>
+> How does the receiver figure out the bits per pixel for this? That'll be
+> needed at least for calculating the buffer size when the data is written to
+> the memory.
+>
+
+As said the current design of unicam and "augmented" sensor drivers
+relies on the presence of an additional pad where the receivers simply
+calls g_fmt to get the size information to calculate the meteadata
+buffer size.
+
+I know this is not v4l2 spec compliant, as the returned frame width
+should be in pixels and not bytes and because of the additional pad on
+the sensor subdevice. These are the reasons why this driver is in
+staging at the moment :)
+
+I think the real question is how this should be designed on mailine
+and the actual questions to answer are:
+
+1) How to handle the additional data stream. This can be generalized
+   to the question of how to handle CSI-2 VC/DT multiplexing
+
+2) Based on the answer to 1) decide how to advertise the packaging
+   information: encode them in the format (ie
+   V4L2_META_FMT_EMBEDDED_DATA8_1x8) or access them through one of the
+   existing uapi/kapi.
+
+In any case, I don't think any knoledge of anything else than
+packaging structure should be required in the reciver: ie parsing of
+the embedded data content should happen elsewhere.
+
+As 1) seems to be the million dollar question, for the time being I
+would rather define an opaque format. In v4 I went for
+V4L2_META_FMT_CUSTOM_SENSOR_DATA as suggested by Hans, but this could
+very well be V4L2_META_FMT_OPAQUE_EMBEDDED_DATA or similar, with the
+documentation more clearly stating that the format does not convey any
+information on the actual bit depth and it's up to the receiver to
+figure it out.
+
+Do we have anything like staging formats ?
+
+Thanks
+   j
+
+> >
+> >  	default:
+> >  		/* Compressed formats */
+> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> > index 534eaa4d39bc8..b7e3185e66631 100644
+> > --- a/include/uapi/linux/videodev2.h
+> > +++ b/include/uapi/linux/videodev2.h
+> > @@ -769,6 +769,7 @@ struct v4l2_pix_format {
+> >  #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
+> >  #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
+> >  #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
+> > +#define V4L2_META_FMT_SENSOR_DATA v4l2_fourcc('S', 'E', 'N', 'S') /* Sensor Ancillary metadata */
+> >
+> >  /* priv field value to indicates that subsequent fields are valid. */
+> >  #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
