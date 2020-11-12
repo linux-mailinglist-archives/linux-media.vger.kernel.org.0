@@ -2,235 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BF9632B0212
-	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 10:38:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AC7232B02AC
+	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 11:26:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726107AbgKLJiZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Nov 2020 04:38:25 -0500
-Received: from relay4-d.mail.gandi.net ([217.70.183.196]:60715 "EHLO
-        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725928AbgKLJiZ (ORCPT
+        id S1727796AbgKLK00 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Nov 2020 05:26:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49452 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727762AbgKLK0Z (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Nov 2020 04:38:25 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 030ABE0006;
-        Thu, 12 Nov 2020 09:38:19 +0000 (UTC)
-Date:   Thu, 12 Nov 2020 10:38:21 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-media@vger.kernel.org, naush@raspberrypi.com,
-        dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
-        kieran.bingham@ideasonboard.com, niklas.soderlund@ragnatech.se,
-        hverkuil@xs4all.nl, nsaenzjulienne@suse.de,
-        mchehab+huawei@kernel.org
-Subject: Re: [PATCH v3 1/5] media: uapi: v4l2-core: Add sensor ancillary data
- V4L2 fourcc type
-Message-ID: <20201112093821.y676dnvtjxkbpxah@uno.localdomain>
-References: <20201102165258.408049-1-jacopo@jmondi.org>
- <20201102165258.408049-2-jacopo@jmondi.org>
- <20201111171929.GA6899@valkosipuli.retiisi.org.uk>
+        Thu, 12 Nov 2020 05:26:25 -0500
+Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 934FBC0613D1;
+        Thu, 12 Nov 2020 02:26:25 -0800 (PST)
+Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id EAB10634C24;
+        Thu, 12 Nov 2020 12:24:43 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1kd9mX-0004Ki-4c; Thu, 12 Nov 2020 12:24:45 +0200
+Date:   Thu, 12 Nov 2020 12:24:45 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Linus Walleij <linus.walleij@linaro.org>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        newbytee@protonmail.com, Stephan Gerhold <stephan@gerhold.net>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 2/2 v3] leds: rt8515: Add Richtek RT8515 LED driver
+Message-ID: <20201112102444.GB6899@valkosipuli.retiisi.org.uk>
+References: <20201111011417.2275501-1-linus.walleij@linaro.org>
+ <20201111011417.2275501-2-linus.walleij@linaro.org>
+ <20201111113848.GX6899@valkosipuli.retiisi.org.uk>
+ <CACRpkdYK+X==Xm3AfymV_HEaZHOvPS-LtCLKZXc2jmzV7KUZoQ@mail.gmail.com>
+ <20201111165503.GZ6899@valkosipuli.retiisi.org.uk>
+ <CACRpkdYvfxWE83O+4OAKx02kJK5XRBCLN0rFPjBYheQ65n4urA@mail.gmail.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201111171929.GA6899@valkosipuli.retiisi.org.uk>
+In-Reply-To: <CACRpkdYvfxWE83O+4OAKx02kJK5XRBCLN0rFPjBYheQ65n4urA@mail.gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-   I'll attempt a reply, Dave and Naush which first authored the patch
-might provide more valuable feedback than me.
+Hi Linus,
 
-Also, please note v4 is out
-
-On Wed, Nov 11, 2020 at 07:19:29PM +0200, Sakari Ailus wrote:
-> Hi Jacopo,
->
-> On Mon, Nov 02, 2020 at 05:52:54PM +0100, Jacopo Mondi wrote:
-> > From: Naushir Patuck <naush@raspberrypi.com>
+On Wed, Nov 11, 2020 at 11:07:53PM +0100, Linus Walleij wrote:
+> On Wed, Nov 11, 2020 at 5:56 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
+> > On Wed, Nov 11, 2020 at 05:34:58PM +0100, Linus Walleij wrote:
+> 
+> > > The way I understand it is that this component contains its own
+> > > current regulation electronic. You request a brightness
+> > > between 1-100 and it will support this range (no external
+> > > current boost). And as a user that is "all you need to know".
+> > >
+> > > Isn't this problem more prevalent when you have some kind of
+> > > external current-regulator that you need to program?
+> > >
+> > > This component draws its power directly from VBAT (the main
+> > > battery) so regulating how much of that it takes is up to the
+> > > component.
+> > >
+> > > I could think of the component brightness being a problem if
+> > > the flash is embedded in some kind of plastic that cannot
+> > > take the heat though, but I haven't seen any code trying to
+> > > hold it down for this reason. I suppose the component
+> > > datasheet (that I don't have) specifies all these things...
 > >
-> > Add V4L2_META_FMT_SENSOR_DATA format 4CC.
+> > The LED is different from the LED driver. If you happen to have a LED with
+> > smaller maximum current than the LED driver can provide, the software has
+> > to limit the current the driver provides, or hardware damage will result.
 > >
-> > This new format will be used to return camera sensor embedded data.
-> >
-> > Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
-> > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  .../userspace-api/media/v4l/meta-formats.rst  |  1 +
-> >  .../media/v4l/pixfmt-meta-sensor-data.rst     | 32 +++++++++++++++++++
-> >  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
-> >  include/uapi/linux/videodev2.h                |  1 +
-> >  4 files changed, 35 insertions(+)
-> >  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
-> >
-> > diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > index fff25357fe860..b2201d1524eb6 100644
-> > --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> > @@ -15,6 +15,7 @@ These formats are used for the :ref:`metadata` interface only.
-> >      pixfmt-meta-d4xx
-> >      pixfmt-meta-intel-ipu3
-> >      pixfmt-meta-rkisp1
-> > +    pixfmt-meta-sensor-data
-> >      pixfmt-meta-uvc
-> >      pixfmt-meta-vsp1-hgo
-> >      pixfmt-meta-vsp1-hgt
-> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
-> > new file mode 100644
-> > index 0000000000000..639ede1a8fee3
-> > --- /dev/null
-> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
-> > @@ -0,0 +1,32 @@
-> > +.. Permission is granted to copy, distribute and/or modify this
-> > +.. document under the terms of the GNU Free Documentation License,
-> > +.. Version 1.1 or any later version published by the Free Software
-> > +.. Foundation, with no Invariant Sections, no Front-Cover Texts
-> > +.. and no Back-Cover Texts. A copy of the license is included at
-> > +.. Documentation/media/uapi/fdl-appendix.rst.
-> > +..
-> > +.. TODO: replace it to GFDL-1.1-or-later WITH no-invariant-sections
-> > +
-> > +.. _v4l2-meta-fmt-sensor-data:
-> > +
-> > +***********************************
-> > +V4L2_META_FMT_SENSOR_DATA  ('SENS')
-> > +***********************************
-> > +
-> > +Sensor Ancillary Metadata
-> > +
-> > +Description
-> > +===========
-> > +
-> > +This format describes ancillary data generated by a camera sensor and
-> > +transmitted over a stream on the camera bus. Most sensor vendors have their
-> > +own custom format for this ancillary data. Some vendors follow a generic
-> > +CSI-2/SMIA embedded data format as described in the `CSI-2 specification.
-> > +<https://mipi.org/specifications/csi-2>`_
-> > +
-> > +The size of the embedded buffer is defined as a single line with a pixel width
-> > +specified in bytes. This is obtained by a call to the
-> > +:c:type:`VIDIOC_SUBDEV_G_FMT` ioctl on the sensor subdevice where the ``pad``
-> > +field in :c:type:`v4l2_subdev_format` is set to 1.  Note that this size is fixed
-> > +and cannot be modified with a call to :c:type:`VIDIOC_SUBDEV_S_FMT`.
-> > +
-> > diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > index eeff398fbdcc1..d01d9ca6578df 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> > @@ -1402,6 +1402,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
-> >  	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
-> >  	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
-> >  	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
-> > +	case V4L2_META_FMT_SENSOR_DATA:	descr = "Sensor Ancillary Metadata"; break;
->
-> How about "Embedded" instead? This is called embedded data virtually
-> everywhere.
+> > This is why virtually all flash LED drivers have these properties.
+> 
+> Hm you're right of course.
+> 
+> I did some research, the flash driver in the RT8515
+> appears to be somewhat clever.
+> 
+> Here is a schematic picture from the LG P970 service
+> manual where you can see the connections from the RT8515
+> to the LED:
+> https://dflund.se/~triad/images/rt8515.jpg
+> 
+> On this image you can see that there are two resistors connected
+> from the pins "RFS" and "RTS" to ground.
+> 
+> RFS (resistance flash setting?) is 20 kOhm
+> RTS (resistance torch setting?) is 39 kOhm
+> 
+> Some sleuthing finds us the RT9387A which we have a datasheet for:
+> https://static5.arrow.com/pdfs/2014/7/27/8/21/12/794/rtt_/manual/94download_ds.jspprt9387a.jspprt9387a.pdf
+> This apparently works the same way so now we have a
+> RT9387A driver as well.
+> 
+> The two resistances control the max current for flash
+> and torch, with I = 5500 / R, up to 700 mA.
+> For 20 and 39 kOhm this means
+> 
+> ImaxFlash = 275 mA
+> ImaxTorch = 141 mA
+> 
+> So the max current is actually hardwired into the
+> circuit.
 
-I like it better too, and that's the term also used by the csi-2
-and ccs specs if I'm not mistaken
+Nice; thanks for digging into this! Interesting indeed, I have to admit
+I've only seen software limited implementations up to now.
 
->
-> Is it meant that all sensors would use this mbus code, or just some? I was
-> thinking we'd have sensor specific embedded data formats, but this approach
-> admittedly makes implementation easier in quite a few places. What will be
-> the documentation requirements for embedded data formats? Anything goes,
-> or...? I'm not sure I like that idea. Thoughts, anyone?
->
-> If we use an opaque format here, it'll be impossible for the receiver
-> driver to know how to pack the data in memory. Although... I guess this is
-> generally the responsibility of the software.
->
+So here it's indeed not necessary to know the limits to operate the device
+safely, and the limits would (or could) remain for the user interface's
+purpose only (from driver PoV).
 
-Dave gave a great summary of how defining less opaque formats might
-not be practical in his reply to Hans.
+> 
+> The setting of brightness is done with the pulse train,
+> but it is a PWM dimmer setting on top of the max
+> current.
+> 
+> So I'll just put in these max currents (assuming they
+> are using the same equation).
 
-In the current design sensors that produce embedded data expose and
-additional pad where it is possible to call the usual subdev_g_fmt to
-retrieve the size information. That's all the receiver needs to know
-to allocate buffers and properly transfer data there.
+Sounds good.
 
-I see the CSS specs prescribing embedded data to have the same bit
-depth as the image data, but I assume not all vendors might comply,
-so this should probably be advertised. The simple solution is to
-return a format.width in bytes. You can see that in the unicam driver:
+I think it'd be nice to have the limits, but they could be optional --- it
+might not be always possible to know them in general case. I wonder if
+anyone else has thoughts on this.
 
-		node->v_fmt.fmt.meta.buffersize = mbus_fmt.width
-						* mbus_fmt.height;
+Cc'ing also linux-media.
 
-Where the mbus_fmt is fetched from pad #1 of the sensor subdev.
+-- 
+Kind regards,
 
-There's no unpacking or parsing as far as I'm aware, and this makes
-sense to me as knowledge of the sensor-specific format should not be
-in the receiver driver but delegated to a specialized user-space
-component. Having it in kernel simply doesn't scale imho (and I fail
-to see a need to do so, in the general case).
-
-> This approach will also have the consequence that we'll have an opaque
-> sensor embedded data format.
->
-> How does the receiver figure out the bits per pixel for this? That'll be
-> needed at least for calculating the buffer size when the data is written to
-> the memory.
->
-
-As said the current design of unicam and "augmented" sensor drivers
-relies on the presence of an additional pad where the receivers simply
-calls g_fmt to get the size information to calculate the meteadata
-buffer size.
-
-I know this is not v4l2 spec compliant, as the returned frame width
-should be in pixels and not bytes and because of the additional pad on
-the sensor subdevice. These are the reasons why this driver is in
-staging at the moment :)
-
-I think the real question is how this should be designed on mailine
-and the actual questions to answer are:
-
-1) How to handle the additional data stream. This can be generalized
-   to the question of how to handle CSI-2 VC/DT multiplexing
-
-2) Based on the answer to 1) decide how to advertise the packaging
-   information: encode them in the format (ie
-   V4L2_META_FMT_EMBEDDED_DATA8_1x8) or access them through one of the
-   existing uapi/kapi.
-
-In any case, I don't think any knoledge of anything else than
-packaging structure should be required in the reciver: ie parsing of
-the embedded data content should happen elsewhere.
-
-As 1) seems to be the million dollar question, for the time being I
-would rather define an opaque format. In v4 I went for
-V4L2_META_FMT_CUSTOM_SENSOR_DATA as suggested by Hans, but this could
-very well be V4L2_META_FMT_OPAQUE_EMBEDDED_DATA or similar, with the
-documentation more clearly stating that the format does not convey any
-information on the actual bit depth and it's up to the receiver to
-figure it out.
-
-Do we have anything like staging formats ?
-
-Thanks
-   j
-
-> >
-> >  	default:
-> >  		/* Compressed formats */
-> > diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> > index 534eaa4d39bc8..b7e3185e66631 100644
-> > --- a/include/uapi/linux/videodev2.h
-> > +++ b/include/uapi/linux/videodev2.h
-> > @@ -769,6 +769,7 @@ struct v4l2_pix_format {
-> >  #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
-> >  #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
-> >  #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
-> > +#define V4L2_META_FMT_SENSOR_DATA v4l2_fourcc('S', 'E', 'N', 'S') /* Sensor Ancillary metadata */
-> >
-> >  /* priv field value to indicates that subsequent fields are valid. */
-> >  #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
->
-> --
-> Kind regards,
->
-> Sakari Ailus
+Sakari Ailus
