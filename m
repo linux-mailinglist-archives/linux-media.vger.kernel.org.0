@@ -2,144 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 06F812B0B1B
-	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 18:16:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EB03F2B0C9A
+	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 19:27:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726055AbgKLRQS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Nov 2020 12:16:18 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48292 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725972AbgKLRQS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Nov 2020 12:16:18 -0500
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 666A9216FD;
-        Thu, 12 Nov 2020 17:16:16 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605201377;
-        bh=lxI2SWRNu/vNMf3oMbzXFnq0SSD1w9QmvZ1Ujav1o8I=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=xe2x5M1t18yJCKwVuL2NfQxj5Wr2gJMA2Gdc1O2AMfcZWsfxd8by8nRE2Mgl14ITQ
-         YMJY1x709L8eGOFJ9b4e5+b+CEIDYbpiAtu37j1IxdZcUfsYJ+JNEDrtHsgeAnKobT
-         hNNMtYZLOBGU52c9s3omM5ptGSNIrsuMJAWqI3q4=
-Date:   Thu, 12 Nov 2020 17:16:00 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
- scaling
-Message-ID: <20201112171600.GD4742@sirena.org.uk>
-References: <20201104234427.26477-1-digetx@gmail.com>
- <20201104234427.26477-12-digetx@gmail.com>
- <20201110202945.GF2375022@ulmo>
- <20201110203257.GC5957@sirena.org.uk>
- <72ae6462-13df-9fcb-510e-8e57eee0f035@gmail.com>
- <20201111115534.GA4847@sirena.org.uk>
- <dd26eb18-8ac4-22a6-29b0-dbbe5fa6075b@gmail.com>
-MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="6WlEvdN9Dv0WHSBl"
-Content-Disposition: inline
-In-Reply-To: <dd26eb18-8ac4-22a6-29b0-dbbe5fa6075b@gmail.com>
-X-Cookie: Danger: do not shake.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+        id S1726497AbgKLS1f (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Nov 2020 13:27:35 -0500
+Received: from alexa-out-sd-02.qualcomm.com ([199.106.114.39]:45359 "EHLO
+        alexa-out-sd-02.qualcomm.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726181AbgKLS1f (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 12 Nov 2020 13:27:35 -0500
+Received: from unknown (HELO ironmsg04-sd.qualcomm.com) ([10.53.140.144])
+  by alexa-out-sd-02.qualcomm.com with ESMTP; 12 Nov 2020 10:27:33 -0800
+X-QCInternal: smtphost
+Received: from veeras-linux.qualcomm.com ([10.134.68.137])
+  by ironmsg04-sd.qualcomm.com with ESMTP; 12 Nov 2020 10:27:33 -0800
+Received: by veeras-linux.qualcomm.com (Postfix, from userid 330320)
+        id 4688021A36; Thu, 12 Nov 2020 10:27:33 -0800 (PST)
+From:   Veera Sundaram Sankaran <veeras@codeaurora.org>
+To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        sumit.semwal@linaro.org, gustavo@padovan.org, airlied@linux.ie,
+        daniel@ffwll.ch
+Cc:     Veera Sundaram Sankaran <veeras@codeaurora.org>,
+        robdclark@gmail.com, sean@poorly.run, pdhaval@codeaurora.org,
+        abhinavk@codeaurora.org, jsanka@codeaurora.org
+Subject: [PATCH RESEND 1/2] dma-fence: allow signaling drivers to set fence timestamp
+Date:   Thu, 12 Nov 2020 10:27:22 -0800
+Message-Id: <1605205643-12746-1-git-send-email-veeras@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Some drivers have hardware capability to get the precise timestamp of
+certain events based on which the fences are triggered. This allows it
+to set accurate timestamp factoring out any software and IRQ latencies.
+Move the timestamp parameter out of union in dma_fence struct to allow
+signaling drivers to set it. If the parameter is not set, ktime_get is
+used to set the current time to fence timestamp during dma_fence_signal.
 
---6WlEvdN9Dv0WHSBl
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
+---
+ drivers/dma-buf/dma-fence.c | 18 ++++++++++--------
+ include/linux/dma-fence.h   | 15 +++------------
+ 2 files changed, 13 insertions(+), 20 deletions(-)
 
-On Thu, Nov 12, 2020 at 07:59:36PM +0300, Dmitry Osipenko wrote:
-> 11.11.2020 14:55, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
-> > On Wed, Nov 11, 2020 at 12:23:41AM +0300, Dmitry Osipenko wrote:
+diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+index 43624b4..7cef49a 100644
+--- a/drivers/dma-buf/dma-fence.c
++++ b/drivers/dma-buf/dma-fence.c
+@@ -4,6 +4,7 @@
+  *
+  * Copyright (C) 2012 Canonical Ltd
+  * Copyright (C) 2012 Texas Instruments
++ * Copyright (c) 2020 The Linux Foundation. All rights reserved.
+  *
+  * Authors:
+  * Rob Clark <robdclark@gmail.com>
+@@ -329,7 +330,6 @@ void __dma_fence_might_wait(void)
+ int dma_fence_signal_locked(struct dma_fence *fence)
+ {
+ 	struct dma_fence_cb *cur, *tmp;
+-	struct list_head cb_list;
+ 
+ 	lockdep_assert_held(fence->lock);
+ 
+@@ -337,16 +337,18 @@ int dma_fence_signal_locked(struct dma_fence *fence)
+ 				      &fence->flags)))
+ 		return -EINVAL;
+ 
+-	/* Stash the cb_list before replacing it with the timestamp */
+-	list_replace(&fence->cb_list, &cb_list);
+-
+-	fence->timestamp = ktime_get();
++	/* set current time, if not set by signaling driver */
++	if (!fence->timestamp)
++		fence->timestamp = ktime_get();
+ 	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
+ 	trace_dma_fence_signaled(fence);
+ 
+-	list_for_each_entry_safe(cur, tmp, &cb_list, node) {
+-		INIT_LIST_HEAD(&cur->node);
+-		cur->func(fence, cur);
++	if (!list_empty(&fence->cb_list)) {
++		list_for_each_entry_safe(cur, tmp, &fence->cb_list, node) {
++			INIT_LIST_HEAD(&cur->node);
++			cur->func(fence, cur);
++		}
++		INIT_LIST_HEAD(&fence->cb_list);
+ 	}
+ 
+ 	return 0;
+diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+index 09e23ad..a9eebaf 100644
+--- a/include/linux/dma-fence.h
++++ b/include/linux/dma-fence.h
+@@ -4,6 +4,7 @@
+  *
+  * Copyright (C) 2012 Canonical Ltd
+  * Copyright (C) 2012 Texas Instruments
++ * Copyright (c) 2020 The Linux Foundation. All rights reserved.
+  *
+  * Authors:
+  * Rob Clark <robdclark@gmail.com>
+@@ -70,26 +71,16 @@ struct dma_fence {
+ 	 * release the fence it is unused. No one should be adding to the
+ 	 * cb_list that they don't themselves hold a reference for.
+ 	 *
+-	 * The lifetime of the timestamp is similarly tied to both the
+-	 * rcu freelist and the cb_list. The timestamp is only set upon
+-	 * signaling while simultaneously notifying the cb_list. Ergo, we
+-	 * only use either the cb_list of timestamp. Upon destruction,
+-	 * neither are accessible, and so we can use the rcu. This means
+-	 * that the cb_list is *only* valid until the signal bit is set,
+-	 * and to read either you *must* hold a reference to the fence,
+-	 * and not just the rcu_read_lock.
+-	 *
+ 	 * Listed in chronological order.
+ 	 */
+ 	union {
+ 		struct list_head cb_list;
+-		/* @cb_list replaced by @timestamp on dma_fence_signal() */
+-		ktime_t timestamp;
+-		/* @timestamp replaced by @rcu on dma_fence_release() */
++		/* @cb_list replaced by @rcu on dma_fence_release() */
+ 		struct rcu_head rcu;
+ 	};
+ 	u64 context;
+ 	u64 seqno;
++	ktime_t timestamp;
+ 	unsigned long flags;
+ 	struct kref refcount;
+ 	int error;
+-- 
+2.7.4
 
-> >> I already changed that code to use regulator_get_optional() for v2.
-
-> > That doesn't look entirely appropriate given that the core does most
-> > likely require some kind of power to operate.
-
-> We will need to do this because older DTBs won't have that regulator and
-> we want to keep them working.
-
-> Also, some device-trees won't have that regulator anyways because board
-> schematics isn't available, and thus, we can't fix them.
-
-This is what dummy supplies are for?
-
-> >> Regarding the enumerating supported voltage.. I think this should be
-> >> done by the OPP core, but regulator core doesn't work well if
-> >> regulator_get() is invoked more than one time for the same device, at
-> >> least there is a loud debugfs warning about an already existing
-
-> > I don't understand why this would be an issue - if nothing else the core
-> > could just offer an interface to trigger the check.
-
-> It's not an issue, I just described what happens when device driver
-> tries to get a regulator twice.
-
-> There was an issue once that check is added to the regulator core code.
-> But perhaps not worth to discuss it for now because I don't remember
-> details.
-
-So there's no known obstacle to putting enumeration of supported
-voltages into the OPP core then?  I'm a bit confused here.
-
-> >> directory for a regulator. It's easy to check whether the debug
-> >> directory exists before creating it, like thermal framework does it for
-> >> example, but then there were some other more difficult issues.. I don't
-> >> recall what they were right now. Perhaps will be easier to simply get a
-> >> error from regulator_set_voltage() for now because it shouldn't ever
-> >> happen in practice, unless device-tree has wrong constraints.
-
-> > The constraints might not be wrong, there might be some board which has
-> > a constraint somewhere for=20
-
-> In this case board's DT shouldn't specify unsupportable OPPs.
-
-Ah, so each board duplicates the OPP tables then, or there's an
-expectation that if there's some limit then they'll copy and modify the
-table?  If that's the case then it's a bit redundant to do filtering
-indeed.
-
---6WlEvdN9Dv0WHSBl
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl+tbc8ACgkQJNaLcl1U
-h9DMCwgAg/TVHTXmevYwD5s1Ajz8QKM96GSjHTvRKagWLF+y+O7/6SvbHmWmiMqD
-72lNxOyhMyrHsB/r2SJfYiZnTaxPvDwxTdU9CzTHTAPUdapJ6qyV0iuMkQHGTGKN
-SYqZvJhMfwBpvhvMDaUiOMYQ9uTqipBCfhqgXNhQaGfnIco6awkwlY3AKGp+50pg
-XKM7DBdL0naY0/Mog4jbOjAo3Np4dTsY/CPaIh/QPQe4p2lHaBmWLjobDZOlzEXI
-kZlYkHPdsANUEzVh7uuTgqYPs+WfxLW89lNjqL2/if0+KF5dNmcHORIOsJ5GQlQb
-J3JAZ0VQrlO7gydHgdEneannVwSdIg==
-=CmJu
------END PGP SIGNATURE-----
-
---6WlEvdN9Dv0WHSBl--
