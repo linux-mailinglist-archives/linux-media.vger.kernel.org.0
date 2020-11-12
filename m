@@ -2,55 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 111692B103E
-	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 22:26:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9DEB52B1069
+	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 22:29:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727245AbgKLV0i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Nov 2020 16:26:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39398 "EHLO
+        id S1727199AbgKLV2z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Nov 2020 16:28:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726963AbgKLV0i (ORCPT
+        with ESMTP id S1726960AbgKLV2y (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Nov 2020 16:26:38 -0500
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C3DACC0613D1;
-        Thu, 12 Nov 2020 13:26:37 -0800 (PST)
-Received: by mail-wr1-x443.google.com with SMTP id r17so7567059wrw.1;
-        Thu, 12 Nov 2020 13:26:37 -0800 (PST)
+        Thu, 12 Nov 2020 16:28:54 -0500
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 40AF4C0613D1;
+        Thu, 12 Nov 2020 13:28:54 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id c9so6468664wml.5;
+        Thu, 12 Nov 2020 13:28:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=HziF5y2Ho33ipPGe8JAMvCvqv1ktqhXSvBiNR5cyKKo=;
-        b=oP8LyXkztYBwHuxXBbqefGv8Wv5Fkb4Baq8EfEKsKe2PUk0Ltwt3L4hW18aV0JDyUL
-         7G67vt3f5kB4hiR3wG/Wo+dsNIc2rlySaKnYnNM8RAfrG33fcGqgZNQSYiQdS8Mq+Kxo
-         W4Sa11T2vGBy1D8MuHB+mBgFqRennqN9Ej6m3JIVKzGmfMv51XJ65nOXlALFIynTXN8L
-         x2PtmDcc2RQ9TQX916x77GXA9v8fBaVPdJ6MIB/ZtHYlvRcY+HtmkhI52Pm8N4PYTb94
-         FTuGobt/Y9fjLTtKwWosYliZTbteFvO25y4oyZBqGF3+83qXsilDEFjf353n+6WP+3UL
-         Yuog==
+        bh=G2BYNuIxlaObS9p75wcHPXenJKV2OHZTqCiRZ3u3/NU=;
+        b=MjSmxuzUy3A5nn2fW066uU93yV94ooVSUHoz6odmOf1nsFJ03GGRyLVDJVCSyYOY85
+         8u7A1f43k99+/zp9KJUZ2aXt3pkZ1x1fbWRfRDFXLwnOd0EX6W7bfBuG6Ww0CSZQOD5K
+         xeM7/Xw2pc+2/ZRW7NKqr3he6CaUEQfzuswJ5vpMnSp0tz3natDcFiqp0DOwAisWXBdt
+         AShV7rRe5dbd74S0/maGQK0u88EIwPn/JgtF5Rc0Xy8N2FCLafPZGvKYSWRxzZVYUYdT
+         VaTklWmbH8dCI6aK/0sv1qpWkNgSP5u7yc9wmLkaf+yGTYudq1KpsVZFEnrfGDH6K0Ir
+         rPkA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=HziF5y2Ho33ipPGe8JAMvCvqv1ktqhXSvBiNR5cyKKo=;
-        b=f9JDRl6GlxygQhh2tvq81r5f9tXedb/JIlyL0EPeDj2QL9cdTTDKmAqaDWZQoKQtK7
-         gI8ourOBO1Za2NNkzyqGcGZs5MgjkLj89tQne9z2AK4tHFPgFsE2LIEfaWWVyD5r/vud
-         KXVs2hynEwDuIhwsplFfxWk8PO1DXj4BS4/woEaMHAHxME3suG2L7cTXpKB40sPwhqUd
-         WA265vMM3MAyjkGlCYNsi32DE6LSRyS0lrZ1aNn6oM8jeoxhbwQC3MLNutty405IQawi
-         QywneCtri0V0eeT83d0HRl2ZEUeNWDwVIp+AO9ZcQsYrWa9tUf/5ZOjwAZko1hOnY97X
-         /gqg==
-X-Gm-Message-State: AOAM532uyrYsUgNqgw4ojSrdXKJIJKq8bHu8DOLn3DlxkEcJGrxtQJ3d
-        Z1rHnEGzkA0fQInGzHemtHuW6R7vbBVsTITeijo=
-X-Google-Smtp-Source: ABdhPJxIB/Q0rdjTpnfspr2y90QDinSOTab3wfLFpbQI9qmynfR60kBK/QgPN53OHeJMMwYAI40XkoKskcEEG5Z2l60=
-X-Received: by 2002:adf:804e:: with SMTP id 72mr1869161wrk.114.1605216396614;
- Thu, 12 Nov 2020 13:26:36 -0800 (PST)
+        bh=G2BYNuIxlaObS9p75wcHPXenJKV2OHZTqCiRZ3u3/NU=;
+        b=i/iGoyfyIjf2dsb9ZFQ2thEEsBDWlYfIOyOlCq/SB+q+rk5HPM47/3rXwjGfxdR6pu
+         bD7q7yLg1PMkytykz9it7OdevLoGLmtyl5XJn9ssY5A+sYN4M3Bmx+YlTJdYbodNqgVA
+         R/HcmbavJ+ZrU23c/FPXEEltzuBVjs4hsVb7jTQQIznO5Pmezo/4ispwU0FlzPcZutQw
+         u9Lm7h4mTa9iQfTZs/pjqWsrhQZLxJ4kqzCWdznMZAR5tEHLYrLBLIOC++i8Xv5vgdNL
+         i+pQox5uWcLti1MGzPZ+ySDg1GcqacriiaXKmEe8XfscdS0MWbg3Pvl2Pd9JzaRW/xX2
+         2trw==
+X-Gm-Message-State: AOAM5306ZAJwUZmj+U6LgOtO0BJqubbJSzvEkLbmzJ/VbyJ8xeSHRV61
+        IASs7uKyycrohwaEvq42H9fmIJszOQKr37ETrGU=
+X-Google-Smtp-Source: ABdhPJwACnsJDr0htDUIcZ1390M+ztGM6mHPEVrjB75T5GqTdIpxllFizlL3nKTN1oMXRIMVR4CpDhPQIZX/zXW37Sk=
+X-Received: by 2002:a1c:8150:: with SMTP id c77mr1687617wmd.26.1605216522204;
+ Thu, 12 Nov 2020 13:28:42 -0800 (PST)
 MIME-Version: 1.0
-References: <20201112190039.2785914-1-lee.jones@linaro.org> <20201112190039.2785914-16-lee.jones@linaro.org>
-In-Reply-To: <20201112190039.2785914-16-lee.jones@linaro.org>
+References: <20201112190039.2785914-1-lee.jones@linaro.org> <20201112190039.2785914-20-lee.jones@linaro.org>
+In-Reply-To: <20201112190039.2785914-20-lee.jones@linaro.org>
 From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Thu, 12 Nov 2020 16:26:25 -0500
-Message-ID: <CADnq5_OfR3KdoOrcBAiLtyqOi6kBkwkErZtRiBjo=zdAgb8hFQ@mail.gmail.com>
-Subject: Re: [PATCH 15/30] drm/amd/amdgpu/amdgpu_display: Remove pointless header
+Date:   Thu, 12 Nov 2020 16:28:30 -0500
+Message-ID: <CADnq5_Pu0v=JHsRnB_M1OJNqKOZT0otcU1GCtif12GnKt4ArAg@mail.gmail.com>
+Subject: Re: [PATCH 19/30] drm/amd/amdgpu/amdgpu_cs: Add a couple of missing
+ function param descriptions
 To:     Lee Jones <lee.jones@linaro.org>
 Cc:     David Airlie <airlied@linux.ie>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -58,10 +59,10 @@ Cc:     David Airlie <airlied@linux.ie>,
         =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
         "moderated list:DMA BUFFER SHARING FRAMEWORK" 
         <linaro-mm-sig@lists.linaro.org>,
+        Jerome Glisse <glisse@freedesktop.org>,
         Maling list - DRI developers 
         <dri-devel@lists.freedesktop.org>,
         Alex Deucher <alexander.deucher@amd.com>,
-        report to <xorg-driver-ati@lists.x.org>,
         linux-media <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Content-Transfer-Encoding: quoted-printable
@@ -69,24 +70,21 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 12, 2020 at 2:01 PM Lee Jones <lee.jones@linaro.org> wrote:
->
-> It seems only to repeat the function name.
+On Thu, Nov 12, 2020 at 2:07 PM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c:450: warning: Function param=
-eter or member 'amdgpu_connector' not described in 'amdgpu_display_ddc_prob=
-e'
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c:450: warning: Function param=
-eter or member 'use_aux' not described in 'amdgpu_display_ddc_probe'
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:685: warning: Function parameter =
+or member 'backoff' not described in 'amdgpu_cs_parser_fini'
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1655: warning: Function parameter=
+ or member 'map' not described in 'amdgpu_cs_find_mapping'
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: report to <xorg-driver-ati@lists.x.org>
+> Cc: Jerome Glisse <glisse@freedesktop.org>
 > Cc: amd-gfx@lists.freedesktop.org
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: linux-media@vger.kernel.org
@@ -97,27 +95,35 @@ Applied.  Thanks!
 
 Alex
 
+
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_display.c | 4 ----
->  1 file changed, 4 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_display.c
-> index 0b134598b3a65..f4de4b41adcfd 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_display.c
-> @@ -441,10 +441,6 @@ void amdgpu_display_print_display_setup(struct drm_d=
-evice *dev)
->         drm_connector_list_iter_end(&iter);
->  }
->
-> -/**
-> - * amdgpu_display_ddc_probe
-> - *
-> - */
->  bool amdgpu_display_ddc_probe(struct amdgpu_connector *amdgpu_connector,
->                               bool use_aux)
->  {
+> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd=
+/amdgpu/amdgpu_cs.c
+> index 8d2878e950dab..594a0108e90fa 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
+> @@ -676,6 +676,7 @@ static int amdgpu_cs_sync_rings(struct amdgpu_cs_pars=
+er *p)
+>   * cs_parser_fini() - clean parser states
+>   * @parser:    parser structure holding parsing context.
+>   * @error:     error number
+> + * @backoff:   indicator to backoff the reservation
+>   *
+>   * If error is set than unvalidate buffer, otherwise just free memory
+>   * used by parsing context.
+> @@ -1644,6 +1645,7 @@ int amdgpu_cs_wait_fences_ioctl(struct drm_device *=
+dev, void *data,
+>   * @parser: command submission parser context
+>   * @addr: VM address
+>   * @bo: resulting BO of the mapping found
+> + * @map: Placeholder to return found BO mapping
+>   *
+>   * Search the buffer objects in the command submission context for a cer=
+tain
+>   * virtual memory address. Returns allocation structure when found, NULL
 > --
 > 2.25.1
 >
