@@ -2,300 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 972DD2AFDF0
-	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 06:32:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4C3502AFEF4
+	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 06:42:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727617AbgKLFc2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Nov 2020 00:32:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57412 "EHLO
+        id S1728270AbgKLFmB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Nov 2020 00:42:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33426 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729248AbgKLFLr (ORCPT
+        with ESMTP id S1728716AbgKLFjR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Nov 2020 00:11:47 -0500
-Received: from mail-pg1-x543.google.com (mail-pg1-x543.google.com [IPv6:2607:f8b0:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8DA9C0613D1
-        for <linux-media@vger.kernel.org>; Wed, 11 Nov 2020 21:11:46 -0800 (PST)
-Received: by mail-pg1-x543.google.com with SMTP id m13so3169596pgl.7
-        for <linux-media@vger.kernel.org>; Wed, 11 Nov 2020 21:11:46 -0800 (PST)
+        Thu, 12 Nov 2020 00:39:17 -0500
+Received: from mail-lj1-x244.google.com (mail-lj1-x244.google.com [IPv6:2a00:1450:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4765CC0617A6
+        for <linux-media@vger.kernel.org>; Wed, 11 Nov 2020 21:39:17 -0800 (PST)
+Received: by mail-lj1-x244.google.com with SMTP id b17so4665307ljf.12
+        for <linux-media@vger.kernel.org>; Wed, 11 Nov 2020 21:39:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=GO7qUrL6FQeZieIqc4nnjVzdihrDHwBzswmjlHWxO28=;
-        b=Yeymv4HNPx2j+bVUZceeoVmgo2wmSTe/nktJTTeYIgnXwUaU21d+bLJ4etEsQ2n8f/
-         76+14NEpIKANUhSOiCo27BwVaZBx8FAV++1vRTbJ9AERY87uDj1NnSbI+PvoluysclQn
-         rJcMItzMoxfN78v7OXuIYRM95+hMAaCijBXLo=
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Yv2Pj9PDV7sIfV/tkESHXJ55GaWZncr9TsyJJzMjRV4=;
+        b=F5OJ5El8ZBPyveOMEas7Dvy0Ybf3roUDGX9nSKt/GvFKemsoIoZ3H3nxTqaL11T8KR
+         MlDVCiFBTFnmPeru3luSMFilW7RDlXBpncqfJ/ik8dtbAEV+uU9O4ykTLQ0vMTK4AK+e
+         gH+latBs+/B9MQtZspFvwfvUpkrYDZxs2VGmkbeY0hnfW5RxPJj7CTXPwZB2VPw0J8Jt
+         xxW3Q8U1TdLhmo9/qI2QgTpEUm5KMVBFgLjEV0keuVAIEtXCqLonk+rPhj94q4KGWsR4
+         /REgtXQ7jepo3gGBO5gi+YAeXP6Wdk63zEsFPLdqWDoSEjIRVEjvUmNdPi91xk503wLa
+         wPxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GO7qUrL6FQeZieIqc4nnjVzdihrDHwBzswmjlHWxO28=;
-        b=g2AhBh4hV0kKX3L5WSOl4KENxa7MhLxxsOk4E1NQY1IKMAiQNZD5w77ZRiqSbw69TW
-         8CBQu7MUM8BtQranaIC5+HGKuDg6iSylJNMIV9Ydbc3qOTPP/NkjyRczj8jTX5QxEbZD
-         LevSPjrajlLKE6DPSHIx+wPJrZtWN7hKH7ZteMeLgp82l6qmsvjz+bjic5jGSKx7Jviw
-         2v2ij+otbIQ1d9XazQXGnaR2UoahX96bTnmP1dpnAPIIisw/w8IYO+yqjRgSU2R+fN5G
-         J9cOr1Hp9cc8rnrXc+MoFgGRND6ybAZ2zMlmKnRJTFTU/kp8NjUs1Pyg5ISERTw+D/ay
-         HG+Q==
-X-Gm-Message-State: AOAM531u0ySrJ7/KU0SsiTGKBZjYg+HVu+0yFYqvHa9tS5udXWRqH75Z
-        zZkPMbxfXJrH4EndzRS+MN4uhGigDKOpQ/Hu
-X-Google-Smtp-Source: ABdhPJxflJg6gn+IRLhpijnQ8H4XWsPjuz7biGAK1xp9kzEX7a9sxoS6ckVDEhmlaCJpwoVGvvYLXQ==
-X-Received: by 2002:a63:e00c:: with SMTP id e12mr24564285pgh.441.1605157906349;
-        Wed, 11 Nov 2020 21:11:46 -0800 (PST)
-Received: from chromium.org ([2401:fa00:8f:2:a28c:fdff:fef0:43bf])
-        by smtp.gmail.com with ESMTPSA id o132sm4464395pfg.100.2020.11.11.21.11.44
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 11 Nov 2020 21:11:45 -0800 (PST)
-Date:   Thu, 12 Nov 2020 14:11:42 +0900
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Bingbu Cao <bingbu.cao@intel.com>
-Cc:     linux-media@vger.kernel.org, sakari.ailus@linux.intel.com,
-        senozhatsky@chromium.org, bingbu.cao@linux.intel.com,
-        qingwu.zhang@intel.com
-Subject: Re: [PATCH v3 2/2] media: ov2740: allow OTP data access during
- streaming
-Message-ID: <20201112051142.GB2685362@chromium.org>
-References: <1605076797-31058-1-git-send-email-bingbu.cao@intel.com>
- <1605076797-31058-2-git-send-email-bingbu.cao@intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Yv2Pj9PDV7sIfV/tkESHXJ55GaWZncr9TsyJJzMjRV4=;
+        b=bRtHgbo7UaMOkDK56Z6iJ1Ju33dOkXARS9A/2Xlu80rL3S/jJctBPIAExCc+3HtlCH
+         Mgehtn+RtPbZk/sobH7Rwv5Nd9SKLpyKyIHBTc32P3vyE7cOjTGTEGagqTU1tH1Qj5MM
+         /Gr6OvUQ0lY3nQFpICi6o70Q9zZAC1c4L7CofW9IgAOg3TUv4Aq2EVBuEW+jHgEABbWQ
+         RQhA+a6Q/d+0rQF+bgkWkiWhLzEI2QDPd8ZZ9OhC/zPASMvk/p4ZDSD6dMBwtcYBg/4u
+         taM/8mocUl7GLEqVP/ZxzHYhARgsQXIE/pfhBiEjPZnsKbEsmMmgFbJsJdE5n1QPoZ13
+         VEaA==
+X-Gm-Message-State: AOAM530CJndSjlTW4X/PhLsNpxIq7iGcm2TTNC2KGmftY3EhGoE/dWKT
+        wp2OCJ3DXNpkqXf6eG3NpVAhqv1mZFMmfAlN/fiqmA==
+X-Google-Smtp-Source: ABdhPJxSyeHxpGUg5+j/tG7KO7L13ECyFVZf7kpwDci8FU3UWauWNnoJj0AppaojWgSaIZqN7Vl9OOMbXqhxUKZdzIc=
+X-Received: by 2002:a05:651c:506:: with SMTP id o6mr11013134ljp.249.1605159555688;
+ Wed, 11 Nov 2020 21:39:15 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1605076797-31058-2-git-send-email-bingbu.cao@intel.com>
+References: <20201110034934.70898-1-john.stultz@linaro.org>
+In-Reply-To: <20201110034934.70898-1-john.stultz@linaro.org>
+From:   Sumit Semwal <sumit.semwal@linaro.org>
+Date:   Thu, 12 Nov 2020 11:09:04 +0530
+Message-ID: <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
+ & a system-uncached implementation
+To:     John Stultz <john.stultz@linaro.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Christian Koenig <christian.koenig@amd.com>
+Cc:     lkml <linux-kernel@vger.kernel.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 11, 2020 at 02:39:57PM +0800, Bingbu Cao wrote:
-> OTP data access of ov2740 need enable the streaming mode to load
-> and it could be done in any time, so driver need allow the OTP
-> data access during streaming instead of return EBUSY, this patch
-> try to read the OTP data out in STREAMON if OTP data is not ready
-> before first time streaming start.
-> 
-> Signed-off-by: Bingbu Cao <bingbu.cao@intel.com>
-> ---
->  drivers/media/i2c/ov2740.c | 189 +++++++++++++++++++++++----------------------
->  1 file changed, 96 insertions(+), 93 deletions(-)
+Hi John,
+
+On Tue, 10 Nov 2020 at 09:19, John Stultz <john.stultz@linaro.org> wrote:
 >
+> Hey All,
+>   So just wanted to send my last revision of my patch series
+> of performance optimizations to the dma-buf system heap.
 
-Reviewed-by: Tomasz Figa <tfiga@chromium.org>
+Thanks very much for your patches - I think the first 5 patches look good t=
+o me.
 
-Best regards,
-Tomasz
+I know there was a bit of discussion over adding a new system-uncached
+heap v/s using a flag to identify that; I think I prefer the separate
+heap idea, but lets ask one last time if any one else has any real
+objections to it.
 
-> diff --git a/drivers/media/i2c/ov2740.c b/drivers/media/i2c/ov2740.c
-> index 41c17df46f47..d723e0e7adf7 100644
-> --- a/drivers/media/i2c/ov2740.c
-> +++ b/drivers/media/i2c/ov2740.c
-> @@ -598,13 +598,109 @@ static void ov2740_update_pad_format(const struct ov2740_mode *mode,
->  	fmt->field = V4L2_FIELD_NONE;
->  }
->  
-> +static int ov2740_load_otp_data(struct nvm_data *nvm)
-> +{
-> +	struct i2c_client *client = nvm->client;
-> +	struct ov2740 *ov2740 = to_ov2740(i2c_get_clientdata(client));
-> +	u32 isp_ctrl00 = 0;
-> +	u32 isp_ctrl01 = 0;
-> +	int ret;
-> +
-> +	if (!nvm)
-> +		return -EINVAL;
-> +
-> +	if (nvm->nvm_buffer)
-> +		return 0;
-> +
-> +	nvm->nvm_buffer = kzalloc(CUSTOMER_USE_OTP_SIZE, GFP_KERNEL);
-> +	if (!nvm->nvm_buffer)
-> +		return -ENOMEM;
-> +
-> +	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, &isp_ctrl00);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to read ISP CTRL00\n");
-> +		goto err;
-> +	}
-> +
-> +	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, &isp_ctrl01);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to read ISP CTRL01\n");
-> +		goto err;
-> +	}
-> +
-> +	/* Clear bit 5 of ISP CTRL00 */
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1,
-> +			       isp_ctrl00 & ~BIT(5));
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to set ISP CTRL00\n");
-> +		goto err;
-> +	}
-> +
-> +	/* Clear bit 7 of ISP CTRL01 */
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1,
-> +			       isp_ctrl01 & ~BIT(7));
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to set ISP CTRL01\n");
-> +		goto err;
-> +	}
-> +
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-> +			       OV2740_MODE_STREAMING);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to set streaming mode\n");
-> +		goto err;
-> +	}
-> +
-> +	/*
-> +	 * Users are not allowed to access OTP-related registers and memory
-> +	 * during the 20 ms period after streaming starts (0x100 = 0x01).
-> +	 */
-> +	msleep(20);
-> +
-> +	ret = regmap_bulk_read(nvm->regmap, OV2740_REG_OTP_CUSTOMER,
-> +			       nvm->nvm_buffer, CUSTOMER_USE_OTP_SIZE);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to read OTP data, ret %d\n", ret);
-> +		goto err;
-> +	}
-> +
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-> +			       OV2740_MODE_STANDBY);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to set streaming mode\n");
-> +		goto err;
-> +	}
-> +
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, isp_ctrl01);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to set ISP CTRL01\n");
-> +		goto err;
-> +	}
-> +
-> +	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, isp_ctrl00);
-> +	if (ret) {
-> +		dev_err(&client->dev, "failed to set ISP CTRL00\n");
-> +		goto err;
-> +	}
-> +
-> +	return 0;
-> +err:
-> +	kfree(nvm->nvm_buffer);
-> +	nvm->nvm_buffer = NULL;
-> +
-> +	return ret;
-> +}
-> +
->  static int ov2740_start_streaming(struct ov2740 *ov2740)
->  {
->  	struct i2c_client *client = v4l2_get_subdevdata(&ov2740->sd);
-> +	struct nvm_data *nvm = ov2740->nvm;
->  	const struct ov2740_reg_list *reg_list;
->  	int link_freq_index;
->  	int ret = 0;
->  
-> +	ov2740_load_otp_data(nvm);
-> +
->  	link_freq_index = ov2740->cur_mode->link_freq_index;
->  	reg_list = &link_freq_configs[link_freq_index].reg_list;
->  	ret = ov2740_write_reg_list(ov2740, reg_list);
-> @@ -934,99 +1030,6 @@ static int ov2740_remove(struct i2c_client *client)
->  	return 0;
->  }
->  
-> -static int ov2740_load_otp_data(struct nvm_data *nvm)
-> -{
-> -	struct i2c_client *client = nvm->client;
-> -	struct ov2740 *ov2740 = to_ov2740(i2c_get_clientdata(client));
-> -	u32 isp_ctrl00 = 0;
-> -	u32 isp_ctrl01 = 0;
-> -	int ret;
-> -
-> -	if (!nvm)
-> -		return -EINVAL;
-> -
-> -	if (nvm->nvm_buffer)
-> -		return 0;
-> -
-> -	nvm->nvm_buffer = kzalloc(CUSTOMER_USE_OTP_SIZE, GFP_KERNEL);
-> -	if (!nvm->nvm_buffer)
-> -		return -ENOMEM;
-> -
-> -	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, &isp_ctrl00);
-> -	if (ret) {
-> -		dev_err(&client->dev, "failed to read ISP CTRL00\n");
-> -		goto err;
-> -	}
-> -
-> -	ret = ov2740_read_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, &isp_ctrl01);
-> -	if (ret) {
-> -		dev_err(&client->dev, "failed to read ISP CTRL01\n");
-> -		goto err;
-> -	}
-> -
-> -	/* Clear bit 5 of ISP CTRL00 */
-> -	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1,
-> -			       isp_ctrl00 & ~BIT(5));
-> -	if (ret) {
-> -		dev_err(&client->dev, "failed to set ISP CTRL00\n");
-> -		goto err;
-> -	}
-> -
-> -	/* Clear bit 7 of ISP CTRL01 */
-> -	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1,
-> -			       isp_ctrl01 & ~BIT(7));
-> -	if (ret) {
-> -		dev_err(&client->dev, "failed to set ISP CTRL01\n");
-> -		goto err;
-> -	}
-> -
-> -	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-> -			       OV2740_MODE_STREAMING);
-> -	if (ret) {
-> -		dev_err(&client->dev, "failed to set streaming mode\n");
-> -		goto err;
-> -	}
-> -
-> -	/*
-> -	 * Users are not allowed to access OTP-related registers and memory
-> -	 * during the 20 ms period after streaming starts (0x100 = 0x01).
-> -	 */
-> -	msleep(20);
-> -
-> -	ret = regmap_bulk_read(nvm->regmap, OV2740_REG_OTP_CUSTOMER,
-> -			       nvm->nvm_buffer, CUSTOMER_USE_OTP_SIZE);
-> -	if (ret) {
-> -		dev_err(&client->dev, "failed to read OTP data, ret %d\n", ret);
-> -		goto err;
-> -	}
-> -
-> -	ret = ov2740_write_reg(ov2740, OV2740_REG_MODE_SELECT, 1,
-> -			       OV2740_MODE_STANDBY);
-> -	if (ret) {
-> -		dev_err(&client->dev, "failed to set streaming mode\n");
-> -		goto err;
-> -	}
-> -
-> -	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL01, 1, isp_ctrl01);
-> -	if (ret) {
-> -		dev_err(&client->dev, "failed to set ISP CTRL01\n");
-> -		goto err;
-> -	}
-> -
-> -	ret = ov2740_write_reg(ov2740, OV2740_REG_ISP_CTRL00, 1, isp_ctrl00);
-> -	if (ret) {
-> -		dev_err(&client->dev, "failed to set ISP CTRL00\n");
-> -		goto err;
-> -	}
-> -
-> -	return 0;
-> -err:
-> -	kfree(nvm->nvm_buffer);
-> -	nvm->nvm_buffer = NULL;
-> -
-> -	return ret;
-> -}
-> -
->  static int ov2740_nvmem_read(void *priv, unsigned int off, void *val,
->  			     size_t count)
->  {
-> -- 
-> 2.7.4
-> 
+Daniel, Christian: any comments from your side on this?
+
+I am planning to merge this series to drm-misc this week if I hear no
+objections.
+>
+> This series reworks the system heap to use sgtables, and then
+> consolidates the pagelist method from the heap-helpers into the
+> CMA heap. After which the heap-helpers logic is removed (as it
+> is unused). I'd still like to find a better way to avoid some of
+> the logic duplication in implementing the entire dma_buf_ops
+> handlers per heap. But unfortunately that code is tied somewhat
+> to how the buffer's memory is tracked. As more heaps show up I
+> think we'll have a better idea how to best share code, so for
+> now I think this is ok.
+>
+> After this, the series introduces an optimization that
+> =C3=98rjan Eide implemented for ION that avoids calling sync on
+> attachments that don't have a mapping.
+>
+> Next, an optimization to use larger order pages for the system
+> heap. This change brings us closer to the current performance
+> of the ION allocation code (though there still is a gap due
+> to ION using a mix of deferred-freeing and page pools, I'll be
+> looking at integrating those eventually).
+>
+> Finally, a reworked version of my uncached system heap
+> implementation I was submitting a few weeks back. Since it
+> duplicated a lot of the now reworked system heap code, I
+> realized it would be much simpler to add the functionality to
+> the system_heap implementation itself.
+>
+> While not improving the core allocation performance, the
+> uncached heap allocations do result in *much* improved
+> performance on HiKey960 as it avoids a lot of flushing and
+> invalidating buffers that the cpu doesn't touch often.
+>
+> Feedback on these would be great!
+>
+> thanks
+> -john
+>
+> New in v5:
+> * Added a comment explaining why the order sizes are
+>   chosen as they are
+>
+> Cc: Sumit Semwal <sumit.semwal@linaro.org>
+> Cc: Liam Mark <lmark@codeaurora.org>
+> Cc: Laura Abbott <labbott@kernel.org>
+> Cc: Brian Starkey <Brian.Starkey@arm.com>
+> Cc: Hridya Valsaraju <hridya@google.com>
+> Cc: Suren Baghdasaryan <surenb@google.com>
+> Cc: Sandeep Patil <sspatil@google.com>
+> Cc: Daniel Mentz <danielmentz@google.com>
+> Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+> Cc: =C3=98rjan Eide <orjan.eide@arm.com>
+> Cc: Robin Murphy <robin.murphy@arm.com>
+> Cc: Ezequiel Garcia <ezequiel@collabora.com>
+> Cc: Simon Ser <contact@emersion.fr>
+> Cc: James Jones <jajones@nvidia.com>
+> Cc: linux-media@vger.kernel.org
+> Cc: dri-devel@lists.freedesktop.org
+>
+> John Stultz (7):
+>   dma-buf: system_heap: Rework system heap to use sgtables instead of
+>     pagelists
+>   dma-buf: heaps: Move heap-helper logic into the cma_heap
+>     implementation
+>   dma-buf: heaps: Remove heap-helpers code
+>   dma-buf: heaps: Skip sync if not mapped
+>   dma-buf: system_heap: Allocate higher order pages if available
+>   dma-buf: dma-heap: Keep track of the heap device struct
+>   dma-buf: system_heap: Add a system-uncached heap re-using the system
+>     heap
+>
+>  drivers/dma-buf/dma-heap.c           |  33 +-
+>  drivers/dma-buf/heaps/Makefile       |   1 -
+>  drivers/dma-buf/heaps/cma_heap.c     | 324 +++++++++++++++---
+>  drivers/dma-buf/heaps/heap-helpers.c | 270 ---------------
+>  drivers/dma-buf/heaps/heap-helpers.h |  53 ---
+>  drivers/dma-buf/heaps/system_heap.c  | 494 ++++++++++++++++++++++++---
+>  include/linux/dma-heap.h             |   9 +
+>  7 files changed, 753 insertions(+), 431 deletions(-)
+>  delete mode 100644 drivers/dma-buf/heaps/heap-helpers.c
+>  delete mode 100644 drivers/dma-buf/heaps/heap-helpers.h
+>
+> --
+> 2.17.1
+>
+Thanks much,
+
+Best,
+Sumit.
