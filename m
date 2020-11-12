@@ -2,116 +2,163 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D48CE2B0D4C
-	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 20:06:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 16E372B0DA7
+	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 20:16:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727066AbgKLTBz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Nov 2020 14:01:55 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45070 "EHLO
+        id S1726612AbgKLTQS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Nov 2020 14:16:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47356 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727049AbgKLTBy (ORCPT
+        with ESMTP id S1726295AbgKLTQS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Nov 2020 14:01:54 -0500
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F3497C0613D4
-        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 11:01:53 -0800 (PST)
-Received: by mail-wm1-x342.google.com with SMTP id d142so6188450wmd.4
-        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 11:01:53 -0800 (PST)
+        Thu, 12 Nov 2020 14:16:18 -0500
+Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18AE6C0613D1;
+        Thu, 12 Nov 2020 11:16:18 -0800 (PST)
+Received: by mail-lj1-x241.google.com with SMTP id p12so7512741ljc.9;
+        Thu, 12 Nov 2020 11:16:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=xZd7d6xqls8jDl+M8ybA/csJQ/XOet7ACTV4JHLbfR4=;
-        b=JKv9Y9oU0JhE2143HXtvB0mFtf5ERN77Q+DLf+PeSGB5sCN2dC7AZILVbxIh31xHSc
-         8k1pm/1KJOEo3/ArxZJ8DKvzExo09zMPG4iXTqFFGnj8nrSFCh7c7sq4z79vWFjaCUhF
-         cu4fJW1K//nCA7e7k0RRLxi0M51e5DxMihSLptphtScOCeHe/hfDg4S0voMBktpD+0/i
-         JZEIwYVDd4b7qpIp1CcSn8FE9VB/WPm1Sm4sIHFjeDyxvJKAuMC+KMKBxCwuGgwTwt+K
-         hE4wStSmmI2U1HpMNaEeHCn09SRh/SW0rrv3fFBLfXRzIfDor1UtNowtcSPSrC1A1GO8
-         Lplw==
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=jhfgYY14US6m4wxn2OreBeb6CQeVO8DRDGhHQIgAX+o=;
+        b=JFNyFw3LyyoB90fZPGzibsAizgKSOjs+HqVe40YhbRGey2zTAPm90qOBN8X1CJVzoO
+         M3SYYsbwVohly2d/++o0SchoujkkkZR3dQt9ALW0Nr5as8bdsOwP9tSGe6IWLUkjDbLQ
+         195IBsC4Go1c1FjWE4ifCXQMePRx9EASGLxk3zkSi25VwJ40hSyML0Ad1Owq7P06AL8m
+         dFmcJl1TYbfZeVB79l6ZTjRGThpjEH8gcPMSD2d7MgbQCdIrxVuQr31nNcK/3J9UPz8n
+         C+0AtkGaTIthUSxYky3m4HNI/HHnDyM1MWHC5gE8hZrjpfxfX3nJfxmyVs2Ix2MChWKO
+         Ve6Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=xZd7d6xqls8jDl+M8ybA/csJQ/XOet7ACTV4JHLbfR4=;
-        b=jstpksWp/FK13IRWw2mz80Sa6ULwYxB5/eTcIi18HH6SqStlLrIpbEwIzzfHG5yW3N
-         r9Loa0exaDBUxQltLI1O/R2fFQVYI5erKsGBTA1TXWmBIoEk+/iYydMkkVQcBHIYkrkT
-         R/tNQfU/IU83MjLjMUHn0GmyqHPMBYJ0SfqndRQRSqiuHINt+cM8jfAA6F5VH0MuSyhM
-         FMkORgRBJ+B4N+TUuMfo0p3NZzeJpAqIy0fxOUk8X1o8mguSb8q7tW/1hj66NxGguvD2
-         kiARMtRqq7cSzAQ2bzkxYIjmAOMTwNKbA7t/KqN28RBoGP3gWWE3QNHXLH6XWGp6bLPS
-         vHcg==
-X-Gm-Message-State: AOAM530tK0TuYxmpvWHDpM3jwBWWz7yyQWqV9uKyI84773zQCLlrdS6B
-        qunwBDqy+Fi3iuKIJBGfyzpCOw==
-X-Google-Smtp-Source: ABdhPJxssIxVYH+hdM3iTUSfocLV+rScXqNtIh5LmjSZQBzffjCk/HPBo0B9+7pPvlDzmWHoFcUuMw==
-X-Received: by 2002:a1c:dd06:: with SMTP id u6mr1084482wmg.155.1605207684974;
-        Thu, 12 Nov 2020 11:01:24 -0800 (PST)
-Received: from dell.default ([91.110.221.159])
-        by smtp.gmail.com with ESMTPSA id p4sm8105214wrm.51.2020.11.12.11.01.23
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2020 11:01:24 -0800 (PST)
-From:   Lee Jones <lee.jones@linaro.org>
-To:     lee.jones@linaro.org
-Cc:     linux-kernel@vger.kernel.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Jerome Glisse <glisse@freedesktop.org>,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 19/30] drm/amd/amdgpu/amdgpu_cs: Add a couple of missing function param descriptions
-Date:   Thu, 12 Nov 2020 19:00:28 +0000
-Message-Id: <20201112190039.2785914-20-lee.jones@linaro.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201112190039.2785914-1-lee.jones@linaro.org>
-References: <20201112190039.2785914-1-lee.jones@linaro.org>
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=jhfgYY14US6m4wxn2OreBeb6CQeVO8DRDGhHQIgAX+o=;
+        b=Che0jVDu7B8pE34x8sdEtldRwr4yRFc9htl3oWuEdv5HFYW07SyEBbaUappE26lyq1
+         +KKTYbSqQT5UWBEyYgw+xV3etiqb8a9RTqbgNHnngJZz7wLvg+UXu4iRgP8Vv71EuYeP
+         DeKQk2cwl2TGcYpdtA5zzwIgYq6hhWk77uWf5lO54sJ5OB1PZhPoj0IohATBBJId8t0J
+         tYHKyB6OofjpvmopZE6RyLVL2YtxCIIQLyCwxRxxCwK67AEd/Lq15OWtt4vy2VV/eKMl
+         vzCMYfU0bAqAxu7m3qO7fxlqxkr8+IDNJQ4uH/v1tzUkGG+HQdT99NJxHx7yUgba4pEZ
+         pHHg==
+X-Gm-Message-State: AOAM532IXPzQwSn9E/XMsdGNfvsio7CJk8PepONetZi+QtmbgLx/uvx5
+        DbVq2lY3ms0UnvEvcxYM9U9c9RipKLk=
+X-Google-Smtp-Source: ABdhPJzE5qPV9KbGM96b/lBJNsGC5IOm8d97RUP9808EMVCjf5Dc6sywu66SXsgtyXC8GPiqUvektg==
+X-Received: by 2002:a05:651c:95:: with SMTP id 21mr428933ljq.307.1605208576330;
+        Thu, 12 Nov 2020 11:16:16 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
+        by smtp.googlemail.com with ESMTPSA id z19sm721401lfd.128.2020.11.12.11.16.14
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 12 Nov 2020 11:16:15 -0800 (PST)
+Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
+ scaling
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <20201104234427.26477-1-digetx@gmail.com>
+ <20201104234427.26477-12-digetx@gmail.com> <20201110202945.GF2375022@ulmo>
+ <20201110203257.GC5957@sirena.org.uk>
+ <72ae6462-13df-9fcb-510e-8e57eee0f035@gmail.com>
+ <20201111115534.GA4847@sirena.org.uk>
+ <dd26eb18-8ac4-22a6-29b0-dbbe5fa6075b@gmail.com>
+ <20201112171600.GD4742@sirena.org.uk>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <b4b06c1d-c9d4-43b2-c6eb-93f8cb6c677d@gmail.com>
+Date:   Thu, 12 Nov 2020 22:16:14 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
+In-Reply-To: <20201112171600.GD4742@sirena.org.uk>
 Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Fixes the following W=1 kernel build warning(s):
+12.11.2020 20:16, Mark Brown пишет:
+> On Thu, Nov 12, 2020 at 07:59:36PM +0300, Dmitry Osipenko wrote:
+>> 11.11.2020 14:55, Mark Brown пишет:
+>>> On Wed, Nov 11, 2020 at 12:23:41AM +0300, Dmitry Osipenko wrote:
+> 
+>>>> I already changed that code to use regulator_get_optional() for v2.
+> 
+>>> That doesn't look entirely appropriate given that the core does most
+>>> likely require some kind of power to operate.
+> 
+>> We will need to do this because older DTBs won't have that regulator and
+>> we want to keep them working.
+> 
+>> Also, some device-trees won't have that regulator anyways because board
+>> schematics isn't available, and thus, we can't fix them.
+> 
+> This is what dummy supplies are for?
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:685: warning: Function parameter or member 'backoff' not described in 'amdgpu_cs_parser_fini'
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c:1655: warning: Function parameter or member 'map' not described in 'amdgpu_cs_find_mapping'
+But it's not allowed to change voltage of a dummy regulator, is it
+intentional?
 
-Cc: Alex Deucher <alexander.deucher@amd.com>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Jerome Glisse <glisse@freedesktop.org>
-Cc: amd-gfx@lists.freedesktop.org
-Cc: dri-devel@lists.freedesktop.org
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
-Signed-off-by: Lee Jones <lee.jones@linaro.org>
----
- drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c | 2 ++
- 1 file changed, 2 insertions(+)
+>>>> Regarding the enumerating supported voltage.. I think this should be
+>>>> done by the OPP core, but regulator core doesn't work well if
+>>>> regulator_get() is invoked more than one time for the same device, at
+>>>> least there is a loud debugfs warning about an already existing
+> 
+>>> I don't understand why this would be an issue - if nothing else the core
+>>> could just offer an interface to trigger the check.
+> 
+>> It's not an issue, I just described what happens when device driver
+>> tries to get a regulator twice.
+> 
+>> There was an issue once that check is added to the regulator core code.
+>> But perhaps not worth to discuss it for now because I don't remember
+>> details.
+> 
+> So there's no known obstacle to putting enumeration of supported
+> voltages into the OPP core then?  I'm a bit confused here.
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-index 8d2878e950dab..594a0108e90fa 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_cs.c
-@@ -676,6 +676,7 @@ static int amdgpu_cs_sync_rings(struct amdgpu_cs_parser *p)
-  * cs_parser_fini() - clean parser states
-  * @parser:	parser structure holding parsing context.
-  * @error:	error number
-+ * @backoff:	indicator to backoff the reservation
-  *
-  * If error is set than unvalidate buffer, otherwise just free memory
-  * used by parsing context.
-@@ -1644,6 +1645,7 @@ int amdgpu_cs_wait_fences_ioctl(struct drm_device *dev, void *data,
-  * @parser: command submission parser context
-  * @addr: VM address
-  * @bo: resulting BO of the mapping found
-+ * @map: Placeholder to return found BO mapping
-  *
-  * Search the buffer objects in the command submission context for a certain
-  * virtual memory address. Returns allocation structure when found, NULL
--- 
-2.25.1
+It's an obstacle if both OPP and device driver need to get the same
+regulator. Like in the case of this DRM driver, which need to control
+the voltage instead of allowing OPP core to do it.
 
+Please notice that devm_tegra_dc_opp_table_init() of this patch doesn't
+use dev_pm_opp_set_regulators(), which would allow OPP core to filter
+out unsupported OPPs. But then OPP core will need need to get an already
+requested regulator and this doesn't work well.
+
+>>>> directory for a regulator. It's easy to check whether the debug
+>>>> directory exists before creating it, like thermal framework does it for
+>>>> example, but then there were some other more difficult issues.. I don't
+>>>> recall what they were right now. Perhaps will be easier to simply get a
+>>>> error from regulator_set_voltage() for now because it shouldn't ever
+>>>> happen in practice, unless device-tree has wrong constraints.
+> 
+>>> The constraints might not be wrong, there might be some board which has
+>>> a constraint somewhere for 
+> 
+>> In this case board's DT shouldn't specify unsupportable OPPs.
+> 
+> Ah, so each board duplicates the OPP tables then, or there's an
+> expectation that if there's some limit then they'll copy and modify the
+> table?  If that's the case then it's a bit redundant to do filtering
+> indeed.
+
+I think this is not strictly defined. Either way will work, although
+perhaps it should be more preferred that unsupported OPPs aren't present
+in a device-tree.
