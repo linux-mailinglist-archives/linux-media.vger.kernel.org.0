@@ -2,567 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D2A02B0481
-	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 12:57:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3E1A12B0488
+	for <lists+linux-media@lfdr.de>; Thu, 12 Nov 2020 12:57:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728197AbgKLL5S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Nov 2020 06:57:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35490 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728234AbgKLL4z (ORCPT
+        id S1727964AbgKLL5e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 12 Nov 2020 06:57:34 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:60924 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728184AbgKLL51 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Nov 2020 06:56:55 -0500
-Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D7C9C061A47
-        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 03:56:55 -0800 (PST)
-Received: by mail-lf1-x143.google.com with SMTP id w142so7949165lff.8
-        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 03:56:55 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=A+ZLfc+1THiXtfC99VhTlDKTFHvS5Hcs9js8WxYZBxA=;
-        b=zCGH//lnguBRf1sjLTObOxLaPyx53JG9sy//7lI8srnM+5km51/8lNYjPyJI7w9a3l
-         QebejlE/RIu/VQXC6heLJbED9dIdOCE2wVGULI1TJZgYLmnod9qpsOTfaxXsfzoEjYVp
-         boB9zEHgX/oOqopdnrtiIusx2l6wTLzuXLW7N/HdWzvAA7NP8rIAUUKxJPPMheqb0Gj0
-         CYj5TwzT8I8psZCKuW/bNQFGxPFDWc1Zrk4/X87luV1eicDkhs9TmCv5spar+vDZ3tdT
-         IMI1TPMKUHdEIj9sHsYjrjxxctWiTSinnx51rHcKEqEv+nSBZIbv1RVAH1p7SGlucxeH
-         s5mw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=A+ZLfc+1THiXtfC99VhTlDKTFHvS5Hcs9js8WxYZBxA=;
-        b=mFCwdLejS3wRsfeUh5qcwhcTnUqW9P4xP9wO41BLxOQ51ncw2og0ZH8yGnof8Hjpru
-         c/pzJZ2Rha2xaB+D03z9WgyXbN8+xl8rebRInrSmQvY8c0oaVj07HSu2R6gRjOrw5iX6
-         45nbbqAgZ1VS1EhSAvliVK6gHOkwW8vGYTYCxs+xqugnr4WRdKmWhCXq6bpxLndcsOZr
-         Po3at3OIp5dmBXzGuEwoeKrtDvsbodXxGMaqbo2bzxTYqHA8uPIPBbOjV5xQYsg3rrpv
-         C+XssH02V5czmvI3GfnkJPvdHk3YULBE+f53gLkCE1GAjE3UqubyaXKMGMED7B/bcRt2
-         t9ow==
-X-Gm-Message-State: AOAM5336pe4cdaLEjWoFA0STrIjEaEtKBP3SmTlUy0yGBtAqxFsiOVyo
-        RczN0+yJnvZPh2yENUZ5ZnWOQA==
-X-Google-Smtp-Source: ABdhPJx7Zit3vFOqLuDvXOp9nPvMJLemFL5xY5n/ki8Je5nUmGnhq3GZxcecLtIr+bV0kIgvjgtJxA==
-X-Received: by 2002:ac2:5199:: with SMTP id u25mr5748886lfi.438.1605182213639;
-        Thu, 12 Nov 2020 03:56:53 -0800 (PST)
-Received: from localhost.bredbandsbolaget (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
-        by smtp.gmail.com with ESMTPSA id v4sm534624lfa.309.2020.11.12.03.56.52
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2020 03:56:52 -0800 (PST)
-From:   Linus Walleij <linus.walleij@linaro.org>
-To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
-        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
-Cc:     linux-leds@vger.kernel.org,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Sakari Ailus <sakari.ailus@iki.fi>, newbytee@protonmail.com,
-        Stephan Gerhold <stephan@gerhold.net>,
-        linux-media@vger.kernel.org, phone-devel@vger.kernel.org
-Subject: [PATCH 2/2 v4] leds: rt8515: Add Richtek RT8515 LED driver
-Date:   Thu, 12 Nov 2020 12:56:46 +0100
-Message-Id: <20201112115646.2562467-2-linus.walleij@linaro.org>
-X-Mailer: git-send-email 2.26.2
-In-Reply-To: <20201112115646.2562467-1-linus.walleij@linaro.org>
-References: <20201112115646.2562467-1-linus.walleij@linaro.org>
+        Thu, 12 Nov 2020 06:57:27 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id D20BB1F462E9
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH 0/5] Stateless H.264 de-staging
+Date:   Thu, 12 Nov 2020 08:57:09 -0300
+Message-Id: <20201112115714.48081-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This adds a driver for the Richtek RT8515 dual channel
-torch/flash white LED driver.
+Now that H.264 stateless controls are solid, we can get it
+out of staging.
 
-This LED driver is found in some mobile phones from
-Samsung such as the GT-S7710 and GT-I8190.
+Following some guidelines from Hans, this series creates a
+new stateless control class for the stable codec controls to land.
 
-A V4L interface is added.
+This is compile-tested for now, and I'm sending it just to
+check if the approach looks good, or otherwise get feedback.
 
-We do not have a proper datasheet for the RT8515 but
-it turns out that RT9387A has a public datasheet and
-is essentially the same chip. We designed the driver
-in accordance with this datasheet. The day someone
-needs to drive a RT9387A this driver can probably
-easily be augmented to handle that chip too.
+I'll be porting GStreamer v4l2codecs to the new interface
+and running some tests soon.
 
-Cc: Sakari Ailus <sakari.ailus@iki.fi>
-Cc: newbytee@protonmail.com
-Cc: Stephan Gerhold <stephan@gerhold.net>
-Cc: linux-media@vger.kernel.org
-Cc: phone-devel@vger.kernel.org
-Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
----
-ChangeLog v3->v4:
-- Create a new subdirectory for flash LEDs under
-  drivers/leds/flash as requested by Pavel, move the
-  driver there and set up a kbuild structure for pure
-  flash LEDs.
-  (Others can follow the established pattern.)
-- Handle the new richtek,rfs and richtek,rts resistor
-  values that make it possible to determine the current
-  range configured in the hardware.
-- Handle the new flash-max-microamp and torch-max-microamp
-  if present and optionally further restrict the current
-  range using these. Otherwise fall back on the hardware
-  defaults as specified by the RFS and RTS resistors.
-- Cc phone-devel@vger.kernel.org
-- License as GPL-2.0-or-later
-- Renable ent and enf gpio descriptors to enable_torch
-  and enable_flash
-Changelog v2->v3:
-- Expand commit message.
-- Add Sakari to Cc.
-- Resend.
-ChangeLog v1->v2:
-- Break out routine to bitbang the brightness on a
-  GPIO pin.
-- Do not hardcode the LED name so that the framework
-  can name it from DT properties.
----
- drivers/leds/Kconfig             |   3 +
- drivers/leds/Makefile            |   3 +
- drivers/leds/flash/Kconfig       |  15 ++
- drivers/leds/flash/Makefile      |   3 +
- drivers/leds/flash/leds-rt8515.c | 373 +++++++++++++++++++++++++++++++
- 5 files changed, 397 insertions(+)
- create mode 100644 drivers/leds/flash/Kconfig
- create mode 100644 drivers/leds/flash/Makefile
- create mode 100644 drivers/leds/flash/leds-rt8515.c
+As far as I'm aware, Ffmpeg/libavcodec support is ready and
+waiting for stable uAPIs, so we can expect that to be added
+shortly after we land this.
 
-diff --git a/drivers/leds/Kconfig b/drivers/leds/Kconfig
-index 849d3c5f908e..6c1d8b69a465 100644
---- a/drivers/leds/Kconfig
-+++ b/drivers/leds/Kconfig
-@@ -928,6 +928,9 @@ config LEDS_ACER_A500
- 	  This option enables support for the Power Button LED of
- 	  Acer Iconia Tab A500.
- 
-+comment "Flash and Torch LED drivers"
-+source "drivers/leds/flash/Kconfig"
-+
- comment "LED Triggers"
- source "drivers/leds/trigger/Kconfig"
- 
-diff --git a/drivers/leds/Makefile b/drivers/leds/Makefile
-index 73e603e1727e..156c0b4e60d9 100644
---- a/drivers/leds/Makefile
-+++ b/drivers/leds/Makefile
-@@ -103,5 +103,8 @@ obj-$(CONFIG_LEDS_SPI_BYTE)		+= leds-spi-byte.o
- # LED Userspace Drivers
- obj-$(CONFIG_LEDS_USER)			+= uleds.o
- 
-+# Flash and Torch LED Drivers
-+obj-$(CONFIG_LEDS_CLASS_FLASH)		+= flash/
-+
- # LED Triggers
- obj-$(CONFIG_LEDS_TRIGGERS)		+= trigger/
-diff --git a/drivers/leds/flash/Kconfig b/drivers/leds/flash/Kconfig
-new file mode 100644
-index 000000000000..d21d273ef3da
---- /dev/null
-+++ b/drivers/leds/flash/Kconfig
-@@ -0,0 +1,15 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+if LEDS_CLASS_FLASH
-+
-+config LEDS_RT8515
-+	tristate "LED support for Richtek RT8515 flash/torch LED"
-+	depends on GPIOLIB
-+	help
-+	  This option enables support for the Richtek RT8515 flash
-+	  and torch LEDs found on some mobile phones.
-+
-+	  To compile this driver as a module, choose M here: the module
-+	  will be called leds-rt8515.
-+
-+endif # LEDS_CLASS_FLASH
-diff --git a/drivers/leds/flash/Makefile b/drivers/leds/flash/Makefile
-new file mode 100644
-index 000000000000..e990e257f4d7
---- /dev/null
-+++ b/drivers/leds/flash/Makefile
-@@ -0,0 +1,3 @@
-+# SPDX-License-Identifier: GPL-2.0
-+
-+obj-$(CONFIG_LEDS_RT8515)	+= leds-rt8515.o
-diff --git a/drivers/leds/flash/leds-rt8515.c b/drivers/leds/flash/leds-rt8515.c
-new file mode 100644
-index 000000000000..0add32b9255b
---- /dev/null
-+++ b/drivers/leds/flash/leds-rt8515.c
-@@ -0,0 +1,373 @@
-+// SPDX-License-Identifier: GPL-2.0-or-later
-+/*
-+ * LED driver for Richtek RT8515 flash/torch white LEDs
-+ * found on some Samsung mobile phones.
-+ * This is a 1.5A Boost dual channel driver produced around 2011.
-+ *
-+ * Linus Walleij <linus.walleij@linaro.org>
-+ */
-+#include <linux/delay.h>
-+#include <linux/err.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/led-class-flash.h>
-+#include <linux/module.h>
-+#include <linux/of.h>
-+#include <linux/platform_device.h>
-+#include <linux/regulator/consumer.h>
-+
-+#include <media/v4l2-flash-led-class.h>
-+
-+/* We can provide 15-700 mA out to the LED */
-+#define RT8515_MIN_IOUT_MA	15
-+#define RT8515_MAX_IOUT_MA	700
-+/* The maximum intensity is 1-16 for flash and 1-100 for torch */
-+#define RT8515_FLASH_MAX	16
-+#define RT8515_TORCH_MAX	100
-+
-+#define RT8515_TIMEOUT_DEFAULT		250000U /* 250ms */
-+#define RT8515_MAX_TIMEOUT_DEFAULT	300000U /* 300ms */
-+
-+struct rt8515 {
-+	struct device *dev;
-+	struct led_classdev_flash fled;
-+	struct v4l2_flash *v4l2_flash;
-+	struct mutex lock;
-+	struct regulator *reg;
-+	struct gpio_desc *enable_torch;
-+	struct gpio_desc *enable_flash;
-+	struct timer_list powerdown_timer;
-+	u32 max_timeout; /* Flash max timeout */
-+	int flash_max_intensity;
-+	int torch_max_intensity;
-+};
-+
-+static struct rt8515 *to_rt8515(struct led_classdev_flash *fled)
-+{
-+	return container_of(fled, struct rt8515, fled);
-+}
-+
-+static void rt8515_gpio_brightness_commit(struct gpio_desc *gpiod,
-+					  int brightness)
-+{
-+	int i;
-+
-+	/*
-+	 * Toggling a GPIO line with a small delay increases the
-+	 * brightness one step at a time.
-+	 */
-+	for (i = 0; i < brightness; i++) {
-+		gpiod_set_value(gpiod, 0);
-+		udelay(1);
-+		gpiod_set_value(gpiod, 1);
-+		udelay(1);
-+	}
-+}
-+
-+/* This is setting the torch light level */
-+static int rt8515_led_brightness_set(struct led_classdev *led,
-+				     enum led_brightness brightness)
-+{
-+	struct led_classdev_flash *fled = lcdev_to_flcdev(led);
-+	struct rt8515 *rt = to_rt8515(fled);
-+
-+	mutex_lock(&rt->lock);
-+
-+	if (brightness == LED_OFF) {
-+		/* Off */
-+		gpiod_set_value(rt->enable_flash, 0);
-+		gpiod_set_value(rt->enable_torch, 0);
-+	} else if (brightness < RT8515_TORCH_MAX) {
-+		/* Step it up to movie mode brightness using the flash pin */
-+		rt8515_gpio_brightness_commit(rt->enable_torch, brightness);
-+	} else {
-+		/* Max torch brightness requested */
-+		gpiod_set_value(rt->enable_torch, 1);
-+	}
-+
-+	mutex_unlock(&rt->lock);
-+
-+	return 0;
-+}
-+
-+static int rt8515_led_flash_strobe_set(struct led_classdev_flash *fled,
-+				       bool state)
-+{
-+	struct rt8515 *rt = to_rt8515(fled);
-+	struct led_flash_setting *timeout = &fled->timeout;
-+	int brightness = 4; /* max 16 */
-+
-+	mutex_lock(&rt->lock);
-+
-+	if (state) {
-+		/* Enable LED flash mode and set brightness */
-+		rt8515_gpio_brightness_commit(rt->enable_flash, brightness);
-+		/* Set timeout */
-+		mod_timer(&rt->powerdown_timer,
-+			  jiffies + usecs_to_jiffies(timeout->val));
-+	} else {
-+		del_timer_sync(&rt->powerdown_timer);
-+		/* Turn the LED off */
-+		gpiod_set_value(rt->enable_flash, 0);
-+		gpiod_set_value(rt->enable_torch, 0);
-+	}
-+
-+	fled->led_cdev.brightness = LED_OFF;
-+	/* After this the torch LED will be disabled */
-+
-+	mutex_unlock(&rt->lock);
-+
-+	return 0;
-+}
-+
-+static int rt8515_led_flash_strobe_get(struct led_classdev_flash *fled,
-+				       bool *state)
-+{
-+	struct rt8515 *rt = to_rt8515(fled);
-+
-+	*state = timer_pending(&rt->powerdown_timer);
-+
-+	return 0;
-+}
-+
-+static int rt8515_led_flash_timeout_set(struct led_classdev_flash *fled,
-+					u32 timeout)
-+{
-+	/* The timeout is stored in the led-class-flash core */
-+	return 0;
-+}
-+
-+static const struct led_flash_ops rt8515_flash_ops = {
-+	.strobe_set = rt8515_led_flash_strobe_set,
-+	.strobe_get = rt8515_led_flash_strobe_get,
-+	.timeout_set = rt8515_led_flash_timeout_set,
-+};
-+
-+static void rt8515_powerdown_timer(struct timer_list *t)
-+{
-+	struct rt8515 *rt = from_timer(rt, t, powerdown_timer);
-+
-+	/* Turn the LED off */
-+	gpiod_set_value(rt->enable_flash, 0);
-+	gpiod_set_value(rt->enable_torch, 0);
-+}
-+
-+static void rt8515_init_flash_timeout(struct rt8515 *rt)
-+{
-+	struct led_classdev_flash *fled = &rt->fled;
-+	struct led_flash_setting *s;
-+
-+	/* Init flash timeout setting */
-+	s = &fled->timeout;
-+	s->min = 1;
-+	s->max = rt->max_timeout;
-+	s->step = 1;
-+	/*
-+	 * Set default timeout to RT8515_DEFAULT_TIMEOUT except if
-+	 * max_timeout from DT is lower.
-+	 */
-+	s->val = min(rt->max_timeout, RT8515_TIMEOUT_DEFAULT);
-+}
-+
-+#if IS_ENABLED(CONFIG_V4L2_FLASH_LED_CLASS)
-+/* Configure the V2L2 flash subdevice */
-+static void rt8515_init_v4l2_flash_config(struct rt8515 *rt,
-+					  struct v4l2_flash_config *v4l2_sd_cfg)
-+{
-+	struct led_classdev *led = &rt->fled.led_cdev;
-+	struct led_flash_setting *s;
-+
-+	strscpy(v4l2_sd_cfg->dev_name, led->dev->kobj.name,
-+		sizeof(v4l2_sd_cfg->dev_name));
-+
-+	/*
-+	 * Init flash intensity setting: this is a linear scale
-+	 * capped from the device tree max intensity setting
-+	 * 1..flash_max_intensity
-+	 */
-+	s = &v4l2_sd_cfg->intensity;
-+	s->min = 1;
-+	s->max = rt->flash_max_intensity;
-+	s->step = 1;
-+	s->val = s->max;
-+}
-+
-+#else
-+static void rt8515_init_v4l2_flash_config(struct rt8515 *rt,
-+					  struct v4l2_flash_config *v4l2_sd_cfg)
-+{
-+}
-+#endif
-+
-+void rt8515_determine_max_intensity(struct rt8515 *rt,
-+				    struct fwnode_handle *led,
-+				    const char *resistance,
-+				    const char *max_ua_prop, int hw_max,
-+				    int *max_intensity_setting)
-+{
-+	u32 res;
-+	u32 ua;
-+	u32 max_ma;
-+	int max_intensity;
-+	int ret1, ret2;
-+
-+
-+	ret1 = fwnode_property_read_u32(rt->dev->fwnode, resistance, &res);
-+	ret2 = fwnode_property_read_u32(led, max_ua_prop, &ua);
-+
-+	/* No info in DT, OK go with hardware maxima */
-+	if (ret1 && ret2) {
-+		max_ma = RT8515_MAX_IOUT_MA;
-+		max_intensity = hw_max;
-+		goto out_assign_max;
-+	}
-+
-+	if (ret1 || ret2) {
-+		dev_err(rt->dev,
-+			"either %s or %s missing from DT, using HW max\n",
-+			resistance, max_ua_prop);
-+		max_ma = RT8515_MAX_IOUT_MA;
-+		max_intensity = hw_max;
-+		goto out_assign_max;
-+	}
-+
-+	/*
-+	 * Formula from datasheet, this is the maximum current
-+	 * defined by the hardware.
-+	 */
-+	max_ma = (5500 * 1000) / res;
-+	/*
-+	 * Calculate max intensity (linear scaling)
-+	 * Formula is ((ua / 1000) / max_ma) * 100, then simplified
-+	 */
-+	max_intensity = (ua / 10) / max_ma;
-+
-+	dev_info(rt->dev,
-+		 "current restricted from %u to %u mA, max intensity %d/100\n",
-+		 max_ma, (ua / 1000), max_intensity);
-+
-+out_assign_max:
-+	dev_info(rt->dev, "max intensity %d/%d = %d mA\n",
-+		 max_intensity, hw_max, max_ma);
-+	*max_intensity_setting = max_intensity;
-+}
-+
-+static int rt8515_probe(struct platform_device *pdev)
-+{
-+	struct device *dev = &pdev->dev;
-+	struct fwnode_handle *child;
-+	struct rt8515 *rt;
-+	struct led_classdev *led;
-+	struct led_classdev_flash *fled;
-+	struct led_init_data init_data = {};
-+	struct v4l2_flash_config v4l2_sd_cfg = {};
-+	int ret;
-+
-+	rt = devm_kzalloc(dev, sizeof(*rt), GFP_KERNEL);
-+	if (!rt)
-+		return -ENOMEM;
-+
-+	rt->dev = dev;
-+	fled = &rt->fled;
-+	led = &fled->led_cdev;
-+
-+	/* ENF - Enable Flash line */
-+	rt->enable_flash = devm_gpiod_get(dev, "enf", GPIOD_OUT_LOW);
-+	if (IS_ERR(rt->enable_flash)) {
-+		dev_err(dev, "cannot get ENF (enable flash) GPIO\n");
-+		return PTR_ERR(rt->enable_flash);
-+	}
-+
-+	/* ENT - Enable Torch line */
-+	rt->enable_torch = devm_gpiod_get(dev, "ent", GPIOD_OUT_LOW);
-+	if (IS_ERR(rt->enable_torch)) {
-+		dev_err(dev, "cannot get ENT (enable torch) GPIO\n");
-+		return PTR_ERR(rt->enable_torch);
-+	}
-+
-+	child = fwnode_get_next_available_child_node(dev->fwnode, NULL);
-+	if (!child) {
-+		dev_err(dev,
-+			"No fwnode child node found for connected LED.\n");
-+		return -EINVAL;
-+	}
-+	init_data.fwnode = child;
-+
-+	rt8515_determine_max_intensity(rt, child, "richtek,rfs", "flash-max-microamp",
-+				       RT8515_FLASH_MAX, &rt->flash_max_intensity);
-+	rt8515_determine_max_intensity(rt, child, "richtek,rts", "torch-max-microamp",
-+				       RT8515_TORCH_MAX, &rt->torch_max_intensity);
-+
-+	ret = fwnode_property_read_u32(child, "flash-max-timeout-us",
-+				       &rt->max_timeout);
-+	if (ret) {
-+		rt->max_timeout = RT8515_MAX_TIMEOUT_DEFAULT;
-+		dev_warn(dev,
-+			 "flash-max-timeout-us property missing\n");
-+	}
-+	timer_setup(&rt->powerdown_timer, rt8515_powerdown_timer, 0);
-+	rt8515_init_flash_timeout(rt);
-+
-+	fled->ops = &rt8515_flash_ops;
-+
-+	led->max_brightness = rt->torch_max_intensity;
-+	led->brightness_set_blocking = rt8515_led_brightness_set;
-+	led->flags |= LED_CORE_SUSPENDRESUME | LED_DEV_CAP_FLASH;
-+
-+	mutex_init(&rt->lock);
-+
-+	platform_set_drvdata(pdev, rt);
-+
-+	ret = devm_led_classdev_flash_register_ext(dev, fled, &init_data);
-+	if (ret) {
-+		dev_err(dev, "can't register LED %s\n", led->name);
-+		mutex_destroy(&rt->lock);
-+		return ret;
-+	}
-+
-+	rt8515_init_v4l2_flash_config(rt, &v4l2_sd_cfg);
-+
-+	/* Create a V4L2 Flash device if V4L2 flash is enabled */
-+	rt->v4l2_flash = v4l2_flash_init(dev, child, fled, NULL, &v4l2_sd_cfg);
-+	if (IS_ERR(rt->v4l2_flash)) {
-+		ret = PTR_ERR(rt->v4l2_flash);
-+		dev_err(dev, "failed to register V4L2 flash device (%d)\n",
-+			ret);
-+		/*
-+		 * Continue without the V4L2 flash
-+		 * (we still have the classdev)
-+		 */
-+	}
-+
-+	return 0;
-+}
-+
-+static int rt8515_remove(struct platform_device *pdev)
-+{
-+	struct rt8515 *rt = platform_get_drvdata(pdev);
-+
-+	v4l2_flash_release(rt->v4l2_flash);
-+	del_timer_sync(&rt->powerdown_timer);
-+	mutex_destroy(&rt->lock);
-+
-+	return 0;
-+}
-+
-+static const struct of_device_id rt8515_match[] = {
-+	{ .compatible = "richtek,rt8515", },
-+	{ /* sentinel */ },
-+};
-+MODULE_DEVICE_TABLE(of, rt8515_match);
-+
-+static struct platform_driver rt8515_driver = {
-+	.driver = {
-+		.name  = "rt8515",
-+		.of_match_table = rt8515_match,
-+	},
-+	.probe  = rt8515_probe,
-+	.remove = rt8515_remove,
-+};
-+module_platform_driver(rt8515_driver);
-+
-+MODULE_AUTHOR("Linus Walleij <linus.walleij@linaro.org>");
-+MODULE_DESCRIPTION("Richtek RT8515 LED driver");
-+MODULE_LICENSE("GPL v2");
+Thanks,
+Ezequiel
+
+Ezequiel Garcia (4):
+  media: cedrus: h264: Support profile control
+  media: Rename stateful codec control macros
+  media: Clean stateless control includes
+  media: uapi: move H264 stateless controls out of staging
+
+Jonas Karlman (1):
+  media: rkvdec: h264: Support profile and level controls
+
+ .../userspace-api/media/v4l/common.rst        |   1 +
+ .../userspace-api/media/v4l/dev-mem2mem.rst   |   2 +-
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 674 ++++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 696 +----------------
+ .../media/v4l/extended-controls.rst           |   8 +-
+ .../media/v4l/pixfmt-compressed.rst           |  14 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |   6 +-
+ drivers/media/common/cx2341x.c                |   4 +-
+ drivers/media/platform/s5p-mfc/s5p_mfc_dec.c  |   2 +-
+ drivers/media/platform/s5p-mfc/s5p_mfc_enc.c  |   2 +-
+ drivers/media/v4l2-core/v4l2-ctrls.c          |  40 +-
+ drivers/staging/media/hantro/hantro_drv.c     |  26 +-
+ drivers/staging/media/hantro/hantro_h264.c    |   8 +-
+ drivers/staging/media/hantro/hantro_hw.h      |   4 +-
+ drivers/staging/media/rkvdec/rkvdec-h264.c    |   8 +-
+ drivers/staging/media/rkvdec/rkvdec.c         |  39 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  36 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  12 +-
+ include/media/fwht-ctrls.h                    |   2 +-
+ include/media/h264-ctrls.h                    | 406 ----------
+ include/media/hevc-ctrls.h                    |  10 +-
+ include/media/mpeg2-ctrls.h                   |   4 +-
+ include/media/v4l2-ctrls.h                    |   1 -
+ include/media/v4l2-h264.h                     |   2 +-
+ include/media/vp8-ctrls.h                     |   2 +-
+ include/uapi/linux/v4l2-controls.h            | 731 +++++++++++++-----
+ include/uapi/linux/videodev2.h                |   8 +
+ 27 files changed, 1368 insertions(+), 1380 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+ delete mode 100644 include/media/h264-ctrls.h
+
 -- 
-2.26.2
+2.27.0
 
