@@ -2,133 +2,199 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 222132B1FE8
-	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 17:16:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2BF212B201A
+	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 17:22:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726396AbgKMQQI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Nov 2020 11:16:08 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37444 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725866AbgKMQQH (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Nov 2020 11:16:07 -0500
-Received: from localhost (fw-tnat.cambridge.arm.com [217.140.96.140])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 630DC2076E;
-        Fri, 13 Nov 2020 16:16:06 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605284166;
-        bh=A78YcjU5wXa8tlzrOpaXDNnSzLAvardtp8E9bjbkobU=;
+        id S1726992AbgKMQWk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Nov 2020 11:22:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48604 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726272AbgKMQWj (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Nov 2020 11:22:39 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2F60C0613D1;
+        Fri, 13 Nov 2020 08:22:38 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 2BAF731A;
+        Fri, 13 Nov 2020 17:22:36 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1605284556;
+        bh=GJgx8hQBjphu/U/oWFnNVR3fByktdDtjMKC09Zt8f4Q=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=CMzBr7E+FDS6ZgWNYaYY3g8HwzJPjCCycp7a2gmh7cOvce7d+siQhoXfXognj2qzp
-         pOGN3bp7VECK6K7YnDSdbMnw2aziHM6PtIwEwXTG+V8K8/U6wr3sW76YvNpadEF11r
-         zy7FZ9Dl6HkgEn015hlL9KrIauCdzqRkLRZJSiqA=
-Date:   Fri, 13 Nov 2020 16:15:50 +0000
-From:   Mark Brown <broonie@kernel.org>
-To:     Dmitry Osipenko <digetx@gmail.com>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        Uwe =?iso-8859-1?Q?Kleine-K=F6nig?= 
-        <u.kleine-koenig@pengutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
+        b=uJm4jVRZy+m8hz6qaFfDTj+C/LeycpNX4mSVBoJMWcv0Kib2RAUD+ba9u7JBRtKuD
+         6qnNB8cwfc86FGD/4SI1OGoszPvCJEewFteNKDqWwt6xgTxgRkjfyNJh2B1pQrpavL
+         21Ebsno6ItRg/5WaoTIeJrOLhpzKY2gligfF7IYg=
+Date:   Fri, 13 Nov 2020 18:22:31 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Dan Scally <djrscally@gmail.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rob Herring <robh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Petr Mladek <pmladek@suse.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
- scaling
-Message-ID: <20201113161550.GC4828@sirena.org.uk>
-References: <20201110203257.GC5957@sirena.org.uk>
- <72ae6462-13df-9fcb-510e-8e57eee0f035@gmail.com>
- <20201111115534.GA4847@sirena.org.uk>
- <dd26eb18-8ac4-22a6-29b0-dbbe5fa6075b@gmail.com>
- <20201112171600.GD4742@sirena.org.uk>
- <b4b06c1d-c9d4-43b2-c6eb-93f8cb6c677d@gmail.com>
- <20201112200123.GF4742@sirena.org.uk>
- <ce9e2d9f-917e-fb8a-7323-f3bf1a367e9d@gmail.com>
- <20201113142937.GB4828@sirena.org.uk>
- <7f066805-97d9-088f-e89d-a554fe478574@gmail.com>
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tsuchiya Yuto <kitakar@gmail.com>
+Subject: Re: [RFC PATCH v3 9/9] ipu3-cio2: Add functionality allowing
+ software_node connections to sensors on platforms designed for Windows
+Message-ID: <20201113162231.GO7524@pendragon.ideasonboard.com>
+References: <20201024012411.GT5979@pendragon.ideasonboard.com>
+ <d188f8b5-ed3b-f91b-171a-26afeb7d213e@gmail.com>
+ <20201024093702.GA3939@pendragon.ideasonboard.com>
+ <20201026161050.GQ4077@smile.fi.intel.com>
+ <20201029201918.GD15024@pendragon.ideasonboard.com>
+ <CAHp75Vc9uYVvhBe3OyCJzCsU0EY9yi62hsxt3pAwppSfjB+jDg@mail.gmail.com>
+ <20201029212930.GE15024@pendragon.ideasonboard.com>
+ <20201029222215.GI4077@smile.fi.intel.com>
+ <20201029225124.GI15024@pendragon.ideasonboard.com>
+ <60b36af2-ad57-000b-76e4-379e1b58a3a0@gmail.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha512;
-        protocol="application/pgp-signature"; boundary="adJ1OR3c6QgCpb/j"
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <7f066805-97d9-088f-e89d-a554fe478574@gmail.com>
-X-Cookie: No solicitors.
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <60b36af2-ad57-000b-76e4-379e1b58a3a0@gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Dan,
 
---adJ1OR3c6QgCpb/j
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+On Fri, Nov 13, 2020 at 10:02:30AM +0000, Dan Scally wrote:
+> On 29/10/2020 22:51, Laurent Pinchart wrote:
+> > On Fri, Oct 30, 2020 at 12:22:15AM +0200, Andy Shevchenko wrote:
+> >> On Thu, Oct 29, 2020 at 11:29:30PM +0200, Laurent Pinchart wrote:
+> >>> On Thu, Oct 29, 2020 at 10:26:56PM +0200, Andy Shevchenko wrote:
+> >>>> On Thu, Oct 29, 2020 at 10:21 PM Laurent Pinchart wrote:
+> >>>>> On Mon, Oct 26, 2020 at 06:10:50PM +0200, Andy Shevchenko wrote:
+> >>>>>> On Sat, Oct 24, 2020 at 12:37:02PM +0300, Laurent Pinchart wrote:
+> >>>>>>> On Sat, Oct 24, 2020 at 09:50:07AM +0100, Dan Scally wrote:
+> >>>>>>>> On 24/10/2020 02:24, Laurent Pinchart wrote:
+> >>>>>>>>> On Mon, Oct 19, 2020 at 11:59:03PM +0100, Daniel Scally wrote:
+> >>>>>>>>>> +              adev = acpi_dev_get_first_match_dev(supported_devices[i], NULL, -1);
+> >>>>>>>>> What if there are multiple sensor of the same model ?
+> >>>>>>>> Hmm, yeah, that would be a bit of a pickle. I guess the newer
+> >>>>>>>> smartphones have multiple sensors on the back, which I presume are the
+> >>>>>>>> same model. So that will probably crop up at some point. How about
+> >>>>>>>> instead I use bus_for_each_dev() and in the applied function check if
+> >>>>>>>> the _HID is in the supported list?
+> >>>>>>> Sounds good to me.
+> >>>>>>>
+> >>>>>>>>>> +              if (!adev)
+> >>>>>>>>>> +                      continue;
+> >>>>>> Please, don't.
+> >>>>>>
+> >>>>>> If we have so weird ACPI tables it must be w/a differently. The all, even badly
+> >>>>>> formed, ACPI tables I have seen so far are using _UID to distinguish instance
+> >>>>>> of the device (see second parameter to the above function).
+> >>>>>>
+> >>>>>> If we meet the very broken table I would like rather to know about, then
+> >>>>>> silently think ahead what could be best.
+> >>>>>>
+> >>>>>> I.o.w. don't change this until we will have a real example of the problematic
+> >>>>>> firmware.
+> >>>>> I'm not sure to follow you. Daniel's current code loops over all the
+> >>>>> supported HID (as stored in the supported_devices table), and then gets
+> >>>>> the first ACPI device for each of them. If multiple ACPI devices exist
+> >>>>> with the same HID, we need to handle them all, so enumerating all ACPI
+> >>>>> devices and checking whether their HID is one we handle seems to be the
+> >>>>> right option to me.
+> >>>> Devices with the same HID should be still different by another
+> >>>> parameter in ACPI. The above mentioned call just uses the rough
+> >>>> estimation for relaxed conditions. If you expect more than one device
+> >>>> with the same HID how do you expect to distinguish them? The correct
+> >>>> way is to use _UID. It may be absent, or set to a value. And this
+> >>>> value should be unique (as per U letter in UID abbreviation). That
+> >>>> said, the above is good enough till we find the firmware with the
+> >>>> above true (several devices with the same HID). Until then the code is
+> >>>> fine.
+> >>> I expect those devices with the same _HID to have different _UID values,
+> >>> yes. On the systems I've seen so far, that assumption is not violated,
+> >>> and I don't think we need to already plan how we will support systems
+> >>> where multiple devices would have the same _HID and _UID (within the
+> >>> same scope). There's no disagreement there.
+> >>>
+> >>> My point is that supported_devices stores HID values, and doesn't care
+> >>> about UID. The code loops over supported_devices, and for each entry,
+> >>> calls acpi_dev_get_first_match_dev() and process the ACPI devices
+> >>> returned by that call. We thus process at most one ACPI device per HID,
+> >>> which isn't right.
+> >>
+> >> In this case we probably need something like
+> >>
+> >> struct acpi_device *
+> >> acpi_dev_get_next_match_dev(struct acpi_device *adev,
+> >> 			    const char *hid, const char *uid, s64 hrv)
+> >> {
+> >> 	struct device *start = adev ? &adev->dev : NULL;
+> >> 	...
+> >> 	dev = bus_find_device(&acpi_bus_type, start, &match, acpi_dev_match_cb);
+> >> 	...
+> >> }
+> >>
+> >> in drivers/acpi/utils.c and
+> >>
+> >> static inline struct acpi_device *
+> >> acpi_dev_get_first_match_dev(const char *hid, const char *uid, s64 hrv)
+> >> {
+> >> 	return acpi_dev_get_next_match_dev(NULL, hid, uid, hrv);
+> >> }
+> >>
+> >> in include/linux/acpi.h.
+> >>
+> >> Then we may add
+> >>
+> >> #define for_each_acpi_dev_match(adev, hid, uid, hrv)			\
+> >> 	for (adev = acpi_dev_get_first_match_dev(hid, uid, hrv);	\
+> >> 	     adev;							\
+> >> 	     adev = acpi_dev_get_next_match_dev(adev, hid, uid, hrv))
+> >
+> > What the cio2-bridge code needs is indeed
+> >
+> > 	for each hid in supported hids:
+> > 		for each acpi device that is compatible with hid:
+> > 			...
+> >
+> > which could also be expressed as
+> >
+> > 	for each acpi device:
+> > 		if acpi device hid is in supported hids:
+> > 			...
+> >
+> > I don't mind either option, I'll happily follow the preference of the
+> > ACPI maintainers.
+>
+> Does this need raising elsewhere then? The original idea of just
+> bus_for_each_dev(&acpi_bus_type...) I have now tested and it works fine,
+> but it does mean that I need to export acpi_bus_type (currently that
+> symbol's not available)...that seems much simpler to me but I'm not sure
+> whether that's something to avoid, and if so whether Andy's approach is
+> better.
+> 
+> Thoughts?
 
-On Fri, Nov 13, 2020 at 06:55:27PM +0300, Dmitry Osipenko wrote:
-> 13.11.2020 17:29, Mark Brown =D0=BF=D0=B8=D1=88=D0=B5=D1=82:
+I like simple options :-) A patch to export acpi_bus_type, with enough
+context in the commit message (and in the cover latter of the series),
+should be enough to provide all the information the ACPI maintainers
+need to decide which option is best. With a bit of luck that patch will
+be considered the best option and no extra work will be needed.
 
-> > It's not clear if it matters - it's more a policy decision on the part
-> > of the driver about what it thinks safe error handling is.  If it's not
+-- 
+Regards,
 
-> If regulator_get() returns a dummy regulator, then this means that
-> regulator isn't specified in a device-tree. But then the only way for a
-> consumer driver to check whether regulator is dummy, is to check
-> presence of the supply property in a device-tree.
-
-My point here is that the driver shouldn't be checking for a dummy
-regulator, the driver should be checking the features that are provided
-to it by the regulator and handling those.  It doesn't matter if this is
-a dummy regulator or an actual regulator with limited features, the
-effect is the same and the handling should be the same.  If the driver
-is doing anything to handle dummy regulators explicitly as dummy
-regulators it is doing it wrong.
-
-> We want to emit error messages when something goes wrong, for example
-> when regulator voltage fails to change. It's fine that voltage changes
-> are failing for a dummy regulator, but then consumer driver shouldn't
-> recognize it as a error condition.
-
-If you're fine with that you should also be fine with any other
-regulator for which you failed to enumerate any voltages which you can
-set.
-
-> The regulator_get_optional() provides a more consistent and
-> straightforward way for consumer drivers to check presence of a physical
-> voltage regulator in comparison to dealing with a regulator_get(). The
-> dummy regulator is nice to use when there is no need to change
-> regulator's voltage, which doesn't work for a dummy regulator.
-
-To repeat you should *only* be using regulator_get_optional() in the
-case where the supply may be physically absent which is not the case
-here.
-
---adJ1OR3c6QgCpb/j
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iQEzBAABCgAdFiEEreZoqmdXGLWf4p/qJNaLcl1Uh9AFAl+usTYACgkQJNaLcl1U
-h9Cdtgf+KPTFZMOoWB6AmVx7uO9sDi9hMEVVCzp/m6ePr9MDeju+i5ix2FQINkxE
-D3+IHQpy5uNaihmetU14FQqj46ci6B9LfYY2bJ83O4DQbLGFBp4IjfGHUZHSrG/H
-uOlmTAln3D7hJvmlexfC3pr/DaCmS29p9Zr9/jI7m96gq+QpksXL8vK347+CUcZi
-HB5BciEamTey+AESLGu13X9rEPhkyLuNpU3N53bp6rg+jZqEqXJz8NCfQ0DeGbRU
-ssePVo1EThW95vi1G7cQCi9XO+MaNQFp7YRQ91nQMfeY6UMgF6TCUvBB31A9U0BF
-N1T5iPikwB5hLC/LTyappOFpxG0AMw==
-=4ogU
------END PGP SIGNATURE-----
-
---adJ1OR3c6QgCpb/j--
+Laurent Pinchart
