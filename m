@@ -2,783 +2,264 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EB2D2B1CB9
-	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 14:57:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B48A52B1CAD
+	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 14:57:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727089AbgKMNxi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Nov 2020 08:53:38 -0500
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:42948 "EHLO
-        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726812AbgKMNxf (ORCPT
+        id S1727338AbgKMNx3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Nov 2020 08:53:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52434 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726267AbgKMNts (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Nov 2020 08:53:35 -0500
-Received: from relay4-d.mail.gandi.net (unknown [217.70.183.196])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id A67E93B983D;
-        Fri, 13 Nov 2020 13:47:15 +0000 (UTC)
-X-Originating-IP: 90.55.104.168
-Received: from pc-2.home (atoulouse-258-1-33-168.w90-55.abo.wanadoo.fr [90.55.104.168])
-        (Authenticated sender: maxime.chevallier@bootlin.com)
-        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id D3BBCE0006;
-        Fri, 13 Nov 2020 13:46:20 +0000 (UTC)
-From:   Maxime Chevallier <maxime.chevallier@bootlin.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Mark Rutland <mark.rutland@arm.com>,
-        Heiko Stuebner <heiko@sntech.de>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
-Cc:     Maxime Chevallier <maxime.chevallier@bootlin.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Miquel Raynal <miquel.raynal@bootlin.com>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Subject: [PATCH v2 3/3] media: i2c: Introduce a driver for the Techwell TW9900 decoder
-Date:   Fri, 13 Nov 2020 14:44:17 +0100
-Message-Id: <20201113134417.471445-4-maxime.chevallier@bootlin.com>
-X-Mailer: git-send-email 2.25.4
-In-Reply-To: <20201113134417.471445-1-maxime.chevallier@bootlin.com>
-References: <20201113134417.471445-1-maxime.chevallier@bootlin.com>
+        Fri, 13 Nov 2020 08:49:48 -0500
+Received: from mail-wr1-x42f.google.com (mail-wr1-x42f.google.com [IPv6:2a00:1450:4864:20::42f])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4A9C1C0617A6
+        for <linux-media@vger.kernel.org>; Fri, 13 Nov 2020 05:49:44 -0800 (PST)
+Received: by mail-wr1-x42f.google.com with SMTP id u12so2762488wrt.0
+        for <linux-media@vger.kernel.org>; Fri, 13 Nov 2020 05:49:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WyNuXCVQx1RiXbGVlsoSFjQskftsnSEq5QsbaFWLc8c=;
+        b=pUV4xAYSW0aqWu4AgWE4Gu2ONVq/tvb+WU7dXYssWQBu4ISundyt8NUCtc3f8rsBFW
+         Xzm7UqTQy9pLCI/Jxq8tXwTjvV9mAN0N/fYkswK2OI2Gd3vVh4RZq0Q7nx39lnCo67Cp
+         pEYP24JGpSOFpO59d+XKbaCuVBYmcsuh6Ya7jp7hTFthga1+7G1qtIzymeh3egKNH5FQ
+         RCyoD1ye0kCX5gf0nYlh2yzcpQYVHocfXme6+rV2peCwPODI6UKj/W9usL5uEjZfG+i7
+         72xj5tJLfB+E0cwDCs2xg0uE3/2741OYcjK9rE93doNXXcVCb1DVU1qo7MiVcBCdgwGc
+         wpQw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=WyNuXCVQx1RiXbGVlsoSFjQskftsnSEq5QsbaFWLc8c=;
+        b=eB+nCogJiFndXieqZmmeImhsW0vNnsfr3gV2A0WASjLviwA25/EpT5ggdwIgHLzKas
+         0ewRmK+cAo5MUceOQyi5qIcrd92M5ul5I+e7uilmoKGA0yepxWhvcWoTSreNQqT7jZbN
+         JooxFKR0TReEQ2cer11mQ3SsBm2OVHROy4FVFvR13PPytPdyhr6v1hYBl4iLBiDjSKmk
+         BOtNbUdygR1xbrQhTAJ3D8d4dy684bnVmd0u0R0nBnHD8GTx954kKfb9EhGqBjaUCAwC
+         KMvITyv61j7uOD3BdFGEGQ06XdOw+DnErdosmvpOovelouMSNLuIp/Yh/SdBfwcFlH2j
+         CFKA==
+X-Gm-Message-State: AOAM531SgGR4zrln/AjrbaIRjlVf8am27mvVjUXF1186l7cpSp8WxdTV
+        3RS6c7WVq9IkcWN+KE7H1Th14w==
+X-Google-Smtp-Source: ABdhPJzuhrz0RkDiGvF0LEw8t6raG5YB/yTSg1tZvfa/F31g8zu8pmDVbzFZxyxSqiLSK4ZsfQOcgg==
+X-Received: by 2002:adf:f808:: with SMTP id s8mr3615050wrp.257.1605275382853;
+        Fri, 13 Nov 2020 05:49:42 -0800 (PST)
+Received: from dell.default ([91.110.221.159])
+        by smtp.gmail.com with ESMTPSA id t11sm4561614wrm.8.2020.11.13.05.49.41
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 13 Nov 2020 05:49:42 -0800 (PST)
+From:   Lee Jones <lee.jones@linaro.org>
+To:     lee.jones@linaro.org
+Cc:     linux-kernel@vger.kernel.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org,
+        Andres Rodriguez <andresx7@gmail.com>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, Eric Anholt <eric@anholt.net>,
+        Felix Kuehling <Felix.Kuehling@amd.com>,
+        freedreno@lists.freedesktop.org,
+        Harry Wentland <harry.wentland@amd.com>,
+        Hawking Zhang <Hawking.Zhang@amd.com>,
+        Jerome Brunet <jbrunet@baylibre.com>,
+        Jie Qiu <jie.qiu@mediatek.com>,
+        John Clements <john.clements@amd.com>,
+        Kalyan Thota <kalyan_t@codeaurora.org>,
+        Kevin Hilman <khilman@baylibre.com>,
+        Leo Li <sunpeng.li@amd.com>, lima@lists.freedesktop.org,
+        linaro-mm-sig@lists.linaro.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        linux-amlogic@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org, linux-mediatek@lists.infradead.org,
+        linux-media@vger.kernel.org, Luben Tuikov <luben.tuikov@amd.com>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Maxime Ripard <mripard@kernel.org>, Monk.liu@amd.com,
+        Neil Armstrong <narmstrong@baylibre.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Qiang Yu <yuq825@gmail.com>, Rob Clark <robdclark@gmail.com>,
+        Sam Ravnborg <sam@ravnborg.org>, Sean Paul <sean@poorly.run>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Thierry Reding <thierry.reding@gmail.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        YT SHEN <yt.shen@mediatek.com>
+Subject: [PATCH 00/40] [Set 7] Rid W=1 warnings from GPU
+Date:   Fri, 13 Nov 2020 13:48:58 +0000
+Message-Id: <20201113134938.4004947-1-lee.jones@linaro.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The Techwell video decoder supports PAL, NTSC and SECAM input formats,
-and outputs a BT.656 signal.
+This set is part of a larger effort attempting to clean-up W=1
+kernel builds, which are currently overwhelmingly riddled with
+niggly little warnings.
 
-This commit adds support for this device, with basic support for NTSC
-and PAL, along with brightness and contrast controls.
+This brings the running total from 5000 (in v5.9) down to 1400!
 
-Signed-off-by: Maxime Chevallier <maxime.chevallier@bootlin.com>
----
-v1 -> v2: Set the media entity type to decoder, and implement the
-s_std/g_std ops
+Hopefully not too much more to go now.
 
- MAINTAINERS                |   6 +
- drivers/media/i2c/Kconfig  |   9 +
- drivers/media/i2c/Makefile |   1 +
- drivers/media/i2c/tw9900.c | 661 +++++++++++++++++++++++++++++++++++++
- 4 files changed, 677 insertions(+)
- create mode 100644 drivers/media/i2c/tw9900.c
+Lee Jones (40):
+  drm/amd/include/vega10_ip_offset: Mark _BASE structs as __maybe_unused
+  drm/amd/display/dc/core/dc_link_dp: Move
+    DP_VGA_LVDS_CONVERTER_ID_{2,3} to where they're used
+  drm/amd/display/dc/core/dc_link_ddc: Move DP_DVI_CONVERTER_ID_{4,5} to
+    where they're used
+  drm/amd/amdgpu/amdgpu_drv: Move 'amdgpu_info_ioctl()'s prototype to
+    shared header
+  drm/amd/amdgpu/amdgpu_ring: Fix misnaming of param 'max_dw'
+  drm/msm/adreno/a6xx_gpu: Staticise local function 'a6xx_idle'
+  drm/mediatek/mtk_disp_rdma: Fix formatting and supply missing struct
+    member description
+  drm/amd/amdgpu/amdgpu_ib: Fix some incorrect/incomplete function
+    documentation
+  drm/mediatek/mtk_drm_crtc: Demote seriously out-of-date struct header
+  drm/mediatek/mtk_drm_drv: Staticise local function invoked by
+    reference
+  drm/amd/amdgpu/amdgpu_pll: Fix kernel-doc formatting, missing and
+    extra params
+  drm/pl111/pl111_display: Make local function static
+  drm/panel/panel-tpo-tpg110: Correct misnaming and supply missing param
+    description
+  drm/meson/meson_venc: Make local function
+    'meson_venc_hdmi_get_dmt_vmode' static
+  drm/lima/lima_drv: Demote kernel-doc formatting abuse
+  drm/amd/amdgpu/amdgpu_sync: Fix misnamed, missing and extra param
+    descriptions
+  drm/meson/meson_vclk: Make two local functions static
+  drm/mediatek/mtk_dpi: Remove unused struct definition
+    'mtk_dpi_encoder_funcs'
+  drm/amd/amdgpu/amdgpu_vram_mgr: Add missing descriptions for 'dev' and
+    'dir'
+  drm/pl111/pl111_debugfs: Make local function 'pl111_debugfs_regs()'
+    static
+  drm/amd/amdgpu/amdgpu_virt: Make local function
+    'amdgpu_virt_update_vf2pf_work_item()' static
+  drm/amd/amdgpu/amdgpu_sched: Consume our own header containing
+    prototypes
+  drm/lima/lima_sched: Remove unused and unnecessary variable 'ret'
+  drm/amd/amdgpu/amdgpu_ids: Supply missing docs for 'id' and 'vmhub'
+  drm/amd/amdgpu/amdgpu_debugfs: Demote obvious abuse of kernel-doc
+    formatting
+  drm/amd/amdgpu/amdgpu_gmc: Demote one and fix another function header
+  drm/amd/amdgpu/amdgpu_ras: Remove unused function
+    'amdgpu_ras_error_cure'
+  drm/amd/amdgpu/amdgpu_ras: Make local function
+    'amdgpu_ras_error_status_query' static
+  drm/amd/amdgpu/amdgpu_csa: Remove set but unused variable 'r'
+  drm/amd/amdgpu/amdgpu_vm_cpu: Fix 'amdgpu_vm_cpu_prepare()'s doc-rot
+  drm/amd/amdgpu/amdgpu_vm_sdma: Fix 'amdgpu_vm_sdma_prepare()'s doc-rot
+  drm/msm/disp/mdp5/mdp5_crtc: Make local function
+    'mdp5_crtc_setup_pipeline()' static
+  drm/drm_dp_mst_topology: Remove set but never used variable 'len'
+  drm/msm/disp/mdp5/mdp5_ctl: Demote non-conformant kernel-doc headers
+  drm/msm/disp/mdp5/mdp5_kms: Make local functions 'mdp5_{en,dis}able()'
+    static
+  drm/amd/amdgpu/amdgpu_fw_attestation: Consume our own header
+    containing prototypes
+  drm/amd/amdgpu/smu_v11_0_i2c: Provide descriptions for 'control' and
+    'data' params
+  drm/msm/disp/dpu1/dpu_core_perf: Remove set but unused variable
+    'dpu_cstate'
+  drm/msm/disp/dpu1/dpu_encoder: Remove a bunch of unused variables
+  drm/amd/amdgpu/gfx_v7_0: Remove unused struct definition
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 3da6d8c154e4..2890862a8285 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -17160,6 +17160,12 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- F:	drivers/media/rc/ttusbir.c
- 
-+TECHWELL TW9900 VIDEO DECODER
-+M:	Maxime Chevallier <maxime.chevallier@bootlin.com>
-+L:	linux-media@vger.kernel.org
-+S:	Maintained
-+F:	drivers/media/i2c/tw9900.c
-+
- TECHWELL TW9910 VIDEO DECODER
- L:	linux-media@vger.kernel.org
- S:	Orphan
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 878f66ef2719..ea55aea4d949 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -426,6 +426,15 @@ config VIDEO_TW2804
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called tw2804.
- 
-+config VIDEO_TW9900
-+	tristate "Techwell TW9900 video decoder"
-+	depends on VIDEO_V4L2 && I2C
-+	help
-+	  Support for the Techwell tw9900 multi-standard video decoder.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called tw9900.
-+
- config VIDEO_TW9903
- 	tristate "Techwell TW9903 video decoder"
- 	depends on VIDEO_V4L2 && I2C
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index f0a77473979d..cbc1d9aedd38 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -49,6 +49,7 @@ obj-$(CONFIG_VIDEO_TVP5150) += tvp5150.o
- obj-$(CONFIG_VIDEO_TVP514X) += tvp514x.o
- obj-$(CONFIG_VIDEO_TVP7002) += tvp7002.o
- obj-$(CONFIG_VIDEO_TW2804) += tw2804.o
-+obj-$(CONFIG_VIDEO_TW9900) += tw9900.o
- obj-$(CONFIG_VIDEO_TW9903) += tw9903.o
- obj-$(CONFIG_VIDEO_TW9906) += tw9906.o
- obj-$(CONFIG_VIDEO_TW9910) += tw9910.o
-diff --git a/drivers/media/i2c/tw9900.c b/drivers/media/i2c/tw9900.c
-new file mode 100644
-index 000000000000..2075c3c120af
---- /dev/null
-+++ b/drivers/media/i2c/tw9900.c
-@@ -0,0 +1,661 @@
-+// SPDX-License-Identifier: GPL-2.0
-+/*
-+ * Driver for the Techwell TW9900 multi-standard video decoder.
-+ *
-+ * Copyright (C) 2018 Fuzhou Rockchip Electronics Co., Ltd.
-+ * Copyright (C) 2020 Maxime Chevallier <maxime.chevallier@bootlin.com>
-+ */
-+
-+#include <linux/clk.h>
-+#include <linux/device.h>
-+#include <linux/gpio/consumer.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/regulator/consumer.h>
-+#include <linux/sysfs.h>
-+#include <linux/timer.h>
-+#include <linux/delay.h>
-+#include <media/media-entity.h>
-+#include <media/v4l2-async.h>
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-event.h>
-+#include <media/v4l2-subdev.h>
-+
-+#define TW9900_REG_CHIP_ID	0x00
-+#define TW9900_REG_CHIP_STATUS  0x01
-+#define		TW9900_REG_CHIP_STATUS_VLOCK	0x08
-+#define		TW9900_REG_CHIP_STATUS_VDLOSS	0x80
-+#define TW9900_REG_OUT_FMT_CTL  0x03
-+#define TW9900_REG_CKHY_HSDLY   0x04
-+#define TW9900_REG_OUT_CTRL_I	0x05
-+#define TW9900_REG_ANALOG_CTL   0x06
-+#define TW9900_REG_CROP_HI	0x07
-+#define TW9900_REG_VDELAY_LO    0x08
-+#define TW9900_REG_VACTIVE_LO   0x09
-+#define TW9900_REG_HACTIVE_LO	0x0B
-+#define TW9900_REG_CNTRL1	0x0C
-+#define TW9900_REG_BRIGHT_CTL   0x10
-+#define TW9900_REG_CONTRAST_CTL 0x11
-+#define TW9900_REG_VBI_CNTL	0x19
-+#define TW9900_REG_ANAL_CTL_II  0x1A
-+#define TW9900_REG_OUT_CTRL_II	0x1B
-+#define TW9900_REG_STD_SEL      0x1C
-+#define TW9900_REG_MISSCNT      0x26
-+#define TW9900_REG_MISC_CTL_II  0x2F
-+#define TW9900_REG_VVBI         0x55
-+
-+#define TW9900_CHIP_ID		0x00
-+
-+#define REG_SC_CTRL_MODE		TW9900_REG_OUT_FMT_CTL
-+#define     SC_CTRL_MODE_STANDBY	0xA7
-+#define     SC_CTRL_MODE_STREAMING	0xA0
-+
-+#define REG_NULL			0xFF
-+
-+#define VSYNC_POLL_INTERVAL_MS  20
-+#define VSYNC_WAIT_MAX_POLLS    50
-+
-+static const char * const tw9900_supply_names[] = {
-+	"vdd",
-+};
-+
-+#define TW9900_NUM_SUPPLIES ARRAY_SIZE(tw9900_supply_names)
-+
-+struct regval {
-+	u8 addr;
-+	u8 val;
-+};
-+
-+struct tw9900_mode {
-+	u32 width;
-+	u32 height;
-+	u32 skip_top;
-+	u32 std;
-+	u32 field;
-+	const struct regval *reg_list;
-+};
-+
-+struct tw9900 {
-+	struct i2c_client	*client;
-+	struct gpio_desc	*reset_gpio;
-+	struct regulator_bulk_data supplies[TW9900_NUM_SUPPLIES];
-+
-+	bool			streaming;
-+
-+	struct v4l2_subdev	subdev;
-+	struct v4l2_ctrl_handler hdl;
-+	struct media_pad	pad;
-+
-+	struct timer_list timer;
-+	struct work_struct work_i2c_poll;
-+
-+	const struct tw9900_mode *cur_mode;
-+};
-+
-+#define to_tw9900(sd) container_of(sd, struct tw9900, subdev)
-+
-+static const struct regval tw9900_init_regs[] = {
-+	{TW9900_REG_MISC_CTL_II,	0xE6},
-+	{TW9900_REG_MISSCNT,		0x24},
-+	{TW9900_REG_OUT_FMT_CTL,	0xA7},
-+	{TW9900_REG_ANAL_CTL_II,	0x0A},
-+	{TW9900_REG_VDELAY_LO,		0x19},
-+	{TW9900_REG_STD_SEL,		0x00},
-+	{TW9900_REG_VACTIVE_LO,		0xF0},
-+	{TW9900_REG_STD_SEL,		0x07},
-+	{TW9900_REG_CKHY_HSDLY,		0x40},
-+	{TW9900_REG_ANALOG_CTL,		0x80},
-+	{TW9900_REG_CNTRL1,		0xdc},
-+	{TW9900_REG_OUT_CTRL_I,		0x98},
-+	{REG_NULL, 0x0},
-+};
-+
-+static const struct regval tw9900_pal_regs[] = {
-+	{TW9900_REG_STD_SEL, 0x01},
-+	{REG_NULL, 0x0},
-+};
-+
-+static const struct regval tw9900_ntsc_regs[] = {
-+	{TW9900_REG_OUT_FMT_CTL, 0xA4},
-+	{TW9900_REG_VDELAY_LO, 0x12},
-+	{TW9900_REG_VACTIVE_LO, 0xf0},
-+	{TW9900_REG_CROP_HI, 0x02},
-+	{TW9900_REG_HACTIVE_LO, 0xD0},
-+	{TW9900_REG_VBI_CNTL, 0x01},
-+	{TW9900_REG_STD_SEL, 0x00},
-+	{REG_NULL, 0x0},
-+};
-+
-+static const struct tw9900_mode supported_modes[] = {
-+	{
-+		.width = 720,
-+		.height = 576,
-+		.skip_top = 0,
-+		.std = V4L2_STD_PAL,
-+		.field = V4L2_FIELD_NONE,
-+		.reg_list = tw9900_pal_regs,
-+	},
-+	{
-+		.width = 720,
-+		.height = 480,
-+		.skip_top = 0,
-+		.std = V4L2_STD_NTSC,
-+		.field = V4L2_FIELD_NONE,
-+		.reg_list = tw9900_ntsc_regs,
-+	},
-+};
-+
-+static int tw9900_write_reg(struct i2c_client *client, u8 reg, u8 val)
-+{
-+	int ret;
-+
-+	ret = i2c_smbus_write_byte_data(client, reg, val);
-+
-+	if (ret < 0)
-+		dev_err(&client->dev, "write reg error: %d\n", ret);
-+
-+	return ret;
-+}
-+
-+static int tw9900_write_array(struct i2c_client *client,
-+			      const struct regval *regs)
-+{
-+	int i, ret = 0;
-+
-+	for (i = 0; ret == 0 && regs[i].addr != REG_NULL; i++)
-+		ret = tw9900_write_reg(client, regs[i].addr, regs[i].val);
-+
-+	return ret;
-+}
-+
-+static inline u8 tw9900_read_reg(struct i2c_client *client, u8 reg)
-+{
-+	return i2c_smbus_read_byte_data(client, reg);
-+}
-+
-+static void tw9900_fill_fmt(const struct tw9900_mode *mode,
-+			    struct v4l2_mbus_framefmt *fmt)
-+{
-+	fmt->code = MEDIA_BUS_FMT_UYVY8_2X8;
-+	fmt->width = mode->width;
-+	fmt->height = mode->height;
-+	fmt->field = mode->field;
-+	fmt->colorspace = V4L2_COLORSPACE_SMPTE170M;
-+}
-+
-+static int tw9900_set_fmt(struct v4l2_subdev *sd,
-+			  struct v4l2_subdev_pad_config *cfg,
-+			  struct v4l2_subdev_format *fmt)
-+{
-+	struct tw9900 *tw9900 = to_tw9900(sd);
-+	struct v4l2_mbus_framefmt *mbus_fmt = &fmt->format;
-+
-+	tw9900_fill_fmt(tw9900->cur_mode, mbus_fmt);
-+
-+	mbus_fmt->width = tw9900->cur_mode->width;
-+	mbus_fmt->height = tw9900->cur_mode->height;
-+
-+	return 0;
-+}
-+
-+static int tw9900_get_fmt(struct v4l2_subdev *sd,
-+			  struct v4l2_subdev_pad_config *cfg,
-+			  struct v4l2_subdev_format *fmt)
-+{
-+	struct tw9900 *tw9900 = to_tw9900(sd);
-+	struct v4l2_mbus_framefmt *mbus_fmt = &fmt->format;
-+
-+	tw9900_fill_fmt(tw9900->cur_mode, mbus_fmt);
-+
-+	return 0;
-+}
-+
-+static int tw9900_enum_mbus_code(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_pad_config *cfg,
-+				 struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	if (code->index >= ARRAY_SIZE(supported_modes))
-+		return -EINVAL;
-+
-+	code->code = MEDIA_BUS_FMT_UYVY8_2X8;
-+
-+	return 0;
-+}
-+
-+static int tw9900_enum_frame_sizes(struct v4l2_subdev *sd,
-+				   struct v4l2_subdev_pad_config *cfg,
-+				   struct v4l2_subdev_frame_size_enum *fse)
-+{
-+	u32 index = fse->index;
-+
-+	if (index >= ARRAY_SIZE(supported_modes))
-+		return -EINVAL;
-+
-+	fse->code = MEDIA_BUS_FMT_UYVY8_2X8;
-+
-+	fse->min_width  = supported_modes[index].width;
-+	fse->max_width  = supported_modes[index].width;
-+	fse->max_height = supported_modes[index].height;
-+	fse->min_height = supported_modes[index].height;
-+
-+	return 0;
-+}
-+
-+static int __tw9900_power_on(struct tw9900 *tw9900)
-+{
-+	int ret;
-+	struct device *dev = &tw9900->client->dev;
-+
-+	if (tw9900->reset_gpio)
-+		gpiod_set_value_cansleep(tw9900->reset_gpio, 1);
-+
-+	ret = regulator_bulk_enable(TW9900_NUM_SUPPLIES, tw9900->supplies);
-+	if (ret < 0)
-+		goto error;
-+
-+	usleep_range(50000, 52000);
-+
-+	if (tw9900->reset_gpio)
-+		gpiod_set_value_cansleep(tw9900->reset_gpio, 0);
-+
-+	usleep_range(1000, 2000);
-+
-+	ret = tw9900_write_array(tw9900->client, tw9900_init_regs);
-+	if (ret) {
-+		dev_err(dev, "Failed to init tw9900\n");
-+		goto error;
-+	}
-+
-+	return 0;
-+
-+error:
-+
-+	return ret;
-+}
-+
-+static void __tw9900_power_off(struct tw9900 *tw9900)
-+{
-+	if (tw9900->reset_gpio)
-+		gpiod_set_value_cansleep(tw9900->reset_gpio, 1);
-+
-+	regulator_bulk_disable(TW9900_NUM_SUPPLIES, tw9900->supplies);
-+}
-+
-+static int tw9900_s_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct tw9900 *tw9900 = container_of(ctrl->handler, struct tw9900, hdl);
-+
-+	if (pm_runtime_suspended(&tw9900->client->dev))
-+		return 0;
-+
-+	switch (ctrl->id) {
-+	case V4L2_CID_BRIGHTNESS:
-+		tw9900_write_reg(tw9900->client, 0x10, (u8)ctrl->val);
-+		break;
-+	case V4L2_CID_CONTRAST:
-+		tw9900_write_reg(tw9900->client, 0x11, (u8)ctrl->val);
-+		break;
-+	default:
-+		return -EINVAL;
-+	}
-+	return 0;
-+}
-+
-+static int tw9900_s_stream(struct v4l2_subdev *sd, int on)
-+{
-+	struct tw9900 *tw9900 = to_tw9900(sd);
-+	struct i2c_client *client = tw9900->client;
-+	int i, ret = 0;
-+
-+	on = !!on;
-+	if (on == tw9900->streaming)
-+		goto unlock_and_return;
-+
-+	if (on) {
-+		ret = pm_runtime_get_sync(&tw9900->client->dev);
-+		if (ret < 0) {
-+			pm_runtime_put_noidle(&client->dev);
-+			goto unlock_and_return;
-+		}
-+
-+		ret = v4l2_ctrl_handler_setup(sd->ctrl_handler);
-+		if (ret) {
-+			pm_runtime_put(&client->dev);
-+			goto unlock_and_return;
-+		}
-+
-+		ret = tw9900_write_array(tw9900->client,
-+					 tw9900->cur_mode->reg_list);
-+		if (ret) {
-+			pm_runtime_put(&client->dev);
-+			goto unlock_and_return;
-+		}
-+
-+		/* Wait for VSync lock */
-+		for (i = 0; i < VSYNC_WAIT_MAX_POLLS; i++) {
-+			u8 status = tw9900_read_reg(tw9900->client,
-+						    TW9900_REG_CHIP_STATUS);
-+			if (!(status & TW9900_REG_CHIP_STATUS_VDLOSS) &&
-+			    (status & TW9900_REG_CHIP_STATUS_VLOCK))
-+				break;
-+
-+			msleep(VSYNC_POLL_INTERVAL_MS);
-+		}
-+
-+		ret = tw9900_write_reg(client, REG_SC_CTRL_MODE,
-+				       SC_CTRL_MODE_STREAMING);
-+		if (ret) {
-+			pm_runtime_put(&client->dev);
-+			goto unlock_and_return;
-+		}
-+
-+	} else {
-+		tw9900_write_reg(client, REG_SC_CTRL_MODE,
-+				 SC_CTRL_MODE_STANDBY);
-+		pm_runtime_put(&client->dev);
-+	}
-+
-+	tw9900->streaming = on;
-+
-+unlock_and_return:
-+
-+	return ret;
-+}
-+
-+#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
-+static int tw9900_open(struct v4l2_subdev *sd, struct v4l2_subdev_fh *fh)
-+{
-+	struct tw9900 *tw9900 = to_tw9900(sd);
-+	struct v4l2_mbus_framefmt *try_fmt;
-+
-+	try_fmt = v4l2_subdev_get_try_format(sd, fh->pad, 0);
-+
-+	/* Initialize try_fmt */
-+	tw9900_fill_fmt(tw9900->cur_mode, try_fmt);
-+
-+	return 0;
-+}
-+#endif
-+
-+static int tw9900_runtime_resume(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct tw9900 *tw9900 = to_tw9900(sd);
-+
-+	return __tw9900_power_on(tw9900);
-+}
-+
-+static int tw9900_runtime_suspend(struct device *dev)
-+{
-+	struct i2c_client *client = to_i2c_client(dev);
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct tw9900 *tw9900 = to_tw9900(sd);
-+
-+	__tw9900_power_off(tw9900);
-+
-+	return 0;
-+}
-+
-+static int tw9900_subscribe_event(struct v4l2_subdev *sd,
-+				  struct v4l2_fh *fh,
-+				  struct v4l2_event_subscription *sub)
-+{
-+	switch (sub->type) {
-+	case V4L2_EVENT_SOURCE_CHANGE:
-+		return v4l2_src_change_event_subdev_subscribe(sd, fh, sub);
-+	case V4L2_EVENT_CTRL:
-+		return v4l2_ctrl_subdev_subscribe_event(sd, fh, sub);
-+	default:
-+		return -EINVAL;
-+	}
-+}
-+
-+static const struct tw9900_mode *tw9900_get_mode_from_std(v4l2_std_id std)
-+{
-+	int i;
-+
-+	for (i = 0; i < ARRAY_SIZE(supported_modes); i++) {
-+		if (supported_modes[i].std == std)
-+			return &supported_modes[i];
-+	}
-+
-+	return NULL;
-+}
-+
-+static int tw9900_s_std(struct v4l2_subdev *sd, v4l2_std_id norm)
-+{
-+	struct tw9900 *tw9900 = to_tw9900(sd);
-+	const struct tw9900_mode *mode;
-+	int ret;
-+
-+	if (!(norm & (V4L2_STD_NTSC | V4L2_STD_PAL)))
-+		return -EINVAL;
-+
-+	mode = tw9900_get_mode_from_std(norm);
-+	if (!mode)
-+		return -EINVAL;
-+
-+	ret = tw9900_write_array(tw9900->client, mode->reg_list);
-+
-+	if (ret)
-+		return ret;
-+
-+	tw9900->cur_mode = mode;
-+
-+	return 0;
-+}
-+
-+static int tw9900_g_std(struct v4l2_subdev *sd, v4l2_std_id *norm)
-+{
-+	struct tw9900 *tw9900 = to_tw9900(sd);
-+
-+	*norm = tw9900->cur_mode->std;
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops tw9900_pm_ops = {
-+	SET_RUNTIME_PM_OPS(tw9900_runtime_suspend,
-+			   tw9900_runtime_resume, NULL)
-+};
-+
-+static const struct v4l2_subdev_core_ops tw9900_core_ops = {
-+	.subscribe_event = tw9900_subscribe_event,
-+	.unsubscribe_event = v4l2_event_subdev_unsubscribe,
-+};
-+
-+static const struct v4l2_subdev_video_ops tw9900_video_ops = {
-+	.s_std		= tw9900_s_std,
-+	.g_std		= tw9900_g_std,
-+	.s_stream	= tw9900_s_stream,
-+};
-+
-+static const struct v4l2_subdev_pad_ops tw9900_pad_ops = {
-+	.enum_mbus_code = tw9900_enum_mbus_code,
-+	.enum_frame_size = tw9900_enum_frame_sizes,
-+	.get_fmt = tw9900_get_fmt,
-+	.set_fmt = tw9900_set_fmt,
-+};
-+
-+static const struct v4l2_subdev_ops tw9900_subdev_ops = {
-+	.core	= &tw9900_core_ops,
-+	.video	= &tw9900_video_ops,
-+	.pad	= &tw9900_pad_ops,
-+};
-+
-+static const struct v4l2_ctrl_ops tw9900_ctrl_ops = {
-+	.s_ctrl = tw9900_s_ctrl,
-+};
-+
-+#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
-+static const struct v4l2_subdev_internal_ops tw9900_internal_ops = {
-+	.open = tw9900_open,
-+};
-+#endif
-+
-+static int tw9900_check_id(struct tw9900 *tw9900,
-+			   struct i2c_client *client)
-+{
-+	struct device *dev = &tw9900->client->dev;
-+	u8 id;
-+
-+	id = tw9900_read_reg(client, TW9900_CHIP_ID);
-+
-+	if (id != TW9900_CHIP_ID) {
-+		dev_err(dev, "Unexpected decoder id(%04x)\n", id);
-+		return -EINVAL;
-+	}
-+
-+	dev_info(dev, "Detected TW9900 (%04x) decoder\n", TW9900_CHIP_ID);
-+
-+	return 0;
-+}
-+
-+static int tw9900_configure_regulators(struct tw9900 *tw9900)
-+{
-+	u32 i;
-+
-+	for (i = 0; i < TW9900_NUM_SUPPLIES; i++)
-+		tw9900->supplies[i].supply = tw9900_supply_names[i];
-+
-+	return devm_regulator_bulk_get(&tw9900->client->dev,
-+				       TW9900_NUM_SUPPLIES,
-+				       tw9900->supplies);
-+}
-+
-+static int tw9900_probe(struct i2c_client *client,
-+			const struct i2c_device_id *id)
-+{
-+	struct device *dev = &client->dev;
-+	struct v4l2_ctrl_handler *hdl;
-+	struct tw9900 *tw9900;
-+	int ret;
-+
-+	tw9900 = devm_kzalloc(dev, sizeof(*tw9900), GFP_KERNEL);
-+	if (!tw9900)
-+		return -ENOMEM;
-+
-+	tw9900->client = client;
-+	tw9900->cur_mode = &supported_modes[0];
-+
-+	tw9900->reset_gpio = devm_gpiod_get(dev, "reset", GPIOD_OUT_LOW);
-+	if (IS_ERR(tw9900->reset_gpio))
-+		tw9900->reset_gpio = NULL;
-+
-+	ret = tw9900_configure_regulators(tw9900);
-+	if (ret) {
-+		dev_err(dev, "Failed to get power regulators\n");
-+		return ret;
-+	}
-+
-+	v4l2_i2c_subdev_init(&tw9900->subdev, client, &tw9900_subdev_ops);
-+	tw9900->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE | V4L2_SUBDEV_FL_HAS_EVENTS;
-+
-+	hdl = &tw9900->hdl;
-+
-+	v4l2_ctrl_handler_init(hdl, 2);
-+
-+	v4l2_ctrl_new_std(hdl, &tw9900_ctrl_ops, V4L2_CID_BRIGHTNESS,
-+			  -128, 127, 1, 0);
-+	v4l2_ctrl_new_std(hdl, &tw9900_ctrl_ops, V4L2_CID_CONTRAST,
-+			  0, 255, 1, 0x60);
-+
-+	tw9900->subdev.ctrl_handler = hdl;
-+	if (hdl->error) {
-+		int err = hdl->error;
-+
-+		v4l2_ctrl_handler_free(hdl);
-+		return err;
-+	}
-+
-+	ret = __tw9900_power_on(tw9900);
-+	if (ret)
-+		return ret;
-+
-+	ret = tw9900_check_id(tw9900, client);
-+	if (ret)
-+		goto err_power_off;
-+
-+#ifdef CONFIG_VIDEO_V4L2_SUBDEV_API
-+	tw9900->subdev.internal_ops = &tw9900_internal_ops;
-+	tw9900->subdev.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+#endif
-+#if defined(CONFIG_MEDIA_CONTROLLER)
-+	tw9900->pad.flags = MEDIA_PAD_FL_SOURCE;
-+	tw9900->subdev.entity.function = MEDIA_ENT_F_DV_DECODER;
-+
-+	ret = media_entity_pads_init(&tw9900->subdev.entity, 1, &tw9900->pad);
-+	if (ret < 0)
-+		goto err_power_off;
-+#endif
-+
-+	ret = v4l2_async_register_subdev(&tw9900->subdev);
-+	if (ret) {
-+		dev_err(dev, "v4l2 async register subdev failed\n");
-+		goto err_clean_entity;
-+	}
-+
-+	pm_runtime_set_active(dev);
-+	pm_runtime_enable(dev);
-+	pm_runtime_idle(dev);
-+
-+	return 0;
-+
-+err_clean_entity:
-+#if defined(CONFIG_MEDIA_CONTROLLER)
-+	media_entity_cleanup(&tw9900->subdev.entity);
-+#endif
-+err_power_off:
-+	__tw9900_power_off(tw9900);
-+
-+	return ret;
-+}
-+
-+static int tw9900_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct tw9900 *tw9900 = to_tw9900(sd);
-+
-+	v4l2_async_unregister_subdev(sd);
-+#if defined(CONFIG_MEDIA_CONTROLLER)
-+	media_entity_cleanup(&sd->entity);
-+#endif
-+
-+	pm_runtime_disable(&client->dev);
-+	if (!pm_runtime_status_suspended(&client->dev))
-+		__tw9900_power_off(tw9900);
-+	pm_runtime_set_suspended(&client->dev);
-+
-+	return 0;
-+}
-+
-+static const struct i2c_device_id tw9900_id[] = {
-+	{"tw9900", 0},
-+	{},
-+};
-+
-+#if IS_ENABLED(CONFIG_OF)
-+static const struct of_device_id tw9900_of_match[] = {
-+	{ .compatible = "techwell,tw9900" },
-+	{},
-+};
-+MODULE_DEVICE_TABLE(of, tw9900_of_match);
-+#endif
-+
-+static struct i2c_driver tw9900_i2c_driver = {
-+	.driver = {
-+		.name = "tw9900",
-+		.pm = &tw9900_pm_ops,
-+		.of_match_table = tw9900_of_match
-+	},
-+	.probe		= tw9900_probe,
-+	.remove		= tw9900_remove,
-+	.id_table	= tw9900_id,
-+};
-+
-+module_i2c_driver(tw9900_i2c_driver);
-+
-+MODULE_DESCRIPTION("tw9900 decoder driver");
-+MODULE_LICENSE("GPL v2");
+ drivers/gpu/drm/amd/amdgpu/amdgpu_csa.c       |  3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_debugfs.c   |  4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_drv.c       |  4 +-
+ .../drm/amd/amdgpu/amdgpu_fw_attestation.c    |  3 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_gmc.c       |  5 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c        |  6 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ids.c       |  2 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       |  1 +
+ drivers/gpu/drm/amd/amdgpu/amdgpu_kms.h       | 31 ++++++++
+ drivers/gpu/drm/amd/amdgpu/amdgpu_pll.c       | 10 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ras.c       | 11 +--
+ drivers/gpu/drm/amd/amdgpu/amdgpu_ring.c      |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sched.c     |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_sync.c      |  4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_virt.c      |  2 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_cpu.c    |  4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c   |  4 +-
+ drivers/gpu/drm/amd/amdgpu/amdgpu_vram_mgr.c  |  2 +
+ drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c         |  9 ---
+ drivers/gpu/drm/amd/amdgpu/gfx_v7_0.h         |  1 -
+ drivers/gpu/drm/amd/amdgpu/smu_v11_0_i2c.c    |  3 +
+ .../gpu/drm/amd/display/dc/core/dc_link_ddc.c |  4 +
+ .../gpu/drm/amd/display/dc/core/dc_link_dp.c  |  5 ++
+ .../amd/display/include/ddc_service_types.h   |  8 --
+ .../gpu/drm/amd/include/vega10_ip_offset.h    | 76 +++++++++----------
+ drivers/gpu/drm/drm_dp_mst_topology.c         |  4 +-
+ drivers/gpu/drm/lima/lima_drv.c               |  2 +-
+ drivers/gpu/drm/lima/lima_sched.c             |  3 +-
+ drivers/gpu/drm/mediatek/mtk_disp_rdma.c      |  5 +-
+ drivers/gpu/drm/mediatek/mtk_dpi.c            |  9 ---
+ drivers/gpu/drm/mediatek/mtk_drm_crtc.c       |  4 +-
+ drivers/gpu/drm/mediatek/mtk_drm_drv.c        |  4 +-
+ drivers/gpu/drm/meson/meson_vclk.c            |  8 +-
+ drivers/gpu/drm/meson/meson_venc.c            |  4 +-
+ drivers/gpu/drm/msm/adreno/a6xx_gpu.c         |  2 +-
+ drivers/gpu/drm/msm/disp/dpu1/dpu_core_perf.c |  3 -
+ drivers/gpu/drm/msm/disp/dpu1/dpu_encoder.c   | 12 +--
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_crtc.c     |  6 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_ctl.c      |  6 +-
+ drivers/gpu/drm/msm/disp/mdp5/mdp5_kms.c      |  4 +-
+ drivers/gpu/drm/panel/panel-tpo-tpg110.c      |  3 +-
+ drivers/gpu/drm/pl111/pl111_debugfs.c         |  2 +-
+ drivers/gpu/drm/pl111/pl111_display.c         |  2 +-
+ 43 files changed, 147 insertions(+), 142 deletions(-)
+ create mode 100644 drivers/gpu/drm/amd/amdgpu/amdgpu_kms.h
+
+Cc: Alex Deucher <alexander.deucher@amd.com>
+Cc: amd-gfx@lists.freedesktop.org
+Cc: Andres Rodriguez <andresx7@gmail.com>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Cc: Daniel Vetter <daniel@ffwll.ch>
+Cc: David Airlie <airlied@linux.ie>
+Cc: dri-devel@lists.freedesktop.org
+Cc: Eric Anholt <eric@anholt.net>
+Cc: Felix Kuehling <Felix.Kuehling@amd.com>
+Cc: freedreno@lists.freedesktop.org
+Cc: Harry Wentland <harry.wentland@amd.com>
+Cc: Hawking Zhang <Hawking.Zhang@amd.com>
+Cc: Jerome Brunet <jbrunet@baylibre.com>
+Cc: Jie Qiu <jie.qiu@mediatek.com>
+Cc: John Clements <john.clements@amd.com>
+Cc: Kalyan Thota <kalyan_t@codeaurora.org>
+Cc: Kevin Hilman <khilman@baylibre.com>
+Cc: Leo Li <sunpeng.li@amd.com>
+Cc: lima@lists.freedesktop.org
+Cc: linaro-mm-sig@lists.linaro.org
+Cc: Linus Walleij <linus.walleij@linaro.org>
+Cc: linux-amlogic@lists.infradead.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-arm-msm@vger.kernel.org
+Cc: linux-mediatek@lists.infradead.org
+Cc: linux-media@vger.kernel.org
+Cc: Luben Tuikov <luben.tuikov@amd.com>
+Cc: Maarten Lankhorst <maarten.lankhorst@linux.intel.com>
+Cc: Martin Blumenstingl <martin.blumenstingl@googlemail.com>
+Cc: Matthias Brugger <matthias.bgg@gmail.com>
+Cc: Maxime Ripard <mripard@kernel.org>
+Cc: Monk.liu@amd.com
+Cc: Neil Armstrong <narmstrong@baylibre.com>
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Qiang Yu <yuq825@gmail.com>
+Cc: Rob Clark <robdclark@gmail.com>
+Cc: Sam Ravnborg <sam@ravnborg.org>
+Cc: Sean Paul <sean@poorly.run>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Thierry Reding <thierry.reding@gmail.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: YT SHEN <yt.shen@mediatek.com>
 -- 
-2.25.4
+2.25.1
 
