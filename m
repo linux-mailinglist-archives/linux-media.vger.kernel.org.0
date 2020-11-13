@@ -2,176 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 44CAB2B1687
-	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 08:36:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D5B82B17B2
+	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 10:00:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726217AbgKMHgj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Nov 2020 02:36:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49944 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726104AbgKMHgi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Nov 2020 02:36:38 -0500
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 81868C0613D1
-        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 23:36:38 -0800 (PST)
-Received: by mail-wr1-x441.google.com with SMTP id 23so8590546wrc.8
-        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 23:36:38 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=h75klXVcmCdUqgkQ6FTqe7WDEW7XWDLja/aoiNvLvvA=;
-        b=XDxXhtqca6DKFfUR/ZqKAryL+7RB5T3U/piwok/uUO3i3lEYq4wahqq/CgTckFwbE0
-         FqJSLb8ZyaiBHndwkwq6XHm+N3LK+rUqrEJwx4IzlQTIwbxydg2FALf7l5Mggdjtmqtg
-         ePDME5k8cZ8ZW0jRK5ouCvXJCFJdPd9PITB/sktY4lGOOT1CjAdJScXi1RGXFGZCPH0r
-         db83Y+jXtz4qUR+a7MQ05mw6+zspknlWKwjptHvjKijBAiKzRjlAS2us2eX59ChzpXs0
-         h22ELXdErcpdwy7AZ/jDGzAmeQN4/AB0lht7cm5HXnruSocnymj1Y9hz+Yyy/WVH3UCJ
-         Fr5Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=h75klXVcmCdUqgkQ6FTqe7WDEW7XWDLja/aoiNvLvvA=;
-        b=oS/CRAXA/E3yfbC5JY6OxgoHj4WpEJS2EyEvJcaEgebSsklaMskp5udTqUfxrGh9Qc
-         V36rJg2gTVxf4d3qtHrSl51PVWnMaSTcFTKvjmDeAZG89OMGsZ8j5AjHxH4bAGTOxVaR
-         yg+LYBKtpJpI1WXSs8NcHFxBg+bQMxFDGkaIm28im7cecwKxbmMz+x+8OuP6RgDh7KZt
-         ypoPtSKSvOZ5dsePidxX0XFS0wPCrsjJDZtUbo6+G3PIIR/bIW9tBXdBeSKVFn91YpnS
-         LTYCROTQ6lTnske/NTzV+bMculmMKoQXsCDhKwZbaClh00+CiuQSRwc4dH5EOjA4Fr4o
-         +Lpg==
-X-Gm-Message-State: AOAM531e/usEI1hRYk5CnZmQ8mvlzgrY2fPrZOv4DV/BvtrGnGZVCnd2
-        HN22axQGdCXUibE9kNVBWbaFYw==
-X-Google-Smtp-Source: ABdhPJwj2l3oAnuo6QHrM5Iat4Yv7D1oYYIfgkBuiyIm2+e/H9IEYWvHD5BWIHM/ICwOyeusyGOvlQ==
-X-Received: by 2002:adf:dc4c:: with SMTP id m12mr1662187wrj.177.1605252997162;
-        Thu, 12 Nov 2020 23:36:37 -0800 (PST)
-Received: from dell ([91.110.221.159])
-        by smtp.gmail.com with ESMTPSA id q2sm9826724wru.76.2020.11.12.23.36.35
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2020 23:36:36 -0800 (PST)
-Date:   Fri, 13 Nov 2020 07:36:34 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Alex Deucher <alexdeucher@gmail.com>
-Cc:     LKML <linux-kernel@vger.kernel.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        Andy Gross <andy.gross@ti.com>,
-        by <jhartmann@precisioninsight.com>,
-        Christian Koenig <christian.koenig@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>, Eric Anholt <eric@anholt.net>,
-        Faith <faith@valinux.com>, Gareth Hughes <gareth@valinux.com>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Huang Rui <ray.huang@amd.com>,
-        Jeff Hartmann <jhartmann@valinux.com>,
-        Keith Whitwell <keith@tungstengraphics.com>,
-        Leo Li <sunpeng.li@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rob Clark <rob.clark@linaro.org>, Rob Clark <rob@ti.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 00/19] [Set 2] Rid W=1 warnings from GPU
-Message-ID: <20201113073634.GG2787115@dell>
-References: <20201106214949.2042120-1-lee.jones@linaro.org>
- <20201113071932.GF2787115@dell>
- <CADnq5_NnKoOMQCQm0fJnER7mOGgYPvudfbbFOZkPC5Kg6Lp0XA@mail.gmail.com>
+        id S1726418AbgKMJAO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Nov 2020 04:00:14 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:54386 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726275AbgKMJAM (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Nov 2020 04:00:12 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kdUwE-00A674-6b; Fri, 13 Nov 2020 09:00:10 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kdUzG-0007t1-DE; Fri, 13 Nov 2020 09:03:18 +0000
+Date:   Fri, 13 Nov 2020 09:03:18 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        libcamera-devel@lists.libcamera.org
+Message-ID: <759461501.39.1605258198400@builder.linuxtv.org>
+In-Reply-To: <799677390.37.1605090798120@builder.linuxtv.org>
+References: <799677390.37.1605090798120@builder.linuxtv.org>
+Subject: Build failed in Jenkins: libcamera #358
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <CADnq5_NnKoOMQCQm0fJnER7mOGgYPvudfbbFOZkPC5Kg6Lp0XA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: libcamera
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 13 Nov 2020, Alex Deucher wrote:
+See <https://builder.linuxtv.org/job/libcamera/358/display/redirect?page=changes>
 
-> On Fri, Nov 13, 2020 at 2:19 AM Lee Jones <lee.jones@linaro.org> wrote:
-> >
-> > On Fri, 06 Nov 2020, Lee Jones wrote:
-> >
-> > > This set is part of a larger effort attempting to clean-up W=1
-> > > kernel builds, which are currently overwhelmingly riddled with
-> > > niggly little warnings.
-> > >
-> > > There are 5000 warnings to work through.  It will take a couple more
-> > > sets.  Although, ("drm/amd/display/dc/basics/fixpt31_32: Move
-> > > variables to where they're used") does take care of 2000 of them!
-> > >
-> > > Lee Jones (19):
-> > >   drm/ttm/ttm_range_manager: Demote non-conformant kernel-doc header
-> > >   drm/r128/ati_pcigart: Source file headers are not good candidates for
-> > >     kernel-doc
-> > >   drm/selftests/test-drm_dp_mst_helper: Move
-> > >     'sideband_msg_req_encode_decode' onto the heap
-> > >   drm/mga/mga_dma: Demote kernel-doc abusers to standard comment blocks
-> > >   drm/mga/mga_state: Remove unused variable 'buf_priv'
-> > >   drm/radeon/atom: Move prototype into shared location
-> > >   drm/radeon/radeon_kms: Include header containing our own prototypes
-> > >   drm/omapdrm/omap_gem: Fix misnamed and missing parameter descriptions
-> > >   drm/omapdrm/omap_dmm_tiler: Demote abusive use of kernel-doc format
-> > >   drm/radeon/radeon: Move prototype into shared header
-> > >   drm/radeon/radeon_drv: Source file headers are not good candidates for
-> > >     kernel-doc
-> > >   drm/amd/display/dc/basics/fixpt31_32: Move variables to where they're
-> > >     used
-> > >   drm/radeon/radeon_drv: Move prototypes to a shared headerfile
-> > >   drm/amd/amdgpu/amdgpu_device: Provide documentation for 'reg_addr'
-> > >     params
-> > >   drm/radeon: Move prototypes to shared header
-> > >   drm/amd/amdgpu/amdgpu_kms: Remove 'struct drm_amdgpu_info_device
-> > >     dev_info' from the stack
-> > >   drm/radeon/radeon_kms: Fix misnaming of 'radeon_info_ioctl's dev param
-> > >   drm/radeon/atombios_crtc: Remove description of non-existent function
-> > >     param 'encoder'
-> > >   drm/v3d/v3d_drv: Remove unused static variable 'v3d_v3d_pm_ops'
-> > >
-> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |   2 +
-> > >  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       | 104 +++++++++---------
-> > >  .../drm/amd/display/dc/basics/fixpt31_32.c    |   5 +
-> > >  .../gpu/drm/amd/display/include/fixed31_32.h  |   6 -
-> > >  drivers/gpu/drm/mga/mga_dma.c                 |  10 +-
-> > >  drivers/gpu/drm/mga/mga_state.c               |   2 -
-> > >  drivers/gpu/drm/omapdrm/omap_dmm_tiler.c      |   6 +-
-> > >  drivers/gpu/drm/omapdrm/omap_gem.c            |   3 +-
-> > >  drivers/gpu/drm/r128/ati_pcigart.c            |   2 +-
-> > >  drivers/gpu/drm/radeon/atom.h                 |   6 +
-> > >  drivers/gpu/drm/radeon/atombios_crtc.c        |   1 -
-> > >  drivers/gpu/drm/radeon/atombios_encoders.c    |   4 -
-> > >  drivers/gpu/drm/radeon/radeon.h               |   6 +
-> > >  drivers/gpu/drm/radeon/radeon_device.c        |   1 +
-> > >  drivers/gpu/drm/radeon/radeon_device.h        |  32 ++++++
-> > >  drivers/gpu/drm/radeon/radeon_display.c       |   4 -
-> > >  drivers/gpu/drm/radeon/radeon_drv.c           |  11 +-
-> > >  drivers/gpu/drm/radeon/radeon_drv.h           |   7 ++
-> > >  drivers/gpu/drm/radeon/radeon_kms.c           |   3 +-
-> > >  .../drm/selftests/test-drm_dp_mst_helper.c    |  11 +-
-> > >  drivers/gpu/drm/ttm/ttm_range_manager.c       |   2 +-
-> > >  drivers/gpu/drm/v3d/v3d_drv.c                 |  36 ------
-> > >  22 files changed, 138 insertions(+), 126 deletions(-)
-> > >  create mode 100644 drivers/gpu/drm/radeon/radeon_device.h
-> >
-> > Still no Radeon patches in today's -next.
-> >
-> > I really wanted to have had this set rebased by now.
-> >
-> > How long do they take to peculate through?
-> 
-> Usually a day or two, but I was swamped the last couple of days. I
-> pushed an updated -next branch today:
-> https://cgit.freedesktop.org/~agd5f/linux/log/?h=drm-next
+Changes:
 
-Ah, wonderful.
+[paul.elder] qcam: Clear the pool of free requests upon stopCapture()
 
-I'll rebase all of the sets on Monday and see what we're left with.
 
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building on master in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/libcamera.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 2d50b1664508e86e4d27b8620e74f8e82dfe1d57 (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 2d50b1664508e86e4d27b8620e74f8e82dfe1d57 # timeout=10
+Commit message: "qcam: Clear the pool of free requests upon stopCapture()"
+ > git rev-list --no-walk abf56416410d6b1e00b1628e3dd9444cd6828797 # timeout=10
+[Checks API] No suitable checks publisher found.
+[libcamera] $ /bin/sh -xe /tmp/jenkins15256864081915210137.sh
++ rm -rf build
++ meson setup -Dandroid=auto -Dv4l2=true build
+The Meson build system
+Version: 0.52.1
+Source dir: <https://builder.linuxtv.org/job/libcamera/ws/>
+Build dir: <https://builder.linuxtv.org/job/libcamera/ws/build>
+Build type: native build
+Project name: libcamera
+Project version: 0.0.0
+C compiler for the host machine: ccache cc (gcc 8.3.0 "cc (Debian 8.3.0-6) 8.3.0")
+C linker for the host machine: GNU ld.bfd 2.31.1
+C++ compiler for the host machine: ccache c++ (gcc 8.3.0 "c++ (Debian 8.3.0-6) 8.3.0")
+C++ linker for the host machine: GNU ld.bfd 2.31.1
+Host machine cpu family: x86_64
+Host machine cpu: x86_64
+Header <execinfo.h> has symbol "backtrace" : YES 
+Header <stdlib.h> has symbol "secure_getenv" : YES 
+Compiler for C supports arguments -Wno-c99-designator -Wc99-designator: NO 
+Library lttng-ust found: NO
+Program ./gen-tp-header.py found: YES (/usr/bin/python3 <https://builder.linuxtv.org/job/libcamera/ws/utils/tracepoints/./gen-tp-header.py)>
+Configuring version.h using configuration
+Found pkg-config: /usr/bin/pkg-config (0.29)
+Run-time dependency libexif found: YES 0.6.21
+Run-time dependency libjpeg found: YES 1.5.2
+Program openssl found: YES (/usr/bin/openssl)
+Library atomic found: YES
+Library dl found: YES
+Library gnutls found: YES
+Run-time dependency libudev found: YES 241
+Run-time dependency threads found: YES 
+Run-time dependency Boost found: YES 1.67
+Program ipa-sign-install.sh found: YES (<https://builder.linuxtv.org/job/libcamera/ws/src/ipa/ipa-sign-install.sh)>
+WARNING: rcc dependencies will not work reliably until this upstream issue is fixed: https://bugreports.qt.io/browse/QTBUG-45460
+Run-time dependency qt5 (modules: Core, Gui, Widgets) found: YES 5.11.3 (pkg-config)
+Run-time dependency libtiff-4 found: YES 4.1.0
+Header <QOpenGLWidget> has symbol "QOpenGLWidget" with dependency qt5: YES 
+Detecting Qt5 tools
+ moc: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/moc, 5.11.3)
+ uic: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/uic, 5.11.3)
+ rcc: YES (/usr/lib/x86_64-linux-gnu/qt5/bin/rcc, 5.11.3)
+ lrelease: NO
+Run-time dependency glib-2.0 found: YES 2.58.3
+Run-time dependency gstreamer-video-1.0 found: YES 1.14.4
+Run-time dependency gstreamer-allocators-1.0 found: YES 1.14.4
+Program doxygen found: YES (/usr/bin/doxygen)
+Program dot found: YES (/usr/bin/dot)
+Configuring Doxyfile using configuration
+Program sphinx-build-3 found: NO
+Program sphinx-build found: YES (/var/lib/jenkins/.local/bin/sphinx-build)
+Program v4l2_compat_test.py found: YES (<https://builder.linuxtv.org/job/libcamera/ws/test/v4l2_compat/v4l2_compat_test.py)>
+meson.build:133: WARNING: The current running kernel version 4.19.0-12-amd64 is too old to run libcamera.
+meson.build:135: WARNING: If you intend to use libcamera on this machine, please upgrade to a kernel >= 5.0.0.
+Configuring config.h using configuration
+Program python3 (jinja2, ply, jinja2, yaml) found: NO modules: jinja2, jinja2, yaml
+
+meson.build:158:7: ERROR: python3 is missing modules: ply
+
+A full log can be found at <https://builder.linuxtv.org/job/libcamera/ws/build/meson-logs/meson-log.txt>
+Build step 'Execute shell' marked build as failure
