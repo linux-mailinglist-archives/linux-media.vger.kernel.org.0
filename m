@@ -2,157 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F7DC2B1646
-	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 08:19:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 956002B164C
+	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 08:21:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726279AbgKMHTt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Nov 2020 02:19:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47270 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726112AbgKMHTs (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Nov 2020 02:19:48 -0500
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 174C5C0613D1
-        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 23:19:36 -0800 (PST)
-Received: by mail-wr1-x441.google.com with SMTP id s8so8551950wrw.10
-        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 23:19:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=date:from:to:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=bnJYl7E+i8htBIliisICLU3QBRLhtKX5V6IRkESXblI=;
-        b=k2FznTBmuBtIdb9vmIsFnefvjPAL49o04oAcgtmRfuhjCi1voMK9DNvTeL35Q98Bhu
-         Fnf3X2PwBuYGCK20FoLEl2g44owGkYJtgK/wfjvrWCE7wV4vO3Qzj4WQmEzejwEMA6Yb
-         kviwwk3HRP1j8xVxthJ+mlkPqqOhNp5S+8BTy3cRjICoDu8VhF+Bou9AyoksJLEbjn9k
-         v4kqsqfHj+s9oOvojGisAZTtWXB0ZNtFBTsgmnUeVXgSUm62p/yO6OThk/S2tB0lfgeL
-         9L7cp5IzV1+lAmgYnDOL0xxue73LP/tMrLwEdt0vAeEv6ZMPSnp/Rtxgq7P0ICuqI0gv
-         2/fw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=bnJYl7E+i8htBIliisICLU3QBRLhtKX5V6IRkESXblI=;
-        b=UQTLAmRGa96+GGH0SCrMIP31OEHH3Wzeq2+8dW/cR2hW464Ubmef+5kpWyCN1a829L
-         CDioWtE2h/Clc1WDo+h9aJfC1dAQqBtdxi4HRgFJ8MaUD8bxiYOPr+FxnCyhWTNozvpt
-         /iR6YdNCX97x4uPmvCdkx2IeJYM/4rIR+uEcpK68egbM82Lny7/V/acdBrOPuQ3ACFJA
-         yYyucHkFGz/ZZtMyUAEpMNoHf5t3dVDkAeHw43oA0D8mfpqVD6xRsgrDJAzpNnRtSoge
-         0xJTNiRPtj+tmqNe/Hid4hniYROJrSzs1gZxFOkDsjUjdYag5Sk+eB2ksjTe2MSed5vx
-         PaSw==
-X-Gm-Message-State: AOAM5317xKnKfveaAlDbcBdMLrA04pZoX6gHe1Tn4wOZH8FoHFZOZXCk
-        3fomykmMnR3Vk8Lj22PzHdq442Vhoow4b+z2
-X-Google-Smtp-Source: ABdhPJwyloqmRo9bTH+UlgyIYTE0cdzl4YZHqxc71/L1xDZmUoB+GN0sXlank69DctPsSMAdjz0T1Q==
-X-Received: by 2002:adf:fd03:: with SMTP id e3mr1494073wrr.303.1605251974761;
-        Thu, 12 Nov 2020 23:19:34 -0800 (PST)
-Received: from dell ([91.110.221.159])
-        by smtp.gmail.com with ESMTPSA id t4sm9631123wmb.20.2020.11.12.23.19.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 12 Nov 2020 23:19:34 -0800 (PST)
-Date:   Fri, 13 Nov 2020 07:19:32 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     linux-kernel@vger.kernel.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        amd-gfx@lists.freedesktop.org, Andy Gross <andy.gross@ti.com>,
-        by <jhartmann@precisioninsight.com>,
-        Christian Koenig <christian.koenig@amd.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        dri-devel@lists.freedesktop.org, Eric Anholt <eric@anholt.net>,
-        Faith <faith@valinux.com>, Gareth Hughes <gareth@valinux.com>,
-        Harry Wentland <harry.wentland@amd.com>,
-        Huang Rui <ray.huang@amd.com>,
-        Jeff Hartmann <jhartmann@valinux.com>,
-        Keith Whitwell <keith@tungstengraphics.com>,
-        Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
-        linux-media@vger.kernel.org,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Rob Clark <rob.clark@linaro.org>, Rob Clark <rob@ti.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>
-Subject: Re: [PATCH 00/19] [Set 2] Rid W=1 warnings from GPU
-Message-ID: <20201113071932.GF2787115@dell>
-References: <20201106214949.2042120-1-lee.jones@linaro.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201106214949.2042120-1-lee.jones@linaro.org>
+        id S1726362AbgKMHVZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Nov 2020 02:21:25 -0500
+Received: from smtp25.cstnet.cn ([159.226.251.25]:38274 "EHLO cstnet.cn"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726112AbgKMHVZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Nov 2020 02:21:25 -0500
+Received: from localhost.localdomain (unknown [124.16.141.242])
+        by APP-05 (Coremail) with SMTP id zQCowABXapzqM65fmQzMAA--.55224S2;
+        Fri, 13 Nov 2020 15:21:15 +0800 (CST)
+From:   Xu Wang <vulab@iscas.ac.cn>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Cc:     linux-kernel@vger.kernel.org
+Subject: [PATCH] media: cx88: use ARRAY_SIZE
+Date:   Fri, 13 Nov 2020 07:21:11 +0000
+Message-Id: <20201113072111.63734-1-vulab@iscas.ac.cn>
+X-Mailer: git-send-email 2.17.1
+X-CM-TRANSID: zQCowABXapzqM65fmQzMAA--.55224S2
+X-Coremail-Antispam: 1UD129KBjvdXoW7GryDZrWxKr47Zr48tF4xWFg_yoW3Zwc_uF
+        ykWFn3Zry5Wr1DtrsIqF1S9342va95Wry8XF1Sqa4ayFZ09F13J3yjqFZ5JrnFkrsFyFW7
+        CryDWFy3XwnxWjkaLaAFLSUrUUUUUb8apTn2vfkv8UJUUUU8Yxn0WfASr-VFAUDa7-sFnT
+        9fnUUIcSsGvfJTRUUUbFAYjsxI4VWDJwAYFVCjjxCrM7AC8VAFwI0_Jr0_Gr1l1xkIjI8I
+        6I8E6xAIw20EY4v20xvaj40_Wr0E3s1l1IIY67AEw4v_Jr0_Jr4l8cAvFVAK0II2c7xJM2
+        8CjxkF64kEwVA0rcxSw2x7M28EF7xvwVC0I7IYx2IY67AKxVW5JVW7JwA2z4x0Y4vE2Ix0
+        cI8IcVCY1x0267AKxVW8JVWxJwA2z4x0Y4vEx4A2jsIE14v26F4UJVW0owA2z4x0Y4vEx4
+        A2jsIEc7CjxVAFwI0_Cr1j6rxdM2AIxVAIcxkEcVAq07x20xvEncxIr21l5I8CrVACY4xI
+        64kE6c02F40Ex7xfMcIj6xIIjxv20xvE14v26r1j6r18McIj6I8E87Iv67AKxVWUJVW8Jw
+        Am72CE4IkC6x0Yz7v_Jr0_Gr1lF7xvr2IYc2Ij64vIr41l42xK82IYc2Ij64vIr41l4I8I
+        3I0E4IkC6x0Yz7v_Jr0_Gr1lx2IqxVAqx4xG67AKxVWUJVWUGwC20s026x8GjcxK67AKxV
+        WUGVWUWwC2zVAF1VAY17CE14v26r1Y6r17MIIYrxkI7VAKI48JMIIF0xvE2Ix0cI8IcVAF
+        wI0_Jr0_JF4lIxAIcVC0I7IYx2IY6xkF7I0E14v26r1j6r4UMIIF0xvE42xK8VAvwI8IcI
+        k0rVWrZr1j6s0DMIIF0xvEx4A2jsIE14v26r1j6r4UMIIF0xvEx4A2jsIEc7CjxVAFwI0_
+        Jr0_GrUvcSsGvfC2KfnxnUUI43ZEXa7IU8v_M3UUUUU==
+X-Originating-IP: [124.16.141.242]
+X-CM-SenderInfo: pyxotu46lvutnvoduhdfq/1tbiAw0TA13qZgnRdwAAsg
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 06 Nov 2020, Lee Jones wrote:
+Use ARRAY_SIZE instead of dividing sizeof array with sizeof an element
 
-> This set is part of a larger effort attempting to clean-up W=1
-> kernel builds, which are currently overwhelmingly riddled with
-> niggly little warnings.
-> 
-> There are 5000 warnings to work through.  It will take a couple more
-> sets.  Although, ("drm/amd/display/dc/basics/fixpt31_32: Move
-> variables to where they're used") does take care of 2000 of them!
-> 
-> Lee Jones (19):
->   drm/ttm/ttm_range_manager: Demote non-conformant kernel-doc header
->   drm/r128/ati_pcigart: Source file headers are not good candidates for
->     kernel-doc
->   drm/selftests/test-drm_dp_mst_helper: Move
->     'sideband_msg_req_encode_decode' onto the heap
->   drm/mga/mga_dma: Demote kernel-doc abusers to standard comment blocks
->   drm/mga/mga_state: Remove unused variable 'buf_priv'
->   drm/radeon/atom: Move prototype into shared location
->   drm/radeon/radeon_kms: Include header containing our own prototypes
->   drm/omapdrm/omap_gem: Fix misnamed and missing parameter descriptions
->   drm/omapdrm/omap_dmm_tiler: Demote abusive use of kernel-doc format
->   drm/radeon/radeon: Move prototype into shared header
->   drm/radeon/radeon_drv: Source file headers are not good candidates for
->     kernel-doc
->   drm/amd/display/dc/basics/fixpt31_32: Move variables to where they're
->     used
->   drm/radeon/radeon_drv: Move prototypes to a shared headerfile
->   drm/amd/amdgpu/amdgpu_device: Provide documentation for 'reg_addr'
->     params
->   drm/radeon: Move prototypes to shared header
->   drm/amd/amdgpu/amdgpu_kms: Remove 'struct drm_amdgpu_info_device
->     dev_info' from the stack
->   drm/radeon/radeon_kms: Fix misnaming of 'radeon_info_ioctl's dev param
->   drm/radeon/atombios_crtc: Remove description of non-existent function
->     param 'encoder'
->   drm/v3d/v3d_drv: Remove unused static variable 'v3d_v3d_pm_ops'
-> 
->  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |   2 +
->  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       | 104 +++++++++---------
->  .../drm/amd/display/dc/basics/fixpt31_32.c    |   5 +
->  .../gpu/drm/amd/display/include/fixed31_32.h  |   6 -
->  drivers/gpu/drm/mga/mga_dma.c                 |  10 +-
->  drivers/gpu/drm/mga/mga_state.c               |   2 -
->  drivers/gpu/drm/omapdrm/omap_dmm_tiler.c      |   6 +-
->  drivers/gpu/drm/omapdrm/omap_gem.c            |   3 +-
->  drivers/gpu/drm/r128/ati_pcigart.c            |   2 +-
->  drivers/gpu/drm/radeon/atom.h                 |   6 +
->  drivers/gpu/drm/radeon/atombios_crtc.c        |   1 -
->  drivers/gpu/drm/radeon/atombios_encoders.c    |   4 -
->  drivers/gpu/drm/radeon/radeon.h               |   6 +
->  drivers/gpu/drm/radeon/radeon_device.c        |   1 +
->  drivers/gpu/drm/radeon/radeon_device.h        |  32 ++++++
->  drivers/gpu/drm/radeon/radeon_display.c       |   4 -
->  drivers/gpu/drm/radeon/radeon_drv.c           |  11 +-
->  drivers/gpu/drm/radeon/radeon_drv.h           |   7 ++
->  drivers/gpu/drm/radeon/radeon_kms.c           |   3 +-
->  .../drm/selftests/test-drm_dp_mst_helper.c    |  11 +-
->  drivers/gpu/drm/ttm/ttm_range_manager.c       |   2 +-
->  drivers/gpu/drm/v3d/v3d_drv.c                 |  36 ------
->  22 files changed, 138 insertions(+), 126 deletions(-)
->  create mode 100644 drivers/gpu/drm/radeon/radeon_device.h
+Signed-off-by: Xu Wang <vulab@iscas.ac.cn>
+---
+ drivers/media/pci/cx88/cx88-mpeg.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-Still no Radeon patches in today's -next.
-
-I really wanted to have had this set rebased by now.
-
-How long do they take to peculate through?
-
+diff --git a/drivers/media/pci/cx88/cx88-mpeg.c b/drivers/media/pci/cx88/cx88-mpeg.c
+index a57c991b165b..a3edb548afde 100644
+--- a/drivers/media/pci/cx88/cx88-mpeg.c
++++ b/drivers/media/pci/cx88/cx88-mpeg.c
+@@ -524,8 +524,7 @@ static int cx8802_request_acquire(struct cx8802_driver *drv)
+ 		core->last_analog_input = core->input;
+ 		core->input = 0;
+ 		for (i = 0;
+-		     i < (sizeof(core->board.input) /
+-			  sizeof(struct cx88_input));
++		     i < ARRAY_SIZE(core->board.input);
+ 		     i++) {
+ 			if (core->board.input[i].type == CX88_VMUX_DVB) {
+ 				core->input = i;
 -- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+2.17.1
+
