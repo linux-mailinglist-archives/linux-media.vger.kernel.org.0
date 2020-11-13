@@ -2,56 +2,55 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0A4962B2285
-	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 18:32:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D5DA62B2291
+	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 18:35:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726309AbgKMRcV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Nov 2020 12:32:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59754 "EHLO
+        id S1726439AbgKMRfn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Nov 2020 12:35:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60288 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726268AbgKMRcU (ORCPT
+        with ESMTP id S1726125AbgKMRfm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Nov 2020 12:32:20 -0500
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9980EC0613D1;
-        Fri, 13 Nov 2020 09:32:19 -0800 (PST)
-Received: by mail-wm1-x344.google.com with SMTP id h62so9303773wme.3;
-        Fri, 13 Nov 2020 09:32:19 -0800 (PST)
+        Fri, 13 Nov 2020 12:35:42 -0500
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C8A47C0613D1;
+        Fri, 13 Nov 2020 09:35:41 -0800 (PST)
+Received: by mail-wm1-x343.google.com with SMTP id p22so8935703wmg.3;
+        Fri, 13 Nov 2020 09:35:41 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=nB0sqPZdl7dQLoXl7ubMEUx/Fs5H1HyujTYlOBisxFw=;
-        b=tEf5E9PgHkBX+tNoCia7JZ3Kr29grA0sA17rvN6So/U5BnGMt3IxD4Mfn9PafoJ5cJ
-         XNC3dNDdjXIgi0J9u52/8bnkM1yrvS9uZZcnSgbK4eAgpHhkY8uHAojQGt/jL/ajDbKi
-         aQVLWJmW4E/39lnjOx3GPfCknqYCeD+TofYUzgoK+yBVi8FzZc2s76US58fsqaO2AwSR
-         RaXnzpmXtFUWoPpI0U98S+B6dYDZ5tWCWor5Z//1rmRcW3PS+sgwvdZzArvh8bN1e37E
-         lFSI2b1q8OXzDDAeUZ0pZjmRGzfX6K39tW1wm1NJq1B2ZrlT9uVyoUMaV/l1s5MFTMMJ
-         iR/A==
+        bh=S6otP4T92FhYb0o9zH9HwhqeFp2M3AuU45BWAEnFIGI=;
+        b=N2HEd60JGqG0qkBalskauOSXB+NULzJV8EKlKKQjMPMSjWNTEYWuJu95YCQPjQqz15
+         FpF60LB8aVIaGCA6u/ZVcbRu2YE/dT6FVxs1U60lEPoCGGkcmtGPcdaOcggTGN/1QrFq
+         R+8Wo5RGM+m0Qs7VESHcr2sff3SBMkreNO64XuADvgs9MIY5qvzqf0PMjNdN6JPxSmu1
+         JOHsyxCokR3/5m2Gc9DkChVCbM113VsbAcZVz+piLLtoARMZMd2/q261SmvRzXQtnKB1
+         FHczIET1PuqTa9uULwmGsKDrShAe21s61rvHYbyJphqBrbxMZOTJcq5jz/sSZOngkR2B
+         qN5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=nB0sqPZdl7dQLoXl7ubMEUx/Fs5H1HyujTYlOBisxFw=;
-        b=SV2WY32IKng6uxWxp1zp8H0QO8JsNZM5iHhCAc7BjVSDK7BMWgjzXilV+1wCrCKBKY
-         xdoNRVvbquYwXYcesJsrIuUjdaD5UDYDyqn7zUhE0Ey6IQy0O+QhKkkvcMPZM8W6KZvo
-         EdgL4XdKvpLjWiNlO81EFJtx8qFbpusJrpTuBjP5xhPpVbpIu2DmXUvRjG/O9hHwA5NL
-         H6LFZw23n0hPp4+Aq3Q2A7VMgDaLjmCc8Ruyhnapi+5nVOuPCh0tU3heP7dZHJ/HvWpy
-         vWst+etFp3K8iHbFetqQplhawgqej6aFpOBp+l5aQ7xl6OhDVbPWFo1w45Q4HMpcnwwg
-         NcuQ==
-X-Gm-Message-State: AOAM531UbxlGxNXYsnnrXmUUHmWXu73e4wtgvIKES5zCcUQW1UEq41Fd
-        DvVnbA5g8oFchb6YCYPfuFTyAeAb276l/mqLIWY=
-X-Google-Smtp-Source: ABdhPJwLUWp9h2RgHmnYgvG6nAKpZckkeYcM9u4+qoAUdVIw1MKwoRmYok6qE1X+JE0iF7PSBR6qtULvVKQcTNTZYNg=
-X-Received: by 2002:a1c:80cb:: with SMTP id b194mr3585107wmd.73.1605288733517;
- Fri, 13 Nov 2020 09:32:13 -0800 (PST)
+        bh=S6otP4T92FhYb0o9zH9HwhqeFp2M3AuU45BWAEnFIGI=;
+        b=rgJNAXaX9tFeCSS+XGzuL3h0quMOejIv/iwnTMK64J52fslqsdC0ryTUiY4LzvBTZg
+         LTsPIpDAFEMnJrmb4+1Y3+wodn8lj9lgNMmiuHrE+PFLvSxRrZwTn5zQ4DKBNkvzLSnv
+         M+tpWxHUi2zl/uBya/kGt9OnVl5d3ZT+kBwfXbOIS85QgWmFhq+ekC/QkRZmPlz9Sn50
+         GKaXVEYrvUnbp1w4JoY2SpOIj7lz8Hnd5l8nqFSTB5hnQ1MVdBjeykgz7cAz49JCSQ5j
+         mdOYpav9EswQ+Jh3TWwBQPFIBCRDl4TDh76MzI0tGGhNZtcLL4/q4Ym/s6pc60uJ5cr5
+         7Gug==
+X-Gm-Message-State: AOAM5332sc0vKhlAMrSHs3isZFaINCRxQVbUhm+IWhdpHOe2PDT8F3qe
+        eXIbLaZrltiGnsXypQXk8LvOIJYePCG0jNlfQiZ+8ZT5
+X-Google-Smtp-Source: ABdhPJxF+0EsquFWFOhsdKMbhKyVEoU4mWq6nr1k3xX0fu+rqyDpbAXHH2R0sqIgLJqVkgN+428qDyu0fypinrEpH78=
+X-Received: by 2002:a1c:1c3:: with SMTP id 186mr3557828wmb.39.1605288940212;
+ Fri, 13 Nov 2020 09:35:40 -0800 (PST)
 MIME-Version: 1.0
-References: <20201113134938.4004947-1-lee.jones@linaro.org> <20201113134938.4004947-32-lee.jones@linaro.org>
-In-Reply-To: <20201113134938.4004947-32-lee.jones@linaro.org>
+References: <20201113134938.4004947-1-lee.jones@linaro.org> <20201113134938.4004947-41-lee.jones@linaro.org>
+In-Reply-To: <20201113134938.4004947-41-lee.jones@linaro.org>
 From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Fri, 13 Nov 2020 12:32:02 -0500
-Message-ID: <CADnq5_NrurURuTvTHF-94EOy2kwmd1mgmY6tF2BN-ywVqH73ag@mail.gmail.com>
-Subject: Re: [PATCH 31/40] drm/amd/amdgpu/amdgpu_vm_sdma: Fix
- 'amdgpu_vm_sdma_prepare()'s doc-rot
+Date:   Fri, 13 Nov 2020 12:35:28 -0500
+Message-ID: <CADnq5_Mo5RepKQ_ZvG1VFHKtypSZXa4fvsKBD+6Z-HgSn+26gA@mail.gmail.com>
+Subject: Re: [PATCH 40/40] drm/amd/amdgpu/gfx_v7_0: Remove unused struct definition
 To:     Lee Jones <lee.jones@linaro.org>
 Cc:     David Airlie <airlied@linux.ie>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -73,14 +72,8 @@ On Fri, Nov 13, 2020 at 8:50 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c:63: warning: Function parame=
-ter or member 'resv' not described in 'amdgpu_vm_sdma_prepare'
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c:63: warning: Function parame=
-ter or member 'sync_mode' not described in 'amdgpu_vm_sdma_prepare'
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c:63: warning: Excess function=
- parameter 'owner' description in 'amdgpu_vm_sdma_prepare'
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c:63: warning: Excess function=
- parameter 'exclusive' description in 'amdgpu_vm_sdma_prepare'
+>  drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c:5211:45: warning: =E2=80=98gfx_v7_=
+0_ip_block=E2=80=99 defined but not used [-Wunused-const-variable=3D]
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
@@ -98,26 +91,45 @@ Applied.  Thanks!
 Alex
 
 > ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c | 9 ---------
+>  drivers/gpu/drm/amd/amdgpu/gfx_v7_0.h | 1 -
+>  2 files changed, 10 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c b/drivers/gpu/dr=
-m/amd/amdgpu/amdgpu_vm_sdma.c
-> index db790574dc2e8..a83a646759c58 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_vm_sdma.c
-> @@ -51,8 +51,8 @@ static int amdgpu_vm_sdma_map_table(struct amdgpu_bo *t=
-able)
->   * amdgpu_vm_sdma_prepare - prepare SDMA command submission
->   *
->   * @p: see amdgpu_vm_update_params definition
-> - * @owner: owner we need to sync to
-> - * @exclusive: exclusive move fence we need to sync to
-> + * @resv: reservation object with embedded fence
-> + * @sync_mode: synchronization mode
->   *
->   * Returns:
->   * Negativ errno, 0 for success.
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c b/drivers/gpu/drm/amd/=
+amdgpu/gfx_v7_0.c
+> index cb07bc21dcbe5..04e1e92f5f3cf 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.c
+> @@ -5208,15 +5208,6 @@ static void gfx_v7_0_get_cu_info(struct amdgpu_dev=
+ice *adev)
+>         cu_info->lds_size =3D 64;
+>  }
+>
+> -static const struct amdgpu_ip_block_version gfx_v7_0_ip_block =3D
+> -{
+> -       .type =3D AMD_IP_BLOCK_TYPE_GFX,
+> -       .major =3D 7,
+> -       .minor =3D 0,
+> -       .rev =3D 0,
+> -       .funcs =3D &gfx_v7_0_ip_funcs,
+> -};
+> -
+>  const struct amdgpu_ip_block_version gfx_v7_1_ip_block =3D
+>  {
+>         .type =3D AMD_IP_BLOCK_TYPE_GFX,
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.h b/drivers/gpu/drm/amd/=
+amdgpu/gfx_v7_0.h
+> index 6fb9c1524691f..eedce7d007f1d 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.h
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v7_0.h
+> @@ -24,7 +24,6 @@
+>  #ifndef __GFX_V7_0_H__
+>  #define __GFX_V7_0_H__
+>
+> -extern const struct amdgpu_ip_block_version gfx_v7_0_ip_block;
+>  extern const struct amdgpu_ip_block_version gfx_v7_1_ip_block;
+>  extern const struct amdgpu_ip_block_version gfx_v7_2_ip_block;
+>  extern const struct amdgpu_ip_block_version gfx_v7_3_ip_block;
 > --
 > 2.25.1
 >
