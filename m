@@ -2,101 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B70D02B20C6
-	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 17:47:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7448A2B2136
+	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 17:59:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726520AbgKMQrC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Nov 2020 11:47:02 -0500
-Received: from smtprelay0198.hostedemail.com ([216.40.44.198]:38354 "EHLO
-        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
-        by vger.kernel.org with ESMTP id S1726248AbgKMQrC (ORCPT
+        id S1726163AbgKMQ7j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Nov 2020 11:59:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54538 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725941AbgKMQ7i (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Nov 2020 11:47:02 -0500
-Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
-        by smtprelay01.hostedemail.com (Postfix) with ESMTP id 0ED6E100E7B48;
-        Fri, 13 Nov 2020 16:47:01 +0000 (UTC)
-X-Session-Marker: 6A6F6540706572636865732E636F6D
-X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:960:973:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1541:1593:1594:1711:1730:1747:1777:1792:2393:2553:2559:2562:2828:3138:3139:3140:3141:3142:3354:3622:3865:3866:3867:3868:3870:3871:3872:3874:4321:4605:5007:6119:6120:6742:7901:7903:7904:10004:10400:10848:11026:11232:11658:11914:12043:12296:12297:12555:12740:12760:12895:12986:13069:13311:13357:13439:14096:14097:14180:14659:14721:21060:21080:21324:21451:21627:30012:30054:30090:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:2,LUA_SUMMARY:none
-X-HE-Tag: join27_180ffb427310
-X-Filterd-Recvd-Size: 3227
-Received: from XPS-9350.home (unknown [47.151.133.149])
-        (Authenticated sender: joe@perches.com)
-        by omf15.hostedemail.com (Postfix) with ESMTPA;
-        Fri, 13 Nov 2020 16:46:58 +0000 (UTC)
-Message-ID: <8d00647824e2ce8c05ee4447e158885e0134ed37.camel@perches.com>
-Subject: Re: [PATCH v4 1/1] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-From:   Joe Perches <joe@perches.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Petr Mladek <pmladek@suse.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Date:   Fri, 13 Nov 2020 08:46:57 -0800
-In-Reply-To: <20201113105418.GB15897@paasikivi.fi.intel.com>
-References: <20201103133400.24805-1-sakari.ailus@linux.intel.com>
-         <20201103144747.GD4077@smile.fi.intel.com>
-         <20201103145616.GJ26150@paasikivi.fi.intel.com>
-         <b389f6991ede1f8ae89a0dbaa8deab06aecc6146.camel@perches.com>
-         <20201113105418.GB15897@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset="ISO-8859-1"
-User-Agent: Evolution 3.38.1-1 
+        Fri, 13 Nov 2020 11:59:38 -0500
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 572CCC0613D1;
+        Fri, 13 Nov 2020 08:59:38 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id z21so14823039lfe.12;
+        Fri, 13 Nov 2020 08:59:38 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=rcenlUNh1MwQCSSwTkurwYvPsdLt/CgENRdcvcJRBes=;
+        b=p3d04h9Kj38R+B1kBqoK8MeDc9w6BayJmCdiJnoetuMwZ8TsW/2lxOeIFHUCTM/ZPD
+         lkIw79lCjiUIJOwLuNWcf9i3tb2IR3s7jHZiKyAXYn2hBVvhMOH24OBXa+PEPuk09uqQ
+         2iwlkNcQWY0ihVnQQzlSyC3GImel51O1eAOKy77tF32su+kcafzp4aDJZHWykO94JKvF
+         r5Yhl3PM0pMGLuIFKzrxP0LNa9mwP/X2E9XWssYgrIxDIwzazAn0KA/NNnbADjbCJDpD
+         BbEt1L/nGZpE44twQCjKWBzzfm0CJ+Voq0eWVLGpVI4ZlZFl4L5R7FdGPhCJI0ZHLaw6
+         QtQg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=rcenlUNh1MwQCSSwTkurwYvPsdLt/CgENRdcvcJRBes=;
+        b=SndACf+bcF+vXI4BAOyjwoTow/nmu3eHMlFtoDcLrkU1niMO+F/le+eY8hq4H20FKi
+         G5m1slRsvbBLiW5hnFskJ8sgkpOlox+a71FZjMcNem6zRdo/If1xidOo0/Dcm8/+dWWi
+         v4tW2aGdy3gurS4fiAs3zEBdGiPPJd4Hjly1BCkknwtTTYRPflP8zZoWX3C/aaFhTbtl
+         OEWNF6uOCvngDmBcddAceiRiTIzNqfBQ/dQ4CfHdjIKZgvizFhaXSRFFFbWBTxlHR2Z0
+         SqmV5PPMCGC2qsaOX05kaeCXVTKonRh63GQKOQYWst2UEkEMJKDw8MmzpQ5GmU+SBjPo
+         ckzg==
+X-Gm-Message-State: AOAM530SS/kH421Ymk1J7HKxDd+PQCfvTl99JIYJaWJozCPZi+ehlij1
+        qwL0QyT4U+uCadBlXer1eBs=
+X-Google-Smtp-Source: ABdhPJxbm9i/CgUHRtwu+iuI9UUW98q77BKXF8mR9O2q+WVjlqmtLWhMTdCofQaeaX5qS3B3vv3CFA==
+X-Received: by 2002:ac2:5462:: with SMTP id e2mr1342770lfn.552.1605286771975;
+        Fri, 13 Nov 2020 08:59:31 -0800 (PST)
+Received: from [192.168.15.127] ([194.152.46.38])
+        by smtp.gmail.com with ESMTPSA id h2sm1559790ljm.44.2020.11.13.08.59.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Nov 2020 08:59:31 -0800 (PST)
+Subject: Re: [PATCH] s5p-jpeg: hangle error condition in s5p_jpeg_probe
+To:     Baskov Evgeiny <baskov@ispras.ru>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Sylwester Nawrocki <s.nawrocki@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, ldv-project@linuxtesting.org
+References: <20201113160625.1281-1-baskov@ispras.ru>
+From:   Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+Message-ID: <1246b424-eaf7-8d32-c151-7e101a127753@gmail.com>
+Date:   Fri, 13 Nov 2020 17:59:29 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20201113160625.1281-1-baskov@ispras.ru>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2020-11-13 at 12:54 +0200, Sakari Ailus wrote:
-> Hi Joe,
+Acked-by: Andrzej Pietrasiewicz <andrzejtp2010@gmail.com>
+
+W dniu 13.11.2020 o 17:06, Baskov Evgeiny pisze:
+> If an error happens in jpeg_get_drv_data(), i.e. match fails,
+> jpeg->variant field is NULL, so we cannot access it.
 > 
-> On Tue, Nov 03, 2020 at 08:49:36AM -0800, Joe Perches wrote:
-> > On Tue, 2020-11-03 at 16:56 +0200, Sakari Ailus wrote:
-> > > On Tue, Nov 03, 2020 at 04:47:47PM +0200, Andy Shevchenko wrote:
-> > > > On Tue, Nov 03, 2020 at 03:34:00PM +0200, Sakari Ailus wrote:
-> > > > > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
-> > > > > pixel formats denoted by fourccs. The fourcc encoding is the same for both
-> > > > > so the same implementation can be used.
-> > > > 
-> > > > ...
-> > > > 
-> > > > > +static noinline_for_stack
-> > > > > +char *fourcc_string(char *buf, char *end, const u32 *fourcc,
-> > > > > +		    struct printf_spec spec, const char *fmt)
-> > > > > +{
-> > > > > +	char output[sizeof("(xx)(xx)(xx)(xx) little-endian (0x01234567)")];
-> > > > 
-> > > > I would add a comment that there is another possibility, i.e. big-endian, but
-> > > > it occupies less space.
-> > 
-> > I think it's unnecessary as it's obvious and similarly done in other
-> > <foo>_string type functions.
-> > 
-> > > > > +	p = special_hex_number(p, output + sizeof(output) - 2, *fourcc,
-> > > > > +			       sizeof(u32));
-> > > > 
-> > > > I would go with one line here.
-> > > 
-> > > It's wrapped since the result would be over 80 otherwise.
-> > 
-> > Perhaps simpler as
-> > 
-> > 	p = special_hex_number(p, p + 10, *fourcc, sizeof(u32));
+> Consider device probe failed if jpeg->variant is NULL.
 > 
-> Yes. But having bugs elsewhere would have a magnified effect.
-
-How's that?  Where would "elsewhere" be?
-
-> I wouldn't be afraid of a newline here.
-
-I'd prefer obvious code instead of indirected p vs output
-and having to lookup whatever output is again.
-
-special_hex_number is already known to fit in the buffer.
-
+> Found by Linux Driver Verification project (linuxtesting.org).
+> 
+> Signed-off-by: Baskov Evgeiny <baskov@ispras.ru>
+> ---
+>   drivers/media/platform/s5p-jpeg/jpeg-core.c | 2 ++
+>   1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/platform/s5p-jpeg/jpeg-core.c b/drivers/media/platform/s5p-jpeg/jpeg-core.c
+> index 9b22dd8e34f4..026111505f5a 100644
+> --- a/drivers/media/platform/s5p-jpeg/jpeg-core.c
+> +++ b/drivers/media/platform/s5p-jpeg/jpeg-core.c
+> @@ -2862,6 +2862,8 @@ static int s5p_jpeg_probe(struct platform_device *pdev)
+>   		return -ENOMEM;
+>   
+>   	jpeg->variant = jpeg_get_drv_data(&pdev->dev);
+> +	if (!jpeg->variant)
+> +		return -ENODEV;
+>   
+>   	mutex_init(&jpeg->lock);
+>   	spin_lock_init(&jpeg->slock);
+> 
