@@ -2,178 +2,157 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6CC382B1525
-	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 05:40:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3F7DC2B1646
+	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 08:19:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726133AbgKMEkI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 12 Nov 2020 23:40:08 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:49197 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726054AbgKMEkG (ORCPT
+        id S1726279AbgKMHTt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Nov 2020 02:19:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47270 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726112AbgKMHTs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 12 Nov 2020 23:40:06 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id dQsUklRCpR8RJdQsVkeFX2; Fri, 13 Nov 2020 05:40:03 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1605242403; bh=hbFiq/a/78WGKl2RgQ6p4Wvo9Mt3PqO622Nk3/8CgO0=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=Vk4Xfz23wdSCM9LUw7q07UkpjVsbQ8+51DUnSV14u23+B2a0is7zzBnwkQ5XtBr/M
-         k7FhuiYbdeuTmh8h2cI6bVPFqCjfwZwWzVks1pJQJkgyjL6sZ5G05zbKFRTKnfOnKz
-         weQoic/sKjc7BbkCLy8eLfA303+sdKr7oL7MeR45u3qEswMge3OrObAGXVaiEpW+VY
-         YRHeG7yHCHVJzBhItlpue+rZwYs42Kz9YWPKCCh2oGJZouemt28jvj93aiLK3wPkpH
-         4nvfQTTjq8AvxGTLK6RnpZU9j9xiT+OxNljg7DCckrCoJmzXoQ/CIql8AqoeyYpjho
-         9gt8nqh98vZTA==
-Message-ID: <7ca50a31896ed1634be38ff9c4b642d3@smtp-cloud7.xs4all.net>
-Date:   Fri, 13 Nov 2020 05:40:02 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfCmBOKr3JXOIXXekBfp+SpyrCeGuSfBbD3jdUMO3iXdVDCIybOLdf9fobQerPj7z5D0qJJI3m4BSJw56+gTk9mIxElaWji2DlVjh/jvJsHROzNigourC
- TvOtEDgoSBDPN4XenzeWmBRe4qqTpXtDRfJRDDTPGextaH0AsMNw+lHtmhNntny/ufslcrixp1/3ocVbQhvifRpHg3PrHTAgOl3alLFGh7QiUcjrAcMYj1H9
- XiI9/ngH/5R3C2pJjbndtw==
+        Fri, 13 Nov 2020 02:19:48 -0500
+Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 174C5C0613D1
+        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 23:19:36 -0800 (PST)
+Received: by mail-wr1-x441.google.com with SMTP id s8so8551950wrw.10
+        for <linux-media@vger.kernel.org>; Thu, 12 Nov 2020 23:19:36 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:content-transfer-encoding:in-reply-to;
+        bh=bnJYl7E+i8htBIliisICLU3QBRLhtKX5V6IRkESXblI=;
+        b=k2FznTBmuBtIdb9vmIsFnefvjPAL49o04oAcgtmRfuhjCi1voMK9DNvTeL35Q98Bhu
+         Fnf3X2PwBuYGCK20FoLEl2g44owGkYJtgK/wfjvrWCE7wV4vO3Qzj4WQmEzejwEMA6Yb
+         kviwwk3HRP1j8xVxthJ+mlkPqqOhNp5S+8BTy3cRjICoDu8VhF+Bou9AyoksJLEbjn9k
+         v4kqsqfHj+s9oOvojGisAZTtWXB0ZNtFBTsgmnUeVXgSUm62p/yO6OThk/S2tB0lfgeL
+         9L7cp5IzV1+lAmgYnDOL0xxue73LP/tMrLwEdt0vAeEv6ZMPSnp/Rtxgq7P0ICuqI0gv
+         2/fw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:content-transfer-encoding
+         :in-reply-to;
+        bh=bnJYl7E+i8htBIliisICLU3QBRLhtKX5V6IRkESXblI=;
+        b=UQTLAmRGa96+GGH0SCrMIP31OEHH3Wzeq2+8dW/cR2hW464Ubmef+5kpWyCN1a829L
+         CDioWtE2h/Clc1WDo+h9aJfC1dAQqBtdxi4HRgFJ8MaUD8bxiYOPr+FxnCyhWTNozvpt
+         /iR6YdNCX97x4uPmvCdkx2IeJYM/4rIR+uEcpK68egbM82Lny7/V/acdBrOPuQ3ACFJA
+         yYyucHkFGz/ZZtMyUAEpMNoHf5t3dVDkAeHw43oA0D8mfpqVD6xRsgrDJAzpNnRtSoge
+         0xJTNiRPtj+tmqNe/Hid4hniYROJrSzs1gZxFOkDsjUjdYag5Sk+eB2ksjTe2MSed5vx
+         PaSw==
+X-Gm-Message-State: AOAM5317xKnKfveaAlDbcBdMLrA04pZoX6gHe1Tn4wOZH8FoHFZOZXCk
+        3fomykmMnR3Vk8Lj22PzHdq442Vhoow4b+z2
+X-Google-Smtp-Source: ABdhPJwyloqmRo9bTH+UlgyIYTE0cdzl4YZHqxc71/L1xDZmUoB+GN0sXlank69DctPsSMAdjz0T1Q==
+X-Received: by 2002:adf:fd03:: with SMTP id e3mr1494073wrr.303.1605251974761;
+        Thu, 12 Nov 2020 23:19:34 -0800 (PST)
+Received: from dell ([91.110.221.159])
+        by smtp.gmail.com with ESMTPSA id t4sm9631123wmb.20.2020.11.12.23.19.33
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 12 Nov 2020 23:19:34 -0800 (PST)
+Date:   Fri, 13 Nov 2020 07:19:32 +0000
+From:   Lee Jones <lee.jones@linaro.org>
+To:     linux-kernel@vger.kernel.org,
+        Alex Deucher <alexander.deucher@amd.com>,
+        amd-gfx@lists.freedesktop.org, Andy Gross <andy.gross@ti.com>,
+        by <jhartmann@precisioninsight.com>,
+        Christian Koenig <christian.koenig@amd.com>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        David Airlie <airlied@linux.ie>,
+        dri-devel@lists.freedesktop.org, Eric Anholt <eric@anholt.net>,
+        Faith <faith@valinux.com>, Gareth Hughes <gareth@valinux.com>,
+        Harry Wentland <harry.wentland@amd.com>,
+        Huang Rui <ray.huang@amd.com>,
+        Jeff Hartmann <jhartmann@valinux.com>,
+        Keith Whitwell <keith@tungstengraphics.com>,
+        Leo Li <sunpeng.li@amd.com>, linaro-mm-sig@lists.linaro.org,
+        linux-media@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Rob Clark <rob.clark@linaro.org>, Rob Clark <rob@ti.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>
+Subject: Re: [PATCH 00/19] [Set 2] Rid W=1 warnings from GPU
+Message-ID: <20201113071932.GF2787115@dell>
+References: <20201106214949.2042120-1-lee.jones@linaro.org>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201106214949.2042120-1-lee.jones@linaro.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Fri, 06 Nov 2020, Lee Jones wrote:
 
-Results of the daily build of media_tree:
+> This set is part of a larger effort attempting to clean-up W=1
+> kernel builds, which are currently overwhelmingly riddled with
+> niggly little warnings.
+> 
+> There are 5000 warnings to work through.  It will take a couple more
+> sets.  Although, ("drm/amd/display/dc/basics/fixpt31_32: Move
+> variables to where they're used") does take care of 2000 of them!
+> 
+> Lee Jones (19):
+>   drm/ttm/ttm_range_manager: Demote non-conformant kernel-doc header
+>   drm/r128/ati_pcigart: Source file headers are not good candidates for
+>     kernel-doc
+>   drm/selftests/test-drm_dp_mst_helper: Move
+>     'sideband_msg_req_encode_decode' onto the heap
+>   drm/mga/mga_dma: Demote kernel-doc abusers to standard comment blocks
+>   drm/mga/mga_state: Remove unused variable 'buf_priv'
+>   drm/radeon/atom: Move prototype into shared location
+>   drm/radeon/radeon_kms: Include header containing our own prototypes
+>   drm/omapdrm/omap_gem: Fix misnamed and missing parameter descriptions
+>   drm/omapdrm/omap_dmm_tiler: Demote abusive use of kernel-doc format
+>   drm/radeon/radeon: Move prototype into shared header
+>   drm/radeon/radeon_drv: Source file headers are not good candidates for
+>     kernel-doc
+>   drm/amd/display/dc/basics/fixpt31_32: Move variables to where they're
+>     used
+>   drm/radeon/radeon_drv: Move prototypes to a shared headerfile
+>   drm/amd/amdgpu/amdgpu_device: Provide documentation for 'reg_addr'
+>     params
+>   drm/radeon: Move prototypes to shared header
+>   drm/amd/amdgpu/amdgpu_kms: Remove 'struct drm_amdgpu_info_device
+>     dev_info' from the stack
+>   drm/radeon/radeon_kms: Fix misnaming of 'radeon_info_ioctl's dev param
+>   drm/radeon/atombios_crtc: Remove description of non-existent function
+>     param 'encoder'
+>   drm/v3d/v3d_drv: Remove unused static variable 'v3d_v3d_pm_ops'
+> 
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_device.c    |   2 +
+>  drivers/gpu/drm/amd/amdgpu/amdgpu_kms.c       | 104 +++++++++---------
+>  .../drm/amd/display/dc/basics/fixpt31_32.c    |   5 +
+>  .../gpu/drm/amd/display/include/fixed31_32.h  |   6 -
+>  drivers/gpu/drm/mga/mga_dma.c                 |  10 +-
+>  drivers/gpu/drm/mga/mga_state.c               |   2 -
+>  drivers/gpu/drm/omapdrm/omap_dmm_tiler.c      |   6 +-
+>  drivers/gpu/drm/omapdrm/omap_gem.c            |   3 +-
+>  drivers/gpu/drm/r128/ati_pcigart.c            |   2 +-
+>  drivers/gpu/drm/radeon/atom.h                 |   6 +
+>  drivers/gpu/drm/radeon/atombios_crtc.c        |   1 -
+>  drivers/gpu/drm/radeon/atombios_encoders.c    |   4 -
+>  drivers/gpu/drm/radeon/radeon.h               |   6 +
+>  drivers/gpu/drm/radeon/radeon_device.c        |   1 +
+>  drivers/gpu/drm/radeon/radeon_device.h        |  32 ++++++
+>  drivers/gpu/drm/radeon/radeon_display.c       |   4 -
+>  drivers/gpu/drm/radeon/radeon_drv.c           |  11 +-
+>  drivers/gpu/drm/radeon/radeon_drv.h           |   7 ++
+>  drivers/gpu/drm/radeon/radeon_kms.c           |   3 +-
+>  .../drm/selftests/test-drm_dp_mst_helper.c    |  11 +-
+>  drivers/gpu/drm/ttm/ttm_range_manager.c       |   2 +-
+>  drivers/gpu/drm/v3d/v3d_drv.c                 |  36 ------
+>  22 files changed, 138 insertions(+), 126 deletions(-)
+>  create mode 100644 drivers/gpu/drm/radeon/radeon_device.h
 
-date:			Fri Nov 13 05:00:13 CET 2020
-media-tree git hash:	0ab4f9087ea94ff92dc2ae68180faaf6bd443021
-media_build git hash:	bca336c7d6379c723eb388bb9e606db6785a953b
-v4l-utils git hash:	57451f856524bf2b02ffe8e43ba2709a72cdd4f5
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Still no Radeon patches in today's -next.
 
-linux-git-sh: OK
-linux-git-arm-stm32: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
-sparse: OK
-smatch: ERRORS
+I really wanted to have had this set rebased by now.
 
-Detailed results are available here:
+How long do they take to peculate through?
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+-- 
+Lee Jones [李琼斯]
+Senior Technical Lead - Developer Services
+Linaro.org │ Open source software for Arm SoCs
+Follow Linaro: Facebook | Twitter | Blog
