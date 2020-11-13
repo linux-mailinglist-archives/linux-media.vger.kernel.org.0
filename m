@@ -2,84 +2,216 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E8F982B17C0
-	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 10:04:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1F4CD2B17FD
+	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 10:16:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726187AbgKMJEF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Nov 2020 04:04:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35514 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726160AbgKMJEE (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Nov 2020 04:04:04 -0500
-Received: from mail-ed1-x532.google.com (mail-ed1-x532.google.com [IPv6:2a00:1450:4864:20::532])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9BC96C0613D1
-        for <linux-media@vger.kernel.org>; Fri, 13 Nov 2020 01:04:04 -0800 (PST)
-Received: by mail-ed1-x532.google.com with SMTP id ay21so9849281edb.2
-        for <linux-media@vger.kernel.org>; Fri, 13 Nov 2020 01:04:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:from:date:message-id:subject:to:cc;
-        bh=+ueWlKxVNhHafWyCXncNB9AbiZ5VgU22yoB46KFP4WI=;
-        b=UqsaKQxw31YyIo5mum3eA9JIJv4qoDDyXzeyL876hbGcKId1yAqY3q29r6lrIO99V2
-         QzjkbyHW150DZwNrFnGNB2yXv5yMKGxj4fNc6Se8SOQr2LtcVv7qOP99d7Cxj4Pzfa88
-         c2UyMX4Op3N/EwH7dmh5VdFdroYG/IyEMwOtE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:from:date:message-id:subject:to:cc;
-        bh=+ueWlKxVNhHafWyCXncNB9AbiZ5VgU22yoB46KFP4WI=;
-        b=TIY2GMqN1qtjEJiE+lIHhhNFQkqHwIa3d7Oxidax7fwk2SVdTpE0uFb3RdeEEJYM0M
-         HKU/tmvsOZyJl/k+Xt5NgSpzpC6tgx6j6L3gSayUozcWtoixjIxoFAdSiWJi9BD8XMEJ
-         SmMbVsobQ5frjs2ccH19knBJQ3p1BFDeyaapwsxHc85FXYx01BvMnQMVk9lgQZclxBgV
-         da9zcpBjZq2egj5hXVs3UkoEl/iBMRiFxoRHfuQEl3fqXcGzfwEXN4f7G3sbZekQHJTu
-         h/4pBIAqg1eqSG0xUDPP9mXz83uj3F1rp2WJWqdMM3OCe385J+zHqAm+PFiEtNGG5q/P
-         6Dug==
-X-Gm-Message-State: AOAM533dve/jRk0xo0nNC4uVrrdFi/7Pe36Vbn9BE9FEAji9aKrAZ2gV
-        ebLr22pdhUy/rdfAHsD9wFaIt4FKHNkJMAGIYI13g5aDFs/aWA==
-X-Google-Smtp-Source: ABdhPJwfNmcF/de+IlCqddeyVTVqae4o6TlxUTBokiZ6OfytRTosWeeZTG5f6pjPBzqWbiZaq5hxT6S7YzDGgwI+F8Q=
-X-Received: by 2002:a05:6402:38f:: with SMTP id o15mr1459117edv.73.1605258243210;
- Fri, 13 Nov 2020 01:04:03 -0800 (PST)
+        id S1726222AbgKMJQE convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Fri, 13 Nov 2020 04:16:04 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:57186 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726181AbgKMJQC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Nov 2020 04:16:02 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kdVBY-00A74h-SC; Fri, 13 Nov 2020 09:16:01 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kdVEb-0000EF-NS; Fri, 13 Nov 2020 09:19:09 +0000
+Date:   Fri, 13 Nov 2020 09:19:09 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org
+Message-ID: <1522657240.40.1605259149719@builder.linuxtv.org>
+In-Reply-To: <723178075.38.1605172752092@builder.linuxtv.org>
+References: <723178075.38.1605172752092@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3287
 MIME-Version: 1.0
-From:   Hirokazu Honda <hiroh@chromium.org>
-Date:   Fri, 13 Nov 2020 18:03:52 +0900
-Message-ID: <CAO5uPHN-30N8Hv8exx6bzMQQDbLGJpfQobZ_pzDtqC83k3nCMQ@mail.gmail.com>
-Subject: How to get last frames in encode sequence returned by v4l2 encoder
- driver without V4L2_ENC_CMD_STOP
-To:     linux-media@vger.kernel.org
-Cc:     Hirokazu Honda <hiroh@chromium.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        J Kardatzke <jkardatzke@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8BIT
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: media-build
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+See <https://builder.linuxtv.org/job/media-build/3287/display/redirect>
 
-According to the official v4l2 encoder driver usage description [1],
-v4l2 steatful encoder driver doesn't have a guarantee when frames fed
-to a driver will be returned.
-To make sure all pending frames are output by the driver, an app must
-call VIDIOC_ENCODER_CMD with cmd=V4L2_ENC_CMD_STOP.
-However, it is not mandatory to support the command in the current
-v4l2 stateful encoder API specification.
-An app can check it by VIDIOC_TRY_ENCODER_CMD beforehand.
-My question is when an app has to get all the frames of an encoder
-sequence, how we can achieve this without V4L2_ENC_CMD_STOP support.
-This demand is natural and in fact WebCodecs [2] requires this.
+Changes:
 
-I think there are two options,
-1.) Ensure that a driver will eventually output frames if it doesn't
-support V4L2_ENC_CMD_STOP.
-2.) Change V4L2_ENC_CMD_STOP support to be mandatory
 
-Any comments are appreciated.
-Thanks so much in advance.
+------------------------------------------
+Started by timer
+Running as SYSTEM
+Building on master in workspace <https://builder.linuxtv.org/job/media-build/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/media_build.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+Checking out Revision 408180421c5e0dc4aa760e6f2348daabc757730d (refs/remotes/origin/master)
+ > git config core.sparsecheckout # timeout=10
+ > git checkout -f 408180421c5e0dc4aa760e6f2348daabc757730d # timeout=10
+Commit message: "Update backports/v5.0_time32.patch"
+ > git rev-list --no-walk 408180421c5e0dc4aa760e6f2348daabc757730d # timeout=10
+[Checks API] No suitable checks publisher found.
+[media-build] $ /bin/sh -xe /tmp/jenkins12906463259986985359.sh
++ ./build
+Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
+Needed package dependencies are met.
 
-[1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-encoder.html#drain
-[2] https://web.dev/webcodecs/
+************************************************************
+* This script will download the latest tarball and build it*
+* Assuming that your kernel is compatible with the latest  *
+* drivers. If not, you'll need to add some extra backports,*
+* ./backports/<kernel> directory.                          *
+* It will also update this tree to be sure that all compat *
+* bits are there, to avoid compilation failures            *
+************************************************************
+************************************************************
+* All drivers and build system are under GPLv2 License     *
+* Firmware files are under the license terms found at:     *
+* http://www.linuxtv.org/downloads/firmware/               *
+* Please abort in the next 5 secs if you don't agree with  *
+* the license                                              *
+************************************************************
 
-Sincerely,
--Hiro
+Not aborted. It means that the licence was agreed. Proceeding...
+
+****************************
+Updating the building system
+****************************
+From git://linuxtv.org/media_build
+ * branch                      master     -> FETCH_HEAD
+Already up to date.
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
+--2020-11-13 09:19:06--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
+HTTP request sent, awaiting response... 301 Moved Permanently
+Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
+--2020-11-13 09:19:07--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 105 [application/x-bzip2]
+Saving to: ‘linux-media.tar.bz2.md5.tmp’
+
+     0K                                                       100% 92.7M=0s
+
+2020-11-13 09:19:07 (92.7 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+tar xfj linux-media.tar.bz2
+rm -f .patches_applied .linked_dir .git_log.md5
+make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+**********************************************************
+* Downloading firmwares from linuxtv.org.                *
+**********************************************************
+firmware/dvb-usb-vp702x-01.fw
+firmware/dvb-usb-vp7045-01.fw
+firmware/dvb-fe-bcm3510-01.fw
+firmware/as102_data2_st.hex
+firmware/dvb-usb-terratec-h7-drxk.fw
+firmware/isdbt_nova_12mhz.inp
+firmware/Boot.S
+firmware/dvb_nova_12mhz_b0.inp
+firmware/dvb-fe-xc4000-1.4.1.fw
+firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
+firmware/sms1xxx-nova-a-dvbt-01.fw
+firmware/dvb-usb-avertv-a800-02.fw
+firmware/cmmb_venice_12mhz.inp
+firmware/dvb-fe-xc5000c-4.1.30.7.fw
+firmware/v4l-cx23418-cpu.fw
+firmware/v4l-cx23885-enc-broken.fw
+firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
+firmware/dvb_nova_12mhz.inp
+firmware/dvb-usb-dib0700-1.20.fw
+firmware/tdmb_nova_12mhz.inp
+firmware/as102_data1_st.hex
+firmware/dvb-fe-or51132-vsb.fw
+firmware/dvb-usb-it9135-02.fw
+firmware/v4l-cx23418-apu.fw
+firmware/dvb-ttpci-01.fw-261f
+firmware/v4l-cx23418-dig.fw
+firmware/dvb-ttpci-01.fw-261c
+firmware/dvb-usb-bluebird-01.fw
+firmware/dvb-fe-or51211.fw
+firmware/dvb-fe-or51132-qam.fw
+firmware/sms1xxx-stellar-dvbt-01.fw
+firmware/dvb-usb-dibusb-5.0.0.11.fw
+firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
+firmware/dvb-usb-terratec-h5-drxk.fw
+firmware/dvb-usb-wt220u-02.fw
+firmware/v4l-cx23885-enc.fw
+firmware/dvb-ttpci-01.fw-2622
+firmware/dvb-usb-wt220u-01.fw
+firmware/v4l-cx25840.fw
+firmware/dvb-fe-drxj-mc-1.0.8.fw
+firmware/v4l-cx231xx-avcore-01.fw
+firmware/dvb-usb-dtt200u-01.fw
+firmware/dvb-usb-dibusb-6.0.0.8.fw
+firmware/sms1xxx-nova-b-dvbt-01.fw
+firmware/dvb-fe-xc5000-1.6.114.fw
+firmware/cmmb_vega_12mhz.inp
+firmware/dvb-usb-it9135-01.fw
+firmware/isdbt_nova_12mhz_b0.inp
+firmware/dvb-ttpci-01.fw-261a
+firmware/dvb-ttpci-01.fw-261b
+firmware/dvb-ttpci-01.fw-261d
+firmware/README
+firmware/isdbt_rio.inp
+firmware/dvb-usb-umt-010-02.fw
+firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
+firmware/dvb-usb-terratec-h7-az6007.fw
+firmware/v4l-cx23885-avcore-01.fw
+******************
+* Start building *
+******************
+make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
+make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+Applying patches for kernel 4.19.0-12-amd64
+patch -s -f -N -p1 -i ../backports/api_version.patch
+patch -s -f -N -p1 -i ../backports/pr_fmt.patch
+patch -s -f -N -p1 -i ../backports/debug.patch
+patch -s -f -N -p1 -i ../backports/drx39xxj.patch
+patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
+patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
+patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
+patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
+patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
+patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
+patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
+patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
+patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
+patch -s -f -N -p1 -i ../backports/v5.4_dma_buf.patch
+patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
+patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
+patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
+patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
+patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
+Patched drivers/media/dvb-core/dvbdev.c
+Patched drivers/media/v4l2-core/v4l2-dev.c
+Patched drivers/media/rc/rc-main.c
+make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
+./scripts/make_kconfig.pl /lib/modules/4.19.0-12-amd64/build /lib/modules/4.19.0-12-amd64/build 1
+File not found: /lib/modules/4.19.0-12-amd64/build/.config at ./scripts/make_kconfig.pl line 33, <IN> line 4.
+Preparing to compile for kernel version 4.19.0
+make[1]: *** [Makefile:379: allyesconfig] Error 2
+make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+make: *** [Makefile:26: allyesconfig] Error 2
+can't select all drivers at ./build line 531
+Build step 'Execute shell' marked build as failure
