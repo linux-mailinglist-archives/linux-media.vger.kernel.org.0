@@ -2,216 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F4CD2B17FD
-	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 10:16:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6F0782B18BB
+	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 11:02:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726222AbgKMJQE convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 13 Nov 2020 04:16:04 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:57186 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726181AbgKMJQC (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Nov 2020 04:16:02 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kdVBY-00A74h-SC; Fri, 13 Nov 2020 09:16:01 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kdVEb-0000EF-NS; Fri, 13 Nov 2020 09:19:09 +0000
-Date:   Fri, 13 Nov 2020 09:19:09 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1522657240.40.1605259149719@builder.linuxtv.org>
-In-Reply-To: <723178075.38.1605172752092@builder.linuxtv.org>
-References: <723178075.38.1605172752092@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3287
+        id S1726418AbgKMKCe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Nov 2020 05:02:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44702 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726222AbgKMKCd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 13 Nov 2020 05:02:33 -0500
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5E157C0613D6;
+        Fri, 13 Nov 2020 02:02:33 -0800 (PST)
+Received: by mail-wm1-x343.google.com with SMTP id p22so7559361wmg.3;
+        Fri, 13 Nov 2020 02:02:33 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=HmAKJnzLRDGQT9lrEjqyhcR6xxTYalmQb8B6doUQFf4=;
+        b=LiJahYM4xd7pAijHr/t505nhNXri8oohrMEaBg0pjZepyb5Ce/9eT33Jv0gy9z9cLd
+         wqzNFuQzeUgktFSh88utzZdFXeI0f24ug7MinHjupvPV6Zg1O60rWGCsMF1vg9Rz/whp
+         PPTdIH81tRt6YIqbei9IOQpNqdStas5ATHmVBxYz0UzfKSyim81qTLdaSMwuG6emP8tw
+         rDbXyW0XRM1Ivm85TRp49tEh7VGXIEYLsz6O0eOiEJ9xqRSVSnIQHNHj26IF3C/HMzmZ
+         bLvr3o836TfGVvfTqTrztQTv0Gd/WGYUHzYxQRBctAQyp0dZFNBYLYZHfOptd0zimZEt
+         WlRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-transfer-encoding
+         :content-language;
+        bh=HmAKJnzLRDGQT9lrEjqyhcR6xxTYalmQb8B6doUQFf4=;
+        b=JIJub+e+MWfeQj+HH27pW4UZF+7UcMo4zo+cWQ7ka16OSQpnCcUoMRS8CBzIrfHjdi
+         mh+yumMXJWpfDImPcOemb3l6LiOqH6tqZ6ErvMbFwNW0hNxFXlskKoWK6DgRBsdrqQhu
+         sZsSRjaOP484NN11bBvKxgIa6TyJHIBzBf10t+OmpoRVLbCiI6aAmt7Yqz3JnXhq6Imw
+         DY6xh9Ond52sU5nqpZPhgjZpSdVCp0lSXMMErI9BI2SlEUJf3xw3cy4mKwhMYfVtzVIW
+         wl6E4sR3+uZzFSssjxvlZgmXdVMooUFPTTQ3qDC+O6pYrAQCjuRJgZfKduv9gs4qy5Nf
+         AKuw==
+X-Gm-Message-State: AOAM533ILeFkPIIaaQuzRaATdQwWQbcapznTd2B5Ua8u/m9S/OFMWjfB
+        OrNHznRvrNorhBPaf6RyO8o=
+X-Google-Smtp-Source: ABdhPJwVhlJ0m4LfbIbiIkT1M4UL6WL78WAkI/U9538v2GWxhnwckXg5OThECJCTO/95iZ3D++QQ4Q==
+X-Received: by 2002:a7b:c841:: with SMTP id c1mr1667969wml.31.1605261752042;
+        Fri, 13 Nov 2020 02:02:32 -0800 (PST)
+Received: from [192.168.1.211] ([2.31.225.98])
+        by smtp.gmail.com with ESMTPSA id c129sm9954778wmd.7.2020.11.13.02.02.30
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 13 Nov 2020 02:02:31 -0800 (PST)
+Subject: Re: [RFC PATCH v3 9/9] ipu3-cio2: Add functionality allowing
+ software_node connections to sensors on platforms designed for Windows
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Andy Shevchenko <andy.shevchenko@gmail.com>
+Cc:     Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rob Herring <robh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tsuchiya Yuto <kitakar@gmail.com>
+References: <20201019225903.14276-1-djrscally@gmail.com>
+ <20201019225903.14276-10-djrscally@gmail.com>
+ <20201024012411.GT5979@pendragon.ideasonboard.com>
+ <d188f8b5-ed3b-f91b-171a-26afeb7d213e@gmail.com>
+ <20201024093702.GA3939@pendragon.ideasonboard.com>
+ <20201026161050.GQ4077@smile.fi.intel.com>
+ <20201029201918.GD15024@pendragon.ideasonboard.com>
+ <CAHp75Vc9uYVvhBe3OyCJzCsU0EY9yi62hsxt3pAwppSfjB+jDg@mail.gmail.com>
+ <20201029212930.GE15024@pendragon.ideasonboard.com>
+ <20201029222215.GI4077@smile.fi.intel.com>
+ <20201029225124.GI15024@pendragon.ideasonboard.com>
+From:   Dan Scally <djrscally@gmail.com>
+Message-ID: <60b36af2-ad57-000b-76e4-379e1b58a3a0@gmail.com>
+Date:   Fri, 13 Nov 2020 10:02:30 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+In-Reply-To: <20201029225124.GI15024@pendragon.ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3287/display/redirect>
+On 29/10/2020 22:51, Laurent Pinchart wrote:
+> Hi Andy,
+>
+> On Fri, Oct 30, 2020 at 12:22:15AM +0200, Andy Shevchenko wrote:
+>> On Thu, Oct 29, 2020 at 11:29:30PM +0200, Laurent Pinchart wrote:
+>>> On Thu, Oct 29, 2020 at 10:26:56PM +0200, Andy Shevchenko wrote:
+>>>> On Thu, Oct 29, 2020 at 10:21 PM Laurent Pinchart wrote:
+>>>>> On Mon, Oct 26, 2020 at 06:10:50PM +0200, Andy Shevchenko wrote:
+>>>>>> On Sat, Oct 24, 2020 at 12:37:02PM +0300, Laurent Pinchart wrote:
+>>>>>>> On Sat, Oct 24, 2020 at 09:50:07AM +0100, Dan Scally wrote:
+>>>>>>>> On 24/10/2020 02:24, Laurent Pinchart wrote:
+>>>>>>>>> On Mon, Oct 19, 2020 at 11:59:03PM +0100, Daniel Scally wrote:
+>>>>>>>>>> +              adev = acpi_dev_get_first_match_dev(supported_devices[i], NULL, -1);
+>>>>>>>>> What if there are multiple sensor of the same model ?
+>>>>>>>> Hmm, yeah, that would be a bit of a pickle. I guess the newer
+>>>>>>>> smartphones have multiple sensors on the back, which I presume are the
+>>>>>>>> same model. So that will probably crop up at some point. How about
+>>>>>>>> instead I use bus_for_each_dev() and in the applied function check if
+>>>>>>>> the _HID is in the supported list?
+>>>>>>> Sounds good to me.
+>>>>>>>
+>>>>>>>>>> +              if (!adev)
+>>>>>>>>>> +                      continue;
+>>>>>> Please, don't.
+>>>>>>
+>>>>>> If we have so weird ACPI tables it must be w/a differently. The all, even badly
+>>>>>> formed, ACPI tables I have seen so far are using _UID to distinguish instance
+>>>>>> of the device (see second parameter to the above function).
+>>>>>>
+>>>>>> If we meet the very broken table I would like rather to know about, then
+>>>>>> silently think ahead what could be best.
+>>>>>>
+>>>>>> I.o.w. don't change this until we will have a real example of the problematic
+>>>>>> firmware.
+>>>>> I'm not sure to follow you. Daniel's current code loops over all the
+>>>>> supported HID (as stored in the supported_devices table), and then gets
+>>>>> the first ACPI device for each of them. If multiple ACPI devices exist
+>>>>> with the same HID, we need to handle them all, so enumerating all ACPI
+>>>>> devices and checking whether their HID is one we handle seems to be the
+>>>>> right option to me.
+>>>> Devices with the same HID should be still different by another
+>>>> parameter in ACPI. The above mentioned call just uses the rough
+>>>> estimation for relaxed conditions. If you expect more than one device
+>>>> with the same HID how do you expect to distinguish them? The correct
+>>>> way is to use _UID. It may be absent, or set to a value. And this
+>>>> value should be unique (as per U letter in UID abbreviation). That
+>>>> said, the above is good enough till we find the firmware with the
+>>>> above true (several devices with the same HID). Until then the code is
+>>>> fine.
+>>> I expect those devices with the same _HID to have different _UID values,
+>>> yes. On the systems I've seen so far, that assumption is not violated,
+>>> and I don't think we need to already plan how we will support systems
+>>> where multiple devices would have the same _HID and _UID (within the
+>>> same scope). There's no disagreement there.
+>>>
+>>> My point is that supported_devices stores HID values, and doesn't care
+>>> about UID. The code loops over supported_devices, and for each entry,
+>>> calls acpi_dev_get_first_match_dev() and process the ACPI devices
+>>> returned by that call. We thus process at most one ACPI device per HID,
+>>> which isn't right.
+>> In this case we probably need something like
+>>
+>> struct acpi_device *
+>> acpi_dev_get_next_match_dev(struct acpi_device *adev,
+>> 			    const char *hid, const char *uid, s64 hrv)
+>> {
+>> 	struct device *start = adev ? &adev->dev : NULL;
+>> 	...
+>> 	dev = bus_find_device(&acpi_bus_type, start, &match, acpi_dev_match_cb);
+>> 	...
+>> }
+>>
+>> in drivers/acpi/utils.c and
+>>
+>> static inline struct acpi_device *
+>> acpi_dev_get_first_match_dev(const char *hid, const char *uid, s64 hrv)
+>> {
+>> 	return acpi_dev_get_next_match_dev(NULL, hid, uid, hrv);
+>> }
+>>
+>> in include/linux/acpi.h.
+>>
+>> Then we may add
+>>
+>> #define for_each_acpi_dev_match(adev, hid, uid, hrv)			\
+>> 	for (adev = acpi_dev_get_first_match_dev(hid, uid, hrv);	\
+>> 	     adev;							\
+>> 	     adev = acpi_dev_get_next_match_dev(adev, hid, uid, hrv))
+> What the cio2-bridge code needs is indeed
+>
+> 	for each hid in supported hids:
+> 		for each acpi device that is compatible with hid:
+> 			...
+>
+> which could also be expressed as
+>
+> 	for each acpi device:
+> 		if acpi device hid is in supported hids:
+> 			...
+>
+> I don't mind either option, I'll happily follow the preference of the
+> ACPI maintainers.
+>
+Does this need raising elsewhere then? The original idea of just
+bus_for_each_dev(&acpi_bus_type...) I have now tested and it works fine,
+but it does mean that I need to export acpi_bus_type (currently that
+symbol's not available)...that seems much simpler to me but I'm not sure
+whether that's something to avoid, and if so whether Andy's approach is
+better.
 
-Changes:
 
+Thoughts?
 
-------------------------------------------
-Started by timer
-Running as SYSTEM
-Building on master in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --is-inside-work-tree # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.20.1'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision 408180421c5e0dc4aa760e6f2348daabc757730d (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f 408180421c5e0dc4aa760e6f2348daabc757730d # timeout=10
-Commit message: "Update backports/v5.0_time32.patch"
- > git rev-list --no-walk 408180421c5e0dc4aa760e6f2348daabc757730d # timeout=10
-[Checks API] No suitable checks publisher found.
-[media-build] $ /bin/sh -xe /tmp/jenkins12906463259986985359.sh
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
-Needed package dependencies are met.
-
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
-
-Not aborted. It means that the licence was agreed. Proceeding...
-
-****************************
-Updating the building system
-****************************
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2020-11-13 09:19:06--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2020-11-13 09:19:07--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
-
-     0K                                                       100% 92.7M=0s
-
-2020-11-13 09:19:07 (92.7 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
-
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-12-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/v5.9_tasklet.patch
-patch -s -f -N -p1 -i ../backports/v5.7_mmap_read_lock.patch
-patch -s -f -N -p1 -i ../backports/v5.7_vm_map_ram.patch
-patch -s -f -N -p1 -i ../backports/v5.7_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.7_define_seq_attribute.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pin_user_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.6_const_fb_ops.patch
-patch -s -f -N -p1 -i ../backports/v5.6_pm_runtime_get_if_active.patch
-patch -s -f -N -p1 -i ../backports/v5.5_alsa_pcm_api_updates.patch
-patch -s -f -N -p1 -i ../backports/v5.5_memtype_h.patch
-patch -s -f -N -p1 -i ../backports/v5.5_dev_printk_h.patch
-patch -s -f -N -p1 -i ../backports/v5.4_revert_spi_transfer.patch
-patch -s -f -N -p1 -i ../backports/v5.4_dma_buf.patch
-patch -s -f -N -p1 -i ../backports/v5.1_vm_map_pages.patch
-patch -s -f -N -p1 -i ../backports/v5.1_devm_i2c_new_dummy_device.patch
-patch -s -f -N -p1 -i ../backports/v5.0_ipu3-cio2.patch
-patch -s -f -N -p1 -i ../backports/v5.0_time32.patch
-patch -s -f -N -p1 -i ../backports/v4.20_access_ok.patch
-Patched drivers/media/dvb-core/dvbdev.c
-Patched drivers/media/v4l2-core/v4l2-dev.c
-Patched drivers/media/rc/rc-main.c
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-./scripts/make_kconfig.pl /lib/modules/4.19.0-12-amd64/build /lib/modules/4.19.0-12-amd64/build 1
-File not found: /lib/modules/4.19.0-12-amd64/build/.config at ./scripts/make_kconfig.pl line 33, <IN> line 4.
-Preparing to compile for kernel version 4.19.0
-make[1]: *** [Makefile:379: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
