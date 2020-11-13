@@ -2,22 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A32AB2B2785
-	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 22:52:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D66BD2B277F
+	for <lists+linux-media@lfdr.de>; Fri, 13 Nov 2020 22:52:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726487AbgKMVwQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 13 Nov 2020 16:52:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44494 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725986AbgKMVv5 (ORCPT
+        id S1726419AbgKMVwF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 13 Nov 2020 16:52:05 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:50882 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726270AbgKMVwB (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 13 Nov 2020 16:51:57 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E8894C0617A6;
-        Fri, 13 Nov 2020 13:51:56 -0800 (PST)
+        Fri, 13 Nov 2020 16:52:01 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id ECCE11F46BC4
+        with ESMTPSA id 5D15A1F46BB5
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
@@ -28,9 +25,9 @@ Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v2 5/9] media: controls: Add the stateless codec control class
-Date:   Fri, 13 Nov 2020 18:51:17 -0300
-Message-Id: <20201113215121.505173-6-ezequiel@collabora.com>
+Subject: [PATCH v2 6/9] media: uapi: Move parsed H264 pixel format out of staging
+Date:   Fri, 13 Nov 2020 18:51:18 -0300
+Message-Id: <20201113215121.505173-7-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201113215121.505173-1-ezequiel@collabora.com>
 References: <20201113215121.505173-1-ezequiel@collabora.com>
@@ -40,63 +37,41 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add a new control class to hold the stateless codecs controls
-that are ready to be moved out of staging.
+Since we are ready to stabilize the H264 stateless API,
+start by first moving the parsed H264 pixel format.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- drivers/media/v4l2-core/v4l2-ctrls.c | 5 +++++
- include/uapi/linux/v4l2-controls.h   | 7 +++++++
- 2 files changed, 12 insertions(+)
+ include/media/h264-ctrls.h     | 3 ---
+ include/uapi/linux/videodev2.h | 1 +
+ 2 files changed, 1 insertion(+), 3 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index 04232493d94b..06e97ce6e9b4 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -1181,6 +1181,10 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_DETECT_MD_GLOBAL_THRESHOLD: return "MD Global Threshold";
- 	case V4L2_CID_DETECT_MD_THRESHOLD_GRID:	return "MD Threshold Grid";
- 	case V4L2_CID_DETECT_MD_REGION_GRID:	return "MD Region Grid";
-+
-+	/* Codec controls */
-+	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-+	case V4L2_CID_CODEC_STATELESS_CLASS:	return "Stateless Codec Controls";
- 	default:
- 		return NULL;
- 	}
-@@ -1368,6 +1372,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
- 	case V4L2_CID_FM_RX_CLASS:
- 	case V4L2_CID_RF_TUNER_CLASS:
- 	case V4L2_CID_DETECT_CLASS:
-+	case V4L2_CID_CODEC_STATELESS_CLASS:
- 		*type = V4L2_CTRL_TYPE_CTRL_CLASS;
- 		/* You can neither read not write these */
- 		*flags |= V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY;
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index d7a76e80282a..f3bcc2e2fcb9 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -65,6 +65,7 @@
- #define V4L2_CTRL_CLASS_FM_RX		0x00a10000	/* FM Receiver controls */
- #define V4L2_CTRL_CLASS_RF_TUNER	0x00a20000	/* RF tuner controls */
- #define V4L2_CTRL_CLASS_DETECT		0x00a30000	/* Detection controls */
-+#define V4L2_CTRL_CLASS_CODEC_STATELESS 0x00a40000	/* Stateless codecs controls */
+diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+index f86345b8efd1..4be80969fa44 100644
+--- a/include/media/h264-ctrls.h
++++ b/include/media/h264-ctrls.h
+@@ -21,9 +21,6 @@
  
- /* User-class control IDs */
+ #define V4L2_H264_REF_LIST_LEN (2 * V4L2_H264_NUM_DPB_ENTRIES)
  
-@@ -1177,6 +1178,12 @@ enum v4l2_detect_md_mode {
- #define V4L2_CID_DETECT_MD_THRESHOLD_GRID	(V4L2_CID_DETECT_CLASS_BASE + 3)
- #define V4L2_CID_DETECT_MD_REGION_GRID		(V4L2_CID_DETECT_CLASS_BASE + 4)
+-/* Our pixel format isn't stable at the moment */
+-#define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
+-
+ /*
+  * This is put insanely high to avoid conflicting with controls that
+  * would be added during the phase where those controls are not
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 927075fa9099..306d569bec11 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -703,6 +703,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_HEVC     v4l2_fourcc('H', 'E', 'V', 'C') /* HEVC aka H.265 */
+ #define V4L2_PIX_FMT_FWHT     v4l2_fourcc('F', 'W', 'H', 'T') /* Fast Walsh Hadamard Transform (vicodec) */
+ #define V4L2_PIX_FMT_FWHT_STATELESS     v4l2_fourcc('S', 'F', 'W', 'H') /* Stateless FWHT (vicodec) */
++#define V4L2_PIX_FMT_H264_SLICE v4l2_fourcc('S', '2', '6', '4') /* H264 parsed slices */
  
-+
-+/*  Stateless CODECs controls */
-+#define V4L2_CID_CODEC_STATELESS_BASE          (V4L2_CTRL_CLASS_CODEC_STATELESS | 0x900)
-+#define V4L2_CID_CODEC_STATELESS_CLASS         (V4L2_CTRL_CLASS_CODEC_STATELESS | 1)
-+
-+
- /* MPEG-compression definitions kept for backwards compatibility */
- #ifndef __KERNEL__
- #define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
+ /*  Vendor-specific formats   */
+ #define V4L2_PIX_FMT_CPIA1    v4l2_fourcc('C', 'P', 'I', 'A') /* cpia1 YUV */
 -- 
 2.27.0
 
