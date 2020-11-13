@@ -2,178 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1BFE92B58E7
-	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 05:41:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE3D62B59D1
+	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 07:42:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727228AbgKQEkO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 23:40:14 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:42045 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727211AbgKQEkN (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 23:40:13 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id esmnkkqc96LFvesmokSqPL; Tue, 17 Nov 2020 05:40:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1605588010; bh=Z6GbfQhib+8YODXXtD73daj6KlABAdp56SpST6LPuTM=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=h+uxeFCFSECs3JoNJ8BrhNYZ54gkfw9EKmP00AU2D1boHtj2zr1cs+4LDpgMyuUOu
-         3FlOQpgJfDLtHzT5mBVCf9O0sCdKeOyZnsSZ6z1QNSWCwohvd6bKzjowKTqlGSelYZ
-         M5df3KnW8hyMRIDjONAyH6L6qdw/37reEbNVhJTJLKxKBnWBqU87E/M4RPeTuPoMpQ
-         5ECKb79cBpBzvWbmO5X6PN2aCNcZNd41OJlRPw2kjkhNRG4mkO2HSRzYLsEumtYPc2
-         nIlRyXlDkNWQqTLZzlKTyDICBDdrzf6dkUu1HVoMSYMZpaBE0iN+QrH+q775oqMd/b
-         VRqnx0S5z6tCw==
-Message-ID: <44c892c48d92a7cd8c1ea197fccb9dc8@smtp-cloud9.xs4all.net>
-Date:   Tue, 17 Nov 2020 05:40:09 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+        id S1726509AbgKQGmE convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Tue, 17 Nov 2020 01:42:04 -0500
+Received: from tigeramira.ro ([88.158.78.30]:28820 "EHLO mail.tigeramira.ro"
+        rhost-flags-OK-FAIL-OK-OK) by vger.kernel.org with ESMTP
+        id S1726199AbgKQGmE (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 17 Nov 2020 01:42:04 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by mail.tigeramira.ro (Postfix) with ESMTP id CF854C9534A
+        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 14:36:58 +0200 (EET)
+Received: from mail.tigeramira.ro ([127.0.0.1])
+        by localhost (mail.tigeramira.ro [127.0.0.1]) (amavisd-new, port 10032)
+        with ESMTP id wYO4GbPJhiaf for <linux-media@vger.kernel.org>;
+        Mon, 16 Nov 2020 14:36:55 +0200 (EET)
+Received: from mail.tigeramira.ro (localhost [127.0.0.1])
+        by mail.tigeramira.ro (Postfix) with ESMTP id C8939C10F7A
+        for <linux-media@vger.kernel.org>; Sat, 14 Nov 2020 19:47:50 +0200 (EET)
+Received: from [156.96.44.214] (unknown [192.168.12.254])
+        by mail.tigeramira.ro (Postfix) with ESMTP id 4C7569989C6
+        for <linux-media@vger.kernel.org>; Fri, 13 Nov 2020 19:07:20 +0200 (EET)
+Content-Type: text/plain; charset="iso-8859-1"
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8BIT
+Content-Description: Mail message body
+Subject: Corporate and Personal Loan::,
 To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfMqWQDj2Uuxe+DSq0L8V0/6Ap/hP4FSn66zp5u4oW5a/VKKMnqxqLda4nRYLgyVyYvGh9aL9p2ngRMR54JfnASUWFFQZZUMqu1/qHKPUhTPtgAo62Y1u
- 5uyEL8KhdFexDXIkA9kd5xoEiZuX7UixEriuouWKpjM4F2f9HJfMa3Tk2bIuxuFdhRu9aw10H/zlF6peSvXlGUdL/OIJpnqyBVhWCdvCPkB+C5nPwYOGsS1h
- MtLVieFFZK5epuYfyeF0xg==
+From:   "Investment  Corporate" <financialcapability6@gmail.com>
+Date:   Fri, 13 Nov 2020 08:07:32 -0800
+Reply-To: hmurrah39@gmail.com
+Message-Id: <20201113170723.4C7569989C6@mail.tigeramira.ro>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Hello linux-media@vger.kernel.org
 
-Results of the daily build of media_tree:
 
-date:			Tue Nov 17 05:00:18 CET 2020
-media-tree git hash:	b064945517ee368bfb6343bf3fb4613d537c4bbb
-media_build git hash:	bca336c7d6379c723eb388bb9e606db6785a953b
-v4l-utils git hash:	11da65eee7a271bba3f21d8117cdac428fe3a91e
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+We are Base Investment Company offering Corporate and Personal Loan at 3% Interest Rate for a duration of 10Years.
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: OK
-smatch: ERRORS
 
-Detailed results are available here:
+We also pay 1% commission to brokers, who introduce project owners for finance or other opportunities.
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
 
-Detailed regression test results are available here:
+Please get back to me if you are interested for more
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+details.
 
-Full logs are available here:
 
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+Yours faithfully,
 
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Hashim Murrah
