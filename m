@@ -2,30 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D0142B2D37
-	for <lists+linux-media@lfdr.de>; Sat, 14 Nov 2020 13:55:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1017E2B2D3D
+	for <lists+linux-media@lfdr.de>; Sat, 14 Nov 2020 13:58:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726593AbgKNMx5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Nov 2020 07:53:57 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:53891 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726307AbgKNMx4 (ORCPT
+        id S1726826AbgKNM5V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Nov 2020 07:57:21 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:58861 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726591AbgKNM5V (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Nov 2020 07:53:56 -0500
+        Sat, 14 Nov 2020 07:57:21 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id dv3tkXY6H6t6Hdv3wk3sk7; Sat, 14 Nov 2020 13:53:53 +0100
+        id dv7CkXYra6t6Hdv7Gk3t1q; Sat, 14 Nov 2020 13:57:18 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1605358433; bh=T70DtHo2iBiGwHo0jUxq3RCSLEWiH4Ay/V26m4E2cto=;
+        t=1605358638; bh=RsSQn2DamVaMOaw0wvH1ixJbCSWSXZMja/t/L3GxxDg=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=FUm8vHzz4mp5UbTbGLVmoyNyxlRgN7a1khwdRD9ib9A4lSuj+sgzHWSS+9uLwhrjM
-         Cr2htUZ8F1EBL9yxf32cBrWWG4dkhn1SrPe9J3HzIorav6HvtFxPhWCDv8ZPY5bSjB
-         n4X7gpVAtmp4jscJ2MP9/kf4mg9qbZGq2TszLi6l8p17CtRfXIIckvXtM4HuM6WXSn
-         pGGwRoZNOzx4rr8eDSg6leREdsURJcUpLoa74kqkDBY8LfsLZumpI5RmnrD+GN7vEq
-         hx20bzJxp12xU4ax9kRYXSsk2w9pIzVMbmfPvswY72LUToImZDvK2rxcqUPQy9qBUG
-         65Dq5kdL6kL0Q==
-Subject: Re: [PATCH v2 3/9] media: Rename stateful codec control macros
+        b=Fiff2m4YzCm2nxRNwrYKaFrFI4iiW/o6tvY1Dr+jCxnxXWh369T4ZN9nvFKnz5wRF
+         mipAJxEcUtdtIdbEQPqimg0B8s04OH/YRDOMBaGMtwe5QGFtzJBpXzGHUi4JoRJ07H
+         uLjBeXG4uohuNgw392wfNagyfMUKzUOCRYedl9vVmxDYXHjkI6MvFqXp56qgPI4WDM
+         +fDKfQBhMJWK+3n69nVA9ogFnfcrW1UIGE5fU1ZG91ttI2xm80zy5hfjt+DlXY6PUT
+         fYTadV7HbWqUpeTbk9GgQdpk0nRf36kNgbp71wThL9D2fmXeXccRBFL1kRjeHDyHC4
+         bdc0BdVLdxBOw==
+Subject: Re: [PATCH v2 9/9] media: docs: Move the H264 stateless codec uAPI
 To:     Ezequiel Garcia <ezequiel@collabora.com>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
@@ -35,78 +35,74 @@ Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Jernej Skrabec <jernej.skrabec@siol.net>
 References: <20201113215121.505173-1-ezequiel@collabora.com>
- <20201113215121.505173-4-ezequiel@collabora.com>
+ <20201113215121.505173-10-ezequiel@collabora.com>
 From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <5b563695-bb40-8309-042b-10c6910d773c@xs4all.nl>
-Date:   Sat, 14 Nov 2020 13:53:49 +0100
+Message-ID: <df05d7ea-45be-76d6-78a0-47b1a6846ad4@xs4all.nl>
+Date:   Sat, 14 Nov 2020 13:57:14 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201113215121.505173-4-ezequiel@collabora.com>
+In-Reply-To: <20201113215121.505173-10-ezequiel@collabora.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKm5LnN/KOfNQQGdTw9ZYz5VhLH3n81dICk98F+Inncup6t8G5s9Fzm6QMmOCLvxb3tWaI51xgS0wyJXgTbL9cdRaiB6XBTzv81blTd69Jp/2vlxSB+n
- 1REtsP84FxRgEd92Jg2EF6CWsV0UN1/H0wSCL/AoKIWe8NXP0vz1aA51OgS0P2ukuVGJthqa8LnDPJQ6zmcURiOCbqlemP32RSsX+CraQecmjwKIs3WQQ7B3
- I5pQrVmb8RkAVgJPaQqTzifuIscN3xht8vdnIb1ItjlLkLI7HpAy96Wq920RbeWHoJo4DAMsX2V53SRd1Ec1Fg9rTQJOSEMi+sdfES59EKPqiUEco8O2azN/
- 5wiaXMEVpULomc1JI6mFyFJwugplnKmTUldyDuxevQG7VEF0Z1JNS8N7Dix2pymQm/1Wbjl23S7WCn+fymVXziqlUDo42edcK02XnxQquNKKSn1sEqekFhQC
- H9QsH7cMJdQbRR8Og7RQDq/HUu3zcjRWN8OaX1mCyKFhkuG7Kg26PVVlrvg=
+X-CMAE-Envelope: MS4xfCWjAIUz60bBsmUKHmsxzZulSPf39ECNiJm/w7O2sw1elwKxhXZXf3Dj5q0+jyF6A6gOQoKIhlhoYJenVmyE6WBUkolGTvCmhR4lOv8pExxUqmGy5nrv
+ TyDyiJ8Rm41/0RR+GLtoRV3IiES+U6oZalnZEnC4U1rl0mgQeuYq8coQNuVXKepXabfEs71v8kDTuEIEChOOF3u9VfULCuLwebUIePik4fjsnYUsEUTAwI/m
+ Mr8yOsLFvV03xmYdf1uTAxfyDQe9C9ZgNBgv7G0JNJXt7UD5bQLu6QSM6/qpnThlgZqN1ljLfoAUhj7xQYj8CGEHyvTMrxjh2fL6Nx5WwHCeHhMv7Pu/ANNf
+ wp0QDKXMtRB/FcKhRVvbvfAjzQSft/eBCHXbGvnrBdnBwC83EBSXa9AhdlORnzMLJkyWyHPAL7AMMVbto4LC6ApcYIPhNCa5DViKoouuoFek60EQnliWQqFC
+ zW3gxSF+qoIueJbJgCpClr/hGZsBALsDZb9I/3MVYcprDYxEdUgs2rujWWs=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 On 13/11/2020 22:51, Ezequiel Garcia wrote:
-> For historical reasons, stateful codec controls are named
-> as {}_MPEG_{}. While we can't at this point sanely
-> change all control IDs (such as V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER),
-> we can least change the more meaningful macros such as classes
-> macros.
+> Now that we've destaged the H264 stateless codec controls,
+> and with all the pieces in place, update the documentation
+> and move it to its own section.
 > 
 > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 > ---
->  .../userspace-api/media/v4l/dev-mem2mem.rst   |   2 +-
->  .../media/v4l/ext-ctrls-codec.rst             |   4 +-
->  .../media/v4l/extended-controls.rst           |   8 +-
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |   6 +-
->  drivers/media/common/cx2341x.c                |   4 +-
->  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c  |   2 +-
->  drivers/media/platform/s5p-mfc/s5p_mfc_enc.c  |   2 +-
->  drivers/media/v4l2-core/v4l2-ctrls.c          |   4 +-
->  include/media/fwht-ctrls.h                    |   2 +-
->  include/media/h264-ctrls.h                    |  16 +-
->  include/media/hevc-ctrls.h                    |  10 +-
->  include/media/mpeg2-ctrls.h                   |   4 +-
->  include/media/vp8-ctrls.h                     |   2 +-
->  include/uapi/linux/v4l2-controls.h            | 409 +++++++++---------
->  14 files changed, 242 insertions(+), 233 deletions(-)
+>  .../userspace-api/media/v4l/common.rst        |   1 +
+>  .../media/v4l/ext-ctrls-codec-stateless.rst   | 674 +++++++++++++++++
+>  .../media/v4l/ext-ctrls-codec.rst             | 692 ------------------
+>  .../media/v4l/pixfmt-compressed.rst           |  14 +-
+>  4 files changed, 682 insertions(+), 699 deletions(-)
+>  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
 > 
 
 <snip>
 
-> @@ -1177,4 +1177,13 @@ enum v4l2_detect_md_mode {
->  #define V4L2_CID_DETECT_MD_THRESHOLD_GRID	(V4L2_CID_DETECT_CLASS_BASE + 3)
->  #define V4L2_CID_DETECT_MD_REGION_GRID		(V4L2_CID_DETECT_CLASS_BASE + 4)
->  
-> +/* MPEG-compression definitions kept for backwards compatibility */
-> +#ifndef __KERNEL__
-> +#define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
-> +#define V4L2_CID_MPEG_CLASS             (V4L2_CTRL_CLASS_MPEG | 1)
-> +#define V4L2_CID_MPEG_BASE              (V4L2_CTRL_CLASS_MPEG | 0x900)
-> +#define V4L2_CID_MPEG_CX2341X_BASE	(V4L2_CTRL_CLASS_MPEG | 0x1000)
-> +#define V4L2_CID_MPEG_MFC51_BASE	(V4L2_CTRL_CLASS_MPEG | 0x1100)
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> index d585909bc4e2..32b91ce0f0d9 100644
+> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
+> @@ -59,14 +59,14 @@ Compressed Formats
+>  	This format is adapted for stateless video decoders that implement an
+>  	H264 pipeline (using the :ref:`mem2mem` and :ref:`media-request-api`).
+>  	This pixelformat has two modifiers that must be set at least once
+> -	through the ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE``
+> -        and ``V4L2_CID_MPEG_VIDEO_H264_START_CODE`` controls.
+> +	through the ``V4L2_CID_STATELESS_H264_DECODE_MODE``
+> +        and ``V4L2_CID_STATELESS_H264_START_CODE`` controls.
+>  	In addition, metadata associated with the frame to decode are
+> -	required to be passed through the ``V4L2_CID_MPEG_VIDEO_H264_SPS``,
+> -	``V4L2_CID_MPEG_VIDEO_H264_PPS``,
+> -	``V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX``,
+> -	``V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS`` and
+> -	``V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS`` controls.  See the
+> +	required to be passed through the ``V4L2_CID_STATELESS_H264_SPS``,
+> +	``V4L2_CID_STATELESS_H264_PPS``,
+> +	``V4L2_CID_STATELESS_H264_SCALING_MATRIX``,
+> +	``V4L2_CID_STATELESS_H264_SLICE_PARAMS`` and
+> +	``V4L2_CID_STATELESS_H264_DECODE_PARAMS`` controls.  See the
+>  	:ref:`associated Codec Control IDs <v4l2-mpeg-h264>`.  Exactly
+>  	one output and one capture buffer must be provided for use
+>  	with this pixel format. The output buffer must contain the
+> 
 
-Don't copy the offset value here, just keep this as a straight aliases, e.g.:
-
-#define V4L2_CID_MPEG_MFC51_BASE	V4L2_CID_CODEC_MFC51_BASE
-
-It's safer that way.
+There is a note about this 'format not yet part of the public API' that
+needs to be deleted as well.
 
 Regards,
 
 	Hans
-
-> +#endif
-> +
->  #endif
-> 
-
