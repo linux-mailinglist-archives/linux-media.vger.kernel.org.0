@@ -2,208 +2,111 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D49362B2CE5
-	for <lists+linux-media@lfdr.de>; Sat, 14 Nov 2020 12:26:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8D0142B2D37
+	for <lists+linux-media@lfdr.de>; Sat, 14 Nov 2020 13:55:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726625AbgKNL0J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Nov 2020 06:26:09 -0500
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:56987 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726481AbgKNL0I (ORCPT
+        id S1726593AbgKNMx5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Nov 2020 07:53:57 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:53891 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726307AbgKNMx4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Nov 2020 06:26:08 -0500
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id ECBF6240002;
-        Sat, 14 Nov 2020 11:26:03 +0000 (UTC)
-Date:   Sat, 14 Nov 2020 12:26:06 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        koji.matsuoka.xm@renesas.com, laurent.pinchart@ideasonboard.com,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/2] media: rcar-vin: Mask VNCSI_IFMD register
-Message-ID: <20201114112606.ug5dqolf5tfbrqnm@uno.localdomain>
-References: <20201112160851.99750-1-jacopo+renesas@jmondi.org>
- <20201112160851.99750-3-jacopo+renesas@jmondi.org>
- <20201112231900.GB1603296@oden.dyn.berto.se>
+        Sat, 14 Nov 2020 07:53:56 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id dv3tkXY6H6t6Hdv3wk3sk7; Sat, 14 Nov 2020 13:53:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1605358433; bh=T70DtHo2iBiGwHo0jUxq3RCSLEWiH4Ay/V26m4E2cto=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=FUm8vHzz4mp5UbTbGLVmoyNyxlRgN7a1khwdRD9ib9A4lSuj+sgzHWSS+9uLwhrjM
+         Cr2htUZ8F1EBL9yxf32cBrWWG4dkhn1SrPe9J3HzIorav6HvtFxPhWCDv8ZPY5bSjB
+         n4X7gpVAtmp4jscJ2MP9/kf4mg9qbZGq2TszLi6l8p17CtRfXIIckvXtM4HuM6WXSn
+         pGGwRoZNOzx4rr8eDSg6leREdsURJcUpLoa74kqkDBY8LfsLZumpI5RmnrD+GN7vEq
+         hx20bzJxp12xU4ax9kRYXSsk2w9pIzVMbmfPvswY72LUToImZDvK2rxcqUPQy9qBUG
+         65Dq5kdL6kL0Q==
+Subject: Re: [PATCH v2 3/9] media: Rename stateful codec control macros
+To:     Ezequiel Garcia <ezequiel@collabora.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>
+References: <20201113215121.505173-1-ezequiel@collabora.com>
+ <20201113215121.505173-4-ezequiel@collabora.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <5b563695-bb40-8309-042b-10c6910d773c@xs4all.nl>
+Date:   Sat, 14 Nov 2020 13:53:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
+In-Reply-To: <20201113215121.505173-4-ezequiel@collabora.com>
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201112231900.GB1603296@oden.dyn.berto.se>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfKm5LnN/KOfNQQGdTw9ZYz5VhLH3n81dICk98F+Inncup6t8G5s9Fzm6QMmOCLvxb3tWaI51xgS0wyJXgTbL9cdRaiB6XBTzv81blTd69Jp/2vlxSB+n
+ 1REtsP84FxRgEd92Jg2EF6CWsV0UN1/H0wSCL/AoKIWe8NXP0vz1aA51OgS0P2ukuVGJthqa8LnDPJQ6zmcURiOCbqlemP32RSsX+CraQecmjwKIs3WQQ7B3
+ I5pQrVmb8RkAVgJPaQqTzifuIscN3xht8vdnIb1ItjlLkLI7HpAy96Wq920RbeWHoJo4DAMsX2V53SRd1Ec1Fg9rTQJOSEMi+sdfES59EKPqiUEco8O2azN/
+ 5wiaXMEVpULomc1JI6mFyFJwugplnKmTUldyDuxevQG7VEF0Z1JNS8N7Dix2pymQm/1Wbjl23S7WCn+fymVXziqlUDo42edcK02XnxQquNKKSn1sEqekFhQC
+ H9QsH7cMJdQbRR8Og7RQDq/HUu3zcjRWN8OaX1mCyKFhkuG7Kg26PVVlrvg=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+On 13/11/2020 22:51, Ezequiel Garcia wrote:
+> For historical reasons, stateful codec controls are named
+> as {}_MPEG_{}. While we can't at this point sanely
+> change all control IDs (such as V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER),
+> we can least change the more meaningful macros such as classes
+> macros.
+> 
+> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
+> ---
+>  .../userspace-api/media/v4l/dev-mem2mem.rst   |   2 +-
+>  .../media/v4l/ext-ctrls-codec.rst             |   4 +-
+>  .../media/v4l/extended-controls.rst           |   8 +-
+>  .../media/v4l/vidioc-g-ext-ctrls.rst          |   6 +-
+>  drivers/media/common/cx2341x.c                |   4 +-
+>  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c  |   2 +-
+>  drivers/media/platform/s5p-mfc/s5p_mfc_enc.c  |   2 +-
+>  drivers/media/v4l2-core/v4l2-ctrls.c          |   4 +-
+>  include/media/fwht-ctrls.h                    |   2 +-
+>  include/media/h264-ctrls.h                    |  16 +-
+>  include/media/hevc-ctrls.h                    |  10 +-
+>  include/media/mpeg2-ctrls.h                   |   4 +-
+>  include/media/vp8-ctrls.h                     |   2 +-
+>  include/uapi/linux/v4l2-controls.h            | 409 +++++++++---------
+>  14 files changed, 242 insertions(+), 233 deletions(-)
+> 
 
-On Fri, Nov 13, 2020 at 12:19:00AM +0100, Niklas Söderlund wrote:
-> Hi Jacopo,
->
-> Thanks for your patch.
->
-> On 2020-11-12 17:08:51 +0100, Jacopo Mondi wrote:
-> > The VNCSI_IFMD register controls the data expansion mode and the
-> > channel routing between the CSI-2 recivers and VIN instances.
-> >
-> > According to the chip manual revision 2.20 not all fields are available
-> > for all the SoCs:
-> > - V3M, V3H and E3 do not support the DES1 field has they do not feature
-> >   a CSI20 receiver.
-> > - D3 only supports parallel input, and the whole register shall always
-> >   be written as 0.
-> >
-> > Add a bit mask to the per-SoC rcar_info structure and clear the register
-> > value before writing it to the hardware.
-> >
-> > This patch upports the BSP change commit f54697394457
-> > ("media: rcar-vin: Fix VnCSI_IFMD register access for r8a77990")
->
-> I like that this issue is finally being addressed it's been in my list
-> for a while. Unfortunately I'm not super keen on how it's solved here. I
-> hoped the needed information could be extracted from the strcut
-> rvin_info routes member inside rvin_set_channel_routing().
+<snip>
 
-That's much more clever.
+> @@ -1177,4 +1177,13 @@ enum v4l2_detect_md_mode {
+>  #define V4L2_CID_DETECT_MD_THRESHOLD_GRID	(V4L2_CID_DETECT_CLASS_BASE + 3)
+>  #define V4L2_CID_DETECT_MD_REGION_GRID		(V4L2_CID_DETECT_CLASS_BASE + 4)
+>  
+> +/* MPEG-compression definitions kept for backwards compatibility */
+> +#ifndef __KERNEL__
+> +#define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
+> +#define V4L2_CID_MPEG_CLASS             (V4L2_CTRL_CLASS_MPEG | 1)
+> +#define V4L2_CID_MPEG_BASE              (V4L2_CTRL_CLASS_MPEG | 0x900)
+> +#define V4L2_CID_MPEG_CX2341X_BASE	(V4L2_CTRL_CLASS_MPEG | 0x1000)
+> +#define V4L2_CID_MPEG_MFC51_BASE	(V4L2_CTRL_CLASS_MPEG | 0x1100)
 
-After all DES1 and DES0 availability only depends on the availability
-of CSI20 and CSI40. It might be a bit more complex to make it nice in
-the existing link_notify() callback due to it's complexity, but an
-additional iteration of the routing table to collect which CSIx is
-available should be quite cheap as you suggested
+Don't copy the offset value here, just keep this as a straight aliases, e.g.:
 
->
-> For D3 the length of the routes will be 0 and the driver should not
-> attempt to write to the register at all. In this patch the register is
-> still written the value of VNCSI_IFMD_DES1 | VNCSI_IFMD_DES0.
+#define V4L2_CID_MPEG_MFC51_BASE	V4L2_CID_CODEC_MFC51_BASE
 
-Nope, for D3 the register is written as 0x00 (I've tested it) as the
-mask gets & with !0xff
+It's safer that way.
 
->
-> For the rest I was hoping the routes array would be examined and tested
-> for if it contains RVIN_CSI40, RVIN_CSI41, RVIN_CSI20 and RVIN_CSI21
-> routes and set DES0 and DES1 bits accordingly.
->
-> As rvin_set_channel_routing() is never called in a hot path the cost of
-> iterating over the small array I think is worth it to guarantee the
-> routes always are the authoritative source, just as it is for the media
-> graph links.
+Regards,
 
-Ack! Thanks for the suggestion, I'll report it in the v2 tags
+	Hans
 
-Thanks
-  j
+> +#endif
+> +
+>  #endif
+> 
 
->
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
-> > ---
-> >  drivers/media/platform/rcar-vin/rcar-core.c | 5 +++++
-> >  drivers/media/platform/rcar-vin/rcar-dma.c  | 7 +++----
-> >  drivers/media/platform/rcar-vin/rcar-vin.h  | 6 ++++++
-> >  3 files changed, 14 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
-> > index 0b67d58dd727..57ac43a93f5e 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-core.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-core.c
-> > @@ -1241,6 +1241,7 @@ static const struct rvin_info rcar_info_r8a77970 = {
-> >  	.max_width = 4096,
-> >  	.max_height = 4096,
-> >  	.routes = rcar_info_r8a77970_routes,
-> > +	.ifmd_mask = VNCSI_IFMD_DES1,
-> >  };
-> >
-> >  static const struct rvin_group_route rcar_info_r8a77980_routes[] = {
-> > @@ -1270,6 +1271,7 @@ static const struct rvin_info rcar_info_r8a77980 = {
-> >  	.max_width = 4096,
-> >  	.max_height = 4096,
-> >  	.routes = rcar_info_r8a77980_routes,
-> > +	.ifmd_mask = VNCSI_IFMD_DES1,
-> >  };
-> >
-> >  static const struct rvin_group_route rcar_info_r8a77990_routes[] = {
-> > @@ -1287,6 +1289,7 @@ static const struct rvin_info rcar_info_r8a77990 = {
-> >  	.max_width = 4096,
-> >  	.max_height = 4096,
-> >  	.routes = rcar_info_r8a77990_routes,
-> > +	.ifmd_mask = VNCSI_IFMD_DES1,
-> >  };
-> >
-> >  static const struct rvin_group_route rcar_info_r8a77995_routes[] = {
-> > @@ -1306,6 +1309,8 @@ static const struct rvin_info rcar_info_r8a77995 = {
-> >  	.max_height = 4096,
-> >  	.routes = rcar_info_r8a77995_routes,
-> >  	.scalers = rcar_info_r8a77995_scalers,
-> > +	/* VNCSI_IFMD_REG not available on R-Car D3. */
-> > +	.ifmd_mask = 0xff,
-> >  };
-> >
-> >  static const struct of_device_id rvin_of_id_table[] = {
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > index 378514a75bc2..c0e09c5d9c79 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> > @@ -134,8 +134,6 @@
-> >  #define VNDMR2_VLV(n)		((n & 0xf) << 12)
-> >
-> >  /* Video n CSI2 Interface Mode Register (Gen3) */
-> > -#define VNCSI_IFMD_DES1		(1 << 26)
-> > -#define VNCSI_IFMD_DES0		(1 << 25)
-> >  #define VNCSI_IFMD_CSI_CHSEL(n) (((n) & 0xf) << 0)
-> >
-> >  /* Video n scaling control register (Gen3) */
-> > @@ -1583,8 +1581,9 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
-> >  	vnmc = rvin_read(vin, VNMC_REG);
-> >  	rvin_write(vin, vnmc & ~VNMC_VUP, VNMC_REG);
-> >
-> > -	ifmd = VNCSI_IFMD_DES1 | VNCSI_IFMD_DES0 | VNCSI_IFMD_CSI_CHSEL(chsel);
-> > -
-> > +	/* Write only available fields to IFMD_REG. */
-> > +	ifmd = (VNCSI_IFMD_DES0 | VNCSI_IFMD_DES1 | VNCSI_IFMD_CSI_CHSEL(chsel))
-> > +	     & !vin->info->ifmd_mask;
-> >  	rvin_write(vin, ifmd, VNCSI_IFMD_REG);
-> >
-> >  	vin_dbg(vin, "Set IFMD 0x%x\n", ifmd);
-> > diff --git a/drivers/media/platform/rcar-vin/rcar-vin.h b/drivers/media/platform/rcar-vin/rcar-vin.h
-> > index be10e06b0880..2cf8952faab1 100644
-> > --- a/drivers/media/platform/rcar-vin/rcar-vin.h
-> > +++ b/drivers/media/platform/rcar-vin/rcar-vin.h
-> > @@ -31,6 +31,10 @@
-> >  /* Max number on VIN instances that can be in a system */
-> >  #define RCAR_VIN_NUM 8
-> >
-> > +/* CSI_IFMD register bit fields to mask per-SoC. */
-> > +#define VNCSI_IFMD_DES1		BIT(26)
-> > +#define VNCSI_IFMD_DES0		BIT(25)
-> > +
-> >  struct rvin_group;
-> >
-> >  enum model_id {
-> > @@ -174,6 +178,7 @@ struct rvin_group_scaler {
-> >   * @routes:		list of possible routes from the CSI-2 recivers to
-> >   *			all VINs. The list mush be NULL terminated.
-> >   * @scalers:		List of available scalers, must be NULL terminated.
-> > + * @ifmd_mask:		Mask of unavailable bit fields of the CSI_IFMD register
-> >   */
-> >  struct rvin_info {
-> >  	enum model_id model;
-> > @@ -184,6 +189,7 @@ struct rvin_info {
-> >  	unsigned int max_height;
-> >  	const struct rvin_group_route *routes;
-> >  	const struct rvin_group_scaler *scalers;
-> > +	u32 ifmd_mask;
-> >  };
-> >
-> >  /**
-> > --
-> > 2.29.1
-> >
->
-> --
-> Regards,
-> Niklas Söderlund
