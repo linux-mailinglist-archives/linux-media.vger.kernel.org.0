@@ -2,150 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6D5F22B2D40
-	for <lists+linux-media@lfdr.de>; Sat, 14 Nov 2020 13:58:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C79852B2D53
+	for <lists+linux-media@lfdr.de>; Sat, 14 Nov 2020 14:20:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726868AbgKNM6N (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 14 Nov 2020 07:58:13 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:42617 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726701AbgKNM6N (ORCPT
+        id S1726522AbgKNNTn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 14 Nov 2020 08:19:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45364 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726307AbgKNNTm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 14 Nov 2020 07:58:13 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id dv83kXZ4T6t6Hdv86k3t6l; Sat, 14 Nov 2020 13:58:10 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1605358690; bh=NuCjwiEXdyDPsGYcmGjusqNNEVjLNz8VKl8RRQKKmo0=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=uDGbvS4uAUOb2huz4iKIGKoRsFXurZ7Zbgw8mIWgg1iWgotGH8s+NVd4ufx9YVYW8
-         Ocgu5HHjcdegkh/5opjPJd/Cym2gsC8mcql1nH4+jhp+0OADf6M5VkneWaknXnQEh3
-         jAQW2xvvMJQkbgR0YT/yVJa6/7mzWn00YI3aae/goL1O6eBJVNdhjY24i4V2q2o/M0
-         eK8IlV6UbhBrj86nJXDg0aoRKwX6Vue4VzIMN14VlDtqsT+8C8jneIdW+o8iOCdd92
-         FosrKEbYQHnnEk7hLDJmbbeNqdVLQCAOb8lffq9pY1iPpaf29rMJGGhRk/lKFLx7ol
-         BUiQw4qXDESUQ==
-Subject: Re: [PATCH v2 0/9] Stateless H.264 de-staging
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-References: <20201113215121.505173-1-ezequiel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <73f46141-7fb5-925c-b9db-7af608d0dfd4@xs4all.nl>
-Date:   Sat, 14 Nov 2020 13:58:06 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <20201113215121.505173-1-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKa6MrtpgY0w2ZVlDrENY6/Y9vZxe3Q1X1SvQ9uKpDlYVOblMdOa5araHzmWTXuc3BrYgfGAEusYvjTGDmLiro6jtVRNzsP+dH8GlSriMfRJS83n+rM0
- AxFiolDCckSwJwKTXiPXN5aJeI3ZzMGvplHht+FWyiIlANGsUJTYEIBP8hgUXT2WitWIRNtS5Wi0GpcSrkDIYlgV2NA6POLRFulIUCLQvNNq30tk5dzfrcU5
- 8eV8drB2BjE3BKtFsIzSOEEQ+6SvjQ9ZhvYCJvwu1xEtP9AnMeMmef/JPygb/yItTZ590HO7lf7NrqZhZ7fexxPsXjwrnSt9W+xRx3qpuFiE1PcKGzO3EHN0
- 0Zg/fhgZuAte1dHwNCp/s0I2CFVcH85NFPlQ2mZTfpt3gxydRgPb1BylOVbVb5hyn+DLB6wphdZPq6Eln6TnbBvJZTvav7F6fNIVYBvyJiaNu6l3GbDtcVF4
- +dgDqKurTho25UXU0fH1zgVr4kIpB3bx9aIZTQXUUBMpEa0ihgSVJSzyH88=
+        Sat, 14 Nov 2020 08:19:42 -0500
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2B8AC0613D1;
+        Sat, 14 Nov 2020 05:19:42 -0800 (PST)
+Received: by mail-pj1-x1043.google.com with SMTP id w7so1616847pjy.1;
+        Sat, 14 Nov 2020 05:19:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=Y6FWnJm7gJRWfrR7f4omOmQCJNBo3UYdNRFvpFeGUBs=;
+        b=iR/CZxl+3MY+KrCVtiMDvQqUsH2JM9ol1OdlW9lLpO+9zROMk0pkNF3peJN3gmwQfn
+         K6824a9l7Imkg7sytNteYkWcnqt6VXkvGAYPPWxWQZyfXKmwGTOt78dPKIdCBeIytXIr
+         tS4YliLaLH2Dv3cMHTxsmOLOeH+MJhEiTxqy3dRj2UnHy6uojci2SDTc3nbdWhb7Cytu
+         k7Xlci23jJgK3qaj9P2J5SDvM5iqCzwO7c7IlC87qq6+imMYBRyETKhuwSPa14kzxmPJ
+         ALy5DGL7KTbcYYSVgP4jYl1Z4CQRqng9QO6YhYUnzZcHPnIiw6E6OR5SfAan1Ntyiu/M
+         1IZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=Y6FWnJm7gJRWfrR7f4omOmQCJNBo3UYdNRFvpFeGUBs=;
+        b=H5kvsqQtRZoMfZB+fxxOW1LR/tYdiWjB1Bad71PvHTgSRBrWKqfidvCgEdr666mIPF
+         JY1NCMvsIMrjMRgxOK3Lv0+RLrrZeDjKeM97SJ1rZGJXxyC31TG1XRaECXE/HQ2tjT2k
+         134STXfonHJqiqf9YHAQi0e4ejtuORf7mLe0mMTd0TXQvYvs3U5wLc3v2w16hm+PghG1
+         F2yR8bNH9Ex6kkrwu9n0fE8jFLbA6BymQFUf+IIb7nHmAsAml2KNUHsN/+xSvA1oSSFv
+         nlaogCYslVchzteJpYa6gUF36p4lsU1xf7q7EIdXsunuEcsVRarKJVzn3SSRfy/H9XvG
+         HPqQ==
+X-Gm-Message-State: AOAM532D4P3U341ywxYX2kY/2O2zfm4iwK/ACvX50+64ltM9lCwX0/lx
+        jwfbPFFbRba+Trn0fx2faQ==
+X-Google-Smtp-Source: ABdhPJxoTFP5qOdleYsKlqsNQ458Gz46u9Oc6dXd4gy6rUwiOcNPr6TD5TetvSCWWQAQ8hlMeb94WQ==
+X-Received: by 2002:a17:902:56e:b029:d5:d861:6b17 with SMTP id 101-20020a170902056eb02900d5d8616b17mr6115618plf.17.1605359982322;
+        Sat, 14 Nov 2020 05:19:42 -0800 (PST)
+Received: from he-cluster.localdomain (67.216.221.250.16clouds.com. [67.216.221.250])
+        by smtp.gmail.com with ESMTPSA id j11sm12247177pfh.143.2020.11.14.05.19.41
+        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 14 Nov 2020 05:19:41 -0800 (PST)
+From:   xiakaixu1987@gmail.com
+X-Google-Original-From: kaixuxia@tencent.com
+To:     mchehab@kernel.org, mchehab+huawei@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Kaixu Xia <kaixuxia@tencent.com>
+Subject: [PATCH] media: atomisp: make atomisp_css_stop() void
+Date:   Sat, 14 Nov 2020 21:19:36 +0800
+Message-Id: <1605359976-11254-1-git-send-email-kaixuxia@tencent.com>
+X-Mailer: git-send-email 1.8.3.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 13/11/2020 22:51, Ezequiel Garcia wrote:
-> Now that H.264 stateless controls are solid, we can get it
-> out of staging.
-> 
-> Following some guidelines from Hans, this series creates a
-> new stateless control class for the stable codec controls to land.
-> 
-> While here, I'm including a patch from Jonas adding profiles
-> and levels to Rkvdec, and also made a similar fix for Cedrus.
-> 
-> This series was tested on a i.MX8MQ EVK board, using GStreamer:
-> 
-> https://gitlab.freedesktop.org/ezequielgarcia/gst-plugins-bad/-/commits/h264_stable_uapi
-> 
-> In case someone wants to give this a test.
-> 
-> Note that v4l2-compliance isn't passing, as the Hantro driver
-> doesn't set legal default values for the H264 SPS, PPS, etc
-> controls.
-> 
-> That's something we should fix, although it's since it's just
-> meant to please v4l2-compliance, we could also argue that these
-> controls shouldn't be expected to have any default value.
+From: Kaixu Xia <kaixuxia@tencent.com>
 
-This really needs to be fixed. I've ignored this issue since the API
-was in staging and still changing, but when we move it out of staging,
-then this issue should be tackled.
+The return value of atomisp_css_stop() function is always 0 and there
+are no callers check the return value, so there's no reason for a return
+value. Convert atomisp_css_stop() to a void function.
 
-It should likely be done in std_init_compound() in v4l2-ctrls.c.
+Reported-by: Tosk Robot <tencent_os_robot@tencent.com>
+Signed-off-by: Kaixu Xia <kaixuxia@tencent.com>
+---
+ drivers/staging/media/atomisp/pci/atomisp_compat.h       | 4 ++--
+ drivers/staging/media/atomisp/pci/atomisp_compat_css20.c | 5 ++---
+ drivers/staging/media/atomisp/pci/atomisp_ioctl.c        | 2 +-
+ 3 files changed, 5 insertions(+), 6 deletions(-)
 
-It is probably a good idea to also verify std_validate_compound(), making
-sure that everything there is still valid and up to date.
-
-And std_log() should be taught about these new controls. For compound
-controls I would just log the type name, e.g. "H264_SPS" and not the
-values of these compound controls.
-
-Regards,
-
-	Hans
-
-> 
-> Thanks,
-> Ezequiel
-> 
-> v2:
->   * Split destage changes in several patches so it's easier to review.
->   * Added missing changes to drivers/media/v4l2-core/v4l2-ctrls.c.
->   * Renamed V4L2_CID_CODEC_CX2341X_ and V4L2_CID_MPEG_MFC51_
->   * Moved the compatibility macros for MPEG to the end of the header.
-> 
-> Ezequiel Garcia (8):
->   media: cedrus: h264: Support profile and level controls
->   media: Rename stateful codec control macros
->   media: Clean stateless control includes
->   media: controls: Add the stateless codec control class
->   media: uapi: Move parsed H264 pixel format out of staging
->   media: uapi: Move the H264 stateless control types out of staging
->   media: uapi: move H264 stateless controls out of staging
->   media: docs: Move the H264 stateless codec uAPI
-> 
-> Jonas Karlman (1):
->   media: rkvdec: h264: Support profile and level controls
-> 
->  .../userspace-api/media/v4l/common.rst        |   1 +
->  .../userspace-api/media/v4l/dev-mem2mem.rst   |   2 +-
->  .../media/v4l/ext-ctrls-codec-stateless.rst   | 674 +++++++++++++++
->  .../media/v4l/ext-ctrls-codec.rst             | 696 +---------------
->  .../media/v4l/extended-controls.rst           |   8 +-
->  .../media/v4l/pixfmt-compressed.rst           |  14 +-
->  .../media/v4l/vidioc-g-ext-ctrls.rst          |   6 +-
->  drivers/media/common/cx2341x.c                |   4 +-
->  drivers/media/platform/s5p-mfc/s5p_mfc_dec.c  |   2 +-
->  drivers/media/platform/s5p-mfc/s5p_mfc_enc.c  |   2 +-
->  drivers/media/v4l2-core/v4l2-ctrls.c          |  45 +-
->  drivers/staging/media/hantro/hantro_drv.c     |  26 +-
->  drivers/staging/media/hantro/hantro_h264.c    |   8 +-
->  drivers/staging/media/hantro/hantro_hw.h      |   4 +-
->  drivers/staging/media/rkvdec/rkvdec-h264.c    |   8 +-
->  drivers/staging/media/rkvdec/rkvdec.c         |  39 +-
->  drivers/staging/media/sunxi/cedrus/cedrus.c   |  45 +-
->  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  12 +-
->  include/media/fwht-ctrls.h                    |   2 +-
->  include/media/h264-ctrls.h                    |  27 +-
->  include/media/hevc-ctrls.h                    |  10 +-
->  include/media/mpeg2-ctrls.h                   |   4 +-
->  include/media/v4l2-ctrls.h                    |   1 -
->  include/media/v4l2-h264.h                     |   2 +-
->  include/media/vp8-ctrls.h                     |   2 +-
->  include/uapi/linux/v4l2-controls.h            | 788 +++++++++++++-----
->  include/uapi/linux/videodev2.h                |   8 +
->  27 files changed, 1422 insertions(+), 1018 deletions(-)
->  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> 
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat.h b/drivers/staging/media/atomisp/pci/atomisp_compat.h
+index 6a2a81a3eb23..4aea6702467e 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat.h
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat.h
+@@ -247,8 +247,8 @@ int atomisp_css_input_configure_port(struct atomisp_sub_device *asd,
+ void atomisp_create_pipes_stream(struct atomisp_sub_device *asd);
+ void atomisp_destroy_pipes_stream_force(struct atomisp_sub_device *asd);
+ 
+-int atomisp_css_stop(struct atomisp_sub_device *asd,
+-		     enum ia_css_pipe_id pipe_id, bool in_reset);
++void atomisp_css_stop(struct atomisp_sub_device *asd,
++		      enum ia_css_pipe_id pipe_id, bool in_reset);
+ 
+ int atomisp_css_continuous_set_num_raw_frames(
+     struct atomisp_sub_device *asd,
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+index faa0935e536a..9bf3f5fa4b0d 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_compat_css20.c
+@@ -2098,8 +2098,8 @@ int atomisp_css_input_configure_port(
+ 	return 0;
+ }
+ 
+-int atomisp_css_stop(struct atomisp_sub_device *asd,
+-		     enum ia_css_pipe_id pipe_id, bool in_reset)
++void atomisp_css_stop(struct atomisp_sub_device *asd,
++		      enum ia_css_pipe_id pipe_id, bool in_reset)
+ {
+ 	struct atomisp_device *isp = asd->isp;
+ 	struct atomisp_s3a_buf *s3a_buf;
+@@ -2188,7 +2188,6 @@ int atomisp_css_stop(struct atomisp_sub_device *asd,
+ 	atomisp_flush_params_queue(&asd->video_out_video_capture);
+ 	atomisp_free_css_parameters(&asd->params.css_param);
+ 	memset(&asd->params.css_param, 0, sizeof(asd->params.css_param));
+-	return 0;
+ }
+ 
+ int atomisp_css_continuous_set_num_raw_frames(
+diff --git a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+index 2ae50decfc8b..de398c791f28 100644
+--- a/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
++++ b/drivers/staging/media/atomisp/pci/atomisp_ioctl.c
+@@ -2013,7 +2013,7 @@ int __atomisp_streamoff(struct file *file, void *fh, enum v4l2_buf_type type)
+ 	}
+ 	if (first_streamoff) {
+ 		css_pipe_id = atomisp_get_css_pipe_id(asd);
+-		ret = atomisp_css_stop(asd, css_pipe_id, false);
++		atomisp_css_stop(asd, css_pipe_id, false);
+ 	}
+ 	/* cancel work queue*/
+ 	if (asd->video_out_capture.users) {
+-- 
+2.20.0
 
