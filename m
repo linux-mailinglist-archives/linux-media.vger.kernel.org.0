@@ -2,141 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 394302B3869
-	for <lists+linux-media@lfdr.de>; Sun, 15 Nov 2020 20:18:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4696B2B39D9
+	for <lists+linux-media@lfdr.de>; Sun, 15 Nov 2020 23:25:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727571AbgKOTRD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Nov 2020 14:17:03 -0500
-Received: from gw.c-home.cz ([89.24.150.100]:33600 "EHLO dmz.c-home.cz"
+        id S1727940AbgKOWYk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Nov 2020 17:24:40 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:32916 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726823AbgKOTRD (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Nov 2020 14:17:03 -0500
-X-Greylist: delayed 1016 seconds by postgrey-1.27 at vger.kernel.org; Sun, 15 Nov 2020 14:17:02 EST
-Received: from dmz.c-home.cz (localhost [127.0.0.1])
-        by dmz.c-home.cz (8.14.4+Sun/8.14.4) with ESMTP id 0AFIxRf9023820;
-        Sun, 15 Nov 2020 19:59:32 +0100 (CET)
-Received: from localhost (martin@localhost)
-        by dmz.c-home.cz (8.14.4+Sun/8.14.4/Submit) with ESMTP id 0AFIxOBg023817;
-        Sun, 15 Nov 2020 19:59:24 +0100 (CET)
-X-Authentication-Warning: dmz.c-home.cz: martin owned process doing -bs
-Date:   Sun, 15 Nov 2020 19:59:24 +0100 (CET)
-From:   Martin Cerveny <martin@c-home.cz>
-Reply-To: Martin Cerveny <M.Cerveny@computer.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-cc:     Martin Cerveny <m.cerveny@computer.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Chen-Yu Tsai <wens@csie.org>, devel@driverdev.osuosl.org,
-        devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>
-Subject: Re: [PATCH v2 0/6] ARM: dts: sun8i: v3s: Enable video decoder
-In-Reply-To: <c8cc3529-3e21-2a11-d258-bb03885a5c91@xs4all.nl>
-Message-ID: <alpine.GSO.2.00.2011151911340.21646@dmz.c-home.cz>
-References: <20200912143052.30952-1-m.cerveny@computer.org> <c8cc3529-3e21-2a11-d258-bb03885a5c91@xs4all.nl>
-User-Agent: Alpine 2.00 (GSO 1167 2008-08-23)
+        id S1727852AbgKOWYj (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 15 Nov 2020 17:24:39 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1keQRl-00Dodp-4o; Sun, 15 Nov 2020 22:24:33 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1keQUo-0005JA-O8; Sun, 15 Nov 2020 22:27:42 +0000
+Date:   Sun, 15 Nov 2020 22:27:42 +0000 (UTC)
+From:   Jenkins Builder Robot <jenkins@linuxtv.org>
+To:     mchehab@kernel.org, linux-media@vger.kernel.org,
+        libcamera-devel@lists.libcamera.org
+Message-ID: <1795520440.46.1605479262655@builder.linuxtv.org>
+In-Reply-To: <759461501.39.1605258198400@builder.linuxtv.org>
+References: <759461501.39.1605258198400@builder.linuxtv.org>
+Subject: Build failed in Jenkins: libcamera #359
 MIME-Version: 1.0
-Content-Type: TEXT/PLAIN; format=flowed; charset=US-ASCII
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 7bit
+X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
+X-Jenkins-Job: libcamera
+X-Jenkins-Result: FAILURE
+Auto-submitted: auto-generated
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello.
+See <https://builder.linuxtv.org/job/libcamera/359/display/redirect>
 
-On Thu, 5 Nov 2020, Hans Verkuil wrote:
+Changes:
 
-> Hi Martin,
->
-> On 12/09/2020 16:30, Martin Cerveny wrote:
->> First patch extends cedrus capability to all decoders
->> because V3s missing MPEG2 decoder.
->>
->> Next two patches add system control node (SRAM C1) and
->> next three patches add support for Cedrus VPU.
->>
->> Tested on "Lichee Zero" V3s platform with testing LCD patch
->> ( https://github.com/mcerveny/linux/tree/v3s_videocodec_v4 )
->> and V4L2 raw API testing utility
->> ( https://github.com/mcerveny/v4l2-request-test ):
->> - enabled LCD (DRM dual VI and sigle UI planes)
->> - added RGB panel
->> - enabled PWM
->>
->> There is low memory on V3s (64MB) and maximum must be available to CMA:
->> - CONFIG_CMA_SIZE_MBYTES=28
->> - add swap to swapout other processes
->> - decrease buffers in v4l2-request-test (.buffers_count from 16 to 6)
->>
->> Only H.264 decoder working - MPEG and H.265 unsupported by V3s,
->> JPEG/MJPEG still unimplemented, encoder unimplemented
->
-> When I tried to merged these patches I got merge conflicts.
->
-> Possibly due to other 5.10 changes, but certainly because of conflicts
-> with patches from Jernej:
->
-> https://patchwork.linuxtv.org/project/linux-media/patch/20200825173523.1289379-4-jernej.skrabec@siol.net/
-> https://patchwork.linuxtv.org/project/linux-media/patch/20200825173523.1289379-5-jernej.skrabec@siol.net/
->
-> I've merged Jerne's patches and posted a PR for that:
-> https://patchwork.linuxtv.org/project/linux-media/patch/f3b8e5e2-5f0e-fb6f-e5b2-7f44f7e365e7@xs4all.nl/
->
-> Can you rebase your patches on top of my branch that contains Jernej's patches?
->
-> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.11e
->
-> Once my PR is merged into the media_tree master I can take your rebased
-> patches.
 
-I updated patches:
-https://github.com/mcerveny/linux/tree/media_tree_for-v5.11e
-
-BUT, commit (555 commits) for v5.10-1
-https://github.com/torvalds/linux/commit/fd5c32d80884268a381ed0e67cccef0b3d37750b
-disrupts usability of Cedrus H.264 (at least for my Allwinner V3s):
-
-1) colors are disrupted
-
-There are missing some initialization now.
-
-If I use "5.9" compatible code
-(last bisect good point https://github.com/torvalds/linux/commit/647412daeb454b6dad12a6c6961ab90aac9e5d29 )
-then reboot (not power-off!) and use new code 
-( https://github.com/mcerveny/linux/tree/media_tree_for-v5.11e )
-and colors are OK.
-
-2) decoding of complex streams fails
-
-( https://github.com/mcerveny/v4l2-request-test/tree/v5.10 )
-- bbb-h264-all-i-32 - OK
-- bbb-h264-32 - bad from frame 5
-- bbb-h264-high-32 - bad from frame 6
-
-best regards,
-Martin
-
->> Changes since v1:
->> - patch 0005 rename
->> - added testing description
->>
->> Martin Cerveny (6):
->>   media: cedrus: Register all codecs as capability
->>   dt-bindings: sram: allwinner,sun4i-a10-system-control: Add V3s
->>     compatibles
->>   ARM: dts: sun8i: v3s: Add node for system control
->>   media: cedrus: Add support for V3s
->>   dt-bindings: media: cedrus: Add V3s compatible
->>   ARM: dts: sun8i: v3s: Add video engine node
->>
->>  .../allwinner,sun4i-a10-video-engine.yaml     |  1 +
->>  .../allwinner,sun4i-a10-system-control.yaml   |  6 ++++
->>  arch/arm/boot/dts/sun8i-v3s.dtsi              | 33 +++++++++++++++++++
->>  drivers/staging/media/sunxi/cedrus/cedrus.c   | 28 +++++++++++++++-
->>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  2 ++
->>  .../staging/media/sunxi/cedrus/cedrus_video.c |  2 ++
->>  6 files changed, 71 insertions(+), 1 deletion(-)
->>
->
+------------------------------------------
+Started by an SCM change
+Running as SYSTEM
+Building on master in workspace <https://builder.linuxtv.org/job/libcamera/ws/>
+The recommended git tool is: NONE
+No credentials specified
+ > git rev-parse --is-inside-work-tree # timeout=10
+Fetching changes from the remote Git repository
+ > git config remote.origin.url git://linuxtv.org/libcamera.git # timeout=10
+Fetching upstream changes from git://linuxtv.org/libcamera.git
+ > git --version # timeout=10
+ > git --version # 'git version 2.20.1'
+ > git fetch --tags --force --progress -- git://linuxtv.org/libcamera.git +refs/heads/*:refs/remotes/origin/* # timeout=10
+ > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
+FATAL: Invalid id: Process leaked file descriptors. See https://jenkins.io/redirect/troubleshooting/process-leaked-file-descriptors for more information
+org.eclipse.jgit.errors.InvalidObjectIdException: Invalid id: Process leaked file descriptors. See https://jenkins.io/redirect/troubleshooting/process-leaked-file-descriptors for more information
+	at org.eclipse.jgit.lib.ObjectId.fromString(ObjectId.java:203)
+	at org.jenkinsci.plugins.gitclient.CliGitAPIImpl.revParse(CliGitAPIImpl.java:1041)
+	at hudson.plugins.git.GitAPI.revParse(GitAPI.java:331)
+	at hudson.plugins.git.util.DefaultBuildChooser.getHeadRevision(DefaultBuildChooser.java:129)
+	at hudson.plugins.git.util.DefaultBuildChooser.getCandidateRevisions(DefaultBuildChooser.java:111)
+	at hudson.plugins.git.GitSCM.determineRevisionToBuild(GitSCM.java:1145)
+	at hudson.plugins.git.GitSCM.checkout(GitSCM.java:1298)
+	at hudson.scm.SCM.checkout(SCM.java:505)
+	at hudson.model.AbstractProject.checkout(AbstractProject.java:1206)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.defaultCheckout(AbstractBuild.java:574)
+	at jenkins.scm.SCMCheckoutStrategy.checkout(SCMCheckoutStrategy.java:86)
+	at hudson.model.AbstractBuild$AbstractBuildExecution.run(AbstractBuild.java:499)
+	at hudson.model.Run.execute(Run.java:1894)
+	at hudson.model.FreeStyleBuild.run(FreeStyleBuild.java:43)
+	at hudson.model.ResourceController.execute(ResourceController.java:97)
+	at hudson.model.Executor.run(Executor.java:428)
