@@ -2,159 +2,238 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 097062B3759
-	for <lists+linux-media@lfdr.de>; Sun, 15 Nov 2020 18:43:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AE6562B37F3
+	for <lists+linux-media@lfdr.de>; Sun, 15 Nov 2020 19:42:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727519AbgKORmO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Nov 2020 12:42:14 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50852 "EHLO
+        id S1727428AbgKOSmL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Nov 2020 13:42:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60046 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727401AbgKORmN (ORCPT
+        with ESMTP id S1727216AbgKOSmK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Nov 2020 12:42:13 -0500
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 90D1BC0613D1;
-        Sun, 15 Nov 2020 09:42:13 -0800 (PST)
-Received: by mail-lj1-x242.google.com with SMTP id 11so17223522ljf.2;
-        Sun, 15 Nov 2020 09:42:13 -0800 (PST)
+        Sun, 15 Nov 2020 13:42:10 -0500
+Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9E1B7C0613D1
+        for <linux-media@vger.kernel.org>; Sun, 15 Nov 2020 10:42:10 -0800 (PST)
+Received: by mail-ej1-x629.google.com with SMTP id w13so21267376eju.13
+        for <linux-media@vger.kernel.org>; Sun, 15 Nov 2020 10:42:10 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=UVKCC93ChOuvLBPVNXzdjCLR1DncgSU1O2sv9PBzZK8=;
-        b=q5EDuXURuPPC97beX3V4mv9fx74JwrX62zLJm1rDt1a+sWwxwm9Za//CQ5VL/nXjrQ
-         F1ugiUrc/esQCDFKC5U2KoA6ZaEe/owvrZwUH7mf25fOxJ2YvnXFXC1xFThoEgEyFphu
-         XPScDLPEiwTnKdO/9XxjUQTXzeoA/xM8oI2+jnfOSM0/xoRUQ9JdWDtomEJfnZ6EHfMA
-         nJddJ9WZtVDRL7mWu19HOoCmf0b4YWsTPYtlkNcdwGUfu85PN4CMjKIsX3ct6YQa3Z4O
-         bugIeCkPH9olbamWMqIQz1oLScq7TVl2OsKUr9I7A+ybQ7i4uc28VOzdHeIfKis3Tm4G
-         nYYw==
+        d=vanguardiasur-com-ar.20150623.gappssmtp.com; s=20150623;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=j3NR4a8/9IYsdIvIwYYBpoI+6KZhBXWAlMKA7u6ijx4=;
+        b=b5cuu29/GTvdAM+pR9cb+2FqBrWKBquc53zLMuER6SpJqFSd9TicgtM5kb5MY0fool
+         U3bNCkKls4nBgdPs6spIf5tGs8ooS6HvqPj+dWqGcMr+ZCWt9+0Y8QpXvYUlfSO21++a
+         Nw3LupKv/akWPo6bP1XUxfuvgjFFHiMeN4R49N3yDz0tp9vOhtNqytiUcmUGAVTrT4R0
+         8dhfnDTYYogKr9GSIF7TFjLzIvQsTyYmNVzwJGLJNA4bWc071agsTN1YrE0/oASQOUwX
+         GlHdZkjGLDVG1poC5LtypGdY2PGTwduBCY8mGMZCPjOB6zzDoEhpKCYipnTvnJQltTdV
+         FbPQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=UVKCC93ChOuvLBPVNXzdjCLR1DncgSU1O2sv9PBzZK8=;
-        b=Nt95L6vU1mI7CercisXNLvN5k8eOLsR4uUd8KaSONRlcQI/xnGttInCPSh+qQDsxef
-         AgJCMK/LTkCBxUWOhRr7aU6o/Xos534Z65BSZAuG9WB46YsGB/nl9UpzNWT4WX8tOeWe
-         kPdb3uoF2mjWOnn9+2pw1Wnqw1jW+vyBF2Z2Ucskiew1cKfbyKpBeshN1xnd3z/basaE
-         mKK4l30/MoMvla1rw4MgedDE7nAOM9lzfQ54BkXwZKbDTemwHKuPBTufs/g9dHBEyxhG
-         CMBsFbhOPMyFkCSqaZldwr7gEuy7Sen77KdDvHOJhXghiCCOTzJoOltgG80AY82IXQ6P
-         UbVQ==
-X-Gm-Message-State: AOAM531SFMU9dsBIC7Jo13ZLqw+pmPFI/ZS2NGHI7KQpsnscUEq3o/FC
-        8duFZ4Kbn195s47osCS2kUKtv4hXJxI=
-X-Google-Smtp-Source: ABdhPJyuQnfbXszJA+lutL0HEjR/H3Jr59VD1SbTiWXoWfrL+aJ7fZRGwBGxq4z49RBxglbs8TZqWw==
-X-Received: by 2002:a2e:8553:: with SMTP id u19mr4934146ljj.85.1605462131879;
-        Sun, 15 Nov 2020 09:42:11 -0800 (PST)
-Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
-        by smtp.googlemail.com with ESMTPSA id q4sm2442852ljh.38.2020.11.15.09.42.10
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 15 Nov 2020 09:42:11 -0800 (PST)
-Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
- scaling
-To:     Mark Brown <broonie@kernel.org>
-Cc:     Thierry Reding <thierry.reding@gmail.com>,
-        Jonathan Hunter <jonathanh@nvidia.com>,
-        Alan Stern <stern@rowland.harvard.edu>,
-        Peter Chen <Peter.Chen@nxp.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Adrian Hunter <adrian.hunter@intel.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Lee Jones <lee.jones@linaro.org>,
-        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Peter Geis <pgwipeout@gmail.com>,
-        Nicolas Chauvet <kwizart@gmail.com>,
-        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
-        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
-References: <20201111115534.GA4847@sirena.org.uk>
- <dd26eb18-8ac4-22a6-29b0-dbbe5fa6075b@gmail.com>
- <20201112171600.GD4742@sirena.org.uk>
- <b4b06c1d-c9d4-43b2-c6eb-93f8cb6c677d@gmail.com>
- <20201112200123.GF4742@sirena.org.uk>
- <ce9e2d9f-917e-fb8a-7323-f3bf1a367e9d@gmail.com>
- <20201113142937.GB4828@sirena.org.uk>
- <7f066805-97d9-088f-e89d-a554fe478574@gmail.com>
- <20201113161550.GC4828@sirena.org.uk>
- <3beaa12b-4a50-a3b6-fc43-ebb5ce7a8db7@gmail.com>
- <20201113172859.GF4828@sirena.org.uk>
-From:   Dmitry Osipenko <digetx@gmail.com>
-Message-ID: <74cfc6a9-3f59-d679-14b7-51102a6f11b3@gmail.com>
-Date:   Sun, 15 Nov 2020 20:42:10 +0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.2
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=j3NR4a8/9IYsdIvIwYYBpoI+6KZhBXWAlMKA7u6ijx4=;
+        b=e/4Pz9XE3yfgR8pcC5OjxfbLkj/8RXeS3Iv02+MWSkjVNgbgtQz7bf8pd3uK07YrtE
+         Pxvt5ViVqHguJ5ILTZQFawfi4PB4U4cCYK+sesTtpCN8egNxUtT4Q9fO570YHiU8Bw9L
+         wEGAGVKGR6fYPsZjHZ6mQnyJMqVgYLyPs6ZFM4dpWqUeXhogRiHZHbFHa9uKuxwc6z6W
+         f3L3LUCCqSWvCYTnQCv4J674qa/ibEJ+IafcomGelHfutOzg1W3T+jqk179AKdxVmPKy
+         /oIMpX7HW3oraaEc1rBF6iWzhukNYr71nJ3crG3s9nWEbc8AyWntwR0dPGFJO7sSnHeB
+         chqw==
+X-Gm-Message-State: AOAM533hYtl/IJQ9H+xSO5jbOF5hlg1kP5R7caEZnMpeAjAtrEaUmZNy
+        DrrwrQWWkhhaiQL7xZzPgzsgEVcJJGYLWxcBUIHGXg==
+X-Google-Smtp-Source: ABdhPJxAt2dj92DfDt2oqNsfz41XMH2DtL5eUnp9y/euqFMmCoP8t44Z9IiPP2cDzoVqTDKRg4mUpgxvJjseH0GtbU4=
+X-Received: by 2002:a17:906:9459:: with SMTP id z25mr11756137ejx.88.1605465729115;
+ Sun, 15 Nov 2020 10:42:09 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201113172859.GF4828@sirena.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 8bit
+References: <20201115111002.d7x2a4ephofohd7o@basti.Speedport_W_724V_Typ_A_05011603_06_001>
+In-Reply-To: <20201115111002.d7x2a4ephofohd7o@basti.Speedport_W_724V_Typ_A_05011603_06_001>
+From:   Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>
+Date:   Sun, 15 Nov 2020 15:41:57 -0300
+Message-ID: <CAAEAJfAeHVx0xpDKj=jEnt3zq_SwxT5Y-ccJ7rPJgm0K0WFUMg@mail.gmail.com>
+Subject: Re: Working with the OV13850 camera sensor on the NanoPC-T4
+To:     Sebastian Fricke <sebastian.fricke.linux@gmail.com>
+Cc:     "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
+        Heiko Stuebner <heiko@sntech.de>,
+        linux-media <linux-media@vger.kernel.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Helen Koike <helen.koike@collabora.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-13.11.2020 20:28, Mark Brown пишет:
-> On Fri, Nov 13, 2020 at 08:13:49PM +0300, Dmitry Osipenko wrote:
->> 13.11.2020 19:15, Mark Brown пишет:
-> 
->>> My point here is that the driver shouldn't be checking for a dummy
->>> regulator, the driver should be checking the features that are provided
->>> to it by the regulator and handling those.
-> 
->> I understand yours point, but then we need dummy regulator to provide
->> all the features, and currently it does the opposite.
-> 
-> As could any other regulator?
+On Sun, 15 Nov 2020 at 08:11, Sebastian Fricke
+<sebastian.fricke.linux@gmail.com> wrote:
+>
+> Hello,
+>
 
-Yes
+Hello Sebastian,
 
->>> It doesn't matter if this is
->>> a dummy regulator or an actual regulator with limited features, the
->>> effect is the same and the handling should be the same.  If the driver
->>> is doing anything to handle dummy regulators explicitly as dummy
->>> regulators it is doing it wrong.
-> 
->> It matters because dummy regulator errors out all checks and changes
->> other than enable/disable, instead of accepting them. If we could add an
->> option for dummy regulator to succeed all the checks and accept all the
->> values, then it could become more usable.
-> 
-> I'm a bit confused here TBH - I'm not sure I see a substantial
-> difference between a consumer detecting that it can't set any voltages
-> at all and the handling for an optional regulator.  Either way if it's
-> going to carry on and assume that whatever voltage is there works for
-> everything it boils down to setting a flag saying to skip the set
-> voltage operation.  I think you are too focused on the specific
-> implementation you currently have here.
-> 
-> We obviously can't just accept voltage change operations when we've no
-> idea what the current voltage of the device is.
-> 
->>> To repeat you should *only* be using regulator_get_optional() in the
->>> case where the supply may be physically absent which is not the case
->>> here.
->>
->> Alright, but then we either need to improve regulator core to make dummy
->> regulator a bit more usable, or continue to work around it in drivers.
->> What should we do?
-> 
-> As I keep saying the consumer driver should be enumerating the voltages
-> it can set, if it can't find any and wants to continue then it can just
-> skip setting voltages later on.  If only some are unavailable then it
-> probably wants to eliminate those specific OPPs instead.
+Let me first add my colleagues Helen and Dafna, who maintain this driver,
+and who will surely yell if I stop making sense here.
 
-I'm seeing a dummy regulator as a helper for consumer drivers which
-removes burden of handling an absent (optional) regulator. Is this a
-correct understanding of a dummy regulator?
+> I am currently trying to get the OV13850 camera sensor
+> (https://www.friendlyarm.com/index.php?route=product/product&product_id=228) to work on my friendlyElec NanoPC-T4.
+>
+> I have problems with connecting the RkISP1 ISP to the OV13850 sensor and I am not sure,
+> where the problem could be. The device tree seems to load correctly and
+> I can detect the sensor as a device on the i2c bus:
+>
+> root@nanopct4:~# cat /sys/bus/i2c/devices/1-0010/name
+> ov13850
+>
 
-Older DTBs don't have a regulator and we want to keep them working. This
-is equal to a physically absent regulator and in this case it's an
-optional regulator, IMO.
+OK, good start :-)
 
-Consumer drivers definitely should check voltages, but this should be
-done only for a physical regulator.
+> And the driver module is loaded as well:
+>
+> root@nanopct4:~# lsmod | grep ov13850
+> ov13850                28672  0
+> v4l2_fwnode            28672  2 rockchip_isp1,ov13850
+> videodev              266240  9 rockchip_vdec,v4l2_fwnode,rockchip_isp1,videobuf2_v4l2,hantro_vpu,rockchip_rga,videobuf2_common,v4l2_mem2mem,ov13850
+> mc                     61440  8 rockchip_vdec,videodev,rockchip_isp1,videobuf2_v4l2,hantro_vpu,videobuf2_common,v4l2_mem2mem,ov13850
+>
+> The driver reports using dummy regulators instead of the requested ones,
+> I am not sure yet if this is part of the problem, as the driver doesn't
+> bail out after requesting the regulators. But from what I currently
+> understand, these warnings mean that for some reason my system didn't
+> map these regulators but acts as if they were there.
+>
+> More info below, I hope that someone can help to find the error I made,
+> thanks in advance!
+>
+> -----------------------------
+>
+> I attached the two patches I created:
+> 1. For the device tree I combined a patch from Helen Koike (which is not merged yet),
+>    where she adds the isp0 to the rk3399.dtsi file, with my addition which
+>    activates the mipi_dphy_rx0, adds the camera sensor to i2c1 and
+>    connects the pads of the ISP with the sensor. I followed the
+>    documentation for the ISP part and got most of the camera sensor
+>    parts from the BSP Kernel:
+>    (https://github.com/friendlyarm/kernel-rockchip/blob/nanopi4-linux-v4.4.y/arch/arm64/boot/dts/rockchip/rk3399-nanopi4-rkisp1.dtsi#L52).
+> 2. I ported the driver from the BSP kernel of friendlyElec:
+>    (https://github.com/friendlyarm/kernel-rockchip/blob/nanopi4-linux-v4.4.y/drivers/media/i2c/ov13850.c)
+>    I changed a few lines in order to have the module compile correctly.
+>    ```
+>     +#include <linux/compat.h>
+>     -       sd->entity.type = MEDIA_ENT_T_V4L2_SUBDEV_SENSOR;
+>     -       ret = media_entity_init(&sd->entity, 1, &ov13850->pad, 0);
+>     +       sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
+>     +       ret = media_entity_pads_init(&sd->entity, 1, &ov13850->pad);
+>     ```
+>
+
+Keep in mind that, with some exceptions, the upstream community
+doesn't provide much help with downstream/vendor kernels.
+
+> ----------------------------------------
+>
+> I was able to create an armbian image for the media_tree (https://git.linuxtv.org/media_tree.git/):
+
+Ah, upstream is better :-)
+
+> root@nanopct4:~# uname -a
+> Linux nanopct4 5.10.0-rc1-rockchip64 #trunk SMP PREEMPT Fri Nov 13 15:08:05 CET 2020 aarch64 GNU/Linux
+>
+> When I boot up the board I can spot the following messages in the kernel
+> log:
+> [    7.216307] ov13850 1-0010: driver version: 00.01.01
+> [    7.216322] ov13850 1-0010: could not get module information!
+> [    7.216565] ov13850 1-0010: supply avdd not found, using dummy regulator
+> [    7.216761] ov13850 1-0010: supply dovdd not found, using dummy regulator
+> [    7.216846] ov13850 1-0010: supply dvdd not found, using dummy regulator
+> [    7.219535] ov13850 1-0010: Detected OV00d850 sensor, REVISION 0xb1
+
+OK, good.
+
+I can be wrong (since I haven't looked at your driver) but this
+usually indicates
+your sensor is powered and properly configured to at least read
+some CHIP_ID register.
+
+The regulators are likely always-on in your sensor module,
+so maybe probably that's why it works.
+
+See for instance arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
+for an example of how regulators can be declared. There are other ways,
+it's just an example.
+
+> ...
+> [    7.352292] rockchip_isp1: module is from the staging directory, the quality is unknown, you have been warned.
+> ...
+> [    7.356178] rkisp1 ff910000.isp0: Adding to iommu group 4
+> ...
+> [    7.357637] rkisp1: registered rkisp1_mainpath as /dev/video0
+> [    7.357816] rkisp1: registered rkisp1_selfpath as /dev/video1
+>
+> ----------------------------------------
+>
+> And this command (try to stream 50 frames from video1 which the mainpath
+> on the RkISP1):
+> root@nanopct4:~# v4l2-ctl --stream-to /home/basti/test.raw --stream-mmap 50 -d /dev/video0 --verbose
+>
+> I get this output:
+> VIDIOC_STREAMON returned -1 (No such device)
+>
+> And this kernel log message:
+> [16939.667867] rkisp1 ff910000.isp0: No link between isp and sensor
+>
+
+This error seems useful. It would indicate your sensor is not
+connected (software-connected) to the ISP.
+
+See below.
+
+> -----------------------------------------
+>
+> Here is the output for media-ctl -p:
+>
+> Media controller API version 5.10.0
+>
+> Media device information
+> ------------------------
+> driver          rkisp1
+> model           rkisp1
+> serial
+> bus info        platform:rkisp1
+> hw revision     0x0
+> driver version  5.10.0
+>
+> Device topology
+> - entity 1: rkisp1_isp (4 pads, 4 links)
+>             type V4L2 subdev subtype Unknown flags 0
+>             device node name /dev/v4l-subdev0
+>         pad0: Sink
+>                 [fmt:SRGGB10_1X10/800x600 field:none
+>                  crop.bounds:(0,0)/800x600
+>                  crop:(0,0)/800x600]
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Note that here the rkisp1_isp entity sink pad 0
+should be connected to the bayer sensor, but it
+seems not connected to anything.
+
+I can be wrong, but I don't see your sensor
+appearing anywhere in the topology.
+
+See for instance, the example in the driver
+documentation:
+
+https://www.kernel.org/doc/html/latest/admin-guide/media/rkisp1.html
+
+And note the section where the topology is set, connecting
+the imx219 sensor to rkisp1_isp sink pad0:
+
+"media-ctl" "-d" "platform:rkisp1" "-l" "'imx219 4-0010':0 ->
+'rkisp1_isp':0 [1]"
+
+So I would say you are very much on the right track,
+but you still need a bit more work to construct the capture pipeline.
+
+Not sure if this helps, or makes things more complicated, but instead
+of  v4l2-ctl, I would personally start with libcamera, and work from there.
+
+Cheers,
+Ezequiel
