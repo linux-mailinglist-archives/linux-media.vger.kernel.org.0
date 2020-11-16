@@ -2,264 +2,439 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2A3822B42D9
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 12:33:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF6152B42E2
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 12:35:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729771AbgKPLbn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 06:31:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45228 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729763AbgKPLbm (ORCPT
+        id S1729483AbgKPLdU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 06:33:20 -0500
+Received: from relay10.mail.gandi.net ([217.70.178.230]:38285 "EHLO
+        relay10.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726281AbgKPLdU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 06:31:42 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A1C2FC0613CF
-        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 03:31:42 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 657E11F46F86
-Subject: Re: Working with the OV13850 camera sensor on the NanoPC-T4
-To:     Ezequiel Garcia <ezequiel@vanguardiasur.com.ar>,
-        Sebastian Fricke <sebastian.fricke.linux@gmail.com>
-Cc:     "open list:ARM/Rockchip SoC..." <linux-rockchip@lists.infradead.org>,
-        Heiko Stuebner <heiko@sntech.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-References: <20201115111002.d7x2a4ephofohd7o@basti.Speedport_W_724V_Typ_A_05011603_06_001>
- <CAAEAJfAeHVx0xpDKj=jEnt3zq_SwxT5Y-ccJ7rPJgm0K0WFUMg@mail.gmail.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <8daa1bf3-bca1-594e-f0ce-692ede0aac2d@collabora.com>
-Date:   Mon, 16 Nov 2020 08:31:34 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        Mon, 16 Nov 2020 06:33:20 -0500
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay10.mail.gandi.net (Postfix) with ESMTPSA id 0BC9F240010;
+        Mon, 16 Nov 2020 11:33:13 +0000 (UTC)
+Date:   Mon, 16 Nov 2020 12:33:16 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>
+Subject: Re: [PATCH v4 1/8] media: i2c: Add driver for RDACM21 camera module
+Message-ID: <20201116113316.jyq7sxqrahdsrtqk@uno.localdomain>
+References: <20201112162729.101384-1-jacopo+renesas@jmondi.org>
+ <20201112162729.101384-2-jacopo+renesas@jmondi.org>
+ <95e2e968-d77f-0838-641a-d81a6df6f0b5@ideasonboard.com>
+ <20201114140457.h7x6l53cfqqhpq6l@uno.localdomain>
+ <20201116090833.GB6540@pendragon.ideasonboard.com>
+ <20201116100302.mmv5skzk7s34ocxa@uno.localdomain>
+ <ef1196f4-28f3-5ca1-0e11-08e65c6a1abe@ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <CAAEAJfAeHVx0xpDKj=jEnt3zq_SwxT5Y-ccJ7rPJgm0K0WFUMg@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <ef1196f4-28f3-5ca1-0e11-08e65c6a1abe@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sebastian,
+Hi Kieran,
 
-On 11/15/20 3:41 PM, Ezequiel Garcia wrote:
-> On Sun, 15 Nov 2020 at 08:11, Sebastian Fricke
-> <sebastian.fricke.linux@gmail.com> wrote:
->>
->> Hello,
->>
-> 
-> Hello Sebastian,
-> 
-> Let me first add my colleagues Helen and Dafna, who maintain this driver,
-> and who will surely yell if I stop making sense here.
-> 
->> I am currently trying to get the OV13850 camera sensor
->> (https://www.friendlyarm.com/index.php?route=product/product&product_id=228) to work on my friendlyElec NanoPC-T4.
->>
->> I have problems with connecting the RkISP1 ISP to the OV13850 sensor and I am not sure,
->> where the problem could be. The device tree seems to load correctly and
->> I can detect the sensor as a device on the i2c bus:
->>
->> root@nanopct4:~# cat /sys/bus/i2c/devices/1-0010/name
->> ov13850
->>
-> 
-> OK, good start :-)
-> 
->> And the driver module is loaded as well:
->>
->> root@nanopct4:~# lsmod | grep ov13850
->> ov13850                28672  0
->> v4l2_fwnode            28672  2 rockchip_isp1,ov13850
->> videodev              266240  9 rockchip_vdec,v4l2_fwnode,rockchip_isp1,videobuf2_v4l2,hantro_vpu,rockchip_rga,videobuf2_common,v4l2_mem2mem,ov13850
->> mc                     61440  8 rockchip_vdec,videodev,rockchip_isp1,videobuf2_v4l2,hantro_vpu,videobuf2_common,v4l2_mem2mem,ov13850
->>
->> The driver reports using dummy regulators instead of the requested ones,
->> I am not sure yet if this is part of the problem, as the driver doesn't
->> bail out after requesting the regulators. But from what I currently
->> understand, these warnings mean that for some reason my system didn't
->> map these regulators but acts as if they were there.
->>
->> More info below, I hope that someone can help to find the error I made,
->> thanks in advance!
->>
->> -----------------------------
->>
->> I attached the two patches I created:
->> 1. For the device tree I combined a patch from Helen Koike (which is not merged yet),
->>    where she adds the isp0 to the rk3399.dtsi file, with my addition which
->>    activates the mipi_dphy_rx0, adds the camera sensor to i2c1 and
->>    connects the pads of the ISP with the sensor. I followed the
->>    documentation for the ISP part and got most of the camera sensor
->>    parts from the BSP Kernel:
->>    (https://github.com/friendlyarm/kernel-rockchip/blob/nanopi4-linux-v4.4.y/arch/arm64/boot/dts/rockchip/rk3399-nanopi4-rkisp1.dtsi#L52).
+On Mon, Nov 16, 2020 at 10:20:47AM +0000, Kieran Bingham wrote:
+> On 16/11/2020 10:03, Jacopo Mondi wrote:
+> > Hi Laurent,
+> >
+> > On Mon, Nov 16, 2020 at 11:08:33AM +0200, Laurent Pinchart wrote:
+> >> Hi Jacopo,
+> >>
+> >> On Sat, Nov 14, 2020 at 03:04:57PM +0100, Jacopo Mondi wrote:
+> >>> On Thu, Nov 12, 2020 at 10:31:05PM +0000, Kieran Bingham wrote:
+> >>>> Hi Jacopo,
+> >>>
+> >>> [snip]
+> >>>
+> >>>>> +	/* Wait for firmware boot by reading streamon status. */
+> >>>>> +	ov490_write(dev, 0xfffd, 0x80);
+> >>>>> +	ov490_write(dev, 0xfffe, 0x29);
+> >>>>> +	usleep_range(100, 150);
+> >>>>> +	for (timeout = 300; timeout > 0; timeout--) {
+> >>>>> +		ov490_read(dev, 0xd000, &val);
+> >>>>> +		if (val == 0x0c)
+> >>>>
+> >>>> What is 0x0c here? Is it something we can better describe in a #define?
+> >>>>
+> >>>
+> >>> The 0x0c value itself means "frame output enable" + "whole frame
+> >>> output enable". I don't think it has much value to define it,
+> >>> otherwise we would need to define also the register 8029d000
+> >>
+> >> Shouldn't we have macros for *all* register addresses and fields ?
+> >>
+> >
+> > I'm not sure it's worth it, we have a single register-value table, and
+> > the way ov490 is programmed, as you can see is to specify the high
+> > bytes of the 32-bits register to write in the special 'page' registers
+> > 0xfffd, 0xfffe (which I've not found documented)
+> >
+> > 	ov490_write(dev, 0xfffd, 0x80);
+> > 	ov490_write(dev, 0xfffe, 0x29);
+> > 	ov490_read(dev, 0xd000, &val);
+> >
+> > This, to my understanding reads register 0x8029d000
+> >
+> > We would need three macros, maybe a
+> >         PAGE_HIGH(reg)  (u8)(reg >> 24)
+> >         PAGE_LOW(reg)   (u8)(reg >> 16)
+> >         REG_LOW(reg)    (u16)(reg)
+> >
+> > To that's a lot of churn for no gain imho, the code isn't much more
+> > clear
+>
+> To me it means we need a couple of helper functions.
+>
+> ov490_write_long()
+> ov490_read_long().
+>
+> (Or other names if appropriate)
+>
+> Wouldn't that make the code clearer, and more maintainable? And then
+> allow more correct register definitions to be created?
+>
+>
+>
+> >>> Also, the ov490 is programmed loading the content of a SPI Flash chip,
+> >>> I guess it's just known that "output enabled" is required to have
+> >>> stream operations properly working.
+> >>>
+> >>>>> +			break;
+> >>>>> +		mdelay(1);
+> >>>>> +	}
+> >>>>> +	if (!timeout) {
+> >>>>> +		dev_err(dev->dev, "Timeout firmware boot wait\n");
+> >>>>> +		return -ENODEV;
+> >>>>> +	}
+> >>>>> +	dev_dbg(dev->dev, "Firmware booted in %u msec\n", 300 - timeout);
+> >>>>> +
+> >>>>> +	/* Read OV10640 Id to test communications. */
+> >>>>> +	ov490_write(dev, 0xfffd, 0x80);
+> >>>>> +	ov490_write(dev, 0xfffe, 0x19);
+>
+> The other one was a write to 0x80, 0x29, why is this now to 0x19?
+>
+>
+> >>>>> +	usleep_range(100, 150);
+> >
+> > Not to add that I don't have register 0x80195000 in the documentation I've
+>
+> Aha, so writing to 0xfffd, 0xfffe, 'sets' the top page. I see.
+>
+> And I presume there must always be a usleep_range(100, 150) after any
+> page change?
+>
+> Really sounds like a helper function to me, which keeps track of the
+> current page, and updates the page when needed.
 
-If you take a look at this patch:
+Ok, I'll make an helper to select the register's and handle the top
+page internally.
 
-    https://patchwork.linuxtv.org/project/linux-media/patch/20201020193850.1460644-10-helen.koike@collabora.com/
+I would leave communications with ov10640 out, as long as we don't
+have other users and I better understand what's register 5000 for.
 
-You'll see that the dts of the isp has
-
-ports {
-    port@0 {
-        ...
-    }
-}
-
-which differ from the patch you attached, and I guess this is why your
-sensor is not being detected by the rkisp1 driver.
-
-Please check:
-
-    https://git.linuxtv.org/media_tree.git/tree/drivers/staging/media/rkisp1/Documentation/devicetree/bindings/media/rockchip-isp1.yaml
-
->> 2. I ported the driver from the BSP kernel of friendlyElec:
->>    (https://github.com/friendlyarm/kernel-rockchip/blob/nanopi4-linux-v4.4.y/drivers/media/i2c/ov13850.c)
->>    I changed a few lines in order to have the module compile correctly.
->>    ```
->>     +#include <linux/compat.h>
->>     -       sd->entity.type = MEDIA_ENT_T_V4L2_SUBDEV_SENSOR;
->>     -       ret = media_entity_init(&sd->entity, 1, &ov13850->pad, 0);
->>     +       sd->entity.function = MEDIA_ENT_F_CAM_SENSOR;
->>     +       ret = media_entity_pads_init(&sd->entity, 1, &ov13850->pad);
->>     ```
->>
-> 
-> Keep in mind that, with some exceptions, the upstream community
-> doesn't provide much help with downstream/vendor kernels.
-> 
->> ----------------------------------------
->>
->> I was able to create an armbian image for the media_tree (https://git.linuxtv.org/media_tree.git/):
-> 
-> Ah, upstream is better :-)
-> 
->> root@nanopct4:~# uname -a
->> Linux nanopct4 5.10.0-rc1-rockchip64 #trunk SMP PREEMPT Fri Nov 13 15:08:05 CET 2020 aarch64 GNU/Linux
->>
->> When I boot up the board I can spot the following messages in the kernel
->> log:
->> [    7.216307] ov13850 1-0010: driver version: 00.01.01
->> [    7.216322] ov13850 1-0010: could not get module information!
->> [    7.216565] ov13850 1-0010: supply avdd not found, using dummy regulator
->> [    7.216761] ov13850 1-0010: supply dovdd not found, using dummy regulator
->> [    7.216846] ov13850 1-0010: supply dvdd not found, using dummy regulator
->> [    7.219535] ov13850 1-0010: Detected OV00d850 sensor, REVISION 0xb1
-> 
-> OK, good.
-> 
-> I can be wrong (since I haven't looked at your driver) but this
-> usually indicates
-> your sensor is powered and properly configured to at least read
-> some CHIP_ID register.
-> 
-> The regulators are likely always-on in your sensor module,
-> so maybe probably that's why it works.
-> 
-> See for instance arch/arm64/boot/dts/renesas/aistarvision-mipi-adapter-2.1.dtsi
-> for an example of how regulators can be declared. There are other ways,
-> it's just an example.
-> 
->> ...
->> [    7.352292] rockchip_isp1: module is from the staging directory, the quality is unknown, you have been warned.
->> ...
->> [    7.356178] rkisp1 ff910000.isp0: Adding to iommu group 4
->> ...
->> [    7.357637] rkisp1: registered rkisp1_mainpath as /dev/video0
->> [    7.357816] rkisp1: registered rkisp1_selfpath as /dev/video1
->>
->> ----------------------------------------
->>
->> And this command (try to stream 50 frames from video1 which the mainpath
->> on the RkISP1):
->> root@nanopct4:~# v4l2-ctl --stream-to /home/basti/test.raw --stream-mmap 50 -d /dev/video0 --verbose
->>
->> I get this output:
->> VIDIOC_STREAMON returned -1 (No such device)
->>
->> And this kernel log message:
->> [16939.667867] rkisp1 ff910000.isp0: No link between isp and sensor
->>
-> 
-> This error seems useful. It would indicate your sensor is not
-> connected (software-connected) to the ISP.
-> 
-> See below.
-> 
->> -----------------------------------------
->>
->> Here is the output for media-ctl -p:
->>
->> Media controller API version 5.10.0
->>
->> Media device information
->> ------------------------
->> driver          rkisp1
->> model           rkisp1
->> serial
->> bus info        platform:rkisp1
->> hw revision     0x0
->> driver version  5.10.0
->>
->> Device topology
->> - entity 1: rkisp1_isp (4 pads, 4 links)
->>             type V4L2 subdev subtype Unknown flags 0
->>             device node name /dev/v4l-subdev0
->>         pad0: Sink
->>                 [fmt:SRGGB10_1X10/800x600 field:none
->>                  crop.bounds:(0,0)/800x600
->>                  crop:(0,0)/800x600]
-> ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-> 
-> Note that here the rkisp1_isp entity sink pad 0
-> should be connected to the bayer sensor, but it
-> seems not connected to anything.
-> 
-> I can be wrong, but I don't see your sensor
-> appearing anywhere in the topology.
-> 
-> See for instance, the example in the driver
-> documentation:
-> 
-> https://www.kernel.org/doc/html/latest/admin-guide/media/rkisp1.html
-
-Just to complement what Ezequiel mentioned, to better understand, you can
-check the topology with
-
-    media-ctl --print-dot
-
-and copy the results to https://dreampuf.github.io/GraphvizOnline/
-
-You'll see there is no sensor connected in pad 0 of the rkisp1_isp node.
-
-> 
-> And note the section where the topology is set, connecting
-> the imx219 sensor to rkisp1_isp sink pad0:
-> 
-> "media-ctl" "-d" "platform:rkisp1" "-l" "'imx219 4-0010':0 ->
-> 'rkisp1_isp':0 [1]"
-> 
-> So I would say you are very much on the right track,
-> but you still need a bit more work to construct the capture pipeline.
-> 
-> Not sure if this helps, or makes things more complicated, but instead
-> of  v4l2-ctl, I would personally start with libcamera, and work from there.
-> 
-> Cheers,
-> Ezequiel
-> 
-After correcting the topology, you should configure the stream as indicated
-in the docs:
-
-    https://www.kernel.org/doc/html/latest/admin-guide/media/rkisp1.html#capturing-video-frames-example
-
-Or use libamera with, for instance:
-
-    cam -c 1 -C
-
-
-I hope this helps.
-Regards,
-Helen
+>
+>
+>
+> > access to (the master SCCB control page is at  address 0x8090xxxx
+> >
+> >>>>> +
+> >>>>> +	ov490_write(dev, 0x5000, 0x01);
+> >>>>> +	ov490_write(dev, 0x5001, 0x30);
+> >>>>> +	ov490_write(dev, 0x5002, 0x0a)
+> >>>>> +	ov490_write(dev, 0xfffe, 0x80);
+> >
+> > This sequence in example, reads the 0x300a register of the slave
+> > (ov10640) by programming registers
+> >                 0x80195000      0x1
+> >                 0x80195001      0x30
+> >                 0x80195002      0x0a
+> >
+> >>>>> +	usleep_range(100, 150);
+> >>>>> +	ov490_write(dev, 0xc0, 0xc1);
+> >
+> > Triggering a transaction writing 0xc1 to 0x808000c0 (0xc1
+> > undocumented)
+>
+>
+> Do we do many reads of the connected sensor? or is this the only one.
+> If you know that's what's happening, I'd be tempted to say we should
+> wrap that up in a function to make it clearer too.
+>
+>
+>
+> >>>>> +	ov490_write(dev, 0xfffe, 0x19);
+> >>>>> +	usleep_range(1000, 1500);
+> >>>>> +	ov490_read(dev, 0x5000, &val);
+> >
+> > and reading back the transaction result at address 0x80195000
+> >
+> > I got these parts from
+> > https://github.com/CogentEmbedded/meta-rcar/blob/v2.12.0/meta-rcar-gen3/recipes-kernel/linux/linux-renesas/0040-H3-MAX9286-TI964-support-add-10635-10640-cameras.patch#L3732
+> >
+> > and that's why I kept Vladimir's authorship in MODULE_AUTHORS()
+>
+> That's fine, but I think we can do better than dragging that code in
+> directly.
+>
+>
+>
+> >>>>> +	if (val != OV10640_ID_LOW) {
+> >>>>> +		dev_err(dev->dev, "OV10640 ID mismatch: (0x%02x)\n", val);
+> >>>>> +		return -ENODEV;
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	dev_dbg(dev->dev, "OV10640 ID = 0x%2x\n", val);
+> >>>>> +
+> >>>>> +	for (i = 0; i < ARRAY_SIZE(ov490_regs_wizard); ++i) {
+> >>>>> +		ret = ov490_write(dev, ov490_regs_wizard[i].reg,
+> >>>>> +				  ov490_regs_wizard[i].val);
+> >>>>> +		if (ret < 0) {
+> >>>>> +			dev_err(dev->dev,
+> >>>>> +				"%s: register %u (0x%04x) write failed (%d)\n",
+> >>>>> +				__func__, i, ov490_regs_wizard[i].reg, ret);
+> >>>>> +
+> >>>>> +			return -EIO;
+> >>>>> +		}
+> >>>>> +
+> >>>>> +		usleep_range(100, 150);
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	/*
+> >>>>> +	 * The ISP is programmed with the content of a serial flash memory.
+> >>>>> +	 * Read the firmware configuration to reflect it through the V4L2 APIs.
+> >>>>> +	 */
+> >>>>> +	ov490_write(dev, 0xfffd, 0x80);
+> >>>>> +	ov490_write(dev, 0xfffe, 0x82);
+> >>>>> +	usleep_range(100, 150);
+> >>>>> +	ov490_read(dev, OV490_ISP_HSIZE_HIGH, &val);
+> >>>>> +	dev->fmt.width = (val & 0xf) << 8;
+> >>>>> +	ov490_read(dev, OV490_ISP_HSIZE_LOW, &val);
+> >>>>> +	dev->fmt.width |= (val & 0xff);
+> >>>>> +
+> >>>>> +	ov490_read(dev, OV490_ISP_VSIZE_HIGH, &val);
+> >>>>> +	dev->fmt.height = (val & 0xf) << 8;
+> >>>>> +	ov490_read(dev, OV490_ISP_VSIZE_LOW, &val);
+> >>>>> +	dev->fmt.height |= val & 0xff;
+> >>>>> +
+> >>>>> +	/* Set bus width to 12 bits [0:11] */
+> >>>>> +	ov490_write(dev, 0xfffd, 0x80);
+> >>>>> +	ov490_write(dev, 0xfffe, 0x28);
+> >>>>> +	usleep_range(100, 150);
+> >>>>> +	ov490_write(dev, 0x6009, 0x10);
+> >>>>> +
+> >>>>> +	dev_info(dev->dev, "Identified RDACM21 camera module\n");
+> >>>>> +
+> >>>>> +	return 0;
+> >>>>> +}
+> >>>>> +
+> >>>>> +static int rdacm21_initialize(struct rdacm21_device *dev)
+> >>>>> +{
+> >>>>> +	int ret;
+> >>>>> +
+> >>>>> +	/* Verify communication with the MAX9271: ping to wakeup. */
+> >>>>> +	dev->serializer->client->addr = MAX9271_DEFAULT_ADDR;
+> >>>>> +	i2c_smbus_read_byte(dev->serializer->client);
+> >>>>> +
+> >>>>> +	/* Serial link disabled during config as it needs a valid pixel clock. */
+> >>>>> +	ret = max9271_set_serial_link(dev->serializer, false);
+> >>>>> +	if (ret)
+> >>>>> +		return ret;
+> >>>>> +
+> >>>>> +	/* Set GPO high to hold OV490 in reset during max9271 configuration. */
+> >>>>> +	ret = max9271_set_gpios(dev->serializer, MAX9271_GPO);
+> >>>>> +	if (ret)
+> >>>>> +		return ret;
+> >>>>> +
+> >>>>> +	/* Configure I2C bus at 105Kbps speed and configure GMSL link. */
+> >>>>> +	ret = max9271_configure_i2c(dev->serializer,
+> >>>>> +				    MAX9271_I2CSLVSH_469NS_234NS |
+> >>>>> +				    MAX9271_I2CSLVTO_1024US |
+> >>>>> +				    MAX9271_I2CMSTBT_105KBPS);
+> >>>>> +	if (ret)
+> >>>>> +		return ret;
+> >>>>> +
+> >>>>> +	ret = max9271_configure_gmsl_link(dev->serializer);
+> >>>>> +	if (ret)
+> >>>>> +		return ret;
+> >>>>> +
+> >>>>> +	ret = max9271_set_address(dev->serializer, dev->addrs[0]);
+> >>>>> +	if (ret)
+> >>>>> +		return ret;
+> >>>>> +	dev->serializer->client->addr = dev->addrs[0];
+> >>>>> +
+> >>>>> +	/*
+> >>>>> +	 * Release OV490 from reset and program address translation
+> >>>>> +	 * before performing OV490 configuration.
+> >>>>> +	 */
+> >>>>> +	ret = max9271_clear_gpios(dev->serializer, MAX9271_GPO);
+> >>>>> +	if (ret)
+> >>>>> +		return ret;
+> >>>>> +
+> >>>>> +	ret = max9271_set_translation(dev->serializer, dev->addrs[1],
+> >>>>> +				      OV490_I2C_ADDRESS);
+> >>>>> +	if (ret)
+> >>>>> +		return ret;
+> >>>>> +	dev->isp->addr = dev->addrs[1];
+> >>>>> +
+> >>>>> +	ret = ov490_initialize(dev);
+> >>>>> +	if (ret)
+> >>>>> +		return ret;
+> >>>>> +
+> >>>>> +	/*
+> >>>>> +	 * Set reverse channel high threshold to increase noise immunity.
+> >>>>> +	 *
+> >>>>> +	 * This should be compensated by increasing the reverse channel
+> >>>>> +	 * amplitude on the remote deserializer side.
+> >>>>> +	 */
+> >>>>> +	ret = max9271_set_high_threshold(dev->serializer, true);
+> >>>>> +	if (ret)
+> >>>>> +		return ret;
+> >>>>> +
+> >>>>> +	return 0;
+> >>>>> +}
+> >>>>> +
+> >>>>> +static int rdacm21_probe(struct i2c_client *client)
+> >>>>> +{
+> >>>>> +	struct rdacm21_device *dev;
+> >>>>> +	struct fwnode_handle *ep;
+> >>>>> +	int ret;
+> >>>>> +
+> >>>>> +	dev = devm_kzalloc(&client->dev, sizeof(*dev), GFP_KERNEL);
+> >>>>> +	if (!dev)
+> >>>>> +		return -ENOMEM;
+> >>>>> +	dev->dev = &client->dev;
+> >>>>> +
+> >>>>> +	dev->serializer = devm_kzalloc(&client->dev, sizeof(*dev->serializer),
+> >>>>> +				       GFP_KERNEL);
+> >>>>> +	if (!dev->serializer)
+> >>>>> +		return -ENOMEM;
+> >>>>> +
+> >>>>> +	dev->serializer->client = client;
+> >>>>> +
+> >>>>> +	ret = of_property_read_u32_array(client->dev.of_node, "reg",
+> >>>>> +					 dev->addrs, 2);
+> >>>>> +	if (ret < 0) {
+> >>>>> +		dev_err(dev->dev, "Invalid DT reg property: %d\n", ret);
+> >>>>> +		return -EINVAL;
+> >>>>> +	}
+> >>>>> +
+> >>>>> +	/* Create the dummy I2C client for the sensor. */
+> >>>>> +	dev->isp = i2c_new_dummy_device(client->adapter, OV490_I2C_ADDRESS);
+> >>>>> +	if (IS_ERR(dev->isp))
+> >>>>> +		return PTR_ERR(dev->isp);
+> >>>>> +
+> >>>>> +	ret = rdacm21_initialize(dev);
+> >>>>> +	if (ret < 0)
+> >>>>> +		goto error;
+> >>>>> +
+> >>>>> +	/* Initialize and register the subdevice. */
+> >>>>> +	v4l2_i2c_subdev_init(&dev->sd, client, &rdacm21_subdev_ops);
+> >>>>> +	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
+> >>>>> +
+> >>>>> +	v4l2_ctrl_handler_init(&dev->ctrls, 1);
+> >>>>> +	v4l2_ctrl_new_std(&dev->ctrls, NULL, V4L2_CID_PIXEL_RATE,
+> >>>>> +			  OV10640_PIXEL_RATE, OV10640_PIXEL_RATE, 1,
+> >>>>> +			  OV10640_PIXEL_RATE);
+> >>>>> +	dev->sd.ctrl_handler = &dev->ctrls;
+> >>>>> +
+> >>>>> +	ret = dev->ctrls.error;
+> >>>>> +	if (ret)
+> >>>>> +		goto error_free_ctrls;
+> >>>>> +
+> >>>>> +	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
+> >>>>> +	dev->sd.entity.flags |= MEDIA_ENT_F_CAM_SENSOR;
+> >>>>> +	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
+> >>>>> +	if (ret < 0)
+> >>>>> +		goto error_free_ctrls;
+> >>>>> +
+> >>>>> +	ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
+> >>>>> +	if (!ep) {
+> >>>>> +		dev_err(&client->dev,
+> >>>>> +			"Unable to get endpoint in node %pOF\n",
+> >>>>> +			client->dev.of_node);
+> >>>>> +		ret = -ENOENT;
+> >>>>> +		goto error_free_ctrls;
+> >>>>> +	}
+> >>>>> +	dev->sd.fwnode = ep;
+> >>>>> +
+> >>>>> +	ret = v4l2_async_register_subdev(&dev->sd);
+> >>>>> +	if (ret)
+> >>>>> +		goto error_put_node;
+> >>>>> +
+> >>>>> +	return 0;
+> >>>>> +
+> >>>>> +error_put_node:
+> >>>>> +	fwnode_handle_put(dev->sd.fwnode);
+> >>>>> +error_free_ctrls:
+> >>>>> +	v4l2_ctrl_handler_free(&dev->ctrls);
+> >>>>> +error:
+> >>>>> +	i2c_unregister_device(dev->isp);
+> >>>>> +
+> >>>>> +	return ret;
+> >>>>> +}
+> >>>>> +
+> >>>>> +static int rdacm21_remove(struct i2c_client *client)
+> >>>>> +{
+> >>>>> +	struct rdacm21_device *dev = i2c_to_rdacm21(client);
+> >>>>> +
+> >>>>> +	fwnode_handle_put(dev->sd.fwnode);
+> >>>>> +	v4l2_async_unregister_subdev(&dev->sd);
+> >>>>> +	v4l2_ctrl_handler_free(&dev->ctrls);
+> >>>>> +	i2c_unregister_device(dev->isp);
+> >>>>> +
+> >>>>> +	return 0;
+> >>>>> +}
+> >>>>> +
+> >>>>> +static const struct of_device_id rdacm21_of_ids[] = {
+> >>>>> +	{ .compatible = "imi,rdacm21" },
+> >>>>> +	{ }
+> >>>>> +};
+> >>>>> +MODULE_DEVICE_TABLE(of, rdacm21_of_ids);
+> >>>>> +
+> >>>>> +static struct i2c_driver rdacm21_i2c_driver = {
+> >>>>> +	.driver	= {
+> >>>>> +		.name	= "rdacm21",
+> >>>>> +		.of_match_table = rdacm21_of_ids,
+> >>>>> +	},
+> >>>>> +	.probe_new	= rdacm21_probe,
+> >>>>> +	.remove		= rdacm21_remove,
+> >>>>> +};
+> >>>>> +
+> >>>>> +module_i2c_driver(rdacm21_i2c_driver);
+> >>>>> +
+> >>>>> +MODULE_DESCRIPTION("GMSL Camera driver for RDACM21");
+> >>>>> +MODULE_AUTHOR("Jacopo Mondi, Kieran Bingham, Laurent Pinchart, Niklas Söderlund, Vladimir Barinov");
+> >>>>
+> >>>> I think by this point you could chop MODULE_AUTHOR for this one down to
+> >>>> just you ;-)
+> >>>>
+> >>>>
+> >>>> A fairly arbitrary, and cursory
+> >>>>
+> >>>> Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> >>>>
+> >>>> I'll be aiming to test this (series) as soon as I can too.
+> >>>
+> >>> Thanks, let me know if I should submit for proper inclusion!
+> >>>
+> >>>>> +MODULE_LICENSE("GPL v2");
+> >>
+> >> --
+> >> Regards,
+> >>
+> >> Laurent Pinchart
+>
