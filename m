@@ -2,149 +2,171 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E6642B3ECA
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 09:37:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E947A2B3EDF
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 09:39:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727849AbgKPIf3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 03:35:29 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46016 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727716AbgKPIf2 (ORCPT
+        id S1727406AbgKPIjA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 03:39:00 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:44931 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726621AbgKPIi7 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 03:35:28 -0500
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4382FC0613CF
-        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 00:35:27 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id p1so17662098wrf.12
-        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 00:35:27 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:references:from:autocrypt:organization:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=/IJqBaMYJ+hoVSYMTGaDaqMR3k30zomG5l27v6zlVwU=;
-        b=ctF2bR8twrALNSfxZV6vz4tuweciP/hBos+Ko9PTkCzwzlZR9AJop66gR0JWcg0JZT
-         Y9Sl8ypIl0zPYi7//jylfyPKGNNmJHW0aogRuBP3QSDJUeF4nPfw46erePAZqapgUK3r
-         3Y85kBiqTddbZCHPEW9vF+Rm8Svg+4nz770ESIyCs6SbHuizqfvukKWEiZ8YpPe6nR3O
-         c3ICEXiNF7fDjIBQOXhYRhaakCHdlsstTwHfl4TFqWZYdfIQeYpvTW7vjdGztSpy9NRB
-         eGL5sDSuccRbZzNovJukaRXHVF11T/0DOZnXYbAIPIvZDn2sa8OrTWm95mIXauilL0Cu
-         hT9w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:references:from:autocrypt
-         :organization:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=/IJqBaMYJ+hoVSYMTGaDaqMR3k30zomG5l27v6zlVwU=;
-        b=AISnMPEO3fWGADr+O7N3jWhs3Qa95cJqFiHVhbtj6bNV18FgT9bP5tIvezutU0aA1w
-         5IIgJG7cOMw3uvjEorwhUSC85/sVP4Enzx/ENrpm8vKtELiuiKEMDUffVzfDSZtEnvGX
-         bZBv912Txz9bZ72+9Lt1eCyN2+LyjUrwFcdFzlohvOFtBmWYm1z0TSszvKGT8T94uwtk
-         CAQdBfCaitNxcJfa4XdhX1guouQNsKAlynCT3QbqjZ34tG92iztMB6Zgb8P9a1yYUqsv
-         4SXqRMGBF+pCB3N+J8XAPR7dknZV3p2KYerwO6rE4giu7I93aY9hbpa2mvBgTYT4YtLA
-         Hq8w==
-X-Gm-Message-State: AOAM531RGCIvhtK018dgzXSafxbUvfZuPSNtX+DaUUww8wnaDdl2afaN
-        H9LtkOX8SVqLGz14shdk5Iebdw==
-X-Google-Smtp-Source: ABdhPJxglwCJdCUOSoAPZoA1Fv4MDJrKqSeCMK4FPDvpgWUtA8mDVqdcSD7PIG577koRdEOuqIvRpQ==
-X-Received: by 2002:a5d:6447:: with SMTP id d7mr18224215wrw.96.1605515725835;
-        Mon, 16 Nov 2020 00:35:25 -0800 (PST)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:edb9:72a:9e35:6eb? ([2a01:e35:2ec0:82b0:edb9:72a:9e35:6eb])
-        by smtp.gmail.com with ESMTPSA id c8sm20935777wrv.26.2020.11.16.00.35.24
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2020 00:35:25 -0800 (PST)
-Subject: Re: [PATCH] media: meson: vdec: add G12/SM1 to module description
-To:     Christian Hewitt <christianshewitt@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Mon, 16 Nov 2020 03:38:59 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id ea29kmSnDfkEdea2DkVMq6; Mon, 16 Nov 2020 09:38:56 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1605515936; bh=0HBXrKpLPW8g1OySaIvQCG5gl20kZV+fEcDaxaxDToQ=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=fHGPhhNedtHBlczoUP3Qo7/bWFYMRN5qndb4TE0nshwnGLDBUZfNy3Nyb+ZMZnkG9
+         A63DvXCrQgX7nCQCCXLRIYixYJZAbj0ySYpwhRChWVjTVW8yY64D2J/bvqh7STvljW
+         xsZft2du0XCyQuVg6xQ3JdaUarq9b6TRZo53XZOMP7/xzLWo4XgW96vovA8fwrJJPo
+         eGXAbIiseeaerET7ErcZvabvwAv24ffsconaj+fliM7HyaGfXjWHOhSkz7YzA6ebKb
+         VETvxga0cW6Mnk3tBQaLqrAor2MWpvk5jVQJiIlVRri9wPSqmawR9uwdcei60VDuuc
+         kI/vl+AZG21pg==
+Subject: Re: [PATCH v2 0/6] ARM: dts: sun8i: v3s: Enable video decoder
+To:     Martin Cerveny <M.Cerveny@computer.org>
+Cc:     Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
         Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-References: <20201116043055.23655-1-christianshewitt@gmail.com>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- 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
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <a2783176-1a5e-60ad-3130-d514ff152c83@baylibre.com>
-Date:   Mon, 16 Nov 2020 09:35:23 +0100
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>
+References: <20200912143052.30952-1-m.cerveny@computer.org>
+ <c8cc3529-3e21-2a11-d258-bb03885a5c91@xs4all.nl>
+ <alpine.GSO.2.00.2011151911340.21646@dmz.c-home.cz>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <19bbdf9f-3894-606b-728e-b41df27a4f5d@xs4all.nl>
+Date:   Mon, 16 Nov 2020 09:38:45 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201116043055.23655-1-christianshewitt@gmail.com>
+In-Reply-To: <alpine.GSO.2.00.2011151911340.21646@dmz.c-home.cz>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfDqxeIl3zPlBEnQSYmV0VDPHCX9kfSj2fQYnFCgHd4wq04j+fNXIA3/t7eOTHSb8ESZ05regaNJKbZ/aYgtgiT7Oi4yuxnmaEDmhWeiKLd4N1GBbBp6B
+ 4AOz6Y//eo2oFcCnRo87LAljNyamxbP2YbkQMSsMt/ZQTN+4gextCiZdfUafVqwR9d1lQMPjpdg9UrfA2xOJWWvLkfMbp5cfNVP96j8X6MRVi3rq79B7QR9Q
+ 07UGX+capvn0sA1Fvi0jop9LGmjVbY2FY+eHNk3LqbUl/q5FagReD8fh/IXLq2K4ROoMzDaWP3qpqGFYfTwDX9LawiQDze91sJb+GFbu8FLfwzUuc5n6k+Qz
+ rLpSK73x1H/aaA4rbZXuwiqH4PR1C8f4sp/Cg0U84WqmBP/UTF6fAmxAtf8e84/ju8pYk4LJgf7wgTsXSkWhTtMRiRlu3/y2qSdCM4k3uLHYobn7dsHTqQm8
+ rGf9Q/ChLCLT+27ure/MbyxuU89yGmwCMVQVZ/NkqR+Ux7Ioi5lBpESa2xNNjvQ/ZgFhKjJEhJR6XjSpGt8gbk3jpZybwPrjEOZTTMdPO3ipB4f4oznMR6zs
+ VEsYURoEXkzQY4xAltEUYbFW
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/11/2020 05:30, Christian Hewitt wrote:
-> The meson vdec driver also supports Amlogic G12/SM1 hardware.
+On 15/11/2020 19:59, Martin Cerveny wrote:
+> Hello.
 > 
-> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
-> ---
->  drivers/staging/media/meson/vdec/vdec.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+> On Thu, 5 Nov 2020, Hans Verkuil wrote:
 > 
-> diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-> index 5ccb3846c879..5d4db7a5b4b5 100644
-> --- a/drivers/staging/media/meson/vdec/vdec.c
-> +++ b/drivers/staging/media/meson/vdec/vdec.c
-> @@ -1131,6 +1131,6 @@ static struct platform_driver meson_vdec_driver = {
->  };
->  module_platform_driver(meson_vdec_driver);
->  
-> -MODULE_DESCRIPTION("Meson video decoder driver for GXBB/GXL/GXM");
-> +MODULE_DESCRIPTION("Meson video decoder driver for GXBB/GXL/GXM/G12/SM1");
->  MODULE_AUTHOR("Maxime Jourdan <mjourdan@baylibre.com>");
->  MODULE_LICENSE("GPL");
+>> Hi Martin,
+>>
+>> On 12/09/2020 16:30, Martin Cerveny wrote:
+>>> First patch extends cedrus capability to all decoders
+>>> because V3s missing MPEG2 decoder.
+>>>
+>>> Next two patches add system control node (SRAM C1) and
+>>> next three patches add support for Cedrus VPU.
+>>>
+>>> Tested on "Lichee Zero" V3s platform with testing LCD patch
+>>> ( https://github.com/mcerveny/linux/tree/v3s_videocodec_v4 )
+>>> and V4L2 raw API testing utility
+>>> ( https://github.com/mcerveny/v4l2-request-test ):
+>>> - enabled LCD (DRM dual VI and sigle UI planes)
+>>> - added RGB panel
+>>> - enabled PWM
+>>>
+>>> There is low memory on V3s (64MB) and maximum must be available to CMA:
+>>> - CONFIG_CMA_SIZE_MBYTES=28
+>>> - add swap to swapout other processes
+>>> - decrease buffers in v4l2-request-test (.buffers_count from 16 to 6)
+>>>
+>>> Only H.264 decoder working - MPEG and H.265 unsupported by V3s,
+>>> JPEG/MJPEG still unimplemented, encoder unimplemented
+>>
+>> When I tried to merged these patches I got merge conflicts.
+>>
+>> Possibly due to other 5.10 changes, but certainly because of conflicts
+>> with patches from Jernej:
+>>
+>> https://patchwork.linuxtv.org/project/linux-media/patch/20200825173523.1289379-4-jernej.skrabec@siol.net/
+>> https://patchwork.linuxtv.org/project/linux-media/patch/20200825173523.1289379-5-jernej.skrabec@siol.net/
+>>
+>> I've merged Jerne's patches and posted a PR for that:
+>> https://patchwork.linuxtv.org/project/linux-media/patch/f3b8e5e2-5f0e-fb6f-e5b2-7f44f7e365e7@xs4all.nl/
+>>
+>> Can you rebase your patches on top of my branch that contains Jernej's patches?
+>>
+>> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.11e
+>>
+>> Once my PR is merged into the media_tree master I can take your rebased
+>> patches.
 > 
+> I updated patches:
+> https://github.com/mcerveny/linux/tree/media_tree_for-v5.11e
+> 
+> BUT, commit (555 commits) for v5.10-1
+> https://github.com/torvalds/linux/commit/fd5c32d80884268a381ed0e67cccef0b3d37750b
+> disrupts usability of Cedrus H.264 (at least for my Allwinner V3s):
+> 
+> 1) colors are disrupted
+> 
+> There are missing some initialization now.
+> 
+> If I use "5.9" compatible code
+> (last bisect good point https://github.com/torvalds/linux/commit/647412daeb454b6dad12a6c6961ab90aac9e5d29 )
+> then reboot (not power-off!) and use new code 
+> ( https://github.com/mcerveny/linux/tree/media_tree_for-v5.11e )
+> and colors are OK.
 
-Reviewed-by: Neil Armstrong <narmstrong@baylibre.com>
+Could this or the next issue be related to this bug fix?
+
+https://git.linuxtv.org/media_tree.git/commit/?h=fixes&id=9ac924b98728c3733c91c6c59fc410827d0da49f
+
+That fix isn't yet in our master tree.
+
+> 
+> 2) decoding of complex streams fails
+> 
+> ( https://github.com/mcerveny/v4l2-request-test/tree/v5.10 )
+> - bbb-h264-all-i-32 - OK
+> - bbb-h264-32 - bad from frame 5
+> - bbb-h264-high-32 - bad from frame 6
+
+I think cedrus devs need to take a look at these issues.
+
+Regards,
+
+	Hans
+
+> 
+> best regards,
+> Martin
+> 
+>>> Changes since v1:
+>>> - patch 0005 rename
+>>> - added testing description
+>>>
+>>> Martin Cerveny (6):
+>>>   media: cedrus: Register all codecs as capability
+>>>   dt-bindings: sram: allwinner,sun4i-a10-system-control: Add V3s
+>>>     compatibles
+>>>   ARM: dts: sun8i: v3s: Add node for system control
+>>>   media: cedrus: Add support for V3s
+>>>   dt-bindings: media: cedrus: Add V3s compatible
+>>>   ARM: dts: sun8i: v3s: Add video engine node
+>>>
+>>>  .../allwinner,sun4i-a10-video-engine.yaml     |  1 +
+>>>  .../allwinner,sun4i-a10-system-control.yaml   |  6 ++++
+>>>  arch/arm/boot/dts/sun8i-v3s.dtsi              | 33 +++++++++++++++++++
+>>>  drivers/staging/media/sunxi/cedrus/cedrus.c   | 28 +++++++++++++++-
+>>>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  2 ++
+>>>  .../staging/media/sunxi/cedrus/cedrus_video.c |  2 ++
+>>>  6 files changed, 71 insertions(+), 1 deletion(-)
+>>>
+>>
+
