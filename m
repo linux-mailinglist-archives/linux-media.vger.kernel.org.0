@@ -2,93 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B20122B3E9D
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 09:29:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 147C62B3F32
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 09:57:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726928AbgKPI1Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 03:27:25 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:54225 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726374AbgKPI1Z (ORCPT
+        id S1728195AbgKPI4T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 03:56:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49272 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727969AbgKPI4S (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 03:27:25 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id eZr5kmPYYfkEdeZr8kVKqj; Mon, 16 Nov 2020 09:27:23 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1605515243; bh=EuxCpc8ZptNYbJj/hN23RAHUXpNVSF3vjZQhDocK+CE=;
-        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=LGSTGfqjCz6v/ZyXwgK/9fK8P8ukL0FnV5UT4wwlh+X+yPZEWEIvxve23hKs4AyDE
-         ZGrUqiBWJiGI9GRel8RQaXV1eovlQWuUHEHDqbDGHAslb40cTa31pK2DEvNAmPO7lu
-         wMOTCT0P2qOw2unEj22TmRIJl3vXZ4FtbucMj5ioaGckN/o2ERP0IWVPYq2+wVeX0p
-         LVXz1zGnDdseAFOIQe+XwUbfNUrmyTnwgDSG6c/UwaHg8LyyjhqsTH8vGzSNGlL8Wj
-         zRMUfKuii7hMlSZIfG6A8uYC7rGoaoBag/InOXqZjFAZuDxke6q4iIMrGVWEwrX/qv
-         U5Mq5hZ/CDvxw==
-To:     Linux Media Mailing List <linux-media@vger.kernel.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Subject: [GIT PULL FOR v5.11] (v2) Various fixes
-Message-ID: <37dc5127-56e3-868a-4925-412f3ff0fd7f@xs4all.nl>
-Date:   Mon, 16 Nov 2020 09:27:19 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfNp5XPzAQ9881wRMAuiV5btR3bSqf2Y9xxuWorjxUN+g4GrFrPxqz0tAkBOvKvSK8QqCDc2mXbyDYHj/S2T0Jn69zPhPSCEiSKz9lskewB3LI+fLDdv1
- 0baspGUwoYAg4ygXYOxlUmgdU5kDPnshxCv0M6v2eqngFDSggPt5fK+hya2mx85k/dHiAoKVaxoDzg2gJ2xgO5IFxdAFJUevF/g=
+        Mon, 16 Nov 2020 03:56:18 -0500
+X-Greylist: delayed 519 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 16 Nov 2020 00:56:18 PST
+Received: from mailout2.hostsharing.net (mailout2.hostsharing.net [IPv6:2a01:37:3000::53df:4ee9:0])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9FF2FC0613CF
+        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 00:56:18 -0800 (PST)
+Received: from h08.hostsharing.net (h08.hostsharing.net [83.223.95.28])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (Client CN "*.hostsharing.net", Issuer "COMODO RSA Domain Validation Secure Server CA" (not verified))
+        by mailout2.hostsharing.net (Postfix) with ESMTPS id 850C11018982B;
+        Mon, 16 Nov 2020 09:47:38 +0100 (CET)
+Received: from localhost (unknown [89.246.108.87])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by h08.hostsharing.net (Postfix) with ESMTPSA id 1372D6035EEE;
+        Mon, 16 Nov 2020 09:47:38 +0100 (CET)
+X-Mailbox-Line: From 48e6a396526bcd0a26e970036dbe3207cce57ea6 Mon Sep 17 00:00:00 2001
+Message-Id: <48e6a396526bcd0a26e970036dbe3207cce57ea6.1605512876.git.lukas@wunner.de>
+In-Reply-To: <73adc6ba84a4f968f2e1499a776e5c928fbdde56.1605512876.git.lukas@wunner.de>
+References: <73adc6ba84a4f968f2e1499a776e5c928fbdde56.1605512876.git.lukas@wunner.de>
+From:   Lukas Wunner <lukas@wunner.de>
+Date:   Mon, 16 Nov 2020 09:23:13 +0100
+Subject: [PATCH for-5.10] media: netup_unidvb: Don't leak SPI master in probe
+ error path
+To:     Mark Brown <broonie@kernel.org>
+Cc:     linux-spi@vger.kernel.org, Kozlov Sergey <serjk@netup.ru>,
+        Abylay Ospan <aospan@netup.ru>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Changes since v1:
+If the call to spi_register_master() fails on probe of the NetUP
+Universal DVB driver, the spi_master struct is erroneously not freed.
 
-Updated v4l2-compat-ioctl32.c with v2: the original version failed to compile
-if CONFIG_COMPAT_32BIT_TIME was not set. Updated the daily build to have two
-64-bit architectures where this config option is unset to capture such issues
-in the future.
+Likewise, if spi_new_device() fails, the spi_controller struct is
+not unregistered.  Plug the leaks.
 
-Regards,
+While at it, fix an ordering issue in netup_spi_release() wherein
+spi_unregister_master() is called after fiddling with the IRQ control
+register.  The correct order is to call spi_unregister_master() *before*
+this teardown step because bus accesses may still be ongoing until that
+function returns.
 
-	Hans
+Fixes: 52b1eaf4c59a ("[media] netup_unidvb: NetUP Universal DVB-S/S2/T/T2/C PCI-E card driver")
+Signed-off-by: Lukas Wunner <lukas@wunner.de>
+Cc: <stable@vger.kernel.org> # v4.3+: 5e844cc37a5c: spi: Introduce device-managed SPI controller allocation
+Cc: <stable@vger.kernel.org> # v4.3+
+Cc: Kozlov Sergey <serjk@netup.ru>
+---
+@Mauro Carvalho Chehab:
+This patch needs to go in through the spi tree because it depends on
+commit 5e844cc37a5c, which is on the spi/for-5.10 branch.
+Please ack (barring any objections).  Thanks!
 
-The following changes since commit 0ab4f9087ea94ff92dc2ae68180faaf6bd443021:
+ drivers/media/pci/netup_unidvb/netup_unidvb_spi.c | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
-  media: platform: add missing put_device() call in mtk_jpeg_probe() and mtk_jpeg_remove() (2020-11-05 18:03:11 +0100)
+diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c b/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c
+index d4f12c250f91..526042d8afae 100644
+--- a/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c
++++ b/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c
+@@ -175,7 +175,7 @@ int netup_spi_init(struct netup_unidvb_dev *ndev)
+ 	struct spi_master *master;
+ 	struct netup_spi *nspi;
+ 
+-	master = spi_alloc_master(&ndev->pci_dev->dev,
++	master = devm_spi_alloc_master(&ndev->pci_dev->dev,
+ 		sizeof(struct netup_spi));
+ 	if (!master) {
+ 		dev_err(&ndev->pci_dev->dev,
+@@ -208,6 +208,7 @@ int netup_spi_init(struct netup_unidvb_dev *ndev)
+ 		ndev->pci_slot,
+ 		ndev->pci_func);
+ 	if (!spi_new_device(master, &netup_spi_board)) {
++		spi_unregister_master(master);
+ 		ndev->spi = NULL;
+ 		dev_err(&ndev->pci_dev->dev,
+ 			"%s(): unable to create SPI device\n", __func__);
+@@ -226,13 +227,13 @@ void netup_spi_release(struct netup_unidvb_dev *ndev)
+ 	if (!spi)
+ 		return;
+ 
++	spi_unregister_master(spi->master);
+ 	spin_lock_irqsave(&spi->lock, flags);
+ 	reg = readw(&spi->regs->control_stat);
+ 	writew(reg | NETUP_SPI_CTRL_IRQ, &spi->regs->control_stat);
+ 	reg = readw(&spi->regs->control_stat);
+ 	writew(reg & ~NETUP_SPI_CTRL_IMASK, &spi->regs->control_stat);
+ 	spin_unlock_irqrestore(&spi->lock, flags);
+-	spi_unregister_master(spi->master);
+ 	ndev->spi = NULL;
+ }
+ 
+-- 
+2.28.0
 
-are available in the Git repository at:
-
-  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.11g
-
-for you to fetch changes up to 05ef6d1b6e956edeccd73a7d8fc1b92dad26c25e:
-
-  v4l2-compat-ioctl32.c: add missing #ifdef CONFIG_COMPAT_32BIT_TIMEs (2020-11-16 09:24:22 +0100)
-
-----------------------------------------------------------------
-Tag branch
-
-----------------------------------------------------------------
-Dikshita Agarwal (1):
-      v4l2-ctrls: allow V4L2_CTRL_TYPE_BUTTON with request api
-
-Hans Verkuil (2):
-      saa7134: improve f->fmt.win.clips NULL check
-      v4l2-compat-ioctl32.c: add missing #ifdef CONFIG_COMPAT_32BIT_TIMEs
-
-Qinglang Miao (1):
-      media: solo6x10: fix missing snd_card_free in error handling case
-
-Sakari Ailus (1):
-      vim2m: Register video device after setting up internals
-
-Zebediah Figura (1):
-      media: cx231xx: Use snd_card_free_when_closed() instead of snd_card_free().
-
- drivers/media/pci/saa7134/saa7134-video.c     |  6 ++++--
- drivers/media/pci/solo6x10/solo6x10-g723.c    |  2 +-
- drivers/media/test-drivers/vim2m.c            | 20 +++++++++++---------
- drivers/media/usb/cx231xx/cx231xx-audio.c     |  2 +-
- drivers/media/v4l2-core/v4l2-compat-ioctl32.c | 23 ++++++++++++++++++-----
- drivers/media/v4l2-core/v4l2-ctrls.c          |  6 +-----
- 6 files changed, 36 insertions(+), 23 deletions(-)
