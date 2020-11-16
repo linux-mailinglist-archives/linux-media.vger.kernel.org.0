@@ -2,31 +2,31 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6B502B3CC4
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 07:04:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E37E82B3CC6
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 07:06:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726732AbgKPGD0 convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Mon, 16 Nov 2020 01:03:26 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:46402 "EHLO www.linuxtv.org"
+        id S1726741AbgKPGEg convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 16 Nov 2020 01:04:36 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:46502 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725379AbgKPGD0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 01:03:26 -0500
+        id S1725379AbgKPGEg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Nov 2020 01:04:36 -0500
 Received: from builder.linuxtv.org ([140.211.167.10])
         by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1keXbo-00EFQM-1d; Mon, 16 Nov 2020 06:03:24 +0000
+        id 1keXcu-00EFSJ-4r; Mon, 16 Nov 2020 06:04:32 +0000
 Received: from [127.0.0.1] (helo=builder.linuxtv.org)
         by builder.linuxtv.org with esmtp (Exim 4.92)
         (envelope-from <jenkins@linuxtv.org>)
-        id 1keXer-0005u6-Tr; Mon, 16 Nov 2020 06:06:34 +0000
-Date:   Mon, 16 Nov 2020 06:06:33 +0000 (UTC)
+        id 1keXfy-0005xa-1G; Mon, 16 Nov 2020 06:07:42 +0000
+Date:   Mon, 16 Nov 2020 06:07:42 +0000 (UTC)
 From:   Jenkins Builder Robot <jenkins@linuxtv.org>
 To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1090565953.50.1605506793919@builder.linuxtv.org>
-In-Reply-To: <1254944414.44.1605431949925@builder.linuxtv.org>
-References: <1254944414.44.1605431949925@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3290
+Message-ID: <622076905.51.1605506862033@builder.linuxtv.org>
+In-Reply-To: <1090565953.50.1605506793919@builder.linuxtv.org>
+References: <1090565953.50.1605506793919@builder.linuxtv.org>
+Subject: Build failed in Jenkins: media-build #3291
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8BIT
@@ -38,7 +38,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3290/display/redirect>
+See <https://builder.linuxtv.org/job/media-build/3291/display/redirect>
 
 Changes:
 
@@ -63,19 +63,8 @@ Checking out Revision 408180421c5e0dc4aa760e6f2348daabc757730d (refs/remotes/ori
 Commit message: "Update backports/v5.0_time32.patch"
  > git rev-list --no-walk 408180421c5e0dc4aa760e6f2348daabc757730d # timeout=10
 [Checks API] No suitable checks publisher found.
-[media-build] $ /bin/sh -xe /tmp/jenkins17073897289627150359.sh
-+ make distclean
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> distclean
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-rm -f *~ *.o *.ko .*.o.cmd .*.ko.cmd *.mod.c av7110_firm.h fdump \
-	config-compat.h Module.symvers Module.markers modules.order \
-	*.unsigned .*.ko.unsigned.cmd
-rm -f .version .*.o.flags .*.o.d *.mod.gcno Makefile.media \
-	Kconfig Kconfig.kern .config .config.cmd .myconfig \
-	.kconfig.dep config-mycompat.h
-rm -rf .tmp_versions .tmp*.ver .tmp*.o .*.gcno .cache.mk
-rm -f scripts/lxdialog scripts/kconfig
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
+[media-build] $ /bin/sh -xe /tmp/jenkins12171906954995391555.sh
++ rm v4l/.version
 + ./build
 Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
 Needed package dependencies are met.
@@ -106,20 +95,20 @@ From git://linuxtv.org/media_build
 Already up to date.
 make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
 wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2020-11-16 06:06:30--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+--2020-11-16 06:07:38--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
 Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
 Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
 HTTP request sent, awaiting response... 301 Moved Permanently
 Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2020-11-16 06:06:31--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
+--2020-11-16 06:07:39--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
 Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
 HTTP request sent, awaiting response... 200 OK
 Length: 105 [application/x-bzip2]
 Saving to: ‘linux-media.tar.bz2.md5.tmp’
 
-     0K                                                       100%  201M=0s
+     0K                                                       100%  203M=0s
 
-2020-11-16 06:06:31 (201 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+2020-11-16 06:07:39 (203 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
 
 make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
 make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
