@@ -2,89 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5F5B12B45DE
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 15:31:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23B912B4607
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 15:42:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729689AbgKPOaX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 09:30:23 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:49040 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729232AbgKPOaW (ORCPT
+        id S1729645AbgKPOko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 09:40:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46168 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728041AbgKPOko (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 09:30:22 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4F100A1B;
-        Mon, 16 Nov 2020 15:30:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1605537020;
-        bh=rR37HXyKQVppSVr7uNljcu2P32cneLHCYXtZv9IIvdw=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=lFsueI1xpEnF6ohptEVBw/81CQN+hJ2y+ISFi6FUcw8iSv7zYKYWcopxLVgXY6yio
-         g+RcbrF1L3jMyX4OgUPvjg3M2IvFm7fFZsP9H6hZIQ9mUrpfjXlq7iW72dZWHCvl9c
-         iZYNhwirrdWQRwZynRtNW/ojjffXKcTbnAf6ybak=
-Date:   Mon, 16 Nov 2020 16:30:15 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     linux-media@vger.kernel.org, helen.koike@collabora.com,
-        ezequiel@collabora.com, hverkuil@xs4all.nl, kernel@collabora.com,
-        dafna3@gmail.com, sakari.ailus@linux.intel.com,
-        linux-rockchip@lists.infradead.org, mchehab@kernel.org,
-        tfiga@chromium.org, dave.stevenson@raspberrypi.com
-Subject: Re: [PATCH] media: i2c: imx219: Declare that the driver can create
- events
-Message-ID: <20201116143015.GK6540@pendragon.ideasonboard.com>
-References: <20201116132244.30081-1-dafna.hirschfeld@collabora.com>
+        Mon, 16 Nov 2020 09:40:44 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B3F1C0613CF
+        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 06:40:44 -0800 (PST)
+Received: from pty.hi.pengutronix.de ([2001:67c:670:100:1d::c5])
+        by metis.ext.pengutronix.de with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1kefgI-0008RN-Ba; Mon, 16 Nov 2020 15:40:34 +0100
+Received: from mfe by pty.hi.pengutronix.de with local (Exim 4.89)
+        (envelope-from <mfe@pengutronix.de>)
+        id 1kefgH-0008OQ-DE; Mon, 16 Nov 2020 15:40:33 +0100
+Date:   Mon, 16 Nov 2020 15:40:33 +0100
+From:   Marco Felsch <m.felsch@pengutronix.de>
+To:     Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
+Cc:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl,
+        jacopo+renesas@jmondi.org, gustavoars@kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: tvp5150: Fix wrong return value of
+ tvp5150_parse_dt()
+Message-ID: <20201116144033.lix6hxvccdcmvnam@pengutronix.de>
+References: <20201116141801.3601713-1-zhangxiaoxu5@huawei.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201116132244.30081-1-dafna.hirschfeld@collabora.com>
+In-Reply-To: <20201116141801.3601713-1-zhangxiaoxu5@huawei.com>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 15:39:16 up 367 days,  5:57, 46 users,  load average: 0.00, 0.02,
+ 0.00
+User-Agent: NeoMutt/20170113 (1.7.2)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c5
+X-SA-Exim-Mail-From: mfe@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dave,
+Hi,
 
-Thank you for the patch.
+thanks for covering that.
 
-On Mon, Nov 16, 2020 at 02:22:44PM +0100, Dafna Hirschfeld wrote:
-> The flag V4L2_SUBDEV_FL_HAS_EVENTS is required if the subdev can
-> generate events. It can create events from the ctrl handler, therefore
-> this is required.
+On 20-11-16 09:18, Zhang Xiaoxu wrote:
+> If of_graph_get_endpoint_by_regs() return NULL, it will return 0 rather
+> than an errno, because we doesn't initialize the return value.
 > 
-> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
-> Signed-off-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+> Fixes: 0556f1d580d4 ("media: tvp5150: add input source selection of_graph support")
+> Reported-by: Hulk Robot <hulkci@huawei.com>
+> Signed-off-by: Zhang Xiaoxu <zhangxiaoxu5@huawei.com>
 
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-We should probably revisit this in the V4L2 core, as all subdevs that
-handle controls can generate events, it shouldn't need to be manually
-implemented in each of them.
-
-> ---
-> This patch fixes compliance issues found in imx219:
-> 
-> fail: v4l2-test-controls.cpp(830): failed to find event for control 'Exposure'
->     test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: FAIL
-> 
->  drivers/media/i2c/imx219.c | 3 ++-
->  1 file changed, 2 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index ef2b1a6a0f4a..ba1c5e59ddf4 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -1503,7 +1503,8 @@ static int imx219_probe(struct i2c_client *client)
->  
->  	/* Initialize subdev */
->  	imx219->sd.internal_ops = &imx219_internal_ops;
-> -	imx219->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-> +	imx219->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE |
-> +			    V4L2_SUBDEV_FL_HAS_EVENTS;
->  	imx219->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
->  
->  	/* Initialize source pad */
-
--- 
-Regards,
-
-Laurent Pinchart
+Reviewed-by: Marco Felsch <m.felsch@pengutronix.de>
