@@ -2,88 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EB522B3C20
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 05:32:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 04DF42B3C31
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 05:40:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726732AbgKPEbC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 15 Nov 2020 23:31:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36950 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726198AbgKPEbC (ORCPT
+        id S1726248AbgKPEk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 15 Nov 2020 23:40:26 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:36311 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726016AbgKPEkZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 15 Nov 2020 23:31:02 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B3A65C0613CF;
-        Sun, 15 Nov 2020 20:31:01 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id w24so22405383wmi.0;
-        Sun, 15 Nov 2020 20:31:01 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=1ykM2PQF8UjrQNrIxTj9JuB0X1XIeh6YbXFFU1ntkCM=;
-        b=Uwebiu4HIVuABcHK8lNqFk0NZxgyA8PCsBSykCBhRoz6Sd9lzj/QOTTFvWpIUZrVZx
-         QUceQi9d7XcR4i19LHPrx4fblUKtMmwshf1qn10aMaxtvcK6kBkHNCxfzocXZpUz9Dcy
-         IWJ+iywdzys16kK91aM4ZpnMMiE9AKVFpLI+4QB6Cax/MVTnBYn+vb5UWyu4DVS6Rh/L
-         cRpU1hmnB3pUSE8RzfHK1DxQhszbJt9nLsROaDrZnHwg0TSojiOebIOvgDrdhQjgU5/m
-         8J4pG92sRVO7NC82GjsIeoBmyaj6MdsxAOIfTn3bpIaE67W2iO8KHgA14OpXrcBx1iSt
-         gjng==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=1ykM2PQF8UjrQNrIxTj9JuB0X1XIeh6YbXFFU1ntkCM=;
-        b=X1Kd8aUxaK9Xkd7TPRA/czPrGDHspLmpprP2ZNjfuFKQ6xj+HFhIDEvv1OeFd0l2I1
-         8wFkDeqOaF4UT5PUVaud+zQthLqgROeAtE4gMLxysNE0LAbxeMLOXnhYHD92pRUW0NPx
-         Cnu/DdVznWd9OBwxe0MurFgNcx2njueZRZKzQzAIMoRjBh0FhcN5DHM2BOk53qk6DFM2
-         lVga4jvU369/m95sLr14ImI3yXSDsM+TI4jZMi9Bp1n3nm5ZgU4/P39DzqSPJ21juxdF
-         a1ayTapdqRr+X7ydR3YWGFYkCfiKQ9A1iNjj+fn5Av1iWjdb1Fw/GWKT7wa1TmaQs5ZE
-         +dCQ==
-X-Gm-Message-State: AOAM532uY/1IIU9qXVNUCVV+BfCDao9+lpNBUIWZ5y2Ni+cvrVlw6EDi
-        pvvanolCov2zd67CEJZIUK5Id4TLyNg=
-X-Google-Smtp-Source: ABdhPJx8GlPd1wNv46eUCTw1UhIOajMx1D+l6Y9uVJsmoqiC4qc5rEMeGJXgpeioam+KFMondDJWFQ==
-X-Received: by 2002:a1c:6704:: with SMTP id b4mr12684331wmc.96.1605501060484;
-        Sun, 15 Nov 2020 20:31:00 -0800 (PST)
-Received: from localhost.localdomain ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id f19sm17609525wml.21.2020.11.15.20.30.57
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 15 Nov 2020 20:30:59 -0800 (PST)
-From:   Christian Hewitt <christianshewitt@gmail.com>
-To:     Neil Armstrong <narmstrong@baylibre.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Kevin Hilman <khilman@baylibre.com>,
-        Jerome Brunet <jbrunet@baylibre.com>,
-        Martin Blumenstingl <martin.blumenstingl@googlemail.com>,
-        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Christian Hewitt <christianshewitt@gmail.com>
-Subject: [PATCH] media: meson: vdec: add G12/SM1 to module description
-Date:   Mon, 16 Nov 2020 04:30:55 +0000
-Message-Id: <20201116043055.23655-1-christianshewitt@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Sun, 15 Nov 2020 23:40:25 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id eWJSkbROB6LFveWJTkNo1g; Mon, 16 Nov 2020 05:40:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
+        t=1605501623; bh=ZgB9/G27UIjGVdUX+HaulsU2aZrcTRhqEkC+j3GDVGs=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=gLXltk1GrEN2uwZyxjqOpYPLHTLuHa1ZMIw7mfm87u9jJWBekht8kpdAyrqcqw2Bc
+         dC71MBPD5siqu0RAjwnJwrbthcUWuTvjPIoh7AhFy0iLXyzD9JtcOiZvYwZ5RHINzz
+         eG9krvSofWqc2Lj+DyhCNxoXlRsAZpE7pS8djwUWEvA2F0StPIC4quNMVwQIgVwXSB
+         0Q1kMoifjHFAEcxXpdf2zYEEUraCPsJ9PZqxhEs01TSv1/fC32qpc7SmC6sqmv5Nk0
+         h+kfoyU0uV8BpGOFuDZk7b4IpTs7KdGvN/5A3NI//d93ZeGHVBbs5HXinMNABeheZc
+         342ZSlWGM/NVA==
+Message-ID: <b549ece2c165f15e91595337fcae3521@smtp-cloud9.xs4all.net>
+Date:   Mon, 16 Nov 2020 05:40:22 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfL26DMdnjDZVQX/pKBS8CYA7EkGTpqR5xcKS5ss78r8lmd6fEZnMdVdx7PSV29rJ2tQjQGrxN+2JQfJ4Z3Iu2Y4LZ0eqp82DSzt6cQ21zMrGGHMhhVYw
+ lVY51FTItBS1xbC+0P9lTlspi316ujig9HU5TGiOnLcRa8yhXwlx1Z0qPrqpJ+5S5F+KPLMFPhHIb0bYpA+4fXlt/PhrqFhJM8P1PQieTysT3/a7TuEAUcAc
+ OheLn9YBQWbgRbpPJid3qg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The meson vdec driver also supports Amlogic G12/SM1 hardware.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
----
- drivers/staging/media/meson/vdec/vdec.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+Results of the daily build of media_tree:
 
-diff --git a/drivers/staging/media/meson/vdec/vdec.c b/drivers/staging/media/meson/vdec/vdec.c
-index 5ccb3846c879..5d4db7a5b4b5 100644
---- a/drivers/staging/media/meson/vdec/vdec.c
-+++ b/drivers/staging/media/meson/vdec/vdec.c
-@@ -1131,6 +1131,6 @@ static struct platform_driver meson_vdec_driver = {
- };
- module_platform_driver(meson_vdec_driver);
- 
--MODULE_DESCRIPTION("Meson video decoder driver for GXBB/GXL/GXM");
-+MODULE_DESCRIPTION("Meson video decoder driver for GXBB/GXL/GXM/G12/SM1");
- MODULE_AUTHOR("Maxime Jourdan <mjourdan@baylibre.com>");
- MODULE_LICENSE("GPL");
--- 
-2.17.1
+date:			Mon Nov 16 05:00:13 CET 2020
+media-tree git hash:	0ab4f9087ea94ff92dc2ae68180faaf6bd443021
+media_build git hash:	bca336c7d6379c723eb388bb9e606db6785a953b
+v4l-utils git hash:	11da65eee7a271bba3f21d8117cdac428fe3a91e
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-powerpc64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10-rc1-i686: OK
+linux-5.10-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: ERRORS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
