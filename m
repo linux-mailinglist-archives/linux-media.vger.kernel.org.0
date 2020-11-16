@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 835812B4CED
+	by mail.lfdr.de (Postfix) with ESMTP id F3A172B4CEE
 	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 18:32:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732944AbgKPRaS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 12:30:18 -0500
+        id S1732956AbgKPRaT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 12:30:19 -0500
 Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732939AbgKPRaR (ORCPT
+        with ESMTP id S1732908AbgKPRaS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 12:30:17 -0500
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325ABC0613D1
-        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 09:30:17 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id k2so19652453wrx.2
-        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 09:30:17 -0800 (PST)
+        Mon, 16 Nov 2020 12:30:18 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D87BC0613CF
+        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 09:30:18 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id l1so19595035wrb.9
+        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 09:30:18 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=Sc1pkIB+FW/k5gLv6YQPQhC4CZ1RwfaoeaGhthq0b4c=;
-        b=DMsL8W/H8v62ShBaaWAxP3uZBR/lVSr8Xmtid89duoKrUS8TIIJJc8hjjHAzNkoaqV
-         6xl4sDIbSdq2nH8VZgFLXQYq5i/nD9XKKjLnmTVADYJzDnpYjTn/uwNUC2O9O/fFnVUk
-         QrAGaz/FLDqVcczS7WhDfb0jI4hAhu6qCh3bidhiLGG/5hG35VAMD1+to2IBioYZrjpa
-         OSWCxy0hpsJgxfIm3fMU15E6eAHDBXyCbUNl+fFkoyVYwfEYmVw5ZSzYCursf42G0E2X
-         KphyNbe2w2DwCNofaQ36mvlqAuk1R8F546oYg/wa7OS3XjTuWwqS8LIgRk2zWXJ6uqMC
-         DaqQ==
+        bh=XYd0yK/RTvMALAHwJymskqLfNpbt6qhOE1pCsWZvd64=;
+        b=lDIlK2xaGwnzIz+QADs8o6Bo79L3RZPPz8VoCPoBcfthqdLDQPw8MO6yO/xZJQ+AvN
+         U5FYXK1M9NtFYOSvrc03rX/lLJ5sDK8K2tvTxpIGRbO0hU2a7vA9kPMLM2Wx5pa1umgs
+         SVQXaFlJd0LOiwLfm6Vd7w0r+4D6UUTOsWPfSwb66utl5bg/Dbb8t6gYcZlS4qt+QdZM
+         GlUPfcUz0K3rMn550b76K6Y/hFA/KmzeM+nivd+0YckiZXtpuCvU8l6E333ACnsr7yxq
+         Fsv/Ycmpzhi1MzqUT1drTicwjPwiKr9KzQKbIU0nzb4H6Zlxfs7g2AgD2lSQxi1An5vd
+         DZJQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=Sc1pkIB+FW/k5gLv6YQPQhC4CZ1RwfaoeaGhthq0b4c=;
-        b=j7dx8fkFexUXwZBP1cHE+0J8lD/UBJbj5H1brjXJUrZ7hZNSJF1WCmVo8SJxrSb1WP
-         RDIZ0eNiABUkLUsAW6IE3/7iQBVFPtzlAK3ZPLL482+EMWgw53/fOtmTV04egQzqDTbP
-         flpqp6xdqkxPhm5w2wRUYWKmRtadP3g/5rNUa64ylpJk9lrABn3+X9UgF8tEGLB1Q2rk
-         ytQV8JazSz/Tneeu+tOB9PcWdpUimRen9s3aBX+2ppB5ipds4PfjNN46D/lkhv70o573
-         5mAVHRrUctRokMoLEHK9c9goUkV+CflPxkzejKJE6pzc2HpWUIxAZRSRZKtXCUbcb6NH
-         fWhg==
-X-Gm-Message-State: AOAM531fj7RiPidhqtMYEKoxguim+bKWbZKFhxzXgVNuKs9yodckImuX
-        YQjBGVnMOjadhddQKMC47ZMEMg==
-X-Google-Smtp-Source: ABdhPJzEjh5/6VKYHCgw5AUCL3QFWv3CeW+3HVK4y5KST6szXd0HD0BZPe4mBpI01QnXZOFKiYRd7w==
-X-Received: by 2002:adf:f208:: with SMTP id p8mr19655214wro.280.1605547815889;
-        Mon, 16 Nov 2020 09:30:15 -0800 (PST)
+        bh=XYd0yK/RTvMALAHwJymskqLfNpbt6qhOE1pCsWZvd64=;
+        b=Oqqn3vmuKW6874ndSudRwgXRb/SpX2EXvjFDuPithUnEhr9tNJZFuF5ojMNzTYgEv4
+         Bf0I/Vcots+v0b1+qoaV/oSvydVPgiulug20AS6WkgHeof+3pjtaxxUYU6rj71A88dgT
+         QxiPvt+QNez89SN0AQsk2hHdOl0qVQ+CkvNYGvD06Que0527fkHdOFdxP5laIYBuI6R4
+         hpW9IB5W0ttMlzVafkeqnr6lNRaeqDXL1O5kE+IouSxHkieFi+xcRZLFbYp5dxmvm7+o
+         DaUTI5VMttXl/RRU+eQ22YSKAoO+bTFjAqUq6dgPbsNB7xAxST1BNDMG86lCrLAs6Rez
+         +ceg==
+X-Gm-Message-State: AOAM532eF+uE/SW1uZruTkIvwSi9mqm4kyzaKsgH/bWTXTbHBkbUK945
+        ZmXr3XxBaswDlZ1j+HPrkSoNNQ==
+X-Google-Smtp-Source: ABdhPJxNnwwfVIVFwC1HbJsPcDz90XOXl0PIvrYJDAq7LbMVy0MJs++OUn9XFrPB1hSrWNurrLbtjA==
+X-Received: by 2002:a05:6000:1cf:: with SMTP id t15mr20965202wrx.92.1605547817138;
+        Mon, 16 Nov 2020 09:30:17 -0800 (PST)
 Received: from dell.default ([91.110.221.159])
-        by smtp.gmail.com with ESMTPSA id f23sm20054854wmb.43.2020.11.16.09.30.14
+        by smtp.gmail.com with ESMTPSA id f23sm20054854wmb.43.2020.11.16.09.30.16
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2020 09:30:15 -0800 (PST)
+        Mon, 16 Nov 2020 09:30:16 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -58,9 +58,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
         amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 05/43] drm/radeon: Move radeon_ttm{init,fini} to shared location
-Date:   Mon, 16 Nov 2020 17:29:27 +0000
-Message-Id: <20201116173005.1825880-6-lee.jones@linaro.org>
+Subject: [PATCH 06/43] drm/radeon/radeon_legacy_encoders: Move 'radeon_add_legacy_encoder' prototype to shared header
+Date:   Mon, 16 Nov 2020 17:29:28 +0000
+Message-Id: <20201116173005.1825880-7-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201116173005.1825880-1-lee.jones@linaro.org>
 References: <20201116173005.1825880-1-lee.jones@linaro.org>
@@ -73,13 +73,9 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/radeon/radeon_ttm.c: At top level:
- drivers/gpu/drm/radeon/radeon_ttm.c:817:5: warning: no previous prototype for ‘radeon_ttm_init’ [-Wmissing-prototypes]
- 817 | int radeon_ttm_init(struct radeon_device *rdev)
- | ^~~~~~~~~~~~~~~
- drivers/gpu/drm/radeon/radeon_ttm.c:878:6: warning: no previous prototype for ‘radeon_ttm_fini’ [-Wmissing-prototypes]
- 878 | void radeon_ttm_fini(struct radeon_device *rdev)
- | ^~~~~~~~~~~~~~~
+  drivers/gpu/drm/radeon/radeon_legacy_encoders.c:1745:1: warning: no previous prototype for ‘radeon_add_legacy_encoder’ [-Wmissing-prototypes]
+ 1745 | radeon_add_legacy_encoder(struct drm_device *dev, uint32_t encoder_enum, uint32_t supported_device)
+ | ^~~~~~~~~~~~~~~~~~~~~~~~~
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
@@ -92,46 +88,48 @@ Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/radeon/radeon_object.c |  3 +--
- drivers/gpu/drm/radeon/radeon_ttm.c    |  1 +
- drivers/gpu/drm/radeon/radeon_ttm.h    | 36 ++++++++++++++++++++++++++
- 3 files changed, 38 insertions(+), 2 deletions(-)
- create mode 100644 drivers/gpu/drm/radeon/radeon_ttm.h
+ drivers/gpu/drm/radeon/radeon_encoders.c      |  4 +--
+ .../gpu/drm/radeon/radeon_legacy_encoders.c   |  1 +
+ .../gpu/drm/radeon/radeon_legacy_encoders.h   | 34 +++++++++++++++++++
+ 3 files changed, 36 insertions(+), 3 deletions(-)
+ create mode 100644 drivers/gpu/drm/radeon/radeon_legacy_encoders.h
 
-diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
-index ab81e35cb0606..8bc5ad1d65857 100644
---- a/drivers/gpu/drm/radeon/radeon_object.c
-+++ b/drivers/gpu/drm/radeon/radeon_object.c
-@@ -40,9 +40,8 @@
+diff --git a/drivers/gpu/drm/radeon/radeon_encoders.c b/drivers/gpu/drm/radeon/radeon_encoders.c
+index ced022fae19d7..b60a373d3ead3 100644
+--- a/drivers/gpu/drm/radeon/radeon_encoders.c
++++ b/drivers/gpu/drm/radeon/radeon_encoders.c
+@@ -31,11 +31,9 @@
+ #include <drm/radeon_drm.h>
  
  #include "radeon.h"
- #include "radeon_trace.h"
-+#include "radeon_ttm.h"
++#include "radeon_legacy_encoders.h"
+ #include "atom.h"
  
--int radeon_ttm_init(struct radeon_device *rdev);
--void radeon_ttm_fini(struct radeon_device *rdev);
- static void radeon_bo_clear_surface_reg(struct radeon_bo *bo);
+-extern void
+-radeon_legacy_backlight_init(struct radeon_encoder *radeon_encoder,
+-			     struct drm_connector *drm_connector);
+ extern void
+ radeon_atom_backlight_init(struct radeon_encoder *radeon_encoder,
+ 			   struct drm_connector *drm_connector);
+diff --git a/drivers/gpu/drm/radeon/radeon_legacy_encoders.c b/drivers/gpu/drm/radeon/radeon_legacy_encoders.c
+index 44d060f75318e..e64fd0ce67070 100644
+--- a/drivers/gpu/drm/radeon/radeon_legacy_encoders.c
++++ b/drivers/gpu/drm/radeon/radeon_legacy_encoders.c
+@@ -35,6 +35,7 @@
  
- /*
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
-index 2939e71ceb700..28b300ed200ea 100644
---- a/drivers/gpu/drm/radeon/radeon_ttm.c
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.c
-@@ -51,6 +51,7 @@
- 
- #include "radeon_reg.h"
  #include "radeon.h"
-+#include "radeon_ttm.h"
- 
- static int radeon_ttm_debugfs_init(struct radeon_device *rdev);
- static void radeon_ttm_debugfs_fini(struct radeon_device *rdev);
-diff --git a/drivers/gpu/drm/radeon/radeon_ttm.h b/drivers/gpu/drm/radeon/radeon_ttm.h
+ #include "radeon_asic.h"
++#include "radeon_legacy_encoders.h"
+ #include "atom.h"
+ #ifdef CONFIG_PMAC_BACKLIGHT
+ #include <asm/backlight.h>
+diff --git a/drivers/gpu/drm/radeon/radeon_legacy_encoders.h b/drivers/gpu/drm/radeon/radeon_legacy_encoders.h
 new file mode 100644
-index 0000000000000..91ea7141bc812
+index 0000000000000..a80b387559d4d
 --- /dev/null
-+++ b/drivers/gpu/drm/radeon/radeon_ttm.h
-@@ -0,0 +1,36 @@
-+/* radeon_ttm.h -- Private header for radeon driver -*- linux-c -*-
++++ b/drivers/gpu/drm/radeon/radeon_legacy_encoders.h
+@@ -0,0 +1,34 @@
++/* radeon_legacy_encoders.h -- Private header for radeon driver -*- linux-c -*-
 + *
 + * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
 + * Copyright 2000 VA Linux Systems, Inc., Fremont, California.
@@ -158,15 +156,13 @@ index 0000000000000..91ea7141bc812
 + *
 + */
 +
-+#ifndef __RADEON_TTM_H__
-+#define __RADEON_TTM_H__
++#ifndef __RADEON_LEGACY_ENCODERS_H__
++#define __RADEON_LEGACY_ENCODERS_H__
 +
-+struct radeon_device;
++void radeon_legacy_backlight_init(struct radeon_encoder *radeon_encoder,
++				  struct drm_connector *drm_connector);
 +
-+int radeon_ttm_init(struct radeon_device *rdev);
-+void radeon_ttm_fini(struct radeon_device *rdev);
-+
-+#endif				/* __RADEON_TTM_H__ */
++#endif				/* __RADEON_LEGACY_ENCODERS_H__ */
 -- 
 2.25.1
 
