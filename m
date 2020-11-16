@@ -2,95 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CDD772B4BB0
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 17:52:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 667042B4BC2
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 17:56:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731935AbgKPQw3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 11:52:29 -0500
-Received: from mga04.intel.com ([192.55.52.120]:2870 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731129AbgKPQw3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 11:52:29 -0500
-IronPort-SDR: fSujQ1DLdtsIIHN2aWtW373YD3WWodIpzvzJZt+jH9nMWBPNQcedbXrJkMGA5OeOY0SR+X/+up
- xbifG+jJV1Ow==
-X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="168199846"
-X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; 
-   d="scan'208";a="168199846"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga004.fm.intel.com ([10.253.24.48])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2020 08:52:29 -0800
-IronPort-SDR: 3QbMsrJSdm6LxnDeGpsUE8vA7ScIPzNvZzXdmLCzycOkpZThWZpoZ61CRHoprOCywHwR6mnoIF
- a4MkL2iCwQsg==
-X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; 
-   d="scan'208";a="358526126"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2020 08:52:17 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kehkl-0077I8-7B; Mon, 16 Nov 2020 18:53:19 +0200
-Date:   Mon, 16 Nov 2020 18:53:19 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Yong Zhi <yong.zhi@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Bingbu Cao <bingbu.cao@intel.com>
-Subject: Re: [PATCH v2] media: ipu3-cio2: Use macros from mm.h
-Message-ID: <20201116165319.GF4077@smile.fi.intel.com>
-References: <20201028155520.14458-1-andriy.shevchenko@linux.intel.com>
+        id S1731128AbgKPQyS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 11:54:18 -0500
+Received: from relay8-d.mail.gandi.net ([217.70.183.201]:49279 "EHLO
+        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730379AbgKPQyS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Nov 2020 11:54:18 -0500
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 48F781BF203;
+        Mon, 16 Nov 2020 16:54:14 +0000 (UTC)
+Date:   Mon, 16 Nov 2020 17:54:18 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/4] rcar-vin: Route events to correct video device
+Message-ID: <20201116165418.tdv52il2hup3pk5y@uno.localdomain>
+References: <20201112225147.1672622-1-niklas.soderlund+renesas@ragnatech.se>
+ <20201112225147.1672622-3-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <20201028155520.14458-1-andriy.shevchenko@linux.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201112225147.1672622-3-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Oct 28, 2020 at 05:55:20PM +0200, Andy Shevchenko wrote:
-> There are few nice macros in mm.h, some of which we may use here.
-> 
-> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-> Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+Hi Niklas,
 
-If there is no further comments, can it be applied?
+On Thu, Nov 12, 2020 at 11:51:45PM +0100, Niklas Söderlund wrote:
+> The event route for VIN running with a media controller (Gen3) is
+> incorrect as all events are only routed to the video device that are
+> used to register the async notifier.
+>
+> Remedy this be examining which subdevice generated the event and route
+> it to all VIN(s) that are connected to that subdevice.
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+This was easy to miss indeed!
+
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+  j
 
 > ---
-> v2: rewrote to make it short and neat (Bingbu), added Rb tag (Bingbu)
->  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 6 +++---
->  1 file changed, 3 insertions(+), 3 deletions(-)
-> 
-> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> index d4b575813300..3d0c867e9762 100644
-> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
-> @@ -15,6 +15,7 @@
->  #include <linux/delay.h>
->  #include <linux/interrupt.h>
->  #include <linux/iopoll.h>
-> +#include <linux/mm.h>
->  #include <linux/module.h>
->  #include <linux/pci.h>
->  #include <linux/pfn.h>
-> @@ -190,9 +191,8 @@ static void cio2_fbpt_entry_init_buf(struct cio2_device *cio2,
->  	 * 4095 (PAGE_SIZE - 1) means every single byte in the last page
->  	 * is available for DMA transfer.
->  	 */
-> -	entry[1].second_entry.last_page_available_bytes =
-> -			(remaining & ~PAGE_MASK) ?
-> -				(remaining & ~PAGE_MASK) - 1 : PAGE_SIZE - 1;
-> +	remaining = offset_in_page(remaining) ?: PAGE_SIZE;
-> +	entry[1].second_entry.last_page_available_bytes = remaining - 1;
->  	/* Fill FBPT */
->  	remaining = length;
->  	i = 0;
-> -- 
-> 2.28.0
-> 
-
--- 
-With Best Regards,
-Andy Shevchenko
-
-
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 44 ++++++++++++++++++---
+>  1 file changed, 38 insertions(+), 6 deletions(-)
+>
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index 3e7a3ae2a6b97045..dca3ab1656a66cef 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -966,18 +966,50 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
+>  	video_unregister_device(&vin->vdev);
+>  }
+>
+> +static void rvin_notify_video_device(struct rvin_dev *vin,
+> +				     unsigned int notification, void *arg)
+> +{
+> +	switch (notification) {
+> +	case V4L2_DEVICE_NOTIFY_EVENT:
+> +		v4l2_event_queue(&vin->vdev, arg);
+> +		break;
+> +	default:
+> +		break;
+> +	}
+> +}
+> +
+>  static void rvin_notify(struct v4l2_subdev *sd,
+>  			unsigned int notification, void *arg)
+>  {
+> +	struct v4l2_subdev *remote;
+> +	struct rvin_group *group;
+> +	struct media_pad *pad;
+>  	struct rvin_dev *vin =
+>  		container_of(sd->v4l2_dev, struct rvin_dev, v4l2_dev);
+> +	unsigned int i;
+>
+> -	switch (notification) {
+> -	case V4L2_DEVICE_NOTIFY_EVENT:
+> -		v4l2_event_queue(&vin->vdev, arg);
+> -		break;
+> -	default:
+> -		break;
+> +	/* If no media controller, no need to route the event. */
+> +	if (!vin->info->use_mc) {
+> +		rvin_notify_video_device(vin, notification, arg);
+> +		return;
+> +	}
+> +
+> +	group = vin->group;
+> +
+> +	for (i = 0; i < RCAR_VIN_NUM; i++) {
+> +		vin = group->vin[i];
+> +		if (!vin)
+> +			continue;
+> +
+> +		pad = media_entity_remote_pad(&vin->pad);
+> +		if (!pad)
+> +			continue;
+> +
+> +		remote = media_entity_to_v4l2_subdev(pad->entity);
+> +		if (remote != sd)
+> +			continue;
+> +
+> +		rvin_notify_video_device(vin, notification, arg);
+>  	}
+>  }
+>
+> --
+> 2.29.2
+>
