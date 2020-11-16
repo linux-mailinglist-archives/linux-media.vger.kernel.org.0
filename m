@@ -2,55 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 558682B5123
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 20:30:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DCBDF2B5130
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 20:32:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726365AbgKPTaE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 14:30:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35324 "EHLO
+        id S1726998AbgKPTbQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 14:31:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35508 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726255AbgKPTaE (ORCPT
+        with ESMTP id S1726255AbgKPTbQ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 14:30:04 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6376C0613CF;
-        Mon, 16 Nov 2020 11:30:03 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id d142so385622wmd.4;
-        Mon, 16 Nov 2020 11:30:03 -0800 (PST)
+        Mon, 16 Nov 2020 14:31:16 -0500
+Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 27C47C0613CF;
+        Mon, 16 Nov 2020 11:31:16 -0800 (PST)
+Received: by mail-wr1-x442.google.com with SMTP id c17so20013412wrc.11;
+        Mon, 16 Nov 2020 11:31:16 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=baVdptJRCbDZjJ8DuZudh573ITj/FBuGjcAGOwxiymE=;
-        b=IuvYiIBdBzwE/ULUmhF38FiOnb7R4NGmVftrkFCqCOQR0O/KEd6bZXGyeJ1nJDgPr4
-         Y7kS8W0aDBBmijlFQQNnlEjiMXBqv5aZiDy0JiEijD6S2xWceJP976I+//bU8u8IKVw9
-         xNRKr3Sp8iVmL9vJVw7jcKdC6WVAiDGVC0jLk/JGmUwPv/QkwHe/lAvONDSq6rCbgrMn
-         YKrlBGaXfm5Vbs3u/829/sqTDC62+ekXnUJ+UxNZzXSivvtXFY/lQbLa23IfbT+nAfiM
-         PrqJtql+f4kzXPcxxW57BQIi03p6hGmE12/lcAfNPxvcTrQRhGzD2xX5QosSsXuRiiu5
-         47Hw==
+        bh=Gy+aFlZ+UlqhCXFPvBz8U6FZZuIx3dpLmw8zSmXA8bs=;
+        b=tktXMXSoQe00hopXFLEAQLRQeP9k+E/HKScf31HK6V6K/kUIQdXwkXtEbrAtZfqrOY
+         sCl6o3Y9g609bJ/iEVV9jV298vQSKRLohPxf8C7vhfvbqiPxp+aAIk2ZcnvFzCYpAvHs
+         iDO5D7Y1+vGVfu3W3BZatYGxDccjxYFlehNmo/VmlVmfK4JhyhyU8xWGNTB5cLzYyZYL
+         Jp8CaE4G2BF2vB1Fl8yzfItBiXXzgFv7zzav1bqo4q0tSoacJ1ODIaBRWXiPoEpqv+fg
+         Zo4OAPe46RgY3MRPfhVLnAFve4xxo7EjDOH4y3SsHMrhvITUAANpZ5y+8TYiuoqcrE4U
+         o4JA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=baVdptJRCbDZjJ8DuZudh573ITj/FBuGjcAGOwxiymE=;
-        b=KfRHtiockJZx6gCP2Tep2nFgLqoKTaDK99ClyrY9GupyI+MMi0os+kXrpSvokrhHDr
-         MSBiGwb4MrLVAlwMPXwD+S4Vqe8dOdk3MMhXb7YHqWaSDDjsAuu2cjCOTFJ6N4nT/kQ2
-         368qe5SMHPQgDUQdd9V+JzTFlz/mvR2c+UPjmRvndu9pPnTUWdRpWjVZ2W0zqyZ7NbUD
-         Alx/WSofufl2HJ52K3k1rSo330+ZFXUR3RxhSf0JnzlJ7mavZ0vEujPvjp3F+DHTV9Rn
-         oT6v4oea0ixw4kXmt25daY+4d0Lt4GvuzStcGZ631koIxtdo5jTdZHuL1XLqX120fVUr
-         zKdA==
-X-Gm-Message-State: AOAM531AVxufOE0/z8A3aDf9pAz5GzEuQj07LwfVFBGKoTlyVnnUUw8A
-        jOJ9SmbKBoViKoR5Udv7wdkvvMduZvfMNnTDlNA=
-X-Google-Smtp-Source: ABdhPJyqLuVQBeAcZ0X7bNgq/BftyKAlmOzveP2UgPrWbROSjaHIRnbl5ejKqxG3FbJwSCmGSrlpiJAJ47st7HsMhrY=
-X-Received: by 2002:a7b:c157:: with SMTP id z23mr468742wmi.70.1605555002601;
- Mon, 16 Nov 2020 11:30:02 -0800 (PST)
+        bh=Gy+aFlZ+UlqhCXFPvBz8U6FZZuIx3dpLmw8zSmXA8bs=;
+        b=nWz9hkOhwa32kx83LENkFv+DtYxl0xsuOGxa7kJOxI9B8xMIseXsJ0xPMYfFeipBZp
+         tBBi7acLVqiHyZbAMTgBXLZjkmKmwWS8PF8IlLgMlbRPgfvtFBNzE2NH4qipU+3VB1nG
+         TDZIBYPhKfKmclUo+u/YQwCM7y/44dAYb7W5KmGWArJEhDCv1yHevCotNMfNbR3lA5/r
+         SLhsHRu5ytS42BuH+0uC2Qve4b7ZBa4q0uGF6nNbXaaX7aoz9cpkVAkkI+TDeqKsPxNT
+         K1J1r/1WsihN8YD3CMo8lip0cvP9uWQwBx/H4GSThsvSqHt2bFTRJvMr+c62sG8YZap/
+         18Lw==
+X-Gm-Message-State: AOAM533yaBCj+fpTE5IWkbtF5JweFV5N8VbnsyEAxTiAYMwEVrsgqlm4
+        E+Xqmyvs4+QBk7icb4rrz00ML6L0iEGt9byUy5A=
+X-Google-Smtp-Source: ABdhPJwP4kLb4gC4O9SvAVF/pYgU8WFFbMp3YumXDAJEWsu61ncuO3AZp3wNmBHUvb08R/hhAkRtZHxAg4t/T5B1He0=
+X-Received: by 2002:adf:e9c9:: with SMTP id l9mr22164333wrn.124.1605555074945;
+ Mon, 16 Nov 2020 11:31:14 -0800 (PST)
 MIME-Version: 1.0
-References: <20201116173005.1825880-1-lee.jones@linaro.org> <20201116173005.1825880-3-lee.jones@linaro.org>
-In-Reply-To: <20201116173005.1825880-3-lee.jones@linaro.org>
+References: <20201116173005.1825880-1-lee.jones@linaro.org> <20201116173005.1825880-4-lee.jones@linaro.org>
+In-Reply-To: <20201116173005.1825880-4-lee.jones@linaro.org>
 From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Mon, 16 Nov 2020 14:29:51 -0500
-Message-ID: <CADnq5_MjjgY0mUKh81Qr6rsX8e52C_snz2-LXwpV-WGxuVnbFQ@mail.gmail.com>
-Subject: Re: [PATCH 02/43] drm/radeon/radeon: Move prototype into shared header
+Date:   Mon, 16 Nov 2020 14:31:03 -0500
+Message-ID: <CADnq5_PDG_b4dtcPP-8_YM8wC9FQ6=owJFWn7DeRJmcETaLfFg@mail.gmail.com>
+Subject: Re: [PATCH 03/43] drm/radeon/radeon_kms: Move 'radeon_*_kms'
+ prototypes to shared header
 To:     Lee Jones <lee.jones@linaro.org>
 Cc:     David Airlie <airlied@linux.ie>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -70,14 +71,21 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 On Mon, Nov 16, 2020 at 12:30 PM Lee Jones <lee.jones@linaro.org> wrote:
 >
-> Unfortunately, a suitable one didn't already exist.
->
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/radeon/radeon_device.c:637:6: warning: no previous proto=
-type for =E2=80=98radeon_device_is_virtual=E2=80=99 [-Wmissing-prototypes]
->  637 | bool radeon_device_is_virtual(void)
+>  drivers/gpu/drm/radeon/radeon_kms.c:756:5: warning: no previous prototyp=
+e for =E2=80=98radeon_get_vblank_counter_kms=E2=80=99 [-Wmissing-prototypes=
+]
+>  756 | u32 radeon_get_vblank_counter_kms(struct drm_crtc *crtc)
+>  | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+>  drivers/gpu/drm/radeon/radeon_kms.c:826:5: warning: no previous prototyp=
+e for =E2=80=98radeon_enable_vblank_kms=E2=80=99 [-Wmissing-prototypes]
+>  826 | int radeon_enable_vblank_kms(struct drm_crtc *crtc)
 >  | ^~~~~~~~~~~~~~~~~~~~~~~~
+>  drivers/gpu/drm/radeon/radeon_kms.c:853:6: warning: no previous prototyp=
+e for =E2=80=98radeon_disable_vblank_kms=E2=80=99 [-Wmissing-prototypes]
+>  853 | void radeon_disable_vblank_kms(struct drm_crtc *crtc)
+>  | ^~~~~~~~~~~~~~~~~~~~~~~~~
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
@@ -95,33 +103,46 @@ Applied.  Thanks!
 Alex
 
 > ---
->  drivers/gpu/drm/radeon/radeon_device.c |  1 +
->  drivers/gpu/drm/radeon/radeon_device.h | 32 ++++++++++++++++++++++++++
->  drivers/gpu/drm/radeon/radeon_drv.c    |  3 +--
->  3 files changed, 34 insertions(+), 2 deletions(-)
->  create mode 100644 drivers/gpu/drm/radeon/radeon_device.h
+>  drivers/gpu/drm/radeon/radeon_display.c |  1 +
+>  drivers/gpu/drm/radeon/radeon_kms.c     |  1 +
+>  drivers/gpu/drm/radeon/radeon_kms.h     | 35 +++++++++++++++++++++++++
+>  3 files changed, 37 insertions(+)
+>  create mode 100644 drivers/gpu/drm/radeon/radeon_kms.h
 >
-> diff --git a/drivers/gpu/drm/radeon/radeon_device.c b/drivers/gpu/drm/rad=
-eon/radeon_device.c
-> index 7f384ffe848a7..ad572f965190b 100644
-> --- a/drivers/gpu/drm/radeon/radeon_device.c
-> +++ b/drivers/gpu/drm/radeon/radeon_device.c
-> @@ -42,6 +42,7 @@
->  #include <drm/drm_probe_helper.h>
->  #include <drm/radeon_drm.h>
+> diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/ra=
+deon/radeon_display.c
+> index eb0d4cb95f0a6..3a6fedad002d7 100644
+> --- a/drivers/gpu/drm/radeon/radeon_display.c
+> +++ b/drivers/gpu/drm/radeon/radeon_display.c
+> @@ -44,6 +44,7 @@
 >
-> +#include "radeon_device.h"
->  #include "radeon_reg.h"
->  #include "radeon.h"
 >  #include "atom.h"
-> diff --git a/drivers/gpu/drm/radeon/radeon_device.h b/drivers/gpu/drm/rad=
-eon/radeon_device.h
+>  #include "radeon.h"
+> +#include "radeon_kms.h"
+>
+>  static void avivo_crtc_load_lut(struct drm_crtc *crtc)
+>  {
+> diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon=
+/radeon_kms.c
+> index 3d31c04e4b3db..001940bca90a6 100644
+> --- a/drivers/gpu/drm/radeon/radeon_kms.c
+> +++ b/drivers/gpu/drm/radeon/radeon_kms.c
+> @@ -41,6 +41,7 @@
+>  #include "radeon.h"
+>  #include "radeon_asic.h"
+>  #include "radeon_drv.h"
+> +#include "radeon_kms.h"
+>
+>  #if defined(CONFIG_VGA_SWITCHEROO)
+>  bool radeon_has_atpx(void);
+> diff --git a/drivers/gpu/drm/radeon/radeon_kms.h b/drivers/gpu/drm/radeon=
+/radeon_kms.h
 > new file mode 100644
-> index 0000000000000..3112b99ae36f1
+> index 0000000000000..36e73cea92154
 > --- /dev/null
-> +++ b/drivers/gpu/drm/radeon/radeon_device.h
-> @@ -0,0 +1,32 @@
-> +/* radeon_device.h -- Private header for radeon device -*- linux-c -*-
+> +++ b/drivers/gpu/drm/radeon/radeon_kms.h
+> @@ -0,0 +1,35 @@
+> +/* radeon_kms.h -- Private header for radeon driver -*- linux-c -*-
 > + *
 > + * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
 > + * Copyright 2000 VA Linux Systems, Inc., Fremont, California.
@@ -156,36 +177,17 @@ ES OR
 > + * ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR=
  OTHER
 > + * DEALINGS IN THE SOFTWARE.
+> + *
 > + */
 > +
-> +#ifndef __RADEON_DEVICE_H__
-> +#define __RADEON_DEVICE_H__
+> +#ifndef __RADEON_KMS_H__
+> +#define __RADEON_KMS_H__
 > +
-> +bool radeon_device_is_virtual(void);
+> +u32 radeon_get_vblank_counter_kms(struct drm_crtc *crtc);
+> +int radeon_enable_vblank_kms(struct drm_crtc *crtc);
+> +void radeon_disable_vblank_kms(struct drm_crtc *crtc);
 > +
-> +#endif                         /* __RADEON_DEVICE_H__ */
-> diff --git a/drivers/gpu/drm/radeon/radeon_drv.c b/drivers/gpu/drm/radeon=
-/radeon_drv.c
-> index f813eb5e140dd..536b246b9a6aa 100644
-> --- a/drivers/gpu/drm/radeon/radeon_drv.c
-> +++ b/drivers/gpu/drm/radeon/radeon_drv.c
-> @@ -52,6 +52,7 @@
->
->  #include "radeon_drv.h"
->  #include "radeon.h"
-> +#include "radeon_device.h"
->
->  /*
->   * KMS wrapper.
-> @@ -293,8 +294,6 @@ MODULE_DEVICE_TABLE(pci, pciidlist);
->
->  static const struct drm_driver kms_driver;
->
-> -bool radeon_device_is_virtual(void);
-> -
->  static int radeon_pci_probe(struct pci_dev *pdev,
->                             const struct pci_device_id *ent)
->  {
+> +#endif                         /* __RADEON_KMS_H__ */
 > --
 > 2.25.1
 >
