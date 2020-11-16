@@ -2,302 +2,341 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF50D2B49E8
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 16:52:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27D672B49E9
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 16:52:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730558AbgKPPug (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 10:50:36 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57314 "EHLO
+        id S1730772AbgKPPvC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 10:51:02 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57378 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730328AbgKPPug (ORCPT
+        with ESMTP id S1730222AbgKPPvC (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 10:50:36 -0500
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29622C0613CF
-        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 07:50:36 -0800 (PST)
-Received: by mail-ej1-x644.google.com with SMTP id 7so25088633ejm.0
-        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 07:50:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NIl6OKgajPZ2VwIMALbBfQrvT3Qo8x6Qcgh1OwsRyEA=;
-        b=MEmRn7BT65f2gwRnTuEEmIYWJHHSAQFAyQjzUMOU6HDdkW99F895QaFdJ/YXzvApKp
-         E0Z0WxC9b6yHpBeuMRJJ5bTMSX5rbvsz6S8z1XkqbyjtvXD5P1svFBp3y+kx5gNmzmeO
-         0VVahk54AGIJArDpgUfOBcaQegBxH7MH+yf6/bSulI3AnoODfgLpQetAN32ijtRK9n7Z
-         PakXCHFhbA8XVq2tOhx5iD1e3WGnE9FDupYWHwCYjq/6Vuo6dfr+j9XSyZ1tVMV6xSTa
-         ZhnShJvF7IMIYpCH2IDdscwT7ArE1K6ExPaeASqymImRMqY2BdHQ2a6OmimWrrBR+QPX
-         Othg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=NIl6OKgajPZ2VwIMALbBfQrvT3Qo8x6Qcgh1OwsRyEA=;
-        b=UKfoKDLg+dJYy3nvvDJhvQZyCUhymSfDFxaDDj2oS0D9lbS4Z8yxnk3VSE7e/q48tB
-         6mgLLoe1dBGAQomGDR3LNLQ4vpUHnrCYuLKPylhErPoAelW2u1rHGxTsJjh80rsgVJyU
-         lr8W729KZI7SDi2ojmUV4eY9Nx2zYB9W9nWgDHHc7qcTe4uNRPdk2Vdh8hBnI9Qv8K56
-         bRIHahNERU25ZxghJxnhaCb6l9INX3XUNEuz5G/tiIpnBPPYkLQxirp2byaz1RBa/OhP
-         2CMsfkFB/YYToLQibRjW8GFopC4FZiLogu7oA8HYcYSeQQi9z02lLPSO63U054dL4Hbd
-         PfBQ==
-X-Gm-Message-State: AOAM531R2sOf1e42cQI/ozq1t/VqJscSLObwK7drWePwiw3I6PC8ObyR
-        2LIUbDK3BxFzwEzxjJaF699LUg==
-X-Google-Smtp-Source: ABdhPJwptfhtcrTJUWOgY83HSLRkpk+228izqlJgWhBzDA/A8UWmpl2MBiIDtLq9JShR8VW96zzpZg==
-X-Received: by 2002:a17:906:c41:: with SMTP id t1mr15060747ejf.19.1605541834834;
-        Mon, 16 Nov 2020 07:50:34 -0800 (PST)
-Received: from localhost.localdomain ([2a02:2450:102f:d6a:fa2:d302:39cc:d633])
-        by smtp.gmail.com with ESMTPSA id m2sm10466689edp.48.2020.11.16.07.50.33
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2020 07:50:34 -0800 (PST)
-From:   Robert Foss <robert.foss@linaro.org>
-To:     dongchun.zhu@mediatek.com, mchehab@kernel.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Ben Kao <ben.kao@intel.com>
-Cc:     Robert Foss <robert.foss@linaro.org>
-Subject: [PATCH] media: ov8856: Remove 3280x2464 mode
-Date:   Mon, 16 Nov 2020 16:50:08 +0100
-Message-Id: <20201116155008.118124-1-robert.foss@linaro.org>
-X-Mailer: git-send-email 2.27.0
+        Mon, 16 Nov 2020 10:51:02 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B9024C0613CF;
+        Mon, 16 Nov 2020 07:51:01 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1ED25A1B;
+        Mon, 16 Nov 2020 16:50:58 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1605541858;
+        bh=7tsj0sKiWn3QdVW1nmRELnC3/6gQXp1SS8PY6hXla2g=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=Y1iQM1ppxpzIE5We+PTQZeNL3jRRbn0iFTKaKoWAJfLhZUiRtVCeeiTCvDiM+Y7C5
+         MebOX74o/Bk/bCVNLXlyk7wItACR246mpHg0GG9oCAHWDIcOF2idGzLM9z1zX8xMq8
+         tNaZ2drJC1QNjatHxoRo0zm+GuYNm7RFfxjId0So=
+Date:   Mon, 16 Nov 2020 17:50:53 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Thomas =?utf-8?B?SMOkbW1lcmxl?= <thomas.haemmerle@wolfvision.net>,
+        gregkh@linuxfoundation.org, balbi@kernel.org,
+        linux-usb@vger.kernel.org, m.tretter@pengutronix.de,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH v2] usb: gadget: uvc: fix multiple opens
+Message-ID: <20201116155053.GQ6540@pendragon.ideasonboard.com>
+References: <20201110082504.26134-1-thomas.haemmerle@wolfvision.net>
+ <2bf6f3b3-6475-9cd9-b6f9-dfc4b444c955@xs4all.nl>
+ <03c81d2f-24c3-0c15-3a8a-506ea955bf67@wolfvision.net>
+ <7410ad3c-eaf9-9722-e269-d737b85ab696@xs4all.nl>
+ <068a44bf-a5ec-cedb-bd7f-3caecf5ed58a@wolfvision.net>
+ <bddb719c-5ca2-6da8-6741-2e02945f3a8c@xs4all.nl>
+ <3a1ddd46-6472-e5af-7765-223d78f2e3e3@wolfvision.net>
+ <f8941da1-ca3f-b54a-0e3a-cda0f39dc7dc@xs4all.nl>
+ <20201116153154.GO6540@pendragon.ideasonboard.com>
+ <517a0c03-b500-1fc9-e8af-cd2c6a3e8623@xs4all.nl>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
+In-Reply-To: <517a0c03-b500-1fc9-e8af-cd2c6a3e8623@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Remove the 3280x2464 mode as it can't be reproduced and yields
-an output resolution of 3264x2448 instead of the desired one.
+Hi Hans,
 
-Furthermore the 3264x2448 resolution is the highest resolution
-that the product brief lists.
+On Mon, Nov 16, 2020 at 04:48:21PM +0100, Hans Verkuil wrote:
+> On 16/11/2020 16:31, Laurent Pinchart wrote:
+> > On Tue, Nov 10, 2020 at 05:01:31PM +0100, Hans Verkuil wrote:
+> >> On 10/11/2020 16:50, Thomas Hämmerle wrote:
+> >>> On 10.11.20 16:36, Hans Verkuil wrote:
+> >>>> On 10/11/2020 16:10, Thomas Hämmerle wrote:
+> >>>>> On 10.11.20 15:43, Hans Verkuil wrote:
+> >>>>>> On 10/11/2020 12:53, Thomas Hämmerle wrote:
+> >>>>>>> On 10.11.20 11:31, Hans Verkuil wrote:
+> >>>>>>>> On 10/11/2020 09:25, thomas.haemmerle@wolfvision.net wrote:
+> >>>>>>>>> From: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+> >>>>>>>>>
+> >>>>>>>>> Currently, the UVC function is activated when open on the corresponding
+> >>>>>>>>> v4l2 device is called.
+> >>>>>>>>> On another open the activation of the function fails since the
+> >>>>>>>>> deactivation counter in `usb_function_activate` equals 0. However the
+> >>>>>>>>> error is not returned to userspace since the open of the v4l2 device is
+> >>>>>>>>> successful.
+> >>>>>>>>>
+> >>>>>>>>> On a close the function is deactivated (since deactivation counter still
+> >>>>>>>>> equals 0) and the video is disabled in `uvc_v4l2_release`, although
+> >>>>>>>>> another process potentially is streaming.
+> >>>>>>>>>
+> >>>>>>>>> Move activation of UVC function to subscription on UVC_EVENT_SETUP and
+> >>>>>>>>> keep track of the number of subscribers (limited to 1) because there we
+> >>>>>>>>> can guarantee for a userspace program utilizing UVC.
+> >>>>>>>>> Extend the `struct uvc_file_handle` with member `bool connected` to tag
+> >>>>>>>>> it for a deactivation of the function.
+> >>>>>>>>>
+> >>>>>>>>> With this a process is able to check capabilities of the v4l2 device
+> >>>>>>>>> without deactivating the function for another process actually using the
+> >>>>>>>>> device for UVC streaming.
+> >>>>>>>>>
+> >>>>>>>>> Signed-off-by: Thomas Haemmerle <thomas.haemmerle@wolfvision.net>
+> >>>>>>>>> ---
+> >>>>>>>>> v2:
+> >>>>>>>>>     - fix deadlock in `uvc_v4l2_unsubscribe_event()` (mutex is already
+> >>>>>>>>>       locked in v4l2-core) introduced in v1
+> >>>>>>>>>     - lock mutex in `uvc_v4l2_release()` to suppress ioctls and protect
+> >>>>>>>>>       connected
+> >>>>>>>>>
+> >>>>>>>>>     drivers/usb/gadget/function/uvc.h      |  2 +
+> >>>>>>>>>     drivers/usb/gadget/function/uvc_v4l2.c | 56 +++++++++++++++++++++-----
+> >>>>>>>>>     2 files changed, 48 insertions(+), 10 deletions(-)
+> >>>>>>>>>
+> >>>>>>>>> diff --git a/drivers/usb/gadget/function/uvc.h b/drivers/usb/gadget/function/uvc.h
+> >>>>>>>>> index 73da4f9a8d4c..0d0bcbffc8fd 100644
+> >>>>>>>>> --- a/drivers/usb/gadget/function/uvc.h
+> >>>>>>>>> +++ b/drivers/usb/gadget/function/uvc.h
+> >>>>>>>>> @@ -117,6 +117,7 @@ struct uvc_device {
+> >>>>>>>>>     	enum uvc_state state;
+> >>>>>>>>>     	struct usb_function func;
+> >>>>>>>>>     	struct uvc_video video;
+> >>>>>>>>> +	unsigned int connections;
+> >>>>>>>>>     
+> >>>>>>>>>     	/* Descriptors */
+> >>>>>>>>>     	struct {
+> >>>>>>>>> @@ -147,6 +148,7 @@ static inline struct uvc_device *to_uvc(struct usb_function *f)
+> >>>>>>>>>     struct uvc_file_handle {
+> >>>>>>>>>     	struct v4l2_fh vfh;
+> >>>>>>>>>     	struct uvc_video *device;
+> >>>>>>>>> +	bool connected;
+> >>>>>>>>>     };
+> >>>>>>>>>     
+> >>>>>>>>>     #define to_uvc_file_handle(handle) \
+> >>>>>>>>> diff --git a/drivers/usb/gadget/function/uvc_v4l2.c b/drivers/usb/gadget/function/uvc_v4l2.c
+> >>>>>>>>> index 67922b1355e6..aee4888e17b1 100644
+> >>>>>>>>> --- a/drivers/usb/gadget/function/uvc_v4l2.c
+> >>>>>>>>> +++ b/drivers/usb/gadget/function/uvc_v4l2.c
+> >>>>>>>>> @@ -228,17 +228,57 @@ static int
+> >>>>>>>>>     uvc_v4l2_subscribe_event(struct v4l2_fh *fh,
+> >>>>>>>>>     			 const struct v4l2_event_subscription *sub)
+> >>>>>>>>>     {
+> >>>>>>>>> +	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
+> >>>>>>>>> +	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
+> >>>>>>>>> +	int ret;
+> >>>>>>>>> +
+> >>>>>>>>>     	if (sub->type < UVC_EVENT_FIRST || sub->type > UVC_EVENT_LAST)
+> >>>>>>>>>     		return -EINVAL;
+> >>>>>>>>>     
+> >>>>>>>>> -	return v4l2_event_subscribe(fh, sub, 2, NULL);
+> >>>>>>>>> +	if ((sub->type == UVC_EVENT_SETUP) && (uvc->connections >= 1))
+> >>>>>>>>> +		return -EBUSY;
+> >>>>>>>>> +
+> >>>>>>>>> +	ret = v4l2_event_subscribe(fh, sub, 2, NULL);
+> >>>>>>>>> +	if (ret < 0)
+> >>>>>>>>> +		return ret;
+> >>>>>>>>> +
+> >>>>>>>>> +	if (sub->type == UVC_EVENT_SETUP) {
+> >>>>>>>>> +		uvc->connections++;
+> >>>>>>>>> +		handle->connected = true;
+> >>>>>>>>> +		uvc_function_connect(uvc);
+> >>>>>>>>> +	}
+> >>>>>>>>
+> >>>>>>>> This makes no sense. Why would subscribing to a SETUP event
+> >>>>>>>> mean that you are 'connected'?
+> >>>>>>>
+> >>>>>>> Subscribing to a SETUP does not mean that you are connected - on a
+> >>>>>>> subscription to SETUP we can expect that there is a userspace process,
+> >>>>>>> utilizing UVC -- which is required for the UVC gadget function -- and
+> >>>>>>> everything is ready to enable the function by calling uvc_function_connect.
+> >>>>>>> How about calling it `function_connected`?
+> >>>>>>
+> >>>>>> Any application can open the device node and subscribe to this event.
+> >>>>>> This is not a good place to call uvc_function_connect(), it's an abuse of
+> >>>>>> the V4L2 API.
+> >>>>>
+> >>>>> Of course - any application can subscribe to this event but since the
+> >>>>> event is defined in g_uvc.h I thought that a subscription is most likely
+> >>>>> done by a UVC application.
+> > 
+> > I agree with Thomas here, subscribing to UVC_EVENT_SETUP means that the
+> > application is a UVC gadget application. It's a bit of a hack, but short
+> > of introducing a custom ioctl, I think it's a fairly good option.
+> 
+> Yuck.
+> 
+> OK, if you do this, then this should be documented, both in the driver and
+> esp. in the public g_uvc.h header. This is completely non-standard and
+> unexpected behavior.
+> 
+> It would be nice BTW if all these UVC events are documented in the header.
 
-Since 3280x2464 neither works correctly nor seems to be supported
-by the sensor, let's remove it.
+Agreed. We have worked on the UVC gadget driver a couple of years ago to
+fix a few issues, but had to stop abruptely due to the customer going
+bankrupt. I would really like to find another opportunity to continue
+this work, as the driver could really do with some love.
 
-Signed-off-by: Robert Foss <robert.foss@linaro.org>
----
- drivers/media/i2c/ov8856.c | 202 -------------------------------------
- 1 file changed, 202 deletions(-)
+> >>>>>> I dug a bit more into this (I have very little gadget driver experience),
+> >>>>>> and isn't calling uvc_function_connect() something that should be done
+> >>>>>> on the first open? And when the last filehandle is closed, then
+> >>>>>> uvc_function_disconnect() can be called to clean up?
+> >>>>>
+> >>>>> Isn't the possibility of the delayed activation of the usb function in
+> >>>>> composite.c intended to wait for a corresponding userspace application,
+> >>>>> which is required to make the gadget work?
+> >>>>>
+> >>>>> If so, a simple open of the v4l2 device does not mean that the gadget is
+> >>>>> ready to go: starting pipewire for example results in quering the device
+> >>>>> capabilities of all devices. But this does not mean that the gadget will
+> >>>>> work.
+> >>>>> Therefore I was looking for a place, where we can expect, that the
+> >>>>> application opened the device will utilize UVC and found that a
+> >>>>> subscription to a UVC specific event is the right place.
+> >>>>
+> >>>> That's why I suggested to do this when buffers are allocated. That's when
+> >>>> the application commits resources to actually use the device. Until that
+> >>>> point everything that an application does is just querying or configuring,
+> >>>> but not actually using it.
+> >>>
+> >>> The userspace application implementations (including the one from 
+> >>> Laurent Pinchart) usually request buffers on the UVC events sent by the 
+> >>> host. Therefore we would run into chicken-and-egg problem.
+> >>
+> >> Ah, stupid of me. You're right.
+> >>
+> >> For now I go with calling uvc_function_connect() on the first open. If
+> >> nothing else, this is compatible with the current situation, while still
+> >> allowing for multiple opens.
+> > 
+> > The problem with connecting on first open is that any application
+> > querying the device (v4l_id from udev, pipewire as Thomas mentioned,
+> > ...) will generate spurious connect/disconnect events.
+> > 
+> > This being said, the current code already suffers from the spurious
+> > connect/disconnect issue, so we could possibly fix the race condition
+> > first with a patch that calls uvc_function_connect() on the first open
+> > and uvc_function_disconnect() on last close, and then move the logic to
+> > event subscription in a separate patch. Not sure it would be worth it
+> > though.
+> > 
+> >>>> BTW, Laurent Pinchart who maintains this driver is away for a week, so he
+> >>>> might know more about this when he comes back.
+> >>>
+> >>> Okay, so I suggest to wait for him.
+> >>>
+> >>> Thanks for the review so far!
+> >>>
+> >>>>>> That would make much more sense. Grep for v4l2_fh_is_singular_file() on how
+> >>>>>> to do this, quite a few media drivers need this.
+> >>>>>>
+> >>>>>>>> It should be possible to open a V4L2 device node any number of times,
+> >>>>>>>> and any filehandle can subscribe to any event, but typically once
+> >>>>>>>> userspace allocates buffers (VIDIOC_REQBUFS or VIDIOC_CREATE_BUFS)
+> >>>>>>>> then that filehandle is marked as the owner of the device and other
+> >>>>>>>> open filehandles are no longer allowed to allocate buffers or stream video.
+> >>>>>>>
+> >>>>>>> Sure - this can be also done if userspace allocates buffers.
+> >>>>>>> But why does it make more sense to call uvc_function_connect on
+> >>>>>>> VIDIOC_REQBUFS or VIDIOC_CREATE_BUFS instead of subscribtion to a UVC event?
+> >>>>>>>
+> >>>>>>>> See e.g. drivers/media/common/videobuf2/videobuf2-v4l2.c
+> >>>>>>>> and vb2_ioctl_reqbufs and other vb2_ioctl_* functions.
+> >>>>>>>>
+> >>>>>>>> Unfortunately this UVC gadget driver is rather old and is not using
+> >>>>>>>> these helper functions.
+> >>>>>>>>
+> >>>>>>>> Running 'v4l2-compliance' will likely fail on a lot of tests for this
+> >>>>>>>> driver.
+> > 
+> > I don't think this driver will ever be able to pass v4l2-compliance as
+> > it's not a typical V4L2 output device. It uses V4L2 as that was the best
+> > match for a userspace API, but custom ioctls and events are required to
+> > drive the device, and the userspace application needs to work
+> > hand-in-hand with the driver to respond to UVC requests originating from
+> > the host. No other V4L2 application will be able to use the device.
+> > 
+> > This being said, the driver is indeed old, and I'm sure improvements are
+> > possible, but full v4l2-compliance isn't a reasonable goal.
+> > 
+> >>>>>>>> This driver probably could use some TLC.
+> >>>>>>>
+> >>>>>>> I totally agree with that, however this change fixes at least one test
+> >>>>>>> of 'v4l2-compliance'.
+> >>>>>>> Currently a running UVC connection can be corrupted by another process
+> >>>>>>> which just opens and closes the device.
+> >>>>>>>
+> >>>>>>>>> +
+> >>>>>>>>> +	return 0;
+> >>>>>>>>> +}
+> >>>>>>>>> +
+> >>>>>>>>> +static void uvc_v4l2_disable(struct uvc_device *uvc)
+> >>>>>>>>> +{
+> >>>>>>>>> +	if (--uvc->connections)
+> >>>>>>>>> +		return;
+> >>>>>>>>> +
+> >>>>>>>>> +	uvc_function_disconnect(uvc);
+> >>>>>>>>> +	uvcg_video_enable(&uvc->video, 0);
+> >>>>>>>>> +	uvcg_free_buffers(&uvc->video.queue);
+> >>>>>>>>>     }
+> >>>>>>>>>     
+> >>>>>>>>>     static int
+> >>>>>>>>>     uvc_v4l2_unsubscribe_event(struct v4l2_fh *fh,
+> >>>>>>>>>     			   const struct v4l2_event_subscription *sub)
+> >>>>>>>>>     {
+> >>>>>>>>> -	return v4l2_event_unsubscribe(fh, sub);
+> >>>>>>>>> +	struct uvc_device *uvc = video_get_drvdata(fh->vdev);
+> >>>>>>>>> +	struct uvc_file_handle *handle = to_uvc_file_handle(fh);
+> >>>>>>>>> +	int ret;
+> >>>>>>>>> +
+> >>>>>>>>> +	ret = v4l2_event_unsubscribe(fh, sub);
+> >>>>>>>>> +	if (ret < 0)
+> >>>>>>>>> +		return ret;
+> >>>>>>>>> +
+> >>>>>>>>> +	if ((sub->type == UVC_EVENT_SETUP) && handle->connected) {
+> >>>>>>>>> +		uvc_v4l2_disable(uvc);
+> >>>>>>>>> +		handle->connected = false;
+> >>>>>>>>> +	}
+> >>>>>>>>> +
+> >>>>>>>>> +	return 0;
+> >>>>>>>>>     }
+> >>>>>>>>>     
+> >>>>>>>>>     static long
+> >>>>>>>>> @@ -293,7 +333,6 @@ uvc_v4l2_open(struct file *file)
+> >>>>>>>>>     	handle->device = &uvc->video;
+> >>>>>>>>>     	file->private_data = &handle->vfh;
+> >>>>>>>>>     
+> >>>>>>>>> -	uvc_function_connect(uvc);
+> >>>>>>>>>     	return 0;
+> >>>>>>>>>     }
+> >>>>>>>>>     
+> >>>>>>>>> @@ -303,14 +342,11 @@ uvc_v4l2_release(struct file *file)
+> >>>>>>>>>     	struct video_device *vdev = video_devdata(file);
+> >>>>>>>>>     	struct uvc_device *uvc = video_get_drvdata(vdev);
+> >>>>>>>>>     	struct uvc_file_handle *handle = to_uvc_file_handle(file->private_data);
+> >>>>>>>>> -	struct uvc_video *video = handle->device;
+> >>>>>>>>> -
+> >>>>>>>>> -	uvc_function_disconnect(uvc);
+> >>>>>>>>>     
+> >>>>>>>>> -	mutex_lock(&video->mutex);
+> >>>>>>>>> -	uvcg_video_enable(video, 0);
+> >>>>>>>>> -	uvcg_free_buffers(&video->queue);
+> >>>>>>>>> -	mutex_unlock(&video->mutex);
+> >>>>>>>>> +	mutex_lock(&uvc->video.mutex);
+> >>>>>>>>> +	if (handle->connected)
+> >>>>>>>>> +		uvc_v4l2_disable(uvc);
+> >>>>>>>>> +	mutex_unlock(&uvc->video.mutex);
+> >>>>>>>>>     
+> >>>>>>>>>     	file->private_data = NULL;
+> >>>>>>>>>     	v4l2_fh_del(&handle->vfh);
 
-diff --git a/drivers/media/i2c/ov8856.c b/drivers/media/i2c/ov8856.c
-index 2f4ceaa80593..3365d19a303d 100644
---- a/drivers/media/i2c/ov8856.c
-+++ b/drivers/media/i2c/ov8856.c
-@@ -148,196 +148,6 @@ static const struct ov8856_reg mipi_data_rate_360mbps[] = {
- 	{0x031e, 0x0c},
- };
- 
--static const struct ov8856_reg mode_3280x2464_regs[] = {
--	{0x3000, 0x20},
--	{0x3003, 0x08},
--	{0x300e, 0x20},
--	{0x3010, 0x00},
--	{0x3015, 0x84},
--	{0x3018, 0x72},
--	{0x3021, 0x23},
--	{0x3033, 0x24},
--	{0x3500, 0x00},
--	{0x3501, 0x9a},
--	{0x3502, 0x20},
--	{0x3503, 0x08},
--	{0x3505, 0x83},
--	{0x3508, 0x01},
--	{0x3509, 0x80},
--	{0x350c, 0x00},
--	{0x350d, 0x80},
--	{0x350e, 0x04},
--	{0x350f, 0x00},
--	{0x3510, 0x00},
--	{0x3511, 0x02},
--	{0x3512, 0x00},
--	{0x3600, 0x72},
--	{0x3601, 0x40},
--	{0x3602, 0x30},
--	{0x3610, 0xc5},
--	{0x3611, 0x58},
--	{0x3612, 0x5c},
--	{0x3613, 0xca},
--	{0x3614, 0x20},
--	{0x3628, 0xff},
--	{0x3629, 0xff},
--	{0x362a, 0xff},
--	{0x3633, 0x10},
--	{0x3634, 0x10},
--	{0x3635, 0x10},
--	{0x3636, 0x10},
--	{0x3663, 0x08},
--	{0x3669, 0x34},
--	{0x366e, 0x10},
--	{0x3706, 0x86},
--	{0x370b, 0x7e},
--	{0x3714, 0x23},
--	{0x3730, 0x12},
--	{0x3733, 0x10},
--	{0x3764, 0x00},
--	{0x3765, 0x00},
--	{0x3769, 0x62},
--	{0x376a, 0x2a},
--	{0x376b, 0x30},
--	{0x3780, 0x00},
--	{0x3781, 0x24},
--	{0x3782, 0x00},
--	{0x3783, 0x23},
--	{0x3798, 0x2f},
--	{0x37a1, 0x60},
--	{0x37a8, 0x6a},
--	{0x37ab, 0x3f},
--	{0x37c2, 0x04},
--	{0x37c3, 0xf1},
--	{0x37c9, 0x80},
--	{0x37cb, 0x16},
--	{0x37cc, 0x16},
--	{0x37cd, 0x16},
--	{0x37ce, 0x16},
--	{0x3800, 0x00},
--	{0x3801, 0x00},
--	{0x3802, 0x00},
--	{0x3803, 0x06},
--	{0x3804, 0x0c},
--	{0x3805, 0xdf},
--	{0x3806, 0x09},
--	{0x3807, 0xa7},
--	{0x3808, 0x0c},
--	{0x3809, 0xd0},
--	{0x380a, 0x09},
--	{0x380b, 0xa0},
--	{0x380c, 0x07},
--	{0x380d, 0x88},
--	{0x380e, 0x09},
--	{0x380f, 0xb8},
--	{0x3810, 0x00},
--	{0x3811, 0x00},
--	{0x3812, 0x00},
--	{0x3813, 0x01},
--	{0x3814, 0x01},
--	{0x3815, 0x01},
--	{0x3816, 0x00},
--	{0x3817, 0x00},
--	{0x3818, 0x00},
--	{0x3819, 0x10},
--	{0x3820, 0x80},
--	{0x3821, 0x46},
--	{0x382a, 0x01},
--	{0x382b, 0x01},
--	{0x3830, 0x06},
--	{0x3836, 0x02},
--	{0x3862, 0x04},
--	{0x3863, 0x08},
--	{0x3cc0, 0x33},
--	{0x3d85, 0x17},
--	{0x3d8c, 0x73},
--	{0x3d8d, 0xde},
--	{0x4001, 0xe0},
--	{0x4003, 0x40},
--	{0x4008, 0x00},
--	{0x4009, 0x0b},
--	{0x400a, 0x00},
--	{0x400b, 0x84},
--	{0x400f, 0x80},
--	{0x4010, 0xf0},
--	{0x4011, 0xff},
--	{0x4012, 0x02},
--	{0x4013, 0x01},
--	{0x4014, 0x01},
--	{0x4015, 0x01},
--	{0x4042, 0x00},
--	{0x4043, 0x80},
--	{0x4044, 0x00},
--	{0x4045, 0x80},
--	{0x4046, 0x00},
--	{0x4047, 0x80},
--	{0x4048, 0x00},
--	{0x4049, 0x80},
--	{0x4041, 0x03},
--	{0x404c, 0x20},
--	{0x404d, 0x00},
--	{0x404e, 0x20},
--	{0x4203, 0x80},
--	{0x4307, 0x30},
--	{0x4317, 0x00},
--	{0x4503, 0x08},
--	{0x4601, 0x80},
--	{0x4800, 0x44},
--	{0x4816, 0x53},
--	{0x481b, 0x58},
--	{0x481f, 0x27},
--	{0x4837, 0x16},
--	{0x483c, 0x0f},
--	{0x484b, 0x05},
--	{0x5000, 0x57},
--	{0x5001, 0x0a},
--	{0x5004, 0x04},
--	{0x502e, 0x03},
--	{0x5030, 0x41},
--	{0x5780, 0x14},
--	{0x5781, 0x0f},
--	{0x5782, 0x44},
--	{0x5783, 0x02},
--	{0x5784, 0x01},
--	{0x5785, 0x01},
--	{0x5786, 0x00},
--	{0x5787, 0x04},
--	{0x5788, 0x02},
--	{0x5789, 0x0f},
--	{0x578a, 0xfd},
--	{0x578b, 0xf5},
--	{0x578c, 0xf5},
--	{0x578d, 0x03},
--	{0x578e, 0x08},
--	{0x578f, 0x0c},
--	{0x5790, 0x08},
--	{0x5791, 0x04},
--	{0x5792, 0x00},
--	{0x5793, 0x52},
--	{0x5794, 0xa3},
--	{0x5795, 0x02},
--	{0x5796, 0x20},
--	{0x5797, 0x20},
--	{0x5798, 0xd5},
--	{0x5799, 0xd5},
--	{0x579a, 0x00},
--	{0x579b, 0x50},
--	{0x579c, 0x00},
--	{0x579d, 0x2c},
--	{0x579e, 0x0c},
--	{0x579f, 0x40},
--	{0x57a0, 0x09},
--	{0x57a1, 0x40},
--	{0x59f8, 0x3d},
--	{0x5a08, 0x02},
--	{0x5b00, 0x02},
--	{0x5b01, 0x10},
--	{0x5b02, 0x03},
--	{0x5b03, 0xcf},
--	{0x5b05, 0x6c},
--	{0x5e00, 0x00}
--};
--
- static const struct ov8856_reg mode_3264x2448_regs[] = {
- 	{0x0103, 0x01},
- 	{0x0302, 0x3c},
-@@ -963,18 +773,6 @@ static const struct ov8856_link_freq_config link_freq_configs[] = {
- };
- 
- static const struct ov8856_mode supported_modes[] = {
--	{
--		.width = 3280,
--		.height = 2464,
--		.hts = 1928,
--		.vts_def = 2488,
--		.vts_min = 2488,
--		.reg_list = {
--			.num_of_regs = ARRAY_SIZE(mode_3280x2464_regs),
--			.regs = mode_3280x2464_regs,
--		},
--		.link_freq_index = OV8856_LINK_FREQ_720MBPS,
--	},
- 	{
- 		.width = 3264,
- 		.height = 2448,
 -- 
-2.27.0
+Regards,
 
+Laurent Pinchart
