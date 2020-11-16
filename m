@@ -2,85 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EAFF2B4B17
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 17:30:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CDD772B4BB0
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 17:52:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732110AbgKPQ2i (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 11:28:38 -0500
-Received: from relay2-d.mail.gandi.net ([217.70.183.194]:50521 "EHLO
-        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730795AbgKPQ2i (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 11:28:38 -0500
-X-Originating-IP: 2.224.242.101
-Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id B2E4C40010;
-        Mon, 16 Nov 2020 16:28:35 +0000 (UTC)
-Date:   Mon, 16 Nov 2020 17:28:38 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>
-Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/4] rcar-vin: Do not try to stop stream if not running
-Message-ID: <20201116162838.opj7nfpvmfvup6cq@uno.localdomain>
-References: <20201112225147.1672622-1-niklas.soderlund+renesas@ragnatech.se>
- <20201112225147.1672622-2-niklas.soderlund+renesas@ragnatech.se>
+        id S1731935AbgKPQw3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 11:52:29 -0500
+Received: from mga04.intel.com ([192.55.52.120]:2870 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731129AbgKPQw3 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Nov 2020 11:52:29 -0500
+IronPort-SDR: fSujQ1DLdtsIIHN2aWtW373YD3WWodIpzvzJZt+jH9nMWBPNQcedbXrJkMGA5OeOY0SR+X/+up
+ xbifG+jJV1Ow==
+X-IronPort-AV: E=McAfee;i="6000,8403,9807"; a="168199846"
+X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; 
+   d="scan'208";a="168199846"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga004.fm.intel.com ([10.253.24.48])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2020 08:52:29 -0800
+IronPort-SDR: 3QbMsrJSdm6LxnDeGpsUE8vA7ScIPzNvZzXdmLCzycOkpZThWZpoZ61CRHoprOCywHwR6mnoIF
+ a4MkL2iCwQsg==
+X-IronPort-AV: E=Sophos;i="5.77,483,1596524400"; 
+   d="scan'208";a="358526126"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by fmsmga004-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 16 Nov 2020 08:52:17 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kehkl-0077I8-7B; Mon, 16 Nov 2020 18:53:19 +0200
+Date:   Mon, 16 Nov 2020 18:53:19 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Yong Zhi <yong.zhi@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Bingbu Cao <bingbu.cao@intel.com>
+Subject: Re: [PATCH v2] media: ipu3-cio2: Use macros from mm.h
+Message-ID: <20201116165319.GF4077@smile.fi.intel.com>
+References: <20201028155520.14458-1-andriy.shevchenko@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201112225147.1672622-2-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20201028155520.14458-1-andriy.shevchenko@linux.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas,
+On Wed, Oct 28, 2020 at 05:55:20PM +0200, Andy Shevchenko wrote:
+> There are few nice macros in mm.h, some of which we may use here.
+> 
+> Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
 
-On Thu, Nov 12, 2020 at 11:51:44PM +0100, Niklas Söderlund wrote:
-> Do not attempt to stop the streaming if the stream is not running.
->
-> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+If there is no further comments, can it be applied?
+
 > ---
->  drivers/media/platform/rcar-vin/rcar-dma.c | 5 +++++
->  1 file changed, 5 insertions(+)
->
-> diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
-> index 5a5f0e5007478c8d..eae25972ed7df2b6 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-dma.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
-> @@ -1302,6 +1302,11 @@ void rvin_stop_streaming(struct rvin_dev *vin)
->
->  	spin_lock_irqsave(&vin->qlock, flags);
->
-> +	if (vin->state == STOPPED) {
-> +		spin_unlock_irqrestore(&vin->qlock, flags);
-> +		return;
+> v2: rewrote to make it short and neat (Bingbu), added Rb tag (Bingbu)
+>  drivers/media/pci/intel/ipu3/ipu3-cio2.c | 6 +++---
+>  1 file changed, 3 insertions(+), 3 deletions(-)
+> 
+> diff --git a/drivers/media/pci/intel/ipu3/ipu3-cio2.c b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> index d4b575813300..3d0c867e9762 100644
+> --- a/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> +++ b/drivers/media/pci/intel/ipu3/ipu3-cio2.c
+> @@ -15,6 +15,7 @@
+>  #include <linux/delay.h>
+>  #include <linux/interrupt.h>
+>  #include <linux/iopoll.h>
+> +#include <linux/mm.h>
+>  #include <linux/module.h>
+>  #include <linux/pci.h>
+>  #include <linux/pfn.h>
+> @@ -190,9 +191,8 @@ static void cio2_fbpt_entry_init_buf(struct cio2_device *cio2,
+>  	 * 4095 (PAGE_SIZE - 1) means every single byte in the last page
+>  	 * is available for DMA transfer.
+>  	 */
+> -	entry[1].second_entry.last_page_available_bytes =
+> -			(remaining & ~PAGE_MASK) ?
+> -				(remaining & ~PAGE_MASK) - 1 : PAGE_SIZE - 1;
+> +	remaining = offset_in_page(remaining) ?: PAGE_SIZE;
+> +	entry[1].second_entry.last_page_available_bytes = remaining - 1;
+>  	/* Fill FBPT */
+>  	remaining = length;
+>  	i = 0;
+> -- 
+> 2.28.0
+> 
 
-Do I read it right that, in case a double stop is attempted, returning
-here is not enough as the caller:
+-- 
+With Best Regards,
+Andy Shevchenko
 
-{
-	rvin_stop_streaming(vin);
 
-	/* Free scratch buffer. */
-	dma_free_coherent(vin->dev, vin->format.sizeimage, vin->scratch,
-			  vin->scratch_phys);
-
-	return_unused_buffers(vin, VB2_BUF_STATE_ERROR);
-}
-
-Are the potential double call to dma_free_coherent and the buffer
-return procedure harmless ?
-
-Thanks
-   j
-
-> +	}
-> +
->  	vin->state = STOPPING;
->
->  	/* Wait until only scratch buffer is used, max 3 interrupts. */
-> --
-> 2.29.2
->
