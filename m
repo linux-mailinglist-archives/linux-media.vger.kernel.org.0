@@ -2,155 +2,255 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F39F92B5282
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 21:28:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8E9502B52A8
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 21:34:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732991AbgKPU1Q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 15:27:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44254 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732977AbgKPU1O (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 15:27:14 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D2D16C0613CF;
-        Mon, 16 Nov 2020 12:27:13 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id p22so560529wmg.3;
-        Mon, 16 Nov 2020 12:27:13 -0800 (PST)
+        id S1732903AbgKPUd5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 15:33:57 -0500
+Received: from mail-mw2nam12on2068.outbound.protection.outlook.com ([40.107.244.68]:13824
+        "EHLO NAM12-MW2-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726426AbgKPUd4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Nov 2020 15:33:56 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=L4xFsfn4NentCtH9eyhFyUXZTvjy6lT5oKwUdmw0+BwhS8flictI8Maqa+OOATGccHYIkXsx6/n6nFG7Iz1jnhsWBoASgpytyxxYUsWxdw39zED4jNvX6Pa67Q2glRLzUbI4j+TroPs//QVbqeXiakTP6HIjaM27N00CX2qwyy9NpEPhiLfOsAmhVU/BrkFnbIbzIDWsqI63ih+racv0a/Dn76asWJZecbdmEX0ZHlpqHf5raLc+QI4fue3Py+rdX00zmphO9nty2MP3IOKHU/Y/zQpXlkbCxpJy7wXhdxgKEjxQR8i/fWOhIl7j2fNs/anFhj4faonl3dmP6oM0ZA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DC0kR/ywQkt9nbwb6YckcshvS8ncYTpcZcAHxvSkkSU=;
+ b=ILEHS2lOO0DsMMUs3CvRy8i1SO37kr0Ao+8m6QrUmk5h2CwVAt8HFQRVLeE0l7z0BmlXh/kyZzDlfYJPHNjj42M6VO4VUI/YcKXI9HQqwOTtgWCdC35LjKSoKAT+/gFAt31fZRiQ6Sr/NKPdraPOGS+51NoTcqmYJ1MB/Y8BOS39qUHMJnZ0V6rODXD9RGPwHXxWUjtwnT5caWPhAktg7a+8sZ/M07Gbd0iRd62q7kyxZgz+bzTL/m/iBlGXI8fJmwLewK+KBWzL37mG75UIAgzZN4KkMfl6bFa7tf5eYiExT2W1TxFcWEluxX91r6SCGCcWmB/ZxFBu0i0z+JOV3w==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=amd.com; dmarc=pass action=none header.from=amd.com; dkim=pass
+ header.d=amd.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=yPSHVRwDrtKOH5ZvQYGGfQXjoa9CykJhcor/FvEpDF0=;
-        b=QP7bSXT4wEK83Tkdu1pw70KMDVFIZL3TNg2DEsJWF05JUFpbLSuhRLJWIshP0S/isB
-         hLcj8acsSM9gRPm/At+RGGJpryxONwxfp1jTbn7wc6hL3PEQ3vS2bjCHZSeLtkpiB1AK
-         8Ri/en6bDoKgayc6zhTf9ZcOw3cqFDn6Fx9RywRSHH9DIaXeGXDF9lEt5+K2r7Ke2DST
-         u2Z9GktRH34/lLxR3JKoV1p/u7lPl1FNsU+lbGA8QTLPoinjJfgz29tpkKR7DPCGOX3F
-         arsxPNC/TvMo6WexoDK/WYisSVqvdoMcufL6/qHJoNJDi2pN2bRSmLOiDFr9zgUPz9oB
-         cg7g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=yPSHVRwDrtKOH5ZvQYGGfQXjoa9CykJhcor/FvEpDF0=;
-        b=FawJCAb9AcO3lCHuA6J9m9c8tMXPwn7eJKG61b6H29oh3b4Ctsaqr6OQ9psiYnyMk4
-         VnnE8qR3RYlKMRGNAjIdlUMMYML3u8W049SKJ7/+7Sj2HPyzQZQy+/6as+Zx/qeR06ot
-         SWzcFyAUBmT+eTD6ufXb9xFaUBe3GOagUmqJWQXJv/UQO/BkqOd5ZXTh4ZyXqgC1XPbO
-         wcB5wz7HfzM9cW/V/YWyhXNPrTGZ0WFQEIr0OdZxrhA89tDq2hOyJhZ6Nl87C8egrh9P
-         ZE1vpj3oFMzoLAteG3FPUcxVr8iQCwn+YdblFH0Dkq7EfMcp1dYwo5XWBRIvUtnMf7tj
-         v6Sw==
-X-Gm-Message-State: AOAM530YUZrbOOYVuhgiPIhcW7tfmWwUFpex6B43ViYb8OofffR+AzOU
-        CNWBR2vE3ZMZml4YB2azdTgONfdy+nNlKdPbZ/I=
-X-Google-Smtp-Source: ABdhPJwdydcBHg2wjcl0XsYoZ/4RLPKqFkbduOLt/w1cjPcwEnharCbPaEZj4l6GMHsJtygKeO4DzXTO9xXkh9F/csQ=
-X-Received: by 2002:a7b:c157:: with SMTP id z23mr669394wmi.70.1605558432593;
- Mon, 16 Nov 2020 12:27:12 -0800 (PST)
-MIME-Version: 1.0
-References: <20201116173700.1830487-1-lee.jones@linaro.org> <20201116173700.1830487-32-lee.jones@linaro.org>
-In-Reply-To: <20201116173700.1830487-32-lee.jones@linaro.org>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Mon, 16 Nov 2020 15:27:01 -0500
-Message-ID: <CADnq5_NaWcxV-J22w4fg7kNEx=s9XwLcBOdQ8uCQNv1H5jNBrw@mail.gmail.com>
-Subject: Re: [PATCH 31/43] drm/radeon/cik: Move 'si_*()'s prototypes to shared header
+ d=amdcloud.onmicrosoft.com; s=selector2-amdcloud-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=DC0kR/ywQkt9nbwb6YckcshvS8ncYTpcZcAHxvSkkSU=;
+ b=SGp68G8APfldOyH9N50hjQLLwFjVOdgkPv4bLeWUEXIKvp5qS6+zgA+FMprE5wPDU0Hxjvh7orVhNjxNM1eYAvRxGTj1l6RkzIYAW8lxyhBYRJf5YPAboOFa5eJEIrOE3FSy3UHrj9/k+vWulfNIRhO3HufdEojlkpSJkvtzasA=
+Authentication-Results: lists.linaro.org; dkim=none (message not signed)
+ header.d=none;lists.linaro.org; dmarc=none action=none header.from=amd.com;
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com (2603:10b6:208:159::19)
+ by BL0PR12MB4961.namprd12.prod.outlook.com (2603:10b6:208:1c9::24) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25; Mon, 16 Nov
+ 2020 20:33:54 +0000
+Received: from MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31]) by MN2PR12MB3775.namprd12.prod.outlook.com
+ ([fe80::1ccc:8a9a:45d3:dd31%7]) with mapi id 15.20.3564.028; Mon, 16 Nov 2020
+ 20:33:54 +0000
+Subject: Re: [PATCH 31/42] drm/ttm/ttm_bo: Fix one function header - demote
+ lots of kernel-doc abuses
 To:     Lee Jones <lee.jones@linaro.org>
-Cc:     David Airlie <airlied@linux.ie>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Cc:     linux-kernel@vger.kernel.org, Huang Rui <ray.huang@amd.com>,
+        David Airlie <airlied@linux.ie>,
+        Daniel Vetter <daniel@ffwll.ch>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org
+References: <20201116174112.1833368-1-lee.jones@linaro.org>
+ <20201116174112.1833368-32-lee.jones@linaro.org>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <christian.koenig@amd.com>
+Message-ID: <7745c8a0-12ad-8dcd-3740-51c640ea4ef2@amd.com>
+Date:   Mon, 16 Nov 2020 21:33:48 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+In-Reply-To: <20201116174112.1833368-32-lee.jones@linaro.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
+X-Originating-IP: [2a02:908:1252:fb60:be8a:bd56:1f94:86e7]
+X-ClientProxiedBy: AM4PR0902CA0021.eurprd09.prod.outlook.com
+ (2603:10a6:200:9b::31) To MN2PR12MB3775.namprd12.prod.outlook.com
+ (2603:10b6:208:159::19)
+MIME-Version: 1.0
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from [IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7] (2a02:908:1252:fb60:be8a:bd56:1f94:86e7) by AM4PR0902CA0021.eurprd09.prod.outlook.com (2603:10a6:200:9b::31) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.25 via Frontend Transport; Mon, 16 Nov 2020 20:33:52 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: d83f14df-5eba-41d2-55ad-08d88a6eef21
+X-MS-TrafficTypeDiagnostic: BL0PR12MB4961:
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <BL0PR12MB49616BC08345A59ADBCD5A1D83E30@BL0PR12MB4961.namprd12.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:10000;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: v8RrwoAHOQDwVXfg+hRvSYJcIQIuoRaVE5xH7rd5uPPeh+w9YKG1kFJmHDhK93HB1hKu06jsHr5hqh0vDdcnyeAg+Rw2B7d8eBQfQmmW5GkvjWsaC3O/RvGndl+aH5toUYK9KMP8HkScQerDa1R+bpWaNTNG309e0Ofgo09XXw7QdXkAe13fhh2wYT9k0yU0xQ3CRK7Pt322xFGuWRhaLdGG4PPvwBEzrfRiz47s7MUd/kHcUArWYKWN/kfD2/jAW5Bi5N6M3FtuHf3d8qddvCdkwRZjwBUoEg424BWePDSF9yBQp/A0T6oI3trst/K0NLILIs69o4/vnAB46R8kGzz46JDH3iDWVFEwS1SLj6PkVZZxzzZxJz6cZeH00T8k
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:MN2PR12MB3775.namprd12.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(376002)(136003)(396003)(39860400002)(346002)(366004)(186003)(16526019)(8936002)(6916009)(8676002)(6486002)(66574015)(66946007)(54906003)(66556008)(66476007)(52116002)(6666004)(31686004)(36756003)(83380400001)(478600001)(4326008)(86362001)(2906002)(31696002)(2616005)(5660300002)(316002)(43740500002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?utf-8?B?bENqaEVwbytiYUlzclB0dkFSR0RJelU5bjNXNlhTNVM3Q2FTN2JYbnowbEdI?=
+ =?utf-8?B?Y0cxRTFXZHNhSHhjVmFrV2NTMGlna0FLOEJvZVNkYVNvL3BjZ1lQOTN4cWdR?=
+ =?utf-8?B?VTkzV1ZYUWlyWnV6bDVFR3JnL2Foa1pxSkc1VllIYjJGZEY5a0J2YWZaNWZr?=
+ =?utf-8?B?N2dGMDR5M0M3R01ZcUhDWGtJa1hYem04Q1RGSi83ajZHNm5xVzFxay9HbU9P?=
+ =?utf-8?B?aE5jaXo3OWFyRVVMaEFaclA0QWduREt1V21scFNQd0JZRS9VcEVIZmo0OXZp?=
+ =?utf-8?B?T1o1ZjRGZTFKRUIwajA3QzNLd3l5U3lQSjRzQm5rdHBxWXlueHdrMVh3ZjVx?=
+ =?utf-8?B?dXBkWmdiSVFidlhlajkycHNvTHdxUEZvZkNXM05oSERqNEdma1BPOTJ6dVZC?=
+ =?utf-8?B?SjkxWDJpOG0wZFdhU0FNVXlPTytGTmU1SFRVUGNOcUV4SGhvcnlITDRxcjNW?=
+ =?utf-8?B?bG9EcDg1WUVMS3EwY2VDdU1pcGVSRG1hcmJnT3VYaGdsemN0ZS9uTHpJYlJw?=
+ =?utf-8?B?M3J6eEZWQ3FZTFNGNTVqK1BZazdNcER0YUlWTjRzRjIyOVhpUXJ1WXNDd3h0?=
+ =?utf-8?B?QUdDeWg0ZXd2b0ZxNkJoRUlLZ1lPaUU0T2lSNFROY0xnay9mcmJRamM2M1du?=
+ =?utf-8?B?MkphZ2JnNlorT2NQbHloanpBS0JMdDBmQVFQTy9JaU9RclN6MDhjM25MSndh?=
+ =?utf-8?B?WTc4blR3YXA1NmRPajlKVGJLWVY2R1oxR2RWQVVIcThXWkluV1RNSFMzZ3Aw?=
+ =?utf-8?B?MkpEWkhMUHZzUk1TUGRrME0wKzNSdE5KbERCYmtIUUp5SERtQ0ZOTnczZVJI?=
+ =?utf-8?B?SmptVWJRK0hOd2FxdHl6YzkzelpUR1JsY0VIbFZXR1Byd2lDZ0JKdnBScHlF?=
+ =?utf-8?B?TDNpT1lTZ09sNGJqWWdDWEs0TXRneGRZQnhrRTN1cm1uZGNxQ09iU1ZjeTdS?=
+ =?utf-8?B?bkxZbW9URFB2eUlxeVlLdlJMUWQxTUQ4S1dYa0d5RUpoVFU3aUFKVGRKV0Zt?=
+ =?utf-8?B?UTVpT2h3TFc1R1NBZDVsVk10cURxUlZkdjkwU2dXVERBUmJCblowL1lKRkhY?=
+ =?utf-8?B?WkNRMEdmZ084ektXdENEczQ2UjJoRzBQdHoyeTk2OEphQTV6a0ovdFBhVm5G?=
+ =?utf-8?B?L1l3N1pMTFpuL012ZFlEOVM0dHY1eDgrajJlbUF4bnVMdWpZZEJ5VEVZZWNm?=
+ =?utf-8?B?Y2RYY3NnVS8xd0R2eWd3SUd3NzVWZUdNS1JzTEVIK1ZpRThpN00vOW9DUTVu?=
+ =?utf-8?B?eW1pVUNpNFQ2eVJMOS9GYXhnY0tkcEF3eVdSL2U0b205QjhGUT09?=
+X-OriginatorOrg: amd.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: d83f14df-5eba-41d2-55ad-08d88a6eef21
+X-MS-Exchange-CrossTenant-AuthSource: MN2PR12MB3775.namprd12.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 16 Nov 2020 20:33:53.8928
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 3dd8961f-e488-4e60-8e11-a82d994e183d
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: cq4IqeYiAGwECr5qNDIH9+FbHcrNKCt/FDT3gKWO75ZHyrvUxVW2Bm2B21TA1WLR
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BL0PR12MB4961
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 16, 2020 at 12:38 PM Lee Jones <lee.jones@linaro.org> wrote:
+Am 16.11.20 um 18:41 schrieb Lee Jones:
+> Fixes the following W=1 kernel build warning(s):
 >
-> Fixes the following W=3D1 kernel build warning(s):
+>   drivers/gpu/drm/ttm/ttm_bo.c:51: warning: Function parameter or member 'ttm_global_mutex' not described in 'DEFINE_MUTEX'
+>   drivers/gpu/drm/ttm/ttm_bo.c:286: warning: Function parameter or member 'bo' not described in 'ttm_bo_cleanup_memtype_use'
+>   drivers/gpu/drm/ttm/ttm_bo.c:359: warning: Function parameter or member 'bo' not described in 'ttm_bo_cleanup_refs'
+>   drivers/gpu/drm/ttm/ttm_bo.c:359: warning: Function parameter or member 'interruptible' not described in 'ttm_bo_cleanup_refs'
+>   drivers/gpu/drm/ttm/ttm_bo.c:359: warning: Function parameter or member 'no_wait_gpu' not described in 'ttm_bo_cleanup_refs'
+>   drivers/gpu/drm/ttm/ttm_bo.c:359: warning: Function parameter or member 'unlock_resv' not described in 'ttm_bo_cleanup_refs'
+>   drivers/gpu/drm/ttm/ttm_bo.c:424: warning: Function parameter or member 'bdev' not described in 'ttm_bo_delayed_delete'
+>   drivers/gpu/drm/ttm/ttm_bo.c:424: warning: Function parameter or member 'remove_all' not described in 'ttm_bo_delayed_delete'
+>   drivers/gpu/drm/ttm/ttm_bo.c:635: warning: Function parameter or member 'bo' not described in 'ttm_bo_evict_swapout_allowable'
+>   drivers/gpu/drm/ttm/ttm_bo.c:635: warning: Function parameter or member 'ctx' not described in 'ttm_bo_evict_swapout_allowable'
+>   drivers/gpu/drm/ttm/ttm_bo.c:635: warning: Function parameter or member 'locked' not described in 'ttm_bo_evict_swapout_allowable'
+>   drivers/gpu/drm/ttm/ttm_bo.c:635: warning: Function parameter or member 'busy' not described in 'ttm_bo_evict_swapout_allowable'
+>   drivers/gpu/drm/ttm/ttm_bo.c:769: warning: Function parameter or member 'bo' not described in 'ttm_bo_add_move_fence'
+>   drivers/gpu/drm/ttm/ttm_bo.c:769: warning: Function parameter or member 'man' not described in 'ttm_bo_add_move_fence'
+>   drivers/gpu/drm/ttm/ttm_bo.c:769: warning: Function parameter or member 'mem' not described in 'ttm_bo_add_move_fence'
+>   drivers/gpu/drm/ttm/ttm_bo.c:769: warning: Function parameter or member 'no_wait_gpu' not described in 'ttm_bo_add_move_fence'
+>   drivers/gpu/drm/ttm/ttm_bo.c:806: warning: Function parameter or member 'bo' not described in 'ttm_bo_mem_force_space'
+>   drivers/gpu/drm/ttm/ttm_bo.c:806: warning: Function parameter or member 'place' not described in 'ttm_bo_mem_force_space'
+>   drivers/gpu/drm/ttm/ttm_bo.c:806: warning: Function parameter or member 'mem' not described in 'ttm_bo_mem_force_space'
+>   drivers/gpu/drm/ttm/ttm_bo.c:806: warning: Function parameter or member 'ctx' not described in 'ttm_bo_mem_force_space'
+>   drivers/gpu/drm/ttm/ttm_bo.c:872: warning: Function parameter or member 'bo' not described in 'ttm_bo_mem_space'
+>   drivers/gpu/drm/ttm/ttm_bo.c:872: warning: Function parameter or member 'placement' not described in 'ttm_bo_mem_space'
+>   drivers/gpu/drm/ttm/ttm_bo.c:872: warning: Function parameter or member 'mem' not described in 'ttm_bo_mem_space'
+>   drivers/gpu/drm/ttm/ttm_bo.c:872: warning: Function parameter or member 'ctx' not described in 'ttm_bo_mem_space'
+>   drivers/gpu/drm/ttm/ttm_bo.c:1387: warning: Function parameter or member 'ctx' not described in 'ttm_bo_swapout'
 >
->  drivers/gpu/drm/radeon/si.c:4186:6: warning: no previous prototype for =
-=E2=80=98si_vram_gtt_location=E2=80=99 [-Wmissing-prototypes]
->  4186 | void si_vram_gtt_location(struct radeon_device *rdev,
->  | ^~~~~~~~~~~~~~~~~~~~
->  drivers/gpu/drm/radeon/si.c:5186:6: warning: no previous prototype for =
-=E2=80=98si_init_uvd_internal_cg=E2=80=99 [-Wmissing-prototypes]
->  5186 | void si_init_uvd_internal_cg(struct radeon_device *rdev)
->  | ^~~~~~~~~~~~~~~~~~~~~~~
->  drivers/gpu/drm/radeon/si.c:5801:6: warning: no previous prototype for =
-=E2=80=98si_rlc_reset=E2=80=99 [-Wmissing-prototypes]
->  5801 | void si_rlc_reset(struct radeon_device *rdev)
->  | ^~~~~~~~~~~~
->
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
+> Cc: Christian Koenig <christian.koenig@amd.com>
+> Cc: Huang Rui <ray.huang@amd.com>
 > Cc: David Airlie <airlied@linux.ie>
 > Cc: Daniel Vetter <daniel@ffwll.ch>
 > Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: amd-gfx@lists.freedesktop.org
 > Cc: dri-devel@lists.freedesktop.org
 > Cc: linux-media@vger.kernel.org
 > Cc: linaro-mm-sig@lists.linaro.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 
-Applied.  Thanks!
+Reviewed-by: Christian König <christian.koenig@amd.com>
 
-Alex
+Going to pick that one up for upstreaming.
+
+Thanks,
+Christian.
 
 > ---
->  drivers/gpu/drm/radeon/cik.c | 4 +---
->  drivers/gpu/drm/radeon/si.h  | 4 ++++
->  2 files changed, 5 insertions(+), 3 deletions(-)
+>   drivers/gpu/drm/ttm/ttm_bo.c | 23 ++++++++++++-----------
+>   1 file changed, 12 insertions(+), 11 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/cik.c
-> index ae020ad7b3185..cef0f3111cd3a 100644
-> --- a/drivers/gpu/drm/radeon/cik.c
-> +++ b/drivers/gpu/drm/radeon/cik.c
-> @@ -40,6 +40,7 @@
->  #include "radeon_asic.h"
->  #include "radeon_audio.h"
->  #include "radeon_ucode.h"
-> +#include "si.h"
->
->  #define SH_MEM_CONFIG_GFX_DEFAULT \
->         ALIGNMENT_MODE(SH_MEM_ALIGNMENT_MODE_UNALIGNED)
-> @@ -127,9 +128,6 @@ MODULE_FIRMWARE("radeon/mullins_mec.bin");
->  MODULE_FIRMWARE("radeon/mullins_rlc.bin");
->  MODULE_FIRMWARE("radeon/mullins_sdma.bin");
->
-> -extern void si_vram_gtt_location(struct radeon_device *rdev, struct rade=
-on_mc *mc);
-> -extern void si_rlc_reset(struct radeon_device *rdev);
-> -extern void si_init_uvd_internal_cg(struct radeon_device *rdev);
->  static u32 cik_get_cu_active_bitmap(struct radeon_device *rdev, u32 se, =
-u32 sh);
->  extern int cik_sdma_resume(struct radeon_device *rdev);
->  extern void cik_sdma_enable(struct radeon_device *rdev, bool enable);
-> diff --git a/drivers/gpu/drm/radeon/si.h b/drivers/gpu/drm/radeon/si.h
-> index a1751ae560f02..f483a64d17050 100644
-> --- a/drivers/gpu/drm/radeon/si.h
-> +++ b/drivers/gpu/drm/radeon/si.h
-> @@ -25,8 +25,12 @@
->  #define __SI_H__
->
->  struct radeon_device;
-> +struct radeon_mc;
->
->  int si_mc_load_microcode(struct radeon_device *rdev);
->  u32 si_gpu_check_soft_reset(struct radeon_device *rdev);
-> +void si_vram_gtt_location(struct radeon_device *rdev, struct radeon_mc *=
-mc);
-> +void si_rlc_reset(struct radeon_device *rdev);
-> +void si_init_uvd_internal_cg(struct radeon_device *rdev);
->
->  #endif                         /* __SI_H__ */
-> --
-> 2.25.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> diff --git a/drivers/gpu/drm/ttm/ttm_bo.c b/drivers/gpu/drm/ttm/ttm_bo.c
+> index e6bcbfe530ecc..9a03c7834b1ed 100644
+> --- a/drivers/gpu/drm/ttm/ttm_bo.c
+> +++ b/drivers/gpu/drm/ttm/ttm_bo.c
+> @@ -45,7 +45,7 @@
+>   
+>   static void ttm_bo_global_kobj_release(struct kobject *kobj);
+>   
+> -/**
+> +/*
+>    * ttm_global_mutex - protecting the global BO state
+>    */
+>   DEFINE_MUTEX(ttm_global_mutex);
+> @@ -278,7 +278,7 @@ static int ttm_bo_handle_move_mem(struct ttm_buffer_object *bo,
+>   	return ret;
+>   }
+>   
+> -/**
+> +/*
+>    * Call bo::reserved.
+>    * Will release GPU memory type usage on destruction.
+>    * This is the place to put in driver specific hooks to release
+> @@ -352,9 +352,10 @@ static void ttm_bo_flush_all_fences(struct ttm_buffer_object *bo)
+>    * Must be called with lru_lock and reservation held, this function
+>    * will drop the lru lock and optionally the reservation lock before returning.
+>    *
+> - * @interruptible         Any sleeps should occur interruptibly.
+> - * @no_wait_gpu           Never wait for gpu. Return -EBUSY instead.
+> - * @unlock_resv           Unlock the reservation lock as well.
+> + * @bo:                    The buffer object to clean-up
+> + * @interruptible:         Any sleeps should occur interruptibly.
+> + * @no_wait_gpu:           Never wait for gpu. Return -EBUSY instead.
+> + * @unlock_resv:           Unlock the reservation lock as well.
+>    */
+>   
+>   static int ttm_bo_cleanup_refs(struct ttm_buffer_object *bo,
+> @@ -420,7 +421,7 @@ static int ttm_bo_cleanup_refs(struct ttm_buffer_object *bo,
+>   	return 0;
+>   }
+>   
+> -/**
+> +/*
+>    * Traverse the delayed list, and call ttm_bo_cleanup_refs on all
+>    * encountered buffers.
+>    */
+> @@ -628,7 +629,7 @@ bool ttm_bo_eviction_valuable(struct ttm_buffer_object *bo,
+>   }
+>   EXPORT_SYMBOL(ttm_bo_eviction_valuable);
+>   
+> -/**
+> +/*
+>    * Check the target bo is allowable to be evicted or swapout, including cases:
+>    *
+>    * a. if share same reservation object with ctx->resv, have assumption
+> @@ -767,7 +768,7 @@ int ttm_mem_evict_first(struct ttm_bo_device *bdev,
+>   	return ret;
+>   }
+>   
+> -/**
+> +/*
+>    * Add the last move fence to the BO and reserve a new shared slot.
+>    */
+>   static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+> @@ -803,7 +804,7 @@ static int ttm_bo_add_move_fence(struct ttm_buffer_object *bo,
+>   	return 0;
+>   }
+>   
+> -/**
+> +/*
+>    * Repeatedly evict memory from the LRU for @mem_type until we create enough
+>    * space, or we've evicted everything and there isn't enough space.
+>    */
+> @@ -865,7 +866,7 @@ static int ttm_bo_mem_placement(struct ttm_buffer_object *bo,
+>   	return 0;
+>   }
+>   
+> -/**
+> +/*
+>    * Creates space for memory region @mem according to its type.
+>    *
+>    * This function first searches for free space in compatible memory types in
+> @@ -1430,7 +1431,7 @@ int ttm_bo_wait(struct ttm_buffer_object *bo,
+>   }
+>   EXPORT_SYMBOL(ttm_bo_wait);
+>   
+> -/**
+> +/*
+>    * A buffer object shrink method that tries to swap out the first
+>    * buffer object on the bo_global::swap_lru list.
+>    */
+
