@@ -2,123 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 667042B4BC2
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 17:56:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7ECE72B4BE0
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 17:59:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731128AbgKPQyS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 11:54:18 -0500
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:49279 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730379AbgKPQyS (ORCPT
+        id S1732349AbgKPQ6O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 11:58:14 -0500
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:38109 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730972AbgKPQ6O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 11:54:18 -0500
+        Mon, 16 Nov 2020 11:58:14 -0500
 X-Originating-IP: 2.224.242.101
 Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
         (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 48F781BF203;
-        Mon, 16 Nov 2020 16:54:14 +0000 (UTC)
-Date:   Mon, 16 Nov 2020 17:54:18 +0100
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id 9B809E0014;
+        Mon, 16 Nov 2020 16:58:11 +0000 (UTC)
+Date:   Mon, 16 Nov 2020 17:58:14 +0100
 From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/4] rcar-vin: Route events to correct video device
-Message-ID: <20201116165418.tdv52il2hup3pk5y@uno.localdomain>
+Subject: Re: [PATCH 3/4] rcar-vin: Stop stream when subdevice signal EOS
+Message-ID: <20201116165814.keyj2gydiodphiss@uno.localdomain>
 References: <20201112225147.1672622-1-niklas.soderlund+renesas@ragnatech.se>
- <20201112225147.1672622-3-niklas.soderlund+renesas@ragnatech.se>
+ <20201112225147.1672622-4-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201112225147.1672622-3-niklas.soderlund+renesas@ragnatech.se>
+In-Reply-To: <20201112225147.1672622-4-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Niklas,
 
-On Thu, Nov 12, 2020 at 11:51:45PM +0100, Niklas Söderlund wrote:
-> The event route for VIN running with a media controller (Gen3) is
-> incorrect as all events are only routed to the video device that are
-> used to register the async notifier.
->
-> Remedy this be examining which subdevice generated the event and route
-> it to all VIN(s) that are connected to that subdevice.
+On Thu, Nov 12, 2020 at 11:51:46PM +0100, Niklas Söderlund wrote:
+> When a subdevice signals end of stream stop the VIN in addition to
+> informing user-space of the event.
 >
 > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-v4l2.c | 16 +++++++++++++++-
+>  1 file changed, 15 insertions(+), 1 deletion(-)
+>
+> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> index dca3ab1656a66cef..fcaf68c3428b80fd 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
+> @@ -969,9 +969,23 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
+>  static void rvin_notify_video_device(struct rvin_dev *vin,
+>  				     unsigned int notification, void *arg)
+>  {
+> +	const struct v4l2_event *event;
+> +
 
-This was easy to miss indeed!
+Can this go inside the switch ?
+
+>  	switch (notification) {
+>  	case V4L2_DEVICE_NOTIFY_EVENT:
+> -		v4l2_event_queue(&vin->vdev, arg);
+> +		event = arg;
+> +
+> +		switch (event->type) {
+> +		case V4L2_EVENT_EOS:
+
+As there's only a case where this happen, this could be an if, but I
+see a switch is consistent with the existing one. Up to you.
 
 Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
 
 Thanks
-  j
+   j
 
-> ---
->  drivers/media/platform/rcar-vin/rcar-v4l2.c | 44 ++++++++++++++++++---
->  1 file changed, 38 insertions(+), 6 deletions(-)
->
-> diff --git a/drivers/media/platform/rcar-vin/rcar-v4l2.c b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> index 3e7a3ae2a6b97045..dca3ab1656a66cef 100644
-> --- a/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> +++ b/drivers/media/platform/rcar-vin/rcar-v4l2.c
-> @@ -966,18 +966,50 @@ void rvin_v4l2_unregister(struct rvin_dev *vin)
->  	video_unregister_device(&vin->vdev);
->  }
->
-> +static void rvin_notify_video_device(struct rvin_dev *vin,
-> +				     unsigned int notification, void *arg)
-> +{
-> +	switch (notification) {
-> +	case V4L2_DEVICE_NOTIFY_EVENT:
-> +		v4l2_event_queue(&vin->vdev, arg);
-> +		break;
-> +	default:
-> +		break;
-> +	}
-> +}
+> +			rvin_stop_streaming(vin);
+> +			v4l2_info(&vin->v4l2_dev,
+> +				  "Subdevice signaled end of stream, stopping.\n");
+> +			break;
+> +		default:
+> +			break;
+> +		}
 > +
->  static void rvin_notify(struct v4l2_subdev *sd,
->  			unsigned int notification, void *arg)
->  {
-> +	struct v4l2_subdev *remote;
-> +	struct rvin_group *group;
-> +	struct media_pad *pad;
->  	struct rvin_dev *vin =
->  		container_of(sd->v4l2_dev, struct rvin_dev, v4l2_dev);
-> +	unsigned int i;
->
-> -	switch (notification) {
-> -	case V4L2_DEVICE_NOTIFY_EVENT:
-> -		v4l2_event_queue(&vin->vdev, arg);
-> -		break;
-> -	default:
-> -		break;
-> +	/* If no media controller, no need to route the event. */
-> +	if (!vin->info->use_mc) {
-> +		rvin_notify_video_device(vin, notification, arg);
-> +		return;
-> +	}
-> +
-> +	group = vin->group;
-> +
-> +	for (i = 0; i < RCAR_VIN_NUM; i++) {
-> +		vin = group->vin[i];
-> +		if (!vin)
-> +			continue;
-> +
-> +		pad = media_entity_remote_pad(&vin->pad);
-> +		if (!pad)
-> +			continue;
-> +
-> +		remote = media_entity_to_v4l2_subdev(pad->entity);
-> +		if (remote != sd)
-> +			continue;
-> +
-> +		rvin_notify_video_device(vin, notification, arg);
->  	}
->  }
->
+> +		v4l2_event_queue(&vin->vdev, event);
+>  		break;
+>  	default:
+>  		break;
 > --
 > 2.29.2
 >
