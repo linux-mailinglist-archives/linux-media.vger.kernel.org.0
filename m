@@ -2,1835 +2,726 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AA9CC2B3EFE
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 09:44:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 114932B3F00
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 09:47:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727977AbgKPIot (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 03:44:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47478 "EHLO
+        id S1726449AbgKPIp2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 03:45:28 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47592 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726928AbgKPIot (ORCPT
+        with ESMTP id S1726241AbgKPIp2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 03:44:49 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5A55CC0613CF
-        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 00:44:47 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id h21so2049992wmb.2
-        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 00:44:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
-        h=subject:to:cc:references:from:autocrypt:organization:message-id
-         :date:user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=Wk+4hOTy4Pv+5VelG9z99AEUL416AAb0STJ0wfsyZks=;
-        b=cRcNnJgTx64ZHPm0ubRt5E7fECLS6tToFaKGTSaSx+BRGESa1CmlOzsG8ls+ByNh9O
-         c/TN80arjm6C7i6rRAcGsX0EhCOF1jj7qRwkjfbu89hfehJBi01cIGYmd02Ad2+ffSIX
-         EyzwwepRKBMgFA0OvBiuG+PHaUqpE2WgQ17o8vOGV+EhDLn26ikdSeABGnGZ9d1t/KxR
-         Lc2pHDPSjSMVy4q8uLv+C1KEDz1a0/+7UyRZETfKUWob9kxGR2EWQ1OqahuPbDTHU2RR
-         0FH0thC2h4Mi8pN1X9Mm9SjVUCYTXaJWOaLjrgxQE4wm6y488IA7w50EW4r+wGUTA8Nl
-         oBrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
-         :organization:message-id:date:user-agent:mime-version:in-reply-to
-         :content-language:content-transfer-encoding;
-        bh=Wk+4hOTy4Pv+5VelG9z99AEUL416AAb0STJ0wfsyZks=;
-        b=g6YiEAucy8MaMmD41MStUVtMqHmSBMEwLsE3ZW4Knl3HwVIcsNnPLI/uiq6nMKOtjp
-         ue178I3iVNGC7fQWevK3IoCM6J5BtVf8V4Yz8u9X7TiW1CeSouGTEGew0cqQbigO7JfR
-         OAvu+lIDBRI36pmkwPWtzvSlSM097FWbzL/8mMBY1V1I1CaWRlUjjYWk912rc+sFXrvn
-         CErs+zDjfzgOINR9CogqWsnGwm8LRqwB428i1Zb1Nv66QjRKve3Yub0fHuUY/ACNO/p6
-         qsKe9wJ7VBOIPKAD1Mq1N6Yk12jLd+PgfN52LM1VHY9e0avzqbWC+dZU3oFMXQEFxR99
-         UvVQ==
-X-Gm-Message-State: AOAM530RGYl1v5ueb9Eh+BBE9FhFssUHBfsDdL+s6l2SJKSSpYPcXijY
-        i9w0i9Fx67z3Y5E3w6uHKF5uaA==
-X-Google-Smtp-Source: ABdhPJzGYRq4PnHT8UPkCrxBCXppXDu+mnetiC5oDQDRbMgs6b7yUxcq/rX3cCNvze8LaGZiAbYiBA==
-X-Received: by 2002:a1c:bd08:: with SMTP id n8mr14155136wmf.136.1605516285525;
-        Mon, 16 Nov 2020 00:44:45 -0800 (PST)
-Received: from ?IPv6:2a01:e35:2ec0:82b0:edb9:72a:9e35:6eb? ([2a01:e35:2ec0:82b0:edb9:72a:9e35:6eb])
-        by smtp.gmail.com with ESMTPSA id g138sm18773546wme.39.2020.11.16.00.44.43
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 16 Nov 2020 00:44:44 -0800 (PST)
-Subject: Re: [PATCH v2 2/4] media: meson: Add M2M driver for the Amlogic GE2D
- Accelerator Unit
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20201030143715.577641-1-narmstrong@baylibre.com>
- <20201030143715.577641-3-narmstrong@baylibre.com>
- <21c74304-fdd2-f61b-65c1-1fcabe7b189d@xs4all.nl>
-From:   Neil Armstrong <narmstrong@baylibre.com>
-Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
- mQENBE1ZBs8BCAD78xVLsXPwV/2qQx2FaO/7mhWL0Qodw8UcQJnkrWmgTFRobtTWxuRx8WWP
- GTjuhvbleoQ5Cxjr+v+1ARGCH46MxFP5DwauzPekwJUD5QKZlaw/bURTLmS2id5wWi3lqVH4
- BVF2WzvGyyeV1o4RTCYDnZ9VLLylJ9bneEaIs/7cjCEbipGGFlfIML3sfqnIvMAxIMZrvcl9
- qPV2k+KQ7q+aXavU5W+yLNn7QtXUB530Zlk/d2ETgzQ5FLYYnUDAaRl+8JUTjc0CNOTpCeik
- 80TZcE6f8M76Xa6yU8VcNko94Ck7iB4vj70q76P/J7kt98hklrr85/3NU3oti3nrIHmHABEB
- AAG0KE5laWwgQXJtc3Ryb25nIDxuYXJtc3Ryb25nQGJheWxpYnJlLmNvbT6JATsEEwEKACUC
- GyMGCwkIBwMCBhUIAgkKCwQWAgMBAh4BAheABQJXDO2CAhkBAAoJEBaat7Gkz/iubGIH/iyk
- RqvgB62oKOFlgOTYCMkYpm2aAOZZLf6VKHKc7DoVwuUkjHfIRXdslbrxi4pk5VKU6ZP9AKsN
- NtMZntB8WrBTtkAZfZbTF7850uwd3eU5cN/7N1Q6g0JQihE7w4GlIkEpQ8vwSg5W7hkx3yQ6
- 2YzrUZh/b7QThXbNZ7xOeSEms014QXazx8+txR7jrGF3dYxBsCkotO/8DNtZ1R+aUvRfpKg5
- ZgABTC0LmAQnuUUf2PHcKFAHZo5KrdO+tyfL+LgTUXIXkK+tenkLsAJ0cagz1EZ5gntuheLD
- YJuzS4zN+1Asmb9kVKxhjSQOcIh6g2tw7vaYJgL/OzJtZi6JlIW5AQ0ETVkGzwEIALyKDN/O
- GURaHBVzwjgYq+ZtifvekdrSNl8TIDH8g1xicBYpQTbPn6bbSZbdvfeQPNCcD4/EhXZuhQXM
- coJsQQQnO4vwVULmPGgtGf8PVc7dxKOeta+qUh6+SRh3vIcAUFHDT3f/Zdspz+e2E0hPV2hi
- SvICLk11qO6cyJE13zeNFoeY3ggrKY+IzbFomIZY4yG6xI99NIPEVE9lNBXBKIlewIyVlkOa
- YvJWSV+p5gdJXOvScNN1epm5YHmf9aE2ZjnqZGoMMtsyw18YoX9BqMFInxqYQQ3j/HpVgTSv
- mo5ea5qQDDUaCsaTf8UeDcwYOtgI8iL4oHcsGtUXoUk33HEAEQEAAYkBHwQYAQIACQUCTVkG
- zwIbDAAKCRAWmrexpM/4rrXiB/sGbkQ6itMrAIfnM7IbRuiSZS1unlySUVYu3SD6YBYnNi3G
- 5EpbwfBNuT3H8//rVvtOFK4OD8cRYkxXRQmTvqa33eDIHu/zr1HMKErm+2SD6PO9umRef8V8
- 2o2oaCLvf4WeIssFjwB0b6a12opuRP7yo3E3gTCSKmbUuLv1CtxKQF+fUV1cVaTPMyT25Od+
- RC1K+iOR0F54oUJvJeq7fUzbn/KdlhA8XPGzwGRy4zcsPWvwnXgfe5tk680fEKZVwOZKIEuJ
- C3v+/yZpQzDvGYJvbyix0lHnrCzq43WefRHI5XTTQbM0WUIBIcGmq38+OgUsMYu4NzLu7uZF
- Acmp6h8guQINBFYnf6QBEADQ+wBYa+X2n/xIQz/RUoGHf84Jm+yTqRT43t7sO48/cBW9vAn9
- GNwnJ3HRJWKATW0ZXrCr40ES/JqM1fUTfiFDB3VMdWpEfwOAT1zXS+0rX8yljgsWR1UvqyEP
- 3xN0M/40Zk+rdmZKaZS8VQaXbveaiWMEmY7sBV3QvgOzB7UF2It1HwoCon5Y+PvyE3CguhBd
- 9iq5iEampkMIkbA3FFCpQFI5Ai3BywkLzbA3ZtnMXR8Qt9gFZtyXvFQrB+/6hDzEPnBGZOOx
- zkd/iIX59SxBuS38LMlhPPycbFNmtauOC0DNpXCv9ACgC9tFw3exER/xQgSpDVc4vrL2Cacr
- wmQp1k9E0W+9pk/l8S1jcHx03hgCxPtQLOIyEu9iIJb27TjcXNjiInd7Uea195NldIrndD+x
- 58/yU3X70qVY+eWbqzpdlwF1KRm6uV0ZOQhEhbi0FfKKgsYFgBIBchGqSOBsCbL35f9hK/JC
- 6LnGDtSHeJs+jd9/qJj4WqF3x8i0sncQ/gszSajdhnWrxraG3b7/9ldMLpKo/OoihfLaCxtv
- xYmtw8TGhlMaiOxjDrohmY1z7f3rf6njskoIXUO0nabun1nPAiV1dpjleg60s3OmVQeEpr3a
- K7gR1ljkemJzM9NUoRROPaT7nMlNYQL+IwuthJd6XQqwzp1jRTGG26J97wARAQABiQM+BBgB
- AgAJBQJWJ3+kAhsCAikJEBaat7Gkz/iuwV0gBBkBAgAGBQJWJ3+kAAoJEHfc29rIyEnRk6MQ
- AJDo0nxsadLpYB26FALZsWlN74rnFXth5dQVQ7SkipmyFWZhFL8fQ9OiIoxWhM6rSg9+C1w+
- n45eByMg2b8H3mmQmyWztdI95OxSREKwbaXVapCcZnv52JRjlc3DoiiHqTZML5x1Z7lQ1T3F
- 8o9sKrbFO1WQw1+Nc91+MU0MGN0jtfZ0Tvn/ouEZrSXCE4K3oDGtj3AdC764yZVq6CPigCgs
- 6Ex80k6QlzCdVP3RKsnPO2xQXXPgyJPJlpD8bHHHW7OLfoR9DaBNympfcbQJeekQrTvyoASw
- EOTPKE6CVWrcQIztUp0WFTdRGgMK0cZB3Xfe6sOp24PQTHAKGtjTHNP/THomkH24Fum9K3iM
- /4Wh4V2eqGEgpdeSp5K+LdaNyNgaqzMOtt4HYk86LYLSHfFXywdlbGrY9+TqiJ+ZVW4trmui
- NIJCOku8SYansq34QzYM0x3UFRwff+45zNBEVzctSnremg1mVgrzOfXU8rt+4N1b2MxorPF8
- 619aCwVP7U16qNSBaqiAJr4e5SNEnoAq18+1Gp8QsFG0ARY8xp+qaKBByWES7lRi3QbqAKZf
- yOHS6gmYo9gBmuAhc65/VtHMJtxwjpUeN4Bcs9HUpDMDVHdfeRa73wM+wY5potfQ5zkSp0Jp
- bxnv/cRBH6+c43stTffprd//4Hgz+nJcCgZKtCYIAPkUxABC85ID2CidzbraErVACmRoizhT
- KR2OiqSLW2x4xdmSiFNcIWkWJB6Qdri0Fzs2dHe8etD1HYaht1ZhZ810s7QOL7JwypO8dscN
- KTEkyoTGn6cWj0CX+PeP4xp8AR8ot4d0BhtUY34UPzjE1/xyrQFAdnLd0PP4wXxdIUuRs0+n
- WLY9Aou/vC1LAdlaGsoTVzJ2gX4fkKQIWhX0WVk41BSFeDKQ3RQ2pnuzwedLO94Bf6X0G48O
- VsbXrP9BZ6snXyHfebPnno/te5XRqZTL9aJOytB/1iUna+1MAwBxGFPvqeEUUyT+gx1l3Acl
- ZaTUOEkgIor5losDrePdPgE=
-Organization: Baylibre
-Message-ID: <50883ec0-daac-a6d3-a5fe-86945af348bd@baylibre.com>
-Date:   Mon, 16 Nov 2020 09:44:43 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 16 Nov 2020 03:45:28 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 25C4FC0613CF
+        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 00:45:28 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 9F1A5A1B;
+        Mon, 16 Nov 2020 09:45:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1605516325;
+        bh=kWOMPNv+A1DK7+Q0qmZe26ymnbEOlaae7P+ExgE/7oI=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=j+N/FP7pDQQNiKRmsNzDF0aL9dQsK2GYy1NRX71W0vJysnpt4rHngzT/Q5qQfDPjF
+         4pZfKLaGF32bzT0pfulkCReqJ08/PMrySyQAow8JxVWFyPocKRNIolsNXuW46MRUkM
+         ihjhvc8cYC4gDDJAgJ6jJxZY2RlntivDy+shim+w=
+Date:   Mon, 16 Nov 2020 10:45:19 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Gregor Hlawacek <g.hlawacek@hzdr.de>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: Philips Monitor with webcam
+Message-ID: <20201116084519.GA3892@pendragon.ideasonboard.com>
+References: <59f848e83354ad72c11dacaf571f20a8084baf58.camel@hzdr.de>
+ <20201104174554.4bbec36a@coco.lan>
+ <b8fcc03ed79873f9e55ab394b4b95140ab8b215b.camel@hzdr.de>
+ <20201104210155.353a0d6a@coco.lan>
+ <40a643d5fd9b6dd387d9cbde3e5ba1796b282f6a.camel@hzdr.de>
+ <20201104221148.4d5c644d@coco.lan>
+ <20201104212454.GF29958@pendragon.ideasonboard.com>
+ <73b62785d882113351d0e69e3b552f0f271e4f2d.camel@hzdr.de>
+ <20201105091905.GD3988@pendragon.ideasonboard.com>
+ <0575b7608e42ef4ffd4964cd2fa19d9d128a90d2.camel@hzdr.de>
 MIME-Version: 1.0
-In-Reply-To: <21c74304-fdd2-f61b-65c1-1fcabe7b189d@xs4all.nl>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <0575b7608e42ef4ffd4964cd2fa19d9d128a90d2.camel@hzdr.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 11/11/2020 15:20, Hans Verkuil wrote:
-> On 30/10/2020 15:37, Neil Armstrong wrote:
->> The GE2D is a 2D accelerator with various features like configurable blitter
->> with alpha blending, frame rotation, scaling, format conversion and colorspace
->> conversion.
->>
->> The driver implements a Memory2Memory VB2 V4L2 streaming device permitting:
->> - 0, 90, 180, 270deg rotation
->> - horizontal/vertical flipping
->> - source cropping
->> - destination compositing
->> - 32bit/24bit/16bit format conversion
->>
->> This adds the support for the GE2D version found in the AXG SoCs Family.
->>
->> The missing features are:
->> - Source scaling
->> - Colorspace conversion
->> - Advanced alpha blending & blitting options
->>
->> Is passes v4l2-compliance SHA: ea16a7ef13a902793a5c2626b0cefc4d956147f3, 64 bits, 64-bit time_t
->>
->> Signed-off-by: Neil Armstrong <narmstrong@baylibre.com>
->> ---
->>  drivers/media/platform/Kconfig                |   13 +
->>  drivers/media/platform/Makefile               |    2 +
->>  drivers/media/platform/meson/ge2d/Makefile    |    3 +
->>  drivers/media/platform/meson/ge2d/ge2d-regs.h |  360 ++++++
->>  drivers/media/platform/meson/ge2d/ge2d.c      | 1105 +++++++++++++++++
->>  5 files changed, 1483 insertions(+)
->>  create mode 100644 drivers/media/platform/meson/ge2d/Makefile
->>  create mode 100644 drivers/media/platform/meson/ge2d/ge2d-regs.h
->>  create mode 100644 drivers/media/platform/meson/ge2d/ge2d.c
->>
->> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
->> index a3cb104956d5..0522a5a76b86 100644
->> --- a/drivers/media/platform/Kconfig
->> +++ b/drivers/media/platform/Kconfig
->> @@ -274,6 +274,19 @@ config VIDEO_MEM2MEM_DEINTERLACE
->>  	help
->>  	    Generic deinterlacing V4L2 driver.
->>  
->> +config VIDEO_MESON_GE2D
->> +	tristate "Amlogic 2D Graphic Acceleration Unit"
->> +	depends on VIDEO_DEV && VIDEO_V4L2
->> +	depends on ARCH_MESON || COMPILE_TEST
->> +	select VIDEOBUF2_DMA_CONTIG
->> +	select V4L2_MEM2MEM_DEV
->> +	help
->> +	  This is a v4l2 driver for Amlogic GE2D 2D graphics accelerator.
->> +	  GE2D is a standalone 2D graphic acceleration unit, with color converter,
->> +	  image scaling, BitBLT & alpha blending operations.
->> +
->> +	  To compile this driver as a module choose m here.
->> +
->>  config VIDEO_SAMSUNG_S5P_G2D
->>  	tristate "Samsung S5P and EXYNOS4 G2D 2d graphics accelerator driver"
->>  	depends on VIDEO_DEV && VIDEO_V4L2
->> diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
->> index 62b6cdc8c730..d47e0dcc65d7 100644
->> --- a/drivers/media/platform/Makefile
->> +++ b/drivers/media/platform/Makefile
->> @@ -80,3 +80,5 @@ obj-$(CONFIG_VIDEO_QCOM_CAMSS)		+= qcom/camss/
->>  obj-$(CONFIG_VIDEO_QCOM_VENUS)		+= qcom/venus/
->>  
->>  obj-y					+= sunxi/
->> +
->> +obj-$(CONFIG_VIDEO_MESON_GE2D)		+= meson/ge2d/
->> diff --git a/drivers/media/platform/meson/ge2d/Makefile b/drivers/media/platform/meson/ge2d/Makefile
->> new file mode 100644
->> index 000000000000..450586df27d7
->> --- /dev/null
->> +++ b/drivers/media/platform/meson/ge2d/Makefile
->> @@ -0,0 +1,3 @@
->> +# SPDX-License-Identifier: GPL-2.0-only
->> +
->> +obj-$(CONFIG_VIDEO_MESON_GE2D) += ge2d.o
->> diff --git a/drivers/media/platform/meson/ge2d/ge2d-regs.h b/drivers/media/platform/meson/ge2d/ge2d-regs.h
->> new file mode 100644
->> index 000000000000..2a76dd4c0ccb
->> --- /dev/null
->> +++ b/drivers/media/platform/meson/ge2d/ge2d-regs.h
->> @@ -0,0 +1,360 @@
->> +/* SPDX-License-Identifier: GPL-2.0-or-later */
->> +/*
->> + * Copyright (C) 2020 BayLibre, SAS
->> + * Author: Neil Armstrong <narmstrong@baylibre.com>
->> + * Copyright (C) 2017 Amlogic, Inc. All rights reserved.
->> + */
->> +
->> +#ifndef __GE2D_REGS__
->> +#define __GE2D_REGS__
->> +
->> +/* Registers starts at (GE2D_REG(0x8a0 * 4) */
->> +#define GE2D_REG(x) ((0x8a0 + (x)) * 4)
->> +
->> +#define GE2D_GEN_CTRL0 GE2D_REG(0x00)
->> +
->> +#define GE2D_DST_BYTEMASK_ONLY		BIT(31)
->> +#define GE2D_DST_BITMASK_EN		BIT(30)
->> +#define GE2D_SRC2_KEY_EN		BIT(29)
->> +#define GE2D_SRC2_KEY_MODE		BIT(28)
->> +#define GE2D_SRC1_KEY_EN		BIT(27)
->> +#define GE2D_SRC1_KEY_MODE		BIT(26)
->> +#define GE2D_DST1_8B_MODE_SEL		GENMASK(25, 24)
->> +#define GE2D_DST_CLIP_MODE		BIT(23)
->> +#define GE2D_SRC2_8B_MODE_SEL		GENMASK(16, 15)
->> +#define GE2D_SRC2_FILL_MODE		BIT(14)
->> +#define GE2D_SRC2_PIC_STRUCT		GENMASK(13, 12)
->> +#define GE2D_SRC2_X_YC_RATIO		BIT(11)
->> +#define GE2D_SRC1_8B_MODE_SEL		GENMASK(6, 5)
->> +#define GE2D_SRC1_FILL_MODE		BIT(4)
->> +#define GE2D_SRC1_LUT_EN		BIT(3)
->> +#define GE2D_SRC1_PIC_STRUCT		GENMASK(2, 1)
->> +
->> +#define GE2D_GEN_CTRL1 GE2D_REG(0x01)
->> +
->> +#define GE2D_SOFT_RST			BIT(31)
->> +#define GE2D_DST_WRITE_RESP_CNT_RST	BIT(30)
->> +#define GE2D_DST_WRITE_RESP_CNT_ADD_DIS	BIT(29)
->> +#define GE2D_COLOR_CONVERSION_MODE1	BIT(26)
->> +#define GE2D_INTERRUPT_CTRL		GENMASK(25, 24)
->> +#define GE2D_SRC2_BURST_SIZE_CTRL	GENMASK(23, 22)
->> +#define GE2D_SRC1_BURST_SIZE_CTRL	GENMASK(21, 16)
->> +#define GE2D_DST1_PIC_STRUCT		GENMASK(15, 14)
->> +#define GE2D_SRC_RD_CTRL		GENMASK(13, 12)
->> +#define GE2D_DST2_URGENT_EN		BIT(11)
->> +#define GE2D_SRC1_URGENT_EN		BIT(10)
->> +#define GE2D_SRC2_URGENT_EN		BIT(9)
->> +#define GE2D_DST1_URGENT_EN		BIT(8)
->> +#define GE2D_SRC1_GB_ALPHA		GENMASK(7, 0)
->> +
->> +#define GE2D_GEN_CTRL2 GE2D_REG(0x02)
->> +
->> +#define GE2D_ALPHA_CONVERSION_MODE0	BIT(31)
->> +#define GE2D_COLOR_CONVERSION_MODE0	BIT(30)
->> +#define GE2D_SRC1_GB_ALPHA_EN		BIT(29)
->> +#define GE2D_DST1_COLOR_ROUND_MODE	BIT(28)
->> +#define GE2D_SRC2_COLOR_EXPAND_MODE	BIT(27)
->> +#define GE2D_SRC2_ALPHA_EXPAND_MODE	BIT(26)
->> +#define GE2D_SRC1_COLOR_EXPAND_MODE	BIT(25)
->> +#define GE2D_SRC1_ALPHA_EXPAND_MODE	BIT(24)
->> +#define GE2D_DST_LITTLE_ENDIAN		BIT(23)
->> +#define GE2D_DST1_COLOR_MAP		GENMASK(22, 19)
->> +#define GE2D_ALU_MULT_MODE		BIT(18)
->> +#define GE2D_DST1_FORMAT		GENMASK(17, 16)
->> +#define GE2D_SRC2_LITTLE_ENDIAN		BIT(15)
->> +#define GE2D_SRC2_COLOR_MAP		GENMASK(14, 11)
->> +#define GE2D_ALPHA_CONVERSION_MODE1	BIT(10)
->> +#define GE2D_SRC2_FORMAT		GENMASK(9, 8)
->> +#define GE2D_SRC1_LITTLE_ENDIAN		BIT(7)
->> +#define GE2D_SRC1_COLOR_MAP		GENMASK(6, 3)
->> +#define GE2D_SRC1_DEEPCOLOR		BIT(2)
->> +#define GE2D_SRC1_FORMAT		GENMASK(1, 0)
->> +
->> +#define GE2D_FORMAT_8BIT	0
->> +#define GE2D_FORMAT_16BIT	1
->> +#define GE2D_FORMAT_24BIT	2
->> +#define GE2D_FORMAT_32BIT	3
->> +
->> +/* 16 bit */
->> +#define GE2D_COLOR_MAP_YUV422		0
->> +#define GE2D_COLOR_MAP_RGB655		1
->> +#define GE2D_COLOR_MAP_YUV655		1
->> +#define GE2D_COLOR_MAP_RGB844		2
->> +#define GE2D_COLOR_MAP_YUV844		2
->> +#define GE2D_COLOR_MAP_RGBA6442		3
->> +#define GE2D_COLOR_MAP_YUVA6442		3
->> +#define GE2D_COLOR_MAP_RGBA4444		4
->> +#define GE2D_COLOR_MAP_YUVA4444		4
->> +#define GE2D_COLOR_MAP_RGB565		5
->> +#define GE2D_COLOR_MAP_YUV565		5
->> +#define GE2D_COLOR_MAP_ARGB4444		6
->> +#define GE2D_COLOR_MAP_AYUV4444		6
->> +#define GE2D_COLOR_MAP_ARGB1555		7
->> +#define GE2D_COLOR_MAP_AYUV1555		7
->> +#define GE2D_COLOR_MAP_RGBA4642		8
->> +#define GE2D_COLOR_MAP_YUVA4642		8
->> +
->> +/* 24 bit */
->> +#define GE2D_COLOR_MAP_RGB888		0
->> +#define GE2D_COLOR_MAP_YUV444		0
->> +#define GE2D_COLOR_MAP_RGBA5658		1
->> +#define GE2D_COLOR_MAP_YUVA5658		1
->> +#define GE2D_COLOR_MAP_ARGB8565		2
->> +#define GE2D_COLOR_MAP_AYUV8565		2
->> +#define GE2D_COLOR_MAP_RGBA6666		3
->> +#define GE2D_COLOR_MAP_YUVA6666		3
->> +#define GE2D_COLOR_MAP_ARGB6666		4
->> +#define GE2D_COLOR_MAP_AYUV6666		4
->> +#define GE2D_COLOR_MAP_BGR888		5
->> +#define GE2D_COLOR_MAP_VUY888		5
->> +
->> +/* 32 bit */
->> +#define GE2D_COLOR_MAP_RGBA8888		0
->> +#define GE2D_COLOR_MAP_YUVA8888		0
->> +#define GE2D_COLOR_MAP_ARGB8888		1
->> +#define GE2D_COLOR_MAP_AYUV8888		1
->> +#define GE2D_COLOR_MAP_ABGR8888		2
->> +#define GE2D_COLOR_MAP_AVUY8888		2
->> +#define GE2D_COLOR_MAP_BGRA8888		3
->> +#define GE2D_COLOR_MAP_VUYA8888		3
->> +
->> +#define GE2D_CMD_CTRL GE2D_REG(0x03)
->> +
->> +#define GE2D_SRC2_FILL_COLOR_EN		BIT(9)
->> +#define GE2D_SRC1_FILL_COLOR_EN		BIT(8)
->> +#define GE2D_DST_XY_SWAP		BIT(7)
->> +#define GE2D_DST_X_REV			BIT(6)
->> +#define GE2D_DST_Y_REV			BIT(5)
->> +#define GE2D_SRC2_X_REV			BIT(4)
->> +#define GE2D_SRC2_Y_REV			BIT(3)
->> +#define GE2D_SRC1_X_REV			BIT(2)
->> +#define GE2D_SRC1_Y_REV			BIT(1)
->> +#define GE2D_CBUS_CMD_WR		BIT(0)
->> +
->> +#define GE2D_STATUS0 GE2D_REG(0x04)
->> +
->> +#define GE2D_DST_WRITE_RSP_CNT		GENMASK(28, 17)
->> +#define GE2D_DP_STATUS			GENMASK(16, 7)
->> +#define GE2D_R1CMD_RDY			BIT(6)
->> +#define GE2D_R2CMD_RDY			BIT(5)
->> +#define GE2D_PDPCMD_VALID		BIT(4)
->> +#define GE2D_DPCMD_RDY			BIT(3)
->> +#define GE2D_BUF_CMD_VALID		BIT(2)
->> +#define GE2D_CURR_CMD_VALID		BIT(1)
->> +#define GE2D_GE2D_BUSY			BIT(0)
->> +
->> +#define GE2D_STATUS1 GE2D_REG(0x05)
->> +
->> +#define GE2D_WR_DST1_STATUS		GENMASK(29, 16)
->> +#define GE2D_RD_SRC2_FIFO_EMPTY		BIT(15)
->> +#define GE2D_RD_SRC2_FIFO_OVERFLOW	BIT(14)
->> +#define GE2D_RD_SRC2_STATE_Y		GENMASK(13, 12)
->> +#define GE2D_RD_SRC2_WIN_ERR		BIT(11)
->> +#define GE2D_RD_SRC2_CMD_BUSY		BIT(10)
->> +#define GE2D_RD_SRC1_FIFO_EMPTY		BIT(9)
->> +#define GE2D_RD_SRC1_FIFO_OVERFLOW	BIT(8)
->> +#define GE2D_RD_SRC1_STATE_CR		GENMASK(7, 6)
->> +#define GE2D_RD_SRC1_STATE_CB		GENMASK(5, 4)
->> +#define GE2D_RD_SRC1_STATE_Y		GENMASK(3, 2)
->> +#define GE2D_RD_SRC1_WIN_ERR		BIT(1)
->> +#define GE2D_RD_SRC1_CMD_BUSY		BIT(0)
->> +
->> +#define GE2D_SRC1_DEF_COLOR GE2D_REG(0x06)
->> +
->> +#define GE2D_COLOR_R_Y			GENMASK(31, 24)
->> +#define GE2D_COLOR_B_CB			GENMASK(23, 16)
->> +#define GE2D_COLOR_B_CR			GENMASK(15, 8)
->> +#define GE2D_COLOR_ALPHA		GENMASK(7, 0)
->> +
->> +#define GE2D_SRC1_CLIPX_START_END GE2D_REG(0x07)
->> +
->> +#define GE2D_START_EXTRA	BIT(31) /* For GE2D_SRC1_CLIPX/Y_START_END */
->> +#define GE2D_START_EXTRA0	BIT(30)	/* For GE2D_SRC1_X/Y_START_END */
->> +#define GE2D_START		GENMASK(28, 16)
->> +#define GE2D_END_EXTRA		BIT(15) /* For GE2D_SRC1_CLIPX/Y_START_END */
->> +#define GE2D_END_EXTRA0		BIT(14)	/* For GE2D_SRC1_X/Y_START_END */
->> +#define GE2D_END		GENMASK(12, 0)
->> +
->> +#define GE2D_SRC1_CLIPY_START_END GE2D_REG(0x08)
->> +#define GE2D_SRC1_CANVAS GE2D_REG(0x09)
->> +
->> +#define GE2D_SRC1_CANVAS_ADDR	GENMASK(31, 24)
->> +
->> +#define GE2D_SRC1_X_START_END GE2D_REG(0x0a)
->> +#define GE2D_SRC1_Y_START_END GE2D_REG(0x0b)
->> +#define GE2D_SRC1_LUT_ADDR GE2D_REG(0x0c)
->> +
->> +#define GE2D_LUT_READ		BIT(8)
->> +#define GE2D_LUT_ADDR		GENMASK(7, 0)
->> +
->> +#define GE2D_SRC1_LUT_DAT GE2D_REG(0x0d)
->> +#define GE2D_SRC1_FMT_CTRL GE2D_REG(0x0e)
->> +#define GE2D_SRC2_DEF_COLOR GE2D_REG(0x0f)
->> +#define GE2D_SRC2_CLIPX_START_END GE2D_REG(0x10)
->> +#define GE2D_SRC2_CLIPY_START_END GE2D_REG(0x11)
->> +#define GE2D_SRC2_X_START_END GE2D_REG(0x12)
->> +#define GE2D_SRC2_Y_START_END GE2D_REG(0x13)
->> +#define GE2D_DST_CLIPX_START_END GE2D_REG(0x14)
->> +#define GE2D_DST_CLIPY_START_END GE2D_REG(0x15)
->> +#define GE2D_DST_X_START_END GE2D_REG(0x16)
->> +#define GE2D_DST_Y_START_END GE2D_REG(0x17)
->> +#define GE2D_SRC2_DST_CANVAS GE2D_REG(0x18)
->> +
->> +#define GE2D_DST2_CANVAS_ADDR	GENMASK(23, 16)
->> +#define GE2D_SRC2_CANVAS_ADDR	GENMASK(15, 8)
->> +#define GE2D_DST1_CANVAS_ADDR	GENMASK(7, 0)
->> +
->> +#define GE2D_VSC_START_PHASE_STEP GE2D_REG(0x19)
->> +#define GE2D_VSC_PHASE_SLOPE GE2D_REG(0x1a)
->> +#define GE2D_VSC_INI_CTRL GE2D_REG(0x1b)
->> +#define GE2D_HSC_START_PHASE_STEP GE2D_REG(0x1c)
->> +#define GE2D_HSC_PHASE_SLOPE GE2D_REG(0x1d)
->> +#define GE2D_HSC_INI_CTRL GE2D_REG(0x1e)
->> +#define GE2D_HSC_ADV_CTRL GE2D_REG(0x1f)
->> +#define GE2D_SC_MISC_CTRL GE2D_REG(0x20)
->> +#define GE2D_VSC_NRND_POINT GE2D_REG(0x21)
->> +#define GE2D_VSC_NRND_PHASE GE2D_REG(0x22)
->> +#define GE2D_HSC_NRND_POINT GE2D_REG(0x23)
->> +#define GE2D_HSC_NRND_PHASE GE2D_REG(0x24)
->> +#define GE2D_MATRIX_PRE_OFFSET GE2D_REG(0x25)
->> +#define GE2D_MATRIX_COEF00_01 GE2D_REG(0x26)
->> +#define GE2D_MATRIX_COEF02_10 GE2D_REG(0x27)
->> +#define GE2D_MATRIX_COEF11_12 GE2D_REG(0x28)
->> +#define GE2D_MATRIX_COEF20_21 GE2D_REG(0x29)
->> +#define GE2D_MATRIX_COEF22_CTRL GE2D_REG(0x2a)
->> +#define GE2D_MATRIX_OFFSET GE2D_REG(0x2b)
->> +#define GE2D_ALU_OP_CTRL GE2D_REG(0x2c)
->> +
->> +#define GE2D_SRC1_COLOR_MULT_ALPHA_SEL	GENMASK(26, 25)
->> +#define GE2D_SRC2_COLOR_MULT_ALPHA_SEL	BIT(24)
->> +#define GE2D_ALU_BLEND_MODE		GENMASK(22, 20)
->> +
->> +#define OPERATION_ADD           0    /* Cd = Cs*Fs+Cd*Fd */
->> +#define OPERATION_SUB           1    /* Cd = Cs*Fs-Cd*Fd */
->> +#define OPERATION_REVERSE_SUB   2    /* Cd = Cd*Fd-Cs*Fs */
->> +#define OPERATION_MIN           3    /* Cd = Min(Cd*Fd,Cs*Fs) */
->> +#define OPERATION_MAX           4    /* Cd = Max(Cd*Fd,Cs*Fs) */
->> +#define OPERATION_LOGIC         5
->> +
->> +#define GE2D_ALU_SRC_COLOR_BLEND_FACTOR	GENMASK(19, 16)
->> +#define GE2D_ALU_DST_COLOR_BLEND_FACTOR	GENMASK(15, 12)
->> +
->> +#define COLOR_FACTOR_ZERO                     0
->> +#define COLOR_FACTOR_ONE                      1
->> +#define COLOR_FACTOR_SRC_COLOR                2
->> +#define COLOR_FACTOR_ONE_MINUS_SRC_COLOR      3
->> +#define COLOR_FACTOR_DST_COLOR                4
->> +#define COLOR_FACTOR_ONE_MINUS_DST_COLOR      5
->> +#define COLOR_FACTOR_SRC_ALPHA                6
->> +#define COLOR_FACTOR_ONE_MINUS_SRC_ALPHA      7
->> +#define COLOR_FACTOR_DST_ALPHA                8
->> +#define COLOR_FACTOR_ONE_MINUS_DST_ALPHA      9
->> +#define COLOR_FACTOR_CONST_COLOR              10
->> +#define COLOR_FACTOR_ONE_MINUS_CONST_COLOR    11
->> +#define COLOR_FACTOR_CONST_ALPHA              12
->> +#define COLOR_FACTOR_ONE_MINUS_CONST_ALPHA    13
->> +#define COLOR_FACTOR_SRC_ALPHA_SATURATE       14
->> +
->> +#define GE2D_ALU_OPERATION_LOGIC	GENMASK(15, 12)
->> +
->> +#define LOGIC_OPERATION_CLEAR       0
->> +#define LOGIC_OPERATION_COPY        1
->> +#define LOGIC_OPERATION_NOOP        2
->> +#define LOGIC_OPERATION_SET         3
->> +#define LOGIC_OPERATION_COPY_INVERT 4
->> +#define LOGIC_OPERATION_INVERT      5
->> +#define LOGIC_OPERATION_AND_REVERSE 6
->> +#define LOGIC_OPERATION_OR_REVERSE  7
->> +#define LOGIC_OPERATION_AND         8
->> +#define LOGIC_OPERATION_OR          9
->> +#define LOGIC_OPERATION_NAND        10
->> +#define LOGIC_OPERATION_NOR         11
->> +#define LOGIC_OPERATION_XOR         12
->> +#define LOGIC_OPERATION_EQUIV       13
->> +#define LOGIC_OPERATION_AND_INVERT  14
->> +#define LOGIC_OPERATION_OR_INVERT   15
->> +
->> +#define GE2D_ALU_ALPHA_BLEND_MODE	GENMASK(10, 8)
->> +#define GE2D_ALU_SRC_ALPHA_BLEND_FACTOR	GENMASK(7, 4)
->> +#define GE2D_ALU_DST_ALPHA_BLEND_FACTOR	GENMASK(3, 0)
->> +
->> +#define ALPHA_FACTOR_ZERO                     0
->> +#define ALPHA_FACTOR_ONE                      1
->> +#define ALPHA_FACTOR_SRC_ALPHA                2
->> +#define ALPHA_FACTOR_ONE_MINUS_SRC_ALPHA      3
->> +#define ALPHA_FACTOR_DST_ALPHA                4
->> +#define ALPHA_FACTOR_ONE_MINUS_DST_ALPHA      5
->> +#define ALPHA_FACTOR_CONST_ALPHA              6
->> +#define ALPHA_FACTOR_ONE_MINUS_CONST_ALPHA    7
->> +
->> +#define GE2D_ALU_ALPHA_OPERATION_LOGIC	GENMASK(3, 0)
->> +
->> +#define GE2D_ALU_COLOR_OP(__op, __src_factor, __dst_factor) \
->> +	(FIELD_PREP(GE2D_ALU_BLEND_MODE, __op) | \
->> +	 FIELD_PREP(GE2D_ALU_SRC_COLOR_BLEND_FACTOR, __src_factor) | \
->> +	 FIELD_PREP(GE2D_ALU_DST_COLOR_BLEND_FACTOR, __dst_factor))
->> +
->> +#define GE2D_ALU_DO_COLOR_OPERATION_LOGIC(__op, __src_factor) \
->> +	GE2D_ALU_COLOR_OP(OPERATION_LOGIC, __src_factor, __op)
->> +
->> +#define GE2D_ALU_ALPHA_OP(__op, __src_factor, __dst_factor) \
->> +	(FIELD_PREP(GE2D_ALU_ALPHA_BLEND_MODE, __op) | \
->> +	 FIELD_PREP(GE2D_ALU_SRC_ALPHA_BLEND_FACTOR, __src_factor) | \
->> +	 FIELD_PREP(GE2D_ALU_DST_ALPHA_BLEND_FACTOR, __dst_factor))
->> +
->> +#define GE2D_ALU_DO_ALPHA_OPERATION_LOGIC(__op, __src_factor) \
->> +	GE2D_ALU_ALPHA_OP(OPERATION_LOGIC, __src_factor, __op)
->> +
->> +#define GE2D_ALU_CONST_COLOR GE2D_REG(0x2d)
->> +#define GE2D_SRC1_KEY GE2D_REG(0x2e)
->> +#define GE2D_SRC1_KEY_MASK GE2D_REG(0x2f)
->> +#define GE2D_SRC2_KEY GE2D_REG(0x30)
->> +#define GE2D_SRC2_KEY_MASK GE2D_REG(0x31)
->> +#define GE2D_DST_BITMASK GE2D_REG(0x32)
->> +#define GE2D_DP_ONOFF_CTRL GE2D_REG(0x33)
->> +#define GE2D_SCALE_COEF_IDX GE2D_REG(0x34)
->> +#define GE2D_SCALE_COEF GE2D_REG(0x35)
->> +#define GE2D_SRC_OUTSIDE_ALPHA GE2D_REG(0x36)
->> +#define GE2D_ANTIFLICK_CTRL0 GE2D_REG(0x38)
->> +#define GE2D_ANTIFLICK_CTRL1 GE2D_REG(0x39)
->> +#define GE2D_ANTIFLICK_COLOR_FILT0 GE2D_REG(0x3a)
->> +#define GE2D_ANTIFLICK_COLOR_FILT1 GE2D_REG(0x3b)
->> +#define GE2D_ANTIFLICK_COLOR_FILT2 GE2D_REG(0x3c)
->> +#define GE2D_ANTIFLICK_COLOR_FILT3 GE2D_REG(0x3d)
->> +#define GE2D_ANTIFLICK_ALPHA_FILT0 GE2D_REG(0x3e)
->> +#define GE2D_ANTIFLICK_ALPHA_FILT1 GE2D_REG(0x3f)
->> +#define GE2D_ANTIFLICK_ALPHA_FILT2 GE2D_REG(0x40)
->> +#define GE2D_ANTIFLICK_ALPHA_FILT3 GE2D_REG(0x41)
->> +#define GE2D_SRC1_RANGE_MAP_Y_CTRL GE2D_REG(0x43)
->> +#define GE2D_SRC1_RANGE_MAP_CB_CTRL GE2D_REG(0x44)
->> +#define GE2D_SRC1_RANGE_MAP_CR_CTRL GE2D_REG(0x45)
->> +#define GE2D_ARB_BURST_NUM GE2D_REG(0x46)
->> +#define GE2D_TID_TOKEN GE2D_REG(0x47)
->> +#define GE2D_GEN_CTRL3 GE2D_REG(0x48)
->> +
->> +#define GE2D_DST2_BYTEMASK_VAL		GENMASK(31, 28)
->> +#define GE2D_DST2_PIC_STRUCT		GENMASK(27, 26)
->> +#define GE2D_DST2_8B_MODE_SEL		GENMASK(25, 24)
->> +#define GE2D_DST2_COLOR_MAP		GENMASK(22, 19)
->> +#define GE2D_DST2_FORMAT		GENMASK(17, 16)
->> +#define GE2D_DST2_COLOR_ROUND_MODE	BIT(14)
->> +#define GE2D_DST2_X_DISCARD_MODE	GENMASK(13, 12)
->> +#define GE2D_DST2_Y_DISCARD_MODE	GENMASK(11, 10)
->> +#define GE2D_DST2_ENABLE		BIT(8)
->> +#define GE2D_DST1_X_DISCARD_MODE	GENMASK(5, 4)
->> +#define GE2D_DST1_Y_DISCARD_MODE	GENMASK(3, 2)
->> +#define GE2D_DST1_ENABLE		BIT(0)
->> +
->> +#define GE2D_STATUS2 GE2D_REG(0x49)
->> +#define GE2D_GEN_CTRL4 GE2D_REG(0x4a)
->> +#define GE2D_DST1_BADDR_CTRL  GE2D_REG(0x51)
->> +#define GE2D_DST1_STRIDE_CTRL GE2D_REG(0x52)
->> +
->> +#define GE2D_STRIDE_SIZE	GENMASK(19, 0)
->> +
->> +#define GE2D_SRC1_BADDR_CTRL  GE2D_REG(0x53)
->> +#define GE2D_SRC1_STRIDE_CTRL GE2D_REG(0x54)
->> +#define GE2D_SRC2_BADDR_CTRL  GE2D_REG(0x55)
->> +#define GE2D_SRC2_STRIDE_CTRL GE2D_REG(0x56)
->> +
->> +#endif /* __GE2D_REGS__ */
->> diff --git a/drivers/media/platform/meson/ge2d/ge2d.c b/drivers/media/platform/meson/ge2d/ge2d.c
->> new file mode 100644
->> index 000000000000..439bdc5151fa
->> --- /dev/null
->> +++ b/drivers/media/platform/meson/ge2d/ge2d.c
->> @@ -0,0 +1,1105 @@
->> +// SPDX-License-Identifier: GPL-2.0-or-later
->> +/*
->> + * Copyright (C) 2020 BayLibre, SAS
->> + * Author: Neil Armstrong <narmstrong@baylibre.com>
->> + */
->> +
->> +#include <linux/clk.h>
->> +#include <linux/delay.h>
->> +#include <linux/interrupt.h>
->> +#include <linux/module.h>
->> +#include <linux/of.h>
->> +#include <linux/reset.h>
->> +#include <linux/sched.h>
->> +#include <linux/slab.h>
->> +#include <linux/timer.h>
->> +#include <linux/regmap.h>
->> +
->> +#include <linux/platform_device.h>
->> +#include <media/v4l2-device.h>
->> +#include <media/v4l2-event.h>
->> +#include <media/v4l2-ioctl.h>
->> +#include <media/v4l2-mem2mem.h>
->> +#include <media/v4l2-ctrls.h>
->> +#include <media/videobuf2-v4l2.h>
->> +#include <media/videobuf2-dma-contig.h>
->> +
->> +#include "ge2d-regs.h"
->> +
->> +#define GE2D_NAME	"meson-ge2d"
->> +
->> +#define DEFAULT_WIDTH	100
->> +#define DEFAULT_HEIGHT	100
->> +
->> +#define MAX_WIDTH	8191
->> +#define MAX_HEIGHT	8191
->> +
->> +/*
->> + * Missing features:
->> + * - Scaling
->> + * - Simple 1/2 vertical scaling
->> + * - YUV input support
->> + * - Source global alpha
->> + * - Colorspace conversion
->> + */
->> +
->> +struct ge2d_fmt {
->> +	u32 fourcc;
->> +	bool alpha;
->> +	bool le;
->> +	unsigned int depth;
->> +	unsigned int hw_fmt;
->> +	unsigned int hw_map;
->> +};
->> +
->> +struct ge2d_frame {
->> +	struct vb2_v4l2_buffer *buf;
->> +
->> +	/* Image Format */
->> +	struct v4l2_pix_format pix_fmt;
->> +
->> +	/* Crop */
->> +	struct v4l2_rect crop;
->> +
->> +	/* Image format */
->> +	const struct ge2d_fmt *fmt;
->> +};
->> +
->> +struct ge2d_ctx {
->> +	struct v4l2_fh fh;
->> +	struct meson_ge2d *ge2d;
->> +	struct ge2d_frame in;
->> +	struct ge2d_frame out;
->> +	struct v4l2_ctrl_handler ctrl_handler;
->> +
->> +	bool streamon_out, streamon_cap;
->> +	unsigned long sequence_out, sequence_cap;
->> +
->> +	/* Control values */
->> +	u32 hflip;
->> +	u32 vflip;
->> +	u32 xy_swap;
->> +};
->> +
->> +struct meson_ge2d {
->> +	struct v4l2_device v4l2_dev;
->> +	struct v4l2_m2m_dev *m2m_dev;
->> +	struct video_device *vfd;
->> +
->> +	struct device *dev;
->> +	struct regmap *map;
->> +	struct clk *clk;
->> +
->> +	/* vb2 queue lock */
->> +	struct mutex mutex;
->> +	/* device access spinlock */
->> +	spinlock_t ctrl_lock;
->> +
->> +	struct ge2d_ctx *curr;
->> +};
->> +
->> +static void vidioc_setup_cap_fmt(struct ge2d_ctx *ctx, struct v4l2_pix_format *f);
->> +
->> +#define FMT(_fourcc, _alpha, _depth, _map)		\
->> +{							\
->> +	.fourcc = _fourcc,				\
->> +	.alpha = (_alpha),				\
->> +	.depth = (_depth),				\
->> +	.hw_fmt = GE2D_FORMAT_ ## _depth ## BIT,	\
->> +	.hw_map = GE2D_COLOR_MAP_ ## _map,		\
->> +}
->> +
->> +/* TOFIX Handle the YUV input formats */
->> +static const struct ge2d_fmt formats[] = {
->> +	/*  FOURCC Alpha  HW FMT  HW MAP */
->> +	FMT(V4L2_PIX_FMT_XRGB32, false, 32, BGRA8888),
->> +	FMT(V4L2_PIX_FMT_RGB32, true, 32, BGRA8888),
->> +	FMT(V4L2_PIX_FMT_ARGB32, true, 32, BGRA8888),
->> +	FMT(V4L2_PIX_FMT_RGBX32, false, 32, ABGR8888),
->> +	FMT(V4L2_PIX_FMT_RGBA32, true, 32, ABGR8888),
->> +	FMT(V4L2_PIX_FMT_BGRX32, false, 32, RGBA8888),
->> +	FMT(V4L2_PIX_FMT_BGRA32, true, 32, RGBA8888),
->> +	FMT(V4L2_PIX_FMT_BGR32, true, 32, ARGB8888),
->> +	FMT(V4L2_PIX_FMT_ABGR32, true, 32, ARGB8888),
->> +	FMT(V4L2_PIX_FMT_XBGR32, false, 32, ARGB8888),
->> +
->> +	FMT(V4L2_PIX_FMT_RGB24, false, 24, BGR888),
->> +	FMT(V4L2_PIX_FMT_BGR24, false, 24, RGB888),
->> +
->> +	FMT(V4L2_PIX_FMT_XRGB555X, false, 16, ARGB1555),
->> +	FMT(V4L2_PIX_FMT_ARGB555X, true, 16, ARGB1555),
->> +	FMT(V4L2_PIX_FMT_RGB565, false, 16, RGB565),
->> +	FMT(V4L2_PIX_FMT_RGBX444, false, 16, RGBA4444),
->> +	FMT(V4L2_PIX_FMT_RGBA444, true, 16, RGBA4444),
->> +	FMT(V4L2_PIX_FMT_XRGB444, false, 16, ARGB4444),
->> +	FMT(V4L2_PIX_FMT_ARGB444, true, 16, ARGB4444),
->> +};
->> +
->> +#define NUM_FORMATS ARRAY_SIZE(formats)
->> +
->> +static const struct ge2d_fmt *find_fmt(struct v4l2_format *f)
->> +{
->> +	unsigned int i;
->> +
->> +	for (i = 0; i < NUM_FORMATS; i++) {
->> +		if (formats[i].fourcc == f->fmt.pix.pixelformat)
->> +			return &formats[i];
->> +	}
->> +
->> +	/*
->> +	 * TRY_FMT/S_FMT should never return an error when the requested format
->> +	 * is not supported. Drivers should always return a valid format,
->> +	 * preferably a format that is as widely supported by applications as
->> +	 * possible.
->> +	 */
->> +	return &formats[0];
->> +}
->> +
->> +static struct ge2d_frame *get_frame(struct ge2d_ctx *ctx,
->> +				    enum v4l2_buf_type type)
->> +{
->> +	switch (type) {
->> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
->> +		return &ctx->in;
->> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
->> +		return &ctx->out;
->> +	default:
->> +		return ERR_PTR(-EINVAL);
+Hi Gregor,
+
+On Sat, Nov 07, 2020 at 05:23:39PM +0100, Gregor Hlawacek wrote:
+> On Thu, 2020-11-05 at 11:19 +0200, Laurent Pinchart wrote:
+> > Hi Gregor,
+> > 
+> > On Thu, Nov 05, 2020 at 08:41:27AM +0100, Gregor Hlawacek wrote:
+> > 
+> > [snip]
+> > 
+> > > Hi Mauro and Laurent
+> > > 
+> > > @Mauro:
+> > > 
+> > > I think there is a confusion, which might be my fault as I talked about
+> > > a chicony cam in the external monitor. The chicony cam that shows up as
+> > > video0/1 is my internal laptop camera which is working fine. The
+> > > problematic one is the sunplusIT camera which has a chicony usb
+> > > identifier (0412). This is connected to video2-5 and also the one
+> > > for
+> > > which I reported the above information.
+> > > 
+> > > @Laurent:
+> > > 
+> > > lsusb -v -d 0412:612b:
+> > 
+> > [snip]
+> > 
+> > Thank for the information. Nothing strikes me as weird. Could you
+> > 
+> > - Set the uvcvideo trace parameter to 0xffff:
+> > 
+> >   sudo echo 0xffff > /sys/module/uvcvideo/parameters/trace
+> > 
+> > - Unplug and replug the monitor
+> > - Open the video devices in turn with v4l2-ctl (use the video device
+> >   nodes /dev/video* directly, not the by-id links)
+> > - Send send the output of 'sudo dmesg'
+> > 
+> > You can clear the kernel log with 'sudo dmesg -c' before doing so to
+> > avoid including unrelated data (or just strip it from the dmesg
+> > output manually when copying it to an e-mail).
 > 
-> I wouldn't mess with returning an error pointer here. For the default
-> case just add a WARN_ON and return &ctx->in or ->out.
+> Hi Laurent
 > 
-> It's really a driver bug if you end up there.
-
-ok
-
+> sorry for the delay but I had to many other things going on during the
+> end of this week. Here is the output attached.
 > 
->> +	}
->> +}
->> +
->> +static void ge2d_hw_start(struct meson_ge2d *ge2d)
->> +{
->> +	struct ge2d_ctx *ctx = ge2d->curr;
->> +	u32 reg;
->> +
->> +	/* Reset */
->> +	regmap_update_bits(ge2d->map, GE2D_GEN_CTRL1,
->> +			   GE2D_SOFT_RST, GE2D_SOFT_RST);
->> +	regmap_update_bits(ge2d->map, GE2D_GEN_CTRL1,
->> +			   GE2D_SOFT_RST, 0);
->> +
->> +	usleep_range(100, 200);
->> +
->> +	/* Implement CANVAS for non-AXG */
->> +	regmap_write(ge2d->map, GE2D_SRC1_BADDR_CTRL,
->> +		     (vb2_dma_contig_plane_dma_addr(&ctx->in.buf->vb2_buf, 0) + 7) >> 3);
->> +	regmap_write(ge2d->map, GE2D_SRC1_STRIDE_CTRL,
->> +		     (ctx->in.pix_fmt.bytesperline + 7) >> 3);
->> +	regmap_write(ge2d->map, GE2D_SRC2_BADDR_CTRL,
->> +		     (vb2_dma_contig_plane_dma_addr(&ctx->out.buf->vb2_buf, 0) + 7) >> 3);
->> +	regmap_write(ge2d->map, GE2D_SRC2_STRIDE_CTRL,
->> +		     (ctx->out.pix_fmt.bytesperline + 7) >> 3);
->> +	regmap_write(ge2d->map, GE2D_DST1_BADDR_CTRL,
->> +		     (vb2_dma_contig_plane_dma_addr(&ctx->out.buf->vb2_buf, 0) + 7) >> 3);
->> +	regmap_write(ge2d->map, GE2D_DST1_STRIDE_CTRL,
->> +		     (ctx->out.pix_fmt.bytesperline + 7) >> 3);
->> +
->> +	regmap_write(ge2d->map, GE2D_GEN_CTRL0, 0);
->> +	regmap_write(ge2d->map, GE2D_GEN_CTRL1,
->> +		     FIELD_PREP(GE2D_INTERRUPT_CTRL, 2) |
->> +		     FIELD_PREP(GE2D_SRC2_BURST_SIZE_CTRL, 3) |
->> +		     FIELD_PREP(GE2D_SRC1_BURST_SIZE_CTRL, 0x3f));
->> +
->> +	regmap_write(ge2d->map, GE2D_GEN_CTRL2,
->> +		     GE2D_SRC1_LITTLE_ENDIAN |
->> +		     GE2D_SRC2_LITTLE_ENDIAN |
->> +		     GE2D_DST_LITTLE_ENDIAN |
->> +		     FIELD_PREP(GE2D_DST1_COLOR_MAP, ctx->out.fmt->hw_map) |
->> +		     FIELD_PREP(GE2D_DST1_FORMAT, ctx->out.fmt->hw_fmt) |
->> +		     FIELD_PREP(GE2D_SRC2_COLOR_MAP, ctx->out.fmt->hw_map) |
->> +		     FIELD_PREP(GE2D_SRC2_FORMAT, ctx->out.fmt->hw_fmt) |
->> +		     FIELD_PREP(GE2D_SRC1_COLOR_MAP, ctx->in.fmt->hw_map) |
->> +		     FIELD_PREP(GE2D_SRC1_FORMAT, ctx->in.fmt->hw_fmt));
->> +	regmap_write(ge2d->map, GE2D_GEN_CTRL3,
->> +		     GE2D_DST1_ENABLE);
->> +
->> +	regmap_write(ge2d->map, GE2D_SRC1_CLIPY_START_END,
->> +		     FIELD_PREP(GE2D_START, ctx->in.crop.top) |
->> +		     FIELD_PREP(GE2D_END, ctx->in.crop.top + ctx->in.crop.height));
->> +	regmap_write(ge2d->map, GE2D_SRC1_CLIPX_START_END,
->> +		     FIELD_PREP(GE2D_START, ctx->in.crop.left) |
->> +		     FIELD_PREP(GE2D_END, ctx->in.crop.left + ctx->in.crop.width));
->> +	regmap_write(ge2d->map, GE2D_SRC2_CLIPY_START_END,
->> +		     FIELD_PREP(GE2D_START, ctx->out.crop.top) |
->> +		     FIELD_PREP(GE2D_END, ctx->out.crop.top + ctx->out.crop.height));
->> +	regmap_write(ge2d->map, GE2D_SRC2_CLIPX_START_END,
->> +		     FIELD_PREP(GE2D_START, ctx->out.crop.left) |
->> +		     FIELD_PREP(GE2D_END, ctx->out.crop.left + ctx->out.crop.width));
->> +	regmap_write(ge2d->map, GE2D_DST_CLIPY_START_END,
->> +		     FIELD_PREP(GE2D_START, ctx->out.crop.top) |
->> +		     FIELD_PREP(GE2D_END, ctx->out.crop.top + ctx->out.crop.height));
->> +	regmap_write(ge2d->map, GE2D_DST_CLIPX_START_END,
->> +		     FIELD_PREP(GE2D_START, ctx->out.crop.left) |
->> +		     FIELD_PREP(GE2D_END, ctx->out.crop.left + ctx->out.crop.width));
->> +
->> +	regmap_write(ge2d->map, GE2D_SRC1_Y_START_END,
->> +		     FIELD_PREP(GE2D_END, ctx->in.pix_fmt.height));
->> +	regmap_write(ge2d->map, GE2D_SRC1_X_START_END,
->> +		     FIELD_PREP(GE2D_END, ctx->in.pix_fmt.width));
->> +	regmap_write(ge2d->map, GE2D_SRC2_Y_START_END,
->> +		     FIELD_PREP(GE2D_END, ctx->out.pix_fmt.height));
->> +	regmap_write(ge2d->map, GE2D_SRC2_X_START_END,
->> +		     FIELD_PREP(GE2D_END, ctx->out.pix_fmt.width));
->> +	regmap_write(ge2d->map, GE2D_DST_Y_START_END,
->> +		     FIELD_PREP(GE2D_END, ctx->out.pix_fmt.height));
->> +	regmap_write(ge2d->map, GE2D_DST_X_START_END,
->> +		     FIELD_PREP(GE2D_END, ctx->out.pix_fmt.width));
->> +
->> +	/* Color, no blend, use source color */
->> +	reg = GE2D_ALU_DO_COLOR_OPERATION_LOGIC(LOGIC_OPERATION_COPY,
->> +						COLOR_FACTOR_SRC_COLOR);
->> +
->> +	if (ctx->in.fmt->alpha && ctx->out.fmt->alpha)
->> +		/* Take source alpha */
->> +		reg |= GE2D_ALU_DO_ALPHA_OPERATION_LOGIC(LOGIC_OPERATION_COPY,
->> +							 COLOR_FACTOR_SRC_ALPHA);
->> +	else if (!ctx->out.fmt->alpha)
->> +		/* Set alpha to 0 */
->> +		reg |= GE2D_ALU_DO_ALPHA_OPERATION_LOGIC(LOGIC_OPERATION_SET,
->> +							 COLOR_FACTOR_ZERO);
->> +	else
->> +		/* Keep original alpha */
->> +		reg |= GE2D_ALU_DO_ALPHA_OPERATION_LOGIC(LOGIC_OPERATION_COPY,
->> +							 COLOR_FACTOR_DST_ALPHA);
->> +
->> +	regmap_write(ge2d->map, GE2D_ALU_OP_CTRL, reg);
->> +
->> +	/* Start */
->> +	regmap_write(ge2d->map, GE2D_CMD_CTRL,
->> +		     (ctx->xy_swap ? GE2D_DST_XY_SWAP : 0) |
->> +		     (ctx->hflip ? GE2D_SRC1_Y_REV : 0) |
->> +		     (ctx->vflip ? GE2D_SRC1_X_REV : 0) |
->> +		     GE2D_CBUS_CMD_WR);
->> +}
->> +
->> +static void device_run(void *priv)
->> +{
->> +	struct ge2d_ctx *ctx = priv;
->> +	struct meson_ge2d *ge2d = ctx->ge2d;
->> +	unsigned long flags;
->> +
->> +	spin_lock_irqsave(&ge2d->ctrl_lock, flags);
->> +
->> +	ge2d->curr = ctx;
->> +
->> +	ctx->in.buf = v4l2_m2m_next_src_buf(ctx->fh.m2m_ctx);
->> +	ctx->out.buf = v4l2_m2m_next_dst_buf(ctx->fh.m2m_ctx);
->> +
->> +	ge2d_hw_start(ge2d);
->> +
->> +	spin_unlock_irqrestore(&ge2d->ctrl_lock, flags);
->> +}
->> +
->> +static irqreturn_t ge2d_isr(int irq, void *priv)
->> +{
->> +	struct meson_ge2d *ge2d = priv;
->> +	u32 intr;
->> +
->> +	regmap_read(ge2d->map, GE2D_STATUS0, &intr);
->> +
->> +	if (!(intr & GE2D_GE2D_BUSY)) {
->> +		struct vb2_v4l2_buffer *src, *dst;
->> +		struct ge2d_ctx *ctx = ge2d->curr;
->> +
->> +		ge2d->curr = NULL;
->> +
->> +		src = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
->> +		dst = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
->> +
->> +		src->sequence = ctx->sequence_out++;
->> +		dst->sequence = ctx->sequence_cap++;
->> +
->> +		dst->timecode = src->timecode;
->> +		dst->vb2_buf.timestamp = src->vb2_buf.timestamp;
->> +		dst->flags = src->flags;
->> +
->> +		v4l2_m2m_buf_done(src, VB2_BUF_STATE_DONE);
->> +		v4l2_m2m_buf_done(dst, VB2_BUF_STATE_DONE);
->> +		v4l2_m2m_job_finish(ge2d->m2m_dev, ctx->fh.m2m_ctx);
->> +	}
->> +
->> +	return IRQ_HANDLED;
->> +}
->> +
->> +static const struct v4l2_m2m_ops ge2d_m2m_ops = {
->> +	.device_run = device_run,
->> +};
->> +
->> +static int ge2d_queue_setup(struct vb2_queue *vq,
->> +			    unsigned int *nbuffers, unsigned int *nplanes,
->> +			    unsigned int sizes[], struct device *alloc_devs[])
->> +{
->> +	struct ge2d_ctx *ctx = vb2_get_drv_priv(vq);
->> +	struct ge2d_frame *f = get_frame(ctx, vq->type);
->> +
->> +	if (IS_ERR(f))
->> +		return PTR_ERR(f);
-
-[for me: remove]
-
->> +
->> +	if (*nplanes)
->> +		return sizes[0] < f->pix_fmt.sizeimage ? -EINVAL : 0;
->> +
->> +	sizes[0] = f->pix_fmt.sizeimage;
->> +	*nplanes = 1;
->> +
->> +	return 0;
->> +}
->> +
->> +static int ge2d_buf_prepare(struct vb2_buffer *vb)
->> +{
->> +	struct ge2d_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
->> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->> +	struct ge2d_frame *f = get_frame(ctx, vb->vb2_queue->type);
->> +
->> +	if (IS_ERR(f))
->> +		return PTR_ERR(f);
-
-[for me: remove]
-
->> +
->> +	vbuf->field = V4L2_FIELD_NONE;
->> +
->> +	vb2_set_plane_payload(vb, 0, f->pix_fmt.sizeimage);
->> +
->> +	return 0;
->> +}
->> +
->> +static void ge2d_buf_queue(struct vb2_buffer *vb)
->> +{
->> +	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->> +	struct ge2d_ctx *ctx = vb2_get_drv_priv(vb->vb2_queue);
->> +
->> +	v4l2_m2m_buf_queue(ctx->fh.m2m_ctx, vbuf);
->> +}
->> +
->> +static int ge2d_start_streaming(struct vb2_queue *vq, unsigned int count)
->> +{
->> +	struct ge2d_ctx *ctx = vb2_get_drv_priv(vq);
->> +
->> +	if (V4L2_TYPE_IS_OUTPUT(vq->type))
->> +		ctx->streamon_out = true;
->> +	else
->> +		ctx->streamon_cap = true;
->> +
->> +	if (!ctx->streamon_out)
->> +		return 0;
->> +
->> +	ctx->sequence_out = 0;
->> +	ctx->sequence_cap = 0;
+> Have a nice weekend
 > 
-> This is wrong, which sequence counter you zero depends on vq->type.
-> It would only be an issue if userspace stops and restarts just one of the
-> queues.
+> [33660.481848] usb 3-1: USB disconnect, device number 2
+> [33660.481849] usb 3-1.1: USB disconnect, device number 3
+> [33660.481851] usb 3-1.1.1: USB disconnect, device number 4
+> [33660.481851] usb 3-1.1.1.1: USB disconnect, device number 6
+> [33660.484576] usb 3-1.1.1.2: USB disconnect, device number 7
+> [33660.549398] xhci_hcd 0000:3c:00.0: xHCI host controller not responding, assume dead
+> [33660.549413] xhci_hcd 0000:3c:00.0: HC died; cleaning up
+> [33660.549431] r8152 4-1.1.2:1.0 enp60s0u1u1u2: Stop submitting intr, status -108
+> [33660.549508] usb 4-1: USB disconnect, device number 2
+> [33660.549510] usb 4-1.1: USB disconnect, device number 3
+> [33660.549512] usb 4-1.1.1: USB disconnect, device number 4
+> [33660.550559] usb 4-1.1.2: USB disconnect, device number 5
+> [33660.572578] xhci_hcd 0000:3c:00.0: remove, state 1
+> [33660.572582] usb usb4: USB disconnect, device number 1
+> [33660.597015] xhci_hcd 0000:3c:00.0: USB bus 4 deregistered
+> [33660.597022] xhci_hcd 0000:3c:00.0: remove, state 1
+> [33660.597027] usb usb3: USB disconnect, device number 1
+> [33660.598130] uvcvideo: uvc_v4l2_open
+> [33660.603339] usb 3-1.1.3: USB disconnect, device number 5
+> [33660.709741] uvcvideo: Resuming interface 0
+> [33660.709743] uvcvideo: Resuming interface 1
+> [33660.709837] uvcvideo: uvc_v4l2_release
+> [33660.710050] uvcvideo: uvc_v4l2_open
+> [33660.710104] uvcvideo: uvc_v4l2_release
+> [33660.711395] uvcvideo: uvc_v4l2_open
+> [33660.711449] uvcvideo: uvc_v4l2_release
+> [33660.746041] xhci_hcd 0000:3c:00.0: Host halt failed, -19
+> [33660.746047] xhci_hcd 0000:3c:00.0: Host not accessible, reset failed.
+> [33660.746484] xhci_hcd 0000:3c:00.0: USB bus 3 deregistered
+> [33660.765730] uvcvideo: uvc_v4l2_open
+> [33660.765969] uvcvideo: uvc_v4l2_release
+> [33660.785299] uvcvideo: uvc_v4l2_open
+> [33660.787265] uvcvideo: uvc_v4l2_release
+> [33660.976605] pci_bus 0000:05: Allocating resources
+> [33660.976635] pcieport 0000:05:01.0: bridge window [io  0x1000-0x0fff] to [bus 07-3b] add_size 1000
+> [33660.976642] pcieport 0000:05:02.0: bridge window [io  0x1000-0x0fff] to [bus 3c] add_size 1000
+> [33660.976649] pcieport 0000:05:02.0: bridge window [mem 0x00100000-0x000fffff 64bit pref] to [bus 3c] add_size 200000 add_align 100000
+> [33660.976656] pcieport 0000:04:00.0: bridge window [io  0x1000-0x0fff] to [bus 05-3c] add_size 3000
+> [33660.976666] pcieport 0000:04:00.0: BAR 13: no space for [io  size 0x3000]
+> [33660.976671] pcieport 0000:04:00.0: BAR 13: failed to assign [io  size 0x3000]
+> [33660.976677] pcieport 0000:04:00.0: BAR 13: no space for [io  size 0x3000]
+> [33660.976682] pcieport 0000:04:00.0: BAR 13: failed to assign [io  size 0x3000]
+> [33660.976696] pcieport 0000:05:02.0: BAR 15: no space for [mem size 0x00200000 64bit pref]
+> [33660.976700] pcieport 0000:05:02.0: BAR 15: failed to assign [mem size 0x00200000 64bit pref]
+> [33660.976705] pcieport 0000:05:01.0: BAR 13: no space for [io  size 0x1000]
+> [33660.976711] pcieport 0000:05:01.0: BAR 13: failed to assign [io  size 0x1000]
+> [33660.976716] pcieport 0000:05:02.0: BAR 13: no space for [io  size 0x1000]
+> [33660.976720] pcieport 0000:05:02.0: BAR 13: failed to assign [io  size 0x1000]
+> [33660.976730] pcieport 0000:05:02.0: BAR 15: no space for [mem size 0x00200000 64bit pref]
+> [33660.976734] pcieport 0000:05:02.0: BAR 15: failed to assign [mem size 0x00200000 64bit pref]
+> [33660.976739] pcieport 0000:05:02.0: BAR 13: no space for [io  size 0x1000]
+> [33660.976744] pcieport 0000:05:02.0: BAR 13: failed to assign [io  size 0x1000]
+> [33660.976748] pcieport 0000:05:01.0: BAR 13: no space for [io  size 0x1000]
+> [33660.976753] pcieport 0000:05:01.0: BAR 13: failed to assign [io  size 0x1000]
+> [33663.292784] uvcvideo: Suspending interface 1
+> [33663.292787] uvcvideo: Suspending interface 0
+> [33665.695288] pcieport 0000:05:00.0: can't change power state from D3cold to D0 (config space inaccessible)
+> [33665.695971] pci_bus 0000:06: busn_res: [bus 06] is released
+> [33665.696182] pci_bus 0000:07: busn_res: [bus 07-3b] is released
+> [33665.696329] pci_bus 0000:3c: busn_res: [bus 3c] is released
+> [33665.701153] pci_bus 0000:05: busn_res: [bus 05-3c] is released
+
+I assume all this corresponds to unplugging the monitor. Is it connected
+over a thunderbolt 3 (PCIe and DP over a USB type C donnector) ?
+
+> [33667.950096] wlp61s0: authenticate with f0:b0:14:99:cd:fc
+> [33667.960464] wlp61s0: send auth to f0:b0:14:99:cd:fc (try 1/3)
+> [33667.971065] wlp61s0: authenticated
+> [33667.972706] wlp61s0: associate with f0:b0:14:99:cd:fc (try 1/3)
+> [33667.975090] wlp61s0: RX AssocResp from f0:b0:14:99:cd:fc (capab=0x1511 status=0 aid=3)
+> [33667.977717] wlp61s0: associated
+> [33668.004909] wlp61s0: Limiting TX power to 27 (30 - 3) dBm as advertised by f0:b0:14:99:cd:fc
+> [33668.004996] IPv6: ADDRCONF(NETDEV_CHANGE): wlp61s0: link becomes ready
+
+This is unrelated.
+
+I assume that you've replugged the monitor at this point.
+
+> [33675.939837] pci 0000:04:00.0: [8086:15c0] type 01 class 0x060400
+> [33675.939900] pci 0000:04:00.0: enabling Extended Tags
+> [33675.940013] pci 0000:04:00.0: supports D1 D2
+> [33675.940015] pci 0000:04:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+> [33675.940292] pci 0000:05:00.0: [8086:15c0] type 01 class 0x060400
+> [33675.940343] pci 0000:05:00.0: enabling Extended Tags
+> [33675.940426] pci 0000:05:00.0: supports D1 D2
+> [33675.940426] pci 0000:05:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+> [33675.940546] pci 0000:05:01.0: [8086:15c0] type 01 class 0x060400
+> [33675.940597] pci 0000:05:01.0: enabling Extended Tags
+> [33675.940678] pci 0000:05:01.0: supports D1 D2
+> [33675.940679] pci 0000:05:01.0: PME# supported from D0 D1 D2 D3hot D3cold
+> [33675.940802] pci 0000:05:02.0: [8086:15c0] type 01 class 0x060400
+> [33675.940854] pci 0000:05:02.0: enabling Extended Tags
+> [33675.940938] pci 0000:05:02.0: supports D1 D2
+> [33675.940939] pci 0000:05:02.0: PME# supported from D0 D1 D2 D3hot D3cold
+> [33675.941100] pci 0000:04:00.0: PCI bridge to [bus 05-3c]
+> [33675.941108] pci 0000:04:00.0:   bridge window [mem 0xc4000000-0xda0fffff]
+> [33675.941114] pci 0000:04:00.0:   bridge window [mem 0xa0000000-0xc1ffffff 64bit pref]
+> [33675.941161] pci 0000:05:00.0: PCI bridge to [bus 06]
+> [33675.941168] pci 0000:05:00.0:   bridge window [mem 0xda000000-0xda0fffff]
+> [33675.941212] pci 0000:05:01.0: PCI bridge to [bus 07-3b]
+> [33675.941220] pci 0000:05:01.0:   bridge window [mem 0xc4000000-0xd9efffff]
+> [33675.941225] pci 0000:05:01.0:   bridge window [mem 0xa0000000-0xc1ffffff 64bit pref]
+> [33675.941307] pci 0000:3c:00.0: [8086:15c1] type 00 class 0x0c0330
+> [33675.941329] pci 0000:3c:00.0: reg 0x10: [mem 0xd9f00000-0xd9f0ffff]
+> [33675.941404] pci 0000:3c:00.0: enabling Extended Tags
+> [33675.941517] pci 0000:3c:00.0: supports D1 D2
+> [33675.941518] pci 0000:3c:00.0: PME# supported from D0 D1 D2 D3hot D3cold
+> [33675.941607] pci 0000:3c:00.0: 8.000 Gb/s available PCIe bandwidth, limited by 2.5 GT/s PCIe x4 link at 0000:05:02.0 (capable of 31.504 Gb/s with 8.0 GT/s PCIe x4 link)
+> [33675.941745] pci 0000:05:02.0: PCI bridge to [bus 3c]
+> [33675.941754] pci 0000:05:02.0:   bridge window [mem 0xd9f00000-0xd9ffffff]
+> [33675.941782] pci_bus 0000:05: Allocating resources
+> [33675.941797] pci 0000:05:01.0: bridge window [io  0x1000-0x0fff] to [bus 07-3b] add_size 1000
+> [33675.941799] pci 0000:05:02.0: bridge window [io  0x1000-0x0fff] to [bus 3c] add_size 1000
+> [33675.941800] pci 0000:05:02.0: bridge window [mem 0x00100000-0x000fffff 64bit pref] to [bus 3c] add_size 200000 add_align 100000
+> [33675.941802] pci 0000:04:00.0: bridge window [io  0x1000-0x0fff] to [bus 05-3c] add_size 3000
+> [33675.941805] pci 0000:04:00.0: BAR 13: no space for [io  size 0x3000]
+> [33675.941806] pci 0000:04:00.0: BAR 13: failed to assign [io  size 0x3000]
+> [33675.941808] pci 0000:04:00.0: BAR 13: no space for [io  size 0x3000]
+> [33675.941809] pci 0000:04:00.0: BAR 13: failed to assign [io  size 0x3000]
+> [33675.941812] pci 0000:05:02.0: BAR 15: no space for [mem size 0x00200000 64bit pref]
+> [33675.941813] pci 0000:05:02.0: BAR 15: failed to assign [mem size 0x00200000 64bit pref]
+> [33675.941814] pci 0000:05:01.0: BAR 13: no space for [io  size 0x1000]
+> [33675.941815] pci 0000:05:01.0: BAR 13: failed to assign [io  size 0x1000]
+> [33675.941815] pci 0000:05:02.0: BAR 13: no space for [io  size 0x1000]
+> [33675.941816] pci 0000:05:02.0: BAR 13: failed to assign [io  size 0x1000]
+> [33675.941819] pci 0000:05:02.0: BAR 15: no space for [mem size 0x00200000 64bit pref]
+> [33675.941819] pci 0000:05:02.0: BAR 15: failed to assign [mem size 0x00200000 64bit pref]
+> [33675.941820] pci 0000:05:02.0: BAR 13: no space for [io  size 0x1000]
+> [33675.941821] pci 0000:05:02.0: BAR 13: failed to assign [io  size 0x1000]
+> [33675.941822] pci 0000:05:01.0: BAR 13: no space for [io  size 0x1000]
+> [33675.941822] pci 0000:05:01.0: BAR 13: failed to assign [io  size 0x1000]
+> [33675.941825] pci 0000:05:00.0: PCI bridge to [bus 06]
+> [33675.941832] pci 0000:05:00.0:   bridge window [mem 0xda000000-0xda0fffff]
+> [33675.941840] pci 0000:05:01.0: PCI bridge to [bus 07-3b]
+> [33675.941844] pci 0000:05:01.0:   bridge window [mem 0xc4000000-0xd9efffff]
+> [33675.941847] pci 0000:05:01.0:   bridge window [mem 0xa0000000-0xc1ffffff 64bit pref]
+> [33675.941852] pci 0000:05:02.0: PCI bridge to [bus 3c]
+> [33675.941856] pci 0000:05:02.0:   bridge window [mem 0xd9f00000-0xd9ffffff]
+> [33675.941864] pci 0000:04:00.0: PCI bridge to [bus 05-3c]
+> [33675.941868] pci 0000:04:00.0:   bridge window [mem 0xc4000000-0xda0fffff]
+> [33675.941871] pci 0000:04:00.0:   bridge window [mem 0xa0000000-0xc1ffffff 64bit pref]
+> [33675.943143] xhci_hcd 0000:3c:00.0: xHCI Host Controller
+> [33675.943149] xhci_hcd 0000:3c:00.0: new USB bus registered, assigned bus number 3
+> [33675.944287] xhci_hcd 0000:3c:00.0: hcc params 0x200077c1 hci version 0x110 quirks 0x0000000000009810
+> [33675.944513] usb usb3: New USB device found, idVendor=1d6b, idProduct=0002, bcdDevice= 5.09
+> [33675.944514] usb usb3: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+> [33675.944516] usb usb3: Product: xHCI Host Controller
+> [33675.944517] usb usb3: Manufacturer: Linux 5.9.4-arch1-1 xhci-hcd
+> [33675.944518] usb usb3: SerialNumber: 0000:3c:00.0
+> [33675.944681] hub 3-0:1.0: USB hub found
+> [33675.944691] hub 3-0:1.0: 2 ports detected
+> [33675.945358] xhci_hcd 0000:3c:00.0: xHCI Host Controller
+> [33675.945362] xhci_hcd 0000:3c:00.0: new USB bus registered, assigned bus number 4
+> [33675.945366] xhci_hcd 0000:3c:00.0: Host supports USB 3.1 Enhanced SuperSpeed
+> [33675.945405] usb usb4: New USB device found, idVendor=1d6b, idProduct=0003, bcdDevice= 5.09
+> [33675.945407] usb usb4: New USB device strings: Mfr=3, Product=2, SerialNumber=1
+> [33675.945408] usb usb4: Product: xHCI Host Controller
+> [33675.945410] usb usb4: Manufacturer: Linux 5.9.4-arch1-1 xhci-hcd
+> [33675.945411] usb usb4: SerialNumber: 0000:3c:00.0
+> [33675.945533] hub 4-0:1.0: USB hub found
+> [33675.945541] hub 4-0:1.0: 2 ports detected
+
+Two XHCI (USB 3) controllers seem to be present in your monitor, they're
+assigned buses 3 and 4.
+
+> [33676.272630] usb 3-1: new high-speed USB device number 2 using xhci_hcd
+> [33676.415928] usb 3-1: New USB device found, idVendor=0bda, idProduct=5420, bcdDevice= 1.30
+> [33676.415929] usb 3-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [33676.415930] usb 3-1: Product: 4-Port USB 2.0 Hub
+> [33676.415931] usb 3-1: Manufacturer: Generic
+> [33676.416882] hub 3-1:1.0: USB hub found
+> [33676.417126] hub 3-1:1.0: 5 ports detected
+> [33676.539368] usb 4-1: new SuperSpeedPlus Gen 2 USB device number 2 using xhci_hcd
+> [33676.562679] usb 4-1: New USB device found, idVendor=0bda, idProduct=0420, bcdDevice= 1.30
+> [33676.562681] usb 4-1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [33676.562682] usb 4-1: Product: 4-Port USB 3.0 Hub
+> [33676.562683] usb 4-1: Manufacturer: Generic
+> [33676.565072] hub 4-1:1.0: USB hub found
+> [33676.565367] hub 4-1:1.0: 4 ports detected
+
+Each of them has a root hub with 5 and 4 ports respectively.
+
+> [33676.699303] usb 3-1.1: new high-speed USB device number 3 using xhci_hcd
+> [33676.824290] usb 3-1.1: New USB device found, idVendor=0bda, idProduct=5420, bcdDevice= 1.29
+> [33676.824292] usb 3-1.1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [33676.824294] usb 3-1.1: Product: 4-Port USB 2.0 Hub
+> [33676.824294] usb 3-1.1: Manufacturer: Generic
+> [33676.826109] hub 3-1.1:1.0: USB hub found
+> [33676.827260] hub 3-1.1:1.0: 4 ports detected
+> [33676.889920] usb 4-1.1: new SuperSpeedPlus Gen 2 USB device number 3 using xhci_hcd
+> [33676.921137] usb 4-1.1: New USB device found, idVendor=0bda, idProduct=0420, bcdDevice= 1.29
+> [33676.921139] usb 4-1.1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [33676.921140] usb 4-1.1: Product: 4-Port USB 3.0 Hub
+> [33676.921141] usb 4-1.1: Manufacturer: Generic
+> [33676.929999] hub 4-1.1:1.0: USB hub found
+> [33676.931410] hub 4-1.1:1.0: 4 ports detected
+
+On port 1 of each root hub there's a USB 2.0 hub with 4 ports.
+
+> [33677.109278] usb 3-1.1.1: new high-speed USB device number 4 using xhci_hcd
+> [33677.234131] usb 3-1.1.1: New USB device found, idVendor=0bda, idProduct=5412, bcdDevice= 1.20
+> [33677.234133] usb 3-1.1.1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [33677.234134] usb 3-1.1.1: Product: 2-Port USB 2.1 Hub
+> [33677.234135] usb 3-1.1.1: Manufacturer: Generic
+> [33677.235575] hub 3-1.1.1:1.0: USB hub found
+> [33677.237584] hub 3-1.1.1:1.0: 2 ports detected
+> [33677.299864] usb 4-1.1.1: new SuperSpeed Gen 1 USB device number 4 using xhci_hcd
+> [33677.330281] usb 4-1.1.1: New USB device found, idVendor=0bda, idProduct=0412, bcdDevice= 1.20
+> [33677.330283] usb 4-1.1.1: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [33677.330284] usb 4-1.1.1: Product: 4-Port USB 3.1 Hub
+> [33677.330286] usb 4-1.1.1: Manufacturer: Generic
+> [33677.339379] hub 4-1.1.1:1.0: USB hub found
+> [33677.341114] hub 4-1.1.1:1.0: 2 ports detected
+
+And on port 1 of each of the USB 2.0 hubs there's a USB 2.1 hub with two
+ports. The topology is getting a bit complicated.
+
+> [33677.395926] usb 3-1.1.3: new full-speed USB device number 5 using xhci_hcd
+> [33677.487520] usb 3-1.1.3: New USB device found, idVendor=046a, idProduct=00b0, bcdDevice= 1.01
+> [33677.487522] usb 3-1.1.3: New USB device strings: Mfr=1, Product=2, SerialNumber=0
+> [33677.487523] usb 3-1.1.3: Product: Mechanical Keyboard
+> [33677.487524] usb 3-1.1.3: Manufacturer: CHERRY
+> [33677.494244] input: CHERRY Mechanical Keyboard as /devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000:3c:00.0/usb3/3-1/3-1.1/3-1.1.3/3-1.1.3:1.0/0003:046A:00B0.000A/input/input43
+> [33677.549426] hid-generic 0003:046A:00B0.000A: input,hidraw1: USB HID v1.11 Keyboard [CHERRY Mechanical Keyboard] on usb-0000:3c:00.0-1.1.3/input0
+> [33677.550173] input: CHERRY Mechanical Keyboard as /devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000:3c:00.0/usb3/3-1/3-1.1/3-1.1.3/3-1.1.3:1.1/0003:046A:00B0.000B/input/input44
+
+On port 3 of the USB 2.0 hub for bus 3 there's a keyboard.
+
+> [33677.559243] usb 3-1.1.1.1: new high-speed USB device number 6 using xhci_hcd
+> [33677.606030] hid-generic 0003:046A:00B0.000B: input,hidraw2: USB HID v1.11 Device [CHERRY Mechanical Keyboard] on usb-0000:3c:00.0-1.1.3/input1
+> [33677.848662] usb 3-1.1.1.1: New USB device found, idVendor=0bda, idProduct=48a5, bcdDevice= 0.01
+> [33677.848663] usb 3-1.1.1.1: New USB device strings: Mfr=3, Product=1, SerialNumber=2
+> [33677.848664] usb 3-1.1.1.1: Product: USB Audio
+> [33677.848665] usb 3-1.1.1.1: Manufacturer: Generic
+> [33677.848666] usb 3-1.1.1.1: SerialNumber: 201405280001
+
+On port 1 of the USB 2.1 hub for bus 3 there's an audio device.
+
+> [33677.969289] usb 3-1.1.1.2: new high-speed USB device number 7 using xhci_hcd
+> [33678.134841] usb 3-1.1.1.2: New USB device found, idVendor=04f2, idProduct=b612, bcdDevice= 2.10
+> [33678.134843] usb 3-1.1.1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=3
+> [33678.134844] usb 3-1.1.1.2: Product: USB2.0 FHD UVC WebCam
+> [33678.134844] usb 3-1.1.1.2: Manufacturer: SunplusIT Inc
+> [33678.134845] usb 3-1.1.1.2: SerialNumber: 01.00.00
+
+And on port 2 of the same hub there's your webcam.
+
+> [33678.145922] uvcvideo: Probing generic UVC device 1.1.1.2
+> [33678.149746] uvcvideo: Found format MJPEG.
+> [33678.149748] uvcvideo: - 640x480 (30.0 fps)
+> [33678.149749] uvcvideo: - 1920x1080 (30.0 fps)
+> [33678.149750] uvcvideo: - 1280x720 (30.0 fps)
+> [33678.149750] uvcvideo: - 640x360 (30.0 fps)
+> [33678.149751] uvcvideo: - 352x288 (30.0 fps)
+> [33678.149752] uvcvideo: - 320x240 (30.0 fps)
+> [33678.149753] uvcvideo: - 176x144 (30.0 fps)
+> [33678.149754] uvcvideo: Found format YUV 4:2:2 (YUYV).
+> [33678.149754] uvcvideo: - 640x480 (30.0 fps)
+> [33678.149755] uvcvideo: - 640x360 (30.0 fps)
+> [33678.149755] uvcvideo: - 352x288 (30.0 fps)
+> [33678.149756] uvcvideo: - 320x240 (30.0 fps)
+> [33678.149756] uvcvideo: - 176x144 (30.0 fps)
+> [33678.149759] uvcvideo: Found a Status endpoint (addr 87).
+> [33678.149760] uvcvideo: Found UVC 1.50 device USB2.0 FHD UVC WebCam (04f2:b612)
+> [33678.153431] uvcvideo: Added control 00000000-0000-0000-0000-000000000001/2 to device 1.1.1.2 entity 1
+> [33678.153434] uvcvideo: Adding mapping 'Exposure, Auto' to control 00000000-0000-0000-0000-000000000001/2.
+> [33678.157171] uvcvideo: Added control 00000000-0000-0000-0000-000000000001/4 to device 1.1.1.2 entity 1
+> [33678.157175] uvcvideo: Adding mapping 'Exposure (Absolute)' to control 00000000-0000-0000-0000-000000000001/4.
+> [33678.160954] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/2 to device 1.1.1.2 entity 2
+> [33678.160956] uvcvideo: Adding mapping 'Brightness' to control 00000000-0000-0000-0000-000000000101/2.
+> [33678.164794] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/3 to device 1.1.1.2 entity 2
+> [33678.164797] uvcvideo: Adding mapping 'Contrast' to control 00000000-0000-0000-0000-000000000101/3.
+> [33678.168589] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/6 to device 1.1.1.2 entity 2
+> [33678.168590] uvcvideo: Adding mapping 'Hue' to control 00000000-0000-0000-0000-000000000101/6.
+> [33678.172374] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/7 to device 1.1.1.2 entity 2
+> [33678.172376] uvcvideo: Adding mapping 'Saturation' to control 00000000-0000-0000-0000-000000000101/7.
+> [33678.176233] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/8 to device 1.1.1.2 entity 2
+> [33678.176236] uvcvideo: Adding mapping 'Sharpness' to control 00000000-0000-0000-0000-000000000101/8.
+> [33678.179988] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/9 to device 1.1.1.2 entity 2
+> [33678.179990] uvcvideo: Adding mapping 'Gamma' to control 00000000-0000-0000-0000-000000000101/9.
+> [33678.183820] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/10 to device 1.1.1.2 entity 2
+> [33678.183822] uvcvideo: Adding mapping 'White Balance Temperature' to control 00000000-0000-0000-0000-000000000101/10.
+> [33678.187612] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/1 to device 1.1.1.2 entity 2
+> [33678.187614] uvcvideo: Adding mapping 'Backlight Compensation' to control 00000000-0000-0000-0000-000000000101/1.
+> [33678.191115] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/5 to device 1.1.1.2 entity 2
+> [33678.191118] uvcvideo: Adding mapping 'Power Line Frequency' to control 00000000-0000-0000-0000-000000000101/5.
+> [33678.194955] uvcvideo: Added control 00000000-0000-0000-0000-000000000101/11 to device 1.1.1.2 entity 2
+> [33678.194959] uvcvideo: Adding mapping 'White Balance Temperature, Auto' to control 00000000-0000-0000-0000-000000000101/11.
+> [33678.194963] uvcvideo: Scanning UVC chain: OT 5 <- XU 4 <- XU 3 <- PU 2 <- IT 1
+> [33678.194966] uvcvideo: Found a valid video chain (1 -> 5).
+> [33678.212183] input: USB2.0 FHD UVC WebCam: USB2.0 F as /devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000:3c:00.0/usb3/3-1/3-1.1/3-1.1.1/3-1.1.1.2/3-1.1.1.2:1.0/input/input45
+> [33678.212283] uvcvideo: UVC device initialized.
+> [33678.216492] uvcvideo: Probing generic UVC device 1.1.1.2
+> [33678.220254] uvcvideo: Found format IR 8-bit (L8_IR).
+> [33678.220256] uvcvideo: - 352x352 (30.0 fps)
+> [33678.220260] uvcvideo: Found a Status endpoint (addr 84).
+> [33678.220261] uvcvideo: Found UVC 1.50 device USB2.0 FHD UVC WebCam (04f2:b612)
+> [33678.220264] uvcvideo: Scanning UVC chain: OT 5 <- XU 4 <- XU 7 <- PU 2 <- IT 1
+> [33678.220267] uvcvideo: Found a valid video chain (1 -> 5).
+> [33678.237583] input: USB2.0 FHD UVC WebCam: IR Camer as /devices/pci0000:00/0000:00:1c.4/0000:04:00.0/0000:05:02.0/0000:3c:00.0/usb3/3-1/3-1.1/3-1.1.1/3-1.1.1.2/3-1.1.1.2:1.2/input/input46
+> [33678.237667] uvcvideo: UVC device initialized.
+> [33678.329348] usb 4-1.1.2: new SuperSpeed Gen 1 USB device number 5 using xhci_hcd
+> [33678.346494] usb 4-1.1.2: New USB device found, idVendor=0bda, idProduct=8153, bcdDevice=31.00
+> [33678.346497] usb 4-1.1.2: New USB device strings: Mfr=1, Product=2, SerialNumber=6
+> [33678.346498] usb 4-1.1.2: Product: USB 10/100/1000 LAN
+> [33678.346500] usb 4-1.1.2: Manufacturer: Realtek
+> [33678.346501] usb 4-1.1.2: SerialNumber: 000000000000
+> [33678.426195] usb 4-1.1.2: reset SuperSpeed Gen 1 USB device number 5 using xhci_hcd
+> [33678.489706] r8152 4-1.1.2:1.0 eth0: v2.14.0 (2020/09/24)
+> [33678.489708] r8152 4-1.1.2:1.0 eth0: This product is covered by one or more of the following patents:
+>                		US6,570,884, US6,115,776, and US6,327,625.
 > 
-> This function can just be:
+> [33678.632895] usb 4-1.1.2: reset SuperSpeed Gen 1 USB device number 5 using xhci_hcd
+> [33678.698562] r8152 4-1.1.2:1.0 eth0: v2.14.0 (2020/09/24)
+> [33678.698565] r8152 4-1.1.2:1.0 eth0: This product is covered by one or more of the following patents:
+>                		US6,570,884, US6,115,776, and US6,327,625.
 > 
-> static int ge2d_start_streaming(struct vb2_queue *vq, unsigned int count)
-> {
-> 	struct ge2d_ctx *ctx = vb2_get_drv_priv(vq);
-> 
-> 	if (V4L2_TYPE_IS_OUTPUT(vq->type)) {
-> 		ctx->streamon_out = true;
-> 		ctx->sequence_out = 0;
-> 	} else {
-> 		ctx->streamon_cap = true;
-> 		ctx->sequence_cap = 0;
-> 	}
-> 	return 0;
-> }
-> 
+> [33678.969798] r8152 4-1.1.2:1.0 enp60s0u1u1u2: renamed from eth0
 
-ok
+Then on bus 4 there's a network controller (the patents information
+really don't belong to the kernel... I wonder where those messages come
+from though, I can't find them in the kernel sources).
 
-> 
->> +
->> +	return 0;
->> +}
->> +
->> +static void ge2d_stop_streaming(struct vb2_queue *vq)
->> +{
->> +	struct ge2d_ctx *ctx = vb2_get_drv_priv(vq);
->> +	struct vb2_v4l2_buffer *vbuf;
->> +
->> +	if (V4L2_TYPE_IS_OUTPUT(vq->type))
->> +		ctx->streamon_out = false;
->> +	else
->> +		ctx->streamon_cap = false;
->> +
->> +	for (;;) {
->> +		if (V4L2_TYPE_IS_OUTPUT(vq->type))
->> +			vbuf = v4l2_m2m_src_buf_remove(ctx->fh.m2m_ctx);
->> +		else
->> +			vbuf = v4l2_m2m_dst_buf_remove(ctx->fh.m2m_ctx);
->> +		if (!vbuf)
->> +			break;
->> +		v4l2_m2m_buf_done(vbuf, VB2_BUF_STATE_ERROR);
->> +	}
->> +}
->> +
->> +static const struct vb2_ops ge2d_qops = {
->> +	.queue_setup = ge2d_queue_setup,
->> +	.buf_prepare = ge2d_buf_prepare,
->> +	.buf_queue = ge2d_buf_queue,
->> +	.start_streaming = ge2d_start_streaming,
->> +	.stop_streaming = ge2d_stop_streaming,
->> +	.wait_prepare = vb2_ops_wait_prepare,
->> +	.wait_finish = vb2_ops_wait_finish,
->> +};
->> +
->> +static int
->> +queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
->> +{
->> +	struct ge2d_ctx *ctx = priv;
->> +	int ret;
->> +
->> +	src_vq->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
->> +	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->> +	src_vq->drv_priv = ctx;
->> +	src_vq->ops = &ge2d_qops;
->> +	src_vq->mem_ops = &vb2_dma_contig_memops;
->> +	src_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
->> +	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->> +	src_vq->lock = &ctx->ge2d->mutex;
->> +	src_vq->dev = ctx->ge2d->v4l2_dev.dev;
->> +
->> +	ret = vb2_queue_init(src_vq);
->> +	if (ret)
->> +		return ret;
->> +
->> +	dst_vq->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
->> +	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->> +	dst_vq->drv_priv = ctx;
->> +	dst_vq->ops = &ge2d_qops;
->> +	dst_vq->mem_ops = &vb2_dma_contig_memops;
->> +	dst_vq->buf_struct_size = sizeof(struct v4l2_m2m_buffer);
->> +	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->> +	dst_vq->lock = &ctx->ge2d->mutex;
->> +	dst_vq->dev = ctx->ge2d->v4l2_dev.dev;
->> +
->> +	return vb2_queue_init(dst_vq);
->> +}
->> +
->> +static int ge2d_s_ctrl(struct v4l2_ctrl *ctrl)
->> +{
->> +	struct ge2d_ctx *ctx = container_of(ctrl->handler, struct ge2d_ctx,
->> +					   ctrl_handler);
->> +	struct v4l2_pix_format fmt;
-> 
-> Shouldn't this be zeroed? I.e.: fmt = {};
-> Unless vidioc_setup_cap_fmt() does that already?
+> [33679.516896] uvcvideo: uvc_v4l2_open
+> [33679.516929] uvcvideo: uvc_v4l2_release
+> [33679.534194] uvcvideo: uvc_v4l2_open
+> [33679.534210] uvcvideo: uvc_v4l2_release
+> [33679.535192] uvcvideo: uvc_v4l2_open
+> [33679.535293] uvcvideo: uvc_v4l2_release
+> [33679.535393] uvcvideo: uvc_v4l2_open
+> [33679.535407] uvcvideo: Control 0x00980900 not found.
+> [33679.535411] uvcvideo: Control 0x00980901 not found.
+> [33679.535414] uvcvideo: Control 0x00980902 not found.
+> [33679.535416] uvcvideo: Control 0x00980903 not found.
+> [33679.535419] uvcvideo: Control 0x00980904 not found.
+> [33679.535421] uvcvideo: Control 0x00980905 not found.
+> [33679.535424] uvcvideo: Control 0x00980906 not found.
+> [33679.535427] uvcvideo: Control 0x00980907 not found.
+> [33679.535429] uvcvideo: Control 0x00980908 not found.
+> [33679.535432] uvcvideo: Control 0x00980909 not found.
+> [33679.535434] uvcvideo: Control 0x0098090a not found.
+> [33679.535437] uvcvideo: Control 0x0098090b not found.
+> [33679.535440] uvcvideo: Control 0x0098090c not found.
+> [33679.535442] uvcvideo: Control 0x0098090d not found.
+> [33679.535445] uvcvideo: Control 0x0098090e not found.
+> [33679.535448] uvcvideo: Control 0x0098090f not found.
+> [33679.535450] uvcvideo: Control 0x00980910 not found.
+> [33679.535453] uvcvideo: Control 0x00980911 not found.
+> [33679.535456] uvcvideo: Control 0x00980912 not found.
+> [33679.535458] uvcvideo: Control 0x00980913 not found.
+> [33679.535461] uvcvideo: Control 0x00980914 not found.
+> [33679.535463] uvcvideo: Control 0x00980915 not found.
+> [33679.535466] uvcvideo: Control 0x00980916 not found.
+> [33679.535469] uvcvideo: Control 0x00980917 not found.
+> [33679.535472] uvcvideo: Control 0x00980918 not found.
+> [33679.535475] uvcvideo: Control 0x00980919 not found.
+> [33679.535477] uvcvideo: Control 0x0098091a not found.
+> [33679.535480] uvcvideo: Control 0x0098091b not found.
+> [33679.535483] uvcvideo: Control 0x0098091c not found.
+> [33679.535485] uvcvideo: Control 0x0098091d not found.
+> [33679.535488] uvcvideo: Control 0x0098091e not found.
+> [33679.535491] uvcvideo: Control 0x0098091f not found.
+> [33679.535493] uvcvideo: Control 0x00980920 not found.
+> [33679.535496] uvcvideo: Control 0x00980921 not found.
+> [33679.535499] uvcvideo: Control 0x00980922 not found.
+> [33679.535501] uvcvideo: Control 0x00980923 not found.
+> [33679.535504] uvcvideo: Control 0x00980924 not found.
+> [33679.535507] uvcvideo: Control 0x00980925 not found.
+> [33679.535509] uvcvideo: Control 0x00980926 not found.
+> [33679.535511] uvcvideo: uvc_v4l2_open
+> [33679.535512] uvcvideo: Control 0x00980927 not found.
+> [33679.535515] uvcvideo: Control 0x00980928 not found.
+> [33679.535517] uvcvideo: Control 0x00980929 not found.
+> [33679.535520] uvcvideo: Control 0x0098092a not found.
+> [33679.535523] uvcvideo: Control 0x00980900 not found.
+> [33679.535524] uvcvideo: Control 0x08000000 not found.
+> [33679.535527] uvcvideo: Control 0x00980901 not found.
+> [33679.535528] uvcvideo: uvc_v4l2_release
+> [33679.535532] uvcvideo: Control 0x00980902 not found.
+> [33679.535536] uvcvideo: Control 0x00980903 not found.
+> [33679.535540] uvcvideo: Control 0x00980904 not found.
+> [33679.535540] uvcvideo: uvc_v4l2_open
+> [33679.535544] uvcvideo: Control 0x00980905 not found.
+> [33679.535548] uvcvideo: Control 0x00980906 not found.
+> [33679.535550] uvcvideo: uvc_v4l2_release
+> [33679.535552] uvcvideo: Control 0x00980907 not found.
+> [33679.535556] uvcvideo: Control 0x00980908 not found.
+> [33679.535560] uvcvideo: Control 0x00980909 not found.
+> [33679.535564] uvcvideo: Control 0x0098090a not found.
+> [33679.535568] uvcvideo: Control 0x0098090b not found.
+> [33679.535571] uvcvideo: Control 0x0098090c not found.
+> [33679.535575] uvcvideo: Control 0x0098090d not found.
+> [33679.535579] uvcvideo: Control 0x0098090e not found.
+> [33679.535583] uvcvideo: Control 0x0098090f not found.
+> [33679.535587] uvcvideo: Control 0x00980910 not found.
+> [33679.535590] uvcvideo: Control 0x00980911 not found.
+> [33679.535594] uvcvideo: Control 0x00980912 not found.
+> [33679.535598] uvcvideo: Control 0x00980913 not found.
+> [33679.535602] uvcvideo: Control 0x00980914 not found.
+> [33679.535605] uvcvideo: Control 0x00980915 not found.
+> [33679.535609] uvcvideo: Control 0x00980916 not found.
+> [33679.535613] uvcvideo: Control 0x00980917 not found.
+> [33679.535617] uvcvideo: Control 0x00980918 not found.
+> [33679.535620] uvcvideo: Control 0x00980919 not found.
+> [33679.535625] uvcvideo: Control 0x0098091a not found.
+> [33679.535628] uvcvideo: Control 0x0098091b not found.
+> [33679.535632] uvcvideo: Control 0x0098091c not found.
+> [33679.535636] uvcvideo: Control 0x0098091d not found.
+> [33679.535640] uvcvideo: Control 0x0098091e not found.
+> [33679.535644] uvcvideo: Control 0x0098091f not found.
+> [33679.535648] uvcvideo: Control 0x00980920 not found.
+> [33679.535651] uvcvideo: Control 0x00980921 not found.
+> [33679.535655] uvcvideo: Control 0x00980922 not found.
+> [33679.535659] uvcvideo: Control 0x00980923 not found.
+> [33679.535663] uvcvideo: Control 0x00980924 not found.
+> [33679.535666] uvcvideo: Control 0x00980925 not found.
+> [33679.535670] uvcvideo: Control 0x00980926 not found.
+> [33679.535674] uvcvideo: Control 0x00980927 not found.
+> [33679.535678] uvcvideo: Control 0x00980928 not found.
+> [33679.535682] uvcvideo: Control 0x00980929 not found.
+> [33679.535685] uvcvideo: Control 0x0098092a not found.
+> [33679.535689] uvcvideo: Control 0x08000000 not found.
+> [33679.535693] uvcvideo: uvc_v4l2_release
+> [33679.539084] uvcvideo: uvc_v4l2_open
+> [33679.539933] uvcvideo: uvc_v4l2_open
+> [33679.541867] uvcvideo: uvc_v4l2_release
+> [33679.541979] uvcvideo: uvc_v4l2_open
+> [33679.542010] uvcvideo: uvc_v4l2_release
+> [33679.542097] uvcvideo: uvc_v4l2_open
+> [33679.543598] uvcvideo: uvc_v4l2_open
+> [33679.543614] uvcvideo: uvc_v4l2_release
+> [33679.543875] uvcvideo: uvc_v4l2_open
+> [33679.543886] uvcvideo: Control 0x00980900 not found.
+> [33679.543889] uvcvideo: Control 0x00980901 not found.
+> [33679.543892] uvcvideo: Control 0x00980902 not found.
+> [33679.543895] uvcvideo: Control 0x00980903 not found.
+> [33679.543897] uvcvideo: Control 0x00980904 not found.
+> [33679.543900] uvcvideo: Control 0x00980905 not found.
+> [33679.543903] uvcvideo: Control 0x00980906 not found.
+> [33679.543905] uvcvideo: Control 0x00980907 not found.
+> [33679.543908] uvcvideo: Control 0x00980908 not found.
+> [33679.543911] uvcvideo: Control 0x00980909 not found.
+> [33679.543913] uvcvideo: Control 0x0098090a not found.
+> [33679.543916] uvcvideo: Control 0x0098090b not found.
+> [33679.543919] uvcvideo: Control 0x0098090c not found.
+> [33679.543921] uvcvideo: Control 0x0098090d not found.
+> [33679.543924] uvcvideo: Control 0x0098090e not found.
+> [33679.543927] uvcvideo: Control 0x0098090f not found.
+> [33679.543930] uvcvideo: Control 0x00980910 not found.
+> [33679.543933] uvcvideo: Control 0x00980911 not found.
+> [33679.543935] uvcvideo: Control 0x00980912 not found.
+> [33679.543938] uvcvideo: Control 0x00980913 not found.
+> [33679.543941] uvcvideo: Control 0x00980914 not found.
+> [33679.543943] uvcvideo: Control 0x00980915 not found.
+> [33679.543946] uvcvideo: Control 0x00980916 not found.
+> [33679.543949] uvcvideo: Control 0x00980917 not found.
+> [33679.543951] uvcvideo: Control 0x00980918 not found.
+> [33679.543954] uvcvideo: Control 0x00980919 not found.
+> [33679.543957] uvcvideo: Control 0x0098091a not found.
+> [33679.543959] uvcvideo: Control 0x0098091b not found.
+> [33679.543962] uvcvideo: Control 0x0098091c not found.
+> [33679.543964] uvcvideo: Control 0x0098091d not found.
+> [33679.543967] uvcvideo: Control 0x0098091e not found.
+> [33679.543970] uvcvideo: Control 0x0098091f not found.
+> [33679.543973] uvcvideo: Control 0x00980920 not found.
+> [33679.543975] uvcvideo: Control 0x00980921 not found.
+> [33679.543978] uvcvideo: Control 0x00980922 not found.
+> [33679.543980] uvcvideo: Control 0x00980923 not found.
+> [33679.543983] uvcvideo: Control 0x00980924 not found.
+> [33679.543986] uvcvideo: Control 0x00980925 not found.
+> [33679.543989] uvcvideo: Control 0x00980926 not found.
+> [33679.543991] uvcvideo: Control 0x00980927 not found.
+> [33679.543994] uvcvideo: Control 0x00980928 not found.
+> [33679.543996] uvcvideo: Control 0x00980929 not found.
+> [33679.543999] uvcvideo: Control 0x0098092a not found.
+> [33679.544002] uvcvideo: Control 0x08000000 not found.
+> [33679.544005] uvcvideo: uvc_v4l2_release
+> [33679.544091] uvcvideo: uvc_v4l2_open
+> [33679.544100] uvcvideo: uvc_v4l2_release
+> [33679.544214] uvcvideo: uvc_v4l2_open
+> [33679.557062] uvcvideo: uvc_v4l2_open
+> [33679.557076] uvcvideo: uvc_v4l2_release
+> [33679.557228] uvcvideo: uvc_v4l2_open
+> [33679.557239] uvcvideo: Control 0x00980900 not found.
+> [33679.557242] uvcvideo: Control 0x00980901 not found.
+> [33679.557246] uvcvideo: Control 0x00980902 not found.
+> [33679.557249] uvcvideo: Control 0x00980903 not found.
+> [33679.557252] uvcvideo: Control 0x00980904 not found.
+> [33679.557255] uvcvideo: Control 0x00980905 not found.
+> [33679.557258] uvcvideo: Control 0x00980906 not found.
+> [33679.557261] uvcvideo: Control 0x00980907 not found.
+> [33679.557263] uvcvideo: Control 0x00980908 not found.
+> [33679.557266] uvcvideo: Control 0x00980909 not found.
+> [33679.557269] uvcvideo: Control 0x0098090a not found.
+> [33679.557272] uvcvideo: Control 0x0098090b not found.
+> [33679.557275] uvcvideo: Control 0x0098090c not found.
+> [33679.557277] uvcvideo: Control 0x0098090d not found.
+> [33679.557280] uvcvideo: Control 0x0098090e not found.
+> [33679.557283] uvcvideo: Control 0x0098090f not found.
+> [33679.557285] uvcvideo: Control 0x00980910 not found.
+> [33679.557288] uvcvideo: Control 0x00980911 not found.
+> [33679.557291] uvcvideo: Control 0x00980912 not found.
+> [33679.557294] uvcvideo: Control 0x00980913 not found.
+> [33679.557297] uvcvideo: Control 0x00980914 not found.
+> [33679.557299] uvcvideo: Control 0x00980915 not found.
+> [33679.557302] uvcvideo: Control 0x00980916 not found.
+> [33679.557305] uvcvideo: Control 0x00980917 not found.
+> [33679.557308] uvcvideo: Control 0x00980918 not found.
+> [33679.557311] uvcvideo: Control 0x00980919 not found.
+> [33679.557313] uvcvideo: Control 0x0098091a not found.
+> [33679.557316] uvcvideo: Control 0x0098091b not found.
+> [33679.557318] uvcvideo: Control 0x0098091c not found.
+> [33679.557321] uvcvideo: Control 0x0098091d not found.
+> [33679.557324] uvcvideo: Control 0x0098091e not found.
+> [33679.557327] uvcvideo: Control 0x0098091f not found.
+> [33679.557331] uvcvideo: Control 0x00980920 not found.
+> [33679.557334] uvcvideo: Control 0x00980921 not found.
+> [33679.557337] uvcvideo: Control 0x00980922 not found.
+> [33679.557340] uvcvideo: Control 0x00980923 not found.
+> [33679.557343] uvcvideo: Control 0x00980924 not found.
+> [33679.557345] uvcvideo: Control 0x00980925 not found.
+> [33679.557348] uvcvideo: Control 0x00980926 not found.
+> [33679.557351] uvcvideo: Control 0x00980927 not found.
+> [33679.557353] uvcvideo: Control 0x00980928 not found.
+> [33679.557356] uvcvideo: Control 0x00980929 not found.
+> [33679.557359] uvcvideo: Control 0x0098092a not found.
+> [33679.557361] uvcvideo: Control 0x08000000 not found.
+> [33679.557364] uvcvideo: uvc_v4l2_release
+> [33679.557446] uvcvideo: uvc_v4l2_open
+> [33679.557463] uvcvideo: uvc_v4l2_release
+> [33679.557547] uvcvideo: uvc_v4l2_open
+> [33679.701284] uvcvideo: uvc_v4l2_release
+> [33679.701293] uvcvideo: uvc_v4l2_release
+> [33679.701305] uvcvideo: uvc_v4l2_open
+> [33679.701305] uvcvideo: uvc_v4l2_open
+> [33679.701310] uvcvideo: uvc_v4l2_release
+> [33679.701326] uvcvideo: uvc_v4l2_release
+> [33679.701332] uvcvideo: uvc_v4l2_open
+> [33679.701393] uvcvideo: uvc_v4l2_open
+> [33679.812706] uvcvideo: Resuming interface 0
+> [33679.812708] uvcvideo: Resuming interface 1
+> [33679.812745] uvcvideo: uvc_v4l2_release
+> [33679.812746] uvcvideo: uvc_v4l2_release
+> [33679.812746] uvcvideo: uvc_v4l2_release
+> [33679.812747] uvcvideo: uvc_v4l2_release
+> [33679.812871] uvcvideo: uvc_v4l2_open
+> [33679.812871] uvcvideo: uvc_v4l2_open
+> [33679.812872] uvcvideo: uvc_v4l2_open
+> [33679.812881] uvcvideo: uvc_v4l2_open
+> [33679.812944] uvcvideo: uvc_v4l2_release
+> [33679.812945] uvcvideo: uvc_v4l2_release
+> [33679.812945] uvcvideo: uvc_v4l2_release
+> [33679.812949] uvcvideo: uvc_v4l2_release
+> [33679.814214] uvcvideo: uvc_v4l2_open
+> [33679.814235] uvcvideo: uvc_v4l2_release
+> [33679.815265] uvcvideo: uvc_v4l2_open
+> [33679.815289] uvcvideo: uvc_v4l2_release
+> [33679.815774] uvcvideo: uvc_v4l2_open
+> [33679.815798] uvcvideo: uvc_v4l2_release
+> [33679.815888] uvcvideo: uvc_v4l2_open
+> [33679.815916] uvcvideo: uvc_v4l2_release
+> [33679.816772] uvcvideo: uvc_v4l2_open
+> [33679.816783] uvcvideo: uvc_v4l2_release
+> [33679.816994] uvcvideo: uvc_v4l2_open
+> [33679.817004] uvcvideo: uvc_v4l2_release
+> [33679.868762] uvcvideo: uvc_v4l2_open
+> [33679.868775] uvcvideo: uvc_v4l2_release
+> [33679.868875] uvcvideo: uvc_v4l2_open
+> [33679.868985] uvcvideo: uvc_v4l2_release
+> [33679.869075] uvcvideo: uvc_v4l2_open
+> [33679.869153] uvcvideo: uvc_v4l2_release
+> [33679.869244] uvcvideo: uvc_v4l2_open
+> [33679.869311] uvcvideo: uvc_v4l2_release
+> [33679.869394] uvcvideo: uvc_v4l2_open
+> [33679.869442] uvcvideo: uvc_v4l2_release
+> [33679.870128] uvcvideo: uvc_v4l2_open
+> [33679.870136] uvcvideo: uvc_v4l2_release
+> [33679.870237] uvcvideo: uvc_v4l2_open
+> [33679.870330] uvcvideo: uvc_v4l2_release
+> [33679.870431] uvcvideo: uvc_v4l2_open
+> [33679.870502] uvcvideo: uvc_v4l2_release
 
-Sort of !
+Userspace looks at the V4L2 devices (I assume this is an automated
+process under udev's control, possibly running /lib/udev/v4l_id).
 
-> 
->> +	struct vb2_queue *vq;
->> +	unsigned long flags;
->> +
->> +	spin_lock_irqsave(&ctx->ge2d->ctrl_lock, flags);
->> +	switch (ctrl->id) {
->> +	case V4L2_CID_HFLIP:
->> +		ctx->hflip = ctrl->val;
->> +		break;
->> +	case V4L2_CID_VFLIP:
->> +		ctx->vflip = ctrl->val;
->> +		break;
->> +	case V4L2_CID_ROTATE:
->> +		vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
->> +		if (vb2_is_busy(vq))
->> +			return -EBUSY;
->> +
->> +		if (ctrl->val == 90) {
->> +			ctx->hflip = 0;
->> +			ctx->vflip = 0;
->> +			ctx->xy_swap = 1;
->> +		} else if (ctrl->val == 180) {
->> +			ctx->hflip = 1;
->> +			ctx->vflip = 1;
->> +			ctx->xy_swap = 0;
->> +		} else if (ctrl->val == 270) {
->> +			ctx->hflip = 1;
->> +			ctx->vflip = 1;
->> +			ctx->xy_swap = 1;
->> +		} else {
->> +			ctx->hflip = 0;
->> +			ctx->vflip = 0;
->> +			ctx->xy_swap = 0;
->> +		}
->> +
->> +		vidioc_setup_cap_fmt(ctx, &fmt);
-> 
-> Ah, this is why you needed the forward reference to this function.
-> 
-> Why not just move the ctrl-related functions further down in the
-> source so you don't need that forward reference?
+> [33681.724746] IPv6: ADDRCONF(NETDEV_CHANGE): enp60s0u1u1u2: link becomes ready
+> [33681.725242] r8152 4-1.1.2:1.0 enp60s0u1u1u2: carrier on
+> [33682.312529] uvcvideo: Suspending interface 1
+> [33682.312532] uvcvideo: Suspending interface 0
+> [33682.369227] uvcvideo: Suspending interface 3
+> [33682.369228] uvcvideo: Suspending interface 2
+> [33682.369229] uvcvideo: Suspending interface 1
+> [33682.369229] uvcvideo: Suspending interface 0
 
-Sure
+And there the kernel auto-suspends the camera, as it's not in use.
 
-> 
->> +
->> +		if (fmt.width != ctx->out.pix_fmt.width ||
->> +		    fmt.height != ctx->out.pix_fmt.width ||
->> +		    fmt.bytesperline > ctx->out.pix_fmt.bytesperline ||
->> +		    fmt.sizeimage > ctx->out.pix_fmt.sizeimage)
->> +			memcpy(&ctx->out.pix_fmt, &fmt, sizeof(struct v4l2_pix_format));
-> 
-> This can be replaced by 'ctx->out.pix_fmt = pix;'
-> 
-> This 'if' needs a comment, it's not clear what is happening here.
+> [33684.020289] wlp61s0: deauthenticating from f0:b0:14:99:cd:fc by local choice (Reason: 3=DEAUTH_LEAVING)
+> [33688.189318] usb 3-1.1.1: Failed to suspend device, error -110
 
-ok
+However, something goes wrong.
 
-> 
->> +
->> +		break;
->> +	}
->> +	spin_unlock_irqrestore(&ctx->ge2d->ctrl_lock, flags);
->> +
->> +	return 0;
->> +}
->> +
->> +static const struct v4l2_ctrl_ops ge2d_ctrl_ops = {
->> +	.s_ctrl = ge2d_s_ctrl,
->> +};
->> +
->> +static int ge2d_setup_ctrls(struct ge2d_ctx *ctx)
->> +{
->> +	struct meson_ge2d *ge2d = ctx->ge2d;
->> +
->> +	v4l2_ctrl_handler_init(&ctx->ctrl_handler, 4);
->> +
->> +	v4l2_ctrl_new_std(&ctx->ctrl_handler, &ge2d_ctrl_ops,
->> +			  V4L2_CID_HFLIP, 0, 1, 1, 0);
->> +
->> +	v4l2_ctrl_new_std(&ctx->ctrl_handler, &ge2d_ctrl_ops,
->> +			  V4L2_CID_VFLIP, 0, 1, 1, 0);
->> +
->> +	v4l2_ctrl_new_std(&ctx->ctrl_handler, &ge2d_ctrl_ops,
->> +			  V4L2_CID_ROTATE, 0, 270, 90, 0);
->> +
->> +	if (ctx->ctrl_handler.error) {
->> +		int err = ctx->ctrl_handler.error;
->> +
->> +		v4l2_err(&ge2d->v4l2_dev, "%s failed\n", __func__);
->> +		v4l2_ctrl_handler_free(&ctx->ctrl_handler);
->> +		return err;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static const struct ge2d_frame def_frame = {
->> +	.pix_fmt = {
->> +		.width = DEFAULT_WIDTH,
->> +		.height = DEFAULT_HEIGHT,
->> +		.field = V4L2_FIELD_NONE,
->> +	},
->> +	.crop.left = 0,
->> +	.crop.top = 0,
-> 
-> No need for these two fields.
+> [33733.405785] uvcvideo: uvc_v4l2_open
+> [33733.405906] hub 3-1.1.1:1.0: hub_ext_port_status failed (err = -71)
+> [33733.406202] usb 3-1.1.1-port2: cannot disable (err = -71)
+> [33733.406391] usb 3-1.1.1-port2: device 3-1.1.1.2 not suspended yet
 
-ok
+And when opening the device, an error occurs.
 
-> 
->> +	.crop.width = DEFAULT_WIDTH,
->> +	.crop.height = DEFAULT_HEIGHT,
->> +	.fmt = &formats[0],
->> +};
->> +
->> +static int ge2d_open(struct file *file)
->> +{
->> +	struct meson_ge2d *ge2d = video_drvdata(file);
->> +	struct ge2d_ctx *ctx = NULL;
->> +	int ret = 0;
->> +
->> +	ctx = kzalloc(sizeof(*ctx), GFP_KERNEL);
->> +	if (!ctx)
->> +		return -ENOMEM;
->> +	ctx->ge2d = ge2d;
->> +
->> +	/* Set default formats */
->> +	ctx->in = def_frame;
->> +	ctx->out = def_frame;
->> +
->> +	/* Initialize default frames */
->> +	ctx->in.pix_fmt.bytesperline = ALIGN((ctx->in.pix_fmt.width * ctx->in.fmt->depth) / 8, 8);
->> +	ctx->in.pix_fmt.sizeimage = ctx->in.pix_fmt.height * ctx->in.pix_fmt.bytesperline;
->> +	memcpy(&ctx->out.pix_fmt, &ctx->in.pix_fmt, sizeof(struct v4l2_pix_format));
-> 
-> ctx->out.pix_fmt = ctx->in.pix_fmt;
+I'm afraid I don't know why the device fails to suspend :-S As a quick
+hack, you could try commenting out the call to usb_enable_autosuspend()
+in uvc_probe(). If that fixes the issue then we know it's an
+auto-suspend problem, and I would then recommend CC'ing the linux-usb
+mailing list to get help with that. It may be that the camera is buggy
+and doesn't support auto-suspend (in which case we could add a quirk in
+the UVC driver - or possibly in the USB subsystem core - to selectively
+disable auto-suspend for that model), or there could be a bug somewhere
+in the kernel.
 
-ok
+> [33739.747081] uvcvideo: uvc_v4l2_open
 
-> 
-> Actually, why not just set these two fields (bytesperline and sizeimage) in def_frame?
-> Then you can delete these four lines and def_frame is always correct.
+-- 
+Regards,
 
-Because it's not static and depends on the default pix fmt, it was the smartest way I found...
-> 
->> +
->> +	if (mutex_lock_interruptible(&ge2d->mutex)) {
->> +		kfree(ctx);
->> +		return -ERESTARTSYS;
->> +	}
->> +	ctx->fh.m2m_ctx = v4l2_m2m_ctx_init(ge2d->m2m_dev, ctx, &queue_init);
->> +	if (IS_ERR(ctx->fh.m2m_ctx)) {
->> +		ret = PTR_ERR(ctx->fh.m2m_ctx);
->> +		mutex_unlock(&ge2d->mutex);
->> +		kfree(ctx);
->> +		return ret;
->> +	}
->> +	v4l2_fh_init(&ctx->fh, video_devdata(file));
->> +	file->private_data = &ctx->fh;
->> +	v4l2_fh_add(&ctx->fh);
->> +
->> +	ge2d_setup_ctrls(ctx);
->> +
->> +	/* Write the default values to the ctx struct */
->> +	v4l2_ctrl_handler_setup(&ctx->ctrl_handler);
->> +
->> +	ctx->fh.ctrl_handler = &ctx->ctrl_handler;
->> +	mutex_unlock(&ge2d->mutex);
->> +
->> +	return 0;
->> +}
->> +
->> +static int ge2d_release(struct file *file)
->> +{
->> +	struct ge2d_ctx *ctx =
->> +		container_of(file->private_data, struct ge2d_ctx, fh);
->> +	struct meson_ge2d *ge2d = ctx->ge2d;
->> +
->> +	mutex_lock(&ge2d->mutex);
->> +
->> +	v4l2_m2m_ctx_release(ctx->fh.m2m_ctx);
->> +
->> +	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
->> +	v4l2_fh_del(&ctx->fh);
->> +	v4l2_fh_exit(&ctx->fh);
->> +	kfree(ctx);
->> +
->> +	mutex_unlock(&ge2d->mutex);
->> +
->> +	return 0;
->> +}
->> +
->> +static const struct v4l2_file_operations ge2d_fops = {
->> +	.owner = THIS_MODULE,
->> +	.open = ge2d_open,
->> +	.release = ge2d_release,
->> +	.poll = v4l2_m2m_fop_poll,
->> +	.unlocked_ioctl = video_ioctl2,
->> +	.mmap = v4l2_m2m_fop_mmap,
->> +};
->> +
->> +static int
->> +vidioc_querycap(struct file *file, void *priv, struct v4l2_capability *cap)
->> +{
->> +	strscpy(cap->driver, GE2D_NAME, sizeof(cap->driver));
->> +	strscpy(cap->card, GE2D_NAME, sizeof(cap->card));
->> +	strscpy(cap->bus_info, "platform:" GE2D_NAME, sizeof(cap->bus_info));
->> +
->> +	return 0;
->> +}
->> +
->> +static int vidioc_enum_fmt(struct file *file, void *priv, struct v4l2_fmtdesc *f)
->> +{
->> +	const struct ge2d_fmt *fmt;
->> +
->> +	if (f->index >= NUM_FORMATS)
->> +		return -EINVAL;
->> +
->> +	fmt = &formats[f->index];
->> +	f->pixelformat = fmt->fourcc;
->> +
->> +	return 0;
->> +}
->> +
->> +static int vidioc_g_selection(struct file *file, void *priv,
->> +			      struct v4l2_selection *s)
->> +{
->> +	struct ge2d_ctx *ctx = priv;
->> +	struct ge2d_frame *f;
->> +	bool use_frame = false;
->> +
->> +	f = get_frame(ctx, s->type);
->> +	if (IS_ERR(f))
->> +		return PTR_ERR(f);
-> 
-> Rather than relying on get_frame errors, just add a check for s->type
-> here. Ditto for s_selection.
-
-ok
-
-> 
->> +
->> +	switch (s->target) {
->> +	case V4L2_SEL_TGT_COMPOSE_DEFAULT:
->> +	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
->> +		if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
->> +			return -EINVAL;
->> +		break;
->> +	case V4L2_SEL_TGT_CROP_DEFAULT:
->> +	case V4L2_SEL_TGT_CROP_BOUNDS:
->> +		if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
->> +			return -EINVAL;
->> +		break;
->> +	case V4L2_SEL_TGT_COMPOSE:
->> +		if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
->> +			return -EINVAL;
->> +		use_frame = true;
->> +		break;
->> +	case V4L2_SEL_TGT_CROP:
->> +		if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
->> +			return -EINVAL;
->> +		use_frame = true;
->> +		break;
->> +	default:
->> +		return -EINVAL;
->> +	}
->> +
->> +	if (use_frame) {
->> +		s->r = f->crop;
->> +	} else {
->> +		s->r.left = 0;
->> +		s->r.top = 0;
->> +		s->r.width = f->pix_fmt.width;
->> +		s->r.height = f->pix_fmt.height;
->> +	}
->> +
->> +	return 0;
->> +}
->> +
->> +static int vidioc_s_selection(struct file *file, void *priv,
->> +			      struct v4l2_selection *s)
->> +{
->> +	struct ge2d_ctx *ctx = priv;
->> +	struct meson_ge2d *ge2d = ctx->ge2d;
->> +	struct ge2d_frame *f;
->> +	int ret = 0;
->> +
->> +	f = get_frame(ctx, s->type);
->> +	if (IS_ERR(f))
->> +		return PTR_ERR(f);
-
-[for me: remove]
-
->> +
->> +	switch (s->target) {
->> +	case V4L2_SEL_TGT_COMPOSE:
->> +		/*
->> +		 * COMPOSE target is only valid for capture buffer type, return
->> +		 * error for output buffer type
->> +		 */
->> +		if (s->type != V4L2_BUF_TYPE_VIDEO_CAPTURE)
->> +			return -EINVAL;
->> +		break;
->> +	case V4L2_SEL_TGT_CROP:
->> +		/*
->> +		 * CROP target is only valid for output buffer type, return
->> +		 * error for capture buffer type
->> +		 */
->> +		if (s->type != V4L2_BUF_TYPE_VIDEO_OUTPUT)
->> +			return -EINVAL;
->> +		break;
->> +	/*
->> +	 * bound and default crop/compose targets are invalid targets to
->> +	 * try/set
->> +	 */
->> +	default:
->> +		return -EINVAL;
->> +	}
->> +
->> +	if (s->r.top < 0 || s->r.left < 0) {
->> +		v4l2_err(&ge2d->v4l2_dev,
->> +			 "doesn't support negative values for top & left.\n");
->> +		return -EINVAL;
->> +	}
->> +
->> +	if (s->r.left + s->r.width > f->pix_fmt.width ||
->> +	    s->r.top + s->r.height > f->pix_fmt.height ||
->> +	    s->r.width < 0 || s->r.height < 0) {
-> 
-> width & height in v4l2_rect are unsigned, so can't be negative.
-
-ok
-
-> 
->> +		v4l2_err(&ge2d->v4l2_dev, "unsupported crop value.\n");
-> 
-> crop -> rectangle
-
-ok
-
-> 
->> +		return -EINVAL;
->> +	}
->> +
->> +	f->crop = s->r;
->> +
->> +	return ret;
->> +}
->> +
->> +static void vidioc_setup_cap_fmt(struct ge2d_ctx *ctx, struct v4l2_pix_format *f)
->> +{
->> +	struct ge2d_frame *frm_out = get_frame(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT);
->> +
->> +	memcpy(f, &frm_out->pix_fmt, sizeof(struct v4l2_pix_format));
-> 
-> *f = frm_out->pix_fmt;
-
-ok
-
-> 
->> +
->> +	if (ctx->xy_swap) {
->> +		f->width = frm_out->pix_fmt.height;
->> +		f->height = frm_out->pix_fmt.width;
->> +	}
->> +}
->> +
->> +static int vidioc_try_fmt_cap(struct file *file, void *priv, struct v4l2_format *f)
->> +{
->> +	const struct ge2d_fmt *fmt = find_fmt(f);
->> +	struct ge2d_ctx *ctx = priv;
->> +	struct v4l2_pix_format fmt_cap;
->> +
->> +	vidioc_setup_cap_fmt(ctx, &fmt_cap);
->> +
->> +	fmt_cap.pixelformat = fmt->fourcc;
->> +
->> +	fmt_cap.bytesperline = max(f->fmt.pix.bytesperline,
->> +				   ALIGN((fmt_cap.width * fmt->depth) >> 3, 8));
->> +
->> +	fmt_cap.sizeimage = max(f->fmt.pix.sizeimage,
->> +				fmt_cap.height * fmt_cap.bytesperline);
->> +
->> +	memcpy(&f->fmt.pix, &fmt_cap, sizeof(struct v4l2_pix_format));
-> 
-> f->fmt.pix = fmt_cap;
-
-ok
-
-> 
->> +
->> +	return 0;
->> +}
->> +
->> +static int vidioc_s_fmt_cap(struct file *file, void *priv, struct v4l2_format *f)
->> +{
->> +	struct ge2d_ctx *ctx = priv;
->> +	struct meson_ge2d *ge2d = ctx->ge2d;
->> +	struct vb2_queue *vq;
->> +	struct ge2d_frame *frm;
->> +	int ret = 0;
->> +
->> +	/* Adjust all values accordingly to the hardware capabilities
->> +	 * and chosen format.
->> +	 */
->> +	ret = vidioc_try_fmt_cap(file, priv, f);
->> +	if (ret)
->> +		return ret;
->> +
->> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
->> +	if (vb2_is_busy(vq)) {
->> +		v4l2_err(&ge2d->v4l2_dev, "queue (%d) bust\n", f->type);
->> +		return -EBUSY;
->> +	}
->> +
->> +	frm = get_frame(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
->> +	if (IS_ERR(frm))
->> +		return PTR_ERR(frm);
-> 
-> Can't happen.
-
-ok
-
-> 
->> +
->> +	memcpy(&frm->pix_fmt, &f->fmt.pix, sizeof(struct v4l2_pix_format));
->> +	frm->fmt = find_fmt(f);
->> +	f->fmt.pix.pixelformat = frm->fmt->fourcc;
->> +
->> +	/* Reset crop settings */
->> +	frm->crop.left = 0;
->> +	frm->crop.top = 0;
->> +	frm->crop.width = frm->pix_fmt.width;
->> +	frm->crop.height = frm->pix_fmt.height;
->> +
->> +	return 0;
->> +}
->> +
->> +static int vidioc_g_fmt(struct file *file, void *priv, struct v4l2_format *f)
->> +{
->> +	struct ge2d_ctx *ctx = priv;
->> +	struct vb2_queue *vq;
->> +	struct ge2d_frame *frm;
->> +
->> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
->> +	if (!vq)
->> +		return -EINVAL;
->> +
->> +	frm = get_frame(ctx, f->type);
->> +	if (IS_ERR(frm))
->> +		return PTR_ERR(frm);
-> 
-> Ditto.
-> 
-> I won't repeat myself, the same thing happens several times below.
-
-ok will remove all this dead code
-
-> 
->> +
->> +	memcpy(&f->fmt.pix, &frm->pix_fmt, sizeof(struct v4l2_pix_format));
-> 
-> Use assignment. Same several times below.
-
-ok
-
-> 
->> +	f->fmt.pix.pixelformat = frm->fmt->fourcc;
->> +
->> +	return 0;
->> +}
->> +
->> +static int vidioc_try_fmt_out(struct file *file, void *priv, struct v4l2_format *f)
->> +{
->> +	const struct ge2d_fmt *fmt = find_fmt(f);
->> +
->> +	f->fmt.pix.field = V4L2_FIELD_NONE;
->> +	f->fmt.pix.pixelformat = fmt->fourcc;
->> +
->> +	if (f->fmt.pix.width > MAX_WIDTH)
->> +		f->fmt.pix.width = MAX_WIDTH;
->> +	if (f->fmt.pix.height > MAX_HEIGHT)
->> +		f->fmt.pix.height = MAX_HEIGHT;
->> +
->> +	if (f->fmt.pix.width < 0)
->> +		f->fmt.pix.width = 0;
->> +	if (f->fmt.pix.height < 0)
->> +		f->fmt.pix.height = 0;
->> +
->> +	f->fmt.pix.bytesperline = max(f->fmt.pix.bytesperline,
->> +				      ALIGN((f->fmt.pix.width * fmt->depth) >> 3, 8));
->> +
->> +	f->fmt.pix.sizeimage = max(f->fmt.pix.sizeimage,
->> +				   f->fmt.pix.height * f->fmt.pix.bytesperline);
->> +
->> +	return 0;
->> +}
->> +
->> +static int vidioc_s_fmt_out(struct file *file, void *priv, struct v4l2_format *f)
->> +{
->> +	struct ge2d_ctx *ctx = priv;
->> +	struct meson_ge2d *ge2d = ctx->ge2d;
->> +	struct vb2_queue *vq;
->> +	struct ge2d_frame *frm, *frm_cap;
->> +	int ret = 0;
->> +
->> +	/* Adjust all values accordingly to the hardware capabilities
->> +	 * and chosen format.
->> +	 */
->> +	ret = vidioc_try_fmt_out(file, priv, f);
->> +	if (ret)
->> +		return ret;
->> +
->> +	vq = v4l2_m2m_get_vq(ctx->fh.m2m_ctx, f->type);
->> +	if (vb2_is_busy(vq)) {
->> +		v4l2_err(&ge2d->v4l2_dev, "queue (%d) bust\n", f->type);
->> +		return -EBUSY;
->> +	}
->> +
->> +	frm = get_frame(ctx, V4L2_BUF_TYPE_VIDEO_OUTPUT);
->> +	if (IS_ERR(frm))
->> +		return PTR_ERR(frm);
-
-[for me: remove]
-
->> +	frm_cap = get_frame(ctx, V4L2_BUF_TYPE_VIDEO_CAPTURE);
->> +	if (IS_ERR(frm_cap))
->> +		return PTR_ERR(frm_cap);
-
-
-[for me: remove]
-
->> +
->> +	memcpy(&frm->pix_fmt, &f->fmt.pix, sizeof(struct v4l2_pix_format));
-
-[for me: rm->pix_fmt = f->fmt.pix]
-
->> +	frm->fmt = find_fmt(f);
->> +	f->fmt.pix.pixelformat = frm->fmt->fourcc;
->> +
->> +	/* Reset crop settings */
->> +	frm->crop.left = 0;
->> +	frm->crop.top = 0;
->> +	frm->crop.width = frm->pix_fmt.width;
->> +	frm->crop.height = frm->pix_fmt.height;
->> +
->> +	/* Propagate settings to capture */
->> +	vidioc_setup_cap_fmt(ctx, &frm_cap->pix_fmt);
->> +
->> +	return 0;
->> +}
->> +
->> +static const struct v4l2_ioctl_ops ge2d_ioctl_ops = {
->> +	.vidioc_querycap = vidioc_querycap,
->> +
->> +	.vidioc_enum_fmt_vid_cap = vidioc_enum_fmt,
->> +	.vidioc_g_fmt_vid_cap = vidioc_g_fmt,
->> +	.vidioc_try_fmt_vid_cap = vidioc_try_fmt_cap,
->> +	.vidioc_s_fmt_vid_cap = vidioc_s_fmt_cap,
->> +
->> +	.vidioc_enum_fmt_vid_out = vidioc_enum_fmt,
->> +	.vidioc_g_fmt_vid_out = vidioc_g_fmt,
->> +	.vidioc_try_fmt_vid_out = vidioc_try_fmt_out,
->> +	.vidioc_s_fmt_vid_out = vidioc_s_fmt_out,
->> +
->> +	.vidioc_reqbufs = v4l2_m2m_ioctl_reqbufs,
->> +	.vidioc_querybuf = v4l2_m2m_ioctl_querybuf,
->> +	.vidioc_qbuf = v4l2_m2m_ioctl_qbuf,
->> +	.vidioc_dqbuf = v4l2_m2m_ioctl_dqbuf,
->> +	.vidioc_prepare_buf = v4l2_m2m_ioctl_prepare_buf,
->> +	.vidioc_create_bufs = v4l2_m2m_ioctl_create_bufs,
->> +	.vidioc_expbuf = v4l2_m2m_ioctl_expbuf,
->> +
->> +	.vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
->> +	.vidioc_unsubscribe_event = v4l2_event_unsubscribe,
->> +
->> +	.vidioc_streamon = v4l2_m2m_ioctl_streamon,
->> +	.vidioc_streamoff = v4l2_m2m_ioctl_streamoff,
->> +
->> +	.vidioc_g_selection = vidioc_g_selection,
->> +	.vidioc_s_selection = vidioc_s_selection,
->> +};
->> +
->> +static const struct video_device ge2d_videodev = {
->> +	.name = "meson-ge2d",
->> +	.fops = &ge2d_fops,
->> +	.ioctl_ops = &ge2d_ioctl_ops,
->> +	.minor = -1,
->> +	.release = video_device_release,
->> +	.vfl_dir = VFL_DIR_M2M,
->> +	.device_caps = V4L2_CAP_VIDEO_M2M | V4L2_CAP_STREAMING,
->> +};
->> +
->> +static const struct regmap_config meson_ge2d_regmap_conf = {
->> +	.reg_bits = 8,
->> +	.val_bits = 32,
->> +	.reg_stride = 4,
->> +	.max_register = GE2D_SRC2_STRIDE_CTRL,
->> +};
->> +
->> +static int ge2d_probe(struct platform_device *pdev)
->> +{
->> +	struct reset_control *rst;
->> +	struct video_device *vfd;
->> +	struct meson_ge2d *ge2d;
->> +	struct resource *res;
->> +	void __iomem *regs;
->> +	int ret = 0;
->> +	int irq;
->> +
->> +	if (!pdev->dev.of_node)
->> +		return -ENODEV;
->> +
->> +	ge2d = devm_kzalloc(&pdev->dev, sizeof(*ge2d), GFP_KERNEL);
->> +	if (!ge2d)
->> +		return -ENOMEM;
->> +
->> +	ge2d->dev = &pdev->dev;
->> +	spin_lock_init(&ge2d->ctrl_lock);
->> +	mutex_init(&ge2d->mutex);
->> +
->> +	res = platform_get_resource(pdev, IORESOURCE_MEM, 0);
->> +	regs = devm_ioremap_resource(ge2d->dev, res);
->> +	if (IS_ERR(regs))
->> +		return PTR_ERR(regs);
->> +
->> +	ge2d->map = devm_regmap_init_mmio(ge2d->dev, regs,
->> +					  &meson_ge2d_regmap_conf);
->> +	if (IS_ERR(ge2d->map))
->> +		return PTR_ERR(ge2d->map);
->> +
->> +	irq = platform_get_irq(pdev, 0);
->> +	ret = devm_request_irq(ge2d->dev, irq, ge2d_isr, 0,
->> +			       dev_name(ge2d->dev), ge2d);
->> +	if (ret < 0) {
->> +		dev_err(ge2d->dev, "failed to request irq\n");
->> +		return ret;
->> +	}
->> +
->> +	rst = devm_reset_control_get(ge2d->dev, NULL);
->> +	if (IS_ERR(rst)) {
->> +		dev_err(ge2d->dev, "failed to get core reset controller\n");
->> +		return PTR_ERR(rst);
->> +	}
->> +
->> +	ge2d->clk = devm_clk_get(ge2d->dev, NULL);
->> +	if (IS_ERR(ge2d->clk)) {
->> +		dev_err(ge2d->dev, "failed to get clock\n");
->> +		return PTR_ERR(ge2d->clk);
->> +	}
->> +
->> +	reset_control_assert(rst);
->> +	udelay(1);
->> +	reset_control_deassert(rst);
->> +
->> +	ret = clk_prepare_enable(ge2d->clk);
->> +	if (ret) {
->> +		dev_err(ge2d->dev, "Cannot enable ge2d sclk: %d\n", ret);
->> +		return ret;
->> +	}
->> +
->> +	ret = v4l2_device_register(&pdev->dev, &ge2d->v4l2_dev);
->> +	if (ret)
->> +		goto disable_clks;
->> +
->> +	vfd = video_device_alloc();
->> +	if (!vfd) {
->> +		v4l2_err(&ge2d->v4l2_dev, "Failed to allocate video device\n");
->> +		goto unreg_v4l2_dev;
->> +	}
->> +
->> +	*vfd = ge2d_videodev;
->> +	vfd->lock = &ge2d->mutex;
->> +	vfd->v4l2_dev = &ge2d->v4l2_dev;
->> +
->> +	video_set_drvdata(vfd, ge2d);
->> +	ge2d->vfd = vfd;
->> +
->> +	platform_set_drvdata(pdev, ge2d);
->> +	ge2d->m2m_dev = v4l2_m2m_init(&ge2d_m2m_ops);
->> +	if (IS_ERR(ge2d->m2m_dev)) {
->> +		v4l2_err(&ge2d->v4l2_dev, "Failed to init mem2mem device\n");
->> +		ret = PTR_ERR(ge2d->m2m_dev);
->> +		goto unreg_video_dev;
->> +	}
->> +
->> +	ret = video_register_device(vfd, VFL_TYPE_VIDEO, -1);
->> +	if (ret) {
->> +		v4l2_err(&ge2d->v4l2_dev, "Failed to register video device\n");
->> +		goto rel_vdev;
->> +	}
->> +
->> +	v4l2_info(&ge2d->v4l2_dev, "Registered %s as /dev/%s\n",
->> +		  vfd->name, video_device_node_name(vfd));
->> +
->> +	return 0;
->> +
->> +rel_vdev:
->> +	video_device_release(vfd);
->> +unreg_video_dev:
->> +	video_unregister_device(ge2d->vfd);
->> +unreg_v4l2_dev:
->> +	v4l2_device_unregister(&ge2d->v4l2_dev);
->> +disable_clks:
->> +	clk_disable_unprepare(ge2d->clk);
->> +
->> +	return ret;
->> +}
->> +
->> +static int ge2d_remove(struct platform_device *pdev)
->> +{
->> +	struct meson_ge2d *ge2d = platform_get_drvdata(pdev);
->> +
->> +	v4l2_m2m_release(ge2d->m2m_dev);
->> +	video_unregister_device(ge2d->vfd);
->> +	v4l2_device_unregister(&ge2d->v4l2_dev);
->> +
->> +	clk_disable_unprepare(ge2d->clk);
->> +
->> +	return 0;
->> +}
->> +
->> +static const struct of_device_id meson_ge2d_match[] = {
->> +	{
->> +		.compatible = "amlogic,axg-ge2d",
->> +	},
->> +	{},
->> +};
->> +
->> +MODULE_DEVICE_TABLE(of, meson_ge2d_match);
->> +
->> +static struct platform_driver ge2d_drv = {
->> +	.probe = ge2d_probe,
->> +	.remove = ge2d_remove,
->> +	.driver = {
->> +		.name = "meson-ge2d",
->> +		.of_match_table = meson_ge2d_match,
->> +	},
->> +};
->> +
->> +module_platform_driver(ge2d_drv);
->> +
->> +MODULE_AUTHOR("Neil Armstrong <narmstrong@baylibre.com>");
->> +MODULE_DESCRIPTION("Amlogic 2D Graphic Acceleration Unit");
->> +MODULE_LICENSE("GPL");
->>
->
-
-Thanks for the review !
-
-Neil
-
-
-> Regards,
-> 
-> 	Hans
-> 
-
+Laurent Pinchart
