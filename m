@@ -2,171 +2,57 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E947A2B3EDF
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 09:39:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 81B9F2B3EF8
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 09:44:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727406AbgKPIjA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 03:39:00 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:44931 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726621AbgKPIi7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 03:38:59 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id ea29kmSnDfkEdea2DkVMq6; Mon, 16 Nov 2020 09:38:56 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s1;
-        t=1605515936; bh=0HBXrKpLPW8g1OySaIvQCG5gl20kZV+fEcDaxaxDToQ=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=fHGPhhNedtHBlczoUP3Qo7/bWFYMRN5qndb4TE0nshwnGLDBUZfNy3Nyb+ZMZnkG9
-         A63DvXCrQgX7nCQCCXLRIYixYJZAbj0ySYpwhRChWVjTVW8yY64D2J/bvqh7STvljW
-         xsZft2du0XCyQuVg6xQ3JdaUarq9b6TRZo53XZOMP7/xzLWo4XgW96vovA8fwrJJPo
-         eGXAbIiseeaerET7ErcZvabvwAv24ffsconaj+fliM7HyaGfXjWHOhSkz7YzA6ebKb
-         VETvxga0cW6Mnk3tBQaLqrAor2MWpvk5jVQJiIlVRri9wPSqmawR9uwdcei60VDuuc
-         kI/vl+AZG21pg==
-Subject: Re: [PATCH v2 0/6] ARM: dts: sun8i: v3s: Enable video decoder
-To:     Martin Cerveny <M.Cerveny@computer.org>
-Cc:     Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        devel@driverdev.osuosl.org, devicetree@vger.kernel.org,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Rob Herring <robh+dt@kernel.org>
-References: <20200912143052.30952-1-m.cerveny@computer.org>
- <c8cc3529-3e21-2a11-d258-bb03885a5c91@xs4all.nl>
- <alpine.GSO.2.00.2011151911340.21646@dmz.c-home.cz>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <19bbdf9f-3894-606b-728e-b41df27a4f5d@xs4all.nl>
-Date:   Mon, 16 Nov 2020 09:38:45 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1726281AbgKPIob (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 03:44:31 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58904 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726928AbgKPIoa (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Nov 2020 03:44:30 -0500
+Received: from mail-ot1-f48.google.com (mail-ot1-f48.google.com [209.85.210.48])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 5024B21D93
+        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 08:44:30 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605516270;
+        bh=h/Giv0EpTkZx2aRWxKxATQGk+836+5s5DezGPyo+z+E=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=DupeXNkasq3+ZScX2U1K0tpDEjWb7GPx1Fx/M0JMXSe8hhjoXFxxIEMjHPx7lGvFX
+         mN0mzqMnwcd0O4aw2D3kTiqGqhFx0WiGliTToDJ9JvcSRehOUKlWU+w9elNlyfIk54
+         g5nUDLfq+rbCtpHwTZgGQ49aucVFjk39HVggXO24=
+Received: by mail-ot1-f48.google.com with SMTP id o3so4702836ota.8
+        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 00:44:30 -0800 (PST)
+X-Gm-Message-State: AOAM530TBRABna7uxs3WBzP72uHgoPDednxmmjBAg8LoaNnInK43O4ut
+        IDx7qCJ3Kwi0pNWhHN9gdQTHWug8YfO3pf33Uow=
+X-Google-Smtp-Source: ABdhPJxT7tqvApzg95RLgANrqRSoYwaL27/z9AWXsd96PdqMLfvNdViEV6B73tcOEn5i1BNxn1lqrK7R0P4a7/vOm0A=
+X-Received: by 2002:a9d:65d5:: with SMTP id z21mr9304742oth.251.1605516269625;
+ Mon, 16 Nov 2020 00:44:29 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <alpine.GSO.2.00.2011151911340.21646@dmz.c-home.cz>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfDqxeIl3zPlBEnQSYmV0VDPHCX9kfSj2fQYnFCgHd4wq04j+fNXIA3/t7eOTHSb8ESZ05regaNJKbZ/aYgtgiT7Oi4yuxnmaEDmhWeiKLd4N1GBbBp6B
- 4AOz6Y//eo2oFcCnRo87LAljNyamxbP2YbkQMSsMt/ZQTN+4gextCiZdfUafVqwR9d1lQMPjpdg9UrfA2xOJWWvLkfMbp5cfNVP96j8X6MRVi3rq79B7QR9Q
- 07UGX+capvn0sA1Fvi0jop9LGmjVbY2FY+eHNk3LqbUl/q5FagReD8fh/IXLq2K4ROoMzDaWP3qpqGFYfTwDX9LawiQDze91sJb+GFbu8FLfwzUuc5n6k+Qz
- rLpSK73x1H/aaA4rbZXuwiqH4PR1C8f4sp/Cg0U84WqmBP/UTF6fAmxAtf8e84/ju8pYk4LJgf7wgTsXSkWhTtMRiRlu3/y2qSdCM4k3uLHYobn7dsHTqQm8
- rGf9Q/ChLCLT+27ure/MbyxuU89yGmwCMVQVZ/NkqR+Ux7Ioi5lBpESa2xNNjvQ/ZgFhKjJEhJR6XjSpGt8gbk3jpZybwPrjEOZTTMdPO3ipB4f4oznMR6zs
- VEsYURoEXkzQY4xAltEUYbFW
+References: <0cf705c4-0150-150b-8e29-de15b04ea6cf@xs4all.nl>
+In-Reply-To: <0cf705c4-0150-150b-8e29-de15b04ea6cf@xs4all.nl>
+From:   Arnd Bergmann <arnd@kernel.org>
+Date:   Mon, 16 Nov 2020 09:44:13 +0100
+X-Gmail-Original-Message-ID: <CAK8P3a176jcYoThzHwZ4FJYM8HTX0f3ON_DGCi5BE6HSLJ8YDw@mail.gmail.com>
+Message-ID: <CAK8P3a176jcYoThzHwZ4FJYM8HTX0f3ON_DGCi5BE6HSLJ8YDw@mail.gmail.com>
+Subject: Re: [PATCHv2] v4l2-compat-ioctl32.c: add missing #ifdef CONFIG_COMPAT_32BIT_TIMEs
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Arnd Bergmann <arnd@arndb.de>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/11/2020 19:59, Martin Cerveny wrote:
-> Hello.
-> 
-> On Thu, 5 Nov 2020, Hans Verkuil wrote:
-> 
->> Hi Martin,
->>
->> On 12/09/2020 16:30, Martin Cerveny wrote:
->>> First patch extends cedrus capability to all decoders
->>> because V3s missing MPEG2 decoder.
->>>
->>> Next two patches add system control node (SRAM C1) and
->>> next three patches add support for Cedrus VPU.
->>>
->>> Tested on "Lichee Zero" V3s platform with testing LCD patch
->>> ( https://github.com/mcerveny/linux/tree/v3s_videocodec_v4 )
->>> and V4L2 raw API testing utility
->>> ( https://github.com/mcerveny/v4l2-request-test ):
->>> - enabled LCD (DRM dual VI and sigle UI planes)
->>> - added RGB panel
->>> - enabled PWM
->>>
->>> There is low memory on V3s (64MB) and maximum must be available to CMA:
->>> - CONFIG_CMA_SIZE_MBYTES=28
->>> - add swap to swapout other processes
->>> - decrease buffers in v4l2-request-test (.buffers_count from 16 to 6)
->>>
->>> Only H.264 decoder working - MPEG and H.265 unsupported by V3s,
->>> JPEG/MJPEG still unimplemented, encoder unimplemented
->>
->> When I tried to merged these patches I got merge conflicts.
->>
->> Possibly due to other 5.10 changes, but certainly because of conflicts
->> with patches from Jernej:
->>
->> https://patchwork.linuxtv.org/project/linux-media/patch/20200825173523.1289379-4-jernej.skrabec@siol.net/
->> https://patchwork.linuxtv.org/project/linux-media/patch/20200825173523.1289379-5-jernej.skrabec@siol.net/
->>
->> I've merged Jerne's patches and posted a PR for that:
->> https://patchwork.linuxtv.org/project/linux-media/patch/f3b8e5e2-5f0e-fb6f-e5b2-7f44f7e365e7@xs4all.nl/
->>
->> Can you rebase your patches on top of my branch that contains Jernej's patches?
->>
->> https://git.linuxtv.org/hverkuil/media_tree.git/log/?h=for-v5.11e
->>
->> Once my PR is merged into the media_tree master I can take your rebased
->> patches.
-> 
-> I updated patches:
-> https://github.com/mcerveny/linux/tree/media_tree_for-v5.11e
-> 
-> BUT, commit (555 commits) for v5.10-1
-> https://github.com/torvalds/linux/commit/fd5c32d80884268a381ed0e67cccef0b3d37750b
-> disrupts usability of Cedrus H.264 (at least for my Allwinner V3s):
-> 
-> 1) colors are disrupted
-> 
-> There are missing some initialization now.
-> 
-> If I use "5.9" compatible code
-> (last bisect good point https://github.com/torvalds/linux/commit/647412daeb454b6dad12a6c6961ab90aac9e5d29 )
-> then reboot (not power-off!) and use new code 
-> ( https://github.com/mcerveny/linux/tree/media_tree_for-v5.11e )
-> and colors are OK.
+On Mon, Nov 16, 2020 at 9:23 AM Hans Verkuil <hverkuil@xs4all.nl> wrote:
+>
+> In two places time32 structures were defined, but they are not
+> used if CONFIG_COMPAT_32BIT_TIME is not set. Put these two structs
+> under #ifdef CONFIG_COMPAT_32BIT_TIME as well to clearly indicate
+> that they are only used if that config option is set.
+>
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 
-Could this or the next issue be related to this bug fix?
-
-https://git.linuxtv.org/media_tree.git/commit/?h=fixes&id=9ac924b98728c3733c91c6c59fc410827d0da49f
-
-That fix isn't yet in our master tree.
-
-> 
-> 2) decoding of complex streams fails
-> 
-> ( https://github.com/mcerveny/v4l2-request-test/tree/v5.10 )
-> - bbb-h264-all-i-32 - OK
-> - bbb-h264-32 - bad from frame 5
-> - bbb-h264-high-32 - bad from frame 6
-
-I think cedrus devs need to take a look at these issues.
-
-Regards,
-
-	Hans
-
-> 
-> best regards,
-> Martin
-> 
->>> Changes since v1:
->>> - patch 0005 rename
->>> - added testing description
->>>
->>> Martin Cerveny (6):
->>>   media: cedrus: Register all codecs as capability
->>>   dt-bindings: sram: allwinner,sun4i-a10-system-control: Add V3s
->>>     compatibles
->>>   ARM: dts: sun8i: v3s: Add node for system control
->>>   media: cedrus: Add support for V3s
->>>   dt-bindings: media: cedrus: Add V3s compatible
->>>   ARM: dts: sun8i: v3s: Add video engine node
->>>
->>>  .../allwinner,sun4i-a10-video-engine.yaml     |  1 +
->>>  .../allwinner,sun4i-a10-system-control.yaml   |  6 ++++
->>>  arch/arm/boot/dts/sun8i-v3s.dtsi              | 33 +++++++++++++++++++
->>>  drivers/staging/media/sunxi/cedrus/cedrus.c   | 28 +++++++++++++++-
->>>  drivers/staging/media/sunxi/cedrus/cedrus.h   |  2 ++
->>>  .../staging/media/sunxi/cedrus/cedrus_video.c |  2 ++
->>>  6 files changed, 71 insertions(+), 1 deletion(-)
->>>
->>
-
+Acked-by: Arnd Bergmann <arnd@arndb.de>
