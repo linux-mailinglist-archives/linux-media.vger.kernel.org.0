@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CD1002B4D6F
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 18:38:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB7C52B4D93
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 18:39:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733312AbgKPRhi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 12:37:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45798 "EHLO
+        id S1733117AbgKPRir (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 12:38:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45842 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733296AbgKPRhh (ORCPT
+        with ESMTP id S2387461AbgKPRhs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 12:37:37 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1B444C0613CF
-        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 09:37:37 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id p22so24744wmg.3
-        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 09:37:37 -0800 (PST)
+        Mon, 16 Nov 2020 12:37:48 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 11BDCC0613D1
+        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 09:37:48 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id u12so12420325wrt.0
+        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 09:37:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=6NqivdSoS8aJrg9SJeB6kGm72B7/tU0UIKTvRD3ut9A=;
-        b=C1Q+CHNZ+SnTO8vHJOinWbhc3vH3s30mod5pEkymEsYScz0GtjCroxKRsb7NQwoWde
-         KV66Y0C0gQr6Krra8A9aDTX9GBdHGPWgrxfye5m2RGA5tOY5LqLYrKaX7x0Rb/gvR7hV
-         zW1d6+ZnhsrFZ7oo1nbFKaf0UMMviNLMMDvZse1OretnkhtHys6LnzODOQNxHPpIoQG9
-         KBOzzhpsuSNKHFAT5JxEjV6Jwd5h4xxOa5XhZKacJ43uzU9jnNQ9BVIxwGC6oh2JnwKN
-         GLMxyUrLpqisq/HpJFKXLMi6C9Dgt5GcOrNkfmuxtlX1EEGwqudN1Lm+qCs+1pukF8XV
-         niXA==
+        bh=a/Zj5V7ntHFWoK7hDL0KY4UUjT17GXd4P0At2oNvDPk=;
+        b=TFBPvHxiNg0J66sXloeHlwrOB5eWbndg3GWxnxNUY/l85QSylm74QsaOu6c9V0sLmG
+         gsrnImQVGr/vzI1O7BgbeoRNaysARDN0yLvRIL+qaCWtSVIL3Dki7e9FEDW8asTZVwZ6
+         +KbfAcOKEr1hxQUuXN22cD2h5KNqAixBIbRYq2Qf8CZUofHYwO2YGcYYuXget9TsJXwS
+         sSWUlQBWfMX4tksJumaQpklKT/jTnTL3slInD2HfyyF2gVExiphw0nn20uXiUWBwEc4T
+         9naALP835/24p4ry/5XCk+jssfHvQcCihUPctJQpGv51yNSp70AKMXPK/mHf3HRNuU1n
+         5s4g==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=6NqivdSoS8aJrg9SJeB6kGm72B7/tU0UIKTvRD3ut9A=;
-        b=Qla9ZRRfWvwfP7tUCDXSufevaE5nliuUty1pRzWzoFF63vRu/gdotYzhJuRRcJN8Im
-         g/czDeRzNOS4ceqgCacwK+R2cvgCzuLIhG0mdDTu5qC/zuWHSWpFdAv//3yWDCb2bima
-         lRNotT5JdKKtZov8Dj6iANvZidKjDC8YZB62iuoVcZkl8qh21c+ofNyGkQqXR2OmjyOA
-         IdV2u/yovaaoXe4oK91yxertz5YXaFRFMz8LUvhmhMoDSkFVvmmc+WhnquR1XwYUOewb
-         fj9DPZiCUYuS1chch7TUrf6GVyRxVLxB9w4MqEWhH/IRJ7YEpbM+met5utIBlJByVks5
-         krRQ==
-X-Gm-Message-State: AOAM531uyCLZisFj8aSlap7yjR7zYCfgrCrx9sSpsf6vl0iFTUgXQmPS
-        LOJcaTo2tGF6WMbNCza0EUoP8A==
-X-Google-Smtp-Source: ABdhPJwMJtLAFYyr97EyAPYpJ7qyi5IqvZswjgm4XdVLqLLHFtaXQNWZ3VEoGPX14yGcY/n1XEUokg==
-X-Received: by 2002:a1c:e3c1:: with SMTP id a184mr16024wmh.88.1605548255825;
-        Mon, 16 Nov 2020 09:37:35 -0800 (PST)
+        bh=a/Zj5V7ntHFWoK7hDL0KY4UUjT17GXd4P0At2oNvDPk=;
+        b=QLy1yrJJIEBrSAX3EZB0Ojk+IM5uZRLb1H8lq5c4+LgsqYv4MX09UCsxNwNbxr+ZMY
+         JA0zyqZ6H377VU8K9n7/24N6WxxsFgbAkMuImtbxCifVBmgbiAdWQorH8MO98DFLgOZp
+         B1cOCsQUw1DTkRfsmQy+ON77UPLnFVzytUmXCf/OYUDE4+absfpgRyu14TRB4RgH393o
+         ab8xohRyy940TmekqEqRW6ciWDLxQB4uKV3SZrzYmnLqBim7CdyDrAeyV8HifDHMGiiI
+         PmqaqxbgBAbM3JddY4xom6rm7aZiIwkOz2rcJJKVu9WEbQPhcBmeDEbDE7DJs+TQUgwn
+         iWKg==
+X-Gm-Message-State: AOAM531RcHkC95aFVVJHQyGlhuyFtl6Ud0k1przZxF3Dkyo/Fab5a0u2
+        MCOvA+m3L7YOq2HO48XL6wugNsx81+CE6+bM
+X-Google-Smtp-Source: ABdhPJyMK0Ji9phYwLd+YAD9fkz+za+2JWzXtRjSfGXUX56GVCuCSEw3Ah5D19tYN5hkRyKDaHQNxA==
+X-Received: by 2002:adf:e512:: with SMTP id j18mr21789945wrm.390.1605548266827;
+        Mon, 16 Nov 2020 09:37:46 -0800 (PST)
 Received: from dell.default ([91.110.221.159])
-        by smtp.gmail.com with ESMTPSA id 30sm16942828wrd.88.2020.11.16.09.37.34
+        by smtp.gmail.com with ESMTPSA id 30sm16942828wrd.88.2020.11.16.09.37.45
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2020 09:37:35 -0800 (PST)
+        Mon, 16 Nov 2020 09:37:46 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -58,9 +58,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
         amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 22/43] drm/radeon/cik: Move 'r600_ih_ring_{alloc,fini}()'s prototypes to shared header
-Date:   Mon, 16 Nov 2020 17:36:39 +0000
-Message-Id: <20201116173700.1830487-23-lee.jones@linaro.org>
+Subject: [PATCH 31/43] drm/radeon/cik: Move 'si_*()'s prototypes to shared header
+Date:   Mon, 16 Nov 2020 17:36:48 +0000
+Message-Id: <20201116173700.1830487-32-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201116173700.1830487-1-lee.jones@linaro.org>
 References: <20201116173700.1830487-1-lee.jones@linaro.org>
@@ -73,12 +73,15 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/radeon/r600.c:3480:5: warning: no previous prototype for ‘r600_ih_ring_alloc’ [-Wmissing-prototypes]
- 3480 | int r600_ih_ring_alloc(struct radeon_device *rdev)
- | ^~~~~~~~~~~~~~~~~~
- drivers/gpu/drm/radeon/r600.c:3516:6: warning: no previous prototype for ‘r600_ih_ring_fini’ [-Wmissing-prototypes]
- 3516 | void r600_ih_ring_fini(struct radeon_device *rdev)
- | ^~~~~~~~~~~~~~~~~
+ drivers/gpu/drm/radeon/si.c:4186:6: warning: no previous prototype for ‘si_vram_gtt_location’ [-Wmissing-prototypes]
+ 4186 | void si_vram_gtt_location(struct radeon_device *rdev,
+ | ^~~~~~~~~~~~~~~~~~~~
+ drivers/gpu/drm/radeon/si.c:5186:6: warning: no previous prototype for ‘si_init_uvd_internal_cg’ [-Wmissing-prototypes]
+ 5186 | void si_init_uvd_internal_cg(struct radeon_device *rdev)
+ | ^~~~~~~~~~~~~~~~~~~~~~~
+ drivers/gpu/drm/radeon/si.c:5801:6: warning: no previous prototype for ‘si_rlc_reset’ [-Wmissing-prototypes]
+ 5801 | void si_rlc_reset(struct radeon_device *rdev)
+ | ^~~~~~~~~~~~
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
@@ -91,65 +94,49 @@ Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/radeon/cik.c  | 3 +--
- drivers/gpu/drm/radeon/r600.h | 2 ++
- drivers/gpu/drm/radeon/si.c   | 3 +--
- 3 files changed, 4 insertions(+), 4 deletions(-)
+ drivers/gpu/drm/radeon/cik.c | 4 +---
+ drivers/gpu/drm/radeon/si.h  | 4 ++++
+ 2 files changed, 5 insertions(+), 3 deletions(-)
 
 diff --git a/drivers/gpu/drm/radeon/cik.c b/drivers/gpu/drm/radeon/cik.c
-index 315c4f3df3656..980b50d046cbc 100644
+index ae020ad7b3185..cef0f3111cd3a 100644
 --- a/drivers/gpu/drm/radeon/cik.c
 +++ b/drivers/gpu/drm/radeon/cik.c
-@@ -34,6 +34,7 @@
- #include "cik_blit_shaders.h"
- #include "cikd.h"
- #include "clearstate_ci.h"
-+#include "r600.h"
- #include "radeon.h"
+@@ -40,6 +40,7 @@
  #include "radeon_asic.h"
  #include "radeon_audio.h"
-@@ -125,8 +126,6 @@ MODULE_FIRMWARE("radeon/mullins_mec.bin");
+ #include "radeon_ucode.h"
++#include "si.h"
+ 
+ #define SH_MEM_CONFIG_GFX_DEFAULT \
+ 	ALIGNMENT_MODE(SH_MEM_ALIGNMENT_MODE_UNALIGNED)
+@@ -127,9 +128,6 @@ MODULE_FIRMWARE("radeon/mullins_mec.bin");
  MODULE_FIRMWARE("radeon/mullins_rlc.bin");
  MODULE_FIRMWARE("radeon/mullins_sdma.bin");
  
--extern int r600_ih_ring_alloc(struct radeon_device *rdev);
--extern void r600_ih_ring_fini(struct radeon_device *rdev);
- extern void si_vram_gtt_location(struct radeon_device *rdev, struct radeon_mc *mc);
- extern void si_rlc_reset(struct radeon_device *rdev);
- extern void si_init_uvd_internal_cg(struct radeon_device *rdev);
-diff --git a/drivers/gpu/drm/radeon/r600.h b/drivers/gpu/drm/radeon/r600.h
-index 2a3915f0039e4..e66ef58706cd8 100644
---- a/drivers/gpu/drm/radeon/r600.h
-+++ b/drivers/gpu/drm/radeon/r600.h
-@@ -31,5 +31,7 @@
+-extern void si_vram_gtt_location(struct radeon_device *rdev, struct radeon_mc *mc);
+-extern void si_rlc_reset(struct radeon_device *rdev);
+-extern void si_init_uvd_internal_cg(struct radeon_device *rdev);
+ static u32 cik_get_cu_active_bitmap(struct radeon_device *rdev, u32 se, u32 sh);
+ extern int cik_sdma_resume(struct radeon_device *rdev);
+ extern void cik_sdma_enable(struct radeon_device *rdev, bool enable);
+diff --git a/drivers/gpu/drm/radeon/si.h b/drivers/gpu/drm/radeon/si.h
+index a1751ae560f02..f483a64d17050 100644
+--- a/drivers/gpu/drm/radeon/si.h
++++ b/drivers/gpu/drm/radeon/si.h
+@@ -25,8 +25,12 @@
+ #define __SI_H__
+ 
  struct radeon_device;
++struct radeon_mc;
  
- u32 r600_gpu_check_soft_reset(struct radeon_device *rdev);
-+int r600_ih_ring_alloc(struct radeon_device *rdev);
-+void r600_ih_ring_fini(struct radeon_device *rdev);
+ int si_mc_load_microcode(struct radeon_device *rdev);
+ u32 si_gpu_check_soft_reset(struct radeon_device *rdev);
++void si_vram_gtt_location(struct radeon_device *rdev, struct radeon_mc *mc);
++void si_rlc_reset(struct radeon_device *rdev);
++void si_init_uvd_internal_cg(struct radeon_device *rdev);
  
- #endif				/* __R600_H__ */
-diff --git a/drivers/gpu/drm/radeon/si.c b/drivers/gpu/drm/radeon/si.c
-index 45076c27d7ded..d0407145c07b5 100644
---- a/drivers/gpu/drm/radeon/si.c
-+++ b/drivers/gpu/drm/radeon/si.c
-@@ -33,6 +33,7 @@
- #include "atom.h"
- #include "clearstate_si.h"
- #include "evergreen.h"
-+#include "r600.h"
- #include "radeon.h"
- #include "radeon_asic.h"
- #include "radeon_audio.h"
-@@ -128,8 +129,6 @@ static void si_pcie_gen3_enable(struct radeon_device *rdev);
- static void si_program_aspm(struct radeon_device *rdev);
- extern void sumo_rlc_fini(struct radeon_device *rdev);
- extern int sumo_rlc_init(struct radeon_device *rdev);
--extern int r600_ih_ring_alloc(struct radeon_device *rdev);
--extern void r600_ih_ring_fini(struct radeon_device *rdev);
- static void si_enable_gui_idle_interrupt(struct radeon_device *rdev,
- 					 bool enable);
- static void si_init_pg(struct radeon_device *rdev);
+ #endif                         /* __SI_H__ */
 -- 
 2.25.1
 
