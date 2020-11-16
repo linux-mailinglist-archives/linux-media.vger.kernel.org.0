@@ -2,18 +2,18 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3346C2B4454
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 14:03:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E3E452B444F
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 14:03:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728533AbgKPNCe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 08:02:34 -0500
-Received: from gw.c-home.cz ([89.24.150.100]:33802 "EHLO dmz.c-home.cz"
+        id S1728759AbgKPNCW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 08:02:22 -0500
+Received: from gw.c-home.cz ([89.24.150.100]:33794 "EHLO dmz.c-home.cz"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727978AbgKPNCe (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 08:02:34 -0500
+        id S1728583AbgKPNCW (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 16 Nov 2020 08:02:22 -0500
 Received: from ubuntu2004.c-home.cz (unifi.c-home.cz [192.168.1.227])
-        by dmz.c-home.cz (8.14.4+Sun/8.14.4) with ESMTP id 0AGCuMlZ021922;
-        Mon, 16 Nov 2020 13:56:43 +0100 (CET)
+        by dmz.c-home.cz (8.14.4+Sun/8.14.4) with ESMTP id 0AGCuMla021922;
+        Mon, 16 Nov 2020 13:56:44 +0100 (CET)
 From:   Martin Cerveny <m.cerveny@computer.org>
 To:     Maxime Ripard <mripard@kernel.org>
 Cc:     Martin Cerveny <m.cerveny@computer.org>,
@@ -28,9 +28,9 @@ Cc:     Martin Cerveny <m.cerveny@computer.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Rob Herring <robh+dt@kernel.org>
-Subject: [PATCH v3 4/6] media: cedrus: Add support for V3s
-Date:   Mon, 16 Nov 2020 13:56:15 +0100
-Message-Id: <20201116125617.7597-5-m.cerveny@computer.org>
+Subject: [PATCH v3 5/6] dt-bindings: media: cedrus: Add V3s compatible
+Date:   Mon, 16 Nov 2020 13:56:16 +0100
+Message-Id: <20201116125617.7597-6-m.cerveny@computer.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201116125617.7597-1-m.cerveny@computer.org>
 References: <20201116125617.7597-1-m.cerveny@computer.org>
@@ -40,42 +40,25 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-V3s video engine runs at lower speed and support video decoder
-for H.264 and JPEG/MJPEG only.
+Allwinner V3s SoC contains video engine. Add compatible for it.
 
 Signed-off-by: Martin Cerveny <m.cerveny@computer.org>
 ---
- drivers/staging/media/sunxi/cedrus/cedrus.c | 10 ++++++++++
- 1 file changed, 10 insertions(+)
+ .../bindings/media/allwinner,sun4i-a10-video-engine.yaml         | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-index 3487554fab68..ee4e21b29374 100644
---- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-+++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-@@ -518,6 +518,12 @@ static const struct cedrus_variant sun8i_h3_cedrus_variant = {
- 	.mod_rate	= 402000000,
- };
- 
-+static const struct cedrus_variant sun8i_v3s_cedrus_variant = {
-+	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
-+			  CEDRUS_CAPABILITY_H264_DEC,
-+	.mod_rate	= 297000000,
-+};
-+
- static const struct cedrus_variant sun8i_r40_cedrus_variant = {
- 	.capabilities	= CEDRUS_CAPABILITY_UNTILED |
- 			  CEDRUS_CAPABILITY_MPEG2_DEC |
-@@ -571,6 +577,10 @@ static const struct of_device_id cedrus_dt_match[] = {
- 		.compatible = "allwinner,sun8i-h3-video-engine",
- 		.data = &sun8i_h3_cedrus_variant,
- 	},
-+	{
-+		.compatible = "allwinner,sun8i-v3s-video-engine",
-+		.data = &sun8i_v3s_cedrus_variant,
-+	},
- 	{
- 		.compatible = "allwinner,sun8i-r40-video-engine",
- 		.data = &sun8i_r40_cedrus_variant,
+diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
+index 0d58bbcd24d3..2f7058f7760c 100644
+--- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
++++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-video-engine.yaml
+@@ -18,6 +18,7 @@ properties:
+       - allwinner,sun7i-a20-video-engine
+       - allwinner,sun8i-a33-video-engine
+       - allwinner,sun8i-h3-video-engine
++      - allwinner,sun8i-v3s-video-engine
+       - allwinner,sun8i-r40-video-engine
+       - allwinner,sun50i-a64-video-engine
+       - allwinner,sun50i-h5-video-engine
 -- 
 2.25.1
 
