@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 353522B4CF9
-	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 18:32:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 835812B4CED
+	for <lists+linux-media@lfdr.de>; Mon, 16 Nov 2020 18:32:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732959AbgKPRas (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 16 Nov 2020 12:30:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44572 "EHLO
+        id S1732944AbgKPRaS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 16 Nov 2020 12:30:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732924AbgKPRaO (ORCPT
+        with ESMTP id S1732939AbgKPRaR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 16 Nov 2020 12:30:14 -0500
-Received: from mail-wr1-x442.google.com (mail-wr1-x442.google.com [IPv6:2a00:1450:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 796CBC0613CF
-        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 09:30:14 -0800 (PST)
-Received: by mail-wr1-x442.google.com with SMTP id s8so19582669wrw.10
-        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 09:30:14 -0800 (PST)
+        Mon, 16 Nov 2020 12:30:17 -0500
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 325ABC0613D1
+        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 09:30:17 -0800 (PST)
+Received: by mail-wr1-x444.google.com with SMTP id k2so19652453wrx.2
+        for <linux-media@vger.kernel.org>; Mon, 16 Nov 2020 09:30:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=XmKc1pxfWNIhhVZbat4IeYMq2SqMBDzsHL5Wfk03ato=;
-        b=ZrJ7nX+Ss2SwWtGJ5a77Xmq6naZYfFaODqVex6B0ksRVu6CPODbPoqrLXrQzYtwaPO
-         g2v5cNvW2Nq96enR9+AbUk3KUpTCjHRBie7PJXTRF2+zjdR2dFZ5wzFfvYmprBW28PPX
-         gd8RqEttaE44L9FUKUGhdDo3sNt32I5PLbysKwTyGi5YOJN+PueBEhdW4f9haTBRn06T
-         /iMwHs1+TC6BEalMW/9cWcHAGfDzJnRwWBoQBrZ8mIkc02e5cKDWTcy2S2gs04DAvUAv
-         N8Kv7DD+nUHndcbDQag4Pqnp55eMgu8spglrTL8SXYWmnuOdWnT07R02S97rOIad1pmx
-         XPtA==
+        bh=Sc1pkIB+FW/k5gLv6YQPQhC4CZ1RwfaoeaGhthq0b4c=;
+        b=DMsL8W/H8v62ShBaaWAxP3uZBR/lVSr8Xmtid89duoKrUS8TIIJJc8hjjHAzNkoaqV
+         6xl4sDIbSdq2nH8VZgFLXQYq5i/nD9XKKjLnmTVADYJzDnpYjTn/uwNUC2O9O/fFnVUk
+         QrAGaz/FLDqVcczS7WhDfb0jI4hAhu6qCh3bidhiLGG/5hG35VAMD1+to2IBioYZrjpa
+         OSWCxy0hpsJgxfIm3fMU15E6eAHDBXyCbUNl+fFkoyVYwfEYmVw5ZSzYCursf42G0E2X
+         KphyNbe2w2DwCNofaQ36mvlqAuk1R8F546oYg/wa7OS3XjTuWwqS8LIgRk2zWXJ6uqMC
+         DaqQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=XmKc1pxfWNIhhVZbat4IeYMq2SqMBDzsHL5Wfk03ato=;
-        b=B9Ah0scA5lQnIiHmyJ4ptifEbJUSJhFUMgn+JISZpwk7GquVsazf7VX8ajY+pHUBm8
-         gOrhBpHubvKoMN5I+sNrz1S8z+K4Xf84fg63GCnuzlGYNksSAv1YgZQJhZPf/orNVmHT
-         Uqza2c9fGEJJIjHhlCj2dpj8Ru/+1i9cV3i7vJt7nOgthw3i1mrvhqnrovwskSzz7qZh
-         TWJF2csqKY1MnJqeevaV3xnOTE+D42Yzt+jM6bl/nZ+SgxnRA8vyU+ZFVj+EJU7HhrPM
-         xxVy0hJW8/bjTMeXh2hmsqwPNgD/QYNH/cCtEhQrEp7M5AJxV4iJT7t7UmpoO8+fgB0Z
-         gTDg==
-X-Gm-Message-State: AOAM530upaiZWhingkeChD/sXWtoVsP22VpbKWhnE4lKqu7qACgFiXi9
-        1coZJdxDwjGMzpLj6mHW3kzUYQ==
-X-Google-Smtp-Source: ABdhPJxDW0C9hokk5Jgdhjsw1VAWin7x+QtQzgHNDV1EILyPJhWE374L4EcFm7kOrhI0qm1a5ONMjQ==
-X-Received: by 2002:adf:e287:: with SMTP id v7mr21597907wri.252.1605547813193;
-        Mon, 16 Nov 2020 09:30:13 -0800 (PST)
+        bh=Sc1pkIB+FW/k5gLv6YQPQhC4CZ1RwfaoeaGhthq0b4c=;
+        b=j7dx8fkFexUXwZBP1cHE+0J8lD/UBJbj5H1brjXJUrZ7hZNSJF1WCmVo8SJxrSb1WP
+         RDIZ0eNiABUkLUsAW6IE3/7iQBVFPtzlAK3ZPLL482+EMWgw53/fOtmTV04egQzqDTbP
+         flpqp6xdqkxPhm5w2wRUYWKmRtadP3g/5rNUa64ylpJk9lrABn3+X9UgF8tEGLB1Q2rk
+         ytQV8JazSz/Tneeu+tOB9PcWdpUimRen9s3aBX+2ppB5ipds4PfjNN46D/lkhv70o573
+         5mAVHRrUctRokMoLEHK9c9goUkV+CflPxkzejKJE6pzc2HpWUIxAZRSRZKtXCUbcb6NH
+         fWhg==
+X-Gm-Message-State: AOAM531fj7RiPidhqtMYEKoxguim+bKWbZKFhxzXgVNuKs9yodckImuX
+        YQjBGVnMOjadhddQKMC47ZMEMg==
+X-Google-Smtp-Source: ABdhPJzEjh5/6VKYHCgw5AUCL3QFWv3CeW+3HVK4y5KST6szXd0HD0BZPe4mBpI01QnXZOFKiYRd7w==
+X-Received: by 2002:adf:f208:: with SMTP id p8mr19655214wro.280.1605547815889;
+        Mon, 16 Nov 2020 09:30:15 -0800 (PST)
 Received: from dell.default ([91.110.221.159])
-        by smtp.gmail.com with ESMTPSA id f23sm20054854wmb.43.2020.11.16.09.30.11
+        by smtp.gmail.com with ESMTPSA id f23sm20054854wmb.43.2020.11.16.09.30.14
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 16 Nov 2020 09:30:12 -0800 (PST)
+        Mon, 16 Nov 2020 09:30:15 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -58,9 +58,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
         amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 03/43] drm/radeon/radeon_kms: Move 'radeon_*_kms' prototypes to shared header
-Date:   Mon, 16 Nov 2020 17:29:25 +0000
-Message-Id: <20201116173005.1825880-4-lee.jones@linaro.org>
+Subject: [PATCH 05/43] drm/radeon: Move radeon_ttm{init,fini} to shared location
+Date:   Mon, 16 Nov 2020 17:29:27 +0000
+Message-Id: <20201116173005.1825880-6-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201116173005.1825880-1-lee.jones@linaro.org>
 References: <20201116173005.1825880-1-lee.jones@linaro.org>
@@ -73,15 +73,13 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/radeon/radeon_kms.c:756:5: warning: no previous prototype for ‘radeon_get_vblank_counter_kms’ [-Wmissing-prototypes]
- 756 | u32 radeon_get_vblank_counter_kms(struct drm_crtc *crtc)
- | ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
- drivers/gpu/drm/radeon/radeon_kms.c:826:5: warning: no previous prototype for ‘radeon_enable_vblank_kms’ [-Wmissing-prototypes]
- 826 | int radeon_enable_vblank_kms(struct drm_crtc *crtc)
- | ^~~~~~~~~~~~~~~~~~~~~~~~
- drivers/gpu/drm/radeon/radeon_kms.c:853:6: warning: no previous prototype for ‘radeon_disable_vblank_kms’ [-Wmissing-prototypes]
- 853 | void radeon_disable_vblank_kms(struct drm_crtc *crtc)
- | ^~~~~~~~~~~~~~~~~~~~~~~~~
+ drivers/gpu/drm/radeon/radeon_ttm.c: At top level:
+ drivers/gpu/drm/radeon/radeon_ttm.c:817:5: warning: no previous prototype for ‘radeon_ttm_init’ [-Wmissing-prototypes]
+ 817 | int radeon_ttm_init(struct radeon_device *rdev)
+ | ^~~~~~~~~~~~~~~
+ drivers/gpu/drm/radeon/radeon_ttm.c:878:6: warning: no previous prototype for ‘radeon_ttm_fini’ [-Wmissing-prototypes]
+ 878 | void radeon_ttm_fini(struct radeon_device *rdev)
+ | ^~~~~~~~~~~~~~~
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
@@ -94,43 +92,46 @@ Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/radeon/radeon_display.c |  1 +
- drivers/gpu/drm/radeon/radeon_kms.c     |  1 +
- drivers/gpu/drm/radeon/radeon_kms.h     | 35 +++++++++++++++++++++++++
- 3 files changed, 37 insertions(+)
- create mode 100644 drivers/gpu/drm/radeon/radeon_kms.h
+ drivers/gpu/drm/radeon/radeon_object.c |  3 +--
+ drivers/gpu/drm/radeon/radeon_ttm.c    |  1 +
+ drivers/gpu/drm/radeon/radeon_ttm.h    | 36 ++++++++++++++++++++++++++
+ 3 files changed, 38 insertions(+), 2 deletions(-)
+ create mode 100644 drivers/gpu/drm/radeon/radeon_ttm.h
 
-diff --git a/drivers/gpu/drm/radeon/radeon_display.c b/drivers/gpu/drm/radeon/radeon_display.c
-index eb0d4cb95f0a6..3a6fedad002d7 100644
---- a/drivers/gpu/drm/radeon/radeon_display.c
-+++ b/drivers/gpu/drm/radeon/radeon_display.c
-@@ -44,6 +44,7 @@
+diff --git a/drivers/gpu/drm/radeon/radeon_object.c b/drivers/gpu/drm/radeon/radeon_object.c
+index ab81e35cb0606..8bc5ad1d65857 100644
+--- a/drivers/gpu/drm/radeon/radeon_object.c
++++ b/drivers/gpu/drm/radeon/radeon_object.c
+@@ -40,9 +40,8 @@
  
- #include "atom.h"
  #include "radeon.h"
-+#include "radeon_kms.h"
+ #include "radeon_trace.h"
++#include "radeon_ttm.h"
  
- static void avivo_crtc_load_lut(struct drm_crtc *crtc)
- {
-diff --git a/drivers/gpu/drm/radeon/radeon_kms.c b/drivers/gpu/drm/radeon/radeon_kms.c
-index 3d31c04e4b3db..001940bca90a6 100644
---- a/drivers/gpu/drm/radeon/radeon_kms.c
-+++ b/drivers/gpu/drm/radeon/radeon_kms.c
-@@ -41,6 +41,7 @@
+-int radeon_ttm_init(struct radeon_device *rdev);
+-void radeon_ttm_fini(struct radeon_device *rdev);
+ static void radeon_bo_clear_surface_reg(struct radeon_bo *bo);
+ 
+ /*
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.c b/drivers/gpu/drm/radeon/radeon_ttm.c
+index 2939e71ceb700..28b300ed200ea 100644
+--- a/drivers/gpu/drm/radeon/radeon_ttm.c
++++ b/drivers/gpu/drm/radeon/radeon_ttm.c
+@@ -51,6 +51,7 @@
+ 
+ #include "radeon_reg.h"
  #include "radeon.h"
- #include "radeon_asic.h"
- #include "radeon_drv.h"
-+#include "radeon_kms.h"
++#include "radeon_ttm.h"
  
- #if defined(CONFIG_VGA_SWITCHEROO)
- bool radeon_has_atpx(void);
-diff --git a/drivers/gpu/drm/radeon/radeon_kms.h b/drivers/gpu/drm/radeon/radeon_kms.h
+ static int radeon_ttm_debugfs_init(struct radeon_device *rdev);
+ static void radeon_ttm_debugfs_fini(struct radeon_device *rdev);
+diff --git a/drivers/gpu/drm/radeon/radeon_ttm.h b/drivers/gpu/drm/radeon/radeon_ttm.h
 new file mode 100644
-index 0000000000000..36e73cea92154
+index 0000000000000..91ea7141bc812
 --- /dev/null
-+++ b/drivers/gpu/drm/radeon/radeon_kms.h
-@@ -0,0 +1,35 @@
-+/* radeon_kms.h -- Private header for radeon driver -*- linux-c -*-
++++ b/drivers/gpu/drm/radeon/radeon_ttm.h
+@@ -0,0 +1,36 @@
++/* radeon_ttm.h -- Private header for radeon driver -*- linux-c -*-
 + *
 + * Copyright 1999 Precision Insight, Inc., Cedar Park, Texas.
 + * Copyright 2000 VA Linux Systems, Inc., Fremont, California.
@@ -157,14 +158,15 @@ index 0000000000000..36e73cea92154
 + *
 + */
 +
-+#ifndef __RADEON_KMS_H__
-+#define __RADEON_KMS_H__
++#ifndef __RADEON_TTM_H__
++#define __RADEON_TTM_H__
 +
-+u32 radeon_get_vblank_counter_kms(struct drm_crtc *crtc);
-+int radeon_enable_vblank_kms(struct drm_crtc *crtc);
-+void radeon_disable_vblank_kms(struct drm_crtc *crtc);
++struct radeon_device;
 +
-+#endif				/* __RADEON_KMS_H__ */
++int radeon_ttm_init(struct radeon_device *rdev);
++void radeon_ttm_fini(struct radeon_device *rdev);
++
++#endif				/* __RADEON_TTM_H__ */
 -- 
 2.25.1
 
