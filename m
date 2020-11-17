@@ -2,155 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3B44F2B70D3
-	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 22:22:23 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7BD342B7115
+	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 22:48:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726858AbgKQVVf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Nov 2020 16:21:35 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49558 "EHLO
+        id S1728551AbgKQVrk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Nov 2020 16:47:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53674 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726759AbgKQVVf (ORCPT
+        with ESMTP id S1728524AbgKQVrk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Nov 2020 16:21:35 -0500
-Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 38665C0613CF
-        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 13:21:35 -0800 (PST)
-Received: by mail-ot1-x343.google.com with SMTP id k3so20877903otp.12
-        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 13:21:35 -0800 (PST)
+        Tue, 17 Nov 2020 16:47:40 -0500
+Received: from mail-lj1-x229.google.com (mail-lj1-x229.google.com [IPv6:2a00:1450:4864:20::229])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7E579C0617A6
+        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 13:47:38 -0800 (PST)
+Received: by mail-lj1-x229.google.com with SMTP id o24so9365ljj.6
+        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 13:47:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=qaFR/vbXEE/Fp6N4YA11Mip+TFc+3mxIxAGB0BrXskE=;
-        b=VC75sZ0sI622cqRm8NQfeG/nHdIrHJG5hf4nb18w5Ezfn7dMY95pE7f6ymO6jyVG5b
-         RHrNPQPAkIvmJQcyxl/7knSpyGi+tr36KXPjdVxT8PNSHF++jwPSbnADEtdQfMS8xGvM
-         xybni7VT4JkWf5GIe8nK7+qGTJhJlnTpen1Hc=
+        bh=n5Jtkx0147IQ/DaQGmZ4tVnJgJMxJzQGGex+xKA1lxA=;
+        b=LjMK2NN8g398nINfczIF2xinVg6oQJV+iBwDkARg6kbOXa5/AJrlC2Rn+CvGwOtyK5
+         PmpzJqgd/YBd3XrWN+NWBjW6R+3EnXVzJVKiP5eTyX3r264DtTzOJPmmyU+0/oAy4TPh
+         Lvlu1QRZD81cLqNXhaeewqnzdzFEDGn1+GxudaDK3AlO/gukDmiHru4LBjDAkQ5pHOt3
+         ktN2lxyxnFAAJoTZS7Lg0Q1pG+HyK//ltg5w51C/DgHamgeXqx3VsGQ+45exUyvlkh+s
+         c91bIFM/h1YWXyy+pORrIWOumsEIYwYM4fYIBJAXWwMhrxYBVDhmX4sHhQOvsSMei+dl
+         brSw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=qaFR/vbXEE/Fp6N4YA11Mip+TFc+3mxIxAGB0BrXskE=;
-        b=UVHT2UyawT7UDxCytIrCgX+ZS1UH1Y15zIZZRPHDBfQphyI6KAobQNGocMP10UZ6I9
-         Th3W7EpZGeA1DpUk5sxtW/yxTRY8S6APsEERcJ4Lz3Tzkkz2SFLmqfJ+QJ95c060fTbM
-         poSlkcbQrVdFvGIfrD8aQg7fIRBR91sOLw/fAbxVw/iWEq0A+yWqToCRM3v9YnXd592b
-         itt/CiJb1VaIqaELGhZXxVVogvJxcuWeZIY2RcX1AjdJfPpuINdeUdegxYorFLeHAwrY
-         4Xp/6LXZjh7cnAtcD07q+ewE1fliMT6W59+CR88K1wx3svVZHAueqi1Lj0Y+YDkX2SfM
-         Esng==
-X-Gm-Message-State: AOAM530AHcToX77QWBSvyetAKUMaiK6I4b+vNoRX2yKJiV+92iU77RGM
-        ZsmzrEAcrRsWEBQKXWg9a9AcADGskRhwfQ==
-X-Google-Smtp-Source: ABdhPJyFrDsW/13icv0EWiggvKaFXMk/4q10zX0b6W+wsXBBUaLgk/0yESuv7uk9w1wq1xzmnxpfGw==
-X-Received: by 2002:a05:6830:1259:: with SMTP id s25mr4500953otp.66.1605648094350;
-        Tue, 17 Nov 2020 13:21:34 -0800 (PST)
-Received: from mail-oi1-f178.google.com (mail-oi1-f178.google.com. [209.85.167.178])
-        by smtp.gmail.com with ESMTPSA id z12sm6671349oti.45.2020.11.17.13.21.32
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Nov 2020 13:21:33 -0800 (PST)
-Received: by mail-oi1-f178.google.com with SMTP id l206so3119398oif.12
-        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 13:21:32 -0800 (PST)
-X-Received: by 2002:aca:7506:: with SMTP id q6mr742413oic.128.1605648092412;
- Tue, 17 Nov 2020 13:21:32 -0800 (PST)
+        bh=n5Jtkx0147IQ/DaQGmZ4tVnJgJMxJzQGGex+xKA1lxA=;
+        b=J2vMP58poxUDEtZkwv+FLzNgKgT6ZjOJtt04PQMJ+J+phbLJlCDqeSJA+19vn+9a/g
+         pu/nqZkApyYZqIdhclltS04xIsQkxhhhtN4NNbg1nDbA51hQ01j/U0furjxwxnkIBimV
+         atJOYvnfZuIXgI99134Itgo2amKbbGSCE2EHySAd2X3IAen6DiA2UlYfa8ZT+6b4ZdK8
+         yGIBMgmtIOicNuKgboJQlErzuTjlcGiFx3FolDfC3i1I79EVNvNhHkNe7VxugYaeJm+/
+         wgTb/sVWICkXSBA/MIJLrRILM2gmXSzAJPgWYrRZm1Dscl98OXD6yMMVtKGo+AMzKXEm
+         Q0PQ==
+X-Gm-Message-State: AOAM532AQuQgajC9gnQBW7cDHfR0C7DaUwBtqdjEoV6/G8odsINk6N40
+        Ua4sMbNEgfO+Yh4VqbgRyq22hlz+QsjKCnk0/4u7229rkhE=
+X-Google-Smtp-Source: ABdhPJy1jdCjprzLdCOaAM3KpSyNzTBNO59KIVy6mjXIpxXBv3ZPI3TqaAPPguhcRlv1WJfPV02T+gRlqhISb9JcSpw=
+X-Received: by 2002:a2e:b059:: with SMTP id d25mr2846286ljl.304.1605649656938;
+ Tue, 17 Nov 2020 13:47:36 -0800 (PST)
 MIME-Version: 1.0
-References: <20200930160917.1234225-1-hch@lst.de> <20200930160917.1234225-9-hch@lst.de>
- <CAAFQd5CttttqMXb=iDPb+Z0WGUa2g=W6JwXJ-5HbhmrDyxP+cQ@mail.gmail.com>
- <CANiDSCtefXKw-xC3bskyggW-BzCmVPj6GGLvO=cCPZHbS1oTDA@mail.gmail.com>
- <20201110092506.GA24469@lst.de> <CANiDSCsBUBV1WA2To9x26Uhc5SU-4xuh3m4wUwXBcGwA6n8now@mail.gmail.com>
- <CAAFQd5CCOrp0OA_n_SHNO5RAhV-MQ2KuQJA+oWHQ76h_So=M2Q@mail.gmail.com> <20201110095747.GA26574@lst.de>
-In-Reply-To: <20201110095747.GA26574@lst.de>
-From:   Ricardo Ribalda <ribalda@chromium.org>
-Date:   Tue, 17 Nov 2020 22:21:21 +0100
-X-Gmail-Original-Message-ID: <CANiDSCtbZHe2pqKj+=DbEODBSNy1hrysTOAHYbTG4_DRBmH00A@mail.gmail.com>
-Message-ID: <CANiDSCtbZHe2pqKj+=DbEODBSNy1hrysTOAHYbTG4_DRBmH00A@mail.gmail.com>
-Subject: Re: [PATCH 8/8] WIP: add a dma_alloc_contiguous API
-To:     Christoph Hellwig <hch@lst.de>
-Cc:     Tomasz Figa <tfiga@chromium.org>,
-        Kieran Bingham <kieran.bingham@ideasonboard.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        "list@263.net:IOMMU DRIVERS <iommu@lists.linux-foundation.org>, Joerg
-        Roedel <joro@8bytes.org>," <iommu@lists.linux-foundation.org>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <CAN9vWDL5rK_UCi-dTUG_Si7MbVSB4hVjvhs1-TEgvdGi+ajUvQ@mail.gmail.com>
+ <20200926113038.GA23934@gofer.mess.org> <CAN9vWD+rsg49VzioyGZb7wOiLjmpgM1ku8EEotns2AiQGGTHHg@mail.gmail.com>
+ <20200926133330.GA25499@gofer.mess.org> <CAN9vWDK5EF4-9-SXpMHObEesbU5-2O-dK8j9m4x2gvD5CgfpiQ@mail.gmail.com>
+ <20200926220324.GA30485@gofer.mess.org>
+In-Reply-To: <20200926220324.GA30485@gofer.mess.org>
+From:   Michael Zimmermann <sigmaepsilon92@gmail.com>
+Date:   Tue, 17 Nov 2020 22:47:26 +0100
+Message-ID: <CAN9vWDLdDbTqfVZFOtLd=1pULU8JPi9avUsBe5JXbYghEqecmg@mail.gmail.com>
+Subject: Re: ITE8708 on ASUS PN50 uses a 16 byte io region
+To:     Sean Young <sean@mess.org>
+Cc:     linux-media@vger.kernel.org
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Christoph
+Hi Sean,
 
-I have been testing with real hardware on arm64 your patchset. And uvc
-performs 20 times better using Kieran's test
+I finally managed to open the device and it has an IT8225VG-128.
+I can't find any datasheet for that device though.
 
-https://github.com/ribalda/linux/tree/uvc-noncontiguous
+Thanks
+Michael
 
-These are the result of running   yavta --capture=1000
-
-
-dma_alloc_noncontiguous
-
-frames:  999
-packets: 999
-empty:   0 (0 %)
-errors:  0
-invalid: 0
-pts: 0 early, 0 initial, 999 ok
-scr: 0 count ok, 0 diff ok
-sof: 2048 <= sof <= 0, freq 0.000 kHz
-bytes 78466000 : duration 33303
-FPS: 29.99
-URB: 418105/5000 uS/qty: 83.621 avg 98.783 std 17.396 min 1264.688 max (uS)
-header: 100040/5000 uS/qty: 20.008 avg 19.458 std 2.969 min 454.167 max (uS)
-latency: 347653/5000 uS/qty: 69.530 avg 98.937 std 9.114 min 1256.875 max (uS)
-decode: 70452/5000 uS/qty: 14.090 avg 11.547 std 6.146 min 271.510 max (uS)
-raw decode speed: 8.967 Gbits/s
-raw URB handling speed: 1.501 Gbits/s
-throughput: 18.848 Mbits/s
-URB decode CPU usage 0.211500 %
-
-
-usb_alloc_coherent
-
-frames:  999
-packets: 999
-empty:   0 (0 %)
-errors:  0
-invalid: 0
-pts: 0 early, 0 initial, 999 ok
-scr: 0 count ok, 0 diff ok
-sof: 2048 <= sof <= 0, freq 0.000 kHz
-bytes 70501712 : duration 33319
-FPS: 29.98
-URB: 1854128/5000 uS/qty: 370.825 avg 417.133 std 14.539 min 2875.760 max (uS)
-header: 98765/5000 uS/qty: 19.753 avg 30.714 std 1.042 min 573.463 max (uS)
-latency: 453316/5000 uS/qty: 90.663 avg 114.987 std 4.065 min 860.795 max (uS)
-decode: 1400811/5000 uS/qty: 280.162 avg 330.786 std 6.305 min 2758.202 max (uS)
-raw decode speed: 402.866 Mbits/s
-raw URB handling speed: 304.214 Mbits/s
-throughput: 16.927 Mbits/s
-URB decode CPU usage 4.204200 %
-
-
-Best regards
-
-On Tue, Nov 10, 2020 at 10:57 AM Christoph Hellwig <hch@lst.de> wrote:
+On Sun, Sep 27, 2020 at 12:03 AM Sean Young <sean@mess.org> wrote:
 >
-> On Tue, Nov 10, 2020 at 06:50:32PM +0900, Tomasz Figa wrote:
-> > In what terms it doesn't actually work? Last time I checked some
-> > platforms actually defined CONFIG_DMA_NONCOHERENT, so those would
-> > instead use the kmalloc() + dma_map() path. I don't have any
-> > background on why that was added and whether it needs to be preserved,
-> > though. Kieran, Laurent, do you have any insight?
+> On Sat, Sep 26, 2020 at 04:18:10PM +0200, Michael Zimmermann wrote:
+> > On Sat, Sep 26, 2020 at 3:33 PM Sean Young <sean@mess.org> wrote:
+> > >
+> > > Hi Michael,
+> > >
+> > > On Sat, Sep 26, 2020 at 02:32:21PM +0200, Michael Zimmermann wrote:
+> > > > The acpi _HID name of the device is "ITE8708" and the device works
+> > > > with linux's ITE8708 config.
+> > > >
+> > > > I can't find any datasheet or even product page for that IC so I don't
+> > > > know what footprint to look for when looking at the PCB - none of the
+> > > > bigger ICs near the IR sensor have that name on them and the smaller
+> > > > ones usually don't have any useful information printed on them.
+> > > > Additionally I can only access one side of the PCB because I couldn't
+> > > > figure out how to fully disassemble the device yet.
+> > >
+> > > This is a super i/o device, so this handles stuff like serial ports,
+> > > parallel ports, floppy disks. All the legacy stuff you don't need any more.
+> > >
+> > > There is a coreboot tool which can identify super i/o devices:
+> > >
+> > >         https://www.coreboot.org/Superiotool
+> > >
+> > > The super io devices I've seen are about 2cm by 3cm.
+> > >
+> > > I could find a datasheet for the IT8712F on google.
+> > >
+> > >
+> > > Sean
+> > >
+> > > PS. Please don't top post.
+> >
+> > Hi Sean,
+> >
+> > superiotool r4.12-2974-ga32df26ec07
+> > Found Aspeed AST2400 (id=0x00) at 0x2e
+> >
+> > Which is kinda confusing. So either the superiotool detection is
+> > flawed or the PN50 actually has an AST2400 and is programmed to
+> > emulate the IR part of an IT8708F.
+> > Also, that thing seems beefy enough to be the systems EC, does that seem likely?
 >
-> CONFIG_DMA_NONCOHERENT is set on sh and mips for platforms that may
-> support non-coherent DMA at compile time (but at least for mips that
-> doesn't actually means this gets used).  Using that ifdef to decide
-> on using usb_alloc_coherent vs letting the usb layer map the data
-> seems at best odd, and if we are unlucky papering over a bug somewhere.
-
-
-
--- 
-Ricardo Ribalda
+> Strange. To be honest, I don't know.
+>
+> So looking at the driver, there are four models supported. They have an
+> io_region_size of IT87_IOREG_LENGTH, IT8708_IOREG_LENGTH, and
+> IT8709_IOREG_LENGTH. That's 8, 8, and 2. The header file also has a size
+> of IT85_IOREG_LENGTH which is 16, but this is not used anywhere.
+>
+> The documentation I can find for one IT85 model is:
+>
+> http://www.recomb-omsk.ru/published/SC/html/scripts/doc/94689_datasheet_IT8512E_F_V0.4.1.pdf
+>
+> As far as I can make out, if it was this device, the driver wouldn't work
+> at all.
+>
+> I'm thinking the likely explanation is that the DSDT is wrong and we should
+> make the change as you originally suggested.
+>
+>
+> Sean
+>
+>
+> >
+> > Thanks
+> > Michael
+> > >
+> > > >
+> > > > Thanks
+> > > > Michael
+> > > >
+> > > > On Sat, Sep 26, 2020 at 1:30 PM Sean Young <sean@mess.org> wrote:
+> > > > >
+> > > > > On Sat, Sep 26, 2020 at 10:22:46AM +0200, Michael Zimmermann wrote:
+> > > > > > Hi,
+> > > > > >
+> > > > > > here's the resource descriptor from my DSDT:
+> > > > > > Name (BUF0, ResourceTemplate ()
+> > > > > > {
+> > > > > >     IO (Decode16,
+> > > > > >         0x0000,             // Range Minimum
+> > > > > >         0x0000,             // Range Maximum
+> > > > > >         0x01,               // Alignment
+> > > > > >         0x10,               // Length
+> > > > > >         _Y1A)
+> > > > > >     IRQNoFlags (_Y1B)
+> > > > > >         {}
+> > > > > >     DMA (Compatibility, NotBusMaster, Transfer8, )
+> > > > > >         {}
+> > > > > > })
+> > > > > >
+> > > > > > As you can see it uses 16 bytes for the IO region while the driver
+> > > > > > drivers/media/rc/ite-cir.c expects 8.
+> > > > > > I don't see any obvious reason why they do that since they only seem
+> > > > > > to write two words in there, and if I edit the DSDT to change the
+> > > > > > length from 0x10 to 0x8 the linux driver detects the device properly
+> > > > > > it works just fine.
+> > > > > >
+> > > > > > So is this a bug on ASUS' side or should we just accept longer regions
+> > > > > > for the same device type?
+> > > > >
+> > > > > So looking at the driver, some devices do have an io region of 16 and
+> > > > > others expect 8. See the io_region_size field of ite_dev_descs.
+> > > > >
+> > > > > So for ITE8708 the io_region_size is set to 8. Does your device really
+> > > > > have an ITE8708 or is the DSDT wrong?
+> > > > >
+> > > > >
+> > > > > Sean
