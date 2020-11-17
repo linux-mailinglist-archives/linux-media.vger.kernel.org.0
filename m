@@ -2,261 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0FFF2B68DE
-	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 16:41:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 311F62B6A7C
+	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 17:41:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726274AbgKQPk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Nov 2020 10:40:26 -0500
-Received: from mail-io1-f71.google.com ([209.85.166.71]:49610 "EHLO
-        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725943AbgKQPk0 (ORCPT
+        id S1728108AbgKQQlm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Nov 2020 11:41:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34022 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727085AbgKQQlm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Nov 2020 10:40:26 -0500
-Received: by mail-io1-f71.google.com with SMTP id v15so13407776ioq.16
-        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 07:40:24 -0800 (PST)
+        Tue, 17 Nov 2020 11:41:42 -0500
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10727C0613CF;
+        Tue, 17 Nov 2020 08:41:42 -0800 (PST)
+Received: by mail-pj1-x1043.google.com with SMTP id r6so748846pjd.1;
+        Tue, 17 Nov 2020 08:41:42 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=j1TAcUrjKEy76wjAXBIQJ3GzJO9z5YIxOVB1u0l3J6I=;
+        b=KKTdQcD0tivBmYTD36cbR9vwsRVZPz4q4psrR37L+8pcwRjwhg7rYd1CNZe8fAArUx
+         8oGD0BrBRlr2ZCAlRAEPG4TfB6TPCloKdseQqw2MavcOJ3a8eISzEohhxJWi6L0Qn9pU
+         ve7CZAJOGL9QrILE8U93DACcv6wHl66+sdsTPxb1M0Fjhli8KSu6iRryM13JGLoqCtZX
+         AVJwGu2I4a3Rq2p4JxvV2cL6qn0v5kEsEqgSezZLPirMqKNMg20AaxbUxZ/G/D8sluba
+         uQBSnvk/5JM2xFi11W2a3YkmMRsFEK7yMb4i9MW131G0+BWo6G5bcEBNqVFdgK51xpE5
+         BhuQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
-        bh=uGeuYqpVtihTj5/nHBNIe/i2cR/1M+L/pN2RP/KvK2o=;
-        b=FnRxjlUfE8DIlbcySg5q33NOW19xNyHQmwNpAEhq/DvjndWcN89j3sUFu6J3eRT8o6
-         /Bgd2oLiDZ2Jgq2KiQfQCGnUjQQLRYyPVvyDJ/MjVpTd5FhWutpjE0L0GeoBONJCwFW/
-         OX90TlSIsn7UYkqxHUSuO4BLioLS7EnRgmIiZOBjUkIe36ADnkEaluUsaULUXVmWxMN4
-         4/QM9t3EBeoD10TSZpzUn9LHVBGyTHA7PLMHEFSsgPRDXtV3Wr4hUskr8TkYP5Y67XGw
-         ivuz016fpY9YpW5L51Nyk5Nnh1v7LHex8bNb3p1bHR21kcGSqrQQ1c56s20HX6VsQ6jn
-         r6+w==
-X-Gm-Message-State: AOAM533cP3dHMP8iIc46zcT/0unS1pjhD3suAumWFn5PBsC6DHoW3iIX
-        PKxKHGOgwofHpaFa5VQNPT1gWw0qdfO0JHi5M933xQB9Qmz9
-X-Google-Smtp-Source: ABdhPJzRoRo+2DfK77+NLdQWjCeQEDvaQoFh3DK6DwcUl6DBnkFMg3Ab+qUYOaZUfxvxSI6ha57WphkUhl2T7sV8CDJrj0T9VK0r
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=j1TAcUrjKEy76wjAXBIQJ3GzJO9z5YIxOVB1u0l3J6I=;
+        b=p3eOnP2j66Yp11qpFeGvUJHRK79eLHkluWuAb0gKFKn+uHwGIwt+Lk3ptMX/rquktL
+         psWzZNQL5JQXHMRTPNWT6kbCaXAQzOtEsJN0DXEnUTzNP0ijNhqZSqKZfylT1R8NnxX+
+         BgJ6PyGg8KoR3+RZJRhAkwhOKaUgA2erjAq6oFYPahW3W6jv0l5sf8pRMXFij6P8iV6l
+         poZOb4ZyZu8IXWukrprVF2/3ixLBzPM2RiB2oXc5xSeBAJml1M54xPgfI3d6ChrGha2Z
+         sMxM3NQ8HDdD5ol7fr2VOvJ8pvPXSYY6njTHwyCYnDyJgKD3gyVPSrDGomhyCntVIW6k
+         xvRQ==
+X-Gm-Message-State: AOAM532Do6ctgzwrRmkxD+oPXf6T4xq7qfZHMixDx2Yt0j8hKYSmBuWY
+        9pYCK6ISU3roUom9pK3j+GHEwr+BEol7R2StNCxh31cv3tE=
+X-Google-Smtp-Source: ABdhPJzE+v2+gzZ5roJQEj2Wtryi83SQdLC1HaGh8J+FRXDZxmDBW6QRmnv6XWsT2LT16l8WN6PifgKXCIokmNvQsUg=
+X-Received: by 2002:a17:902:ac93:b029:d8:d2c5:e5b1 with SMTP id
+ h19-20020a170902ac93b02900d8d2c5e5b1mr4886plr.17.1605631301522; Tue, 17 Nov
+ 2020 08:41:41 -0800 (PST)
 MIME-Version: 1.0
-X-Received: by 2002:a92:d489:: with SMTP id p9mr11751059ilg.123.1605627624161;
- Tue, 17 Nov 2020 07:40:24 -0800 (PST)
-Date:   Tue, 17 Nov 2020 07:40:24 -0800
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <0000000000002e09ef05b44f501a@google.com>
-Subject: KMSAN: uninit-value in dvb_usb_adapter_dvb_init (2)
-From:   syzbot <syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com>
-To:     glider@google.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com
+References: <20201029212930.GE15024@pendragon.ideasonboard.com>
+ <20201029222215.GI4077@smile.fi.intel.com> <20201029225124.GI15024@pendragon.ideasonboard.com>
+ <60b36af2-ad57-000b-76e4-379e1b58a3a0@gmail.com> <20201113162231.GO7524@pendragon.ideasonboard.com>
+ <CAHp75VeGJKMeY-reNWgypVzJ6Myz5S2RXJPHqbPH5kzLYX3G4g@mail.gmail.com>
+ <20201116085349.GA6540@pendragon.ideasonboard.com> <CAHp75Ve-O4u1B=dvC+HT-sg=YnoWSuV6kUkPmBSOx4w9OgoOoA@mail.gmail.com>
+ <20201116141038.GJ6540@pendragon.ideasonboard.com> <3646e11c-a101-74e3-2eb4-7abf29937e9d@gmail.com>
+ <20201116161636.GC4077@smile.fi.intel.com> <3976eac8-2a21-a619-1dba-85212ac4b4b1@gmail.com>
+In-Reply-To: <3976eac8-2a21-a619-1dba-85212ac4b4b1@gmail.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Tue, 17 Nov 2020 18:42:29 +0200
+Message-ID: <CAHp75VcEb373m=WjP5nPtEUMiiKga2_5w1YPB-T=VtvjaFh7Ww@mail.gmail.com>
+Subject: Re: [RFC PATCH v3 9/9] ipu3-cio2: Add functionality allowing
+ software_node connections to sensors on platforms designed for Windows
+To:     Dan Scally <djrscally@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linus Walleij <linus.walleij@linaro.org>,
+        prabhakar.mahadev-lad.rj@bp.renesas.com,
+        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
+        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        kieran.bingham+renesas@ideasonboard.com,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Rob Herring <robh@kernel.org>,
+        "David S. Miller" <davem@davemloft.net>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Petr Mladek <pmladek@suse.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Tian Shu Qiu <tian.shu.qiu@intel.com>,
+        Bingbu Cao <bingbu.cao@intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Yong Zhi <yong.zhi@intel.com>,
+        "Rafael J. Wysocki" <rafael@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Tsuchiya Yuto <kitakar@gmail.com>
 Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+On Tue, Nov 17, 2020 at 2:02 PM Dan Scally <djrscally@gmail.com> wrote:
+>
+> On 16/11/2020 16:16, Andy Shevchenko wrote:
+> > On Mon, Nov 16, 2020 at 02:15:01PM +0000, Dan Scally wrote:
+> >> On 16/11/2020 14:10, Laurent Pinchart wrote:
+> >>> I thought we were looking for ACPI devices, not companion devices, in
+> >>> order to extract information from the DSDT and store it in a software
+> >>> node. I could very well be wrong though.
+> >> This is correct - the code to fetch the various resources we're lookin=
+g
+> >> at all uses acpi_device. Whether using Andy's iterator suggestions or
+> >> previous bus_for_each_dev(&acpi_bus_type...) I'm just getting the
+> >> acpi_device via to_acpi_dev() and using that.
+> > If you try to get an I=C2=B2C ore SPI device out of pure ACPI device (w=
+ith given
+> > APCI _HID) you will fail. So, it's not correct. You are retrieving comp=
+anion
+> > devices, while they are still in the struct acpi_device.
+> >
+> > And don't ask me, why it's so. I wasn't designed that and didn't affect=
+ any
+> > decision made there.
+>
+> Well, in terms of the actual device we're getting, I don't think we're
+> fundamentally doing anything different between the methods...unless I'm
+> really mistaken.
+>
+>
+> Originally implementation was like:
+>
+>
+> const char *supported_devices[] =3D {
+>
+>         "OVTI2680",
+>
+> };
+>
+>
+> static int cio2_bridge_connect_supported_devices(void)
+>
+> {
+>
+>         struct acpi_device *adev;
+>
+>         int i;
+>
+>         for (i =3D 0; i < ARRAY_SIZE(supported_devices); i++) {
+>
+>                 adev =3D
+> acpi_dev_get_first_match_dev(supported_devices[i], NULL, -1);
+>
+> ...
+>
+> }
+>
+>
+> and acpi_dev_get_first_match_dev() likewise just returns adev via
+> to_acpi_device(dev).
+>
+>
+> So, maybe we don't need to do the iterating over all devices with
+> matching _HID at all, in which case it can be dropped, but if we're
+> doing it then I can't see that it's different to the original
+> implementation in terms of the struct acpi_device we're working with or
+> the route taken to get it.
+>
+>
+> Either way; ACPI maintainers asked to be CC'd on the next patchset
+> anyway, so they'll see what we're doing and be able to weigh in.
 
-syzbot found the following issue on:
+Implementation wise the two approaches are quite similar for now, indeed.
+I would rather go with an iterator approach for a simple reason, EFI
+code already has something which may utilize iterators rather than
+using their home grown solution.
 
-HEAD commit:    e1617422 kmsan: kmsan_percpu_tstate should be a scalar, no..
-git tree:       https://github.com/google/kmsan.git master
-console output: https://syzkaller.appspot.com/x/log.txt?x=164d4712500000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=4c7345cc7efc5dc4
-dashboard link: https://syzkaller.appspot.com/bug?extid=e27b4fd589762b0b9329
-compiler:       clang version 11.0.0 (https://github.com/llvm/llvm-project.git ca2dcbd030eadbf0aa9b660efe864ff08af6e18b)
-userspace arch: i386
-
-Unfortunately, I don't have any reproducer for this issue yet.
-
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com
-
-dvb-usb: will pass the complete MPEG2 transport stream to the software demuxer.
-dvbdev: DVB: registering new adapter (Hauppauge WinTV-NOVA-T usb2)
-usb 5-1: media controller created
-dvb-usb: bulk message failed: -22 (5/0)
-dvb-usb: bulk message failed: -22 (5/0)
-dvb-usb: bulk message failed: -22 (5/0)
-=====================================================
-BUG: KMSAN: uninit-value in mac_address_string+0x1040/0x1170 lib/vsprintf.c:1281
-CPU: 1 PID: 9245 Comm: kworker/1:6 Not tainted 5.9.0-rc8-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x21c/0x280 lib/dump_stack.c:118
- kmsan_report+0xf7/0x1e0 mm/kmsan/kmsan_report.c:122
- __msan_warning+0x5f/0xa0 mm/kmsan/kmsan_instr.c:201
- mac_address_string+0x1040/0x1170 lib/vsprintf.c:1281
- pointer+0x9fe/0x1ca0 lib/vsprintf.c:2241
- vsnprintf+0x1a4f/0x3610 lib/vsprintf.c:2622
- vscnprintf+0xbe/0x1c0 lib/vsprintf.c:2721
- vprintk_store+0xf2/0x1440 kernel/printk/printk.c:1951
- vprintk_emit+0x320/0x990 kernel/printk/printk.c:2018
- vprintk_default+0x90/0xa0 kernel/printk/printk.c:2054
- vprintk_func+0x2f7/0x300 kernel/printk/printk_safe.c:393
- printk+0x180/0x1c3 kernel/printk/printk.c:2085
- dvb_usb_adapter_dvb_init+0x818/0x1300 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:166
- dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:83 [inline]
- dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
- dvb_usb_device_init+0x27fd/0x3350 drivers/media/usb/dvb-usb/dvb-usb-init.c:287
- nova_t_probe+0x73/0x80 drivers/media/usb/dvb-usb/nova-t-usb2.c:156
- usb_probe_interface+0xfcc/0x1520 drivers/usb/core/driver.c:396
- really_probe+0xebd/0x2420 drivers/base/dd.c:557
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2926
- usb_set_configuration+0x395f/0x3f90 drivers/usb/core/message.c:2025
- usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:240
- usb_probe_device+0x317/0x570 drivers/usb/core/driver.c:293
- really_probe+0xebd/0x2420 drivers/base/dd.c:557
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2926
- usb_new_device+0x1bd6/0x2a30 drivers/usb/core/hub.c:2554
- hub_port_connect drivers/usb/core/hub.c:5208 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
- port_event drivers/usb/core/hub.c:5494 [inline]
- hub_event+0x59b1/0x8640 drivers/usb/core/hub.c:5576
- process_one_work+0x1224/0x20a0 kernel/workqueue.c:2269
- process_scheduled_works kernel/workqueue.c:2331 [inline]
- worker_thread+0x129c/0x2740 kernel/workqueue.c:2417
- kthread+0x51c/0x560 kernel/kthread.c:293
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
-
-Uninit was stored to memory at:
- kmsan_save_stack_with_flags mm/kmsan/kmsan.c:129 [inline]
- kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:297
- __msan_chain_origin+0x57/0xa0 mm/kmsan/kmsan_instr.c:151
- nova_t_read_mac_address+0x2d4/0x2f0 drivers/media/usb/dvb-usb/nova-t-usb2.c:144
- dvb_usb_adapter_dvb_init+0x774/0x1300 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:165
- dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:83 [inline]
- dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
- dvb_usb_device_init+0x27fd/0x3350 drivers/media/usb/dvb-usb/dvb-usb-init.c:287
- nova_t_probe+0x73/0x80 drivers/media/usb/dvb-usb/nova-t-usb2.c:156
- usb_probe_interface+0xfcc/0x1520 drivers/usb/core/driver.c:396
- really_probe+0xebd/0x2420 drivers/base/dd.c:557
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2926
- usb_set_configuration+0x395f/0x3f90 drivers/usb/core/message.c:2025
- usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:240
- usb_probe_device+0x317/0x570 drivers/usb/core/driver.c:293
- really_probe+0xebd/0x2420 drivers/base/dd.c:557
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2926
- usb_new_device+0x1bd6/0x2a30 drivers/usb/core/hub.c:2554
- hub_port_connect drivers/usb/core/hub.c:5208 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
- port_event drivers/usb/core/hub.c:5494 [inline]
- hub_event+0x59b1/0x8640 drivers/usb/core/hub.c:5576
- process_one_work+0x1224/0x20a0 kernel/workqueue.c:2269
- process_scheduled_works kernel/workqueue.c:2331 [inline]
- worker_thread+0x129c/0x2740 kernel/workqueue.c:2417
- kthread+0x51c/0x560 kernel/kthread.c:293
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
-
-Uninit was stored to memory at:
- kmsan_save_stack_with_flags mm/kmsan/kmsan.c:129 [inline]
- kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:297
- __msan_chain_origin+0x57/0xa0 mm/kmsan/kmsan_instr.c:151
- dibusb_read_eeprom_byte+0x513/0x540 drivers/media/usb/dvb-usb/dibusb-common.c:233
- nova_t_read_mac_address+0x1e3/0x2f0 drivers/media/usb/dvb-usb/nova-t-usb2.c:142
- dvb_usb_adapter_dvb_init+0x774/0x1300 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:165
- dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:83 [inline]
- dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
- dvb_usb_device_init+0x27fd/0x3350 drivers/media/usb/dvb-usb/dvb-usb-init.c:287
- nova_t_probe+0x73/0x80 drivers/media/usb/dvb-usb/nova-t-usb2.c:156
- usb_probe_interface+0xfcc/0x1520 drivers/usb/core/driver.c:396
- really_probe+0xebd/0x2420 drivers/base/dd.c:557
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2926
- usb_set_configuration+0x395f/0x3f90 drivers/usb/core/message.c:2025
- usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:240
- usb_probe_device+0x317/0x570 drivers/usb/core/driver.c:293
- really_probe+0xebd/0x2420 drivers/base/dd.c:557
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2926
- usb_new_device+0x1bd6/0x2a30 drivers/usb/core/hub.c:2554
- hub_port_connect drivers/usb/core/hub.c:5208 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
- port_event drivers/usb/core/hub.c:5494 [inline]
- hub_event+0x59b1/0x8640 drivers/usb/core/hub.c:5576
- process_one_work+0x1224/0x20a0 kernel/workqueue.c:2269
- process_scheduled_works kernel/workqueue.c:2331 [inline]
- worker_thread+0x129c/0x2740 kernel/workqueue.c:2417
- kthread+0x51c/0x560 kernel/kthread.c:293
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
-
-Uninit was created at:
- kmsan_save_stack_with_flags mm/kmsan/kmsan.c:129 [inline]
- kmsan_internal_poison_shadow+0x5c/0xf0 mm/kmsan/kmsan.c:112
- kmsan_slab_alloc+0x8d/0xe0 mm/kmsan/kmsan_hooks.c:80
- slab_alloc_node mm/slub.c:2903 [inline]
- slab_alloc mm/slub.c:2912 [inline]
- kmem_cache_alloc_trace+0x61e/0xc90 mm/slub.c:2929
- kmalloc include/linux/slab.h:554 [inline]
- dibusb_read_eeprom_byte+0xad/0x540 drivers/media/usb/dvb-usb/dibusb-common.c:226
- nova_t_read_mac_address+0x1e3/0x2f0 drivers/media/usb/dvb-usb/nova-t-usb2.c:142
- dvb_usb_adapter_dvb_init+0x774/0x1300 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:165
- dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:83 [inline]
- dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
- dvb_usb_device_init+0x27fd/0x3350 drivers/media/usb/dvb-usb/dvb-usb-init.c:287
- nova_t_probe+0x73/0x80 drivers/media/usb/dvb-usb/nova-t-usb2.c:156
- usb_probe_interface+0xfcc/0x1520 drivers/usb/core/driver.c:396
- really_probe+0xebd/0x2420 drivers/base/dd.c:557
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2926
- usb_set_configuration+0x395f/0x3f90 drivers/usb/core/message.c:2025
- usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:240
- usb_probe_device+0x317/0x570 drivers/usb/core/driver.c:293
- really_probe+0xebd/0x2420 drivers/base/dd.c:557
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2926
- usb_new_device+0x1bd6/0x2a30 drivers/usb/core/hub.c:2554
- hub_port_connect drivers/usb/core/hub.c:5208 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
- port_event drivers/usb/core/hub.c:5494 [inline]
- hub_event+0x59b1/0x8640 drivers/usb/core/hub.c:5576
- process_one_work+0x1224/0x20a0 kernel/workqueue.c:2269
- process_scheduled_works kernel/workqueue.c:2331 [inline]
- worker_thread+0x129c/0x2740 kernel/workqueue.c:2417
- kthread+0x51c/0x560 kernel/kthread.c:293
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
-=====================================================
-
-
----
-This report is generated by a bot. It may contain errors.
-See https://goo.gl/tpsmEJ for more information about syzbot.
-syzbot engineers can be reached at syzkaller@googlegroups.com.
-
-syzbot will keep track of this issue. See:
-https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
+--=20
+With Best Regards,
+Andy Shevchenko
