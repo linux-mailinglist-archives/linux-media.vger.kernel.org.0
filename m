@@ -2,111 +2,109 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AFCCC2B5A45
-	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 08:25:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A49D2B5A5B
+	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 08:38:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726272AbgKQHZv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Nov 2020 02:25:51 -0500
-Received: from userp2120.oracle.com ([156.151.31.85]:57482 "EHLO
-        userp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725770AbgKQHZu (ORCPT
+        id S1726710AbgKQHht (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Nov 2020 02:37:49 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:40552 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725771AbgKQHhs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Nov 2020 02:25:50 -0500
-Received: from pps.filterd (userp2120.oracle.com [127.0.0.1])
-        by userp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AH7O9wY125593;
-        Tue, 17 Nov 2020 07:25:48 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=DsqENJiA0F3wCc6Zls8xWx7X4aEixuKScXLZrU4+1B4=;
- b=tjrIrFM+bo2iDtoD+azRD8l8uCvMD0kccLT+NsMXOSUc/FAMWJfkgOZHYJZmNxHSGK/U
- zfGapvT3Dd5OT77eB8FDbiySvU9LNE46OwBesbCvjwBjKBW7C4m+tVJv17teNXeCcDTC
- JE0b9j6UQh3kIFWvq6QqUykUJJYzYgueI5DiwQ20cx2M/3otN3L+in5ci8AgkJXwN8+s
- zzXhRk7/4E3/IbHPAzH9xi6f+O4/+YvzPyDdRPpkrIOevo2qtaR/ZvZZ/h3RPVKbqWT7
- 3vhuYsHD6UyaZix/j5bw5BiUA3tSljjVHWfN6dnmZEUJNXQwGsz0zKA8OGM5MEiKWrNG dA== 
-Received: from aserp3030.oracle.com (aserp3030.oracle.com [141.146.126.71])
-        by userp2120.oracle.com with ESMTP id 34t7vn0x8j-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Tue, 17 Nov 2020 07:25:48 +0000
-Received: from pps.filterd (aserp3030.oracle.com [127.0.0.1])
-        by aserp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AH7FZfb093614;
-        Tue, 17 Nov 2020 07:23:47 GMT
-Received: from aserv0122.oracle.com (aserv0122.oracle.com [141.146.126.236])
-        by aserp3030.oracle.com with ESMTP id 34uspt0fx4-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Tue, 17 Nov 2020 07:23:47 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-        by aserv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0AH7Nkc1031601;
-        Tue, 17 Nov 2020 07:23:46 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 16 Nov 2020 23:23:46 -0800
-Date:   Tue, 17 Nov 2020 10:23:40 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: saa7146: fix array overflow in vidioc_s_audio()
-Message-ID: <20201117072340.GD1111239@mwanda>
+        Tue, 17 Nov 2020 02:37:48 -0500
+Received: by mail-wm1-f68.google.com with SMTP id a3so2252983wmb.5;
+        Mon, 16 Nov 2020 23:37:46 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=18xGlNNpDhvVYVdS8rF0z2fNATOQumPp5b7l5cZcXvw=;
+        b=CSNmmPC7k6ZZOHklso9+ocCSYl0FCaFqkP3EFEnfNpIPkoqZw2ltXaAg3mVcNgAEnU
+         TPTmEdR2btv2XIW6Fkk6Ms+UMSlEFoTf1ZAahGUhnzew09XIPQkLUAt4rfYFBjb8p7Ys
+         aE45GumT3HngdvhYE/Yq8PRnA4CRTsx10o/ej7065Bp9MlsI6QNEe5XM9AZYJ8sPpj/S
+         LFxyCz3H1nKovjQ8+L9Ohg8GiWfeUzgje/yXLYmZhbzxJdbQa1XndxNCJN307l2hwEwJ
+         1Pyfy0qZm7OimuoW2lP+6dY0RKWbpZltQQjO3h+WK1Wy0cyq91ZcJUoucRKhudHQU8Yt
+         7zyA==
+X-Gm-Message-State: AOAM533iXoLvPf1T8zdP1/h0LyBBn2ftN4rJj9Ft+MeeK+XWkPDjQFVm
+        UWVdbsCnHMBau3oqMNdQdtk=
+X-Google-Smtp-Source: ABdhPJyHbqmcdYgBsSt4If51dziBJ4uOp+0GJRgB5sF5O5WZ7vgFMBLSfMpTds+fFwooZbU/Vhir4w==
+X-Received: by 2002:a1c:7704:: with SMTP id t4mr2234501wmi.48.1605598666215;
+        Mon, 16 Nov 2020 23:37:46 -0800 (PST)
+Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+        by smtp.googlemail.com with ESMTPSA id t23sm2151117wmn.4.2020.11.16.23.37.44
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 16 Nov 2020 23:37:44 -0800 (PST)
+Date:   Tue, 17 Nov 2020 08:37:43 +0100
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Samuel Holland <samuel@sholland.org>
+Cc:     Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Stephen Boyd <sboyd@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Takashi Iwai <tiwai@suse.com>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-clk@vger.kernel.org, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, alsa-devel@alsa-project.org
+Subject: Re: [RFC 2/3] ARM: sunxi: do not select COMMON_CLK to fix builds
+Message-ID: <20201117073743.GB3436@kozik-lap>
+References: <20201115170950.304460-1-krzk@kernel.org>
+ <20201115170950.304460-3-krzk@kernel.org>
+ <f637762e-0b02-1705-ea6b-24ac338fcd69@sholland.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9807 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 malwarescore=0
- mlxscore=0 bulkscore=0 suspectscore=0 adultscore=0 spamscore=0
- phishscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011170051
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9807 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 suspectscore=0
- malwarescore=0 bulkscore=0 impostorscore=0 lowpriorityscore=0 spamscore=0
- adultscore=0 mlxscore=0 priorityscore=1501 phishscore=0 clxscore=1015
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011170052
+In-Reply-To: <f637762e-0b02-1705-ea6b-24ac338fcd69@sholland.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The "a->index" value comes from the user via the ioctl.  The problem is
-that the shift can wrap resulting in setting "mxb->cur_audinput" to an
-invalid value, which later results in an array overflow.
+On Mon, Nov 16, 2020 at 10:36:12PM -0600, Samuel Holland wrote:
+> On 11/15/20 11:09 AM, Krzysztof Kozlowski wrote:
+> > COMMON_CLK is a user-selectable option with its own dependencies.  The
+> > most important dependency is !HAVE_LEGACY_CLK.  User-selectable drivers
+> > should not select COMMON_CLK because they will create a dependency cycle
+> > and build failures.  For example on MIPS a configuration with COMMON_CLK
+> > (selected by SND_SUN8I_CODEC) and HAVE_LEGACY_CLK (selected by
+> > SOC_RT305X) is possible:
+> 
+> Ah, that makes sense.
+> 
+> > 
+> >   WARNING: unmet direct dependencies detected for COMMON_CLK
+> >     Depends on [n]: !HAVE_LEGACY_CLK [=y]
+> >     Selected by [y]:
+> >     - SND_SUN8I_CODEC [=y] && SOUND [=y] && !UML && SND [=y] && SND_SOC [=y] &&
+> >       (ARCH_SUNXI || COMPILE_TEST [=y]) && OF [=y] && (MACH_SUN8I || ARM64 && ARCH_SUNXI || COMPILE_TEST [=y])
+> > 
+> >     /usr/bin/mips-linux-gnu-ld: drivers/clk/clk.o: in function `clk_set_rate':
+> >     (.text+0xaeb4): multiple definition of `clk_set_rate'; arch/mips/ralink/clk.o:(.text+0x88): first defined here
+> > 
+> > Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
+> > ---
+> >  arch/arm/mach-sunxi/Kconfig | 1 +
+> >  sound/soc/sunxi/Kconfig     | 2 +-
+> >  2 files changed, 2 insertions(+), 1 deletion(-)
+> > 
+> > diff --git a/arch/arm/mach-sunxi/Kconfig b/arch/arm/mach-sunxi/Kconfig
+> > index eeadb1a4dcfe..4d9f9b6d329d 100644
+> > --- a/arch/arm/mach-sunxi/Kconfig
+> > +++ b/arch/arm/mach-sunxi/Kconfig
+> > @@ -4,6 +4,7 @@ menuconfig ARCH_SUNXI
+> >  	depends on ARCH_MULTI_V5 || ARCH_MULTI_V7
+> >  	select ARCH_HAS_RESET_CONTROLLER
+> >  	select CLKSRC_MMIO
+> > +	select COMMON_CLK
+> 
+> This is not necessary, since ARCH_SUNXI depends (through ARCH_MULTI_V{5,7}) on
+> ARCH_MULTIPLATFORM, which selects COMMON_CLK already.
 
-Fixes: 6680427791c9 ("[media] mxb: fix audio handling")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/media/pci/saa7146/mxb.c | 19 ++++++++++---------
- 1 file changed, 10 insertions(+), 9 deletions(-)
+Thanks. I'll send a v2 with changes and your review.
 
-diff --git a/drivers/media/pci/saa7146/mxb.c b/drivers/media/pci/saa7146/mxb.c
-index 129a1f8ebe1a..73fc901ecf3d 100644
---- a/drivers/media/pci/saa7146/mxb.c
-+++ b/drivers/media/pci/saa7146/mxb.c
-@@ -641,16 +641,17 @@ static int vidioc_s_audio(struct file *file, void *fh, const struct v4l2_audio *
- 	struct mxb *mxb = (struct mxb *)dev->ext_priv;
- 
- 	DEB_D("VIDIOC_S_AUDIO %d\n", a->index);
--	if (mxb_inputs[mxb->cur_input].audioset & (1 << a->index)) {
--		if (mxb->cur_audinput != a->index) {
--			mxb->cur_audinput = a->index;
--			tea6420_route(mxb, a->index);
--			if (mxb->cur_audinput == 0)
--				mxb_update_audmode(mxb);
--		}
--		return 0;
-+	if (a->index >= 32 ||
-+	    !(mxb_inputs[mxb->cur_input].audioset & (1 << a->index)))
-+		return -EINVAL;
-+
-+	if (mxb->cur_audinput != a->index) {
-+		mxb->cur_audinput = a->index;
-+		tea6420_route(mxb, a->index);
-+		if (mxb->cur_audinput == 0)
-+			mxb_update_audmode(mxb);
- 	}
--	return -EINVAL;
-+	return 0;
- }
- 
- #ifdef CONFIG_VIDEO_ADV_DEBUG
--- 
-2.29.2
-
+Best regards,
+Krzysztof
