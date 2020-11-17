@@ -2,31 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 231662B6859
-	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 16:12:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 12AED2B68A5
+	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 16:25:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730118AbgKQPLI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Nov 2020 10:11:08 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:34043 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729586AbgKQPLH (ORCPT
+        id S1730133AbgKQPZX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Nov 2020 10:25:23 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:51029 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729747AbgKQPZW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Nov 2020 10:11:07 -0500
+        Tue, 17 Nov 2020 10:25:22 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id f2dJkpJkE6LFvf2dMkVVfQ; Tue, 17 Nov 2020 16:11:04 +0100
+        id f2r5kpQjL6LFvf2r8kVaGX; Tue, 17 Nov 2020 16:25:18 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1605625864; bh=dySMBChJPdI7xY6/6amNJmOaUrJ6xEDsTMC9xVVggzk=;
+        t=1605626718; bh=2NMp4wV/V7Pdyaz6EHKXPDG7J7LRvPS8lr63vKzEVSo=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=TP3VrcNJ9bJs8aY2D2aAdnjKG+RCv1/mLS2vCEZ9qbcFLuMajgoQdiuuWl6nvdcSZ
-         7mJy6LYLT+dk/3uP+La8eWCvFP24APb8e7mv3hXqIf9juJKgrReqe78fuleY072aY4
-         1lWX77TvDTrzcMPepFEhpg0fy4t29FssiBsWODpmK7UzZtjPWDl5Y1rQIYl44DwLnW
-         2Ld+BOx3MCWiX/t3GF7RW4hze/4b+5fg0Yr5IrmT92pKR6HIDJ91I4X01TswhckJOP
-         R+QpP7OiBWKtW53CURPdC1UJBeF4Zev9WYMMOUNMDyoKhM8cbtFuG07fNVaYYLgHMn
-         cgjxzNlD6emOw==
-Subject: Re: [PATCH v3 21/21] media: v4l2: Add 10-, 12- and 16-bpc 4:2:0 and
- 4:2:2 semi-planar YUV formats
+        b=HDP6YVmcUaZLXGAfanjwcIcVDMuYlf6F0rVyZG4INXDTuoz5hoR4u+KFiQ5KQZk9Z
+         aAG92ZIS37NCsBJUbjPRP1fcgUEauNnh1ivkTVt64Fk3hVEFJimXLsKiub/FntSFto
+         GB2GqorFo/GcE0HNget7VSzB40g+lDRpr4ukOiHJiDmLSYOWR+HbIuAHmirhlG5LMY
+         eOStr/hENJDp1oM1yXtEOhKTb3N0ZCqebWDuHPRuFVtMoohs0XrczZyDWYZGh96fOi
+         VBMWVYz+1saR6/WAHFpGvWBqG+wTinY46mfZmQOZL2Mk1/6Lcrk8gzs5JomwOZz1sc
+         RE31DqRvOQMKQ==
+Subject: Re: [PATCH v3 00/21] media: Add new pixel formats for Xilinx v-frmbuf
 To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
         linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -34,709 +33,194 @@ Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Vishal Sagar <vsagar@xilinx.com>,
         Nicolas Dufresne <nicolas@ndufresne.ca>
 References: <20201116185207.13208-1-laurent.pinchart@ideasonboard.com>
- <20201116185207.13208-22-laurent.pinchart@ideasonboard.com>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <c905c2d6-0869-214d-86e7-fc9eadf1a510@xs4all.nl>
-Date:   Tue, 17 Nov 2020 16:11:01 +0100
+Message-ID: <c3eac61c-5e89-e7e9-d8ac-e204017b1693@xs4all.nl>
+Date:   Tue, 17 Nov 2020 16:25:15 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201116185207.13208-22-laurent.pinchart@ideasonboard.com>
+In-Reply-To: <20201116185207.13208-1-laurent.pinchart@ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfEzGzkASSy/3Dc2ab54htTJBID9JNxZwVQxpfG2bpLvLKH6MWtzjgl5HrFEEk2LqhV6W5rC8F1pkOTcGKYYZbfvIb2rnUxNFSJ3rBvKRifDlBtUXWWFV
- imgd1aLvwfVr5pIJfwuGCTFYWbSF9kFIBsb3Hzt+aXaddfxdwoHl3S0mD6YbwuMwPNVj3kd4bSRv6Gwhc1A7uZWOdl93KK2SzINsjZ/gV9Vsy8Yaeql9VmRM
- evC//Q4HTAzMUm6R3DuObKe37xaEvyv5zXmiFc1rXePT4JBCos8EeSRFNP34Zn7SId4C+ja1wmIpdCKwqrmSDGiibl/X44/djQtlCcI3i55skBO2Lu/+sh+O
- 7Fykq8mG9PApymd9OK0lo+CCdMQHug==
+X-CMAE-Envelope: MS4xfNwXB5tXaSzRjcFBUb0xVbvo90gYieJR3puht5wL30F4J/ZxqZNHaF/GKxLVLWexhhkHOEWHEGeRE6XspQN/DzPuYDv2wXiSo/oZfxbGnMuRSOJszCn6
+ DqgEZmLdbLLtfzrRiXh6Fk+spxQRZIKt9mYp3N4aG20zgoRDQRcp9qTbwdrCigFBQXQ4CAhSfrYXPJKxfgdLd5oooGKfVf4+Tk9cfDMAv9tnpXm5qhPr5S79
+ 2PO+kJk3JajCYdlNQb2fL0vlqnG73YRW+BvFQssmYfk0cMby+wJsq/+MWEl5RNCad1pUFQh2BWTGVep6s38N/g5b5BCpiNQVP6oJO3VVaJjezk8mCSB0c/dr
+ AvvRyyLaZXxEK/w/3D895tDVDGuh8Q==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 16/11/2020 19:52, Laurent Pinchart wrote:
-> Add semi-planar YUV formats with 10, 12 and 16 bits per components, in
-> both 4:2:0 (NV12) and 4:2:2 (NV16) subsampling, and with both chroma
-> orderings. They are used by the Xilinx Video Frame Buffer Read/Write IP
-> cores.
+On 16/11/2020 19:51, Laurent Pinchart wrote:
+> Hello,
 > 
-> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> ---
-> Changes since v2:
+> This patch series adds a set of new pixel formats needed for the Xilinx
+> Video Frame Buffer Read/Write IP cores (see [1]).
 > 
-> - Replace 'Cr, Cr' with 'Cr, Cb'
-> ---
->  .../media/v4l/pixfmt-yuv-planar.rst           | 574 +++++++++++++++++-
->  include/uapi/linux/videodev2.h                |  12 +
->  2 files changed, 580 insertions(+), 6 deletions(-)
+> v3 is a minor update of v2, with all review comments taken into account.
+> Patches 07/21, 08/21 and 11/21 are new.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> index 7d4d39201a3f..4ac4c6a0290b 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-> @@ -48,6 +48,11 @@ relationship between the luma and chroma line padding and stride.
->  
->  All components are stored with the same number of bits per component.
->  
-> +Formats with more than 8 bits per component pack, within each plane, multiple
-> +samples in a word (padded as necessary to reach a multiple of 8 bits), which is
-> +then stored in memory in little endian byte order. They are named with a suffix
-> +indicating the number of bits per component and the number of samples per word.
-> +
->  .. flat-table:: Overview of Semi-Planar YUV Formats
->      :header-rows:  1
->      :stub-columns: 0
-> @@ -70,7 +75,7 @@ All components are stored with the same number of bits per component.
->        - 'NV21'
->        - 8
->        - 4:2:0
-> -      - Cr, Cr
-> +      - Cr, Cb
->        - Yes
->        - Linear
->      * - V4L2_PIX_FMT_NV12M
-> @@ -84,7 +89,7 @@ All components are stored with the same number of bits per component.
->        - 'NM21'
->        - 8
->        - 4:2:0
-> -      - Cr, Cr
-> +      - Cr, Cb
->        - No
->        - Linear
->      * - V4L2_PIX_FMT_NV12MT
-> @@ -114,7 +119,7 @@ All components are stored with the same number of bits per component.
->        - 'NV61'
->        - 8
->        - 4:2:2
-> -      - Cr, Cr
-> +      - Cr, Cb
->        - Yes
->        - Linear
->      * - V4L2_PIX_FMT_NV16M
-> @@ -128,7 +133,7 @@ All components are stored with the same number of bits per component.
->        - 'NM61'
->        - 8
->        - 4:2:2
-> -      - Cr, Cr
-> +      - Cr, Cb
->        - No
->        - Linear
->      * - V4L2_PIX_FMT_NV24
-> @@ -142,7 +147,91 @@ All components are stored with the same number of bits per component.
->        - 'NV42'
->        - 8
->        - 4:4:4
-> -      - Cr, Cr
-> +      - Cr, Cb
-> +      - Yes
-> +      - Linear
-> +    * - V4L2_PIX_FMT_NV12_10_3
-> +      - 'N012'
-> +      - 10
-> +      - 4:2:0
-> +      - Cb, Cr
-> +      - Yes
-> +      - Linear
-> +    * - V4L2_PIX_FMT_NV21_10_3
-> +      - 'N061'
-> +      - 10
-> +      - 4:2:0
-> +      - Cr, Cb
-> +      - Yes
-> +      - Linear
-> +    * - V4L2_PIX_FMT_NV16_10_3
-> +      - 'N016'
-> +      - 10
-> +      - 4:2:2
-> +      - Cb, Cr
-> +      - Yes
-> +      - Linear
-> +    * - V4L2_PIX_FMT_NV61_10_3
-> +      - 'N061'
-> +      - 10
-> +      - 4:2:2
-> +      - Cr, Cb
-> +      - Yes
-> +      - Linear
-> +    * - V4L2_PIX_FMT_NV12_12_2
-> +      - 'N212'
-> +      - 12
-> +      - 4:2:0
-> +      - Cb, Cr
-> +      - Yes
-> +      - Linear
-> +    * - V4L2_PIX_FMT_NV21_12_2
-> +      - 'N261'
-> +      - 12
-> +      - 4:2:0
-> +      - Cr, Cb
-> +      - Yes
-> +      - Linear
-> +    * - V4L2_PIX_FMT_NV16_12_2
-> +      - 'N216'
-> +      - 12
-> +      - 4:2:2
-> +      - Cb, Cr
-> +      - Yes
-> +      - Linear
-> +    * - V4L2_PIX_FMT_NV61_12_2
-> +      - 'N261'
-> +      - 12
-> +      - 4:2:2
-> +      - Cr, Cb
-> +      - Yes
-> +      - Linear
-> +    * - V4L2_PIX_FMT_NV12_16_1
-> +      - 'N612'
-> +      - 16
-> +      - 4:2:0
-> +      - Cb, Cr
-> +      - Yes
-> +      - Linear
-> +    * - V4L2_PIX_FMT_NV21_16_1
-> +      - 'N661'
-> +      - 16
-> +      - 4:2:0
-> +      - Cr, Cb
-> +      - Yes
-> +      - Linear
-> +    * - V4L2_PIX_FMT_NV16_16_1
-> +      - 'N616'
-> +      - 16
-> +      - 4:2:2
-> +      - Cb, Cr
-> +      - Yes
-> +      - Linear
-> +    * - V4L2_PIX_FMT_NV61_16_1
-> +      - 'N661'
-> +      - 16
-> +      - 4:2:2
-> +      - Cr, Cb
->        - Yes
->        - Linear
->  
-> @@ -153,7 +242,6 @@ All components are stored with the same number of bits per component.
->        disjoint
->     .. [3] Macroblock size in pixels
->  
-> -
->  **Color Sample Location:**
->  Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
->  horizontally.
-> @@ -463,6 +551,480 @@ number of lines as the luma plane.
->        - Cr\ :sub:`33`
->  
->  
-> +.. _V4L2-PIX-FMT-NV12-10-3:
-> +.. _V4L2-PIX-FMT-NV21-10-3:
-> +.. _V4L2-PIX-FMT-NV16-10-3:
-> +.. _V4L2-PIX-FMT-NV61-10-3:
-> +
-> +NV12_10_3, NV21_10_3, NV16_10_3 and NV61_10_3
-> +---------------------------------------------
-> +
-> +Semi-planar YUV 4:2:0 and 4:2:2 formats with 10 bits per component, stored with
-> +3 samples packed in 4 bytes.
-> +
-> +Within a plane, 3 samples are packed in a 32-bit word, with 2 padding bits.
-> +The bits are organized as follows for the first three samples of a luma line
-> +and a chroma line.
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - 31:30
-> +      - 29:20
-> +      - 19:10
-> +      - 9:0
-> +    * - `-`\ [1:0]
+> Documentation of the pixel formats has grown organically in V4L2, and
+> while it is fairly complete and detailed, it also duplicates lots of
+> information. I've thus decided to bite the bullet, and try to
+> consolidate the documentation first before adding new formats.
+> 
+> The first three patches address minor issues in videodev2.h, removing a
+> comment that belongs to a commit message instead (01/21) and moving two
+> misplaced formats to where they belong (02/21 and 03/21).
+> 
+> The next five patches refactor documentation for the RGB formats. Patch
+> 04/21 removes a confusing table (that likely made sense when it was
+> added, but not anymore), 05/21 adds a section title for the deprecated
+> RGB formats to increase clarity, and patch 06/21 documents the naming
+> scheme followed by our RGB formats. There are two separate naming
+> schemes, used by 8- and 16-bit formats on one side, and 24- and 32-bit
+> formats on the other side. The former matches the naming conventions of
+> DRM, while the latter doesn't, which has often led to confusion and
+> errors. This can't be changed, but it's now clearly documented. Patch
+> 07/21 makes the 8bpc formats table more compact, and patch 08/21
+> replaces '-' with 'x' to denote padding bits.
+> 
+> Patch 09/21 then moves to the RGB formats, adding extra documentation
+> about chroma subsampling. Patch 10/21 moves all the packed YUV formats
+> to the file that carries that title, as documenting "Packed YUV formats"
+> and UYVY/VYUY/YUYV/YVYU is confusing and can only be explained by
+> historical reasons. These changes allow consolidating duplicated
+> documentation that was copied in multiple files.
+> 
+> Patch 11/21 makes the packed YUV table a bit less confusing by adding
+> 'X' characters to denote padding bits instead of leaving the
+> corresponding cells blank. Patch 12/21 then consolidates the packed YUV
+> 4:4:4 format documentation in a more compact way, increasing readability
+> by avoiding too wide tables. Patch 13/21 explains the packed YUV format
+> naming scheme, similarly to what has been done for RGB formats earlier
+> in the series.
+> 
+> Next come the luma-only, semi-planar and planar YUV formats. Patches
+> 14/21, 15/21 and 16/21 consolidate them respectively in one file for the
+> luma formats and one file for the planar and semi-planar formats,
+> documenting them in consolidated tables. Navigation of the documentation
+> becomes simpler as a result.
+> 
+> Finally, patches 17/21 to 21/21 add new pixel formats needed by the Xilinx
+> v-frmbuf.
+> 
+> There are a few 4CC names that I'm not entirely sure about:
+> 
+> - In patches 17/21 and 19/21, an alternative would be to separate the
+>   number of bits per component using underscores. For instance,
+>   V4L2_PIX_FMT_X2B10G10R10 would become V4L2_PIX_FMT_XBGR_2_10_10_10.
 
-`-` -> X
+Either is fine with me, I don't have a preference.
 
-Repeat this many times below.
+> 
+> - In patch 20/21, the Y10X and Y12X names are quite ad-hoc. Clearer
+>   names could be useful to better describe the formats. For instance,
+>   Y10X, which correspond to 10-bit Y packed with 3 pixels in 4 bytes
+>   with 2 bits of padding could become Y10_3P_4B. Better alternatives are
+>   welcome.
 
-This section probably needs a similar note at the top of the "Packed YUV formats" section
-about the meaning of 'X'.
+This can actually follow the scheme you created for NV12_10_3 etc:
+
+So Y_10_3 and Y_12_3.
 
 Regards,
 
 	Hans
 
-> +      - Y'\ :sub:`2`\ [9:0]
-> +      - Y'\ :sub:`1`\ [9:0]
-> +      - Y'\ :sub:`0`\ [9:0]
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - 31:30
-> +      - 29:20
-> +      - 19:10
-> +      - 9:0
-> +    * - `-`\ [1:0]
-> +      - Cb\ :sub:`2`\ [9:0]
-> +      - Cr\ :sub:`0`\ [9:0]
-> +      - Cb\ :sub:`0`\ [9:0]
-> +
-> +Words are then stored in memory in little endian format. Due to a chroma word
-> +storing an odd number of samples, the image width must be a multiple of 6
-> +pixels.
-> +
-> +.. flat-table:: Sample 6x4 NV12_10_3 Image
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - start + 0:
-> +      - Y'\ :sub:`00`\ [7:0]
-> +      - Y'\ :sub:`01`\ [5:0] Y'\ :sub:`00`\ [9:8]
-> +      - Y'\ :sub:`02`\ [3:0] Y'\ :sub:`01`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`02`\ [9:4]
-> +      - Y'\ :sub:`03`\ [7:0]
-> +      - Y'\ :sub:`04`\ [5:0] Y'\ :sub:`04`\ [9:8]
-> +      - Y'\ :sub:`05`\ [3:0] Y'\ :sub:`05`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`05`\ [9:4]
-> +    * - start + 8:
-> +      - Y'\ :sub:`10`\ [7:0]
-> +      - Y'\ :sub:`11`\ [5:0] Y'\ :sub:`10`\ [9:8]
-> +      - Y'\ :sub:`12`\ [3:0] Y'\ :sub:`11`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`12`\ [9:4]
-> +      - Y'\ :sub:`13`\ [7:0]
-> +      - Y'\ :sub:`14`\ [5:0] Y'\ :sub:`14`\ [9:8]
-> +      - Y'\ :sub:`15`\ [3:0] Y'\ :sub:`15`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`15`\ [9:4]
-> +    * - start + 16:
-> +      - Y'\ :sub:`20`\ [7:0]
-> +      - Y'\ :sub:`21`\ [5:0] Y'\ :sub:`20`\ [9:8]
-> +      - Y'\ :sub:`22`\ [3:0] Y'\ :sub:`21`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`22`\ [9:4]
-> +      - Y'\ :sub:`23`\ [7:0]
-> +      - Y'\ :sub:`24`\ [5:0] Y'\ :sub:`24`\ [9:8]
-> +      - Y'\ :sub:`25`\ [3:0] Y'\ :sub:`25`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`25`\ [9:4]
-> +    * - start + 24:
-> +      - Y'\ :sub:`20`\ [7:0]
-> +      - Y'\ :sub:`21`\ [5:0] Y'\ :sub:`20`\ [9:8]
-> +      - Y'\ :sub:`22`\ [3:0] Y'\ :sub:`21`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`22`\ [9:4]
-> +      - Y'\ :sub:`23`\ [7:0]
-> +      - Y'\ :sub:`24`\ [5:0] Y'\ :sub:`24`\ [9:8]
-> +      - Y'\ :sub:`25`\ [3:0] Y'\ :sub:`25`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`25`\ [9:4]
-> +    * - start + 32:
-> +      - Cb\ :sub:`00`\ [7:0]
-> +      - Cr\ :sub:`00`\ [5:0] Cb\ :sub:`00`\ [9:8]
-> +      - Cb\ :sub:`02`\ [3:0] Cr\ :sub:`00`\ [9:6]
-> +      - `-`\ [1:0] Cb\ :sub:`02`\ [9:4]
-> +      - Cr\ :sub:`02`\ [7:0]
-> +      - Cb\ :sub:`04`\ [5:0] Cr\ :sub:`02`\ [9:8]
-> +      - Cr\ :sub:`04`\ [3:0] Cb\ :sub:`04`\ [9:6]
-> +      - `-`\ [1:0] Cr\ :sub:`04`\ [9:4]
-> +    * - start + 40:
-> +      - Cb\ :sub:`20`\ [7:0]
-> +      - Cr\ :sub:`20`\ [5:0] Cb\ :sub:`20`\ [9:8]
-> +      - Cb\ :sub:`22`\ [3:0] Cr\ :sub:`20`\ [9:6]
-> +      - `-`\ [1:0] Cb\ :sub:`22`\ [9:4]
-> +      - Cr\ :sub:`22`\ [7:0]
-> +      - Cb\ :sub:`24`\ [5:0] Cr\ :sub:`22`\ [9:8]
-> +      - Cr\ :sub:`24`\ [3:0] Cb\ :sub:`24`\ [9:6]
-> +      - `-`\ [1:0] Cr\ :sub:`24`\ [9:4]
-> +
-> +.. flat-table:: Sample 6x4 NV16_10_3 Image
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - start + 0:
-> +      - Y'\ :sub:`00`\ [7:0]
-> +      - Y'\ :sub:`01`\ [5:0] Y'\ :sub:`00`\ [9:8]
-> +      - Y'\ :sub:`02`\ [3:0] Y'\ :sub:`01`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`02`\ [9:4]
-> +      - Y'\ :sub:`03`\ [7:0]
-> +      - Y'\ :sub:`04`\ [5:0] Y'\ :sub:`04`\ [9:8]
-> +      - Y'\ :sub:`05`\ [3:0] Y'\ :sub:`05`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`05`\ [9:4]
-> +    * - start + 8:
-> +      - Y'\ :sub:`10`\ [7:0]
-> +      - Y'\ :sub:`11`\ [5:0] Y'\ :sub:`10`\ [9:8]
-> +      - Y'\ :sub:`12`\ [3:0] Y'\ :sub:`11`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`12`\ [9:4]
-> +      - Y'\ :sub:`13`\ [7:0]
-> +      - Y'\ :sub:`14`\ [5:0] Y'\ :sub:`14`\ [9:8]
-> +      - Y'\ :sub:`15`\ [3:0] Y'\ :sub:`15`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`15`\ [9:4]
-> +    * - start + 16:
-> +      - Y'\ :sub:`20`\ [7:0]
-> +      - Y'\ :sub:`21`\ [5:0] Y'\ :sub:`20`\ [9:8]
-> +      - Y'\ :sub:`22`\ [3:0] Y'\ :sub:`21`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`22`\ [9:4]
-> +      - Y'\ :sub:`23`\ [7:0]
-> +      - Y'\ :sub:`24`\ [5:0] Y'\ :sub:`24`\ [9:8]
-> +      - Y'\ :sub:`25`\ [3:0] Y'\ :sub:`25`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`25`\ [9:4]
-> +    * - start + 24:
-> +      - Y'\ :sub:`20`\ [7:0]
-> +      - Y'\ :sub:`21`\ [5:0] Y'\ :sub:`20`\ [9:8]
-> +      - Y'\ :sub:`22`\ [3:0] Y'\ :sub:`21`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`22`\ [9:4]
-> +      - Y'\ :sub:`23`\ [7:0]
-> +      - Y'\ :sub:`24`\ [5:0] Y'\ :sub:`24`\ [9:8]
-> +      - Y'\ :sub:`25`\ [3:0] Y'\ :sub:`25`\ [9:6]
-> +      - `-`\ [1:0] Y'\ :sub:`25`\ [9:4]
-> +    * - start + 32:
-> +      - Cb\ :sub:`00`\ [7:0]
-> +      - Cr\ :sub:`00`\ [5:0] Cb\ :sub:`00`\ [9:8]
-> +      - Cb\ :sub:`02`\ [3:0] Cr\ :sub:`00`\ [9:6]
-> +      - `-`\ [1:0] Cb\ :sub:`02`\ [9:4]
-> +      - Cr\ :sub:`02`\ [7:0]
-> +      - Cb\ :sub:`04`\ [5:0] Cr\ :sub:`02`\ [9:8]
-> +      - Cr\ :sub:`04`\ [3:0] Cb\ :sub:`04`\ [9:6]
-> +      - `-`\ [1:0] Cr\ :sub:`04`\ [9:4]
-> +    * - start + 40:
-> +      - Cb\ :sub:`10`\ [7:0]
-> +      - Cr\ :sub:`10`\ [5:0] Cb\ :sub:`10`\ [9:8]
-> +      - Cb\ :sub:`12`\ [3:0] Cr\ :sub:`10`\ [9:6]
-> +      - `-`\ [1:0] Cb\ :sub:`12`\ [9:4]
-> +      - Cr\ :sub:`12`\ [7:0]
-> +      - Cb\ :sub:`14`\ [5:0] Cr\ :sub:`12`\ [9:8]
-> +      - Cr\ :sub:`14`\ [3:0] Cb\ :sub:`14`\ [9:6]
-> +      - `-`\ [1:0] Cr\ :sub:`14`\ [9:4]
-> +    * - start + 48:
-> +      - Cb\ :sub:`20`\ [7:0]
-> +      - Cr\ :sub:`20`\ [5:0] Cb\ :sub:`20`\ [9:8]
-> +      - Cb\ :sub:`22`\ [3:0] Cr\ :sub:`20`\ [9:6]
-> +      - `-`\ [1:0] Cb\ :sub:`22`\ [9:4]
-> +      - Cr\ :sub:`22`\ [7:0]
-> +      - Cb\ :sub:`24`\ [5:0] Cr\ :sub:`22`\ [9:8]
-> +      - Cr\ :sub:`24`\ [3:0] Cb\ :sub:`24`\ [9:6]
-> +      - `-`\ [1:0] Cr\ :sub:`24`\ [9:4]
-> +    * - start + 56:
-> +      - Cb\ :sub:`30`\ [7:0]
-> +      - Cr\ :sub:`30`\ [5:0] Cb\ :sub:`30`\ [9:8]
-> +      - Cb\ :sub:`32`\ [3:0] Cr\ :sub:`30`\ [9:6]
-> +      - `-`\ [1:0] Cb\ :sub:`32`\ [9:4]
-> +      - Cr\ :sub:`32`\ [7:0]
-> +      - Cb\ :sub:`34`\ [5:0] Cr\ :sub:`32`\ [9:8]
-> +      - Cr\ :sub:`34`\ [3:0] Cb\ :sub:`34`\ [9:6]
-> +      - `-`\ [1:0] Cr\ :sub:`34`\ [9:4]
-> +
-> +
-> +.. _V4L2-PIX-FMT-NV12-12-2:
-> +.. _V4L2-PIX-FMT-NV21-12-2:
-> +.. _V4L2-PIX-FMT-NV16-12-2:
-> +.. _V4L2-PIX-FMT-NV61-12-2:
-> +
-> +NV12_12_2, NV21_12_2, NV16_12_2 and NV61_12_2
-> +---------------------------------------------
-> +
-> +Semi-planar YUV 4:2:0 and 4:2:2 formats with 12 bits per component, stored with
-> +2 samples packed in 3 bytes.
-> +
-> +Within a plane, 2 samples are packed in a 24-bit word, with no padding bits.
-> +The bits are organized as follows for the first two samples of a luma line
-> +and a chroma line.
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - 23:12
-> +      - 11:0
-> +    * - Y'\ :sub:`1`\ [11:0]
-> +      - Y'\ :sub:`0`\ [11:0]
-> +
-> +.. flat-table::
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - 23:12
-> +      - 11:0
-> +    * - Cr\ :sub:`0`\ [11:0]
-> +      - Cb\ :sub:`0`\ [11:0]
-> +
-> +Words are then stored in memory in little endian format.
-> +
-> +.. flat-table:: Sample 4x4 NV12_12_2 Image
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - start + 0:
-> +      - Y'\ :sub:`00`\ [7:0]
-> +      - Y'\ :sub:`01`\ [3:0] Y'\ :sub:`00`\ [11:8]
-> +      - Y'\ :sub:`01`\ [11:4]
-> +      - Y'\ :sub:`02`\ [7:0]
-> +      - Y'\ :sub:`03`\ [3:0] Y'\ :sub:`02`\ [11:8]
-> +      - Y'\ :sub:`03`\ [11:4]
-> +    * - start + 6:
-> +      - Y'\ :sub:`10`\ [7:0]
-> +      - Y'\ :sub:`11`\ [3:0] Y'\ :sub:`10`\ [11:8]
-> +      - Y'\ :sub:`11`\ [11:4]
-> +      - Y'\ :sub:`12`\ [7:0]
-> +      - Y'\ :sub:`13`\ [3:0] Y'\ :sub:`12`\ [11:8]
-> +      - Y'\ :sub:`13`\ [11:4]
-> +    * - start + 12:
-> +      - Y'\ :sub:`20`\ [7:0]
-> +      - Y'\ :sub:`21`\ [3:0] Y'\ :sub:`20`\ [11:8]
-> +      - Y'\ :sub:`21`\ [11:4]
-> +      - Y'\ :sub:`22`\ [7:0]
-> +      - Y'\ :sub:`23`\ [3:0] Y'\ :sub:`22`\ [11:8]
-> +      - Y'\ :sub:`23`\ [11:4]
-> +    * - start + 18:
-> +      - Y'\ :sub:`30`\ [7:0]
-> +      - Y'\ :sub:`31`\ [3:0] Y'\ :sub:`30`\ [11:8]
-> +      - Y'\ :sub:`31`\ [11:4]
-> +      - Y'\ :sub:`32`\ [7:0]
-> +      - Y'\ :sub:`33`\ [3:0] Y'\ :sub:`32`\ [11:8]
-> +      - Y'\ :sub:`33`\ [11:4]
-> +    * - start + 24:
-> +      - Cb\ :sub:`00`\ [7:0]
-> +      - Cr\ :sub:`00`\ [3:0] Cb\ :sub:`00`\ [11:8]
-> +      - Cr\ :sub:`00`\ [11:4]
-> +      - Cb\ :sub:`02`\ [7:0]
-> +      - Cr\ :sub:`02`\ [3:0] Cb\ :sub:`02`\ [11:8]
-> +      - Cr\ :sub:`02`\ [11:4]
-> +    * - start + 30:
-> +      - Cb\ :sub:`20`\ [7:0]
-> +      - Cr\ :sub:`20`\ [3:0] Cb\ :sub:`20`\ [11:8]
-> +      - Cr\ :sub:`20`\ [11:4]
-> +      - Cb\ :sub:`22`\ [7:0]
-> +      - Cr\ :sub:`22`\ [3:0] Cb\ :sub:`22`\ [11:8]
-> +      - Cr\ :sub:`22`\ [11:4]
-> +
-> +.. flat-table:: Sample 4x4 NV16_12_2 Image
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - start + 0:
-> +      - Y'\ :sub:`00`\ [7:0]
-> +      - Y'\ :sub:`01`\ [3:0] Y'\ :sub:`00`\ [11:8]
-> +      - Y'\ :sub:`01`\ [11:4]
-> +      - Y'\ :sub:`02`\ [7:0]
-> +      - Y'\ :sub:`03`\ [3:0] Y'\ :sub:`02`\ [11:8]
-> +      - Y'\ :sub:`03`\ [11:4]
-> +    * - start + 6:
-> +      - Y'\ :sub:`10`\ [7:0]
-> +      - Y'\ :sub:`11`\ [3:0] Y'\ :sub:`10`\ [11:8]
-> +      - Y'\ :sub:`11`\ [11:4]
-> +      - Y'\ :sub:`12`\ [7:0]
-> +      - Y'\ :sub:`13`\ [3:0] Y'\ :sub:`12`\ [11:8]
-> +      - Y'\ :sub:`13`\ [11:4]
-> +    * - start + 12:
-> +      - Y'\ :sub:`20`\ [7:0]
-> +      - Y'\ :sub:`21`\ [3:0] Y'\ :sub:`20`\ [11:8]
-> +      - Y'\ :sub:`21`\ [11:4]
-> +      - Y'\ :sub:`22`\ [7:0]
-> +      - Y'\ :sub:`23`\ [3:0] Y'\ :sub:`22`\ [11:8]
-> +      - Y'\ :sub:`23`\ [11:4]
-> +    * - start + 18:
-> +      - Y'\ :sub:`30`\ [7:0]
-> +      - Y'\ :sub:`31`\ [3:0] Y'\ :sub:`30`\ [11:8]
-> +      - Y'\ :sub:`31`\ [11:4]
-> +      - Y'\ :sub:`32`\ [7:0]
-> +      - Y'\ :sub:`33`\ [3:0] Y'\ :sub:`32`\ [11:8]
-> +      - Y'\ :sub:`33`\ [11:4]
-> +    * - start + 24:
-> +      - Cb\ :sub:`00`\ [7:0]
-> +      - Cr\ :sub:`00`\ [3:0] Cb\ :sub:`00`\ [11:8]
-> +      - Cr\ :sub:`00`\ [11:4]
-> +      - Cb\ :sub:`02`\ [7:0]
-> +      - Cr\ :sub:`02`\ [3:0] Cb\ :sub:`02`\ [11:8]
-> +      - Cr\ :sub:`02`\ [11:4]
-> +    * - start + 30:
-> +      - Cb\ :sub:`10`\ [7:0]
-> +      - Cr\ :sub:`10`\ [3:0] Cb\ :sub:`10`\ [11:8]
-> +      - Cr\ :sub:`10`\ [11:4]
-> +      - Cb\ :sub:`12`\ [7:0]
-> +      - Cr\ :sub:`12`\ [3:0] Cb\ :sub:`12`\ [11:8]
-> +      - Cr\ :sub:`12`\ [11:4]
-> +    * - start + 36:
-> +      - Cb\ :sub:`20`\ [7:0]
-> +      - Cr\ :sub:`20`\ [3:0] Cb\ :sub:`20`\ [11:8]
-> +      - Cr\ :sub:`20`\ [11:4]
-> +      - Cb\ :sub:`22`\ [7:0]
-> +      - Cr\ :sub:`22`\ [3:0] Cb\ :sub:`22`\ [11:8]
-> +      - Cr\ :sub:`22`\ [11:4]
-> +    * - start + 42:
-> +      - Cb\ :sub:`30`\ [7:0]
-> +      - Cr\ :sub:`30`\ [3:0] Cb\ :sub:`30`\ [11:8]
-> +      - Cr\ :sub:`30`\ [11:4]
-> +      - Cb\ :sub:`32`\ [7:0]
-> +      - Cr\ :sub:`32`\ [3:0] Cb\ :sub:`32`\ [11:8]
-> +      - Cr\ :sub:`32`\ [11:4]
-> +
-> +
-> +.. _V4L2-PIX-FMT-NV12-16-1:
-> +.. _V4L2-PIX-FMT-NV21-16-1:
-> +.. _V4L2-PIX-FMT-NV16-16-1:
-> +.. _V4L2-PIX-FMT-NV61-16-1:
-> +
-> +NV12_16_1, NV21_16_1, NV16_16_1 and NV61_16_1
-> +---------------------------------------------
-> +
-> +Semi-planar YUV 4:2:0 and 4:2:2 formats with 16 bits per component. 16-bit
-> +samples are stored in memory in little endian format.
-> +
-> +.. flat-table:: Sample 4x4 NV12_16_1 Image
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - start + 0:
-> +      - Y'\ :sub:`00`\ [7:0]
-> +      - Y'\ :sub:`00`\ [15:8]
-> +      - Y'\ :sub:`01`\ [7:0]
-> +      - Y'\ :sub:`01`\ [15:8]
-> +      - Y'\ :sub:`02`\ [7:0]
-> +      - Y'\ :sub:`02`\ [15:8]
-> +      - Y'\ :sub:`03`\ [7:0]
-> +      - Y'\ :sub:`03`\ [15:8]
-> +    * - start + 8:
-> +      - Y'\ :sub:`10`\ [7:0]
-> +      - Y'\ :sub:`10`\ [15:8]
-> +      - Y'\ :sub:`11`\ [7:0]
-> +      - Y'\ :sub:`11`\ [15:8]
-> +      - Y'\ :sub:`12`\ [7:0]
-> +      - Y'\ :sub:`12`\ [15:8]
-> +      - Y'\ :sub:`13`\ [7:0]
-> +      - Y'\ :sub:`13`\ [15:8]
-> +    * - start + 16:
-> +      - Y'\ :sub:`20`\ [7:0]
-> +      - Y'\ :sub:`20`\ [15:8]
-> +      - Y'\ :sub:`21`\ [7:0]
-> +      - Y'\ :sub:`21`\ [15:8]
-> +      - Y'\ :sub:`22`\ [7:0]
-> +      - Y'\ :sub:`22`\ [15:8]
-> +      - Y'\ :sub:`23`\ [7:0]
-> +      - Y'\ :sub:`23`\ [15:8]
-> +    * - start + 24:
-> +      - Y'\ :sub:`30`\ [7:0]
-> +      - Y'\ :sub:`30`\ [15:8]
-> +      - Y'\ :sub:`31`\ [7:0]
-> +      - Y'\ :sub:`31`\ [15:8]
-> +      - Y'\ :sub:`32`\ [7:0]
-> +      - Y'\ :sub:`32`\ [15:8]
-> +      - Y'\ :sub:`33`\ [7:0]
-> +      - Y'\ :sub:`33`\ [15:8]
-> +    * - start + 32:
-> +      - Cb\ :sub:`00`\ [7:0]
-> +      - Cb\ :sub:`00`\ [15:8]
-> +      - Cr\ :sub:`00`\ [7:0]
-> +      - Cr\ :sub:`00`\ [15:8]
-> +      - Cb\ :sub:`02`\ [7:0]
-> +      - Cb\ :sub:`02`\ [15:8]
-> +      - Cr\ :sub:`02`\ [7:0]
-> +      - Cr\ :sub:`02`\ [15:8]
-> +    * - start + 40:
-> +      - Cb\ :sub:`20`\ [7:0]
-> +      - Cb\ :sub:`20`\ [15:8]
-> +      - Cr\ :sub:`20`\ [7:0]
-> +      - Cr\ :sub:`20`\ [15:8]
-> +      - Cb\ :sub:`22`\ [7:0]
-> +      - Cb\ :sub:`22`\ [15:8]
-> +      - Cr\ :sub:`22`\ [7:0]
-> +      - Cr\ :sub:`22`\ [15:8]
-> +
-> +.. flat-table:: Sample 4x4 NV16_16_1 Image
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +
-> +    * - start + 0:
-> +      - Y'\ :sub:`00`\ [7:0]
-> +      - Y'\ :sub:`00`\ [15:8]
-> +      - Y'\ :sub:`01`\ [7:0]
-> +      - Y'\ :sub:`01`\ [15:8]
-> +      - Y'\ :sub:`02`\ [7:0]
-> +      - Y'\ :sub:`02`\ [15:8]
-> +      - Y'\ :sub:`03`\ [7:0]
-> +      - Y'\ :sub:`03`\ [15:8]
-> +    * - start + 8:
-> +      - Y'\ :sub:`10`\ [7:0]
-> +      - Y'\ :sub:`10`\ [15:8]
-> +      - Y'\ :sub:`11`\ [7:0]
-> +      - Y'\ :sub:`11`\ [15:8]
-> +      - Y'\ :sub:`12`\ [7:0]
-> +      - Y'\ :sub:`12`\ [15:8]
-> +      - Y'\ :sub:`13`\ [7:0]
-> +      - Y'\ :sub:`13`\ [15:8]
-> +    * - start + 16:
-> +      - Y'\ :sub:`20`\ [7:0]
-> +      - Y'\ :sub:`20`\ [15:8]
-> +      - Y'\ :sub:`21`\ [7:0]
-> +      - Y'\ :sub:`21`\ [15:8]
-> +      - Y'\ :sub:`22`\ [7:0]
-> +      - Y'\ :sub:`22`\ [15:8]
-> +      - Y'\ :sub:`23`\ [7:0]
-> +      - Y'\ :sub:`23`\ [15:8]
-> +    * - start + 24:
-> +      - Y'\ :sub:`30`\ [7:0]
-> +      - Y'\ :sub:`30`\ [15:8]
-> +      - Y'\ :sub:`31`\ [7:0]
-> +      - Y'\ :sub:`31`\ [15:8]
-> +      - Y'\ :sub:`32`\ [7:0]
-> +      - Y'\ :sub:`32`\ [15:8]
-> +      - Y'\ :sub:`33`\ [7:0]
-> +      - Y'\ :sub:`33`\ [15:8]
-> +    * - start + 32:
-> +      - Cb\ :sub:`00`\ [7:0]
-> +      - Cb\ :sub:`00`\ [15:8]
-> +      - Cr\ :sub:`00`\ [7:0]
-> +      - Cr\ :sub:`00`\ [15:8]
-> +      - Cb\ :sub:`02`\ [7:0]
-> +      - Cb\ :sub:`02`\ [15:8]
-> +      - Cr\ :sub:`02`\ [7:0]
-> +      - Cr\ :sub:`02`\ [15:8]
-> +    * - start + 40:
-> +      - Cb\ :sub:`10`\ [7:0]
-> +      - Cb\ :sub:`10`\ [15:8]
-> +      - Cr\ :sub:`10`\ [7:0]
-> +      - Cr\ :sub:`10`\ [15:8]
-> +      - Cb\ :sub:`12`\ [7:0]
-> +      - Cb\ :sub:`12`\ [15:8]
-> +      - Cr\ :sub:`12`\ [7:0]
-> +      - Cr\ :sub:`12`\ [15:8]
-> +    * - start + 48:
-> +      - Cb\ :sub:`20`\ [7:0]
-> +      - Cb\ :sub:`20`\ [15:8]
-> +      - Cr\ :sub:`20`\ [7:0]
-> +      - Cr\ :sub:`20`\ [15:8]
-> +      - Cb\ :sub:`22`\ [7:0]
-> +      - Cb\ :sub:`22`\ [15:8]
-> +      - Cr\ :sub:`22`\ [7:0]
-> +      - Cr\ :sub:`22`\ [15:8]
-> +    * - start + 56:
-> +      - Cb\ :sub:`30`\ [7:0]
-> +      - Cb\ :sub:`30`\ [15:8]
-> +      - Cr\ :sub:`30`\ [7:0]
-> +      - Cr\ :sub:`30`\ [15:8]
-> +      - Cb\ :sub:`32`\ [7:0]
-> +      - Cb\ :sub:`32`\ [15:8]
-> +      - Cr\ :sub:`32`\ [7:0]
-> +      - Cr\ :sub:`32`\ [15:8]
-> +
-> +
->  Fully Planar YUV Formats
->  ========================
->  
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index cf9288d270c6..3c4609ff83d6 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -616,6 +616,18 @@ struct v4l2_pix_format {
->  #define V4L2_PIX_FMT_NV24    v4l2_fourcc('N', 'V', '2', '4') /* 24  Y/CbCr 4:4:4  */
->  #define V4L2_PIX_FMT_NV42    v4l2_fourcc('N', 'V', '4', '2') /* 24  Y/CrCb 4:4:4  */
->  #define V4L2_PIX_FMT_HM12    v4l2_fourcc('H', 'M', '1', '2') /*  8  YUV 4:2:0 16x16 macroblocks */
-> +#define V4L2_PIX_FMT_NV12_10_3 v4l2_fourcc('N', '0', '1', '2') /* 16  Y/CbCr 4:2:0 10b */
-> +#define V4L2_PIX_FMT_NV21_10_3 v4l2_fourcc('N', '0', '2', '1') /* 16  Y/CrCb 4:2:0 10b */
-> +#define V4L2_PIX_FMT_NV16_10_3 v4l2_fourcc('N', '0', '1', '6') /* 64/3 Y/CbCr 4:2:2 10b */
-> +#define V4L2_PIX_FMT_NV61_10_3 v4l2_fourcc('N', '0', '6', '1') /* 64/3 Y/CrCb 4:2:2 10b */
-> +#define V4L2_PIX_FMT_NV12_12_2 v4l2_fourcc('N', '2', '1', '2') /* 18  Y/CbCr 4:2:0 12b */
-> +#define V4L2_PIX_FMT_NV21_12_2 v4l2_fourcc('N', '2', '2', '1') /* 18  Y/CrCb 4:2:0 12b */
-> +#define V4L2_PIX_FMT_NV16_12_2 v4l2_fourcc('N', '2', '1', '6') /* 24  Y/CbCr 4:2:2 12b */
-> +#define V4L2_PIX_FMT_NV61_12_2 v4l2_fourcc('N', '2', '6', '1') /* 24  Y/CrCb 4:2:2 12b */
-> +#define V4L2_PIX_FMT_NV12_16_1 v4l2_fourcc('N', '6', '1', '2') /* 24  Y/CbCr 4:2:0 16b */
-> +#define V4L2_PIX_FMT_NV21_16_1 v4l2_fourcc('N', '6', '2', '1') /* 24  Y/CrCb 4:2:0 16b */
-> +#define V4L2_PIX_FMT_NV16_16_1 v4l2_fourcc('N', '6', '1', '6') /* 32  Y/CbCr 4:2:2 16b */
-> +#define V4L2_PIX_FMT_NV61_16_1 v4l2_fourcc('N', '6', '6', '1') /* 32  Y/CrCb 4:2:2 16b */
->  
->  /* two non contiguous planes - one Y, one Cr + Cb interleaved  */
->  #define V4L2_PIX_FMT_NV12M   v4l2_fourcc('N', 'M', '1', '2') /* 12  Y/CbCr 4:2:0  */
+> 
+> - Similarly, in patch 21/21, a better naming scheme may be possible for
+>   the NV formats.
+> 
+> [1] https://www.xilinx.com/support/documentation/ip_documentation/v_frmbuf/v2_1/pg278-v-frmbuf.pdf
+> 
+> Laurent Pinchart (21):
+>   media: videodev2.h: Remove unneeded comment about 4CC value
+>   media: videodev2.h: Move HI240 format to vendor-specific section
+>   media: videodev2.h: Move HM12 format to YUV semi-planar section
+>   media: doc: pixfmt-rgb: Remove layout table for packed RGB formats
+>   media: doc: pixfmt-rgb: Add title for deprecated formats
+>   media: doc: pixfmt-rgb: Clarify naming scheme for RGB formats
+>   media: doc: pixfmt-rgb: Make 8 bits per component table more compact
+>   media: doc: pixfmt-rgb: Replace '-' with 'X' to denote padding
+>   media: doc: pixfmt-yuv: Document subsampling in more details
+>   media: doc: pixfmt-yuv: Move all packed YUV formats to common file
+>   media: doc: pixfmt-packed-yuv: Fill padding bits with 'X'
+>   media: doc: pixfmt-packed-yuv: Express 4:4:4 formats in a more compact
+>     way
+>   media: doc: pixfmt-packed-yuv: Clarify naming scheme for 4:4:4 formats
+>   media: doc: pixfmt-yuv: Move all luma-only YUV formats to common file
+>   media: doc: pixfmt-yuv: Move all semi-planar YUV formats to common
+>     file
+>   media: doc: pixfmt-yuv: Move all planar YUV formats to common file
+>   media: v4l2: Add 10-, 12- and 16-bpc BGR formats
+>   media: v4l2: Add a few missing packed YUV 4:4:4 formats
+>   media: v4l2: Add 10-, 12- and 16-bpc 4:4:4 packed VUY formats
+>   media: v4l2: Add 10- and 12-bpc luma-only formats with linear packing
+>   media: v4l2: Add 10-, 12- and 16-bpc 4:2:0 and 4:2:2 semi-planar YUV
+>     formats
+> 
+>  .../userspace-api/media/v4l/pixfmt-grey.rst   |   44 -
+>  .../userspace-api/media/v4l/pixfmt-m420.rst   |   59 +-
+>  .../userspace-api/media/v4l/pixfmt-nv12.rst   |  129 --
+>  .../userspace-api/media/v4l/pixfmt-nv12m.rst  |  144 --
+>  .../userspace-api/media/v4l/pixfmt-nv12mt.rst |   60 -
+>  .../userspace-api/media/v4l/pixfmt-nv16.rst   |  153 --
+>  .../userspace-api/media/v4l/pixfmt-nv16m.rst  |  157 --
+>  .../userspace-api/media/v4l/pixfmt-nv24.rst   |   95 --
+>  .../media/v4l/pixfmt-packed-yuv.rst           |  505 +++---
+>  .../userspace-api/media/v4l/pixfmt-rgb.rst    |  749 +++-----
+>  .../userspace-api/media/v4l/pixfmt-uyvy.rst   |  110 --
+>  .../userspace-api/media/v4l/pixfmt-vyuy.rst   |  108 --
+>  .../userspace-api/media/v4l/pixfmt-y10.rst    |   65 -
+>  .../userspace-api/media/v4l/pixfmt-y10b.rst   |   33 -
+>  .../userspace-api/media/v4l/pixfmt-y10p.rst   |   43 -
+>  .../userspace-api/media/v4l/pixfmt-y12.rst    |   65 -
+>  .../userspace-api/media/v4l/pixfmt-y14.rst    |   65 -
+>  .../userspace-api/media/v4l/pixfmt-y16-be.rst |   69 -
+>  .../userspace-api/media/v4l/pixfmt-y16.rst    |   69 -
+>  .../userspace-api/media/v4l/pixfmt-y41p.rst   |  151 --
+>  .../media/v4l/pixfmt-yuv-luma.rst             |  149 ++
+>  .../media/v4l/pixfmt-yuv-planar.rst           | 1512 +++++++++++++++++
+>  .../userspace-api/media/v4l/pixfmt-yuv410.rst |  127 --
+>  .../media/v4l/pixfmt-yuv411p.rst              |  115 --
+>  .../userspace-api/media/v4l/pixfmt-yuv420.rst |  143 --
+>  .../media/v4l/pixfmt-yuv420m.rst              |  152 --
+>  .../media/v4l/pixfmt-yuv422m.rst              |  141 --
+>  .../media/v4l/pixfmt-yuv422p.rst              |  129 --
+>  .../media/v4l/pixfmt-yuv444m.rst              |  141 --
+>  .../userspace-api/media/v4l/pixfmt-yuyv.rst   |  118 --
+>  .../userspace-api/media/v4l/pixfmt-yvyu.rst   |  108 --
+>  .../userspace-api/media/v4l/yuv-formats.rst   |  278 ++-
+>  include/uapi/linux/videodev2.h                |   39 +-
+>  33 files changed, 2487 insertions(+), 3538 deletions(-)
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-grey.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv12.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv12m.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv12mt.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv16.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv16m.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv24.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-uyvy.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-vyuy.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y10.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y10b.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y10p.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y12.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y14.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y16-be.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y16.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y41p.rst
+>  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+>  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv410.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv411p.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv420.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv420m.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv422m.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv422p.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv444m.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuyv.rst
+>  delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yvyu.rst
 > 
 
