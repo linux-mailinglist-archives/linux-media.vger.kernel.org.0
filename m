@@ -2,197 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0C8472B5CFF
-	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 11:37:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6839F2B5E17
+	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 12:14:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727406AbgKQKhE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Nov 2020 05:37:04 -0500
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:52969 "EHLO
-        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726853AbgKQKhE (ORCPT
+        id S1727841AbgKQLOX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Nov 2020 06:14:23 -0500
+Received: from esa5.microchip.iphmx.com ([216.71.150.166]:45697 "EHLO
+        esa5.microchip.iphmx.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725355AbgKQLOX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Nov 2020 05:37:04 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 072F82000C;
-        Tue, 17 Nov 2020 10:36:59 +0000 (UTC)
-Date:   Tue, 17 Nov 2020 11:37:02 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Eugen Hristev <eugen.hristev@microchip.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, robh+dt@kernel.org,
-        sakari.ailus@iki.fi, laurent.pinchart@ideasonboard.com
+        Tue, 17 Nov 2020 06:14:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple;
+  d=microchip.com; i=@microchip.com; q=dns/txt; s=mchp;
+  t=1605611663; x=1637147663;
+  h=from:to:cc:subject:date:message-id:references:
+   in-reply-to:content-id:content-transfer-encoding:
+   mime-version;
+  bh=PB5rOvbhQz3+PkpvGhrtejGngEAtXPfEzjCxUovn1bQ=;
+  b=pUwVUbLNwO6er2buIJzEIe0z/k2uOMC5TqVQf3Oe0dAaZyvnWIKk4L3E
+   pQ3wCvnYKHPaWEINGeTvxsFoS9Pw1UgsB9J6Am1wgmf4OwKvw5/ZhlwTw
+   OM+lueVz9nxbQRV/z7drv7qqbC8dRtnA9lgs0RCEpWjaCqWkUNdfcVubk
+   XvlVemtMruj3gPNO6QFaS5fLpOVoH8KaSQ8PE4bcYuiY+fsjdB/rVB5yC
+   EnffCxQJN8WUrISYpYbbDO7KAIBS7qBzm12vB6CAP77Ou1VmtwwtDIVr8
+   dnZDGFHvVIWO8Hb8DMlbOD9iM3ypt1lAjRw2tZAosLdakfRd/g5kVxG6w
+   w==;
+IronPort-SDR: qM7i0728BGPbOu0wghUP4p1s3VWIAEGSRnb/6zcLDBRrthQHEA1JjQma9eHJiZGzKA52of45Xr
+ /yZW32hx//nyRMPXVkmxlVHcWV/gIS4Vp6VDJ8ft3hwsA6V+WiPi52EEK507dQWdQ7OlH3ISF2
+ YFfSx5vs/GSdJwFroEI/VuIHRVODgteOmkQNzo+LEV1SqiQahlgRldKmFmsLzA/3wMST4zFpZF
+ V+lZGln7SI9fTj48MZcg5Ord4YUNEitsoUZ3gr90tEQUkyzfxybg92lTpm6+e9nlivELTPdek/
+ ogI=
+X-IronPort-AV: E=Sophos;i="5.77,485,1596524400"; 
+   d="scan'208";a="98733398"
+Received: from smtpout.microchip.com (HELO email.microchip.com) ([198.175.253.82])
+  by esa5.microchip.iphmx.com with ESMTP/TLS/AES256-SHA256; 17 Nov 2020 04:14:22 -0700
+Received: from chn-vm-ex01.mchp-main.com (10.10.85.143) by
+ chn-vm-ex02.mchp-main.com (10.10.85.144) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1979.3; Tue, 17 Nov 2020 04:14:21 -0700
+Received: from NAM11-DM6-obe.outbound.protection.outlook.com (10.10.215.89) by
+ email.microchip.com (10.10.87.71) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id 15.1.1979.3 via Frontend
+ Transport; Tue, 17 Nov 2020 04:14:21 -0700
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=lE3+T+ibfX9Ev0xa28gZeoVfAy084HmQHQHHdOk+XXqz3xjdZsfRfeg5Dr2AQVEQZ0WLTjYcuoe8W8HfTrj2B2YSUqV8rMsu95cdTwz0H1c62YGc7+5RAzcYOCyyKkVpf+wO8E+/rvzofHrbuiyQcHRfUwMZXXvLyQy1T6IfQ9j/KNEQjfHdBD4W45e/Upu+8Y5SfBa0FMxBPHIKdj1xAhjXrCzayqr5dKLOVVM0luFYc5fEkyfdBhEsCMudRxdDqGsfmDElKWzSQcSEf66dRzAM6eNYLpmalVQ2wHgvX0P36wAKev+3s5LZT4Pg9x7PhftNzEoK6t/QyPZbqGDFXA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PB5rOvbhQz3+PkpvGhrtejGngEAtXPfEzjCxUovn1bQ=;
+ b=kVc55DZx6Np5/DPZn4cxp57obRbbJpnAJ/0Bvls5z0C9PBQ6toR5/DN7aXiJ7wCQ4b9IGDsOU5iFYgQ0dvs3m0eqK/uR0CcGXb/9OBY9uNPo/0ZIe9Tly2XbgJ3V06554hM2PxXSpHGg5BhTe23XEkUBHNqQFJr9XF8TdWnJjO9wGwUe2U2KsSat7ST/UA9yTBHuKTl4n638kAAg8dXHegE2aFKzzjjCFD4kCWXvmrqshTew3Zf3A3lMwXyXGko8PUEWoijwnu5oLio35S7zI4o+yHXr+l+dr5POYwff4yEPyUnGtbtnRj1/dQahsbjbJYxsGK289JaaBWorJtKeyg==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=microchip.com; dmarc=pass action=none
+ header.from=microchip.com; dkim=pass header.d=microchip.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=microchiptechnology.onmicrosoft.com;
+ s=selector2-microchiptechnology-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=PB5rOvbhQz3+PkpvGhrtejGngEAtXPfEzjCxUovn1bQ=;
+ b=PSQonQjG22lye9nkh8RENAY+Ip+AIQq8dg5/uzqqYvyIU5q51Wwhusu+gJ/le4V4MTLAjaB0vt3z8ZsHtLmXaSjlsWwhmpSovE2mTAF+EZxfkKwp4VqOWkQfOeqrajXDNdj5vhrZAVcoSlq75j7C3j5RNe2x96YHCmVJ/C2uOjQ=
+Received: from BN6PR11MB1827.namprd11.prod.outlook.com (2603:10b6:404:fb::19)
+ by BN6PR11MB1634.namprd11.prod.outlook.com (2603:10b6:405:c::21) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3564.28; Tue, 17 Nov
+ 2020 11:14:19 +0000
+Received: from BN6PR11MB1827.namprd11.prod.outlook.com
+ ([fe80::589a:5eca:a0e2:da55]) by BN6PR11MB1827.namprd11.prod.outlook.com
+ ([fe80::589a:5eca:a0e2:da55%4]) with mapi id 15.20.3564.032; Tue, 17 Nov 2020
+ 11:14:18 +0000
+From:   <Eugen.Hristev@microchip.com>
+To:     <jacopo@jmondi.org>
+CC:     <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <robh+dt@kernel.org>,
+        <sakari.ailus@iki.fi>, <laurent.pinchart@ideasonboard.com>
 Subject: Re: [PATCH v5 1/3] dt-bindings: media: atmel: csi2dc: add bindings
  for microchip csi2dc
-Message-ID: <20201117103702.2h77qvh7ebqx4yaq@uno.localdomain>
+Thread-Topic: [PATCH v5 1/3] dt-bindings: media: atmel: csi2dc: add bindings
+ for microchip csi2dc
+Thread-Index: AQHWuPiZ8pZdPrjmAkipW8gy1YNFVqnMKToAgAAKaIA=
+Date:   Tue, 17 Nov 2020 11:14:18 +0000
+Message-ID: <812d92e6-e595-7cf0-b1a4-3eded08bf737@microchip.com>
 References: <20201112133437.372475-1-eugen.hristev@microchip.com>
+ <20201117103702.2h77qvh7ebqx4yaq@uno.localdomain>
+In-Reply-To: <20201117103702.2h77qvh7ebqx4yaq@uno.localdomain>
+Accept-Language: en-US, ro-RO
+Content-Language: en-US
+X-MS-Has-Attach: 
+X-MS-TNEF-Correlator: 
+user-agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.8.0
+authentication-results: jmondi.org; dkim=none (message not signed)
+ header.d=none;jmondi.org; dmarc=none action=none header.from=microchip.com;
+x-originating-ip: [86.121.125.44]
+x-ms-publictraffictype: Email
+x-ms-office365-filtering-correlation-id: 95943738-9ca6-44a9-0625-08d88ae9ed80
+x-ms-traffictypediagnostic: BN6PR11MB1634:
+x-microsoft-antispam-prvs: <BN6PR11MB16344F30E3C184ED9378CB57E8E20@BN6PR11MB1634.namprd11.prod.outlook.com>
+x-bypassexternaltag: True
+x-ms-oob-tlc-oobclassifiers: OLM:10000;
+x-ms-exchange-senderadcheck: 1
+x-microsoft-antispam: BCL:0;
+x-microsoft-antispam-message-info: bLYLxr6ZDxL5Neyaj3iuTy0ZE9BvFm4sRW/8sBUbt8SIUwWFRIZhEyWyRaSQt6/It+eJVKPPqwJVojTwG3mxo8I6bKgiUnsf/wZlDpMdYr8dZWT8IZwj+lOtwa+95sgJy0hkUAMVItmiKVQc+4bV9TZ9GfptnZDtSe/pxzFRqsa0ibkw8+GVKbmoLEbEeYIvf+7fdcD1jc0XHCnDF8uL1bx0x4v4EEjqrSoEwpZL3GkVnwRdLoQ7OqFINM/iZmJ0IxsRzKC1CT+Aq3RFS4obWbEKz+kGFs4WgyA51FtpDDGUq7R//ABtIB1YsOj41X+ZfG/WE7wIkGZk87tbh4O+QOBUf+Pqjpe+77fa59X2Lge7+kQflumTd5YnzcT93GUsKQT7MtNyL0bl8nq6FYB2Q2zlulXhCO8zvjJNAJJ6nUO/WByzg9dgQFZ+x1JJWhq3FwxJNEvth1NrM0faEeel3A==
+x-forefront-antispam-report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:BN6PR11MB1827.namprd11.prod.outlook.com;PTR:;CAT:NONE;SFS:(39860400002)(366004)(346002)(396003)(136003)(376002)(86362001)(2616005)(54906003)(31686004)(478600001)(186003)(31696002)(71200400001)(966005)(6512007)(83380400001)(316002)(26005)(64756008)(66556008)(66446008)(66476007)(91956017)(76116006)(66946007)(5660300002)(36756003)(8676002)(2906002)(4326008)(6506007)(8936002)(53546011)(6486002)(6916009)(43740500002);DIR:OUT;SFP:1101;
+x-ms-exchange-antispam-messagedata: IUlNWtfc8DajKybQAfd/bAs3lByEV6DwGXwvk/wk0vkwiAUX/2zaxGsPe9fHvrkJqapj0Aik4cUhcfeFqbe5k0/Cmy03dQb4O0+vtcfxArucLzvAZ1vKvUCmc5RzlrDSsaDPIKpatk6IFgsA42RUEhTjxQvHxUsrAsFrNvyUKPHnFdOE8VkE0XOiNmzmIFzYm0fW44hQ1AmUTLP9FCgBpfIXOrpiF025TTgm+yYdZn9STSTwuwNFmcOASKVBAvGPwEBYYfXxam/G8KfndrFKyDUFTYkYa1Wy4YiWdwNtipWp16T7evQbhwdRIB3IgUjY2yWVSOksPGc4QnRGLcwHtdappw9ajU1jxIC0dal79xXNsgBcmXzLjOzO8BxjQ5zOhxpgr7vq6XtfEBPeAoWgYQbHTGpdXNp0qIPvJ87ZFq77XunN44S2PcxMBj/5pYWjghVb5qYXUs0koFGg4JS7viUE2gXyRdXKY1GnCrQ5JrWfxxOVfMt7NHxdwETLki6PVkqOMqhJzHks/HGK6mpH5Wu1HUpxti06nrlyOwgLRgPEYFmvmos+cv8JsvxC0xeblkLQRL87aDFKTxXOYeWwACGFjsZt2QxHfshLuDqtZFYI5ELqon4fkJx+tjIO3x8Ybtmx0MF9NXdPr/qA9gi/6l/TsouYx97oA0Pq7Id34TiGqi41me7fw1t6BL6Wwc1sepLmze//Iq0PWLeaOMLE8RW6Iellrd/hc8i1ymAXtxOnvZKGLStmemVw2M9SQkpolBqP44J+q+HtobvWqjSmU+vtb+m+IQ+8O7FWGYk4+ZcV2fQ8StkFpIE9T373RfCZUI69GZ+ezQrT9kZgrznsu/c1Aj3Hl/22xu5D3irsMX/6vdOh+qGyhgAymdrWDcenwk21kAB1jZpUvs0ZZdjZmQ==
+x-ms-exchange-transport-forked: True
+Content-Type: text/plain; charset="utf-8"
+Content-ID: <C3D4D5EF5B629A4FA190D7054288E793@namprd11.prod.outlook.com>
+Content-Transfer-Encoding: base64
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201112133437.372475-1-eugen.hristev@microchip.com>
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-AuthSource: BN6PR11MB1827.namprd11.prod.outlook.com
+X-MS-Exchange-CrossTenant-Network-Message-Id: 95943738-9ca6-44a9-0625-08d88ae9ed80
+X-MS-Exchange-CrossTenant-originalarrivaltime: 17 Nov 2020 11:14:18.5140
+ (UTC)
+X-MS-Exchange-CrossTenant-fromentityheader: Hosted
+X-MS-Exchange-CrossTenant-id: 3f4057f3-b418-4d4e-ba84-d55b4e897d88
+X-MS-Exchange-CrossTenant-mailboxtype: HOSTED
+X-MS-Exchange-CrossTenant-userprincipalname: J1mu+kBV91uGmOPRYUceX0HBSMt33zViO3WWus2vEhmqsaZDPTtJz1U+CqiF0JHwhVwfGBqNWKKAQjKILUcBq6x9/67xs1DpR6265e+uc/A=
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN6PR11MB1634
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi again,
-
-On Thu, Nov 12, 2020 at 03:34:35PM +0200, Eugen Hristev wrote:
-> Add bindings documentation for Microchip CSI2 Demultiplexer controller.
->
-> CSI2DC is a demultiplexer from Synopsys IDI interface specification to
-> parallel interface connection or direct memory access.
->
-> Signed-off-by: Eugen Hristev <eugen.hristev@microchip.com>
-> ---
-> Changes in v5:
-> - modified bindings as per Rob Herring review
->
-> Changes in v4:
-> - Removed property for inter-line-delay and for clock continuous/non-continuous
-> - Removed virtual channel by reg for second endpoint
->
-> Changes in v3:
-> - Removed some text from description, as it was explained in the schema
-> - fixed other things as per Rob's review
-> - moved some text inside the schema, like the clock description
->
-> Changes in v2:
-> - fixed warnings reported by dt_binding_check
->
->  .../bindings/media/microchip,csi2dc.yaml      | 119 ++++++++++++++++++
->  1 file changed, 119 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
->
-> diff --git a/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
-> new file mode 100644
-> index 000000000000..e79f0d6ba9db
-> --- /dev/null
-> +++ b/Documentation/devicetree/bindings/media/microchip,csi2dc.yaml
-> @@ -0,0 +1,119 @@
-> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
-> +%YAML 1.2
-> +---
-> +$id: http://devicetree.org/schemas/media/microchip,csi2dc.yaml#
-> +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> +
-> +title: Microchip CSI2 Demux Controller (CSI2DC)
-> +
-> +maintainers:
-> +  - Eugen Hristev <eugen.hristev@microchip.com>
-> +
-> +description:
-> +  CSI2DC - Camera Serial Interface 2 Demux Controller
-> +
-> +  CSI2DC is a hardware block that receives incoming data from an IDI interface
-> +  and filters packets based on their data type and virtual channel identifier,
-> +  then converts the byte stream into a cross clock domain to a pixel stream
-> +  to a parallel interface that can be read by a sensor controller.
-> +
-> +  CSI2DC provides two pipes, one video pipe and one data pipe. Video pipe
-> +  is connected to a sensor controller and the data pipe is accessible
-> +  as a DMA slave port to a DMA controller.
-> +
-> +  CSI2DC supports a single 'port' node as a source pad with Synopsys 32-bit
-> +  IDI interface. The connected endpoint must be a IDI interface compatible
-> +  device (like Synopsys CSI2HOST) , that can provide 32-bit IDI interface
-> +  connection as sink pad.
-> +  For media entity and endpoints please refer to the bindings defined in
-> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
-> +  For Synopsys IDI interface please refer to
-> +  Documentation/devicetree/bindings/media/snps,dw-csi-plat.txt
-
-Is it me or this file doesn't exists on the most recent media/master
-and on v5.10-rc4 ?
-
-> +
-> +  CSI2DC supports one 'port' node as sink pad with parallel interface. This is
-> +  called video pipe.
-> +  This port has an 'endpoint' can then be used as a source pad for another
-> +  controller (next in pipeline).
-> +  Please refer to the bindings defined in
-> +  Documentation/devicetree/bindings/media/video-interfaces.txt.
-> +
-> +  CSI2DC also supports direct access to the data through AHB, via DMA channel,
-> +  called data pipe.
-> +  Because of this, the sink 'port' child node (second) is not mandatory.
-> +  If the sink 'port' child node is missing, only data pipe is available.
-> +
-> +properties:
-> +  compatible:
-> +    const: microchip,sama7g5-csi2dc
-> +
-> +  reg:
-> +    maxItems: 1
-> +
-> +  clocks:
-> +    maxItems: 2
-> +
-> +  clock-names:
-> +    description:
-> +      CSI2DC must have two clocks to function correctly. One clock is the
-> +      peripheral clock for the inside functionality of the hardware block.
-> +      This is named 'pclk'. The second clock must be the cross domain clock,
-> +      in which CSI2DC will perform clock crossing. This clock must be fed
-> +      by the next controller in pipeline, which usually is a sensor controller.
-> +      Normally this clock should be given by this sensor controller who
-> +      is also a clock source. This clock is named 'scck', sensor controller clock.
-> +    items:
-> +      - const: pclk
-> +      - const: scck
-> +
-> +  ports:
-> +    type: object
-> +    description:
-> +      List of ports
-> +
-> +    properties:
-> +      port@0:
-> +        type: object
-> +        description:
-> +          Input port node, single endpoint describing the input pad.
-> +      port@1:
-> +        type: object
-> +        description:
-> +          Output port node, single endpoint, describing the output pad.
-> +
-> +additionalProperties: false
-> +
-> +required:
-> +  - compatible
-> +  - reg
-> +  - clocks
-> +  - clock-names
-> +  - ports
-> +
-> +examples:
-> +  - |
-> +    csi2dc@e1404000 {
-> +        compatible = "microchip,sama7g5-csi2dc";
-> +        reg = <0xe1404000 0x500>;
-> +        clocks = <&pclk>, <&scck>;
-> +        clock-names = "pclk", "scck";
-> +
-> +        ports {
-> +               #address-cells = <1>;
-> +               #size-cells = <0>;
-> +               port@0 {
-> +                       reg = <0>; /* must be 0, first child port */
-> +                       csi2dc_in: endpoint { /* input from IDI interface */
-> +                               remote-endpoint = <&csi2host_out>;
-> +                       };
-> +               };
-> +
-> +               port@1 {
-> +                       reg = <1>; /* must be 1, second child port */
-> +                       csi2dc_out: endpoint {
-> +                               remote-endpoint = <&xisc_in>; /* output to sensor controller */
-> +                       };
-> +               };
-> +        };
-> +    };
-> +
-> +...
-> --
-> 2.25.1
->
+T24gMTcuMTEuMjAyMCAxMjozNywgSmFjb3BvIE1vbmRpIHdyb3RlOg0KPiBIaSBhZ2FpbiwNCj4g
+DQo+IE9uIFRodSwgTm92IDEyLCAyMDIwIGF0IDAzOjM0OjM1UE0gKzAyMDAsIEV1Z2VuIEhyaXN0
+ZXYgd3JvdGU6DQo+PiBBZGQgYmluZGluZ3MgZG9jdW1lbnRhdGlvbiBmb3IgTWljcm9jaGlwIENT
+STIgRGVtdWx0aXBsZXhlciBjb250cm9sbGVyLg0KPj4NCj4+IENTSTJEQyBpcyBhIGRlbXVsdGlw
+bGV4ZXIgZnJvbSBTeW5vcHN5cyBJREkgaW50ZXJmYWNlIHNwZWNpZmljYXRpb24gdG8NCj4+IHBh
+cmFsbGVsIGludGVyZmFjZSBjb25uZWN0aW9uIG9yIGRpcmVjdCBtZW1vcnkgYWNjZXNzLg0KPj4N
+Cj4+IFNpZ25lZC1vZmYtYnk6IEV1Z2VuIEhyaXN0ZXYgPGV1Z2VuLmhyaXN0ZXZAbWljcm9jaGlw
+LmNvbT4NCj4+IC0tLQ0KPj4gQ2hhbmdlcyBpbiB2NToNCj4+IC0gbW9kaWZpZWQgYmluZGluZ3Mg
+YXMgcGVyIFJvYiBIZXJyaW5nIHJldmlldw0KPj4NCj4+IENoYW5nZXMgaW4gdjQ6DQo+PiAtIFJl
+bW92ZWQgcHJvcGVydHkgZm9yIGludGVyLWxpbmUtZGVsYXkgYW5kIGZvciBjbG9jayBjb250aW51
+b3VzL25vbi1jb250aW51b3VzDQo+PiAtIFJlbW92ZWQgdmlydHVhbCBjaGFubmVsIGJ5IHJlZyBm
+b3Igc2Vjb25kIGVuZHBvaW50DQo+Pg0KPj4gQ2hhbmdlcyBpbiB2MzoNCj4+IC0gUmVtb3ZlZCBz
+b21lIHRleHQgZnJvbSBkZXNjcmlwdGlvbiwgYXMgaXQgd2FzIGV4cGxhaW5lZCBpbiB0aGUgc2No
+ZW1hDQo+PiAtIGZpeGVkIG90aGVyIHRoaW5ncyBhcyBwZXIgUm9iJ3MgcmV2aWV3DQo+PiAtIG1v
+dmVkIHNvbWUgdGV4dCBpbnNpZGUgdGhlIHNjaGVtYSwgbGlrZSB0aGUgY2xvY2sgZGVzY3JpcHRp
+b24NCj4+DQo+PiBDaGFuZ2VzIGluIHYyOg0KPj4gLSBmaXhlZCB3YXJuaW5ncyByZXBvcnRlZCBi
+eSBkdF9iaW5kaW5nX2NoZWNrDQo+Pg0KPj4gICAuLi4vYmluZGluZ3MvbWVkaWEvbWljcm9jaGlw
+LGNzaTJkYy55YW1sICAgICAgfCAxMTkgKysrKysrKysrKysrKysrKysrDQo+PiAgIDEgZmlsZSBj
+aGFuZ2VkLCAxMTkgaW5zZXJ0aW9ucygrKQ0KPj4gICBjcmVhdGUgbW9kZSAxMDA2NDQgRG9jdW1l
+bnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRpbmdzL21lZGlhL21pY3JvY2hpcCxjc2kyZGMueWFtbA0K
+Pj4NCj4+IGRpZmYgLS1naXQgYS9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVk
+aWEvbWljcm9jaGlwLGNzaTJkYy55YW1sIGIvRG9jdW1lbnRhdGlvbi9kZXZpY2V0cmVlL2JpbmRp
+bmdzL21lZGlhL21pY3JvY2hpcCxjc2kyZGMueWFtbA0KPj4gbmV3IGZpbGUgbW9kZSAxMDA2NDQN
+Cj4+IGluZGV4IDAwMDAwMDAwMDAwMC4uZTc5ZjBkNmJhOWRiDQo+PiAtLS0gL2Rldi9udWxsDQo+
+PiArKysgYi9Eb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvbWljcm9jaGlw
+LGNzaTJkYy55YW1sDQo+PiBAQCAtMCwwICsxLDExOSBAQA0KPj4gKyMgU1BEWC1MaWNlbnNlLUlk
+ZW50aWZpZXI6IChHUEwtMi4wLW9ubHkgT1IgQlNELTItQ2xhdXNlKQ0KPj4gKyVZQU1MIDEuMg0K
+Pj4gKy0tLQ0KPj4gKyRpZDogaHR0cDovL2RldmljZXRyZWUub3JnL3NjaGVtYXMvbWVkaWEvbWlj
+cm9jaGlwLGNzaTJkYy55YW1sIw0KPj4gKyRzY2hlbWE6IGh0dHA6Ly9kZXZpY2V0cmVlLm9yZy9t
+ZXRhLXNjaGVtYXMvY29yZS55YW1sIw0KPj4gKw0KPj4gK3RpdGxlOiBNaWNyb2NoaXAgQ1NJMiBE
+ZW11eCBDb250cm9sbGVyIChDU0kyREMpDQo+PiArDQo+PiArbWFpbnRhaW5lcnM6DQo+PiArICAt
+IEV1Z2VuIEhyaXN0ZXYgPGV1Z2VuLmhyaXN0ZXZAbWljcm9jaGlwLmNvbT4NCj4+ICsNCj4+ICtk
+ZXNjcmlwdGlvbjoNCj4+ICsgIENTSTJEQyAtIENhbWVyYSBTZXJpYWwgSW50ZXJmYWNlIDIgRGVt
+dXggQ29udHJvbGxlcg0KPj4gKw0KPj4gKyAgQ1NJMkRDIGlzIGEgaGFyZHdhcmUgYmxvY2sgdGhh
+dCByZWNlaXZlcyBpbmNvbWluZyBkYXRhIGZyb20gYW4gSURJIGludGVyZmFjZQ0KPj4gKyAgYW5k
+IGZpbHRlcnMgcGFja2V0cyBiYXNlZCBvbiB0aGVpciBkYXRhIHR5cGUgYW5kIHZpcnR1YWwgY2hh
+bm5lbCBpZGVudGlmaWVyLA0KPj4gKyAgdGhlbiBjb252ZXJ0cyB0aGUgYnl0ZSBzdHJlYW0gaW50
+byBhIGNyb3NzIGNsb2NrIGRvbWFpbiB0byBhIHBpeGVsIHN0cmVhbQ0KPj4gKyAgdG8gYSBwYXJh
+bGxlbCBpbnRlcmZhY2UgdGhhdCBjYW4gYmUgcmVhZCBieSBhIHNlbnNvciBjb250cm9sbGVyLg0K
+Pj4gKw0KPj4gKyAgQ1NJMkRDIHByb3ZpZGVzIHR3byBwaXBlcywgb25lIHZpZGVvIHBpcGUgYW5k
+IG9uZSBkYXRhIHBpcGUuIFZpZGVvIHBpcGUNCj4+ICsgIGlzIGNvbm5lY3RlZCB0byBhIHNlbnNv
+ciBjb250cm9sbGVyIGFuZCB0aGUgZGF0YSBwaXBlIGlzIGFjY2Vzc2libGUNCj4+ICsgIGFzIGEg
+RE1BIHNsYXZlIHBvcnQgdG8gYSBETUEgY29udHJvbGxlci4NCj4+ICsNCj4+ICsgIENTSTJEQyBz
+dXBwb3J0cyBhIHNpbmdsZSAncG9ydCcgbm9kZSBhcyBhIHNvdXJjZSBwYWQgd2l0aCBTeW5vcHN5
+cyAzMi1iaXQNCj4+ICsgIElESSBpbnRlcmZhY2UuIFRoZSBjb25uZWN0ZWQgZW5kcG9pbnQgbXVz
+dCBiZSBhIElESSBpbnRlcmZhY2UgY29tcGF0aWJsZQ0KPj4gKyAgZGV2aWNlIChsaWtlIFN5bm9w
+c3lzIENTSTJIT1NUKSAsIHRoYXQgY2FuIHByb3ZpZGUgMzItYml0IElESSBpbnRlcmZhY2UNCj4+
+ICsgIGNvbm5lY3Rpb24gYXMgc2luayBwYWQuDQo+PiArICBGb3IgbWVkaWEgZW50aXR5IGFuZCBl
+bmRwb2ludHMgcGxlYXNlIHJlZmVyIHRvIHRoZSBiaW5kaW5ncyBkZWZpbmVkIGluDQo+PiArICBE
+b2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvdmlkZW8taW50ZXJmYWNlcy50
+eHQuDQo+PiArICBGb3IgU3lub3BzeXMgSURJIGludGVyZmFjZSBwbGVhc2UgcmVmZXIgdG8NCj4+
+ICsgIERvY3VtZW50YXRpb24vZGV2aWNldHJlZS9iaW5kaW5ncy9tZWRpYS9zbnBzLGR3LWNzaS1w
+bGF0LnR4dA0KPiANCj4gSXMgaXQgbWUgb3IgdGhpcyBmaWxlIGRvZXNuJ3QgZXhpc3RzIG9uIHRo
+ZSBtb3N0IHJlY2VudCBtZWRpYS9tYXN0ZXINCj4gYW5kIG9uIHY1LjEwLXJjNCA/DQoNCkhpIEph
+Y29wbywNCg0KVGhhbmtzIGZvciByZXZpZXdpbmcgdGhpcyBwYXRjaC4NCllvdSBhcmUgcmlnaHQu
+IEFzIEkgc2FpZCBhdCBzb21lIHBvaW50IGR1cmluZyB0aGUgcmV2aWV3LCBhY3R1YWxseSB0aGlz
+IA0KY29udHJvbGxlciBoYXMgYW4gaW5wdXQgdGhlIElESSBpbnRlcmZhY2Ugd2hpY2ggaXMgbm90
+IGN1cnJlbnRseSBpbiANCmtlcm5lbC4gVGhlcmUgaXMgYSBwYXRjaCBzZXJpZXMgdGhhdCBhZGRz
+IHRoZSBTeW5vcHN5cyBwbGF0Zm9ybSBkcml2ZXIsIA0KYnV0IG5vYm9keSB3b3JrZWQgb24gaXQg
+YW55bW9yZSBhbmQgSSB1c2UgaXQgZm9yIHRlc3RpbmcgbXkgZHJpdmVyLg0KWW91IGNhbiBzZWUg
+dGhlIGxhc3QgdmVyc2lvbiB0aGF0IHdhcyBzZW50IGhlcmU6DQoNCmh0dHBzOi8vcGF0Y2h3b3Jr
+LmxpbnV4dHYub3JnL3Byb2plY3QvbGludXgtbWVkaWEvcGF0Y2gvMTU2MDI4MDg1NS0xODA4NS0y
+LWdpdC1zZW5kLWVtYWlsLWx1aXMub2xpdmVpcmFAc3lub3BzeXMuY29tLyANCg0KDQpJIHNlbnQg
+dGhpcyBzZXJpZXMgdG8gdW5kZXJzdGFuZCBob3cgdG8gaW1wcm92ZSBhbmQgaG93IHRvIGdldCBt
+eSBkcml2ZXIgDQppbiBrZXJuZWwsIGJ1dCBpbmRlZWQgdGhlcmUgYXJlIGhvbGVzLCBlc3BlY2lh
+bGx5IHRoaXMgaW5wdXQgdHlwZSBvZiBidXMgDQp3aGljaCBpcyBub3QgaW4gdGhlIHN1YnN5c3Rl
+bSBlaXRoZXIuDQoNClNvIGhvdyB3b3VsZCB5b3Ugc3VnZ2VzdCB0byBtb3ZlIGZvcndhcmQgPyBS
+ZW1vdmUgdGhlIHJlZmVyZW5jZSB0byB0aGUgDQpzeW5vcHN5cyBiaW5kaW5nIGFuZCBqdXN0IGxl
+YXZlICdJREkgaW50ZXJmYWNlJyB3aGljaCBpcyB1bmRvY3VtZW50ZWQgPw0KDQpFdWdlbg0KDQo+
+IA0KPj4gKw0KPj4gKyAgQ1NJMkRDIHN1cHBvcnRzIG9uZSAncG9ydCcgbm9kZSBhcyBzaW5rIHBh
+ZCB3aXRoIHBhcmFsbGVsIGludGVyZmFjZS4gVGhpcyBpcw0KPj4gKyAgY2FsbGVkIHZpZGVvIHBp
+cGUuDQo+PiArICBUaGlzIHBvcnQgaGFzIGFuICdlbmRwb2ludCcgY2FuIHRoZW4gYmUgdXNlZCBh
+cyBhIHNvdXJjZSBwYWQgZm9yIGFub3RoZXINCj4+ICsgIGNvbnRyb2xsZXIgKG5leHQgaW4gcGlw
+ZWxpbmUpLg0KPj4gKyAgUGxlYXNlIHJlZmVyIHRvIHRoZSBiaW5kaW5ncyBkZWZpbmVkIGluDQo+
+PiArICBEb2N1bWVudGF0aW9uL2RldmljZXRyZWUvYmluZGluZ3MvbWVkaWEvdmlkZW8taW50ZXJm
+YWNlcy50eHQuDQo+PiArDQo+PiArICBDU0kyREMgYWxzbyBzdXBwb3J0cyBkaXJlY3QgYWNjZXNz
+IHRvIHRoZSBkYXRhIHRocm91Z2ggQUhCLCB2aWEgRE1BIGNoYW5uZWwsDQo+PiArICBjYWxsZWQg
+ZGF0YSBwaXBlLg0KPj4gKyAgQmVjYXVzZSBvZiB0aGlzLCB0aGUgc2luayAncG9ydCcgY2hpbGQg
+bm9kZSAoc2Vjb25kKSBpcyBub3QgbWFuZGF0b3J5Lg0KPj4gKyAgSWYgdGhlIHNpbmsgJ3BvcnQn
+IGNoaWxkIG5vZGUgaXMgbWlzc2luZywgb25seSBkYXRhIHBpcGUgaXMgYXZhaWxhYmxlLg0KPj4g
+Kw0KPj4gK3Byb3BlcnRpZXM6DQo+PiArICBjb21wYXRpYmxlOg0KPj4gKyAgICBjb25zdDogbWlj
+cm9jaGlwLHNhbWE3ZzUtY3NpMmRjDQo+PiArDQo+PiArICByZWc6DQo+PiArICAgIG1heEl0ZW1z
+OiAxDQo+PiArDQo+PiArICBjbG9ja3M6DQo+PiArICAgIG1heEl0ZW1zOiAyDQo+PiArDQo+PiAr
+ICBjbG9jay1uYW1lczoNCj4+ICsgICAgZGVzY3JpcHRpb246DQo+PiArICAgICAgQ1NJMkRDIG11
+c3QgaGF2ZSB0d28gY2xvY2tzIHRvIGZ1bmN0aW9uIGNvcnJlY3RseS4gT25lIGNsb2NrIGlzIHRo
+ZQ0KPj4gKyAgICAgIHBlcmlwaGVyYWwgY2xvY2sgZm9yIHRoZSBpbnNpZGUgZnVuY3Rpb25hbGl0
+eSBvZiB0aGUgaGFyZHdhcmUgYmxvY2suDQo+PiArICAgICAgVGhpcyBpcyBuYW1lZCAncGNsaycu
+IFRoZSBzZWNvbmQgY2xvY2sgbXVzdCBiZSB0aGUgY3Jvc3MgZG9tYWluIGNsb2NrLA0KPj4gKyAg
+ICAgIGluIHdoaWNoIENTSTJEQyB3aWxsIHBlcmZvcm0gY2xvY2sgY3Jvc3NpbmcuIFRoaXMgY2xv
+Y2sgbXVzdCBiZSBmZWQNCj4+ICsgICAgICBieSB0aGUgbmV4dCBjb250cm9sbGVyIGluIHBpcGVs
+aW5lLCB3aGljaCB1c3VhbGx5IGlzIGEgc2Vuc29yIGNvbnRyb2xsZXIuDQo+PiArICAgICAgTm9y
+bWFsbHkgdGhpcyBjbG9jayBzaG91bGQgYmUgZ2l2ZW4gYnkgdGhpcyBzZW5zb3IgY29udHJvbGxl
+ciB3aG8NCj4+ICsgICAgICBpcyBhbHNvIGEgY2xvY2sgc291cmNlLiBUaGlzIGNsb2NrIGlzIG5h
+bWVkICdzY2NrJywgc2Vuc29yIGNvbnRyb2xsZXIgY2xvY2suDQo+PiArICAgIGl0ZW1zOg0KPj4g
+KyAgICAgIC0gY29uc3Q6IHBjbGsNCj4+ICsgICAgICAtIGNvbnN0OiBzY2NrDQo+PiArDQo+PiAr
+ICBwb3J0czoNCj4+ICsgICAgdHlwZTogb2JqZWN0DQo+PiArICAgIGRlc2NyaXB0aW9uOg0KPj4g
+KyAgICAgIExpc3Qgb2YgcG9ydHMNCj4+ICsNCj4+ICsgICAgcHJvcGVydGllczoNCj4+ICsgICAg
+ICBwb3J0QDA6DQo+PiArICAgICAgICB0eXBlOiBvYmplY3QNCj4+ICsgICAgICAgIGRlc2NyaXB0
+aW9uOg0KPj4gKyAgICAgICAgICBJbnB1dCBwb3J0IG5vZGUsIHNpbmdsZSBlbmRwb2ludCBkZXNj
+cmliaW5nIHRoZSBpbnB1dCBwYWQuDQo+PiArICAgICAgcG9ydEAxOg0KPj4gKyAgICAgICAgdHlw
+ZTogb2JqZWN0DQo+PiArICAgICAgICBkZXNjcmlwdGlvbjoNCj4+ICsgICAgICAgICAgT3V0cHV0
+IHBvcnQgbm9kZSwgc2luZ2xlIGVuZHBvaW50LCBkZXNjcmliaW5nIHRoZSBvdXRwdXQgcGFkLg0K
+Pj4gKw0KPj4gK2FkZGl0aW9uYWxQcm9wZXJ0aWVzOiBmYWxzZQ0KPj4gKw0KPj4gK3JlcXVpcmVk
+Og0KPj4gKyAgLSBjb21wYXRpYmxlDQo+PiArICAtIHJlZw0KPj4gKyAgLSBjbG9ja3MNCj4+ICsg
+IC0gY2xvY2stbmFtZXMNCj4+ICsgIC0gcG9ydHMNCj4+ICsNCj4+ICtleGFtcGxlczoNCj4+ICsg
+IC0gfA0KPj4gKyAgICBjc2kyZGNAZTE0MDQwMDAgew0KPj4gKyAgICAgICAgY29tcGF0aWJsZSA9
+ICJtaWNyb2NoaXAsc2FtYTdnNS1jc2kyZGMiOw0KPj4gKyAgICAgICAgcmVnID0gPDB4ZTE0MDQw
+MDAgMHg1MDA+Ow0KPj4gKyAgICAgICAgY2xvY2tzID0gPCZwY2xrPiwgPCZzY2NrPjsNCj4+ICsg
+ICAgICAgIGNsb2NrLW5hbWVzID0gInBjbGsiLCAic2NjayI7DQo+PiArDQo+PiArICAgICAgICBw
+b3J0cyB7DQo+PiArICAgICAgICAgICAgICAgI2FkZHJlc3MtY2VsbHMgPSA8MT47DQo+PiArICAg
+ICAgICAgICAgICAgI3NpemUtY2VsbHMgPSA8MD47DQo+PiArICAgICAgICAgICAgICAgcG9ydEAw
+IHsNCj4+ICsgICAgICAgICAgICAgICAgICAgICAgIHJlZyA9IDwwPjsgLyogbXVzdCBiZSAwLCBm
+aXJzdCBjaGlsZCBwb3J0ICovDQo+PiArICAgICAgICAgICAgICAgICAgICAgICBjc2kyZGNfaW46
+IGVuZHBvaW50IHsgLyogaW5wdXQgZnJvbSBJREkgaW50ZXJmYWNlICovDQo+PiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmY3NpMmhvc3Rfb3V0PjsN
+Cj4+ICsgICAgICAgICAgICAgICAgICAgICAgIH07DQo+PiArICAgICAgICAgICAgICAgfTsNCj4+
+ICsNCj4+ICsgICAgICAgICAgICAgICBwb3J0QDEgew0KPj4gKyAgICAgICAgICAgICAgICAgICAg
+ICAgcmVnID0gPDE+OyAvKiBtdXN0IGJlIDEsIHNlY29uZCBjaGlsZCBwb3J0ICovDQo+PiArICAg
+ICAgICAgICAgICAgICAgICAgICBjc2kyZGNfb3V0OiBlbmRwb2ludCB7DQo+PiArICAgICAgICAg
+ICAgICAgICAgICAgICAgICAgICAgIHJlbW90ZS1lbmRwb2ludCA9IDwmeGlzY19pbj47IC8qIG91
+dHB1dCB0byBzZW5zb3IgY29udHJvbGxlciAqLw0KPj4gKyAgICAgICAgICAgICAgICAgICAgICAg
+fTsNCj4+ICsgICAgICAgICAgICAgICB9Ow0KPj4gKyAgICAgICAgfTsNCj4+ICsgICAgfTsNCj4+
+ICsNCj4+ICsuLi4NCj4+IC0tDQo+PiAyLjI1LjENCj4+DQoNCg==
