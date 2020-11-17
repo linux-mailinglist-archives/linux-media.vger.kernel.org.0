@@ -2,840 +2,261 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 141362B68BD
-	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 16:33:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0FFF2B68DE
+	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 16:41:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728133AbgKQPbn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Nov 2020 10:31:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51354 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726849AbgKQPbn (ORCPT
+        id S1726274AbgKQPk0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Nov 2020 10:40:26 -0500
+Received: from mail-io1-f71.google.com ([209.85.166.71]:49610 "EHLO
+        mail-io1-f71.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725943AbgKQPk0 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Nov 2020 10:31:43 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 76B33C0613CF;
-        Tue, 17 Nov 2020 07:31:43 -0800 (PST)
-Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 989002A3;
-        Tue, 17 Nov 2020 16:31:40 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1605627101;
-        bh=YCS9NLB00O0TZAbYDpPYCITIFLd5VvQQ2IR36eALT7w=;
-        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
-        b=lW8Vw7EOMJlgOdyAQgtFBQaXy4sFIWrH0V8L4sjw7ErznbPXvMHdclXnHBFSM8205
-         pUdrkUKWJeWcPuph6yyFC5VrvpI8jXrUMfeOJuoUP5PxV2JJoTlJt4/0g0lVMQ2Ftw
-         oSIOAaweCvkCLba4o0m4EuARnoZbigoj5Wd9ClvI=
-Reply-To: kieran.bingham+renesas@ideasonboard.com
-Subject: Re: [PATCH v5 1/8] media: i2c: Add driver for RDACM21 camera module
-To:     Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-kernel@vger.kernel.org, Hyun Kwon <hyunk@xilinx.com>,
-        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
-        sergei.shtylyov@gmail.com
-References: <20201116135305.81319-1-jacopo+renesas@jmondi.org>
- <20201116135305.81319-2-jacopo+renesas@jmondi.org>
- <df3ad394-66d6-951a-1ddf-621151a4d581@ideasonboard.com>
- <20201117133634.s62i32hcwzikmhzb@uno.localdomain>
-From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Organization: Ideas on Board
-Message-ID: <50b1f540-9289-b82b-e261-f549603556f7@ideasonboard.com>
-Date:   Tue, 17 Nov 2020 15:31:37 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Tue, 17 Nov 2020 10:40:26 -0500
+Received: by mail-io1-f71.google.com with SMTP id v15so13407776ioq.16
+        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 07:40:24 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:date:message-id:subject:from:to;
+        bh=uGeuYqpVtihTj5/nHBNIe/i2cR/1M+L/pN2RP/KvK2o=;
+        b=FnRxjlUfE8DIlbcySg5q33NOW19xNyHQmwNpAEhq/DvjndWcN89j3sUFu6J3eRT8o6
+         /Bgd2oLiDZ2Jgq2KiQfQCGnUjQQLRYyPVvyDJ/MjVpTd5FhWutpjE0L0GeoBONJCwFW/
+         OX90TlSIsn7UYkqxHUSuO4BLioLS7EnRgmIiZOBjUkIe36ADnkEaluUsaULUXVmWxMN4
+         4/QM9t3EBeoD10TSZpzUn9LHVBGyTHA7PLMHEFSsgPRDXtV3Wr4hUskr8TkYP5Y67XGw
+         ivuz016fpY9YpW5L51Nyk5Nnh1v7LHex8bNb3p1bHR21kcGSqrQQ1c56s20HX6VsQ6jn
+         r6+w==
+X-Gm-Message-State: AOAM533cP3dHMP8iIc46zcT/0unS1pjhD3suAumWFn5PBsC6DHoW3iIX
+        PKxKHGOgwofHpaFa5VQNPT1gWw0qdfO0JHi5M933xQB9Qmz9
+X-Google-Smtp-Source: ABdhPJzRoRo+2DfK77+NLdQWjCeQEDvaQoFh3DK6DwcUl6DBnkFMg3Ab+qUYOaZUfxvxSI6ha57WphkUhl2T7sV8CDJrj0T9VK0r
 MIME-Version: 1.0
-In-Reply-To: <20201117133634.s62i32hcwzikmhzb@uno.localdomain>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-GB
-Content-Transfer-Encoding: 8bit
+X-Received: by 2002:a92:d489:: with SMTP id p9mr11751059ilg.123.1605627624161;
+ Tue, 17 Nov 2020 07:40:24 -0800 (PST)
+Date:   Tue, 17 Nov 2020 07:40:24 -0800
+X-Google-Appengine-App-Id: s~syzkaller
+X-Google-Appengine-App-Id-Alias: syzkaller
+Message-ID: <0000000000002e09ef05b44f501a@google.com>
+Subject: KMSAN: uninit-value in dvb_usb_adapter_dvb_init (2)
+From:   syzbot <syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com>
+To:     glider@google.com, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, mchehab@kernel.org,
+        syzkaller-bugs@googlegroups.com
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/11/2020 13:36, Jacopo Mondi wrote:
-> Hi Kieran,
-> 
-> On Mon, Nov 16, 2020 at 02:47:49PM +0000, Kieran Bingham wrote:
->> On 16/11/2020 13:52, Jacopo Mondi wrote:
->>> The RDACM21 is a GMSL camera supporting 1280x1080 resolution images
->>> developed by IMI based on an Omnivision OV10640 sensor, an Omnivision
->>> OV490 ISP and a Maxim MAX9271 GMSL serializer.
->>>
->>> The driver uses the max9271 library module, to maximize code reuse with
->>> other camera module drivers using the same serializer, such as rdacm20.
->>>
->>> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
->>> ---
->>>  MAINTAINERS                 |  12 +
->>>  drivers/media/i2c/Kconfig   |  13 +
->>>  drivers/media/i2c/Makefile  |   2 +
->>>  drivers/media/i2c/rdacm21.c | 595 ++++++++++++++++++++++++++++++++++++
->>>  4 files changed, 622 insertions(+)
->>>  create mode 100644 drivers/media/i2c/rdacm21.c
->>>
->>> diff --git a/MAINTAINERS b/MAINTAINERS
->>> index cef6b6090d76..9a5026fd6788 100644
->>> --- a/MAINTAINERS
->>> +++ b/MAINTAINERS
->>> @@ -14750,6 +14750,18 @@ F:	drivers/media/i2c/max9271.c
->>>  F:	drivers/media/i2c/max9271.h
->>>  F:	drivers/media/i2c/rdacm20.c
->>>
->>> +RDACM21 Camera Sensor
->>> +M:	Jacopo Mondi <jacopo+renesas@jmondi.org>
->>> +M:	Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
->>> +M:	Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
->>> +M:	Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
->>> +L:	linux-media@vger.kernel.org
->>> +S:	Maintained
->>> +F:	Documentation/devicetree/bindings/media/i2c/rdacm2x-gmsl.yaml
->>> +F:	drivers/media/i2c/max9271.c
->>> +F:	drivers/media/i2c/max9271.h
->>> +F:	drivers/media/i2c/rdacm21.c
->>> +
->>>  RDC R-321X SoC
->>>  M:	Florian Fainelli <florian@openwrt.org>
->>>  S:	Maintained
->>> diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
->>> index c64326ca331c..64f4316d11ad 100644
->>> --- a/drivers/media/i2c/Kconfig
->>> +++ b/drivers/media/i2c/Kconfig
->>> @@ -1185,6 +1185,19 @@ config VIDEO_RDACM20
->>>  	  This camera should be used in conjunction with a GMSL
->>>  	  deserialiser such as the MAX9286.
->>>
->>> +config VIDEO_RDACM21
->>> +	tristate "IMI RDACM21 camera support"
->>> +	depends on I2C
->>> +	select V4L2_FWNODE
->>> +	select VIDEO_V4L2_SUBDEV_API
->>> +	select MEDIA_CONTROLLER
->>> +	help
->>> +	  This driver supports the IMI RDACM21 GMSL camera, used in
->>> +	  ADAS systems.
->>> +
->>> +	  This camera should be used in conjunction with a GMSL
->>> +	  deserialiser such as the MAX9286.
->>> +
->>>  config VIDEO_RJ54N1
->>>  	tristate "Sharp RJ54N1CB0C sensor support"
->>>  	depends on I2C && VIDEO_V4L2
->>> diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
->>> index f0a77473979d..f3641b58929d 100644
->>> --- a/drivers/media/i2c/Makefile
->>> +++ b/drivers/media/i2c/Makefile
->>> @@ -122,6 +122,8 @@ obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
->>>  obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
->>>  rdacm20-camera_module-objs	:= rdacm20.o max9271.o
->>>  obj-$(CONFIG_VIDEO_RDACM20)	+= rdacm20-camera_module.o
->>> +rdacm21-camera_module-objs	:= rdacm21.o max9271.o
->>> +obj-$(CONFIG_VIDEO_RDACM21)	+= rdacm21-camera_module.o
->>>  obj-$(CONFIG_VIDEO_ST_MIPID02) += st-mipid02.o
->>>
->>>  obj-$(CONFIG_SDR_MAX2175) += max2175.o
->>> diff --git a/drivers/media/i2c/rdacm21.c b/drivers/media/i2c/rdacm21.c
->>> new file mode 100644
->>> index 000000000000..5f9267e26258
->>> --- /dev/null
->>> +++ b/drivers/media/i2c/rdacm21.c
->>> @@ -0,0 +1,595 @@
->>> +// SPDX-License-Identifier: GPL-2.0+
->>> +/*
->>> + * IMI RDACM21 GMSL Camera Driver
->>> + *
->>> + * Copyright (C) 2017-2020 Jacopo Mondi
->>> + * Copyright (C) 2017-2019 Kieran Bingham
->>> + * Copyright (C) 2017-2019 Laurent Pinchart
->>> + * Copyright (C) 2017-2019 Niklas Söderlund
->>> + * Copyright (C) 2016 Renesas Electronics Corporation
->>> + * Copyright (C) 2015 Cogent Embedded, Inc.
->>> + */
->>> +
->>> +#include <linux/delay.h>
->>> +#include <linux/fwnode.h>
->>> +#include <linux/init.h>
->>> +#include <linux/i2c.h>
->>> +#include <linux/module.h>
->>> +#include <linux/slab.h>
->>> +#include <linux/videodev2.h>
->>> +
->>> +#include <media/v4l2-async.h>
->>> +#include <media/v4l2-ctrls.h>
->>> +#include <media/v4l2-subdev.h>
->>> +#include "max9271.h"
->>> +
->>> +#define OV10640_ID_LOW			0xa6
+Hello,
 
-Should we keep the two OV10640 defines together?
+syzbot found the following issue on:
 
->>> +
->>> +#define OV490_I2C_ADDRESS		0x24
->>> +
->>> +#define OV490_PAGE_HIGH_REG		0xfffd
->>> +#define OV490_PAGE_LOW_REG		0xfffe
->>> +
->>> +#define OV490_DVP_CTRL3			0x80286009
->>> +
->>> +#define OV490_ODS_CTRL_FRAME_OUTPUT_EN	0x0c
->>> +#define OV490_ODS_CTRL			0x8029d000
->>> +
->>> +#define OV490_ID_VAL			0x0490
->>> +#define OV490_ID(_p, _v)		((((_p) & 0xff) << 8) | ((_v) & 0xff))
->>> +#define OV490_PID			0x8080300a
->>> +#define OV490_VER			0x8080300b
->>> +
->>> +#define OV490_ISP_HSIZE_LOW		0x80820060
->>> +#define OV490_ISP_HSIZE_HIGH		0x80820061
->>> +#define OV490_ISP_VSIZE_LOW		0x80820062
->>> +#define OV490_ISP_VSIZE_HIGH		0x80820063
->>> +
->>> +#define OV10640_PIXEL_RATE		(55000000)
->>> +
->>> +struct rdacm21_device {
->>> +	struct device			*dev;
->>> +	struct max9271_device		*serializer;
->>> +	struct i2c_client		*isp;
->>> +	struct v4l2_subdev		sd;
->>> +	struct media_pad		pad;
->>> +	struct v4l2_mbus_framefmt	fmt;
->>> +	struct v4l2_ctrl_handler	ctrls;
->>> +	u32				addrs[32];
->>> +	u16				last_page;
->>> +};
->>> +
->>> +static inline struct rdacm21_device *sd_to_rdacm21(struct v4l2_subdev *sd)
->>> +{
->>> +	return container_of(sd, struct rdacm21_device, sd);
->>> +}
->>> +
->>> +static inline struct rdacm21_device *i2c_to_rdacm21(struct i2c_client *client)
->>> +{
->>> +	return sd_to_rdacm21(i2c_get_clientdata(client));
->>> +}
->>> +
->>> +static const struct ov490_reg {
->>> +	u16 reg;
->>> +	u8 val;
->>> +} ov490_regs_wizard[] = {
->>> +	{0xfffd, 0x80},
->>> +	{0xfffe, 0x82},
->>> +	{0x0071, 0x11},
->>> +	{0x0075, 0x11},
->>> +	{0xfffe, 0x29},
->>> +	{0x6010, 0x01},
->>> +	/*
->>> +	 * OV490 EMB line disable in YUV and RAW data,
->>> +	 * NOTE: EMB line is still used in ISP and sensor
->>> +	 */
->>> +	{0xe000, 0x14},
->>> +	{0xfffe, 0x28},
->>> +	{0x6000, 0x04},
->>> +	{0x6004, 0x00},
->>> +	/*
->>> +	 * PCLK polarity - useless due to silicon bug.
->>> +	 * Use 0x808000bb register instead.
->>> +	 */
->>> +	{0x6008, 0x00},
->>> +	{0xfffe, 0x80},
->>> +	{0x0091, 0x00},
->>> +	/* bit[3]=0 - PCLK polarity workaround. */
->>> +	{0x00bb, 0x1d},
->>> +	/* Ov490 FSIN: app_fsin_from_fsync */
->>> +	{0xfffe, 0x85},
->>> +	{0x0008, 0x00},
->>> +	{0x0009, 0x01},
->>> +	/* FSIN0 source. */
->>> +	{0x000A, 0x05},
->>> +	{0x000B, 0x00},
->>> +	/* FSIN0 delay. */
->>> +	{0x0030, 0x02},
->>> +	{0x0031, 0x00},
->>> +	{0x0032, 0x00},
->>> +	{0x0033, 0x00},
->>> +	/* FSIN1 delay. */
->>> +	{0x0038, 0x02},
->>> +	{0x0039, 0x00},
->>> +	{0x003A, 0x00},
->>> +	{0x003B, 0x00},
->>> +	/* FSIN0 length. */
->>> +	{0x0070, 0x2C},
->>> +	{0x0071, 0x01},
->>> +	{0x0072, 0x00},
->>> +	{0x0073, 0x00},
->>> +	/* FSIN1 length. */
->>> +	{0x0074, 0x64},
->>> +	{0x0075, 0x00},
->>> +	{0x0076, 0x00},
->>> +	{0x0077, 0x00},
->>> +	{0x0000, 0x14},
->>> +	{0x0001, 0x00},
->>> +	{0x0002, 0x00},
->>> +	{0x0003, 0x00},
->>> +	/*
->>> +	 * Load fsin0,load fsin1,load other,
->>> +	 * It will be cleared automatically.
->>> +	 */
->>> +	{0x0004, 0x32},
->>> +	{0x0005, 0x00},
->>> +	{0x0006, 0x00},
->>> +	{0x0007, 0x00},
->>> +	{0xfffe, 0x80},
->>> +	/* Sensor FSIN. */
->>> +	{0x0081, 0x00},
->>> +	/* ov10640 FSIN enable */
->>> +	{0xfffe, 0x19},
->>> +	{0x5000, 0x00},
->>> +	{0x5001, 0x30},
->>> +	{0x5002, 0x8c},
->>> +	{0x5003, 0xb2},
->>> +	{0xfffe, 0x80},
->>> +	{0x00c0, 0xc1},
->>> +	/* ov10640 HFLIP=1 by default */
->>> +	{0xfffe, 0x19},
->>> +	{0x5000, 0x01},
->>> +	{0x5001, 0x00},
->>> +	{0xfffe, 0x80},
->>> +	{0x00c0, 0xdc},
->>> +};
->>> +
->>> +static int ov490_read(struct rdacm21_device *dev, u16 reg, u8 *val)
->>> +{
->>> +	u8 buf[2] = { reg >> 8, reg };
->>> +	int ret;
->>> +
->>> +	ret = i2c_master_send(dev->isp, buf, 2);
->>> +	if (ret == 2)
->>> +		ret = i2c_master_recv(dev->isp, val, 1);
->>> +
->>> +	if (ret < 0) {
->>> +		dev_dbg(dev->dev, "%s: register 0x%04x read failed (%d)\n",
->>> +			__func__, reg, ret);
->>> +		return ret;
->>> +	}
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int ov490_write(struct rdacm21_device *dev, u16 reg, u8 val)
->>> +{
->>> +	u8 buf[3] = { reg >> 8, reg, val };
->>> +	int ret;
->>> +
->>> +	ret = i2c_master_send(dev->isp, buf, 3);
->>> +	if (ret < 0) {
->>> +		dev_err(dev->dev, "%s: register 0x%04x write failed (%d)\n",
->>> +			__func__, reg, ret);
->>> +		return ret;
->>> +	}
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int ov490_set_page(struct rdacm21_device *dev, u16 reg)
->>> +{
->>> +	bool page_new = false;
->>> +	u8 page_high = reg >> 8;
->>> +	u8 page_low = reg;
->>> +	int ret;
->>> +
->>> +	if (page_high != (dev->last_page >> 8)) {
->>> +		ret = ov490_write(dev, OV490_PAGE_HIGH_REG, page_high);
->>> +		if (ret)
->>> +			return ret;
->>> +		page_new = true;
->>> +	}
->>> +
->>> +	if (page_low != (u8)dev->last_page) {
->>> +		ret = ov490_write(dev, OV490_PAGE_LOW_REG, page_low);
->>> +		if (ret)
->>> +			return ret;
->>> +		page_new = true;
->>> +	}
->>> +
->>> +	if (page_new) {
->>> +		dev->last_page = reg;
->>> +		usleep_range(100, 150);
->>> +	}
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int ov490_read_reg(struct rdacm21_device *dev, u32 reg, u8 *val)
->>> +{
->>> +	int ret;
->>> +
->>> +	ret = ov490_set_page(dev, reg >> 16);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ret = ov490_read(dev, (u16)reg, val);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	dev_dbg(dev->dev, "%s: 0x%08x = 0x%02x\n", __func__, reg, *val);
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int ov490_write_reg(struct rdacm21_device *dev, u32 reg, u8 val)
->>> +{
->>> +	int ret;
->>> +
->>> +	ret = ov490_set_page(dev, reg >> 16);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ret = ov490_write(dev, (u16)reg, val);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	dev_dbg(dev->dev, "%s: 0x%08x = 0x%02x\n", __func__, reg, val);
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int rdacm21_s_stream(struct v4l2_subdev *sd, int enable)
->>> +{
->>> +	struct rdacm21_device *dev = sd_to_rdacm21(sd);
->>> +
->>> +	/*
->>> +	 * Enable serial link now that the ISP provides a valid pixel clock
->>> +	 * to start serializing video data on the GMSL link.
->>> +	 */
->>> +	return max9271_set_serial_link(dev->serializer, enable);
->>> +}
->>> +
->>> +static int rdacm21_enum_mbus_code(struct v4l2_subdev *sd,
->>> +				  struct v4l2_subdev_pad_config *cfg,
->>> +				  struct v4l2_subdev_mbus_code_enum *code)
->>> +{
->>> +	if (code->pad || code->index > 0)
->>> +		return -EINVAL;
->>> +
->>> +	code->code = MEDIA_BUS_FMT_YUYV8_1X16;
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int rdacm21_get_fmt(struct v4l2_subdev *sd,
->>> +			   struct v4l2_subdev_pad_config *cfg,
->>> +			   struct v4l2_subdev_format *format)
->>> +{
->>> +	struct v4l2_mbus_framefmt *mf = &format->format;
->>> +	struct rdacm21_device *dev = sd_to_rdacm21(sd);
->>> +
->>> +	if (format->pad)
->>> +		return -EINVAL;
->>> +
->>> +	mf->width		= dev->fmt.width;
->>> +	mf->height		= dev->fmt.height;
->>> +	mf->code		= MEDIA_BUS_FMT_YUYV8_1X16;
->>> +	mf->colorspace		= V4L2_COLORSPACE_SRGB;
->>> +	mf->field		= V4L2_FIELD_NONE;
->>> +	mf->ycbcr_enc		= V4L2_YCBCR_ENC_601;
->>> +	mf->quantization	= V4L2_QUANTIZATION_FULL_RANGE;
->>> +	mf->xfer_func		= V4L2_XFER_FUNC_NONE;
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static struct v4l2_subdev_video_ops rdacm21_video_ops = {
->>> +	.s_stream	= rdacm21_s_stream,
->>> +};
->>> +
->>> +static const struct v4l2_subdev_pad_ops rdacm21_subdev_pad_ops = {
->>> +	.enum_mbus_code = rdacm21_enum_mbus_code,
->>> +	.get_fmt	= rdacm21_get_fmt,
->>> +	.set_fmt	= rdacm21_get_fmt,
->>> +};
->>> +
->>> +static struct v4l2_subdev_ops rdacm21_subdev_ops = {
->>> +	.video		= &rdacm21_video_ops,
->>> +	.pad		= &rdacm21_subdev_pad_ops,
->>> +};
->>> +
->>> +static int ov490_initialize(struct rdacm21_device *dev)
->>> +{
->>> +	unsigned int ov490_pid_retry = 20;
->>> +	unsigned int timeout;
->>> +	u8 pid, ver, val;
->>> +	unsigned int i;
->>> +	int ret;
->>> +
->>> +	/* Read OV490 Id to test communications. */
->>> +pid_retry:
->>> +	ret = ov490_read_reg(dev, OV490_PID, &pid);
->>> +	if (ret < 0) {
->>> +		/* Give OV490 a few more cycles to exit from reset. */
->>> +		if (ov490_pid_retry--) {
->>> +			usleep_range(1000, 2000);
->>> +			goto pid_retry;
->>> +		}
->>> +
->>> +		dev_err(dev->dev, "OV490 PID read failed (%d)\n", ret);
->>> +		return ret;
->>> +	}
->>> +
->>> +	ret = ov490_read_reg(dev, OV490_VER, &ver);
->>> +	if (ret < 0) {
->>> +		dev_err(dev->dev, "OV490 VERSION read failed (%d)\n", ret);
->>> +		return ret;
->>> +	}
->>> +
->>> +	if (OV490_ID(pid, ver) != OV490_ID_VAL) {
->>> +		dev_err(dev->dev, "OV490 ID mismatch: (0x%04x)\n",
->>> +			OV490_ID(pid, ver));
->>> +		return -ENODEV;
->>> +	}
->>> +
->>> +	/* Wait for firmware boot by reading streamon status. */
->>> +	for (timeout = 300; timeout > 0; timeout--) {
->>> +		ov490_read_reg(dev, OV490_ODS_CTRL, &val);
->>> +		if (val == OV490_ODS_CTRL_FRAME_OUTPUT_EN)
->>> +			break;
->>> +		mdelay(1);
->>> +	}
->>> +	if (!timeout) {
->>> +		dev_err(dev->dev, "Timeout firmware boot wait\n");
->>> +		return -ENODEV;
->>> +	}
->>> +	dev_dbg(dev->dev, "Firmware booted in %u msec\n", 300 - timeout);
->>> +
->>> +	/* Read OV10640 Id to test communications. */
->>> +	ov490_write(dev, 0xfffd, 0x80);
->>> +	ov490_write(dev, 0xfffe, 0x19);
->>> +	usleep_range(100, 150);
->>
->> Is that setting a page? Or doing something else?
->>
->>> +
->>> +	ov490_write(dev, 0x5000, 0x01);
->>> +	ov490_write(dev, 0x5001, 0x30);
->>> +	ov490_write(dev, 0x5002, 0x0a);
->>> +
->>> +	ov490_write(dev, 0xfffe, 0x80);
->>> +	usleep_range(100, 150);
->>> +	ov490_write(dev, 0xc0, 0xc1);
->>> +	ov490_write(dev, 0xfffe, 0x19);
->> And here?
->>
->> Can this not go through the new helpers?
->>
->> If the 'read_reg', 'write_reg', helpers are not appropriate, at least
->> setting the pages could be done with set_page() ... but I'd be surprised
->> if those couldn't be handled with ov490_write_reg() ?
-> 
-> As I've said in previous reply, I prefer the comunication with ov10640
-> to be kept explicit as long as we don't have more users and I don't
-> better understand what register 0x5000 is for.
-> 
+HEAD commit:    e1617422 kmsan: kmsan_percpu_tstate should be a scalar, no..
+git tree:       https://github.com/google/kmsan.git master
+console output: https://syzkaller.appspot.com/x/log.txt?x=164d4712500000
+kernel config:  https://syzkaller.appspot.com/x/.config?x=4c7345cc7efc5dc4
+dashboard link: https://syzkaller.appspot.com/bug?extid=e27b4fd589762b0b9329
+compiler:       clang version 11.0.0 (https://github.com/llvm/llvm-project.git ca2dcbd030eadbf0aa9b660efe864ff08af6e18b)
+userspace arch: i386
 
-Ok, I understand, but we 'know' it's the register page for communicating
-with the Sensor though?
+Unfortunately, I don't have any reproducer for this issue yet.
 
-Do we have any documentation on this at all?
+IMPORTANT: if you fix the issue, please add the following tag to the commit:
+Reported-by: syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com
+
+dvb-usb: will pass the complete MPEG2 transport stream to the software demuxer.
+dvbdev: DVB: registering new adapter (Hauppauge WinTV-NOVA-T usb2)
+usb 5-1: media controller created
+dvb-usb: bulk message failed: -22 (5/0)
+dvb-usb: bulk message failed: -22 (5/0)
+dvb-usb: bulk message failed: -22 (5/0)
+=====================================================
+BUG: KMSAN: uninit-value in mac_address_string+0x1040/0x1170 lib/vsprintf.c:1281
+CPU: 1 PID: 9245 Comm: kworker/1:6 Not tainted 5.9.0-rc8-syzkaller #0
+Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
+Workqueue: usb_hub_wq hub_event
+Call Trace:
+ __dump_stack lib/dump_stack.c:77 [inline]
+ dump_stack+0x21c/0x280 lib/dump_stack.c:118
+ kmsan_report+0xf7/0x1e0 mm/kmsan/kmsan_report.c:122
+ __msan_warning+0x5f/0xa0 mm/kmsan/kmsan_instr.c:201
+ mac_address_string+0x1040/0x1170 lib/vsprintf.c:1281
+ pointer+0x9fe/0x1ca0 lib/vsprintf.c:2241
+ vsnprintf+0x1a4f/0x3610 lib/vsprintf.c:2622
+ vscnprintf+0xbe/0x1c0 lib/vsprintf.c:2721
+ vprintk_store+0xf2/0x1440 kernel/printk/printk.c:1951
+ vprintk_emit+0x320/0x990 kernel/printk/printk.c:2018
+ vprintk_default+0x90/0xa0 kernel/printk/printk.c:2054
+ vprintk_func+0x2f7/0x300 kernel/printk/printk_safe.c:393
+ printk+0x180/0x1c3 kernel/printk/printk.c:2085
+ dvb_usb_adapter_dvb_init+0x818/0x1300 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:166
+ dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:83 [inline]
+ dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
+ dvb_usb_device_init+0x27fd/0x3350 drivers/media/usb/dvb-usb/dvb-usb-init.c:287
+ nova_t_probe+0x73/0x80 drivers/media/usb/dvb-usb/nova-t-usb2.c:156
+ usb_probe_interface+0xfcc/0x1520 drivers/usb/core/driver.c:396
+ really_probe+0xebd/0x2420 drivers/base/dd.c:557
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:738
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x538/0x860 drivers/base/dd.c:912
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x399e/0x3f20 drivers/base/core.c:2926
+ usb_set_configuration+0x395f/0x3f90 drivers/usb/core/message.c:2025
+ usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:240
+ usb_probe_device+0x317/0x570 drivers/usb/core/driver.c:293
+ really_probe+0xebd/0x2420 drivers/base/dd.c:557
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:738
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x538/0x860 drivers/base/dd.c:912
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x399e/0x3f20 drivers/base/core.c:2926
+ usb_new_device+0x1bd6/0x2a30 drivers/usb/core/hub.c:2554
+ hub_port_connect drivers/usb/core/hub.c:5208 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
+ port_event drivers/usb/core/hub.c:5494 [inline]
+ hub_event+0x59b1/0x8640 drivers/usb/core/hub.c:5576
+ process_one_work+0x1224/0x20a0 kernel/workqueue.c:2269
+ process_scheduled_works kernel/workqueue.c:2331 [inline]
+ worker_thread+0x129c/0x2740 kernel/workqueue.c:2417
+ kthread+0x51c/0x560 kernel/kthread.c:293
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+
+Uninit was stored to memory at:
+ kmsan_save_stack_with_flags mm/kmsan/kmsan.c:129 [inline]
+ kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:297
+ __msan_chain_origin+0x57/0xa0 mm/kmsan/kmsan_instr.c:151
+ nova_t_read_mac_address+0x2d4/0x2f0 drivers/media/usb/dvb-usb/nova-t-usb2.c:144
+ dvb_usb_adapter_dvb_init+0x774/0x1300 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:165
+ dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:83 [inline]
+ dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
+ dvb_usb_device_init+0x27fd/0x3350 drivers/media/usb/dvb-usb/dvb-usb-init.c:287
+ nova_t_probe+0x73/0x80 drivers/media/usb/dvb-usb/nova-t-usb2.c:156
+ usb_probe_interface+0xfcc/0x1520 drivers/usb/core/driver.c:396
+ really_probe+0xebd/0x2420 drivers/base/dd.c:557
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:738
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x538/0x860 drivers/base/dd.c:912
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x399e/0x3f20 drivers/base/core.c:2926
+ usb_set_configuration+0x395f/0x3f90 drivers/usb/core/message.c:2025
+ usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:240
+ usb_probe_device+0x317/0x570 drivers/usb/core/driver.c:293
+ really_probe+0xebd/0x2420 drivers/base/dd.c:557
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:738
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x538/0x860 drivers/base/dd.c:912
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x399e/0x3f20 drivers/base/core.c:2926
+ usb_new_device+0x1bd6/0x2a30 drivers/usb/core/hub.c:2554
+ hub_port_connect drivers/usb/core/hub.c:5208 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
+ port_event drivers/usb/core/hub.c:5494 [inline]
+ hub_event+0x59b1/0x8640 drivers/usb/core/hub.c:5576
+ process_one_work+0x1224/0x20a0 kernel/workqueue.c:2269
+ process_scheduled_works kernel/workqueue.c:2331 [inline]
+ worker_thread+0x129c/0x2740 kernel/workqueue.c:2417
+ kthread+0x51c/0x560 kernel/kthread.c:293
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+
+Uninit was stored to memory at:
+ kmsan_save_stack_with_flags mm/kmsan/kmsan.c:129 [inline]
+ kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:297
+ __msan_chain_origin+0x57/0xa0 mm/kmsan/kmsan_instr.c:151
+ dibusb_read_eeprom_byte+0x513/0x540 drivers/media/usb/dvb-usb/dibusb-common.c:233
+ nova_t_read_mac_address+0x1e3/0x2f0 drivers/media/usb/dvb-usb/nova-t-usb2.c:142
+ dvb_usb_adapter_dvb_init+0x774/0x1300 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:165
+ dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:83 [inline]
+ dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
+ dvb_usb_device_init+0x27fd/0x3350 drivers/media/usb/dvb-usb/dvb-usb-init.c:287
+ nova_t_probe+0x73/0x80 drivers/media/usb/dvb-usb/nova-t-usb2.c:156
+ usb_probe_interface+0xfcc/0x1520 drivers/usb/core/driver.c:396
+ really_probe+0xebd/0x2420 drivers/base/dd.c:557
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:738
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x538/0x860 drivers/base/dd.c:912
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x399e/0x3f20 drivers/base/core.c:2926
+ usb_set_configuration+0x395f/0x3f90 drivers/usb/core/message.c:2025
+ usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:240
+ usb_probe_device+0x317/0x570 drivers/usb/core/driver.c:293
+ really_probe+0xebd/0x2420 drivers/base/dd.c:557
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:738
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x538/0x860 drivers/base/dd.c:912
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x399e/0x3f20 drivers/base/core.c:2926
+ usb_new_device+0x1bd6/0x2a30 drivers/usb/core/hub.c:2554
+ hub_port_connect drivers/usb/core/hub.c:5208 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
+ port_event drivers/usb/core/hub.c:5494 [inline]
+ hub_event+0x59b1/0x8640 drivers/usb/core/hub.c:5576
+ process_one_work+0x1224/0x20a0 kernel/workqueue.c:2269
+ process_scheduled_works kernel/workqueue.c:2331 [inline]
+ worker_thread+0x129c/0x2740 kernel/workqueue.c:2417
+ kthread+0x51c/0x560 kernel/kthread.c:293
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+
+Uninit was created at:
+ kmsan_save_stack_with_flags mm/kmsan/kmsan.c:129 [inline]
+ kmsan_internal_poison_shadow+0x5c/0xf0 mm/kmsan/kmsan.c:112
+ kmsan_slab_alloc+0x8d/0xe0 mm/kmsan/kmsan_hooks.c:80
+ slab_alloc_node mm/slub.c:2903 [inline]
+ slab_alloc mm/slub.c:2912 [inline]
+ kmem_cache_alloc_trace+0x61e/0xc90 mm/slub.c:2929
+ kmalloc include/linux/slab.h:554 [inline]
+ dibusb_read_eeprom_byte+0xad/0x540 drivers/media/usb/dvb-usb/dibusb-common.c:226
+ nova_t_read_mac_address+0x1e3/0x2f0 drivers/media/usb/dvb-usb/nova-t-usb2.c:142
+ dvb_usb_adapter_dvb_init+0x774/0x1300 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:165
+ dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:83 [inline]
+ dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
+ dvb_usb_device_init+0x27fd/0x3350 drivers/media/usb/dvb-usb/dvb-usb-init.c:287
+ nova_t_probe+0x73/0x80 drivers/media/usb/dvb-usb/nova-t-usb2.c:156
+ usb_probe_interface+0xfcc/0x1520 drivers/usb/core/driver.c:396
+ really_probe+0xebd/0x2420 drivers/base/dd.c:557
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:738
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x538/0x860 drivers/base/dd.c:912
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x399e/0x3f20 drivers/base/core.c:2926
+ usb_set_configuration+0x395f/0x3f90 drivers/usb/core/message.c:2025
+ usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:240
+ usb_probe_device+0x317/0x570 drivers/usb/core/driver.c:293
+ really_probe+0xebd/0x2420 drivers/base/dd.c:557
+ driver_probe_device+0x293/0x390 drivers/base/dd.c:738
+ __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
+ bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
+ __device_attach+0x538/0x860 drivers/base/dd.c:912
+ device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
+ bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
+ device_add+0x399e/0x3f20 drivers/base/core.c:2926
+ usb_new_device+0x1bd6/0x2a30 drivers/usb/core/hub.c:2554
+ hub_port_connect drivers/usb/core/hub.c:5208 [inline]
+ hub_port_connect_change drivers/usb/core/hub.c:5348 [inline]
+ port_event drivers/usb/core/hub.c:5494 [inline]
+ hub_event+0x59b1/0x8640 drivers/usb/core/hub.c:5576
+ process_one_work+0x1224/0x20a0 kernel/workqueue.c:2269
+ process_scheduled_works kernel/workqueue.c:2331 [inline]
+ worker_thread+0x129c/0x2740 kernel/workqueue.c:2417
+ kthread+0x51c/0x560 kernel/kthread.c:293
+ ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:294
+=====================================================
 
 
-> I can go through set_page() but the I have to pass 0x8019 which kind
-> of defeat the purpose of defining registers by name
-> 
-> I prefer to keep this as it is.
+---
+This report is generated by a bot. It may contain errors.
+See https://goo.gl/tpsmEJ for more information about syzbot.
+syzbot engineers can be reached at syzkaller@googlegroups.com.
 
-
-The issue I would have is you now have an invalid lastPage setting in
-dev. So you're potentially letting yourself access registers on an
-incorrect page, next time you use ov490_write_reg().
-
-
-You could quite easily define:
-
-/*
- * The OV10640 is interacted with through
- * registers in page 0x8019 using registers from 0x5000 to 0x5003,
- * However the definition of these is currently unknown.
- */
-#define SENSOR_REGISTER_0 0x80195000
-#define SENSOR_REGISTER_1 0x80195001
-#define SENSOR_REGISTER_2 0x80195002
-
-To me that would be better than leaving some raw code inline
-or maybe a short wrapper to make it even clearer that this talks to
-/another component/:
-
-#define SENSOR_PAGE 0x8019
-
-sensor_write(dev, reg, val) {
-	reg |= (SENSOR_PAGE << 16);
-	return ov490_write_reg(dev, reg, val);
-}
-
-..
-	sensor_write(dev, 0x5000, 0x01);
-	sensor_write(dev, 0x5001, 0x30);
-	sensor_write(dev, 0x5002, 0x0a);
-...
-
-
-
->>> +	usleep_range(1000, 1500);
->>> +	ov490_read(dev, 0x5000, &val);
->>> +	if (val != OV10640_ID_LOW) {
->>> +		dev_err(dev->dev, "OV10640 ID mismatch: (0x%02x)\n", val);
->>> +		return -ENODEV;
->>> +	}
->>> +
->>> +	dev_dbg(dev->dev, "OV10640 ID = 0x%2x\n", val);
->>> +
-
-Even if you want to keep the register writes raw, we know this code
-block is handling the OV10640, so I'd be at least tempted to move it all
-to a
-
-int ov10640_initialise(dev);
-
-but it's your code, and you seem quite against this, so I won't push
-anymore.
-
-
-
->>> +	for (i = 0; i < ARRAY_SIZE(ov490_regs_wizard); ++i) {
->>> +		ret = ov490_write(dev, ov490_regs_wizard[i].reg,
->>> +				  ov490_regs_wizard[i].val);
->>> +		if (ret < 0) {
->>> +			dev_err(dev->dev,
->>> +				"%s: register %u (0x%04x) write failed (%d)\n",
->>> +				__func__, i, ov490_regs_wizard[i].reg, ret);
->>> +
->>> +			return -EIO;
->>> +		}
->>> +
->>> +		usleep_range(100, 150);
->>> +	}
-
-You should almost certainly mark dev->lastPage as something invalid here
-anyway (0xFFFF?).
-
-Otherwise the hardware page will be set to whatever was last used in the
-ov490_regs_wizard table, and the ov490_read_reg() won't necessarily
-update if it was on the same page last usage.
-
-
-The incorrect lastPage is potentially a more critical issue though so
-with that (if confirmed):
-
-Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-
-
-
->>> +
->>> +	/*
->>> +	 * The ISP is programmed with the content of a serial flash memory.
->>> +	 * Read the firmware configuration to reflect it through the V4L2 APIs.
->>> +	 */
->>> +	ov490_read_reg(dev, OV490_ISP_HSIZE_HIGH, &val);
->>> +	dev->fmt.width = (val & 0xf) << 8;
->>> +	ov490_read_reg(dev, OV490_ISP_HSIZE_LOW, &val);
->>> +	dev->fmt.width |= (val & 0xff);
->>> +
->>> +	ov490_read_reg(dev, OV490_ISP_VSIZE_HIGH, &val);
->>> +	dev->fmt.height = (val & 0xf) << 8;
->>> +	ov490_read_reg(dev, OV490_ISP_VSIZE_LOW, &val);
->>> +	dev->fmt.height |= val & 0xff;
->>> +
->>
->>
->> Hrm, these look like "ov490_read_reg_long()", but given they're the only
->> occurrences of a "long read" I think we could leave it as is.
->>
->>
->>> +	/* Set bus width to 12 bits with [0:11] ordering. */
->>> +	ov490_write_reg(dev, OV490_DVP_CTRL3, 0x10);
->>> +
->>> +	dev_info(dev->dev, "Identified RDACM21 camera module\n");
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int rdacm21_initialize(struct rdacm21_device *dev)
->>> +{
->>> +	int ret;
->>> +
->>> +	/* Verify communication with the MAX9271: ping to wakeup. */
->>> +	dev->serializer->client->addr = MAX9271_DEFAULT_ADDR;
->>> +	i2c_smbus_read_byte(dev->serializer->client);
->>> +
->>> +	/* Serial link disabled during config as it needs a valid pixel clock. */
->>> +	ret = max9271_set_serial_link(dev->serializer, false);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	/* Set GPO high to hold OV490 in reset during max9271 configuration. */
->>> +	ret = max9271_set_gpios(dev->serializer, MAX9271_GPO);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	/* Configure I2C bus at 105Kbps speed and configure GMSL link. */
->>> +	ret = max9271_configure_i2c(dev->serializer,
->>> +				    MAX9271_I2CSLVSH_469NS_234NS |
->>> +				    MAX9271_I2CSLVTO_1024US |
->>> +				    MAX9271_I2CMSTBT_105KBPS);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ret = max9271_configure_gmsl_link(dev->serializer);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ret = max9271_set_address(dev->serializer, dev->addrs[0]);
->>> +	if (ret)
->>> +		return ret;
->>> +	dev->serializer->client->addr = dev->addrs[0];
->>> +
->>> +	/*
->>> +	 * Release OV490 from reset and program address translation
->>> +	 * before performing OV490 configuration.
->>> +	 */
->>> +	ret = max9271_clear_gpios(dev->serializer, MAX9271_GPO);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	ret = max9271_set_translation(dev->serializer, dev->addrs[1],
->>> +				      OV490_I2C_ADDRESS);
->>> +	if (ret)
->>> +		return ret;
->>> +	dev->isp->addr = dev->addrs[1];
->>> +
->>> +	ret = ov490_initialize(dev);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	/*
->>> +	 * Set reverse channel high threshold to increase noise immunity.
->>> +	 *
->>> +	 * This should be compensated by increasing the reverse channel
->>> +	 * amplitude on the remote deserializer side.
->>> +	 */
->>> +	ret = max9271_set_high_threshold(dev->serializer, true);
->>> +	if (ret)
->>> +		return ret;
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static int rdacm21_probe(struct i2c_client *client)
->>> +{
->>> +	struct rdacm21_device *dev;
->>> +	struct fwnode_handle *ep;
->>> +	int ret;
->>> +
->>> +	dev = devm_kzalloc(&client->dev, sizeof(*dev), GFP_KERNEL);
->>> +	if (!dev)
->>> +		return -ENOMEM;
->>> +	dev->dev = &client->dev;
->>> +
->>> +	dev->serializer = devm_kzalloc(&client->dev, sizeof(*dev->serializer),
->>> +				       GFP_KERNEL);
->>> +	if (!dev->serializer)
->>> +		return -ENOMEM;
->>> +
->>> +	dev->serializer->client = client;
->>> +
->>> +	ret = of_property_read_u32_array(client->dev.of_node, "reg",
->>> +					 dev->addrs, 2);
->>> +	if (ret < 0) {
->>> +		dev_err(dev->dev, "Invalid DT reg property: %d\n", ret);
->>> +		return -EINVAL;
->>> +	}
->>> +
->>> +	/* Create the dummy I2C client for the sensor. */
->>> +	dev->isp = i2c_new_dummy_device(client->adapter, OV490_I2C_ADDRESS);
->>> +	if (IS_ERR(dev->isp))
->>> +		return PTR_ERR(dev->isp);
->>> +
->>> +	ret = rdacm21_initialize(dev);
->>> +	if (ret < 0)
->>> +		goto error;
->>> +
->>> +	/* Initialize and register the subdevice. */
->>> +	v4l2_i2c_subdev_init(&dev->sd, client, &rdacm21_subdev_ops);
->>> +	dev->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
->>> +
->>> +	v4l2_ctrl_handler_init(&dev->ctrls, 1);
->>> +	v4l2_ctrl_new_std(&dev->ctrls, NULL, V4L2_CID_PIXEL_RATE,
->>> +			  OV10640_PIXEL_RATE, OV10640_PIXEL_RATE, 1,
->>> +			  OV10640_PIXEL_RATE);
->>> +	dev->sd.ctrl_handler = &dev->ctrls;
->>> +
->>> +	ret = dev->ctrls.error;
->>> +	if (ret)
->>> +		goto error_free_ctrls;
->>> +
->>> +	dev->pad.flags = MEDIA_PAD_FL_SOURCE;
->>> +	dev->sd.entity.flags |= MEDIA_ENT_F_CAM_SENSOR;
->>> +	ret = media_entity_pads_init(&dev->sd.entity, 1, &dev->pad);
->>> +	if (ret < 0)
->>> +		goto error_free_ctrls;
->>> +
->>> +	ep = fwnode_graph_get_next_endpoint(dev_fwnode(&client->dev), NULL);
->>> +	if (!ep) {
->>> +		dev_err(&client->dev,
->>> +			"Unable to get endpoint in node %pOF\n",
->>> +			client->dev.of_node);
->>> +		ret = -ENOENT;
->>> +		goto error_free_ctrls;
->>> +	}
->>> +	dev->sd.fwnode = ep;
->>> +
->>> +	ret = v4l2_async_register_subdev(&dev->sd);
->>> +	if (ret)
->>> +		goto error_put_node;
->>> +
->>> +	return 0;
->>> +
->>> +error_put_node:
->>> +	fwnode_handle_put(dev->sd.fwnode);
->>> +error_free_ctrls:
->>> +	v4l2_ctrl_handler_free(&dev->ctrls);
->>> +error:
->>> +	i2c_unregister_device(dev->isp);
->>> +
->>> +	return ret;
->>> +}
->>> +
->>> +static int rdacm21_remove(struct i2c_client *client)
->>> +{
->>> +	struct rdacm21_device *dev = i2c_to_rdacm21(client);
->>> +
->>> +	fwnode_handle_put(dev->sd.fwnode);
->>> +	v4l2_async_unregister_subdev(&dev->sd);
->>> +	v4l2_ctrl_handler_free(&dev->ctrls);
->>> +	i2c_unregister_device(dev->isp);
->>> +
->>> +	return 0;
->>> +}
->>> +
->>> +static const struct of_device_id rdacm21_of_ids[] = {
->>> +	{ .compatible = "imi,rdacm21" },
->>> +	{ }
->>> +};
->>> +MODULE_DEVICE_TABLE(of, rdacm21_of_ids);
->>> +
->>> +static struct i2c_driver rdacm21_i2c_driver = {
->>> +	.driver	= {
->>> +		.name	= "rdacm21",
->>> +		.of_match_table = rdacm21_of_ids,
->>> +	},
->>> +	.probe_new	= rdacm21_probe,
->>> +	.remove		= rdacm21_remove,
->>> +};
->>> +
->>> +module_i2c_driver(rdacm21_i2c_driver);
->>> +
->>> +MODULE_DESCRIPTION("GMSL Camera driver for RDACM21");
->>> +MODULE_AUTHOR("Jacopo Mondi, Kieran Bingham, Laurent Pinchart, Niklas Söderlund, Vladimir Barinov");
->>> +MODULE_LICENSE("GPL v2");
->>>
->>
-
+syzbot will keep track of this issue. See:
+https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
