@@ -2,174 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B8AC2B6F6B
-	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 20:57:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2FCFF2B6FAA
+	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 21:09:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730581AbgKQTzp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Nov 2020 14:55:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36134 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726851AbgKQTzp (ORCPT
+        id S1731404AbgKQUHz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Nov 2020 15:07:55 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:41998 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731388AbgKQUHz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Nov 2020 14:55:45 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CBE8AC0613CF;
-        Tue, 17 Nov 2020 11:55:44 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id E798C1F44CCE
-Message-ID: <649607da7517ac88f49ff4332d2a5eba585424f9.camel@collabora.com>
-Subject: Re: Re: [PATCH v2 2/9] media: cedrus: h264: Support profile and
- level controls
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Jernej =?UTF-8?Q?=C5=A0krabec?= <jernej.skrabec@siol.net>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Date:   Tue, 17 Nov 2020 16:55:36 -0300
-In-Reply-To: <2278543.vxa8QGFfu4@kista>
-References: <20201113215121.505173-1-ezequiel@collabora.com>
-         <1725677.6jS8d4RcRb@kista>
-         <22e909c7fe5722a7edf0828521c5a43f79ab70e3.camel@collabora.com>
-         <2278543.vxa8QGFfu4@kista>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3-1 
+        Tue, 17 Nov 2020 15:07:55 -0500
+Received: by mail-oi1-f194.google.com with SMTP id w145so23955008oie.9;
+        Tue, 17 Nov 2020 12:07:54 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=fL3muEXmXVcZEZGAGIFkkiLrEeaqM4V7qB0k/56I+OE=;
+        b=KPiNURShYhiQkUtc7T08x8+TlubU95kxwvl0yNaaM4mcJ6G51rf4Q+ZydQOsh5R/Gc
+         b6CdpNzKhsBAs/RaUrENctbg7/dJkXrgETlHSH0KSWlJbhGl3lyWpKBwmzLcjKfD1FJM
+         /CRb5ZTnBAj5Jd6c4pjt6oeJ1EImp6c/pHTpXgOEDSRKww5SNha0rN3/aqPY5/5VZJ7/
+         cwXjyAZWVs6D/J3Uwm/LaiAYxB2swphC3Uar8b5chP/MEtblhCc92MhzLWX+QspTrpEP
+         y5tpgU9WNOQOB5XFvThh/AsqGxFxF/t/9scrRr8ntOeNB6wSICJMRDO804x62ikdmfgd
+         XFLA==
+X-Gm-Message-State: AOAM531RYsPSHM49bx+Wg3TiLVhh9t32V5bunNoUa9TVQKieJxr40kws
+        cHt5F2eU3z9u6GNA1KKCpA==
+X-Google-Smtp-Source: ABdhPJyu5ptGI9RabW0aiyO9kzYMNb3MM9woVa4EcjZhb19iUw2NCo5Gs/wPUQu6V05KEAxuvxxgCw==
+X-Received: by 2002:aca:4b0d:: with SMTP id y13mr532262oia.160.1605643673962;
+        Tue, 17 Nov 2020 12:07:53 -0800 (PST)
+Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.googlemail.com with ESMTPSA id x8sm6783898ooc.44.2020.11.17.12.07.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 17 Nov 2020 12:07:53 -0800 (PST)
+From:   Rob Herring <robh@kernel.org>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     devicetree@vger.kernel.org, Philipp Zabel <p.zabel@pengutronix.de>,
+        linux-media@vger.kernel.org
+Subject: [PATCH v2] media: dt-bindings: coda: Add missing 'additionalProperties'
+Date:   Tue, 17 Nov 2020 14:07:52 -0600
+Message-Id: <20201117200752.4004368-1-robh@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 2020-11-17 at 20:55 +0100, Jernej Škrabec wrote:
-> Dne torek, 17. november 2020 ob 20:40:09 CET je Ezequiel Garcia napisal(a):
-> > On Tue, 2020-11-17 at 20:24 +0100, Jernej Škrabec wrote:
-> > > Hi Ezequiel,
-> > > 
-> > > sorry for late review.
-> > > 
-> > > First of all, this patch doesn't break anything. However, see comment 
-> below.
-> > > Dne petek, 13. november 2020 ob 22:51:14 CET je Ezequiel Garcia 
-> napisal(a):
-> > > > Cedrus supports H.264 profiles from Baseline to High,
-> > > > up to Level 5.1, except for the Extended profile
-> > > > 
-> > > > Expose the V4L2_CID_MPEG_VIDEO_H264_PROFILE and
-> > > > V4L2_CID_MPEG_VIDEO_H264_LEVEL so that userspace can
-> > > > query the driver for the supported profiles and levels.
-> > > > 
-> > > > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > > > ---
-> > > >  drivers/staging/media/sunxi/cedrus/cedrus.c | 21 +++++++++++++++++++++
-> > > >  1 file changed, 21 insertions(+)
-> > > > 
-> > > > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/
-> staging/
-> > > media/sunxi/cedrus/cedrus.c
-> > > > index 9a102b7c1bb9..8b0e97752d27 100644
-> > > > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > > > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > > > @@ -103,6 +103,27 @@ static const struct cedrus_control 
-> cedrus_controls[] = 
-> > > {
-> > > >  		.codec		= CEDRUS_CODEC_H264,
-> > > >  		.required	= false,
-> > > >  	},
-> > > > +	{
-> > > > +		.cfg = {
-> > > > +			.id	= 
-> > > V4L2_CID_MPEG_VIDEO_H264_PROFILE,
-> > > > +			.min	= 
-> > > V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
-> > > > +			.def	= 
-> > > V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
-> > > > +			.max	= 
-> > > V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-> > > > +			.menu_skip_mask =
-> > > > +				
-> > > BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
-> > > > +		},
-> > > > +		.codec		= CEDRUS_CODEC_H264,
-> > > > +		.required	= false,
-> > > > +	},
-> > > > +	{
-> > > > +		.cfg = {
-> > > > +			.id = V4L2_CID_MPEG_VIDEO_H264_LEVEL,
-> > > > +			.min = V4L2_MPEG_VIDEO_H264_LEVEL_1_0,
-> > > > +			.max = V4L2_MPEG_VIDEO_H264_LEVEL_5_1,
-> > > 
-> > > I went through several datasheets and only newer ones (H6, H616) state 
-> max. 
-> > > supported level, which is 4.2. Please change it in next revision.
-> > > 
-> > > After that, you can add
-> > > Reviewed-by: Jernej Skrabec <jernej.skrabec@siol.net>
-> > > 
-> > 
-> > Note that I used level 5.1 based on a commit from you:
-> > """
-> >     media: cedrus: h264: Fix 4K decoding on H6
-> >     
-> >     Due to unknown reason, H6 needs larger intraprediction buffer for 4K
-> >     videos than other SoCs. This was discovered by playing 4096x2304 video,
-> >     which is maximum what H6 VPU is supposed to support.
-> > """
-> > 
-> > I guessed this meant it supported level 5 or higher.
-> > (Now that I think about it, I meant at least H6, does).
-> > 
-> > According to https://en.wikipedia.org/wiki/Advanced_Video_Coding#Levels,
-> > level 4.2 is up to 2,048×1,080@60.0.
-> 
-> Strange, then I guess datasheet is wrong (wouldn't be first time). 
-> Unfortunatelly there is no documentation for Cedrus capabilities, so 
-> everything is either educated guess or tested on HW. Documentation for older 
-> than H6 SoCs always mention only 1080p @ 60fps limit, even though several of 
-> them are capable of decoding 4K H264 videos (I'm not sure about max. fps 
-> though).
-> 
-> > Frankly, I'm open to put whatever value makes you happy.
-> 
-> To be honest, I'm not sure what is correct value here. It may depend on Cedrus 
-> core variant.
-> 
+'additionalProperties' is now required by the meta-schema. Add it for
+coda. As a result, 'interrupts', 'interrupt-names' and 'power-domains'
+need to be reworked to be defined at the top level.
 
-We can drop the level information as well, and just keep the profile one.
+Cc: Philipp Zabel <p.zabel@pengutronix.de>
+Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc: linux-media@vger.kernel.org
+Signed-off-by: Rob Herring <robh@kernel.org>
+---
+ .../devicetree/bindings/media/coda.yaml       | 42 +++++++++----------
+ 1 file changed, 21 insertions(+), 21 deletions(-)
 
-Maximum resolution is already enforced, via TRY_FMT, anyway.
-
-Thanks,
-Ezequiel
-
-> Best regards,
-> Jernej
-> 
-> >   
-> > Thanks,
-> > Ezequiel
-> > 
-> > > Best regards,
-> > > Jernej
-> > > 
-> > > > +		},
-> > > > +		.codec		= CEDRUS_CODEC_H264,
-> > > > +		.required	= false,
-> > > > +	},
-> > > >  	{
-> > > >  		.cfg = {
-> > > >  			.id	= V4L2_CID_MPEG_VIDEO_HEVC_SPS,
-> > > > -- 
-> > > > 2.27.0
-> > > > 
-> > > > 
-> > 
-> > 
-> 
-> 
-
+diff --git a/Documentation/devicetree/bindings/media/coda.yaml b/Documentation/devicetree/bindings/media/coda.yaml
+index 7bac0057faf7..36781ee4617f 100644
+--- a/Documentation/devicetree/bindings/media/coda.yaml
++++ b/Documentation/devicetree/bindings/media/coda.yaml
+@@ -44,6 +44,21 @@ properties:
+       - const: per
+       - const: ahb
+ 
++  interrupts:
++    minItems: 1
++    items:
++      - description: BIT processor interrupt
++      - description: JPEG unit interrupt
++
++  interrupt-names:
++    minItems: 1
++    items:
++      - const: bit
++      - const: jpeg
++
++  power-domains:
++    maxItems: 1
++
+   resets:
+     maxItems: 1
+ 
+@@ -59,6 +74,8 @@ required:
+   - clocks
+   - clock-names
+ 
++additionalProperties: false
++
+ allOf:
+   - if:
+       properties:
+@@ -68,34 +85,17 @@ allOf:
+     then:
+       properties:
+         interrupts:
+-          items:
+-            - description: BIT processor interrupt
+-            - description: JPEG unit interrupt
++          minItems: 2
+ 
+         interrupt-names:
+-          items:
+-            - const: bit
+-            - const: jpeg
++          minItems: 2
+     else:
+       properties:
+         interrupts:
+-          items:
+-            - description: BIT processor interrupt
+-
+-  - if:
+-      properties:
+-        compatible:
+-          contains:
+-            enum:
+-              - fsl,imx6dl-vpu
+-              - fsl,imx6q-vpu
+-    then:
+-      properties:
+-        power-domains:
+-          $ref: /schemas/types.yaml#/definitions/phandle
+-          description: phandle pointing to the PU power domain
+           maxItems: 1
+ 
++        power-domains: false
++
+ examples:
+   - |
+     vpu: video-codec@63ff4000 {
+-- 
+2.25.1
 
