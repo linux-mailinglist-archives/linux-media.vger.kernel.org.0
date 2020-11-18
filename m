@@ -2,187 +2,65 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 32D872B7698
-	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 07:59:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 39C5A2B7715
+	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 08:43:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726696AbgKRGzd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Nov 2020 01:55:33 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:26429 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726548AbgKRGzc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Nov 2020 01:55:32 -0500
-Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
-  by alexa-out.qualcomm.com with ESMTP; 17 Nov 2020 22:55:30 -0800
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 17 Nov 2020 22:55:28 -0800
-X-QCInternal: smtphost
-Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 18 Nov 2020 12:25:22 +0530
-Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
-        id 93143212C6; Wed, 18 Nov 2020 12:25:21 +0530 (IST)
-From:   Dikshita Agarwal <dikshita@codeaurora.org>
-To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
-        nicolas@ndufresne.ca, stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH v3 3/3] venus: venc: Add support for frame-specific min/max qp controls
-Date:   Wed, 18 Nov 2020 12:24:57 +0530
-Message-Id: <1605682497-29273-4-git-send-email-dikshita@codeaurora.org>
-X-Mailer: git-send-email 2.7.4
-In-Reply-To: <1605682497-29273-1-git-send-email-dikshita@codeaurora.org>
-References: <1605682497-29273-1-git-send-email-dikshita@codeaurora.org>
+        id S1726457AbgKRHmA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Nov 2020 02:42:00 -0500
+Received: from mail.kernel.org ([198.145.29.99]:59582 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726200AbgKRHl7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 18 Nov 2020 02:41:59 -0500
+Received: from kernel.org (unknown [104.132.1.79])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id F0D9024656;
+        Wed, 18 Nov 2020 07:41:58 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605685319;
+        bh=Q4jpEyGuwcCkj+Ak7YzDr/tG7X4Egxkvlz1mTnJ8TFQ=;
+        h=In-Reply-To:References:Subject:From:Cc:To:Date:From;
+        b=SJw9vTE3zE3+IwA5FcC/Gc6ap8q20Ark7HFMfCaI5bNbYMRiKF22QEP6+MbTSf3O0
+         r6AiVfmnmNBDYarTXPNBwtt/cWi014DbhBMfe/hl4x2BF1z3k8/NOFFONf6DX1cwuz
+         bHhMD0xiWDmO++3Zu1g+bi4C9NqpSm06ozKIB+SQ=
+Content-Type: text/plain; charset="utf-8"
+MIME-Version: 1.0
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20201115170950.304460-2-krzk@kernel.org>
+References: <20201115170950.304460-1-krzk@kernel.org> <20201115170950.304460-2-krzk@kernel.org>
+Subject: Re: [PATCH 1/3] clk: fix redefinition of clk_prepare on MIPS with HAVE_LEGACY_CLK
+From:   Stephen Boyd <sboyd@kernel.org>
+Cc:     Krzysztof Kozlowski <krzk@kernel.org>
+To:     Chen-Yu Tsai <wens@csie.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Date:   Tue, 17 Nov 2020 23:41:57 -0800
+Message-ID: <160568531746.60232.15496517544781609246@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for frame type specific min and max qp controls
-for encoder.
+Quoting Krzysztof Kozlowski (2020-11-15 09:09:48)
+> COMMON_CLK even though is a user-selectable symbol, is still selected by
+> multiple other config options.  COMMON_CLK should not be used when
+> legacy clocks are provided by architecture, so it correctly depends on
+> !HAVE_LEGACY_CLK.
+>=20
+> However it is possible to create a config which selects both COMMON_CLK
+> (by SND_SUN8I_CODEC) and HAVE_LEGACY_CLK (by SOC_RT305X) which leads to
 
-Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
----
- drivers/media/platform/qcom/venus/core.h       | 18 +++++++++
- drivers/media/platform/qcom/venus/venc.c       | 21 ++++++++---
- drivers/media/platform/qcom/venus/venc_ctrls.c | 51 ++++++++++++++++++++++++++
- 3 files changed, 85 insertions(+), 5 deletions(-)
-
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 3bc129a..6a764c9 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -230,10 +230,28 @@ struct venc_controls {
- 	u32 h264_b_qp;
- 	u32 h264_min_qp;
- 	u32 h264_max_qp;
-+	u32 h264_i_min_qp;
-+	u32 h264_i_max_qp;
-+	u32 h264_p_min_qp;
-+	u32 h264_p_max_qp;
-+	u32 h264_b_min_qp;
-+	u32 h264_b_max_qp;
- 	u32 h264_loop_filter_mode;
- 	s32 h264_loop_filter_alpha;
- 	s32 h264_loop_filter_beta;
- 
-+	u32 hevc_i_qp;
-+	u32 hevc_p_qp;
-+	u32 hevc_b_qp;
-+	u32 hevc_min_qp;
-+	u32 hevc_max_qp;
-+	u32 hevc_i_min_qp;
-+	u32 hevc_i_max_qp;
-+	u32 hevc_p_min_qp;
-+	u32 hevc_p_max_qp;
-+	u32 hevc_b_min_qp;
-+	u32 hevc_b_max_qp;
-+
- 	u32 vp8_min_qp;
- 	u32 vp8_max_qp;
- 
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 0bf92cc..f2f5a85 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -668,17 +668,28 @@ static int venc_set_properties(struct venus_inst *inst)
- 		return ret;
- 
- 	ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP;
--	quant.qp_i = ctr->h264_i_qp;
--	quant.qp_p = ctr->h264_p_qp;
--	quant.qp_b = ctr->h264_b_qp;
-+	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-+		quant.qp_i = ctr->hevc_i_qp;
-+		quant.qp_p = ctr->hevc_p_qp;
-+		quant.qp_b = ctr->hevc_b_qp;
-+	} else {
-+		quant.qp_i = ctr->h264_i_qp;
-+		quant.qp_p = ctr->h264_p_qp;
-+		quant.qp_b = ctr->h264_b_qp;
-+	}
- 	quant.layer_id = 0;
- 	ret = hfi_session_set_property(inst, ptype, &quant);
- 	if (ret)
- 		return ret;
- 
- 	ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE;
--	quant_range.min_qp = ctr->h264_min_qp;
--	quant_range.max_qp = ctr->h264_max_qp;
-+	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-+		quant_range.min_qp = ctr->hevc_min_qp;
-+		quant_range.max_qp = ctr->hevc_max_qp;
-+	} else {
-+		quant_range.min_qp = ctr->h264_min_qp;
-+		quant_range.max_qp = ctr->h264_max_qp;
-+	}
- 	quant_range.layer_id = 0;
- 	ret = hfi_session_set_property(inst, ptype, &quant_range);
- 	if (ret)
-diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-index 0708b3b..cd131e3 100644
---- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-+++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-@@ -125,9 +125,60 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_MPEG_VIDEO_H264_MIN_QP:
- 		ctr->h264_min_qp = ctrl->val;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MIN_QP:
-+		ctr->h264_i_min_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MIN_QP:
-+		ctr->h264_p_min_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MIN_QP:
-+		ctr->h264_b_min_qp = ctrl->val;
-+		break;
- 	case V4L2_CID_MPEG_VIDEO_H264_MAX_QP:
- 		ctr->h264_max_qp = ctrl->val;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MAX_QP:
-+		ctr->h264_i_max_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MAX_QP:
-+		ctr->h264_p_max_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MAX_QP:
-+		ctr->h264_b_max_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_QP:
-+		ctr->hevc_i_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_QP:
-+		ctr->hevc_p_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_QP:
-+		ctr->hevc_b_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP:
-+		ctr->hevc_min_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MIN_QP:
-+		ctr->hevc_i_min_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MIN_QP:
-+		ctr->hevc_p_min_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MIN_QP:
-+		ctr->hevc_b_min_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP:
-+		ctr->hevc_max_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MAX_QP:
-+		ctr->hevc_i_max_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MAX_QP:
-+		ctr->hevc_p_max_qp = ctrl->val;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MAX_QP:
-+		ctr->hevc_b_max_qp = ctrl->val;
-+		break;
- 	case V4L2_CID_MPEG_VIDEO_MULTI_SLICE_MODE:
- 		ctr->multi_slice_mode = ctrl->val;
- 		break;
--- 
-2.7.4
-
+Why is SND_SUN8I_CODEC selecting COMMON_CLK? Or really, why is
+SOC_RT305X selecting HAVE_LEGACY_CLK?
