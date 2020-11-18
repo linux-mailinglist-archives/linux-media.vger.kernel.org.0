@@ -2,184 +2,167 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2CAB2B7442
-	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 03:40:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0B112B747B
+	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 04:03:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726357AbgKRCkX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Nov 2020 21:40:23 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42636 "EHLO
+        id S1726397AbgKRDBH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Nov 2020 22:01:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45846 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725771AbgKRCkX (ORCPT
+        with ESMTP id S1726205AbgKRDBH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Nov 2020 21:40:23 -0500
-Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DAF4C0613D4
-        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 18:40:23 -0800 (PST)
-Received: by mail-oi1-x243.google.com with SMTP id o25so585495oie.5
-        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 18:40:23 -0800 (PST)
+        Tue, 17 Nov 2020 22:01:07 -0500
+Received: from mail-ot1-x343.google.com (mail-ot1-x343.google.com [IPv6:2607:f8b0:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EDDD8C061A48
+        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 19:01:06 -0800 (PST)
+Received: by mail-ot1-x343.google.com with SMTP id g19so343857otp.13
+        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 19:01:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=bvdgsBLgi9EHMNSLVDq+6Fn9lRqcB8CIw2yWEiIoq80=;
-        b=J35wiLmqdOFXJLv4HSpQvHl5YEa4K3iwX2kW6Ks7Gc62WwkxOifW27KzFX7wu7bTp6
-         IUZd28S0eE2GdDUOWe8erY3blUciPXWTyOWyjSVllPrphPItMSzm6CNNaOAE9zFOF3pP
-         RMM8RbYKvT3omqiO7jafrSLB/clgjWbTiHU1dicDjr1f7/ZIyNxe114QTLDjCD5crXG/
-         DXez7Muy8FO15hQcaLg0uUPiXMZZmzN0sMCezSamFbMrPXxuawl/u+/Zh9uwg21zGqGq
-         2JstVY0hkwx2VniIDYfpZW6HK+vb/0TbOd69b1PfGQ7qBmycPY+L4nJrxAgB+HpAlBHB
-         PfIQ==
+        bh=3uJCOUcCa+QNGhT/ES7N0Gs1weA2TXULzhkEQY1X4Jo=;
+        b=iudQYKUwAOK9crkiWJ66u2A1YGZCBlCwtJ7NMi11klrVKGT/dFCsGxSljVJDr7DJ0g
+         lDpDgEUNZJYa9nmxUH6uwUeRo3AfV1WCViXiGu7wlPweAMbLV9FB7Fo5b+oHQQi1aigL
+         MthZtLw/DcFUhqRbHbBYjcPvo9uIa7i3ztccA2IcPNjXwSZ/67Qwhs8pEX8j/HXeHvxw
+         93df3wEp8sT1v3KNz39iAtv/5GK29Rvl2QwMK0WBKbuAsvVBBUxdzbuCEnY7WYezsKge
+         0Eh0ekjpKLpbRF4mkuu4/ZplAcqUYubSLUEgxK6sY+vaYIVUs1y2KWD1SMzaLPnFOOzH
+         t57A==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=bvdgsBLgi9EHMNSLVDq+6Fn9lRqcB8CIw2yWEiIoq80=;
-        b=E9fcI48rr+9ZZmel0BeX58agYWXjxEhgq3l9S9KsbANYO2ClxjBr4rB/t/JXQI/ovr
-         Nj5A6ijZLClmCxxEWuYzYlihiAotK3zQepxO1AHJMjnLM5JylXhn2SFsnGpQdPpS/D62
-         URj+lLNhLOSYj4i8nNs4kECyWpk6zkPDBqT/NOL6AljIDnc0TBwenDv0SGYvRYcbeIs0
-         Np2jXLO4CCdDLRhNVT0LWsUEhAL7ODtZ+dFmrMLfliaRPDc83O0fZ5DYjruWb9D/2E7u
-         0lFyMc8dAeXagd6jVWHjnkPCAbi692FrWFW3gt4HxG1zr9MQuvUWRIAX+VaEDLQuo0sD
-         sqcA==
-X-Gm-Message-State: AOAM533qMOaMJwGvlqH3kGB8aCc/jreZGVa2isyVbRpHntMa6CxVU2DV
-        Xl6YgUChtuWU5Pw9WgyT30bUCnXz7E3gmyMoSxYudg==
-X-Google-Smtp-Source: ABdhPJy0sxe/2XxPJwznFcbwNp7a1YBjsny2Xovn2b3d9sUn9AojSv42h8RwaMADnI7yZVr5fNfhexyQWdiLSAi+eFw=
-X-Received: by 2002:aca:4e02:: with SMTP id c2mr1442601oib.97.1605667222447;
- Tue, 17 Nov 2020 18:40:22 -0800 (PST)
+        bh=3uJCOUcCa+QNGhT/ES7N0Gs1weA2TXULzhkEQY1X4Jo=;
+        b=MLq1iVh8pXsRkNu5SEkQ5OGYwuzaWVgbrKpGMRZzP+RwZr1pqIu2emSJpo7sySIDoW
+         1vkxO812/7+gACq6XwZcKYBsoIe1VA0wJvNQwtRREYm8sYebd1eBbjAeyc6GRogQ1wjF
+         lfq+VjkBkkBK5iyNsGWWCr9hj+auKS/grn3tBb31bHtqClkM3W8zu2nwiH85aNmPiGUP
+         5nnhl2JrVfoiLktTpAbenT5ZufX2bpuTzO1gBGs8ZdKZfchctrcRh5PFZ+G/rY0BPXHc
+         r+T4kuK48coawE/vbmjXtLkgz6YBZ3w3pVomBMQQpphPJo8l0rw1Iuqum54R0/+Sw3O/
+         BBbQ==
+X-Gm-Message-State: AOAM533x3+KGOGRYKkUyGDIWk0OfrEyeojm5WvXUbw9iMsCt3/UF6fci
+        zon4BECMSQAERh4WeXKSsuySk2OtXyAlS3dBxNTURA==
+X-Google-Smtp-Source: ABdhPJzGGlEp/RY02FjhdSrOME5ixmXEwMqcM3Kp5XSh8B606VPzwVjQm4NMFjXTadyAYc+lrXxzVUAwYI5nu6c9VOY=
+X-Received: by 2002:a05:6830:2415:: with SMTP id j21mr4976789ots.221.1605668466163;
+ Tue, 17 Nov 2020 19:01:06 -0800 (PST)
 MIME-Version: 1.0
-References: <20201110034934.70898-1-john.stultz@linaro.org>
- <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
- <20201112093237.GS401619@phenom.ffwll.local> <CALAqxLWWBaOc3W1s3xBe-innHZ0pAon7UCfumjjQftPqf7bO0Q@mail.gmail.com>
- <20201113203933.GT401619@phenom.ffwll.local>
-In-Reply-To: <20201113203933.GT401619@phenom.ffwll.local>
+References: <20201117181935.3613581-1-minchan@kernel.org> <20201117181935.3613581-5-minchan@kernel.org>
+In-Reply-To: <20201117181935.3613581-5-minchan@kernel.org>
 From:   John Stultz <john.stultz@linaro.org>
-Date:   Tue, 17 Nov 2020 18:40:11 -0800
-Message-ID: <CALAqxLU886mjGaNx3cvXB0hyOd=tTo7G=tw6iQ1uAxcXShN+kg@mail.gmail.com>
-Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
- & a system-uncached implementation
-To:     John Stultz <john.stultz@linaro.org>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        lkml <linux-kernel@vger.kernel.org>,
-        Liam Mark <lmark@codeaurora.org>,
-        Laura Abbott <labbott@kernel.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        Hridya Valsaraju <hridya@google.com>,
+Date:   Tue, 17 Nov 2020 19:00:54 -0800
+Message-ID: <CALAqxLWqDLHpOHNEayvhDjJeXjEk_uneH2=d9fy8M87EjKfReA@mail.gmail.com>
+Subject: Re: [PATCH 4/4] dma-heap: Devicetree binding for chunk heap
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, Hyesoo Yu <hyesoo.yu@samsung.com>,
+        Matthew Wilcox <willy@infradead.org>, david@redhat.com,
+        iamjoonsoo.kim@lge.com, vbabka@suse.cz,
         Suren Baghdasaryan <surenb@google.com>,
-        Sandeep Patil <sspatil@google.com>,
-        Daniel Mentz <danielmentz@google.com>,
-        Chris Goldsworthy <cgoldswo@codeaurora.org>,
-        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
-        Robin Murphy <robin.murphy@arm.com>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Simon Ser <contact@emersion.fr>,
-        James Jones <jajones@nvidia.com>,
-        "open list:DMA BUFFER SHARING FRAMEWORK" 
-        <linux-media@vger.kernel.org>,
-        DRI mailing list <dri-devel@lists.freedesktop.org>
-Cc:     Daniel Vetter <daniel@ffwll.ch>
+        KyongHo Cho <pullip.cho@samsung.com>,
+        John Dias <joaodias@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh@kernel.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 13, 2020 at 12:39 PM Daniel Vetter <daniel@ffwll.ch> wrote:
-> On Thu, Nov 12, 2020 at 08:11:02PM -0800, John Stultz wrote:
-> > On Thu, Nov 12, 2020 at 1:32 AM Daniel Vetter <daniel@ffwll.ch> wrote:
-> > > On Thu, Nov 12, 2020 at 11:09:04AM +0530, Sumit Semwal wrote:
-> > > > On Tue, 10 Nov 2020 at 09:19, John Stultz <john.stultz@linaro.org> wrote:
-> > > > >
-> > > > > Hey All,
-> > > > >   So just wanted to send my last revision of my patch series
-> > > > > of performance optimizations to the dma-buf system heap.
-> > > >
-> > > > Thanks very much for your patches - I think the first 5 patches look good to me.
-> > > >
-> > > > I know there was a bit of discussion over adding a new system-uncached
-> > > > heap v/s using a flag to identify that; I think I prefer the separate
-> > > > heap idea, but lets ask one last time if any one else has any real
-> > > > objections to it.
-> > > >
-> > > > Daniel, Christian: any comments from your side on this?
-> > >
-> > > I do wonder a bit where the userspace stack for this all is, since tuning
-> > > allocators without a full stack is fairly pointless. dma-buf heaps is a
-> > > bit in a limbo situation here it feels like.
-> >
-> > As mentioned in the system-uncached patch:
-> > Pending opensource users of this code include:
-> > * AOSP HiKey960 gralloc:
-> >   - https://android-review.googlesource.com/c/device/linaro/hikey/+/1399519
-> >   - Visibly improves performance over the system heap
-> > * AOSP Codec2 (possibly, needs more review):
-> >   - https://android-review.googlesource.com/c/platform/frameworks/av/+/1360640/17/media/codec2/vndk/C2DmaBufAllocator.cpp#325
-> >
-> > Additionally both the HiKey, HiKey960 grallocs  and Codec2 are already
-> > able to use the current dmabuf heaps instead of ION.
-> >
-> > So I'm not sure what you mean by limbo, other than it being in a
-> > transition state where the interface is upstream and we're working on
-> > moving vendors to it from ION (which is staged to be dropped in 5.11).
-> > Part of that work is making sure we don't regress the performance
-> > expectations.
+On Tue, Nov 17, 2020 at 10:19 AM Minchan Kim <minchan@kernel.org> wrote:
 >
-> The mesa thing below, since if we test this with some downstream kernel
-> drivers or at least non-mesa userspace I'm somewhat worried we're just
-> creating a nice split world between the android gfx world and the
-> mesa/linux desktop gfx world.
+> From: Hyesoo Yu <hyesoo.yu@samsung.com>
 >
-> But then that's kinda how android rolls, so *shrug*
+> Document devicetree binding for chunk heap on dma heap framework
 >
-> > > Plus I'm vary of anything related to leaking this kind of stuff beyond the
-> > > dma-api because dma api maintainers don't like us doing that. But
-> > > personally no concern on that front really, gpus need this. It's just that
-> > > we do need solid justification I think if we land this. Hence back to
-> > > first point.
-> > >
-> > > Ideally first point comes in the form of benchmarking on android together
-> > > with a mesa driver (or mesa + some v4l driver or whatever it takes to
-> > > actually show the benefits, I have no idea).
-> >
-> > Tying it with mesa is a little tough as the grallocs for mesa devices
-> > usually use gbm (gralloc.gbm or gralloc.minigbm). Swapping the
-> > allocation path for dmabuf heaps there gets a little complex as last I
-> > tried that (when trying to get HiKey working with Lima graphics, as
-> > gbm wouldn't allocate the contiguous buffers required by the display),
-> > I ran into issues with the drm_hwcomposer and mesa expecting the gbm
-> > private handle metadata in the buffer when it was passed in.
-> >
-> > But I might take a look at it again. I got a bit lost digging through
-> > the mesa gbm allocation paths last time.
-> >
-> > I'll also try to see if I can find a benchmark for the codec2 code
-> > (using dmabuf heaps with and without the uncached heap) on on db845c
-> > (w/ mesa), as that is already working and I suspect that might be
-> > close to what you're looking for.
+> Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
+> Signed-off-by: Minchan Kim <minchan@kernel.org>
+> ---
+>  .../bindings/dma-buf/chunk_heap.yaml          | 52 +++++++++++++++++++
+>  1 file changed, 52 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/dma-buf/chunk_heap.yaml
 >
-> tbh I think trying to push for this long term is the best we can hope for.
->
-> Media is also a lot more *meh* since it's deeply fragmented and a lot less
-> of it upstream than on the gles/display side.
->
-> I think confirming that this at least doesn't horrible blow up on a
-> gralloc/gbm+mesa stack would be useful I think.
+> diff --git a/Documentation/devicetree/bindings/dma-buf/chunk_heap.yaml b/Documentation/devicetree/bindings/dma-buf/chunk_heap.yaml
+> new file mode 100644
+> index 000000000000..f382bee02778
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/dma-buf/chunk_heap.yaml
+> @@ -0,0 +1,52 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/dma-buf/chunk_heap.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Device tree binding for chunk heap on DMA HEAP FRAMEWORK
+> +
+> +maintainers:
+> +  - Sumit Semwal <sumit.semwal@linaro.org>
+> +
+> +description: |
+> +  The chunk heap is backed by the Contiguous Memory Allocator (CMA) and
+> +  allocates the buffers that are made up to a list of fixed size chunks
+> +  taken from CMA. Chunk sizes are configurated when the heaps are created.
+> +
+> +properties:
+> +  compatible:
+> +    enum:
+> +      - dma_heap,chunk
+> +
+> +  memory-region:
+> +    maxItems: 1
+> +
+> +  alignment:
+> +    maxItems: 1
+> +
+> +required:
+> +  - compatible
+> +  - memory-region
+> +  - alignment
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    reserved-memory {
+> +        #address-cells = <2>;
+> +        #size-cells = <1>;
+> +
+> +        chunk_memory: chunk_memory {
+> +            compatible = "shared-dma-pool";
+> +            reusable;
+> +            size = <0x10000000>;
+> +        };
+> +    };
+> +
+> +    chunk_default_heap: chunk_default_heap {
+> +        compatible = "dma_heap,chunk";
+> +        memory-region = <&chunk_memory>;
+> +        alignment = <0x10000>;
+> +    };
 
-Sorry, I'm still a little foggy on precisely what you're suggesting here.
 
-The patch stack I have has already been used with db845c (mesa +
-gbm_grallloc), with the codec2 (sw decoders) using dmabuf heaps.
-So no blowing up there. And I'm working with Hridya to find a
-benchmark for codec2 so we can try to show the performance delta.
+So I suspect Rob will push back on this as he has for other dt
+bindings related to ion/dmabuf heaps (I tried to push a similar
+solution to exporting multiple CMA areas via dmabuf heaps).
 
-However, if you're wanting a dma-buf gralloc implementation with mesa,
-that may be a little tougher to do, but I guess I can give it a go.
+The proposal he seemed to like best was having an in-kernel function
+that a driver would call to initialize the heap (associated with the
+CMA region the driver is interested in). Similar to Kunihiko Hayashi's
+patch here:
+  - https://lore.kernel.org/lkml/1594948208-4739-1-git-send-email-hayashi.kunihiko@socionext.com/
 
-Hopefully this will address concerns about the system-uncached heap
-patch (the last two patches in this series)?
+The one sticking point for that patch (which I think is a good one),
+is that we don't have any in-tree users, so it couldn't be merged yet.
 
-In the meantime I hope we can queue the first five patches, as it
-would be nice to get the code rearranging in as there are others
-trying to stage their own heaps, and I'd like to avoid dragging that
-churn out for too long (in addition to improving the allocation
-performance). Those changes have no ABI implications.
+A similar approach might be good here, but again we probably need to
+have at least one in-tree user which could call such a registration
+function.
 
 thanks
 -john
