@@ -2,79 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 15F922B8798
-	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 23:17:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4914A2B87A3
+	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 23:25:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726571AbgKRWPo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Nov 2020 17:15:44 -0500
-Received: from mga04.intel.com ([192.55.52.120]:33362 "EHLO mga04.intel.com"
+        id S1726374AbgKRWYo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Nov 2020 17:24:44 -0500
+Received: from mga18.intel.com ([134.134.136.126]:25450 "EHLO mga18.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726098AbgKRWPo (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Nov 2020 17:15:44 -0500
-IronPort-SDR: y+AOHHPXk1+NvwZbeC6DH+0vzLcA9q+2C66izuZo2ZmaPKvuOnGU7XU+Fqg9tR4FcNo2uPPDCD
- B9rdHk+rRXcw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="168623286"
+        id S1725822AbgKRWYo (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 18 Nov 2020 17:24:44 -0500
+IronPort-SDR: TUYNHvBQtI0HJl2GvQe6EloLfr3LyMOls/f9Ch67FBi2u32txj7daYcliuUE5thgJPbpPrqqpm
+ AKDZITYOAQ6A==
+X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="158968287"
 X-IronPort-AV: E=Sophos;i="5.77,488,1596524400"; 
-   d="scan'208";a="168623286"
+   d="scan'208";a="158968287"
 X-Amp-Result: SKIPPED(no attachment in message)
 X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 14:15:44 -0800
-IronPort-SDR: v7YI/Hl1zOw5HG/4DejAVTslJljbcKBT4tJmVbGMrtnO9gwL45GqwL0llIZ1zLKrO7tLxPMH8t
- 2jkhdsHGCp9Q==
+Received: from orsmga007.jf.intel.com ([10.7.209.58])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 14:24:43 -0800
+IronPort-SDR: ru1ZaGRoGMgJM864jLNQaeEFiprTJpXpSHmLf2md6tF9d1YfIG6ids2nfXW09JWoG0WTjZj4Ik
+ xEdLMTdacWCA==
 X-IronPort-AV: E=Sophos;i="5.77,488,1596524400"; 
-   d="scan'208";a="532908997"
+   d="scan'208";a="368643391"
 Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 14:15:43 -0800
+  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 14:24:42 -0800
 Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 81C88207BF; Thu, 19 Nov 2020 00:15:41 +0200 (EET)
-Date:   Thu, 19 Nov 2020 00:15:41 +0200
+        id 8A8A2207BF; Thu, 19 Nov 2020 00:24:38 +0200 (EET)
+Date:   Thu, 19 Nov 2020 00:24:38 +0200
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: [PATCH v2 029/106] =?iso-8859-1?Q?ccs?=
- =?iso-8859-1?Q?=3A_Remove_the_I=B2C?= ID table
-Message-ID: <20201118221541.GQ3940@paasikivi.fi.intel.com>
-References: <20201007084505.25761-1-sakari.ailus@linux.intel.com>
- <20201007084557.25843-1-sakari.ailus@linux.intel.com>
- <20201007084557.25843-22-sakari.ailus@linux.intel.com>
- <20201105103445.36d6c5ee@coco.lan>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Yong Zhi <yong.zhi@intel.com>, linux-media@vger.kernel.org,
+        Tianshu Qiu <tian.shu.qiu@intel.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Bingbu Cao <bingbu.cao@intel.com>
+Subject: Re: [PATCH v2] media: ipu3-cio2: Use macros from mm.h
+Message-ID: <20201118222438.GR3940@paasikivi.fi.intel.com>
+References: <20201028155520.14458-1-andriy.shevchenko@linux.intel.com>
+ <20201116165319.GF4077@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201105103445.36d6c5ee@coco.lan>
+In-Reply-To: <20201116165319.GF4077@smile.fi.intel.com>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+On Mon, Nov 16, 2020 at 06:53:19PM +0200, Andy Shevchenko wrote:
+> On Wed, Oct 28, 2020 at 05:55:20PM +0200, Andy Shevchenko wrote:
+> > There are few nice macros in mm.h, some of which we may use here.
+> > 
+> > Signed-off-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> > Reviewed-by: Bingbu Cao <bingbu.cao@intel.com>
+> 
+> If there is no further comments, can it be applied?
 
-On Thu, Nov 05, 2020 at 10:34:45AM +0100, Mauro Carvalho Chehab wrote:
-> Em Wed,  7 Oct 2020 11:44:42 +0300
-> Sakari Ailus <sakari.ailus@linux.intel.com> escreveu:
-> 
-> > The I²C ID table is no longer needed; remove it.
-> 
-> Why not? Please provide more information.
-> 
-> In summary, please change the description in order to answer the
-> following questions:
-> 
-> For OF-based drivers, removing I2C probing won't cause any harm,
-> as the patch is keeping css_of_able, but wouldn't it affect other 
-> drivers that could, for example, be using ACPI, instead?
-> 
-> Or is this driver incompatible with other probing methods?
-
-ACPI doesn't need this anymore. It did though.
-
-Platform data support has been (gradually) removed so I believe this can be
-removed, too. If someone can show it has a purpose, I don't have objections
-to reverting this later either.
+It's in my latest pull request, but not in media tree master yet.
 
 -- 
-Regards,
-
 Sakari Ailus
