@@ -2,235 +2,198 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 593582B87D0
-	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 23:39:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 366632B88A1
+	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 00:48:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726641AbgKRWiY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Nov 2020 17:38:24 -0500
-Received: from mga05.intel.com ([192.55.52.43]:63166 "EHLO mga05.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726184AbgKRWiX (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Nov 2020 17:38:23 -0500
-IronPort-SDR: UQ2hG9QpQ35MdOqQqWCsZBP+xNl7o0uG+pcxmfTjKQksmFuuUSBfIkj/RkYKjLRJC2PQ7EcQrq
- SUXbzVSECLfA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="255908289"
-X-IronPort-AV: E=Sophos;i="5.77,488,1596524400"; 
-   d="scan'208";a="255908289"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga001.fm.intel.com ([10.253.24.23])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 14:38:22 -0800
-IronPort-SDR: NlEO+jFuWzs5JUBFJNWgGsUKNQ4SZm+Ynzb/XiErNgzV08DUyPyAc1BHHeV+JgcpOlXqT90tJE
- COyGvBYF4Hqg==
-X-IronPort-AV: E=Sophos;i="5.77,488,1596524400"; 
-   d="scan'208";a="431037518"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga001-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 14:38:18 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 726E9207BF; Thu, 19 Nov 2020 00:38:16 +0200 (EET)
-Date:   Thu, 19 Nov 2020 00:38:16 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>, kevin.lhopital@hotmail.com,
-        =?iso-8859-1?Q?K=E9vin_L'h=F4pital?= <kevin.lhopital@bootlin.com>
-Subject: Re: [PATCH 1/3] dt-bindings: media: i2c: Add OV8865 bindings
- documentation
-Message-ID: <20201118223816.GS3940@paasikivi.fi.intel.com>
-References: <20201023175406.504527-1-paul.kocialkowski@bootlin.com>
- <20201023175406.504527-2-paul.kocialkowski@bootlin.com>
- <20201102232411.GD26150@paasikivi.fi.intel.com>
- <20201104102643.GH2123@aptenodytes>
- <20201105081954.GX26150@paasikivi.fi.intel.com>
- <20201105153534.GD615923@aptenodytes>
- <20201111131857.GC26150@paasikivi.fi.intel.com>
- <20201113172735.mkgyrrobgxa33uo3@gilmour.lan>
+        id S1727353AbgKRXsV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Nov 2020 18:48:21 -0500
+Received: from mail-dm6nam12on2041.outbound.protection.outlook.com ([40.107.243.41]:18465
+        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1726624AbgKRXsU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 18 Nov 2020 18:48:20 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=c1LxhrwpAobqcyz/aMTamxGuQZnR5gJA4bzpgCJSfQ11ER7CLNlZNw/9035nwy9UMvQbkSQLcZiZFKHSc13CT0vb54WyW3pnMZl700Ge/6omPjJ9SlSPGBSLMj6aQ+ok3AU+A8UTCdm1J2v03KYEwvvu1FSCbVf4WW2yPRezsVIZjk+d4kLUa9xljD/yEj6QWRXTwG67MaE39TLc2reKlnBspPCgJFp5D4JyFC+SXroeQ9fi7y7mLWEpXzWYZCzZBP/KcfSj3kKIhN5tDMmQBYa8eiLwJ9PedC6jCx30JkyvMvJYKtwEkeHWj3q+yF1YRC/sqeCRobt67aUxYl+qUg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c6t0TsiSJl+7WN6xGdp6MVeBR0eM9sX9FKauYUnoMMM=;
+ b=C/VLpG1Kk40DlzpzYY5hHg8ANk+r8rBtqU2dlnaauIupS4b5LDQza2Gr9OazAshqFVJHCVi3nIOoly1RhdD2P8DOQad17IJ5eyQtu7r9bD65bSJi4aBxj3mVgBuAIYRCextWegHI+hcki4baYOz8Ef+b6HUGPFmxu+LTR9KJAie36bgUTmQ+AJ4SdqwWAx5V09fu9iqVjvfOOIK+3vbqCsI/EPxVFM23cPwBWdhKLEPL+fOu774poDlHMRTe1EgoNjNp+tvy/ZhTInwZNg9JktBw0EoN6POyfEXjMMa4QERgSmT9V8z7aYTLAcyue+U2Pqn5ab536X9OE7zp5aUTDw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
+ 149.199.62.198) smtp.rcpttodomain=kernel.org smtp.mailfrom=xilinx.com;
+ dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
+ not signed); arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+ d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=c6t0TsiSJl+7WN6xGdp6MVeBR0eM9sX9FKauYUnoMMM=;
+ b=K0tviN4nOyrJQ7Za7TWpYgUMlTkQG1xnNPa4BjljH6KqYY51N417qROlInO4Sv8SrAh8BZqo+3xkxVsZvTSoVcMD/VI5D2Ir54bpBnMepvF41FgMweMFiXo/WSrGnV+N0hfGPB+knQH0H1MsTHvz7ESFvtpfRTkRnljsAJxAUkM=
+Received: from SN4PR0801CA0021.namprd08.prod.outlook.com
+ (2603:10b6:803:29::31) by BN7PR02MB4020.namprd02.prod.outlook.com
+ (2603:10b6:406:f1::12) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.21; Wed, 18 Nov
+ 2020 23:48:16 +0000
+Received: from SN1NAM02FT064.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:803:29:cafe::e6) by SN4PR0801CA0021.outlook.office365.com
+ (2603:10b6:803:29::31) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
+ Transport; Wed, 18 Nov 2020 23:48:16 +0000
+X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
+ smtp.mailfrom=xilinx.com; kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=bestguesspass action=none
+ header.from=xilinx.com;
+Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
+ 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
+ client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
+Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
+ SN1NAM02FT064.mail.protection.outlook.com (10.152.72.143) with Microsoft SMTP
+ Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.20.3564.22 via Frontend Transport; Wed, 18 Nov 2020 23:48:16 +0000
+Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
+ (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
+ 15.1.1913.5; Wed, 18 Nov 2020 15:48:11 -0800
+Received: from smtp.xilinx.com (172.19.127.96) by
+ xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
+ 15.1.1913.5 via Frontend Transport; Wed, 18 Nov 2020 15:48:11 -0800
+Envelope-to: michal.simek@xilinx.com,
+ derek.kiernan@xilinx.com,
+ dragan.cvetic@xilinx.com,
+ rajan.vaja@xilinx.com,
+ tejas.patel@xilinx.com,
+ manish.narani@xilinx.com,
+ ravi.patel@xilinx.com,
+ wendy.liang@xilinx.com,
+ robh+dt@kernel.org,
+ arnd@arndb.de,
+ gregkh@linuxfoundation.org,
+ sumit.semwal@linaro.org,
+ christian.koenig@amd.com,
+ devicetree@vger.kernel.org,
+ linux-arm-kernel@lists.infradead.org,
+ linux-kernel@vger.kernel.org,
+ linux-media@vger.kernel.org,
+ dri-devel@lists.freedesktop.org
+Received: from [172.19.2.167] (port=36324 helo=xsjjliang50.xilinx.com)
+        by smtp.xilinx.com with esmtp (Exim 4.90)
+        (envelope-from <wendy.liang@xilinx.com>)
+        id 1kfXBL-0000Wz-3e; Wed, 18 Nov 2020 15:48:11 -0800
+From:   Wendy Liang <wendy.liang@xilinx.com>
+To:     <robh+dt@kernel.org>, <michal.simek@xilinx.com>, <arnd@arndb.de>,
+        <gregkh@linuxfoundation.org>, <sumit.semwal@linaro.org>,
+        <christian.koenig@amd.com>, <derek.kiernan@xilinx.com>,
+        <dragan.cvetic@xilinx.com>, <rajan.vaja@xilinx.com>,
+        <tejas.patel@xilinx.com>, <manish.narani@xilinx.com>,
+        <ravi.patel@xilinx.com>
+CC:     <devicetree@vger.kernel.org>,
+        <linux-arm-kernel@lists.infradead.org>,
+        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
+        <dri-devel@lists.freedesktop.org>,
+        Wendy Liang <wendy.liang@xilinx.com>
+Subject: [PATCH v2 0/9] Xilinx AI engine kernel driver
+Date:   Wed, 18 Nov 2020 15:48:00 -0800
+Message-ID: <1605743289-26575-1-git-send-email-wendy.liang@xilinx.com>
+X-Mailer: git-send-email 2.7.4
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201113172735.mkgyrrobgxa33uo3@gilmour.lan>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+X-EOPAttributedMessage: 0
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-Correlation-Id: 3039bffa-f1d0-4a75-0e51-08d88c1c6ba8
+X-MS-TrafficTypeDiagnostic: BN7PR02MB4020:
+X-Microsoft-Antispam-PRVS: <BN7PR02MB40206E206E1C5CE1C7572D09B0E10@BN7PR02MB4020.namprd02.prod.outlook.com>
+X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
+X-MS-Oob-TLC-OOBClassifiers: OLM:308;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: VmcPcKoysL5kRgqIB8652nltzK1BdXfhajnXZBPJ1PLZ+HF3dP+T6Csrj2N+iHq7OX23pTDZXEHfpZuXaqO6DKlSSyXc0YtOSrKszhXgXeGxeMC5KHA+RcUJuNoCaBaE89N0WLW5uYoo6M5iMD8XQ38OrOauyCNn9gVahMyImMcmglyR3cxdNTpxB0HONwlr/5oCKlfz8NNQc9/Mbv7BeIUkUnusVSh6ptA8rfuel/+yq4B1snDdBHf0kuzOfvNkQGqz7hUFT7/olnZ4/Oo6L9LO9Vc7prjiLvP/jyJtT17LEDvleNBMpSrafZWX1c8J8yoo1InS+4mOXXuo/Sn9Q/SsbeGM6KLIJ9BHZEvYVNcq3Dijf1EATWdjSAbJHVYt/BMR+9PWr+GhNQ0w/ZOF/h3RHtyiOFtdXRzhZyLxvsTWcL1T1zjjPs3vJnbCWsH28hnWp696VMYmFnTdFuI5FBxasBKFFgPNBNHKVXUAFNDG+as/hMy32PJSgreF46zKXJcFIvN6KByjVkgyMhUXdw==
+X-Forefront-Antispam-Report: CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(396003)(346002)(136003)(39860400002)(376002)(46966005)(110136005)(44832011)(6636002)(966005)(6666004)(8936002)(2616005)(47076004)(54906003)(36756003)(7636003)(478600001)(186003)(921005)(83380400001)(82740400003)(70206006)(36906005)(107886003)(9786002)(4326008)(8676002)(426003)(2906002)(336012)(82310400003)(316002)(5660300002)(7416002)(356005)(26005)(7696005)(70586007)(102446001);DIR:OUT;SFP:1101;
+X-OriginatorOrg: xilinx.com
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Nov 2020 23:48:16.5274
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: 3039bffa-f1d0-4a75-0e51-08d88c1c6ba8
+X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
+X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch01.xlnx.xilinx.com]
+X-MS-Exchange-CrossTenant-AuthSource: SN1NAM02FT064.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BN7PR02MB4020
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maxime,
+AI engine is the acceleration engine provided by Xilinx. These engines
+provide high compute density for vector-based algorithms, and flexible
+custom compute and data movement. It has core tiles for compute and
+shim tiles to interface the FPGA fabric.
 
-Sorry for the late reply.
+You can check the AI engine architecture document for more hardware details:
+https://www.xilinx.com/support/documentation/architecture-manuals/am009-versal-ai-engine.pdf
 
-On Fri, Nov 13, 2020 at 06:27:35PM +0100, Maxime Ripard wrote:
-> Hi Sakari,
-> 
-> On Wed, Nov 11, 2020 at 03:18:57PM +0200, Sakari Ailus wrote:
-> > Hi Paul,
-> > 
-> > On Thu, Nov 05, 2020 at 04:35:34PM +0100, Paul Kocialkowski wrote:
-> > > Hi Sakari,
-> > > 
-> > > On Thu 05 Nov 20, 10:19, Sakari Ailus wrote:
-> > > > Hi Paul,
-> > > > 
-> > > > On Wed, Nov 04, 2020 at 11:26:43AM +0100, Paul Kocialkowski wrote:
-> > > > > Hi Sakari and thanks for the review!
-> > > > > 
-> > > > > On Tue 03 Nov 20, 01:24, Sakari Ailus wrote:
-> > > > > > On Fri, Oct 23, 2020 at 07:54:04PM +0200, Paul Kocialkowski wrote:
-> > > > > > > This introduces YAML bindings documentation for the OV8865
-> > > > > > > image sensor.
-> > > > > > > 
-> > > > > > > Co-developed-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-> > > > > > > Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
-> > > > > > > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > > > > ---
-> > > > > > >  .../bindings/media/i2c/ovti,ov8865.yaml       | 124 ++++++++++++++++++
-> > > > > > >  1 file changed, 124 insertions(+)
-> > > > > > >  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
-> > > > > > > 
-> > > > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
-> > > > > > > new file mode 100644
-> > > > > > > index 000000000000..807f1a94afae
-> > > > > > > --- /dev/null
-> > > > > > > +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
-> > > > > > > @@ -0,0 +1,124 @@
-> > > > > > > +# SPDX-License-Identifier: GPL-2.0
-> > > > > > > +%YAML 1.2
-> > > > > > > +---
-> > > > > > > +$id: http://devicetree.org/schemas/media/i2c/ovti,ov8865.yaml#
-> > > > > > > +$schema: http://devicetree.org/meta-schemas/core.yaml#
-> > > > > > > +
-> > > > > > > +title: OmniVision OV8865 Image Sensor Device Tree Bindings
-> > > > > > > +
-> > > > > > > +maintainers:
-> > > > > > > +  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-> > > > > > > +
-> > > > > > > +properties:
-> > > > > > > +  compatible:
-> > > > > > > +    const: ovti,ov8865
-> > > > > > > +
-> > > > > > > +  reg:
-> > > > > > > +    maxItems: 1
-> > > > > > > +
-> > > > > > > +  clocks:
-> > > > > > > +    items:
-> > > > > > > +      - description: EXTCLK Clock
-> > > > > > > +
-> > > > > > > +  clock-names:
-> > > > > > > +    items:
-> > > > > > > +      - const: extclk
-> > > > > > 
-> > > > > > Is this needed with a single clock?
-> > > > > 
-> > > > > Yes I think so: we grab the clock with devm_clk_get which takes a name string
-> > > > > that matches the clock-names property.
-> > > > 
-> > > > That argument may be NULL.
-> > > 
-> > > Understood, let's get rid of clock-names then. I see this is done in a few
-> > > drivers already, but many also give it a name with a single clock.
-> > > 
-> > > It would be nice if that was consistent across all drivers just so that the
-> > > expectation is clear (that the best way for that to happen is probably to
-> > > fix up a patch myself though).
-> > 
-> > I guess somewhat different practices exist depending on the tree albeit
-> > it's all DT bindings. It's also not wrong to have the name of the clock
-> > there, no, but virtually all camera sensors consume a single clock, so you
-> > may as well omit the information.
-> > 
-> > > 
-> > > > > > And... shouldn't this also come with assigned-clock-rates etc., to set the
-> > > > > > clock frequency?
-> > > > > 
-> > > > > I'm a bit confused why we would need to do that in the device-tree rather than
-> > > > > setting the clock rate with clk_set_rate in the driver, like any other driver
-> > > > > does. I think this was discussed before (on the initial ov8865 series) and the
-> > > > > conclusion was that there is no particular reason for media i2c drivers to
-> > > > > behave differently. So I believe this is the correct approach.
-> > > > 
-> > > > I'm not exactly sure about that conclusion.
-> > > 
-> > > I may have jumped too far here. It's not exactly clear to me what was the
-> > > conclusion from...
-> > > https://lore.kernel.org/linux-arm-kernel/20200401080705.j4goeqcqhoswhx4u@gilmour.lan/
-> > 
-> > Yes, there has been more discussion on the topic, most recently in this
-> > thread:
-> > 
-> > <URL:https://lore.kernel.org/linux-arm-kernel/20201102150547.GY26150@paasikivi.fi.intel.com/>
-> > 
-> > I think this deserves to be added to camera-sensor.rst .
-> 
-> It's not really a discussion though :)
-> 
-> We had back in that thread some issues with assigned-clock-rates that
-> don't get addressed at all.
-> 
-> > > > You can use clk_set_rate() if you get the frequency from DT, but we
-> > > > recently did conclude that camera sensor drivers can expect to get the
-> > > > frequency indicated by assigned-clock-rate property.
-> > > 
-> > > ...but it looks like clock-frequency was preferred over assigned-clock-rates
-> > > and this is what the binding that was merged suggests. Is that correct?
-> > 
-> > assigned-clock-rates is fine. The assumption is that the clock frequency
-> > does not change from the value set through DT, and the driver gets that
-> > exact frequency.
-> 
-> That's two fairly big assumptions though. A clock driver is free to
-> round the clock to whatever rate it wants, and assigned-clock-rates
-> doesn't provide any guarantee on this, nor does it let the potential
-> user know about it.
-> 
-> It might work for one-off cases, but there's no guarantee that it will
-> in the future since this is very much dependent on the clock setup,
-> driver and the other devices in the system (and to some extent the
-> configuration as well).
-> 
-> And since we only rely on it, we can't fix it properly either if it ever
-> occurs.
-> 
-> And then, semantically, this assigned-clock-rates isn't about what the
-> devices support but what the driver supports. The clock tree of
-> omnivision sensors (at least, I can't comment on the imx218 linked
-> above) allows for a very flexible input clock, it's only the driver that
-> requires it because most of its configuration relies on it.
+This patch series adds a Linux kernel driver to manage the Xilinx AI
+engine array device and AI engine partitions (groups of AI engine tiles
+dedicated to an application).
 
-There is a semantic difference, yes. The driver in this case assumes the
-frequency is the one it is expected to use. In case the frequency is
-different, the most likely outcome is that the image sensor is inoperable.
-But again that is fairly easy to notice.
+v2:
+* Fix dtschema check errors
+* Fix test bot warning on interrupt implementation. Removed set but
+  unused  varaible.
+* Fix compilation unused function warning of firmware change in case
+  ZynqMP firmware is not configured
+* There are other warning on ZynqMP firmware reported from testbot
+  which is not introduced by this patch set.
+  "[PATCH] firmware: xlnx-zynqmp: fix compilation warning" is submitted
+  for those fixes.
 
-If someone prefers to fix this and make it reliable also in principle, that
-would require changing the semantics a little as well as adding a function
-to the clock framework to set the assigned frequency.
+Izhar Ameer Shaikh (1):
+  firmware: xilinx: Add IOCTL support for AIE ISR Clear
 
-> 
-> It's definitely fine for the driver to do so, but it really doesn't
-> belong in the DT.
-> 
-> I thought we had an agreement on this last time we discussed it, but I'm
-> not really sure what made you change your mind.
+Nishad Saraf (2):
+  misc: xilinx-ai-engine: Add support to request device management
+    services
+  misc: xilinx-ai-engine: Add support for servicing error interrupts
 
-Most new sensor drivers come with assigned-clock-rates etc. properties and
-I'll need to explain the same over and over again in review. Then using
-"clock-frequency" property requires quite a few more lines of code in the
-drivers.
+Wendy Liang (6):
+  dt-binding: soc: xilinx: ai-engine: Add AI engine binding
+  misc: Add Xilinx AI engine device driver
+  misc: xilinx-ai-engine: Implement AI engine cleanup sequence
+  misc: xilinx-ai-engine: expose AI engine tile memories to userspace
+  misc: xilinx-ai-engine: add setting shim dma bd operation
+  misc: xilinx-ai-engine: add request and release tiles
 
-I also recently discussed the matter with Rob H. and his opinion was
-basically that we should be using assigned-clock-rates here instead.
-
-I wonder how this works on other places where the frequency can be one of
-several options, but the correct frequency is board specific.
+ .../bindings/soc/xilinx/xlnx,ai-engine.yaml        | 126 ++++
+ MAINTAINERS                                        |   8 +
+ drivers/firmware/xilinx/zynqmp.c                   |  14 +
+ drivers/misc/Kconfig                               |  12 +
+ drivers/misc/Makefile                              |   1 +
+ drivers/misc/xilinx-ai-engine/Makefile             |  16 +
+ drivers/misc/xilinx-ai-engine/ai-engine-aie.c      | 608 +++++++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-clock.c    | 244 ++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-dev.c      | 492 +++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-dma.c      | 481 +++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-internal.h | 519 ++++++++++++++++
+ .../misc/xilinx-ai-engine/ai-engine-interrupt.c    | 659 +++++++++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-mem.c      | 274 +++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-part.c     | 635 ++++++++++++++++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-res.c      | 219 +++++++
+ drivers/misc/xilinx-ai-engine/ai-engine-reset.c    | 159 +++++
+ include/linux/firmware/xlnx-zynqmp.h               |   8 +
+ include/uapi/linux/xlnx-ai-engine.h                | 236 ++++++++
+ 18 files changed, 4711 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
+ create mode 100644 drivers/misc/xilinx-ai-engine/Makefile
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-aie.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-clock.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-dev.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-dma.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-internal.h
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-interrupt.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-mem.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-part.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-res.c
+ create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-reset.c
+ create mode 100644 include/uapi/linux/xlnx-ai-engine.h
 
 -- 
-Kind regards,
+2.7.4
 
-Sakari Ailus
