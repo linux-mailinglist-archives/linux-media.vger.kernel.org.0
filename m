@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8D04A2B8412
-	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 19:47:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E35D2B8415
+	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 19:47:46 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726829AbgKRSr1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Nov 2020 13:47:27 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37666 "EHLO
+        id S1726889AbgKRSre (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Nov 2020 13:47:34 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37680 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726700AbgKRSr1 (ORCPT
+        with ESMTP id S1726883AbgKRSrc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Nov 2020 13:47:27 -0500
+        Wed, 18 Nov 2020 13:47:32 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 42B6A1F4499B
+        with ESMTPSA id CB6F81F449D0
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
@@ -25,9 +25,9 @@ Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v3 05/13] media: Clean stateless control includes
-Date:   Wed, 18 Nov 2020 15:46:52 -0300
-Message-Id: <20201118184700.331213-6-ezequiel@collabora.com>
+Subject: [PATCH v3 06/13] media: uapi: h264: Add profile_idc macros
+Date:   Wed, 18 Nov 2020 15:46:53 -0300
+Message-Id: <20201118184700.331213-7-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201118184700.331213-1-ezequiel@collabora.com>
 References: <20201118184700.331213-1-ezequiel@collabora.com>
@@ -37,47 +37,33 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Avoid including h264-ctrls.h, vp8-ctrls.h, etc,
-and instead just include v4l2-ctrls.h which does the right
-thing.
-
-This is in preparation for moving the stateless controls
-out of staging, which will mean removing some of these headers.
+Add some macros to document the profile_idc magic numbers.
+This will be used to validate the controls, but could
+also be used by drivers.
 
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- drivers/staging/media/hantro/hantro_hw.h | 4 +---
- include/media/v4l2-h264.h                | 2 +-
- 2 files changed, 2 insertions(+), 4 deletions(-)
+ include/media/h264-ctrls.h | 7 +++++++
+ 1 file changed, 7 insertions(+)
 
-diff --git a/drivers/staging/media/hantro/hantro_hw.h b/drivers/staging/media/hantro/hantro_hw.h
-index 219283a06f52..34c9e4649a25 100644
---- a/drivers/staging/media/hantro/hantro_hw.h
-+++ b/drivers/staging/media/hantro/hantro_hw.h
-@@ -11,9 +11,7 @@
+diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
+index f86345b8efd1..e14307f1a77c 100644
+--- a/include/media/h264-ctrls.h
++++ b/include/media/h264-ctrls.h
+@@ -98,6 +98,13 @@ enum v4l2_mpeg_video_h264_start_code {
+ #define V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD		0x20
+ #define V4L2_H264_SPS_FLAG_DIRECT_8X8_INFERENCE			0x40
  
- #include <linux/interrupt.h>
- #include <linux/v4l2-controls.h>
--#include <media/h264-ctrls.h>
--#include <media/mpeg2-ctrls.h>
--#include <media/vp8-ctrls.h>
-+#include <media/v4l2-ctrls.h>
- #include <media/videobuf2-core.h>
- 
- #define DEC_8190_ALIGN_MASK	0x07U
-diff --git a/include/media/v4l2-h264.h b/include/media/v4l2-h264.h
-index f08ba181263d..d2314f4d4490 100644
---- a/include/media/v4l2-h264.h
-+++ b/include/media/v4l2-h264.h
-@@ -10,7 +10,7 @@
- #ifndef _MEDIA_V4L2_H264_H
- #define _MEDIA_V4L2_H264_H
- 
--#include <media/h264-ctrls.h>
-+#include <media/v4l2-ctrls.h>
- 
++#define V4L2_H264_PROFILE_IDC_BASELINE                          66
++#define V4L2_H264_PROFILE_IDC_MAIN                              77
++#define V4L2_H264_PROFILE_IDC_EXTENDED                          88
++#define V4L2_H264_PROFILE_IDC_HIGH                              100
++#define V4L2_H264_PROFILE_IDC_HIGH_422                          122
++#define V4L2_H264_PROFILE_IDC_HIGH_444                          244
++
  /**
-  * struct v4l2_h264_reflist_builder - Reference list builder object
+  * struct v4l2_ctrl_h264_sps - H264 sequence parameter set
+  *
 -- 
 2.27.0
 
