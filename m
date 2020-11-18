@@ -2,175 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B47342B71E7
-	for <lists+linux-media@lfdr.de>; Tue, 17 Nov 2020 23:59:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2CAB2B7442
+	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 03:40:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729498AbgKQW7e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Nov 2020 17:59:34 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36652 "EHLO
+        id S1726357AbgKRCkX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 17 Nov 2020 21:40:23 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42636 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728777AbgKQW7e (ORCPT
+        with ESMTP id S1725771AbgKRCkX (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Nov 2020 17:59:34 -0500
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4E96C0613CF;
-        Tue, 17 Nov 2020 14:59:33 -0800 (PST)
-Received: by mail-wm1-x342.google.com with SMTP id p22so416764wmg.3;
-        Tue, 17 Nov 2020 14:59:33 -0800 (PST)
+        Tue, 17 Nov 2020 21:40:23 -0500
+Received: from mail-oi1-x243.google.com (mail-oi1-x243.google.com [IPv6:2607:f8b0:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DAF4C0613D4
+        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 18:40:23 -0800 (PST)
+Received: by mail-oi1-x243.google.com with SMTP id o25so585495oie.5
+        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 18:40:23 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=zpVUFcKcpazRBQjDWd/8lZHZuRLZ1CRr09w7M6vNLNA=;
-        b=Psm5ELe2/Nk1exiFuNIHfTQ+85NJx62LBsbVdjZoJxGWFVnyl/XJMWLmrnqOHrhAkn
-         JbsDJGwHozno8b/l/AXRMPAqwnkPrC4zyHBOA1tg1J0DdRx62Qgvp7pkxBOKW+vrkAmd
-         Cp8++RKgBBrsbILMks8FEZHTozYH1YKiunqxJ9P5sS7GJqS90zgkMyqj8uJbjoGCde/t
-         QkSRVbm1TysmGSN/LH9e64R26p1oLJg2KyKmiUoioupXCdxRrYG7rfELOxUPO+5gorKc
-         dbR8i49vPRPUgRgpOYJk289IRcpoSNqEqsyszvam84evUPNlyT8kWIqB85v2RElRBDXF
-         Yh1Q==
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=bvdgsBLgi9EHMNSLVDq+6Fn9lRqcB8CIw2yWEiIoq80=;
+        b=J35wiLmqdOFXJLv4HSpQvHl5YEa4K3iwX2kW6Ks7Gc62WwkxOifW27KzFX7wu7bTp6
+         IUZd28S0eE2GdDUOWe8erY3blUciPXWTyOWyjSVllPrphPItMSzm6CNNaOAE9zFOF3pP
+         RMM8RbYKvT3omqiO7jafrSLB/clgjWbTiHU1dicDjr1f7/ZIyNxe114QTLDjCD5crXG/
+         DXez7Muy8FO15hQcaLg0uUPiXMZZmzN0sMCezSamFbMrPXxuawl/u+/Zh9uwg21zGqGq
+         2JstVY0hkwx2VniIDYfpZW6HK+vb/0TbOd69b1PfGQ7qBmycPY+L4nJrxAgB+HpAlBHB
+         PfIQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=zpVUFcKcpazRBQjDWd/8lZHZuRLZ1CRr09w7M6vNLNA=;
-        b=pDd2KsO128c76xFPgcfL0S7wRF8wj88sIUG3WS1knCoAwT3RRnLMUaPHVdOnUZIl0b
-         GtjvYMqFOpImOCohjL9PssZnTa3hraJXMkLfMLJ9sY6QGzSSWtI1x0E0jA+M/bj2r3sB
-         6ywxyai/oz4WbMoKj3g0/M8bVb7ftP4h6TZgS0FenYU+8KoHNnKvnYPsAavo2o1THhw0
-         pvdZAhXbNfiHv0B1zA+H/huyx5zHo2BrwX+Yw/3tc/s8RNI/KEXj3Vigtg4vPZOHSXA6
-         6BR5TzU6oPgDPDoZDmIB+DbGBoaImFkH4OwG39T89tTJ4hmXd8yvsQnz7b2DW6AadlPk
-         gjqg==
-X-Gm-Message-State: AOAM531o27836TYINEiLYFXKdY+HQNpttAc4Cju/SL4e/dJe9nZpQ/64
-        68M71wMEV4XILTOhecBOFYeXFQNWNqmUwgOm
-X-Google-Smtp-Source: ABdhPJy8R7SrSe3icBO5IxNWCHeGer42ab9ytsz99KlGqjpXzr2TveT4+FH32GIzYTTufqQcDw8aEA==
-X-Received: by 2002:a1c:9ad3:: with SMTP id c202mr1232699wme.43.1605653972486;
-        Tue, 17 Nov 2020 14:59:32 -0800 (PST)
-Received: from [192.168.1.211] ([2.31.225.98])
-        by smtp.gmail.com with ESMTPSA id f23sm286747wmb.43.2020.11.17.14.59.30
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 17 Nov 2020 14:59:31 -0800 (PST)
-Subject: Re: [RFC PATCH v3 9/9] ipu3-cio2: Add functionality allowing
- software_node connections to sensors on platforms designed for Windows
-To:     Andy Shevchenko <andy.shevchenko@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        prabhakar.mahadev-lad.rj@bp.renesas.com,
-        "Krogerus, Heikki" <heikki.krogerus@linux.intel.com>,
-        Dmitry Torokhov <dmitry.torokhov@gmail.com>,
-        laurent.pinchart+renesas@ideasonboard.com,
-        kieran.bingham+renesas@ideasonboard.com,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>,
-        Rob Herring <robh@kernel.org>,
-        "David S. Miller" <davem@davemloft.net>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Petr Mladek <pmladek@suse.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tian Shu Qiu <tian.shu.qiu@intel.com>,
-        Bingbu Cao <bingbu.cao@intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Yong Zhi <yong.zhi@intel.com>,
-        "Rafael J. Wysocki" <rafael@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Tsuchiya Yuto <kitakar@gmail.com>
-References: <20201029212930.GE15024@pendragon.ideasonboard.com>
- <20201029222215.GI4077@smile.fi.intel.com>
- <20201029225124.GI15024@pendragon.ideasonboard.com>
- <60b36af2-ad57-000b-76e4-379e1b58a3a0@gmail.com>
- <20201113162231.GO7524@pendragon.ideasonboard.com>
- <CAHp75VeGJKMeY-reNWgypVzJ6Myz5S2RXJPHqbPH5kzLYX3G4g@mail.gmail.com>
- <20201116085349.GA6540@pendragon.ideasonboard.com>
- <CAHp75Ve-O4u1B=dvC+HT-sg=YnoWSuV6kUkPmBSOx4w9OgoOoA@mail.gmail.com>
- <20201116141038.GJ6540@pendragon.ideasonboard.com>
- <3646e11c-a101-74e3-2eb4-7abf29937e9d@gmail.com>
- <20201116161636.GC4077@smile.fi.intel.com>
- <3976eac8-2a21-a619-1dba-85212ac4b4b1@gmail.com>
- <CAHp75VcEb373m=WjP5nPtEUMiiKga2_5w1YPB-T=VtvjaFh7Ww@mail.gmail.com>
-From:   Dan Scally <djrscally@gmail.com>
-Message-ID: <6dd605bb-baf7-c0d3-311a-1f4b134be406@gmail.com>
-Date:   Tue, 17 Nov 2020 22:59:30 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=bvdgsBLgi9EHMNSLVDq+6Fn9lRqcB8CIw2yWEiIoq80=;
+        b=E9fcI48rr+9ZZmel0BeX58agYWXjxEhgq3l9S9KsbANYO2ClxjBr4rB/t/JXQI/ovr
+         Nj5A6ijZLClmCxxEWuYzYlihiAotK3zQepxO1AHJMjnLM5JylXhn2SFsnGpQdPpS/D62
+         URj+lLNhLOSYj4i8nNs4kECyWpk6zkPDBqT/NOL6AljIDnc0TBwenDv0SGYvRYcbeIs0
+         Np2jXLO4CCdDLRhNVT0LWsUEhAL7ODtZ+dFmrMLfliaRPDc83O0fZ5DYjruWb9D/2E7u
+         0lFyMc8dAeXagd6jVWHjnkPCAbi692FrWFW3gt4HxG1zr9MQuvUWRIAX+VaEDLQuo0sD
+         sqcA==
+X-Gm-Message-State: AOAM533qMOaMJwGvlqH3kGB8aCc/jreZGVa2isyVbRpHntMa6CxVU2DV
+        Xl6YgUChtuWU5Pw9WgyT30bUCnXz7E3gmyMoSxYudg==
+X-Google-Smtp-Source: ABdhPJy0sxe/2XxPJwznFcbwNp7a1YBjsny2Xovn2b3d9sUn9AojSv42h8RwaMADnI7yZVr5fNfhexyQWdiLSAi+eFw=
+X-Received: by 2002:aca:4e02:: with SMTP id c2mr1442601oib.97.1605667222447;
+ Tue, 17 Nov 2020 18:40:22 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAHp75VcEb373m=WjP5nPtEUMiiKga2_5w1YPB-T=VtvjaFh7Ww@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
-Content-Language: en-US
+References: <20201110034934.70898-1-john.stultz@linaro.org>
+ <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
+ <20201112093237.GS401619@phenom.ffwll.local> <CALAqxLWWBaOc3W1s3xBe-innHZ0pAon7UCfumjjQftPqf7bO0Q@mail.gmail.com>
+ <20201113203933.GT401619@phenom.ffwll.local>
+In-Reply-To: <20201113203933.GT401619@phenom.ffwll.local>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Tue, 17 Nov 2020 18:40:11 -0800
+Message-ID: <CALAqxLU886mjGaNx3cvXB0hyOd=tTo7G=tw6iQ1uAxcXShN+kg@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
+ & a system-uncached implementation
+To:     John Stultz <john.stultz@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>
+Cc:     Daniel Vetter <daniel@ffwll.ch>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 17/11/2020 16:42, Andy Shevchenko wrote:
-> On Tue, Nov 17, 2020 at 2:02 PM Dan Scally <djrscally@gmail.com> wrote:
->> On 16/11/2020 16:16, Andy Shevchenko wrote:
->>> On Mon, Nov 16, 2020 at 02:15:01PM +0000, Dan Scally wrote:
->>>> On 16/11/2020 14:10, Laurent Pinchart wrote:
->>>>> I thought we were looking for ACPI devices, not companion devices, in
->>>>> order to extract information from the DSDT and store it in a software
->>>>> node. I could very well be wrong though.
->>>> This is correct - the code to fetch the various resources we're looking
->>>> at all uses acpi_device. Whether using Andy's iterator suggestions or
->>>> previous bus_for_each_dev(&acpi_bus_type...) I'm just getting the
->>>> acpi_device via to_acpi_dev() and using that.
->>> If you try to get an I²C ore SPI device out of pure ACPI device (with given
->>> APCI _HID) you will fail. So, it's not correct. You are retrieving companion
->>> devices, while they are still in the struct acpi_device.
->>>
->>> And don't ask me, why it's so. I wasn't designed that and didn't affect any
->>> decision made there.
->> Well, in terms of the actual device we're getting, I don't think we're
->> fundamentally doing anything different between the methods...unless I'm
->> really mistaken.
->>
->>
->> Originally implementation was like:
->>
->>
->> const char *supported_devices[] = {
->>
->>         "OVTI2680",
->>
->> };
->>
->>
->> static int cio2_bridge_connect_supported_devices(void)
->>
->> {
->>
->>         struct acpi_device *adev;
->>
->>         int i;
->>
->>         for (i = 0; i < ARRAY_SIZE(supported_devices); i++) {
->>
->>                 adev =
->> acpi_dev_get_first_match_dev(supported_devices[i], NULL, -1);
->>
->> ...
->>
->> }
->>
->>
->> and acpi_dev_get_first_match_dev() likewise just returns adev via
->> to_acpi_device(dev).
->>
->>
->> So, maybe we don't need to do the iterating over all devices with
->> matching _HID at all, in which case it can be dropped, but if we're
->> doing it then I can't see that it's different to the original
->> implementation in terms of the struct acpi_device we're working with or
->> the route taken to get it.
->>
->>
->> Either way; ACPI maintainers asked to be CC'd on the next patchset
->> anyway, so they'll see what we're doing and be able to weigh in.
-> Implementation wise the two approaches are quite similar for now, indeed.
-> I would rather go with an iterator approach for a simple reason, EFI
-> code already has something which may utilize iterators rather than
-> using their home grown solution.
-Alright - let's stick with that approach and leave the handling multiple
-sensors of same model in then. That's the current state of the code
-anyway, and it means it can be used elsewhere too.
+On Fri, Nov 13, 2020 at 12:39 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Thu, Nov 12, 2020 at 08:11:02PM -0800, John Stultz wrote:
+> > On Thu, Nov 12, 2020 at 1:32 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > On Thu, Nov 12, 2020 at 11:09:04AM +0530, Sumit Semwal wrote:
+> > > > On Tue, 10 Nov 2020 at 09:19, John Stultz <john.stultz@linaro.org> wrote:
+> > > > >
+> > > > > Hey All,
+> > > > >   So just wanted to send my last revision of my patch series
+> > > > > of performance optimizations to the dma-buf system heap.
+> > > >
+> > > > Thanks very much for your patches - I think the first 5 patches look good to me.
+> > > >
+> > > > I know there was a bit of discussion over adding a new system-uncached
+> > > > heap v/s using a flag to identify that; I think I prefer the separate
+> > > > heap idea, but lets ask one last time if any one else has any real
+> > > > objections to it.
+> > > >
+> > > > Daniel, Christian: any comments from your side on this?
+> > >
+> > > I do wonder a bit where the userspace stack for this all is, since tuning
+> > > allocators without a full stack is fairly pointless. dma-buf heaps is a
+> > > bit in a limbo situation here it feels like.
+> >
+> > As mentioned in the system-uncached patch:
+> > Pending opensource users of this code include:
+> > * AOSP HiKey960 gralloc:
+> >   - https://android-review.googlesource.com/c/device/linaro/hikey/+/1399519
+> >   - Visibly improves performance over the system heap
+> > * AOSP Codec2 (possibly, needs more review):
+> >   - https://android-review.googlesource.com/c/platform/frameworks/av/+/1360640/17/media/codec2/vndk/C2DmaBufAllocator.cpp#325
+> >
+> > Additionally both the HiKey, HiKey960 grallocs  and Codec2 are already
+> > able to use the current dmabuf heaps instead of ION.
+> >
+> > So I'm not sure what you mean by limbo, other than it being in a
+> > transition state where the interface is upstream and we're working on
+> > moving vendors to it from ION (which is staged to be dropped in 5.11).
+> > Part of that work is making sure we don't regress the performance
+> > expectations.
+>
+> The mesa thing below, since if we test this with some downstream kernel
+> drivers or at least non-mesa userspace I'm somewhat worried we're just
+> creating a nice split world between the android gfx world and the
+> mesa/linux desktop gfx world.
+>
+> But then that's kinda how android rolls, so *shrug*
+>
+> > > Plus I'm vary of anything related to leaking this kind of stuff beyond the
+> > > dma-api because dma api maintainers don't like us doing that. But
+> > > personally no concern on that front really, gpus need this. It's just that
+> > > we do need solid justification I think if we land this. Hence back to
+> > > first point.
+> > >
+> > > Ideally first point comes in the form of benchmarking on android together
+> > > with a mesa driver (or mesa + some v4l driver or whatever it takes to
+> > > actually show the benefits, I have no idea).
+> >
+> > Tying it with mesa is a little tough as the grallocs for mesa devices
+> > usually use gbm (gralloc.gbm or gralloc.minigbm). Swapping the
+> > allocation path for dmabuf heaps there gets a little complex as last I
+> > tried that (when trying to get HiKey working with Lima graphics, as
+> > gbm wouldn't allocate the contiguous buffers required by the display),
+> > I ran into issues with the drm_hwcomposer and mesa expecting the gbm
+> > private handle metadata in the buffer when it was passed in.
+> >
+> > But I might take a look at it again. I got a bit lost digging through
+> > the mesa gbm allocation paths last time.
+> >
+> > I'll also try to see if I can find a benchmark for the codec2 code
+> > (using dmabuf heaps with and without the uncached heap) on on db845c
+> > (w/ mesa), as that is already working and I suspect that might be
+> > close to what you're looking for.
+>
+> tbh I think trying to push for this long term is the best we can hope for.
+>
+> Media is also a lot more *meh* since it's deeply fragmented and a lot less
+> of it upstream than on the gles/display side.
+>
+> I think confirming that this at least doesn't horrible blow up on a
+> gralloc/gbm+mesa stack would be useful I think.
+
+Sorry, I'm still a little foggy on precisely what you're suggesting here.
+
+The patch stack I have has already been used with db845c (mesa +
+gbm_grallloc), with the codec2 (sw decoders) using dmabuf heaps.
+So no blowing up there. And I'm working with Hridya to find a
+benchmark for codec2 so we can try to show the performance delta.
+
+However, if you're wanting a dma-buf gralloc implementation with mesa,
+that may be a little tougher to do, but I guess I can give it a go.
+
+Hopefully this will address concerns about the system-uncached heap
+patch (the last two patches in this series)?
+
+In the meantime I hope we can queue the first five patches, as it
+would be nice to get the code rearranging in as there are others
+trying to stage their own heaps, and I'd like to avoid dragging that
+churn out for too long (in addition to improving the allocation
+performance). Those changes have no ABI implications.
+
+thanks
+-john
