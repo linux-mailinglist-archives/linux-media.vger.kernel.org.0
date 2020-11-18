@@ -2,118 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D66D72B7B85
-	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 11:41:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBF422B7BEE
+	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 11:59:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726460AbgKRKld (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Nov 2020 05:41:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60286 "EHLO
+        id S1726673AbgKRK5s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Nov 2020 05:57:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34560 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726528AbgKRKld (ORCPT
+        with ESMTP id S1725781AbgKRK5s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Nov 2020 05:41:33 -0500
-Received: from hillosipuli.retiisi.eu (hillosipuli.retiisi.eu [IPv6:2a01:4f9:c010:4572::81:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FA57C0613D4
-        for <linux-media@vger.kernel.org>; Wed, 18 Nov 2020 02:41:32 -0800 (PST)
-Received: from valkosipuli.localdomain (valkosipuli.retiisi.org.uk [IPv6:2a01:4f9:c010:4572::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 98AE4634C93
-        for <linux-media@vger.kernel.org>; Wed, 18 Nov 2020 12:41:20 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kfKtt-0000W9-3g
-        for linux-media@vger.kernel.org; Wed, 18 Nov 2020 12:41:21 +0200
-Date:   Wed, 18 Nov 2020 12:41:21 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL for 5.11] V4L2 sensor and CSI-2 driver patches
-Message-ID: <20201118104121.GE867@valkosipuli.retiisi.org.uk>
+        Wed, 18 Nov 2020 05:57:48 -0500
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4E7C2C0613D4;
+        Wed, 18 Nov 2020 02:57:48 -0800 (PST)
+Received: by mail-ej1-x644.google.com with SMTP id k27so2089612ejs.10;
+        Wed, 18 Nov 2020 02:57:48 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=reply-to:subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-transfer-encoding:content-language;
+        bh=Ujs+84h/AV5va5lsnNUE6Cha4z0WdYf4Awwp5uvYq2s=;
+        b=ec2dXjyKAgBuZgQiPsDp5dlX2Axa3/ZR+q3LPAUbNQK51MefRbkfyUzwGdwcFCNNsl
+         DmAkYKWSssBL8pDXSTuIMb03r27h8P3C7U+//k3tiWfmUbqOc6vYiFgAr7mFQguCiSkc
+         OrEEYzGMqPmV/YS7MOh6wuDzbz4ZtukA4ppcicdJqLSkgi9vmxq6hUetlEIql9xC1e+D
+         gJYjQu75/yP0gqDhZ9DoHavl6V6VBNPHDiB4x1nDLZ49YGYM471bij22ozZh9FBiPYHY
+         mft78EPbgAOqjcnAMJTpESq0Q+59GL2BcUtH6vopcqxr4H2uFtMKhBjytC9I6vggoFOh
+         CQlg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:reply-to:subject:to:cc:references:from
+         :message-id:date:user-agent:mime-version:in-reply-to
+         :content-transfer-encoding:content-language;
+        bh=Ujs+84h/AV5va5lsnNUE6Cha4z0WdYf4Awwp5uvYq2s=;
+        b=V9ajFqe9UWbjXQGfEom9Vox+CmaP+ESAfDcK/i95wz3Qre6nNZyeAsyLRiFUzzX+1d
+         7UxYmY5BwxHW+JV8wl/5z4eKNof9gArZMFS2etj5Y2HBWJeFGqb1iYHn4v5ZB3tzgQ0I
+         dFKpxR304qF0DfcGnXmGpGFLkGlxcV+XqkwNeY8mBibxESwe5ZveeRHIEjGUGDrqZPmO
+         bYe3b50A78yXICZ3WATXrxThWsCQ/txpkEIujk2GRFFMos7Tj9nqwQ19tpIDUVlJbrWp
+         rrvr8CQHemm3wtrAZTeG9jefMJuJJ6N+c3QC3zKOGudec0UvkxUDaYIqRJ3mCo+nRss9
+         hIlQ==
+X-Gm-Message-State: AOAM532vdPZ6fe1SA7Tf93YVY1wlP3KJNrU1cKKflxGssr2uNEKwTEag
+        qF3VR0oyc9o0Vv2FBjrBNKMXdJgSd78=
+X-Google-Smtp-Source: ABdhPJzwcar3mNBUaai8RXeIr42FsqX4abG+v5tYsTGBLf/nO0azD5aQGORqzDbjWMSqF0AU+Vgykw==
+X-Received: by 2002:a17:906:2e0f:: with SMTP id n15mr6409546eji.486.1605697066669;
+        Wed, 18 Nov 2020 02:57:46 -0800 (PST)
+Received: from ?IPv6:2a02:908:1252:fb60:be8a:bd56:1f94:86e7? ([2a02:908:1252:fb60:be8a:bd56:1f94:86e7])
+        by smtp.gmail.com with ESMTPSA id n12sm12761784ejs.19.2020.11.18.02.57.45
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 18 Nov 2020 02:57:46 -0800 (PST)
+Reply-To: christian.koenig@amd.com
+Subject: Re: [PATCH 1/2] mm: mmap: fix fput in error path v2
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     linux-mm@kvack.org, linux-kernel@vger.kernel.org,
+        linaro-mm-sig@lists.linaro.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org
+References: <20201106114806.46015-1-christian.koenig@amd.com>
+ <20201106114806.46015-2-christian.koenig@amd.com>
+ <20201106144811.cf228ca9278ec78887d42960@linux-foundation.org>
+From:   =?UTF-8?Q?Christian_K=c3=b6nig?= <ckoenig.leichtzumerken@gmail.com>
+Message-ID: <e5a25173-ebea-d856-ed25-45437769f17f@gmail.com>
+Date:   Wed, 18 Nov 2020 11:57:44 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201106144811.cf228ca9278ec78887d42960@linux-foundation.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 8bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Am 06.11.20 um 23:48 schrieb Andrew Morton:
+> On Fri,  6 Nov 2020 12:48:05 +0100 "Christian König" <ckoenig.leichtzumerken@gmail.com> wrote:
+>
+>> Patch "495c10cc1c0c CHROMIUM: dma-buf: restore args..."
+>> adds a workaround for a bug in mmap_region.
+>>
+>> As the comment states ->mmap() callback can change
+>> vma->vm_file and so we might call fput() on the wrong file.
+>>
+>> Revert the workaround and proper fix this in mmap_region.
+>>
+> Seems correct, best I can tell.  Presumably all ->mmap() instances will
+> correctly fput() to original file* if they're rewriting vma->vm_file.
 
-Here's a smallish set of V4L2 sensor and CSI-2 driver patches. Notable
-changes include the ov9734 sensor driver.
+Yes, exactly.
 
-Please pull.
+Patch #2 provides a helper to make sure that everybody gets the 
+get_file()/fput() correctly while updating vma->vm_file.
+
+Can I add your acked-by to the patches and push them upstream through 
+drm-misc-next?
+
+Thanks,
+Christian.
 
 
-The following changes since commit 9463e07df8e0f93931e32c6f415d3f82bda63f35:
-
-  media: v4l2-compat-ioctl32.c: add missing #ifdef CONFIG_COMPAT_32BIT_TIMEs (2020-11-17 07:14:46 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-5.11-2.1-signed
-
-for you to fetch changes up to b1848758e322e652809bf5e63458b1f630292ccd:
-
-  media: i2c: imx219: Declare that the driver can create events (2020-11-18 12:33:17 +0200)
-
-----------------------------------------------------------------
-V4L2 patches for 5.11
-
-----------------------------------------------------------------
-Andy Shevchenko (1):
-      media: ipu3-cio2: Use macros from mm.h
-
-Bingbu Cao (2):
-      media: ov2740: only do OTP data read on demand from user
-      media: ov2740: allow OTP data access during streaming
-
-Dave Stevenson (1):
-      media: i2c: imx219: Declare that the driver can create events
-
-Hugues Fruchet (2):
-      media: dt-bindings: media: st,stm32-dcmi: add support of BT656 bus
-      media: stm32-dcmi: add support of BT656 bus
-
-Nigel Christian (1):
-      media: ipu3-cio2: fix trivial style warning
-
-Rui Miguel Silva (3):
-      dt-bindings: ov2680: convert bindings to yaml
-      dt-bindings: imx7-csi: convert bindings to yaml
-      dt-bindings: imx7-mipi-csi2: convert bindings to yaml
-
-Tianshu Qiu (1):
-      media: i2c: Add ov9734 image sensor driver
-
-Xu Wang (1):
-      media: i2c: mt9p031: Remove redundant null check before clk_disable_unprepare
-
- .../devicetree/bindings/media/i2c/ov2680.txt       |   46 -
- .../devicetree/bindings/media/i2c/ovti,ov2680.yaml |   99 ++
- .../devicetree/bindings/media/imx7-csi.txt         |   42 -
- .../devicetree/bindings/media/imx7-mipi-csi2.txt   |   90 --
- .../devicetree/bindings/media/nxp,imx7-csi.yaml    |   71 ++
- .../bindings/media/nxp,imx7-mipi-csi2.yaml         |  173 ++++
- .../devicetree/bindings/media/st,stm32-dcmi.yaml   |   38 +
- MAINTAINERS                                        |   14 +-
- drivers/media/i2c/Kconfig                          |   14 +
- drivers/media/i2c/Makefile                         |    1 +
- drivers/media/i2c/imx219.c                         |    3 +-
- drivers/media/i2c/mt9p031.c                        |    3 +-
- drivers/media/i2c/ov2740.c                         |  203 ++--
- drivers/media/i2c/ov9734.c                         | 1018 ++++++++++++++++++++
- drivers/media/pci/intel/ipu3/ipu3-cio2.c           |    8 +-
- drivers/media/platform/stm32/stm32-dcmi.c          |   37 +-
- 16 files changed, 1596 insertions(+), 264 deletions(-)
- delete mode 100644 Documentation/devicetree/bindings/media/i2c/ov2680.txt
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov2680.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/imx7-csi.txt
- delete mode 100644 Documentation/devicetree/bindings/media/imx7-mipi-csi2.txt
- create mode 100644 Documentation/devicetree/bindings/media/nxp,imx7-csi.yaml
- create mode 100644 Documentation/devicetree/bindings/media/nxp,imx7-mipi-csi2.yaml
- create mode 100644 drivers/media/i2c/ov9734.c
-
--- 
-Sakari Ailus
