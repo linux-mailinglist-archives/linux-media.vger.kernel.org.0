@@ -2,173 +2,160 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C28C42B8594
-	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 21:29:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AFAE62B85D8
+	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 21:43:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726110AbgKRU2D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Nov 2020 15:28:03 -0500
-Received: from m42-4.mailgun.net ([69.72.42.4]:36960 "EHLO m42-4.mailgun.net"
+        id S1726894AbgKRUmn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Nov 2020 15:42:43 -0500
+Received: from mga05.intel.com ([192.55.52.43]:54197 "EHLO mga05.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725794AbgKRU2D (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Nov 2020 15:28:03 -0500
-DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
- s=smtp; t=1605731282; h=Message-ID: References: In-Reply-To: Subject:
- Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
- MIME-Version: Sender; bh=ur6glR/qi0TR8CQKk8j+lGgChxddt0kHiTvic5gvPKM=;
- b=tRhcJ6FUH0CYuPaMRswPiFhtwYBm5As2r+IKt+wrnk2ZjvSBmVLRtY0Er+nmN8x6RhswnwrU
- MRoJKH109yoKgu24MjDbAmqbbn4jt0yhmRZ4NUKkG4sHWsB2fcSQzJYtIrbZfk5HGfam2mDL
- QnJTUy8YzBtJw7G4ED7vmcA96p0=
-X-Mailgun-Sending-Ip: 69.72.42.4
-X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
-Received: from smtp.codeaurora.org
- (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
- smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
- 5fb583d20c9500dc7ba53620 (version=TLS1.2,
- cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 18 Nov 2020 20:28:02
- GMT
-Sender: veeras=codeaurora.org@mg.codeaurora.org
-Received: by smtp.codeaurora.org (Postfix, from userid 1001)
-        id C9E8EC433C6; Wed, 18 Nov 2020 20:28:01 +0000 (UTC)
-X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
-        aws-us-west-2-caf-mail-1.web.codeaurora.org
-X-Spam-Level: 
-X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
-        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
-Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
-        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
-        (No client certificate requested)
-        (Authenticated sender: veeras)
-        by smtp.codeaurora.org (Postfix) with ESMTPSA id E0D26C433C6;
-        Wed, 18 Nov 2020 20:27:59 +0000 (UTC)
+        id S1726837AbgKRUmn (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 18 Nov 2020 15:42:43 -0500
+IronPort-SDR: Tg/3djky3RgXY7hV7AWHu6Vyq4j1B25G3OsnnxrrI5wgwmysMlW1fHyKxRdv5vgihfT5d42mrM
+ Pxt0GU+3aFbw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="255894258"
+X-IronPort-AV: E=Sophos;i="5.77,488,1596524400"; 
+   d="scan'208";a="255894258"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 12:42:41 -0800
+IronPort-SDR: y7ODEIMzd/Av7qmePXjh/GNyWpa+iq4wPH+p2zfl+eJ7iunHnz9VLdVnkxRbbptITFwwC6+k0y
+ eR6GIvSWO8Sg==
+X-IronPort-AV: E=Sophos;i="5.77,488,1596524400"; 
+   d="scan'208";a="532881537"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 18 Nov 2020 12:42:38 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 0645820808; Wed, 18 Nov 2020 22:42:36 +0200 (EET)
+Date:   Wed, 18 Nov 2020 22:42:35 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
+        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
+        roman.kovalivskyi@globallogic.com, dafna.hirschfeld@collabora.com,
+        dave.stevenson@raspberrypi.org, naush@raspberrypi.com,
+        erosca@de.adit-jv.com
+Subject: Re: [PATCH v3 18/29] media: ov5647: Implement set_fmt pad operation
+Message-ID: <20201118204235.GL3940@paasikivi.fi.intel.com>
+References: <20201109164934.134919-1-jacopo@jmondi.org>
+ <20201109164934.134919-19-jacopo@jmondi.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Wed, 18 Nov 2020 12:27:59 -0800
-From:   veeras@codeaurora.org
-To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        sumit.semwal@linaro.org, gustavo@padovan.org, airlied@linux.ie,
-        daniel@ffwll.ch
-Cc:     robdclark@gmail.com, sean@poorly.run, pdhaval@codeaurora.org,
-        abhinavk@codeaurora.org, jsanka@codeaurora.org
-Subject: Re: [PATCH RESEND 1/2] dma-fence: allow signaling drivers to set
- fence timestamp
-In-Reply-To: <1605205643-12746-1-git-send-email-veeras@codeaurora.org>
-References: <1605205643-12746-1-git-send-email-veeras@codeaurora.org>
-Message-ID: <56c9f6721234666dea40d316e0dd24b6@codeaurora.org>
-X-Sender: veeras@codeaurora.org
-User-Agent: Roundcube Webmail/1.3.9
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201109164934.134919-19-jacopo@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-11-12 10:27, Veera Sundaram Sankaran wrote:
-> Some drivers have hardware capability to get the precise timestamp of
-> certain events based on which the fences are triggered. This allows it
-> to set accurate timestamp factoring out any software and IRQ latencies.
-> Move the timestamp parameter out of union in dma_fence struct to allow
-> signaling drivers to set it. If the parameter is not set, ktime_get is
-> used to set the current time to fence timestamp during 
-> dma_fence_signal.
+Hi Jacopo,
+
+On Mon, Nov 09, 2020 at 05:49:23PM +0100, Jacopo Mondi wrote:
+> Now that the driver supports more than a single mode, implement the
+> .set_fmt pad operation and adjust the existing .get_fmt one to report
+> the currently applied format.
 > 
-
-@Sumit Semwal / @Gustavo Padovan,
-Can you please help in reviewing this change as it falls in dma-fence 
-files.
-Thanks,
-Veera
-
-> Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
->  drivers/dma-buf/dma-fence.c | 18 ++++++++++--------
->  include/linux/dma-fence.h   | 15 +++------------
->  2 files changed, 13 insertions(+), 20 deletions(-)
+>  drivers/media/i2c/ov5647.c | 66 +++++++++++++++++++++++++++++++++++---
+>  1 file changed, 62 insertions(+), 4 deletions(-)
 > 
-> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
-> index 43624b4..7cef49a 100644
-> --- a/drivers/dma-buf/dma-fence.c
-> +++ b/drivers/dma-buf/dma-fence.c
-> @@ -4,6 +4,7 @@
->   *
->   * Copyright (C) 2012 Canonical Ltd
->   * Copyright (C) 2012 Texas Instruments
-> + * Copyright (c) 2020 The Linux Foundation. All rights reserved.
->   *
->   * Authors:
->   * Rob Clark <robdclark@gmail.com>
-> @@ -329,7 +330,6 @@ void __dma_fence_might_wait(void)
->  int dma_fence_signal_locked(struct dma_fence *fence)
->  {
->  	struct dma_fence_cb *cur, *tmp;
-> -	struct list_head cb_list;
-> 
->  	lockdep_assert_held(fence->lock);
-> 
-> @@ -337,16 +337,18 @@ int dma_fence_signal_locked(struct dma_fence 
-> *fence)
->  				      &fence->flags)))
->  		return -EINVAL;
-> 
-> -	/* Stash the cb_list before replacing it with the timestamp */
-> -	list_replace(&fence->cb_list, &cb_list);
-> -
-> -	fence->timestamp = ktime_get();
-> +	/* set current time, if not set by signaling driver */
-> +	if (!fence->timestamp)
-> +		fence->timestamp = ktime_get();
->  	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
->  	trace_dma_fence_signaled(fence);
-> 
-> -	list_for_each_entry_safe(cur, tmp, &cb_list, node) {
-> -		INIT_LIST_HEAD(&cur->node);
-> -		cur->func(fence, cur);
-> +	if (!list_empty(&fence->cb_list)) {
-> +		list_for_each_entry_safe(cur, tmp, &fence->cb_list, node) {
-> +			INIT_LIST_HEAD(&cur->node);
-> +			cur->func(fence, cur);
-> +		}
-> +		INIT_LIST_HEAD(&fence->cb_list);
->  	}
-> 
+> diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
+> index c65aacc0e04d3..68eab61d53493 100644
+> --- a/drivers/media/i2c/ov5647.c
+> +++ b/drivers/media/i2c/ov5647.c
+> @@ -1019,14 +1019,72 @@ static int ov5647_enum_frame_size(struct v4l2_subdev *sd,
 >  	return 0;
-> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
-> index 09e23ad..a9eebaf 100644
-> --- a/include/linux/dma-fence.h
-> +++ b/include/linux/dma-fence.h
-> @@ -4,6 +4,7 @@
->   *
->   * Copyright (C) 2012 Canonical Ltd
->   * Copyright (C) 2012 Texas Instruments
-> + * Copyright (c) 2020 The Linux Foundation. All rights reserved.
->   *
->   * Authors:
->   * Rob Clark <robdclark@gmail.com>
-> @@ -70,26 +71,16 @@ struct dma_fence {
->  	 * release the fence it is unused. No one should be adding to the
->  	 * cb_list that they don't themselves hold a reference for.
->  	 *
-> -	 * The lifetime of the timestamp is similarly tied to both the
-> -	 * rcu freelist and the cb_list. The timestamp is only set upon
-> -	 * signaling while simultaneously notifying the cb_list. Ergo, we
-> -	 * only use either the cb_list of timestamp. Upon destruction,
-> -	 * neither are accessible, and so we can use the rcu. This means
-> -	 * that the cb_list is *only* valid until the signal bit is set,
-> -	 * and to read either you *must* hold a reference to the fence,
-> -	 * and not just the rcu_read_lock.
-> -	 *
->  	 * Listed in chronological order.
->  	 */
->  	union {
->  		struct list_head cb_list;
-> -		/* @cb_list replaced by @timestamp on dma_fence_signal() */
-> -		ktime_t timestamp;
-> -		/* @timestamp replaced by @rcu on dma_fence_release() */
-> +		/* @cb_list replaced by @rcu on dma_fence_release() */
->  		struct rcu_head rcu;
->  	};
->  	u64 context;
->  	u64 seqno;
-> +	ktime_t timestamp;
->  	unsigned long flags;
->  	struct kref refcount;
->  	int error;
+>  }
+>  
+> -static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
+> +static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
+>  			      struct v4l2_subdev_pad_config *cfg,
+>  			      struct v4l2_subdev_format *format)
+>  {
+>  	struct v4l2_mbus_framefmt *fmt = &format->format;
+> +	const struct v4l2_mbus_framefmt *sensor_format;
+> +	struct ov5647 *sensor = to_sensor(sd);
+>  
+>  	memset(fmt, 0, sizeof(*fmt));
+> -	*fmt = OV5647_DEFAULT_FORMAT;
+> +
+> +	mutex_lock(&sensor->lock);
+> +	switch (format->which) {
+> +	case V4L2_SUBDEV_FORMAT_TRY:
+> +		sensor_format = v4l2_subdev_get_try_format(sd, cfg, format->pad);
+> +		break;
+> +	default:
+> +		sensor_format = &sensor->mode->format;
+> +		break;
+> +	}
+> +
+> +	*fmt = *sensor_format;
+> +	mutex_unlock(&sensor->lock);
+> +
+> +	return 0;
+> +}
+> +
+> +static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
+> +			      struct v4l2_subdev_pad_config *cfg,
+> +			      struct v4l2_subdev_format *format)
+> +{
+> +	struct v4l2_mbus_framefmt *fmt = &format->format;
+> +	const struct ov5647_mode *ov5647_mode_list;
+> +	struct ov5647 *sensor = to_sensor(sd);
+> +	const struct ov5647_mode *mode;
+> +	unsigned int num_modes;
+> +
+> +	/*
+> +	 * Default mbus code MEDIA_BUS_FMT_SBGGR10_1X10 if the requested one
+> +	 * is not supported.
+> +	 */
+> +	if (fmt->code == MEDIA_BUS_FMT_SBGGR8_1X8) {
+> +		ov5647_mode_list = ov5647_8bpp_modes;
+> +		num_modes = ARRAY_SIZE(ov5647_8bpp_modes);
+> +	} else {
+> +		ov5647_mode_list = ov5647_10bpp_modes;
+> +		num_modes = ARRAY_SIZE(ov5647_10bpp_modes);
+> +	}
+
+It'd be nicer if you could obtain the above information from an array where
+there's entry for each format. The above checks have a tendency to repeat
+themselves in a number of places.
+
+> +
+> +	mode = v4l2_find_nearest_size(ov5647_mode_list, num_modes,
+> +				      format.width, format.height,
+> +				      fmt->width, fmt->height);
+> +
+> +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
+> +		mutex_lock(&sensor->lock);
+> +		*v4l2_subdev_get_try_format(sd, cfg, format->pad) = mode->format;
+> +		*fmt = mode->format;
+> +		mutex_unlock(&sensor->lock);
+> +
+> +		return 0;
+> +	}
+> +
+> +	/* Update the sensor mode and apply at it at streamon time. */
+> +	mutex_lock(&sensor->lock);
+> +	sensor->mode = mode;
+> +	*fmt = mode->format;
+> +	mutex_unlock(&sensor->lock);
+>  
+>  	return 0;
+>  }
+> @@ -1071,8 +1129,8 @@ static int ov5647_get_selection(struct v4l2_subdev *sd,
+>  static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
+>  	.enum_mbus_code		= ov5647_enum_mbus_code,
+>  	.enum_frame_size	= ov5647_enum_frame_size,
+> -	.set_fmt		= ov5647_set_get_fmt,
+> -	.get_fmt		= ov5647_set_get_fmt,
+> +	.set_fmt		= ov5647_set_pad_fmt,
+> +	.get_fmt		= ov5647_get_pad_fmt,
+>  	.get_selection		= ov5647_get_selection,
+>  };
+>  
+
+-- 
+Sakari Ailus
