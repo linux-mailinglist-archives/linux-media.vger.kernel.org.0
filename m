@@ -2,228 +2,173 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E6982B858D
-	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 21:27:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C28C42B8594
+	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 21:29:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727063AbgKRU13 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Nov 2020 15:27:29 -0500
-Received: from mail.kernel.org ([198.145.29.99]:48284 "EHLO mail.kernel.org"
+        id S1726110AbgKRU2D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Nov 2020 15:28:03 -0500
+Received: from m42-4.mailgun.net ([69.72.42.4]:36960 "EHLO m42-4.mailgun.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726397AbgKRU12 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Nov 2020 15:27:28 -0500
-Received: from localhost.localdomain (adsl-84-226-167-205.adslplus.ch [84.226.167.205])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        id S1725794AbgKRU2D (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 18 Nov 2020 15:28:03 -0500
+DKIM-Signature: a=rsa-sha256; v=1; c=relaxed/relaxed; d=mg.codeaurora.org; q=dns/txt;
+ s=smtp; t=1605731282; h=Message-ID: References: In-Reply-To: Subject:
+ Cc: To: From: Date: Content-Transfer-Encoding: Content-Type:
+ MIME-Version: Sender; bh=ur6glR/qi0TR8CQKk8j+lGgChxddt0kHiTvic5gvPKM=;
+ b=tRhcJ6FUH0CYuPaMRswPiFhtwYBm5As2r+IKt+wrnk2ZjvSBmVLRtY0Er+nmN8x6RhswnwrU
+ MRoJKH109yoKgu24MjDbAmqbbn4jt0yhmRZ4NUKkG4sHWsB2fcSQzJYtIrbZfk5HGfam2mDL
+ QnJTUy8YzBtJw7G4ED7vmcA96p0=
+X-Mailgun-Sending-Ip: 69.72.42.4
+X-Mailgun-Sid: WyI3ZjU0NiIsICJsaW51eC1tZWRpYUB2Z2VyLmtlcm5lbC5vcmciLCAiYmU5ZTRhIl0=
+Received: from smtp.codeaurora.org
+ (ec2-35-166-182-171.us-west-2.compute.amazonaws.com [35.166.182.171]) by
+ smtp-out-n01.prod.us-west-2.postgun.com with SMTP id
+ 5fb583d20c9500dc7ba53620 (version=TLS1.2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256); Wed, 18 Nov 2020 20:28:02
+ GMT
+Sender: veeras=codeaurora.org@mg.codeaurora.org
+Received: by smtp.codeaurora.org (Postfix, from userid 1001)
+        id C9E8EC433C6; Wed, 18 Nov 2020 20:28:01 +0000 (UTC)
+X-Spam-Checker-Version: SpamAssassin 3.4.0 (2014-02-07) on
+        aws-us-west-2-caf-mail-1.web.codeaurora.org
+X-Spam-Level: 
+X-Spam-Status: No, score=-2.9 required=2.0 tests=ALL_TRUSTED,BAYES_00,
+        URIBL_BLOCKED autolearn=unavailable autolearn_force=no version=3.4.0
+Received: from mail.codeaurora.org (localhost.localdomain [127.0.0.1])
+        (using TLSv1 with cipher ECDHE-RSA-AES256-SHA (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B24FE246BB;
-        Wed, 18 Nov 2020 20:27:25 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605731247;
-        bh=SiKYyNuVm2mB5fmXmvYS4evDr6B1t4R+Rg/KThxSQ7I=;
-        h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=HPNX9dd13cIiF//pBhj3WvQ7LshhI9Mshia1DnyUUOir8wMmLeOVkXSP9CZQhEgcH
-         CrSnZx4ykDWb7YpnzYhKxONxcAk5afhTe8N1PIz6+I7B9qULHHcfvqT2Nk9eEnmqrD
-         UTQghZKRMmmCeofk0wBcgylR1v4eLt/gVf0B8NI0=
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        linux-kernel@vger.kernel.org
-Cc:     Krzysztof Kozlowski <krzk@kernel.org>
-Subject: [PATCH v6 4/4] media: i2c: imx258: get clock from device properties and enable it via runtime PM
-Date:   Wed, 18 Nov 2020 21:27:15 +0100
-Message-Id: <20201118202715.6692-4-krzk@kernel.org>
-X-Mailer: git-send-email 2.25.1
-In-Reply-To: <20201118202715.6692-1-krzk@kernel.org>
-References: <20201118202715.6692-1-krzk@kernel.org>
+        (Authenticated sender: veeras)
+        by smtp.codeaurora.org (Postfix) with ESMTPSA id E0D26C433C6;
+        Wed, 18 Nov 2020 20:27:59 +0000 (UTC)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII;
+ format=flowed
+Content-Transfer-Encoding: 7bit
+Date:   Wed, 18 Nov 2020 12:27:59 -0800
+From:   veeras@codeaurora.org
+To:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
+        sumit.semwal@linaro.org, gustavo@padovan.org, airlied@linux.ie,
+        daniel@ffwll.ch
+Cc:     robdclark@gmail.com, sean@poorly.run, pdhaval@codeaurora.org,
+        abhinavk@codeaurora.org, jsanka@codeaurora.org
+Subject: Re: [PATCH RESEND 1/2] dma-fence: allow signaling drivers to set
+ fence timestamp
+In-Reply-To: <1605205643-12746-1-git-send-email-veeras@codeaurora.org>
+References: <1605205643-12746-1-git-send-email-veeras@codeaurora.org>
+Message-ID: <56c9f6721234666dea40d316e0dd24b6@codeaurora.org>
+X-Sender: veeras@codeaurora.org
+User-Agent: Roundcube Webmail/1.3.9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The IMX258 sensor driver checked in device properties for a
-clock-frequency property which actually does not mean that the clock is
-really running such frequency or is it even enabled.
+On 2020-11-12 10:27, Veera Sundaram Sankaran wrote:
+> Some drivers have hardware capability to get the precise timestamp of
+> certain events based on which the fences are triggered. This allows it
+> to set accurate timestamp factoring out any software and IRQ latencies.
+> Move the timestamp parameter out of union in dma_fence struct to allow
+> signaling drivers to set it. If the parameter is not set, ktime_get is
+> used to set the current time to fence timestamp during 
+> dma_fence_signal.
+> 
 
-Get the provided clock and check it frequency.  If none is provided,
-fall back to old property.
+@Sumit Semwal / @Gustavo Padovan,
+Can you please help in reviewing this change as it falls in dma-fence 
+files.
+Thanks,
+Veera
 
-Enable the clock when accessing the IMX258 registers and when streaming
-starts with runtime PM.
-
-Signed-off-by: Krzysztof Kozlowski <krzk@kernel.org>
-
----
-
-Changes since v5:
-1. Move clk_get_rate() out of else block.
-
-Changes since v4:
-1. Add missing imx258_power_off.
-
-Changes since v3:
-1. None
-
-Changes since v2:
-1. Do not try to set drvdata, wrap lines.
-2. Use dev_dbg.
-
-Changes since v1:
-1. Use runtime PM for clock toggling
----
- drivers/media/i2c/imx258.c | 69 +++++++++++++++++++++++++++++++++-----
- 1 file changed, 61 insertions(+), 8 deletions(-)
-
-diff --git a/drivers/media/i2c/imx258.c b/drivers/media/i2c/imx258.c
-index 505981e02cff..61d74b794582 100644
---- a/drivers/media/i2c/imx258.c
-+++ b/drivers/media/i2c/imx258.c
-@@ -2,6 +2,7 @@
- // Copyright (C) 2018 Intel Corporation
- 
- #include <linux/acpi.h>
-+#include <linux/clk.h>
- #include <linux/delay.h>
- #include <linux/i2c.h>
- #include <linux/module.h>
-@@ -68,6 +69,9 @@
- #define REG_CONFIG_MIRROR_FLIP		0x03
- #define REG_CONFIG_FLIP_TEST_PATTERN	0x02
- 
-+/* Input clock frequency in Hz */
-+#define IMX258_INPUT_CLOCK_FREQ		19200000
-+
- struct imx258_reg {
- 	u16 address;
- 	u8 val;
-@@ -610,6 +614,8 @@ struct imx258 {
- 
- 	/* Streaming on/off */
- 	bool streaming;
-+
-+	struct clk *clk;
- };
- 
- static inline struct imx258 *to_imx258(struct v4l2_subdev *_sd)
-@@ -972,6 +978,29 @@ static int imx258_stop_streaming(struct imx258 *imx258)
- 	return 0;
- }
- 
-+static int imx258_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct imx258 *imx258 = to_imx258(sd);
-+	int ret;
-+
-+	ret = clk_prepare_enable(imx258->clk);
-+	if (ret)
-+		dev_err(dev, "failed to enable clock\n");
-+
-+	return ret;
-+}
-+
-+static int imx258_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct imx258 *imx258 = to_imx258(sd);
-+
-+	clk_disable_unprepare(imx258->clk);
-+
-+	return 0;
-+}
-+
- static int imx258_set_stream(struct v4l2_subdev *sd, int enable)
- {
- 	struct imx258 *imx258 = to_imx258(sd);
-@@ -1199,9 +1228,26 @@ static int imx258_probe(struct i2c_client *client)
- 	int ret;
- 	u32 val = 0;
- 
--	device_property_read_u32(&client->dev, "clock-frequency", &val);
--	if (val != 19200000)
-+	imx258 = devm_kzalloc(&client->dev, sizeof(*imx258), GFP_KERNEL);
-+	if (!imx258)
-+		return -ENOMEM;
-+
-+	imx258->clk = devm_clk_get_optional(&client->dev, NULL);
-+	if (!imx258->clk) {
-+		dev_dbg(&client->dev,
-+			"no clock provided, using clock-frequency property\n");
-+
-+		device_property_read_u32(&client->dev, "clock-frequency", &val);
-+		if (val != IMX258_INPUT_CLOCK_FREQ)
-+			return -EINVAL;
-+	} else if (IS_ERR(imx258->clk)) {
-+		return dev_err_probe(&client->dev, PTR_ERR(imx258->clk),
-+				     "error getting clock\n");
-+	}
-+	if (clk_get_rate(imx258->clk) != IMX258_INPUT_CLOCK_FREQ) {
-+		dev_err(&client->dev, "input clock frequency not supported\n");
- 		return -EINVAL;
-+	}
- 
- 	/*
- 	 * Check that the device is mounted upside down. The driver only
-@@ -1211,24 +1257,25 @@ static int imx258_probe(struct i2c_client *client)
- 	if (ret || val != 180)
- 		return -EINVAL;
- 
--	imx258 = devm_kzalloc(&client->dev, sizeof(*imx258), GFP_KERNEL);
--	if (!imx258)
--		return -ENOMEM;
--
- 	/* Initialize subdev */
- 	v4l2_i2c_subdev_init(&imx258->sd, client, &imx258_subdev_ops);
- 
-+	/* Will be powered off via pm_runtime_idle */
-+	ret = imx258_power_on(&client->dev);
-+	if (ret)
-+		return ret;
-+
- 	/* Check module identity */
- 	ret = imx258_identify_module(imx258);
- 	if (ret)
--		return ret;
-+		goto error_identify;
- 
- 	/* Set default mode to max resolution */
- 	imx258->cur_mode = &supported_modes[0];
- 
- 	ret = imx258_init_controls(imx258);
- 	if (ret)
--		return ret;
-+		goto error_identify;
- 
- 	/* Initialize subdev */
- 	imx258->sd.internal_ops = &imx258_internal_ops;
-@@ -1258,6 +1305,9 @@ static int imx258_probe(struct i2c_client *client)
- error_handler_free:
- 	imx258_free_controls(imx258);
- 
-+error_identify:
-+	imx258_power_off(&client->dev);
-+
- 	return ret;
- }
- 
-@@ -1271,6 +1321,8 @@ static int imx258_remove(struct i2c_client *client)
- 	imx258_free_controls(imx258);
- 
- 	pm_runtime_disable(&client->dev);
-+	if (!pm_runtime_status_suspended(&client->dev))
-+		imx258_power_off(&client->dev);
- 	pm_runtime_set_suspended(&client->dev);
- 
- 	return 0;
-@@ -1278,6 +1330,7 @@ static int imx258_remove(struct i2c_client *client)
- 
- static const struct dev_pm_ops imx258_pm_ops = {
- 	SET_SYSTEM_SLEEP_PM_OPS(imx258_suspend, imx258_resume)
-+	SET_RUNTIME_PM_OPS(imx258_power_off, imx258_power_on, NULL)
- };
- 
- #ifdef CONFIG_ACPI
--- 
-2.25.1
-
+> Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
+> ---
+>  drivers/dma-buf/dma-fence.c | 18 ++++++++++--------
+>  include/linux/dma-fence.h   | 15 +++------------
+>  2 files changed, 13 insertions(+), 20 deletions(-)
+> 
+> diff --git a/drivers/dma-buf/dma-fence.c b/drivers/dma-buf/dma-fence.c
+> index 43624b4..7cef49a 100644
+> --- a/drivers/dma-buf/dma-fence.c
+> +++ b/drivers/dma-buf/dma-fence.c
+> @@ -4,6 +4,7 @@
+>   *
+>   * Copyright (C) 2012 Canonical Ltd
+>   * Copyright (C) 2012 Texas Instruments
+> + * Copyright (c) 2020 The Linux Foundation. All rights reserved.
+>   *
+>   * Authors:
+>   * Rob Clark <robdclark@gmail.com>
+> @@ -329,7 +330,6 @@ void __dma_fence_might_wait(void)
+>  int dma_fence_signal_locked(struct dma_fence *fence)
+>  {
+>  	struct dma_fence_cb *cur, *tmp;
+> -	struct list_head cb_list;
+> 
+>  	lockdep_assert_held(fence->lock);
+> 
+> @@ -337,16 +337,18 @@ int dma_fence_signal_locked(struct dma_fence 
+> *fence)
+>  				      &fence->flags)))
+>  		return -EINVAL;
+> 
+> -	/* Stash the cb_list before replacing it with the timestamp */
+> -	list_replace(&fence->cb_list, &cb_list);
+> -
+> -	fence->timestamp = ktime_get();
+> +	/* set current time, if not set by signaling driver */
+> +	if (!fence->timestamp)
+> +		fence->timestamp = ktime_get();
+>  	set_bit(DMA_FENCE_FLAG_TIMESTAMP_BIT, &fence->flags);
+>  	trace_dma_fence_signaled(fence);
+> 
+> -	list_for_each_entry_safe(cur, tmp, &cb_list, node) {
+> -		INIT_LIST_HEAD(&cur->node);
+> -		cur->func(fence, cur);
+> +	if (!list_empty(&fence->cb_list)) {
+> +		list_for_each_entry_safe(cur, tmp, &fence->cb_list, node) {
+> +			INIT_LIST_HEAD(&cur->node);
+> +			cur->func(fence, cur);
+> +		}
+> +		INIT_LIST_HEAD(&fence->cb_list);
+>  	}
+> 
+>  	return 0;
+> diff --git a/include/linux/dma-fence.h b/include/linux/dma-fence.h
+> index 09e23ad..a9eebaf 100644
+> --- a/include/linux/dma-fence.h
+> +++ b/include/linux/dma-fence.h
+> @@ -4,6 +4,7 @@
+>   *
+>   * Copyright (C) 2012 Canonical Ltd
+>   * Copyright (C) 2012 Texas Instruments
+> + * Copyright (c) 2020 The Linux Foundation. All rights reserved.
+>   *
+>   * Authors:
+>   * Rob Clark <robdclark@gmail.com>
+> @@ -70,26 +71,16 @@ struct dma_fence {
+>  	 * release the fence it is unused. No one should be adding to the
+>  	 * cb_list that they don't themselves hold a reference for.
+>  	 *
+> -	 * The lifetime of the timestamp is similarly tied to both the
+> -	 * rcu freelist and the cb_list. The timestamp is only set upon
+> -	 * signaling while simultaneously notifying the cb_list. Ergo, we
+> -	 * only use either the cb_list of timestamp. Upon destruction,
+> -	 * neither are accessible, and so we can use the rcu. This means
+> -	 * that the cb_list is *only* valid until the signal bit is set,
+> -	 * and to read either you *must* hold a reference to the fence,
+> -	 * and not just the rcu_read_lock.
+> -	 *
+>  	 * Listed in chronological order.
+>  	 */
+>  	union {
+>  		struct list_head cb_list;
+> -		/* @cb_list replaced by @timestamp on dma_fence_signal() */
+> -		ktime_t timestamp;
+> -		/* @timestamp replaced by @rcu on dma_fence_release() */
+> +		/* @cb_list replaced by @rcu on dma_fence_release() */
+>  		struct rcu_head rcu;
+>  	};
+>  	u64 context;
+>  	u64 seqno;
+> +	ktime_t timestamp;
+>  	unsigned long flags;
+>  	struct kref refcount;
+>  	int error;
