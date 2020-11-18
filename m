@@ -2,70 +2,72 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A9D9D2B8017
-	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 16:07:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6DF1F2B8021
+	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 16:13:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726504AbgKRPGF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Nov 2020 10:06:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44652 "EHLO
+        id S1726576AbgKRPJP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Nov 2020 10:09:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45132 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725787AbgKRPGE (ORCPT
+        with ESMTP id S1725787AbgKRPJP (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Nov 2020 10:06:04 -0500
-Received: from mail-ej1-x62b.google.com (mail-ej1-x62b.google.com [IPv6:2a00:1450:4864:20::62b])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C66FC0613D4
-        for <linux-media@vger.kernel.org>; Wed, 18 Nov 2020 07:06:04 -0800 (PST)
-Received: by mail-ej1-x62b.google.com with SMTP id w13so3161394eju.13
-        for <linux-media@vger.kernel.org>; Wed, 18 Nov 2020 07:06:04 -0800 (PST)
+        Wed, 18 Nov 2020 10:09:15 -0500
+Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59EDAC0613D4
+        for <linux-media@vger.kernel.org>; Wed, 18 Nov 2020 07:09:13 -0800 (PST)
+Received: by mail-ed1-x544.google.com with SMTP id ay21so2367603edb.2
+        for <linux-media@vger.kernel.org>; Wed, 18 Nov 2020 07:09:13 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=date:from:to:cc:message-id:mime-version:content-disposition
-         :user-agent;
-        bh=ZZYX276KYV18TN+zLoa+PnqxFsY1ZBFmsgvGbGakzwk=;
-        b=X4kqmSQw2HEJvepcGdDGQzDuYiuPAPj3nfECC/DtCLgFpiLKAx3OL+lBhqLVSzYUbj
-         lbz3OLQx1+ljuhwuGMUS79lm3L9qd6CN+6vPik8KXAaL5E7OOma1W0zgYC6/i+5Y1+bD
-         JSdGDG81rSxIZr+cjQq82J3wAFwEOG836HJNeqsJ3lG7NyZmNgrwa2PM4qTD8fhAd02k
-         KoHb7yUUc7uj3hO+PJ+UDdHYmNmFr4JAsAuzrbAdOiiNhrSFqcj+XQCbTF+iu8Lg/sRs
-         fGrjOFKMmLRSxi9S79F2SY//GOFtm97eoEXq9JATb8vjv0k0w4Irz9Qu7jeo4avy2m5X
-         9B7g==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=5O6PhL2XzKsVs6MG0Rv+d1ChvZq2IY8A5i6hZR8gMaE=;
+        b=ZOvGmzfcIlpCmAoflCb1vh8Dt0hctRv+foPvliwyI6JArwWGzr8MLGKyfQTWAsoAaj
+         3Q2K3tRXCWhJAsRtwbP71592z23K/Z61qJ4cGWUE48FK28QZwZl5gLHg402qDG1GNQmD
+         RsdaxQ90u9jmA6p4wYhRpKb85Zcrc7UCpPS5GHiY9Gar0Av9LXWOtbdgxDcKzHlhx7zp
+         rlDtZoXQ7baH1hlrjze8OVxnQaKPSRXCOHoifYMiPt8psMDTLF6p7ngRrGpYm7t7mtne
+         OABVO/405geegMLYAc4Av6rrSDvXtDDGuGcbpEjizBw079GGisr7XxXSa52ECEW9waAr
+         0yEQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:message-id:mime-version
-         :content-disposition:user-agent;
-        bh=ZZYX276KYV18TN+zLoa+PnqxFsY1ZBFmsgvGbGakzwk=;
-        b=mDorVkB6w9zukQVxt7f1etamho/lMOlYkEGC+pgM9axh0bLt6PE+VWsavnY6EnzPjL
-         tvHS4p0lJnDIWpGHThuNOnV3UqE5LPRdqYAP6zpx6wAID2MUbUnzPrUG0MetukPtDNVI
-         oqd8BFSLrYtr9Z+Bj1n+PDBqZ42XfUisyT8+juM7EpDq2gKqX+LxHIOukF3fuM68O+jc
-         Ir0N0fLt0m/k20mgD3+CMeA63TG9U9zok3m7/Ox0rTxlADevBjvZ8xKyMxUWZgn+LfmF
-         K1pmJ0jX/+bVNpsp64z9yS8pn+fh+MDacn9UuGNZDBUUemq9WNEFwb9+9KLX/OKkMNK9
-         A+hw==
-X-Gm-Message-State: AOAM533f3MixpnA4thFXyUsZnfKzV2DG0ROyfqCElAi9iOnpL8Bk1UWQ
-        9+1nDTVbRNW079sCuKu9waw=
-X-Google-Smtp-Source: ABdhPJxmUc08mCxCuyqvz4IghaIf4xJd6wNwvFmHZOe2dpElwLUlQbfpFH9P1oRhn2qslTpVLKnyrw==
-X-Received: by 2002:a17:906:e4f:: with SMTP id q15mr23778124eji.220.1605711962287;
-        Wed, 18 Nov 2020 07:06:02 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to:user-agent;
+        bh=5O6PhL2XzKsVs6MG0Rv+d1ChvZq2IY8A5i6hZR8gMaE=;
+        b=ixAKv3oBiTNU98Z5csxAPufB+MSqsUXOZquXP5Z3+/uhLT6yx5J9toupX2+SMR5P+X
+         NxWlte9OhlLaxbGy83hPaM+vaSmMOZmeF/bsIo/mD3YW08HiiKnJ/5fRF/ep2zIjKhZv
+         /cIpLNX20NgbKltUp2wDtgpK6BPCSQJOTL/D3+xQGLxA50kGVxew5LKi2ss44yLEH5C7
+         wTKRxjU1rpuhGvwSLwyiq4Qf7bX1TB4GrCM0FoEfVmXvjSnu8tnyllY/7P++QNV/fdpV
+         h8BB6RjoN6GC189b1QrjmJyba8Hn/kIRHUsTTC/hHEmfpvVv7CZkf/l/WaKwvhU6EtI5
+         zXdQ==
+X-Gm-Message-State: AOAM530fAxHKKKYIzqFRU/Q18WpfceOfYryowmLv9UaKE13l9JQtXl9w
+        1CJvRxvt9hLwBASwM6HRfr/xGGgquGZQHw==
+X-Google-Smtp-Source: ABdhPJwKd9aAQx6LBaJhEc4dfeheLaDqZIVnuBTS+tzRBSSQUvESejuhhD9GMuGJRaFb6/PK9M1a/Q==
+X-Received: by 2002:a50:fe02:: with SMTP id f2mr26098740edt.97.1605712151597;
+        Wed, 18 Nov 2020 07:09:11 -0800 (PST)
 Received: from localhost (p200300d1ff00040030b369bc8529b5e6.dip0.t-ipconnect.de. [2003:d1:ff00:400:30b3:69bc:8529:b5e6])
-        by smtp.gmail.com with ESMTPSA id u7sm1972349ejf.83.2020.11.18.07.06.00
+        by smtp.gmail.com with ESMTPSA id a10sm13586654edn.77.2020.11.18.07.09.10
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2020 07:06:01 -0800 (PST)
-Date:   Wed, 18 Nov 2020 16:05:59 +0100
+        Wed, 18 Nov 2020 07:09:10 -0800 (PST)
+Date:   Wed, 18 Nov 2020 16:09:09 +0100
 From:   Sebastian Fricke <sebastian.fricke.linux@gmail.com>
 To:     Helen Koike <helen.koike@collabora.com>
-Cc:     linux-media@vger.kernel.org, ezequiel@vanguardiasur.com.ar
-Message-ID: <20201118150559.ykh2mouaqvytmjq7@basti.Speedport_W_724V_Typ_A_05011603_06_001>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        ezequiel@vanguardiasur.com.ar, heiko@sntech.de
+Subject: Re: Working with the OV13850 camera sensor on the NanoPC-T4
+Message-ID: <20201118150909.yltdxstmg5v3qz2z@basti.Speedport_W_724V_Typ_A_05011603_06_001>
+References: <20201115111002.d7x2a4ephofohd7o@basti.Speedport_W_724V_Typ_A_05011603_06_001>
+ <CAAEAJfAeHVx0xpDKj=jEnt3zq_SwxT5Y-ccJ7rPJgm0K0WFUMg@mail.gmail.com>
+ <8daa1bf3-bca1-594e-f0ce-692ede0aac2d@collabora.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8; format=flowed
 Content-Disposition: inline
+In-Reply-To: <8daa1bf3-bca1-594e-f0ce-692ede0aac2d@collabora.com>
 User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-linux-rockchip@lists.infradead.org
-Bcc:
-Subject: Re: Working with the OV13850 camera sensor on the NanoPC-T4
-Reply-To: Sebastian Fricke <sebastian.fricke.linux@gmail.com>
-In-Reply-To: <8daa1bf3-bca1-594e-f0ce-692ede0aac2d@collabora.com>
+[RESEND with all CC Email addresses]
 
 On 16.11.2020 08:31, Helen Koike wrote:
 >Hi Sebastian,
