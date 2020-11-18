@@ -2,178 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9BEEA2B7567
-	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 05:35:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24BEC2B75A6
+	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 06:21:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726295AbgKREe6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 17 Nov 2020 23:34:58 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:36901 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725834AbgKREe6 (ORCPT
+        id S1726444AbgKRFSb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Nov 2020 00:18:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:38814 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726234AbgKRFSb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 17 Nov 2020 23:34:58 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id fFBHkbdFNJ1TnfFBIkrdxd; Wed, 18 Nov 2020 05:34:56 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1605674096; bh=Gh4rFJnxX2s1gWf2gLtIEmqzzZiojDFmM8n0BQHri7Y=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=faKFuJuJd12WGVi5v48ngFhIyeoLRKi8et2NGP7QQ7vft1YjPs3IFYZMS5wco/h06
-         2fbcCTKU0u9Sz3OOnHf5vXD9BZZv2n6VNFFOHkk9IfKfJ/0yfD9LvIeviDonSVy2bp
-         8nHRasBHmYxRDXuV3D1sE3wsg+vDxiXQQfI6+2BENi4JjmT3yCrK7DaEMk4OlLOuZs
-         jAlDgWIWG2kBNPp1JSNXvG2hrFTQo+mlHUqB6dDQYCaoGP6JfXaoVIMMNxMS++lDuy
-         KF6TWHl/tHijDNyAufcCIqyA7i1NN6P0VzQ4VIhGUS7o5W6ZgMi5FcVihkrUL6A4FV
-         1xmRYA2okOPdQ==
-Message-ID: <1bb11754359a9735145e8eda964c5be3@smtp-cloud8.xs4all.net>
-Date:   Wed, 18 Nov 2020 05:34:55 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfP/JOci2zZOhzkrBZd75AVHM2DNWZ5kbSlN7qTn6we5fwTenUnJ8O5hTWCmcQnGHbLdxUvUMSXkPyRBCmBajuU6h9BWf2evl+VoyRuRP6gC+Z6ZeYkix
- W+l4C+YAzrJguXVNAfAYRYqu5Id2R+WdakdroWfzJXoorfymWY8wloNEZFd6JAyv9qT9pZh7NPQa4HQF8DVJYC/zREctgt873dps6hxhJ4GChVJsJeTMKWH/
- fzaZzE/7Swq0TluRjY8S7w==
+        Wed, 18 Nov 2020 00:18:31 -0500
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 14482C061A4F
+        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 21:18:31 -0800 (PST)
+Received: by mail-ot1-x342.google.com with SMTP id o3so595973ota.8
+        for <linux-media@vger.kernel.org>; Tue, 17 Nov 2020 21:18:31 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=F7sKJwkzdbeLOyKiVuDYfrrRTcjeln31HNpMolHCz84=;
+        b=dhgZBRUwhlMJGYy5B5kg0/hTc+PVW/P9fwbxUQJYELxJr3sFTgqZUB3YOpBKAzffVk
+         DY8UNWEqVw/HybCxEg7v6elONW5OXpewFmWZL47EXnXpZ8KRUpN25OyEbQ9waYsX2RYx
+         Z7M6iEvChYlW5DZl2OVnarihlbMHfZ+iw9QzaRzN3biQjmkcdmZfzEv9o1SvTTS68wEa
+         j8YjGL9BGrbAOtVkCtPFjv7oRrzDU3i75AjHiOH8d7M/p3Fs5gn7lA76LSbCUU4yP3Pf
+         y279jWnjt9FlaQSVf4leq5rK885Ko1y0Kv581qhqm/jDkmphNYUXOMTTDpKcLJGF9Wct
+         d2EQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=F7sKJwkzdbeLOyKiVuDYfrrRTcjeln31HNpMolHCz84=;
+        b=QxGFzl48yIvddRFAS35Bl/pK/19C4JAT/anhx4fz3PsbPg0pagsFdyn4Z0Pui6Jia8
+         AH2oJeifMZnJC5QgYJdpxrZ45OGtFFT0A2Vexq3ft0zgXdvgRs62zjNH1mPeGCH2XlLc
+         HJ6cSJZ6tF+HRXfkx8IZjZUm9GmVQV9x1MSjeds7VbZ/tpjHLm+1j+qi0PuikDsqHPz7
+         rYJHZJSgwB+HlDCx4RdjpBnm4RG2Bot+On7sJZaJQo970WEan7IIXoB6Td1eBy9971pf
+         rm56ybPY7SNJDvM6+2M0WjgqCaA4XsCgk3AJAs5//kuvjKur4J2ZUstSAG7XxHbvAYHg
+         PRdw==
+X-Gm-Message-State: AOAM532rWwTOaJGLiLQsUrkap/TuqNw92OSXyQsCfXJUIkmtSx4GbWr+
+        +mNQRcdCD9XiaZVO9lk6K2LGC1rcEDnfTahDl2uTnA==
+X-Google-Smtp-Source: ABdhPJznMB7Dcm3wHiflI6UU5baKUw77SPDRMKIJ2o8sjGzcuUEIkHfXK7f360M22ZzOz3BxHb2BphgAFuVXhh6gpyE=
+X-Received: by 2002:a9d:64ce:: with SMTP id n14mr5354340otl.352.1605676710354;
+ Tue, 17 Nov 2020 21:18:30 -0800 (PST)
+MIME-Version: 1.0
+References: <20201117181935.3613581-1-minchan@kernel.org> <20201117181935.3613581-3-minchan@kernel.org>
+In-Reply-To: <20201117181935.3613581-3-minchan@kernel.org>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Tue, 17 Nov 2020 21:18:17 -0800
+Message-ID: <CALAqxLX0BfH3G0eoA77dKyuVAUGmdJGhFuaoJdyG+TGqnmt2PA@mail.gmail.com>
+Subject: Re: [PATCH 2/4] dma-buf: add export symbol for dma-heap
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, Hyesoo Yu <hyesoo.yu@samsung.com>,
+        Matthew Wilcox <willy@infradead.org>, david@redhat.com,
+        iamjoonsoo.kim@lge.com, vbabka@suse.cz,
+        Suren Baghdasaryan <surenb@google.com>,
+        KyongHo Cho <pullip.cho@samsung.com>,
+        John Dias <joaodias@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh@kernel.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Christoph Hellwig <hch@infradead.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Tue, Nov 17, 2020 at 10:19 AM Minchan Kim <minchan@kernel.org> wrote:
+>
+> From: Hyesoo Yu <hyesoo.yu@samsung.com>
+>
+> The heaps could be added as module, so some functions should
+> be exported to register dma-heaps. And dma-heap of module can use
+> cma area to allocate and free. However the function related cma
+> is not exported now. Let's export them for next patches.
+>
+> Signed-off-by: Hyesoo Yu <hyesoo.yu@samsung.com>
+> Signed-off-by: Minchan Kim <minchan@kernel.org>
+> ---
+>  drivers/dma-buf/dma-heap.c | 2 ++
+>  mm/cma.c                   | 3 +++
+>  2 files changed, 5 insertions(+)
+>
+> diff --git a/drivers/dma-buf/dma-heap.c b/drivers/dma-buf/dma-heap.c
+> index afd22c9dbdcf..cc6339cbca09 100644
+> --- a/drivers/dma-buf/dma-heap.c
+> +++ b/drivers/dma-buf/dma-heap.c
+> @@ -189,6 +189,7 @@ void *dma_heap_get_drvdata(struct dma_heap *heap)
+>  {
+>         return heap->priv;
+>  }
+> +EXPORT_SYMBOL_GPL(dma_heap_get_drvdata);
+>
+>  struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+>  {
+> @@ -272,6 +273,7 @@ struct dma_heap *dma_heap_add(const struct dma_heap_export_info *exp_info)
+>         kfree(heap);
+>         return err_ret;
+>  }
+> +EXPORT_SYMBOL_GPL(dma_heap_add);
+>
+>  static char *dma_heap_devnode(struct device *dev, umode_t *mode)
+>  {
 
-Results of the daily build of media_tree:
+Thanks so much for sending this series along!
+I'm ok with the dma-heap exports to support modules.
 
-date:			Wed Nov 18 05:00:14 CET 2020
-media-tree git hash:	9463e07df8e0f93931e32c6f415d3f82bda63f35
-media_build git hash:	bca336c7d6379c723eb388bb9e606db6785a953b
-v4l-utils git hash:	11da65eee7a271bba3f21d8117cdac428fe3a91e
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 5aabc25fda7a7122487b4bd429b4c635cb4df7d7
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+> diff --git a/mm/cma.c b/mm/cma.c
+> index 7c11ec2dc04c..87834e2966fa 100644
+> --- a/mm/cma.c
+> +++ b/mm/cma.c
+> @@ -54,6 +54,7 @@ const char *cma_get_name(const struct cma *cma)
+>  {
+>         return cma->name;
+>  }
+> +EXPORT_SYMBOL_GPL(cma_get_name);
+>
+>  static unsigned long cma_bitmap_aligned_mask(const struct cma *cma,
+>                                              unsigned int align_order)
+> @@ -498,6 +499,7 @@ struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
+>         pr_debug("%s(): returned %p\n", __func__, page);
+>         return page;
+>  }
+> +EXPORT_SYMBOL_GPL(cma_alloc);
+>
+>  /*
+>   * cma_alloc_bulk() - allocate high order bulk pages from contiguous area with
+> @@ -641,6 +643,7 @@ bool cma_release(struct cma *cma, const struct page *pages, unsigned int count)
+>
+>         return true;
+>  }
+> +EXPORT_SYMBOL_GPL(cma_release);
+>
+>  int cma_for_each_area(int (*it)(struct cma *cma, void *data), void *data)
+>  {
+> --
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.238-i686: ERRORS
-linux-4.4.238-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.238-i686: ERRORS
-linux-4.9.238-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.200-i686: ERRORS
-linux-4.14.200-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.149-i686: ERRORS
-linux-4.19.149-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: OK
-smatch: OK
+Though Christoph's (cc'ed) input would probably be good for the cma
+ones, as I know he had concerns previously with similar patches.
 
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Wednesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Wednesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+thanks
+-john
