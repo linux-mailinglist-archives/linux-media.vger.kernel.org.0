@@ -2,19 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3673F2B840D
-	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 19:47:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 309DE2B840F
+	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 19:47:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726735AbgKRSrS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Nov 2020 13:47:18 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:37626 "EHLO
+        id S1726772AbgKRSrV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Nov 2020 13:47:21 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:37640 "EHLO
         bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726700AbgKRSrQ (ORCPT
+        with ESMTP id S1726700AbgKRSrU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Nov 2020 13:47:16 -0500
+        Wed, 18 Nov 2020 13:47:20 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 6BEE01F44997
+        with ESMTPSA id EB2A81F4499B
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
@@ -25,9 +25,9 @@ Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
         Ezequiel Garcia <ezequiel@collabora.com>
-Subject: [PATCH v3 02/13] media: rkvdec: h264: Support profile and level controls
-Date:   Wed, 18 Nov 2020 15:46:49 -0300
-Message-Id: <20201118184700.331213-3-ezequiel@collabora.com>
+Subject: [PATCH v3 03/13] media: cedrus: h264: Support profile controls
+Date:   Wed, 18 Nov 2020 15:46:50 -0300
+Message-Id: <20201118184700.331213-4-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201118184700.331213-1-ezequiel@collabora.com>
 References: <20201118184700.331213-1-ezequiel@collabora.com>
@@ -37,49 +37,48 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Jonas Karlman <jonas@kwiboo.se>
+Cedrus supports H.264 profiles from Baseline to High,
+except for the Extended profile
 
-The Rockchip Video Decoder used in RK3399 supports H.264 profiles from
-Baseline to High 4:2:2 up to Level 5.1, except for the Extended profile.
+Expose the V4L2_CID_MPEG_VIDEO_H264_PROFILE so that
+userspace can query the driver for the supported
+profiles and levels.
 
-Expose the V4L2_CID_MPEG_VIDEO_H264_PROFILE and the
-V4L2_CID_MPEG_VIDEO_H264_LEVEL control, so that userspace can query the
-driver for the list of supported profiles and level.
-
-For now, we don't expose 4:2:2 since the driver doesn't
-implement the required support.
-
-Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
-[Ezequiel: Don't expose 4:2:2 profile for now]
 Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- drivers/staging/media/rkvdec/rkvdec.c | 13 +++++++++++++
- 1 file changed, 13 insertions(+)
+ drivers/staging/media/sunxi/cedrus/cedrus.c | 19 +++++++++++++++++++
+ 1 file changed, 19 insertions(+)
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index 552e0bd12ecf..fe65f55d3b49 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -82,6 +82,19 @@ static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
- 		.cfg.def = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
- 		.cfg.max = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
+diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
+index 9a102b7c1bb9..97000f0e0011 100644
+--- a/drivers/staging/media/sunxi/cedrus/cedrus.c
++++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
+@@ -103,6 +103,25 @@ static const struct cedrus_control cedrus_controls[] = {
+ 		.codec		= CEDRUS_CODEC_H264,
+ 		.required	= false,
  	},
++	/*
++	 * We only expose supported profiles information,
++	 * and not levels as it's not clear what is supported
++	 * for each hardware/core version.
++	 * In any case, TRY/S_FMT will clamp the format resolution
++	 * to the maximum supported.
++	 */
 +	{
-+		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
-+		.cfg.min = V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
-+		.cfg.max = V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
-+		.cfg.menu_skip_mask =
-+			BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
-+		.cfg.def = V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
++		.cfg = {
++			.id	= V4L2_CID_MPEG_VIDEO_H264_PROFILE,
++			.min	= V4L2_MPEG_VIDEO_H264_PROFILE_BASELINE,
++			.def	= V4L2_MPEG_VIDEO_H264_PROFILE_MAIN,
++			.max	= V4L2_MPEG_VIDEO_H264_PROFILE_HIGH,
++			.menu_skip_mask =
++				BIT(V4L2_MPEG_VIDEO_H264_PROFILE_EXTENDED),
++		},
++		.codec		= CEDRUS_CODEC_H264,
++		.required	= false,
 +	},
-+	{
-+		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_LEVEL,
-+		.cfg.min = V4L2_MPEG_VIDEO_H264_LEVEL_1_0,
-+		.cfg.max = V4L2_MPEG_VIDEO_H264_LEVEL_5_1,
-+	},
- };
- 
- static const struct rkvdec_ctrls rkvdec_h264_ctrls = {
+ 	{
+ 		.cfg = {
+ 			.id	= V4L2_CID_MPEG_VIDEO_HEVC_SPS,
 -- 
 2.27.0
 
