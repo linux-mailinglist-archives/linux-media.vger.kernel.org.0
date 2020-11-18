@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 719A02B7692
-	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 07:59:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 32D872B7698
+	for <lists+linux-media@lfdr.de>; Wed, 18 Nov 2020 07:59:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726633AbgKRGz3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 18 Nov 2020 01:55:29 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:35651 "EHLO
+        id S1726696AbgKRGzd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 18 Nov 2020 01:55:33 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:26429 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726548AbgKRGz3 (ORCPT
+        with ESMTP id S1726548AbgKRGzc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 18 Nov 2020 01:55:29 -0500
-Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
-  by alexa-out.qualcomm.com with ESMTP; 17 Nov 2020 22:55:26 -0800
+        Wed, 18 Nov 2020 01:55:32 -0500
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 17 Nov 2020 22:55:30 -0800
 X-QCInternal: smtphost
 Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 17 Nov 2020 22:55:24 -0800
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 17 Nov 2020 22:55:28 -0800
 X-QCInternal: smtphost
 Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 18 Nov 2020 12:25:18 +0530
+  by ironmsg01-blr.qualcomm.com with ESMTP; 18 Nov 2020 12:25:22 +0530
 Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
-        id DC376212C6; Wed, 18 Nov 2020 12:25:17 +0530 (IST)
+        id 93143212C6; Wed, 18 Nov 2020 12:25:21 +0530 (IST)
 From:   Dikshita Agarwal <dikshita@codeaurora.org>
 To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
         nicolas@ndufresne.ca, stanimir.varbanov@linaro.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH v3 2/3] media: v4l2-ctrl: Add layer wise bitrate controls for h264
-Date:   Wed, 18 Nov 2020 12:24:56 +0530
-Message-Id: <1605682497-29273-3-git-send-email-dikshita@codeaurora.org>
+Subject: [PATCH v3 3/3] venus: venc: Add support for frame-specific min/max qp controls
+Date:   Wed, 18 Nov 2020 12:24:57 +0530
+Message-Id: <1605682497-29273-4-git-send-email-dikshita@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1605682497-29273-1-git-send-email-dikshita@codeaurora.org>
 References: <1605682497-29273-1-git-send-email-dikshita@codeaurora.org>
@@ -37,90 +37,152 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Adds bitrate control for all coding layers for h264
-same as hevc.
+Add support for frame type specific min and max qp controls
+for encoder.
 
 Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
 ---
- .../userspace-api/media/v4l/ext-ctrls-codec.rst      | 20 ++++++++++++++++++++
- drivers/media/v4l2-core/v4l2-ctrls.c                 |  7 +++++++
- include/uapi/linux/v4l2-controls.h                   |  8 ++++++++
- 3 files changed, 35 insertions(+)
+ drivers/media/platform/qcom/venus/core.h       | 18 +++++++++
+ drivers/media/platform/qcom/venus/venc.c       | 21 ++++++++---
+ drivers/media/platform/qcom/venus/venc_ctrls.c | 51 ++++++++++++++++++++++++++
+ 3 files changed, 85 insertions(+), 5 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index a9c7011..a334eef 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -1513,6 +1513,26 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-     * - Bit 16:32
-       - Layer number
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 3bc129a..6a764c9 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -230,10 +230,28 @@ struct venc_controls {
+ 	u32 h264_b_qp;
+ 	u32 h264_min_qp;
+ 	u32 h264_max_qp;
++	u32 h264_i_min_qp;
++	u32 h264_i_max_qp;
++	u32 h264_p_min_qp;
++	u32 h264_p_max_qp;
++	u32 h264_b_min_qp;
++	u32 h264_b_max_qp;
+ 	u32 h264_loop_filter_mode;
+ 	s32 h264_loop_filter_alpha;
+ 	s32 h264_loop_filter_beta;
  
-+``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L0_BR (integer)``
-+    Indicates bit rate (bps) for hierarchical coding layer 0 for H264 encoder.
++	u32 hevc_i_qp;
++	u32 hevc_p_qp;
++	u32 hevc_b_qp;
++	u32 hevc_min_qp;
++	u32 hevc_max_qp;
++	u32 hevc_i_min_qp;
++	u32 hevc_i_max_qp;
++	u32 hevc_p_min_qp;
++	u32 hevc_p_max_qp;
++	u32 hevc_b_min_qp;
++	u32 hevc_b_max_qp;
 +
-+``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L1_BR (integer)``
-+    Indicates bit rate (bps) for hierarchical coding layer 1 for H264 encoder.
-+
-+``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L2_BR (integer)``
-+    Indicates bit rate (bps) for hierarchical coding layer 2 for H264 encoder.
-+
-+``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L3_BR (integer)``
-+    Indicates bit rate (bps) for hierarchical coding layer 3 for H264 encoder.
-+
-+``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L4_BR (integer)``
-+    Indicates bit rate (bps) for hierarchical coding layer 4 for H264 encoder.
-+
-+``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L5_BR (integer)``
-+    Indicates bit rate (bps) for hierarchical coding layer 5 for H264 encoder.
-+
-+``V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L6_BR (integer)``
-+    Indicates bit rate (bps) for hierarchical coding layer 6 for H264 encoder.
+ 	u32 vp8_min_qp;
+ 	u32 vp8_max_qp;
  
- .. _v4l2-mpeg-h264:
+diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+index 0bf92cc..f2f5a85 100644
+--- a/drivers/media/platform/qcom/venus/venc.c
++++ b/drivers/media/platform/qcom/venus/venc.c
+@@ -668,17 +668,28 @@ static int venc_set_properties(struct venus_inst *inst)
+ 		return ret;
  
-diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-index 6e74500..31ae39c 100644
---- a/drivers/media/v4l2-core/v4l2-ctrls.c
-+++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-@@ -922,6 +922,13 @@ const char *v4l2_ctrl_get_name(u32 id)
- 	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MAX_QP:		return "H264 P-Frame Maximum QP Value";
- 	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MIN_QP:		return "H264 B-Frame Minimum QP Value";
- 	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MAX_QP:		return "H264 B-Frame Maximum QP Value";
-+	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L0_BR:	return "H264 Hierarchical Lay 0 Bitrate";
-+	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L1_BR:	return "H264 Hierarchical Lay 1 Bitrate";
-+	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L2_BR:	return "H264 Hierarchical Lay 2 Bitrate";
-+	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L3_BR:	return "H264 Hierarchical Lay 3 Bitrate";
-+	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L4_BR:	return "H264 Hierarchical Lay 4 Bitrate";
-+	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L5_BR:	return "H264 Hierarchical Lay 5 Bitrate";
-+	case V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L6_BR:	return "H264 Hierarchical Lay 6 Bitrate";
- 	case V4L2_CID_MPEG_VIDEO_H264_SPS:			return "H264 Sequence Parameter Set";
- 	case V4L2_CID_MPEG_VIDEO_H264_PPS:			return "H264 Picture Parameter Set";
- 	case V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX:		return "H264 Scaling Matrix";
-diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-index fea0f18..0d8c080 100644
---- a/include/uapi/linux/v4l2-controls.h
-+++ b/include/uapi/linux/v4l2-controls.h
-@@ -590,12 +590,20 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type {
- #define V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MAX_QP	(V4L2_CID_MPEG_BASE+388)
- #define V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MIN_QP	(V4L2_CID_MPEG_BASE+389)
- #define V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MAX_QP	(V4L2_CID_MPEG_BASE+390)
-+#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L0_BR	(V4L2_CID_MPEG_BASE + 391)
-+#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L1_BR	(V4L2_CID_MPEG_BASE + 392)
-+#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L2_BR	(V4L2_CID_MPEG_BASE + 393)
-+#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L3_BR	(V4L2_CID_MPEG_BASE + 394)
-+#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L4_BR	(V4L2_CID_MPEG_BASE + 395)
-+#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L5_BR	(V4L2_CID_MPEG_BASE + 396)
-+#define V4L2_CID_MPEG_VIDEO_H264_HIER_CODING_L6_BR	(V4L2_CID_MPEG_BASE + 397)
- #define V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP	(V4L2_CID_MPEG_BASE+400)
- #define V4L2_CID_MPEG_VIDEO_MPEG4_P_FRAME_QP	(V4L2_CID_MPEG_BASE+401)
- #define V4L2_CID_MPEG_VIDEO_MPEG4_B_FRAME_QP	(V4L2_CID_MPEG_BASE+402)
- #define V4L2_CID_MPEG_VIDEO_MPEG4_MIN_QP	(V4L2_CID_MPEG_BASE+403)
- #define V4L2_CID_MPEG_VIDEO_MPEG4_MAX_QP	(V4L2_CID_MPEG_BASE+404)
- #define V4L2_CID_MPEG_VIDEO_MPEG4_LEVEL		(V4L2_CID_MPEG_BASE+405)
-+
- enum v4l2_mpeg_video_mpeg4_level {
- 	V4L2_MPEG_VIDEO_MPEG4_LEVEL_0	= 0,
- 	V4L2_MPEG_VIDEO_MPEG4_LEVEL_0B	= 1,
+ 	ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP;
+-	quant.qp_i = ctr->h264_i_qp;
+-	quant.qp_p = ctr->h264_p_qp;
+-	quant.qp_b = ctr->h264_b_qp;
++	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
++		quant.qp_i = ctr->hevc_i_qp;
++		quant.qp_p = ctr->hevc_p_qp;
++		quant.qp_b = ctr->hevc_b_qp;
++	} else {
++		quant.qp_i = ctr->h264_i_qp;
++		quant.qp_p = ctr->h264_p_qp;
++		quant.qp_b = ctr->h264_b_qp;
++	}
+ 	quant.layer_id = 0;
+ 	ret = hfi_session_set_property(inst, ptype, &quant);
+ 	if (ret)
+ 		return ret;
+ 
+ 	ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE;
+-	quant_range.min_qp = ctr->h264_min_qp;
+-	quant_range.max_qp = ctr->h264_max_qp;
++	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
++		quant_range.min_qp = ctr->hevc_min_qp;
++		quant_range.max_qp = ctr->hevc_max_qp;
++	} else {
++		quant_range.min_qp = ctr->h264_min_qp;
++		quant_range.max_qp = ctr->h264_max_qp;
++	}
+ 	quant_range.layer_id = 0;
+ 	ret = hfi_session_set_property(inst, ptype, &quant_range);
+ 	if (ret)
+diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
+index 0708b3b..cd131e3 100644
+--- a/drivers/media/platform/qcom/venus/venc_ctrls.c
++++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
+@@ -125,9 +125,60 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_MPEG_VIDEO_H264_MIN_QP:
+ 		ctr->h264_min_qp = ctrl->val;
+ 		break;
++	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MIN_QP:
++		ctr->h264_i_min_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MIN_QP:
++		ctr->h264_p_min_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MIN_QP:
++		ctr->h264_b_min_qp = ctrl->val;
++		break;
+ 	case V4L2_CID_MPEG_VIDEO_H264_MAX_QP:
+ 		ctr->h264_max_qp = ctrl->val;
+ 		break;
++	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MAX_QP:
++		ctr->h264_i_max_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MAX_QP:
++		ctr->h264_p_max_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MAX_QP:
++		ctr->h264_b_max_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_QP:
++		ctr->hevc_i_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_QP:
++		ctr->hevc_p_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_QP:
++		ctr->hevc_b_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP:
++		ctr->hevc_min_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MIN_QP:
++		ctr->hevc_i_min_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MIN_QP:
++		ctr->hevc_p_min_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MIN_QP:
++		ctr->hevc_b_min_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP:
++		ctr->hevc_max_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MAX_QP:
++		ctr->hevc_i_max_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MAX_QP:
++		ctr->hevc_p_max_qp = ctrl->val;
++		break;
++	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MAX_QP:
++		ctr->hevc_b_max_qp = ctrl->val;
++		break;
+ 	case V4L2_CID_MPEG_VIDEO_MULTI_SLICE_MODE:
+ 		ctr->multi_slice_mode = ctrl->val;
+ 		break;
 -- 
 2.7.4
 
