@@ -2,278 +2,236 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3F2D92B8B1B
-	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 06:46:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 374D72B8BC0
+	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 07:41:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726073AbgKSFpv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Nov 2020 00:45:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39540 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725964AbgKSFpv (ORCPT
+        id S1725799AbgKSGiP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Nov 2020 01:38:15 -0500
+Received: from mailout1.samsung.com ([203.254.224.24]:27811 "EHLO
+        mailout1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726163AbgKSGiO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Nov 2020 00:45:51 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 261EEC0617A7
-        for <linux-media@vger.kernel.org>; Wed, 18 Nov 2020 21:45:51 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id q5so3385070pfk.6
-        for <linux-media@vger.kernel.org>; Wed, 18 Nov 2020 21:45:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=VRQFbqxcZnIZQsIuuPQpUphiPXekKlVUIfYw241Xodw=;
-        b=YGUHpEtqejq1pzXLvqVjUuY+1EWHXE/4NGBuRq5lsavsFbAvZ0qQqxI5lAceDlEN42
-         chiX5EHs1NRIJZRGAXTacZOdcjD4Xr7OksTz7uquKHxheErRhxt+JOUvqe8FSq4j7oX8
-         1EDLXBfY/uXbLRT9sn5P9joHbi4XIgGEzJHvQ=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=VRQFbqxcZnIZQsIuuPQpUphiPXekKlVUIfYw241Xodw=;
-        b=HtF9WuR8bkuuV9A/voQDG7fu/VhpsEcfvKqzNp4+d1hxpzc8ylktIZ8fsR1oefzyCe
-         7VPNTFqmJeQ+oxBhVGBFmq6ldW8MNJN+w/72LbggHWegluKbejDeu58Kup0I3l0TPyQQ
-         fYTqlrGtsqjJEawiNQSGAxLa8jgvpBQEXPGrcc77l0xS5gAztX1bBAutaa7bD4JV5Iad
-         Fhqvx2nNykIyv9z5vStikIm6+CUVmYIKinr9aNJRFtnIsSP/O6t4dyWlkc6XoOVchPZ3
-         03VE1sypzMifeQARzt01XmdZ5DqI3WGE7xuEqUjH5/nu9G+yw8koGaui9HMVD0A4cRyt
-         RLBw==
-X-Gm-Message-State: AOAM531m0qpqh8sjs5IEWJXXvvHP4kLiRgAH45iIZf0TYBZmj7Dp7tmv
-        WIjtap3nnqF/fb0ke/fqZUEyFA==
-X-Google-Smtp-Source: ABdhPJyRjS0GWlpAx9+X/e+fgaHXvQ7EgoFQB/wu5HboUqbL1NMaJ/cw1EHlo4sTYe0E1/EsysCY7A==
-X-Received: by 2002:a17:90a:8043:: with SMTP id e3mr2810453pjw.52.1605764750642;
-        Wed, 18 Nov 2020 21:45:50 -0800 (PST)
-Received: from chromium.org ([2401:fa00:8f:2:a28c:fdff:fef0:43bf])
-        by smtp.gmail.com with ESMTPSA id e22sm4564761pjh.45.2020.11.18.21.45.46
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 18 Nov 2020 21:45:49 -0800 (PST)
-Date:   Thu, 19 Nov 2020 14:45:44 +0900
-From:   Tomasz Figa <tfiga@chromium.org>
-To:     Helen Koike <helen.koike@collabora.com>
-Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
-        linux-media@vger.kernel.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        hiroh@chromium.org, nicolas@ndufresne.ca, Brian.Starkey@arm.com,
-        kernel@collabora.com, narmstrong@baylibre.com,
-        linux-kernel@vger.kernel.org, frkoenig@chromium.org,
-        mjourdan@baylibre.com, stanimir.varbanov@linaro.org
-Subject: Re: [PATCH v5 1/7] media: v4l2: Extend pixel formats to unify
- single/multi-planar handling (and more)
-Message-ID: <20201119054544.GA590258@chromium.org>
-References: <20200804192939.2251988-1-helen.koike@collabora.com>
- <20200804192939.2251988-2-helen.koike@collabora.com>
- <20201002194935.GB1131147@chromium.org>
- <f5c9f7cd-f8e1-0671-b4d9-8ed79917b0aa@collabora.com>
+        Thu, 19 Nov 2020 01:38:14 -0500
+Received: from epcas2p3.samsung.com (unknown [182.195.41.55])
+        by mailout1.samsung.com (KnoxPortal) with ESMTP id 20201119063810epoutp012e8a917890ade990f5c95779c5010bb7~I1WNsCntD1175511755epoutp01m
+        for <linux-media@vger.kernel.org>; Thu, 19 Nov 2020 06:38:10 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.samsung.com 20201119063810epoutp012e8a917890ade990f5c95779c5010bb7~I1WNsCntD1175511755epoutp01m
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1605767890;
+        bh=peqjgdbAmYW7gvTBHcbI8ngIK/dlK4cduPSuWeO1E8I=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=hheCiG0W4lfPJerOLSsq6C0Mt9RF7k7zWlhBCPaM30/TQsNzIu9S/VtD4UpoHaK85
+         iNUtJuWiNxt7UAgXvHIocCUYm9I/Rt+jdc9rWvIBFxdp2Oe02GYSVreQ/eSrqM7ssW
+         kH6W0i7d84OllJvv72SHvebQ68MfWysG0dQ0eXBw=
+Received: from epsnrtp3.localdomain (unknown [182.195.42.164]) by
+        epcas2p2.samsung.com (KnoxPortal) with ESMTP id
+        20201119063809epcas2p251ba7ac82ec0bf918e3e674a94941bc3~I1WM7zndc2277022770epcas2p2e;
+        Thu, 19 Nov 2020 06:38:09 +0000 (GMT)
+Received: from epsmges2p1.samsung.com (unknown [182.195.40.191]) by
+        epsnrtp3.localdomain (Postfix) with ESMTP id 4Cc93f62ZWzMqYkn; Thu, 19 Nov
+        2020 06:38:06 +0000 (GMT)
+Received: from epcas2p4.samsung.com ( [182.195.41.56]) by
+        epsmges2p1.samsung.com (Symantec Messaging Gateway) with SMTP id
+        66.FD.10621.DC216BF5; Thu, 19 Nov 2020 15:38:05 +0900 (KST)
+Received: from epsmtrp1.samsung.com (unknown [182.195.40.13]) by
+        epcas2p3.samsung.com (KnoxPortal) with ESMTPA id
+        20201119063804epcas2p332bfc6812c9ebd23f8a32cffbd27e5b0~I1WI4583j1139811398epcas2p3T;
+        Thu, 19 Nov 2020 06:38:04 +0000 (GMT)
+Received: from epsmgms1p2.samsung.com (unknown [182.195.42.42]) by
+        epsmtrp1.samsung.com (KnoxPortal) with ESMTP id
+        20201119063804epsmtrp1fc6f137774ee739ff958d7ed0cf68a98~I1WI346Wz1167611676epsmtrp1l;
+        Thu, 19 Nov 2020 06:38:04 +0000 (GMT)
+X-AuditID: b6c32a45-8dc16a800001297d-82-5fb612cd67b1
+Received: from epsmtip1.samsung.com ( [182.195.34.30]) by
+        epsmgms1p2.samsung.com (Symantec Messaging Gateway) with SMTP id
+        98.92.08745.CC216BF5; Thu, 19 Nov 2020 15:38:04 +0900 (KST)
+Received: from KEI (unknown [12.36.155.227]) by epsmtip1.samsung.com
+        (KnoxPortal) with ESMTPA id
+        20201119063804epsmtip122631202bd7d2f49ea967b57d3a790ea~I1WImDP2S1939319393epsmtip1G;
+        Thu, 19 Nov 2020 06:38:04 +0000 (GMT)
+Date:   Thu, 19 Nov 2020 15:30:30 +0900
+From:   Hyesoo Yu <hyesoo.yu@samsung.com>
+To:     John Stultz <john.stultz@linaro.org>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Matthew Wilcox <willy@infradead.org>, david@redhat.com,
+        iamjoonsoo.kim@lge.com, vbabka@suse.cz,
+        Suren Baghdasaryan <surenb@google.com>,
+        KyongHo Cho <pullip.cho@samsung.com>,
+        John Dias <joaodias@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh@kernel.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>
+Subject: Re: [PATCH 4/4] dma-heap: Devicetree binding for chunk heap
+Message-ID: <20201119063030.GC136599@KEI>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <f5c9f7cd-f8e1-0671-b4d9-8ed79917b0aa@collabora.com>
+In-Reply-To: <CALAqxLV=r-V6u8hq2fTmxq855nT7QPkkjyAYdPeZRkYPBi_CKg@mail.gmail.com>
+User-Agent: Mutt/1.5.24 (2015-08-30)
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Te1BUVRzHOXt37+4yrlxWjBMEbquMwvDYpRaPBk4joNehGbCy0KbWlb2x
+        xL7aR0pNkxryfhlguSJuDYNCMNQKDM+UR4IEVCBRPERWA6UhkI2CeNjuXpvhv8/v8f09zm8O
+        B+OfZXtxktQGSqeWKYW4K7O+wx8F9fHrpaL+QV9UUlOFI2vPTwDNTjSz0GLNvxi60tnPQvNn
+        rjFQRfanOPrHbMVQ70oQ+uvOJAMNNpXgKOebOha6W/WEhcoX59hoPbcNoCctDWzUM25jo8IB
+        M44unckDaGWpBH/Zgzw3sIaTVaVVgDRbjOT1awGkpTITJy0Ln7HJrNk7DHLslxac7P5ihUmO
+        rt/HyLnvhnAyr7YSkL3mTjZps/jGbT6mDFdQMjmlE1DqBI08SZ0YIYx5TRoplYSJxEHiPWi3
+        UKCWqagIYdQrcUEHkpT2jYWCD2RKo90VJ9PrhSH7wnUao4ESKDR6Q4SQ0sqVWrFYG6yXqfRG
+        dWJwgka1VywShUrsmceVipbfsoF2xO9U2UAXfhoU+2YBLgcSL8Lh+hxWFnDl8IkGAFcvtWG0
+        sQDg7IQJ0IYNwOHSOXsaxynJfORH+5sALM2dZzpK8YlJALNsux3MJPzgwmOHmMvBiZ2wu7bc
+        yR7ELvhl2RDDIcaIXBw2tFoxR2ALEQWri23OJB7hDy3mtKfsDm9ffOBswCUOw4LLU7hjiK3E
+        DjjT9omjDiQKubB0ehHQw0XBr6Z86NW2wJmuWjbNXvBRftpTPgn7Uq0sWpsK4M8XhnA68AI0
+        TaU7+2JEEhxuLGfSNbfDzhEm7d4MMzrW2LSbBzPS+LRyO7xRXsqk+VlorU5n0UzC7PYcJv1W
+        fzBg5/LvWAHYZtqwmWlDN5oDobl5ATfZW2CEN7y6zqHRH9Y0hZgBqxI8Q2n1qkRKH6oVb7y1
+        BTg/Q0B0AyicnQ9uBwwOaAeQgwk9eNX+dVI+Ty5L+ZDSaaQ6o5LStwOJ/U7nMa+tCRr7b1Ib
+        pGJJaFiYaI8EScJCkdCTd6QiT8onEmUGKpmitJTufx2Dw/U6zQg8GiIYS1nm6ur2+8b8aD7Y
+        xn8vfHky7mbF4VQ8eeJWeUNqNnFizNMgD3ys99A+fMnouun5i4XJ41+/GlncOvPD98dd9u0I
+        ZRiuuocvXfi2uO7hsdGT8SOU94nVyxmfTxX0NiqsETd2FlyvMfmvY6/Hr92MHgiIDacyP45k
+        Mtku1ugEV+a5pts9p94XPXdo11jnNHe/tT3/nu3IFbePzBZVPKepzOfX1qquJcVeNPfndMDZ
+        nE1vtaK45sHY2ltTmtq37/e9UdRxSNzfwRfwiw6OPuDNv3lXjkX4vLOa1hh57+iqKN3Pz61o
+        m27cM8aomu6mYt/t0rrHuHm7nE/zDPk7P5+TImTqFTJxAKbTy/4DPi1zC5UEAAA=
+X-Brightmail-Tracker: H4sIAAAAAAAAA02Re0hTYRjG+845OzuurOPU+mw1aN0HM0vLrwsV5R8fFHQlQiVdeZiVm3PT
+        7CLpum9WlBbmMl2QtYaSTItVa+WUyhTJmRVajUpWJqK17OJy1WZR//14nucHL7wMKWykJjLb
+        VdmcRiXPkNAC6kaDRCxrEd5IiXF2zENl16po9ObRY4D63Ld5aPDaEIkqGlt5aEBnJtDVwoM0
+        +mp6Q6IWnwx9fvKaQO23ymh0vOY6D72q+slDlwf7+ch/oh6gn3YbHz166eWjYpeJRud1JwHy
+        fSujl0fgw65hGleVVwFssubgWrMUWy16Gls/FfGxoe8JgV88tdP44Tkfhbv8b0nc7+ig8ck6
+        C8AtpkY+9lrFa8cmCpakcRnbd3GaOUtTBekv7SJ1ydTdbYUZBaBXZAAMA9k4qO+ZbgACRsja
+        ALSeLiEMIOR3HgWN3qY/HA7dhxp5IyM3gJ06PwgUFDsdfvpoDDLNzoQP6y4HOYKdBS9e6gjK
+        JFtCw+4zmwMczibA6rPe4CaUnQ2tpiNBFrK9BGwYGD+Sh8Gm0m5qxJXC5/4eInAoyYrgFT8T
+        iEPYdfDUBQ8diCPZafBDff4pEGb8Tzb+Jxv/ySZAWkAUp9YqFUrtXPU8FZcbrZUrtTkqRfS2
+        TKUVBB8tldqA3TIQ7QQEA5wAMqQkIrR69vUUYWiafM9eTpOZosnJ4LROIGIoyYTQQePFLUJW
+        Ic/mdnKcmtP8bQkmZGIBkWme5RCK9kb+WHY6VTwmjCnqim2PK9qc1xCPPZWxx17sU8oerPZ2
+        u4vm04MHJjnaszRbPwxdsY3qTq8Ej4dikp2OxR6wqXUF+aykemNhXNKRHVMjxfqE1NSdsK9i
+        kcXVdqic8mfp59xqYROPjTv6Dq/6MtysW62452vSg+KbbWvvw/G+LD7+Pu79QlvE6MrkNBVb
+        v7g6/25p8/Hhe4lMhcJemcSfXLC/yy0zqj13ljTX55n3N2SvOZiQvKm8S6eNdD2lcjvNNRQz
+        o8eRvyC3ttMQO2WDY2VU3tkd0Xfjwnv7O2JK4wV94vg9ret9KzzWCc6jk77ob5fiqCGXLFZC
+        adPlc6WkRiv/BTMwmoFXAwAA
+X-CMS-MailID: 20201119063804epcas2p332bfc6812c9ebd23f8a32cffbd27e5b0
+X-Msg-Generator: CA
+Content-Type: multipart/mixed;
+        boundary="----zeZHP-Gc2C_QEpEYXTEDGPRNV_-gQnEmBA0pzIEDiErY02VX=_162cf7_"
+X-Sendblock-Type: AUTO_CONFIDENTIAL
+CMS-TYPE: 102P
+DLP-Filter: Pass
+X-CFilter-Loop: Reflected
+X-CMS-RootMailID: 20201118030110epcas2p1105a09711ea2c123f19f413b32372764
+References: <20201117181935.3613581-1-minchan@kernel.org>
+        <20201117181935.3613581-5-minchan@kernel.org>
+        <CGME20201118030110epcas2p1105a09711ea2c123f19f413b32372764@epcas2p1.samsung.com>
+        <CALAqxLWqDLHpOHNEayvhDjJeXjEk_uneH2=d9fy8M87EjKfReA@mail.gmail.com>
+        <20201119011431.GA136599@KEI>
+        <CALAqxLV=r-V6u8hq2fTmxq855nT7QPkkjyAYdPeZRkYPBi_CKg@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Nov 14, 2020 at 11:21:26AM -0300, Helen Koike wrote:
-> Hi Tomasz,
-> 
-> On 10/2/20 4:49 PM, Tomasz Figa wrote:
-> > Hi Helen,
-> > 
-> > On Tue, Aug 04, 2020 at 04:29:33PM -0300, Helen Koike wrote:
-[snip]
-> >> +static void v4l_print_ext_pix_format(const void *arg, bool write_only)
-> >> +{
-> >> +	const struct v4l2_ext_pix_format *pix = arg;
-> >> +	unsigned int i;
-> >> +
-> >> +	pr_cont("type=%s, width=%u, height=%u, format=%c%c%c%c, modifier %llx, field=%s, colorspace=%d, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
-> >> +		prt_names(pix->type, v4l2_type_names),
-> >> +		pix->width, pix->height,
-> >> +		(pix->pixelformat & 0xff),
-> >> +		(pix->pixelformat >>  8) & 0xff,
-> >> +		(pix->pixelformat >> 16) & 0xff,
-> >> +		(pix->pixelformat >> 24) & 0xff,
-> >> +		pix->modifier, prt_names(pix->field, v4l2_field_names),
-> >> +		pix->colorspace, pix->ycbcr_enc,
-> >> +		pix->quantization, pix->xfer_func);
-> >> +	for (i = 0; i < VIDEO_MAX_PLANES && pix->plane_fmt[i].sizeimage; i++)
-> > 
-> > This is going to print 8 lines every time. Maybe we could skip 0-sized
-> > planes or something?
-> 
-> I'm already checking pix->plane_fmt[i].sizeimage in the loop, it shouldn't
-> print 8 lines every time.
-> 
+------zeZHP-Gc2C_QEpEYXTEDGPRNV_-gQnEmBA0pzIEDiErY02VX=_162cf7_
+Content-Type: text/plain; charset="us-ascii"
+Content-Disposition: inline
 
-Oops, how could I not notice it. Sorry for the noise.
+On Wed, Nov 18, 2020 at 07:19:07PM -0800, John Stultz wrote:
+> On Wed, Nov 18, 2020 at 5:22 PM Hyesoo Yu <hyesoo.yu@samsung.com> wrote:
+> >
+> > On Tue, Nov 17, 2020 at 07:00:54PM -0800, John Stultz wrote:
+> > > So I suspect Rob will push back on this as he has for other dt
+> > > bindings related to ion/dmabuf heaps (I tried to push a similar
+> > > solution to exporting multiple CMA areas via dmabuf heaps).
+> > >
+> > > The proposal he seemed to like best was having an in-kernel function
+> > > that a driver would call to initialize the heap (associated with the
+> > > CMA region the driver is interested in). Similar to Kunihiko Hayashi's
+> > > patch here:
+> > >   - https://lore.kernel.org/lkml/1594948208-4739-1-git-send-email-hayashi.kunihiko@socionext.com/
+> > >
+> > > The one sticking point for that patch (which I think is a good one),
+> > > is that we don't have any in-tree users, so it couldn't be merged yet.
+> > >
+> > > A similar approach might be good here, but again we probably need to
+> > > have at least one in-tree user which could call such a registration
+> > > function.
+> >
+> > Thanks for your review.
+> >
+> > The chunk heap is not considered for device-specific reserved memory and specific driver.
+> > It is similar to system heap, but it only collects high-order pages by using specific cma-area for performance.
+> 
+> So, yes I agree, the chunk heap isn't device specific. It's just that
+> the CMA regions usually are tied to devices.
+> 
+> The main objection to this style of solution has been due to the fact
+> that the DTS is supposed to describe the physical hardware (in an OS
+> agnostic way), rather than define configuration info for Linux
+> software drivers.
+> 
+> Obviously this can be quibbled about, as the normal way of tying
+> devices to CMA has some assumptions of what the driver will use that
+> region for, rather than somehow representing a physical tie between a
+> memory reservation and a device. Nonetheless, Rob has been hesitant to
+> take any sort of ION/DmaBuf Heap DT devices, and has been more
+> interested in some device having the memory reservation reference and
+> the driver for that doing the registration.
+> 
+> > It is strange that there is in-tree user who registers chunk heap.
+> > (Wouldn't it be strange for some users to register the system heap?)
+> 
+> Well, as there's no reservation/configuration needed, the system heap
+> can register itself.
+> 
+> The CMA heap currently only registers the default CMA heap, as we
+> didn't want to expose all CMA regions and there's otherwise no way to
+> pick and choose.
+> 
+> > Is there a reason to use dma-heap framework to add cma-area for specific device ?
+> >
+> > Even if some in-tree users register dma-heap with cma-area, the buffers could be allocated in user-land and these could be shared among other devices.
+> > For exclusive access, I guess, the device don't need to register dma-heap for cma area.
+> >
+> 
+> It's not really about exclusive access. More just that if you want to
+> bind a memory reservation/region (cma or otherwise), at least for DTS,
+> it needs to bind with some device in DT.
+> 
+> Then the device driver can register that region with a heap driver.
+> This avoids adding new Linux-specific software bindings to DT. It
+> becomes a driver implementation detail instead. The primary user of
+> the heap type would probably be a practical pick (ie the display or
+> isp driver).
+> 
+> The other potential solution Rob has suggested is that we create some
+> tag for the memory reservation (ie: like we do with cma: "reusable"),
+> which can be used to register the region to a heap. But this has the
+> problem that each tag has to be well defined and map to a known heap.
+> 
+> thanks
+> -john
+>
 
-[snip]
-> >> +int v4l2_ext_pix_format_to_format(const struct v4l2_ext_pix_format *e,
-> >> +				  struct v4l2_format *f, bool mplane_cap,
-> >> +				  bool strict)
-> >> +{
-> >> +	const struct v4l2_plane_ext_pix_format *pe;
-> >> +	struct v4l2_plane_pix_format *p;
-> >> +	unsigned int i;
-> >> +
-> >> +	memset(f, 0, sizeof(*f));
-> >> +
-> >> +	/*
-> >> +	 * Make sure no modifier is required before doing the
-> >> +	 * conversion.
-> >> +	 */
-> >> +	if (e->modifier && strict &&
-> > 
-> > Do we need the explicit check for e->modifier != 0 if we have to check for
-> > the 2 specific values below anyway?
-> 
-> We don't, since DRM_FORMAT_MOD_LINEAR is zero.
-> 
-> But I wanted to make it explicit we don't support modifiers in this conversion.
-> But I can remove this check, no problem.
-> 
+Thanks for the detailed reply.
 
-Yes, please. I think the double checking is confusing for the reader.
+I understood what you mean exactly.
+I agree with your opinion that avoids software bindings to DT.
 
-> > 
-> >> +	    e->modifier != DRM_FORMAT_MOD_LINEAR &&
-> >> +	    e->modifier != DRM_FORMAT_MOD_INVALID)
-> >> +		return -EINVAL;
-> >> +
-> >> +	if (!e->plane_fmt[0].sizeimage && strict)
-> >> +		return -EINVAL;
-> > 
-> > Why is this incorrect?
-> 
-> !sizeimage for the first plane means that there are no planes in ef.
-> strict is true if the result for the conversion should be returned to userspace
-> and it is not some internal handling.
-> 
-> So if there are no planes, we would return an incomplete v4l2_format struct
-> to userspace.
-> 
-> But this is not very clear, I'll improve this for the next version.
-> 
+The way to register the heap by specific device driver, makes dependency
+between heap and some device drivers that we pick practically.
+If that device driver changed or removed whenever H/W changed,
+the chunk heap is affected regardless of our intentions.
 
-So I can see 2 cases here:
+As you said, the other solution that add tags need to be well defined.
+I guess, that will be a long-term solution.
 
-1) Userspace gives ext struct and driver accepts legacy.
+First of all, we just want to register chunk heap to allocate high-order pages.
+I'm going to change to a simple solution that uses default cma like cma heap, not using DT.
 
-In this case, the kernel needs to adjust the structure to be correct.
--EINVAL is only valid if
+Thanks.
+Regards.
 
-"The struct v4l2_format type field is invalid or the requested buffer type not supported."
+------zeZHP-Gc2C_QEpEYXTEDGPRNV_-gQnEmBA0pzIEDiErY02VX=_162cf7_
+Content-Type: text/plain; charset="utf-8"
 
-as per the current uAPI documentation.
 
-2) Driver gives ext struct and userspace accepts legacy.
-
-If at this point we get a struct with no planes, that sounds like a
-driver bug, so rather than signaling -EINVAL to the userspace, we should
-probably WARN()?
-
-Or am I getting something wrong? :)
-
-[snip]
-> >> +{
-> >> +	const struct v4l2_plane_pix_format *p;
-> >> +	struct v4l2_plane_ext_pix_format *pe;
-> >> +	unsigned int i;
-> >> +
-> >> +	memset(e, 0, sizeof(*e));
-> >> +
-> >> +	switch (f->type) {
-> >> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
-> >> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
-> >> +		e->width = f->fmt.pix.width;
-> >> +		e->height = f->fmt.pix.height;
-> >> +		e->pixelformat = f->fmt.pix.pixelformat;
-> >> +		e->field = f->fmt.pix.field;
-> >> +		e->colorspace = f->fmt.pix.colorspace;
-> >> +		if (f->fmt.pix.flags)
-> >> +			pr_warn("Ignoring pixelformat flags 0x%x\n",
-> >> +				f->fmt.pix.flags);
-> > 
-> > Would it make sense to print something like video node name and/or function
-> > name to explain where this warning comes from?
-> 
-> I would need to update the function to receive this information, I can try but
-> I'm not sure if it is worthy.
-> 
-
-I don't have a strong opinion on this, so maybe let's see if others have
-any comments.
-
-> > 
-> >> +		e->ycbcr_enc = f->fmt.pix.ycbcr_enc;
-> >> +		e->quantization = f->fmt.pix.quantization;
-> > 
-> > Missing xfer_func?
-> 
-> Yes, thanks for catching this.
-> 
-> > 
-> >> +		e->plane_fmt[0].bytesperline = f->fmt.pix.bytesperline;
-> >> +		e->plane_fmt[0].sizeimage = f->fmt.pix.sizeimage;
-> > 
-> > This doesn't look right. In the ext API we expected the planes to describe
-> > color planes, which means that bytesperline needs to be computed for planes
-> >> = 1 and sizeimage replaced with per-plane sizes, according to the
-> >> pixelformat.
-> 
-> Ack.
-> 
-> Just to be clear, even if we are using a planar format that isn't a V4L2_PIX_FMT_*M
-> variant, we should describe every plane separatly.
-> 
-> For instance, if V4L2_PIX_FMT_YVU420 is being used, then f->fmt.pix.bytesperline
-> will have data, and we need to calculate bytesperline for all 3 planes, so we'll fill
-> out:
-> 
-> f->plane_fmt[0].bytesperline = f->fmt.pix.bytesperline;
-> f->plane_fmt[1].bytesperline = f->fmt.pix.bytesperline / hdiv;
-> f->plane_fmt[2].bytesperline = f->fmt.pix.bytesperline / hdiv;
-> 
-> I'll update this for the next version.
-> 
-
-Yes. This basically gives us a unified representation across all
-pixelformats and allows userspace to handle them in a uniform way, as
-opposed to current uAPI.
-
-[snip]
-> >> +		if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
-> >> +			e->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> >> +		else
-> >> +			e->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
-> >> +
-> >> +		for (i = 0; i < VIDEO_MAX_PLANES; i++) {
-> >> +			pe = &e->plane_fmt[i];
-> >> +			p = &f->fmt.pix_mp.plane_fmt[i];
-> >> +			pe->bytesperline = p->bytesperline;
-> >> +			pe->sizeimage = p->sizeimage;
-> >> +		}
-> > 
-> > Same here. A blind copy is not enough. For non-M formats, the plane
-> > parameters need to be filled according to the pixelformat.
-> 
-> 
-> Right, following the idea above, we need a different handling if we
-> aren't using a M-variant of the pixelformat, and we also need to
-> convert the pixelformat from the M-variant to non-M-variant.
-> 
-> I'll also need to save that the original format was a
-> M-variant or not, so I can convert it back as expected.
-
-I'm still reading the rest of the series, so it might be answered
-already, but did we decide to do anything about the pixelformat codes
-themselves? If both M and non-M variants would be allowed with the new
-API, then I guess there isn't anything to save, because the original
-format would be preserved?
-
-> 
-> I'll change this and submit for review.
-> 
-
-Cool, thanks.
-
-Best regards,
-Tomasz
+------zeZHP-Gc2C_QEpEYXTEDGPRNV_-gQnEmBA0pzIEDiErY02VX=_162cf7_--
