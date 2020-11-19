@@ -2,157 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 27B972B913C
-	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 12:43:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D82D92B91E0
+	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 12:55:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726578AbgKSLkB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Nov 2020 06:40:01 -0500
-Received: from relay12.mail.gandi.net ([217.70.178.232]:35487 "EHLO
-        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726575AbgKSLkB (ORCPT
+        id S1726906AbgKSLuv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Nov 2020 06:50:51 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39326 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726853AbgKSLuu (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Nov 2020 06:40:01 -0500
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay12.mail.gandi.net (Postfix) with ESMTPSA id BACE220000C;
-        Thu, 19 Nov 2020 11:39:55 +0000 (UTC)
-Date:   Thu, 19 Nov 2020 12:39:58 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, mchehab@kernel.org,
-        hverkuil@xs4all.nl, laurent.pinchart@ideasonboard.com,
-        roman.kovalivskyi@globallogic.com, dafna.hirschfeld@collabora.com,
-        dave.stevenson@raspberrypi.org, naush@raspberrypi.com,
-        erosca@de.adit-jv.com
-Subject: Re: [PATCH v3 18/29] media: ov5647: Implement set_fmt pad operation
-Message-ID: <20201119113958.nn3dohof4dwtmxdk@uno.localdomain>
-References: <20201109164934.134919-1-jacopo@jmondi.org>
- <20201109164934.134919-19-jacopo@jmondi.org>
- <20201118204235.GL3940@paasikivi.fi.intel.com>
+        Thu, 19 Nov 2020 06:50:50 -0500
+Received: from mail-oi1-x244.google.com (mail-oi1-x244.google.com [IPv6:2607:f8b0:4864:20::244])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83DDDC0613CF
+        for <linux-media@vger.kernel.org>; Thu, 19 Nov 2020 03:50:49 -0800 (PST)
+Received: by mail-oi1-x244.google.com with SMTP id q206so5949275oif.13
+        for <linux-media@vger.kernel.org>; Thu, 19 Nov 2020 03:50:49 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=wAINGYhpRNkeBcHvB7hUfaRV9a2G0AV47GHaXFf129g=;
+        b=WBpoc0xdVhpxpx7JMPTDKoNS6NBHcXqJAZMZE7t4PKySCED9ho/YRTv710D/lJXRho
+         ruquWxbEUWwOXHkY1DuIHpCd7LeVbO3n0GYjgalc0WkxXomGepyRtkgPxLN7qElxDf+8
+         dRiFlqGEPdOiQVNMQK3wDOdSs9N7WTPs2hyqQ=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=wAINGYhpRNkeBcHvB7hUfaRV9a2G0AV47GHaXFf129g=;
+        b=QrckWt6hk5HYxxYvfRha80jb91DLd0GoCYZJcIvMOTpw/bonZZovT6nDo5TlB+jYUk
+         87YRn6uMui2WPnFGDNen5qICTb61PTiTuKCI+FM4rxwBNqtIidm3cp/fb/wOhhFzxNAi
+         pZHIiRS1QzFUyn8QzoApl/T1i3tZeL7n+jT2fZh0KTMBk9yu+6YQ5+5yN5vJMNMia8hH
+         FR335MnWHxEgbab3dahQ6hdfti77QQMukBM6z7YDYyazIw2bieGJvEx8ZPv9nclTy3/6
+         JZY58VXeflkzgnyKLZnHh0W9ywatusemmNAF0m2vwvOWAYpcumPpvkYVJboctKx8aV1o
+         wvYA==
+X-Gm-Message-State: AOAM533Osf5Qb4Yc7p+odJBGRPrJTicJ6Cykba26VABWRt0nxtQhnyvx
+        xGT1m+N5tGNYGQPlIHzh6Rpm9bKpa75gigvpCssAwg==
+X-Google-Smtp-Source: ABdhPJy/MXGNqya9sfGY9qtGsAxNCa7mmUSP4CZliM1Hu0gRLG+R5Nvz8GneyUwn8QPqdTh269kFctbbvtATNEiV480=
+X-Received: by 2002:aca:1713:: with SMTP id j19mr2367142oii.101.1605786648953;
+ Thu, 19 Nov 2020 03:50:48 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201118204235.GL3940@paasikivi.fi.intel.com>
+References: <1605205643-12746-1-git-send-email-veeras@codeaurora.org>
+ <1605205643-12746-2-git-send-email-veeras@codeaurora.org> <20201113204525.GV401619@phenom.ffwll.local>
+ <a21bad2bd7b5583692535ea107d38872@codeaurora.org>
+In-Reply-To: <a21bad2bd7b5583692535ea107d38872@codeaurora.org>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Thu, 19 Nov 2020 12:50:37 +0100
+Message-ID: <CAKMK7uGMyiV-_NUdcHMT4oT+aJF3vTfe6qUMaYwt7xbkDVs=Rw@mail.gmail.com>
+Subject: Re: [PATCH RESEND 2/2] drm/drm_vblank: set the dma-fence timestamp
+ during send_vblank_event
+To:     Veera Sundaram Sankaran <veeras@codeaurora.org>
+Cc:     dri-devel <dri-devel@lists.freedesktop.org>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Gustavo Padovan <gustavo@padovan.org>,
+        Dave Airlie <airlied@linux.ie>,
+        "Clark, Rob" <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
+        pdhaval@codeaurora.org, Abhinav Kumar <abhinavk@codeaurora.org>,
+        Jeykumar Sankaran <jsanka@codeaurora.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
-
-On Wed, Nov 18, 2020 at 10:42:35PM +0200, Sakari Ailus wrote:
-> Hi Jacopo,
+On Thu, Nov 19, 2020 at 2:26 AM <veeras@codeaurora.org> wrote:
 >
-> On Mon, Nov 09, 2020 at 05:49:23PM +0100, Jacopo Mondi wrote:
-> > Now that the driver supports more than a single mode, implement the
-> > .set_fmt pad operation and adjust the existing .get_fmt one to report
-> > the currently applied format.
+> On 2020-11-13 12:45, Daniel Vetter wrote:
+> > On Thu, Nov 12, 2020 at 10:27:23AM -0800, Veera Sundaram Sankaran
+> > wrote:
+> >> The explicit out-fences in crtc are signaled as part of vblank event,
+> >> indicating all framebuffers present on the Atomic Commit request are
+> >> scanned out on the screen. Though the fence signal and the vblank
+> >> event
+> >> notification happens at the same time, triggered by the same hardware
+> >> vsync event, the timestamp set in both are different. With drivers
+> >> supporting precise vblank timestamp the difference between the two
+> >> timestamps would be even higher. This might have an impact on use-mode
+> >> frameworks using these fence timestamps for purposes other than simple
+> >> buffer usage. For instance, the Android framework uses the
+> >> retire-fences
+> >> as an alternative to vblank when frame-updates are in progress Set the
+> >> fence timestamp during send vblank event to avoid discrepancies.
 > >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  drivers/media/i2c/ov5647.c | 66 +++++++++++++++++++++++++++++++++++---
-> >  1 file changed, 62 insertions(+), 4 deletions(-)
-> >
-> > diff --git a/drivers/media/i2c/ov5647.c b/drivers/media/i2c/ov5647.c
-> > index c65aacc0e04d3..68eab61d53493 100644
-> > --- a/drivers/media/i2c/ov5647.c
-> > +++ b/drivers/media/i2c/ov5647.c
-> > @@ -1019,14 +1019,72 @@ static int ov5647_enum_frame_size(struct v4l2_subdev *sd,
-> >  	return 0;
-> >  }
-> >
-> > -static int ov5647_set_get_fmt(struct v4l2_subdev *sd,
-> > +static int ov5647_get_pad_fmt(struct v4l2_subdev *sd,
-> >  			      struct v4l2_subdev_pad_config *cfg,
-> >  			      struct v4l2_subdev_format *format)
-> >  {
-> >  	struct v4l2_mbus_framefmt *fmt = &format->format;
-> > +	const struct v4l2_mbus_framefmt *sensor_format;
-> > +	struct ov5647 *sensor = to_sensor(sd);
-> >
-> >  	memset(fmt, 0, sizeof(*fmt));
-> > -	*fmt = OV5647_DEFAULT_FORMAT;
-> > +
-> > +	mutex_lock(&sensor->lock);
-> > +	switch (format->which) {
-> > +	case V4L2_SUBDEV_FORMAT_TRY:
-> > +		sensor_format = v4l2_subdev_get_try_format(sd, cfg, format->pad);
-> > +		break;
-> > +	default:
-> > +		sensor_format = &sensor->mode->format;
-> > +		break;
-> > +	}
-> > +
-> > +	*fmt = *sensor_format;
-> > +	mutex_unlock(&sensor->lock);
-> > +
-> > +	return 0;
-> > +}
-> > +
-> > +static int ov5647_set_pad_fmt(struct v4l2_subdev *sd,
-> > +			      struct v4l2_subdev_pad_config *cfg,
-> > +			      struct v4l2_subdev_format *format)
-> > +{
-> > +	struct v4l2_mbus_framefmt *fmt = &format->format;
-> > +	const struct ov5647_mode *ov5647_mode_list;
-> > +	struct ov5647 *sensor = to_sensor(sd);
-> > +	const struct ov5647_mode *mode;
-> > +	unsigned int num_modes;
-> > +
-> > +	/*
-> > +	 * Default mbus code MEDIA_BUS_FMT_SBGGR10_1X10 if the requested one
-> > +	 * is not supported.
-> > +	 */
-> > +	if (fmt->code == MEDIA_BUS_FMT_SBGGR8_1X8) {
-> > +		ov5647_mode_list = ov5647_8bpp_modes;
-> > +		num_modes = ARRAY_SIZE(ov5647_8bpp_modes);
-> > +	} else {
-> > +		ov5647_mode_list = ov5647_10bpp_modes;
-> > +		num_modes = ARRAY_SIZE(ov5647_10bpp_modes);
-> > +	}
->
-> It'd be nicer if you could obtain the above information from an array where
-> there's entry for each format. The above checks have a tendency to repeat
-> themselves in a number of places.
->
-
-Indeed I could replace this with a for loop like it's done in
-enum_frame_sizes...
-
-I'll fix
-
-> > +
-> > +	mode = v4l2_find_nearest_size(ov5647_mode_list, num_modes,
-> > +				      format.width, format.height,
-> > +				      fmt->width, fmt->height);
-> > +
-> > +	if (format->which == V4L2_SUBDEV_FORMAT_TRY) {
-> > +		mutex_lock(&sensor->lock);
-> > +		*v4l2_subdev_get_try_format(sd, cfg, format->pad) = mode->format;
-> > +		*fmt = mode->format;
-> > +		mutex_unlock(&sensor->lock);
-> > +
-> > +		return 0;
-> > +	}
-> > +
-> > +	/* Update the sensor mode and apply at it at streamon time. */
-> > +	mutex_lock(&sensor->lock);
-> > +	sensor->mode = mode;
-> > +	*fmt = mode->format;
-> > +	mutex_unlock(&sensor->lock);
-> >
-> >  	return 0;
-> >  }
-> > @@ -1071,8 +1129,8 @@ static int ov5647_get_selection(struct v4l2_subdev *sd,
-> >  static const struct v4l2_subdev_pad_ops ov5647_subdev_pad_ops = {
-> >  	.enum_mbus_code		= ov5647_enum_mbus_code,
-> >  	.enum_frame_size	= ov5647_enum_frame_size,
-> > -	.set_fmt		= ov5647_set_get_fmt,
-> > -	.get_fmt		= ov5647_set_get_fmt,
-> > +	.set_fmt		= ov5647_set_pad_fmt,
-> > +	.get_fmt		= ov5647_get_pad_fmt,
-> >  	.get_selection		= ov5647_get_selection,
-> >  };
+> > I think a reference to the exact source code in android that does this
+> > would be really useful. Something in drm_hwcomposer or whatever is
+> > doing
+> > this.
 > >
 >
-> --
-> Sakari Ailus
+> Thanks for the review. Sorry for not getting back earlier, was waiting
+> for the review on [patch 1/2], so that both comments can be addressed
+> together.
+> Here is the reference for Android expecting retire-fence timestamp to
+> match exactly with hardware vsync as it is used for the dispsync model.
+>
+> Usage: https://source.android.com/devices/graphics/implement-vsync
+> Code:
+> https://android.googlesource.com/platform/frameworks/native/+/master/services/surfaceflinger/Scheduler/Scheduler.cpp#397
+> Will update the commit-text with the links as part of V2 patch.
+
+Yeah sounds good. Might be good to mention that Android requires this
+in the code comment too, since it's potentially confusing.
+-Daniel
+
+> Thanks,
+> Veera
+>
+> > Aside from documenting why we want to do this I think this all looks
+> > reasonable.
+> > -Daniel
+> >
+> >>
+> >> Signed-off-by: Veera Sundaram Sankaran <veeras@codeaurora.org>
+> >> ---
+> >>  drivers/gpu/drm/drm_vblank.c | 9 +++++++++
+> >>  1 file changed, 9 insertions(+)
+> >>
+> >> diff --git a/drivers/gpu/drm/drm_vblank.c
+> >> b/drivers/gpu/drm/drm_vblank.c
+> >> index b18e1ef..b38e50c 100644
+> >> --- a/drivers/gpu/drm/drm_vblank.c
+> >> +++ b/drivers/gpu/drm/drm_vblank.c
+> >> @@ -24,6 +24,7 @@
+> >>   * OTHER DEALINGS IN THE SOFTWARE.
+> >>   */
+> >>
+> >> +#include <linux/dma-fence.h>
+> >>  #include <linux/export.h>
+> >>  #include <linux/kthread.h>
+> >>  #include <linux/moduleparam.h>
+> >> @@ -999,6 +1000,14 @@ static void send_vblank_event(struct drm_device
+> >> *dev,
+> >>              e->event.seq.time_ns = ktime_to_ns(now);
+> >>              break;
+> >>      }
+> >> +
+> >> +    /*
+> >> +     * update fence timestamp with the same vblank timestamp as both
+> >> +     * are signaled by the same event
+> >> +     */
+> >> +    if (e->base.fence)
+> >> +            e->base.fence->timestamp = now;
+> >> +
+> >>      trace_drm_vblank_event_delivered(e->base.file_priv, e->pipe, seq);
+> >>      drm_send_event_locked(dev, &e->base);
+> >>  }
+> >> --
+> >> 2.7.4
+> >>
+
+
+
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
