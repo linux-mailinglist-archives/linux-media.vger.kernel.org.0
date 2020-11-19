@@ -2,285 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 50B622B8FE8
-	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 11:12:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DCD92B8FF0
+	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 11:15:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726790AbgKSKIU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Nov 2020 05:08:20 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51792 "EHLO
+        id S1726612AbgKSKMc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Nov 2020 05:12:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52444 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726650AbgKSKIU (ORCPT
+        with ESMTP id S1725816AbgKSKMc (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Nov 2020 05:08:20 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CA523C0613CF;
-        Thu, 19 Nov 2020 02:08:19 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id C38311F4566F
-Subject: Re: [PATCH v5 1/7] media: v4l2: Extend pixel formats to unify
- single/multi-planar handling (and more)
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
-        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
-        linux-media@vger.kernel.org,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        hiroh@chromium.org, nicolas@ndufresne.ca, Brian.Starkey@arm.com,
-        kernel@collabora.com, narmstrong@baylibre.com,
-        linux-kernel@vger.kernel.org, frkoenig@chromium.org,
-        mjourdan@baylibre.com, stanimir.varbanov@linaro.org
-References: <20200804192939.2251988-1-helen.koike@collabora.com>
- <20200804192939.2251988-2-helen.koike@collabora.com>
- <20201002194935.GB1131147@chromium.org>
- <f5c9f7cd-f8e1-0671-b4d9-8ed79917b0aa@collabora.com>
- <20201119054544.GA590258@chromium.org>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <bec73ecd-e420-ccb3-810c-c98ba93dfdab@collabora.com>
-Date:   Thu, 19 Nov 2020 07:08:09 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        Thu, 19 Nov 2020 05:12:32 -0500
+Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 01D70C0613CF
+        for <linux-media@vger.kernel.org>; Thu, 19 Nov 2020 02:12:31 -0800 (PST)
+Received: by gofer.mess.org (Postfix, from userid 1000)
+        id EED6EC6357; Thu, 19 Nov 2020 10:12:28 +0000 (GMT)
+DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
+        t=1605780749; bh=DJ2PORuDOtvRRTp3cjS7bYhqNmn55zQ/OaaydHewGsw=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=r8hI4BrQS/LrJqdPn5kPUiVwZS7SbPb3qFOHKBUc9YtNzRv8RXrNqqaVFhotM+Eim
+         Fiz1Xzzv3VgY0+P9FaV9hCKWuLokpNf0yDtdy1x/LZT9GJoryFxRizKSZuv0C/U05o
+         IPdG1B10HwsRERfmHD43daoq/bLW2RWRtNIw7PASCByiZBAV3xsNOmE4PiRVAVpo5M
+         FxeTC9x00u1256g3RoW+p8xGKmM6r7A082dN4HHTk3QzVd/YXUKSrwkr775PKTUjkB
+         0pMMghIYGvW6k2MEZ+MoNCtE9UKh8quOVeQzObJJX1ouLtBTGyBRvLWlt59S53EgWq
+         WKGuhFmZnnuWg==
+Date:   Thu, 19 Nov 2020 10:12:28 +0000
+From:   Sean Young <sean@mess.org>
+To:     Christian Hewitt <christianshewitt@gmail.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH] media: rc: add keymap for KHAMSIN remote
+Message-ID: <20201119101228.GA4372@gofer.mess.org>
+References: <20201119082215.12430-1-christianshewitt@gmail.com>
 MIME-Version: 1.0
-In-Reply-To: <20201119054544.GA590258@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201119082215.12430-1-christianshewitt@gmail.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Tomasz,
+On Thu, Nov 19, 2020 at 08:22:15AM +0000, Christian Hewitt wrote:
+> This remote ships with the Amlogic SML-5442TW IPTV/VOD Set-tob Box [0]
+> used by O2.cz. This keymap adds support for the default IR controls.
 
-On 11/19/20 2:45 AM, Tomasz Figa wrote:
-> On Sat, Nov 14, 2020 at 11:21:26AM -0300, Helen Koike wrote:
->> Hi Tomasz,
->>
->> On 10/2/20 4:49 PM, Tomasz Figa wrote:
->>> Hi Helen,
->>>
->>> On Tue, Aug 04, 2020 at 04:29:33PM -0300, Helen Koike wrote:
-> [snip]
->>>> +static void v4l_print_ext_pix_format(const void *arg, bool write_only)
->>>> +{
->>>> +	const struct v4l2_ext_pix_format *pix = arg;
->>>> +	unsigned int i;
->>>> +
->>>> +	pr_cont("type=%s, width=%u, height=%u, format=%c%c%c%c, modifier %llx, field=%s, colorspace=%d, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
->>>> +		prt_names(pix->type, v4l2_type_names),
->>>> +		pix->width, pix->height,
->>>> +		(pix->pixelformat & 0xff),
->>>> +		(pix->pixelformat >>  8) & 0xff,
->>>> +		(pix->pixelformat >> 16) & 0xff,
->>>> +		(pix->pixelformat >> 24) & 0xff,
->>>> +		pix->modifier, prt_names(pix->field, v4l2_field_names),
->>>> +		pix->colorspace, pix->ycbcr_enc,
->>>> +		pix->quantization, pix->xfer_func);
->>>> +	for (i = 0; i < VIDEO_MAX_PLANES && pix->plane_fmt[i].sizeimage; i++)
->>>
->>> This is going to print 8 lines every time. Maybe we could skip 0-sized
->>> planes or something?
->>
->> I'm already checking pix->plane_fmt[i].sizeimage in the loop, it shouldn't
->> print 8 lines every time.
->>
-> 
-> Oops, how could I not notice it. Sorry for the noise.
-> 
-> [snip]
->>>> +int v4l2_ext_pix_format_to_format(const struct v4l2_ext_pix_format *e,
->>>> +				  struct v4l2_format *f, bool mplane_cap,
->>>> +				  bool strict)
->>>> +{
->>>> +	const struct v4l2_plane_ext_pix_format *pe;
->>>> +	struct v4l2_plane_pix_format *p;
->>>> +	unsigned int i;
->>>> +
->>>> +	memset(f, 0, sizeof(*f));
->>>> +
->>>> +	/*
->>>> +	 * Make sure no modifier is required before doing the
->>>> +	 * conversion.
->>>> +	 */
->>>> +	if (e->modifier && strict &&
->>>
->>> Do we need the explicit check for e->modifier != 0 if we have to check for
->>> the 2 specific values below anyway?
->>
->> We don't, since DRM_FORMAT_MOD_LINEAR is zero.
->>
->> But I wanted to make it explicit we don't support modifiers in this conversion.
->> But I can remove this check, no problem.
->>
-> 
-> Yes, please. I think the double checking is confusing for the reader.
+s/Set-tob/Set-top/
 
-ok.
+Not sure what [0] refers to.
 
+> Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+> ---
+>  drivers/media/rc/keymaps/Makefile     |  1 +
+>  drivers/media/rc/keymaps/rc-khamsin.c | 75 +++++++++++++++++++++++++++
+>  include/media/rc-map.h                |  1 +
+>  3 files changed, 77 insertions(+)
+>  create mode 100644 drivers/media/rc/keymaps/rc-khamsin.c
 > 
->>>
->>>> +	    e->modifier != DRM_FORMAT_MOD_LINEAR &&
->>>> +	    e->modifier != DRM_FORMAT_MOD_INVALID)
->>>> +		return -EINVAL;
->>>> +
->>>> +	if (!e->plane_fmt[0].sizeimage && strict)
->>>> +		return -EINVAL;
->>>
->>> Why is this incorrect?
->>
->> !sizeimage for the first plane means that there are no planes in ef.
->> strict is true if the result for the conversion should be returned to userspace
->> and it is not some internal handling.
->>
->> So if there are no planes, we would return an incomplete v4l2_format struct
->> to userspace.
->>
->> But this is not very clear, I'll improve this for the next version.
->>
-> 
-> So I can see 2 cases here:
-> 
-> 1) Userspace gives ext struct and driver accepts legacy.
-> 
-> In this case, the kernel needs to adjust the structure to be correct.
-> -EINVAL is only valid if
-> 
-> "The struct v4l2_format type field is invalid or the requested buffer type not supported."
-> 
-> as per the current uAPI documentation.
-> 
-> 2) Driver gives ext struct and userspace accepts legacy.
-> 
-> If at this point we get a struct with no planes, that sounds like a
-> driver bug, so rather than signaling -EINVAL to the userspace, we should
-> probably WARN()?
-> 
-> Or am I getting something wrong? :)
+> diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+> index aaa1bf81d00d..1c4d6bec0ae4 100644
+> --- a/drivers/media/rc/keymaps/Makefile
+> +++ b/drivers/media/rc/keymaps/Makefile
+> @@ -60,6 +60,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+>  			rc-it913x-v2.o \
+>  			rc-kaiomy.o \
+>  			rc-khadas.o \
+> +			rc-khamsin.o \
+>  			rc-kworld-315u.o \
+>  			rc-kworld-pc150u.o \
+>  			rc-kworld-plus-tv-analog.o \
+> diff --git a/drivers/media/rc/keymaps/rc-khamsin.c b/drivers/media/rc/keymaps/rc-khamsin.c
+> new file mode 100644
+> index 000000000000..8a397590009a
+> --- /dev/null
+> +++ b/drivers/media/rc/keymaps/rc-khamsin.c
+> @@ -0,0 +1,75 @@
+> +// SPDX-License-Identifier: GPL-2.0+
+> +// Copyright (c) 2020 Christian Hewitt
+> +
+> +#include <media/rc-map.h>
+> +#include <linux/module.h>
+> +
+> +/*
+> + * KHAMSIN is an IR/Bluetooth RCU supplied with the SmartLabs
+> + * SML-5442TW DVB-S/VOD box. The RCU has separate IR (TV) and
+> + * BT (STB) modes. This keymap suppors the IR controls.
+> + */
+> +
+> +static struct rc_map_table khamsin[] = {
+> +	{ 0x70702, KEY_POWER},
+> +
+> +	{ 0x70701, KEY_VIDEO}, // source
+> +
+> +	{ 0x7076c, KEY_RED},
+> +	{ 0x70714, KEY_GREEN},
+> +	{ 0x70715, KEY_YELLOW},
+> +	{ 0x70716, KEY_BLUE},
+> +
+> +	{ 0x7071a, KEY_MENU},
+> +	{ 0x7074f, KEY_EPG},
+> +
+> +	{ 0x70760, KEY_UP },
+> +	{ 0x70761, KEY_DOWN },
+> +	{ 0x70765, KEY_LEFT },
+> +	{ 0x70762, KEY_RIGHT },
+> +	{ 0x70768, KEY_ENTER },
+> +
+> +	{ 0x7072d, KEY_ESC }, // back
+> +
+> +	{ 0x70707, KEY_VOLUMEUP },
+> +	{ 0x7070b, KEY_VOLUMEDOWN },
+> +	{ 0x7070f, KEY_MUTE },
+> +	{ 0x70712, KEY_CHANNELUP },
+> +	{ 0x70710, KEY_CHANNELDOWN },
+> +
+> +	{ 0x70704, KEY_1 },
+> +	{ 0x70705, KEY_2 },
+> +	{ 0x70706, KEY_3 },
+> +	{ 0x70708, KEY_4 },
+> +	{ 0x70709, KEY_5 },
+> +	{ 0x7070a, KEY_6 },
+> +	{ 0x7070c, KEY_7 },
+> +	{ 0x7070d, KEY_8 },
+> +	{ 0x7070e, KEY_9 },
+> +	{ 0x70711, KEY_0 },
+> +};
+> +
+> +static struct rc_map_list khamsin_map = {
+> +	.map = {
+> +		.scan     = khamsin,
+> +		.size     = ARRAY_SIZE(khamsin),
+> +		.rc_proto = RC_PROTO_NEC,
 
-Make sense, I'll restructure this for the next version.
+Anything with scancodes > 0xffff is RC_PROTO_NECX.
 
-> 
-> [snip]
->>>> +{
->>>> +	const struct v4l2_plane_pix_format *p;
->>>> +	struct v4l2_plane_ext_pix_format *pe;
->>>> +	unsigned int i;
->>>> +
->>>> +	memset(e, 0, sizeof(*e));
->>>> +
->>>> +	switch (f->type) {
->>>> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
->>>> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
->>>> +		e->width = f->fmt.pix.width;
->>>> +		e->height = f->fmt.pix.height;
->>>> +		e->pixelformat = f->fmt.pix.pixelformat;
->>>> +		e->field = f->fmt.pix.field;
->>>> +		e->colorspace = f->fmt.pix.colorspace;
->>>> +		if (f->fmt.pix.flags)
->>>> +			pr_warn("Ignoring pixelformat flags 0x%x\n",
->>>> +				f->fmt.pix.flags);
->>>
->>> Would it make sense to print something like video node name and/or function
->>> name to explain where this warning comes from?
->>
->> I would need to update the function to receive this information, I can try but
->> I'm not sure if it is worthy.
->>
-> 
-> I don't have a strong opinion on this, so maybe let's see if others have
-> any comments.
-> 
->>>
->>>> +		e->ycbcr_enc = f->fmt.pix.ycbcr_enc;
->>>> +		e->quantization = f->fmt.pix.quantization;
->>>
->>> Missing xfer_func?
->>
->> Yes, thanks for catching this.
->>
->>>
->>>> +		e->plane_fmt[0].bytesperline = f->fmt.pix.bytesperline;
->>>> +		e->plane_fmt[0].sizeimage = f->fmt.pix.sizeimage;
->>>
->>> This doesn't look right. In the ext API we expected the planes to describe
->>> color planes, which means that bytesperline needs to be computed for planes
->>>> = 1 and sizeimage replaced with per-plane sizes, according to the
->>>> pixelformat.
->>
->> Ack.
->>
->> Just to be clear, even if we are using a planar format that isn't a V4L2_PIX_FMT_*M
->> variant, we should describe every plane separatly.
->>
->> For instance, if V4L2_PIX_FMT_YVU420 is being used, then f->fmt.pix.bytesperline
->> will have data, and we need to calculate bytesperline for all 3 planes, so we'll fill
->> out:
->>
->> f->plane_fmt[0].bytesperline = f->fmt.pix.bytesperline;
->> f->plane_fmt[1].bytesperline = f->fmt.pix.bytesperline / hdiv;
->> f->plane_fmt[2].bytesperline = f->fmt.pix.bytesperline / hdiv;
->>
->> I'll update this for the next version.
->>
-> 
-> Yes. This basically gives us a unified representation across all
-> pixelformats and allows userspace to handle them in a uniform way, as
-> opposed to current uAPI.
+> +		.name     = RC_MAP_KHAMSIN,
+> +	}
+> +};
+> +
+> +static int __init init_rc_map_khamsin(void)
+> +{
+> +	return rc_map_register(&khamsin_map);
+> +}
+> +
+> +static void __exit exit_rc_map_khamsin(void)
+> +{
+> +	rc_map_unregister(&khamsin_map);
+> +}
+> +
+> +module_init(init_rc_map_khamsin)
+> +module_exit(exit_rc_map_khamsin)
+> +
+> +MODULE_LICENSE("GPL");
+> +MODULE_AUTHOR("Christian Hewitt <christianshewitt@gmail.com>");
+> diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+> index 7dbb91c601a7..fa270f16a97b 100644
+> --- a/include/media/rc-map.h
+> +++ b/include/media/rc-map.h
+> @@ -263,6 +263,7 @@ struct rc_map *rc_map_get(const char *name);
+>  #define RC_MAP_IT913X_V2                 "rc-it913x-v2"
+>  #define RC_MAP_KAIOMY                    "rc-kaiomy"
+>  #define RC_MAP_KHADAS                    "rc-khadas"
+> +#define RC_MAP_KHAMSIN                   "rc-khamsin"
+>  #define RC_MAP_KWORLD_315U               "rc-kworld-315u"
+>  #define RC_MAP_KWORLD_PC150U             "rc-kworld-pc150u"
+>  #define RC_MAP_KWORLD_PLUS_TV_ANALOG     "rc-kworld-plus-tv-analog"
 
-Right, I already updated this in my wip branch for next version.
+Please can you also patch:
 
-> 
-> [snip]
->>>> +		if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
->>>> +			e->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
->>>> +		else
->>>> +			e->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
->>>> +
->>>> +		for (i = 0; i < VIDEO_MAX_PLANES; i++) {
->>>> +			pe = &e->plane_fmt[i];
->>>> +			p = &f->fmt.pix_mp.plane_fmt[i];
->>>> +			pe->bytesperline = p->bytesperline;
->>>> +			pe->sizeimage = p->sizeimage;
->>>> +		}
->>>
->>> Same here. A blind copy is not enough. For non-M formats, the plane
->>> parameters need to be filled according to the pixelformat.
->>
->>
->> Right, following the idea above, we need a different handling if we
->> aren't using a M-variant of the pixelformat, and we also need to
->> convert the pixelformat from the M-variant to non-M-variant.
->>
->> I'll also need to save that the original format was a
->> M-variant or not, so I can convert it back as expected.
-> 
-> I'm still reading the rest of the series, so it might be answered
-> already, but did we decide to do anything about the pixelformat codes
-> themselves? If both M and non-M variants would be allowed with the new
-> API, then I guess there isn't anything to save, because the original
-> format would be preserved?
+Documentation/devicetree/bindings/media/rc.yaml
 
-I was working with the idea that M-variants wouldn't be allowed.
-But then, we have cases where non-M-variant don't exist, such as:
+Looks good otherwise.
 
-V4L2_PIX_FMT_YVU422M
-V4L2_PIX_FMT_YVU444M
+Thanks,
 
-(at least, I couldn't find non-M-variant equivalent for those)
-
-But actually, I don't think we formally decided this (and it seems
-easier to implement if both are allowed).
-
-Should we allow both variants in the Ext API ?
-
-Thanks
-Helen
-
-> 
->>
->> I'll change this and submit for review.
->>
-> 
-> Cool, thanks.
-> 
-> Best regards,
-> Tomasz
-> 
+Sean
