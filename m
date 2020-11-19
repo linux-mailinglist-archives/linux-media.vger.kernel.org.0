@@ -2,80 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E607A2B93F4
-	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 14:58:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CBEBB2B9486
+	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 15:23:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727192AbgKSN4D (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Nov 2020 08:56:03 -0500
-Received: from mga01.intel.com ([192.55.52.88]:42781 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726860AbgKSN4D (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Nov 2020 08:56:03 -0500
-IronPort-SDR: w3lggLjSb7C3mKdLL91O31/PFpzwuHZT6ffn+UYGxdqmvuma+jihawEn7uKC3QZ8qXVh4CvJ2E
- pG8cPz5YIrmw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9809"; a="189376531"
-X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; 
-   d="scan'208";a="189376531"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga006.jf.intel.com ([10.7.209.51])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2020 05:56:03 -0800
-IronPort-SDR: nQ5Pp2HkbFiq3GYBNci212BokRNBZNjV8o0SpI2jXmN6rlfNSU26gxrwPladBWPG2lW2WcCxw/
- TStzdtqXjHZw==
-X-IronPort-AV: E=Sophos;i="5.77,490,1596524400"; 
-   d="scan'208";a="330939080"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 19 Nov 2020 05:55:59 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kfkQm-007xXE-JR; Thu, 19 Nov 2020 15:57:00 +0200
-Date:   Thu, 19 Nov 2020 15:57:00 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, mark.rutland@arm.com,
-        sakari.ailus@linux.intel.com, drinkcat@chromium.org,
-        tfiga@chromium.org, matthias.bgg@gmail.com, bingbu.cao@intel.com,
-        srv_heupstream@mediatek.com, linux-mediatek@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, sj.huang@mediatek.com,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        louis.kuo@mediatek.com, shengnan.wang@mediatek.com
-Subject: Re: [PATCH v15 2/2] media: i2c: Add OV02A10 image sensor driver
-Message-ID: <20201119135700.GG4077@smile.fi.intel.com>
-References: <20201013130503.2412-1-dongchun.zhu@mediatek.com>
- <20201013130503.2412-3-dongchun.zhu@mediatek.com>
- <20201023143156.GX4077@smile.fi.intel.com>
- <1605791201.4733.114.camel@mhfsdcap03>
+        id S1727437AbgKSOWt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Nov 2020 09:22:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34442 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727106AbgKSOWt (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 19 Nov 2020 09:22:49 -0500
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D5A62C0613CF;
+        Thu, 19 Nov 2020 06:22:47 -0800 (PST)
+Received: by mail-lf1-x143.google.com with SMTP id e139so8515559lfd.1;
+        Thu, 19 Nov 2020 06:22:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ZvOd3z2dVnB5SZQwK/dvDpMXJ4eITwmefRvuKa9tb0Q=;
+        b=Y21dZRMZ+kNYHUNLiNCHQoS5QxGFMKf7KaEd+6a06G/hQ1bejJXAcijD6xiDcBiBUn
+         JS4yWyB2+zZqqxEzarQ7y2NC3cKCRKUZ2CchFnZU6Kn5vLrutkvXtu+Lq1OFhxgn8Epp
+         UuLT88qmv67A3sWVg1l8Ws05tNM98wJWDlT1hgGfbwXfCiTxIVlprvN48xiVZLuFi3Cn
+         KI3oT4rlzLRHtD8EKwZRS29BsqsZh07SrjWWBHtLowX/toS83Dhlqd9OCn9mvofvfXic
+         DHhrzPVHyIWzxM0YW/p1ZFuzvZaox6YeG/KIcRnpB6NKJzCgXsklV6r9OCr7nnEUUhRd
+         hptw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ZvOd3z2dVnB5SZQwK/dvDpMXJ4eITwmefRvuKa9tb0Q=;
+        b=i7ba6A/r1lx38CySMfQ+TDUl7Ug5P1w27iAO+JNLA3mdxNi6OJU0Dyqalbxsw01iB0
+         VAsNVwAXW1PqPUXXSjGz0epzuBBCbtyiUFWhin0O2XLXgQRzlY1akQvQtW/ko39PobAl
+         YqRKgEYYe3YFDLqG9cjS0d36YmKabjvOpUI6c76OKGdqYg3fS5LkGKk6O+yUnTz3eRHz
+         PWSciz9HMFkctnmfRE7e4I7307OLnlqaz8QPpkNVd/aym1Zj/CRTKjfv3D9eULG/nYuE
+         2fZ5e3RZt0B5qhOLiz610v07pBXK8W2tBlr9mbSx1CHjsYAJC6p0df7hm4FpmuX71rKU
+         978w==
+X-Gm-Message-State: AOAM530du4USguA/p3pLaUicqA2meLa3ozpjxZ7O2FXF+na2ZDg6G4DO
+        96bNH1Rf87fJcnpUjW52tmsWQdbw810=
+X-Google-Smtp-Source: ABdhPJyUwmqVByndGgJFiM7woqjbf8UJz72yW3W4B1Jv93hEMk1YatxireTGBSQxqAyLLyxkuXCkKw==
+X-Received: by 2002:a19:844a:: with SMTP id g71mr6446029lfd.414.1605795766096;
+        Thu, 19 Nov 2020 06:22:46 -0800 (PST)
+Received: from [192.168.2.145] (109-252-193-159.dynamic.spd-mgts.ru. [109.252.193.159])
+        by smtp.googlemail.com with ESMTPSA id m16sm3851652lfa.57.2020.11.19.06.22.44
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 19 Nov 2020 06:22:45 -0800 (PST)
+Subject: Re: [PATCH v1 11/30] drm/tegra: dc: Support OPP and SoC core voltage
+ scaling
+To:     Mark Brown <broonie@kernel.org>
+Cc:     Thierry Reding <thierry.reding@gmail.com>,
+        Jonathan Hunter <jonathanh@nvidia.com>,
+        Alan Stern <stern@rowland.harvard.edu>,
+        Peter Chen <Peter.Chen@nxp.com>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Adrian Hunter <adrian.hunter@intel.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        =?UTF-8?Q?Uwe_Kleine-K=c3=b6nig?= <u.kleine-koenig@pengutronix.de>,
+        Ulf Hansson <ulf.hansson@linaro.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Peter Geis <pgwipeout@gmail.com>,
+        Nicolas Chauvet <kwizart@gmail.com>,
+        linux-samsung-soc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-usb@vger.kernel.org, linux-pwm@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        devicetree@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org
+References: <20201112171600.GD4742@sirena.org.uk>
+ <b4b06c1d-c9d4-43b2-c6eb-93f8cb6c677d@gmail.com>
+ <20201112200123.GF4742@sirena.org.uk>
+ <ce9e2d9f-917e-fb8a-7323-f3bf1a367e9d@gmail.com>
+ <20201113142937.GB4828@sirena.org.uk>
+ <7f066805-97d9-088f-e89d-a554fe478574@gmail.com>
+ <20201113161550.GC4828@sirena.org.uk>
+ <3beaa12b-4a50-a3b6-fc43-ebb5ce7a8db7@gmail.com>
+ <20201113172859.GF4828@sirena.org.uk>
+ <74cfc6a9-3f59-d679-14b7-51102a6f11b3@gmail.com>
+ <20201116133311.GB4739@sirena.org.uk>
+From:   Dmitry Osipenko <digetx@gmail.com>
+Message-ID: <332ab946-daee-bb83-24ab-0bda4fd8e1ef@gmail.com>
+Date:   Thu, 19 Nov 2020 17:22:43 +0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1605791201.4733.114.camel@mhfsdcap03>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20201116133311.GB4739@sirena.org.uk>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 19, 2020 at 09:06:41PM +0800, Dongchun Zhu wrote:
-> On Fri, 2020-10-23 at 17:31 +0300, Andy Shevchenko wrote:
-> > On Tue, Oct 13, 2020 at 09:05:03PM +0800, Dongchun Zhu wrote:
-> > > Add a V4L2 sub-device driver for OmniVision OV02A10 image sensor.
-
-...
-
-> > > +#define OV02A10_ID_MASK					0xffff
-> > 
-> > GENMASK()
-> > 
-> > (And include bits.h for that)
-> > 
+16.11.2020 16:33, Mark Brown пишет:
+> On Sun, Nov 15, 2020 at 08:42:10PM +0300, Dmitry Osipenko wrote:
+>> 13.11.2020 20:28, Mark Brown пишет:
 > 
-> It seems could build pass without including bits.h, as DW9768 once used.
+>>>> What should we do?
+> 
+>>> As I keep saying the consumer driver should be enumerating the voltages
+>>> it can set, if it can't find any and wants to continue then it can just
+>>> skip setting voltages later on.  If only some are unavailable then it
+>>> probably wants to eliminate those specific OPPs instead.
+> 
+>> I'm seeing a dummy regulator as a helper for consumer drivers which
+>> removes burden of handling an absent (optional) regulator. Is this a
+>> correct understanding of a dummy regulator?
+> 
+>> Older DTBs don't have a regulator and we want to keep them working. This
+>> is equal to a physically absent regulator and in this case it's an
+>> optional regulator, IMO.
+> 
+> No, you are failing to understand the purpose of this code.  To
+> reiterate unless the device supports operating with the supply
+> physically absent then the driver should not be attempting to use
+> regulator_get_optional().  That exists specifically for the case where
+> the supply may be absent, nothing else.  The dummy regulator is there
+> precisely for the case where the system does not describe supplies that
+> we know are required for the device to function, it fixes up that
+> omission so we don't need to open code handling of this in every single
+> consumer driver.
 
-The rule of thumb is to include all headers you have direct users for.
-Exceptions when you have indirect inclusion that guarantees to provide
-others (like bitmap.h implies bits.h, etc).
+The original intention of regulator_get_optional() is clear to me, but
+nothing really stops drivers from slightly re-purposing this API, IMO.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Drivers should be free to assume that if regulator isn't defined by
+firmware, then it's physically absent if this doesn't break anything. Of
+course in some cases it's unsafe to make such assumptions. I think it's
+a bit unpractical to artificially limit API usage without a good reason,
+i.e. if nothing breaks underneath of a driver.
 
+> Regulators that are present but not described by the firmware are a
+> clearly different case to regulators that are not physically there,
+> hardware with actually optional regulators will generally require some
+> configuration for this case.
+> 
 
+I have good news. After spending some more time on trying out different
+things, I found that my previous assumption about the fixed-regulator
+was wrong, it actually accepts voltage changes, i.e. regulator consumer
+doesn't get a error on a voltage-change. This is exactly what is needed
+for the OPP core to work properly.
+
+This means that there is no need to add special quirks to work around
+absent regulators, we will just add a fixed regulator to the DTs which
+don't specify a real regulator. The OPP core will perform voltage
+checking and filter out unsupported OPPs. The older DTBs will continue
+to work as well.
