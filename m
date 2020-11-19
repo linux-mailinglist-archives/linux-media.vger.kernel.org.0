@@ -2,179 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D2FFC2B8CFD
-	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 09:25:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5462D2B8DC8
+	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 09:43:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726094AbgKSIWY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Nov 2020 03:22:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35380 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725843AbgKSIWW (ORCPT
+        id S1726375AbgKSImU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Nov 2020 03:42:20 -0500
+Received: from new1-smtp.messagingengine.com ([66.111.4.221]:46041 "EHLO
+        new1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726358AbgKSImU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Nov 2020 03:22:22 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04774C0613CF;
-        Thu, 19 Nov 2020 00:22:21 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id 1so5897339wme.3;
-        Thu, 19 Nov 2020 00:22:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=WacJpfQKRB3BwL5o2ivrhIEnIpS2jg5Q0aCU51RK5eE=;
-        b=EyS3pQs58yz3Uf73knHb1GNjtFMM9k2doALYiF0aGBerD5H1KblUV6Uz48pjeE4VZ5
-         887hD2UwK4m+JoEx+dcmjHaBf4/XTDUwvJfcJnQaQhUFZLl1bUsN57XEEZew00ZazTSN
-         aDkPcgGCus4MUJxMohKe0YFD97bJf1Z/JnaliqJwfYt/0h/J4U5m34B2XFaHNwEYinG+
-         OJKpfq0t6odI3DU8geL2whUQ2rWTFqULxDHHW7XZCgWZl9V7Be8PVfOiHC9GVzdbOT/w
-         Wv1UMh6Gz5aBPEvxRLFRKyd/OaZiUNCfZLf+oKB8X9URrsaKl8Mj/0YhlWy9jBJkSA0I
-         DzbQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=WacJpfQKRB3BwL5o2ivrhIEnIpS2jg5Q0aCU51RK5eE=;
-        b=MivA2uNIiuI9+AsWxtApww8+ih60nT90MOMJFkXKNsWM+/Yoa1HFljNFKS9gIgzXf7
-         qbijzGl0eayUApjL5Gnrl01Q3QOaYdrKf0AadfxnxUfVSdhoyi4rvQlolebAMA/gqm6W
-         HkNGVeLZwlA8YKlc1sptozisx5mGTHFSOpVEuMVMMQpZ5mnkOepZ69q8voxg5F02BTjk
-         5YnnKJ93+LMh+vNLMdF+uteAquS5kFTsKZnraxhvjlGpjI/AeiwOErHRNbkUC/AdqyZP
-         kSngAk2kGa2MSeFYaeVfVE4ujq7tLe4HCJafESwEEzIX/kG5pmA66xXrlUq/ZwgQ0lE7
-         rkCg==
-X-Gm-Message-State: AOAM5307R2+gdUqjDGXMdEwg03tfs98X6S1lvZDbpdDFuyT0za4rrUgL
-        GIuSTACE6/kbL9ea5e32jMY=
-X-Google-Smtp-Source: ABdhPJymNK92TC6ViKAP45B84ih2DIwRAra5etXo/rqCdAe7AGBeve/9iYLYe19NXDUae9Gt7Z5zmw==
-X-Received: by 2002:a1c:984f:: with SMTP id a76mr3120294wme.40.1605774139742;
-        Thu, 19 Nov 2020 00:22:19 -0800 (PST)
-Received: from localhost.localdomain ([87.200.95.144])
-        by smtp.gmail.com with ESMTPSA id u6sm7989655wmj.40.2020.11.19.00.22.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 19 Nov 2020 00:22:18 -0800 (PST)
-From:   Christian Hewitt <christianshewitt@gmail.com>
-To:     Sean Young <sean@mess.org>,
+        Thu, 19 Nov 2020 03:42:20 -0500
+Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
+        by mailnew.nyi.internal (Postfix) with ESMTP id AC71B5800F5;
+        Thu, 19 Nov 2020 03:42:18 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute6.internal (MEProxy); Thu, 19 Nov 2020 03:42:18 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm1; bh=5DqwnmNe5MZ1oBWo8rYgCJvgNX/
+        nBUSLLMd4qJKLVwo=; b=QMvJsxuS+F230z5kmRQhjhxPWJN3BwS5U5NDc+s6xel
+        uve9cUDM9e2DtwJM4HSQG1nKnq5Rkdgr7cY8y2vAE/cEkUGj8XOa3ASIs4z9aJkL
+        YYHCBVE7R0laK3vo67NItzCK1nDWVSC4qU01mLTSLLzDGL0yJPs8GLM46pHYi8/3
+        Wf3L2XNps2W9dvMEpuM7V5Z06F6Tb3SJSDGbymFdsMpSfgj6+Ny/deGVpZl2xXCm
+        53SZGr85emNDDI86qLdLL7JaF+XbkiBz8PDcz8tgt5JpSoprB/Qo+nglwBZ4MwhO
+        17V+8w3dHl3/a9uWSmtmziP+MTLY36piPpkbkU+layw==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=5Dqwnm
+        Ne5MZ1oBWo8rYgCJvgNX/nBUSLLMd4qJKLVwo=; b=XM+viXwm8de4uydp9rVcYE
+        Dv4fOMl3pEKGARRtkgPmDU76FI+NdnJHwtpW0btAFHNpd+T7RNRWTXGiRwrwvuqW
+        coIC4mY5/9PiJnimz0V9WJe17tqKeDgbcw8NuAifOqdJZgMn0SJ5MFVpNEjLWi8f
+        AGEjoYfEkCD74Zc45slkrG3k2sylT8Hcm3uXO907n7mC4ZaejiZJ0/jBNCeKRp1+
+        EoteZSXRxC7XlAlhk3zA6U0TRA8WdbcghyT07icgNJSIYdaGJBkNDwx/3IvvGm9R
+        Z+db4YjhcLNsXZ7OnDWWObQYKRz2gzC7ZoE8GLD75xiKjngLH+TqkOZJupc1sF4A
+        ==
+X-ME-Sender: <xms:6S-2X9xQcg1gPCZ_ylxT_8PP1xmff6hWLyNRBgwMwVP_KmF0r4vUvA>
+    <xme:6S-2X9QxGAngEQKHOU-dMheqXI4YLjvl8BQBRcuNahSUlodFnHqrQilPqT6Uv6n7N
+    uaPO5fuOhthAOZFbcM>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudefiedguddvtdcutefuodetggdotefrod
+    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
+    necuuegrihhlohhuthemuceftddtnecusecvtfgvtghiphhivghnthhsucdlqddutddtmd
+    enucfjughrpeffhffvuffkfhggtggujgesghdtreertddtvdenucfhrhhomhepofgrgihi
+    mhgvucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrg
+    htthgvrhhnpeevveefffduveeitdegtefhhfetueffteefffdvheevvdehteethedvleff
+    gfejvdenucffohhmrghinhepkhgvrhhnvghlrdhorhhgnecukfhppeeltddrkeelrdeike
+    drjeeinecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhep
+    mhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:6S-2X3UH4loHGjFMH6yAk6vQU4SS7v6LQuCzDtr2auC1xTlPvXCniw>
+    <xmx:6S-2X_i2r1_uw_W0bFd6G5-IH6FV3HousApy6PkQkl2l3W0HHu5AZA>
+    <xmx:6S-2X_B7F5XEw3h6CwQ_4hbOvf2KsTeaUvpQnFquw_lLb3Zq3ANauw>
+    <xmx:6i-2X3YzK6YtDeJ81cm3LvWYBMbSFGDzLYt1skFBYLCUSMHCfzGOfg>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id E12C5328005D;
+        Thu, 19 Nov 2020 03:42:16 -0500 (EST)
+Date:   Thu, 19 Nov 2020 09:42:15 +0100
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Hans Verkuil <hverkuil@xs4all.nl>, wens@kernel.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        linux-arm-kernel@lists.infradead.org,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Cc:     Christian Hewitt <christianshewitt@gmail.com>
-Subject: [PATCH] media: rc: add keymap for KHAMSIN remote
-Date:   Thu, 19 Nov 2020 08:22:15 +0000
-Message-Id: <20201119082215.12430-1-christianshewitt@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        linux-media@vger.kernel.org, dri-devel@lists.freedesktop.org,
+        linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Robin Murphy <robin.murphy@arm.com>
+Subject: Re: [PATCH 0/7] sunxi: Remove the calls to dma_direct_set_offset
+Message-ID: <20201119084215.pnzypitnyfgxsgrg@gilmour.lan>
+References: <20201106151411.321743-1-maxime@cerno.tech>
+ <20201106160737.GA31913@lst.de>
+ <20201109094303.llqsxqoxjagiqa55@gilmour.lan>
+ <20201119075959.GA15942@lst.de>
+MIME-Version: 1.0
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="7dwjhxt6inc72kiy"
+Content-Disposition: inline
+In-Reply-To: <20201119075959.GA15942@lst.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This remote ships with the Amlogic SML-5442TW IPTV/VOD Set-tob Box [0]
-used by O2.cz. This keymap adds support for the default IR controls.
 
-Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
----
- drivers/media/rc/keymaps/Makefile     |  1 +
- drivers/media/rc/keymaps/rc-khamsin.c | 75 +++++++++++++++++++++++++++
- include/media/rc-map.h                |  1 +
- 3 files changed, 77 insertions(+)
- create mode 100644 drivers/media/rc/keymaps/rc-khamsin.c
+--7dwjhxt6inc72kiy
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
-index aaa1bf81d00d..1c4d6bec0ae4 100644
---- a/drivers/media/rc/keymaps/Makefile
-+++ b/drivers/media/rc/keymaps/Makefile
-@@ -60,6 +60,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
- 			rc-it913x-v2.o \
- 			rc-kaiomy.o \
- 			rc-khadas.o \
-+			rc-khamsin.o \
- 			rc-kworld-315u.o \
- 			rc-kworld-pc150u.o \
- 			rc-kworld-plus-tv-analog.o \
-diff --git a/drivers/media/rc/keymaps/rc-khamsin.c b/drivers/media/rc/keymaps/rc-khamsin.c
-new file mode 100644
-index 000000000000..8a397590009a
---- /dev/null
-+++ b/drivers/media/rc/keymaps/rc-khamsin.c
-@@ -0,0 +1,75 @@
-+// SPDX-License-Identifier: GPL-2.0+
-+// Copyright (c) 2020 Christian Hewitt
-+
-+#include <media/rc-map.h>
-+#include <linux/module.h>
-+
-+/*
-+ * KHAMSIN is an IR/Bluetooth RCU supplied with the SmartLabs
-+ * SML-5442TW DVB-S/VOD box. The RCU has separate IR (TV) and
-+ * BT (STB) modes. This keymap suppors the IR controls.
-+ */
-+
-+static struct rc_map_table khamsin[] = {
-+	{ 0x70702, KEY_POWER},
-+
-+	{ 0x70701, KEY_VIDEO}, // source
-+
-+	{ 0x7076c, KEY_RED},
-+	{ 0x70714, KEY_GREEN},
-+	{ 0x70715, KEY_YELLOW},
-+	{ 0x70716, KEY_BLUE},
-+
-+	{ 0x7071a, KEY_MENU},
-+	{ 0x7074f, KEY_EPG},
-+
-+	{ 0x70760, KEY_UP },
-+	{ 0x70761, KEY_DOWN },
-+	{ 0x70765, KEY_LEFT },
-+	{ 0x70762, KEY_RIGHT },
-+	{ 0x70768, KEY_ENTER },
-+
-+	{ 0x7072d, KEY_ESC }, // back
-+
-+	{ 0x70707, KEY_VOLUMEUP },
-+	{ 0x7070b, KEY_VOLUMEDOWN },
-+	{ 0x7070f, KEY_MUTE },
-+	{ 0x70712, KEY_CHANNELUP },
-+	{ 0x70710, KEY_CHANNELDOWN },
-+
-+	{ 0x70704, KEY_1 },
-+	{ 0x70705, KEY_2 },
-+	{ 0x70706, KEY_3 },
-+	{ 0x70708, KEY_4 },
-+	{ 0x70709, KEY_5 },
-+	{ 0x7070a, KEY_6 },
-+	{ 0x7070c, KEY_7 },
-+	{ 0x7070d, KEY_8 },
-+	{ 0x7070e, KEY_9 },
-+	{ 0x70711, KEY_0 },
-+};
-+
-+static struct rc_map_list khamsin_map = {
-+	.map = {
-+		.scan     = khamsin,
-+		.size     = ARRAY_SIZE(khamsin),
-+		.rc_proto = RC_PROTO_NEC,
-+		.name     = RC_MAP_KHAMSIN,
-+	}
-+};
-+
-+static int __init init_rc_map_khamsin(void)
-+{
-+	return rc_map_register(&khamsin_map);
-+}
-+
-+static void __exit exit_rc_map_khamsin(void)
-+{
-+	rc_map_unregister(&khamsin_map);
-+}
-+
-+module_init(init_rc_map_khamsin)
-+module_exit(exit_rc_map_khamsin)
-+
-+MODULE_LICENSE("GPL");
-+MODULE_AUTHOR("Christian Hewitt <christianshewitt@gmail.com>");
-diff --git a/include/media/rc-map.h b/include/media/rc-map.h
-index 7dbb91c601a7..fa270f16a97b 100644
---- a/include/media/rc-map.h
-+++ b/include/media/rc-map.h
-@@ -263,6 +263,7 @@ struct rc_map *rc_map_get(const char *name);
- #define RC_MAP_IT913X_V2                 "rc-it913x-v2"
- #define RC_MAP_KAIOMY                    "rc-kaiomy"
- #define RC_MAP_KHADAS                    "rc-khadas"
-+#define RC_MAP_KHAMSIN                   "rc-khamsin"
- #define RC_MAP_KWORLD_315U               "rc-kworld-315u"
- #define RC_MAP_KWORLD_PC150U             "rc-kworld-pc150u"
- #define RC_MAP_KWORLD_PLUS_TV_ANALOG     "rc-kworld-plus-tv-analog"
--- 
-2.17.1
+Hi Christoph,
 
+On Thu, Nov 19, 2020 at 08:59:59AM +0100, Christoph Hellwig wrote:
+> On Mon, Nov 09, 2020 at 10:43:03AM +0100, Maxime Ripard wrote:
+> > Hi Christoph, Chen-Yu, Hans,
+> >=20
+> > On Fri, Nov 06, 2020 at 05:07:37PM +0100, Christoph Hellwig wrote:
+> > > Thanks,
+> > >=20
+> > > this looks good to me:
+> > >=20
+> > > Reviewed-by: Christoph Hellwig <hch@lst.de>
+> > >=20
+> > > Can you include this patch at the end of your series to that it gets
+> > > picked up with the other patches?
+> >=20
+> > I guess the easiest to avoid bisection issues would be to merge all this
+> > through drm-misc, would that work for you?
+>=20
+> Is this going to get picked up in drm-misc?  I don't see it in linux-next
+> so far.
+
+After some discussion with Arnd and Daniel, this will go through
+arm-soc, and I sent the PR here:
+https://lore.kernel.org/linux-arm-kernel/20201118091303.wa5npxyop3cdsczb@gi=
+lmour.lan/
+
+It hasn't been merged yet though
+
+Maxime
+
+--7dwjhxt6inc72kiy
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX7Yv5wAKCRDj7w1vZxhR
+xS5FAQCYXp84yiCjK6DzHMXuvqUyjuQ2zW50D8gIbktS+6dxsgD8CZD6PR2bxjbU
+MvZ5WHoaGibeUb5SbiM7G0oySMAPyAg=
+=FD/c
+-----END PGP SIGNATURE-----
+
+--7dwjhxt6inc72kiy--
