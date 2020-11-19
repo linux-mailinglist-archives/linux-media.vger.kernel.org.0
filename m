@@ -2,130 +2,179 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 28AB42B8CBD
-	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 09:04:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D2FFC2B8CFD
+	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 09:25:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726354AbgKSIB6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Nov 2020 03:01:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60478 "EHLO
+        id S1726094AbgKSIWY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Nov 2020 03:22:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35380 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726287AbgKSIB6 (ORCPT
+        with ESMTP id S1725843AbgKSIWW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Nov 2020 03:01:58 -0500
-Received: from andre.telenet-ops.be (andre.telenet-ops.be [IPv6:2a02:1800:120:4::f00:15])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 29A79C0613D4
-        for <linux-media@vger.kernel.org>; Thu, 19 Nov 2020 00:01:57 -0800 (PST)
-Received: from ramsan.of.borg ([84.195.186.194])
-        by andre.telenet-ops.be with bizsmtp
-        id u81r2300N4C55Sk0181rmj; Thu, 19 Nov 2020 09:01:55 +0100
-Received: from rox.of.borg ([192.168.97.57])
-        by ramsan.of.borg with esmtps  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kfet5-003lB0-JL; Thu, 19 Nov 2020 09:01:51 +0100
-Received: from geert by rox.of.borg with local (Exim 4.93)
-        (envelope-from <geert@linux-m68k.org>)
-        id 1kfet4-00Gz1m-Gy; Thu, 19 Nov 2020 09:01:50 +0100
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-To:     Michael Ellerman <mpe@ellerman.id.au>,
-        Benjamin Herrenschmidt <benh@kernel.crashing.org>,
-        Paul Mackerras <paulus@samba.org>,
+        Thu, 19 Nov 2020 03:22:22 -0500
+Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 04774C0613CF;
+        Thu, 19 Nov 2020 00:22:21 -0800 (PST)
+Received: by mail-wm1-x343.google.com with SMTP id 1so5897339wme.3;
+        Thu, 19 Nov 2020 00:22:20 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=WacJpfQKRB3BwL5o2ivrhIEnIpS2jg5Q0aCU51RK5eE=;
+        b=EyS3pQs58yz3Uf73knHb1GNjtFMM9k2doALYiF0aGBerD5H1KblUV6Uz48pjeE4VZ5
+         887hD2UwK4m+JoEx+dcmjHaBf4/XTDUwvJfcJnQaQhUFZLl1bUsN57XEEZew00ZazTSN
+         aDkPcgGCus4MUJxMohKe0YFD97bJf1Z/JnaliqJwfYt/0h/J4U5m34B2XFaHNwEYinG+
+         OJKpfq0t6odI3DU8geL2whUQ2rWTFqULxDHHW7XZCgWZl9V7Be8PVfOiHC9GVzdbOT/w
+         Wv1UMh6Gz5aBPEvxRLFRKyd/OaZiUNCfZLf+oKB8X9URrsaKl8Mj/0YhlWy9jBJkSA0I
+         DzbQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=WacJpfQKRB3BwL5o2ivrhIEnIpS2jg5Q0aCU51RK5eE=;
+        b=MivA2uNIiuI9+AsWxtApww8+ih60nT90MOMJFkXKNsWM+/Yoa1HFljNFKS9gIgzXf7
+         qbijzGl0eayUApjL5Gnrl01Q3QOaYdrKf0AadfxnxUfVSdhoyi4rvQlolebAMA/gqm6W
+         HkNGVeLZwlA8YKlc1sptozisx5mGTHFSOpVEuMVMMQpZ5mnkOepZ69q8voxg5F02BTjk
+         5YnnKJ93+LMh+vNLMdF+uteAquS5kFTsKZnraxhvjlGpjI/AeiwOErHRNbkUC/AdqyZP
+         kSngAk2kGa2MSeFYaeVfVE4ujq7tLe4HCJafESwEEzIX/kG5pmA66xXrlUq/ZwgQ0lE7
+         rkCg==
+X-Gm-Message-State: AOAM5307R2+gdUqjDGXMdEwg03tfs98X6S1lvZDbpdDFuyT0za4rrUgL
+        GIuSTACE6/kbL9ea5e32jMY=
+X-Google-Smtp-Source: ABdhPJymNK92TC6ViKAP45B84ih2DIwRAra5etXo/rqCdAe7AGBeve/9iYLYe19NXDUae9Gt7Z5zmw==
+X-Received: by 2002:a1c:984f:: with SMTP id a76mr3120294wme.40.1605774139742;
+        Thu, 19 Nov 2020 00:22:19 -0800 (PST)
+Received: from localhost.localdomain ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id u6sm7989655wmj.40.2020.11.19.00.22.17
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 19 Nov 2020 00:22:18 -0800 (PST)
+From:   Christian Hewitt <christianshewitt@gmail.com>
+To:     Sean Young <sean@mess.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Fabio Estevam <festevam@gmail.com>
-Cc:     Hans Verkuil <hans.verkuil@cisco.com>,
-        Arnd Bergmann <arnd@arndb.de>, linuxppc-dev@lists.ozlabs.org,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        kernel test robot <lkp@intel.com>
-Subject: [PATCH] media: fsl-viu: Use proper check for presence of {out,in}_be32()
-Date:   Thu, 19 Nov 2020 09:01:49 +0100
-Message-Id: <20201119080149.4047795-1-geert@linux-m68k.org>
-X-Mailer: git-send-email 2.25.1
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc:     Christian Hewitt <christianshewitt@gmail.com>
+Subject: [PATCH] media: rc: add keymap for KHAMSIN remote
+Date:   Thu, 19 Nov 2020 08:22:15 +0000
+Message-Id: <20201119082215.12430-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When compile-testing on m68k/randconfig:
+This remote ships with the Amlogic SML-5442TW IPTV/VOD Set-tob Box [0]
+used by O2.cz. This keymap adds support for the default IR controls.
 
-    drivers/media/platform/fsl-viu.c: In function 'viu_start_dma':
-    drivers/media/platform/fsl-viu.c:253:2: error: implicit declaration of function 'out_be32' [-Werror=implicit-function-declaration]
-    drivers/media/platform/fsl-viu.c: In function 'viu_stop_dma':
-    drivers/media/platform/fsl-viu.c:266:15: error: implicit declaration of function 'in_be32' [-Werror=implicit-function-declaration]
-
-Fix this by replacing the checks for PowerPC, Microblaze, and m68k by
-checks for the presence of {out,in}_be32().
-
-As PowerPC implements the be32 accessors using inline functions instead
-of macros, identity definitions are added for all accessors to make the
-above checks work.
-
-Fixes: 29d750686331a1a9 ("media: fsl-viu: allow building it with COMPILE_TEST")
-Fixes: 17621758e53f0e6b ("media: fsl-viu: Do not redefine out_be32()/in_be32() for CONFIG_M68K")
-Reported-by: kernel test robot <lkp@intel.com>
-Signed-off-by: Geert Uytterhoeven <geert@linux-m68k.org>
-Reviewed-by: Hans Verkuil <hans.verkuil@cisco.com>
+Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
 ---
-Compile-tested on m68k, microblaze, and powerpc.
-Assembler output before/after compared for powerpc.
+ drivers/media/rc/keymaps/Makefile     |  1 +
+ drivers/media/rc/keymaps/rc-khamsin.c | 75 +++++++++++++++++++++++++++
+ include/media/rc-map.h                |  1 +
+ 3 files changed, 77 insertions(+)
+ create mode 100644 drivers/media/rc/keymaps/rc-khamsin.c
 
-v2:
-  - Add Reviewed-by,
-  - s/definions/definitions/,
-  - Update for commits 6898dd580a045341 ("media: media/platform:
-    fsl-viu.c: fix build for MICROBLAZE") and 17621758e53f0e6b ("media:
-    fsl-viu: Do not redefine out_be32()/in_be32() for CONFIG_M68K"),
-    which added checks for Microblaze and m68k (the latter is not
-    sufficient, cfr. the report from the kernel test robot).
-
-v1: https://lore.kernel.org/lkml/1528451328-21316-1-git-send-email-geert@linux-m68k.org/
----
- arch/powerpc/include/asm/io.h    | 14 ++++++++++++++
- drivers/media/platform/fsl-viu.c |  4 +++-
- 2 files changed, 17 insertions(+), 1 deletion(-)
-
-diff --git a/arch/powerpc/include/asm/io.h b/arch/powerpc/include/asm/io.h
-index 58635960403c058b..fcb250db110d8e2b 100644
---- a/arch/powerpc/include/asm/io.h
-+++ b/arch/powerpc/include/asm/io.h
-@@ -194,6 +194,20 @@ static inline void out_be64(volatile u64 __iomem *addr, u64 val)
- #endif
- #endif /* __powerpc64__ */
- 
-+#define in_be16 in_be16
-+#define in_be32 in_be32
-+#define in_be64 in_be64
-+#define in_le16 in_le16
-+#define in_le32 in_le32
-+#define in_le64 in_le64
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index aaa1bf81d00d..1c4d6bec0ae4 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -60,6 +60,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+ 			rc-it913x-v2.o \
+ 			rc-kaiomy.o \
+ 			rc-khadas.o \
++			rc-khamsin.o \
+ 			rc-kworld-315u.o \
+ 			rc-kworld-pc150u.o \
+ 			rc-kworld-plus-tv-analog.o \
+diff --git a/drivers/media/rc/keymaps/rc-khamsin.c b/drivers/media/rc/keymaps/rc-khamsin.c
+new file mode 100644
+index 000000000000..8a397590009a
+--- /dev/null
++++ b/drivers/media/rc/keymaps/rc-khamsin.c
+@@ -0,0 +1,75 @@
++// SPDX-License-Identifier: GPL-2.0+
++// Copyright (c) 2020 Christian Hewitt
 +
-+#define out_be16 out_be16
-+#define out_be32 out_be32
-+#define out_be64 out_be64
-+#define out_le16 out_le16
-+#define out_le32 out_le32
-+#define out_le64 out_le64
++#include <media/rc-map.h>
++#include <linux/module.h>
 +
- /*
-  * Low level IO stream instructions are defined out of line for now
-  */
-diff --git a/drivers/media/platform/fsl-viu.c b/drivers/media/platform/fsl-viu.c
-index 4f2a0f992905b4b3..d8a6dd4ffbad56d6 100644
---- a/drivers/media/platform/fsl-viu.c
-+++ b/drivers/media/platform/fsl-viu.c
-@@ -32,8 +32,10 @@
- #define VIU_VERSION		"0.5.1"
- 
- /* Allow building this driver with COMPILE_TEST */
--#if !defined(CONFIG_PPC) && !defined(CONFIG_MICROBLAZE) && !defined(CONFIG_M68K)
-+#ifndef out_be32
- #define out_be32(v, a)	iowrite32be(a, (void __iomem *)v)
-+#endif
-+#ifndef in_be32
- #define in_be32(a)	ioread32be((void __iomem *)a)
- #endif
- 
++/*
++ * KHAMSIN is an IR/Bluetooth RCU supplied with the SmartLabs
++ * SML-5442TW DVB-S/VOD box. The RCU has separate IR (TV) and
++ * BT (STB) modes. This keymap suppors the IR controls.
++ */
++
++static struct rc_map_table khamsin[] = {
++	{ 0x70702, KEY_POWER},
++
++	{ 0x70701, KEY_VIDEO}, // source
++
++	{ 0x7076c, KEY_RED},
++	{ 0x70714, KEY_GREEN},
++	{ 0x70715, KEY_YELLOW},
++	{ 0x70716, KEY_BLUE},
++
++	{ 0x7071a, KEY_MENU},
++	{ 0x7074f, KEY_EPG},
++
++	{ 0x70760, KEY_UP },
++	{ 0x70761, KEY_DOWN },
++	{ 0x70765, KEY_LEFT },
++	{ 0x70762, KEY_RIGHT },
++	{ 0x70768, KEY_ENTER },
++
++	{ 0x7072d, KEY_ESC }, // back
++
++	{ 0x70707, KEY_VOLUMEUP },
++	{ 0x7070b, KEY_VOLUMEDOWN },
++	{ 0x7070f, KEY_MUTE },
++	{ 0x70712, KEY_CHANNELUP },
++	{ 0x70710, KEY_CHANNELDOWN },
++
++	{ 0x70704, KEY_1 },
++	{ 0x70705, KEY_2 },
++	{ 0x70706, KEY_3 },
++	{ 0x70708, KEY_4 },
++	{ 0x70709, KEY_5 },
++	{ 0x7070a, KEY_6 },
++	{ 0x7070c, KEY_7 },
++	{ 0x7070d, KEY_8 },
++	{ 0x7070e, KEY_9 },
++	{ 0x70711, KEY_0 },
++};
++
++static struct rc_map_list khamsin_map = {
++	.map = {
++		.scan     = khamsin,
++		.size     = ARRAY_SIZE(khamsin),
++		.rc_proto = RC_PROTO_NEC,
++		.name     = RC_MAP_KHAMSIN,
++	}
++};
++
++static int __init init_rc_map_khamsin(void)
++{
++	return rc_map_register(&khamsin_map);
++}
++
++static void __exit exit_rc_map_khamsin(void)
++{
++	rc_map_unregister(&khamsin_map);
++}
++
++module_init(init_rc_map_khamsin)
++module_exit(exit_rc_map_khamsin)
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Christian Hewitt <christianshewitt@gmail.com>");
+diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+index 7dbb91c601a7..fa270f16a97b 100644
+--- a/include/media/rc-map.h
++++ b/include/media/rc-map.h
+@@ -263,6 +263,7 @@ struct rc_map *rc_map_get(const char *name);
+ #define RC_MAP_IT913X_V2                 "rc-it913x-v2"
+ #define RC_MAP_KAIOMY                    "rc-kaiomy"
+ #define RC_MAP_KHADAS                    "rc-khadas"
++#define RC_MAP_KHAMSIN                   "rc-khamsin"
+ #define RC_MAP_KWORLD_315U               "rc-kworld-315u"
+ #define RC_MAP_KWORLD_PC150U             "rc-kworld-pc150u"
+ #define RC_MAP_KWORLD_PLUS_TV_ANALOG     "rc-kworld-plus-tv-analog"
 -- 
-2.25.1
+2.17.1
 
