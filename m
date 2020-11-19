@@ -2,131 +2,335 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 277762B9311
-	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 14:07:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F25CF2B93D1
+	for <lists+linux-media@lfdr.de>; Thu, 19 Nov 2020 14:46:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727160AbgKSNGy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 19 Nov 2020 08:06:54 -0500
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:61345 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1726474AbgKSNGx (ORCPT
+        id S1727334AbgKSNnk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 19 Nov 2020 08:43:40 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56638 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726719AbgKSNnk (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 19 Nov 2020 08:06:53 -0500
-X-UUID: 35b06853489d43aca805e5f4765c6b07-20201119
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=12lxvwfey+8nddLZ+ZoT8HbHqOzwkHuwsOhoD85K9Cg=;
-        b=mXlB++9nqp2P7V0CMz3zl6EHRz+3FxzOb3QldHur8JDi/TG+UIiAtdN2bLhlZYIViLJr0TTO0xUTuvmKKSzPKlQrEBHfm7IZ2AfPnGMTBDqOoK9PThw0+P9A49cmcQsWHPnV0BK9jv6ZPSrHG+PWucbTz8Dab0j7pjVg4yX22QU=;
-X-UUID: 35b06853489d43aca805e5f4765c6b07-20201119
-Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <dongchun.zhu@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 534292277; Thu, 19 Nov 2020 21:06:44 +0800
-Received: from MTKCAS32.mediatek.inc (172.27.4.184) by MTKMBS31DR.mediatek.inc
- (172.27.6.102) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Thu, 19 Nov
- 2020 21:06:41 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS32.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Thu, 19 Nov 2020 21:06:40 +0800
-Message-ID: <1605791201.4733.114.camel@mhfsdcap03>
-Subject: Re: [PATCH v15 2/2] media: i2c: Add OV02A10 image sensor driver
-From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-CC:     <mchehab@kernel.org>, <robh+dt@kernel.org>, <mark.rutland@arm.com>,
-        <sakari.ailus@linux.intel.com>, <drinkcat@chromium.org>,
-        <tfiga@chromium.org>, <matthias.bgg@gmail.com>,
-        <bingbu.cao@intel.com>, <srv_heupstream@mediatek.com>,
-        <linux-mediatek@lists.infradead.org>,
-        <linux-arm-kernel@lists.infradead.org>, <sj.huang@mediatek.com>,
-        <linux-media@vger.kernel.org>, <devicetree@vger.kernel.org>,
-        <louis.kuo@mediatek.com>, <shengnan.wang@mediatek.com>,
-        <dongchun.zhu@mediatek.com>
-Date:   Thu, 19 Nov 2020 21:06:41 +0800
-In-Reply-To: <20201023143156.GX4077@smile.fi.intel.com>
-References: <20201013130503.2412-1-dongchun.zhu@mediatek.com>
-         <20201013130503.2412-3-dongchun.zhu@mediatek.com>
-         <20201023143156.GX4077@smile.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        Thu, 19 Nov 2020 08:43:40 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09F96C0613CF;
+        Thu, 19 Nov 2020 05:43:40 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id D8C411F4585F
+Subject: Re: [PATCH v5 1/7] media: v4l2: Extend pixel formats to unify
+ single/multi-planar handling (and more)
+From:   Helen Koike <helen.koike@collabora.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        linux-media@vger.kernel.org,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        hiroh@chromium.org, nicolas@ndufresne.ca, Brian.Starkey@arm.com,
+        kernel@collabora.com, narmstrong@baylibre.com,
+        linux-kernel@vger.kernel.org, frkoenig@chromium.org,
+        mjourdan@baylibre.com, stanimir.varbanov@linaro.org
+References: <20200804192939.2251988-1-helen.koike@collabora.com>
+ <20200804192939.2251988-2-helen.koike@collabora.com>
+ <20201002194935.GB1131147@chromium.org>
+ <f5c9f7cd-f8e1-0671-b4d9-8ed79917b0aa@collabora.com>
+ <20201119054544.GA590258@chromium.org>
+ <bec73ecd-e420-ccb3-810c-c98ba93dfdab@collabora.com>
+Message-ID: <c506f6d5-de80-9992-0316-89d35ad93d34@collabora.com>
+Date:   Thu, 19 Nov 2020 10:43:18 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: C846AD7DB098136D27C99F550A830DFF88D98FA0B6CAD3A5ABB190F0FE9C2D672000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+In-Reply-To: <bec73ecd-e420-ccb3-810c-c98ba93dfdab@collabora.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgQW5keSwNCg0KT24gRnJpLCAyMDIwLTEwLTIzIGF0IDE3OjMxICswMzAwLCBBbmR5IFNoZXZj
-aGVua28gd3JvdGU6DQo+IE9uIFR1ZSwgT2N0IDEzLCAyMDIwIGF0IDA5OjA1OjAzUE0gKzA4MDAs
-IERvbmdjaHVuIFpodSB3cm90ZToNCj4gPiBBZGQgYSBWNEwyIHN1Yi1kZXZpY2UgZHJpdmVyIGZv
-ciBPbW5pVmlzaW9uIE9WMDJBMTAgaW1hZ2Ugc2Vuc29yLg0KPiANCj4gLi4uDQo+IA0KPiA+ICsj
-ZGVmaW5lIE9WMDJBMTBfSURfTUFTSwkJCQkJMHhmZmZmDQo+IA0KPiBHRU5NQVNLKCkNCj4gDQo+
-IChBbmQgaW5jbHVkZSBiaXRzLmggZm9yIHRoYXQpDQo+IA0KDQpJdCBzZWVtcyBjb3VsZCBidWls
-ZCBwYXNzIHdpdGhvdXQgaW5jbHVkaW5nIGJpdHMuaCwgYXMgRFc5NzY4IG9uY2UgdXNlZC4NCg0K
-PiAuLi4NCj4gDQo+ID4gK3N0YXRpYyBpbnQgX19vdjAyYTEwX3N0YXJ0X3N0cmVhbShzdHJ1Y3Qg
-b3YwMmExMCAqb3YwMmExMCkNCj4gPiArew0KPiA+ICsJc3RydWN0IGkyY19jbGllbnQgKmNsaWVu
-dCA9IHY0bDJfZ2V0X3N1YmRldmRhdGEoJm92MDJhMTAtPnN1YmRldik7DQo+ID4gKwljb25zdCBz
-dHJ1Y3Qgb3YwMmExMF9yZWdfbGlzdCAqcmVnX2xpc3Q7DQo+ID4gKwlpbnQgcmV0Ow0KPiA+ICsN
-Cj4gPiArCS8qIEFwcGx5IGRlZmF1bHQgdmFsdWVzIG9mIGN1cnJlbnQgbW9kZSAqLw0KPiA+ICsJ
-cmVnX2xpc3QgPSAmb3YwMmExMC0+Y3VyX21vZGUtPnJlZ19saXN0Ow0KPiA+ICsJcmV0ID0gb3Yw
-MmExMF93cml0ZV9hcnJheShvdjAyYTEwLCByZWdfbGlzdCk7DQo+ID4gKwlpZiAocmV0KQ0KPiA+
-ICsJCXJldHVybiByZXQ7DQo+ID4gKw0KPiA+ICsJLyogQXBwbHkgY3VzdG9taXplZCB2YWx1ZXMg
-ZnJvbSB1c2VyICovDQo+ID4gKwlyZXQgPSBfX3Y0bDJfY3RybF9oYW5kbGVyX3NldHVwKG92MDJh
-MTAtPnN1YmRldi5jdHJsX2hhbmRsZXIpOw0KPiA+ICsJaWYgKHJldCkNCj4gPiArCQlyZXR1cm4g
-cmV0Ow0KPiA+ICsNCj4gPiArCS8qIFNldCBvcmllbnRhdGlvbiB0byAxODAgZGVncmVlICovDQo+
-ID4gKwlpZiAob3YwMmExMC0+dXBzaWRlX2Rvd24pIHsNCj4gPiArCQlyZXQgPSBpMmNfc21idXNf
-d3JpdGVfYnl0ZV9kYXRhKGNsaWVudCwgUkVHX01JUlJPUl9GTElQX0NPTlRST0wsDQo+ID4gKwkJ
-CQkJCVJFR19NSVJST1JfRkxJUF9FTkFCTEUpOw0KPiA+ICsJCWlmIChyZXQpIHsNCj4gDQo+IFNo
-b3VsZG4ndCB5b3UgdXNlICdyZXQgPCAwJyBoZXJlIGFzIHdlbGw/DQo+IA0KDQpGaXhlZCBpbiBu
-ZXh0IHJlbGVhc2UuDQoNCj4gPiArCQkJZGV2X2VycigmY2xpZW50LT5kZXYsICJmYWlsZWQgdG8g
-c2V0IG9yaWVudGF0aW9uXG4iKTsNCj4gPiArCQkJcmV0dXJuIHJldDsNCj4gPiArCQl9DQo+ID4g
-KwkJcmV0ID0gaTJjX3NtYnVzX3dyaXRlX2J5dGVfZGF0YShjbGllbnQsIFJFR19HTE9CQUxfRUZG
-RUNUSVZFLA0KPiA+ICsJCQkJCQlSRUdfRU5BQkxFKTsNCj4gPiArCQlpZiAocmV0IDwgMCkNCj4g
-PiArCQkJcmV0dXJuIHJldDsNCj4gPiArCX0NCj4gPiArDQo+ID4gKwkvKiBTZXQgTUlQSSBUWCBz
-cGVlZCBhY2NvcmRpbmcgdG8gRFQgcHJvcGVydHkgKi8NCj4gPiArCWlmIChvdjAyYTEwLT5taXBp
-X2Nsb2NrX3ZvbHRhZ2UgIT0gT1YwMkExMF9NSVBJX1RYX1NQRUVEX0RFRkFVTFQpIHsNCj4gPiAr
-CQlyZXQgPSBpMmNfc21idXNfd3JpdGVfYnl0ZV9kYXRhKGNsaWVudCwgVFhfU1BFRURfQVJFQV9T
-RUwsDQo+ID4gKwkJCQkJCW92MDJhMTAtPm1pcGlfY2xvY2tfdm9sdGFnZSk7DQo+ID4gKwkJaWYg
-KHJldCA8IDApDQo+ID4gKwkJCXJldHVybiByZXQ7DQo+ID4gKwl9DQo+ID4gKw0KPiA+ICsJLyog
-U2V0IHN0cmVhbSBvbiByZWdpc3RlciAqLw0KPiA+ICsJcmV0dXJuIGkyY19zbWJ1c193cml0ZV9i
-eXRlX2RhdGEoY2xpZW50LCBSRUdfU0NfQ1RSTF9NT0RFLA0KPiA+ICsJCQkJCSBTQ19DVFJMX01P
-REVfU1RSRUFNSU5HKTsNCj4gPiArfQ0KPiANCj4gLi4uDQo+IA0KPiA+ICsvKg0KPiANCj4gV2Fz
-IHlvdXIgaW50ZW50aW9uIHRvIGRlY2xhcmUgaXQgYXMgYSBrZXJuZWwgZG9jPw0KPiANCg0KUmVt
-b3ZlZCBpbiBuZXh0IHJlbGVhc2UuDQoNCj4gPiArICogb3YwMmExMF9zZXRfZXhwb3N1cmUgLSBG
-dW5jdGlvbiBjYWxsZWQgd2hlbiBzZXR0aW5nIGV4cG9zdXJlIHRpbWUNCj4gPiArICogQHByaXY6
-IFBvaW50ZXIgdG8gZGV2aWNlIHN0cnVjdHVyZQ0KPiA+ICsgKiBAdmFsOiBWYXJpYWJsZSBmb3Ig
-ZXhwb3N1cmUgdGltZSwgaW4gdGhlIHVuaXQgb2YgbWljcm8tc2Vjb25kDQo+ID4gKyAqDQo+ID4g
-KyAqIFNldCBleHBvc3VyZSB0aW1lIGJhc2VkIG9uIGlucHV0IHZhbHVlLg0KPiA+ICsgKg0KPiA+
-ICsgKiBSZXR1cm46IDAgb24gc3VjY2Vzcw0KPiA+ICsgKi8NCj4gPiArc3RhdGljIGludCBvdjAy
-YTEwX3NldF9leHBvc3VyZShzdHJ1Y3Qgb3YwMmExMCAqb3YwMmExMCwgaW50IHZhbCkNCj4gDQo+
-IC4uLg0KPiANCj4gPiArc3RhdGljIGludCBvdjAyYTEwX2NoZWNrX2h3Y2ZnKHN0cnVjdCBkZXZp
-Y2UgKmRldiwgc3RydWN0IG92MDJhMTAgKm92MDJhMTApDQo+ID4gK3sNCj4gPiArCXN0cnVjdCBm
-d25vZGVfaGFuZGxlICplcDsNCj4gPiArCXN0cnVjdCBmd25vZGVfaGFuZGxlICpmd25vZGUgPSBk
-ZXZfZndub2RlKGRldik7DQo+ID4gKwlzdHJ1Y3QgdjRsMl9md25vZGVfZW5kcG9pbnQgYnVzX2Nm
-ZyA9IHsNCj4gPiArCQkuYnVzX3R5cGUgPSBWNEwyX01CVVNfQ1NJMl9EUEhZLA0KPiA+ICsJfTsN
-Cj4gPiArCXVuc2lnbmVkIGludCBpLCBqOw0KPiA+ICsJaW50IHJldDsNCj4gDQo+ID4gKwlpZiAo
-IWZ3bm9kZSkNCj4gPiArCQlyZXR1cm4gLUVJTlZBTDsNCj4gDQo+IEJhc2ljYWxseSB5b3UgY2Fu
-IGF2b2lkIHRoaXMgY2hlY2ssIGJ1dCBpdCdzIHVwIHRvIHlvdS4NCj4gDQoNCkknZCBsaWtlIHRv
-IGtlZXAgaXQuIFRoYW5rIHlvdS4NCg0KPiA+ICsJZXAgPSBmd25vZGVfZ3JhcGhfZ2V0X25leHRf
-ZW5kcG9pbnQoZndub2RlLCBOVUxMKTsNCj4gPiArCWlmICghZXApDQo+ID4gKwkJcmV0dXJuIC1F
-TlhJTzsNCj4gPiArDQo+ID4gKwlyZXQgPSB2NGwyX2Z3bm9kZV9lbmRwb2ludF9hbGxvY19wYXJz
-ZShlcCwgJmJ1c19jZmcpOw0KPiA+ICsJZndub2RlX2hhbmRsZV9wdXQoZXApOw0KPiA+ICsJaWYg
-KHJldCkNCj4gPiArCQlyZXR1cm4gcmV0Ow0KPiA+ICsNCj4gPiArCWZvciAoaSA9IDA7IGkgPCBB
-UlJBWV9TSVpFKGxpbmtfZnJlcV9tZW51X2l0ZW1zKTsgaSsrKSB7DQo+ID4gKwkJZm9yIChqID0g
-MDsgaiA8IGJ1c19jZmcubnJfb2ZfbGlua19mcmVxdWVuY2llczsgaisrKSB7DQo+ID4gKwkJCWlm
-IChsaW5rX2ZyZXFfbWVudV9pdGVtc1tpXSA9PQ0KPiA+ICsJCQkJYnVzX2NmZy5saW5rX2ZyZXF1
-ZW5jaWVzW2pdKSB7DQo+ID4gKwkJCQlvdjAyYTEwLT5mcmVxX2luZGV4ID0gaTsNCj4gPiArCQkJ
-CWJyZWFrOw0KPiA+ICsJCQl9DQo+ID4gKwkJfQ0KPiA+ICsNCj4gPiArCQlpZiAoaiA9PSBidXNf
-Y2ZnLm5yX29mX2xpbmtfZnJlcXVlbmNpZXMpIHsNCj4gPiArCQkJZGV2X2VycihkZXYsICJubyBs
-aW5rIGZyZXF1ZW5jeSAlbGxkIHN1cHBvcnRlZFxuIiwNCj4gPiArCQkJCWxpbmtfZnJlcV9tZW51
-X2l0ZW1zW2ldKTsNCj4gPiArCQkJcmV0ID0gLUVJTlZBTDsNCj4gPiArCQkJYnJlYWs7DQo+ID4g
-KwkJfQ0KPiA+ICsJfQ0KPiA+ICsNCj4gPiArCXY0bDJfZndub2RlX2VuZHBvaW50X2ZyZWUoJmJ1
-c19jZmcpOw0KPiA+ICsNCj4gPiArCXJldHVybiByZXQ7DQo+ID4gK30NCj4gDQo+IC4uLg0KPiAN
-Cj4gPiArCWZ3bm9kZV9wcm9wZXJ0eV9yZWFkX3UzMihkZXZfZndub2RlKGRldiksICJyb3RhdGlv
-biIsICZyb3RhdGlvbik7DQo+IA0KPiBTYW1lIFEgYXMgcGVyIHByZXZpb3VzIHJldmlld3MuIFdo
-eSBkZXZpY2UgcHJvcGVydHkgQVBJIGNhbid0IGJlIHVzZWQgaGVyZT8NCj4gDQo+IEFuZCBldmVy
-eXdoZXJlIGVsc2Ugd2hlbiB5b3UgaGF2ZQ0KPiAJIGZ3bm9kZV9wcm9wZXJ0eV9yZWFkXyooZGV2
-X2Z3bm9kZShkZXYpLCAuLi4pDQo+IGNhbGxzLg0KPiANCg0KVGhhbmtzIGZvciB0aGUgcmVtaW5k
-ZXIuDQonZndub2RlX3Byb3BlcnR5X3JlYWRfdTMyJyBhbmQgJ2Z3bm9kZV9wcm9wZXJ0eV9yZWFk
-X3UzMl9hcnJheScgd291bGQgYmUNCnJlcGxhY2VkIGluIG5leHQgcmVsZWFzZSBpZiBsb2NhbCB0
-ZXN0IHBhc3Nlcy4NCg0K
 
+
+On 11/19/20 7:08 AM, Helen Koike wrote:
+> Hi Tomasz,
+> 
+> On 11/19/20 2:45 AM, Tomasz Figa wrote:
+>> On Sat, Nov 14, 2020 at 11:21:26AM -0300, Helen Koike wrote:
+>>> Hi Tomasz,
+>>>
+>>> On 10/2/20 4:49 PM, Tomasz Figa wrote:
+>>>> Hi Helen,
+>>>>
+>>>> On Tue, Aug 04, 2020 at 04:29:33PM -0300, Helen Koike wrote:
+>> [snip]
+>>>>> +static void v4l_print_ext_pix_format(const void *arg, bool write_only)
+>>>>> +{
+>>>>> +	const struct v4l2_ext_pix_format *pix = arg;
+>>>>> +	unsigned int i;
+>>>>> +
+>>>>> +	pr_cont("type=%s, width=%u, height=%u, format=%c%c%c%c, modifier %llx, field=%s, colorspace=%d, ycbcr_enc=%u, quantization=%u, xfer_func=%u\n",
+>>>>> +		prt_names(pix->type, v4l2_type_names),
+>>>>> +		pix->width, pix->height,
+>>>>> +		(pix->pixelformat & 0xff),
+>>>>> +		(pix->pixelformat >>  8) & 0xff,
+>>>>> +		(pix->pixelformat >> 16) & 0xff,
+>>>>> +		(pix->pixelformat >> 24) & 0xff,
+>>>>> +		pix->modifier, prt_names(pix->field, v4l2_field_names),
+>>>>> +		pix->colorspace, pix->ycbcr_enc,
+>>>>> +		pix->quantization, pix->xfer_func);
+>>>>> +	for (i = 0; i < VIDEO_MAX_PLANES && pix->plane_fmt[i].sizeimage; i++)
+>>>>
+>>>> This is going to print 8 lines every time. Maybe we could skip 0-sized
+>>>> planes or something?
+>>>
+>>> I'm already checking pix->plane_fmt[i].sizeimage in the loop, it shouldn't
+>>> print 8 lines every time.
+>>>
+>>
+>> Oops, how could I not notice it. Sorry for the noise.
+>>
+>> [snip]
+>>>>> +int v4l2_ext_pix_format_to_format(const struct v4l2_ext_pix_format *e,
+>>>>> +				  struct v4l2_format *f, bool mplane_cap,
+>>>>> +				  bool strict)
+>>>>> +{
+>>>>> +	const struct v4l2_plane_ext_pix_format *pe;
+>>>>> +	struct v4l2_plane_pix_format *p;
+>>>>> +	unsigned int i;
+>>>>> +
+>>>>> +	memset(f, 0, sizeof(*f));
+>>>>> +
+>>>>> +	/*
+>>>>> +	 * Make sure no modifier is required before doing the
+>>>>> +	 * conversion.
+>>>>> +	 */
+>>>>> +	if (e->modifier && strict &&
+>>>>
+>>>> Do we need the explicit check for e->modifier != 0 if we have to check for
+>>>> the 2 specific values below anyway?
+>>>
+>>> We don't, since DRM_FORMAT_MOD_LINEAR is zero.
+>>>
+>>> But I wanted to make it explicit we don't support modifiers in this conversion.
+>>> But I can remove this check, no problem.
+>>>
+>>
+>> Yes, please. I think the double checking is confusing for the reader.
+> 
+> ok.
+> 
+>>
+>>>>
+>>>>> +	    e->modifier != DRM_FORMAT_MOD_LINEAR &&
+>>>>> +	    e->modifier != DRM_FORMAT_MOD_INVALID)
+>>>>> +		return -EINVAL;
+>>>>> +
+>>>>> +	if (!e->plane_fmt[0].sizeimage && strict)
+>>>>> +		return -EINVAL;
+>>>>
+>>>> Why is this incorrect?
+>>>
+>>> !sizeimage for the first plane means that there are no planes in ef.
+>>> strict is true if the result for the conversion should be returned to userspace
+>>> and it is not some internal handling.
+>>>
+>>> So if there are no planes, we would return an incomplete v4l2_format struct
+>>> to userspace.
+>>>
+>>> But this is not very clear, I'll improve this for the next version.
+>>>
+>>
+>> So I can see 2 cases here:
+>>
+>> 1) Userspace gives ext struct and driver accepts legacy.
+>>
+>> In this case, the kernel needs to adjust the structure to be correct.
+>> -EINVAL is only valid if
+>>
+>> "The struct v4l2_format type field is invalid or the requested buffer type not supported."
+>>
+>> as per the current uAPI documentation.
+>>
+>> 2) Driver gives ext struct and userspace accepts legacy.
+>>
+>> If at this point we get a struct with no planes, that sounds like a
+>> driver bug, so rather than signaling -EINVAL to the userspace, we should
+>> probably WARN()?
+>>
+>> Or am I getting something wrong? :)
+> 
+> Make sense, I'll restructure this for the next version.
+> 
+>>
+>> [snip]
+>>>>> +{
+>>>>> +	const struct v4l2_plane_pix_format *p;
+>>>>> +	struct v4l2_plane_ext_pix_format *pe;
+>>>>> +	unsigned int i;
+>>>>> +
+>>>>> +	memset(e, 0, sizeof(*e));
+>>>>> +
+>>>>> +	switch (f->type) {
+>>>>> +	case V4L2_BUF_TYPE_VIDEO_CAPTURE:
+>>>>> +	case V4L2_BUF_TYPE_VIDEO_OUTPUT:
+>>>>> +		e->width = f->fmt.pix.width;
+>>>>> +		e->height = f->fmt.pix.height;
+>>>>> +		e->pixelformat = f->fmt.pix.pixelformat;
+>>>>> +		e->field = f->fmt.pix.field;
+>>>>> +		e->colorspace = f->fmt.pix.colorspace;
+>>>>> +		if (f->fmt.pix.flags)
+>>>>> +			pr_warn("Ignoring pixelformat flags 0x%x\n",
+>>>>> +				f->fmt.pix.flags);
+>>>>
+>>>> Would it make sense to print something like video node name and/or function
+>>>> name to explain where this warning comes from?
+>>>
+>>> I would need to update the function to receive this information, I can try but
+>>> I'm not sure if it is worthy.
+>>>
+>>
+>> I don't have a strong opinion on this, so maybe let's see if others have
+>> any comments.
+>>
+>>>>
+>>>>> +		e->ycbcr_enc = f->fmt.pix.ycbcr_enc;
+>>>>> +		e->quantization = f->fmt.pix.quantization;
+>>>>
+>>>> Missing xfer_func?
+>>>
+>>> Yes, thanks for catching this.
+>>>
+>>>>
+>>>>> +		e->plane_fmt[0].bytesperline = f->fmt.pix.bytesperline;
+>>>>> +		e->plane_fmt[0].sizeimage = f->fmt.pix.sizeimage;
+>>>>
+>>>> This doesn't look right. In the ext API we expected the planes to describe
+>>>> color planes, which means that bytesperline needs to be computed for planes
+>>>>> = 1 and sizeimage replaced with per-plane sizes, according to the
+>>>>> pixelformat.
+>>>
+>>> Ack.
+>>>
+>>> Just to be clear, even if we are using a planar format that isn't a V4L2_PIX_FMT_*M
+>>> variant, we should describe every plane separatly.
+>>>
+>>> For instance, if V4L2_PIX_FMT_YVU420 is being used, then f->fmt.pix.bytesperline
+>>> will have data, and we need to calculate bytesperline for all 3 planes, so we'll fill
+>>> out:
+>>>
+>>> f->plane_fmt[0].bytesperline = f->fmt.pix.bytesperline;
+>>> f->plane_fmt[1].bytesperline = f->fmt.pix.bytesperline / hdiv;
+>>> f->plane_fmt[2].bytesperline = f->fmt.pix.bytesperline / hdiv;
+>>>
+>>> I'll update this for the next version.
+>>>
+>>
+>> Yes. This basically gives us a unified representation across all
+>> pixelformats and allows userspace to handle them in a uniform way, as
+>> opposed to current uAPI.
+> 
+> Right, I already updated this in my wip branch for next version.
+> 
+>>
+>> [snip]
+>>>>> +		if (f->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+>>>>> +			e->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+>>>>> +		else
+>>>>> +			e->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+>>>>> +
+>>>>> +		for (i = 0; i < VIDEO_MAX_PLANES; i++) {
+>>>>> +			pe = &e->plane_fmt[i];
+>>>>> +			p = &f->fmt.pix_mp.plane_fmt[i];
+>>>>> +			pe->bytesperline = p->bytesperline;
+>>>>> +			pe->sizeimage = p->sizeimage;
+>>>>> +		}
+>>>>
+>>>> Same here. A blind copy is not enough. For non-M formats, the plane
+>>>> parameters need to be filled according to the pixelformat.
+>>>
+>>>
+>>> Right, following the idea above, we need a different handling if we
+>>> aren't using a M-variant of the pixelformat, and we also need to
+>>> convert the pixelformat from the M-variant to non-M-variant.
+>>>
+>>> I'll also need to save that the original format was a
+>>> M-variant or not, so I can convert it back as expected.
+>>
+>> I'm still reading the rest of the series, so it might be answered
+>> already, but did we decide to do anything about the pixelformat codes
+>> themselves? If both M and non-M variants would be allowed with the new
+>> API, then I guess there isn't anything to save, because the original
+>> format would be preserved?
+> 
+> I was working with the idea that M-variants wouldn't be allowed.
+> But then, we have cases where non-M-variant don't exist, such as:
+> 
+> V4L2_PIX_FMT_YVU422M
+> V4L2_PIX_FMT_YVU444M
+> 
+> (at least, I couldn't find non-M-variant equivalent for those)
+> 
+> But actually, I don't think we formally decided this (and it seems
+> easier to implement if both are allowed).
+> 
+> Should we allow both variants in the Ext API ?
+
+I see 3 options:
+
+1) Ext API doesn't accept M-variants and return -EINVAL.
+
+    But this doesn't seem to be the v4l2 way, where we avoid returning
+    errors and try to adjust to what we think it is better.
+
+    At the same time, this could allow us, in a very remote hypothetical
+    future situation, to remove the M-variants from the kernel when/if
+    the old API gets obsolete.
+
+    Future ENUM_EXT_FMT won't enumerate M-variants in this option.
+
+2) Ext API accept M-variants without normalization.
+
+    The driver can receive both variants, and need to handle both as
+    equivalents, i.e. if (V4L2_PIX_FMT_YUV420M || V4L2_PIX_FMT_YUV420)
+
+    Both can be returned to userspace.
+
+    Future ENUM_EXT_FMT can enumerate M-variants in this option.
+
+3) Ext API accept M-variants with normalization.
+
+    If userspace uses V4L2_PIX_FMT_YUV420M, the framework converts
+    to V4L2_PIX_FMT_YUV420 before passing it to the driver.
+
+    Only V4L2_PIX_FMT_YUV420 is sent back to userspace (even if userspace
+    used the M variant, the kernel normalizes it, which is a similar behavior
+    when userspace try to use a non-supported resolution and the kernel
+    adjusts it).
+
+    (we could also leave this pixelformat normalization to the driver,
+    but I don't see a reason to that)
+
+    Future ENUM_EXT_FMT won't enumerate M-variants in this option.
+
+
+
+I'm leaning towards option 3, please let me know your thoughts.
+
+Thanks
+Helen
+
+
+> 
+> Thanks
+> Helen
+> 
+>>
+>>>
+>>> I'll change this and submit for review.
+>>>
+>>
+>> Cool, thanks.
+>>
+>> Best regards,
+>> Tomasz
+>>
