@@ -2,98 +2,200 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B8A792BB805
-	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 22:00:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6D7602BB894
+	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 22:48:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730491AbgKTU7B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Nov 2020 15:59:01 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:45330 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728740AbgKTU7B (ORCPT
+        id S1728002AbgKTVpq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Nov 2020 16:45:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43760 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726426AbgKTVpq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Nov 2020 15:59:01 -0500
-Received: by mail-ot1-f65.google.com with SMTP id k3so10000940otp.12;
-        Fri, 20 Nov 2020 12:59:00 -0800 (PST)
+        Fri, 20 Nov 2020 16:45:46 -0500
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E001BC061A04
+        for <linux-media@vger.kernel.org>; Fri, 20 Nov 2020 13:45:45 -0800 (PST)
+Received: by mail-yb1-xb41.google.com with SMTP id t33so9920371ybd.0
+        for <linux-media@vger.kernel.org>; Fri, 20 Nov 2020 13:45:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=MUNSzIysyOtHGRvS1Q0seQIvDGj5F7ggrvJWqiZgbhU=;
+        b=s9Pxp8RRhw1tSzuuJj/cVBeN7uGSWSGSjHhU63AEzivzhHPEW73kYkn+9PcWWsSAmg
+         1TW6jJP9HVNCcWJNE8LtZinCXzgItJ4SHNBoBqjFxj5Bp9kxwI+PfRk5lHGTQIImxfkv
+         EkXmQ1RDTtiQ0ukLJ+LXHUsj5HhQdmH6W+7WurNyXPGSEVglOonjda0cXN1H9bL6RHNy
+         HrkwN6TPr++90fDmKqrFB3NabCYvhP4L+hWdnPFD5W5HtjAyxv7xOIgKUtMwlbQtOhDi
+         W5qCyyfW8o6HPElzSLhE31Zhtl5jzUBHII2E52HMnjwCWBB5nQA8YUdy/ZyjjOBlliD9
+         Ijuw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=E+eTvV1tGOwtq1rQTgD6byJC2hOWBwFyaoUcLOPG4kI=;
-        b=kGa9Lcb5LUPaFwD6edUYAV5Rzgpj9szH1HD814ginxEyoLGW+MAqu4wsQKsiQu6MZ4
-         NYgNk8LS1fVEoMcbwgS6oXPLKlVCNeUSPqKrTiX1szIzsik3C1EliPB5qyraRFpHa5Xn
-         G3m0U5A1avVV9YiUown2pSgG6iFjDiWta/HVm9hvFp3/q6KmpSxr8RYjEUGdVEYz62I/
-         SDbLHu7/l4QSiV1CAw2q2JuNd/rSc8YQydAIk6RSWauhqqkbPBvmEPttlT9JMEa3Il/F
-         dPWSarzhlY34HJd9ML2LgjL5iRNVLtiKz8wJgoBfJco2/hsZMXkeIHqVyq7zKlJNBKnE
-         JOOQ==
-X-Gm-Message-State: AOAM531qu7NHIyXbCCJoyhuiV28Ue+9F4hF30mcATvt6RIaVrwfjNelm
-        /CZBErm9KGcN2UPAv8USPntJLFRftw==
-X-Google-Smtp-Source: ABdhPJy0vQQNAnVcAar+wRVkpy8jiPnlJ69OtFNb8/H5LuYPjmE2JBgCx0QWLHdF8aK8a18ZO2eEUw==
-X-Received: by 2002:a9d:27e8:: with SMTP id c95mr15233201otb.262.1605905940016;
-        Fri, 20 Nov 2020 12:59:00 -0800 (PST)
-Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id c6sm2225855oif.48.2020.11.20.12.58.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2020 12:58:59 -0800 (PST)
-Received: (nullmailer pid 1729167 invoked by uid 1000);
-        Fri, 20 Nov 2020 20:58:58 -0000
-Date:   Fri, 20 Nov 2020 14:58:58 -0600
-From:   Rob Herring <robh@kernel.org>
-To:     Martina Krasteva <martinax.krasteva@linux.intel.com>
-Cc:     linux-media@vger.kernel.org, robh+dt@kernel.org,
-        mchehab@kernel.org, devicetree@vger.kernel.org,
-        daniele.alessandrelli@linux.intel.com,
-        gjorgjix.rosikopulos@linux.intel.com, sakari.ailus@linux.intel.com
-Subject: Re: [PATCH 1/2] dt-bindings: media: Add bindings for imx334
-Message-ID: <20201120205858.GA1722419@robh.at.kernel.org>
-References: <20201120142803.308-1-martinax.krasteva@linux.intel.com>
- <20201120142803.308-2-martinax.krasteva@linux.intel.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=MUNSzIysyOtHGRvS1Q0seQIvDGj5F7ggrvJWqiZgbhU=;
+        b=pgFddHiC6ZTjVa+OV62nxR9LYPoBDXU+MonTMhIPtRdartWkpKPQY8BpNhPlCjY38+
+         CYHhO8biXSr1Ve0YaO5PhR+D4Xs37Q7FeMFzb3BofrvhZspmk6qHCJGYWtgN/zHlnCsZ
+         M+i0Yp2pT7efwXIOJjiamx1s4w1lX+Vt7AJ4ycPS5BonLTxtzcYmOeWMz1LVBJR+HSi4
+         ScLw3TGI/97OeQdfSQ1NTUJZhSfS3aVn8moT2jc/o+PP+tgixd+Cy+gmcSnCHXqmgLat
+         lTlE6f1Fbd/Z2DUtemrSfG5lS9/ivTU59WOwrNBaVSisdcJ5Zn8F0pdpi8e0/u6rAsz8
+         zMvA==
+X-Gm-Message-State: AOAM5336TF857UE4YcVipF6BSz2lTXNiKFJ21Fq9ei5bTOV8hcyavf/y
+        0OVfP7/3QAgtipuMckMwJCxR4a5E+UJexCH2LZG2WQ==
+X-Google-Smtp-Source: ABdhPJz8VYL/knv6Gy5VdWHumNKk0t2Ym33EHs6QsRJif6lZk0dNntTX+KUCqACbEHQTIXy2oKg1Vqs3521JMtzguU4=
+X-Received: by 2002:a25:d34a:: with SMTP id e71mr33925433ybf.229.1605908744747;
+ Fri, 20 Nov 2020 13:45:44 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201120142803.308-2-martinax.krasteva@linux.intel.com>
+References: <5ff0fc487272a7c21f63a929bfceee1ac9b43348.camel@debian.org>
+In-Reply-To: <5ff0fc487272a7c21f63a929bfceee1ac9b43348.camel@debian.org>
+From:   Adam Goode <agoode@google.com>
+Date:   Fri, 20 Nov 2020 16:45:09 -0500
+Message-ID: <CAOf41N=PopZ=8_05e9WfvWkBhuN5iRq1=JJ2KqkLJE5S3-XW5A@mail.gmail.com>
+Subject: Re: PROBLEM: Broken pixel format for Elgato Cam Link 4K
+To:     Benjamin Drung <benjamin.drung@cloud.ionos.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org,
+        linux-kernel <linux-kernel@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 20 Nov 2020 14:28:02 +0000, Martina Krasteva wrote:
-> From: Martina Krasteva <martinax.krasteva@intel.com>
-> 
-> - Add dt-bindings documentation for Sony imx334 sensor driver.
-> - Add MAINTAINERS entry for Sony imx334 binding documentation.
-> 
-> Signed-off-by: Martina Krasteva <martinax.krasteva@intel.com>
-> Reviewed-by: Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>
-> Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-> ---
->  .../devicetree/bindings/media/i2c/sony,imx334.yaml | 59 ++++++++++++++++++++++
->  MAINTAINERS                                        |  7 +++
->  2 files changed, 66 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
-> 
+On Fri, Nov 20, 2020 at 1:52 PM Benjamin Drung
+<benjamin.drung@cloud.ionos.com> wrote:
+>
+> Hi,
+>
+> I own an Elgato Cam Link 4K which is a very popular USB HDMI capture
+> device (number one capture card by click rates on Geizhals [1]). The
+> problem is that the video feed is distorted when using the /dev/videoX
+> device in the browser (tested on Firefox and Chromium) for video
+> conferencing (tested with Jitsi Meet and Google Meet). The same
+> distortion is present when opening `v4l2:///dev/video0` with VLC.
+>
+> The Elgato Cam Link 4K reports to have three different pixel formats:
+>
+> ```
+> $ v4l2-ctl -d /dev/video0 --list-formats-ext
+> ioctl: VIDIOC_ENUM_FMT
+>         Type: Video Capture
+>
+>         [0]: 'NV12' (Y/CbCr 4:2:0)
+>                 Size: Discrete 3840x2160
+>                         Interval: Discrete 0.040s (25.000 fps)
+>         [1]: 'NV12' (Y/CbCr 4:2:0)
+>                 Size: Discrete 3840x2160
+>                         Interval: Discrete 0.040s (25.000 fps)
+>         [2]: 'YU12' (Planar YUV 4:2:0)
+>                 Size: Discrete 3840x2160
+>                         Interval: Discrete 0.040s (25.000 fps)
+> ```
+>
+> When specifying the video format 'YU12' to VLC, the video is distorted
+> the same way as using the default video format. When specifying 'NV12'
+> to VLC, the video feed is displayed correctly:
+>
+> ```
+> vlc v4l2:///dev/video0 --v4l2-chroma=NV12
+> ```
+>
+> In OBS, the video feed is always displayed correctly. All video formats
+> 'Y/CbCr 4:2:0', 'Planar YUV 4:2:0', 'BGR3 (Emulated)', and 'YV12
+> (Emulated)' combined with the color ranges 'Default', 'Partial', and
+> 'Full' produce the same correct output.
+>
+> With Linux >= 5.9 this behavior in OBS changes: The video format
+> 'Y/CbCr 4:2:0' displays the video correctly. Switching to 'Planar YUV
+> 4:2:0', 'BGR3 (Emulated)', or 'YV12 (Emulated)' shows the video
+> distorted and OBS shows this error message:
+>
+> ```
+> info: v4l2-input: Pixelformat: NV12
+> [...]
+> libv4l2: error set_fmt gave us a different result than try_fmt!
+> info: v4l2-input: Resolution: 3840x2160
+> info: v4l2-input: Pixelformat: NV12
+> ```
+>
+> Changing the video format back does not have an effect until I also
+> change the color range (does seem to be relevant what to select there).
+>
+> Workaround
+> ----------
+>
+> You can create a v4l2loopback device and use ffmpeg to stream from the
+> Cam Link 4K to the loopback device:
+>
+> ```
+> ffmpeg -f v4l2 -input_format yuv420p -video_size 3840x2160 \
+>   -i "$camlink" -codec copy -f v4l2 "$loopdev"
+> ```
+>
+> This workaround works, but is cumbersome and burns CPU cycles.
+>
+> Other reports
+> -------------
+>
+> Searching the web for "Cam Link 4K Linux" reveals many similar reports
+> like this. Noteworthy is blog post [3] from Mike Walters who patched
+> the Cam Link 4K firmware to report the correct video format. I am
+> willing to debug this issue and do test, but I don't want to flash the
+> firmware to not break the warrenty (bisides I lack the hardware for
+> flashing).
+>
+> Environment
+> -----------
+>
+> This problem is present in Ubuntu 20.04 with linux 5.4.0-54.60 and
+> Ubuntu 20.10 with linux 5.8.0-29.31. I also tested the mainline kernels
+> builds 5.9.8-050908.202011101634 and 5.10.0-051000rc4.202011152030 from
+> Ubuntu [2].
+>
+> The Cam Link 4K shows follow entries in dmesg:
+>
+> ```
+> [    1.575753] usb 2-3: new SuperSpeed Gen 1 USB device number 2 using xhci_hcd
+> [    1.596664] usb 2-3: LPM exit latency is zeroed, disabling LPM.
+> [    1.598557] usb 2-3: New USB device found, idVendor=0fd9, idProduct=0066, bcdDevice= 0.00
+> [    1.598558] usb 2-3: New USB device strings: Mfr=1, Product=2, SerialNumber=4
+> [    1.598559] usb 2-3: Product: Cam Link 4K
+> [    1.598560] usb 2-3: Manufacturer: Elgato
+> ```
+>
+> I have another problems with 5.9.8-050908.202011101634 and 5.10.0-
+> 051000rc4.202011152030: Chromium fail to access the video device of Cam
+> Link 4K and the notebook integrated webcam has a too low brightness.
+>
+> [1] https://geizhals.de/?cat=vidext
+> [2] https://kernel.ubuntu.com/~kernel-ppa/mainline/
+> [3] https://assortedhackery.com/patching-cam-link-to-play-nicer-on-linux/
+>
+> --
+> Benjamin Drung
+> Debian & Ubuntu Developer
+>
 
 
-My bot found errors running 'make dt_binding_check' on your patch:
+Hi,
 
-yamllint warnings/errors:
-./Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml:34:15: [warning] wrong indentation: expected 12 but found 14 (indentation)
-./Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml:36:15: [warning] wrong indentation: expected 12 but found 14 (indentation)
+I am running on Fedora 32 which has the fix I wrote for the buggy
+elgato firmware. The bug in the firmware makes it impossible to
+properly select a non-0 pixel format when following the UVC
+negotiation protocol. This is because the firmware returns the pixel
+format in the wrong byte of the packet. The driver was following the
+UVC protocol but did not send the pixel format back to the v4l2
+subsystem. It does that now.
 
-dtschema/dtc warnings/errors:
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml: 'additionalProperties' is a required property
-/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml: ignoring, error in schema: 
-warning: no schema found in file: ./Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+I'm not surprised that other bugs are emerging now. Ultimately the
+firmware is buggy and announces pixel formats that it then rejects. If
+I flip through the settings in OBS, I do manage to wedge the
+interface. But most of the programs I've seen that use v4l2 are buggy
+in this way. A reliable one is the qv4l2 test program. I've also had
+no problems with Chromium.
+
+That reverse engineering is interesting! But I think it hides the real
+problem, where the pixel format negotiation on the firmware writes
+into the wrong byte of the packet.
 
 
-See https://patchwork.ozlabs.org/patch/1403740
-
-The base for the patch is generally the last rc1. Any dependencies
-should be noted.
-
-If you already ran 'make dt_binding_check' and didn't see the above
-error(s), then make sure 'yamllint' is installed and dt-schema is up to
-date:
-
-pip3 install dtschema --upgrade
-
-Please check and re-submit.
-
+Adam
