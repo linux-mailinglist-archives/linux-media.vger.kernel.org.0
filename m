@@ -2,124 +2,247 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CCC2C2BA642
-	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 10:34:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 659442BA64B
+	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 10:36:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727102AbgKTJdb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Nov 2020 04:33:31 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:51519 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727027AbgKTJda (ORCPT
+        id S1727461AbgKTJfF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Nov 2020 04:35:05 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42780 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727355AbgKTJfD (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Nov 2020 04:33:30 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id g2nDk0yctlmd2g2nGkPhXg; Fri, 20 Nov 2020 10:33:27 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1605864807; bh=dFez3crGhqHi0TX69oCor/a25vkvpPgfuw0IN2yT4qA=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=dqBmsfCgcKL3XMC+flu1PPZmH9JFnC0sKXHK22Nz+HK0lTnw3UE2U6N64nwWPs6kb
-         3qbVZ3Lw/KcyE1QHxqRvJKSE2BrC0zkpMxobORMlsB8lJFcZ/Vh+5H6Ct4LHlC4x0V
-         1eH+VIkRB1RBhBbU+RhaVlHL6GZ8mE4eStUJfV+C3OtchnTgl/Xs6OcGvtDzAdM9ws
-         BALK5JSJbPve5zBwv6mbLaLy7KNiAblvV4N0zT8sOUWlXZHDdtBkjWcno0Hfx2pddY
-         GbOMGXQvnVq3zdkEnaOEtcy8BdZS8SEgey/7KglTaXEeG8rfF+Xx4ul6LMW2x7eXRJ
-         wKcjDb18bAfkg==
-Subject: Re: [PATCH v3 08/13] media: controls: Add the stateless codec control
- class
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-References: <20201118184700.331213-1-ezequiel@collabora.com>
- <20201118184700.331213-9-ezequiel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <a1b68f63-4e7c-2573-adf7-9e4533cbd3af@xs4all.nl>
-Date:   Fri, 20 Nov 2020 10:33:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Fri, 20 Nov 2020 04:35:03 -0500
+Received: from mail-oi1-x241.google.com (mail-oi1-x241.google.com [IPv6:2607:f8b0:4864:20::241])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5103C0617A7
+        for <linux-media@vger.kernel.org>; Fri, 20 Nov 2020 01:35:01 -0800 (PST)
+Received: by mail-oi1-x241.google.com with SMTP id l206so9707478oif.12
+        for <linux-media@vger.kernel.org>; Fri, 20 Nov 2020 01:35:01 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=hgF4wfg69hNpww4OAKMoqR+eWE3jKpfJosXp9fxVBjI=;
+        b=X4UHOJmNLvGaGQarNMiO8EklXG6lG45+9sS//8PEIAcGFyr8tKX+5nnGXzRAbO6Ue6
+         3W839yCL3pKJT002ic0S4VGSLeiJV67iqE0XZrHk+eXI21jAtiOEXzLIkiE0kqevhGVR
+         MPDC0aauVbAhrazQEsofDf0TWh93oG9z4Np2U=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=hgF4wfg69hNpww4OAKMoqR+eWE3jKpfJosXp9fxVBjI=;
+        b=eopxH1cBU515sKeektMAw/9bpdGh3bC56U6zh2aQWRDwCMhS4E4rYbgTc83aMtVqKM
+         leoltWdPZ9vyqpE57QgiTtWPg8YlyyhlABpeYOebZsjeosr++URwLobiPU03CV89mxQ1
+         NT37EGGMTqF99+meVfqOi4pBFLj8WMNRjRixHGKM5CYLWENQEBNCZqurkIBKcKOEDGMn
+         vnyTKXJChb4t7hOh4fKOyemd5XgPHqUzvdmVu2yXvB9MGex1ZEHal5MsDrmUIu0drdMA
+         0ToiVDiy2oPJyKxS1fRbzRjklSETuD2/FGSUiwBKdDJP4OCCkgAvxRAik09GovKUaqoM
+         TEkA==
+X-Gm-Message-State: AOAM532mHpPFjWPYYI9NkmGNfOvKDCfm0ZuIY+YAGl43l+RZkHNHp5T1
+        uLbPXUjSxHL0g5mCHj4RLWp/w7yu6DP8tVxWawr8Q7pwzhQ=
+X-Google-Smtp-Source: ABdhPJwGdgkRwcd6PL3pN7daWCrNpgUvuP86thM6e5fGMCZGTC6PnlV9Y7Fldm85Rp0ewgPAUXlSIvmIrS0hPfBByDs=
+X-Received: by 2002:aca:7506:: with SMTP id q6mr5872181oic.128.1605864900943;
+ Fri, 20 Nov 2020 01:35:00 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201118184700.331213-9-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfEVSDN4BlaZYy8vhpADrO2CbsU+q91S56af51OAvgwqtsJbJLDS5QHgrBsnwZUox2sO/tsvjJryct9sbsFXJ7A3NDRjKPHk8vF7vdKIuXpwHEBo7Wj8w
- YfVvdWDQ2JXbXw5Mi/Ecm0u1cdINo59dgYWTeo1lnyWZ2izJsLVvtX9K9Ao1V5TBmmLERisc7A1yyJDIJ8OO8j5lHfx5bsSrHd77V/Yr16zGJFmURt9Ktt22
- vqCnUswfwPfG+7P7e08axAzH/PuP0xDxwU67UB8b3bjASkm23GOHeJt4C0wzkj6PFig6iJ5pfnowhYVpWEsPZPC0kgb4T8dwKUT/LVN5uDScpJew8KXUTvHk
- o3woBgUgcOa/qszn0ZnfMvEMNl/DF5Io0JwQrsAXmYDHmmV63aVjlK11R2zoWjQcUOg3DAQOg+m42+L/Ov5ETK88CJ15u7gNXM3RwJT8gwnbJveJHzvnKUOs
- dmaI8VhKmOyHSfpxfBAUs4j5PYgEO7rbDFCG+aFexOTQ9VyaVLHmd4qRvIY=
+References: <20201110034934.70898-1-john.stultz@linaro.org>
+ <CAO_48GHNE6AyKv4k=3=2EVjfSZsgz4pjuMJ1xJojbuFU9a90EQ@mail.gmail.com>
+ <20201112093237.GS401619@phenom.ffwll.local> <CALAqxLWWBaOc3W1s3xBe-innHZ0pAon7UCfumjjQftPqf7bO0Q@mail.gmail.com>
+ <20201113203933.GT401619@phenom.ffwll.local> <CALAqxLU886mjGaNx3cvXB0hyOd=tTo7G=tw6iQ1uAxcXShN+kg@mail.gmail.com>
+ <CAKMK7uGew_sdw=NPrzuAQ_-5_kQnn-qvLHK9DGqSk=k22tQGDg@mail.gmail.com> <CAO_48GHLFJi+DKYf4fBs7NZr+f+Q0USoGEtL6nW_FQFv+OOJ5Q@mail.gmail.com>
+In-Reply-To: <CAO_48GHLFJi+DKYf4fBs7NZr+f+Q0USoGEtL6nW_FQFv+OOJ5Q@mail.gmail.com>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Fri, 20 Nov 2020 10:34:50 +0100
+Message-ID: <CAKMK7uFz6SbHqH_Q7f5v13-dSRokq16fy0z6YbPFY6X9sDAm1w@mail.gmail.com>
+Subject: Re: [PATCH v5 0/7] dma-buf: Performance improvements for system heap
+ & a system-uncached implementation
+To:     Sumit Semwal <sumit.semwal@linaro.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        lkml <linux-kernel@vger.kernel.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        =?UTF-8?Q?=C3=98rjan_Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>,
+        DRI mailing list <dri-devel@lists.freedesktop.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/11/2020 19:46, Ezequiel Garcia wrote:
-> Add a new control class to hold the stateless codecs controls
-> that are ready to be moved out of staging.
-> 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  drivers/media/v4l2-core/v4l2-ctrls.c | 5 +++++
->  include/uapi/linux/v4l2-controls.h   | 7 +++++++
->  2 files changed, 12 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index adcf47bddbe3..472b46e8290b 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -1181,6 +1181,10 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_DETECT_MD_GLOBAL_THRESHOLD: return "MD Global Threshold";
->  	case V4L2_CID_DETECT_MD_THRESHOLD_GRID:	return "MD Threshold Grid";
->  	case V4L2_CID_DETECT_MD_REGION_GRID:	return "MD Region Grid";
-> +
-> +	/* Codec controls */
+On Fri, Nov 20, 2020 at 7:32 AM Sumit Semwal <sumit.semwal@linaro.org> wrote:
+>
+> Hi Daniel,
+>
+>
+> On Wed, 18 Nov 2020 at 13:16, Daniel Vetter <daniel@ffwll.ch> wrote:
+> >
+> > On Wed, Nov 18, 2020 at 3:40 AM John Stultz <john.stultz@linaro.org> wrote:
+> > > On Fri, Nov 13, 2020 at 12:39 PM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > On Thu, Nov 12, 2020 at 08:11:02PM -0800, John Stultz wrote:
+> > > > > On Thu, Nov 12, 2020 at 1:32 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> > > > > > On Thu, Nov 12, 2020 at 11:09:04AM +0530, Sumit Semwal wrote:
+> > > > > > > On Tue, 10 Nov 2020 at 09:19, John Stultz <john.stultz@linaro.org> wrote:
+> > > > > > > >
+> > > > > > > > Hey All,
+> > > > > > > >   So just wanted to send my last revision of my patch series
+> > > > > > > > of performance optimizations to the dma-buf system heap.
+> > > > > > >
+> > > > > > > Thanks very much for your patches - I think the first 5 patches look good to me.
+> > > > > > >
+> > > > > > > I know there was a bit of discussion over adding a new system-uncached
+> > > > > > > heap v/s using a flag to identify that; I think I prefer the separate
+> > > > > > > heap idea, but lets ask one last time if any one else has any real
+> > > > > > > objections to it.
+> > > > > > >
+> > > > > > > Daniel, Christian: any comments from your side on this?
+> > > > > >
+> > > > > > I do wonder a bit where the userspace stack for this all is, since tuning
+> > > > > > allocators without a full stack is fairly pointless. dma-buf heaps is a
+> > > > > > bit in a limbo situation here it feels like.
+> > > > >
+> > > > > As mentioned in the system-uncached patch:
+> > > > > Pending opensource users of this code include:
+> > > > > * AOSP HiKey960 gralloc:
+> > > > >   - https://android-review.googlesource.com/c/device/linaro/hikey/+/1399519
+> > > > >   - Visibly improves performance over the system heap
+> > > > > * AOSP Codec2 (possibly, needs more review):
+> > > > >   - https://android-review.googlesource.com/c/platform/frameworks/av/+/1360640/17/media/codec2/vndk/C2DmaBufAllocator.cpp#325
+> > > > >
+> > > > > Additionally both the HiKey, HiKey960 grallocs  and Codec2 are already
+> > > > > able to use the current dmabuf heaps instead of ION.
+> > > > >
+> > > > > So I'm not sure what you mean by limbo, other than it being in a
+> > > > > transition state where the interface is upstream and we're working on
+> > > > > moving vendors to it from ION (which is staged to be dropped in 5.11).
+> > > > > Part of that work is making sure we don't regress the performance
+> > > > > expectations.
+> > > >
+> > > > The mesa thing below, since if we test this with some downstream kernel
+> > > > drivers or at least non-mesa userspace I'm somewhat worried we're just
+> > > > creating a nice split world between the android gfx world and the
+> > > > mesa/linux desktop gfx world.
+> > > >
+> > > > But then that's kinda how android rolls, so *shrug*
+> > > >
+> > > > > > Plus I'm vary of anything related to leaking this kind of stuff beyond the
+> > > > > > dma-api because dma api maintainers don't like us doing that. But
+> > > > > > personally no concern on that front really, gpus need this. It's just that
+> > > > > > we do need solid justification I think if we land this. Hence back to
+> > > > > > first point.
+> > > > > >
+> > > > > > Ideally first point comes in the form of benchmarking on android together
+> > > > > > with a mesa driver (or mesa + some v4l driver or whatever it takes to
+> > > > > > actually show the benefits, I have no idea).
+> > > > >
+> > > > > Tying it with mesa is a little tough as the grallocs for mesa devices
+> > > > > usually use gbm (gralloc.gbm or gralloc.minigbm). Swapping the
+> > > > > allocation path for dmabuf heaps there gets a little complex as last I
+> > > > > tried that (when trying to get HiKey working with Lima graphics, as
+> > > > > gbm wouldn't allocate the contiguous buffers required by the display),
+> > > > > I ran into issues with the drm_hwcomposer and mesa expecting the gbm
+> > > > > private handle metadata in the buffer when it was passed in.
+> > > > >
+> > > > > But I might take a look at it again. I got a bit lost digging through
+> > > > > the mesa gbm allocation paths last time.
+> > > > >
+> > > > > I'll also try to see if I can find a benchmark for the codec2 code
+> > > > > (using dmabuf heaps with and without the uncached heap) on on db845c
+> > > > > (w/ mesa), as that is already working and I suspect that might be
+> > > > > close to what you're looking for.
+> > > >
+> > > > tbh I think trying to push for this long term is the best we can hope for.
+> > > >
+> > > > Media is also a lot more *meh* since it's deeply fragmented and a lot less
+> > > > of it upstream than on the gles/display side.
+> > > >
+> > > > I think confirming that this at least doesn't horrible blow up on a
+> > > > gralloc/gbm+mesa stack would be useful I think.
+> > >
+> > > Sorry, I'm still a little foggy on precisely what you're suggesting here.
+> > >
+> > > The patch stack I have has already been used with db845c (mesa +
+> > > gbm_grallloc), with the codec2 (sw decoders) using dmabuf heaps.
+> > > So no blowing up there. And I'm working with Hridya to find a
+> > > benchmark for codec2 so we can try to show the performance delta.
+> > >
+> > > However, if you're wanting a dma-buf gralloc implementation with mesa,
+> > > that may be a little tougher to do, but I guess I can give it a go.
+> > >
+> > > Hopefully this will address concerns about the system-uncached heap
+> > > patch (the last two patches in this series)?
+> > >
+> > > In the meantime I hope we can queue the first five patches, as it
+> > > would be nice to get the code rearranging in as there are others
+> > > trying to stage their own heaps, and I'd like to avoid dragging that
+> > > churn out for too long (in addition to improving the allocation
+> > > performance). Those changes have no ABI implications.
+> >
+> > Maybe I'm also misunderstanding what dma-buf heaps is used for in
+> > Android, at least usually. I thought it's used to allocate all the
+> > winsys/shared buffers through gralloc (at least in the blobby stacks),
+> > to handle the allocation constraints problem. In the open stacks we
+> > don't seem to have a platform with both mesa and v4l (or some other
+> > codec) with "interesting" allocations constraints, so no one using
+> > that gralloc+dma-buf heaps combo for what it was meant for. Hence why
+> > I'm a bit vary that we're creating something here which just misses
+> > the point a bit when we try to actually use it (in that glorious
+> > forever-future world where an android platform has enough drivers in
+> > upstream to do so).
+> >
+> > For other "this solves a system problem" we tend to be quite a bit
+> > more picky with the demonstration use case, to make sure we're
+> > actually creating something that solves the problem in reality.
+> >
+> > But it also looks like Android's just not there yet, so *shrug* ...
+>
+> For me, looking at the first 5 patches (listed below, for quick
+> reference), they are only doing code reorganisation and minor updates
+> for already existing heaps, and no ABI change, I am not able to
+> clearly see your objection here. To me, these seem to be required
+> updates that the existing system heap users can benefit from.
+>
+> dma-buf: system_heap: Rework system heap to use sgtables instead of
+>     pagelists
+>   dma-buf: heaps: Move heap-helper logic into the cma_heap
+>     implementation
+>   dma-buf: heaps: Remove heap-helpers code
+>   dma-buf: heaps: Skip sync if not mapped
+>   dma-buf: system_heap: Allocate higher order pages if available
+>
+> If we talk about the last two patches - the ones that add system
+> uncached heap, I somewhat agree that we should be able to show the
+> performance gains with this approach (which has been in use on ION and
+> in devices) using dma-buf gralloc or similar.
+>
+> We can discuss the system-uncached heap when the dma-buf gralloc or
+> similar demonstration for performance benefits is done, but I am
+> inclined to push these 5 patches listed above through.
 
-Shouldn't that be: /* Stateless Codec controls */ ?
+Yeah makes total sense - I was arguing about the new stuff, not the refactoring.
+-Daniel
 
-Regards,
+>
+> Best,
+> Sumit.
+>
+> > -Daniel
+> > --
+> > Daniel Vetter
+> > Software Engineer, Intel Corporation
+> > http://blog.ffwll.ch
 
-	Hans
 
-> +	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
-> +	case V4L2_CID_CODEC_STATELESS_CLASS:	return "Stateless Codec Controls";
->  	default:
->  		return NULL;
->  	}
-> @@ -1368,6 +1372,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_FM_RX_CLASS:
->  	case V4L2_CID_RF_TUNER_CLASS:
->  	case V4L2_CID_DETECT_CLASS:
-> +	case V4L2_CID_CODEC_STATELESS_CLASS:
->  		*type = V4L2_CTRL_TYPE_CTRL_CLASS;
->  		/* You can neither read not write these */
->  		*flags |= V4L2_CTRL_FLAG_READ_ONLY | V4L2_CTRL_FLAG_WRITE_ONLY;
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 75cf87b9a377..90478ecc2f81 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -65,6 +65,7 @@
->  #define V4L2_CTRL_CLASS_FM_RX		0x00a10000	/* FM Receiver controls */
->  #define V4L2_CTRL_CLASS_RF_TUNER	0x00a20000	/* RF tuner controls */
->  #define V4L2_CTRL_CLASS_DETECT		0x00a30000	/* Detection controls */
-> +#define V4L2_CTRL_CLASS_CODEC_STATELESS 0x00a40000	/* Stateless codecs controls */
->  
->  /* User-class control IDs */
->  
-> @@ -1177,6 +1178,12 @@ enum v4l2_detect_md_mode {
->  #define V4L2_CID_DETECT_MD_THRESHOLD_GRID	(V4L2_CID_DETECT_CLASS_BASE + 3)
->  #define V4L2_CID_DETECT_MD_REGION_GRID		(V4L2_CID_DETECT_CLASS_BASE + 4)
->  
-> +
-> +/*  Stateless CODECs controls */
-> +#define V4L2_CID_CODEC_STATELESS_BASE          (V4L2_CTRL_CLASS_CODEC_STATELESS | 0x900)
-> +#define V4L2_CID_CODEC_STATELESS_CLASS         (V4L2_CTRL_CLASS_CODEC_STATELESS | 1)
-> +
-> +
->  /* MPEG-compression definitions kept for backwards compatibility */
->  #ifndef __KERNEL__
->  #define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
-> 
 
+-- 
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
