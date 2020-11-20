@@ -2,37 +2,36 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E36A42BB3A5
-	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 19:38:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DA7EB2BB3A7
+	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 19:38:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731124AbgKTSgu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Nov 2020 13:36:50 -0500
-Received: from mail.kernel.org ([198.145.29.99]:54958 "EHLO mail.kernel.org"
+        id S1731134AbgKTSgy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Nov 2020 13:36:54 -0500
+Received: from mail.kernel.org ([198.145.29.99]:55004 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731118AbgKTSgp (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Nov 2020 13:36:45 -0500
+        id S1731128AbgKTSgv (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 20 Nov 2020 13:36:51 -0500
 Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id C98AF24178;
-        Fri, 20 Nov 2020 18:36:43 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id C55E524124;
+        Fri, 20 Nov 2020 18:36:50 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605897404;
-        bh=P0ho12sgAaK4DoLh6QPmF0ZxrwPVgf6Fhfqmw03f+BA=;
+        s=default; t=1605897411;
+        bh=+lg9ENCIf/yCYLdwyjv31ofMLjSyOQlV0ABlqBWAYeo=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=hgs/MwvnI4/Qh1IfQWTHC1V2ek1jzIsFGde9Z77it39Ux6x6UXhMXSCW3aTWRqGNI
-         uzDVKZ5aVrFvT4UQkApb7Kz94DD0EAgCxWyudIoi/jKDymBGjsIo8fqxt1jQHPoC8q
-         tEDI7k/xz0naaRL1SOLGHcKfFclDyhc+0Vxp77Og=
-Date:   Fri, 20 Nov 2020 12:36:50 -0600
+        b=iyGy+5Sj3/t/50PTM5j/6rEBQJaia0e2F14V9RaJK/MT08Ube62x52QtGo4pgHPy7
+         zcVwNcKp9OsZDKyO4b3/C3wChRV1f6R7WRzPKoQikYHtsWF/Il/RiRy/zWfoqw1uWv
+         bJcCp+z9pY2wJlSlGjoNVxlc77FKoHbcwZnLbrgc=
+Date:   Fri, 20 Nov 2020 12:36:57 -0600
 From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>
-Cc:     linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-kernel@vger.kernel.org, linux-hardening@vger.kernel.org,
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-hardening@vger.kernel.org,
         "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: [PATCH 094/141] media: atomisp: Fix fall-through warnings for Clang
-Message-ID: <6a1c9b29a2d8e5accb48cd179cfe43b87fd83a00.1605896060.git.gustavoars@kernel.org>
+Subject: [PATCH 095/141] media: dvb_frontend: Fix fall-through warnings for
+ Clang
+Message-ID: <2023134a1e897bddf48e2851bdcc53706e892e6d.1605896060.git.gustavoars@kernel.org>
 References: <cover.1605896059.git.gustavoars@kernel.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
@@ -50,17 +49,17 @@ through to the next case.
 Link: https://github.com/KSPP/linux/issues/115
 Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
 ---
- drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c | 1 +
+ drivers/media/dvb-core/dvb_frontend.c | 1 +
  1 file changed, 1 insertion(+)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-index b4813cd50daa..4a18da6bf0c1 100644
---- a/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/isys/src/rx.c
-@@ -368,6 +368,7 @@ static mipi_predictor_t sh_css_csi2_compression_type_2_mipi_predictor(
- 		break;
- 	case IA_CSS_CSI2_COMPRESSION_TYPE_2:
- 		predictor = MIPI_PREDICTOR_TYPE2 - 1;
+diff --git a/drivers/media/dvb-core/dvb_frontend.c b/drivers/media/dvb-core/dvb_frontend.c
+index 06ea30a689d7..fb35697dd93c 100644
+--- a/drivers/media/dvb-core/dvb_frontend.c
++++ b/drivers/media/dvb-core/dvb_frontend.c
+@@ -984,6 +984,7 @@ static int dvb_frontend_check_parameters(struct dvb_frontend *fe)
+ 				 fe->ops.info.symbol_rate_max);
+ 			return -EINVAL;
+ 		}
 +		break;
  	default:
  		break;
