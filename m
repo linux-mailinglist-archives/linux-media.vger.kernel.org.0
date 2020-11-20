@@ -2,83 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7C7D2BB2D5
-	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 19:37:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 616182BB319
+	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 19:37:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729877AbgKTS0L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Nov 2020 13:26:11 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47286 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729861AbgKTS0L (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Nov 2020 13:26:11 -0500
-Received: from embeddedor (187-162-31-110.static.axtel.net [187.162.31.110])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B32242224C;
-        Fri, 20 Nov 2020 18:26:09 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1605896770;
-        bh=seU4yUgdzjzcMiYARuvKKFDMQ2hsLlaQDOpY+Rp7xVA=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=0LvOrjJ3g6Z9fx94QA8eV2yGvcmpgPkNP//qeL3x9uxabz2gofU+lk+aevLFFC/0R
-         bLuA2ZhnIAOCh7W9r0prGDKU2TaaFsWnuIIL+yGHVW1BN2Jjj+opaQLBfuSUDjpqK5
-         ozqPzhfvsXMMO3YhM8J1E6yJn/v765v3/6nnQjFE=
-Date:   Fri, 20 Nov 2020 12:26:16 -0600
-From:   "Gustavo A. R. Silva" <gustavoars@kernel.org>
-To:     Antti Palosaari <crope@iki.fi>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Malcolm Priestley <tvboxspy@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Subject: [PATCH 014/141] media: usb: dvb-usb-v2: Fix fall-through warnings
- for Clang
-Message-ID: <173371a50a3e26a2ab39baaa6aa883f6bd416b8a.1605896059.git.gustavoars@kernel.org>
-References: <cover.1605896059.git.gustavoars@kernel.org>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
+        id S1730447AbgKTS3L (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Nov 2020 13:29:11 -0500
+Received: from smtprelay0187.hostedemail.com ([216.40.44.187]:46450 "EHLO
+        smtprelay.hostedemail.com" rhost-flags-OK-OK-OK-FAIL)
+        by vger.kernel.org with ESMTP id S1729771AbgKTS3I (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 20 Nov 2020 13:29:08 -0500
+Received: from filter.hostedemail.com (clb03-v110.bra.tucows.net [216.40.38.60])
+        by smtprelay04.hostedemail.com (Postfix) with ESMTP id 2DC80180A7FF1;
+        Fri, 20 Nov 2020 18:29:00 +0000 (UTC)
+X-Session-Marker: 6A6F6540706572636865732E636F6D
+X-Spam-Summary: 2,0,0,,d41d8cd98f00b204,joe@perches.com,,RULES_HIT:41:355:379:599:988:989:1260:1277:1311:1313:1314:1345:1359:1437:1515:1516:1518:1534:1539:1593:1594:1711:1730:1747:1777:1792:2198:2199:2393:2559:2562:2731:2828:3138:3139:3140:3141:3142:3352:3622:3865:3866:3867:3870:3871:3874:4321:4362:5007:6742:6743:10004:10400:10848:11232:11658:11914:12297:12740:12760:12895:13069:13311:13357:13439:14180:14659:14721:21060:21067:21080:21627:21990:30012:30054:30070:30091,0,RBL:none,CacheIP:none,Bayesian:0.5,0.5,0.5,Netcheck:none,DomainCache:0,MSF:not bulk,SPF:,MSBL:0,DNSBL:none,Custom_rules:0:0:0,LFtime:1,LUA_SUMMARY:none
+X-HE-Tag: woman67_620d0012734d
+X-Filterd-Recvd-Size: 3843
+Received: from XPS-9350.home (unknown [47.151.133.149])
+        (Authenticated sender: joe@perches.com)
+        by omf05.hostedemail.com (Postfix) with ESMTPA;
+        Fri, 20 Nov 2020 18:28:49 +0000 (UTC)
+Message-ID: <3e0bbb1644fe53d79322c2feb28ccaf3e20c0e94.camel@perches.com>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+From:   Joe Perches <joe@perches.com>
+To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-kernel@vger.kernel.org
+Cc:     alsa-devel@alsa-project.org, amd-gfx@lists.freedesktop.org,
+        bridge@lists.linux-foundation.org, ceph-devel@vger.kernel.org,
+        cluster-devel@redhat.com, coreteam@netfilter.org,
+        devel@driverdev.osuosl.org, dm-devel@redhat.com,
+        drbd-dev@lists.linbit.com, dri-devel@lists.freedesktop.org,
+        GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
+        intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
+        keyrings@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        linux-acpi@vger.kernel.org, linux-afs@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-arm-msm@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net,
+        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-cifs@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-decnet-user@lists.sourceforge.net,
+        linux-ext4@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        linux-geode@lists.infradead.org, linux-gpio@vger.kernel.org,
+        linux-hams@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-ide@vger.kernel.org,
+        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
+        linux-integrity@vger.kernel.org,
+        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
+        linux-mmc@vger.kernel.org, linux-mm@kvack.org,
+        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
+        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
+        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
+        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
+        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
+        selinux@vger.kernel.org, target-devel@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net,
+        usb-storage@lists.one-eyed-alien.net,
+        virtualization@lists.linux-foundation.org,
+        wcn36xx@lists.infradead.org, x86@kernel.org,
+        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>,
+        Kees Cook <keescook@chromium.org>
+Date:   Fri, 20 Nov 2020 10:28:48 -0800
 In-Reply-To: <cover.1605896059.git.gustavoars@kernel.org>
-User-Agent: Mutt/1.9.4 (2018-02-28)
+References: <cover.1605896059.git.gustavoars@kernel.org>
+Content-Type: text/plain; charset="ISO-8859-1"
+User-Agent: Evolution 3.38.1-1 
+MIME-Version: 1.0
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In preparation to enable -Wimplicit-fallthrough for Clang, fix multiple
-warnings by explicitly adding a couple of break statements instead of
-just letting the code fall through to the next case.
+On Fri, 2020-11-20 at 12:21 -0600, Gustavo A. R. Silva wrote:
+> Hi all,
+> 
+> This series aims to fix almost all remaining fall-through warnings in
+> order to enable -Wimplicit-fallthrough for Clang.
+> 
+> In preparation to enable -Wimplicit-fallthrough for Clang, explicitly
+> add multiple break/goto/return/fallthrough statements instead of just
+> letting the code fall through to the next case.
+> 
+> Notice that in order to enable -Wimplicit-fallthrough for Clang, this
+> change[1] is meant to be reverted at some point. So, this patch helps
+> to move in that direction.
 
-Link: https://github.com/KSPP/linux/issues/115
-Signed-off-by: Gustavo A. R. Silva <gustavoars@kernel.org>
----
- drivers/media/usb/dvb-usb-v2/af9015.c  | 1 +
- drivers/media/usb/dvb-usb-v2/lmedm04.c | 1 +
- 2 files changed, 2 insertions(+)
+This was a bit hard to parse for a second or three.
 
-diff --git a/drivers/media/usb/dvb-usb-v2/af9015.c b/drivers/media/usb/dvb-usb-v2/af9015.c
-index c70b3cef3176..d33514acc2b5 100644
---- a/drivers/media/usb/dvb-usb-v2/af9015.c
-+++ b/drivers/media/usb/dvb-usb-v2/af9015.c
-@@ -51,6 +51,7 @@ static int af9015_ctrl_msg(struct dvb_usb_device *d, struct req_t *req)
- 		if (((req->addr & 0xff00) == 0xff00) ||
- 		    ((req->addr & 0xff00) == 0xae00))
- 			state->buf[0] = WRITE_VIRTUAL_MEMORY;
-+		break;
- 	case WRITE_VIRTUAL_MEMORY:
- 	case COPY_FIRMWARE:
- 	case DOWNLOAD_FIRMWARE:
-diff --git a/drivers/media/usb/dvb-usb-v2/lmedm04.c b/drivers/media/usb/dvb-usb-v2/lmedm04.c
-index 5a7a9522d46d..67c37fb267e3 100644
---- a/drivers/media/usb/dvb-usb-v2/lmedm04.c
-+++ b/drivers/media/usb/dvb-usb-v2/lmedm04.c
-@@ -336,6 +336,7 @@ static void lme2510_int_response(struct urb *lme_urb)
- 				st->signal_level = ibuf[5];
- 				st->signal_sn = ibuf[4];
- 				st->time_key = ibuf[7];
-+				break;
- 			default:
- 				break;
- 			}
--- 
-2.27.0
+Thanks Gustavo.
+
+How was this change done?
+
 
