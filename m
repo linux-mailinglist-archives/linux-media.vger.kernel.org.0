@@ -2,159 +2,98 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 555882BB7DB
-	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 21:50:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B8A792BB805
+	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 22:00:01 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730007AbgKTUsL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Nov 2020 15:48:11 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34858 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729595AbgKTUsF (ORCPT
+        id S1730491AbgKTU7B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Nov 2020 15:59:01 -0500
+Received: from mail-ot1-f65.google.com ([209.85.210.65]:45330 "EHLO
+        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728740AbgKTU7B (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Nov 2020 15:48:05 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 20984C08ED7E
-        for <linux-media@vger.kernel.org>; Fri, 20 Nov 2020 12:48:04 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id q5so9017210pfk.6
-        for <linux-media@vger.kernel.org>; Fri, 20 Nov 2020 12:48:04 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=v0uQ3+ZvQ790GJbfbb1ESqfRrqQ38XoL7hho1t1Gb0k=;
-        b=avd4TaFUM+Ab56B8iWTc3giej2JyPXQeNqj8Vqwh4pMfYMm6E7ROZ43KbUMGq3c2kN
-         Y7wgImiWtwhH33QCuhXwX5xfYnbd8ZoAoymaiVLMsflRM4OrtMTi7raBVieCeB5e9/kv
-         qCr4nXKui27aGXF6t1ziK2ispJ9UlbNRnpYGc=
+        Fri, 20 Nov 2020 15:59:01 -0500
+Received: by mail-ot1-f65.google.com with SMTP id k3so10000940otp.12;
+        Fri, 20 Nov 2020 12:59:00 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=v0uQ3+ZvQ790GJbfbb1ESqfRrqQ38XoL7hho1t1Gb0k=;
-        b=PqDIyLrmH8o0PVnL68OEwI0TJg0rQIAYXVgZJ67aC+zQOpzwaJR+4/CTGsWM8UnVf5
-         BhqMSSa46my7zGRc6NY3BnpqXJPJuIERX9af08fkPJU/tlLEeHrA04J5kWBhimxCAkJH
-         mHJZ89GWSI9gN5+RXvzVYIbnP5XSkTyMxkMDOzNSZJyLY90a3fu5yoE/nUTGTuSHgn8g
-         8czvKtlBstFWOGrF0ZSnNbAXpWh2XWt+BdFrzAoM8U6yRVo8NZEUmMeEgR6HTVDpx8R+
-         chzrFyfiYfc8HIB6o0UD8LpwR92eUTRYXog8kvJdEZvnWC9B4zTsC6B/SPhrUOJhWR0o
-         hCuA==
-X-Gm-Message-State: AOAM531Wf3u/8MAvmfhYrw5xNuScOclVFkXS1usOlUKCsmUQwyeK5NKd
-        fsFhQKuzTBUoMSUuzabLbl6hkA==
-X-Google-Smtp-Source: ABdhPJzEbaB+IYipfwOUXoCmdplAutZXXBsmC8OBp1xOfb5CPZl7t2eHSBKNbswFZQhoeAMsBYl7Qg==
-X-Received: by 2002:a62:d108:0:b029:163:d3cf:f00e with SMTP id z8-20020a62d1080000b0290163d3cff00emr15313890pfg.43.1605905283088;
-        Fri, 20 Nov 2020 12:48:03 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id a67sm3215381pfa.77.2020.11.20.12.48.01
+        bh=E+eTvV1tGOwtq1rQTgD6byJC2hOWBwFyaoUcLOPG4kI=;
+        b=kGa9Lcb5LUPaFwD6edUYAV5Rzgpj9szH1HD814ginxEyoLGW+MAqu4wsQKsiQu6MZ4
+         NYgNk8LS1fVEoMcbwgS6oXPLKlVCNeUSPqKrTiX1szIzsik3C1EliPB5qyraRFpHa5Xn
+         G3m0U5A1avVV9YiUown2pSgG6iFjDiWta/HVm9hvFp3/q6KmpSxr8RYjEUGdVEYz62I/
+         SDbLHu7/l4QSiV1CAw2q2JuNd/rSc8YQydAIk6RSWauhqqkbPBvmEPttlT9JMEa3Il/F
+         dPWSarzhlY34HJd9ML2LgjL5iRNVLtiKz8wJgoBfJco2/hsZMXkeIHqVyq7zKlJNBKnE
+         JOOQ==
+X-Gm-Message-State: AOAM531qu7NHIyXbCCJoyhuiV28Ue+9F4hF30mcATvt6RIaVrwfjNelm
+        /CZBErm9KGcN2UPAv8USPntJLFRftw==
+X-Google-Smtp-Source: ABdhPJy0vQQNAnVcAar+wRVkpy8jiPnlJ69OtFNb8/H5LuYPjmE2JBgCx0QWLHdF8aK8a18ZO2eEUw==
+X-Received: by 2002:a9d:27e8:: with SMTP id c95mr15233201otb.262.1605905940016;
+        Fri, 20 Nov 2020 12:59:00 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id c6sm2225855oif.48.2020.11.20.12.58.58
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2020 12:48:02 -0800 (PST)
-Date:   Fri, 20 Nov 2020 12:48:01 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     Jakub Kicinski <kuba@kernel.org>
-Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-kernel@vger.kernel.org, alsa-devel@alsa-project.org,
-        amd-gfx@lists.freedesktop.org, bridge@lists.linux-foundation.org,
-        ceph-devel@vger.kernel.org, cluster-devel@redhat.com,
-        coreteam@netfilter.org, devel@driverdev.osuosl.org,
-        dm-devel@redhat.com, drbd-dev@lists.linbit.com,
-        dri-devel@lists.freedesktop.org, GR-everest-linux-l2@marvell.com,
-        GR-Linux-NIC-Dev@marvell.com, intel-gfx@lists.freedesktop.org,
-        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
-        linux1394-devel@lists.sourceforge.net, linux-acpi@vger.kernel.org,
-        linux-afs@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-arm-msm@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net,
-        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-cifs@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-decnet-user@lists.sourceforge.net,
-        linux-ext4@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        linux-geode@lists.infradead.org, linux-gpio@vger.kernel.org,
-        linux-hams@vger.kernel.org, linux-hwmon@vger.kernel.org,
-        linux-i3c@lists.infradead.org, linux-ide@vger.kernel.org,
-        linux-iio@vger.kernel.org, linux-input@vger.kernel.org,
-        linux-integrity@vger.kernel.org,
-        linux-mediatek@lists.infradead.org, linux-media@vger.kernel.org,
-        linux-mmc@vger.kernel.org, linux-mm@kvack.org,
-        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-wireless@vger.kernel.org, netdev@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
-        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
-        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
-        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
-        selinux@vger.kernel.org, target-devel@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net,
-        usb-storage@lists.one-eyed-alien.net,
-        virtualization@lists.linux-foundation.org,
-        wcn36xx@lists.infradead.org, x86@kernel.org,
-        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>
-Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
-Message-ID: <202011201244.78E002D5@keescook>
-References: <cover.1605896059.git.gustavoars@kernel.org>
- <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011201129.B13FDB3C@keescook>
- <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+        Fri, 20 Nov 2020 12:58:59 -0800 (PST)
+Received: (nullmailer pid 1729167 invoked by uid 1000);
+        Fri, 20 Nov 2020 20:58:58 -0000
+Date:   Fri, 20 Nov 2020 14:58:58 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Martina Krasteva <martinax.krasteva@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, robh+dt@kernel.org,
+        mchehab@kernel.org, devicetree@vger.kernel.org,
+        daniele.alessandrelli@linux.intel.com,
+        gjorgjix.rosikopulos@linux.intel.com, sakari.ailus@linux.intel.com
+Subject: Re: [PATCH 1/2] dt-bindings: media: Add bindings for imx334
+Message-ID: <20201120205858.GA1722419@robh.at.kernel.org>
+References: <20201120142803.308-1-martinax.krasteva@linux.intel.com>
+ <20201120142803.308-2-martinax.krasteva@linux.intel.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+In-Reply-To: <20201120142803.308-2-martinax.krasteva@linux.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 20, 2020 at 11:51:42AM -0800, Jakub Kicinski wrote:
-> On Fri, 20 Nov 2020 11:30:40 -0800 Kees Cook wrote:
-> > On Fri, Nov 20, 2020 at 10:53:44AM -0800, Jakub Kicinski wrote:
-> > > On Fri, 20 Nov 2020 12:21:39 -0600 Gustavo A. R. Silva wrote:  
-> > > > This series aims to fix almost all remaining fall-through warnings in
-> > > > order to enable -Wimplicit-fallthrough for Clang.
-> > > > 
-> > > > In preparation to enable -Wimplicit-fallthrough for Clang, explicitly
-> > > > add multiple break/goto/return/fallthrough statements instead of just
-> > > > letting the code fall through to the next case.
-> > > > 
-> > > > Notice that in order to enable -Wimplicit-fallthrough for Clang, this
-> > > > change[1] is meant to be reverted at some point. So, this patch helps
-> > > > to move in that direction.
-> > > > 
-> > > > Something important to mention is that there is currently a discrepancy
-> > > > between GCC and Clang when dealing with switch fall-through to empty case
-> > > > statements or to cases that only contain a break/continue/return
-> > > > statement[2][3][4].  
-> > > 
-> > > Are we sure we want to make this change? Was it discussed before?
-> > > 
-> > > Are there any bugs Clangs puritanical definition of fallthrough helped
-> > > find?
-> > > 
-> > > IMVHO compiler warnings are supposed to warn about issues that could
-> > > be bugs. Falling through to default: break; can hardly be a bug?!  
-> > 
-> > It's certainly a place where the intent is not always clear. I think
-> > this makes all the cases unambiguous, and doesn't impact the machine
-> > code, since the compiler will happily optimize away any behavioral
-> > redundancy.
+On Fri, 20 Nov 2020 14:28:02 +0000, Martina Krasteva wrote:
+> From: Martina Krasteva <martinax.krasteva@intel.com>
 > 
-> If none of the 140 patches here fix a real bug, and there is no change
-> to machine code then it sounds to me like a W=2 kind of a warning.
+> - Add dt-bindings documentation for Sony imx334 sensor driver.
+> - Add MAINTAINERS entry for Sony imx334 binding documentation.
+> 
+> Signed-off-by: Martina Krasteva <martinax.krasteva@intel.com>
+> Reviewed-by: Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>
+> Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
+> ---
+>  .../devicetree/bindings/media/i2c/sony,imx334.yaml | 59 ++++++++++++++++++++++
+>  MAINTAINERS                                        |  7 +++
+>  2 files changed, 66 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+> 
 
-I'd like to avoid splitting common -W options between default and W=2
-just based on the compiler. Getting -Wimplicit-fallthrough enabled found
-plenty of bugs, so making sure it works correctly for both compilers
-feels justified to me. (This is just a subset of the same C language
-short-coming.)
 
-> I think clang is just being annoying here, but if I'm the only one who
-> feels this way chances are I'm wrong :)
+My bot found errors running 'make dt_binding_check' on your patch:
 
-It's being pretty pedantic, but I don't think it's unreasonable to
-explicitly state how every case ends. GCC's silence for the case of
-"fall through to a break" doesn't really seem justified.
+yamllint warnings/errors:
+./Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml:34:15: [warning] wrong indentation: expected 12 but found 14 (indentation)
+./Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml:36:15: [warning] wrong indentation: expected 12 but found 14 (indentation)
 
--- 
-Kees Cook
+dtschema/dtc warnings/errors:
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml: 'additionalProperties' is a required property
+/builds/robherring/linux-dt-review/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml: ignoring, error in schema: 
+warning: no schema found in file: ./Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+
+
+See https://patchwork.ozlabs.org/patch/1403740
+
+The base for the patch is generally the last rc1. Any dependencies
+should be noted.
+
+If you already ran 'make dt_binding_check' and didn't see the above
+error(s), then make sure 'yamllint' is installed and dt-schema is up to
+date:
+
+pip3 install dtschema --upgrade
+
+Please check and re-submit.
+
