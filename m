@@ -2,1216 +2,389 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6567E2BABDA
-	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 15:28:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 270552BAC0D
+	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 15:41:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727254AbgKTO2P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Nov 2020 09:28:15 -0500
-Received: from mga14.intel.com ([192.55.52.115]:21379 "EHLO mga14.intel.com"
+        id S1728147AbgKTOla (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Nov 2020 09:41:30 -0500
+Received: from mail.kernel.org ([198.145.29.99]:37994 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725801AbgKTO2O (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Nov 2020 09:28:14 -0500
-IronPort-SDR: gZyaWXcoTKOEsVExROwwO+lSpeiYmk924IDwjTFqLi1fIexxupZcLdCimB+HrtpfhctBfkPPjb
- GRXd/2RQC6jQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9810"; a="170698832"
-X-IronPort-AV: E=Sophos;i="5.78,356,1599548400"; 
-   d="scan'208";a="170698832"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2020 06:28:13 -0800
-IronPort-SDR: r7PMsJMYZOcOmi1ZAQ5M+hsqyAVhXSgOa2wJDuiwTvuZOWFUaVdFTHdf96u6SNVj2G+lLYzUi9
- R+n9TtBSMtmw==
-X-IronPort-AV: E=Sophos;i="5.78,356,1599548400"; 
-   d="scan'208";a="545461407"
-Received: from mkrastex-mobl.ger.corp.intel.com ([10.104.67.10])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2020 06:28:11 -0800
-From:   Martina Krasteva <martinax.krasteva@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Cc:     mchehab@kernel.org, robh+dt@kernel.org, devicetree@vger.kernel.org,
-        sakari.ailus@linux.intel.com,
-        daniele.alessandrelli@linux.intel.com,
-        gjorgjix.rosikopulos@linux.intel.com,
-        martinax.krasteva@linux.intel.com
-Subject: [PATCH 2/2] media: Add imx334 camera sensor driver
-Date:   Fri, 20 Nov 2020 14:28:03 +0000
-Message-Id: <20201120142803.308-3-martinax.krasteva@linux.intel.com>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201120142803.308-1-martinax.krasteva@linux.intel.com>
-References: <20201120142803.308-1-martinax.krasteva@linux.intel.com>
+        id S1728101AbgKTOla (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 20 Nov 2020 09:41:30 -0500
+Received: from mail-wm1-f53.google.com (mail-wm1-f53.google.com [209.85.128.53])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 96C2E2224C;
+        Fri, 20 Nov 2020 14:41:28 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1605883288;
+        bh=b/YWRyX56j7FDPk4DdWkFfkE6RMcpeOtAxNoTGyioAY=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=cvdWgjeTWVMOmPhv7KY7amb66POkkRpZTjmAhi2LTllpQi/nsTrGb/YfFIO8ML44/
+         avHhz5OHYUL/Pib8ORRnvv7W9WByrY9EbVZ3/Mab/4zXlOEgnShUMlL9tAROeoDZvS
+         funk6czUWlnT3Q+b48TRS0+YNMnzPm51gBF3gwdA=
+Received: by mail-wm1-f53.google.com with SMTP id h21so10012342wmb.2;
+        Fri, 20 Nov 2020 06:41:28 -0800 (PST)
+X-Gm-Message-State: AOAM532+6Em+4yX5pO3F0/gWYGpfjaWdy60pLngOt84GUDRMzEIeLbc1
+        0V+LrFaZA3Px9mgumM3YsDlOMOYf0ajMQaB+Ng==
+X-Google-Smtp-Source: ABdhPJwA6H/+9fmsOwR+XvVs/fKx83Hf3URWrw1amGJQDiSnt4qQUaFSvMdHY7NrwwfG7uCgGvO3MVGl8mu6S4RiVL0=
+X-Received: by 2002:a1c:e182:: with SMTP id y124mr9880971wmg.145.1605883286540;
+ Fri, 20 Nov 2020 06:41:26 -0800 (PST)
+MIME-Version: 1.0
+References: <1605839346-10648-1-git-send-email-daoyuan.huang@mediatek.com> <1605839346-10648-2-git-send-email-daoyuan.huang@mediatek.com>
+In-Reply-To: <1605839346-10648-2-git-send-email-daoyuan.huang@mediatek.com>
+From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
+Date:   Fri, 20 Nov 2020 22:41:15 +0800
+X-Gmail-Original-Message-ID: <CAAOTY_9SGD4jmWQW-LvWjzJ4z0itupw9qei=JhXTmBWAia-xOQ@mail.gmail.com>
+Message-ID: <CAAOTY_9SGD4jmWQW-LvWjzJ4z0itupw9qei=JhXTmBWAia-xOQ@mail.gmail.com>
+Subject: Re: [PATCH v4 1/4] dt-binding: mt8183: Add Mediatek MDP3 dt-bindings
+To:     Daoyuan Huang <daoyuan.huang@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        menghui.lin@mediatek.com,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Nicolas Boichat <drinkcat@chromium.org>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        linux-media@vger.kernel.org, DTML <devicetree@vger.kernel.org>,
+        =?UTF-8?B?U2ogSHVhbmcgKOm7g+S/oeeSiyk=?= <sj.huang@mediatek.com>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>, pihsun@chromium.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        randy.wu@mediatek.com,
+        srv_heupstream <srv_heupstream@mediatek.com>,
+        acourbot@chromium.org, linux-kernel <linux-kernel@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>, ben.lok@mediatek.com,
+        moudy.ho@mediatek.com, Rob Landley <rob@landley.net>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Martina Krasteva <martinax.krasteva@intel.com>
+Hi, Daoyuan:
 
-Add a v4l2 sub-device driver for the Sony imx334 image sensor.
-This is a camera sensor using the i2c bus for control and the
-csi-2 bus for data.
+Daoyuan Huang <daoyuan.huang@mediatek.com> =E6=96=BC 2020=E5=B9=B411=E6=9C=
+=8820=E6=97=A5 =E9=80=B1=E4=BA=94 =E4=B8=8A=E5=8D=8810:41=E5=AF=AB=E9=81=93=
+=EF=BC=9A
+>
+> From: daoyuan huang <daoyuan.huang@mediatek.com>
+>
+> This patch adds DT binding document for Media Data Path 3 (MDP3)
+> a unit in multimedia system used for scaling and color format convert.
+>
+> Signed-off-by: Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
+> Signed-off-by: daoyuan huang <daoyuan.huang@mediatek.com>
+> ---
+>  .../bindings/media/mediatek,mt8183-mdp3.txt   | 208 ++++++++++++++++++
+>  1 file changed, 208 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt81=
+83-mdp3.txt
+>
+> diff --git a/Documentation/devicetree/bindings/media/mediatek,mt8183-mdp3=
+.txt b/Documentation/devicetree/bindings/media/mediatek,mt8183-mdp3.txt
+> new file mode 100644
+> index 000000000000..d4db908b8b53
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/media/mediatek,mt8183-mdp3.txt
+> @@ -0,0 +1,208 @@
+> +* Mediatek Media Data Path 3
+> +
+> +Media Data Path 3 (MDP3) is used for scaling and color space conversion.
+> +
+> +Required properties (controller node):
+> +- compatible: "mediatek,mt8183-mdp3"
+> +- mediatek,scp: the node of system control processor (SCP), using the
+> +  remoteproc & rpmsg framework, see
+> +  Documentation/devicetree/bindings/remoteproc/mtk,scp.txt for details.
+> +- mediatek,mmsys: the node of mux(multiplexer) controller for HW connect=
+ions.
+> +- mediatek,mm-mutex: the node of sof(start of frame) signal controller.
+> +- mediatek,mailbox-gce: the node of global command engine (GCE), used to
+> +  read/write registers with critical time limitation, see
+> +  Documentation/devicetree/bindings/mailbox/mtk-gce.txt for details.
+> +- mboxes: mailbox number used to communicate with GCE.
+> +- gce-subsys: sub-system id corresponding to the register address.
 
-The following features are supported:
-- manual exposure and analog gain control support
-- vblank/hblank/pixel rate control support
-- supported resolution:
-    - 3840x2160 @ 60fps
-- supported bayer order output:
-    - SRGGB12
+This is already defined in mediatek,gce-client-reg, so remove this.
 
-Signed-off-by: Martina Krasteva <martinax.krasteva@intel.com>
-Reviewed-by: Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>
-Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
----
- MAINTAINERS                |    1 +
- drivers/media/i2c/Kconfig  |   14 +
- drivers/media/i2c/Makefile |    1 +
- drivers/media/i2c/imx334.c | 1089 ++++++++++++++++++++++++++++++++++++++++++++
- 4 files changed, 1105 insertions(+)
- create mode 100644 drivers/media/i2c/imx334.c
+> +- gce-event-names: in use event name list, used to correspond to event I=
+Ds.
+> +- gce-events: in use event IDs list, all IDs are defined in
+> +  'dt-bindings/gce/mt8183-gce.h'.
+> +
+> +Required properties (all function blocks, child node):
+> +- compatible: Should be one of
+> +        "mediatek,mt8183-mdp-rdma"  - read DMA
+> +        "mediatek,mt8183-mdp-rsz"   - resizer
+> +        "mediatek,mt8183-mdp-wdma"  - write DMA
+> +        "mediatek,mt8183-mdp-wrot"  - write DMA with rotation
+> +        "mediatek,mt8183-mdp-ccorr" - color correction with 3X3 matrix
+> +- reg: Physical base address and length of the function block register s=
+pace.
+> +- clocks: device clocks, see
+> +  Documentation/devicetree/bindings/clock/clock-bindings.txt for details=
+.
+> +- power-domains: A phandle to the power domain, see
+> +  Documentation/devicetree/bindings/power/power_domain.txt for details.
+> +- mediatek,mdp-id: HW index to distinguish same functionality modules.
+> +
+> +Required properties (DMA function blocks, child node):
+> +- compatible: Should be one of
+> +        "mediatek,mt8183-mdp-rdma"
+> +        "mediatek,mt8183-mdp-wdma"
+> +        "mediatek,mt8183-mdp-wrot"
+> +- mdp-comps(wdma & wrot only):
+> +        "mediatek,mt8183-mdp-path"  - MDP output path selection, create =
+a
+> +                                      component for path connectedness o=
+f HW
+> +                                      pipe control; Align with mdp_comp_=
+of_ids[]
+> +                                      in mtk-mdp3-comp.c.
+> +- mdp-comp-ids(wdma & wrot only): Index of the output paths, the number =
+aligns
+> +  with mdp_comp_matches[] in mtk-mdp3-comp.c.
+> +- iommus: should point to the respective IOMMU block with master port as
+> +  argument, see Documentation/devicetree/bindings/iommu/mediatek,iommu.t=
+xt for
+> +  details.
+> +- mediatek,larb: Must contain the local arbiters in the current Socs, se=
+e
+> +  Documentation/devicetree/bindings/memory-controllers/mediatek,smi-larb=
+.txt for
+> +  details.
+> +
+> +Required properties (input path selection node):
+> +- compatible:
+> +        "mediatek,mt8183-mmsys"     - For MDP input/output source select=
+ion.
 
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 6cfce99be4bb..24438c53861b 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -16326,6 +16326,7 @@ L:	linux-media@vger.kernel.org
- S:	Maintained
- T:	git git://linuxtv.org/media_tree.git
- F:	Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
-+F:	drivers/media/i2c/imx334.c
- 
- SONY IMX355 SENSOR DRIVER
- M:	Tianshu Qiu <tian.shu.qiu@intel.com>
-diff --git a/drivers/media/i2c/Kconfig b/drivers/media/i2c/Kconfig
-index 878f66ef2719..f67b7e05b796 100644
---- a/drivers/media/i2c/Kconfig
-+++ b/drivers/media/i2c/Kconfig
-@@ -813,6 +813,20 @@ config VIDEO_IMX319
- 	  To compile this driver as a module, choose M here: the
- 	  module will be called imx319.
- 
-+config VIDEO_IMX334
-+	tristate "Sony IMX334 sensor support"
-+	depends on OF_GPIO
-+	depends on I2C && VIDEO_V4L2
-+	select VIDEO_V4L2_SUBDEV_API
-+	select MEDIA_CONTROLLER
-+	select V4L2_FWNODE
-+	help
-+	  This is a Video4Linux2 sensor driver for the Sony
-+	  IMX334 camera.
-+
-+	  To compile this driver as a module, choose M here: the
-+	  module will be called imx334.
-+
- config VIDEO_IMX355
- 	tristate "Sony IMX355 sensor support"
- 	depends on I2C && VIDEO_V4L2
-diff --git a/drivers/media/i2c/Makefile b/drivers/media/i2c/Makefile
-index f0a77473979d..aeaeaab3783c 100644
---- a/drivers/media/i2c/Makefile
-+++ b/drivers/media/i2c/Makefile
-@@ -118,6 +118,7 @@ obj-$(CONFIG_VIDEO_IMX258)	+= imx258.o
- obj-$(CONFIG_VIDEO_IMX274)	+= imx274.o
- obj-$(CONFIG_VIDEO_IMX290)	+= imx290.o
- obj-$(CONFIG_VIDEO_IMX319)	+= imx319.o
-+obj-$(CONFIG_VIDEO_IMX334)	+= imx334.o
- obj-$(CONFIG_VIDEO_IMX355)	+= imx355.o
- obj-$(CONFIG_VIDEO_MAX9286)	+= max9286.o
- rdacm20-camera_module-objs	:= rdacm20.o max9271.o
-diff --git a/drivers/media/i2c/imx334.c b/drivers/media/i2c/imx334.c
-new file mode 100644
-index 000000000000..8fd2c1c934fd
---- /dev/null
-+++ b/drivers/media/i2c/imx334.c
-@@ -0,0 +1,1089 @@
-+// SPDX-License-Identifier: GPL-2.0-only
-+/*
-+ * Sony imx334 sensor driver
-+ *
-+ * Copyright (C) 2019-2020 Intel Corporation
-+ */
-+#include <asm/unaligned.h>
-+
-+#include <linux/clk.h>
-+#include <linux/delay.h>
-+#include <linux/i2c.h>
-+#include <linux/module.h>
-+#include <linux/pm_runtime.h>
-+#include <linux/platform_device.h>
-+
-+#include <media/v4l2-ctrls.h>
-+#include <media/v4l2-device.h>
-+#include <media/v4l2-fwnode.h>
-+
-+#define IMX334_DRV_NAME		"imx334"
-+
-+/* Streaming Mode */
-+#define IMX334_REG_MODE_SELECT	0x3000
-+#define IMX334_MODE_STANDBY	0x01
-+#define IMX334_MODE_STREAMING	0x00
-+
-+/* Lines per frame */
-+#define IMX334_REG_LPFR		0x3030
-+
-+#define IMX334_LPFR_MIN		0x08ca
-+#define IMX334_LPFR_MAX		0x20f58
-+
-+/* Chip ID */
-+#define IMX334_REG_ID		0x3044
-+#define IMX334_ID		0x1e00
-+
-+/* Exposure control */
-+#define IMX334_REG_SHUTTER	0x3058
-+#define IMX334_EXPOSURE_MIN	1
-+#define IMX334_EXPOSURE_OFFSET	5
-+#define IMX334_EXPOSURE_STEP	1
-+#define IMX334_EXPOSURE_DEFAULT	0x0648
-+
-+/* Analog gain control */
-+#define IMX334_REG_AGAIN	0x30e8
-+#define IMX334_AGAIN_MIN	0
-+#define IMX334_AGAIN_MAX	240
-+#define IMX334_AGAIN_STEP	1
-+#define IMX334_AGAIN_DEFAULT	0
-+
-+/* Group hold register */
-+#define IMX334_REG_HOLD		0x3001
-+
-+/* Input clock rate */
-+#define IMX334_INCLK_RATE	24000000
-+
-+#define IMX334_REG_MIN		0x00
-+#define IMX334_REG_MAX		0xfffff
-+
-+/**
-+ * struct imx334_reg - imx334 sensor register
-+ * @address: Register address
-+ * @val: Register value
-+ */
-+struct imx334_reg {
-+	u16 address;
-+	u8 val;
-+};
-+
-+/**
-+ * struct imx334_reg_list - imx334 sensor register list
-+ * @num_of_regs: Number of registers in the list
-+ * @regs: Pointer to register list
-+ */
-+struct imx334_reg_list {
-+	u32 num_of_regs;
-+	const struct imx334_reg *regs;
-+};
-+
-+/**
-+ * struct imx334_mode - imx334 sensor mode structure
-+ * @width: Frame width
-+ * @height: Frame height
-+ * @code: Format code
-+ * @ppln: Pixels per line
-+ * @lpfr: Lines per frame
-+ * @pclk: Sensor pixel clock
-+ * @reg_list: Register list for sensor mode
-+ */
-+struct imx334_mode {
-+	u32 width;
-+	u32 height;
-+	u32 code;
-+	u32 ppln;
-+	u32 lpfr;
-+	u64 pclk;
-+	struct imx334_reg_list reg_list;
-+};
-+
-+/**
-+ * struct imx334 - imx334 sensor device structure
-+ * @dev: Pointer to generic device
-+ * @client: Pointer to i2c client
-+ * @sd: V4L2 sub-device
-+ * @pad: Media pad. Only one pad supported
-+ * @reset_gpio: Sensor reset gpio
-+ * @inclk: Sensor input clock
-+ * @ctrl_handler: V4L2 control handler
-+ * @pclk_ctrl: Pointer to pixel clock control
-+ * @hblank_ctrl: Pointer to horizontal blanking control
-+ * @vblank_ctrl: Pointer to vertical blanking control
-+ * @exp_ctrl: Pointer to exposure control
-+ * @again_ctrl: Pointer to analog gain control
-+ * @exp1_ctrl: Pointer to short exposure control
-+ * @again1_ctrl: Pointer to short analog gain control
-+ * @exp2_ctrl: Pointer to very short exposure control
-+ * @again2_ctrl: Pointer to very short analog gain control
-+ * @lpfr: Lines per frame for long exposure frame
-+ * @cur_mode: Pointer to current selected sensor mode
-+ * @mutex: Mutex for serializing sensor controls
-+ * @streaming: Flag indicating streaming state
-+ */
-+struct imx334 {
-+	struct device *dev;
-+	struct i2c_client *client;
-+	struct v4l2_subdev sd;
-+	struct media_pad pad;
-+	struct gpio_desc *reset_gpio;
-+	struct clk *inclk;
-+	struct v4l2_ctrl_handler ctrl_handler;
-+	struct v4l2_ctrl *pclk_ctrl;
-+	struct v4l2_ctrl *hblank_ctrl;
-+	struct v4l2_ctrl *vblank_ctrl;
-+	struct {
-+		struct v4l2_ctrl *exp_ctrl;
-+		struct v4l2_ctrl *again_ctrl;
-+	};
-+	u32 lpfr;
-+	const struct imx334_mode *cur_mode;
-+	struct mutex mutex;
-+	bool streaming;
-+};
-+
-+/* Sensor mode registers */
-+static const struct imx334_reg mode_3840x2160_regs[] = {
-+	{0x3000, 0x01},
-+	{0x3002, 0x00},
-+	{0x3018, 0x04},
-+	{0x37b0, 0x36},
-+	{0x304c, 0x00},
-+	{0x300c, 0x3b},
-+	{0x300d, 0x2a},
-+	{0x3034, 0x26},
-+	{0x3035, 0x02},
-+	{0x314c, 0x29},
-+	{0x314d, 0x01},
-+	{0x315a, 0x02},
-+	{0x3168, 0xa0},
-+	{0x316a, 0x7e},
-+	{0x3288, 0x21},
-+	{0x328a, 0x02},
-+	{0x302c, 0x3c},
-+	{0x302e, 0x00},
-+	{0x302f, 0x0f},
-+	{0x3076, 0x70},
-+	{0x3077, 0x08},
-+	{0x3090, 0x70},
-+	{0x3091, 0x08},
-+	{0x30d8, 0x20},
-+	{0x30d9, 0x12},
-+	{0x3308, 0x70},
-+	{0x3309, 0x08},
-+	{0x3414, 0x05},
-+	{0x3416, 0x18},
-+	{0x35ac, 0x0e},
-+	{0x3648, 0x01},
-+	{0x364a, 0x04},
-+	{0x364c, 0x04},
-+	{0x3678, 0x01},
-+	{0x367c, 0x31},
-+	{0x367e, 0x31},
-+	{0x3708, 0x02},
-+	{0x3714, 0x01},
-+	{0x3715, 0x02},
-+	{0x3716, 0x02},
-+	{0x3717, 0x02},
-+	{0x371c, 0x3d},
-+	{0x371d, 0x3f},
-+	{0x372c, 0x00},
-+	{0x372d, 0x00},
-+	{0x372e, 0x46},
-+	{0x372f, 0x00},
-+	{0x3730, 0x89},
-+	{0x3731, 0x00},
-+	{0x3732, 0x08},
-+	{0x3733, 0x01},
-+	{0x3734, 0xfe},
-+	{0x3735, 0x05},
-+	{0x375d, 0x00},
-+	{0x375e, 0x00},
-+	{0x375f, 0x61},
-+	{0x3760, 0x06},
-+	{0x3768, 0x1b},
-+	{0x3769, 0x1b},
-+	{0x376a, 0x1a},
-+	{0x376b, 0x19},
-+	{0x376c, 0x18},
-+	{0x376d, 0x14},
-+	{0x376e, 0x0f},
-+	{0x3776, 0x00},
-+	{0x3777, 0x00},
-+	{0x3778, 0x46},
-+	{0x3779, 0x00},
-+	{0x377a, 0x08},
-+	{0x377b, 0x01},
-+	{0x377c, 0x45},
-+	{0x377d, 0x01},
-+	{0x377e, 0x23},
-+	{0x377f, 0x02},
-+	{0x3780, 0xd9},
-+	{0x3781, 0x03},
-+	{0x3782, 0xf5},
-+	{0x3783, 0x06},
-+	{0x3784, 0xa5},
-+	{0x3788, 0x0f},
-+	{0x378a, 0xd9},
-+	{0x378b, 0x03},
-+	{0x378c, 0xeb},
-+	{0x378d, 0x05},
-+	{0x378e, 0x87},
-+	{0x378f, 0x06},
-+	{0x3790, 0xf5},
-+	{0x3792, 0x43},
-+	{0x3794, 0x7a},
-+	{0x3796, 0xa1},
-+	{0x3e04, 0x0e},
-+	{0x3a00, 0x01},
-+};
-+
-+/* Supported sensor mode configurations */
-+static const struct imx334_mode supported_mode = {
-+	.width = 3840,
-+	.height = 2160,
-+	.ppln = 4400,
-+	.lpfr = 4500,
-+	.pclk = 594000000,
-+	.code = MEDIA_BUS_FMT_SRGGB12_1X12,
-+	.reg_list = {
-+		.num_of_regs = ARRAY_SIZE(mode_3840x2160_regs),
-+		.regs = mode_3840x2160_regs,
-+	},
-+};
-+
-+/**
-+ * to_imx334() - imv334 V4L2 sub-device to imx334 device.
-+ * @subdev: pointer to imx334 V4L2 sub-device
-+ *
-+ * Return: Pointer to imx334 device
-+ */
-+static inline struct imx334 *to_imx334(struct v4l2_subdev *subdev)
-+{
-+	return container_of(subdev, struct imx334, sd);
-+}
-+
-+/**
-+ * imx334_read_reg() - Read registers.
-+ * @imx334: pointer to imx334 device
-+ * @reg: Register address
-+ * @len: Length of bytes to read. Max supported bytes is 4
-+ * @val: Pointer to register value to be filled.
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_read_reg(struct imx334 *imx334, u16 reg, u32 len, u32 *val)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx334->sd);
-+	u8 addr_buf[2] = { reg >> 8, reg & 0xff };
-+	struct i2c_msg msgs[2] = { 0 };
-+	u8 data_buf[4] = { 0 };
-+	int ret;
-+
-+	if (WARN_ON(len > 4))
-+		return -EINVAL;
-+
-+	/* Write register address */
-+	msgs[0].addr = client->addr;
-+	msgs[0].flags = 0;
-+	msgs[0].len = ARRAY_SIZE(addr_buf);
-+	msgs[0].buf = addr_buf;
-+
-+	/* Read data from register */
-+	msgs[1].addr = client->addr;
-+	msgs[1].flags = I2C_M_RD;
-+	msgs[1].len = len;
-+	msgs[1].buf = &data_buf[4 - len];
-+
-+	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
-+	if (ret != ARRAY_SIZE(msgs))
-+		return -EIO;
-+
-+	*val = get_unaligned_be32(data_buf);
-+
-+	return 0;
-+}
-+
-+/**
-+ * imx334_write_reg() - Write register
-+ * @imx334: pointer to imx334 device
-+ * @reg: Register address
-+ * @len: Length of bytes. Max supported bytes is 4
-+ * @val: Register value
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_write_reg(struct imx334 *imx334, u16 reg, u32 len, u32 val)
-+{
-+	struct i2c_client *client = v4l2_get_subdevdata(&imx334->sd);
-+	u8 buf[3] = {0};
-+	int ret;
-+	int i;
-+
-+	if (WARN_ON(len > 4))
-+		return -EINVAL;
-+
-+	/* Currently we can write to sensor only one byte at a time */
-+	for (i = 0; i < len; i++) {
-+		put_unaligned_be16(reg + i, buf);
-+		buf[2] = (val >> (8 * i)) & 0xff;
-+		ret = i2c_master_send(client, buf, ARRAY_SIZE(buf));
-+		if (ret != ARRAY_SIZE(buf)) {
-+			dev_err_ratelimited(imx334->dev,
-+					    "write reg 0x%4.4x return err %d",
-+					    reg, ret);
-+			return -EIO;
-+		}
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * imx334_write_regs() - Write a list of registers
-+ * @imx334: pointer to imx334 device
-+ * @regs: List of registers to be written
-+ * @len: Length of registers array
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_write_regs(struct imx334 *imx334,
-+			     const struct imx334_reg *regs, u32 len)
-+{
-+	int ret;
-+	unsigned int i;
-+
-+	for (i = 0; i < len; i++) {
-+		ret = imx334_write_reg(imx334, regs[i].address, 1, regs[i].val);
-+		if (ret)
-+			return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * imx334_update_controls() - Update control ranges based on streaming mode
-+ * @imx334: pointer to imx334 device
-+ * @mode: pointer to imx334_mode sensor mode
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_update_controls(struct imx334 *imx334,
-+				  const struct imx334_mode *mode)
-+{
-+	int ret;
-+
-+	ret = __v4l2_ctrl_s_ctrl(imx334->vblank_ctrl,
-+				 imx334->lpfr - mode->height);
-+	if (ret)
-+		return ret;
-+
-+	ret = __v4l2_ctrl_s_ctrl(imx334->hblank_ctrl, mode->ppln - mode->width);
-+	if (ret)
-+		return ret;
-+
-+	ret = __v4l2_ctrl_modify_range(imx334->pclk_ctrl, mode->pclk,
-+				       mode->pclk, 1, mode->pclk);
-+	if (ret)
-+		return ret;
-+
-+	ret = __v4l2_ctrl_modify_range(imx334->exp_ctrl, IMX334_EXPOSURE_MIN,
-+				       imx334->lpfr - IMX334_EXPOSURE_OFFSET,
-+				       1, IMX334_EXPOSURE_DEFAULT);
-+
-+	return ret;
-+}
-+
-+/**
-+ * imx334_update_exp_gain() - Set updated exposure and gain
-+ * @imx334: pointer to imx334 device
-+ * @exposure: updated exposure value
-+ * @gain: updated analog gain value
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_update_exp_gain(struct imx334 *imx334, u32 exposure, u32 gain)
-+{
-+	u32 shutter = 0;
-+	int ret;
-+
-+	shutter = imx334->lpfr - exposure;
-+
-+	dev_dbg(imx334->dev, "Set long exp %u analog gain %u sh0 %u lpfr %u",
-+		exposure, gain, shutter, imx334->lpfr);
-+
-+	ret = imx334_write_reg(imx334, IMX334_REG_HOLD, 1, 1);
-+	if (ret)
-+		return ret;
-+
-+	ret = imx334_write_reg(imx334, IMX334_REG_LPFR, 3, imx334->lpfr);
-+	if (ret)
-+		goto error_release_group_hold;
-+
-+	ret = imx334_write_reg(imx334, IMX334_REG_SHUTTER, 3, shutter);
-+	if (ret)
-+		goto error_release_group_hold;
-+
-+	ret = imx334_write_reg(imx334, IMX334_REG_AGAIN, 1, gain);
-+	if (ret)
-+		goto error_release_group_hold;
-+
-+	imx334_write_reg(imx334, IMX334_REG_HOLD, 1, 0);
-+
-+	return 0;
-+
-+error_release_group_hold:
-+	imx334_write_reg(imx334, IMX334_REG_HOLD, 1, 0);
-+	return ret;
-+}
-+
-+/**
-+ * imx334_set_ctrl() - Set subdevice control
-+ * @ctrl: pointer to v4l2_ctrl structure
-+ *
-+ * Supported controls:
-+ * - V4L2_CID_VBLANK
-+ * - cluster controls:
-+ *   - V4L2_CID_ANALOGUE_GAIN
-+ *   - V4L2_CID_EXPOSURE
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_set_ctrl(struct v4l2_ctrl *ctrl)
-+{
-+	struct imx334 *imx334 =
-+		container_of(ctrl->handler, struct imx334, ctrl_handler);
-+	u32 analog_gain;
-+	u32 exposure;
-+	int ret;
-+
-+	/* Set controls only if sensor is in power on state */
-+	if (!pm_runtime_get_if_in_use(imx334->dev))
-+		return 0;
-+
-+	/* Handle the cluster for both controls */
-+	switch (ctrl->id) {
-+	case V4L2_CID_VBLANK:
-+		imx334->lpfr = imx334->vblank_ctrl->val +
-+			imx334->cur_mode->height;
-+
-+		dev_dbg(imx334->dev, "Received vblank %u new lpfr %u",
-+			imx334->vblank_ctrl->val, imx334->lpfr);
-+
-+		ret = imx334_update_controls(imx334, imx334->cur_mode);
-+		break;
-+	case V4L2_CID_EXPOSURE:
-+		exposure = ctrl->val;
-+		analog_gain = imx334->again_ctrl->val;
-+
-+		dev_dbg(imx334->dev, "Received exp %u analog gain %u",
-+			exposure, analog_gain);
-+
-+		ret = imx334_update_exp_gain(imx334, exposure, analog_gain);
-+		break;
-+	default:
-+		dev_err(imx334->dev, "Invalid control %d", ctrl->id);
-+		ret = -EINVAL;
-+	}
-+
-+	pm_runtime_put(imx334->dev);
-+
-+	return ret;
-+}
-+
-+/* V4l2 subdevice control ops*/
-+static const struct v4l2_ctrl_ops imx334_ctrl_ops = {
-+	.s_ctrl = imx334_set_ctrl,
-+};
-+
-+/**
-+ * imx334_enum_mbus_code() - Enumerate V4L2 sub-device mbus codes
-+ * @sd: pointer to imx334 V4L2 sub-device structure
-+ * @cfg: V4L2 sub-device pad configuration
-+ * @code: V4L2 sub-device code enumeration need to be filled
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_enum_mbus_code(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_pad_config *cfg,
-+				 struct v4l2_subdev_mbus_code_enum *code)
-+{
-+	struct imx334 *imx334 = to_imx334(sd);
-+
-+	if (code->index > 0)
-+		return -EINVAL;
-+
-+	mutex_lock(&imx334->mutex);
-+	code->code = supported_mode.code;
-+	mutex_unlock(&imx334->mutex);
-+
-+	return 0;
-+}
-+
-+/**
-+ * imx334_enum_frame_size() - Enumerate V4L2 sub-device frame sizes
-+ * @sd: pointer to imx334 V4L2 sub-device structure
-+ * @cfg: V4L2 sub-device pad configuration
-+ * @fsize: V4L2 sub-device size enumeration need to be filled
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_enum_frame_size(struct v4l2_subdev *sd,
-+				  struct v4l2_subdev_pad_config *cfg,
-+				  struct v4l2_subdev_frame_size_enum *fsize)
-+{
-+	struct imx334 *imx334 = to_imx334(sd);
-+
-+	if (fsize->index > 0)
-+		return -EINVAL;
-+
-+	mutex_lock(&imx334->mutex);
-+	if (fsize->code != supported_mode.code) {
-+		mutex_unlock(&imx334->mutex);
-+		return -EINVAL;
-+	}
-+
-+	fsize->min_width = supported_mode.width;
-+	fsize->max_width = fsize->min_width;
-+	fsize->min_height = supported_mode.height;
-+	fsize->max_height = fsize->min_height;
-+	mutex_unlock(&imx334->mutex);
-+
-+	return 0;
-+}
-+
-+/**
-+ * imx334_fill_pad_format() - Fill subdevice pad format
-+ *                              from selected sensor mode
-+ * @imx334: pointer to imx334 device
-+ * @mode: Pointer to imx334_mode sensor mode
-+ * @fmt: V4L2 sub-device format need to be filled
-+ */
-+static void imx334_fill_pad_format(struct imx334 *imx334,
-+				   const struct imx334_mode *mode,
-+				   struct v4l2_subdev_format *fmt)
-+{
-+	fmt->format.width = mode->width;
-+	fmt->format.height = mode->height;
-+	fmt->format.code = mode->code;
-+	fmt->format.field = V4L2_FIELD_NONE;
-+}
-+
-+/**
-+ * imx334_get_pad_format() - Get subdevice pad format
-+ * @sd: pointer to imx334 V4L2 sub-device structure
-+ * @cfg: V4L2 sub-device pad configuration
-+ * @fmt: V4L2 sub-device format need to be set
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_get_pad_format(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_pad_config *cfg,
-+				 struct v4l2_subdev_format *fmt)
-+{
-+	struct imx334 *imx334 = to_imx334(sd);
-+
-+	mutex_lock(&imx334->mutex);
-+
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-+		struct v4l2_mbus_framefmt *framefmt;
-+
-+		framefmt = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
-+		fmt->format = *framefmt;
-+	} else {
-+		imx334_fill_pad_format(imx334, imx334->cur_mode, fmt);
-+	}
-+
-+	mutex_unlock(&imx334->mutex);
-+
-+	return 0;
-+}
-+
-+/**
-+ * imx334_set_pad_format() - Set subdevice pad format
-+ * @sd: pointer to imx334 V4L2 sub-device structure
-+ * @cfg: V4L2 sub-device pad configuration
-+ * @fmt: V4L2 sub-device format need to be set
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_set_pad_format(struct v4l2_subdev *sd,
-+				 struct v4l2_subdev_pad_config *cfg,
-+				 struct v4l2_subdev_format *fmt)
-+{
-+	struct imx334 *imx334 = to_imx334(sd);
-+	const struct imx334_mode *mode;
-+	int ret = 0;
-+
-+	mutex_lock(&imx334->mutex);
-+
-+	mode = &supported_mode;
-+	imx334_fill_pad_format(imx334, mode, fmt);
-+
-+	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
-+		struct v4l2_mbus_framefmt *framefmt;
-+
-+		framefmt = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
-+		*framefmt = fmt->format;
-+	} else {
-+		ret = imx334_update_controls(imx334, mode);
-+		if (ret)
-+			dev_err(imx334->dev, "failed to update ctls");
-+
-+		imx334->cur_mode = mode;
-+	}
-+
-+	mutex_unlock(&imx334->mutex);
-+
-+	return ret;
-+}
-+
-+/**
-+ * imx334_init_pad_cfg() - Initialize sub-device pad configuration
-+ * @sd: pointer to imx334 V4L2 sub-device structure
-+ * @cfg: V4L2 sub-device pad configuration
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_init_pad_cfg(struct v4l2_subdev *sd,
-+			       struct v4l2_subdev_pad_config *cfg)
-+{
-+	struct v4l2_subdev_format fmt = { 0 };
-+
-+	fmt.which = cfg ? V4L2_SUBDEV_FORMAT_TRY : V4L2_SUBDEV_FORMAT_ACTIVE;
-+	fmt.format.width = supported_mode.width;
-+	fmt.format.height = supported_mode.height;
-+	fmt.format.code = supported_mode.code;
-+	fmt.format.field = V4L2_FIELD_NONE;
-+
-+	return imx334_set_pad_format(sd, cfg, &fmt);
-+}
-+
-+/**
-+ * imx334_start_streaming() - Start sensor stream
-+ * @imx334: pointer to imx334 device
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_start_streaming(struct imx334 *imx334)
-+{
-+	const struct imx334_reg_list *reg_list;
-+	int ret;
-+
-+	/* Write sensor mode registers */
-+	reg_list = &imx334->cur_mode->reg_list;
-+	ret = imx334_write_regs(imx334, reg_list->regs,
-+				reg_list->num_of_regs);
-+	if (ret) {
-+		dev_err(imx334->dev, "fail to write initial registers");
-+		return ret;
-+	}
-+
-+	/* Setup handler will write actual exposure and gain */
-+	ret =  __v4l2_ctrl_handler_setup(imx334->sd.ctrl_handler);
-+	if (ret) {
-+		dev_err(imx334->dev, "fail to setup handler");
-+		return ret;
-+	}
-+
-+	/* Start streaming */
-+	ret = imx334_write_reg(imx334, IMX334_REG_MODE_SELECT,
-+			       1, IMX334_MODE_STREAMING);
-+	if (ret) {
-+		dev_err(imx334->dev, "fail to start streaming");
-+		return ret;
-+	}
-+
-+	return 0;
-+}
-+
-+/**
-+ * imx334_stop_streaming() - Stop sensor stream
-+ * @imx334: pointer to imx334 device
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_stop_streaming(struct imx334 *imx334)
-+{
-+	return imx334_write_reg(imx334, IMX334_REG_MODE_SELECT,
-+				1, IMX334_MODE_STANDBY);
-+}
-+
-+/**
-+ * imx334_set_stream() - Enable sensor streaming
-+ * @sd: pointer to imx334 subdevice
-+ * @enable: Set to enable sensor streaming
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_set_stream(struct v4l2_subdev *sd, int enable)
-+{
-+	struct imx334 *imx334 = to_imx334(sd);
-+	int ret;
-+
-+	mutex_lock(&imx334->mutex);
-+
-+	if (imx334->streaming == enable) {
-+		mutex_unlock(&imx334->mutex);
-+		return 0;
-+	}
-+
-+	if (enable) {
-+		ret = pm_runtime_get_sync(imx334->dev);
-+		if (ret)
-+			goto error_power_off;
-+
-+		ret = imx334_start_streaming(imx334);
-+		if (ret)
-+			goto error_power_off;
-+	} else {
-+		imx334_stop_streaming(imx334);
-+		pm_runtime_put(imx334->dev);
-+	}
-+
-+	imx334->streaming = enable;
-+
-+	mutex_unlock(&imx334->mutex);
-+
-+	return 0;
-+
-+error_power_off:
-+	pm_runtime_put(imx334->dev);
-+	mutex_unlock(&imx334->mutex);
-+
-+	return ret;
-+}
-+
-+/**
-+ * imx334_detect() - Detect imx334 sensor
-+ * @imx334: pointer to imx334 device
-+ *
-+ * Return: 0 if successful, -EIO if sensor id does not match
-+ */
-+static int imx334_detect(struct imx334 *imx334)
-+{
-+	int ret;
-+	u32 val;
-+
-+	ret = imx334_read_reg(imx334, IMX334_REG_ID, 2, &val);
-+	if (ret)
-+		return ret;
-+
-+	if (val != IMX334_ID) {
-+		dev_err(imx334->dev, "chip id mismatch: %x!=%x",
-+			IMX334_ID, val);
-+		return -EIO;
-+	}
-+
-+	return 0;
-+}
-+
-+/* V4l2 subdevice ops */
-+static const struct v4l2_subdev_video_ops imx334_video_ops = {
-+	.s_stream = imx334_set_stream,
-+};
-+
-+static const struct v4l2_subdev_pad_ops imx334_pad_ops = {
-+	.init_cfg = imx334_init_pad_cfg,
-+	.enum_mbus_code = imx334_enum_mbus_code,
-+	.enum_frame_size = imx334_enum_frame_size,
-+	.get_fmt = imx334_get_pad_format,
-+	.set_fmt = imx334_set_pad_format,
-+};
-+
-+static const struct v4l2_subdev_ops imx334_subdev_ops = {
-+	.video = &imx334_video_ops,
-+	.pad = &imx334_pad_ops,
-+};
-+
-+static const struct media_entity_operations imx334_subdev_entity_ops = {
-+	.link_validate = v4l2_subdev_link_validate,
-+};
-+
-+/**
-+ * imx334_power_on() - Sensor power on sequence
-+ * @dev: pointer to i2c device
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_power_on(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct imx334 *imx334 = to_imx334(sd);
-+	int ret;
-+
-+	gpiod_set_value_cansleep(imx334->reset_gpio, 1);
-+
-+	ret = clk_prepare_enable(imx334->inclk);
-+	if (ret) {
-+		dev_err(imx334->dev, "fail to enable inclk");
-+		goto error_reset;
-+	}
-+
-+	usleep_range(18000, 20000);
-+
-+	return 0;
-+
-+error_reset:
-+	gpiod_set_value_cansleep(imx334->reset_gpio, 0);
-+
-+	return ret;
-+}
-+
-+/**
-+ * imx334_power_off() - Sensor power off sequence
-+ * @dev: pointer to i2c device
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_power_off(struct device *dev)
-+{
-+	struct v4l2_subdev *sd = dev_get_drvdata(dev);
-+	struct imx334 *imx334 = to_imx334(sd);
-+
-+	gpiod_set_value_cansleep(imx334->reset_gpio, 0);
-+
-+	clk_disable_unprepare(imx334->inclk);
-+
-+	return 0;
-+}
-+
-+/**
-+ * imx334_init_controls() - Initialize sensor subdevice controls
-+ * @imx334: pointer to imx334 device
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_init_controls(struct imx334 *imx334)
-+{
-+	struct v4l2_ctrl_handler *ctrl_hdlr = &imx334->ctrl_handler;
-+	const struct imx334_mode *mode = imx334->cur_mode;
-+	u32 hblank;
-+	u32 vblank;
-+	int ret;
-+
-+	ret = v4l2_ctrl_handler_init(ctrl_hdlr, 5);
-+	if (ret)
-+		return ret;
-+
-+	/* Serialize controls with sensor device */
-+	ctrl_hdlr->lock = &imx334->mutex;
-+
-+	/* Initialize exposure and gain */
-+	imx334->exp_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-+					     &imx334_ctrl_ops,
-+					     V4L2_CID_EXPOSURE,
-+					     IMX334_EXPOSURE_MIN,
-+					     mode->lpfr,
-+					     IMX334_EXPOSURE_STEP,
-+					     IMX334_EXPOSURE_DEFAULT);
-+
-+	imx334->again_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-+					       &imx334_ctrl_ops,
-+					       V4L2_CID_ANALOGUE_GAIN,
-+					       IMX334_AGAIN_MIN,
-+					       IMX334_AGAIN_MAX,
-+					       IMX334_AGAIN_STEP,
-+					       IMX334_AGAIN_DEFAULT);
-+
-+	v4l2_ctrl_cluster(2, &imx334->exp_ctrl);
-+
-+	vblank = mode->lpfr - mode->height;
-+	imx334->vblank_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-+						&imx334_ctrl_ops,
-+						V4L2_CID_VBLANK,
-+						IMX334_LPFR_MIN - mode->height,
-+						IMX334_LPFR_MAX - mode->height,
-+						1, vblank);
-+
-+	/* Read only controls */
-+	imx334->pclk_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-+					      &imx334_ctrl_ops,
-+					      V4L2_CID_PIXEL_RATE,
-+					      mode->pclk, mode->pclk,
-+					      1, mode->pclk);
-+	if (imx334->pclk_ctrl)
-+		imx334->pclk_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	hblank = mode->ppln - mode->width;
-+	imx334->hblank_ctrl = v4l2_ctrl_new_std(ctrl_hdlr,
-+						&imx334_ctrl_ops,
-+						V4L2_CID_HBLANK,
-+						IMX334_REG_MIN,
-+						IMX334_REG_MAX,
-+						1, hblank);
-+	if (imx334->hblank_ctrl)
-+		imx334->hblank_ctrl->flags |= V4L2_CTRL_FLAG_READ_ONLY;
-+
-+	if (ctrl_hdlr->error) {
-+		ret = ctrl_hdlr->error;
-+		dev_err(imx334->dev, "control init failed: %d", ret);
-+		goto error;
-+	}
-+
-+	imx334->sd.ctrl_handler = ctrl_hdlr;
-+
-+	return 0;
-+
-+error:
-+	v4l2_ctrl_handler_free(ctrl_hdlr);
-+
-+	return ret;
-+}
-+
-+/**
-+ * imx334_probe() - I2C client device binding
-+ * @client: pointer to i2c client device
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_probe(struct i2c_client *client)
-+{
-+	struct imx334 *imx334;
-+	unsigned long rate;
-+	int ret;
-+
-+	imx334 = devm_kzalloc(&client->dev, sizeof(*imx334), GFP_KERNEL);
-+	if (!imx334)
-+		return -ENOMEM;
-+
-+	mutex_init(&imx334->mutex);
-+
-+	imx334->dev = &client->dev;
-+
-+	/* Initialize subdev */
-+	v4l2_i2c_subdev_init(&imx334->sd, client, &imx334_subdev_ops);
-+
-+	/* Request optional reset pin */
-+	imx334->reset_gpio = gpiod_get_optional(imx334->dev, "reset",
-+						GPIOD_OUT_LOW);
-+	if (IS_ERR(imx334->reset_gpio)) {
-+		ret = PTR_ERR(imx334->reset_gpio);
-+		dev_err(imx334->dev, "failed to get reset gpio %d", ret);
-+		goto error_mutex_destroy;
-+	}
-+
-+	/* Get sensor input clock */
-+	imx334->inclk = devm_clk_get(imx334->dev, "inclk");
-+	if (IS_ERR(imx334->inclk)) {
-+		ret = PTR_ERR(imx334->inclk);
-+		dev_err(imx334->dev, "could not get inclk");
-+		goto error_mutex_destroy;
-+	}
-+
-+	rate = clk_get_rate(imx334->inclk);
-+	if (rate != IMX334_INCLK_RATE) {
-+		dev_err(imx334->dev, "inclk frequency mismatch");
-+		ret = -EINVAL;
-+		goto error_mutex_destroy;
-+	}
-+
-+	ret = imx334_power_on(imx334->dev);
-+	if (ret) {
-+		dev_err(imx334->dev, "failed to power-on the sensor");
-+		goto error_mutex_destroy;
-+	}
-+
-+	/* Check module identity */
-+	ret = imx334_detect(imx334);
-+	if (ret) {
-+		dev_err(imx334->dev, "failed to find sensor: %d", ret);
-+		goto error_power_off;
-+	}
-+
-+	/* Set default mode to max resolution */
-+	imx334->cur_mode = &supported_mode;
-+	imx334->lpfr = imx334->cur_mode->lpfr;
-+
-+	ret = imx334_init_controls(imx334);
-+	if (ret) {
-+		dev_err(imx334->dev, "failed to init controls: %d", ret);
-+		goto error_power_off;
-+	}
-+
-+	/* Initialize subdev */
-+	imx334->sd.flags |= V4L2_SUBDEV_FL_HAS_DEVNODE;
-+	imx334->sd.entity.ops = &imx334_subdev_entity_ops;
-+	imx334->sd.entity.function = MEDIA_ENT_F_CAM_SENSOR;
-+
-+	/* Initialize source pad */
-+	imx334->pad.flags = MEDIA_PAD_FL_SOURCE;
-+	ret = media_entity_pads_init(&imx334->sd.entity, 1, &imx334->pad);
-+	if (ret) {
-+		dev_err(imx334->dev, "failed to init entity pads: %d", ret);
-+		goto error_handler_free;
-+	}
-+
-+	ret = v4l2_async_register_subdev_sensor_common(&imx334->sd);
-+	if (ret < 0) {
-+		dev_err(imx334->dev,
-+			"failed to register async subdev: %d", ret);
-+		goto error_media_entity;
-+	}
-+
-+	pm_runtime_set_active(imx334->dev);
-+	pm_runtime_enable(imx334->dev);
-+	pm_runtime_idle(imx334->dev);
-+
-+	return 0;
-+
-+error_media_entity:
-+	media_entity_cleanup(&imx334->sd.entity);
-+error_handler_free:
-+	v4l2_ctrl_handler_free(imx334->sd.ctrl_handler);
-+error_power_off:
-+	imx334_power_off(imx334->dev);
-+error_mutex_destroy:
-+	mutex_destroy(&imx334->mutex);
-+
-+	return ret;
-+}
-+
-+/**
-+ * imx334_remove() - I2C client device unbinding
-+ * @client: pointer to I2C client device
-+ *
-+ * Return: 0 if successful, error code otherwise.
-+ */
-+static int imx334_remove(struct i2c_client *client)
-+{
-+	struct v4l2_subdev *sd = i2c_get_clientdata(client);
-+	struct imx334 *imx334 = to_imx334(sd);
-+
-+	v4l2_async_unregister_subdev(sd);
-+	media_entity_cleanup(&sd->entity);
-+	v4l2_ctrl_handler_free(sd->ctrl_handler);
-+
-+	pm_runtime_disable(&client->dev);
-+	pm_runtime_suspended(&client->dev);
-+
-+	mutex_destroy(&imx334->mutex);
-+
-+	return 0;
-+}
-+
-+static const struct dev_pm_ops imx334_pm_ops = {
-+	SET_RUNTIME_PM_OPS(imx334_power_off, imx334_power_on, NULL)
-+};
-+
-+static const struct of_device_id imx334_of_match[] = {
-+	{ .compatible = "sony,imx334" },
-+	{ }
-+};
-+
-+MODULE_DEVICE_TABLE(of, imx334_of_match);
-+
-+static struct i2c_driver imx334_driver = {
-+	.probe_new = imx334_probe,
-+	.remove = imx334_remove,
-+	.driver = {
-+		.name = IMX334_DRV_NAME,
-+		.pm = &imx334_pm_ops,
-+		.of_match_table = imx334_of_match,
-+	},
-+};
-+
-+module_i2c_driver(imx334_driver);
-+
-+MODULE_DESCRIPTION("Sony imx334 sensor driver");
-+MODULE_LICENSE("GPL");
--- 
-2.11.0
+mmsys is defined in mediatek,mmsys.txt [1], so move this there.
 
+[1] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/Documentation/devicetree/bindings/arm/mediatek/mediatek,mmsys.txt?h=3Dv5.1=
+0-rc4
+
+> +- mdp-comps:
+> +        "mediatek,mt8183-mdp-dl"    - MDP direct link input path selecti=
+on,
+> +                                      create a component for path connec=
+tedness
+> +                                      of HW pipe control; Align with
+> +                                      mdp_comp_of_ids[] in mtk-mdp3-comp=
+.c.
+> +- mdp-comp-ids: Index of the input paths, the number aligns with
+> +  mdp_comp_matches[] in mtk-mdp3-comp.c.
+> +- reg: Physical base address and length of the function block register s=
+pace.
+> +- clocks: device clocks, see
+> +  Documentation/devicetree/bindings/clock/clock-bindings.txt for details=
+.
+> +
+> +Required properties (ISP PASS2 (DIP) module path selection node):
+> +- compatible:
+> +        "mediatek,mt8183-imgsys"    - For ISP PASS2 (DIP) modules frame =
+sync
+> +                                      control with MDP.
+
+imgsys is defined in mediatek,imgsys.txt [2], so move this there.
+
+[2] https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/tree=
+/Documentation/devicetree/bindings/arm/mediatek/mediatek,imgsys.txt?h=3Dv5.=
+10-rc4
+
+> +- mdp-comps:
+> +        "mediatek,mt8183-mdp-imgi"  - Input DMA of ISP PASS2 (DIP) modul=
+e for
+> +                                      raw image input.
+> +        "mediatek,mt8183-mdp-exto"  - Output DMA of ISP PASS2 (DIP) modu=
+le for
+> +                                      yuv image output.
+> +- mdp-comp-ids: Index of the modules, the number aligns with mdp_comp_ma=
+tches[]
+> +  in mtk-mdp3-comp.c.
+> +- reg: Physical base address and length of the function block register s=
+pace.
+> +- mediatek,mdp-id: HW index to distinguish same functionality modules.
+> +
+> +Example:
+> +               mmsys: syscon@14000000 {
+> +                       compatible =3D "mediatek,mt8183-mmsys", "syscon";
+> +                       mdp-comps =3D "mediatek,mt8183-mdp-dl",
+> +                                   "mediatek,mt8183-mdp-dl";
+> +                       mdp-comp-ids =3D <0 1>;
+> +                       reg =3D <0 0x14000000 0 0x1000>;
+> +                       mediatek,gce-client-reg =3D <&gce SUBSYS_1400XXXX=
+ 0 0x1000>;
+> +                       #clock-cells =3D <1>;
+> +                       clocks =3D <&mmsys CLK_MM_MDP_DL_TXCK>,
+> +                                <&mmsys CLK_MM_MDP_DL_RX>,
+> +                                <&mmsys CLK_MM_IPU_DL_TXCK>,
+> +                                <&mmsys CLK_MM_IPU_DL_RX>;
+> +               };
+> +
+> +               mdp_rdma0: mdp-rdma0@14001000 {
+> +                       compatible =3D "mediatek,mt8183-mdp-rdma",
+> +                                    "mediatek,mt8183-mdp3";
+> +                       mediatek,scp =3D <&scp>;
+> +                       mediatek,mdp-id =3D <0>;
+> +                       reg =3D <0 0x14001000 0 0x1000>;
+> +                       mediatek,gce-client-reg =3D <&gce SUBSYS_1400XXXX=
+ 0x1000 0x1000>;
+> +                       power-domains =3D <&scpsys MT8183_POWER_DOMAIN_DI=
+SP>;
+> +                       clocks =3D <&mmsys CLK_MM_MDP_RDMA0>,
+> +                                <&mmsys CLK_MM_MDP_RSZ1>;
+
+Why place CLK_MM_MDP_RSZ1 in mdp_rdma0 device?
+
+> +                       iommus =3D <&iommu M4U_PORT_MDP_RDMA0>;
+> +                       mediatek,larb =3D <&larb0>;
+> +                       mediatek,mmsys =3D <&mmsys>;
+> +                       mediatek,mm-mutex =3D <&mutex>;
+> +                       mediatek,imgsys =3D <&imgsys>;
+> +                       mediatek,mailbox-gce =3D <&gce>;
+> +                       mboxes =3D <&gce 20 CMDQ_THR_PRIO_LOWEST 0>,
+> +                                <&gce 21 CMDQ_THR_PRIO_LOWEST 0>,
+> +                                <&gce 22 CMDQ_THR_PRIO_LOWEST 0>,
+> +                                <&gce 23 CMDQ_THR_PRIO_LOWEST 0>;
+> +                       gce-subsys =3D <&gce 0x14000000 SUBSYS_1400XXXX>,
+> +                                    <&gce 0x14010000 SUBSYS_1401XXXX>,
+> +                                    <&gce 0x14020000 SUBSYS_1402XXXX>,
+> +                                    <&gce 0x15020000 SUBSYS_1502XXXX>;
+> +                       mediatek,gce-events =3D <CMDQ_EVENT_MDP_RDMA0_SOF=
+>,
+> +                                             <CMDQ_EVENT_MDP_RDMA0_EOF>,
+> +                                             <CMDQ_EVENT_MDP_RSZ0_SOF>,
+
+mdp_rsz0 send CMDQ_EVENT_MDP_RSZ0_SOF to gce, so move
+CMDQ_EVENT_MDP_RSZ0_SOF to mdp_rsz0.
+
+> +                                             <CMDQ_EVENT_MDP_RSZ1_SOF>,
+> +                                             <CMDQ_EVENT_MDP_TDSHP_SOF>,
+> +                                             <CMDQ_EVENT_MDP_WROT0_SOF>,
+> +                                             <CMDQ_EVENT_MDP_WROT0_EOF>,
+> +                                             <CMDQ_EVENT_MDP_WDMA0_SOF>,
+> +                                             <CMDQ_EVENT_MDP_WDMA0_EOF>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_0>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_1>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_2>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_3>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_4>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_5>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_6>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_7>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_8>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_9>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_10>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_11>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_12>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_13>,
+> +                                             <CMDQ_EVENT_ISP_FRAME_DONE_=
+P2_14>,
+> +                                             <CMDQ_EVENT_WPE_A_DONE>,
+
+warp send CMDQ_EVENT_WPE_A_DONE to gce, so move CMDQ_EVENT_WPE_A_DONE
+to warp device.
+
+Regards,
+Chun-Kuang.
+
+> +                                             <CMDQ_EVENT_SPE_B_DONE>;
+> +               };
+> +
+> +               mdp_rsz0: mdp-rsz0@14003000 {
+> +                       compatible =3D "mediatek,mt8183-mdp-rsz";
+> +                       mediatek,mdp-id =3D <0>;
+> +                       reg =3D <0 0x14003000 0 0x1000>;
+> +                       mediatek,gce-client-reg =3D <&gce SUBSYS_1400XXXX=
+ 0x3000 0x1000>;
+> +                       clocks =3D <&mmsys CLK_MM_MDP_RSZ0>;
+> +               };
+> +
+> +               mdp_rsz1: mdp-rsz1@14004000 {
+> +                       compatible =3D "mediatek,mt8183-mdp-rsz";
+> +                       mediatek,mdp-id =3D <1>;
+> +                       reg =3D <0 0x14004000 0 0x1000>;
+> +                       mediatek,gce-client-reg =3D <&gce SUBSYS_1400XXXX=
+ 0x4000 0x1000>;
+> +                       clocks =3D <&mmsys CLK_MM_MDP_RSZ1>;
+> +               };
+> +
+> +               mdp_wrot0: mdp-wrot0@14005000 {
+> +                       compatible =3D "mediatek,mt8183-mdp-wrot";
+> +                       mediatek,mdp-id =3D <0>;
+> +                       mdp-comps =3D "mediatek,mt8183-mdp-path";
+> +                       mdp-comp-ids =3D <0>;
+> +                       reg =3D <0 0x14005000 0 0x1000>;
+> +                       power-domains =3D <&scpsys MT8183_POWER_DOMAIN_DI=
+SP>;
+> +                       mediatek,gce-client-reg =3D <&gce SUBSYS_1400XXXX=
+ 0x5000 0x1000>;
+> +                       clocks =3D <&mmsys CLK_MM_MDP_WROT0>;
+> +                       iommus =3D <&iommu M4U_PORT_MDP_WROT0>;
+> +                       mediatek,larb =3D <&larb0>;
+> +               };
+> +
+> +               mdp_wdma: mdp-wdma@14006000 {
+> +                       compatible =3D "mediatek,mt8183-mdp-wdma";
+> +                       mediatek,mdp-id =3D <0>;
+> +                       mdp-comps =3D "mediatek,mt8183-mdp-path";
+> +                       mdp-comp-ids =3D <1>;
+> +                       reg =3D <0 0x14006000 0 0x1000>;
+> +                       power-domains =3D <&scpsys MT8183_POWER_DOMAIN_DI=
+SP>;
+> +                       mediatek,gce-client-reg =3D <&gce SUBSYS_1400XXXX=
+ 0x6000 0x1000>;
+> +                       clocks =3D <&mmsys CLK_MM_MDP_WDMA0>;
+> +                       iommus =3D <&iommu M4U_PORT_MDP_WDMA0>;
+> +                       mediatek,larb =3D <&larb0>;
+> +               };
+> +
+> +               mdp_ccorr: mdp-ccorr@1401c000 {
+> +                       compatible =3D "mediatek,mt8183-mdp-ccorr";
+> +                       mediatek,mdp-id =3D <0>;
+> +                       reg =3D <0 0x1401c000 0 0x1000>;
+> +                       mediatek,gce-client-reg =3D <&gce SUBSYS_1401XXXX=
+ 0xc000 0x1000>;
+> +                       clocks =3D <&mmsys CLK_MM_MDP_CCORR>;
+> +               };
+> +
+> +               imgsys: syscon@15020000 {
+> +                       compatible =3D "mediatek,mt8183-imgsys", "syscon"=
+;
+> +                       mediatek,mdp-id =3D <0>;
+> +                       mdp-comps =3D "mediatek,mt8183-mdp-imgi",
+> +                                   "mediatek,mt8183-mdp-exto";
+> +                       mdp-comp-ids =3D <0 1>;
+> +                       reg =3D <0 0x15020000 0 0x1000>;
+> +                       mediatek,gce-client-reg =3D <&gce SUBSYS_1502XXXX=
+ 0 0x1000>;
+> +                       #clock-cells =3D <1>;
+> +               };
+> --
+> 2.18.0
+> _______________________________________________
+> Linux-mediatek mailing list
+> Linux-mediatek@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-mediatek
