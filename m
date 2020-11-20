@@ -2,134 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A079D2BB082
-	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 17:29:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36F062BB191
+	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 18:41:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729332AbgKTQ1g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Nov 2020 11:27:36 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:41128 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728674AbgKTQ1g (ORCPT
+        id S1728860AbgKTRjU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Nov 2020 12:39:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33324 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728820AbgKTRjU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Nov 2020 11:27:36 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AKGONgw044473;
-        Fri, 20 Nov 2020 16:27:29 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=7cUvMP+zau22+fG8ckgh05C1KqV7v5V8dGnggmf5W90=;
- b=KuYJPQYB+aUOkwTcT+MWZ3WZyp4aUNoi+0pfhcvHC+FlLNu4eUVHXMTiErWJeWI50rU6
- 10s8uWv55JNq7bhVjOeZGHe88GEUY6BrKop+UKanStd3gUfpIbUcet4PhEdCLSapVOEr
- QZHgodADKiJoSlkky+B6Klt7eYAjgcCPXSX/cCPlrZJqVbl4XCuAoCBak4v4kB3i36Wo
- DIjqUwo2W3YZ6sXarHpfrpwLqyxbXDyRMBm5BQLFYP50jCatuXfWVjjcjh+/ggcW5tuv
- wdATvFSNTXs+slba5KjEs/KrRyPuV1bYXiQOdg5O44SbMQ1srXSLEZDtRkqnv3Pkzb0+ UA== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2130.oracle.com with ESMTP id 34t4rbbk24-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Fri, 20 Nov 2020 16:27:29 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0AKGQk1Z148375;
-        Fri, 20 Nov 2020 16:27:28 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3030.oracle.com with ESMTP id 34ts61rwet-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Fri, 20 Nov 2020 16:27:28 +0000
-Received: from abhmp0015.oracle.com (abhmp0015.oracle.com [141.146.116.21])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0AKGRP7F005788;
-        Fri, 20 Nov 2020 16:27:26 GMT
-Received: from mwanda (/41.57.98.10)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Fri, 20 Nov 2020 08:27:25 -0800
-Date:   Fri, 20 Nov 2020 19:27:18 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Alan Cox <alan@linux.intel.com>, linux-media@vger.kernel.org,
-        devel@driverdev.osuosl.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: atomisp: Fix a buffer overflow in debug code
-Message-ID: <20201120162718.GA3506662@mwanda>
+        Fri, 20 Nov 2020 12:39:20 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 366E9C0613CF
+        for <linux-media@vger.kernel.org>; Fri, 20 Nov 2020 09:39:20 -0800 (PST)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 324D3240;
+        Fri, 20 Nov 2020 18:39:17 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1605893957;
+        bh=0epi1bPOjzu+ioEotkJMMOHNz2huDY7dgPzDI83Kuik=;
+        h=Reply-To:Subject:To:References:From:Date:In-Reply-To:From;
+        b=FuXQ7UZYlayFe1urf0oJgUvrw4sKT8ogey9f48vGe31tw2y6+/59sdtsw9rBlkhV3
+         qWGzsxlZD9cZ3s+o5NX9Bs9ScZFFPYniRQvTL5ltLlu3+/8LEDu597IZzhwepdNoKt
+         tMNpEaFm8J03zInYzCMxMvCrkDJyqTEtbepFBS0s=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH] media: uvcvideo: Force UVC version to 1.0a for 1bcf:0b40
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org
+References: <20201120153055.16803-1-laurent.pinchart@ideasonboard.com>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <7a698f20-1edc-f36c-99a9-3653851fbd7c@ideasonboard.com>
+Date:   Fri, 20 Nov 2020 17:39:14 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9810 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 adultscore=0 spamscore=0 phishscore=0
- suspectscore=0 mlxscore=0 malwarescore=0 bulkscore=0 mlxlogscore=999
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2011200112
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9810 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 clxscore=1011
- malwarescore=0 impostorscore=0 lowpriorityscore=0 priorityscore=1501
- mlxlogscore=999 adultscore=0 phishscore=0 suspectscore=0 spamscore=0
- mlxscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2011200112
+In-Reply-To: <20201120153055.16803-1-laurent.pinchart@ideasonboard.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The "pad" variable is a user controlled string and we haven't properly
-clamped it at this point so the debug code could print from beyond the
-of the array.
+Hi Laurent,
 
-Fixes: a49d25364dfb ("staging/atomisp: Add support for the Intel IPU v2")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
-Not tested.
+On 20/11/2020 15:30, Laurent Pinchart wrote:
+> The Shenzhen Aoni Electronic Co.,Ltd 2K FHD camera reports a UVC 1.10
+> version, but implements UVC 1.0a as shown by the UVC probe control being
+> 26 bytes long. Force the UVC version for that device.
+> 
 
- .../media/atomisp/pci/atomisp_subdev.c        | 24 ++++++++++++-------
- 1 file changed, 16 insertions(+), 8 deletions(-)
+I wonder if that was a typo someone made confusing 0xa with '10' some
+point in the development?
 
-diff --git a/drivers/staging/media/atomisp/pci/atomisp_subdev.c b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-index 52b9fb18c87f..dcc2dd981ca6 100644
---- a/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-+++ b/drivers/staging/media/atomisp/pci/atomisp_subdev.c
-@@ -349,12 +349,20 @@ static int isp_subdev_get_selection(struct v4l2_subdev *sd,
- 	return 0;
- }
- 
--static char *atomisp_pad_str[] = { "ATOMISP_SUBDEV_PAD_SINK",
--				   "ATOMISP_SUBDEV_PAD_SOURCE_CAPTURE",
--				   "ATOMISP_SUBDEV_PAD_SOURCE_VF",
--				   "ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW",
--				   "ATOMISP_SUBDEV_PAD_SOURCE_VIDEO"
--				 };
-+static const char *atomisp_pad_str(unsigned int pad)
-+{
-+	static const char *const pad_str[] = {
-+		"ATOMISP_SUBDEV_PAD_SINK",
-+		"ATOMISP_SUBDEV_PAD_SOURCE_CAPTURE",
-+		"ATOMISP_SUBDEV_PAD_SOURCE_VF",
-+		"ATOMISP_SUBDEV_PAD_SOURCE_PREVIEW",
-+		"ATOMISP_SUBDEV_PAD_SOURCE_VIDEO",
-+	};
-+
-+	if (pad >= ARRAY_SIZE(pad_str))
-+		return "ATOMISP_INVALID_PAD";
-+	return pad_str[pad];
-+}
- 
- int atomisp_subdev_set_selection(struct v4l2_subdev *sd,
- 				 struct v4l2_subdev_pad_config *cfg,
-@@ -378,7 +386,7 @@ int atomisp_subdev_set_selection(struct v4l2_subdev *sd,
- 
- 	dev_dbg(isp->dev,
- 		"sel: pad %s tgt %s l %d t %d w %d h %d which %s f 0x%8.8x\n",
--		atomisp_pad_str[pad], target == V4L2_SEL_TGT_CROP
-+		atomisp_pad_str(pad), target == V4L2_SEL_TGT_CROP
- 		? "V4L2_SEL_TGT_CROP" : "V4L2_SEL_TGT_COMPOSE",
- 		r->left, r->top, r->width, r->height,
- 		which == V4L2_SUBDEV_FORMAT_TRY ? "V4L2_SUBDEV_FORMAT_TRY"
-@@ -612,7 +620,7 @@ void atomisp_subdev_set_ffmt(struct v4l2_subdev *sd,
- 	enum atomisp_input_stream_id stream_id;
- 
- 	dev_dbg(isp->dev, "ffmt: pad %s w %d h %d code 0x%8.8x which %s\n",
--		atomisp_pad_str[pad], ffmt->width, ffmt->height, ffmt->code,
-+		atomisp_pad_str(pad), ffmt->width, ffmt->height, ffmt->code,
- 		which == V4L2_SUBDEV_FORMAT_TRY ? "V4L2_SUBDEV_FORMAT_TRY"
- 		: "V4L2_SUBDEV_FORMAT_ACTIVE");
- 
--- 
-2.29.2
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Reported-by: Doncho Minkov <donchominkov@gmail.com>
+> Tested-by: Doncho Minkov <donchominkov@gmail.com>
 
+Painful to manually track these things, but I see the UVC driver already
+handles lots of quirks like that.
+
+So:
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
+> ---
+>  drivers/media/usb/uvc/uvc_driver.c | 17 +++++++++++++++++
+>  drivers/media/usb/uvc/uvcvideo.h   |  1 +
+>  2 files changed, 18 insertions(+)
+> 
+> diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
+> index ddb9eaa11be7..ae970f19bfca 100644
+> --- a/drivers/media/usb/uvc/uvc_driver.c
+> +++ b/drivers/media/usb/uvc/uvc_driver.c
+> @@ -2274,6 +2274,12 @@ static int uvc_probe(struct usb_interface *intf,
+>  			"linux-uvc-devel mailing list.\n");
+>  	}
+>  
+> +	if (dev->info->uvc_version) {
+> +		dev->uvc_version = dev->info->uvc_version;
+> +		uvc_printk(KERN_INFO, "Forcing UVC version to %u.%02x\n",
+> +			   dev->uvc_version >> 8, dev->uvc_version & 0xff);
+> +	}
+> +
+>  	/* Register the V4L2 device. */
+>  	if (v4l2_device_register(&intf->dev, &dev->vdev) < 0)
+>  		goto error;
+> @@ -2923,6 +2929,17 @@ static const struct usb_device_id uvc_ids[] = {
+>  	  .bInterfaceSubClass	= 1,
+>  	  .bInterfaceProtocol	= 0,
+>  	  .driver_info		= (kernel_ulong_t)&uvc_quirk_probe_minmax },
+> +	/* Shenzhen Aoni Electronic Co.,Ltd 2K FHD camera */
+> +	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+> +				| USB_DEVICE_ID_MATCH_INT_INFO,
+> +	  .idVendor		= 0x1bcf,
+> +	  .idProduct		= 0x0b40,
+> +	  .bInterfaceClass	= USB_CLASS_VIDEO,
+> +	  .bInterfaceSubClass	= 1,
+> +	  .bInterfaceProtocol	= 0,
+> +	  .driver_info		= (kernel_ulong_t)&(const struct uvc_device_info){
+> +		.uvc_version = 0x010a,
+> +	  } },
+>  	/* SiGma Micro USB Web Camera */
+>  	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
+>  				| USB_DEVICE_ID_MATCH_INT_INFO,
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index a3dfacf069c4..8ec9eca07f06 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -635,6 +635,7 @@ static inline u32 uvc_urb_index(const struct uvc_urb *uvc_urb)
+>  struct uvc_device_info {
+>  	u32	quirks;
+>  	u32	meta_format;
+> +	u16	uvc_version;
+>  };
+>  
+>  struct uvc_device {
+> 
