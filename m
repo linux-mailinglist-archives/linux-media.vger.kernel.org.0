@@ -2,76 +2,80 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 762D22BAB23
-	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 14:31:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5E8742BABD9
+	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 15:28:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727227AbgKTNb0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Nov 2020 08:31:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51360 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726255AbgKTNbZ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Nov 2020 08:31:25 -0500
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 66F5FC0613CF
-        for <linux-media@vger.kernel.org>; Fri, 20 Nov 2020 05:31:25 -0800 (PST)
-Received: by mail-lf1-x142.google.com with SMTP id w142so13446627lff.8
-        for <linux-media@vger.kernel.org>; Fri, 20 Nov 2020 05:31:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=kLH0OGgbTBQgr1BhqOOxL+SRFwucXklLFSza60U5gmw=;
-        b=JKEUq0NEzlifFWaBA0D5lpOCB04lQlGFemaSKS3XzHa6RVCpvPxPOYXGJ7003oIDTI
-         dMmWk6pBpkgepW/ySiTZemD8gvfPu4w6wimX0PYxJ20vLsk3gl41t2vYIqYJ56rTHzkK
-         d8JZRqwCu6nxm4e/30FpGxqx+wiAOCDO1E9Qt22yKm9Shm9O3u3VdlJpBTT7HE5O/SK8
-         yTrFPuK9h+rL1z5/UR80zns/AJcIB8M8HLavZRzmpJaEqBO5HrH8hKEPVRLVFM9dlZfu
-         HnAH9MOd2N/ZjqcndFEklFUVo1V0haiHnnQ8xv3+54jY4sGe7j084GdI8DSRlLCTd+Fd
-         4BrA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=kLH0OGgbTBQgr1BhqOOxL+SRFwucXklLFSza60U5gmw=;
-        b=XwWE0/O3mNJpYYKSeIksbq++bkAteCQrebmSs9sgj4rWL136pTbxbmGhEwSQSKymIS
-         FFsr78PJ26Q7wfgWuId0qVuNsfKvP1RatGq1ulss29A9iXXsYlZdJ2eqEqpXMUGLkSlk
-         q81kAC7T1UzPh74kmfntK1aLdNMGjMNn5Ynh/B+j6U3q7ZFeziWhjW0Ts/qWUNuuQD+v
-         kWID84Jk8C315zd25gPXaMpqswJk65tTOUnjjybE2iZ1sKypCNzlfcIfVDlUKnMpFN+F
-         KvoloFz3BoOBUaOKqrHnMBfQfan75L/Pe+8qeKEIv4DWHf7rTuk5pW2EtlsjAIBej4Zc
-         kJFQ==
-X-Gm-Message-State: AOAM532CB+RPIMitvLLYeAGnSsJ9X9qcy5JDp0WJID/KcaovaJSHBat5
-        FlPaFfQfbqj49gMoouoxTUqakDA+aVFUCR/IapI=
-X-Google-Smtp-Source: ABdhPJy+LkcPERZsa7lbfU5qX6+D00AemKwTfYvzLQ8Krd9kR0rfrY7Qk4AvsVLPh5AlaJe2YaADA055SMDxj7jipqU=
-X-Received: by 2002:a19:207:: with SMTP id 7mr8578863lfc.251.1605879083895;
- Fri, 20 Nov 2020 05:31:23 -0800 (PST)
-MIME-Version: 1.0
-References: <20201120001509.15155-1-festevam@gmail.com> <87ima01r52.fsf@mpe.ellerman.id.au>
-In-Reply-To: <87ima01r52.fsf@mpe.ellerman.id.au>
-From:   Fabio Estevam <festevam@gmail.com>
-Date:   Fri, 20 Nov 2020 10:31:11 -0300
-Message-ID: <CAOMZO5CrtC627GJ=fM6Wruf765pfxAGboPJhfDrhYG5a2OjpRA@mail.gmail.com>
-Subject: Re: [PATCH] media: fsl-viu: Use proper check for presence of {out, in}_be32()
-To:     Michael Ellerman <mpe@ellerman.id.au>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>, paulus@samba.org,
-        Geert Uytterhoeven <geert@linux-m68k.org>,
-        linuxppc-dev@lists.ozlabs.org,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+        id S1726559AbgKTO2J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Nov 2020 09:28:09 -0500
+Received: from mga14.intel.com ([192.55.52.115]:21379 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725801AbgKTO2J (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 20 Nov 2020 09:28:09 -0500
+IronPort-SDR: X7ciaVmYzAHZHgrPEqkJHCecNHvtOHnmUit9O0RkdtupB3rfE5RFK/AcqEXE1rlt8N3uTFrbd2
+ ID9057J3hY+Q==
+X-IronPort-AV: E=McAfee;i="6000,8403,9810"; a="170698829"
+X-IronPort-AV: E=Sophos;i="5.78,356,1599548400"; 
+   d="scan'208";a="170698829"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2020 06:28:09 -0800
+IronPort-SDR: 9kN5ygrkG1GRPnwrRdWjZd9MOVs+zIdb02q42FIcEyCEgBafHaxXgfpu5/hA9uQw6Ntv6Ps5Vx
+ XuLegeEGMgxQ==
+X-IronPort-AV: E=Sophos;i="5.78,356,1599548400"; 
+   d="scan'208";a="545461392"
+Received: from mkrastex-mobl.ger.corp.intel.com ([10.104.67.10])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 20 Nov 2020 06:28:06 -0800
+From:   Martina Krasteva <martinax.krasteva@linux.intel.com>
+To:     linux-media@vger.kernel.org
+Cc:     mchehab@kernel.org, robh+dt@kernel.org, devicetree@vger.kernel.org,
+        sakari.ailus@linux.intel.com,
+        daniele.alessandrelli@linux.intel.com,
+        gjorgjix.rosikopulos@linux.intel.com,
+        martinax.krasteva@linux.intel.com
+Subject: [PATCH 0/2] IMX334 Camera Sensor Driver
+Date:   Fri, 20 Nov 2020 14:28:01 +0000
+Message-Id: <20201120142803.308-1-martinax.krasteva@linux.intel.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+From: Martina Krasteva <martinax.krasteva@intel.com>
 
-On Fri, Nov 20, 2020 at 3:25 AM Michael Ellerman <mpe@ellerman.id.au> wrote:
+Hello,
 
-> I'd rather not have to carry this in arch code just for one driver.
+This patch series contains Sony imx334 sensor driver and device tree binding document.
 
-Fair enough.
+A v4l2 sub-device driver for the Sony imx334 image sensor is added.
+This is a camera sensor using the i2c bus for control and the
+csi-2 bus for data.
 
-> Can't the driver just use ioread/write32be() on all platforms?
+The following features are supported:
+- manual exposure and analog gain control support
+- vblank/hblank/pixel rate control support
+- supported resolution:
+    - 3840x2160 @ 60fps
+- supported bayer order output:
+    - SRGGB12
 
-Yes, this is a better approach. I have just a patch doing that.
 
-Thanks
+Best Regards,
+Martina
+
+Martina Krasteva (2):
+  dt-bindings: media: Add bindings for imx334
+  media: Add imx334 camera sensor driver
+
+ .../devicetree/bindings/media/i2c/sony,imx334.yaml |   59 ++
+ MAINTAINERS                                        |    8 +
+ drivers/media/i2c/Kconfig                          |   14 +
+ drivers/media/i2c/Makefile                         |    1 +
+ drivers/media/i2c/imx334.c                         | 1089 ++++++++++++++++++++
+ 5 files changed, 1171 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
+ create mode 100644 drivers/media/i2c/imx334.c
+
+-- 
+2.11.0
+
