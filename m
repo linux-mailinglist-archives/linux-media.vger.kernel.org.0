@@ -2,149 +2,873 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4EC5E2BA8C4
-	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 12:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 02A922BA8CA
+	for <lists+linux-media@lfdr.de>; Fri, 20 Nov 2020 12:14:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728340AbgKTLLY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Nov 2020 06:11:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57898 "EHLO
+        id S1727724AbgKTLOL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Nov 2020 06:14:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58318 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727838AbgKTLLX (ORCPT
+        with ESMTP id S1727682AbgKTLOJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Nov 2020 06:11:23 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD1E4C0613CF
-        for <linux-media@vger.kernel.org>; Fri, 20 Nov 2020 03:11:23 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 54B682A3;
-        Fri, 20 Nov 2020 12:11:20 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1605870680;
-        bh=AzRLBYXeVmwkIIkUsnc+sI+njjio7UA8E83GygWkEpc=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=sfgP/0GriQ9rhlAKKjXz6eIMVGBf262XXzgqUBR5Gcnvfjhz3wFq6LJjMP73IZAKB
-         QX769BFVifDFMAU4L8k3ZijRG5h8PP0K9QlLdFErkySdyGmXkxBgP9AhKltfzwSSlD
-         U+Z/6tEio1aY0fJ1rhg+dzW15Af3DzW+LHaIR96A=
-Date:   Fri, 20 Nov 2020 13:11:13 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Doncho Minkov <donchominkov@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: My camera does work on manjaro linux
-Message-ID: <20201120111113.GA13334@pendragon.ideasonboard.com>
-References: <CANdtHpC-a5SS=9rOTAbkvFyfFJrM7Yas1fJszZRuFwj4cT6q3w@mail.gmail.com>
+        Fri, 20 Nov 2020 06:14:09 -0500
+Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 476F9C0613CF
+        for <linux-media@vger.kernel.org>; Fri, 20 Nov 2020 03:14:09 -0800 (PST)
+Received: by mail-pf1-x443.google.com with SMTP id w6so7566211pfu.1
+        for <linux-media@vger.kernel.org>; Fri, 20 Nov 2020 03:14:09 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=49s+Q6/PH6uZAtfFc68vjTpj/cOcOfrnnscyKDVGk5k=;
+        b=fJroL9cciScV66WDE+0GXBNvkvWSZizTLvxxqb/n0dvWEG+CHPTN+HB921Z5wNvJyO
+         mePPckX+/Fs3kPwNrEhSNdOvzyMCx62CpXRwVKBduGGqCdFXH+GaV1tEcuMsSb/dFSGL
+         JYtD6Fhh10QdODeeBW4s3RRP274hjaXbkIdz8=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=49s+Q6/PH6uZAtfFc68vjTpj/cOcOfrnnscyKDVGk5k=;
+        b=K1A34BTco/Pd+ssEM5HzLXd6NkYczzjiOTTQyJricy7r31ueFKD3eFS3UkYoiTHRbc
+         SldnnLsZeQDPqHnOEBGJGLm4UZk3LOxv3vLAJBeh5UeJ5X/oyGTsOxH6sdaVMiF7ZFuk
+         tIXVmatchyGHdrksiGNM0d+B7J+iP28pRTmB+D5WK/FgvbMqY+AlpzlV5GH2PQGcriNH
+         XUtjR70PKGO8bLFLdZVaP3Lbd1F6e3lPfuKJj44yNbALoriCyFyVNxOoaU6hs6erFgPu
+         BcIzhuKCpwS9Al6zDgVrgpRHv6sdrTrrneW8SjlTkOa5U5NAeQOBozV362QPAKRZpoVx
+         7IFw==
+X-Gm-Message-State: AOAM533rGXS9hy8CarBhNCgg8ogiUEanf4O9VnJg7jNI5/ajKGAlwZPH
+        WwOqqyHlTXYiUHEVwN45Pk8oBQ==
+X-Google-Smtp-Source: ABdhPJwtkvjr2uHYPoeirgSL48WeKHQqyIyoUpiWsL0l0p3NgobYiGlyZvqlE7igNtx5UMB9CUOmlQ==
+X-Received: by 2002:a17:90a:4881:: with SMTP id b1mr9686146pjh.32.1605870848439;
+        Fri, 20 Nov 2020 03:14:08 -0800 (PST)
+Received: from chromium.org ([2401:fa00:8f:2:a28c:fdff:fef0:43bf])
+        by smtp.gmail.com with ESMTPSA id h4sm2686198pgp.8.2020.11.20.03.14.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 20 Nov 2020 03:14:07 -0800 (PST)
+Date:   Fri, 20 Nov 2020 20:14:03 +0900
+From:   Tomasz Figa <tfiga@chromium.org>
+To:     Helen Koike <helen.koike@collabora.com>
+Cc:     mchehab@kernel.org, hans.verkuil@cisco.com,
+        laurent.pinchart@ideasonboard.com, sakari.ailus@iki.fi,
+        linux-media@vger.kernel.org,
+        Boris Brezillon <boris.brezillon@collabora.com>,
+        hiroh@chromium.org, nicolas@ndufresne.ca, Brian.Starkey@arm.com,
+        kernel@collabora.com, narmstrong@baylibre.com,
+        linux-kernel@vger.kernel.org, frkoenig@chromium.org,
+        mjourdan@baylibre.com, stanimir.varbanov@linaro.org
+Subject: Re: [PATCH v5 2/7] media: v4l2: Add extended buffer operations
+Message-ID: <20201120111403.GB841224@chromium.org>
+References: <20200804192939.2251988-1-helen.koike@collabora.com>
+ <20200804192939.2251988-3-helen.koike@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <CANdtHpC-a5SS=9rOTAbkvFyfFJrM7Yas1fJszZRuFwj4cT6q3w@mail.gmail.com>
+In-Reply-To: <20200804192939.2251988-3-helen.koike@collabora.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Doncho,
+Hi Helen,
 
-On Thu, Nov 19, 2020 at 11:52:28AM +0200, Doncho Minkov wrote:
-> Hello!
+On Tue, Aug 04, 2020 at 04:29:34PM -0300, Helen Koike wrote:
+> From: Hans Verkuil <hans.verkuil@cisco.com>
 > 
-> My new webcam does not work on my Manjaro, but works fine on my Windows machine.
+> Those extended buffer ops have several purpose:
+> 1/ Fix y2038 issues by converting the timestamp into an u64 counting
+>    the number of ns elapsed since 1970
+> 2/ Unify single/multiplanar handling
+> 3/ Add a new start offset field to each v4l2 plane buffer info struct
+>    to support the case where a single buffer object is storing all
+>    planes data, each one being placed at a different offset
 > 
-> I've read the article at https://www.ideasonboard.org/uvc/faq/ and
-> tried to troubleshoot it, but to no success.
+> New hooks are created in v4l2_ioctl_ops so that drivers can start using
+> these new objects.
 > 
-> Can you help me? I am attaching the logs from lsubs and dmesg.
+> The core takes care of converting new ioctls requests to old ones
+> if the driver does not support the new hooks, and vice versa.
+> 
+> Note that the timecode field is gone, since there doesn't seem to be
+> in-kernel users. We can be added back in the reserved area if needed or
+> use the Request API to collect more metadata information from the
+> frame.
+> 
 
-Could you please send the output of 'lsusb -v -d 1bcf:0b40', running as
-root if possible ('sudo lsusb -v -d 1bcf:0b40' should do) ?
+Thanks for the patch. Please see my comments inline.
 
-[snip]
+> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+> ---
+> Changes in v5:
+> - migrate memory from v4l2_ext_buffer to v4l2_ext_plane
+> - return mem_offset to struct v4l2_ext_plane
+> - change sizes and reorder fields to avoid holes in the struct and make
+>   it the same for 32 and 64 bits
+> 
+> Changes in v4:
+> - Use v4l2_ext_pix_format directly in the ioctl, drop v4l2_ext_format,
+> making V4L2_BUF_TYPE_VIDEO_[OUTPUT,CAPTURE] the only valid types.
+> - Drop VIDIOC_EXT_EXPBUF, since the only difference from VIDIOC_EXPBUF
+> was that with VIDIOC_EXT_EXPBUF we could export multiple planes at once.
+> I think we can add this later, so I removed it from this RFC to simplify it.
+> - Remove num_planes field from struct v4l2_ext_buffer
+> - Add flags field to struct v4l2_ext_create_buffers
+> - Reformulate struct v4l2_ext_plane
+> - Fix some bugs caught by v4l2-compliance
+> - Rebased on top of media/master (post 5.8-rc1)
+> 
+> Changes in v3:
+> - Rebased on top of media/master (post 5.4-rc1)
+> 
+> Changes in v2:
+> - Add reserved space to v4l2_ext_buffer so that new fields can be added
+>   later on
+> ---
+>  drivers/media/v4l2-core/v4l2-dev.c   |  29 ++-
+>  drivers/media/v4l2-core/v4l2-ioctl.c | 353 +++++++++++++++++++++++++--
+>  include/media/v4l2-ioctl.h           |  26 ++
+>  include/uapi/linux/videodev2.h       |  90 +++++++
+>  4 files changed, 476 insertions(+), 22 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+> index e1829906bc086..cb21ee8eb075c 100644
+> --- a/drivers/media/v4l2-core/v4l2-dev.c
+> +++ b/drivers/media/v4l2-core/v4l2-dev.c
+> @@ -720,15 +720,34 @@ static void determine_valid_ioctls(struct video_device *vdev)
+>  		SET_VALID_IOCTL(ops, VIDIOC_TRY_FMT, vidioc_try_fmt_sdr_out);
+>  	}
+>  
+> +	if (is_vid || is_tch) {
+> +		/* ioctls valid for video and touch */
+> +		if (ops->vidioc_querybuf || ops->vidioc_ext_querybuf)
+> +			set_bit(_IOC_NR(VIDIOC_EXT_QUERYBUF), valid_ioctls);
+> +		if (ops->vidioc_qbuf || ops->vidioc_ext_qbuf)
+> +			set_bit(_IOC_NR(VIDIOC_EXT_QBUF), valid_ioctls);
+> +		if (ops->vidioc_dqbuf || ops->vidioc_ext_dqbuf)
+> +			set_bit(_IOC_NR(VIDIOC_EXT_DQBUF), valid_ioctls);
+> +		if (ops->vidioc_create_bufs || ops->vidioc_ext_create_bufs)
+> +			set_bit(_IOC_NR(VIDIOC_EXT_CREATE_BUFS), valid_ioctls);
+> +		if (ops->vidioc_prepare_buf || ops->vidioc_ext_prepare_buf)
+> +			set_bit(_IOC_NR(VIDIOC_EXT_PREPARE_BUF), valid_ioctls);
 
-> [    2.740672] usb 1-4: New USB device found, idVendor=1bcf, idProduct=0b40, bcdDevice= 9.14
-> [    2.740674] usb 1-4: New USB device strings: Mfr=1, Product=2, SerialNumber=3
-> [    2.740674] usb 1-4: Product: 2K FHD camera
-> [    2.740675] usb 1-4: Manufacturer: SHENZHENAONI ELECTRONIC CO.,LTD
-> [    2.740676] usb 1-4: SerialNumber: AN2020091401
+nit: Could we stick to the SET_VALID_IOCTL() macro and just call it twice,
+once for the new and once for the legacy callback?
 
-[snip]
+> +	}
+> +
+>  	if (is_vid || is_vbi || is_sdr || is_tch || is_meta) {
+>  		/* ioctls valid for video, vbi, sdr, touch and metadata */
+>  		SET_VALID_IOCTL(ops, VIDIOC_REQBUFS, vidioc_reqbufs);
+> -		SET_VALID_IOCTL(ops, VIDIOC_QUERYBUF, vidioc_querybuf);
+> -		SET_VALID_IOCTL(ops, VIDIOC_QBUF, vidioc_qbuf);
+>  		SET_VALID_IOCTL(ops, VIDIOC_EXPBUF, vidioc_expbuf);
+> -		SET_VALID_IOCTL(ops, VIDIOC_DQBUF, vidioc_dqbuf);
+> -		SET_VALID_IOCTL(ops, VIDIOC_CREATE_BUFS, vidioc_create_bufs);
+> -		SET_VALID_IOCTL(ops, VIDIOC_PREPARE_BUF, vidioc_prepare_buf);
+> +		if (ops->vidioc_querybuf || ops->vidioc_ext_querybuf)
+> +			set_bit(_IOC_NR(VIDIOC_QUERYBUF), valid_ioctls);
+> +		if (ops->vidioc_qbuf || ops->vidioc_ext_qbuf)
+> +			set_bit(_IOC_NR(VIDIOC_QBUF), valid_ioctls);
+> +		if (ops->vidioc_dqbuf || ops->vidioc_ext_dqbuf)
+> +			set_bit(_IOC_NR(VIDIOC_DQBUF), valid_ioctls);
+> +		if (ops->vidioc_create_bufs || ops->vidioc_ext_create_bufs)
+> +			set_bit(_IOC_NR(VIDIOC_CREATE_BUFS), valid_ioctls);
+> +		if (ops->vidioc_prepare_buf || ops->vidioc_ext_prepare_buf)
+> +			set_bit(_IOC_NR(VIDIOC_PREPARE_BUF), valid_ioctls);
 
-> [    4.856500] usb 1-4: 3:1: cannot get freq at ep 0x86
-> [    4.895811] usbcore: registered new interface driver snd-usb-audio
-> [    4.900922] uvcvideo: Found UVC 1.10 device 2K FHD camera (1bcf:0b40)
+Is it valid to check the new callbacks for devices that the new API is not
+valid for (e.g. vbi)? Perhaps we could call SET_VALID_IOCTL(ops, <ioctl>,
+vidioc_ext_*) in the upper if added in this patch and keep the code above
+as is?
 
-Your device claims it implements UVC 1.10.
+>  		SET_VALID_IOCTL(ops, VIDIOC_STREAMON, vidioc_streamon);
+>  		SET_VALID_IOCTL(ops, VIDIOC_STREAMOFF, vidioc_streamoff);
+>  	}
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index 14a0def50f8ea..7ecdd9cc1bf48 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -527,6 +527,26 @@ static void v4l_print_buffer(const void *arg, bool write_only)
+>  			tc->type, tc->flags, tc->frames, *(__u32 *)tc->userbits);
+>  }
+>  
+> +static void v4l_print_ext_buffer(const void *arg, bool write_only)
+> +{
+> +	const struct v4l2_ext_buffer *e = arg;
+> +	const struct v4l2_ext_plane *plane;
+> +	unsigned int i;
+> +
+> +	pr_cont("%lld index=%d, type=%s, flags=0x%08x, field=%s, sequence=%d\n",
+> +		e->timestamp, e->index, prt_names(e->type, v4l2_type_names),
+> +		e->flags, prt_names(e->field, v4l2_field_names), e->sequence);
 
-> [    4.920820] uvcvideo: Failed to query (GET_INFO) UVC control 14 on unit 1: -32 (exp. 1).
-> [    4.977348] uvcvideo: UVC non compliance - GET_DEF(PROBE) not supported. Enabling workaround.
-> [    4.982821] uvcvideo: Failed to query (129) UVC probe control : 26 (exp. 34).
+Should we also print the request FD?
 
-But it handles the probe control as in UVC 1.0a (the size of the control
-was 26 in UVC 1.0a, and got extended to 34 bytes in UVC 1.10).
+> +
+> +	for (i = 0; i < VIDEO_MAX_PLANES &&
+> +		    e->planes[i].buffer_length; i++) {
+> +		plane = &e->planes[i];
+> +		pr_debug("plane %d: buffer_length=%d, plane_length=%d offset=0x%08x, memory=%s\n",
+> +			 i, plane->buffer_length, plane->plane_length,
+> +			 plane->offset,
+> +			 prt_names(plane->memory, v4l2_memory_names));
 
-> [    4.982836] uvcvideo: Failed to initialize the device (-5).
-> [    4.982884] usbcore: registered new interface driver uvcvideo
-> [    4.982884] USB Video Class driver (1.1.1)
+Should we also print mem_offset/userptr/dmabuf_fd?
 
-Could you try the following patch ?
+> +	}
+> +}
+> +
+>  static void v4l_print_exportbuffer(const void *arg, bool write_only)
+>  {
+>  	const struct v4l2_exportbuffer *p = arg;
+> @@ -546,6 +566,15 @@ static void v4l_print_create_buffers(const void *arg, bool write_only)
+>  	v4l_print_format(&p->format, write_only);
+>  }
+>  
+> +static void v4l_print_ext_create_buffers(const void *arg, bool write_only)
+> +{
+> +	const struct v4l2_ext_create_buffers *p = arg;
+> +
+> +	pr_cont("index=%d, count=%d, memory=%s, ", p->index, p->count,
+> +		prt_names(p->memory, v4l2_memory_names));
+> +	v4l_print_ext_pix_format(&p->format, write_only);
 
-commit 9f01208d6d06568dabb67fa04efbae2cec51d7a2
-Author: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Date:   Fri Nov 20 12:57:48 2020 +0200
+Should we also print capabilities and flags?
 
-    media: uvcvideo: Force UVC version to 1.0a for 1bcf:0b40
+> +}
+> +
+>  static void v4l_print_streamparm(const void *arg, bool write_only)
+>  {
+>  	const struct v4l2_streamparm *p = arg;
+> @@ -1220,6 +1249,143 @@ int v4l2_format_to_ext_pix_format(const struct v4l2_format *f,
+>  }
+>  EXPORT_SYMBOL_GPL(v4l2_format_to_ext_pix_format);
+>  
+> +/*
+> + * If mplane_cap is true, b->m.planes should have a valid pointer of a
+> + * struct v4l2_plane array, and b->length with its size
+> + */
+> +int v4l2_ext_buffer_to_buffer(const struct v4l2_ext_buffer *e,
+> +			      struct v4l2_buffer *b, bool mplane_cap)
+> +{
+> +	unsigned int planes_array_size = b->length;
+> +	struct v4l2_plane *planes = b->m.planes;
+> +	u64 nsecs;
+> +
+> +	if (!mplane_cap && e->planes[1].buffer_length != 0)
+> +		return -EINVAL;
+> +
+> +	memset(b, 0, sizeof(*b));
+> +
+> +	b->index = e->index;
+> +	b->flags = e->flags;
+> +	b->field = e->field;
+> +	b->sequence = e->sequence;
+> +	b->memory = e->planes[0].memory;
+> +	b->request_fd = e->request_fd;
+> +	b->timestamp.tv_sec = div64_u64_rem(e->timestamp, NSEC_PER_SEC, &nsecs);
+> +	b->timestamp.tv_usec = (u32)nsecs / NSEC_PER_USEC;
+> +
+> +	if (mplane_cap) {
+> +		unsigned int i;
+> +
+> +		if (!planes || !planes_array_size)
+> +			return -EINVAL;
+> +
+> +		b->m.planes = planes;
 
-    The Shenzhen Aoni Electronic Co.,Ltd 2K FHD camera reports a UVC 1.10
-    version, but implements UVC 1.0a as shown by the UVC probe control being
-    26 bytes long. Force the UVC version for that device.
+planes was initialized to b->m.planes at declaration time. Should we
+perhaps move its declaration to within this block to make it more clear and
+remove this assignment?
 
-    Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> +
+> +		if (e->type == V4L2_BUF_TYPE_VIDEO_CAPTURE)
+> +			b->type = V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE;
+> +		else
+> +			b->type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+> +
+> +		for (i = 0; i < VIDEO_MAX_PLANES && i < planes_array_size &&
+> +			    e->planes[i].buffer_length; i++) {
+> +
+> +			if (e->planes[0].memory != e->planes[i].memory)
+> +				return -EINVAL;
+> +
+> +			if (e->planes[i].offset)
+> +				return -EINVAL;
 
-diff --git a/drivers/media/usb/uvc/uvc_driver.c b/drivers/media/usb/uvc/uvc_driver.c
-index ddb9eaa11be7..05aea3ce2e23 100644
---- a/drivers/media/usb/uvc/uvc_driver.c
-+++ b/drivers/media/usb/uvc/uvc_driver.c
-@@ -2274,6 +2274,12 @@ static int uvc_probe(struct usb_interface *intf,
- 			"linux-uvc-devel mailing list.\n");
- 	}
+Is it really invalid to have a non-zero offset? Shouldn't the data_offset
+field of the legacy struct be populated instead, in the cases where it was
+defined to be valid?
 
-+	if (dev->info->uvc_version) {
-+		dev->uvc_version = dev->info->uvc_version;
-+		uvc_printk(KERN_INFO, "Forcing UVC version to %u.%02x\n",
-+			   dev->uvc_version >> 8, dev->uvc_version & 0xff);
-+	}
-+
- 	/* Register the V4L2 device. */
- 	if (v4l2_device_register(&intf->dev, &dev->vdev) < 0)
- 		goto error;
-@@ -2923,6 +2929,17 @@ static const struct usb_device_id uvc_ids[] = {
- 	  .bInterfaceSubClass	= 1,
- 	  .bInterfaceProtocol	= 0,
- 	  .driver_info		= (kernel_ulong_t)&uvc_quirk_probe_minmax },
-+	/* Shenzhen Aoni Electronic Co.,Ltd 2K FHD camera */
-+	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
-+				| USB_DEVICE_ID_MATCH_INT_INFO,
-+	  .idVendor		= 0x1bcf,
-+	  .idProduct		= 0x0b40,
-+	  .bInterfaceClass	= USB_CLASS_VIDEO,
-+	  .bInterfaceSubClass	= 1,
-+	  .bInterfaceProtocol	= 0,
-+	  .driver_info		= (kernel_ulong_t)&(const struct uvc_device_info){
-+		.uvc_version = 0x010a,
-+	  } },
- 	/* SiGma Micro USB Web Camera */
- 	{ .match_flags		= USB_DEVICE_ID_MATCH_DEVICE
- 				| USB_DEVICE_ID_MATCH_INT_INFO,
-diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
-index a3dfacf069c4..8ec9eca07f06 100644
---- a/drivers/media/usb/uvc/uvcvideo.h
-+++ b/drivers/media/usb/uvc/uvcvideo.h
-@@ -635,6 +635,7 @@ static inline u32 uvc_urb_index(const struct uvc_urb *uvc_urb)
- struct uvc_device_info {
- 	u32	quirks;
- 	u32	meta_format;
-+	u16	uvc_version;
- };
+> +
+> +			memset(&b->m.planes[i], 0, sizeof(b->m.planes[i]));
+> +
+> +			if (b->memory == V4L2_MEMORY_MMAP)
+> +				b->m.planes[i].m.mem_offset = e->planes[i].m.mem_offset;
+> +			else if (b->memory == V4L2_MEMORY_DMABUF)
+> +				b->m.planes[i].m.fd = e->planes[i].m.dmabuf_fd;
+> +			else
+> +				b->m.planes[i].m.userptr = e->planes[i].m.userptr;
+> +
+> +			b->m.planes[i].bytesused = e->planes[i].plane_length;
 
- struct uvc_device {
+I might be getting the meaning of plane_length wrong, but doesn't this
+depend on the direction? If the userspace gives a CAPTURE buffer, it would
+have bytesused = 0, but if the kernel returns it, it would have bytesused =
+<size of the payload>.
 
--- 
-Regards,
+> +			b->m.planes[i].length = e->planes[i].buffer_length;
+> +		}
+> +		/* In multi-planar, length contain the number of planes */
+> +		b->length = i;
+> +	} else {
+> +		b->type = e->type;
+> +		b->bytesused = e->planes[0].plane_length;
+> +		b->length = e->planes[0].buffer_length;
+> +
+> +		if (e->planes[0].offset)
+> +			return -EINVAL;
 
-Laurent Pinchart
+Ditto.
+
+> +
+> +		if (b->memory == V4L2_MEMORY_MMAP)
+> +			b->m.offset = e->planes[0].m.mem_offset;
+> +		else if (b->memory == V4L2_MEMORY_DMABUF)
+> +			b->m.fd = e->planes[0].m.dmabuf_fd;
+> +		else
+> +			b->m.userptr = e->planes[0].m.userptr;
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_ext_buffer_to_buffer);
+> +
+> +int v4l2_buffer_to_ext_buffer(const struct v4l2_buffer *b,
+> +			      struct v4l2_ext_buffer *e)
+> +{
+> +	memset(e, 0, sizeof(*e));
+> +
+> +	e->index = b->index;
+> +	e->flags = b->flags;
+> +	e->field = b->field;
+> +	e->sequence = b->sequence;
+> +	e->request_fd = b->request_fd;
+> +	e->timestamp = b->timestamp.tv_sec * NSEC_PER_SEC +
+> +		b->timestamp.tv_usec * NSEC_PER_USEC;
+> +	if (V4L2_TYPE_IS_MULTIPLANAR(b->type)) {
+> +		unsigned int i;
+> +
+> +		if (!b->m.planes)
+> +			return -EINVAL;
+> +
+> +		if (b->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
+> +			e->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+> +		else
+> +			e->type = V4L2_BUF_TYPE_VIDEO_OUTPUT;
+> +
+> +		/* In multi-planar, length contain the number of planes */
+> +		for (i = 0; i < b->length; i++) {
+
+The design of the new struct implies that the planes describe color planes
+and not memory planes, so this code is incorrect, because for non-M format
+variants it would fill in only the first plane of the new struct.
+
+> +			if (b->memory == V4L2_MEMORY_MMAP)
+> +				e->planes[i].m.mem_offset = b->m.planes[i].m.mem_offset;
+> +			else if (b->memory == V4L2_MEMORY_DMABUF)
+> +				e->planes[i].m.dmabuf_fd = b->m.planes[i].m.fd;
+> +			else
+> +				e->planes[i].m.userptr = b->m.planes[i].m.userptr;
+> +
+> +			e->planes[i].memory = b->memory;
+> +			e->planes[i].buffer_length = b->m.planes[i].length;
+> +			e->planes[i].plane_length = b->m.planes[i].bytesused;
+> +			if (b->m.planes[i].data_offset)
+> +				pr_warn("Ignoring data_offset value %d\n",
+> +					b->m.planes[i].data_offset);
+
+Why? As per my comment above, there are valid use cases defined in the spec.
+
+> +		}
+> +	} else {
+> +		e->type = b->type;
+> +		e->planes[0].memory = b->memory;
+> +		e->planes[0].plane_length = b->bytesused;
+> +		e->planes[0].buffer_length = b->length;
+> +		if (b->memory == V4L2_MEMORY_MMAP)
+> +			e->planes[0].m.mem_offset = b->m.offset;
+> +		else if (b->memory == V4L2_MEMORY_DMABUF)
+> +			e->planes[0].m.dmabuf_fd = b->m.fd;
+> +		else
+> +			e->planes[0].m.userptr = b->m.userptr;
+
+Similar to the MULTIPLANAR case, we should fill in the planes[] entries
+corresponding to the number of color planes of the format, e.g. 2 for NV12.
+
+> +	}
+> +
+> +	return 0;
+> +}
+> +EXPORT_SYMBOL_GPL(v4l2_buffer_to_ext_buffer);
+> +
+>  static int v4l_querycap(const struct v4l2_ioctl_ops *ops,
+>  				struct file *file, void *fh, void *arg)
+>  {
+> @@ -2473,31 +2639,112 @@ static int v4l_reqbufs(const struct v4l2_ioctl_ops *ops,
+>  	return ops->vidioc_reqbufs(file, fh, p);
+>  }
+>  
+> +static int v4l_do_buf_op(int (*op)(struct file *, void *,
+> +				   struct v4l2_buffer *),
+> +			 int (*ext_op)(struct file *, void *,
+> +				       struct v4l2_ext_buffer *),
+> +			 struct file *file, void *fh, struct v4l2_buffer *b)
+> +{
+> +	struct v4l2_ext_buffer e;
+> +	int ret;
+> +
+> +	ret = check_fmt(file, b->type);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (op)
+> +		return op(file, fh, b);
+> +
+> +	ret = v4l2_buffer_to_ext_buffer(b, &e);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = ext_op(file, fh, &e);
+> +	if (ret)
+> +		return ret;
+> +
+> +	v4l2_ext_buffer_to_buffer(&e, b, V4L2_TYPE_IS_MULTIPLANAR(b->type));
+> +	return 0;
+> +}
+> +
+> +static int v4l_do_ext_buf_op(int (*op)(struct file *, void *,
+> +				       struct v4l2_buffer *),
+> +			     int (*ext_op)(struct file *, void *,
+> +					   struct v4l2_ext_buffer *),
+> +			     struct file *file, void *fh,
+> +			     struct v4l2_ext_buffer *e)
+> +{
+> +	struct video_device *vdev = video_devdata(file);
+> +	struct v4l2_plane planes[VIDEO_MAX_PLANES];
+> +	struct v4l2_buffer b;
+> +	bool mplane_cap;
+> +	int ret;
+> +
+> +	ret = check_fmt(file, e->type);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (ext_op)
+> +		return ext_op(file, fh, e);
+> +
+> +	mplane_cap = !!(vdev->device_caps &
+> +			(V4L2_CAP_VIDEO_CAPTURE_MPLANE |
+> +			 V4L2_CAP_VIDEO_OUTPUT_MPLANE |
+> +			 V4L2_CAP_VIDEO_M2M_MPLANE));
+> +	b.m.planes = planes;
+> +	b.length = VIDEO_MAX_PLANES;
+> +	ret = v4l2_ext_buffer_to_buffer(e, &b, mplane_cap);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = op(file, fh, &b);
+> +	if (ret)
+> +		return ret;
+> +
+> +	v4l2_buffer_to_ext_buffer(&b, e);
+> +	return 0;
+> +}
+> +
+>  static int v4l_querybuf(const struct v4l2_ioctl_ops *ops,
+> -				struct file *file, void *fh, void *arg)
+> +			struct file *file, void *fh, void *arg)
+>  {
+> -	struct v4l2_buffer *p = arg;
+> -	int ret = check_fmt(file, p->type);
+> +	return v4l_do_buf_op(ops->vidioc_querybuf, ops->vidioc_ext_querybuf,
+> +			     file, fh, arg);
+> +}
+>  
+> -	return ret ? ret : ops->vidioc_querybuf(file, fh, p);
+> +static int v4l_ext_querybuf(const struct v4l2_ioctl_ops *ops,
+> +			    struct file *file, void *fh, void *arg)
+> +{
+> +	return v4l_do_ext_buf_op(ops->vidioc_querybuf,
+> +				 ops->vidioc_ext_querybuf, file, fh, arg);
+>  }
+>  
+>  static int v4l_qbuf(const struct v4l2_ioctl_ops *ops,
+> -				struct file *file, void *fh, void *arg)
+> +		    struct file *file, void *fh, void *arg)
+>  {
+> -	struct v4l2_buffer *p = arg;
+> -	int ret = check_fmt(file, p->type);
+> +	return v4l_do_buf_op(ops->vidioc_qbuf, ops->vidioc_ext_qbuf,
+> +			     file, fh, arg);
+> +}
+>  
+> -	return ret ? ret : ops->vidioc_qbuf(file, fh, p);
+> +static int v4l_ext_qbuf(const struct v4l2_ioctl_ops *ops,
+> +			struct file *file, void *fh, void *arg)
+> +{
+> +	return v4l_do_ext_buf_op(ops->vidioc_qbuf, ops->vidioc_ext_qbuf,
+> +				 file, fh, arg);
+>  }
+>  
+>  static int v4l_dqbuf(const struct v4l2_ioctl_ops *ops,
+> -				struct file *file, void *fh, void *arg)
+> +		     struct file *file, void *fh, void *arg)
+>  {
+> -	struct v4l2_buffer *p = arg;
+> -	int ret = check_fmt(file, p->type);
+> +	return v4l_do_buf_op(ops->vidioc_dqbuf, ops->vidioc_ext_dqbuf,
+> +			     file, fh, arg);
+> +}
+>  
+> -	return ret ? ret : ops->vidioc_dqbuf(file, fh, p);
+> +static int v4l_ext_dqbuf(const struct v4l2_ioctl_ops *ops,
+> +			 struct file *file, void *fh, void *arg)
+> +{
+> +	return v4l_do_ext_buf_op(ops->vidioc_dqbuf, ops->vidioc_ext_dqbuf,
+> +				 file, fh, arg);
+>  }
+>  
+>  static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
+> @@ -2513,7 +2760,27 @@ static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
+>  
+>  	v4l_sanitize_format(&create->format);
+>  
+> -	ret = ops->vidioc_create_bufs(file, fh, create);
+> +	if (ops->vidioc_create_bufs) {
+> +		ret = ops->vidioc_create_bufs(file, fh, create);
+> +	} else {
+> +		struct v4l2_ext_create_buffers ecreate = {
+> +			.count = create->count,
+> +			.memory = create->memory,
+> +		};
+> +
+> +		ret = v4l2_format_to_ext_pix_format(&create->format,
+> +						    &ecreate.format, true);
+> +		if (ret)
+> +			return ret;
+> +
+> +		ret = ops->vidioc_ext_create_bufs(file, fh, &ecreate);
+> +		if (ret)
+> +			return ret;
+> +
+> +		create->index = ecreate.index;
+> +		create->count = ecreate.count;
+> +		create->capabilities = ecreate.capabilities;
+> +	}
+>  
+>  	if (create->format.type == V4L2_BUF_TYPE_VIDEO_CAPTURE ||
+>  	    create->format.type == V4L2_BUF_TYPE_VIDEO_OUTPUT)
+> @@ -2522,13 +2789,60 @@ static int v4l_create_bufs(const struct v4l2_ioctl_ops *ops,
+>  	return ret;
+>  }
+>  
+> +static int v4l_ext_create_bufs(const struct v4l2_ioctl_ops *ops,
+> +			       struct file *file, void *fh, void *arg)
+> +{
+> +	struct v4l2_ext_create_buffers *ecreate = arg;
+> +	struct video_device *vdev = video_devdata(file);
+> +	struct v4l2_create_buffers create = {
+> +		.count = ecreate->count,
+> +		.memory = ecreate->memory,
+> +		.flags = ecreate->flags,
+> +	};
+> +	bool mplane_cap;
+> +	int ret;
+> +
+> +	ret = check_fmt(file, ecreate->format.type);
+> +	if (ret)
+> +		return ret;
+> +
+> +	if (ops->vidioc_ext_create_bufs)
+> +		return ops->vidioc_ext_create_bufs(file, fh, ecreate);
+> +
+> +	mplane_cap = !!(vdev->device_caps &
+> +			(V4L2_CAP_VIDEO_CAPTURE_MPLANE |
+> +			 V4L2_CAP_VIDEO_OUTPUT_MPLANE |
+> +			 V4L2_CAP_VIDEO_M2M_MPLANE));
+> +	ret = v4l2_ext_pix_format_to_format(&ecreate->format,
+> +					    &create.format, mplane_cap, true);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ret = v4l_create_bufs(ops, file, fh, &create);
+> +	if (ret)
+> +		return ret;
+> +
+> +	ecreate->index = create.index;
+> +	ecreate->count = create.count;
+> +	ecreate->capabilities = create.capabilities;
+> +
+> +	return 0;
+> +}
+> +
+>  static int v4l_prepare_buf(const struct v4l2_ioctl_ops *ops,
+> -				struct file *file, void *fh, void *arg)
+> +			   struct file *file, void *fh, void *arg)
+>  {
+> -	struct v4l2_buffer *b = arg;
+> -	int ret = check_fmt(file, b->type);
+> +	return v4l_do_buf_op(ops->vidioc_prepare_buf,
+> +			     ops->vidioc_ext_prepare_buf,
+> +			     file, fh, arg);
+> +}
+>  
+> -	return ret ? ret : ops->vidioc_prepare_buf(file, fh, b);
+> +static int v4l_ext_prepare_buf(const struct v4l2_ioctl_ops *ops,
+> +			       struct file *file, void *fh, void *arg)
+> +{
+> +	return v4l_do_ext_buf_op(ops->vidioc_prepare_buf,
+> +				 ops->vidioc_ext_prepare_buf,
+> +				 file, fh, arg);
+>  }
+>  
+>  static int v4l_g_parm(const struct v4l2_ioctl_ops *ops,
+> @@ -3202,12 +3516,15 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+>  	IOCTL_INFO(VIDIOC_S_EXT_PIX_FMT, v4l_s_ext_pix_fmt, v4l_print_ext_pix_format, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_REQBUFS, v4l_reqbufs, v4l_print_requestbuffers, INFO_FL_PRIO | INFO_FL_QUEUE),
+>  	IOCTL_INFO(VIDIOC_QUERYBUF, v4l_querybuf, v4l_print_buffer, INFO_FL_QUEUE | INFO_FL_CLEAR(v4l2_buffer, length)),
+> +	IOCTL_INFO(VIDIOC_EXT_QUERYBUF, v4l_ext_querybuf, v4l_print_ext_buffer, INFO_FL_QUEUE | INFO_FL_CLEAR(v4l2_ext_buffer, planes)),
+>  	IOCTL_INFO(VIDIOC_G_FBUF, v4l_stub_g_fbuf, v4l_print_framebuffer, 0),
+>  	IOCTL_INFO(VIDIOC_S_FBUF, v4l_stub_s_fbuf, v4l_print_framebuffer, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_OVERLAY, v4l_overlay, v4l_print_u32, INFO_FL_PRIO),
+>  	IOCTL_INFO(VIDIOC_QBUF, v4l_qbuf, v4l_print_buffer, INFO_FL_QUEUE),
+>  	IOCTL_INFO(VIDIOC_EXPBUF, v4l_stub_expbuf, v4l_print_exportbuffer, INFO_FL_QUEUE | INFO_FL_CLEAR(v4l2_exportbuffer, flags)),
+> +	IOCTL_INFO(VIDIOC_EXT_QBUF, v4l_ext_qbuf, v4l_print_ext_buffer, INFO_FL_QUEUE),
+
+Looking at the other entries, shouldn't this one be 1 line higher?
+
+That said, I wonder if it wouldn't look cleaner if we just put all the
+EXT ioctls together at the bottom.
+
+>  	IOCTL_INFO(VIDIOC_DQBUF, v4l_dqbuf, v4l_print_buffer, INFO_FL_QUEUE),
+> +	IOCTL_INFO(VIDIOC_EXT_DQBUF, v4l_ext_dqbuf, v4l_print_ext_buffer, INFO_FL_QUEUE),
+>  	IOCTL_INFO(VIDIOC_STREAMON, v4l_streamon, v4l_print_buftype, INFO_FL_PRIO | INFO_FL_QUEUE),
+>  	IOCTL_INFO(VIDIOC_STREAMOFF, v4l_streamoff, v4l_print_buftype, INFO_FL_PRIO | INFO_FL_QUEUE),
+>  	IOCTL_INFO(VIDIOC_G_PARM, v4l_g_parm, v4l_print_streamparm, INFO_FL_CLEAR(v4l2_streamparm, type)),
+> @@ -3272,7 +3589,9 @@ static const struct v4l2_ioctl_info v4l2_ioctls[] = {
+>  	IOCTL_INFO(VIDIOC_SUBSCRIBE_EVENT, v4l_subscribe_event, v4l_print_event_subscription, 0),
+>  	IOCTL_INFO(VIDIOC_UNSUBSCRIBE_EVENT, v4l_unsubscribe_event, v4l_print_event_subscription, 0),
+>  	IOCTL_INFO(VIDIOC_CREATE_BUFS, v4l_create_bufs, v4l_print_create_buffers, INFO_FL_PRIO | INFO_FL_QUEUE),
+> +	IOCTL_INFO(VIDIOC_EXT_CREATE_BUFS, v4l_ext_create_bufs, v4l_print_ext_create_buffers, INFO_FL_PRIO | INFO_FL_QUEUE),
+>  	IOCTL_INFO(VIDIOC_PREPARE_BUF, v4l_prepare_buf, v4l_print_buffer, INFO_FL_QUEUE),
+> +	IOCTL_INFO(VIDIOC_EXT_PREPARE_BUF, v4l_ext_prepare_buf, v4l_print_ext_buffer, INFO_FL_QUEUE),
+>  	IOCTL_INFO(VIDIOC_ENUM_DV_TIMINGS, v4l_stub_enum_dv_timings, v4l_print_enum_dv_timings, INFO_FL_CLEAR(v4l2_enum_dv_timings, pad)),
+>  	IOCTL_INFO(VIDIOC_QUERY_DV_TIMINGS, v4l_stub_query_dv_timings, v4l_print_dv_timings, INFO_FL_ALWAYS_COPY),
+>  	IOCTL_INFO(VIDIOC_DV_TIMINGS_CAP, v4l_stub_dv_timings_cap, v4l_print_dv_timings_cap, INFO_FL_CLEAR(v4l2_dv_timings_cap, pad)),
+> diff --git a/include/media/v4l2-ioctl.h b/include/media/v4l2-ioctl.h
+> index 8bbcb74d8ee31..75996657ad1ba 100644
+> --- a/include/media/v4l2-ioctl.h
+> +++ b/include/media/v4l2-ioctl.h
+> @@ -169,16 +169,26 @@ struct v4l2_fh;
+>   *	:ref:`VIDIOC_REQBUFS <vidioc_reqbufs>` ioctl
+>   * @vidioc_querybuf: pointer to the function that implements
+>   *	:ref:`VIDIOC_QUERYBUF <vidioc_querybuf>` ioctl
+> + * @vidioc_ext_querybuf: pointer to the function that implements
+> + *	:ref:`VIDIOC_EXT_QUERYBUF <vidioc_ext_querybuf>` ioctl
+>   * @vidioc_qbuf: pointer to the function that implements
+>   *	:ref:`VIDIOC_QBUF <vidioc_qbuf>` ioctl
+> + * @vidioc_ext_qbuf: pointer to the function that implements
+> + *	:ref:`VIDIOC_EXT_QBUF <vidioc_ext_qbuf>` ioctl
+>   * @vidioc_expbuf: pointer to the function that implements
+>   *	:ref:`VIDIOC_EXPBUF <vidioc_expbuf>` ioctl
+>   * @vidioc_dqbuf: pointer to the function that implements
+>   *	:ref:`VIDIOC_DQBUF <vidioc_qbuf>` ioctl
+> + * @vidioc_ext_dqbuf: pointer to the function that implements
+> + *	:ref:`VIDIOC_EXT_DQBUF <vidioc_ext_qbuf>` ioctl
+>   * @vidioc_create_bufs: pointer to the function that implements
+>   *	:ref:`VIDIOC_CREATE_BUFS <vidioc_create_bufs>` ioctl
+> + * @vidioc_ext_create_bufs: pointer to the function that implements
+> + *	:ref:`VIDIOC_EXT_CREATE_BUFS <vidioc_ext_create_bufs>` ioctl
+>   * @vidioc_prepare_buf: pointer to the function that implements
+>   *	:ref:`VIDIOC_PREPARE_BUF <vidioc_prepare_buf>` ioctl
+> + * @vidioc_ext_prepare_buf: pointer to the function that implements
+> + *	:ref:`VIDIOC_EXT_PREPARE_BUF <vidioc_ext_prepare_buf>` ioctl
+>   * @vidioc_overlay: pointer to the function that implements
+>   *	:ref:`VIDIOC_OVERLAY <vidioc_overlay>` ioctl
+>   * @vidioc_g_fbuf: pointer to the function that implements
+> @@ -439,17 +449,27 @@ struct v4l2_ioctl_ops {
+>  			      struct v4l2_requestbuffers *b);
+>  	int (*vidioc_querybuf)(struct file *file, void *fh,
+>  			       struct v4l2_buffer *b);
+> +	int (*vidioc_ext_querybuf)(struct file *file, void *fh,
+> +				   struct v4l2_ext_buffer *b);
+>  	int (*vidioc_qbuf)(struct file *file, void *fh,
+>  			   struct v4l2_buffer *b);
+> +	int (*vidioc_ext_qbuf)(struct file *file, void *fh,
+> +			       struct v4l2_ext_buffer *b);
+>  	int (*vidioc_expbuf)(struct file *file, void *fh,
+>  			     struct v4l2_exportbuffer *e);
+>  	int (*vidioc_dqbuf)(struct file *file, void *fh,
+>  			    struct v4l2_buffer *b);
+> +	int (*vidioc_ext_dqbuf)(struct file *file, void *fh,
+> +				struct v4l2_ext_buffer *b);
+>  
+>  	int (*vidioc_create_bufs)(struct file *file, void *fh,
+>  				  struct v4l2_create_buffers *b);
+> +	int (*vidioc_ext_create_bufs)(struct file *file, void *fh,
+> +				      struct v4l2_ext_create_buffers *b);
+>  	int (*vidioc_prepare_buf)(struct file *file, void *fh,
+>  				  struct v4l2_buffer *b);
+> +	int (*vidioc_ext_prepare_buf)(struct file *file, void *fh,
+> +				      struct v4l2_ext_buffer *b);
+>  
+>  	int (*vidioc_overlay)(struct file *file, void *fh, unsigned int i);
+>  	int (*vidioc_g_fbuf)(struct file *file, void *fh,
+> @@ -758,6 +778,12 @@ int v4l2_ext_pix_format_to_format(const struct v4l2_ext_pix_format *e,
+>  				  struct v4l2_format *f,
+>  				  bool mplane_cap, bool strict);
+>  
+> +int v4l2_ext_buffer_to_buffer(const struct v4l2_ext_buffer *e,
+> +			      struct v4l2_buffer *b,
+> +			      bool mplane_cap);
+> +int v4l2_buffer_to_ext_buffer(const struct v4l2_buffer *b,
+> +			      struct v4l2_ext_buffer *e);
+> +
+>  /*
+>   * The user space interpretation of the 'v4l2_event' differs
+>   * based on the 'time_t' definition on 32-bit architectures, so
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 7123c6a4d9569..334cafdd2be97 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -996,6 +996,41 @@ struct v4l2_plane {
+>  	__u32			reserved[11];
+>  };
+>  
+> +/**
+> + * struct v4l2_ext_plane - extended plane buffer info
+> + * @buffer_length:	size of the entire buffer in bytes, should fit
+> + *			@offset + @plane_length
+
+Do we actually need this buffer_length at all? We have 3 memory types:
+
+1) MMAP - here vb2 already knows the buffer size, because it created it.
+
+2) DMABUF - the DMA-buf kAPI provides the information about buffer size.
+
+3) USERPTR - this might actually benefit from buffer_length, because there
+   are additional alignmnent requirements for the user memory, e.g. the
+   offset and size must be cacheline aligned.
+
+Arguably, 1) and 2) are the main usage scenarios, while the user space that
+uses them would have to suffer from added complexity, because of the
+legacy/niche case 3).
+
+Could we make this field valid only for USERPTR?
+
+> + * @plane_length:	size of the plane in bytes.
+> + * @mem_offset:		If V4L2_MEMORY_MMAP is used, then it can be a "cookie"
+> + *			that should be passed to mmap() called on the video node.
+> + * @userptr:		when memory is V4L2_MEMORY_USERPTR, a userspace pointer pointing
+> + *			to this plane.
+> + * @dmabuf_fd:		when memory is V4L2_MEMORY_DMABUF, a userspace file descriptor
+> + *			associated with this plane.
+> + * @offset:		offset in the memory buffer where the plane starts.
+> + * @memory:		enum v4l2_memory; the method, in which the actual video
+> + *			data is passed
+> + * @reserved:		extra space reserved for future fields, must be set to 0.
+> + *
+> + *
+> + * Buffers consist of one or more planes, e.g. an YCbCr buffer with two planes
+> + * can have one plane for Y, and another for interleaved CbCr components.
+> + * Each plane can reside in a separate memory buffer, or even in
+> + * a completely separate memory node (e.g. in embedded devices).
+> + */
+> +struct v4l2_ext_plane {
+> +	__u32 buffer_length;
+> +	__u32 plane_length;
+> +	union {
+> +		__u32 mem_offset;
+> +		__u64 userptr;
+> +		__s32 dmabuf_fd;
+> +	} m;
+> +	__u32 offset;
+> +	__u32 memory;
+> +	__u32 reserved[4];
+> +};
+
+Don't we also need bytesused? Or would plane_length essentially mean the
+amount of space or payload, depending on the usage context?
+
+Similarly, the original data_offset was useful as a return field, which
+some drivers use to indicate that the beginning of the plane is occupied by
+some header or otherwise irrelevant data, which must be skipped. Would the
+offset field be used for this purpose now?
+
+> +
+>  /**
+>   * struct v4l2_buffer - video buffer info
+>   * @index:	id number of the buffer
+> @@ -1057,6 +1092,33 @@ struct v4l2_buffer {
+>  	};
+>  };
+>  
+> +/**
+> + * struct v4l2_ext_buffer - extended video buffer info
+> + * @index:	id number of the buffer
+> + * @type:	V4L2_BUF_TYPE_VIDEO_CAPTURE or V4L2_BUF_TYPE_VIDEO_OUTPUT
+> + * @flags:	buffer informational flags
+
+nit: The order of comments doesn't match the order of fields in the struct.
+
+> + * @field:	enum v4l2_field; field order of the image in the buffer
+> + * @timestamp:	frame timestamp
+> + * @sequence:	sequence count of this frame
+> + * @planes:	per-plane buffer information
+> + * @request_fd:	fd of the request that this buffer should use
+> + * @reserved:	extra space reserved for future fields, must be set to 0
+> + *
+> + * Contains data exchanged by application and driver using one of the Streaming
+> + * I/O methods.
+> + */
+> +struct v4l2_ext_buffer {
+> +	__u32 index;
+> +	__u32 type;
+> +	__u32 field;
+> +	__u32 sequence;
+> +	__u64 flags;
+> +	__u64 timestamp;
+
+What's the unit? How does this play with the other UAPI that the user space
+may use, e.g. clock_gettime() which returns struct timespec?
+
+> +	struct v4l2_ext_plane planes[VIDEO_MAX_PLANES];
+> +	__s32 request_fd;
+> +	__u32 reserved[9];
+> +};
+> +
+>  #ifndef __KERNEL__
+>  /**
+>   * v4l2_timeval_to_ns - Convert timeval to nanoseconds
+> @@ -2523,6 +2585,29 @@ struct v4l2_create_buffers {
+>  	__u32			reserved[6];
+>  };
+>  
+> +/**
+> + * struct v4l2_ext_create_buffers - VIDIOC_EXT_CREATE_BUFS argument
+> + * @index:	on return, index of the first created buffer
+> + * @count:	entry: number of requested buffers,
+> + *		return: number of created buffers
+> + * @memory:	enum v4l2_memory; buffer memory type
+> + * @capabilities: capabilities of this buffer type.
+> + * @format:	frame format, for which buffers are requested
+> + * @flags:	additional buffer management attributes (ignored unless the
+> + *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
+> + *		and configured for MMAP streaming I/O).
+
+Do we need to say that it is ignored here? I'd consider this to be a
+per-flag decision.
+
+Best regards,
+Tomasz
