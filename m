@@ -2,88 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BD7F82BC226
-	for <lists+linux-media@lfdr.de>; Sat, 21 Nov 2020 22:00:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7A72C2BC2B9
+	for <lists+linux-media@lfdr.de>; Sun, 22 Nov 2020 00:51:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728544AbgKUU5p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 21 Nov 2020 15:57:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59338 "EHLO
+        id S1726562AbgKUXuI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 21 Nov 2020 18:50:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728459AbgKUU5p (ORCPT
+        with ESMTP id S1726175AbgKUXuH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 21 Nov 2020 15:57:45 -0500
+        Sat, 21 Nov 2020 18:50:07 -0500
 Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0BFD1C0613CF
-        for <linux-media@vger.kernel.org>; Sat, 21 Nov 2020 12:57:45 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id 131so11221151pfb.9
-        for <linux-media@vger.kernel.org>; Sat, 21 Nov 2020 12:57:45 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BC2C0C0613CF
+        for <linux-media@vger.kernel.org>; Sat, 21 Nov 2020 15:50:05 -0800 (PST)
+Received: by mail-pf1-x442.google.com with SMTP id t8so11424931pfg.8
+        for <linux-media@vger.kernel.org>; Sat, 21 Nov 2020 15:50:05 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:sender:from:date:message-id:subject:to;
-        bh=Y0Eppo/kYLyMRVTN/kpzdicBUcF/hn0/YG7ihTMQInU=;
-        b=ePjyf6nwJMRYFTLqHWB9NmV4HcKQ/N5afP4HstI5Z4F4OKqYPSnTILFCpp5Pu+fSK9
-         6NzS4qhEcuNsXvWjI6ZPvsFLbc26P7TsApyvI90LOWIJ5SlxUCEV0EF77AWdZyzt2AP2
-         JtF/6jfkugb6pIjbN9fqBGoiBOY5sK2zuS8V1QU4jP2TtbQPoBeB4xFzGJEFTkxErDDC
-         xBdvRrXC2bqc++QUpLaGUqQMWpS8dsj92Msrw/vtnEH4S6uPv/dv/T8j2/i5xMRFEADf
-         ZkGPxVWx+xoteBoqIE+AAcWiZHhE8ze5RHaPk8jN73rx6MLqVobnBeBuQtgU5XCNd9qd
-         uIeg==
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZdyhTvyVNa2fhAy8X/NHf9i/vBLLU68LSfcoVNt03w8=;
+        b=hPqnU3xOMWcdHJxE2WBRuowx+pM6mR9po/NLZ2+HG9as2e0p2M4myMeqQ/bGXW7Mbf
+         UAWBA5y72Sp07u1lRw3WoZlKIL9cb+4evqy3TEfUDr+clyQZCY7zsQbuRU6b0ZPQQQvA
+         IkkCVaWOdcm2RvBBlh4m/JbjuoP/iltPQqln9mW4DeT6sIfVW08ry4X6SFhunJGoIO9t
+         oK5HD1kteNpl83ql4n46c9fETkwM61Yq2I0ezzIHwzUvVDHR+AOmki884xaCWssQzM0M
+         rtWP6LIGU/d8apzl2D0Ah64PN4+rZ4kV5GBpA4JUlGTfYIPpcFCYhBUP1fYJetSy9l/w
+         jOEA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:sender:from:date:message-id:subject
-         :to;
-        bh=Y0Eppo/kYLyMRVTN/kpzdicBUcF/hn0/YG7ihTMQInU=;
-        b=YTP9xRp4Lh2XUZ7IPW81Xr6G+Pma+6rtn1IspVEHZnwn0SIO+7pbw7SQ5OFam+SfdG
-         EcKBoI26fmei3z5JEFR1r0dtzm3OHnkf5czf19J814KjTXe5Vtz6SsEp0STAX50pP1kx
-         o+MQJ0dA1GBFKQvi2SUt3NySzgPFscVghAfipUH1uQZFnXbCc+/U18fdi2VnaFDw9M/5
-         6WC6hH7u86OjfBuJJ6bukoWKTd6fiEAiZMl1lT5OLb6TkNy50Q8IkUD5DSSfyRSoCOQm
-         Od8/hMqmWKaZOgz8NRf41iyntl7Ioo3H2uaoB1ZjTU4/VXrcYPZSye+2ZH4ohKAvyN/N
-         lhFg==
-X-Gm-Message-State: AOAM5333I6Fc4KOGOTPDM1WjO8sXdF6uIKUCKGm+/32DItkNTglL9fBR
-        8kPUga1vmpUBq8p3BkWP1ub9I1X/5ia+ZfdXgzmwgvMblvI=
-X-Google-Smtp-Source: ABdhPJyJZYVpn3+FZym135PN2FVXuE/osFmopPIcYMfhbOt0RM2NfjQ2swPGvY5pJyAkrRmgH8Ekx6+ua0f3QpP7Ivk=
-X-Received: by 2002:a17:90a:1bc5:: with SMTP id r5mr17716061pjr.157.1605992264485;
- Sat, 21 Nov 2020 12:57:44 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=ZdyhTvyVNa2fhAy8X/NHf9i/vBLLU68LSfcoVNt03w8=;
+        b=U2FhNFJ3PkHHQUHVjVr25878vSPy/glQwZYH1d3aWmxUrKxfIzyb80EAnpAI3DkgzW
+         tsWTYwYUpmYYfGae2IC88RGRJaaoiK1u93YYSjXEIibXiwnzcaf0kpej441dTSEy9ns7
+         Pboxv9kGxdN8Z0K+7yRD+ufdgn+dSn+LYEworZGXYfrVLlxSsh5jPMkBtc8PeF+UELTF
+         T2hJguMyYtCXwECJLYgLp1vZHC27uqFuZEycBAcjvuGEv00lCh81n2g9UkKZD300wGKO
+         f0PF+y4WXwisN3h5Z/6O1zo4FKQtNn1WNUs6wotR/dAhytrj9BdWFQOfRARWZ+sYfo0I
+         7PSA==
+X-Gm-Message-State: AOAM533jpq+cJzoGbNEJcGudUoPMf318/T4nhDW3LM68HIWhnZ0yXv9i
+        TGJIf7NVetEBMzZy4Wm27rgQeA==
+X-Google-Smtp-Source: ABdhPJzR7eE8aKla6W64xhedCSmbj1FTLdSO3fp593xPplEFC+UFeaGglpeDqZNua7/tdBZdBDBHuw==
+X-Received: by 2002:a17:90a:1d47:: with SMTP id u7mr17839921pju.49.1606002605188;
+        Sat, 21 Nov 2020 15:50:05 -0800 (PST)
+Received: from localhost.localdomain ([2601:1c2:680:1319:692:26ff:feda:3a81])
+        by smtp.gmail.com with ESMTPSA id v126sm7882525pfb.137.2020.11.21.15.50.03
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 21 Nov 2020 15:50:04 -0800 (PST)
+From:   John Stultz <john.stultz@linaro.org>
+To:     lkml <linux-kernel@vger.kernel.org>
+Cc:     John Stultz <john.stultz@linaro.org>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Liam Mark <lmark@codeaurora.org>,
+        Laura Abbott <labbott@kernel.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        Sandeep Patil <sspatil@google.com>,
+        Daniel Mentz <danielmentz@google.com>,
+        Chris Goldsworthy <cgoldswo@codeaurora.org>,
+        =?UTF-8?q?=C3=98rjan=20Eide?= <orjan.eide@arm.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Ezequiel Garcia <ezequiel@collabora.com>,
+        Simon Ser <contact@emersion.fr>,
+        James Jones <jajones@nvidia.com>, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: [PATCH v7 0/5] dma-buf: Code rework and performance improvements for system heap
+Date:   Sat, 21 Nov 2020 23:49:57 +0000
+Message-Id: <20201121235002.69945-1-john.stultz@linaro.org>
+X-Mailer: git-send-email 2.17.1
 MIME-Version: 1.0
-Sender: judenkuma10@gmail.com
-Received: by 2002:a05:6a10:9e89:0:0:0:0 with HTTP; Sat, 21 Nov 2020 12:57:44
- -0800 (PST)
-From:   Mrs Francisca Carlsen <franciscacarlsen20@gmail.com>
-Date:   Sat, 21 Nov 2020 21:57:44 +0100
-X-Google-Sender-Auth: OQovFhaYZl0b7-__Z8etL8LHZqA
-Message-ID: <CAP=Po6c-mmHZ+azg=DWWkODp23fUcbYD4DVrCTvsshoTkwabig@mail.gmail.com>
-Subject: Greetings My Dear,
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Greetings My Dear,
+Hey All,
+  So Sumit noted a flub I made in adapting the last series to
+the new dma-buf-map code that is in drm-misc-next. Thus I wanted
+to send this (hopefully) last revision of my patch series of
+performance optimizations to the dma-buf system heap, once again
+against drm-misc-next.
 
-    I sent this mail praying it will found you in a good condition of
-health, since I myself are in a very critical health condition in
-which I  sleep every night without knowing if I may be alive to see
-the next day. I am Mrs. Francisca  Carlsen from Denmark wife of late
-Mr John Carlsen, a widow suffering from long time illness. I have some
-funds I inherited from my late husband, the sum of (eleven million
-dollars) my Doctor told me recently that I have serious sickness which
-is cancer problem. What disturbs me most is my stroke sickness. Having
-known my condition, I decided to donate this fund to a good person
-that will utilize it the way i am going to instruct herein. I need a
-very honest and God fearing person who can claim this money and use it
-for Charity works, for orphanages, widows and also build schools for
-less privileges that will be named after my late husband if possible
-and to promote the word of God and the effort that the house of God is
-maintained.
+This series reworks the system heap to use sgtables, and then
+consolidates the pagelist method from the heap-helpers into the
+CMA heap. After which the heap-helpers logic is removed (as it
+is unused). I'd still like to find a better way to avoid some of
+the logic duplication in implementing the entire dma_buf_ops
+handlers per heap. But unfortunately that code is tied somewhat
+to how the buffer's memory is tracked. As more heaps show up I
+think we'll have a better idea how to best share code, so for
+now I think this is ok.
 
-I do not want a situation where this money will be used in an ungodly
-manner. That's why I'm taking this decision. I'm not afraid of death,
-so I know where I'm going. I accept this decision because I do not
-have any child who will inherit this money after I die. Please I want
-your sincerely and urgent answer to know if you will be able to
-execute this project, and I will give you more information on how the
-fund will be transferred to your bank account. I am waiting for your
-reply.
+After this, the series introduces an optimization that
+Ørjan Eide implemented for ION that avoids calling sync on
+attachments that don't have a mapping.
 
-May God Bless you,
-Mrs. Francisca Carlsen
+Finally, an optimization to use larger order pages for the system
+heap. This change brings us closer to the current performance
+of the ION allocation code (though there still is a gap due
+to ION using a mix of deferred-freeing and page pools, I'll be
+looking at integrating those eventually).
+
+This version of the series does not include the system-uncached
+heap as Daniel wanted further demonstration that it is useful
+with devices that use the mesa stack. I'm working on such a
+justification but I don't want to hold up these rework patches
+in the meantime.
+
+thanks
+-john
+
+New in v7:
+* Fixed the incorrect adaptation to the dma-buf-map usage
+
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: Liam Mark <lmark@codeaurora.org>
+Cc: Laura Abbott <labbott@kernel.org>
+Cc: Brian Starkey <Brian.Starkey@arm.com>
+Cc: Hridya Valsaraju <hridya@google.com>
+Cc: Suren Baghdasaryan <surenb@google.com>
+Cc: Sandeep Patil <sspatil@google.com>
+Cc: Daniel Mentz <danielmentz@google.com>
+Cc: Chris Goldsworthy <cgoldswo@codeaurora.org>
+Cc: Ørjan Eide <orjan.eide@arm.com>
+Cc: Robin Murphy <robin.murphy@arm.com>
+Cc: Ezequiel Garcia <ezequiel@collabora.com>
+Cc: Simon Ser <contact@emersion.fr>
+Cc: James Jones <jajones@nvidia.com>
+Cc: linux-media@vger.kernel.org
+Cc: dri-devel@lists.freedesktop.org
+
+
+John Stultz (5):
+  dma-buf: system_heap: Rework system heap to use sgtables instead of
+    pagelists
+  dma-buf: heaps: Move heap-helper logic into the cma_heap
+    implementation
+  dma-buf: heaps: Remove heap-helpers code
+  dma-buf: heaps: Skip sync if not mapped
+  dma-buf: system_heap: Allocate higher order pages if available
+
+ drivers/dma-buf/heaps/Makefile       |   1 -
+ drivers/dma-buf/heaps/cma_heap.c     | 329 +++++++++++++++++----
+ drivers/dma-buf/heaps/heap-helpers.c | 274 ------------------
+ drivers/dma-buf/heaps/heap-helpers.h |  53 ----
+ drivers/dma-buf/heaps/system_heap.c  | 414 ++++++++++++++++++++++++---
+ 5 files changed, 647 insertions(+), 424 deletions(-)
+ delete mode 100644 drivers/dma-buf/heaps/heap-helpers.c
+ delete mode 100644 drivers/dma-buf/heaps/heap-helpers.h
+
+-- 
+2.17.1
+
