@@ -2,92 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5DDD22BBC89
-	for <lists+linux-media@lfdr.de>; Sat, 21 Nov 2020 04:08:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 575EF2BBD00
+	for <lists+linux-media@lfdr.de>; Sat, 21 Nov 2020 05:40:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726982AbgKUDFu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 20 Nov 2020 22:05:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36820 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726189AbgKUDFu (ORCPT
+        id S1726529AbgKUEkK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 20 Nov 2020 23:40:10 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:49921 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725855AbgKUEkJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 20 Nov 2020 22:05:50 -0500
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 22367C0613CF;
-        Fri, 20 Nov 2020 19:05:50 -0800 (PST)
-Received: by mail-pg1-x544.google.com with SMTP id w4so8956217pgg.13;
-        Fri, 20 Nov 2020 19:05:50 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=gYKT1GDgUHKwabD+/L4YI6p0Bq1tA9NESqAu6acmN7k=;
-        b=Jt12FkG08jW5RD6a+8HuZt/j09dxpXvkQQf6aOg1kA8ZZ1pRCURlI7aWvDRftqIiMo
-         zwrDrO+Nzn3V2Nmp0phJPm5XEuAg61iNmaL1Uf9DhoAYH/MWjyypLjdFdL5Cfzl/4DXb
-         ZFYcb0wpf5L3Y7uAiW04ePUbTG3C7fQbEiaU4MMPsHLuThNfCu2afSRcN7s8fKsYaL6I
-         UC2Fpb4UTxE/TGHXHVhpV6fqt+7fTOh7VmwJjwEVmw2uAZqaEq/CMm84atPSsMofZzzW
-         q1Xc4zunk/oxApuuWOQu7Yj6x7F2DJn7b/rWlIqp7BCm0zKH7h6E2k7pRhA4FMi0YBTH
-         4Syg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=gYKT1GDgUHKwabD+/L4YI6p0Bq1tA9NESqAu6acmN7k=;
-        b=fD/Z7M6YY0SuG2Hh7Kzwsjw1J67dUYGPs3umpGwpkT934G8rIrU98yk08wOa83vF7w
-         PjqOUnUXghU1c3bEewWc0Fe1s8ymjny1XmWqbgWPLri1qGb1/NpM4q3s6i+CI5BI7NLV
-         Y/Als7cBVVPg8NPvjhciXY5ujpNWVU0fDkWb7F7rb/+4HyLOIUeJqAGxWfOd2Qyze24a
-         gGtikJr/l9k/ZK2BFu2ZZGp9dawuepHRlOPA4B0aPslYYXFCjVh373BlHYacPI5UVtt4
-         EBy93C5Q/vIOgcXB+Qa7tmypdcJGw1z2W5ceuMnLVDDIF/op6WIDg1daMUNfNkbBnmX+
-         eh9g==
-X-Gm-Message-State: AOAM53255yKOD1Xa7J2Hj8RRJw+k8O6UDk/o7e67+rMKplgraKjQaIUZ
-        VriF9z8cMya2wXno/Nm+ums=
-X-Google-Smtp-Source: ABdhPJyGZGZ+jhkUFhHyn0H6d+ko+ffJV0IZvahprxmJuX505stpS6p4RUoZz7RmUdOJI4PtVv1PKw==
-X-Received: by 2002:a17:90b:150c:: with SMTP id le12mr13795556pjb.139.1605927949355;
-        Fri, 20 Nov 2020 19:05:49 -0800 (PST)
-Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
-        by smtp.gmail.com with ESMTPSA id p4sm5582693pjo.6.2020.11.20.19.05.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 20 Nov 2020 19:05:47 -0800 (PST)
-Date:   Sat, 21 Nov 2020 12:05:46 +0900
-From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-To:     Petr Mladek <pmladek@suse.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joe Perches <joe@perches.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH v5 1/1] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <X7iECnYR+GpXp7xO@jagdpanzerIV.localdomain>
-References: <20201113105441.1427-1-sakari.ailus@linux.intel.com>
- <X7fnc+xsVXPg4Op6@alley>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X7fnc+xsVXPg4Op6@alley>
+        Fri, 20 Nov 2020 23:40:09 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id gKgvk5j94lmd2gKgxkRhcd; Sat, 21 Nov 2020 05:40:07 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1605933607; bh=dI1PnFbzsC4bF/IX0VifRb76G6LxoHc7hS9uhqQZLsU=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=clToOJP8odJw2QoLwstNafL2ejCNYWQo3aZftS3mbPPlTL/BIZBmr9lIFvhyWeuS6
+         Mnl4zief0JaXo76hNgfVBBpJ5QmAFxR79GVb1OKalgzkSV2ZojV9114ttegLC04Eju
+         bfcUfA8SW6q4BdwWEzohbemA78MC7yKS6/S21PULVyrwL6I5jK7AsY/4cBYav26V05
+         GlSaBSiZLRjrpGKKL4Kmck2VoDsxtxCkdnl0NMf2DiuVHM5aNjB3/GMIOQXSgEHy6/
+         GYSFrbe7YH44RwJkYs5ia9jzNo6wGiJ4OnRk27mSeghpxHWjYi/HJrQtNQzV80fSrc
+         DfhspquSnrKWA==
+Message-ID: <759d6011b8eadd0ed60a4b2f937dc30f@smtp-cloud7.xs4all.net>
+Date:   Sat, 21 Nov 2020 05:40:05 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfFZT99/s9AFzZrVRtZlaxjZ40F0/htnOBedKisc2aFgCNegol9O01/Gd5/hb4X7iwL192G8yafzHkDw+bcY0EuVeVqLGml4xcdpYs+hcoCUZ3bblxEyC
+ KchAsoRTqlyTs3A8R6FoqfmXfAkfoYRbqqxhplno0lqE6ODCqaNr1chTFdr10X6Zs5WhK9m80EMn7VD3VbEHP6slgC2CPBWJZOGsNUqHOR6T9ao8qJyZhdbq
+ IUBaoHI9OfgNe/e4jtYW/g==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (20/11/20 16:57), Petr Mladek wrote:
-> On Fri 2020-11-13 12:54:41, Sakari Ailus wrote:
-> > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
-> > pixel formats denoted by fourccs. The fourcc encoding is the same for both
-> > so the same implementation can be used.
-> > 
-> > Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> 
-> The last version looks fine to me.
-> 
-> Reviewed-by: Petr Mladek <pmladek@suse.com>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Reviewed-by: Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Results of the daily build of media_tree:
 
-	-ss
+date:			Sat Nov 21 05:00:15 CET 2020
+media-tree git hash:	9463e07df8e0f93931e32c6f415d3f82bda63f35
+media_build git hash:	a542160125b8904cf8b55ce487bf5d4c48e3d401
+v4l-utils git hash:	11da65eee7a271bba3f21d8117cdac428fe3a91e
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 63a52153f10bfed851877e415b3507560c94cfd1
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm-pxa: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10-rc1-i686: OK
+linux-5.10-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
