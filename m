@@ -2,135 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7203D2BC639
-	for <lists+linux-media@lfdr.de>; Sun, 22 Nov 2020 15:51:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 476642BC649
+	for <lists+linux-media@lfdr.de>; Sun, 22 Nov 2020 15:57:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728023AbgKVOt1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Nov 2020 09:49:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54126 "EHLO
+        id S1728038AbgKVO4r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Nov 2020 09:56:47 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55244 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728030AbgKVOt0 (ORCPT
+        with ESMTP id S1726436AbgKVO4q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Nov 2020 09:49:26 -0500
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 06B9CC061A4A
-        for <linux-media@vger.kernel.org>; Sun, 22 Nov 2020 06:49:26 -0800 (PST)
-Received: by mail-ed1-x541.google.com with SMTP id m16so14484816edr.3
-        for <linux-media@vger.kernel.org>; Sun, 22 Nov 2020 06:49:25 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=LGSv+zaXag5bhul/n9vAaILaF4/C2Vq/pib9rWiVqdI=;
-        b=cQ8IvQoMl4tgBQPIgz8T3aEV3/bSlcLoSFZI+ehIw/5IVA1jHdd1QAajE5BbDXZU4g
-         Cpo2LDBWUub9OB/QDsIt+1HZqXYBsOm4xnspae8b4+f7wplItrWZNL6qUQRTNoRxbQKu
-         LSA/gam/9dXsaTz1KXd63aMQInMU3Bejl5lOF4a76LZ0EMjhW0M4HmwwQj9F9JB9KVyc
-         Q8BXrB+RxsGQPkgrL3/ARvtI9tIoei6ijCHBP0Z7aICiLmHFrUiRxjzEDKnhZ4mb56eU
-         Z2QB5AO0IwXuZJad+p7AFcLWoOy2OhcTckQ3y2nxiDfkEeHrsObJKLvfOs4cfUzDNUyP
-         YZHw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=LGSv+zaXag5bhul/n9vAaILaF4/C2Vq/pib9rWiVqdI=;
-        b=Qsdk+UV7I8IJTv88zy4CU2ivOaJRFWnEVClrmsGQNy0XJ1pYK8gj5uSsz/P8oD+w/L
-         VeAkbBCUy0w53YhO7YX1FZnUDVrHkmcvpnMht1CWHdOAEOv1dojKmGf9gTrKWINQTay6
-         x4HzVruEVDjxhP+UhhdHSYMnI0N+PJiz8/WbCctG/9Dr9kqgSLQdvXnZBlte8ba2egZt
-         U/GzVyroQhG1Au99/OAgZtBXupIpyz6Vg/FUJ4tBZ109M/H1xL1v4w2nMLeqSBv3ogc1
-         BlFERgTu+j9qVCYnOLzjoEJ5t7PpZZp8TiVBnjSP5lMZHjw0XK+Z8yFxpbGfuAS7l5ul
-         I/QQ==
-X-Gm-Message-State: AOAM532SJnvbc1cME97bDralg3b/Q+gD3Wi+lZndtc8ofNNhpspKuC3j
-        v9aZEclmqhnhcZwrLCmb5afTew==
-X-Google-Smtp-Source: ABdhPJyNNX6HJM4vvTmYVCILFgg+3NQhUwFMDW2ZA+3bcbujvwDDydmwxveVPATBPZeBDM8qh6AFaA==
-X-Received: by 2002:a50:950e:: with SMTP id u14mr42735701eda.260.1606056564785;
-        Sun, 22 Nov 2020 06:49:24 -0800 (PST)
-Received: from [192.168.1.9] (hst-208-222.medicom.bg. [84.238.208.222])
-        by smtp.googlemail.com with ESMTPSA id aq15sm3658002ejc.70.2020.11.22.06.49.23
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Nov 2020 06:49:24 -0800 (PST)
-Subject: Re: [PATCH 3/3] media: hfi_venus: Request interrupt for sync cmds
-To:     Fritz Koenig <frkoenig@chromium.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vikash Garodia <vgarodia@codeaurora.org>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Dikshita Agarwal <dikshita@codeaurora.org>
-References: <20201120001037.10032-1-stanimir.varbanov@linaro.org>
- <20201120001037.10032-4-stanimir.varbanov@linaro.org>
- <CAMfZQbwjCNjeWJYt8A4Zrq5yABB0bDnOrg41JjDP=MZF86TOjQ@mail.gmail.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <493867b4-4106-9167-a361-09737b06a8b7@linaro.org>
-Date:   Sun, 22 Nov 2020 16:49:23 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Sun, 22 Nov 2020 09:56:46 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2D0B7C0613CF;
+        Sun, 22 Nov 2020 06:56:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=wxlelFGFCxCiVSAw6KoblZyEK+s/RwoBRdtshdQHcTA=; b=IHdP9cS5+aim9K2c8XsejJHGrM
+        +S6gdmtkdU0PTIkPZFY+qbqZ8sMUEbhQL8b8Qdm+o2+njoM1Cm2cM6mbD/iY0TNSwZxJRLByIjVzg
+        eNcrVpKlWHjnQQvQ1Go6iFjsUh68sqz8dumIdI2qfrFsd2XrVO5w3MRgBBmvjmOvnFaYJLzopUIl7
+        R6ZVO/KTc63YeijcPbeFNlRWdMYtVgUZuoprtKEH7yjNmV1uGOzQEbR4NJQpt6J1Nu3N9hq7ljiYQ
+        UIsENsOUDnACtwno8Bc2xaczmaEz8q4+sGKzgwN4pxETWG486xJZxN2UeB5LYfIlImw9WtEFIo9GQ
+        DSwauRxg==;
+Received: from willy by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kgqn5-0000Ms-Pt; Sun, 22 Nov 2020 14:56:36 +0000
+Date:   Sun, 22 Nov 2020 14:56:35 +0000
+From:   Matthew Wilcox <willy@infradead.org>
+To:     Tom Rix <trix@redhat.com>
+Cc:     joe@perches.com, clang-built-linux@googlegroups.com,
+        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
+        xen-devel@lists.xenproject.org, tboot-devel@lists.sourceforge.net,
+        kvm@vger.kernel.org, linux-crypto@vger.kernel.org,
+        linux-acpi@vger.kernel.org, devel@acpica.org,
+        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
+        intel-gfx@lists.freedesktop.org, netdev@vger.kernel.org,
+        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
+        linux-scsi@vger.kernel.org, linux-wireless@vger.kernel.org,
+        ibm-acpi-devel@lists.sourceforge.net,
+        platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org,
+        linux-omap@vger.kernel.org, linux-fbdev@vger.kernel.org,
+        ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
+        cluster-devel@redhat.com, linux-mtd@lists.infradead.org,
+        keyrings@vger.kernel.org, netfilter-devel@vger.kernel.org,
+        coreteam@netfilter.org, alsa-devel@alsa-project.org,
+        bpf@vger.kernel.org, linux-bluetooth@vger.kernel.org,
+        linux-nfs@vger.kernel.org, patches@opensource.cirrus.com
+Subject: Re: [RFC] MAINTAINERS tag for cleanup robot
+Message-ID: <20201122145635.GG4327@casper.infradead.org>
+References: <20201121165058.1644182-1-trix@redhat.com>
+ <20201122032304.GE4327@casper.infradead.org>
+ <ddb08a27-3ca1-fb2e-d51f-4b471f1a56a3@redhat.com>
 MIME-Version: 1.0
-In-Reply-To: <CAMfZQbwjCNjeWJYt8A4Zrq5yABB0bDnOrg41JjDP=MZF86TOjQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <ddb08a27-3ca1-fb2e-d51f-4b471f1a56a3@redhat.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-
-
-On 11/21/20 3:02 AM, Fritz Koenig wrote:
-> On Thu, Nov 19, 2020 at 4:12 PM Stanimir Varbanov
-> <stanimir.varbanov@linaro.org> wrote:
->>
->> From: Vikash Garodia <vgarodia@codeaurora.org>
->>
->> For synchronous commands, update the message queue variable.
->> This would inform video firmware to raise interrupt on host
->> CPU whenever there is a response for such commands.
->>
->> Signed-off-by: Vikash Garodia <vgarodia@codeaurora.org>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  drivers/media/platform/qcom/venus/hfi_venus.c | 74 ++++++++++---------
->>  1 file changed, 41 insertions(+), 33 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
->> index 4be4a75ddcb6..b8fdb464ba9c 100644
->> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
->> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
->> @@ -372,7 +372,7 @@ static void venus_soft_int(struct venus_hfi_device *hdev)
->>  }
->>
->>  static int venus_iface_cmdq_write_nolock(struct venus_hfi_device *hdev,
->> -                                        void *pkt)
->> +                                        void *pkt, bool sync)
->>  {
->>         struct device *dev = hdev->core->dev;
->>         struct hfi_pkt_hdr *cmd_packet;
->> @@ -397,15 +397,23 @@ static int venus_iface_cmdq_write_nolock(struct venus_hfi_device *hdev,
->>         if (rx_req)
->>                 venus_soft_int(hdev);
->>
->> +       /* Inform video firmware to raise interrupt for synchronous commands */
->> +       queue = &hdev->queues[IFACEQ_MSG_IDX];
+On Sun, Nov 22, 2020 at 06:46:46AM -0800, Tom Rix wrote:
 > 
-> I don't think there is any reason to scope queue outside of  the sync
-> block below.
-
-OK. I'll move into the 'if' statment.
-
+> On 11/21/20 7:23 PM, Matthew Wilcox wrote:
+> > On Sat, Nov 21, 2020 at 08:50:58AM -0800, trix@redhat.com wrote:
+> >> The fixer review is
+> >> https://reviews.llvm.org/D91789
+> >>
+> >> A run over allyesconfig for x86_64 finds 62 issues, 5 are false positives.
+> >> The false positives are caused by macros passed to other macros and by
+> >> some macro expansions that did not have an extra semicolon.
+> >>
+> >> This cleans up about 1,000 of the current 10,000 -Wextra-semi-stmt
+> >> warnings in linux-next.
+> > Are any of them not false-positives?  It's all very well to enable
+> > stricter warnings, but if they don't fix any bugs, they're just churn.
+> >
+> While enabling additional warnings may be a side effect of this effort
 > 
->>
->> +       if (sync) {
->> +               queue->qhdr->rx_req = 1;
->> +               /* ensure rx_req is updated in memory */
->> +               wmb();
->> +       }
->> +
->>         return 0;
->>  }
->>
-<cut>
+> the primary goal is to set up a cleaning robot. After that a refactoring robot.
 
--- 
--- 
-regards,
-Stan
+Why do we need such a thing?  Again, it sounds like more churn.
+It's really annoying when I'm working on something important that gets
+derailed by pointless churn.  Churn also makes it harder to backport
+patches to earlier kernels.
