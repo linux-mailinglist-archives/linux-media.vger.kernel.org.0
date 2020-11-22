@@ -2,38 +2,39 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 81C4A2BC70D
-	for <lists+linux-media@lfdr.de>; Sun, 22 Nov 2020 17:35:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 69B352BC70F
+	for <lists+linux-media@lfdr.de>; Sun, 22 Nov 2020 17:35:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728229AbgKVQc7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Nov 2020 11:32:59 -0500
-Received: from mail.kernel.org ([198.145.29.99]:52918 "EHLO mail.kernel.org"
+        id S1728260AbgKVQdR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Nov 2020 11:33:17 -0500
+Received: from mail.kernel.org ([198.145.29.99]:53048 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728001AbgKVQc7 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Nov 2020 11:32:59 -0500
+        id S1728001AbgKVQdQ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sun, 22 Nov 2020 11:33:16 -0500
 Received: from coco.lan (ip5f5ad5ca.dynamic.kabel-deutschland.de [95.90.213.202])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B71CF20781;
-        Sun, 22 Nov 2020 16:32:57 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 6A4CD20781;
+        Sun, 22 Nov 2020 16:33:15 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606062778;
-        bh=e8sIaSe5jQWBKPA9KDU/BRqi38yhPyex9LtXhWzkhXs=;
+        s=default; t=1606062796;
+        bh=KziRjoXHGWXfD1Ee+bXbjXK30Ug/6nzz4PerIjzcHLg=;
         h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=i+8AgLgCyUsbvOZ3HGTwaiJR/1/Ae6O+SRERECOuL2j0Wsz42mkUgl8muW1kSbrRv
-         JOlGpvhNewZBgC6bsYRj86NfVso16zM0gYfhqSmEjjGVWhP1U0GZXMJ1aa5R1o/jo/
-         xJ+liUDaChbLr/PmNonxJ6rdRNvDFjEHbLFM+NiA=
-Date:   Sun, 22 Nov 2020 17:32:55 +0100
+        b=q55vGEyfugvsSM4of6dzek1crn1c7anEELYc8qBDIXKa5PeI+SZcEcRPpBhluPYOW
+         IJKqXzVAmemwPGy9H4tOyakfkrvc4/MJkcA4UXtZJ3zOLHX9Xc8gLbfIDDjVAvJu3K
+         5cC7JfZY+iewNIj7ZkpvGhTGe7T49I32rVy773+s=
+Date:   Sun, 22 Nov 2020 17:33:13 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 To:     "Gustavo A. R. Silva" <gustavoars@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+Cc:     Mikhail Ulyanov <mikhail.ulyanov@cogentembedded.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         linux-hardening@vger.kernel.org
-Subject: Re: [PATCH 097/141] media: saa7134: Fix fall-through warnings for
+Subject: Re: [PATCH 096/141] media: rcar_jpu: Fix fall-through warnings for
  Clang
-Message-ID: <20201122173255.19766109@coco.lan>
-In-Reply-To: <cc5053e144f9ff5901e9cf894c72aa933cf480f3.1605896060.git.gustavoars@kernel.org>
+Message-ID: <20201122173313.0d507269@coco.lan>
+In-Reply-To: <55b0dd100f6c2799e0250ce479291fceb40bb462.1605896060.git.gustavoars@kernel.org>
 References: <cover.1605896059.git.gustavoars@kernel.org>
-        <cc5053e144f9ff5901e9cf894c72aa933cf480f3.1605896060.git.gustavoars@kernel.org>
+        <55b0dd100f6c2799e0250ce479291fceb40bb462.1605896060.git.gustavoars@kernel.org>
 X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
 Content-Type: text/plain; charset=US-ASCII
@@ -42,7 +43,7 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Fri, 20 Nov 2020 12:37:08 -0600
+Em Fri, 20 Nov 2020 12:37:02 -0600
 "Gustavo A. R. Silva" <gustavoars@kernel.org> escreveu:
 
 > In preparation to enable -Wimplicit-fallthrough for Clang, fix a warning
@@ -55,21 +56,21 @@ Em Fri, 20 Nov 2020 12:37:08 -0600
 Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
 > ---
->  drivers/media/pci/saa7134/saa7134-tvaudio.c | 1 +
+>  drivers/media/platform/rcar_jpu.c | 1 +
 >  1 file changed, 1 insertion(+)
 > 
-> diff --git a/drivers/media/pci/saa7134/saa7134-tvaudio.c b/drivers/media/pci/saa7134/saa7134-tvaudio.c
-> index 5cc4ef21f9d3..5dc97990fa0e 100644
-> --- a/drivers/media/pci/saa7134/saa7134-tvaudio.c
-> +++ b/drivers/media/pci/saa7134/saa7134-tvaudio.c
-> @@ -885,6 +885,7 @@ void saa7134_enable_i2s(struct saa7134_dev *dev)
->  	    saa_writeb(SAA7134_I2S_OUTPUT_FORMAT, i2s_format);
->  	    saa_writeb(SAA7134_I2S_OUTPUT_LEVEL,  0x0F);
->  	    saa_writeb(SAA7134_I2S_AUDIO_OUTPUT,  0x01);
-> +	    break;
->  
->  	default:
->  	    break;
+> diff --git a/drivers/media/platform/rcar_jpu.c b/drivers/media/platform/rcar_jpu.c
+> index 9b99ff368698..87466edf8a5e 100644
+> --- a/drivers/media/platform/rcar_jpu.c
+> +++ b/drivers/media/platform/rcar_jpu.c
+> @@ -648,6 +648,7 @@ static u8 jpu_parse_hdr(void *buffer, unsigned long size, unsigned int *width,
+>  			if (get_word_be(&jpeg_buffer, &word))
+>  				return 0;
+>  			skip(&jpeg_buffer, (long)word - 2);
+> +			break;
+>  		case 0:
+>  			break;
+>  		default:
 
 
 
