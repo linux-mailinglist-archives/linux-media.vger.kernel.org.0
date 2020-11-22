@@ -2,110 +2,189 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BCA32BC61C
-	for <lists+linux-media@lfdr.de>; Sun, 22 Nov 2020 15:47:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1EB632BC636
+	for <lists+linux-media@lfdr.de>; Sun, 22 Nov 2020 15:51:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727918AbgKVOq6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 22 Nov 2020 09:46:58 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59722 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727825AbgKVOq5 (ORCPT
+        id S1728003AbgKVOsM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 22 Nov 2020 09:48:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53930 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727634AbgKVOsL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 22 Nov 2020 09:46:57 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606056416;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
-         content-transfer-encoding:content-transfer-encoding:
-         in-reply-to:in-reply-to:references:references;
-        bh=apju6gP6XSpkYwp4WdL57a/nFAvNI/QCKhQkuBxc3S8=;
-        b=XA3Bdia/xK9rtALsHLhdMXNkl5EWPz83+inaq5KZnxbZp/pqE7ot4cuq9wfEbTWVu1jCkd
-        fkI/qAlh4sU3l8dOrlq7C5hNdTdH0le7t+rDrYZ5+jjUTJP5ekv3G25710udgF6Q97joi/
-        ih3DR460gM+B9YwlFm0ND3pgcFfhizQ=
-Received: from mail-qk1-f200.google.com (mail-qk1-f200.google.com
- [209.85.222.200]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-336-BIDMYnhUPRagpy_UgP4uwQ-1; Sun, 22 Nov 2020 09:46:52 -0500
-X-MC-Unique: BIDMYnhUPRagpy_UgP4uwQ-1
-Received: by mail-qk1-f200.google.com with SMTP id 202so12594132qkl.9
-        for <linux-media@vger.kernel.org>; Sun, 22 Nov 2020 06:46:52 -0800 (PST)
+        Sun, 22 Nov 2020 09:48:11 -0500
+Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8B759C061A4A
+        for <linux-media@vger.kernel.org>; Sun, 22 Nov 2020 06:48:11 -0800 (PST)
+Received: by mail-ej1-x644.google.com with SMTP id f20so19684274ejz.4
+        for <linux-media@vger.kernel.org>; Sun, 22 Nov 2020 06:48:11 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=ZDzM+WFxB6B4dYDN2InEoPdN/On7LdDZTygjQx7Z3HE=;
+        b=AoYJEnCWNGa4KeyI+NPaATo88wNu7HuVnrllcEhjCoSydwgnpCRxFrp/aEVpyCaZTP
+         kGVOmy+4vyQZ08oHkdu9sC6mpM8Rd9OwTuMVL6rpro9VrcuWzq1z6Gb0/9R29Fi5NcR2
+         ZqAf9XnKARayCGpsJV+xT0N6KlQQTHUtkVMfjZ+dgI9tImkVGo4/wpYt6leXP49Pxzvn
+         o+9XN2J5KlWBJ5vbgaG58iHYzrUUaIFNfk7S0UqGda/mhwtd1eS+6ApLwnuXRD6A/4R/
+         BD5xHRYYC4Pr+FzyvvqIeRz+MxYM5LRWkM1vgxliWC06wKnwPzA2fUwXJz+nVI2ytwYS
+         7DFQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=apju6gP6XSpkYwp4WdL57a/nFAvNI/QCKhQkuBxc3S8=;
-        b=GYDZGmVkK/GwQM5RqES9PP7e1QYU1iv0Nkh+OTe0mrwdpH6wX3qw35jYi5/PVjJuA2
-         sZK7fODRq6sAddYy9iEMJCtbdKj+FPcUSCe0bG0LYd9xUCtIOjxebQ2CloEMvYhoxFL6
-         YJBP7uAvAHBL437n6KRaS7Mdld1oC5PTOFMhNxMMZ6LpLN5629/Q7AQuMJsgHILzek2Z
-         Ty6O+uMv6DIuE11wEzdBKrtOFIUN7Pf2YHk3dnn9N1AZFdD8cZlYSBCI0bPfQVQSv2J2
-         PYDZwFcNpGUmXQY188AtW57rqje9FNXAUqx5gR1Lntkk62of5UJ5k8J6oF6n18WZs0PJ
-         cRRg==
-X-Gm-Message-State: AOAM53007qB2Rur1Hs/DxJLshwlHUtpC8mTZiKnXV1/cR1t1Wy7uOXgD
-        kxjdMIBIgP8UA/f1peNEZV/y4OAUbUazMem6jchRxEPqbsKE41LSkPVAoIr19bPWsPpaVnDl8ph
-        Ry8jd3GUkryPlseaSnDK2Csw=
-X-Received: by 2002:ad4:476b:: with SMTP id d11mr26026182qvx.57.1606056412429;
-        Sun, 22 Nov 2020 06:46:52 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJyPQ8vJIBgyJxmgPlUVzOaStXFRaD0Z+d8VDmnR7kdLyNkvwByAGPov006wc7+pJBCcgj+/zw==
-X-Received: by 2002:ad4:476b:: with SMTP id d11mr26026152qvx.57.1606056412222;
-        Sun, 22 Nov 2020 06:46:52 -0800 (PST)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id x72sm6888242qkb.90.2020.11.22.06.46.47
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=ZDzM+WFxB6B4dYDN2InEoPdN/On7LdDZTygjQx7Z3HE=;
+        b=CPfNWlbHTyMClHLzg2a3xDEoQ3j1Q8tABk86qdjIkjIWnk/bIpmSIfG7aeDe4DCLF/
+         T+h+juWtXlFWEgJaTjJOF0/0/eQp8jeIe+vuC/4oACEr6GCvbMeV/z784KuSbIUTp0EL
+         w4HzAikeQFEwnVuSjATH5zmdvNx6XT8ZeiRixhWqOv2jPz3mm1LFMwIxyep4bw0KZJkV
+         bNjUQ0qv3Z5ZwYQirllDXQkkLJmn0vOXCqpmZy3myHWeL4X2rPL/DvTXHYPRJZQgtwZw
+         73enh8LbmMHgArwmuqzYCHULCRR7VOLsqlCq/6YaKvOeuZ15oDSoT0bgAJTSMtlsdu11
+         OfkQ==
+X-Gm-Message-State: AOAM533IapqrzIw8ViWmsfDM+OjKa4/fUFdTpJPZZ4u8fjyWrCLS+JgG
+        ZUg1DtaM+Z5PlKfY1GU9STj8TQ==
+X-Google-Smtp-Source: ABdhPJyyZfJg2Mp2xz//lvIK1I7WQhOVkaRrzdSGyA7L5GU0Dlc7ddu/ECtee//fy6hevNa7Q/qVMQ==
+X-Received: by 2002:a17:906:60d4:: with SMTP id f20mr42394347ejk.156.1606056490114;
+        Sun, 22 Nov 2020 06:48:10 -0800 (PST)
+Received: from [192.168.1.9] (hst-221-20.medicom.bg. [84.238.221.20])
+        by smtp.googlemail.com with ESMTPSA id q15sm3629250edt.95.2020.11.22.06.48.08
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sun, 22 Nov 2020 06:46:51 -0800 (PST)
-Subject: Re: [RFC] MAINTAINERS tag for cleanup robot
-To:     Matthew Wilcox <willy@infradead.org>
-Cc:     joe@perches.com, clang-built-linux@googlegroups.com,
-        linux-hyperv@vger.kernel.org, linux-kernel@vger.kernel.org,
-        xen-devel@lists.xenproject.org, tboot-devel@lists.sourceforge.net,
-        kvm@vger.kernel.org, linux-crypto@vger.kernel.org,
-        linux-acpi@vger.kernel.org, devel@acpica.org,
-        amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
-        intel-gfx@lists.freedesktop.org, netdev@vger.kernel.org,
-        linux-media@vger.kernel.org, MPT-FusionLinux.pdl@broadcom.com,
-        linux-scsi@vger.kernel.org, linux-wireless@vger.kernel.org,
-        ibm-acpi-devel@lists.sourceforge.net,
-        platform-driver-x86@vger.kernel.org, linux-usb@vger.kernel.org,
-        linux-omap@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        ecryptfs@vger.kernel.org, linux-fsdevel@vger.kernel.org,
-        cluster-devel@redhat.com, linux-mtd@lists.infradead.org,
-        keyrings@vger.kernel.org, netfilter-devel@vger.kernel.org,
-        coreteam@netfilter.org, alsa-devel@alsa-project.org,
-        bpf@vger.kernel.org, linux-bluetooth@vger.kernel.org,
-        linux-nfs@vger.kernel.org, patches@opensource.cirrus.com
-References: <20201121165058.1644182-1-trix@redhat.com>
- <20201122032304.GE4327@casper.infradead.org>
-From:   Tom Rix <trix@redhat.com>
-Message-ID: <ddb08a27-3ca1-fb2e-d51f-4b471f1a56a3@redhat.com>
-Date:   Sun, 22 Nov 2020 06:46:46 -0800
+        Sun, 22 Nov 2020 06:48:09 -0800 (PST)
+Subject: Re: [PATCH 2/3] venus: Limit HFI sessions to the maximum supported
+To:     Fritz Koenig <frkoenig@chromium.org>,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        linux-kernel@vger.kernel.org,
+        Vikash Garodia <vgarodia@codeaurora.org>,
+        Mansur Alisha Shaik <mansur@codeaurora.org>,
+        Dikshita Agarwal <dikshita@codeaurora.org>
+References: <20201120001037.10032-1-stanimir.varbanov@linaro.org>
+ <20201120001037.10032-3-stanimir.varbanov@linaro.org>
+ <CAMfZQbwjRTuF7_joa9sL0HLTkFC70FqymPOmtxmETt38qey+NA@mail.gmail.com>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <88838aa8-9c25-3fae-86dd-35b2a3df83d9@linaro.org>
+Date:   Sun, 22 Nov 2020 16:48:08 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201122032304.GE4327@casper.infradead.org>
+In-Reply-To: <CAMfZQbwjRTuF7_joa9sL0HLTkFC70FqymPOmtxmETt38qey+NA@mail.gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
-On 11/21/20 7:23 PM, Matthew Wilcox wrote:
-> On Sat, Nov 21, 2020 at 08:50:58AM -0800, trix@redhat.com wrote:
->> The fixer review is
->> https://reviews.llvm.org/D91789
+
+On 11/21/20 3:14 AM, Fritz Koenig wrote:
+> On Thu, Nov 19, 2020 at 4:12 PM Stanimir Varbanov
+> <stanimir.varbanov@linaro.org> wrote:
 >>
->> A run over allyesconfig for x86_64 finds 62 issues, 5 are false positives.
->> The false positives are caused by macros passed to other macros and by
->> some macro expansions that did not have an extra semicolon.
+>> Currently we rely on firmware to return error when we reach the maximum
+>> supported number of sessions. But this errors are happened at reqbuf
+>> time which is a bit later. The more reasonable way looks like is to
+>> return the error on driver open.
 >>
->> This cleans up about 1,000 of the current 10,000 -Wextra-semi-stmt
->> warnings in linux-next.
-> Are any of them not false-positives?  It's all very well to enable
-> stricter warnings, but if they don't fix any bugs, they're just churn.
->
-While enabling additional warnings may be a side effect of this effort
+>> To achieve that modify hfi_session_create to return error when we reach
+>> maximum count of sessions and thus refuse open.
+>>
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> ---
+>>  drivers/media/platform/qcom/venus/core.h      |  1 +
+>>  drivers/media/platform/qcom/venus/hfi.c       | 19 +++++++++++++++----
+>>  .../media/platform/qcom/venus/hfi_parser.c    |  3 +++
+>>  3 files changed, 19 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+>> index db0e6738281e..3a477fcdd3a8 100644
+>> --- a/drivers/media/platform/qcom/venus/core.h
+>> +++ b/drivers/media/platform/qcom/venus/core.h
+>> @@ -96,6 +96,7 @@ struct venus_format {
+>>  #define MAX_CAP_ENTRIES                32
+>>  #define MAX_ALLOC_MODE_ENTRIES 16
+>>  #define MAX_CODEC_NUM          32
+>> +#define MAX_SESSIONS           16
+>>
+>>  struct raw_formats {
+>>         u32 buftype;
+>> diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
+>> index 638ed5cfe05e..8420be6d3991 100644
+>> --- a/drivers/media/platform/qcom/venus/hfi.c
+>> +++ b/drivers/media/platform/qcom/venus/hfi.c
+>> @@ -175,6 +175,7 @@ static int wait_session_msg(struct venus_inst *inst)
+>>  int hfi_session_create(struct venus_inst *inst, const struct hfi_inst_ops *ops)
+>>  {
+>>         struct venus_core *core = inst->core;
+>> +       int ret;
+>>
+>>         if (!ops)
+>>                 return -EINVAL;
+>> @@ -183,12 +184,22 @@ int hfi_session_create(struct venus_inst *inst, const struct hfi_inst_ops *ops)
+>>         init_completion(&inst->done);
+>>         inst->ops = ops;
+>>
+>> -       mutex_lock(&core->lock);
+>> -       list_add_tail(&inst->list, &core->instances);
+>> -       atomic_inc(&core->insts_count);
+>> +       ret = mutex_lock_interruptible(&core->lock);
+>> +       if (ret)
+>> +               return ret;
+>> +
+>> +       ret = atomic_read(&core->insts_count);
+>> +       if (ret + 1 > core->max_sessions_supported) {
+>> +               ret = -EAGAIN;
+>> +       } else {
+>> +               atomic_inc(&core->insts_count);
+>> +               list_add_tail(&inst->list, &core->instances);
+>> +               ret = 0;
+>> +       }
+>> +
+>>         mutex_unlock(&core->lock);
+>>
+>> -       return 0;
+>> +       return ret;
+>>  }
+>>  EXPORT_SYMBOL_GPL(hfi_session_create);
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
+>> index 363ee2a65453..52898633a8e6 100644
+>> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
+>> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
+>> @@ -276,6 +276,9 @@ u32 hfi_parser(struct venus_core *core, struct venus_inst *inst, void *buf,
+>>                 words_count--;
+>>         }
+>>
+> 
+> My understanding of the hardware is that there is a max number of
+> macroblocks that can be worked on at a time.  That works out to
+> nominally 16 clips.  But large clips can take more resources.  Does
+> |max_sessions_supported| get updated with the amount that system can
+> use?  Or is it always a constant?
 
-the primary goal is to set up a cleaning robot. After that a refactoring robot.
+The number of max sessions supported is constant.
 
-Tom
+> 
+> If it changes depending on system load, then couldn't
+> |core->max_sessions_supported| be 0 if all of the resources have been
+> used up?  If that is the case then the below check would appear to be
+> incorrect.
 
+No, this is not the case. Changing dynamically the number of max
+sessions depending on session load is possible but it would be complex
+to implement. For example, think of decoder dynamic resolution change
+where we don't know in advance the new resolution (session load).
+
+> 
+>> +       if (!core->max_sessions_supported)
+>> +               core->max_sessions_supported = MAX_SESSIONS;
+>> +
+>>         parser_fini(inst, codecs, domain);
+>>
+>>         return HFI_ERR_NONE;
+>> --
+>> 2.17.1
+>>
+
+-- 
+regards,
+Stan
