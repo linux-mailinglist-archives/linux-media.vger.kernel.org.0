@@ -2,72 +2,92 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 933DB2C0EA2
-	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 16:20:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84B7D2C0EA4
+	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 16:20:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389444AbgKWPSx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Nov 2020 10:18:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53792 "EHLO
+        id S2389453AbgKWPS4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Nov 2020 10:18:56 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53798 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389439AbgKWPSw (ORCPT
+        with ESMTP id S2389439AbgKWPSz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Nov 2020 10:18:52 -0500
-Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63F78C0613CF;
-        Mon, 23 Nov 2020 07:18:51 -0800 (PST)
-Received: by mail-lj1-x242.google.com with SMTP id y7so3474465lji.8;
-        Mon, 23 Nov 2020 07:18:51 -0800 (PST)
+        Mon, 23 Nov 2020 10:18:55 -0500
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F8A2C0613CF;
+        Mon, 23 Nov 2020 07:18:54 -0800 (PST)
+Received: by mail-pg1-x542.google.com with SMTP id 34so14526332pgp.10;
+        Mon, 23 Nov 2020 07:18:54 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=yX11njvSBR+iLluPGSwzoSZT3z43k5ZJeal0h30YqGw=;
-        b=M6Ke/9xZulUSHz1LEDfd3iRxvvKpjTCxmMqv4mMzEShk/O7k2PsygrHQx3JF1xUXDt
-         dQvFRO+A5xSDhC3PZ+ROmlas8LJCH3AaogwT0/fNoeZnEtSTDe2oKjqfHlVNiaUaUnbo
-         akXTlbg1B8U/TI0AI340cJ83sn7StDSu3/QW9wDUvOXX0B7l8HBEENYhM1LvRwI9pCdQ
-         cHBnOYw1v92sSbUVPmkN01OTLqcuHXUstVn1QDF7oeio+0dd/+zEpvBY29+jam/lHxdm
-         +Yb2QMUlhRgKeQHoR4/MpWdHPAJOXJzxIBVm0mLJu3+jtbIsxLkpc4xtlPV7TPQRL/JP
-         /7RA==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NNasNs00AK0Yo+C2qGS7Dxw3i5eNX9nf2aLAmRKkISU=;
+        b=tc0kLkDTnpKDWiA8VHLSPIZSIanxKRHplWD4XaAbfHi1rDZFWP9DPsTtXrgryxuwfz
+         D1nP5lvY+k3aqkcNWCEy2PP3xiKoiRIPHJGXJJRw01JVvEJ5SWC7GeTT8DFClvYUtxBm
+         616py4n7U2Tp3oC174b+rHBKciS3QBE6r4wfb6k7b7Jy8RMx1ojk3DwABjWzT9Rm9g3X
+         5Yr5hXQaN5ZQsKtudwL45dJpWDalFR/xF6b8HId3U1KbdQMwz4hjuo/0IlBCf0X31l0t
+         YhsnzYjsuwoituu855GGGhqD+d0mqwSKV25a9Uk1y0jeEfhx/5KMTpkkvZyCtth6RZ7P
+         Pd8w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=yX11njvSBR+iLluPGSwzoSZT3z43k5ZJeal0h30YqGw=;
-        b=ZriiU3lNzjp9lHECswAGvitOX6G7EVzgwf7yyyuduKOaZ+NSo9+UfYRl7Vr7ktMO1v
-         dYiwX69OnAl0UHE7IDHqza2AfnIVu7NfvTcbGFDTHF2XfR++Dnop+ctC+c2viE/GOGVJ
-         iAm+5r/kloTjEnd0L8u/nU9ej83zlNDazMXZhVOQRRkJtE3sV+IxwkB71rdk0cznkmIy
-         m+nB4p3L9TH8l++LIKcI2bCy0Tq42cEYkpmEB+0qIIwoP7f5IkQB9ZoyKsoMT8zqEUDO
-         qlcxzo3haXHofI3ZCzpdon60/kvweT8y5Xi92R8grk8VWHE9Teooi6bx56r6jERcu7XK
-         luaQ==
-X-Gm-Message-State: AOAM532dJA4QSF/6nkz9RmeIdLRmVtb/MbxrE9iiJrrXemRZmyydzNuA
-        Ohm9HUkWJRFpK3DAl/lGSE0kIKNfwqm4JJEhPXY=
-X-Google-Smtp-Source: ABdhPJxGCwVC41xGktUVQX5iSjbOqB9v/2yhrpW5EubnRX0/zZcUIFFL1Sj46CLmYNDARJP+7lQ1GuB4xWr3GhSP4uk=
-X-Received: by 2002:a2e:8053:: with SMTP id p19mr21331ljg.321.1606144729831;
- Mon, 23 Nov 2020 07:18:49 -0800 (PST)
-MIME-Version: 1.0
-References: <20201022122421.133976-1-gnurou@gmail.com> <c6454292-935b-f14a-e743-838ccabc6590@xs4all.nl>
- <CAAVeFuKCEQYBs84ssCvwAkGUxGikeDFc+XNX2LzkENGc5B1n8g@mail.gmail.com> <db7a95b0-3d63-ed38-fb8a-62f32c83c13e@xs4all.nl>
-In-Reply-To: <db7a95b0-3d63-ed38-fb8a-62f32c83c13e@xs4all.nl>
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=NNasNs00AK0Yo+C2qGS7Dxw3i5eNX9nf2aLAmRKkISU=;
+        b=DX+gwA9az1VdDXoKIQktn942O7DDd9rAMEQu6uZjmDe8bJPSr+rTOSp8+PJxvG+i2e
+         q9BWup9pSYXjIkjkpnmswiwFE+6StzxhyWPcelqJYrIlyN7D1Qay5IGjaANoPxSsgrS1
+         g+qX5zcIuft/FaG9vvRe9fn4JozxaUCo9jvPhMffNgySo3EJ5pjg+1edbvJ/Dn8H46NF
+         OmKRiUftFr+qGWG3wmmiR+VECJSap+8uH8unePyMPRfmXBhj/MVofcX+Ed1h4bsp+1uL
+         80x9VG0thpYo8Io0qVdFp3RaHNTlMlUkrvIQYHQvr/Z1zvVUEG1Eo3Vio8JoGT9LwS5D
+         /49Q==
+X-Gm-Message-State: AOAM533TNa7d0oEXW6EyrvTR1EqIbGVW6vnG0j6Gv5YYjyIFtS+6aOgR
+        wFqNAswLjuuA6dyQHQPM7fQ=
+X-Google-Smtp-Source: ABdhPJwlQupOnOmuK68DWrIbDGLZZVpew5pd9Rb3Nz/IxYlV3sXj1Ji0prLxh1d4UrAlvE3lHR15Dw==
+X-Received: by 2002:a62:61c2:0:b029:197:f5ee:6ffa with SMTP id v185-20020a6261c20000b0290197f5ee6ffamr8040757pfb.18.1606144733480;
+        Mon, 23 Nov 2020 07:18:53 -0800 (PST)
+Received: from localhost.localdomain ([240d:1a:8f0:6c00:89cb:88d1:b6b2:3345])
+        by smtp.gmail.com with ESMTPSA id r130sm5038399pfc.41.2020.11.23.07.18.49
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 23 Nov 2020 07:18:52 -0800 (PST)
 From:   Alexandre Courbot <gnurou@gmail.com>
-Date:   Tue, 24 Nov 2020 00:18:37 +0900
-Message-ID: <CAAVeFuKh+f0XPfBE+Zs_cjfvARaXjua4MtmStFF1xr2AiXcNog@mail.gmail.com>
-Subject: Re: [PATCH] media: v4l2-mem2mem: always call poll_wait() on queues
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Alexandre Courbot <gnurou@gmail.com>
+Subject: [PATCH v2 0/2] media: always call poll_wait() on queues
+Date:   Tue, 24 Nov 2020 00:18:41 +0900
+Message-Id: <20201123151843.798205-1-gnurou@gmail.com>
+X-Mailer: git-send-email 2.29.2
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 3, 2020 at 6:48 PM Hans Verkuil <hverkuil-cisco@xs4all.nl> wrote:
-> There is one other place where this needs to be tested: testEvents() in
-> v4l2-test-controls.cpp: currently this only tests select(), but there
-> should be a second epoll test here as well that just tests EPOLLPRI.
->
-> This would catch drivers that do not stream (i.e. no EPOLLIN/OUT) but
-> that do have controls (so support EPOLLPRI).
+do_poll()/do_select() seem to set the _qproc member of poll_table to
+NULL the first time they are called on a given table, making subsequent
+calls of poll_wait() on that table no-ops. This behavior causes a bug
+with the current poll implementations of vb2 and mem2mem, which only
+call poll_wait() if a queue-related (EPOLLIN or EPOLLOUT) event if
+present: if there is none during the first call (e.g. because userspace
+only wanted to listen to EPOLLPRI), then EPOLLIN and EPOLLOUT will never
+be signaled, event if they are requested later.
 
-IIUC this part should not require fixing - EPOLLPRI is behaving
-properly, the bug is only with EPOLLIN/EPOLLOUT.
+This can be fixed by making the call to poll_wait() unconditional, thus
+making sure it will also be invoked during the first call.
+
+The issue has been discussed in more detail on
+https://www.spinics.net/lists/linux-media/msg179618.html.
+
+Alexandre Courbot (2):
+  media: videobuf2: always call poll_wait() on queues
+  media: v4l2-mem2mem: always call poll_wait() on queues
+
+ drivers/media/common/videobuf2/videobuf2-core.c | 11 +++++++++--
+ drivers/media/v4l2-core/v4l2-mem2mem.c          | 15 ++++++++++++---
+ 2 files changed, 21 insertions(+), 5 deletions(-)
+
+--
+2.29.2
+
