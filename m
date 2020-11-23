@@ -2,130 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D6C082C0EA7
-	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 16:20:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFB652C0EAC
+	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 16:20:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389477AbgKWPTA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Nov 2020 10:19:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53818 "EHLO
+        id S2389492AbgKWPTG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Nov 2020 10:19:06 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53834 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389472AbgKWPTA (ORCPT
+        with ESMTP id S2389474AbgKWPTG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Nov 2020 10:19:00 -0500
+        Mon, 23 Nov 2020 10:19:06 -0500
 Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0997AC0613CF;
-        Mon, 23 Nov 2020 07:19:00 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id m9so14543645pgb.4;
-        Mon, 23 Nov 2020 07:19:00 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0582CC0613CF
+        for <linux-media@vger.kernel.org>; Mon, 23 Nov 2020 07:19:06 -0800 (PST)
+Received: by mail-pg1-x541.google.com with SMTP id 62so14522818pgg.12
+        for <linux-media@vger.kernel.org>; Mon, 23 Nov 2020 07:19:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=KvAGWa51N1ldPtAHuumksuzzvbgBB+vz4HpNyK5XNq8=;
-        b=pttiWk7G0OsNNoNv8H1HMCAtiHeFVHSupx1sVGn0yYKliUtOanYK43BTM8uhfU8Yoa
-         bqjFxDC4XuX2bTORpq7EqNbhYvzlMwysVjqzi8huxyofGc6dFOfOh92+pHO6hv32cLk1
-         9fJb0aGhbzLdUb6dXLW9xk2+oodCxxi3Aj1LSKNK0LUDsgNASYr8kcrY2e6UusPIv+XZ
-         jcuW6eDcOrlrDOKb8fH2AFktWr/HAuD+XbUypAxPZ4ajvwSTjsYKmmE5qPOHMg+iP/hk
-         iiLoGQRF+n265YM6nqDaB3ZQr0dHizcDLW2kZoZV+FjB55e6o2thyzpMUy3KDGQzFdDg
-         mBLg==
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FkrDdKMycY94g90HXImki+9w+tAdECD1Gg/6dr67Fmc=;
+        b=Ux3MrT2GFrxcNk3WONtlIx6usd4hIhnwr/J+QjZMT9Vzpv0367wnHAngtfq3Evz+Bo
+         O9O4tHBvSvhloWUSsklCfdzyPjCI6FnuZ7AQGwviCNQJqu2lqUWASJVadq1wA60eZAyx
+         uZ4BvD26LrD+fOypf0PxDshO1vLS/4zM8cpFK8RK0Wnqge7GWUPQdqkqcv/Ma8+tUv2Y
+         gxkSqN1LWYLwxQkg0y3Xbkv7wzWakfbZepU+RHXirvR9MwAa2PHARD4G2p79SUBF/5kK
+         rCCEuTCfyNscJuALEeFieAXJnt8O4UlUyx9l7iuOv36uMIxkFr/h8pUg//lhDpP4JWfl
+         bK5Q==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=KvAGWa51N1ldPtAHuumksuzzvbgBB+vz4HpNyK5XNq8=;
-        b=ZePOa6BHXyZ9Ic9xhmoj9qxOj/b7g2KZf4UhgFagFY2OIreDmAgXa4adfUP/hwjGd2
-         sCgYCgH0lWm/EfrZv59fFamOEkl8WbvKYEEAe57CkCr2m5zIokuw5xbNbTdT8YfI8mAf
-         zLH+DNqM2kDFxorxpcBGGQS9lUoRkNnD0ZosoSLamo8lYThac86u2EFNQtTztKT3XzsO
-         73U1V1AgMgiojJqrVzNkyrDIit6DWnrqAMrO8wfuH30xVqViwnn844LNFyPBzEc81Dol
-         z76rwuWOcknS39L6QsbkwdUk8fsegXk+GuDyPTpl9WAwyg80L2p+jXUFD/gn3+ua5LZL
-         6vnA==
-X-Gm-Message-State: AOAM532psLS7GOF6TZl+2nKqGprY/XuJPs6p6wnXGI132lTNUT1axzl1
-        sZG8u+Nu+fH98gPhTlOmA04=
-X-Google-Smtp-Source: ABdhPJynR4MTzhD1DiVAdK4Yfghxd85RNfiZ1fk4IMivBLcmVO/ErCOnF8baIY/OINebwOPGjLxVew==
-X-Received: by 2002:a63:4e24:: with SMTP id c36mr27514825pgb.171.1606144739596;
-        Mon, 23 Nov 2020 07:18:59 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=FkrDdKMycY94g90HXImki+9w+tAdECD1Gg/6dr67Fmc=;
+        b=XO0QF2T9ST3JwrpmFcSOtFBX4J8bi9RIQuGPThfyzZxeHwrnvgkzjMENd4+qO/3g7w
+         EfpNeEtSTh7pBGicIFlF1/IvP6d1FREo1DbrkoZlz7lKSvjt8yLjKb6wRJQhjy/+8UtQ
+         HMVUw2M8cZoMpZo29ONIDMA5GAfoe1NivxGA3Hu00EHcp//I32sJMCD4H38LiQrVCatK
+         ofu33OYOdDqdU2rqSCEo+6oflpGPTN5r3mslUmcaCKZZb+gsPnfWrJUR7iPgibjWZg7n
+         bRRZDjcAfBVQuuKbFz3kqvk2ymQpBbpWdyjet1LNrtIp+htNdFh6zRnPgbq6g/fJ4kp8
+         1wGA==
+X-Gm-Message-State: AOAM532UYsNVNBWyuXpYQbCcgvRNRMFTOCPqWA1T27tTiQ3q4mh45ylA
+        dkSmDJQiwo05PBTsjCV7EJs=
+X-Google-Smtp-Source: ABdhPJzNaVrB1/RTIoKJGxifPujhsh1AJCnH7sqPCHSBQKHG9N7nNcvhtLguSPfOXcEDcaLLKSmr+g==
+X-Received: by 2002:a63:283:: with SMTP id 125mr292pgc.282.1606144745288;
+        Mon, 23 Nov 2020 07:19:05 -0800 (PST)
 Received: from localhost.localdomain ([240d:1a:8f0:6c00:89cb:88d1:b6b2:3345])
-        by smtp.gmail.com with ESMTPSA id r130sm5038399pfc.41.2020.11.23.07.18.57
+        by smtp.gmail.com with ESMTPSA id z12sm12524088pfg.123.2020.11.23.07.19.03
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2020 07:18:58 -0800 (PST)
+        Mon, 23 Nov 2020 07:19:04 -0800 (PST)
 From:   Alexandre Courbot <gnurou@gmail.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Alexandre Courbot <gnurou@gmail.com>
-Subject: [PATCH v2 2/2] media: v4l2-mem2mem: always call poll_wait() on queues
-Date:   Tue, 24 Nov 2020 00:18:43 +0900
-Message-Id: <20201123151843.798205-3-gnurou@gmail.com>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org, Alexandre Courbot <gnurou@gmail.com>
+Subject: [PATCH] v4l2-compliance: test for vb2/m2m poll kernel bug
+Date:   Tue, 24 Nov 2020 00:18:56 +0900
+Message-Id: <20201123151856.798307-1-gnurou@gmail.com>
 X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201123151843.798205-1-gnurou@gmail.com>
-References: <20201123151843.798205-1-gnurou@gmail.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-do_poll()/do_select() seem to set the _qproc member of poll_table to
-NULL the first time they are called on a given table, making subsequent
-calls of poll_wait() on that table no-ops. This is a problem for mem2mem
-which calls poll_wait() on the V4L2 queues' waitqueues only when a
-queue-related event is requested, which may not necessarily be the case
-during the first poll.
+A bug has been discovered in the vb2 and m2m implementations of poll
+where EPOLLIN and EPOLLOUT events are never signaled to epoll_wait()
+unless at least one of them is included in the initial epoll_ctl() call.
 
-For instance, a stateful decoder is typically only interested in
-EPOLLPRI events when it starts, and will switch to listening to both
-EPOLLPRI and EPOLLIN after receiving the initial resolution change event
-and configuring the CAPTURE queue. However by the time that switch
-happens and v4l2_m2m_poll_for_data() is called for the first time,
-poll_wait() has become a no-op and the V4L2 queues waitqueues thus
-cannot be registered.
-
-Fix this by moving the registration to v4l2_m2m_poll() and do it whether
-or not one of the queue-related events are requested.
+The presence of this bug can be detected by setting an initial empty set
+of events with EPOLL_CTL_ADD, then setting the events we are interested
+in using EPOLL_CTL_MOD. epoll_wait() will then invariably timeout even
+if there is a queue-related event pending.
 
 Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
 ---
- drivers/media/v4l2-core/v4l2-mem2mem.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+This is the follow-up patch for the discussion on
+https://www.spinics.net/lists/linux-media/msg179618.html. I have tested
+it with vivid and vicodec, and got the expected result with both (epoll
+streaming tests fails without the kernel fix, passes with it).
 
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index b221b4e438a1..e7f4bf5bc8dd 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -887,9 +887,6 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
- 	src_q = v4l2_m2m_get_src_vq(m2m_ctx);
- 	dst_q = v4l2_m2m_get_dst_vq(m2m_ctx);
+ utils/v4l2-compliance/v4l2-test-buffers.cpp | 17 ++++++++++++++++-
+ 1 file changed, 16 insertions(+), 1 deletion(-)
+
+diff --git a/utils/v4l2-compliance/v4l2-test-buffers.cpp b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+index 8000db23..291019c7 100644
+--- a/utils/v4l2-compliance/v4l2-test-buffers.cpp
++++ b/utils/v4l2-compliance/v4l2-test-buffers.cpp
+@@ -903,6 +903,17 @@ static int captureBufs(struct node *node, struct node *node_m2m_cap, const cv4l_
+ 		epollfd = epoll_create1(0);
  
--	poll_wait(file, &src_q->done_wq, wait);
--	poll_wait(file, &dst_q->done_wq, wait);
--
- 	/*
- 	 * There has to be at least one buffer queued on each queued_list, which
- 	 * means either in driver already or waiting for driver to claim it
-@@ -922,9 +919,21 @@ __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 		       struct poll_table_struct *wait)
- {
- 	struct video_device *vfd = video_devdata(file);
-+	struct vb2_queue *src_q = v4l2_m2m_get_src_vq(m2m_ctx);
-+	struct vb2_queue *dst_q = v4l2_m2m_get_dst_vq(m2m_ctx);
- 	__poll_t req_events = poll_requested_events(wait);
- 	__poll_t rc = 0;
- 
-+	/*
-+	 * poll_wait() MUST be called on the first invocation on all the
-+	 * potential queues of interest, even if we are not interested in their
-+	 * events during this first call. Failure to do so will result in
-+	 * queue's events to be ignored because the poll_table won't be capable
-+	 * of adding new wait queues thereafter.
-+	 */
-+	poll_wait(file, &src_q->done_wq, wait);
-+	poll_wait(file, &dst_q->done_wq, wait);
+ 		fail_on_test(epollfd < 0);
 +
- 	if (req_events & (EPOLLOUT | EPOLLWRNORM | EPOLLIN | EPOLLRDNORM))
- 		rc = v4l2_m2m_poll_for_data(file, m2m_ctx, wait);
++		/*
++		 * Many older versions of the vb2 and m2m have a bug where
++		 * EPOLLIN and EPOLLOUT events are never signaled unless they
++		 * are part of the initial EPOLL_CTL_ADD. We set an initial
++		 * empty set of events, which we then modify with EPOLL_CTL_MOD,
++		 * in order to detect that condition.
++		 */
++		ev.events = 0;
++		fail_on_test(epoll_ctl(epollfd, EPOLL_CTL_ADD, node->g_fd(), &ev));
++
+ 		if (node->is_m2m)
+ 			ev.events = EPOLLIN | EPOLLOUT | EPOLLPRI;
+ 		else if (v4l_type_is_output(q.g_type()))
+@@ -910,7 +921,7 @@ static int captureBufs(struct node *node, struct node *node_m2m_cap, const cv4l_
+ 		else
+ 			ev.events = EPOLLIN;
+ 		ev.data.fd = node->g_fd();
+-		fail_on_test(epoll_ctl(epollfd, EPOLL_CTL_ADD, node->g_fd(), &ev));
++		fail_on_test(epoll_ctl(epollfd, EPOLL_CTL_MOD, node->g_fd(), &ev));
+ 	}
  
+ 	if (pollmode)
+@@ -944,6 +955,10 @@ static int captureBufs(struct node *node, struct node *node_m2m_cap, const cv4l_
+ 			can_read = FD_ISSET(node->g_fd(), &rfds);
+ 			have_event = FD_ISSET(node->g_fd(), &efds);
+ 		} else if (pollmode == POLL_MODE_EPOLL) {
++			/*
++			 * This can fail with a timeout on older kernels for
++			 * drivers using vb2_core_poll() v4l2_m2m_poll().
++			 */
+ 			ret = epoll_wait(epollfd, &ev, 1, 2000);
+ 			fail_on_test(ret == 0);
+ 			fail_on_test(ret < 0);
 -- 
 2.29.2
 
