@@ -2,152 +2,119 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EE5932C0CE0
-	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 15:14:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5200D2C0CEA
+	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 15:14:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730699AbgKWOFu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Nov 2020 09:05:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42406 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730352AbgKWOFq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Nov 2020 09:05:46 -0500
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 15474C0613CF;
-        Mon, 23 Nov 2020 06:05:44 -0800 (PST)
-Received: by mail-yb1-xb43.google.com with SMTP id 10so16032864ybx.9;
-        Mon, 23 Nov 2020 06:05:44 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=RhHqKgQbKUW77nc47JuvCnp+w8QNxENxQLSt6AHkTqQ=;
-        b=uc3VE1PZNnY/Z1NgZXLeWe/Nj5hsoBfQkeeHXaE+d0SDr9xNRMPYxU1o6fpuaiqkgi
-         yuFjhawxyOxFbziEfkWs4inb92LCIVTnNTVXAL7657JtY5jUPnHae9XC4JONvfltcDzK
-         9TpDS0ylXwfesoyru6or5tLuj2Wgq4fxc0XGG5evkxw7F5K63x1NbbMukm854FcfQLy0
-         gnTDe+NWIPcxyPxl6ZwlkcZY1OnasK1C98JFaIzSzrlrdcg6icgY2nCNokwGspTvBpMG
-         u0c2fJxhgJsKPBZAzgP85ZG8VhKJUulmNcJ8sZ+phgCZ9U4trQ3IF/NnqsJiuQ1qY+5Q
-         UH8Q==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=RhHqKgQbKUW77nc47JuvCnp+w8QNxENxQLSt6AHkTqQ=;
-        b=WedzhOTXaYjPvNaPhmohdRJ+58gonX0b+ZI3sjwFseX7aF5YDJk0KL0cBl/X1uVgsC
-         We1dczeA+a4BK//RvFHkRTxDc8BbTalyjcQ4gnkIU9cfPcqJg+tZC+68mMrkubh7AGNF
-         fvO9dxWcqQW+4jlWSA7EhFOjC+n4jFiOB8jUMl7Ex3eiIqW1poARTffV5jYeQBAu2OMK
-         sBygNg3BHt5eyDS5b2o48qFp8QnKJ2TYxM0fi6Wij1HP/cKim9lhpUlhBdCEtnnK+OjH
-         QzeyboGg6JxYcFDMMePMGw5mChseG7FQWM1KsCbS1BMq1YrycaQ3I+n+89mM8kqD+8Qa
-         Tamg==
-X-Gm-Message-State: AOAM5326FS91Tk/kyeYNAWweyK5tdCS3nYjJ+iR0xlt/wSuuwpjMlR9n
-        Xjc1+NNgNNNn3BpMzB57GgYvVZWxZhDGGINKkQk=
-X-Google-Smtp-Source: ABdhPJz9DsZ58e7OIIOr/VE9Xtax3PWaLuFuRyVLpjTsCzIYcuPGWJiVUhGusztX9v02ET+47HU3GtURC6oS5LfC9Lw=
-X-Received: by 2002:a5b:40e:: with SMTP id m14mr35121900ybp.33.1606140343388;
- Mon, 23 Nov 2020 06:05:43 -0800 (PST)
+        id S2387472AbgKWOGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Nov 2020 09:06:41 -0500
+Received: from mail.kernel.org ([198.145.29.99]:41856 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731460AbgKWOGk (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 23 Nov 2020 09:06:40 -0500
+Received: from coco.lan (ip5f5ad5b5.dynamic.kabel-deutschland.de [95.90.213.181])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id 679D820782;
+        Mon, 23 Nov 2020 14:06:37 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606140399;
+        bh=wpNsUNVwsLY5jMAZPy42TCcbZQ0xV6gAyFD1qFGZyNg=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ovtMWwiapcbY+4qTXgHHVT40s/mdFxg8VNDvUXot3T3ItmCtb+pvAkbT9XwnG9LqU
+         ezyuZtgVXZ6OpMK0WbVoBfYQTo11tt0bYjlDZHrBiEu0Obn63uWySZxBDeDjZwWf7X
+         vGn9SQdaDNvz7bP+3HDAKdXqab53C2PU6PneDgdw=
+Date:   Mon, 23 Nov 2020 15:06:34 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Lukas Wunner <lukas@wunner.de>
+Cc:     Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org,
+        Kozlov Sergey <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH for-5.10] media: netup_unidvb: Don't leak SPI master in
+ probe error path
+Message-ID: <20201123150634.2bd62db7@coco.lan>
+In-Reply-To: <48e6a396526bcd0a26e970036dbe3207cce57ea6.1605512876.git.lukas@wunner.de>
+References: <73adc6ba84a4f968f2e1499a776e5c928fbdde56.1605512876.git.lukas@wunner.de>
+        <48e6a396526bcd0a26e970036dbe3207cce57ea6.1605512876.git.lukas@wunner.de>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-References: <cover.1605896059.git.gustavoars@kernel.org> <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011201129.B13FDB3C@keescook> <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011220816.8B6591A@keescook> <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
- <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com> <alpine.LNX.2.23.453.2011230938390.7@nippy.intranet>
-In-Reply-To: <alpine.LNX.2.23.453.2011230938390.7@nippy.intranet>
-From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
-Date:   Mon, 23 Nov 2020 15:05:31 +0100
-Message-ID: <CANiq72=z+tmuey9wj3Kk7wX5s0hTHpsQdLhAqcOVNrHon6xn5Q@mail.gmail.com>
-Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
-To:     Finn Thain <fthain@telegraphics.com.au>
-Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Kees Cook <keescook@chromium.org>,
-        Jakub Kicinski <kuba@kernel.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        alsa-devel@alsa-project.org, amd-gfx@lists.freedesktop.org,
-        bridge@lists.linux-foundation.org, ceph-devel@vger.kernel.org,
-        cluster-devel@redhat.com, coreteam@netfilter.org,
-        devel@driverdev.osuosl.org, dm-devel@redhat.com,
-        drbd-dev@lists.linbit.com, dri-devel@lists.freedesktop.org,
-        GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
-        intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
-        keyrings@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
-        linux-acpi@vger.kernel.org, linux-afs@lists.infradead.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-arm-msm@vger.kernel.org,
-        linux-atm-general@lists.sourceforge.net,
-        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
-        linux-cifs@vger.kernel.org,
-        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
-        linux-decnet-user@lists.sourceforge.net,
-        Ext4 Developers List <linux-ext4@vger.kernel.org>,
-        linux-fbdev@vger.kernel.org, linux-geode@lists.infradead.org,
-        linux-gpio@vger.kernel.org, linux-hams@vger.kernel.org,
-        linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
-        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-input <linux-input@vger.kernel.org>,
-        linux-integrity@vger.kernel.org,
-        linux-mediatek@lists.infradead.org,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-mmc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
-        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
-        linux-rdma@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
-        linux-security-module@vger.kernel.org,
-        linux-stm32@st-md-mailman.stormreply.com,
-        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        Network Development <netdev@vger.kernel.org>,
-        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
-        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
-        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
-        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
-        selinux@vger.kernel.org, target-devel@vger.kernel.org,
-        tipc-discussion@lists.sourceforge.net,
-        usb-storage@lists.one-eyed-alien.net,
-        virtualization@lists.linux-foundation.org,
-        wcn36xx@lists.infradead.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Nov 22, 2020 at 11:54 PM Finn Thain <fthain@telegraphics.com.au> wrote:
->
-> We should also take into account optimisim about future improvements in
-> tooling.
+Em Mon, 16 Nov 2020 09:23:13 +0100
+Lukas Wunner <lukas@wunner.de> escreveu:
 
-Not sure what you mean here. There is no reliable way to guess what
-the intention was with a missing fallthrough, even if you parsed
-whitespace and indentation.
+> If the call to spi_register_master() fails on probe of the NetUP
+> Universal DVB driver, the spi_master struct is erroneously not freed.
+> 
+> Likewise, if spi_new_device() fails, the spi_controller struct is
+> not unregistered.  Plug the leaks.
+> 
+> While at it, fix an ordering issue in netup_spi_release() wherein
+> spi_unregister_master() is called after fiddling with the IRQ control
+> register.  The correct order is to call spi_unregister_master() *before*
+> this teardown step because bus accesses may still be ongoing until that
+> function returns.
+> 
+> Fixes: 52b1eaf4c59a ("[media] netup_unidvb: NetUP Universal DVB-S/S2/T/T2/C PCI-E card driver")
+> Signed-off-by: Lukas Wunner <lukas@wunner.de>
+> Cc: <stable@vger.kernel.org> # v4.3+: 5e844cc37a5c: spi: Introduce device-managed SPI controller allocation
+> Cc: <stable@vger.kernel.org> # v4.3+
+> Cc: Kozlov Sergey <serjk@netup.ru>
+> ---
+> @Mauro Carvalho Chehab:
+> This patch needs to go in through the spi tree because it depends on
+> commit 5e844cc37a5c, which is on the spi/for-5.10 branch.
+> Please ack (barring any objections).  Thanks!
 
-> It is if you want to spin it that way.
+Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-How is that a "spin"? It is a fact that we won't get *implicit*
-fallthrough mistakes anymore (in particular if we make it a hard
-error).
+I'm OK on having this merged via SPI mailing list.
 
-> But what we inevitably get is changes like this:
->
->  case 3:
->         this();
-> +       break;
->  case 4:
->         hmmm();
->
-> Why? Mainly to silence the compiler. Also because the patch author argued
-> successfully that they had found a theoretical bug, often in mature code.
+> 
+>  drivers/media/pci/netup_unidvb/netup_unidvb_spi.c | 5 +++--
+>  1 file changed, 3 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c b/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c
+> index d4f12c250f91..526042d8afae 100644
+> --- a/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c
+> +++ b/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c
+> @@ -175,7 +175,7 @@ int netup_spi_init(struct netup_unidvb_dev *ndev)
+>  	struct spi_master *master;
+>  	struct netup_spi *nspi;
+>  
+> -	master = spi_alloc_master(&ndev->pci_dev->dev,
+> +	master = devm_spi_alloc_master(&ndev->pci_dev->dev,
+>  		sizeof(struct netup_spi));
+>  	if (!master) {
+>  		dev_err(&ndev->pci_dev->dev,
+> @@ -208,6 +208,7 @@ int netup_spi_init(struct netup_unidvb_dev *ndev)
+>  		ndev->pci_slot,
+>  		ndev->pci_func);
+>  	if (!spi_new_device(master, &netup_spi_board)) {
+> +		spi_unregister_master(master);
+>  		ndev->spi = NULL;
+>  		dev_err(&ndev->pci_dev->dev,
+>  			"%s(): unable to create SPI device\n", __func__);
+> @@ -226,13 +227,13 @@ void netup_spi_release(struct netup_unidvb_dev *ndev)
+>  	if (!spi)
+>  		return;
+>  
+> +	spi_unregister_master(spi->master);
+>  	spin_lock_irqsave(&spi->lock, flags);
+>  	reg = readw(&spi->regs->control_stat);
+>  	writew(reg | NETUP_SPI_CTRL_IRQ, &spi->regs->control_stat);
+>  	reg = readw(&spi->regs->control_stat);
+>  	writew(reg & ~NETUP_SPI_CTRL_IMASK, &spi->regs->control_stat);
+>  	spin_unlock_irqrestore(&spi->lock, flags);
+> -	spi_unregister_master(spi->master);
+>  	ndev->spi = NULL;
+>  }
+>  
 
-If someone changes control flow, that is on them. Every kernel
-developer knows what `break` does.
 
-> But is anyone keeping score of the regressions? If unreported bugs count,
-> what about unreported regressions?
 
-Introducing `fallthrough` does not change semantics. If you are really
-keen, you can always compare the objects because the generated code
-shouldn't change.
-
-Cheers,
-Miguel
+Thanks,
+Mauro
