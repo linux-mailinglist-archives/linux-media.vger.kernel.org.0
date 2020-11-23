@@ -2,119 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5200D2C0CEA
-	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 15:14:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7DA872C0D05
+	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 15:15:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387472AbgKWOGl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Nov 2020 09:06:41 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41856 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731460AbgKWOGk (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Nov 2020 09:06:40 -0500
-Received: from coco.lan (ip5f5ad5b5.dynamic.kabel-deutschland.de [95.90.213.181])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 679D820782;
-        Mon, 23 Nov 2020 14:06:37 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606140399;
-        bh=wpNsUNVwsLY5jMAZPy42TCcbZQ0xV6gAyFD1qFGZyNg=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=ovtMWwiapcbY+4qTXgHHVT40s/mdFxg8VNDvUXot3T3ItmCtb+pvAkbT9XwnG9LqU
-         ezyuZtgVXZ6OpMK0WbVoBfYQTo11tt0bYjlDZHrBiEu0Obn63uWySZxBDeDjZwWf7X
-         vGn9SQdaDNvz7bP+3HDAKdXqab53C2PU6PneDgdw=
-Date:   Mon, 23 Nov 2020 15:06:34 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Lukas Wunner <lukas@wunner.de>
-Cc:     Mark Brown <broonie@kernel.org>, linux-spi@vger.kernel.org,
-        Kozlov Sergey <serjk@netup.ru>, Abylay Ospan <aospan@netup.ru>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH for-5.10] media: netup_unidvb: Don't leak SPI master in
- probe error path
-Message-ID: <20201123150634.2bd62db7@coco.lan>
-In-Reply-To: <48e6a396526bcd0a26e970036dbe3207cce57ea6.1605512876.git.lukas@wunner.de>
-References: <73adc6ba84a4f968f2e1499a776e5c928fbdde56.1605512876.git.lukas@wunner.de>
-        <48e6a396526bcd0a26e970036dbe3207cce57ea6.1605512876.git.lukas@wunner.de>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1731346AbgKWOOn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Nov 2020 09:14:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43806 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729562AbgKWOOn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 23 Nov 2020 09:14:43 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E5B90C0613CF;
+        Mon, 23 Nov 2020 06:14:42 -0800 (PST)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 4B9302A4;
+        Mon, 23 Nov 2020 15:14:39 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1606140879;
+        bh=cqYcWBxxRdiroukACA2GX9TWCAK8fr3As9+XxoGpe+M=;
+        h=Reply-To:Subject:To:Cc:References:From:Date:In-Reply-To:From;
+        b=BFzvW1MQAi7HgaIHuns7KsQnWOMxnzBgzsrmjdc3GuhwM78yuatk8YEvJcmwpmFZt
+         emgt/3AbXYrfQL2bFZ3X8d0KPrWVN/a/mBAWhSPUy3ADEv3FkDsIBKBcuGnc39TGzr
+         ncPYmVsn4aMNV0DZoLDD/CLCsg2GK+6W4amVhtRY=
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Subject: Re: [PATCH 1/2] media: max9271: Fix GPIO enable/disable
+To:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org
+Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-kernel@vger.kernel.org
+References: <20201120161529.236447-1-jacopo+renesas@jmondi.org>
+ <20201120161529.236447-2-jacopo+renesas@jmondi.org>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Organization: Ideas on Board
+Message-ID: <04709485-b438-d169-64b6-beb61d22d562@ideasonboard.com>
+Date:   Mon, 23 Nov 2020 14:14:36 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20201120161529.236447-2-jacopo+renesas@jmondi.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-GB
 Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Mon, 16 Nov 2020 09:23:13 +0100
-Lukas Wunner <lukas@wunner.de> escreveu:
+Hi Jacopo,
 
-> If the call to spi_register_master() fails on probe of the NetUP
-> Universal DVB driver, the spi_master struct is erroneously not freed.
+On 20/11/2020 16:15, Jacopo Mondi wrote:
+> Fix GPIO enable/disable operations which wrongly read the 0x0f register
+> to obtain the current mask of the enabled lines instead of using
+> the correct 0x0e register.
 > 
-> Likewise, if spi_new_device() fails, the spi_controller struct is
-> not unregistered.  Plug the leaks.
+> Also fix access to bit 0 of the register which is marked as reserved.
 > 
-> While at it, fix an ordering issue in netup_spi_release() wherein
-> spi_unregister_master() is called after fiddling with the IRQ control
-> register.  The correct order is to call spi_unregister_master() *before*
-> this teardown step because bus accesses may still be ongoing until that
-> function returns.
-> 
-> Fixes: 52b1eaf4c59a ("[media] netup_unidvb: NetUP Universal DVB-S/S2/T/T2/C PCI-E card driver")
-> Signed-off-by: Lukas Wunner <lukas@wunner.de>
-> Cc: <stable@vger.kernel.org> # v4.3+: 5e844cc37a5c: spi: Introduce device-managed SPI controller allocation
-> Cc: <stable@vger.kernel.org> # v4.3+
-> Cc: Kozlov Sergey <serjk@netup.ru>
+> Fixes: 34009bffc1c6 ("media: i2c: Add RDACM20 driver")
+> Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Took me a few reads of this and the datasheet to be sure :S
+
+But now I am :-D
+
+Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+
 > ---
-> @Mauro Carvalho Chehab:
-> This patch needs to go in through the spi tree because it depends on
-> commit 5e844cc37a5c, which is on the spi/for-5.10 branch.
-> Please ack (barring any objections).  Thanks!
-
-Reviewed-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-
-I'm OK on having this merged via SPI mailing list.
-
+>  drivers/media/i2c/max9271.c | 8 ++++----
+>  1 file changed, 4 insertions(+), 4 deletions(-)
 > 
->  drivers/media/pci/netup_unidvb/netup_unidvb_spi.c | 5 +++--
->  1 file changed, 3 insertions(+), 2 deletions(-)
+> diff --git a/drivers/media/i2c/max9271.c b/drivers/media/i2c/max9271.c
+> index 0f6f7a092a46..c247db569bab 100644
+> --- a/drivers/media/i2c/max9271.c
+> +++ b/drivers/media/i2c/max9271.c
+> @@ -223,12 +223,12 @@ int max9271_enable_gpios(struct max9271_device *dev, u8 gpio_mask)
+>  {
+>  	int ret;
+>  
+> -	ret = max9271_read(dev, 0x0f);
+> +	ret = max9271_read(dev, 0x0e);
+>  	if (ret < 0)
+>  		return 0;
+>  
+>  	/* BIT(0) reserved: GPO is always enabled. */
+> -	ret |= gpio_mask | BIT(0);
+> +	ret |= (gpio_mask & ~BIT(0));
+>  	ret = max9271_write(dev, 0x0e, ret);
+>  	if (ret < 0) {
+>  		dev_err(&dev->client->dev, "Failed to enable gpio (%d)\n", ret);
+> @@ -245,12 +245,12 @@ int max9271_disable_gpios(struct max9271_device *dev, u8 gpio_mask)
+>  {
+>  	int ret;
+>  
+> -	ret = max9271_read(dev, 0x0f);
+> +	ret = max9271_read(dev, 0x0e);
+>  	if (ret < 0)
+>  		return 0;
+>  
+>  	/* BIT(0) reserved: GPO cannot be disabled */
+> -	ret &= (~gpio_mask | BIT(0));
+> +	ret &= ~(gpio_mask | BIT(0));
+>  	ret = max9271_write(dev, 0x0e, ret);
+>  	if (ret < 0) {
+>  		dev_err(&dev->client->dev, "Failed to disable gpio (%d)\n", ret);
 > 
-> diff --git a/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c b/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c
-> index d4f12c250f91..526042d8afae 100644
-> --- a/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c
-> +++ b/drivers/media/pci/netup_unidvb/netup_unidvb_spi.c
-> @@ -175,7 +175,7 @@ int netup_spi_init(struct netup_unidvb_dev *ndev)
->  	struct spi_master *master;
->  	struct netup_spi *nspi;
->  
-> -	master = spi_alloc_master(&ndev->pci_dev->dev,
-> +	master = devm_spi_alloc_master(&ndev->pci_dev->dev,
->  		sizeof(struct netup_spi));
->  	if (!master) {
->  		dev_err(&ndev->pci_dev->dev,
-> @@ -208,6 +208,7 @@ int netup_spi_init(struct netup_unidvb_dev *ndev)
->  		ndev->pci_slot,
->  		ndev->pci_func);
->  	if (!spi_new_device(master, &netup_spi_board)) {
-> +		spi_unregister_master(master);
->  		ndev->spi = NULL;
->  		dev_err(&ndev->pci_dev->dev,
->  			"%s(): unable to create SPI device\n", __func__);
-> @@ -226,13 +227,13 @@ void netup_spi_release(struct netup_unidvb_dev *ndev)
->  	if (!spi)
->  		return;
->  
-> +	spi_unregister_master(spi->master);
->  	spin_lock_irqsave(&spi->lock, flags);
->  	reg = readw(&spi->regs->control_stat);
->  	writew(reg | NETUP_SPI_CTRL_IRQ, &spi->regs->control_stat);
->  	reg = readw(&spi->regs->control_stat);
->  	writew(reg & ~NETUP_SPI_CTRL_IMASK, &spi->regs->control_stat);
->  	spin_unlock_irqrestore(&spi->lock, flags);
-> -	spi_unregister_master(spi->master);
->  	ndev->spi = NULL;
->  }
->  
 
-
-
-Thanks,
-Mauro
