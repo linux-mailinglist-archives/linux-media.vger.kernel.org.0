@@ -2,121 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 044172C0BAD
-	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 14:57:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A93192C0C28
+	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 14:57:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732408AbgKWN3B (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Nov 2020 08:29:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55808 "EHLO
+        id S1732258AbgKWNtV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Nov 2020 08:49:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39808 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730725AbgKWMaU (ORCPT
+        with ESMTP id S1729975AbgKWNtV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Nov 2020 07:30:20 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 85EDDC061A4E
-        for <linux-media@vger.kernel.org>; Mon, 23 Nov 2020 04:30:20 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id 10so17725436wml.2
-        for <linux-media@vger.kernel.org>; Mon, 23 Nov 2020 04:30:20 -0800 (PST)
+        Mon, 23 Nov 2020 08:49:21 -0500
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id AB745C0613CF
+        for <linux-media@vger.kernel.org>; Mon, 23 Nov 2020 05:49:19 -0800 (PST)
+Received: by mail-lj1-x243.google.com with SMTP id r18so3271091ljc.2
+        for <linux-media@vger.kernel.org>; Mon, 23 Nov 2020 05:49:19 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=hQ9274cJRcisj/k1DnNRPg/AWzSpXOLuASkzuQMMEJk=;
-        b=loC7jwFZZxCVRUrWK3gkEV+nGPQO8gNgJHe9CO8Ho/sjQ+3TR3d9I8PAGUmT32DpLd
-         XF45t36teSRWCy5rRGkpKWWKho4bfob6jVR4z87QtSvdZY+PWwuEG6552uCFfZYGYwWM
-         TeYvw5BHHdArvuLvMR6+jWWE7Gf3wl5/CHG1ip4kmRu8V0NI08HHBZtzJx2Nzs78Lifm
-         ofQpQZSHatSAZOcoxUFcKOu45nQW820RNRa6+iq0oOol4VBdbXPNzbW6QVWqZLRfRJMu
-         8X1JkcflXcrN8J8rJ2VsTx30DouJ3eTevyQcQc/epohTycYBeGuQ+QjUC2P7tdgAjjFH
-         IThw==
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=cALLdyIGhIcYa+yZMOrmTa8LFbCTBghd/fpPDcmloEk=;
+        b=xyHkmCEBQ3MVFceIjt3I0NGS8o7fVNOGgPaId2vNfBysRauom0De6SfYwcKry5IBri
+         pNXnwileIREKxTPcxi/R+C832zSYhb2FySqt2+JlxigdhHrTEWBHP7BCiCNCGOWTnTCb
+         xRvkYkqOSxvow/ldk5fAIngGUFgGxAyRIvtAk9OdUKohjMCe0LpW3TaS+tQnT1Aw1Sw0
+         V7j7qpdN69H0UjkBk6uoJe0RaL+r606bGf0xq3IR29xtJTL4CRypONCyrgu+MShn7T+1
+         E5pp4Sp/uK7QKlrmOlVIaBqK7kWhLu/RG5OMK6G3mafhL8Qza3C6w+wNMuXkGp42POFM
+         Qqww==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=hQ9274cJRcisj/k1DnNRPg/AWzSpXOLuASkzuQMMEJk=;
-        b=YfRajqsvYMuCKE7J9ZpVPGI50KC7fA0bvHG75AOMUOHaHMjieah+ve5am+wb1//Pyf
-         4bF4kdIkEZdzg2hxEVX4e6grvXhOcCt+eMMycukqJw0w50sasNHyJctsQuTEAdrDCCgV
-         fGMpqy/pg6Yo1g+lNNVMgBZ1wwrSoacMRjObucyMiWkrXn2K0gWE+lav4KUG0y9XqkV9
-         0ktF29kghykEvcdrO08oiw80Z/0bu3UzNUXKa6wUGBpK/CeVjBRUqKD5ba7ql4E1hSCv
-         G6KCrx+TBlH3rYrD81X5osKUyrih4il2/hRZo6MDVTY4Kwzg0nTC+0SiVHW3S0k8t6dg
-         gCRQ==
-X-Gm-Message-State: AOAM533rtClwD6z5as8I+K06mFfNmV8803iz/qDQud+wHghPgugYjm7i
-        NL68RnxYwyfuIAxYRRbuY8LTCQ==
-X-Google-Smtp-Source: ABdhPJyDOBP0tlstfPSopOHwDgmQuvftD21pkr092ilv2i4DAaBWKV4gEPJF2xEJaLrKvkQTiu1XiQ==
-X-Received: by 2002:a1c:9804:: with SMTP id a4mr23315406wme.158.1606134619163;
-        Mon, 23 Nov 2020 04:30:19 -0800 (PST)
-Received: from dell ([91.110.221.218])
-        by smtp.gmail.com with ESMTPSA id q16sm19309395wrn.13.2020.11.23.04.30.17
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2020 04:30:18 -0800 (PST)
-Date:   Mon, 23 Nov 2020 12:30:16 +0000
-From:   Lee Jones <lee.jones@linaro.org>
-To:     Christian =?iso-8859-1?Q?K=F6nig?= <christian.koenig@amd.com>
-Cc:     linux-kernel@vger.kernel.org,
-        Alex Deucher <alexander.deucher@amd.com>,
-        amd-gfx@lists.freedesktop.org, Ben Skeggs <bskeggs@redhat.com>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        David Airlie <airlied@linux.ie>,
-        Drew Davenport <ddavenport@chromium.org>,
-        dri-devel@lists.freedesktop.org, freedreno@lists.freedesktop.org,
-        Fritz Koenig <frkoenig@google.com>,
-        Hawking Zhang <Hawking.Zhang@amd.com>,
-        Huang Rui <ray.huang@amd.com>,
-        Jerome Glisse <glisse@freedesktop.org>,
-        Jiansong Chen <Jiansong.Chen@amd.com>,
-        Jonathan Marek <jonathan@marek.ca>,
-        Kalyan Thota <kalyan_t@codeaurora.org>,
-        Likun Gao <Likun.Gao@amd.com>, linaro-mm-sig@lists.linaro.org,
-        linux-arm-msm@vger.kernel.org, linux-media@vger.kernel.org,
-        Luben Tuikov <luben.tuikov@amd.com>,
-        nouveau@lists.freedesktop.org,
-        Qinglang Miao <miaoqinglang@huawei.com>,
-        Rob Clark <robdclark@gmail.com>, Sean Paul <sean@poorly.run>,
-        Sonny Jiang <sonny.jiang@amd.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Tao Zhou <tao.zhou1@amd.com>
-Subject: Re: [PATCH 00/40] [Set 8] Rid W=1 warnings from GPU
-Message-ID: <20201123123016.GA4716@dell>
-References: <20201123111919.233376-1-lee.jones@linaro.org>
- <feda98c5-a677-7bf5-c1e7-2bf311ba8097@amd.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=cALLdyIGhIcYa+yZMOrmTa8LFbCTBghd/fpPDcmloEk=;
+        b=XpUBorTQ+YbDtJty7RrHiZfSCxU3+MlWgbn3LAfr6GFHQHBntsd2w7gBvPh6T1e4lG
+         5Qli2ch0mofyfs+UZPVjDkA9LhIvnsCSgG6DwL+559l4o9nXHUHLGAT8udtMWoUGngn8
+         VyQz6xRrMwDvW8PpAapCN8Vv4Qyo76XNJWfg2JBL4262hTpOr6Xtzts2frhdweJ/DbeB
+         MSHL4THiiWGV22qVvgF9pucJzlh4CKoN3UoqcgeuI10UEL+IGcYzwVb3X5u09m66XYr7
+         g7xFGCuPMKhfm9qk8lcrylvOcDGeNUCLS0nyOM6gs8UhylGLGJ/CzQrAmkjEcTgiS1FI
+         SebQ==
+X-Gm-Message-State: AOAM533JbFYcGMyIJiKviRcxTXldKxl48vAaJXHyuYeWtuZdmU6e+LZB
+        bcm4q0Ub/12w7yVPJ1z9JNmcEk8FmjWSguOsMhtQBQ==
+X-Google-Smtp-Source: ABdhPJzFez98v9zAgNlGYnlrLONH8AqW1j6A8vSWChWi6qex8ZUVebcGav1oEn82K9ah23xBYE1S3711jwgwbsB32AU=
+X-Received: by 2002:a2e:321a:: with SMTP id y26mr13817426ljy.293.1606139356744;
+ Mon, 23 Nov 2020 05:49:16 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-Content-Transfer-Encoding: 8bit
-In-Reply-To: <feda98c5-a677-7bf5-c1e7-2bf311ba8097@amd.com>
+References: <20201113124239.2667502-1-linus.walleij@linaro.org>
+ <20201113124239.2667502-2-linus.walleij@linaro.org> <20201122115028.GB4351@valkosipuli.retiisi.org.uk>
+In-Reply-To: <20201122115028.GB4351@valkosipuli.retiisi.org.uk>
+From:   Linus Walleij <linus.walleij@linaro.org>
+Date:   Mon, 23 Nov 2020 14:49:04 +0100
+Message-ID: <CACRpkdbju5M_atEmJTbg8bS+DuEawGs3m1CoVJkpMZzzF5gjEg@mail.gmail.com>
+Subject: Re: [PATCH 2/2 v5] leds: rt8515: Add Richtek RT8515 LED driver
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>,
+        Linux LED Subsystem <linux-leds@vger.kernel.org>,
+        newbytee@protonmail.com, Stephan Gerhold <stephan@gerhold.net>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        phone-devel@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, 23 Nov 2020, Christian König wrote:
+On Sun, Nov 22, 2020 at 12:50 PM Sakari Ailus <sakari.ailus@iki.fi> wrote:
 
-> Only skimmed over them, but over all looks sane to me.
-> 
-> Series is Acked-by: Christian König <christian.koenig@amd.com>
+> > +static int rt8515_led_flash_strobe_set(struct led_classdev_flash *fled,
+> > +                                    bool state)
+> > +{
+> > +     struct rt8515 *rt = to_rt8515(fled);
+> > +     struct led_flash_setting *timeout = &fled->timeout;
+> > +     int brightness = 4; /* max 16 */
+>
+> Just a question on the unit --- did the other spec shed any light on what
+> the relation between this setting and the current might be?
 
-Thanks Christian, much appreciated.
+They just say:
+"There are a total of 16 steps of current
+level which can be set by users."
 
-> Am 23.11.20 um 12:18 schrieb Lee Jones:
-> > This set is part of a larger effort attempting to clean-up W=1
-> > kernel builds, which are currently overwhelmingly riddled with
-> > niggly little warnings.
-> > 
-> > Only 900 (from 5000) to go!
-> > 
-> > Lee Jones (40):
-> >    drm/radeon/radeon_device: Consume our own header where the prototypes
-> >      are located
-> >    drm/amd/amdgpu/amdgpu_ttm: Add description for 'page_flags'
-> >    drm/amd/amdgpu/amdgpu_ib: Provide docs for 'amdgpu_ib_schedule()'s
-> >      'job' param
-> >    drm/amd/amdgpu/amdgpu_virt: Correct possible copy/paste or doc-rot
-> >      misnaming issue
-> >    drm/amd/amdgpu/cik_ih: Supply description for 'ih' in
+They do not say whether this is linear or not. So I have
+assumed linear. The above is just a bug, it should should be
+the configured max or max available of course. I'll fix!
 
-[...]
-
--- 
-Lee Jones [李琼斯]
-Senior Technical Lead - Developer Services
-Linaro.org │ Open source software for Arm SoCs
-Follow Linaro: Facebook | Twitter | Blog
+Yours,
+Linus Walleij
