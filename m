@@ -2,275 +2,358 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 31B5B2C0E60
-	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 16:07:53 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 968722C0E7A
+	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 16:15:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731141AbgKWPDb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Nov 2020 10:03:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:51436 "EHLO
+        id S1732135AbgKWPIm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Nov 2020 10:08:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52234 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729110AbgKWPD3 (ORCPT
+        with ESMTP id S1731162AbgKWPIm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Nov 2020 10:03:29 -0500
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3DF2FC0613CF
-        for <linux-media@vger.kernel.org>; Mon, 23 Nov 2020 07:03:29 -0800 (PST)
-Received: by mail-yb1-xb43.google.com with SMTP id g15so16198615ybq.6
-        for <linux-media@vger.kernel.org>; Mon, 23 Nov 2020 07:03:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=eE2REjZ2KihgeWAB19FrZ0Eh0oguIUq3o8nfc663G2c=;
-        b=C1TDHyTmuOqGvQ/rAULYHA0VLje7ffu6HS7n4sv+fyvdOxVc7UkxxVj3BEy7y3WuTc
-         Kjt5liroMkMCkloTAPiLKfD+KfeppntNvDAtssxhSgjeemxx4g5BBS+yDJk21kWvKrxC
-         HdEmGU56FLIAcIIttOPxGlbStJLytRRvFr3riyLlajJRdvn0DPBLpxPrL/A1ZalaHT2F
-         7/wQgJ0wc14zTxFW2J9xyRpWlffW9o+PEiCb0icVpepVPrs3VQtbXUIQMDI9r5v6Otdl
-         ykL0BExM8ZZ2RbqHfXll3zqrqFrDhUmZNBC6hNjueYT+0SxigKXDWpZb2bYW+48kmo5K
-         PwuQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=eE2REjZ2KihgeWAB19FrZ0Eh0oguIUq3o8nfc663G2c=;
-        b=NIfllBjrc2Y8gRrOHp8S8yVPYHnXO7Nd+GOdiB6aJpw6v1ae8tQoApsyJtJBwP4pCx
-         xMGMU1V8kjqli1NtSdbwds+/tzH7WUnjOacu+3UnFoyLS/Mc1V1gTQauWVq2FcqrKUbx
-         spwJX9crhS4d/PDKJhVODQ2QBKt6TUCLyqwD76R6U4Dm1hzc7A70PbFzF6Uo589bszQQ
-         z0CAb5KHc5Mi+13bSdGkG1pa+W5btfZTAUQAaxrNUEeA/7ObdO8IJxBfjkWL5nb3TT9b
-         7xQw4tdPFTBUvL9AtWt9HYh+ugx/eFA/EdUCR1iKB6HogdVfA9w8G3CH9zPXGXZJJC3q
-         iUIw==
-X-Gm-Message-State: AOAM531s7FlNWqYKzG8W/T1mByyhh3YH453wzcXZALyCVNLaht+awPAT
-        B+hPyAAX1rWsGqZWquyQ1XdM3uItcxUCn7ghVp9nOA==
-X-Google-Smtp-Source: ABdhPJzLDE+mqzGHTz9C+7wh6yQ9GB0AlFQdRiud7wJMSa7X/BK8MHeeB4wZTcw2mFbjNxnS55mwH7cGFRWWj2nsIDk=
-X-Received: by 2002:a25:7453:: with SMTP id p80mr45946317ybc.31.1606143807765;
- Mon, 23 Nov 2020 07:03:27 -0800 (PST)
+        Mon, 23 Nov 2020 10:08:42 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2F1BFC0613CF;
+        Mon, 23 Nov 2020 07:08:42 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id 4C66A1F44BA7
+Subject: Re: [PATCH v5 2/7] media: v4l2: Add extended buffer operations
+To:     Hans Verkuil <hverkuil@xs4all.nl>, mchehab@kernel.org,
+        hans.verkuil@cisco.com, laurent.pinchart@ideasonboard.com,
+        sakari.ailus@iki.fi, linux-media@vger.kernel.org
+Cc:     Boris Brezillon <boris.brezillon@collabora.com>,
+        tfiga@chromium.org, hiroh@chromium.org, nicolas@ndufresne.ca,
+        Brian.Starkey@arm.com, kernel@collabora.com,
+        narmstrong@baylibre.com, linux-kernel@vger.kernel.org,
+        frkoenig@chromium.org, mjourdan@baylibre.com,
+        stanimir.varbanov@linaro.org
+References: <20200804192939.2251988-1-helen.koike@collabora.com>
+ <20200804192939.2251988-3-helen.koike@collabora.com>
+ <b8a08145-c54e-3d06-dd61-78ce99a812d5@xs4all.nl>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <3ac23162-ce59-6cc3-da48-90f26c618345@collabora.com>
+Date:   Mon, 23 Nov 2020 12:08:30 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-References: <5ff0fc487272a7c21f63a929bfceee1ac9b43348.camel@debian.org>
- <CAOf41N=PopZ=8_05e9WfvWkBhuN5iRq1=JJ2KqkLJE5S3-XW5A@mail.gmail.com> <a443a3e8633b9be921b365764147f296d0f16f76.camel@debian.org>
-In-Reply-To: <a443a3e8633b9be921b365764147f296d0f16f76.camel@debian.org>
-From:   Adam Goode <agoode@google.com>
-Date:   Mon, 23 Nov 2020 10:02:51 -0500
-Message-ID: <CAOf41NnKMks8UgM+4Z5ymNtBnioPzsTE-1fh1ERMEcFfX=UoMg@mail.gmail.com>
-Subject: Re: PROBLEM: Broken pixel format for Elgato Cam Link 4K
-To:     Benjamin Drung <benjamin.drung@cloud.ionos.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <b8a08145-c54e-3d06-dd61-78ce99a812d5@xs4all.nl>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Nov 22, 2020 at 2:34 PM Benjamin Drung
-<benjamin.drung@cloud.ionos.com> wrote:
->
-> Am Freitag, den 20.11.2020, 16:45 -0500 schrieb Adam Goode:
-> > On Fri, Nov 20, 2020 at 1:52 PM Benjamin Drung
-> > <benjamin.drung@cloud.ionos.com> wrote:
-> > >
-> > > Hi,
-> > >
-> > > I own an Elgato Cam Link 4K which is a very popular USB HDMI
-> > > capture
-> > > device (number one capture card by click rates on Geizhals [1]).
-> > > The
-> > > problem is that the video feed is distorted when using the
-> > > /dev/videoX
-> > > device in the browser (tested on Firefox and Chromium) for video
-> > > conferencing (tested with Jitsi Meet and Google Meet). The same
-> > > distortion is present when opening `v4l2:///dev/video0` with VLC.
-> > >
-> > > The Elgato Cam Link 4K reports to have three different pixel
-> > > formats:
-> > >
-> > > ```
-> > > $ v4l2-ctl -d /dev/video0 --list-formats-ext
-> > > ioctl: VIDIOC_ENUM_FMT
-> > >         Type: Video Capture
-> > >
-> > >         [0]: 'NV12' (Y/CbCr 4:2:0)
-> > >                 Size: Discrete 3840x2160
-> > >                         Interval: Discrete 0.040s (25.000 fps)
-> > >         [1]: 'NV12' (Y/CbCr 4:2:0)
-> > >                 Size: Discrete 3840x2160
-> > >                         Interval: Discrete 0.040s (25.000 fps)
-> > >         [2]: 'YU12' (Planar YUV 4:2:0)
-> > >                 Size: Discrete 3840x2160
-> > >                         Interval: Discrete 0.040s (25.000 fps)
-> > > ```
-> > >
-> > > When specifying the video format 'YU12' to VLC, the video is
-> > > distorted
-> > > the same way as using the default video format. When specifying
-> > > 'NV12'
-> > > to VLC, the video feed is displayed correctly:
-> > >
-> > > ```
-> > > vlc v4l2:///dev/video0 --v4l2-chroma=NV12
-> > > ```
-> > >
-> > > In OBS, the video feed is always displayed correctly. All video
-> > > formats
-> > > 'Y/CbCr 4:2:0', 'Planar YUV 4:2:0', 'BGR3 (Emulated)', and 'YV12
-> > > (Emulated)' combined with the color ranges 'Default', 'Partial',
-> > > and
-> > > 'Full' produce the same correct output.
-> > >
-> > > With Linux >= 5.9 this behavior in OBS changes: The video format
-> > > 'Y/CbCr 4:2:0' displays the video correctly. Switching to 'Planar
-> > > YUV
-> > > 4:2:0', 'BGR3 (Emulated)', or 'YV12 (Emulated)' shows the video
-> > > distorted and OBS shows this error message:
-> > >
-> > > ```
-> > > info: v4l2-input: Pixelformat: NV12
-> > > [...]
-> > > libv4l2: error set_fmt gave us a different result than try_fmt!
-> > > info: v4l2-input: Resolution: 3840x2160
-> > > info: v4l2-input: Pixelformat: NV12
-> > > ```
-> > >
-> > > Changing the video format back does not have an effect until I also
-> > > change the color range (does seem to be relevant what to select
-> > > there).
-> > >
-> > > Workaround
-> > > ----------
-> > >
-> > > You can create a v4l2loopback device and use ffmpeg to stream from
-> > > the
-> > > Cam Link 4K to the loopback device:
-> > >
-> > > ```
-> > > ffmpeg -f v4l2 -input_format yuv420p -video_size 3840x2160 \
-> > >   -i "$camlink" -codec copy -f v4l2 "$loopdev"
-> > > ```
-> > >
-> > > This workaround works, but is cumbersome and burns CPU cycles.
-> > >
-> > > Other reports
-> > > -------------
-> > >
-> > > Searching the web for "Cam Link 4K Linux" reveals many similar
-> > > reports
-> > > like this. Noteworthy is blog post [3] from Mike Walters who
-> > > patched
-> > > the Cam Link 4K firmware to report the correct video format. I am
-> > > willing to debug this issue and do test, but I don't want to flash
-> > > the
-> > > firmware to not break the warrenty (bisides I lack the hardware for
-> > > flashing).
-> > >
-> > > Environment
-> > > -----------
-> > >
-> > > This problem is present in Ubuntu 20.04 with linux 5.4.0-54.60 and
-> > > Ubuntu 20.10 with linux 5.8.0-29.31. I also tested the mainline
-> > > kernels
-> > > builds 5.9.8-050908.202011101634 and 5.10.0-051000rc4.202011152030
-> > > from
-> > > Ubuntu [2].
-> > >
-> > > The Cam Link 4K shows follow entries in dmesg:
-> > >
-> > > ```
-> > > [    1.575753] usb 2-3: new SuperSpeed Gen 1 USB device number 2
-> > > using xhci_hcd
-> > > [    1.596664] usb 2-3: LPM exit latency is zeroed, disabling LPM.
-> > > [    1.598557] usb 2-3: New USB device found, idVendor=0fd9,
-> > > idProduct=0066, bcdDevice= 0.00
-> > > [    1.598558] usb 2-3: New USB device strings: Mfr=1, Product=2,
-> > > SerialNumber=4
-> > > [    1.598559] usb 2-3: Product: Cam Link 4K
-> > > [    1.598560] usb 2-3: Manufacturer: Elgato
-> > > ```
-> > >
-> > > I have another problems with 5.9.8-050908.202011101634 and 5.10.0-
-> > > 051000rc4.202011152030: Chromium fail to access the video device of
-> > > Cam
-> > > Link 4K and the notebook integrated webcam has a too low
-> > > brightness.
-> > >
-> > > [1] https://geizhals.de/?cat=vidext
-> > > [2] https://kernel.ubuntu.com/~kernel-ppa/mainline/
-> > > [3]
-> > > https://assortedhackery.com/patching-cam-link-to-play-nicer-on-linux/
-> > >
-> > > --
-> > > Benjamin Drung
-> > > Debian & Ubuntu Developer
-> > >
-> >
-> >
-> > Hi,
-> >
-> > I am running on Fedora 32 which has the fix I wrote for the buggy
-> > elgato firmware. The bug in the firmware makes it impossible to
-> > properly select a non-0 pixel format when following the UVC
-> > negotiation protocol. This is because the firmware returns the pixel
-> > format in the wrong byte of the packet. The driver was following the
-> > UVC protocol but did not send the pixel format back to the v4l2
-> > subsystem. It does that now.
-> >
-> > I'm not surprised that other bugs are emerging now. Ultimately the
-> > firmware is buggy and announces pixel formats that it then rejects.
-> > If
-> > I flip through the settings in OBS, I do manage to wedge the
-> > interface. But most of the programs I've seen that use v4l2 are buggy
-> > in this way. A reliable one is the qv4l2 test program. I've also had
-> > no problems with Chromium.
-> >
-> > That reverse engineering is interesting! But I think it hides the
-> > real
-> > problem, where the pixel format negotiation on the firmware writes
-> > into the wrong byte of the packet.
->
-> Hi Adam,
->
-> you are talking about commit ec2c23f628802317f73fab5255cc62a776bc7930
-> and 8a652a17e3c005dcdae31b6c8fdf14382a29cbbe that are part of
-> v5.10-rc1?
->
-> What do you suggest to fix the issue? Should I contact Elgato
-> requesting a firmware update? Can the kernel ship a quirk for the Cam
-> Link 4K to workaround the firmware bug? I would be happy to try out
-> patches.
->
+Hi Hans,
 
-I would file a ticket. I did so some time ago, but there have been no
-firmware updates for many months.
+Thank you for your review.
 
-> I tested the qv4l2 with Linux 5.10.0-051000rc4.202011152030. When using
-> the default settings, it displays the video correctly, but with a
-> vertical green one-pixel-wide line. The terminal prints "error" four
-> times. Sadly there is no debug mode to figure out where that error
-> comes from.
+On 9/9/20 9:27 AM, Hans Verkuil wrote:
+> Hi Helen,
+> 
+> Again I'm just reviewing the uAPI.
+> 
+> On 04/08/2020 21:29, Helen Koike wrote:
+>> From: Hans Verkuil <hans.verkuil@cisco.com>
+>>
+>> Those extended buffer ops have several purpose:
+>> 1/ Fix y2038 issues by converting the timestamp into an u64 counting
+>>    the number of ns elapsed since 1970
+>> 2/ Unify single/multiplanar handling
+>> 3/ Add a new start offset field to each v4l2 plane buffer info struct
+>>    to support the case where a single buffer object is storing all
+>>    planes data, each one being placed at a different offset
+>>
+>> New hooks are created in v4l2_ioctl_ops so that drivers can start using
+>> these new objects.
+>>
+>> The core takes care of converting new ioctls requests to old ones
+>> if the driver does not support the new hooks, and vice versa.
+>>
+>> Note that the timecode field is gone, since there doesn't seem to be
+>> in-kernel users. We can be added back in the reserved area if needed or
+>> use the Request API to collect more metadata information from the
+>> frame.
+>>
+>> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
+>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
+>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
+>> ---
+>> Changes in v5:
+>> - migrate memory from v4l2_ext_buffer to v4l2_ext_plane
+>> - return mem_offset to struct v4l2_ext_plane
+>> - change sizes and reorder fields to avoid holes in the struct and make
+>>   it the same for 32 and 64 bits
+>>
+>> Changes in v4:
+>> - Use v4l2_ext_pix_format directly in the ioctl, drop v4l2_ext_format,
+>> making V4L2_BUF_TYPE_VIDEO_[OUTPUT,CAPTURE] the only valid types.
+>> - Drop VIDIOC_EXT_EXPBUF, since the only difference from VIDIOC_EXPBUF
+>> was that with VIDIOC_EXT_EXPBUF we could export multiple planes at once.
+>> I think we can add this later, so I removed it from this RFC to simplify it.
+>> - Remove num_planes field from struct v4l2_ext_buffer
+>> - Add flags field to struct v4l2_ext_create_buffers
+>> - Reformulate struct v4l2_ext_plane
+>> - Fix some bugs caught by v4l2-compliance
+>> - Rebased on top of media/master (post 5.8-rc1)
+>>
+>> Changes in v3:
+>> - Rebased on top of media/master (post 5.4-rc1)
+>>
+>> Changes in v2:
+>> - Add reserved space to v4l2_ext_buffer so that new fields can be added
+>>   later on
+>> ---
+>>  drivers/media/v4l2-core/v4l2-dev.c   |  29 ++-
+>>  drivers/media/v4l2-core/v4l2-ioctl.c | 353 +++++++++++++++++++++++++--
+>>  include/media/v4l2-ioctl.h           |  26 ++
+>>  include/uapi/linux/videodev2.h       |  90 +++++++
+>>  4 files changed, 476 insertions(+), 22 deletions(-)
+>>
+> 
+> <snip>
+> 
+>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+>> index 7123c6a4d9569..334cafdd2be97 100644
+>> --- a/include/uapi/linux/videodev2.h
+>> +++ b/include/uapi/linux/videodev2.h
+>> @@ -996,6 +996,41 @@ struct v4l2_plane {
+>>  	__u32			reserved[11];
+>>  };
+>>  
+>> +/**
+>> + * struct v4l2_ext_plane - extended plane buffer info
+>> + * @buffer_length:	size of the entire buffer in bytes, should fit
+>> + *			@offset + @plane_length
+>> + * @plane_length:	size of the plane in bytes.
+>> + * @mem_offset:		If V4L2_MEMORY_MMAP is used, then it can be a "cookie"
+>> + *			that should be passed to mmap() called on the video node.
+>> + * @userptr:		when memory is V4L2_MEMORY_USERPTR, a userspace pointer pointing
+>> + *			to this plane.
+>> + * @dmabuf_fd:		when memory is V4L2_MEMORY_DMABUF, a userspace file descriptor
+>> + *			associated with this plane.
+>> + * @offset:		offset in the memory buffer where the plane starts.
+>> + * @memory:		enum v4l2_memory; the method, in which the actual video
+>> + *			data is passed
+>> + * @reserved:		extra space reserved for future fields, must be set to 0.
+>> + *
+>> + *
+>> + * Buffers consist of one or more planes, e.g. an YCbCr buffer with two planes
+>> + * can have one plane for Y, and another for interleaved CbCr components.
+>> + * Each plane can reside in a separate memory buffer, or even in
+>> + * a completely separate memory node (e.g. in embedded devices).
+>> + */
+>> +struct v4l2_ext_plane {
+>> +	__u32 buffer_length;
+>> +	__u32 plane_length;
+>> +	union {
+>> +		__u32 mem_offset;
+>> +		__u64 userptr;
+>> +		__s32 dmabuf_fd;
+>> +	} m;
+>> +	__u32 offset;
+> 
+> I'd rename this plane_offset. I think some reordering would make this struct easier
+> to understand:
+> 
+> struct v4l2_ext_plane {
+> 	__u32 buffer_length;
+> 	__u32 plane_offset;
+> 	__u32 plane_length;
+> 	__u32 memory;
+> 	union {
+> 		__u32 mem_offset;
+> 		__u64 userptr;
+> 		__s32 dmabuf_fd;
+> 	} m;
+> 	__u32 reserved[4];
+> };
+> 
+>> +	__u32 memory;
+>> +	__u32 reserved[4];
+>> +};
 
-I'm not sure where this line is coming from. Can you post a link to a
-screenshot or capture? I have never encountered this issue. Can you
-reproduce on a Windows or Mac computer?
+Ok, I'll apply this to the next version.
 
->
-> Selecting "YU12 (Planar YUV 4:2:0)" print the following error message
-> and switches back to the previous format:
->
-> libv4l2: error set_fmt gave us a different result than try_fmt!
->
+> 
+> What is not clear is how to tell the different between a single buffer containing
+> multiple planes, and using a separate buffer per plane. E.g. what would this look
+> like for V4L2_PIX_FMT_YVU420, V4L2_PIX_FMT_YUV420M and a theoretical variant of
+> V4L2_PIX_FMT_YUV420M where the luma plane has its own buffer and the two chroma
+> planes are also combined in a single buffer?
+> 
+> I would guess that the m union is set to 0 if the plane is part of the buffer
+> defined in the previous plane?
 
-Yes, this is the kernel coping with the buggy firmware. These errors
-are expected. It is also expected that YU12 does not work (the device
-advertises it, then rejects it when selected). I believe Windows and
-Mac (you can use OBS to try) do the same thing.
+The difference would be if m are equal or differ between planes, example:
 
-A quirk is possible (I hacked something up with libuvc when I was
-debugging this) but it's not something I have time to look at right
-now.
+For V4L2_PIX_FMT_YVU420:
+
+    Y:
+        plane_offset = 0
+        m.dmabuf_fd = 3
+    Cb:
+        plane_offset = 300
+        m.dmabuf_fd = 3
+    Cr:
+        plane_offset = 375
+        m.dmabuf_fd = 3
+
+For V4L2_PIX_FMT_YVU420M:
+
+    Y:
+        plane_offset = 0
+        m.dmabuf_fd = 4
+    Cb:
+        plane_offset = 0
+        m.dmabuf_fd = 5
+    Cr:
+        plane_offset = 0
+        m.dmabuf_fd = 6
 
 
-Adam
+Does it make sense?
 
-> --
-> Benjamin Drung
-> Debian & Ubuntu Developer
->
+> 
+>> +
+>>  /**
+>>   * struct v4l2_buffer - video buffer info
+>>   * @index:	id number of the buffer
+>> @@ -1057,6 +1092,33 @@ struct v4l2_buffer {
+>>  	};
+>>  };
+>>  
+>> +/**
+>> + * struct v4l2_ext_buffer - extended video buffer info
+>> + * @index:	id number of the buffer
+>> + * @type:	V4L2_BUF_TYPE_VIDEO_CAPTURE or V4L2_BUF_TYPE_VIDEO_OUTPUT
+>> + * @flags:	buffer informational flags
+>> + * @field:	enum v4l2_field; field order of the image in the buffer
+>> + * @timestamp:	frame timestamp
+>> + * @sequence:	sequence count of this frame
+>> + * @planes:	per-plane buffer information
+>> + * @request_fd:	fd of the request that this buffer should use
+>> + * @reserved:	extra space reserved for future fields, must be set to 0
+>> + *
+>> + * Contains data exchanged by application and driver using one of the Streaming
+>> + * I/O methods.
+>> + */
+>> +struct v4l2_ext_buffer {
+>> +	__u32 index;
+>> +	__u32 type;
+>> +	__u32 field;
+>> +	__u32 sequence;
+>> +	__u64 flags;
+>> +	__u64 timestamp;
+>> +	struct v4l2_ext_plane planes[VIDEO_MAX_PLANES];
+>> +	__s32 request_fd;
+>> +	__u32 reserved[9];
+>> +};
+> 
+> Brainstorming:
+> 
+> Some ideas I have to make it easier to support mid stream resolution/colorimetry
+> changes:
+> 
+> Adding width and height would support resolution changes (requires the use of
+> CREATE_BUFS to ensure the allocated buffers are large enough, of course). If that
+> information is provided here, then there are no race conditions.
+> 
+> Same for adding the colorimetry fields here, this too can change on the fly (esp.
+> with HDMI), so reporting this information here avoids race conditions as well.
+
+Right, do you think this is something we can discuss later in a different RFC?
+So we can have a better view on how dynamic resolution change would be used?
+
+We can add more reserved fields or maybe try to do something to what has been
+discussed in about extensible system calls [1]
+
+[1] https://lwn.net/Articles/830666/
+
+> 
+> And thirdly, I would like to have a __u64 boot_timestamp field containing the
+> CLOCK_BOOTTIME of when the vb2_buffer_done() was called. The problem with 'timestamp'
+> is that for m2m devices it is just copied and that for other devices it can have
+> different meanings depending on the timestamp buffer flags.
+> 
+> There also have been requests for CLOCK_BOOTTIME support, so this might be a good time
+> to add support for this. That way you know exactly when the driver was finished with
+> the buffer and that helps in detecting missed frames or instrumentation.
+
+I don't mind adding it. Does it make sense to have both timestamp and boot_timestamp?
+
+> 
+>> +
+>>  #ifndef __KERNEL__
+>>  /**
+>>   * v4l2_timeval_to_ns - Convert timeval to nanoseconds
+>> @@ -2523,6 +2585,29 @@ struct v4l2_create_buffers {
+>>  	__u32			reserved[6];
+>>  };
+>>  
+>> +/**
+>> + * struct v4l2_ext_create_buffers - VIDIOC_EXT_CREATE_BUFS argument
+>> + * @index:	on return, index of the first created buffer
+>> + * @count:	entry: number of requested buffers,
+>> + *		return: number of created buffers
+>> + * @memory:	enum v4l2_memory; buffer memory type
+>> + * @capabilities: capabilities of this buffer type.
+>> + * @format:	frame format, for which buffers are requested
+>> + * @flags:	additional buffer management attributes (ignored unless the
+>> + *		queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
+>> + *		and configured for MMAP streaming I/O).
+>> + * @reserved:	extra space reserved for future fields, must be set to 0
+>> + */
+>> +struct v4l2_ext_create_buffers {
+>> +	__u32				index;
+>> +	__u32				count;
+>> +	__u32				memory;
+>> +	__u32				capabilities;
+>> +	struct v4l2_ext_pix_format	format;
+> 
+> The reality is that the only field that is ever used in the original v4l2_format
+> struct is sizeimage. So this can be replaced with:
+> 
+> 	__u32				plane_size[VIDEO_MAX_PLANES];
+> 
+> (the field name I picked is debatable, but you get the idea)
+> 
+> The main purpose of CREATE_BUFS is to add new buffers with larger sizes than
+> is needed for the current format. The original idea of using struct v4l2_format
+> was that drivers would use the full format information to calculate the
+> memory size, but that was just much too complicated to implement and nobody
+> ever used that. Only the sizeimage field was ever used.
+
+Right, I'll update this in next version, This should simplify things.
+
+
+Thanks,
+Helen
+
+> 
+>> +	__u32				flags;
+>> +	__u32 reserved[5];
+>> +};
+>> +
+>>  /*
+>>   *	I O C T L   C O D E S   F O R   V I D E O   D E V I C E S
+>>   *
+>> @@ -2626,6 +2711,11 @@ struct v4l2_create_buffers {
+>>  #define VIDIOC_G_EXT_PIX_FMT	_IOWR('V', 104, struct v4l2_ext_pix_format)
+>>  #define VIDIOC_S_EXT_PIX_FMT	_IOWR('V', 105, struct v4l2_ext_pix_format)
+>>  #define VIDIOC_TRY_EXT_PIX_FMT	_IOWR('V', 106, struct v4l2_ext_pix_format)
+>> +#define VIDIOC_EXT_CREATE_BUFS	_IOWR('V', 107, struct v4l2_ext_create_buffers)
+>> +#define VIDIOC_EXT_QUERYBUF	_IOWR('V', 108, struct v4l2_ext_buffer)
+>> +#define VIDIOC_EXT_QBUF		_IOWR('V', 109, struct v4l2_ext_buffer)
+>> +#define VIDIOC_EXT_DQBUF	_IOWR('V', 110, struct v4l2_ext_buffer)
+>> +#define VIDIOC_EXT_PREPARE_BUF	_IOWR('V', 111, struct v4l2_ext_buffer)
+>>  
+>>  /* Reminder: when adding new ioctls please add support for them to
+>>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
+>>
+> 
+> Regards,
+> 
+> 	Hans
+> 
