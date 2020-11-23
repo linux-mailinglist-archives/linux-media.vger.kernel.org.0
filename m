@@ -2,121 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DA8A42C0DB4
-	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 15:41:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 765E52C0DD8
+	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 15:41:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389155AbgKWObN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Nov 2020 09:31:13 -0500
-Received: from mail.kernel.org ([198.145.29.99]:47610 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731426AbgKWObN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Nov 2020 09:31:13 -0500
-Received: from mail-ed1-f52.google.com (mail-ed1-f52.google.com [209.85.208.52])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id B75C52083E;
-        Mon, 23 Nov 2020 14:31:11 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606141872;
-        bh=vuZ+rah2hE0LNJaScoerOKwY3fCT0EUtYP8hbvGF1o8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=D01SUDy+AOXdGks3r6EavahhLVcEAH4UbH/COnWtfnARQswwUTjGU0Da4LEgSMvZH
-         5oEB+rRWqD+Zcj/oNJBNUMdgBA6MjM9JHYG/XC35GJLcUaxFbJmRHe11UtVWoZS7F0
-         NUCXLLEtcUvv8IS5a0O0Huvy08wnb3nk5Oy66jr4=
-Received: by mail-ed1-f52.google.com with SMTP id v22so17289665edt.9;
-        Mon, 23 Nov 2020 06:31:11 -0800 (PST)
-X-Gm-Message-State: AOAM53011dUGCEQg6RfuHas5TI3prA7pKP1OQNbwbIiUi0LF4rMNRIrV
-        UfSLtxddbm+LRN3h3ELTSgzQNxfE5aVV+dEaTQ==
-X-Google-Smtp-Source: ABdhPJwOmjtyvLkvrDJkqOOjZKJiyogKz1KZcoxRJRbT0kCAwbM+Un1KY6jBLjQqvchQiCiAbumdEjhrGCQBqzMb6+E=
-X-Received: by 2002:a50:f1d2:: with SMTP id y18mr13457355edl.166.1606141870269;
- Mon, 23 Nov 2020 06:31:10 -0800 (PST)
-MIME-Version: 1.0
-References: <20201113134938.4004947-1-lee.jones@linaro.org> <20201113134938.4004947-11-lee.jones@linaro.org>
-In-Reply-To: <20201113134938.4004947-11-lee.jones@linaro.org>
-From:   Chun-Kuang Hu <chunkuang.hu@kernel.org>
-Date:   Mon, 23 Nov 2020 22:30:58 +0800
-X-Gmail-Original-Message-ID: <CAAOTY__N5E6TApkVomnvWpcsLAq4tpxZffpq+wxH6_q_0uNZ7g@mail.gmail.com>
-Message-ID: <CAAOTY__N5E6TApkVomnvWpcsLAq4tpxZffpq+wxH6_q_0uNZ7g@mail.gmail.com>
-Subject: Re: [PATCH 10/40] drm/mediatek/mtk_drm_drv: Staticise local function
- invoked by reference
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     linux-kernel <linux-kernel@vger.kernel.org>,
-        Chun-Kuang Hu <chunkuang.hu@kernel.org>,
+        id S1728941AbgKWOkU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Nov 2020 09:40:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47832 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728889AbgKWOkU (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 23 Nov 2020 09:40:20 -0500
+Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E9F92C0613CF;
+        Mon, 23 Nov 2020 06:40:19 -0800 (PST)
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: ezequiel)
+        with ESMTPSA id 080121F449A6
+From:   Ezequiel Garcia <ezequiel@collabora.com>
+To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
         Philipp Zabel <p.zabel@pengutronix.de>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        YT SHEN <yt.shen@mediatek.com>,
-        DRI Development <dri-devel@lists.freedesktop.org>,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v4 00/13] Stateless H.264 de-staging
+Date:   Mon, 23 Nov 2020 11:39:47 -0300
+Message-Id: <20201123144000.81310-1-ezequiel@collabora.com>
+X-Mailer: git-send-email 2.27.0
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi, Lee:
+Seems we are converging, as this iteration is really small.
 
-Lee Jones <lee.jones@linaro.org> =E6=96=BC 2020=E5=B9=B411=E6=9C=8813=E6=97=
-=A5 =E9=80=B1=E4=BA=94 =E4=B8=8B=E5=8D=889:49=E5=AF=AB=E9=81=93=EF=BC=9A
->
-> Fixes the following W=3D1 kernel build warning(s):
->
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c:316:24: warning: no previous prot=
-otype for =E2=80=98mtk_drm_gem_prime_import=E2=80=99 [-Wmissing-prototypes]
->
+Just like v3, this iteration (plus a patch for VP8 VP8_FRAME_HEADER initialization,
+which I'll send shortly) passes v4l2-compliance with no failures.
 
-Applied to mediatek-drm-next [1], thanks.
+As an additional test, Fluendo's JVT-AVC_V1 conformance test [1] passes with
+score 72/135, for the Hantro driver on i.MX8MQ (Hantro G1 VPU).
+Considering the Hantro driver only supports 4:2:0 and 4:0:0, this score
+looks quite good.
 
-[1] https://git.kernel.org/pub/scm/linux/kernel/git/chunkuang.hu/linux.git/=
-log/?h=3Dmediatek-drm-next
+[1] https://github.com/fluendo/fluster/
 
-Regards,
-Chun-Kuang.
+Thanks,
+Ezequiel
 
-> Cc: Chun-Kuang Hu <chunkuang.hu@kernel.org>
-> Cc: Philipp Zabel <p.zabel@pengutronix.de>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: YT SHEN <yt.shen@mediatek.com>
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-arm-kernel@lists.infradead.org
-> Cc: linux-mediatek@lists.infradead.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
-> ---
->  drivers/gpu/drm/mediatek/mtk_drm_drv.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/gpu/drm/mediatek/mtk_drm_drv.c b/drivers/gpu/drm/med=
-iatek/mtk_drm_drv.c
-> index 2e8065b1e2bbc..401311453e7d0 100644
-> --- a/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> +++ b/drivers/gpu/drm/mediatek/mtk_drm_drv.c
-> @@ -313,8 +313,8 @@ static const struct file_operations mtk_drm_fops =3D =
-{
->   * We need to override this because the device used to import the memory=
- is
->   * not dev->dev, as drm_gem_prime_import() expects.
->   */
-> -struct drm_gem_object *mtk_drm_gem_prime_import(struct drm_device *dev,
-> -                                               struct dma_buf *dma_buf)
-> +static struct drm_gem_object *mtk_drm_gem_prime_import(struct drm_device=
- *dev,
-> +                                                      struct dma_buf *dm=
-a_buf)
->  {
->         struct mtk_drm_private *private =3D dev->dev_private;
->
-> --
-> 2.25.1
->
+v4:
+  * Minor documentation fixes.
+  * Remove media/h264-ctrls.h, which was missing before.
+  * Thanks to feedback from Jernej, std_validation_compound
+    is now more complete, initializing non-present syntax elements.
+v3:
+  * Dropped level control from Cedrus, as agreed.
+  * Add support for H264 stateless controls in std_log and std_validate_compound.
+  * Added a ctrl debug error message, to help debug validation issues.
+  * Style minor fixes as requested by Hans.
+v2:
+  * Split destage changes in several patches so it's easier to review.
+  * Added missing changes to drivers/media/v4l2-core/v4l2-ctrls.c.
+  * Renamed V4L2_CID_CODEC_CX2341X_ and V4L2_CID_MPEG_MFC51_
+  * Moved the compatibility macros for MPEG to the end of the header.
+
+Ezequiel Garcia (12):
+  media: ctrls: Add validate failure debug message
+  media: cedrus: h264: Support profile controls
+  media: Rename stateful codec control macros
+  media: Clean stateless control includes
+  media: uapi: h264: Add profile_idc macros
+  media: controls: Validate H264 stateless controls
+  media: controls: Add the stateless codec control class
+  media: uapi: Move parsed H264 pixel format out of staging
+  media: uapi: Move the H264 stateless control types out of staging
+  media: controls: Log H264 stateless controls in .std_log
+  media: uapi: move H264 stateless controls out of staging
+  media: docs: Move the H264 stateless codec uAPI
+
+Jonas Karlman (1):
+  media: rkvdec: h264: Support profile and level controls
+
+ .../userspace-api/media/v4l/common.rst        |   1 +
+ .../userspace-api/media/v4l/dev-mem2mem.rst   |   2 +-
+ .../media/v4l/ext-ctrls-codec-stateless.rst   | 674 +++++++++++++++
+ .../media/v4l/ext-ctrls-codec.rst             | 696 +--------------
+ .../media/v4l/extended-controls.rst           |   9 +-
+ .../media/v4l/pixfmt-compressed.rst           |  21 +-
+ .../media/v4l/vidioc-g-ext-ctrls.rst          |   6 +-
+ drivers/media/common/cx2341x.c                |   4 +-
+ drivers/media/platform/s5p-mfc/s5p_mfc_dec.c  |   2 +-
+ drivers/media/platform/s5p-mfc/s5p_mfc_enc.c  |   2 +-
+ drivers/media/v4l2-core/v4l2-ctrls.c          | 198 ++++-
+ drivers/staging/media/hantro/hantro_drv.c     |  26 +-
+ drivers/staging/media/hantro/hantro_h264.c    |   8 +-
+ drivers/staging/media/hantro/hantro_hw.h      |   4 +-
+ drivers/staging/media/rkvdec/rkvdec-h264.c    |   8 +-
+ drivers/staging/media/rkvdec/rkvdec.c         |  39 +-
+ drivers/staging/media/sunxi/cedrus/cedrus.c   |  43 +-
+ .../staging/media/sunxi/cedrus/cedrus_dec.c   |  12 +-
+ include/media/fwht-ctrls.h                    |   2 +-
+ include/media/h264-ctrls.h                    | 406 ---------
+ include/media/hevc-ctrls.h                    |  10 +-
+ include/media/mpeg2-ctrls.h                   |   4 +-
+ include/media/v4l2-ctrls.h                    |   1 -
+ include/media/v4l2-h264.h                     |   2 +-
+ include/media/vp8-ctrls.h                     |   2 +-
+ include/uapi/linux/v4l2-controls.h            | 804 +++++++++++++-----
+ include/uapi/linux/videodev2.h                |   8 +
+ 27 files changed, 1582 insertions(+), 1412 deletions(-)
+ create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
+ delete mode 100644 include/media/h264-ctrls.h
+
+-- 
+2.27.0
+
