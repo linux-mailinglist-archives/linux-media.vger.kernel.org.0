@@ -2,449 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9897A2C123D
-	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 18:44:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 092672C140C
+	for <lists+linux-media@lfdr.de>; Mon, 23 Nov 2020 20:10:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390441AbgKWRk7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Nov 2020 12:40:59 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47544 "EHLO
+        id S1732865AbgKWS4V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Nov 2020 13:56:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59120 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390371AbgKWRk6 (ORCPT
+        with ESMTP id S1728971AbgKWS4O (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Nov 2020 12:40:58 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7AFA8C0613CF;
-        Mon, 23 Nov 2020 09:40:58 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 6F4931F4060C
-Subject: Re: [PATCH v5 2/7] media: v4l2: Add extended buffer operations
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@iki.fi>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Boris Brezillon <boris.brezillon@collabora.com>,
-        Hirokazu Honda <hiroh@chromium.org>,
-        Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Brian Starkey <Brian.Starkey@arm.com>, kernel@collabora.com,
-        Neil Armstrong <narmstrong@baylibre.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Maxime Jourdan <mjourdan@baylibre.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-References: <20200804192939.2251988-1-helen.koike@collabora.com>
- <20200804192939.2251988-3-helen.koike@collabora.com>
- <b8a08145-c54e-3d06-dd61-78ce99a812d5@xs4all.nl>
- <3ac23162-ce59-6cc3-da48-90f26c618345@collabora.com>
- <CAAFQd5A1F7g=LSJrtqwF+KEUq-QXmi0__-mbebsN27xFA0rQCQ@mail.gmail.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <b14809a5-e471-73da-efde-1d0d6f54e485@collabora.com>
-Date:   Mon, 23 Nov 2020 14:40:47 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
+        Mon, 23 Nov 2020 13:56:14 -0500
+Received: from mail-yb1-xb41.google.com (mail-yb1-xb41.google.com [IPv6:2607:f8b0:4864:20::b41])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 00615C0613CF;
+        Mon, 23 Nov 2020 10:56:12 -0800 (PST)
+Received: by mail-yb1-xb41.google.com with SMTP id r127so13134731yba.10;
+        Mon, 23 Nov 2020 10:56:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=KNG9rf3jiBLOHJ1Qe+5HClUHwDC8G2v5PJoNSRMQj2o=;
+        b=ZA1WcoeOdsWbRfOoumZEJTLTRH6V2Lpq2CDbZ0VVs1hbOT/vd/v8/YkJaULhb4MkV5
+         MHmDtgQZ7Y6vQOoRafNcjdab1m8jmYbh8Ox0xcyAJF866JXyArBCoNYzebFkQV1wRZF3
+         r3hM3WSnIq7Ht5VQ2PIwvurJMfamtV7PLgYZxEoHoT74qEv3IGeXPryfDRdu7AW/qetQ
+         L1ocOXaYsoIrsq1AVQ8cgaa4G2qWRkZviQ+mOBHOVW/MFUti3ALLJAr2MKUeWh+s4BW6
+         tAJsdEl41qUIuUvcW5DdLnVlmhWMC8lZFuXyyo4x1R3eX3DaWLHh1JzDrRZDt/CN6qga
+         036w==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=KNG9rf3jiBLOHJ1Qe+5HClUHwDC8G2v5PJoNSRMQj2o=;
+        b=VbZ3df0KDvvcjS3oqE4FKJaZu54g4MCdauiP/ZXziJ057Qx+7gO7Xq0DclJJwhkD7A
+         V6wIvyE+iMUTqz9Et4Z5swtCvEVohOYgCr45PQIT1naTPGLjdngls6PaxJ+2dTpwG1sS
+         2J24JWWgll1XCaG4p5TRtdZUw6zFy8CD4ZY8+HNTau19MRyRUhc0Rog1oJz/01j+Rfnb
+         WQq0qXGIb+h89MExl9hJwrFqamYs85+hsGdPRw0lifURgwY7tjHV2PXA1XofJs4XbGTP
+         NEC3DNi0ZW4kVx5Dh9aHDLI9NF0b3y4MyZAlGF5HprxmF8/01jZ1NEiPPRMmDsEjbPZl
+         WrcQ==
+X-Gm-Message-State: AOAM530c8BEunJnR0wvAHz7GM7Tlf3BoUFJdhEyagiplOb8fmebtcUxB
+        ATgeO04Jk0JP04fO5wqwIYLVC06oaCpaZhmWiko=
+X-Google-Smtp-Source: ABdhPJyhWLCSkpSmtD0p55Cmpr9Ao1aJs0IYHWLu4Tcyj9q39OBvqgrIxMZMaEy7w1zacpD3mVr5R93EsjzwMBkGuSA=
+X-Received: by 2002:a25:df55:: with SMTP id w82mr977719ybg.135.1606157772316;
+ Mon, 23 Nov 2020 10:56:12 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5A1F7g=LSJrtqwF+KEUq-QXmi0__-mbebsN27xFA0rQCQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <cover.1605896059.git.gustavoars@kernel.org> <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011201129.B13FDB3C@keescook> <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011220816.8B6591A@keescook> <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
+ <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
+ <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
+ <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com> <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
+In-Reply-To: <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Mon, 23 Nov 2020 19:56:01 +0100
+Message-ID: <CANiq72k5tpDoDPmJ0ZWc1DGqm+81Gi-uEENAtvEs9v3SZcx6_Q@mail.gmail.com>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+To:     James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc:     Kees Cook <keescook@chromium.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        alsa-devel@alsa-project.org, amd-gfx@lists.freedesktop.org,
+        bridge@lists.linux-foundation.org, ceph-devel@vger.kernel.org,
+        cluster-devel@redhat.com, coreteam@netfilter.org,
+        devel@driverdev.osuosl.org, dm-devel@redhat.com,
+        drbd-dev@lists.linbit.com, dri-devel@lists.freedesktop.org,
+        GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
+        intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
+        keyrings@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        linux-acpi@vger.kernel.org, linux-afs@lists.infradead.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net,
+        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-cifs@vger.kernel.org,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-decnet-user@lists.sourceforge.net,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-fbdev@vger.kernel.org, linux-geode@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-hams@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
+        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-mmc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
+        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
+        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
+        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
+        selinux@vger.kernel.org, target-devel@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net,
+        usb-storage@lists.one-eyed-alien.net,
+        virtualization@lists.linux-foundation.org,
+        wcn36xx@lists.infradead.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Mon, Nov 23, 2020 at 4:58 PM James Bottomley
+<James.Bottomley@hansenpartnership.com> wrote:
+>
+> Well, I used git.  It says that as of today in Linus' tree we have 889
+> patches related to fall throughs and the first series went in in
+> october 2017 ... ignoring a couple of outliers back to February.
 
+I can see ~10k insertions over ~1k commits and 15 years that mention a
+fallthrough in the entire repo. That is including some commits (like
+the biggest one, 960 insertions) that have nothing to do with C
+fallthrough. A single kernel release has an order of magnitude more
+changes than this...
 
-On 11/23/20 12:46 PM, Tomasz Figa wrote:
-> On Tue, Nov 24, 2020 at 12:08 AM Helen Koike <helen.koike@collabora.com> wrote:
->>
->> Hi Hans,
->>
->> Thank you for your review.
->>
->> On 9/9/20 9:27 AM, Hans Verkuil wrote:
->>> Hi Helen,
->>>
->>> Again I'm just reviewing the uAPI.
->>>
->>> On 04/08/2020 21:29, Helen Koike wrote:
->>>> From: Hans Verkuil <hans.verkuil@cisco.com>
->>>>
->>>> Those extended buffer ops have several purpose:
->>>> 1/ Fix y2038 issues by converting the timestamp into an u64 counting
->>>>    the number of ns elapsed since 1970
->>>> 2/ Unify single/multiplanar handling
->>>> 3/ Add a new start offset field to each v4l2 plane buffer info struct
->>>>    to support the case where a single buffer object is storing all
->>>>    planes data, each one being placed at a different offset
->>>>
->>>> New hooks are created in v4l2_ioctl_ops so that drivers can start using
->>>> these new objects.
->>>>
->>>> The core takes care of converting new ioctls requests to old ones
->>>> if the driver does not support the new hooks, and vice versa.
->>>>
->>>> Note that the timecode field is gone, since there doesn't seem to be
->>>> in-kernel users. We can be added back in the reserved area if needed or
->>>> use the Request API to collect more metadata information from the
->>>> frame.
->>>>
->>>> Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
->>>> Signed-off-by: Boris Brezillon <boris.brezillon@collabora.com>
->>>> Signed-off-by: Helen Koike <helen.koike@collabora.com>
->>>> ---
->>>> Changes in v5:
->>>> - migrate memory from v4l2_ext_buffer to v4l2_ext_plane
->>>> - return mem_offset to struct v4l2_ext_plane
->>>> - change sizes and reorder fields to avoid holes in the struct and make
->>>>   it the same for 32 and 64 bits
->>>>
->>>> Changes in v4:
->>>> - Use v4l2_ext_pix_format directly in the ioctl, drop v4l2_ext_format,
->>>> making V4L2_BUF_TYPE_VIDEO_[OUTPUT,CAPTURE] the only valid types.
->>>> - Drop VIDIOC_EXT_EXPBUF, since the only difference from VIDIOC_EXPBUF
->>>> was that with VIDIOC_EXT_EXPBUF we could export multiple planes at once.
->>>> I think we can add this later, so I removed it from this RFC to simplify it.
->>>> - Remove num_planes field from struct v4l2_ext_buffer
->>>> - Add flags field to struct v4l2_ext_create_buffers
->>>> - Reformulate struct v4l2_ext_plane
->>>> - Fix some bugs caught by v4l2-compliance
->>>> - Rebased on top of media/master (post 5.8-rc1)
->>>>
->>>> Changes in v3:
->>>> - Rebased on top of media/master (post 5.4-rc1)
->>>>
->>>> Changes in v2:
->>>> - Add reserved space to v4l2_ext_buffer so that new fields can be added
->>>>   later on
->>>> ---
->>>>  drivers/media/v4l2-core/v4l2-dev.c   |  29 ++-
->>>>  drivers/media/v4l2-core/v4l2-ioctl.c | 353 +++++++++++++++++++++++++--
->>>>  include/media/v4l2-ioctl.h           |  26 ++
->>>>  include/uapi/linux/videodev2.h       |  90 +++++++
->>>>  4 files changed, 476 insertions(+), 22 deletions(-)
->>>>
->>>
->>> <snip>
->>>
->>>> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->>>> index 7123c6a4d9569..334cafdd2be97 100644
->>>> --- a/include/uapi/linux/videodev2.h
->>>> +++ b/include/uapi/linux/videodev2.h
->>>> @@ -996,6 +996,41 @@ struct v4l2_plane {
->>>>      __u32                   reserved[11];
->>>>  };
->>>>
->>>> +/**
->>>> + * struct v4l2_ext_plane - extended plane buffer info
->>>> + * @buffer_length:  size of the entire buffer in bytes, should fit
->>>> + *                  @offset + @plane_length
->>>> + * @plane_length:   size of the plane in bytes.
->>>> + * @mem_offset:             If V4L2_MEMORY_MMAP is used, then it can be a "cookie"
->>>> + *                  that should be passed to mmap() called on the video node.
->>>> + * @userptr:                when memory is V4L2_MEMORY_USERPTR, a userspace pointer pointing
->>>> + *                  to this plane.
->>>> + * @dmabuf_fd:              when memory is V4L2_MEMORY_DMABUF, a userspace file descriptor
->>>> + *                  associated with this plane.
->>>> + * @offset:         offset in the memory buffer where the plane starts.
->>>> + * @memory:         enum v4l2_memory; the method, in which the actual video
->>>> + *                  data is passed
->>>> + * @reserved:               extra space reserved for future fields, must be set to 0.
->>>> + *
->>>> + *
->>>> + * Buffers consist of one or more planes, e.g. an YCbCr buffer with two planes
->>>> + * can have one plane for Y, and another for interleaved CbCr components.
->>>> + * Each plane can reside in a separate memory buffer, or even in
->>>> + * a completely separate memory node (e.g. in embedded devices).
->>>> + */
->>>> +struct v4l2_ext_plane {
->>>> +    __u32 buffer_length;
->>>> +    __u32 plane_length;
->>>> +    union {
->>>> +            __u32 mem_offset;
->>>> +            __u64 userptr;
->>>> +            __s32 dmabuf_fd;
->>>> +    } m;
->>>> +    __u32 offset;
->>>
->>> I'd rename this plane_offset. I think some reordering would make this struct easier
->>> to understand:
->>>
->>> struct v4l2_ext_plane {
->>>       __u32 buffer_length;
->>>       __u32 plane_offset;
->>>       __u32 plane_length;
->>>       __u32 memory;
->>>       union {
->>>               __u32 mem_offset;
->>>               __u64 userptr;
->>>               __s32 dmabuf_fd;
->>>       } m;
->>>       __u32 reserved[4];
->>> };
->>>
->>>> +    __u32 memory;
->>>> +    __u32 reserved[4];
->>>> +};
->>
->> Ok, I'll apply this to the next version.
->>
->>>
->>> What is not clear is how to tell the different between a single buffer containing
->>> multiple planes, and using a separate buffer per plane. E.g. what would this look
->>> like for V4L2_PIX_FMT_YVU420, V4L2_PIX_FMT_YUV420M and a theoretical variant of
->>> V4L2_PIX_FMT_YUV420M where the luma plane has its own buffer and the two chroma
->>> planes are also combined in a single buffer?
->>>
->>> I would guess that the m union is set to 0 if the plane is part of the buffer
->>> defined in the previous plane?
->>
->> The difference would be if m are equal or differ between planes, example:
->>
->> For V4L2_PIX_FMT_YVU420:
->>
->>     Y:
->>         plane_offset = 0
->>         m.dmabuf_fd = 3
->>     Cb:
->>         plane_offset = 300
->>         m.dmabuf_fd = 3
->>     Cr:
->>         plane_offset = 375
->>         m.dmabuf_fd = 3
->>
->> For V4L2_PIX_FMT_YVU420M:
->>
->>     Y:
->>         plane_offset = 0
->>         m.dmabuf_fd = 4
->>     Cb:
->>         plane_offset = 0
->>         m.dmabuf_fd = 5
->>     Cr:
->>         plane_offset = 0
->>         m.dmabuf_fd = 6
->>
->>
->> Does it make sense?
->>
-> 
-> Actually all the 3 file descriptors can still point to the same
-> buffer, because they might have been dup()ed. The kernel needs to
-> resolve the file descriptors into struct dma_buf and then check
-> whether it's one or more buffers.
+But if we do the math, for an author, at even 1 minute per line change
+and assuming nothing can be automated at all, it would take 1 month of
+work. For maintainers, a couple of trivial lines is noise compared to
+many other patches.
 
-Right, thanks for this.
+In fact, this discussion probably took more time than the time it
+would take to review the 200 lines. :-)
 
-> 
-> In fact, dup()ed FD for each plane is quite a common case in other
-> APIs, e.g. EGL, but current V4L2 API can't handle it. In Chromium we
-> basically work around it by assuming that if we receive a buffer for a
-> V4L2 device that only supports non-M formats, then we can safely
-> ignore all but first FD. The new API gives the ability to handle the
-> case properly, with full validation by the kernel.
-> 
->>>
->>>> +
->>>>  /**
->>>>   * struct v4l2_buffer - video buffer info
->>>>   * @index:  id number of the buffer
->>>> @@ -1057,6 +1092,33 @@ struct v4l2_buffer {
->>>>      };
->>>>  };
->>>>
->>>> +/**
->>>> + * struct v4l2_ext_buffer - extended video buffer info
->>>> + * @index:  id number of the buffer
->>>> + * @type:   V4L2_BUF_TYPE_VIDEO_CAPTURE or V4L2_BUF_TYPE_VIDEO_OUTPUT
->>>> + * @flags:  buffer informational flags
->>>> + * @field:  enum v4l2_field; field order of the image in the buffer
->>>> + * @timestamp:      frame timestamp
->>>> + * @sequence:       sequence count of this frame
->>>> + * @planes: per-plane buffer information
->>>> + * @request_fd:     fd of the request that this buffer should use
->>>> + * @reserved:       extra space reserved for future fields, must be set to 0
->>>> + *
->>>> + * Contains data exchanged by application and driver using one of the Streaming
->>>> + * I/O methods.
->>>> + */
->>>> +struct v4l2_ext_buffer {
->>>> +    __u32 index;
->>>> +    __u32 type;
->>>> +    __u32 field;
->>>> +    __u32 sequence;
->>>> +    __u64 flags;
->>>> +    __u64 timestamp;
->>>> +    struct v4l2_ext_plane planes[VIDEO_MAX_PLANES];
->>>> +    __s32 request_fd;
->>>> +    __u32 reserved[9];
->>>> +};
->>>
->>> Brainstorming:
->>>
->>> Some ideas I have to make it easier to support mid stream resolution/colorimetry
->>> changes:
->>>
->>> Adding width and height would support resolution changes (requires the use of
->>> CREATE_BUFS to ensure the allocated buffers are large enough, of course). If that
->>> information is provided here, then there are no race conditions.
->>>
->>> Same for adding the colorimetry fields here, this too can change on the fly (esp.
->>> with HDMI), so reporting this information here avoids race conditions as well.
->>
->> Right, do you think this is something we can discuss later in a different RFC?
->> So we can have a better view on how dynamic resolution change would be used?
->>
->> We can add more reserved fields or maybe try to do something to what has been
->> discussed in about extensible system calls [1]
->>
->> [1] https://lwn.net/Articles/830666/
->>
->>>
->>> And thirdly, I would like to have a __u64 boot_timestamp field containing the
->>> CLOCK_BOOTTIME of when the vb2_buffer_done() was called. The problem with 'timestamp'
->>> is that for m2m devices it is just copied and that for other devices it can have
->>> different meanings depending on the timestamp buffer flags.
->>>
->>> There also have been requests for CLOCK_BOOTTIME support, so this might be a good time
->>> to add support for this. That way you know exactly when the driver was finished with
->>> the buffer and that helps in detecting missed frames or instrumentation.
->>
->> I don't mind adding it. Does it make sense to have both timestamp and boot_timestamp?
->>
-> 
-> I think this is quite independent from the ext API work. AFAIR there
-> was an RFC to request the timestamp source from the userspace by the
-> flags field in QBUF, which would work with the existing API as well,
-> or it wasn't posted in the end?
+> We're also complaining about the inability to recruit maintainers:
+>
+> https://www.theregister.com/2020/06/30/hard_to_find_linux_maintainers_says_torvalds/
+>
+> And burn out:
+>
+> http://antirez.com/news/129
 
-I was recalling the discussions we had regarding this:
+Accepting trivial and useful 1-line patches is not what makes a
+voluntary maintainer quit... Thankless work with demanding deadlines is.
 
-1.
-    This first attempt in the uvc driver is to use a specific kernel parameter for that case:
-    https://patchwork.kernel.org/patch/10644887/
-    The conclusion that the support should be in the core API and not driver specific.
+> The whole crux of your argument seems to be maintainers' time isn't
+> important so we should accept all trivial patches
 
-2.
-    Then an attempt to add global v4l2 support was sent with the Mediatek patch series:
-    https://patchwork.linuxtv.org/patch/60878/
-    The major problem is that clock type should be something selectable by userspace, and
-    not pre-defined by the driver.
+I have not said that, at all. In fact, I am a voluntary one and I
+welcome patches like this. It takes very little effort on my side to
+review and it helps the kernel overall. Paid maintainers are the ones
+that can take care of big features/reviews.
 
-3.
-    Another idea was to use the 'flags' field in the structs v4l2_requestbuffers and
-    v4l2_create_buffers.
-    But this field was removed in
-    129134e5415d ("media: media/v4l2: remove V4L2_FLAG_MEMORY_NON_CONSISTENT flag")
-    The major concern with this approach was with the uAPI, since it doesn't make much
-    sense to select a clock when creating buffers.
+> What I'm actually trying to articulate is a way of measuring value of
+> the patch vs cost ... it has nothing really to do with who foots the
+> actual bill.
 
-4.
-    Another suggestion by Nicolas Dufresne was to add this as a menu control so that userspace
-    can choose the clock for the timestamps from a given list, the enum in the list can also match
-    the clocks ids.
-    We would need to add a new buf flag in struct v4l2_buffer, like V4L2_BUF_FLAG_TIMESTAMP_OTHER,
-    which would be "as specified through controls ...."
+I understand your point, but you were the one putting it in terms of a
+junior FTE. In my view, 1 month-work (worst case) is very much worth
+removing a class of errors from a critical codebase.
 
+> One thesis I'm actually starting to formulate is that this continual
+> devaluing of maintainers is why we have so much difficulty keeping and
+> recruiting them.
 
-So my current question is, should we have both __u32 timestamp and __u32 boottimestamp?
-Or should we have a mechanism that allows switching from one to the other and use
-a single field? And if this mechanism should be implemented in both APIs? Can this be
-defined later?
+That may very well be true, but I don't feel anybody has devalued
+maintainers in this discussion.
 
-
-Please, let me know your thoughts.
-
-Thanks,
-Helen
-
-> 
->>>
->>>> +
->>>>  #ifndef __KERNEL__
->>>>  /**
->>>>   * v4l2_timeval_to_ns - Convert timeval to nanoseconds
->>>> @@ -2523,6 +2585,29 @@ struct v4l2_create_buffers {
->>>>      __u32                   reserved[6];
->>>>  };
->>>>
->>>> +/**
->>>> + * struct v4l2_ext_create_buffers - VIDIOC_EXT_CREATE_BUFS argument
->>>> + * @index:  on return, index of the first created buffer
->>>> + * @count:  entry: number of requested buffers,
->>>> + *          return: number of created buffers
->>>> + * @memory: enum v4l2_memory; buffer memory type
->>>> + * @capabilities: capabilities of this buffer type.
->>>> + * @format: frame format, for which buffers are requested
->>>> + * @flags:  additional buffer management attributes (ignored unless the
->>>> + *          queue has V4L2_BUF_CAP_SUPPORTS_MMAP_CACHE_HINTS capability
->>>> + *          and configured for MMAP streaming I/O).
->>>> + * @reserved:       extra space reserved for future fields, must be set to 0
->>>> + */
->>>> +struct v4l2_ext_create_buffers {
->>>> +    __u32                           index;
->>>> +    __u32                           count;
->>>> +    __u32                           memory;
->>>> +    __u32                           capabilities;
->>>> +    struct v4l2_ext_pix_format      format;
->>>
->>> The reality is that the only field that is ever used in the original v4l2_format
->>> struct is sizeimage. So this can be replaced with:
->>>
->>>       __u32                           plane_size[VIDEO_MAX_PLANES];
->>>
->>> (the field name I picked is debatable, but you get the idea)
->>>
->>> The main purpose of CREATE_BUFS is to add new buffers with larger sizes than
->>> is needed for the current format. The original idea of using struct v4l2_format
->>> was that drivers would use the full format information to calculate the
->>> memory size, but that was just much too complicated to implement and nobody
->>> ever used that. Only the sizeimage field was ever used.
->>
->> Right, I'll update this in next version, This should simplify things.
->>
-> 
-> I think this might need a bit more discussion. How would the userspace
-> know what size is enough for the desired resolution? The hardware
-> and/or drivers often have various alignment/padding restrictions,
-> which might not be easy to guess for the userspace.
-> 
-> Also I don't quite understand what's so complicated in handling the
-> full format, or at least the most important parts of it. The
-> implementation of TRY_FMT/S_FMT, which exists in every driver, should
-> already be able to calculate the right plane sizes.
-> 
-> Best regards,
-> Tomasz
-> 
->>
->> Thanks,
->> Helen
->>
->>>
->>>> +    __u32                           flags;
->>>> +    __u32 reserved[5];
->>>> +};
->>>> +
->>>>  /*
->>>>   *  I O C T L   C O D E S   F O R   V I D E O   D E V I C E S
->>>>   *
->>>> @@ -2626,6 +2711,11 @@ struct v4l2_create_buffers {
->>>>  #define VIDIOC_G_EXT_PIX_FMT        _IOWR('V', 104, struct v4l2_ext_pix_format)
->>>>  #define VIDIOC_S_EXT_PIX_FMT        _IOWR('V', 105, struct v4l2_ext_pix_format)
->>>>  #define VIDIOC_TRY_EXT_PIX_FMT      _IOWR('V', 106, struct v4l2_ext_pix_format)
->>>> +#define VIDIOC_EXT_CREATE_BUFS      _IOWR('V', 107, struct v4l2_ext_create_buffers)
->>>> +#define VIDIOC_EXT_QUERYBUF _IOWR('V', 108, struct v4l2_ext_buffer)
->>>> +#define VIDIOC_EXT_QBUF             _IOWR('V', 109, struct v4l2_ext_buffer)
->>>> +#define VIDIOC_EXT_DQBUF    _IOWR('V', 110, struct v4l2_ext_buffer)
->>>> +#define VIDIOC_EXT_PREPARE_BUF      _IOWR('V', 111, struct v4l2_ext_buffer)
->>>>
->>>>  /* Reminder: when adding new ioctls please add support for them to
->>>>     drivers/media/v4l2-core/v4l2-compat-ioctl32.c as well! */
->>>>
->>>
->>> Regards,
->>>
->>>       Hans
->>>
+Cheers,
+Miguel
