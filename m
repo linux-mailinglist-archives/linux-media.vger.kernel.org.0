@@ -2,232 +2,148 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52E682C192A
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 00:16:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B23842C1956
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 00:21:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387724AbgKWXDa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Nov 2020 18:03:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41148 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388150AbgKWXDY (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Nov 2020 18:03:24 -0500
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 77512C061A4E
-        for <linux-media@vger.kernel.org>; Mon, 23 Nov 2020 15:03:24 -0800 (PST)
-Received: by mail-wr1-x443.google.com with SMTP id l1so20426550wrb.9
-        for <linux-media@vger.kernel.org>; Mon, 23 Nov 2020 15:03:24 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=Ig5qutKRJGU1yXjmQCggg+HJKA/iCr5AyEcACinSfrY=;
-        b=UpqUn136TPn1vBGfXQ9TvI3oBkyqkcEE6GJqfE2pgB0KAB5lkuSHgzxEy5V3hUdSzT
-         MKI1YZyMdpR6DEmEpgpI6sfJ9paUDEmAZHKrpnBC8KcjANSVDJSPrwapCUqZRsx1HHYs
-         zp1BMzdQBqINhyJrE7XHlA2KbDBo9XXAOm4YZAhYETz/HdeH0q6u3vpksjMgZLl9Jm/f
-         22MWOyw5c5ycdQwTFH3YXH+px8GMMYkVIo8qxKfr8OHnjJz5qFPOCmbyRzBfhaZYubuG
-         DLUp1VO7kR/wZSWD2m82MwY7CI8VHap8AnpXvVU0gQb1JoHxRwUXe1l3BHKANPfvOONd
-         LNSg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=Ig5qutKRJGU1yXjmQCggg+HJKA/iCr5AyEcACinSfrY=;
-        b=ldmb9qCzzTH2ibjjNHzTDSaP0Eu86j5iq9HCGOgVdCXxho0M1TFgAe2aelyHzf1c4A
-         Fcm+QFNY2XfyMIdsFQghwgGNgn90VhAfhG+pzuwg/lHFWGM0tPuLJ8r6n0IeACQof3DZ
-         kQ9jKg4YcvGWRtX0LgKTjhikuHCQHugADfwqYe8ngVmpw3CbwnkJPUnW1MMzeAbtx2l5
-         JZnfo1/YFviLaZCPLnaLdZgwgCOTQ/d+FW1SdJ7Z56593u7MCVkyazln4WpEcwMm2Od6
-         WEtReVyrGlT5MQxStyPn5M09+mbj3aONKV0bG8NG391kC5yl8RnhZ/tRS6M11x2S7LK9
-         NLLg==
-X-Gm-Message-State: AOAM530R3kyMECSCWH7Otrg8Lsr5Pjbfa7aVnO4IjJ+tbIIcpAeeYOQ3
-        OFSHx+J6Ww98edTQu6cdVBNWDUxrK07G/Ayi
-X-Google-Smtp-Source: ABdhPJzP+4TrdLHqKkuXpQaBlPiMq0oU1TNFP4vuS9lGfoF7EYXhlAU8jknWpF9Jrczt3agiR0d2MQ==
-X-Received: by 2002:a5d:448b:: with SMTP id j11mr1965244wrq.236.1606172602975;
-        Mon, 23 Nov 2020 15:03:22 -0800 (PST)
-Received: from localhost.localdomain (hst-221-74.medicom.bg. [84.238.221.74])
-        by smtp.gmail.com with ESMTPSA id q66sm1501463wme.6.2020.11.23.15.03.22
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 23 Nov 2020 15:03:22 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v2 3/3] venus: venc: Add support for CLL and Mastering display controls
-Date:   Tue, 24 Nov 2020 01:02:57 +0200
-Message-Id: <20201123230257.31690-4-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201123230257.31690-1-stanimir.varbanov@linaro.org>
-References: <20201123230257.31690-1-stanimir.varbanov@linaro.org>
+        id S1726315AbgKWXU0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Nov 2020 18:20:26 -0500
+Received: from retiisi.eu ([95.216.213.190]:41488 "EHLO hillosipuli.retiisi.eu"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725921AbgKWXUZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 23 Nov 2020 18:20:25 -0500
+Received: from valkosipuli.localdomain (unknown [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 28243634C24
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 01:19:50 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1khL7e-0001Su-L0
+        for linux-media@vger.kernel.org; Tue, 24 Nov 2020 01:19:50 +0200
+Date:   Tue, 24 Nov 2020 01:19:50 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL for =?iso-8859-1?B?NS4xMV2gU21p?= =?iso-8859-1?Q?app?=
+ driver fixes, begin conversion to CCS
+Message-ID: <20201123231950.GD4351@valkosipuli.retiisi.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Create CLL and Mastering display colour volume v4l2 controls for
-encoder, add handling of HDR10 PQ SEI packet payloads for v4.
+Hi Mauro,
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/core.h      |  3 ++
- drivers/media/platform/qcom/venus/hfi_cmds.c  |  8 +++++
- .../media/platform/qcom/venus/hfi_helper.h    | 20 +++++++++++++
- drivers/media/platform/qcom/venus/venc.c      | 29 +++++++++++++++++++
- .../media/platform/qcom/venus/venc_ctrls.c    | 16 +++++++++-
- 5 files changed, 75 insertions(+), 1 deletion(-)
+Here's a set that prepares making the smiapp driver a modern MIPI CCS
+driver. It includes bugfixes, switch to CCS limit definitions as well as
+includes the DT bindings for the CCS device.
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 3bc129a4f817..3ae6cd2b8d31 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -245,6 +245,9 @@ struct venc_controls {
- 
- 	u32 profile;
- 	u32 level;
-+
-+	struct v4l2_ctrl_hdr10_cll_info cll;
-+	struct v4l2_ctrl_hdr10_mastering_display mastering;
- };
- 
- struct venus_buffer {
-diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-index 7022368c1e63..081e5a816bca 100644
---- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-+++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-@@ -1205,6 +1205,14 @@ pkt_session_set_property_4xx(struct hfi_session_set_property_pkt *pkt,
- 		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*cu);
- 		break;
- 	}
-+	case HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI: {
-+		struct hfi_hdr10_pq_sei *in = pdata, *hdr10 = prop_data;
-+
-+		memcpy(hdr10, in, sizeof(*hdr10));
-+		pkt->shdr.hdr.size += sizeof(u32) + sizeof(*hdr10);
-+		break;
-+	}
-+
- 	case HFI_PROPERTY_CONFIG_VENC_MAX_BITRATE:
- 	case HFI_PROPERTY_CONFIG_VDEC_POST_LOOP_DEBLOCKER:
- 	case HFI_PROPERTY_PARAM_BUFFER_ALLOC_MODE:
-diff --git a/drivers/media/platform/qcom/venus/hfi_helper.h b/drivers/media/platform/qcom/venus/hfi_helper.h
-index 60ee2479f7a6..8e8dc6b5c855 100644
---- a/drivers/media/platform/qcom/venus/hfi_helper.h
-+++ b/drivers/media/platform/qcom/venus/hfi_helper.h
-@@ -506,6 +506,7 @@
- #define HFI_PROPERTY_PARAM_VENC_VPX_ERROR_RESILIENCE_MODE	0x2005029
- #define HFI_PROPERTY_PARAM_VENC_HIER_B_MAX_NUM_ENH_LAYER	0x200502c
- #define HFI_PROPERTY_PARAM_VENC_HIER_P_HYBRID_MODE		0x200502f
-+#define HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI			0x2005036
- 
- /*
-  * HFI_PROPERTY_CONFIG_VENC_COMMON_START
-@@ -791,6 +792,25 @@ struct hfi_ltr_mark {
- 	u32 mark_frame;
- };
- 
-+struct hfi_mastering_display_colour_sei_payload {
-+	u32 display_primaries_x[3];
-+	u32 display_primaries_y[3];
-+	u32 white_point_x;
-+	u32 white_point_y;
-+	u32 max_display_mastering_luminance;
-+	u32 min_display_mastering_luminance;
-+};
-+
-+struct hfi_content_light_level_sei_payload {
-+	u32 max_content_light;
-+	u32 max_pic_average_light;
-+};
-+
-+struct hfi_hdr10_pq_sei {
-+	struct hfi_mastering_display_colour_sei_payload mastering;
-+	struct hfi_content_light_level_sei_payload cll;
-+};
-+
- struct hfi_framesize {
- 	u32 buffer_type;
- 	u32 width;
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 0bf92cc21f3a..daeaca30e9e3 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -587,6 +587,35 @@ static int venc_set_properties(struct venus_inst *inst)
- 			return ret;
- 	}
- 
-+	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-+		struct hfi_hdr10_pq_sei hdr10;
-+		unsigned int c;
-+
-+		ptype = HFI_PROPERTY_PARAM_VENC_HDR10_PQ_SEI;
-+
-+		for (c = 0; c < 3; c++) {
-+			hdr10.mastering.display_primaries_x[c] =
-+				ctr->mastering.display_primaries_x[c];
-+			hdr10.mastering.display_primaries_y[c] =
-+				ctr->mastering.display_primaries_y[c];
-+		}
-+
-+		hdr10.mastering.white_point_x = ctr->mastering.white_point_x;
-+		hdr10.mastering.white_point_y = ctr->mastering.white_point_y;
-+		hdr10.mastering.max_display_mastering_luminance =
-+			ctr->mastering.max_luminance;
-+		hdr10.mastering.min_display_mastering_luminance =
-+			ctr->mastering.min_luminance;
-+
-+		hdr10.cll.max_content_light = ctr->cll.max_content_light_level;
-+		hdr10.cll.max_pic_average_light =
-+			ctr->cll.max_pic_average_light_level;
-+
-+		ret = hfi_session_set_property(inst, ptype, &hdr10);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	/* IDR periodicity, n:
- 	 * n = 0 - only the first I-frame is IDR frame
- 	 * n = 1 - all I-frames will be IDR frames
-diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-index 0708b3b89d0c..87ba0cf9f37e 100644
---- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-+++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-@@ -198,6 +198,12 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE:
- 		ctr->frame_skip_mode = ctrl->val;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_HDR10_CLL_INFO:
-+		ctr->cll = *ctrl->p_new.p_hdr10_cll;
-+		break;
-+	case V4L2_CID_MPEG_VIDEO_HDR10_MASTERING_DISPLAY:
-+		ctr->mastering = *ctrl->p_new.p_hdr10_mastering;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -213,7 +219,7 @@ int venc_ctrl_init(struct venus_inst *inst)
- {
- 	int ret;
- 
--	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 33);
-+	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 35);
- 	if (ret)
- 		return ret;
- 
-@@ -364,6 +370,14 @@ int venc_ctrl_init(struct venus_inst *inst)
- 			       (1 << V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_BUF_LIMIT)),
- 			       V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_DISABLED);
- 
-+	v4l2_ctrl_new_std_compound(&inst->ctrl_handler, &venc_ctrl_ops,
-+				   V4L2_CID_MPEG_VIDEO_HDR10_CLL_INFO,
-+				   v4l2_ctrl_ptr_create(NULL));
-+
-+	v4l2_ctrl_new_std_compound(&inst->ctrl_handler, &venc_ctrl_ops,
-+				   V4L2_CID_MPEG_VIDEO_HDR10_MASTERING_DISPLAY,
-+				   v4l2_ctrl_ptr_create(NULL));
-+
- 	ret = inst->ctrl_handler.error;
- 	if (ret)
- 		goto err;
+Please pull.
+
+
+The following changes since commit 9463e07df8e0f93931e32c6f415d3f82bda63f35:
+
+  media: v4l2-compat-ioctl32.c: add missing #ifdef CONFIG_COMPAT_32BIT_TIMEs (2020-11-17 07:14:46 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.11-3-signed
+
+for you to fetch changes up to cd4f707bd17c2569c799a219d417c58261ea75d7:
+
+  ccs: Request for "reset" GPIO (2020-11-18 13:13:24 +0200)
+
+----------------------------------------------------------------
+V4L2 patches for 5.11
+
+----------------------------------------------------------------
+Sakari Ailus (29):
+      ccs: Add the generator for CCS register definitions and limits
+      Documentation: ccs: Add CCS driver documentation
+      smiapp: Import CCS definitions
+      smiapp: Use CCS register flags
+      smiapp: Calculate CCS limit offsets and limit buffer size
+      smiapp: Remove macros for defining registers, merge definitions
+      smiapp: Add macros for accessing CCS registers
+      smiapp: Use MIPI CCS version and manufacturer ID information
+      smiapp: Read CCS limit values
+      smiapp: Switch to CCS limits
+      smiapp: Obtain frame descriptor from CCS limits
+      smiapp: Use CCS limits in reading data format descriptors
+      smiapp: Use CCS limits in reading binning capabilities
+      smiapp: Use CCS registers
+      smiapp: Remove quirk function for writing a single 8-bit register
+      smiapp: Rename register access functions
+      smiapp: Internal rename to CCS
+      smiapp: Differentiate CCS sensors from SMIA in subdev naming
+      smiapp: Rename as "ccs"
+      ccs: Remove profile concept
+      ccs: Give all subdevs a function
+      dt-bindings: nokia,smia: Fix link-frequencies documentation
+      dt-bindings: nokia,smia: Make vana-supply optional
+      dt-bindings: nokia,smia: Remove nokia,nvm-size property
+      dt-bindings: nokia,smia: Convert to YAML
+      dt-bindings: nokia,smia: Use better active polarity for reset
+      dt-bindings: nokia,smia: Amend SMIA bindings with MIPI CCS support
+      dt-bindings: mipi-ccs: Add bus-type for C-PHY support
+      ccs: Request for "reset" GPIO
+
+ .../devicetree/bindings/media/i2c/mipi-ccs.yaml    |  128 ++
+ .../devicetree/bindings/media/i2c/nokia,smia.txt   |   66 -
+ .../driver-api/media/drivers/ccs/ccs-regs.txt      | 1041 +++++++++++
+ Documentation/driver-api/media/drivers/ccs/ccs.rst |   82 +
+ .../driver-api/media/drivers/ccs/mk-ccs-regs       |  410 +++++
+ Documentation/driver-api/media/drivers/index.rst   |    1 +
+ MAINTAINERS                                        |   20 +-
+ drivers/media/i2c/Kconfig                          |    2 +-
+ drivers/media/i2c/Makefile                         |    2 +-
+ drivers/media/i2c/{smiapp => ccs}/Kconfig          |    7 +-
+ drivers/media/i2c/ccs/Makefile                     |    6 +
+ .../i2c/{smiapp/smiapp-core.c => ccs/ccs-core.c}   | 1828 +++++++++++---------
+ drivers/media/i2c/ccs/ccs-limits.c                 |  239 +++
+ drivers/media/i2c/ccs/ccs-limits.h                 |  258 +++
+ .../i2c/{smiapp/smiapp-quirk.c => ccs/ccs-quirk.c} |   92 +-
+ .../i2c/{smiapp/smiapp-quirk.h => ccs/ccs-quirk.h} |   52 +-
+ .../{smiapp/smiapp-regs.c => ccs/ccs-reg-access.c} |   85 +-
+ drivers/media/i2c/ccs/ccs-reg-access.h             |   38 +
+ drivers/media/i2c/ccs/ccs-regs.h                   |  953 ++++++++++
+ drivers/media/i2c/{smiapp/smiapp.h => ccs/ccs.h}   |  164 +-
+ drivers/media/i2c/ccs/smiapp-reg-defs.h            |  580 +++++++
+ drivers/media/i2c/smiapp/Makefile                  |    6 -
+ drivers/media/i2c/smiapp/smiapp-limits.c           |  118 --
+ drivers/media/i2c/smiapp/smiapp-limits.h           |  114 --
+ drivers/media/i2c/smiapp/smiapp-reg-defs.h         |  489 ------
+ drivers/media/i2c/smiapp/smiapp-reg.h              |  116 --
+ drivers/media/i2c/smiapp/smiapp-regs.h             |   36 -
+ 27 files changed, 4921 insertions(+), 2012 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
+ delete mode 100644 Documentation/devicetree/bindings/media/i2c/nokia,smia.txt
+ create mode 100644 Documentation/driver-api/media/drivers/ccs/ccs-regs.txt
+ create mode 100644 Documentation/driver-api/media/drivers/ccs/ccs.rst
+ create mode 100755 Documentation/driver-api/media/drivers/ccs/mk-ccs-regs
+ rename drivers/media/i2c/{smiapp => ccs}/Kconfig (55%)
+ create mode 100644 drivers/media/i2c/ccs/Makefile
+ rename drivers/media/i2c/{smiapp/smiapp-core.c => ccs/ccs-core.c} (53%)
+ create mode 100644 drivers/media/i2c/ccs/ccs-limits.c
+ create mode 100644 drivers/media/i2c/ccs/ccs-limits.h
+ rename drivers/media/i2c/{smiapp/smiapp-quirk.c => ccs/ccs-quirk.c} (66%)
+ rename drivers/media/i2c/{smiapp/smiapp-quirk.h => ccs/ccs-quirk.h} (55%)
+ rename drivers/media/i2c/{smiapp/smiapp-regs.c => ccs/ccs-reg-access.c} (66%)
+ create mode 100644 drivers/media/i2c/ccs/ccs-reg-access.h
+ create mode 100644 drivers/media/i2c/ccs/ccs-regs.h
+ rename drivers/media/i2c/{smiapp/smiapp.h => ccs/ccs.h} (57%)
+ create mode 100644 drivers/media/i2c/ccs/smiapp-reg-defs.h
+ delete mode 100644 drivers/media/i2c/smiapp/Makefile
+ delete mode 100644 drivers/media/i2c/smiapp/smiapp-limits.c
+ delete mode 100644 drivers/media/i2c/smiapp/smiapp-limits.h
+ delete mode 100644 drivers/media/i2c/smiapp/smiapp-reg-defs.h
+ delete mode 100644 drivers/media/i2c/smiapp/smiapp-reg.h
+ delete mode 100644 drivers/media/i2c/smiapp/smiapp-regs.h
+
 -- 
-2.17.1
+Kind regards,
 
+Sakari Ailus
