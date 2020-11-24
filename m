@@ -2,145 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BA8462C3302
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 22:33:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B0362C3329
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 22:40:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732612AbgKXVcv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Nov 2020 16:32:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52598 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732546AbgKXVcs (ORCPT
+        id S1732863AbgKXVkJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Nov 2020 16:40:09 -0500
+Received: from relay6-d.mail.gandi.net ([217.70.183.198]:44799 "EHLO
+        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728791AbgKXVkJ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Nov 2020 16:32:48 -0500
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8560BC061A56
-        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 13:32:47 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id t21so381943pgl.3
-        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 13:32:47 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=nUebvx46WK355IC8BSYKhA86maU/C5TyOra9y/oS07E=;
-        b=lzAwh4po+9zegkg/2K9x7CHiUUthvj2PFJyxHwt1QdcZQIdrGCSiE3JgzWuDiv+VMN
-         KwBJ/6n/jsAIvSMb6eOJqvl2BVv6D2OMXP8giSKXaaH9JwLNdR2oULKAXe3g8bDVfAub
-         65Ll+320/JpDsvMBOWCFVSOrRLSDK1WOgK6ns=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=nUebvx46WK355IC8BSYKhA86maU/C5TyOra9y/oS07E=;
-        b=resU0iPZkrfSls+tkcQPTqR86ec1rnoedbXa/wiOokZEFsJ10oRRXNE6kFJ9mXis+X
-         F/KpAlb5jrq0Cit88iKY1vZXsFn6MKesDBRhMVytB5ez6y+G8swoy0cWZBCNC2/T/ykl
-         reHTSDESqAr51RohOefwVt49PXjPyYcsPG1X5kILN40nWiooK4CHqq1MDikgXQTk9Srg
-         fmC8G7AbD+vX8JC8W6DzL4EEZ0JF+/+NTX+mYM4+9z+s1XffVNTOO8Qor+CryTBrxato
-         eJ2zdEAeI4S+xiy4itt+GguKImM6xNzpF9vfgIfHateb2jvf7i6+bO+TW8DB+LXpGR0K
-         LSlA==
-X-Gm-Message-State: AOAM532GI8UB8sZLRzDIqpWPL2JxF/I0OHWbAW8PJlfPAWkRr6ppPUxf
-        39X8KgSCxqxdjC+c7NWfx8Ifawlmo0eH4oD5
-X-Google-Smtp-Source: ABdhPJyp86bHnh+pX/bbtyJvtymIhKFSWtRW4h5d/m2XI4eSElpEXSRnILd/bhh2ok8eYrLt5J5YAQ==
-X-Received: by 2002:a17:90a:e2d4:: with SMTP id fr20mr212344pjb.202.1606253566770;
-        Tue, 24 Nov 2020 13:32:46 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id k6sm5489pfd.169.2020.11.24.13.32.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2020 13:32:45 -0800 (PST)
-Date:   Tue, 24 Nov 2020 13:32:44 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     James Bottomley <James.Bottomley@HansenPartnership.com>
-Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Joe Perches <joe@perches.com>,
-        Jakub Kicinski <kuba@kernel.org>, alsa-devel@alsa-project.org,
-        linux-atm-general@lists.sourceforge.net,
-        reiserfs-devel@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        linux-ide@vger.kernel.org, dm-devel@redhat.com,
-        keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
-        GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
-        samba-technical@lists.samba.org, linux-i3c@lists.infradead.org,
-        linux1394-devel@lists.sourceforge.net,
-        linux-afs@lists.infradead.org,
-        usb-storage@lists.one-eyed-alien.net, drbd-dev@lists.linbit.com,
-        devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
-        rds-devel@oss.oracle.com,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
-        oss-drivers@netronome.com, bridge@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org,
-        linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
-        linux-acpi@vger.kernel.org, coreteam@netfilter.org,
-        intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
-        Miguel Ojeda <ojeda@kernel.org>,
-        tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        selinux@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org,
-        linux-can@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-gpio@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-        linux-mediatek@lists.infradead.org, xen-devel@lists.xenproject.org,
-        nouveau@lists.freedesktop.org, linux-hams@vger.kernel.org,
-        ceph-devel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
-        x86@kernel.org, linux-nfs@vger.kernel.org,
-        GR-Linux-NIC-Dev@marvell.com, linux-mm@kvack.org,
-        netdev@vger.kernel.org, linux-decnet-user@lists.sourceforge.net,
-        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-sctp@vger.kernel.org, linux-usb@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        patches@opensource.cirrus.com, linux-integrity@vger.kernel.org,
-        target-devel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [Intel-wired-lan] [PATCH 000/141] Fix fall-through warnings for
- Clang
-Message-ID: <202011241327.BB28F12F6@keescook>
-References: <202011201129.B13FDB3C@keescook>
- <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011220816.8B6591A@keescook>
- <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
- <ca071decb87cc7e905411423c05a48f9fd2f58d7.camel@perches.com>
- <0147972a72bc13f3629de8a32dee6f1f308994b5.camel@HansenPartnership.com>
- <d8d1e9add08cdd4158405e77762d4946037208f8.camel@perches.com>
- <dbd2cb703ed9eefa7dde9281ea26ab0f7acc8afe.camel@HansenPartnership.com>
- <20201123130348.GA3119@embeddedor>
- <8f5611bb015e044fa1c0a48147293923c2d904e4.camel@HansenPartnership.com>
+        Tue, 24 Nov 2020 16:40:09 -0500
+X-Originating-IP: 87.16.255.135
+Received: from uno.localdomain (host-87-16-255-135.retail.telecomitalia.it [87.16.255.135])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id ADB47C0005;
+        Tue, 24 Nov 2020 21:40:03 +0000 (UTC)
+Date:   Tue, 24 Nov 2020 22:40:08 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        koji.matsuoka.xm@renesas.com, laurent.pinchart@ideasonboard.com,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: rcar-vin: Mask VNCSI_IFMD register
+Message-ID: <20201124214008.xnsnhaglrjjcd7ud@uno.localdomain>
+References: <20201116110428.27338-1-jacopo+renesas@jmondi.org>
+ <20201116110428.27338-3-jacopo+renesas@jmondi.org>
+ <20201123153124.GC1773213@oden.dyn.berto.se>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <8f5611bb015e044fa1c0a48147293923c2d904e4.camel@HansenPartnership.com>
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201123153124.GC1773213@oden.dyn.berto.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 08:31:30AM -0800, James Bottomley wrote:
-> Really, no ... something which produces no improvement has no value at
-> all ... we really shouldn't be wasting maintainer time with it because
-> it has a cost to merge.  I'm not sure we understand where the balance
-> lies in value vs cost to merge but I am confident in the zero value
-> case.
+Hi Niklas,
 
-What? We can't measure how many future bugs aren't introduced because the
-kernel requires explicit case flow-control statements for all new code.
+On Mon, Nov 23, 2020 at 04:31:24PM +0100, Niklas Söderlund wrote:
+> Hi Jacopo,
+>
+> Thanks for your work.
+>
+> On 2020-11-16 12:04:28 +0100, Jacopo Mondi wrote:
+> > The VNCSI_IFMD register controls the data expansion mode and the
+> > channel routing between the CSI-2 receivers and VIN instances.
+> >
+> > According to the chip manual revision 2.20 not all fields are available
+> > for all the SoCs:
+> > - V3M, V3H and E3 do not support the DES1 field has they do not feature
+> >   a CSI20 receiver.
+> > - D3 only supports parallel input, and the whole register shall always
+> >   be written as 0.
+> >
+> > Inspect the per-SoC channel routing table where the available CSI-2
+> > instances are reported and configure VNCSI_IFMD accordingly.
+> >
+> > This patch upports the BSP change commit f54697394457
+> > ("media: rcar-vin: Fix VnCSI_IFMD register access for r8a77990")
+>
+> I really like this approach, nice work.
+>
 
-We already enable -Wimplicit-fallthrough globally, so that's not the
-discussion. The issue is that Clang is (correctly) even more strict
-than GCC for this, so these are the remaining ones to fix for full Clang
-coverage too.
+I'm happy you like it, almost like you suggested it in first place,
+right ? :)
 
-People have spent more time debating this already than it would have
-taken to apply the patches. :)
+> >
+> > Suggested-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  drivers/media/platform/rcar-vin/rcar-dma.c | 26 +++++++++++++++++++---
+> >  1 file changed, 23 insertions(+), 3 deletions(-)
+> >
+> > diff --git a/drivers/media/platform/rcar-vin/rcar-dma.c b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > index 378514a75bc2..ab6818b34e5a 100644
+> > --- a/drivers/media/platform/rcar-vin/rcar-dma.c
+> > +++ b/drivers/media/platform/rcar-vin/rcar-dma.c
+> > @@ -1570,7 +1570,9 @@ int rvin_dma_register(struct rvin_dev *vin, int irq)
+> >   */
+> >  int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+> >  {
+> > -	u32 ifmd, vnmc;
+> > +	const struct rvin_group_route *route;
+> > +	u32 ifmd = 0;
+> > +	u32 vnmc;
+> >  	int ret;
+> >
+> >  	ret = pm_runtime_get_sync(vin->dev);
+> > @@ -1583,9 +1585,27 @@ int rvin_set_channel_routing(struct rvin_dev *vin, u8 chsel)
+> >  	vnmc = rvin_read(vin, VNMC_REG);
+> >  	rvin_write(vin, vnmc & ~VNMC_VUP, VNMC_REG);
+> >
+> > -	ifmd = VNCSI_IFMD_DES1 | VNCSI_IFMD_DES0 | VNCSI_IFMD_CSI_CHSEL(chsel);
+> > +	/*
+> > +	 * Set data expansion mode to "pad with 0s" by inspecting the routes
+> > +	 * table to find out which bit fields are available in the IFMD
+> > +	 * register. IFMD_DES1 controls data expansion mode for CSI20/21,
+> > +	 * IFMD_DES0 controls data expansion mode for CSI40/41.
+> > +	 */
+> > +	for (route = vin->info->routes; route->mask; route++) {
+> > +		/* CSI21 is only available in r8a7795es1 and not documented. */
+>
+> I would drop this comment as we do not know what will happen in future
+> SoCs.
+>
+> > +		if (route->csi == RVIN_CSI20 || route->csi == RVIN_CSI21)
+> > +			ifmd |= VNCSI_IFMD_DES1;
+> > +		else
+> > +			ifmd |= VNCSI_IFMD_DES0;
+> >
+> > -	rvin_write(vin, ifmd, VNCSI_IFMD_REG);
+> > +		/* If both have been set stop looping. */
+> > +		if (ifmd == (VNCSI_IFMD_DES0 | VNCSI_IFMD_DES1))
+> > +			break;
+>
+> I would remove the comment here as I think the code is quiet self
+> explanatory and reading the comment made me think I was missing
+> something obvious ;-)
+>
 
-This is about robustness and language wrangling. It's a big code-base,
-and this is the price of our managing technical debt for permanent
-robustness improvements. (The numbers I ran from Gustavo's earlier
-patches were that about 10% of the places adjusted were identified as
-legitimate bugs being fixed. This final series may be lower, but there
-are still bugs being found from it -- we need to finish this and shut
-the door on it for good.)
+Correct, I'm breaking the first rule of avoiding superfluous comments.
 
--- 
-Kees Cook
+> > +	}
+>
+> Missing blank line.
+
+Was kind of intentional, but I can add one
+
+>
+> With these small nits fixed,
+>
+> Reviewed-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+
+Thanks
+  j
+
+>
+> > +	if (ifmd) {
+> > +		ifmd |= VNCSI_IFMD_CSI_CHSEL(chsel);
+> > +		rvin_write(vin, ifmd, VNCSI_IFMD_REG);
+> > +	}
+> >
+> >  	vin_dbg(vin, "Set IFMD 0x%x\n", ifmd);
+> >
+> > --
+> > 2.29.1
+> >
+>
+> --
+> Regards,
+> Niklas Söderlund
