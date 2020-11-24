@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C5CE2C3130
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 20:49:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 517562C310C
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 20:45:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727364AbgKXTpu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Nov 2020 14:45:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35700 "EHLO
+        id S1727119AbgKXToj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Nov 2020 14:44:39 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35682 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726998AbgKXTo2 (ORCPT
+        with ESMTP id S1727010AbgKXToa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Nov 2020 14:44:28 -0500
-Received: from mail-wr1-x441.google.com (mail-wr1-x441.google.com [IPv6:2a00:1450:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CAE86C061A54
-        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 11:44:27 -0800 (PST)
-Received: by mail-wr1-x441.google.com with SMTP id z7so7731674wrn.3
-        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 11:44:27 -0800 (PST)
+        Tue, 24 Nov 2020 14:44:30 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 18A16C061A4E
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 11:44:29 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id p8so23563932wrx.5
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 11:44:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=GB6kY4upxQFv24rJ06X4HvdfBkp1xJnyjNfSH8+ifmU=;
-        b=gYSO/nVmFciixTFJ8ZqVydxt3ETrnljhtml21uB6O8PC1QhgpWZ06dgSyH4KjrinuJ
-         iDlUGLl+ysxrcvtrKWR8gHxcgxhwk792cp/ZUjMKxj88lWvnMA9mpfqh7e21oCtZnhsI
-         xziWQg/ze7wmJg8oj2FustOlfqEuy3LxlDUk75pZx2jz7IgRDlQwfa/pUUtvkVOkK5Ei
-         hUnmDpvxI8xt4AD4521/sTVwp3Ar2j9aOGeR/LQRrVO6PCcHejb5SGXlzyY4PuKDsJXQ
-         YY/2k1rlA6BCsIialIdRJf1Ocac398uulw8nhlphGmB5WId/BPHtX0XafqS8z2W92uVY
-         kCEQ==
+        bh=R/UQVzp5t/843EY6ppRphRVAVupyrmwyb92XCyM15Wo=;
+        b=aqz8p6m1y8u9iRDM8778MHzwp/jjK8uddIAnjuWOPOOtnkCw6y5wUG66aTJIjoU1Ql
+         +8QAgzunBNCv0ij3cGOu2EBQzxSGW9nvcrxgQ5PMGbou0MeahIRa1UarsDdZmoK89qrB
+         PnRxu9HJoB1PsExnvE2pzdH4o30i18gSyyCMANsXJmT9sUMwkNx5RrPKvfHPQfjf4h8A
+         SEhzf6w0MCffigcFHB0jA63C9A3wINcgiAxi1OjF8f6hvFwk49l1I7HvhqAhuWVc16jl
+         q2xgwJgrVsyYtK1EO9azsg3NB8+ZfIPO7cbAwOUQVLQ8ngfv8ckiQepqRqoidg9JKMrO
+         GFPA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=GB6kY4upxQFv24rJ06X4HvdfBkp1xJnyjNfSH8+ifmU=;
-        b=pXotbiAMZPutEIY7SNag+FiFpBZ/xGe6c4P8s1wQ76Os0575pl0AMBCd6dL2gFUY+M
-         mJt++cpfsiyvfxD41Su3OtIdKeyHMT6fXzdkMrttP6i+/Z8lI2u1/fGN7nOztkTWnvNb
-         51CyDQc6wlLzzA/sXUDA/u9WYeExs5O0CVIsu7AJDxjJi/+iwbD6TICujLCZvSGHgVNJ
-         Omrrd2nXuYBiRU/cS1wEblH8JcM8Ds6btEaVGi38VK42n2ksAOU9VC22YErFhJcfmhNd
-         rcqhhCfISm/NxkvD1UBfKP1vERCFKL7rBm8+lECOpjFq8QescRSLt4TzaFSHc0lx0zmb
-         MQAw==
-X-Gm-Message-State: AOAM532Cz9QbsDvNVNoSwpParRUgABVArNztA9ltlaXhuxHsIB1VQ5WW
-        JCN28vxJ9k034hTEXmL3zZAfqw==
-X-Google-Smtp-Source: ABdhPJwiHOsXolfK7RoFeBDciBoIZeZ34wXHdP5DHmDy6yg7Zg4BiP+i4fA7AqCywCu48B/vP+y7JQ==
-X-Received: by 2002:adf:f143:: with SMTP id y3mr112155wro.138.1606247066571;
-        Tue, 24 Nov 2020 11:44:26 -0800 (PST)
+        bh=R/UQVzp5t/843EY6ppRphRVAVupyrmwyb92XCyM15Wo=;
+        b=dkPzDW4P4p93M39pmrG/hXUFtdSUwTcpT0grmJTDx6FdzuY33qPv52aU+BxNN2EEgM
+         myZKR3ZgxYRX72GYbiSJAgYBiBVhUwxb9JWDN7sy832drzrp2QApivLwcdc2vDoMD7Rz
+         rnJrajE927oyBzL7ndnqlq0PvRZ6j9nPk5QootadXOW+EBimcGkctyQW2aqQbo4POk9x
+         /vsiC2pCaPvB8KatkKpTJ/GR80APjiVBWTa+QFq+XoIuhspEPAWAwXPTptYNxHVDkdRD
+         Opf4+CzAC0tSHZakAqED/qbQH9pHCO6F+BPqVg4ZGIC0R6w3hVdJCtSrlYMt8AfVV9/d
+         Z0ag==
+X-Gm-Message-State: AOAM533KgS9DrS8fpYqCSMOpKS5KaS7rPiS7ITC96dNUiokZGE1AYIfr
+        Mqa5RvW9B/SCu0SNnAepw2FilQ==
+X-Google-Smtp-Source: ABdhPJyNvL8AI6lQpfzWAv3VHW+2TI5kNAXcBCmBQvN5oBRLWs48IHIbDu6CgSFyLCvkjvEbYarrlA==
+X-Received: by 2002:adf:df8e:: with SMTP id z14mr84931wrl.406.1606247067758;
+        Tue, 24 Nov 2020 11:44:27 -0800 (PST)
 Received: from dell.default ([91.110.221.235])
-        by smtp.gmail.com with ESMTPSA id d134sm200511wmd.8.2020.11.24.11.44.25
+        by smtp.gmail.com with ESMTPSA id d134sm200511wmd.8.2020.11.24.11.44.26
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2020 11:44:25 -0800 (PST)
+        Tue, 24 Nov 2020 11:44:27 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -58,9 +58,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
         amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 22/40] drm/amd/amdgpu/amdgpu_uvd: Fix some function documentation headers
-Date:   Tue, 24 Nov 2020 19:38:06 +0000
-Message-Id: <20201124193824.1118741-23-lee.jones@linaro.org>
+Subject: [PATCH 23/40] drm/amd/amdgpu/sdma_v5_0: Provide some missing and repair other function params
+Date:   Tue, 24 Nov 2020 19:38:07 +0000
+Message-Id: <20201124193824.1118741-24-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201124193824.1118741-1-lee.jones@linaro.org>
 References: <20201124193824.1118741-1-lee.jones@linaro.org>
@@ -73,10 +73,25 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c:95: warning: cannot understand function prototype: 'struct amdgpu_uvd_cs_ctx '
- drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c:555: warning: Function parameter or member 'adev' not described in 'amdgpu_uvd_cs_msg_decode'
- drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c:1012: warning: Function parameter or member 'ib_idx' not described in 'amdgpu_uvd_ring_parse_cs'
- drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c:1286: warning: Function parameter or member 'timeout' not described in 'amdgpu_uvd_ring_test_ib'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:403: warning: Function parameter or member 'job' not described in 'sdma_v5_0_ring_emit_ib'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:403: warning: Function parameter or member 'flags' not described in 'sdma_v5_0_ring_emit_ib'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:480: warning: Function parameter or member 'addr' not described in 'sdma_v5_0_ring_emit_fence'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:480: warning: Function parameter or member 'seq' not described in 'sdma_v5_0_ring_emit_fence'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:480: warning: Function parameter or member 'flags' not described in 'sdma_v5_0_ring_emit_fence'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:480: warning: Excess function parameter 'fence' description in 'sdma_v5_0_ring_emit_fence'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:967: warning: Function parameter or member 'timeout' not described in 'sdma_v5_0_ring_test_ib'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:1074: warning: Function parameter or member 'value' not described in 'sdma_v5_0_vm_write_pte'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:1074: warning: Excess function parameter 'addr' description in 'sdma_v5_0_vm_write_pte'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:1074: warning: Excess function parameter 'flags' description in 'sdma_v5_0_vm_write_pte'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:1126: warning: Function parameter or member 'ring' not described in 'sdma_v5_0_ring_pad_ib'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:1180: warning: Function parameter or member 'vmid' not described in 'sdma_v5_0_ring_emit_vm_flush'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:1180: warning: Function parameter or member 'pd_addr' not described in 'sdma_v5_0_ring_emit_vm_flush'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:1180: warning: Excess function parameter 'vm' description in 'sdma_v5_0_ring_emit_vm_flush'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:1703: warning: Function parameter or member 'ib' not described in 'sdma_v5_0_emit_copy_buffer'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:1703: warning: Function parameter or member 'tmz' not described in 'sdma_v5_0_emit_copy_buffer'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:1703: warning: Excess function parameter 'ring' description in 'sdma_v5_0_emit_copy_buffer'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:1729: warning: Function parameter or member 'ib' not described in 'sdma_v5_0_emit_fill_buffer'
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c:1729: warning: Excess function parameter 'ring' description in 'sdma_v5_0_emit_fill_buffer'
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
@@ -89,48 +104,94 @@ Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 6 ++++--
- 1 file changed, 4 insertions(+), 2 deletions(-)
+ drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c | 19 +++++++++++++------
+ 1 file changed, 13 insertions(+), 6 deletions(-)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-index f8bebf18ee362..f8f0384a8d9ad 100644
---- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-+++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
-@@ -87,7 +87,7 @@
- #define UVD_NO_OP				0x03ff
- #define UVD_BASE_SI				0x3800
- 
--/**
-+/*
-  * amdgpu_uvd_cs_ctx - Command submission parser context
+diff --git a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
+index 9c72b95b74639..5180a52a79a54 100644
+--- a/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
++++ b/drivers/gpu/drm/amd/amdgpu/sdma_v5_0.c
+@@ -392,7 +392,9 @@ static void sdma_v5_0_ring_insert_nop(struct amdgpu_ring *ring, uint32_t count)
+  * sdma_v5_0_ring_emit_ib - Schedule an IB on the DMA engine
   *
-  * Used for emulating virtual memory support on UVD 4.2.
-@@ -545,8 +545,8 @@ static int amdgpu_uvd_cs_pass1(struct amdgpu_uvd_cs_ctx *ctx)
- /**
-  * amdgpu_uvd_cs_msg_decode - handle UVD decode message
+  * @ring: amdgpu ring pointer
++ * @job: job to retrive vmid from
+  * @ib: IB object to schedule
++ * @flags: unused
   *
-+ * @adev: amdgpu_device pointer
-  * @msg: pointer to message structure
-- * @buf_sizes: returned buffer sizes
-  *
-  * Peek into the decode message and calculate the necessary buffer sizes.
+  * Schedule an IB in the DMA ring (NAVI10).
   */
-@@ -1005,6 +1005,7 @@ static int amdgpu_uvd_cs_packets(struct amdgpu_uvd_cs_ctx *ctx,
-  * amdgpu_uvd_ring_parse_cs - UVD command submission parser
+@@ -469,7 +471,9 @@ static void sdma_v5_0_ring_emit_hdp_flush(struct amdgpu_ring *ring)
+  * sdma_v5_0_ring_emit_fence - emit a fence on the DMA ring
   *
-  * @parser: Command submission parser context
-+ * @ib_idx: Which indirect buffer to use
+  * @ring: amdgpu ring pointer
+- * @fence: amdgpu fence object
++ * @addr: address
++ * @seq: sequence number
++ * @flags: fence related flags
   *
-  * Parse the command stream, patch in addresses as necessary.
-  */
-@@ -1279,6 +1280,7 @@ void amdgpu_uvd_ring_end_use(struct amdgpu_ring *ring)
-  * amdgpu_uvd_ring_test_ib - test ib execution
+  * Add a DMA fence packet to the ring to write
+  * the fence seq number and DMA trap packet to generate
+@@ -959,6 +963,7 @@ static int sdma_v5_0_ring_test_ring(struct amdgpu_ring *ring)
+  * sdma_v5_0_ring_test_ib - test an IB on the DMA engine
   *
-  * @ring: amdgpu_ring pointer
+  * @ring: amdgpu_ring structure holding ring information
 + * @timeout: timeout value in jiffies, or MAX_SCHEDULE_TIMEOUT
   *
-  * Test if we can successfully execute an IB
+  * Test a simple IB in the DMA ring (NAVI10).
+  * Returns 0 on success, error on failure.
+@@ -1061,10 +1066,9 @@ static void sdma_v5_0_vm_copy_pte(struct amdgpu_ib *ib,
+  *
+  * @ib: indirect buffer to fill with commands
+  * @pe: addr of the page entry
+- * @addr: dst addr to write into pe
++ * @value: dst addr to write into pe
+  * @count: number of page entries to update
+  * @incr: increase next addr by incr bytes
+- * @flags: access flags
+  *
+  * Update PTEs by writing them manually using sDMA (NAVI10).
   */
+@@ -1118,6 +1122,7 @@ static void sdma_v5_0_vm_set_pte_pde(struct amdgpu_ib *ib,
+ 
+ /**
+  * sdma_v5_0_ring_pad_ib - pad the IB
++ * @ring: amdgpu_ring structure holding ring information
+  * @ib: indirect buffer to fill with padding
+  *
+  * Pad the IB with NOPs to a boundary multiple of 8.
+@@ -1170,7 +1175,8 @@ static void sdma_v5_0_ring_emit_pipeline_sync(struct amdgpu_ring *ring)
+  * sdma_v5_0_ring_emit_vm_flush - vm flush using sDMA
+  *
+  * @ring: amdgpu_ring pointer
+- * @vm: amdgpu_vm pointer
++ * @vmid: vmid number to use
++ * @pd_addr: address
+  *
+  * Update the page table base and flush the VM TLB
+  * using sDMA (NAVI10).
+@@ -1686,10 +1692,11 @@ static void sdma_v5_0_set_irq_funcs(struct amdgpu_device *adev)
+ /**
+  * sdma_v5_0_emit_copy_buffer - copy buffer using the sDMA engine
+  *
+- * @ring: amdgpu_ring structure holding ring information
++ * @ib: indirect buffer to copy to
+  * @src_offset: src GPU address
+  * @dst_offset: dst GPU address
+  * @byte_count: number of bytes to xfer
++ * @tmz: if a secure copy should be used
+  *
+  * Copy GPU buffers using the DMA engine (NAVI10).
+  * Used by the amdgpu ttm implementation to move pages if
+@@ -1715,7 +1722,7 @@ static void sdma_v5_0_emit_copy_buffer(struct amdgpu_ib *ib,
+ /**
+  * sdma_v5_0_emit_fill_buffer - fill buffer using the sDMA engine
+  *
+- * @ring: amdgpu_ring structure holding ring information
++ * @ib: indirect buffer to fill
+  * @src_data: value to write to buffer
+  * @dst_offset: dst GPU address
+  * @byte_count: number of bytes to xfer
 -- 
 2.25.1
 
