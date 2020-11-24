@@ -2,38 +2,38 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B29092C23B0
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 12:08:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08FBB2C239E
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 12:08:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732493AbgKXLHD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Nov 2020 06:07:03 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33818 "EHLO mail.kernel.org"
+        id S1732559AbgKXLGi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Nov 2020 06:06:38 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33824 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732505AbgKXLGg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Nov 2020 06:06:36 -0500
+        id S1732514AbgKXLGh (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Nov 2020 06:06:37 -0500
 Received: from mail.kernel.org (ip5f5ad5c3.dynamic.kabel-deutschland.de [95.90.213.195])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id 44565221F9;
-        Tue, 24 Nov 2020 11:06:31 +0000 (UTC)
+        by mail.kernel.org (Postfix) with ESMTPSA id 3E44122282;
+        Tue, 24 Nov 2020 11:06:32 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606215991;
-        bh=w/tJPJr6IOV6p4PXXs54u7f4fAHEeqps80vv1D4BmO8=;
+        s=default; t=1606215992;
+        bh=0lzPZWa/Ly6q42aPW60arn5qeGKLjHWRYYiTE3f4x2c=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=uz3BnRdmaQ3T+KINDENifiCSGQmoXeqoymmkVdKkRwhqdit3NHCI89/wkDnuxz/W3
-         I7BgVh+jrjJ/w8uj/MsjfePf4iOkj1/ZHdlOuwfRAZ65w8bcMgBx/vPbmrVRNgZYCy
-         X4Zk50mWGYvebiAx3fDH8xeeL4PEhKUP7LepUnVs=
+        b=XkKqBNT6jzJ3cdNL1l+dKxUGWQzjvuaExliZ+0Z7kCfAS9nT0qxjBm3+fKmUE43LG
+         HT64VwPuPQEkAqLee5hAnvjiJfFEBvzP+t+cO3G1vNXGcAnHdH/xgyX8ld2RYAT0tm
+         e2PNmOimDhqH907361iF6jtSVSsA50yZrodn6i2U=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1khW9V-000FaV-9q; Tue, 24 Nov 2020 12:06:29 +0100
+        id 1khW9V-000FaY-Ak; Tue, 24 Nov 2020 12:06:29 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 26/31] media: vidtv: simplify SDT write function
-Date:   Tue, 24 Nov 2020 12:06:22 +0100
-Message-Id: <8f6c5baf950d66410e4df9826a8ef407caa5039d.1606215584.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 27/31] media: vidtv: simplify NIT write function
+Date:   Tue, 24 Nov 2020 12:06:23 +0100
+Message-Id: <35df4602b43ca85522029f1d335fc00b5a02db87.1606215584.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1606215584.git.mchehab+huawei@kernel.org>
 References: <cover.1606215584.git.mchehab+huawei@kernel.org>
@@ -45,86 +45,85 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-- pass struct vidtv_psi_sdt_write_args as a pointer;
+- pass struct vidtv_psi_nit_write_args as a pointer;
 - avoid initializing struct fields multiple times.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
  drivers/media/test-drivers/vidtv/vidtv_mux.c |  2 +-
- drivers/media/test-drivers/vidtv/vidtv_psi.c | 85 ++++++++++----------
+ drivers/media/test-drivers/vidtv/vidtv_psi.c | 91 ++++++++++----------
  drivers/media/test-drivers/vidtv/vidtv_psi.h |  2 +-
- 3 files changed, 46 insertions(+), 43 deletions(-)
+ 3 files changed, 47 insertions(+), 48 deletions(-)
 
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_mux.c b/drivers/media/test-drivers/vidtv/vidtv_mux.c
-index 239e0a242b6e..ff1c7c586838 100644
+index ff1c7c586838..77d691f4ff92 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_mux.c
 +++ b/drivers/media/test-drivers/vidtv/vidtv_mux.c
-@@ -199,7 +199,7 @@ static u32 vidtv_mux_push_si(struct vidtv_mux *m)
- 	sdt_args.offset             = m->mux_buf_offset;
- 	sdt_args.continuity_counter = &sdt_ctx->cc;
- 
--	m->mux_buf_offset += vidtv_psi_sdt_write_into(sdt_args);
-+	m->mux_buf_offset += vidtv_psi_sdt_write_into(&sdt_args);
- 
+@@ -204,7 +204,7 @@ static u32 vidtv_mux_push_si(struct vidtv_mux *m)
  	nit_args.offset             = m->mux_buf_offset;
  	nit_args.continuity_counter = &nit_ctx->cc;
+ 
+-	m->mux_buf_offset += vidtv_psi_nit_write_into(nit_args);
++	m->mux_buf_offset += vidtv_psi_nit_write_into(&nit_args);
+ 
+ 	eit_args.offset             = m->mux_buf_offset;
+ 	eit_args.continuity_counter = &eit_ctx->cc;
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.c b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-index ab349654ba54..ffa0ff493d04 100644
+index ffa0ff493d04..87fe3aedc8a8 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_psi.c
 +++ b/drivers/media/test-drivers/vidtv/vidtv_psi.c
-@@ -1306,57 +1306,66 @@ struct vidtv_psi_table_sdt *vidtv_psi_sdt_table_init(u16 network_id,
- 	return sdt;
+@@ -1647,53 +1647,60 @@ struct vidtv_psi_table_nit
+ 	return NULL;
  }
  
--u32 vidtv_psi_sdt_write_into(struct vidtv_psi_sdt_write_args args)
-+u32 vidtv_psi_sdt_write_into(struct vidtv_psi_sdt_write_args *args)
+-u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args args)
++u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args *args)
  {
--	struct vidtv_psi_table_sdt_service *service = args.sdt->service;
+-	struct vidtv_psi_desc *table_descriptor     = args.nit->descriptor;
+-	struct vidtv_psi_table_transport *transport = args.nit->transport;
 +	struct header_write_args h_args = {
 +		.dest_buf           = args->buf,
 +		.dest_offset        = args->offset,
-+		.h                  = &args->sdt->header,
-+		.pid                = VIDTV_SDT_PID,
++		.h                  = &args->nit->header,
++		.pid                = VIDTV_NIT_PID,
 +		.dest_buf_sz        = args->buf_sz,
 +	};
 +	struct psi_write_args psi_args  = {
-+		.dest_buf = args->buf,
-+		.len = sizeof_field(struct vidtv_psi_table_sdt, network_id) +
-+		       sizeof_field(struct vidtv_psi_table_sdt, reserved),
-+		.pid                = VIDTV_SDT_PID,
++		.dest_buf           = args->buf,
++		.from               = &args->nit->bitfield,
++		.len                = sizeof_field(struct vidtv_psi_table_nit, bitfield),
++		.pid                = VIDTV_NIT_PID,
 +		.new_psi_section    = false,
 +		.is_crc             = false,
 +		.dest_buf_sz        = args->buf_sz,
 +	};
 +	struct desc_write_args d_args   = {
 +		.dest_buf           = args->buf,
-+		.pid                = VIDTV_SDT_PID,
++		.pid                = VIDTV_NIT_PID,
 +		.dest_buf_sz        = args->buf_sz,
 +	};
 +	struct crc32_write_args c_args  = {
 +		.dest_buf           = args->buf,
-+		.pid                = VIDTV_SDT_PID,
++		.pid                = VIDTV_NIT_PID,
 +		.dest_buf_sz        = args->buf_sz,
 +	};
-+	struct vidtv_psi_table_sdt_service *service = args->sdt->service;
- 	struct vidtv_psi_desc *service_desc;
++	struct vidtv_psi_desc *table_descriptor     = args->nit->descriptor;
++	struct vidtv_psi_table_transport *transport = args->nit->transport;
+ 	struct vidtv_psi_desc *transport_descriptor;
 -	struct header_write_args h_args = {};
 -	struct psi_write_args psi_args  = {};
 -	struct desc_write_args d_args   = {};
 -	struct crc32_write_args c_args  = {};
--	u16 sdt_pid = VIDTV_SDT_PID;
- 	u32 nbytes  = 0;
  	u32 crc = INITIAL_CRC;
+ 	u32 nbytes = 0;
  
- 	/* see ETSI EN 300 468 v1.15.1 p. 11 */
- 
--	vidtv_psi_sdt_table_update_sec_len(args.sdt);
-+	vidtv_psi_sdt_table_update_sec_len(args->sdt);
+-	vidtv_psi_nit_table_update_sec_len(args.nit);
++	vidtv_psi_nit_table_update_sec_len(args->nit);
  
 -	h_args.dest_buf           = args.buf;
 -	h_args.dest_offset        = args.offset;
--	h_args.h                  = &args.sdt->header;
--	h_args.pid                = sdt_pid;
+-	h_args.h                  = &args.nit->header;
+-	h_args.pid                = VIDTV_NIT_PID;
 -	h_args.continuity_counter = args.continuity_counter;
 -	h_args.dest_buf_sz        = args.buf_sz;
 +	h_args.continuity_counter = args->continuity_counter;
@@ -132,87 +131,107 @@ index ab349654ba54..ffa0ff493d04 100644
  
  	nbytes += vidtv_psi_table_header_write_into(&h_args);
  
+ 	/* write the bitfield */
 -	psi_args.dest_buf = args.buf;
--	psi_args.from     = &args.sdt->network_id;
--
--	psi_args.len = sizeof_field(struct vidtv_psi_table_sdt, network_id) +
--		       sizeof_field(struct vidtv_psi_table_sdt, reserved);
--
+-	psi_args.from     = &args.nit->bitfield;
+-	psi_args.len      = sizeof_field(struct vidtv_psi_table_nit, bitfield);
+ 
 -	psi_args.dest_offset        = args.offset + nbytes;
--	psi_args.pid                = sdt_pid;
+-	psi_args.pid                = VIDTV_NIT_PID;
 -	psi_args.new_psi_section    = false;
 -	psi_args.continuity_counter = args.continuity_counter;
 -	psi_args.is_crc             = false;
 -	psi_args.dest_buf_sz        = args.buf_sz;
-+	psi_args.from               = &args->sdt->network_id;
 +	psi_args.dest_offset        = args->offset + nbytes;
 +	psi_args.continuity_counter = args->continuity_counter;
  	psi_args.crc                = &crc;
  
- 	/* copy u16 network_id + u8 reserved)*/
  	nbytes += vidtv_psi_ts_psi_write_into(&psi_args);
  
-+	/* skip both pointers at the end */
-+	psi_args.len = sizeof(struct vidtv_psi_table_sdt_service) -
-+		       sizeof(struct vidtv_psi_desc *) -
-+		       sizeof(struct vidtv_psi_table_sdt_service *);
-+
- 	while (service) {
- 		/* copy the services, if any */
- 		psi_args.from = service;
--		/* skip both pointers at the end */
--		psi_args.len = sizeof(struct vidtv_psi_table_sdt_service) -
--			       sizeof(struct vidtv_psi_desc *) -
--			       sizeof(struct vidtv_psi_table_sdt_service *);
+ 	while (table_descriptor) {
+ 		/* write the descriptors, if any */
+-		d_args.dest_buf           = args.buf;
+-		d_args.dest_offset        = args.offset + nbytes;
++		d_args.dest_offset        = args->offset + nbytes;
+ 		d_args.desc               = table_descriptor;
+-		d_args.pid                = VIDTV_NIT_PID;
+-		d_args.continuity_counter = args.continuity_counter;
+-		d_args.dest_buf_sz        = args.buf_sz;
++		d_args.continuity_counter = args->continuity_counter;
+ 		d_args.crc                = &crc;
+ 
+ 		nbytes += vidtv_psi_desc_write_into(&d_args);
+@@ -1702,21 +1709,19 @@ u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args args)
+ 	}
+ 
+ 	/* write the second bitfield */
+-	psi_args.dest_buf = args.buf;
+-	psi_args.from = &args.nit->bitfield2;
++	psi_args.from = &args->nit->bitfield2;
+ 	psi_args.len = sizeof_field(struct vidtv_psi_table_nit, bitfield2);
+-	psi_args.dest_offset = args.offset + nbytes;
+-	psi_args.pid = VIDTV_NIT_PID;
++	psi_args.dest_offset = args->offset + nbytes;
+ 
+ 	nbytes += vidtv_psi_ts_psi_write_into(&psi_args);
+ 
++	psi_args.len  = sizeof_field(struct vidtv_psi_table_transport, transport_id) +
++			sizeof_field(struct vidtv_psi_table_transport, network_id)   +
++			sizeof_field(struct vidtv_psi_table_transport, bitfield);
+ 	while (transport) {
+ 		/* write the transport sections, if any */
+ 		psi_args.from = transport;
+-		psi_args.len  = sizeof_field(struct vidtv_psi_table_transport, transport_id) +
+-				sizeof_field(struct vidtv_psi_table_transport, network_id)   +
+-				sizeof_field(struct vidtv_psi_table_transport, bitfield);
 -		psi_args.dest_offset = args.offset + nbytes;
 +		psi_args.dest_offset = args->offset + nbytes;
-+		psi_args.continuity_counter = args->continuity_counter;
  
  		nbytes += vidtv_psi_ts_psi_write_into(&psi_args);
  
-@@ -1364,12 +1373,9 @@ u32 vidtv_psi_sdt_write_into(struct vidtv_psi_sdt_write_args args)
+@@ -1724,12 +1729,9 @@ u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args args)
  
- 		while (service_desc) {
- 			/* copy the service descriptors, if any */
+ 		while (transport_descriptor) {
+ 			/* write the transport descriptors, if any */
 -			d_args.dest_buf           = args.buf;
 -			d_args.dest_offset        = args.offset + nbytes;
 +			d_args.dest_offset        = args->offset + nbytes;
- 			d_args.desc               = service_desc;
--			d_args.pid                = sdt_pid;
+ 			d_args.desc               = transport_descriptor;
+-			d_args.pid                = VIDTV_NIT_PID;
 -			d_args.continuity_counter = args.continuity_counter;
 -			d_args.dest_buf_sz        = args.buf_sz;
 +			d_args.continuity_counter = args->continuity_counter;
  			d_args.crc                = &crc;
  
  			nbytes += vidtv_psi_desc_write_into(&d_args);
-@@ -1380,12 +1386,9 @@ u32 vidtv_psi_sdt_write_into(struct vidtv_psi_sdt_write_args args)
- 		service = service->next;
+@@ -1740,12 +1742,9 @@ u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args args)
+ 		transport = transport->next;
  	}
  
 -	c_args.dest_buf           = args.buf;
 -	c_args.dest_offset        = args.offset + nbytes;
 +	c_args.dest_offset        = args->offset + nbytes;
  	c_args.crc                = cpu_to_be32(crc);
--	c_args.pid                = sdt_pid;
+-	c_args.pid                = VIDTV_NIT_PID;
 -	c_args.continuity_counter = args.continuity_counter;
 -	c_args.dest_buf_sz        = args.buf_sz;
 +	c_args.continuity_counter = args->continuity_counter;
  
- 	/* Write the CRC at the end */
+ 	/* Write the CRC32 at the end */
  	nbytes += table_section_crc32_write_into(&c_args);
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_psi.h b/drivers/media/test-drivers/vidtv/vidtv_psi.h
-index b72635bcdae7..5065ddb805b1 100644
+index 5065ddb805b1..9aa43272ecfa 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_psi.h
 +++ b/drivers/media/test-drivers/vidtv/vidtv_psi.h
-@@ -588,7 +588,7 @@ struct vidtv_psi_sdt_write_args {
-  * equal to the size of the SDT, since more space is needed for TS headers during TS
+@@ -710,7 +710,7 @@ struct vidtv_psi_nit_write_args {
+  * equal to the size of the NIT, since more space is needed for TS headers during TS
   * encapsulation.
   */
--u32 vidtv_psi_sdt_write_into(struct vidtv_psi_sdt_write_args args);
-+u32 vidtv_psi_sdt_write_into(struct vidtv_psi_sdt_write_args *args);
+-u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args args);
++u32 vidtv_psi_nit_write_into(struct vidtv_psi_nit_write_args *args);
  
- /**
-  * struct vidtv_psi_pmt_write_args - Arguments for writing a PMT section
+ void vidtv_psi_nit_table_destroy(struct vidtv_psi_table_nit *nit);
+ 
 -- 
 2.28.0
 
