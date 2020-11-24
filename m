@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5A8002C2C50
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 17:08:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 234E12C2CA6
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 17:19:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389323AbgKXQHw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Nov 2020 11:07:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58514 "EHLO
+        id S2390160AbgKXQTZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Nov 2020 11:19:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60314 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728480AbgKXQHw (ORCPT
+        with ESMTP id S2388568AbgKXQTY (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Nov 2020 11:07:52 -0500
+        Tue, 24 Nov 2020 11:19:24 -0500
 Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0B4DDC0613D6;
-        Tue, 24 Nov 2020 08:07:52 -0800 (PST)
-Received: by mail-wm1-x342.google.com with SMTP id p19so2346252wmg.0;
-        Tue, 24 Nov 2020 08:07:51 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 468E8C0613D6;
+        Tue, 24 Nov 2020 08:19:24 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id a65so3465423wme.1;
+        Tue, 24 Nov 2020 08:19:24 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=8rWhHtCJs5MGkWI+i55QfEjGeto3X3YjovT1RZF7HCw=;
-        b=i9DOX/pMZJJPDsx86lswNkEyyUpgYz4ORc7uLGiD3jB08V2nwpgokmb06iSMr5Fb9P
-         t6NitYSpQR2pxV5iPEuhe96kXvv+lQ44nKDVOw7IA1nj4sr9bTHs5YNMrlqb4MKpH9uI
-         /5WWkmXfFnzON/rJSoZ9vtMrqcNHjNLEwBsQVEHR+1UPDz3UR31XzpmQLRsorX6pMYF8
-         sCvpvqwmg5DerfWx3hSS2Roh6ceTU1CAvFFIhlhelybtn9MtqzRXYb5PraplGQihnYuG
-         9dTasMIrHKWnTuzKGhWLZpzEFtdigCpjjDT3at9ahxg1Jk5Z7+8OuULIHfOpNvbQrV8N
-         J9oA==
+        bh=7HGiO0DgR9eXvqkxA8eOYyORP/pAS/lYW6lSD1i1EXI=;
+        b=i4zQwZN2jbnV5TFiUsIybhPvEcn/SA4ob58frZNxSiSy8XYTfX0yCfngM6U73z+HRz
+         Gak74tqXM8qCD7Jd6g/scdbe2T5/TXFAT0vEAsWBgfqxMm+S25fDyCbAmaDlVcsuENCi
+         6emutj2AKoonRuyv9grPOHSI8hKmlc0gEsxe9U/7roehsl93sG3ictaVRAb9UWGeGUUq
+         iC3NPw14YdoC40jf3DB8GrViRyaLFKRx3vBy8t3cvwlT9zqpIQTvvwbfwZagvH9mT7fJ
+         +2pmZf1Js4B30E7eKKApgLDjKxZ269DlcdliYuVgparSy/qX3NHW4BXpNFIFgBJeKlWb
+         B5XA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=8rWhHtCJs5MGkWI+i55QfEjGeto3X3YjovT1RZF7HCw=;
-        b=aNTYfw1WBujsHV25qqW9AOAX6YLSvzInjgzTnPjr4B8xu7LE3vYuDn2KX0aDVHsk19
-         eUmbRvcTnQeHAgJ/GnBnI027AfhOvu5Pr2f1pn44u1mCwwa1VAymcGkohf6XXfCt0P+/
-         Q26NlrI00PrZmsb2sU3gFiBTYNXrgqfqvOOMAgDPc7atR/hCCiWcJQRTKWoOjUd8M6qa
-         QFJq/r2byJ3uEKiMnB0OP18B29ygjOIByZy7k2aM5vP4hdLjWc066B+ur7OjShdsExn3
-         3tq5G70ZLD9Aod6HyObhqzqX4iC4vRpjR46j3sSFK30blbCSvGetJFa5LAEstw9wFpC1
-         bh8A==
-X-Gm-Message-State: AOAM5337NDZKDnpkwTDUNQqPpiplzAIN3YTBUHCafU2CRuquq9aNzulA
-        t5OcuYNV/UtP4tzvVI30LGyPtpkBpHaDEoJluBvyRMuU
-X-Google-Smtp-Source: ABdhPJzXrVXCAGS9GPO8l0bGLYugwN6LO3dlONC84XDqaWPFkiid8/EFr/E//N2QyuTgCb+8AQHlbPdbDjKigCUs+JU=
-X-Received: by 2002:a1c:1c3:: with SMTP id 186mr5075062wmb.39.1606234070787;
- Tue, 24 Nov 2020 08:07:50 -0800 (PST)
+        bh=7HGiO0DgR9eXvqkxA8eOYyORP/pAS/lYW6lSD1i1EXI=;
+        b=hYi5d3yhurw2eRvJ0z0RlFEssHz4z2LJ1EDigX/jOOffy8pL6UPlmsUvChc0OcY/ft
+         jG2RN3fD14Oprv4G78aPDhwLoABOGa1OpFE9oq1TvBqru2x7qM/SWeRgI5s+NKDNjXjd
+         MUvD6Vp5N1k4DRVw+mzGcZ648yfP6ZUQJ23yknsGHviDVQEUz5ko01yq7OVpZpFdivY3
+         mIigs3Q+owP9d4Jav06cD+G5P677ScO0Y5frq3WH53M0AVXerShLLPZY4vYfNM5dQLMW
+         8cBRYbQRlFy0CJ/hdBOV891HjOW24Z7ukcipJzrc5+DCGIRPZSTkHU7vZKDCxZ/rFTU1
+         9AqA==
+X-Gm-Message-State: AOAM531v2bVgQ/LsC7Cdzi3kmv/3gOie2mmD+is3xttxcTmZZ9WTeDP+
+        WvfxE+cHRF2on8XbnLwzmbM5Fbs5AAPrYqoCVuk3ui4I
+X-Google-Smtp-Source: ABdhPJwGyYag4yGAiHq/SMaLo1AA1wmaXzNEGygYbvFDgDJscO523CXblf6N8wr/xd8P8i/MgAybqmvp+cnzQyuQwCQ=
+X-Received: by 2002:a1c:1c3:: with SMTP id 186mr5127721wmb.39.1606234763015;
+ Tue, 24 Nov 2020 08:19:23 -0800 (PST)
 MIME-Version: 1.0
-References: <20201123111919.233376-1-lee.jones@linaro.org> <20201123111919.233376-18-lee.jones@linaro.org>
-In-Reply-To: <20201123111919.233376-18-lee.jones@linaro.org>
+References: <20201123111919.233376-1-lee.jones@linaro.org> <20201123111919.233376-34-lee.jones@linaro.org>
+In-Reply-To: <20201123111919.233376-34-lee.jones@linaro.org>
 From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 24 Nov 2020 11:07:39 -0500
-Message-ID: <CADnq5_MeeQ0tU1AGUSLf8kifm-AAhUER1eMcrkpWQi6dLPmDgg@mail.gmail.com>
-Subject: Re: [PATCH 17/40] drm/amd/amdgpu/gfx_v6_0: Supply description for
- 'gfx_v6_0_ring_test_ib()'s 'timeout' param
+Date:   Tue, 24 Nov 2020 11:19:12 -0500
+Message-ID: <CADnq5_Nt3pi9F1fGF24ZWk2rE_Hk+g2-dNhQrCcoKMxNizFLCg@mail.gmail.com>
+Subject: Re: [PATCH 33/40] drm/amd/amdgpu/cik_sdma: Add one and remove another
+ function param description
 To:     Lee Jones <lee.jones@linaro.org>
 Cc:     David Airlie <airlied@linux.ie>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -69,12 +69,14 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 6:19 AM Lee Jones <lee.jones@linaro.org> wrote:
+On Mon, Nov 23, 2020 at 6:20 AM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c:1903: warning: Function parameter =
-or member 'timeout' not described in 'gfx_v6_0_ring_test_ib'
+>  drivers/gpu/drm/amd/amdgpu/cik_sdma.c:282: warning: Function parameter o=
+r member 'flags' not described in 'cik_sdma_ring_emit_fence'
+>  drivers/gpu/drm/amd/amdgpu/cik_sdma.c:282: warning: Excess function para=
+meter 'fence' description in 'cik_sdma_ring_emit_fence'
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
@@ -87,28 +89,40 @@ or member 'timeout' not described in 'gfx_v6_0_ring_test_ib'
 > Cc: linaro-mm-sig@lists.linaro.org
 > Signed-off-by: Lee Jones <lee.jones@linaro.org>
 
-Applied.  Thanks!
+Applied with minor changes.  Thanks!
 
 Alex
 
 > ---
->  drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c | 1 +
->  1 file changed, 1 insertion(+)
+>  drivers/gpu/drm/amd/amdgpu/cik_sdma.c | 4 ++--
+>  1 file changed, 2 insertions(+), 2 deletions(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c b/drivers/gpu/drm/amd/=
-amdgpu/gfx_v6_0.c
-> index 671c46ebeced9..ca74638dec9b7 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v6_0.c
-> @@ -1894,6 +1894,7 @@ static void gfx_v6_0_ring_emit_ib(struct amdgpu_rin=
-g *ring,
->   * gfx_v6_0_ring_test_ib - basic ring IB test
+> diff --git a/drivers/gpu/drm/amd/amdgpu/cik_sdma.c b/drivers/gpu/drm/amd/=
+amdgpu/cik_sdma.c
+> index f1e9966e7244e..28a64de8ae0e6 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/cik_sdma.c
+> @@ -271,7 +271,7 @@ static void cik_sdma_ring_emit_hdp_flush(struct amdgp=
+u_ring *ring)
+>   * @ring: amdgpu ring pointer
+>   * @addr: address
+>   * @seq: sequence number
+> - * @fence: amdgpu fence object
+> + * @flags: fence related flags
 >   *
->   * @ring: amdgpu_ring structure holding ring information
-> + * @timeout: timeout value in jiffies, or MAX_SCHEDULE_TIMEOUT
->   *
->   * Allocate an IB and execute it on the gfx ring (SI).
->   * Provides a basic gfx ring test to verify that IBs are working.
+>   * Add a DMA fence packet to the ring to write
+>   * the fence seq number and DMA trap packet to generate
+> @@ -279,7 +279,7 @@ static void cik_sdma_ring_emit_hdp_flush(struct amdgp=
+u_ring *ring)
+>   */
+>  static void cik_sdma_ring_emit_fence(struct amdgpu_ring *ring, u64 addr,=
+ u64 seq,
+>                                      unsigned flags)
+> -{
+> +  {
+>         bool write64bit =3D flags & AMDGPU_FENCE_FLAG_64BIT;
+>         /* write the fence */
+>         amdgpu_ring_write(ring, SDMA_PACKET(SDMA_OPCODE_FENCE, 0, 0));
 > --
 > 2.25.1
 >
