@@ -2,209 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C50DD2C1BF8
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 04:25:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 80C0D2C1D15
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 05:40:57 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728240AbgKXDYg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Nov 2020 22:24:36 -0500
-Received: from mail-dm6nam12on2075.outbound.protection.outlook.com ([40.107.243.75]:55392
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
-        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1726876AbgKXDYg (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Nov 2020 22:24:36 -0500
-ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=oD+YNFl3y4gx/rM+CL34di6O3PTeYHJmAOU50+6L8Bc9AsGePQBP5AnXZ3nSm4yf9qaibJv9d72ANSM4fzEicNk2LFhEDuTk6CGYdZJ5j5wDGNG7Br3Ft1XSJo82rbQ5EQA4QMQn557KQxDj90BqV4u+RHM22B4KwcMHeul2Moa37mFJkGwqaUmVagP4hjKVH6pgk8vUMf9FxaErknCqPIC1/FIyOQTMrA2J7NxPJovx1hirCd2z4OAKhfgcfN8jcMNR+LXQ7R1usBFT2+ZqhjzQLlkoc9BClvPgF00uFZ3iKNxJA6ExhKzkTW3tzFoYPXtpTFpmfzNYeJepOLnvkQ==
-ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
- s=arcselector9901;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SUrSFmc2F3Hexip2YCZMyqeuXLEf1F+dX8lkLWtb36A=;
- b=UgJzy5gPSHXOD/ksh2/SCEW7FfiNho/Ys0W9U7ol4W40uy7cSGuNBysKyt8lZJuH6WLhONHyamtU348jSlsFagDJAExwh4odDsIEboe4ko7zej3nhZDoXD+ELi/swtapswpoz68XeHsrBGoDbrEii/+XGdF6TiUHtFgvdZbMAfTCxWUWPAKLhyO61PTDR0MGhmP2iI9DC5r5TnDgiWyHdXnSMh3QsHMwB45FqoYugkto1ssWD7FiNlAaWYmNz9ePwludzm7KsAdHYy61DR6VsMIEl8piq5df5ZsrHKuC2hF7saggfMiJshKnNI7A47JZAAy6z1ftMDJmTymI7cKRYQ==
-ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
- 149.199.62.198) smtp.rcpttodomain=lists.freedesktop.org
- smtp.mailfrom=xilinx.com; dmarc=bestguesspass action=none
- header.from=xilinx.com; dkim=none (message not signed); arc=none
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
- d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
- h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=SUrSFmc2F3Hexip2YCZMyqeuXLEf1F+dX8lkLWtb36A=;
- b=FLlvJc2ye272H7iYGIRuIjxjYFtWWFhDmvuqlKB+DGzwGY0KZAERQ+2UI2YCX8O7ffS1ArrUeq46dtwpNjenrGmspMaehtTXD0c/8aSs/ZM+72X/wf4Hsz79mItoaOvr4ZGQD+gyu6UZsw/15Q9HKv29lsit1kpt+lUcc74rWCE=
-Received: from MN2PR22CA0010.namprd22.prod.outlook.com (2603:10b6:208:238::15)
- by CO6PR02MB7667.namprd02.prod.outlook.com (2603:10b6:303:a5::23) with
- Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.24; Tue, 24 Nov
- 2020 03:24:31 +0000
-Received: from BL2NAM02FT057.eop-nam02.prod.protection.outlook.com
- (2603:10b6:208:238:cafe::f9) by MN2PR22CA0010.outlook.office365.com
- (2603:10b6:208:238::15) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3589.20 via Frontend
- Transport; Tue, 24 Nov 2020 03:24:31 +0000
-X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
- smtp.mailfrom=xilinx.com; lists.freedesktop.org; dkim=none (message not
- signed) header.d=none;lists.freedesktop.org; dmarc=bestguesspass action=none
- header.from=xilinx.com;
-Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
- 149.199.62.198 as permitted sender) receiver=protection.outlook.com;
- client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
-Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- BL2NAM02FT057.mail.protection.outlook.com (10.152.77.36) with Microsoft SMTP
- Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3589.20 via Frontend Transport; Tue, 24 Nov 2020 03:24:31 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
- xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
- (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Mon, 23 Nov 2020 19:24:29 -0800
-Received: from smtp.xilinx.com (172.19.127.95) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Mon, 23 Nov 2020 19:24:29 -0800
-Envelope-to: nishad.saraf@xilinx.com,
- michal.simek@xilinx.com,
- wendy.liang@xilinx.com,
- dri-devel@lists.freedesktop.org,
- linux-media@vger.kernel.org,
- linux-kernel@vger.kernel.org,
- linux-arm-kernel@lists.infradead.org,
- gregkh@linuxfoundation.org,
- arnd@arndb.de,
- robh+dt@kernel.org,
- hdanton@sina.com
-Received: from [10.23.125.111] (port=58718)
-        by smtp.xilinx.com with esmtp (Exim 4.90)
-        (envelope-from <wendy.liang@xilinx.com>)
-        id 1khOwP-000806-IM; Mon, 23 Nov 2020 19:24:29 -0800
-Subject: Re: [PATCH v2 9/9] misc: xilinx-ai-engine: Add support for servicing
- error interrupts
-To:     Hillf Danton <hdanton@sina.com>,
-        Wendy Liang <wendy.liang@xilinx.com>
-CC:     <robh+dt@kernel.org>, <michal.simek@xilinx.com>, <arnd@arndb.de>,
-        <gregkh@linuxfoundation.org>,
-        <linux-arm-kernel@lists.infradead.org>,
-        <linux-kernel@vger.kernel.org>, <linux-media@vger.kernel.org>,
-        <dri-devel@lists.freedesktop.org>,
-        Nishad Saraf <nishad.saraf@xilinx.com>
-References: <1605743289-26575-1-git-send-email-wendy.liang@xilinx.com>
- <20201119083645.544-1-hdanton@sina.com>
-From:   Wendy Liang <wendy.liang@xilinx.com>
-Message-ID: <627ef0ef-5e4c-b310-92e1-a9bb57d1aa96@xilinx.com>
-Date:   Mon, 23 Nov 2020 19:24:28 -0800
-User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
- Gecko/20100101 Thunderbird/78.5.0
-MIME-Version: 1.0
-In-Reply-To: <20201119083645.544-1-hdanton@sina.com>
-Content-Type: text/plain; charset="utf-8"; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-EOPAttributedMessage: 0
-X-MS-Office365-Filtering-HT: Tenant
-X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 92a24136-47f7-4768-ba79-08d89028753c
-X-MS-TrafficTypeDiagnostic: CO6PR02MB7667:
-X-Microsoft-Antispam-PRVS: <CO6PR02MB76670F4379907301C9BE13D2B0FB0@CO6PR02MB7667.namprd02.prod.outlook.com>
-X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
-X-MS-Oob-TLC-OOBClassifiers: OLM:4714;
-X-MS-Exchange-SenderADCheck: 1
-X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: RhEhorgQinWIM04sYHPsL8+Zcl9GNDORPYlwaHKDxu50t/tVckL8BPl0Ec5yewQ7NWIHwA6FYrwNOZUGb4QzHFTAA8NjWZ3QcyyyVd14s7uUV2zR0yNC8BeBnAsqkVU68ivMSp2yl4vvjDdG2eSo1vULvd+cWNT+PTqONzgirOeFUecXiVRtnkDtyTOY8IULDb2ojFGEs6dHK11XJ9V7PVb5MxCd9+KfWToFHmZjm1MXhcJDwzH0Yb1xj+eLQgxxXdUc8T09Tc0QAzrQAXAZzLbAbXY4bCbgGNZeNdFDOiReMyAfLD++eoqGYEnSMadihpzYh2RRGU2MVLni0bKnwRYPrvHPvktHLiS9Wx18eA+/WpDsOvDLLpK0f+zIAF7tgThJLyEwHA4MQzTf04dM2dB5LHdH+JweaGbXOr0vu2nD8rstv6uLr+LVWx/SJcTPE0FsSj/xfuxIkFbz4a/TpQ==
-X-Forefront-Antispam-Report: CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(136003)(396003)(376002)(346002)(39860400002)(46966005)(2906002)(7636003)(336012)(186003)(44832011)(478600001)(2616005)(26005)(53546011)(9786002)(31686004)(426003)(70586007)(107886003)(70206006)(83380400001)(316002)(4326008)(110136005)(36906005)(54906003)(5660300002)(8676002)(36756003)(356005)(8936002)(47076004)(82740400003)(82310400003)(31696002)(50156003)(43740500002);DIR:OUT;SFP:1101;
-X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 24 Nov 2020 03:24:31.1521
- (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 92a24136-47f7-4768-ba79-08d89028753c
-X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
-X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: BL2NAM02FT057.eop-nam02.prod.protection.outlook.com
-X-MS-Exchange-CrossTenant-AuthAs: Anonymous
-X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: CO6PR02MB7667
+        id S1726610AbgKXEjo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Nov 2020 23:39:44 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:38445 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726202AbgKXEjo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 23 Nov 2020 23:39:44 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id hQ78k67tIkGBYhQ7AkC1zW; Tue, 24 Nov 2020 05:39:40 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1606192780; bh=z3Q2UxYOzaRWZwXewGxYLQ4QH7Gzs/aUrY463xMjFjg=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=nnsBX7i+LUMV/RG/QO7PL/d+qUfTgHsnPv2S2+H4Wa3nuQTpbERT0EebIiOhRNK87
+         eOnWd8qr32IDxJa84refqYHXKLKIq/F4xlIWFN2fPtbSy4yi0Jb7LjZhkivRePFx7/
+         J9Gb1CRvyOKQqSph8Nwt6maiYlpkJo69kYwYDVDqnzGausfUagx/gWrX2G5DVj3cv5
+         Co10tBnvCEHv/jgEOGHJ3lc4UcauOnqdTQ916AxpTcm6gOH2P7BpoPV5KXAZqm8Po0
+         CB+kKnGbfIvBVGGL/h3hmFWX0mdwUl2MbUXBwFFWtfoMr/sSyYDdVroqsGqHJMfx2V
+         WI1rn6+ibTigA==
+Message-ID: <33b5bf88512bdd5d5c159f3f79a4a247@smtp-cloud9.xs4all.net>
+Date:   Tue, 24 Nov 2020 05:39:38 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfEiHCnSIynCOYAd/3sJx8LA4w4kbQRc1SU44iJl151756Nidun18TBXHThMevblUgVLdaMYwkAyHijfx2IpNupU1bq2Fv7pfYInEq8VW8E2nNOj567qv
+ iADDuBe4CgHXbZpDMWK2xgwOcb8RBci7FT8Y93UpQqHkqYYujNBY+deJ5eV60ctTG3+/+UUu352nVYyY7awWBB1+XNESJd56b519GD3lyiF27RsyKthMXxKQ
+ BAVUBSc3wAimdVLdk5hP4w==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
+Results of the daily build of media_tree:
 
-On 11/19/20 12:36 AM, Hillf Danton wrote:
-> On Wed, 18 Nov 2020 15:48:09 -0800 Wendy Liang wrote:
->> +/**
->> + * aie_interrupt() - interrupt handler for AIE.
->> + * @irq: Interrupt number.
->> + * @data: AI engine device structure.
->> + * @return: IRQ_HANDLED.
->> + *
->> + * This thread function disables level 2 interrupt controllers and schedules a
->> + * task in workqueue to backtrack the source of error interrupt. Disabled
->> + * interrupts are re-enabled after successful completion of bottom half.
->> + */
->> +irqreturn_t aie_interrupt(int irq, void *data)
->> +{
->> +	struct aie_device *adev = data;
->> +	struct aie_partition *apart;
->> +	int ret;
->> +	bool sched_work = false;
->> +
->> +	ret = mutex_lock_interruptible(&adev->mlock);
->> +	if (ret) {
->> +		dev_err(&adev->dev,
->> +			"Failed to acquire lock. Process was interrupted by fatal signals\n");
->> +		return IRQ_NONE;
->> +	}
->> +
->> +	list_for_each_entry(apart, &adev->partitions, node) {
->> +		struct aie_location loc;
->> +		u32 ttype, l2_mask, l2_status, l2_bitmap_offset  = 0;
->> +
->> +		ret = mutex_lock_interruptible(&apart->mlock);
->> +		if (ret) {
->> +			dev_err(&apart->dev,
->> +				"Failed to acquire lock. Process was interrupted by fatal signals\n");
->> +			return IRQ_NONE;
-> 
-> Though quite unlikely, you need to release adev->mlock before
-> going home.
-Thanks to point it out, I will change in next version
+date:			Tue Nov 24 05:00:12 CET 2020
+media-tree git hash:	9463e07df8e0f93931e32c6f415d3f82bda63f35
+media_build git hash:	a542160125b8904cf8b55ce487bf5d4c48e3d401
+v4l-utils git hash:	11da65eee7a271bba3f21d8117cdac428fe3a91e
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 63a52153f10bfed851877e415b3507560c94cfd1
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Thanks,
-Wendy
-> 
->> +		}
->> +
->> +		for (loc.col = apart->range.start.col, loc.row = 0;
->> +		     loc.col < apart->range.start.col + apart->range.size.col;
->> +		     loc.col++) {
->> +			ttype = apart->adev->ops->get_tile_type(&loc);
->> +			if (ttype != AIE_TILE_TYPE_SHIMNOC)
->> +				continue;
->> +
->> +			l2_mask = aie_get_l2_mask(apart, &loc);
->> +			if (l2_mask) {
->> +				aie_resource_cpy_from_arr32(&apart->l2_mask,
->> +							    l2_bitmap_offset  *
->> +							    32, &l2_mask, 32);
->> +				aie_disable_l2_ctrl(apart, &loc, l2_mask);
->> +			}
->> +			l2_bitmap_offset++;
->> +
->> +			l2_status = aie_get_l2_status(apart, &loc);
->> +			if (l2_status) {
->> +				aie_clear_l2_intr(apart, &loc, l2_status);
->> +				sched_work = true;
->> +			} else {
->> +				aie_enable_l2_ctrl(apart, &loc, l2_mask);
->> +			}
->> +		}
->> +		mutex_unlock(&apart->mlock);
->> +	}
->> +
->> +	/* For ES1 silicon, interrupts are latched in NPI */
->> +	if (adev->version == VERSAL_ES1_REV_ID) {
->> +		ret = zynqmp_pm_clear_aie_npi_isr(adev->pm_node_id,
->> +						  AIE_NPI_ERROR_ID);
->> +		if (ret < 0)
->> +			dev_err(&adev->dev, "Failed to clear NPI ISR\n");
->> +	}
->> +
->> +	mutex_unlock(&adev->mlock);
->> +
->> +	if (sched_work)
->> +		schedule_work(&adev->backtrack);
->> +
->> +	return IRQ_HANDLED;
->> +}
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10-rc1-i686: OK
+linux-5.10-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: OK
+smatch: OK
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
