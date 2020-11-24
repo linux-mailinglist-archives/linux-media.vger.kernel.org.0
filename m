@@ -2,96 +2,125 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F09CB2C24B2
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 12:39:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1E0682C252C
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 13:02:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732852AbgKXLiv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Nov 2020 06:38:51 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:47347 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731539AbgKXLiv (ORCPT
+        id S1733187AbgKXMBt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Nov 2020 07:01:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48464 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1733212AbgKXMBs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Nov 2020 06:38:51 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id hWeik0w9LDuFjhWelkd1F1; Tue, 24 Nov 2020 12:38:48 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606217928; bh=sHbi/2KeT1EFxvwIn3BrHx507chG0pyiJyL2Q2MPja0=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=NCTsrmXFmTOrI+x0ciNj/VvfhemYW7gEnFu7ubjWkvLLzGIg4oRUbIEEeEU07Zunl
-         lnq8V0p2E2X+tENle9rNqVP/lkG3cL/hmZfz07cP7QniSi6HTPQwWKX7oEu4CwyuQP
-         Qfu7NnwvWkJOedsGYK/z3sf56u8/GCGLjnCEgD5R0786xcGCEWYN9Mk9ClipA0QXtv
-         Re0EhBNwaYG8Ftr0jXmBlyq4ZQBM2+toCfnBctTyMCneH8B3meZn6E/fejoFf2Wcd2
-         6LgICMKQZ4sFMJ/A1gB6k7ETD712secUQ2wadp40Q5QjfssDiBb13bWGzzkhAjcZCJ
-         AokrjtOEOyFWA==
-Subject: Re: memory leak in hub_event
-To:     Alan Stern <stern@rowland.harvard.edu>,
-        syzbot <syzbot+44e64397bd81d5e84cba@syzkaller.appspotmail.com>
-Cc:     linux-media@vger.kernel.org, linux-usb@vger.kernel.org,
-        mchehab@kernel.org, syzkaller-bugs@googlegroups.com
-References: <20201123215345.GA721643@rowland.harvard.edu>
- <0000000000004b629f05b4cd7124@google.com>
- <20201123222428.GB721643@rowland.harvard.edu>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <c2cf1a80-ec47-69ac-c3e2-1b0e32447ef2@xs4all.nl>
-Date:   Tue, 24 Nov 2020 12:38:44 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Tue, 24 Nov 2020 07:01:48 -0500
+Received: from mail-il1-x144.google.com (mail-il1-x144.google.com [IPv6:2607:f8b0:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 69633C0613D6
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 04:01:47 -0800 (PST)
+Received: by mail-il1-x144.google.com with SMTP id y9so19042203ilb.0
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 04:01:47 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=OtTStFZ1K4vG9mf1OSlywjo0WPS9A+qPTfMdwg+0WeU=;
+        b=B3BwzQbaXFU3fhtDdHR+Fmv8MKnhR2mxgOp2ryIc5wuXL4rXiS85tpU6q5H3eR6qE+
+         6qzQoaoL8DgM+BofPoZTBWmfryCnozhhBT+EEK6ATwmvGtVQzE0xjmM4qt+tQ5k0iE0J
+         0hdGRkNaK/blbkiRCF/yNOj+MFI3+N1/U+yak=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=OtTStFZ1K4vG9mf1OSlywjo0WPS9A+qPTfMdwg+0WeU=;
+        b=HVmwIAZiYoOHTK59ekT3PoM8RGcGji75+ICeBr7t83/7JSIHiKedyH3uNufZsqUvCH
+         pVDq6oT3WzvgT7CVuSAJH8HRorMgY9T4/pGGnblMoxV9d0boXHzmslhZcJcnGyCWxN+Q
+         +X15ckGjUYnJMsfLvldCyGaSHUb286SIL6PnsK/SW98qUq1dHMBfwbc1LWN82vwWSGvq
+         NcnxS9bhqc5oELhtu7m5zrzq3p8Jhq+UwopFpRRPcryl2t4J43Thvco5C8KCdkdx+WLt
+         BV/+Fhvxpt0OfBwRhObCeqd8zqYVLFQZq1tNil0NLiwS1TxQqFklr68NT4m92PxzrEj8
+         Btzg==
+X-Gm-Message-State: AOAM5303npemS0F6Ailp8NJS7WJ60cT4eauICAVeSCOEXYG0MmEGBjr2
+        XAnYlfgo6tt69ru9WW+R/u9RYjv8c3Ifgw==
+X-Google-Smtp-Source: ABdhPJxOcHV0TCWy0eFyliCL3iHag/Dr9N+03d14QFyBcXRS1wdhp+3fDzGlXB28CE5SKOmnGVA9gQ==
+X-Received: by 2002:a05:6e02:13a3:: with SMTP id h3mr3922778ilo.164.1606219306652;
+        Tue, 24 Nov 2020 04:01:46 -0800 (PST)
+Received: from mail-il1-f176.google.com (mail-il1-f176.google.com. [209.85.166.176])
+        by smtp.gmail.com with ESMTPSA id s26sm7659016ioe.2.2020.11.24.04.01.45
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2020 04:01:46 -0800 (PST)
+Received: by mail-il1-f176.google.com with SMTP id q1so19022843ilt.6
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 04:01:45 -0800 (PST)
+X-Received: by 2002:a05:6e02:12ab:: with SMTP id f11mr757703ilr.89.1606219305436;
+ Tue, 24 Nov 2020 04:01:45 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201123222428.GB721643@rowland.harvard.edu>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfOjyUnVEHvIHT2WcPlFP8kwIIjD1z5FINgl61SGmpqcuTCMHXKdEwCw2eRyZZU4adkiQVm6X4PpL1wZV3A/K3vaPSGKjlb90lBqjCgF/kmlsSFqcxtXj
- U2J51dMTl1RJL7jCiE/VTYxe4yvDgCZxKNJQ19QifpwDs1MCXaBlZG3dAKjOeizLgYsfpznYLEv2dVWZTSaWYH5wwQxYkJzPPg92MzyVZVxrKRzEFlVR+jPz
- 0FVVD8aQIx7NqKTrBb2f2OQGqOK7Tw5ge6XBOjL+y1r9WwvMnbURdOa1bQ19b4awH0E4RTSNN8nv3cO41IWH+zLJHXhtEXIoMHKxfQ5ALw0xxNust+6SQUXP
- 2YhdrS57limYwvQwK8aeqtMP8WTbS0D2dMWCICmHpkV+Sj0uffz6j+PJFRt4Q3vsRQx4r7ph
+References: <20200930160917.1234225-9-hch@lst.de> <20201118142546.170621-1-ribalda@chromium.org>
+ <20201124113512.GA21974@lst.de>
+In-Reply-To: <20201124113512.GA21974@lst.de>
+From:   Ricardo Ribalda <ribalda@chromium.org>
+Date:   Tue, 24 Nov 2020 13:01:33 +0100
+X-Gmail-Original-Message-ID: <CANiDSCtLrqWBOmC9X91V8P-aahQr2=L-GQNjHM6YauT69_QcEg@mail.gmail.com>
+Message-ID: <CANiDSCtLrqWBOmC9X91V8P-aahQr2=L-GQNjHM6YauT69_QcEg@mail.gmail.com>
+Subject: Re: [PATCH] WIP! media: uvcvideo: Use dma_alloc_noncontiguos API
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/11/2020 23:24, Alan Stern wrote:
-> On Mon, Nov 23, 2020 at 02:09:05PM -0800, syzbot wrote:
->> Hello,
->>
->> syzbot has tested the proposed patch but the reproducer is still triggering an issue:
->> memory leak in rxrpc_lookup_local
->>
->> BUG: memory leak
->> unreferenced object 0xffff888117ab9900 (size 256):
->>   comm "syz-executor.0", pid 8883, jiffies 4294943811 (age 433.620s)
->>   hex dump (first 32 bytes):
->>     00 00 00 00 00 00 00 00 00 00 00 00 00 00 00 00  ................
->>     00 00 00 00 0a 00 00 00 00 80 cb 17 81 88 ff ff  ................
->>   backtrace:
->>     [<000000009003383a>] kmalloc include/linux/slab.h:552 [inline]
->>     [<000000009003383a>] kzalloc include/linux/slab.h:664 [inline]
->>     [<000000009003383a>] rxrpc_alloc_local net/rxrpc/local_object.c:79 [inline]
->>     [<000000009003383a>] rxrpc_lookup_local+0x1c1/0x760 net/rxrpc/local_object.c:244
->>     [<00000000609410d3>] rxrpc_bind+0x174/0x240 net/rxrpc/af_rxrpc.c:149
->>     [<00000000661f73ad>] afs_open_socket+0xdb/0x200 fs/afs/rxrpc.c:64
->>     [<00000000e3eb5768>] afs_net_init+0x2b4/0x340 fs/afs/main.c:126
->>     [<000000002c6bf109>] ops_init+0x4e/0x190 net/core/net_namespace.c:152
->>     [<000000009ce0aa62>] setup_net+0xdb/0x2d0 net/core/net_namespace.c:342
->>     [<00000000db8c8dc2>] copy_net_ns+0x14b/0x320 net/core/net_namespace.c:483
->>     [<00000000b04b70a8>] create_new_namespaces+0x199/0x4e0 kernel/nsproxy.c:110
->>     [<000000005dc01eb8>] unshare_nsproxy_namespaces+0x9b/0x120 kernel/nsproxy.c:231
->>     [<00000000422ec6bd>] ksys_unshare+0x2fe/0x5c0 kernel/fork.c:2949
->>     [<0000000042f77bee>] __do_sys_unshare kernel/fork.c:3017 [inline]
->>     [<0000000042f77bee>] __se_sys_unshare kernel/fork.c:3015 [inline]
->>     [<0000000042f77bee>] __x64_sys_unshare+0x12/0x20 kernel/fork.c:3015
->>     [<00000000e58e69f9>] do_syscall_64+0x2d/0x70 arch/x86/entry/common.c:46
->>     [<000000000a67195e>] entry_SYSCALL_64_after_hwframe+0x44/0xa9
-> 
-> Okay, that confirms it.  This is a completely different memory leak, as 
-> can be seen by comparing the stack trace with the previous one.  The 
-> problem with the gspca driver is gone.
-> 
-> Mauro/Hans, what should I do with the patch?
+HI Christoph
 
-Just post it to linux-media and I'll pick it up as gspca maintainer.
+On Tue, Nov 24, 2020 at 12:35 PM Christoph Hellwig <hch@lst.de> wrote:
+>
+> On Wed, Nov 18, 2020 at 03:25:46PM +0100, Ricardo Ribalda wrote:
+> > On architectures where the is no coherent caching such as ARM use the
+> > dma_alloc_noncontiguos API and handle manually the cache flushing using
+> > dma_sync_single().
+> >
+> > With this patch on the affected architectures we can measure up to 20x
+> > performance improvement in uvc_video_copy_data_work().
+>
+> This has a bunch of crazy long lines, but otherwise looks fine to me.
 
-Regards,
+That is easy to solve :)
 
-	Hans
+https://github.com/ribalda/linux/commit/17ab65a08302e845ad7ae7775ce54b387a5=
+8a887
+
+>
+> >
+> > Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> > ---
+> >
+> > This patch depends on dma_alloc_contiguous API=EF=BF=BC1315351diffmboxs=
+eries
+>
+> How do we want to proceed?  Do the media maintainers want to pick up
+> that patch?  Should I pick up the media patch in the dma-mapping tree?
+
+I was hoping that you could answer that question :).
+
+Do you have other use-cases than linux-media in mind?
+
+I think Sergey wants to experiment also with vb2, to figure out how
+much it affects it.
+His change will be much more complicated than mine thought, there are
+more cornercases there.
+
+>
+> Can you respost a combined series to get started?
+
+Sure. Shall I also include the profiling patch?
+
+
+Best regards
+--=20
+Ricardo Ribalda
