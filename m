@@ -2,43 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E41BF2C23C2
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 12:08:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 24B0C2C23D2
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 12:08:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732727AbgKXLHc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Nov 2020 06:07:32 -0500
-Received: from mail.kernel.org ([198.145.29.99]:33784 "EHLO mail.kernel.org"
+        id S1732532AbgKXLIC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Nov 2020 06:08:02 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33788 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1732256AbgKXLGf (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Nov 2020 06:06:35 -0500
+        id S1732396AbgKXLGe (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 24 Nov 2020 06:06:34 -0500
 Received: from mail.kernel.org (ip5f5ad5c3.dynamic.kabel-deutschland.de [95.90.213.195])
         (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
         (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D498A20866;
+        by mail.kernel.org (Postfix) with ESMTPSA id D86CF2087D;
         Tue, 24 Nov 2020 11:06:30 +0000 (UTC)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
         s=default; t=1606215991;
-        bh=zJ7FMVeTSgK/rMUfd3h8Ux7PgJe3tKDQtxM+uNJAv7w=;
+        bh=LPkeR/qG2W2eIVXvr9zXEat7TJyfsb0x7hepNAhfTaw=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=OH3UM8Z1VDRx8tsYE5CWrlaR+NIMzlXSMFprAScFsfWeleMJ+uGbKLCfchC5R4e9O
-         NIEKktNIGW773jIiXdLABF8Q2HFS3hpN1iJnPPVYPt57tnRUdvXnsABocImnGW+G91
-         rWBQG8I1FybU8mo+aKFY6gvToTT/XhLWPfUS6P4Q=
+        b=UScstHOwwtThWTYv7kUNKTZRNcFgRmFygdzFbkjsnSR3L4BQHv3Fuv0T+I/C2shTS
+         Wr3AoM/BVnzcc0imRGPSwDQ/qFNtIYIq8F1WRS7noWt6QIgCryP1TjflcJZIrj/vGO
+         2YQBwspPAzTax77sM9odjEeXGkg860qmrHVxzlf0=
 Received: from mchehab by mail.kernel.org with local (Exim 4.94)
         (envelope-from <mchehab@kernel.org>)
-        id 1khW9U-000FZT-Lo; Tue, 24 Nov 2020 12:06:28 +0100
+        id 1khW9U-000FZW-Md; Tue, 24 Nov 2020 12:06:28 +0100
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
         "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
-Subject: [PATCH 04/31] media: vidtv: fix the name of the program
-Date:   Tue, 24 Nov 2020 12:06:00 +0100
-Message-Id: <03e3c6b73a23aa27f5f602ef235df835c25d8b23.1606215584.git.mchehab+huawei@kernel.org>
+Subject: [PATCH 05/31] media: vidtv: fix the tone generator logic
+Date:   Tue, 24 Nov 2020 12:06:01 +0100
+Message-Id: <4421cda35fe8d3d80687f27030108b9dcdc924d1.1606215584.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.28.0
 In-Reply-To: <cover.1606215584.git.mchehab+huawei@kernel.org>
 References: <cover.1606215584.git.mchehab+huawei@kernel.org>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 To:     unlisted-recipients:; (no To-header on input)
@@ -46,63 +45,58 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-While the original plan was to use the first movement of
-the 5th Symphony, it was opted to use the Für Elise song,
-instead.
+The tone generator logic were repeating the song after the
+first silent. There's also a wrong logic at the note
+offset calculus, which may create some noise.
 
 Fix it.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/test-drivers/vidtv/vidtv_channel.c |  2 +-
- drivers/media/test-drivers/vidtv/vidtv_s302m.c   | 10 +++++-----
- 2 files changed, 6 insertions(+), 6 deletions(-)
+ drivers/media/test-drivers/vidtv/vidtv_s302m.c | 14 ++++----------
+ drivers/media/test-drivers/vidtv/vidtv_s302m.h |  2 +-
+ 2 files changed, 5 insertions(+), 11 deletions(-)
 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_channel.c b/drivers/media/test-drivers/vidtv/vidtv_channel.c
-index b2d44d7e78b6..d80b1a56c90c 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_channel.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_channel.c
-@@ -61,7 +61,7 @@ struct vidtv_channel
- 	char *provider = ENCODING_ISO8859_15 "LinuxTV.org";
- 	char *iso_language_code = ENCODING_ISO8859_15 "eng";
- 	char *event_name = ENCODING_ISO8859_15 "Beethoven Music";
--	char *event_text = ENCODING_ISO8859_15 "Beethoven's 5th Symphony";
-+	char *event_text = ENCODING_ISO8859_15 "Beethoven's Für Elise";
- 	const u16 s302m_beethoven_event_id  = 1;
- 	struct vidtv_channel *s302m;
- 	struct vidtv_s302m_encoder_init_args encoder_args = {};
 diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.c b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-index 146e4e9d361b..cbf89530aafe 100644
+index cbf89530aafe..fdb3d649c516 100644
 --- a/drivers/media/test-drivers/vidtv/vidtv_s302m.c
 +++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.c
-@@ -79,7 +79,7 @@ struct tone_duration {
+@@ -253,18 +253,12 @@ static u16 vidtv_s302m_get_sample(struct vidtv_encoder *e)
+ 			ctx->last_duration--;
+ 		}
+ 
+-		/* Handle silent */
+-		if (!ctx->last_tone) {
+-			e->src_buf_offset = 0;
++		/* Handle pause notes */
++		if (!ctx->last_tone)
+ 			return 0x8000;
+-		}
+ 
+-		pos = (2 * PI * ctx->note_offset * ctx->last_tone / S302M_SAMPLING_RATE_HZ);
+-
+-		if (pos == 360)
+-			ctx->note_offset = 0;
+-		else
+-			ctx->note_offset++;
++		pos = (2 * PI * ctx->note_offset * ctx->last_tone) / S302M_SAMPLING_RATE_HZ;
++		ctx->note_offset++;
+ 
+ 		return (fixp_sin32(pos % (2 * PI)) >> 16) + 0x8000;
+ 	}
+diff --git a/drivers/media/test-drivers/vidtv/vidtv_s302m.h b/drivers/media/test-drivers/vidtv/vidtv_s302m.h
+index a0101734e758..e990b755bb20 100644
+--- a/drivers/media/test-drivers/vidtv/vidtv_s302m.h
++++ b/drivers/media/test-drivers/vidtv/vidtv_s302m.h
+@@ -39,7 +39,7 @@ struct vidtv_s302m_ctx {
+ 	u32 frame_index;
+ 	u32 au_count;
+ 	int last_duration;
+-	int note_offset;
++	unsigned int note_offset;
+ 	enum musical_notes last_tone;
  };
  
- #define COMPASS 120		/* beats per minute (Allegro) */
--static const struct tone_duration beethoven_5th_symphony[] = {
-+static const struct tone_duration beethoven_fur_elise[] = {
- 	{ NOTE_E_6, 128},  { NOTE_DS_6, 128}, { NOTE_E_6, 128},
- 	{ NOTE_DS_6, 128}, { NOTE_E_6, 128},  { NOTE_B_5, 128},
- 	{ NOTE_D_6, 128},  { NOTE_C_6, 128},  { NOTE_A_3, 128},
-@@ -238,14 +238,14 @@ static u16 vidtv_s302m_get_sample(struct vidtv_encoder *e)
- 	if (!e->src_buf) {
- 		/*
- 		 * Simple tone generator: play the tones at the
--		 * beethoven_5th_symphony array.
-+		 * beethoven_fur_elise array.
- 		 */
- 		if (ctx->last_duration <= 0) {
--			if (e->src_buf_offset >= ARRAY_SIZE(beethoven_5th_symphony))
-+			if (e->src_buf_offset >= ARRAY_SIZE(beethoven_fur_elise))
- 				e->src_buf_offset = 0;
- 
--			ctx->last_tone = beethoven_5th_symphony[e->src_buf_offset].note;
--			ctx->last_duration = beethoven_5th_symphony[e->src_buf_offset].duration *
-+			ctx->last_tone = beethoven_fur_elise[e->src_buf_offset].note;
-+			ctx->last_duration = beethoven_fur_elise[e->src_buf_offset].duration *
- 					     S302M_SAMPLING_RATE_HZ / COMPASS / 5;
- 			e->src_buf_offset++;
- 			ctx->note_offset = 0;
 -- 
 2.28.0
 
