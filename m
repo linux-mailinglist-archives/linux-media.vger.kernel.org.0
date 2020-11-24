@@ -2,121 +2,187 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AF6D2C19A6
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 01:03:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 431882C1A5F
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 01:59:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727454AbgKWX4S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Nov 2020 18:56:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49310 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727437AbgKWX4P (ORCPT
+        id S1729141AbgKXA6s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 23 Nov 2020 19:58:48 -0500
+Received: from kvm5.telegraphics.com.au ([98.124.60.144]:51159 "EHLO
+        kvm5.telegraphics.com.au" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726803AbgKXA6q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Nov 2020 18:56:15 -0500
-Received: from mail-lf1-x141.google.com (mail-lf1-x141.google.com [IPv6:2a00:1450:4864:20::141])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 97CCCC061A4D
-        for <linux-media@vger.kernel.org>; Mon, 23 Nov 2020 15:56:15 -0800 (PST)
-Received: by mail-lf1-x141.google.com with SMTP id l11so26371913lfg.0
-        for <linux-media@vger.kernel.org>; Mon, 23 Nov 2020 15:56:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=YnhR1hhTDdb79Txd40YmmmMbIC/AjLNuqdONwWnI2dg=;
-        b=kZ+79z/uBo/qRjmY7Jjq0rAD+9AspnfTp6Dw62PbqgrQK57nOMVbJoQvY4j8kmwJeB
-         s3vxfoE4mGEJGt+x+84wAJGICr4wuyd3cRiP0ZB4zw80Dr88IMov5y9wp/i6Ksl+3N6O
-         HNPOKbOWzXIWbfPCWIQoqsldoNScc49jdbcEs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=YnhR1hhTDdb79Txd40YmmmMbIC/AjLNuqdONwWnI2dg=;
-        b=uSMWy/iWzFCEmQgWrGIBYkYehtvfgHF6h3zRiz1oL/cfWev1YZIzFNEiD9eRZnRHwA
-         QSCTTwDZhRtcS3QLLbV9C3JF7iL2nmpXgrZyqAb4cCP6INMdmePr9U3E/fN91Lu0oThH
-         PNUmXSbPBwIlJPRjqn1TzuWkxLiM57rUWUYIwRp5RgvvYOvI5ZgH2+SJBUJk/UPL+KeA
-         QHA7y2uRXB60sEqCUuXiz7nIs2kfcH8OfL0+OM7gKwhKAjiu8QhijIhH4EApkO49ajZu
-         kyQlCfpCj3PhBk6nEzM2SeBPQY3VeDTwcgXG8WXnJ9i7CBxp5cn8oYeHYVvxaeQToXwJ
-         dddA==
-X-Gm-Message-State: AOAM531v1WJxyiagZfe4D3hyLzvR9bIf3t19PKGHQZ65PRYgaR0OB0Mu
-        9J7hYxq/R08FgpQl9LJL5zw/1kAU4FSjfg==
-X-Google-Smtp-Source: ABdhPJx8cpp9mONMECQwXFepETLdwOFGhnnDWunz71sFvLvBuYYr49fnqwA9DrjvF8Sme8Gu3w5RKQ==
-X-Received: by 2002:ac2:5dca:: with SMTP id x10mr589751lfq.74.1606175773561;
-        Mon, 23 Nov 2020 15:56:13 -0800 (PST)
-Received: from mail-lf1-f47.google.com (mail-lf1-f47.google.com. [209.85.167.47])
-        by smtp.gmail.com with ESMTPSA id k9sm1533717lfk.288.2020.11.23.15.56.12
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 23 Nov 2020 15:56:12 -0800 (PST)
-Received: by mail-lf1-f47.google.com with SMTP id e139so26338418lfd.1
-        for <linux-media@vger.kernel.org>; Mon, 23 Nov 2020 15:56:12 -0800 (PST)
-X-Received: by 2002:a05:6512:5d7:: with SMTP id o23mr598966lfo.272.1606175772082;
- Mon, 23 Nov 2020 15:56:12 -0800 (PST)
-MIME-Version: 1.0
-References: <20201013124428.783025-1-acourbot@chromium.org>
-In-Reply-To: <20201013124428.783025-1-acourbot@chromium.org>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Tue, 24 Nov 2020 08:56:00 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MVM81dQyLJANUH7j8b5uhpk8ERdm9gpsGkF4k1Y-ZkYDQ@mail.gmail.com>
-Message-ID: <CAPBb6MVM81dQyLJANUH7j8b5uhpk8ERdm9gpsGkF4k1Y-ZkYDQ@mail.gmail.com>
-Subject: Re: [PATCH v4 0/2] media: mtk-vcodec: fix builds when remoteproc is disabled
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mon, 23 Nov 2020 19:58:46 -0500
+Received: from localhost (localhost.localdomain [127.0.0.1])
+        by kvm5.telegraphics.com.au (Postfix) with ESMTP id 0EF842A8E0;
+        Mon, 23 Nov 2020 19:58:39 -0500 (EST)
+Date:   Tue, 24 Nov 2020 11:58:37 +1100 (AEDT)
+From:   Finn Thain <fthain@telegraphics.com.au>
+To:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        alsa-devel@alsa-project.org, amd-gfx@lists.freedesktop.org,
+        bridge@lists.linux-foundation.org, ceph-devel@vger.kernel.org,
+        cluster-devel@redhat.com, coreteam@netfilter.org,
+        devel@driverdev.osuosl.org, dm-devel@redhat.com,
+        drbd-dev@lists.linbit.com, dri-devel@lists.freedesktop.org,
+        GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
+        intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
+        keyrings@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        linux-acpi@vger.kernel.org, linux-afs@lists.infradead.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net,
+        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-cifs@vger.kernel.org,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-decnet-user@lists.sourceforge.net,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-fbdev@vger.kernel.org, linux-geode@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-hams@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
+        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>
-Content-Type: text/plain; charset="UTF-8"
+        linux-mmc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
+        linux-rdma@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
+        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
+        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
+        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
+        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
+        selinux@vger.kernel.org, target-devel@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net,
+        usb-storage@lists.one-eyed-alien.net,
+        virtualization@lists.linux-foundation.org,
+        wcn36xx@lists.infradead.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+In-Reply-To: <CANiq72=z+tmuey9wj3Kk7wX5s0hTHpsQdLhAqcOVNrHon6xn5Q@mail.gmail.com>
+Message-ID: <alpine.LNX.2.23.453.2011241036520.7@nippy.intranet>
+References: <cover.1605896059.git.gustavoars@kernel.org> <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com> <202011201129.B13FDB3C@keescook> <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com> <202011220816.8B6591A@keescook>
+ <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com> <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com> <alpine.LNX.2.23.453.2011230938390.7@nippy.intranet>
+ <CANiq72=z+tmuey9wj3Kk7wX5s0hTHpsQdLhAqcOVNrHon6xn5Q@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=US-ASCII
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Gentle ping about this - we are already well into the 5.10 cycle so we
-don't have much time left if we want to merge this build breakage
-fix...
 
+On Mon, 23 Nov 2020, Miguel Ojeda wrote:
 
-On Tue, Oct 13, 2020 at 9:44 PM Alexandre Courbot <acourbot@chromium.org> wrote:
->
-> No functional changes since v3, but it does the job at fixing the build
-> breakage. :) Please kindly take a look.
->
-> Changes since v3:
-> * Removed obsolete Acked-bys
-> * Fixed indentation in Kconfig file
->
-> Changes since v2:
-> * Use the FOO || !FOO magic suggested by Hans to ensure a built-in
->   module does not try to link against symbols in a module,
-> * Added a patch to split the VPU and SCP ops into their own source files
->   and make the optional build cleaner,
-> * Control the build of firmware implementations using two new transparent
->   Kconfig symbols.
->
-> Changes since v1:
-> * Added Acked-by from Randy.
-> * Fixed typo in Kconfig description.
->
-> Alexandre Courbot (2):
->   media: mtk-vcodec: move firmware implementations into their own files
->   media: mtk-vcodec: fix build breakage when one of VPU or SCP is
->     enabled
->
->  drivers/media/platform/Kconfig                |  28 ++-
->  drivers/media/platform/mtk-vcodec/Makefile    |  10 +-
->  .../platform/mtk-vcodec/mtk_vcodec_dec_drv.c  |   2 +-
->  .../platform/mtk-vcodec/mtk_vcodec_enc_drv.c  |   2 +-
->  .../media/platform/mtk-vcodec/mtk_vcodec_fw.c | 174 +-----------------
->  .../media/platform/mtk-vcodec/mtk_vcodec_fw.h |   7 +-
->  .../platform/mtk-vcodec/mtk_vcodec_fw_priv.h  |  52 ++++++
->  .../platform/mtk-vcodec/mtk_vcodec_fw_scp.c   |  73 ++++++++
->  .../platform/mtk-vcodec/mtk_vcodec_fw_vpu.c   | 109 +++++++++++
->  9 files changed, 277 insertions(+), 180 deletions(-)
->  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_priv.h
->  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_scp.c
->  create mode 100644 drivers/media/platform/mtk-vcodec/mtk_vcodec_fw_vpu.c
->
-> --
-> 2.29.0.rc1.297.gfa9743e501-goog
->
+> On Mon, 23 Nov 2020, Finn Thain wrote:
+> 
+> > On Sun, 22 Nov 2020, Miguel Ojeda wrote:
+> > 
+> > > 
+> > > It isn't that much effort, isn't it? Plus we need to take into 
+> > > account the future mistakes that it might prevent, too.
+> > 
+> > We should also take into account optimisim about future improvements 
+> > in tooling.
+> > 
+> Not sure what you mean here. There is no reliable way to guess what the 
+> intention was with a missing fallthrough, even if you parsed whitespace 
+> and indentation.
+> 
+
+What I meant was that you've used pessimism as if it was fact.
+
+For example, "There is no way to guess what the effect would be if the 
+compiler trained programmers to add a knee-jerk 'break' statement to avoid 
+a warning".
+
+Moreover, what I meant was that preventing programmer mistakes is a 
+problem to be solved by development tools. The idea that retro-fitting new 
+language constructs onto mature code is somehow necessary to "prevent 
+future mistakes" is entirely questionable.
+
+> > > So even if there were zero problems found so far, it is still a 
+> > > positive change.
+> > > 
+> > 
+> > It is if you want to spin it that way.
+> > 
+> How is that a "spin"? It is a fact that we won't get *implicit* 
+> fallthrough mistakes anymore (in particular if we make it a hard error).
+> 
+
+Perhaps "handwaving" is a better term?
+
+> > > I would agree if these changes were high risk, though; but they are 
+> > > almost trivial.
+> > > 
+> > 
+> > This is trivial:
+> > 
+> >  case 1:
+> >         this();
+> > +       fallthrough;
+> >  case 2:
+> >         that();
+> > 
+> > But what we inevitably get is changes like this:
+> > 
+> >  case 3:
+> >         this();
+> > +       break;
+> >  case 4:
+> >         hmmm();
+> > 
+> > Why? Mainly to silence the compiler. Also because the patch author 
+> > argued successfully that they had found a theoretical bug, often in 
+> > mature code.
+> > 
+> If someone changes control flow, that is on them. Every kernel developer 
+> knows what `break` does.
+> 
+
+Sure. And if you put -Wimplicit-fallthrough into the Makefile and if that 
+leads to well-intentioned patches that cause regressions, it is partly on 
+you.
+
+Have you ever considered the overall cost of the countless 
+-Wpresume-incompetence flags?
+
+Perhaps you pay the power bill for a build farm that produces logs that 
+no-one reads? Perhaps you've run git bisect, knowing that the compiler 
+messages are not interesting? Or compiled software in using a language 
+that generates impenetrable messages? If so, here's a tip:
+
+# grep CFLAGS /etc/portage/make.conf 
+CFLAGS="... -Wno-all -Wno-extra ..."
+CXXFLAGS="${CFLAGS}"
+
+Now allow me some pessimism: the hardware upgrades, gigawatt hours and 
+wait time attributable to obligatory static analyses are a net loss.
+
+> > But is anyone keeping score of the regressions? If unreported bugs 
+> > count, what about unreported regressions?
+> > 
+> Introducing `fallthrough` does not change semantics. If you are really 
+> keen, you can always compare the objects because the generated code 
+> shouldn't change.
+> 
+
+No, it's not for me to prove that such patches don't affect code 
+generation. That's for the patch author and (unfortunately) for reviewers.
+
+> Cheers,
+> Miguel
+> 
