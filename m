@@ -2,84 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B59F2C2289
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 11:11:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E56802C22A4
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 11:17:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728229AbgKXKKX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Nov 2020 05:10:23 -0500
-Received: from Mailgw01.mediatek.com ([1.203.163.78]:9187 "EHLO
-        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
-        with ESMTP id S1725792AbgKXKKX (ORCPT
+        id S1731638AbgKXKR0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Nov 2020 05:17:26 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60418 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731531AbgKXKRZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Nov 2020 05:10:23 -0500
-X-UUID: 98052439ccf44716ae12f6965e2bb06c-20201124
-DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
-        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=u3IMSN6l9DpAAf3WTb8SAGhvr/8FfMvCzmELwlNcKgw=;
-        b=P8nAD54DPfSa4fiI0weW968+SQGLVNBIsGcNZsUkOBnLTPzhe3SCbHcZu81pmsaCRT6FkVSadSk5yra8+nYC0JtO7kKs8Xv9traj2Io2sVrjqu04vPWCkd/+e4dsqoDrA8RMzliM5ES93UtxguJNPNws75pIRD5NRJsPezhQK1A=;
-X-UUID: 98052439ccf44716ae12f6965e2bb06c-20201124
-Received: from mtkcas36.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
-        (envelope-from <dongchun.zhu@mediatek.com>)
-        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
-        with ESMTP id 657754852; Tue, 24 Nov 2020 18:10:16 +0800
-Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N2.mediatek.inc
- (172.27.4.87) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 24 Nov
- 2020 18:10:15 +0800
-Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
- (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
- Transport; Tue, 24 Nov 2020 18:10:15 +0800
-Message-ID: <1606212616.4733.157.camel@mhfsdcap03>
-Subject: Re: [PATCH] media: ov8856: Remove 3280x2464 mode
-From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-CC:     Robert Foss <robert.foss@linaro.org>, <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>,
-        Ben Kao <ben.kao@intel.com>, <tfiga@google.com>,
-        <shengnan.wang@mediatek.com>, <dongchun.zhu@mediatek.com>
-Date:   Tue, 24 Nov 2020 18:10:16 +0800
-In-Reply-To: <20201124084343.GD3940@paasikivi.fi.intel.com>
-References: <20201116155008.118124-1-robert.foss@linaro.org>
-         <1606203651.4733.134.camel@mhfsdcap03>
-         <20201124084343.GD3940@paasikivi.fi.intel.com>
-Content-Type: text/plain; charset="UTF-8"
-X-Mailer: Evolution 3.10.4-0ubuntu2 
+        Tue, 24 Nov 2020 05:17:25 -0500
+Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E6C4C0613D6
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 02:17:25 -0800 (PST)
+Received: by mail-lf1-x142.google.com with SMTP id v14so5931910lfo.3
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 02:17:25 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=O5+UzBR4beTn0hE4g9/wDcOfrip152qFmHxFTKaxjVI=;
+        b=dTxbCA/uAquEApYucauvIzlc3Q4xb4DpJxk2KAd4XrPoxepREiv6EkR8/SB1gW9Emi
+         9OPyIsg1ozWeJwcGXzq68nbolnJtzkKTq2loHvamWydeyVI97RcQ4I3pAg9QDgUd21zN
+         wEPpSwQJjtrDDJHBjc17YmP5huGTxYi+h9tNI=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=O5+UzBR4beTn0hE4g9/wDcOfrip152qFmHxFTKaxjVI=;
+        b=spCH8VT8rMQWT5IvW6u0eMvB4S6twUW1OM4pS+RREWM8c/fsxb0BS+lnogBSr0ED8X
+         fPJaqYw7bLFwC9Fz4N4+w/3/QrNBndiCYtn+vdkbvhdyzcR/1HCWZ2RPYAyWHlljuYuA
+         jTJ0Kg7ABQ5HzilODIsHUhywkhnP5kNyIfzrM1/d/y/RgtpDsUTigRhdmZPkMjyUPA5+
+         bDTCRRGpdpCrEZUdB8yFYDEndyIHHGYO+Ti4N8KB+K2Ff4Z+FM+kXit2nzMMMGnbC4V5
+         oEkyQrug93a1w7lNc+agst8wbhTcCphIKXbWnA9iUJ7M7RUvrurdOgClMGsLSdfcIEvM
+         KzNg==
+X-Gm-Message-State: AOAM533vBfwiV8q99qltaATA1mUKoSxKbkvqiEDnbbgqVdXj1NKL3e/e
+        lkCPkDwbYc/0grrpH1HCMkVojQyIaY8dXzpd
+X-Google-Smtp-Source: ABdhPJzIeVdQwjJ2B60mFjGb6xhLT5ODcekyKn3ESFUHbKchScMSp+kHG3NBjtJiDuiU4+mTB4HG3A==
+X-Received: by 2002:a19:228f:: with SMTP id i137mr1543678lfi.477.1606213043718;
+        Tue, 24 Nov 2020 02:17:23 -0800 (PST)
+Received: from mail-lj1-f170.google.com (mail-lj1-f170.google.com. [209.85.208.170])
+        by smtp.gmail.com with ESMTPSA id e17sm29588ljl.99.2020.11.24.02.17.22
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Tue, 24 Nov 2020 02:17:23 -0800 (PST)
+Received: by mail-lj1-f170.google.com with SMTP id b17so21331498ljf.12
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 02:17:22 -0800 (PST)
+X-Received: by 2002:a2e:a554:: with SMTP id e20mr1418710ljn.276.1606213042473;
+ Tue, 24 Nov 2020 02:17:22 -0800 (PST)
 MIME-Version: 1.0
-X-TM-SNTS-SMTP: 727A302743AD4B499C0DB70EA4A56C8256AD2C86B3BD07D9F325D4A353D04AC12000:8
-X-MTK:  N
-Content-Transfer-Encoding: base64
+References: <CAO5uPHN-30N8Hv8exx6bzMQQDbLGJpfQobZ_pzDtqC83k3nCMQ@mail.gmail.com>
+In-Reply-To: <CAO5uPHN-30N8Hv8exx6bzMQQDbLGJpfQobZ_pzDtqC83k3nCMQ@mail.gmail.com>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Tue, 24 Nov 2020 19:17:11 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MXQjG8p2dh9T+GpFncu8WAUwjsWw=ggSMW7QdP0NQrskQ@mail.gmail.com>
+Message-ID: <CAPBb6MXQjG8p2dh9T+GpFncu8WAUwjsWw=ggSMW7QdP0NQrskQ@mail.gmail.com>
+Subject: Re: How to get last frames in encode sequence returned by v4l2
+ encoder driver without V4L2_ENC_CMD_STOP
+To:     Hirokazu Honda <hiroh@chromium.org>
+Cc:     linux-media@vger.kernel.org, Tomasz Figa <tfiga@chromium.org>,
+        Fritz Koenig <frkoenig@chromium.org>,
+        J Kardatzke <jkardatzke@chromium.org>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-SGkgU2FrYXJpLA0KDQpPbiBUdWUsIDIwMjAtMTEtMjQgYXQgMTA6NDMgKzAyMDAsIFNha2FyaSBB
-aWx1cyB3cm90ZToNCj4gSGkgRG9uZ2NodW4sDQo+IA0KPiBPbiBUdWUsIE5vdiAyNCwgMjAyMCBh
-dCAwMzo0MDo1MVBNICswODAwLCBEb25nY2h1biBaaHUgd3JvdGU6DQo+ID4gPiAgc3RhdGljIGNv
-bnN0IHN0cnVjdCBvdjg4NTZfbW9kZSBzdXBwb3J0ZWRfbW9kZXNbXSA9IHsNCj4gPiA+IC0Jew0K
-PiA+ID4gLQkJLndpZHRoID0gMzI4MCwNCj4gPiA+IC0JCS5oZWlnaHQgPSAyNDY0LA0KPiA+ID4g
-LQkJLmh0cyA9IDE5MjgsDQo+ID4gPiAtCQkudnRzX2RlZiA9IDI0ODgsDQo+ID4gPiAtCQkudnRz
-X21pbiA9IDI0ODgsDQo+ID4gPiAtCQkucmVnX2xpc3QgPSB7DQo+ID4gPiAtCQkJLm51bV9vZl9y
-ZWdzID0gQVJSQVlfU0laRShtb2RlXzMyODB4MjQ2NF9yZWdzKSwNCj4gPiA+IC0JCQkucmVncyA9
-IG1vZGVfMzI4MHgyNDY0X3JlZ3MsDQo+ID4gPiAtCQl9LA0KPiA+ID4gLQkJLmxpbmtfZnJlcV9p
-bmRleCA9IE9WODg1Nl9MSU5LX0ZSRVFfNzIwTUJQUywNCj4gPiA+IC0JfSwNCj4gPiANCj4gPiBJ
-ZiAzMjgweDI0NjQgcmVzb2x1dGlvbiBpcyByZW1vdmVkLCBiYXllciBvcmRlciBuZWVkcyB0byBi
-ZSB1cGRhdGVkIGluDQo+ID4gdGhlIG1lYW50aW1lLiBGcm9tIE9WODg1NidzIGRhdGFzaGVldCwg
-YmF5ZXIgb3JkZXIgdHVybnMgdG8gYmUgQkdHUiBpZg0KPiA+IHNlbnNvciBhZG9wdHMgZnVsbCBt
-b2RlICgzMjY0eDI0NDgpIG9yIGJpbm5pbmcgbW9kZSAoMTYzMngxMjI0KS4NCj4gDQo+IEhvdyBp
-cyB0aGlzIHJlbGF0ZWQgdG8gdGhlIHBhdGNoPw0KPiANCg0KWWVzLCBpdCBzZWVtcyB0byBiZSBh
-bm90aGVyIGlzc3VlLg0KQnV0IGl0IGlzIHZlcnkgb2Z0ZW4gdGhhdCBiYXllciBvcmRlciBpcyBz
-dHJvbmdseSByZWxhdGVkIHRvIHRoZSBpbWFnZQ0Kd2luZG93IHNpemUgYW5kIG1pcnJvci9mbGlw
-IHNldHRpbmcuDQoNCj4gVGhlIG5leHQgbGFyZ2VzdCBzaXplIGlzIDE2IGJ5IDE2IGxlc3MsIHNv
-IHRoZSBCYXllciBvcmRlciBpcyB0aGUgc2FtZS4gSWYNCj4gaXQncyB3cm9uZyBjdXJyZW50bHkg
-KGFzIGl0IHdvdWxkIGFwcGVhciB0byksIGl0IHNob3VsZCBiZSBhIHNlcGFyYXRlDQo+IHBhdGNo
-Lg0KPiANCg0KT1Y4ODU2IHNlbnNvciBhcnJheSByZWdpb24gY29uc2lzdHMgb2YgMyBtYWluIHdp
-bmRvdyBzZXR0aW5ncy4NClRoZSBpbm5lciB3aW5kb3cgaXMgY29udHJvbGxlZCBieSBbSF93aW5f
-b2ZmLCBWX3dpbl9vZmZdLg0KRnJvbSB0aGUgb2xkIHVudXN1YWwgMzI4MHgyNDY0IGFuZCAxNjQw
-eDEyMzIgc2V0dGluZywNCkhfd2luX29mZihSMzgxMC1SMzgxMSkgaXMgMCwgVl93aW5fb2ZmKFIz
-ODEyLVIzODEzKSBpcyAxLg0KDQpDb25zaWRlcmluZyB0aGF0IHRoZSByZWdpc3RlciBURVNUX1BB
-VFRFUk5fQ1RSTChSNDMyMCkgY29udHJvbGxpbmcgcGl4ZWwNCm9yZGVyIGlzIG5vdCBzZXQgKGRl
-ZmF1bHQ6IDB4ODAsIG1lYW5pbmcgQkcvR1IpIGFuZCBtaXJyb3IvZmxpcCBhcmUgYm90aA0KT0ZG
-LCB0aGUgYWJzb2x1dGUgY29vcmRpbmF0ZSBvZiBjcm9wX3N0YXJ0IGlzIGV4cHJlc3NlZCBhczoN
-CltIX2Nyb3Bfc3RhcnQrSF93aW5fb2ZmLCBWX2Nyb3Bfc3RhcnQrVl93aW5fb2ZmXSA9IFswLCA3
-XQ0KDQpUaHVzIHRoZSBmaXJzdCBwaXhlbCBzaGFsbCBzdGFydCB3aXRoIEcgY2hhbm5lbChhY2Nv
-cmRpbmcgdG8gZGF0YXNoZWV0KS4NClRoaXMgaXMgZGlmZmVyZW50IHdpdGggY3VycmVudCByZXNv
-bHV0aW9ucyAoMzI2NHgyNDQ4IGFuZCAxNjMyeDEyMjQpLg0KDQo=
+Hi Hiro,
 
+On Fri, Nov 13, 2020 at 6:04 PM Hirokazu Honda <hiroh@chromium.org> wrote:
+>
+> Hi,
+>
+> According to the official v4l2 encoder driver usage description [1],
+> v4l2 steatful encoder driver doesn't have a guarantee when frames fed
+> to a driver will be returned.
+> To make sure all pending frames are output by the driver, an app must
+> call VIDIOC_ENCODER_CMD with cmd=V4L2_ENC_CMD_STOP.
+> However, it is not mandatory to support the command in the current
+> v4l2 stateful encoder API specification.
+> An app can check it by VIDIOC_TRY_ENCODER_CMD beforehand.
+> My question is when an app has to get all the frames of an encoder
+> sequence, how we can achieve this without V4L2_ENC_CMD_STOP support.
+> This demand is natural and in fact WebCodecs [2] requires this.
+>
+> I think there are two options,
+> 1.) Ensure that a driver will eventually output frames if it doesn't
+> support V4L2_ENC_CMD_STOP.
+> 2.) Change V4L2_ENC_CMD_STOP support to be mandatory
+
+Unless I am missing the part of the spec that says the contrary,
+V4L2_ENC_CMD_STOP is part of the encoder specification, and thus is
+mandatory. Some older drivers might not have support for it, in such
+cases the correct course of action would be to fix them.
+
+>
+> Any comments are appreciated.
+> Thanks so much in advance.
+>
+> [1] https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-encoder.html#drain
+> [2] https://web.dev/webcodecs/
+>
+> Sincerely,
+> -Hiro
