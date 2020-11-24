@@ -2,166 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2500E2C21B9
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 10:40:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECC4F2C21BD
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 10:40:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731515AbgKXJij (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Nov 2020 04:38:39 -0500
-Received: from retiisi.eu ([95.216.213.190]:45032 "EHLO hillosipuli.retiisi.eu"
+        id S1731518AbgKXJil (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Nov 2020 04:38:41 -0500
+Received: from retiisi.eu ([95.216.213.190]:45008 "EHLO hillosipuli.retiisi.eu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731503AbgKXJih (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S1731505AbgKXJih (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Tue, 24 Nov 2020 04:38:37 -0500
 Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 1C186634CC0;
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 385DC634CC1;
         Tue, 24 Nov 2020 11:37:53 +0200 (EET)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
 To:     linux-media@vger.kernel.org
 Cc:     hverkuil@xs4all.nl, mchehab@kernel.org
-Subject: [PATCH 25/30] ccs: Wrap long lines, unwrap short ones
-Date:   Tue, 24 Nov 2020 11:32:21 +0200
-Message-Id: <20201124093226.23737-26-sakari.ailus@linux.intel.com>
+Subject: [PATCH 26/30] =?UTF-8?q?ccs:=20Use=20longer=20pre-I=C2=B2C=20slee?= =?UTF-8?q?p=20for=20CCS=20compliant=20devices?=
+Date:   Tue, 24 Nov 2020 11:32:22 +0200
+Message-Id: <20201124093226.23737-27-sakari.ailus@linux.intel.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201124093226.23737-1-sakari.ailus@linux.intel.com>
 References: <20201124093226.23737-1-sakari.ailus@linux.intel.com>
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Over the years (and renaming) some lines that may well be wrapped ended up
-being over 80 characters, likewise there are shorter lines that can be
-merged. Do that.
+Longer idle period is required on I²C bus before the first transaction
+after lifting xshutdown.
 
 Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 ---
- drivers/media/i2c/ccs/ccs-core.c | 45 +++++++++++++-------------------
- 1 file changed, 18 insertions(+), 27 deletions(-)
+ drivers/media/i2c/ccs/ccs-core.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
 diff --git a/drivers/media/i2c/ccs/ccs-core.c b/drivers/media/i2c/ccs/ccs-core.c
-index c3023570a620..863295b8fb5c 100644
+index 863295b8fb5c..5014aa0d7969 100644
 --- a/drivers/media/i2c/ccs/ccs-core.c
 +++ b/drivers/media/i2c/ccs/ccs-core.c
-@@ -657,8 +657,7 @@ static int ccs_set_ctrl(struct v4l2_ctrl *ctrl)
- 		break;
- 	case V4L2_CID_HBLANK:
- 		rval = ccs_write(sensor, LINE_LENGTH_PCK,
--				 sensor->pixel_array->crop[
--					 CCS_PA_PAD_SRC].width
-+				 sensor->pixel_array->crop[CCS_PA_PAD_SRC].width
- 				 + ctrl->val);
+@@ -1300,6 +1300,7 @@ static int ccs_power_on(struct device *dev)
+ 	 */
+ 	struct ccs_sensor *sensor =
+ 		container_of(ssd, struct ccs_sensor, ssds[0]);
++	const struct ccs_device *ccsdev = device_get_match_data(dev);
+ 	unsigned int sleep;
+ 	int rval;
  
- 		break;
-@@ -989,15 +988,13 @@ static void ccs_update_blanking(struct ccs_sensor *sensor)
+@@ -1320,7 +1321,11 @@ static int ccs_power_on(struct device *dev)
+ 	gpiod_set_value(sensor->reset, 0);
+ 	gpiod_set_value(sensor->xshutdown, 1);
  
- 	min = max_t(int,
- 		    CCS_LIM(sensor, MIN_FRAME_BLANKING_LINES),
--		    min_fll -
--		    sensor->pixel_array->crop[CCS_PA_PAD_SRC].height);
-+		    min_fll - sensor->pixel_array->crop[CCS_PA_PAD_SRC].height);
- 	max = max_fll -	sensor->pixel_array->crop[CCS_PA_PAD_SRC].height;
+-	sleep = SMIAPP_RESET_DELAY(sensor->hwcfg.ext_clk);
++	if (ccsdev->flags & CCS_DEVICE_FLAG_IS_SMIA)
++		sleep = SMIAPP_RESET_DELAY(sensor->hwcfg.ext_clk);
++	else
++		sleep = 5000;
++
+ 	usleep_range(sleep, sleep);
  
- 	__v4l2_ctrl_modify_range(vblank, min, max, vblank->step, min);
- 
- 	min = max_t(int,
--		    min_llp -
--		    sensor->pixel_array->crop[CCS_PA_PAD_SRC].width,
-+		    min_llp - sensor->pixel_array->crop[CCS_PA_PAD_SRC].width,
- 		    min_lbp);
- 	max = max_llp - sensor->pixel_array->crop[CCS_PA_PAD_SRC].width;
- 
-@@ -1784,7 +1781,8 @@ static void ccs_get_crop_compose(struct v4l2_subdev *subdev,
- 	} else {
- 		if (crops) {
- 			for (i = 0; i < subdev->entity.num_pads; i++)
--				crops[i] = v4l2_subdev_get_try_crop(subdev, cfg, i);
-+				crops[i] = v4l2_subdev_get_try_crop(subdev,
-+								    cfg, i);
- 		}
- 		if (comps)
- 			*comps = v4l2_subdev_get_try_compose(subdev, cfg,
-@@ -1809,8 +1807,7 @@ static void ccs_propagate(struct v4l2_subdev *subdev,
- 		comp->height = crops[CCS_PAD_SINK]->height;
- 		if (which == V4L2_SUBDEV_FORMAT_ACTIVE) {
- 			if (ssd == sensor->scaler) {
--				sensor->scale_m =
--					CCS_LIM(sensor, SCALER_N_MIN);
-+				sensor->scale_m = CCS_LIM(sensor, SCALER_N_MIN);
- 				sensor->scaling_mode =
- 					CCS_SCALING_MODE_NO_SCALING;
- 			} else if (ssd == sensor->binner) {
-@@ -2236,9 +2233,11 @@ static int ccs_set_crop(struct v4l2_subdev *subdev,
- 		if (sel->pad == ssd->sink_pad) {
- 			_r.left = 0;
- 			_r.top = 0;
--			_r.width = v4l2_subdev_get_try_format(subdev, cfg, sel->pad)
-+			_r.width = v4l2_subdev_get_try_format(subdev, cfg,
-+							      sel->pad)
- 				->width;
--			_r.height = v4l2_subdev_get_try_format(subdev, cfg, sel->pad)
-+			_r.height = v4l2_subdev_get_try_format(subdev, cfg,
-+							       sel->pad)
- 				->height;
- 			src_size = &_r;
- 		} else {
-@@ -2356,11 +2355,9 @@ static int ccs_set_selection(struct v4l2_subdev *subdev,
- 	sel->r.width = CCS_ALIGN_DIM(sel->r.width, sel->flags);
- 	sel->r.height =	CCS_ALIGN_DIM(sel->r.height, sel->flags);
- 
--	sel->r.width = max_t(unsigned int,
--			     CCS_LIM(sensor, MIN_X_OUTPUT_SIZE),
-+	sel->r.width = max_t(unsigned int, CCS_LIM(sensor, MIN_X_OUTPUT_SIZE),
- 			     sel->r.width);
--	sel->r.height = max_t(unsigned int,
--			      CCS_LIM(sensor, MIN_Y_OUTPUT_SIZE),
-+	sel->r.height = max_t(unsigned int, CCS_LIM(sensor, MIN_Y_OUTPUT_SIZE),
- 			      sel->r.height);
- 
- 	switch (sel->target) {
-@@ -2613,8 +2610,7 @@ static int ccs_identify_module(struct ccs_sensor *sensor)
- 		dev_warn(&client->dev,
- 			 "no quirks for this module; let's hope it's fully compliant\n");
- 
--	dev_dbg(&client->dev, "the sensor is called %s\n",
--		minfo->name);
-+	dev_dbg(&client->dev, "the sensor is called %s\n", minfo->name);
- 
- 	return 0;
- }
-@@ -2634,19 +2630,15 @@ static int ccs_register_subdev(struct ccs_sensor *sensor,
- 	if (!sink_ssd)
- 		return 0;
- 
--	rval = media_entity_pads_init(&ssd->sd.entity,
--				      ssd->npads, ssd->pads);
-+	rval = media_entity_pads_init(&ssd->sd.entity, ssd->npads, ssd->pads);
- 	if (rval) {
--		dev_err(&client->dev,
--			"media_entity_pads_init failed\n");
-+		dev_err(&client->dev, "media_entity_pads_init failed\n");
- 		return rval;
- 	}
- 
--	rval = v4l2_device_register_subdev(sensor->src->sd.v4l2_dev,
--					   &ssd->sd);
-+	rval = v4l2_device_register_subdev(sensor->src->sd.v4l2_dev, &ssd->sd);
- 	if (rval) {
--		dev_err(&client->dev,
--			"v4l2_device_register_subdev failed\n");
-+		dev_err(&client->dev, "v4l2_device_register_subdev failed\n");
- 		return rval;
- 	}
- 
-@@ -2654,8 +2646,7 @@ static int ccs_register_subdev(struct ccs_sensor *sensor,
- 				     &sink_ssd->sd.entity, sink_pad,
- 				     link_flags);
- 	if (rval) {
--		dev_err(&client->dev,
--			"media_create_pad_link failed\n");
-+		dev_err(&client->dev, "media_create_pad_link failed\n");
- 		v4l2_device_unregister_subdev(&ssd->sd);
- 		return rval;
- 	}
+ 	/*
 -- 
 2.27.0
 
