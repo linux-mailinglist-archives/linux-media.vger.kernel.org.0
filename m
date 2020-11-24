@@ -2,78 +2,86 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F53E2C22C1
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 11:21:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB7712C2332
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 11:46:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731995AbgKXKUs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Nov 2020 05:20:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60920 "EHLO
+        id S1731735AbgKXKpm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Nov 2020 05:45:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36596 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731979AbgKXKUg (ORCPT
+        with ESMTP id S1731503AbgKXKpm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Nov 2020 05:20:36 -0500
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6E471C0613D6
-        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 02:20:36 -0800 (PST)
-Received: by mail-pf1-x443.google.com with SMTP id t8so18041037pfg.8
-        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 02:20:36 -0800 (PST)
+        Tue, 24 Nov 2020 05:45:42 -0500
+Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58CD8C0617A6
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 02:45:42 -0800 (PST)
+Received: by mail-pf1-x442.google.com with SMTP id t8so18101431pfg.8
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 02:45:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=aa9wVaM8Q5G5htOYE8QAYbIy5Fdksi5AaGTsBR4y4oA=;
-        b=cdMmPcjltFHlpI6gksl2/fIsFh/bq+VaUHcbdhE/devIEAQmawCgLno2bE6iZ7pIce
-         5cIF64CvU29pPHCIGXWjf6jAa7fPaV9sl1tES5Zb5qQrsQ8Xm+HDvr2OhbE0lveavydv
-         6xhsUSzwQLPbbIesaT90J5mN0Dj/SVpeghm9DCXXtzrr85HvMF2vyDQAqURubBqr9eo0
-         9Q+UjnYOinXTRh5JM0BR4NmMlfZBHbHhOvfWfuJas3glKPaJ6peSQXvdtvl4AwkteVZ2
-         XRKYYnujZvkWcQKfD7U/G1siM1Op+vGF5ZePDaGyXwnO++V7NlcAYHf3w7tebfffIgOE
-         T1SA==
+        bh=3kwegyRqAw46aqWt+s2hHGKYwjk1qlvqH33gfukWNu4=;
+        b=eiVKagnSnyv2tiR2Et7Ql7AZP/9w9jlLNqQTHS3fRI9E4/SO+rwqGhlA+DkIvTcsGL
+         GvP3Hbn/TFHAdKlTlh4r3TdYArZkggVbz9uC3/wr8TuEJkpUg77iFOhPRCSdFmL7yiFg
+         ccSP9+rsqwf7PsbDC0GfR7NOovBce7xUPfKYzxtdh2pq5mGIc7I68tx70c38KTIZn/Br
+         Rrz8Quw45lUlPaH+CWus9LpFO5surp/ggMPdemQ+8ijF5G5Ro3bqOV1Stf4zIeEXhJeI
+         oNkJglxsxCrPf8eDQ9NLYeb0jyZeBdT+rhxrJ4nMBDtV1qApdxlSoHDJH3LWPeObwOVa
+         IfSQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=aa9wVaM8Q5G5htOYE8QAYbIy5Fdksi5AaGTsBR4y4oA=;
-        b=mb0TVJrCIwWV06Bmr2yyI1L33uKFnvgPMVeosZ0xmDnX764N1AfTA/lOMmLl2u9z2k
-         W95l7aCctEA2zh3N5RqXGY0YUg/xsM2dCrf2mCMwnKySM+S+M6+W2qBm4igQrN5B+azb
-         C4NNPYpi7LUH8euvtlOanYvEFjh/XyjYpFBel5JBw2V2nuz/etHuaARipjG2ghteCJSQ
-         UhfCuLxGxvbPsz9EfQr0CQjlVK7a/V+/WHzcOhjHkvhc9CZQFR8z7BHw4aAlK0ZfiG+i
-         aqVFIzGQR7RO5H06LfKUSC6E02dHjOSr53hwHIldXNIpbqRfmghgyqky2uDpsgzrC8VF
-         lWCA==
-X-Gm-Message-State: AOAM5326obkCcCssMY86Qme0K9xGysDfD4oI+EEVCq5y4NTkDHlOGbzs
-        fjjOUcO43uew+PUvSj6tUvGU3oLco1l3BP1nmNlbXw==
-X-Google-Smtp-Source: ABdhPJxHor7IGuJelK1d4M+d7EIxn6vn8x+okbkfDnW+bIIWQwIOXtmWu92du9sRke6kFN6MNd/ZNf4uAIV6Li8N/8c=
-X-Received: by 2002:a17:90a:e604:: with SMTP id j4mr4166491pjy.19.1606213236082;
- Tue, 24 Nov 2020 02:20:36 -0800 (PST)
+        bh=3kwegyRqAw46aqWt+s2hHGKYwjk1qlvqH33gfukWNu4=;
+        b=k8uuTUzU7+gbLl75EVbIPHVU+xKFXEPWBXoC3s+3BgdM0mbMh6BRLgzSQAgGfvfJ7c
+         aW+cqcFvL2jvM7XbC3iawu/V29K9yWobDhPpjsPH8dQO8iXnG9TjVds3OlWv1WMl3W0u
+         t+XM6aOa79NFLJmnm1By9GxaYSrPaX1pyAa6SgTJm1X6EBVwa+MPLBoykLfHxnkc5ja1
+         4pXljTzEZLVJ/ZMGuT1R9vPl4U7m3d3cvC29KDcjFqQae9YlC4utLfPKoGWolRu7ie3y
+         it7DE4udDjuXWT1OVBpVCjN7dTZQMBewqSSBgX2i6MTk5+2I+yHVk7b/olNFVaft7vU9
+         pEiQ==
+X-Gm-Message-State: AOAM532GC/YApV0KfhdqcBQMXlpoOE77YsWwdPvtm207Z00zGsUglpu0
+        9b2E+ex2iHyyeerd/dcSc5C/00kmvjsfi84l2WSQgw==
+X-Google-Smtp-Source: ABdhPJwmGsSGTzfqADPhJaLR24JRKMUHU5sMY1UkaytHFUOVKZaQLOE6xRAFTRUNVPEkSd3eETejD2b4SxoTIHmKwtU=
+X-Received: by 2002:a65:6a04:: with SMTP id m4mr3118476pgu.265.1606214741881;
+ Tue, 24 Nov 2020 02:45:41 -0800 (PST)
 MIME-Version: 1.0
-References: <20201116155008.118124-1-robert.foss@linaro.org> <cf0b935d-3ccd-8360-1b52-89fab0b181eb@linux.intel.com>
-In-Reply-To: <cf0b935d-3ccd-8360-1b52-89fab0b181eb@linux.intel.com>
+References: <20201116155008.118124-1-robert.foss@linaro.org>
+ <1606203651.4733.134.camel@mhfsdcap03> <20201124084343.GD3940@paasikivi.fi.intel.com>
+ <1606212616.4733.157.camel@mhfsdcap03>
+In-Reply-To: <1606212616.4733.157.camel@mhfsdcap03>
 From:   Robert Foss <robert.foss@linaro.org>
-Date:   Tue, 24 Nov 2020 11:20:25 +0100
-Message-ID: <CAG3jFyssMMHpi4WgWmeDjuVYKz12UwJoBT0WoOsdB4PZxnuqSw@mail.gmail.com>
+Date:   Tue, 24 Nov 2020 11:45:30 +0100
+Message-ID: <CAG3jFyuBvjpbhNUOqH1dOX=9WZG4avG7vAHgXThoim4LeruXyA@mail.gmail.com>
 Subject: Re: [PATCH] media: ov8856: Remove 3280x2464 mode
-To:     Bingbu Cao <bingbu.cao@linux.intel.com>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media <linux-media@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Ben Kao <ben.kao@intel.com>
+        Ben Kao <ben.kao@intel.com>, Tomasz Figa <tfiga@google.com>,
+        =?UTF-8?B?U2hlbmduYW4gV2FuZyAo546L5Zyj55S3KQ==?= 
+        <shengnan.wang@mediatek.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, 24 Nov 2020 at 10:42, Bingbu Cao <bingbu.cao@linux.intel.com> wrote:
 >
-> Hi, Robert
+> OV8856 sensor array region consists of 3 main window settings.
+> The inner window is controlled by [H_win_off, V_win_off].
+> From the old unusual 3280x2464 and 1640x1232 setting,
+> H_win_off(R3810-R3811) is 0, V_win_off(R3812-R3813) is 1.
 >
-> I remember that the full size of ov8856 image sensor is 3296x2480 and we can get the 3280x2464
-> frames based on current settings.
+> Considering that the register TEST_PATTERN_CTRL(R4320) controlling pixel
+> order is not set (default: 0x80, meaning BG/GR) and mirror/flip are both
+> OFF, the absolute coordinate of crop_start is expressed as:
+> [H_crop_start+H_win_off, V_crop_start+V_win_off] = [0, 7]
 >
-> Do you have any issues with this mode?
+> Thus the first pixel shall start with G channel(according to datasheet).
+> This is different with current resolutions (3264x2448 and 1632x1224).
+>
 
-As far as I can tell using the 3280x2464 mode actually yields an
-output resolution that is 3264x2448.
-
-What does your hardware setup look like? And which revision of the
-sensor are you using?
+Sakari: So this means that the patches introducing 3264x2448 and
+1632x1224 modes really should have included code for configuring BGGR
+format for those two specific modes only. Let me whip up another patch
+for that, and put a pin in the bayer mode part of this conversation.
