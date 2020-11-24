@@ -2,118 +2,126 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 10FA22C2BCF
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 16:51:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EF8F22C2C0D
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 16:56:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389838AbgKXPuJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Nov 2020 10:50:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55752 "EHLO
+        id S2389925AbgKXPzb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Nov 2020 10:55:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56584 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389441AbgKXPuI (ORCPT
+        with ESMTP id S2389653AbgKXPzb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Nov 2020 10:50:08 -0500
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 636D5C0613D6;
-        Tue, 24 Nov 2020 07:50:08 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id m6so22789318wrg.7;
-        Tue, 24 Nov 2020 07:50:08 -0800 (PST)
+        Tue, 24 Nov 2020 10:55:31 -0500
+Received: from mail-qk1-x744.google.com (mail-qk1-x744.google.com [IPv6:2607:f8b0:4864:20::744])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 99DC6C061A4E
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 07:55:29 -0800 (PST)
+Received: by mail-qk1-x744.google.com with SMTP id z188so9420423qke.9
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 07:55:29 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc:content-transfer-encoding;
-        bh=vEHV5NzbwJ9itZIOZg0YcV4vFlrMnth6sSMm0U/4U18=;
-        b=HmasDWuex7mGSrEPKku7nbQd9pKEB0VIF/ooeC/H8gEFqGk0eOPrQOD7ULPnDUW1nF
-         SEBqUzIDs3Q/b4NtGdRpz/Rhjt2mKTIMKQ/ifjbi9gBPMU8wshfy2o52ODxvXErCmkHS
-         LSs2gJj3neMlfzcdel0xGs2Utc1QXnq9guR+oZcGhRV1t+vq/PhmAWj5+0XzOBXYJLk0
-         uv5YY4FHNZrt29KHEjCtTqNnmmYAPLqKDfCqwCUejkQfGt9YcZO948F5E0Yw6DVf30zb
-         TxP180NnVt7lApqwkS/V7cOWZq8z9wyZrytoGbrXfWOzu1Nw6Pg+rA2xEfAv8tiyu7Nb
-         73tw==
+        d=ziepe.ca; s=google;
+        h=date:from:to:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oaa+hWx1KaHAmS3DtMmmCm5kDyFbE+baLseZRB4QB5M=;
+        b=O5+yyy3ugn3/JU8d8MzJuhxMQSAXmFG+K4qLwFzZz9R/0yzGmphek8afsqJ5XmaX7K
+         QFgr2UTIeMkWtrEUfgUgKbsoR4KB1EzCADhT2doRjFOEg0XNrQLFT7UfegvU6LtETQdH
+         BNfxI2uepF2ckC2z3Hg3jdCWPASQ46yKLRwg1QiNwPCb0sAmz1+AfFialcU6UizGRLb/
+         cFkrXVxqj0abamYnuOiwNBjY7IEIegPAbiNZQupZKDH6jzAd8pc/L3Rexp2KSypUx3WN
+         r58Z5/hOA1lt5wCiVxmAus+J+0CeYWzJLI1kYadqPB7BHX4GvlOoLo7sQ3sz3WRenNdb
+         j0ew==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=vEHV5NzbwJ9itZIOZg0YcV4vFlrMnth6sSMm0U/4U18=;
-        b=X14eWMVHk8jnAemEhpLcVWqLLddSRjuSTv6hOSNEMZdEicMVRoDXXcvf2FGRqEyUl0
-         tAjfgu/4pfxxNTodXWESsMOtp/eMZ/mbWWk5YO6Q097VmpnczkwppgRu5CcE4RyFywtF
-         tnRGefzizoft+gaIO/9RRFPiuXkQKr2J1gQ+finYKfZbIPsoEi9nA3evZgoEAhYRQPgN
-         agL/p5x9Nxt3LcROZMUGMU81bXJmgc+yUgJqEg+B9TRxOxC+HnTdXvtHUW9GfUOiVkwf
-         RzCokUyn7v47fMV7vlvUVyac4bKUoePLYyN5nyVB39xVEpIk9eRWxQUdgtI2M+LzJyLP
-         xDvQ==
-X-Gm-Message-State: AOAM530UCiL9VMM4jatS7i9wn2MPo9PbpXF9WSW7VU3XHFibkyVfkNN2
-        0oruFFtPGmSDABhEgefixrgQgjwvExUcvrpeCT8=
-X-Google-Smtp-Source: ABdhPJzerQP49Kf7yuyCXUUv4/+uMPHMJ+Frw4C4JWUo8vpK1xvcKt1uN5gVCEtR/4wUmA2B3xr5/nsHrOl93j4H360=
-X-Received: by 2002:a5d:400a:: with SMTP id n10mr5940385wrp.362.1606233007147;
- Tue, 24 Nov 2020 07:50:07 -0800 (PST)
+        h=x-gm-message-state:date:from:to:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oaa+hWx1KaHAmS3DtMmmCm5kDyFbE+baLseZRB4QB5M=;
+        b=iEPKQdlz0rU8fld4rIcDngiCgPkdTFnTDX5PVhel0T+7mdJ0M96NG1WV20HRoiDweA
+         192KHKrYFFykl3X6H9JPSnW/frZjtdEG/vVOZUCE+oAbPc7ZekvHxJYXmUpMoVbTUZgD
+         LWfYOPMd5sEk5cUVQ17G5WPts8xc1NjlR8h1zHekT4oD6U7gUc6/Vlf/R9JjLuXCyx/h
+         g8EezMSkUHBw60HDseug7mI7GRhH89vjNzsMO11EVLa6dK68qROtTMjkKn0WYWHrqOiQ
+         GlBqI+Pv7WKNRUXJQsh9efIJ67QDoGZ43H4ksg3aPO58y3F07OFPzGhJ1FHaiMrt2OAC
+         0tBA==
+X-Gm-Message-State: AOAM533+V3qtEMSDlvPXELoWCPMosvb1qIKBfDfeYngF74fR1MzQ5CvS
+        m1mWk4Dv6vACwgNl8GL2rzW45C4kKlZktr71
+X-Google-Smtp-Source: ABdhPJzKvpnJwdDviRxMRDTdGK9+HHkdY7h1hzFeJT5r8VTnR/8g0865BSrf5PrqIcB8Qlf6akZbcQ==
+X-Received: by 2002:a05:620a:2106:: with SMTP id l6mr5371085qkl.302.1606233328732;
+        Tue, 24 Nov 2020 07:55:28 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id x24sm12795492qkx.23.2020.11.24.07.55.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 24 Nov 2020 07:55:27 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1khaf8-000pJU-UM; Tue, 24 Nov 2020 11:55:26 -0400
+Date:   Tue, 24 Nov 2020 11:55:26 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Christoph Hellwig <hch@infradead.org>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?utf-8?B?SsOpcsO0bWU=?= Glisse <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>
+Subject: Re: [PATCH v6 17/17] RFC: mm: add mmu_notifier argument to follow_pfn
+Message-ID: <20201124155526.GH5487@ziepe.ca>
+References: <20201119144146.1045202-1-daniel.vetter@ffwll.ch>
+ <20201119144146.1045202-18-daniel.vetter@ffwll.ch>
+ <20201120183029.GQ244516@ziepe.ca>
+ <20201124142814.GM401619@phenom.ffwll.local>
 MIME-Version: 1.0
-References: <20201123111919.233376-1-lee.jones@linaro.org> <20201123111919.233376-4-lee.jones@linaro.org>
-In-Reply-To: <20201123111919.233376-4-lee.jones@linaro.org>
-From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Tue, 24 Nov 2020 10:49:56 -0500
-Message-ID: <CADnq5_P=4f5gq+mS358d0zGEB6yr0PGruAKKLoiiEb9hq30thg@mail.gmail.com>
-Subject: Re: [PATCH 03/40] drm/amd/amdgpu/amdgpu_ib: Provide docs for
- 'amdgpu_ib_schedule()'s 'job' param
-To:     Lee Jones <lee.jones@linaro.org>
-Cc:     David Airlie <airlied@linux.ie>,
-        LKML <linux-kernel@vger.kernel.org>,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Alex Deucher <alexander.deucher@amd.com>,
-        linux-media <linux-media@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201124142814.GM401619@phenom.ffwll.local>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Mon, Nov 23, 2020 at 6:19 AM Lee Jones <lee.jones@linaro.org> wrote:
->
-> Fixes the following W=3D1 kernel build warning(s):
->
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c:127: warning: Function parameter =
-or member 'job' not described in 'amdgpu_ib_schedule'
->
-> Cc: Alex Deucher <alexander.deucher@amd.com>
-> Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: amd-gfx@lists.freedesktop.org
-> Cc: dri-devel@lists.freedesktop.org
-> Cc: linux-media@vger.kernel.org
-> Cc: linaro-mm-sig@lists.linaro.org
-> Signed-off-by: Lee Jones <lee.jones@linaro.org>
+On Tue, Nov 24, 2020 at 03:28:14PM +0100, Daniel Vetter wrote:
+> On Fri, Nov 20, 2020 at 02:30:29PM -0400, Jason Gunthorpe wrote:
+> > On Thu, Nov 19, 2020 at 03:41:46PM +0100, Daniel Vetter wrote:
+> > > @@ -4805,21 +4824,15 @@ EXPORT_SYMBOL(follow_pte_pmd);
+> > >   * Return: zero and the pfn at @pfn on success, -ve otherwise.
+> > >   */
+> > >  int follow_pfn(struct vm_area_struct *vma, unsigned long address,
+> > > -	unsigned long *pfn)
+> > > +	unsigned long *pfn, struct mmu_notifier *subscription)
+> > >  {
+> > > -	int ret = -EINVAL;
+> > > -	spinlock_t *ptl;
+> > > -	pte_t *ptep;
+> > > +	if (WARN_ON(!subscription->mm))
+> > > +		return -EINVAL;
+> > >  
+> > > +	if (WARN_ON(subscription->mm != vma->vm_mm))
+> > > +		return -EINVAL;
+> > 
+> > These two things are redundant right? vma->vm_mm != NULL?
+> 
+> Yup, will remove.
+> 
+> > BTW, why do we even have this for nommu? If the only caller is kvm,
+> > can you even compile kvm on nommu??
+> 
+> Kinda makes sense, but I have no idea how to make sure with compile
+> testing this is really the case. And I didn't see any hard evidence in
+> Kconfig or Makefile that mmu notifiers requires CONFIG_MMU. So not sure
+> what to do here.
 
-Applied.  Thanks!
+It looks like only some arches have selectable CONFIG_MMU: arm,
+m68k, microblaze, riscv, sh
 
-Alex
+If we look at arches that work with HAVE_KVM, I only see: arm64, mips,
+powerpc, s390, x86
 
+So my conclusion is there is no intersection between !MMU and HAVE_KVM?
 
-> ---
->  drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c | 1 +
->  1 file changed, 1 insertion(+)
->
-> diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c b/drivers/gpu/drm/amd=
-/amdgpu/amdgpu_ib.c
-> index c69af9b86cc60..024d0a563a652 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_ib.c
-> @@ -106,6 +106,7 @@ void amdgpu_ib_free(struct amdgpu_device *adev, struc=
-t amdgpu_ib *ib,
->   * @ring: ring index the IB is associated with
->   * @num_ibs: number of IBs to schedule
->   * @ibs: IB objects to schedule
-> + * @job: job to schedule
->   * @f: fence created during this submission
->   *
->   * Schedule an IB on the associated ring (all asics).
-> --
-> 2.25.1
->
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+> Should I just remove the nommu version of follow_pfn and see what happens?
+> We can't remove it earlier since it's still used by other
+> subsystems.
+
+This is what I was thinking might work
+
+Jason
