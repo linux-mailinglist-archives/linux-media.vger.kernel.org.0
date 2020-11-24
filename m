@@ -2,178 +2,156 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 80C0D2C1D15
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 05:40:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7F9632C1F0A
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 08:44:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726610AbgKXEjo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 23 Nov 2020 23:39:44 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:38445 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726202AbgKXEjo (ORCPT
+        id S1730171AbgKXHmM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Nov 2020 02:42:12 -0500
+Received: from Mailgw01.mediatek.com ([1.203.163.78]:3862 "EHLO
+        mailgw01.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1727840AbgKXHmL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 23 Nov 2020 23:39:44 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id hQ78k67tIkGBYhQ7AkC1zW; Tue, 24 Nov 2020 05:39:40 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606192780; bh=z3Q2UxYOzaRWZwXewGxYLQ4QH7Gzs/aUrY463xMjFjg=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=nnsBX7i+LUMV/RG/QO7PL/d+qUfTgHsnPv2S2+H4Wa3nuQTpbERT0EebIiOhRNK87
-         eOnWd8qr32IDxJa84refqYHXKLKIq/F4xlIWFN2fPtbSy4yi0Jb7LjZhkivRePFx7/
-         J9Gb1CRvyOKQqSph8Nwt6maiYlpkJo69kYwYDVDqnzGausfUagx/gWrX2G5DVj3cv5
-         Co10tBnvCEHv/jgEOGHJ3lc4UcauOnqdTQ916AxpTcm6gOH2P7BpoPV5KXAZqm8Po0
-         CB+kKnGbfIvBVGGL/h3hmFWX0mdwUl2MbUXBwFFWtfoMr/sSyYDdVroqsGqHJMfx2V
-         WI1rn6+ibTigA==
-Message-ID: <33b5bf88512bdd5d5c159f3f79a4a247@smtp-cloud9.xs4all.net>
-Date:   Tue, 24 Nov 2020 05:39:38 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfEiHCnSIynCOYAd/3sJx8LA4w4kbQRc1SU44iJl151756Nidun18TBXHThMevblUgVLdaMYwkAyHijfx2IpNupU1bq2Fv7pfYInEq8VW8E2nNOj567qv
- iADDuBe4CgHXbZpDMWK2xgwOcb8RBci7FT8Y93UpQqHkqYYujNBY+deJ5eV60ctTG3+/+UUu352nVYyY7awWBB1+XNESJd56b519GD3lyiF27RsyKthMXxKQ
- BAVUBSc3wAimdVLdk5hP4w==
+        Tue, 24 Nov 2020 02:42:11 -0500
+X-UUID: e72b33f7cda2424a86d621cdf62630f5-20201124
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=f3yhY4rg+59F/lJcfGD6B3v/MzgVaHqpNluUEuRiMUY=;
+        b=Fd3jpTf4zdmagpExXo1zKnIx+CE/AY3lLe5MaCl4Y7fcBMABO3103mwSsM7K4gNC1pneFfS/eYY6ruAu9sCXiZMedO/DW/nuPSuZAKaraOxpd4bkHh+lJGZFssh7nA7enDZ9turDGN4o4Xi9SxGDlZulA+9xODVKRur5HfrDjXs=;
+X-UUID: e72b33f7cda2424a86d621cdf62630f5-20201124
+Received: from mtkcas32.mediatek.inc [(172.27.4.253)] by mailgw01.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 1467442728; Tue, 24 Nov 2020 15:40:53 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Tue, 24 Nov
+ 2020 15:40:52 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Tue, 24 Nov 2020 15:40:51 +0800
+Message-ID: <1606203651.4733.134.camel@mhfsdcap03>
+Subject: Re: [PATCH] media: ov8856: Remove 3280x2464 mode
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Robert Foss <robert.foss@linaro.org>
+CC:     <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Ben Kao <ben.kao@intel.com>, <tfiga@google.com>,
+        <dongchun.zhu@mediatek.com>, <shengnan.wang@mediatek.com>
+Date:   Tue, 24 Nov 2020 15:40:51 +0800
+In-Reply-To: <20201116155008.118124-1-robert.foss@linaro.org>
+References: <20201116155008.118124-1-robert.foss@linaro.org>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
+MIME-Version: 1.0
+X-TM-SNTS-SMTP: B8943FAC103671E8D2C875EA7339919DE696CA6E7C4C505EE1FBE512216E5CAB2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+SGkgUm9iZXJ0LA0KDQpUaGFua3MgZm9yIHRoZSBwYXRjaC4NCg0KT24gTW9uLCAyMDIwLTExLTE2
+IGF0IDE2OjUwICswMTAwLCBSb2JlcnQgRm9zcyB3cm90ZToNCj4gUmVtb3ZlIHRoZSAzMjgweDI0
+NjQgbW9kZSBhcyBpdCBjYW4ndCBiZSByZXByb2R1Y2VkIGFuZCB5aWVsZHMNCj4gYW4gb3V0cHV0
+IHJlc29sdXRpb24gb2YgMzI2NHgyNDQ4IGluc3RlYWQgb2YgdGhlIGRlc2lyZWQgb25lLg0KPiAN
+Cj4gRnVydGhlcm1vcmUgdGhlIDMyNjR4MjQ0OCByZXNvbHV0aW9uIGlzIHRoZSBoaWdoZXN0IHJl
+c29sdXRpb24NCj4gdGhhdCB0aGUgcHJvZHVjdCBicmllZiBsaXN0cy4NCj4gDQo+IFNpbmNlIDMy
+ODB4MjQ2NCBuZWl0aGVyIHdvcmtzIGNvcnJlY3RseSBub3Igc2VlbXMgdG8gYmUgc3VwcG9ydGVk
+DQo+IGJ5IHRoZSBzZW5zb3IsIGxldCdzIHJlbW92ZSBpdC4NCj4gDQoNCkluIGZhY3QsIEkgd2Fz
+IGFsc28gY29uZnVzZWQgYWJvdXQgMzI4MHgyNDY0IHNldHRpbmcgYXQgdGhlIGJlZ2lubmluZy4N
+CkZyb20gZGF0YXNoZWV0LCB0aGUgT1Y4ODU2IHNoYWxsIHN1cHBvcnQgYW4gYWN0aXZlIGFycmF5
+IG9mIDMyNjR4MjQ0OA0KcGl4ZWxzICg4LW1lZ2FwaXhlbCwgdGhlIG1heGltdW0pIG9wZXJhdGlu
+ZyBhdCAzMGZwcy4NCg0KPiBTaWduZWQtb2ZmLWJ5OiBSb2JlcnQgRm9zcyA8cm9iZXJ0LmZvc3NA
+bGluYXJvLm9yZz4NCj4gLS0tDQo+ICBkcml2ZXJzL21lZGlhL2kyYy9vdjg4NTYuYyB8IDIwMiAt
+LS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tLS0tDQo+ICAxIGZpbGUgY2hhbmdlZCwg
+MjAyIGRlbGV0aW9ucygtKQ0KPiANCj4gZGlmZiAtLWdpdCBhL2RyaXZlcnMvbWVkaWEvaTJjL292
+ODg1Ni5jIGIvZHJpdmVycy9tZWRpYS9pMmMvb3Y4ODU2LmMNCj4gaW5kZXggMmY0Y2VhYTgwNTkz
+Li4zMzY1ZDE5YTMwM2QgMTAwNjQ0DQo+IC0tLSBhL2RyaXZlcnMvbWVkaWEvaTJjL292ODg1Ni5j
+DQo+ICsrKyBiL2RyaXZlcnMvbWVkaWEvaTJjL292ODg1Ni5jDQo+IEBAIC0xNDgsMTk2ICsxNDgs
+NiBAQCBzdGF0aWMgY29uc3Qgc3RydWN0IG92ODg1Nl9yZWcgbWlwaV9kYXRhX3JhdGVfMzYwbWJw
+c1tdID0gew0KPiAgCXsweDAzMWUsIDB4MGN9LA0KPiAgfTsNCj4gIA0KPiAtc3RhdGljIGNvbnN0
+IHN0cnVjdCBvdjg4NTZfcmVnIG1vZGVfMzI4MHgyNDY0X3JlZ3NbXSA9IHsNCj4gLQl7MHgzMDAw
+LCAweDIwfSwNCj4gLQl7MHgzMDAzLCAweDA4fSwNCj4gLQl7MHgzMDBlLCAweDIwfSwNCj4gLQl7
+MHgzMDEwLCAweDAwfSwNCj4gLQl7MHgzMDE1LCAweDg0fSwNCj4gLQl7MHgzMDE4LCAweDcyfSwN
+Cj4gLQl7MHgzMDIxLCAweDIzfSwNCj4gLQl7MHgzMDMzLCAweDI0fSwNCj4gLQl7MHgzNTAwLCAw
+eDAwfSwNCj4gLQl7MHgzNTAxLCAweDlhfSwNCj4gLQl7MHgzNTAyLCAweDIwfSwNCj4gLQl7MHgz
+NTAzLCAweDA4fSwNCj4gLQl7MHgzNTA1LCAweDgzfSwNCj4gLQl7MHgzNTA4LCAweDAxfSwNCj4g
+LQl7MHgzNTA5LCAweDgwfSwNCj4gLQl7MHgzNTBjLCAweDAwfSwNCj4gLQl7MHgzNTBkLCAweDgw
+fSwNCj4gLQl7MHgzNTBlLCAweDA0fSwNCj4gLQl7MHgzNTBmLCAweDAwfSwNCj4gLQl7MHgzNTEw
+LCAweDAwfSwNCj4gLQl7MHgzNTExLCAweDAyfSwNCj4gLQl7MHgzNTEyLCAweDAwfSwNCj4gLQl7
+MHgzNjAwLCAweDcyfSwNCj4gLQl7MHgzNjAxLCAweDQwfSwNCj4gLQl7MHgzNjAyLCAweDMwfSwN
+Cj4gLQl7MHgzNjEwLCAweGM1fSwNCj4gLQl7MHgzNjExLCAweDU4fSwNCj4gLQl7MHgzNjEyLCAw
+eDVjfSwNCj4gLQl7MHgzNjEzLCAweGNhfSwNCj4gLQl7MHgzNjE0LCAweDIwfSwNCj4gLQl7MHgz
+NjI4LCAweGZmfSwNCj4gLQl7MHgzNjI5LCAweGZmfSwNCj4gLQl7MHgzNjJhLCAweGZmfSwNCj4g
+LQl7MHgzNjMzLCAweDEwfSwNCj4gLQl7MHgzNjM0LCAweDEwfSwNCj4gLQl7MHgzNjM1LCAweDEw
+fSwNCj4gLQl7MHgzNjM2LCAweDEwfSwNCj4gLQl7MHgzNjYzLCAweDA4fSwNCj4gLQl7MHgzNjY5
+LCAweDM0fSwNCj4gLQl7MHgzNjZlLCAweDEwfSwNCj4gLQl7MHgzNzA2LCAweDg2fSwNCj4gLQl7
+MHgzNzBiLCAweDdlfSwNCj4gLQl7MHgzNzE0LCAweDIzfSwNCj4gLQl7MHgzNzMwLCAweDEyfSwN
+Cj4gLQl7MHgzNzMzLCAweDEwfSwNCj4gLQl7MHgzNzY0LCAweDAwfSwNCj4gLQl7MHgzNzY1LCAw
+eDAwfSwNCj4gLQl7MHgzNzY5LCAweDYyfSwNCj4gLQl7MHgzNzZhLCAweDJhfSwNCj4gLQl7MHgz
+NzZiLCAweDMwfSwNCj4gLQl7MHgzNzgwLCAweDAwfSwNCj4gLQl7MHgzNzgxLCAweDI0fSwNCj4g
+LQl7MHgzNzgyLCAweDAwfSwNCj4gLQl7MHgzNzgzLCAweDIzfSwNCj4gLQl7MHgzNzk4LCAweDJm
+fSwNCj4gLQl7MHgzN2ExLCAweDYwfSwNCj4gLQl7MHgzN2E4LCAweDZhfSwNCj4gLQl7MHgzN2Fi
+LCAweDNmfSwNCj4gLQl7MHgzN2MyLCAweDA0fSwNCj4gLQl7MHgzN2MzLCAweGYxfSwNCj4gLQl7
+MHgzN2M5LCAweDgwfSwNCj4gLQl7MHgzN2NiLCAweDE2fSwNCj4gLQl7MHgzN2NjLCAweDE2fSwN
+Cj4gLQl7MHgzN2NkLCAweDE2fSwNCj4gLQl7MHgzN2NlLCAweDE2fSwNCj4gLQl7MHgzODAwLCAw
+eDAwfSwNCj4gLQl7MHgzODAxLCAweDAwfSwNCj4gLQl7MHgzODAyLCAweDAwfSwNCj4gLQl7MHgz
+ODAzLCAweDA2fSwNCj4gLQl7MHgzODA0LCAweDBjfSwNCj4gLQl7MHgzODA1LCAweGRmfSwNCj4g
+LQl7MHgzODA2LCAweDA5fSwNCj4gLQl7MHgzODA3LCAweGE3fSwNCj4gLQl7MHgzODA4LCAweDBj
+fSwNCj4gLQl7MHgzODA5LCAweGQwfSwNCj4gLQl7MHgzODBhLCAweDA5fSwNCj4gLQl7MHgzODBi
+LCAweGEwfSwNCj4gLQl7MHgzODBjLCAweDA3fSwNCj4gLQl7MHgzODBkLCAweDg4fSwNCj4gLQl7
+MHgzODBlLCAweDA5fSwNCj4gLQl7MHgzODBmLCAweGI4fSwNCj4gLQl7MHgzODEwLCAweDAwfSwN
+Cj4gLQl7MHgzODExLCAweDAwfSwNCj4gLQl7MHgzODEyLCAweDAwfSwNCj4gLQl7MHgzODEzLCAw
+eDAxfSwNCj4gLQl7MHgzODE0LCAweDAxfSwNCj4gLQl7MHgzODE1LCAweDAxfSwNCj4gLQl7MHgz
+ODE2LCAweDAwfSwNCj4gLQl7MHgzODE3LCAweDAwfSwNCj4gLQl7MHgzODE4LCAweDAwfSwNCj4g
+LQl7MHgzODE5LCAweDEwfSwNCj4gLQl7MHgzODIwLCAweDgwfSwNCj4gLQl7MHgzODIxLCAweDQ2
+fSwNCj4gLQl7MHgzODJhLCAweDAxfSwNCj4gLQl7MHgzODJiLCAweDAxfSwNCj4gLQl7MHgzODMw
+LCAweDA2fSwNCj4gLQl7MHgzODM2LCAweDAyfSwNCj4gLQl7MHgzODYyLCAweDA0fSwNCj4gLQl7
+MHgzODYzLCAweDA4fSwNCj4gLQl7MHgzY2MwLCAweDMzfSwNCj4gLQl7MHgzZDg1LCAweDE3fSwN
+Cj4gLQl7MHgzZDhjLCAweDczfSwNCj4gLQl7MHgzZDhkLCAweGRlfSwNCj4gLQl7MHg0MDAxLCAw
+eGUwfSwNCj4gLQl7MHg0MDAzLCAweDQwfSwNCj4gLQl7MHg0MDA4LCAweDAwfSwNCj4gLQl7MHg0
+MDA5LCAweDBifSwNCj4gLQl7MHg0MDBhLCAweDAwfSwNCj4gLQl7MHg0MDBiLCAweDg0fSwNCj4g
+LQl7MHg0MDBmLCAweDgwfSwNCj4gLQl7MHg0MDEwLCAweGYwfSwNCj4gLQl7MHg0MDExLCAweGZm
+fSwNCj4gLQl7MHg0MDEyLCAweDAyfSwNCj4gLQl7MHg0MDEzLCAweDAxfSwNCj4gLQl7MHg0MDE0
+LCAweDAxfSwNCj4gLQl7MHg0MDE1LCAweDAxfSwNCj4gLQl7MHg0MDQyLCAweDAwfSwNCj4gLQl7
+MHg0MDQzLCAweDgwfSwNCj4gLQl7MHg0MDQ0LCAweDAwfSwNCj4gLQl7MHg0MDQ1LCAweDgwfSwN
+Cj4gLQl7MHg0MDQ2LCAweDAwfSwNCj4gLQl7MHg0MDQ3LCAweDgwfSwNCj4gLQl7MHg0MDQ4LCAw
+eDAwfSwNCj4gLQl7MHg0MDQ5LCAweDgwfSwNCj4gLQl7MHg0MDQxLCAweDAzfSwNCj4gLQl7MHg0
+MDRjLCAweDIwfSwNCj4gLQl7MHg0MDRkLCAweDAwfSwNCj4gLQl7MHg0MDRlLCAweDIwfSwNCj4g
+LQl7MHg0MjAzLCAweDgwfSwNCj4gLQl7MHg0MzA3LCAweDMwfSwNCj4gLQl7MHg0MzE3LCAweDAw
+fSwNCj4gLQl7MHg0NTAzLCAweDA4fSwNCj4gLQl7MHg0NjAxLCAweDgwfSwNCj4gLQl7MHg0ODAw
+LCAweDQ0fSwNCj4gLQl7MHg0ODE2LCAweDUzfSwNCj4gLQl7MHg0ODFiLCAweDU4fSwNCj4gLQl7
+MHg0ODFmLCAweDI3fSwNCj4gLQl7MHg0ODM3LCAweDE2fSwNCj4gLQl7MHg0ODNjLCAweDBmfSwN
+Cj4gLQl7MHg0ODRiLCAweDA1fSwNCj4gLQl7MHg1MDAwLCAweDU3fSwNCj4gLQl7MHg1MDAxLCAw
+eDBhfSwNCj4gLQl7MHg1MDA0LCAweDA0fSwNCj4gLQl7MHg1MDJlLCAweDAzfSwNCj4gLQl7MHg1
+MDMwLCAweDQxfSwNCj4gLQl7MHg1NzgwLCAweDE0fSwNCj4gLQl7MHg1NzgxLCAweDBmfSwNCj4g
+LQl7MHg1NzgyLCAweDQ0fSwNCj4gLQl7MHg1NzgzLCAweDAyfSwNCj4gLQl7MHg1Nzg0LCAweDAx
+fSwNCj4gLQl7MHg1Nzg1LCAweDAxfSwNCj4gLQl7MHg1Nzg2LCAweDAwfSwNCj4gLQl7MHg1Nzg3
+LCAweDA0fSwNCj4gLQl7MHg1Nzg4LCAweDAyfSwNCj4gLQl7MHg1Nzg5LCAweDBmfSwNCj4gLQl7
+MHg1NzhhLCAweGZkfSwNCj4gLQl7MHg1NzhiLCAweGY1fSwNCj4gLQl7MHg1NzhjLCAweGY1fSwN
+Cj4gLQl7MHg1NzhkLCAweDAzfSwNCj4gLQl7MHg1NzhlLCAweDA4fSwNCj4gLQl7MHg1NzhmLCAw
+eDBjfSwNCj4gLQl7MHg1NzkwLCAweDA4fSwNCj4gLQl7MHg1NzkxLCAweDA0fSwNCj4gLQl7MHg1
+NzkyLCAweDAwfSwNCj4gLQl7MHg1NzkzLCAweDUyfSwNCj4gLQl7MHg1Nzk0LCAweGEzfSwNCj4g
+LQl7MHg1Nzk1LCAweDAyfSwNCj4gLQl7MHg1Nzk2LCAweDIwfSwNCj4gLQl7MHg1Nzk3LCAweDIw
+fSwNCj4gLQl7MHg1Nzk4LCAweGQ1fSwNCj4gLQl7MHg1Nzk5LCAweGQ1fSwNCj4gLQl7MHg1Nzlh
+LCAweDAwfSwNCj4gLQl7MHg1NzliLCAweDUwfSwNCj4gLQl7MHg1NzljLCAweDAwfSwNCj4gLQl7
+MHg1NzlkLCAweDJjfSwNCj4gLQl7MHg1NzllLCAweDBjfSwNCj4gLQl7MHg1NzlmLCAweDQwfSwN
+Cj4gLQl7MHg1N2EwLCAweDA5fSwNCj4gLQl7MHg1N2ExLCAweDQwfSwNCj4gLQl7MHg1OWY4LCAw
+eDNkfSwNCj4gLQl7MHg1YTA4LCAweDAyfSwNCj4gLQl7MHg1YjAwLCAweDAyfSwNCj4gLQl7MHg1
+YjAxLCAweDEwfSwNCj4gLQl7MHg1YjAyLCAweDAzfSwNCj4gLQl7MHg1YjAzLCAweGNmfSwNCj4g
+LQl7MHg1YjA1LCAweDZjfSwNCj4gLQl7MHg1ZTAwLCAweDAwfQ0KPiAtfTsNCj4gLQ0KPiAgc3Rh
+dGljIGNvbnN0IHN0cnVjdCBvdjg4NTZfcmVnIG1vZGVfMzI2NHgyNDQ4X3JlZ3NbXSA9IHsNCj4g
+IAl7MHgwMTAzLCAweDAxfSwNCj4gIAl7MHgwMzAyLCAweDNjfSwNCj4gQEAgLTk2MywxOCArNzcz
+LDYgQEAgc3RhdGljIGNvbnN0IHN0cnVjdCBvdjg4NTZfbGlua19mcmVxX2NvbmZpZyBsaW5rX2Zy
+ZXFfY29uZmlnc1tdID0gew0KPiAgfTsNCj4gIA0KPiAgc3RhdGljIGNvbnN0IHN0cnVjdCBvdjg4
+NTZfbW9kZSBzdXBwb3J0ZWRfbW9kZXNbXSA9IHsNCj4gLQl7DQo+IC0JCS53aWR0aCA9IDMyODAs
+DQo+IC0JCS5oZWlnaHQgPSAyNDY0LA0KPiAtCQkuaHRzID0gMTkyOCwNCj4gLQkJLnZ0c19kZWYg
+PSAyNDg4LA0KPiAtCQkudnRzX21pbiA9IDI0ODgsDQo+IC0JCS5yZWdfbGlzdCA9IHsNCj4gLQkJ
+CS5udW1fb2ZfcmVncyA9IEFSUkFZX1NJWkUobW9kZV8zMjgweDI0NjRfcmVncyksDQo+IC0JCQku
+cmVncyA9IG1vZGVfMzI4MHgyNDY0X3JlZ3MsDQo+IC0JCX0sDQo+IC0JCS5saW5rX2ZyZXFfaW5k
+ZXggPSBPVjg4NTZfTElOS19GUkVRXzcyME1CUFMsDQo+IC0JfSwNCg0KSWYgMzI4MHgyNDY0IHJl
+c29sdXRpb24gaXMgcmVtb3ZlZCwgYmF5ZXIgb3JkZXIgbmVlZHMgdG8gYmUgdXBkYXRlZCBpbg0K
+dGhlIG1lYW50aW1lLiBGcm9tIE9WODg1NidzIGRhdGFzaGVldCwgYmF5ZXIgb3JkZXIgdHVybnMg
+dG8gYmUgQkdHUiBpZg0Kc2Vuc29yIGFkb3B0cyBmdWxsIG1vZGUgKDMyNjR4MjQ0OCkgb3IgYmlu
+bmluZyBtb2RlICgxNjMyeDEyMjQpLg0KDQo+ICAJew0KPiAgCQkud2lkdGggPSAzMjY0LA0KPiAg
+CQkuaGVpZ2h0ID0gMjQ0OCwNCg0K
 
-Results of the daily build of media_tree:
-
-date:			Tue Nov 24 05:00:12 CET 2020
-media-tree git hash:	9463e07df8e0f93931e32c6f415d3f82bda63f35
-media_build git hash:	a542160125b8904cf8b55ce487bf5d4c48e3d401
-v4l-utils git hash:	11da65eee7a271bba3f21d8117cdac428fe3a91e
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 63a52153f10bfed851877e415b3507560c94cfd1
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
-sparse: OK
-smatch: OK
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Tuesday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Tuesday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
