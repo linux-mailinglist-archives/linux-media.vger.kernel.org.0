@@ -2,52 +2,52 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 634662C3115
-	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 20:45:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A5B82C3121
+	for <lists+linux-media@lfdr.de>; Tue, 24 Nov 2020 20:46:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727389AbgKXTpJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 24 Nov 2020 14:45:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35692 "EHLO
+        id S1727374AbgKXTpI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 24 Nov 2020 14:45:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35686 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726982AbgKXTog (ORCPT
+        with ESMTP id S1727211AbgKXTou (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 24 Nov 2020 14:44:36 -0500
+        Tue, 24 Nov 2020 14:44:50 -0500
 Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A5BFEC061A53
-        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 11:44:35 -0800 (PST)
-Received: by mail-wr1-x443.google.com with SMTP id i2so4502579wrs.4
-        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 11:44:35 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 34970C08E85F
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 11:44:50 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id r17so23605461wrw.1
+        for <linux-media@vger.kernel.org>; Tue, 24 Nov 2020 11:44:50 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references
          :mime-version:content-transfer-encoding;
-        bh=eR2VWY/uBkZ8OQEHImWEeJT/rcGPCff8wPihf7Jld5M=;
-        b=A1J4BPeeNT7yrkRrjaash/ObA12oqLXqva2RiCKNwn8pXH4B82hyrnDC1qOlAUehpo
-         AdeJQMEynjujsKrEwnks4sBT37dmB/XAEt+e122O9CLyu93pqUl+AvuCanZAbhKsTBXr
-         GudbMVWesoscbiJKMq7jlO/gjtgYXb1D5MaWGt6u0q8TMlv0poGqlRZ9+8wJ01IGRJib
-         SiG4ihHTtFziZ72Q9xrA7c7d6XZWZVhthZ5Br7zuNU61Byxk38+icuwZHTLSenPdTwKp
-         5GUPemDK4FAEPJMbT2fmdAgMTqijobz7+niz+E3Kcg6QW5AdLpye2o+AbBhjtl1sg+x5
-         pl0Q==
+        bh=LAMUF0M+5e5QxYGdyHTIO/CIT9L6gglBGUvPq+MzHBg=;
+        b=jzIcHL0eMMZm6DtlZ9fd+0W/Qjf5OD3r//36xPdi8sot0v4hYcjWBJGo5JsdiMAylp
+         59cVzB0oYdEJPt6mdkziyQpaCf9SGy3mSSb/GS6zD2UgphuNsEksk+mdbzN58DTfIKHq
+         EAOM2xRHO5Peg/72jxA8+vV69v1RYabIKSnergZZ0ZMBcl+60CIl9Iq3i0vVOQ24h4iG
+         GvSC+Xkk8n07CN7qKU+XEd44EJWCpmiRlNYWrlWHzqAYUhnJHcFSBkYV+/Ut8MP8+xxf
+         pr0QrRWs6YAUEhSh5t8ghtWxnO/bqpAlEyi4IUA21Oj2pQc67sOd7YpbMJx2fSqqXAju
+         XxXw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references:mime-version:content-transfer-encoding;
-        bh=eR2VWY/uBkZ8OQEHImWEeJT/rcGPCff8wPihf7Jld5M=;
-        b=oL6suSkOIyCsF1QAigq6lwGk+vDPd/8/7yWqFmExECCWtFCRU4sYBFnsvYsvZCyolI
-         eM70wuUMztMaB7dvlIyt+1J2zhzXPeAsxPTZX8BCjIrvKnnnn8Un9CXCMvjm2sj/GBED
-         bDwNN7hgc+xGVRq6gYjgNTUj6Z6DZB+NG71AcsUT/yrgtqcqG3h1N8KnAJ6Mk+0/ynbP
-         UlDZyTPit/CQfZAkdSEd0b5X1ZvpB79HFf9bAlPNDm1UWibwMYGqw9rvdgxTeDF37aeg
-         w2Hh/sftvjE8WmZL74uoxZdDZODyqcjL7jrQ/N2q1rUe6rqkqQknRazMuLFZFQTdjJzW
-         Fl+Q==
-X-Gm-Message-State: AOAM533k50nMwsEdCBJBkAStGFNaKBiVjAoQYz0fUjZnYdpFcR3NcjJ3
-        rLfC3Sbvyhf+YhaE29Uf6+VAlg==
-X-Google-Smtp-Source: ABdhPJxlONImqsImoSyKBlbOvdessgEk2uRK+pugMfFusdmCcYTUJjt30D2TUP0G+2Gd5slDF0M9HQ==
-X-Received: by 2002:adf:e84e:: with SMTP id d14mr100154wrn.190.1606247074433;
-        Tue, 24 Nov 2020 11:44:34 -0800 (PST)
+        bh=LAMUF0M+5e5QxYGdyHTIO/CIT9L6gglBGUvPq+MzHBg=;
+        b=pIBGPLaKnMYf89lsdOJDtsHJ1MjjYwxD1D/5ci77bYT6kqUoTFo2OP3ajyK4IXsFz9
+         SDnLRLSM32w33Vap1lp+IPrvgv5RL1i6gHifcMJjtMrx7WlDJ0STBXLMMPeuFC5CZazk
+         J59c4Cgzyx66AZQ6BCPEPXoYOse2QwPBWcl90pMXRpk9lFnAvHFHyjkB1UcoyD7FNaJ6
+         EZHKqLTjVyuRkgJIUEeNe/78JPVnt0mucsI/MUqM3mRirR+V3y8BHTYDCHEn0Tgc2gXa
+         A89Z3Che2dfWwAU0NK5p7JH8kNgwBqiR235jeglhoGjYPAMqpq3iDjbtKOhhOm7flhRY
+         RJxA==
+X-Gm-Message-State: AOAM533uOyc+DEwbyIUXTLJJWyWB+oKAcc01WRDePT0gn7dVglG6HUCS
+        pvyOWcMlxjWMn6qpkwHRD7+fyg==
+X-Google-Smtp-Source: ABdhPJwGpjx8U/47ZgWVIMjepZQiRgQQJIP/hnzr40LeSboZi3EXQzjARjAY1rA2rTYNNnVeMWqbpA==
+X-Received: by 2002:a5d:690c:: with SMTP id t12mr44599wru.405.1606247088972;
+        Tue, 24 Nov 2020 11:44:48 -0800 (PST)
 Received: from dell.default ([91.110.221.235])
-        by smtp.gmail.com with ESMTPSA id d134sm200511wmd.8.2020.11.24.11.44.33
+        by smtp.gmail.com with ESMTPSA id d134sm200511wmd.8.2020.11.24.11.44.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 24 Nov 2020 11:44:33 -0800 (PST)
+        Tue, 24 Nov 2020 11:44:48 -0800 (PST)
 From:   Lee Jones <lee.jones@linaro.org>
 To:     lee.jones@linaro.org
 Cc:     linux-kernel@vger.kernel.org,
@@ -58,9 +58,9 @@ Cc:     linux-kernel@vger.kernel.org,
         Sumit Semwal <sumit.semwal@linaro.org>,
         amd-gfx@lists.freedesktop.org, dri-devel@lists.freedesktop.org,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 28/40] drm/amd/amdgpu/gfx_v10_0: Make local function 'gfx_v10_0_rlc_stop()' static
-Date:   Tue, 24 Nov 2020 19:38:12 +0000
-Message-Id: <20201124193824.1118741-29-lee.jones@linaro.org>
+Subject: [PATCH 40/40] drm/amd/amdgpu/amdgpu_uvd: Add description for amdgpu_uvd_cs_msg_decode()'s 'buf_sizes' param
+Date:   Tue, 24 Nov 2020 19:38:24 +0000
+Message-Id: <20201124193824.1118741-41-lee.jones@linaro.org>
 X-Mailer: git-send-email 2.25.1
 In-Reply-To: <20201124193824.1118741-1-lee.jones@linaro.org>
 References: <20201124193824.1118741-1-lee.jones@linaro.org>
@@ -73,7 +73,7 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Fixes the following W=1 kernel build warning(s):
 
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c:5008:6: warning: no previous prototype for ‘gfx_v10_0_rlc_stop’ [-Wmissing-prototypes]
+ drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c:555: warning: Function parameter or member 'buf_sizes' not described in 'amdgpu_uvd_cs_msg_decode'
 
 Cc: Alex Deucher <alexander.deucher@amd.com>
 Cc: "Christian König" <christian.koenig@amd.com>
@@ -86,22 +86,21 @@ Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 Signed-off-by: Lee Jones <lee.jones@linaro.org>
 ---
- drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-index d4760f4e269a1..9eb886ae5a35e 100644
---- a/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-+++ b/drivers/gpu/drm/amd/amdgpu/gfx_v10_0.c
-@@ -5005,7 +5005,7 @@ static int gfx_v10_0_init_csb(struct amdgpu_device *adev)
- 	return 0;
- }
- 
--void gfx_v10_0_rlc_stop(struct amdgpu_device *adev)
-+static void gfx_v10_0_rlc_stop(struct amdgpu_device *adev)
- {
- 	u32 tmp = RREG32_SOC15(GC, 0, mmRLC_CNTL);
- 
+diff --git a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+index f8f0384a8d9ad..7c5b60e534822 100644
+--- a/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
++++ b/drivers/gpu/drm/amd/amdgpu/amdgpu_uvd.c
+@@ -547,6 +547,7 @@ static int amdgpu_uvd_cs_pass1(struct amdgpu_uvd_cs_ctx *ctx)
+  *
+  * @adev: amdgpu_device pointer
+  * @msg: pointer to message structure
++ * @buf_sizes: placeholder to put the different buffer lengths
+  *
+  * Peek into the decode message and calculate the necessary buffer sizes.
+  */
 -- 
 2.25.1
 
