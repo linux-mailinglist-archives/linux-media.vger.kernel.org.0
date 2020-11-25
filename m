@@ -2,129 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4CF572C40D9
-	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 14:05:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0A9BA2C40EB
+	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 14:09:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729478AbgKYNDw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Nov 2020 08:03:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54788 "EHLO
+        id S1729309AbgKYNJp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Nov 2020 08:09:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55688 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725616AbgKYNDv (ORCPT
+        with ESMTP id S1728944AbgKYNJp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Nov 2020 08:03:51 -0500
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2BF94C061A4F
-        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 05:03:50 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id u12so1860057wrt.0
-        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 05:03:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=BXaJmG+wTXtQ1LIgHLXOdZkWb3psJr3hG12v2PvvxlE=;
-        b=Tb1NODJpg8kwIwdN7oQj+EV58bHxyDFPIYQMJPF4FNz9of+yAPa2kYA92zKU+hq3Uy
-         zPV1ZmyDxYUqI5ymigRmZgnaFgok6chy6EymiPCZ5nzYcd5iQweT957e+FRN2j46+XR8
-         Po9Sl4pv+m1+8H9OwgBkx97tM4iOOmWHOlW9yYMtWte6kMOG3RMQxDxIoI4yuYbvv/OV
-         yGvNeg3TlqNi/bMSi4/Odx3euErYZww+yHDozaDO63ijUqjMKeP0ij1aygvjiW4odH+G
-         StSjnOnjf0KKV/Ir4BdTibLgYDocoeZFpmChDi33FrIFnyPazBstgFrUgprJktbqS52D
-         7UwA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=BXaJmG+wTXtQ1LIgHLXOdZkWb3psJr3hG12v2PvvxlE=;
-        b=UrS0epTAE/k5RyOXq1J4CY3QTPNQXOVI0zjVAg3ZlRRpxAblW0C9EOV09jPr706Rr3
-         PxnXz4kMZXC9TFqDyfKp3UaDZP6ZUok1xdcf0Io8whL2cCrwVS6hb/7pxko8/hYW0kmp
-         KQ/V35F8k3RvoRwUTAWMByWnCkBbTg73isxcsjTWjiPVAyQr8Q6Tf6zHdNcJZbL05Gs2
-         CNyfvL/EB19ebUjGtz/YJq0PRkqdmoM0UkZ4d77qwuW7KsAPd8/TYRxraeC0CE2ae4ET
-         I6QG9OxK/v9PEyHUPAlEF6PuG1/npsozQNVmJWYbDthmsS1QZrMezlVYLQ6gW+Qdfluu
-         xtJw==
-X-Gm-Message-State: AOAM5327kIabh8U7G0JJ6eV6S0RHchZskyWj2/4dFdwXopDzbyEZufft
-        Acm6I/rRFNZ+9uUUj2lrTR/tww==
-X-Google-Smtp-Source: ABdhPJxyygtdb4BfwuO8knoOC+REpXaIwuegyRa3gkpJ6Ld63hatAPSPzBPzrzXpMPFH7Ub8N0lgHg==
-X-Received: by 2002:adf:c702:: with SMTP id k2mr4175742wrg.156.1606309428614;
-        Wed, 25 Nov 2020 05:03:48 -0800 (PST)
-Received: from [192.168.0.3] (hst-221-112.medicom.bg. [84.238.221.112])
-        by smtp.googlemail.com with ESMTPSA id z6sm4628966wmi.1.2020.11.25.05.03.47
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 25 Nov 2020 05:03:48 -0800 (PST)
-Subject: Re: [PATCH 3/3] media: hfi_venus: Request interrupt for sync cmds
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vikash Garodia <vgarodia@codeaurora.org>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Dikshita Agarwal <dikshita@codeaurora.org>
-References: <20201120001037.10032-1-stanimir.varbanov@linaro.org>
- <20201120001037.10032-4-stanimir.varbanov@linaro.org>
- <CAPBb6MWsaHQtQYh8tQnGjwPCrCXeCnf08jL+yxM9ZkCBFNW5mg@mail.gmail.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <595f8e22-0616-ff8f-78f3-991ef94ebf65@linaro.org>
-Date:   Wed, 25 Nov 2020 15:03:46 +0200
+        Wed, 25 Nov 2020 08:09:45 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6D702C0613D4;
+        Wed, 25 Nov 2020 05:09:45 -0800 (PST)
+Received: from [192.168.0.20] (cpc89244-aztw30-2-0-cust3082.18-1.cable.virginm.net [86.31.172.11])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 026E3292;
+        Wed, 25 Nov 2020 14:09:41 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1606309782;
+        bh=reRVd882nXi3LuDXhBCQ4MjPHfFv1/eQYp3Emoa1WoI=;
+        h=Subject:To:Cc:References:From:Reply-To:Date:In-Reply-To:From;
+        b=Tixe2w+Vwwh6yuzZYH/RDp24sGNqYAUnXFx63zwO3RWCPQ67Pzu48CW6tZy74DRxS
+         vSjLD1sOi/q90/UwM/ncolZbisAdwZ+u5ymtoXxetTA0CiT5veAPgmzP2mBcym28te
+         +tFzg6Dt7n9xfZ787hfXS7UX4fSfR39NWhTMVwyk=
+Subject: Re: [PATCH 0/3] adv748x: Add support for s2ram
+To:     =?UTF-8?Q?Niklas_S=c3=b6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        linux-media@vger.kernel.org
+Cc:     linux-renesas-soc@vger.kernel.org
+References: <20201122163637.3590465-1-niklas.soderlund+renesas@ragnatech.se>
+From:   Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+Reply-To: kieran.bingham+renesas@ideasonboard.com
+Organization: Ideas on Board
+Message-ID: <7ec9c2ba-ea9c-2ce5-8ecf-6239448c711f@ideasonboard.com>
+Date:   Wed, 25 Nov 2020 13:09:39 +0000
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <CAPBb6MWsaHQtQYh8tQnGjwPCrCXeCnf08jL+yxM9ZkCBFNW5mg@mail.gmail.com>
+In-Reply-To: <20201122163637.3590465-1-niklas.soderlund+renesas@ragnatech.se>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Language: en-GB
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Niklas,
 
-
-On 11/25/20 10:08 AM, Alexandre Courbot wrote:
-> On Fri, Nov 20, 2020 at 9:12 AM Stanimir Varbanov
-> <stanimir.varbanov@linaro.org> wrote:
->>
->> From: Vikash Garodia <vgarodia@codeaurora.org>
->>
->> For synchronous commands, update the message queue variable.
->> This would inform video firmware to raise interrupt on host
->> CPU whenever there is a response for such commands.
->>
->> Signed-off-by: Vikash Garodia <vgarodia@codeaurora.org>
->> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->> ---
->>  drivers/media/platform/qcom/venus/hfi_venus.c | 74 ++++++++++---------
->>  1 file changed, 41 insertions(+), 33 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
->> index 4be4a75ddcb6..b8fdb464ba9c 100644
->> --- a/drivers/media/platform/qcom/venus/hfi_venus.c
->> +++ b/drivers/media/platform/qcom/venus/hfi_venus.c
->> @@ -372,7 +372,7 @@ static void venus_soft_int(struct venus_hfi_device *hdev)
->>  }
->>
->>  static int venus_iface_cmdq_write_nolock(struct venus_hfi_device *hdev,
->> -                                        void *pkt)
->> +                                        void *pkt, bool sync)
->>  {
->>         struct device *dev = hdev->core->dev;
->>         struct hfi_pkt_hdr *cmd_packet;
->> @@ -397,15 +397,23 @@ static int venus_iface_cmdq_write_nolock(struct venus_hfi_device *hdev,
->>         if (rx_req)
->>                 venus_soft_int(hdev);
->>
->> +       /* Inform video firmware to raise interrupt for synchronous commands */
->> +       queue = &hdev->queues[IFACEQ_MSG_IDX];
->> +       if (sync) {
->> +               queue->qhdr->rx_req = 1;
->> +               /* ensure rx_req is updated in memory */
->> +               wmb();
->> +       }
+On 22/11/2020 16:36, Niklas Söderlund wrote:
+> Hello,
 > 
-> Wouldn't it be safer to do this before calling venus_soft_int()? I
-> don't know what the firmware is supposed to do with rx_req but
-> intuitively it looks like it should be set before we signal it.
+> This series enables usage of the ADV748x after the system have been 
+> suspended to ram. During s2ram the ADV748x may be powered down and thus 
+> lose its configuration from probe time. The configuration contains  
+> among other things the i2c slave address mappings for the different 
+> blocks inside the ADV748x. If this is lost the hardware listens to the 
+> "wrong" i2c addresses and becomes inaccessible.
+> 
+> Example trying to read the analog standard before and after s2ram with 
+> and without this this series.
 > 
 
-I'll leave Vikash to comment. IMO this is a good suggestion.
+Should we be considering runtime_pm for this instead?
 
-<cut>
+--
+Kieran
 
--- 
-regards,
-Stan
+
+> Without this series,
+> 
+>   # subdev=$(grep -l "adv748x 4-0070 afe" /sys/class/video4linux/*/name | sed 's#.*video4linux\(.*\)/name#/dev\1#g')
+>   # v4l2-ctl --get-detected-standard -d $subdev
+>   Video Standard = 0x000000ff
+>           PAL-B/B1/G/H/I/D/D1/K
+>   # echo on > /sys/bus/i2c/drivers/bd9571mwv/*/bd9571mwv-regulator*/backup_mode
+>   ** flipp SW23 off **
+>   # echo mem > /sys/power/state
+>   ** flipp SW23 on **
+>   # v4l2-ctl --get-detected-standard -d $subdev
+>   [  502.753723] adv748x 4-0070: error reading 63, 02
+>   [  502.866437] adv748x 4-0070: error reading 63, 02
+>   VIDIOC_QUERYSTD: failed: No such device or address
+> 
+> With this series,
+> 
+>   # subdev=$(grep -l "adv748x 4-0070 afe" /sys/class/video4linux/*/name | sed 's#.*video4linux\(.*\)/name#/dev\1#g')
+>   # v4l2-ctl --get-detected-standard -d $subdev
+>   Video Standard = 0x000000ff
+>           PAL-B/B1/G/H/I/D/D1/K
+>   # echo on > /sys/bus/i2c/drivers/bd9571mwv/*/bd9571mwv-regulator*/backup_mode
+>   ** flipp SW23 off **
+>   # echo mem > /sys/power/state
+>   ** flipp SW23 on **
+>   # v4l2-ctl --get-detected-standard -d $subdev
+>   Video Standard = 0x000000ff
+>           PAL-B/B1/G/H/I/D/D1/K
+> 
+> Also any streaming while the system is suspended to ram fails to resume 
+> without this series due to the issue demonstrated above. This series is 
+> tested on R-Car M3-N on-top of latest media-tree.
+> 
+> Niklas Söderlund (3):
+>   adv748x: afe: Select input port when device is reset
+>   adv748x: csi2: Set virtual channel when device is reset
+>   adv748x: Configure device when resuming from sleep
+> 
+>  drivers/media/i2c/adv748x/adv748x-afe.c  |  6 +----
+>  drivers/media/i2c/adv748x/adv748x-core.c | 29 ++++++++++++++++++++++--
+>  drivers/media/i2c/adv748x/adv748x-csi2.c |  6 +----
+>  drivers/media/i2c/adv748x/adv748x.h      |  2 ++
+>  4 files changed, 31 insertions(+), 12 deletions(-)
+> 
+
