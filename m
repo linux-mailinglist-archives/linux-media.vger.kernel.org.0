@@ -2,116 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2FAAD2C4057
-	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 13:38:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D4B82C40C7
+	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 14:03:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729380AbgKYMh4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Nov 2020 07:37:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50726 "EHLO
+        id S1729293AbgKYNBI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Nov 2020 08:01:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54360 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726654AbgKYMh4 (ORCPT
+        with ESMTP id S1729086AbgKYNBH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Nov 2020 07:37:56 -0500
-Received: from mail-lj1-x241.google.com (mail-lj1-x241.google.com [IPv6:2a00:1450:4864:20::241])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0D58C0613D4
-        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 04:37:40 -0800 (PST)
-Received: by mail-lj1-x241.google.com with SMTP id b17so2083986ljf.12
-        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 04:37:40 -0800 (PST)
+        Wed, 25 Nov 2020 08:01:07 -0500
+Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BCEB1C0613D4
+        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 05:01:06 -0800 (PST)
+Received: by mail-wm1-x341.google.com with SMTP id c198so1945915wmd.0
+        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 05:01:06 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=52E/kGckX47/YFVLHUCD+7iLeZo5CiFQYz7tFvrv0pM=;
-        b=ZZIbH44H1Bk5JfpCWGFPENkd779/Q0CUuAmhZGycRsJVw0N+Kk6HOsq3EnffMgwBJk
-         9WBvN0E8LMcpSxfmzJHURfuGjK9nsF2iZ2IsiTCNEWc9X/cIw6Tzbsl0Pnqj6tcp+MAA
-         MShDBOPG7gjdIpvBD0NkcazqCSsIsgNaKIUUBUajLohuIYcJCy/3leIJjGa+wEeX4ZyE
-         vwjs+NTxG7KQjZSmE4t1LicMVfbQq7xgJ4IvW0c8ZU7gBboHg9Ng8/iCiDsBH3VrlTXH
-         2NB4+7vc9xa8sKZT8szL/Z4EMKGVjPNsdjx2UFSQmKu8mlUJYvdk7TqIkI8U0yao1hAp
-         J34Q==
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=irbsSXjHImcSLHJ6uxXDu2MKDqhSUoJJSkeWgL8xBoA=;
+        b=AJCg3v4STEBBRZaHLAE53XA3KcnbyMQzjsoXOCVgOtQnPzop3nkbwp553x5xqFIMQd
+         wAz6sVvPFfpFQnS3UWtT5pbzYJCp/iLZQgo93d3RPzIX1uKyhzGCLaW1XPj8H5JMzljf
+         bTLjMOMhE6N3+93TUjcobXv7XZUMubFPnW//4CSD1mYMfIzl852OCu6bhFaZHCmpxv8n
+         3eEDa5Sq/XkMZi4ZwK5/K94LmZte8lZ20pq4CHr2JpYBO42voDoKFnglO/RopT3FFhox
+         la4/k7bEVHKdgIhEanahTj2Ms05JzrU+pv8jgMPxy2ZKKTJ6uOGdD/Iq+UY7g0vrXJk0
+         DV2w==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=52E/kGckX47/YFVLHUCD+7iLeZo5CiFQYz7tFvrv0pM=;
-        b=JfGzLfopXbMq2m1aB76A6IfbAr34irxBGfYJ/RiuxyznHtVX1sMxOOmywvJN251nUj
-         UjobtUxO0/nLsVi6ul57zXppwUNaDO6AFSzXs1AVaGt21v1U+nLBE1fv4CaqQrfjlmHr
-         cDMZ/v634a81Oph/wBlwmDPlmXtl0+Lr5MXYKuH88LVOV1xkU0Y6RYFrfMJdMcC3OwnY
-         tWDkuS9mjilHA3+aZOjAbGwz7G9B2bDsTAmkS2Q+vYCcx7c3/O1gZNnhpraQaDTBhnfp
-         5QoncEnz8KNBhaeeSGQVpI5DTOiE3I8Wx6zOt0tMxyTIpc1uYfKmcpfYNdUqtWMRYJfc
-         KKgw==
-X-Gm-Message-State: AOAM5330Yl5H4vuvYSsghrHnaMjr38DvI6BWX5Qjqi/ep0HnKL2CtX0F
-        YBTWMQC3k92sDDzSMhoONhFy6A==
-X-Google-Smtp-Source: ABdhPJwxt3kMo26KgOWuDlpVa0JPk367ybLv9TNo6pT3rAqQEvZFy/fcEeojmZLMIpRdz48kLb3vYA==
-X-Received: by 2002:a2e:9550:: with SMTP id t16mr1224617ljh.117.1606307859184;
-        Wed, 25 Nov 2020 04:37:39 -0800 (PST)
-Received: from localhost.localdomain ([85.249.45.205])
-        by smtp.googlemail.com with ESMTPSA id z8sm230261ljh.74.2020.11.25.04.37.38
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2020 04:37:38 -0800 (PST)
-From:   Andrey Konovalov <andrey.konovalov@linaro.org>
-To:     mchehab@kernel.org, robert.foss@linaro.org
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=irbsSXjHImcSLHJ6uxXDu2MKDqhSUoJJSkeWgL8xBoA=;
+        b=b0V2ybv7puZiAKqf68s52Q+VPBVH4cT2fyGo8iqgm2HthdHfSycD9Do8EKt0Hp4acY
+         U+umbWaO1TBj/COCbeNdyS6FIpa545uea9suGe5XTRjKWyUq1isJjqp+03Aad6Z8Td4e
+         Zh+hRVzef2pFp/sdaWx5+vnz42nzhpb7eGkKeEKGN4saTwYhZgCY0+11nU08W2UJ1dQK
+         I9m9mXBJ+ZudCgUtRYujHVXa94nkxD6eAA203tF0kfSkG+OANMTzenPh1B1Xi/X6KC4+
+         dDejSlfChDcz+dBQsPh3gI0eSRsKT7faJBkyC5YmHy2maRjlcrla86PC+wGBVmzQ91JZ
+         512A==
+X-Gm-Message-State: AOAM533ovaEEVANk4reZHX/UJqylXsBXLSFpZot+ScRiuaBIn1G+8Wo9
+        PNHyGmE0JYWNeiGBb19OyZsRdw==
+X-Google-Smtp-Source: ABdhPJxBT007KlVzudG3ay9wbN5BHrb/bBbDAzKTJNgH+sjzEYq3ALv1ftOsxPP19AsfdL/U339OQQ==
+X-Received: by 2002:a1c:e1c5:: with SMTP id y188mr3853828wmg.81.1606309263056;
+        Wed, 25 Nov 2020 05:01:03 -0800 (PST)
+Received: from [192.168.0.3] (hst-221-27.medicom.bg. [84.238.221.27])
+        by smtp.googlemail.com with ESMTPSA id f18sm4686733wru.42.2020.11.25.05.01.01
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 25 Nov 2020 05:01:02 -0800 (PST)
+Subject: Re: [PATCH 2/3] venus: Limit HFI sessions to the maximum supported
+To:     Alexandre Courbot <acourbot@chromium.org>
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        peter.griffin@linaro.org,
-        Andrey Konovalov <andrey.konovalov@linaro.org>
-Subject: [PATCH 2/2] media: camss: Make use of V4L2_CAP_IO_MC
-Date:   Wed, 25 Nov 2020 15:37:10 +0300
-Message-Id: <20201125123710.28491-2-andrey.konovalov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201125123710.28491-1-andrey.konovalov@linaro.org>
-References: <20201125123710.28491-1-andrey.konovalov@linaro.org>
+        linux-kernel@vger.kernel.org,
+        Vikash Garodia <vgarodia@codeaurora.org>,
+        Mansur Alisha Shaik <mansur@codeaurora.org>,
+        Dikshita Agarwal <dikshita@codeaurora.org>
+References: <20201120001037.10032-1-stanimir.varbanov@linaro.org>
+ <20201120001037.10032-3-stanimir.varbanov@linaro.org>
+ <CAPBb6MUnXmtSKy9NwikYXjafgB+WM9TKEFjkYK16T2V7KRx=JQ@mail.gmail.com>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <8c6231b2-61c2-d432-aa47-ddc29de8da19@linaro.org>
+Date:   Wed, 25 Nov 2020 15:01:01 +0200
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <CAPBb6MUnXmtSKy9NwikYXjafgB+WM9TKEFjkYK16T2V7KRx=JQ@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Implement mbus_code filtering for format enumeration.
 
-Without this patch libcamera errors out with:
-"ERROR V4L2 v4l2_videodevice.cpp:982 /dev/video0[cap]: Media bus code
-filtering not supported by the device"
 
-This is the second version of this change which handles the case of
-several pixel formats corresponding to one media bus format correctly.
+On 11/25/20 5:46 AM, Alexandre Courbot wrote:
+> On Fri, Nov 20, 2020 at 9:12 AM Stanimir Varbanov
+> <stanimir.varbanov@linaro.org> wrote:
+>>
+>> Currently we rely on firmware to return error when we reach the maximum
+>> supported number of sessions. But this errors are happened at reqbuf
+>> time which is a bit later. The more reasonable way looks like is to
+>> return the error on driver open.
+>>
+>> To achieve that modify hfi_session_create to return error when we reach
+>> maximum count of sessions and thus refuse open.
+>>
+>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+>> ---
+>>  drivers/media/platform/qcom/venus/core.h      |  1 +
+>>  drivers/media/platform/qcom/venus/hfi.c       | 19 +++++++++++++++----
+>>  .../media/platform/qcom/venus/hfi_parser.c    |  3 +++
+>>  3 files changed, 19 insertions(+), 4 deletions(-)
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+>> index db0e6738281e..3a477fcdd3a8 100644
+>> --- a/drivers/media/platform/qcom/venus/core.h
+>> +++ b/drivers/media/platform/qcom/venus/core.h
+>> @@ -96,6 +96,7 @@ struct venus_format {
+>>  #define MAX_CAP_ENTRIES                32
+>>  #define MAX_ALLOC_MODE_ENTRIES 16
+>>  #define MAX_CODEC_NUM          32
+>> +#define MAX_SESSIONS           16
+>>
+>>  struct raw_formats {
+>>         u32 buftype;
+>> diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
+>> index 638ed5cfe05e..8420be6d3991 100644
+>> --- a/drivers/media/platform/qcom/venus/hfi.c
+>> +++ b/drivers/media/platform/qcom/venus/hfi.c
+>> @@ -175,6 +175,7 @@ static int wait_session_msg(struct venus_inst *inst)
+>>  int hfi_session_create(struct venus_inst *inst, const struct hfi_inst_ops *ops)
+>>  {
+>>         struct venus_core *core = inst->core;
+>> +       int ret;
+>>
+>>         if (!ops)
+>>                 return -EINVAL;
+>> @@ -183,12 +184,22 @@ int hfi_session_create(struct venus_inst *inst, const struct hfi_inst_ops *ops)
+>>         init_completion(&inst->done);
+>>         inst->ops = ops;
+>>
+>> -       mutex_lock(&core->lock);
+>> -       list_add_tail(&inst->list, &core->instances);
+>> -       atomic_inc(&core->insts_count);
+>> +       ret = mutex_lock_interruptible(&core->lock);
+>> +       if (ret)
+>> +               return ret;
+> 
+> Why do we change to mutex_lock_interruptible() here? This makes this
 
-Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
----
- drivers/media/platform/qcom/camss/camss-video.c | 10 ++++++++--
- 1 file changed, 8 insertions(+), 2 deletions(-)
+Because mutex_lock_interruptible is preferable in kernel docs, but I
+agree that changing mutex_lock with mutex_lock_interruptible should be
+subject of another lock related patches. I will drop this in next patch
+version.
 
-diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-index 20673de9020e..60737b771d52 100644
---- a/drivers/media/platform/qcom/camss/camss-video.c
-+++ b/drivers/media/platform/qcom/camss/camss-video.c
-@@ -539,6 +539,7 @@ static int video_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
- {
- 	struct camss_video *video = video_drvdata(file);
- 	int i, j, k;
-+	u32 mcode = f->mbus_code;
- 
- 	if (f->type != video->type)
- 		return -EINVAL;
-@@ -549,7 +550,12 @@ static int video_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
- 	/* find index "i" of "k"th unique pixelformat in formats array */
- 	k = -1;
- 	for (i = 0; i < video->nformats; i++) {
-+		if (mcode != 0 && video->formats[i].code != mcode)
-+			continue;
-+
- 		for (j = 0; j < i; j++) {
-+			if (mcode != 0 && video->formats[j].code != mcode)
-+				continue;
- 			if (video->formats[i].pixelformat ==
- 					video->formats[j].pixelformat)
- 				break;
-@@ -948,8 +954,8 @@ int msm_video_register(struct camss_video *video, struct v4l2_device *v4l2_dev,
- 	}
- 
- 	vdev->fops = &msm_vid_fops;
--	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE | V4L2_CAP_STREAMING |
--							V4L2_CAP_READWRITE;
-+	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE | V4L2_CAP_STREAMING
-+			  | V4L2_CAP_READWRITE | V4L2_CAP_IO_MC;
- 	vdev->ioctl_ops = &msm_vid_ioctl_ops;
- 	vdev->release = msm_video_release;
- 	vdev->v4l2_dev = v4l2_dev;
+> function return an error even though we could obtain the lock just by
+> trying a bit harder.
+
+I didn't get that. The behavior of mutex_lock_interruptible is that same
+as mutex_lock, i.e. the it will sleep to acquire the lock. The
+difference is that the sleep could be interrupted by a signal. You might
+think about mutex_trylock?
+
+> 
+>> +
+>> +       ret = atomic_read(&core->insts_count);
+>> +       if (ret + 1 > core->max_sessions_supported) {
+>> +               ret = -EAGAIN;
+>> +       } else {
+>> +               atomic_inc(&core->insts_count);
+>> +               list_add_tail(&inst->list, &core->instances);
+>> +               ret = 0;
+>> +       }
+>> +
+>>         mutex_unlock(&core->lock);
+>>
+>> -       return 0;
+>> +       return ret;
+>>  }
+>>  EXPORT_SYMBOL_GPL(hfi_session_create);
+>>
+>> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
+>> index 363ee2a65453..52898633a8e6 100644
+>> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
+>> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
+>> @@ -276,6 +276,9 @@ u32 hfi_parser(struct venus_core *core, struct venus_inst *inst, void *buf,
+>>                 words_count--;
+>>         }
+>>
+>> +       if (!core->max_sessions_supported)
+>> +               core->max_sessions_supported = MAX_SESSIONS;
+>> +
+>>         parser_fini(inst, codecs, domain);
+>>
+>>         return HFI_ERR_NONE;
+>> --
+>> 2.17.1
+>>
+
 -- 
-2.17.1
-
+regards,
+Stan
