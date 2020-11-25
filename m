@@ -2,153 +2,256 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AB0A42C4A9E
-	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 23:10:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2EB7C2C4AC3
+	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 23:20:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733214AbgKYWJw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Nov 2020 17:09:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55450 "EHLO
+        id S1733312AbgKYWTW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Nov 2020 17:19:22 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56982 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1733159AbgKYWJl (ORCPT
+        with ESMTP id S1731225AbgKYWTV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Nov 2020 17:09:41 -0500
-Received: from mail-pl1-x644.google.com (mail-pl1-x644.google.com [IPv6:2607:f8b0:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BA42C061A56
-        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 14:09:41 -0800 (PST)
-Received: by mail-pl1-x644.google.com with SMTP id bj5so99651plb.4
-        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 14:09:41 -0800 (PST)
+        Wed, 25 Nov 2020 17:19:21 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5F561C0613D4
+        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 14:19:21 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id l1so6157wrb.9
+        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 14:19:21 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=google.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=/ob3FEJdYP5qhdHPeLajEb6PUDm9frxLF1mdXzRdH3M=;
-        b=L3KZpP3LXxZlW/DP5AmTnD4MuZ72/rcy+coOeUVeCNTiwrWtzoVQx/hBMoKUsqDMm0
-         Foet9vcyJsJZ2PSgueU+Q+MvDj0KUWyeWX5guwBWRMdbnXZ08cX56htqXhsZrxHUuRIn
-         vYFnIpmbgrasg1vSD5AH5hKwOy9NejMhVovtjBrzY+2P0ug3w3+5RlYsOk03C83VD9da
-         OdGtf9c6uotPHdYcmuyOqbnF5k3fP8Yo6l5eFDVR7n6m5okfFX1oHlXNOB3u6UsnrVGE
-         wa6MluYkHn1XOYZTDyrE2KQmcun7Qe6vVmhaYurLDnZVMQG/lFJsGakXcuEY3+Obie2U
-         RVfA==
+        d=chromium.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0nXA0SjyfP7UjKs2H2srLJc/UeEiXr6hG+khI2TPCZk=;
+        b=kWVTpXkVtm/GnkaqLGeRkrJws6uGCS0exSo42bI4nIxdLa6YEOQjv13oW86dc5ji27
+         SDW+Ju4m0FmnUoTeTwMgyVGqYFvMr8SKfRifcxJZ2awsK03pDIDUmB87RqOAMQTcZCD6
+         u9og8svtcSxFxibOE5sf+gxV4hqIscwRbbnsY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=/ob3FEJdYP5qhdHPeLajEb6PUDm9frxLF1mdXzRdH3M=;
-        b=Lp1cP0lu8q0pgHhzPS0zcmANBU5LEhagVnluG2BprbjXg0EhRf+FVeO26tIgijCKOY
-         pUEghHWddMg/TIFWMIQjIL9ck3SK+mLdpU7fTd04iT4EeO5oqKkvEINdr6Z2HssXL0v8
-         4G7apTdTJKTV8XUMGFRfsrjwWP1vYp3GwHZX8aAsI/wSeCA+JxN84O3LhmUPopVgH6/4
-         +/xkAB12UqpySnqP8L6NWwQwdrHg370Hms1o17NT58tmvNWqyRGucvSKQ9Ww9AZIN/9y
-         3ozv/4s0/K41le76BM5x8wvSHKyRo9jYRJgdIXxNgVpO15Jj/xjN98L5M43pRwk+L1cH
-         FHng==
-X-Gm-Message-State: AOAM532obVnotWT16/QaL2sDi4wNMA5Tgv+I2VXI2IAdDdPSkOAScboh
-        WS9e48GXUwgMqv/YNuc626mxtaGxNSlmpjKm+Sp2jQ==
-X-Google-Smtp-Source: ABdhPJz8lLt/1COGEMpWkFDfyIK6h7HwbxIAa+xtHaAqLUfnjsVh22wexUgkVgdtXLczfRnuDI51yr8PXCWqKuZKul4=
-X-Received: by 2002:a17:902:c14a:b029:d8:dc05:d7ef with SMTP id
- 10-20020a170902c14ab02900d8dc05d7efmr4885886plj.83.1606342180784; Wed, 25 Nov
- 2020 14:09:40 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=0nXA0SjyfP7UjKs2H2srLJc/UeEiXr6hG+khI2TPCZk=;
+        b=gHSECIz2NgMekINoIYyxIy7sxiDvpKBBLHQqc0BF5u5YqRwfx7HTqS6h1z/MEt1+/r
+         PPLN/lJYcLqIQrc3tZ6GWWrWWOeQPlE2v+luH7NQVO1BqBpUo+rlSPWlN9eyinlM4dXM
+         pxgzyP2v9v5Mg2Ry/hm+SUw5Gzd3yVasfKhSXr4bfPmXSPtxsHMhyxb4pCooR7oGSGBB
+         uquFuSXFJnwGGH25DVr+oW00MVYKJwH2xyp4pOMF0SHuENVvbA1uyPtWIWwuubPoJ7ey
+         msY1XRIIjEHe0sovGs9nA06X3QzuBFutrvViMk7ZtVPSRA+jRp/dGHU93yyV8Oa07pO6
+         3IhA==
+X-Gm-Message-State: AOAM533bLn+qWSIBXHFnvzx5Si2tU7dX1uTe9tZ5atdC6jYnzXVB/k6j
+        3JvUTuYY4XyDUYFNxHstBY+MLg==
+X-Google-Smtp-Source: ABdhPJw5LIWbEX/qCR9k2hfcMtdI2NeQ0XgrvDGhVmXPcdrykxh+KRZmaLS+V4nVDR6Q7exJZQqydg==
+X-Received: by 2002:a5d:4e87:: with SMTP id e7mr64856wru.352.1606342760076;
+        Wed, 25 Nov 2020 14:19:20 -0800 (PST)
+Received: from alco.lan ([80.71.134.83])
+        by smtp.gmail.com with ESMTPSA id l16sm6514099wrx.5.2020.11.25.14.19.19
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2020 14:19:19 -0800 (PST)
+From:   Ricardo Ribalda <ribalda@chromium.org>
+To:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>
+Subject: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+Date:   Wed, 25 Nov 2020 23:19:17 +0100
+Message-Id: <20201125221917.150463-1-ribalda@chromium.org>
+X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
 MIME-Version: 1.0
-References: <202011201129.B13FDB3C@keescook> <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
- <202011220816.8B6591A@keescook> <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
- <ca071decb87cc7e905411423c05a48f9fd2f58d7.camel@perches.com>
- <0147972a72bc13f3629de8a32dee6f1f308994b5.camel@HansenPartnership.com>
- <d8d1e9add08cdd4158405e77762d4946037208f8.camel@perches.com>
- <dbd2cb703ed9eefa7dde9281ea26ab0f7acc8afe.camel@HansenPartnership.com>
- <20201123130348.GA3119@embeddedor> <8f5611bb015e044fa1c0a48147293923c2d904e4.camel@HansenPartnership.com>
- <202011241327.BB28F12F6@keescook> <a841536fe65bb33f1c72ce2455a6eb47a0107565.camel@HansenPartnership.com>
- <CAKwvOdkGBn7nuWTAqrORMeN1G+w3YwBfCqqaRD2nwvoAXKi=Aw@mail.gmail.com> <alpine.LNX.2.23.453.2011260750300.6@nippy.intranet>
-In-Reply-To: <alpine.LNX.2.23.453.2011260750300.6@nippy.intranet>
-From:   Nick Desaulniers <ndesaulniers@google.com>
-Date:   Wed, 25 Nov 2020 14:09:29 -0800
-Message-ID: <CAKwvOdna5Zj_O=sB7Q0jHZX0BJSaakX=ZyftwQ_3=L3-ZB54XQ@mail.gmail.com>
-Subject: Re: [Intel-wired-lan] [PATCH 000/141] Fix fall-through warnings for Clang
-To:     Finn Thain <fthain@telegraphics.com.au>
-Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
-        Kees Cook <keescook@chromium.org>,
-        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Joe Perches <joe@perches.com>,
-        Jakub Kicinski <kuba@kernel.org>, alsa-devel@alsa-project.org,
-        linux-atm-general@lists.sourceforge.net,
-        reiserfs-devel@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-wireless <linux-wireless@vger.kernel.org>,
-        linux-fbdev@vger.kernel.org,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        linux-ide@vger.kernel.org, dm-devel@redhat.com,
-        keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
-        GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
-        samba-technical@lists.samba.org, linux-i3c@lists.infradead.org,
-        linux1394-devel@lists.sourceforge.net,
-        linux-afs@lists.infradead.org,
-        usb-storage@lists.one-eyed-alien.net, drbd-dev@lists.linbit.com,
-        devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
-        rds-devel@oss.oracle.com, linux-scsi@vger.kernel.org,
-        linux-rdma@vger.kernel.org, oss-drivers@netronome.com,
-        bridge@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org,
-        amd-gfx list <amd-gfx@lists.freedesktop.org>,
-        linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
-        linux-acpi@vger.kernel.org, coreteam@netfilter.org,
-        intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
-        Miguel Ojeda <ojeda@kernel.org>,
-        tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        selinux@vger.kernel.org,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
-        intel-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org,
-        linux-can@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-gpio@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-        linux-mediatek@lists.infradead.org, xen-devel@lists.xenproject.org,
-        nouveau@lists.freedesktop.org, linux-hams@vger.kernel.org,
-        ceph-devel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        Linux ARM <linux-arm-kernel@lists.infradead.org>,
-        linux-hwmon@vger.kernel.org,
-        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
-        linux-nfs@vger.kernel.org, GR-Linux-NIC-Dev@marvell.com,
-        Linux Memory Management List <linux-mm@kvack.org>,
-        Network Development <netdev@vger.kernel.org>,
-        linux-decnet-user@lists.sourceforge.net, linux-mmc@vger.kernel.org,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
-        linux-sctp@vger.kernel.org, linux-usb@vger.kernel.org,
-        netfilter-devel@vger.kernel.org,
-        "open list:HARDWARE RANDOM NUMBER GENERATOR CORE" 
-        <linux-crypto@vger.kernel.org>, patches@opensource.cirrus.com,
-        linux-integrity@vger.kernel.org, target-devel@vger.kernel.org,
-        linux-hardening@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 25, 2020 at 1:33 PM Finn Thain <fthain@telegraphics.com.au> wrote:
->
-> Or do you think that a codebase can somehow satisfy multiple checkers and
-> their divergent interpretations of the language spec?
+On architectures where the is no coherent caching such as ARM use the
+dma_alloc_noncontiguos API and handle manually the cache flushing using
+dma_sync_sgtable().
 
-Have we found any cases yet that are divergent? I don't think so.  It
-sounds to me like GCC's cases it warns for is a subset of Clang's.
-Having additional coverage with Clang then should ensure coverage for
-both.
+With this patch on the affected architectures we can measure up to 20x
+performance improvement in uvc_video_copy_data_work().
 
-> > This is not a shiny new warning; it's already on for GCC and has existed
-> > in both compilers for multiple releases.
-> >
->
-> Perhaps you're referring to the compiler feature that lead to the
-> ill-fated, tree-wide /* fallthrough */ patch series.
->
-> When the ink dries on the C23 language spec and the implementations figure
-> out how to interpret it then sure, enforce the warning for new code -- the
-> cost/benefit analysis is straight forward. However, the case for patching
-> existing mature code is another story.
+Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+---
 
-I don't think we need to wait for the ink to dry on the C23 language
-spec to understand that implicit fallthrough is an obvious defect of
-the C language.  While the kernel is a mature codebase, it's not
-immune to bugs.  And its maturity has yet to slow its rapid pace of
-development.
+v3: Thanks to Marek Szyprowski
+
+Use dma_sync_sgtable and _for_cpu()
+
+ drivers/media/usb/uvc/uvc_video.c | 93 +++++++++++++++++++++++++++----
+ drivers/media/usb/uvc/uvcvideo.h  |  2 +
+ 2 files changed, 83 insertions(+), 12 deletions(-)
+
+diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+index a6a441d92b94..06ebd7a3877b 100644
+--- a/drivers/media/usb/uvc/uvc_video.c
++++ b/drivers/media/usb/uvc/uvc_video.c
+@@ -1097,6 +1097,11 @@ static int uvc_video_decode_start(struct uvc_streaming *stream,
+ 	return data[0];
+ }
+ 
++static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
++{
++	return stream->dev->udev->bus->controller->parent;
++}
++
+ /*
+  * uvc_video_decode_data_work: Asynchronous memcpy processing
+  *
+@@ -1118,6 +1123,9 @@ static void uvc_video_copy_data_work(struct work_struct *work)
+ 		uvc_queue_buffer_release(op->buf);
+ 	}
+ 
++	if (uvc_urb->pages)
++		dma_sync_sgtable_for_device(stream_to_dmadev(uvc_urb->stream),
++					    &uvc_urb->sgt, DMA_FROM_DEVICE);
+ 	ret = usb_submit_urb(uvc_urb->urb, GFP_KERNEL);
+ 	if (ret < 0)
+ 		uvc_printk(KERN_ERR, "Failed to resubmit video URB (%d).\n",
+@@ -1539,10 +1547,17 @@ static void uvc_video_complete(struct urb *urb)
+ 	 * Process the URB headers, and optionally queue expensive memcpy tasks
+ 	 * to be deferred to a work queue.
+ 	 */
++	if (uvc_urb->pages)
++		dma_sync_sgtable_for_cpu(stream_to_dmadev(stream),
++					 &uvc_urb->sgt, DMA_FROM_DEVICE);
+ 	stream->decode(uvc_urb, buf, buf_meta);
+ 
+ 	/* If no async work is needed, resubmit the URB immediately. */
+ 	if (!uvc_urb->async_operations) {
++		if (uvc_urb->pages)
++			dma_sync_sgtable_for_device(stream_to_dmadev(stream),
++						    &uvc_urb->sgt,
++						    DMA_FROM_DEVICE);
+ 		ret = usb_submit_urb(uvc_urb->urb, GFP_ATOMIC);
+ 		if (ret < 0)
+ 			uvc_printk(KERN_ERR,
+@@ -1566,8 +1581,16 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+ 			continue;
+ 
+ #ifndef CONFIG_DMA_NONCOHERENT
+-		usb_free_coherent(stream->dev->udev, stream->urb_size,
+-				  uvc_urb->buffer, uvc_urb->dma);
++		if (uvc_urb->pages) {
++			sg_free_table(&uvc_urb->sgt);
++			vunmap(uvc_urb->buffer);
++			dma_free_noncontiguous(stream_to_dmadev(stream),
++					       stream->urb_size,
++					       uvc_urb->pages, uvc_urb->dma);
++		} else {
++			usb_free_coherent(stream->dev->udev, stream->urb_size,
++					  uvc_urb->buffer, uvc_urb->dma);
++		}
+ #else
+ 		kfree(uvc_urb->buffer);
+ #endif
+@@ -1577,6 +1600,56 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+ 	stream->urb_size = 0;
+ }
+ 
++#ifndef CONFIG_DMA_NONCOHERENT
++static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
++				 struct uvc_urb *uvc_urb, gfp_t gfp_flags)
++{
++	struct device *dma_dev = dma_dev = stream_to_dmadev(stream);
++
++	if (!dma_can_alloc_noncontiguous(dma_dev)) {
++		uvc_urb->buffer = usb_alloc_coherent(stream->dev->udev,
++						     stream->urb_size,
++						     gfp_flags | __GFP_NOWARN,
++						     &uvc_urb->dma);
++		return uvc_urb->buffer != NULL;
++	}
++
++	uvc_urb->pages = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
++						 &uvc_urb->dma,
++						 gfp_flags | __GFP_NOWARN, 0);
++	if (!uvc_urb->pages)
++		return false;
++
++	uvc_urb->buffer = vmap(uvc_urb->pages,
++			       PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT,
++			       VM_DMA_COHERENT, PAGE_KERNEL);
++	if (!uvc_urb->buffer) {
++		dma_free_noncontiguous(dma_dev, stream->urb_size,
++				       uvc_urb->pages, uvc_urb->dma);
++		return false;
++	}
++
++	if (sg_alloc_table_from_pages(&uvc_urb->sgt, uvc_urb->pages,
++				PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT, 0,
++				stream->urb_size, GFP_KERNEL)) {
++		vunmap(uvc_urb->buffer);
++		dma_free_noncontiguous(dma_dev, stream->urb_size,
++				       uvc_urb->pages, uvc_urb->dma);
++		return false;
++	}
++
++	return true;
++}
++#else
++static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
++				 struct uvc_urb *uvc_urb, gfp_t gfp_flags)
++{
++	uvc_urb->buffer = kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
++
++	return uvc_urb->buffer != NULL;
++}
++#endif
++
+ /*
+  * Allocate transfer buffers. This function can be called with buffers
+  * already allocated when resuming from suspend, in which case it will
+@@ -1607,19 +1680,11 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
+ 
+ 	/* Retry allocations until one succeed. */
+ 	for (; npackets > 1; npackets /= 2) {
++		stream->urb_size = psize * npackets;
+ 		for (i = 0; i < UVC_URBS; ++i) {
+ 			struct uvc_urb *uvc_urb = &stream->uvc_urb[i];
+ 
+-			stream->urb_size = psize * npackets;
+-#ifndef CONFIG_DMA_NONCOHERENT
+-			uvc_urb->buffer = usb_alloc_coherent(
+-				stream->dev->udev, stream->urb_size,
+-				gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
+-#else
+-			uvc_urb->buffer =
+-			    kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
+-#endif
+-			if (!uvc_urb->buffer) {
++			if (!uvc_alloc_urb_buffer(stream, uvc_urb, gfp_flags)) {
+ 				uvc_free_urb_buffers(stream);
+ 				break;
+ 			}
+@@ -1891,6 +1956,10 @@ static int uvc_video_start_transfer(struct uvc_streaming *stream,
+ 
+ 	/* Submit the URBs. */
+ 	for_each_uvc_urb(uvc_urb, stream) {
++		if (uvc_urb->pages)
++			dma_sync_sgtable_for_device(stream_to_dmadev(stream),
++						    &uvc_urb->sgt,
++						    DMA_FROM_DEVICE);
+ 		ret = usb_submit_urb(uvc_urb->urb, gfp_flags);
+ 		if (ret < 0) {
+ 			uvc_printk(KERN_ERR, "Failed to submit URB %u (%d).\n",
+diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+index a3dfacf069c4..3e6618a2ac82 100644
+--- a/drivers/media/usb/uvc/uvcvideo.h
++++ b/drivers/media/usb/uvc/uvcvideo.h
+@@ -532,6 +532,8 @@ struct uvc_urb {
+ 
+ 	char *buffer;
+ 	dma_addr_t dma;
++	struct page **pages;
++	struct sg_table sgt;
+ 
+ 	unsigned int async_operations;
+ 	struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
 -- 
-Thanks,
-~Nick Desaulniers
+2.29.2.454.gaff20da3a2-goog
+
