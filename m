@@ -2,139 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2450A2C3DF3
-	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 11:40:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1DA5E2C3DEA
+	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 11:40:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729048AbgKYKiA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Nov 2020 05:38:00 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:49257 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728444AbgKYKh7 (ORCPT
+        id S1729104AbgKYKhd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Nov 2020 05:37:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60192 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725876AbgKYKh3 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Nov 2020 05:37:59 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id hsBNkIplAN7XghsBRkVmy6; Wed, 25 Nov 2020 11:37:57 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606300677; bh=FjvmaPG3JrLfHAjmM74MB5cGyWQ6qFtt8VMNnEdUX4U=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=G2A2Jo/U9waxPKZY7p228yYDqlXXIS8errOsyZYRCU5qMOTeFfH/u82nQzYE2mhVV
-         1M6+xFJdRiagmWLYgQ7Th2Ly9ZScrKq2eAqDzWfUT0Ml0Gjw9amZOxeF3ophh8Prap
-         ZTkQ9g7WHr+Ab1MN15fUxigaqW1NUNzLEuDF4MkzE1ChS0RJPHZIfdENCrGHWfrd5r
-         8GdJffq716RcxaDWK/di0G0c6dYaXgR6B241000OqVy8YlgYSVd0oKQ2XJbi2FiZx5
-         p1TmXwnlD0dieExln3a7/ort8AdCx1ym2ELjvqew3LBYa3Q+qmsLoJ103VXJBLP50k
-         kuQmHaGAa9NnA==
-Subject: Re: [PATCH v4 13/13] media: docs: Move the H264 stateless codec uAPI
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-References: <20201123144000.81310-1-ezequiel@collabora.com>
- <20201123144000.81310-14-ezequiel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <8cea43ca-eab2-8b57-477c-20fa4d270657@xs4all.nl>
-Date:   Wed, 25 Nov 2020 11:37:53 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Wed, 25 Nov 2020 05:37:29 -0500
+Received: from mail-pl1-x642.google.com (mail-pl1-x642.google.com [IPv6:2607:f8b0:4864:20::642])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 572EAC0613D6;
+        Wed, 25 Nov 2020 02:37:29 -0800 (PST)
+Received: by mail-pl1-x642.google.com with SMTP id b23so898046pls.11;
+        Wed, 25 Nov 2020 02:37:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=lG3+Uwz8lZti6FSb8xjGyaQfdt5OwV03xvf6+L3ZqWc=;
+        b=YCtEdyPA4vCzWZsMjIt3djSgR9gg7vMRhn3I5LT7lEmWHdT3b/jEkR0QdduouORJ7k
+         kiuUl5RijkS3EJmc3PIdIbhuWrYEtLAccN+wdoprBDsU56ruoUGszfH1Sxvuy4WXIhMK
+         0dDt7R//JtRYOU1+gQ96Rpa2FinP3O1pFccTMutbPTGjvqTac0chojMQO8cZdySzLIim
+         HHsTKo91pUaUTwyxPnWizwDASocTC+n+eyDdN/HKPn9pe4V2vLDA/DOFrCcWbsrVXkvE
+         5CsjPeXzCB0gF8EvrEVdW+qQjVnUcViOyjSAD57xy0gbwLs+FCHLejwxIxOdH/xJHiTG
+         +NRA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=lG3+Uwz8lZti6FSb8xjGyaQfdt5OwV03xvf6+L3ZqWc=;
+        b=HqxCMBnUjIt02wGgCngQgoatqmWXXlAtuei00ZaLA+J48O+B1j6bCYFuvdzJZHAMy9
+         SQZI3ZiFCUDUFHusJmIWT0MC92rOtiWOq6sEYoy8q25N3mDQAz1InmwPUJ2Roy/M3iPa
+         vltnthynrm17qL0rghDuth0vDo20iDxAaR+anXajOpA/0VENftxw7HJGmAtN+2MyxP0c
+         cw4tjtyc+WlxAzt4+qTpy9KvfvIVCmRuF5v3nK5U6GDt/TDSh1+4tewI/akYbvoF8/uY
+         f1WblEOyb3N1rkqS7L34BJzRlxD6yYBVFdYI5Vs/ET0tu9tthm6XyZscWs0u3X//933D
+         hunw==
+X-Gm-Message-State: AOAM5304mZtoVvAcNBp/cPMGh/vdShE0t5qCmjw2XeMKosWoDEmFIXv8
+        IAHmTwESxPjqzwmi9sJ7XwoV7crHuuNgZomTcvU=
+X-Google-Smtp-Source: ABdhPJzEY8ebPN4xZ4jf0ZFVw9i65L6qlCom+E751HZA34/qY3SkadUuuLf2HukIG4qONDPWI5feIsM1VQGLuSbFYSc=
+X-Received: by 2002:a17:902:ead2:b029:da:2596:198e with SMTP id
+ p18-20020a170902ead2b02900da2596198emr1937529pld.21.1606300648824; Wed, 25
+ Nov 2020 02:37:28 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201123144000.81310-14-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfLQAaQyACzwTFhjY0fw0C29sgmllMhOejA+FZRNNh8vgfTC1Nj9z2wvCyWAu8gkUl3ZwWDNoP612INmdaLDMeLjNBpBrVJL2Swzru5hC9QLCTyb2oro7
- XUNlOuRwb0y3t8zYMoI+5boSKHK8RM+JzM4gzXr46QeKXvdHLNiaEmNc8KdEXIipn+znggkQcZmaigwnQskN5tam1/xrjDJbY9BeehC36Nux6JalENyjl21N
- WZmyQpogHkN+OirYKtA0RxeFOsXGPwMe14FB561kHJP6YXgPm+eHreVhPEavhC9WMPkKkBxeXNg5MIWlIErq38OlIIoP22qfRfkQLnEQCSjCQFFxNA4lt8y0
- MYXm4jIJ41p4qv0sdBEFWm5Tm8FnflU7VGXGkc9sDks8lrOH3ame/5t8MN1gsA04PTMQ+aP7kN/OuNU/OKdoYrFL8/FH+NootYtmziwR46BgAd6WppMXdwX9
- QWmxZkhaF8EGIt3AZJxycRJY9WwIAiPYOvbYAdq4Woxko9B9NCjDYno7FLE=
+References: <cover.1605896059.git.gustavoars@kernel.org> <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011201129.B13FDB3C@keescook> <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011220816.8B6591A@keescook> <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
+ <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
+ <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
+ <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
+ <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
+ <CANiq72k5tpDoDPmJ0ZWc1DGqm+81Gi-uEENAtvEs9v3SZcx6_Q@mail.gmail.com> <4993259d01a0064f8bb22770503490f9252f3659.camel@HansenPartnership.com>
+In-Reply-To: <4993259d01a0064f8bb22770503490f9252f3659.camel@HansenPartnership.com>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Wed, 25 Nov 2020 12:38:17 +0200
+Message-ID: <CAHp75VfaewwkLsrht95Q7DaxFk7JpQjwx0KQ7Jvh5f7DUbZkRA@mail.gmail.com>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+To:     James Bottomley <James.Bottomley@hansenpartnership.com>
+Cc:     Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        ALSA Development Mailing List <alsa-devel@alsa-project.org>,
+        amd-gfx@lists.freedesktop.org, bridge@lists.linux-foundation.org,
+        ceph-devel@vger.kernel.org, cluster-devel@redhat.com,
+        coreteam@netfilter.org,
+        "open list:STAGING SUBSYSTEM" <devel@driverdev.osuosl.org>,
+        device-mapper development <dm-devel@redhat.com>,
+        drbd-dev@lists.linbit.com,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
+        intel-gfx <intel-gfx@lists.freedesktop.org>,
+        intel-wired-lan@lists.osuosl.org, keyrings@vger.kernel.org,
+        linux1394-devel@lists.sourceforge.net,
+        ACPI Devel Maling List <linux-acpi@vger.kernel.org>,
+        linux-afs@lists.infradead.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm@vger.kernel.org,
+        linux-atm-general@lists.sourceforge.net,
+        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-cifs@vger.kernel.org,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-decnet-user@lists.sourceforge.net,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        "open list:FRAMEBUFFER LAYER" <linux-fbdev@vger.kernel.org>,
+        linux-geode@lists.infradead.org,
+        "open list:GPIO SUBSYSTEM" <linux-gpio@vger.kernel.org>,
+        linux-hams@vger.kernel.org, linux-hwmon@vger.kernel.org,
+        linux-i3c@lists.infradead.org, linux-ide@vger.kernel.org,
+        linux-iio <linux-iio@vger.kernel.org>,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-integrity <linux-integrity@vger.kernel.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-mmc <linux-mmc@vger.kernel.org>,
+        Linux-MM <linux-mm@kvack.org>,
+        "open list:MEMORY TECHNOLOGY..." <linux-mtd@lists.infradead.org>,
+        linux-nfs@vger.kernel.org,
+        "open list:HFI1 DRIVER" <linux-rdma@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-scsi <linux-scsi@vger.kernel.org>,
+        linux-sctp@vger.kernel.org,
+        linux-security-module <linux-security-module@vger.kernel.org>,
+        linux-stm32@st-md-mailman.stormreply.com,
+        USB <linux-usb@vger.kernel.org>, linux-watchdog@vger.kernel.org,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
+        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
+        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
+        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
+        selinux@vger.kernel.org,
+        target-devel <target-devel@vger.kernel.org>,
+        tipc-discussion@lists.sourceforge.net,
+        usb-storage@lists.one-eyed-alien.net,
+        virtualization@lists.linux-foundation.org,
+        wcn36xx@lists.infradead.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/11/2020 15:40, Ezequiel Garcia wrote:
-> Now that we've destaged the H264 stateless codec controls,
-> and with all the pieces in place, update the documentation
-> and move it to its own section.
-> 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  .../userspace-api/media/v4l/common.rst        |   1 +
->  .../media/v4l/ext-ctrls-codec-stateless.rst   | 674 +++++++++++++++++
->  .../media/v4l/ext-ctrls-codec.rst             | 692 ------------------
->  .../media/v4l/extended-controls.rst           |   3 +-
->  .../media/v4l/pixfmt-compressed.rst           |  21 +-
->  5 files changed, 685 insertions(+), 706 deletions(-)
->  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> 
+On Mon, Nov 23, 2020 at 10:39 PM James Bottomley
+<James.Bottomley@hansenpartnership.com> wrote:
+> On Mon, 2020-11-23 at 19:56 +0100, Miguel Ojeda wrote:
+> > On Mon, Nov 23, 2020 at 4:58 PM James Bottomley
+> > <James.Bottomley@hansenpartnership.com> wrote:
 
-<snip>
+...
 
-> diff --git a/Documentation/userspace-api/media/v4l/extended-controls.rst b/Documentation/userspace-api/media/v4l/extended-controls.rst
-> index 44fcd67f20bf..866bd787eef0 100644
-> --- a/Documentation/userspace-api/media/v4l/extended-controls.rst
-> +++ b/Documentation/userspace-api/media/v4l/extended-controls.rst
-> @@ -56,7 +56,8 @@ group similar controls into a single class. For example, control class
->  ``V4L2_CTRL_CLASS_USER`` contains all user controls (i. e. all controls
->  that can also be set using the old :ref:`VIDIOC_S_CTRL <VIDIOC_G_CTRL>`
->  ioctl). Control class ``V4L2_CTRL_CLASS_CODEC`` contains controls
-> -relating to codecs.
-> +relating to codecs. See :ref:`codec-stateless-controls` for controls
-> +specific to stateless codecs.
+> > But if we do the math, for an author, at even 1 minute per line
+> > change and assuming nothing can be automated at all, it would take 1
+> > month of work. For maintainers, a couple of trivial lines is noise
+> > compared to many other patches.
+>
+> So you think a one line patch should take one minute to produce ... I
+> really don't think that's grounded in reality.  I suppose a one line
+> patch only takes a minute to merge with b4 if no-one reviews or tests
+> it, but that's not really desirable.
 
-Drop this change. This text just gives an example about how control classes
-work, it's not codec documentation as such.
+In my practice most of the one line patches were either to fix or to
+introduce quite interesting issues.
+1 minute is 2-3 orders less than usually needed for such patches.
+That's why I don't like churn produced by people who often even didn't
+compile their useful contributions.
 
-Regards,
-
-	Hans
-
->  
->  All controls in the control array must belong to the specified control
->  class. An error is returned if this is not the case.
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> index d585909bc4e2..e28749ebf8d8 100644
-> --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> @@ -57,16 +57,16 @@ Compressed Formats
->        - H264 parsed slice data, including slice headers, either with or
->  	without the start code, as extracted from the H264 bitstream.
->  	This format is adapted for stateless video decoders that implement an
-> -	H264 pipeline (using the :ref:`mem2mem` and :ref:`media-request-api`).
-> +	H264 pipeline with the :ref:`stateless_decoder`.
->  	This pixelformat has two modifiers that must be set at least once
-> -	through the ``V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE``
-> -        and ``V4L2_CID_MPEG_VIDEO_H264_START_CODE`` controls.
-> +	through the ``V4L2_CID_STATELESS_H264_DECODE_MODE``
-> +        and ``V4L2_CID_STATELESS_H264_START_CODE`` controls.
->  	In addition, metadata associated with the frame to decode are
-> -	required to be passed through the ``V4L2_CID_MPEG_VIDEO_H264_SPS``,
-> -	``V4L2_CID_MPEG_VIDEO_H264_PPS``,
-> -	``V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX``,
-> -	``V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS`` and
-> -	``V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS`` controls.  See the
-> +	required to be passed through the ``V4L2_CID_STATELESS_H264_SPS``,
-> +	``V4L2_CID_STATELESS_H264_PPS``,
-> +	``V4L2_CID_STATELESS_H264_SCALING_MATRIX``,
-> +	``V4L2_CID_STATELESS_H264_SLICE_PARAMS`` and
-> +	``V4L2_CID_STATELESS_H264_DECODE_PARAMS`` controls.  See the
->  	:ref:`associated Codec Control IDs <v4l2-mpeg-h264>`.  Exactly
->  	one output and one capture buffer must be provided for use
->  	with this pixel format. The output buffer must contain the
-> @@ -77,11 +77,6 @@ Compressed Formats
->  	7.3.2.8 "Slice layer without partitioning RBSP syntax" and the following
->  	sections.
->  
-> -	.. note::
-> -
-> -	   This format is not yet part of the public kernel API and it
-> -	   is expected to change.
-> -
->      * .. _V4L2-PIX-FMT-H263:
->  
->        - ``V4L2_PIX_FMT_H263``
-> 
-
+-- 
+With Best Regards,
+Andy Shevchenko
