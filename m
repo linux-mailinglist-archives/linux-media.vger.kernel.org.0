@@ -2,163 +2,154 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C39AC2C40FB
-	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 14:17:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B40B02C4148
+	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 14:39:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729086AbgKYNRE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Nov 2020 08:17:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56836 "EHLO
+        id S1729567AbgKYNjn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Nov 2020 08:39:43 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60316 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727338AbgKYNRD (ORCPT
+        with ESMTP id S1729526AbgKYNjm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Nov 2020 08:17:03 -0500
-Received: from mail-lf1-x142.google.com (mail-lf1-x142.google.com [IPv6:2a00:1450:4864:20::142])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6656FC061A4D
-        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 05:17:03 -0800 (PST)
-Received: by mail-lf1-x142.google.com with SMTP id r24so3060717lfm.8
-        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 05:17:03 -0800 (PST)
+        Wed, 25 Nov 2020 08:39:42 -0500
+Received: from mail-lf1-x143.google.com (mail-lf1-x143.google.com [IPv6:2a00:1450:4864:20::143])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7A63FC0613D4
+        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 05:39:42 -0800 (PST)
+Received: by mail-lf1-x143.google.com with SMTP id r24so3156468lfm.8
+        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 05:39:42 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ragnatech-se.20150623.gappssmtp.com; s=20150623;
         h=date:from:to:cc:subject:message-id:references:mime-version
          :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=HkRtjRKM05bLlO/XYCtld1KcwloYyZOvT1GTARJX0yY=;
-        b=vaBWkenHZuKdNuLrjwQ+qVd0vmJfHlagTcPl7VfHzH9dYF+QU+lKnOvLz1K4anA7Sd
-         It0KGyCImOzbwsqEX02YzyfjerAcKh05xGUJ68ytQ0FeU4DE/MAAD4Km2ezQck9R8myB
-         Eohe5MRCGd5zM6oBfk27x2NLd6hj855vVOwz2wk+xvm1pLFlfx22fimJDBV5RQdY9/IZ
-         ViOJIf0aBebN2jWVY6JZbcyWmP9h2h8Tj9RGRrohBeyJwQ9wIdIfNoYYqQpJ020JnUdk
-         5DOqgXt1fznstbiB7d8BD7wikrY8p517nwIKVuM/JxRxT+XHq/2c3fj6XoWPd2e4osUe
-         P9+A==
+        bh=R7BxWH7Bj9NBvw+bPysAv/QTCXhP/te13HEpPeWrSPM=;
+        b=VOaNOkWCqJCtErXW+ysKZJEThtlr2BJjOR4i9qeJzW8fYTmAsi8xC1YOGW1EpZOj/8
+         Sp0T5twXLqPigOgMESSsPDurjgyjeN34Ig4S7zVmoj5LDLSirb9IYXUkB74JVz0vGZO3
+         /7hLq/I5uHwWI+2qWCw/FhwyTkeSetvF8t5Xhfl0oY/YUaqWoqxaxe/NYscV1LFzwjCb
+         kWKlpIDLCt2iYayCPPjMrA+3bBZpQH7NVwPWI44p6k/OgMOB+YUdlfOAzzlt4l1bbWMI
+         TU0kuG6uCD0fETl0Rr+D4UC7tyPsDp80NPpJ8y+/MxeyUx6vNowx+ySwVMgXFthfLJwY
+         9izA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:content-transfer-encoding
          :in-reply-to;
-        bh=HkRtjRKM05bLlO/XYCtld1KcwloYyZOvT1GTARJX0yY=;
-        b=dJBT7bpaAMSRbOwt46BdET1XAQoTEhDOTGWKVLUrR6VBFsEKgehtf9SN+IG4meR46u
-         suX6L0W1Jq6FPuF/cCcduckn0SqjGZ3P9q0oo//Gp3MkZAhJsPEkoVkl7P2iyxzVY3MZ
-         BHGLj4n9CYXI8CKzgB+dEoSkPwIlHQDQ6wKbnjawSbW2MjasUMDVIRkDKyujw//d0cIB
-         3LzTaXqAmUfMfI+etrHjy8Lmp5BVml+Kq0EnOQjy6yWA0q8Ayfr8TXxehJvuCQFOzTO4
-         MAesKgXDjAtMrJ4havThg17qvaRVE7h0lP3r/+R7CqyfQZz2eQ14FKMhSHDIh09h/bPu
-         /EmA==
-X-Gm-Message-State: AOAM533Sb1jdhuzsyXOdNPLNAq+AGzyIFLgZnfPvmp+6A6JhVF20MZGr
-        p/vovZyrmS4hbc7BHrMXAoTMFg==
-X-Google-Smtp-Source: ABdhPJyqugkD6SrIzoTySqMszYOMe+UphjPSmeHMpbHK0agxohO8OXonD7v0by/QHWa5KCf4FvfWrQ==
-X-Received: by 2002:a19:ec1:: with SMTP id 184mr1336365lfo.319.1606310221742;
-        Wed, 25 Nov 2020 05:17:01 -0800 (PST)
+        bh=R7BxWH7Bj9NBvw+bPysAv/QTCXhP/te13HEpPeWrSPM=;
+        b=BXLKdvs2uvWiWuHvM9tG7z/YYGB+2Oup4eC2SZQEl5PB18Hau752wjRCegaGRNSFdR
+         zVQrJyC8sxNG4IZ0Jxaj7ZtyARO4ANhvjQ4X8TqKvt/ChbBDiPMhhe/G6nMjINrZc/+F
+         5iv7rf9gxtGDPDcoTfF3J6P2YRbsjL1OvdAW3WbviUnxcAiwHO93Bgot5nTxoJSUHwIg
+         PgC4T3eqQ6E+d2+fHy8Np8Kr7UT5vCQzdils65ZDivG8QyOd7RFqXrovbj//+UkqRhzg
+         zpUQWQMNwXDrf2FLBHMhX+pyoYvoMuKk665WLU+4ct7q/uwh/l3SfazqGRmmYVcs1Gve
+         hEPA==
+X-Gm-Message-State: AOAM532/jcNF3ekQzL15rLR1wtRI5N8qwIQ5fb2e08HXvHwQSQux7tlR
+        Yd1gP4TjUltNlWEb8vgAEAretQ==
+X-Google-Smtp-Source: ABdhPJym0/e0ry1ZAYh6Gfvs5QmoDuh0mxKCgyt9rLVI3qkg+NOM4E+mlQGCYyd4p2HcawZcT8fBMQ==
+X-Received: by 2002:a19:505:: with SMTP id 5mr1321176lff.578.1606311580947;
+        Wed, 25 Nov 2020 05:39:40 -0800 (PST)
 Received: from localhost (h-209-203.A463.priv.bahnhof.se. [155.4.209.203])
-        by smtp.gmail.com with ESMTPSA id j69sm257650lfj.49.2020.11.25.05.17.00
+        by smtp.gmail.com with ESMTPSA id 17sm264445lfr.52.2020.11.25.05.39.40
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2020 05:17:00 -0800 (PST)
-Date:   Wed, 25 Nov 2020 14:16:59 +0100
+        Wed, 25 Nov 2020 05:39:40 -0800 (PST)
+Date:   Wed, 25 Nov 2020 14:39:39 +0100
 From:   Niklas =?iso-8859-1?Q?S=F6derlund?= 
         <niklas.soderlund+renesas@ragnatech.se>
 To:     Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
 Cc:     linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 1/3] adv748x: afe: Select input port when device is reset
-Message-ID: <20201125131659.GB2162566@oden.dyn.berto.se>
+Subject: Re: [PATCH 0/3] adv748x: Add support for s2ram
+Message-ID: <20201125133939.GC2162566@oden.dyn.berto.se>
 References: <20201122163637.3590465-1-niklas.soderlund+renesas@ragnatech.se>
- <20201122163637.3590465-2-niklas.soderlund+renesas@ragnatech.se>
- <99e2a13b-fc63-4ead-77e4-878574a5cbe0@ideasonboard.com>
+ <7ec9c2ba-ea9c-2ce5-8ecf-6239448c711f@ideasonboard.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=iso-8859-1
 Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <99e2a13b-fc63-4ead-77e4-878574a5cbe0@ideasonboard.com>
+In-Reply-To: <7ec9c2ba-ea9c-2ce5-8ecf-6239448c711f@ideasonboard.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Kieran,
 
-On 2020-11-25 12:10:08 +0000, Kieran Bingham wrote:
+On 2020-11-25 13:09:39 +0000, Kieran Bingham wrote:
 > Hi Niklas,
 > 
 > On 22/11/2020 16:36, Niklas Söderlund wrote:
-> > It's not enough to select the AFE input port during probe it also needs
-> > to be set when the device is reset. Move the port selection to
-> > adv748x_reset() that is called during probe and when the device needs to
-> > be reset.
+> > Hello,
+> > 
+> > This series enables usage of the ADV748x after the system have been 
+> > suspended to ram. During s2ram the ADV748x may be powered down and thus 
+> > lose its configuration from probe time. The configuration contains  
+> > among other things the i2c slave address mappings for the different 
+> > blocks inside the ADV748x. If this is lost the hardware listens to the 
+> > "wrong" i2c addresses and becomes inaccessible.
+> > 
+> > Example trying to read the analog standard before and after s2ram with 
+> > and without this this series.
 > > 
 > 
-> Should we instead have an adv748x_afe_reset(), rather than expose the
-> AFE internals to the top level core?
+> Should we be considering runtime_pm for this instead?
 
-We could, I have no real preference. But in this case all 
-adv748x_afe_reset() would do is call adv748x_afe_s_input() so unless we 
-foresee more work to be done at reset time my preference would be like 
-this but it's your call.
+I don't think so, why do you think we should?
 
-> 
-> That said, shouldn't we be able to take advantage of regmap to restore
-> registers in this instance?
+I opted for this solution because we need fine grain control of when the 
+registers are restored when resuming from s2ram. If they are not 
+restored before (in my case) the VIN driver is resumed and it was 
+streaming at suspend time it will fail as the i2c address map is wrong 
+at this time. For this reason the registers are restored in the early 
+resume callback.
 
-I'm no regmap expert so I don't know. But if so we need to be sure the 
-order of registers match what is needed as we need to restore the i2c 
-addresses for all none core "pages".
+Second I'm unsure how we could properly test such a solution as I don't 
+think we can powerdown the ADV7482 without also s2ram the whole SoC on 
+our test platforms as it's power is not controllable by the SoC. For 
+example it's not powered down in s2idel.
 
 > 
 > --
 > Kieran
 > 
 > 
-> > Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
-> > ---
-> >  drivers/media/i2c/adv748x/adv748x-afe.c  | 6 +-----
-> >  drivers/media/i2c/adv748x/adv748x-core.c | 4 ++++
-> >  drivers/media/i2c/adv748x/adv748x.h      | 1 +
-> >  3 files changed, 6 insertions(+), 5 deletions(-)
+> > Without this series,
 > > 
-> > diff --git a/drivers/media/i2c/adv748x/adv748x-afe.c b/drivers/media/i2c/adv748x/adv748x-afe.c
-> > index dbbb1e4d63637a33..4052cf67bf16c7fb 100644
-> > --- a/drivers/media/i2c/adv748x/adv748x-afe.c
-> > +++ b/drivers/media/i2c/adv748x/adv748x-afe.c
-> > @@ -154,7 +154,7 @@ static void adv748x_afe_set_video_standard(struct adv748x_state *state,
-> >  		   (sdpstd & 0xf) << ADV748X_SDP_VID_SEL_SHIFT);
-> >  }
-> >  
-> > -static int adv748x_afe_s_input(struct adv748x_afe *afe, unsigned int input)
-> > +int adv748x_afe_s_input(struct adv748x_afe *afe, unsigned int input)
-> >  {
-> >  	struct adv748x_state *state = adv748x_afe_to_state(afe);
-> >  
-> > @@ -520,10 +520,6 @@ int adv748x_afe_init(struct adv748x_afe *afe)
-> >  		}
-> >  	}
-> >  
-> > -	adv748x_afe_s_input(afe, afe->input);
-> > -
-> > -	adv_dbg(state, "AFE Default input set to %d\n", afe->input);
-> > -
-> >  	/* Entity pads and sinks are 0-indexed to match the pads */
-> >  	for (i = ADV748X_AFE_SINK_AIN0; i <= ADV748X_AFE_SINK_AIN7; i++)
-> >  		afe->pads[i].flags = MEDIA_PAD_FL_SINK;
-> > diff --git a/drivers/media/i2c/adv748x/adv748x-core.c b/drivers/media/i2c/adv748x/adv748x-core.c
-> > index 00966fe104881a14..8676ad2428856dd3 100644
-> > --- a/drivers/media/i2c/adv748x/adv748x-core.c
-> > +++ b/drivers/media/i2c/adv748x/adv748x-core.c
-> > @@ -516,6 +516,10 @@ static int adv748x_reset(struct adv748x_state *state)
-> >  	if (ret)
-> >  		return ret;
-> >  
-> > +	adv748x_afe_s_input(&state->afe, state->afe.input);
-> > +
-> > +	adv_dbg(state, "AFE Default input set to %d\n", state->afe.input);
-> > +
-> >  	/* Reset TXA and TXB */
-> >  	adv748x_tx_power(&state->txa, 1);
-> >  	adv748x_tx_power(&state->txa, 0);
-> > diff --git a/drivers/media/i2c/adv748x/adv748x.h b/drivers/media/i2c/adv748x/adv748x.h
-> > index 1061f425ece5989e..747947ea3e316451 100644
-> > --- a/drivers/media/i2c/adv748x/adv748x.h
-> > +++ b/drivers/media/i2c/adv748x/adv748x.h
-> > @@ -435,6 +435,7 @@ int adv748x_tx_power(struct adv748x_csi2 *tx, bool on);
-> >  
-> >  int adv748x_afe_init(struct adv748x_afe *afe);
-> >  void adv748x_afe_cleanup(struct adv748x_afe *afe);
-> > +int adv748x_afe_s_input(struct adv748x_afe *afe, unsigned int input);
-> >  
-> >  int adv748x_csi2_init(struct adv748x_state *state, struct adv748x_csi2 *tx);
-> >  void adv748x_csi2_cleanup(struct adv748x_csi2 *tx);
+> >   # subdev=$(grep -l "adv748x 4-0070 afe" /sys/class/video4linux/*/name | sed 's#.*video4linux\(.*\)/name#/dev\1#g')
+> >   # v4l2-ctl --get-detected-standard -d $subdev
+> >   Video Standard = 0x000000ff
+> >           PAL-B/B1/G/H/I/D/D1/K
+> >   # echo on > /sys/bus/i2c/drivers/bd9571mwv/*/bd9571mwv-regulator*/backup_mode
+> >   ** flipp SW23 off **
+> >   # echo mem > /sys/power/state
+> >   ** flipp SW23 on **
+> >   # v4l2-ctl --get-detected-standard -d $subdev
+> >   [  502.753723] adv748x 4-0070: error reading 63, 02
+> >   [  502.866437] adv748x 4-0070: error reading 63, 02
+> >   VIDIOC_QUERYSTD: failed: No such device or address
+> > 
+> > With this series,
+> > 
+> >   # subdev=$(grep -l "adv748x 4-0070 afe" /sys/class/video4linux/*/name | sed 's#.*video4linux\(.*\)/name#/dev\1#g')
+> >   # v4l2-ctl --get-detected-standard -d $subdev
+> >   Video Standard = 0x000000ff
+> >           PAL-B/B1/G/H/I/D/D1/K
+> >   # echo on > /sys/bus/i2c/drivers/bd9571mwv/*/bd9571mwv-regulator*/backup_mode
+> >   ** flipp SW23 off **
+> >   # echo mem > /sys/power/state
+> >   ** flipp SW23 on **
+> >   # v4l2-ctl --get-detected-standard -d $subdev
+> >   Video Standard = 0x000000ff
+> >           PAL-B/B1/G/H/I/D/D1/K
+> > 
+> > Also any streaming while the system is suspended to ram fails to resume 
+> > without this series due to the issue demonstrated above. This series is 
+> > tested on R-Car M3-N on-top of latest media-tree.
+> > 
+> > Niklas Söderlund (3):
+> >   adv748x: afe: Select input port when device is reset
+> >   adv748x: csi2: Set virtual channel when device is reset
+> >   adv748x: Configure device when resuming from sleep
+> > 
+> >  drivers/media/i2c/adv748x/adv748x-afe.c  |  6 +----
+> >  drivers/media/i2c/adv748x/adv748x-core.c | 29 ++++++++++++++++++++++--
+> >  drivers/media/i2c/adv748x/adv748x-csi2.c |  6 +----
+> >  drivers/media/i2c/adv748x/adv748x.h      |  2 ++
+> >  4 files changed, 31 insertions(+), 12 deletions(-)
 > > 
 > 
 
