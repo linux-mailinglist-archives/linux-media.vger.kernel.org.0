@@ -2,97 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D97852C418C
-	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 14:59:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9AA572C41F2
+	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 15:16:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729746AbgKYN6r convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Wed, 25 Nov 2020 08:58:47 -0500
-Received: from mail-oi1-f196.google.com ([209.85.167.196]:34976 "EHLO
-        mail-oi1-f196.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729650AbgKYN6q (ORCPT
+        id S1729844AbgKYOPK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Nov 2020 09:15:10 -0500
+Received: from mail-wm1-f68.google.com ([209.85.128.68]:54942 "EHLO
+        mail-wm1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729743AbgKYOPK (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Nov 2020 08:58:46 -0500
-Received: by mail-oi1-f196.google.com with SMTP id c80so2928304oib.2;
-        Wed, 25 Nov 2020 05:58:46 -0800 (PST)
+        Wed, 25 Nov 2020 09:15:10 -0500
+Received: by mail-wm1-f68.google.com with SMTP id d142so2138342wmd.4;
+        Wed, 25 Nov 2020 06:15:08 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc:content-transfer-encoding;
-        bh=6exeu92EkD0QJPi3iK3VVV56ZBh8eo4xmepog4VDKQw=;
-        b=N1/38pg8QLXnyp3NBiTycYcb4HRwiEsduU/0G/qSIdSVb41nD4kQJSh2SRyWhR9fht
-         nj6BPIdkP7oTS286MGW0iOygjzfE2jQORwRnsQG9R8SjWADzkmdsrIme7AGRlAyTNm2h
-         FjX8YE3T4555zwKbtEVUUEj/znLvqgiEh0coBzyPTLKNDVcKcOrDvm7nq67zRWI0kDOh
-         8z9y1HP/qnQYDFTzYEhPC25w6surcyv7ZQhS1BMaSWjB0AJWV/PdXx3FCPEZJ2Tq8Iww
-         PfRcPJo1HbdPPAxRrhseRLG0WrvdrCoiAFoyYzVrHX7B1GjMD0STb8avTBPzuun0/392
-         zFlg==
-X-Gm-Message-State: AOAM531MSH6Jsu76L6PZC2QMmG3QlW0Xyf/bIjuNrPOL+m4I4nZ1YkCr
-        uAGTDXZQrU9aGwSZcGvQovNOtm6w+VtN5JiCen2Oec1k
-X-Google-Smtp-Source: ABdhPJzZEEuHAeeZH2UbBVCbAhbemcFvwa2oCnGLJ2Rb5NvbgzWrNIT4WsVJD0CEK30MdXuefAjj7Q8jhE5zyDhAB00=
-X-Received: by 2002:aca:1c0f:: with SMTP id c15mr2346583oic.54.1606312725737;
- Wed, 25 Nov 2020 05:58:45 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=OTNWqTeUqmzJkpC9NOCmUX8GBH/nXgfg9fJE4Ofwcd8=;
+        b=ioIYKINznM20kqTrcg+bzV634GLL7OpWvqlcV7NfmmGptW67PmEXUotW1MDInd5ny9
+         igXUD5nsV4oBFXtsJ12rMCjN2VdAZjOr4Jh/Ko+IU7o7sR93+YOhGonsxA0Mwu6upwEX
+         P8qI1O3EWyjJ7TfZfZuivXmYUf6X+yPVFeRZvsoEBPwh00+JaOvilhhxHnMY5xWxGiLk
+         Udiafd+8Mq6X6DBIFdR2MT2SrTh+vLibQ0DZOgfQ2QTy1RYtPo4WgetERqRe9qsUX+QE
+         PoH6KPHlOqk5NqvU9e5sIAhdLve4qRftFbF6jtWeRZgQpRwOmuwsULE08R+eRPoQY8NF
+         m+uw==
+X-Gm-Message-State: AOAM532oHVVkMZuqiASPOPeUXnjCGgrdS/eLgQ+C1xDIk+mTVbPMflHg
+        JfTWHE6UfGJKyssvyBQp6RI=
+X-Google-Smtp-Source: ABdhPJyvfqQ/sP05uKPapIZjZ8P1LI64iv1xcYxdq5+nC6S8RSDBQOEhxRq+85Dg1vPAhjljyRi0tQ==
+X-Received: by 2002:a1c:2008:: with SMTP id g8mr4101230wmg.19.1606313708219;
+        Wed, 25 Nov 2020 06:15:08 -0800 (PST)
+Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
+        by smtp.googlemail.com with ESMTPSA id c2sm5411796wrf.68.2020.11.25.06.15.06
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2020 06:15:07 -0800 (PST)
+Date:   Wed, 25 Nov 2020 15:15:05 +0100
+From:   Krzysztof Kozlowski <krzk@kernel.org>
+To:     Stephen Boyd <sboyd@kernel.org>
+Cc:     Chen-Yu Tsai <wens@csie.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Jaroslav Kysela <perex@perex.cz>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Liam Girdwood <lgirdwood@gmail.com>,
+        Mark Brown <broonie@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Michael Turquette <mturquette@baylibre.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Takashi Iwai <tiwai@suse.com>, alsa-devel@alsa-project.org,
+        devel@driverdev.osuosl.org, linux-arm-kernel@lists.infradead.org,
+        linux-clk@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 1/3] clk: fix redefinition of clk_prepare on MIPS with
+ HAVE_LEGACY_CLK
+Message-ID: <20201125141505.GA77733@kozik-lap>
+References: <20201115170950.304460-1-krzk@kernel.org>
+ <20201115170950.304460-2-krzk@kernel.org>
+ <160568531746.60232.15496517544781609246@swboyd.mtv.corp.google.com>
+ <20201118074812.GA5803@kozik-lap>
+ <160626309137.2717324.9318376048083763040@swboyd.mtv.corp.google.com>
 MIME-Version: 1.0
-References: <20201122163637.3590465-1-niklas.soderlund+renesas@ragnatech.se>
- <7ec9c2ba-ea9c-2ce5-8ecf-6239448c711f@ideasonboard.com> <20201125133939.GC2162566@oden.dyn.berto.se>
-In-Reply-To: <20201125133939.GC2162566@oden.dyn.berto.se>
-From:   Geert Uytterhoeven <geert@linux-m68k.org>
-Date:   Wed, 25 Nov 2020 14:58:34 +0100
-Message-ID: <CAMuHMdXLMLUw9E4AwhhDpfDrWAc0p1wYEPh5VJuBkLsgx1y2AA@mail.gmail.com>
-Subject: Re: [PATCH 0/3] adv748x: Add support for s2ram
-To:     =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <160626309137.2717324.9318376048083763040@swboyd.mtv.corp.google.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Niklas, Kieran,
+On Tue, Nov 24, 2020 at 04:11:31PM -0800, Stephen Boyd wrote:
+> Quoting Krzysztof Kozlowski (2020-11-17 23:48:12)
+> > On Tue, Nov 17, 2020 at 11:41:57PM -0800, Stephen Boyd wrote:
+> > > Quoting Krzysztof Kozlowski (2020-11-15 09:09:48)
+> > > > COMMON_CLK even though is a user-selectable symbol, is still selected by
+> > > > multiple other config options.  COMMON_CLK should not be used when
+> > > > legacy clocks are provided by architecture, so it correctly depends on
+> > > > !HAVE_LEGACY_CLK.
+> > > > 
+> > > > However it is possible to create a config which selects both COMMON_CLK
+> > > > (by SND_SUN8I_CODEC) and HAVE_LEGACY_CLK (by SOC_RT305X) which leads to
+> > > 
+> > > Why is SND_SUN8I_CODEC selecting COMMON_CLK? Or really, why is
+> > > SOC_RT305X selecting HAVE_LEGACY_CLK?
+> > 
+> > The SND_SUN8I_CODEC I fixed in following patch (I sent separately v2 of
+> > it).
+> > 
+> > The SOC_RT305X select HAVE_LEGACY_CLK? because it is an old, Ralink
+> > platform, not converted to Common clock frm. Few clock operations are
+> > defined in: arch/mips/ralink/clk.c
+> > 
+> 
+> Ok so this patch isn't necessary then?
 
-On Wed, Nov 25, 2020 at 2:40 PM Niklas Söderlund
-<niklas.soderlund+renesas@ragnatech.se> wrote:
-> On 2020-11-25 13:09:39 +0000, Kieran Bingham wrote:
-> > On 22/11/2020 16:36, Niklas Söderlund wrote:
-> > > This series enables usage of the ADV748x after the system have been
-> > > suspended to ram. During s2ram the ADV748x may be powered down and thus
-> > > lose its configuration from probe time. The configuration contains
-> > > among other things the i2c slave address mappings for the different
-> > > blocks inside the ADV748x. If this is lost the hardware listens to the
-> > > "wrong" i2c addresses and becomes inaccessible.
-> > >
-> > > Example trying to read the analog standard before and after s2ram with
-> > > and without this this series.
-> >
-> > Should we be considering runtime_pm for this instead?
->
-> I don't think so, why do you think we should?
->
-> I opted for this solution because we need fine grain control of when the
-> registers are restored when resuming from s2ram. If they are not
-> restored before (in my case) the VIN driver is resumed and it was
-> streaming at suspend time it will fail as the i2c address map is wrong
-> at this time. For this reason the registers are restored in the early
-> resume callback.
->
-> Second I'm unsure how we could properly test such a solution as I don't
-> think we can powerdown the ADV7482 without also s2ram the whole SoC on
-> our test platforms as it's power is not controllable by the SoC. For
-> example it's not powered down in s2idel.
+For this particular build failure - it is not necessary anymore.
 
-Also, there is no need to reset the ADV7482 every time it is
-runtime-resumed.  In fact such needless reset may impact performance, as
-runtime-resume happens much more frequently than system resume during
-the system's lifetime.
+However there might more of such errors - just not discovered yet. Also,
+the clock bulk API has such ifdefs so it kind of symmetrical and
+consistent approach.
 
-Gr{oetje,eeting}s,
+> It seems OK to select
+> HAVE_LEGACY_CLK but not to select COMMON_CLK unless it's architecture
+> code that can't be enabled when the other architecture code is selecting
+> HAVE_LEGACY_CLK.
 
-                        Geert
+Best regards,
+Krzysztof
 
--- 
-Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
-
-In personal conversations with technical people, I call myself a hacker. But
-when I'm talking to journalists I just say "programmer" or something like that.
-                                -- Linus Torvalds
