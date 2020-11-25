@@ -2,69 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 73CD82C44B8
-	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 17:14:31 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B2942C452C
+	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 17:29:55 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730560AbgKYQOP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Nov 2020 11:14:15 -0500
-Received: from gofer.mess.org ([88.97.38.141]:36281 "EHLO gofer.mess.org"
+        id S1730816AbgKYQ2j (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Nov 2020 11:28:39 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:38984 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729755AbgKYQOP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Nov 2020 11:14:15 -0500
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id 35304C6379; Wed, 25 Nov 2020 16:14:14 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1606320854; bh=u72drLsALwTpFtQvU0vgWN6o8BnTxGJarqYuiLHc/gU=;
-        h=Date:From:To:Subject:From;
-        b=TMluLAmRS4MIncSKpN9Ewgj/iZeHZnM+V/qm0pMS+Smh5cN8vWCkmSpyor89wXGYU
-         tKDR/Os9d5Dgahj26KTS0igb9mDOGxdOloWYyKQQMyyAkwyeONgAOk09a34MmTadGW
-         Cmr4WDehPVZkkcm0b7muT0v1/77ehQeULfhZ5XKVV1C6LJqkJQSStZS4ZnCQysYdda
-         Xf9DiaOi2Wx5veeGkuCFY8HIdf5HRtcFWQok7+hanN+llJoLc5j6Z31xDy8sR6ktpx
-         zrPlfuCr5gLeG/SXL31NFx8c7qkqsDNnV9uREfPfFAJZWaVXnayUKtjDB/acwgDp/i
-         H8ADjD90gPXdg==
-Date:   Wed, 25 Nov 2020 16:14:14 +0000
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.11] RC/DVB fixes
-Message-ID: <20201125161413.GA915@gofer.mess.org>
+        id S1730494AbgKYQ2j (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Nov 2020 11:28:39 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1khxen-009kvP-Cj; Wed, 25 Nov 2020 16:28:37 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1khxht-00035K-VN; Wed, 25 Nov 2020 16:31:50 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.11] RC/DVB fixes (#69348)
+Date:   Wed, 25 Nov 2020 16:31:49 +0000
+Message-Id: <20201125163149.11817-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201125161413.GA915@gofer.mess.org>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 4863b93cfd2dfe88557f820b3399c3fa2163ec43:
+From: builder@linuxtv.org
 
-  media: camss: csiphy: Set rate on csiX_phy clock on SDM630/660 (2020-11-25 15:02:44 +0100)
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20201125161413.GA915@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/78586/
+Build time: 00:06:52
+Link: https://lore.kernel.org/linux-media/20201125161413.GA915@gofer.mess.org
 
-are available in the Git repository at:
+gpg: Signature made Wed 25 Nov 2020 04:09:11 PM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.11c
+Summary: got 1/3 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-for you to fetch changes up to dcc231959b232085124f76c3d341eb8a1ce6cefd:
+Error/warnings:
 
-  media: rc: add keymap for KHAMSIN remote (2020-11-25 15:10:16 +0000)
+patches/0003-media-rc-add-keymap-for-KHAMSIN-remote.patch:
 
-----------------------------------------------------------------
-v5.11c
+   checkpatch.pl:
+	$ cat patches/0003-media-rc-add-keymap-for-KHAMSIN-remote.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:31: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+	-:44: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-----------------------------------------------------------------
-Christian Hewitt (1):
-      media: rc: add keymap for KHAMSIN remote
 
-Kai Muenz (1):
-      media: dvb-usb: Add Hauppauge MAX S2's USB-IDs
+Error #512 when building PDF docs
 
-Keita Suzuki (1):
-      media: siano: fix memory leak of debugfs members in smsdvb_hotplug
-
- Documentation/devicetree/bindings/media/rc.yaml |  1 +
- drivers/media/common/siano/smsdvb-main.c        |  5 +-
- drivers/media/rc/keymaps/Makefile               |  1 +
- drivers/media/rc/keymaps/rc-khamsin.c           | 75 +++++++++++++++++++++++++
- drivers/media/usb/dvb-usb/dw2102.c              |  8 ++-
- include/media/rc-map.h                          |  1 +
- 6 files changed, 89 insertions(+), 2 deletions(-)
- create mode 100644 drivers/media/rc/keymaps/rc-khamsin.c
