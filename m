@@ -2,116 +2,197 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 62E512C3E99
-	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 12:00:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C69AB2C3EBE
+	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 12:07:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726034AbgKYK5z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Nov 2020 05:57:55 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:37897 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725836AbgKYK5y (ORCPT
+        id S1727614AbgKYLH3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Nov 2020 06:07:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36720 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726602AbgKYLH2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Nov 2020 05:57:54 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id hsUekIvThN7XghsUhkVqgp; Wed, 25 Nov 2020 11:57:52 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606301872; bh=y5z7/tFBmv+ZGDeU30eDwnxUg1FyFsmx3IxfaEZw6Ms=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=GBPqn/j4szPbWZv/BlPRZX3G/ZukbODfCSZ1reuLbxHGb1ZwErEOksuk5saI+RAsp
-         QBJ2L4+0DQvC3m05BLyPJdqy3TpNFt1xV+U6zvMbYqQEvCvhAqz8BIM+Iiv6u/czwg
-         Hie8hAe9lgbylbU6trQ2WX2N1AZhcx6hitXaLPQ4J45dh9B0Z7vFXVOGr9MouSPCws
-         zK8ipOkYWrD7jaI3Ez8W6x8hk92jybj5S/NTJ8yawozZr9kCJRUWeFczwwwAg11eYw
-         RG1ul55e3tTJNI2dDSDW/vxh4pS1Fru9CIqtbOjEDE2qNrFtxLoDGMwuGZ7WsYkRuk
-         1nUWl28LJYRmA==
-Subject: Re: [PATCH v4 13/13] media: docs: Move the H264 stateless codec uAPI
-To:     Ezequiel Garcia <ezequiel@collabora.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
-Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-References: <20201123144000.81310-1-ezequiel@collabora.com>
- <20201123144000.81310-14-ezequiel@collabora.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <b43ae660-c32e-8e51-a101-da3cd032e546@xs4all.nl>
-Date:   Wed, 25 Nov 2020 11:57:48 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <20201123144000.81310-14-ezequiel@collabora.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfNlNWy0h3yC4n495xuBxxNrVRyEzcZXfzN3wQx3ApOzgLDEuoSFAdheUAPrEOPg1rOTIOKRcRvHKkJq842qomun+a69fvomm4CT+pZ11jkLft6BL27Wt
- 9VI/hSmmCyXzj2lGkUIjCAsyALSRTft77osNo3dQ+FtalN2mySwcROSWlqKor8c5btfKD8qH5g3EeWwNRS3BQKRldnQ2U3droXkatKnUCSCWKT8XLyn6We6K
- 6IzaAbCiBG7+arbWvZBfJqD4H1l/70UvXIOMGcavz4DkdCIpnqbfopF6F8Bx37E8ExXLNl0BwJIUiHAHFWoaJm9taTQ5xIut7MR4SyYLWQJ1sUql5RcMoe0o
- GMdy9QOmoAXZPgoQ6gq+/M/jRdZeDL0V7PQMMnARfQvAoF9l0FLkaC+cXStXUkP0IKuTVBnsFK98rJ9PlSJFHWS0iwy3w6ct8woWLCgH0V9W9VcDifaDZWF7
- FH+hXNGqsj1Vk/Ez1Y3HKX3sAYfMo9s/67z+BWmRsYi9F+mFlHC27DZThw4=
+        Wed, 25 Nov 2020 06:07:28 -0500
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2C316C0613D4;
+        Wed, 25 Nov 2020 03:07:27 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id p19so1302903wmg.0;
+        Wed, 25 Nov 2020 03:07:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=IQpZCTG2ajIafMLR32rrbFLdqRcGdjvNLEVVBXg2fLk=;
+        b=QTY+q9ceZhy0sSRRIEXzXSqAN4hblN2GKVz9XC//RifdYmZNj+4zW3bJgN+ePN0G0p
+         qrE0Axyl2MXXzCPSV7dY9LkWGH66NX7QLZvaTHEbOooljffN04MEWMfXPZ62CW9bBn/L
+         /UmsxYgXz8XVHZ8SiCLQlDED8rB+nQGaaZqctsyZqPSbk4zqgR3rn3GUyR4pQl1Ns0BR
+         vPUXIQqe/7kHTRxwJSJqaMXrhkSxKv1H8RiIwe9gb5+Bz8N8IPwqLKSs0IUlyS6U+KlC
+         59kFqXgFC0ZzR2ht5UvW7vLayCTgBlwdrtyztHuzqgk/xCmJK8tdEXClNUZVh99hH/Zj
+         w2nQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=IQpZCTG2ajIafMLR32rrbFLdqRcGdjvNLEVVBXg2fLk=;
+        b=AZQ4a96QoV8oMTFcA0iMDqPmRMxEKWMya8MAJGqN1wMxcpsI+xdasij1KE4G/Gz+nD
+         P8N9FShBd1rOLHwoPT77ID+BF5feqh6fscsseMCHJlqeh/zhHe7esXjRJ9OamgnDCJdt
+         jO3curth+FsGX/5nwSrkXX9F8ER6SCi8lDyyaofJtK105iY2gfSRAoTlfVrvOxu2r4v0
+         qN1pLUeElQPKI9HonmGrKuTwUxmcuShGjacrrdsluB5l3nlUHyEdnWrHsdURvUsygXxh
+         t0Eqfg31blyqrls0K9K7TGNTWQ/PbES5+byPptm6+M/GvjFYi+XRQbwx9F/W+CHzi0Jo
+         kR1w==
+X-Gm-Message-State: AOAM533W2qS3FBiWe5sSoGBOWhjbBIXACVg2rQUwqQZkiw7N7XYIt5Si
+        f3A5BbsQ8hFVVC504+JbUKA=
+X-Google-Smtp-Source: ABdhPJzQUT9KbvbLakQ8riMCF8kjC8hRzH5cktrCOjKC+4dUkrOWrlwKDci492zEk4WKvO+18nSmYQ==
+X-Received: by 2002:a1c:9d08:: with SMTP id g8mr3273122wme.171.1606302445889;
+        Wed, 25 Nov 2020 03:07:25 -0800 (PST)
+Received: from localhost.localdomain ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id f23sm3884322wml.14.2020.11.25.03.07.23
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 25 Nov 2020 03:07:24 -0800 (PST)
+From:   Christian Hewitt <christianshewitt@gmail.com>
+To:     Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc:     Christian Hewitt <christianshewitt@gmail.com>
+Subject: [PATCH v2] media: rc: add keymap for KHAMSIN remote
+Date:   Wed, 25 Nov 2020 11:07:21 +0000
+Message-Id: <20201125110721.600-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 23/11/2020 15:40, Ezequiel Garcia wrote:
-> Now that we've destaged the H264 stateless codec controls,
-> and with all the pieces in place, update the documentation
-> and move it to its own section.
-> 
-> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> ---
->  .../userspace-api/media/v4l/common.rst        |   1 +
->  .../media/v4l/ext-ctrls-codec-stateless.rst   | 674 +++++++++++++++++
->  .../media/v4l/ext-ctrls-codec.rst             | 692 ------------------
->  .../media/v4l/extended-controls.rst           |   3 +-
->  .../media/v4l/pixfmt-compressed.rst           |  21 +-
->  5 files changed, 685 insertions(+), 706 deletions(-)
->  create mode 100644 Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/common.rst b/Documentation/userspace-api/media/v4l/common.rst
-> index d84aeb703165..8c263c5a85d8 100644
-> --- a/Documentation/userspace-api/media/v4l/common.rst
-> +++ b/Documentation/userspace-api/media/v4l/common.rst
-> @@ -44,6 +44,7 @@ applicable to all devices.
->      ext-ctrls-image-source
->      ext-ctrls-image-process
->      ext-ctrls-codec
-> +    ext-ctrls-codec-stateless
->      ext-ctrls-jpeg
->      ext-ctrls-dv
->      ext-ctrls-rf-tuner
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> new file mode 100644
-> index 000000000000..ab433afe625f
-> --- /dev/null
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec-stateless.rst
-> @@ -0,0 +1,674 @@
-> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-> +
-> +.. _codec-stateless-controls:
-> +
-> +*********************************
-> +Stateless Codec Control Reference
-> +*********************************
-> +
-> +The Stateless Codec control class is intended to support
-> +stateless decoder and encoders (i.e. hardware accelerators).
-> +
-> +These drivers are typically supported by the :ref:`stateless_decoder`,
-> +and deal with parsed pixel formats such as V4L2_PIX_FMT_H264_SLICE.
-> +
-> +Stateless Codec Control ID
-> +==========================
-> +
-> +.. _codec-stateless-control-id:
-> +
-> +``V4L2_CID_CODEC_STATELESS_CLASS (class)``
-> +    The Codec class descriptor.
+This remote ships with the Amlogic SML-5442TW IPTV/VOD Set-Top Box
+used by O2.cz. This keymap adds support for the default IR controls.
 
-Codec ->  Stateless Codec
+Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+---
 
-Regards,
+v2 changes:
+- added rc.yaml bindings
+- fixed typos and removed stray URL reference
 
-	Hans
+ .../devicetree/bindings/media/rc.yaml         |  1 +
+ drivers/media/rc/keymaps/Makefile             |  1 +
+ drivers/media/rc/keymaps/rc-khamsin.c         | 75 +++++++++++++++++++
+ include/media/rc-map.h                        |  1 +
+ 4 files changed, 78 insertions(+)
+ create mode 100644 drivers/media/rc/keymaps/rc-khamsin.c
+
+diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
+index 8ad2cba5f61f..03cf40f91d6c 100644
+--- a/Documentation/devicetree/bindings/media/rc.yaml
++++ b/Documentation/devicetree/bindings/media/rc.yaml
+@@ -83,6 +83,7 @@ properties:
+       - rc-it913x-v2
+       - rc-kaiomy
+       - rc-khadas
++      - rc-khamsin
+       - rc-kworld-315u
+       - rc-kworld-pc150u
+       - rc-kworld-plus-tv-analog
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index aaa1bf81d00d..1c4d6bec0ae4 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -60,6 +60,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+ 			rc-it913x-v2.o \
+ 			rc-kaiomy.o \
+ 			rc-khadas.o \
++			rc-khamsin.o \
+ 			rc-kworld-315u.o \
+ 			rc-kworld-pc150u.o \
+ 			rc-kworld-plus-tv-analog.o \
+diff --git a/drivers/media/rc/keymaps/rc-khamsin.c b/drivers/media/rc/keymaps/rc-khamsin.c
+new file mode 100644
+index 000000000000..0c98c2faacff
+--- /dev/null
++++ b/drivers/media/rc/keymaps/rc-khamsin.c
+@@ -0,0 +1,75 @@
++// SPDX-License-Identifier: GPL-2.0+
++// Copyright (c) 2020 Christian Hewitt
++
++#include <media/rc-map.h>
++#include <linux/module.h>
++
++/*
++ * KHAMSIN is an IR/Bluetooth RCU supplied with the SmartLabs
++ * SML-5442TW DVB-S/VOD box. The RCU has separate IR (TV) and
++ * BT (STB) modes. This keymap suppors the IR controls.
++ */
++
++static struct rc_map_table khamsin[] = {
++	{ 0x70702, KEY_POWER},
++
++	{ 0x70701, KEY_VIDEO}, // source
++
++	{ 0x7076c, KEY_RED},
++	{ 0x70714, KEY_GREEN},
++	{ 0x70715, KEY_YELLOW},
++	{ 0x70716, KEY_BLUE},
++
++	{ 0x7071a, KEY_MENU},
++	{ 0x7074f, KEY_EPG},
++
++	{ 0x70760, KEY_UP },
++	{ 0x70761, KEY_DOWN },
++	{ 0x70765, KEY_LEFT },
++	{ 0x70762, KEY_RIGHT },
++	{ 0x70768, KEY_ENTER },
++
++	{ 0x7072d, KEY_ESC }, // back
++
++	{ 0x70707, KEY_VOLUMEUP },
++	{ 0x7070b, KEY_VOLUMEDOWN },
++	{ 0x7070f, KEY_MUTE },
++	{ 0x70712, KEY_CHANNELUP },
++	{ 0x70710, KEY_CHANNELDOWN },
++
++	{ 0x70704, KEY_1 },
++	{ 0x70705, KEY_2 },
++	{ 0x70706, KEY_3 },
++	{ 0x70708, KEY_4 },
++	{ 0x70709, KEY_5 },
++	{ 0x7070a, KEY_6 },
++	{ 0x7070c, KEY_7 },
++	{ 0x7070d, KEY_8 },
++	{ 0x7070e, KEY_9 },
++	{ 0x70711, KEY_0 },
++};
++
++static struct rc_map_list khamsin_map = {
++	.map = {
++		.scan     = khamsin,
++		.size     = ARRAY_SIZE(khamsin),
++		.rc_proto = RC_PROTO_NECX,
++		.name     = RC_MAP_KHAMSIN,
++	}
++};
++
++static int __init init_rc_map_khamsin(void)
++{
++	return rc_map_register(&khamsin_map);
++}
++
++static void __exit exit_rc_map_khamsin(void)
++{
++	rc_map_unregister(&khamsin_map);
++}
++
++module_init(init_rc_map_khamsin)
++module_exit(exit_rc_map_khamsin)
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Christian Hewitt <christianshewitt@gmail.com>");
+diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+index 7dbb91c601a7..fa270f16a97b 100644
+--- a/include/media/rc-map.h
++++ b/include/media/rc-map.h
+@@ -263,6 +263,7 @@ struct rc_map *rc_map_get(const char *name);
+ #define RC_MAP_IT913X_V2                 "rc-it913x-v2"
+ #define RC_MAP_KAIOMY                    "rc-kaiomy"
+ #define RC_MAP_KHADAS                    "rc-khadas"
++#define RC_MAP_KHAMSIN                   "rc-khamsin"
+ #define RC_MAP_KWORLD_315U               "rc-kworld-315u"
+ #define RC_MAP_KWORLD_PC150U             "rc-kworld-pc150u"
+ #define RC_MAP_KWORLD_PLUS_TV_ANALOG     "rc-kworld-plus-tv-analog"
+-- 
+2.17.1
+
