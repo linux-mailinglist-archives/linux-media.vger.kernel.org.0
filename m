@@ -2,251 +2,289 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3D5112C49AB
-	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 22:11:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E72D62C49ED
+	for <lists+linux-media@lfdr.de>; Wed, 25 Nov 2020 22:31:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731379AbgKYVKM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Nov 2020 16:10:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46204 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731343AbgKYVKD (ORCPT
+        id S1732274AbgKYVau (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Nov 2020 16:30:50 -0500
+Received: from mailout1.w1.samsung.com ([210.118.77.11]:38219 "EHLO
+        mailout1.w1.samsung.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732204AbgKYVat (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Nov 2020 16:10:03 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 86485C061A54
-        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 13:10:03 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id w6so3541925pfu.1
-        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 13:10:03 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=5kDOOuMOjwqEdI4fOY8lF/zJwxoesF7EbkKd66qXZt4=;
-        b=AWR/7M4mhE4fi43nRvdimsQoF0WR0/yRvzcmpbbdNnukQZ4s3FUnDOA4HlPrcfy1KL
-         TnDV3Sp7ib0l66wO1u9Qkihqc0ymqk7uAD73hLx1Hbj+4zgGkd46Av0r6N17g4aWHL9f
-         T52peLS6H3gWn2HtVm1n8SJNqsSbmk3lehF9k=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=5kDOOuMOjwqEdI4fOY8lF/zJwxoesF7EbkKd66qXZt4=;
-        b=UPOL+Ot1+LvXNU4EvfnQbhTeouJHSwVQiCkGyJL9wStANC7wZFKtVBkesc2AMW4JMf
-         34HrJNo9y/gAlvvVygmvnZj7gjEQTo1vPvF3GzDCh7xdhOhvFmlRf41DJnDC9BRKSxk9
-         i15FIuB+yl/0ZqTXutWjpp3NdNcw9CwXrN+s211Vb2PCaT3q5ufKuCdnPKeVaZaAVGWL
-         2yB/u0cimhtVkZdm8QsB7GjuaTL36jMa8xMlHOC9TTHJ0VmI3SbgOTU5yDBNnJAPjV2H
-         HwBc5gtWGKDLuIaFhWaiLiVOIzghf7GpvSa5il7EakT1/cvmhkuJ3ZJ8reDCXJedJFxc
-         HaXw==
-X-Gm-Message-State: AOAM531oLoXH/8DDa2R4URtNewmkMY/UUMs7tuiQk8tQcutO9qYS9Yhz
-        +UTHGFVzl+k++GITp+lD+j7+iA==
-X-Google-Smtp-Source: ABdhPJx/eEsXFJ4LN0K87oZeE7bvP2eO9KEt7vLrempCPcmRQAJuuV8YImLC928PO4R7i7Khu5FszQ==
-X-Received: by 2002:a65:6547:: with SMTP id a7mr4391475pgw.198.1606338602870;
-        Wed, 25 Nov 2020 13:10:02 -0800 (PST)
-Received: from www.outflux.net (smtp.outflux.net. [198.145.64.163])
-        by smtp.gmail.com with ESMTPSA id x30sm2796297pgc.86.2020.11.25.13.10.01
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2020 13:10:01 -0800 (PST)
-Date:   Wed, 25 Nov 2020 13:10:00 -0800
-From:   Kees Cook <keescook@chromium.org>
-To:     James Bottomley <James.Bottomley@HansenPartnership.com>
-Cc:     "Gustavo A. R. Silva" <gustavoars@kernel.org>,
-        Joe Perches <joe@perches.com>,
-        Jakub Kicinski <kuba@kernel.org>, alsa-devel@alsa-project.org,
-        linux-atm-general@lists.sourceforge.net,
-        reiserfs-devel@vger.kernel.org, linux-iio@vger.kernel.org,
-        linux-wireless@vger.kernel.org, linux-fbdev@vger.kernel.org,
-        dri-devel@lists.freedesktop.org, linux-kernel@vger.kernel.org,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        linux-ide@vger.kernel.org, dm-devel@redhat.com,
-        keyrings@vger.kernel.org, linux-mtd@lists.infradead.org,
-        GR-everest-linux-l2@marvell.com, wcn36xx@lists.infradead.org,
-        samba-technical@lists.samba.org, linux-i3c@lists.infradead.org,
-        linux1394-devel@lists.sourceforge.net,
-        linux-afs@lists.infradead.org,
-        usb-storage@lists.one-eyed-alien.net, drbd-dev@lists.linbit.com,
-        devel@driverdev.osuosl.org, linux-cifs@vger.kernel.org,
-        rds-devel@oss.oracle.com,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        linux-scsi@vger.kernel.org, linux-rdma@vger.kernel.org,
-        oss-drivers@netronome.com, bridge@lists.linux-foundation.org,
-        linux-security-module@vger.kernel.org,
-        amd-gfx@lists.freedesktop.org,
-        linux-stm32@st-md-mailman.stormreply.com, cluster-devel@redhat.com,
-        linux-acpi@vger.kernel.org, coreteam@netfilter.org,
-        intel-wired-lan@lists.osuosl.org, linux-input@vger.kernel.org,
-        Miguel Ojeda <ojeda@kernel.org>,
-        tipc-discussion@lists.sourceforge.net, linux-ext4@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-watchdog@vger.kernel.org,
-        selinux@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        intel-gfx@lists.freedesktop.org, linux-geode@lists.infradead.org,
-        linux-can@vger.kernel.org, linux-block@vger.kernel.org,
-        linux-gpio@vger.kernel.org, op-tee@lists.trustedfirmware.org,
-        linux-mediatek@lists.infradead.org, xen-devel@lists.xenproject.org,
-        nouveau@lists.freedesktop.org, linux-hams@vger.kernel.org,
-        ceph-devel@vger.kernel.org,
-        virtualization@lists.linux-foundation.org,
-        linux-arm-kernel@lists.infradead.org, linux-hwmon@vger.kernel.org,
-        x86@kernel.org, linux-nfs@vger.kernel.org,
-        GR-Linux-NIC-Dev@marvell.com, linux-mm@kvack.org,
-        netdev@vger.kernel.org, linux-decnet-user@lists.sourceforge.net,
-        linux-mmc@vger.kernel.org, linux-renesas-soc@vger.kernel.org,
-        linux-sctp@vger.kernel.org, linux-usb@vger.kernel.org,
-        netfilter-devel@vger.kernel.org, linux-crypto@vger.kernel.org,
-        patches@opensource.cirrus.com, linux-integrity@vger.kernel.org,
-        target-devel@vger.kernel.org, linux-hardening@vger.kernel.org,
-        Jonathan Cameron <Jonathan.Cameron@huawei.com>,
-        Greg KH <gregkh@linuxfoundation.org>
-Subject: Re: [Intel-wired-lan] [PATCH 000/141] Fix fall-through warnings for
- Clang
-Message-ID: <202011251240.1E67BE900@keescook>
-References: <202011220816.8B6591A@keescook>
- <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
- <ca071decb87cc7e905411423c05a48f9fd2f58d7.camel@perches.com>
- <0147972a72bc13f3629de8a32dee6f1f308994b5.camel@HansenPartnership.com>
- <d8d1e9add08cdd4158405e77762d4946037208f8.camel@perches.com>
- <dbd2cb703ed9eefa7dde9281ea26ab0f7acc8afe.camel@HansenPartnership.com>
- <20201123130348.GA3119@embeddedor>
- <8f5611bb015e044fa1c0a48147293923c2d904e4.camel@HansenPartnership.com>
- <202011241327.BB28F12F6@keescook>
- <a841536fe65bb33f1c72ce2455a6eb47a0107565.camel@HansenPartnership.com>
+        Wed, 25 Nov 2020 16:30:49 -0500
+Received: from eucas1p2.samsung.com (unknown [182.198.249.207])
+        by mailout1.w1.samsung.com (KnoxPortal) with ESMTP id 20201125213037euoutp011e5612b241622c08b96dec1f45261a81~K3ZI0avDB1430814308euoutp01r
+        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 21:30:37 +0000 (GMT)
+DKIM-Filter: OpenDKIM Filter v2.11.0 mailout1.w1.samsung.com 20201125213037euoutp011e5612b241622c08b96dec1f45261a81~K3ZI0avDB1430814308euoutp01r
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=samsung.com;
+        s=mail20170921; t=1606339837;
+        bh=0SyuEg94uJUCVmkxRXgGOa5Agz30lkFn7guBPvROnjk=;
+        h=Subject:To:From:Date:In-Reply-To:References:From;
+        b=NvYbEA13W77JmGzrriVgynC+kwEr8tgvnxPlFlhywY1TfDcDa2dDd+nJHKuB4cSos
+         Bm+XdTX/R865D7WOREW22bTj0AAoFy+2+wIiHmyGIDHBCFBHPOfF7CK4+5qg3+65nm
+         tw7nnrth90Vfy3BZH4mhyf6Hs9elrSPc7uSPz0g8=
+Received: from eusmges1new.samsung.com (unknown [203.254.199.242]) by
+        eucas1p1.samsung.com (KnoxPortal) with ESMTP id
+        20201125213026eucas1p133e92809597e3c51e2a1a84a92723446~K3Y_6D5841182311823eucas1p1q;
+        Wed, 25 Nov 2020 21:30:26 +0000 (GMT)
+Received: from eucas1p1.samsung.com ( [182.198.249.206]) by
+        eusmges1new.samsung.com (EUCPMTA) with SMTP id 98.D2.27958.2FCCEBF5; Wed, 25
+        Nov 2020 21:30:26 +0000 (GMT)
+Received: from eusmtrp2.samsung.com (unknown [182.198.249.139]) by
+        eucas1p2.samsung.com (KnoxPortal) with ESMTPA id
+        20201125213025eucas1p24fd0cb6e4383297f8527b2075ce3e4ea~K3Y99-Bl20787307873eucas1p2B;
+        Wed, 25 Nov 2020 21:30:25 +0000 (GMT)
+Received: from eusmgms2.samsung.com (unknown [182.198.249.180]) by
+        eusmtrp2.samsung.com (KnoxPortal) with ESMTP id
+        20201125213025eusmtrp25f4ce38c22ce80760d9d31f6992b350b~K3Y95d6Gn2067820678eusmtrp2c;
+        Wed, 25 Nov 2020 21:30:25 +0000 (GMT)
+X-AuditID: cbfec7f2-f15ff70000006d36-42-5fbeccf2c82c
+Received: from eusmtip1.samsung.com ( [203.254.199.221]) by
+        eusmgms2.samsung.com (EUCPMTA) with SMTP id 08.CC.16282.1FCCEBF5; Wed, 25
+        Nov 2020 21:30:25 +0000 (GMT)
+Received: from [106.210.88.143] (unknown [106.210.88.143]) by
+        eusmtip1.samsung.com (KnoxPortal) with ESMTPA id
+        20201125213024eusmtip1ffc51ff185ac47173f20b7f93f931937~K3Y9Ny24w3264332643eusmtip1D;
+        Wed, 25 Nov 2020 21:30:24 +0000 (GMT)
+Subject: Re: [PATCH v2 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+To:     Ricardo Ribalda <ribalda@chromium.org>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Christoph Hellwig <hch@lst.de>,
+        auro Carvalho Chehab <mchehab@kernel.org>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>
+From:   Marek Szyprowski <m.szyprowski@samsung.com>
+Message-ID: <527e4b4e-e631-adfa-e4fa-c777af82ae17@samsung.com>
+Date:   Wed, 25 Nov 2020 22:30:28 +0100
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0)
+        Gecko/20100101 Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <a841536fe65bb33f1c72ce2455a6eb47a0107565.camel@HansenPartnership.com>
+In-Reply-To: <20201125203114.130967-1-ribalda@chromium.org>
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrIKsWRmVeSWpSXmKPExsWy7djPc7qfzuyLN9hxSthi5eqjTBYL9ltb
+        dM7ewG6xsG0Ji8XlXXPYLHo2bGW1WLbpD5NF0/SDbBYHPzxhtVjwdRWjxefWf2wO3B5PDs5j
+        8lgzbw2jx+yGiyweCzaVemxa1cnmMfnGckaP3Tcb2Dw+b5IL4IjisklJzcksSy3St0vgyljU
+        +JulYJ5+xarzcxkbGPepdjFyckgImEjsXDaPpYuRi0NIYAWjxOYjc1ghnC+MEnPmdTJBOJ8Z
+        JQ7fO8wO03Jl2lM2iMRyRokrk39A9b9nlGicvYUNpEpYwFvixbaFYLNEBN4zS3S0ngVrZxMw
+        lOh62wVWxCtgJ/H+9xkwm0VAVeLj6cfMILaoQJLEwY8PoGoEJU7OfMICYnMKWEucWf2TEcRm
+        FpCX2P52DjOELS5x68l8sFslBP5zSKxse8QEcauLRPPOo6wQtrDEq+NboH6Qkfi/E6ahmVHi
+        4bm17BBOD6PE5aYZjBBV1hJ3zv0COoMDaIWmxPpd+hBhR4lV95Yyg4QlBPgkbrwVhDiCT2LS
+        tulQYV6JjjYhiGo1iVnH18GtPXjhEjOE7SHRu20W2wRGxVlI3pyF5LVZSF6bhXDDAkaWVYzi
+        qaXFuempxYZ5qeV6xYm5xaV56XrJ+bmbGIGp7PS/4592MM599VHvECMTB+MhRgkOZiURXnfh
+        vfFCvCmJlVWpRfnxRaU5qcWHGKU5WJTEeVfNXhMvJJCeWJKanZpakFoEk2Xi4JRqYJK401Rb
+        treRq0LmXOF+3oAH3/epG77rDWeu+HSP/9+uyT8i/gTssGM7HjFjcV+/vFiBipTiJIHq8Pzp
+        azQlVcwN5RtP63BemGWcVvip8OU+jmufJaL6v7I/eHqe8djK1Hyuqexrr75U1XvgUKD4/e7/
+        b4mMs9z+avCtf3dT426Erac6+7q2zjP8Kz0sl2fdMlf6PJfhz6QAywVn/jZs6Kqa++/VrDDW
+        NOeZojsa5z5ev2y3xudpfox3vjkeUfWuyT9pvd+5MOPHLQOHqh69vYmXq5Zz/Niv/ODmfl2O
+        dSKLDx6/5t7xVmHyj6B10Rl/GSJ4FhWy5X++0hp9/uF7NiHBu1GFd3azN31L/+EY2KnEUpyR
+        aKjFXFScCABr1rVW1AMAAA==
+X-Brightmail-Tracker: H4sIAAAAAAAAA+NgFjrGIsWRmVeSWpSXmKPExsVy+t/xu7ofz+yLNzhyhd9i5eqjTBYL9ltb
+        dM7ewG6xsG0Ji8XlXXPYLHo2bGW1WLbpD5NF0/SDbBYHPzxhtVjwdRWjxefWf2wO3B5PDs5j
+        8lgzbw2jx+yGiyweCzaVemxa1cnmMfnGckaP3Tcb2Dw+b5IL4IjSsynKLy1JVcjILy6xVYo2
+        tDDSM7S00DMysdQzNDaPtTIyVdK3s0lJzcksSy3St0vQy1jU+JulYJ5+xarzcxkbGPepdjFy
+        ckgImEhcmfaUrYuRi0NIYCmjREfbamaIhIzEyWkNrBC2sMSfa11QRW8ZJc41NTOBJIQFvCVe
+        bFvICpIQEfjILPHj8yuwbiGBPkaJxz88QGw2AUOJrrcg3ZwcvAJ2Eu9/nwGzWQRUJT6efgxW
+        LyqQJPF76VqoGkGJkzOfsIDYnALWEmdW/2QEsZkFzCTmbX7IDGHLS2x/OwfKFpe49WQ+0wRG
+        wVlI2mchaZmFpGUWkpYFjCyrGEVSS4tz03OLjfSKE3OLS/PS9ZLzczcxAiN027GfW3Ywrnz1
+        Ue8QIxMH4yFGCQ5mJRFed+G98UK8KYmVValF+fFFpTmpxYcYTYH+mcgsJZqcD0wReSXxhmYG
+        poYmZpYGppZmxkrivCZH1sQLCaQnlqRmp6YWpBbB9DFxcEo1MO2NNwvpVTzfHaYqeDN7ZYjF
+        k9KI6z6vj7Qsm22SGxUpZKlwoN81+J8f67QJVbe7RHy4dmdo2d0KMVrz2uxsZcXBXfvvTitZ
+        u1Bs78bU9RVZr7kj7R1Cmb8Hej8WuLLefg+Dj95Sq86MTpHj22pDe+d/MtAVv/Cnj/kUw7cc
+        u7LJqpLNf2U650x6uPLulrm3LBNfMEdes9jlMEltt3wJy1d29tj04kmhlvFlt+y/7paSWHBA
+        7MCqepn01mvhe93avVoXrj/MXbpps0LuyRmH+mzP7OlRvvX2FZfvskPbD0cvXi6/O2+zrvLS
+        yVorbBieLtYMuXY80FEp1jzt+US9YOnSK4KnlErvb9oQlGThpsRSnJFoqMVcVJwIADxDY4ZZ
+        AwAA
+X-CMS-MailID: 20201125213025eucas1p24fd0cb6e4383297f8527b2075ce3e4ea
+X-Msg-Generator: CA
+Content-Type: text/plain; charset="utf-8"
+X-RootMTR: 20201125203125eucas1p1456f09a6d130e2f015707b4e5f9dbfc1
+X-EPHeader: CA
+CMS-TYPE: 201P
+X-CMS-RootMailID: 20201125203125eucas1p1456f09a6d130e2f015707b4e5f9dbfc1
+References: <CGME20201125203125eucas1p1456f09a6d130e2f015707b4e5f9dbfc1@eucas1p1.samsung.com>
+        <20201125203114.130967-1-ribalda@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 24, 2020 at 11:05:35PM -0800, James Bottomley wrote:
-> Now, what we have seems to be about 6 cases (at least what's been shown
-> in this thread) where a missing break would cause potentially user
-> visible issues.  That means the value of this isn't zero, but it's not
-> a no-brainer massive win either.  That's why I think asking what we've
-> invested vs the return isn't a useless exercise.
+Hi
 
-The number is much higher[1]. If it were 6 in the entire history of the
-kernel, I would agree with you. :) Some were fixed _before_ Gustavo's
-effort too, which I also count towards the idea of "this is a dangerous
-weakness in C, and now we have stopped it forever."
+On 25.11.2020 21:31, Ricardo Ribalda wrote:
+> On architectures where the is no coherent caching such as ARM use the
+> dma_alloc_noncontiguos API and handle manually the cache flushing using
+> dma_sync_sg().
+>
+> With this patch on the affected architectures we can measure up to 20x
+> performance improvement in uvc_video_copy_data_work().
+>
+> Signed-off-by: Ricardo Ribalda <ribalda@chromium.org>
+> ---
+>
+> v2: Thanks to Robin!
+>
+> Use dma_sync_sg instead of dma_sync_single
+>
+>
+>   drivers/media/usb/uvc/uvc_video.c | 83 ++++++++++++++++++++++++++-----
+>   drivers/media/usb/uvc/uvcvideo.h  |  2 +
+>   2 files changed, 73 insertions(+), 12 deletions(-)
+>
+> diff --git a/drivers/media/usb/uvc/uvc_video.c b/drivers/media/usb/uvc/uvc_video.c
+> index a6a441d92b94..b2e6a9522999 100644
+> --- a/drivers/media/usb/uvc/uvc_video.c
+> +++ b/drivers/media/usb/uvc/uvc_video.c
+> @@ -1490,6 +1490,11 @@ static void uvc_video_encode_bulk(struct uvc_urb *uvc_urb,
+>   	urb->transfer_buffer_length = stream->urb_size - len;
+>   }
+>   
+> +static inline struct device *stream_to_dmadev(struct uvc_streaming *stream)
+> +{
+> +	return stream->dev->udev->bus->controller->parent;
+> +}
+> +
+>   static void uvc_video_complete(struct urb *urb)
+>   {
+>   	struct uvc_urb *uvc_urb = urb->context;
+> @@ -1539,6 +1544,10 @@ static void uvc_video_complete(struct urb *urb)
+>   	 * Process the URB headers, and optionally queue expensive memcpy tasks
+>   	 * to be deferred to a work queue.
+>   	 */
+> +	if (uvc_urb->pages) {
+> +		dma_sync_sg_for_cpu(stream_to_dmadev(stream), uvc_urb->sgt.sgl,
+> +				    uvc_urb->sgt.nents,	DMA_FROM_DEVICE);
 
-> But the broader point I'm making is just because the compiler people
-> come up with a shiny new warning doesn't necessarily mean the problem
-> it's detecting is one that causes us actual problems in the code base. 
-> I'd really be happier if we had a theory about what classes of CVE or
-> bug we could eliminate before we embrace the next new warning.
+Please use dma_sync_sgtable_for_cpu(stream_to_dmadev(stream), 
+&uvc_urb->sgt, DMA_FROM_DEVICE);
 
-But we did! It was long ago justified and documented[2], and even links to
-the CWE[3] for it. This wasn't random joy over discovering a new warning
-we could turn on, this was turning on a warning that the compiler folks
-finally gave us to handle an entire class of flaws. If we need to update
-the code-base to address it not a useful debate -- that was settled
-already, even if you're only discovering it now. :P. This last patch
-set is about finishing that work for Clang, which is correctly even
-more strict than GCC.
+I also think that there should be a call to 
+dma_sync_sgtable_for_device() before starting the potential DMA 
+transfer. Just to make sure that CPU wont trash the newly captured data 
+and for the API completeness.
 
--Kees
+> +	}
+>   	stream->decode(uvc_urb, buf, buf_meta);
+>   
+>   	/* If no async work is needed, resubmit the URB immediately. */
+> @@ -1566,8 +1575,16 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+>   			continue;
+>   
+>   #ifndef CONFIG_DMA_NONCOHERENT
+> -		usb_free_coherent(stream->dev->udev, stream->urb_size,
+> -				  uvc_urb->buffer, uvc_urb->dma);
+> +		if (uvc_urb->pages) {
+> +			sg_free_table(&uvc_urb->sgt);
+> +			vunmap(uvc_urb->buffer);
+> +			dma_free_noncontiguous(stream_to_dmadev(stream),
+> +					       stream->urb_size,
+> +					       uvc_urb->pages, uvc_urb->dma);
+> +		} else {
+> +			usb_free_coherent(stream->dev->udev, stream->urb_size,
+> +					  uvc_urb->buffer, uvc_urb->dma);
+> +		}
+>   #else
+>   		kfree(uvc_urb->buffer);
+>   #endif
+> @@ -1577,6 +1594,56 @@ static void uvc_free_urb_buffers(struct uvc_streaming *stream)
+>   	stream->urb_size = 0;
+>   }
+>   
+> +#ifndef CONFIG_DMA_NONCOHERENT
+> +static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
+> +				 struct uvc_urb *uvc_urb, gfp_t gfp_flags)
+> +{
+> +	struct device *dma_dev = dma_dev = stream_to_dmadev(stream);
+> +
+> +	if (!dma_can_alloc_noncontiguous(dma_dev)) {
+> +		uvc_urb->buffer = usb_alloc_coherent(stream->dev->udev,
+> +						     stream->urb_size,
+> +						     gfp_flags | __GFP_NOWARN,
+> +						     &uvc_urb->dma);
+> +		return uvc_urb->buffer != NULL;
+> +	}
+> +
+> +	uvc_urb->pages = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
+> +						 &uvc_urb->dma,
+> +						 gfp_flags | __GFP_NOWARN, 0);
+> +	if (!uvc_urb->pages)
+> +		return false;
+> +
+> +	uvc_urb->buffer = vmap(uvc_urb->pages,
+> +			       PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT,
+> +			       VM_DMA_COHERENT, PAGE_KERNEL);
+> +	if (!uvc_urb->buffer) {
+> +		dma_free_noncontiguous(dma_dev, stream->urb_size,
+> +				       uvc_urb->pages, uvc_urb->dma);
+> +		return false;
+> +	}
+> +
+> +	if (sg_alloc_table_from_pages(&uvc_urb->sgt, uvc_urb->pages,
+> +				PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT, 0,
+> +				stream->urb_size, GFP_KERNEL)) {
+> +		vunmap(uvc_urb->buffer);
+> +		dma_free_noncontiguous(dma_dev, stream->urb_size,
+> +				       uvc_urb->pages, uvc_urb->dma);
+> +		return false;
+> +	}
+> +
+> +	return true;
+> +}
+> +#else
+> +static bool uvc_alloc_urb_buffer(struct uvc_streaming *stream,
+> +				 struct uvc_urb *uvc_urb, gfp_t gfp_flags)
+> +{
+> +	uvc_urb->buffer = kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
+> +
+> +	return uvc_urb->buffer != NULL;
+> +}
+> +#endif
+> +
+>   /*
+>    * Allocate transfer buffers. This function can be called with buffers
+>    * already allocated when resuming from suspend, in which case it will
+> @@ -1607,19 +1674,11 @@ static int uvc_alloc_urb_buffers(struct uvc_streaming *stream,
+>   
+>   	/* Retry allocations until one succeed. */
+>   	for (; npackets > 1; npackets /= 2) {
+> +		stream->urb_size = psize * npackets;
+>   		for (i = 0; i < UVC_URBS; ++i) {
+>   			struct uvc_urb *uvc_urb = &stream->uvc_urb[i];
+>   
+> -			stream->urb_size = psize * npackets;
+> -#ifndef CONFIG_DMA_NONCOHERENT
+> -			uvc_urb->buffer = usb_alloc_coherent(
+> -				stream->dev->udev, stream->urb_size,
+> -				gfp_flags | __GFP_NOWARN, &uvc_urb->dma);
+> -#else
+> -			uvc_urb->buffer =
+> -			    kmalloc(stream->urb_size, gfp_flags | __GFP_NOWARN);
+> -#endif
+> -			if (!uvc_urb->buffer) {
+> +			if (!uvc_alloc_urb_buffer(stream, uvc_urb, gfp_flags)) {
+>   				uvc_free_urb_buffers(stream);
+>   				break;
+>   			}
+> diff --git a/drivers/media/usb/uvc/uvcvideo.h b/drivers/media/usb/uvc/uvcvideo.h
+> index a3dfacf069c4..3e6618a2ac82 100644
+> --- a/drivers/media/usb/uvc/uvcvideo.h
+> +++ b/drivers/media/usb/uvc/uvcvideo.h
+> @@ -532,6 +532,8 @@ struct uvc_urb {
+>   
+>   	char *buffer;
+>   	dma_addr_t dma;
+> +	struct page **pages;
+> +	struct sg_table sgt;
+>   
+>   	unsigned int async_operations;
+>   	struct uvc_copy_op copy_operations[UVC_MAX_PACKETS];
 
-[1] https://outflux.net/slides/2019/lss/kspp.pdf calls out specific
-    numbers (about 6.5% of the patches fixed missing breaks):
-	v4.19:  3 of 129
-	v4.20:  2 of  59
-	v5.0:   3 of  56
-	v5.1:  10 of 100
-	v5.2:   6 of  71
-	v5.3:   7 of  69
-
-    And in the history of the kernel, it's been an ongoing source of
-    flaws:
-
-    $ l --no-merges | grep -i 'missing break' | wc -l
-    185
-
-    The frequency of such errors being "naturally" found was pretty
-    steady until the static checkers started warning, and then it was
-    on the rise, but the full effort flushed the rest out, and now it's
-    dropped to almost zero:
-
-      1 v2.6.12
-      3 v2.6.16.28
-      1 v2.6.17
-      1 v2.6.19
-      2 v2.6.21
-      1 v2.6.22
-      3 v2.6.24
-      3 v2.6.29
-      1 v2.6.32
-      1 v2.6.33
-      1 v2.6.35
-      4 v2.6.36
-      3 v2.6.38
-      2 v2.6.39
-      7 v3.0
-      2 v3.1
-      2 v3.2
-      2 v3.3
-      3 v3.4
-      1 v3.5
-      8 v3.6
-      7 v3.7
-      3 v3.8
-      6 v3.9
-      3 v3.10
-      2 v3.11
-      5 v3.12
-      5 v3.13
-      2 v3.14
-      4 v3.15
-      2 v3.16
-      3 v3.17
-      2 v3.18
-      2 v3.19
-      1 v4.0
-      2 v4.1
-      5 v4.2
-      4 v4.5
-      5 v4.7
-      6 v4.8
-      1 v4.9
-      3 v4.10
-      2 v4.11
-      6 v4.12
-      3 v4.13
-      2 v4.14
-      5 v4.15
-      2 v4.16
-      7 v4.18
-      2 v4.19
-      6 v4.20
-      3 v5.0
-     12 v5.1
-      3 v5.2
-      4 v5.3
-      2 v5.4
-      1 v5.8
-
-
-    And the reason it's fully zero, is because we still have the cases we're
-    cleaning up right now. Even this last one from v5.8 is specifically of
-    the same type this series addresses:
-
-        case 4:
-                color_index = TrueCModeIndex;
-+               break;
-        default:
-                return;
-        }
-
-
-[2] https://www.kernel.org/doc/html/latest/process/deprecated.html#implicit-switch-case-fall-through
-
-	All switch/case blocks must end in one of:
-
-	break;
-	fallthrough;
-	continue;
-	goto <label>;
-	return [expression];
-
-[3] https://cwe.mitre.org/data/definitions/484.html
-
+Best regards
 -- 
-Kees Cook
+Marek Szyprowski, PhD
+Samsung R&D Institute Poland
+
