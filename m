@@ -2,334 +2,214 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0AE52C570A
-	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 15:25:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15FD02C579F
+	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 15:54:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390457AbgKZOX7 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Nov 2020 09:23:59 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:40460 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2390263AbgKZOX6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Nov 2020 09:23:58 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kiIBf-00BLLj-5Z; Thu, 26 Nov 2020 14:23:55 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kiIEl-0007Ym-Qp; Thu, 26 Nov 2020 14:27:07 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.11] De-stage H.264 and FWHT stateless codec APIs (#69390)
-Date:   Thu, 26 Nov 2020 14:27:07 +0000
-Message-Id: <20201126142707.29015-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <d68da172-b251-000f-653d-38a8a4c7b715@xs4all.nl>
-References: 
+        id S2391283AbgKZOxo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Nov 2020 09:53:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41656 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391237AbgKZOxk (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 26 Nov 2020 09:53:40 -0500
+Received: from mail-yb1-xb42.google.com (mail-yb1-xb42.google.com [IPv6:2607:f8b0:4864:20::b42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2597BC0617A7;
+        Thu, 26 Nov 2020 06:53:40 -0800 (PST)
+Received: by mail-yb1-xb42.google.com with SMTP id 2so1842167ybc.12;
+        Thu, 26 Nov 2020 06:53:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=DTotsfb8u+PB0eT0g4gTrA/vgT4HfiDZTYQ/geteWC4=;
+        b=QWuS1TBfImi/m9J+5lB37414TjwoB+kfRyX/7ohuLNDuEazbBA4fEE506RPmuhzrQT
+         KCYao+uRLv4Su9SW/eKLjGfymcNDAcVP9irkT5MfO/ys+N1YXqwwODp/at6Hjf5mbn7y
+         sEjBq+fitA5RwLT9szzutyPemHxF/3vzz+qMkDnIA1HF+rIjtAU7PcoRO+GQ0ANzP2/3
+         4RgPAdoGGim7svP8Zrp9IWC0s7kVtrSQn/PXobh5aGfJoVk3uyVZYliED/q0Nk6tCoA8
+         W9fyUHPup50QVVdVd9NqYx0m2pkDUcyuxLwwV68mOS3NFLJOgvtFKpngAgg7rBEfKLyO
+         Kn5Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=DTotsfb8u+PB0eT0g4gTrA/vgT4HfiDZTYQ/geteWC4=;
+        b=mBK0BS6TVWjBRFU3odjyPBI0qUdtX5J2whJBBOZokPbmjZIFVhPQnqE5GmfY4vHvbV
+         HT2pTD/gdZPIyz+Ka8PZGwpqbqdnkJfeOU9ZWd1J0G+AjKdTWQiUQCXttTdwVpWBkqMv
+         ZINBj1InBzUZ/P06rN6Bt3BjJ6CSLqJSeAuQxg9CxkWZIOoaLDaG++1QWREVsBaSYvRt
+         rJ6vRbz1dUvdEIH2YPGs/ain50d2odcAPpiaD9QrMy94hESh3GeN4484YDZQR0EzvWHR
+         D1wuVku4ZKmbiM7N92dZI/sc7+qWB6e5/CKVhuCqFPMTebfStQrhTXq966yIKfcdlSzb
+         lORw==
+X-Gm-Message-State: AOAM530vshkiTFDvlahcV12UmE3qEmIlTM0l8dSkFhzBb5xKoNJCfxZ0
+        N+i4NOp+YhaNoPiX0GTlQqWA0Bm14r406uJVaEc=
+X-Google-Smtp-Source: ABdhPJxnOXTYq+iR4KCiqWmvI5brXjGTtWFP5n3J8AJAa70YoLiXvitjZtrbfPlByRts+Q0mJZBucXgMnTrbOCoAA44=
+X-Received: by 2002:a25:aac5:: with SMTP id t63mr5128050ybi.22.1606402419264;
+ Thu, 26 Nov 2020 06:53:39 -0800 (PST)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+References: <cover.1605896059.git.gustavoars@kernel.org> <20201120105344.4345c14e@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011201129.B13FDB3C@keescook> <20201120115142.292999b2@kicinski-fedora-pc1c0hjn.dhcp.thefacebook.com>
+ <202011220816.8B6591A@keescook> <9b57fd4914b46f38d54087d75e072d6e947cb56d.camel@HansenPartnership.com>
+ <CANiq72nZrHWTA4_Msg6MP9snTyenC6-eGfD27CyfNSu7QoVZbw@mail.gmail.com>
+ <1c7d7fde126bc0acf825766de64bf2f9b888f216.camel@HansenPartnership.com>
+ <CANiq72m22Jb5_+62NnwX8xds2iUdWDMAqD8PZw9cuxdHd95W0A@mail.gmail.com>
+ <fc45750b6d0277c401015b7aa11e16cd15f32ab2.camel@HansenPartnership.com>
+ <CANiq72k5tpDoDPmJ0ZWc1DGqm+81Gi-uEENAtvEs9v3SZcx6_Q@mail.gmail.com>
+ <4993259d01a0064f8bb22770503490f9252f3659.camel@HansenPartnership.com>
+ <CANiq72kqO=bYMJnFS2uYRpgWATJ=uXxZuNUsTXT+3aLtrpnzvQ@mail.gmail.com> <44005bde-f6d4-5eaa-39b8-1a5efeedb2d3@gmail.com>
+In-Reply-To: <44005bde-f6d4-5eaa-39b8-1a5efeedb2d3@gmail.com>
+From:   Miguel Ojeda <miguel.ojeda.sandonis@gmail.com>
+Date:   Thu, 26 Nov 2020 15:53:27 +0100
+Message-ID: <CANiq72nobq=ptWK-qWxU91JHqkKhMcRtJNnw2XJd5-vSJWZd8Q@mail.gmail.com>
+Subject: Re: [PATCH 000/141] Fix fall-through warnings for Clang
+To:     Edward Cree <ecree.xilinx@gmail.com>
+Cc:     James Bottomley <James.Bottomley@hansenpartnership.com>,
+        Kees Cook <keescook@chromium.org>,
+        Jakub Kicinski <kuba@kernel.org>,
+        "Gustavo A. R. Silva" <gustavoars@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        alsa-devel@alsa-project.org,
+        amd-gfx list <amd-gfx@lists.freedesktop.org>,
+        bridge@lists.linux-foundation.org, ceph-devel@vger.kernel.org,
+        cluster-devel@redhat.com, coreteam@netfilter.org,
+        devel@driverdev.osuosl.org, dm-devel@redhat.com,
+        drbd-dev@lists.linbit.com,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        GR-everest-linux-l2@marvell.com, GR-Linux-NIC-Dev@marvell.com,
+        intel-gfx@lists.freedesktop.org, intel-wired-lan@lists.osuosl.org,
+        keyrings@vger.kernel.org, linux1394-devel@lists.sourceforge.net,
+        linux-acpi@vger.kernel.org, linux-afs@lists.infradead.org,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        linux-arm-msm <linux-arm-msm@vger.kernel.org>,
+        linux-atm-general@lists.sourceforge.net,
+        linux-block@vger.kernel.org, linux-can@vger.kernel.org,
+        linux-cifs@vger.kernel.org,
+        Linux Crypto Mailing List <linux-crypto@vger.kernel.org>,
+        linux-decnet-user@lists.sourceforge.net,
+        Ext4 Developers List <linux-ext4@vger.kernel.org>,
+        linux-fbdev@vger.kernel.org, linux-geode@lists.infradead.org,
+        linux-gpio@vger.kernel.org, linux-hams@vger.kernel.org,
+        linux-hwmon@vger.kernel.org, linux-i3c@lists.infradead.org,
+        linux-ide@vger.kernel.org, linux-iio@vger.kernel.org,
+        linux-input <linux-input@vger.kernel.org>,
+        linux-integrity@vger.kernel.org,
+        linux-mediatek@lists.infradead.org,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-mmc@vger.kernel.org, Linux-MM <linux-mm@kvack.org>,
+        linux-mtd@lists.infradead.org, linux-nfs@vger.kernel.org,
+        linux-rdma@vger.kernel.org,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        linux-scsi@vger.kernel.org, linux-sctp@vger.kernel.org,
+        linux-security-module@vger.kernel.org,
+        linux-stm32@st-md-mailman.stormreply.com,
+        linux-usb@vger.kernel.org, linux-watchdog@vger.kernel.org,
+        linux-wireless <linux-wireless@vger.kernel.org>,
+        Network Development <netdev@vger.kernel.org>,
+        netfilter-devel@vger.kernel.org, nouveau@lists.freedesktop.org,
+        op-tee@lists.trustedfirmware.org, oss-drivers@netronome.com,
+        patches@opensource.cirrus.com, rds-devel@oss.oracle.com,
+        reiserfs-devel@vger.kernel.org, samba-technical@lists.samba.org,
+        selinux@vger.kernel.org, target-devel@vger.kernel.org,
+        tipc-discussion@lists.sourceforge.net,
+        usb-storage@lists.one-eyed-alien.net,
+        virtualization@lists.linux-foundation.org,
+        wcn36xx@lists.infradead.org,
+        "maintainer:X86 ARCHITECTURE (32-BIT AND 64-BIT)" <x86@kernel.org>,
+        xen-devel@lists.xenproject.org, linux-hardening@vger.kernel.org,
+        Nick Desaulniers <ndesaulniers@google.com>,
+        Nathan Chancellor <natechancellor@gmail.com>,
+        Miguel Ojeda <ojeda@kernel.org>, Joe Perches <joe@perches.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On Wed, Nov 25, 2020 at 11:44 PM Edward Cree <ecree.xilinx@gmail.com> wrote=
+:
+>
+> To make the intent clear, you have to first be certain that you
+>  understand the intent; otherwise by adding either a break or a
+>  fallthrough to suppress the warning you are just destroying the
+>  information that "the intent of this code is unknown".
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/d68da172-b251-000f-653d-38a8a4c7b715@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/78715/
-Build time: 00:34:42
-Link: https://lore.kernel.org/linux-media/d68da172-b251-000f-653d-38a8a4c7b715@xs4all.nl
+If you don't know what the intent of your own code is, then you
+*already* have a problem in your hands.
 
-gpg: Signature made Thu 26 Nov 2020 01:32:56 PM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+> Figuring out the intent of a piece of unfamiliar code takes more
+>  than 1 minute; just because
+>     case foo:
+>         thing;
+>     case bar:
+>         break;
+>  produces identical code to
+>     case foo:
+>         thing;
+>         break;
+>     case bar:
+>         break;
+>  doesn't mean that *either* is correct =E2=80=94 maybe the author meant
 
-Summary: got 8/23 patches with issues, being 0 at build time, plus one error when buinding PDF document
+What takes 1 minute is adding it *mechanically* by the author, i.e. so
+that you later compare whether codegen is the same.
 
-Error/warnings:
+>  to write
+>     case foo:
+>         return thing;
+>     case bar:
+>         break;
+>  and by inserting that break you've destroyed the marker that
+>  would direct someone who knew what the code was about to look
+>  at that point in the code and spot the problem.
 
-patches/0006-media-Rename-stateful-codec-control-macros.patch:
+Then it means you already have a bug. This patchset gives the
+maintainer a chance to notice it, which is a good thing. The "you've
+destroyed the market" claim is bogus, because:
+  1. you were not looking into it
+  2. you didn't notice the bug so far
+  3. is implicit -- harder to spot
+  4. is only useful if you explicitly take a look at this kind of bug.
+So why don't you do it now?
 
-   checkpatch.pl:
-	$ cat patches/0006-media-Rename-stateful-codec-control-macros.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:142: CHECK: Macro argument reuse 'x' - possible side-effects?
-	-:155: CHECK: Macro argument reuse 'x' - possible side-effects?
-	-:210: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:211: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:212: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:213: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:214: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:215: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:216: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:217: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:252: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:253: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:294: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:309: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:309: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:310: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:311: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:312: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:313: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:314: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:315: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:323: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:330: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:330: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:339: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:339: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:348: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:348: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:357: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:357: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:366: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:366: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:374: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:374: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:382: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:382: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:389: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:389: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:397: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:397: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:398: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:399: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:408: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:408: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:417: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:417: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:421: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:428: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:428: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:440: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:440: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:441: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:442: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:443: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:444: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:460: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:460: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:461: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:462: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:463: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:464: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:465: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:466: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:467: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:468: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:469: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:480: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:480: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:481: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:482: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:483: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:484: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:500: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:500: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:501: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:502: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:503: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:504: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:505: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:506: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:507: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:511: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:519: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:519: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:546: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:547: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:548: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:549: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:550: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:551: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:552: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:553: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:554: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:555: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:556: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:557: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:558: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:565: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:565: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:566: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:577: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:577: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:578: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:579: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:586: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:586: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:598: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:598: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:599: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:600: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:601: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:612: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:612: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:613: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:614: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:624: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:624: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:625: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:635: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:635: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:636: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:647: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:647: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:648: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:649: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:650: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:651: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:652: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:671: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:671: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:672: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:673: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:674: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:675: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:676: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:677: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:678: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:679: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:680: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:681: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:682: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:683: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:684: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:693: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:693: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:702: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:702: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:709: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:718: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:718: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:719: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:729: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:729: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:730: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:731: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:732: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:741: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:741: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:742: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:743: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:744: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:747: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:756: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:764: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:764: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:799: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:814: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:824: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:832: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:842: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:862: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:891: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:912: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:919: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:919: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:920: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:929: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:929: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:935: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:935: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:942: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:942: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:943: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:956: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:956: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:957: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:958: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:959: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:960: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:969: WARNING: line length of 101 exceeds 100 columns
-	-:969: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:970: WARNING: line length of 101 exceeds 100 columns
-	-:970: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:971: WARNING: line length of 101 exceeds 100 columns
-	-:971: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:978: WARNING: line length of 101 exceeds 100 columns
-	-:978: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:978: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:993: WARNING: line length of 101 exceeds 100 columns
-	-:993: CHECK: Please use a blank line after function/struct/union/enum declarations
-	-:993: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:994: WARNING: line length of 101 exceeds 100 columns
-	-:994: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:995: WARNING: line length of 101 exceeds 100 columns
-	-:995: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:996: WARNING: line length of 101 exceeds 100 columns
-	-:996: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:997: WARNING: line length of 102 exceeds 100 columns
-	-:997: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:998: WARNING: line length of 102 exceeds 100 columns
-	-:998: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:999: WARNING: line length of 102 exceeds 100 columns
-	-:999: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:1000: WARNING: line length of 102 exceeds 100 columns
-	-:1000: CHECK: spaces preferred around that '+' (ctx:VxV)
-	-:1001: WARNING: line length of 102 exceeds 100 columns
-	-:1001: CHECK: spaces preferred around that '+' (ctx:VxV)
+> Thus, you *always* have to look at more than just the immediate
+>  mechanical context of the code, to make a proper judgement that
+>  yes, this was the intent.
 
-patches/0008-media-controls-Validate-H264-stateless-controls.patch:
+I find that is the responsibility of the maintainers and reviewers for
+tree-wide patches like this, assuming they want. They can also keep
+the behavior (and the bugs) without spending time. Their choice.
 
-   checkpatch.pl:
-	$ cat patches/0008-media-controls-Validate-H264-stateless-controls.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:191: CHECK: Macro argument reuse 'sps' - possible side-effects?
+> If you think that that sort of thing
+>  can be done in an *average* time of one minute, then I hope you
+>  stay away from code I'm responsible for!
 
-patches/0009-media-controls-Add-the-stateless-codec-control-class.patch:
+Please don't accuse others of recklessness or incompetence, especially
+if you didn't understand what they said.
 
-   checkpatch.pl:
-	$ cat patches/0009-media-controls-Add-the-stateless-codec-control-class.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:72: CHECK: Please don't use multiple blank lines
-	-:77: CHECK: Please don't use multiple blank lines
+> A warning is only useful because it makes you *think* about the
+>  code.  If you suppress the warning without doing that thinking,
+>  then you made the warning useless; and if the warning made you
+>  think about code that didn't *need* it, then the warning was
+>  useless from the start.
 
-patches/0013-media-controls-Log-H264-stateless-controls-in-.std_l.patch:
+We are not suppressing the warning. Quite the opposite, in fact.
 
-   checkpatch.pl:
-	$ cat patches/0013-media-controls-Log-H264-stateless-controls-in-.std_l.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:26: WARNING: Avoid logging continuation uses where feasible
-	-:29: WARNING: Avoid logging continuation uses where feasible
-	-:32: WARNING: Avoid logging continuation uses where feasible
-	-:35: WARNING: Avoid logging continuation uses where feasible
-	-:38: WARNING: Avoid logging continuation uses where feasible
-	-:41: WARNING: Avoid logging continuation uses where feasible
+> So make your mind up: does Clang's stricter -Wimplicit-fallthrough
+>  flag up code that needs thought (in which case the fixes take
+>  effort both to author and to review)
 
-patches/0014-media-uapi-move-H264-stateless-controls-out-of-stagi.patch:
+As I said several times already, it does take time to review if the
+maintainer wants to take the chance to see if they had a bug to begin
+with, but it does not require thought for the author if they just go
+for equivalent codegen.
 
-   checkpatch.pl:
-	$ cat patches/0014-media-uapi-move-H264-stateless-controls-out-of-stagi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:68: WARNING: line length of 101 exceeds 100 columns
-	-:71: WARNING: line length of 102 exceeds 100 columns
-	-:408: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-	-:891: CHECK: Macro argument reuse 'sps' - possible side-effects?
-	-:1026: CHECK: Macro argument reuse 'pps' - possible side-effects?
-	-:1026: CHECK: Macro argument reuse 'slice' - possible side-effects?
+> or does it flag up code
+>  that can be mindlessly "fixed" (in which case the warning is
+>  worthless)?  Proponents in this thread seem to be trying to
+>  have it both ways.
 
-patches/0015-media-docs-Move-the-H264-stateless-codec-uAPI.patch:
+A warning is not worthless just because you can mindlessly fix it.
+There are many counterexamples, e.g. many
+checkpatch/lint/lang-format/indentation warnings, functional ones like
+the `if (a =3D b)` warning...
 
-   checkpatch.pl:
-	$ cat patches/0015-media-docs-Move-the-H264-stateless-codec-uAPI.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:34: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-patches/0018-vicodec-add-V4L2_-prefix-before-FWHT_VERSION-and-FWH.patch:
-
-   checkpatch.pl:
-	$ cat patches/0018-vicodec-add-V4L2_-prefix-before-FWHT_VERSION-and-FWH.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:195: CHECK: Prefer using the BIT macro
-
-patches/0019-vicodec-mark-the-stateless-FWHT-API-as-stable.patch:
-
-   checkpatch.pl:
-	$ cat patches/0019-vicodec-mark-the-stateless-FWHT-API-as-stable.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:174: WARNING: Avoid logging continuation uses where feasible
-	-:200: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
-
-
-Error #512 when building PDF docs
-
+Cheers,
+Miguel
