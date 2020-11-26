@@ -2,93 +2,292 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7F5CC2C4DAB
-	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 04:10:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FF162C4DE9
+	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 05:15:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733186AbgKZDIw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 25 Nov 2020 22:08:52 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45476 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730696AbgKZDIw (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 25 Nov 2020 22:08:52 -0500
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 395EFC0613D4
-        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 19:08:52 -0800 (PST)
-Received: by mail-pf1-x443.google.com with SMTP id w202so332428pff.10
-        for <linux-media@vger.kernel.org>; Wed, 25 Nov 2020 19:08:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=atnJehQZVO119pd4VO6r7q8kYsvyqoBTmsMlSh7A/i8=;
-        b=BM3vd/ZFTSIIrKiVzBBNSfoocvC2mblhZ+0r6qJV9fNEKYFCP90dXn3R9CA4G5/2pW
-         C99fiMkTeWf0gmDuqNgO58YNoGNW1I2ngQc3mvSf6PCpZpMlhxlsTxuUVEldMDeg00F8
-         f2LEf6I/A7CjN2hp8bOumSlFwDFEcFucwQ3L0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=atnJehQZVO119pd4VO6r7q8kYsvyqoBTmsMlSh7A/i8=;
-        b=ffLDDcnfyH2zAl0IrsjEXbsOIcuL/kT0aD/ANMBIx0PopAh3e4mVVC2xxhM5/F5HEN
-         NYAF7Kgy4BnEog2nXYEu70lw6Dq2CUDl1h7aEzfQMzzH2MrYpwCK2SO39v6K6cqsdNSs
-         bmszKjQdI/l1Odwn4quIatqZYQP5ZDvTjDHIAOZQAL+ZmHzvrCh4LXGmKBHyWrWrRDWT
-         yV3BHpoHc5/HdWn0d9VKDnaMQ6EHvbPFxujDPFXlu61cxdmtz+t5JV93kneU3kWxnQay
-         Ro4Oatis9c86dXNfdtkdiWGpMh/8BriPknWaSpobiN1uGqeI8mMMsObl8aCmHG7vt6BC
-         pd2w==
-X-Gm-Message-State: AOAM530xnQ1phxDAhnAaOualbyx9rtZOb8zVzjbAvj0H7lvKe2/oWgFq
-        FXeUTL43RgJayXAvFlJ11Un83SjLj/J+H6Go
-X-Google-Smtp-Source: ABdhPJyAC2YiZ6o3LkjuCB38jzADK3Pw3TNqQRc+UnVcBfB1j9l5XRJ1Br9UH0oCUYWbT3uXJ1Z9ww==
-X-Received: by 2002:a17:90b:30cb:: with SMTP id hi11mr1119711pjb.94.1606360131611;
-        Wed, 25 Nov 2020 19:08:51 -0800 (PST)
-Received: from localhost.localdomain ([120.152.32.152])
-        by smtp.gmail.com with ESMTPSA id y9sm4323663pjj.8.2020.11.25.19.08.47
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 25 Nov 2020 19:08:51 -0800 (PST)
-From:   Evan Benn <evanbenn@chromium.org>
-To:     linux-media@vger.kernel.org
-Cc:     Evan Benn <evanbenn@chromium.org>,
-        Andrew-CT Chen <andrew-ct.chen@mediatek.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-mediatek@lists.infradead.org
-Subject: [PATCH] media: mtk-vcodec: Fix order of log arguments
-Date:   Thu, 26 Nov 2020 14:08:42 +1100
-Message-Id: <20201126140839.1.I723c6846bc6913bd0831a78874aa767dcbdae470@changeid>
-X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
+        id S2387541AbgKZEPK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 25 Nov 2020 23:15:10 -0500
+Received: from mx2.suse.de ([195.135.220.15]:36546 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2387537AbgKZEPK (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 25 Nov 2020 23:15:10 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 0A0A0AC17;
+        Thu, 26 Nov 2020 04:15:08 +0000 (UTC)
+Date:   Wed, 25 Nov 2020 19:50:58 -0800
+From:   Davidlohr Bueso <dave@stgolabs.net>
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Davidlohr Bueso <dbueso@suse.de>
+Subject: Re: [PATCH] media/siano: kill pointless kmutex definitions
+Message-ID: <20201126035058.znwkokxtzkayv55p@linux-p48b.lan>
+References: <20201101195424.21040-1-dave@stgolabs.net>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20201101195424.21040-1-dave@stgolabs.net>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Signed-off-by: Evan Benn <evanbenn@chromium.org>
+ping
 
----
+On Sun, 01 Nov 2020, Davidlohr Bueso wrote:
 
- drivers/media/platform/mtk-vcodec/mtk_vcodec_intr.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
-
-diff --git a/drivers/media/platform/mtk-vcodec/mtk_vcodec_intr.c b/drivers/media/platform/mtk-vcodec/mtk_vcodec_intr.c
-index a3c7a380c9308..785ec0df445ec 100644
---- a/drivers/media/platform/mtk-vcodec/mtk_vcodec_intr.c
-+++ b/drivers/media/platform/mtk-vcodec/mtk_vcodec_intr.c
-@@ -27,11 +27,11 @@ int mtk_vcodec_wait_for_done_ctx(struct mtk_vcodec_ctx  *ctx, int command,
- 
- 	if (!ret) {
- 		status = -1;	/* timeout */
--		mtk_v4l2_err("[%d] cmd=%d, ctx->type=%d, wait_event_interruptible_timeout time=%ums out %d %d!",
-+		mtk_v4l2_err("[%d] ctx->type=%d, cmd=%d, wait_event_interruptible_timeout time=%ums out %d %d!",
- 				ctx->id, ctx->type, command, timeout_ms,
- 				ctx->int_cond, ctx->int_type);
- 	} else if (-ERESTARTSYS == ret) {
--		mtk_v4l2_err("[%d] cmd=%d, ctx->type=%d, wait_event_interruptible_timeout interrupted by a signal %d %d",
-+		mtk_v4l2_err("[%d] ctx->type=%d, cmd=%d, wait_event_interruptible_timeout interrupted by a signal %d %d",
- 				ctx->id, ctx->type, command, ctx->int_cond,
- 				ctx->int_type);
- 		status = -1;
--- 
-2.29.2.454.gaff20da3a2-goog
-
+>Use the mutex api instead of renaming the calls for this
+>driver.
+>
+>Signed-off-by: Davidlohr Bueso <dbueso@suse.de>
+>---
+>This was found while auditing mutex semantics in drivers.
+>
+> drivers/media/common/siano/smscoreapi.c  | 42 ++++++++++++------------
+> drivers/media/common/siano/smscoreapi.h  |  5 ---
+> drivers/media/common/siano/smsdvb-main.c | 14 ++++----
+> 3 files changed, 28 insertions(+), 33 deletions(-)
+>
+>diff --git a/drivers/media/common/siano/smscoreapi.c b/drivers/media/common/siano/smscoreapi.c
+>index c1511094fdc7..410cc3ac6f94 100644
+>--- a/drivers/media/common/siano/smscoreapi.c
+>+++ b/drivers/media/common/siano/smscoreapi.c
+>@@ -429,13 +429,13 @@ static struct smscore_registry_entry_t *smscore_find_registry(char *devpath)
+> 	struct smscore_registry_entry_t *entry;
+> 	struct list_head *next;
+>
+>-	kmutex_lock(&g_smscore_registrylock);
+>+	mutex_lock(&g_smscore_registrylock);
+> 	for (next = g_smscore_registry.next;
+> 	     next != &g_smscore_registry;
+> 	     next = next->next) {
+> 		entry = (struct smscore_registry_entry_t *) next;
+> 		if (!strncmp(entry->devpath, devpath, sizeof(entry->devpath))) {
+>-			kmutex_unlock(&g_smscore_registrylock);
+>+			mutex_unlock(&g_smscore_registrylock);
+> 			return entry;
+> 		}
+> 	}
+>@@ -446,7 +446,7 @@ static struct smscore_registry_entry_t *smscore_find_registry(char *devpath)
+> 		list_add(&entry->entry, &g_smscore_registry);
+> 	} else
+> 		pr_err("failed to create smscore_registry.\n");
+>-	kmutex_unlock(&g_smscore_registrylock);
+>+	mutex_unlock(&g_smscore_registrylock);
+> 	return entry;
+> }
+>
+>@@ -527,7 +527,7 @@ int smscore_register_hotplug(hotplug_t hotplug)
+> 	struct list_head *next, *first;
+> 	int rc = 0;
+>
+>-	kmutex_lock(&g_smscore_deviceslock);
+>+	mutex_lock(&g_smscore_deviceslock);
+> 	notifyee = kmalloc(sizeof(*notifyee), GFP_KERNEL);
+> 	if (notifyee) {
+> 		/* now notify callback about existing devices */
+>@@ -548,7 +548,7 @@ int smscore_register_hotplug(hotplug_t hotplug)
+> 	} else
+> 		rc = -ENOMEM;
+>
+>-	kmutex_unlock(&g_smscore_deviceslock);
+>+	mutex_unlock(&g_smscore_deviceslock);
+>
+> 	return rc;
+> }
+>@@ -564,7 +564,7 @@ void smscore_unregister_hotplug(hotplug_t hotplug)
+> {
+> 	struct list_head *next, *first;
+>
+>-	kmutex_lock(&g_smscore_deviceslock);
+>+	mutex_lock(&g_smscore_deviceslock);
+>
+> 	first = &g_smscore_notifyees;
+>
+>@@ -579,7 +579,7 @@ void smscore_unregister_hotplug(hotplug_t hotplug)
+> 		}
+> 	}
+>
+>-	kmutex_unlock(&g_smscore_deviceslock);
+>+	mutex_unlock(&g_smscore_deviceslock);
+> }
+> EXPORT_SYMBOL_GPL(smscore_unregister_hotplug);
+>
+>@@ -732,9 +732,9 @@ int smscore_register_device(struct smsdevice_params_t *params,
+> 	smscore_registry_settype(dev->devpath, params->device_type);
+>
+> 	/* add device to devices list */
+>-	kmutex_lock(&g_smscore_deviceslock);
+>+	mutex_lock(&g_smscore_deviceslock);
+> 	list_add(&dev->entry, &g_smscore_devices);
+>-	kmutex_unlock(&g_smscore_deviceslock);
+>+	mutex_unlock(&g_smscore_deviceslock);
+>
+> 	*coredev = dev;
+>
+>@@ -890,14 +890,14 @@ int smscore_start_device(struct smscore_device_t *coredev)
+> 		return rc;
+> 	}
+>
+>-	kmutex_lock(&g_smscore_deviceslock);
+>+	mutex_lock(&g_smscore_deviceslock);
+>
+> 	rc = smscore_notify_callbacks(coredev, coredev->device, 1);
+> 	smscore_init_ir(coredev);
+>
+> 	pr_debug("device %p started, rc %d\n", coredev, rc);
+>
+>-	kmutex_unlock(&g_smscore_deviceslock);
+>+	mutex_unlock(&g_smscore_deviceslock);
+>
+> 	return rc;
+> }
+>@@ -1197,7 +1197,7 @@ void smscore_unregister_device(struct smscore_device_t *coredev)
+> 	int num_buffers = 0;
+> 	int retry = 0;
+>
+>-	kmutex_lock(&g_smscore_deviceslock);
+>+	mutex_lock(&g_smscore_deviceslock);
+>
+> 	/* Release input device (IR) resources */
+> 	sms_ir_exit(coredev);
+>@@ -1224,9 +1224,9 @@ void smscore_unregister_device(struct smscore_device_t *coredev)
+>
+> 		pr_debug("waiting for %d buffer(s)\n",
+> 			 coredev->num_buffers - num_buffers);
+>-		kmutex_unlock(&g_smscore_deviceslock);
+>+		mutex_unlock(&g_smscore_deviceslock);
+> 		msleep(100);
+>-		kmutex_lock(&g_smscore_deviceslock);
+>+		mutex_lock(&g_smscore_deviceslock);
+> 	}
+>
+> 	pr_debug("freed %d buffers\n", num_buffers);
+>@@ -1245,7 +1245,7 @@ void smscore_unregister_device(struct smscore_device_t *coredev)
+> 	list_del(&coredev->entry);
+> 	kfree(coredev);
+>
+>-	kmutex_unlock(&g_smscore_deviceslock);
+>+	mutex_unlock(&g_smscore_deviceslock);
+>
+> 	pr_debug("device %p destroyed\n", coredev);
+> }
+>@@ -2123,17 +2123,17 @@ static int __init smscore_module_init(void)
+> {
+> 	INIT_LIST_HEAD(&g_smscore_notifyees);
+> 	INIT_LIST_HEAD(&g_smscore_devices);
+>-	kmutex_init(&g_smscore_deviceslock);
+>+	mutex_init(&g_smscore_deviceslock);
+>
+> 	INIT_LIST_HEAD(&g_smscore_registry);
+>-	kmutex_init(&g_smscore_registrylock);
+>+	mutex_init(&g_smscore_registrylock);
+>
+> 	return 0;
+> }
+>
+> static void __exit smscore_module_exit(void)
+> {
+>-	kmutex_lock(&g_smscore_deviceslock);
+>+	mutex_lock(&g_smscore_deviceslock);
+> 	while (!list_empty(&g_smscore_notifyees)) {
+> 		struct smscore_device_notifyee_t *notifyee =
+> 			(struct smscore_device_notifyee_t *)
+>@@ -2142,9 +2142,9 @@ static void __exit smscore_module_exit(void)
+> 		list_del(&notifyee->entry);
+> 		kfree(notifyee);
+> 	}
+>-	kmutex_unlock(&g_smscore_deviceslock);
+>+	mutex_unlock(&g_smscore_deviceslock);
+>
+>-	kmutex_lock(&g_smscore_registrylock);
+>+	mutex_lock(&g_smscore_registrylock);
+> 	while (!list_empty(&g_smscore_registry)) {
+> 		struct smscore_registry_entry_t *entry =
+> 			(struct smscore_registry_entry_t *)
+>@@ -2153,7 +2153,7 @@ static void __exit smscore_module_exit(void)
+> 		list_del(&entry->entry);
+> 		kfree(entry);
+> 	}
+>-	kmutex_unlock(&g_smscore_registrylock);
+>+	mutex_unlock(&g_smscore_registrylock);
+>
+> 	pr_debug("\n");
+> }
+>diff --git a/drivers/media/common/siano/smscoreapi.h b/drivers/media/common/siano/smscoreapi.h
+>index b3b793b5caf3..4a6b9f4c44ac 100644
+>--- a/drivers/media/common/siano/smscoreapi.h
+>+++ b/drivers/media/common/siano/smscoreapi.h
+>@@ -28,11 +28,6 @@ Copyright (C) 2006-2008, Uri Shkolnik, Anatoly Greenblat
+>
+> #include "smsir.h"
+>
+>-#define kmutex_init(_p_) mutex_init(_p_)
+>-#define kmutex_lock(_p_) mutex_lock(_p_)
+>-#define kmutex_trylock(_p_) mutex_trylock(_p_)
+>-#define kmutex_unlock(_p_) mutex_unlock(_p_)
+>-
+> /*
+>  * Define the firmware names used by the driver.
+>  * Those should match what's used at smscoreapi.c and sms-cards.c
+>diff --git a/drivers/media/common/siano/smsdvb-main.c b/drivers/media/common/siano/smsdvb-main.c
+>index 88f90dfd368b..633902036e30 100644
+>--- a/drivers/media/common/siano/smsdvb-main.c
+>+++ b/drivers/media/common/siano/smsdvb-main.c
+>@@ -630,11 +630,11 @@ static void smsdvb_unregister_client(struct smsdvb_client_t *client)
+>
+> static void smsdvb_onremove(void *context)
+> {
+>-	kmutex_lock(&g_smsdvb_clientslock);
+>+	mutex_lock(&g_smsdvb_clientslock);
+>
+> 	smsdvb_unregister_client((struct smsdvb_client_t *) context);
+>
+>-	kmutex_unlock(&g_smsdvb_clientslock);
+>+	mutex_unlock(&g_smsdvb_clientslock);
+> }
+>
+> static int smsdvb_start_feed(struct dvb_demux_feed *feed)
+>@@ -1151,11 +1151,11 @@ static int smsdvb_hotplug(struct smscore_device_t *coredev,
+> 	init_completion(&client->tune_done);
+> 	init_completion(&client->stats_done);
+>
+>-	kmutex_lock(&g_smsdvb_clientslock);
+>+	mutex_lock(&g_smsdvb_clientslock);
+>
+> 	list_add(&client->entry, &g_smsdvb_clients);
+>
+>-	kmutex_unlock(&g_smsdvb_clientslock);
+>+	mutex_unlock(&g_smsdvb_clientslock);
+>
+> 	client->event_fe_state = -1;
+> 	client->event_unc_state = -1;
+>@@ -1198,7 +1198,7 @@ static int __init smsdvb_module_init(void)
+> 	int rc;
+>
+> 	INIT_LIST_HEAD(&g_smsdvb_clients);
+>-	kmutex_init(&g_smsdvb_clientslock);
+>+	mutex_init(&g_smsdvb_clientslock);
+>
+> 	smsdvb_debugfs_register();
+>
+>@@ -1213,14 +1213,14 @@ static void __exit smsdvb_module_exit(void)
+> {
+> 	smscore_unregister_hotplug(smsdvb_hotplug);
+>
+>-	kmutex_lock(&g_smsdvb_clientslock);
+>+	mutex_lock(&g_smsdvb_clientslock);
+>
+> 	while (!list_empty(&g_smsdvb_clients))
+> 		smsdvb_unregister_client((struct smsdvb_client_t *)g_smsdvb_clients.next);
+>
+> 	smsdvb_debugfs_unregister();
+>
+>-	kmutex_unlock(&g_smsdvb_clientslock);
+>+	mutex_unlock(&g_smsdvb_clientslock);
+> }
+>
+> module_init(smsdvb_module_init);
+>-- 
+>2.26.2
+>
