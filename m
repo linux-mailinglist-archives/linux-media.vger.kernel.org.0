@@ -2,121 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5EFDE2C57B1
-	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 15:58:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 57C972C57C1
+	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 16:05:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391174AbgKZO5T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Nov 2020 09:57:19 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42228 "EHLO
+        id S2391298AbgKZPCV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Nov 2020 10:02:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43030 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389878AbgKZO5S (ORCPT
+        with ESMTP id S2391130AbgKZPCT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Nov 2020 09:57:18 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EA9DC0613D4;
-        Thu, 26 Nov 2020 06:57:18 -0800 (PST)
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: koike)
-        with ESMTPSA id 052381F4490B
-Subject: Re: [PATCH] media: rockchip: rkisp1: Fix typos in comments and macro
- definitions
-To:     Peilin Ye <yepeilin.cs@gmail.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
-        linux-rockchip@lists.infradead.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org
-References: <20201126122148.9162-1-yepeilin.cs@gmail.com>
-From:   Helen Koike <helen.koike@collabora.com>
-Message-ID: <19ef2031-1e09-6418-1bce-7c5713d296d7@collabora.com>
-Date:   Thu, 26 Nov 2020 11:57:10 -0300
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.4.0
-MIME-Version: 1.0
-In-Reply-To: <20201126122148.9162-1-yepeilin.cs@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        Thu, 26 Nov 2020 10:02:19 -0500
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6C87FC0613D4
+        for <linux-media@vger.kernel.org>; Thu, 26 Nov 2020 07:02:19 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id z21so2900748lfe.12
+        for <linux-media@vger.kernel.org>; Thu, 26 Nov 2020 07:02:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id;
+        bh=P8v5qCpTMD0dws38PXKVsDk7ryFQPD3D9X3Qd0ARTjA=;
+        b=DrUDjw3PuSHaxWq12cEqrR3lUFkuVHGxGGVFOVbiXfiCHUR85rk+guQ1e6owOzPZHy
+         9jI4XJfZuuHh0wOsZJok2CezwTXHGBXJQbNaOR5zm1rgCZAmtIvEvPwOBrmiv1dhgpez
+         xhunng7JKKB3y8DhKmgrRV8ekxowHzlbfXdidplYM2szOOPtAAP6h3NjQzGzsyu1x6cl
+         Q2iZoQAcVbFPD8SHZCiBcwxbksVBBW0YQ2mzIs+++4ZV5UE8L0K+4YLGFu6xDXdIOmzm
+         jtRYvPCXa73DpEFNG6apIH65ZYY4clfDWxfnMkSoEAt7EyWE9x6sJHBYm4HsI7Jqt1EB
+         ci9Q==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=P8v5qCpTMD0dws38PXKVsDk7ryFQPD3D9X3Qd0ARTjA=;
+        b=SbJ577SH2ogsAblhcu4rhLbL0AlXgHoF3hSsv5k7Y5BU/K/2w9STHs8fYXR8pSER3O
+         JiwPR8qLVvxkxgStM9+08dFnoDzzbxDxPa2WPXvjDJG6dOEboogtzv/ZNq5Kp7Y14FYv
+         94qHoeLQTwHVjNmzNvHwmhgCPx3OmIdoW0nf7DCDtSwbUItvBq2OzZ/vlUpj46LT9Jz3
+         E3GAFEKR+rpM6D9GCi2X3jid7g16U3tyEo7/3vVv1oGfrWp52kTCufSHDaVjqjQRNTlm
+         BXpZkB/Vl3EV8xJ8mnibOp6LefGJk/RdkxP2Dykv+wwA8Fy4jpHvCUbvdkO6WQ3nmHHM
+         lgcg==
+X-Gm-Message-State: AOAM53354PjLkdRB6DP2wyzjmWYCsM0j1fm1xQf+lmC1KCwTHWzyrx+T
+        UMUUrCP3xsG7lSSFW/2EEr/seQ==
+X-Google-Smtp-Source: ABdhPJyhW6kjK0ypXsWvJ9FvAsAH5+hBHIg4pM+4kzkYjd0xwns9XhsQEQ6X2f1gj+Wa1ou3QizlDg==
+X-Received: by 2002:a19:715:: with SMTP id 21mr1436359lfh.289.1606402937696;
+        Thu, 26 Nov 2020 07:02:17 -0800 (PST)
+Received: from localhost.localdomain ([85.249.45.205])
+        by smtp.googlemail.com with ESMTPSA id i12sm339481lfj.264.2020.11.26.07.02.16
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2020 07:02:16 -0800 (PST)
+From:   Andrey Konovalov <andrey.konovalov@linaro.org>
+To:     =mchehab@kernel.org, robert.foss@linaro.org
+Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        peter.griffin@linaro.org, marc.w.gonzalez@free.fr,
+        Andrey Konovalov <andrey.konovalov@linaro.org>
+Subject: [PATCH v2 1/2] Revert "media: camss: Make use of V4L2_CAP_IO_MC"
+Date:   Thu, 26 Nov 2020 18:01:56 +0300
+Message-Id: <20201126150157.25870-1-andrey.konovalov@linaro.org>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Peilin,
+This reverts commit c90f1178dcac30dee5ddd29ec0513e7589aa866e.
 
-On 11/26/20 9:21 AM, Peilin Ye wrote:
-> Fix 4 typos under drivers/media/platform/rockchip/rkisp1/ found by
-> checkpatch, including the RKISP1_CIF_MI_{M,S}P_PINGPONG_ENABLE macro
-> definitions.
-> 
-> Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+The assumption of "Each entry in formats[] table has unique mbus_code"
+is valid for the RDI entities, but not for the PIX ones.
 
-Thanks
+Reverting this patch and creating a new one which handles the PIX entities
+correctly results in smaller and more straightforward patch than doing the
+changes on top of the current version.
 
-Acked-by: Helen Koike <helen.koike@collabora.com>
+Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
+Reviewed-by: Robert Foss <robert.foss@linaro.org>
+---
+ Changes in v2:
+  - Fix the misprint in the commit description
 
-> ---
-> Hi Helen, Dafna,
-> 
-> I noticed that the RKISP1_CIF_MI_{M,S}P_PINGPONG_ENABLE macros are not
-> being used yet, but according to page 12 of this developer guide [1] I
-> think they are for *enabling* the ping-pong ("double buffers") mode?
+ .../media/platform/qcom/camss/camss-video.c   | 67 ++++---------------
+ 1 file changed, 13 insertions(+), 54 deletions(-)
 
-Looks like. The documentation I have doesn't explain much about this
-mode, it just mention that bit is used to enable it, and that
-MI_{MP,SP}_{CR,CB}_BASE_AD_INIT2 are used to configure base address 2.
+diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
+index 114c3ae4a4ab..20673de9020e 100644
+--- a/drivers/media/platform/qcom/camss/camss-video.c
++++ b/drivers/media/platform/qcom/camss/camss-video.c
+@@ -535,16 +535,17 @@ static int video_querycap(struct file *file, void *fh,
+ 	return 0;
+ }
+ 
+-/*
+- *  Returns the index in the video->formats[] array of the element which
+- *  has the "ndx"th unique value of pixelformat field.
+- *  If not found (no more unique pixelformat's) returns -EINVAL.
+- */
+-static int video_get_unique_pixelformat_by_index(struct camss_video *video,
+-						 int ndx)
++static int video_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+ {
++	struct camss_video *video = video_drvdata(file);
+ 	int i, j, k;
+ 
++	if (f->type != video->type)
++		return -EINVAL;
++
++	if (f->index >= video->nformats)
++		return -EINVAL;
++
+ 	/* find index "i" of "k"th unique pixelformat in formats array */
+ 	k = -1;
+ 	for (i = 0; i < video->nformats; i++) {
+@@ -557,53 +558,11 @@ static int video_get_unique_pixelformat_by_index(struct camss_video *video,
+ 		if (j == i)
+ 			k++;
+ 
+-		if (k == ndx)
+-			return i;
+-	}
+-
+-	return -EINVAL;
+-}
+-
+-/*
+- *  Returns the index in the video->formats[] array of the element which
+- *  has code equal to mcode.
+- *  If not found returns -EINVAL.
+- */
+-static int video_get_pixelformat_by_mbus_code(struct camss_video *video,
+-					      u32 mcode)
+-{
+-	int i;
+-
+-	for (i = 0; i < video->nformats; i++) {
+-		if (video->formats[i].code == mcode)
+-			return i;
+-	}
+-
+-	return -EINVAL;
+-}
+-
+-static int video_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
+-{
+-	struct camss_video *video = video_drvdata(file);
+-	int i;
+-
+-	if (f->type != video->type)
+-		return -EINVAL;
+-
+-	if (f->index >= video->nformats)
+-		return -EINVAL;
+-
+-	if (f->mbus_code) {
+-		/* Each entry in formats[] table has unique mbus_code */
+-		if (f->index > 0)
+-			return -EINVAL;
+-
+-		i = video_get_pixelformat_by_mbus_code(video, f->mbus_code);
+-	} else {
+-		i = video_get_unique_pixelformat_by_index(video, f->index);
++		if (k == f->index)
++			break;
+ 	}
+ 
+-	if (i < 0)
++	if (k < f->index)
+ 		return -EINVAL;
+ 
+ 	f->pixelformat = video->formats[i].pixelformat;
+@@ -989,8 +948,8 @@ int msm_video_register(struct camss_video *video, struct v4l2_device *v4l2_dev,
+ 	}
+ 
+ 	vdev->fops = &msm_vid_fops;
+-	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE | V4L2_CAP_STREAMING
+-			  | V4L2_CAP_READWRITE | V4L2_CAP_IO_MC;
++	vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE | V4L2_CAP_STREAMING |
++							V4L2_CAP_READWRITE;
+ 	vdev->ioctl_ops = &msm_vid_ioctl_ops;
+ 	vdev->release = msm_video_release;
+ 	vdev->v4l2_dev = v4l2_dev;
+-- 
+2.17.1
 
-
-Regards,
-Helen
-
-> 
-> Based on linux-next 9d3e48f20e11 ("Add linux-next specific files for
-> 20201125").
-> 
-> Thanks,
-> Peilin Ye
-> 
-> [1] https://dl.vamrs.com/products/rock960/docs/sw/Rockchip%C2%A0Linux%20Camera%C2%A0Developer%20Guide%20V1.1.pdf#page=12
-> 
->  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c | 4 ++--
->  drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h    | 4 ++--
->  2 files changed, 4 insertions(+), 4 deletions(-)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> index b81235afd053..94b65680c4c1 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c
-> @@ -46,7 +46,7 @@ enum rkisp1_plane {
->  /*
->   * @fourcc: pixel format
->   * @fmt_type: helper filed for pixel format
-> - * @uv_swap: if cb cr swaped, for yuv
-> + * @uv_swap: if cb cr swapped, for yuv
->   * @write_format: defines how YCbCr self picture data is written to memory
->   * @output_format: defines sp output format
->   * @mbus: the mbus code on the src resizer pad that matches the pixel format
-> @@ -870,7 +870,7 @@ static void rkisp1_cap_stream_disable(struct rkisp1_capture *cap)
->  {
->  	int ret;
->  
-> -	/* Stream should stop in interrupt. If it dosn't, stop it by force. */
-> +	/* Stream should stop in interrupt. If it doesn't, stop it by force. */
->  	cap->is_stopping = true;
->  	ret = wait_event_timeout(cap->done,
->  				 !cap->is_streaming,
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-> index 049f6c3a11df..8a8d960a679c 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h
-> @@ -106,8 +106,8 @@
->  #define RKISP1_CIF_MI_SP_Y_FULL_YUV2RGB			BIT(8)
->  #define RKISP1_CIF_MI_SP_CBCR_FULL_YUV2RGB		BIT(9)
->  #define RKISP1_CIF_MI_SP_422NONCOSITEED			BIT(10)
-> -#define RKISP1_CIF_MI_MP_PINGPONG_ENABEL		BIT(11)
-> -#define RKISP1_CIF_MI_SP_PINGPONG_ENABEL		BIT(12)
-> +#define RKISP1_CIF_MI_MP_PINGPONG_ENABLE		BIT(11)
-> +#define RKISP1_CIF_MI_SP_PINGPONG_ENABLE		BIT(12)
->  #define RKISP1_CIF_MI_MP_AUTOUPDATE_ENABLE		BIT(13)
->  #define RKISP1_CIF_MI_SP_AUTOUPDATE_ENABLE		BIT(14)
->  #define RKISP1_CIF_MI_LAST_PIXEL_SIG_ENABLE		BIT(15)
-> 
