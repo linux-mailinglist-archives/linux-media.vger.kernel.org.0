@@ -2,236 +2,142 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 78A342C5BC6
-	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 19:15:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3179A2C5BFD
+	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 19:26:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404870AbgKZSOS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Nov 2020 13:14:18 -0500
-Received: from mga01.intel.com ([192.55.52.88]:54835 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2404838AbgKZSOS (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Nov 2020 13:14:18 -0500
-IronPort-SDR: Znhf1Evv3e+0/m6WJGdU9C15QFxEfjpTaURAskTCEfD8+/PnjLy/APuPhL2lP8/qzqHJk92rWP
- h2+pWAftdBDQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9817"; a="190468106"
-X-IronPort-AV: E=Sophos;i="5.78,372,1599548400"; 
-   d="scan'208";a="190468106"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 26 Nov 2020 10:14:17 -0800
-IronPort-SDR: v+d7mQcNR6CPqc40E3FbEsfsfM3zr0yAweH/U915bLfJK8IxRNl6hOfz8tTSAY+OLfTQTcarNp
- P9vAK6uv9VMQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,372,1599548400"; 
-   d="scan'208";a="535820410"
-Received: from lkp-server01.sh.intel.com (HELO acb209a98034) ([10.239.97.150])
-  by fmsmga006.fm.intel.com with ESMTP; 26 Nov 2020 10:14:16 -0800
-Received: from kbuild by acb209a98034 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kiLma-00001P-2y; Thu, 26 Nov 2020 18:14:16 +0000
-Date:   Fri, 27 Nov 2020 02:13:32 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- 4863b93cfd2dfe88557f820b3399c3fa2163ec43
-Message-ID: <5fbff04c.2oSJmCJtyNWew8rH%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S2404920AbgKZSZ5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Nov 2020 13:25:57 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46344 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2404593AbgKZSZ5 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 26 Nov 2020 13:25:57 -0500
+Received: from mail-qk1-x735.google.com (mail-qk1-x735.google.com [IPv6:2607:f8b0:4864:20::735])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D47F2C0613D4
+        for <linux-media@vger.kernel.org>; Thu, 26 Nov 2020 10:25:56 -0800 (PST)
+Received: by mail-qk1-x735.google.com with SMTP id v143so2313349qkb.2
+        for <linux-media@vger.kernel.org>; Thu, 26 Nov 2020 10:25:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
+        h=message-id:subject:from:to:cc:date:in-reply-to:references
+         :user-agent:mime-version:content-transfer-encoding;
+        bh=eK4OJdsT2qu8QppKGOwQbK6bjLQOsdosNV8hYluDxls=;
+        b=S6TW9eZ1ZSraboY2XK4Z1sOyAgkEaEKb25TxV/irJq95pfoU2B5HLQupIpUDa1ec62
+         F9ZhE/xQeOgvtXRG9zH/bqdoR2u9jZ7NBFYAYP1DBKr0IjJgHi59OelMXl4mfcUQ+eXd
+         f2ptPfA9Fa0n/PTD98uRCG0ckeU4LyQnzpuy6ocq5Ynh+naHZAgeTb+qBrn+W3uPr8UJ
+         7gVsSlTh5eS9aUbY9do1PpOPc9/E0jyFz+luOL8vtPJn8OTcUDMzzjHoSrjdnzU2YXup
+         SRuiNAt64NiXszlovnFoC3mdsGxqbUQdTxDtg+M9VtCZlJQ3Y8pEBy9RR72q+9mn0YcE
+         htIQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
+         :references:user-agent:mime-version:content-transfer-encoding;
+        bh=eK4OJdsT2qu8QppKGOwQbK6bjLQOsdosNV8hYluDxls=;
+        b=djm+OtjeSc9jJj8nImLxafG7w3Ff+/FYAiXf6G9NEKbj/w+sxGVJLe9BW26IR/QzPa
+         Ynm4k0k9QAE/qrcx+TR2XD2rsTo/TQ4O4+1FZeWVtAXyhkP/tUTgJybbL6lx8BnBLZMZ
+         eLUJbfgQASTzZgqIMXthOTAJYrLeBx8qjF55CiY6cd6q/a+zjr4f5GjLgvKBMutKDwD6
+         seiXS76EqyboB/rDvZfRa7rvg87z3eYgHuUWrG+wE700g03P9TVEFrrZjEc+Y9qyi+zn
+         r8ig3mWcyO5wMKO6TX/X7rcmrTtCborXCxt4qDMRKyq8R312/XV/LrJG/Th5p9hhDQt/
+         aQpQ==
+X-Gm-Message-State: AOAM5306SZCBBf5y9pO8Oo5oM7ZAaevMJoPuiEPR5Wd/h3mOcGlkm4nU
+        4wPxKM1drpaDbSYC36hEniHWyA==
+X-Google-Smtp-Source: ABdhPJzPz1p+scLjBHtqvuRpJuprESBTArhnS3JtjLmrfymnSVx5UXxS8lwb2Kom5o1bT7C1HJit9A==
+X-Received: by 2002:a37:8681:: with SMTP id i123mr4384374qkd.54.1606415155935;
+        Thu, 26 Nov 2020 10:25:55 -0800 (PST)
+Received: from nicolas-tpx395.lan (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
+        by smtp.gmail.com with ESMTPSA id d188sm3530261qkb.10.2020.11.26.10.25.54
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2020 10:25:55 -0800 (PST)
+Message-ID: <387f60ecefaa04678df95cb1c3af6a4010c6d9d8.camel@ndufresne.ca>
+Subject: Re: imx6 capture via ADV7280
+From:   Nicolas Dufresne <nicolas@ndufresne.ca>
+To:     Fabio Estevam <festevam@gmail.com>,
+        Steve Longerbeam <slongerbeam@gmail.com>,
+        Tim Harvey <tharvey@gateworks.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>
+Cc:     linux-media <linux-media@vger.kernel.org>,
+        Discussion of the development of and with GStreamer 
+        <gstreamer-devel@lists.freedesktop.org>
+Date:   Thu, 26 Nov 2020 13:25:54 -0500
+In-Reply-To: <CAOMZO5BQbED4-P-R8xsh1_c02E4DUxQdc+P=46rt=L+mYFsrRA@mail.gmail.com>
+References: <CAOMZO5BQbED4-P-R8xsh1_c02E4DUxQdc+P=46rt=L+mYFsrRA@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+User-Agent: Evolution 3.38.1 (3.38.1-1.fc33) 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: 4863b93cfd2dfe88557f820b3399c3fa2163ec43  media: camss: csiphy: Set rate on csiX_phy clock on SDM630/660
+Le mercredi 25 novembre 2020 à 17:47 -0300, Fabio Estevam a écrit :
+> Hi,
+> 
+> I am running 5.10.0-rc5-next-20201125 (same behavior is seen on
+> 5.4.76) on a imx6dl board with an ADV7280:
+> 
+> # media-ctl -l "'adv7180 0-0020':0 -> 'ipu1_csi1_mux':4[1]";
+> # media-ctl -l "'ipu1_csi1_mux':5 -> 'ipu1_csi1':0[1]"
+> # media-ctl -l "'ipu1_csi1':2 -> 'ipu1_csi1 capture':0[1]"
+> # media-ctl -V "'adv7180 0-0020':0 [fmt:UYVY2X8/720x480 field:seq-bt]"
+> # media-ctl -V "'ipu1_csi1_mux':5 [fmt:UYVY2X8/720x480]"
+> # media-ctl -V "'ipu1_csi1':2 [fmt:AYUV32/720x480]"
+> # v4l2-ctl -d3 --set-fmt-video=field=interlaced_bt
+> 
+> Then I start the stream:
+> v4l2-ctl --stream-mmap -d /dev/video3
+> [   22.792049] ipu1_csi1: EOF timeout
+> VIDIOC_DQBUF: failed: Input/output error
+> 
+> It always fails for the first time.
+> 
+> Then I try to start the stream once again:
+> 
+> # v4l2-ctl --stream-mmap -d /dev/video3
+> [   28.430420] ipu1_csi1: NFB4EOF
+> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 30.75 fps
+> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 30.77 fps
+> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 30.78 fps
+> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 30.77 fps
+> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 30.78 fps
+> <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<< 30.77 fps
+> ....
+> 
+> Does anyone have an idea as to why it fails when trying to stream for
+> the first time?
+> 
+> Next, I would like to run the following Gstreamer pipeline (GStreamer 1.18.1):
+> 
+> # gst-launch-1.0 v4l2src device=/dev/video3 ! kmssink
 
-elapsed time: 1659m
+I support kmssink ask for progressive frames, while v4l2src can only produce
+interlaced. There is likely something to improve there, but meanwhile, consider
+usign deinterlace element.
 
-configs tested: 172
-configs skipped: 2
+> Setting pipeline to PAUSED ...
+> Pipeline is live and does not need PREROLL ...
+> Pipeline is PREROLLED ...
+> Setting pipeline to PLAYING ...
+> New clock: GstSystemClock
+> ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0: Device
+> '/dev/video3' does not support progressive interlacing
+> Additional debug info:
+> ../sys/v4l2/gstv4l2object.c(4012): gst_v4l2_object_set_format_full ():
+> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> Device wants interleaved interlacing
+> Execution ended after 0:00:00.014920000
+> Setting pipeline to NULL ...
+> ERROR: from element /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> Internal data stream error.
+> Additional debug info:
+> ../libs/gst/base/gstbasesrc.c(3127): gst_base_src_loop ():
+> /GstPipeline:pipeline0/GstV4l2Src:v4l2src0:
+> streaming stopped, reason not-negotiated (-4)
+> Freeing pipeline ...
+> 
+> Any ideas on how to display the video captured to the display?
+> 
+> Thanks,
+> 
+> Fabio Estevam
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-h8300                     edosk2674_defconfig
-sparc                            alldefconfig
-powerpc                     sequoia_defconfig
-mips                    maltaup_xpa_defconfig
-arc                          axs103_defconfig
-powerpc                 xes_mpc85xx_defconfig
-mips                     loongson1c_defconfig
-m68k                       m5275evb_defconfig
-mips                            gpr_defconfig
-sh                          rsk7201_defconfig
-nios2                            alldefconfig
-m68k                       m5208evb_defconfig
-powerpc                      obs600_defconfig
-arm                            pleb_defconfig
-powerpc                        warp_defconfig
-arm                            mps2_defconfig
-mips                         rt305x_defconfig
-openrisc                         alldefconfig
-powerpc                       ebony_defconfig
-sh                          r7785rp_defconfig
-m68k                          hp300_defconfig
-arc                        vdk_hs38_defconfig
-arm                            qcom_defconfig
-m68k                        mvme147_defconfig
-arm                            dove_defconfig
-sh                   rts7751r2dplus_defconfig
-h8300                       h8s-sim_defconfig
-arm                         lpc18xx_defconfig
-mips                           ip27_defconfig
-arm                       cns3420vb_defconfig
-arm                        magician_defconfig
-mips                            e55_defconfig
-mips                  cavium_octeon_defconfig
-i386                             alldefconfig
-powerpc                    socrates_defconfig
-c6x                         dsk6455_defconfig
-arm                           efm32_defconfig
-sh                  sh7785lcr_32bit_defconfig
-mips                      maltasmvp_defconfig
-m68k                          multi_defconfig
-powerpc                          allyesconfig
-sparc64                             defconfig
-mips                        jmr3927_defconfig
-arm                           viper_defconfig
-nios2                               defconfig
-xtensa                         virt_defconfig
-arc                      axs103_smp_defconfig
-arm                           h5000_defconfig
-c6x                        evmc6472_defconfig
-sh                ecovec24-romimage_defconfig
-riscv                            alldefconfig
-powerpc                     taishan_defconfig
-powerpc                     tqm8541_defconfig
-mips                      pic32mzda_defconfig
-riscv                            allyesconfig
-arm                        neponset_defconfig
-xtensa                           allyesconfig
-powerpc                     tqm5200_defconfig
-powerpc                       holly_defconfig
-um                            kunit_defconfig
-arm                       imx_v4_v5_defconfig
-sh                           se7750_defconfig
-powerpc                      arches_defconfig
-arc                           tb10x_defconfig
-sh                           se7780_defconfig
-sh                           se7206_defconfig
-powerpc                    klondike_defconfig
-powerpc                      ppc64e_defconfig
-arm                         ebsa110_defconfig
-powerpc                    amigaone_defconfig
-powerpc               mpc834x_itxgp_defconfig
-arc                     nsimosci_hs_defconfig
-arm                         cm_x300_defconfig
-powerpc                      ep88xc_defconfig
-powerpc                 mpc8540_ads_defconfig
-powerpc                   lite5200b_defconfig
-h8300                    h8300h-sim_defconfig
-powerpc                     tqm8540_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                               defconfig
-alpha                            allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-sh                               allmodconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a004-20201125
-i386                 randconfig-a003-20201125
-i386                 randconfig-a002-20201125
-i386                 randconfig-a005-20201125
-i386                 randconfig-a001-20201125
-i386                 randconfig-a006-20201125
-i386                 randconfig-a004-20201126
-i386                 randconfig-a003-20201126
-i386                 randconfig-a002-20201126
-i386                 randconfig-a005-20201126
-i386                 randconfig-a001-20201126
-i386                 randconfig-a006-20201126
-x86_64               randconfig-a015-20201125
-x86_64               randconfig-a011-20201125
-x86_64               randconfig-a014-20201125
-x86_64               randconfig-a016-20201125
-x86_64               randconfig-a012-20201125
-x86_64               randconfig-a013-20201125
-x86_64               randconfig-a006-20201126
-x86_64               randconfig-a003-20201126
-x86_64               randconfig-a004-20201126
-x86_64               randconfig-a005-20201126
-x86_64               randconfig-a001-20201126
-x86_64               randconfig-a002-20201126
-i386                 randconfig-a012-20201125
-i386                 randconfig-a013-20201125
-i386                 randconfig-a011-20201125
-i386                 randconfig-a016-20201125
-i386                 randconfig-a014-20201125
-i386                 randconfig-a015-20201125
-i386                 randconfig-a012-20201126
-i386                 randconfig-a013-20201126
-i386                 randconfig-a011-20201126
-i386                 randconfig-a016-20201126
-i386                 randconfig-a014-20201126
-i386                 randconfig-a015-20201126
-riscv                    nommu_k210_defconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                          rv32_defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
-
-clang tested configs:
-x86_64               randconfig-a006-20201125
-x86_64               randconfig-a003-20201125
-x86_64               randconfig-a004-20201125
-x86_64               randconfig-a005-20201125
-x86_64               randconfig-a002-20201125
-x86_64               randconfig-a001-20201125
-x86_64               randconfig-a015-20201126
-x86_64               randconfig-a011-20201126
-x86_64               randconfig-a014-20201126
-x86_64               randconfig-a016-20201126
-x86_64               randconfig-a012-20201126
-x86_64               randconfig-a013-20201126
-
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
