@@ -2,128 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7EC732C5200
-	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 11:30:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 821832C5337
+	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 12:46:30 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387924AbgKZK1J (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Nov 2020 05:27:09 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56564 "EHLO
+        id S1732141AbgKZLoz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Nov 2020 06:44:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727468AbgKZK1I (ORCPT
+        with ESMTP id S1731379AbgKZLoz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Nov 2020 05:27:08 -0500
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9776FC0617A7
-        for <linux-media@vger.kernel.org>; Thu, 26 Nov 2020 02:27:08 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id m9so1375137pgb.4
-        for <linux-media@vger.kernel.org>; Thu, 26 Nov 2020 02:27:08 -0800 (PST)
+        Thu, 26 Nov 2020 06:44:55 -0500
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E6415C0613D4;
+        Thu, 26 Nov 2020 03:44:53 -0800 (PST)
+Received: by mail-pg1-x542.google.com with SMTP id 62so1519150pgg.12;
+        Thu, 26 Nov 2020 03:44:53 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=rgJRzBWgmp6ezjp+pp/RSafCYZqljDuN430R30/KheA=;
-        b=UYtiger8uqFTy7mlurYH0+WXJVCFZX0XBM0GzBQoKOdv9FzzldIX+PTScuu7ge7WHb
-         9SWT4Hl7oupwUyGrvV9JysSw1tQejEh0o4PNDSDQRhPyILXcISGvFIBXtv21m8ec024H
-         XyMb3ZMwZLUit3JnH1DoV3yXypMK2FnvPN6kjviEE/NJMyLTDHBklJgfcp/C7ZKMg2aL
-         +HLGeS1nBtvHZk8VLfMSQkgPuUKQnObU9Pxddqe5M9VcOWhEi+JgP7IPAeeYp3P/g5t8
-         F4I+paZlmq1hOSd1EzNMIBzfv81r5M2iigPTefyRbEd734K0UVsxwO67dada99RxHaSv
-         uQ1w==
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=UpERwUmn/OuG9/9GiqizbXJDLzVxL1S8PfGCKpa9aUg=;
+        b=nYGL5wwMzInwZKf69/TnCeMo02Cht0pAdcQoAUSgCVe5YzuaNqWcOj9BMSrJG11J2f
+         KNcl4S4BCDyYQZ9xw4Y7s1+6wFphhly5hk8wMuIGqUaPzSzSN98tnParN/VVKeaQNJV1
+         KhMm0oyRhW/8xPEbWsyFARG/ib75aDcW85H82wQyIIf/H75HSWxzBXzqqRPWQh1WqZcX
+         iPdAS4W+W92oDObcecbFDg5zHufOPtH8/afpKxrogGEW3TTkAY+fxXaJ14gouOOTshdj
+         lDZUplgZzM2IrqxRyA5OetWAyeNjvrdA+uf3NtbZL7nOSM1+RgxdRJ0hsNWi3qqnzHJX
+         thgQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=rgJRzBWgmp6ezjp+pp/RSafCYZqljDuN430R30/KheA=;
-        b=VViwj0v88zN50Ydae1kmxwGGDMq6p5qU9LmbTYCEXkZA+5BLQiHtWekGXRdnW3th/m
-         SpmvV1SqnFAD7lUcgK16PmcWUTnrUxHPILLVEWfblcGxQ1zF2PeKjqCK6RoqkILSyqMN
-         phPf+J7LdFBq8e1pKTtGy4eH14/fjc/KziBhpplPCJo1j4XP3aqVG2WEHYvpd/PIQ7wR
-         1A8zBpiqkC+sT0fHUxuZAjvHPnq7qOF+91D+uqVD4GgStXmKPV12hYMZ7GVQnk5zzhCw
-         nV8US1Qvcu9fZX03Iy66lPtgjawUiv4oXeaniBk/5WlLjdjn4nGIXruN3A1SgqHBQs9x
-         P/Qg==
-X-Gm-Message-State: AOAM530kPFWRsngMGKdunWrqDVsJ9GlXEYsbQSyDzsQR9TIA4iRvGc7s
-        QnjuVde279WEi8iswyzXvx7kPlVrkVgs2R+/idUzBA==
-X-Google-Smtp-Source: ABdhPJz91dc8tLqbixVGj8HYhNQwiyZMh2ty2xmP1M7X5pC9QeuEvR3+y7Uxizuj0W8hoR5eOzY8gh5UpLbJqECIjw8=
-X-Received: by 2002:a17:90a:fc92:: with SMTP id ci18mr2917180pjb.75.1606386428056;
- Thu, 26 Nov 2020 02:27:08 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=UpERwUmn/OuG9/9GiqizbXJDLzVxL1S8PfGCKpa9aUg=;
+        b=dIdT955rtQoAL64otwwvv/PreNSIo+OCTRiwTTrYytKCmhEVYIFmPBgpKa4li1opUF
+         ENuYDpabXwU+CpJa8j76AojDhJihANjgeZVceyLteDSn0A2OL3jeBR71i+/GCysTpJdv
+         cSIildg/MwpxP0/bdaWNzzrsLj7IptP8YXYX/WljIOyVkx3AssVFjR32d5yQ69anLzLS
+         eQw888ZHd2jjwj1SEGkOk9Pz7njeNkgtrZ6haP9uafdwO2CiP/4xmEwgMN6Mhun0afNe
+         Ubu9t6HEbdhVMDZ7SLEgyrUHddEAezYLcUyHFGyOAz34F7jVbQ+IqGgFhG+hMujl6efv
+         1brw==
+X-Gm-Message-State: AOAM531MqtQJ9BV8njN2OMrBbAWzewjpObongyYwvcOxlxWVK4gK5mud
+        HQpfd9ISnT81YQGx5JeLaBk=
+X-Google-Smtp-Source: ABdhPJw/1d59DXda0KuVqjExWVYT3bxoXf2mR5gIjPc+28YwR+iFHQlRFLWrBosK+geb9FM5JmT/vA==
+X-Received: by 2002:a63:62c6:: with SMTP id w189mr2343708pgb.440.1606391093464;
+        Thu, 26 Nov 2020 03:44:53 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:a6ae:11ff:fe11:4b46])
+        by smtp.gmail.com with ESMTPSA id d15sm6575313pjr.27.2020.11.26.03.44.52
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2020 03:44:52 -0800 (PST)
+Date:   Thu, 26 Nov 2020 20:44:50 +0900
+From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+To:     Ricardo Ribalda <ribalda@chromium.org>
+Cc:     Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Christoph Hellwig <hch@lst.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>
+Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+Message-ID: <20201126114450.GB3723071@google.com>
+References: <20201125221917.150463-1-ribalda@chromium.org>
 MIME-Version: 1.0
-References: <20201125123710.28491-1-andrey.konovalov@linaro.org> <20201125123710.28491-2-andrey.konovalov@linaro.org>
-In-Reply-To: <20201125123710.28491-2-andrey.konovalov@linaro.org>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 26 Nov 2020 11:26:56 +0100
-Message-ID: <CAG3jFytaZFQuY0eZstm9TQ_Dry8oWapUgp3EhCjWB-dE+qkxig@mail.gmail.com>
-Subject: Re: [PATCH 2/2] media: camss: Make use of V4L2_CAP_IO_MC
-To:     Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org,
-        Peter Griffin <peter.griffin@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201125221917.150463-1-ribalda@chromium.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hey Andrey,
+On (20/11/25 23:19), Ricardo Ribalda wrote:
+[..]
+> +	if (uvc_urb->pages)
+> +		dma_sync_sgtable_for_device(stream_to_dmadev(uvc_urb->stream),
+> +					    &uvc_urb->sgt, DMA_FROM_DEVICE);
 
-I've suggested a small change, with that feel free to add my r-b.
+[..]
 
-Reviewed-by: Robert Foss <robert.foss@linaro.org>
+> +	if (uvc_urb->pages)
+> +		dma_sync_sgtable_for_cpu(stream_to_dmadev(stream),
+> +					 &uvc_urb->sgt, DMA_FROM_DEVICE);
 
-On Wed, 25 Nov 2020 at 13:37, Andrey Konovalov
-<andrey.konovalov@linaro.org> wrote:
->
-> Implement mbus_code filtering for format enumeration.
->
-> Without this patch libcamera errors out with:
-> "ERROR V4L2 v4l2_videodevice.cpp:982 /dev/video0[cap]: Media bus code
-> filtering not supported by the device"
->
-> This is the second version of this change which handles the case of
-> several pixel formats corresponding to one media bus format correctly.
->
-> Signed-off-by: Andrey Konovalov <andrey.konovalov@linaro.org>
-> ---
->  drivers/media/platform/qcom/camss/camss-video.c | 10 ++++++++--
->  1 file changed, 8 insertions(+), 2 deletions(-)
->
-> diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-> index 20673de9020e..60737b771d52 100644
-> --- a/drivers/media/platform/qcom/camss/camss-video.c
-> +++ b/drivers/media/platform/qcom/camss/camss-video.c
-> @@ -539,6 +539,7 @@ static int video_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
->  {
->         struct camss_video *video = video_drvdata(file);
->         int i, j, k;
-> +       u32 mcode = f->mbus_code;
->
->         if (f->type != video->type)
->                 return -EINVAL;
-> @@ -549,7 +550,12 @@ static int video_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
->         /* find index "i" of "k"th unique pixelformat in formats array */
+[..]
 
-Maybe this is a good place to explain how mcode is used, and for which
-extension it is required.
+> +	uvc_urb->pages = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
+> +						 &uvc_urb->dma,
+> +						 gfp_flags | __GFP_NOWARN, 0);
 
->         k = -1;
->         for (i = 0; i < video->nformats; i++) {
-> +               if (mcode != 0 && video->formats[i].code != mcode)
-> +                       continue;
+Do we need to pass __GFP_NOWARN? It seems that
+
+dma_alloc_noncontiguous()
+  __iommu_dma_alloc_noncontiguous()
+    __iommu_dma_alloc_pages()
+
+does this internally.
+
+> +	if (!uvc_urb->pages)
+> +		return false;
 > +
->                 for (j = 0; j < i; j++) {
-> +                       if (mcode != 0 && video->formats[j].code != mcode)
-> +                               continue;
->                         if (video->formats[i].pixelformat ==
->                                         video->formats[j].pixelformat)
->                                 break;
-> @@ -948,8 +954,8 @@ int msm_video_register(struct camss_video *video, struct v4l2_device *v4l2_dev,
->         }
->
->         vdev->fops = &msm_vid_fops;
-> -       vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE | V4L2_CAP_STREAMING |
-> -                                                       V4L2_CAP_READWRITE;
-> +       vdev->device_caps = V4L2_CAP_VIDEO_CAPTURE_MPLANE | V4L2_CAP_STREAMING
-> +                         | V4L2_CAP_READWRITE | V4L2_CAP_IO_MC;
->         vdev->ioctl_ops = &msm_vid_ioctl_ops;
->         vdev->release = msm_video_release;
->         vdev->v4l2_dev = v4l2_dev;
-> --
-> 2.17.1
->
+> +	uvc_urb->buffer = vmap(uvc_urb->pages,
+> +			       PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT,
+> +			       VM_DMA_COHERENT, PAGE_KERNEL);
+
+This is not related to Ricardo's patch, just a side note:
+
+  I think VM_DMA_COHERENT needs to be renamed. I found it a bit confusing
+  to see DMA_COHERENT mapping being dma_sync-ed. It turned out that the
+  flag has different meaning.
+
+	-ss
