@@ -2,35 +2,35 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C84A22C5545
-	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 14:27:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 50DE42C5548
+	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 14:27:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390015AbgKZN1d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Nov 2020 08:27:33 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:42685 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389827AbgKZN1d (ORCPT
+        id S2390023AbgKZN1e (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Nov 2020 08:27:34 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:52513 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2390000AbgKZN1d (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 26 Nov 2020 08:27:33 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id iHIrkPCQhN7XgiHJ3kYrXQ; Thu, 26 Nov 2020 14:27:29 +0100
+        id iHIrkPCQhN7XgiHJ3kYrXk; Thu, 26 Nov 2020 14:27:29 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606397249; bh=Rb4hBMEWy+6oDDiKe1lUA6ficTVlXyyANHld9UnkiA4=;
+        t=1606397249; bh=olKj3jBdqoVnwJKmCSE4+nfPtoAjqAJpobGFSAia5vo=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=Zdw5NJ4jC3WJDNbFSi91Jz9eWNAlsXKsJ1XLcWQzvuVP7GHr3hStYP3Lc+VyRtH8Z
-         KeVFkXXPXPchQttOMNLAD5cBDlMZJzAqQrLQArXrjWf4PrRuLTxSxo7HO2xzA7MGOg
-         lXov9/yObM90xKD0d6uCodvi4iwF3IkNB6dl5LYE71FkDwpSOVp7XeCyQYdUfi5+dp
-         2mVZNiNC4ZfW+wpm0yQwKYL5+l1Md5vcaCbkWm2LYQka3g69+s+jCxUSP4Jjc1/5Ak
-         xULV6UhxtG4SUMJNWcH9Thpf2BqXb4KU3vWX9a9WvQvL6r6B4TtEe2SaQoaokOaItt
-         +NMRTv1PjZqUA==
+        b=uRa5V14LP8MmqpOVy+F67IjiyEWBviwXLW/PPy+CdfCZMFMQ7cIWu3DjTL0EzUD/M
+         5tEj2t+QEczXrTmqChbYxjOZjNyLGrUUAnff8JTj+F5uZm1TJB3zN1uug/Om4SVT6I
+         6bjQ8PKcG804MueKkrh+wb2FjWUJ7/Zq6bSudPFa8A26dQeadGQcH1wuuLYqBKZkFh
+         nuxlxKNn9cWKB0f13AWkay3reD/RWa8CV7IIRq9axOYxbZ7mdOJCTjme8PEwxNClMs
+         4dFDczcksd7XbG4wCwO5CdDB/z0IOe09KBzFCXceG9kwDGsbUsGbmhTkomINPW+YL/
+         OD8TW/dItlvrg==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH 1/6] vicodec: add V4L2_ prefix before FWHT_VERSION and FWHT_FL_*
-Date:   Thu, 26 Nov 2020 14:27:12 +0100
-Message-Id: <20201126132717.1216907-2-hverkuil-cisco@xs4all.nl>
+Subject: [PATCH 2/6] vicodec: mark the stateless FWHT API as stable
+Date:   Thu, 26 Nov 2020 14:27:13 +0100
+Message-Id: <20201126132717.1216907-3-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201126132717.1216907-1-hverkuil-cisco@xs4all.nl>
 References: <20201126132717.1216907-1-hverkuil-cisco@xs4all.nl>
@@ -43,449 +43,350 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-No other changes. This patch is preparation for promoting the
-stateless FWHT codec API as a stable public API.
+This patch finalizes the move of the stateless FWHT to a
+stable public API:
+
+Rename V4L2_CID_MPEG_VIDEO_FWHT_PARAMS to V4L2_CID_STATELESS_FWHT_PARAMS.
+
+Move the contents of fwht-ctrls.h to v4l2-controls.h.
+
+Move the public parts of drivers/media/test-drivers/vicodec/codec-fwht.h
+to v4l2-controls.h.
+
+Add V4L2_CTRL_TYPE_FWHT_PARAMS control initialization and validation.
+
+Add p_fwht_params to struct v4l2_ext_control.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- .../media/v4l/ext-ctrls-codec.rst             | 32 +++----
- .../media/test-drivers/vicodec/codec-fwht.c   | 12 +--
- .../media/test-drivers/vicodec/codec-fwht.h   | 40 ++++-----
- .../test-drivers/vicodec/codec-v4l2-fwht.c    | 88 +++++++++----------
- .../media/test-drivers/vicodec/vicodec-core.c | 40 ++++-----
- 5 files changed, 106 insertions(+), 106 deletions(-)
+ .../media/test-drivers/vicodec/codec-fwht.c   |  1 +
+ .../media/test-drivers/vicodec/codec-fwht.h   | 32 ---------
+ .../media/test-drivers/vicodec/vicodec-core.c |  6 +-
+ drivers/media/v4l2-core/v4l2-ctrls.c          | 20 +++++-
+ include/media/fwht-ctrls.h                    | 31 --------
+ include/media/v4l2-ctrls.h                    |  1 -
+ include/uapi/linux/v4l2-controls.h            | 70 +++++++++++++++++++
+ include/uapi/linux/videodev2.h                |  3 +
+ 8 files changed, 95 insertions(+), 69 deletions(-)
+ delete mode 100644 include/media/fwht-ctrls.h
 
-diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-index e815fffd1cd8..34173ed326fc 100644
---- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-+++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-@@ -2284,52 +2284,52 @@ FWHT Flags
-     :stub-columns: 0
-     :widths:       3 1 4
- 
--    * - ``FWHT_FL_IS_INTERLACED``
-+    * - ``V4L2_FWHT_FL_IS_INTERLACED``
-       - 0x00000001
-       - Set if this is an interlaced format
--    * - ``FWHT_FL_IS_BOTTOM_FIRST``
-+    * - ``V4L2_FWHT_FL_IS_BOTTOM_FIRST``
-       - 0x00000002
-       - Set if this is a bottom-first (NTSC) interlaced format
--    * - ``FWHT_FL_IS_ALTERNATE``
-+    * - ``V4L2_FWHT_FL_IS_ALTERNATE``
-       - 0x00000004
-       - Set if each 'frame' contains just one field
--    * - ``FWHT_FL_IS_BOTTOM_FIELD``
-+    * - ``V4L2_FWHT_FL_IS_BOTTOM_FIELD``
-       - 0x00000008
--      - If FWHT_FL_IS_ALTERNATE was set, then this is set if this 'frame' is the
-+      - If V4L2_FWHT_FL_IS_ALTERNATE was set, then this is set if this 'frame' is the
- 	bottom field, else it is the top field.
--    * - ``FWHT_FL_LUMA_IS_UNCOMPRESSED``
-+    * - ``V4L2_FWHT_FL_LUMA_IS_UNCOMPRESSED``
-       - 0x00000010
-       - Set if the luma plane is uncompressed
--    * - ``FWHT_FL_CB_IS_UNCOMPRESSED``
-+    * - ``V4L2_FWHT_FL_CB_IS_UNCOMPRESSED``
-       - 0x00000020
-       - Set if the cb plane is uncompressed
--    * - ``FWHT_FL_CR_IS_UNCOMPRESSED``
-+    * - ``V4L2_FWHT_FL_CR_IS_UNCOMPRESSED``
-       - 0x00000040
-       - Set if the cr plane is uncompressed
--    * - ``FWHT_FL_CHROMA_FULL_HEIGHT``
-+    * - ``V4L2_FWHT_FL_CHROMA_FULL_HEIGHT``
-       - 0x00000080
-       - Set if the chroma plane has the same height as the luma plane,
- 	else the chroma plane is half the height of the luma plane
--    * - ``FWHT_FL_CHROMA_FULL_WIDTH``
-+    * - ``V4L2_FWHT_FL_CHROMA_FULL_WIDTH``
-       - 0x00000100
-       - Set if the chroma plane has the same width as the luma plane,
- 	else the chroma plane is half the width of the luma plane
--    * - ``FWHT_FL_ALPHA_IS_UNCOMPRESSED``
-+    * - ``V4L2_FWHT_FL_ALPHA_IS_UNCOMPRESSED``
-       - 0x00000200
-       - Set if the alpha plane is uncompressed
--    * - ``FWHT_FL_I_FRAME``
-+    * - ``V4L2_FWHT_FL_I_FRAME``
-       - 0x00000400
-       - Set if this is an I-frame
--    * - ``FWHT_FL_COMPONENTS_NUM_MSK``
-+    * - ``V4L2_FWHT_FL_COMPONENTS_NUM_MSK``
-       - 0x00070000
-       - A 4-values flag - the number of components - 1
--    * - ``FWHT_FL_PIXENC_YUV``
-+    * - ``V4L2_FWHT_FL_PIXENC_YUV``
-       - 0x00080000
-       - Set if the pixel encoding is YUV
--    * - ``FWHT_FL_PIXENC_RGB``
-+    * - ``V4L2_FWHT_FL_PIXENC_RGB``
-       - 0x00100000
-       - Set if the pixel encoding is RGB
--    * - ``FWHT_FL_PIXENC_HSV``
-+    * - ``V4L2_FWHT_FL_PIXENC_HSV``
-       - 0x00180000
-       - Set if the pixel encoding is HSV
- 
 diff --git a/drivers/media/test-drivers/vicodec/codec-fwht.c b/drivers/media/test-drivers/vicodec/codec-fwht.c
-index 31faf319e508..5dbf76fd8185 100644
+index 5dbf76fd8185..1ce682e1b85c 100644
 --- a/drivers/media/test-drivers/vicodec/codec-fwht.c
 +++ b/drivers/media/test-drivers/vicodec/codec-fwht.c
-@@ -920,7 +920,7 @@ bool fwht_decode_frame(struct fwht_cframe *cf, u32 hdr_flags,
- 	if (!decode_plane(cf, &rlco, height, width, ref->luma, ref_stride,
- 			  ref->luma_alpha_step, dst->luma, dst_stride,
- 			  dst->luma_alpha_step,
--			  hdr_flags & FWHT_FL_LUMA_IS_UNCOMPRESSED,
-+			  hdr_flags & V4L2_FWHT_FL_LUMA_IS_UNCOMPRESSED,
- 			  end_of_rlco_buf))
- 		return false;
+@@ -11,6 +11,7 @@
  
-@@ -928,21 +928,21 @@ bool fwht_decode_frame(struct fwht_cframe *cf, u32 hdr_flags,
- 		u32 h = height;
- 		u32 w = width;
+ #include <linux/string.h>
+ #include <linux/kernel.h>
++#include <linux/videodev2.h>
+ #include "codec-fwht.h"
  
--		if (!(hdr_flags & FWHT_FL_CHROMA_FULL_HEIGHT))
-+		if (!(hdr_flags & V4L2_FWHT_FL_CHROMA_FULL_HEIGHT))
- 			h /= 2;
--		if (!(hdr_flags & FWHT_FL_CHROMA_FULL_WIDTH))
-+		if (!(hdr_flags & V4L2_FWHT_FL_CHROMA_FULL_WIDTH))
- 			w /= 2;
- 
- 		if (!decode_plane(cf, &rlco, h, w, ref->cb, ref_chroma_stride,
- 				  ref->chroma_step, dst->cb, dst_chroma_stride,
- 				  dst->chroma_step,
--				  hdr_flags & FWHT_FL_CB_IS_UNCOMPRESSED,
-+				  hdr_flags & V4L2_FWHT_FL_CB_IS_UNCOMPRESSED,
- 				  end_of_rlco_buf))
- 			return false;
- 		if (!decode_plane(cf, &rlco, h, w, ref->cr, ref_chroma_stride,
- 				  ref->chroma_step, dst->cr, dst_chroma_stride,
- 				  dst->chroma_step,
--				  hdr_flags & FWHT_FL_CR_IS_UNCOMPRESSED,
-+				  hdr_flags & V4L2_FWHT_FL_CR_IS_UNCOMPRESSED,
- 				  end_of_rlco_buf))
- 			return false;
- 	}
-@@ -951,7 +951,7 @@ bool fwht_decode_frame(struct fwht_cframe *cf, u32 hdr_flags,
- 		if (!decode_plane(cf, &rlco, height, width, ref->alpha, ref_stride,
- 				  ref->luma_alpha_step, dst->alpha, dst_stride,
- 				  dst->luma_alpha_step,
--				  hdr_flags & FWHT_FL_ALPHA_IS_UNCOMPRESSED,
-+				  hdr_flags & V4L2_FWHT_FL_ALPHA_IS_UNCOMPRESSED,
- 				  end_of_rlco_buf))
- 			return false;
- 	return true;
+ #define OVERFLOW_BIT BIT(14)
 diff --git a/drivers/media/test-drivers/vicodec/codec-fwht.h b/drivers/media/test-drivers/vicodec/codec-fwht.h
-index b6fec2b1cbca..78e2841762fb 100644
+index 78e2841762fb..0eab24020e9e 100644
 --- a/drivers/media/test-drivers/vicodec/codec-fwht.h
 +++ b/drivers/media/test-drivers/vicodec/codec-fwht.h
-@@ -56,37 +56,37 @@
+@@ -56,38 +56,6 @@
  #define FWHT_MAGIC1 0x4f4f4f4f
  #define FWHT_MAGIC2 0xffffffff
  
--#define FWHT_VERSION 3
-+#define V4L2_FWHT_VERSION 3
- 
- /* Set if this is an interlaced format */
--#define FWHT_FL_IS_INTERLACED		BIT(0)
-+#define V4L2_FWHT_FL_IS_INTERLACED		BIT(0)
- /* Set if this is a bottom-first (NTSC) interlaced format */
--#define FWHT_FL_IS_BOTTOM_FIRST		BIT(1)
-+#define V4L2_FWHT_FL_IS_BOTTOM_FIRST		BIT(1)
- /* Set if each 'frame' contains just one field */
--#define FWHT_FL_IS_ALTERNATE		BIT(2)
-+#define V4L2_FWHT_FL_IS_ALTERNATE		BIT(2)
- /*
-- * If FWHT_FL_IS_ALTERNATE was set, then this is set if this
-+ * If V4L2_FWHT_FL_IS_ALTERNATE was set, then this is set if this
-  * 'frame' is the bottom field, else it is the top field.
-  */
--#define FWHT_FL_IS_BOTTOM_FIELD		BIT(3)
-+#define V4L2_FWHT_FL_IS_BOTTOM_FIELD		BIT(3)
- /* Set if this frame is uncompressed */
--#define FWHT_FL_LUMA_IS_UNCOMPRESSED	BIT(4)
--#define FWHT_FL_CB_IS_UNCOMPRESSED	BIT(5)
--#define FWHT_FL_CR_IS_UNCOMPRESSED	BIT(6)
--#define FWHT_FL_CHROMA_FULL_HEIGHT	BIT(7)
--#define FWHT_FL_CHROMA_FULL_WIDTH	BIT(8)
--#define FWHT_FL_ALPHA_IS_UNCOMPRESSED	BIT(9)
--#define FWHT_FL_I_FRAME			BIT(10)
-+#define V4L2_FWHT_FL_LUMA_IS_UNCOMPRESSED	BIT(4)
-+#define V4L2_FWHT_FL_CB_IS_UNCOMPRESSED	BIT(5)
-+#define V4L2_FWHT_FL_CR_IS_UNCOMPRESSED	BIT(6)
-+#define V4L2_FWHT_FL_CHROMA_FULL_HEIGHT	BIT(7)
-+#define V4L2_FWHT_FL_CHROMA_FULL_WIDTH	BIT(8)
-+#define V4L2_FWHT_FL_ALPHA_IS_UNCOMPRESSED	BIT(9)
-+#define V4L2_FWHT_FL_I_FRAME			BIT(10)
- 
- /* A 4-values flag - the number of components - 1 */
--#define FWHT_FL_COMPONENTS_NUM_MSK	GENMASK(18, 16)
--#define FWHT_FL_COMPONENTS_NUM_OFFSET	16
-+#define V4L2_FWHT_FL_COMPONENTS_NUM_MSK	GENMASK(18, 16)
-+#define V4L2_FWHT_FL_COMPONENTS_NUM_OFFSET	16
- 
--#define FWHT_FL_PIXENC_MSK	GENMASK(20, 19)
--#define FWHT_FL_PIXENC_OFFSET	19
--#define FWHT_FL_PIXENC_YUV	(1 << FWHT_FL_PIXENC_OFFSET)
--#define FWHT_FL_PIXENC_RGB	(2 << FWHT_FL_PIXENC_OFFSET)
--#define FWHT_FL_PIXENC_HSV	(3 << FWHT_FL_PIXENC_OFFSET)
-+#define V4L2_FWHT_FL_PIXENC_MSK	GENMASK(20, 19)
-+#define V4L2_FWHT_FL_PIXENC_OFFSET	19
-+#define V4L2_FWHT_FL_PIXENC_YUV	(1 << V4L2_FWHT_FL_PIXENC_OFFSET)
-+#define V4L2_FWHT_FL_PIXENC_RGB	(2 << V4L2_FWHT_FL_PIXENC_OFFSET)
-+#define V4L2_FWHT_FL_PIXENC_HSV	(3 << V4L2_FWHT_FL_PIXENC_OFFSET)
- 
+-#define V4L2_FWHT_VERSION 3
+-
+-/* Set if this is an interlaced format */
+-#define V4L2_FWHT_FL_IS_INTERLACED		BIT(0)
+-/* Set if this is a bottom-first (NTSC) interlaced format */
+-#define V4L2_FWHT_FL_IS_BOTTOM_FIRST		BIT(1)
+-/* Set if each 'frame' contains just one field */
+-#define V4L2_FWHT_FL_IS_ALTERNATE		BIT(2)
+-/*
+- * If V4L2_FWHT_FL_IS_ALTERNATE was set, then this is set if this
+- * 'frame' is the bottom field, else it is the top field.
+- */
+-#define V4L2_FWHT_FL_IS_BOTTOM_FIELD		BIT(3)
+-/* Set if this frame is uncompressed */
+-#define V4L2_FWHT_FL_LUMA_IS_UNCOMPRESSED	BIT(4)
+-#define V4L2_FWHT_FL_CB_IS_UNCOMPRESSED	BIT(5)
+-#define V4L2_FWHT_FL_CR_IS_UNCOMPRESSED	BIT(6)
+-#define V4L2_FWHT_FL_CHROMA_FULL_HEIGHT	BIT(7)
+-#define V4L2_FWHT_FL_CHROMA_FULL_WIDTH	BIT(8)
+-#define V4L2_FWHT_FL_ALPHA_IS_UNCOMPRESSED	BIT(9)
+-#define V4L2_FWHT_FL_I_FRAME			BIT(10)
+-
+-/* A 4-values flag - the number of components - 1 */
+-#define V4L2_FWHT_FL_COMPONENTS_NUM_MSK	GENMASK(18, 16)
+-#define V4L2_FWHT_FL_COMPONENTS_NUM_OFFSET	16
+-
+-#define V4L2_FWHT_FL_PIXENC_MSK	GENMASK(20, 19)
+-#define V4L2_FWHT_FL_PIXENC_OFFSET	19
+-#define V4L2_FWHT_FL_PIXENC_YUV	(1 << V4L2_FWHT_FL_PIXENC_OFFSET)
+-#define V4L2_FWHT_FL_PIXENC_RGB	(2 << V4L2_FWHT_FL_PIXENC_OFFSET)
+-#define V4L2_FWHT_FL_PIXENC_HSV	(3 << V4L2_FWHT_FL_PIXENC_OFFSET)
+-
  /*
   * A macro to calculate the needed padding in order to make sure
-diff --git a/drivers/media/test-drivers/vicodec/codec-v4l2-fwht.c b/drivers/media/test-drivers/vicodec/codec-v4l2-fwht.c
-index b6e39fbd8ad5..0c83678fcdad 100644
---- a/drivers/media/test-drivers/vicodec/codec-v4l2-fwht.c
-+++ b/drivers/media/test-drivers/vicodec/codec-v4l2-fwht.c
-@@ -11,34 +11,34 @@
- #include "codec-v4l2-fwht.h"
- 
- static const struct v4l2_fwht_pixfmt_info v4l2_fwht_pixfmts[] = {
--	{ V4L2_PIX_FMT_YUV420,  1, 3, 2, 1, 1, 2, 2, 3, 3, FWHT_FL_PIXENC_YUV},
--	{ V4L2_PIX_FMT_YVU420,  1, 3, 2, 1, 1, 2, 2, 3, 3, FWHT_FL_PIXENC_YUV},
--	{ V4L2_PIX_FMT_YUV422P, 1, 2, 1, 1, 1, 2, 1, 3, 3, FWHT_FL_PIXENC_YUV},
--	{ V4L2_PIX_FMT_NV12,    1, 3, 2, 1, 2, 2, 2, 3, 2, FWHT_FL_PIXENC_YUV},
--	{ V4L2_PIX_FMT_NV21,    1, 3, 2, 1, 2, 2, 2, 3, 2, FWHT_FL_PIXENC_YUV},
--	{ V4L2_PIX_FMT_NV16,    1, 2, 1, 1, 2, 2, 1, 3, 2, FWHT_FL_PIXENC_YUV},
--	{ V4L2_PIX_FMT_NV61,    1, 2, 1, 1, 2, 2, 1, 3, 2, FWHT_FL_PIXENC_YUV},
--	{ V4L2_PIX_FMT_NV24,    1, 3, 1, 1, 2, 1, 1, 3, 2, FWHT_FL_PIXENC_YUV},
--	{ V4L2_PIX_FMT_NV42,    1, 3, 1, 1, 2, 1, 1, 3, 2, FWHT_FL_PIXENC_YUV},
--	{ V4L2_PIX_FMT_YUYV,    2, 2, 1, 2, 4, 2, 1, 3, 1, FWHT_FL_PIXENC_YUV},
--	{ V4L2_PIX_FMT_YVYU,    2, 2, 1, 2, 4, 2, 1, 3, 1, FWHT_FL_PIXENC_YUV},
--	{ V4L2_PIX_FMT_UYVY,    2, 2, 1, 2, 4, 2, 1, 3, 1, FWHT_FL_PIXENC_YUV},
--	{ V4L2_PIX_FMT_VYUY,    2, 2, 1, 2, 4, 2, 1, 3, 1, FWHT_FL_PIXENC_YUV},
--	{ V4L2_PIX_FMT_BGR24,   3, 3, 1, 3, 3, 1, 1, 3, 1, FWHT_FL_PIXENC_RGB},
--	{ V4L2_PIX_FMT_RGB24,   3, 3, 1, 3, 3, 1, 1, 3, 1, FWHT_FL_PIXENC_RGB},
--	{ V4L2_PIX_FMT_HSV24,   3, 3, 1, 3, 3, 1, 1, 3, 1, FWHT_FL_PIXENC_HSV},
--	{ V4L2_PIX_FMT_BGR32,   4, 4, 1, 4, 4, 1, 1, 4, 1, FWHT_FL_PIXENC_RGB},
--	{ V4L2_PIX_FMT_XBGR32,  4, 4, 1, 4, 4, 1, 1, 4, 1, FWHT_FL_PIXENC_RGB},
--	{ V4L2_PIX_FMT_ABGR32,  4, 4, 1, 4, 4, 1, 1, 4, 1, FWHT_FL_PIXENC_RGB},
--	{ V4L2_PIX_FMT_RGB32,   4, 4, 1, 4, 4, 1, 1, 4, 1, FWHT_FL_PIXENC_RGB},
--	{ V4L2_PIX_FMT_XRGB32,  4, 4, 1, 4, 4, 1, 1, 4, 1, FWHT_FL_PIXENC_RGB},
--	{ V4L2_PIX_FMT_ARGB32,  4, 4, 1, 4, 4, 1, 1, 4, 1, FWHT_FL_PIXENC_RGB},
--	{ V4L2_PIX_FMT_BGRX32,  4, 4, 1, 4, 4, 1, 1, 4, 1, FWHT_FL_PIXENC_RGB},
--	{ V4L2_PIX_FMT_BGRA32,  4, 4, 1, 4, 4, 1, 1, 4, 1, FWHT_FL_PIXENC_RGB},
--	{ V4L2_PIX_FMT_RGBX32,  4, 4, 1, 4, 4, 1, 1, 4, 1, FWHT_FL_PIXENC_RGB},
--	{ V4L2_PIX_FMT_RGBA32,  4, 4, 1, 4, 4, 1, 1, 4, 1, FWHT_FL_PIXENC_RGB},
--	{ V4L2_PIX_FMT_HSV32,   4, 4, 1, 4, 4, 1, 1, 4, 1, FWHT_FL_PIXENC_HSV},
--	{ V4L2_PIX_FMT_GREY,    1, 1, 1, 1, 0, 1, 1, 1, 1, FWHT_FL_PIXENC_RGB},
-+	{ V4L2_PIX_FMT_YUV420,  1, 3, 2, 1, 1, 2, 2, 3, 3, V4L2_FWHT_FL_PIXENC_YUV},
-+	{ V4L2_PIX_FMT_YVU420,  1, 3, 2, 1, 1, 2, 2, 3, 3, V4L2_FWHT_FL_PIXENC_YUV},
-+	{ V4L2_PIX_FMT_YUV422P, 1, 2, 1, 1, 1, 2, 1, 3, 3, V4L2_FWHT_FL_PIXENC_YUV},
-+	{ V4L2_PIX_FMT_NV12,    1, 3, 2, 1, 2, 2, 2, 3, 2, V4L2_FWHT_FL_PIXENC_YUV},
-+	{ V4L2_PIX_FMT_NV21,    1, 3, 2, 1, 2, 2, 2, 3, 2, V4L2_FWHT_FL_PIXENC_YUV},
-+	{ V4L2_PIX_FMT_NV16,    1, 2, 1, 1, 2, 2, 1, 3, 2, V4L2_FWHT_FL_PIXENC_YUV},
-+	{ V4L2_PIX_FMT_NV61,    1, 2, 1, 1, 2, 2, 1, 3, 2, V4L2_FWHT_FL_PIXENC_YUV},
-+	{ V4L2_PIX_FMT_NV24,    1, 3, 1, 1, 2, 1, 1, 3, 2, V4L2_FWHT_FL_PIXENC_YUV},
-+	{ V4L2_PIX_FMT_NV42,    1, 3, 1, 1, 2, 1, 1, 3, 2, V4L2_FWHT_FL_PIXENC_YUV},
-+	{ V4L2_PIX_FMT_YUYV,    2, 2, 1, 2, 4, 2, 1, 3, 1, V4L2_FWHT_FL_PIXENC_YUV},
-+	{ V4L2_PIX_FMT_YVYU,    2, 2, 1, 2, 4, 2, 1, 3, 1, V4L2_FWHT_FL_PIXENC_YUV},
-+	{ V4L2_PIX_FMT_UYVY,    2, 2, 1, 2, 4, 2, 1, 3, 1, V4L2_FWHT_FL_PIXENC_YUV},
-+	{ V4L2_PIX_FMT_VYUY,    2, 2, 1, 2, 4, 2, 1, 3, 1, V4L2_FWHT_FL_PIXENC_YUV},
-+	{ V4L2_PIX_FMT_BGR24,   3, 3, 1, 3, 3, 1, 1, 3, 1, V4L2_FWHT_FL_PIXENC_RGB},
-+	{ V4L2_PIX_FMT_RGB24,   3, 3, 1, 3, 3, 1, 1, 3, 1, V4L2_FWHT_FL_PIXENC_RGB},
-+	{ V4L2_PIX_FMT_HSV24,   3, 3, 1, 3, 3, 1, 1, 3, 1, V4L2_FWHT_FL_PIXENC_HSV},
-+	{ V4L2_PIX_FMT_BGR32,   4, 4, 1, 4, 4, 1, 1, 4, 1, V4L2_FWHT_FL_PIXENC_RGB},
-+	{ V4L2_PIX_FMT_XBGR32,  4, 4, 1, 4, 4, 1, 1, 4, 1, V4L2_FWHT_FL_PIXENC_RGB},
-+	{ V4L2_PIX_FMT_ABGR32,  4, 4, 1, 4, 4, 1, 1, 4, 1, V4L2_FWHT_FL_PIXENC_RGB},
-+	{ V4L2_PIX_FMT_RGB32,   4, 4, 1, 4, 4, 1, 1, 4, 1, V4L2_FWHT_FL_PIXENC_RGB},
-+	{ V4L2_PIX_FMT_XRGB32,  4, 4, 1, 4, 4, 1, 1, 4, 1, V4L2_FWHT_FL_PIXENC_RGB},
-+	{ V4L2_PIX_FMT_ARGB32,  4, 4, 1, 4, 4, 1, 1, 4, 1, V4L2_FWHT_FL_PIXENC_RGB},
-+	{ V4L2_PIX_FMT_BGRX32,  4, 4, 1, 4, 4, 1, 1, 4, 1, V4L2_FWHT_FL_PIXENC_RGB},
-+	{ V4L2_PIX_FMT_BGRA32,  4, 4, 1, 4, 4, 1, 1, 4, 1, V4L2_FWHT_FL_PIXENC_RGB},
-+	{ V4L2_PIX_FMT_RGBX32,  4, 4, 1, 4, 4, 1, 1, 4, 1, V4L2_FWHT_FL_PIXENC_RGB},
-+	{ V4L2_PIX_FMT_RGBA32,  4, 4, 1, 4, 4, 1, 1, 4, 1, V4L2_FWHT_FL_PIXENC_RGB},
-+	{ V4L2_PIX_FMT_HSV32,   4, 4, 1, 4, 4, 1, 1, 4, 1, V4L2_FWHT_FL_PIXENC_HSV},
-+	{ V4L2_PIX_FMT_GREY,    1, 1, 1, 1, 0, 1, 1, 1, 1, V4L2_FWHT_FL_PIXENC_RGB},
- };
- 
- bool v4l2_fwht_validate_fmt(const struct v4l2_fwht_pixfmt_info *info,
-@@ -251,25 +251,25 @@ int v4l2_fwht_encode(struct v4l2_fwht_state *state, u8 *p_in, u8 *p_out)
- 	p_hdr = (struct fwht_cframe_hdr *)p_out;
- 	p_hdr->magic1 = FWHT_MAGIC1;
- 	p_hdr->magic2 = FWHT_MAGIC2;
--	p_hdr->version = htonl(FWHT_VERSION);
-+	p_hdr->version = htonl(V4L2_FWHT_VERSION);
- 	p_hdr->width = htonl(state->visible_width);
- 	p_hdr->height = htonl(state->visible_height);
--	flags |= (info->components_num - 1) << FWHT_FL_COMPONENTS_NUM_OFFSET;
-+	flags |= (info->components_num - 1) << V4L2_FWHT_FL_COMPONENTS_NUM_OFFSET;
- 	flags |= info->pixenc;
- 	if (encoding & FWHT_LUMA_UNENCODED)
--		flags |= FWHT_FL_LUMA_IS_UNCOMPRESSED;
-+		flags |= V4L2_FWHT_FL_LUMA_IS_UNCOMPRESSED;
- 	if (encoding & FWHT_CB_UNENCODED)
--		flags |= FWHT_FL_CB_IS_UNCOMPRESSED;
-+		flags |= V4L2_FWHT_FL_CB_IS_UNCOMPRESSED;
- 	if (encoding & FWHT_CR_UNENCODED)
--		flags |= FWHT_FL_CR_IS_UNCOMPRESSED;
-+		flags |= V4L2_FWHT_FL_CR_IS_UNCOMPRESSED;
- 	if (encoding & FWHT_ALPHA_UNENCODED)
--		flags |= FWHT_FL_ALPHA_IS_UNCOMPRESSED;
-+		flags |= V4L2_FWHT_FL_ALPHA_IS_UNCOMPRESSED;
- 	if (!(encoding & FWHT_FRAME_PCODED))
--		flags |= FWHT_FL_I_FRAME;
-+		flags |= V4L2_FWHT_FL_I_FRAME;
- 	if (rf.height_div == 1)
--		flags |= FWHT_FL_CHROMA_FULL_HEIGHT;
-+		flags |= V4L2_FWHT_FL_CHROMA_FULL_HEIGHT;
- 	if (rf.width_div == 1)
--		flags |= FWHT_FL_CHROMA_FULL_WIDTH;
-+		flags |= V4L2_FWHT_FL_CHROMA_FULL_WIDTH;
- 	p_hdr->flags = htonl(flags);
- 	p_hdr->colorspace = htonl(state->colorspace);
- 	p_hdr->xfer_func = htonl(state->xfer_func);
-@@ -299,9 +299,9 @@ int v4l2_fwht_decode(struct v4l2_fwht_state *state, u8 *p_in, u8 *p_out)
- 	info = state->info;
- 
- 	version = ntohl(state->header.version);
--	if (!version || version > FWHT_VERSION) {
-+	if (!version || version > V4L2_FWHT_VERSION) {
- 		pr_err("version %d is not supported, current version is %d\n",
--		       version, FWHT_VERSION);
-+		       version, V4L2_FWHT_VERSION);
- 		return -EINVAL;
- 	}
- 
-@@ -317,10 +317,10 @@ int v4l2_fwht_decode(struct v4l2_fwht_state *state, u8 *p_in, u8 *p_out)
- 	flags = ntohl(state->header.flags);
- 
- 	if (version >= 2) {
--		if ((flags & FWHT_FL_PIXENC_MSK) != info->pixenc)
-+		if ((flags & V4L2_FWHT_FL_PIXENC_MSK) != info->pixenc)
- 			return -EINVAL;
--		components_num = 1 + ((flags & FWHT_FL_COMPONENTS_NUM_MSK) >>
--				FWHT_FL_COMPONENTS_NUM_OFFSET);
-+		components_num = 1 + ((flags & V4L2_FWHT_FL_COMPONENTS_NUM_MSK) >>
-+				V4L2_FWHT_FL_COMPONENTS_NUM_OFFSET);
- 	}
- 
- 	if (components_num != info->components_num)
-@@ -333,8 +333,8 @@ int v4l2_fwht_decode(struct v4l2_fwht_state *state, u8 *p_in, u8 *p_out)
- 	cf.rlc_data = (__be16 *)p_in;
- 	cf.size = ntohl(state->header.size);
- 
--	hdr_width_div = (flags & FWHT_FL_CHROMA_FULL_WIDTH) ? 1 : 2;
--	hdr_height_div = (flags & FWHT_FL_CHROMA_FULL_HEIGHT) ? 1 : 2;
-+	hdr_width_div = (flags & V4L2_FWHT_FL_CHROMA_FULL_WIDTH) ? 1 : 2;
-+	hdr_height_div = (flags & V4L2_FWHT_FL_CHROMA_FULL_HEIGHT) ? 1 : 2;
- 	if (hdr_width_div != info->width_div ||
- 	    hdr_height_div != info->height_div)
- 		return -EINVAL;
+  * both luma and chroma components resolutions are rounded up to
 diff --git a/drivers/media/test-drivers/vicodec/vicodec-core.c b/drivers/media/test-drivers/vicodec/vicodec-core.c
-index 0e115683f8da..084b75c226c5 100644
+index 084b75c226c5..025f3ff77302 100644
 --- a/drivers/media/test-drivers/vicodec/vicodec-core.c
 +++ b/drivers/media/test-drivers/vicodec/vicodec-core.c
-@@ -200,14 +200,14 @@ static void copy_cap_to_ref(const u8 *cap, const struct v4l2_fwht_pixfmt_info *i
+@@ -1746,7 +1746,7 @@ static int vicodec_try_ctrl(struct v4l2_ctrl *ctrl)
+ 			V4L2_BUF_TYPE_VIDEO_CAPTURE);
  
- static bool validate_by_version(unsigned int flags, unsigned int version)
- {
--	if (!version || version > FWHT_VERSION)
-+	if (!version || version > V4L2_FWHT_VERSION)
- 		return false;
+ 	switch (ctrl->id) {
+-	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:
++	case V4L2_CID_STATELESS_FWHT_PARAMS:
+ 		if (!q_dst->info)
+ 			return -EINVAL;
+ 		params = ctrl->p_new.p_fwht_params;
+@@ -1799,7 +1799,7 @@ static int vicodec_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	case V4L2_CID_FWHT_P_FRAME_QP:
+ 		ctx->state.p_frame_qp = ctrl->val;
+ 		return 0;
+-	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:
++	case V4L2_CID_STATELESS_FWHT_PARAMS:
+ 		params = ctrl->p_new.p_fwht_params;
+ 		update_header_from_stateless_params(ctx, params);
+ 		ctx->state.ref_frame_ts = params->backward_ref_ts;
+@@ -1815,7 +1815,7 @@ static const struct v4l2_ctrl_ops vicodec_ctrl_ops = {
  
- 	if (version >= 2) {
- 		unsigned int components_num = 1 +
--			((flags & FWHT_FL_COMPONENTS_NUM_MSK) >>
--			 FWHT_FL_COMPONENTS_NUM_OFFSET);
--		unsigned int pixenc = flags & FWHT_FL_PIXENC_MSK;
-+			((flags & V4L2_FWHT_FL_COMPONENTS_NUM_MSK) >>
-+			 V4L2_FWHT_FL_COMPONENTS_NUM_OFFSET);
-+		unsigned int pixenc = flags & V4L2_FWHT_FL_PIXENC_MSK;
+ static const struct v4l2_ctrl_config vicodec_ctrl_stateless_state = {
+ 	.ops		= &vicodec_ctrl_ops,
+-	.id		= V4L2_CID_MPEG_VIDEO_FWHT_PARAMS,
++	.id		= V4L2_CID_STATELESS_FWHT_PARAMS,
+ 	.elem_size      = sizeof(struct v4l2_ctrl_fwht_params),
+ };
  
- 		if (components_num == 0 || components_num > 4 || !pixenc)
- 			return false;
-@@ -219,18 +219,18 @@ static bool validate_stateless_params_flags(const struct v4l2_ctrl_fwht_params *
- 					    const struct v4l2_fwht_pixfmt_info *cur_info)
- {
- 	unsigned int width_div =
--		(params->flags & FWHT_FL_CHROMA_FULL_WIDTH) ? 1 : 2;
-+		(params->flags & V4L2_FWHT_FL_CHROMA_FULL_WIDTH) ? 1 : 2;
- 	unsigned int height_div =
--		(params->flags & FWHT_FL_CHROMA_FULL_HEIGHT) ? 1 : 2;
-+		(params->flags & V4L2_FWHT_FL_CHROMA_FULL_HEIGHT) ? 1 : 2;
- 	unsigned int components_num = 3;
- 	unsigned int pixenc = 0;
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index 88231ba7b0fa..5cbe0ffbf501 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -943,7 +943,6 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:		return "Force Key Frame";
+ 	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:		return "MPEG-2 Slice Parameters";
+ 	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION:		return "MPEG-2 Quantization Matrices";
+-	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:			return "FWHT Stateless Parameters";
+ 	case V4L2_CID_FWHT_I_FRAME_QP:				return "FWHT I-Frame QP Value";
+ 	case V4L2_CID_FWHT_P_FRAME_QP:				return "FWHT P-Frame QP Value";
  
- 	if (params->version < 3)
- 		return false;
- 
--	components_num = 1 + ((params->flags & FWHT_FL_COMPONENTS_NUM_MSK) >>
--			      FWHT_FL_COMPONENTS_NUM_OFFSET);
--	pixenc = (params->flags & FWHT_FL_PIXENC_MSK);
-+	components_num = 1 + ((params->flags & V4L2_FWHT_FL_COMPONENTS_NUM_MSK) >>
-+			      V4L2_FWHT_FL_COMPONENTS_NUM_OFFSET);
-+	pixenc = (params->flags & V4L2_FWHT_FL_PIXENC_MSK);
- 	if (v4l2_fwht_validate_fmt(cur_info, width_div, height_div,
- 				    components_num, pixenc))
- 		return true;
-@@ -278,7 +278,7 @@ static int device_process(struct vicodec_ctx *ctx,
- 		 * set the reference buffer from the reference timestamp
- 		 * only if this is a P-frame
- 		 */
--		if (!(ntohl(ctx->state.header.flags) & FWHT_FL_I_FRAME)) {
-+		if (!(ntohl(ctx->state.header.flags) & V4L2_FWHT_FL_I_FRAME)) {
- 			struct vb2_buffer *ref_vb2_buf;
- 			int ref_buf_idx;
- 			struct vb2_queue *vq_cap =
-@@ -331,7 +331,7 @@ static int device_process(struct vicodec_ctx *ctx,
- 			copy_cap_to_ref(p_dst, ctx->state.info, &ctx->state);
- 
- 		vb2_set_plane_payload(&dst_vb->vb2_buf, 0, q_dst->sizeimage);
--		if (ntohl(ctx->state.header.flags) & FWHT_FL_I_FRAME)
-+		if (ntohl(ctx->state.header.flags) & V4L2_FWHT_FL_I_FRAME)
- 			dst_vb->flags |= V4L2_BUF_FLAG_KEYFRAME;
- 		else
- 			dst_vb->flags |= V4L2_BUF_FLAG_PFRAME;
-@@ -480,16 +480,16 @@ static const struct v4l2_fwht_pixfmt_info *
- info_from_header(const struct fwht_cframe_hdr *p_hdr)
- {
- 	unsigned int flags = ntohl(p_hdr->flags);
--	unsigned int width_div = (flags & FWHT_FL_CHROMA_FULL_WIDTH) ? 1 : 2;
--	unsigned int height_div = (flags & FWHT_FL_CHROMA_FULL_HEIGHT) ? 1 : 2;
-+	unsigned int width_div = (flags & V4L2_FWHT_FL_CHROMA_FULL_WIDTH) ? 1 : 2;
-+	unsigned int height_div = (flags & V4L2_FWHT_FL_CHROMA_FULL_HEIGHT) ? 1 : 2;
- 	unsigned int components_num = 3;
- 	unsigned int pixenc = 0;
- 	unsigned int version = ntohl(p_hdr->version);
- 
- 	if (version >= 2) {
--		components_num = 1 + ((flags & FWHT_FL_COMPONENTS_NUM_MSK) >>
--				FWHT_FL_COMPONENTS_NUM_OFFSET);
--		pixenc = (flags & FWHT_FL_PIXENC_MSK);
-+		components_num = 1 + ((flags & V4L2_FWHT_FL_COMPONENTS_NUM_MSK) >>
-+				V4L2_FWHT_FL_COMPONENTS_NUM_OFFSET);
-+		pixenc = (flags & V4L2_FWHT_FL_PIXENC_MSK);
+@@ -1185,6 +1184,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_STATELESS_H264_PRED_WEIGHTS:		return "H264 Prediction Weight Table";
+ 	case V4L2_CID_STATELESS_H264_SLICE_PARAMS:		return "H264 Slice Parameters";
+ 	case V4L2_CID_STATELESS_H264_DECODE_PARAMS:		return "H264 Decode Parameters";
++	case V4L2_CID_STATELESS_FWHT_PARAMS:			return "FWHT Stateless Parameters";
+ 	default:
+ 		return NULL;
  	}
- 	return v4l2_fwht_find_nth_fmt(width_div, height_div,
- 				     components_num, pixenc, 0);
-@@ -522,8 +522,8 @@ static void update_capture_data_from_header(struct vicodec_ctx *ctx)
- 	const struct fwht_cframe_hdr *p_hdr = &ctx->state.header;
- 	const struct v4l2_fwht_pixfmt_info *info = info_from_header(p_hdr);
- 	unsigned int flags = ntohl(p_hdr->flags);
--	unsigned int hdr_width_div = (flags & FWHT_FL_CHROMA_FULL_WIDTH) ? 1 : 2;
--	unsigned int hdr_height_div = (flags & FWHT_FL_CHROMA_FULL_HEIGHT) ? 1 : 2;
-+	unsigned int hdr_width_div = (flags & V4L2_FWHT_FL_CHROMA_FULL_WIDTH) ? 1 : 2;
-+	unsigned int hdr_height_div = (flags & V4L2_FWHT_FL_CHROMA_FULL_HEIGHT) ? 1 : 2;
+@@ -1433,7 +1433,7 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION:
+ 		*type = V4L2_CTRL_TYPE_MPEG2_QUANTIZATION;
+ 		break;
+-	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:
++	case V4L2_CID_STATELESS_FWHT_PARAMS:
+ 		*type = V4L2_CTRL_TYPE_FWHT_PARAMS;
+ 		break;
+ 	case V4L2_CID_STATELESS_H264_SPS:
+@@ -1627,6 +1627,7 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ {
+ 	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
+ 	struct v4l2_ctrl_vp8_frame_header *p_vp8_frame_header;
++	struct v4l2_ctrl_fwht_params *p_fwht_params;
+ 	void *p = ptr.p + idx * ctrl->elem_size;
  
- 	/*
- 	 * This function should not be used by a stateless codec since
-@@ -657,8 +657,8 @@ static int job_ready(void *priv)
- 	if (!is_header_valid(&ctx->state.header) && ctx->comp_has_frame)
- 		return 1;
- 	flags = ntohl(ctx->state.header.flags);
--	hdr_width_div = (flags & FWHT_FL_CHROMA_FULL_WIDTH) ? 1 : 2;
--	hdr_height_div = (flags & FWHT_FL_CHROMA_FULL_HEIGHT) ? 1 : 2;
-+	hdr_width_div = (flags & V4L2_FWHT_FL_CHROMA_FULL_WIDTH) ? 1 : 2;
-+	hdr_height_div = (flags & V4L2_FWHT_FL_CHROMA_FULL_HEIGHT) ? 1 : 2;
+ 	if (ctrl->p_def.p_const)
+@@ -1653,6 +1654,12 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 		p_vp8_frame_header = p;
+ 		p_vp8_frame_header->num_dct_parts = 1;
+ 		break;
++	case V4L2_CTRL_TYPE_FWHT_PARAMS:
++		p_fwht_params = p;
++		p_fwht_params->version = V4L2_FWHT_VERSION;
++		p_fwht_params->width = 1280;
++		p_fwht_params->height = 720;
++		break;
+ 	}
+ }
  
- 	if (ntohl(ctx->state.header.width) != q_dst->visible_width ||
- 	    ntohl(ctx->state.header.height) != q_dst->visible_height ||
+@@ -1755,6 +1762,9 @@ static void std_log(const struct v4l2_ctrl *ctrl)
+ 	case V4L2_CTRL_TYPE_H264_PRED_WEIGHTS:
+ 		pr_cont("H264_PRED_WEIGHTS");
+ 		break;
++	case V4L2_CTRL_TYPE_FWHT_PARAMS:
++		pr_cont("FWHT_PARAMS");
++		break;
+ 	default:
+ 		pr_cont("unknown type %d", ctrl->type);
+ 		break;
+@@ -1798,6 +1808,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ {
+ 	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
+ 	struct v4l2_ctrl_vp8_frame_header *p_vp8_frame_header;
++	struct v4l2_ctrl_fwht_params *p_fwht_params;
+ 	struct v4l2_ctrl_h264_sps *p_h264_sps;
+ 	struct v4l2_ctrl_h264_pps *p_h264_pps;
+ 	struct v4l2_ctrl_h264_pred_weights *p_h264_pred_weights;
+@@ -1857,6 +1868,11 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+ 		break;
+ 
+ 	case V4L2_CTRL_TYPE_FWHT_PARAMS:
++		p_fwht_params = p;
++		if (p_fwht_params->version < V4L2_FWHT_VERSION)
++			return -EINVAL;
++		if (!p_fwht_params->width || !p_fwht_params->height)
++			return -EINVAL;
+ 		break;
+ 
+ 	case V4L2_CTRL_TYPE_H264_SPS:
+diff --git a/include/media/fwht-ctrls.h b/include/media/fwht-ctrls.h
+deleted file mode 100644
+index a918b49609e1..000000000000
+--- a/include/media/fwht-ctrls.h
++++ /dev/null
+@@ -1,31 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0 */
+-/*
+- * These are the FWHT state controls for use with stateless FWHT
+- * codec drivers.
+- *
+- * It turns out that these structs are not stable yet and will undergo
+- * more changes. So keep them private until they are stable and ready to
+- * become part of the official public API.
+- */
+-
+-#ifndef _FWHT_CTRLS_H_
+-#define _FWHT_CTRLS_H_
+-
+-#define V4L2_CTRL_TYPE_FWHT_PARAMS 0x0105
+-
+-#define V4L2_CID_MPEG_VIDEO_FWHT_PARAMS	(V4L2_CID_CODEC_BASE + 292)
+-
+-struct v4l2_ctrl_fwht_params {
+-	__u64 backward_ref_ts;
+-	__u32 version;
+-	__u32 width;
+-	__u32 height;
+-	__u32 flags;
+-	__u32 colorspace;
+-	__u32 xfer_func;
+-	__u32 ycbcr_enc;
+-	__u32 quantization;
+-};
+-
+-
+-#endif
+diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+index d25b38f78229..167ca8c8424f 100644
+--- a/include/media/v4l2-ctrls.h
++++ b/include/media/v4l2-ctrls.h
+@@ -18,7 +18,6 @@
+  * This will move to the public headers once this API is fully stable.
+  */
+ #include <media/mpeg2-ctrls.h>
+-#include <media/fwht-ctrls.h>
+ #include <media/vp8-ctrls.h>
+ #include <media/hevc-ctrls.h>
+ 
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index 3f24663fba4a..823b214aac0c 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -1565,6 +1565,76 @@ struct v4l2_ctrl_h264_decode_params {
+ };
+ 
+ 
++/* Stateless FWHT control, used by the vicodec driver */
++
++/* Current FWHT version */
++#define V4L2_FWHT_VERSION			3
++
++/* Set if this is an interlaced format */
++#define V4L2_FWHT_FL_IS_INTERLACED		BIT(0)
++/* Set if this is a bottom-first (NTSC) interlaced format */
++#define V4L2_FWHT_FL_IS_BOTTOM_FIRST		BIT(1)
++/* Set if each 'frame' contains just one field */
++#define V4L2_FWHT_FL_IS_ALTERNATE		BIT(2)
++/*
++ * If V4L2_FWHT_FL_IS_ALTERNATE was set, then this is set if this
++ * 'frame' is the bottom field, else it is the top field.
++ */
++#define V4L2_FWHT_FL_IS_BOTTOM_FIELD		BIT(3)
++/* Set if the Y' plane is uncompressed */
++#define V4L2_FWHT_FL_LUMA_IS_UNCOMPRESSED	BIT(4)
++/* Set if the Cb plane is uncompressed */
++#define V4L2_FWHT_FL_CB_IS_UNCOMPRESSED		BIT(5)
++/* Set if the Cr plane is uncompressed */
++#define V4L2_FWHT_FL_CR_IS_UNCOMPRESSED		BIT(6)
++/* Set if the chroma plane is full height, if cleared it is half height */
++#define V4L2_FWHT_FL_CHROMA_FULL_HEIGHT		BIT(7)
++/* Set if the chroma plane is full width, if cleared it is half width */
++#define V4L2_FWHT_FL_CHROMA_FULL_WIDTH		BIT(8)
++/* Set if the alpha plane is uncompressed */
++#define V4L2_FWHT_FL_ALPHA_IS_UNCOMPRESSED	BIT(9)
++/* Set if this is an I Frame */
++#define V4L2_FWHT_FL_I_FRAME			BIT(10)
++
++/* A 4-values flag - the number of components - 1 */
++#define V4L2_FWHT_FL_COMPONENTS_NUM_MSK		GENMASK(18, 16)
++#define V4L2_FWHT_FL_COMPONENTS_NUM_OFFSET	16
++
++/* A 4-values flag - the pixel encoding type */
++#define V4L2_FWHT_FL_PIXENC_MSK			GENMASK(20, 19)
++#define V4L2_FWHT_FL_PIXENC_OFFSET		19
++#define V4L2_FWHT_FL_PIXENC_YUV			(1 << V4L2_FWHT_FL_PIXENC_OFFSET)
++#define V4L2_FWHT_FL_PIXENC_RGB			(2 << V4L2_FWHT_FL_PIXENC_OFFSET)
++#define V4L2_FWHT_FL_PIXENC_HSV			(3 << V4L2_FWHT_FL_PIXENC_OFFSET)
++
++#define V4L2_CID_STATELESS_FWHT_PARAMS		(V4L2_CID_CODEC_STATELESS_BASE + 100)
++/**
++ * struct v4l2_ctrl_fwht_params - FWHT parameters
++ *
++ * @backward_ref_ts: timestamp of the V4L2 capture buffer to use as reference.
++ * The timestamp refers to the timestamp field in struct v4l2_buffer.
++ * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
++ * @version: must be V4L2_FWHT_VERSION.
++ * @width: width of frame.
++ * @height: height of frame.
++ * @flags: FWHT flags (see V4L2_FWHT_FL_*).
++ * @colorspace: the colorspace (enum v4l2_colorspace).
++ * @xfer_func: the transfer function (enum v4l2_xfer_func).
++ * @ycbcr_enc: the Y'CbCr encoding (enum v4l2_ycbcr_encoding).
++ * @quantization: the quantization (enum v4l2_quantization).
++ */
++struct v4l2_ctrl_fwht_params {
++	__u64 backward_ref_ts;
++	__u32 version;
++	__u32 width;
++	__u32 height;
++	__u32 flags;
++	__u32 colorspace;
++	__u32 xfer_func;
++	__u32 ycbcr_enc;
++	__u32 quantization;
++};
++
+ /* MPEG-compression definitions kept for backwards compatibility */
+ #ifndef __KERNEL__
+ #define V4L2_CTRL_CLASS_MPEG            V4L2_CTRL_CLASS_CODEC
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 76231ca6e101..e40e95be79f9 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -1740,6 +1740,7 @@ struct v4l2_ext_control {
+ 		struct v4l2_ctrl_h264_pred_weights __user *p_h264_pred_weights;
+ 		struct v4l2_ctrl_h264_slice_params __user *p_h264_slice_params;
+ 		struct v4l2_ctrl_h264_decode_params __user *p_h264_decode_params;
++		struct v4l2_ctrl_fwht_params __user *p_fwht_params;
+ 		void __user *ptr;
+ 	};
+ } __attribute__ ((packed));
+@@ -1793,6 +1794,8 @@ enum v4l2_ctrl_type {
+ 	V4L2_CTRL_TYPE_H264_SLICE_PARAMS    = 0x0203,
+ 	V4L2_CTRL_TYPE_H264_DECODE_PARAMS   = 0x0204,
+ 	V4L2_CTRL_TYPE_H264_PRED_WEIGHTS    = 0x0205,
++
++	V4L2_CTRL_TYPE_FWHT_PARAMS	    = 0x0220,
+ };
+ 
+ /*  Used in the VIDIOC_QUERYCTRL ioctl for querying controls */
 -- 
 2.29.2
 
