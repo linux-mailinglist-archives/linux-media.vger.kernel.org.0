@@ -2,115 +2,184 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 60AFD2C51BB
-	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 11:04:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9B9D2C51CC
+	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 11:11:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1733240AbgKZKAb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Nov 2020 05:00:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52446 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731032AbgKZKAb (ORCPT
+        id S1729690AbgKZKJH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Nov 2020 05:09:07 -0500
+Received: from relay12.mail.gandi.net ([217.70.178.232]:46723 "EHLO
+        relay12.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726099AbgKZKJH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Nov 2020 05:00:31 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 30FF1C0617A7
-        for <linux-media@vger.kernel.org>; Thu, 26 Nov 2020 02:00:31 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id y7so1191233pfq.11
-        for <linux-media@vger.kernel.org>; Thu, 26 Nov 2020 02:00:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=5XA0ApxkdYkNVzbIa+l8SCSGXdHgS+0zpLkv05NT+6E=;
-        b=m/RAn4j/Di3wbxTiswv/NVX8FZj2MzWPsbTEE7oMx3mNtlF6JO/27T0BRHMKcqIx13
-         CapfIcx0h4gRcqnXfy+cI5SEK3zwX7s5+5p7S1/0E82mWg5yOUeF8bCu0ubwExUHV+bD
-         al8kPtWGEzCEhvuz878g9apzGL2qKBZ8EbVwjtvYHcZFULVedxWzibmB8aza+tgg+uhd
-         bni3r/77FyvJHj6UEuLeopgMSUVWpmQ/StuSk6nJQtsCotugBXB89qgpOQ9uUqAnNKp8
-         Ew8nmtAanqUzxGb90N7HyWpw95CEtrZZw3i4hH5DZVZPZNvZjr24dub5IcVyK9ukEaLO
-         0bHA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=5XA0ApxkdYkNVzbIa+l8SCSGXdHgS+0zpLkv05NT+6E=;
-        b=i1nmW/XC1a904sj7Hl9CQc/2n5SvcJj2mHO7dhf6Km3ZnPgljJnrl+Q11aWIKjQdyW
-         FSEm0qRki9W+j08KChAXud+YCdqgabBrQg1VDobSisiWTB8kGrAf2pVQxFFN+8AXdwvD
-         hzhRLCW5w/SgEjJso4MDJmmB9W+mVJaBPg6ix4hUz1LLzONIlT6NJJNLSFMZqjtQ7DcY
-         xOcqhpDwS0ijk7QtT5K/jz9FUG69A/mXNSmcclJT+NJ3uq3uOSuSXVusqw8ExGXE/jRy
-         RUkvyAlIK3jBO3ogOAJ3Zgdt+IzL+Rj/6Vya4b6XHs6eIF8lF/8HojMViBuVqoRz5g8a
-         8uOQ==
-X-Gm-Message-State: AOAM532oehJMqKRziN5I8VLoe671XG2xXap+c23L2ehYMXRxn9WLmls6
-        rgxzjTQOXVgYwItHG08g+QIl02UyypgO/cVD9QCtVA==
-X-Google-Smtp-Source: ABdhPJy7ZZ7UL8kL3olk5JHgIK/nEWOE+28BBi6hBer2nnJ+GOvZcds4PdIwtYEbFYRVCRACPbg2VxWduqguu37vNOM=
-X-Received: by 2002:a63:a84f:: with SMTP id i15mr2035192pgp.120.1606384830699;
- Thu, 26 Nov 2020 02:00:30 -0800 (PST)
+        Thu, 26 Nov 2020 05:09:07 -0500
+Received: from uno.localdomain (host-80-104-176-17.retail.telecomitalia.it [80.104.176.17])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay12.mail.gandi.net (Postfix) with ESMTPSA id 733BE200003;
+        Thu, 26 Nov 2020 10:09:03 +0000 (UTC)
+Date:   Thu, 26 Nov 2020 11:09:08 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH 2/5] rcar-vin: Rework parallel firmware parsing
+Message-ID: <20201126100908.ikcrv5vwhakmsmlw@uno.localdomain>
+References: <20201125164450.2056963-1-niklas.soderlund+renesas@ragnatech.se>
+ <20201125164450.2056963-3-niklas.soderlund+renesas@ragnatech.se>
 MIME-Version: 1.0
-References: <20201116155008.118124-1-robert.foss@linaro.org>
- <cf0b935d-3ccd-8360-1b52-89fab0b181eb@linux.intel.com> <CAG3jFyssMMHpi4WgWmeDjuVYKz12UwJoBT0WoOsdB4PZxnuqSw@mail.gmail.com>
- <e132769f-cfb5-141a-6cd1-603d82a92b9e@linux.intel.com> <CAAFQd5A=kYufStO7ni4j6f+grDpsoigskcj1LdiG9NRN=cvviQ@mail.gmail.com>
-In-Reply-To: <CAAFQd5A=kYufStO7ni4j6f+grDpsoigskcj1LdiG9NRN=cvviQ@mail.gmail.com>
-From:   Robert Foss <robert.foss@linaro.org>
-Date:   Thu, 26 Nov 2020 11:00:19 +0100
-Message-ID: <CAG3jFyuzTPzgTWCHOc1cpXeSe7GyCET0cTYF9r3aOPXdCuZTsw@mail.gmail.com>
-Subject: Re: [PATCH] media: ov8856: Remove 3280x2464 mode
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Bingbu Cao <bingbu.cao@linux.intel.com>,
-        Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Ben Kao <ben.kao@intel.com>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201125164450.2056963-3-niklas.soderlund+renesas@ragnatech.se>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 25 Nov 2020 at 08:32, Tomasz Figa <tfiga@chromium.org> wrote:
->
-> Hi Bingbu,
->
-> On Wed, Nov 25, 2020 at 1:15 PM Bingbu Cao <bingbu.cao@linux.intel.com> wrote:
-> >
-> >
-> >
-> > On 11/24/20 6:20 PM, Robert Foss wrote:
-> > > On Tue, 24 Nov 2020 at 10:42, Bingbu Cao <bingbu.cao@linux.intel.com> wrote:
-> > >>
-> > >> Hi, Robert
-> > >>
-> > >> I remember that the full size of ov8856 image sensor is 3296x2480 and we can get the 3280x2464
-> > >> frames based on current settings.
-> > >>
-> > >> Do you have any issues with this mode?
-> > >
-> > > As far as I can tell using the 3280x2464 mode actually yields an
-> > > output resolution that is 3264x2448.
-> > >
-> > > What does your hardware setup look like? And which revision of the
-> > > sensor are you using?
-> > >
-> >
-> > Robert, the sensor revision I am using is v1.1. I just checked the actual output pixels on our
-> > hardware, the output resolution with 2464 mode is 3280x2464, no black pixels.
-> >
-> > As Tomasz said, some ISP has the requirement of extra pixel padding, From the ov8856 datasheet,
-> > the central 3264x2448 pixels are *suggested* to be output from the pixel array and the boundary
-> > pixels can be used for additional processing. In my understanding, the 32 dummy lines are not
-> > black lines.
->
-> The datasheet says that only 3264x2448 are active pixels. What pixel
-> values are you seeing outside of that central area? In the datasheet,
-> those look like "optically black" pixels, which are not 100% black,
-> but rather as if the sensor cells didn't receive any light - noise can
-> be still there.
->
+Hi Niklas,
 
-I've been developing support for some Qcom ISP functionality, and
-during the course of this I ran into the issue I was describing, where
-the 3280x2464 mode actually outputs 3264x2448.
+On Wed, Nov 25, 2020 at 05:44:47PM +0100, Niklas Söderlund wrote:
+> Rework the parallel firmware parsing code to not use the soon to be
+> removed v4l2_async_notifier_parse_fwnode_endpoints_by_port() helper. The
+> change only aims to prepare for the removing of the old helper and there
+> are no functional change.
 
-I can think of two reasons for this, either ISP driver bugs on my end
-or the fact that the sensor is being run outside of the specification
-and which could be resulting in differences between how the ov8856
-sensors behave.
+nit: 'changes' as you use 'are'
+
+>
+> Signed-off-by: Niklas Söderlund <niklas.soderlund+renesas@ragnatech.se>
+> ---
+>  drivers/media/platform/rcar-vin/rcar-core.c | 50 +++++++++++++++------
+>  1 file changed, 36 insertions(+), 14 deletions(-)
+>
+> diff --git a/drivers/media/platform/rcar-vin/rcar-core.c b/drivers/media/platform/rcar-vin/rcar-core.c
+> index 07f250bfc0051135..396ff5531359f3f4 100644
+> --- a/drivers/media/platform/rcar-vin/rcar-core.c
+> +++ b/drivers/media/platform/rcar-vin/rcar-core.c
+> @@ -604,32 +604,56 @@ static const struct v4l2_async_notifier_operations rvin_parallel_notify_ops = {
+>  	.complete = rvin_parallel_notify_complete,
+>  };
+>
+> -static int rvin_parallel_parse_v4l2(struct device *dev,
+> -				    struct v4l2_fwnode_endpoint *vep,
+> -				    struct v4l2_async_subdev *asd)
+> +static int rvin_parallel_parse_of(struct rvin_dev *vin)
+>  {
+> -	struct rvin_dev *vin = dev_get_drvdata(dev);
+> +	struct fwnode_handle *ep, *fwnode;
+> +	struct v4l2_fwnode_endpoint vep = {
+> +		.bus_type = V4L2_MBUS_UNKNOWN,
+> +	};
+
+Afaict bus autodiscovery is kind of deprectated. Unfortunately we
+don't enforce the "bus-type" property presence in DTS, so it's very hard
+to identify mis-configurations and set defaults (which we know and
+should set). I think this calls for a slight rework of this part with
+an associated bindings update.
+
+We assume DTS are correct, so this is not pressing, but currently we
+don't have any validation in place.
+
+For later, anyway.
+
+> +	struct v4l2_async_subdev *asd;
+> +	int ret;
+>
+> -	if (vep->base.port || vep->base.id)
+> -		return -ENOTCONN;
+> +	ep = fwnode_graph_get_endpoint_by_id(dev_fwnode(vin->dev), 0, 0, 0);
+
+get_next_endpoint() would do the same afaict, but being explicit is
+probably better
+
+> +	if (!ep)
+> +		return 0;
+>
+> -	vin->parallel.mbus_type = vep->bus_type;
+> +	fwnode = fwnode_graph_get_remote_endpoint(ep);
+
+We're matching a parallel subdevice, which usually registers its async
+subdev on the device node, not on endpoints.
+
+In facts v4l2_async_notifier_fwnode_parse_endpoint() which is in the
+call path of the v4l2_async_notifier_parse_fwnode_endpoints_by_port()
+you are removing does:
+
+	asd->match.fwnode =
+		fwnode_graph_get_remote_port_parent(endpoint);
+
+We now have match_fwnode() that adjusts endpoints to be matched
+against the remote's parent but this still feels like a workaround as
+most subdevs in mainline (all but adv748x?) still match on device
+node.
+
+I wonder how many system would actually break if we change
+        v4l2_async_register_subdev[_sensor_common]()
+to use the first available endpoint as match target.
+
+> +	ret = v4l2_fwnode_endpoint_parse(ep, &vep);
+> +	fwnode_handle_put(ep);
+> +	if (ret) {
+> +		vin_err(vin, "Failed to parse %pOF\n", to_of_node(fwnode));
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+>
+> -	switch (vin->parallel.mbus_type) {
+> +	switch (vep.bus_type) {
+>  	case V4L2_MBUS_PARALLEL:
+>  	case V4L2_MBUS_BT656:
+>  		vin_dbg(vin, "Found %s media bus\n",
+> -			vin->parallel.mbus_type == V4L2_MBUS_PARALLEL ?
+> +			vep.bus_type == V4L2_MBUS_PARALLEL ?
+>  			"PARALLEL" : "BT656");
+> -		vin->parallel.bus = vep->bus.parallel;
+> +		vin->parallel.mbus_type = vep.bus_type;
+> +		vin->parallel.bus = vep.bus.parallel;
+>  		break;
+>  	default:
+>  		vin_err(vin, "Unknown media bus type\n");
+> -		return -EINVAL;
+> +		ret = -EINVAL;
+> +		goto out;
+> +	}
+> +
+> +	asd = v4l2_async_notifier_add_fwnode_subdev(&vin->notifier, fwnode,
+> +						    sizeof(*asd));
+> +	if (IS_ERR(asd)) {
+> +		ret = PTR_ERR(asd);
+> +		goto out;
+>  	}
+>
+>  	vin->parallel.asd = asd;
+>
+> +	vin_dbg(vin, "Add parallel OF device %pOF\n", to_of_node(fwnode));
+
+You could omit OF as it is implied :)
+
+> +out:
+> +	fwnode_handle_put(fwnode);
+> +
+>  	return 0;
+>  }
+>
+> @@ -639,9 +663,7 @@ static int rvin_parallel_init(struct rvin_dev *vin)
+>
+>  	v4l2_async_notifier_init(&vin->notifier);
+>
+> -	ret = v4l2_async_notifier_parse_fwnode_endpoints_by_port(
+> -		vin->dev, &vin->notifier, sizeof(*vin->parallel.asd),
+> -		0, rvin_parallel_parse_v4l2);
+> +	ret = rvin_parallel_parse_of(vin);
+
+Patch is very nice, I like this direction
+Reviewed-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+
+Thanks
+   j
+
+>  	if (ret)
+>  		return ret;
+>
+> --
+> 2.29.2
+>
