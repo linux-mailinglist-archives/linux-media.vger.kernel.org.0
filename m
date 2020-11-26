@@ -2,218 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D157A2C5DF3
-	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 23:42:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3A32F2C5E0C
+	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 00:05:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391902AbgKZWmF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Nov 2020 17:42:05 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57378 "EHLO
+        id S2388266AbgKZXFR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Nov 2020 18:05:17 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60950 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391899AbgKZWmE (ORCPT
+        with ESMTP id S1730159AbgKZXFR (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Nov 2020 17:42:04 -0500
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E2633C0617A7
-        for <linux-media@vger.kernel.org>; Thu, 26 Nov 2020 14:42:02 -0800 (PST)
-Received: by mail-ej1-x642.google.com with SMTP id hb22so4731563ejb.12
-        for <linux-media@vger.kernel.org>; Thu, 26 Nov 2020 14:42:02 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=xk6dpp3QXMon0rgJ31KZCvDjLv/ZsYBwSzJcCfrqz5I=;
-        b=DK+xWgkJcFqDYt+2Sso0ixFAhc/BTRT1RAiMe1UX+VoVXGF5If+ialDZgZ5D7Fj6dZ
-         MIrM/RKvjOUQ+DFDOurW5mwtcre75I+kYFak53/q2q4jKAdGu6GnU/KcKNSbZLBEldDW
-         xHnAIgE4v6Ak7g/GYkALohrjMM8pDBQyncy5bEVNj2tvOlJKPpVTZu/fB55OAy3ShVFt
-         jSCKQp8KyVZvEJta++aNnPUWP/60+GNkXp6nQ+Xf1xlI5UuuYgk4dmiC/0dqdFFLN63b
-         BeN2GRuuvlHmGUd3g/T0XT+V+i+CTfE82Z+1BLqN34RV1StpG5b882jpP9gCuOP/Ohu7
-         SWRw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=xk6dpp3QXMon0rgJ31KZCvDjLv/ZsYBwSzJcCfrqz5I=;
-        b=DhNkEDvcxmhkuoXx5a7Xm7CH6ouOc9w9AWTwBqss+GaQRmL1idJIOCOrRX/kfFf+Gp
-         FCFCvbhbccOZ3STT3vZ8BReJJbNSfOCaBrrPsgbZBG94vUgYHFwZtXrHCEIDfMiPHqkJ
-         gi/qW9GsKiXSs+ZO1NPy5gv547h+uMfacyk38bkYM3JudTspT5x6iZLnMUuN1SyuWEpM
-         UunG/fk5d8lkHdiP80JKCgv2yNHfk0xmY1uXQVI2jOCKTZJynhcWB+RznseXWpH/SPBO
-         7UnRayQZSklURieLPYDLEZvUiLSgXSc2hHXzDqL4Lpku4vMxZYd0Rylo6qVE1StYv4zV
-         6/zA==
-X-Gm-Message-State: AOAM533ic6jjsr6ahoNcZE+NoiJiagD0eOYVwPqya+/s/iktQ/5eDitf
-        UimCxbP5i2hlX/qA0Rjg9+pvIw==
-X-Google-Smtp-Source: ABdhPJy+qnCNge3CzkFlKGQWvgy7E1BFFkndL8WxdlgUanP6TO1z5RBhxot47xACoQVXRq/JPzmfJg==
-X-Received: by 2002:a17:906:fa86:: with SMTP id lt6mr4630585ejb.483.1606430521607;
-        Thu, 26 Nov 2020 14:42:01 -0800 (PST)
-Received: from [192.168.0.3] (hst-221-3.medicom.bg. [84.238.221.3])
-        by smtp.googlemail.com with ESMTPSA id s12sm3838457ejy.25.2020.11.26.14.41.59
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 26 Nov 2020 14:42:00 -0800 (PST)
-Subject: Re: [PATCH 2/3] venus: Limit HFI sessions to the maximum supported
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vikash Garodia <vgarodia@codeaurora.org>,
-        Mansur Alisha Shaik <mansur@codeaurora.org>,
-        Dikshita Agarwal <dikshita@codeaurora.org>
-References: <20201120001037.10032-1-stanimir.varbanov@linaro.org>
- <20201120001037.10032-3-stanimir.varbanov@linaro.org>
- <CAPBb6MUnXmtSKy9NwikYXjafgB+WM9TKEFjkYK16T2V7KRx=JQ@mail.gmail.com>
- <8c6231b2-61c2-d432-aa47-ddc29de8da19@linaro.org>
- <CAPBb6MXRat0g_+d04eoOL9Vpbv-2iJfqdOkzGB17=yjRMeVWXQ@mail.gmail.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <59068381-43e4-559b-faa0-0e177de541f9@linaro.org>
-Date:   Fri, 27 Nov 2020 00:41:59 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Thu, 26 Nov 2020 18:05:17 -0500
+Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EA76FC0613D4;
+        Thu, 26 Nov 2020 15:05:16 -0800 (PST)
+Received: from valkosipuli.localdomain (unknown [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 4DA93634C24;
+        Fri, 27 Nov 2020 01:04:29 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1kiQJR-0001vW-OP; Fri, 27 Nov 2020 01:04:29 +0200
+Date:   Fri, 27 Nov 2020 01:04:29 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Rob Herring <robh@kernel.org>
+Cc:     kholk11@gmail.com, mchehab@kernel.org, marijns95@gmail.com,
+        konradybcio@gmail.com, martin.botka1@gmail.com,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        phone-devel@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v2 2/2] media: dt-bindings: media: i2c: Add IMX300 CMOS
+ sensor binding
+Message-ID: <20201126230429.GG4351@valkosipuli.retiisi.org.uk>
+References: <20201029172947.34315-1-kholk11@gmail.com>
+ <20201029172947.34315-3-kholk11@gmail.com>
+ <20201104214806.GA4175708@bogus>
 MIME-Version: 1.0
-In-Reply-To: <CAPBb6MXRat0g_+d04eoOL9Vpbv-2iJfqdOkzGB17=yjRMeVWXQ@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201104214806.GA4175708@bogus>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+Hi Rob, AngeloGioacchino,
 
+On Wed, Nov 04, 2020 at 03:48:06PM -0600, Rob Herring wrote:
+> On Thu, Oct 29, 2020 at 06:29:47PM +0100, kholk11@gmail.com wrote:
+> > From: AngeloGioacchino Del Regno <kholk11@gmail.com>
+> > 
+> > Add YAML device tree binding for IMX300 CMOS image sensor, and
+> > the relevant MAINTAINERS entries.
+> > 
+> > Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
+> > ---
+> >  .../bindings/media/i2c/sony,imx300.yaml       | 112 ++++++++++++++++++
+> >  MAINTAINERS                                   |   7 ++
+> >  2 files changed, 119 insertions(+)
+> >  create mode 100644 Documentation/devicetree/bindings/media/i2c/sony,imx300.yaml
+> > 
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx300.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx300.yaml
+> > new file mode 100644
+> > index 000000000000..8f1d795f8072
+> > --- /dev/null
+> > +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx300.yaml
+> > @@ -0,0 +1,112 @@
+> > +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> > +%YAML 1.2
+> > +---
+> > +$id: http://devicetree.org/schemas/media/i2c/sony,imx300.yaml#
+> > +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> > +
+> > +title: Sony 1/2.3-Inch 8Mpixel Stacked CMOS Digital Image Sensor
+> > +
+> > +maintainers:
+> > +  - AngeloGioacchino Del Regno <kholk11@gmail.com>
+> > +
+> > +description: |-
+> > +  The Sony IMX300 is a 1/2.3-inch Stacked CMOS (Exmor-RS) digital image
+> > +  sensor with a pixel size of 1.08um and an active array size of
+> > +  5948H x 4140V. It is programmable through I2C interface at address 0x10.
+> > +  Image data is sent through MIPI CSI-2, which is configured as either 2 or
+> > +  4 data lanes.
+> > +
+> > +properties:
+> > +  compatible:
+> > +    const: sony,imx300
+> > +
+> > +  reg:
+> > +    maxItems: 1
+> > +
+> > +  clocks:
+> > +    maxItems: 1
 
-On 11/26/20 8:28 AM, Alexandre Courbot wrote:
-> On Wed, Nov 25, 2020 at 10:01 PM Stanimir Varbanov
-> <stanimir.varbanov@linaro.org> wrote:
->>
->>
->>
->> On 11/25/20 5:46 AM, Alexandre Courbot wrote:
->>> On Fri, Nov 20, 2020 at 9:12 AM Stanimir Varbanov
->>> <stanimir.varbanov@linaro.org> wrote:
->>>>
->>>> Currently we rely on firmware to return error when we reach the maximum
->>>> supported number of sessions. But this errors are happened at reqbuf
->>>> time which is a bit later. The more reasonable way looks like is to
->>>> return the error on driver open.
->>>>
->>>> To achieve that modify hfi_session_create to return error when we reach
->>>> maximum count of sessions and thus refuse open.
->>>>
->>>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->>>> ---
->>>>  drivers/media/platform/qcom/venus/core.h      |  1 +
->>>>  drivers/media/platform/qcom/venus/hfi.c       | 19 +++++++++++++++----
->>>>  .../media/platform/qcom/venus/hfi_parser.c    |  3 +++
->>>>  3 files changed, 19 insertions(+), 4 deletions(-)
->>>>
->>>> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
->>>> index db0e6738281e..3a477fcdd3a8 100644
->>>> --- a/drivers/media/platform/qcom/venus/core.h
->>>> +++ b/drivers/media/platform/qcom/venus/core.h
->>>> @@ -96,6 +96,7 @@ struct venus_format {
->>>>  #define MAX_CAP_ENTRIES                32
->>>>  #define MAX_ALLOC_MODE_ENTRIES 16
->>>>  #define MAX_CODEC_NUM          32
->>>> +#define MAX_SESSIONS           16
->>>>
->>>>  struct raw_formats {
->>>>         u32 buftype;
->>>> diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
->>>> index 638ed5cfe05e..8420be6d3991 100644
->>>> --- a/drivers/media/platform/qcom/venus/hfi.c
->>>> +++ b/drivers/media/platform/qcom/venus/hfi.c
->>>> @@ -175,6 +175,7 @@ static int wait_session_msg(struct venus_inst *inst)
->>>>  int hfi_session_create(struct venus_inst *inst, const struct hfi_inst_ops *ops)
->>>>  {
->>>>         struct venus_core *core = inst->core;
->>>> +       int ret;
->>>>
->>>>         if (!ops)
->>>>                 return -EINVAL;
->>>> @@ -183,12 +184,22 @@ int hfi_session_create(struct venus_inst *inst, const struct hfi_inst_ops *ops)
->>>>         init_completion(&inst->done);
->>>>         inst->ops = ops;
->>>>
->>>> -       mutex_lock(&core->lock);
->>>> -       list_add_tail(&inst->list, &core->instances);
->>>> -       atomic_inc(&core->insts_count);
->>>> +       ret = mutex_lock_interruptible(&core->lock);
->>>> +       if (ret)
->>>> +               return ret;
->>>
->>> Why do we change to mutex_lock_interruptible() here? This makes this
->>
->> Because mutex_lock_interruptible is preferable in kernel docs, but I
->> agree that changing mutex_lock with mutex_lock_interruptible should be
->> subject of another lock related patches. I will drop this in next patch
->> version.
->>
->>> function return an error even though we could obtain the lock just by
->>> trying a bit harder.
->>
->> I didn't get that. The behavior of mutex_lock_interruptible is that same
->> as mutex_lock, i.e. the it will sleep to acquire the lock. The
->> difference is that the sleep could be interrupted by a signal. You might
->> think about mutex_trylock?
+The frequency needs to come from DT; it's not a property of the sensor.
+
+> > +
+> > +  vdig-supply:
+> > +    description:
+> > +      Digital I/O voltage supply, 1.15-1.20 volts
+> > +
+> > +  vana-supply:
+> > +    description:
+> > +      Analog voltage supply, 2.2 volts
+> > +
+> > +  vddl-supply:
+> > +    description:
+> > +      Digital core voltage supply, 1.8 volts
+> > +
+> > +  reset-gpios:
 > 
-> Unless that mutex can be held by someone else for a rather long time
-> (i.e. to the point where we may want to give priority to signals when
-> userspace opens the device, since that's where hfi_session_create() is
-> called), I am not convinced this change is necessary? It may confuse
+> maxItems: 1
+> 
+> > +    description: |-
+> > +      Reference to the GPIO connected to the xclr pin, if any.
+> > +      Must be released (set high) after all supplies are applied.
+> > +
+> > +  # See ../video-interfaces.txt for more details
+> > +  port:
+> > +    type: object
+> > +    properties:
+> > +      endpoint:
+> > +        type: object
+> > +
+> > +        properties:
+> > +          data-lanes:
+> > +            description: |-
+> > +              The sensor supports either two-lane, or four-lane operation,
+> > +              but the driver currently supports only four-lane.
+> 
+> What the driver is not relevant. Please define all possible 
+> configurations. Or just omit? What's the behavior if omitted?
 
-Exactly, if there is a case where the core->lock is taken (firmware
-recovery) and it is not unlocked for very long time (deadlock?) then
-client process cannot be interrupted with a signal.
-
-> userspace into thinking there was a serious error while there is none.
-
-The client should be able to handle EINTR, right?
-
-> Granted, userspace should manage this case, and from what I can see
-> this code is correct, but I'm not sure we would gain anything by
-> adding this extra complexity.
-
-The benefit is that if something wrong is happening in the driver the
-client process will be killable.
+I think we've used to specify the number of lanes if it's configurable,
+instead of having defaults. I'd do the same here, i.e. require data-lanes.
 
 > 
->>
->>>
->>>> +
->>>> +       ret = atomic_read(&core->insts_count);
->>>> +       if (ret + 1 > core->max_sessions_supported) {
->>>> +               ret = -EAGAIN;
->>>> +       } else {
->>>> +               atomic_inc(&core->insts_count);
->>>> +               list_add_tail(&inst->list, &core->instances);
->>>> +               ret = 0;
->>>> +       }
->>>> +
->>>>         mutex_unlock(&core->lock);
->>>>
->>>> -       return 0;
->>>> +       return ret;
->>>>  }
->>>>  EXPORT_SYMBOL_GPL(hfi_session_create);
->>>>
->>>> diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
->>>> index 363ee2a65453..52898633a8e6 100644
->>>> --- a/drivers/media/platform/qcom/venus/hfi_parser.c
->>>> +++ b/drivers/media/platform/qcom/venus/hfi_parser.c
->>>> @@ -276,6 +276,9 @@ u32 hfi_parser(struct venus_core *core, struct venus_inst *inst, void *buf,
->>>>                 words_count--;
->>>>         }
->>>>
->>>> +       if (!core->max_sessions_supported)
->>>> +               core->max_sessions_supported = MAX_SESSIONS;
->>>> +
->>>>         parser_fini(inst, codecs, domain);
->>>>
->>>>         return HFI_ERR_NONE;
->>>> --
->>>> 2.17.1
->>>>
->>
->> --
->> regards,
->> Stan
+> > +            items:
+> > +              - const: 0
+> > +              - const: 1
+> > +              - const: 2
+> > +              - const: 3
 
 -- 
-regards,
-Stan
+Kind regards,
+
+Sakari Ailus
