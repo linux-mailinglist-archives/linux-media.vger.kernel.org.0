@@ -2,34 +2,34 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5D9702C5843
-	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 16:29:50 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E4B392C5842
+	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 16:29:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391336AbgKZP3s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S2391366AbgKZP3s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 26 Nov 2020 10:29:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47280 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47272 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2391362AbgKZP3r (ORCPT
+        with ESMTP id S1729947AbgKZP3r (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Thu, 26 Nov 2020 10:29:47 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 098AEC061A49
-        for <linux-media@vger.kernel.org>; Thu, 26 Nov 2020 07:29:47 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D002CC0613D4
+        for <linux-media@vger.kernel.org>; Thu, 26 Nov 2020 07:29:46 -0800 (PST)
 Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1kiJDL-000808-N9; Thu, 26 Nov 2020 16:29:45 +0100
+        id 1kiJDL-000809-MV; Thu, 26 Nov 2020 16:29:45 +0100
 Received: from mtr by dude03.red.stw.pengutronix.de with local (Exim 4.92)
         (envelope-from <mtr@dude03.red.stw.pengutronix.de>)
-        id 1kiJDL-00G3Fx-17; Thu, 26 Nov 2020 16:29:43 +0100
+        id 1kiJDL-00G3G0-1k; Thu, 26 Nov 2020 16:29:43 +0100
 From:   Michael Tretter <m.tretter@pengutronix.de>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
 Cc:     kernel@pengutronix.de, robh+dt@kernel.org,
         hverkuil-cisco@xs4all.nl,
         Michael Tretter <m.tretter@pengutronix.de>
-Date:   Thu, 26 Nov 2020 16:29:39 +0100
-Message-Id: <20201126152941.3825721-3-m.tretter@pengutronix.de>
+Date:   Thu, 26 Nov 2020 16:29:40 +0100
+Message-Id: <20201126152941.3825721-4-m.tretter@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201126152941.3825721-1-m.tretter@pengutronix.de>
 References: <20201126152941.3825721-1-m.tretter@pengutronix.de>
@@ -43,7 +43,7 @@ X-Spam-Level:
 X-Spam-Status: No, score=-1.5 required=4.0 tests=AWL,BAYES_00,RDNS_NONE,
         SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no autolearn_force=no
         version=3.4.2
-Subject: [PATCH 2/4] dt-bindings: media: allegro,al5e: Convert to YAML
+Subject: [PATCH 3/4] media: allegro: remove custom drain state handling
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on metis.ext.pengutronix.de)
 X-PTX-Original-Recipient: linux-media@vger.kernel.org
@@ -51,181 +51,296 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Convert the Allegro DVT video IP codec text binding to Yaml.
-
-Add the converted binding to the MAINTAINERS file.
+The v4l2-m2m has various helpers for correctly handle the draining. Drop
+the driver specific state machine and use the m2m helper functions.
 
 Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
 ---
- .../bindings/media/allegro,al5e.yaml          | 95 +++++++++++++++++++
- .../devicetree/bindings/media/allegro.txt     | 43 ---------
- MAINTAINERS                                   |  1 +
- 3 files changed, 96 insertions(+), 43 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/allegro,al5e.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/allegro.txt
+ .../media/platform/allegro-dvt/allegro-core.c | 174 +++++-------------
+ 1 file changed, 45 insertions(+), 129 deletions(-)
 
-diff --git a/Documentation/devicetree/bindings/media/allegro,al5e.yaml b/Documentation/devicetree/bindings/media/allegro,al5e.yaml
-new file mode 100644
-index 000000000000..1ac698772fa0
---- /dev/null
-+++ b/Documentation/devicetree/bindings/media/allegro,al5e.yaml
-@@ -0,0 +1,95 @@
-+# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
-+%YAML 1.2
-+---
-+$id: http://devicetree.org/schemas/media/allegro,al5e.yaml#
-+$schema: http://devicetree.org/meta-schemas/core.yaml#
-+
-+title: Allegro DVT Video IP Codecs Device Tree Bindings
-+
-+maintainers:
-+  - Michael Tretter <m.tretter@pengutronix.de>
-+
-+description: |-
-+  Allegro DVT video IP codecs present in the Xilinx ZynqMP SoC. The IP core may
-+  either be a H.264/H.265 encoder or H.264/H.265 decoder ip core.
-+
-+  Each actual codec engine is controlled by a microcontroller (MCU). Host
-+  software uses a provided mailbox interface to communicate with the MCU. The
-+  MCUs share an interrupt.
-+
-+properties:
-+  compatible:
-+    oneOf:
-+      - items:
-+        - const: allegro,al5e-1.1
-+        - const: allegro,al5e
-+      - items:
-+        - const: allegro,al5d-1.1
-+        - const: allegro,al5d
-+
-+  reg:
-+    items:
-+      - description: The registers
-+      - description: The SRAM
-+
-+  reg-names:
-+    items:
-+      - const: regs
-+      - const: sram
-+
-+  interrupts:
-+    maxItems: 1
-+
-+  clocks:
-+    items:
-+      - description: Core clock
-+      - description: MCU clock
-+      - description: Core AXI master port clock
-+      - description: MCU AXI master port clock
-+      - description: AXI4-Lite slave port clock
-+
-+  clock-names:
-+    items:
-+      - const: core_clk
-+      - const: mcu_clk
-+      - const: m_axi_core_aclk
-+      - const: m_axi_mcu_aclk
-+      - const: s_axi_lite_aclk
-+
-+required:
-+  - compatible
-+  - reg
-+  - reg-names
-+  - interrupts
-+  - clocks
-+  - clock-names
-+
-+additionalProperties: False
-+
-+examples:
-+  - |
-+    al5e: video-codec@a0009000 {
-+        compatible = "allegro,al5e-1.1", "allegro,al5e";
-+        reg = <0 0xa0009000 0 0x1000>,
-+              <0 0xa0000000 0 0x8000>;
-+        reg-names = "regs", "sram";
-+        interrupts = <0 96 4>;
-+        clocks = <&xlnx_vcu 0>, <&xlnx_vcu 1>,
-+                 <&clkc 71>, <&clkc 71>, <&clkc 71>;
-+        clock-names = "core_clk", "mcu_clk", "m_axi_core_aclk",
-+                      "m_axi_mcu_aclk", "s_axi_lite_aclk";
-+      };
-+  - |
-+    al5d: video-codec@a0029000 {
-+        compatible = "allegro,al5d-1.1", "allegro,al5d";
-+        reg = <0 0xa0029000 0 0x1000>,
-+              <0 0xa0020000 0 0x8000>;
-+        reg-names = "regs", "sram";
-+        interrupts = <0 96 4>;
-+        clocks = <&xlnx_vcu 2>, <&xlnx_vcu 3>,
-+                 <&clkc 71>, <&clkc 71>, <&clkc 71>;
-+        clock-names = "core_clk", "mcu_clk", "m_axi_core_aclk",
-+        "m_axi_mcu_aclk", "s_axi_lite_aclk";
-+    };
-+
-+...
-diff --git a/Documentation/devicetree/bindings/media/allegro.txt b/Documentation/devicetree/bindings/media/allegro.txt
-deleted file mode 100644
-index a92e2fbf26c9..000000000000
---- a/Documentation/devicetree/bindings/media/allegro.txt
-+++ /dev/null
-@@ -1,43 +0,0 @@
--Device-tree bindings for the Allegro DVT video IP codecs present in the Xilinx
--ZynqMP SoC. The IP core may either be a H.264/H.265 encoder or H.264/H.265
--decoder ip core.
--
--Each actual codec engines is controlled by a microcontroller (MCU). Host
--software uses a provided mailbox interface to communicate with the MCU. The
--MCU share an interrupt.
--
--Required properties:
--  - compatible: value should be one of the following
--    "allegro,al5e-1.1", "allegro,al5e": encoder IP core
--    "allegro,al5d-1.1", "allegro,al5d": decoder IP core
--  - reg: base and length of the memory mapped register region and base and
--    length of the memory mapped sram
--  - reg-names: must include "regs" and "sram"
--  - interrupts: shared interrupt from the MCUs to the processing system
--  - clocks: must contain an entry for each entry in clock-names
--  - clock-names: must include "core_clk", "mcu_clk", "m_axi_core_aclk",
--    "m_axi_mcu_aclk", "s_axi_lite_aclk"
--
--Example:
--	al5e: video-codec@a0009000 {
--		compatible = "allegro,al5e-1.1", "allegro,al5e";
--		reg = <0 0xa0009000 0 0x1000>,
--		      <0 0xa0000000 0 0x8000>;
--		reg-names = "regs", "sram";
--		interrupts = <0 96 4>;
--		clocks = <&xlnx_vcu 0>, <&xlnx_vcu 1>,
--			 <&clkc 71>, <&clkc 71>, <&clkc 71>;
--		clock-names = "core_clk", "mcu_clk", "m_axi_core_aclk",
--			      "m_axi_mcu_aclk", "s_axi_lite_aclk"
--	};
--	al5d: video-codec@a0029000 {
--		compatible = "allegro,al5d-1.1", "allegro,al5d";
--		reg = <0 0xa0029000 0 0x1000>,
--		      <0 0xa0020000 0 0x8000>;
--		reg-names = "regs", "sram";
--		interrupts = <0 96 4>;
--		clocks = <&xlnx_vcu 2>, <&xlnx_vcu 3>,
--			 <&clkc 71>, <&clkc 71>, <&clkc 71>;
--		clock-names = "core_clk", "mcu_clk", "m_axi_core_aclk",
--			      "m_axi_mcu_aclk", "s_axi_lite_aclk"
--	};
-diff --git a/MAINTAINERS b/MAINTAINERS
-index 64f355e3bdc7..76bb63c5bebf 100644
---- a/MAINTAINERS
-+++ b/MAINTAINERS
-@@ -699,6 +699,7 @@ M:	Michael Tretter <m.tretter@pengutronix.de>
- R:	Pengutronix Kernel Team <kernel@pengutronix.de>
- L:	linux-media@vger.kernel.org
- S:	Maintained
-+F:	Documentation/devicetree/bindings/media/allegro,al5e.yaml
- F:	drivers/media/platform/allegro-dvt/
+diff --git a/drivers/media/platform/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
+index 9f718f43282b..902b8af90ac6 100644
+--- a/drivers/media/platform/allegro-dvt/allegro-core.c
++++ b/drivers/media/platform/allegro-dvt/allegro-core.c
+@@ -167,13 +167,6 @@ static struct regmap_config allegro_sram_config = {
+ 	.cache_type = REGCACHE_NONE,
+ };
  
- ALLWINNER A10 CSI DRIVER
+-enum allegro_state {
+-	ALLEGRO_STATE_ENCODING,
+-	ALLEGRO_STATE_DRAIN,
+-	ALLEGRO_STATE_WAIT_FOR_BUFFER,
+-	ALLEGRO_STATE_STOPPED,
+-};
+-
+ #define fh_to_channel(__fh) container_of(__fh, struct allegro_channel, fh)
+ 
+ struct allegro_channel {
+@@ -246,23 +239,8 @@ struct allegro_channel {
+ 	struct completion completion;
+ 
+ 	unsigned int error;
+-	enum allegro_state state;
+ };
+ 
+-static inline int
+-allegro_set_state(struct allegro_channel *channel, enum allegro_state state)
+-{
+-	channel->state = state;
+-
+-	return 0;
+-}
+-
+-static inline enum allegro_state
+-allegro_get_state(struct allegro_channel *channel)
+-{
+-	return channel->state;
+-}
+-
+ struct allegro_m2m_buffer {
+ 	struct v4l2_m2m_buffer buf;
+ 	struct list_head head;
+@@ -1392,45 +1370,13 @@ static ssize_t allegro_h264_write_pps(struct allegro_channel *channel,
+ 	return size;
+ }
+ 
+-static bool allegro_channel_is_at_eos(struct allegro_channel *channel)
+-{
+-	bool is_at_eos = false;
+-
+-	switch (allegro_get_state(channel)) {
+-	case ALLEGRO_STATE_STOPPED:
+-		is_at_eos = true;
+-		break;
+-	case ALLEGRO_STATE_DRAIN:
+-	case ALLEGRO_STATE_WAIT_FOR_BUFFER:
+-		mutex_lock(&channel->shadow_list_lock);
+-		if (v4l2_m2m_num_src_bufs_ready(channel->fh.m2m_ctx) == 0 &&
+-		    list_empty(&channel->source_shadow_list))
+-			is_at_eos = true;
+-		mutex_unlock(&channel->shadow_list_lock);
+-		break;
+-	default:
+-		break;
+-	}
+-
+-	return is_at_eos;
+-}
+-
+-static void allegro_channel_buf_done(struct allegro_channel *channel,
+-				     struct vb2_v4l2_buffer *buf,
+-				     enum vb2_buffer_state state)
++static void allegro_channel_eos_event(struct allegro_channel *channel)
+ {
+ 	const struct v4l2_event eos_event = {
+ 		.type = V4L2_EVENT_EOS
+ 	};
+ 
+-	if (allegro_channel_is_at_eos(channel)) {
+-		buf->flags |= V4L2_BUF_FLAG_LAST;
+-		v4l2_event_queue_fh(&channel->fh, &eos_event);
+-
+-		allegro_set_state(channel, ALLEGRO_STATE_STOPPED);
+-	}
+-
+-	v4l2_m2m_buf_done(buf, state);
++	v4l2_event_queue_fh(&channel->fh, &eos_event);
+ }
+ 
+ static u64 allegro_put_buffer(struct allegro_channel *channel,
+@@ -1500,6 +1446,12 @@ static void allegro_channel_finish_frame(struct allegro_channel *channel,
+ 	if (!src_buf || !dst_buf)
+ 		goto err;
+ 
++	if (v4l2_m2m_is_last_draining_src_buf(channel->fh.m2m_ctx, src_buf)) {
++		dst_buf->flags |= V4L2_BUF_FLAG_LAST;
++		allegro_channel_eos_event(channel);
++		v4l2_m2m_mark_stopped(channel->fh.m2m_ctx);
++	}
++
+ 	dst_buf->sequence = channel->csequence++;
+ 
+ 	if (msg->error_code & AL_ERROR) {
+@@ -1626,7 +1578,7 @@ static void allegro_channel_finish_frame(struct allegro_channel *channel,
+ 		v4l2_m2m_buf_done(src_buf, VB2_BUF_STATE_DONE);
+ 
+ 	if (dst_buf)
+-		allegro_channel_buf_done(channel, dst_buf, state);
++		v4l2_m2m_buf_done(dst_buf, state);
+ }
+ 
+ static int allegro_handle_init(struct allegro_dev *dev,
+@@ -2145,10 +2097,6 @@ static int allegro_buf_prepare(struct vb2_buffer *vb)
+ 	struct allegro_channel *channel = vb2_get_drv_priv(vb->vb2_queue);
+ 	struct allegro_dev *dev = channel->dev;
+ 
+-	if (allegro_get_state(channel) == ALLEGRO_STATE_DRAIN &&
+-	    V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type))
+-		return -EBUSY;
+-
+ 	if (V4L2_TYPE_IS_OUTPUT(vb->vb2_queue->type)) {
+ 		if (vbuf->field == V4L2_FIELD_ANY)
+ 			vbuf->field = V4L2_FIELD_NONE;
+@@ -2167,10 +2115,21 @@ static void allegro_buf_queue(struct vb2_buffer *vb)
+ {
+ 	struct allegro_channel *channel = vb2_get_drv_priv(vb->vb2_queue);
+ 	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
++	struct vb2_queue *q = vb->vb2_queue;
++
++	if (V4L2_TYPE_IS_CAPTURE(q->type) &&
++	    vb2_is_streaming(q) &&
++	    v4l2_m2m_dst_buf_is_last(channel->fh.m2m_ctx)) {
++		unsigned int i;
++
++		for (i = 0; i < vb->num_planes; i++)
++			vb->planes[i].bytesused = 0;
+ 
+-	if (allegro_get_state(channel) == ALLEGRO_STATE_WAIT_FOR_BUFFER &&
+-	    vb->vb2_queue->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
+-		allegro_channel_buf_done(channel, vbuf, VB2_BUF_STATE_DONE);
++		vbuf->field = V4L2_FIELD_NONE;
++		vbuf->sequence = channel->csequence++;
++
++		v4l2_m2m_last_buffer_done(channel->fh.m2m_ctx, vbuf);
++		allegro_channel_eos_event(channel);
+ 		return;
+ 	}
+ 
+@@ -2186,12 +2145,12 @@ static int allegro_start_streaming(struct vb2_queue *q, unsigned int count)
+ 		 "%s: start streaming\n",
+ 		 V4L2_TYPE_IS_OUTPUT(q->type) ? "output" : "capture");
+ 
+-	if (V4L2_TYPE_IS_OUTPUT(q->type)) {
++	v4l2_m2m_update_start_streaming_state(channel->fh.m2m_ctx, q);
++
++	if (V4L2_TYPE_IS_OUTPUT(q->type))
+ 		channel->osequence = 0;
+-		allegro_set_state(channel, ALLEGRO_STATE_ENCODING);
+-	} else if (q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
++	else
+ 		channel->csequence = 0;
+-	}
+ 
+ 	return 0;
+ }
+@@ -2216,10 +2175,9 @@ static void allegro_stop_streaming(struct vb2_queue *q)
+ 		}
+ 		mutex_unlock(&channel->shadow_list_lock);
+ 
+-		allegro_set_state(channel, ALLEGRO_STATE_STOPPED);
+ 		while ((buffer = v4l2_m2m_src_buf_remove(channel->fh.m2m_ctx)))
+ 			v4l2_m2m_buf_done(buffer, VB2_BUF_STATE_ERROR);
+-	} else if (q->type == V4L2_BUF_TYPE_VIDEO_CAPTURE) {
++	} else {
+ 		mutex_lock(&channel->shadow_list_lock);
+ 		list_for_each_entry_safe(shadow, tmp,
+ 					 &channel->stream_shadow_list, head) {
+@@ -2232,6 +2190,12 @@ static void allegro_stop_streaming(struct vb2_queue *q)
+ 		while ((buffer = v4l2_m2m_dst_buf_remove(channel->fh.m2m_ctx)))
+ 			v4l2_m2m_buf_done(buffer, VB2_BUF_STATE_ERROR);
+ 	}
++
++	v4l2_m2m_update_stop_streaming_state(channel->fh.m2m_ctx, q);
++
++	if (V4L2_TYPE_IS_OUTPUT(q->type) &&
++	    v4l2_m2m_has_stopped(channel->fh.m2m_ctx))
++		allegro_channel_eos_event(channel);
+ }
+ 
+ static const struct vb2_ops allegro_queue_ops = {
+@@ -2670,62 +2634,16 @@ static int allegro_s_fmt_vid_out(struct file *file, void *fh,
+ 
+ static int allegro_channel_cmd_stop(struct allegro_channel *channel)
+ {
+-	struct allegro_dev *dev = channel->dev;
+-	struct vb2_v4l2_buffer *dst_buf;
+-
+-	switch (allegro_get_state(channel)) {
+-	case ALLEGRO_STATE_DRAIN:
+-	case ALLEGRO_STATE_WAIT_FOR_BUFFER:
+-		return -EBUSY;
+-	case ALLEGRO_STATE_ENCODING:
+-		allegro_set_state(channel, ALLEGRO_STATE_DRAIN);
+-		break;
+-	default:
+-		return 0;
+-	}
+-
+-	/* If there are output buffers, they must be encoded */
+-	if (v4l2_m2m_num_src_bufs_ready(channel->fh.m2m_ctx) != 0) {
+-		v4l2_dbg(1, debug,  &dev->v4l2_dev,
+-			 "channel %d: CMD_STOP: continue encoding src buffers\n",
+-			 channel->mcu_channel_id);
+-		return 0;
+-	}
+-
+-	/* If there are capture buffers, use it to signal EOS */
+-	dst_buf = v4l2_m2m_dst_buf_remove(channel->fh.m2m_ctx);
+-	if (dst_buf) {
+-		v4l2_dbg(1, debug,  &dev->v4l2_dev,
+-			 "channel %d: CMD_STOP: signaling EOS\n",
+-			 channel->mcu_channel_id);
+-		allegro_channel_buf_done(channel, dst_buf, VB2_BUF_STATE_DONE);
+-		return 0;
+-	}
+-
+-	/*
+-	 * If there are no capture buffers, we need to wait for the next
+-	 * buffer to signal EOS.
+-	 */
+-	v4l2_dbg(1, debug,  &dev->v4l2_dev,
+-		 "channel %d: CMD_STOP: wait for CAPTURE buffer to signal EOS\n",
+-		 channel->mcu_channel_id);
+-	allegro_set_state(channel, ALLEGRO_STATE_WAIT_FOR_BUFFER);
++	if (v4l2_m2m_has_stopped(channel->fh.m2m_ctx))
++		allegro_channel_eos_event(channel);
+ 
+ 	return 0;
+ }
+ 
+ static int allegro_channel_cmd_start(struct allegro_channel *channel)
+ {
+-	switch (allegro_get_state(channel)) {
+-	case ALLEGRO_STATE_DRAIN:
+-	case ALLEGRO_STATE_WAIT_FOR_BUFFER:
+-		return -EBUSY;
+-	case ALLEGRO_STATE_STOPPED:
+-		allegro_set_state(channel, ALLEGRO_STATE_ENCODING);
+-		break;
+-	default:
+-		return 0;
+-	}
++	if (v4l2_m2m_has_stopped(channel->fh.m2m_ctx))
++		vb2_clear_last_buffer_dequeued(&channel->fh.m2m_ctx->cap_q_ctx.q);
+ 
+ 	return 0;
+ }
+@@ -2740,17 +2658,15 @@ static int allegro_encoder_cmd(struct file *file, void *fh,
+ 	if (err)
+ 		return err;
+ 
+-	switch (cmd->cmd) {
+-	case V4L2_ENC_CMD_STOP:
++	err = v4l2_m2m_ioctl_encoder_cmd(file, fh, cmd);
++	if (err)
++		return err;
++
++	if (cmd->cmd == V4L2_ENC_CMD_STOP)
+ 		err = allegro_channel_cmd_stop(channel);
+-		break;
+-	case V4L2_ENC_CMD_START:
++
++	if (cmd->cmd == V4L2_ENC_CMD_START)
+ 		err = allegro_channel_cmd_start(channel);
+-		break;
+-	default:
+-		err = -EINVAL;
+-		break;
+-	}
+ 
+ 	return err;
+ }
 -- 
 2.20.1
 
