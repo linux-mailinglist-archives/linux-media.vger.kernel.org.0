@@ -2,22 +2,19 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A6C172C515C
-	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 10:40:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B2D22C515E
+	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 10:40:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389305AbgKZJgn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Nov 2020 04:36:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48742 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730660AbgKZJgn (ORCPT
+        id S2389503AbgKZJgr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Nov 2020 04:36:47 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:39252 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732332AbgKZJgr (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Nov 2020 04:36:43 -0500
-Received: from bhuna.collabora.co.uk (bhuna.collabora.co.uk [IPv6:2a00:1098:0:82:1000:25:2eeb:e3e3])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D6ACBC0613D4;
-        Thu, 26 Nov 2020 01:36:42 -0800 (PST)
+        Thu, 26 Nov 2020 04:36:47 -0500
 Received: from [127.0.0.1] (localhost [127.0.0.1])
         (Authenticated sender: ezequiel)
-        with ESMTPSA id 323671F44FB5
+        with ESMTPSA id 3A1CC1F450FA
 From:   Ezequiel Garcia <ezequiel@collabora.com>
 To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
 Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
@@ -27,10 +24,10 @@ Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
         Maxime Ripard <mripard@kernel.org>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH v5 01/14] media: vidioc-g-ext-ctrls.rst: document V4L2_CTRL_CLASS_DETECT
-Date:   Thu, 26 Nov 2020 06:36:05 -0300
-Message-Id: <20201126093618.137292-2-ezequiel@collabora.com>
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: [PATCH v5 02/14] media: controls: Add validate failure debug message
+Date:   Thu, 26 Nov 2020 06:36:06 -0300
+Message-Id: <20201126093618.137292-3-ezequiel@collabora.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201126093618.137292-1-ezequiel@collabora.com>
 References: <20201126093618.137292-1-ezequiel@collabora.com>
@@ -40,30 +37,34 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Add a debug message for control validation (validate_new)
+failures. This is useful to debug issues with ioctls such
+as VIDIOC_TRY_EXT_CTRLS and VIDIOC_S_EXT_CTRLS.
 
-V4L2_CTRL_CLASS_DETECT was never documented here, add it.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
 ---
- Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst | 4 ++++
- 1 file changed, 4 insertions(+)
+ drivers/media/v4l2-core/v4l2-ctrls.c | 7 ++++++-
+ 1 file changed, 6 insertions(+), 1 deletion(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-index f2173e310d67..54a8f4e8f5be 100644
---- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-+++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-@@ -358,6 +358,10 @@ still cause this situation.
-       - 0xa20000
-       - The class containing RF tuner controls. These controls are
- 	described in :ref:`rf-tuner-controls`.
-+    * - ``V4L2_CTRL_CLASS_DETECT``
-+      - 0xa30000
-+      - The class containing motion or object detection controls. These controls
-+        are described in :ref:`detect-controls`.
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index 7febfbb256a6..3979e7924007 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -4112,8 +4112,13 @@ static int try_set_ext_ctrls_common(struct v4l2_fh *fh,
+ 			struct v4l2_ctrl *ctrl = helpers[idx].ref->ctrl;
  
- Return Value
- ============
+ 			ret = user_to_new(cs->controls + idx, ctrl);
+-			if (!ret && ctrl->is_ptr)
++			if (!ret && ctrl->is_ptr) {
+ 				ret = validate_new(ctrl, ctrl->p_new);
++				if (ret)
++					dprintk(vdev,
++						"failed to validate control %s (%d)\n",
++						v4l2_ctrl_get_name(ctrl->id), ret);
++			}
+ 			idx = helpers[idx].next;
+ 		} while (!ret && idx);
+ 
 -- 
 2.27.0
 
