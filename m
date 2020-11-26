@@ -2,35 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B05442C5846
-	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 16:29:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 097452C5840
+	for <lists+linux-media@lfdr.de>; Thu, 26 Nov 2020 16:29:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391365AbgKZP3r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S2391314AbgKZP3r (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 26 Nov 2020 10:29:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47266 "EHLO
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47268 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389808AbgKZP3r (ORCPT
+        with ESMTP id S2389808AbgKZP3q (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Nov 2020 10:29:47 -0500
+        Thu, 26 Nov 2020 10:29:46 -0500
 Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E36DCC061A04
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3EEEEC0613D4
         for <linux-media@vger.kernel.org>; Thu, 26 Nov 2020 07:29:46 -0800 (PST)
 Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
         by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
         (Exim 4.92)
         (envelope-from <mtr@pengutronix.de>)
-        id 1kiJDL-000806-It; Thu, 26 Nov 2020 16:29:45 +0100
+        id 1kiJDL-000807-LZ; Thu, 26 Nov 2020 16:29:44 +0100
 Received: from mtr by dude03.red.stw.pengutronix.de with local (Exim 4.92)
         (envelope-from <mtr@dude03.red.stw.pengutronix.de>)
-        id 1kiJDK-00G3Fs-Tm; Thu, 26 Nov 2020 16:29:42 +0100
+        id 1kiJDL-00G3Fu-0O; Thu, 26 Nov 2020 16:29:43 +0100
 From:   Michael Tretter <m.tretter@pengutronix.de>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org
 Cc:     kernel@pengutronix.de, robh+dt@kernel.org,
         hverkuil-cisco@xs4all.nl,
         Michael Tretter <m.tretter@pengutronix.de>
-Date:   Thu, 26 Nov 2020 16:29:37 +0100
-Message-Id: <20201126152941.3825721-1-m.tretter@pengutronix.de>
+Date:   Thu, 26 Nov 2020 16:29:38 +0100
+Message-Id: <20201126152941.3825721-2-m.tretter@pengutronix.de>
 X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201126152941.3825721-1-m.tretter@pengutronix.de>
+References: <20201126152941.3825721-1-m.tretter@pengutronix.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::39
@@ -41,7 +43,7 @@ X-Spam-Level:
 X-Spam-Status: No, score=-1.5 required=4.0 tests=AWL,BAYES_00,RDNS_NONE,
         SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no autolearn_force=no
         version=3.4.2
-Subject: [PATCH 0/4] media: allegro: move driver out of staging
+Subject: [PATCH 1/4] media: allegro: move driver out of staging
 X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
 X-SA-Exim-Scanned: Yes (on metis.ext.pengutronix.de)
 X-PTX-Original-Recipient: linux-media@vger.kernel.org
@@ -49,153 +51,164 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
+The stateful encoder API was finalized. Nothing is blocking the driver
+from being moved out of staging.
 
-With the V4L2 stateful encoder spec being finished, the Allegro encoder driver
-is ready to be moved from staging to mainline.
-
-While not directly related, I used the opportunity to convert the dt-binding
-to YAML, to remove the custom draining state handling from the driver and to
-rename a badly named field in the MCU messages.
-
-Michael
-
-v4l2-compliance 1.21.0-4682, 64 bits, 64-bit time_t
-v4l2-compliance SHA: 11da65eee7a2 2020-11-14 12:41:14
-
-Compliance test for allegro device /dev/video3:
-
-Driver Info:
-	Driver name      : allegro
-	Card type        : Allegro DVT Video Encoder
-	Bus info         : platform:a0009000.video-codec
-	Driver version   : 5.10.0
-	Capabilities     : 0x84208000
-		Video Memory-to-Memory
-		Streaming
-		Extended Pix Format
-		Device Capabilities
-	Device Caps      : 0x04208000
-		Video Memory-to-Memory
-		Streaming
-		Extended Pix Format
-	Detected Stateful Encoder
-
-Required ioctls:
-	test VIDIOC_QUERYCAP: OK
-
-Allow for multiple opens:
-	test second /dev/video3 open: OK
-	test VIDIOC_QUERYCAP: OK
-	test VIDIOC_G/S_PRIORITY: OK
-	test for unlimited opens: OK
-
-	test invalid ioctls: OK
-Debug ioctls:
-	test VIDIOC_DBG_G/S_REGISTER: OK
-	test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-	test VIDIOC_QUERYCTRL: OK
-	test VIDIOC_G/S_CTRL: OK
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 16 Private Controls: 0
-
-Format ioctls:
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-	test VIDIOC_G/S_PARM: OK
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK
-	test VIDIOC_TRY_FMT: OK
-	test VIDIOC_S_FMT: OK
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-	test Cropping: OK (Not Supported)
-	test Composing: OK (Not Supported)
-	test Scaling: OK (Not Supported)
-
-Codec ioctls:
-	test VIDIOC_(TRY_)ENCODER_CMD: OK
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
-
-Buffer ioctls:
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-	test VIDIOC_EXPBUF: OK
-	test Requests: OK (Not Supported)
-
-Test input 0:
-
-Streaming ioctls:
-	test read/write: OK (Not Supported)
-	test blocking wait: OK
-	Video Capture: Captured 60 buffers
-	test MMAP (select): OK
-	Video Capture: Captured 60 buffers
-	test MMAP (epoll): OK
-	test USERPTR (select): OK (Not Supported)
-	test DMABUF: Cannot test, specify --expbuf-device
-
-Total for allegro device /dev/video3: 50, Succeeded: 50, Failed: 0, Warnings: 0
-
-Michael Tretter (4):
-  media: allegro: move driver out of staging
-  dt-bindings: media: allegro,al5e: Convert to YAML
-  media: allegro: remove custom drain state handling
-  media: allegro: rename stream_id to dst_handle
-
- .../bindings/media/allegro,al5e.yaml          |  95 +++++++++
- .../devicetree/bindings/media/allegro.txt     |  43 -----
- MAINTAINERS                                   |   3 +-
- drivers/media/platform/Kconfig                |  15 ++
- drivers/media/platform/Makefile               |   1 +
- .../platform}/allegro-dvt/Makefile            |   0
- .../platform}/allegro-dvt/allegro-core.c      | 180 +++++-------------
- .../platform}/allegro-dvt/allegro-mail.c      |   8 +-
- .../platform}/allegro-dvt/allegro-mail.h      |   4 +-
- .../platform}/allegro-dvt/nal-h264.c          |   0
- .../platform}/allegro-dvt/nal-h264.h          |   0
- drivers/staging/media/Kconfig                 |   2 -
- drivers/staging/media/Makefile                |   1 -
- drivers/staging/media/allegro-dvt/Kconfig     |  16 --
- drivers/staging/media/allegro-dvt/TODO        |   4 -
- 15 files changed, 167 insertions(+), 205 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/allegro,al5e.yaml
- delete mode 100644 Documentation/devicetree/bindings/media/allegro.txt
+Signed-off-by: Michael Tretter <m.tretter@pengutronix.de>
+---
+ MAINTAINERS                                      |  2 +-
+ drivers/media/platform/Kconfig                   | 15 +++++++++++++++
+ drivers/media/platform/Makefile                  |  1 +
+ .../platform}/allegro-dvt/Makefile               |  0
+ .../platform}/allegro-dvt/allegro-core.c         |  0
+ .../platform}/allegro-dvt/allegro-mail.c         |  0
+ .../platform}/allegro-dvt/allegro-mail.h         |  0
+ .../platform}/allegro-dvt/nal-h264.c             |  0
+ .../platform}/allegro-dvt/nal-h264.h             |  0
+ drivers/staging/media/Kconfig                    |  2 --
+ drivers/staging/media/Makefile                   |  1 -
+ drivers/staging/media/allegro-dvt/Kconfig        | 16 ----------------
+ drivers/staging/media/allegro-dvt/TODO           |  4 ----
+ 13 files changed, 17 insertions(+), 24 deletions(-)
  rename drivers/{staging/media => media/platform}/allegro-dvt/Makefile (100%)
- rename drivers/{staging/media => media/platform}/allegro-dvt/allegro-core.c (95%)
- rename drivers/{staging/media => media/platform}/allegro-dvt/allegro-mail.c (98%)
- rename drivers/{staging/media => media/platform}/allegro-dvt/allegro-mail.h (98%)
+ rename drivers/{staging/media => media/platform}/allegro-dvt/allegro-core.c (100%)
+ rename drivers/{staging/media => media/platform}/allegro-dvt/allegro-mail.c (100%)
+ rename drivers/{staging/media => media/platform}/allegro-dvt/allegro-mail.h (100%)
  rename drivers/{staging/media => media/platform}/allegro-dvt/nal-h264.c (100%)
  rename drivers/{staging/media => media/platform}/allegro-dvt/nal-h264.h (100%)
  delete mode 100644 drivers/staging/media/allegro-dvt/Kconfig
  delete mode 100644 drivers/staging/media/allegro-dvt/TODO
 
+diff --git a/MAINTAINERS b/MAINTAINERS
+index e3a828249c8c..64f355e3bdc7 100644
+--- a/MAINTAINERS
++++ b/MAINTAINERS
+@@ -699,7 +699,7 @@ M:	Michael Tretter <m.tretter@pengutronix.de>
+ R:	Pengutronix Kernel Team <kernel@pengutronix.de>
+ L:	linux-media@vger.kernel.org
+ S:	Maintained
+-F:	drivers/staging/media/allegro-dvt/
++F:	drivers/media/platform/allegro-dvt/
+ 
+ ALLWINNER A10 CSI DRIVER
+ M:	Maxime Ripard <mripard@kernel.org>
+diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+index b161f2ba238f..f701ab188890 100644
+--- a/drivers/media/platform/Kconfig
++++ b/drivers/media/platform/Kconfig
+@@ -199,6 +199,21 @@ menuconfig V4L_MEM2MEM_DRIVERS
+ 
+ if V4L_MEM2MEM_DRIVERS
+ 
++config VIDEO_ALLEGRO_DVT
++	tristate "Allegro DVT Video IP Core"
++	depends on VIDEO_DEV && VIDEO_V4L2
++	depends on ARCH_ZYNQMP || COMPILE_TEST
++	select V4L2_MEM2MEM_DEV
++	select VIDEOBUF2_DMA_CONTIG
++	select REGMAP_MMIO
++	help
++	  Support for the encoder video IP core by Allegro DVT. This core is
++	  found for example on the Xilinx ZynqMP SoC in the EV family and is
++	  called VCU in the reference manual.
++
++	  To compile this driver as a module, choose M here: the module
++	  will be called allegro.
++
+ config VIDEO_CODA
+ 	tristate "Chips&Media Coda multi-standard codec IP"
+ 	depends on VIDEO_DEV && VIDEO_V4L2 && (ARCH_MXC || COMPILE_TEST)
+diff --git a/drivers/media/platform/Makefile b/drivers/media/platform/Makefile
+index b342714228db..a111bc363876 100644
+--- a/drivers/media/platform/Makefile
++++ b/drivers/media/platform/Makefile
+@@ -3,6 +3,7 @@
+ # Makefile for the video capture/playback device drivers.
+ #
+ 
++obj-$(CONFIG_VIDEO_ALLEGRO_DVT)		+= allegro-dvt/
+ obj-$(CONFIG_VIDEO_ASPEED)		+= aspeed-video.o
+ obj-$(CONFIG_VIDEO_CADENCE)		+= cadence/
+ obj-$(CONFIG_VIDEO_VIA_CAMERA) += via-camera.o
+diff --git a/drivers/staging/media/allegro-dvt/Makefile b/drivers/media/platform/allegro-dvt/Makefile
+similarity index 100%
+rename from drivers/staging/media/allegro-dvt/Makefile
+rename to drivers/media/platform/allegro-dvt/Makefile
+diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/media/platform/allegro-dvt/allegro-core.c
+similarity index 100%
+rename from drivers/staging/media/allegro-dvt/allegro-core.c
+rename to drivers/media/platform/allegro-dvt/allegro-core.c
+diff --git a/drivers/staging/media/allegro-dvt/allegro-mail.c b/drivers/media/platform/allegro-dvt/allegro-mail.c
+similarity index 100%
+rename from drivers/staging/media/allegro-dvt/allegro-mail.c
+rename to drivers/media/platform/allegro-dvt/allegro-mail.c
+diff --git a/drivers/staging/media/allegro-dvt/allegro-mail.h b/drivers/media/platform/allegro-dvt/allegro-mail.h
+similarity index 100%
+rename from drivers/staging/media/allegro-dvt/allegro-mail.h
+rename to drivers/media/platform/allegro-dvt/allegro-mail.h
+diff --git a/drivers/staging/media/allegro-dvt/nal-h264.c b/drivers/media/platform/allegro-dvt/nal-h264.c
+similarity index 100%
+rename from drivers/staging/media/allegro-dvt/nal-h264.c
+rename to drivers/media/platform/allegro-dvt/nal-h264.c
+diff --git a/drivers/staging/media/allegro-dvt/nal-h264.h b/drivers/media/platform/allegro-dvt/nal-h264.h
+similarity index 100%
+rename from drivers/staging/media/allegro-dvt/nal-h264.h
+rename to drivers/media/platform/allegro-dvt/nal-h264.h
+diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
+index e8996b1c3b35..ca59986b20f8 100644
+--- a/drivers/staging/media/Kconfig
++++ b/drivers/staging/media/Kconfig
+@@ -20,8 +20,6 @@ menuconfig STAGING_MEDIA
+ if STAGING_MEDIA && MEDIA_SUPPORT
+ 
+ # Please keep them in alphabetic order
+-source "drivers/staging/media/allegro-dvt/Kconfig"
+-
+ source "drivers/staging/media/atomisp/Kconfig"
+ 
+ source "drivers/staging/media/hantro/Kconfig"
+diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
+index 24b5873ff760..716929a1a313 100644
+--- a/drivers/staging/media/Makefile
++++ b/drivers/staging/media/Makefile
+@@ -1,5 +1,4 @@
+ # SPDX-License-Identifier: GPL-2.0
+-obj-$(CONFIG_VIDEO_ALLEGRO_DVT)	+= allegro-dvt/
+ obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
+ obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
+ obj-$(CONFIG_VIDEO_MESON_VDEC)	+= meson/vdec/
+diff --git a/drivers/staging/media/allegro-dvt/Kconfig b/drivers/staging/media/allegro-dvt/Kconfig
+deleted file mode 100644
+index 6b7107d9995c..000000000000
+--- a/drivers/staging/media/allegro-dvt/Kconfig
++++ /dev/null
+@@ -1,16 +0,0 @@
+-# SPDX-License-Identifier: GPL-2.0
+-config VIDEO_ALLEGRO_DVT
+-	tristate "Allegro DVT Video IP Core"
+-	depends on VIDEO_DEV && VIDEO_V4L2
+-	depends on ARCH_ZYNQMP || COMPILE_TEST
+-	select V4L2_MEM2MEM_DEV
+-	select VIDEOBUF2_DMA_CONTIG
+-	select REGMAP
+-	select REGMAP_MMIO
+-	help
+-	  Support for the encoder video IP core by Allegro DVT. This core is
+-	  found for example on the Xilinx ZynqMP SoC in the EV family and is
+-	  called VCU in the reference manual.
+-
+-	  To compile this driver as a module, choose M here: the module
+-	  will be called allegro.
+diff --git a/drivers/staging/media/allegro-dvt/TODO b/drivers/staging/media/allegro-dvt/TODO
+deleted file mode 100644
+index 99e19be0e45a..000000000000
+--- a/drivers/staging/media/allegro-dvt/TODO
++++ /dev/null
+@@ -1,4 +0,0 @@
+-TODO:
+-
+-- This driver is waiting for the stateful encoder spec and corresponding
+-  v4l2-compliance tests to be finalized.
 -- 
 2.20.1
 
