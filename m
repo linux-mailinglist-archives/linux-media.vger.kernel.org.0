@@ -2,85 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4023F2C697F
-	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 17:37:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 49FD82C6983
+	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 17:41:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731499AbgK0Qft (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Nov 2020 11:35:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53056 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731440AbgK0Qft (ORCPT
+        id S1731150AbgK0Qit (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Nov 2020 11:38:49 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:33250 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727936AbgK0Qit (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Nov 2020 11:35:49 -0500
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1144CC0613D1;
-        Fri, 27 Nov 2020 08:35:49 -0800 (PST)
-Received: by mail-pg1-x544.google.com with SMTP id w4so4705952pgg.13;
-        Fri, 27 Nov 2020 08:35:49 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=oeonf9+ssH3tiDFtNGxaIF9eFeoLL2QUF0mZX8JcTPU=;
-        b=u5qG5VuqAze9SNNcnAbaUKVq1mkcdhDQWZM6B3QdZEl7iWEHODXsr8rpisnEYNdjRC
-         S7jXTIe03qoBCAmKmp8gG6sdaPJTd09SObWlJ8gTHqdza5Ki4LK6T2BWVRKtk2OBRsFF
-         PJ3boGvmfUsNNlvg58QC5VGBLRlamzW4piMxa8naYTcSrZHGcVtv8dCeOQInXNiEvr21
-         WM1/EZTauFRLacGMfrYjQFOZDwS5QflyeuD8xrXa9uW8riWHQSEyPHvnzfHJ5mPQMgDJ
-         5YcUrL+v2FYYOIJTRJinpVJ0vmMcAWW6FLdpnRld/u62AMycLSGZoE/MjrJIqdGPD9VL
-         pYpQ==
+        Fri, 27 Nov 2020 11:38:49 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1606495127;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc; bh=6soT6kNKicKwHaQhV8mD54KLa9zz/Qcn5Otsr8QXwTM=;
+        b=h6LwHu5OEe2eUwq6bOMgNRMd1jd4ezbhWNpFEos50HuBeRjJgZg9zVcL4pNVMcsEKORrc0
+        LuLUqHSR1SPHcOaQtD6NwoXA1SIrLnbQQABQB3HGFWoZz74YFvabg3pGaKdU+PC/9LxuzD
+        GlpxCRvVym51OPw8zRE97APW8E4yyDU=
+Received: from mail-qv1-f70.google.com (mail-qv1-f70.google.com
+ [209.85.219.70]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-545-HvKOB1MVPDukY6vL-pXKow-1; Fri, 27 Nov 2020 11:38:45 -0500
+X-MC-Unique: HvKOB1MVPDukY6vL-pXKow-1
+Received: by mail-qv1-f70.google.com with SMTP id f2so343114qvb.7
+        for <linux-media@vger.kernel.org>; Fri, 27 Nov 2020 08:38:45 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=oeonf9+ssH3tiDFtNGxaIF9eFeoLL2QUF0mZX8JcTPU=;
-        b=qRyWqx4isHZBGA/A1YVpLNPYXmW8LKD8ZKsX8JO9nGS83+KZB71ZJ+6gLK7HFnA63z
-         zFl+qCljylP1+jvkREnUSZtAVmMflZ80z0nbPgq8yc6k187jGECfaJElDqqDY8mdJc6D
-         rttsmRbspdzO/MgcdKhabYz8LaBBRoIzhiFE6B5W8veMJABcbhPDdLoo0u76O4mGivcP
-         stmENzff0oyKjrGbtGG/vWpqnusR+Z8Sibo8o2upwxVqjvmBJL+5fQrmczxPKcUZONei
-         lRnL2AtDOd/6ODYW3cVWngFzA/iaaWXDtT+xLqtK8QolOcoIAopx9hFsl+XbD9VUybcE
-         yLjg==
-X-Gm-Message-State: AOAM5315TiknG2nZIPooPpynSFaFGUh6fdzr5jJ6ojajqIJSE6St6o4V
-        MU7QmMbHw+l4sEH9FJil4SM=
-X-Google-Smtp-Source: ABdhPJwg4EZ6JVGBOSAvWBiU1oI12df1VgK0NvLDh7IgBhGg5n0xDwue/6e6MsifLBu3LnHveI+RLA==
-X-Received: by 2002:a63:5845:: with SMTP id i5mr7290832pgm.355.1606494948492;
-        Fri, 27 Nov 2020 08:35:48 -0800 (PST)
-Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
-        by smtp.gmail.com with ESMTPSA id u3sm8091620pfu.47.2020.11.27.08.35.47
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=6soT6kNKicKwHaQhV8mD54KLa9zz/Qcn5Otsr8QXwTM=;
+        b=qMalMtXTS2FEhm2Pblm3tbd19tlgWBjttL86HI3L9OQNxgmbib7Wq8c1n0XPLafbOs
+         sg44uHomDqzie62Xqo5mekAhhlrkm0PMUocTqKBB3iFbzktYcBYEjg1MqhzhPhZRxNVE
+         ZAm5YOgEOHZjSCnwyn2PWRhU7GkWxxYWxPtaBRk1IM3TBL2kMlHLnwIm0nslREhORS6o
+         17TZyIlUPxWd0TZnARAmTjMDCcNGz6xGPIlTh4B+iSaNEFVmkHiQlNkE56JpUh60r/9e
+         tIHaWYkyFOv8OQvmPzzeMFyloU7HMTrmyX0ZVU7uRHm40ZQ/mA8HVjVdE0KdZa68FBlS
+         mDdg==
+X-Gm-Message-State: AOAM532KVPrWG4WEWeDnWkZkdESbFSWhooJ8GoU3HjpEFfK1im3e4Fek
+        tNzwOnhAlsbMB8YW/bZXtKl9JvUjqECQM3NsOe9nd9uQK5fWC6xbr5DrOs5uNUpcLZIP7BdZOLF
+        C2IkbV7/FU8mh4eqZw/OSVcY=
+X-Received: by 2002:a05:620a:88e:: with SMTP id b14mr9390521qka.434.1606495125525;
+        Fri, 27 Nov 2020 08:38:45 -0800 (PST)
+X-Google-Smtp-Source: ABdhPJyEax7A2+M8txf8NSzvaWLDdcvfzjlcpauJT2nU/N8D/Jln7Bke0Usecu86i7miEwyXlfxTxA==
+X-Received: by 2002:a05:620a:88e:: with SMTP id b14mr9390508qka.434.1606495125347;
+        Fri, 27 Nov 2020 08:38:45 -0800 (PST)
+Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
+        by smtp.gmail.com with ESMTPSA id c128sm6013643qkg.66.2020.11.27.08.38.44
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 08:35:47 -0800 (PST)
-Date:   Sat, 28 Nov 2020 01:35:45 +0900
-From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH] media: vb2: always set buffer cache sync hints
-Message-ID: <X8Eq4V++hRsKuYSF@jagdpanzerIV.localdomain>
-References: <20201127094136.1051071-1-sergey.senozhatsky@gmail.com>
- <0dbfa509-8c82-7470-c18b-24ab5c92dc4b@xs4all.nl>
- <X8ENifLanjYuhF/r@jagdpanzerIV.localdomain>
- <509cc69b-39d7-4b13-f392-ebf25530c8fe@xs4all.nl>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <509cc69b-39d7-4b13-f392-ebf25530c8fe@xs4all.nl>
+        Fri, 27 Nov 2020 08:38:44 -0800 (PST)
+From:   trix@redhat.com
+To:     mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Tom Rix <trix@redhat.com>
+Subject: [PATCH] [media] b2c2: remove trailing semicolon in macro definition
+Date:   Fri, 27 Nov 2020 08:38:36 -0800
+Message-Id: <20201127163836.2675604-1-trix@redhat.com>
+X-Mailer: git-send-email 2.18.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (20/11/27 15:56), Hans Verkuil wrote:
-> Yes.
-> 
-> BTW, wouldn't it be sufficient to change this code to:
-> 
-> 	if (!q->allow_cache_hints && q->memory != VB2_MEMORY_DMABUF) {
-> 		vb->need_cache_sync_on_prepare = 1;
-> 		vb->need_cache_sync_on_finish = 1;
-> 	}
+From: Tom Rix <trix@redhat.com>
 
-I think it would be sufficient.
+The macro use will already have a semicolon.
 
-	-ss
+Signed-off-by: Tom Rix <trix@redhat.com>
+---
+ drivers/media/common/b2c2/flexcop-hw-filter.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/media/common/b2c2/flexcop-hw-filter.c b/drivers/media/common/b2c2/flexcop-hw-filter.c
+index 335f30a54ba8..c5a3345c99e9 100644
+--- a/drivers/media/common/b2c2/flexcop-hw-filter.c
++++ b/drivers/media/common/b2c2/flexcop-hw-filter.c
+@@ -69,7 +69,7 @@ vpid.vregname.field = onoff ? pid : 0x1fff; \
+ vpid.vregname.trans_field = transval; \
+ v208.ctrl_208.enablefield = onoff; \
+ fc->write_ibi_reg(fc, vregname, vpid); \
+-fc->write_ibi_reg(fc, ctrl_208, v208);
++fc->write_ibi_reg(fc, ctrl_208, v208)
+ 
+ static void flexcop_pid_Stream1_PID_ctrl(struct flexcop_device *fc,
+ 		u16 pid, int onoff)
+-- 
+2.18.4
+
