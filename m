@@ -2,101 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5103F2C67F3
-	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 15:32:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DD5E92C684B
+	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 15:57:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730963AbgK0Oah (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Nov 2020 09:30:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33498 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730573AbgK0Oag (ORCPT
+        id S1730903AbgK0O4x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Nov 2020 09:56:53 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:56117 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729913AbgK0O4x (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Nov 2020 09:30:36 -0500
-Received: from mail-pf1-x441.google.com (mail-pf1-x441.google.com [IPv6:2607:f8b0:4864:20::441])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C2DE6C0613D1;
-        Fri, 27 Nov 2020 06:30:36 -0800 (PST)
-Received: by mail-pf1-x441.google.com with SMTP id b10so3340471pfo.4;
-        Fri, 27 Nov 2020 06:30:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=iivTDKjcCzrHmLkUESvvviQvq63fYAR1BOIPn70WYPg=;
-        b=b3KNcVPyNZG2r6dOTvaZaR23Erfk7CcTdUJ5HZ3hYF5NgYS9Dld01yFVjZ8VzEFdlH
-         /7rV+nySTELbUeM0a82i+35LNXBKj0bbEXQ8G6bEWWp5pYeTgFvqdUqUIss9dK0FuSkr
-         oZFDs+0yyej2rtvvHjN6DgBDebP5LDHtvlWCEI9Tplhtmdayv9/LySO549+JxW0JqcjS
-         +HewLzdohXqQ4rP5QEPP4CKthL0vcezxqX6NFROyGYWEJrx5pd3A2c6fKytVgCIoCDLQ
-         lEkqyvuGGF2CbRGtIKY/uBhbDRDLqDj6QGD6AYYbgkXfpYpZ+NHLy+F/hPFjojmUTT4I
-         smZg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=iivTDKjcCzrHmLkUESvvviQvq63fYAR1BOIPn70WYPg=;
-        b=rN7CRTdILm6lk+UEO6T193teURkZ4eJibkK2ToYG0clTAIWH+e4E4IbjtzKKRaIisl
-         KUSPbTc9K1stP/EeCG/t2gitIADtT2+Dk5MgcKHSEqT9LA7qyPh8FFMTVaikjte2ordi
-         y66mbA0e6A55vtEFkDnCUJcxTDds9BnouEsIgYiHCB8OfujcyGczyW1N8tsHoeDSrHCS
-         oG4Oo6AJ7Jxr9GoUOmOsRtnSeZEIH3p5jwKNMTqVYwjrm86SWl9/mCQQgiw8JOFB3dDM
-         p6nT1nVwQId6Uvnd6+kyKkUodZ9RDz0DHq/6j+kXwBe+SsPO1kWJtSxfgCCKbLcSrzMj
-         rJBw==
-X-Gm-Message-State: AOAM530qAY0V+jLBjBXdHjT0K6cGBqKuC3M7WutRqnlhL0lsECZhD3rs
-        90nT6+0OzWPt12+tKpdiEJg=
-X-Google-Smtp-Source: ABdhPJz5S55z/xe2ih3s9onsP9tvvTCP5NITUDRKJm6rR+yozPXbbqoIbRZ4K/mFSCMZpO19Jt9N7g==
-X-Received: by 2002:a17:90a:6287:: with SMTP id d7mr9895375pjj.80.1606487436320;
-        Fri, 27 Nov 2020 06:30:36 -0800 (PST)
-Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
-        by smtp.gmail.com with ESMTPSA id ge21sm10362685pjb.5.2020.11.27.06.30.34
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 06:30:35 -0800 (PST)
-Date:   Fri, 27 Nov 2020 23:30:33 +0900
-From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
+        Fri, 27 Nov 2020 09:56:53 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id ifB1kXAH1kGBYifB4kPoNg; Fri, 27 Nov 2020 15:56:51 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1606489011; bh=6hiM2CA4tZKAKqBJODw7h/LTTqXoU9uPnCQF/6zYjQc=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=i7zAviguXus2cHvcWnQJWS70o2o8G9vmkM/fubM0exKQYBYzfkfPrPoEverVmguh3
+         WCTc1gIRDqEVTq1AdcUFUYho0KAOeAuPMcr4P229j6DYzFGHp9RgViz5Z7pO89h6+P
+         pVPBGVtA/YwOReVEAnyFgQSAOwTOBm86J73/vpNtjFxOBD/2GbxO7zH4OCLA6Qh69K
+         Kc1tiHI63g2zl1zZ3eN++P1VFK0XZYv/d7FSM4CTmKS8FjZW4KhcsL79JHsSBiFeu8
+         qt9ofBiKHAlJH946INXW7ir+84H9gk9HuWZJI7AaOh4VHJDJ0RHeirAeJgK/e5v2dz
+         BO+0wIPFphnTA==
+Subject: Re: [PATCH] media: vb2: always set buffer cache sync hints
+To:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+Cc:     Tomasz Figa <tfiga@chromium.org>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
         Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: Re: [PATCH] media: vb2: always set buffer cache sync hints
-Message-ID: <X8ENifLanjYuhF/r@jagdpanzerIV.localdomain>
 References: <20201127094136.1051071-1-sergey.senozhatsky@gmail.com>
  <0dbfa509-8c82-7470-c18b-24ab5c92dc4b@xs4all.nl>
+ <X8ENifLanjYuhF/r@jagdpanzerIV.localdomain>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <509cc69b-39d7-4b13-f392-ebf25530c8fe@xs4all.nl>
+Date:   Fri, 27 Nov 2020 15:56:47 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <0dbfa509-8c82-7470-c18b-24ab5c92dc4b@xs4all.nl>
+In-Reply-To: <X8ENifLanjYuhF/r@jagdpanzerIV.localdomain>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfJk8DMwpDEftwig59ilInD05om490pgnHJQNuDUkJ/rTnJjdPTUo3SjCv3g5ZJRo+4aL/aAvDwHfq0sm/+BRi8oNC2kFo2lxFRqb6NW0t90MovHpslQw
+ d8QCY8U1d33g0qCr43A6BtnRWl0No33SjIqCbCkSS2otXHPIjlz86Aj0H6HbZpEXGhcwA2ZqqpYfyiYhoGNwVb3SoqNGRWyp5lFmd4SYO4YXCdurnMIBs38j
+ iHdUWesXl7xrr0ZsOeMcESokLElifMi4VLMzly+J9AIQbXDhWF7c6cMSO2iUbNB8Lybv0fzr3x4IO9us+/ufM7gIAyi14fnx6iYoEPlWGSMtLIZf+h5MkOF8
+ sPm861j4mg99aKQx+z08Nk+wFe6Kjm6KxUBXrvpmqLGHuMmXgiOHhTXn52KtmUN3+MShDhMZ
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On (20/11/27 13:59), Hans Verkuil wrote:
+On 27/11/2020 15:30, Sergey Senozhatsky wrote:
+> On (20/11/27 13:59), Hans Verkuil wrote:
+>>
+>> I think this needs a comment, basically explaining what you said in
+>> the commit log. It's not obvious from the code that this is a
+>> workaround.
 > 
-> I think this needs a comment, basically explaining what you said in
-> the commit log. It's not obvious from the code that this is a
-> workaround.
+> Something like this?
 
-Something like this?
+Yes.
 
----
+BTW, wouldn't it be sufficient to change this code to:
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index 5499013cf82e..21b2b0ae3629 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -414,6 +414,16 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
-                vb->index = q->num_buffers + buffer;
-                vb->type = q->type;
-                vb->memory = memory;
-+               /*
-+                * A workaround fix. We need to set these flags here so that
-+                * videobuf2 core will always call ->prepare()/->finish()
-+                * cache sync/flush on vb2 buffers. Otherwise, for backends
-+                * that don't rely on V4L2 (perhaps dvb) these flags will
-+                * always be false and, hence, videobuf2 core will skip cache
-+                * sync/flush operations.
-+                */
-+               vb->need_cache_sync_on_prepare = 1;
-+               vb->need_cache_sync_on_finish = 1;
-                for (plane = 0; plane < num_planes; ++plane) {
-                        vb->planes[plane].length = plane_sizes[plane];
-                        vb->planes[plane].min_length = plane_sizes[plane];
+	if (!q->allow_cache_hints && q->memory != VB2_MEMORY_DMABUF) {
+		vb->need_cache_sync_on_prepare = 1;
+		vb->need_cache_sync_on_finish = 1;
+	}
+
+Or am I missing something?
+
+DVB drivers do not set this flag, and even for DVB cache sync shouldn't be
+needed for DMABUF, right?
+
+Regards,
+
+	Hans
+
+> 
+> ---
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 5499013cf82e..21b2b0ae3629 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -414,6 +414,16 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>                 vb->index = q->num_buffers + buffer;
+>                 vb->type = q->type;
+>                 vb->memory = memory;
+> +               /*
+> +                * A workaround fix. We need to set these flags here so that
+> +                * videobuf2 core will always call ->prepare()/->finish()
+> +                * cache sync/flush on vb2 buffers. Otherwise, for backends
+> +                * that don't rely on V4L2 (perhaps dvb) these flags will
+> +                * always be false and, hence, videobuf2 core will skip cache
+> +                * sync/flush operations.
+> +                */
+> +               vb->need_cache_sync_on_prepare = 1;
+> +               vb->need_cache_sync_on_finish = 1;
+>                 for (plane = 0; plane < num_planes; ++plane) {
+>                         vb->planes[plane].length = plane_sizes[plane];
+>                         vb->planes[plane].min_length = plane_sizes[plane];
+> 
+
