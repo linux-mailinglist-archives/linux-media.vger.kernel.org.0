@@ -2,151 +2,136 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D64392C65AD
-	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 13:23:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8B58D2C65D6
+	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 13:41:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728224AbgK0MWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Nov 2020 07:22:22 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:51413 "EHLO
-        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726992AbgK0MWV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Nov 2020 07:22:21 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id iclSkPsuGDuFjiclWkqkCe; Fri, 27 Nov 2020 13:22:19 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606479739; bh=gLKVO4B9hk3ur9g9OPAp2QxtlQEayrDgQFfRtpygLIg=;
-        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=pVSk9gZoGDRnGQGxGa/eChMCBwEICU5SG+M4lml0TlJAJpyZD+Ct5MW8t3TM0aM3g
-         Sp+coHF8PsffS6aOykSURIMBT4oMdqRvnkCoyzUYkrc39Vku1SmLVnEZDfixhIEvZt
-         nNdZ92qjU4mVruvQXpcSTVrdCxL8ZOz1jW8kHtbDt7P22rOw8VmhRzGokvtRbSWkxh
-         9Z9TTx2ReUu2jBs3eKNblXm2h9+F0aUx5v60dlBUCIoSUI2GD71r/nahHhj1OhdtP5
-         OGhtklD0j6PI0mXcS0Ff2zDhHfeoskaRTew0DLb+yTcWq5i7R/8kZqDdM6XPpdL+Ac
-         OAWP2KqI+YOgA==
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Cc:     Maxime Ripard <maxime@cerno.tech>,
-        Hans Verkuil <hans.verkuil@cisco.com>
-Subject: [PATCH for v5.10 2/2] pulse8-cec: add support for FW v10 and up
-Date:   Fri, 27 Nov 2020 13:22:14 +0100
-Message-Id: <20201127122214.126701-3-hverkuil-cisco@xs4all.nl>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201127122214.126701-1-hverkuil-cisco@xs4all.nl>
-References: <20201127122214.126701-1-hverkuil-cisco@xs4all.nl>
+        id S1729422AbgK0MlG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Nov 2020 07:41:06 -0500
+Received: from mail.kernel.org ([198.145.29.99]:49312 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728340AbgK0MlG (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 27 Nov 2020 07:41:06 -0500
+Received: from coco.lan (ip5f5ad5a6.dynamic.kabel-deutschland.de [95.90.213.166])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by mail.kernel.org (Postfix) with ESMTPSA id EB89222240;
+        Fri, 27 Nov 2020 12:41:03 +0000 (UTC)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=default; t=1606480865;
+        bh=Knjx8Ds+9n9DrWDY3pEXUQJXT6psTdPlMPP6Ng/RsPI=;
+        h=Date:From:To:Cc:Subject:From;
+        b=wkkHUfefVS/6PNLa2srpgw035nmpZXgyNOr//wp3Nt1bKNOYG5GClpZZCiYZ0inQh
+         p7ujjchgdmKLUUvnSzY+yjr715I6BxzBRSPPvAF1Sf89cmt6ELggYWBNbSk67J0U/8
+         h5GaaZg7EV6Kux+GN2SOJL66wktW+M8BHlUcVK2k=
+Date:   Fri, 27 Nov 2020 13:41:00 +0100
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Linus Torvalds <torvalds@linux-foundation.org>
+Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
+Subject: [GIT PULL for v5.10-rc6] vidtv driver fixes
+Message-ID: <20201127134100.101be34e@coco.lan>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfAa9HXBdlWeMZpsKv7QNEw7D5kVgwmdeHzO5f283XC8VwLA+uWA4sHTbkiRDpBuTFbSlYflV/0CCnpEP0Ikj5pv7pqDLCgHwBDN0idw1DlGlrx2guEAB
- GlgJWCiStvdJBptQmreb2Az8B+N0Q3mYY9d/a4EWVKaFSipsxlq6PELBnkL+A3EzPU0PTprh65V7jLxtSIavWna/hXMzXSyT9u/3eVFEUN0pyauCwQ65+Fth
- kLJg5dWbk/3K8GmeC6qK838pAmdZprEtRKGm2/s2L/8=
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Hans Verkuil <hans.verkuil@cisco.com>
+Hi Linus,
 
-Starting with firmware version 10 the GET/SET_HDMI_VERSION message
-was removed and GET/SET_AUTO_POWER_ON was added.
+Please pull from:
+  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.10-3
 
-The removal of GET/SET_HDMI_VERSION caused the probe of the
-Pulse-Eight to fail. Add a version check to handle this gracefully.
+For a series of fixes for the new the virtual digital TV driver (vidtv),
+which is meant to help doing tests with the digital TV core and media
+userspace apps and libraries.
 
-Also show (but do not set) the Auto Power On value.
+They cover a series of issues I found on it, together with a few new things
+in order to make it easier to detect problems at the DVB core.
 
-Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
-Reported-by: Maxime Ripard <maxime@cerno.tech>
----
- drivers/media/cec/usb/pulse8/pulse8-cec.c | 43 ++++++++++++++++-------
- 1 file changed, 30 insertions(+), 13 deletions(-)
 
-diff --git a/drivers/media/cec/usb/pulse8/pulse8-cec.c b/drivers/media/cec/usb/pulse8/pulse8-cec.c
-index 5d3a3f775bc8..04b13cdc38d2 100644
---- a/drivers/media/cec/usb/pulse8/pulse8-cec.c
-+++ b/drivers/media/cec/usb/pulse8/pulse8-cec.c
-@@ -88,13 +88,15 @@ enum pulse8_msgcodes {
- 	MSGCODE_SET_PHYSICAL_ADDRESS,	/* 0x20 */
- 	MSGCODE_GET_DEVICE_TYPE,
- 	MSGCODE_SET_DEVICE_TYPE,
--	MSGCODE_GET_HDMI_VERSION,
-+	MSGCODE_GET_HDMI_VERSION,	/* Removed in FW >= 10 */
- 	MSGCODE_SET_HDMI_VERSION,
- 	MSGCODE_GET_OSD_NAME,
- 	MSGCODE_SET_OSD_NAME,
- 	MSGCODE_WRITE_EEPROM,
- 	MSGCODE_GET_ADAPTER_TYPE,	/* 0x28 */
- 	MSGCODE_SET_ACTIVE_SOURCE,
-+	MSGCODE_GET_AUTO_POWER_ON,	/* New for FW >= 10 */
-+	MSGCODE_SET_AUTO_POWER_ON,
- 
- 	MSGCODE_FRAME_EOM = 0x80,
- 	MSGCODE_FRAME_ACK = 0x40,
-@@ -143,6 +145,8 @@ static const char * const pulse8_msgnames[] = {
- 	"WRITE_EEPROM",
- 	"GET_ADAPTER_TYPE",
- 	"SET_ACTIVE_SOURCE",
-+	"GET_AUTO_POWER_ON",
-+	"SET_AUTO_POWER_ON",
- };
- 
- static const char *pulse8_msgname(u8 cmd)
-@@ -579,12 +583,14 @@ static int pulse8_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
- 	if (err)
- 		goto unlock;
- 
--	cmd[0] = MSGCODE_SET_HDMI_VERSION;
--	cmd[1] = adap->log_addrs.cec_version;
--	err = pulse8_send_and_wait(pulse8, cmd, 2,
--				   MSGCODE_COMMAND_ACCEPTED, 0);
--	if (err)
--		goto unlock;
-+	if (pulse8->vers < 10) {
-+		cmd[0] = MSGCODE_SET_HDMI_VERSION;
-+		cmd[1] = adap->log_addrs.cec_version;
-+		err = pulse8_send_and_wait(pulse8, cmd, 2,
-+					   MSGCODE_COMMAND_ACCEPTED, 0);
-+		if (err)
-+			goto unlock;
-+	}
- 
- 	if (adap->log_addrs.osd_name[0]) {
- 		size_t osd_len = strlen(adap->log_addrs.osd_name);
-@@ -691,6 +697,14 @@ static int pulse8_setup(struct pulse8 *pulse8, struct serio *serio,
- 	dev_dbg(pulse8->dev, "Autonomous mode: %s",
- 		data[0] ? "on" : "off");
- 
-+	if (pulse8->vers >= 10) {
-+		cmd[0] = MSGCODE_GET_AUTO_POWER_ON;
-+		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
-+		if (!err)
-+			dev_dbg(pulse8->dev, "Auto Power On: %s",
-+				data[0] ? "on" : "off");
-+	}
-+
- 	cmd[0] = MSGCODE_GET_DEVICE_TYPE;
- 	err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
- 	if (err)
-@@ -752,12 +766,15 @@ static int pulse8_setup(struct pulse8 *pulse8, struct serio *serio,
- 	dev_dbg(pulse8->dev, "Physical address: %x.%x.%x.%x\n",
- 		cec_phys_addr_exp(*pa));
- 
--	cmd[0] = MSGCODE_GET_HDMI_VERSION;
--	err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
--	if (err)
--		return err;
--	log_addrs->cec_version = data[0];
--	dev_dbg(pulse8->dev, "CEC version: %d\n", log_addrs->cec_version);
-+	log_addrs->cec_version = CEC_OP_CEC_VERSION_1_4;
-+	if (pulse8->vers < 10) {
-+		cmd[0] = MSGCODE_GET_HDMI_VERSION;
-+		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
-+		if (err)
-+			return err;
-+		log_addrs->cec_version = data[0];
-+		dev_dbg(pulse8->dev, "CEC version: %d\n", log_addrs->cec_version);
-+	}
- 
- 	cmd[0] = MSGCODE_GET_OSD_NAME;
- 	err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 0);
--- 
-2.29.2
+Regards,
+Mauro
+
+The following changes since commit 9215f6bb4705ffe205885411394732bfc439dee0:
+
+  media: venus: pm_helpers: Fix kernel module reload (2020-11-16 19:06:10 +0100)
+
+are available in the Git repository at:
+
+  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.10-3
+
+for you to fetch changes up to 44f28934af141149959c4e6495bb60c1903bda32:
+
+  media: vidtv.rst: add kernel-doc markups (2020-11-26 08:05:24 +0100)
+
+----------------------------------------------------------------
+media fixes for v5.10-rc6
+
+----------------------------------------------------------------
+Daniel W. S. Almeida (6):
+      media: vidtv: extract the initial CRC value to into a #define
+      media: vidtv: psi: add a Network Information Table (NIT)
+      media: vidtv: psi: Implement an Event Information Table (EIT)
+      media: vidtv: psi: extract descriptor chaining code into a helper
+      media: vidtv: Move s302m specific fields into encoder context
+      media: vidtv: psi: fix missing assignments in while loops
+
+Mauro Carvalho Chehab (30):
+      media: vidtv: reorganize includes
+      media: vidtv: add error checks
+      media: vidtv: don't use recursive functions
+      media: vidtv: fix the name of the program
+      media: vidtv: fix the tone generator logic
+      media: vidtv: fix some notes at the tone generator
+      media: vidtv: avoid data copy when initializing the multiplexer
+      media: vidtv: avoid copying data for PES structs
+      media: vidtv: do some cleanups at the driver
+      media: vidtv: remove some unused functions
+      media: vidtv: pre-initialize mux arrays
+      media: vidtv: cleanup null packet initialization logic
+      media: vidtv: improve EIT data
+      media: vidtv: fix the network ID range
+      media: vidtv: properly fill EIT service_id
+      media: vidtv: add a PID entry for the NIT table
+      media: vidtv: fix service type
+      media: vidtv: fix service_id at SDT table
+      media: vidtv: add date to the current event
+      media: vidtv: simplify PSI write function
+      media: vidtv: simplify the crc writing logic
+      media: vidtv: cleanup PSI descriptor write function
+      media: vidtv: cleanup PSI table header function
+      media: vidtv: cleanup PAT write function
+      media: vidtv: cleanup PMT write table function
+      media: vidtv: simplify SDT write function
+      media: vidtv: simplify NIT write function
+      media: vidtv: simplify EIT write function
+      media: vidtv.rst: update vidtv documentation
+      media: vidtv.rst: add kernel-doc markups
+
+ Documentation/driver-api/media/drivers/vidtv.rst |  120 +-
+ drivers/media/test-drivers/vidtv/vidtv_bridge.c  |  116 +-
+ drivers/media/test-drivers/vidtv/vidtv_bridge.h  |    4 +-
+ drivers/media/test-drivers/vidtv/vidtv_channel.c |  312 ++++-
+ drivers/media/test-drivers/vidtv/vidtv_channel.h |   11 +-
+ drivers/media/test-drivers/vidtv/vidtv_common.h  |    1 -
+ drivers/media/test-drivers/vidtv/vidtv_demod.c   |    2 +-
+ drivers/media/test-drivers/vidtv/vidtv_demod.h   |   11 +-
+ drivers/media/test-drivers/vidtv/vidtv_encoder.h |    9 +-
+ drivers/media/test-drivers/vidtv/vidtv_mux.c     |  248 ++--
+ drivers/media/test-drivers/vidtv/vidtv_mux.h     |   21 +-
+ drivers/media/test-drivers/vidtv/vidtv_pes.c     |  179 ++-
+ drivers/media/test-drivers/vidtv/vidtv_pes.h     |    8 +-
+ drivers/media/test-drivers/vidtv/vidtv_psi.c     | 1521 ++++++++++++++++------
+ drivers/media/test-drivers/vidtv/vidtv_psi.h     |  282 +++-
+ drivers/media/test-drivers/vidtv/vidtv_s302m.c   |  125 +-
+ drivers/media/test-drivers/vidtv/vidtv_s302m.h   |    9 +-
+ drivers/media/test-drivers/vidtv/vidtv_ts.c      |    5 +-
+ drivers/media/test-drivers/vidtv/vidtv_ts.h      |    5 +-
+ drivers/media/test-drivers/vidtv/vidtv_tuner.c   |    5 +-
+ drivers/media/test-drivers/vidtv/vidtv_tuner.h   |    1 +
+ 21 files changed, 2182 insertions(+), 813 deletions(-)
 
