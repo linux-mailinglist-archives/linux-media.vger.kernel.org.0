@@ -2,178 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 463B52C5F4C
-	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 05:43:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DB642C5F5C
+	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 05:58:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404641AbgK0EmQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 26 Nov 2020 23:42:16 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:37889 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1731606AbgK0EmQ (ORCPT
+        id S2404668AbgK0E4d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 26 Nov 2020 23:56:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58046 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731606AbgK0E4d (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 26 Nov 2020 23:42:16 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id iVaGkSMeTN7XgiVaHka6Tg; Fri, 27 Nov 2020 05:42:13 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606452133; bh=bd3OQKBgFsBJaUjEyG49cx6QY+9sEDteaDPbGfxIz+Q=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=nPzcq/F33/WPo6YOKXrFpmE4uXiADNMZuFJj9iKHnWRQbpzcJoxiiTwskGfSeLT3R
-         CJ94rla2gBmYNr9QLTkSet0xVV8YK/u6DMuOVvx/uLmFCiKkLqXe8Lcq72y6UlNf2x
-         R/eOiK/zfiC5StoTTrJHSFOJ3cVOrFSi8l3bw5w5NpW6t8g8CJL4o4YiDpPE6bVtbc
-         Zs3ZkkS857HEAHOv0llqmTHq22tyXFQdMYJUvFFm4qlR0sLfMxp6iJqtFcBt4EamvL
-         DnfTJiuQkH4JW0lNyCqNFz4mGlAKqr8B3U8hW/Y1+wT4wuHKnngDFJJWlg5JxD4v6e
-         48uGiqMcD6f3A==
-Message-ID: <734f68d54b1b902eb7923ca12aee3976@smtp-cloud7.xs4all.net>
-Date:   Fri, 27 Nov 2020 05:42:12 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfGi2EHGHIIxB+Uo8xXYg9KqHIOMTEKys9PmWdgeu0VfJcROIBFVYcJIL7Uz2pu0hN2g0ovI7qo0jwzt5cLv/XLo94OD4l03h2VjcBxVDQhNm+BPJHHZw
- vesqaFiEBIgZa8FBT4JhDXiiHt0m6R6McHNypG9Exy0+M3Chb9/OhpXcXM4yNPdwYFUmVTp9sJnexJTWveiBmZ0yIQpBly9oH1uuhH5WUGj8+TQe+DkhoHjp
- nomKXsL7YmypjtClxq0Mqw==
+        Thu, 26 Nov 2020 23:56:33 -0500
+Received: from mail-wr1-x435.google.com (mail-wr1-x435.google.com [IPv6:2a00:1450:4864:20::435])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CCDAFC0613D1;
+        Thu, 26 Nov 2020 20:56:32 -0800 (PST)
+Received: by mail-wr1-x435.google.com with SMTP id t4so4214484wrr.12;
+        Thu, 26 Nov 2020 20:56:32 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=6Cj/13aEZYs6bV9q9GcsmWru9cRPsDN5Amlb4LASu5I=;
+        b=KMZEyp4fZQhpFWUe2Pw/21tRJa5WcrJQ+T6u7Bh2/JvXkV4l0Ovvd5EHY3Sm9pRZY9
+         0EVcAfpw2cltJYhNmlcq9ksb0qO2ORJqRsVZwY41xPs4V2VAsX1E3cP6v+9qbhPXF0vZ
+         UKdd6OInyn3k0ZN3I1N6tE2EUZTxONsXzq1I3aYy5+XLTcy4rhd/XwEJb7GrJaPQt1HS
+         B0s9TFbY5O+WE09k8Jm8mEQBJUPdk1eeOwHsno/Ge1R5xC/mVFG2JaDczdzZB8RTUrNT
+         iWJBElCKMls8fKhKOVFiXCtMBCzhugccNI3VvwxmKl6njKMVJbteBfeDycMl73/DPRoH
+         hzoA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=6Cj/13aEZYs6bV9q9GcsmWru9cRPsDN5Amlb4LASu5I=;
+        b=dkpbRU02tBDILYuF1k0Fkv36H9Gjwm8JfNd+v7WmxII8P5PO4G/ex3MN5Va1lqT/TJ
+         f2hwUDa88fy1MCZ8FCXciH/3xN4SCM5rpyAlogHGOAz71iqww7qJwLFoLHpAXi/l76tQ
+         W4Jw0GN8kGutr8/GOxyWZsc9CDOMagKuiaYuvS57EMr/49aIYnH+rob3wzVKEFhg5ygr
+         c+Q7pisAngZrbyUK/8D7UVjZ5YrubYdSOH20wi/cx8VgIH5poUhFipy+/TzTMx3Jz8r5
+         V5rQwMVhgzMV9vJOU2/JBw1CSjU6ZJQn8YryugQiHWAlcmTYBMuftMUmpYvr7TyyCME8
+         hm4g==
+X-Gm-Message-State: AOAM531ENA7EEpyGC+iW8S+HNLoEm/kpN+PGNOpRaiRuczjVyw3zymmF
+        PvCGXBgwweRT9cv8M17xnCE=
+X-Google-Smtp-Source: ABdhPJyYxKDK/IzhE4SM9fqoP9FQdcEzJZ6qwWQ0Ehfii9mmW0tfHZagtsJ1dxEqFbBkSquqNfXs7w==
+X-Received: by 2002:adf:f349:: with SMTP id e9mr7875941wrp.110.1606452991403;
+        Thu, 26 Nov 2020 20:56:31 -0800 (PST)
+Received: from localhost.localdomain ([87.200.95.144])
+        by smtp.gmail.com with ESMTPSA id x13sm11023166wmi.20.2020.11.26.20.56.29
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 26 Nov 2020 20:56:30 -0800 (PST)
+From:   Christian Hewitt <christianshewitt@gmail.com>
+To:     Sean Young <sean@mess.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org
+Cc:     Christian Hewitt <christianshewitt@gmail.com>,
+        Jonas Karlman <jonas@kwiboo.se>
+Subject: [PATCH v3] media: rc: add keymap for pine64 remote
+Date:   Fri, 27 Nov 2020 04:56:27 +0000
+Message-Id: <20201127045627.12882-1-christianshewitt@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+From: Jonas Karlman <jonas@kwiboo.se>
 
-Results of the daily build of media_tree:
+Add a keymap for the pine64 IR remote [0]. The mouse key has been mapped to
+KEY_EPG to provide a more useful remote.
 
-date:			Fri Nov 27 05:00:08 CET 2020
-media-tree git hash:	711561a41d1f70ad939c3ff3cf00e75fa8238337
-media_build git hash:	efebcbca1e44be2502829ae9bd9a9ff90b90e310
-v4l-utils git hash:	11da65eee7a271bba3f21d8117cdac428fe3a91e
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 63a52153f10bfed851877e415b3507560c94cfd1
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+[0] http://files.pine64.org/doc/Pine%20A64%20Schematic/remote-wit-logo.jpg
 
-linux-git-arm-at91: OK
-linux-git-sh: OK
-linux-git-powerpc64: OK
-linux-git-arm-davinci: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 3
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: OK
-smatch: WARNINGS
+Signed-off-by: Jonas Karlman <jonas@kwiboo.se>
+Signed-off-by: Christian Hewitt <christianshewitt@gmail.com>
+---
+Changes since v2:
+- added missing rc-map.h change
 
-Detailed results are available here:
+Changes since v1 [1]:
+- reorder code to match the physical layout
+- assign KEY_EPG instead of KEY_CONTEXT_MENU
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
+KEY_CONTEXT_MENU duplicates KEY_MENU, and while Seans suggestion of BTN_LEFT
+visually matches the key, this duplicates KEY_OK in most GUI's designed for
+remote naviagation, e.g. Kodi and Plex. I've chosen to map KEY_EPG as this
+is a common tweak in user forums to extend IR remote functionality.
 
-Detailed regression test results are available here:
+[1] https://patchwork.kernel.org/project/linux-media/patch/AM3PR03MB09661A45FEB90FFC3CB44508AC630@AM3PR03MB0966.eurprd03.prod.outlook.com/
 
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
+ .../devicetree/bindings/media/rc.yaml         |  1 +
+ drivers/media/rc/keymaps/Makefile             |  1 +
+ drivers/media/rc/keymaps/rc-pine64.c          | 65 +++++++++++++++++++
+ include/media/rc-map.h                        |  1 +
+ 4 files changed, 68 insertions(+)
+ create mode 100644 drivers/media/rc/keymaps/rc-pine64.c
 
-Full logs are available here:
+diff --git a/Documentation/devicetree/bindings/media/rc.yaml b/Documentation/devicetree/bindings/media/rc.yaml
+index 03cf40f91d6c..946441b4e1a5 100644
+--- a/Documentation/devicetree/bindings/media/rc.yaml
++++ b/Documentation/devicetree/bindings/media/rc.yaml
+@@ -103,6 +103,7 @@ properties:
+       - rc-npgtech
+       - rc-odroid
+       - rc-pctv-sedna
++      - rc-pine64
+       - rc-pinnacle-color
+       - rc-pinnacle-grey
+       - rc-pinnacle-pctv-hd
+diff --git a/drivers/media/rc/keymaps/Makefile b/drivers/media/rc/keymaps/Makefile
+index 1c4d6bec0ae4..b252a1d2ebd6 100644
+--- a/drivers/media/rc/keymaps/Makefile
++++ b/drivers/media/rc/keymaps/Makefile
+@@ -80,6 +80,7 @@ obj-$(CONFIG_RC_MAP) += rc-adstech-dvb-t-pci.o \
+ 			rc-npgtech.o \
+ 			rc-odroid.o \
+ 			rc-pctv-sedna.o \
++			rc-pine64.o \
+ 			rc-pinnacle-color.o \
+ 			rc-pinnacle-grey.o \
+ 			rc-pinnacle-pctv-hd.o \
+diff --git a/drivers/media/rc/keymaps/rc-pine64.c b/drivers/media/rc/keymaps/rc-pine64.c
+new file mode 100644
+index 000000000000..9b2bdbbce04e
+--- /dev/null
++++ b/drivers/media/rc/keymaps/rc-pine64.c
+@@ -0,0 +1,65 @@
++// SPDX-License-Identifier: GPL-2.0+
++
++// Keytable for the Pine64 IR Remote Controller
++// Copyright (c) 2017 Jonas Karlman
++
++#include <media/rc-map.h>
++#include <linux/module.h>
++
++static struct rc_map_table pine64[] = {
++	{ 0x40404d, KEY_POWER },
++	{ 0x40401f, KEY_WWW },
++	{ 0x40400a, KEY_MUTE },
++
++	{ 0x404017, KEY_VOLUMEDOWN },
++	{ 0x404018, KEY_VOLUMEUP },
++
++	{ 0x404010, KEY_LEFT },
++	{ 0x404011, KEY_RIGHT },
++	{ 0x40400b, KEY_UP },
++	{ 0x40400e, KEY_DOWN },
++	{ 0x40400d, KEY_OK },
++
++	{ 0x40401d, KEY_MENU },
++	{ 0x40401a, KEY_HOME },
++
++	{ 0x404045, KEY_BACK },
++
++	{ 0x404001, KEY_NUMERIC_1 },
++	{ 0x404002, KEY_NUMERIC_2 },
++	{ 0x404003, KEY_NUMERIC_3 },
++	{ 0x404004, KEY_NUMERIC_4 },
++	{ 0x404005, KEY_NUMERIC_5 },
++	{ 0x404006, KEY_NUMERIC_6 },
++	{ 0x404007, KEY_NUMERIC_7 },
++	{ 0x404008, KEY_NUMERIC_8 },
++	{ 0x404009, KEY_NUMERIC_9 },
++	{ 0x40400c, KEY_BACKSPACE },
++	{ 0x404000, KEY_NUMERIC_0 },
++	{ 0x404047, KEY_EPG }, // mouse
++};
++
++static struct rc_map_list pine64_map = {
++	.map = {
++		.scan     = pine64,
++		.size     = ARRAY_SIZE(pine64),
++		.rc_proto = RC_PROTO_NECX,
++		.name     = RC_MAP_PINE64,
++	}
++};
++
++static int __init init_rc_map_pine64(void)
++{
++	return rc_map_register(&pine64_map);
++}
++
++static void __exit exit_rc_map_pine64(void)
++{
++	rc_map_unregister(&pine64_map);
++}
++
++module_init(init_rc_map_pine64)
++module_exit(exit_rc_map_pine64)
++
++MODULE_LICENSE("GPL");
++MODULE_AUTHOR("Jonas Karlman");
+diff --git a/include/media/rc-map.h b/include/media/rc-map.h
+index fa270f16a97b..999b750bc6b8 100644
+--- a/include/media/rc-map.h
++++ b/include/media/rc-map.h
+@@ -283,6 +283,7 @@ struct rc_map *rc_map_get(const char *name);
+ #define RC_MAP_NPGTECH                   "rc-npgtech"
+ #define RC_MAP_ODROID                    "rc-odroid"
+ #define RC_MAP_PCTV_SEDNA                "rc-pctv-sedna"
++#define RC_MAP_PINE64                    "rc-pine64"
+ #define RC_MAP_PINNACLE_COLOR            "rc-pinnacle-color"
+ #define RC_MAP_PINNACLE_GREY             "rc-pinnacle-grey"
+ #define RC_MAP_PINNACLE_PCTV_HD          "rc-pinnacle-pctv-hd"
+-- 
+2.17.1
 
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
