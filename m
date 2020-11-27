@@ -2,114 +2,151 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6A4CE2C65AE
-	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 13:23:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D64392C65AD
+	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 13:23:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728235AbgK0MWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1728224AbgK0MWW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Fri, 27 Nov 2020 07:22:22 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:47105 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727455AbgK0MWV (ORCPT
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:51413 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726992AbgK0MWV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 27 Nov 2020 07:22:21 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id iclSkPsuGDuFjiclWkqkCb; Fri, 27 Nov 2020 13:22:18 +0100
+        id iclSkPsuGDuFjiclWkqkCe; Fri, 27 Nov 2020 13:22:19 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606479738; bh=tO8qSW5OnpBmWb7DlqXlf6YMvdUzvHsImQT5vhtZeVM=;
+        t=1606479739; bh=gLKVO4B9hk3ur9g9OPAp2QxtlQEayrDgQFfRtpygLIg=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=Sd0PchQ6mX/qUeTohABP+0/s4h1Iqd1WFFKqKIE86yH5pz/E+ro1FyMjTauZscXtz
-         jhI71rqJa4oBp6Uc8K71K/bAqzqQfJ3uNpdcRZXvN6hFNzC3MugR1cdsRNCCZolndu
-         Fv7nO2WIsa1N6Y4ZygwGMTVV+os/E1aKamgGk0iPmBFRJrhJ4Sa6Ef6MnKnZzXIMV0
-         +OsnC/9Q8RdGUmFiPWOs5F1Ds6UhJFzNE/BklRLDM/b06k+PvEGTqaU+ufPWWLm5Jc
-         BzhCT2fwl7YCZcqSd65X7utAjf8/R7O0zSe2vPxxY9WjzdpMJrQTWQA50VpqInpT+2
-         24jFgcY5dFQtg==
+        b=pVSk9gZoGDRnGQGxGa/eChMCBwEICU5SG+M4lml0TlJAJpyZD+Ct5MW8t3TM0aM3g
+         Sp+coHF8PsffS6aOykSURIMBT4oMdqRvnkCoyzUYkrc39Vku1SmLVnEZDfixhIEvZt
+         nNdZ92qjU4mVruvQXpcSTVrdCxL8ZOz1jW8kHtbDt7P22rOw8VmhRzGokvtRbSWkxh
+         9Z9TTx2ReUu2jBs3eKNblXm2h9+F0aUx5v60dlBUCIoSUI2GD71r/nahHhj1OhdtP5
+         OGhtklD0j6PI0mXcS0Ff2zDhHfeoskaRTew0DLb+yTcWq5i7R/8kZqDdM6XPpdL+Ac
+         OAWP2KqI+YOgA==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Maxime Ripard <maxime@cerno.tech>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCH for v5.10 1/2] pulse8-cec: fix duplicate free at disconnect or probe error
-Date:   Fri, 27 Nov 2020 13:22:13 +0100
-Message-Id: <20201127122214.126701-2-hverkuil-cisco@xs4all.nl>
+        Hans Verkuil <hans.verkuil@cisco.com>
+Subject: [PATCH for v5.10 2/2] pulse8-cec: add support for FW v10 and up
+Date:   Fri, 27 Nov 2020 13:22:14 +0100
+Message-Id: <20201127122214.126701-3-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201127122214.126701-1-hverkuil-cisco@xs4all.nl>
 References: <20201127122214.126701-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfCI2x+FT1W3infBpAwg8JpW+78HkGwN3u+nBE7/pVkwQcrqPHbLo+ltLF4qpNzfBJNEMjxtT0JfALfBMNstKdV+jdyE9BH2izAVJzm9tlTHGq7QZuOMl
- +zY+C2JHAn/byUsuIHsedSKn/BRDjP9OYTwaelkXsLX3Sb0uBV5HGbY6obK7Te7ABYBxnJMyFm/iBtg7TTSghjRERcOV9SjpvUBuRAJm7KhxR4D+wpA09xkr
- jEsI4YzQR+wcDyB50yNPKwJuKkgJaYWPFGgjVmrX2Nk=
+X-CMAE-Envelope: MS4xfAa9HXBdlWeMZpsKv7QNEw7D5kVgwmdeHzO5f283XC8VwLA+uWA4sHTbkiRDpBuTFbSlYflV/0CCnpEP0Ikj5pv7pqDLCgHwBDN0idw1DlGlrx2guEAB
+ GlgJWCiStvdJBptQmreb2Az8B+N0Q3mYY9d/a4EWVKaFSipsxlq6PELBnkL+A3EzPU0PTprh65V7jLxtSIavWna/hXMzXSyT9u/3eVFEUN0pyauCwQ65+Fth
+ kLJg5dWbk/3K8GmeC6qK838pAmdZprEtRKGm2/s2L/8=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Commit 601282d65b96b ("media: pulse8-cec: use adap_free callback") used
-the adap_free callback to clean up on disconnect. What I forgot was that
-in the probe it will call cec_delete_adapter() followed by kfree(pulse8)
-if an error occurs. But by using the adap_free callback,
-cec_delete_adapter() is already freeing the pulse8 struct.
+From: Hans Verkuil <hans.verkuil@cisco.com>
 
-This wasn't noticed since normally the probe works fine, but Pulse-Eight
-published a new firmware version that caused a probe error, so now it
-hits this bug. This affects firmware version 12, but probably any
-version >= 10.
+Starting with firmware version 10 the GET/SET_HDMI_VERSION message
+was removed and GET/SET_AUTO_POWER_ON was added.
 
-Commit aa9eda76129ca ("media: pulse8-cec: close serio in disconnect, not
-adap_free") made this worse by adding the line 'pulse8->serio = NULL'
-right after the call to cec_unregister_adapter in the disconnect()
-function. Unfortunately, cec_unregister_adapter will typically call
-cec_delete_adapter (unless a filehandle to the cec device is still
-open), which frees the pulse8 struct. So now it will also crash on a
-simple unplug of the Pulse-Eight device.
+The removal of GET/SET_HDMI_VERSION caused the probe of the
+Pulse-Eight to fail. Add a version check to handle this gracefully.
 
-With this fix both the unplug issue and a probe() error situation are
-handled correctly again.
+Also show (but do not set) the Auto Power On value.
 
-It will still fail to probe() with a v12 firmware, that's something
-to look at separately.
-
-Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Signed-off-by: Hans Verkuil <hans.verkuil@cisco.com>
 Reported-by: Maxime Ripard <maxime@cerno.tech>
-Fixes: aa9eda76129ca ("media: pulse8-cec: close serio in disconnect, not adap_free")
-Fixes: 601282d65b96b ("media: pulse8-cec: use adap_free callback")
 ---
- drivers/media/cec/usb/pulse8/pulse8-cec.c | 9 ++++-----
- 1 file changed, 4 insertions(+), 5 deletions(-)
+ drivers/media/cec/usb/pulse8/pulse8-cec.c | 43 ++++++++++++++++-------
+ 1 file changed, 30 insertions(+), 13 deletions(-)
 
 diff --git a/drivers/media/cec/usb/pulse8/pulse8-cec.c b/drivers/media/cec/usb/pulse8/pulse8-cec.c
-index e4d8446b87da..5d3a3f775bc8 100644
+index 5d3a3f775bc8..04b13cdc38d2 100644
 --- a/drivers/media/cec/usb/pulse8/pulse8-cec.c
 +++ b/drivers/media/cec/usb/pulse8/pulse8-cec.c
-@@ -650,7 +650,6 @@ static void pulse8_disconnect(struct serio *serio)
- 	struct pulse8 *pulse8 = serio_get_drvdata(serio);
+@@ -88,13 +88,15 @@ enum pulse8_msgcodes {
+ 	MSGCODE_SET_PHYSICAL_ADDRESS,	/* 0x20 */
+ 	MSGCODE_GET_DEVICE_TYPE,
+ 	MSGCODE_SET_DEVICE_TYPE,
+-	MSGCODE_GET_HDMI_VERSION,
++	MSGCODE_GET_HDMI_VERSION,	/* Removed in FW >= 10 */
+ 	MSGCODE_SET_HDMI_VERSION,
+ 	MSGCODE_GET_OSD_NAME,
+ 	MSGCODE_SET_OSD_NAME,
+ 	MSGCODE_WRITE_EEPROM,
+ 	MSGCODE_GET_ADAPTER_TYPE,	/* 0x28 */
+ 	MSGCODE_SET_ACTIVE_SOURCE,
++	MSGCODE_GET_AUTO_POWER_ON,	/* New for FW >= 10 */
++	MSGCODE_SET_AUTO_POWER_ON,
  
- 	cec_unregister_adapter(pulse8->adap);
--	pulse8->serio = NULL;
- 	serio_set_drvdata(serio, NULL);
- 	serio_close(serio);
- }
-@@ -830,8 +829,10 @@ static int pulse8_connect(struct serio *serio, struct serio_driver *drv)
- 	pulse8->adap = cec_allocate_adapter(&pulse8_cec_adap_ops, pulse8,
- 					    dev_name(&serio->dev), caps, 1);
- 	err = PTR_ERR_OR_ZERO(pulse8->adap);
--	if (err < 0)
--		goto free_device;
-+	if (err < 0) {
-+		kfree(pulse8);
-+		return err;
+ 	MSGCODE_FRAME_EOM = 0x80,
+ 	MSGCODE_FRAME_ACK = 0x40,
+@@ -143,6 +145,8 @@ static const char * const pulse8_msgnames[] = {
+ 	"WRITE_EEPROM",
+ 	"GET_ADAPTER_TYPE",
+ 	"SET_ACTIVE_SOURCE",
++	"GET_AUTO_POWER_ON",
++	"SET_AUTO_POWER_ON",
+ };
+ 
+ static const char *pulse8_msgname(u8 cmd)
+@@ -579,12 +583,14 @@ static int pulse8_cec_adap_log_addr(struct cec_adapter *adap, u8 log_addr)
+ 	if (err)
+ 		goto unlock;
+ 
+-	cmd[0] = MSGCODE_SET_HDMI_VERSION;
+-	cmd[1] = adap->log_addrs.cec_version;
+-	err = pulse8_send_and_wait(pulse8, cmd, 2,
+-				   MSGCODE_COMMAND_ACCEPTED, 0);
+-	if (err)
+-		goto unlock;
++	if (pulse8->vers < 10) {
++		cmd[0] = MSGCODE_SET_HDMI_VERSION;
++		cmd[1] = adap->log_addrs.cec_version;
++		err = pulse8_send_and_wait(pulse8, cmd, 2,
++					   MSGCODE_COMMAND_ACCEPTED, 0);
++		if (err)
++			goto unlock;
 +	}
  
- 	pulse8->dev = &serio->dev;
- 	serio_set_drvdata(serio, pulse8);
-@@ -874,8 +875,6 @@ static int pulse8_connect(struct serio *serio, struct serio_driver *drv)
- 	serio_close(serio);
- delete_adap:
- 	cec_delete_adapter(pulse8->adap);
--free_device:
--	kfree(pulse8);
- 	return err;
- }
+ 	if (adap->log_addrs.osd_name[0]) {
+ 		size_t osd_len = strlen(adap->log_addrs.osd_name);
+@@ -691,6 +697,14 @@ static int pulse8_setup(struct pulse8 *pulse8, struct serio *serio,
+ 	dev_dbg(pulse8->dev, "Autonomous mode: %s",
+ 		data[0] ? "on" : "off");
  
++	if (pulse8->vers >= 10) {
++		cmd[0] = MSGCODE_GET_AUTO_POWER_ON;
++		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
++		if (!err)
++			dev_dbg(pulse8->dev, "Auto Power On: %s",
++				data[0] ? "on" : "off");
++	}
++
+ 	cmd[0] = MSGCODE_GET_DEVICE_TYPE;
+ 	err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
+ 	if (err)
+@@ -752,12 +766,15 @@ static int pulse8_setup(struct pulse8 *pulse8, struct serio *serio,
+ 	dev_dbg(pulse8->dev, "Physical address: %x.%x.%x.%x\n",
+ 		cec_phys_addr_exp(*pa));
+ 
+-	cmd[0] = MSGCODE_GET_HDMI_VERSION;
+-	err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
+-	if (err)
+-		return err;
+-	log_addrs->cec_version = data[0];
+-	dev_dbg(pulse8->dev, "CEC version: %d\n", log_addrs->cec_version);
++	log_addrs->cec_version = CEC_OP_CEC_VERSION_1_4;
++	if (pulse8->vers < 10) {
++		cmd[0] = MSGCODE_GET_HDMI_VERSION;
++		err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 1);
++		if (err)
++			return err;
++		log_addrs->cec_version = data[0];
++		dev_dbg(pulse8->dev, "CEC version: %d\n", log_addrs->cec_version);
++	}
+ 
+ 	cmd[0] = MSGCODE_GET_OSD_NAME;
+ 	err = pulse8_send_and_wait(pulse8, cmd, 1, cmd[0], 0);
 -- 
 2.29.2
 
