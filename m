@@ -2,80 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7345B2C6641
-	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 14:07:24 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AA1312C667A
+	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 14:13:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729867AbgK0NGF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Nov 2020 08:06:05 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:36892 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729850AbgK0NGE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Nov 2020 08:06:04 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kidRr-00CdmA-25; Fri, 27 Nov 2020 13:06:03 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kidUy-0008HE-0o; Fri, 27 Nov 2020 13:09:16 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for v5.10-rc6] vidtv driver fixes (#69439)
-Date:   Fri, 27 Nov 2020 13:09:15 +0000
-Message-Id: <20201127130915.31773-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201127134100.101be34e@coco.lan>
-References: 
+        id S1730304AbgK0NM3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Nov 2020 08:12:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49554 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730156AbgK0NM2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 27 Nov 2020 08:12:28 -0500
+Received: from mail-qt1-x842.google.com (mail-qt1-x842.google.com [IPv6:2607:f8b0:4864:20::842])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 58AD6C061A04
+        for <linux-media@vger.kernel.org>; Fri, 27 Nov 2020 05:12:28 -0800 (PST)
+Received: by mail-qt1-x842.google.com with SMTP id l2so3178124qtq.4
+        for <linux-media@vger.kernel.org>; Fri, 27 Nov 2020 05:12:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ziepe.ca; s=google;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=4mUb8VH3/zjOcaB0prxZNOCyhHeWL/oDXOLcVhlQukA=;
+        b=QeSI7USzNR/Hc9luEaErhq6plcg4go9/B0jTyGRabKffYek2H3en767PronC7EqjDo
+         tCgS7Jhbq/jTPd1JA2RC1+NR/OOvLrIacAkIJ8YKjPzi8TLM6jIUDyYleoGFJMsnGrIu
+         IkwSC4rBqYzreESJdoFCcmxCf1KhL7Q804smgB8quH8Lf/75GJJiLoa5Nyr5e5mYAfKc
+         BcJqfQSAdhbk0lurSwVxP1bn9QGb2WJl7XxF1jN6gZXVhgcnF3O6YoOPMR6yE6JH8Sn7
+         ++ZYzAAOIahg0CheN04AL1LTyUHtoiYaRgOesk1MY6c0vUqUuhIhc2liMY8W6WQhHlvA
+         76tA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=4mUb8VH3/zjOcaB0prxZNOCyhHeWL/oDXOLcVhlQukA=;
+        b=epj26/ETItiS41qOUkqDtpjmuLKtiqQiW7JUtZgk2jik7J6GXxUPWHclh22yNQO4cr
+         OqGGsVwCL76lJl3fEQXWO9xhOolVQRmL9J5d6wmM0JtyPRZ/yYVBtH2NY4jI/f3xiuBS
+         j8XmUKQHVsttvxiMyTQBMyJD8VpPszoVdMb0SIfFRTAKwg8DDhW+LjrHHN9EPqpddDPd
+         gAKJpkVmeLeyoSz9BMqWlWVo5s7aUHSDoVJmauon1etfHBD6/aNqPfivNxUFUE38AqFb
+         zgHj9PDtKq25CXo7B3RZriTLiaXRs+pFyzMuji6txd+BAKv/Wpe4OTuPzaJd+rRw8c94
+         KEcQ==
+X-Gm-Message-State: AOAM531k7M7iFEK3KftDy7Pn5P1JTGaGDn5M0dHcGuPqzj2mzi+V1HV5
+        XttDEWW8HmqjzaRwqzOaagUQUw==
+X-Google-Smtp-Source: ABdhPJwdT9CaiC8171EVRdtYjL9xHQSUnZ3qtSTbobXQaW4gNhkgGlUa+eUk68y2VsuHP79oL1WzOg==
+X-Received: by 2002:ac8:130d:: with SMTP id e13mr8308084qtj.3.1606482747424;
+        Fri, 27 Nov 2020 05:12:27 -0800 (PST)
+Received: from ziepe.ca (hlfxns017vw-156-34-48-30.dhcp-dynamic.fibreop.ns.bellaliant.net. [156.34.48.30])
+        by smtp.gmail.com with ESMTPSA id t205sm6026453qke.35.2020.11.27.05.12.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2020 05:12:26 -0800 (PST)
+Received: from jgg by mlx with local (Exim 4.94)
+        (envelope-from <jgg@ziepe.ca>)
+        id 1kidY1-002Xfv-SN; Fri, 27 Nov 2020 09:12:25 -0400
+Date:   Fri, 27 Nov 2020 09:12:25 -0400
+From:   Jason Gunthorpe <jgg@ziepe.ca>
+To:     Daniel Vetter <daniel.vetter@ffwll.ch>
+Cc:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>, kvm@vger.kernel.org,
+        linux-mm@kvack.org, linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v6 00/17] follow_pfn and other iomap races
+Message-ID: <20201127131225.GX5487@ziepe.ca>
+References: <20201119144146.1045202-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201119144146.1045202-1-daniel.vetter@ffwll.ch>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On Thu, Nov 19, 2020 at 03:41:29PM +0100, Daniel Vetter wrote:
+> I feel like this is ready for some wider soaking. Since the remaining bits
+> are all kinda connnected probably simplest if it all goes through -mm.
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20201127134100.101be34e@coco.lan/
-Build log: https://builder.linuxtv.org/job/patchwork/78851/
-Build time: 00:16:21
-Link: https://lore.kernel.org/linux-media/20201127134100.101be34e@coco.lan
+Did you figure out a sumbission plan for this stuff?
 
-gpg: Signature made Fri 27 Nov 2020 12:34:41 PM UTC
-gpg:                using RSA key F909AE68FC11DF09C1755C00085F3EBD8EE4E115
-gpg: Good signature from "Mauro Carvalho Chehab <mchehab+huawei@kernel.org>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@kernel.org>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <m.chehab@samsung.com>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@osg.samsung.com>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab@s-opensource.com>" [ultimate]
-gpg:                 aka "Mauro Carvalho Chehab <mchehab+samsung@kernel.org>" [ultimate]
-gpg:                 aka "[jpeg image of size 3594]" [ultimate]
+> Daniel Vetter (17):
+>   drm/exynos: Stop using frame_vector helpers
+>   drm/exynos: Use FOLL_LONGTERM for g2d cmdlists
+>   misc/habana: Stop using frame_vector helpers
+>   misc/habana: Use FOLL_LONGTERM for userptr
+>   mm/frame-vector: Use FOLL_LONGTERM
+>   media: videobuf2: Move frame_vector into media subsystem
 
-Summary: got 3/36 patches with issues, being 1 at build time, plus one error when buinding PDF document
+At the very least it would be good to get those in right away.
 
-Error/warnings:
+>   mm: Add unsafe_follow_pfn
+>   media/videbuf1|2: Mark follow_pfn usage as unsafe
+>   vfio/type1: Mark follow_pfn as unsafe
 
-patches/0008-media-vidtv-add-error-checks.patch:
+I'm surprised nobody from VFIO has remarked on this, I think thety
+won't like it
 
-   checkpatch.pl:
-	$ cat patches/0008-media-vidtv-add-error-checks.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:15: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+>   mm: Close race in generic_access_phys
+>   PCI: Obey iomem restrictions for procfs mmap
+>   /dev/mem: Only set filp->f_mapping
+>   resource: Move devmem revoke code to resource framework
+>   sysfs: Support zapping of binary attr mmaps
+>   PCI: Revoke mappings like devmem
 
-patches/0015-media-vidtv-do-some-cleanups-at-the-driver.patch:
+This sequence seems fairly stand alone, and in good shape as well
 
-    allmodconfig: return code #0:
-	../drivers/media/test-drivers/vidtv/vidtv_psi.c:116:12: warning: ‘vidtv_psi_pmt_get_desc_loop_len’ defined but not used [-Wunused-function]
-	../drivers/media/test-drivers/vidtv/vidtv_psi.c:105:1: warning: ‘vidtv_psi_pmt_stream_get_desc_loop_len’ defined but not used [-Wunused-function]
-	../drivers/media/test-drivers/vidtv/vidtv_psi.c:93:1: warning: ‘vidtv_psi_sdt_serv_get_desc_loop_len’ defined but not used [-Wunused-function]
+My advice is to put the done things on a branch and get Stephen to put
+them in linux-next. You can send a PR to Lins. There is very little mm
+stuff in here, and cross subsystem stuff works better in git land,
+IMHO.
 
-patches/0019-media-vidtv-improve-EIT-data.patch:
-
-   checkpatch.pl:
-	$ cat patches/0019-media-vidtv-improve-EIT-data.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:27: WARNING: line length of 154 exceeds 100 columns
-
-
-Error #512 when building PDF docs
-
+Jason
