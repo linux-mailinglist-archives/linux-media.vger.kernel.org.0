@@ -2,136 +2,97 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8B58D2C65D6
-	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 13:41:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0ABEF2C6623
+	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 14:00:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729422AbgK0MlG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Nov 2020 07:41:06 -0500
-Received: from mail.kernel.org ([198.145.29.99]:49312 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728340AbgK0MlG (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Nov 2020 07:41:06 -0500
-Received: from coco.lan (ip5f5ad5a6.dynamic.kabel-deutschland.de [95.90.213.166])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id EB89222240;
-        Fri, 27 Nov 2020 12:41:03 +0000 (UTC)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606480865;
-        bh=Knjx8Ds+9n9DrWDY3pEXUQJXT6psTdPlMPP6Ng/RsPI=;
-        h=Date:From:To:Cc:Subject:From;
-        b=wkkHUfefVS/6PNLa2srpgw035nmpZXgyNOr//wp3Nt1bKNOYG5GClpZZCiYZ0inQh
-         p7ujjchgdmKLUUvnSzY+yjr715I6BxzBRSPPvAF1Sf89cmt6ELggYWBNbSk67J0U/8
-         h5GaaZg7EV6Kux+GN2SOJL66wktW+M8BHlUcVK2k=
-Date:   Fri, 27 Nov 2020 13:41:00 +0100
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Linus Torvalds <torvalds@linux-foundation.org>
-Cc:     Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>
-Subject: [GIT PULL for v5.10-rc6] vidtv driver fixes
-Message-ID: <20201127134100.101be34e@coco.lan>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1729273AbgK0NAF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Nov 2020 08:00:05 -0500
+Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:54515 "EHLO
+        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1728404AbgK0NAE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 27 Nov 2020 08:00:04 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id idLykQ9HIDuFjidM2kqtAp; Fri, 27 Nov 2020 14:00:02 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1606482002; bh=HOMppZobt6qFRcDaM53vHK/IM1PaO9vvUi20G1XPmOw=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=YSJ5gwPmwaue9ecT8oxVpdRs0Byukek1K9Uuf3NMFbdaD/5KackXMAPdE2HqW5x5R
+         1mkLdiL34MJZD8CKuF3ZmVNwUhtIByWleBV6Y/iHPtPdQQ1dusgBOjC5X5Ponab6VX
+         rJfhIVBRQdOaFhIJnI23F38G74g11IK1GW6tsG4Pd671HC9NI81ZcXVYHJ5xSZKPDc
+         3BpYzYohujEc65TQfzpQwywuRWDUH7uvjzeYhkfDXIpsq1RkKtWvyTFl+jCA8LstYi
+         cm/sUeaufzsFF7zSqOBZZYiTU+WlnA7C3v1dShz4zdyyCAjQfNA8BC/Q7sDSLIyX+Y
+         QwasEP9UEeJOw==
+Subject: Re: [PATCH] media: vb2: always set buffer cache sync hints
+To:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+References: <20201127094136.1051071-1-sergey.senozhatsky@gmail.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <0dbfa509-8c82-7470-c18b-24ab5c92dc4b@xs4all.nl>
+Date:   Fri, 27 Nov 2020 13:59:58 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
+In-Reply-To: <20201127094136.1051071-1-sergey.senozhatsky@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
 Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfF9WdxLsIljKXQ86VtwCHlJGUVW9BlpEOCet6vkdk1HOeJYbwsqj+ni99c22/uEahuaYHePbGdnzvrlzHNCTN8+qrE6EgCMWIRLUSnuLeXQoRN5/wgI6
+ QZC8ul1RjHRyzULD35ZdJLoegGBz0wAh97ZD/5M8mCa6GPepgeWV5x3lemSTblbts+Zkg+gp9YkvK7WG5qAZvTrqVZ0sYs1NbaDjoND17AgW9E9X+mVJsR6H
+ MXpz4uHWunGEG/TwtgUFiyJbek4EfcSMx51G8pZxajm+RqYjDoymHy6va2s7+j2Xt7ZoQaH5vOSECOq1iX7Jo8OPsNEjAet39cWGyAVDBP4JB734shO1mLA4
+ U8543Sejhz4cSs4RqyHhKxdF7CFugV3gnwfMRZto1q4C1JOeea/s6rhQYTzARghj2GrvAUxh
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Linus,
+On 27/11/2020 10:41, Sergey Senozhatsky wrote:
+> We need to always set ->need_cache_sync_on_prepare and
+> ->need_cache_sync_on_finish when we initialize vb2 buffer.
+> 
+> Currently these flags are set/adjusted only in V4L2's
+> vb2_queue_or_prepare_buf(), which means that for the code
+> paths that don't use V4L2 vb2 will always tell videobuf2
+> core to skip ->prepare() and ->finish() cache syncs/flushes.
+> 
+> This is a quick solution that should do the trick. The
+> proper fix, however, is much more complicated and requires
+> a rather big videobuf2 refactoring - we need to move cache
+> sync/flush decision making out of core videobuf2 to the
+> allocators.
+> 
+> Reported-by: Tomasz Figa <tfiga@chromium.org>
+> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
+> ---
+>  drivers/media/common/videobuf2/videobuf2-core.c | 2 ++
+>  1 file changed, 2 insertions(+)
+> 
+> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
+> index 5499013cf82e..14a26888a892 100644
+> --- a/drivers/media/common/videobuf2/videobuf2-core.c
+> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
+> @@ -414,6 +414,8 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
+>  		vb->index = q->num_buffers + buffer;
+>  		vb->type = q->type;
+>  		vb->memory = memory;
+> +		vb->need_cache_sync_on_prepare = 1;
+> +		vb->need_cache_sync_on_finish = 1;
 
-Please pull from:
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.10-3
-
-For a series of fixes for the new the virtual digital TV driver (vidtv),
-which is meant to help doing tests with the digital TV core and media
-userspace apps and libraries.
-
-They cover a series of issues I found on it, together with a few new things
-in order to make it easier to detect problems at the DVB core.
-
+I think this needs a comment, basically explaining what you said in
+the commit log. It's not obvious from the code that this is a
+workaround.
 
 Regards,
-Mauro
 
-The following changes since commit 9215f6bb4705ffe205885411394732bfc439dee0:
+	Hans
 
-  media: venus: pm_helpers: Fix kernel module reload (2020-11-16 19:06:10 +0100)
-
-are available in the Git repository at:
-
-  git://git.kernel.org/pub/scm/linux/kernel/git/mchehab/linux-media tags/media/v5.10-3
-
-for you to fetch changes up to 44f28934af141149959c4e6495bb60c1903bda32:
-
-  media: vidtv.rst: add kernel-doc markups (2020-11-26 08:05:24 +0100)
-
-----------------------------------------------------------------
-media fixes for v5.10-rc6
-
-----------------------------------------------------------------
-Daniel W. S. Almeida (6):
-      media: vidtv: extract the initial CRC value to into a #define
-      media: vidtv: psi: add a Network Information Table (NIT)
-      media: vidtv: psi: Implement an Event Information Table (EIT)
-      media: vidtv: psi: extract descriptor chaining code into a helper
-      media: vidtv: Move s302m specific fields into encoder context
-      media: vidtv: psi: fix missing assignments in while loops
-
-Mauro Carvalho Chehab (30):
-      media: vidtv: reorganize includes
-      media: vidtv: add error checks
-      media: vidtv: don't use recursive functions
-      media: vidtv: fix the name of the program
-      media: vidtv: fix the tone generator logic
-      media: vidtv: fix some notes at the tone generator
-      media: vidtv: avoid data copy when initializing the multiplexer
-      media: vidtv: avoid copying data for PES structs
-      media: vidtv: do some cleanups at the driver
-      media: vidtv: remove some unused functions
-      media: vidtv: pre-initialize mux arrays
-      media: vidtv: cleanup null packet initialization logic
-      media: vidtv: improve EIT data
-      media: vidtv: fix the network ID range
-      media: vidtv: properly fill EIT service_id
-      media: vidtv: add a PID entry for the NIT table
-      media: vidtv: fix service type
-      media: vidtv: fix service_id at SDT table
-      media: vidtv: add date to the current event
-      media: vidtv: simplify PSI write function
-      media: vidtv: simplify the crc writing logic
-      media: vidtv: cleanup PSI descriptor write function
-      media: vidtv: cleanup PSI table header function
-      media: vidtv: cleanup PAT write function
-      media: vidtv: cleanup PMT write table function
-      media: vidtv: simplify SDT write function
-      media: vidtv: simplify NIT write function
-      media: vidtv: simplify EIT write function
-      media: vidtv.rst: update vidtv documentation
-      media: vidtv.rst: add kernel-doc markups
-
- Documentation/driver-api/media/drivers/vidtv.rst |  120 +-
- drivers/media/test-drivers/vidtv/vidtv_bridge.c  |  116 +-
- drivers/media/test-drivers/vidtv/vidtv_bridge.h  |    4 +-
- drivers/media/test-drivers/vidtv/vidtv_channel.c |  312 ++++-
- drivers/media/test-drivers/vidtv/vidtv_channel.h |   11 +-
- drivers/media/test-drivers/vidtv/vidtv_common.h  |    1 -
- drivers/media/test-drivers/vidtv/vidtv_demod.c   |    2 +-
- drivers/media/test-drivers/vidtv/vidtv_demod.h   |   11 +-
- drivers/media/test-drivers/vidtv/vidtv_encoder.h |    9 +-
- drivers/media/test-drivers/vidtv/vidtv_mux.c     |  248 ++--
- drivers/media/test-drivers/vidtv/vidtv_mux.h     |   21 +-
- drivers/media/test-drivers/vidtv/vidtv_pes.c     |  179 ++-
- drivers/media/test-drivers/vidtv/vidtv_pes.h     |    8 +-
- drivers/media/test-drivers/vidtv/vidtv_psi.c     | 1521 ++++++++++++++++------
- drivers/media/test-drivers/vidtv/vidtv_psi.h     |  282 +++-
- drivers/media/test-drivers/vidtv/vidtv_s302m.c   |  125 +-
- drivers/media/test-drivers/vidtv/vidtv_s302m.h   |    9 +-
- drivers/media/test-drivers/vidtv/vidtv_ts.c      |    5 +-
- drivers/media/test-drivers/vidtv/vidtv_ts.h      |    5 +-
- drivers/media/test-drivers/vidtv/vidtv_tuner.c   |    5 +-
- drivers/media/test-drivers/vidtv/vidtv_tuner.h   |    1 +
- 21 files changed, 2182 insertions(+), 813 deletions(-)
+>  		for (plane = 0; plane < num_planes; ++plane) {
+>  			vb->planes[plane].length = plane_sizes[plane];
+>  			vb->planes[plane].min_length = plane_sizes[plane];
+> 
 
