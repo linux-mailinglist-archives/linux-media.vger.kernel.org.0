@@ -2,85 +2,118 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 036682C69A0
-	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 17:45:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 940012C69C2
+	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 17:45:36 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731512AbgK0Qle (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Nov 2020 11:41:34 -0500
-Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:22292 "EHLO
-        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730786AbgK0Qle (ORCPT
+        id S1731784AbgK0QmM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Nov 2020 11:42:12 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54042 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731726AbgK0QmL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Nov 2020 11:41:34 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
-        s=mimecast20190719; t=1606495292;
-        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
-         to:to:cc:cc; bh=lnuam6t1dXzzELpLGRbQVXkdkYHVojrbstXmjNQiiAo=;
-        b=FDoKSdmx4qa4PpILEMlSAfVdFoGqqnJgavD0lxvnjOHA51m9Bc8OYoVIINQzUqHtT5K771
-        H/03n1QwuJKn3Whfu6u4+eNpK2l3/ylBVD23RafSc8wEPAUMfWv69A3D7tFDQxlAIzXEsU
-        IjkP1cJnO1E0nzrgGtVDzADD4Oh+CEg=
-Received: from mail-qk1-f197.google.com (mail-qk1-f197.google.com
- [209.85.222.197]) (Using TLS) by relay.mimecast.com with ESMTP id
- us-mta-7-p7l3XNDnO6yD7f8J6SIdyA-1; Fri, 27 Nov 2020 11:41:30 -0500
-X-MC-Unique: p7l3XNDnO6yD7f8J6SIdyA-1
-Received: by mail-qk1-f197.google.com with SMTP id s128so4035160qke.0
-        for <linux-media@vger.kernel.org>; Fri, 27 Nov 2020 08:41:30 -0800 (PST)
+        Fri, 27 Nov 2020 11:42:11 -0500
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D14FDC061A52
+        for <linux-media@vger.kernel.org>; Fri, 27 Nov 2020 08:42:10 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id 3so3344724wmg.4
+        for <linux-media@vger.kernel.org>; Fri, 27 Nov 2020 08:42:10 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=lUo9ncFU/nKq3MG4mWQrX8BX1Csq/yukMRd1xs72MQA=;
+        b=U7CnpbD00qEoN/vUsVW+I4243+W/JnXoGNjkeopzZQU5so09mhertht0Ptz/Y9CU97
+         QBJjqG6J8HVGWhflVJAnSEhJA51fquUA/rLUSiFGQ3D16s3hdHYPSCDYykR5ivgrpzt5
+         UNuqMwTHX4nMkYA9iGIVY8KW3+QGNck+OCdBk=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=lnuam6t1dXzzELpLGRbQVXkdkYHVojrbstXmjNQiiAo=;
-        b=gBPgW4TgxsOheW3BogvSeRnnr6TAyKcW12BSZhM75Wx//0evmIfk5YC31mA7yphDx9
-         6NCN3+JIL/Jc0o4wveuB6xR5pVYIsfYiEq/hvRGVasCH+wTSsiHpUG8wFKDnlCrl1pVU
-         /lNniy2PDNfYSDnMkjMIvb2SIJnUO6Pbj+GaLoCav5AGzdFhXn3E/orkJKRgvh4OOkl3
-         thy6r7bqpzo0hFHoCNv7j7Y2q/O/CJhZUWuQzKPnnRYyIcuVa2mBv8x1SbkSHGZ0h478
-         p09PX9Q/sletpLsOttxBanWAnOy5YrCew/oIPiLYzs9Ooc42GiHiF2aHHaOWzOF1oUTr
-         gORQ==
-X-Gm-Message-State: AOAM531zBPzw5Q2mDyLcZB1ko49k4p8v2pIhrLac5KtXCJvpJ2Oby+jI
-        kfd2AV94ugqQaor0ND4aO99Jiwc2m/mjB8ueDHQCRXUJ8FGPTGhiqj6Adputg/vwFlfwcLl3Vu0
-        ZsuddH1oCV8KTumT3hLoixx0=
-X-Received: by 2002:ac8:37e5:: with SMTP id e34mr9275445qtc.363.1606495289971;
-        Fri, 27 Nov 2020 08:41:29 -0800 (PST)
-X-Google-Smtp-Source: ABdhPJzGVoB1FnATLvFMiWzvnKfj4zWNscV10h/VlSxByCUq/xEQFr+dQD8NalIXyFGn5WsQrgOKMw==
-X-Received: by 2002:ac8:37e5:: with SMTP id e34mr9275426qtc.363.1606495289793;
-        Fri, 27 Nov 2020 08:41:29 -0800 (PST)
-Received: from trix.remote.csb (075-142-250-213.res.spectrum.com. [75.142.250.213])
-        by smtp.gmail.com with ESMTPSA id d82sm6166735qkc.14.2020.11.27.08.41.28
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=lUo9ncFU/nKq3MG4mWQrX8BX1Csq/yukMRd1xs72MQA=;
+        b=nl6o3w9GuFswGjywG9jb2+rZBCcI5ZC+JrvdKnyf+2Vc4FLm2qrDNxyeCBlHWdgEY9
+         Uf7/l50MB76fUPf2dCMIhi0u4fuAmQX70rm6nJ1WBWK8zDx3MM5h3HjMRcXLVs1+h27X
+         dAKdVQcJJbFgug04OEn/W3XmtZIUgIBm/Yhhpd3+FiPeodPyqnMWIYLCSJMaES/1ybDZ
+         OU0KDa9AF8NT6RkX4YdECCHvKgExmPohcyS0FqPJlGnR/Q+kJYU+i1eAIctO2LasBwlQ
+         NPDMCsjuUQGHUccTvkIbHWp8vEdqfVjtX3LnaR1YKibRto3qyQmFKrWBBDUNXQadInL8
+         9W8A==
+X-Gm-Message-State: AOAM530pQgdmLhcXWitHh9N02Fo8tngLoWG6AeIo2voQTCdSMLEBLyK/
+        pLMhSYZwTWv17uKxXxE8FCArQQ==
+X-Google-Smtp-Source: ABdhPJxKU2LEPA3ycZu0g6uNTdSP1FwFa6HvSU/jo43OGE9w8xBQTe6/Vk/r7mX9FCsKkcy0le5iyg==
+X-Received: by 2002:a7b:cbd1:: with SMTP id n17mr9963982wmi.186.1606495329592;
+        Fri, 27 Nov 2020 08:42:09 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id q12sm14859078wrx.86.2020.11.27.08.42.08
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 08:41:29 -0800 (PST)
-From:   trix@redhat.com
-To:     a.hajda@samsung.com, mchehab@kernel.org
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Tom Rix <trix@redhat.com>
-Subject: [PATCH] [media] s5k5baf: remove trailing semicolon in macro definition
-Date:   Fri, 27 Nov 2020 08:41:23 -0800
-Message-Id: <20201127164123.2678983-1-trix@redhat.com>
-X-Mailer: git-send-email 2.18.4
+        Fri, 27 Nov 2020 08:42:08 -0800 (PST)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>,
+        LKML <linux-kernel@vger.kernel.org>
+Cc:     kvm@vger.kernel.org, linux-mm@kvack.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-samsung-soc@vger.kernel.org, linux-media@vger.kernel.org,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        Jason Gunthorpe <jgg@ziepe.ca>,
+        Kees Cook <keescook@chromium.org>,
+        Dan Williams <dan.j.williams@intel.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        John Hubbard <jhubbard@nvidia.com>,
+        =?UTF-8?q?J=C3=A9r=C3=B4me=20Glisse?= <jglisse@redhat.com>,
+        Jan Kara <jack@suse.cz>
+Subject: [PATCH v7 09/17] /dev/mem: Only set filp->f_mapping
+Date:   Fri, 27 Nov 2020 17:41:23 +0100
+Message-Id: <20201127164131.2244124-10-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
+References: <20201127164131.2244124-1-daniel.vetter@ffwll.ch>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Tom Rix <trix@redhat.com>
+When we care about pagecache maintenance, we need to make sure that
+both f_mapping and i_mapping point at the right mapping.
 
-The macro use will already have a semicolon.
+But for iomem mappings we only care about the virtual/pte side of
+things, so f_mapping is enough. Also setting inode->i_mapping was
+confusing me as a driver maintainer, since in e.g. drivers/gpu we
+don't do that. Per Dan this seems to be copypasta from places which do
+care about pagecache consistency, but not needed. Hence remove it for
+slightly less confusion.
 
-Signed-off-by: Tom Rix <trix@redhat.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Jason Gunthorpe <jgg@ziepe.ca>
+Cc: Kees Cook <keescook@chromium.org>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: Andrew Morton <akpm@linux-foundation.org>
+Cc: John Hubbard <jhubbard@nvidia.com>
+Cc: Jérôme Glisse <jglisse@redhat.com>
+Cc: Jan Kara <jack@suse.cz>
+Cc: Dan Williams <dan.j.williams@intel.com>
+Cc: linux-mm@kvack.org
+Cc: linux-arm-kernel@lists.infradead.org
+Cc: linux-samsung-soc@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Reviewed-by: Dan Williams <dan.j.williams@intel.com>
+Signed-off-by: Daniel Vetter <daniel.vetter@ffwll.ch>
 ---
- drivers/media/i2c/s5k5baf.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/char/mem.c | 1 -
+ 1 file changed, 1 deletion(-)
 
-diff --git a/drivers/media/i2c/s5k5baf.c b/drivers/media/i2c/s5k5baf.c
-index ec6f22efe19a..6e702b57c37d 100644
---- a/drivers/media/i2c/s5k5baf.c
-+++ b/drivers/media/i2c/s5k5baf.c
-@@ -510,7 +510,7 @@ static void s5k5baf_write_arr_seq(struct s5k5baf *state, u16 addr,
+diff --git a/drivers/char/mem.c b/drivers/char/mem.c
+index 94c2b556cf97..7dcf9e4ea79d 100644
+--- a/drivers/char/mem.c
++++ b/drivers/char/mem.c
+@@ -891,7 +891,6 @@ static int open_port(struct inode *inode, struct file *filp)
+ 	 * revocations when drivers want to take over a /dev/mem mapped
+ 	 * range.
+ 	 */
+-	inode->i_mapping = devmem_inode->i_mapping;
+ 	filp->f_mapping = inode->i_mapping;
  
- #define s5k5baf_write_seq(state, addr, seq...) \
- 	s5k5baf_write_arr_seq(state, addr, sizeof((char[]){ seq }), \
--			      (const u16 []){ seq });
-+			      (const u16 []){ seq })
- 
- /* add items count at the beginning of the list */
- #define NSEQ(seq...) sizeof((char[]){ seq }), seq
+ 	return 0;
 -- 
-2.18.4
+2.29.2
 
