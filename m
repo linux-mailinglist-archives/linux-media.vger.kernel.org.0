@@ -2,80 +2,317 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1798C2C6CBD
-	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 21:55:19 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A60A42C6C97
+	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 21:36:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729755AbgK0Uvc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Nov 2020 15:51:32 -0500
-Received: from smtpq4.tb.mail.iss.as9143.net ([212.54.42.167]:59508 "EHLO
-        smtpq4.tb.mail.iss.as9143.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729567AbgK0UuY (ORCPT
+        id S1732474AbgK0Ufu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Nov 2020 15:35:50 -0500
+Received: from smtp04.smtpout.orange.fr ([80.12.242.126]:34026 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1732464AbgK0Ue5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Nov 2020 15:50:24 -0500
-X-Greylist: delayed 986 seconds by postgrey-1.27 at vger.kernel.org; Fri, 27 Nov 2020 15:50:23 EST
-Received: from [212.54.42.137] (helo=smtp6.tb.mail.iss.as9143.net)
-        by smtpq4.tb.mail.iss.as9143.net with esmtps (TLS1.2:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.90_1)
-        (envelope-from <dick@mrns.nl>)
-        id 1kikR4-0004aJ-4F
-        for linux-media@vger.kernel.org; Fri, 27 Nov 2020 21:33:42 +0100
-Received: from ip-213-127-117-214.ip.prioritytelecom.net ([213.127.117.214] helo=routi.mrns.nl)
-        by smtp6.tb.mail.iss.as9143.net with esmtpsa  (TLS1.3) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
-        (Exim 4.93)
-        (envelope-from <dick@mrns.nl>)
-        id 1kikR2-00FprM-8x
-        for linux-media@vger.kernel.org; Fri, 27 Nov 2020 21:33:41 +0100
-Received: by routi.mrns.nl (sSMTP sendmail emulation); Fri, 27 Nov 2020 21:33:39 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=mrns.nl;
- i=@mrns.nl; q=dns/txt; s=mail; t=1606509219; h=date : from : to :
- subject : message-id : mime-version : content-type : from;
- bh=DI7lAeDWF7gi/Jz/YBJ987QQAGqyId5HjJgrRN37cy0=;
- b=BwHbkrsiCuocIoBoMJMV9EKkkRKz66XoNlaTxaNpHfySh4o1gXEY3K8HJGN3CBSKq/qMy
- oRFu4cF29DIgPv5dLjIoitz5n/72UUVQRuJInQyTeK6MqKqOE8xvGVo/CTwfZpK7gYrKkgd
- CPQyh6Y1C1L2K6mbHdi9t8KOVCtx4t4=
-Date:   Fri, 27 Nov 2020 21:33:39 +0100
-From:   Dick <dick@mrns.nl>
-To:     linux-media@vger.kernel.org
-Subject: Use dvbv5-zap.c in mpv (LGPL)
-Message-ID: <20201127203339.GA68093@routi.mrns.nl>
+        Fri, 27 Nov 2020 15:34:57 -0500
+Received: from localhost.localdomain ([81.185.168.160])
+        by mwinf5d27 with ME
+        id xYag2300C3Tyla903YahlD; Fri, 27 Nov 2020 21:34:46 +0100
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Fri, 27 Nov 2020 21:34:46 +0100
+X-ME-IP: 81.185.168.160
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     maintainers@bluecherrydvr.com, anton@corp.bluecherry.net,
+        andrey_utkin@fastmail.com, ismael@iodev.co.uk, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: solo6x10: switch from 'pci_' to 'dma_' API
+Date:   Fri, 27 Nov 2020 21:34:40 +0100
+Message-Id: <20201127203440.1381359-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-SourceIP: 213.127.117.214
-X-Authenticated-Sender: boeierlaan60@ziggo.nl (via SMTP)
-X-Ziggo-spambar: /
-X-Ziggo-spamscore: 0.0
-X-Ziggo-spamreport: CMAE Analysis: v=2.4 cv=eothcqlX c=1 sm=1 tr=0 ts=5fc162a5 a=/yqwS09Bd1mfwh02Zu0ZFA==:17 a=9+rZDBEiDlHhcck0kWbJtElFXBc=:19 a=kj9zAlcOel0A:10 a=nNwsprhYR40A:10 a=pMv7iQpq6FTc1qH51LQA:9 a=CjuIK1q_8ugA:10
-X-Ziggo-Spam-Status: No
-X-Spam-Status: No
-X-Spam-Flag: No
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+The wrappers in include/linux/pci-dma-compat.h should go away.
 
-I've used dvbv5-zap.c as a base to replace the dvbstream based input
-stream for mpv-player. The header from dvbv5-zap.c stated that it's
-GPL-2 and I wonder if it could be changed to LGPL-2.
+The patch has been generated with the coccinelle script below and has been
+hand modified to replace GFP_ with a correct flag.
+It has been compile tested.
 
-I'm quite confused how libdvbv5 is licensed, v4l-utils seems GPL-2
-licensed and contain the sources for libdvbv5 which are on it's turn
-LGPL-2 licensed.
+When memory is allocated in 'snd_solo_pcm_open()' (solo6x10-g723.c)
+GFP_KERNEL can be used because this flag is already used jew a few lines
+above.
 
-There are also some references from libdvbv5 to the v4l-utils DVB
-utilities stating that it's sample code. To be honest, for me that's an
-understatement. If you'd like to use libdvbv5 you'll essentially do
-exactly what's in these utilties for setting up an DVB device. I wish
-libdvbv5 contained that code as well (licensed as LGPL-2).
+When memory is allocated in 'solo_enc_alloc()' (solo6x10-v4l2-enc.c)
+GFP_KERNEL can be used because this flag is already used jew a few lines
+above.
 
-My questions are:
-* How are the DVB related v4l-utils licensed (GPL-2 or LGPL-2)?
-* Is libdvbv5 really LGPL-2 licensed? (some Linux distributions say
-  GPL-2)
-* Would it be possible to relicense the DVB related v4l-utils?
-* As an alternative, would it be possible to supply LGPL-2 licensed
-  examples with libdvbv5 or some higher level/helper functions?
+When memory is allocated in 'solo_enc_v4l2_init()' (solo6x10-v4l2-enc.c)
+GFP_KERNEL can be used because calls 'solo_enc_alloc()' which already uses
+this flag.
 
-Thanks in advance!
-Dick
+@@
+@@
+-    PCI_DMA_BIDIRECTIONAL
++    DMA_BIDIRECTIONAL
+
+@@
+@@
+-    PCI_DMA_TODEVICE
++    DMA_TO_DEVICE
+
+@@
+@@
+-    PCI_DMA_FROMDEVICE
++    DMA_FROM_DEVICE
+
+@@
+@@
+-    PCI_DMA_NONE
++    DMA_NONE
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_alloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_zalloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_free_consistent(e1, e2, e3, e4)
++    dma_free_coherent(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_single(e1, e2, e3, e4)
++    dma_map_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_single(e1, e2, e3, e4)
++    dma_unmap_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4, e5;
+@@
+-    pci_map_page(e1, e2, e3, e4, e5)
++    dma_map_page(&e1->dev, e2, e3, e4, e5)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_page(e1, e2, e3, e4)
++    dma_unmap_page(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_sg(e1, e2, e3, e4)
++    dma_map_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_sg(e1, e2, e3, e4)
++    dma_unmap_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
++    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_device(e1, e2, e3, e4)
++    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
++    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
++    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2;
+@@
+-    pci_dma_mapping_error(e1, e2)
++    dma_mapping_error(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_dma_mask(e1, e2)
++    dma_set_mask(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_consistent_dma_mask(e1, e2)
++    dma_set_coherent_mask(&e1->dev, e2)
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+If needed, see post from Christoph Hellwig on the kernel-janitors ML:
+   https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
+---
+ drivers/media/pci/solo6x10/solo6x10-g723.c    | 11 +++---
+ drivers/media/pci/solo6x10/solo6x10-p2m.c     | 10 +++---
+ .../media/pci/solo6x10/solo6x10-v4l2-enc.c    | 35 ++++++++++---------
+ 3 files changed, 29 insertions(+), 27 deletions(-)
+
+diff --git a/drivers/media/pci/solo6x10/solo6x10-g723.c b/drivers/media/pci/solo6x10/solo6x10-g723.c
+index d137b94869d8..6cebad665565 100644
+--- a/drivers/media/pci/solo6x10/solo6x10-g723.c
++++ b/drivers/media/pci/solo6x10/solo6x10-g723.c
+@@ -124,9 +124,10 @@ static int snd_solo_pcm_open(struct snd_pcm_substream *ss)
+ 	if (solo_pcm == NULL)
+ 		goto oom;
+ 
+-	solo_pcm->g723_buf = pci_alloc_consistent(solo_dev->pdev,
+-						  G723_PERIOD_BYTES,
+-						  &solo_pcm->g723_dma);
++	solo_pcm->g723_buf = dma_alloc_coherent(&solo_dev->pdev->dev,
++						G723_PERIOD_BYTES,
++						&solo_pcm->g723_dma,
++						GFP_KERNEL);
+ 	if (solo_pcm->g723_buf == NULL)
+ 		goto oom;
+ 
+@@ -148,8 +149,8 @@ static int snd_solo_pcm_close(struct snd_pcm_substream *ss)
+ 	struct solo_snd_pcm *solo_pcm = snd_pcm_substream_chip(ss);
+ 
+ 	snd_pcm_substream_chip(ss) = solo_pcm->solo_dev;
+-	pci_free_consistent(solo_pcm->solo_dev->pdev, G723_PERIOD_BYTES,
+-			    solo_pcm->g723_buf, solo_pcm->g723_dma);
++	dma_free_coherent(&solo_pcm->solo_dev->pdev->dev, G723_PERIOD_BYTES,
++			  solo_pcm->g723_buf, solo_pcm->g723_dma);
+ 	kfree(solo_pcm);
+ 
+ 	return 0;
+diff --git a/drivers/media/pci/solo6x10/solo6x10-p2m.c b/drivers/media/pci/solo6x10/solo6x10-p2m.c
+index db2afc6a5fcb..ca70a864a3ef 100644
+--- a/drivers/media/pci/solo6x10/solo6x10-p2m.c
++++ b/drivers/media/pci/solo6x10/solo6x10-p2m.c
+@@ -37,16 +37,16 @@ int solo_p2m_dma(struct solo_dev *solo_dev, int wr,
+ 	if (WARN_ON_ONCE(!size))
+ 		return -EINVAL;
+ 
+-	dma_addr = pci_map_single(solo_dev->pdev, sys_addr, size,
+-				  wr ? PCI_DMA_TODEVICE : PCI_DMA_FROMDEVICE);
+-	if (pci_dma_mapping_error(solo_dev->pdev, dma_addr))
++	dma_addr = dma_map_single(&solo_dev->pdev->dev, sys_addr, size,
++				  wr ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
++	if (dma_mapping_error(&solo_dev->pdev->dev, dma_addr))
+ 		return -ENOMEM;
+ 
+ 	ret = solo_p2m_dma_t(solo_dev, wr, dma_addr, ext_addr, size,
+ 			     repeat, ext_size);
+ 
+-	pci_unmap_single(solo_dev->pdev, dma_addr, size,
+-			 wr ? PCI_DMA_TODEVICE : PCI_DMA_FROMDEVICE);
++	dma_unmap_single(&solo_dev->pdev->dev, dma_addr, size,
++			 wr ? DMA_TO_DEVICE : DMA_FROM_DEVICE);
+ 
+ 	return ret;
+ }
+diff --git a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
+index 3cf7bd6186aa..0abcad4e84fa 100644
+--- a/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
++++ b/drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c
+@@ -1286,10 +1286,11 @@ static struct solo_enc_dev *solo_enc_alloc(struct solo_dev *solo_dev,
+ 	memcpy(solo_enc->jpeg_header, jpeg_header, solo_enc->jpeg_len);
+ 
+ 	solo_enc->desc_nelts = 32;
+-	solo_enc->desc_items = pci_alloc_consistent(solo_dev->pdev,
+-				      sizeof(struct solo_p2m_desc) *
+-				      solo_enc->desc_nelts,
+-				      &solo_enc->desc_dma);
++	solo_enc->desc_items = dma_alloc_coherent(&solo_dev->pdev->dev,
++						  sizeof(struct solo_p2m_desc) *
++						  solo_enc->desc_nelts,
++						  &solo_enc->desc_dma,
++						  GFP_KERNEL);
+ 	ret = -ENOMEM;
+ 	if (solo_enc->desc_items == NULL)
+ 		goto hdl_free;
+@@ -1317,9 +1318,9 @@ static struct solo_enc_dev *solo_enc_alloc(struct solo_dev *solo_dev,
+ vdev_release:
+ 	video_device_release(solo_enc->vfd);
+ pci_free:
+-	pci_free_consistent(solo_enc->solo_dev->pdev,
+-			sizeof(struct solo_p2m_desc) * solo_enc->desc_nelts,
+-			solo_enc->desc_items, solo_enc->desc_dma);
++	dma_free_coherent(&solo_enc->solo_dev->pdev->dev,
++			  sizeof(struct solo_p2m_desc) * solo_enc->desc_nelts,
++			  solo_enc->desc_items, solo_enc->desc_dma);
+ hdl_free:
+ 	v4l2_ctrl_handler_free(hdl);
+ 	kfree(solo_enc);
+@@ -1331,9 +1332,9 @@ static void solo_enc_free(struct solo_enc_dev *solo_enc)
+ 	if (solo_enc == NULL)
+ 		return;
+ 
+-	pci_free_consistent(solo_enc->solo_dev->pdev,
+-			sizeof(struct solo_p2m_desc) * solo_enc->desc_nelts,
+-			solo_enc->desc_items, solo_enc->desc_dma);
++	dma_free_coherent(&solo_enc->solo_dev->pdev->dev,
++			  sizeof(struct solo_p2m_desc) * solo_enc->desc_nelts,
++			  solo_enc->desc_items, solo_enc->desc_dma);
+ 	video_unregister_device(solo_enc->vfd);
+ 	v4l2_ctrl_handler_free(&solo_enc->hdl);
+ 	kfree(solo_enc);
+@@ -1346,9 +1347,9 @@ int solo_enc_v4l2_init(struct solo_dev *solo_dev, unsigned nr)
+ 	init_waitqueue_head(&solo_dev->ring_thread_wait);
+ 
+ 	solo_dev->vh_size = sizeof(vop_header);
+-	solo_dev->vh_buf = pci_alloc_consistent(solo_dev->pdev,
+-						solo_dev->vh_size,
+-						&solo_dev->vh_dma);
++	solo_dev->vh_buf = dma_alloc_coherent(&solo_dev->pdev->dev,
++					      solo_dev->vh_size,
++					      &solo_dev->vh_dma, GFP_KERNEL);
+ 	if (solo_dev->vh_buf == NULL)
+ 		return -ENOMEM;
+ 
+@@ -1363,8 +1364,8 @@ int solo_enc_v4l2_init(struct solo_dev *solo_dev, unsigned nr)
+ 
+ 		while (i--)
+ 			solo_enc_free(solo_dev->v4l2_enc[i]);
+-		pci_free_consistent(solo_dev->pdev, solo_dev->vh_size,
+-				    solo_dev->vh_buf, solo_dev->vh_dma);
++		dma_free_coherent(&solo_dev->pdev->dev, solo_dev->vh_size,
++				  solo_dev->vh_buf, solo_dev->vh_dma);
+ 		solo_dev->vh_buf = NULL;
+ 		return ret;
+ 	}
+@@ -1391,6 +1392,6 @@ void solo_enc_v4l2_exit(struct solo_dev *solo_dev)
+ 		solo_enc_free(solo_dev->v4l2_enc[i]);
+ 
+ 	if (solo_dev->vh_buf)
+-		pci_free_consistent(solo_dev->pdev, solo_dev->vh_size,
+-			    solo_dev->vh_buf, solo_dev->vh_dma);
++		dma_free_coherent(&solo_dev->pdev->dev, solo_dev->vh_size,
++				  solo_dev->vh_buf, solo_dev->vh_dma);
+ }
+-- 
+2.27.0
+
