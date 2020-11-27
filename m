@@ -2,84 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BEFAB2C63C3
-	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 12:19:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 65AA22C65AC
+	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 13:23:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726014AbgK0LTG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Nov 2020 06:19:06 -0500
-Received: from relay8-d.mail.gandi.net ([217.70.183.201]:37495 "EHLO
-        relay8-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725865AbgK0LTG (ORCPT
+        id S1727859AbgK0MWV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Nov 2020 07:22:21 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:33067 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726162AbgK0MWU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Nov 2020 06:19:06 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id CD55D1BF21B;
-        Fri, 27 Nov 2020 11:19:02 +0000 (UTC)
-Date:   Fri, 27 Nov 2020 12:19:08 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Niklas =?utf-8?Q?S=C3=B6derlund?= 
-        <niklas.soderlund+renesas@ragnatech.se>,
-        linux-media@vger.kernel.org, linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 0/5] v4l2-fwnode: Remove
- v4l2_async_notifier_parse_fwnode_endpoints_by_port() helper
-Message-ID: <20201127111908.rmwxgech2b4jr6w7@uno.localdomain>
-References: <20201125164450.2056963-1-niklas.soderlund+renesas@ragnatech.se>
- <20201126101251.jcsvi6g5xsbnc52w@uno.localdomain>
- <20201126102205.GN3940@paasikivi.fi.intel.com>
+        Fri, 27 Nov 2020 07:22:20 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id iclSkPsuGDuFjiclWkqkCU; Fri, 27 Nov 2020 13:22:18 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1606479738; bh=w4uPfS0k0L/1RE9b/G3D1XLztUH/A1T/mQc5oY0bNTc=;
+        h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
+        b=DaR1wZtFsXRHsgRXFRYM432qoy4SBUBtguj1OwDNRWmKV2/YyW/2Am4RiunLZM6c3
+         gpeg8Ezfkz0XaBczFiJQ1Yt13izAHY3xSr6Ptisl0LAgOIDNr4g3ne6W4cxB6ATJpS
+         R2T1hpID0aoy/NlHDInBi+FL503juoqLU4T83AVcqr15baSwp1ZHvSG2dKPabsJJRD
+         /0SUyvuPqukwU72wOhOUDI+PzKnnZhoYF4j/GYj73wt9go/yNolY2HMhevq+XO0M6h
+         5oLl73CrSstl00t44EQxMGnZbgyj/jXRFmDLUPRNmITSCf4Op5wZzNfPPghlVjMUHM
+         FMXWEStdE8smg==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Cc:     Maxime Ripard <maxime@cerno.tech>
+Subject: [PATCH for v5.10 0/2] pulse8-cec: fix crash and support v12
+Date:   Fri, 27 Nov 2020 13:22:12 +0100
+Message-Id: <20201127122214.126701-1-hverkuil-cisco@xs4all.nl>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201126102205.GN3940@paasikivi.fi.intel.com>
+X-CMAE-Envelope: MS4xfCI2x+FT1W3infBpAwg8JpW+78HkGwN3u+nBE7/pVkwQcrqPHbLo+ltLF4qpNzfBJNEMjxtT0JfALfBMNstKdV+jdyE9BH2izAVJzm9tlTHGq7QZuOMl
+ +zY+C2JHAn/byUfhYSE+O1dpuzBrnXv0xj9gt0MgXGzqqsQZWY6CfORAR+5+sLGhxAzJTl2EgA8rPfkaok7gWllVNQ7Y2ubA3QeeU2+B/mdewHpeWvEpThrT
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari,
+The first patch fixes a nasty bug where disconnecting a Pulse-Eight
+would cause a duplicate free and crash.
 
-On Thu, Nov 26, 2020 at 12:22:05PM +0200, Sakari Ailus wrote:
-> Hi Jacopo,
->
-> On Thu, Nov 26, 2020 at 11:12:51AM +0100, Jacopo Mondi wrote:
-> > Hi Niklas, Sakari,
-> >
-> > On Wed, Nov 25, 2020 at 05:44:45PM +0100, Niklas Söderlund wrote:
-> > > Hello,
-> > >
-> > > This series aims to remove a V4L2 helper that provides a too simple
-> > > implementation, v4l2_async_notifier_parse_fwnode_endpoints_by_port().
-> > > Instead drivers shall implement what the helper does directly to get
-> > > greater control of the process. There is only one user left in tree of
-> > > this interface, R-Car VIN.
-> >
-> > What is the plan going forward ?
-> > removing v4l2_async_notifier_parse_fwnode_endpoints_by_port() here
-> > then remove v4l2_async_notifier_parse_fwnode_endpoints() as it has a
-> > single user in mainline too ?
-> >
-> > Are we standardizing all platform drivers to use
-> > v4l2_async_notifier_add_fwnode_subdev() and perform fwnode.match
-> > initialization by themselves or is there a plan to replace
->
-> Yes, please.
->
-> > v4l2_async_notifier_parse_fwnode_endpoints*() with something else ?
->
-> That's always been somewhat clunky and required special cases. The other
-> option, i.e. what this patchset does, is straightforward as well as allows
-> setting defaults in drivers, and admittedly, comes with a little bit of
-> extra code in drivers in areas that are driver specific. The old functions
-> such as v4l2_async_notifier_parse_fwnode_endpoints() just pretended they
-> were not...
+In addition, it turns out that Pulse-Eight has a newer firmware version
+(12, but the same issue is present for any firmware >= 10) where one
+message was removed. This caused the probe() to fail, and then hit
+exactly the same issue with a duplicate free. Both issues are fixed in
+the first patch.
 
-Agreed in full :)
-(At the expense of a little extra code in drivers)
+The second patch adds support for FW versions >= 10 by skipping the
+removed message.
 
->
-> --
-> Regards,
->
-> Sakari Ailus
+Thanks to Maxime Ripard for reporting this.
+
+Regards,
+
+	Hans
+
+Hans Verkuil (2):
+  pulse8-cec: fix duplicate free at disconnect or probe error
+  pulse8-cec: add support for FW v10 and up
+
+ drivers/media/cec/usb/pulse8/pulse8-cec.c | 52 +++++++++++++++--------
+ 1 file changed, 34 insertions(+), 18 deletions(-)
+
+-- 
+2.29.2
+
