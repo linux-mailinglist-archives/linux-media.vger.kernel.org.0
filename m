@@ -2,90 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EAE3B2C6927
-	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 17:10:57 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4023F2C697F
+	for <lists+linux-media@lfdr.de>; Fri, 27 Nov 2020 17:37:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731190AbgK0QKB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Nov 2020 11:10:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48832 "EHLO
+        id S1731499AbgK0Qft (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 27 Nov 2020 11:35:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53056 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1731163AbgK0QKB (ORCPT
+        with ESMTP id S1731440AbgK0Qft (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Nov 2020 11:10:01 -0500
-Received: from mail-qv1-xf42.google.com (mail-qv1-xf42.google.com [IPv6:2607:f8b0:4864:20::f42])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D4107C0613D1
-        for <linux-media@vger.kernel.org>; Fri, 27 Nov 2020 08:10:00 -0800 (PST)
-Received: by mail-qv1-xf42.google.com with SMTP id p12so2506419qvj.13
-        for <linux-media@vger.kernel.org>; Fri, 27 Nov 2020 08:10:00 -0800 (PST)
+        Fri, 27 Nov 2020 11:35:49 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1144CC0613D1;
+        Fri, 27 Nov 2020 08:35:49 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id w4so4705952pgg.13;
+        Fri, 27 Nov 2020 08:35:49 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=alE21rn+heq/fVPZnCYo21ECd/KkAAhHyZZyizwfMVE=;
-        b=f9faVQiSiBN0v5o4Qeu0cyD5BHmtxExwBx9rXaA9JeaPbeFzqtoqvP6mKvwtTT4doC
-         outOyGcboGLD7+uMOVSG9fb1hHYiHiLELiJduLszLtfqlzDyFZfbY/Hl8jQUNtYYCcjZ
-         exXzxfT6rMQdsKp8aPqlNBwvoqZxaMB3UVJ15ME2Z1Q52PWG+i3LIqMxigmZtK8Im4uL
-         yIp+jVBHeIwcH/XrIVs2m08wY09vE7l5mo6iOazkLvaXUWKEfd366Q0hNdry3mNa+PM6
-         fvh4e/7pXPXnPcqu05x5j1E6jfsqUPcQAuLSh8z5fGUWYqRSA6jIh0OrRzynW60gwsdR
-         9JTg==
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=oeonf9+ssH3tiDFtNGxaIF9eFeoLL2QUF0mZX8JcTPU=;
+        b=u5qG5VuqAze9SNNcnAbaUKVq1mkcdhDQWZM6B3QdZEl7iWEHODXsr8rpisnEYNdjRC
+         S7jXTIe03qoBCAmKmp8gG6sdaPJTd09SObWlJ8gTHqdza5Ki4LK6T2BWVRKtk2OBRsFF
+         PJ3boGvmfUsNNlvg58QC5VGBLRlamzW4piMxa8naYTcSrZHGcVtv8dCeOQInXNiEvr21
+         WM1/EZTauFRLacGMfrYjQFOZDwS5QflyeuD8xrXa9uW8riWHQSEyPHvnzfHJ5mPQMgDJ
+         5YcUrL+v2FYYOIJTRJinpVJ0vmMcAWW6FLdpnRld/u62AMycLSGZoE/MjrJIqdGPD9VL
+         pYpQ==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=alE21rn+heq/fVPZnCYo21ECd/KkAAhHyZZyizwfMVE=;
-        b=s2rxwFAFpH3BXCDuKkuceknSswy0KjGWqwof2x1ioh4bwT0TkAVQXq0TqIV40kU66U
-         lTkNc938l0cS4wfNluUGiCp0oXCkBY4GPAoCjJd1yF1Xwer0fVpwh7Ms3oN1JqoHT3sq
-         IBEKpAzMFjBoA+FaOVIs82821MeFt9Vsns8uKDzEjCKcA1rcH/uvpmzcM1MrJZqb9uBB
-         ZRSq5dYe75nWe2vDbF/ekac86ave+vJu/uYSpohQNguKvGgpndP29lut2A+oB2Cqdfw3
-         49S5M6+tKOEu1hK0U67aTt6YCc0d4jFBb5GCO/o9wL4bIDJmFnwrzxORnLKmSM4epsF5
-         mUMw==
-X-Gm-Message-State: AOAM5305vELyl89GV4ALAYPpwkhmKPHAO0c/0Xqzm+1tnnj5C+S5Hmu/
-        mmGL0QG4rKzFDJM6OSfUdjg=
-X-Google-Smtp-Source: ABdhPJzHAPzRJNBaMCpXGqG15Hm+2UnDvEA2XUm+XhUx2RenC2cDjw1iy1nRM4Gx5sItJAzPkvBuTQ==
-X-Received: by 2002:a0c:fc52:: with SMTP id w18mr9104726qvp.48.1606493399919;
-        Fri, 27 Nov 2020 08:09:59 -0800 (PST)
-Received: from localhost.localdomain ([2804:14c:482:c91:9ce8:56e7:5368:ece8])
-        by smtp.gmail.com with ESMTPSA id t51sm6934139qtb.11.2020.11.27.08.09.56
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=oeonf9+ssH3tiDFtNGxaIF9eFeoLL2QUF0mZX8JcTPU=;
+        b=qRyWqx4isHZBGA/A1YVpLNPYXmW8LKD8ZKsX8JO9nGS83+KZB71ZJ+6gLK7HFnA63z
+         zFl+qCljylP1+jvkREnUSZtAVmMflZ80z0nbPgq8yc6k187jGECfaJElDqqDY8mdJc6D
+         rttsmRbspdzO/MgcdKhabYz8LaBBRoIzhiFE6B5W8veMJABcbhPDdLoo0u76O4mGivcP
+         stmENzff0oyKjrGbtGG/vWpqnusR+Z8Sibo8o2upwxVqjvmBJL+5fQrmczxPKcUZONei
+         lRnL2AtDOd/6ODYW3cVWngFzA/iaaWXDtT+xLqtK8QolOcoIAopx9hFsl+XbD9VUybcE
+         yLjg==
+X-Gm-Message-State: AOAM5315TiknG2nZIPooPpynSFaFGUh6fdzr5jJ6ojajqIJSE6St6o4V
+        MU7QmMbHw+l4sEH9FJil4SM=
+X-Google-Smtp-Source: ABdhPJwg4EZ6JVGBOSAvWBiU1oI12df1VgK0NvLDh7IgBhGg5n0xDwue/6e6MsifLBu3LnHveI+RLA==
+X-Received: by 2002:a63:5845:: with SMTP id i5mr7290832pgm.355.1606494948492;
+        Fri, 27 Nov 2020 08:35:48 -0800 (PST)
+Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
+        by smtp.gmail.com with ESMTPSA id u3sm8091620pfu.47.2020.11.27.08.35.47
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 27 Nov 2020 08:09:59 -0800 (PST)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     mchehab@kernel.org
-Cc:     hverkuil-cisco@xs4all.nl, slongerbeam@gmail.com,
-        p.zabel@pengutronix.de, tharvey@gateworks.com,
-        linux-media@vger.kernel.org, Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH] media: staging/imx: Increase IMX_MEDIA_EOF_TIMEOUT
-Date:   Fri, 27 Nov 2020 13:09:45 -0300
-Message-Id: <20201127160945.470-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        Fri, 27 Nov 2020 08:35:47 -0800 (PST)
+Date:   Sat, 28 Nov 2020 01:35:45 +0900
+From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+To:     Hans Verkuil <hverkuil@xs4all.nl>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH] media: vb2: always set buffer cache sync hints
+Message-ID: <X8Eq4V++hRsKuYSF@jagdpanzerIV.localdomain>
+References: <20201127094136.1051071-1-sergey.senozhatsky@gmail.com>
+ <0dbfa509-8c82-7470-c18b-24ab5c92dc4b@xs4all.nl>
+ <X8ENifLanjYuhF/r@jagdpanzerIV.localdomain>
+ <509cc69b-39d7-4b13-f392-ebf25530c8fe@xs4all.nl>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <509cc69b-39d7-4b13-f392-ebf25530c8fe@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When trying to capture video on a imx6dl-based board with an ADV7280,
-the following timeout error is observed:
+On (20/11/27 15:56), Hans Verkuil wrote:
+> Yes.
+> 
+> BTW, wouldn't it be sufficient to change this code to:
+> 
+> 	if (!q->allow_cache_hints && q->memory != VB2_MEMORY_DMABUF) {
+> 		vb->need_cache_sync_on_prepare = 1;
+> 		vb->need_cache_sync_on_finish = 1;
+> 	}
 
-v4l2-ctl --stream-mmap -d /dev/video2
-[   22.792049] ipu1_csi1: EOF timeout
-VIDIOC_DQBUF: failed: Input/output error
+I think it would be sufficient.
 
-Increase the IMX_MEDIA_EOF_TIMEOUT to avoid such problem.
-
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
- drivers/staging/media/imx/imx-media.h | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/staging/media/imx/imx-media.h b/drivers/staging/media/imx/imx-media.h
-index f17135158029..c8b6a43d0d7c 100644
---- a/drivers/staging/media/imx/imx-media.h
-+++ b/drivers/staging/media/imx/imx-media.h
-@@ -65,7 +65,7 @@ enum {
- };
- 
- /* How long to wait for EOF interrupts in the buffer-capture subdevs */
--#define IMX_MEDIA_EOF_TIMEOUT       1000
-+#define IMX_MEDIA_EOF_TIMEOUT       2000
- 
- struct imx_media_pixfmt {
- 	/* the in-memory FourCC pixel format */
--- 
-2.17.1
-
+	-ss
