@@ -2,106 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 39EAC2C744B
-	for <lists+linux-media@lfdr.de>; Sat, 28 Nov 2020 23:19:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E1EF82C74D9
+	for <lists+linux-media@lfdr.de>; Sat, 28 Nov 2020 23:23:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388679AbgK1Vtn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 28 Nov 2020 16:49:43 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43156 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1732408AbgK1TAU (ORCPT
+        id S2388450AbgK1Vti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Nov 2020 16:49:38 -0500
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:45402 "EHLO
+        mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727926AbgK1SX1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 28 Nov 2020 14:00:20 -0500
-Received: from mail-yb1-xb43.google.com (mail-yb1-xb43.google.com [IPv6:2607:f8b0:4864:20::b43])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 680F0C02B8FA
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 02:37:08 -0800 (PST)
-Received: by mail-yb1-xb43.google.com with SMTP id 2so6730789ybc.12
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 02:37:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:reply-to:sender:from:date:message-id:subject:to
-         :content-transfer-encoding;
-        bh=BYhYUhRJ3iwbx5RvkgDxhY0ZIfAUwuAVrsbzhkyOflE=;
-        b=pnFZl7nW9k9vF4/Y8CCU5WRqhsbCPQXD33E1X7efuGI5rU5665dy7wfXdV2NGgBvj+
-         YuryFSXFO3J4wfVDv6vxK7cLP0eWOuM7cCcwfLc+S6ISutu78nfqlVkal6FmLRXDXJXw
-         iuvoa7xXQL8xLqMWNFSrs5jJs5Bo7d39Y8pJKEzOvsmV8z5WCjQv99xGv/gFjYvvu7AL
-         oiU3EmNuVV40bC3ONOVA6iy5WxSmkgt9whGKH0pGq7X436pR6yiQ7l7HpiLwDmE1HrFG
-         G7fApEVPzYwdUFyXJtzlj5V8kYx9pl7WzOm/tiQevQi77gs0Zu37mbDGYbYKJ4C33kfX
-         /hpA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:reply-to:sender:from:date
-         :message-id:subject:to:content-transfer-encoding;
-        bh=BYhYUhRJ3iwbx5RvkgDxhY0ZIfAUwuAVrsbzhkyOflE=;
-        b=YPz52aFCI+ETs1uVP7+dqJbBldsyXst7tvoakkcyDkDnJjJ4gNc4oxtllIlcyDmEaH
-         oKnz5DKv/tJe1ibYY2WY0ZfzhG7h7/wVOMMMrcTQ1TgWNgT8zw4MjG7u2bd91mRl7fcn
-         nvDa6EizW+s2OLOVRQMGVDaUcqEBYl1+umCGCaI81mAK8ZceFjoLLJ7ufF2AbTRKOZ8u
-         D54nZX5SxQ78ZC6Fu2a+cXsD7c/qh6wpJvXsNCA6eKg/z4Z3LqtcGZd1JUHIfEi+T2qn
-         CwMYLuRjGwRfd1YnAhEIJ12ZWNpf0qCfYOu2FGfK+5m30a0ceO3D24bTjd/0Ce1ybJC4
-         l8uA==
-X-Gm-Message-State: AOAM532n7Zvk83l4bf/cILsKSS6sAuRVvC5MvbX/93gV5C98NKcuDQdb
-        u+/yfLLYpu1zro9oX3zbGN2wsu7pRb3A5X61hWE=
-X-Google-Smtp-Source: ABdhPJxefWeHOS/PEI+BfMTKMi/ziUHzZByXciV4yDm3pydds8AM29OswgX6kQmgej/Zd3r5mfjKjSnjbQ91k7EFHWs=
-X-Received: by 2002:a25:ce13:: with SMTP id x19mr13331605ybe.390.1606559827172;
- Sat, 28 Nov 2020 02:37:07 -0800 (PST)
+        Sat, 28 Nov 2020 13:23:27 -0500
+Received: from relay8-d.mail.gandi.net (unknown [217.70.183.201])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id 543A03B4AC7;
+        Sat, 28 Nov 2020 11:03:34 +0000 (UTC)
+X-Originating-IP: 93.29.109.196
+Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay8-d.mail.gandi.net (Postfix) with ESMTPSA id 1F3151BF20F;
+        Sat, 28 Nov 2020 11:03:09 +0000 (UTC)
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kevin.lhopital@hotmail.com
+Subject: [PATCH v3 0/3] media: i2c: OV8865 image sensor support
+Date:   Sat, 28 Nov 2020 12:02:32 +0100
+Message-Id: <20201128110235.456124-1-paul.kocialkowski@bootlin.com>
+X-Mailer: git-send-email 2.29.2
 MIME-Version: 1.0
-Reply-To: mrsmayaoliver7@gmail.com
-Sender: verygoodboy67@gmail.com
-Received: by 2002:a25:3b05:0:0:0:0:0 with HTTP; Sat, 28 Nov 2020 02:37:06
- -0800 (PST)
-From:   "Mrs. Maya Oliver" <mrsmayaoliver7@gmail.com>
-Date:   Sat, 28 Nov 2020 02:37:06 -0800
-X-Google-Sender-Auth: uIzOhKYsJ0QxTMGyLOIvK6kFlG8
-Message-ID: <CAKHiEWAqeeXfsL3VEzu6rYL+FKCRA7REqHL-U570ztLMUrT+Sg@mail.gmail.com>
-Subject: My Greetings
-To:     undisclosed-recipients:;
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-My Dear
+This series adds support for the OV8865 image sensor, as a V4L2 subdev
+driver. Although an initial series was submitted by Kévin L'hôpital some
+weeks ago, this version is significantly new and should be considered a
+new series.
 
-My Name is Mrs. Maya Oliver, from Norway. I know that this message
-will be a surprise to you. Firstly, I am married to Mr. Patrick
-Oliver, A gold merchant who owns a small gold Mine in Burkina Faso; He
-died of Cardiovascular Disease in mid-March 2011. During his life time
-he deposited the sum of =E2=82=AC 8.5 Million Euro) Eight million, Five
-hundred thousand Euros in a bank in Ouagadougou the capital city of
-Burkina Faso. The deposited money was from the sale of the shares,
-death benefits payment and entitlements of my deceased husband by his
-company.
+The final patch (not for merge) shows how to enable the OV8865 on the
+Banana Pi Camera Board v2 with the Banana Pi M3.
 
-I am sending this message to you praying that it will reach you in
-good health, since I am not in good health condition in which I sleep
-every night without knowing if I may be alive to see the next day. I
-am suffering from long time cancer and presently i am partially
-suffering from a stroke illness which has become almost impossible for
-me to move around. I am married to my late husband for over 4 years
-before he died and is unfortunately that we don't have a child, my
-doctor confided in me that i have less chance to live. Having known my
-health condition, I decided to contact you to claim the fund since I
-don't have any relation I grew up from the orphanage home,
+Changes since v2:
+- Added link-frequencies endpoint property support;
+- Marked avdd-supply as non-optional (no internal regulator);
+- Used NULL ctrl ops for pixel rate and link freq;
+- Extra cosmetic changes;
 
-I have decided to donate what I have to you for the support of helping
-Motherless babies/Less privileged/Widows' because I am dying and
-diagnosed of cancer for about 2 years ago. I have been touched by God
-Almighty to donate from what I have inherited from my late husband to
-you for good work of God Almighty. I have asked Almighty God to
-forgive me and believe he has, because He is a Merciful God I will be
-going in for an operation surgery soon
+Changes since v1:
+- Used runtime pm;
+- Used assigned-clock-rate;
+- Removed clock name;
+- Returned closest size in set_fmt;
+- Removed unneeded references to v4l2 controls;
+- Removed unneeded structure packing attribute;
+- Removed i2c device table;
+- Dual-licensed bindings;
+- Used SPDX tags.
 
-This is the reason i need your services to stand as my next of kin or
-an executor to claim the funds for charity purposes. If this money
-remains unclaimed after my death, the bank executives or the
-government will take the money as unclaimed fund and maybe use it for
-selfish and worthless ventures, I need a very honest person who can
-claim this money and use it for Charity works, for orphanages, widows
-and also build schools for less privilege that will be named after my
-late husband and my name; I need your urgent answer to know if you
-will be able to execute this project, and I will give you more
-Information on how the fund will be transferred to your bank account.
+Cheers,
 
-Thanks
-Mrs. Maya
+Paul
+
+Kévin L'hôpital (1):
+  ARM: dts: sun8i: a83t: bananapi-m3: Enable MIPI CSI-2 with OV8865
+
+Paul Kocialkowski (2):
+  dt-bindings: media: i2c: Add OV8865 bindings documentation
+  media: i2c: Add support for the OV8865 image sensor
+
+ .../bindings/media/i2c/ovti,ov8865.yaml       |  124 +
+ arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts  |   95 +
+ drivers/media/i2c/Kconfig                     |   13 +
+ drivers/media/i2c/Makefile                    |    1 +
+ drivers/media/i2c/ov8865.c                    | 3066 +++++++++++++++++
+ 5 files changed, 3299 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+ create mode 100644 drivers/media/i2c/ov8865.c
+
+-- 
+2.29.2
+
