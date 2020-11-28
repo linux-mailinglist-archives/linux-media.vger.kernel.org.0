@@ -2,74 +2,164 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E1B002C7086
-	for <lists+linux-media@lfdr.de>; Sat, 28 Nov 2020 19:18:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id ECC142C7068
+	for <lists+linux-media@lfdr.de>; Sat, 28 Nov 2020 19:18:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730134AbgK1SAR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 28 Nov 2020 13:00:17 -0500
-Received: from mslow2.mail.gandi.net ([217.70.178.242]:40566 "EHLO
+        id S1730198AbgK1R6h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Nov 2020 12:58:37 -0500
+Received: from mslow2.mail.gandi.net ([217.70.178.242]:38082 "EHLO
         mslow2.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729781AbgK1R6Q (ORCPT
+        with ESMTP id S1732191AbgK1R4E (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 28 Nov 2020 12:58:16 -0500
-Received: from relay7-d.mail.gandi.net (unknown [217.70.183.200])
-        by mslow2.mail.gandi.net (Postfix) with ESMTP id 922D53A2CF0;
-        Sat, 28 Nov 2020 11:07:02 +0000 (UTC)
+        Sat, 28 Nov 2020 12:56:04 -0500
+Received: from relay2-d.mail.gandi.net (unknown [217.70.183.194])
+        by mslow2.mail.gandi.net (Postfix) with ESMTP id C9BA03AFE4D;
+        Sat, 28 Nov 2020 14:29:42 +0000 (UTC)
 X-Originating-IP: 93.29.109.196
 Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 3FE4B20007;
-        Sat, 28 Nov 2020 11:06:39 +0000 (UTC)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 132404000A;
+        Sat, 28 Nov 2020 14:29:20 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-sunxi@googlegroups.com
+Cc:     Yong Deng <yong.deng@magewell.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
         Maxime Ripard <mripard@kernel.org>,
+        Chen-Yu Tsai <wens@csie.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
         Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
+        Vinod Koul <vkoul@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: [PATCH v3 0/2] media: i2c: OV5648 image sensor support
-Date:   Sat, 28 Nov 2020 12:06:24 +0100
-Message-Id: <20201128110626.456472-1-paul.kocialkowski@bootlin.com>
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        kevin.lhopital@hotmail.com
+Subject: [PATCH v2 14/19] ARM: dts: sun8i: v3s: Add nodes for MIPI CSI-2 support
+Date:   Sat, 28 Nov 2020 15:28:34 +0100
+Message-Id: <20201128142839.517949-15-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
+References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series adds support for the OV5648 image sensor,
-as a V4L2 subdev driver.
+MIPI CSI-2 is supported on the V3s with an A31-based MIPI CSI-2 bridge
+controller. The controller uses a separate D-PHY, which is the same
+that is otherwise used for MIPI DSI, but used in Rx mode.
 
-Changes since v2:
-- Added link-frequencies endpoint property support;
-- Used NULL ctrl ops for pixel rate and link freq;
-- Extra cosmetic changes.
+On the V3s, the CSI0 controller is dedicated to MIPI CSI-2 as it does
+not have access to any parallel interface pins.
 
-Changes since v1:
-- Used runtime pm;
-- Used assigned-clock-rate;
-- Removed clock name;
-- Returned closest size in set_fmt;
-- Removed unneeded references to v4l2 controls;
-- Removed i2c device table;
-- Dual-licensed bindings;
-- Used SPDX tags.
+Add all the necessary nodes (CSI0, MIPI CSI-2 bridge and D-PHY) to
+support the MIPI CSI-2 interface.
 
-Paul Kocialkowski (2):
-  dt-bindings: media: i2c: Add OV5648 bindings documentation
-  media: i2c: Add support for the OV5648 image sensor
+Note that a fwnode graph link is created between CSI0 and MIPI CSI-2
+even when no sensor is connected. This will result in a probe failure
+for the controller as long as no sensor is connected but this is fine
+since no other interface is available.
 
- .../bindings/media/i2c/ovti,ov5648.yaml       |  115 +
- drivers/media/i2c/Kconfig                     |   14 +
- drivers/media/i2c/Makefile                    |    1 +
- drivers/media/i2c/ov5648.c                    | 2715 +++++++++++++++++
- 4 files changed, 2845 insertions(+)
- create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov5648.yaml
- create mode 100644 drivers/media/i2c/ov5648.c
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+---
+ arch/arm/boot/dts/sun8i-v3s.dtsi | 68 ++++++++++++++++++++++++++++++++
+ 1 file changed, 68 insertions(+)
 
+diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+index 7926c8b2ac5e..641da6c7bca0 100644
+--- a/arch/arm/boot/dts/sun8i-v3s.dtsi
++++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+@@ -530,6 +530,31 @@ spi0: spi@1c68000 {
+ 			#size-cells = <0>;
+ 		};
+ 
++		csi0: camera@1cb0000 {
++			compatible = "allwinner,sun8i-v3s-csi";
++			reg = <0x01cb0000 0x1000>;
++			interrupts = <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CSI>,
++				 <&ccu CLK_CSI1_SCLK>,
++				 <&ccu CLK_DRAM_CSI>;
++			clock-names = "bus", "mod", "ram";
++			resets = <&ccu RST_BUS_CSI>;
++			status = "disabled";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				port@1 {
++					reg = <1>;
++
++					csi0_in_mipi_csi2: endpoint {
++						remote-endpoint = <&mipi_csi2_out_csi0>;
++					};
++				};
++			};
++		};
++
+ 		csi1: camera@1cb4000 {
+ 			compatible = "allwinner,sun8i-v3s-csi";
+ 			reg = <0x01cb4000 0x3000>;
+@@ -561,5 +586,48 @@ gic: interrupt-controller@1c81000 {
+ 			#interrupt-cells = <3>;
+ 			interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) | IRQ_TYPE_LEVEL_HIGH)>;
+ 		};
++
++		mipi_csi2: csi@1cb1000 {
++			compatible = "allwinner,sun8i-v3s-mipi-csi2",
++				     "allwinner,sun6i-a31-mipi-csi2";
++			reg = <0x01cb1000 0x1000>;
++			interrupts = <GIC_SPI 90 IRQ_TYPE_LEVEL_HIGH>;
++			clocks = <&ccu CLK_BUS_CSI>,
++				 <&ccu CLK_CSI1_SCLK>;
++			clock-names = "bus", "mod";
++			resets = <&ccu RST_BUS_CSI>;
++			status = "disabled";
++
++			phys = <&dphy>;
++			phy-names = "dphy";
++
++			ports {
++				#address-cells = <1>;
++				#size-cells = <0>;
++
++				mipi_csi2_in: port@0 {
++					reg = <0>;
++				};
++
++				mipi_csi2_out: port@1 {
++					reg = <1>;
++
++					mipi_csi2_out_csi0: endpoint {
++						remote-endpoint = <&csi0_in_mipi_csi2>;
++					};
++				};
++			};
++		};
++
++		dphy: d-phy@1cb2000 {
++			compatible = "allwinner,sun6i-a31-mipi-dphy";
++			reg = <0x01cb2000 0x1000>;
++			clocks = <&ccu CLK_BUS_CSI>,
++				 <&ccu CLK_MIPI_CSI>;
++			clock-names = "bus", "mod";
++			resets = <&ccu RST_BUS_CSI>;
++			status = "disabled";
++			#phy-cells = <0>;
++		};
+ 	};
+ };
 -- 
 2.29.2
 
