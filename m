@@ -2,225 +2,82 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 67DFC2C74E2
-	for <lists+linux-media@lfdr.de>; Sat, 28 Nov 2020 23:23:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 182A02C746C
+	for <lists+linux-media@lfdr.de>; Sat, 28 Nov 2020 23:19:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388419AbgK1Vti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 28 Nov 2020 16:49:38 -0500
-Received: from mga07.intel.com ([134.134.136.100]:39736 "EHLO mga07.intel.com"
+        id S2388544AbgK1Vtk (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Nov 2020 16:49:40 -0500
+Received: from mout.gmx.net ([212.227.17.22]:55003 "EHLO mout.gmx.net"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726992AbgK1SWE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Sat, 28 Nov 2020 13:22:04 -0500
-IronPort-SDR: emnXehHApzPX6opKHZ8RNWAQIfvZOB93vC5hx2tput/nJJZnYzIzXEp45lKbgb5l+QoYFXNjtj
- AJigrYL+T6ag==
-X-IronPort-AV: E=McAfee;i="6000,8403,9819"; a="236619635"
-X-IronPort-AV: E=Sophos;i="5.78,377,1599548400"; 
-   d="scan'208";a="236619635"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 28 Nov 2020 10:21:23 -0800
-IronPort-SDR: fPxbv17UuSnPdgXA2hdOs0KJHAxK2jH9JptYq9VvW6ig1dSlxcCo4YICLWVa8gF3ScZz9W4dYx
- 353hDdOwxvjQ==
-X-ExtLoop1: 1
-X-IronPort-AV: E=Sophos;i="5.78,377,1599548400"; 
-   d="scan'208";a="328995817"
-Received: from lkp-server01.sh.intel.com (HELO b5888d13d5a5) ([10.239.97.150])
-  by orsmga003.jf.intel.com with ESMTP; 28 Nov 2020 10:21:22 -0800
-Received: from kbuild by b5888d13d5a5 with local (Exim 4.92)
-        (envelope-from <lkp@intel.com>)
-        id 1kj4qX-0000VW-Bt; Sat, 28 Nov 2020 18:21:21 +0000
-Date:   Sun, 29 Nov 2020 02:20:43 +0800
-From:   kernel test robot <lkp@intel.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org
-Subject: [ragnatech:media-tree] BUILD SUCCESS
- a3f132df0e5f25399c9592c2d14997975ddbf290
-Message-ID: <5fc294fb.FCZlVPntp7fucWnk%lkp@intel.com>
-User-Agent: Heirloom mailx 12.5 6/20/10
+        id S1729478AbgK1S1X (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Sat, 28 Nov 2020 13:27:23 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=gmx.net;
+        s=badeba3b8450; t=1606587951;
+        bh=xxIgQTR2VpmL987Hp2uw8jdeUWSV0iHHx5xMHabUevM=;
+        h=X-UI-Sender-Class:From:Subject:To:Date;
+        b=joy/uFg/2v2oXvHRNkN7Ui1PtHRaBlaC75jD09IgM24ne/8CWDi99mqdeVHy48IpA
+         RauaM8u3CwSHKiy5xAD0JxyENPmT+ub4PvywCotCQO78nMS0vjauf8kiR2bSrVdDGi
+         oo0PQfAq2qA8Gmp/eEizw3Uf4WCjxF2zqiWQTbqU=
+X-UI-Sender-Class: 01bb95c1-4bf8-414a-932a-4f6e2808ef9c
+Received: from [192.168.3.33] ([217.225.83.13]) by mail.gmx.com (mrgmx105
+ [212.227.17.174]) with ESMTPSA (Nemesis) id 1MnakX-1kJwte2CEX-00jVuk for
+ <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 19:25:51 +0100
+From:   Elmar Psilog <epsi@gmx.de>
+Subject: create V4L2 Sensor driver (stream/triggered)
+To:     linux-media@vger.kernel.org
+Message-ID: <1c1ac976-70f1-2071-469c-c84320434469@gmx.de>
+Date:   Sat, 28 Nov 2020 19:25:50 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: quoted-printable
+Content-Language: en-US
+X-Provags-ID: V03:K1:DqUMSn11tgDnErpVM29UI4LmTeFBPED7tUfEcWqDfasoTQ+x+Cr
+ gqUrwQjseY5jEYelOd7v9387AptBJa0rsnXVjwGappwSL+xtKLUEu2Xpf3dHgg/GRWi80gr
+ yAgGoYtXxtQfvTPwJamVKk0N0WSb17DF804uReKXAgmbIQ/HDeTZQhXiiZgDl5a1phFsNv8
+ 5ebHkBms++5fCjTClh5dA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:PAPkQgaDt90=:P40pzvIzWvCz7Mdxp/McWa
+ /5S9KZJWlJjERCf92cBcqi9lZ3XgResurTboxyW4GpbTrJCUKQKjIA03sDFkuY+VVk121SQ17
+ xglIX7VgdYFEfGISY0dzwpgQB8oJpi8EXKXz8lFdl66dnDArvKmzWLHcSKQQlPyRwlyG5rPuS
+ 1VNclodXqONE9BTl4j2gJFMwgpLrcgGjmfxNRHihjzfxEV4xlEmnrmQ3gz+nAhq6Nu+ytAOWI
+ KzMwX3yvCW/tSH2MUbiebhTmn3rlcSR8zFgBnDgyuJiVsSWj1jf006C/J60YMdno08bScL7wF
+ JFffka7EaAsEWgc9toreNfStgKOoRacXgSHX5gPPFXpxDnQobHqwMoKuu6CaP3HNY7AWtHwhc
+ fOxjPL5Zxdys8CZboKwE5ZYTd9KT2khrHjggJNNt3mEfuy7V5720Q1P8zNJ1YEptltdLNTahG
+ EoSEzzSGmSpm67UmljvYaZGdVbBYus+jPuOm3uMr340zoBw+F9nyI0qaeutf66o5T5QuzRdup
+ Djf7Ko6yPDkat6bKJN3+YE8wVta9km/oWR/VuGOR2deMM1wxpGl45JQBhsnT274+Q8yEZK+b4
+ aHLdoVRGIvmkbGUtQLKq02wkn/DbWQgPctw8Ov+rz3ra5aRNHcOu9BrRy7hvOPjtF06US42mg
+ 54TOHNI20Z12Z/tDy3NeR3BO1q7BIzK4INXGHPkhgWAVV1yZusaJ0Zb9yXC7mVsIWP7BimQn6
+ pLbrhywURUuMp8FA4oY77KraOh7c8wxt3tcEf9yQLIsx8PQm9JrtoOKBUfNzyZIUavoPKWU56
+ 9nHZL4Mixw7Wu17aCrJCdS9C9gHOckqVawWjR2hPQFqvw2Oc5QKEMi3BTTaktb/Z74ugrTjTc
+ JhTjuGUG18z8Ja8BxD2w==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-tree/branch: git://git.ragnatech.se/linux  media-tree
-branch HEAD: a3f132df0e5f25399c9592c2d14997975ddbf290  media: bttv: use generic power management
+Would like to write a (minimal) V4L2 driver for a (mipi) camera sensor.
+I didn't find some kind of template that contains the stuff that is same
+in almost all kind of this. So probably I have to learn from what is in
+kernel already, right?
 
-elapsed time: 1733m
+This is what I found:
 
-configs tested: 161
-configs skipped: 2
+https://linuxtv.org/downloads/v4l-dvb-apis-new/driver-api/camera-sensor.ht=
+ml
 
-The following configs have been built successfully.
-More configs may be tested in the coming days.
+http://www.thedirks.org/v4l2/v4l2dwg.htm
 
-gcc tested configs:
-arm                                 defconfig
-arm64                            allyesconfig
-arm64                               defconfig
-arm                              allyesconfig
-arm                              allmodconfig
-arm                             rpc_defconfig
-mips                          rb532_defconfig
-sh                        sh7757lcr_defconfig
-sh                          rsk7264_defconfig
-xtensa                    xip_kc705_defconfig
-sh                         microdev_defconfig
-arm                        realview_defconfig
-mips                    maltaup_xpa_defconfig
-c6x                        evmc6472_defconfig
-mips                           ip28_defconfig
-sh                               allmodconfig
-m68k                         amcore_defconfig
-mips                            gpr_defconfig
-arm                          collie_defconfig
-powerpc                  mpc866_ads_defconfig
-arm                          moxart_defconfig
-mips                  decstation_64_defconfig
-arm                           efm32_defconfig
-powerpc                    sam440ep_defconfig
-m68k                       m5475evb_defconfig
-xtensa                    smp_lx200_defconfig
-arm                         mv78xx0_defconfig
-powerpc                 mpc836x_rdk_defconfig
-arm                         lpc18xx_defconfig
-mips                         db1xxx_defconfig
-arc                         haps_hs_defconfig
-mips                     loongson1c_defconfig
-alpha                               defconfig
-arm                         s3c2410_defconfig
-powerpc                        cell_defconfig
-sh                   rts7751r2dplus_defconfig
-xtensa                  cadence_csp_defconfig
-powerpc                      ppc40x_defconfig
-arm                            dove_defconfig
-arm                      jornada720_defconfig
-powerpc                 mpc837x_rdb_defconfig
-arm                         cm_x300_defconfig
-mips                          malta_defconfig
-arm                          pxa168_defconfig
-openrisc                 simple_smp_defconfig
-sh                                  defconfig
-ia64                      gensparse_defconfig
-s390                       zfcpdump_defconfig
-arc                 nsimosci_hs_smp_defconfig
-arm                            hisi_defconfig
-sh                           sh2007_defconfig
-powerpc                     mpc512x_defconfig
-mips                      malta_kvm_defconfig
-c6x                         dsk6455_defconfig
-arm                           h5000_defconfig
-powerpc                     ppa8548_defconfig
-powerpc                 mpc8315_rdb_defconfig
-mips                           jazz_defconfig
-mips                         rt305x_defconfig
-sh                             sh03_defconfig
-sparc64                             defconfig
-arm                  colibri_pxa300_defconfig
-arm                           corgi_defconfig
-sh                          kfr2r09_defconfig
-sh                          sdk7786_defconfig
-mips                           ip22_defconfig
-sh                           se7722_defconfig
-powerpc                 linkstation_defconfig
-arm                        oxnas_v6_defconfig
-riscv                          rv32_defconfig
-sh                          rsk7201_defconfig
-ia64                             allmodconfig
-ia64                                defconfig
-ia64                             allyesconfig
-m68k                             allmodconfig
-m68k                                defconfig
-m68k                             allyesconfig
-nios2                               defconfig
-arc                              allyesconfig
-nds32                             allnoconfig
-c6x                              allyesconfig
-nds32                               defconfig
-nios2                            allyesconfig
-csky                                defconfig
-alpha                            allyesconfig
-xtensa                           allyesconfig
-h8300                            allyesconfig
-arc                                 defconfig
-parisc                              defconfig
-s390                             allyesconfig
-parisc                           allyesconfig
-s390                                defconfig
-i386                             allyesconfig
-sparc                            allyesconfig
-sparc                               defconfig
-i386                                defconfig
-mips                             allyesconfig
-mips                             allmodconfig
-powerpc                          allyesconfig
-powerpc                          allmodconfig
-powerpc                           allnoconfig
-i386                 randconfig-a004-20201127
-i386                 randconfig-a003-20201127
-i386                 randconfig-a002-20201127
-i386                 randconfig-a005-20201127
-i386                 randconfig-a001-20201127
-i386                 randconfig-a006-20201127
-i386                 randconfig-a004-20201128
-i386                 randconfig-a003-20201128
-i386                 randconfig-a002-20201128
-i386                 randconfig-a005-20201128
-i386                 randconfig-a001-20201128
-i386                 randconfig-a006-20201128
-x86_64               randconfig-a015-20201127
-x86_64               randconfig-a011-20201127
-x86_64               randconfig-a014-20201127
-x86_64               randconfig-a016-20201127
-x86_64               randconfig-a012-20201127
-x86_64               randconfig-a013-20201127
-i386                 randconfig-a012-20201127
-i386                 randconfig-a013-20201127
-i386                 randconfig-a011-20201127
-i386                 randconfig-a016-20201127
-i386                 randconfig-a014-20201127
-i386                 randconfig-a015-20201127
-i386                 randconfig-a012-20201128
-i386                 randconfig-a013-20201128
-i386                 randconfig-a011-20201128
-i386                 randconfig-a016-20201128
-i386                 randconfig-a014-20201128
-i386                 randconfig-a015-20201128
-x86_64               randconfig-a003-20201128
-x86_64               randconfig-a006-20201128
-x86_64               randconfig-a004-20201128
-x86_64               randconfig-a005-20201128
-x86_64               randconfig-a001-20201128
-x86_64               randconfig-a002-20201128
-riscv                    nommu_k210_defconfig
-riscv                            allyesconfig
-riscv                    nommu_virt_defconfig
-riscv                             allnoconfig
-riscv                               defconfig
-riscv                            allmodconfig
-x86_64                                   rhel
-x86_64                           allyesconfig
-x86_64                    rhel-7.6-kselftests
-x86_64                              defconfig
-x86_64                               rhel-8.3
-x86_64                                  kexec
+https://www.kernel.org/doc/html/v4.16/media/uapi/v4l/v4l2.html
 
-clang tested configs:
-x86_64               randconfig-a006-20201127
-x86_64               randconfig-a003-20201127
-x86_64               randconfig-a004-20201127
-x86_64               randconfig-a005-20201127
-x86_64               randconfig-a002-20201127
-x86_64               randconfig-a001-20201127
-x86_64               randconfig-a015-20201128
-x86_64               randconfig-a011-20201128
-x86_64               randconfig-a016-20201128
-x86_64               randconfig-a014-20201128
-x86_64               randconfig-a012-20201128
-x86_64               randconfig-a013-20201128
+https://01.org/linuxgraphics/gfx-docs/drm/media/kapi/v4l2-subdev.html
 
----
-0-DAY CI Kernel Test Service, Intel Corporation
-https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
+But what I didn't found, neither in any docs nor in one of the existing
+drivers:
+
+I don't find a single one that seems to support TRIGGER. Is there a
+special reason for that? Can someone give me a hint why this is like
+that? In the real world many of the cameras have this.
+
+Thanks
+
