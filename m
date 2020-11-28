@@ -2,178 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B6D522C6ED4
-	for <lists+linux-media@lfdr.de>; Sat, 28 Nov 2020 05:49:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 27D2B2C7036
+	for <lists+linux-media@lfdr.de>; Sat, 28 Nov 2020 18:57:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732730AbgK1EoS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 27 Nov 2020 23:44:18 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:47511 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1732683AbgK1EmM (ORCPT
+        id S1728636AbgK1FHf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Nov 2020 00:07:35 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55420 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726400AbgK1FE6 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 27 Nov 2020 23:42:12 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id is3YkVQEZDuFjis3ZktM5F; Sat, 28 Nov 2020 05:41:57 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606538517; bh=LnwwK5ZitecNDwd/MS9elFYHhXmU1dBNU7j1l6gjqPs=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=J6nmD5Mkc/x0nZfT9rToysUjxMZkRlYks9A0lODBU6R7snN4KcF4skx38gVY8rUwG
-         z4tKhsxUN7pQwCeGiHLlVLfKaLaQSig7mbJYy7LZWLHkb2RrzmCty5XCO3MHxQt/BD
-         +c1zWv7NgeD1m+Thqu+coNQnQ5/u2gNpw7AwRRmcqX0tFUeGRPg4iXmW/jbs8fhFNq
-         wXNwxIwLRGNjExymhwpUYGVzGHeMpqSRVRRl5XG/KYtQBJCtdikjC56tW8quzPTj8A
-         p/gDsI3CDOTyGlrEI5YXBDb/WMAbl/zGfXV/Gz436TtOdLCEj7VSRqXMEsj7rsfmsn
-         2HaMWVB4ImBAQ==
-Message-ID: <b8e01aba8358beb5b7ef4af9dd52d134@smtp-cloud8.xs4all.net>
-Date:   Sat, 28 Nov 2020 05:41:56 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfGYvaIk9ZXAEjH1vkuXX7KhkBoh7tPTX49paAHipPZLN0KdqMBjY/xIHXZrWHi3BlQ4I7dXEe6VKuPVsTXEwFU22jMKNyp81MfmmyOF2TFpNNL7bxkce
- yDfrUVs2YTv4Q4PvfL4YqzFpMkLz37801LXkSPiYiK9Tk6r/J434C5KT+fB2B+gpSZEclebFbgORSs7KUDHWexvcy96WhA/BlVPKeoKXLGtOC1Xju5REBffg
- LMxCTwy61CfNNGwRAh6vqg==
+        Sat, 28 Nov 2020 00:04:58 -0500
+Received: from mail-pg1-x542.google.com (mail-pg1-x542.google.com [IPv6:2607:f8b0:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 830AEC0613D1;
+        Fri, 27 Nov 2020 21:04:46 -0800 (PST)
+Received: by mail-pg1-x542.google.com with SMTP id t37so5829175pga.7;
+        Fri, 27 Nov 2020 21:04:46 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=1wR2Kvfb5vjG8T/PCijsWnV5/Q6MbpEzV8Vjtc0CiDc=;
+        b=aHPcBfuVBnDc/UEbN7yMv5xeqS+GxfQGwavrxwH6cH4XS0raWlwle2tQKxQSUKmkN+
+         ovcJzX6Y4PIz6fLFX2fxop62ys7QHTYbs/aY0kduavQ4HiA+m210l88xCcG0TrY0B0Xm
+         lmQmrOENCW7G94Z2pZ765mi4uQqb1a7HPz8pyLn5vMtocTqCSfmnnk/Qri7m5VnMkItZ
+         ovINqEOaUi17LvC+LfoKIOhByqt8svCwXXmEgQ6cvZdzzygDmK09fMWf0iGCniTz4F8e
+         rHIvaVcboSMS+SweQeAfQOyp0TC1iUkw4teva/lt5tG2QUOiG9S7raHKEdoWNtD4Rv8D
+         7onA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=1wR2Kvfb5vjG8T/PCijsWnV5/Q6MbpEzV8Vjtc0CiDc=;
+        b=VCaUBwWUK4LqxWUIkXjKGsHDLPvhoYrPqfdef8hP2ypjX0Pawy0Ft1NgWklxM/XSTi
+         lZzCSRSrbJmghyX6PUjpzhQqzHk1zMN9HX3YvtUZ+iU4bRtnPANREHeIAPiUZ3UXTN6u
+         bN7XnpdVIFuD4hDf/yJnSByNUwxDAfmXV6j6wXMQ7T/+xMfbPFeWzxsuwkQAmQ3AO+jM
+         IhEaP9i3+iwXozU4O5gW9O8jYwGN/yyKreIAqfzkxe+ryapyagmH2lXz1rE7cESgj96W
+         zVoj4jklusQtKxSFDp90Q35uJF/I53/HujNXshyOBAtoLKY/dCRN8kdw6PdfWa4bCTyO
+         YDFw==
+X-Gm-Message-State: AOAM530K1J7lQ2Tx+wX7980RyoNr8EY/htsoFgq8sZ3gsocogCLgjQx0
+        qOTyeT0h/OvnjBFRLK9be+s=
+X-Google-Smtp-Source: ABdhPJzsOXkBhwfr1TmkLRRXWfCd9IStAbkq9v8eVF37jWLr9Az9kmV3sWjW4/TAXnLRPPc+Up7oCQ==
+X-Received: by 2002:a17:90a:e386:: with SMTP id b6mr2978528pjz.134.1606539886076;
+        Fri, 27 Nov 2020 21:04:46 -0800 (PST)
+Received: from localhost ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
+        by smtp.gmail.com with ESMTPSA id p14sm13192489pjo.53.2020.11.27.21.04.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 27 Nov 2020 21:04:44 -0800 (PST)
+Date:   Sat, 28 Nov 2020 14:04:42 +0900
+From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
+To:     Tomasz Figa <tfiga@chromium.org>
+Cc:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Sergey Senozhatsky <senozhatsky@chromium.org>
+Subject: Re: [PATCH] media: vb2: always set buffer cache sync hints
+Message-ID: <X8HaalHqzUYiopAn@jagdpanzerIV.localdomain>
+References: <20201127094136.1051071-1-sergey.senozhatsky@gmail.com>
+ <0dbfa509-8c82-7470-c18b-24ab5c92dc4b@xs4all.nl>
+ <X8ENifLanjYuhF/r@jagdpanzerIV.localdomain>
+ <509cc69b-39d7-4b13-f392-ebf25530c8fe@xs4all.nl>
+ <X8Eq4V++hRsKuYSF@jagdpanzerIV.localdomain>
+ <CAAFQd5D7V8hbdZv_VxAUHUBsbknJsWMaU=h=5j19Z-J8FL27FQ@mail.gmail.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <CAAFQd5D7V8hbdZv_VxAUHUBsbknJsWMaU=h=5j19Z-J8FL27FQ@mail.gmail.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On (20/11/28 01:50), Tomasz Figa wrote:
+> On Sat, Nov 28, 2020 at 1:35 AM Sergey Senozhatsky
+> <sergey.senozhatsky@gmail.com> wrote:
+> >
+> > On (20/11/27 15:56), Hans Verkuil wrote:
+> > > Yes.
+> > >
+> > > BTW, wouldn't it be sufficient to change this code to:
+> > >
+> > >       if (!q->allow_cache_hints && q->memory != VB2_MEMORY_DMABUF) {
+> > >               vb->need_cache_sync_on_prepare = 1;
+> > >               vb->need_cache_sync_on_finish = 1;
+> > >       }
+> >
+> > I think it would be sufficient.
+> 
+> Does it matter at this point if allow_cache_hints is set or not?
 
-Results of the daily build of media_tree:
+That's a good question. I'd say that it'll probably make sense to set
+need_cache_sync for as many buffers as possible, regardless the queue
+configuration (except for ->memory type), just to stay on the safe side.
+I can spin another patch version.
 
-date:			Sat Nov 28 05:00:17 CET 2020
-media-tree git hash:	a3f132df0e5f25399c9592c2d14997975ddbf290
-media_build git hash:	efebcbca1e44be2502829ae9bd9a9ff90b90e310
-v4l-utils git hash:	11da65eee7a271bba3f21d8117cdac428fe3a91e
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 63a52153f10bfed851877e415b3507560c94cfd1
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
-
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
-sparse: OK
-smatch: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Saturday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Saturday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+	-ss
