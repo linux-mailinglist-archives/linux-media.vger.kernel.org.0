@@ -2,68 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id BDE022C7835
-	for <lists+linux-media@lfdr.de>; Sun, 29 Nov 2020 07:10:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B007A2C7839
+	for <lists+linux-media@lfdr.de>; Sun, 29 Nov 2020 07:13:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726136AbgK2GKS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Nov 2020 01:10:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32966 "EHLO
+        id S1726031AbgK2GNH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Nov 2020 01:13:07 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33388 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725909AbgK2GKS (ORCPT
+        with ESMTP id S1725830AbgK2GNG (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Nov 2020 01:10:18 -0500
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44507C0613D1
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:09:38 -0800 (PST)
-Received: by mail-ed1-x543.google.com with SMTP id y22so2459566edv.1
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:09:38 -0800 (PST)
+        Sun, 29 Nov 2020 01:13:06 -0500
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7549DC0613D3
+        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:12:20 -0800 (PST)
+Received: by mail-ej1-x643.google.com with SMTP id f23so14381632ejk.2
+        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:12:20 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=fu+OLgh33kd4c7uWtP+T5ynLNcOve17zeiTVDhx2z0E=;
-        b=Qh2PVWDDKHbM51luphJ8s7JPsgXiObRyw72WqBT9N9N9or5ya0Z6xdKAxIwuNUEGY/
-         nRDDC6DFhZvs5Tr3NxBaaAGWcbCV5CdvNRXmECCTBQFvGE0vsJCZrXTSkJPVV3YOCFzE
-         Lmp+hcqE7JreKxxzd4FjCfh4cR29RXg3n1f/Y=
+        bh=c9wTU9wEjbp/1E7ua+WrSBOxafo4H65ItS3T6AdDsh0=;
+        b=NvfhufPwbp7lWu4WJTjA8zzjpv3w+MZoTm0bkSEA8Lb8cf8YdESE+z8JUFBlAa16UW
+         NimLjX46+ZPY6EYZbXx26ptvIa5ZuYuugki9pGiGGMVIW/ZIpXPGoUJJQwBdQfRQ5SFc
+         VSceKLtDdUKsPWCFBuZ1wEXsQXXeSQ4FsyNKY=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=fu+OLgh33kd4c7uWtP+T5ynLNcOve17zeiTVDhx2z0E=;
-        b=ERQLmPWMH9Z5RvKyQUuLRRpwb4aNVpVUnlldVdqXarxpi1a2S/hElWUs8EJjentMNA
-         G0jqc0FsC33+qvZqkbxxkAUq3ciNUGuHo3L8nWuV8EvHityRVkoVXRtfhl6jXLVfTUv9
-         fuHvYwBrxvXGq8NDgJ0gHE5ySulHHYRipqzOSqlDtXGlDjrQauNs2sqbB1MGdr1kkNUl
-         4Zq1sYscM6x1aczJIMjzS2eSkWUvXWX5JORbXahZxWhcoG8MuyUcAF52Jx6hlIUm2fLQ
-         oV8Zs7NHegvf8rHCH/y0/sT+TOO+SZMzd/rKnp5eKFoZeTfFPv57/EEahXXmSDOdG5ji
-         1XLA==
-X-Gm-Message-State: AOAM531F8f3Aw4HZsh2Isy0xBN+r4Bf0yMLol1shaA34ADbOHYV3b2UH
-        1d0Q8t7Adonr84fBPAQBavo0l+8mkpmV8g==
-X-Google-Smtp-Source: ABdhPJwk7d95KnEMsIkw5gv8rp60s98NCMRfWMYMC54Hcv8Kow0Qxb1ZlC5Jcs4r0BTDa5ogRR91Lw==
-X-Received: by 2002:a50:c2ca:: with SMTP id u10mr3525808edf.355.1606630176861;
-        Sat, 28 Nov 2020 22:09:36 -0800 (PST)
-Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com. [209.85.128.41])
-        by smtp.gmail.com with ESMTPSA id b21sm7220897ejz.102.2020.11.28.22.09.36
+        bh=c9wTU9wEjbp/1E7ua+WrSBOxafo4H65ItS3T6AdDsh0=;
+        b=IMRK1rh1x8fyhEnLSsG0wsvJz89k2lcBPAvK9DRmzx8GoxFCTN1M1ojjYjgIVFgK/2
+         uC9rA4sCJ0msera9WdpYzzejCq+8shCyfUJ9HvY7r3M6/0hk07f8W2U11wqQfXvh9k9X
+         BEDCai00q7jvHMxqWZcqUt+hNhidB0/opnle4ANp0PSRsZWL3VBvL/bP0YcR9OZnGCX0
+         Xm+qYm7+OKDTz61QlUJPjqs4SeiLC+qG3X1gbU+c0nfFaC5gixkS5TmZEkZNR2V6kaH4
+         DzrQBCsTq8PEqmiuwXZtBcqJivRl7iHitQ/jPmNeVEIjTJmKdZEy76HLHy52V32vJEG4
+         nYCw==
+X-Gm-Message-State: AOAM533Jmk3SRNf77zUyuUCmvEDpgbNvDOt/XLhWg5TjGn3djdniDx7U
+        SLDFfpjN6FFOLhW1hooFA/Q3+T7H/ndtTw==
+X-Google-Smtp-Source: ABdhPJw74GDN0af78W4e7LNEvXOMbQghh3+sTaqqMHLTw9OQ98XuGmzC4Z9ohaJDwkFgNKOFDZAIbQ==
+X-Received: by 2002:a17:906:2b4e:: with SMTP id b14mr16106979ejg.354.1606630338828;
+        Sat, 28 Nov 2020 22:12:18 -0800 (PST)
+Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
+        by smtp.gmail.com with ESMTPSA id j7sm4653853edp.52.2020.11.28.22.12.17
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Nov 2020 22:09:36 -0800 (PST)
-Received: by mail-wm1-f41.google.com with SMTP id 10so11789563wml.2
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:09:36 -0800 (PST)
-X-Received: by 2002:a1c:8155:: with SMTP id c82mr10594340wmd.49.1606630175847;
- Sat, 28 Nov 2020 22:09:35 -0800 (PST)
+        Sat, 28 Nov 2020 22:12:18 -0800 (PST)
+Received: by mail-wm1-f43.google.com with SMTP id a3so14723298wmb.5
+        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:12:17 -0800 (PST)
+X-Received: by 2002:a1c:1d85:: with SMTP id d127mr754444wmd.39.1606630337573;
+ Sat, 28 Nov 2020 22:12:17 -0800 (PST)
 MIME-Version: 1.0
-References: <20201111143755.24541-1-stanimir.varbanov@linaro.org> <20201111143755.24541-9-stanimir.varbanov@linaro.org>
-In-Reply-To: <20201111143755.24541-9-stanimir.varbanov@linaro.org>
+References: <20201111143755.24541-1-stanimir.varbanov@linaro.org> <20201111143755.24541-7-stanimir.varbanov@linaro.org>
+In-Reply-To: <20201111143755.24541-7-stanimir.varbanov@linaro.org>
 From:   Fritz Koenig <frkoenig@chromium.org>
-Date:   Sat, 28 Nov 2020 22:09:23 -0800
-X-Gmail-Original-Message-ID: <CAMfZQbyvWYAUF=+mR_E-X_P8TtiJnC2P-=vR-9mxVTn_hJmp7Q@mail.gmail.com>
-Message-ID: <CAMfZQbyvWYAUF=+mR_E-X_P8TtiJnC2P-=vR-9mxVTn_hJmp7Q@mail.gmail.com>
-Subject: Re: [PATCH v2 8/8] venus: helpers: Delete unused stop streaming helper
+Date:   Sat, 28 Nov 2020 22:12:05 -0800
+X-Gmail-Original-Message-ID: <CAMfZQbzWgOvwupXyuzSbn8dWrbgyDEt2mV-SJLwxUkWGXWs7sQ@mail.gmail.com>
+Message-ID: <CAMfZQbzWgOvwupXyuzSbn8dWrbgyDEt2mV-SJLwxUkWGXWs7sQ@mail.gmail.com>
+Subject: Re: [PATCH v2 6/8] venus: venc: add handling for VIDIOC_ENCODER_CMD
 To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org,
         Vikash Garodia <vgarodia@codeaurora.org>,
         Alexandre Courbot <acourbot@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>
+        Fritz Koenig <frkoenig@chromium.org>,
+        Dikshita Agarwal <dikshita@codeaurora.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -72,81 +73,136 @@ X-Mailing-List: linux-media@vger.kernel.org
 On Wed, Nov 11, 2020 at 6:38 AM Stanimir Varbanov
 <stanimir.varbanov@linaro.org> wrote:
 >
-> After re-design of encoder driver this helper is not needed
-> anymore.
+> From: Dikshita Agarwal <dikshita@codeaurora.org>
 >
+> Add handling for below commands in encoder:
+> 1. V4L2_ENC_CMD_STOP
+> 2. V4L2_ENC_CMD_START
+>
+> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
 > Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 > ---
->  drivers/media/platform/qcom/venus/helpers.c | 43 ---------------------
->  drivers/media/platform/qcom/venus/helpers.h |  1 -
->  2 files changed, 44 deletions(-)
+>  drivers/media/platform/qcom/venus/venc.c | 77 +++++++++++++++++++++++-
+>  1 file changed, 76 insertions(+), 1 deletion(-)
 >
-> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> index 490c026b58a3..51c80417f361 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -1406,49 +1406,6 @@ void venus_helper_buffers_done(struct venus_inst *inst, unsigned int type,
+> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
+> index 99bfabf90bd2..7512e4a16270 100644
+> --- a/drivers/media/platform/qcom/venus/venc.c
+> +++ b/drivers/media/platform/qcom/venus/venc.c
+> @@ -507,6 +507,59 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
+>         return 0;
 >  }
->  EXPORT_SYMBOL_GPL(venus_helper_buffers_done);
 >
-> -void venus_helper_vb2_stop_streaming(struct vb2_queue *q)
-> -{
-> -       struct venus_inst *inst = vb2_get_drv_priv(q);
-> -       struct venus_core *core = inst->core;
-> -       int ret;
-> -
-> -       mutex_lock(&inst->lock);
-> -
-> -       if (inst->streamon_out & inst->streamon_cap) {
-> -               ret = hfi_session_stop(inst);
-> -               ret |= hfi_session_unload_res(inst);
-> -               ret |= venus_helper_unregister_bufs(inst);
-> -               ret |= venus_helper_intbufs_free(inst);
-> -               ret |= hfi_session_deinit(inst);
-> -
-> -               if (inst->session_error || core->sys_error)
-> -                       ret = -EIO;
-> -
-> -               if (ret)
-> -                       hfi_session_abort(inst);
-> -
-> -               venus_helper_free_dpb_bufs(inst);
-> -
-> -               venus_pm_load_scale(inst);
-> -               INIT_LIST_HEAD(&inst->registeredbufs);
-> -       }
-> -
-> -       venus_helper_buffers_done(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
-> -                                 VB2_BUF_STATE_ERROR);
-> -       venus_helper_buffers_done(inst, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
-> -                                 VB2_BUF_STATE_ERROR);
-> -
-> -       if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
-> -               inst->streamon_out = 0;
-> -       else
-> -               inst->streamon_cap = 0;
-> -
-> -       venus_pm_release_core(inst);
-> -
-> -       mutex_unlock(&inst->lock);
-> -}
-> -EXPORT_SYMBOL_GPL(venus_helper_vb2_stop_streaming);
-> -
->  int venus_helper_process_initial_cap_bufs(struct venus_inst *inst)
+> +static int venc_encoder_cmd(struct file *file, void *fh,
+> +                           struct v4l2_encoder_cmd *ec)
+> +{
+> +       struct venus_inst *inst = to_inst(file);
+> +       struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
+> +       struct hfi_frame_data fdata = {0};
+> +       int ret = 0;
+> +
+> +       ret = v4l2_m2m_ioctl_try_encoder_cmd(file, fh, ec);
+> +       if (ret < 0)
+> +               return ret;
+> +
+> +       mutex_lock(&inst->lock);
+> +
+> +       if (!vb2_is_streaming(&m2m_ctx->cap_q_ctx.q) ||
+> +           !vb2_is_streaming(&m2m_ctx->out_q_ctx.q))
+> +               goto unlock;
+> +
+> +       if (m2m_ctx->is_draining) {
+> +               ret = -EBUSY;
+> +               goto unlock;
+> +       }
+> +
+> +       if (ec->cmd == V4L2_ENC_CMD_STOP) {
+> +               if (v4l2_m2m_has_stopped(m2m_ctx)) {
+> +                       ret = 0;
+> +                       goto unlock;
+> +               }
+> +
+> +               m2m_ctx->is_draining = true;
+> +
+> +               fdata.buffer_type = HFI_BUFFER_INPUT;
+> +               fdata.flags |= HFI_BUFFERFLAG_EOS;
+> +               fdata.device_addr = 0;
+> +               fdata.clnt_data = (u32)-1;
+> +
+> +               ret = hfi_session_process_buf(inst, &fdata);
+> +               if (ret)
+> +                       goto unlock;
+> +       }
+> +
+> +       if (ec->cmd == V4L2_ENC_CMD_START && v4l2_m2m_has_stopped(m2m_ctx)) {
+> +               vb2_clear_last_buffer_dequeued(&m2m_ctx->cap_q_ctx.q);
+> +               inst->m2m_ctx->has_stopped = false;
+> +               venus_helper_process_initial_out_bufs(inst);
+> +               venus_helper_process_initial_cap_bufs(inst);
+> +       }
+> +
+> +unlock:
+> +       mutex_unlock(&inst->lock);
+> +       return ret;
+> +}
+> +
+>  static const struct v4l2_ioctl_ops venc_ioctl_ops = {
+>         .vidioc_querycap = venc_querycap,
+>         .vidioc_enum_fmt_vid_cap = venc_enum_fmt,
+> @@ -534,6 +587,8 @@ static const struct v4l2_ioctl_ops venc_ioctl_ops = {
+>         .vidioc_enum_frameintervals = venc_enum_frameintervals,
+>         .vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
+>         .vidioc_unsubscribe_event = v4l2_event_unsubscribe,
+> +       .vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
+> +       .vidioc_encoder_cmd = venc_encoder_cmd,
+>  };
+>
+>  static int venc_set_properties(struct venus_inst *inst)
+> @@ -946,9 +1001,22 @@ static int venc_start_streaming(struct vb2_queue *q, unsigned int count)
+>  static void venc_vb2_buf_queue(struct vb2_buffer *vb)
 >  {
->         struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
-> diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
-> index 231af29667e7..3eae2acbcc8e 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.h
-> +++ b/drivers/media/platform/qcom/venus/helpers.h
-> @@ -20,7 +20,6 @@ int venus_helper_vb2_buf_init(struct vb2_buffer *vb);
->  int venus_helper_vb2_buf_prepare(struct vb2_buffer *vb);
->  void venus_helper_vb2_buf_queue(struct vb2_buffer *vb);
->  void venus_helper_process_buf(struct vb2_buffer *vb);
-> -void venus_helper_vb2_stop_streaming(struct vb2_queue *q);
->  int venus_helper_vb2_start_streaming(struct venus_inst *inst);
->  void venus_helper_m2m_device_run(void *priv);
->  void venus_helper_m2m_job_abort(void *priv);
+>         struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
+> +       struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
+> +       struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
+>
+>         mutex_lock(&inst->lock);
+> -       venus_helper_vb2_buf_queue(vb);
+> +
+> +       v4l2_m2m_buf_queue(m2m_ctx, vbuf);
+> +
+> +       if (!(inst->streamon_out && inst->streamon_cap))
+> +               goto unlock;
+> +
+> +       if (v4l2_m2m_has_stopped(m2m_ctx))
+> +               goto unlock;
+> +
+> +       venus_helper_process_buf(vb);
+> +
+> +unlock:
+>         mutex_unlock(&inst->lock);
+>  }
+>
+> @@ -968,6 +1036,7 @@ static void venc_buf_done(struct venus_inst *inst, unsigned int buf_type,
+>         struct vb2_v4l2_buffer *vbuf;
+>         struct vb2_buffer *vb;
+>         unsigned int type;
+> +       struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
+>
+>         if (buf_type == HFI_BUFFER_INPUT)
+>                 type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
+> @@ -986,6 +1055,12 @@ static void venc_buf_done(struct venus_inst *inst, unsigned int buf_type,
+>                 vb->planes[0].data_offset = data_offset;
+>                 vb->timestamp = timestamp_us * NSEC_PER_USEC;
+>                 vbuf->sequence = inst->sequence_cap++;
+> +
+> +               if ((!bytesused && m2m_ctx->is_draining) ||
+> +                   (vbuf->flags & V4L2_BUF_FLAG_LAST)) {
+> +                       vbuf->flags |= V4L2_BUF_FLAG_LAST;
+> +                       v4l2_m2m_mark_stopped(inst->m2m_ctx);
+> +               }
+>         } else {
+>                 vbuf->sequence = inst->sequence_out++;
+>         }
 > --
 > 2.17.1
 >
