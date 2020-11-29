@@ -2,63 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B42022C782E
-	for <lists+linux-media@lfdr.de>; Sun, 29 Nov 2020 07:08:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C9C32C782F
+	for <lists+linux-media@lfdr.de>; Sun, 29 Nov 2020 07:08:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726516AbgK2GG4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Nov 2020 01:06:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60676 "EHLO
+        id S1725828AbgK2GIp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Nov 2020 01:08:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60952 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726472AbgK2GGz (ORCPT
+        with ESMTP id S1725468AbgK2GIp (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Nov 2020 01:06:55 -0500
-Received: from mail-ej1-x642.google.com (mail-ej1-x642.google.com [IPv6:2a00:1450:4864:20::642])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2B966C0613D4
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:06:15 -0800 (PST)
-Received: by mail-ej1-x642.google.com with SMTP id x16so7205177ejj.7
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:06:15 -0800 (PST)
+        Sun, 29 Nov 2020 01:08:45 -0500
+Received: from mail-ej1-x641.google.com (mail-ej1-x641.google.com [IPv6:2a00:1450:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BBA4EC0613D1
+        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:08:04 -0800 (PST)
+Received: by mail-ej1-x641.google.com with SMTP id m19so8628777ejl.11
+        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:08:04 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=QH5AaLENJtnaVb0zakGwFRAJxR6ENRJ5wor2gNEi1WA=;
-        b=XKnws3F/UYEV/6oLcu06/qaNXPqpi3KxhfKrP2qHWK8lJM35tOc6PztIQER6fPbes9
-         RZVP4fmqf325TW4rO56DMa0tT8YOxmoCzwJlZ4BhlmXc4Le4raCWWXCMw/FuvhSrS+Wi
-         /DaH8iD9CDFhWi+dIEljgHBpJK9EWtAmy6Ark=
+        bh=oBuF+7TgU/ZfyiFolzpZTN7G+5moGv16x7YISSbf2WI=;
+        b=Sa+KUL04mbhl4rwgaA9YJuTDBxqbdL5uxIXeUp631xJLXww0w3G6Rq5FN9HD8PINF9
+         SQpzslfjFUGE0+7KJQXqHgtqUBKzgX4z5PpC/VTQ7o5v9VmVbkB44fNLPxAI7CaF9OQ3
+         +CZ+/oqvsXC0JWkiDue713l8H7KiAZ3CRHJn8=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=QH5AaLENJtnaVb0zakGwFRAJxR6ENRJ5wor2gNEi1WA=;
-        b=pYReYDhjj0qph9rDb0+VOz3Ebim7zAxyeg9ICm+FnuUK94t7RYKmwgziCYaL/UKc19
-         vuog62CwIXHjdsmgOow41cc1a+HGyrhujXyufQmLv58R/8/9JQzml3+KrfU44FOc1RmI
-         7qYQejWEb+44FgBY/5qGcZ/8AjlWoJYtNey/+mdbNqJ4Hn5QZZGBPp9YnhNemI1fgxB1
-         RQ57kdFTbWDt85tPdpnlEsaQKYwMMvDVQRHirj4Sv7mj6VLLoNNWGcwSMT69acJc13UY
-         ZAXwsv3URhNVPpvsAnhAQL4jCNP5q8lnPB+KMDjRPpNHxbOGcq9AS3C/WTMOXW6iZ/PO
-         eQrw==
-X-Gm-Message-State: AOAM5334h8IuALLTC9xotfnHGmmsD6TOIZVqhw6ueklpsf+X5zdTyHnO
-        EuDpwY7RPhj5B6JSd0Oj81FCcmTKlIjU9A==
-X-Google-Smtp-Source: ABdhPJzw8X+/iCYEnEf8Q5wC6knl+49UIsnMOvyJAqIY1NRCF+2QCGp8h9TJDCzul5Obwhqq1BJ5AA==
-X-Received: by 2002:a17:906:77ce:: with SMTP id m14mr8472288ejn.10.1606629973560;
-        Sat, 28 Nov 2020 22:06:13 -0800 (PST)
-Received: from mail-wr1-f54.google.com (mail-wr1-f54.google.com. [209.85.221.54])
-        by smtp.gmail.com with ESMTPSA id k3sm7053984ejd.36.2020.11.28.22.06.12
+        bh=oBuF+7TgU/ZfyiFolzpZTN7G+5moGv16x7YISSbf2WI=;
+        b=fynG3A6e8QG93+j8Vh9+rd5kx3eMC6pBlqs88wEiy6ukfjQNwr8avMJY1TiOKSlS7d
+         wXeXMKC6L8Yn1sks7TPG/3F7U+Z7L05URrOutDajzrFm7Iz8m6HuhdbEbTswlgmHJHqB
+         SE7uLrtlzbC7+XLAQ3jFNwXxDuqw7FuXo6TveQSt6IJ1M6zsotj7EAH1FLvpDQ5d7W53
+         2ZUiWERD4ZsUeLkVzFxbUbLvysEV/OagDObM6kpMTfrZYZrXOE5ZjJHraKFGDy3tModT
+         QCMwHiIx3B2jIWPKjMe8n6eaXaoO3wojEtSaL4QwsMemjdvJTGhzqcb1Dzyt+KBTBqJ/
+         7uQA==
+X-Gm-Message-State: AOAM5324R7xG9xUs9yeiDhWW9BAu71cX6oK+3PGMpmXbly5RwnPVwsGY
+        jvFlYsVW6LRykrA/UHm9Gs1LpMH4rNB+bw==
+X-Google-Smtp-Source: ABdhPJzHBdaenf+6E6Hdd8fLdE9MG569SjTJhhuxg225J2Tk2CZoWVAth/OYcFBpx9be+05X3LtRlA==
+X-Received: by 2002:a17:906:1e93:: with SMTP id e19mr15500686ejj.440.1606630083258;
+        Sat, 28 Nov 2020 22:08:03 -0800 (PST)
+Received: from mail-wm1-f45.google.com (mail-wm1-f45.google.com. [209.85.128.45])
+        by smtp.gmail.com with ESMTPSA id cw26sm7014169ejb.47.2020.11.28.22.08.02
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Nov 2020 22:06:12 -0800 (PST)
-Received: by mail-wr1-f54.google.com with SMTP id i2so10608617wrs.4
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:06:12 -0800 (PST)
-X-Received: by 2002:a5d:4388:: with SMTP id i8mr21310112wrq.262.1606629972421;
- Sat, 28 Nov 2020 22:06:12 -0800 (PST)
+        Sat, 28 Nov 2020 22:08:02 -0800 (PST)
+Received: by mail-wm1-f45.google.com with SMTP id u10so3666770wmm.0
+        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:08:02 -0800 (PST)
+X-Received: by 2002:a1c:9e53:: with SMTP id h80mr7849050wme.50.1606630082300;
+ Sat, 28 Nov 2020 22:08:02 -0800 (PST)
 MIME-Version: 1.0
-References: <20201111143755.24541-1-stanimir.varbanov@linaro.org> <20201111143755.24541-4-stanimir.varbanov@linaro.org>
-In-Reply-To: <20201111143755.24541-4-stanimir.varbanov@linaro.org>
+References: <20201111143755.24541-1-stanimir.varbanov@linaro.org> <20201111143755.24541-5-stanimir.varbanov@linaro.org>
+In-Reply-To: <20201111143755.24541-5-stanimir.varbanov@linaro.org>
 From:   Fritz Koenig <frkoenig@chromium.org>
-Date:   Sat, 28 Nov 2020 22:05:59 -0800
-X-Gmail-Original-Message-ID: <CAMfZQbxwcnk7Nx8MfDfCThDzpWX2zoXOCdLk_mNcht7T4ZVROw@mail.gmail.com>
-Message-ID: <CAMfZQbxwcnk7Nx8MfDfCThDzpWX2zoXOCdLk_mNcht7T4ZVROw@mail.gmail.com>
-Subject: Re: [PATCH v2 3/8] venus: hfi_cmds: Allow null buffer address on
- encoder input
+Date:   Sat, 28 Nov 2020 22:07:49 -0800
+X-Gmail-Original-Message-ID: <CAMfZQbwMwPkQzakC+6aLqCnoHnjEL7ZhSn_WngcycAF0=6MFxg@mail.gmail.com>
+Message-ID: <CAMfZQbwMwPkQzakC+6aLqCnoHnjEL7ZhSn_WngcycAF0=6MFxg@mail.gmail.com>
+Subject: Re: [PATCH v2 4/8] venus: helpers: Calculate properly compressed
+ buffer size
 To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org,
@@ -73,28 +73,32 @@ X-Mailing-List: linux-media@vger.kernel.org
 On Wed, Nov 11, 2020 at 6:38 AM Stanimir Varbanov
 <stanimir.varbanov@linaro.org> wrote:
 >
-> Allow null buffer address for encoder input buffers. This will
-> be used to send null input buffers to signal end-of-stream.
+> For resolutions below 720p the size of the compressed buffer must
+> be bigger. Correct this by checking the resolution when calculating
+> buffer size and multiply by four.
+
+I'm confused because the commit message doesn't appear to line up with
+the code.  It says multiply by four here, but the code has by eight.
+
 >
 > Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 > ---
->  drivers/media/platform/qcom/venus/hfi_cmds.c | 2 +-
->  1 file changed, 1 insertion(+), 1 deletion(-)
+>  drivers/media/platform/qcom/venus/helpers.c | 2 ++
+>  1 file changed, 2 insertions(+)
 >
-> diff --git a/drivers/media/platform/qcom/venus/hfi_cmds.c b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> index 4f7565834469..2affaa2ed70f 100644
-> --- a/drivers/media/platform/qcom/venus/hfi_cmds.c
-> +++ b/drivers/media/platform/qcom/venus/hfi_cmds.c
-> @@ -278,7 +278,7 @@ int pkt_session_etb_encoder(
->                 struct hfi_session_empty_buffer_uncompressed_plane0_pkt *pkt,
->                 void *cookie, struct hfi_frame_data *in_frame)
->  {
-> -       if (!cookie || !in_frame->device_addr)
-> +       if (!cookie)
->                 return -EINVAL;
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> index 688e3e3e8362..490c026b58a3 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -986,6 +986,8 @@ u32 venus_helper_get_framesz(u32 v4l2_fmt, u32 width, u32 height)
 >
->         pkt->shdr.hdr.size = sizeof(*pkt);
+>         if (compressed) {
+>                 sz = ALIGN(height, 32) * ALIGN(width, 32) * 3 / 2 / 2;
+> +               if (width < 1280 || height < 720)
+> +                       sz *= 8;
+>                 return ALIGN(sz, SZ_4K);
+>         }
+>
 > --
 > 2.17.1
 >
-Reviewed-by: Fritz Koenig <frkoenig@chromium.org>
