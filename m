@@ -2,209 +2,345 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B007A2C7839
-	for <lists+linux-media@lfdr.de>; Sun, 29 Nov 2020 07:13:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BA52F2C7864
+	for <lists+linux-media@lfdr.de>; Sun, 29 Nov 2020 08:40:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726031AbgK2GNH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Nov 2020 01:13:07 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33388 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725830AbgK2GNG (ORCPT
+        id S1726318AbgK2HkC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Nov 2020 02:40:02 -0500
+Received: from smtp07.smtpout.orange.fr ([80.12.242.129]:41890 "EHLO
+        smtp.smtpout.orange.fr" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725939AbgK2Hj4 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Nov 2020 01:13:06 -0500
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7549DC0613D3
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:12:20 -0800 (PST)
-Received: by mail-ej1-x643.google.com with SMTP id f23so14381632ejk.2
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:12:20 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=c9wTU9wEjbp/1E7ua+WrSBOxafo4H65ItS3T6AdDsh0=;
-        b=NvfhufPwbp7lWu4WJTjA8zzjpv3w+MZoTm0bkSEA8Lb8cf8YdESE+z8JUFBlAa16UW
-         NimLjX46+ZPY6EYZbXx26ptvIa5ZuYuugki9pGiGGMVIW/ZIpXPGoUJJQwBdQfRQ5SFc
-         VSceKLtDdUKsPWCFBuZ1wEXsQXXeSQ4FsyNKY=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=c9wTU9wEjbp/1E7ua+WrSBOxafo4H65ItS3T6AdDsh0=;
-        b=IMRK1rh1x8fyhEnLSsG0wsvJz89k2lcBPAvK9DRmzx8GoxFCTN1M1ojjYjgIVFgK/2
-         uC9rA4sCJ0msera9WdpYzzejCq+8shCyfUJ9HvY7r3M6/0hk07f8W2U11wqQfXvh9k9X
-         BEDCai00q7jvHMxqWZcqUt+hNhidB0/opnle4ANp0PSRsZWL3VBvL/bP0YcR9OZnGCX0
-         Xm+qYm7+OKDTz61QlUJPjqs4SeiLC+qG3X1gbU+c0nfFaC5gixkS5TmZEkZNR2V6kaH4
-         DzrQBCsTq8PEqmiuwXZtBcqJivRl7iHitQ/jPmNeVEIjTJmKdZEy76HLHy52V32vJEG4
-         nYCw==
-X-Gm-Message-State: AOAM533Jmk3SRNf77zUyuUCmvEDpgbNvDOt/XLhWg5TjGn3djdniDx7U
-        SLDFfpjN6FFOLhW1hooFA/Q3+T7H/ndtTw==
-X-Google-Smtp-Source: ABdhPJw74GDN0af78W4e7LNEvXOMbQghh3+sTaqqMHLTw9OQ98XuGmzC4Z9ohaJDwkFgNKOFDZAIbQ==
-X-Received: by 2002:a17:906:2b4e:: with SMTP id b14mr16106979ejg.354.1606630338828;
-        Sat, 28 Nov 2020 22:12:18 -0800 (PST)
-Received: from mail-wm1-f43.google.com (mail-wm1-f43.google.com. [209.85.128.43])
-        by smtp.gmail.com with ESMTPSA id j7sm4653853edp.52.2020.11.28.22.12.17
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Nov 2020 22:12:18 -0800 (PST)
-Received: by mail-wm1-f43.google.com with SMTP id a3so14723298wmb.5
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:12:17 -0800 (PST)
-X-Received: by 2002:a1c:1d85:: with SMTP id d127mr754444wmd.39.1606630337573;
- Sat, 28 Nov 2020 22:12:17 -0800 (PST)
+        Sun, 29 Nov 2020 02:39:56 -0500
+Received: from localhost.localdomain ([81.185.163.10])
+        by mwinf5d13 with ME
+        id y7e72300A0DmPsp037e8rz; Sun, 29 Nov 2020 08:38:09 +0100
+X-ME-Helo: localhost.localdomain
+X-ME-Auth: Y2hyaXN0b3BoZS5qYWlsbGV0QHdhbmFkb28uZnI=
+X-ME-Date: Sun, 29 Nov 2020 08:38:09 +0100
+X-ME-IP: 81.185.163.10
+From:   Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+To:     hverkuil@xs4all.nl, mchehab@kernel.org
+Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org,
+        Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Subject: [PATCH] media: saa7146: switch from 'pci_' to 'dma_' API
+Date:   Sun, 29 Nov 2020 08:38:03 +0100
+Message-Id: <20201129073803.1443174-1-christophe.jaillet@wanadoo.fr>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-References: <20201111143755.24541-1-stanimir.varbanov@linaro.org> <20201111143755.24541-7-stanimir.varbanov@linaro.org>
-In-Reply-To: <20201111143755.24541-7-stanimir.varbanov@linaro.org>
-From:   Fritz Koenig <frkoenig@chromium.org>
-Date:   Sat, 28 Nov 2020 22:12:05 -0800
-X-Gmail-Original-Message-ID: <CAMfZQbzWgOvwupXyuzSbn8dWrbgyDEt2mV-SJLwxUkWGXWs7sQ@mail.gmail.com>
-Message-ID: <CAMfZQbzWgOvwupXyuzSbn8dWrbgyDEt2mV-SJLwxUkWGXWs7sQ@mail.gmail.com>
-Subject: Re: [PATCH v2 6/8] venus: venc: add handling for VIDIOC_ENCODER_CMD
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Vikash Garodia <vgarodia@codeaurora.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Dikshita Agarwal <dikshita@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Nov 11, 2020 at 6:38 AM Stanimir Varbanov
-<stanimir.varbanov@linaro.org> wrote:
->
-> From: Dikshita Agarwal <dikshita@codeaurora.org>
->
-> Add handling for below commands in encoder:
-> 1. V4L2_ENC_CMD_STOP
-> 2. V4L2_ENC_CMD_START
->
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->  drivers/media/platform/qcom/venus/venc.c | 77 +++++++++++++++++++++++-
->  1 file changed, 76 insertions(+), 1 deletion(-)
->
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index 99bfabf90bd2..7512e4a16270 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -507,6 +507,59 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
->         return 0;
->  }
->
-> +static int venc_encoder_cmd(struct file *file, void *fh,
-> +                           struct v4l2_encoder_cmd *ec)
-> +{
-> +       struct venus_inst *inst = to_inst(file);
-> +       struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
-> +       struct hfi_frame_data fdata = {0};
-> +       int ret = 0;
-> +
-> +       ret = v4l2_m2m_ioctl_try_encoder_cmd(file, fh, ec);
-> +       if (ret < 0)
-> +               return ret;
-> +
-> +       mutex_lock(&inst->lock);
-> +
-> +       if (!vb2_is_streaming(&m2m_ctx->cap_q_ctx.q) ||
-> +           !vb2_is_streaming(&m2m_ctx->out_q_ctx.q))
-> +               goto unlock;
-> +
-> +       if (m2m_ctx->is_draining) {
-> +               ret = -EBUSY;
-> +               goto unlock;
-> +       }
-> +
-> +       if (ec->cmd == V4L2_ENC_CMD_STOP) {
-> +               if (v4l2_m2m_has_stopped(m2m_ctx)) {
-> +                       ret = 0;
-> +                       goto unlock;
-> +               }
-> +
-> +               m2m_ctx->is_draining = true;
-> +
-> +               fdata.buffer_type = HFI_BUFFER_INPUT;
-> +               fdata.flags |= HFI_BUFFERFLAG_EOS;
-> +               fdata.device_addr = 0;
-> +               fdata.clnt_data = (u32)-1;
-> +
-> +               ret = hfi_session_process_buf(inst, &fdata);
-> +               if (ret)
-> +                       goto unlock;
-> +       }
-> +
-> +       if (ec->cmd == V4L2_ENC_CMD_START && v4l2_m2m_has_stopped(m2m_ctx)) {
-> +               vb2_clear_last_buffer_dequeued(&m2m_ctx->cap_q_ctx.q);
-> +               inst->m2m_ctx->has_stopped = false;
-> +               venus_helper_process_initial_out_bufs(inst);
-> +               venus_helper_process_initial_cap_bufs(inst);
-> +       }
-> +
-> +unlock:
-> +       mutex_unlock(&inst->lock);
-> +       return ret;
-> +}
-> +
->  static const struct v4l2_ioctl_ops venc_ioctl_ops = {
->         .vidioc_querycap = venc_querycap,
->         .vidioc_enum_fmt_vid_cap = venc_enum_fmt,
-> @@ -534,6 +587,8 @@ static const struct v4l2_ioctl_ops venc_ioctl_ops = {
->         .vidioc_enum_frameintervals = venc_enum_frameintervals,
->         .vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
->         .vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-> +       .vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
-> +       .vidioc_encoder_cmd = venc_encoder_cmd,
->  };
->
->  static int venc_set_properties(struct venus_inst *inst)
-> @@ -946,9 +1001,22 @@ static int venc_start_streaming(struct vb2_queue *q, unsigned int count)
->  static void venc_vb2_buf_queue(struct vb2_buffer *vb)
->  {
->         struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
-> +       struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
-> +       struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
->
->         mutex_lock(&inst->lock);
-> -       venus_helper_vb2_buf_queue(vb);
-> +
-> +       v4l2_m2m_buf_queue(m2m_ctx, vbuf);
-> +
-> +       if (!(inst->streamon_out && inst->streamon_cap))
-> +               goto unlock;
-> +
-> +       if (v4l2_m2m_has_stopped(m2m_ctx))
-> +               goto unlock;
-> +
-> +       venus_helper_process_buf(vb);
-> +
-> +unlock:
->         mutex_unlock(&inst->lock);
->  }
->
-> @@ -968,6 +1036,7 @@ static void venc_buf_done(struct venus_inst *inst, unsigned int buf_type,
->         struct vb2_v4l2_buffer *vbuf;
->         struct vb2_buffer *vb;
->         unsigned int type;
-> +       struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
->
->         if (buf_type == HFI_BUFFER_INPUT)
->                 type = V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE;
-> @@ -986,6 +1055,12 @@ static void venc_buf_done(struct venus_inst *inst, unsigned int buf_type,
->                 vb->planes[0].data_offset = data_offset;
->                 vb->timestamp = timestamp_us * NSEC_PER_USEC;
->                 vbuf->sequence = inst->sequence_cap++;
-> +
-> +               if ((!bytesused && m2m_ctx->is_draining) ||
-> +                   (vbuf->flags & V4L2_BUF_FLAG_LAST)) {
-> +                       vbuf->flags |= V4L2_BUF_FLAG_LAST;
-> +                       v4l2_m2m_mark_stopped(inst->m2m_ctx);
-> +               }
->         } else {
->                 vbuf->sequence = inst->sequence_out++;
->         }
-> --
-> 2.17.1
->
+The wrappers in include/linux/pci-dma-compat.h should go away.
 
-Reviewed-by: Fritz Koenig <frkoenig@chromium.org>
+The patch has been generated with the coccinelle script below and has been
+hand modified to replace GFP_ with a correct flag.
+It has been compile tested.
+
+When memory is allocated in 'saa7146_pgtable_alloc()' GFP_KERNEL can be
+used because the callers are either .buf_prepare functions or function that
+already use GFP_KERNEL (hidden in a 'vmalloc_32()' call).
+
+When memory is allocated in 'saa7146_init_one()' GFP_KERNEL can be used
+because it is probe function and no lock is taken in the between.
+
+When memory is allocated in 'saa7146_vv_init()' GFP_KERNEL can be used
+because this function already uses GFP_KERNEL and no lock is taken in the
+between.
+
+When memory is allocated in 'vbi_workaround()' GFP_KERNEL can be used
+because it is only called from a .open function.
+
+
+@@
+@@
+-    PCI_DMA_BIDIRECTIONAL
++    DMA_BIDIRECTIONAL
+
+@@
+@@
+-    PCI_DMA_TODEVICE
++    DMA_TO_DEVICE
+
+@@
+@@
+-    PCI_DMA_FROMDEVICE
++    DMA_FROM_DEVICE
+
+@@
+@@
+-    PCI_DMA_NONE
++    DMA_NONE
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_alloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3;
+@@
+-    pci_zalloc_consistent(e1, e2, e3)
++    dma_alloc_coherent(&e1->dev, e2, e3, GFP_)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_free_consistent(e1, e2, e3, e4)
++    dma_free_coherent(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_single(e1, e2, e3, e4)
++    dma_map_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_single(e1, e2, e3, e4)
++    dma_unmap_single(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4, e5;
+@@
+-    pci_map_page(e1, e2, e3, e4, e5)
++    dma_map_page(&e1->dev, e2, e3, e4, e5)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_page(e1, e2, e3, e4)
++    dma_unmap_page(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_map_sg(e1, e2, e3, e4)
++    dma_map_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_unmap_sg(e1, e2, e3, e4)
++    dma_unmap_sg(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_cpu(e1, e2, e3, e4)
++    dma_sync_single_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_single_for_device(e1, e2, e3, e4)
++    dma_sync_single_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_cpu(e1, e2, e3, e4)
++    dma_sync_sg_for_cpu(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2, e3, e4;
+@@
+-    pci_dma_sync_sg_for_device(e1, e2, e3, e4)
++    dma_sync_sg_for_device(&e1->dev, e2, e3, e4)
+
+@@
+expression e1, e2;
+@@
+-    pci_dma_mapping_error(e1, e2)
++    dma_mapping_error(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_dma_mask(e1, e2)
++    dma_set_mask(&e1->dev, e2)
+
+@@
+expression e1, e2;
+@@
+-    pci_set_consistent_dma_mask(e1, e2)
++    dma_set_coherent_mask(&e1->dev, e2)
+
+Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+---
+If needed, see post from Christoph Hellwig on the kernel-janitors ML:
+   https://marc.info/?l=kernel-janitors&m=158745678307186&w=4
+---
+ drivers/media/common/saa7146/saa7146_core.c | 39 +++++++++++----------
+ drivers/media/common/saa7146/saa7146_fops.c |  7 ++--
+ drivers/media/common/saa7146/saa7146_vbi.c  |  6 ++--
+ 3 files changed, 28 insertions(+), 24 deletions(-)
+
+diff --git a/drivers/media/common/saa7146/saa7146_core.c b/drivers/media/common/saa7146/saa7146_core.c
+index 21fb16cc5ca1..f2d13b71416c 100644
+--- a/drivers/media/common/saa7146/saa7146_core.c
++++ b/drivers/media/common/saa7146/saa7146_core.c
+@@ -177,7 +177,7 @@ void *saa7146_vmalloc_build_pgtable(struct pci_dev *pci, long length, struct saa
+ 		goto err_free_slist;
+ 
+ 	pt->nents = pages;
+-	slen = pci_map_sg(pci,pt->slist,pt->nents,PCI_DMA_FROMDEVICE);
++	slen = dma_map_sg(&pci->dev, pt->slist, pt->nents, DMA_FROM_DEVICE);
+ 	if (0 == slen)
+ 		goto err_free_pgtable;
+ 
+@@ -187,7 +187,7 @@ void *saa7146_vmalloc_build_pgtable(struct pci_dev *pci, long length, struct saa
+ 	return mem;
+ 
+ err_unmap_sg:
+-	pci_unmap_sg(pci, pt->slist, pt->nents, PCI_DMA_FROMDEVICE);
++	dma_unmap_sg(&pci->dev, pt->slist, pt->nents, DMA_FROM_DEVICE);
+ err_free_pgtable:
+ 	saa7146_pgtable_free(pci, pt);
+ err_free_slist:
+@@ -201,7 +201,7 @@ void *saa7146_vmalloc_build_pgtable(struct pci_dev *pci, long length, struct saa
+ 
+ void saa7146_vfree_destroy_pgtable(struct pci_dev *pci, void *mem, struct saa7146_pgtable *pt)
+ {
+-	pci_unmap_sg(pci, pt->slist, pt->nents, PCI_DMA_FROMDEVICE);
++	dma_unmap_sg(&pci->dev, pt->slist, pt->nents, DMA_FROM_DEVICE);
+ 	saa7146_pgtable_free(pci, pt);
+ 	kfree(pt->slist);
+ 	pt->slist = NULL;
+@@ -212,7 +212,7 @@ void saa7146_pgtable_free(struct pci_dev *pci, struct saa7146_pgtable *pt)
+ {
+ 	if (NULL == pt->cpu)
+ 		return;
+-	pci_free_consistent(pci, pt->size, pt->cpu, pt->dma);
++	dma_free_coherent(&pci->dev, pt->size, pt->cpu, pt->dma);
+ 	pt->cpu = NULL;
+ }
+ 
+@@ -221,7 +221,7 @@ int saa7146_pgtable_alloc(struct pci_dev *pci, struct saa7146_pgtable *pt)
+ 	__le32       *cpu;
+ 	dma_addr_t   dma_addr = 0;
+ 
+-	cpu = pci_alloc_consistent(pci, PAGE_SIZE, &dma_addr);
++	cpu = dma_alloc_coherent(&pci->dev, PAGE_SIZE, &dma_addr, GFP_KERNEL);
+ 	if (NULL == cpu) {
+ 		return -ENOMEM;
+ 	}
+@@ -412,18 +412,20 @@ static int saa7146_init_one(struct pci_dev *pci, const struct pci_device_id *ent
+ 	err = -ENOMEM;
+ 
+ 	/* get memory for various stuff */
+-	dev->d_rps0.cpu_addr = pci_zalloc_consistent(pci, SAA7146_RPS_MEM,
+-						     &dev->d_rps0.dma_handle);
++	dev->d_rps0.cpu_addr = dma_alloc_coherent(&pci->dev, SAA7146_RPS_MEM,
++						  &dev->d_rps0.dma_handle,
++						  GFP_KERNEL);
+ 	if (!dev->d_rps0.cpu_addr)
+ 		goto err_free_irq;
+ 
+-	dev->d_rps1.cpu_addr = pci_zalloc_consistent(pci, SAA7146_RPS_MEM,
+-						     &dev->d_rps1.dma_handle);
++	dev->d_rps1.cpu_addr = dma_alloc_coherent(&pci->dev, SAA7146_RPS_MEM,
++						  &dev->d_rps1.dma_handle,
++						  GFP_KERNEL);
+ 	if (!dev->d_rps1.cpu_addr)
+ 		goto err_free_rps0;
+ 
+-	dev->d_i2c.cpu_addr = pci_zalloc_consistent(pci, SAA7146_RPS_MEM,
+-						    &dev->d_i2c.dma_handle);
++	dev->d_i2c.cpu_addr = dma_alloc_coherent(&pci->dev, SAA7146_RPS_MEM,
++						 &dev->d_i2c.dma_handle, GFP_KERNEL);
+ 	if (!dev->d_i2c.cpu_addr)
+ 		goto err_free_rps1;
+ 
+@@ -471,14 +473,14 @@ static int saa7146_init_one(struct pci_dev *pci, const struct pci_device_id *ent
+ 	return err;
+ 
+ err_free_i2c:
+-	pci_free_consistent(pci, SAA7146_RPS_MEM, dev->d_i2c.cpu_addr,
+-			    dev->d_i2c.dma_handle);
++	dma_free_coherent(&pci->dev, SAA7146_RPS_MEM, dev->d_i2c.cpu_addr,
++			  dev->d_i2c.dma_handle);
+ err_free_rps1:
+-	pci_free_consistent(pci, SAA7146_RPS_MEM, dev->d_rps1.cpu_addr,
+-			    dev->d_rps1.dma_handle);
++	dma_free_coherent(&pci->dev, SAA7146_RPS_MEM, dev->d_rps1.cpu_addr,
++			  dev->d_rps1.dma_handle);
+ err_free_rps0:
+-	pci_free_consistent(pci, SAA7146_RPS_MEM, dev->d_rps0.cpu_addr,
+-			    dev->d_rps0.dma_handle);
++	dma_free_coherent(&pci->dev, SAA7146_RPS_MEM, dev->d_rps0.cpu_addr,
++			  dev->d_rps0.dma_handle);
+ err_free_irq:
+ 	free_irq(pci->irq, (void *)dev);
+ err_unmap:
+@@ -519,7 +521,8 @@ static void saa7146_remove_one(struct pci_dev *pdev)
+ 	free_irq(pdev->irq, dev);
+ 
+ 	for (p = dev_map; p->addr; p++)
+-		pci_free_consistent(pdev, SAA7146_RPS_MEM, p->addr, p->dma);
++		dma_free_coherent(&pdev->dev, SAA7146_RPS_MEM, p->addr,
++				  p->dma);
+ 
+ 	iounmap(dev->mem);
+ 	pci_release_region(pdev, 0);
+diff --git a/drivers/media/common/saa7146/saa7146_fops.c b/drivers/media/common/saa7146/saa7146_fops.c
+index e936c56b0378..7b1840cad278 100644
+--- a/drivers/media/common/saa7146/saa7146_fops.c
++++ b/drivers/media/common/saa7146/saa7146_fops.c
+@@ -515,8 +515,8 @@ int saa7146_vv_init(struct saa7146_dev* dev, struct saa7146_ext_vv *ext_vv)
+ 	dev->ext_vv_data = ext_vv;
+ 
+ 	vv->d_clipping.cpu_addr =
+-		pci_zalloc_consistent(dev->pci, SAA7146_CLIPPING_MEM,
+-				      &vv->d_clipping.dma_handle);
++		dma_alloc_coherent(&dev->pci->dev, SAA7146_CLIPPING_MEM,
++				   &vv->d_clipping.dma_handle, GFP_);
+ 	if( NULL == vv->d_clipping.cpu_addr ) {
+ 		ERR("out of memory. aborting.\n");
+ 		kfree(vv);
+@@ -574,7 +574,8 @@ int saa7146_vv_release(struct saa7146_dev* dev)
+ 	DEB_EE("dev:%p\n", dev);
+ 
+ 	v4l2_device_unregister(&dev->v4l2_dev);
+-	pci_free_consistent(dev->pci, SAA7146_CLIPPING_MEM, vv->d_clipping.cpu_addr, vv->d_clipping.dma_handle);
++	dma_free_coherent(&dev->pci->dev, SAA7146_CLIPPING_MEM,
++			  vv->d_clipping.cpu_addr, vv->d_clipping.dma_handle);
+ 	v4l2_ctrl_handler_free(&dev->ctrl_handler);
+ 	kfree(vv);
+ 	dev->vv_data = NULL;
+diff --git a/drivers/media/common/saa7146/saa7146_vbi.c b/drivers/media/common/saa7146/saa7146_vbi.c
+index e1d369b976ed..e140d4a5aeb2 100644
+--- a/drivers/media/common/saa7146/saa7146_vbi.c
++++ b/drivers/media/common/saa7146/saa7146_vbi.c
+@@ -22,7 +22,7 @@ static int vbi_workaround(struct saa7146_dev *dev)
+ 	   as specified. there is this workaround, but please
+ 	   don't let me explain it. ;-) */
+ 
+-	cpu = pci_alloc_consistent(dev->pci, 4096, &dma_addr);
++	cpu = dma_alloc_coherent(&dev->pci->dev, 4096, &dma_addr, GFP_);
+ 	if (NULL == cpu)
+ 		return -ENOMEM;
+ 
+@@ -123,12 +123,12 @@ static int vbi_workaround(struct saa7146_dev *dev)
+ 			/* stop rps1 for sure */
+ 			saa7146_write(dev, MC1, MASK_29);
+ 
+-			pci_free_consistent(dev->pci, 4096, cpu, dma_addr);
++			dma_free_coherent(&dev->pci->dev, 4096, cpu, dma_addr);
+ 			return -EINTR;
+ 		}
+ 	}
+ 
+-	pci_free_consistent(dev->pci, 4096, cpu, dma_addr);
++	dma_free_coherent(&dev->pci->dev, 4096, cpu, dma_addr);
+ 	return 0;
+ }
+ 
+-- 
+2.27.0
+
