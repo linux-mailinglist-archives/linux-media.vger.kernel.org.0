@@ -2,63 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5120E2C7834
+	by mail.lfdr.de (Postfix) with ESMTP id BDE022C7835
 	for <lists+linux-media@lfdr.de>; Sun, 29 Nov 2020 07:10:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726698AbgK2GJ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Nov 2020 01:09:27 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32822 "EHLO
+        id S1726136AbgK2GKS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 29 Nov 2020 01:10:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32966 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726036AbgK2GJ1 (ORCPT
+        with ESMTP id S1725909AbgK2GKS (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Nov 2020 01:09:27 -0500
-Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 59357C0617A7
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:08:41 -0800 (PST)
-Received: by mail-ej1-x643.google.com with SMTP id bo9so14269050ejb.13
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:08:41 -0800 (PST)
+        Sun, 29 Nov 2020 01:10:18 -0500
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 44507C0613D1
+        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:09:38 -0800 (PST)
+Received: by mail-ed1-x543.google.com with SMTP id y22so2459566edv.1
+        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:09:38 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=Wt+i8mCuCik4YSJ0kM//c8mqY8ZlAwEjQilfu5+58jE=;
-        b=QnkG6tHZpsm7stG82Y/AGjsPdf4vitr0uJ5ICNCnZ5wuKuQJro4vd/FvhGlRFZBc8R
-         6iebDWJ/oMEF5rw6NOZ1eo+b6YQVnvy/462GBGSJcpI/asxCiq9LImNJxxtk9MvRKEK9
-         hiQfbidc74wwYNgEqO93ji3L8h0FRQaEMfScQ=
+        bh=fu+OLgh33kd4c7uWtP+T5ynLNcOve17zeiTVDhx2z0E=;
+        b=Qh2PVWDDKHbM51luphJ8s7JPsgXiObRyw72WqBT9N9N9or5ya0Z6xdKAxIwuNUEGY/
+         nRDDC6DFhZvs5Tr3NxBaaAGWcbCV5CdvNRXmECCTBQFvGE0vsJCZrXTSkJPVV3YOCFzE
+         Lmp+hcqE7JreKxxzd4FjCfh4cR29RXg3n1f/Y=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=Wt+i8mCuCik4YSJ0kM//c8mqY8ZlAwEjQilfu5+58jE=;
-        b=f+J/pd99Fkk8nVPmd/fa6A18PjsYj7yiLt6tc5HxUMjHGDuZ116HT2cumdOabhYtto
-         vBmGL1uCY3pkNQzVL/sVs7xDmK5r8yO3yYXt69s1UhvuOhUgAFk/pSoo8OkxczzRetio
-         6B/NfpXdyFFkag53pCDYh42yXyzgibDMj+VAf0pBdriTByJ1e0XjO9pf+7V4BbQAqany
-         HzN5Ley1Gx55s9Sk29+P3hnyJRSgIczdKnxP8sDWJXrIQ5uM2FtRQ0Js5EHqTDhbC4DQ
-         AFShd2NABBGtlvHCkxJ2xXZvq5Q3CdsxRA+MuuViZ+Wt5kQu6/zP2feRY9EzJv573ugz
-         6EUQ==
-X-Gm-Message-State: AOAM530a4174+BJA5gAsFa3XxqqisWlMTtNeo8HlPH8WyvkLmdAbKWXN
-        uK/Wv04Yq9a1fF9djHQiC/zPyafX6nOINA==
-X-Google-Smtp-Source: ABdhPJwaiJnC0gYluhczSXILd/Q8oE8K4OyC4GxfBgyoU16X8M2Ra7SIv2JPcDody5S2Op8nBVv+pw==
-X-Received: by 2002:a17:906:46d2:: with SMTP id k18mr14724072ejs.33.1606630120006;
-        Sat, 28 Nov 2020 22:08:40 -0800 (PST)
-Received: from mail-wm1-f54.google.com (mail-wm1-f54.google.com. [209.85.128.54])
-        by smtp.gmail.com with ESMTPSA id f19sm7290925edy.13.2020.11.28.22.08.39
+        bh=fu+OLgh33kd4c7uWtP+T5ynLNcOve17zeiTVDhx2z0E=;
+        b=ERQLmPWMH9Z5RvKyQUuLRRpwb4aNVpVUnlldVdqXarxpi1a2S/hElWUs8EJjentMNA
+         G0jqc0FsC33+qvZqkbxxkAUq3ciNUGuHo3L8nWuV8EvHityRVkoVXRtfhl6jXLVfTUv9
+         fuHvYwBrxvXGq8NDgJ0gHE5ySulHHYRipqzOSqlDtXGlDjrQauNs2sqbB1MGdr1kkNUl
+         4Zq1sYscM6x1aczJIMjzS2eSkWUvXWX5JORbXahZxWhcoG8MuyUcAF52Jx6hlIUm2fLQ
+         oV8Zs7NHegvf8rHCH/y0/sT+TOO+SZMzd/rKnp5eKFoZeTfFPv57/EEahXXmSDOdG5ji
+         1XLA==
+X-Gm-Message-State: AOAM531F8f3Aw4HZsh2Isy0xBN+r4Bf0yMLol1shaA34ADbOHYV3b2UH
+        1d0Q8t7Adonr84fBPAQBavo0l+8mkpmV8g==
+X-Google-Smtp-Source: ABdhPJwk7d95KnEMsIkw5gv8rp60s98NCMRfWMYMC54Hcv8Kow0Qxb1ZlC5Jcs4r0BTDa5ogRR91Lw==
+X-Received: by 2002:a50:c2ca:: with SMTP id u10mr3525808edf.355.1606630176861;
+        Sat, 28 Nov 2020 22:09:36 -0800 (PST)
+Received: from mail-wm1-f41.google.com (mail-wm1-f41.google.com. [209.85.128.41])
+        by smtp.gmail.com with ESMTPSA id b21sm7220897ejz.102.2020.11.28.22.09.36
         for <linux-media@vger.kernel.org>
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Sat, 28 Nov 2020 22:08:39 -0800 (PST)
-Received: by mail-wm1-f54.google.com with SMTP id d3so8698187wmb.4
-        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:08:39 -0800 (PST)
-X-Received: by 2002:a7b:ca4c:: with SMTP id m12mr17108061wml.11.1606630119035;
- Sat, 28 Nov 2020 22:08:39 -0800 (PST)
+        Sat, 28 Nov 2020 22:09:36 -0800 (PST)
+Received: by mail-wm1-f41.google.com with SMTP id 10so11789563wml.2
+        for <linux-media@vger.kernel.org>; Sat, 28 Nov 2020 22:09:36 -0800 (PST)
+X-Received: by 2002:a1c:8155:: with SMTP id c82mr10594340wmd.49.1606630175847;
+ Sat, 28 Nov 2020 22:09:35 -0800 (PST)
 MIME-Version: 1.0
-References: <20201111143755.24541-1-stanimir.varbanov@linaro.org> <20201111143755.24541-6-stanimir.varbanov@linaro.org>
-In-Reply-To: <20201111143755.24541-6-stanimir.varbanov@linaro.org>
+References: <20201111143755.24541-1-stanimir.varbanov@linaro.org> <20201111143755.24541-9-stanimir.varbanov@linaro.org>
+In-Reply-To: <20201111143755.24541-9-stanimir.varbanov@linaro.org>
 From:   Fritz Koenig <frkoenig@chromium.org>
-Date:   Sat, 28 Nov 2020 22:08:26 -0800
-X-Gmail-Original-Message-ID: <CAMfZQbxfLw_Rwz9jjpzvEO7bnBdQoW_UbA45G1UmBjADEUHfFw@mail.gmail.com>
-Message-ID: <CAMfZQbxfLw_Rwz9jjpzvEO7bnBdQoW_UbA45G1UmBjADEUHfFw@mail.gmail.com>
-Subject: Re: [PATCH v2 5/8] venus: pm_helpers: Check instance state when
- calculate instance frequency
+Date:   Sat, 28 Nov 2020 22:09:23 -0800
+X-Gmail-Original-Message-ID: <CAMfZQbyvWYAUF=+mR_E-X_P8TtiJnC2P-=vR-9mxVTn_hJmp7Q@mail.gmail.com>
+Message-ID: <CAMfZQbyvWYAUF=+mR_E-X_P8TtiJnC2P-=vR-9mxVTn_hJmp7Q@mail.gmail.com>
+Subject: Re: [PATCH v2 8/8] venus: helpers: Delete unused stop streaming helper
 To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
 Cc:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org,
@@ -73,27 +72,81 @@ X-Mailing-List: linux-media@vger.kernel.org
 On Wed, Nov 11, 2020 at 6:38 AM Stanimir Varbanov
 <stanimir.varbanov@linaro.org> wrote:
 >
-> Skip calculating instance frequency if it is not in running state.
+> After re-design of encoder driver this helper is not needed
+> anymore.
 >
 > Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 > ---
->  drivers/media/platform/qcom/venus/pm_helpers.c | 3 +++
->  1 file changed, 3 insertions(+)
+>  drivers/media/platform/qcom/venus/helpers.c | 43 ---------------------
+>  drivers/media/platform/qcom/venus/helpers.h |  1 -
+>  2 files changed, 44 deletions(-)
 >
-> diff --git a/drivers/media/platform/qcom/venus/pm_helpers.c b/drivers/media/platform/qcom/venus/pm_helpers.c
-> index ca99908ca3d3..cc84dc5e371b 100644
-> --- a/drivers/media/platform/qcom/venus/pm_helpers.c
-> +++ b/drivers/media/platform/qcom/venus/pm_helpers.c
-> @@ -940,6 +940,9 @@ static unsigned long calculate_inst_freq(struct venus_inst *inst,
+> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
+> index 490c026b58a3..51c80417f361 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.c
+> +++ b/drivers/media/platform/qcom/venus/helpers.c
+> @@ -1406,49 +1406,6 @@ void venus_helper_buffers_done(struct venus_inst *inst, unsigned int type,
+>  }
+>  EXPORT_SYMBOL_GPL(venus_helper_buffers_done);
 >
->         mbs_per_sec = load_per_instance(inst);
->
-> +       if (inst->state != INST_START)
-> +               return 0;
-> +
->         vpp_freq = mbs_per_sec * inst->clk_data.codec_freq_data->vpp_freq;
->         /* 21 / 20 is overhead factor */
->         vpp_freq += vpp_freq / 20;
+> -void venus_helper_vb2_stop_streaming(struct vb2_queue *q)
+> -{
+> -       struct venus_inst *inst = vb2_get_drv_priv(q);
+> -       struct venus_core *core = inst->core;
+> -       int ret;
+> -
+> -       mutex_lock(&inst->lock);
+> -
+> -       if (inst->streamon_out & inst->streamon_cap) {
+> -               ret = hfi_session_stop(inst);
+> -               ret |= hfi_session_unload_res(inst);
+> -               ret |= venus_helper_unregister_bufs(inst);
+> -               ret |= venus_helper_intbufs_free(inst);
+> -               ret |= hfi_session_deinit(inst);
+> -
+> -               if (inst->session_error || core->sys_error)
+> -                       ret = -EIO;
+> -
+> -               if (ret)
+> -                       hfi_session_abort(inst);
+> -
+> -               venus_helper_free_dpb_bufs(inst);
+> -
+> -               venus_pm_load_scale(inst);
+> -               INIT_LIST_HEAD(&inst->registeredbufs);
+> -       }
+> -
+> -       venus_helper_buffers_done(inst, V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE,
+> -                                 VB2_BUF_STATE_ERROR);
+> -       venus_helper_buffers_done(inst, V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE,
+> -                                 VB2_BUF_STATE_ERROR);
+> -
+> -       if (q->type == V4L2_BUF_TYPE_VIDEO_OUTPUT_MPLANE)
+> -               inst->streamon_out = 0;
+> -       else
+> -               inst->streamon_cap = 0;
+> -
+> -       venus_pm_release_core(inst);
+> -
+> -       mutex_unlock(&inst->lock);
+> -}
+> -EXPORT_SYMBOL_GPL(venus_helper_vb2_stop_streaming);
+> -
+>  int venus_helper_process_initial_cap_bufs(struct venus_inst *inst)
+>  {
+>         struct v4l2_m2m_ctx *m2m_ctx = inst->m2m_ctx;
+> diff --git a/drivers/media/platform/qcom/venus/helpers.h b/drivers/media/platform/qcom/venus/helpers.h
+> index 231af29667e7..3eae2acbcc8e 100644
+> --- a/drivers/media/platform/qcom/venus/helpers.h
+> +++ b/drivers/media/platform/qcom/venus/helpers.h
+> @@ -20,7 +20,6 @@ int venus_helper_vb2_buf_init(struct vb2_buffer *vb);
+>  int venus_helper_vb2_buf_prepare(struct vb2_buffer *vb);
+>  void venus_helper_vb2_buf_queue(struct vb2_buffer *vb);
+>  void venus_helper_process_buf(struct vb2_buffer *vb);
+> -void venus_helper_vb2_stop_streaming(struct vb2_queue *q);
+>  int venus_helper_vb2_start_streaming(struct venus_inst *inst);
+>  void venus_helper_m2m_device_run(void *priv);
+>  void venus_helper_m2m_job_abort(void *priv);
 > --
 > 2.17.1
 >
