@@ -2,119 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8CF402C775F
-	for <lists+linux-media@lfdr.de>; Sun, 29 Nov 2020 04:19:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 70C8B2C778A
+	for <lists+linux-media@lfdr.de>; Sun, 29 Nov 2020 05:41:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726021AbgK2DQt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 28 Nov 2020 22:16:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34782 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725839AbgK2DQs (ORCPT
+        id S1726014AbgK2Elm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 28 Nov 2020 23:41:42 -0500
+Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:53847 "EHLO
+        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725294AbgK2Elm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 28 Nov 2020 22:16:48 -0500
-Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8E41FC0613D1;
-        Sat, 28 Nov 2020 19:16:08 -0800 (PST)
-Received: by mail-pg1-x544.google.com with SMTP id k11so7556441pgq.2;
-        Sat, 28 Nov 2020 19:16:08 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4oxlPetDGevWx8+PQ3DS/1BMJ6iQVMJPTwtu8ujLY9A=;
-        b=TFfMQNP1P/S3YgjCDCeHh71YYglw/gd4jOOyJlZImA7y0RPlDyPccwu4w1acxobGs7
-         uq+eyld/IVrlg1y/O87Qzp4aDodrJvB9llrU+yrz+5OcEsH137O2RvTHP5eqJW+MYSLO
-         hRp2/zUO45VrG8HUgehYLpcQZhXYt5Ca3Uv0dYa0Y5KxMLN8iccxnu1ShwmBC2Q+LbCG
-         CWJPKXvAyAtjUysv900cfGsyqgytkgl1Rh58HT5Ac+u8O23qn4woRrpVT5BeO0D+xXAp
-         llL2PmfvzScfiUtPAigXWcUbb9pBr7jZDRyVtjtxiWjs7NbIxGYrQBuBaYoTLbEKPB1n
-         74Lg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=4oxlPetDGevWx8+PQ3DS/1BMJ6iQVMJPTwtu8ujLY9A=;
-        b=NGQvOMn5JAYKIjbvD3rxCbAd3qV2E3A+jI4JJTeh3OYsoMv7n5lfT3CK6Ylk13GjBp
-         IpjgZ7eHYE+SOxRESKXxuP0uGYnOqPqYBzVEUXDU4utK8wv0HS6Op0cFt9cwNqHQ5j6r
-         aN1FVFzuC4+1wcHoV0Kr3DRhfyVcFXWn9RSKf2ZY0RzqUNNzdHZETT3X0MH83qK2KM6q
-         cIgbmw11NO4TXTO23AxfcMflTYdMIhukO0svgyU3/Inx49QTOyrObx/k1t8aUphSuXGV
-         eO/6WocFoZkYFAlmt53c21XTsU5C4+On88uB/YoW2lKN/I+YaoXYGRumgXmKj1CDEnYs
-         e7EQ==
-X-Gm-Message-State: AOAM532npDykgh4/0tG9OUjcq2FuAwgOoxpMoqgeKjOxrxdSAGPl5x9r
-        QnA07p76eY8A+20Sp1WGG/4=
-X-Google-Smtp-Source: ABdhPJwVPgU5BbOpeTTgEl5gFr/10QrTtdq3OMFltN/wju6Id6EufrlFsZSTvTJ3QsdzcCJLN3TmBw==
-X-Received: by 2002:a17:90a:c092:: with SMTP id o18mr6218541pjs.141.1606619767967;
-        Sat, 28 Nov 2020 19:16:07 -0800 (PST)
-Received: from localhost.localdomain ([2409:10:2e40:5100:6e29:95ff:fe2d:8f34])
-        by smtp.gmail.com with ESMTPSA id q200sm11895156pfq.95.2020.11.28.19.16.04
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sat, 28 Nov 2020 19:16:06 -0800 (PST)
-From:   Sergey Senozhatsky <sergey.senozhatsky@gmail.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-Subject: [PATCHv3] media: vb2: always set buffer cache sync hints
-Date:   Sun, 29 Nov 2020 12:15:45 +0900
-Message-Id: <20201129031545.557586-1-sergey.senozhatsky@gmail.com>
-X-Mailer: git-send-email 2.29.2
-MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+        Sat, 28 Nov 2020 23:41:42 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id jEW3kfxPDkGBYjEW4kSe57; Sun, 29 Nov 2020 05:40:52 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1606624852; bh=KYJTJM2gISinkzvxpLP5swG6QNWBj0xqUuBjQQwBIhw=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=c1dN+LlfOvNwe03OmKr+kvUqlGSa6pxnD0E+Om/mSdSj6TjofbG8nL+TUuDhIQw2M
+         4uGIR0haakKlCdnEkHI/gNjaBsh3G+QCq0nRzRqKieb3h/ST+d8Lv+1uABf7ef5zqV
+         +ZZvnfGTvoCsx5JGG3Ek278JsI6ThobyVcrGiEA2R/FKUvWhnzY3JbIWKoRlJiBCQA
+         jXAUDUyfliFHKxKL7Ugy+1sb8c8cLJR/UpgZlnQceEu+OxrrnmEC+Vo/bUFxaMWzks
+         QFT3FxtqAB3bHqhgbPJeYGDkmKJWN0soTFuPiVqLtwCp2Amzc/lQcjVHhsKIczeFB1
+         UbYtxCANoGO+w==
+Message-ID: <d582946e797e0f6849b033b7b5a04077@smtp-cloud9.xs4all.net>
+Date:   Sun, 29 Nov 2020 05:40:51 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: WARNINGS
+X-CMAE-Envelope: MS4xfHAHiY67Kj9jU4HHiqiLRJOy/IOvywMBf4sLfoRK11mQt33BGnRrUf6S1MrCfpF8t2DIx5Fkm+yR0tzLnY/q2qHw6U3Ex7KvQAubRK1t9O0ODjg4LCbf
+ wNEVvvvFNnC6plVqP/UGH1rDUkV6Pkm0N0boDBTluDpwjvmIda0qRfznQ0kkOay6G0Xfj9q9XC2Nva46xgjlKMMSzkM/24alkRtjriziB+LQVzzCqJI9vccD
+ JopY5e9UzR4sx3eM1JU6gQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-We need to always set ->need_cache_sync_on_prepare and
-->need_cache_sync_on_finish when we initialize vb2 buffer.
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Currently these flags are set/adjusted only in V4L2's
-vb2_queue_or_prepare_buf(), which means that for the code
-paths that don't use V4L2 vb2 will always tell videobuf2
-core to skip ->prepare() and ->finish() cache syncs/flushes.
+Results of the daily build of media_tree:
 
-This is a quick solution that should do the trick. The
-proper fix, however, is much more complicated and requires
-a rather big videobuf2 refactoring - we need to move cache
-sync/flush decision making out of core videobuf2 to the
-allocators.
+date:			Sun Nov 29 05:00:12 CET 2020
+media-tree git hash:	a3f132df0e5f25399c9592c2d14997975ddbf290
+media_build git hash:	efebcbca1e44be2502829ae9bd9a9ff90b90e310
+v4l-utils git hash:	11da65eee7a271bba3f21d8117cdac428fe3a91e
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.2-1-gfebba84c
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-6793-g0248ebb06
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 63a52153f10bfed851877e415b3507560c94cfd1
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-Fixes: f5f5fa73fbfb ("media: videobuf2: handle V4L2 buffer cache flags")
-Reported-by: Tomasz Figa <tfiga@chromium.org>
-Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
----
- drivers/media/common/videobuf2/videobuf2-core.c | 14 ++++++++++++++
- 1 file changed, 14 insertions(+)
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-at91: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: OK
+linux-4.16.18-x86_64: OK
+linux-4.17.19-i686: OK
+linux-4.17.19-x86_64: OK
+linux-4.18.20-i686: OK
+linux-4.18.20-x86_64: OK
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: OK
+linux-4.20.17-x86_64: OK
+linux-5.0.21-i686: OK
+linux-5.0.21-x86_64: OK
+linux-5.1.21-i686: OK
+linux-5.1.21-x86_64: OK
+linux-5.2.21-i686: OK
+linux-5.2.21-x86_64: OK
+linux-5.3.18-i686: OK
+linux-5.3.18-x86_64: OK
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: OK
+linux-5.5.19-x86_64: OK
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10-rc1-i686: OK
+linux-5.10-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
+sparse: OK
+smatch: WARNINGS
 
-v3: Improved code comment and dropped queue allow_cache_hints check (Tomasz)
-v2: Added a comment and set cache sync flags only for specific buffers (Hans)
+Detailed results are available here:
 
-diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-index 5499013cf82e..3f11fc5b5d9a 100644
---- a/drivers/media/common/videobuf2/videobuf2-core.c
-+++ b/drivers/media/common/videobuf2/videobuf2-core.c
-@@ -414,6 +414,20 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
- 		vb->index = q->num_buffers + buffer;
- 		vb->type = q->type;
- 		vb->memory = memory;
-+		/*
-+		 * A workaround fix. We need to set these flags here so that
-+		 * videobuf2 core will call ->prepare()/->finish() cache
-+		 * sync/flush on vb2 buffers when appropriate. Otherwise, for
-+		 * backends that don't rely on V4L2 (perhaps dvb) these flags
-+		 * will always be false and, hence, videobuf2 core will skip
-+		 * cache sync/flush operations. However, we can avoid explicit
-+		 * ->prepare() and ->finish() cache sync for DMABUF buffers,
-+		 * because DMA exporter takes care of it.
-+		 */
-+		if (q->memory != VB2_MEMORY_DMABUF) {
-+			vb->need_cache_sync_on_prepare = 1;
-+			vb->need_cache_sync_on_finish = 1;
-+		}
- 		for (plane = 0; plane < num_planes; ++plane) {
- 			vb->planes[plane].length = plane_sizes[plane];
- 			vb->planes[plane].min_length = plane_sizes[plane];
--- 
-2.29.2
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
