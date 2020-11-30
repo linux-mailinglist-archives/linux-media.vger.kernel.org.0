@@ -2,122 +2,61 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B2CA12C82B9
-	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 12:00:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BE442C82AF
+	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 11:58:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726158AbgK3K7v (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Nov 2020 05:59:51 -0500
-Received: from mga05.intel.com ([192.55.52.43]:42699 "EHLO mga05.intel.com"
+        id S1727663AbgK3K4s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Nov 2020 05:56:48 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:46390 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725902AbgK3K7v (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Nov 2020 05:59:51 -0500
-IronPort-SDR: GvVPByKf8K3jaHJxfV5YemHL0z6gF9Tk0XHZjyz0udFjSFcyG2epY2LXRdWuWD9UJvhL9WFzYm
- CDL5J8xcYUGA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="257323531"
-X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; 
-   d="scan'208";a="257323531"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 02:58:10 -0800
-IronPort-SDR: PEgyR8oCbYwXxoE8fHTfNc0a0vm7YOTOFUh+RITcq9d+Juo3vh0LMuB8g4j/8M6N0AdsUnLSv0
- +FFs/VFcWIBw==
-X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; 
-   d="scan'208";a="549051814"
-Received: from mkrastex-mobl.ger.corp.intel.com (HELO mkrastexMOBL) ([10.104.71.12])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 02:58:08 -0800
-From:   <martinax.krasteva@linux.intel.com>
-To:     "'Rob Herring'" <robh@kernel.org>
-Cc:     <linux-media@vger.kernel.org>, <robh+dt@kernel.org>,
-        <mchehab@kernel.org>, <devicetree@vger.kernel.org>,
-        <daniele.alessandrelli@linux.intel.com>,
-        <gjorgjix.rosikopulos@linux.intel.com>,
-        <sakari.ailus@linux.intel.com>
-References: <20201120142803.308-1-martinax.krasteva@linux.intel.com> <20201120142803.308-2-martinax.krasteva@linux.intel.com> <20201120205858.GA1722419@robh.at.kernel.org>
-In-Reply-To: <20201120205858.GA1722419@robh.at.kernel.org>
-Subject: RE: [PATCH 1/2] dt-bindings: media: Add bindings for imx334
-Date:   Mon, 30 Nov 2020 10:58:05 -0000
-Message-ID: <002101d6c707$b103c0c0$130b4240$@linux.intel.com>
+        id S1726345AbgK3K4s (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 30 Nov 2020 05:56:48 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kjgql-00GgoE-2r; Mon, 30 Nov 2020 10:56:07 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kjgtu-0002sC-6y; Mon, 30 Nov 2020 10:59:22 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for 5.11] Camera sensor and CSI-2 patches (mostly) (#69526)
+Date:   Mon, 30 Nov 2020 10:59:22 +0000
+Message-Id: <20201130105922.11003-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201130104221.GM4351@valkosipuli.retiisi.org.uk>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQGUhaCwHgQDECFXL9iGIzaOw1hzuAG/OI4XAeunsPKqR6xxoA==
-Content-Language: en-us
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Rob,
+From: builder@linuxtv.org
 
-> -----Original Message-----
-> From: Rob Herring <robh@kernel.org>
-> Sent: Friday, November 20, 2020 8:59 PM
-> To: Martina Krasteva <martinax.krasteva@linux.intel.com>
-> Cc: linux-media@vger.kernel.org; robh+dt@kernel.org; mchehab@kernel.org;
-> devicetree@vger.kernel.org; daniele.alessandrelli@linux.intel.com;
-> gjorgjix.rosikopulos@linux.intel.com; sakari.ailus@linux.intel.com
-> Subject: Re: [PATCH 1/2] dt-bindings: media: Add bindings for imx334
-> 
-> On Fri, 20 Nov 2020 14:28:02 +0000, Martina Krasteva wrote:
-> > From: Martina Krasteva <martinax.krasteva@intel.com>
-> >
-> > - Add dt-bindings documentation for Sony imx334 sensor driver.
-> > - Add MAINTAINERS entry for Sony imx334 binding documentation.
-> >
-> > Signed-off-by: Martina Krasteva <martinax.krasteva@intel.com>
-> > Reviewed-by: Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>
-> > Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-> > ---
-> >  .../devicetree/bindings/media/i2c/sony,imx334.yaml | 59
-> ++++++++++++++++++++++
-> >  MAINTAINERS                                        |  7 +++
-> >  2 files changed, 66 insertions(+)
-> >  create mode 100644
-> > Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
-> >
-> 
-> 
-> My bot found errors running 'make dt_binding_check' on your patch:
-> 
-> yamllint warnings/errors:
-> ./Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml:34:15:
-> [warning] wrong indentation: expected 12 but found 14 (indentation)
-> ./Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml:36:15:
-> [warning] wrong indentation: expected 12 but found 14 (indentation)
-> 
-> dtschema/dtc warnings/errors:
-> /builds/robherring/linux-dt-
-> review/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml:
-> 'additionalProperties' is a required property
-> /builds/robherring/linux-dt-
-> review/Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml:
-> ignoring, error in schema:
-> warning: no schema found in file:
-> ./Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
-> 
-> 
-> See https://patchwork.ozlabs.org/patch/1403740
-> 
-> The base for the patch is generally the last rc1. Any dependencies should
-be
-> noted.
-> 
-> If you already ran 'make dt_binding_check' and didn't see the above
-error(s),
-> then make sure 'yamllint' is installed and dt-schema is up to
-> date:
-> 
-> pip3 install dtschema --upgrade
-> 
-> Please check and re-submit.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20201130104221.GM4351@valkosipuli.retiisi.org.uk/
+Build log: https://builder.linuxtv.org/job/patchwork/79271/
+Build time: 00:07:58
+Link: https://lore.kernel.org/linux-media/20201130104221.GM4351@valkosipuli.retiisi.org.uk
 
-Thank you, I will fix these warnings in the next version
+gpg: Signature made Mon 30 Nov 2020 10:30:25 AM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Can't check signature: No public key
 
-Best Regards,
-Martina
+Summary: got 1/15 patches with issues, being 0 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0004-media-dt-bindings-media-i2c-document-OV02A10-DT-bind.patch:
+
+   checkpatch.pl:
+	$ cat patches/0004-media-dt-bindings-media-i2c-document-OV02A10-DT-bind.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:195: WARNING: Possible repeated word: 'git'
+
+
+Error #512 when building PDF docs
 
