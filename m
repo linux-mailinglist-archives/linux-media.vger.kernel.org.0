@@ -2,56 +2,56 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C6B52C90C7
-	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 23:15:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 94E852C90DE
+	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 23:21:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388650AbgK3WO0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Nov 2020 17:14:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35412 "EHLO
+        id S1727154AbgK3WT3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Nov 2020 17:19:29 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36184 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726651AbgK3WOZ (ORCPT
+        with ESMTP id S1726775AbgK3WT2 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Nov 2020 17:14:25 -0500
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5FD5BC0613CF;
-        Mon, 30 Nov 2020 14:13:45 -0800 (PST)
-Received: by mail-oi1-x242.google.com with SMTP id y74so15942261oia.11;
-        Mon, 30 Nov 2020 14:13:45 -0800 (PST)
+        Mon, 30 Nov 2020 17:19:28 -0500
+Received: from mail-ot1-x344.google.com (mail-ot1-x344.google.com [IPv6:2607:f8b0:4864:20::344])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7876FC0613D2;
+        Mon, 30 Nov 2020 14:18:48 -0800 (PST)
+Received: by mail-ot1-x344.google.com with SMTP id f16so12883754otl.11;
+        Mon, 30 Nov 2020 14:18:48 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc:content-transfer-encoding;
-        bh=L/eAhlrFrC0aLBaVHXix7LDhxFtZN4hZd7odpTZYr7A=;
-        b=BIMkuHqMJhJmDttmx2+W1lq+T5dcIEylJKP8B/FkUBjdGgi1YwEXE1sYZKgLiLL/3Q
-         Awv+ATOcPyjfonC/7u21ojHdHjaLcLEq4a+zFHlIZ2J0DaHL7W/s/7qs6LFqqt4fDX4z
-         MU1z6y2Hav1ORRzTxEAeFeRUhI4Xv9StwvDCi4RukMabEijUOtCJoQc6rlxqxrlF/M5b
-         EkA2iTt577mPj/J/DbTyUtsxugwimR53x0TukoGSyoUAcl7L5MbJWNyc5L9A/alBK7np
-         P8TebOWbUgoXxxX8gSnFuObO93pPnNKdFJJ1dhLgjrOLuXt8Yv/bor+rV+MriEnseR2F
-         DpAQ==
+        bh=fa2/8Ci4xxzQgPpzblIpuZWOOQWDWwEoKG3A0meA3jA=;
+        b=PV/B6n8yvOYcyf7wJKlL+Eb8wXVZq3DHArWxHUlRCN3HMm1d/q09v5FMBWbibWzrqq
+         8ZDjWTpP9bzG2Mwv44PZ76GCOYi7P7/4m2lqhdibxMcV99qu+x/JbAaiLdgTINrkyWki
+         5+7cT9WvHXjVdVW5j1XvHUoLRyB58uKi+F1gMX1i8y2lb6ntUYkzpE1vO+wpIgMFammt
+         BBWfLTbp1l0MwMMctfCSfahUSiCAYOOoFs8tFd7Alnny/6mjOLiPxOMo/eP0AGRgjoK9
+         h8+H4jM8+BP0ADW7NQwaWV2U6esy19bkdVNMbtigTLSpy9PymNUwtKivP5fLMdBMunrx
+         Exyw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc:content-transfer-encoding;
-        bh=L/eAhlrFrC0aLBaVHXix7LDhxFtZN4hZd7odpTZYr7A=;
-        b=jYFYU2rzMn0fL+WeoefOXv1H6FwHOM4uUt+Gk210yiyNIxF9vSbWvxqsMD3EXyt80b
-         ba7dkuCxmc92NDkNnJmuHupa7dk6zVVpNmaH+NxVfKSBDqskCB/xI8B55LZT6q4DT7/M
-         381NeVZhGiVfywr0UkhaIHM/oarUA9mJGv7Ov+mLphpkl0eP2zbc+8/inFBuBcBtgER3
-         M+18krXWICnMywmQfp6mSW45Um1RZO0QmK/0QG+kEoDkLWxEY8mG8+OFACwlBkRjN1RN
-         zZ/HLwPuQcjULgKUDAtMzjz7MzBS+EhSoF0IgEf47m4G6Wd62NnzPt9AOxzSXag5yFgO
-         99Vg==
-X-Gm-Message-State: AOAM5325Af4ybKwoZl4Vli68QAAAfLepfhMASE+kJ8oL5A/2aApLFCu3
-        oCqFyqd4Ljs7MEcULqBPhs35D5OQsEWFagwcdhU3nqUp
-X-Google-Smtp-Source: ABdhPJwYSpWAlUBLg6XI9B/pUa0ka9+f8AD8sh170wW7+G93V9dlfFIjsDFizRrGIiynDPRd7VFsT/ZG5B9HTd5Ci6w=
-X-Received: by 2002:a54:4608:: with SMTP id p8mr886432oip.5.1606774424807;
- Mon, 30 Nov 2020 14:13:44 -0800 (PST)
+        bh=fa2/8Ci4xxzQgPpzblIpuZWOOQWDWwEoKG3A0meA3jA=;
+        b=M6V3EWJelDb4/TblFa5RCmO8HQXMpRuOCltH8VMfWjyUkoE4aKSE6sAXt14o3sxS7D
+         yYvdqC/SG/Zc+QPkN9PV6lA3gbnstgPEswN43FVL3Jjb17ou6O1IXEF+BtCbETHleaYk
+         kjNPM/q+l5QdU7wNxy9IIFuVF0UWYYX1NOLLpw72qYef2Uisc+GlLRQpfUECj7I4X7/E
+         M1QZrLoQAJlTNKfS9vRh1qGCDBf+EtJhSFlEXTWmlKibuSE6sec22vm/i2+rqAC3Oojx
+         9VL9E9cqiEAumAJMtX+U4hTPyAkjONe/K702i837MB7yBaN9AFPoFCcO+8PwMXHxjR4P
+         bFWg==
+X-Gm-Message-State: AOAM533EFQ/pvqLLmPNtKCWk4U4hf3EVWQruAdAjy7B/HxAttViF3ksD
+        MtdUmQ50gj2xQUAvtlI8QeYnG3QQt4jcI3AEf1c=
+X-Google-Smtp-Source: ABdhPJyYustfZfZl7BLQkBh0ByhfaBrekSB0Y+9Ti6o+YIXL+LHrA4K+GmLqB4BN7E9+McG+pO2SI0wVg6XdMdk/SRo=
+X-Received: by 2002:a9d:5388:: with SMTP id w8mr18736439otg.311.1606774727965;
+ Mon, 30 Nov 2020 14:18:47 -0800 (PST)
 MIME-Version: 1.0
-References: <20201124193824.1118741-1-lee.jones@linaro.org> <20201124193824.1118741-15-lee.jones@linaro.org>
-In-Reply-To: <20201124193824.1118741-15-lee.jones@linaro.org>
+References: <20201124193824.1118741-1-lee.jones@linaro.org> <20201124193824.1118741-16-lee.jones@linaro.org>
+In-Reply-To: <20201124193824.1118741-16-lee.jones@linaro.org>
 From:   Alex Deucher <alexdeucher@gmail.com>
-Date:   Mon, 30 Nov 2020 17:13:33 -0500
-Message-ID: <CADnq5_OfOaxiB1uOVLFni72-GZLBChxtng18kxUvyOMOZsxF-A@mail.gmail.com>
-Subject: Re: [PATCH 14/40] drm/amd/amdgpu/gfx_v9_0: Make called-by-reference
- only function static
+Date:   Mon, 30 Nov 2020 17:18:36 -0500
+Message-ID: <CADnq5_OfkE7H9dsurRiFb8Y3XkCHwcK0zBMCYnNTz0KK_ihr0Q@mail.gmail.com>
+Subject: Re: [PATCH 15/40] drm/amd/amdgpu/gfx_v8_0: Functions must follow
+ directly after their headers
 To:     Lee Jones <lee.jones@linaro.org>
 Cc:     David Airlie <airlied@linux.ie>,
         LKML <linux-kernel@vger.kernel.org>,
@@ -69,12 +69,12 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Nov 24, 2020 at 2:45 PM Lee Jones <lee.jones@linaro.org> wrote:
+On Tue, Nov 24, 2020 at 2:44 PM Lee Jones <lee.jones@linaro.org> wrote:
 >
 > Fixes the following W=3D1 kernel build warning(s):
 >
->  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c:2998:6: warning: no previous proto=
-type for =E2=80=98gfx_v9_0_rlc_stop=E2=80=99 [-Wmissing-prototypes]
+>  drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c:3698: warning: Excess function par=
+ameter 'adev' description in 'DEFAULT_SH_MEM_BASES'
 >
 > Cc: Alex Deucher <alexander.deucher@amd.com>
 > Cc: "Christian K=C3=B6nig" <christian.koenig@amd.com>
@@ -92,24 +92,32 @@ Applied.  Thanks!
 Alex
 
 > ---
->  drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c | 2 +-
+>  drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c | 2 +-
 >  1 file changed, 1 insertion(+), 1 deletion(-)
 >
-> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c b/drivers/gpu/drm/amd/=
-amdgpu/gfx_v9_0.c
-> index 8a6c050cb6caf..eae81fc412556 100644
-> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v9_0.c
-> @@ -2995,7 +2995,7 @@ static void gfx_v9_0_init_pg(struct amdgpu_device *=
-adev)
->         }
+> diff --git a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c b/drivers/gpu/drm/amd/=
+amdgpu/gfx_v8_0.c
+> index 5e6d15f44560a..9a905531f8377 100644
+> --- a/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+> +++ b/drivers/gpu/drm/amd/amdgpu/gfx_v8_0.c
+> @@ -3687,6 +3687,7 @@ static void gfx_v8_0_setup_rb(struct amdgpu_device =
+*adev)
+>         mutex_unlock(&adev->grbm_idx_mutex);
 >  }
 >
-> -void gfx_v9_0_rlc_stop(struct amdgpu_device *adev)
-> +static void gfx_v9_0_rlc_stop(struct amdgpu_device *adev)
+> +#define DEFAULT_SH_MEM_BASES   (0x6000)
+>  /**
+>   * gfx_v8_0_init_compute_vmid - gart enable
+>   *
+> @@ -3695,7 +3696,6 @@ static void gfx_v8_0_setup_rb(struct amdgpu_device =
+*adev)
+>   * Initialize compute vmid sh_mem registers
+>   *
+>   */
+> -#define DEFAULT_SH_MEM_BASES   (0x6000)
+>  static void gfx_v8_0_init_compute_vmid(struct amdgpu_device *adev)
 >  {
->         WREG32_FIELD15(GC, 0, RLC_CNTL, RLC_ENABLE_F32, 0);
->         gfx_v9_0_enable_gui_idle_interrupt(adev, false);
+>         int i;
 > --
 > 2.25.1
 >
