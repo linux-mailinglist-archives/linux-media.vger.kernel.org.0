@@ -2,103 +2,62 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 470802C897F
-	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 17:29:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 11D342C8983
+	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 17:29:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728840AbgK3Q20 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Nov 2020 11:28:26 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37904 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726995AbgK3Q2Z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Nov 2020 11:28:25 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 513E1C0613D2;
-        Mon, 30 Nov 2020 08:27:45 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id CFCDAB26;
-        Mon, 30 Nov 2020 17:27:43 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1606753664;
-        bh=i330NE/Tn2ccl8y6bCOsqTM7HJgPOsK1+uiu+4FUjsU=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=MmQbJwppWWRYMbEUb80Ri4wyuw8FTRABX9pFF1Ok+J1kSR5yeOaTd/VIzbljKUY4R
-         MnzedaGjeikrn7wIE8BOqOAEcKPaaZu6CUrqA9lhcHv9O/acuGqm9guLC+iqfQVFqL
-         i+RrXMW9Q6Q+GpjTTweCMHgndBVZSUjfTZb5vKNw=
-Date:   Mon, 30 Nov 2020 18:27:35 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Daniel Scally <djrscally@gmail.com>
-Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org,
-        mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        wsa@kernel.org, yong.zhi@intel.com, sakari.ailus@linux.intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jorhand@linux.microsoft.com, kitakar@gmail.com,
-        heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH 11/18] media: v4l2-core: v4l2-async: Check possible match
- in match_fwnode based on sd->fwnode->secondary
-Message-ID: <20201130162735.GM14465@pendragon.ideasonboard.com>
-References: <20201130133129.1024662-1-djrscally@gmail.com>
- <20201130133129.1024662-12-djrscally@gmail.com>
+        id S1728866AbgK3Q3V (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Nov 2020 11:29:21 -0500
+Received: from gloria.sntech.de ([185.11.138.130]:45408 "EHLO gloria.sntech.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728863AbgK3Q3U (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 30 Nov 2020 11:29:20 -0500
+Received: from ip5f5aa64a.dynamic.kabel-deutschland.de ([95.90.166.74] helo=phil.lan)
+        by gloria.sntech.de with esmtpsa (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <heiko@sntech.de>)
+        id 1kjm2R-0003Mu-Bk; Mon, 30 Nov 2020 17:28:31 +0100
+From:   Heiko Stuebner <heiko@sntech.de>
+To:     linux-media@vger.kernel.org,
+        Helen Koike <helen.koike@collabora.com>
+Cc:     Heiko Stuebner <heiko@sntech.de>, kernel@collabora.com,
+        dafna.hirschfeld@collabora.com, devicetree@vger.kernel.org,
+        karthik.poduval@gmail.com, zhengsq@rock-chips.com,
+        linux-kernel@vger.kernel.org, robin.murphy@arm.com,
+        linux-rockchip@lists.infradead.org, hverkuil-cisco@xs4all.nl,
+        mark.rutland@arm.com, jbx6244@gmail.com,
+        devel@driverdev.osuosl.org, eddie.cai.linux@gmail.com,
+        robh+dt@kernel.org
+Subject: Re: (subset) [PATCH v6 0/9] move Rockchip ISP bindings out of staging / add ISP DT nodes for RK3399
+Date:   Mon, 30 Nov 2020 17:28:29 +0100
+Message-Id: <160675369960.1150759.2276623622378204083.b4-ty@sntech.de>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201020193850.1460644-1-helen.koike@collabora.com>
+References: <20201020193850.1460644-1-helen.koike@collabora.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201130133129.1024662-12-djrscally@gmail.com>
+Content-Type: text/plain; charset="utf-8"
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Daniel,
-
-Thank you for the patch.
-
-On Mon, Nov 30, 2020 at 01:31:22PM +0000, Daniel Scally wrote:
-> Where the fwnode graph is comprised of software_nodes, these will be
-> assigned as the secondary to dev->fwnode. Check the v4l2_subdev's fwnode
-> for a secondary and attempt to match against it during match_fwnode() to
-> accommodate that possibility.
+On Tue, 20 Oct 2020 16:38:41 -0300, Helen Koike wrote:
+> Move the bindings out of drivers/staging and place them in
+> Documentation/devicetree/bindings instead.
 > 
-> Signed-off-by: Daniel Scally <djrscally@gmail.com>
-
-Reviewed-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-
-> ---
-> Changes since RFC v3:
+> Also, add DT nodes for RK3399 and verify with make ARCH=arm64 dtbs_check
+> and make ARCH=arm64 dt_binding_check.
 > 
-> 	- None
+> Tested by verifying images streamed from Scarlet Chromebook
 > 
->  drivers/media/v4l2-core/v4l2-async.c | 8 ++++++++
->  1 file changed, 8 insertions(+)
-> 
-> diff --git a/drivers/media/v4l2-core/v4l2-async.c b/drivers/media/v4l2-core/v4l2-async.c
-> index e3ab003a6c85..6486dbde784f 100644
-> --- a/drivers/media/v4l2-core/v4l2-async.c
-> +++ b/drivers/media/v4l2-core/v4l2-async.c
-> @@ -87,6 +87,14 @@ static bool match_fwnode(struct v4l2_async_notifier *notifier,
->  	if (sd->fwnode == asd->match.fwnode)
->  		return true;
->  
-> +	/*
-> +	 * Check the same situation for any possible secondary assigned to the
-> +	 * subdev's fwnode
-> +	 */
-> +	if ((!IS_ERR_OR_NULL(sd->fwnode->secondary)) &&
-> +	    sd->fwnode->secondary == asd->match.fwnode)
-> +		return true;
-> +
->  	/*
->  	 * Otherwise, check if the sd fwnode and the asd fwnode refer to an
->  	 * endpoint or a device. If they're of the same type, there's no match.
+> [...]
 
+Applied, thanks!
+
+[8/9] arm64: dts: rockchip: add isp0 node for rk3399
+      commit: 97a0115cd96a173369ef30eee2290184921b3f24
+[9/9] arm64: dts: rockchip: add isp and sensors for Scarlet
+      commit: ef098edc9c245dd1c150001e22c78e6a3ffd7ff8
+
+Best regards,
 -- 
-Regards,
-
-Laurent Pinchart
+Heiko Stuebner <heiko@sntech.de>
