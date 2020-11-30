@@ -2,93 +2,91 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AF6242C85FD
-	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 14:57:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CD23A2C8686
+	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 15:22:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727135AbgK3NzU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Nov 2020 08:55:20 -0500
-Received: from mga17.intel.com ([192.55.52.151]:29006 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726737AbgK3NzT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Nov 2020 08:55:19 -0500
-IronPort-SDR: ZcpUTZ7YSJhmyl1ZRw3msG66XeVayhVjlcyXoA9WeWYrRUA435n6kRFoS+IeyJxVEB00VrqFLX
- Ach4TbMIIxTg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="152469864"
-X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; 
-   d="scan'208";a="152469864"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga005.jf.intel.com ([10.7.209.41])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 05:53:38 -0800
-IronPort-SDR: Ao8RXvPmDEAz0Ds/itDE6rFJeK3ffp0ww976qNBmYThfMVH9nOR0jPRlWneQX1FQMxXiWm79uV
- B4d8NxJ8kEEQ==
-X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; 
-   d="scan'208";a="549105746"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 05:53:35 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 58269208FD; Mon, 30 Nov 2020 15:53:31 +0200 (EET)
-Date:   Mon, 30 Nov 2020 15:53:31 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        id S1726663AbgK3OU4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Nov 2020 09:20:56 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:55706 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726410AbgK3OU4 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 30 Nov 2020 09:20:56 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: koike)
+        with ESMTPSA id D7FDC1F45036
+Subject: Re: [PATCH] media: rockchip: rkisp1: remove some dead code
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 2/2] media: i2c: Add support for the OV5648 image
- sensor
-Message-ID: <20201130135331.GW3940@paasikivi.fi.intel.com>
-References: <20201128143350.531460-1-paul.kocialkowski@bootlin.com>
- <20201128143350.531460-3-paul.kocialkowski@bootlin.com>
- <20201130092802.GU3940@paasikivi.fi.intel.com>
- <X8T4FH/QjRdLu0hS@aptenodytes>
+        Heiko Stuebner <heiko@sntech.de>, linux-media@vger.kernel.org,
+        linux-rockchip@lists.infradead.org,
+        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+References: <X8TrSj3PbqVtN5XQ@mwanda>
+From:   Helen Koike <helen.koike@collabora.com>
+Message-ID: <a6d9660f-84ec-317d-c3aa-9b3bda595d49@collabora.com>
+Date:   Mon, 30 Nov 2020 11:20:05 -0300
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <X8T4FH/QjRdLu0hS@aptenodytes>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <X8TrSj3PbqVtN5XQ@mwanda>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+Hi Dan,
 
-On Mon, Nov 30, 2020 at 02:48:04PM +0100, Paul Kocialkowski wrote:
-> Hi Sakari,
-> 
-> On Mon 30 Nov 20, 11:28, Sakari Ailus wrote:
-> > Hi Paul,
-> > 
-> > Thanks for the update. I have a few comments on the driver, too.
-> 
-> Thanks for the review!
-> 
-> [...]
-> 
-> > > +	ret = ov5648_write(sensor, OV5648_GAIN_BLUE_MAN_L_REG,
-> > > +			   OV5648_GAIN_BLUE_MAN_L(blue_balance));
-> > 
-> > return ...
-> > 
-> > Same below (and above).
-> 
-> Well I don't think that makes any functional difference, right?
-> My personal preference is to have explicit checks even at the end of functions
-> for symetry and alignment with other blocks.
-> 
-> If it's okay, it'd like to keep it as-is. But if that's against kernel coding
-> style guidelines, I won't argue more.
+Thank you for your patch.
 
-Please do change them.
+On 11/30/20 9:53 AM, Dan Carpenter wrote:
+> The debugfs_create_dir() function never returns NULLs.  It's not supposed
+> to checked for errors in the normal case and there is no need to check
+> in this function so let's just delete this dead code.
+> 
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+> ---
+>  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c | 4 ----
+>  1 file changed, 4 deletions(-)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> index 9af137e4967f..68da1eed753d 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c
+> @@ -430,10 +430,6 @@ static void rkisp1_debug_init(struct rkisp1_device *rkisp1)
+>  	struct rkisp1_debug *debug = &rkisp1->debug;
+>  
+>  	debug->debugfs_dir = debugfs_create_dir(RKISP1_DRIVER_NAME, NULL);
+> -	if (!debug->debugfs_dir) {
+> -		dev_dbg(rkisp1->dev, "failed to create debugfs directory\n");
+> -		return;
+> -	}
 
-It's useless code, repeated at the end of a number of functions in this
-driver. I wouldn't mind otherwise, but people do take examples from
-existing drivers so such patterns tend to repeat in other places.
+I was taking a look at the debugfs_create_dir() code, and I saw it can
+return ERR_PTR(), so ideally we should check for errors with IS_ERR() / PTR_ERR().
 
--- 
-Regards,
+Also from the docs:
 
-Sakari Ailus
+ * <snip>  If an error occurs, ERR_PTR(-ERROR) will be
+ * returned.
+ *
+ * If debugfs is not enabled in the kernel, the value -%ENODEV will be
+ * returned.
+
+
+
+>  	debugfs_create_ulong("data_loss", 0444, debug->debugfs_dir,
+>  			     &debug->data_loss);
+>  	debugfs_create_ulong("outform_size_err", 0444,  debug->debugfs_dir,
+> 
+
+
+nit: I would change the name of the commit just to make it clear what it
+does.
+Example: Remove useless error check from debugfs_create_dir()
+
+Thanks,
+Helen
