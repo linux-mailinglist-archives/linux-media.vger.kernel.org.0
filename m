@@ -2,128 +2,63 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C07452C8761
-	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 16:07:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E20932C87F0
+	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 16:25:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726685AbgK3PEN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Nov 2020 10:04:13 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:56162 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725899AbgK3PEN (ORCPT
+        id S1727938AbgK3PYI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Nov 2020 10:24:08 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:59490 "EHLO
+        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727875AbgK3PYI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Nov 2020 10:04:13 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: nicolas)
-        with ESMTPSA id 540D11F450AB
-Message-ID: <67aa7f00ae2ea7d7e59720ce37d32ebd0de8a60a.camel@collabora.com>
-Subject: Re: [PATCH 4/4] venus: venc: Add support for AUD NALU control
-From:   Nicolas Dufresne <nicolas.dufresne@collabora.com>
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Maheshwar Ajja <majja@codeaurora.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Date:   Mon, 30 Nov 2020 10:03:21 -0500
-In-Reply-To: <20201130090859.25272-5-stanimir.varbanov@linaro.org>
-References: <20201130090859.25272-1-stanimir.varbanov@linaro.org>
-         <20201130090859.25272-5-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.1 (3.38.1-1.fc33) 
+        Mon, 30 Nov 2020 10:24:08 -0500
+Received: from [IPv6:2a01:e0a:169:7140:a584:b2c9:4b50:852e] (unknown [IPv6:2a01:e0a:169:7140:a584:b2c9:4b50:852e])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 6C9FF97E;
+        Mon, 30 Nov 2020 16:23:26 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1606749806;
+        bh=FzeSHTuXfRZ48SVnYhAbf46ei2QNThr/E0D1lAP+9P0=;
+        h=From:Subject:To:Cc:Date:From;
+        b=lK2EDMGnpWQ1p2YY9YDe2JxnNw2tbbswZqv0b4h3FduHZn4VelEDKkZ0Dju1BCG9p
+         r/l9H2gdArE2iFeg53WgcR3rqpg2T/dUeg1Xp0xJYkNtVTTfeFpVHTJ8gREyGh27Wr
+         va5M9QPUgTyQrc1PwuZoKrqtjFg6MLbTv2DmeCpc=
+From:   Jean-Michel Hautbois <jeanmichel.hautbois@ideasonboard.com>
+Subject: Intel IPU3: can't retrieve 3A Auto Exposure (AE) statistics
+To:     sakari.ailus@linux.intel.com
+Cc:     linux-media@vger.kernel.org, libcamera-devel@lists.libcamera.org
+Message-ID: <ae23247b-64cf-aecd-7d71-46581e0f9b1e@ideasonboard.com>
+Date:   Mon, 30 Nov 2020 16:23:25 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le lundi 30 novembre 2020 à 11:08 +0200, Stanimir Varbanov a écrit :
-> Add support for Access Unit Delimiter control into encoder.
-> 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->  drivers/media/platform/qcom/venus/core.h       |  1 +
->  drivers/media/platform/qcom/venus/venc.c       | 14 ++++++++++++++
->  drivers/media/platform/qcom/venus/venc_ctrls.c |  8 +++++++-
->  3 files changed, 22 insertions(+), 1 deletion(-)
-> 
-> diff --git a/drivers/media/platform/qcom/venus/core.h
-> b/drivers/media/platform/qcom/venus/core.h
-> index 52df8b3ea438..041d33ad7688 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -244,6 +244,7 @@ struct venc_controls {
->         u32 header_mode;
->         u32 intra_refresh_mode;
->         u32 intra_refresh_mbs;
-> +       bool aud_enable;
->  
->         u32 profile;
->         u32 level;
-> diff --git a/drivers/media/platform/qcom/venus/venc.c
-> b/drivers/media/platform/qcom/venus/venc.c
-> index 71b525099e45..986d33b633db 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -696,6 +696,20 @@ static int venc_set_properties(struct venus_inst *inst)
->                         return ret;
->         }
->  
-> +       if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
-> +           inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-> +               struct hfi_enable en = {};
-> +
-> +               ptype = HFI_PROPERTY_PARAM_VENC_H264_GENERATE_AUDNAL;
-> +
-> +               if (ctr->aud_enable)
-> +                       en.enable = 1;
-> +
-> +               ret = hfi_session_set_property(inst, ptype, &en);
-> +               if (ret)
-> +                       return ret;
-> +       }
-> +
->         ret = venus_helper_set_profile_level(inst, ctr->profile, ctr->level);
->         if (ret)
->                 return ret;
-> diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c
-> b/drivers/media/platform/qcom/venus/venc_ctrls.c
-> index 74b4269e2e9c..8d34a5396306 100644
-> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-> @@ -202,6 +202,9 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
->                 ctr->intra_refresh_mbs = ctrl->val;
->                 ctr->intra_refresh_mode = HFI_INTRA_REFRESH_RANDOM;
->                 break;
-> +       case V4L2_CID_MPEG_VIDEO_AU_DELIMITER:
-> +               ctr->aud_enable = ctrl->val;
-> +               break;
->         default:
->                 return -EINVAL;
->         }
-> @@ -217,7 +220,7 @@ int venc_ctrl_init(struct venus_inst *inst)
->  {
->         int ret;
->  
-> -       ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 34);
-> +       ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 35);
->         if (ret)
->                 return ret;
->  
-> @@ -372,6 +375,9 @@ int venc_ctrl_init(struct venus_inst *inst)
->                           V4L2_CID_MPEG_VIDEO_RANDOM_INTRA_REFRESH_MB, 0,
->                           ((7680 * 4320) >> 8), 1, 0);
->  
-> +       v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-> +                         V4L2_CID_MPEG_VIDEO_AU_DELIMITER, 0, 1, 1, 0);
-> +
+Hi Sakari, all,
 
-Any rationale not to make this the default ? AUD is optional in H264/HEVC but is
-mandatory when contained into MPEG TS. Not enabling it by default lead to bugs
-where invalid file are being produced. That would be my rationale to always
-enable this, I'd be curious to see what you and others think of this proposal.
+I am currently working with libcamera and trying to make it work on a
+IPU3 pipeline (MS Surface Go 2)...
+I can set the buffer parameters, thanks to Niklas work, but can't get
+the 3A statistics buffer back.
+More precisely, the buffers are queued/dequeued but the 'ae_en' bit is
+never set to 1, and all the raw buffers are set to '0' values.
 
->         ret = inst->ctrl_handler.error;
->         if (ret)
->                 goto err;
+I suppose I have missed to set one parameter somewhere, but according to
+https://www.kernel.org/doc/html/v5.6/media/uapi/v4l/pixfmt-meta-intel-ipu3.html#c.ipu3_uapi_ae_grid_config
+setting the 'ae_en' bit in the ipu3_uapi_ae_grid_config structure should
+be enough to trigger ?
 
+I have pushed my (very work in progress) work here:
+https://github.com/jhautbois/libcamera/tree/test-fake-ipu3-ipa
 
+I would appreciate feedback on this stuff, as I can't see anything
+missing from a user-space perspective right now... :-)
+
+Thanks,
+--
+Regards,
+JM
