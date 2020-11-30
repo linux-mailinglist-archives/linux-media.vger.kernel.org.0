@@ -2,178 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 91E2F2C7D96
-	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 05:41:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A62622C7DDB
+	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 06:37:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726637AbgK3ElA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 29 Nov 2020 23:41:00 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:53929 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726415AbgK3ElA (ORCPT
+        id S1725902AbgK3FhM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Nov 2020 00:37:12 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:31683 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725860AbgK3FhM (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 29 Nov 2020 23:41:00 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id jaz2krcHIN7Xgjaz3kgvSn; Mon, 30 Nov 2020 05:40:18 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606711218; bh=Xfn3Uyv43tQSgoyetI2EYntUUXGlaqcvFhV+D39iVbc=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=TZGgwi1+wAjKbYpbOjDm3SL8G4b8twAPgmUNqG1BYAVRDWLXZR15+T0k9gDVNAk2j
-         h73HuNgMH6qEMU9EwgmJX32OTPNWbfyV3VporY8DwoHb2Eezxv81RtsEIdQ0JMuyRp
-         +0eqQw/+tUZns3Bci7ABYMM0MX1/EHYgh8eXrpQNcsv0CBcNMK7s3qkGYF+zVklAib
-         1d0zzuNYEY3gsWKvRYBhvkIzjqVDX7UHhDKUU55Cmk9qC6kE5z46npzf+32xlcpVQY
-         ee0FJrx6eA0hEHWWElo7CLTot6vnJRfbtzq6yjjwbXlhx70J9L0DQQ2QaNQ13pN0Si
-         F64b67w9nHPpw==
-Message-ID: <65ad0cc286213442a00961e935932040@smtp-cloud7.xs4all.net>
-Date:   Mon, 30 Nov 2020 05:40:16 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: WARNINGS
-X-CMAE-Envelope: MS4xfNxZgYEq4pgA9VIf8mSThkZE2D/wPr+FwZi///m/PLFcJ1bFqkV1FYRmWcFajmNhefFzUdG+DE3+RfEoxHH99YqksnExDi50FtDXjF58uPj7zfAjEOJ+
- 62bd1jinVj2QN5Gp9xXD3z0iqvoOFc6uMj4Kunkpn80e+xTmpzkOa3fSh3XzIuVO0YibhiZOk7svPXdREIrTqTKi+X6gsw/FNHvd+OhvwVtJ2CzCkgeITduK
- SU88rIf/zqkLTaqLxnyfqg==
+        Mon, 30 Nov 2020 00:37:12 -0500
+Received: from ironmsg07-lv.qualcomm.com (HELO ironmsg07-lv.qulacomm.com) ([10.47.202.151])
+  by alexa-out.qualcomm.com with ESMTP; 29 Nov 2020 21:36:31 -0800
+X-QCInternal: smtphost
+Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
+  by ironmsg07-lv.qulacomm.com with ESMTP/TLS/AES256-SHA; 29 Nov 2020 21:36:30 -0800
+X-QCInternal: smtphost
+Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
+  by ironmsg02-blr.qualcomm.com with ESMTP; 30 Nov 2020 11:06:16 +0530
+Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
+        id B3AB62128A; Mon, 30 Nov 2020 11:06:15 +0530 (IST)
+From:   Dikshita Agarwal <dikshita@codeaurora.org>
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
+Subject: [PATCH] venus: core: add support to dump FW region
+Date:   Mon, 30 Nov 2020 11:06:12 +0530
+Message-Id: <1606714572-1113-1-git-send-email-dikshita@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Add support to dump video FW region during FW crash
+using devcoredump helpers.
 
-Results of the daily build of media_tree:
+Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+---
+ drivers/media/platform/qcom/venus/core.c | 47 ++++++++++++++++++++++++++++++++
+ 1 file changed, 47 insertions(+)
 
-date:			Mon Nov 30 05:00:13 CET 2020
-media-tree git hash:	a3f132df0e5f25399c9592c2d14997975ddbf290
-media_build git hash:	efebcbca1e44be2502829ae9bd9a9ff90b90e310
-v4l-utils git hash:	11da65eee7a271bba3f21d8117cdac428fe3a91e
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.2-1-gfebba84c
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-6793-g0248ebb06
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 63a52153f10bfed851877e415b3507560c94cfd1
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 6103aaf..01a0cfe 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -7,8 +7,10 @@
+ #include <linux/interconnect.h>
+ #include <linux/ioctl.h>
+ #include <linux/delay.h>
++#include <linux/devcoredump.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
++#include <linux/of_address.h>
+ #include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+@@ -22,6 +24,48 @@
+ #include "firmware.h"
+ #include "pm_helpers.h"
+ 
++static int subsystem_dump(struct venus_core *core)
++{
++	struct device_node *node;
++	struct device *dev;
++	struct resource r;
++	void *mem_va;
++	size_t mem_size;
++	void *data;
++	int ret;
++
++	dev = core->dev;
++	node = of_parse_phandle(dev->of_node, "memory-region", 0);
++	if (!node)
++		return -EINVAL;
++
++	ret = of_address_to_resource(node, 0, &r);
++	if (ret)
++		goto err_put_node;
++
++	mem_size = resource_size(&r);
++
++	mem_va = memremap(r.start, mem_size, MEMREMAP_WC);
++	if (!mem_va) {
++		ret = -ENOMEM;
++		goto err_put_node;
++	}
++
++	data = vmalloc(mem_size);
++	if (!data) {
++		ret = -EINVAL;
++		goto err_unmap;
++	}
++
++	memcpy(data, mem_va, mem_size);
++
++	dev_coredumpv(dev, data, mem_size, GFP_KERNEL);
++err_unmap:
++	memunmap(mem_va);
++err_put_node:
++	of_node_put(node);
++	return ret;
++}
+ static void venus_event_notify(struct venus_core *core, u32 event)
+ {
+ 	struct venus_inst *inst;
+@@ -67,6 +111,9 @@ static void venus_sys_error_handler(struct work_struct *work)
+ 
+ 	venus_shutdown(core);
+ 
++	dev_warn(core->dev, "dumping FW region!\n");
++	subsystem_dump(core);
++
+ 	pm_runtime_put_sync(core->dev);
+ 
+ 	while (core->pmdomains[0] && pm_runtime_active(core->pmdomains[0]))
+-- 
+2.7.4
 
-linux-git-arm-davinci: OK
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: OK
-linux-4.16.18-x86_64: OK
-linux-4.17.19-i686: OK
-linux-4.17.19-x86_64: OK
-linux-4.18.20-i686: OK
-linux-4.18.20-x86_64: OK
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: OK
-linux-4.20.17-x86_64: OK
-linux-5.0.21-i686: OK
-linux-5.0.21-x86_64: OK
-linux-5.1.21-i686: OK
-linux-5.1.21-x86_64: OK
-linux-5.2.21-i686: OK
-linux-5.2.21-x86_64: OK
-linux-5.3.18-i686: OK
-linux-5.3.18-x86_64: OK
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: OK
-linux-5.5.19-x86_64: OK
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: OK
-smatch: WARNINGS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
