@@ -2,149 +2,131 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F22E32C85C5
-	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 14:42:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9E0AB2C85D7
+	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 14:49:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726326AbgK3Nld (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Nov 2020 08:41:33 -0500
-Received: from mga07.intel.com ([134.134.136.100]:53734 "EHLO mga07.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726220AbgK3Nlc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Nov 2020 08:41:32 -0500
-IronPort-SDR: gGytLDsimFrk50+dmk2X2EH1gsc4POSraJdWAo+KUi93MnbGqAk07Bvam6vsVxwGJf2oSz5wx1
- ndocO2ORWxaA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="236757839"
-X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; 
-   d="scan'208";a="236757839"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga001.jf.intel.com ([10.7.209.18])
-  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 05:39:51 -0800
-IronPort-SDR: N3ryU2U5GWh96LcV/5uY/T0DXkcqTsWwzyafOtJ4D1+SJiOaQwHrEApHPJPDZYHkHc/BT4ZAjg
- zLwf7tvmHeMQ==
-X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; 
-   d="scan'208";a="404729837"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 05:39:49 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id C2BDD208FD; Mon, 30 Nov 2020 15:39:45 +0200 (EET)
-Date:   Mon, 30 Nov 2020 15:39:45 +0200
-From:   'Sakari Ailus' <sakari.ailus@linux.intel.com>
-To:     martinax.krasteva@linux.intel.com
-Cc:     'Jacopo Mondi' <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        mchehab@kernel.org, robh+dt@kernel.org, devicetree@vger.kernel.org,
-        daniele.alessandrelli@linux.intel.com,
-        gjorgjix.rosikopulos@linux.intel.com
-Subject: Re: [PATCH 2/2] media: Add imx334 camera sensor driver
-Message-ID: <20201130133945.GV3940@paasikivi.fi.intel.com>
-References: <20201120142803.308-1-martinax.krasteva@linux.intel.com>
- <20201120142803.308-3-martinax.krasteva@linux.intel.com>
- <20201123111029.rcoxchzj332tu6y4@uno.localdomain>
- <20201123140223.GZ3940@paasikivi.fi.intel.com>
- <001f01d6c702$8b760d40$a26227c0$@linux.intel.com>
+        id S1726001AbgK3Nss (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Nov 2020 08:48:48 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:45845 "EHLO
+        relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725859AbgK3Nss (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 30 Nov 2020 08:48:48 -0500
+X-Originating-IP: 93.29.109.196
+Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id A133A20006;
+        Mon, 30 Nov 2020 13:48:05 +0000 (UTC)
+Date:   Mon, 30 Nov 2020 14:48:04 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 2/2] media: i2c: Add support for the OV5648 image
+ sensor
+Message-ID: <X8T4FH/QjRdLu0hS@aptenodytes>
+References: <20201128143350.531460-1-paul.kocialkowski@bootlin.com>
+ <20201128143350.531460-3-paul.kocialkowski@bootlin.com>
+ <20201130092802.GU3940@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="CRkzk4adFE2kMeBa"
 Content-Disposition: inline
-In-Reply-To: <001f01d6c702$8b760d40$a26227c0$@linux.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201130092802.GU3940@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martina,
 
-On Mon, Nov 30, 2020 at 10:21:12AM -0000, martinax.krasteva@linux.intel.com wrote:
-> Hi Sakari, Jacopo,
-> 
-> Thank you for the review
-> 
-> > -----Original Message-----
-> > From: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Sent: Monday, November 23, 2020 2:02 PM
-> > To: Jacopo Mondi <jacopo@jmondi.org>
-> > Cc: Martina Krasteva <martinax.krasteva@linux.intel.com>; linux-
-> > media@vger.kernel.org; mchehab@kernel.org; robh+dt@kernel.org;
-> > devicetree@vger.kernel.org; daniele.alessandrelli@linux.intel.com;
-> > gjorgjix.rosikopulos@linux.intel.com
-> > Subject: Re: [PATCH 2/2] media: Add imx334 camera sensor driver
-> > 
-> > Hi Jacopo,
-> > 
-> > On Mon, Nov 23, 2020 at 12:10:29PM +0100, Jacopo Mondi wrote:
-> > ...
-> > > > +#include <media/v4l2-fwnode.h>
-> > >
-> > > You only use v4l2_async_register_subdev_sensor_common() from fwnde.h
-> > > If you think you can replace it with v4l2_async_register_subdev() (see
-> > > below comment) this should be changed in v4l2-async.h
-> > 
-> > Either is fine in principle. I'd use
-> > v4l2_async_register_subdev_sensor_common() for sensors though, as it
-> allows
-> > connecting lens and flash sub-devices.
-> > 
-> > Regarding DT bindings --- I wonder if there's a way to say these are
-> relevant for
-> > all sensors. That'd be another discussion though.
-> > 
-> 
-> Should I add lens and flash in DT binding doc, so it is clear that
-> connecting such sub-devs is supported?
-> I thought the binding doc should include only the bare minimum for a certain
-> driver to be used, but it does make sense adding this info.
+--CRkzk4adFE2kMeBa
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-I wouldn't add them to bindings here as they're not related to this device
-but to other devices.
+Hi Sakari,
 
-I wonder what Rob thinks.
+On Mon 30 Nov 20, 11:28, Sakari Ailus wrote:
+> Hi Paul,
+>=20
+> Thanks for the update. I have a few comments on the driver, too.
 
-...
+Thanks for the review!
 
-> > > > +static const struct media_entity_operations imx334_subdev_entity_ops
-> = {
-> > > > +	.link_validate = v4l2_subdev_link_validate, };
-> > >
-> > > Is link_validate called on sensor subdev ? My understanding is that
-> > > they're called on the sink entity, but I might be mistaken.
-> > 
-> > Correct.
-> > 
-> 
-> This is what I read in the v4l2-subdev.rst:
-> " If the subdev driver intends to process video and integrate with the media
-> framework, it must implement format related functionality using
-> :c:type:`v4l2_subdev_pad_ops` instead of :c:type:`v4l2_subdev_video_ops`.
-> 
-> In that case, the subdev driver may set the link_validate field to provide
-> its own link validation function. <<The link validation function is called
-> for
-> every link in the pipeline where both of the ends of the links are V4L2
-> sub-devices.>> The driver is still responsible for validating the
-> correctness
-> of the format configuration between sub-devices and video nodes."
-> 
-> I find it a bit misleading, however I checked the source code, so I will
-> remove it in the next version.
-> 
-> Something that is not clear to me is, do I have to explicitly set
-> link_validate for the sink pad's entity to trigger validation. According to
-> the doc
-> I don't need to, but I cannot find the place in the source code where the
-> default func is called even if the op is not set, neither setting default
-> ops in case they weren't set.
->  
-> "If link_validate op is not set, the default function
-> :c:func:`v4l2_subdev_link_validate_default` is used instead. This function
-> ensures that width, height and the media bus pixel code are equal on both
-> source
-> and sink of the link. Subdev drivers are also free to use this function to
-> perform the checks mentioned above in addition to their own checks."
+[...]
 
-When a link is validated, it's the link_validate callback of the sink pad
-that will be used for the purpose. This is currently not documented here
-but should be added.
+> > +	ret =3D ov5648_write(sensor, OV5648_GAIN_BLUE_MAN_L_REG,
+> > +			   OV5648_GAIN_BLUE_MAN_L(blue_balance));
+>=20
+> return ...
+>=20
+> Same below (and above).
 
--- 
-Kind regards,
+Well I don't think that makes any functional difference, right?
+My personal preference is to have explicit checks even at the end of functi=
+ons
+for symetry and alignment with other blocks.
 
-Sakari Ailus
+If it's okay, it'd like to keep it as-is. But if that's against kernel codi=
+ng
+style guidelines, I won't argue more.
+
+[...]
+
+> > +	/* Gain */
+> > +
+> > +	ctrls->gain_auto =3D
+> > +		v4l2_ctrl_new_std(handler, ops, V4L2_CID_AUTOGAIN, 0, 1, 1, 1);
+> > +
+> > +	ctrls->gain =3D v4l2_ctrl_new_std(handler, ops, V4L2_CID_GAIN, 16, 10=
+23,
+> > +					16, 16);
+> > +	ctrls->gain->flags |=3D V4L2_CTRL_FLAG_VOLATILE;
+>=20
+> Note that ctrls->gain may be NULL here. Please move after the handler's
+> error check. Same for link_freq and pixel_rate.
+
+You're right, this is not very safe, I'll fix it.
+
+[...]
+
+> > +static int ov5648_remove(struct i2c_client *client)
+> > +{
+> > +	struct v4l2_subdev *subdev =3D i2c_get_clientdata(client);
+> > +	struct ov5648_sensor *sensor =3D ov5648_subdev_sensor(subdev);
+> > +
+> > +	clk_rate_exclusive_put(sensor->xvclk);
+>=20
+> This seems to be extra now.
+
+Good catch, that's indeed a mistake!
+
+Cheers and thanks,
+
+Paul
+
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
+
+--CRkzk4adFE2kMeBa
+Content-Type: application/pgp-signature; name="signature.asc"
+
+-----BEGIN PGP SIGNATURE-----
+
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl/E+BQACgkQ3cLmz3+f
+v9GHhAf8CLLaWEXbSysD7y5nk1maTTqdd5IRG0Y1IEIzEZI9RSDhumcq+i8ug3sc
+zxQuUnXASqk2Cd+gP9+gOdMEKXPG6MIi5rwPvdbQcgvYN8ueDvQcuzF+bWim3aQ9
+LIbdS9QJgNmSwuC1r6yzQb1nDizd3pcJ5kLHcrX7BCq8MgAu1bTO7ifB8jKU00RY
+cHV5G4FfNz9iDPeDpxQ2RFsEHSPqYN0dd1vXG0a6YYsWfhVw4fuZeXN/DxcBQhV7
+NKo0ORcHSrjVTcRSVloT6CB6pKWJ3xgGt8Ls/lcXxF/7dlNg3pvVAMMHLpSTowpj
+t+atTLuKufo/bs9A7/FM+ING5S+ndA==
+=ATUE
+-----END PGP SIGNATURE-----
+
+--CRkzk4adFE2kMeBa--
