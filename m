@@ -2,139 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 229572C8AFA
-	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 18:30:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E204E2C8B03
+	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 18:30:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729338AbgK3R24 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Nov 2020 12:28:56 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47320 "EHLO
+        id S2387453AbgK3R3t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Nov 2020 12:29:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47456 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727522AbgK3R24 (ORCPT
+        with ESMTP id S1728730AbgK3R3s (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Nov 2020 12:28:56 -0500
-Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B10C3C0613D2
-        for <linux-media@vger.kernel.org>; Mon, 30 Nov 2020 09:28:15 -0800 (PST)
-Received: by mail-ed1-x542.google.com with SMTP id y4so17219364edy.5
-        for <linux-media@vger.kernel.org>; Mon, 30 Nov 2020 09:28:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=PNJtXeIQ4f3R+VvAdqoPimuHtvgktQwuiAbQpV/HFWE=;
-        b=nnD8YalHuDD166RYZ7ZmNsq84+NXsmwg6T/7MDxEnhlfxG4rh9jUy4xcWgiSfZk27C
-         eB3r3mmzY+kwTQ8VYdoV/nHd6ek0ozoHWXqTEA+IcyUwzIBjoB5wud/vDD3i0SrNd+Wc
-         LuiYSF6xTNWIaexrVY7ur/r7WghcatYI1Wfsk=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=PNJtXeIQ4f3R+VvAdqoPimuHtvgktQwuiAbQpV/HFWE=;
-        b=Et9fSTmFf7Oh+G+iwipO0xjGqjTywSUydd4IUHqJsGYEp5j9felRYM29zNI+VnfScm
-         DBneDOwgUT8KjB0sFV/Zc/uh4YStCo82cZgG+Cjl+h7AOI5aqli3IDI/ySzkeRqR5WEh
-         OCjN7mXRYtgQlkvqhFi6fo+XFITC9fr09jxQ4Kt17LEwKjQR6w/OYAjItt2hMM4SHWDu
-         Lf5GNnScxI7OkekxpKOaopdeU/9cwSTtUVjZ8Id+KdAu2TGAorYCCYi7kRKfaQqeE1z/
-         Ngyu0WksL55ULqehOYXCTh6eimDi3VwRYfeSXsLr6JN+f+wxW7xw/b2gpdztKeVE3HKS
-         047A==
-X-Gm-Message-State: AOAM533YgsxeNbdP13liH41iPBe6S1Kkballw+GzPdsRi6mfzMJRgpfk
-        9K8c+0SgR2tyonHn9MLnmUmt6+kUvyWw0g==
-X-Google-Smtp-Source: ABdhPJzTN/wRNckT6tM/+RV5fuo7pzPIOxrdBWbkvl7YxeSDp7AynmpSGT/4wTxTWHGORqYej7PVaw==
-X-Received: by 2002:a50:e882:: with SMTP id f2mr21685444edn.76.1606757294265;
-        Mon, 30 Nov 2020 09:28:14 -0800 (PST)
-Received: from mail-wr1-f51.google.com (mail-wr1-f51.google.com. [209.85.221.51])
-        by smtp.gmail.com with ESMTPSA id j64sm858564edc.62.2020.11.30.09.28.13
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Nov 2020 09:28:13 -0800 (PST)
-Received: by mail-wr1-f51.google.com with SMTP id e7so17265686wrv.6
-        for <linux-media@vger.kernel.org>; Mon, 30 Nov 2020 09:28:13 -0800 (PST)
-X-Received: by 2002:adf:e9cb:: with SMTP id l11mr28993514wrn.320.1606757293076;
- Mon, 30 Nov 2020 09:28:13 -0800 (PST)
+        Mon, 30 Nov 2020 12:29:48 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CD31CC0613CF;
+        Mon, 30 Nov 2020 09:29:07 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE829B26;
+        Mon, 30 Nov 2020 18:29:05 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1606757346;
+        bh=BJ/nlLtM3oiSm7GiMgtM1dVBitZnJoMLuTFsPgKPyeQ=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=N5cWitsASa9EAyC9y9wFzTw+68hNpJioMTV/6za1A/OFvRa/NMMzpSLdwbjqXfJ+O
+         KgcW/zT5kf+axtydQvAyMPA34LXtrUroZpemdq/wE/ksHY5jzemxx8950xQyQYms5y
+         Sg8OO+865pPYf/6jWpA8fE53YxiGtF6f/L893nHY=
+Date:   Mon, 30 Nov 2020 19:28:57 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Daniel Scally <djrscally@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
+        devel@acpica.org, rjw@rjwysocki.net, lenb@kernel.org,
+        gregkh@linuxfoundation.org, mika.westerberg@linux.intel.com,
+        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        wsa@kernel.org, yong.zhi@intel.com, sakari.ailus@linux.intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
+        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
+        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jorhand@linux.microsoft.com, kitakar@gmail.com,
+        heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH 02/18] property: Add support for calling
+ fwnode_graph_get_endpoint_by_id() for fwnode->secondary
+Message-ID: <20201130172857.GS14465@pendragon.ideasonboard.com>
+References: <20201130133129.1024662-1-djrscally@gmail.com>
+ <20201130133129.1024662-3-djrscally@gmail.com>
+ <20201130172900.GM4077@smile.fi.intel.com>
 MIME-Version: 1.0
-References: <20201111143755.24541-1-stanimir.varbanov@linaro.org>
- <CAMfZQbxV4CuZ57kv1Nu=VTdd-eK2opMqnduxGGa+KvptaFL7=A@mail.gmail.com> <d539ab91-da28-e8b3-6b39-d5564eb6f22a@linaro.org>
-In-Reply-To: <d539ab91-da28-e8b3-6b39-d5564eb6f22a@linaro.org>
-From:   Fritz Koenig <frkoenig@chromium.org>
-Date:   Mon, 30 Nov 2020 09:28:00 -0800
-X-Gmail-Original-Message-ID: <CAMfZQbyZcS_fygWKBOr1xxUdfM-KsuTEt=VucPGf-JkM5+YzxA@mail.gmail.com>
-Message-ID: <CAMfZQbyZcS_fygWKBOr1xxUdfM-KsuTEt=VucPGf-JkM5+YzxA@mail.gmail.com>
-Subject: Re: [PATCH v2 0/8] Venus stateful encoder compliance
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     Fritz Koenig <frkoenig@chromium.org>, linux-media@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Vikash Garodia <vgarodia@codeaurora.org>,
-        Alexandre Courbot <acourbot@chromium.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201130172900.GM4077@smile.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Nov 29, 2020 at 11:55 PM Stanimir Varbanov
-<stanimir.varbanov@linaro.org> wrote:
->
-> Hi Fritz,
->
-> On 11/29/20 9:17 PM, Fritz Koenig wrote:
-> > Since this patchset adds support for V4L2_ENC_CMD_STOP and
-> > VENUS_ENC_STATE_ENCODING it should also add support for
-> > VIDIOC_TRY_ENCODER_CMD so that those commands are discoverable.  I've
->
-> 6/8 is adding it:
->
-> +       .vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
->
+On Mon, Nov 30, 2020 at 07:29:00PM +0200, Andy Shevchenko wrote:
+> On Mon, Nov 30, 2020 at 01:31:13PM +0000, Daniel Scally wrote:
+> > This function is used to find fwnode endpoints against a device. In
+> > some instances those endpoints are software nodes which are children of
+> > fwnode->secondary. Add support to fwnode_graph_get_endpoint_by_id() to
+> > find those endpoints by recursively calling itself passing the ptr to
+> > fwnode->secondary in the event no endpoint is found for the primary.
+> 
+> One nit below, after addressing:
+> Reviewed-by: Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+> 
+> ...
+> 
+> > +	if (!best_ep && fwnode && !IS_ERR_OR_NULL(fwnode->secondary))
+> > +		return fwnode_graph_get_endpoint_by_id(fwnode->secondary, port,
+> > +						       endpoint, flags);
+> 
+> >  	return best_ep;
+> 
+> Can we, please, do
+> 
+> 	if (best_ep)
+> 		return best_ep;
+> 
+> 	if (fwnode && !IS_ERR_OR_NULL(fwnode->secondary))
+> 		return fwnode_graph_get_endpoint_by_id(fwnode->secondary, port,
+> 						       endpoint, flags);
+> 
+> 	return NULL;
+> 
+> ?
+> 
+> This 'if (fwnode && !IS_ERR_OR_NULL(fwnode->secondary))' becomes kinda
+> idiomatic to the cases when we need to proceed primary followed by the
+> secondary in cases where it's not already done.
 
-Ahh, thanks.  I need to work on my reading comprehension.
+We could also move the !fwnode check to the beginning of the function.
 
-> > made an attempt at that here:
-> > https://www.spinics.net/lists/linux-media/msg182319.html
-> >
-> > On Wed, Nov 11, 2020 at 6:38 AM Stanimir Varbanov
-> > <stanimir.varbanov@linaro.org> wrote:
-> >>
-> >> Hello,
-> >>
-> >> Here is v2 of the subject patchset.
-> >>
-> >> The patchset starts with few small preparation and fix patches, 1/8 to 5/8.
-> >> 6/8 is redesigned Dikshita's patch and 7/8 add Reset encoder state handling.
-> >> The last 8/8 just delete not needed helper function.
-> >>
-> >> The major changes are:
-> >>  * An attempt to reuse m2m helpers for drain and reset state in 6/8 and 7/8.
-> >>  * Use null encoder buffer to signal end-of-stream in 6/8.
-> >>
-> >> Comments are welcome!
-> >>
-> >> regards,
-> >> Stan
-> >>
-> >> Dikshita Agarwal (1):
-> >>   venus: venc: add handling for VIDIOC_ENCODER_CMD
-> >>
-> >> Stanimir Varbanov (7):
-> >>   venus: hfi: Use correct state in unload resources
-> >>   venus: helpers: Add a new helper for buffer processing
-> >>   venus: hfi_cmds: Allow null buffer address on encoder input
-> >>   venus: helpers: Calculate properly compressed buffer size
-> >>   venus: pm_helpers: Check instance state when calculate instance
-> >>     frequency
-> >>   venus: venc: Handle reset encoder state
-> >>   venus: helpers: Delete unused stop streaming helper
-> >>
-> >>  drivers/media/platform/qcom/venus/helpers.c   |  65 ++---
-> >>  drivers/media/platform/qcom/venus/helpers.h   |   2 +-
-> >>  drivers/media/platform/qcom/venus/hfi.c       |   2 +-
-> >>  drivers/media/platform/qcom/venus/hfi.h       |   1 -
-> >>  drivers/media/platform/qcom/venus/hfi_cmds.c  |   2 +-
-> >>  .../media/platform/qcom/venus/pm_helpers.c    |   3 +
-> >>  drivers/media/platform/qcom/venus/venc.c      | 232 +++++++++++++++---
-> >>  7 files changed, 226 insertions(+), 81 deletions(-)
-> >>
-> >> --
-> >> 2.17.1
-> >>
->
-> --
-> regards,
-> Stan
+> >  }
+> >  EXPORT_SYMBOL_GPL(fwnode_graph_get_endpoint_by_id);
+
+-- 
+Regards,
+
+Laurent Pinchart
