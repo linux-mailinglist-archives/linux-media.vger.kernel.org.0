@@ -2,125 +2,258 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A0C232C81A1
-	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 11:03:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 321822C8212
+	for <lists+linux-media@lfdr.de>; Mon, 30 Nov 2020 11:24:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728577AbgK3KDT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Nov 2020 05:03:19 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:59217 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726158AbgK3KDT (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Nov 2020 05:03:19 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id jg0tku31zN7Xgjg0xki5vo; Mon, 30 Nov 2020 11:02:36 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606730556; bh=HLkBIGFl/i78UMPfgNYy6/oMgvF3eWKw4fQKQ09bjvc=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=buZmtTVwV0mS8o1RFeStGSD1fNJ2tKgs3DmiB0cwR53W81gHLgbwaOE9fC+ErbjTv
-         3n6a0yT18zpG2cQkUWJjkliNUjYX7BWd1OMMLhm2k7na6h46XGKGPsWNiploMldETS
-         tJaI/h809cemT1AUSjJplk0FlYZAmcmWHz3DIIiE893H+fNH3ouAOhc9nirgAXOBkJ
-         HE1//JHJREWOsm2ieNkxlZbRL+2W3UNIWyMiLQTTk3qouM0Z4759o4HhDxzITyR+2Y
-         BjT74pd/gd7ZSkIBZ8LeLEWZ/Zd1Be6hS4eWlnCfAYUH2f/OZHkLokQU/95WQ5GJlr
-         OBUVWS7Zs4y9w==
-Subject: Re: [PATCHv3] media: vb2: always set buffer cache sync hints
-To:     Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Sergey Senozhatsky <senozhatsky@chromium.org>
-References: <20201129031545.557586-1-sergey.senozhatsky@gmail.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <6cf9bf76-3875-5c89-cebe-a4e44ee1f326@xs4all.nl>
-Date:   Mon, 30 Nov 2020 11:02:31 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1728707AbgK3KXD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Nov 2020 05:23:03 -0500
+Received: from mga11.intel.com ([192.55.52.93]:64856 "EHLO mga11.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728701AbgK3KXC (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 30 Nov 2020 05:23:02 -0500
+IronPort-SDR: cWIKIZiHxoKGvdHjUalC3E+e5pWzMQB96RzCdSmxXVUfqkcpeAkPpVd4XaU/GGWzr6LCaUBe8n
+ NN9Xk/Z7SNUg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9820"; a="169114768"
+X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; 
+   d="scan'208";a="169114768"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by fmsmga102.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 02:21:20 -0800
+IronPort-SDR: 2Ys0l+dOySjT7iIaXcGhVyMcuadkJoJC2D/zCGAiDK332dToVsWtQbFvYhdBmMbSg159jHCsBN
+ MBP3sDs/r+rg==
+X-IronPort-AV: E=Sophos;i="5.78,381,1599548400"; 
+   d="scan'208";a="549042641"
+Received: from mkrastex-mobl.ger.corp.intel.com (HELO mkrastexMOBL) ([10.104.71.12])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 30 Nov 2020 02:21:16 -0800
+From:   <martinax.krasteva@linux.intel.com>
+To:     "'Sakari Ailus'" <sakari.ailus@linux.intel.com>,
+        "'Jacopo Mondi'" <jacopo@jmondi.org>
+Cc:     <linux-media@vger.kernel.org>, <mchehab@kernel.org>,
+        <robh+dt@kernel.org>, <devicetree@vger.kernel.org>,
+        <daniele.alessandrelli@linux.intel.com>,
+        <gjorgjix.rosikopulos@linux.intel.com>
+References: <20201120142803.308-1-martinax.krasteva@linux.intel.com> <20201120142803.308-3-martinax.krasteva@linux.intel.com> <20201123111029.rcoxchzj332tu6y4@uno.localdomain> <20201123140223.GZ3940@paasikivi.fi.intel.com>
+In-Reply-To: <20201123140223.GZ3940@paasikivi.fi.intel.com>
+Subject: RE: [PATCH 2/2] media: Add imx334 camera sensor driver
+Date:   Mon, 30 Nov 2020 10:21:12 -0000
+Message-ID: <001f01d6c702$8b760d40$a26227c0$@linux.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <20201129031545.557586-1-sergey.senozhatsky@gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
+Content-Type: text/plain;
+        charset="us-ascii"
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfOiQvc2nbyS6U+M1bgIqf61hGg43WAo6LQRcSNiX1GIRQDhycHx16qF22RVofvymMGpal6e1dhn9OUqnj1zEWUCduyQ/Zfz13dmI24DPP/WqcD63727j
- 78mNxFszxEZAqWUVRHLqrX8WhZqeREbwQiZja7O9HajluVNf92BBUEyzw4j7+8dkJleD2zTPfkER7sAk4U7UDcU0cSt1DXA7lyecfvn+2Hh9Wf97hJvAajTF
- FinpBH6y2zicBJ89BD9CZeO55AN3BXjV/MfADY64rWUIiFe4AenXV7mujynZA100Hpj3Ygc4NULasr0BGLD5eNGfMDqAZbaRfnnMicRsl+q6nUmwye64Zo64
- POJD4qVLI08blPiPaC9RgyHcqklN6hQ1F9bV1hMiZLhSA6GbFrYczAheBSK78cz6qmjrxlST
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQGUhaCwHgQDECFXL9iGIzaOw1hzuAD6Gw3OAjgv4U8BySLfFqo9BoVA
+Content-Language: en-us
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 29/11/2020 04:15, Sergey Senozhatsky wrote:
-> We need to always set ->need_cache_sync_on_prepare and
-> ->need_cache_sync_on_finish when we initialize vb2 buffer.
+Hi Sakari, Jacopo,
+
+Thank you for the review
+
+> -----Original Message-----
+> From: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Sent: Monday, November 23, 2020 2:02 PM
+> To: Jacopo Mondi <jacopo@jmondi.org>
+> Cc: Martina Krasteva <martinax.krasteva@linux.intel.com>; linux-
+> media@vger.kernel.org; mchehab@kernel.org; robh+dt@kernel.org;
+> devicetree@vger.kernel.org; daniele.alessandrelli@linux.intel.com;
+> gjorgjix.rosikopulos@linux.intel.com
+> Subject: Re: [PATCH 2/2] media: Add imx334 camera sensor driver
 > 
-> Currently these flags are set/adjusted only in V4L2's
-> vb2_queue_or_prepare_buf(), which means that for the code
-> paths that don't use V4L2 vb2 will always tell videobuf2
-> core to skip ->prepare() and ->finish() cache syncs/flushes.
+> Hi Jacopo,
 > 
-> This is a quick solution that should do the trick. The
-> proper fix, however, is much more complicated and requires
-> a rather big videobuf2 refactoring - we need to move cache
-> sync/flush decision making out of core videobuf2 to the
-> allocators.
+> On Mon, Nov 23, 2020 at 12:10:29PM +0100, Jacopo Mondi wrote:
+> ...
+> > > +#include <media/v4l2-fwnode.h>
+> >
+> > You only use v4l2_async_register_subdev_sensor_common() from fwnde.h
+> > If you think you can replace it with v4l2_async_register_subdev() (see
+> > below comment) this should be changed in v4l2-async.h
 > 
-> Fixes: f5f5fa73fbfb ("media: videobuf2: handle V4L2 buffer cache flags")
-> Reported-by: Tomasz Figa <tfiga@chromium.org>
-> Signed-off-by: Sergey Senozhatsky <senozhatsky@chromium.org>
-> ---
->  drivers/media/common/videobuf2/videobuf2-core.c | 14 ++++++++++++++
->  1 file changed, 14 insertions(+)
+> Either is fine in principle. I'd use
+> v4l2_async_register_subdev_sensor_common() for sensors though, as it
+allows
+> connecting lens and flash sub-devices.
 > 
-> v3: Improved code comment and dropped queue allow_cache_hints check (Tomasz)
-> v2: Added a comment and set cache sync flags only for specific buffers (Hans)
+> Regarding DT bindings --- I wonder if there's a way to say these are
+relevant for
+> all sensors. That'd be another discussion though.
 > 
-> diff --git a/drivers/media/common/videobuf2/videobuf2-core.c b/drivers/media/common/videobuf2/videobuf2-core.c
-> index 5499013cf82e..3f11fc5b5d9a 100644
-> --- a/drivers/media/common/videobuf2/videobuf2-core.c
-> +++ b/drivers/media/common/videobuf2/videobuf2-core.c
-> @@ -414,6 +414,20 @@ static int __vb2_queue_alloc(struct vb2_queue *q, enum vb2_memory memory,
->  		vb->index = q->num_buffers + buffer;
->  		vb->type = q->type;
->  		vb->memory = memory;
-> +		/*
-> +		 * A workaround fix. We need to set these flags here so that
-> +		 * videobuf2 core will call ->prepare()/->finish() cache
-> +		 * sync/flush on vb2 buffers when appropriate. Otherwise, for
-> +		 * backends that don't rely on V4L2 (perhaps dvb) these flags
-> +		 * will always be false and, hence, videobuf2 core will skip
-> +		 * cache sync/flush operations. However, we can avoid explicit
-> +		 * ->prepare() and ->finish() cache sync for DMABUF buffers,
-> +		 * because DMA exporter takes care of it.
-> +		 */
-> +		if (q->memory != VB2_MEMORY_DMABUF) {
-> +			vb->need_cache_sync_on_prepare = 1;
-> +			vb->need_cache_sync_on_finish = 1;
-> +		}
 
-Is this a work-around fix? Isn't this just a bug fix? It seems reasonable
-to always set this when allocating buffers for a queue. And for v4l2 these
-values can be changed if supported by the driver (allow_cache_hints is set).
+Should I add lens and flash in DT binding doc, so it is clear that
+connecting such sub-devs is supported?
+I thought the binding doc should include only the bare minimum for a certain
+driver to be used, but it does make sense adding this info.
 
-So the comment would be:
-
-	/*
-	 * We need to set these flags here so that the videobuf2 core
-	 * will call ->prepare()/->finish() cache sync/flush on vb2
-	 * buffers when appropriate. However, we can avoid explicit
-	 * ->prepare() and ->finish() cache sync for DMABUF buffers,
-	 * because DMA exporter takes care of it.
-	 */
-
-The commit message would need to be modified as well.
-
-Regards,
-
-	Hans
-
->  		for (plane = 0; plane < num_planes; ++plane) {
->  			vb->planes[plane].length = plane_sizes[plane];
->  			vb->planes[plane].min_length = plane_sizes[plane];
+> ...
 > 
+> > > +	const struct imx334_mode *cur_mode;
+> > > +	struct mutex mutex;
+> >
+> > Checkpatch wants this mutex commented, but you have documentation so I
+> > think it's fine
+> 
+> Yes.
+> 
+> ...
+> 
+> > > +static int imx334_read_reg(struct imx334 *imx334, u16 reg, u32 len,
+> > > +u32 *val) {
+> > > +	struct i2c_client *client = v4l2_get_subdevdata(&imx334->sd);
+> > > +	u8 addr_buf[2] = { reg >> 8, reg & 0xff };
+> > > +	struct i2c_msg msgs[2] = { 0 };
+> > > +	u8 data_buf[4] = { 0 };
+> > > +	int ret;
+> > > +
+> > > +	if (WARN_ON(len > 4))
+> > > +		return -EINVAL;
+> >
+> > This function (and the associated write_reg) are for internal use
+> > only. This mean the only one that can get 'len' wrong is this driver
+> > itself. Is it worth checking for that ?
+> 
+> I'd leave it, as bad things will happen if that argument is wrong and the
+check is
+> removed.
+> 
+> >
+> > > +
+> > > +	/* Write register address */
+> > > +	msgs[0].addr = client->addr;
+> > > +	msgs[0].flags = 0;
+> > > +	msgs[0].len = ARRAY_SIZE(addr_buf);
+> > > +	msgs[0].buf = addr_buf;
+> > > +
+> > > +	/* Read data from register */
+> > > +	msgs[1].addr = client->addr;
+> > > +	msgs[1].flags = I2C_M_RD;
+> > > +	msgs[1].len = len;
+> > > +	msgs[1].buf = &data_buf[4 - len];
+> > > +
+> > > +	ret = i2c_transfer(client->adapter, msgs, ARRAY_SIZE(msgs));
+> > > +	if (ret != ARRAY_SIZE(msgs))
+> > > +		return -EIO;
+> > > +
+> > > +	*val = get_unaligned_be32(data_buf);
+> > > +
+> > > +	return 0;
+> > > +}
+> > > +
+> > > +/**
+> > > + * imx334_write_reg() - Write register
+> > > + * @imx334: pointer to imx334 device
+> >
+> > writing kernel doc for functions with internal use only is sometimes
+> > an effort which is nice to do but not required. If you want to go that
+> > way try to stay consisitent, in this case you started the other
+> > parameters descriptions with a capital letter.
+> >
+> > Also if you want kernel doc to be generated I think you would need to
+> > include this file in the Documentation build, otherwise doc does not
+> > get build as far as I can tell. To be hones I would drop the double **
+> > and make this regular documentation (I'm no expert on this, maybe wait
+> > for maintainer's feedback).
+> 
+> These comments don't contain anything that the driver user would be likely
+to
+> need, nor they document something that would be useful outside of the
+scope
+> of the driver itself. So I wouldn't add them to the build.
+> 
+> ...
+> 
+> > > +/**
+> > > + * imx334_set_pad_format() - Set subdevice pad format
+> > > + * @sd: pointer to imx334 V4L2 sub-device structure
+> > > + * @cfg: V4L2 sub-device pad configuration
+> > > + * @fmt: V4L2 sub-device format need to be set
+> > > + *
+> > > + * Return: 0 if successful, error code otherwise.
+> > > + */
+> > > +static int imx334_set_pad_format(struct v4l2_subdev *sd,
+> > > +				 struct v4l2_subdev_pad_config *cfg,
+> > > +				 struct v4l2_subdev_format *fmt) {
+> > > +	struct imx334 *imx334 = to_imx334(sd);
+> > > +	const struct imx334_mode *mode;
+> > > +	int ret = 0;
+> > > +
+> > > +	mutex_lock(&imx334->mutex);
+> > > +
+> > > +	mode = &supported_mode;
+> > > +	imx334_fill_pad_format(imx334, mode, fmt);
+> > > +
+> > > +	if (fmt->which == V4L2_SUBDEV_FORMAT_TRY) {
+> > > +		struct v4l2_mbus_framefmt *framefmt;
+> > > +
+> > > +		framefmt = v4l2_subdev_get_try_format(sd, cfg, fmt->pad);
+> > > +		*framefmt = fmt->format;
+> > > +	} else {
+> > > +		ret = imx334_update_controls(imx334, mode);
+> >
+> > How can controls change since you have a single supported format ?
+> >
+> > I think with a single format get_pad_fmt and set_pad_fmt could be
+> > implemented by a single function.
+> 
+> I think it'd be fair to expect more supported configurations could be
+added later
+> on, and so leave in place code that supports that even if it's not needed
+right
+> now.
+> 
+> ...
+> 
+> > > +static const struct media_entity_operations imx334_subdev_entity_ops
+= {
+> > > +	.link_validate = v4l2_subdev_link_validate, };
+> >
+> > Is link_validate called on sensor subdev ? My understanding is that
+> > they're called on the sink entity, but I might be mistaken.
+> 
+> Correct.
+> 
+
+This is what I read in the v4l2-subdev.rst:
+" If the subdev driver intends to process video and integrate with the media
+framework, it must implement format related functionality using
+:c:type:`v4l2_subdev_pad_ops` instead of :c:type:`v4l2_subdev_video_ops`.
+
+In that case, the subdev driver may set the link_validate field to provide
+its own link validation function. <<The link validation function is called
+for
+every link in the pipeline where both of the ends of the links are V4L2
+sub-devices.>> The driver is still responsible for validating the
+correctness
+of the format configuration between sub-devices and video nodes."
+
+I find it a bit misleading, however I checked the source code, so I will
+remove it in the next version.
+
+Something that is not clear to me is, do I have to explicitly set
+link_validate for the sink pad's entity to trigger validation. According to
+the doc
+I don't need to, but I cannot find the place in the source code where the
+default func is called even if the op is not set, neither setting default
+ops in case they weren't set.
+ 
+"If link_validate op is not set, the default function
+:c:func:`v4l2_subdev_link_validate_default` is used instead. This function
+ensures that width, height and the media bus pixel code are equal on both
+source
+and sink of the link. Subdev drivers are also free to use this function to
+perform the checks mentioned above in addition to their own checks."
+
+Best Regards,
+Martina
+
+> --
+> Kind regards,
+> 
+> Sakari Ailus
 
