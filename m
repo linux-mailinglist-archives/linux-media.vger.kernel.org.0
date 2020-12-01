@@ -2,149 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D69632C94FA
-	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 03:09:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B545E2C9598
+	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 04:11:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726370AbgLACIb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Nov 2020 21:08:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43684 "EHLO
+        id S1727398AbgLADKV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Nov 2020 22:10:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:53666 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725900AbgLACIa (ORCPT
+        with ESMTP id S1725859AbgLADKV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Nov 2020 21:08:30 -0500
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A00A1C0613CF;
-        Mon, 30 Nov 2020 18:07:50 -0800 (PST)
-Received: by mail-pl1-x641.google.com with SMTP id k5so219509plt.6;
-        Mon, 30 Nov 2020 18:07:50 -0800 (PST)
+        Mon, 30 Nov 2020 22:10:21 -0500
+Received: from mail-lj1-x242.google.com (mail-lj1-x242.google.com [IPv6:2a00:1450:4864:20::242])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC079C0613CF
+        for <linux-media@vger.kernel.org>; Mon, 30 Nov 2020 19:09:34 -0800 (PST)
+Received: by mail-lj1-x242.google.com with SMTP id r18so350200ljc.2
+        for <linux-media@vger.kernel.org>; Mon, 30 Nov 2020 19:09:34 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
+        d=chromium.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=YzRoQK48hdn26VwNICKcMxppEh6YmVkly2mV0TpEsRM=;
-        b=Xsg1VUulHwkQfdILKkBsYjqHAtcrFzXA6wZ05axioxZiTH4XBlkHSJaOmjs74Z5Xd9
-         76ccBwPaFGtNxtJwy+Nd651I1jEAJPLZYY2qKUQSLa54aQRpL+YqV8yT0JSPZLqbJP6n
-         UiEyhlPNkzyGCBzBI00H3tiHDVlfyg/vTBzObX2lLmjLp5eYaBAESZOAyoxN0qNkElZH
-         e3zjD+lSk04DbNrtlwybURtZb+kF4jhr3VRz2EmDI07woZYC+ZlxTyQxrNut10Ts6g6a
-         Uvu4zuHEJ1mGgt+OmZv94p/L106k8ahnS+4Nr/HnPN0pWy8Do6yhhqHAwcvRFGIws+QW
-         xQIw==
+        bh=DDVDschaWntS/kjfsZJ9z/QW9d+XVa+aVBHR0hnauGw=;
+        b=fBNr0Q5OPvuxwwpF9TzfNL6A+pR2mQumhRxGCZCKfpiLtO9ON5hunyXeH9oM9iH7O0
+         zCgJ+jBzM4mkTvQpr4eSGt2jAjCwxo51S/tA3NRnsXquzbypfU4nx+KP0fqFju2qu5G+
+         /YjoV/XGzegWMUUOSYHi+TDndkfisTwjStUZs=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=YzRoQK48hdn26VwNICKcMxppEh6YmVkly2mV0TpEsRM=;
-        b=KdDsrQXCGKrTW6foxBhiAPTAvyqdOWN9VyFZSdaQotbgcU26gstonyROKU3l+ZezHD
-         pd0OUFSIKvKZc/Ru/GVy4pOEylKZeKlDc1TVCFN8ve/o5tkcJxHF+KFqBcm3Lx/SZ1PD
-         BrUUJYHXlIXtF0DUHD3vPKV/O8UvQHsGm9xafjo/bk7Po8bDbtZmONWtao5b5AwxWi//
-         4ageHPcfiSsyoXsX/x+a5lWjh0ENow263kdRJ9rdFagC5muiLM4GG8NauFBwUygjcJZ7
-         euWi/5j3E4I5Jf7NRRKosn4dXmK4vozWgzDBY4tkaIghnI5fxoLXkJrX8/pORP+3q3ls
-         6KnA==
-X-Gm-Message-State: AOAM53056n0i/1WWsZuoz+6qc9efJ+D66NeqS5McsgIcAvbYtoGUbIVx
-        NVyMKlKd5vQuibyacc6nc9iQCNBp/fbKchh4ZR4=
-X-Google-Smtp-Source: ABdhPJw8Q293pQSHy+xmCE/WnmtGsJ7v0tqKoGQ0rGQvPsKLVAK+dPRQlbFRB7zuFh9nBcHLbJ5oRo39e/Dr4sI7TGo=
-X-Received: by 2002:a17:902:7144:b029:da:7268:d730 with SMTP id
- u4-20020a1709027144b02900da7268d730mr632304plm.20.1606788470247; Mon, 30 Nov
- 2020 18:07:50 -0800 (PST)
+        bh=DDVDschaWntS/kjfsZJ9z/QW9d+XVa+aVBHR0hnauGw=;
+        b=sqahuVAbyMCc5wH3QDk+CRfAqWw7nC/hRZ5W8oKg9rDvOWMvljENA2Sp34aKERnfrs
+         4zINijhJUscsrDLkzr7UL6JJhyCqaiZ5pV9qshK/tNqG7GLuFcHbezKfn0dwqKVJjeXU
+         WOzfuNNv+A5zI4uzeO9PU0lwOorYlpxaOlV6oKQmt5j40YSUoQxlb9KiC2ZzEFEzGaiy
+         AoA3lRJb7NigaXBP/D98ulfl3TKc3c1di8cw1zgsqXoChYXeBeulhXKU4o62/unfS8+G
+         OwL4RQhIQL8GKFSu/3Gk094orhDxw5izGCoyj0dEVvdDbHdR2oWg44SKrtpfeZjzd5zG
+         XFlg==
+X-Gm-Message-State: AOAM532MwxB5GSTJaL08aoFjVZvAiJLyOnqdQwNJniLQ+AKgaWipbgiO
+        6J8sIwXX6st2Dz8hFjYlqEXk7A/sNePH+jM7
+X-Google-Smtp-Source: ABdhPJzvNBcF1fNgXE2/EFHacG/0dj0LGQdYRRWxQ3rkCBYRqaAsP0nNKK0u+K0nD8hTw/YfpMHnSQ==
+X-Received: by 2002:a2e:991a:: with SMTP id v26mr320181lji.128.1606792172890;
+        Mon, 30 Nov 2020 19:09:32 -0800 (PST)
+Received: from mail-lj1-f182.google.com (mail-lj1-f182.google.com. [209.85.208.182])
+        by smtp.gmail.com with ESMTPSA id c23sm51984lfg.83.2020.11.30.19.09.31
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Mon, 30 Nov 2020 19:09:31 -0800 (PST)
+Received: by mail-lj1-f182.google.com with SMTP id y16so355029ljk.1
+        for <linux-media@vger.kernel.org>; Mon, 30 Nov 2020 19:09:31 -0800 (PST)
+X-Received: by 2002:a2e:8115:: with SMTP id d21mr280666ljg.379.1606792171335;
+ Mon, 30 Nov 2020 19:09:31 -0800 (PST)
 MIME-Version: 1.0
-References: <d0ac1a26ed5943127cb0156148735f5f52a07075.1606459576.git.mchehab+huawei@kernel.org>
- <CA+FuTSenOoVxM6W9viwXQmPHo_MEoQzQ=GPxJi72fYGHHmqmwA@mail.gmail.com>
- <20201130104420.321531ec@coco.lan> <CAA7C2qiOAZR+QwY5Bs-UHQzBEfA15gMG-GjriqNo3Q5biY4+ZQ@mail.gmail.com>
- <20201130180834.07a3116f@coco.lan>
-In-Reply-To: <20201130180834.07a3116f@coco.lan>
-From:   VDRU VDRU <user.vdr@gmail.com>
-Date:   Mon, 30 Nov 2020 18:07:37 -0800
-Message-ID: <CAA7C2qgAC8vnxu4xVhdi2CsMXyx85J44yUxGk00JhoQ6j5U3tw@mail.gmail.com>
-Subject: Re: [PATCH] media: gp8psk: initialize stats at power control logic
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linuxarm@huawei.com, mauro.chehab@huawei.com,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        syzbot <syzkaller@googlegroups.com>
+References: <20201128063629.1830702-1-frkoenig@chromium.org>
+In-Reply-To: <20201128063629.1830702-1-frkoenig@chromium.org>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Tue, 1 Dec 2020 12:09:19 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MX8aiZ3q1CTuHTK+68UmOzmm03ruJcHREu+XBd3jCKCbg@mail.gmail.com>
+Message-ID: <CAPBb6MX8aiZ3q1CTuHTK+68UmOzmm03ruJcHREu+XBd3jCKCbg@mail.gmail.com>
+Subject: Re: [PATCH] venus: vdec: Handle DRC after drain
+To:     Fritz Koenig <frkoenig@chromium.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linux-arm-msm@vger.kernel.org,
+        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        Vikash Garodia <vgarodia@codeaurora.org>,
+        Mansur Alisha Shaik <mansur@codeaurora.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
-
-After many attempts ret was always 0. Please let me know if further
-testing is needed.
-
-Best regards,
-Derek
-
-On Mon, Nov 30, 2020 at 9:09 AM Mauro Carvalho Chehab
-<mchehab+huawei@kernel.org> wrote:
+On Sat, Nov 28, 2020 at 3:40 PM Fritz Koenig <frkoenig@chromium.org> wrote:
 >
-> Hi Derek,
+> If the DRC is near the end of the stream the client
+> may send a V4L2_DEC_CMD_STOP before the DRC occurs.
+> V4L2_DEC_CMD_STOP puts the driver into the
+> VENUS_DEC_STATE_DRAIN state.  DRC must be aware so
+> that after the DRC event the state can be restored
+> correctly.
 >
-> Em Mon, 30 Nov 2020 08:04:31 -0800
-> VDRU VDRU <user.vdr@gmail.com> escreveu:
+> Signed-off-by: Fritz Koenig <frkoenig@chromium.org>
 >
-> > I have hardware that uses this driver and can conduct a test if it
-> > will help resolve any confusion/assumption. I'd also like to suggest
-> > that making changes to drivers with no means of testing those changes
-> > is bad. This has happened in the past and resulted in unnecessarily
-> > breaking drivers for those who use it. No patch should be merged
-> > without testing!
+> ---
 >
-> It helps a lot if you could test it.
+> This is an attempt to fix the logic for when a DRC occurs
+> after the driver is in VENUS_DEC_STATE_DRAIN state.  This
+> works for me, but I'm not sure if I covered all the cases.
+> Specifically I'm not sure if I reset |drain_active| in all
+> the right places.
 >
-> The current situation is that, if the I2C read fails, the
-> driver will randomly power up only partially, which could
-> cause issues.
+>  drivers/media/platform/qcom/venus/core.h |  1 +
+>  drivers/media/platform/qcom/venus/vdec.c | 19 +++++++++++++++++--
+>  2 files changed, 18 insertions(+), 2 deletions(-)
 >
-> The original proposed approach:
+> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+> index 2b0899bf5b05f..1680c936c06fb 100644
+> --- a/drivers/media/platform/qcom/venus/core.h
+> +++ b/drivers/media/platform/qcom/venus/core.h
+> @@ -406,6 +406,7 @@ struct venus_inst {
+>         unsigned int core_acquired: 1;
+>         unsigned int bit_depth;
+>         bool next_buf_last;
+> +       bool drain_active;
+>  };
 >
->         https://lore.kernel.org/linux-media/20190627222020.45909-1-willemdebruijn.kernel@gmail.com/
+>  #define IS_V1(core)    ((core)->res->hfi_version == HFI_VERSION_1XX)
+> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
+> index 5671cf3458a68..7edbefbd75210 100644
+> --- a/drivers/media/platform/qcom/venus/vdec.c
+> +++ b/drivers/media/platform/qcom/venus/vdec.c
+> @@ -523,8 +523,10 @@ vdec_decoder_cmd(struct file *file, void *fh, struct v4l2_decoder_cmd *cmd)
 >
-> Will just give up trying to powering it up, while the
-> patch I'm proposing will force the device to power up
-> all parts of it. So, it seems safer than the original
-> one.
+>                 ret = hfi_session_process_buf(inst, &fdata);
 >
-> Please test with the enclosed patch. It is basically
-> the same as the one I proposed, although this one will
-> print a message at dlog, due to this:
+> -               if (!ret && inst->codec_state == VENUS_DEC_STATE_DECODING)
+> +               if (!ret && inst->codec_state == VENUS_DEC_STATE_DECODING) {
+>                         inst->codec_state = VENUS_DEC_STATE_DRAIN;
+> +                       inst->drain_active = true;
+> +               }
+>         }
 >
->         pr_info("ret returned %d\n", ret);
+>  unlock:
+> @@ -976,10 +978,14 @@ static int vdec_start_capture(struct venus_inst *inst)
 >
-> This could happen when the device got plugged and/or if
-> you put the machine into suspend mode, when resuming it
-> while streaming[1]
+>         inst->codec_state = VENUS_DEC_STATE_DECODING;
 >
-> Regards,
-> Mauro
->
-> [1] not sure if dvb-usb supports it. One of the rationales
-> behind dvb-usb-v2 were to be able of properly do
-> suspend/resumes.
->
->
->
-> diff --git a/drivers/media/usb/dvb-usb/gp8psk.c b/drivers/media/usb/dvb-usb/gp8psk.c
-> index c07f46f5176e..be55496cc717 100644
-> --- a/drivers/media/usb/dvb-usb/gp8psk.c
-> +++ b/drivers/media/usb/dvb-usb/gp8psk.c
-> @@ -182,11 +182,16 @@ static int gp8psk_load_bcm4500fw(struct dvb_usb_device *d)
->
->  static int gp8psk_power_ctrl(struct dvb_usb_device *d, int onoff)
->  {
-> -       u8 status, buf;
-> +       u8 status = 0, buf;
-> +       int ret;
->         int gp_product_id = le16_to_cpu(d->udev->descriptor.idProduct);
->
->         if (onoff) {
-> -               gp8psk_usb_in_op(d, GET_8PSK_CONFIG,0,0,&status,1);
-> +               ret = gp8psk_usb_in_op(d, GET_8PSK_CONFIG,0,0,&status,1);
-> +               // Just to check if the condition happens in practice
-> +               if (ret < 0)
-> +                       pr_info("ret returned %d\n", ret);
+> +       if (inst->drain_active)
+> +               inst->codec_state = VENUS_DEC_STATE_DRAIN;
 > +
->                 if (! (status & bm8pskStarted)) {  /* started */
->                         if(gp_product_id == USB_PID_GENPIX_SKYWALKER_CW3K)
->                                 gp8psk_usb_out_op(d, CW3K_INIT, 1, 0, NULL, 0);
+>         inst->streamon_cap = 1;
+>         inst->sequence_cap = 0;
+>         inst->reconfig = false;
+>         inst->next_buf_last = false;
+> +       inst->drain_active = false;
+>
+>         return 0;
+>
+> @@ -1105,6 +1111,7 @@ static int vdec_stop_capture(struct venus_inst *inst)
+>                 /* fallthrough */
+>         case VENUS_DEC_STATE_DRAIN:
+>                 inst->codec_state = VENUS_DEC_STATE_STOPPED;
+> +               inst->drain_active = false;
+>                 /* fallthrough */
+>         case VENUS_DEC_STATE_SEEK:
+>                 vdec_cancel_dst_buffers(inst);
+> @@ -1304,8 +1311,10 @@ static void vdec_buf_done(struct venus_inst *inst, unsigned int buf_type,
+>
+>                         v4l2_event_queue_fh(&inst->fh, &ev);
+>
+> -                       if (inst->codec_state == VENUS_DEC_STATE_DRAIN)
+> +                       if (inst->codec_state == VENUS_DEC_STATE_DRAIN) {
+> +                               inst->drain_active = false;
+>                                 inst->codec_state = VENUS_DEC_STATE_STOPPED;
+> +                       }
+>                 }
+>
+>                 if (!bytesused)
+> @@ -1429,11 +1438,17 @@ static void vdec_event_notify(struct venus_inst *inst, u32 event,
+>         case EVT_SYS_EVENT_CHANGE:
+>                 switch (data->event_type) {
+>                 case HFI_EVENT_DATA_SEQUENCE_CHANGED_SUFFICIENT_BUF_RESOURCES:
+> +                       if (inst->codec_state == VENUS_DEC_STATE_DRAIN)
+> +                               inst->codec_state = VENUS_DEC_STATE_DECODING;
+>                         vdec_event_change(inst, data, true);
+>                         break;
+>                 case HFI_EVENT_DATA_SEQUENCE_CHANGED_INSUFFICIENT_BUF_RESOURCES:
+> +                       if (inst->codec_state == VENUS_DEC_STATE_DRAIN)
+> +                               inst->codec_state = VENUS_DEC_STATE_DECODING;
+>                         vdec_event_change(inst, data, false);
+>                         break;
+> +               // TODO(fritz) : does HFI_EVENT_RELEASE_BUFFER_REFERENCE also need to
+> +               // change the codec_state to VENUS_DEC_STATE_DECODING?
+
+I don't think it does, but Stanimir can confirm probably. In any case
+we should remove this TODO in the next version. :)
+
+>                 case HFI_EVENT_RELEASE_BUFFER_REFERENCE:
+>                         venus_helper_release_buf_ref(inst, data->tag);
+>                         break;
+> --
+> 2.29.2.454.gaff20da3a2-goog
 >
