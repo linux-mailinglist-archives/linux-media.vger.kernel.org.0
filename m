@@ -2,155 +2,124 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8F4582C95BF
-	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 04:25:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 44D4F2C95D8
+	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 04:39:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727629AbgLADY6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Nov 2020 22:24:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55938 "EHLO
+        id S1727750AbgLADhm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Nov 2020 22:37:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57878 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726841AbgLADY6 (ORCPT
+        with ESMTP id S1727719AbgLADhl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Nov 2020 22:24:58 -0500
-Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B708EC0613D2
-        for <linux-media@vger.kernel.org>; Mon, 30 Nov 2020 19:24:11 -0800 (PST)
-Received: by mail-lf1-x144.google.com with SMTP id u18so1042035lfd.9
-        for <linux-media@vger.kernel.org>; Mon, 30 Nov 2020 19:24:11 -0800 (PST)
+        Mon, 30 Nov 2020 22:37:41 -0500
+Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7BD22C0613D2;
+        Mon, 30 Nov 2020 19:37:01 -0800 (PST)
+Received: by mail-pj1-x1041.google.com with SMTP id t21so383244pjw.2;
+        Mon, 30 Nov 2020 19:37:01 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=7+Idg3efY9PUSvZ7WAMegwUyYjeY1husLBEhQzx0RW4=;
-        b=eyARn/I6tSRyPIRz85iURN20GQQJ/cCVXjHBtH4ObUJEwoRJnuHd/2gQ18KpmnnXGa
-         pmRnly9JilsjkRYe2aJkg7c0P6CEbe8d87i6lfyrFhfraxlsLCIFKEDpZiOmDmArrOLz
-         o7NpFDpE5K0rICtv4AbACEl2fSLHesjRouwIo=
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:references:mime-version
+         :content-disposition:in-reply-to;
+        bh=NL582lgLVSi6KvAu9Utf9CebPYU3CkLIdkP46F4/+EA=;
+        b=Xhga9YlKz842XlE+bb+SVEwobT1WQdwHoo7D7fOlF20D0+a3pLa7mD7wAMBsoNZD92
+         uuQtPfpMZeW+IlOssf8/rWOw+QKg4PspN2T5/kdsgqzAFOZ/HTDb+IXKvmETtlQE+uV2
+         lXobZ7ntNQW3D5X2jcCxlPBk3A7ivPUpAfZpczlDxl01oriyRBobJvB++T+NdzzoDFX7
+         veXQz8MvK4l4UMZubI5hihJlJiCZ99c5RCXeBsHjgSAWU3w/C3tTOv0G4Nrm+05jAcQ5
+         apm/NsHGqk7+d0Nsg27zQ1AjqTIesG3qtSe40lJruY1ZgMRjOr4KyeRX3RaEahrQ9fce
+         rjmA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=7+Idg3efY9PUSvZ7WAMegwUyYjeY1husLBEhQzx0RW4=;
-        b=J5szrtqAO3EyyA/TD5Oarqu061tdiUZRjCQGJKdbcSrmtl8iXBA7qaizr25V7gCbyH
-         U+pUymNhq/AfEgCQXeWKZkpvI4Wt9SrqSJ8UnclvYPJQG5aDX3gdm6iJQ7ZN+oLdfuHN
-         rivngRO6gbu5hQdv9Z+otdtegrNcXDYNzd69oiWoi7Y6DsS5N1WUIs6RiXiQhsrnUo4A
-         TBEEomM6UiVASvaY6xWiLfHls3bJ4f7LzHF22C0nbMDKHbwDCtp0DM1eMK/x7eSnxYJJ
-         eLXcz4QAMjS6717oxGGLljqQrsoYe1VrJH5DEHGVbXvwYuBlPBppTxDfAZXypZUy8+CL
-         cxcw==
-X-Gm-Message-State: AOAM532QIJZ1nngpAWpTKyfkrxznXvAmStyq50RyvnlrbjKxhUz8ZVnJ
-        rHj5q8mly3kmQbPC/mz96U4r0e30kpByqdy6
-X-Google-Smtp-Source: ABdhPJxl06LH+4aJnO/s4PtKTccEQEWvH5TaOmgWLFEQPiMzo5YOIbVzBjJsztfmb7r6hNp7T47AnQ==
-X-Received: by 2002:a05:6512:48e:: with SMTP id v14mr291421lfq.255.1606793049784;
-        Mon, 30 Nov 2020 19:24:09 -0800 (PST)
-Received: from mail-lf1-f50.google.com (mail-lf1-f50.google.com. [209.85.167.50])
-        by smtp.gmail.com with ESMTPSA id d19sm53701lfc.139.2020.11.30.19.24.08
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Mon, 30 Nov 2020 19:24:09 -0800 (PST)
-Received: by mail-lf1-f50.google.com with SMTP id d20so1013825lfe.11
-        for <linux-media@vger.kernel.org>; Mon, 30 Nov 2020 19:24:08 -0800 (PST)
-X-Received: by 2002:ac2:5e8d:: with SMTP id b13mr279952lfq.246.1606793048600;
- Mon, 30 Nov 2020 19:24:08 -0800 (PST)
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=NL582lgLVSi6KvAu9Utf9CebPYU3CkLIdkP46F4/+EA=;
+        b=jIjVGBf3PYgnL6Hg0bMlYUoZjhA8f2CuXIs0bw21VEJu7w1+evPnaD8xlXu+i09Jvn
+         gLSTlHBrmyyExNvAW6Z4SB82l/kQP5oCDD/N6onoIlRxqoPYbcSJO1MMsPKhjDYUyODD
+         FQ5wrEO4nPzT355inm/1rlJQ3ot+iHNH6solpppkBWSP82nsHkK7v14QYhIG5SEeUGao
+         QpxPjgQRP1sIfHZbV4PWQijLqEpjw6Wvx5H4pIbuEJt2SgQYY0NCPVM2Ciln7enSMBCk
+         8u6ALTiyuX5wFKru6xzSVOAvvKgytq8LVVU5MjBXkLfg0vXBb6UecGd6QWOYB0IzLoAl
+         pjcw==
+X-Gm-Message-State: AOAM533UJtQeOe8lev3DiApp2tmdygD2M1naXIzRDlwZQhdA8cKhDeEB
+        S0S/3HYxY4caN569L88+FSk=
+X-Google-Smtp-Source: ABdhPJzmYqh8DitkJm6pCCwff8gLw1CZT70pu7CE5gBkghmKUNChEaqVJDkSnRtWr2lmiD9MQutdvA==
+X-Received: by 2002:a17:90a:c003:: with SMTP id p3mr600818pjt.221.1606793820977;
+        Mon, 30 Nov 2020 19:37:00 -0800 (PST)
+Received: from localhost ([2401:fa00:8f:203:a6ae:11ff:fe11:4b46])
+        by smtp.gmail.com with ESMTPSA id w131sm489881pfd.14.2020.11.30.19.36.59
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Nov 2020 19:37:00 -0800 (PST)
+Date:   Tue, 1 Dec 2020 12:36:58 +0900
+From:   Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>
+To:     Christoph Hellwig <hch@lst.de>
+Cc:     Ricardo Ribalda <ribalda@chromium.org>,
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Robin Murphy <robin.murphy@arm.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
+        Joerg Roedel <joro@8bytes.org>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Tomasz Figa <tfiga@chromium.org>,
+        Sergey Senozhatsky <senozhatsky@google.com>
+Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
+Message-ID: <20201201033658.GE3723071@google.com>
+References: <20201125221917.150463-1-ribalda@chromium.org>
+ <20201130083410.GD32234@lst.de>
 MIME-Version: 1.0
-References: <20201129060517.2029659-1-frkoenig@chromium.org>
-In-Reply-To: <20201129060517.2029659-1-frkoenig@chromium.org>
-From:   Alexandre Courbot <acourbot@chromium.org>
-Date:   Tue, 1 Dec 2020 12:23:57 +0900
-X-Gmail-Original-Message-ID: <CAPBb6MUDUs2d+hDRnfg3-7jwqQX8jO1AwjbjyWppE8a64ovvCA@mail.gmail.com>
-Message-ID: <CAPBb6MUDUs2d+hDRnfg3-7jwqQX8jO1AwjbjyWppE8a64ovvCA@mail.gmail.com>
-Subject: Re: [PATCH] venus: venc: Add VIDIOC_TRY_ENCODER_CMD support
-To:     Fritz Koenig <frkoenig@chromium.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Vikash Garodia <vgarodia@codeaurora.org>,
-        Dikshita Agarwal <dikshita@codeaurora.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201130083410.GD32234@lst.de>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sun, Nov 29, 2020 at 3:05 PM Fritz Koenig <frkoenig@chromium.org> wrote:
->
-> V4L2_ENC_CMD_STOP and V4L2_ENC_CMD_START are already
-> supported.  Add a way to query for support.
+On (20/11/30 09:34), Christoph Hellwig wrote:
+> 
+> > +	uvc_urb->pages = dma_alloc_noncontiguous(dma_dev, stream->urb_size,
+> > +						 &uvc_urb->dma,
+> > +						 gfp_flags | __GFP_NOWARN, 0);
+> > +	if (!uvc_urb->pages)
+> > +		return false;
+> > +
+> > +	uvc_urb->buffer = vmap(uvc_urb->pages,
+> > +			       PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT,
+> > +			       VM_DMA_COHERENT, PAGE_KERNEL);
+> > +	if (!uvc_urb->buffer) {
+> > +		dma_free_noncontiguous(dma_dev, stream->urb_size,
+> > +				       uvc_urb->pages, uvc_urb->dma);
+> > +		return false;
+> > +	}
+> > +
+> > +	if (sg_alloc_table_from_pages(&uvc_urb->sgt, uvc_urb->pages,
+> > +				PAGE_ALIGN(stream->urb_size) >> PAGE_SHIFT, 0,
+> > +				stream->urb_size, GFP_KERNEL)) {
+> > +		vunmap(uvc_urb->buffer);
+> > +		dma_free_noncontiguous(dma_dev, stream->urb_size,
+> > +				       uvc_urb->pages, uvc_urb->dma);
+> > +		return false;
+> > +	}
+> 
+> I wonder if we should lift this into a helper.  On the one hand I had
+> proliferating struct scatterlist usage, on the other hand it is all over
+> the media and drm code anyway, and duplicating this doesn't help anyone.
 
-I think your Signed-off-by is missing (checkpatch.pl should warn you
-about such problems).
+Not that I have any sound experience in this area, but the helper
+probably won't hurt. Do you also plan to add vmap() to that helper
+or dma_alloc_noncontiguous()/sg_alloc_table_from_pages() only?
 
->
-> ---
->  drivers/media/platform/qcom/venus/venc.c | 26 ++++++++++++++++++++++++
->  1 file changed, 26 insertions(+)
->
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index 2ddfeddf98514..e05db3c4bfb24 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -507,6 +507,27 @@ static int venc_enum_frameintervals(struct file *file, void *fh,
->         return 0;
->  }
->
-> +static int
-> +venc_try_encoder_cmd(struct file *file, void *fh, struct v4l2_encoder_cmd *cmd)
-> +{
-> +       struct venus_inst *inst = to_inst(file);
-> +       struct device *dev = inst->core->dev_dec;
-> +
-> +       switch (cmd->cmd) {
-> +       case V4L2_ENC_CMD_STOP:
-> +       case V4L2_ENC_CMD_START:
-> +               if (cmd->flags != 0) {
-> +                       dev_dbg(dev, "flags=%u are not supported", cmd->flags);
-> +                       return -EINVAL;
-> +               }
-> +               break;
-> +       default:
-> +               return -EINVAL;
-> +       }
-> +
-> +       return 0;
-> +}
-> +
->  static int
->  venc_encoder_cmd(struct file *file, void *fh, struct v4l2_encoder_cmd *cmd)
+	helper()
+	{
+		dma_alloc_noncontiguous();
+		sg_alloc_table_from_pages();
 
-I am not seeing venc_encoder_cmd() in the media tree, does this patch
-depend on others that are not yet merged? If so they should be
-submitted together as a series.
+		if ((dma_attrs & DMA_ATTR_NO_KERNEL_MAPPING) == 0)
+			vmap();
+	}
 
->  {
-> @@ -514,6 +535,10 @@ venc_encoder_cmd(struct file *file, void *fh, struct v4l2_encoder_cmd *cmd)
->         struct hfi_frame_data fdata = {0};
->         int ret = 0;
->
-> +       ret = venc_try_encoder_cmd(file, fh, cmd);
-> +       if (ret < 0)
-> +               return ret;
-> +
+videobuf2-dma-contig still has to carry around two versions: one that
+deals with the noncontig pages and sgt (new API); and the current one.
+But if the helper will include fallback to coherent allocations then
+this may change, depending on the helper implementation.
 
-v4l2_m2m_ioctl_try_encoder_cmd() is called right below, and AFAICT
-does the same thing as the newly-defined venc_try_encoder_cmd(). So
-IIUC this patch can be turned into a one-liner that does just the
-following:
-
-@@ -575,6 +600,7 @@ static const struct v4l2_ioctl_ops venc_ioctl_ops = {
-        .vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
-        .vidioc_unsubscribe_event = v4l2_event_unsubscribe,
-        .vidioc_encoder_cmd = venc_encoder_cmd,
-+       .vidioc_try_encoder_cmd = v4l2_m2m_ioctl_try_encoder_cmd,
- };
-
->         ret = v4l2_m2m_ioctl_try_encoder_cmd(file, fh, cmd);
->         if (ret)
->                 return ret;
-> @@ -575,6 +600,7 @@ static const struct v4l2_ioctl_ops venc_ioctl_ops = {
->         .vidioc_subscribe_event = v4l2_ctrl_subscribe_event,
->         .vidioc_unsubscribe_event = v4l2_event_unsubscribe,
->         .vidioc_encoder_cmd = venc_encoder_cmd,
-> +       .vidioc_try_encoder_cmd = venc_try_encoder_cmd,
->  };
->
->  static int venc_set_properties(struct venus_inst *inst)
-> --
-> 2.29.2.454.gaff20da3a2-goog
->
+	-ss
