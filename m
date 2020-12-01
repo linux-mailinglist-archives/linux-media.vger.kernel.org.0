@@ -2,44 +2,44 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 046672CA00D
-	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 11:41:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CADF02CA011
+	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 11:41:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388802AbgLAKip (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Dec 2020 05:38:45 -0500
-Received: from new3-smtp.messagingengine.com ([66.111.4.229]:53359 "EHLO
+        id S1730132AbgLAKkB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Dec 2020 05:40:01 -0500
+Received: from new3-smtp.messagingengine.com ([66.111.4.229]:51023 "EHLO
         new3-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730020AbgLAKio (ORCPT
+        by vger.kernel.org with ESMTP id S1729881AbgLAKkA (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Dec 2020 05:38:44 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.nyi.internal (Postfix) with ESMTP id D6F35580612;
-        Tue,  1 Dec 2020 05:37:57 -0500 (EST)
+        Tue, 1 Dec 2020 05:40:00 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 2A70858061F;
+        Tue,  1 Dec 2020 05:38:54 -0500 (EST)
 Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Tue, 01 Dec 2020 05:37:57 -0500
+  by compute4.internal (MEProxy); Tue, 01 Dec 2020 05:38:54 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
         date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=dJ8x8jAF+EN65W8rz5a676aKHaM
-        W6X9PYkMXzzLt4c0=; b=AC7jsIO5A93hvm2W+ZtFmXGxbvQja4KaRIQmELdI59R
-        WRSDaZYvi5/N7fv8SfT14h64m0RrZC1UMFSVrmKbFn8J056K4Ye3BiDYy/asmBWw
-        KHSd9DeWzFp6qSb4h5rhQK5iaj/P4nKOs4TurEoll6MPZYyLCP3igM87pnQ7JCIe
-        qbZ8pPpmh0jnLtZ15rLY2IzJJsj60DN4l9hetMH1mkhrf7QAY9cSo27irpQGbGYa
-        BqkBj5WaVQiJy1vW+laG9q/ZlbEoCwxGMs+Pw5RSbviBCTEHF5bFLGvrlmjLGBm9
-        Q2KhzufBoN4j7XgWF7x7QFwzAfOF4ZTSiS/iP/NJP4Q==
+        :content-type:in-reply-to; s=fm1; bh=AOpTmHXIB1HGDEnfEEoBW+saz75
+        jDDaup38+K/BCiPs=; b=UpXwBRIOefp7bJnwv8xhvFLijWtThVy7JVaZP75EGrs
+        DfgMw3k0x28LRnq0Jf+ExYNOfuE5rtOLwmPad4ws29L6sO3PQkjnzuhzebje3OGx
+        dcKi8r1UepqQ/pjnEHsRaVX9sdoVcsAWZoO7SANMiuw39wgyDmigVi7FQmy0nuZg
+        b1QI6h16KsN+5yINUD1Yyd7uDiR+F+baCFMQrTR/PMlCtS5GP2SM5U1srXabgHKA
+        7OlVP/En40xxMhThuWn8RZiwIl6mUTGHYriacqRI/kDO5qxSFyrr5WzBHX8dVP+E
+        /8PxE7TpjXpN7d26RG/yj7EWGLs+YSlvLlJPfN4X/nw==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
         messagingengine.com; h=cc:content-type:date:from:in-reply-to
         :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=dJ8x8j
-        AF+EN65W8rz5a676aKHaMW6X9PYkMXzzLt4c0=; b=VzO9X1InHedAohX3LQmDBT
-        LM544c1GWJ8D/2/xtPXpB7wQUvNt7hieHgWPaOUFqLSRBxjGBF6LhI/LNx530CLi
-        oIe/IZGRazbiECBxcJjW6D407GdhYy7FrVOYzmXa6yfgu5ZbJvw9L2FxISvyfay3
-        EDh0bhmONRzk41u7cDyixSUeWfD5zJnzyUyW3qWaA3A11tttmZkSKHKvrGgw8q4E
-        fYRgW5kwww1Pvj60NXvo7mum3qdeOR4LlI++dBPk8Ye97vMfwfkq5xRViwPp+9df
-        fHCJeNJo1X59QBqdi+cLs083osi+1Nl0I7pmVkVeiuIva18M0nKkMLHgXZD+piAw
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=AOpTmH
+        XIB1HGDEnfEEoBW+saz75jDDaup38+K/BCiPs=; b=bz6HSpsbxILtay41kU9oF2
+        L8deEC3aXKXLbH5SUzA/DULlqocSU5lVP7LQFFujZYgBz54w/YAiM++LDfrED+s9
+        nqEzdw8Zhm+PTVg4q1ICePj3lc9UpO2YHV7cXYWc0/axtvQTErwCKPk3D+5VfGyx
+        httNoCD0JjMlsooByRUvL19TmbmMB4o5ZscFgixDzgfmHId0rXn10dwqWjhrPZSy
+        E4eFK7v5vI2CMeIBCBv98O8LOCr/U/aN0+hbej2oIeYzb2pPdkrY2d88LNGSk5Wb
+        J0fqcwAd1Y2+3cpQFN9RxopjoMdjz+53slffvk7unpf1NcD98JJzm49FxrC7drmw
         ==
-X-ME-Sender: <xms:Ah3GX-bHmRs_HYXGX5gb0lJ37ZcrTKJxtAJXkh3jx7KWPBntKXr4Ng>
-    <xme:Ah3GXxbdEO5V4q6I0KY1FucIA77JP2CkxNca-nQb54fBvaHc_WdU7HsPbUpJ-3p4U
-    PAZVgVa2wD9ukvxHQc>
+X-ME-Sender: <xms:Ox3GX102woqyBhbf5Scbvu5ViI7X7uL5fF-ok5wFgUx_FB9lmQpM0g>
+    <xme:Ox3GX8A0ur2kV3uf7oqV0fqN4zHAed1hV5Q3hHoL9b5mFVF_AyGvuBaPc-3IFkRCR
+    JD3xBJdkp-lyjLgBAI>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeivddgudelucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
@@ -48,14 +48,14 @@ X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeivddgudelucetufdoteggod
     htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
     gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
     frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Ah3GX48-eF-Q3iknySKMaaL7KKZ515W8OEjdae9G4gncjM7UDEz3lg>
-    <xmx:Ah3GXwqJHqFh8s_UmGdq5FF_aIqhiwFGM1ICAma8ra_mhsmFKeECZA>
-    <xmx:Ah3GX5oZm0ZaiiFI44BVit7QaCUI66Yavxd1T5Wv39b3hpIlbQ81cg>
-    <xmx:BR3GX9CmHHN7jhptvS7H-J2QrflJnMm8l4IjZIJgim3jEwsj24lb_A>
+X-ME-Proxy: <xmx:Ox3GXyzr0dVxpwckZSiZ9r5y3pPfnuYQBYa9wd0O_GZJjwSFM7IAwA>
+    <xmx:Ox3GX6mW5Vly6aJpEpiZ_CY6FKZfjgbE5urVmkm5ZA-Ahi_yJbJAPw>
+    <xmx:Ox3GX3EF6Ay9nZGMiKNQixsIqIRJJI298bfK0EVewBfPweVzl0OB2Q>
+    <xmx:Ph3GX-lJbjvXCan0hc2I3ghxzbc3zuUyc1ztLuVd3mar7N4q_j-kZQ>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 054EC108005C;
-        Tue,  1 Dec 2020 05:37:54 -0500 (EST)
-Date:   Tue, 1 Dec 2020 11:37:53 +0100
+        by mail.messagingengine.com (Postfix) with ESMTPA id D94AD1080057;
+        Tue,  1 Dec 2020 05:38:50 -0500 (EST)
+Date:   Tue, 1 Dec 2020 11:38:49 +0100
 From:   Maxime Ripard <maxime@cerno.tech>
 To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
@@ -76,45 +76,49 @@ Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         Hans Verkuil <hans.verkuil@cisco.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
         kevin.lhopital@hotmail.com
-Subject: Re: [PATCH v2 01/19] docs: phy: Add a part about PHY mode and submode
-Message-ID: <20201201103753.klvoqrv7grboovgq@gilmour>
+Subject: Re: [PATCH v2 03/19] phy: allwinner: phy-sun6i-mipi-dphy: Support
+ D-PHY Rx mode for MIPI CSI-2
+Message-ID: <20201201103849.cqjpf7lurn5htwgs@gilmour>
 References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
- <20201128142839.517949-2-paul.kocialkowski@bootlin.com>
+ <20201128142839.517949-4-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="h4ge5f64arxtqfzl"
+        protocol="application/pgp-signature"; boundary="zmsqkppuctc6r4g7"
 Content-Disposition: inline
-In-Reply-To: <20201128142839.517949-2-paul.kocialkowski@bootlin.com>
+In-Reply-To: <20201128142839.517949-4-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 
---h4ge5f64arxtqfzl
+--zmsqkppuctc6r4g7
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
 Content-Transfer-Encoding: quoted-printable
 
-On Sat, Nov 28, 2020 at 03:28:21PM +0100, Paul Kocialkowski wrote:
-> Besides giving pointers to the relevant functions for PHY mode and
-> submode configuration, this clarifies the need to set them before
-> powering on the PHY.
+On Sat, Nov 28, 2020 at 03:28:23PM +0100, Paul Kocialkowski wrote:
+> The Allwinner A31 D-PHY supports both Rx and Tx modes. While the latter
+> is already supported and used for MIPI DSI this adds support for the
+> former, to be used with MIPI CSI-2.
+>=20
+> This implementation is inspired by Allwinner's V3s Linux SDK
+> implementation, which was used as a documentation base.
 >=20
 > Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 
-Reviewed-by: Maxime Ripard <mripard@kernel.org>
+Acked-by: Maxime Ripard <mripard@kernel.org>
 
 Maxime
 
---h4ge5f64arxtqfzl
+--zmsqkppuctc6r4g7
 Content-Type: application/pgp-signature; name="signature.asc"
 
 -----BEGIN PGP SIGNATURE-----
 
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX8YdAQAKCRDj7w1vZxhR
-xSjSAP4lTrtYAZ2B8ltcBIkKXx8jrh9WOHUZmd/jTVBbrlpaAQEA/Mym782MhSQN
-oNoxZn8BKL4FeHuPgnid9BUa8QH5FQ4=
-=VneL
+iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX8YdOQAKCRDj7w1vZxhR
+xfabAQCKz+DonqaT9Ix9D8Rls8njfXhm1dyR350ijoHZbIWOdwEAi6e3Q+a0clB6
+8XLbvaH6EtFSjiv+xvN27NigNJ6dYQc=
+=gpZc
 -----END PGP SIGNATURE-----
 
---h4ge5f64arxtqfzl--
+--zmsqkppuctc6r4g7--
