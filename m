@@ -2,258 +2,159 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1F4A32CA78F
-	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 17:00:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CA1D32CA8A1
+	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 17:49:41 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391676AbgLAP5H (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Dec 2020 10:57:07 -0500
-Received: from mga06.intel.com ([134.134.136.31]:30482 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388395AbgLAP5H (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Dec 2020 10:57:07 -0500
-IronPort-SDR: S9K7opjTIa/JsbxFxonXeMdtL5dQRutd88uN8jypLxiUUqXyNgdBErz0Px47munoP2Ay85CfQa
- UVWnMdovOj8w==
-X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="234453436"
-X-IronPort-AV: E=Sophos;i="5.78,384,1599548400"; 
-   d="scan'208";a="234453436"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2020 07:55:23 -0800
-IronPort-SDR: QfcYMzGShBE137FZNZLaRpHlgTLYVcGE+1s1yU7a+CfUUHvYLSDyZMsF9MTm3asiBC2wXbeTpJ
- 4z04FpiZgDYQ==
-X-IronPort-AV: E=Sophos;i="5.78,384,1599548400"; 
-   d="scan'208";a="481151293"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 01 Dec 2020 07:55:16 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id EDCA221E1A; Tue,  1 Dec 2020 17:55:13 +0200 (EET)
-Date:   Tue, 1 Dec 2020 17:55:13 +0200
+        id S2388837AbgLAQsB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Dec 2020 11:48:01 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39382 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388821AbgLAQsA (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Dec 2020 11:48:00 -0500
+Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 32DFDC0613CF
+        for <linux-media@vger.kernel.org>; Tue,  1 Dec 2020 08:46:20 -0800 (PST)
+Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
+        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 4AFEB634C24;
+        Tue,  1 Dec 2020 18:45:12 +0200 (EET)
 From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org,
-        mika.westerberg@linux.intel.com, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, wsa@kernel.org, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jorhand@linux.microsoft.com, kitakar@gmail.com,
-        heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH 18/18] ipu3: Add driver for dummy INT3472 ACPI device
-Message-ID: <20201201155513.GB852@paasikivi.fi.intel.com>
-References: <20201130133129.1024662-1-djrscally@gmail.com>
- <20201130133129.1024662-19-djrscally@gmail.com>
- <20201130200719.GB4077@smile.fi.intel.com>
- <20201130233232.GD25713@pendragon.ideasonboard.com>
+To:     linux-media@vger.kernel.org
+Cc:     hverkuil@xs4all.nl, mchehab@kernel.org
+Subject: [PATCH v2 00/30] Trivial MIPI CCS support
+Date:   Tue,  1 Dec 2020 18:42:16 +0200
+Message-Id: <20201201164246.18003-1-sakari.ailus@linux.intel.com>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201130233232.GD25713@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hello everyone,
 
-On Tue, Dec 01, 2020 at 01:32:32AM +0200, Laurent Pinchart wrote:
-> Hi Andy,
-> 
-> On Mon, Nov 30, 2020 at 10:07:19PM +0200, Andy Shevchenko wrote:
-> > On Mon, Nov 30, 2020 at 01:31:29PM +0000, Daniel Scally wrote:
-> > > On platforms where ACPI is designed for use with Windows, resources
-> > > that are intended to be consumed by sensor devices are sometimes in
-> > > the _CRS of a dummy INT3472 device upon which the sensor depends. This
-> > > driver binds to the dummy acpi device (which does not represent a
-> > 
-> > acpi device -> acpi_device
-> > 
-> > > physical PMIC) and maps them into GPIO lines and regulators for use by
-> > > the sensor device instead.
-> > 
-> > ...
-> > 
-> > > This patch contains the bits of this process that we're least sure about.
-> > > The sensors in scope for this work are called out as dependent (in their
-> > > DSDT entry's _DEP) on a device with _HID INT3472. These come in at least
-> > > 2 kinds; those with an I2cSerialBusV2 entry (which we presume therefore
-> > > are legitimate tps68470 PMICs that need handling by those drivers - work
-> > > on that in the future). And those without an I2C device. For those without
-> > > an I2C device they instead have an array of GPIO pins defined in _CRS. So
-> > > for example, my Lenovo Miix 510's OVTI2680 sensor is dependent on one of
-> > > the _latter_ kind of INT3472 devices, with this _CRS:
-> > > 
-> > > Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
-> > > {
-> > >     Name (SBUF, ResourceTemplate ()
-> > >     {
-> > >         GpioIo (Exclusive, PullDefault, 0x0000, 0x0000,
-> > > 	    IoRestrictionOutputOnly, "\\_SB.PCI0.GPI0",
-> > > 	    0x00, ResourceConsumer, ,
-> > >             )
-> > >             {   // Pin list
-> > >                 0x0079
-> > >             }
-> > >         GpioIo (Exclusive, PullDefault, 0x0000, 0x0000,
-> > > 	    IoRestrictionOutputOnly, "\\_SB.PCI0.GPI0",
-> > > 	    0x00, ResourceConsumer, ,
-> > >             )
-> > >             {   // Pin list
-> > >                 0x007A
-> > >             }
-> > >         GpioIo (Exclusive, PullDefault, 0x0000, 0x0000,
-> > > 	    IoRestrictionOutputOnly, "\\_SB.PCI0.GPI0",
-> > > 	    0x00, ResourceConsumer, ,
-> > >             )
-> > >             {   // Pin list
-> > >                 0x008F
-> > >             }
-> > >     })
-> > >     Return (SBUF) /* \_SB_.PCI0.PMI1._CRS.SBUF */
-> > > }
-> > > 
-> > > and the same device has a _DSM Method, which returns 32-bit ints where
-> > > the second lowest byte we noticed to match the pin numbers of the GPIO
-> > > lines:
-> > > 
-> > > Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
-> > > {
-> > >     If ((Arg0 == ToUUID ("79234640-9e10-4fea-a5c1-b5aa8b19756f")))
-> > >     {
-> > >         If ((Arg2 == One))
-> > >         {
-> > >             Return (0x03)
-> > >         }
-> > > 
-> > >         If ((Arg2 == 0x02))
-> > >         {
-> > >             Return (0x01007900)
-> > >         }
-> > > 
-> > >         If ((Arg2 == 0x03))
-> > >         {
-> > >             Return (0x01007A0C)
-> > >         }
-> > > 
-> > >         If ((Arg2 == 0x04))
-> > >         {
-> > >             Return (0x01008F01)
-> > >         }
-> > >     }
-> > > 
-> > >     Return (Zero)
-> > > }
-> > > 
-> > > We know that at least some of those pins have to be toggled active for the
-> > > sensor devices to be available in i2c, so the conclusion we came to was
-> > > that those GPIO entries assigned to the INT3472 device actually represent
-> > > GPIOs and regulators to be consumed by the sensors themselves. Tsuchiya
-> > > noticed that the lowest byte in the return values of the _DSM method
-> > > seemed to represent the type or function of the GPIO line, and we
-> > > confirmed that by testing on each surface device that GPIO lines where the
-> > > low byte in the _DSM entry for that pin was 0x0d controlled the privacy
-> > > LED of the cameras.
-> > > 
-> > > We're guessing as to the exact meaning of the function byte, but I
-> > > conclude they're something like this:
-> > > 
-> > > 0x00 - probably a reset GPIO
-> > > 0x01 - regulator for the sensor
-> > > 0x0c - regulator for the sensor
-> > > 0x0b - regulator again, but for a VCM or EEPROM
-> > > 0x0d - privacy led (only one we're totally confident of since we can see
-> > >        it happen!)
-> > 
-> > It's solely Windows driver design...
-> > Luckily I found some information and can clarify above table:
-> > 
-> > 0x00 Reset
-> > 0x01 Power down
-> > 0x0b Power enable
-> > 0x0c Clock enable
-> > 0x0d LED (active high)
-> 
-> That's very useful information ! Thank you.
-> 
-> > The above text perhaps should go somewhere under Documentation.
-> 
-> Or in the driver source code, but definitely somewhere else than in the
-> commit message.
-> 
-> > > After much internal debate I decided to write this as a standalone
-> > > acpi_driver. Alternative options we considered:
-> > > 
-> > > 1. Squash all this into the cio2-bridge code, which I did originally write
-> > > but decided I didn't like.
-> > > 2. Extend the existing tps68470 mfd driver...they share an ACPI ID so this
-> > > kinda makes sense, but ultimately given there is no actual physical
-> > > tps68470 in the scenario this patch handles I decided I didn't like this
-> > > either.
-> > 
-> > Looking to this I think the best is to create a module that can be consumed by tps68470 and separately.
-> > So, something near to it rather than under ipu3 hood.
-> > 
-> > You may use same ID's in both drivers (in PMIC less case it can be simple
-> > platform and thus they won't conflict), but both of them should provide GPIO
-> > resources for consumption.
-> > 
-> > So, something like
-> > 
-> >  tps68470.h with API to consume
-> >  split tps68470 to -core, -i2c parts
-> >  add int3472, which will serve for above and be standalone platform driver
-> >  update cio2-bridge accordingly
-> > 
-> > Would it be feasible?
-> 
-> Given that INT3472 means Intel camera power management device (that's
-> more or less the wording in Windows, I can double-check), would the
-> following make sense ?
-> 
-> A top-level module named intel-camera-pmic (or int3472, or ...) would
-> register two drivers, a platform driver and an I2C driver, to
-> accommodate for both cases ("discrete PMIC" that doesn't have an
-> I2cSerialBusV2, and TPS64870 or uP6641Q that are I2C devices). The probe
-> function would perform the following:
-> 
-> - If there's no CLDB, then the device uses the Chrome OS "ACPI
->   bindings", and refers to a TPS64870. The code that exists in the
->   kernel today (registering GPIOs, and registering an OpRegion to
->   communicate with the power management code in the DSDT) would be
->   activated.
-> 
-> - If there's a CLDB, then the device type would be retrieved from it:
-> 
->   - If the device is a "discrete PMIC", the driver would register clocks
->     and regulators controlled by GPIOs, and create clock, regulator and
->     GPIO lookup entries for the sensor device that references the PMIC.
-> 
->   - If the device is a TPS64870, the code that exists in the kernel
->     today to register GPIOs would be activated, and new code would need
->     to be written to register regulators and clocks.
-> 
->   - If the device is a uP6641Q, a new driver will need to be written (I
->     don't know on which devices this PMIC is used, so this can probably
->     be deferred).
-> 
-> We can split this in multiple files and/or modules.
+Here's a set of patches that turn the existing SMIA driver into a MIPI CCS
+driver while maintaining SMIA support. A number of bugs in the existing
+code are fixed in this set, too.
 
-That's what I thought of, too, as one option, but with some more detail.
-This would be indeed the cleanest option.
+The changes at this point are primarily focused on dealing with new
+mandatory driver features related to PLL configuration (as CCS allows for
+much more variation there) and things such as integer conversion from
+U16.U16 format instead of float. There are some other new features as well
+such as digital gain and support for getting device specific analogue gain
+coefficients.
 
-I think it'd be nice if the CLDB stuff (apart from checking whether it's
-there) would be in a different module to avoid cluttering up the real
-tps68470 driver.
+A new feature in CCS is CCS static data which makes it possible to obtain
+sensor's capabilities and limits from a file chosen based on sensor
+identification. CCS static data is used also for storing MSR registers so
+supporting new, CCS compliant devices requires no driver changes.
+
+Note that the library as well as the register definitions are dual
+licensed under GNU GPL v2 OR BSD 3-clause licenses for use outside the
+Linux kernel.
+
+Also DT bindings are updated accordingly and converted to YAML format.
+
+More information on MIPI CCS can be found here:
+
+<URL:https://www.mipi.org/specifications/camera-command-set>
+
+Comments are welcome.
+
+since v1:
+
+- Reorder file names in CCS MAINTAINERS
+
+- Use Linux integer types and __packed (instead of C99 integer types and
+  __attribute__((packed))) in CCS static data library.
+
+- Add documentation to the CCS static data library interface structs.
+
+- Add a missing newline before a macro.
+
+- Depend on the CCS preparation set here:
+
+  <URL:https://patchwork.linuxtv.org/project/linux-media/patch/20201127104144.GJ4351@valkosipuli.retiisi.org.uk/>
+
+since the big, big patchset (v2):
+
+- Split into more easily reviewable chunks (this is the second of maybe
+  three). The cover page describes the entire big set. This set contains
+  new DT compatible strings, CCS ACPI ID, rudimentary support for CCS
+  (without PLL changes most sensors need, that's for later), including CCS
+  static data.
+
+- Fix SPDX tags. Some were left accidentally with BSD-3-Clause license
+  only.
+
+- Remove WARN_ON() from snprintf(), but return an error instead.
+
+- Free loaded static data on error as well.
+
+- Add descriptions to ccs-data-defs.h and ccs-data.h to document the
+  difference between the two.
+
+- Make the delay after I²C transfer error a range.
+
+- Make better use of kernel support functions.
+
+Sakari Ailus (30):
+  ccs: Add MIPI CCS compatible strings
+  ccs: Add device compatible identifiers for telling SMIA and CCS apart
+  ccs: Add CCS ACPI device ID
+  ccs: Remove the I²C ID table
+  ccs: Remove remaining support for platform data
+  ccs: Make hwcfg part of the device specific struct
+  ccs: Fix obtaining bus information from firmware
+  ccs: Add CCS static data parser library
+  ccs: Combine revision number major and minor into one
+  ccs: Read CCS static data from firmware binaries
+  ccs: Stop reading arrays after the first zero
+  ccs: The functions to get compose or crop rectangle never return NULL
+  ccs: Replace somewhat harsh internal checks based on BUG with WARN_ON
+  ccs: Refactor register reading a little
+  ccs: Make real to integer number conversion optional
+  ccs: Move limit value real to integer conversion from read to access
+    time
+  ccs: Read ireal numbers correctly
+  smiapp-pll: Rename as ccs-pll
+  ccs-pll: Fix MODULE_LICENSE
+  ccs: Change my e-mail address
+  ccs: Allow range in between I²C retries
+  ccs: Add support for manufacturer regs from sensor and module files
+  ccs: Use static data read-only registers
+  ccs: Clean up runtime PM usage
+  ccs: Wrap long lines, unwrap short ones
+  ccs: Use longer pre-I²C sleep for CCS compliant devices
+  ccs: Remove unnecessary delays from power-up sequence
+  dt-bindings: mipi,ccs: Don't mention vana voltage
+  dt-bindings: mipi,ccs: Add vcore and vio supplies
+  ccs: Use all regulators
+
+ .../bindings/media/i2c/mipi-ccs.yaml          |  11 +-
+ MAINTAINERS                                   |   4 +-
+ drivers/media/i2c/Kconfig                     |   2 +-
+ drivers/media/i2c/Makefile                    |   2 +-
+ drivers/media/i2c/{smiapp-pll.c => ccs-pll.c} |  66 +-
+ drivers/media/i2c/{smiapp-pll.h => ccs-pll.h} |  42 +-
+ drivers/media/i2c/ccs/Kconfig                 |   2 +-
+ drivers/media/i2c/ccs/Makefile                |   2 +-
+ drivers/media/i2c/ccs/ccs-core.c              | 396 +++++---
+ drivers/media/i2c/ccs/ccs-data-defs.h         | 221 ++++
+ drivers/media/i2c/ccs/ccs-data.c              | 953 ++++++++++++++++++
+ drivers/media/i2c/ccs/ccs-data.h              | 227 +++++
+ drivers/media/i2c/ccs/ccs-quirk.c             |  10 +-
+ drivers/media/i2c/ccs/ccs-quirk.h             |   2 +-
+ drivers/media/i2c/ccs/ccs-reg-access.c        | 227 ++++-
+ drivers/media/i2c/ccs/ccs-reg-access.h        |   6 +-
+ drivers/media/i2c/ccs/ccs.h                   |  24 +-
+ 17 files changed, 1923 insertions(+), 274 deletions(-)
+ rename drivers/media/i2c/{smiapp-pll.c => ccs-pll.c} (89%)
+ rename drivers/media/i2c/{smiapp-pll.h => ccs-pll.h} (66%)
+ create mode 100644 drivers/media/i2c/ccs/ccs-data-defs.h
+ create mode 100644 drivers/media/i2c/ccs/ccs-data.c
+ create mode 100644 drivers/media/i2c/ccs/ccs-data.h
 
 -- 
-Regards,
+2.27.0
 
-Sakari Ailus
