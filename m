@@ -2,85 +2,149 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE0332C94BF
-	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 02:36:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D69632C94FA
+	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 03:09:04 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731272AbgLABgL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Nov 2020 20:36:11 -0500
-Received: from mail-il1-f194.google.com ([209.85.166.194]:41346 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728496AbgLABgL (ORCPT
+        id S1726370AbgLACIb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Nov 2020 21:08:31 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43684 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725900AbgLACIa (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Nov 2020 20:36:11 -0500
-Received: by mail-il1-f194.google.com with SMTP id p5so98008iln.8;
-        Mon, 30 Nov 2020 17:35:55 -0800 (PST)
+        Mon, 30 Nov 2020 21:08:30 -0500
+Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A00A1C0613CF;
+        Mon, 30 Nov 2020 18:07:50 -0800 (PST)
+Received: by mail-pl1-x641.google.com with SMTP id k5so219509plt.6;
+        Mon, 30 Nov 2020 18:07:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=YzRoQK48hdn26VwNICKcMxppEh6YmVkly2mV0TpEsRM=;
+        b=Xsg1VUulHwkQfdILKkBsYjqHAtcrFzXA6wZ05axioxZiTH4XBlkHSJaOmjs74Z5Xd9
+         76ccBwPaFGtNxtJwy+Nd651I1jEAJPLZYY2qKUQSLa54aQRpL+YqV8yT0JSPZLqbJP6n
+         UiEyhlPNkzyGCBzBI00H3tiHDVlfyg/vTBzObX2lLmjLp5eYaBAESZOAyoxN0qNkElZH
+         e3zjD+lSk04DbNrtlwybURtZb+kF4jhr3VRz2EmDI07woZYC+ZlxTyQxrNut10Ts6g6a
+         Uvu4zuHEJ1mGgt+OmZv94p/L106k8ahnS+4Nr/HnPN0pWy8Do6yhhqHAwcvRFGIws+QW
+         xQIw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=GVpuIFWzwjWwv3nZSyTHsP20wE6qwR6Pcp5yFWMuI+c=;
-        b=LGelxJ+mSwXS9RMWz+7/+OPDPjndH+/5Ub4U0dqTFrUv0GVErNzs7d43Imqe8AOvkk
-         7tubfbqbRs089Dlc72pwLxyi/wSeiwTaylICknHlIOGIPsPcmqii0Pxl6mjOb/6yUkN8
-         1Aco0U/sAT2AWi3+jmnVks4+OaJ4fRHXqliB75f0YXcBO7vT3/ZlZqweHwsRyXEbAMx/
-         oMvaYVtahXmpe2RM1D1EuUdeKhB57e/YEHs8OOVz2IqnUS88NB0I6wtOn/5M4dbwcfnL
-         cSbeUXww+hKKyKjrRpT0DHv8Xj6uK7X9nJZofz9oCjv6Chi1QpWQsR/x/epP9C2q595h
-         kNzQ==
-X-Gm-Message-State: AOAM533kcTNhhP92GKDoPZ4WaKFNERXhcwDDbLtoAJy4ma6/t240Sn4q
-        u7quFm/AIjDGw8XGAcTk0w==
-X-Google-Smtp-Source: ABdhPJwUlN5l3Gh7+xqYqg3UP+GDBb5GmRGKTM4mwYtbcsbfdWR7c6k4BnU7cVtaPzTijBI9x6+sng==
-X-Received: by 2002:a92:50b:: with SMTP id q11mr528232ile.49.1606786529992;
-        Mon, 30 Nov 2020 17:35:29 -0800 (PST)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id b15sm186046ilg.83.2020.11.30.17.35.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 30 Nov 2020 17:35:29 -0800 (PST)
-Received: (nullmailer pid 3440973 invoked by uid 1000);
-        Tue, 01 Dec 2020 01:35:26 -0000
-Date:   Mon, 30 Nov 2020 18:35:26 -0700
-From:   Rob Herring <robh@kernel.org>
-To:     Daoyuan Huang <daoyuan.huang@mediatek.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Maoguang Meng <maoguang.meng@mediatek.com>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Rob Landley <rob@landley.net>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
-        tfiga@chromium.org, drinkcat@chromium.org, acourbot@chromium.org,
-        pihsun@chromium.org, menghui.lin@mediatek.com,
-        sj.huang@mediatek.com, ben.lok@mediatek.com, randy.wu@mediatek.com,
-        moudy.ho@mediatek.com, srv_heupstream@mediatek.com
-Subject: Re: [PATCH v4 1/4] dt-binding: mt8183: Add Mediatek MDP3 dt-bindings
-Message-ID: <20201201013526.GA3327634@robh.at.kernel.org>
-References: <1605839346-10648-1-git-send-email-daoyuan.huang@mediatek.com>
- <1605839346-10648-2-git-send-email-daoyuan.huang@mediatek.com>
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=YzRoQK48hdn26VwNICKcMxppEh6YmVkly2mV0TpEsRM=;
+        b=KdDsrQXCGKrTW6foxBhiAPTAvyqdOWN9VyFZSdaQotbgcU26gstonyROKU3l+ZezHD
+         pd0OUFSIKvKZc/Ru/GVy4pOEylKZeKlDc1TVCFN8ve/o5tkcJxHF+KFqBcm3Lx/SZ1PD
+         BrUUJYHXlIXtF0DUHD3vPKV/O8UvQHsGm9xafjo/bk7Po8bDbtZmONWtao5b5AwxWi//
+         4ageHPcfiSsyoXsX/x+a5lWjh0ENow263kdRJ9rdFagC5muiLM4GG8NauFBwUygjcJZ7
+         euWi/5j3E4I5Jf7NRRKosn4dXmK4vozWgzDBY4tkaIghnI5fxoLXkJrX8/pORP+3q3ls
+         6KnA==
+X-Gm-Message-State: AOAM53056n0i/1WWsZuoz+6qc9efJ+D66NeqS5McsgIcAvbYtoGUbIVx
+        NVyMKlKd5vQuibyacc6nc9iQCNBp/fbKchh4ZR4=
+X-Google-Smtp-Source: ABdhPJw8Q293pQSHy+xmCE/WnmtGsJ7v0tqKoGQ0rGQvPsKLVAK+dPRQlbFRB7zuFh9nBcHLbJ5oRo39e/Dr4sI7TGo=
+X-Received: by 2002:a17:902:7144:b029:da:7268:d730 with SMTP id
+ u4-20020a1709027144b02900da7268d730mr632304plm.20.1606788470247; Mon, 30 Nov
+ 2020 18:07:50 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <1605839346-10648-2-git-send-email-daoyuan.huang@mediatek.com>
+References: <d0ac1a26ed5943127cb0156148735f5f52a07075.1606459576.git.mchehab+huawei@kernel.org>
+ <CA+FuTSenOoVxM6W9viwXQmPHo_MEoQzQ=GPxJi72fYGHHmqmwA@mail.gmail.com>
+ <20201130104420.321531ec@coco.lan> <CAA7C2qiOAZR+QwY5Bs-UHQzBEfA15gMG-GjriqNo3Q5biY4+ZQ@mail.gmail.com>
+ <20201130180834.07a3116f@coco.lan>
+In-Reply-To: <20201130180834.07a3116f@coco.lan>
+From:   VDRU VDRU <user.vdr@gmail.com>
+Date:   Mon, 30 Nov 2020 18:07:37 -0800
+Message-ID: <CAA7C2qgAC8vnxu4xVhdi2CsMXyx85J44yUxGk00JhoQ6j5U3tw@mail.gmail.com>
+Subject: Re: [PATCH] media: gp8psk: initialize stats at power control logic
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Willem de Bruijn <willemdebruijn.kernel@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linuxarm@huawei.com, mauro.chehab@huawei.com,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        syzbot <syzkaller@googlegroups.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 20, 2020 at 10:29:03AM +0800, Daoyuan Huang wrote:
-> From: daoyuan huang <daoyuan.huang@mediatek.com>
-> 
-> This patch adds DT binding document for Media Data Path 3 (MDP3)
-> a unit in multimedia system used for scaling and color format convert.
-> 
-> Signed-off-by: Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
-> Signed-off-by: daoyuan huang <daoyuan.huang@mediatek.com>
-> ---
->  .../bindings/media/mediatek,mt8183-mdp3.txt   | 208 ++++++++++++++++++
->  1 file changed, 208 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8183-mdp3.txt
+Hi Mauro,
 
-In the year since last posting, DT bindings are now in schema format.
+After many attempts ret was always 0. Please let me know if further
+testing is needed.
 
-Rob
+Best regards,
+Derek
+
+On Mon, Nov 30, 2020 at 9:09 AM Mauro Carvalho Chehab
+<mchehab+huawei@kernel.org> wrote:
+>
+> Hi Derek,
+>
+> Em Mon, 30 Nov 2020 08:04:31 -0800
+> VDRU VDRU <user.vdr@gmail.com> escreveu:
+>
+> > I have hardware that uses this driver and can conduct a test if it
+> > will help resolve any confusion/assumption. I'd also like to suggest
+> > that making changes to drivers with no means of testing those changes
+> > is bad. This has happened in the past and resulted in unnecessarily
+> > breaking drivers for those who use it. No patch should be merged
+> > without testing!
+>
+> It helps a lot if you could test it.
+>
+> The current situation is that, if the I2C read fails, the
+> driver will randomly power up only partially, which could
+> cause issues.
+>
+> The original proposed approach:
+>
+>         https://lore.kernel.org/linux-media/20190627222020.45909-1-willemdebruijn.kernel@gmail.com/
+>
+> Will just give up trying to powering it up, while the
+> patch I'm proposing will force the device to power up
+> all parts of it. So, it seems safer than the original
+> one.
+>
+> Please test with the enclosed patch. It is basically
+> the same as the one I proposed, although this one will
+> print a message at dlog, due to this:
+>
+>         pr_info("ret returned %d\n", ret);
+>
+> This could happen when the device got plugged and/or if
+> you put the machine into suspend mode, when resuming it
+> while streaming[1]
+>
+> Regards,
+> Mauro
+>
+> [1] not sure if dvb-usb supports it. One of the rationales
+> behind dvb-usb-v2 were to be able of properly do
+> suspend/resumes.
+>
+>
+>
+> diff --git a/drivers/media/usb/dvb-usb/gp8psk.c b/drivers/media/usb/dvb-usb/gp8psk.c
+> index c07f46f5176e..be55496cc717 100644
+> --- a/drivers/media/usb/dvb-usb/gp8psk.c
+> +++ b/drivers/media/usb/dvb-usb/gp8psk.c
+> @@ -182,11 +182,16 @@ static int gp8psk_load_bcm4500fw(struct dvb_usb_device *d)
+>
+>  static int gp8psk_power_ctrl(struct dvb_usb_device *d, int onoff)
+>  {
+> -       u8 status, buf;
+> +       u8 status = 0, buf;
+> +       int ret;
+>         int gp_product_id = le16_to_cpu(d->udev->descriptor.idProduct);
+>
+>         if (onoff) {
+> -               gp8psk_usb_in_op(d, GET_8PSK_CONFIG,0,0,&status,1);
+> +               ret = gp8psk_usb_in_op(d, GET_8PSK_CONFIG,0,0,&status,1);
+> +               // Just to check if the condition happens in practice
+> +               if (ret < 0)
+> +                       pr_info("ret returned %d\n", ret);
+> +
+>                 if (! (status & bm8pskStarted)) {  /* started */
+>                         if(gp_product_id == USB_PID_GENPIX_SKYWALKER_CW3K)
+>                                 gp8psk_usb_out_op(d, CW3K_INIT, 1, 0, NULL, 0);
+>
