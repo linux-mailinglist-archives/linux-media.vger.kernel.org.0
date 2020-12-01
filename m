@@ -2,147 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B0EB02CA303
-	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 13:46:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9605D2CA305
+	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 13:46:09 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730126AbgLAMpe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Dec 2020 07:45:34 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:45353 "EHLO
+        id S2387510AbgLAMpf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Dec 2020 07:45:35 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:53491 "EHLO
         lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728570AbgLAMpe (ORCPT
+        by vger.kernel.org with ESMTP id S1728987AbgLAMpe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 1 Dec 2020 07:45:34 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id k51SkssSADuFjk51Xk2RYn; Tue, 01 Dec 2020 13:44:51 +0100
+        id k51SkssSADuFjk51Xk2RYx; Tue, 01 Dec 2020 13:44:52 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606826691; bh=U8mWCSYP2Eq4lCnjfIsVMvB2loExRhRj4TBhggJVWEY=;
+        t=1606826692; bh=BXusA+CIrGWKf3/SqjzlEkdnmGnMvYpEsKkSCTIgqf4=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=aRuEK3Cg2nyhQ7GYGxcjbNkbErQ+PS24SXLY97C0iH8JED9RJCUKZoqUguXXKdiNt
-         g9MRZl43HKj5v6Rv71/KkKc1o/VAIcLJTBnia3hBj4UXlBG+CNoaHaiKDOwTLs8IsR
-         s3E/4dsPsZc3uiJ6ecoIT0tE1n2vCjJ5gUFUOGfp6ZibRjYHkFMzut7TCkwhr0bBXA
-         74R46y7+tF+4qIEbuoMJmYGwi8P5SIF+q2PVLQtk5uCsIe3YEEs5JytNFm2ILfi7AI
-         JE3bRZJXwGcxSiCM1c1e2zD/gvUvVaHteUKgvSpESeLeVRaA7p4yfMsMMMvVgM74sc
-         EY8Zdf722ZF/w==
+        b=hPXZOzwnXkbSMENcwuqypNtDTdcNV+DfV300uarPRKeVyHLF/8/PyGIXnNHi99h/g
+         fZMwpgsThI5xOtG/uYwh6RCbHRFel/fpuzqnOOn641JDqqNAvq1fbh7fELbP/v/nrE
+         GWFT4SSqdP/2eygWjDa2xOOeUoLOa2OSWepfJTPoDOBIduBmJT8gH3EEo88gGQ1ab2
+         dUGhhtPi7YHT+KxC2qZwZuxvoUPJtwmUQ4sNrLA9bDMW+dfYmy4O5JFm8XIP91xSXZ
+         8l3FHpNFP2UcSWQQRIpRaXPEOxCh2xdoYgWnKfVWy9KjpqN7AEw0L+VAM4/+jEcMw5
+         NGT7X/5Coa8Pw==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Alexandre Courbot <gnurou@gmail.com>,
         Tomasz Figa <tfiga@chromium.org>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv3 4/7] v4l2-dev/event: add v4l2_event_wake_all()
-Date:   Tue,  1 Dec 2020 13:44:43 +0100
-Message-Id: <20201201124446.448595-5-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv3 5/7] vivid: call v4l2_event_wake_all() on disconnect
+Date:   Tue,  1 Dec 2020 13:44:44 +0100
+Message-Id: <20201201124446.448595-6-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201201124446.448595-1-hverkuil-cisco@xs4all.nl>
 References: <20201201124446.448595-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
-X-CMAE-Envelope: MS4xfEbbHtBtxZMg25ky9HguRnroC3luigL0X3xjmVl4YcEzAC4cF8zkGuoLHem70fyJetudArdmqSFaOjSG3F1c3boTMJIp10+2Z3Tv1K3d+QorJtFvji5A
- 3rvHhZZTNh/UB8vbRgFoIZyK1Nc/yLr8zJ2dwr3J9h6I8+v2a79tvM19hHNzjGNo3BrVsTClsc0i9OSYI1MBsFLVZMEjXqNxG6XhiMiZGuQytTPQWa/o9NrM
- edPmE+vGANYx6lv8z1TLuVoKsOZIsJKGRlOlpxtQrSMD6eAze0uVrOrcvVREwdcOpyDQ6KDjZ8RoD6G+b1jEQEO/czQX1ts1ltowKUFp7TA=
+X-CMAE-Envelope: MS4xfMpvkjAk6HI2j3BveW2MEiCLvzzeRn4nnBO1V+ZM2q1Y2N6RUcSw8tTmOeRBj720LACdfRQKS6lKxmZf0IA1VBi176pkOz94HuIUN5ejM+oQDNve9s2j
+ FT/XqBztnHKZqx7uUyd4pwR0S6tIPGDzzwA7xgVn7c/LeKSY+gnXNsmLzw5HOTL2MWcXoaze0r0+PnSI3u3uZzUMrYLvah+1NqcbUsnrYnyw5CTF1POWvWj5
+ iIfUzUGIFnPwd+jQq6loI/HX7KoQKJSH8XtwhtS8rvKvtXsmn3pF17jScEBzdmH+8vlxZI1DG/o6rvgJBh72CtGC12ghXWXpvLxcfsX5P+A=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When unregistering a V4L2 device node, make sure any filehandles
-that are waiting for an event are woken up.
-
-Add v4l2_event_wake_all() to v4l2-event.c and call it from
-video_unregister_device().
-
-Otherwise userspace might never know that a device node was removed.
+When the disconnect error injection control is set, then besides
+faking unregistering the device nodes, also call v4l2_event_wake_all()
+to ensure any userspace applications will wake up as per a 'normal'
+unregister.
 
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-dev.c   |  3 +++
- drivers/media/v4l2-core/v4l2-event.c | 17 +++++++++++++++++
- include/media/v4l2-event.h           | 13 +++++++++++--
- 3 files changed, 31 insertions(+), 2 deletions(-)
+ .../media/test-drivers/vivid/vivid-ctrls.c    | 38 +++++++++----------
+ 1 file changed, 18 insertions(+), 20 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index a593ea0598b5..0ddc3554f1a4 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -28,6 +28,7 @@
- #include <media/v4l2-common.h>
- #include <media/v4l2-device.h>
- #include <media/v4l2-ioctl.h>
-+#include <media/v4l2-event.h>
+diff --git a/drivers/media/test-drivers/vivid/vivid-ctrls.c b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+index 11e3b5617f52..7957eadf3e2b 100644
+--- a/drivers/media/test-drivers/vivid/vivid-ctrls.c
++++ b/drivers/media/test-drivers/vivid/vivid-ctrls.c
+@@ -100,6 +100,14 @@
  
- #define VIDEO_NUM_DEVICES	256
- #define VIDEO_NAME              "video4linux"
-@@ -1086,6 +1087,8 @@ void video_unregister_device(struct video_device *vdev)
- 	 */
- 	clear_bit(V4L2_FL_REGISTERED, &vdev->flags);
- 	mutex_unlock(&videodev_lock);
-+	if (test_bit(V4L2_FL_USES_V4L2_FH, &vdev->flags))
-+		v4l2_event_wake_all(vdev);
- 	device_unregister(&vdev->dev);
- }
- EXPORT_SYMBOL(video_unregister_device);
-diff --git a/drivers/media/v4l2-core/v4l2-event.c b/drivers/media/v4l2-core/v4l2-event.c
-index 290c6b213179..207a9ad80ea2 100644
---- a/drivers/media/v4l2-core/v4l2-event.c
-+++ b/drivers/media/v4l2-core/v4l2-event.c
-@@ -187,6 +187,23 @@ int v4l2_event_pending(struct v4l2_fh *fh)
- }
- EXPORT_SYMBOL_GPL(v4l2_event_pending);
+ /* General User Controls */
  
-+void v4l2_event_wake_all(struct video_device *vdev)
++static void vivid_unregister_dev(bool valid, struct video_device *vdev)
 +{
-+	struct v4l2_fh *fh;
-+	unsigned long flags;
-+
-+	if (vdev == NULL)
++	if (!valid)
 +		return;
-+
-+	spin_lock_irqsave(&vdev->fh_lock, flags);
-+
-+	list_for_each_entry(fh, &vdev->fh_list, list)
-+		wake_up_all(&fh->wait);
-+
-+	spin_unlock_irqrestore(&vdev->fh_lock, flags);
++	clear_bit(V4L2_FL_REGISTERED, &vdev->flags);
++	v4l2_event_wake_all(vdev);
 +}
-+EXPORT_SYMBOL_GPL(v4l2_event_wake_all);
 +
- static void __v4l2_event_unsubscribe(struct v4l2_subscribed_event *sev)
+ static int vivid_user_gen_s_ctrl(struct v4l2_ctrl *ctrl)
  {
- 	struct v4l2_fh *fh = sev->fh;
-diff --git a/include/media/v4l2-event.h b/include/media/v4l2-event.h
-index 3f0281d06ec7..4ffa914ade3a 100644
---- a/include/media/v4l2-event.h
-+++ b/include/media/v4l2-event.h
-@@ -101,7 +101,7 @@ int v4l2_event_dequeue(struct v4l2_fh *fh, struct v4l2_event *event,
-  *
-  * .. note::
-  *    The driver's only responsibility is to fill in the type and the data
-- *    fields.The other fields will be filled in by  V4L2.
-+ *    fields. The other fields will be filled in by V4L2.
-  */
- void v4l2_event_queue(struct video_device *vdev, const struct v4l2_event *ev);
- 
-@@ -116,10 +116,19 @@ void v4l2_event_queue(struct video_device *vdev, const struct v4l2_event *ev);
-  *
-  * .. note::
-  *    The driver's only responsibility is to fill in the type and the data
-- *    fields.The other fields will be filled in by  V4L2.
-+ *    fields. The other fields will be filled in by V4L2.
-  */
- void v4l2_event_queue_fh(struct v4l2_fh *fh, const struct v4l2_event *ev);
- 
-+/**
-+ * v4l2_event_wake_all - Wake all filehandles.
-+ *
-+ * Used when unregistering a video device.
-+ *
-+ * @vdev: pointer to &struct video_device
-+ */
-+void v4l2_event_wake_all(struct video_device *vdev);
-+
- /**
-  * v4l2_event_pending - Check if an event is available
-  *
+ 	struct vivid_dev *dev = container_of(ctrl->handler, struct vivid_dev, ctrl_hdl_user_gen);
+@@ -108,26 +116,16 @@ static int vivid_user_gen_s_ctrl(struct v4l2_ctrl *ctrl)
+ 	case VIVID_CID_DISCONNECT:
+ 		v4l2_info(&dev->v4l2_dev, "disconnect\n");
+ 		dev->disconnect_error = true;
+-		if (dev->has_vid_cap)
+-			clear_bit(V4L2_FL_REGISTERED, &dev->vid_cap_dev.flags);
+-		if (dev->has_vid_out)
+-			clear_bit(V4L2_FL_REGISTERED, &dev->vid_out_dev.flags);
+-		if (dev->has_vbi_cap)
+-			clear_bit(V4L2_FL_REGISTERED, &dev->vbi_cap_dev.flags);
+-		if (dev->has_vbi_out)
+-			clear_bit(V4L2_FL_REGISTERED, &dev->vbi_out_dev.flags);
+-		if (dev->has_radio_rx)
+-			clear_bit(V4L2_FL_REGISTERED, &dev->radio_rx_dev.flags);
+-		if (dev->has_radio_tx)
+-			clear_bit(V4L2_FL_REGISTERED, &dev->radio_tx_dev.flags);
+-		if (dev->has_sdr_cap)
+-			clear_bit(V4L2_FL_REGISTERED, &dev->sdr_cap_dev.flags);
+-		if (dev->has_meta_cap)
+-			clear_bit(V4L2_FL_REGISTERED, &dev->meta_cap_dev.flags);
+-		if (dev->has_meta_out)
+-			clear_bit(V4L2_FL_REGISTERED, &dev->meta_out_dev.flags);
+-		if (dev->has_touch_cap)
+-			clear_bit(V4L2_FL_REGISTERED, &dev->touch_cap_dev.flags);
++		vivid_unregister_dev(dev->has_vid_cap, &dev->vid_cap_dev);
++		vivid_unregister_dev(dev->has_vid_out, &dev->vid_out_dev);
++		vivid_unregister_dev(dev->has_vbi_cap, &dev->vbi_cap_dev);
++		vivid_unregister_dev(dev->has_vbi_out, &dev->vbi_out_dev);
++		vivid_unregister_dev(dev->has_radio_rx, &dev->radio_rx_dev);
++		vivid_unregister_dev(dev->has_radio_tx, &dev->radio_tx_dev);
++		vivid_unregister_dev(dev->has_sdr_cap, &dev->sdr_cap_dev);
++		vivid_unregister_dev(dev->has_meta_cap, &dev->meta_cap_dev);
++		vivid_unregister_dev(dev->has_meta_out, &dev->meta_out_dev);
++		vivid_unregister_dev(dev->has_touch_cap, &dev->touch_cap_dev);
+ 		break;
+ 	case VIVID_CID_BUTTON:
+ 		dev->button_pressed = 30;
 -- 
 2.29.2
 
