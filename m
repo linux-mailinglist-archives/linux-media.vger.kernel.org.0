@@ -2,38 +2,30 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E22B2CA396
-	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 14:19:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E9C5B2CA3C0
+	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 14:26:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390810AbgLANS5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Dec 2020 08:18:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35034 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387931AbgLANS5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Dec 2020 08:18:57 -0500
-Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C50D5C0613D4
-        for <linux-media@vger.kernel.org>; Tue,  1 Dec 2020 05:18:16 -0800 (PST)
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 0995A538;
-        Tue,  1 Dec 2020 14:18:12 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1606828693;
-        bh=TekT+tX9N2wu1UEnQdwScZsgRUSKxsZRhllfuPz1hLQ=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=QPIj4VOXTORhhYjqLLiQ1c6PaX/PU/RNlcuqHmDnQSik6IfwqTpOIeboAA+sRjAP9
-         zWFN6cYFnmNsl8wadbkqBCwtfJJIFXF5yFQ/wHEMmhQ+nMwFgijtHCFZjECJRWH2ZU
-         sSrcGsON3nKsIYYCbmqnv5jzaqipjW/IAIl49wLA=
-Date:   Tue, 1 Dec 2020 15:18:04 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+        id S1726630AbgLANZX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Dec 2020 08:25:23 -0500
+Received: from relay3-d.mail.gandi.net ([217.70.183.195]:43923 "EHLO
+        relay3-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725977AbgLANZX (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Dec 2020 08:25:23 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay3-d.mail.gandi.net (Postfix) with ESMTPSA id 79B326001C;
+        Tue,  1 Dec 2020 13:24:38 +0000 (UTC)
+Date:   Tue, 1 Dec 2020 14:24:45 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
 To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        hverkuil@xs4all.nl, naush@raspberrypi.com,
-        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        naush@raspberrypi.com, dave.stevenson@raspberrypi.com,
+        laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com,
         niklas.soderlund@ragnatech.se, dafna.hirschfeld@collabora.com,
         nsaenzjulienne@suse.de, mchehab+huawei@kernel.org
 Subject: Re: [PATCH v4 0/5] media: staging: Add bcm2835-unicam driver
-Message-ID: <20201201131804.GF4569@pendragon.ideasonboard.com>
+Message-ID: <20201201132445.qxpf7k57zdm4mwvb@uno.localdomain>
 References: <20201110174036.220883-1-jacopo@jmondi.org>
  <20201201092605.kzqgsikpfsymn3cj@uno.localdomain>
  <20201201125713.GV4351@valkosipuli.retiisi.org.uk>
@@ -48,7 +40,11 @@ X-Mailing-List: linux-media@vger.kernel.org
 Hi Sakari,
 
 On Tue, Dec 01, 2020 at 02:57:13PM +0200, Sakari Ailus wrote:
+> Hi Jacopo,
+>
 > On Tue, Dec 01, 2020 at 10:26:05AM +0100, Jacopo Mondi wrote:
+> > Hi Hans, Sakari,
+> >
 > > On Tue, Nov 10, 2020 at 06:40:31PM +0100, Jacopo Mondi wrote:
 > > > Hello,
 > > >   new iteration following
@@ -141,24 +137,47 @@ On Tue, Dec 01, 2020 at 02:57:13PM +0200, Sakari Ailus wrote:
 > > >   From Dave's reply to Dafna's comments I get instead that for the existing
 > > >   applications ecosystem, having the metadata node not registered if the sensor
 > > >   does not support it is not an issue.
-> > 
+> >
 > > I think I've closed comments received on v3.
-> > 
+> >
 > > Do you think this series is ready for being collected ?
-> 
+>
 > I'll try to look into this later today / this week.
-> 
+>
+
+Thanks!
+
 > The problem with the approach appears, based on a quick glance, to be that
 > it creates an additional way (to the more generic approach in VC support
 > patchset) to support embedded data, including duplicated sensor driver
 > support. That appears as a dead end. But let me look into the details
 > first.
 
-I don't think there's a big disagreement on that, but merging the driver
-in staging may be a good way to get this fixed ? It will make it easier
-to collaborate.
+I know :(
 
--- 
-Regards,
+That's why the driver has been moved to staging, and that's
+why this last version only conditionally registers the additional video
+device for metadata based on the presence of the additional sensor's
+source pad. 'Regular' sensor driver will work as usual with this last
+version (ie. no additional 'unicam-embedded' video node gets
+registered to userspace).
 
-Laurent Pinchart
+We could either wait for support for VC to be finalized, but I'm not
+that hopeful this will happen any time soon, or alternatively we can
+merge a version without any support for metadata and have vendors
+maintain patches to re-add it. I fear this will limit the adoption of
+this driver as they will probably keep using whatever they have in
+their BSP (which kind of defeat the purpose of upstreaming it).
+
+There is one more controversial point: the MC/subdev kAPI duality.
+I've tried to outline both issues in a TODO file at the end of this
+series.
+
+Thanks
+   j
+
+>
+> --
+> Kind regards,
+>
+> Sakari Ailus
