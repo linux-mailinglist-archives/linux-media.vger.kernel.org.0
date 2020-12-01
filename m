@@ -2,446 +2,231 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E23232C9DB6
-	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 10:41:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A012F2C9EE4
+	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 11:15:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389280AbgLAJ0p (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Dec 2020 04:26:45 -0500
-Received: from relay6-d.mail.gandi.net ([217.70.183.198]:40115 "EHLO
-        relay6-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390662AbgLAJ0p (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Dec 2020 04:26:45 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay6-d.mail.gandi.net (Postfix) with ESMTPSA id 1AF93C0010;
-        Tue,  1 Dec 2020 09:25:58 +0000 (UTC)
-Date:   Tue, 1 Dec 2020 10:26:05 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
-        sakari.ailus@iki.fi
-Cc:     naush@raspberrypi.com, dave.stevenson@raspberrypi.com,
-        laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com,
-        niklas.soderlund@ragnatech.se, dafna.hirschfeld@collabora.com,
-        nsaenzjulienne@suse.de, mchehab+huawei@kernel.org
-Subject: Re: [PATCH v4 0/5] media: staging: Add bcm2835-unicam driver
-Message-ID: <20201201092605.kzqgsikpfsymn3cj@uno.localdomain>
-References: <20201110174036.220883-1-jacopo@jmondi.org>
+        id S1729741AbgLAKOm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Dec 2020 05:14:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33984 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729572AbgLAKOm (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Dec 2020 05:14:42 -0500
+Received: from mail-lf1-x144.google.com (mail-lf1-x144.google.com [IPv6:2a00:1450:4864:20::144])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 247A1C0613D3
+        for <linux-media@vger.kernel.org>; Tue,  1 Dec 2020 02:13:56 -0800 (PST)
+Received: by mail-lf1-x144.google.com with SMTP id r24so3017182lfm.8
+        for <linux-media@vger.kernel.org>; Tue, 01 Dec 2020 02:13:56 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EpTyVObyidZ7afZe2Xs7DnnCx9ZUD9L2PJpxRCgQy1Q=;
+        b=IQkH9IZFy0od+oQknsmtn3hLQBjVycftewD4WssFOmVU9SMKCDyZE0mnXDDgTjnPB0
+         th10nWKszbWiGbUp0dg9ew1raNVi0pTzeu8mMj09PX0VAPeKPYRPS3H6uEcCEa7GqoHE
+         s+vi6PLpngkTC8Lvh8o/AGse9LjOLGLz/Zu209gC42MeFDs9FEtEiX+mPM3Kk1iBSfMC
+         v2ygK5TSPigrQplLCeqTa7N2i+YG5oTAZXsjGUXmxIk0oa/1bzYGJ/AaNSR4/Sm16pS+
+         O/Jg1RXnzJP3Ek1BDMzxhhd9AfF3tYwK5XOiNIl9EoVj/Km0zU1m/PvKUsFrdghBi1eQ
+         0LZQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=EpTyVObyidZ7afZe2Xs7DnnCx9ZUD9L2PJpxRCgQy1Q=;
+        b=bgtZCUElr6ZV3+6LJQRkyAzpXRjA3qzPR7lKEegTDgZG3fZLi3fDTiT16VvBQtZ3tv
+         k6bfcpIPQKkARvZ4AhHM1A+HYShAfbD6rBodQOd0sTF8YMBXPHQ1WhLTYNZF4bWGP3ir
+         exfWSpUoToYIIk4muyDt3s6f1Csg4N8SKCugPYuxTmJOu9a0mV1Bpu/bsqqmTj02vXVk
+         WySbJm/qmcSwdzZ2h11O8JxuTobp22VVKES7EPP2/Ej5acHts41v26S0q5XcmvWK0rfc
+         cOp0q6ckCmbqnVpq+MZJYE1ZtscOfeqfDEKkgKpVcwP+9Nvr+EIdlxkrcbYlc2n5kEcK
+         klSw==
+X-Gm-Message-State: AOAM5305QB5ybhOupIsqOT8hpB3XqJDuSO5ANqr/r5InYDGB8Dw6XbL9
+        JX3PdtZyDrAdNMYz+nCLfGneJw==
+X-Google-Smtp-Source: ABdhPJxjWhIfTnswlk7jEvjzsccOqgYgmAk/RQdgUEbNmFrA+TVRdzgA1LYCwcT4oTFNwcmy1aTOnA==
+X-Received: by 2002:a05:6512:3054:: with SMTP id b20mr927260lfb.45.1606817634498;
+        Tue, 01 Dec 2020 02:13:54 -0800 (PST)
+Received: from localhost.bredbandsbolaget (c-92d7225c.014-348-6c756e10.bbcust.telenor.se. [92.34.215.146])
+        by smtp.gmail.com with ESMTPSA id z20sm151495ljh.86.2020.12.01.02.13.53
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Dec 2020 02:13:53 -0800 (PST)
+From:   Linus Walleij <linus.walleij@linaro.org>
+To:     Jacek Anaszewski <jacek.anaszewski@gmail.com>,
+        Pavel Machek <pavel@ucw.cz>, Dan Murphy <dmurphy@ti.com>
+Cc:     linux-leds@vger.kernel.org,
+        Linus Walleij <linus.walleij@linaro.org>,
+        Sakari Ailus <sakari.ailus@iki.fi>, newbytee@protonmail.com,
+        Stephan Gerhold <stephan@gerhold.net>,
+        phone-devel@vger.kernel.org, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>
+Subject: [PATCH 1/2 v7] dt-bindings: leds: Add DT binding for Richtek RT8515
+Date:   Tue,  1 Dec 2020 11:13:49 +0100
+Message-Id: <20201201101350.1401956-1-linus.walleij@linaro.org>
+X-Mailer: git-send-email 2.26.2
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201110174036.220883-1-jacopo@jmondi.org>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Hans, Sakari,
+Add a YAML devicetree binding for the Richtek RT8515
+dual channel flash/torch LED driver.
 
-On Tue, Nov 10, 2020 at 06:40:31PM +0100, Jacopo Mondi wrote:
-> Hello,
->   new iteration following
-> v3: https://patchwork.linuxtv.org/project/linux-media/list/?series=3768
->
-> Major changelog:
-> - Use v4l2_dev.release and drop manual ref-counting as suggested by Dafna
-> - Address Hans' comments on queue setup and metadata format handling function
-> - s/MEDIA_BUS_FMT_SENSOR_DATA/MEDIA_BUS_FMT_CUSTOM_SENSOR_DATA as suggested by
->   Hans and rebase on Dafna's fixed metadata format patch
-> - Add a TODO file to explain why the driver is in staging.
-> - Conditionally register the unicam-embedded video device node on the presence
->   of the sensor's metadata source pad.
->
->   The media graph, when connected to a sensor that does not report metadata
->   looks like:
->
-> 	Media controller API version 5.10.0
->
-> 	Media device information
-> 	------------------------
-> 	driver          unicam
-> 	model           unicam
-> 	serial
-> 	bus info        platform:fe801000.csi
-> 	hw revision     0x0
-> 	driver version  5.10.0
->
-> 	Device topology
-> 	- entity 1: ov5647 10-0036 (1 pad, 1 link)
-> 		    type V4L2 subdev subtype Sensor flags 0
-> 		    device node name /dev/v4l-subdev0
-> 		pad0: Source
-> 			[fmt:SBGGR10_1X10/640x480 field:none colorspace:srgb
-> 			 crop.bounds:(16,16)/2592x1944
-> 			 crop:(32,16)/2560x1920]
-> 			-> "unicam-image":0 [ENABLED,IMMUTABLE]
->
-> 	- entity 3: unicam-image (1 pad, 1 link)
-> 		    type Node subtype V4L flags 1
-> 		    device node name /dev/video0
-> 		pad0: Sink
-> 			<- "ov5647 10-0036":0 [ENABLED,IMMUTABLE]
->
->
->   If the sensor reports an additional metadata pad:
->
-> 	Media controller API version 5.10.0
->
-> 	Media device information
-> 	------------------------
-> 	driver          unicam
-> 	model           unicam
-> 	serial
-> 	bus info        platform:fe801000.csi
-> 	hw revision     0x0
-> 	driver version  5.10.0
->
-> 	Device topology
-> 	- entity 1: imx219 10-0010 (2 pads, 2 links)
-> 		    type V4L2 subdev subtype Sensor flags 0
-> 		    device node name /dev/v4l-subdev0
-> 		pad0: Source
-> 			[fmt:SRGGB10_1X10/3280x2464 field:none colorspace:srgb xfer:srgb ycbcr:601 quantization:full-range
-> 			 crop:(0,0)/3280x2464]
-> 			-> "unicam-image":0 [ENABLED,IMMUTABLE]
-> 		pad1: Source
-> 			[fmt:unknown/16384x1 field:none
-> 			 crop:(0,0)/3280x2464]
-> 			-> "unicam-embedded":0 [ENABLED,IMMUTABLE]
->
-> 	- entity 4: unicam-image (1 pad, 1 link)
-> 		    type Node subtype V4L flags 1
-> 		    device node name /dev/video0
-> 		pad0: Sink
-> 			<- "imx219 10-0010":0 [ENABLED,IMMUTABLE]
->
-> 	- entity 10: unicam-embedded (1 pad, 1 link)
-> 		     type Node subtype V4L flags 0
-> 		     device node name /dev/video1
-> 		pad0: Sink
-> 			<- "imx219 10-0010":1 [ENABLED,IMMUTABLE]
->
->   Conditionally registering the metadata video node allows to simplify the
->   code in the driver as well, removing the 'sensor_embedded_data' flag.
->
->   An additional note: this version will break the libcamera pipeline handler
->   which assume the unicam-embedded video device node to always be there.
->
->   From Dave's reply to Dafna's comments I get instead that for the existing
->   applications ecosystem, having the metadata node not registered if the sensor
->   does not support it is not an issue.
+Cc: Sakari Ailus <sakari.ailus@iki.fi>
+Cc: newbytee@protonmail.com
+Cc: Stephan Gerhold <stephan@gerhold.net>
+Cc: phone-devel@vger.kernel.org
+Cc: linux-media@vger.kernel.org
+Cc: devicetree@vger.kernel.org
+Reviewed-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+Signed-off-by: Linus Walleij <linus.walleij@linaro.org>
+---
+ChangeLog v6->v7:
+- Use led-max-microamp for the torch mode max current.
+- Drop the torch-specific new property from common.yaml in
+  favor of this property.
+- Collect Sakari's review tag.
+ChangeLog v5->v6:
+- Use the suffix -ohms for the resistor values as this gets
+  recognized by default by dtschema and is nominal.
+ChangeLog v4->v5:
+- Fix the RFS/RTS resistors to reference the u32 schema.
+- Fix resisitor speling error.
+ChangeLog v3->v4:
+- Add DT attributes for the RFS and RTS resistors, so that
+  the hardware-defined maximum current can be determined.
+- Add torch-max-microamp to the common bindings so we can
+  set an attribute for the max microamp in torch mode.
+- Add flash-max-microamp and torch-max-microamp as optional
+  to the LED node.
+- Slot in some elabortative descriptions of the new
+  properties and describe what the hardware is doing.
+- Cc phone-devel@vger.kernel.org
+ChangeLog v2->v3:
+- Add Sakari to CC
+- Resend
+ChangeLog v1->v2:
+- Explicitly inherit function, color and flash-max-timeout-us
+  from common.yaml
+- Add "led" node as required.
+---
+ .../bindings/leds/richtek,rt8515.yaml         | 109 ++++++++++++++++++
+ 1 file changed, 109 insertions(+)
+ create mode 100644 Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
 
-I think I've closed comments received on v3.
+diff --git a/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml b/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
+new file mode 100644
+index 000000000000..3190e4fcfdf2
+--- /dev/null
++++ b/Documentation/devicetree/bindings/leds/richtek,rt8515.yaml
+@@ -0,0 +1,109 @@
++# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/leds/richtek,rt8515.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: Richtek RT8515 1.5A dual channel LED driver
++
++maintainers:
++  - Linus Walleij <linus.walleij@linaro.org>
++
++description: |
++  The Richtek RT8515 is a dual channel (two mode) LED driver that
++  supports driving a white LED in flash or torch mode. The maximum
++  current for each mode is defined in hardware using two resistors
++  RFS and RTS.
++
++properties:
++  compatible:
++    const: richtek,rt8515
++
++  enf-gpios:
++    maxItems: 1
++    description: A connection to the 'ENF' (enable flash) pin.
++
++  ent-gpios:
++    maxItems: 1
++    description: A connection to the 'ENT' (enable torch) pin.
++
++  richtek,rfs-ohms:
++    minimum: 7680
++    maximum: 367000
++    description: The resistance value of the RFS resistor. This
++      resistors limits the maximum flash current. This must be set
++      for the property flash-max-microamp to work, the RFS resistor
++      defines the range of the dimmer setting (brightness) of the
++      flash LED.
++
++  richtek,rts-ohms:
++    minimum: 7680
++    maximum: 367000
++    description: The resistance value of the RTS resistor. This
++      resistors limits the maximum torch current. This must be set
++      for the property torch-max-microamp to work, the RTS resistor
++      defines the range of the dimmer setting (brightness) of the
++      torch LED.
++
++  led:
++    type: object
++    $ref: common.yaml#
++    properties:
++      function: true
++      color: true
++      flash-max-timeout-us: true
++
++      flash-max-microamp:
++        maximum: 700000
++        description: The maximum current for flash mode
++          is hardwired to the component using the RFS resistor to
++          ground. The maximum hardware current setting is calculated
++          according to the formula Imax = 5500 / RFS. The lowest
++          allowed resistance value is 7.86 kOhm giving an absolute
++          maximum current of 700mA. By setting this attribute in
++          the device tree, you can further restrict the maximum
++          current below the hardware limit. This requires the RFS
++          to be defined as it defines the maximum range.
++
++      led-max-microamp:
++        maximum: 700000
++        description: The maximum current for torch mode
++          is hardwired to the component using the RTS resistor to
++          ground. The maximum hardware current setting is calculated
++          according to the formula Imax = 5500 / RTS. The lowest
++          allowed resistance value is 7.86 kOhm giving an absolute
++          maximum current of 700mA. By setting this attribute in
++          the device tree, you can further restrict the maximum
++          current below the hardware limit. This requires the RTS
++          to be defined as it defines the maximum range.
++
++required:
++  - compatible
++  - ent-gpios
++  - enf-gpios
++  - led
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/gpio/gpio.h>
++    #include <dt-bindings/leds/common.h>
++
++    led-controller {
++        compatible = "richtek,rt8515";
++        enf-gpios = <&gpio4 12 GPIO_ACTIVE_HIGH>;
++        ent-gpios = <&gpio4 13 GPIO_ACTIVE_HIGH>;
++        richtek,rfs-ohms = <16000>;
++        richtek,rts-ohms = <100000>;
++
++        led {
++            function = LED_FUNCTION_FLASH;
++            color = <LED_COLOR_ID_WHITE>;
++            flash-max-timeout-us = <250000>;
++            flash-max-microamp = <150000>;
++            torch-max-microamp = <25000>;
++        };
++    };
++
++...
+-- 
+2.26.2
 
-Do you think this series is ready for being collected ?
-
-Thanks
-  j
-
->
-> The v4l2-compliance output is reported below, with one test failing, again
-> on the selection API, and again I'm not sure about the root cause. Seems like
-> the compliance tool complains because a list of discrete formats is reported and
-> the selection APIs are supported at the same time. Seems unlikely though.
->
-> -------------------------------------------------------------------------------
-> v4l2-compliance 1.21.0-4679, 32 bits, 32-bit time_t
-> v4l2-compliance SHA: 225c6c2a17be 2020-10-30 15:13:07
->
-> Compliance test for unicam device /dev/media0:
->
-> Media Driver Info:
-> 	Driver name      : unicam
-> 	Model            : unicam
-> 	Serial           :
-> 	Bus info         : platform:fe801000.csi
-> 	Media version    : 5.10.0
-> 	Hardware revision: 0x00000000 (0)
-> 	Driver version   : 5.10.0
->
-> Required ioctls:
-> 	test MEDIA_IOC_DEVICE_INFO: OK
->
-> Allow for multiple opens:
-> 	test second /dev/media0 open: OK
-> 	test MEDIA_IOC_DEVICE_INFO: OK
-> 	test for unlimited opens: OK
->
-> Media Controller ioctls:
-> 	test MEDIA_IOC_G_TOPOLOGY: OK
-> 	Entities: 2 Interfaces: 2 Pads: 2 Links: 3
-> 	test MEDIA_IOC_ENUM_ENTITIES/LINKS: OK
-> 	test MEDIA_IOC_SETUP_LINK: OK
-> 	test invalid ioctls: OK
->
-> Total for unicam device /dev/media0: 8, Succeeded: 8, Failed: 0, Warnings: 0
-> --------------------------------------------------------------------------------
-> Compliance test for unicam device /dev/video0:
->
-> Driver Info:
-> 	Driver name      : unicam
-> 	Card type        : unicam
-> 	Bus info         : platform:fe801000.csi
-> 	Driver version   : 5.10.0
-> 	Capabilities     : 0x85a00001
-> 		Video Capture
-> 		Metadata Capture
-> 		Read/Write
-> 		Streaming
-> 		Extended Pix Format
-> 		Device Capabilities
-> 	Device Caps      : 0x05200001
-> 		Video Capture
-> 		Read/Write
-> 		Streaming
-> 		Extended Pix Format
-> Media Driver Info:
-> 	Driver name      : unicam
-> 	Model            : unicam
-> 	Serial           :
-> 	Bus info         : platform:fe801000.csi
-> 	Media version    : 5.10.0
-> 	Hardware revision: 0x00000000 (0)
-> 	Driver version   : 5.10.0
-> Interface Info:
-> 	ID               : 0x03000005
-> 	Type             : V4L Video
-> Entity Info:
-> 	ID               : 0x00000003 (3)
-> 	Name             : unicam-image
-> 	Function         : V4L2 I/O
-> 	Flags         : default
-> 	Pad 0x01000004   : 0: Sink
-> 	  Link 0x02000007: from remote pad 0x1000002 of entity 'ov5647 10-0036': Data, Enabled, Immutable
->
-> Required ioctls:
-> 	test MC information (see 'Media Driver Info' above): OK
-> 	test VIDIOC_QUERYCAP: OK
->
-> Allow for multiple opens:
-> 	test second /dev/video0 open: OK
-> 	test VIDIOC_QUERYCAP: OK
-> 	test VIDIOC_G/S_PRIORITY: OK
-> 	test for unlimited opens: OK
->
-> 	test invalid ioctls: OK
-> Debug ioctls:
-> 	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-> 	test VIDIOC_LOG_STATUS: OK
->
-> Input ioctls:
-> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMINPUT: OK
-> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> 	Inputs: 1 Audio Inputs: 0 Tuners: 0
->
-> Output ioctls:
-> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
->
-> Input/Output configuration ioctls:
-> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-> 	test VIDIOC_G/S_EDID: OK (Not Supported)
->
-> Control ioctls (Input 0):
-> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-> 	test VIDIOC_QUERYCTRL: OK
-> 	test VIDIOC_G/S_CTRL: OK
-> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> 	Standard Controls: 12 Private Controls: 0
->
-> Format ioctls (Input 0):
-> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-> 	test VIDIOC_G/S_PARM: OK (Not Supported)
-> 	test VIDIOC_G_FBUF: OK (Not Supported)
-> 	test VIDIOC_G_FMT: OK
-> 	test VIDIOC_TRY_FMT: OK
-> 	test VIDIOC_S_FMT: OK
-> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> 		fail: v4l2-test-formats.cpp(1505): node->frmsizes_count[pixfmt] > 1
-> 	test Cropping: FAIL
-> 	test Composing: OK (Not Supported)
-> 	test Scaling: OK (Not Supported)
->
-> Codec ioctls (Input 0):
-> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> 	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
->
-> Buffer ioctls (Input 0):
-> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-> 	test VIDIOC_EXPBUF: OK
-> 	test Requests: OK (Not Supported)
->
-> Test input 0:
->
-> Streaming ioctls:
-> 	test read/write: OK
-> 	test blocking wait: OK
-> 	test MMAP (no poll): OK
-> 	test MMAP (select): OK
-> 	test MMAP (epoll): OK
-> 	test USERPTR (no poll): OK (Not Supported)
-> 	test USERPTR (select): OK (Not Supported)
-> 	test DMABUF: Cannot test, specify --expbuf-device
->
-> Stream using all formats:
-> 	test MMAP for Format pBAA, Frame Size 2592x1944:
-> 		Crop 2592x1944@16x16, Stride 3264, Field None: OK
-> 		Crop 2592x1944@16x16, Stride 3328, Field None: OK
-> 	test MMAP for Format pBAA, Frame Size 1920x1080:
-> 		Crop 1928x1080@364x450, Stride 2400, Field None: OK
-> 		Crop 1928x1080@364x450, Stride 2464, Field None: OK
-> 	test MMAP for Format pBAA, Frame Size 1296x972:
-> 		Crop 2592x1944@16x16, Stride 1632, Field None: OK
-> 		Crop 2592x1944@16x16, Stride 1696, Field None: OK
-> 	test MMAP for Format pBAA, Frame Size 640x480:
-> 		Crop 2560x1920@32x16, Stride 800, Field None: OK
-> 		Crop 2560x1920@32x16, Stride 864, Field None: OK
-> 	test MMAP for Format BG10, Frame Size 2592x1944:
-> 		Crop 2592x1944@16x16, Stride 5184, Field None: OK
-> 		Crop 2592x1944@16x16, Stride 5248, Field None: OK
-> 	test MMAP for Format BG10, Frame Size 1920x1080:
-> 		Crop 1928x1080@364x450, Stride 3840, Field None: OK
-> 		Crop 1928x1080@364x450, Stride 3904, Field None: OK
-> 	test MMAP for Format BG10, Frame Size 1296x972:
-> 		Crop 2592x1944@16x16, Stride 2592, Field None: OK
-> 		Crop 2592x1944@16x16, Stride 2656, Field None: OK
-> 	test MMAP for Format BG10, Frame Size 640x480:
-> 		Crop 2560x1920@32x16, Stride 1280, Field None: OK
-> 		Crop 2560x1920@32x16, Stride 1344, Field None: OK
-> Total for unicam device /dev/video0: 69, Succeeded: 68, Failed: 1, Warnings: 0
-> --------------------------------------------------------------------------------
-> Compliance test for device /dev/v4l-subdev0:
->
->
-> Required ioctls:
->
-> Allow for multiple opens:
-> 	test second /dev/v4l-subdev0 open: OK
-> 	test for unlimited opens: OK
->
-> 	test invalid ioctls: OK
-> Debug ioctls:
-> 	test VIDIOC_LOG_STATUS: OK (Not Supported)
->
-> Input ioctls:
-> 	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-> 	Inputs: 0 Audio Inputs: 0 Tuners: 0
->
-> Output ioctls:
-> 	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-> 	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-> 	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-> 	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-> 	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-> 	Outputs: 0 Audio Outputs: 0 Modulators: 0
->
-> Input/Output configuration ioctls:
-> 	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-> 	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-> 	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-> 	test VIDIOC_G/S_EDID: OK (Not Supported)
->
-> Control ioctls:
-> 	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
-> 	test VIDIOC_QUERYCTRL: OK
-> 	test VIDIOC_G/S_CTRL: OK
-> 	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
-> 	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
-> 	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-> 	Standard Controls: 12 Private Controls: 0
->
-> Format ioctls:
-> 	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK (Not Supported)
-> 	test VIDIOC_G/S_PARM: OK (Not Supported)
-> 	test VIDIOC_G_FBUF: OK (Not Supported)
-> 	test VIDIOC_G_FMT: OK (Not Supported)
-> 	test VIDIOC_TRY_FMT: OK (Not Supported)
-> 	test VIDIOC_S_FMT: OK (Not Supported)
-> 	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-> 	test Cropping: OK (Not Supported)
-> 	test Composing: OK (Not Supported)
-> 	test Scaling: OK (Not Supported)
->
-> Codec ioctls:
-> 	test VIDIOC_(TRY_)ENCODER_CMD: OK (Not Supported)
-> 	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-> 	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
->
-> Buffer ioctls:
-> 	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK (Not Supported)
-> 	test VIDIOC_EXPBUF: OK (Not Supported)
-> 	test Requests: OK (Not Supported)
->
-> Total for device /dev/v4l-subdev0: 41, Succeeded: 41, Failed: 0, Warnings: 0
->
-> Grand Total for unicam device /dev/media0: 118, Succeeded: 117, Failed: 1, Warnings: 0
-> -------------------------------------------------------------------------------
->
-> Tested by capturing frames from RPi Camera Module v1 (ov5647) and v2 (imx219)
-> in 10-bit formats and 8-bit formats (imx219 only).
->
-> Image are captured in a format I cannot inspect (raw2rgbpnm and 7yuv do not
-> support the sensor's Bayern pattern), but I can spot shapes when converting to
-> a format with a different pattern permutation, so I assume data is there.
->
-> Thanks
->   j
->
-> Dave Stevenson (1):
->   dt-bindings: media: Document BCM283x CSI2/CCP2 receiver
->
-> Jacopo Mondi (1):
->   media: bcm2835-unicam: Add TODO file
->
-> Laurent Pinchart (1):
->   ARM: dts: bcm2711: Add Unicam DT nodes
->
-> Naushir Patuck (2):
->   media: uapi: Add MEDIA_BUS_FMT_CUSTOM_SENSOR_DATA
->   media: bcm2835-unicam: Driver for CCP2/CSI2 camera interface
->
->  .../bindings/media/brcm,bcm2835-unicam.yaml   |  155 +
->  .../userspace-api/media/v4l/meta-formats.rst  |    1 +
->  .../media/v4l/pixfmt-meta-sensor-data.rst     |   24 +
->  .../media/v4l/subdev-formats.rst              |   29 +
->  MAINTAINERS                                   |    7 +
->  arch/arm/boot/dts/bcm2711.dtsi                |   41 +
->  drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
->  drivers/staging/media/Kconfig                 |    2 +
->  drivers/staging/media/Makefile                |    1 +
->  drivers/staging/media/bcm2835-unicam/Kconfig  |   21 +
->  drivers/staging/media/bcm2835-unicam/Makefile |    3 +
->  drivers/staging/media/bcm2835-unicam/TODO     |   37 +
->  .../media/bcm2835-unicam/bcm2835-unicam.c     | 2750 +++++++++++++++++
->  .../media/bcm2835-unicam/vc4-regs-unicam.h    |  253 ++
->  include/uapi/linux/media-bus-format.h         |    3 +
->  include/uapi/linux/videodev2.h                |    1 +
->  16 files changed, 3329 insertions(+)
->  create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
->  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
->  create mode 100644 drivers/staging/media/bcm2835-unicam/Kconfig
->  create mode 100644 drivers/staging/media/bcm2835-unicam/Makefile
->  create mode 100644 drivers/staging/media/bcm2835-unicam/TODO
->  create mode 100644 drivers/staging/media/bcm2835-unicam/bcm2835-unicam.c
->  create mode 100644 drivers/staging/media/bcm2835-unicam/vc4-regs-unicam.h
->
-> --
-> 2.29.1
->
