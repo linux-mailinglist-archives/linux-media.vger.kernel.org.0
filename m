@@ -2,109 +2,147 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2926A2CA304
-	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 13:46:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B0EB02CA303
+	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 13:46:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387480AbgLAMpf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Dec 2020 07:45:35 -0500
-Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:40633 "EHLO
+        id S1730126AbgLAMpe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Dec 2020 07:45:34 -0500
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:45353 "EHLO
         lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728790AbgLAMpe (ORCPT
+        by vger.kernel.org with ESMTP id S1728570AbgLAMpe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Tue, 1 Dec 2020 07:45:34 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id k51SkssSADuFjk51Xk2RYb; Tue, 01 Dec 2020 13:44:51 +0100
+        id k51SkssSADuFjk51Xk2RYn; Tue, 01 Dec 2020 13:44:51 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606826691; bh=yaK72aXZCzXgohnr5ja0NWya+CJblYdNgX23+aCm0kA=;
+        t=1606826691; bh=U8mWCSYP2Eq4lCnjfIsVMvB2loExRhRj4TBhggJVWEY=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=jyFRDw85teQ02+eQhrcheM7Q3508qHfUQuWDoX8M3Q/elteg97motY82WX46EPYkq
-         s3V54YNrm4uoxX+UwSysZVHMA/c/aOlKrPAMFAeltHKHHETmyGnVa00MLiNUgx/VYN
-         cPb7D9MYLLfzRNW2kFPdVKgrRlAOAGKZxdzMU9U49JkAiW/yR3z0KzdTN9VxWB1+yN
-         23U67SWl/6Jbygg/rPVXtL9eoYV9HGhOZIFnAuhQEiQqPHsLs/i7SBApYSIgcUDM4v
-         YgHUlqAV1XUi7fBi0VyWWzDs6mmH1o2DKvnX3H7zXv/Z7SYIA/Nw+vYzR+Jjh28Qe5
-         ekbIeuHlVl7wQ==
+        b=aRuEK3Cg2nyhQ7GYGxcjbNkbErQ+PS24SXLY97C0iH8JED9RJCUKZoqUguXXKdiNt
+         g9MRZl43HKj5v6Rv71/KkKc1o/VAIcLJTBnia3hBj4UXlBG+CNoaHaiKDOwTLs8IsR
+         s3E/4dsPsZc3uiJ6ecoIT0tE1n2vCjJ5gUFUOGfp6ZibRjYHkFMzut7TCkwhr0bBXA
+         74R46y7+tF+4qIEbuoMJmYGwi8P5SIF+q2PVLQtk5uCsIe3YEEs5JytNFm2ILfi7AI
+         JE3bRZJXwGcxSiCM1c1e2zD/gvUvVaHteUKgvSpESeLeVRaA7p4yfMsMMMvVgM74sc
+         EY8Zdf722ZF/w==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Alexandre Courbot <gnurou@gmail.com>,
         Tomasz Figa <tfiga@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>
-Subject: [PATCHv3 3/7] media: v4l2-mem2mem: always call poll_wait() on queues
-Date:   Tue,  1 Dec 2020 13:44:42 +0100
-Message-Id: <20201201124446.448595-4-hverkuil-cisco@xs4all.nl>
+        Marek Szyprowski <m.szyprowski@samsung.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv3 4/7] v4l2-dev/event: add v4l2_event_wake_all()
+Date:   Tue,  1 Dec 2020 13:44:43 +0100
+Message-Id: <20201201124446.448595-5-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201201124446.448595-1-hverkuil-cisco@xs4all.nl>
 References: <20201201124446.448595-1-hverkuil-cisco@xs4all.nl>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 X-CMAE-Envelope: MS4xfEbbHtBtxZMg25ky9HguRnroC3luigL0X3xjmVl4YcEzAC4cF8zkGuoLHem70fyJetudArdmqSFaOjSG3F1c3boTMJIp10+2Z3Tv1K3d+QorJtFvji5A
- 3rvHhZZTNh/UBzA0H62Vwq3RpvnXjrmfRFH6izGW5hR6qwAzJVmeDdkaMDdBDRrKH730cfzU7uh5GTd05hyx4yUwSZzQKnNw7SMBcI9a1bvAAMfoiL3OgdVy
- KOEVOj1M54FOx7LzFy3nZlkf9z1CftOh0jhDkTcDBu/jME171E/b8ZAOGza0/MVu
+ 3rvHhZZTNh/UB8vbRgFoIZyK1Nc/yLr8zJ2dwr3J9h6I8+v2a79tvM19hHNzjGNo3BrVsTClsc0i9OSYI1MBsFLVZMEjXqNxG6XhiMiZGuQytTPQWa/o9NrM
+ edPmE+vGANYx6lv8z1TLuVoKsOZIsJKGRlOlpxtQrSMD6eAze0uVrOrcvVREwdcOpyDQ6KDjZ8RoD6G+b1jEQEO/czQX1ts1ltowKUFp7TA=
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Alexandre Courbot <gnurou@gmail.com>
+When unregistering a V4L2 device node, make sure any filehandles
+that are waiting for an event are woken up.
 
-do_poll()/do_select() seem to set the _qproc member of poll_table to
-NULL the first time they are called on a given table, making subsequent
-calls of poll_wait() on that table no-ops. This is a problem for mem2mem
-which calls poll_wait() on the V4L2 queues' waitqueues only when a
-queue-related event is requested, which may not necessarily be the case
-during the first poll.
+Add v4l2_event_wake_all() to v4l2-event.c and call it from
+video_unregister_device().
 
-For instance, a stateful decoder is typically only interested in
-EPOLLPRI events when it starts, and will switch to listening to both
-EPOLLPRI and EPOLLIN after receiving the initial resolution change event
-and configuring the CAPTURE queue. However by the time that switch
-happens and v4l2_m2m_poll_for_data() is called for the first time,
-poll_wait() has become a no-op and the V4L2 queues waitqueues thus
-cannot be registered.
+Otherwise userspace might never know that a device node was removed.
 
-Fix this by moving the registration to v4l2_m2m_poll() and do it whether
-or not one of the queue-related events are requested.
-
-Signed-off-by: Alexandre Courbot <gnurou@gmail.com>
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-mem2mem.c | 15 ++++++++++++---
- 1 file changed, 12 insertions(+), 3 deletions(-)
+ drivers/media/v4l2-core/v4l2-dev.c   |  3 +++
+ drivers/media/v4l2-core/v4l2-event.c | 17 +++++++++++++++++
+ include/media/v4l2-event.h           | 13 +++++++++++--
+ 3 files changed, 31 insertions(+), 2 deletions(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-mem2mem.c b/drivers/media/v4l2-core/v4l2-mem2mem.c
-index b221b4e438a1..e7f4bf5bc8dd 100644
---- a/drivers/media/v4l2-core/v4l2-mem2mem.c
-+++ b/drivers/media/v4l2-core/v4l2-mem2mem.c
-@@ -887,9 +887,6 @@ static __poll_t v4l2_m2m_poll_for_data(struct file *file,
- 	src_q = v4l2_m2m_get_src_vq(m2m_ctx);
- 	dst_q = v4l2_m2m_get_dst_vq(m2m_ctx);
+diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
+index a593ea0598b5..0ddc3554f1a4 100644
+--- a/drivers/media/v4l2-core/v4l2-dev.c
++++ b/drivers/media/v4l2-core/v4l2-dev.c
+@@ -28,6 +28,7 @@
+ #include <media/v4l2-common.h>
+ #include <media/v4l2-device.h>
+ #include <media/v4l2-ioctl.h>
++#include <media/v4l2-event.h>
  
--	poll_wait(file, &src_q->done_wq, wait);
--	poll_wait(file, &dst_q->done_wq, wait);
--
- 	/*
- 	 * There has to be at least one buffer queued on each queued_list, which
- 	 * means either in driver already or waiting for driver to claim it
-@@ -922,9 +919,21 @@ __poll_t v4l2_m2m_poll(struct file *file, struct v4l2_m2m_ctx *m2m_ctx,
- 		       struct poll_table_struct *wait)
- {
- 	struct video_device *vfd = video_devdata(file);
-+	struct vb2_queue *src_q = v4l2_m2m_get_src_vq(m2m_ctx);
-+	struct vb2_queue *dst_q = v4l2_m2m_get_dst_vq(m2m_ctx);
- 	__poll_t req_events = poll_requested_events(wait);
- 	__poll_t rc = 0;
+ #define VIDEO_NUM_DEVICES	256
+ #define VIDEO_NAME              "video4linux"
+@@ -1086,6 +1087,8 @@ void video_unregister_device(struct video_device *vdev)
+ 	 */
+ 	clear_bit(V4L2_FL_REGISTERED, &vdev->flags);
+ 	mutex_unlock(&videodev_lock);
++	if (test_bit(V4L2_FL_USES_V4L2_FH, &vdev->flags))
++		v4l2_event_wake_all(vdev);
+ 	device_unregister(&vdev->dev);
+ }
+ EXPORT_SYMBOL(video_unregister_device);
+diff --git a/drivers/media/v4l2-core/v4l2-event.c b/drivers/media/v4l2-core/v4l2-event.c
+index 290c6b213179..207a9ad80ea2 100644
+--- a/drivers/media/v4l2-core/v4l2-event.c
++++ b/drivers/media/v4l2-core/v4l2-event.c
+@@ -187,6 +187,23 @@ int v4l2_event_pending(struct v4l2_fh *fh)
+ }
+ EXPORT_SYMBOL_GPL(v4l2_event_pending);
  
-+	/*
-+	 * poll_wait() MUST be called on the first invocation on all the
-+	 * potential queues of interest, even if we are not interested in their
-+	 * events during this first call. Failure to do so will result in
-+	 * queue's events to be ignored because the poll_table won't be capable
-+	 * of adding new wait queues thereafter.
-+	 */
-+	poll_wait(file, &src_q->done_wq, wait);
-+	poll_wait(file, &dst_q->done_wq, wait);
++void v4l2_event_wake_all(struct video_device *vdev)
++{
++	struct v4l2_fh *fh;
++	unsigned long flags;
 +
- 	if (req_events & (EPOLLOUT | EPOLLWRNORM | EPOLLIN | EPOLLRDNORM))
- 		rc = v4l2_m2m_poll_for_data(file, m2m_ctx, wait);
++	if (vdev == NULL)
++		return;
++
++	spin_lock_irqsave(&vdev->fh_lock, flags);
++
++	list_for_each_entry(fh, &vdev->fh_list, list)
++		wake_up_all(&fh->wait);
++
++	spin_unlock_irqrestore(&vdev->fh_lock, flags);
++}
++EXPORT_SYMBOL_GPL(v4l2_event_wake_all);
++
+ static void __v4l2_event_unsubscribe(struct v4l2_subscribed_event *sev)
+ {
+ 	struct v4l2_fh *fh = sev->fh;
+diff --git a/include/media/v4l2-event.h b/include/media/v4l2-event.h
+index 3f0281d06ec7..4ffa914ade3a 100644
+--- a/include/media/v4l2-event.h
++++ b/include/media/v4l2-event.h
+@@ -101,7 +101,7 @@ int v4l2_event_dequeue(struct v4l2_fh *fh, struct v4l2_event *event,
+  *
+  * .. note::
+  *    The driver's only responsibility is to fill in the type and the data
+- *    fields.The other fields will be filled in by  V4L2.
++ *    fields. The other fields will be filled in by V4L2.
+  */
+ void v4l2_event_queue(struct video_device *vdev, const struct v4l2_event *ev);
  
+@@ -116,10 +116,19 @@ void v4l2_event_queue(struct video_device *vdev, const struct v4l2_event *ev);
+  *
+  * .. note::
+  *    The driver's only responsibility is to fill in the type and the data
+- *    fields.The other fields will be filled in by  V4L2.
++ *    fields. The other fields will be filled in by V4L2.
+  */
+ void v4l2_event_queue_fh(struct v4l2_fh *fh, const struct v4l2_event *ev);
+ 
++/**
++ * v4l2_event_wake_all - Wake all filehandles.
++ *
++ * Used when unregistering a video device.
++ *
++ * @vdev: pointer to &struct video_device
++ */
++void v4l2_event_wake_all(struct video_device *vdev);
++
+ /**
+  * v4l2_event_pending - Check if an event is available
+  *
 -- 
 2.29.2
 
