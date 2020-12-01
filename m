@@ -2,232 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4633F2C98EC
-	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 09:15:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 10B902C98F0
+	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 09:15:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728604AbgLAIOp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Dec 2020 03:14:45 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:43702 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727614AbgLAIOp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Dec 2020 03:14:45 -0500
-Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A91ACC0613CF;
-        Tue,  1 Dec 2020 00:13:58 -0800 (PST)
-Received: by mail-wr1-x444.google.com with SMTP id i2so1222578wrs.4;
-        Tue, 01 Dec 2020 00:13:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=masMbzOuv1i3EjLVzjUj5pmXGx6KgBwTElZ8gmcjJ2g=;
-        b=tRKmuNRqD+GylV+WtOEL1U97ErHka7EYII61/sc8QbvW78gCgo9voRoDuEJchsUnMG
-         q6dQTwUN9oW7h/AXDYtXkyaHLMkNfWi7ESi0/hVkNPbIo+AN/y10ak5PSfGMNnSrhmSd
-         3hPvEtcdw9B3qUolhnETzidlrB0fMTiLk1XaCa8h5wcun3o5T/cAQa4EKWDbeyrlPXQS
-         sbDk4afXKuCThjIo56qIikHgLZdXtRomofqftqQLBvXRAJyqZbzLmTqWbk0/5RVKBmEv
-         oinjB/ldPsvo1tdG2XpE+PKZOqsNIS45WRDR/nDquPqV8mpLE8+uYqOqyLxCqOYtS0yU
-         HMQg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=masMbzOuv1i3EjLVzjUj5pmXGx6KgBwTElZ8gmcjJ2g=;
-        b=TmDNEPolHyw7v2evMiBDYq4T1OAuyiQVQQlTmrV3EMU6eDGgC/QWrKcqN6uLRISvpB
-         fHHcTPMXItrq2QlNKbsKR1VENu0D/qfR3swFeAaQ24KUOo1962QS9dKZHSEBfOD2Qm5u
-         sGCzA+JMMKe4NtRhb1wEFehPdXRixFfp4MoWPDf+Yy+6l+NNSztIcegj6plGymvROEce
-         eXlx4YZ5s0EH0Ago40KM7dVScF8nph7+aUIJuYFdfYHJvxTFvrAdkYfGcDHXZNv+Olsp
-         A8CKfl2vxXSIx02IzR/KcSD2MTUK6shABVitugEQ0+ZCcLRcVJCalHxgvxuYwoUk8rwX
-         q6aQ==
-X-Gm-Message-State: AOAM532WzJBM3OQLST6KhXAzlNB/Z1XpCykb5mZcoo4Qt8alrEf1i5Ul
-        DsAureSO4KhRAPGHdzM+m6A=
-X-Google-Smtp-Source: ABdhPJzwnCP672ZFgr/sDvpk30Nl5M04DeCqaFz2VyjzNh8vqc9OwEgtlWQOvVlgdRQCkeqx1aPX/g==
-X-Received: by 2002:adf:a1c2:: with SMTP id v2mr2205179wrv.95.1606810437376;
-        Tue, 01 Dec 2020 00:13:57 -0800 (PST)
-Received: from [192.168.1.211] ([2.31.224.80])
-        by smtp.gmail.com with ESMTPSA id v20sm1439532wmh.44.2020.12.01.00.13.55
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Dec 2020 00:13:56 -0800 (PST)
-Subject: Re: [PATCH 13/18] ipu3-cio2: Add functionality allowing software_node
- connections to sensors on platforms designed for Windows
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org,
-        mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        wsa@kernel.org, yong.zhi@intel.com, sakari.ailus@linux.intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jorhand@linux.microsoft.com, kitakar@gmail.com,
-        heikki.krogerus@linux.intel.com
-References: <20201130133129.1024662-1-djrscally@gmail.com>
- <20201130133129.1024662-14-djrscally@gmail.com>
- <20201130203551.GP4351@valkosipuli.retiisi.org.uk>
-From:   Dan Scally <djrscally@gmail.com>
-Message-ID: <40d355af-2e6e-54c7-92f8-143dafe82934@gmail.com>
-Date:   Tue, 1 Dec 2020 08:13:55 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20201130203551.GP4351@valkosipuli.retiisi.org.uk>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+        id S1728634AbgLAIPC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Dec 2020 03:15:02 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:35165 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726619AbgLAIPC (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Dec 2020 03:15:02 -0500
+Received: from ironmsg09-lv.qualcomm.com ([10.47.202.153])
+  by alexa-out.qualcomm.com with ESMTP; 01 Dec 2020 00:14:20 -0800
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg09-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 01 Dec 2020 00:14:19 -0800
+X-QCInternal: smtphost
+Received: from dikshita-linux.qualcomm.com ([10.204.65.237])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 01 Dec 2020 13:44:02 +0530
+Received: by dikshita-linux.qualcomm.com (Postfix, from userid 347544)
+        id D1A662130E; Tue,  1 Dec 2020 13:44:00 +0530 (IST)
+From:   Dikshita Agarwal <dikshita@codeaurora.org>
+To:     linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
+        nicolas@ndufresne.ca, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
+Subject: [PATCH v4] media: v4l2-ctrl: add control for long term reference.
+Date:   Tue,  1 Dec 2020 13:43:57 +0530
+Message-Id: <1606810437-2797-1-git-send-email-dikshita@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari
+Long Term Reference (LTR) frames are the frames that are encoded
+sometime in the past and stored in the DPB buffer list to be used
+as reference to encode future frames.
+This change adds controls to enable this feature.
 
-On 30/11/2020 20:35, Sakari Ailus wrote:
-> Hi Daniel,
->
-> Thanks for the update! This is starting to look really nice!
->
-> Please still see my comments below.
+Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+---
+ .../userspace-api/media/v4l/ext-ctrls-codec.rst        | 18 ++++++++++++++++++
+ drivers/media/v4l2-core/v4l2-ctrls.c                   | 14 ++++++++++++++
+ include/uapi/linux/v4l2-controls.h                     |  3 +++
+ 3 files changed, 35 insertions(+)
 
-Thanks!
-
->
-> On Mon, Nov 30, 2020 at 01:31:24PM +0000, Daniel Scally wrote:
->> Currently on platforms designed for Windows, connections between CIO2 and
->> sensors are not properly defined in DSDT. This patch extends the ipu3-cio2
->> driver to compensate by building software_node connections, parsing the
->> connection properties from the sensor's SSDB buffer.
->>
->> Suggested-by: Jordan Hand <jorhand@linux.microsoft.com>
->> Signed-off-by: Daniel Scally <djrscally@gmail.com>
->> ---
->> Changes since RFC v3:
->>
->> 	- Removed almost all global variables, dynamically allocated
->> 	the cio2_bridge structure, plus a bunch of associated changes
->> 	like 
->> 	- Added a new function to ipu3-cio2-main.c to check for an 
->> 	existing fwnode_graph before calling cio2_bridge_init()
->> 	- Prefixed cio2_bridge_ to any variables and functions that
->> 	lacked it
->> 	- Assigned the new fwnode directly to the sensor's ACPI device
->> 	fwnode as secondary. This removes the requirement to delay until
->> 	the I2C devices are instantiated before ipu3-cio2 can probe, but
->> 	it has a side effect, which is that those devices then grab a ref
->> 	to the new software_node. This effectively prevents us from
->> 	unloading the driver, because we can't free the memory that they
->> 	live in whilst the device holds a reference to them. The work
->> 	around at the moment is to _not_ unregister the software_nodes
->> 	when ipu3-cio2 is unloaded; this becomes a one-time 'patch', that
->> 	is simply skipped if the module is reloaded.
->> 	- Moved the sensor's SSDB struct to be a member of cio2_sensor
->> 	- Replaced ints with unsigned ints where appropriate
->> 	- Iterated over all ACPI devices of a matching _HID rather than
->> 	just the first to ensure we handle a device with multiple sensors
->> 	of the same model.
->>
->>  MAINTAINERS                                   |   1 +
->>  drivers/media/pci/intel/ipu3/Kconfig          |  18 ++
->>  drivers/media/pci/intel/ipu3/Makefile         |   1 +
->>  drivers/media/pci/intel/ipu3/cio2-bridge.c    | 260 ++++++++++++++++++
->>  drivers/media/pci/intel/ipu3/cio2-bridge.h    | 108 ++++++++
->>  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  27 ++
->>  drivers/media/pci/intel/ipu3/ipu3-cio2.h      |   6 +
->>  7 files changed, 421 insertions(+)
->>  create mode 100644 drivers/media/pci/intel/ipu3/cio2-bridge.c
->>  create mode 100644 drivers/media/pci/intel/ipu3/cio2-bridge.h
->>
->> diff --git a/MAINTAINERS b/MAINTAINERS
->> index 9702b886d6a4..188559a0a610 100644
->> --- a/MAINTAINERS
->> +++ b/MAINTAINERS
->> @@ -8927,6 +8927,7 @@ INTEL IPU3 CSI-2 CIO2 DRIVER
->>  M:	Yong Zhi <yong.zhi@intel.com>
->>  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
->>  M:	Bingbu Cao <bingbu.cao@intel.com>
->> +M:	Dan Scally <djrscally@gmail.com>
->>  R:	Tianshu Qiu <tian.shu.qiu@intel.com>
->>  L:	linux-media@vger.kernel.org
->>  S:	Maintained
->> diff --git a/drivers/media/pci/intel/ipu3/Kconfig b/drivers/media/pci/intel/ipu3/Kconfig
->> index 82d7f17e6a02..2b3350d042be 100644
->> --- a/drivers/media/pci/intel/ipu3/Kconfig
->> +++ b/drivers/media/pci/intel/ipu3/Kconfig
->> @@ -16,3 +16,21 @@ config VIDEO_IPU3_CIO2
->>  	  Say Y or M here if you have a Skylake/Kaby Lake SoC with MIPI CSI-2
->>  	  connected camera.
->>  	  The module will be called ipu3-cio2.
->> +
->> +config CIO2_BRIDGE
->> +	bool "IPU3 CIO2 Sensors Bridge"
->> +	depends on VIDEO_IPU3_CIO2
->> +	help
->> +	  This extension provides an API for the ipu3-cio2 driver to create
->> +	  connections to cameras that are hidden in SSDB buffer in ACPI. It
->> +	  can be used to enable support for cameras in detachable / hybrid
->> +	  devices that ship with Windows.
->> +
->> +	  Say Y here if your device is a detachable / hybrid laptop that comes
->> +	  with Windows installed by the OEM, for example:
->> +
->> +	  	- Microsoft Surface models (except Surface Pro 3)
->> +		- The Lenovo Miix line (for example the 510, 520, 710 and 720)
->> +		- Dell 7285
->> +
->> +	  If in doubt, say N here.
->> diff --git a/drivers/media/pci/intel/ipu3/Makefile b/drivers/media/pci/intel/ipu3/Makefile
->> index 429d516452e4..933777e6ea8a 100644
->> --- a/drivers/media/pci/intel/ipu3/Makefile
->> +++ b/drivers/media/pci/intel/ipu3/Makefile
->> @@ -2,3 +2,4 @@
->>  obj-$(CONFIG_VIDEO_IPU3_CIO2) += ipu3-cio2.o
->>  
->>  ipu3-cio2-y += ipu3-cio2-main.o
->> +ipu3-cio2-$(CONFIG_CIO2_BRIDGE) += cio2-bridge.o
->> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
->> new file mode 100644
->> index 000000000000..fd3f8ba07274
->> --- /dev/null
->> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
->> @@ -0,0 +1,260 @@
->> +// SPDX-License-Identifier: GPL-2.0
->> +/* Author: Dan Scally <djrscally@gmail.com> */
->> +#include <linux/acpi.h>
->> +#include <linux/device.h>
->> +#include <linux/i2c.h>
->> +#include <linux/kernel.h>
->> +#include <linux/module.h>
->> +#include <linux/pci.h>
->> +#include <linux/property.h>
->> +#include <media/v4l2-subdev.h>
->> +
->> +#include "cio2-bridge.h"
->> +
->> +/*
->> + * Extend this array with ACPI Hardware ID's of devices known to be working.
->> + * Do not add a HID for a sensor that is not actually supported.
->> + */
->> +static const char * const cio2_supported_devices[] = {
->> +	"INT33BE",
->> +	"OVTI2680",
-> I guess we don't have the known-good frequencies for the CSI-2 bus in
-> firmware?
-You mean link-frequencies? Indeed I can't see it anywhere in the buffers
-from ACPI
-> One option would be to put there what the drivers currently use. This
-> assumes the support for these devices is, well, somewhat opportunistic but
-> I guess there's no way around that right now at least.
->
-> As the systems are laptops, they're likely somewhat less prone to EMI
-> issues to begin with than mobile phones anyway.
-
-Ah I guess that's a good point...and then add it as a property along
-with the rest.
-
-
-Ack to the other comments; I'll make those changes.
-
+diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+index 3b86959..40634f8 100644
+--- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
++++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+@@ -4450,3 +4450,21 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+       - Selecting this value specifies that HEVC slices are expected
+         to be prefixed by Annex B start codes. According to :ref:`hevc`
+         valid start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001.
++
++``V4L2_CID_MPEG_VIDEO_LTR_COUNT (integer)``
++       Specifies the number of Long Term Reference (LTR) frames encoder needs
++       to generate or keep. This is applicable to H264 and HEVC encoder.
++
++``V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX (integer)``
++       The current frame is marked as a Long Term Reference (LTR) frame
++       and given this LTR index which ranges from 0 to LTR_COUNT-1.
++       This is applicable to H264 and HEVC encoder and can be applied using
++       Request Api.
++       Source Rec. ITU-T H.264 (06/2019); Table 7.9
++
++``V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES (bitmask)``
++       Specifies the Long Term Reference (LTR) frame(s) to be used for
++       encoding the current frame.
++       This provides a bitmask which consists of bits [0, LTR_COUNT-1].
++       This is applicable to H264 and HEVC encoder and can be applied using
++       Request Api.
+diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+index e5b726f..0b81b39 100644
+--- a/drivers/media/v4l2-core/v4l2-ctrls.c
++++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+@@ -958,6 +958,9 @@ const char *v4l2_ctrl_get_name(u32 id)
+ 	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:		return "Vertical MV Search Range";
+ 	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:		return "Repeat Sequence Header";
+ 	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:		return "Force Key Frame";
++	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:			return "LTR Count";
++	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:		return "frame LTR index";
++	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:		return "Use LTR Frame(s)";
+ 	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:		return "MPEG-2 Slice Parameters";
+ 	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION:		return "MPEG-2 Quantization Matrices";
+ 	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:			return "FWHT Stateless Parameters";
+@@ -1273,6 +1276,17 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+ 	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:
+ 		*type = V4L2_CTRL_TYPE_INTEGER;
+ 		break;
++	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:
++		*type = V4L2_CTRL_TYPE_INTEGER;
++		break;
++	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:
++		*type = V4L2_CTRL_TYPE_INTEGER;
++		*flags |= V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
++		break;
++	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:
++		*type = V4L2_CTRL_TYPE_BITMASK;
++		*flags |= V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
++		break;
+ 	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:
+ 	case V4L2_CID_PAN_RESET:
+ 	case V4L2_CID_TILT_RESET:
+diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+index e37b85f..710bc53 100644
+--- a/include/uapi/linux/v4l2-controls.h
++++ b/include/uapi/linux/v4l2-controls.h
+@@ -421,6 +421,9 @@ enum v4l2_mpeg_video_multi_slice_mode {
+ #define V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE		(V4L2_CID_MPEG_BASE+227)
+ #define V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE		(V4L2_CID_MPEG_BASE+228)
+ #define V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME		(V4L2_CID_MPEG_BASE+229)
++#define V4L2_CID_MPEG_VIDEO_LTR_COUNT                  (V4L2_CID_MPEG_BASE + 230)
++#define V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX            (V4L2_CID_MPEG_BASE + 231)
++#define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES             (V4L2_CID_MPEG_BASE + 232)
+ 
+ /* CIDs for the MPEG-2 Part 2 (H.262) codec */
+ #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_MPEG_BASE+270)
+-- 
+2.7.4
 
