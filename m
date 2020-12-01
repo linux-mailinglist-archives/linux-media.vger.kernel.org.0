@@ -2,67 +2,85 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0DFC62C93C1
-	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 01:17:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE0332C94BF
+	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 02:36:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728714AbgLAARB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 30 Nov 2020 19:17:01 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54554 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725870AbgLAARA (ORCPT
+        id S1731272AbgLABgL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 30 Nov 2020 20:36:11 -0500
+Received: from mail-il1-f194.google.com ([209.85.166.194]:41346 "EHLO
+        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728496AbgLABgL (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 30 Nov 2020 19:17:00 -0500
-Received: from forward100j.mail.yandex.net (forward100j.mail.yandex.net [IPv6:2a02:6b8:0:801:2::100])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A2905C0613D2
-        for <linux-media@vger.kernel.org>; Mon, 30 Nov 2020 16:16:20 -0800 (PST)
-Received: from mxback2g.mail.yandex.net (mxback2g.mail.yandex.net [IPv6:2a02:6b8:c03:7aa:0:640:bf5:f41a])
-        by forward100j.mail.yandex.net (Yandex) with ESMTP id 98A3D50E21DC
-        for <linux-media@vger.kernel.org>; Tue,  1 Dec 2020 03:15:33 +0300 (MSK)
-Received: from myt5-aad1beefab42.qloud-c.yandex.net (myt5-aad1beefab42.qloud-c.yandex.net [2a02:6b8:c12:128:0:640:aad1:beef])
-        by mxback2g.mail.yandex.net (mxback/Yandex) with ESMTP id ZhF32lVIqM-FX9aiPKV;
-        Tue, 01 Dec 2020 03:15:33 +0300
-Authentication-Results: mxback2g.mail.yandex.net; dkim=pass
-Received: by myt5-aad1beefab42.qloud-c.yandex.net (smtp/Yandex) with ESMTPSA id uqSLeG448m-FXJ8ZM1k;
-        Tue, 01 Dec 2020 03:15:33 +0300
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits))
-        (Client certificate not present)
-From:   wgh@torlan.ru
-To:     linux-media@vger.kernel.org
-Cc:     Maxim Plotnikov <wgh@torlan.ru>
-Subject: [PATCH] Fix RTL2832 not depending on REGMAP_I2C
-Date:   Tue,  1 Dec 2020 03:14:27 +0300
-Message-Id: <20201201001426.552329-1-wgh@torlan.ru>
-X-Mailer: git-send-email 2.26.2
+        Mon, 30 Nov 2020 20:36:11 -0500
+Received: by mail-il1-f194.google.com with SMTP id p5so98008iln.8;
+        Mon, 30 Nov 2020 17:35:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=GVpuIFWzwjWwv3nZSyTHsP20wE6qwR6Pcp5yFWMuI+c=;
+        b=LGelxJ+mSwXS9RMWz+7/+OPDPjndH+/5Ub4U0dqTFrUv0GVErNzs7d43Imqe8AOvkk
+         7tubfbqbRs089Dlc72pwLxyi/wSeiwTaylICknHlIOGIPsPcmqii0Pxl6mjOb/6yUkN8
+         1Aco0U/sAT2AWi3+jmnVks4+OaJ4fRHXqliB75f0YXcBO7vT3/ZlZqweHwsRyXEbAMx/
+         oMvaYVtahXmpe2RM1D1EuUdeKhB57e/YEHs8OOVz2IqnUS88NB0I6wtOn/5M4dbwcfnL
+         cSbeUXww+hKKyKjrRpT0DHv8Xj6uK7X9nJZofz9oCjv6Chi1QpWQsR/x/epP9C2q595h
+         kNzQ==
+X-Gm-Message-State: AOAM533kcTNhhP92GKDoPZ4WaKFNERXhcwDDbLtoAJy4ma6/t240Sn4q
+        u7quFm/AIjDGw8XGAcTk0w==
+X-Google-Smtp-Source: ABdhPJwUlN5l3Gh7+xqYqg3UP+GDBb5GmRGKTM4mwYtbcsbfdWR7c6k4BnU7cVtaPzTijBI9x6+sng==
+X-Received: by 2002:a92:50b:: with SMTP id q11mr528232ile.49.1606786529992;
+        Mon, 30 Nov 2020 17:35:29 -0800 (PST)
+Received: from xps15 ([64.188.179.253])
+        by smtp.gmail.com with ESMTPSA id b15sm186046ilg.83.2020.11.30.17.35.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 30 Nov 2020 17:35:29 -0800 (PST)
+Received: (nullmailer pid 3440973 invoked by uid 1000);
+        Tue, 01 Dec 2020 01:35:26 -0000
+Date:   Mon, 30 Nov 2020 18:35:26 -0700
+From:   Rob Herring <robh@kernel.org>
+To:     Daoyuan Huang <daoyuan.huang@mediatek.com>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Maoguang Meng <maoguang.meng@mediatek.com>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Ping-Hsun Wu <ping-hsun.wu@mediatek.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Rob Landley <rob@landley.net>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-mediatek@lists.infradead.org, linux-kernel@vger.kernel.org,
+        tfiga@chromium.org, drinkcat@chromium.org, acourbot@chromium.org,
+        pihsun@chromium.org, menghui.lin@mediatek.com,
+        sj.huang@mediatek.com, ben.lok@mediatek.com, randy.wu@mediatek.com,
+        moudy.ho@mediatek.com, srv_heupstream@mediatek.com
+Subject: Re: [PATCH v4 1/4] dt-binding: mt8183: Add Mediatek MDP3 dt-bindings
+Message-ID: <20201201013526.GA3327634@robh.at.kernel.org>
+References: <1605839346-10648-1-git-send-email-daoyuan.huang@mediatek.com>
+ <1605839346-10648-2-git-send-email-daoyuan.huang@mediatek.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1605839346-10648-2-git-send-email-daoyuan.huang@mediatek.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: Maxim Plotnikov <wgh@torlan.ru>
+On Fri, Nov 20, 2020 at 10:29:03AM +0800, Daoyuan Huang wrote:
+> From: daoyuan huang <daoyuan.huang@mediatek.com>
+> 
+> This patch adds DT binding document for Media Data Path 3 (MDP3)
+> a unit in multimedia system used for scaling and color format convert.
+> 
+> Signed-off-by: Ping-Hsun Wu <ping-hsun.wu@mediatek.com>
+> Signed-off-by: daoyuan huang <daoyuan.huang@mediatek.com>
+> ---
+>  .../bindings/media/mediatek,mt8183-mdp3.txt   | 208 ++++++++++++++++++
+>  1 file changed, 208 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/mediatek,mt8183-mdp3.txt
 
-Prevents this compile time error:
+In the year since last posting, DT bindings are now in schema format.
 
-ERROR: modpost: "__regmap_init_i2c" [drivers/media/dvb-frontends/rtl2832.ko] undefined!
-
-Signed-off-by: Maxim Plotnikov <wgh@torlan.ru>
----
- drivers/media/dvb-frontends/Kconfig | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
-
-diff --git a/drivers/media/dvb-frontends/Kconfig b/drivers/media/dvb-frontends/Kconfig
-index 643b851a6b60..6a1ef277fea4 100644
---- a/drivers/media/dvb-frontends/Kconfig
-+++ b/drivers/media/dvb-frontends/Kconfig
-@@ -515,7 +515,7 @@ config DVB_RTL2830
- config DVB_RTL2832
- 	tristate "Realtek RTL2832 DVB-T"
- 	depends on DVB_CORE && I2C && I2C_MUX
--	select REGMAP
-+	select REGMAP_I2C
- 	default m if !MEDIA_SUBDRV_AUTOSELECT
- 	help
- 	  Say Y when you want to support this frontend.
--- 
-2.26.2
-
+Rob
