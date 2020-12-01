@@ -2,37 +2,37 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7B98D2CA307
+	by mail.lfdr.de (Postfix) with ESMTP id 0E8D72CA306
 	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 13:46:10 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387717AbgLAMpf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S2387499AbgLAMpf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Tue, 1 Dec 2020 07:45:35 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:48499 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728623AbgLAMpf (ORCPT
+Received: from lb1-smtp-cloud8.xs4all.net ([194.109.24.21]:58927 "EHLO
+        lb1-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1727852AbgLAMpe (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Dec 2020 07:45:35 -0500
+        Tue, 1 Dec 2020 07:45:34 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud8.xs4all.net with ESMTPA
-        id k51SkssSADuFjk51Yk2RZB; Tue, 01 Dec 2020 13:44:52 +0100
+        id k51SkssSADuFjk51Yk2RZW; Tue, 01 Dec 2020 13:44:52 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606826692; bh=4qbHEJdiN8hY9S+Fm3WxNty6LYiWWcjJlDO8CtQih0k=;
+        t=1606826692; bh=mt5bsHjinTMK9UeaLEBSzlWAehCdkQv0m8nPyh/7k4Y=;
         h=From:To:Subject:Date:Message-Id:MIME-Version:From:Subject;
-        b=YpoyBm7E/I87661RgKDTB7V5Ou2RsKZ7pIQSUzG+ajD3iKMvbZDvE5WmGvIoBhdPD
-         sGjkNpDRPtjUJF/b12GbvC+LfzA7XoJSu09WFdeOeDIGUDomUwsbDanltt6RXlQZnR
-         4rBUnz0a4+eVy3s79aTFyaUecNAe452w790dIRdjNGmeLi73fH0s1jUeKAXKJSYS92
-         TO9TwwZCRCyMvcQvR8AgaCi/Ss70ciE6pFoUzBMZZ2QIFeDwAHMhF4OyrhKggB34HR
-         XXjMcdrMf408V/Nl68qqgglaup7bvEey493Q6R5UzIqMGnqTQerFl4V6kdatLhn8Mz
-         upa8WfRfkYMJA==
+        b=V5J5slFU1SmuQJ6ej80igbipy2/r3BcX2JOQn9UnmofHYPRzS3lhClWHcDWdiQ4Lw
+         zii//mzWTgnCDsTiiIcyxHV8SMkwlINqbWBJSzMuvVC9cXR+/j7sIvhowPVd8pl02I
+         qXB17nO07TnV02bVw49DJgYxmf4iMSc5sVeToU5CrZot4faSSk4c8Yha7Rp+mRqovD
+         HTvYOiyi1YMPHdMEadlmAJmSllGt/rWwCiU8jMKlJlPP7jg6RVZWHfBLPfvNe4764T
+         6/lenJrmjsxwhcDAJ7rNYcYnsv4+kJ9Huk7KyyA/guWYhoHC+HXk3yC33vCsZJIDO1
+         uF3d/+d1emWOA==
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
 To:     linux-media@vger.kernel.org
 Cc:     Alexandre Courbot <gnurou@gmail.com>,
         Tomasz Figa <tfiga@chromium.org>,
         Marek Szyprowski <m.szyprowski@samsung.com>,
         Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Subject: [PATCHv3 6/7] v4l2-dev: add EPOLLPRI in v4l2_poll() when dev is unregistered
-Date:   Tue,  1 Dec 2020 13:44:45 +0100
-Message-Id: <20201201124446.448595-7-hverkuil-cisco@xs4all.nl>
+Subject: [PATCHv3 7/7] cec: add EPOLLPRI in poll() when dev is unregistered
+Date:   Tue,  1 Dec 2020 13:44:46 +0100
+Message-Id: <20201201124446.448595-8-hverkuil-cisco@xs4all.nl>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <20201201124446.448595-1-hverkuil-cisco@xs4all.nl>
 References: <20201201124446.448595-1-hverkuil-cisco@xs4all.nl>
@@ -45,8 +45,8 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the V4L2 device was unregistered, then add EPOLLPRI to
-the poll mask. Otherwise a select() that only waits for
+If the CEC device was unregistered, then add EPOLLPRI to
+the poll() mask. Otherwise a select() that only waits for
 exceptions will not wake up. A select() that waits for
 read and/or write events *will* wake up on an EPOLLERR, but
 not (for some reason) if it just waits for exceptions.
@@ -58,38 +58,24 @@ and epoll differ.
 In the end it doesn't really matter, what matters is that
 polling file handles are woken up on device unregistration.
 
-It also improves the code a bit if vdev->fops->poll is NULL:
-this didn't check for device unregistration.
-
 Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
 ---
- drivers/media/v4l2-core/v4l2-dev.c | 12 +++++++-----
- 1 file changed, 7 insertions(+), 5 deletions(-)
+ drivers/media/cec/core/cec-api.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/media/v4l2-core/v4l2-dev.c b/drivers/media/v4l2-core/v4l2-dev.c
-index 0ddc3554f1a4..f9cff033d0dc 100644
---- a/drivers/media/v4l2-core/v4l2-dev.c
-+++ b/drivers/media/v4l2-core/v4l2-dev.c
-@@ -339,12 +339,14 @@ static ssize_t v4l2_write(struct file *filp, const char __user *buf,
- static __poll_t v4l2_poll(struct file *filp, struct poll_table_struct *poll)
- {
- 	struct video_device *vdev = video_devdata(filp);
--	__poll_t res = EPOLLERR | EPOLLHUP;
-+	__poll_t res = EPOLLERR | EPOLLHUP | EPOLLPRI;
+diff --git a/drivers/media/cec/core/cec-api.c b/drivers/media/cec/core/cec-api.c
+index f922a2196b2b..769e6b4cddce 100644
+--- a/drivers/media/cec/core/cec-api.c
++++ b/drivers/media/cec/core/cec-api.c
+@@ -40,7 +40,7 @@ static __poll_t cec_poll(struct file *filp,
  
--	if (!vdev->fops->poll)
--		return DEFAULT_POLLMASK;
--	if (video_is_registered(vdev))
--		res = vdev->fops->poll(filp, poll);
-+	if (video_is_registered(vdev)) {
-+		if (!vdev->fops->poll)
-+			res = DEFAULT_POLLMASK;
-+		else
-+			res = vdev->fops->poll(filp, poll);
-+	}
- 	if (vdev->dev_debug & V4L2_DEV_DEBUG_POLL)
- 		dprintk("%s: poll: %08x\n",
- 			video_device_node_name(vdev), res);
+ 	poll_wait(filp, &fh->wait, poll);
+ 	if (!cec_is_registered(adap))
+-		return EPOLLERR | EPOLLHUP;
++		return EPOLLERR | EPOLLHUP | EPOLLPRI;
+ 	mutex_lock(&adap->lock);
+ 	if (adap->is_configured &&
+ 	    adap->transmit_queue_sz < CEC_MAX_MSG_TX_QUEUE_SZ)
 -- 
 2.29.2
 
