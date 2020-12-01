@@ -2,137 +2,204 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3C78C2CA324
-	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 13:52:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E55452CA32A
+	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 13:52:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390624AbgLAMtN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Dec 2020 07:49:13 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58658 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2390585AbgLAMtM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Dec 2020 07:49:12 -0500
-Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 21895C0613CF;
-        Tue,  1 Dec 2020 04:48:32 -0800 (PST)
-Received: by mail-wr1-x443.google.com with SMTP id e7so2442066wrv.6;
-        Tue, 01 Dec 2020 04:48:32 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=E7KISZiUZx5OJ0OBhs8wlh6COiaDQH/ZVHVCHKyzjEk=;
-        b=etC6JcuALdpc+RtrgJomZYX0mIy+qG2liKm9JXAo5RZJQwGx+6CEc8UmOX+O6ibWAH
-         tvjkpDIkIWSCqbCFhtngBD3D4/6vnpbG0harZSRjm0XHN95o81Znfzj/07+K3e+/ZgcT
-         r/yvfgVUsTyGuDCxzQLfceO8tfRsNggB9Hq4DEdWc4w2M2xoGmmLUQNz7z53ahQ4dM/Z
-         Hap0ZGGVlKXLOD2KI3j8HmRH1WIqLozKjrE9cBOJsOQo2MZslGwaoYX2aU3AEVW3g6Az
-         HgJbzV2HAsEthdwW0XHXPhurtpFenVdU8qoaVVTwVx9YJWPQihsji1jZSM5KnHJTv1Hr
-         suVw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=E7KISZiUZx5OJ0OBhs8wlh6COiaDQH/ZVHVCHKyzjEk=;
-        b=WmmA9GJ+vfvVFXeuLwd6fuJ8fsrQdu0zsqRv+BPBXFOTdkCqP5JbzeyilCchwpYsvk
-         Pw3PMhfvgCJagmGXfrl4CCMGzEX4oprSjHr4p480xWZNkJeBygLYwrKBUGVDMujyEEXs
-         ht4BxItmHRIPaf8MjrSc/7BtojZgHvDVsuSSiDjipYeBSaqmelWTLfToZiJsoAOuTuvJ
-         jlTCQObbPTgBmU55+xKdIa/WIzLUmCXMvZdrOiFCX6z1AscE6TKqdOnQ/hxSsZI3Ha+M
-         Qus4+4BQ3cug+sZIFybtSDpjZnD8jc5ydPGRb2sEI1QHNwaBRvIHJ7L7JUAArg7YIHik
-         cQAA==
-X-Gm-Message-State: AOAM530g+defYqbuTb2smPZvp+iqvvwB/vpTWbSQ0kdfNeX3LZFzJOMV
-        Z/FZOUI+Y6wtJajQLvng2nY=
-X-Google-Smtp-Source: ABdhPJygrmmsdIFW8rKXVfMkLtQWY8gptVJpqzq0f98XrHiiDQPIDru+U45QZZ5AVf8FFNLLIWC8tg==
-X-Received: by 2002:adf:f3c7:: with SMTP id g7mr3624806wrp.91.1606826910838;
-        Tue, 01 Dec 2020 04:48:30 -0800 (PST)
-Received: from [192.168.1.211] ([2.31.224.80])
-        by smtp.gmail.com with ESMTPSA id w21sm2624343wmi.29.2020.12.01.04.48.29
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 01 Dec 2020 04:48:30 -0800 (PST)
-Subject: Re: [PATCH 18/18] ipu3: Add driver for dummy INT3472 ACPI device
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org,
-        mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        wsa@kernel.org, yong.zhi@intel.com, sakari.ailus@linux.intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jorhand@linux.microsoft.com, kitakar@gmail.com,
-        heikki.krogerus@linux.intel.com,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <20201130133129.1024662-1-djrscally@gmail.com>
- <20201130133129.1024662-19-djrscally@gmail.com>
- <20201130205203.GQ4351@valkosipuli.retiisi.org.uk>
- <3e8494a0-a2c0-59e7-46bb-9635c3c239dd@gmail.com>
- <20201201064421.GR4351@valkosipuli.retiisi.org.uk>
- <2a548835-78c6-8fe3-cceb-1fc000707157@gmail.com>
- <20201201123244.GT4351@valkosipuli.retiisi.org.uk>
-From:   Dan Scally <djrscally@gmail.com>
-Message-ID: <0f85d875-cac2-8273-d687-e5845f4c2bb8@gmail.com>
-Date:   Tue, 1 Dec 2020 12:48:28 +0000
+        id S2389374AbgLAMuW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Dec 2020 07:50:22 -0500
+Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:35469 "EHLO
+        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389263AbgLAMuW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 1 Dec 2020 07:50:22 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud8.xs4all.net with ESMTPA
+        id k568ksuDyDuFjk56Bk2SXV; Tue, 01 Dec 2020 13:49:39 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1606826979; bh=CcQ3qYvlvZEoQAhbWpX7eSpo7PYxn5doVRhr3oxflYo=;
+        h=From:Subject:To:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=MFi9aix7ZqUNAWXv/Z7jd3NOIcyvXTirLGtwn9xPIWqRJdRhZgazJbROPmGp3Qsg4
+         cvwF1SJEdmkrFx03OLThoVvyoTujYLWlwTnw/35phNyWjaKHos7MrymiZMpfe4OAzh
+         XMgsCeXO/DsJTf7tBWXToBYQSnYA+HyhBHHzoLxrFsbfev9BzoCVX2VEITkIGZSvyR
+         /5mdI0TJiFE0dsj4gWBEojc7CyJ0WOeixZgGm4oAo+E7fqv7X9d+YE0k8ECsfem35y
+         F4cULgxFZiegn/L8Iq81VTmBA9qnlKZDoacKrjjpwxqVq5p5A/NlD7DD6rT/hNHHfl
+         0muCiaGlHgvug==
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] v4l2-compliance: test for poll bugs when disconnecting
+To:     linux-media@vger.kernel.org
+Cc:     Alexandre Courbot <gnurou@gmail.com>
+Message-ID: <1ed22a80-9ec5-8a48-35cd-ac69950e54bd@xs4all.nl>
+Date:   Tue, 1 Dec 2020 13:49:36 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201201123244.GT4351@valkosipuli.retiisi.org.uk>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 8bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfBbKX0bWxe2xIRJ3jofpyT2J7ChnIoSiXOnJl+OAZS3u6zI0YuYD+tsVDL8F2Aa5lG1fyUjUVs7qJvqzcrOVFOBr6/UvDrkCNXF6ZWvaxBbGVbHgVfUs
+ sF+UyIJlW7FLcLuBYqKhFhUF/uYO3GJN8Ky5HEHsvUqd/A30VdAessvMygdNqf2IAk3CeLjLjY/xM36mMYlihUf3OM8UFnteqdNmZ1KxlJ9Bz3++o4/pjzXb
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+If a process polls for an event (using select() or epoll), and the device is
+unregistered, then it should wake up. This is normally difficult to test, but
+the vivid driver has a Disconnect control that can emulate this.
 
-On 01/12/2020 12:32, Sakari Ailus wrote:
-> Hi Dan,
->
-> On Tue, Dec 01, 2020 at 08:08:26AM +0000, Dan Scally wrote:
->> On 01/12/2020 06:44, Sakari Ailus wrote:
->>> Hi Dan,
->>>
->>> On Mon, Nov 30, 2020 at 11:06:03PM +0000, Dan Scally wrote:
->>>> Hi Sakari
->>>>
->>>> On 30/11/2020 20:52, Sakari Ailus wrote:
->>>>>> +static const struct acpi_device_id int3472_device_id[] = {
->>>>>> +	{ "INT3472", 0 },
->>>>> The INT3472 _HID is really allocated for the tps68470 PMIC chip. It may not
->>>>> be used by other drivers; people will want to build kernels where both of
->>>>> these ACPI table layouts are functional.
->>>>>
->>>>> Instead, I propose, that you add this as an option to the tps68470 driver
->>>>> that figures out whether the ACPI device for the tps68470 device actually
->>>>> describes something else, in a similar fashion you do with the cio2-bridge
->>>>> driver. I think it may need a separate Kconfig option albeit this and
->>>>> cio2-bridge cannot be used separately.
->>>> It actually occurs to me that that may not work (I know I called that
->>>> out as an option we considered, but that was a while ago actually). The
->>>> reason I wasn't worried about the existing tps68470 driver binding to
->>>> these devices is that it's an i2c driver, and these dummy devices don't
->>>> have an I2cSerialBusV2, so no I2C device is created by them the kernel.
->>>>
->>>>
->>>> Won't that mean the tps68470 driver won't ever be probed for these devices?
->>> Oops. I missed this indeed was not an I²C driver. So please ignore the
->>> comment.
->>>
->>> So I guess this wouldn't be an actual problem. I'd still like to test this
->>> on a system with tps68470, as the rest of the set.
->> On my Go2, it .probes() for the actual tps68740 (that machine has both
->> types of INT3472 device) but fails with EINVAL when it can't find the
->> CLDB buffer that these discrete type devices have. My understanding is
->> that means it's free for the actual tps68470 driver to grab the device;
->> although that's not happening because I had to blacklist that driver or
->> it stops the machine from booting at the moment - haven't gotten round
->> to investigating yet.
-> Oh, then the problem is actually there. If it probes the tps68470 driver on
-> the systems with Windows ACPI tables, then it should be that driver which
-> works with the Windows ACPI tables, too.
-Sorry, clarification here: The INT3472 driver in patch #18 runs probe()
-for the device representing a physical tps68470, but then -EINVAL's. The
-existing tps68470 mfd driver doesn't probe() for the dummy INT3472 device.
+This patch adds a testVividDisconnect() function to verify that select and
+epoll behave correctly.
+
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+diff --git a/utils/v4l2-compliance/v4l2-compliance.cpp b/utils/v4l2-compliance/v4l2-compliance.cpp
+index 2d4d10db..9e7b14c7 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.cpp
++++ b/utils/v4l2-compliance/v4l2-compliance.cpp
+@@ -1438,6 +1438,14 @@ void testNode(struct node &node, struct node &node_m2m_cap, struct node &expbuf_
+ 	 * 	 S_SELECTION flags tests
+ 	 */
+
++	if (is_vivid &&
++	    node.controls.find(VIVID_CID_DISCONNECT) != node.controls.end()) {
++		if (node.node2)
++			node.node2->close();
++		node.node2 = NULL;
++		printf("\ttest Disconnect: %s\n\n", ok(testVividDisconnect(&node)));
++	}
++
+ 	restoreState();
+
+ show_total:
+diff --git a/utils/v4l2-compliance/v4l2-compliance.h b/utils/v4l2-compliance/v4l2-compliance.h
+index 5cfe870b..c0cc57db 100644
+--- a/utils/v4l2-compliance/v4l2-compliance.h
++++ b/utils/v4l2-compliance/v4l2-compliance.h
+@@ -70,6 +70,10 @@ enum poll_mode {
+ #define IS_ENCODER(node) ((node)->codec_mask & (JPEG_ENCODER | STATEFUL_ENCODER | STATELESS_ENCODER))
+ #define IS_DECODER(node) ((node)->codec_mask & (JPEG_DECODER | STATEFUL_DECODER | STATELESS_DECODER))
+
++#define V4L2_CTRL_CLASS_VIVID 0x00f00000
++#define VIVID_CID_VIVID_BASE		(V4L2_CTRL_CLASS_VIVID | 0xf000)
++#define VIVID_CID_DISCONNECT            (VIVID_CID_VIVID_BASE + 65)
++
+ struct test_query_ext_ctrl: v4l2_query_ext_ctrl {
+ 	__u64 menu_mask;
+ };
+@@ -296,6 +300,7 @@ int testQueryControls(struct node *node);
+ int testSimpleControls(struct node *node);
+ int testExtendedControls(struct node *node);
+ int testEvents(struct node *node);
++int testVividDisconnect(struct node *node);
+ int testJpegComp(struct node *node);
+
+ // I/O configuration ioctl tests
+diff --git a/utils/v4l2-compliance/v4l2-test-controls.cpp b/utils/v4l2-compliance/v4l2-test-controls.cpp
+index d9c13b4e..018a404e 100644
+--- a/utils/v4l2-compliance/v4l2-test-controls.cpp
++++ b/utils/v4l2-compliance/v4l2-test-controls.cpp
+@@ -23,12 +23,12 @@
+ #include <vector>
+
+ #include <sys/types.h>
++#include <sys/wait.h>
++#include <sys/epoll.h>
+
+ #include "compiler.h"
+ #include "v4l2-compliance.h"
+
+-#define V4L2_CTRL_CLASS_VIVID 0x00f00000
+-
+ static int checkQCtrl(struct node *node, struct test_query_ext_ctrl &qctrl)
+ {
+ 	struct v4l2_querymenu qmenu;
+@@ -906,6 +906,89 @@ int testEvents(struct node *node)
+ 	return 0;
+ }
+
++int testVividDisconnect(struct node *node)
++{
++	// Test that disconnecting a device will wake up any processes
++	// that are using select or poll.
++	//
++	// This can only be tested with the vivid driver that enabled
++	// the DISCONNECT control.
++
++	pid_t pid = fork();
++	if (pid == 0) {
++		struct timeval tv = { 5, 0 };
++		fd_set fds;
++
++		FD_ZERO(&fds);
++		FD_SET(node->g_fd(), &fds);
++		int res = select(node->g_fd() + 1, nullptr, nullptr, &fds, &tv);
++		// No POLLPRI seen
++		if (res != 1)
++			exit(1);
++		// POLLPRI seen, but didn't wake up
++		if (!tv.tv_sec)
++			exit(2);
++		v4l2_event ev = {};
++		// Woke up on POLLPRI, but VIDIOC_DQEVENT didn't return
++		// the ENODEV error.
++		if (doioctl(node, VIDIOC_DQEVENT, &ev) != ENODEV)
++			exit(3);
++		exit(0);
++	}
++	v4l2_control ctrl = { VIVID_CID_DISCONNECT, 0 };
++	sleep(1);
++	fail_on_test(doioctl(node, VIDIOC_S_CTRL, &ctrl));
++	int wstatus;
++	fail_on_test(waitpid(pid, &wstatus, 0) != pid);
++	fail_on_test(!WIFEXITED(wstatus));
++	if (WEXITSTATUS(wstatus))
++		return fail("select child exited with status %d\n", WEXITSTATUS(wstatus));
++
++	node->reopen();
++
++	pid = fork();
++	if (pid == 0) {
++		struct epoll_event ep_ev;
++		int epollfd = epoll_create1(0);
++
++		if (epollfd < 0)
++			exit(1);
++
++		ep_ev.events = 0;
++		if (epoll_ctl(epollfd, EPOLL_CTL_ADD, node->g_fd(), &ep_ev))
++			exit(2);
++
++		ep_ev.events = EPOLLPRI;
++		ep_ev.data.fd = node->g_fd();
++		if (epoll_ctl(epollfd, EPOLL_CTL_MOD, node->g_fd(), &ep_ev))
++			exit(3);
++		int ret = epoll_wait(epollfd, &ep_ev, 1, 5000);
++		if (ret == 0)
++			exit(4);
++		if (ret < 0)
++			exit(5);
++		if (ret != 1)
++			exit(6);
++		if (!(ep_ev.events & EPOLLPRI))
++			exit(7);
++		if (!(ep_ev.events & EPOLLERR))
++			exit(8);
++		v4l2_event ev = {};
++		// Woke up on POLLPRI, but VIDIOC_DQEVENT didn't return
++		// the ENODEV error.
++		if (doioctl(node, VIDIOC_DQEVENT, &ev) != ENODEV)
++			exit(9);
++		exit(0);
++	}
++	sleep(1);
++	fail_on_test(doioctl(node, VIDIOC_S_CTRL, &ctrl));
++	fail_on_test(waitpid(pid, &wstatus, 0) != pid);
++	fail_on_test(!WIFEXITED(wstatus));
++	if (WEXITSTATUS(wstatus))
++		return fail("epoll child exited with status %d\n", WEXITSTATUS(wstatus));
++	return 0;
++}
++
+ int testJpegComp(struct node *node)
+ {
+ 	struct v4l2_jpegcompression jc;
