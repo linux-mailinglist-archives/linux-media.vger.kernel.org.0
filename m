@@ -2,72 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 771492CA9A6
-	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 18:30:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A0C612CAA2C
+	for <lists+linux-media@lfdr.de>; Tue,  1 Dec 2020 18:53:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390002AbgLAR3W (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Dec 2020 12:29:22 -0500
-Received: from wout5-smtp.messagingengine.com ([64.147.123.21]:45025 "EHLO
-        wout5-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389968AbgLAR3V (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 1 Dec 2020 12:29:21 -0500
-Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
-        by mailout.west.internal (Postfix) with ESMTP id 1D898F1C
-        for <linux-media@vger.kernel.org>; Tue,  1 Dec 2020 12:28:16 -0500 (EST)
-Received: from imap21 ([10.202.2.71])
-  by compute4.internal (MEProxy); Tue, 01 Dec 2020 12:28:16 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aeam.us; h=
-        mime-version:message-id:date:from:to:subject:content-type; s=
-        fm3; bh=uLPsacDJ/CAKtQBDu3TxsgEuyEFW6uAP+iRgC+LkCSQ=; b=R69dfsvn
-        y9utmhgfsPhHOJVuY4/c2so5GVHj3VdrXLMSh0LlUVKToSXDMDr4JYWf7QgrFXdF
-        hK3MssZdr/n2oP8NZVFbRM4YDohUQjdPhUYIxEE9ra91XLeGGFggMZLlIRQ96550
-        R3+Owrvs9hci6ABZxt/TmM7zSBMcT7UBlmhIeS8XNXfSeaCzHqJ8jlVIbiEKnOgj
-        HTFSMYy36n4EX0OCW252xpplFOZEhtZrZIdbQhhGN2uoUx5NByX6t1+DMiDFyu6G
-        E4rcfh5LkuXLfwNLIhpJeL6CxOy9grJ0gveIUNi78NoNhGeLeNtioolR5xTSs19p
-        SDQ3HCadRzKvjQ==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=content-type:date:from:message-id
-        :mime-version:subject:to:x-me-proxy:x-me-proxy:x-me-sender
-        :x-me-sender:x-sasl-enc; s=fm1; bh=uLPsacDJ/CAKtQBDu3TxsgEuyEFW6
-        uAP+iRgC+LkCSQ=; b=LkD7AQ8A6yhzryMMRfv4JOvVTphQt/6LoaUGfWfuLCcmw
-        4/2BUpZssdFcb+rz6K3zyQhFRMJwrMfOytm1dR1VnXDadCUREtbhxAB1MlnGOb8K
-        eSX4kNJHutSS4IqAyLP1AsPdUz72lF+tTivm4NvqCIYU3HIgp/ASdWcYGh6tUcDs
-        6wd1IMa4p2067k1oLuzAvkV9Olsc9w2FhUd/fWmARW/73Fpb9om+bTU/OsNuTpft
-        dhKH5nBhf7wO/Sg4yLuLzDktAYBECqVhnyfzynuqiQOLlc1yTzfQig1dNMd59t9C
-        Up9e5Z8b7KkfiigcPIxccB91I18yiMprMF5wXtubg==
-X-ME-Sender: <xms:L33GX7DNRf3rA_qFzrGXcma_W0hPwa27YwAUFCHS0tkplG3NHS2TMQ>
-    <xme:L33GXxjQuhMVM5Cv3l7_kIfxbUREXr701rMttZdFwKNJZAn57CLh6LCDr2gJk8dVa
-    1232w1H4OOAVXUD5Qs>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeivddguddtfecutefuodetggdotefrod
-    ftvfcurfhrohhfihhlvgemucfhrghsthforghilhdpqfgfvfdpuffrtefokffrpgfnqfgh
-    necuuegrihhlohhuthemuceftddtnecunecujfgurhepofgfggfkfffhvffutgesthdtre
-    dtreertdenucfhrhhomhepfdfuihguucfuphhrhidfuceoshhiugesrggvrghmrdhusheq
-    necuggftrfgrthhtvghrnhepueekheeiueeugeevvdejhfeiuefgvdekvdduvdegudfghe
-    efvedtgeetvdehudetnecuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghi
-    lhhfrhhomhepshhiugesrggvrghmrdhush
-X-ME-Proxy: <xmx:L33GX2mCANusmx1zrY6cWZu31hfT1tFmsxZUtMoSwbbSR2hiW7-JEA>
-    <xmx:L33GX9xIEUBmc4la-97FzWl2cU6V_whamuLCCL599i7gigQVWH-28A>
-    <xmx:L33GXwRy5f36OC3IZfggEM42mY9Y8CfvzfRVYG9Rb4kwtt5jZlgqmQ>
-    <xmx:L33GX3c-gJemdwLpES6rAIxGtlj9k4mgUmkbLmJSt5v0w9dKoT7v3w>
-Received: by mailuser.nyi.internal (Postfix, from userid 501)
-        id 02FD86F6005F; Tue,  1 Dec 2020 12:28:00 -0500 (EST)
-X-Mailer: MessagingEngine.com Webmail Interface
-User-Agent: Cyrus-JMAP/3.3.0-622-g4a97c0b-fm-20201115.001-g4a97c0b3
-Mime-Version: 1.0
-Message-Id: <e692d867-54f1-4987-917c-1b0d39cf7ab3@www.fastmail.com>
-Date:   Tue, 01 Dec 2020 11:27:54 -0600
-From:   "Sid Spry" <sid@aeam.us>
-To:     linux-media@vger.kernel.org
-Subject: Accelerated Video Capture on ARM
-Content-Type: text/plain
+        id S2387448AbgLARwa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Dec 2020 12:52:30 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49496 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729602AbgLARwa (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Dec 2020 12:52:30 -0500
+Received: from mail-pj1-x1042.google.com (mail-pj1-x1042.google.com [IPv6:2607:f8b0:4864:20::1042])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2FCE8C0613CF;
+        Tue,  1 Dec 2020 09:51:50 -0800 (PST)
+Received: by mail-pj1-x1042.google.com with SMTP id r9so1675550pjl.5;
+        Tue, 01 Dec 2020 09:51:50 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=sender:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=k6Xb9MXJVov2wm4juOQ7YbGN8C26NDDinzdyjfuUn68=;
+        b=ok8kPmCe3llCdZTU47fe5dTRRP4u7SG0gPPLUr2FUD806/GcKfVnyVsXgjOcHewNr+
+         HyXZhRjFiu/IiaCWgjBO9ZzsSRBlNKSpulVhiKziCzQE1zVHBtkA65QRS4vcFapPlgdV
+         UHr/eS5gxALc3bwXwsHfokAxLWuAgCiHpV/GvnmRaQFqNT3PSh3/nr/bOr+OyzkwF40J
+         3zWpu/RmaSvX+e/hYV+ucNN8qJyaEGDDkErBfGTm/8wXLDNg+c3gFVkxe5UyGeqkT8id
+         ITmSl/ToKZiudo/F2EiSj/L9nY/6I8Lw3gnV9d0dvyFwfFeIsOpoO9t7LuBoo/qMkZUH
+         sF8g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:sender:from:to:cc:subject:date:message-id
+         :mime-version:content-transfer-encoding;
+        bh=k6Xb9MXJVov2wm4juOQ7YbGN8C26NDDinzdyjfuUn68=;
+        b=On/pyF/T3/BlmeagcWGbWXNNcXCYfwXMfhVuBlc86xX2CTa/65APn1TguzhWsPy51I
+         364lIlN/RYsHToS+0cjbfIQRcX7YrmmDbGOK0UADoAEontlsCNz69bcOQi7j2SMKKwhK
+         LXF6xlGMorAcLq/1ivpNFD5REBOG6trjF09ie3BD05au1+KSQL6KNelVPHAl78e1rfX2
+         jYAae+a+75L4q69m60bSZZuNfjQ/Xp09QIoZRRa/8lpvKqfg1gMwV9P2KzsmyhkQsStO
+         MKlq4D/AsLUSH+SaMxl1qBybh8fggWmjmk4pNA7Jk9WZD+RfiImD1n/d7PjrpdIFDUds
+         p6Gw==
+X-Gm-Message-State: AOAM530jZXRX4U2K2AfJtzPGOgp37u2SJ30LEU9d6SHJJnHWYfbhKJps
+        7phLYorGBkdMjr7lvs0oR6c=
+X-Google-Smtp-Source: ABdhPJzSmx8SXb+o8aTUE2sD5HDesL5BsQaDTaF4cLIZmuGSDBxGOhBU7W0xvz5ruGhxvmVGYiktuw==
+X-Received: by 2002:a17:90a:c257:: with SMTP id d23mr3934185pjx.211.1606845109590;
+        Tue, 01 Dec 2020 09:51:49 -0800 (PST)
+Received: from bbox-1.mtv.corp.google.com ([2620:15c:211:201:7220:84ff:fe09:5e58])
+        by smtp.gmail.com with ESMTPSA id q23sm390082pfg.192.2020.12.01.09.51.46
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 01 Dec 2020 09:51:48 -0800 (PST)
+Sender: Minchan Kim <minchan.kim@gmail.com>
+From:   Minchan Kim <minchan@kernel.org>
+To:     Andrew Morton <akpm@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        hyesoo.yu@samsung.com, willy@infradead.org, david@redhat.com,
+        iamjoonsoo.kim@lge.com, vbabka@suse.cz, surenb@google.com,
+        pullip.cho@samsung.com, joaodias@google.com, hridya@google.com,
+        sumit.semwal@linaro.org, john.stultz@linaro.org,
+        Brian.Starkey@arm.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, robh@kernel.org,
+        christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org,
+        Minchan Kim <minchan@kernel.org>
+Subject: [PATCH v2 0/4] Chunk Heap Support on DMA-HEAP
+Date:   Tue,  1 Dec 2020 09:51:40 -0800
+Message-Id: <20201201175144.3996569-1-minchan@kernel.org>
+X-Mailer: git-send-email 2.29.2.454.gaff20da3a2-goog
+MIME-Version: 1.0
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-I know this may depend on specific GPU core, but is there a way to
-do a screen capture? The usecase is capturing the video from an Android
-device, but a voiding the limited and poorly performing developer-oriented
-methods.
+This patchset introduces a new dma heap, chunk heap that makes it
+easy to perform the bulk allocation of high order pages.
+It has been created to help optimize the 4K/8K HDR video playback
+with secure DRM HW to protect contents on memory. The HW needs
+physically contiguous memory chunks up to several hundred MB memory.
 
-Thanks.
+This patchset is against on next-20201130.
+
+The patchset includes the following:
+ - cma_alloc_bulk API
+ - export dma-heap API to register kernel module dma heap.
+ - add chunk heap implementation.
+
+* Since v1 - 
+  https://lore.kernel.org/linux-mm/20201117181935.3613581-1-minchan@kernel.org/
+
+  * introduce alloc_contig_mode - David
+  * use default CMA instead of device tree - John
+    
+Hyesoo Yu (2):
+  dma-buf: add export symbol for dma-heap
+  dma-buf: heaps: add chunk heap to dmabuf heaps
+
+Minchan Kim (2):
+  mm: introduce alloc_contig_mode
+  mm: introduce cma_alloc_bulk API
+
+ drivers/dma-buf/dma-heap.c         |   2 +
+ drivers/dma-buf/heaps/Kconfig      |  15 +
+ drivers/dma-buf/heaps/Makefile     |   1 +
+ drivers/dma-buf/heaps/chunk_heap.c | 429 +++++++++++++++++++++++++++++
+ drivers/virtio/virtio_mem.c        |   2 +-
+ include/linux/cma.h                |   5 +
+ include/linux/gfp.h                |  10 +-
+ kernel/dma/contiguous.c            |   1 +
+ mm/cma.c                           | 134 ++++++++-
+ mm/page_alloc.c                    |  25 +-
+ 10 files changed, 607 insertions(+), 17 deletions(-)
+ create mode 100644 drivers/dma-buf/heaps/chunk_heap.c
+
+-- 
+2.29.2.454.gaff20da3a2-goog
+
