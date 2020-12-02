@@ -2,112 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 89E942CBC93
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 13:13:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EE3CB2CBCB9
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 13:18:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729763AbgLBMN0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 07:13:26 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:48131 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1729417AbgLBMN0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Dec 2020 07:13:26 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id kQzukDkjPN7XgkQzyksu9k; Wed, 02 Dec 2020 13:12:43 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606911163; bh=DXYdVBRGF7jseXC2uIu1D/EW5oYWr4Xwp42Udd5MRQo=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=lazDUd2DAPzPkZtaQRXBN5+8kMAmNhR22MxqsPtEq2mJR0JOoDkrVJ0xY0ofM5I0a
-         64ZcC33c1U/+e55p4rNqHZ1K5uuyNcLmRpYtJpJVM5b6uAyJxZ1X1gtFrgMOb6W2ta
-         LHpbHySKI1mXGD4kcK8szkC5tGlhSdPispJ5i1fPqPe2TftyUIlySR+Chv7kzNaVph
-         mkNY9dgv97gkTCqT4QZv+C6FXx7IMFRo8PhsXqUnWdKP6hkebxhRroIKwRNphP7XcU
-         KylPvlodp4LMqRwcAUod2CnPdPYKx81SKpfyvXOhnG3dwDZxYmh0Hk9aiRns7Jt8xg
-         H2mxNxLWcuhBg==
-Subject: Re: [PATCH v5 09/10] media: Avoid parsing quantization and huffman
- tables
-To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
-        mchehab@kernel.org, shawnguo@kernel.org, robh+dt@kernel.org,
-        p.zabel@pengutronix.de
-Cc:     paul.kocialkowski@bootlin.com, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-imx@nxp.com,
-        s.hauer@pengutronix.de, aisheng.dong@nxp.com,
-        daniel.baluta@nxp.com, robert.chiras@nxp.com,
-        laurentiu.palcu@nxp.com, mark.rutland@arm.com,
-        devicetree@vger.kernel.org, ezequiel@collabora.com,
-        laurent.pinchart+renesas@ideasonboard.com,
-        niklas.soderlund+renesas@ragnatech.se,
-        dafna.hirschfeld@collabora.com,
-        Mirela Rabulea <mirela.rabulea@nxp.com>
-References: <20201112030557.8540-1-mirela.rabulea@oss.nxp.com>
- <20201112030557.8540-10-mirela.rabulea@oss.nxp.com>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <48b58168-662c-3e4d-2e5d-1f2a14b239fe@xs4all.nl>
-Date:   Wed, 2 Dec 2020 13:12:38 +0100
+        id S1729838AbgLBMPU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 07:15:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50044 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729821AbgLBMPT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 07:15:19 -0500
+Received: from mail-ej1-x643.google.com (mail-ej1-x643.google.com [IPv6:2a00:1450:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 854E0C0613CF
+        for <linux-media@vger.kernel.org>; Wed,  2 Dec 2020 04:15:04 -0800 (PST)
+Received: by mail-ej1-x643.google.com with SMTP id lt17so3899194ejb.3
+        for <linux-media@vger.kernel.org>; Wed, 02 Dec 2020 04:15:04 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=linaro.org; s=google;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/6gXxZUIKeeLUrixJ+HeGzB8S1bikNPjMnxhIjyt9GA=;
+        b=PzZqIP9jURIO+D0aE4nicJusK+I7ZnM8l5+qnBYLB0eG/m/7gKndrT70AiSh0TvCzr
+         TpN4R2UNrHRQ1fyWxOXN80UxebyH08KospQUHycRnBerGB/RRglkxZuTH6xRIpaNbmxj
+         GiyndXJsGcIk6suqnre6TR95z7Va/4SsuhEH9gChYJxzO997/nJKOJy9/cJN42izP092
+         TmZL3eIuWatmVC9VbJ/znyrI8qTkrUoOdHA8hObJSMgCJmXAOSN3IxFg5KS+J0ChK+Vh
+         8ZAloyQ14eymB0lC2ny+Um1ilkbY+/N7I/WwXyxTPIsBqbB5Vsnv4bxkNxdM+6kYcpxU
+         1dDg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/6gXxZUIKeeLUrixJ+HeGzB8S1bikNPjMnxhIjyt9GA=;
+        b=lYQSdYF9Djopv2LYuvFGOEDKxvT8ij8qWz0j+tWtLlgPS94HFG3FN1m4qBgPVmwwzL
+         Ru2vOqW4MmKtiLnidsOAjx39NXygeDOQUqrnUbV/fsJ39yM69w4YsXjoJY20G2NeGNec
+         03V2JEDXea/ZzLjsVAYZ8ym+JpzCWomoVX24oOPdzC9cCvlJTYpcEhaddMj0XWv4z1qd
+         3q8ld0qcOOV1Wzok8DDRua8Hg55pp5GgvmifULD2nCi5524cMdwV/G2t1TAoRt5jkPN9
+         rlw9eyNVksEEe0ddcHx1MZWg1MO3sxpe9OloAbqZslqUN/WMZDcWyHD1m1Bziivc+MvB
+         V85w==
+X-Gm-Message-State: AOAM532ISjMt8qWJEX747jUG99Xml1t2Tg+d0zCFgBnYfEQRPG3zqTRH
+        c4e1oZTphVIN0q2+Yh0ws5VouA==
+X-Google-Smtp-Source: ABdhPJzDocutnc+9XTJOaGJ4tFU73g29sVkcV5i3PrV6P6AAEqkfPSo+2XMChnWuyDgGwsNrDNmojQ==
+X-Received: by 2002:a17:906:3153:: with SMTP id e19mr2079701eje.17.1606911303218;
+        Wed, 02 Dec 2020 04:15:03 -0800 (PST)
+Received: from [192.168.0.3] (hst-221-93.medicom.bg. [84.238.221.93])
+        by smtp.googlemail.com with ESMTPSA id b21sm1135840ejz.102.2020.12.02.04.15.02
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 02 Dec 2020 04:15:02 -0800 (PST)
+Subject: Re: [PATCH 1/4] media: v4l2-ctrls: Add random intra-refresh control
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
+        Maheshwar Ajja <majja@codeaurora.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>
+References: <20201130090859.25272-1-stanimir.varbanov@linaro.org>
+ <20201130090859.25272-2-stanimir.varbanov@linaro.org>
+From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
+Message-ID: <159cc27a-20a8-383c-025f-e3e32742c3f5@linaro.org>
+Date:   Wed, 2 Dec 2020 14:15:01 +0200
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201112030557.8540-10-mirela.rabulea@oss.nxp.com>
+In-Reply-To: <20201130090859.25272-2-stanimir.varbanov@linaro.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfL5ydNRTlwziOBecZqjZrR9p9r/iDoZaLXFz3otr+eKw/MSd6Kbnsne5FgZEhL4d5PsTho93Wk0LQRL9GtEA0EVb4tu/MS9dQ8bQwyTaAjTqfbqcEwP+
- KbA0yMjtPnBAvRMNJCjL4/OZqNYbXUFlAImjLIQT9VjwqYwJmMOvnFmhshkGnGGqckK7oo2GjRKejAxqNFhEA7YHG2qJnx3Pq3buXvEi//2ZV7wC57uc7V4I
- NtdQD8uzQYRzIRXUdWOZ4qIwhDBI1iACEAmooW7JaVPqtLwwU26GsGt9pikUApr8FIScDJSkV3IvSfw1UOo51nUQstCOaOGMN0iSSRpWla5hpem3LxlYl44W
- pf5iI7Ef1qQHmDhw9d22OKV0YuUOFXdZhfqTOb9iCJe4UKUQ600P5+8cLScS8uj0Dml8MG69Vw0W/HnN+6tXrkchv41DvoePKYACjHKiHPZR8U8HYH2lKVEV
- phKq0GbLDl+RBkHPJ6JMkdUk+IuncuiDD1o6IGuQQ8BJRDdeSrBBSOjoTlZ0WOd4as+4vpctxWF2HuXeCVa8yAAchoU+92p0WY4DwSCs+l/bgfT7lRuEvxGZ
- 5pYjwpDbjSRWoOpWdpBHCsMGld23Itchp0DYpGhYKnMGpSYEfhLYlQ+vm2xm8QYsgkGmuaGmPS+iInp/7eHpHTm/koiAZCx6OSqWYR16qXFESUoENhBAKLav
- F5TMsk2qflM9JiOWvVZu2l1gKxr4Q4vFWt5RxD+cvWpEB62T/UEQNCSBHWrAUWeX9kFsWjhrWv51azuRpCLUD/VMEkf84NKy6lliz11Lc3YRODlnh83yiQvw
- Ehq7aubitDh7z6PAay5/n05J7wd4e+wgAKU5+N95pq8+oimAJyzeoP90acRQHcf1mYpcMzL/nBRNtUQp7CQLt6O8HjWeSlfohVWh1h5cm+TUccUEPRebFo0o
- /Vuwig==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 12/11/2020 04:05, Mirela Rabulea (OSS) wrote:
-> From: Mirela Rabulea <mirela.rabulea@nxp.com>
+Hi,
+
+On 11/30/20 11:08 AM, Stanimir Varbanov wrote:
+> Add a control to configure number of macroblocks for random
+> intra-refresh mode.
 > 
-> These are optional in struct v4l2_jpeg_header, so do not parse if
-> not requested, save some time.
-> 
-> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 > ---
->  drivers/media/v4l2-core/v4l2-jpeg.c | 6 ++++++
->  1 file changed, 6 insertions(+)
+>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 6 ++++++
+>  drivers/media/v4l2-core/v4l2-ctrls.c                      | 1 +
+>  include/uapi/linux/v4l2-controls.h                        | 1 +
+>  3 files changed, 8 insertions(+)
 > 
-> diff --git a/drivers/media/v4l2-core/v4l2-jpeg.c b/drivers/media/v4l2-core/v4l2-jpeg.c
-> index d77e04083d57..7576cd0ce6b9 100644
-> --- a/drivers/media/v4l2-core/v4l2-jpeg.c
-> +++ b/drivers/media/v4l2-core/v4l2-jpeg.c
-> @@ -307,6 +307,9 @@ static int jpeg_parse_quantization_tables(struct jpeg_stream *stream,
->  {
->  	int len = jpeg_get_word_be(stream);
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index ce728c757eaf..59c5d3da4d95 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -1104,6 +1104,12 @@ enum v4l2_mpeg_video_h264_entropy_mode -
+>      macroblocks is refreshed until the cycle completes and starts from
+>      the top of the frame. Applicable to H264, H263 and MPEG4 encoder.
 >  
-> +	if (!tables)
-> +		return 0;
-> +
+> +``V4L2_CID_MPEG_VIDEO_RANDOM_INTRA_REFRESH_MB (integer)``
+> +    Random intra macroblock refresh. This is the number of random
+> +    macroblocks refreshed on every frame. Here the positions of
+> +    macroblocks to be refreshed on every frame is random. Applicable
+> +    to H264 and HEVC encoder.
 
-It feels more natural to check for a non-NULL out->quantization_tables
-or non-NULL out->huffman_tables pointer in v4l2_jpeg_parse_header()
-rather than in these low-level functions. It's weird to have this check here.
+Please ignore this control.
+I'm going to change the semantics in next version of this series.
 
-Regards,
-
-	Hans
-
->  	if (len < 0)
->  		return len;
->  	/* Lq = 2 + n * 65 (for baseline DCT), n >= 1 */
-> @@ -361,6 +364,9 @@ static int jpeg_parse_huffman_tables(struct jpeg_stream *stream,
->  	int mt;
->  	int len = jpeg_get_word_be(stream);
->  
-> +	if (!tables)
-> +		return 0;
-> +
->  	if (len < 0)
->  		return len;
->  	/* Table B.5 - Huffman table specification parameter sizes and values */
-> 
-
+-- 
+regards,
+Stan
