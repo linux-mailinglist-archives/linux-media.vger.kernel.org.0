@@ -2,174 +2,144 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 927602CC143
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 16:51:38 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 53F7E2CC14B
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 16:51:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730477AbgLBPtI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 10:49:08 -0500
-Received: from new2-smtp.messagingengine.com ([66.111.4.224]:33165 "EHLO
-        new2-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1727677AbgLBPtI (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Dec 2020 10:49:08 -0500
-Received: from compute7.internal (compute7.nyi.internal [10.202.2.47])
-        by mailnew.nyi.internal (Postfix) with ESMTP id DFCA0580332;
-        Wed,  2 Dec 2020 10:48:21 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute7.internal (MEProxy); Wed, 02 Dec 2020 10:48:21 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        date:from:to:cc:subject:message-id:references:mime-version
-        :content-type:in-reply-to; s=fm1; bh=uz5tx6JJZjQqRBY1wNhOnZvzzfm
-        C/Lfn/oSOwP2IkT8=; b=Z3pWWe9FSw50pShNnh4c7pQV/o2Gg0E1ADAczlTSMn5
-        qjjMftjnfqlZ6X99WP7By8v1UydluJiVE3idiPJte5wulTVPLtQ7fRN3EfsVImlV
-        SsgomEyE6vf8tgDSu32m0U2yguzqmOOEhaSEIQ8ZZcUYPkLcImqpOF990inWdV9I
-        npSB+bNDS21WYK7FSuOthFRFC9ABjyEkOSsF5o+2bryBXKnKj2P+75+I7NVaDgDf
-        ELYXaBRPWr7+3wWzcbi1auITTDoXQCTW2yvfmVkwStNnlWCcnvVcF/mcBA2SGb9u
-        WpwkTQxcFewvo8oog/+StttyZVuF2P+unDC4ASyqe7Q==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-type:date:from:in-reply-to
-        :message-id:mime-version:references:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=uz5tx6
-        JJZjQqRBY1wNhOnZvzzfmC/Lfn/oSOwP2IkT8=; b=Xq6cywrRM5HSQp9rRf29V2
-        w1sPoPUakfLix8M1JdprS/Jxt8aXInmyUkoxhzqyXzU9S5JJsHHlrOpfJMdzdHkR
-        +/UySKhVaOUJdb9qMHHRzy3XSseyTVPEr/s+SYi0gKnxP7Z+JSIWc7VqcXkvMFFZ
-        MsS6onf6SPTEdBZGglLb5Kk7wHnys6KXz9nN1Gf9cWap2UmcuFMgTyRjW1YrfqHH
-        U4m9PGIjVKqubZLd6xV3MgX0UuytHz1A7Srb9DydmTFs74IbVX3kcmmfPODja43G
-        qntePIFr3c3l1yx2W08tVYy8OMRVhFzsLnN04PEJ0/gy+BKfDCJebWwIkHWmyvwg
-        ==
-X-ME-Sender: <xms:Q7fHX963KcXgoTuiNX4nObysjv7ItUz5S-lsbt0HbkyOtzMerpny8Q>
-    <xme:Q7fHXx5-y9Vq-QwXXLW3Okn8RahCNj_HSeb010NK_vXLCoiNjvoVGB6YiTKnWKvnI
-    T_-kIRdEDV2uB7WOV4>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeigedgkedvucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhepfffhvffukfhfgggtuggjsehgtderredttddvnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepleekgeehhfdutdeljefgleejffehfffgieejhffgueefhfdtveetgeehieeh
-    gedunecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:Q7fHX5e0hZDW8fBBYxUnRkCYn1JcIeUEiYdkIRomGrWaVeXtKnNCAQ>
-    <xmx:Q7fHX1Ccge-lPO2wbq36lHMq7sthC8k3fZT3ij0LUtbOyZwtoJBkBw>
-    <xmx:Q7fHX8-joJNh5fkpKbIw2aKuNhb1aDSH1z33sv918ZvyzLUrgGMdQQ>
-    <xmx:RbfHX2YWxqMm1yOkSKXdh9n2RCPvbRE93BjJ1U-dAPsZ5lKRVnP6sA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 66015108005B;
-        Wed,  2 Dec 2020 10:48:19 -0500 (EST)
-Date:   Wed, 2 Dec 2020 16:48:18 +0100
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-doc@vger.kernel.org, devel@driverdev.osuosl.org,
-        linux-sunxi@googlegroups.com, Yong Deng <yong.deng@magewell.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Jonathan Corbet <corbet@lwn.net>,
-        Kishon Vijay Abraham I <kishon@ti.com>,
-        Vinod Koul <vkoul@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Hans Verkuil <hans.verkuil@cisco.com>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-Subject: Re: [PATCH v2 13/19] media: sunxi: Add support for the A31 MIPI
- CSI-2 controller
-Message-ID: <20201202154818.bf72m2firemyc5ve@gilmour>
-References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
- <20201128142839.517949-14-paul.kocialkowski@bootlin.com>
- <20201201122038.bxk3vu2w3mg43ayq@gilmour>
- <X8eoX+M650sMXqpx@aptenodytes>
+        id S2388946AbgLBPuD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 10:50:03 -0500
+Received: from mx2.suse.de ([195.135.220.15]:39310 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1728595AbgLBPuD (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Dec 2020 10:50:03 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1606924157; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=V1KqfNMEjdlZsnYnQmgAnUaEY1GwwPYLnd99eAVp8b4=;
+        b=fKwrBBEDmhVAvUaO6fxirS7JT8ThxUTv4HY3C4TBI1h+aBVM/LDtp67SW97aXfBwBnyV53
+        MMpiIOxnpPk5DvB1sN3zGW3u2XSz6h2JoexIiArmA6ruyq0ct5XX3YINS1FTNuZKmLfQi8
+        Nc+OqUpsq0mjhCv8/Gu9fZuDzeT9yJE=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id D6A99AB63;
+        Wed,  2 Dec 2020 15:49:16 +0000 (UTC)
+Date:   Wed, 2 Dec 2020 16:49:15 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, hyesoo.yu@samsung.com,
+        willy@infradead.org, iamjoonsoo.kim@lge.com, vbabka@suse.cz,
+        surenb@google.com, pullip.cho@samsung.com, joaodias@google.com,
+        hridya@google.com, sumit.semwal@linaro.org, john.stultz@linaro.org,
+        Brian.Starkey@arm.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, robh@kernel.org,
+        christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2 2/4] mm: introduce cma_alloc_bulk API
+Message-ID: <20201202154915.GU17338@dhcp22.suse.cz>
+References: <20201201175144.3996569-1-minchan@kernel.org>
+ <20201201175144.3996569-3-minchan@kernel.org>
+ <8f006a4a-c21d-9db3-5493-fb1cc651b0cf@redhat.com>
 MIME-Version: 1.0
-Content-Type: multipart/signed; micalg=pgp-sha256;
-        protocol="application/pgp-signature"; boundary="kkjqa5btqozg6oqw"
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <X8eoX+M650sMXqpx@aptenodytes>
+In-Reply-To: <8f006a4a-c21d-9db3-5493-fb1cc651b0cf@redhat.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Wed 02-12-20 10:14:41, David Hildenbrand wrote:
+> On 01.12.20 18:51, Minchan Kim wrote:
+> > There is a need for special HW to require bulk allocation of
+> > high-order pages. For example, 4800 * order-4 pages, which
+> > would be minimum, sometimes, it requires more.
+> > 
+> > To meet the requirement, a option reserves 300M CMA area and
+> > requests the whole 300M contiguous memory. However, it doesn't
+> > work if even one of those pages in the range is long-term pinned
+> > directly or indirectly. The other option is to ask higher-order
+> 
+> My latest knowledge is that pages in the CMA area are never long term
+> pinned.
+> 
+> https://lore.kernel.org/lkml/20201123090129.GD27488@dhcp22.suse.cz/
+> 
+> "gup already tries to deal with long term pins on CMA regions and migrate
+> to a non CMA region. Have a look at __gup_longterm_locked."
+> 
+> We should rather identify ways how that is still possible and get rid of
+> them.
+> 
+> 
+> Now, short-term pinnings and PCP are other issues where
+> alloc_contig_range() could be improved (e.g., in contrast to a FAST
+> mode, a HARD mode which temporarily disables the PCP, ...).
 
---kkjqa5btqozg6oqw
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-Content-Transfer-Encoding: quoted-printable
+Agreed!
 
-On Wed, Dec 02, 2020 at 03:44:47PM +0100, Paul Kocialkowski wrote:
-> > > +static int __maybe_unused sun6i_mipi_csi2_suspend(struct device *dev)
-> > > +{
-> > > +	struct sun6i_mipi_csi2_dev *cdev =3D dev_get_drvdata(dev);
-> > > +
-> > > +	clk_disable_unprepare(cdev->clk_mod);
-> > > +	clk_disable_unprepare(cdev->clk_bus);
-> > > +	reset_control_assert(cdev->reset);
-> > > +
-> > > +	return 0;
-> > > +}
-> > > +
-> > > +static int __maybe_unused sun6i_mipi_csi2_resume(struct device *dev)
-> > > +{
-> > > +	struct sun6i_mipi_csi2_dev *cdev =3D dev_get_drvdata(dev);
-> > > +	int ret;
-> > > +
-> > > +	ret =3D reset_control_deassert(cdev->reset);
-> > > +	if (ret) {
-> > > +		dev_err(cdev->dev, "failed to deassert reset\n");
-> > > +		return ret;
-> > > +	}
-> > > +
-> > > +	ret =3D clk_prepare_enable(cdev->clk_bus);
-> > > +	if (ret) {
-> > > +		dev_err(cdev->dev, "failed to enable bus clock\n");
-> > > +		goto error_reset;
-> > > +	}
-> > > +
-> > > +	ret =3D clk_prepare_enable(cdev->clk_mod);
-> > > +	if (ret) {
-> > > +		dev_err(cdev->dev, "failed to enable module clock\n");
-> > > +		goto error_clk_bus;
-> > > +	}
-> > > +
-> > > +	return 0;
-> > > +
-> > > +error_clk_bus:
-> > > +	clk_disable_unprepare(cdev->clk_bus);
-> > > +
-> > > +error_reset:
-> > > +	reset_control_assert(cdev->reset);
-> > > +
-> > > +	return ret;
-> > > +}
-> >=20
-> > I'm guessing you set the __maybe_unused attribute because you're using
-> > SET_RUNTIME_PM_OPS, but what would happen if runtime_pm isn't selected?
-> > It looks like you don't handle that case.
->=20
-> Indeed, __maybe_unused is because of the conditional definition of
-> SET_RUNTIME_PM_OPS. If CONFIG_PM is not selected, then I guess the contro=
-ller
-> wouldn't be powered and wouldn't work. So I should definitely add a Kconf=
-ig
-> dependency on PM then, right?
+> > size (e.g., 2M) than requested order(64K) repeatedly until driver
+> > could gather necessary amount of memory. Basically, this approach
+> > makes the allocation very slow due to cma_alloc's function
+> > slowness and it could be stuck on one of the pageblocks if it
+> > encounters unmigratable page.
+> > 
+> > To solve the issue, this patch introduces cma_alloc_bulk.
+> > 
+> > 	int cma_alloc_bulk(struct cma *cma, unsigned int align,
+> > 		bool fast, unsigned int order, size_t nr_requests,
+> > 		struct page **page_array, size_t *nr_allocated);
+> > 
+> > Most parameters are same with cma_alloc but it additionally passes
+> > vector array to store allocated memory. What's different with cma_alloc
+> > is it will skip pageblocks without waiting/stopping if it has unmovable
+> > page so that API continues to scan other pageblocks to find requested
+> > order page.
+> > 
+> > cma_alloc_bulk is best effort approach in that it skips some pageblocks
+> > if they have unmovable pages unlike cma_alloc. It doesn't need to be
+> > perfect from the beginning at the cost of performance. Thus, the API
+> > takes "bool fast parameter" which is propagated into alloc_contig_range to
+> > avoid significat overhead functions to inrecase CMA allocation success
+> > ratio(e.g., migration retrial, PCP, LRU draining per pageblock)
+> > at the cost of less allocation success ratio. If the caller couldn't
+> > allocate enough, they could call it with "false" to increase success ratio
+> > if they are okay to expense the overhead for the success ratio.
+> 
+> Just so I understand what the idea is:
+> 
+> alloc_contig_range() sometimes fails on CMA regions when trying to
+> allocate big chunks (e.g., 300M). Instead of tackling that issue, you
+> rather allocate plenty of small chunks, and make these small allocations
+> fail faster/ make the allocations less reliable. Correct?
+> 
+> I don't really have a strong opinion on that. Giving up fast rather than
+> trying for longer sounds like a useful thing to have - but I wonder if
+> it's strictly necessary for the use case you describe.
+> 
+> I'd like to hear Michals opinion on that.
 
-There's two ways we can do it. What you suggested is one, the other is
-to have something like our SPI driver to call directly the resume
-function if there's no runtime pm support.
+Well, what I can see is that this new interface is an antipatern to our
+allocation routines. We tend to control allocations by gfp mask yet you
+are introducing a bool parameter to make something faster... What that
+really means is rather arbitrary. Would it make more sense to teach
+cma_alloc resp. alloc_contig_range to recognize GFP_NOWAIT, GFP_NORETRY resp.
+GFP_RETRY_MAYFAIL instead?
 
-Maxime
+I am not deeply familiar with the cma allocator so sorry for a
+potentially stupid question. Why does a bulk interface performs better
+than repeated calls to cma_alloc? Is this because a failure would help
+to move on to the next pfn range while a repeated call would have to
+deal with the same range?
 
---kkjqa5btqozg6oqw
-Content-Type: application/pgp-signature; name="signature.asc"
-
------BEGIN PGP SIGNATURE-----
-
-iHUEABYIAB0WIQRcEzekXsqa64kGDp7j7w1vZxhRxQUCX8e3QgAKCRDj7w1vZxhR
-xTh1AP9duiS3skBTouB0HbqCTA8nOkx0lRrOPWEGWu+5e8k5VgEA0QgCH0eQIVFH
-JiC/huo/36twoas2fjPbzkTE/g2VhQw=
-=EZvC
------END PGP SIGNATURE-----
-
---kkjqa5btqozg6oqw--
+> > Signed-off-by: Minchan Kim <minchan@kernel.org>
+> > ---
+> >  include/linux/cma.h |   5 ++
+> >  include/linux/gfp.h |   2 +
+> >  mm/cma.c            | 126 ++++++++++++++++++++++++++++++++++++++++++--
+> >  mm/page_alloc.c     |  19 ++++---
+> >  4 files changed, 140 insertions(+), 12 deletions(-)
+> > 
+-- 
+Michal Hocko
+SUSE Labs
