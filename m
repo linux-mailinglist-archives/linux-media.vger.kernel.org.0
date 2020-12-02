@@ -2,143 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 40A9F2CB15C
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 01:14:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0D83D2CB16E
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 01:25:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727303AbgLBANq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 1 Dec 2020 19:13:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52000 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726989AbgLBANq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 1 Dec 2020 19:13:46 -0500
-Received: from mail-pj1-x1041.google.com (mail-pj1-x1041.google.com [IPv6:2607:f8b0:4864:20::1041])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2E398C0613CF;
-        Tue,  1 Dec 2020 16:13:06 -0800 (PST)
-Received: by mail-pj1-x1041.google.com with SMTP id hk16so104207pjb.4;
-        Tue, 01 Dec 2020 16:13:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=ONvzCRbnsYs7DyFpSE5/MjQxVHqRBL0P/7tzKwkfWHM=;
-        b=bo2pDKf5fAU+67OKk3ptI2/7T18FpKe+bqiT3x+aEsNOSK35XOQ8l8ZNFIT3q9ugQn
-         i8DUY+iBC1QjT0fKPmVftvzXslalhRudFBFL6eTUuclmHxSoFsCYi1AXbdKkpcScOrv8
-         n2Lki4nTQE4ShK0AJqAXOqCZFmW+4VC/7YGrZZ8evl1+ZU+Qu4CKniCufl+GlmvnKTWw
-         07bYGA90bc3N7/mJPEfs3ZNUm0k18JZr25x3uIwOtUC5rLTkvlBwDX9GoXq54iIKU7sK
-         WP6w966gorwTs1SdPoylJH3sJmqQnVRd8f5KLqpW0zpjEb102VGbFpMU+BOQ5fmWBu6z
-         ieTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=ONvzCRbnsYs7DyFpSE5/MjQxVHqRBL0P/7tzKwkfWHM=;
-        b=W0tQj1ol+cdPTFQrdl/ApqDkcdAwaf2ZO3iQF/F/YWkdKVmcN6S61k4iNExwIKY/Jn
-         z4RZgtWmjH6JxUh7RrZMuarMaV2N04+3cjDdoufXhCdNLAzE6ejFFySshc3OJHzNsTD3
-         fZfy5BTAmZRomqZdDuciNb4tGCjYI2W590dyLInLX4HBetjFliVS3Y8bba+H1a+n7+ud
-         8uAkSCrxqVBAIXOlA3M4Gs3NKXbdM51G9G9skOw4atrZ8bS422gEcugDfCUmGfhzXBJw
-         eF/n8M2J33PM0TIJiAOVJCBW5oVT+UI0oDfmH3r6TNj4XfVTUCk4AWI0iUMkM9LNgEU3
-         UOrw==
-X-Gm-Message-State: AOAM5312ZKlE1rxF2Ljt5cRW+we2d6HuZdpDNaCL5TqO//7o+Btnc+7j
-        zeO8DrtXUSi67IqpsiDfRUY=
-X-Google-Smtp-Source: ABdhPJzfhvKOHUX0TmDshT7Dzgz6t3wuG9IeBh/Zj3+Xrv32k6DiXQkpXW7YoGi9chl88ciqE1pvdw==
-X-Received: by 2002:a17:902:14b:b029:da:b499:25c7 with SMTP id 69-20020a170902014bb02900dab49925c7mr55515plb.80.1606867985675;
-        Tue, 01 Dec 2020 16:13:05 -0800 (PST)
-Received: from google.com ([2620:15c:211:201:7220:84ff:fe09:5e58])
-        by smtp.gmail.com with ESMTPSA id a14sm59066pgv.42.2020.12.01.16.13.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Tue, 01 Dec 2020 16:13:04 -0800 (PST)
-Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Tue, 1 Dec 2020 16:13:02 -0800
-From:   Minchan Kim <minchan@kernel.org>
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, Hyesoo Yu <hyesoo.yu@samsung.com>,
-        Matthew Wilcox <willy@infradead.org>, david@redhat.com,
-        iamjoonsoo.kim@lge.com, vbabka@suse.cz,
-        Suren Baghdasaryan <surenb@google.com>,
-        KyongHo Cho <pullip.cho@samsung.com>,
-        John Dias <joaodias@google.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Herring <robh@kernel.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>
-Subject: Re: [PATCH v2 4/4] dma-buf: heaps: add chunk heap to dmabuf heaps
-Message-ID: <20201202001302.GB3968963@google.com>
-References: <20201201175144.3996569-1-minchan@kernel.org>
- <20201201175144.3996569-5-minchan@kernel.org>
- <CALAqxLXFeUStaJ8Mtm5v3kSxmeqnjzLTsyathkrKF0ke3fYGiQ@mail.gmail.com>
- <20201201225554.GA3968963@google.com>
- <CALAqxLW-n4-VSd9dj=KXS4WRDrPmKOShAwP9tCfCZnk+4kxW-w@mail.gmail.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALAqxLW-n4-VSd9dj=KXS4WRDrPmKOShAwP9tCfCZnk+4kxW-w@mail.gmail.com>
+        id S1726516AbgLBAYn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 1 Dec 2020 19:24:43 -0500
+Received: from out1-smtp.messagingengine.com ([66.111.4.25]:58503 "EHLO
+        out1-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726484AbgLBAYn (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Tue, 1 Dec 2020 19:24:43 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailout.nyi.internal (Postfix) with ESMTP id 0855B5C01EF
+        for <linux-media@vger.kernel.org>; Tue,  1 Dec 2020 19:23:37 -0500 (EST)
+Received: from imap21 ([10.202.2.71])
+  by compute4.internal (MEProxy); Tue, 01 Dec 2020 19:23:37 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=aeam.us; h=
+        mime-version:message-id:in-reply-to:references:date:from:to
+        :subject:content-type; s=fm3; bh=nZqapTM0e4sGsVRp03fp435NJ/8gomX
+        bhTrJueflsoA=; b=KwpvGt40ijmPSX5nqzIc4JbH1upaXX+hw5DyHtpyOdgHY1l
+        mm11iV1NhBBSGndQvUJOBQSXTcbYysUw8mYNFrNCYWaN9C/kvIDB0RqZZL24aIk2
+        ITQB+iuGqFDT8BgteJpIKCmDM26CAlwUAtdiXKc0QqUN/mctXCm/oT6tvrtbivPD
+        DWT8YN3KeBBX7hLUD9Q7EXLBUMeKCAOcmHHEQQELj3hjaBtUltnLNAi5/s+ZMPhl
+        tSC41G+9SfNjiDjUzeoM0DH/ANyszdp4tAem0bi6wpfkghN7KWBApjNVtnhIUdPI
+        MXMbIhdhyMNw+keJlWMO0f1kpkQFdqZa7wIYBSg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=nZqapT
+        M0e4sGsVRp03fp435NJ/8gomXbhTrJueflsoA=; b=n1D+g/7MqtVf5/i6RIC3h6
+        th9bCk1e5bmlF9HGqAI/R1OAhzDiIOmDo+x03w8S/GZcD7FUzV2gpjO/LTydc27/
+        s99ZZJALSBo3HfB5KKFTe/cqo0hfpQKNy8Nwswub6bBQ0SlfWGtqhvC14YPaoCH/
+        p9pKTKbICEGvGFwWk3BCXKgZg3gAEtxfwdSFWn65t0JH0EVa4JVg/JI2mXgGUIvE
+        aD/MRZfxKV0ykT9jQKqBu8EEd52IMkjZf8izAAA8Uhv+ipTbRrZs4LyMaSIQQlO0
+        0z7XAVe9uONwbDARpRiCgLH5ZDcWtGLJtxBtBtngfysCBjwJ6uf+vagOtv57tAsw
+        ==
+X-ME-Sender: <xms:iN7GX2XDZU4lHp7TBKIw5UexjXAbc0WdaOkWUwFyXRETOEHMhc-VvQ>
+    <xme:iN7GXykM882fHrtNIfz8uSyKwkG5KzU9pD-pjNZaXqw79Ftf6AHTc_HAslIawejZE
+    78Wr4Dg3YGn-8L4k1M>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeifedgvddvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpefofgggkfgjfhffhffvufgtsehttd
+    ertderredtnecuhfhrohhmpedfufhiugcuufhprhihfdcuoehsihgusegrvggrmhdruhhs
+    qeenucggtffrrghtthgvrhhnpefhjeeigfdvhfeiffekgfekveduudeugfdujedvgfeije
+    euteffkeffhfdvgfeiffenucffohhmrghinhepghhoohhglhgvshhouhhrtggvrdgtohhm
+    necuvehluhhsthgvrhfuihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshhiug
+    esrggvrghmrdhush
+X-ME-Proxy: <xmx:iN7GX6ZblcjkPbLj9HMB-sTViyD0s08nGZy3AdMBF-re0a3UGZLx5A>
+    <xmx:iN7GX9WV2k3Fjdmo2cks8VZlMfw2kDU0Dhl9JM2VC7wXz6X0zQ8H7w>
+    <xmx:iN7GXwnuTpsqMmaci00rWtukjHSFmTah2n4VRnKuLwebFCWHX41-5g>
+    <xmx:id7GX8xVY9R0hagj9hNT0iO8yTza4bcD4c-KDCk4mF0RAehZMp_3dg>
+Received: by mailuser.nyi.internal (Postfix, from userid 501)
+        id D9F4C6F6005E; Tue,  1 Dec 2020 19:23:21 -0500 (EST)
+X-Mailer: MessagingEngine.com Webmail Interface
+User-Agent: Cyrus-JMAP/3.3.0-622-g4a97c0b-fm-20201115.001-g4a97c0b3
+Mime-Version: 1.0
+Message-Id: <d099bfba-e925-4ccf-9c70-83fab7b36caf@www.fastmail.com>
+In-Reply-To: <27b538e4-0771-442b-8a56-991123c42ed8@www.fastmail.com>
+References: <e692d867-54f1-4987-917c-1b0d39cf7ab3@www.fastmail.com>
+ <27b538e4-0771-442b-8a56-991123c42ed8@www.fastmail.com>
+Date:   Tue, 01 Dec 2020 18:23:15 -0600
+From:   "Sid Spry" <sid@aeam.us>
+To:     linux-media@vger.kernel.org
+Subject: Re: Accelerated Video Capture on ARM
+Content-Type: text/plain
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Tue, Dec 01, 2020 at 03:38:14PM -0800, John Stultz wrote:
-> On Tue, Dec 1, 2020 at 2:55 PM Minchan Kim <minchan@kernel.org> wrote:
-> > On Tue, Dec 01, 2020 at 11:48:15AM -0800, John Stultz wrote:
-> > > On Tue, Dec 1, 2020 at 9:51 AM Minchan Kim <minchan@kernel.org> wrote:
-> > >
-> > > Thanks for reworking and resending this!
-> > >
-> > > ...
-> > > > +static int __init chunk_heap_init(void)
-> > > > +{
-> > > > +       struct cma *default_cma = dev_get_cma_area(NULL);
-> > > > +       struct dma_heap_export_info exp_info;
-> > > > +       struct chunk_heap *chunk_heap;
-> > > > +
-> > > > +       if (!default_cma)
-> > > > +               return 0;
-> > > > +
-> > > > +       chunk_heap = kzalloc(sizeof(*chunk_heap), GFP_KERNEL);
-> > > > +       if (!chunk_heap)
-> > > > +               return -ENOMEM;
-> > > > +
-> > > > +       chunk_heap->order = CHUNK_HEAP_ORDER;
-> > > > +       chunk_heap->cma = default_cma;
-> > > > +
-> > > > +       exp_info.name = cma_get_name(default_cma);
-> > >
-> > > So, this would create a chunk heap name with the default CMA name,
-> > > which would be indistinguishable from the heap name used for the plain
-> > > CMA heap.
-> > >
-> > > Probably a good idea to prefix it with "chunk-" so the heap device
-> > > names are unique?
-> >
-> > That will give an impression to user that they are using different CMA
-> > area but that's not true. IMHO, let's be honest at this moment.
+On Tue, Dec 1, 2020, at 5:33 PM, Sid Spry wrote:
+> I made a small breakthrough and found the /dev/graphics/fb* devices.
+> Unfortunately many phones seem to create these but leave these unused.
+> The phone is a Motorola G7 based on a Snapdragon/Adreno chip. Is anyone
+> able to comment on how the screen buffer is accessed?
 > 
-> I disagree.  The dmabuf heaps provide an abstraction for allocating a
-> type of memory, and while your heap is pulling from CMA, you aren't
-> "just" allocating CMA as the existing CMA heap would suffice for that.
-> 
-> Since you need a slightly different method to allocate high order
-> pages in bulk, we really should have a unique way to name the
-> allocator interface. That's why I'd suggest the "chunk-" prefix to the
-> heap name.
+> Thanks.
+>
 
-Got it. How about this? 
+Apologies for the quick posts, but made some more progress. Apparently the
+interface is called Qualcom MDSS MDP (https://android.googlesource.com/kernel/msm/+/android-wear-5.1.1_r0.6/Documentation/devicetree/bindings/fb/mdss-mdp.txt).
 
-diff --git a/drivers/dma-buf/heaps/chunk_heap.c b/drivers/dma-buf/heaps/chunk_heap.c
-index 0277707a93a9..36e189d0b73d 100644
---- a/drivers/dma-buf/heaps/chunk_heap.c
-+++ b/drivers/dma-buf/heaps/chunk_heap.c
-@@ -410,7 +410,7 @@ static int __init chunk_heap_init(void)
-        chunk_heap->order = CHUNK_HEAP_ORDER;
-        chunk_heap->cma = default_cma;
+Checking /sys, I find:
 
--       exp_info.name = cma_get_name(default_cma);
-+       exp_info.name = "cma-chunk-heap";
-        exp_info.ops = &chunk_heap_ops;
-        exp_info.priv = chunk_heap;
+# cat /sys/class/graphics/fb1/msm_fb_type                                                                                                     
+writeback panel
+
+Which was indicted to me elsewhere as the the type of interface I should look for. But
+I can find no documentation on how to read framebuffer data from this device (or fb1,
+which represents the real screen).
+
+Thanks in advance, I've been looking for a while.
