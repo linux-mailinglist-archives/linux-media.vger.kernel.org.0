@@ -2,126 +2,196 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0CAB22CC089
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 16:16:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2865F2CC09C
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 16:19:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730424AbgLBPP5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 10:15:57 -0500
-Received: from mga06.intel.com ([134.134.136.31]:30623 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728343AbgLBPP4 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Dec 2020 10:15:56 -0500
-IronPort-SDR: uZ5Q/teyCLygilMbdgVlcmYYT3Ty8wmolQ9fxqnSfuWfbJfdLiB4h+vcDHzAYXn5TYkNbqc62l
- 7MsJ/K/kuVqQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9823"; a="234636202"
-X-IronPort-AV: E=Sophos;i="5.78,387,1599548400"; 
-   d="scan'208";a="234636202"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 07:14:14 -0800
-IronPort-SDR: CqDZFkSYXsVrekZwPTty2cC7yxRwdKO3E5zYFuLrzziyePVD5LBV3aubjNLYsdmGcgwBC08zke
- sAfmqrbN8b+w==
-X-IronPort-AV: E=Sophos;i="5.78,387,1599548400"; 
-   d="scan'208";a="345903040"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 07:14:06 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kkTqV-00BXJa-8n; Wed, 02 Dec 2020 17:15:07 +0200
-Date:   Wed, 2 Dec 2020 17:15:07 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Hans de Goede <hdegoede@redhat.com>,
-        Dan Scally <djrscally@gmail.com>, linux-kernel@vger.kernel.org,
-        linux-acpi@vger.kernel.org, linux-gpio@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
-        devel@acpica.org, rjw@rjwysocki.net, lenb@kernel.org,
-        gregkh@linuxfoundation.org, mika.westerberg@linux.intel.com,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        wsa@kernel.org, yong.zhi@intel.com, sakari.ailus@linux.intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org,
+        id S1730418AbgLBPTV convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Wed, 2 Dec 2020 10:19:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50304 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727889AbgLBPTV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 10:19:21 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 02766C0613CF
+        for <linux-media@vger.kernel.org>; Wed,  2 Dec 2020 07:18:41 -0800 (PST)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kkTto-0007hc-Sq; Wed, 02 Dec 2020 16:18:32 +0100
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kkTtn-0007QQ-9N; Wed, 02 Dec 2020 16:18:31 +0100
+Message-ID: <6acf2724130aa2e927cd116ecd216bec3e0321a5.camel@pengutronix.de>
+Subject: Re: [PATCH v5 07/10] media: Add parsing for APP14 data segment in
+ jpeg helpers
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>,
+        mchehab@kernel.org, hverkuil-cisco@xs4all.nl, shawnguo@kernel.org,
+        robh+dt@kernel.org
+Cc:     paul.kocialkowski@bootlin.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-imx@nxp.com,
+        s.hauer@pengutronix.de, aisheng.dong@nxp.com,
+        daniel.baluta@nxp.com, robert.chiras@nxp.com,
+        laurentiu.palcu@nxp.com, mark.rutland@arm.com,
+        devicetree@vger.kernel.org, ezequiel@collabora.com,
         laurent.pinchart+renesas@ideasonboard.com,
-        jorhand@linux.microsoft.com, kitakar@gmail.com,
-        heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH 18/18] ipu3: Add driver for dummy INT3472 ACPI device
-Message-ID: <20201202151507.GH4077@smile.fi.intel.com>
-References: <20201130133129.1024662-19-djrscally@gmail.com>
- <20201130200719.GB4077@smile.fi.intel.com>
- <8a1b0f5b-1289-256b-b25d-cf8af43bdc84@gmail.com>
- <20201201185417.GL4077@smile.fi.intel.com>
- <20201201185548.GV4569@pendragon.ideasonboard.com>
- <20201201190523.GO4077@smile.fi.intel.com>
- <20201201190638.GZ4569@pendragon.ideasonboard.com>
- <20201201192137.GR4077@smile.fi.intel.com>
- <4831d44a-5bcc-8cf3-964c-c7dca6827458@redhat.com>
- <20201202124847.GG4486@pendragon.ideasonboard.com>
+        niklas.soderlund+renesas@ragnatech.se,
+        dafna.hirschfeld@collabora.com,
+        Mirela Rabulea <mirela.rabulea@nxp.com>
+Date:   Wed, 02 Dec 2020 16:18:31 +0100
+In-Reply-To: <20201112030557.8540-8-mirela.rabulea@oss.nxp.com>
+References: <20201112030557.8540-1-mirela.rabulea@oss.nxp.com>
+         <20201112030557.8540-8-mirela.rabulea@oss.nxp.com>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201202124847.GG4486@pendragon.ideasonboard.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 02, 2020 at 02:48:47PM +0200, Laurent Pinchart wrote:
-> On Tue, Dec 01, 2020 at 09:34:58PM +0100, Hans de Goede wrote:
-> > On 12/1/20 8:21 PM, Andy Shevchenko wrote:
-> > > On Tue, Dec 01, 2020 at 09:06:38PM +0200, Laurent Pinchart wrote:
+Hi Mirela,
 
-...
-
-> > > I would rather ask Hans' opinion since he has quite an expertise with DMI for
-> > > good and bad.
-> > 
-> > So generally there are 2 ways how things like this can go:
-> > 
-> > 1) There is sufficient information in the ACPI table and we use data from the
-> > ACPI tables
-> > 
-> > 2) There is unsufficient info in the ACPI tables (or we don't know how to
-> > get / interpret the data) and we use DMI quirks
+On Thu, 2020-11-12 at 05:05 +0200, Mirela Rabulea (OSS) wrote:
+> From: Mirela Rabulea <mirela.rabulea@nxp.com>
 > 
-> And this specific case I believe there is sufficient data in the ACPI
-> tables, as I don't believe the Windows driver uses DMI quirks, or comes
-> in the form of machine-specific binaries. We however don't know how to
-> interpret all the data, but that should hopefully get better over time
-> (especially as we'll get more data points, with ACPI dumps from machines
-> whose schematics have leaked).
-
-I think you are too optimistic about this part of Windows drivers.
-I would rather think about hardware stuck with the same frequencies which
-simply are hard coded in the Windows driver.
-
-I have description of ASL for this camera, but I don't see anything like this
-you are describing.
-
-> > Although we do often also use a combination, getting what we can from ACPI,
-> > combined with a set of defaults for what we cannot get from ACPI
-> > based on what reference designs use (IOW what most devices seem to have
-> > copy and pasted). Combined with DMI quirks for when the defaults do not
-> > work (which is quite often).
-> > 
-> > Depending on if "not working because of wrong defaults" has bad side effects,
-> > another option is also to only allow the driver to load on devices which
-> > have the necessary info provided through a DMI match.
+> According to Rec. ITU-T T.872 (06/2012) 6.5.3
+> APP14 segment is for color encoding, it contains a transform flag, which
+> may have values of 0, 1 and 2 and are interpreted as follows:
+> 0 - CMYK for images that are encoded with four components
+>   - RGB for images that are encoded with three components
+> 1 - An image encoded with three components using YCbCr colour encoding.
+> 2 - An image encoded with four components using YCCK colour encoding.
 > 
-> Right now there shouldn't be bad side effects, but in the future we'll
-> need to setup a PMIC whose output voltages can be controlled, and
-> getting it wrong would be very bad. For that I'll definitely vote for
-> DMI match to start with, but I don't think that precludes using data
-> from ACPI. We could just prevent the driver from loading if the machine
-> isn't whitelisted in DMI matches, and still use ACPI data.
+> This is used in imx-jpeg decoder, to distinguish between
+> YUV444 and RGB24.
+> 
+> Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+> ---
+> Changes in v5:
+> This was patch 8 in previous version
+> Replaced a struct for app14 data with just an int, since the 
+> transform flag is the only meaningfull information from this segment
 
-I also think about DMI as a narrowing scope of supported platforms.
+Could we turn this into an enum for the transform flag, and include the
+above spec reference in its kerneldoc comment? I think this would be
+better than checking for (app14_tf == <magic_number>) in the drivers.
 
--- 
-With Best Regards,
-Andy Shevchenko
+>  drivers/media/v4l2-core/v4l2-jpeg.c | 39 +++++++++++++++++++++++++++--
+>  include/media/v4l2-jpeg.h           |  6 +++--
+>  2 files changed, 41 insertions(+), 4 deletions(-)
+> 
+> diff --git a/drivers/media/v4l2-core/v4l2-jpeg.c b/drivers/media/v4l2-core/v4l2-jpeg.c
+> index 8947fd95c6f1..3181ce544f79 100644
+> --- a/drivers/media/v4l2-core/v4l2-jpeg.c
+> +++ b/drivers/media/v4l2-core/v4l2-jpeg.c
+> @@ -45,6 +45,7 @@ MODULE_LICENSE("GPL");
+>  #define DHP	0xffde	/* hierarchical progression */
+>  #define EXP	0xffdf	/* expand reference */
+>  #define APP0	0xffe0	/* application data */
+> +#define APP14	0xffee	/* application data for colour encoding */
+>  #define APP15	0xffef
+>  #define JPG0	0xfff0	/* extensions */
+>  #define JPG13	0xfffd
+> @@ -444,8 +445,37 @@ static int jpeg_skip_segment(struct jpeg_stream *stream)
+>  	return jpeg_skip(stream, len - 2);
+>  }
+>  
+> +/* Rec. ITU-T T.872 (06/2012) 6.5.3 */
+> +static int jpeg_parse_app14_data(struct jpeg_stream *stream)
+> +{
+> +	int ret;
+> +	int Lp;
 
+Let's keep variables lower case.
 
+> +	int skip;
+> +	int tf;
+> +
+> +	Lp = jpeg_get_word_be(stream);
+> +	if (Lp < 0)
+> +		return Lp;
+
+Should we check that Ap1 to 6 are actually "Adobe\0"?
+
+> +	/* get to Ap12 */
+> +	ret = jpeg_skip(stream, 11);
+> +	if (ret < 0)
+> +		return -EINVAL;
+> +
+> +	tf = jpeg_get_byte(stream);
+> +	if (tf < 0)
+> +		return tf;
+> +
+> +	skip = Lp - 2 - 11;
+> +	ret = jpeg_skip(stream, skip);
+> +	if (ret < 0)
+> +		return -EINVAL;
+> +	else
+> +		return tf;
+> +}
+> +
+>  /**
+> - * jpeg_parse_header - locate marker segments and optionally parse headers
+> + * v4l2_jpeg_parse_header - locate marker segments and optionally parse headers
+>   * @buf: address of the JPEG buffer, should start with a SOI marker
+>   * @len: length of the JPEG buffer
+>   * @out: returns marker segment positions and optionally parsed headers
+> @@ -476,6 +506,9 @@ int v4l2_jpeg_parse_header(void *buf, size_t len, struct v4l2_jpeg_header *out)
+>  	if (marker != SOI)
+>  		return -EINVAL;
+>  
+> +	/* init value to signal if this marker is not present */
+> +	out->app14_tf = -EINVAL;
+> +
+>  	/* loop through marker segments */
+>  	while ((marker = jpeg_next_marker(&stream)) >= 0) {
+>  		switch (marker) {
+> @@ -519,7 +552,9 @@ int v4l2_jpeg_parse_header(void *buf, size_t len, struct v4l2_jpeg_header *out)
+>  			ret = jpeg_parse_restart_interval(&stream,
+>  							&out->restart_interval);
+>  			break;
+> -
+> +		case APP14:
+> +			out->app14_tf = jpeg_parse_app14_data(&stream);
+> +			break;
+>  		case SOS:
+>  			ret = jpeg_reference_segment(&stream, &out->sos);
+>  			if (ret < 0)
+> diff --git a/include/media/v4l2-jpeg.h b/include/media/v4l2-jpeg.h
+> index ddba2a56c321..008e0476d928 100644
+> --- a/include/media/v4l2-jpeg.h
+> +++ b/include/media/v4l2-jpeg.h
+> @@ -100,10 +100,11 @@ struct v4l2_jpeg_scan_header {
+>   *                  order, optional
+>   * @restart_interval: number of MCU per restart interval, Ri
+>   * @ecs_offset: buffer offset in bytes to the entropy coded segment
+> + * @app14_tf: transform flag from app14 data
+>   *
+>   * When this structure is passed to v4l2_jpeg_parse_header, the optional scan,
+> - * quantization_tables, and huffman_tables pointers must be initialized to NULL
+> - * or point at valid memory.
+> + * quantization_tables and huffman_tables pointers must be initialized
+> + * to NULL or point at valid memory.
+
+Unnecessary, unrelated change? I'd drop this.
+
+>   */
+>  struct v4l2_jpeg_header {
+>  	struct v4l2_jpeg_reference sof;
+> @@ -119,6 +120,7 @@ struct v4l2_jpeg_header {
+>  	struct v4l2_jpeg_reference *huffman_tables;
+>  	u16 restart_interval;
+>  	size_t ecs_offset;
+> +	int app14_tf;
+>  };
+>  
+>  int v4l2_jpeg_parse_header(void *buf, size_t len, struct v4l2_jpeg_header *out);
+
+regards
+Philipp
