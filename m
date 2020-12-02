@@ -2,153 +2,280 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2E8B42CBB30
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 12:02:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 651712CBB48
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 12:12:42 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726853AbgLBLCH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 06:02:07 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:46315 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726250AbgLBLCG (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Dec 2020 06:02:06 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id kPsukDEjwN7XgkPsxksZ82; Wed, 02 Dec 2020 12:01:23 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606906883; bh=qt3ZG35zMOHZ30lMXbRyDBGMwzHfKhatMhIPX3hMudQ=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=GcEE67yL8bcq8lv9T4Gmxhf6dIBqvZmwLtIbM1tDZ5ClP6E5hCnQ/eUpSMTzPQM1/
-         fyDRaSObluGHOEtUJZf0S5s0CmitWg9BYSBK3LFMAqFr3hapGlF1nfBMzQ7+Q1Gqy0
-         IoFDaOUXguLlimVTm2bakVfA8MbeeOVjRKomVM4DxFdBxid6dt6oZDiLwC4xhuYV10
-         dR2djV09GbOK2ws8K6eN9bHFc/Yc+xSRiaZqvCse8elzrBQ+vFZumgpJwD1fo0RRWE
-         n/Cf0xPTXPy5+CzR4DjLoaQ8OreWqwKj4pRj/7lYL+N+988/aNFUgCI8tMdMzSKRS4
-         DAvij8VPufOCg==
-Subject: Re: [PATCH v2 2/3] docs: media: Document CLL and Mastering display
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20201123230257.31690-1-stanimir.varbanov@linaro.org>
- <20201123230257.31690-3-stanimir.varbanov@linaro.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <de469e16-80a6-9a2f-30b1-ddf04b314e61@xs4all.nl>
-Date:   Wed, 2 Dec 2020 12:01:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1729532AbgLBLLr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 06:11:47 -0500
+Received: from mga18.intel.com ([134.134.136.126]:58685 "EHLO mga18.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725885AbgLBLLq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Dec 2020 06:11:46 -0500
+IronPort-SDR: RyLmFhtjWx02UL/PH4r8DYFFq8Rb20iYP1s6TmcvUo8gXygP57fagTlyI7RJDg6K/+Pjs4/J90
+ 918qrsqWwSrA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="160769198"
+X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
+   d="scan'208";a="160769198"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from fmsmga006.fm.intel.com ([10.253.24.20])
+  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 03:10:05 -0800
+IronPort-SDR: Lk23xe3XZyWFt9R+rbWcXzE5frBlTRU//JkRyz7ZYuPSO+15kMNmk+3T57kq9l8RqAh52LhvMC
+ 1Pnmuurdcjzg==
+X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
+   d="scan'208";a="537945438"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 03:09:58 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 3901720884; Wed,  2 Dec 2020 13:09:56 +0200 (EET)
+Date:   Wed, 2 Dec 2020 13:09:56 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Daniel Scally <djrscally@gmail.com>,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
+        lenb@kernel.org, gregkh@linuxfoundation.org,
+        mika.westerberg@linux.intel.com, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, wsa@kernel.org, yong.zhi@intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
+        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
+        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jorhand@linux.microsoft.com, kitakar@gmail.com,
+        heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH 18/18] ipu3: Add driver for dummy INT3472 ACPI device
+Message-ID: <20201202110956.GD852@paasikivi.fi.intel.com>
+References: <20201130133129.1024662-1-djrscally@gmail.com>
+ <20201130133129.1024662-19-djrscally@gmail.com>
+ <20201130200719.GB4077@smile.fi.intel.com>
+ <20201130233232.GD25713@pendragon.ideasonboard.com>
+ <20201201155513.GB852@paasikivi.fi.intel.com>
+ <20201201183758.GE3085@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <20201123230257.31690-3-stanimir.varbanov@linaro.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfHsf8jl5nk5NviNBzXEZ0TfpZ2rtQHdu6dfzrKh9Dr0FpC6CGQE9fOSrrLl0oqwf+dkDCOhnChbmOYdJbzexvG5GvV0sCDkLBCXhOt0As4qUYRPTsdGM
- dSWeGAjqPQ4VqPaYe6WfOPxO1boxCrNdUD+hF/pW5H5JDYSB9zruy57REbj/M3HsIpTyqmRrE7yUOmb6BX7H7WDYqY2TxrH9u1zW7lPPHGRj4oLSXv9vlfTk
- cq+sZHK8r8SzSp85klbqqo42sdurZ6iLXMysuALz4sKb/DROy8x1Y48P0bSsoV6B442Q8UiE7UMbFsWY0dbBO3cKhZwUPKF5RJXAPk8S31Y7XvXT65zusO94
- SnOpNd4n5Qwf0764354CEQ3/cbJ49kPhJksLrg/LFrvxxZ76ATtzaQ9xgEt/UixPzjVW0ktI
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201201183758.GE3085@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 24/11/2020 00:02, Stanimir Varbanov wrote:
-> Document Content light level and Mastering display colour volume.
+Hi Laurent,
+
+On Tue, Dec 01, 2020 at 08:37:58PM +0200, Laurent Pinchart wrote:
+> Hi Sakari,
 > 
-> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
-> ---
->  .../media/v4l/ext-ctrls-codec.rst             | 71 +++++++++++++++++++
->  1 file changed, 71 insertions(+)
+> On Tue, Dec 01, 2020 at 05:55:13PM +0200, Sakari Ailus wrote:
+> > On Tue, Dec 01, 2020 at 01:32:32AM +0200, Laurent Pinchart wrote:
+> > > On Mon, Nov 30, 2020 at 10:07:19PM +0200, Andy Shevchenko wrote:
+> > > > On Mon, Nov 30, 2020 at 01:31:29PM +0000, Daniel Scally wrote:
+> > > > > On platforms where ACPI is designed for use with Windows, resources
+> > > > > that are intended to be consumed by sensor devices are sometimes in
+> > > > > the _CRS of a dummy INT3472 device upon which the sensor depends. This
+> > > > > driver binds to the dummy acpi device (which does not represent a
+> > > > 
+> > > > acpi device -> acpi_device
+> > > > 
+> > > > > physical PMIC) and maps them into GPIO lines and regulators for use by
+> > > > > the sensor device instead.
+> > > > 
+> > > > ...
+> > > > 
+> > > > > This patch contains the bits of this process that we're least sure about.
+> > > > > The sensors in scope for this work are called out as dependent (in their
+> > > > > DSDT entry's _DEP) on a device with _HID INT3472. These come in at least
+> > > > > 2 kinds; those with an I2cSerialBusV2 entry (which we presume therefore
+> > > > > are legitimate tps68470 PMICs that need handling by those drivers - work
+> > > > > on that in the future). And those without an I2C device. For those without
+> > > > > an I2C device they instead have an array of GPIO pins defined in _CRS. So
+> > > > > for example, my Lenovo Miix 510's OVTI2680 sensor is dependent on one of
+> > > > > the _latter_ kind of INT3472 devices, with this _CRS:
+> > > > > 
+> > > > > Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
+> > > > > {
+> > > > >     Name (SBUF, ResourceTemplate ()
+> > > > >     {
+> > > > >         GpioIo (Exclusive, PullDefault, 0x0000, 0x0000,
+> > > > > 	    IoRestrictionOutputOnly, "\\_SB.PCI0.GPI0",
+> > > > > 	    0x00, ResourceConsumer, ,
+> > > > >             )
+> > > > >             {   // Pin list
+> > > > >                 0x0079
+> > > > >             }
+> > > > >         GpioIo (Exclusive, PullDefault, 0x0000, 0x0000,
+> > > > > 	    IoRestrictionOutputOnly, "\\_SB.PCI0.GPI0",
+> > > > > 	    0x00, ResourceConsumer, ,
+> > > > >             )
+> > > > >             {   // Pin list
+> > > > >                 0x007A
+> > > > >             }
+> > > > >         GpioIo (Exclusive, PullDefault, 0x0000, 0x0000,
+> > > > > 	    IoRestrictionOutputOnly, "\\_SB.PCI0.GPI0",
+> > > > > 	    0x00, ResourceConsumer, ,
+> > > > >             )
+> > > > >             {   // Pin list
+> > > > >                 0x008F
+> > > > >             }
+> > > > >     })
+> > > > >     Return (SBUF) /* \_SB_.PCI0.PMI1._CRS.SBUF */
+> > > > > }
+> > > > > 
+> > > > > and the same device has a _DSM Method, which returns 32-bit ints where
+> > > > > the second lowest byte we noticed to match the pin numbers of the GPIO
+> > > > > lines:
+> > > > > 
+> > > > > Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
+> > > > > {
+> > > > >     If ((Arg0 == ToUUID ("79234640-9e10-4fea-a5c1-b5aa8b19756f")))
+> > > > >     {
+> > > > >         If ((Arg2 == One))
+> > > > >         {
+> > > > >             Return (0x03)
+> > > > >         }
+> > > > > 
+> > > > >         If ((Arg2 == 0x02))
+> > > > >         {
+> > > > >             Return (0x01007900)
+> > > > >         }
+> > > > > 
+> > > > >         If ((Arg2 == 0x03))
+> > > > >         {
+> > > > >             Return (0x01007A0C)
+> > > > >         }
+> > > > > 
+> > > > >         If ((Arg2 == 0x04))
+> > > > >         {
+> > > > >             Return (0x01008F01)
+> > > > >         }
+> > > > >     }
+> > > > > 
+> > > > >     Return (Zero)
+> > > > > }
+> > > > > 
+> > > > > We know that at least some of those pins have to be toggled active for the
+> > > > > sensor devices to be available in i2c, so the conclusion we came to was
+> > > > > that those GPIO entries assigned to the INT3472 device actually represent
+> > > > > GPIOs and regulators to be consumed by the sensors themselves. Tsuchiya
+> > > > > noticed that the lowest byte in the return values of the _DSM method
+> > > > > seemed to represent the type or function of the GPIO line, and we
+> > > > > confirmed that by testing on each surface device that GPIO lines where the
+> > > > > low byte in the _DSM entry for that pin was 0x0d controlled the privacy
+> > > > > LED of the cameras.
+> > > > > 
+> > > > > We're guessing as to the exact meaning of the function byte, but I
+> > > > > conclude they're something like this:
+> > > > > 
+> > > > > 0x00 - probably a reset GPIO
+> > > > > 0x01 - regulator for the sensor
+> > > > > 0x0c - regulator for the sensor
+> > > > > 0x0b - regulator again, but for a VCM or EEPROM
+> > > > > 0x0d - privacy led (only one we're totally confident of since we can see
+> > > > >        it happen!)
+> > > > 
+> > > > It's solely Windows driver design...
+> > > > Luckily I found some information and can clarify above table:
+> > > > 
+> > > > 0x00 Reset
+> > > > 0x01 Power down
+> > > > 0x0b Power enable
+> > > > 0x0c Clock enable
+> > > > 0x0d LED (active high)
+> > > 
+> > > That's very useful information ! Thank you.
+> > > 
+> > > > The above text perhaps should go somewhere under Documentation.
+> > > 
+> > > Or in the driver source code, but definitely somewhere else than in the
+> > > commit message.
+> > > 
+> > > > > After much internal debate I decided to write this as a standalone
+> > > > > acpi_driver. Alternative options we considered:
+> > > > > 
+> > > > > 1. Squash all this into the cio2-bridge code, which I did originally write
+> > > > > but decided I didn't like.
+> > > > > 2. Extend the existing tps68470 mfd driver...they share an ACPI ID so this
+> > > > > kinda makes sense, but ultimately given there is no actual physical
+> > > > > tps68470 in the scenario this patch handles I decided I didn't like this
+> > > > > either.
+> > > > 
+> > > > Looking to this I think the best is to create a module that can be consumed by tps68470 and separately.
+> > > > So, something near to it rather than under ipu3 hood.
+> > > > 
+> > > > You may use same ID's in both drivers (in PMIC less case it can be simple
+> > > > platform and thus they won't conflict), but both of them should provide GPIO
+> > > > resources for consumption.
+> > > > 
+> > > > So, something like
+> > > > 
+> > > >  tps68470.h with API to consume
+> > > >  split tps68470 to -core, -i2c parts
+> > > >  add int3472, which will serve for above and be standalone platform driver
+> > > >  update cio2-bridge accordingly
+> > > > 
+> > > > Would it be feasible?
+> > > 
+> > > Given that INT3472 means Intel camera power management device (that's
+> > > more or less the wording in Windows, I can double-check), would the
+> > > following make sense ?
+> > > 
+> > > A top-level module named intel-camera-pmic (or int3472, or ...) would
+> > > register two drivers, a platform driver and an I2C driver, to
+> > > accommodate for both cases ("discrete PMIC" that doesn't have an
+> > > I2cSerialBusV2, and TPS64870 or uP6641Q that are I2C devices). The probe
+> > > function would perform the following:
+> > > 
+> > > - If there's no CLDB, then the device uses the Chrome OS "ACPI
+> > >   bindings", and refers to a TPS64870. The code that exists in the
+> > >   kernel today (registering GPIOs, and registering an OpRegion to
+> > >   communicate with the power management code in the DSDT) would be
+> > >   activated.
+> > > 
+> > > - If there's a CLDB, then the device type would be retrieved from it:
+> > > 
+> > >   - If the device is a "discrete PMIC", the driver would register clocks
+> > >     and regulators controlled by GPIOs, and create clock, regulator and
+> > >     GPIO lookup entries for the sensor device that references the PMIC.
+> > > 
+> > >   - If the device is a TPS64870, the code that exists in the kernel
+> > >     today to register GPIOs would be activated, and new code would need
+> > >     to be written to register regulators and clocks.
+> > > 
+> > >   - If the device is a uP6641Q, a new driver will need to be written (I
+> > >     don't know on which devices this PMIC is used, so this can probably
+> > >     be deferred).
+> > > 
+> > > We can split this in multiple files and/or modules.
+> > 
+> > That's what I thought of, too, as one option, but with some more detail.
+> > This would be indeed the cleanest option.
+> > 
+> > I think it'd be nice if the CLDB stuff (apart from checking whether it's
+> > there) would be in a different module to avoid cluttering up the real
+> > tps68470 driver.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index ce728c757eaf..1d26a5db07ef 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -4382,3 +4382,74 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->        - Selecting this value specifies that HEVC slices are expected
->          to be prefixed by Annex B start codes. According to :ref:`hevc`
->          valid start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001.
-> +
-> +``V4L2_CID_MPEG_VIDEO_HDR10_CLL_INFO (struct)``
-> +    The Content Light Level defines upper bounds for the nominal target
-> +    brightness light level of the pictures.
-> +
-> +.. c:type:: v4l2_ctrl_hdr10_cll_info
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table:: struct v4l2_ctrl_hdr10_cll_info
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u16
-> +      - ``max_content_light_level``
-> +      - An upper bound on the maximum light level among all individual
-> +        samples for the pictures of coded video sequence, cd/m2. When
-> +        equal to 0 no such uppper bound is present.
-> +    * - __u16
-> +      - ``max_pic_average_light_level``
-> +      - An upper bound on the maximum average light level among the
-> +        samples for any individual picture of coded video sequence, cd/m2.
-> +        When equal to 0 no such uppper bound is present.
-> +
-> +``V4L2_CID_MPEG_VIDEO_HDR10_MASTERING_DISPLAY (struct)``
-> +    The mastering display defines the colour volume (the colour primaries,
-> +    white point and luminance range) of a display considered to be the
-> +    mastering display for current video content.
-> +
-> +.. c:type:: v4l2_ctrl_hdr10_mastering_display
-> +
-> +.. cssclass:: longtable
-> +
-> +.. flat-table:: struct v4l2_ctrl_hdr10_mastering_display
-> +    :header-rows:  0
-> +    :stub-columns: 0
-> +    :widths:       1 1 2
-> +
-> +    * - __u16
-> +      - ``display_primaries_x[3]``
-> +      - Specifies the normalized x chromaticity coordinate of the colour
-> +        primary component c of the mastering display in increments of 0.00002.
-> +        For describing mastering display that use Red, Green and  Blue colour
-> +        primaries, index value c equal to 0 correspond to Green primary, c
-> +        equal to 1 correspond to Blue primary and c equal to 2 correspond to
+> Given the amount of code, and the fact that the driver should be
+> compiled as a module, I don't think it will make a huge difference in
+> the memory footprint.
 
-correspond -> corresponds (3 times)
+I'd still prefer to keep the ACPI hack support and the real driver well
+separated. That way it'd be also easy to put them to their respective
+modules. That's actually how the tps68470 MFD driver is currently arranged;
+the GPIO and OP region drivers are separate from each other.
 
-> +        Red colour primary.
-> +    * - __u16
-> +      - ``display_primaries_y[3]``
-> +      - Specifies the normalized y chromaticity coordinate of the colour
-> +        primary component c of the mastering display in increments of 0.00002.
-> +        For describing mastering display that use Red, Green and  Blue colour
-> +        primaries, index value c equal to 0 correspond to Green primary, c
-> +        equal to 1 correspond to Blue primary and c equal to 2 correspond to
+Could this be just one more platform device for each of the three cases (or
+one for the two latter; I'm not quite sure yet)?
 
-Ditto.
+The GPIO regulator case is relatively safe, but the real PMICs require
+regulator voltage control as well as enabling and disabling the regulators.
+That probably requires either schematics or checking the register values at
+runtime on Windows (i.e. finding out which system you're dealing with, at
+runtime).
 
-> +        Red colour primary.
-> +    * - __u16
-> +      - ``white_point_x``
-> +      - Specifies the normalized x chromaticity coordinate of the white
-> +        point of the mastering display in increments of 0.00002.
-> +    * - __u16
-> +      - ``white_point_y``
-> +      - Specifies the normalized y chromaticity coordinate of the white
-> +        point of the mastering display in increments of 0.00002.
-> +    * - __u32
-> +      - ``max_luminance``
-> +      - Specifies the nominal maximum display luminance of the mastering
-> +        display in units of 0.0001 cd/m2.
-> +    * - __u32
-> +      - ``min_luminance``
-> +      - specifies the nominal minimum display luminance of the mastering
-> +        display in units of 0.0001 cd/m2.
-> 
+-- 
+Kind regards,
 
-I'd rename these last two fields to max/min_display_mastering_luminance to stay
-in sync with the H.265 spec.
-
-Regards,
-
-	Hans
+Sakari Ailus
