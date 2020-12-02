@@ -2,77 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A77812CBDCA
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 14:08:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EEB072CBE07
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 14:15:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730059AbgLBNGM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 08:06:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57972 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727102AbgLBNGM (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 08:06:12 -0500
-Received: from mail-pf1-x443.google.com (mail-pf1-x443.google.com [IPv6:2607:f8b0:4864:20::443])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BD30DC0617A7;
-        Wed,  2 Dec 2020 05:05:31 -0800 (PST)
-Received: by mail-pf1-x443.google.com with SMTP id 131so1200036pfb.9;
-        Wed, 02 Dec 2020 05:05:31 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=C8DiyGUtrm8IiO8i/wnMX1oZhze2ZA4MlHShu8D56M8=;
-        b=OIMHhzY6J7XYAQCHoRe1B4veVAPwsx2IJ9EXWJMyJX6vYEVmrRjSlgDL+3lzFlwExP
-         19T9oB4xIheEYhWjyj3kb3b++mSrQz5Fiu6xhN8NP+6x25jdOOwKJnG/CbAQK0ZX/2gY
-         qRVnhNpq9bRrmaDwu4eH9L8syucEVlDu3/0/7Bncs57vYQTIKAZxQEo6VqPGeoy0U9+J
-         yvlUub1dekxSXbpoqE4MnP7eOx8rvb5+l0Wphh3Ik8vQnfy/k2YD6O9xasPXdW9IATIg
-         RZAY0KmBVtqweaGAsv+lzxt6f2ychwJdoTiv/DpHqo/C8BVdB86qC8qBqsBKJNL0DE/a
-         JeTA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=C8DiyGUtrm8IiO8i/wnMX1oZhze2ZA4MlHShu8D56M8=;
-        b=uH9kWZvx8mVzX280wEVxufhpcbANAChTIPSU7S5XKQPYQSNz3Cwuz6/rNdcyD4gub1
-         dZy6HIwCwKoIZi/WpbCFgTeXpRMi/mFZ4lCiw9eP6mME/GJ67br0ynaXnWy9IFdeLREw
-         K+bZ0tRe+gcLNhDnpXItK4wpd0itwH47OtC+6tYQBBQgitbDAamamMSPdIAUt6AqgALY
-         54GzZo8i/ky9+O1KWzJxdh3f6u76XAVqMd/s7ymHU3rJeIGumLU7YUCtPSEW2o3hc8Sz
-         4CiCScbS/+Ov+nAsAEiQS878R+mdt61TyrRXLnESn3IRRH1ns7kWCOrathXzgzwT3Qnd
-         BsHA==
-X-Gm-Message-State: AOAM531IYYLg3WmKD0RUVZJUiLBEnufyfOwVR3PFzV+QJfpl7btODFK4
-        aebK3JDnPpMCSxO8Oht437KXGvVKC2Tj0iL3qzI=
-X-Google-Smtp-Source: ABdhPJzZSFMwBIgOysDlZl/GZjOuH+v/CSpZZ8HXN7p0bmcoIhmC0i4abkowUIHk/+hYcopG8rL5tj/ohkx/2qoUp2o=
-X-Received: by 2002:a62:445:0:b029:19c:162b:bbef with SMTP id
- 66-20020a6204450000b029019c162bbbefmr2559237pfe.40.1606914331174; Wed, 02 Dec
- 2020 05:05:31 -0800 (PST)
-MIME-Version: 1.0
-References: <20201202113838.21621-1-festevam@gmail.com>
-In-Reply-To: <20201202113838.21621-1-festevam@gmail.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Wed, 2 Dec 2020 15:06:19 +0200
-Message-ID: <CAHp75VczRkD0C4+BGBzgNcFsO-b7QAV3gsW3e_kx=3Bzss+FKA@mail.gmail.com>
-Subject: Re: [PATCH v3] media: coda: Convert the driver to DT-only
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     Philipp Zabel <p.zabel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Content-Type: text/plain; charset="UTF-8"
+        id S1730172AbgLBNOZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 08:14:25 -0500
+Received: from comms.puri.sm ([159.203.221.185]:33188 "EHLO comms.puri.sm"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729896AbgLBNOZ (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Dec 2020 08:14:25 -0500
+Received: from localhost (localhost [127.0.0.1])
+        by comms.puri.sm (Postfix) with ESMTP id 33AF3E112F;
+        Wed,  2 Dec 2020 05:13:14 -0800 (PST)
+Received: from comms.puri.sm ([127.0.0.1])
+        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
+        with ESMTP id Nycj4wAOVjs2; Wed,  2 Dec 2020 05:13:13 -0800 (PST)
+From:   Martin Kepplinger <martin.kepplinger@puri.sm>
+To:     rogerio.silva@nxp.com, slongerbeam@gmail.com,
+        p.zabel@pengutronix.de, mchehab@kernel.org, shawnguo@kernel.org,
+        festevam@gmail.com, hverkuil@xs4all.nl
+Cc:     kernel@puri.sm, kernel@pengutronix.de, linux-imx@nxp.com,
+        linux-media@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org,
+        Martin Kepplinger <martin.kepplinger@puri.sm>
+Subject: [PATCH v2] staging: media: imx: Kconfig: support VIDEO_IMX7_CSI for imx8m
+Date:   Wed,  2 Dec 2020 14:12:51 +0100
+Message-Id: <20201202131251.3422-1-martin.kepplinger@puri.sm>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 2, 2020 at 1:44 PM Fabio Estevam <festevam@gmail.com> wrote:
->
-> Since 5.10-rc1 i.MX is a devicetree-only platform, so simplify the code
-> by removing the unused non-DT support.
+As described in NXPs' linux tree, the imx8m SoC includes the same
+CSI bridge hardware that is part of imx7d. We should be able to
+use the "fsl,imx7-csi" driver for imx8m directly.
 
-Shouldn't you add something like
+Since ipuv3 is not relevant for imx8m, move that dependency to
+VIDEO_IMX_CSI. That makes VIDEO_IMX7_CSI available to support imx8m
+too.
 
-  depends on OF || COMPILE_TEST
+Signed-off-by: Martin Kepplinger <martin.kepplinger@puri.sm>
+---
 
-to show explicitly that driver requires OF to function?
+revision history:
 
+v2: (thanks Philipp and Hans for feedback)
+  * make only VIDEO_IMX_CSI build imx6-media and thus make VIDEO_IMX_MEDIA
+    only build common which can be use by all modules.
+
+v1:
+  https://lore.kernel.org/linux-media/20201109091340.7223-1-martin.kepplinger@puri.sm/
+
+ drivers/staging/media/imx/Kconfig  | 9 +++++----
+ drivers/staging/media/imx/Makefile | 2 +-
+ 2 files changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/drivers/staging/media/imx/Kconfig b/drivers/staging/media/imx/Kconfig
+index f555aac8a9d5..15322dc3124a 100644
+--- a/drivers/staging/media/imx/Kconfig
++++ b/drivers/staging/media/imx/Kconfig
+@@ -2,7 +2,7 @@
+ config VIDEO_IMX_MEDIA
+ 	tristate "i.MX5/6 V4L2 media core driver"
+ 	depends on ARCH_MXC || COMPILE_TEST
+-	depends on VIDEO_V4L2 && IMX_IPUV3_CORE
++	depends on VIDEO_V4L2
+ 	select MEDIA_CONTROLLER
+ 	select VIDEO_V4L2_SUBDEV_API
+ 	depends on HAS_DMA
+@@ -14,21 +14,22 @@ config VIDEO_IMX_MEDIA
+ 	  driver for the i.MX5/6 SOC.
+ 
+ if VIDEO_IMX_MEDIA
+-menu "i.MX5/6/7 Media Sub devices"
++menu "i.MX5/6/7/8 Media Sub devices"
+ 
+ config VIDEO_IMX_CSI
+ 	tristate "i.MX5/6 Camera Sensor Interface driver"
+ 	depends on VIDEO_IMX_MEDIA && VIDEO_DEV && I2C
++	depends on IMX_IPUV3_CORE
+ 	default y
+ 	help
+ 	  A video4linux camera sensor interface driver for i.MX5/6.
+ 
+ config VIDEO_IMX7_CSI
+-	tristate "i.MX6UL/L / i.MX7 Camera Sensor Interface driver"
++	tristate "i.MX6UL/L / i.MX7 / i.MX8M Camera Sensor Interface driver"
+ 	depends on VIDEO_IMX_MEDIA && VIDEO_DEV && I2C
+ 	default y
+ 	help
+ 	  Enable support for video4linux camera sensor interface driver for
+-	  i.MX6UL/L or i.MX7.
++	  i.MX6UL/L, i.MX7 or i.MX8M.
+ endmenu
+ endif
+diff --git a/drivers/staging/media/imx/Makefile b/drivers/staging/media/imx/Makefile
+index 9bd9e873ba7c..69cc5da04a2e 100644
+--- a/drivers/staging/media/imx/Makefile
++++ b/drivers/staging/media/imx/Makefile
+@@ -8,9 +8,9 @@ imx-media-common-objs := imx-media-capture.o imx-media-dev-common.o \
+ 
+ imx6-media-csi-objs := imx-media-csi.o imx-media-fim.o
+ 
+-obj-$(CONFIG_VIDEO_IMX_MEDIA) += imx6-media.o
+ obj-$(CONFIG_VIDEO_IMX_MEDIA) += imx-media-common.o
+ 
++obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media.o
+ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-media-csi.o
+ obj-$(CONFIG_VIDEO_IMX_CSI) += imx6-mipi-csi2.o
+ 
 -- 
-With Best Regards,
-Andy Shevchenko
+2.20.1
+
