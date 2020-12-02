@@ -2,100 +2,656 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 510B52CC159
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 16:53:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 08D0D2CC174
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 16:58:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728544AbgLBPxB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 10:53:01 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:57572 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727889AbgLBPxB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 10:53:01 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 264022A4;
-        Wed,  2 Dec 2020 16:52:19 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1606924339;
-        bh=jIzvV/pEWrFYp4QKPY1SEkIzHhveizFOWnIQjWHJ6dI=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=PG6cjF9G1JWqBnCPV0uxzBrpzcf+WU/pob/81L8AheKpZCzVByhXOi017ePk5rDfF
-         5f5fCWgNyJtZiebWrhVaKn87IQQ1Ryk1WxFZZUkbHGuDPwPXT4MlZvsU6tIm7r9Gka
-         YwToIWRlKC2NZZgCNBCt/gmzVEcQIHhg0/uhUNno=
-Date:   Wed, 2 Dec 2020 17:52:10 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Rob Herring <robh@kernel.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linuxtv-commits@linuxtv.org, Jacopo Mondi <jacopo@jmondi.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>
-Subject: Re: [git:media_tree/master] media: dt-bindings: media: Use OF graph
- schema
-Message-ID: <20201202155210.GA13750@pendragon.ideasonboard.com>
-References: <E1kkTsj-0029fe-8O@www.linuxtv.org>
- <CAL_JsqL5RQkgGEpVadZC-BOB02sMk81q6LvKevcCt-oqkMK-gA@mail.gmail.com>
+        id S1729930AbgLBP6P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 10:58:15 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:35974 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725979AbgLBP6P (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Dec 2020 10:58:15 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kkUVV-002CUq-QW; Wed, 02 Dec 2020 15:57:30 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kkUYf-0007e6-8U; Wed, 02 Dec 2020 16:00:45 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: =?UTF-8?q?Re=3A=20=5BGIT=20PULL=20for=20=3D=3Fiso-8859-1=3Fq=3F5=3D2E11=3D5D=3DA0Preliminary=3F=3D=20CCS=20support=20=28=2369628=29?=
+Date:   Wed,  2 Dec 2020 16:00:45 +0000
+Message-Id: <20201202160045.29346-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201202152857.GW4351@valkosipuli.retiisi.org.uk>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <CAL_JsqL5RQkgGEpVadZC-BOB02sMk81q6LvKevcCt-oqkMK-gA@mail.gmail.com>
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 02, 2020 at 08:45:59AM -0700, Rob Herring wrote:
-> On Wed, Dec 2, 2020 at 8:17 AM Mauro Carvalho Chehab
-> <mchehab+huawei@kernel.org> wrote:
-> >
-> > This is an automatic generated email to let you know that the following patch were queued:
-> >
-> > Subject: media: dt-bindings: media: Use OF graph schema
-> > Author:  Rob Herring <robh@kernel.org>
-> > Date:    Tue Nov 17 02:39:47 2020 +0100
-> >
-> > Now that we have a graph schema, rework the media related schemas to
-> > use it. Mostly this is adding a reference to graph.yaml and dropping
-> > duplicate parts from schemas.
-> >
-> > Cc: Maxime Ripard <mripard@kernel.org>
-> > Cc: Jacopo Mondi <jacopo@jmondi.org>
-> > Cc: Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
-> > Signed-off-by: Rob Herring <robh@kernel.org>
-> > Acked-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> 
-> Laurent did not ack this. There was discussion on this and it needs a
-> v2. Please drop.
+From: builder@linuxtv.org
 
-I told Sakari in an IRC conversation I was fine with the patches, and he
-asked if that meant an ack. I said yes, but didn't realize he wanted to
-apply your v1. Sorry about the confusion :-S
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20201202152857.GW4351@valkosipuli.retiisi.org.uk/
+Build log: https://builder.linuxtv.org/job/patchwork/79587/
+Build time: 00:17:00
+Link: https://lore.kernel.org/linux-media/20201202152857.GW4351@valkosipuli.retiisi.org.uk
 
-> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-> >
-> >  .../bindings/media/allwinner,sun4i-a10-csi.yaml    |  1 +
-> >  .../bindings/media/allwinner,sun6i-a31-csi.yaml    |  1 +
-> >  .../devicetree/bindings/media/i2c/adv7180.yaml     | 31 ++-------
-> >  .../devicetree/bindings/media/i2c/adv7604.yaml     | 32 ++-------
-> >  .../bindings/media/i2c/aptina,mt9v111.yaml         |  2 +-
-> >  .../bindings/media/i2c/imi,rdacm2x-gmsl.yaml       | 25 +------
-> >  .../devicetree/bindings/media/i2c/imx219.yaml      |  4 ++
-> >  .../bindings/media/i2c/maxim,max9286.yaml          | 76 +++++-----------------
-> >  .../devicetree/bindings/media/i2c/ov5647.yaml      |  5 +-
-> >  .../devicetree/bindings/media/i2c/ov8856.yaml      |  5 +-
-> >  .../devicetree/bindings/media/i2c/ovti,ov772x.yaml |  1 +
-> >  .../devicetree/bindings/media/i2c/sony,imx214.yaml |  1 +
-> >  .../devicetree/bindings/media/i2c/sony,imx274.yaml |  3 +-
-> >  .../bindings/media/marvell,mmp2-ccic.yaml          |  1 +
-> >  .../devicetree/bindings/media/renesas,ceu.yaml     |  1 +
-> >  .../devicetree/bindings/media/renesas,csi2.yaml    | 36 ++--------
-> >  .../devicetree/bindings/media/renesas,vin.yaml     |  7 +-
-> >  .../devicetree/bindings/media/st,stm32-dcmi.yaml   |  7 +-
-> >  .../devicetree/bindings/media/ti,cal.yaml          | 15 ++---
-> >  .../bindings/media/xilinx/xlnx,csi2rxss.yaml       | 21 +-----
-> >  20 files changed, 61 insertions(+), 214 deletions(-)
+gpg: Signature made Wed 02 Dec 2020 03:22:17 PM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Can't check signature: No public key
 
--- 
-Regards,
+Summary: got 25/32 patches with issues, being 23 at build time, plus one error when buinding PDF document
 
-Laurent Pinchart
+Error/warnings:
+
+patches/0001-Documentation-ccs-Rename-ccs-regs.txt-as-ccs-regs.as.patch:
+
+   checkpatch.pl:
+	$ cat patches/0001-Documentation-ccs-Rename-ccs-regs.txt-as-ccs-regs.as.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:12: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+
+patches/0008-ccs-Make-hwcfg-part-of-the-device-specific-struct.patch:
+
+   checkpatch.pl:
+	$ cat patches/0008-ccs-Make-hwcfg-part-of-the-device-specific-struct.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:158: CHECK: Comparison to NULL could be written "sensor->hwcfg.strobe_setup"
+
+patches/0010-ccs-Add-CCS-static-data-parser-library.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[2]: *** Waiting for unfinished jobs....
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0010-ccs-Add-CCS-static-data-parser-library.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:36: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+	-:313: CHECK: multiple assignments should be avoided
+	-:322: CHECK: Macro argument reuse 'var' - possible side-effects?
+	-:322: CHECK: Macro argument 'var' may be better as '(var)' to avoid precedence issues
+	-:326: CHECK: Macro argument reuse 'var' - possible side-effects?
+	-:326: CHECK: Macro argument 'var' may be better as '(var)' to avoid precedence issues
+	-:391: CHECK: Alignment should match open parenthesis
+	-:490: CHECK: multiple assignments should be avoided
+	-:702: CHECK: multiple assignments should be avoided
+	-:1091: CHECK: Lines should not end with a '('
+	-:1099: CHECK: Lines should not end with a '('
+	-:1107: CHECK: Lines should not end with a '('
+	-:1115: CHECK: Lines should not end with a '('
+	-:1135: CHECK: Lines should not end with a '('
+	-:1143: CHECK: Lines should not end with a '('
+	-:1423: WARNING: 'Lenght' may be misspelled - perhaps 'Length'?
+
+patches/0011-ccs-Combine-revision-number-major-and-minor-into-one.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0012-ccs-Read-CCS-static-data-from-firmware-binaries.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-quirk.c:14:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0013-ccs-Stop-reading-arrays-after-the-first-zero.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0014-ccs-The-functions-to-get-compose-or-crop-rectangle-n.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0015-ccs-Replace-somewhat-harsh-internal-checks-based-on-.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0016-ccs-Refactor-register-reading-a-little.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0017-ccs-Make-real-to-integer-number-conversion-optional.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-quirk.c:14:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0018-ccs-Move-limit-value-real-to-integer-conversion-from.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0019-ccs-Read-ireal-numbers-correctly.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-quirk.c:14:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0020-smiapp-pll-Rename-as-ccs-pll.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-quirk.c:14:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0020-smiapp-pll-Rename-as-ccs-pll.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:80: WARNING: It's generally not useful to have the filename in the file
+	-:157: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:254: WARNING: It's generally not useful to have the filename in the file
+	-:278: CHECK: Prefer using the BIT macro
+	-:279: CHECK: Prefer using the BIT macro
+
+patches/0021-ccs-pll-Fix-MODULE_LICENSE.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[3]: *** Waiting for unfinished jobs....
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[2]: *** Waiting for unfinished jobs....
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0022-ccs-Change-my-e-mail-address.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-quirk.c:14:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0023-ccs-Allow-range-in-between-I-C-retries.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0024-ccs-Add-support-for-manufacturer-regs-from-sensor-an.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-reg-access.c:324:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:325:32: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	In file included from ../include/linux/kernel.h:14,
+	                 from ../include/linux/unaligned/access_ok.h:5,
+	                 from ../arch/x86/include/asm/unaligned.h:9,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:12:
+	../include/linux/minmax.h:42:2: error: first argument to ‘__builtin_choose_expr’ not a constant
+	../include/linux/minmax.h:51:19: note: in expansion of macro ‘__careful_cmp’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:332:14: note: in expansion of macro ‘min’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-reg-access.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-quirk.c:14:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0025-ccs-Use-static-data-read-only-registers.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-reg-access.c:207:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:210:11: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:380:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	In file included from ../include/linux/kernel.h:14,
+	                 from ../include/linux/unaligned/access_ok.h:5,
+	                 from ../arch/x86/include/asm/unaligned.h:9,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:12:
+	../include/linux/minmax.h:42:2: error: first argument to ‘__builtin_choose_expr’ not a constant
+	../include/linux/minmax.h:51:19: note: in expansion of macro ‘__careful_cmp’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:388:14: note: in expansion of macro ‘min’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-reg-access.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+   checkpatch.pl:
+	$ cat patches/0025-ccs-Use-static-data-read-only-registers.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:28: CHECK: Prefer kernel type 'u8' over 'uint8_t'
+
+patches/0026-ccs-Clean-up-runtime-PM-usage.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-reg-access.c:207:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:210:11: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:380:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	In file included from ../include/linux/kernel.h:14,
+	                 from ../include/linux/unaligned/access_ok.h:5,
+	                 from ../arch/x86/include/asm/unaligned.h:9,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:12:
+	../include/linux/minmax.h:42:2: error: first argument to ‘__builtin_choose_expr’ not a constant
+	../include/linux/minmax.h:51:19: note: in expansion of macro ‘__careful_cmp’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:388:14: note: in expansion of macro ‘min’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-reg-access.o] Error 1
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0027-ccs-Wrap-long-lines-unwrap-short-ones.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-reg-access.c:207:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:210:11: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:380:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	In file included from ../include/linux/kernel.h:14,
+	                 from ../include/linux/unaligned/access_ok.h:5,
+	                 from ../arch/x86/include/asm/unaligned.h:9,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:12:
+	../include/linux/minmax.h:42:2: error: first argument to ‘__builtin_choose_expr’ not a constant
+	../include/linux/minmax.h:51:19: note: in expansion of macro ‘__careful_cmp’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:388:14: note: in expansion of macro ‘min’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-reg-access.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0028-ccs-Use-longer-pre-I-C-sleep-for-CCS-compliant-devic.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-reg-access.c:207:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:210:11: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:380:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	In file included from ../include/linux/kernel.h:14,
+	                 from ../include/linux/unaligned/access_ok.h:5,
+	                 from ../arch/x86/include/asm/unaligned.h:9,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:12:
+	../include/linux/minmax.h:42:2: error: first argument to ‘__builtin_choose_expr’ not a constant
+	../include/linux/minmax.h:51:19: note: in expansion of macro ‘__careful_cmp’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:388:14: note: in expansion of macro ‘min’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-reg-access.o] Error 1
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0029-ccs-Remove-unnecessary-delays-from-power-up-sequence.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-reg-access.c:207:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:210:11: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:380:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	In file included from ../include/linux/kernel.h:14,
+	                 from ../include/linux/unaligned/access_ok.h:5,
+	                 from ../arch/x86/include/asm/unaligned.h:9,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:12:
+	../include/linux/minmax.h:42:2: error: first argument to ‘__builtin_choose_expr’ not a constant
+	../include/linux/minmax.h:51:19: note: in expansion of macro ‘__careful_cmp’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:388:14: note: in expansion of macro ‘min’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-reg-access.o] Error 1
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0030-dt-bindings-mipi-ccs-Don-t-mention-vana-voltage.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-reg-access.c:207:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:210:11: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:380:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	In file included from ../include/linux/kernel.h:14,
+	                 from ../include/linux/unaligned/access_ok.h:5,
+	                 from ../arch/x86/include/asm/unaligned.h:9,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:12:
+	../include/linux/minmax.h:42:2: error: first argument to ‘__builtin_choose_expr’ not a constant
+	../include/linux/minmax.h:51:19: note: in expansion of macro ‘__careful_cmp’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:388:14: note: in expansion of macro ‘min’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-reg-access.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[2]: *** Waiting for unfinished jobs....
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0031-dt-bindings-mipi-ccs-Add-vcore-and-vio-supplies.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-reg-access.c:207:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:210:11: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:380:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	In file included from ../include/linux/kernel.h:14,
+	                 from ../include/linux/unaligned/access_ok.h:5,
+	                 from ../arch/x86/include/asm/unaligned.h:9,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:12:
+	../include/linux/minmax.h:42:2: error: first argument to ‘__builtin_choose_expr’ not a constant
+	../include/linux/minmax.h:51:19: note: in expansion of macro ‘__careful_cmp’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:388:14: note: in expansion of macro ‘min’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-reg-access.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+patches/0032-ccs-Use-all-regulators.patch:
+
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs-data-defs.h:11,
+	                 from ../drivers/media/i2c/ccs/ccs-data.c:15:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-data.c:223:44: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-data.c:296:8: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-data.o] Error 1
+	make[4]: *** Waiting for unfinished jobs....
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-reg-access.c:207:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:210:11: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:380:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	In file included from ../include/linux/kernel.h:14,
+	                 from ../include/linux/unaligned/access_ok.h:5,
+	                 from ../arch/x86/include/asm/unaligned.h:9,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:12:
+	../include/linux/minmax.h:42:2: error: first argument to ‘__builtin_choose_expr’ not a constant
+	../include/linux/minmax.h:51:19: note: in expansion of macro ‘__careful_cmp’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:388:14: note: in expansion of macro ‘min’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-reg-access.o] Error 1
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-quirk.c:14:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
+
+
+Error #512 when building PDF docs
+
