@@ -2,149 +2,333 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 54EB92CBA93
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 11:29:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6FE4A2CBABD
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 11:43:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388414AbgLBK2x (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 05:28:53 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33630 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388076AbgLBK2x (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 05:28:53 -0500
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 0FA88C0613D6
-        for <linux-media@vger.kernel.org>; Wed,  2 Dec 2020 02:28:07 -0800 (PST)
-Received: by mail-ed1-x543.google.com with SMTP id u19so3158642edx.2
-        for <linux-media@vger.kernel.org>; Wed, 02 Dec 2020 02:28:06 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=pOIFH2c7aUrVRRVYvlUc1syo0njMuyaej3dxXHicsn4=;
-        b=ty5mGyimYDzNAdXwX4p0YYa/HTJwKSg39bxZcVdfLzO5uBXF7g9TAzd3ltuq7gSK57
-         K6XqMTxW3lF+x5bN6nQzDY/rURK4j2m1C/B/9uYhnIcTDWTw2UZIREILi5FF70l4jRSf
-         RVLsuwHSioHJJpwEBEeksk54zPu+K9N7FfpKw7FSizTGbP+ok45jdcyZQxk5FmT5Iwcv
-         tT7JoKoCuOBEEHlkPo+GPSc1oVJSIBItWQDNyJho0YrUzsmWJi8qdQ/NuvUFrB0U8wsI
-         Fos44l+j/d5kJR7oQaYPodtpXkEn1ze/wWbL73hIK4hv/ZiRZgcqaSd0nhuUN6i5E7UY
-         khxQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=pOIFH2c7aUrVRRVYvlUc1syo0njMuyaej3dxXHicsn4=;
-        b=QQ32Lz5xVO1coJ0PVQ6KgR6VzBc0J7DAJZiGjD46mNp+JD7nyis0NxHE6o8yMe2i/t
-         W8ja30JZrwCr0pofE8RC/PO57aq4XAfneJnOYOCMS9qPP7vDdF9x+K2g5ZzApl7Iugkk
-         4ABxjjeW6dgcV0Q48M93vtLDiF7Q/2a9ATz3C0cfRNy0XIxbmAqqg1LyWzSnZe2qLozU
-         4nvwiCJfWEc9tZsyHT4qItdMA2tJZKBOY/FcNW8V0g16qnyCjktqOt9kLKnFxWx6eKC8
-         TyUBflolTnu8DP8LB1jf5synAzXP+TqWJRNBWY9OjeCKhfsDuo63VW2JbmCo4P7Zj58e
-         uPig==
-X-Gm-Message-State: AOAM532X8WZWn/lqMMCM8GZXcSMK/kVd3ELsk0WUQUoBogemM5ZlVTGN
-        LmrSlRtltLZ1vH+YAmehlIj2zeqLzu8Lrf9T
-X-Google-Smtp-Source: ABdhPJzzpjIL5eskPImxD4ZAPuWyPJAyD6Vtl15araHbU4xgAdWPTaamVhoHl/cKP4dVI8Fl6aes+w==
-X-Received: by 2002:a50:d8c8:: with SMTP id y8mr1878914edj.82.1606904885590;
-        Wed, 02 Dec 2020 02:28:05 -0800 (PST)
-Received: from [192.168.0.3] (hst-221-33.medicom.bg. [84.238.221.33])
-        by smtp.googlemail.com with ESMTPSA id n17sm779483ejh.49.2020.12.02.02.28.04
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Dec 2020 02:28:05 -0800 (PST)
-Subject: Re: [PATCH] media: venus: preserve DRC state across seeks
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        linux-arm-msm@vger.kernel.org, LKML <linux-kernel@vger.kernel.org>
-References: <20201202053424.3286774-1-acourbot@chromium.org>
- <CAPBb6MXt4uL+VgxQs6ynf5LKae657QXmrjw6XYnL0vg_zuuDsw@mail.gmail.com>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <89086086-c0d9-62b0-2819-a537fe92782f@linaro.org>
-Date:   Wed, 2 Dec 2020 12:28:03 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S2388343AbgLBKko (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 05:40:44 -0500
+Received: from mga05.intel.com ([192.55.52.43]:48995 "EHLO mga05.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725971AbgLBKko (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Dec 2020 05:40:44 -0500
+IronPort-SDR: AMU5WaUTMjLpHEYoWmYpWIiAlYXnsm1lvSgcbCW6Y2kd4AJGttyxnu78uPSmNijqpBvelqHNni
+ 9QBA+gaxaADA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="257706316"
+X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
+   d="scan'208";a="257706316"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga004.jf.intel.com ([10.7.209.38])
+  by fmsmga105.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 02:39:02 -0800
+IronPort-SDR: QViAd5tmDjr+sBoGlfIZBSw3H866zkbPNe26YOdRP40UaXgTBtmwkIM2Db354V62lr5NvOmtfM
+ 5NcyLEhYA4Zw==
+X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
+   d="scan'208";a="481506009"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 02:38:54 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id ED62D20884; Wed,  2 Dec 2020 12:38:51 +0200 (EET)
+Date:   Wed, 2 Dec 2020 12:38:51 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     Dan Scally <djrscally@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
+        devel@acpica.org, rjw@rjwysocki.net, lenb@kernel.org,
+        gregkh@linuxfoundation.org, mika.westerberg@linux.intel.com,
+        andriy.shevchenko@linux.intel.com, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, wsa@kernel.org, yong.zhi@intel.com,
+        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
+        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
+        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
+        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
+        jacopo+renesas@jmondi.org,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jorhand@linux.microsoft.com, kitakar@gmail.com,
+        heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH 13/18] ipu3-cio2: Add functionality allowing
+ software_node connections to sensors on platforms designed for Windows
+Message-ID: <20201202103851.GC852@paasikivi.fi.intel.com>
+References: <20201130133129.1024662-1-djrscally@gmail.com>
+ <20201130133129.1024662-14-djrscally@gmail.com>
+ <20201130170955.GN14465@pendragon.ideasonboard.com>
+ <b5cc6bbd-f679-7023-fde0-de2acb65a3c2@gmail.com>
+ <20201201223053.GB4569@pendragon.ideasonboard.com>
 MIME-Version: 1.0
-In-Reply-To: <CAPBb6MXt4uL+VgxQs6ynf5LKae657QXmrjw6XYnL0vg_zuuDsw@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201201223053.GB4569@pendragon.ideasonboard.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Laurent,
 
-On 12/2/20 12:24 PM, Alexandre Courbot wrote:
-> On Wed, Dec 2, 2020 at 2:34 PM Alexandre Courbot <acourbot@chromium.org> wrote:
->>
->> DRC events can happen virtually at anytime, including when we are
->> starting a seek. Should this happen, we must make sure to return to the
->> DRC state, otherwise the firmware will expect buffers of the new
->> resolution whereas userspace will still work with the old one.
->>
->> Returning to the DRC state upon resume for seeking makes sure that the
->> client will get the DRC event and will reallocate the buffers to fit the
->> firmware's expectations.
+On Wed, Dec 02, 2020 at 12:30:53AM +0200, Laurent Pinchart wrote:
+> Hi Daniel,
 > 
-> Oops, please ignore as this seems to depend on another patch... I will
-> repost once I can figure out the correct dependency chain, unless
-> Stanimir can find a better way to handle DRC during seek and flush.
-
-This patch depends on [1] series which is still under review.
-
-[1] https://www.spinics.net/lists/linux-media/msg177801.html
-
+> On Tue, Dec 01, 2020 at 10:08:25PM +0000, Dan Scally wrote:
+> > On 30/11/2020 17:09, Laurent Pinchart wrote:
+> > > On Mon, Nov 30, 2020 at 01:31:24PM +0000, Daniel Scally wrote:
+> > >> Currently on platforms designed for Windows, connections between CIO2 and
+> > >> sensors are not properly defined in DSDT. This patch extends the ipu3-cio2
+> > >> driver to compensate by building software_node connections, parsing the
+> > >> connection properties from the sensor's SSDB buffer.
+> > >>
+> > >> Suggested-by: Jordan Hand <jorhand@linux.microsoft.com>
+> > >> Signed-off-by: Daniel Scally <djrscally@gmail.com>
+> > >> ---
+> > >> Changes since RFC v3:
+> > >>
+> > >> 	- Removed almost all global variables, dynamically allocated
+> > >> 	the cio2_bridge structure, plus a bunch of associated changes
+> > >> 	like 
+> > >> 	- Added a new function to ipu3-cio2-main.c to check for an 
+> > >> 	existing fwnode_graph before calling cio2_bridge_init()
+> > >> 	- Prefixed cio2_bridge_ to any variables and functions that
+> > >> 	lacked it
+> > >> 	- Assigned the new fwnode directly to the sensor's ACPI device
+> > >> 	fwnode as secondary. This removes the requirement to delay until
+> > >> 	the I2C devices are instantiated before ipu3-cio2 can probe, but
+> > >> 	it has a side effect, which is that those devices then grab a ref
+> > >> 	to the new software_node. This effectively prevents us from
+> > >> 	unloading the driver, because we can't free the memory that they
+> > >> 	live in whilst the device holds a reference to them. The work
+> > >> 	around at the moment is to _not_ unregister the software_nodes
+> > >> 	when ipu3-cio2 is unloaded; this becomes a one-time 'patch', that
+> > >> 	is simply skipped if the module is reloaded.
+> > >> 	- Moved the sensor's SSDB struct to be a member of cio2_sensor
+> > >> 	- Replaced ints with unsigned ints where appropriate
+> > >> 	- Iterated over all ACPI devices of a matching _HID rather than
+> > >> 	just the first to ensure we handle a device with multiple sensors
+> > >> 	of the same model.
+> > >>
+> > >>  MAINTAINERS                                   |   1 +
+> > >>  drivers/media/pci/intel/ipu3/Kconfig          |  18 ++
+> > >>  drivers/media/pci/intel/ipu3/Makefile         |   1 +
+> > >>  drivers/media/pci/intel/ipu3/cio2-bridge.c    | 260 ++++++++++++++++++
+> > >>  drivers/media/pci/intel/ipu3/cio2-bridge.h    | 108 ++++++++
+> > >>  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  27 ++
+> > >>  drivers/media/pci/intel/ipu3/ipu3-cio2.h      |   6 +
+> > >>  7 files changed, 421 insertions(+)
+> > >>  create mode 100644 drivers/media/pci/intel/ipu3/cio2-bridge.c
+> > >>  create mode 100644 drivers/media/pci/intel/ipu3/cio2-bridge.h
+> > >>
+> > >> diff --git a/MAINTAINERS b/MAINTAINERS
+> > >> index 9702b886d6a4..188559a0a610 100644
+> > >> --- a/MAINTAINERS
+> > >> +++ b/MAINTAINERS
+> > >> @@ -8927,6 +8927,7 @@ INTEL IPU3 CSI-2 CIO2 DRIVER
+> > >>  M:	Yong Zhi <yong.zhi@intel.com>
+> > >>  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
+> > >>  M:	Bingbu Cao <bingbu.cao@intel.com>
+> > >> +M:	Dan Scally <djrscally@gmail.com>
+> > >>  R:	Tianshu Qiu <tian.shu.qiu@intel.com>
+> > >>  L:	linux-media@vger.kernel.org
+> > >>  S:	Maintained
+> > >> diff --git a/drivers/media/pci/intel/ipu3/Kconfig b/drivers/media/pci/intel/ipu3/Kconfig
+> > >> index 82d7f17e6a02..2b3350d042be 100644
+> > >> --- a/drivers/media/pci/intel/ipu3/Kconfig
+> > >> +++ b/drivers/media/pci/intel/ipu3/Kconfig
+> > >> @@ -16,3 +16,21 @@ config VIDEO_IPU3_CIO2
+> > >>  	  Say Y or M here if you have a Skylake/Kaby Lake SoC with MIPI CSI-2
+> > >>  	  connected camera.
+> > >>  	  The module will be called ipu3-cio2.
+> > >> +
+> > >> +config CIO2_BRIDGE
+> > >> +	bool "IPU3 CIO2 Sensors Bridge"
+> > >> +	depends on VIDEO_IPU3_CIO2
+> > >> +	help
+> > >> +	  This extension provides an API for the ipu3-cio2 driver to create
+> > >> +	  connections to cameras that are hidden in SSDB buffer in ACPI. It
+> > >> +	  can be used to enable support for cameras in detachable / hybrid
+> > >> +	  devices that ship with Windows.
+> > >> +
+> > >> +	  Say Y here if your device is a detachable / hybrid laptop that comes
+> > >> +	  with Windows installed by the OEM, for example:
+> > >> +
+> > >> +	  	- Microsoft Surface models (except Surface Pro 3)
+> > >> +		- The Lenovo Miix line (for example the 510, 520, 710 and 720)
+> > >> +		- Dell 7285
+> > >> +
+> > >> +	  If in doubt, say N here.
+> > >> diff --git a/drivers/media/pci/intel/ipu3/Makefile b/drivers/media/pci/intel/ipu3/Makefile
+> > >> index 429d516452e4..933777e6ea8a 100644
+> > >> --- a/drivers/media/pci/intel/ipu3/Makefile
+> > >> +++ b/drivers/media/pci/intel/ipu3/Makefile
+> > >> @@ -2,3 +2,4 @@
+> > >>  obj-$(CONFIG_VIDEO_IPU3_CIO2) += ipu3-cio2.o
+> > >>  
+> > >>  ipu3-cio2-y += ipu3-cio2-main.o
+> > >> +ipu3-cio2-$(CONFIG_CIO2_BRIDGE) += cio2-bridge.o
+> > >> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+> > >> new file mode 100644
+> > >> index 000000000000..fd3f8ba07274
+> > >> --- /dev/null
+> > >> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
+> > >> @@ -0,0 +1,260 @@
+> > >> +// SPDX-License-Identifier: GPL-2.0
+> > >> +/* Author: Dan Scally <djrscally@gmail.com> */
+> > > 
+> > > Could you please add a blank line here ?
+> > 
+> > Yes
+> >
+> > >> +#include <linux/acpi.h>
+> > >> +#include <linux/device.h>
+> > >> +#include <linux/i2c.h>
+> > > 
+> > > Is this header needed ?
+> > > 
+> > >> +#include <linux/kernel.h>
+> > >> +#include <linux/module.h>
+> > > 
+> > > And this one ?
+> > > 
+> > >> +#include <linux/pci.h>
+> > >> +#include <linux/property.h>
+> > >> +#include <media/v4l2-subdev.h>
+> > > 
+> > > And this one ?
+> > 
+> > Ah yes - bit sloppy, they're orphaned from earlier versions, sorry about
+> > that.
+> > 
+> > >> +
+> > >> +#include "cio2-bridge.h"
+> > >> +
+> > >> +/*
+> > >> + * Extend this array with ACPI Hardware ID's of devices known to be working.
+> > >> + * Do not add a HID for a sensor that is not actually supported.
+> > >> + */
+> > >> +static const char * const cio2_supported_devices[] = {
+> > > 
+> > > Maybe cio2_supported_sensors ?
+> > 
+> > Sure
+> > 
+> > >> +	"INT33BE",
+> > >> +	"OVTI2680",
+> > >> +};
+> > >> +
+> > >> +static int cio2_bridge_read_acpi_buffer(struct acpi_device *adev, char *id,
+> > >> +					void *data, u32 size)
+> > >> +{
+> > >> +	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
+> > >> +	union acpi_object *obj;
+> > >> +	acpi_status status;
+> > >> +	int ret;
+> > >> +
+> > >> +	status = acpi_evaluate_object(adev->handle, id, NULL, &buffer);
+> > >> +	if (ACPI_FAILURE(status))
+> > >> +		return -ENODEV;
+> > >> +
+> > >> +	obj = buffer.pointer;
+> > >> +	if (!obj) {
+> > >> +		dev_err(&adev->dev, "Couldn't locate ACPI buffer\n");
+> > >> +		return -ENODEV;
+> > >> +	}
+> > >> +
+> > >> +	if (obj->type != ACPI_TYPE_BUFFER) {
+> > >> +		dev_err(&adev->dev, "Not an ACPI buffer\n");
+> > >> +		ret = -ENODEV;
+> > >> +		goto out_free_buff;
+> > >> +	}
+> > >> +
+> > >> +	if (obj->buffer.length > size) {
+> > >> +		dev_err(&adev->dev, "Given buffer is too small\n");
+> > >> +		ret = -EINVAL;
+> > >> +		goto out_free_buff;
+> > >> +	}
+> > >> +
+> > >> +	memcpy(data, obj->buffer.pointer, obj->buffer.length);
+> > >> +	ret = obj->buffer.length;
+> > >> +
+> > >> +out_free_buff:
+> > >> +	kfree(buffer.pointer);
+> > >> +	return ret;
+> > >> +}
+> > >> +
+> > >> +static void cio2_bridge_init_property_names(struct cio2_sensor *sensor)
+> > >> +{
+> > >> +	strcpy(sensor->prop_names.clock_frequency, "clock-frequency");
+> > >> +	strcpy(sensor->prop_names.rotation, "rotation");
+> > >> +	strcpy(sensor->prop_names.bus_type, "bus-type");
+> > >> +	strcpy(sensor->prop_names.data_lanes, "data-lanes");
+> > >> +	strcpy(sensor->prop_names.remote_endpoint, "remote-endpoint");
+> > > 
+> > > This is a bit fragile, as there's no len check. How about the following
+> > > ?
+> > > static const struct cio2_property_names prop_names = {
+> > > 	.clock_frequency = "clock-frequency",
+> > > 	.rotation = "rotation",
+> > > 	.bus_type = "bus-type",
+> > > 	.data_lanes = "data-lanes",
+> > > 	.remote_endpoint = "remote-endpoint",
+> > > };
+> > > 
+> > > static void cio2_bridge_init_property_names(struct cio2_sensor *sensor)
+> > > {
+> > > 	sensor->prop_names = prop_names;
+> > > }
+> > > 
+> > > This shoudl generate a compilation warning if the string is too long.
+> > > 
+> > > You could even inline that line in
+> > > cio2_bridge_create_fwnode_properties().
+> > 
+> > Yes, I like that, thanks - I'll make the change.
+> > 
+> > >> +}
+> > >> +
+> > >> +static void cio2_bridge_create_fwnode_properties(struct cio2_sensor *sensor)
+> > >> +{
+> > >> +	unsigned int i;
+> > >> +
+> > >> +	cio2_bridge_init_property_names(sensor);
+> > >> +
+> > >> +	for (i = 0; i < 4; i++)
+> > >> +		sensor->data_lanes[i] = i + 1;
+> > > 
+> > > Is there no provision in the SSDB for data lane remapping ?
+> > 
+> > Sorry; don't follow what you mean by data lane remapping here.
 > 
->>
->> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
->> ---
->>  drivers/media/platform/qcom/venus/vdec.c | 11 +++++++++--
->>  1 file changed, 9 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
->> index 8488411204c3..e3d0df7fd765 100644
->> --- a/drivers/media/platform/qcom/venus/vdec.c
->> +++ b/drivers/media/platform/qcom/venus/vdec.c
->> @@ -972,7 +972,10 @@ static int vdec_start_output(struct venus_inst *inst)
->>
->>         if (inst->codec_state == VENUS_DEC_STATE_SEEK) {
->>                 ret = venus_helper_process_initial_out_bufs(inst);
->> -               inst->codec_state = VENUS_DEC_STATE_DECODING;
->> +               if (inst->next_buf_last)
->> +                       inst->codec_state = VENUS_DEC_STATE_DRC;
->> +               else
->> +                       inst->codec_state = VENUS_DEC_STATE_DECODING;
->>                 goto done;
->>         }
->>
->> @@ -1077,8 +1080,10 @@ static int vdec_stop_capture(struct venus_inst *inst)
->>                 ret = hfi_session_flush(inst, HFI_FLUSH_ALL, true);
->>                 fallthrough;
->>         case VENUS_DEC_STATE_DRAIN:
->> -               vdec_cancel_dst_buffers(inst);
->>                 inst->codec_state = VENUS_DEC_STATE_STOPPED;
->> +               fallthrough;
->> +       case VENUS_DEC_STATE_SEEK:
->> +               vdec_cancel_dst_buffers(inst);
->>                 break;
->>         case VENUS_DEC_STATE_DRC:
->>                 WARN_ON(1);
->> @@ -1102,6 +1107,7 @@ static int vdec_stop_output(struct venus_inst *inst)
->>         case VENUS_DEC_STATE_DECODING:
->>         case VENUS_DEC_STATE_DRAIN:
->>         case VENUS_DEC_STATE_STOPPED:
->> +       case VENUS_DEC_STATE_DRC:
->>                 ret = hfi_session_flush(inst, HFI_FLUSH_ALL, true);
->>                 inst->codec_state = VENUS_DEC_STATE_SEEK;
->>                 break;
->> @@ -1371,6 +1377,7 @@ static void vdec_event_change(struct venus_inst *inst,
->>                         dev_dbg(dev, VDBGH "flush output error %d\n", ret);
->>         }
->>
->> +       inst->next_buf_last = true;
->>         inst->reconfig = true;
->>         v4l2_event_queue_fh(&inst->fh, &ev);
->>         wake_up(&inst->reconf_wait);
->> --
->> 2.29.2.454.gaff20da3a2-goog
->>
+> Some CSI-2 receivers can remap data lanes. The routing inside the SoC
+> from the data lane input pins to the PHYs is configurable. This makes
+> board design easier as you can route the data lanes to any of the
+> inputs. That's why the data lanes DT property is a list of lane numbers
+> instead of a number of lanes. I'm actually not sure if the CIO2 supports
+> this.
+
+To my knowledge it does not. Only the number of lanes allocated to
+different ports matters.
+
+...
+
+> > >> @@ -0,0 +1,108 @@
+> > >> +/* SPDX-License-Identifier: GPL-2.0 */
+> > >> +/* Author: Dan Scally <djrscally@gmail.com> */
+> > >> +#ifndef __CIO2_BRIDGE_H
+> > >> +#define __CIO2_BRIDGE_H
+> > >> +
+> > >> +#include <linux/property.h>
+> > >> +
+> > >> +#define CIO2_HID				"INT343E"
+> > >> +#define CIO2_NUM_PORTS			  4
+> > > 
+> > > There are a few rogue spaces before '4'.
+> > 
+> > Argh, thanks, this is the curse of using VS code on multiple machines...
+> 
+> I recommend vim ;-)
+
+What is VS code? Very Serious Code?
+
+I can recommend Emacs; that could help, too.
 
 -- 
-regards,
-Stan
+Kind regards,
+
+Sakari Ailus
