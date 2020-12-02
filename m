@@ -2,703 +2,637 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 440B02CC90E
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 22:48:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 40E052CC937
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 22:55:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727162AbgLBVqy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 16:46:54 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:54964 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726646AbgLBVqy (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 16:46:54 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: ezequiel)
-        with ESMTPSA id 34CCA1F45619
-Message-ID: <8086c28c256df1af73872ffc7dc249b6bd50f9fd.camel@collabora.com>
-Subject: Re: [PATCH v3 3/3] media: uapi: mpeg2: Split sequence and picture
- parameters
-From:   Ezequiel Garcia <ezequiel@collabora.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Cc:     kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Date:   Wed, 02 Dec 2020 18:46:00 -0300
-In-Reply-To: <d69769da-4993-c0d8-75bf-8968850cfef7@xs4all.nl>
-References: <20201130185259.111817-1-ezequiel@collabora.com>
-         <20201130185259.111817-4-ezequiel@collabora.com>
-         <d69769da-4993-c0d8-75bf-8968850cfef7@xs4all.nl>
-Organization: Collabora
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.36.3-1 
+        id S1726740AbgLBVzO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 16:55:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55658 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726237AbgLBVzO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 16:55:14 -0500
+Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7EEA1C0613D6
+        for <linux-media@vger.kernel.org>; Wed,  2 Dec 2020 13:54:33 -0800 (PST)
+Received: from valkosipuli.localdomain (unknown [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 62CE8634C24;
+        Wed,  2 Dec 2020 23:53:20 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1kka3s-00035b-Qf; Wed, 02 Dec 2020 23:53:20 +0200
+Date:   Wed, 2 Dec 2020 23:53:20 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, naush@raspberrypi.com,
+        dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+        kieran.bingham@ideasonboard.com, niklas.soderlund@ragnatech.se,
+        dafna.hirschfeld@collabora.com, hverkuil@xs4all.nl,
+        nsaenzjulienne@suse.de, mchehab+huawei@kernel.org
+Subject: Re: [PATCH v4 3/5] media: bcm2835-unicam: Driver for CCP2/CSI2
+ camera interface
+Message-ID: <20201202215320.GZ4351@valkosipuli.retiisi.org.uk>
+References: <20201110174036.220883-1-jacopo@jmondi.org>
+ <20201110174036.220883-4-jacopo@jmondi.org>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201110174036.220883-4-jacopo@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, 2020-12-02 at 16:11 +0100, Hans Verkuil wrote:
-> Hi Ezequiel,
+Hi Jacopo,
+
+On Tue, Nov 10, 2020 at 06:40:34PM +0100, Jacopo Mondi wrote:
+> From: Naushir Patuck <naush@raspberrypi.com>
 > 
-> Some small comments:
+> Add a driver for the Unicam camera receiver block on BCM283x processors.
+> Compared to the bcm2835-camera driver present in staging, this driver
+> handles the Unicam block only (CSI-2 receiver), and doesn't depend on
+> the VC4 firmware running on the VPU.
 > 
-> On 30/11/2020 19:52, Ezequiel Garcia wrote:
-> > Typically, bitstreams are composed of one sequence header NAL unit,
-> > followed by a number of picture header and picture coding extension
-> > NAL units. Each picture can be composed by a number of slices.
-> > 
-> > Let's split the MPEG-2 uAPI to follow these semantics more closely,
-> > allowing more usage flexibility. Having these controls split
-> > allows applications to set a sequence control at the beginning
-> > of a sequence, and then set a picture control for each frame.
-> > 
-> > While here add padding fields where needed, and document
-> > the uAPI header thoroughly.
-> > 
-> > Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
-> > Tested-by: Jonas Karlman <jonas@kwiboo.se>
-> > ---
-> >  .../media/v4l/ext-ctrls-codec.rst             |  47 ++++++--
-> >  .../media/v4l/pixfmt-compressed.rst           |   5 +-
-> >  drivers/media/v4l2-core/v4l2-ctrls.c          |  57 +++++++--
-> >  drivers/staging/media/hantro/hantro_drv.c     |  10 ++
-> >  .../media/hantro/hantro_g1_mpeg2_dec.c        |  14 ++-
-> >  .../media/hantro/rk3399_vpu_hw_mpeg2_dec.c    |  14 ++-
-> >  drivers/staging/media/sunxi/cedrus/cedrus.c   |  14 +++
-> >  drivers/staging/media/sunxi/cedrus/cedrus.h   |   2 +
-> >  .../staging/media/sunxi/cedrus/cedrus_mpeg2.c |   8 +-
-> >  include/media/mpeg2-ctrls.h                   | 110 +++++++++++++++---
-> >  include/media/v4l2-ctrls.h                    |   4 +
-> >  11 files changed, 224 insertions(+), 61 deletions(-)
-> > 
-> > diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > index 9a804f3037d8..a789866ebda4 100644
-> > --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> > @@ -1526,14 +1526,6 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >      :stub-columns: 0
-> >      :widths:       1 1 2
-> >  
-> > -    * - struct :c:type:`v4l2_mpeg2_sequence`
-> > -      - ``sequence``
-> > -      - Structure with MPEG-2 sequence metadata, merging relevant fields from
-> > -	the sequence header and sequence extension parts of the bitstream.
-> > -    * - struct :c:type:`v4l2_mpeg2_picture`
-> > -      - ``picture``
-> > -      - Structure with MPEG-2 picture metadata, merging relevant fields from
-> > -	the picture header and picture coding extension parts of the bitstream.
-> >      * - __u64
-> >        - ``backward_ref_ts``
-> >        - Timestamp of the V4L2 capture buffer to use as backward reference, used
-> > @@ -1551,14 +1543,28 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >      * - __u32
-> >        - ``quantiser_scale_code``
-> >        - Code used to determine the quantization scale to use for the IDCT.
-> > +    * - __u8
-> > +      - ``reserved``
-> > +      - Applications and drivers must set this to zero.
-> >  
-> > -.. c:type:: v4l2_mpeg2_sequence
-> > +``V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE (struct)``
-> > +    Specifies the sequence parameters (as extracted from the bitstream) for the
-> > +    associated MPEG-2 slice data. This includes fields matching the syntax
-> > +    elements from the sequence header and sequence extension parts of the
-> > +    bitstream as specified by :ref:`mpeg2part2`.
-> > +
-> > +    .. note::
-> > +
-> > +       This compound control is not yet part of the public kernel API and
-> > +       it is expected to change.
-> > +
-> > +.. c:type:: v4l2_ctrl_mpeg2_sequence
-> >  
-> >  .. cssclass:: longtable
-> >  
-> >  .. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> >  
-> > -.. flat-table:: struct v4l2_mpeg2_sequence
-> > +.. flat-table:: struct v4l2_ctrl_mpeg2_sequence
-> >      :header-rows:  0
-> >      :stub-columns: 0
-> >      :widths:       1 1 2
-> > @@ -1580,6 +1586,9 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >      * - __u8
-> >        - ``chroma_format``
-> >        - The chrominance sub-sampling format (1: 4:2:0, 2: 4:2:2, 3: 4:4:4).
-> > +    * - __u8
-> > +      - ``reserved``
-> > +      - Applications and drivers must set this to zero.
-> >      * - __u32
-> >        - ``flags``
-> >        - See :ref:`MPEG-2 Sequence Flags <mpeg2_sequence_flags>`.
-> > @@ -1600,13 +1609,24 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >        - Indication that all the frames for the sequence are progressive instead
-> >  	of interlaced.
-> >  
-> > -.. c:type:: v4l2_mpeg2_picture
-> > +``V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE (struct)``
-> > +    Specifies the picture parameters (as extracted from the bitstream) for the
-> > +    associated MPEG-2 slice data. This includes fields matching the syntax
-> > +    elements from the picture header and picture coding extension parts of the
-> > +    bitstream as specified by :ref:`mpeg2part2`.
-> > +
-> > +    .. note::
-> > +
-> > +       This compound control is not yet part of the public kernel API and
-> > +       it is expected to change.
-> > +
-> > +.. c:type:: v4l2_ctrl_mpeg2_picture
-> >  
-> >  .. cssclass:: longtable
-> >  
-> >  .. tabularcolumns:: |p{1.5cm}|p{6.3cm}|p{9.4cm}|
-> >  
-> > -.. flat-table:: struct v4l2_mpeg2_picture
-> > +.. flat-table:: struct v4l2_ctrl_mpeg2_picture
-> >      :header-rows:  0
-> >      :stub-columns: 0
-> >      :widths:       1 1 2
-> > @@ -1627,6 +1647,9 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type -
-> >        - ``picture_structure``
-> >        - Picture structure (1: interlaced top field, 2: interlaced bottom field,
-> >  	3: progressive frame).
-> > +    * - __u8
-> > +      - ``reserved``
-> > +      - Applications and drivers must set this to zero.
-> >      * - __u32
-> >        - ``flags``
-> >        - See :ref:`MPEG-2 Picture Flags <mpeg2_picture_flags>`.
-> > diff --git a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> > index b8899262d8de..0c22f3f99ce4 100644
-> > --- a/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> > +++ b/Documentation/userspace-api/media/v4l/pixfmt-compressed.rst
-> > @@ -108,8 +108,9 @@ Compressed Formats
-> >  	This format is adapted for stateless video decoders that implement a
-> >  	MPEG-2 pipeline (using the :ref:`mem2mem` and :ref:`media-request-api`).
-> >  	Metadata associated with the frame to decode is required to be passed
-> > -	through the ``V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS`` control and
-> > -	quantization matrices can optionally be specified through the
-> > +	through the ``V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE``,
-> > +        ``V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE``, and ``V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS``
-> > +        controls. Quantization matrices can optionally be specified through the
-> >  	``V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION`` control.
-> >  	See the :ref:`associated Codec Control IDs <v4l2-mpeg-mpeg2>`.
-> >  	Exactly one output and one capture buffer must be provided for use with
-> > diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > index dd8f3bb4fbb9..a43baa9367ab 100644
-> > --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> > +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> > @@ -941,6 +941,8 @@ const char *v4l2_ctrl_get_name(u32 id)
-> >  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:		return "Vertical MV Search Range";
-> >  	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:		return "Repeat Sequence Header";
-> >  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:		return "Force Key Frame";
-> > +	case V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE:		return "MPEG-2 Sequence Header";
-> > +	case V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE:			return "MPEG-2 Picture Header";
-> >  	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:		return "MPEG-2 Slice Parameters";
-> >  	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION:		return "MPEG-2 Quantization Matrices";
-> >  	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:			return "FWHT Stateless Parameters";
-> > @@ -1427,6 +1429,12 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
-> >  	case V4L2_CID_RDS_TX_ALT_FREQS:
-> >  		*type = V4L2_CTRL_TYPE_U32;
-> >  		break;
-> > +	case V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE:
-> > +		*type = V4L2_CTRL_TYPE_MPEG2_SEQUENCE;
-> > +		break;
-> > +	case V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE:
-> > +		*type = V4L2_CTRL_TYPE_MPEG2_PICTURE;
-> > +		break;
-> >  	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:
-> >  		*type = V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS;
-> >  		break;
-> > @@ -1625,7 +1633,8 @@ static bool std_equal(const struct v4l2_ctrl *ctrl, u32 idx,
-> >  static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >  			      union v4l2_ctrl_ptr ptr)
-> >  {
-> > -	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
-> > +	struct v4l2_ctrl_mpeg2_sequence *p_mpeg2_sequence;
-> > +	struct v4l2_ctrl_mpeg2_picture *p_mpeg2_picture;
-> >  	struct v4l2_ctrl_vp8_frame_header *p_vp8_frame_header;
-> >  	void *p = ptr.p + idx * ctrl->elem_size;
-> >  
-> > @@ -1640,13 +1649,18 @@ static void std_init_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >  	 * v4l2_ctrl_type enum.
-> >  	 */
-> >  	switch ((u32)ctrl->type) {
-> > -	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
-> > -		p_mpeg2_slice_params = p;
-> > +	case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
-> > +		p_mpeg2_sequence = p;
-> > +
-> >  		/* 4:2:0 */
-> > -		p_mpeg2_slice_params->sequence.chroma_format = 1;
-> > +		p_mpeg2_sequence->chroma_format = 1;
-> > +		break;
-> > +	case V4L2_CTRL_TYPE_MPEG2_PICTURE:
-> > +		p_mpeg2_picture = p;
-> > +
-> >  		/* interlaced top field */
-> > -		p_mpeg2_slice_params->picture.picture_structure = 1;
-> > -		p_mpeg2_slice_params->picture.picture_coding_type =
-> > +		p_mpeg2_picture->picture_structure = 1;
-> > +		p_mpeg2_picture->picture_coding_type =
-> >  					V4L2_MPEG2_PIC_CODING_TYPE_I;
-> >  		break;
-> >  	case V4L2_CTRL_TYPE_VP8_FRAME_HEADER:
+> The commit is made up of a series of changes cherry-picked from the
+> rpi-5.9.y branch of https://github.com/raspberrypi/linux/ at revision
+> commit be371a8ffc012
+> ("media: bcm2835-unicam: change minimum number of vb2_queue buffers to 1")
+> with additional enhancements, forward-ported to the mainline kernel.
 > 
-> You should also add the MPEG2 types to std_log(). None of them are logged
-> there.
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  MAINTAINERS                                   |    7 +
+>  drivers/staging/media/Kconfig                 |    2 +
+>  drivers/staging/media/Makefile                |    1 +
+>  drivers/staging/media/bcm2835-unicam/Kconfig  |   21 +
+>  drivers/staging/media/bcm2835-unicam/Makefile |    3 +
+>  .../media/bcm2835-unicam/bcm2835-unicam.c     | 2750 +++++++++++++++++
+>  .../media/bcm2835-unicam/vc4-regs-unicam.h    |  253 ++
+>  7 files changed, 3037 insertions(+)
+>  create mode 100644 drivers/staging/media/bcm2835-unicam/Kconfig
+>  create mode 100644 drivers/staging/media/bcm2835-unicam/Makefile
+>  create mode 100644 drivers/staging/media/bcm2835-unicam/bcm2835-unicam.c
+>  create mode 100644 drivers/staging/media/bcm2835-unicam/vc4-regs-unicam.h
 > 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 811db1d3ca33b..69d55ed67e1cf 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -3411,6 +3411,13 @@ N:	bcm113*
+>  N:	bcm216*
+>  N:	kona
+>  
+> +BROADCOM BCM2835 CAMERA DRIVER
+> +M:	Raspberry Pi Kernel Maintenance <kernel-list@raspberrypi.com>
+> +L:	linux-media@vger.kernel.org
+> +S:	Maintained
+> +F:	Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> +F:	drivers/staging/media/bcm2835/
+> +
+>  BROADCOM BCM47XX MIPS ARCHITECTURE
+>  M:	Hauke Mehrtens <hauke@hauke-m.de>
+>  M:	Rafał Miłecki <zajec5@gmail.com>
+> diff --git a/drivers/staging/media/Kconfig b/drivers/staging/media/Kconfig
+> index 747c6cf1d795e..b734e882f63c9 100644
+> --- a/drivers/staging/media/Kconfig
+> +++ b/drivers/staging/media/Kconfig
+> @@ -46,4 +46,6 @@ source "drivers/staging/media/ipu3/Kconfig"
+>  
+>  source "drivers/staging/media/rkisp1/Kconfig"
+>  
+> +source "drivers/staging/media/bcm2835-unicam/Kconfig"
+> +
+>  endif
+> diff --git a/drivers/staging/media/Makefile b/drivers/staging/media/Makefile
+> index b59571826ba69..93d819ef243f1 100644
+> --- a/drivers/staging/media/Makefile
+> +++ b/drivers/staging/media/Makefile
+> @@ -1,6 +1,7 @@
+>  # SPDX-License-Identifier: GPL-2.0
+>  obj-$(CONFIG_VIDEO_ALLEGRO_DVT)	+= allegro-dvt/
+>  obj-$(CONFIG_INTEL_ATOMISP)     += atomisp/
+> +obj-$(CONFIG_VIDEO_BCM2835_UNICAM)	+= bcm2835-unicam/
+>  obj-$(CONFIG_VIDEO_IMX_MEDIA)	+= imx/
+>  obj-$(CONFIG_VIDEO_MESON_VDEC)	+= meson/vdec/
+>  obj-$(CONFIG_VIDEO_OMAP4)	+= omap4iss/
+> diff --git a/drivers/staging/media/bcm2835-unicam/Kconfig b/drivers/staging/media/bcm2835-unicam/Kconfig
+> new file mode 100644
+> index 0000000000000..bd13701996509
+> --- /dev/null
+> +++ b/drivers/staging/media/bcm2835-unicam/Kconfig
+> @@ -0,0 +1,21 @@
+> +# Broadcom VideoCore4 V4L2 camera support
+> +
+> +config VIDEO_BCM2835_UNICAM
+> +	tristate "Broadcom BCM283x/BCM271x Unicam video capture driver"
+> +	depends on VIDEO_V4L2
+> +	depends on ARCH_BCM2835 || COMPILE_TEST
+> +	select VIDEO_V4L2_SUBDEV_API
+> +	select MEDIA_CONTROLLER
+> +	select VIDEOBUF2_DMA_CONTIG
+> +	select V4L2_FWNODE
+> +	help
+> +	  Say Y here to enable support for the BCM283x/BCM271x CSI-2 receiver.
+> +	  This is a V4L2 driver that controls the CSI-2 receiver directly,
+> +	  independently from the VC4 firmware.
+> +	  This driver is mutually exclusive with the use of bcm2835-camera. The
+> +	  firmware will disable all access to the peripheral from within the
+> +	  firmware if it finds a DT node using it, and bcm2835-camera will
+> +	  therefore fail to probe.
+> +
+> +	  To compile this driver as a module, choose M here. The module will be
+> +	  called bcm2835-unicam.
+> diff --git a/drivers/staging/media/bcm2835-unicam/Makefile b/drivers/staging/media/bcm2835-unicam/Makefile
+> new file mode 100644
+> index 0000000000000..a98aba03598ab
+> --- /dev/null
+> +++ b/drivers/staging/media/bcm2835-unicam/Makefile
+> @@ -0,0 +1,3 @@
+> +# Makefile for BCM2835 Unicam driver
+> +
+> +obj-$(CONFIG_VIDEO_BCM2835_UNICAM) += bcm2835-unicam.o
+> diff --git a/drivers/staging/media/bcm2835-unicam/bcm2835-unicam.c b/drivers/staging/media/bcm2835-unicam/bcm2835-unicam.c
+> new file mode 100644
+> index 0000000000000..3e365baa8197f
+> --- /dev/null
+> +++ b/drivers/staging/media/bcm2835-unicam/bcm2835-unicam.c
+> @@ -0,0 +1,2750 @@
+> +// SPDX-License-Identifier: GPL-2.0-only
+> +/*
+> + * BCM283x / BCM271x Unicam Capture Driver
+> + *
+> + * Copyright (C) 2017-2020 - Raspberry Pi (Trading) Ltd.
+> + *
+> + * Dave Stevenson <dave.stevenson@raspberrypi.com>
+> + *
+> + * Based on TI am437x driver by
+> + *   Benoit Parrot <bparrot@ti.com>
+> + *   Lad, Prabhakar <prabhakar.csengg@gmail.com>
+> + *
+> + * and TI CAL camera interface driver by
+> + *    Benoit Parrot <bparrot@ti.com>
+> + *
+> + *
+> + * There are two camera drivers in the kernel for BCM283x - this one
+> + * and bcm2835-camera (currently in staging).
+> + *
+> + * This driver directly controls the Unicam peripheral - there is no
+> + * involvement with the VideoCore firmware. Unicam receives CSI-2 or
+> + * CCP2 data and writes it into SDRAM.
+> + * The only potential processing options are to repack Bayer data into an
+> + * alternate format, and applying windowing.
+> + * The repacking does not shift the data, so can repack V4L2_PIX_FMT_Sxxxx10P
+> + * to V4L2_PIX_FMT_Sxxxx10, or V4L2_PIX_FMT_Sxxxx12P to V4L2_PIX_FMT_Sxxxx12,
+> + * but not generically up to V4L2_PIX_FMT_Sxxxx16. The driver will add both
+> + * formats where the relevant formats are defined, and will automatically
+> + * configure the repacking as required.
+> + * Support for windowing may be added later.
+> + *
+> + * It should be possible to connect this driver to any sensor with a
+> + * suitable output interface and V4L2 subdevice driver.
+> + *
+> + * bcm2835-camera uses the VideoCore firmware to control the sensor,
+> + * Unicam, ISP, and all tuner control loops. Fully processed frames are
+> + * delivered to the driver by the firmware. It only has sensor drivers
+> + * for Omnivision OV5647, and Sony IMX219 sensors.
+> + *
+> + * The two drivers are mutually exclusive for the same Unicam instance.
+> + * The VideoCore firmware checks the device tree configuration during boot.
+> + * If it finds device tree nodes called csi0 or csi1 it will block the
+> + * firmware from accessing the peripheral, and bcm2835-camera will
+> + * not be able to stream data.
+> + */
+> +
+> +#include <linux/clk.h>
+> +#include <linux/delay.h>
+> +#include <linux/device.h>
+> +#include <linux/dma-mapping.h>
+> +#include <linux/err.h>
+> +#include <linux/init.h>
+> +#include <linux/interrupt.h>
+> +#include <linux/io.h>
+> +#include <linux/module.h>
+> +#include <linux/of_device.h>
+> +#include <linux/of_graph.h>
+> +#include <linux/pinctrl/consumer.h>
+> +#include <linux/platform_device.h>
+> +#include <linux/pm_runtime.h>
+> +#include <linux/slab.h>
+> +#include <linux/uaccess.h>
+> +#include <linux/videodev2.h>
+> +
+> +#include <media/v4l2-common.h>
+> +#include <media/v4l2-ctrls.h>
+> +#include <media/v4l2-dev.h>
+> +#include <media/v4l2-device.h>
+> +#include <media/v4l2-dv-timings.h>
+> +#include <media/v4l2-event.h>
+> +#include <media/v4l2-ioctl.h>
+> +#include <media/v4l2-fwnode.h>
+> +#include <media/videobuf2-dma-contig.h>
+> +
+> +#include "vc4-regs-unicam.h"
+> +
+> +#define UNICAM_MODULE_NAME	"unicam"
+> +#define UNICAM_VERSION		"0.1.0"
+> +
+> +/*
+> + * Unicam must request a minimum of 250Mhz from the VPU clock.
+> + * Otherwise the input FIFOs overrun and cause image corruption.
+> + */
+> +#define MIN_VPU_CLOCK_RATE (250 * 1000 * 1000)
+> +/*
+> + * To protect against a dodgy sensor driver never returning an error from
+> + * enum_mbus_code, set a maximum index value to be used.
+> + */
+> +#define MAX_ENUM_MBUS_CODE	128
 
-I was reserving that stuff for the destaging effort.
+Please remove, and instead fix the buggy sensor drivers.
 
-Perhaps we are comfortable with destaging on the next iteration?
+> +
+> +/*
+> + * Stride is a 16 bit register, but also has to be a multiple of 32.
+> + */
+> +#define BPL_ALIGNMENT		32
+> +#define MAX_BYTESPERLINE	((1 << 16) - BPL_ALIGNMENT)
+> +/*
+> + * Max width is therefore determined by the max stride divided by
+> + * the number of bits per pixel. Take 32bpp as a
+> + * worst case.
+> + * No imposed limit on the height, so adopt a square image for want
+> + * of anything better.
+> + */
+> +#define MAX_WIDTH		(MAX_BYTESPERLINE / 4)
+> +#define MAX_HEIGHT		MAX_WIDTH
+> +/* Define a nominal minimum image size */
+> +#define MIN_WIDTH		16
+> +#define MIN_HEIGHT		16
+> +
+> +/*
+> + * Size of the dummy buffer. Can be any size really, but the DMA
+> + * allocation works in units of page sizes.
+> + */
+> +#define DUMMY_BUF_SIZE		(PAGE_SIZE)
+> +
+> +/* Enumeration of the video device node identifiers. */
+> +enum unicam_node_ids {
+> +	IMAGE_NODE,
+> +	METADATA_NODE,
+> +	MAX_NODES
+> +};
+> +
+> +/*
+> + * Associate video device nodes with the subdevice's source pad ids.
+> + * The image video device is connected to the subdevice pad #0;
+> + * The metadata video device is connected to the subdevice pad #1;
+> + */
+> +unsigned int subdev_pads[2] = {
+> +	[IMAGE_NODE]	= 0,
+> +	[METADATA_NODE]	= 1,
+> +};
 
-> > @@ -1796,6 +1810,8 @@ static void std_log(const struct v4l2_ctrl *ctrl)
-> >  static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >  				 union v4l2_ctrl_ptr ptr)
-> >  {
-> > +	struct v4l2_ctrl_mpeg2_sequence *p_mpeg2_sequence;
-> > +	struct v4l2_ctrl_mpeg2_picture *p_mpeg2_picture;
-> >  	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
-> >  	struct v4l2_ctrl_vp8_frame_header *p_vp8_frame_header;
-> >  	struct v4l2_ctrl_h264_sps *p_h264_sps;
-> > @@ -1811,10 +1827,10 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >  	unsigned int i;
-> >  
-> >  	switch ((u32)ctrl->type) {
-> > -	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
-> > -		p_mpeg2_slice_params = p;
-> > +	case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
-> > +		p_mpeg2_sequence = p;
-> >  
-> > -		switch (p_mpeg2_slice_params->sequence.chroma_format) {
-> > +		switch (p_mpeg2_sequence->chroma_format) {
-> >  		case 1: /* 4:2:0 */
-> >  		case 2: /* 4:2:2 */
-> >  		case 3: /* 4:4:4 */
-> > @@ -1822,8 +1838,13 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >  		default:
-> >  			return -EINVAL;
-> >  		}
-> > +		zero_reserved(*p_mpeg2_sequence);
-> > +		break;
-> > +
-> > +	case V4L2_CTRL_TYPE_MPEG2_PICTURE:
-> > +		p_mpeg2_picture = p;
-> >  
-> > -		switch (p_mpeg2_slice_params->picture.intra_dc_precision) {
-> > +		switch (p_mpeg2_picture->intra_dc_precision) {
-> >  		case 0: /* 8 bits */
-> >  		case 1: /* 9 bits */
-> >  		case 2: /* 10 bits */
-> > @@ -1833,7 +1854,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >  			return -EINVAL;
-> >  		}
-> >  
-> > -		switch (p_mpeg2_slice_params->picture.picture_structure) {
-> > +		switch (p_mpeg2_picture->picture_structure) {
-> >  		case V4L2_MPEG2_PIC_TOP_FIELD:
-> >  		case V4L2_MPEG2_PIC_BOTTOM_FIELD:
-> >  		case V4L2_MPEG2_PIC_FRAME:
-> > @@ -1842,7 +1863,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >  			return -EINVAL;
-> >  		}
-> >  
-> > -		switch (p_mpeg2_slice_params->picture.picture_coding_type) {
-> > +		switch (p_mpeg2_picture->picture_coding_type) {
-> >  		case V4L2_MPEG2_PIC_CODING_TYPE_I:
-> >  		case V4L2_MPEG2_PIC_CODING_TYPE_P:
-> >  		case V4L2_MPEG2_PIC_CODING_TYPE_B:
-> > @@ -1850,7 +1871,13 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
-> >  		default:
-> >  			return -EINVAL;
-> >  		}
-> > +		zero_reserved(*p_mpeg2_picture);
-> > +		break;
-> >  
-> > +	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
-> > +		p_mpeg2_slice_params = p;
-> > +
-> > +		zero_reserved(*p_mpeg2_slice_params);
-> >  		break;
-> >  
-> >  	case V4L2_CTRL_TYPE_MPEG2_QUANTIZATION:
-> > @@ -2749,6 +2776,12 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
-> >  	case V4L2_CTRL_TYPE_U32:
-> >  		elem_size = sizeof(u32);
-> >  		break;
-> > +	case V4L2_CTRL_TYPE_MPEG2_SEQUENCE:
-> > +		elem_size = sizeof(struct v4l2_ctrl_mpeg2_sequence);
-> > +		break;
-> > +	case V4L2_CTRL_TYPE_MPEG2_PICTURE:
-> > +		elem_size = sizeof(struct v4l2_ctrl_mpeg2_picture);
-> > +		break;
-> >  	case V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS:
-> >  		elem_size = sizeof(struct v4l2_ctrl_mpeg2_slice_params);
-> >  		break;
-> > diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
-> > index e5f200e64993..e589eccd5644 100644
-> > --- a/drivers/staging/media/hantro/hantro_drv.c
-> > +++ b/drivers/staging/media/hantro/hantro_drv.c
-> > @@ -286,6 +286,16 @@ static const struct hantro_ctrl controls[] = {
-> >  			.def = 50,
-> >  			.ops = &hantro_jpeg_ctrl_ops,
-> >  		},
-> > +	}, {
-> > +		.codec = HANTRO_MPEG2_DECODER,
-> > +		.cfg = {
-> > +			.id = V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE,
-> > +		},
-> > +	}, {
-> > +		.codec = HANTRO_MPEG2_DECODER,
-> > +		.cfg = {
-> > +			.id = V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE,
-> > +		},
-> >  	}, {
-> >  		.codec = HANTRO_MPEG2_DECODER,
-> >  		.cfg = {
-> > diff --git a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
-> > index b6086474d31f..1a6ca49441f4 100644
-> > --- a/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
-> > +++ b/drivers/staging/media/hantro/hantro_g1_mpeg2_dec.c
-> > @@ -95,8 +95,8 @@ static void
-> >  hantro_g1_mpeg2_dec_set_buffers(struct hantro_dev *vpu, struct hantro_ctx *ctx,
-> >  				struct vb2_buffer *src_buf,
-> >  				struct vb2_buffer *dst_buf,
-> > -				const struct v4l2_mpeg2_sequence *seq,
-> > -				const struct v4l2_mpeg2_picture *pic,
-> > +				const struct v4l2_ctrl_mpeg2_sequence *seq,
-> > +				const struct v4l2_ctrl_mpeg2_picture *pic,
-> >  				const struct v4l2_ctrl_mpeg2_slice_params *slice_params)
-> >  {
-> >  	dma_addr_t forward_addr = 0, backward_addr = 0;
-> > @@ -156,8 +156,8 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
-> >  	struct hantro_dev *vpu = ctx->dev;
-> >  	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-> >  	const struct v4l2_ctrl_mpeg2_slice_params *slice_params;
-> > -	const struct v4l2_mpeg2_sequence *seq;
-> > -	const struct v4l2_mpeg2_picture *pic;
-> > +	const struct v4l2_ctrl_mpeg2_sequence *seq;
-> > +	const struct v4l2_ctrl_mpeg2_picture *pic;
-> >  	u32 reg;
-> >  
-> >  	src_buf = hantro_get_src_buf(ctx);
-> > @@ -168,8 +168,10 @@ void hantro_g1_mpeg2_dec_run(struct hantro_ctx *ctx)
-> >  
-> >  	slice_params = hantro_get_ctrl(ctx,
-> >  				       V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS);
-> > -	seq = &slice_params->sequence;
-> > -	pic = &slice_params->picture;
-> > +	seq = hantro_get_ctrl(ctx,
-> > +			      V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE);
-> > +	pic = hantro_get_ctrl(ctx,
-> > +			      V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE);
-> >  
-> >  	reg = G1_REG_DEC_AXI_RD_ID(0) |
-> >  	      G1_REG_DEC_TIMEOUT_E(1) |
-> > diff --git a/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c b/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
-> > index 28eb77b0569b..45ab5ca32221 100644
-> > --- a/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
-> > +++ b/drivers/staging/media/hantro/rk3399_vpu_hw_mpeg2_dec.c
-> > @@ -97,8 +97,8 @@ rk3399_vpu_mpeg2_dec_set_buffers(struct hantro_dev *vpu,
-> >  				 struct hantro_ctx *ctx,
-> >  				 struct vb2_buffer *src_buf,
-> >  				 struct vb2_buffer *dst_buf,
-> > -				 const struct v4l2_mpeg2_sequence *seq,
-> > -				 const struct v4l2_mpeg2_picture *pic,
-> > +				 const struct v4l2_ctrl_mpeg2_sequence *seq,
-> > +				 const struct v4l2_ctrl_mpeg2_picture *pic,
-> >  				 const struct v4l2_ctrl_mpeg2_slice_params *slice_params)
-> >  {
-> >  	dma_addr_t forward_addr = 0, backward_addr = 0;
-> > @@ -158,8 +158,8 @@ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
-> >  	struct hantro_dev *vpu = ctx->dev;
-> >  	struct vb2_v4l2_buffer *src_buf, *dst_buf;
-> >  	const struct v4l2_ctrl_mpeg2_slice_params *slice_params;
-> > -	const struct v4l2_mpeg2_sequence *seq;
-> > -	const struct v4l2_mpeg2_picture *pic;
-> > +	const struct v4l2_ctrl_mpeg2_sequence *seq;
-> > +	const struct v4l2_ctrl_mpeg2_picture *pic;
-> >  	u32 reg;
-> >  
-> >  	src_buf = hantro_get_src_buf(ctx);
-> > @@ -169,8 +169,10 @@ void rk3399_vpu_mpeg2_dec_run(struct hantro_ctx *ctx)
-> >  
-> >  	slice_params = hantro_get_ctrl(ctx,
-> >  				       V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS);
-> > -	seq = &slice_params->sequence;
-> > -	pic = &slice_params->picture;
-> > +	seq = hantro_get_ctrl(ctx,
-> > +			      V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE);
-> > +	pic = hantro_get_ctrl(ctx,
-> > +			      V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE);
-> >  
-> >  	reg = VDPU_REG_DEC_ADV_PRE_DIS(0) |
-> >  	      VDPU_REG_DEC_SCMD_DIS(0) |
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > index 4e91c372d585..3f9fab6ddbaa 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
-> > @@ -29,6 +29,20 @@
-> >  #include "cedrus_hw.h"
-> >  
-> >  static const struct cedrus_control cedrus_controls[] = {
-> > +	{
-> > +		.cfg = {
-> > +			.id	= V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE,
-> > +		},
-> > +		.codec		= CEDRUS_CODEC_MPEG2,
-> > +		.required	= true,
-> > +	},
-> > +	{
-> > +		.cfg = {
-> > +			.id	= V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE,
-> > +		},
-> > +		.codec		= CEDRUS_CODEC_MPEG2,
-> > +		.required	= true,
-> > +	},
-> >  	{
-> >  		.cfg = {
-> >  			.id	= V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS,
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.h b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > index fece505272b4..c286b7312386 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus.h
-> > @@ -68,6 +68,8 @@ struct cedrus_h264_run {
-> >  };
-> >  
-> >  struct cedrus_mpeg2_run {
-> > +	const struct v4l2_ctrl_mpeg2_sequence		*sequence;
-> > +	const struct v4l2_ctrl_mpeg2_picture		*picture;
-> >  	const struct v4l2_ctrl_mpeg2_slice_params	*slice_params;
-> >  	const struct v4l2_ctrl_mpeg2_quantization	*quantization;
-> >  };
-> > diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > index 6a99893cdc77..ea52778b36f9 100644
-> > --- a/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > +++ b/drivers/staging/media/sunxi/cedrus/cedrus_mpeg2.c
-> > @@ -75,8 +75,8 @@ static void cedrus_mpeg2_irq_disable(struct cedrus_ctx *ctx)
-> >  static void cedrus_mpeg2_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
-> >  {
-> >  	const struct v4l2_ctrl_mpeg2_slice_params *slice_params;
-> > -	const struct v4l2_mpeg2_sequence *seq;
-> > -	const struct v4l2_mpeg2_picture *pic;
-> > +	const struct v4l2_ctrl_mpeg2_sequence *seq;
-> > +	const struct v4l2_ctrl_mpeg2_picture *pic;
-> >  	const struct v4l2_ctrl_mpeg2_quantization *quantization;
-> >  	dma_addr_t src_buf_addr, dst_luma_addr, dst_chroma_addr;
-> >  	dma_addr_t fwd_luma_addr, fwd_chroma_addr;
-> > @@ -90,8 +90,8 @@ static void cedrus_mpeg2_setup(struct cedrus_ctx *ctx, struct cedrus_run *run)
-> >  	u32 reg;
-> >  
-> >  	slice_params = run->mpeg2.slice_params;
-> > -	seq = &slice_params->sequence;
-> > -	pic = &slice_params->picture;
-> > +	seq = run->mpeg2.sequence;
-> > +	pic = run->mpeg2.picture;
-> >  
-> >  	quantization = run->mpeg2.quantization;
-> >  
-> > diff --git a/include/media/mpeg2-ctrls.h b/include/media/mpeg2-ctrls.h
-> > index 038206c7e6f5..edcbf67668ac 100644
-> > --- a/include/media/mpeg2-ctrls.h
-> > +++ b/include/media/mpeg2-ctrls.h
-> > @@ -12,24 +12,46 @@
-> >  #define _MPEG2_CTRLS_H_
-> >  
-> >  #define V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS		(V4L2_CID_CODEC_BASE+250)
-> > -#define V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION		(V4L2_CID_CODEC_BASE+251)
-> > +#define V4L2_CID_MPEG_VIDEO_MPEG2_SEQUENCE		(V4L2_CID_CODEC_BASE+251)
-> > +#define V4L2_CID_MPEG_VIDEO_MPEG2_PICTURE		(V4L2_CID_CODEC_BASE+252)
-> > +#define V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION		(V4L2_CID_CODEC_BASE+253)
-> >  
-> >  /* enum v4l2_ctrl_type type values */
-> > -#define V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS 0x0103
-> > -#define	V4L2_CTRL_TYPE_MPEG2_QUANTIZATION 0x0104
-> > +#define V4L2_CTRL_TYPE_MPEG2_SLICE_PARAMS 0x0130
-> > +#define V4L2_CTRL_TYPE_MPEG2_SEQUENCE 0x0131
-> > +#define V4L2_CTRL_TYPE_MPEG2_PICTURE 0x0132
-> > +#define V4L2_CTRL_TYPE_MPEG2_QUANTIZATION 0x0133
-> >  
-> >  #define V4L2_MPEG2_SEQ_FLAG_PROGRESSIVE		0x0001
-> >  
-> > -struct v4l2_mpeg2_sequence {
-> > -	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Sequence header */
-> > +/**
-> > + * struct v4l2_ctrl_mpeg2_sequence - MPEG-2 sequence header
-> > + *
-> > + * All the members on this structure match the sequence header and sequence
-> > + * extension syntaxes as specified by the MPEG-2 specification.
-> > + *
-> > + * Fields horizontal_size, vertical_size and vbv_buffer_size are a
-> > + * combination of respective _value and extension syntax elements,
-> 
-> Is that a stray '_' or is it really '_value'? Just double-checking :-)
-> 
+I recognise this and the above enum are used for different purpose, but
+this is also entirely useless. At the very least make it static.
 
-Probably it's a typo. BTW, I wonder if that sentence is clear enough.
-What I wanted to clarify is that this horizontal_size field is
-a combination of syntax elements horizontal_size_value
-and horizontal_size_extension syntax elements.
+> +
+> +/*
+> + * struct unicam_fmt - Unicam media bus format information
+> + * @pixelformat: V4L2 pixel format FCC identifier. 0 if n/a.
+> + * @repacked_fourcc: V4L2 pixel format FCC identifier if the data is expanded
+> + * out to 16bpp. 0 if n/a.
+> + * @code: V4L2 media bus format code.
+> + * @depth: Bits per pixel as delivered from the source.
+> + * @csi_dt: CSI data type.
+> + * @check_variants: Flag to denote that there are multiple mediabus formats
+> + *		still in the list that could match this V4L2 format.
+> + */
+> +struct unicam_fmt {
+> +	u32	fourcc;
+> +	u32	repacked_fourcc;
+> +	u32	code;
+> +	u8	depth;
+> +	u8	csi_dt;
+> +	u8	check_variants;
+> +};
+> +
+> +static const struct unicam_fmt formats[] = {
+> +	/* YUV Formats */
+> +	{
+> +		.fourcc		= V4L2_PIX_FMT_YUYV,
+> +		.code		= MEDIA_BUS_FMT_YUYV8_2X8,
+> +		.depth		= 16,
+> +		.csi_dt		= 0x1e,
+> +		.check_variants = 1,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_UYVY,
+> +		.code		= MEDIA_BUS_FMT_UYVY8_2X8,
+> +		.depth		= 16,
+> +		.csi_dt		= 0x1e,
+> +		.check_variants = 1,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_YVYU,
+> +		.code		= MEDIA_BUS_FMT_YVYU8_2X8,
+> +		.depth		= 16,
+> +		.csi_dt		= 0x1e,
+> +		.check_variants = 1,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_VYUY,
+> +		.code		= MEDIA_BUS_FMT_VYUY8_2X8,
+> +		.depth		= 16,
+> +		.csi_dt		= 0x1e,
+> +		.check_variants = 1,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_YUYV,
+> +		.code		= MEDIA_BUS_FMT_YUYV8_1X16,
+> +		.depth		= 16,
+> +		.csi_dt		= 0x1e,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_UYVY,
+> +		.code		= MEDIA_BUS_FMT_UYVY8_1X16,
+> +		.depth		= 16,
+> +		.csi_dt		= 0x1e,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_YVYU,
+> +		.code		= MEDIA_BUS_FMT_YVYU8_1X16,
+> +		.depth		= 16,
+> +		.csi_dt		= 0x1e,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_VYUY,
+> +		.code		= MEDIA_BUS_FMT_VYUY8_1X16,
+> +		.depth		= 16,
+> +		.csi_dt		= 0x1e,
+> +	}, {
+> +	/* RGB Formats */
+> +		.fourcc		= V4L2_PIX_FMT_RGB565, /* gggbbbbb rrrrrggg */
+> +		.code		= MEDIA_BUS_FMT_RGB565_2X8_LE,
+> +		.depth		= 16,
+> +		.csi_dt		= 0x22,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_RGB565X, /* rrrrrggg gggbbbbb */
+> +		.code		= MEDIA_BUS_FMT_RGB565_2X8_BE,
+> +		.depth		= 16,
+> +		.csi_dt		= 0x22
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_RGB555, /* gggbbbbb arrrrrgg */
+> +		.code		= MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE,
+> +		.depth		= 16,
+> +		.csi_dt		= 0x21,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_RGB555X, /* arrrrrgg gggbbbbb */
+> +		.code		= MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE,
+> +		.depth		= 16,
+> +		.csi_dt		= 0x21,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_RGB24, /* rgb */
+> +		.code		= MEDIA_BUS_FMT_RGB888_1X24,
+> +		.depth		= 24,
+> +		.csi_dt		= 0x24,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_BGR24, /* bgr */
+> +		.code		= MEDIA_BUS_FMT_BGR888_1X24,
+> +		.depth		= 24,
+> +		.csi_dt		= 0x24,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_RGB32, /* argb */
+> +		.code		= MEDIA_BUS_FMT_ARGB8888_1X32,
+> +		.depth		= 32,
+> +		.csi_dt		= 0x0,
+> +	}, {
+> +	/* Bayer Formats */
+> +		.fourcc		= V4L2_PIX_FMT_SBGGR8,
+> +		.code		= MEDIA_BUS_FMT_SBGGR8_1X8,
+> +		.depth		= 8,
+> +		.csi_dt		= 0x2a,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SGBRG8,
+> +		.code		= MEDIA_BUS_FMT_SGBRG8_1X8,
+> +		.depth		= 8,
+> +		.csi_dt		= 0x2a,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SGRBG8,
+> +		.code		= MEDIA_BUS_FMT_SGRBG8_1X8,
+> +		.depth		= 8,
+> +		.csi_dt		= 0x2a,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SRGGB8,
+> +		.code		= MEDIA_BUS_FMT_SRGGB8_1X8,
+> +		.depth		= 8,
+> +		.csi_dt		= 0x2a,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SBGGR10P,
+> +		.repacked_fourcc = V4L2_PIX_FMT_SBGGR10,
+> +		.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
+> +		.depth		= 10,
+> +		.csi_dt		= 0x2b,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SGBRG10P,
+> +		.repacked_fourcc = V4L2_PIX_FMT_SGBRG10,
+> +		.code		= MEDIA_BUS_FMT_SGBRG10_1X10,
+> +		.depth		= 10,
+> +		.csi_dt		= 0x2b,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SGRBG10P,
+> +		.repacked_fourcc = V4L2_PIX_FMT_SGRBG10,
+> +		.code		= MEDIA_BUS_FMT_SGRBG10_1X10,
+> +		.depth		= 10,
+> +		.csi_dt		= 0x2b,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SRGGB10P,
+> +		.repacked_fourcc = V4L2_PIX_FMT_SRGGB10,
+> +		.code		= MEDIA_BUS_FMT_SRGGB10_1X10,
+> +		.depth		= 10,
+> +		.csi_dt		= 0x2b,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SBGGR12P,
+> +		.repacked_fourcc = V4L2_PIX_FMT_SBGGR12,
+> +		.code		= MEDIA_BUS_FMT_SBGGR12_1X12,
+> +		.depth		= 12,
+> +		.csi_dt		= 0x2c,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SGBRG12P,
+> +		.repacked_fourcc = V4L2_PIX_FMT_SGBRG12,
+> +		.code		= MEDIA_BUS_FMT_SGBRG12_1X12,
+> +		.depth		= 12,
+> +		.csi_dt		= 0x2c,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SGRBG12P,
+> +		.repacked_fourcc = V4L2_PIX_FMT_SGRBG12,
+> +		.code		= MEDIA_BUS_FMT_SGRBG12_1X12,
+> +		.depth		= 12,
+> +		.csi_dt		= 0x2c,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SRGGB12P,
+> +		.repacked_fourcc = V4L2_PIX_FMT_SRGGB12,
+> +		.code		= MEDIA_BUS_FMT_SRGGB12_1X12,
+> +		.depth		= 12,
+> +		.csi_dt		= 0x2c,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SBGGR14P,
+> +		.code		= MEDIA_BUS_FMT_SBGGR14_1X14,
+> +		.depth		= 14,
+> +		.csi_dt		= 0x2d,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SGBRG14P,
+> +		.code		= MEDIA_BUS_FMT_SGBRG14_1X14,
+> +		.depth		= 14,
+> +		.csi_dt		= 0x2d,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SGRBG14P,
+> +		.code		= MEDIA_BUS_FMT_SGRBG14_1X14,
+> +		.depth		= 14,
+> +		.csi_dt		= 0x2d,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_SRGGB14P,
+> +		.code		= MEDIA_BUS_FMT_SRGGB14_1X14,
+> +		.depth		= 14,
+> +		.csi_dt		= 0x2d,
+> +	}, {
+> +	/*
+> +	 * 16 bit Bayer formats could be supported, but there is no CSI2
+> +	 * data_type defined for raw 16, and no sensors that produce it at
+> +	 * present.
+> +	 */
+> +
+> +	/* Greyscale formats */
+> +		.fourcc		= V4L2_PIX_FMT_GREY,
+> +		.code		= MEDIA_BUS_FMT_Y8_1X8,
+> +		.depth		= 8,
+> +		.csi_dt		= 0x2a,
+> +	}, {
+> +		.fourcc		= V4L2_PIX_FMT_Y10P,
+> +		.repacked_fourcc = V4L2_PIX_FMT_Y10,
+> +		.code		= MEDIA_BUS_FMT_Y10_1X10,
+> +		.depth		= 10,
+> +		.csi_dt		= 0x2b,
+> +	}, {
+> +		/* NB There is no packed V4L2 fourcc for this format. */
+> +		.repacked_fourcc = V4L2_PIX_FMT_Y12,
+> +		.code		= MEDIA_BUS_FMT_Y12_1X12,
+> +		.depth		= 12,
+> +		.csi_dt		= 0x2c,
+> +	},
+> +	/* Embedded data format */
+> +	{
+> +		.fourcc		= V4L2_META_FMT_SENSOR_DATA,
+> +		.code		= MEDIA_BUS_FMT_CUSTOM_SENSOR_DATA,
+> +		.depth		= 8,
+> +	}
+> +};
+> +
+> +struct unicam_buffer {
+> +	struct vb2_v4l2_buffer vb;
+> +	struct list_head list;
+> +};
+> +
+> +static inline struct unicam_buffer *to_unicam_buffer(struct vb2_buffer *vb)
+> +{
+> +	return container_of(vb, struct unicam_buffer, vb.vb2_buf);
+> +}
+> +
+> +struct unicam_node {
+> +	bool registered;
+> +	int open;
+> +	bool streaming;
+> +	unsigned int node_id;
+> +	/* Pointer pointing to current v4l2_buffer */
+> +	struct unicam_buffer *cur_frm;
+> +	/* Pointer pointing to next v4l2_buffer */
+> +	struct unicam_buffer *next_frm;
+> +	/* video capture */
+> +	const struct unicam_fmt *fmt;
+> +	/* Used to store current pixel format */
+> +	struct v4l2_format v_fmt;
+> +	/* Used to store current mbus frame format */
+> +	struct v4l2_mbus_framefmt m_fmt;
+> +	/* Buffer queue used in video-buf */
+> +	struct vb2_queue buffer_queue;
+> +	/* Queue of filled frames */
+> +	struct list_head dma_queue;
+> +	/* IRQ lock for DMA queue */
+> +	spinlock_t dma_queue_lock;
+> +	/* lock used to access this structure */
+> +	struct mutex lock;
+> +	/* Identifies video device for this channel */
+> +	struct video_device video_dev;
+> +	/* Pointer to the parent handle */
+> +	struct unicam_device *dev;
+> +	struct media_pad pad;
+> +	/*
+> +	 * Dummy buffer intended to be used by unicam
+> +	 * if we have no other queued buffers to swap to.
+> +	 */
+> +	void *dummy_buf_cpu_addr;
+> +	dma_addr_t dummy_buf_dma_addr;
+> +};
+> +
+> +struct unicam_device {
+> +	struct device *dev;
+> +
+> +	/* V4l2 specific parameters */
+> +	struct v4l2_async_subdev asd;
+> +
+> +	/* peripheral base address */
+> +	void __iomem *base;
+> +	/* clock gating base address */
+> +	void __iomem *clk_gate_base;
+> +	/* lp clock handle */
+> +	struct clk *clock;
+> +	/* vpu clock handle */
+> +	struct clk *vpu_clock;
+> +	/* V4l2 device */
+> +	struct v4l2_device v4l2_dev;
+> +	struct media_device mdev;
+> +
+> +	/* subdevice async Notifier */
+> +	struct v4l2_async_notifier notifier;
+> +	unsigned int sequence;
+> +
+> +	/* ptr to  sub device */
+> +	struct v4l2_subdev *sensor;
+> +	/* Pad config for the sensor */
+> +	struct v4l2_subdev_pad_config *sensor_config;
+> +
+> +	enum v4l2_mbus_type bus_type;
+> +	/*
+> +	 * Stores bus.mipi_csi2.flags for CSI2 sensors, or
+> +	 * bus.mipi_csi1.strobe for CCP2.
+> +	 */
+> +	unsigned int bus_flags;
+> +	unsigned int max_data_lanes;
+> +	unsigned int active_data_lanes;
+> +
+> +	struct unicam_node node[MAX_NODES];
+> +	struct v4l2_ctrl_handler ctrl_handler;
+> +};
+> +
+> +static inline struct unicam_device *
+> +to_unicam_device(struct v4l2_device *v4l2_dev)
+> +{
+> +	return container_of(v4l2_dev, struct unicam_device, v4l2_dev);
+> +}
+> +
+> +static char *print_fourcc(u32 fmt)
+> +{
+> +	static char code[16];
+> +
+> +	code[0] = (unsigned char)(fmt & 0xff);
+> +	code[1] = (unsigned char)((fmt >> 8) & 0xff);
+> +	code[2] = (unsigned char)((fmt >> 16) & 0xff);
+> +	code[3] = (unsigned char)((fmt >> 24) & 0xff);
+> +	snprintf(&code[4], 12, "=0x%8x", fmt);
 
-(and same for vertical_size)
+Ugh. Hopefully we'll have %p4cc soon. It's not yet merged at least. :-\
 
-> > + * as described in section 6.3.3 "Sequence header".
-> > + *
-> > + * @horizontal_size: combination of elements horizontal_size_value and
-> > + * horizontal_size_extension.
-> > + * @vertical_size: combination of elements vertical_size_value and
-> > + * vertical_size_extension.
-> > + * @vbv_buffer_size: combination of elements vbv_buffer_size_value and
-> > + * vbv_buffer_size_extension.
-> > + * @profile_and_level_indication: see MPEG-2 specification.
-> > + * @chroma_format: see MPEG-2 specification.
-> > + * @reserved: padding field. Should be zeroed by applications.
-> > + * @flags: see V4L2_MPEG2_SEQ_FLAG_{}.
-> > + */
-> > +struct v4l2_ctrl_mpeg2_sequence {
-> >  	__u16	horizontal_size;
-> >  	__u16	vertical_size;
-> >  	__u32	vbv_buffer_size;
-> > -
-> > -	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Sequence extension */
-> >  	__u16	profile_and_level_indication;
-> >  	__u8	chroma_format;
-> > -
-> > +	__u8	reserved;
-> >  	__u32	flags;
-> >  };
-> >  
-> > @@ -55,30 +77,80 @@ struct v4l2_mpeg2_sequence {
-> >  #define V4L2_MPEG2_PIC_FLAG_LOAD_CHROMA_INTRA		0x0400
-> >  #define V4L2_MPEG2_PIC_FLAG_LOAD_CHROMA_NON_INTRA	0x0800
-> >  
-> > -struct v4l2_mpeg2_picture {
-> > -	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Picture header */
-> > +/**
-> > + * struct v4l2_ctrl_mpeg2_picture - MPEG-2 picture header
-> > + *
-> > + * All the members on this structure match the picture header and picture
-> > + * coding extension syntaxes as specified by the MPEG-2 specification.
-> > + *
-> > + * In particular, the set of quantization load flags V4L2_MPEG2_PIC_FLAG_LOAD_{}
-> > + * are specified here in order to allow applications to pass non-default
-> > + * quantization matrices. In this case, applications are expected to use
-> > + * V4L2_CTRL_TYPE_MPEG2_QUANTIZATION to pass the values of non-default
-> > + * matrices.
-> > + *
-> > + * @picture_coding_type: see MPEG-2 specification.
-> > + * @f_code[2][2]: see MPEG-2 specification.
-> > + * @intra_dc_precision: see MPEG-2 specification.
-> > + * @picture_structure: see V4L2_MPEG2_PIC_{}_FIELD.
-> > + * @reserved: padding field. Should be zeroed by applications.
-> > + * @flags: see V4L2_MPEG2_PIC_FLAG_{}.
-> > + */
-> > +struct v4l2_ctrl_mpeg2_picture {
-> >  	__u8	picture_coding_type;
-> > -
-> > -	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Picture coding extension */
-> >  	__u8	f_code[2][2];
-> >  	__u8	intra_dc_precision;
-> >  	__u8	picture_structure;
-> > -
-> > +	__u8	reserved;
-> >  	__u32	flags;
-> >  };
-> >  
-> > +/**
-> > + * struct v4l2_ctrl_mpeg2_slice_params - MPEG-2 slice header
-> > + *
-> > + * @backward_ref_ts: timestamp of the V4L2 capture buffer to use as
-> > + * reference for backward prediction.
-> > + * @forward_ref_ts: timestamp of the V4L2 capture buffer to use as
-> > + * reference for forward prediction. These timestamp refers to the
-> > + * timestamp field in struct v4l2_buffer. Use v4l2_timeval_to_ns()
-> > + * to convert the struct timeval to a __u64.
-> > + * @quantiser_scale_code: quantiser scale integer matching an
-> > + * homonymous syntax element.
-> > + * @reserved: padding field. Should be zeroed by applications.
-> > + */
-> >  struct v4l2_ctrl_mpeg2_slice_params {
-> >  	__u64	backward_ref_ts;
-> >  	__u64	forward_ref_ts;
-> > -
-> > -	struct v4l2_mpeg2_sequence sequence;
-> > -	struct v4l2_mpeg2_picture picture;
-> > -
-> > -	/* ISO/IEC 13818-2, ITU-T Rec. H.262: Slice */
-> >  	__u32	quantiser_scale_code;
-> > +	__u32	reserved;
-> >  };
-> >  
-> > -/* ISO/IEC 13818-2, ITU-T Rec. H.262: Quant matrix extension */
-> > +/**
-> > + * struct v4l2_ctrl_mpeg2_quantization - MPEG-2 quantization
-> > + *
-> > + * Quantization matrices as specified by section 6.3.7
-> > + * "Quant matrix extension".
-> > + *
-> > + * Applications are expected to set the quantization matrices load
-> > + * flags V4L2_MPEG2_PIC_FLAG_LOAD_{} in struct v4l2_ctrl_mpeg2_picture
-> > + * to tell the kernel that a non-default matrix shall be used
-> > + * to decode the picture.
-> > + *
-> > + * @intra_quantiser_matrix: The quantization matrix coefficients
-> > + * for intra-coded frames, in zigzag scanning order. It is relevant
-> > + * for both luma and chroma components, although it can be superseded
-> > + * by the chroma-specific matrix for non-4:2:0 YUV formats.
-> > + * @non_intra_quantiser_matrix: The quantization matrix coefficients
-> > + * for non-intra-coded frames, in zigzag scanning order. It is relevant
-> > + * for both luma and chroma components, although it can be superseded
-> > + * by the chroma-specific matrix for non-4:2:0 YUV formats.
-> > + * @chroma_intra_quantiser_matrix: The quantization matrix coefficients
-> > + * for the chominance component of intra-coded frames, in zigzag scanning
-> > + * order. Only relevant for 4:2:2 and 4:4:4 YUV formats.
-> > + * @chroma_non_intra_quantiser_matrix: The quantization matrix coefficients
-> > + * for the chrominance component of non-intra-coded frames, in zigzag scanning
-> > + * order. Only relevant for 4:2:2 and 4:4:4 YUV formats.
-> > + */
-> >  struct v4l2_ctrl_mpeg2_quantization {
-> >  	__u8	intra_quantiser_matrix[64];
-> >  	__u8	non_intra_quantiser_matrix[64];
-> > diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
-> > index d25b38f78229..86f6c3ef7104 100644
-> > --- a/include/media/v4l2-ctrls.h
-> > +++ b/include/media/v4l2-ctrls.h
-> > @@ -42,6 +42,8 @@ struct video_device;
-> >   * @p_u16:			Pointer to a 16-bit unsigned value.
-> >   * @p_u32:			Pointer to a 32-bit unsigned value.
-> >   * @p_char:			Pointer to a string.
-> > + * @p_mpeg2_sequence:		Pointer to a MPEG2 sequence structure.
-> > + * @p_mpeg2_picture:		Pointer to a MPEG2 picture structure.
-> >   * @p_mpeg2_slice_params:	Pointer to a MPEG2 slice parameters structure.
-> >   * @p_mpeg2_quantization:	Pointer to a MPEG2 quantization data structure.
-> >   * @p_fwht_params:		Pointer to a FWHT stateless parameters structure.
-> > @@ -66,6 +68,8 @@ union v4l2_ctrl_ptr {
-> >  	u16 *p_u16;
-> >  	u32 *p_u32;
-> >  	char *p_char;
-> > +	struct v4l2_ctrl_mpeg2_sequence *p_sequence;
-> > +	struct v4l2_ctrl_mpeg2_picture *p_picture;
-> 
-> Should start with p_mpeg2_ for both pointers.
-> 
+The rest looks fairly normal, apart from the obvious lack of MC support
+from a driver that supports embedded data (also a TODO item).
 
-Oh, Jonas already pointed this out, it's an overlook.
+-- 
+Kind regards,
 
-Thanks,
-Ezequiel
-
-> >  	struct v4l2_ctrl_mpeg2_slice_params *p_mpeg2_slice_params;
-> >  	struct v4l2_ctrl_mpeg2_quantization *p_mpeg2_quantization;
-> >  	struct v4l2_ctrl_fwht_params *p_fwht_params;
-> > 
-> 
-> Regards,
-> 
-> 	Hans
-
-
+Sakari Ailus
