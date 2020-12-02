@@ -2,207 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1AD5F2CBE79
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 14:40:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 68ABD2CBE9D
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 14:45:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727274AbgLBNhi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 08:37:38 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:38709 "EHLO
+        id S1728123AbgLBNnt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 08:43:49 -0500
+Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:32991 "EHLO
         lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726063AbgLBNhh (ORCPT
+        by vger.kernel.org with ESMTP id S1725955AbgLBNnt (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Dec 2020 08:37:37 -0500
+        Wed, 2 Dec 2020 08:43:49 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud7.xs4all.net with ESMTPA
-        id kSJOkELI0N7XgkSJSktGTp; Wed, 02 Dec 2020 14:36:54 +0100
+        id kSPPkENtwN7XgkSPSktI1z; Wed, 02 Dec 2020 14:43:06 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606916214; bh=0p93BDswAy4jNORVIR/sbAsAJ8XI35uwObYCucjeNFU=;
+        t=1606916586; bh=E3Jd558pW7wNRnBul6/it+0K72KfT4aEhfZlQcXLP80=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=OA4EMhrIWm5j/M8DVVuSRWPsUcifXI8imAbRTYoOBqgSH968xkZ8Z/itEHOKsiTm3
-         4VUMtsqY1CSlzsVruJ0HogYmaLGysIyw86hn/289BRohUAcn5EXGkfcwu1OgO3zOWb
-         49DPOK+6BqQuIHDoVcqOj9exrGMnm6gF/8JU9PYVWLJPhtMRBnEE5QswuXY6vkGSdE
-         181v6NHStKYTpXF0h5KY/SplTp1klfICJN1Q4paGIbliF/XNckgo64t65PNN+ArqtC
-         SIEc0TOuHqWrHC19/n/2HS/+g75VGfdfeAPHxBPyOhXwB0PJhgmIKwOSn2oZ0TU4DK
-         bvCG/X4g5Dtqw==
-Subject: Re: [PATCH v3 3/3] venus: venc: Add support for frame-specific
- min/max qp controls
+        b=J3AB/Q1VlBseI/babsBD2nEPamhEr+0/FUrFLDygf/x5LgaQO6G8+NbA38o+hZDUl
+         LJxHGfIxKi55YZMEMrG5FOcYfVsDebIFiNTS07aHKek3avoukpRrYCHtmMxW072tgu
+         ImWnLjlxZ3JJY0sXfVFXV2pyiQ9etPW6VTlL9dOpZGZClQLY8ASANTotlh/nN1SF50
+         5LDoWGgpp8f2V9Ui+73hIN7QvnDbGGxCt6pBYcG+GwNvYUSLkagphbzsILa+mtaodk
+         ZJnRUHY1gzyHr25paW7cck7op9typtVlPT6cv0LsgvVHsktsEn4UY0K9w4j3CmWTO4
+         AD521eNr5aJqw==
+Subject: Re: [PATCH v3] media: v4l2-ctrl: Add base layer priority id control.
 To:     Dikshita Agarwal <dikshita@codeaurora.org>,
         linux-media@vger.kernel.org, nicolas@ndufresne.ca,
         stanimir.varbanov@linaro.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         vgarodia@codeaurora.org
-References: <1605682497-29273-1-git-send-email-dikshita@codeaurora.org>
- <1605682497-29273-4-git-send-email-dikshita@codeaurora.org>
+References: <1606121442-31074-1-git-send-email-dikshita@codeaurora.org>
 From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <a5f99684-54ff-6d09-eeb7-4748ed3c3271@xs4all.nl>
-Date:   Wed, 2 Dec 2020 14:36:50 +0100
+Message-ID: <fda7e709-85bd-89c3-e910-72562016e835@xs4all.nl>
+Date:   Wed, 2 Dec 2020 14:43:03 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <1605682497-29273-4-git-send-email-dikshita@codeaurora.org>
+In-Reply-To: <1606121442-31074-1-git-send-email-dikshita@codeaurora.org>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJCyZqR7dyovBx+dTvzQQXmQvFZKmbkyGAhGrBWWLn40ycWdbDIGr539lSV9UScf4eSh7ov4OqV1WhJoMmUIpFN6qgezYv6BoAYCdHkfM9gnBcR4AoID
- MnHng437DzuLyFMKjT16M3I768eimb2lN1qAlqvuEaEEls2ZDSDvnrLx1j8/Q/BljSsw5+kZxc4RItAk2GVU5RSezNzN9oi3yLQ+8O4vAuMAvPp4HbXNiFb/
- VCyzzDu9JUOuCrKuMz4DYoGEawuv5XyiOVf3Enmddg/iTrS+7+0ZRPmsCt01r1vkwPOrKLUln1lxg1GkXdLXxIJQB5DRKaxBP3r4/7mr0J0eB1rNdEY/MZoI
- ygaQstbq2KhiWK7SfZTnikPuCouzzkGulPlwKTXR1vcvlJRSRj4nNzW3JljY3JikYc1JeVRGWlW3vi7i2NNH5szVMVzO4w==
+X-CMAE-Envelope: MS4xfLau5zSc7yxNbLhMXzx2sWW1T8GLkQcqNashlyhRrOBCb4UIbyifLXHgZOdUBkKK9K0nXY+X4zeiDNLZP58EoD5TKDhnIrsRhTPc9pyUfvvr2l3g4OrX
+ 8WfSb8/j/t3vhKSaPGm4PKunK4ZVDzUMsXjeygmQ/zdstIQ2i8rCPabN/Z5mnpbYCXnofkeR2RJ4017xSS36/jjRsG/eLjp/wNAbXH9NCKFdDCv4S8srl2in
+ D0nQomDAS3l2RM9eUUlOkUHa4QKiEVvD5VZ10z9Oi1IlAjjkdmGzfAc/sp6oldyAPDTG3Ssxyyy7QgguClD52bKA6//eyNYbj7EgvO+U6fbuHviPIhusa4wv
+ EEYTi2916DrAM7lttKn25n8ABYEyKeLlvM9F0+pBDXLQC5tw6obl/lAJxN1LL7jynv4DCUEsVwhE+Fux8enCwCzZQMirag==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 18/11/2020 07:54, Dikshita Agarwal wrote:
-> Add support for frame type specific min and max qp controls
-> for encoder.
+On 23/11/2020 09:50, Dikshita Agarwal wrote:
+> This control indicates the priority id to be applied
+
+id -> ID
+
+(ditto in the subject)
+
+> to base layer.
 > 
 > Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
 > ---
->  drivers/media/platform/qcom/venus/core.h       | 18 +++++++++
->  drivers/media/platform/qcom/venus/venc.c       | 21 ++++++++---
->  drivers/media/platform/qcom/venus/venc_ctrls.c | 51 ++++++++++++++++++++++++++
->  3 files changed, 85 insertions(+), 5 deletions(-)
+>  Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst | 9 +++++++++
+>  drivers/media/v4l2-core/v4l2-ctrls.c                      | 1 +
+>  include/uapi/linux/v4l2-controls.h                        | 1 +
+>  3 files changed, 11 insertions(+)
 > 
-> diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-> index 3bc129a..6a764c9 100644
-> --- a/drivers/media/platform/qcom/venus/core.h
-> +++ b/drivers/media/platform/qcom/venus/core.h
-> @@ -230,10 +230,28 @@ struct venc_controls {
->  	u32 h264_b_qp;
->  	u32 h264_min_qp;
->  	u32 h264_max_qp;
-> +	u32 h264_i_min_qp;
-> +	u32 h264_i_max_qp;
-> +	u32 h264_p_min_qp;
-> +	u32 h264_p_max_qp;
-> +	u32 h264_b_min_qp;
-> +	u32 h264_b_max_qp;
->  	u32 h264_loop_filter_mode;
->  	s32 h264_loop_filter_alpha;
->  	s32 h264_loop_filter_beta;
->  
-> +	u32 hevc_i_qp;
-> +	u32 hevc_p_qp;
-> +	u32 hevc_b_qp;
-> +	u32 hevc_min_qp;
-> +	u32 hevc_max_qp;
-> +	u32 hevc_i_min_qp;
-> +	u32 hevc_i_max_qp;
-> +	u32 hevc_p_min_qp;
-> +	u32 hevc_p_max_qp;
-> +	u32 hevc_b_min_qp;
-> +	u32 hevc_b_max_qp;
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index 22222ce..a518d4f 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -4467,3 +4467,12 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>         This provides a bitmask which consists of bits [0, LTR_COUNT-1].
+>         This is applicable to H264 and HEVC encoder and can be applied using
+>         Request Api.
 > +
->  	u32 vp8_min_qp;
->  	u32 vp8_max_qp;
->  
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index 0bf92cc..f2f5a85 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -668,17 +668,28 @@ static int venc_set_properties(struct venus_inst *inst)
->  		return ret;
->  
->  	ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP;
-> -	quant.qp_i = ctr->h264_i_qp;
-> -	quant.qp_p = ctr->h264_p_qp;
-> -	quant.qp_b = ctr->h264_b_qp;
-> +	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-> +		quant.qp_i = ctr->hevc_i_qp;
-> +		quant.qp_p = ctr->hevc_p_qp;
-> +		quant.qp_b = ctr->hevc_b_qp;
-> +	} else {
-> +		quant.qp_i = ctr->h264_i_qp;
-> +		quant.qp_p = ctr->h264_p_qp;
-> +		quant.qp_b = ctr->h264_b_qp;
-> +	}
->  	quant.layer_id = 0;
->  	ret = hfi_session_set_property(inst, ptype, &quant);
->  	if (ret)
->  		return ret;
->  
->  	ptype = HFI_PROPERTY_PARAM_VENC_SESSION_QP_RANGE;
-> -	quant_range.min_qp = ctr->h264_min_qp;
-> -	quant_range.max_qp = ctr->h264_max_qp;
-> +	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-> +		quant_range.min_qp = ctr->hevc_min_qp;
-> +		quant_range.max_qp = ctr->hevc_max_qp;
-> +	} else {
-> +		quant_range.min_qp = ctr->h264_min_qp;
-> +		quant_range.max_qp = ctr->h264_max_qp;
-> +	}
->  	quant_range.layer_id = 0;
->  	ret = hfi_session_set_property(inst, ptype, &quant_range);
->  	if (ret)
-> diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-> index 0708b3b..cd131e3 100644
-> --- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-> +++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-> @@ -125,9 +125,60 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
->  	case V4L2_CID_MPEG_VIDEO_H264_MIN_QP:
->  		ctr->h264_min_qp = ctrl->val;
->  		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MIN_QP:
-> +		ctr->h264_i_min_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MIN_QP:
-> +		ctr->h264_p_min_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MIN_QP:
-> +		ctr->h264_b_min_qp = ctrl->val;
-> +		break;
->  	case V4L2_CID_MPEG_VIDEO_H264_MAX_QP:
->  		ctr->h264_max_qp = ctrl->val;
->  		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MAX_QP:
-> +		ctr->h264_i_max_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MAX_QP:
-> +		ctr->h264_p_max_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MAX_QP:
-> +		ctr->h264_b_max_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_QP:
-> +		ctr->hevc_i_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_QP:
-> +		ctr->hevc_p_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_QP:
-> +		ctr->hevc_b_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP:
-> +		ctr->hevc_min_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MIN_QP:
-> +		ctr->hevc_i_min_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MIN_QP:
-> +		ctr->hevc_p_min_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MIN_QP:
-> +		ctr->hevc_b_min_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP:
-> +		ctr->hevc_max_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MAX_QP:
-> +		ctr->hevc_i_max_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MAX_QP:
-> +		ctr->hevc_p_max_qp = ctrl->val;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MAX_QP:
-> +		ctr->hevc_b_max_qp = ctrl->val;
-> +		break;
->  	case V4L2_CID_MPEG_VIDEO_MULTI_SLICE_MODE:
->  		ctr->multi_slice_mode = ctrl->val;
->  		break;
-> 
+> +``V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID (integer)``
+> +    Specifies a priority identifier for the NAL unit, which will be applied to
+> +    the base layer. By default this value is set to 0 for the base layer,
+> +    and the next layer will have the priority ID assigned as 1, 2, 3 and so on.
+> +    The video encoder can't decide the priority id to be applied to a layer,
 
-This looks incomplete: the new controls aren't actually added to the
-driver with v4l2_ctrl_new_std(). Did you test this?
+id -> ID
+
+> +    so this has to come from client.
+> +    This is applicable to H264 and valid Range is from 0 to 63.
+> +    Source Rec. ITU-T H.264 (06/2019); G.7.4.1.1, G.8.8.1
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index 0b81b39..799ab85 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -961,6 +961,7 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:			return "LTR Count";
+>  	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:		return "frame LTR index";
+>  	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:		return "Use LTR Frame(s)";
+> +	case V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID:		return "Base Layer Priority ID";
+>  	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:		return "MPEG-2 Slice Parameters";
+>  	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION:		return "MPEG-2 Quantization Matrices";
+>  	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:			return "FWHT Stateless Parameters";
+> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
+> index b77fa7d..3c4fdc1 100644
+> --- a/include/uapi/linux/v4l2-controls.h
+> +++ b/include/uapi/linux/v4l2-controls.h
+> @@ -424,6 +424,7 @@ enum v4l2_mpeg_video_multi_slice_mode {
+>  #define V4L2_CID_MPEG_VIDEO_LTR_COUNT                  (V4L2_CID_MPEG_BASE+230)
+>  #define V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX            (V4L2_CID_MPEG_BASE+231)
+>  #define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES             (V4L2_CID_MPEG_BASE+232)
+> +#define V4L2_CID_MPEG_VIDEO_BASELAYER_PRIORITY_ID      (V4L2_CID_MPEG_BASE + 233)
+>  
+>  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
+>  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_MPEG_BASE+270)
+> 
 
 Regards,
 
