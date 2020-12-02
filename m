@@ -2,337 +2,153 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B93562CBB19
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 11:56:29 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2E8B42CBB30
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 12:02:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726566AbgLBKxu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 05:53:50 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37494 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726031AbgLBKxt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 05:53:49 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1738FC0613D6;
-        Wed,  2 Dec 2020 02:53:09 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id a6so5938007wmc.2;
-        Wed, 02 Dec 2020 02:53:09 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=PsFUmTaOQZlSVbX9UVznGeylxoTW+qZTJpXZ8JcvTiQ=;
-        b=LqGjKu+eZtBbYNFdEXbEkpAvwNuNuwk3OdCYCP2xOgN8m6TYU8NpkNc1s9YQOt5zdu
-         RVkaUTnSOGQJbHh6hzA1W+Yy9DEfWiEaJZjXw4h8t9Tr7rnG4DXSxjjnClmq1Xil2jPK
-         u2R56ERNx1n33YxG7sSHJWkbWjvG/MKCMx24tcv26wFabueZrd1NRFIYAThTrwmxW1jV
-         qNAxFJ5sfpF4Bz0qH/Sy1BrLNEB/1zGj2vmEPb9Sak1JsJFAwsBjaC5c6E0qSCt3ReXs
-         RyIIwInTx+diRDE8hXExThuxDdjNpb0jkeNIPYpFmTtFoDda491zk51mebYfzOsoTlOl
-         xW0g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=PsFUmTaOQZlSVbX9UVznGeylxoTW+qZTJpXZ8JcvTiQ=;
-        b=L5GCS3b5jqt7Zo2c6ym3RgEiqO0OhUpjhYzIyLbW4ZewfLr1RY6DtxQvqFwJyTS8r0
-         9Z4eEn1G+AcRWoKCMPyC7dw2m2evSawwcztc3TX5C8w7TlSmSizcqSStwbhGAGiwcUfM
-         3xGi0avLsDrUcX9izIt9CPkXQE32n/3FaNXx7QLC5b0rYvwTDo2viPi/4+DpxE05A2U9
-         S7rInFUtqgNUtm/E/s7Cnjy74NzVrOrAkNlxJUmIL7ieJ5UHMdq3j8KGGClUgXoQ1lSM
-         nzm4mnbdqPVTtp+T5nhiIpOvm14zEUEKQSHjjRyi+aG2mR7+BMY338lioMNyNAaUmE60
-         gwxg==
-X-Gm-Message-State: AOAM533+NX81ex0apdfQihCZ8xMS4mkImW134fgP1+YlPFfqRWBSo754
-        GWM1T01Lc4M2I3Zly/bP9bM=
-X-Google-Smtp-Source: ABdhPJxC60Dih/sFYKs2x1da6TQ7bVGfG9KopzFUTP8Sfer1/k4Myd0r7HRRDHePABMzwqJ4NKUEBQ==
-X-Received: by 2002:a1c:e445:: with SMTP id b66mr2488447wmh.187.1606906387678;
-        Wed, 02 Dec 2020 02:53:07 -0800 (PST)
-Received: from [192.168.1.211] ([2.31.224.80])
-        by smtp.gmail.com with ESMTPSA id h98sm1800199wrh.69.2020.12.02.02.53.06
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Dec 2020 02:53:07 -0800 (PST)
-Subject: Re: [PATCH 13/18] ipu3-cio2: Add functionality allowing software_node
- connections to sensors on platforms designed for Windows
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org,
-        mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        wsa@kernel.org, yong.zhi@intel.com, bingbu.cao@intel.com,
-        tian.shu.qiu@intel.com, mchehab@kernel.org, robert.moore@intel.com,
-        erik.kaneda@intel.com, pmladek@suse.com, rostedt@goodmis.org,
-        sergey.senozhatsky@gmail.com, linux@rasmusvillemoes.dk,
-        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jorhand@linux.microsoft.com, kitakar@gmail.com,
-        heikki.krogerus@linux.intel.com
-References: <20201130133129.1024662-1-djrscally@gmail.com>
- <20201130133129.1024662-14-djrscally@gmail.com>
- <20201130170955.GN14465@pendragon.ideasonboard.com>
- <b5cc6bbd-f679-7023-fde0-de2acb65a3c2@gmail.com>
- <20201201223053.GB4569@pendragon.ideasonboard.com>
- <20201202103851.GC852@paasikivi.fi.intel.com>
-From:   Dan Scally <djrscally@gmail.com>
-Message-ID: <cb68e265-0e6c-4079-e835-f004e6a46dfb@gmail.com>
-Date:   Wed, 2 Dec 2020 10:53:05 +0000
+        id S1726853AbgLBLCH (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 06:02:07 -0500
+Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:46315 "EHLO
+        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726250AbgLBLCG (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Dec 2020 06:02:06 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id kPsukDEjwN7XgkPsxksZ82; Wed, 02 Dec 2020 12:01:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1606906883; bh=qt3ZG35zMOHZ30lMXbRyDBGMwzHfKhatMhIPX3hMudQ=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=GcEE67yL8bcq8lv9T4Gmxhf6dIBqvZmwLtIbM1tDZ5ClP6E5hCnQ/eUpSMTzPQM1/
+         fyDRaSObluGHOEtUJZf0S5s0CmitWg9BYSBK3LFMAqFr3hapGlF1nfBMzQ7+Q1Gqy0
+         IoFDaOUXguLlimVTm2bakVfA8MbeeOVjRKomVM4DxFdBxid6dt6oZDiLwC4xhuYV10
+         dR2djV09GbOK2ws8K6eN9bHFc/Yc+xSRiaZqvCse8elzrBQ+vFZumgpJwD1fo0RRWE
+         n/Cf0xPTXPy5+CzR4DjLoaQ8OreWqwKj4pRj/7lYL+N+988/aNFUgCI8tMdMzSKRS4
+         DAvij8VPufOCg==
+Subject: Re: [PATCH v2 2/3] docs: media: Document CLL and Mastering display
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20201123230257.31690-1-stanimir.varbanov@linaro.org>
+ <20201123230257.31690-3-stanimir.varbanov@linaro.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <de469e16-80a6-9a2f-30b1-ddf04b314e61@xs4all.nl>
+Date:   Wed, 2 Dec 2020 12:01:20 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <20201202103851.GC852@paasikivi.fi.intel.com>
+In-Reply-To: <20201123230257.31690-3-stanimir.varbanov@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
 Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfHsf8jl5nk5NviNBzXEZ0TfpZ2rtQHdu6dfzrKh9Dr0FpC6CGQE9fOSrrLl0oqwf+dkDCOhnChbmOYdJbzexvG5GvV0sCDkLBCXhOt0As4qUYRPTsdGM
+ dSWeGAjqPQ4VqPaYe6WfOPxO1boxCrNdUD+hF/pW5H5JDYSB9zruy57REbj/M3HsIpTyqmRrE7yUOmb6BX7H7WDYqY2TxrH9u1zW7lPPHGRj4oLSXv9vlfTk
+ cq+sZHK8r8SzSp85klbqqo42sdurZ6iLXMysuALz4sKb/DROy8x1Y48P0bSsoV6B442Q8UiE7UMbFsWY0dbBO3cKhZwUPKF5RJXAPk8S31Y7XvXT65zusO94
+ SnOpNd4n5Qwf0764354CEQ3/cbJ49kPhJksLrg/LFrvxxZ76ATtzaQ9xgEt/UixPzjVW0ktI
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On 24/11/2020 00:02, Stanimir Varbanov wrote:
+> Document Content light level and Mastering display colour volume.
+> 
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  .../media/v4l/ext-ctrls-codec.rst             | 71 +++++++++++++++++++
+>  1 file changed, 71 insertions(+)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> index ce728c757eaf..1d26a5db07ef 100644
+> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
+> @@ -4382,3 +4382,74 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
+>        - Selecting this value specifies that HEVC slices are expected
+>          to be prefixed by Annex B start codes. According to :ref:`hevc`
+>          valid start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001.
+> +
+> +``V4L2_CID_MPEG_VIDEO_HDR10_CLL_INFO (struct)``
+> +    The Content Light Level defines upper bounds for the nominal target
+> +    brightness light level of the pictures.
+> +
+> +.. c:type:: v4l2_ctrl_hdr10_cll_info
+> +
+> +.. cssclass:: longtable
+> +
+> +.. flat-table:: struct v4l2_ctrl_hdr10_cll_info
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       1 1 2
+> +
+> +    * - __u16
+> +      - ``max_content_light_level``
+> +      - An upper bound on the maximum light level among all individual
+> +        samples for the pictures of coded video sequence, cd/m2. When
+> +        equal to 0 no such uppper bound is present.
+> +    * - __u16
+> +      - ``max_pic_average_light_level``
+> +      - An upper bound on the maximum average light level among the
+> +        samples for any individual picture of coded video sequence, cd/m2.
+> +        When equal to 0 no such uppper bound is present.
+> +
+> +``V4L2_CID_MPEG_VIDEO_HDR10_MASTERING_DISPLAY (struct)``
+> +    The mastering display defines the colour volume (the colour primaries,
+> +    white point and luminance range) of a display considered to be the
+> +    mastering display for current video content.
+> +
+> +.. c:type:: v4l2_ctrl_hdr10_mastering_display
+> +
+> +.. cssclass:: longtable
+> +
+> +.. flat-table:: struct v4l2_ctrl_hdr10_mastering_display
+> +    :header-rows:  0
+> +    :stub-columns: 0
+> +    :widths:       1 1 2
+> +
+> +    * - __u16
+> +      - ``display_primaries_x[3]``
+> +      - Specifies the normalized x chromaticity coordinate of the colour
+> +        primary component c of the mastering display in increments of 0.00002.
+> +        For describing mastering display that use Red, Green and  Blue colour
+> +        primaries, index value c equal to 0 correspond to Green primary, c
+> +        equal to 1 correspond to Blue primary and c equal to 2 correspond to
 
-On 02/12/2020 10:38, Sakari Ailus wrote:
-> Hi Laurent,
->
-> On Wed, Dec 02, 2020 at 12:30:53AM +0200, Laurent Pinchart wrote:
->> Hi Daniel,
->>
->> On Tue, Dec 01, 2020 at 10:08:25PM +0000, Dan Scally wrote:
->>> On 30/11/2020 17:09, Laurent Pinchart wrote:
->>>> On Mon, Nov 30, 2020 at 01:31:24PM +0000, Daniel Scally wrote:
->>>>> Currently on platforms designed for Windows, connections between CIO2 and
->>>>> sensors are not properly defined in DSDT. This patch extends the ipu3-cio2
->>>>> driver to compensate by building software_node connections, parsing the
->>>>> connection properties from the sensor's SSDB buffer.
->>>>>
->>>>> Suggested-by: Jordan Hand <jorhand@linux.microsoft.com>
->>>>> Signed-off-by: Daniel Scally <djrscally@gmail.com>
->>>>> ---
->>>>> Changes since RFC v3:
->>>>>
->>>>> 	- Removed almost all global variables, dynamically allocated
->>>>> 	the cio2_bridge structure, plus a bunch of associated changes
->>>>> 	like 
->>>>> 	- Added a new function to ipu3-cio2-main.c to check for an 
->>>>> 	existing fwnode_graph before calling cio2_bridge_init()
->>>>> 	- Prefixed cio2_bridge_ to any variables and functions that
->>>>> 	lacked it
->>>>> 	- Assigned the new fwnode directly to the sensor's ACPI device
->>>>> 	fwnode as secondary. This removes the requirement to delay until
->>>>> 	the I2C devices are instantiated before ipu3-cio2 can probe, but
->>>>> 	it has a side effect, which is that those devices then grab a ref
->>>>> 	to the new software_node. This effectively prevents us from
->>>>> 	unloading the driver, because we can't free the memory that they
->>>>> 	live in whilst the device holds a reference to them. The work
->>>>> 	around at the moment is to _not_ unregister the software_nodes
->>>>> 	when ipu3-cio2 is unloaded; this becomes a one-time 'patch', that
->>>>> 	is simply skipped if the module is reloaded.
->>>>> 	- Moved the sensor's SSDB struct to be a member of cio2_sensor
->>>>> 	- Replaced ints with unsigned ints where appropriate
->>>>> 	- Iterated over all ACPI devices of a matching _HID rather than
->>>>> 	just the first to ensure we handle a device with multiple sensors
->>>>> 	of the same model.
->>>>>
->>>>>  MAINTAINERS                                   |   1 +
->>>>>  drivers/media/pci/intel/ipu3/Kconfig          |  18 ++
->>>>>  drivers/media/pci/intel/ipu3/Makefile         |   1 +
->>>>>  drivers/media/pci/intel/ipu3/cio2-bridge.c    | 260 ++++++++++++++++++
->>>>>  drivers/media/pci/intel/ipu3/cio2-bridge.h    | 108 ++++++++
->>>>>  drivers/media/pci/intel/ipu3/ipu3-cio2-main.c |  27 ++
->>>>>  drivers/media/pci/intel/ipu3/ipu3-cio2.h      |   6 +
->>>>>  7 files changed, 421 insertions(+)
->>>>>  create mode 100644 drivers/media/pci/intel/ipu3/cio2-bridge.c
->>>>>  create mode 100644 drivers/media/pci/intel/ipu3/cio2-bridge.h
->>>>>
->>>>> diff --git a/MAINTAINERS b/MAINTAINERS
->>>>> index 9702b886d6a4..188559a0a610 100644
->>>>> --- a/MAINTAINERS
->>>>> +++ b/MAINTAINERS
->>>>> @@ -8927,6 +8927,7 @@ INTEL IPU3 CSI-2 CIO2 DRIVER
->>>>>  M:	Yong Zhi <yong.zhi@intel.com>
->>>>>  M:	Sakari Ailus <sakari.ailus@linux.intel.com>
->>>>>  M:	Bingbu Cao <bingbu.cao@intel.com>
->>>>> +M:	Dan Scally <djrscally@gmail.com>
->>>>>  R:	Tianshu Qiu <tian.shu.qiu@intel.com>
->>>>>  L:	linux-media@vger.kernel.org
->>>>>  S:	Maintained
->>>>> diff --git a/drivers/media/pci/intel/ipu3/Kconfig b/drivers/media/pci/intel/ipu3/Kconfig
->>>>> index 82d7f17e6a02..2b3350d042be 100644
->>>>> --- a/drivers/media/pci/intel/ipu3/Kconfig
->>>>> +++ b/drivers/media/pci/intel/ipu3/Kconfig
->>>>> @@ -16,3 +16,21 @@ config VIDEO_IPU3_CIO2
->>>>>  	  Say Y or M here if you have a Skylake/Kaby Lake SoC with MIPI CSI-2
->>>>>  	  connected camera.
->>>>>  	  The module will be called ipu3-cio2.
->>>>> +
->>>>> +config CIO2_BRIDGE
->>>>> +	bool "IPU3 CIO2 Sensors Bridge"
->>>>> +	depends on VIDEO_IPU3_CIO2
->>>>> +	help
->>>>> +	  This extension provides an API for the ipu3-cio2 driver to create
->>>>> +	  connections to cameras that are hidden in SSDB buffer in ACPI. It
->>>>> +	  can be used to enable support for cameras in detachable / hybrid
->>>>> +	  devices that ship with Windows.
->>>>> +
->>>>> +	  Say Y here if your device is a detachable / hybrid laptop that comes
->>>>> +	  with Windows installed by the OEM, for example:
->>>>> +
->>>>> +	  	- Microsoft Surface models (except Surface Pro 3)
->>>>> +		- The Lenovo Miix line (for example the 510, 520, 710 and 720)
->>>>> +		- Dell 7285
->>>>> +
->>>>> +	  If in doubt, say N here.
->>>>> diff --git a/drivers/media/pci/intel/ipu3/Makefile b/drivers/media/pci/intel/ipu3/Makefile
->>>>> index 429d516452e4..933777e6ea8a 100644
->>>>> --- a/drivers/media/pci/intel/ipu3/Makefile
->>>>> +++ b/drivers/media/pci/intel/ipu3/Makefile
->>>>> @@ -2,3 +2,4 @@
->>>>>  obj-$(CONFIG_VIDEO_IPU3_CIO2) += ipu3-cio2.o
->>>>>  
->>>>>  ipu3-cio2-y += ipu3-cio2-main.o
->>>>> +ipu3-cio2-$(CONFIG_CIO2_BRIDGE) += cio2-bridge.o
->>>>> diff --git a/drivers/media/pci/intel/ipu3/cio2-bridge.c b/drivers/media/pci/intel/ipu3/cio2-bridge.c
->>>>> new file mode 100644
->>>>> index 000000000000..fd3f8ba07274
->>>>> --- /dev/null
->>>>> +++ b/drivers/media/pci/intel/ipu3/cio2-bridge.c
->>>>> @@ -0,0 +1,260 @@
->>>>> +// SPDX-License-Identifier: GPL-2.0
->>>>> +/* Author: Dan Scally <djrscally@gmail.com> */
->>>> Could you please add a blank line here ?
->>> Yes
->>>
->>>>> +#include <linux/acpi.h>
->>>>> +#include <linux/device.h>
->>>>> +#include <linux/i2c.h>
->>>> Is this header needed ?
->>>>
->>>>> +#include <linux/kernel.h>
->>>>> +#include <linux/module.h>
->>>> And this one ?
->>>>
->>>>> +#include <linux/pci.h>
->>>>> +#include <linux/property.h>
->>>>> +#include <media/v4l2-subdev.h>
->>>> And this one ?
->>> Ah yes - bit sloppy, they're orphaned from earlier versions, sorry about
->>> that.
->>>
->>>>> +
->>>>> +#include "cio2-bridge.h"
->>>>> +
->>>>> +/*
->>>>> + * Extend this array with ACPI Hardware ID's of devices known to be working.
->>>>> + * Do not add a HID for a sensor that is not actually supported.
->>>>> + */
->>>>> +static const char * const cio2_supported_devices[] = {
->>>> Maybe cio2_supported_sensors ?
->>> Sure
->>>
->>>>> +	"INT33BE",
->>>>> +	"OVTI2680",
->>>>> +};
->>>>> +
->>>>> +static int cio2_bridge_read_acpi_buffer(struct acpi_device *adev, char *id,
->>>>> +					void *data, u32 size)
->>>>> +{
->>>>> +	struct acpi_buffer buffer = { ACPI_ALLOCATE_BUFFER, NULL };
->>>>> +	union acpi_object *obj;
->>>>> +	acpi_status status;
->>>>> +	int ret;
->>>>> +
->>>>> +	status = acpi_evaluate_object(adev->handle, id, NULL, &buffer);
->>>>> +	if (ACPI_FAILURE(status))
->>>>> +		return -ENODEV;
->>>>> +
->>>>> +	obj = buffer.pointer;
->>>>> +	if (!obj) {
->>>>> +		dev_err(&adev->dev, "Couldn't locate ACPI buffer\n");
->>>>> +		return -ENODEV;
->>>>> +	}
->>>>> +
->>>>> +	if (obj->type != ACPI_TYPE_BUFFER) {
->>>>> +		dev_err(&adev->dev, "Not an ACPI buffer\n");
->>>>> +		ret = -ENODEV;
->>>>> +		goto out_free_buff;
->>>>> +	}
->>>>> +
->>>>> +	if (obj->buffer.length > size) {
->>>>> +		dev_err(&adev->dev, "Given buffer is too small\n");
->>>>> +		ret = -EINVAL;
->>>>> +		goto out_free_buff;
->>>>> +	}
->>>>> +
->>>>> +	memcpy(data, obj->buffer.pointer, obj->buffer.length);
->>>>> +	ret = obj->buffer.length;
->>>>> +
->>>>> +out_free_buff:
->>>>> +	kfree(buffer.pointer);
->>>>> +	return ret;
->>>>> +}
->>>>> +
->>>>> +static void cio2_bridge_init_property_names(struct cio2_sensor *sensor)
->>>>> +{
->>>>> +	strcpy(sensor->prop_names.clock_frequency, "clock-frequency");
->>>>> +	strcpy(sensor->prop_names.rotation, "rotation");
->>>>> +	strcpy(sensor->prop_names.bus_type, "bus-type");
->>>>> +	strcpy(sensor->prop_names.data_lanes, "data-lanes");
->>>>> +	strcpy(sensor->prop_names.remote_endpoint, "remote-endpoint");
->>>> This is a bit fragile, as there's no len check. How about the following
->>>> ?
->>>> static const struct cio2_property_names prop_names = {
->>>> 	.clock_frequency = "clock-frequency",
->>>> 	.rotation = "rotation",
->>>> 	.bus_type = "bus-type",
->>>> 	.data_lanes = "data-lanes",
->>>> 	.remote_endpoint = "remote-endpoint",
->>>> };
->>>>
->>>> static void cio2_bridge_init_property_names(struct cio2_sensor *sensor)
->>>> {
->>>> 	sensor->prop_names = prop_names;
->>>> }
->>>>
->>>> This shoudl generate a compilation warning if the string is too long.
->>>>
->>>> You could even inline that line in
->>>> cio2_bridge_create_fwnode_properties().
->>> Yes, I like that, thanks - I'll make the change.
->>>
->>>>> +}
->>>>> +
->>>>> +static void cio2_bridge_create_fwnode_properties(struct cio2_sensor *sensor)
->>>>> +{
->>>>> +	unsigned int i;
->>>>> +
->>>>> +	cio2_bridge_init_property_names(sensor);
->>>>> +
->>>>> +	for (i = 0; i < 4; i++)
->>>>> +		sensor->data_lanes[i] = i + 1;
->>>> Is there no provision in the SSDB for data lane remapping ?
->>> Sorry; don't follow what you mean by data lane remapping here.
->> Some CSI-2 receivers can remap data lanes. The routing inside the SoC
->> from the data lane input pins to the PHYs is configurable. This makes
->> board design easier as you can route the data lanes to any of the
->> inputs. That's why the data lanes DT property is a list of lane numbers
->> instead of a number of lanes. I'm actually not sure if the CIO2 supports
->> this.
-> To my knowledge it does not. Only the number of lanes allocated to
-> different ports matters.
->
-So nothing to change here then I think?
->>>>> @@ -0,0 +1,108 @@
->>>>> +/* SPDX-License-Identifier: GPL-2.0 */
->>>>> +/* Author: Dan Scally <djrscally@gmail.com> */
->>>>> +#ifndef __CIO2_BRIDGE_H
->>>>> +#define __CIO2_BRIDGE_H
->>>>> +
->>>>> +#include <linux/property.h>
->>>>> +
->>>>> +#define CIO2_HID				"INT343E"
->>>>> +#define CIO2_NUM_PORTS			  4
->>>> There are a few rogue spaces before '4'.
->>> Argh, thanks, this is the curse of using VS code on multiple machines...
->> I recommend vim ;-)
-> What is VS code? Very Serious Code?
+correspond -> corresponds (3 times)
 
-Visual Studio Code - it has some nice features, but the
-facepalm-to-productivity ratio is a bit high.
+> +        Red colour primary.
+> +    * - __u16
+> +      - ``display_primaries_y[3]``
+> +      - Specifies the normalized y chromaticity coordinate of the colour
+> +        primary component c of the mastering display in increments of 0.00002.
+> +        For describing mastering display that use Red, Green and  Blue colour
+> +        primaries, index value c equal to 0 correspond to Green primary, c
+> +        equal to 1 correspond to Blue primary and c equal to 2 correspond to
 
-> I can recommend Emacs; that could help, too.
+Ditto.
+
+> +        Red colour primary.
+> +    * - __u16
+> +      - ``white_point_x``
+> +      - Specifies the normalized x chromaticity coordinate of the white
+> +        point of the mastering display in increments of 0.00002.
+> +    * - __u16
+> +      - ``white_point_y``
+> +      - Specifies the normalized y chromaticity coordinate of the white
+> +        point of the mastering display in increments of 0.00002.
+> +    * - __u32
+> +      - ``max_luminance``
+> +      - Specifies the nominal maximum display luminance of the mastering
+> +        display in units of 0.0001 cd/m2.
+> +    * - __u32
+> +      - ``min_luminance``
+> +      - specifies the nominal minimum display luminance of the mastering
+> +        display in units of 0.0001 cd/m2.
+> 
+
+I'd rename these last two fields to max/min_display_mastering_luminance to stay
+in sync with the H.265 spec.
+
+Regards,
+
+	Hans
