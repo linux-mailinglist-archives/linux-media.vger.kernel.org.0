@@ -2,280 +2,269 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 651712CBB48
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 12:12:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 835F72CBB52
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 12:14:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729532AbgLBLLr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 06:11:47 -0500
-Received: from mga18.intel.com ([134.134.136.126]:58685 "EHLO mga18.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725885AbgLBLLq (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Dec 2020 06:11:46 -0500
-IronPort-SDR: RyLmFhtjWx02UL/PH4r8DYFFq8Rb20iYP1s6TmcvUo8gXygP57fagTlyI7RJDg6K/+Pjs4/J90
- 918qrsqWwSrA==
-X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="160769198"
-X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
-   d="scan'208";a="160769198"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga006.fm.intel.com ([10.253.24.20])
-  by orsmga106.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 03:10:05 -0800
-IronPort-SDR: Lk23xe3XZyWFt9R+rbWcXzE5frBlTRU//JkRyz7ZYuPSO+15kMNmk+3T57kq9l8RqAh52LhvMC
- 1Pnmuurdcjzg==
-X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
-   d="scan'208";a="537945438"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga006-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 03:09:58 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 3901720884; Wed,  2 Dec 2020 13:09:56 +0200 (EET)
-Date:   Wed, 2 Dec 2020 13:09:56 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Daniel Scally <djrscally@gmail.com>,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org,
-        mika.westerberg@linux.intel.com, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, wsa@kernel.org, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jorhand@linux.microsoft.com, kitakar@gmail.com,
-        heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH 18/18] ipu3: Add driver for dummy INT3472 ACPI device
-Message-ID: <20201202110956.GD852@paasikivi.fi.intel.com>
-References: <20201130133129.1024662-1-djrscally@gmail.com>
- <20201130133129.1024662-19-djrscally@gmail.com>
- <20201130200719.GB4077@smile.fi.intel.com>
- <20201130233232.GD25713@pendragon.ideasonboard.com>
- <20201201155513.GB852@paasikivi.fi.intel.com>
- <20201201183758.GE3085@pendragon.ideasonboard.com>
+        id S1727153AbgLBLMz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 06:12:55 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:47877 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725885AbgLBLMz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Dec 2020 06:12:55 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id kQ3LkDJpNN7XgkQ3PksccV; Wed, 02 Dec 2020 12:12:11 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1606907531; bh=mKnJykdfJ9fVyVaxmBEJf57DbjlwINU3ARpiBnFa6nc=;
+        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=mo32Mvlvtdz0cMpfDzhvnphRynxxmY0h3N6HeJSFyXwVzbOMZhpDknUPd9Vidradu
+         B/h3Vxyl/3LUEn2I7U0AR0y4jPYMD0v2/Y5zNsv9D5EgHjIKkO9Oq765DZYFZlQouv
+         Twt2hIS9YpR7P2fGV5R4d1XJkH256aXZK7+scftJZ9hHsRcgI7LZmB/Dysx5KYdkI4
+         KJ4kdhIL6p0HZ8PzIAbGh1NdjE3zKURfQz0an8/+e1iNCGp0dkQQsLEJ3msPvg1HRs
+         VHiod3LvaVNOnf/KZBzb1qti7XIAr7U7Mod138k07kkzu4cad6ASE/r/E69ExieKkj
+         cCt1kaSl4bcQw==
+Subject: Re: [PATCH v2 1/3] v4l: Add HDR10 static metadata controls
+To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-arm-msm@vger.kernel.org
+Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
+        Nicolas Dufresne <nicolas.dufresne@collabora.com>
+References: <20201123230257.31690-1-stanimir.varbanov@linaro.org>
+ <20201123230257.31690-2-stanimir.varbanov@linaro.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Message-ID: <17035750-c01e-1601-756b-6c2c87e6b828@xs4all.nl>
+Date:   Wed, 2 Dec 2020 12:12:07 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201201183758.GE3085@pendragon.ideasonboard.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <20201123230257.31690-2-stanimir.varbanov@linaro.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfN7Cfj+y/PgBr6dFSUVY0yocs6ChXS10Geb7uCETi+JEargNlnqGpc0g5LI4n5eMGtN1HBZtZQkRml/zQU0s+RQ/c5bZTwTHyztVDRyz+72bHULmfrDl
+ nFR3qDrNVvZkJmr4SeD/v88NlW5kGaeYkfOjK/3r44rpn57hmir3reMzxeJ3jIvfzQDslIWMo4KzkSuqed+MBFeuyNLgYS1Ac0qRw7rF0bJgf6+XJNYYevB0
+ GNS+EBQPfCZcTBsZ7fzjgm7vrdzAr3qkGgE9XW3593u9DH7jGZ+6EjV+eH813Bjl+SgjvFyiZR3lQdzyk9p76LT4VjWrPFtiUNnyJMu7f8hQOUx0Dzhys+Fj
+ cOG5d6WayQgUgPIBc0eVEP6jEQbH2JajMZEwgUkIqOnxS5furIhs7yhZmV67BiJ2FhYWi3G9
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+On 24/11/2020 00:02, Stanimir Varbanov wrote:
+> Add Content light level and Mastering display colour volume v4l2
+> compounf controls, relevant payload structures and validation.
 
-On Tue, Dec 01, 2020 at 08:37:58PM +0200, Laurent Pinchart wrote:
-> Hi Sakari,
+compounf -> compound
+
 > 
-> On Tue, Dec 01, 2020 at 05:55:13PM +0200, Sakari Ailus wrote:
-> > On Tue, Dec 01, 2020 at 01:32:32AM +0200, Laurent Pinchart wrote:
-> > > On Mon, Nov 30, 2020 at 10:07:19PM +0200, Andy Shevchenko wrote:
-> > > > On Mon, Nov 30, 2020 at 01:31:29PM +0000, Daniel Scally wrote:
-> > > > > On platforms where ACPI is designed for use with Windows, resources
-> > > > > that are intended to be consumed by sensor devices are sometimes in
-> > > > > the _CRS of a dummy INT3472 device upon which the sensor depends. This
-> > > > > driver binds to the dummy acpi device (which does not represent a
-> > > > 
-> > > > acpi device -> acpi_device
-> > > > 
-> > > > > physical PMIC) and maps them into GPIO lines and regulators for use by
-> > > > > the sensor device instead.
-> > > > 
-> > > > ...
-> > > > 
-> > > > > This patch contains the bits of this process that we're least sure about.
-> > > > > The sensors in scope for this work are called out as dependent (in their
-> > > > > DSDT entry's _DEP) on a device with _HID INT3472. These come in at least
-> > > > > 2 kinds; those with an I2cSerialBusV2 entry (which we presume therefore
-> > > > > are legitimate tps68470 PMICs that need handling by those drivers - work
-> > > > > on that in the future). And those without an I2C device. For those without
-> > > > > an I2C device they instead have an array of GPIO pins defined in _CRS. So
-> > > > > for example, my Lenovo Miix 510's OVTI2680 sensor is dependent on one of
-> > > > > the _latter_ kind of INT3472 devices, with this _CRS:
-> > > > > 
-> > > > > Method (_CRS, 0, NotSerialized)  // _CRS: Current Resource Settings
-> > > > > {
-> > > > >     Name (SBUF, ResourceTemplate ()
-> > > > >     {
-> > > > >         GpioIo (Exclusive, PullDefault, 0x0000, 0x0000,
-> > > > > 	    IoRestrictionOutputOnly, "\\_SB.PCI0.GPI0",
-> > > > > 	    0x00, ResourceConsumer, ,
-> > > > >             )
-> > > > >             {   // Pin list
-> > > > >                 0x0079
-> > > > >             }
-> > > > >         GpioIo (Exclusive, PullDefault, 0x0000, 0x0000,
-> > > > > 	    IoRestrictionOutputOnly, "\\_SB.PCI0.GPI0",
-> > > > > 	    0x00, ResourceConsumer, ,
-> > > > >             )
-> > > > >             {   // Pin list
-> > > > >                 0x007A
-> > > > >             }
-> > > > >         GpioIo (Exclusive, PullDefault, 0x0000, 0x0000,
-> > > > > 	    IoRestrictionOutputOnly, "\\_SB.PCI0.GPI0",
-> > > > > 	    0x00, ResourceConsumer, ,
-> > > > >             )
-> > > > >             {   // Pin list
-> > > > >                 0x008F
-> > > > >             }
-> > > > >     })
-> > > > >     Return (SBUF) /* \_SB_.PCI0.PMI1._CRS.SBUF */
-> > > > > }
-> > > > > 
-> > > > > and the same device has a _DSM Method, which returns 32-bit ints where
-> > > > > the second lowest byte we noticed to match the pin numbers of the GPIO
-> > > > > lines:
-> > > > > 
-> > > > > Method (_DSM, 4, NotSerialized)  // _DSM: Device-Specific Method
-> > > > > {
-> > > > >     If ((Arg0 == ToUUID ("79234640-9e10-4fea-a5c1-b5aa8b19756f")))
-> > > > >     {
-> > > > >         If ((Arg2 == One))
-> > > > >         {
-> > > > >             Return (0x03)
-> > > > >         }
-> > > > > 
-> > > > >         If ((Arg2 == 0x02))
-> > > > >         {
-> > > > >             Return (0x01007900)
-> > > > >         }
-> > > > > 
-> > > > >         If ((Arg2 == 0x03))
-> > > > >         {
-> > > > >             Return (0x01007A0C)
-> > > > >         }
-> > > > > 
-> > > > >         If ((Arg2 == 0x04))
-> > > > >         {
-> > > > >             Return (0x01008F01)
-> > > > >         }
-> > > > >     }
-> > > > > 
-> > > > >     Return (Zero)
-> > > > > }
-> > > > > 
-> > > > > We know that at least some of those pins have to be toggled active for the
-> > > > > sensor devices to be available in i2c, so the conclusion we came to was
-> > > > > that those GPIO entries assigned to the INT3472 device actually represent
-> > > > > GPIOs and regulators to be consumed by the sensors themselves. Tsuchiya
-> > > > > noticed that the lowest byte in the return values of the _DSM method
-> > > > > seemed to represent the type or function of the GPIO line, and we
-> > > > > confirmed that by testing on each surface device that GPIO lines where the
-> > > > > low byte in the _DSM entry for that pin was 0x0d controlled the privacy
-> > > > > LED of the cameras.
-> > > > > 
-> > > > > We're guessing as to the exact meaning of the function byte, but I
-> > > > > conclude they're something like this:
-> > > > > 
-> > > > > 0x00 - probably a reset GPIO
-> > > > > 0x01 - regulator for the sensor
-> > > > > 0x0c - regulator for the sensor
-> > > > > 0x0b - regulator again, but for a VCM or EEPROM
-> > > > > 0x0d - privacy led (only one we're totally confident of since we can see
-> > > > >        it happen!)
-> > > > 
-> > > > It's solely Windows driver design...
-> > > > Luckily I found some information and can clarify above table:
-> > > > 
-> > > > 0x00 Reset
-> > > > 0x01 Power down
-> > > > 0x0b Power enable
-> > > > 0x0c Clock enable
-> > > > 0x0d LED (active high)
-> > > 
-> > > That's very useful information ! Thank you.
-> > > 
-> > > > The above text perhaps should go somewhere under Documentation.
-> > > 
-> > > Or in the driver source code, but definitely somewhere else than in the
-> > > commit message.
-> > > 
-> > > > > After much internal debate I decided to write this as a standalone
-> > > > > acpi_driver. Alternative options we considered:
-> > > > > 
-> > > > > 1. Squash all this into the cio2-bridge code, which I did originally write
-> > > > > but decided I didn't like.
-> > > > > 2. Extend the existing tps68470 mfd driver...they share an ACPI ID so this
-> > > > > kinda makes sense, but ultimately given there is no actual physical
-> > > > > tps68470 in the scenario this patch handles I decided I didn't like this
-> > > > > either.
-> > > > 
-> > > > Looking to this I think the best is to create a module that can be consumed by tps68470 and separately.
-> > > > So, something near to it rather than under ipu3 hood.
-> > > > 
-> > > > You may use same ID's in both drivers (in PMIC less case it can be simple
-> > > > platform and thus they won't conflict), but both of them should provide GPIO
-> > > > resources for consumption.
-> > > > 
-> > > > So, something like
-> > > > 
-> > > >  tps68470.h with API to consume
-> > > >  split tps68470 to -core, -i2c parts
-> > > >  add int3472, which will serve for above and be standalone platform driver
-> > > >  update cio2-bridge accordingly
-> > > > 
-> > > > Would it be feasible?
-> > > 
-> > > Given that INT3472 means Intel camera power management device (that's
-> > > more or less the wording in Windows, I can double-check), would the
-> > > following make sense ?
-> > > 
-> > > A top-level module named intel-camera-pmic (or int3472, or ...) would
-> > > register two drivers, a platform driver and an I2C driver, to
-> > > accommodate for both cases ("discrete PMIC" that doesn't have an
-> > > I2cSerialBusV2, and TPS64870 or uP6641Q that are I2C devices). The probe
-> > > function would perform the following:
-> > > 
-> > > - If there's no CLDB, then the device uses the Chrome OS "ACPI
-> > >   bindings", and refers to a TPS64870. The code that exists in the
-> > >   kernel today (registering GPIOs, and registering an OpRegion to
-> > >   communicate with the power management code in the DSDT) would be
-> > >   activated.
-> > > 
-> > > - If there's a CLDB, then the device type would be retrieved from it:
-> > > 
-> > >   - If the device is a "discrete PMIC", the driver would register clocks
-> > >     and regulators controlled by GPIOs, and create clock, regulator and
-> > >     GPIO lookup entries for the sensor device that references the PMIC.
-> > > 
-> > >   - If the device is a TPS64870, the code that exists in the kernel
-> > >     today to register GPIOs would be activated, and new code would need
-> > >     to be written to register regulators and clocks.
-> > > 
-> > >   - If the device is a uP6641Q, a new driver will need to be written (I
-> > >     don't know on which devices this PMIC is used, so this can probably
-> > >     be deferred).
-> > > 
-> > > We can split this in multiple files and/or modules.
-> > 
-> > That's what I thought of, too, as one option, but with some more detail.
-> > This would be indeed the cleanest option.
-> > 
-> > I think it'd be nice if the CLDB stuff (apart from checking whether it's
-> > there) would be in a different module to avoid cluttering up the real
-> > tps68470 driver.
+> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
+> ---
+>  drivers/media/v4l2-core/v4l2-ctrls.c | 62 ++++++++++++++++++++++++++++
+>  include/media/hdr10-ctrls.h          | 55 ++++++++++++++++++++++++
+>  include/media/v4l2-ctrls.h           |  3 ++
+>  3 files changed, 120 insertions(+)
+>  create mode 100644 include/media/hdr10-ctrls.h
 > 
-> Given the amount of code, and the fact that the driver should be
-> compiled as a module, I don't think it will make a huge difference in
-> the memory footprint.
+> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
+> index ad47d00e28d6..028630576401 100644
+> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
+> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
+> @@ -1024,6 +1024,9 @@ const char *v4l2_ctrl_get_name(u32 id)
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
+>  
+> +	case V4L2_CID_MPEG_VIDEO_HDR10_CLL_INFO:		return "HDR10 Content Light Info";
+> +	case V4L2_CID_MPEG_VIDEO_HDR10_MASTERING_DISPLAY:	return "HDR10 Mastering Display";
+> +
+>  	/* CAMERA controls */
+>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
+>  	case V4L2_CID_CAMERA_CLASS:		return "Camera Controls";
+> @@ -1461,6 +1464,12 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
+>  	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:
+>  		*type = V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
+>  		break;
+> +	case V4L2_CID_MPEG_VIDEO_HDR10_CLL_INFO:
+> +		*type = V4L2_CTRL_TYPE_HDR10_CLL_INFO;
+> +		break;
+> +	case V4L2_CID_MPEG_VIDEO_HDR10_MASTERING_DISPLAY:
+> +		*type = V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
+> +		break;
+>  	case V4L2_CID_UNIT_CELL_SIZE:
+>  		*type = V4L2_CTRL_TYPE_AREA;
+>  		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
+> @@ -1775,6 +1784,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>  	struct v4l2_ctrl_hevc_sps *p_hevc_sps;
+>  	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
+>  	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
+> +	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>  	struct v4l2_area *area;
+>  	void *p = ptr.p + idx * ctrl->elem_size;
+>  	unsigned int i;
+> @@ -1934,6 +1944,52 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
+>  		zero_padding(*p_hevc_slice_params);
+>  		break;
+>  
+> +	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
+> +		break;
+> +
+> +	case V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY:
+> +		p_hdr10_mastering = p;
+> +
+> +		for (i = 0; i < 3; ++i) {
+> +			if (p_hdr10_mastering->display_primaries_x[i] <
+> +				V4L2_HDR10_MASTERING_PRIMARIES_X_LOW ||
+> +			    p_hdr10_mastering->display_primaries_x[i] >
+> +				V4L2_HDR10_MASTERING_PRIMARIES_X_HIGH ||
+> +			    p_hdr10_mastering->display_primaries_y[i] <
+> +				V4L2_HDR10_MASTERING_PRIMARIES_Y_LOW ||
+> +			    p_hdr10_mastering->display_primaries_y[i] >
+> +				V4L2_HDR10_MASTERING_PRIMARIES_Y_HIGH)
+> +				return -EINVAL;
+> +		}
+> +
+> +		if (p_hdr10_mastering->white_point_x <
+> +			V4L2_HDR10_MASTERING_WHITE_POINT_X_LOW ||
+> +		    p_hdr10_mastering->white_point_x >
+> +			V4L2_HDR10_MASTERING_WHITE_POINT_X_HIGH ||
+> +		    p_hdr10_mastering->white_point_y <
+> +			V4L2_HDR10_MASTERING_WHITE_POINT_Y_LOW ||
+> +		    p_hdr10_mastering->white_point_y >
+> +			V4L2_HDR10_MASTERING_WHITE_POINT_Y_HIGH)
+> +			return -EINVAL;
+> +
+> +		if (p_hdr10_mastering->max_luminance <
+> +			V4L2_HDR10_MASTERING_MAX_LUMA_LOW ||
+> +		    p_hdr10_mastering->max_luminance >
+> +			V4L2_HDR10_MASTERING_MAX_LUMA_HIGH ||
+> +		    p_hdr10_mastering->min_luminance <
+> +			V4L2_HDR10_MASTERING_MIN_LUMA_LOW ||
+> +		    p_hdr10_mastering->min_luminance >
+> +			V4L2_HDR10_MASTERING_MIN_LUMA_HIGH)
+> +			return -EINVAL;
+> +
+> +		if (p_hdr10_mastering->max_luminance ==
+> +			V4L2_HDR10_MASTERING_MAX_LUMA_LOW &&
+> +		    p_hdr10_mastering->min_luminance ==
+> +			V4L2_HDR10_MASTERING_MIN_LUMA_HIGH)
+> +			return -EINVAL;
+> +
+> +		break;
+> +
+>  	case V4L2_CTRL_TYPE_AREA:
+>  		area = p;
+>  		if (!area->width || !area->height)
+> @@ -2626,6 +2682,12 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
+>  	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
+>  		elem_size = sizeof(struct v4l2_ctrl_hevc_slice_params);
+>  		break;
+> +	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
+> +		elem_size = sizeof(struct v4l2_ctrl_hdr10_cll_info);
+> +		break;
+> +	case V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY:
+> +		elem_size = sizeof(struct v4l2_ctrl_hdr10_mastering_display);
+> +		break;
+>  	case V4L2_CTRL_TYPE_AREA:
+>  		elem_size = sizeof(struct v4l2_area);
+>  		break;
+> diff --git a/include/media/hdr10-ctrls.h b/include/media/hdr10-ctrls.h
+> new file mode 100644
+> index 000000000000..f6f77edc0b60
+> --- /dev/null
+> +++ b/include/media/hdr10-ctrls.h
+> @@ -0,0 +1,55 @@
+> +/* SPDX-License-Identifier: GPL-2.0 */
+> +/*
+> + * These are the HEVC state controls for use with stateless HEVC
+> + * codec drivers.
+> + *
+> + * It turns out that these structs are not stable yet and will undergo
+> + * more changes. So keep them private until they are stable and ready to
+> + * become part of the official public API.
+> + */
+> +
+> +#ifndef _HDR10_CTRLS_H_
+> +#define _HDR10_CTRLS_H_
+> +
+> +/*
+> + * Content light level information.
+> + * Source Rec. ITU-T H.265 v7 (11/2019) HEVC; D.2.35
+> + */
+> +#define V4L2_CID_MPEG_VIDEO_HDR10_CLL_INFO	(V4L2_CID_MPEG_BASE + 1017)
+> +#define V4L2_CTRL_TYPE_HDR10_CLL_INFO		0x0123
+> +
+> +struct v4l2_ctrl_hdr10_cll_info {
+> +	__u16 max_content_light_level;
+> +	__u16 max_pic_average_light_level;
+> +};
+> +
+> +/*
+> + * Mastering display colour volume.
+> + * Source Rec. ITU-T H.265 v7 (11/2019) HEVC; D.2.28
+> + */
+> +#define V4L2_CID_MPEG_VIDEO_HDR10_MASTERING_DISPLAY (V4L2_CID_MPEG_BASE + 1018)
 
-I'd still prefer to keep the ACPI hack support and the real driver well
-separated. That way it'd be also easy to put them to their respective
-modules. That's actually how the tps68470 MFD driver is currently arranged;
-the GPIO and OP region drivers are separate from each other.
+I don't think this should be part of the codec control class. It is also needed
+for HDMI receivers, for example.
 
-Could this be just one more platform device for each of the three cases (or
-one for the two latter; I'm not quite sure yet)?
+I think it is better to create a new "Colorimetry" control class for controls like
+this.
 
-The GPIO regulator case is relatively safe, but the real PMICs require
-regulator voltage control as well as enabling and disabling the regulators.
-That probably requires either schematics or checking the register values at
-runtime on Windows (i.e. finding out which system you're dealing with, at
-runtime).
+But I advise that you wait until this PR is merged:
+https://patchwork.linuxtv.org/project/linux-media/patch/d68da172-b251-000f-653d-38a8a4c7b715@xs4all.nl/
 
--- 
-Kind regards,
+Note that you also need to add validation support for this to std_validate_compound()
+and possibly add initialization to std_init_compound() is v4l2-ctrls.c.
 
-Sakari Ailus
+Regards,
+
+	Hans
+
+> +#define V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	0x0124
+> +
+> +#define V4L2_HDR10_MASTERING_PRIMARIES_X_LOW	5
+> +#define V4L2_HDR10_MASTERING_PRIMARIES_X_HIGH	37000
+> +#define V4L2_HDR10_MASTERING_PRIMARIES_Y_LOW	5
+> +#define V4L2_HDR10_MASTERING_PRIMARIES_Y_HIGH	42000
+> +#define V4L2_HDR10_MASTERING_WHITE_POINT_X_LOW	5
+> +#define V4L2_HDR10_MASTERING_WHITE_POINT_X_HIGH	37000
+> +#define V4L2_HDR10_MASTERING_WHITE_POINT_Y_LOW	5
+> +#define V4L2_HDR10_MASTERING_WHITE_POINT_Y_HIGH	42000
+> +#define V4L2_HDR10_MASTERING_MAX_LUMA_LOW	50000
+> +#define V4L2_HDR10_MASTERING_MAX_LUMA_HIGH	100000000
+> +#define V4L2_HDR10_MASTERING_MIN_LUMA_LOW	1
+> +#define V4L2_HDR10_MASTERING_MIN_LUMA_HIGH	50000
+> +
+> +struct v4l2_ctrl_hdr10_mastering_display {
+> +	__u16 display_primaries_x[3];
+> +	__u16 display_primaries_y[3];
+> +	__u16 white_point_x;
+> +	__u16 white_point_y;
+> +	__u32 max_luminance;
+> +	__u32 min_luminance;
+> +};
+> +
+> +#endif
+> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
+> index 4fbace0fc7e5..81bd026fc1ea 100644
+> --- a/include/media/v4l2-ctrls.h
+> +++ b/include/media/v4l2-ctrls.h
+> @@ -19,6 +19,7 @@
+>   */
+>  #include <media/mpeg2-ctrls.h>
+>  #include <media/fwht-ctrls.h>
+> +#include <media/hdr10-ctrls.h>
+>  #include <media/h264-ctrls.h>
+>  #include <media/vp8-ctrls.h>
+>  #include <media/hevc-ctrls.h>
+> @@ -80,6 +81,8 @@ union v4l2_ctrl_ptr {
+>  	struct v4l2_ctrl_hevc_sps *p_hevc_sps;
+>  	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
+>  	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
+> +	struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
+> +	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
+>  	struct v4l2_area *p_area;
+>  	void *p;
+>  	const void *p_const;
+> 
+
