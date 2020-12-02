@@ -2,28 +2,28 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6E05A2CC8C3
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 22:20:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D1DFE2CC8D4
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 22:23:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727783AbgLBVSl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 16:18:41 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49990 "EHLO
+        id S1727802AbgLBVWY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 16:22:24 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50568 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727623AbgLBVSl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 16:18:41 -0500
+        with ESMTP id S1726880AbgLBVWY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 16:22:24 -0500
 Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB38EC0613D6
-        for <linux-media@vger.kernel.org>; Wed,  2 Dec 2020 13:18:00 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A3004C0613D6
+        for <linux-media@vger.kernel.org>; Wed,  2 Dec 2020 13:21:43 -0800 (PST)
 Received: from valkosipuli.localdomain (unknown [IPv6:fd35:1bc8:1a6:d3d5::80:2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B9B53634C24;
-        Wed,  2 Dec 2020 23:16:47 +0200 (EET)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id AED80634C24;
+        Wed,  2 Dec 2020 23:20:30 +0200 (EET)
 Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
         (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kkZUW-00035E-7M; Wed, 02 Dec 2020 23:16:48 +0200
-Date:   Wed, 2 Dec 2020 23:16:48 +0200
+        id 1kkZY7-00035P-52; Wed, 02 Dec 2020 23:20:31 +0200
+Date:   Wed, 2 Dec 2020 23:20:31 +0200
 From:   Sakari Ailus <sakari.ailus@iki.fi>
 To:     Jacopo Mondi <jacopo@jmondi.org>
 Cc:     linux-media@vger.kernel.org, naush@raspberrypi.com,
@@ -31,14 +31,15 @@ Cc:     linux-media@vger.kernel.org, naush@raspberrypi.com,
         kieran.bingham@ideasonboard.com, niklas.soderlund@ragnatech.se,
         dafna.hirschfeld@collabora.com, hverkuil@xs4all.nl,
         nsaenzjulienne@suse.de, mchehab+huawei@kernel.org
-Subject: Re: [PATCH v4 1/5] media: uapi: Add MEDIA_BUS_FMT_CUSTOM_SENSOR_DATA
-Message-ID: <20201202211648.GX4351@valkosipuli.retiisi.org.uk>
+Subject: Re: [PATCH v4 2/5] dt-bindings: media: Document BCM283x CSI2/CCP2
+ receiver
+Message-ID: <20201202212031.GY4351@valkosipuli.retiisi.org.uk>
 References: <20201110174036.220883-1-jacopo@jmondi.org>
- <20201110174036.220883-2-jacopo@jmondi.org>
+ <20201110174036.220883-3-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201110174036.220883-2-jacopo@jmondi.org>
+In-Reply-To: <20201110174036.220883-3-jacopo@jmondi.org>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -46,171 +47,200 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Jacopo,
 
-Thank you for the patchset.
-
-On Tue, Nov 10, 2020 at 06:40:32PM +0100, Jacopo Mondi wrote:
-> From: Naushir Patuck <naush@raspberrypi.com>
+On Tue, Nov 10, 2020 at 06:40:33PM +0100, Jacopo Mondi wrote:
+> From: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > 
-> Add V4L2_META_FMT_CUSTOM_SENSOR_DATA format.
+> Document the DT bindings for the CSI2/CCP2 receiver peripheral (known as
+> Unicam) on BCM283x SoCs.
 > 
-> This new format will be used to return camera sensor embedded data.
-> 
-> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> Signed-off-by: Dave Stevenson <dave.stevenson@raspberrypi.com>
 > Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
 > ---
->  .../userspace-api/media/v4l/meta-formats.rst  |  1 +
->  .../media/v4l/pixfmt-meta-sensor-data.rst     | 24 +++++++++++++++
->  .../media/v4l/subdev-formats.rst              | 29 +++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
->  include/uapi/linux/media-bus-format.h         |  3 ++
->  include/uapi/linux/videodev2.h                |  1 +
->  6 files changed, 59 insertions(+)
->  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
+>  .../bindings/media/brcm,bcm2835-unicam.yaml   | 155 ++++++++++++++++++
+>  1 file changed, 155 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> index fff25357fe860..b2201d1524eb6 100644
-> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
-> @@ -15,6 +15,7 @@ These formats are used for the :ref:`metadata` interface only.
->      pixfmt-meta-d4xx
->      pixfmt-meta-intel-ipu3
->      pixfmt-meta-rkisp1
-> +    pixfmt-meta-sensor-data
->      pixfmt-meta-uvc
->      pixfmt-meta-vsp1-hgo
->      pixfmt-meta-vsp1-hgt
-> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
+> diff --git a/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
 > new file mode 100644
-> index 0000000000000..cc3929f595389
+> index 0000000000000..6ffc900e8ae8f
 > --- /dev/null
-> +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
-> @@ -0,0 +1,24 @@
-> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> +++ b/Documentation/devicetree/bindings/media/brcm,bcm2835-unicam.yaml
+> @@ -0,0 +1,155 @@
+> +# SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
+> +# Copyright (C) 2020 Raspberry Pi (Trading) Ltd.
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/media/brcm,bcm2835-unicam.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
 > +
-> +.. _v4l2-meta-fmt-sensor-data:
+> +title: Broadcom BCM283x Camera Interface (Unicam)
 > +
-> +***********************************
-> +V4L2_META_FMT_SENSOR_DATA  ('SENS')
-> +***********************************
+> +maintainers:
+> +  - Dave Stevenson <dave.stevenson@raspberrypi.com>
+> +  - Raspberry Pi kernel list <kernel-list@raspberrypi.com>
 > +
-> +Sensor Ancillary Metadata
-
-"Sensor Embedded Data"
-
+> +description:
+> +  The Unicam block on BCM283x SoCs is the receiver for either CSI-2 or CCP2
+> +  data from image sensors or similar devices.
 > +
-> +Description
-> +===========
+> +  The main platform using this SoC is the Raspberry Pi family of boards. On the
+> +  Pi the VideoCore firmware can also control this hardware block, and driving
+> +  it from two different processors will cause issues. To avoid this, the
+> +  firmware checks the device tree configuration during boot. If it finds device
+> +  tree nodes whose name starts with "csi" then it will stop the firmware
+> +  accessing the block, and it can then safely be used via the device tree
+> +  binding.
 > +
-> +This format describes ancillary data generated by a camera sensor and
-> +transmitted over a stream on the camera bus. Most sensor vendors have their
-> +own custom format for this ancillary data. Some vendors follow a generic
-> +CSI-2/SMIA embedded data format as described in the `CSI-2 specification.
-> +<https://mipi.org/specifications/csi-2>`_
+> +properties:
+> +  compatible:
+> +    const: brcm,bcm2835-unicam
 
-CSI-2 or SMIA? SMIA does define how embedded data is formatted, but this
-format is specific to SMIA and may be used for other sensors that are
-somewhat aligned with SMIA (or CCS) even if not fully compliant.
-
-SMIA defines both the format of embedded data as well as its packing into
-pixels at different bit depths. I have to say I have little knowledge on
-how this works on non-compliant sensors. Do other sensors use the same
-packing? Given that this isn't standardised, I could imagine there are
-other kinds of solutions.
-
-In order to interpret this from the user space (as well as eventually
-transferring it to system memory), I think we'd need at least the packing
-and bits per pixel information even if the data format itself remained
-opaque at that level.
-
-What are the documentation requirements for embedded data that is not
-SMIA/CCS, and therefore likely undocumented in publicly available
-documentation? Driver documentation?
-
-One alternative would be to define only SMIA/CCS compliant embedded data
-formats.
+The compatible string doesn't quite match with the title. Which SoCs are
+supported?
 
 > +
-> +The size of the embedded buffer is defined as a single line with a pixel width
-> +specified in bytes and obtained by a call to the :c:type:`VIDIOC_SUBDEV_G_FMT`
-> +ioctl on the sensor sub-device. Note that this size is fixed and cannot be
-> +modified with a call to :c:type:`VIDIOC_SUBDEV_S_FMT`.
+> +  reg:
+> +    items:
+> +      - description: Main registers block
+> +      - description: Clock registers block
 > +
-> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> index 7f16cbe46e5c2..99e270bbdd223 100644
-> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
-> @@ -7926,3 +7926,32 @@ The following table lists the existing metadata formats.
->  	both sides of the link and the bus format is a fixed
->  	metadata format that is not configurable from userspace.
->  	Width and height will be set to 0 for this format.
+> +  interrupts:
+> +    maxItems: 1
 > +
-> +.. _v4l2-mbus-sensor-data:
+> +  clocks:
+> +    minItems: 1
+> +    maxItems: 2
 > +
-> +Sensor Ancillary Metadata Formats
-> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +  clock-names:
+> +    minItems: 1
+> +    items:
+> +      - const: lp
+> +      - const: core
 > +
-> +This section lists ancillary data generated by a camera sensor and
-> +transmitted over a stream on the camera bus.
+> +  power-domains:
+> +    maxItems: 1
 > +
-> +The following table lists the existing sensor ancillary metadata formats:
+> +  brcm,num-data-lanes:
+> +    description:
+> +      The number of data lanes supported by this Unicam instance. It may be
+> +      larger than the number of data lanes routed on the board, as described by
+> +      the data-lanes property of the endpoint.
+> +    allOf:
+> +      - $ref: "/schemas/types.yaml#/definitions/uint32"
+> +      - enum: [1, 2, 4]
+
+Do you need this information besides how many lanes are connected?
+
+Does the number of lanes change even within the same model of SoC? Could
+you use the compatible string to differentiate between them?
+
 > +
-> +.. _v4l2-mbus-pixelcode-sensor-metadata:
+> +  port:
+> +    type: object
+> +    description:
+> +      Input port node, as described in video-interfaces.txt.
 > +
-> +.. tabularcolumns:: |p{8.0cm}|p{1.4cm}|p{7.7cm}|
+> +    properties:
+> +      endpoint:
+> +        type: object
 > +
-> +.. flat-table:: Sensor ancillary metadata formats
-> +    :header-rows:  1
-> +    :stub-columns: 0
+> +        properties:
+> +          clock-lanes:
+> +            items:
+> +              - const: 0
+
+Please drop. There's nothing to tell software here.
+
 > +
-> +    * - Identifier
-> +      - Code
-> +      - Comments
-> +    * .. _MEDIA_BUS_FMT_CUSTOM_SENSOR_DATA:
+> +          data-lanes:
+> +            description:
+> +              Lane reordering is not supported, items shall be in order,
+> +              starting at 1.
+> +            allOf:
+> +              - $ref: "/schemas/types.yaml#/definitions/uint32-array"
+> +              - maxItems: 1
+> +                items:
+> +                  minItems: 1
+> +                  maxItems: 4
+> +                  items:
+> +                    - const: 1
+> +                    - const: 2
+> +                    - const: 3
+> +                    - const: 4
+
+No need to specify items.
+
 > +
-> +      - MEDIA_BUS_FMT_CUSTOM_SENSOR_DATA
-> +      - 0x7002
-> +      - Sensor vendor specific ancillary metadata. Some vendors follow a generic
-> +        CSI-2/SMIA embedded data format as described in the `CSI-2 specification.
-> +	<https://mipi.org/specifications/csi-2>`_
-> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
-> index f0f6906a879de..83288a00f28e4 100644
-> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
-> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
-> @@ -1403,6 +1403,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
->  	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
->  	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
->  	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
-> +	case V4L2_META_FMT_SENSOR_DATA:	descr = "Sensor Ancillary Metadata"; break;
->  
->  	default:
->  		/* Compressed formats */
-> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
-> index 2ce3d891d3447..726557120fc03 100644
-> --- a/include/uapi/linux/media-bus-format.h
-> +++ b/include/uapi/linux/media-bus-format.h
-> @@ -164,4 +164,7 @@
->   */
->  #define MEDIA_BUS_FMT_METADATA_FIXED		0x7001
->  
-> +/* Sensor ancillary metadata formats - next is 0x7003 */
-> +#define MEDIA_BUS_FMT_CUSTOM_SENSOR_DATA	0x7002
+> +          lane-polarities:
+> +            description:
+> +              Lane inversion is not supported. If the property is specified, it
+> +              shall contain all 0's.
+
+Ditto.
+
+> +            allOf:
+> +              - $ref: "/schemas/types.yaml#/definitions/uint32-array"
+> +              - maxItems: 1
+> +                items:
+> +                  minItems: 2
+> +                  maxItems: 5
+> +                  items:
+> +                    - const: 0
+> +                    - const: 0
+> +                    - const: 0
+> +                    - const: 0
+> +                    - const: 0
 > +
->  #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
-> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
-> index 927075fa9099e..d1ef094090a3b 100644
-> --- a/include/uapi/linux/videodev2.h
-> +++ b/include/uapi/linux/videodev2.h
-> @@ -767,6 +767,7 @@ struct v4l2_pix_format {
->  #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
->  #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
->  #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
-> +#define V4L2_META_FMT_SENSOR_DATA v4l2_fourcc('S', 'E', 'N', 'S') /* Sensor Ancillary metadata */
->  
->  /* priv field value to indicates that subsequent fields are valid. */
->  #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
+> +          remote-endpoint: true
+> +
+> +        required:
+> +          - data-lanes
+> +          - remote-endpoint
+> +
+> +        additionalProperties: false
+> +
+> +    required:
+> +      - endpoint
+> +
+> +    additionalProperties: false
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - interrupts
+> +  - clocks
+> +  - clock-names
+> +  - power-domains
+> +  - brcm,num-data-lanes
+> +  - port
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    #include <dt-bindings/clock/bcm2835.h>
+> +    #include <dt-bindings/interrupt-controller/arm-gic.h>
+> +    #include <dt-bindings/power/raspberrypi-power.h>
+> +
+> +    csi@7e801000 {
+> +        compatible = "brcm,bcm2835-unicam";
+> +        reg = <0x7e801000 0x800>,
+> +              <0x7e802004 0x4>;
+> +        interrupts = <2 7>;
+> +        clocks = <&clocks BCM2835_CLOCK_CAM1>;
+> +        clock-names = "lp";
+> +        power-domains = <&power RPI_POWER_DOMAIN_UNICAM1>;
+> +        brcm,num-data-lanes = <4>;
+> +
+> +        port {
+> +            csi1_ep: endpoint {
+> +                remote-endpoint = <&imx219_0>;
+> +                data-lanes = <1 2>;
+> +            };
+> +        };
+> +    };
+> +...
 
 -- 
-Kind regards,
-
 Sakari Ailus
