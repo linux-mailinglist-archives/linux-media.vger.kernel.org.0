@@ -2,220 +2,174 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D0FCF2CBB80
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 12:22:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F361C2CBBC5
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 12:47:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388754AbgLBLWg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 06:22:36 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:54129 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2388722AbgLBLWf (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Dec 2020 06:22:35 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id kQChkDOStN7XgkQCkksfzJ; Wed, 02 Dec 2020 12:21:51 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606908111; bh=LoEJihX4P6hL0y26mmDuyF1tnmXQBQnwUZ+gidGDkPg=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=vTkU0UqTEwBFgmr8U3/DMayoNsqvZy0JPb5Lgw1Du1b5bqDyc8VGwBmRtDXYZUIJ9
-         N6iFXBoGIHZ9ipqbcKZy4iQgZxmNZ1pcgdJlZmj1xRIVpnqonXGvH+why1Zoxvmc5T
-         k72b7FoH810IyZpeBe7FchdNIpjPXKJOqmbWCqoTVWmYhOB44qgF2cMGijZTGbZ7n/
-         x4lEFOBj0KI40YovaQ8BkTbBbgBZp3bv8nNordlu6YFKTqrpb6jPP57TW/Z9KGIDij
-         RM22Uj6nbbgoOULDC9XtrmGxwtuNTW7KukulTcDLm0WilPmFHoKxzHrPyG39OaJBm1
-         GTe9SAYhPdt1g==
-Subject: Re: KASAN: use-after-free Read in v4l2_fh_init
-To:     Rustam Kovhaev <rkovhaev@gmail.com>, mchehab@kernel.org,
-        linux-media@vger.kernel.org
-Cc:     andreyknvl@google.com, hans.verkuil@cisco.com,
-        laurent.pinchart@ideasonboard.com, linux-kernel@vger.kernel.org,
-        linux-usb@vger.kernel.org, sakari.ailus@linux.intel.com,
-        syzkaller-bugs@googlegroups.com, gregkh@linuxfoundation.org
-References: <000000000000ec53de0586e309fc@google.com>
- <20201018220117.GA3246571@thinkpad>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <f2f1c5b0-f97d-dd94-363a-289141f8da09@xs4all.nl>
-Date:   Wed, 2 Dec 2020 12:21:47 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
-MIME-Version: 1.0
-In-Reply-To: <20201018220117.GA3246571@thinkpad>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKQhXrSRFou4VnbYlilNnwCE0jeWNjYUxvTUEDwVdZaNslQRihverrkTZbou1mHO31QyPkGsPsgVEIUD8l+OFx0+XqaiCMxZ0xL4yrYoVO2zVt4aT/te
- ZXT0EV2zfhu+Z7NcNeoBIrPbv7P3w/wM9UXvAN5DD2J1T6DH07WhvjjBufBq9FWxd0aFcI4ih8+w1j7JctU7aQ8X1ZW2s8wbJiFf1oGPw+EBUxnYnL5aV4fo
- MPSZMMn0zxTZpXL2dCtJD+5xAkzr+tpPut/qa1I0CT2RPoJeEH5M7u8YJ32XZY0zTEElpyJxR/3gCGiiK6Jn5y4RRogh9Pyxx02Kp0Cqt5Kqoni6f+StOAOu
- ijQWF6+Pc0sIAUMvKfeFSn5QcOnKFPiacDK1ayqrPZqX839TtIXts4vzhfBp5nrlXIvBvbR9stxWQHwZKRyiwSHnnN1Wubw4laECnC5f0Md2zYEgq6rfIZFE
- 3T4hzq81fHaG7+7EqHHxsJ8b9VOPRr2fSrKHZZuwxvGYColiutk6TSutndX37YytZ2hUFP78XRqq7ajUTK1VjSdQboHkfxvr2Ut0naLWIJFUwjeVfkFTuvHv
- qHQ=
+        id S1729742AbgLBLlq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 06:41:46 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44824 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729736AbgLBLlq (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 06:41:46 -0500
+Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2233C0613CF;
+        Wed,  2 Dec 2020 03:41:05 -0800 (PST)
+Received: by mail-qk1-x742.google.com with SMTP id b144so803144qkc.13;
+        Wed, 02 Dec 2020 03:41:05 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id;
+        bh=0xMIcHgw4ps2tQXJYXw+Nd9oOY/dH77H1V9h85c9cSQ=;
+        b=LTHqXJAsmQMjYIQcb28+VhUahjFyncZkSXOw5RtzshMtQT9QARJmJqj5xD17Puf0GU
+         nPtKoXSaO7/6BRq6DWPvENVo7GkAn5GEDc+3ECuRzU6qbKUOyBaQ/1+hXoQILEoIIK4V
+         gP2tchdBpfmQXYYyZGiUZXPIX4xQ2dSsyywN46sTGWXzoT2YpQYvy/+5W7eCKpTGiOat
+         oX93tW9hVfmjNcJ9aGantMITZjIfU494IsfcrKwAwBSCD+2aoWOQWCV5Z3f78ph+5cMk
+         dvSsTQLL1bxOrGBLeUH85wS+E6pWfRMoVe/lX/aNbXKa1v4+cRkJ0g9W0CCx+FYzEYzT
+         1jsQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id;
+        bh=0xMIcHgw4ps2tQXJYXw+Nd9oOY/dH77H1V9h85c9cSQ=;
+        b=eW8EHtSIt5RulBkijkqgNnNGo1AhUCqbdxameIP2gdNSqq2X1yWa8QcRimz5zuSTa3
+         +v9Y5LMFhlrUvzm6E5ozPWvf+vfVNDrJ9oia4kBqhsbYXSbFimTbp50wIlDxz8hjekSF
+         mBGT3iKElGYcCsZD2coBZkjBGP1fFzlUZ+gJM8B2lKJYY1zZfJPNjH4TWG8YkxsHOY4W
+         QrI5K3I8kH/+TMWEAaChzI+31cgbwDDRSk26m1QOqeQQVgFgEDHvlV9x64p/ic5/Gasc
+         8SACGQYyF9U0o/K70BwSEDHDU3tTkGoAPWIO6maOajbykq3mz+t1YO7cFmwXsDe1Zdx/
+         ikKw==
+X-Gm-Message-State: AOAM531SIJ+S4ZsDdBBsiwuZNZj80NssVtM/ioThCoNClZCSUCNSWmTe
+        99uXFePG6nZjuD92geQqhKY=
+X-Google-Smtp-Source: ABdhPJyhOBeJuXz6810EZpDb0zifaEJwpqsUnliduaxzYGwWvSOp87G2E41bm/tApoW703ZgtNZOCw==
+X-Received: by 2002:a37:4e0f:: with SMTP id c15mr1931922qkb.449.1606909265060;
+        Wed, 02 Dec 2020 03:41:05 -0800 (PST)
+Received: from localhost.localdomain ([177.194.72.74])
+        by smtp.gmail.com with ESMTPSA id g4sm1302480qtu.82.2020.12.02.03.41.02
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Dec 2020 03:41:04 -0800 (PST)
+From:   Fabio Estevam <festevam@gmail.com>
+To:     p.zabel@pengutronix.de
+Cc:     mchehab@kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
+        Fabio Estevam <festevam@gmail.com>
+Subject: [PATCH v3] media: coda: Convert the driver to DT-only
+Date:   Wed,  2 Dec 2020 08:38:38 -0300
+Message-Id: <20201202113838.21621-1-festevam@gmail.com>
+X-Mailer: git-send-email 2.17.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 19/10/2020 00:01, Rustam Kovhaev wrote:
-> On Fri, Apr 19, 2019 at 07:36:05AM -0700, syzbot wrote:
->> Hello,
->>
->> syzbot found the following crash on:
->>
->> HEAD commit:    d34f9519 usb-fuzzer: main usb gadget fuzzer driver
->> git tree:       https://github.com/google/kasan/tree/usb-fuzzer
->> console output: https://syzkaller.appspot.com/x/log.txt?x=125bbb5b200000
->> kernel config:  https://syzkaller.appspot.com/x/.config?x=c73d1bb5aeaeae20
->> dashboard link: https://syzkaller.appspot.com/bug?extid=c025d34b8eaa54c571b8
->> compiler:       gcc (GCC) 9.0.0 20181231 (experimental)
->> syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=1513ac1d200000
->> C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=13555c1d200000
->>
->> IMPORTANT: if you fix the bug, please add the following tag to the commit:
->> Reported-by: syzbot+c025d34b8eaa54c571b8@syzkaller.appspotmail.com
->>
->> em28xx 1-1:5.176: failed to create media graph
->> em28xx 1-1:5.176: V4L2 device video32 deregistered
->> em28xx 1-1:5.176: Binding DVB extension
->> ==================================================================
->> em28xx 1-1:5.176: no endpoint for DVB mode and transfer type 0
->> BUG: KASAN: use-after-free in v4l2_fh_init+0x24c/0x290
->> drivers/media/v4l2-core/v4l2-fh.c:33
->> Read of size 8 at addr ffff8880a4f149d0 by task v4l_id/5313
->>
->> CPU: 1 PID: 5313 Comm: v4l_id Not tainted 5.1.0-rc5-319617-gd34f951 #4
->> Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS
->> Google 01/01/2011
->> em28xx 1-1:5.176: failed to pre-allocate USB transfer buffers for DVB.
->> Call Trace:
->>  __dump_stack lib/dump_stack.c:77 [inline]
->>  dump_stack+0xe8/0x16e lib/dump_stack.c:113
->>  print_address_description+0x6c/0x236 mm/kasan/report.c:187
->> em28xx 1-1:5.176: Registering input extension
->>  kasan_report.cold+0x1a/0x3c mm/kasan/report.c:317
->>  v4l2_fh_init+0x24c/0x290 drivers/media/v4l2-core/v4l2-fh.c:33
->>  v4l2_fh_open+0x8d/0xd0 drivers/media/v4l2-core/v4l2-fh.c:71
->>  em28xx_v4l2_open+0x11f/0x470 drivers/media/usb/em28xx/em28xx-video.c:2184
->>  v4l2_open+0x1b6/0x360 drivers/media/v4l2-core/v4l2-dev.c:427
->>  chrdev_open+0x220/0x5d0 fs/char_dev.c:417
->>  do_dentry_open+0x49c/0x1130 fs/open.c:777
->>  do_last fs/namei.c:3416 [inline]
->>  path_openat+0x147d/0x40b0 fs/namei.c:3533
->>  do_filp_open+0x1a6/0x280 fs/namei.c:3563
->>  do_sys_open+0x3c5/0x590 fs/open.c:1069
->>  do_syscall_64+0xcf/0x4f0 arch/x86/entry/common.c:290
->>  entry_SYSCALL_64_after_hwframe+0x49/0xbe
->> RIP: 0033:0x7fdb23b8d120
->> Code: 48 8b 15 1b 4d 2b 00 f7 d8 64 89 02 83 c8 ff c3 90 90 90 90 90 90 90
->> 90 90 90 83 3d d5 a4 2b 00 00 75 10 b8 02 00 00 00 0f 05 <48> 3d 01 f0 ff ff
->> 73 31 c3 48 83 ec 08 e8 5e 8c 01 00 48 89 04 24
->> RSP: 002b:00007ffc1aebde18 EFLAGS: 00000246 ORIG_RAX: 0000000000000002
->> RAX: ffffffffffffffda RBX: 00007ffc1aebdf78 RCX: 00007fdb23b8d120
->> RDX: 00007fdb23e42138 RSI: 0000000000000000 RDI: 00007ffc1aebef17
->> RBP: 0000000000000000 R08: 0000000000000000 R09: 0000000000000000
->> R10: 0000000000000000 R11: 0000000000000246 R12: 0000000000400884
->> R13: 00007ffc1aebdf70 R14: 0000000000000000 R15: 0000000000000000
->>
->> Allocated by task 12:
->>  set_track mm/kasan/common.c:87 [inline]
->>  __kasan_kmalloc mm/kasan/common.c:497 [inline]
->>  __kasan_kmalloc.constprop.0+0xbf/0xd0 mm/kasan/common.c:470
->>  kmalloc include/linux/slab.h:547 [inline]
->>  kzalloc include/linux/slab.h:742 [inline]
->>  em28xx_v4l2_init drivers/media/usb/em28xx/em28xx-video.c:2563 [inline]
->>  em28xx_v4l2_init.cold+0x93/0x3112
->> drivers/media/usb/em28xx/em28xx-video.c:2541
->>  em28xx_init_extension+0x13a/0x200
->> drivers/media/usb/em28xx/em28xx-core.c:1128
->>  request_module_async+0x62/0x70 drivers/media/usb/em28xx/em28xx-cards.c:3300
->>  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
->>  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
->>  kthread+0x313/0x420 kernel/kthread.c:253
->>  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
->>
->> Freed by task 12:
->>  set_track mm/kasan/common.c:87 [inline]
->>  __kasan_slab_free+0x130/0x180 mm/kasan/common.c:459
->>  slab_free_hook mm/slub.c:1429 [inline]
->>  slab_free_freelist_hook+0x5e/0x140 mm/slub.c:1456
->>  slab_free mm/slub.c:3003 [inline]
->>  kfree+0xce/0x280 mm/slub.c:3958
->>  em28xx_free_v4l2 drivers/media/usb/em28xx/em28xx-video.c:2149 [inline]
->>  kref_put include/linux/kref.h:67 [inline]
->>  em28xx_v4l2_init drivers/media/usb/em28xx/em28xx-video.c:2920 [inline]
->>  em28xx_v4l2_init.cold+0x2cf/0x3112
->> drivers/media/usb/em28xx/em28xx-video.c:2541
->>  em28xx_init_extension+0x13a/0x200
->> drivers/media/usb/em28xx/em28xx-core.c:1128
->>  request_module_async+0x62/0x70 drivers/media/usb/em28xx/em28xx-cards.c:3300
->>  process_one_work+0x90f/0x1580 kernel/workqueue.c:2269
->>  worker_thread+0x9b/0xe20 kernel/workqueue.c:2415
->>  kthread+0x313/0x420 kernel/kthread.c:253
->>  ret_from_fork+0x3a/0x50 arch/x86/entry/entry_64.S:352
->>
->> The buggy address belongs to the object at ffff8880a4f14200
->>  which belongs to the cache kmalloc-8k of size 8192
->> The buggy address is located 2000 bytes inside of
->>  8192-byte region [ffff8880a4f14200, ffff8880a4f16200)
->> The buggy address belongs to the page:
->> page:ffffea000293c400 count:1 mapcount:0 mapping:ffff88812c3f4400 index:0x0
->> compound_mapcount: 0
->> flags: 0xfff00000010200(slab|head)
->> raw: 00fff00000010200 dead000000000100 dead000000000200 ffff88812c3f4400
->> raw: 0000000000000000 0000000080030003 00000001ffffffff 0000000000000000
->> page dumped because: kasan: bad access detected
->>
->> Memory state around the buggy address:
->>  ffff8880a4f14880: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>  ffff8880a4f14900: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>> ffff8880a4f14980: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>                                                  ^
->>  ffff8880a4f14a00: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->>  ffff8880a4f14a80: fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb fb
->> ==================================================================
->>
->>
->> ---
->> This bug is generated by a bot. It may contain errors.
->> See https://goo.gl/tpsmEJ for more information about syzbot.
->> syzbot engineers can be reached at syzkaller@googlegroups.com.
->>
->> syzbot will keep track of this bug report. See:
->> https://goo.gl/tpsmEJ#status for how to communicate with syzbot.
->> syzbot can test patches for this bug, for details see:
->> https://goo.gl/tpsmEJ#testing-patches
-> 
-> in v4l2_open() calling video_get() has no effect when vdev is a nested
-> struct inside some driver's struct (em28xx_v4l2 in this case), and referencing
-> vdev again, after a call to vdev->fops->open(), might cause UAF if
-> the driver's struct has already been freed
-> 
-> the following patch fixes both syzbot issue with v4l2_fh_init() and side
-> issue with v4l2_open() described above:
-> https://syzkaller.appspot.com/text?tag=Patch&x=15fbba30500000
-> 1. it adds check for already freed struct in em28xx_v4l2_open(), it fixes
-> this syzbot UAF report about v4l2_fh_init(), but it moves UAF up to v4l2_open()
-> 2. it delays freeing of em28xx_v4l2, hence allows v4l2_open() to
-> safely reference vdev and exit without UAF
-> 
-> fix for #2 does not look great, and it seems that proper fix would
-> be changing em28xx driver and having vdev allocated separateley and not
-> nested in struct em28xx_v4l2:
-> 	struct video_device *vdev 
-> instead of:
-> 	struct video_device vdev
-> and having em28xx utilize video_device_release() instead of
-> video_device_release_empty()
-> 
-> any advice or hints in fixing this would be highly appreciated, tyvm!
-> 
+Since 5.10-rc1 i.MX is a devicetree-only platform, so simplify the code
+by removing the unused non-DT support.
 
-What should happen here is that the release() callback of 'struct v4l2_device v4l2_dev'
-is set. That release callback is called when the very last filehandle to any of the
-video device nodes is closed. I think a release callback that just calls
-'kref_put(&v4l2->ref, em28xx_free_v4l2); kref_put(&dev->ref, em28xx_free_device);'
-should work.
+Signed-off-by: Fabio Estevam <festevam@gmail.com>
+---
+Changes since v2:
+- Forgot to Cc linux-media list.
+Changes since v1:
+- Drop include/linux/platform_data/media/coda.h and pdata - Hans
 
-This driver predates that callback and it was never converted to use it.
+ drivers/media/platform/coda/coda-common.c | 27 ++---------------------
+ include/linux/platform_data/media/coda.h  | 14 ------------
+ 2 files changed, 2 insertions(+), 39 deletions(-)
+ delete mode 100644 include/linux/platform_data/media/coda.h
 
-Regards,
+diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
+index d30eafea701d..995e95272e51 100644
+--- a/drivers/media/platform/coda/coda-common.c
++++ b/drivers/media/platform/coda/coda-common.c
+@@ -25,7 +25,6 @@
+ #include <linux/slab.h>
+ #include <linux/videodev2.h>
+ #include <linux/of.h>
+-#include <linux/platform_data/media/coda.h>
+ #include <linux/ratelimit.h>
+ #include <linux/reset.h>
+ 
+@@ -3102,13 +3101,6 @@ static const struct coda_devtype coda_devdata[] = {
+ 	},
+ };
+ 
+-static const struct platform_device_id coda_platform_ids[] = {
+-	{ .name = "coda-imx27", .driver_data = CODA_IMX27 },
+-	{ /* sentinel */ }
+-};
+-MODULE_DEVICE_TABLE(platform, coda_platform_ids);
+-
+-#ifdef CONFIG_OF
+ static const struct of_device_id coda_dt_ids[] = {
+ 	{ .compatible = "fsl,imx27-vpu", .data = &coda_devdata[CODA_IMX27] },
+ 	{ .compatible = "fsl,imx51-vpu", .data = &coda_devdata[CODA_IMX51] },
+@@ -3118,14 +3110,9 @@ static const struct of_device_id coda_dt_ids[] = {
+ 	{ /* sentinel */ }
+ };
+ MODULE_DEVICE_TABLE(of, coda_dt_ids);
+-#endif
+ 
+ static int coda_probe(struct platform_device *pdev)
+ {
+-	const struct of_device_id *of_id =
+-			of_match_device(of_match_ptr(coda_dt_ids), &pdev->dev);
+-	const struct platform_device_id *pdev_id;
+-	struct coda_platform_data *pdata = pdev->dev.platform_data;
+ 	struct device_node *np = pdev->dev.of_node;
+ 	struct gen_pool *pool;
+ 	struct coda_dev *dev;
+@@ -3135,14 +3122,7 @@ static int coda_probe(struct platform_device *pdev)
+ 	if (!dev)
+ 		return -ENOMEM;
+ 
+-	pdev_id = of_id ? of_id->data : platform_get_device_id(pdev);
+-
+-	if (of_id)
+-		dev->devtype = of_id->data;
+-	else if (pdev_id)
+-		dev->devtype = &coda_devdata[pdev_id->driver_data];
+-	else
+-		return -EINVAL;
++	dev->devtype = of_device_get_match_data(&pdev->dev);
+ 
+ 	dev->dev = &pdev->dev;
+ 	dev->clk_per = devm_clk_get(&pdev->dev, "per");
+@@ -3200,10 +3180,8 @@ static int coda_probe(struct platform_device *pdev)
+ 		return ret;
+ 	}
+ 
+-	/* Get IRAM pool from device tree or platform data */
++	/* Get IRAM pool from device tree */
+ 	pool = of_gen_pool_get(np, "iram", 0);
+-	if (!pool && pdata)
+-		pool = gen_pool_get(pdata->iram_dev, NULL);
+ 	if (!pool) {
+ 		dev_err(&pdev->dev, "iram pool not available\n");
+ 		return -ENOMEM;
+@@ -3342,7 +3320,6 @@ static struct platform_driver coda_driver = {
+ 		.of_match_table = of_match_ptr(coda_dt_ids),
+ 		.pm	= &coda_pm_ops,
+ 	},
+-	.id_table = coda_platform_ids,
+ };
+ 
+ module_platform_driver(coda_driver);
+diff --git a/include/linux/platform_data/media/coda.h b/include/linux/platform_data/media/coda.h
+deleted file mode 100644
+index 293b61b60c9d..000000000000
+--- a/include/linux/platform_data/media/coda.h
++++ /dev/null
+@@ -1,14 +0,0 @@
+-/* SPDX-License-Identifier: GPL-2.0-or-later */
+-/*
+- * Copyright (C) 2013 Philipp Zabel, Pengutronix
+- */
+-#ifndef PLATFORM_CODA_H
+-#define PLATFORM_CODA_H
+-
+-struct device;
+-
+-struct coda_platform_data {
+-	struct device *iram_dev;
+-};
+-
+-#endif
+-- 
+2.17.1
 
-	Hans
