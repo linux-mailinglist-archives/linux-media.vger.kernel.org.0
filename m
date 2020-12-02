@@ -2,174 +2,93 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F361C2CBBC5
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 12:47:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 814192CBC3F
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 13:02:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729742AbgLBLlq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 06:41:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44824 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729736AbgLBLlq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 06:41:46 -0500
-Received: from mail-qk1-x742.google.com (mail-qk1-x742.google.com [IPv6:2607:f8b0:4864:20::742])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F2233C0613CF;
-        Wed,  2 Dec 2020 03:41:05 -0800 (PST)
-Received: by mail-qk1-x742.google.com with SMTP id b144so803144qkc.13;
-        Wed, 02 Dec 2020 03:41:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id;
-        bh=0xMIcHgw4ps2tQXJYXw+Nd9oOY/dH77H1V9h85c9cSQ=;
-        b=LTHqXJAsmQMjYIQcb28+VhUahjFyncZkSXOw5RtzshMtQT9QARJmJqj5xD17Puf0GU
-         nPtKoXSaO7/6BRq6DWPvENVo7GkAn5GEDc+3ECuRzU6qbKUOyBaQ/1+hXoQILEoIIK4V
-         gP2tchdBpfmQXYYyZGiUZXPIX4xQ2dSsyywN46sTGWXzoT2YpQYvy/+5W7eCKpTGiOat
-         oX93tW9hVfmjNcJ9aGantMITZjIfU494IsfcrKwAwBSCD+2aoWOQWCV5Z3f78ph+5cMk
-         dvSsTQLL1bxOrGBLeUH85wS+E6pWfRMoVe/lX/aNbXKa1v4+cRkJ0g9W0CCx+FYzEYzT
-         1jsQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id;
-        bh=0xMIcHgw4ps2tQXJYXw+Nd9oOY/dH77H1V9h85c9cSQ=;
-        b=eW8EHtSIt5RulBkijkqgNnNGo1AhUCqbdxameIP2gdNSqq2X1yWa8QcRimz5zuSTa3
-         +v9Y5LMFhlrUvzm6E5ozPWvf+vfVNDrJ9oia4kBqhsbYXSbFimTbp50wIlDxz8hjekSF
-         mBGT3iKElGYcCsZD2coBZkjBGP1fFzlUZ+gJM8B2lKJYY1zZfJPNjH4TWG8YkxsHOY4W
-         QrI5K3I8kH/+TMWEAaChzI+31cgbwDDRSk26m1QOqeQQVgFgEDHvlV9x64p/ic5/Gasc
-         8SACGQYyF9U0o/K70BwSEDHDU3tTkGoAPWIO6maOajbykq3mz+t1YO7cFmwXsDe1Zdx/
-         ikKw==
-X-Gm-Message-State: AOAM531SIJ+S4ZsDdBBsiwuZNZj80NssVtM/ioThCoNClZCSUCNSWmTe
-        99uXFePG6nZjuD92geQqhKY=
-X-Google-Smtp-Source: ABdhPJyhOBeJuXz6810EZpDb0zifaEJwpqsUnliduaxzYGwWvSOp87G2E41bm/tApoW703ZgtNZOCw==
-X-Received: by 2002:a37:4e0f:: with SMTP id c15mr1931922qkb.449.1606909265060;
-        Wed, 02 Dec 2020 03:41:05 -0800 (PST)
-Received: from localhost.localdomain ([177.194.72.74])
-        by smtp.gmail.com with ESMTPSA id g4sm1302480qtu.82.2020.12.02.03.41.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Dec 2020 03:41:04 -0800 (PST)
-From:   Fabio Estevam <festevam@gmail.com>
-To:     p.zabel@pengutronix.de
-Cc:     mchehab@kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl,
-        Fabio Estevam <festevam@gmail.com>
-Subject: [PATCH v3] media: coda: Convert the driver to DT-only
-Date:   Wed,  2 Dec 2020 08:38:38 -0300
-Message-Id: <20201202113838.21621-1-festevam@gmail.com>
-X-Mailer: git-send-email 2.17.1
+        id S1728304AbgLBMCU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 07:02:20 -0500
+Received: from mga14.intel.com ([192.55.52.115]:63533 "EHLO mga14.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726442AbgLBMCU (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Dec 2020 07:02:20 -0500
+IronPort-SDR: ohqOjj+e91ZBB8GosCstX2wBkULxNj3ux7RYKomnRdAL53NtRAUOQoEySi7s355N/FwbAdj7/F
+ IkvU1aGK8LPg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9822"; a="172219749"
+X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
+   d="scan'208";a="172219749"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by fmsmga103.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 04:00:39 -0800
+IronPort-SDR: 1RU+IPtoJ2BDPfekl0ododlyt4YMxcDIILxwElc+mA3UJ+22QjtuQtgfpYtiqiDkL/pDKQ4RfW
+ mtpZBBcMWVxQ==
+X-IronPort-AV: E=Sophos;i="5.78,386,1599548400"; 
+   d="scan'208";a="361418876"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 02 Dec 2020 04:00:31 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andriy.shevchenko@linux.intel.com>)
+        id 1kkQpA-00BV8u-K2; Wed, 02 Dec 2020 14:01:32 +0200
+Date:   Wed, 2 Dec 2020 14:01:32 +0200
+From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Dan Scally <djrscally@gmail.com>, linux-kernel@vger.kernel.org,
+        linux-acpi@vger.kernel.org, linux-gpio@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-media@vger.kernel.org,
+        devel@acpica.org, rjw@rjwysocki.net, lenb@kernel.org,
+        gregkh@linuxfoundation.org, mika.westerberg@linux.intel.com,
+        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
+        wsa@kernel.org, yong.zhi@intel.com, bingbu.cao@intel.com,
+        tian.shu.qiu@intel.com, mchehab@kernel.org, robert.moore@intel.com,
+        erik.kaneda@intel.com, pmladek@suse.com, rostedt@goodmis.org,
+        sergey.senozhatsky@gmail.com, linux@rasmusvillemoes.dk,
+        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jorhand@linux.microsoft.com, kitakar@gmail.com,
+        heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH 13/18] ipu3-cio2: Add functionality allowing
+ software_node connections to sensors on platforms designed for Windows
+Message-ID: <20201202120132.GA4077@smile.fi.intel.com>
+References: <20201130133129.1024662-1-djrscally@gmail.com>
+ <20201130133129.1024662-14-djrscally@gmail.com>
+ <20201130170955.GN14465@pendragon.ideasonboard.com>
+ <b5cc6bbd-f679-7023-fde0-de2acb65a3c2@gmail.com>
+ <20201201223053.GB4569@pendragon.ideasonboard.com>
+ <20201202103851.GC852@paasikivi.fi.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201202103851.GC852@paasikivi.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Since 5.10-rc1 i.MX is a devicetree-only platform, so simplify the code
-by removing the unused non-DT support.
+On Wed, Dec 02, 2020 at 12:38:51PM +0200, Sakari Ailus wrote:
+> On Wed, Dec 02, 2020 at 12:30:53AM +0200, Laurent Pinchart wrote:
+> > On Tue, Dec 01, 2020 at 10:08:25PM +0000, Dan Scally wrote:
+> > > On 30/11/2020 17:09, Laurent Pinchart wrote:
+> > > > On Mon, Nov 30, 2020 at 01:31:24PM +0000, Daniel Scally wrote:
 
-Signed-off-by: Fabio Estevam <festevam@gmail.com>
----
-Changes since v2:
-- Forgot to Cc linux-media list.
-Changes since v1:
-- Drop include/linux/platform_data/media/coda.h and pdata - Hans
+...
 
- drivers/media/platform/coda/coda-common.c | 27 ++---------------------
- include/linux/platform_data/media/coda.h  | 14 ------------
- 2 files changed, 2 insertions(+), 39 deletions(-)
- delete mode 100644 include/linux/platform_data/media/coda.h
+> > > >> +#define CIO2_NUM_PORTS			  4
+> > > > 
+> > > > There are a few rogue spaces before '4'.
+> > > 
+> > > Argh, thanks, this is the curse of using VS code on multiple machines...
+> > 
+> > I recommend vim ;-)
+> 
+> What is VS code? Very Serious Code?
 
-diff --git a/drivers/media/platform/coda/coda-common.c b/drivers/media/platform/coda/coda-common.c
-index d30eafea701d..995e95272e51 100644
---- a/drivers/media/platform/coda/coda-common.c
-+++ b/drivers/media/platform/coda/coda-common.c
-@@ -25,7 +25,6 @@
- #include <linux/slab.h>
- #include <linux/videodev2.h>
- #include <linux/of.h>
--#include <linux/platform_data/media/coda.h>
- #include <linux/ratelimit.h>
- #include <linux/reset.h>
- 
-@@ -3102,13 +3101,6 @@ static const struct coda_devtype coda_devdata[] = {
- 	},
- };
- 
--static const struct platform_device_id coda_platform_ids[] = {
--	{ .name = "coda-imx27", .driver_data = CODA_IMX27 },
--	{ /* sentinel */ }
--};
--MODULE_DEVICE_TABLE(platform, coda_platform_ids);
--
--#ifdef CONFIG_OF
- static const struct of_device_id coda_dt_ids[] = {
- 	{ .compatible = "fsl,imx27-vpu", .data = &coda_devdata[CODA_IMX27] },
- 	{ .compatible = "fsl,imx51-vpu", .data = &coda_devdata[CODA_IMX51] },
-@@ -3118,14 +3110,9 @@ static const struct of_device_id coda_dt_ids[] = {
- 	{ /* sentinel */ }
- };
- MODULE_DEVICE_TABLE(of, coda_dt_ids);
--#endif
- 
- static int coda_probe(struct platform_device *pdev)
- {
--	const struct of_device_id *of_id =
--			of_match_device(of_match_ptr(coda_dt_ids), &pdev->dev);
--	const struct platform_device_id *pdev_id;
--	struct coda_platform_data *pdata = pdev->dev.platform_data;
- 	struct device_node *np = pdev->dev.of_node;
- 	struct gen_pool *pool;
- 	struct coda_dev *dev;
-@@ -3135,14 +3122,7 @@ static int coda_probe(struct platform_device *pdev)
- 	if (!dev)
- 		return -ENOMEM;
- 
--	pdev_id = of_id ? of_id->data : platform_get_device_id(pdev);
--
--	if (of_id)
--		dev->devtype = of_id->data;
--	else if (pdev_id)
--		dev->devtype = &coda_devdata[pdev_id->driver_data];
--	else
--		return -EINVAL;
-+	dev->devtype = of_device_get_match_data(&pdev->dev);
- 
- 	dev->dev = &pdev->dev;
- 	dev->clk_per = devm_clk_get(&pdev->dev, "per");
-@@ -3200,10 +3180,8 @@ static int coda_probe(struct platform_device *pdev)
- 		return ret;
- 	}
- 
--	/* Get IRAM pool from device tree or platform data */
-+	/* Get IRAM pool from device tree */
- 	pool = of_gen_pool_get(np, "iram", 0);
--	if (!pool && pdata)
--		pool = gen_pool_get(pdata->iram_dev, NULL);
- 	if (!pool) {
- 		dev_err(&pdev->dev, "iram pool not available\n");
- 		return -ENOMEM;
-@@ -3342,7 +3320,6 @@ static struct platform_driver coda_driver = {
- 		.of_match_table = of_match_ptr(coda_dt_ids),
- 		.pm	= &coda_pm_ops,
- 	},
--	.id_table = coda_platform_ids,
- };
- 
- module_platform_driver(coda_driver);
-diff --git a/include/linux/platform_data/media/coda.h b/include/linux/platform_data/media/coda.h
-deleted file mode 100644
-index 293b61b60c9d..000000000000
---- a/include/linux/platform_data/media/coda.h
-+++ /dev/null
-@@ -1,14 +0,0 @@
--/* SPDX-License-Identifier: GPL-2.0-or-later */
--/*
-- * Copyright (C) 2013 Philipp Zabel, Pengutronix
-- */
--#ifndef PLATFORM_CODA_H
--#define PLATFORM_CODA_H
--
--struct device;
--
--struct coda_platform_data {
--	struct device *iram_dev;
--};
--
--#endif
+Visual Studio Code. Something good from MS (no sarcasm, btw).
+
+> I can recommend Emacs; that could help, too.
+
 -- 
-2.17.1
+With Best Regards,
+Andy Shevchenko
+
 
