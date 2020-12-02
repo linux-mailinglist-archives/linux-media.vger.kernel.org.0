@@ -2,164 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D07B42CBEAC
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 14:51:12 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 83B682CBEB2
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 14:51:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730086AbgLBNti (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 08:49:38 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:34963 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726023AbgLBNth (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Dec 2020 08:49:37 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id kSV1kEQE5N7XgkSV4ktJOp; Wed, 02 Dec 2020 14:48:54 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606916934; bh=3KTrEnxK8WSO3V61lmcyvwAYIX9am2Ht8S65/XrGBkE=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=inc6anPv0urPLKfCs+dcDiHR/Rb59/iQ6XMaXOSDFAGg59PTr/C2B6DbfIMKPPPNP
-         NW0CzGFJ0mPGL2A/j04Des/znBAIIOjQ7MjsK1FlJkbWEh/IXHGRWK4T+KUELAYZmV
-         UBDMTcabkpbd01EgKbPps9YRFXpDiG9uM+BI/E1xyjWAHGNwEadKwyeKPLrnwawgMm
-         cVAUQOrEe16UOx8CbYz8Bwn97jopQ/ssCSaHd8i8ePaqFnnHa3SDNujqszChjMkon2
-         FrzY1ivStxzNibTgpW9Ul6ELd7rcX8OaWe9o+33Aqc0vcQYQGOoLNf++GY/YBi+e6n
-         1oEBntbUmZvLQ==
-Subject: Re: [PATCH v4] media: v4l2-ctrl: add control for long term reference.
-To:     Dikshita Agarwal <dikshita@codeaurora.org>,
-        linux-media@vger.kernel.org, nicolas@ndufresne.ca,
-        stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org
-References: <1606810437-2797-1-git-send-email-dikshita@codeaurora.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <47ac36cf-3931-ed68-62e9-821a669378f8@xs4all.nl>
-Date:   Wed, 2 Dec 2020 14:48:50 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1727154AbgLBNu6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 08:50:58 -0500
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:44727 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726023AbgLBNu6 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 08:50:58 -0500
+X-Originating-IP: 93.29.109.196
+Received: from aptenodytes (196.109.29.93.rev.sfr.net [93.29.109.196])
+        (Authenticated sender: paul.kocialkowski@bootlin.com)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 34B0C40008;
+        Wed,  2 Dec 2020 13:50:13 +0000 (UTC)
+Date:   Wed, 2 Dec 2020 14:50:13 +0100
+From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
+Subject: Re: [PATCH v4 2/2] media: i2c: Add support for the OV5648 image
+ sensor
+Message-ID: <X8eblRy3iqjcInyg@aptenodytes>
+References: <20201128143350.531460-1-paul.kocialkowski@bootlin.com>
+ <20201128143350.531460-3-paul.kocialkowski@bootlin.com>
+ <20201130092802.GU3940@paasikivi.fi.intel.com>
+ <X8T4FH/QjRdLu0hS@aptenodytes>
+ <20201130135331.GW3940@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-In-Reply-To: <1606810437-2797-1-git-send-email-dikshita@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfDYSzoM02AHmjGcfzEqZg7lrXtfhvfc4+JREvhhlPl5QFY/tq9tNjExelHzj8hWvMp6sRxhvCLNMMJfjdYL0KYO2IeuOSWt9EuOta5Gnfpz58KV6YEp4
- SelqMesbB+CO/tO7M47wHIiw1PG4VetvP1oScSu9FbWvNk+UgN9JhbWoSjweymbLgcuD1G7Nu8WH/RByZv/jLVTplR8BKGcKdfR1bxiowdBhTDSkxQafrznE
- icXKX8+MQeowhefxr7knvNbJLsY740nOvAT5V+xUGd8fKTti7d5Po9bxjUI6eL2iItcRsJXag5ASEzzgimZBRlXfCe0PtDlB4MsmY2pH+4s0FEC7H3JO4Xny
- lDLGvt1/NW7fjPgacGw6JdAebvaSHe5XaclLCNZjIUl25uW0/C7dJknT28rMBsIxrwtZwufcFa8F/dAlkTQ6ENOYLk59ug==
+Content-Type: multipart/signed; micalg=pgp-sha256;
+        protocol="application/pgp-signature"; boundary="fmR9vRP8nP8AbyZi"
+Content-Disposition: inline
+In-Reply-To: <20201130135331.GW3940@paasikivi.fi.intel.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 01/12/2020 09:13, Dikshita Agarwal wrote:
-> Long Term Reference (LTR) frames are the frames that are encoded
-> sometime in the past and stored in the DPB buffer list to be used
-> as reference to encode future frames.
-> This change adds controls to enable this feature.
-> 
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> ---
->  .../userspace-api/media/v4l/ext-ctrls-codec.rst        | 18 ++++++++++++++++++
->  drivers/media/v4l2-core/v4l2-ctrls.c                   | 14 ++++++++++++++
->  include/uapi/linux/v4l2-controls.h                     |  3 +++
->  3 files changed, 35 insertions(+)
-> 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index 3b86959..40634f8 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -4450,3 +4450,21 @@ enum v4l2_mpeg_video_hevc_size_of_length_field -
->        - Selecting this value specifies that HEVC slices are expected
->          to be prefixed by Annex B start codes. According to :ref:`hevc`
->          valid start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001.
-> +
-> +``V4L2_CID_MPEG_VIDEO_LTR_COUNT (integer)``
-> +       Specifies the number of Long Term Reference (LTR) frames encoder needs
-> +       to generate or keep. This is applicable to H264 and HEVC encoder.
-> +
-> +``V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX (integer)``
-> +       The current frame is marked as a Long Term Reference (LTR) frame
-> +       and given this LTR index which ranges from 0 to LTR_COUNT-1.
-> +       This is applicable to H264 and HEVC encoder and can be applied using
-> +       Request Api.
-> +       Source Rec. ITU-T H.264 (06/2019); Table 7.9
-> +
-> +``V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES (bitmask)``
-> +       Specifies the Long Term Reference (LTR) frame(s) to be used for
-> +       encoding the current frame.
-> +       This provides a bitmask which consists of bits [0, LTR_COUNT-1].
-> +       This is applicable to H264 and HEVC encoder and can be applied using
-> +       Request Api.
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index e5b726f..0b81b39 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -958,6 +958,9 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:		return "Vertical MV Search Range";
->  	case V4L2_CID_MPEG_VIDEO_REPEAT_SEQ_HEADER:		return "Repeat Sequence Header";
->  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:		return "Force Key Frame";
-> +	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:			return "LTR Count";
-> +	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:		return "frame LTR index";
 
-"Frame LTR Index"
+--fmR9vRP8nP8AbyZi
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+Content-Transfer-Encoding: quoted-printable
 
-> +	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:		return "Use LTR Frame(s)";
+Hi Sakari,
 
-Just: "Use LTR Frames". No '(s)'.
+On Mon 30 Nov 20, 15:53, Sakari Ailus wrote:
+> Hi Paul,
+>=20
+> On Mon, Nov 30, 2020 at 02:48:04PM +0100, Paul Kocialkowski wrote:
+> > Hi Sakari,
+> >=20
+> > On Mon 30 Nov 20, 11:28, Sakari Ailus wrote:
+> > > Hi Paul,
+> > >=20
+> > > Thanks for the update. I have a few comments on the driver, too.
+> >=20
+> > Thanks for the review!
+> >=20
+> > [...]
+> >=20
+> > > > +	ret =3D ov5648_write(sensor, OV5648_GAIN_BLUE_MAN_L_REG,
+> > > > +			   OV5648_GAIN_BLUE_MAN_L(blue_balance));
+> > >=20
+> > > return ...
+> > >=20
+> > > Same below (and above).
+> >=20
+> > Well I don't think that makes any functional difference, right?
+> > My personal preference is to have explicit checks even at the end of fu=
+nctions
+> > for symetry and alignment with other blocks.
+> >=20
+> > If it's okay, it'd like to keep it as-is. But if that's against kernel =
+coding
+> > style guidelines, I won't argue more.
+>=20
+> Please do change them.
+>=20
+> It's useless code, repeated at the end of a number of functions in this
+> driver. I wouldn't mind otherwise, but people do take examples from
+> existing drivers so such patterns tend to repeat in other places.
 
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_SLICE_PARAMS:		return "MPEG-2 Slice Parameters";
->  	case V4L2_CID_MPEG_VIDEO_MPEG2_QUANTIZATION:		return "MPEG-2 Quantization Matrices";
->  	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:			return "FWHT Stateless Parameters";
-> @@ -1273,6 +1276,17 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->  	case V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE:
->  		*type = V4L2_CTRL_TYPE_INTEGER;
->  		break;
-> +	case V4L2_CID_MPEG_VIDEO_LTR_COUNT:
-> +		*type = V4L2_CTRL_TYPE_INTEGER;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX:
-> +		*type = V4L2_CTRL_TYPE_INTEGER;
-> +		*flags |= V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
-> +		break;
-> +	case V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES:
-> +		*type = V4L2_CTRL_TYPE_BITMASK;
-> +		*flags |= V4L2_CTRL_FLAG_EXECUTE_ON_WRITE;
-> +		break;
->  	case V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME:
->  	case V4L2_CID_PAN_RESET:
->  	case V4L2_CID_TILT_RESET:
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index e37b85f..710bc53 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -421,6 +421,9 @@ enum v4l2_mpeg_video_multi_slice_mode {
->  #define V4L2_CID_MPEG_VIDEO_MV_H_SEARCH_RANGE		(V4L2_CID_MPEG_BASE+227)
->  #define V4L2_CID_MPEG_VIDEO_MV_V_SEARCH_RANGE		(V4L2_CID_MPEG_BASE+228)
->  #define V4L2_CID_MPEG_VIDEO_FORCE_KEY_FRAME		(V4L2_CID_MPEG_BASE+229)
-> +#define V4L2_CID_MPEG_VIDEO_LTR_COUNT                  (V4L2_CID_MPEG_BASE + 230)
-> +#define V4L2_CID_MPEG_VIDEO_FRAME_LTR_INDEX            (V4L2_CID_MPEG_BASE + 231)
-> +#define V4L2_CID_MPEG_VIDEO_USE_LTR_FRAMES             (V4L2_CID_MPEG_BASE + 232)
->  
->  /* CIDs for the MPEG-2 Part 2 (H.262) codec */
->  #define V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL			(V4L2_CID_MPEG_BASE+270)
-> 
+I don't agree that it's useless but I will do as you ask.
 
-Note that this and the other patches from you that add V4L2_CID_MPEG_VIDEO controls
-will need to be rebased as soon as this PR is merged:
+Cheers,
 
-https://patchwork.linuxtv.org/project/linux-media/patch/d68da172-b251-000f-653d-38a8a4c7b715@xs4all.nl/
+Paul
 
-I recommend waiting until that's in.
+--=20
+Paul Kocialkowski, Bootlin
+Embedded Linux and kernel engineering
+https://bootlin.com
 
-I currently have the following patches from you adding new controls besides this one:
+--fmR9vRP8nP8AbyZi
+Content-Type: application/pgp-signature; name="signature.asc"
 
-https://patchwork.linuxtv.org/project/linux-media/patch/1606121442-31074-1-git-send-email-dikshita@codeaurora.org/
-https://patchwork.linuxtv.org/project/linux-media/patch/1605682497-29273-2-git-send-email-dikshita@codeaurora.org/
-https://patchwork.linuxtv.org/project/linux-media/patch/1605682497-29273-3-git-send-email-dikshita@codeaurora.org/
+-----BEGIN PGP SIGNATURE-----
 
-What is missing is driver support for these new controls. I recommend that, once
-the PR mentioned above is merged, you make a new series combining all three
-patches + patches that add support for this to the venus driver.
+iQEzBAEBCAAdFiEEJZpWjZeIetVBefti3cLmz3+fv9EFAl/Hm5UACgkQ3cLmz3+f
+v9E2EAf+PzCeUWZ/MOgG6YssuCqygeIecYxuz2zJlBZn0Q40RW/DEIRr0oU43sDh
+UspNn5HnQFqHYq1Q4n4ENt6LC81OSwayA1rkgcBnf7bXHp82cHhUZXJo6hI8VxMG
+DT8npmAPy/UTxbZqkoK+tzuH01QJ/GISjBMuXUiK86yz93yeC5UOu81RCsEpmt5r
+p4n1ZJgj2c7klrKxGugiHzBqEyXiY9Tp/Jj3aY3gl4oEa2ANqqeyBfN7Uq4bbY/B
+/Gkwbod7LwNWECN09aTxxKlpFzlYGJzH7DxGb7+4EP8IvBcR1w0gTfuqVrWFpH4J
+moVHdzcRiGP6rOyvIwOw8yYdq24SGA==
+=wQ41
+-----END PGP SIGNATURE-----
 
-Regards,
-
-	Hans
+--fmR9vRP8nP8AbyZi--
