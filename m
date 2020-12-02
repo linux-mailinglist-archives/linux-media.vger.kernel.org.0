@@ -2,54 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D75282CC93B
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 22:59:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 28D372CC94D
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 23:03:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726344AbgLBV5u (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 16:57:50 -0500
-Received: from retiisi.eu ([95.216.213.190]:35708 "EHLO hillosipuli.retiisi.eu"
+        id S1727903AbgLBWCb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 17:02:31 -0500
+Received: from retiisi.eu ([95.216.213.190]:35760 "EHLO hillosipuli.retiisi.eu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726082AbgLBV5t (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Dec 2020 16:57:49 -0500
+        id S1727297AbgLBWCb (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Dec 2020 17:02:31 -0500
 Received: from valkosipuli.localdomain (unknown [IPv6:fd35:1bc8:1a6:d3d5::80:2])
         (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
          key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
         (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 242C2634C24;
-        Wed,  2 Dec 2020 23:55:57 +0200 (EET)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 2CDB5634C24;
+        Thu,  3 Dec 2020 00:00:38 +0200 (EET)
 Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
         (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kka6P-00035h-Io; Wed, 02 Dec 2020 23:55:57 +0200
-Date:   Wed, 2 Dec 2020 23:55:57 +0200
+        id 1kkaAw-000362-KN; Thu, 03 Dec 2020 00:00:38 +0200
+Date:   Thu, 3 Dec 2020 00:00:38 +0200
 From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>, linux-media@vger.kernel.org,
-        hverkuil@xs4all.nl, naush@raspberrypi.com,
-        dave.stevenson@raspberrypi.com, kieran.bingham@ideasonboard.com,
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, hverkuil@xs4all.nl,
+        naush@raspberrypi.com, dave.stevenson@raspberrypi.com,
+        laurent.pinchart@ideasonboard.com, kieran.bingham@ideasonboard.com,
         niklas.soderlund@ragnatech.se, dafna.hirschfeld@collabora.com,
         nsaenzjulienne@suse.de, mchehab+huawei@kernel.org
 Subject: Re: [PATCH v4 0/5] media: staging: Add bcm2835-unicam driver
-Message-ID: <20201202215557.GA4351@valkosipuli.retiisi.org.uk>
+Message-ID: <20201202220038.GB4351@valkosipuli.retiisi.org.uk>
 References: <20201110174036.220883-1-jacopo@jmondi.org>
  <20201201092605.kzqgsikpfsymn3cj@uno.localdomain>
  <20201201125713.GV4351@valkosipuli.retiisi.org.uk>
- <20201201131804.GF4569@pendragon.ideasonboard.com>
+ <20201201132445.qxpf7k57zdm4mwvb@uno.localdomain>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201201131804.GF4569@pendragon.ideasonboard.com>
+In-Reply-To: <20201201132445.qxpf7k57zdm4mwvb@uno.localdomain>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Laurent,
+Hi Jacopo,
 
-On Tue, Dec 01, 2020 at 03:18:04PM +0200, Laurent Pinchart wrote:
+On Tue, Dec 01, 2020 at 02:24:45PM +0100, Jacopo Mondi wrote:
 > Hi Sakari,
 > 
 > On Tue, Dec 01, 2020 at 02:57:13PM +0200, Sakari Ailus wrote:
+> > Hi Jacopo,
+> >
 > > On Tue, Dec 01, 2020 at 10:26:05AM +0100, Jacopo Mondi wrote:
+> > > Hi Hans, Sakari,
+> > >
 > > > On Tue, Nov 10, 2020 at 06:40:31PM +0100, Jacopo Mondi wrote:
 > > > > Hello,
 > > > >   new iteration following
@@ -142,30 +146,52 @@ On Tue, Dec 01, 2020 at 03:18:04PM +0200, Laurent Pinchart wrote:
 > > > >   From Dave's reply to Dafna's comments I get instead that for the existing
 > > > >   applications ecosystem, having the metadata node not registered if the sensor
 > > > >   does not support it is not an issue.
-> > > 
+> > >
 > > > I think I've closed comments received on v3.
-> > > 
+> > >
 > > > Do you think this series is ready for being collected ?
-> > 
+> >
 > > I'll try to look into this later today / this week.
-> > 
+> >
+> 
+> Thanks!
+> 
 > > The problem with the approach appears, based on a quick glance, to be that
 > > it creates an additional way (to the more generic approach in VC support
 > > patchset) to support embedded data, including duplicated sensor driver
 > > support. That appears as a dead end. But let me look into the details
 > > first.
 > 
-> I don't think there's a big disagreement on that, but merging the driver
-> in staging may be a good way to get this fixed ? It will make it easier
-> to collaborate.
+> I know :(
+> 
+> That's why the driver has been moved to staging, and that's
+> why this last version only conditionally registers the additional video
+> device for metadata based on the presence of the additional sensor's
+> source pad. 'Regular' sensor driver will work as usual with this last
+> version (ie. no additional 'unicam-embedded' video node gets
+> registered to userspace).
+> 
+> We could either wait for support for VC to be finalized, but I'm not
+> that hopeful this will happen any time soon, or alternatively we can
 
-I have no objections to that. I'd be happy to see a Unicam driver in
-upstream, finally. The staging tree could indeed be a way to get there.
+Not in matter of weeks at least, but I believe there's more and more
+interest to get this merged. As I wrote the original set, over the years it
+became harder and harder to test the patches on the original hardware setup
+I had due to too many dependencies to unsupported stuff.
 
-The DT bindings still need to be final but that appears as a relatively
-small matter.
+> merge a version without any support for metadata and have vendors
+> maintain patches to re-add it. I fear this will limit the adoption of
+> this driver as they will probably keep using whatever they have in
+> their BSP (which kind of defeat the purpose of upstreaming it).
+> 
+> There is one more controversial point: the MC/subdev kAPI duality.
+> I've tried to outline both issues in a TODO file at the end of this
+> series.
+
+I'll comment on that separately but I think we already do share
+understanding of the areas that need work.
 
 -- 
-Kind regards,
+Regards,
 
 Sakari Ailus
