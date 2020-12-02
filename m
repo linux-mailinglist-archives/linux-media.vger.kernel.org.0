@@ -2,191 +2,215 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id AE4BC2CC849
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 21:49:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6E05A2CC8C3
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 22:20:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731304AbgLBUtY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 15:49:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45406 "EHLO
+        id S1727783AbgLBVSl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 16:18:41 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49990 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729825AbgLBUtQ (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 15:49:16 -0500
-Received: from mail-pg1-x541.google.com (mail-pg1-x541.google.com [IPv6:2607:f8b0:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 6FEEEC0617A6;
-        Wed,  2 Dec 2020 12:48:36 -0800 (PST)
-Received: by mail-pg1-x541.google.com with SMTP id q3so1852307pgr.3;
-        Wed, 02 Dec 2020 12:48:36 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=gt9hzYCtNcO6pucg1V+gBSIqdKsij7u0OWJUlXP9DKM=;
-        b=UUG2F1QYy5FvtvGtTYBJmiMRQoqH0NFofMnXxJDDDNLskva/PIVsF+3J8kdAQXvqRq
-         vujK49qAeZwATkysyhPnwXetTOK0LeMC+CABGQX4Pn9fpok9I8d7Kkt1Kwo7haQl6BSg
-         afpECKeFPdeVS+vONuYuFjDDLKyBYv35wpKcD+W7Eb6ql5yb1B2o2q1cmm8EwWlma3+j
-         K6H7/shJRnOprQRDiZ0ReWQ8AwdWolI8nPmO4AgNkLzuKpmTNCuJ9Kku7AOut8ZFI2bK
-         EEdju0Y4RpX+EsknllBncdSKqV8fKSOuetxoASlTmQjvmJjTgwWrT5rrs094yo7QuZjV
-         776g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=gt9hzYCtNcO6pucg1V+gBSIqdKsij7u0OWJUlXP9DKM=;
-        b=Zqn503P6IHodmMVkZwMohKR2x5FjHWedlUt6GNaR4oe4awmsJsFpt1ZMBZSS1o8JXW
-         vUpiBseHHxR4VAAu72YV23rURV2OD5YnXIKFx651RQRgU64w7jYzDc6Q5eSyUmyWWzI7
-         PremaLFep9nZlqDquTNpcedKAhHYcHkqYbnrV8r4EUlhIDYNJOap+mIFVrWWTrq8Cmv8
-         iE/8tIyo5VvS2xmDdCY9yg1J8DDqZEu2TGPXGmKCba9xx46Vh4rXL7okZW9hQOuTDGYN
-         RHAnAD/uf4eL2aFCa2kqB0cNj0poYbz9n0ymQc7sgPDuhf7CoTLqRjqYDsQWXvRLSx/N
-         SpLw==
-X-Gm-Message-State: AOAM533y5r+Bg/iaVMaUmn0U4xUK+X2CMOAZuA5tWwdn76Fqy2dmaQFN
-        mQMgl+yb+3plCWy37H/YJQk=
-X-Google-Smtp-Source: ABdhPJywHlNLOdog4uLjnoWm03XM8rSAaJFIonYnd/FuiTebzFhIhD5EPwsZYD1rNwjeMIO4SbWUFg==
-X-Received: by 2002:aa7:8297:0:b029:198:15b2:ed0a with SMTP id s23-20020aa782970000b029019815b2ed0amr4307591pfm.47.1606942115908;
-        Wed, 02 Dec 2020 12:48:35 -0800 (PST)
-Received: from google.com ([2620:15c:211:201:7220:84ff:fe09:5e58])
-        by smtp.gmail.com with ESMTPSA id g85sm8386pfb.4.2020.12.02.12.48.32
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Wed, 02 Dec 2020 12:48:34 -0800 (PST)
-Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Wed, 2 Dec 2020 12:48:31 -0800
-From:   Minchan Kim <minchan@kernel.org>
-To:     David Hildenbrand <david@redhat.com>
-Cc:     Michal Hocko <mhocko@suse.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>, hyesoo.yu@samsung.com,
-        willy@infradead.org, iamjoonsoo.kim@lge.com, vbabka@suse.cz,
-        surenb@google.com, pullip.cho@samsung.com, joaodias@google.com,
-        hridya@google.com, sumit.semwal@linaro.org, john.stultz@linaro.org,
-        Brian.Starkey@arm.com, linux-media@vger.kernel.org,
-        devicetree@vger.kernel.org, robh@kernel.org,
-        christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 2/4] mm: introduce cma_alloc_bulk API
-Message-ID: <X8f9nxqYcD8u8dtl@google.com>
-References: <20201201175144.3996569-1-minchan@kernel.org>
- <20201201175144.3996569-3-minchan@kernel.org>
- <8f006a4a-c21d-9db3-5493-fb1cc651b0cf@redhat.com>
- <20201202154915.GU17338@dhcp22.suse.cz>
- <X8e9tSwcsrEsAv1O@google.com>
- <20201202164834.GV17338@dhcp22.suse.cz>
- <X8fU1ddmsSfuV6sD@google.com>
- <20201202185107.GW17338@dhcp22.suse.cz>
- <X8fqU82GXmu57f7V@google.com>
- <f0e980cb-cc74-82e8-6ccf-09030a96103a@redhat.com>
+        with ESMTP id S1727623AbgLBVSl (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 16:18:41 -0500
+Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CB38EC0613D6
+        for <linux-media@vger.kernel.org>; Wed,  2 Dec 2020 13:18:00 -0800 (PST)
+Received: from valkosipuli.localdomain (unknown [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id B9B53634C24;
+        Wed,  2 Dec 2020 23:16:47 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1kkZUW-00035E-7M; Wed, 02 Dec 2020 23:16:48 +0200
+Date:   Wed, 2 Dec 2020 23:16:48 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     linux-media@vger.kernel.org, naush@raspberrypi.com,
+        dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
+        kieran.bingham@ideasonboard.com, niklas.soderlund@ragnatech.se,
+        dafna.hirschfeld@collabora.com, hverkuil@xs4all.nl,
+        nsaenzjulienne@suse.de, mchehab+huawei@kernel.org
+Subject: Re: [PATCH v4 1/5] media: uapi: Add MEDIA_BUS_FMT_CUSTOM_SENSOR_DATA
+Message-ID: <20201202211648.GX4351@valkosipuli.retiisi.org.uk>
+References: <20201110174036.220883-1-jacopo@jmondi.org>
+ <20201110174036.220883-2-jacopo@jmondi.org>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <f0e980cb-cc74-82e8-6ccf-09030a96103a@redhat.com>
+In-Reply-To: <20201110174036.220883-2-jacopo@jmondi.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 02, 2020 at 09:22:36PM +0100, David Hildenbrand wrote:
-> On 02.12.20 20:26, Minchan Kim wrote:
-> > On Wed, Dec 02, 2020 at 07:51:07PM +0100, Michal Hocko wrote:
-> >> On Wed 02-12-20 09:54:29, Minchan Kim wrote:
-> >>> On Wed, Dec 02, 2020 at 05:48:34PM +0100, Michal Hocko wrote:
-> >>>> On Wed 02-12-20 08:15:49, Minchan Kim wrote:
-> >>>>> On Wed, Dec 02, 2020 at 04:49:15PM +0100, Michal Hocko wrote:
-> >>>> [...]
-> >>>>>> Well, what I can see is that this new interface is an antipatern to our
-> >>>>>> allocation routines. We tend to control allocations by gfp mask yet you
-> >>>>>> are introducing a bool parameter to make something faster... What that
-> >>>>>> really means is rather arbitrary. Would it make more sense to teach
-> >>>>>> cma_alloc resp. alloc_contig_range to recognize GFP_NOWAIT, GFP_NORETRY resp.
-> >>>>>> GFP_RETRY_MAYFAIL instead?
-> >>>>>
-> >>>>> If we use cma_alloc, that interface requires "allocate one big memory
-> >>>>> chunk". IOW, return value is just struct page and expected that the page
-> >>>>> is a big contiguos memory. That means it couldn't have a hole in the
-> >>>>> range.
-> >>>>> However the idea here, what we asked is much smaller chunk rather
-> >>>>> than a big contiguous memory so we could skip some of pages if they are
-> >>>>> randomly pinned(long-term/short-term whatever) and search other pages
-> >>>>> in the CMA area to avoid long stall. Thus, it couldn't work with exising
-> >>>>> cma_alloc API with simple gfp_mak.
-> >>>>
-> >>>> I really do not see that as something really alient to the cma_alloc
-> >>>> interface. All you should care about, really, is what size of the object
-> >>>> you want and how hard the system should try. If you have a problem with
-> >>>> an internal implementation of CMA and how it chooses a range and deal
-> >>>> with pinned pages then it should be addressed inside the CMA allocator.
-> >>>> I suspect that you are effectivelly trying to workaround those problems
-> >>>> by a side implementation with a slightly different API. Or maybe I still
-> >>>> do not follow the actual problem.
-> >>>>  
-> >>>>>> I am not deeply familiar with the cma allocator so sorry for a
-> >>>>>> potentially stupid question. Why does a bulk interface performs better
-> >>>>>> than repeated calls to cma_alloc? Is this because a failure would help
-> >>>>>> to move on to the next pfn range while a repeated call would have to
-> >>>>>> deal with the same range?
-> >>>>>
-> >>>>> Yub, true with other overheads(e.g., migration retrial, waiting writeback
-> >>>>> PCP/LRU draining IPI)
-> >>>>
-> >>>> Why cannot this be implemented in the cma_alloc layer? I mean you can
-> >>>> cache failed cases and optimize the proper pfn range search.
-> >>>
-> >>> So do you suggest this?
-> >>>
-> >>> enum cma_alloc_mode {
-> >>> 	CMA_ALLOC_NORMAL,
-> >>> 	CMA_ALLOC_FAIL_FAST,
-> >>> };
-> >>>
-> >>> struct page *cma_alloc(struct cma *cma, size_t count, unsigned int
-> >>> 	align, enum cma_alloc_mode mode);
-> >>>
-> >>> >From now on, cma_alloc will keep last failed pfn and then start to
-> >>> search from the next pfn for both CMA_ALLOC_NORMAL and
-> >>> CMA_ALLOC_FAIL_FAST if requested size from the cached pfn is okay
-> >>> within CMA area and then wraparound it couldn't find right pages
-> >>> from the cached pfn. Othewise, the cached pfn will reset to the zero
-> >>> so that it starts the search from the 0. I like the idea since it's
-> >>> general improvement, I think.
-> >>
-> >> Yes something like that. There are more options to be clever here - e.g.
-> >> track ranges etc. but I am not sure this is worth the complexity.
-> > 
-> > Agree. Just last pfn caching would be good enough as simple start.
-> > 
-> >>
-> >>> Furthemore, With CMA_ALLOC_FAIL_FAST, it could avoid several overheads
-> >>> at the cost of sacrificing allocation success ratio like GFP_NORETRY.
-> >>
-> >> I am still not sure a specific flag is a good interface. Really can this
-> >> be gfp_mask instead?
-> > 
-> > I am not strong(even, I did it with GFP_NORETRY) but David wanted to
-> > have special mode and I agreed when he mentioned ALLOC_CONTIG_HARD as
-> > one of options in future(it would be hard to indicate that mode with
-> > gfp flags).
-> 
-> I can't tell regarding the CMA interface, but for the alloc_contig()
-> interface I think modes make sense. Yes, it's different to other
-> allocaters, but the contig range allocater is different already. E.g.,
-> the CMA allocater mostly hides "which exact PFNs you try to allocate".
-> 
-> In the contig range allocater, gfp flags are currently used to express
-> how to allocate pages used as migration targets. I don't think mangling
-> in other gfp flags (or even overloading them) makes things a lot
-> clearer. E.g., GFP_NORETRY: don't retry to allocate migration targets?
-> don't retry to migrate pages? both?
-> 
-> As I said, other aspects might be harder to model (e.g., don't drain
-> LRU) and hiding them behind generic gfp flags (e.g., GFP_NORETRY) feels
-> wrong.
+Hi Jacopo,
 
-I also support a special flag/bool variable for cma_alloc rather than
-relying on mixing original gfp_flags since it would be more clear
-with preventing passing unhandled the other gfp_flags into cma_alloc.
+Thank you for the patchset.
 
+On Tue, Nov 10, 2020 at 06:40:32PM +0100, Jacopo Mondi wrote:
+> From: Naushir Patuck <naush@raspberrypi.com>
 > 
-> With the mode, we're expressing details for the necessary page
-> migration. Suggestions on how to model that are welcome.
+> Add V4L2_META_FMT_CUSTOM_SENSOR_DATA format.
 > 
-> -- 
-> Thanks,
+> This new format will be used to return camera sensor embedded data.
 > 
-> David / dhildenb
+> Signed-off-by: Naushir Patuck <naush@raspberrypi.com>
+> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+> Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
+> ---
+>  .../userspace-api/media/v4l/meta-formats.rst  |  1 +
+>  .../media/v4l/pixfmt-meta-sensor-data.rst     | 24 +++++++++++++++
+>  .../media/v4l/subdev-formats.rst              | 29 +++++++++++++++++++
+>  drivers/media/v4l2-core/v4l2-ioctl.c          |  1 +
+>  include/uapi/linux/media-bus-format.h         |  3 ++
+>  include/uapi/linux/videodev2.h                |  1 +
+>  6 files changed, 59 insertions(+)
+>  create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
 > 
+> diff --git a/Documentation/userspace-api/media/v4l/meta-formats.rst b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> index fff25357fe860..b2201d1524eb6 100644
+> --- a/Documentation/userspace-api/media/v4l/meta-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/meta-formats.rst
+> @@ -15,6 +15,7 @@ These formats are used for the :ref:`metadata` interface only.
+>      pixfmt-meta-d4xx
+>      pixfmt-meta-intel-ipu3
+>      pixfmt-meta-rkisp1
+> +    pixfmt-meta-sensor-data
+>      pixfmt-meta-uvc
+>      pixfmt-meta-vsp1-hgo
+>      pixfmt-meta-vsp1-hgt
+> diff --git a/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst b/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
+> new file mode 100644
+> index 0000000000000..cc3929f595389
+> --- /dev/null
+> +++ b/Documentation/userspace-api/media/v4l/pixfmt-meta-sensor-data.rst
+> @@ -0,0 +1,24 @@
+> +.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+> +
+> +.. _v4l2-meta-fmt-sensor-data:
+> +
+> +***********************************
+> +V4L2_META_FMT_SENSOR_DATA  ('SENS')
+> +***********************************
+> +
+> +Sensor Ancillary Metadata
+
+"Sensor Embedded Data"
+
+> +
+> +Description
+> +===========
+> +
+> +This format describes ancillary data generated by a camera sensor and
+> +transmitted over a stream on the camera bus. Most sensor vendors have their
+> +own custom format for this ancillary data. Some vendors follow a generic
+> +CSI-2/SMIA embedded data format as described in the `CSI-2 specification.
+> +<https://mipi.org/specifications/csi-2>`_
+
+CSI-2 or SMIA? SMIA does define how embedded data is formatted, but this
+format is specific to SMIA and may be used for other sensors that are
+somewhat aligned with SMIA (or CCS) even if not fully compliant.
+
+SMIA defines both the format of embedded data as well as its packing into
+pixels at different bit depths. I have to say I have little knowledge on
+how this works on non-compliant sensors. Do other sensors use the same
+packing? Given that this isn't standardised, I could imagine there are
+other kinds of solutions.
+
+In order to interpret this from the user space (as well as eventually
+transferring it to system memory), I think we'd need at least the packing
+and bits per pixel information even if the data format itself remained
+opaque at that level.
+
+What are the documentation requirements for embedded data that is not
+SMIA/CCS, and therefore likely undocumented in publicly available
+documentation? Driver documentation?
+
+One alternative would be to define only SMIA/CCS compliant embedded data
+formats.
+
+> +
+> +The size of the embedded buffer is defined as a single line with a pixel width
+> +specified in bytes and obtained by a call to the :c:type:`VIDIOC_SUBDEV_G_FMT`
+> +ioctl on the sensor sub-device. Note that this size is fixed and cannot be
+> +modified with a call to :c:type:`VIDIOC_SUBDEV_S_FMT`.
+> +
+> diff --git a/Documentation/userspace-api/media/v4l/subdev-formats.rst b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> index 7f16cbe46e5c2..99e270bbdd223 100644
+> --- a/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> +++ b/Documentation/userspace-api/media/v4l/subdev-formats.rst
+> @@ -7926,3 +7926,32 @@ The following table lists the existing metadata formats.
+>  	both sides of the link and the bus format is a fixed
+>  	metadata format that is not configurable from userspace.
+>  	Width and height will be set to 0 for this format.
+> +
+> +.. _v4l2-mbus-sensor-data:
+> +
+> +Sensor Ancillary Metadata Formats
+> +^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+> +
+> +This section lists ancillary data generated by a camera sensor and
+> +transmitted over a stream on the camera bus.
+> +
+> +The following table lists the existing sensor ancillary metadata formats:
+> +
+> +.. _v4l2-mbus-pixelcode-sensor-metadata:
+> +
+> +.. tabularcolumns:: |p{8.0cm}|p{1.4cm}|p{7.7cm}|
+> +
+> +.. flat-table:: Sensor ancillary metadata formats
+> +    :header-rows:  1
+> +    :stub-columns: 0
+> +
+> +    * - Identifier
+> +      - Code
+> +      - Comments
+> +    * .. _MEDIA_BUS_FMT_CUSTOM_SENSOR_DATA:
+> +
+> +      - MEDIA_BUS_FMT_CUSTOM_SENSOR_DATA
+> +      - 0x7002
+> +      - Sensor vendor specific ancillary metadata. Some vendors follow a generic
+> +        CSI-2/SMIA embedded data format as described in the `CSI-2 specification.
+> +	<https://mipi.org/specifications/csi-2>`_
+> diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+> index f0f6906a879de..83288a00f28e4 100644
+> --- a/drivers/media/v4l2-core/v4l2-ioctl.c
+> +++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+> @@ -1403,6 +1403,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+>  	case V4L2_META_FMT_UVC:		descr = "UVC Payload Header Metadata"; break;
+>  	case V4L2_META_FMT_D4XX:	descr = "Intel D4xx UVC Metadata"; break;
+>  	case V4L2_META_FMT_VIVID:       descr = "Vivid Metadata"; break;
+> +	case V4L2_META_FMT_SENSOR_DATA:	descr = "Sensor Ancillary Metadata"; break;
+>  
+>  	default:
+>  		/* Compressed formats */
+> diff --git a/include/uapi/linux/media-bus-format.h b/include/uapi/linux/media-bus-format.h
+> index 2ce3d891d3447..726557120fc03 100644
+> --- a/include/uapi/linux/media-bus-format.h
+> +++ b/include/uapi/linux/media-bus-format.h
+> @@ -164,4 +164,7 @@
+>   */
+>  #define MEDIA_BUS_FMT_METADATA_FIXED		0x7001
+>  
+> +/* Sensor ancillary metadata formats - next is 0x7003 */
+> +#define MEDIA_BUS_FMT_CUSTOM_SENSOR_DATA	0x7002
+> +
+>  #endif /* __LINUX_MEDIA_BUS_FORMAT_H */
+> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+> index 927075fa9099e..d1ef094090a3b 100644
+> --- a/include/uapi/linux/videodev2.h
+> +++ b/include/uapi/linux/videodev2.h
+> @@ -767,6 +767,7 @@ struct v4l2_pix_format {
+>  #define V4L2_META_FMT_UVC         v4l2_fourcc('U', 'V', 'C', 'H') /* UVC Payload Header metadata */
+>  #define V4L2_META_FMT_D4XX        v4l2_fourcc('D', '4', 'X', 'X') /* D4XX Payload Header metadata */
+>  #define V4L2_META_FMT_VIVID	  v4l2_fourcc('V', 'I', 'V', 'D') /* Vivid Metadata */
+> +#define V4L2_META_FMT_SENSOR_DATA v4l2_fourcc('S', 'E', 'N', 'S') /* Sensor Ancillary metadata */
+>  
+>  /* priv field value to indicates that subsequent fields are valid. */
+>  #define V4L2_PIX_FMT_PRIV_MAGIC		0xfeedcafe
+
+-- 
+Kind regards,
+
+Sakari Ailus
