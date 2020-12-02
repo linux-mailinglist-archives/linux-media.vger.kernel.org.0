@@ -2,908 +2,414 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EFA232CB855
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 10:15:11 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7FBAC2CB870
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 10:18:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388084AbgLBJPK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 04:15:10 -0500
-Received: from mail.kernel.org ([198.145.29.99]:42940 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387797AbgLBJPJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Dec 2020 04:15:09 -0500
-Date:   Wed, 2 Dec 2020 10:14:23 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=default; t=1606900467;
-        bh=Dgt5iTIMY/iaz1ayoRftdg3/8nGajSnAFc/aevYTjvw=;
-        h=From:To:Cc:Subject:In-Reply-To:References:From;
-        b=qnqILMc4ytoUITNsS0gmbJHa9tu6ig4VupgIeTuyE8ETdo31ihEi6cXwMUScCMoTa
-         w8UR6LqM4K3Ex+jVlb+bZidVX0B+pd7NLW1td5CnSp3uf2s+iaCRp07ChMJU3YTaDV
-         sB1O5UUvmGcx4QLeXY7E8fZdB5Jx+HG6LJ5KgK20=
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Andry Zinoviev <airmanhip@gmail.com>
-Cc:     linux-media@vger.kernel.org
-Subject: Re: Forward of moderated message
-Message-ID: <20201202101423.3ccc5f47@coco.lan>
-In-Reply-To: <mailman.0.1606897876.415996.media-workshop@linuxtv.org>
-References: <mailman.0.1606897876.415996.media-workshop@linuxtv.org>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S2388129AbgLBJQW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 04:16:22 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([216.205.24.124]:35561 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2387429AbgLBJQW (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Wed, 2 Dec 2020 04:16:22 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1606900494;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=UkH4D/V/M+09zhVvM/TK77QgMnz0tCGSOxXpCs3WkTs=;
+        b=H2UUol0jdI+DObZFuKf24Y4MYrLSdsuy8EsowPXmE6DPqFivimb5Yz/VsXS//9sHxf9g8t
+        cJCeZGxWtjEWijD0DyyS+rGXp0abclen4kGn046cVB4S/ORG+Lf/8CkXEusBQcuJ/kp4D1
+        H+5uLVwQFoFX1JsH+YDFsfm3txnqnr8=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-337-uUzttUTAOCKihZpE_qpsgQ-1; Wed, 02 Dec 2020 04:14:50 -0500
+X-MC-Unique: uUzttUTAOCKihZpE_qpsgQ-1
+Received: from smtp.corp.redhat.com (int-mx03.intmail.prod.int.phx2.redhat.com [10.5.11.13])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id 2ECBF18C89E3;
+        Wed,  2 Dec 2020 09:14:47 +0000 (UTC)
+Received: from [10.36.113.108] (ovpn-113-108.ams2.redhat.com [10.36.113.108])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id 41ED460854;
+        Wed,  2 Dec 2020 09:14:42 +0000 (UTC)
+Subject: Re: [PATCH v2 2/4] mm: introduce cma_alloc_bulk API
+To:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>
+Cc:     LKML <linux-kernel@vger.kernel.org>, linux-mm <linux-mm@kvack.org>,
+        hyesoo.yu@samsung.com, willy@infradead.org, iamjoonsoo.kim@lge.com,
+        vbabka@suse.cz, surenb@google.com, pullip.cho@samsung.com,
+        joaodias@google.com, hridya@google.com, sumit.semwal@linaro.org,
+        john.stultz@linaro.org, Brian.Starkey@arm.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        robh@kernel.org, christian.koenig@amd.com,
+        linaro-mm-sig@lists.linaro.org, Michal Hocko <mhocko@suse.com>
+References: <20201201175144.3996569-1-minchan@kernel.org>
+ <20201201175144.3996569-3-minchan@kernel.org>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <8f006a4a-c21d-9db3-5493-fb1cc651b0cf@redhat.com>
+Date:   Wed, 2 Dec 2020 10:14:41 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <20201201175144.3996569-3-minchan@kernel.org>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.13
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andry,
+On 01.12.20 18:51, Minchan Kim wrote:
+> There is a need for special HW to require bulk allocation of
+> high-order pages. For example, 4800 * order-4 pages, which
+> would be minimum, sometimes, it requires more.
+> 
+> To meet the requirement, a option reserves 300M CMA area and
+> requests the whole 300M contiguous memory. However, it doesn't
+> work if even one of those pages in the range is long-term pinned
+> directly or indirectly. The other option is to ask higher-order
 
-Em Wed, 02 Dec 2020 08:31:16 +0000
-media-workshop-bounces@linuxtv.org escreveu:
+My latest knowledge is that pages in the CMA area are never long term
+pinned.
 
+https://lore.kernel.org/lkml/20201123090129.GD27488@dhcp22.suse.cz/
 
-FYI,
-The right mailing list for those things is linux-media@vger.kernel.org.
+"gup already tries to deal with long term pins on CMA regions and migrate
+to a non CMA region. Have a look at __gup_longterm_locked."
 
-> hello I have never encountered problems in Linux so I don=E2=80=99t know =
-where to
-> write or where to create tickets.
->=20
-> I have a TV tuner on Windows, there are no problems with it - all
-> frequencies are found and shown, but in Linux it cannot find all
-> frequencies (
->=20
-> https://linuxtv.org/wiki/index.php/Astrometa_DVB-T2
-> with Sony CXD2837ER
->=20
-> finds from 722000 frequencies to 778000, but from 786000 to 858000 writes=
- -
-> no signal
-> DVB-=D0=A1
->=20
-> $ uname -a
->=20
-> Linux hs0 5.4.0-47-generic #51-Ubuntu SMP Fri Sep 4 19:50:52 UTC 2020
-> x86_64 x86_64 x86_64 GNU/Linux
->=20
->=20
-> $ sudo w_scan -fc -S3 -Q1 -a /dev/dvb/adapter0/frontend1
-
-FYI, w_scan is nice, but:
-
-- its logic tries to check different options for symbol rate and other
-  parameters. So, it is possible that some of the warnings it got are
-  due to some tests that it does with wrong parameters, in order to check
-  for a signal that it might be on some channel;
-- it is slow, as it does a deep scan, testing several different possible
-  combinations, with the hope to get "hidden" channels.
-- it was not maintained anymore. Its latest version was in Sept, 2017;
-
--
-
-In the specific case of DVB-C, usually if you have just one frequency
-with the correct parameters, the other frequencies will be automatically
-recognized by modern scanning tools, as the full set of frequencies,
-and their corresponding parameters will be stored on some tables that
-are transmitted on all channels (they are at NIT - Network Information=20
-Table).
-
-So, you could, for instance, use dvbv5-scan, using a file with just a
-single frequency you got from w_scan.
-
-It is worth mentioning that most DVB-C broadcasters will have some
-frequencies assigned for bi-directional data transmissions.
-Those are used, among other things, for doing firmware updates at
-the CATV set top boxes. Such frequencies may via reported the NIT=20
-tables, but they won't work, as the drivers and the hardware found=20
-on PC won't support it.
-
->=20
-> w_scan -fc -S3 -Q1 -a /dev/dvb/adapter0/frontend1
->=20
-> w_scan version 20170107 (compiled for DVB API 5.10)
->=20
-> WARNING: could not guess your country. Falling back to 'DE'
->=20
-> guessing country 'DE', use -c <country> to override
->=20
-> using settings for GERMANY
->=20
-> DVB cable
->=20
-> DVB-C
->=20
-> scan type CABLE, channellist 7
->=20
-> output format vdr-2.0
->=20
-> WARNING: could not guess your codepage. Falling back to 'UTF-8'
->=20
-> output charset 'UTF-8', use -C <charset> to override
->=20
-> -_-_-_-_ Getting frontend capabilities-_-_-_-_
->=20
-> Using DVB API 5.11
->=20
-> frontend 'Sony CXD2837ER DVB-T/T2/C demodulator' supports
->=20
-> INVERSION_AUTO
->=20
-> QAM_AUTO
->=20
-> FEC_AUTO
->=20
-> FREQ (42.00MHz ... 1002.00MHz)
->=20
-> SRATE (0.870MSym/s ... 11.700MSym/s)
->=20
-> -_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_-_
->=20
-> 73000: sr6956 (time: 00:00.219)
->=20
-> 81000: sr6956 (time: 00:05.063)
->=20
-> 113000: sr6956 (time: 00:09.671)
->=20
-> 121000: sr6956 (time: 00:14.275)
->=20
-> 129000: sr6956 (time: 00:18.855)
->=20
-> 137000: sr6956 (time: 00:23.483)
->=20
-> 145000: sr6956 (time: 00:28.119)
->=20
-> 153000: sr6956 (time: 00:32.719)
->=20
-> 161000: sr6956 (time: 00:37.327)
->=20
-> 169000: sr6956 (time: 00:42.007)
->=20
-> 314000: sr6956 (time: 00:46.607)
->=20
-> 322000: sr6956 (time: 00:51.243)
->=20
-> 330000: sr6956 (time: 00:55.859)
->=20
-> 338000: sr6956 (time: 01:00.491)
->=20
-> 346000: sr6956 (time: 01:05.107)
->=20
-> 354000: sr6956 (time: 01:09.735)
->=20
-> 362000: sr6956 (time: 01:14.331)
->=20
-> 370000: sr6956 (time: 01:19.015)
->=20
-> 378000: sr6956 (time: 01:23.615)
->=20
-> 386000: sr6956 (time: 01:28.215)
->=20
-> 394000: sr6956 (time: 01:32.847)
->=20
-> 402000: sr6956 (time: 01:37.471)
->=20
-> 410000: sr6956 (time: 01:42.095)
->=20
-> 418000: sr6956 (time: 01:46.723)
->=20
-> 426000: sr6956 (time: 01:51.331)
->=20
-> 434000: sr6956 (time: 01:55.911)
->=20
-> 442000: sr6956 (time: 02:00.515)
->=20
-> 450000: sr6956 (time: 02:05.115)
->=20
-> 458000: sr6956 (time: 02:09.715)
->=20
-> 466000: sr6956 (time: 02:14.342)
->=20
-> 474000: sr6956 (time: 02:18.978)
->=20
-> 482000: sr6956 (time: 02:23.622)
->=20
-> 490000: sr6956 (time: 02:28.214)
->=20
-> 498000: sr6956 (time: 02:32.798)
->=20
-> 506000: sr6956 (time: 02:37.426)
->=20
-> 514000: sr6956 (time: 02:42.054)
->=20
-> 522000: sr6956 (time: 02:46.674)
->=20
-> 530000: sr6956 (time: 02:51.298)
->=20
-> 538000: sr6956 (time: 02:55.926)
->=20
-> 546000: sr6956 (time: 03:00.542)
->=20
-> 554000: sr6956 (time: 03:05.142)
->=20
-> 562000: sr6956 (time: 03:09.790)
->=20
-> 570000: sr6956 (time: 03:14.446)
->=20
-> 578000: sr6956 (time: 03:19.090)
->=20
-> 586000: sr6956 (time: 03:23.714)
->=20
-> 594000: sr6956 (time: 03:28.350)
->=20
-> 602000: sr6956 (time: 03:32.974)
->=20
-> 610000: sr6956 (time: 03:37.594)
->=20
-> 618000: sr6956 (time: 03:42.222)
->=20
-> 626000: sr6956 (time: 03:46.890)
->=20
-> 634000: sr6956 (time: 03:51.486)
->=20
-> 642000: sr6956 (time: 03:56.102)
->=20
-> 650000: sr6956 (time: 04:00.726)
->=20
-> 658000: sr6956 (time: 04:05.366)
->=20
-> 666000: sr6956 (time: 04:09.974)
->=20
-> 674000: sr6956 (time: 04:14.598)
->=20
-> 682000: sr6956 (time: 04:19.222)
->=20
-> 690000: sr6956 (time: 04:23.858)
->=20
-> 698000: sr6956 (time: 04:28.457)
->=20
-> 706000: sr6956 (time: 04:33.049)
->=20
-> 714000: sr6956 (time: 04:37.661)
->=20
-> 722000: sr6956 (time: 04:42.289)         signal ok: QAM_AUTO f =3D 722000=
- kHz
-> S6956C999  (0:0:0)
->=20
->         QAM_AUTO f =3D 722000 kHz S6956C999  (0:0:0) : updating network_i=
-d ->
-> (0:100:0)
->=20
->         already known: (QAM_AUTO f =3D 722000 kHz S6956C999  (0:100:0)), =
-but
-> not found by pids
->=20
->         QAM_AUTO f =3D 722000 kHz S6956C999  (0:100:0) : updating tp ids =
-->
-> (100:100:25)
->=20
->         updating transponder:
->=20
->            (QAM_AUTO f =3D 722000 kHz S6956C999  (100:100:25)) 0x0000
->=20
->         to (QAM_256  f =3D 722000 kHz S6956C0  (100:100:25)) 0x4044
->=20
->         new transponder: (QAM_256  f =3D 730000 kHz S6956C0  (100:100:26))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 738000 kHz S6956C0  (100:100:27))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 746000 kHz S6956C0  (100:100:29))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 754000 kHz S6956C0  (100:100:30))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 762000 kHz S6956C0  (100:100:31))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 770000 kHz S6956C0  (100:100:33))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 778000 kHz S6956C0  (100:100:34))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 786000 kHz S6956C0  (100:100:35))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 794000 kHz S6956C0  (100:100:37))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 802000 kHz S6956C0  (100:100:38))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 810000 kHz S6956C0  (100:100:39))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 818000 kHz S6956C0  (100:100:41))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 826000 kHz S6956C0  (100:100:42))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 834000 kHz S6956C0  (100:100:43))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 842000 kHz S6956C0  (100:100:45))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 850000 kHz S6956C0  (100:100:46))
-> 0x4044
->=20
->         new transponder: (QAM_256  f =3D 858000 kHz S6956C0  (100:100:47))
-> 0x4044
->=20
-> 730000: skipped (already known transponder)
->=20
-> 738000: skipped (already known transponder)
->=20
-> 746000: skipped (already known transponder)
->=20
-> 754000: skipped (already known transponder)
->=20
-> 762000: skipped (already known transponder)
->=20
-> 770000: skipped (already known transponder)
->=20
-> 778000: skipped (already known transponder)
->=20
-> 786000: skipped (already known transponder)
->=20
-> 794000: skipped (already known transponder)
->=20
-> 802000: skipped (already known transponder)
->=20
-> 810000: skipped (already known transponder)
->=20
-> 818000: skipped (already known transponder)
->=20
-> 826000: skipped (already known transponder)
->=20
-> 834000: skipped (already known transponder)
->=20
-> 842000: skipped (already known transponder)
->=20
-> 850000: skipped (already known transponder)
->=20
-> 858000: skipped (already known transponder)
->=20
-> tune to: QAM_256  f =3D 722000 kHz S6956C0  (100:100:25) (time: 04:46.489)
->=20
-> service =3D 001) info (H)
->=20
-> service =3D 002) Perviy (H)
->=20
-> service =3D 003) Russia_1 (H)
->=20
-> service =3D 004) Match! (H)
->=20
-> service =3D 005) NTV (H)
->=20
-> service =3D 006) Peterburg_5ch (H)
->=20
-> service =3D 007) Russia_K (H)
->=20
-> service =3D 008) Russia_24 (H)
->=20
-> service =3D 009) Karusel (H)
->=20
-> service =3D 010) OTR (H)
->=20
-> service =3D 011) TVCI (H)
->=20
-> service =3D 012) REN (H)
->=20
-> service =3D 013) Spas (H)
->=20
-> tune to: QAM_256  f =3D 730000 kHz S6956C0  (100:100:26) (time: 04:59.773)
->=20
-> service =3D 014) CTC (H)
->=20
-> service =3D 015) Domashniy (H)
->=20
-> service =3D 016) TV-3 (H)
->=20
-> service =3D 017) PYATNICA (H)
->=20
-> service =3D 018) Zvezda (H)
->=20
-> service =3D 019) Mir (H)
->=20
-> service =3D 020) THT (H)
->=20
-> service =3D 021) Muz TV (H)
->=20
-> service =3D 022) Telekanal 360 (H)
->=20
-> service =3D 023) Tv Mytishi (H)
->=20
-> tune to: QAM_256  f =3D 738000 kHz S6956C0  (100:100:27) (time: 05:12.769)
->=20
-> service =3D 024) YOU (H)
->=20
-> service =3D 025) Disney (H)
->=20
-> service =3D 026) Leomax 24 (H)
->=20
-> service =3D 027) TV 1000 (H)
->=20
-> service =3D 028) TV1000 Ru Kino (H)
->=20
-> service =3D 029) Yuvelirochka (H)
->=20
-> service =3D 030) TV1000 Action (H)
->=20
-> service =3D 031) KINO TV (H)
->=20
-> service =3D 032) Russkiy Roman (H)
->=20
-> service =3D 033) Komedia  (H)
->=20
-> service =3D 034) Eurokino (H)
->=20
-> service =3D 035) Liubimoe Kino (H)
->=20
-> service =3D 036) Shopping live (H)
->=20
-> tune to: QAM_256  f =3D 746000 kHz S6956C0  (100:100:29) (time: 05:25.769)
->=20
-> service =3D 037) Russkij illuzio (H)
->=20
-> service =3D 038) Illuzion + (H)
->=20
-> service =3D 039) AMEDIA 1 (H)
->=20
-> service =3D 040) AMEDIA 2 (H)
->=20
-> service =3D 041) HCTB (H)
->=20
-> service =3D 042) Cinema (H)
->=20
-> service =3D 043) Mir Seriala (H)
->=20
-> service =3D 044) CTC Love (H)
->=20
-> service =3D 045) Kinokomediya (H)
->=20
-> service =3D 046) Kinomiks (H)
->=20
-> service =3D 047) Rodnoe kino (H)
->=20
-> service =3D 048) 8 kanal (H)
->=20
-> tune to: QAM_256  f =3D 754000 kHz S6956C0  (100:100:30) (time: 05:38.781)
->=20
-> service =3D 049) Indiyskoe kino (H)
->=20
-> service =3D 050) Kinoseriya (H)
->=20
-> service =3D 051)  Nashe novoe ki (H)
->=20
-> service =3D 052) Kinoujas (H)
->=20
-> service =3D 053) Myjskoe kino (H)
->=20
-> service =3D 054) NTV Serial (H)
->=20
-> service =3D 055) Fenix + Kino (H)
->=20
-> service =3D 056) Opros 56 (H)
->=20
-> service =3D 057) KINOSAT (H)
->=20
-> service =3D 058) Rysskiy bestsel (H)
->=20
-> service =3D 059) Zee Russia (H)
->=20
-> service =3D 060) Detsky (H)
->=20
-> tune to: QAM_256  f =3D 762000 kHz S6956C0  (100:100:31) (time: 05:51.769)
->=20
-> service =3D 061) Ryzhiy (H)
->=20
-> service =3D 062) Detsky Mir (H)
->=20
-> service =3D 063) Ani (H)
->=20
-> service =3D 064) Malish (H)
->=20
-> service =3D 065) Multilandia (H)
->=20
-> service =3D 066) Mult muz (H)
->=20
-> service =3D 067) KHL (H)
->=20
-> service =3D 068) MATCH! STRANA (H)
->=20
-> service =3D 069) Matc! Boec (H)
->=20
-> service =3D 070) MATCH! IGRA (H)
->=20
-> service =3D 071) MATCH! ARENA (H)
->=20
-> service =3D 072) Auto plus (H)
->=20
-> tune to: QAM_256  f =3D 770000 kHz S6956C0  (100:100:33) (time: 06:04.781)
->=20
-> service =3D 073) Viasat Sport (H)
->=20
-> service =3D 074) Jivi (H)
->=20
-> service =3D 075) Tochka Otryva (H)
->=20
-> service =3D 076) Football (H)
->=20
-> service =3D 077) M1 Global (H)
->=20
-> service =3D 078) Vegetarianskiy (H)
->=20
-> service =3D 079) Muzhskoi (H)
->=20
-> service =3D 080) Zagorodnaya ziz (H)
->=20
-> service =3D 081) Nauka 2.0 (H)
->=20
-> service =3D 082) 24 Techno (H)
->=20
-> service =3D 083) Viasat Explorer (H)
->=20
-> service =3D 084) Dikiy (H)
->=20
-> tune to: QAM_256  f =3D 778000 kHz S6956C0  (100:100:34) (time: 06:17.773)
->=20
-> WARNING: received garbage data: crc =3D 0x04e7f1d2; expected crc =3D 0x9b=
-1462c5
->=20
-> increasing filter timeout to 31 secs (pid:0 table_id:0 table_id_ext:-1).
->=20
-> service =3D 085) CHE (H)
->=20
-> service =3D 086) NTV Pravo (H)
->=20
-> service =3D 087)  Moya Planeta (H)
->=20
-> service =3D 088)  Viasat Nature (H)
->=20
-> service =3D 089) ZOOpark (H)
->=20
-> service =3D 090) RTG TV (H)
->=20
-> service =3D 091) Ocean TV (H)
->=20
-> service =3D 092) Jivaya planeta (H)
->=20
-> service =3D 093) 365 Dney TV (H)
->=20
-> service =3D 094) Viasat History (H)
->=20
-> service =3D 095) Istoriya (H)
->=20
-> service =3D 096) Doctor (H)
->=20
-> WARNING: received garbage data: crc =3D 0x776b71b8; expected crc =3D 0x64=
-3c495e
->=20
-> increasing filter timeout to 40 secs (pid:16 table_id:64 table_id_ext:-1).
->=20
-> tune to: QAM_256  f =3D 786000 kHz S6956C0  (100:100:35) (time: 06:31.781)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_AUTO f =3D 786000 kHz S6956C999  (100:100:35) (time: 06:42.3=
-29)  (no
-> signal)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_256  f =3D 794000 kHz S6956C0  (100:100:37) (time: 06:49.968)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_AUTO f =3D 794000 kHz S6956C999  (100:100:37) (time: 06:57.6=
-64)  (no
-> signal)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_256  f =3D 802000 kHz S6956C0  (100:100:38) (time: 07:05.316)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_AUTO f =3D 802000 kHz S6956C999  (100:100:38) (time: 07:12.9=
-64)  (no
-> signal)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_256  f =3D 810000 kHz S6956C0  (100:100:39) (time: 07:20.548)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_AUTO f =3D 810000 kHz S6956C999  (100:100:39) (time: 07:28.1=
-76)  (no
-> signal)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_256  f =3D 818000 kHz S6956C0  (100:100:41) (time: 07:35.836)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_AUTO f =3D 818000 kHz S6956C999  (100:100:41) (time: 07:43.4=
-72)  (no
-> signal)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_256  f =3D 826000 kHz S6956C0  (100:100:42) (time: 07:51.136)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_AUTO f =3D 826000 kHz S6956C999  (100:100:42) (time: 07:58.8=
-28)  (no
-> signal)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_256  f =3D 834000 kHz S6956C0  (100:100:43) (time: 08:06.504)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_AUTO f =3D 834000 kHz S6956C999  (100:100:43) (time: 08:14.1=
-88)  (no
-> signal)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_256  f =3D 842000 kHz S6956C0  (100:100:45) (time: 08:21.900)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_AUTO f =3D 842000 kHz S6956C999  (100:100:45) (time: 08:29.5=
-72)  (no
-> signal)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_256  f =3D 850000 kHz S6956C0  (100:100:46) (time: 08:37.192)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_AUTO f =3D 850000 kHz S6956C999  (100:100:46) (time: 08:44.8=
-40)  (no
-> signal)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_256  f =3D 858000 kHz S6956C0  (100:100:47) (time: 08:52.456)
->=20
-> ----------no signal----------
->=20
-> tune to: QAM_AUTO f =3D 858000 kHz S6956C999  (100:100:47) (time: 09:00.0=
-76)  (no
-> signal)
->=20
-> ----------no signal----------
->=20
-> (time: 09:07.744) dumping lists (96 services)
->=20
-> ..
->=20
-> 001) info;H:722000:M256:C:6956:663=3D27:664=3Drus@4:0:0:1:100:25:0
->=20
-> 002) Perviy;H:722000:M256:C:6956:650=3D27:651=3Drus@3:652:0:2:100:25:0
->=20
-> 003) Russia_1;H:722000:M256:C:6956:657=3D27:658@3:659:0:3:100:25:0
->=20
-> 004) Match!;H:722000:M256:C:6956:2001=3D27:2002=3Drus@3:2003:0:4:100:25:0
->=20
-> 005) NTV;H:722000:M256:C:6956:2021=3D27:2022=3Drus@3:2023:0:5:100:25:0
->=20
-> 006) Peterburg_5ch;H:722000:M256:C:6956:2041=3D27:2042=3Drus@3:2043:0:6:1=
-00:25:0
->=20
-> 007) Russia_K;H:722000:M256:C:6956:38=3D27:39=3Drus@3:40:0:7:100:25:0
->=20
-> 008) Russia_24;H:722000:M256:C:6956:44=3D27:45@3:0:0:8:100:25:0
->=20
-> 009) Karusel;H:722000:M256:C:6956:50=3D27:51=3Drus@3:52:0:9:100:25:0
->=20
-> 010) OTR;H:722000:M256:C:6956:56=3D27:57@3:0:0:10:100:25:0
->=20
-> 011) TVCI;H:722000:M256:C:6956:62=3D27:63=3Drus@3:64:0:11:100:25:0
->=20
-> 012) REN;H:722000:M256:C:6956:68=3D27:69@3:70:0:12:100:25:0
->=20
-> 013) Spas;H:722000:M256:C:6956:74=3D27:75@3:0:0:13:100:25:0
->=20
-> 014) CTC;H:730000:M256:C:6956:80=3D27:81@3:0:0:14:100:26:0
->=20
-> 015) Domashniy;H:730000:M256:C:6956:86=3D27:87@3:88:0:15:100:26:0
->=20
-> 016) TV-3;H:730000:M256:C:6956:92=3D27:93@3:94:0:16:100:26:0
->=20
-> 017) PYATNICA;H:730000:M256:C:6956:98=3D27:99@3:100:0:17:100:26:0
->=20
-> 018) Zvezda;H:730000:M256:C:6956:104=3D27:105@3:0:0:18:100:26:0
->=20
-> 019) Mir;H:730000:M256:C:6956:110=3D27:111@3:0:0:19:100:26:0
->=20
-> 020) THT;H:730000:M256:C:6956:116=3D27:117@3:118:0:20:100:26:0
->=20
-> 021) Muz TV;H:730000:M256:C:6956:123=3D27:124@3:0:0:21:100:26:0
->=20
-> 022) Telekanal 360;H:730000:M256:C:6956:128=3D27:129=3Drus@3:0:0:22:100:2=
-6:0
->=20
-> 023) Tv Mytishi;H:730000:M256:C:6956:134=3D27:135=3Drus@3:0:0:23:100:26:0
->=20
-> 024) YOU;H:738000:M256:C:6956:140=3D27:141@4:0:0:24:100:27:0
->=20
-> 025) Disney;H:738000:M256:C:6956:146=3D27:147=3Drus@3:0:0:25:100:27:0
->=20
-> 026) Leomax 24;H:738000:M256:C:6956:152=3D27:153=3Drus@4:0:0:26:100:27:0
->=20
-> 027) TV 1000;H:738000:M256:C:6956:158=3D2:159=3Drus@4:0:0:27:100:27:0
->=20
-> 028) TV1000 Ru Kino;H:738000:M256:C:6956:164=3D2:165=3Drus@4:0:0:28:100:2=
-7:0
->=20
-> 029) Yuvelirochka;H:738000:M256:C:6956:171=3D2:172=3Drus@3:0:0:29:100:27:0
->=20
-> 030) TV1000 Action;H:738000:M256:C:6956:177=3D2:178@4:0:0:30:100:27:0
->=20
-> 031) KINO TV;H:738000:M256:C:6956:183=3D2:184@4:0:0:31:100:27:0
->=20
-> 032) Russkiy Roman;H:738000:M256:C:6956:189=3D2:190@4:0:0:32:100:27:0
->=20
-> 033) Komedia ;H:738000:M256:C:6956:195=3D2:196@4:0:0:33:100:27:0
->=20
-> 034) Eurokino;H:738000:M256:C:6956:201=3D2:202=3Drus@4:0:0:34:100:27:0
->=20
-> 035) Liubimoe Kino;H:738000:M256:C:6956:207=3D2:208=3Drus@3:0:0:35:100:27=
-:0
->=20
-> 036) Shopping live;H:738000:M256:C:6956:213=3D2:214@4:0:0:36:100:27:0
->=20
-> 037) Russkij illuzio;H:746000:M256:C:6956:219=3D2:220=3Drus@4:0:0:37:100:=
-29:0
->=20
-> 038) Illuzion +;H:746000:M256:C:6956:225=3D2:226=3Drus@4:0:0:38:100:29:0
->=20
-> 039) AMEDIA 1;H:746000:M256:C:6956:231=3D27:232=3Drus@4:0:0:39:100:29:0
->=20
-> 040) AMEDIA 2;H:746000:M256:C:6956:237=3D2:238@4:0:0:40:100:29:0
->=20
-> 041) HCTB;H:746000:M256:C:6956:243=3D2:244@3:0:0:41:100:29:0
->=20
-> 042) Cinema;H:746000:M256:C:6956:249=3D2:250=3Drus@4:0:0:42:100:29:0
->=20
-> 043) Mir Seriala;H:746000:M256:C:6956:255=3D27:256=3Drus@4:0:0:43:100:29:0
->=20
-> 044) CTC Love;H:746000:M256:C:6956:261=3D27:262=3Drus@4:263:0:44:100:29:0
->=20
-> 045) Kinokomediya;H:746000:M256:C:6956:267=3D27:268=3Drus@4:0:0:45:100:29=
-:0
->=20
-> 046) Kinomiks;H:746000:M256:C:6956:272=3D27:273@3:0:0:46:100:29:0
->=20
-> 047) Rodnoe kino;H:746000:M256:C:6956:278=3D27:279@3:0:0:47:100:29:0
->=20
-> 048) 8 kanal;H:746000:M256:C:6956:284=3D27:285@3:0:0:48:100:29:0
->=20
-> 049) Indiyskoe kino;H:754000:M256:C:6956:290=3D27:291=3Drus@4:0:0:49:100:=
-30:0
->=20
-> 050) Kinoseriya;H:754000:M256:C:6956:296=3D27:297@3:0:0:50:100:30:0
->=20
-> 051)  Nashe novoe ki;H:754000:M256:C:6956:302=3D27:303=3Drus@4:0:0:51:100=
-:30:0
->=20
-> 052) Kinoujas;H:754000:M256:C:6956:308=3D27:309=3Drus@4;310:311:0:52:100:=
-30:0
->=20
-> 053) Myjskoe kino;H:754000:M256:C:6956:314=3D27:315=3Drus@4:0:0:53:100:30=
-:0
->=20
-> 054) NTV Serial;H:754000:M256:C:6956:320=3D27:321=3Drus@3
-> ,321=3Drus:0:0:54:100:30:0
->=20
-> 055) Fenix + Kino;H:754000:M256:C:6956:326=3D2:327=3Drus@4:0:0:55:100:30:0
->=20
-> 056) Opros 56;H:754000:M256:C:6956:332=3D27:333@3:0:0:56:100:30:0
->=20
-> 057) KINOSAT;H:754000:M256:C:6956:338=3D27:339=3Drus@3:0:0:57:100:30:0
->=20
-> 058) Rysskiy bestsel;H:754000:M256:C:6956:344=3D2:345=3Drus@4:0:0:58:100:=
-30:0
->=20
-> 059) Zee Russia;H:754000:M256:C:6956:350=3D27:351=3Drus@4:0:0:59:100:30:0
->=20
-> 060) Detsky;H:754000:M256:C:6956:356=3D2:357@3:0:0:60:100:30:0
->=20
-> 061) Ryzhiy;H:762000:M256:C:6956:362=3D27:363@3:0:0:61:100:31:0
->=20
-> 062) Detsky Mir;H:762000:M256:C:6956:368=3D27:369@3:0:0:62:100:31:0
->=20
-> 063) Ani;H:762000:M256:C:6956:374=3D2:375@3:0:0:63:100:31:0
->=20
-> 064) Malish;H:762000:M256:C:6956:380=3D27:381=3Drus@4:0:0:64:100:31:0
->=20
-> 065) Multilandia;H:762000:M256:C:6956:386=3D27:387@4:0:0:65:100:31:0
->=20
-> 066) Mult muz;H:762000:M256:C:6956:392=3D2:393=3Drus@4:0:0:66:100:31:0
->=20
-> 067) KHL;H:762000:M256:C:6956:398=3D27:399=3Drus@4:0:0:67:100:31:0
->=20
-> 068) MATCH! STRANA;H:762000:M256:C:6956:404=3D27:405=3Drus@4:0:0:68:100:3=
-1:0
->=20
-> 069) Matc! Boec;H:762000:M256:C:6956:410=3D27:411=3Drus@4:0:0:69:100:31:0
->=20
-> 070) MATCH! IGRA;H:762000:M256:C:6956:416=3D27:417=3Drus@4:0:0:70:100:31:0
->=20
-> 071) MATCH! ARENA;H:762000:M256:C:6956:422=3D27:423=3Drus@4:0:0:71:100:31=
-:0
->=20
-> 072) Auto plus;H:762000:M256:C:6956:428=3D27:429=3Drus@4:0:0:72:100:31:0
->=20
-> 073) Viasat Sport;H:770000:M256:C:6956:434=3D2:435=3Drus@4:0:0:73:100:33:0
->=20
-> 074) Jivi;H:770000:M256:C:6956:440=3D27:441=3Deng@4:0:0:74:100:33:0
->=20
-> 075) Tochka Otryva;H:770000:M256:C:6956:445=3D2:446@4:0:0:75:100:33:0
->=20
-> 076) Football;H:770000:M256:C:6956:452=3D27:453@3:0:0:76:100:33:0
->=20
-> 077) M1 Global;H:770000:M256:C:6956:457=3D27:458=3Drus@4,459=3Deng:0:0:77=
-:100:33:0
->=20
-> 078) Vegetarianskiy;H:770000:M256:C:6956:463=3D27:464=3Drus@4:0:0:78:100:=
-33:0
->=20
-> 079) Muzhskoi;H:770000:M256:C:6956:469=3D2:470=3Drus@4:0:0:79:100:33:0
->=20
-> 080) Zagorodnaya ziz;H:770000:M256:C:6956:475=3D2:476=3Drus@4:0:0:80:100:=
-33:0
->=20
-> 081) Nauka 2.0;H:770000:M256:C:6956:482=3D2:484=3Drus@4:0:0:81:100:33:0
->=20
-> 082) 24 Techno;H:770000:M256:C:6956:488=3D2:489@4:0:0:82:100:33:0
->=20
-> 083) Viasat Explorer;H:770000:M256:C:6956:494=3D2:495@3:0:0:83:100:33:0
->=20
-> 084) Dikiy;H:770000:M256:C:6956:500=3D27:501@4:0:0:84:100:33:0
->=20
-> 085) CHE;H:778000:M256:C:6956:506=3D27:507@4:508:0:85:100:34:0
->=20
-> 086) NTV Pravo;H:778000:M256:C:6956:512=3D27:513=3Drus@4:0:0:86:100:34:0
->=20
-> 087)  Moya Planeta;H:778000:M256:C:6956:518=3D2:519=3Drus@3:0:0:87:100:34=
-:0
->=20
-> 088)  Viasat Nature;H:778000:M256:C:6956:524=3D2:525@3:0:0:88:100:34:0
->=20
-> 089) ZOOpark;H:778000:M256:C:6956:530=3D2:531=3Drus@3:0:0:89:100:34:0
->=20
-> 090) RTG TV;H:778000:M256:C:6956:536=3D27:537=3Drus@4
-> ,538=3Deng,539=3Dtur:0:0:90:100:34:0
->=20
-> 091) Ocean TV;H:778000:M256:C:6956:542=3D27:543=3Drus@4:0:0:91:100:34:0
->=20
-> 092) Jivaya planeta;H:778000:M256:C:6956:548=3D2:549=3Drus@4:0:0:92:100:3=
-4:0
->=20
-> 093) 365 Dney TV;H:778000:M256:C:6956:554=3D27:555=3Drus@4:0:0:93:100:34:0
->=20
-> 094) Viasat History;H:778000:M256:C:6956:560=3D2:561=3Drus@4
-> ,562=3Deng:0:0:94:100:34:0
->=20
-> 095) Istoriya;H:778000:M256:C:6956:566=3D2:567=3Drus@4:0:0:95:100:34:0
->=20
-> 096) Doctor;H:778000:M256:C:6956:572=3D2:573@3:0:0:96:100:34:0
->=20
-> Done, scan time: 09:07.744
+We should rather identify ways how that is still possible and get rid of
+them.
 
 
+Now, short-term pinnings and PCP are other issues where
+alloc_contig_range() could be improved (e.g., in contrast to a FAST
+mode, a HARD mode which temporarily disables the PCP, ...).
 
+> size (e.g., 2M) than requested order(64K) repeatedly until driver
+> could gather necessary amount of memory. Basically, this approach
+> makes the allocation very slow due to cma_alloc's function
+> slowness and it could be stuck on one of the pageblocks if it
+> encounters unmigratable page.
+> 
+> To solve the issue, this patch introduces cma_alloc_bulk.
+> 
+> 	int cma_alloc_bulk(struct cma *cma, unsigned int align,
+> 		bool fast, unsigned int order, size_t nr_requests,
+> 		struct page **page_array, size_t *nr_allocated);
+> 
+> Most parameters are same with cma_alloc but it additionally passes
+> vector array to store allocated memory. What's different with cma_alloc
+> is it will skip pageblocks without waiting/stopping if it has unmovable
+> page so that API continues to scan other pageblocks to find requested
+> order page.
+> 
+> cma_alloc_bulk is best effort approach in that it skips some pageblocks
+> if they have unmovable pages unlike cma_alloc. It doesn't need to be
+> perfect from the beginning at the cost of performance. Thus, the API
+> takes "bool fast parameter" which is propagated into alloc_contig_range to
+> avoid significat overhead functions to inrecase CMA allocation success
+> ratio(e.g., migration retrial, PCP, LRU draining per pageblock)
+> at the cost of less allocation success ratio. If the caller couldn't
+> allocate enough, they could call it with "false" to increase success ratio
+> if they are okay to expense the overhead for the success ratio.
+
+Just so I understand what the idea is:
+
+alloc_contig_range() sometimes fails on CMA regions when trying to
+allocate big chunks (e.g., 300M). Instead of tackling that issue, you
+rather allocate plenty of small chunks, and make these small allocations
+fail faster/ make the allocations less reliable. Correct?
+
+I don't really have a strong opinion on that. Giving up fast rather than
+trying for longer sounds like a useful thing to have - but I wonder if
+it's strictly necessary for the use case you describe.
+
+I'd like to hear Michals opinion on that.
+
+> 
+> Signed-off-by: Minchan Kim <minchan@kernel.org>
+> ---
+>  include/linux/cma.h |   5 ++
+>  include/linux/gfp.h |   2 +
+>  mm/cma.c            | 126 ++++++++++++++++++++++++++++++++++++++++++--
+>  mm/page_alloc.c     |  19 ++++---
+>  4 files changed, 140 insertions(+), 12 deletions(-)
+> 
+> diff --git a/include/linux/cma.h b/include/linux/cma.h
+> index 217999c8a762..7375d3131804 100644
+> --- a/include/linux/cma.h
+> +++ b/include/linux/cma.h
+> @@ -46,6 +46,11 @@ extern int cma_init_reserved_mem(phys_addr_t base, phys_addr_t size,
+>  					struct cma **res_cma);
+>  extern struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
+>  			      bool no_warn);
+> +
+> +extern int cma_alloc_bulk(struct cma *cma, unsigned int align, bool fast,
+> +			unsigned int order, size_t nr_requests,
+> +			struct page **page_array, size_t *nr_allocated);
+> +
+>  extern bool cma_release(struct cma *cma, const struct page *pages, unsigned int count);
+>  
+>  extern int cma_for_each_area(int (*it)(struct cma *cma, void *data), void *data);
+> diff --git a/include/linux/gfp.h b/include/linux/gfp.h
+> index ad5872699692..75bfb673d75b 100644
+> --- a/include/linux/gfp.h
+> +++ b/include/linux/gfp.h
+> @@ -627,6 +627,8 @@ static inline bool pm_suspended_storage(void)
+>  enum alloc_contig_mode {
+>  	/* try several ways to increase success ratio of memory allocation */
+>  	ALLOC_CONTIG_NORMAL,
+> +	/* avoid costly functions to make the call fast */
+> +	ALLOC_CONTIG_FAST,
+>  };
+>  
+>  /* The below functions must be run on a range from a single zone. */
+> diff --git a/mm/cma.c b/mm/cma.c
+> index 8010c1ba04b0..4459045fa717 100644
+> --- a/mm/cma.c
+> +++ b/mm/cma.c
+> @@ -32,6 +32,7 @@
+>  #include <linux/highmem.h>
+>  #include <linux/io.h>
+>  #include <linux/kmemleak.h>
+> +#include <linux/swap.h>
+>  #include <trace/events/cma.h>
+>  
+>  #include "cma.h"
+> @@ -397,6 +398,14 @@ static void cma_debug_show_areas(struct cma *cma)
+>  static inline void cma_debug_show_areas(struct cma *cma) { }
+>  #endif
+>  
+> +static void reset_page_kasan_tag(struct page *page, int count)
+> +{
+> +	int i;
+> +
+> +	for (i = 0; i < count; i++)
+> +		page_kasan_tag_reset(page + i);
+> +}
+> +
+>  /**
+>   * cma_alloc() - allocate pages from contiguous area
+>   * @cma:   Contiguous memory region for which the allocation is performed.
+> @@ -414,7 +423,6 @@ struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
+>  	unsigned long pfn = -1;
+>  	unsigned long start = 0;
+>  	unsigned long bitmap_maxno, bitmap_no, bitmap_count;
+> -	size_t i;
+>  	struct page *page = NULL;
+>  	int ret = -ENOMEM;
+>  
+> @@ -479,10 +487,8 @@ struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
+>  	 * blocks being marked with different tags. Reset the tags to ignore
+>  	 * those page blocks.
+>  	 */
+> -	if (page) {
+> -		for (i = 0; i < count; i++)
+> -			page_kasan_tag_reset(page + i);
+> -	}
+> +	if (page)
+> +		reset_page_kasan_tag(page, count);
+>  
+>  	if (ret && !no_warn) {
+>  		pr_err("%s: alloc failed, req-size: %zu pages, ret: %d\n",
+> @@ -494,6 +500,116 @@ struct page *cma_alloc(struct cma *cma, size_t count, unsigned int align,
+>  	return page;
+>  }
+>  
+> +/*
+> + * cma_alloc_bulk() - allocate high order bulk pages from contiguous area with
+> + * 		best effort. It will usually be used for private @cma
+> + *
+> + * @cma:	contiguous memory region for which the allocation is performed.
+> + * @align:	requested alignment of pages (in PAGE_SIZE order).
+> + * @fast:	will skip costly opeartions if it's true.
+> + * @order:	requested page order
+> + * @nr_requests: the number of 2^order pages requested to be allocated as input,
+> + * @page_array:	page_array pointer to store allocated pages (must have space
+> + *		for at least nr_requests)
+> + * @nr_allocated: the number of 2^order pages allocated as output
+> + *
+> + * This function tries to allocate up to @nr_requests @order pages on specific
+> + * contiguous memory area. If @fast has true, it will avoid costly functions
+> + * to increase allocation success ratio so it will be faster but might return
+> + * less than requested number of pages. User could retry it with true if it is
+> + * needed.
+> + *
+> + * Return: it will return 0 only if all pages requested by @nr_requestsed are
+> + * allocated. Otherwise, it returns negative error code.
+> + *
+> + * Note: Regardless of success/failure, user should check @nr_allocated to see
+> + * how many @order pages are allocated and free those pages when they are not
+> + * needed.
+> + */
+> +int cma_alloc_bulk(struct cma *cma, unsigned int align, bool fast,
+> +			unsigned int order, size_t nr_requests,
+> +			struct page **page_array, size_t *nr_allocated)
+> +{
+> +	int ret = 0;
+> +	size_t i = 0;
+> +	unsigned long nr_pages_needed = nr_requests * (1 << order);
+> +	unsigned long nr_chunk_pages, nr_pages;
+> +	unsigned long mask, offset;
+> +	unsigned long pfn = -1;
+> +	unsigned long start = 0;
+> +	unsigned long bitmap_maxno, bitmap_no, bitmap_count;
+> +	struct page *page = NULL;
+> +	enum alloc_contig_mode mode = fast ? ALLOC_CONTIG_FAST :
+> +						ALLOC_CONTIG_NORMAL;
+> +	*nr_allocated = 0;
+> +	if (!cma || !cma->count || !cma->bitmap || !page_array)
+> +		return -EINVAL;
+> +
+> +	if (!nr_pages_needed)
+> +		return 0;
+> +
+> +	nr_chunk_pages = 1 << max_t(unsigned int, order, pageblock_order);
+> +
+> +	mask = cma_bitmap_aligned_mask(cma, align);
+> +	offset = cma_bitmap_aligned_offset(cma, align);
+> +	bitmap_maxno = cma_bitmap_maxno(cma);
+> +
+> +	lru_add_drain_all();
+> +	drain_all_pages(NULL);
+> +
+> +	while (nr_pages_needed) {
+> +		nr_pages = min(nr_chunk_pages, nr_pages_needed);
+> +
+> +		bitmap_count = cma_bitmap_pages_to_bits(cma, nr_pages);
+> +		mutex_lock(&cma->lock);
+> +		bitmap_no = bitmap_find_next_zero_area_off(cma->bitmap,
+> +				bitmap_maxno, start, bitmap_count, mask,
+> +				offset);
+> +		if (bitmap_no >= bitmap_maxno) {
+> +			mutex_unlock(&cma->lock);
+> +			break;
+> +		}
+> +		bitmap_set(cma->bitmap, bitmap_no, bitmap_count);
+> +		/*
+> +		 * It's safe to drop the lock here. If the migration fails
+> +		 * cma_clear_bitmap will take the lock again and unmark it.
+> +		 */
+> +		mutex_unlock(&cma->lock);
+> +
+> +		pfn = cma->base_pfn + (bitmap_no << cma->order_per_bit);
+> +		ret = alloc_contig_range(pfn, pfn + nr_pages, MIGRATE_CMA,
+> +						GFP_KERNEL|__GFP_NOWARN, mode);
+> +		if (ret) {
+> +			cma_clear_bitmap(cma, pfn, nr_pages);
+> +			if (ret != -EBUSY)
+> +				break;
+> +
+> +			/* continue to search next block */
+> +			start = (pfn + nr_pages - cma->base_pfn) >>
+> +						cma->order_per_bit;
+> +			continue;
+> +		}
+> +
+> +		page = pfn_to_page(pfn);
+> +		while (nr_pages) {
+> +			page_array[i++] = page;
+> +			reset_page_kasan_tag(page, 1 << order);
+> +			page += 1 << order;
+> +			nr_pages -= 1 << order;
+> +			nr_pages_needed -= 1 << order;
+> +		}
+> +
+> +		start = bitmap_no + bitmap_count;
+> +	}
+> +
+> +	*nr_allocated = i;
+> +
+> +	if (!ret && nr_pages_needed)
+> +		ret = -EBUSY;
+> +
+> +	return ret;
+> +}
+> +
+>  /**
+>   * cma_release() - release allocated pages
+>   * @cma:   Contiguous memory region for which the allocation is performed.
+> diff --git a/mm/page_alloc.c b/mm/page_alloc.c
+> index adfbfd95fbc3..2a1799ff14fc 100644
+> --- a/mm/page_alloc.c
+> +++ b/mm/page_alloc.c
+> @@ -8463,7 +8463,8 @@ static unsigned long pfn_max_align_up(unsigned long pfn)
+>  
+>  /* [start, end) must belong to a single zone. */
+>  static int __alloc_contig_migrate_range(struct compact_control *cc,
+> -					unsigned long start, unsigned long end)
+> +					unsigned long start, unsigned long end,
+> +					unsigned int max_tries)
+>  {
+>  	/* This function is based on compact_zone() from compaction.c. */
+>  	unsigned int nr_reclaimed;
+> @@ -8491,7 +8492,7 @@ static int __alloc_contig_migrate_range(struct compact_control *cc,
+>  				break;
+>  			}
+>  			tries = 0;
+> -		} else if (++tries == 5) {
+> +		} else if (++tries == max_tries) {
+>  			ret = ret < 0 ? ret : -EBUSY;
+>  			break;
+>  		}
+> @@ -8553,6 +8554,7 @@ int alloc_contig_range(unsigned long start, unsigned long end,
+>  	unsigned long outer_start, outer_end;
+>  	unsigned int order;
+>  	int ret = 0;
+> +	bool fast_mode = mode == ALLOC_CONTIG_FAST;
+>  
+>  	struct compact_control cc = {
+>  		.nr_migratepages = 0,
+> @@ -8595,7 +8597,8 @@ int alloc_contig_range(unsigned long start, unsigned long end,
+>  	if (ret)
+>  		return ret;
+>  
+> -	drain_all_pages(cc.zone);
+> +	if (!fast_mode)
+> +		drain_all_pages(cc.zone);
+>  
+>  	/*
+>  	 * In case of -EBUSY, we'd like to know which page causes problem.
+> @@ -8607,7 +8610,7 @@ int alloc_contig_range(unsigned long start, unsigned long end,
+>  	 * allocated.  So, if we fall through be sure to clear ret so that
+>  	 * -EBUSY is not accidentally used or returned to caller.
+>  	 */
+> -	ret = __alloc_contig_migrate_range(&cc, start, end);
+> +	ret = __alloc_contig_migrate_range(&cc, start, end, fast_mode ? 1 : 5);
+>  	if (ret && ret != -EBUSY)
+>  		goto done;
+>  	ret =0;
+> @@ -8629,7 +8632,8 @@ int alloc_contig_range(unsigned long start, unsigned long end,
+>  	 * isolated thus they won't get removed from buddy.
+>  	 */
+>  
+> -	lru_add_drain_all();
+> +	if (!fast_mode)
+> +		lru_add_drain_all();
+>  
+>  	order = 0;
+>  	outer_start = start;
+> @@ -8656,8 +8660,9 @@ int alloc_contig_range(unsigned long start, unsigned long end,
+>  
+>  	/* Make sure the range is really isolated. */
+>  	if (test_pages_isolated(outer_start, end, 0)) {
+> -		pr_info_ratelimited("%s: [%lx, %lx) PFNs busy\n",
+> -			__func__, outer_start, end);
+> +		if (!fast_mode)
+> +			pr_info_ratelimited("%s: [%lx, %lx) PFNs busy\n",
+> +				__func__, outer_start, end);
+>  		ret = -EBUSY;
+>  		goto done;
+>  	}
+> 
+
+
+-- 
 Thanks,
-Mauro
+
+David / dhildenb
+
