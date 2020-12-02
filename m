@@ -2,218 +2,83 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84B2E2CBEBD
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 14:54:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 15A9C2CBECA
+	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 14:56:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730119AbgLBNwj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 08:52:39 -0500
-Received: from lb1-smtp-cloud7.xs4all.net ([194.109.24.24]:51093 "EHLO
-        lb1-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1728034AbgLBNwi (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Dec 2020 08:52:38 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id kSXvkERTgN7XgkSXyktK7M; Wed, 02 Dec 2020 14:51:55 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606917115; bh=QC1qQiiUguqL+R4UhMsNy/Vd2a1SGfIVmZtbgkGTe8c=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=svxGooqKmxA6a48lHB3ZXQjvG66XoqZ8w2SBbY9+ZZi7z5ghbL1EtE+SSgNlehoTy
-         8b3W0IAH0KoFp0HqFb/X/TNiAyKauZeu4DRZz+zhOaSUKDhiKOuvqHI3Hc+v1NJYBK
-         xLgMlWMUvdVdzrtLeEXQnfa8/5SOdOxf5JzBPaPNgowxA0R3gqRq8kX3NQZj83PFY/
-         4f3G/KX6IysWK58FLe1+O2IeKj2y1867fI2WdvyQ0TRxnG4bCmkY9fDAnD3dpfoX1I
-         csk9uR3wqKClf8mnagGLCMUZnPBPAvWEEuQvXkGFzRHaQR0Sbtvzqic2VJSZABMFip
-         o0N3eeACGzEQg==
-Subject: Re: [PATCH v3 1/3] media: v4l2-ctrl: Add frame-specific min/max qp
- controls for hevc
-To:     Dikshita Agarwal <dikshita@codeaurora.org>,
-        linux-media@vger.kernel.org, nicolas@ndufresne.ca,
-        stanimir.varbanov@linaro.org
-Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
-        vgarodia@codeaurora.org
-References: <1605682497-29273-1-git-send-email-dikshita@codeaurora.org>
- <1605682497-29273-2-git-send-email-dikshita@codeaurora.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <42116828-e21f-64a2-1de5-23a5a1108642@xs4all.nl>
-Date:   Wed, 2 Dec 2020 14:51:51 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1727794AbgLBNzI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 08:55:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37262 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726048AbgLBNzI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 08:55:08 -0500
+Received: from casper.infradead.org (casper.infradead.org [IPv6:2001:8b0:10b:1236::1])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E59A5C0613CF;
+        Wed,  2 Dec 2020 05:54:27 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=infradead.org; s=casper.20170209; h=In-Reply-To:Content-Type:MIME-Version:
+        References:Message-ID:Subject:Cc:To:From:Date:Sender:Reply-To:
+        Content-Transfer-Encoding:Content-ID:Content-Description;
+        bh=BPF0p8LwieotIqQ8Se3apv9Pv1/DdLdEpA/PB50rgWE=; b=eZh2zF8eJPaRth8HUFz0TGpx8F
+        52xnoX1GPcWv2V550kvu6crFKf4puciDYEltqg33ZKqsG0KioGTAf/tgro8L9LKpHWrsHsTFpJtd5
+        AaMLzwy2gn6WGJcAXK2wNHxarxbzENK9QRPqW2SG4vsvOL8hYKKMwGDWMPKpbykmLL5Q1ssaj7rtU
+        NYQuWjGiZRfPZ9CvefK+9e6X4QbK+ohuXNGJZMVNHCh1i4GGbM/7oBn8L15EXB7tTatqMPNOa4mDm
+        XcenqB8C5CSejKZ7tChuYSM+tWCqonRBkLZ9Wj2JjX5rV4UZwmzGekVtjzxFvZ77U/JJG03t5wd3p
+        KERx78jg==;
+Received: from hch by casper.infradead.org with local (Exim 4.92.3 #3 (Red Hat Linux))
+        id 1kkSaM-0001t5-RK; Wed, 02 Dec 2020 13:54:23 +0000
+Date:   Wed, 2 Dec 2020 13:54:22 +0000
+From:   Christoph Hellwig <hch@infradead.org>
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, hyesoo.yu@samsung.com,
+        willy@infradead.org, david@redhat.com, iamjoonsoo.kim@lge.com,
+        vbabka@suse.cz, surenb@google.com, pullip.cho@samsung.com,
+        joaodias@google.com, hridya@google.com, sumit.semwal@linaro.org,
+        john.stultz@linaro.org, Brian.Starkey@arm.com,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        robh@kernel.org, christian.koenig@amd.com,
+        linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2 4/4] dma-buf: heaps: add chunk heap to dmabuf heaps
+Message-ID: <20201202135422.GB5902@infradead.org>
+References: <20201201175144.3996569-1-minchan@kernel.org>
+ <20201201175144.3996569-5-minchan@kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <1605682497-29273-2-git-send-email-dikshita@codeaurora.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfJjdmkj9lQmvRPbuu6tQ/8rfTx0HWOXXCt3bLye5uVcVYKOC4yKKg3iqMKIGQPAB/lm3JqnExne0dTVPNhAyVq2d0p0QrlasToI9oG/IsuJVB2QKIksj
- vk4Z5VyGqfLFEzl/bAe1CofQzlJLoTpKekvq4iZzIU7oOKZfAAGq5vq0EqgoRjIs4f/oSz98JhCCslotw409cqdq0deala6pH2jRwJHegCEK5VHso17JpMdM
- VXKudHN1fFqU+XqbFk+k4/zPIbcEscAVItNarfu8n/p1ipZzzvX6604izAS7T3jlXJ7rqrbQhlyUeMJ27S+b0OCeYCHAoRdvYTWwTG1G/6dI/+8XgbO/W1Ib
- Mg9I1NwbGrZyzcS7JB86ykvCgsaTR7EhFEiDlD6ZVRP5oFKpkqS3pVKv4masD61zlOI0nJ3UK57v8uxAZmyESDkw7HmxdQ==
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201201175144.3996569-5-minchan@kernel.org>
+X-SRS-Rewrite: SMTP reverse-path rewritten from <hch@infradead.org> by casper.infradead.org. See http://www.infradead.org/rpr.html
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dikshita,
-
-Just a few nitpicks, I'd have changed it myself, but since a new version is
-needed anyway you might as well change it for next time :-)
-
-On 18/11/2020 07:54, Dikshita Agarwal wrote:
-> - Adds min/max qp controls for B frame for h264.
-> - Adds min/max qp controls for I/P/B frames for hevc similar to h264.
-> - Update valid range of  mim/max qp for hevc to accommodate 10 bit.
-
-double space after 'of'. Typo: mim -> min
-
+On Tue, Dec 01, 2020 at 09:51:44AM -0800, Minchan Kim wrote:
+> From: Hyesoo Yu <hyesoo.yu@samsung.com>
 > 
-> Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-> ---
->  .../userspace-api/media/v4l/ext-ctrls-codec.rst    | 52 +++++++++++++++++++++-
->  drivers/media/v4l2-core/v4l2-ctrls.c               |  8 ++++
->  include/uapi/linux/v4l2-controls.h                 |  9 ++++
->  3 files changed, 67 insertions(+), 2 deletions(-)
+> This patch supports chunk heap that allocates the buffers that
+> arranged into a list a fixed size chunks taken from CMA.
 > 
-> diff --git a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> index aac1ea3..a9c7011 100644
-> --- a/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> +++ b/Documentation/userspace-api/media/v4l/ext-ctrls-codec.rst
-> @@ -1182,6 +1182,18 @@ enum v4l2_mpeg_video_h264_entropy_mode -
->      V4L2_CID_MPEG_VIDEO_H264_MAX_QP is also set, the quantization parameter
->      should be chosen to meet both requirements.
->  
-> +``V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MIN_QP (integer)``
-> +    Minimum quantization parameter for the H264 B frame to limit B frame
-> +    quality to a range. Valid range: from 0 to 51. If
-> +    V4L2_CID_MPEG_VIDEO_H264_MIN_QP is also set, the quantization parameter
-> +    should be chosen to meet both requirements.
-> +
-> +``V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MAX_QP (integer)``
-> +    Maximum quantization parameter for the H264 B frame to limit B frame
-> +    quality to a range. Valid range: from 0 to 51. If
-> +    V4L2_CID_MPEG_VIDEO_H264_MAX_QP is also set, the quantization parameter
-> +    should be chosen to meet both requirements.
-> +
->  ``V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP (integer)``
->      Quantization parameter for an I frame for MPEG4. Valid range: from 1
->      to 31.
-> @@ -3441,11 +3453,11 @@ HEVC/H.265 Control IDs
->  
->  ``V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP (integer)``
->      Minimum quantization parameter for HEVC.
-> -    Valid range: from 0 to 51.
-> +    Valid range: from 0 - 51 for 8 bit and  0 - 63 for 10 bit.
-
-Write in full:
-
-Valid range: from 0 to 51 for 8 bit and from 0 to 63 for 10 bit.
-
-Ditto elsewhere.
-
->  
->  ``V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP (integer)``
->      Maximum quantization parameter for HEVC.
-> -    Valid range: from 0 to 51.
-> +    Valid range: from 0 - 51 for 8 bit and 0 - 63 for 10 bit.
->  
->  ``V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_QP (integer)``
->      Quantization parameter for an I frame for HEVC.
-> @@ -3462,6 +3474,42 @@ HEVC/H.265 Control IDs
->      Valid range: [V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP,
->      V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP].
->  
-> +``V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MIN_QP (integer)``
-> +    Minimum quantization parameter for the HEVC I frame to limit I frame
-> +    quality to a range. Valid range: from 0 to 51 for 8 bit, 0 - 63 for 10 bit.
-> +    If V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP is also set, the quantization parameter
-> +    should be chosen to meet both requirements.
-> +
-> +``V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MAX_QP (integer)``
-> +    Maximum quantization parameter for the HEVC I frame to limit I frame
-> +    quality to a range. Valid range: from 0 to 51 for 8 bit, 0 - 63 for 10 bit.
-> +    If V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP is also set, the quantization parameter
-> +    should be chosen to meet both requirements.
-> +
-> +``V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MIN_QP (integer)``
-> +    Minimum quantization parameter for the HEVC P frame to limit P frame
-> +    quality to a range. Valid range: from 0 to 51 for 8 bit, 0 - 63 for 10 bit.
-> +    If V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP is also set, the quantization parameter
-> +    should be chosen to meet both requirements.
-> +
-> +``V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MAX_QP (integer)``
-> +    Maximum quantization parameter for the HEVC P frame to limit P frame
-> +    quality to a range. Valid range: from 0 to 51 for 8 bit, 0 - 63 for 10 bit.
-> +    If V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP is also set, the quantization parameter
-> +    should be chosen to meet both requirements.
-> +
-> +``V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MIN_QP (integer)``
-> +    Minimum quantization parameter for the HEVC B frame to limit B frame
-> +    quality to a range. Valid range: from 0 to 51 for 8 bit, 0 - 63 for 10 bit.
-> +    If V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP is also set, the quantization parameter
-> +    should be chosen to meet both requirements.
-> +
-> +``V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MAX_QP (integer)``
-> +    Maximum quantization parameter for the HEVC B frame to limit B frame
-> +    quality to a range. Valid range: from 0 to 51 for 8 bit, 0 - 63 for 10 bit.
-> +    If V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP is also set, the quantization parameter
-> +    should be chosen to meet both requirements.
-> +
->  ``V4L2_CID_MPEG_VIDEO_HEVC_HIER_QP (boolean)``
->      HIERARCHICAL_QP allows the host to specify the quantization parameter
->      values for each temporal layer through HIERARCHICAL_QP_LAYER. This is
-> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
-> index e8ee29e..6e74500 100644
-> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
-> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
-> @@ -920,6 +920,8 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MAX_QP:		return "H264 I-Frame Maximum QP Value";
->  	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MIN_QP:		return "H264 P-Frame Minimum QP Value";
->  	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MAX_QP:		return "H264 P-Frame Maximum QP Value";
-> +	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MIN_QP:		return "H264 B-Frame Minimum QP Value";
-> +	case V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MAX_QP:		return "H264 B-Frame Maximum QP Value";
->  	case V4L2_CID_MPEG_VIDEO_H264_SPS:			return "H264 Sequence Parameter Set";
->  	case V4L2_CID_MPEG_VIDEO_H264_PPS:			return "H264 Picture Parameter Set";
->  	case V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX:		return "H264 Scaling Matrix";
-> @@ -982,6 +984,12 @@ const char *v4l2_ctrl_get_name(u32 id)
->  	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_QP:		return "HEVC B-Frame QP Value";
->  	case V4L2_CID_MPEG_VIDEO_HEVC_MIN_QP:			return "HEVC Minimum QP Value";
->  	case V4L2_CID_MPEG_VIDEO_HEVC_MAX_QP:			return "HEVC Maximum QP Value";
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MIN_QP:		return "HEVC I-Frame Minimum QP Value";
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MAX_QP:		return "HEVC I-Frame Maximum QP Value";
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MIN_QP:		return "HEVC P-Frame Minimum QP Value";
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MAX_QP:		return "HEVC P-Frame Maximum QP Value";
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MIN_QP:		return "HEVC B-Frame Minimum QP Value";
-> +	case V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MAX_QP:		return "HEVC B-Frame Maximum QP Value";
->  	case V4L2_CID_MPEG_VIDEO_HEVC_PROFILE:			return "HEVC Profile";
->  	case V4L2_CID_MPEG_VIDEO_HEVC_LEVEL:			return "HEVC Level";
->  	case V4L2_CID_MPEG_VIDEO_HEVC_TIER:			return "HEVC Tier";
-> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
-> index 14ce833..fea0f18 100644
-> --- a/include/uapi/linux/v4l2-controls.h
-> +++ b/include/uapi/linux/v4l2-controls.h
-> @@ -588,6 +588,8 @@ enum v4l2_mpeg_video_h264_hierarchical_coding_type {
->  #define V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MAX_QP	(V4L2_CID_MPEG_BASE+386)
->  #define V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MIN_QP	(V4L2_CID_MPEG_BASE+387)
->  #define V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MAX_QP	(V4L2_CID_MPEG_BASE+388)
-> +#define V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MIN_QP	(V4L2_CID_MPEG_BASE+389)
-> +#define V4L2_CID_MPEG_VIDEO_H264_B_FRAME_MAX_QP	(V4L2_CID_MPEG_BASE+390)
->  #define V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP	(V4L2_CID_MPEG_BASE+400)
->  #define V4L2_CID_MPEG_VIDEO_MPEG4_P_FRAME_QP	(V4L2_CID_MPEG_BASE+401)
->  #define V4L2_CID_MPEG_VIDEO_MPEG4_B_FRAME_QP	(V4L2_CID_MPEG_BASE+402)
-> @@ -772,6 +774,13 @@ enum v4l2_cid_mpeg_video_hevc_size_of_length_field {
->  #define V4L2_CID_MPEG_VIDEO_PREPEND_SPSPPS_TO_IDR	(V4L2_CID_MPEG_BASE + 644)
->  #define V4L2_CID_MPEG_VIDEO_CONSTANT_QUALITY		(V4L2_CID_MPEG_BASE + 645)
->  #define V4L2_CID_MPEG_VIDEO_FRAME_SKIP_MODE		(V4L2_CID_MPEG_BASE + 646)
-> +#define V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MIN_QP	(V4L2_CID_MPEG_BASE+647)
-> +#define V4L2_CID_MPEG_VIDEO_HEVC_I_FRAME_MAX_QP	(V4L2_CID_MPEG_BASE+648)
-> +#define V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MIN_QP	(V4L2_CID_MPEG_BASE+649)
-> +#define V4L2_CID_MPEG_VIDEO_HEVC_P_FRAME_MAX_QP	(V4L2_CID_MPEG_BASE+650)
-> +#define V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MIN_QP	(V4L2_CID_MPEG_BASE+651)
-> +#define V4L2_CID_MPEG_VIDEO_HEVC_B_FRAME_MAX_QP	(V4L2_CID_MPEG_BASE+652)
-> +
->  enum v4l2_mpeg_video_frame_skip_mode {
->  	V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_DISABLED	= 0,
->  	V4L2_MPEG_VIDEO_FRAME_SKIP_MODE_LEVEL_LIMIT	= 1,
+> The chunk heap doesn't use heap-helper although it can remove
+> duplicated code since heap-helper is under deprecated process.[1]
 > 
+> NOTE: This patch only adds the default CMA heap to allocate chunk
+> pages. We will add another CMA memory regions to the dmabuf heaps
+> interface with a later patch (which requires a dt binding)
 
-Regards,
+This new heap seems to largely duplicate the exsting cma_heap.c
+file.  Why can't you reuse the code and allow creating different
+heaps with different chunk sizes or max numbers of segments?
 
-	Hans
+> +config DMABUF_HEAPS_CHUNK_ORDER
+> +	int "Chunk page order for dmabuf chunk heap"
+> +	default 4
+> +	depends on DMABUF_HEAPS_CHUNK
+> +	help
+> +	  Set page order of fixed chunk size to allocate from CMA.
+
+Using a config option for this is just broken.  It needs to be runtime
+or at very least boot time / DT controllable.
+
+> + * ION Memory Allocator chunk heap exporter
+
+This comment seems wrong.
