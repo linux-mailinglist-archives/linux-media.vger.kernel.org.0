@@ -2,193 +2,116 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 234002CD0B2
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 09:03:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BD1F12CD148
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 09:30:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729889AbgLCICE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 03:02:04 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43654 "EHLO mail.kernel.org"
+        id S2388288AbgLCI26 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 03:28:58 -0500
+Received: from mx2.suse.de ([195.135.220.15]:40186 "EHLO mx2.suse.de"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1728782AbgLCICE (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Dec 2020 03:02:04 -0500
-Date:   Thu, 3 Dec 2020 09:01:19 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1606982483;
-        bh=+/35XaQM06b+490nPNupEIiIzDg7CtRBPPoL9gYtyoU=;
-        h=From:To:Cc:Subject:In-Reply-To:References:From;
-        b=NBDlCWNpz6K7sZLewTP9noBY5HyYUluDCE3uTCS1uMM/wFPy2DhaexX+9IPI2krSO
-         e8ATNWDCgRJ2jIXce0Z9SHCwDWcsGdWxIIM4E5VvlLVkZzXB069O3oTaZWVZ4BEomb
-         kp2K7XidL9ltUpgoTxnJMPUMu5upHqEwazXApixj4/PAk6ZV/Z2rAeuL2o9nuYVVJO
-         WNrw6HRQ5bteaiATw8mDM6zT389muWyaiAwhQStzAJNsAfbzrNfzGLsbxKUy2N67/b
-         X+DTMQy1P/meam3HgAgPufGfmNs+Fx9HVBRWOpo8Z+0v1us1wEwKznFNvtIGR082+u
-         a02ZdhJmqiOcg==
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Jernej =?UTF-8?B?xaBrcmFiZWM=?= <jernej.skrabec@siol.net>
-Subject: Re: [GIT PULL FOR v5.11] Various fixes/enhancements
-Message-ID: <20201203090119.6a866747@coco.lan>
-In-Reply-To: <5dbd468d-1d10-e0c8-43f0-ebe8f17abef8@xs4all.nl>
-References: <5dbd468d-1d10-e0c8-43f0-ebe8f17abef8@xs4all.nl>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S2387930AbgLCI26 (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Dec 2020 03:28:58 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1606984091; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=lvqlZ6j4ecvpz5CpignKdj4ZIJADyOQ2v3MpOCK6bm4=;
+        b=St3RQ130psFTUyJlyc8XSrCsmDBeEM1F183b9mOeuZotTvFO7HnHD1mdVPcI6lG7CacWKI
+        IipKBLVK7E0Q26hzFh3RuvzQIOeONMKhAU1LsULVaGui25rRegjHVXgs/OAvIc7mweQX3f
+        QhOg895yWbRkGhKgnM89jW7UqKie5gQ=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id 577A2ACC2;
+        Thu,  3 Dec 2020 08:28:11 +0000 (UTC)
+Date:   Thu, 3 Dec 2020 09:28:10 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, hyesoo.yu@samsung.com,
+        willy@infradead.org, iamjoonsoo.kim@lge.com, vbabka@suse.cz,
+        surenb@google.com, pullip.cho@samsung.com, joaodias@google.com,
+        hridya@google.com, sumit.semwal@linaro.org, john.stultz@linaro.org,
+        Brian.Starkey@arm.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, robh@kernel.org,
+        christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2 2/4] mm: introduce cma_alloc_bulk API
+Message-ID: <20201203082810.GX17338@dhcp22.suse.cz>
+References: <20201201175144.3996569-1-minchan@kernel.org>
+ <20201201175144.3996569-3-minchan@kernel.org>
+ <8f006a4a-c21d-9db3-5493-fb1cc651b0cf@redhat.com>
+ <20201202154915.GU17338@dhcp22.suse.cz>
+ <X8e9tSwcsrEsAv1O@google.com>
+ <20201202164834.GV17338@dhcp22.suse.cz>
+ <X8fU1ddmsSfuV6sD@google.com>
+ <20201202185107.GW17338@dhcp22.suse.cz>
+ <X8fqU82GXmu57f7V@google.com>
+ <f0e980cb-cc74-82e8-6ccf-09030a96103a@redhat.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: quoted-printable
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <f0e980cb-cc74-82e8-6ccf-09030a96103a@redhat.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Wed, 2 Dec 2020 11:42:26 +0100
-Hans Verkuil <hverkuil@xs4all.nl> escreveu:
+On Wed 02-12-20 21:22:36, David Hildenbrand wrote:
+> On 02.12.20 20:26, Minchan Kim wrote:
+> > On Wed, Dec 02, 2020 at 07:51:07PM +0100, Michal Hocko wrote:
+[...]
+> >> I am still not sure a specific flag is a good interface. Really can this
+> >> be gfp_mask instead?
+> > 
+> > I am not strong(even, I did it with GFP_NORETRY) but David wanted to
+> > have special mode and I agreed when he mentioned ALLOC_CONTIG_HARD as
+> > one of options in future(it would be hard to indicate that mode with
+> > gfp flags).
+> 
+> I can't tell regarding the CMA interface, but for the alloc_contig()
+> interface I think modes make sense. Yes, it's different to other
+> allocaters, but the contig range allocater is different already. E.g.,
+> the CMA allocater mostly hides "which exact PFNs you try to allocate".
 
-> Lots of fixes and enhancements. The main enhancement is adding support fo=
-r vp8
-> to the cedrus driver.
->=20
-> Note that you'll get a message about a wrong commit id in
-> "media: rcar-vin: Mask VNCSI_IFMD register": that commit id is for the rc=
-ar
-> BSP repo, not the linux kernel repo.
->=20
-> Regards,
->=20
-> 	Hans
->=20
-> The following changes since commit 67e061f044e46c9823e59ca7981786f858bfa2=
-92:
->=20
->   Merge tag 'v5.10-rc6' into patchwork (2020-12-01 16:21:40 +0100)
->=20
-> are available in the Git repository at:
->=20
->   git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.11c
->=20
-> for you to fetch changes up to 4bb8c5bfe39745de36bf6162fa054778e0028053:
->=20
->   media: rockchip: rkisp1: remove useless debugfs checks (2020-12-02 11:3=
-9:23 +0100)
->=20
-> ----------------------------------------------------------------
-> Tag branch
->=20
-> ----------------------------------------------------------------
-> Andrey Konovalov (2):
->       Revert "media: camss: Make use of V4L2_CAP_IO_MC"
->       media: camss: Make use of V4L2_CAP_IO_MC
->=20
-> Baskov Evgeniy (1):
->       s5p-jpeg: handle error condition in s5p_jpeg_probe
->=20
-> Christian Hewitt (1):
->       media: meson: vdec: add G12/SM1 to module description
->=20
-> Christophe JAILLET (3):
->       media: solo6x10: switch from 'pci_' to 'dma_' API
->       media: ttpci: switch from 'pci_' to 'dma_' API
->       media: saa7146: switch from 'pci_' to 'dma_' API
->=20
-> Dan Carpenter (2):
->       media: saa7146: fix array overflow in vidioc_s_audio()
->       media: rockchip: rkisp1: remove useless debugfs checks
->=20
-> Emmanuel Gil Peyrot (2):
->       media: uapi: Expose VP8 probability lengths as defines
->       media: hantro: Use VP8 lengths defined in uapi
->=20
-> Fabio Estevam (2):
->       media: fsl-viu: Use the ioread/write32be() accessors
->       media: staging/imx: Increase IMX_MEDIA_EOF_TIMEOUT
->=20
-> Irui Wang (2):
->       media: mtk-vpu: VPU should be in idle state before system is suspen=
-ded
->       media: mtk-vpu: dump VPU status when IPI times out
->=20
-> Jacopo Mondi (2):
->       media: rcar-vin: Remove unused macro
+Yes, alloc_contig_range is a low level API but it already has a gfp_mask
+parameter. Adding yet another allocation mode sounds like API
+convolution to me.
 
+> In the contig range allocater, gfp flags are currently used to express
+> how to allocate pages used as migration targets. I don't think mangling
+> in other gfp flags (or even overloading them) makes things a lot
+> clearer. E.g., GFP_NORETRY: don't retry to allocate migration targets?
+> don't retry to migrate pages? both?
+>
+> As I said, other aspects might be harder to model (e.g., don't drain
+> LRU) and hiding them behind generic gfp flags (e.g., GFP_NORETRY) feels
+> wrong.
+> 
+> With the mode, we're expressing details for the necessary page
+> migration. Suggestions on how to model that are welcome.
 
->       media: rcar-vin: Mask VNCSI_IFMD register
+The question is whether the caller should really have such an intimate
+knowledge and control of the alloc_contig_range implementation. This all
+are implementation details. Should really anybody think about how many
+times migration retries or control LRU draining? Those can change in the
+future and I do not think we really want to go over all users grown over
+that time and try to deduce what was the intention behind.
 
-All patches applied, except for this one, that require a fix on
-its description, as mentioned on a separate thread.
+I think we should aim at easy and very highlevel behavior:
+- GFP_NOWAIT - unsupported currently IIRC but something that something
+  that should be possible to implement. Isolation is non blocking,
+  migration could be skipped
+- GFP_KERNEL - default behavior whatever that means
+- GFP_NORETRY - opportunistic allocation as lightweight as we can get.
+  Failures to be expected also for transient reasons.
+- GFP_RETRY_MAYFAIL - try hard but not as hard as to trigger disruption
+  (e.g. via oom killer).
 
-Regards,
-Mauro
+- __GFP_THIS_NODE - stick to a node without fallback
+- we can support zone modifiers although there is no existing user.
+- __GFP_NOWARN - obvious
 
->=20
-> Jernej Skrabec (1):
->       media: cedrus: Add support for VP8 decoding
->=20
-> Jonathan Corbet (1):
->       media: stop pretending to maintain cafe and ov7670
->=20
-> Marek Szyprowski (1):
->       media: platform: exynos4-is: remove all references to physical addr=
-esses
->=20
-> Niklas S=C3=B6derlund (4):
->       adv748x: Only set i2c addresses once during probe
->       adv748x: afe: Select input port when device is reset
->       adv748x: csi2: Set virtual channel when device is reset
->       adv748x: Configure device when resuming from sleep
->=20
-> Peilin Ye (1):
->       media: rockchip: rkisp1: Fix typos in comments and macro definitions
->=20
-> Tom Rix (1):
->       si4713: remove trailing semicolon in macro definition
->=20
->  MAINTAINERS                                             |   6 +-
->  drivers/media/common/saa7146/saa7146_core.c             |  39 +-
->  drivers/media/common/saa7146/saa7146_fops.c             |   7 +-
->  drivers/media/common/saa7146/saa7146_vbi.c              |   6 +-
->  drivers/media/i2c/adv748x/adv748x-afe.c                 |   6 +-
->  drivers/media/i2c/adv748x/adv748x-core.c                |  31 +-
->  drivers/media/i2c/adv748x/adv748x-csi2.c                |   6 +-
->  drivers/media/i2c/adv748x/adv748x.h                     |   2 +
->  drivers/media/pci/saa7146/mxb.c                         |  19 +-
->  drivers/media/pci/solo6x10/solo6x10-g723.c              |  11 +-
->  drivers/media/pci/solo6x10/solo6x10-p2m.c               |  10 +-
->  drivers/media/pci/solo6x10/solo6x10-v4l2-enc.c          |  35 +-
->  drivers/media/pci/ttpci/av7110.c                        |  13 +-
->  drivers/media/platform/exynos4-is/fimc-capture.c        |   6 +-
->  drivers/media/platform/exynos4-is/fimc-core.c           |  28 +-
->  drivers/media/platform/exynos4-is/fimc-core.h           |  18 +-
->  drivers/media/platform/exynos4-is/fimc-is.c             |  20 +-
->  drivers/media/platform/exynos4-is/fimc-is.h             |   6 +-
->  drivers/media/platform/exynos4-is/fimc-lite-reg.c       |   4 +-
->  drivers/media/platform/exynos4-is/fimc-lite.c           |   2 +-
->  drivers/media/platform/exynos4-is/fimc-lite.h           |   4 +-
->  drivers/media/platform/exynos4-is/fimc-m2m.c            |   8 +-
->  drivers/media/platform/exynos4-is/fimc-reg.c            |  18 +-
->  drivers/media/platform/exynos4-is/fimc-reg.h            |   4 +-
->  drivers/media/platform/fsl-viu.c                        | 119 +++---
->  drivers/media/platform/mtk-vpu/mtk_vpu.c                | 101 ++++-
->  drivers/media/platform/qcom/camss/camss-video.c         |  87 ++---
->  drivers/media/platform/rcar-vin/rcar-dma.c              |  26 +-
->  drivers/media/platform/rockchip/rkisp1/rkisp1-capture.c |   4 +-
->  drivers/media/platform/rockchip/rkisp1/rkisp1-dev.c     |   4 -
->  drivers/media/platform/rockchip/rkisp1/rkisp1-regs.h    |   4 +-
->  drivers/media/platform/s5p-jpeg/jpeg-core.c             |   2 +
->  drivers/media/radio/si4713/si4713.c                     |   2 +-
->  drivers/staging/media/hantro/hantro_vp8.c               |   4 +-
->  drivers/staging/media/imx/imx-media.h                   |   2 +-
->  drivers/staging/media/meson/vdec/vdec.c                 |   2 +-
->  drivers/staging/media/sunxi/cedrus/Makefile             |   3 +-
->  drivers/staging/media/sunxi/cedrus/cedrus.c             |   8 +
->  drivers/staging/media/sunxi/cedrus/cedrus.h             |  24 ++
->  drivers/staging/media/sunxi/cedrus/cedrus_dec.c         |   5 +
->  drivers/staging/media/sunxi/cedrus/cedrus_hw.c          |   2 +
->  drivers/staging/media/sunxi/cedrus/cedrus_regs.h        |  80 ++++
->  drivers/staging/media/sunxi/cedrus/cedrus_video.c       |   9 +
->  drivers/staging/media/sunxi/cedrus/cedrus_vp8.c         | 907 ++++++++++=
-++++++++++++++++++++++++++++++++++
->  include/media/vp8-ctrls.h                               |   6 +-
->  45 files changed, 1427 insertions(+), 283 deletions(-)
->  create mode 100644 drivers/staging/media/sunxi/cedrus/cedrus_vp8.c
-
-
-
-Thanks,
-Mauro
+And that is it. Or maybe I am seeing that oversimplified.
+-- 
+Michal Hocko
+SUSE Labs
