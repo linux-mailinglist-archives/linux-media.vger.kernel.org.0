@@ -2,206 +2,195 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9821B2CDA1E
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 16:28:25 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 931ED2CDA45
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 16:44:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730973AbgLCP0q (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 10:26:46 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48924 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726751AbgLCP0q (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 10:26:46 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF0C2C061A51
-        for <linux-media@vger.kernel.org>; Thu,  3 Dec 2020 07:26:05 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id g185so4296121wmf.3
-        for <linux-media@vger.kernel.org>; Thu, 03 Dec 2020 07:26:05 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:content-transfer-encoding:in-reply-to;
-        bh=wM/I8RV7zXyM3w+Dkw/l/K1Ahb7hTXXO2nGI9ZI6qDI=;
-        b=UTxbnPO8yma/9M2WO0Ofzv0cR6DIY4+0GTAN+ucvqunjLN2tIoBApn6YL0vlpL2vx3
-         wNJULpqjmW9u5dXOxcQN/mMXGY/h24T0tM2bi/fRsx6ZzbZMqcYJ8h1UIbtn4MjaqjbY
-         eMBn9MwbFh2VpWGtXBjtfZKKFLeQc5V4XInS0=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:content-transfer-encoding
-         :in-reply-to;
-        bh=wM/I8RV7zXyM3w+Dkw/l/K1Ahb7hTXXO2nGI9ZI6qDI=;
-        b=C5G4IYGWhl7AvJ8XE80Mu8UUqhb1SWUrU5tFm5HdhwLKHmWRKuRfCy0Yt2novN+3z/
-         ezURRBqZ8NQecislZkBBVD5fkUXjeSf6YPACS6m3DQTchXmmQjJcSOXX6/VUWpPrGcX7
-         Z7EyCwm7YP6UkMXRZe5JfeS/iE3/Oq7PHZfT4pa7IgKfvaxfyCAJp6Z7Kn5L3mNCpe9n
-         Cl8klLeMnRS2TsB0jjWFejpaM54Hs7ba5pFaCFDTEgwks4S53wUD+gY5cgjtzov95G2l
-         YRBG8uBNX1WXQN6xfBT0seuzeDkRoS65foepS9p2GlMWBnT10QmvYwuQGLtnUEXTX0L5
-         kQQA==
-X-Gm-Message-State: AOAM533e04oFy2u4xkn77+lYG2Do0v45+ivTzEtLNepXIh2a17pl5pe+
-        kpVRKJkoMbhLpZltdRhs3dWm1A==
-X-Google-Smtp-Source: ABdhPJwVV7mzdVhmNF2JM9gT7DntsOQF8ddieFxeGRPluwW9caDktD7s/Al9byRdu81G0haQqwBfQw==
-X-Received: by 2002:a1c:9901:: with SMTP id b1mr3947710wme.18.1607009164432;
-        Thu, 03 Dec 2020 07:26:04 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id f199sm1915466wme.15.2020.12.03.07.26.03
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Dec 2020 07:26:03 -0800 (PST)
-Date:   Thu, 3 Dec 2020 16:26:01 +0100
-From:   Daniel Vetter <daniel@ffwll.ch>
-To:     Thomas Zimmermann <tzimmermann@suse.de>
-Cc:     airlied@redhat.com, daniel@ffwll.ch,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        hdegoede@redhat.com, christian.koenig@amd.com,
-        sumit.semwal@linaro.org, dri-devel@lists.freedesktop.org,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: Re: [PATCH v2 7/7] dma-buf: Write down some rules for vmap usage
-Message-ID: <20201203152601.GB401619@phenom.ffwll.local>
-References: <20201203140259.26580-1-tzimmermann@suse.de>
- <20201203140259.26580-8-tzimmermann@suse.de>
+        id S1730502AbgLCPoB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 10:44:01 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:36768 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727297AbgLCPoB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Dec 2020 10:44:01 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kkqlK-003apP-Fd; Thu, 03 Dec 2020 15:43:18 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kkqoU-0006KA-Pa; Thu, 03 Dec 2020 15:46:34 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for 5.11] CCS PLL feature support improvements (#69730)
+Date:   Thu,  3 Dec 2020 15:46:34 +0000
+Message-Id: <20201203154634.24269-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201203152421.GF4351@valkosipuli.retiisi.org.uk>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=iso-8859-1
-Content-Disposition: inline
 Content-Transfer-Encoding: 8bit
-In-Reply-To: <20201203140259.26580-8-tzimmermann@suse.de>
-X-Operating-System: Linux phenom 5.7.0-1-amd64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 03, 2020 at 03:02:59PM +0100, Thomas Zimmermann wrote:
-> Dma-buf's vmap and vunmap callbacks are undocumented and various
-> exporters currently have slightly different semantics for them. Add
-> documentation on how to implement and use these interfaces correctly.
-> 
-> v2:
-> 	* document vmap semantics in struct dma_buf_ops
-> 	* add TODO item for reviewing and maybe fixing dma-buf exporters
-> 
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+From: builder@linuxtv.org
 
-I still don't think this works, we're breaking dma_buf_vmap for everyone
-else here.
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20201203152421.GF4351@valkosipuli.retiisi.org.uk/
+Build log: https://builder.linuxtv.org/job/patchwork/79729/
+Build time: 00:15:19
+Link: https://lore.kernel.org/linux-media/20201203152421.GF4351@valkosipuli.retiisi.org.uk
 
-> ---
->  Documentation/gpu/todo.rst | 15 +++++++++++++
->  include/drm/drm_gem.h      |  4 ++++
->  include/linux/dma-buf.h    | 45 ++++++++++++++++++++++++++++++++++++++
->  3 files changed, 64 insertions(+)
-> 
-> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
-> index 009d8e6c7e3c..32bb797a84fc 100644
-> --- a/Documentation/gpu/todo.rst
-> +++ b/Documentation/gpu/todo.rst
-> @@ -505,6 +505,21 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>, Christian König, Daniel Vette
->  Level: Intermediate
->  
->  
-> +Enforce rules for dma-buf vmap and pin ops
-> +------------------------------------------
-> +
-> +Exporter implementations of vmap and pin in struct dma_buf_ops (and consequently
-> +struct drm_gem_object_funcs) use a variety of locking semantics. Some rely on
-> +the caller holding the dma-buf's reservation lock, some do their own locking,
-> +some don't require any locking. VRAM helpers even used to pin as part of vmap.
-> +
-> +We need to review each exporter and enforce the documented rules.
-> +
-> +Contact: Christian König, Daniel Vetter, Thomas Zimmermann <tzimmermann@suse.de>
-> +
-> +Level: Advanced
-> +
-> +
->  Core refactorings
->  =================
->  
-> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
-> index 5e6daa1c982f..1864c6a721b1 100644
-> --- a/include/drm/drm_gem.h
-> +++ b/include/drm/drm_gem.h
-> @@ -138,6 +138,8 @@ struct drm_gem_object_funcs {
->  	 * drm_gem_dmabuf_vmap() helper.
->  	 *
->  	 * This callback is optional.
-> +	 *
-> +	 * See also struct dma_buf_ops.vmap
->  	 */
->  	int (*vmap)(struct drm_gem_object *obj, struct dma_buf_map *map);
->  
-> @@ -148,6 +150,8 @@ struct drm_gem_object_funcs {
->  	 * drm_gem_dmabuf_vunmap() helper.
->  	 *
->  	 * This callback is optional.
-> +	 *
-> +	 * See also struct dma_buf_ops.vunmap
->  	 */
->  	void (*vunmap)(struct drm_gem_object *obj, struct dma_buf_map *map);
->  
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index cf72699cb2bc..dc81fdc01dda 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -267,7 +267,52 @@ struct dma_buf_ops {
->  	 */
->  	int (*mmap)(struct dma_buf *, struct vm_area_struct *vma);
->  
-> +	/**
-> +	 * @vmap:
+gpg: Signature made Thu 03 Dec 2020 03:15:42 PM UTC
+gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
+gpg:                issuer "sakari.ailus@linux.intel.com"
+gpg: Can't check signature: No public key
 
-There's already a @vmap and @vunamp kerneldoc at the top comment, that
-needs to be removed.
--Daniel
+Summary: got 17/38 patches with issues, being 0 at build time, plus one error when buinding PDF document
 
-> +	 *
-> +	 * Returns a virtual address for the buffer.
-> +	 *
-> +	 * Notes to callers:
-> +	 *
-> +	 * - Callers must hold the struct dma_buf.resv lock before calling
-> +	 *   this interface.
-> +	 *
-> +	 * - Callers must provide means to prevent the mappings from going
-> +	 *   stale, such as holding the reservation lock or providing a
-> +	 *   move-notify callback to the exporter.
-> +	 *
-> +	 * Notes to implementors:
-> +	 *
-> +	 * - Implementations must expect pairs of @vmap and @vunmap to be
-> +	 *   called frequently and should optimize for this case.
-> +	 *
-> +	 * - Implementations should avoid additional operations, such as
-> +	 *   pinning.
-> +	 *
-> +	 * - Implementations may expect the caller to hold the dma-buf's
-> +	 *   reservation lock to protect against concurrent calls and
-> +	 *   relocation.
-> +	 *
-> +	 * - Implementations may provide additional guarantees, such as working
-> +	 *   without holding the reservation lock.
-> +	 *
-> +	 * This callback is optional.
-> +	 *
-> +	 * Returns:
-> +	 *
-> +	 * 0 on success or a negative error code on failure.
-> +	 */
->  	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> +
-> +	/**
-> +	 * @vunmap:
-> +	 *
-> +	 * Releases the address previously returned by @vmap.
-> +	 *
-> +	 * This callback is optional.
-> +	 *
-> +	 * See also @vmap()
-> +	 */
->  	void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
->  };
->  
-> -- 
-> 2.29.2
-> 
+Error/warnings:
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+patches/0002-ccs-pll-Split-limits-and-PLL-configuration-into-fron.patch:
+
+   checkpatch.pl:
+	$ cat patches/0002-ccs-pll-Split-limits-and-PLL-configuration-into-fron.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:159: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:363: CHECK: Logical continuations should be on the previous line
+	-:416: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:417: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:522: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:523: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:524: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:525: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:552: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:553: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:554: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:555: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:556: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:557: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:558: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:559: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
+patches/0004-ccs-pll-End-search-if-there-are-no-better-values-ava.patch:
+
+   checkpatch.pl:
+	$ cat patches/0004-ccs-pll-End-search-if-there-are-no-better-values-ava.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:23: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+
+patches/0005-ccs-pll-Remove-parallel-bus-support.patch:
+
+   checkpatch.pl:
+	$ cat patches/0005-ccs-pll-Remove-parallel-bus-support.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:57: CHECK: Prefer kernel type 'u8' over 'uint8_t'
+
+patches/0007-ccs-pll-Move-the-flags-field-down-away-from-8-bit-fi.patch:
+
+   checkpatch.pl:
+	$ cat patches/0007-ccs-pll-Move-the-flags-field-down-away-from-8-bit-fi.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:28: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+
+patches/0012-ccs-pll-Avoid-overflow-in-pre-PLL-divisor-lower-boun.patch:
+
+   checkpatch.pl:
+	$ cat patches/0012-ccs-pll-Avoid-overflow-in-pre-PLL-divisor-lower-boun.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:47: CHECK: Lines should not end with a '('
+
+patches/0015-ccs-pll-Use-explicit-32-bit-unsigned-type.patch:
+
+   checkpatch.pl:
+	$ cat patches/0015-ccs-pll-Use-explicit-32-bit-unsigned-type.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:23: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:32: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
+patches/0016-ccs-pll-Add-support-for-lane-speed-model.patch:
+
+   checkpatch.pl:
+	$ cat patches/0016-ccs-pll-Add-support-for-lane-speed-model.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:131: CHECK: Prefer kernel type 'u8' over 'uint8_t'
+	-:132: CHECK: Prefer kernel type 'u8' over 'uint8_t'
+
+patches/0020-ccs-pll-Support-two-cycles-per-pixel-on-OP-domain.patch:
+
+   checkpatch.pl:
+	$ cat patches/0020-ccs-pll-Support-two-cycles-per-pixel-on-OP-domain.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:26: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:61: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:100: CHECK: Prefer kernel type 'u8' over 'uint8_t'
+
+patches/0023-ccs-pll-Add-C-PHY-support.patch:
+
+   checkpatch.pl:
+	$ cat patches/0023-ccs-pll-Add-C-PHY-support.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:33: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:70: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
+patches/0024-ccs-pll-Split-off-VT-subtree-calculation.patch:
+
+   checkpatch.pl:
+	$ cat patches/0024-ccs-pll-Split-off-VT-subtree-calculation.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:222: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:230: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:231: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:232: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
+patches/0026-ccs-pll-Better-separate-OP-and-VT-sub-tree-calculati.patch:
+
+   checkpatch.pl:
+	$ cat patches/0026-ccs-pll-Better-separate-OP-and-VT-sub-tree-calculati.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:70: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
+patches/0028-ccs-pll-Rework-bounds-checks.patch:
+
+   checkpatch.pl:
+	$ cat patches/0028-ccs-pll-Rework-bounds-checks.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:26: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
+patches/0029-ccs-pll-Make-VT-divisors-16-bit.patch:
+
+   checkpatch.pl:
+	$ cat patches/0029-ccs-pll-Make-VT-divisors-16-bit.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:27: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:28: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:29: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:30: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:31: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:60: CHECK: Alignment should match open parenthesis
+
+patches/0030-ccs-pll-Fix-VT-post-PLL-divisor-calculation.patch:
+
+   checkpatch.pl:
+	$ cat patches/0030-ccs-pll-Fix-VT-post-PLL-divisor-calculation.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:29: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:34: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+
+patches/0031-ccs-pll-Separate-VT-divisor-limit-calculation-from-t.patch:
+
+   checkpatch.pl:
+	$ cat patches/0031-ccs-pll-Separate-VT-divisor-limit-calculation-from-t.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:25: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:26: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+
+patches/0032-ccs-pll-Add-trivial-dual-PLL-support.patch:
+
+   checkpatch.pl:
+	$ cat patches/0032-ccs-pll-Add-trivial-dual-PLL-support.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:65: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:66: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:67: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:101: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:146: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:147: CHECK: Prefer kernel type 'u16' over 'uint16_t'
+	-:148: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:173: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
+patches/0034-ccs-pll-Add-support-for-DDR-OP-system-and-pixel-cloc.patch:
+
+   checkpatch.pl:
+	$ cat patches/0034-ccs-pll-Add-support-for-DDR-OP-system-and-pixel-cloc.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:74: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+	-:111: CHECK: Prefer kernel type 'u32' over 'uint32_t'
+
+
+Error #512 when building PDF docs
+
