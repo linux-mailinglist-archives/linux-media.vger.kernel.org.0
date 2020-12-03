@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D01C12CD47E
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 12:25:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F1E7D2CD4AF
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 12:39:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728548AbgLCLYy (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 06:24:54 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:52866 "EHLO
+        id S1728849AbgLCLiK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 06:38:10 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:9671 "EHLO
         alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727757AbgLCLYx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 06:24:53 -0500
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 03 Dec 2020 03:24:13 -0800
+        with ESMTP id S1726263AbgLCLiK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 06:38:10 -0500
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 03 Dec 2020 03:37:29 -0800
 X-QCInternal: smtphost
-Received: from ironmsg02-blr.qualcomm.com ([10.86.208.131])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 03 Dec 2020 03:24:10 -0800
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 03 Dec 2020 03:37:27 -0800
 X-QCInternal: smtphost
 Received: from c-mansur-linux.qualcomm.com ([10.204.90.208])
-  by ironmsg02-blr.qualcomm.com with ESMTP; 03 Dec 2020 16:53:57 +0530
+  by ironmsg01-blr.qualcomm.com with ESMTP; 03 Dec 2020 17:07:14 +0530
 Received: by c-mansur-linux.qualcomm.com (Postfix, from userid 461723)
-        id 044D81FE2C; Thu,  3 Dec 2020 16:53:55 +0530 (IST)
+        id 9B4C51FE2D; Thu,  3 Dec 2020 17:07:13 +0530 (IST)
 From:   dikshita@codeaurora.org
 To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
 Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
-Subject: [PATCH v2] venus: core: add support to dump FW region
-Date:   Thu,  3 Dec 2020 16:53:36 +0530
-Message-Id: <1606994616-3592-1-git-send-email-dikshita@codeaurora.org>
+Subject: [RESEND v2] venus: core: add support to dump FW region
+Date:   Thu,  3 Dec 2020 17:06:54 +0530
+Message-Id: <1606995414-4565-1-git-send-email-dikshita@codeaurora.org>
 X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -39,7 +39,6 @@ Add support to dump video FW region during FW crash
 using devcoredump helpers.
 
 Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
-Change-Id: Ic055579b99ffd10fe5c346f95c33aac6a97b21f2
 ---
  drivers/media/platform/qcom/venus/core.c     | 30 ++++++++++++++++++++++++++++
  drivers/media/platform/qcom/venus/core.h     |  2 ++
