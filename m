@@ -2,150 +2,227 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC34B2CD402
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 11:54:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1ECBC2CD42D
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 12:03:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388756AbgLCKxP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 05:53:15 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:41459 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2387738AbgLCKxO (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Dec 2020 05:53:14 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id kmDtkaW6k2G8DkmDwkj9mf; Thu, 03 Dec 2020 11:52:32 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606992752; bh=KBvSn23tYeV1HB2cd4rfn/0UQytvfi2NLT1b+pX514k=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=fBUCi1kYPJZlga6B8K8UyOExO03e91CZnmUWmVYjJR8CybWK7cXqakcBzum6GioIJ
-         OQBIZ/nYPl5ky+AqjfYEesXnhxb0En3z0jED6jZblqV3VN+LB8+g3gqobxz209i/Mr
-         qPAhHnNNBf0o07/l+vlv8DuaWQL5hY3IboCR7KPCYLf4R2wEe58DiqhXqa8++u+Hni
-         aR3PJGhXW995xaMxmDK31ShZC6Wul39Opqfv5jGqICav/wABb6J+IlF58T2DE70sWV
-         gv6YhKMOnaP4QFtd50ZKUvXjMIys6idm48igNiQMpz175RW4gx3TO8iq1VvcOZA/yX
-         Wcqi5OEy0N3EQ==
-Subject: Re: [PATCH 5/6] vidioc-g-ext-ctrls.rst: add missing 'struct' before
- the types
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     linux-media@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>
-References: <20201126132717.1216907-1-hverkuil-cisco@xs4all.nl>
- <20201126132717.1216907-6-hverkuil-cisco@xs4all.nl>
- <20201203114928.2e21964b@coco.lan>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <66240aa3-1916-dd7d-83bc-367dc8675c40@xs4all.nl>
-Date:   Thu, 3 Dec 2020 11:52:29 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S1729055AbgLCLDc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 06:03:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35876 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728779AbgLCLDc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 06:03:32 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EFE0BC061A4F
+        for <linux-media@vger.kernel.org>; Thu,  3 Dec 2020 03:02:51 -0800 (PST)
+Received: from [2a0a:edc0:0:1101:1d::39] (helo=dude03.red.stw.pengutronix.de)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1kkmNs-0002Kn-On; Thu, 03 Dec 2020 12:02:50 +0100
+Received: from mtr by dude03.red.stw.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mtr@dude03.red.stw.pengutronix.de>)
+        id 1kkmNr-00CKhT-MC; Thu, 03 Dec 2020 12:02:47 +0100
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     linux-media@vger.kernel.org
+Cc:     kernel@pengutronix.de, hverkuil-cisco@xs4all.nl,
+        mchehab@kernel.org, Michael Tretter <m.tretter@pengutronix.de>
+Date:   Thu,  3 Dec 2020 12:00:48 +0100
+Message-Id: <20201203110106.2939463-1-m.tretter@pengutronix.de>
+X-Mailer: git-send-email 2.20.1
 MIME-Version: 1.0
-In-Reply-To: <20201203114928.2e21964b@coco.lan>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfONCM3v/a9faCNPiiG5Tn/TxnseaniToFGSTFzn4DdUBl9HmHxWzlKXH0ci/Xeqv3v5K3fjXljd1PE1oJuIBWqGhJe3EyiWhB8nt7h01OTSt639S9ieo
- f0CeDyvgjUXMOWIVB1uy0t/Na9OYBpmz+/wh2rxyWBKLuPELidLK3Eei1QR5To359KRdOwleFBwbKsG4MNdDIYIL+LrEdK8oNjlC7GncJ3skncEVmH03kqSF
- BcKEJLJWvL1RUrGuYFYlv79W97UHnQniqmlEP7R0QK4=
+Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2a0a:edc0:0:1101:1d::39
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-Spam-Checker-Version: SpamAssassin 3.4.2 (2018-09-13) on
+        metis.ext.pengutronix.de
+X-Spam-Level: 
+X-Spam-Status: No, score=-1.5 required=4.0 tests=AWL,BAYES_00,RDNS_NONE,
+        SPF_HELO_NONE,SPF_SOFTFAIL autolearn=no autolearn_force=no
+        version=3.4.2
+Subject: [PATCH 00/18] media: allegro: add HEVC support
+X-SA-Exim-Version: 4.2.1 (built Wed, 08 May 2019 21:11:16 +0000)
+X-SA-Exim-Scanned: Yes (on metis.ext.pengutronix.de)
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/12/2020 11:49, Mauro Carvalho Chehab wrote:
-> Em Thu, 26 Nov 2020 14:27:16 +0100
-> Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
-> 
->> Add 'struct' to clarify that these are pointers to structs.
-> 
-> This patch is actually wrong :-)
-> 
-> It is incompatible with Sphinx 3.
-> 
->>
->> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
->> ---
->>  .../userspace-api/media/v4l/vidioc-g-ext-ctrls.rst | 14 +++++++-------
->>  1 file changed, 7 insertions(+), 7 deletions(-)
->>
->> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->> index 726d6a97325f..5b1fc62ade0d 100644
->> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
->> @@ -180,31 +180,31 @@ still cause this situation.
->>        - ``p_u32``
->>        - A pointer to a matrix control of unsigned 32-bit values. Valid if
->>  	this control is of type ``V4L2_CTRL_TYPE_U32``.
->> -    * - :c:type:`v4l2_area` *
->> +    * - struct :c:type:`v4l2_area` *
-> 
-> 
-> See, with Sphinx 3, :c:type: can only be used for typedefs and defines.
-> 
-> The right markup for struct is:
-> 
-> 	:c:struct:
-> 
-> Actually, due to automarkup.py extension, I would just rename them to:
-> 
-> 	struct foo
-> 
-> And let the automarkup code to use the right markup, as it will ensure
-> that the proper dialect will be used, no matter what Sphinx version 
-> will be used to produce the docs.
-> 
-> So, I'll drop this patch from the series. I'll propose a new one
-> instead, after testing with multiple versions of Sphinx.
+Hello,
 
-'git grep struct.*:c:type Documentation' shows a lot of those incorrect
-markups. Perhaps make a media-wide patch to fix this? Otherwise people
-will just keep copy-and-pasting the same incorrect markup.
+The Allegro DVT video encoder IP core supports HEVC/H.265 and H.264. This
+series adds the HEVC encoding support to the allegro driver.
 
-Regards,
+Patches 1 - 3 add the VPS/SPS/PPS generator that is necessary, because
+although being a stateful encoder, the encoder firmware does not produce these
+non-VCL NALs. The generator is implemented in the same way as it has been
+implemented for H.264 and both share the code to encode bits into RBSP.
 
-	Hans
+Patches 4 - 12 restructure the driver to make it easier to change encoding
+parameters on format changes. Patch 7 is special and fixes a bug in the
+parameters that are used to configure the encoder channel. It became apparent
+when synchronizing the values in the channel configuration with the SPS and,
+thus, is included here.
 
-> 
-> Regards,
-> Mauro
-> 
-> 
-> 
->>        - ``p_area``
->>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
->>          of type ``V4L2_CTRL_TYPE_AREA``.
->> -    * - :c:type:`v4l2_ctrl_h264_sps` *
->> +    * - struct :c:type:`v4l2_ctrl_h264_sps` *
->>        - ``p_h264_sps``
->>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
->>          of type ``V4L2_CTRL_TYPE_H264_SPS``.
->> -    * - :c:type:`v4l2_ctrl_h264_pps` *
->> +    * - struct :c:type:`v4l2_ctrl_h264_pps` *
->>        - ``p_h264_pps``
->>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_pps`. Valid if this control is
->>          of type ``V4L2_CTRL_TYPE_H264_PPS``.
->> -    * - :c:type:`v4l2_ctrl_h264_scaling_matrix` *
->> +    * - struct :c:type:`v4l2_ctrl_h264_scaling_matrix` *
->>        - ``p_h264_scaling_matrix``
->>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_scaling_matrix`. Valid if this control is
->>          of type ``V4L2_CTRL_TYPE_H264_SCALING_MATRIX``.
->> -    * - :c:type:`v4l2_ctrl_h264_pred_weights` *
->> +    * - struct :c:type:`v4l2_ctrl_h264_pred_weights` *
->>        - ``p_h264_pred_weights``
->>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_pred_weights`. Valid if this control is
->>          of type ``V4L2_CTRL_TYPE_H264_PRED_WEIGHTS``.
->> -    * - :c:type:`v4l2_ctrl_h264_slice_params` *
->> +    * - struct :c:type:`v4l2_ctrl_h264_slice_params` *
->>        - ``p_h264_slice_params``
->>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_slice_params`. Valid if this control is
->>          of type ``V4L2_CTRL_TYPE_H264_SLICE_PARAMS``.
->> -    * - :c:type:`v4l2_ctrl_h264_decode_params` *
->> +    * - struct :c:type:`v4l2_ctrl_h264_decode_params` *
->>        - ``p_h264_decode_params``
->>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_decode_params`. Valid if this control is
->>          of type ``V4L2_CTRL_TYPE_H264_DECODE_PARAMS``.
-> 
-> 
-> 
-> Thanks,
-> Mauro
-> 
+Patches 13 - 15 add helpers for getting codec-specific values in a common
+function if the messages to the firmware have only single field for both
+codecs.
+
+Patch 16 increases the reserved space at the beginning of the CAPTURE buffers.
+The previously reserved space was not sufficient for the HEVC VPS/SPS/PPS
+anymore.
+
+Patch 17 adds the deactivation the H.264 specific controls if the coded format
+is not H.264.
+
+Patch 18 finally adds the format and controls for HEVC encoding and the code
+to configure the encoder accordingly.
+
+The series is based on the series that moved the driver out of staging:
+
+https://lore.kernel.org/linux-media/20201202133040.1954837-1-m.tretter@pengutronix.de/
+
+The v4l2-compliance result is attached.
+
+Michael
+
+v4l2-compliance 1.21.0-4683, 64 bits, 64-bit time_t
+v4l2-compliance SHA: 0aee9991e0c0 2020-12-01 09:48:02
+
+Compliance test for allegro device /dev/video3:
+
+Driver Info:
+	Driver name      : allegro
+	Card type        : Allegro DVT Video Encoder
+	Bus info         : platform:a0009000.video-codec
+	Driver version   : 5.10.0
+	Capabilities     : 0x84208000
+		Video Memory-to-Memory
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04208000
+		Video Memory-to-Memory
+		Streaming
+		Extended Pix Format
+	Detected Stateful Encoder
+
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+	test second /dev/video3 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+	test invalid ioctls: OK
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK
+	test VIDIOC_QUERYCTRL: OK
+	test VIDIOC_G/S_CTRL: OK
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 24 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK (Not Supported)
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	Video Capture: Captured 60 buffers
+	test MMAP (select): OK
+	Video Capture: Captured 60 buffers
+	test MMAP (epoll): OK
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for allegro device /dev/video3: 50, Succeeded: 50, Failed: 0, Warnings: 0
+
+Michael Tretter (18):
+  media: allegro: extract RBSP handler from H.264 NAL generator
+  media: allegro: add helper to report unsupported fields
+  media: allegro: add HEVC NAL unit generator
+  media: allegro: implement S_FMT for CAPTURE
+  media: allegro: adjust channel after format change
+  media: allegro: move encoding options to channel
+  media: allegro: fix log2_max_poc in firmware 2019.1
+  media: allegro: use handler_setup to configure channel
+  media: allegro: initialize bitrate using v4l2_ctrl
+  media: allegro: implement scaling of cpb size in SPS
+  media: allegro: remove cpb_size and gop_size from channel
+  media: allegro: remove profile and level from channel
+  media: allegro: use accessor functions for QP values
+  media: allegro: add helper to get entropy mode
+  media: allegro: rename codec specific functions
+  media: allegro: increase offset in CAPTURE buffer
+  media: allegro: activate v4l2-ctrls only for current codec
+  media: allegro: add support for HEVC encoding
+
+ drivers/media/platform/allegro-dvt/Makefile   |   3 +-
+ .../media/platform/allegro-dvt/allegro-core.c | 810 +++++++++++++++--
+ .../media/platform/allegro-dvt/allegro-mail.c |  13 +-
+ .../media/platform/allegro-dvt/allegro-mail.h |   1 +
+ drivers/media/platform/allegro-dvt/nal-h264.c | 336 +------
+ drivers/media/platform/allegro-dvt/nal-hevc.c | 824 ++++++++++++++++++
+ drivers/media/platform/allegro-dvt/nal-hevc.h | 350 ++++++++
+ drivers/media/platform/allegro-dvt/nal-rbsp.c | 310 +++++++
+ drivers/media/platform/allegro-dvt/nal-rbsp.h |  61 ++
+ 9 files changed, 2283 insertions(+), 425 deletions(-)
+ create mode 100644 drivers/media/platform/allegro-dvt/nal-hevc.c
+ create mode 100644 drivers/media/platform/allegro-dvt/nal-hevc.h
+ create mode 100644 drivers/media/platform/allegro-dvt/nal-rbsp.c
+ create mode 100644 drivers/media/platform/allegro-dvt/nal-rbsp.h
+
+-- 
+2.20.1
 
