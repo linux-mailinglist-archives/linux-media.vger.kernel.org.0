@@ -2,96 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A3ADD2CD191
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 09:47:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B6982CD1BD
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 09:51:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388484AbgLCInj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 03:43:39 -0500
-Received: from userp2130.oracle.com ([156.151.31.86]:37608 "EHLO
-        userp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388476AbgLCIni (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 03:43:38 -0500
-Received: from pps.filterd (userp2130.oracle.com [127.0.0.1])
-        by userp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B38ZVAm091890;
-        Thu, 3 Dec 2020 08:42:54 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=1XYZQnq0x7TXnbtTBOtpxXgdeW1wf3d70tGkTLJKtA0=;
- b=kUuFqywK4xenf3r+XRJem6Lq1//4d5MX5xGZlDakMwDZEU5f/Vjh7ID2YP5C0c/qGSJm
- +tK+AQnxhWSTVYqXsEWMONcYSaZGsBeZZZNJ8jBMT+W2IGE2j1evztoWMK4+1IYA/DPt
- /VpVCuyHgwvsIT7WD0rwneeSU2mFxBAM+gVtsRhRivxBSgtklZUs+IXlX+LXEPM2ZiR4
- tMzCHTXPcZdsyCJStzrylpdR7szey6yCR6BuQmkHAEwagwbuYCCmJx2dVeamtYG7cyzw
- /WufOUENyAYsDIyTuE1xT/rldcaRxW66yOMviWgFy6h2UlUsi2k9gnkZI9LrrZT3/5/8 Rw== 
-Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
-        by userp2130.oracle.com with ESMTP id 353dyqvkx6-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Thu, 03 Dec 2020 08:42:54 +0000
-Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
-        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B38eMR5133079;
-        Thu, 3 Dec 2020 08:42:54 GMT
-Received: from userv0121.oracle.com (userv0121.oracle.com [156.151.31.72])
-        by userp3020.oracle.com with ESMTP id 3540avpy0q-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Thu, 03 Dec 2020 08:42:53 +0000
-Received: from abhmp0012.oracle.com (abhmp0012.oracle.com [141.146.116.18])
-        by userv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0B38gr0e032604;
-        Thu, 3 Dec 2020 08:42:53 GMT
-Received: from mwanda (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Thu, 03 Dec 2020 00:42:52 -0800
-Date:   Thu, 3 Dec 2020 11:42:46 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: vidtv: fix use after free in
- vidtv_channel_si_destroy()
-Message-ID: <X8ilBh7cBIqSpP6Y@mwanda>
+        id S1729959AbgLCIvC convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Thu, 3 Dec 2020 03:51:02 -0500
+Received: from mga03.intel.com ([134.134.136.65]:62768 "EHLO mga03.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726524AbgLCIvB (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Dec 2020 03:51:01 -0500
+IronPort-SDR: PFPwVTPv2LuBjcSVMIRoJUK723wFcCvzIu2LPsv66J2c523QqaxygBoeFZxx8bf788F2auq2p3
+ AEacZjUblvyw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9823"; a="173254085"
+X-IronPort-AV: E=Sophos;i="5.78,389,1599548400"; 
+   d="scan'208";a="173254085"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga005.jf.intel.com ([10.7.209.41])
+  by orsmga103.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2020 00:49:20 -0800
+IronPort-SDR: cQvZi5eX1y5fzT9MPa6Sxjb3bdEvAmgjkBVgazQcxotxLWxjTmVMbMxLmFShgnLLjxYuEMBtJX
+ 6sEepy/hsRjw==
+X-IronPort-AV: E=Sophos;i="5.78,389,1599548400"; 
+   d="scan'208";a="550409154"
+Received: from mkrastex-mobl.ger.corp.intel.com (HELO mkrastexMOBL) ([10.104.88.2])
+  by orsmga005-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2020 00:49:19 -0800
+From:   "Martina Krasteva" <martinax.krasteva@linux.intel.com>
+To:     "'Sebastian Fricke'" <sebastian.fricke.linux@gmail.com>,
+        "'Sakari Ailus'" <sakari.ailus@linux.intel.com>
+Cc:     <linux-media@vger.kernel.org>
+References: <20201202181955.18165-1-sakari.ailus@linux.intel.com> <20201202181955.18165-3-sakari.ailus@linux.intel.com> <20201203050040.godctaxtvafpvaw3@basti.Speedport_W_724V_Typ_A_05011603_06_001>
+In-Reply-To: <20201203050040.godctaxtvafpvaw3@basti.Speedport_W_724V_Typ_A_05011603_06_001>
+Subject: RE: [PATCH 2/2] Documentation: v4l: Document that link_validate op is valid for sink only
+Date:   Thu, 3 Dec 2020 08:49:16 -0000
+Message-ID: <00b401d6c951$30ca8140$925f83c0$@linux.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9823 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0
- phishscore=0 mlxscore=0 adultscore=0 malwarescore=0 suspectscore=0
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012030053
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9823 signatures=668682
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 malwarescore=0 bulkscore=0
- clxscore=1011 mlxscore=0 spamscore=0 priorityscore=1501 mlxlogscore=999
- suspectscore=0 lowpriorityscore=0 phishscore=0 adultscore=0
- impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012030052
+Content-Type: text/plain;
+        charset="utf-8"
+Content-Transfer-Encoding: 8BIT
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: AQG/gAqarsh0CWvJsDMWEoMkshgBPAFqTYnTAeD6lSmp+UY+gA==
+Content-Language: en-us
+dlp-product: dlpe-windows
+dlp-version: 11.5.1.3
+dlp-reaction: no-action
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This code frees "m->si.pat" and then dereferences it on the next line.
+Thank you, Sakari.
+This will remove any confusion regarding this matter.
 
-Fixes: 039b7caed173 ("media: vidtv: add a PID entry for the NIT table")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
- drivers/media/test-drivers/vidtv/vidtv_channel.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+> 
+> Thank you.
+> 
+> On 02.12.2020 20:19, Sakari Ailus wrote:
+> >The link_validate pad op will only be called on sink pads. Document this.
+> >
+> >Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> >---
+> > Documentation/driver-api/media/v4l2-subdev.rst | 11 ++++++-----
+> > 1 file changed, 6 insertions(+), 5 deletions(-)
+> >
+> >diff --git a/Documentation/driver-api/media/v4l2-subdev.rst
+> >b/Documentation/driver-api/media/v4l2-subdev.rst
+> >index d4cba0d6c4ca..6d5c799c49fe 100644
+> >--- a/Documentation/driver-api/media/v4l2-subdev.rst
+> >+++ b/Documentation/driver-api/media/v4l2-subdev.rst
+> >@@ -122,11 +122,12 @@ Don't forget to cleanup the media entity before the
+> sub-device is destroyed:
+> >
+> > 	media_entity_cleanup(&sd->entity);
+> >
+> >-In that case, the subdev driver may set the link_validate field to
+> >provide -its own link validation function. The link validation function
+> >is called for -every link in the pipeline where both of the ends of the
+> >links are V4L2 -sub-devices. The driver is still responsible for
+> >validating the correctness -of the format configuration between sub-devices
+> and video nodes.
+> >+If a sub-device driver implements sink pads, the subdev driver may set
+> >+the link_validate field in :c:type:`v4l2_subdev_pad_ops`to provide its
+> >+own link validation function. For every link in the pipeline, the
+> >+link_validate pad operation of the sink end of the link is called. In
+> >+both cases the driver is
+> 
+> s/In both cases the driver/In both cases, the driver/
+> 
+> >+still responsible for validating the correctness of the format
+> >+configuration between sub-devices and video nodes.
+> >
+> > If link_validate op is not set, the default function
+> >:c:func:`v4l2_subdev_link_validate_default` is used instead. This
+> >function
+> >--
+> >2.27.0
+> >
 
-diff --git a/drivers/media/test-drivers/vidtv/vidtv_channel.c b/drivers/media/test-drivers/vidtv/vidtv_channel.c
-index 8ad6c0744d36..7838e6272712 100644
---- a/drivers/media/test-drivers/vidtv/vidtv_channel.c
-+++ b/drivers/media/test-drivers/vidtv/vidtv_channel.c
-@@ -504,11 +504,11 @@ void vidtv_channel_si_destroy(struct vidtv_mux *m)
- {
- 	u32 i;
- 
--	vidtv_psi_pat_table_destroy(m->si.pat);
--
- 	for (i = 0; i < m->si.pat->num_pmt; ++i)
- 		vidtv_psi_pmt_table_destroy(m->si.pmt_secs[i]);
- 
-+	vidtv_psi_pat_table_destroy(m->si.pat);
-+
- 	kfree(m->si.pmt_secs);
- 	vidtv_psi_sdt_table_destroy(m->si.sdt);
- 	vidtv_psi_nit_table_destroy(m->si.nit);
--- 
-2.29.2
+Best Regards,
+Martina
 
