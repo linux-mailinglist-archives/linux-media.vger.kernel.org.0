@@ -2,64 +2,67 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2F4822CD39B
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 11:32:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9B862CD3B9
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 11:35:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388920AbgLCKbr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 05:31:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59226 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388903AbgLCKbq (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 05:31:46 -0500
-Received: from gofer.mess.org (gofer.mess.org [IPv6:2a02:8011:d000:212::1])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 41843C061A4E
-        for <linux-media@vger.kernel.org>; Thu,  3 Dec 2020 02:30:47 -0800 (PST)
-Received: by gofer.mess.org (Postfix, from userid 1000)
-        id CA6CFC6392; Thu,  3 Dec 2020 10:30:43 +0000 (GMT)
-DKIM-Signature: v=1; a=rsa-sha256; c=simple/simple; d=mess.org; s=2020;
-        t=1606991443; bh=FFxTI7e9bNb9rI9/u38ncwXjjZ1eKGDdp/vekDQpE4U=;
-        h=Date:From:To:Subject:From;
-        b=qTf51f4DBtD2w8qlW1h4kkCJtyDE+n4R2JzbTqOQ6EWONIU+GTye9JvRa1U1DYA25
-         dVu/Xv8qbNzXrPNZ/ZLENOPNiicMoljedQFIF9HOSFYDgr0JOuAqpvxrJcZzqkZuMk
-         yUZL8AycBPFN4WNKcGcd66MXqBfi5v8vfjhqGwiBbVBIdJBeb5qTdeLr3uA981AGWM
-         f1h174M+fXJJXm1SETPbEGIDnkMGjA11lBfqvVOnwPJzg5vadk3VAEKad3CWuZ9Snr
-         IEb5cSF3P1BkZ73fqYAy9JkmFBMmfJrzSovct6+gn/GtxtOb+eJhHFz+HcSCrKF0kk
-         iFFW8Va55eu6A==
-Date:   Thu, 3 Dec 2020 10:30:43 +0000
-From:   Sean Young <sean@mess.org>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL FOR v5.11] Add pine64 keymap
-Message-ID: <20201203103043.GA13676@gofer.mess.org>
+        id S2388985AbgLCKdx (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 05:33:53 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:36077 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2388701AbgLCKdw (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 05:33:52 -0500
+Received: from ironmsg08-lv.qualcomm.com ([10.47.202.152])
+  by alexa-out.qualcomm.com with ESMTP; 03 Dec 2020 02:32:44 -0800
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg08-lv.qualcomm.com with ESMTP/TLS/AES256-SHA; 03 Dec 2020 02:32:42 -0800
+X-QCInternal: smtphost
+Received: from c-rojay-linux.qualcomm.com ([10.206.21.80])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 03 Dec 2020 16:01:59 +0530
+Received: by c-rojay-linux.qualcomm.com (Postfix, from userid 88981)
+        id 31E3F2819; Thu,  3 Dec 2020 16:01:58 +0530 (IST)
+From:   Roja Rani Yarubandi <rojay@codeaurora.org>
+To:     wsa@kernel.org
+Cc:     swboyd@chromium.org, dianders@chromium.org,
+        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
+        mka@chromium.org, akashast@codeaurora.org,
+        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
+        vkaur@codeaurora.org, pyarlaga@codeaurora.org,
+        rnayak@codeaurora.org, agross@kernel.org,
+        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
+        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
+        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
+        Roja Rani Yarubandi <rojay@codeaurora.org>
+Subject: [RESEND PATCH V6 0/2] Implement Shutdown callback for geni-i2c
+Date:   Thu,  3 Dec 2020 16:01:54 +0530
+Message-Id: <20201203103156.32595-1-rojay@codeaurora.org>
+X-Mailer: git-send-email 2.29.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The following changes since commit 42ad70c469665387e8f7b53cb6d4581492dff906:
+Hi,
 
-  media: rockchip: rkisp1: remove useless debugfs checks (2020-12-03 08:59:10 +0100)
+Below patch is picked:
+[V6,1/3] soc: qcom: geni: Remove "iova" check
 
-are available in the Git repository at:
+Resending below patches for review:
+[V6,2/3] i2c: i2c-qcom-geni: Store DMA mapping data in geni_i2c_dev struct
+[V6,3/3] i2c: i2c-qcom-geni: Add shutdown callback for i2c
 
-  git://linuxtv.org/syoung/media_tree.git tags/v5.11d
+Thanks,
+Roja
 
-for you to fetch changes up to 173ae11a204d6e2aaccdb82e8de851f1d361a34e:
+Roja Rani Yarubandi (2):
+  i2c: i2c-qcom-geni: Store DMA mapping data in geni_i2c_dev struct
+  i2c: i2c-qcom-geni: Add shutdown callback for i2c
 
-  media: rc: add keymap for pine64 remote (2020-12-03 10:21:37 +0000)
+ drivers/i2c/busses/i2c-qcom-geni.c | 104 ++++++++++++++++++++++++-----
+ 1 file changed, 88 insertions(+), 16 deletions(-)
 
-----------------------------------------------------------------
-v5.11d
+-- 
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
+of Code Aurora Forum, hosted by The Linux Foundation
 
-----------------------------------------------------------------
-Jonas Karlman (1):
-      media: rc: add keymap for pine64 remote
-
- Documentation/devicetree/bindings/media/rc.yaml |  1 +
- drivers/media/rc/keymaps/Makefile               |  1 +
- drivers/media/rc/keymaps/rc-pine64.c            | 65 +++++++++++++++++++++++++
- include/media/rc-map.h                          |  1 +
- 4 files changed, 68 insertions(+)
- create mode 100644 drivers/media/rc/keymaps/rc-pine64.c
