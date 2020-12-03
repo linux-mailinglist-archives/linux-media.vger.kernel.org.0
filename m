@@ -2,138 +2,150 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C33882CD024
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 08:10:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3B6112CD049
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 08:20:43 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388045AbgLCHIz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 02:08:55 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:46533 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726871AbgLCHIz (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Dec 2020 02:08:55 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id kiinks0OgarN7kiiqkqaWp; Thu, 03 Dec 2020 08:08:13 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606979293; bh=VZDeXvWN80PdLtvK/c5hCTjVYRrS9+2FMu1MRUhXvew=;
-        h=Subject:From:To:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=A8IyRYod11S2uzLTPK38/18at1J1miJQGZEqnoiPtXhxqvZZvHY024x9FDa5zKKQ9
-         xqWUlk9CFxbXLegfS4QCZ8DhRd9ZeAcSx3a44jsx9/47G8cqVSH28IUWsTtx2/CRU2
-         uwIbOYNxflMYBnH/0vlJWaTHwKgQMsBtq96hQkFdY0uz6zBpvi/bNzkrFfbIxcybYo
-         mqb7sGRTvr9i5QaiwBPSmtsHCguYzM72SCvF79NlxmAzq30f3b0PRhwuWrN5AYn+hN
-         N3Nlr2PmWm4K96nkzWiuiwHyR6+aFtvxSgHBQbzFEYcJ8oDsCYBPv4DEzwJFpu+/H4
-         fNMr+ACEEy6Ng==
-Subject: Re: [PATCH v3 0/2] media: rcar-vin: Mask access to VNCSI_IFMD
- register
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Jacopo Mondi <jacopo+renesas@jmondi.org>
-Cc:     koji.matsuoka.xm@renesas.com,
-        niklas.soderlund+renesas@ragnatech.se,
-        laurent.pinchart@ideasonboard.com, linux-media@vger.kernel.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20201126074757.2768-1-jacopo+renesas@jmondi.org>
- <20201203075830.2701c8b5@coco.lan>
- <de509dc4-c164-18e5-00e6-c4f4d39eeecc@xs4all.nl>
-Message-ID: <bca27ed8-f6bc-f44e-df2e-ff210ac599a5@xs4all.nl>
-Date:   Thu, 3 Dec 2020 08:08:09 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        id S2388031AbgLCHTU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 02:19:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:57880 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2387551AbgLCHTT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 02:19:19 -0500
+Received: from mail-pj1-x1044.google.com (mail-pj1-x1044.google.com [IPv6:2607:f8b0:4864:20::1044])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4B96EC061A53
+        for <linux-media@vger.kernel.org>; Wed,  2 Dec 2020 23:18:28 -0800 (PST)
+Received: by mail-pj1-x1044.google.com with SMTP id l23so616634pjg.1
+        for <linux-media@vger.kernel.org>; Wed, 02 Dec 2020 23:18:28 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:content-transfer-encoding:in-reply-to:references
+         :subject:from:cc:to:date:message-id:user-agent;
+        bh=XboQBpa5SksH1iZ7g9IuRzqF6Oz1AM+DEQhjumRKkpU=;
+        b=gJeZZTf1TU9E/PphFzlCR3PhtxCTKrw85fe2boTXN2UfZUD5faSjo2MsqUodQrLjH5
+         zauS9CHw8F/p/nJKZEvy0o1GIbK1HBYkurUupjJCdn9Cdpw+zahjLVz7bvpPpXQVGqCq
+         +2KSkItg1JS0p2JCKMMdOrtIGd689aHsdj0H4=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:content-transfer-encoding
+         :in-reply-to:references:subject:from:cc:to:date:message-id
+         :user-agent;
+        bh=XboQBpa5SksH1iZ7g9IuRzqF6Oz1AM+DEQhjumRKkpU=;
+        b=KoLw6Wo/ocyKW3ny9Q7sHl5z8jVcPdJnF6qwb05QNnUvyFquqjDG8t0J7hgOe0CSf1
+         9/omedo2EgnCzGSWSRSz6bKiQZybJcj2kjIk75ZqOa13G5haS2bu6vI6aryZI5j1IVOq
+         TUqmzi5h60+uLxy8wh82w6OGVk0p17LeVDxLj1AuKX1Oo8lvafAfNJHA5fNKFfXF22OY
+         vpyEwfmXaeGgR+/rp8R/uh1Ul3jlM6UakeRWv0IfafHiniNui+v1fE2aJe9Ne7Ltn1zX
+         XsomsWESRbrxrXQVbmsGv56+SsHnFO+01Wcte62s1T9kI1C2mjwTo90TCgSLU2DZ6pSQ
+         RaMg==
+X-Gm-Message-State: AOAM530EFWED5uYniQSr/dIPJlwCqzJuANHWnH9rCP0qd8pE9JUTYItw
+        HQnjZje7xOPYyFddNM9H8yQH3xj8ZH7htg==
+X-Google-Smtp-Source: ABdhPJxkH2B4+N1724zMBChAGI+PsJEn6+Y/h5Paxsz4QrRHNnHMdmdONnH14euFPegHQKQ7TqzpZA==
+X-Received: by 2002:a17:90b:204d:: with SMTP id ji13mr1917017pjb.20.1606979907857;
+        Wed, 02 Dec 2020 23:18:27 -0800 (PST)
+Received: from chromium.org ([2620:15c:202:201:3e52:82ff:fe6c:83ab])
+        by smtp.gmail.com with ESMTPSA id y21sm745604pfr.90.2020.12.02.23.18.26
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Dec 2020 23:18:27 -0800 (PST)
+Content-Type: text/plain; charset="utf-8"
 MIME-Version: 1.0
-In-Reply-To: <de509dc4-c164-18e5-00e6-c4f4d39eeecc@xs4all.nl>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfAwBqafzheTasGy5sBiE4Jc+AVTUxR9lCWeiYUFrJt2WlFkmHNKU0gniBdNLpHsEH7IfBvfJzot5O+9syb1m1KSdijZxS7dg6rwl2SvB7ROXwER3Z+ZF
- gRoeFnzstUUL5lO6ZrhQss/XYMFmlWSVihpNWgsgmDYXZJyNKHzvW90H+QgpOa4LemvqsCXIyRs3jg7vyPhbTRFWhFyeoR8v4/NK70UCeeSB7fprcUROSw/i
- hKVHCbnXdQrfYE4/3KfMiwMmBZiAlddt7diQDtvJTaT2V8Tn4tWvtmdPe/tSyToQveu57lqILrZNmn/OFXDzgd7kSvQQWyICvR7pzGgTQbhD00PMG6n3JNn0
- R6BV0jDoM/8ku8O4swD9K7KZgY6PUYAWc3QyBLG5DIoOI+KEbIeN8kIQWYPVwdGGVDARX6UgIYAWjooWbgaxXurnT8jvY/5omVUfqM7qDtM4EPILBL0=
+Content-Transfer-Encoding: quoted-printable
+In-Reply-To: <1606714572-1113-1-git-send-email-dikshita@codeaurora.org>
+References: <1606714572-1113-1-git-send-email-dikshita@codeaurora.org>
+Subject: Re: [PATCH] venus: core: add support to dump FW region
+From:   Stephen Boyd <swboyd@chromium.org>
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
+To:     Dikshita Agarwal <dikshita@codeaurora.org>,
+        linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Date:   Wed, 02 Dec 2020 23:18:25 -0800
+Message-ID: <160697990547.2717324.13284456705336253152@swboyd.mtv.corp.google.com>
+User-Agent: alot/0.9.1
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/12/2020 08:06, Hans Verkuil wrote:
-> On 03/12/2020 07:58, Mauro Carvalho Chehab wrote:
->> Em Thu, 26 Nov 2020 08:47:55 +0100
->> Jacopo Mondi <jacopo+renesas@jmondi.org> escreveu:
->>
->>> As reported in patch 2/2 commit message the the VNCSI_IFMD register
->>> has the following limitations according to chip manual revision 2.20
->>>
->>> - V3M, V3H and E3 do not support the DES1 field has they do not feature
->>> a CSI20 receiver.
->>> - D3 only supports parallel input, and the whole register shall always
->>> be written as 0.
->>>
->>> This patch upports the BSP change commit f54697394457
->>> ("media: rcar-vin: Fix VnCSI_IFMD register access for r8a77990") from
->>> Koji Matsuoka
->>
->> As checkpatch warned:
->>
->> 	-:22: WARNING: Unknown commit id 'f54697394457', maybe rebased or not pulled?
->> 	
->> There's no such commit upstream. Are you referring to an OOT patch?
->>
->> If so, you should provide an URL from where the patch is stored,
->> as otherwise this comment won't make any sense upstream.
->>
->> If you can't provide such URL, please adjust the comment to provide
->> a description that won't be dependent of such OOT commit.
+Quoting Dikshita Agarwal (2020-11-29 21:36:12)
+> diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/pla=
+tform/qcom/venus/core.c
+> index 6103aaf..01a0cfe 100644
+> --- a/drivers/media/platform/qcom/venus/core.c
+> +++ b/drivers/media/platform/qcom/venus/core.c
+> @@ -22,6 +24,48 @@
+>  #include "firmware.h"
+>  #include "pm_helpers.h"
+> =20
+> +static int subsystem_dump(struct venus_core *core)
+> +{
+> +       struct device_node *node;
+> +       struct device *dev;
+> +       struct resource r;
+> +       void *mem_va;
+> +       size_t mem_size;
+> +       void *data;
+> +       int ret;
+> +
+> +       dev =3D core->dev;
+> +       node =3D of_parse_phandle(dev->of_node, "memory-region", 0);
 
-Ah, it's too early in the morning for me. I didn't read your email carefully
-enough.
+Any chance this could be done at probe time and saved away as some sort
+of pointer?
 
-Just ignore what I wrote.
+> +       if (!node)
+> +               return -EINVAL;
+> +
+> +       ret =3D of_address_to_resource(node, 0, &r);
 
-Jacopo, can you repost with a URL? Or perhaps just drop this bit of text.
+of_node_put(node);
 
-Regards,
+> +       if (ret)
+> +               goto err_put_node;
 
-	Hans
+And then just return ret;
 
-> 
-> Read the commit message:
-> 
->>> This patch upports the BSP change commit f54697394457
->>> ("media: rcar-vin: Fix VnCSI_IFMD register access for r8a77990") from
->>> Koji Matsuoka
-> 
-> This commit is from the rcar BSP package, and does not refer to a kernel
-> commit. So it is correct that the commit ID is unknown.
-> 
-> Regards,
-> 
-> 	Hans
-> 
->>
->>>
->>> Tested on r-car E3 Ebisu.
->>>
->>> v2 -> v3:
->>> - Remove a few comments and add Niklas' tag to [2/2]
->>>
->>> v1 -> v2:
->>> - Inspect the channel routing table to deduce the availability of DES1/DES0
->>>   bits as suggested by Niklas.
->>>
->>> Jacopo Mondi (2):
->>>   media: rcar-vin: Remove unused macro
->>>   media: rcar-vin: Mask VNCSI_IFMD register
->>>
->>>  drivers/media/platform/rcar-vin/rcar-dma.c | 26 ++++++++++++++++++----
->>>  1 file changed, 22 insertions(+), 4 deletions(-)
->>>
->>> --
->>> 2.29.1
->>>
->>
->>
->>
->> Thanks,
->> Mauro
->>
-> 
+> +
+> +       mem_size =3D resource_size(&r);
+> +
+> +       mem_va =3D memremap(r.start, mem_size, MEMREMAP_WC);
+> +       if (!mem_va) {
+> +               ret =3D -ENOMEM;
+> +               goto err_put_node;
 
+And return -ENOMEM;
+
+> +       }
+> +
+> +       data =3D vmalloc(mem_size);
+> +       if (!data) {
+> +               ret =3D -EINVAL;
+> +               goto err_unmap;
+> +       }
+> +
+> +       memcpy(data, mem_va, mem_size);
+> +
+> +       dev_coredumpv(dev, data, mem_size, GFP_KERNEL);
+> +err_unmap:
+> +       memunmap(mem_va);
+> +err_put_node:
+> +       of_node_put(node);
+> +       return ret;
+> +}
+>  static void venus_event_notify(struct venus_core *core, u32 event)
+>  {
+>         struct venus_inst *inst;
+> @@ -67,6 +111,9 @@ static void venus_sys_error_handler(struct work_struct=
+ *work)
+> =20
+>         venus_shutdown(core);
+> =20
+> +       dev_warn(core->dev, "dumping FW region!\n");
+
+Do we need this warning?
+
+> +       subsystem_dump(core);
+
+Maybe call it venus_do_coredump() so it isn't so generic.
+
+> +
+>         pm_runtime_put_sync(core->dev);
+> =20
+>         while (core->pmdomains[0] && pm_runtime_active(core->pmdomains[0]=
+))
