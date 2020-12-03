@@ -2,93 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 93DC42CD782
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 14:36:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CB0B82CD853
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 14:58:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436767AbgLCNav (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 08:30:51 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59232 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2436757AbgLCNau (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 08:30:50 -0500
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 752EEC061A4F;
-        Thu,  3 Dec 2020 05:30:10 -0800 (PST)
-Received: by mail-qv1-xf44.google.com with SMTP id x13so884612qvk.8;
-        Thu, 03 Dec 2020 05:30:10 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=date:from:to:cc:message-id:in-reply-to:references:subject
-         :mime-version:content-transfer-encoding:content-disposition;
-        bh=SFA7u8wGrhuNAiC8Mfv5hmPhk1Pwh9Vhw0wRtWg7eqI=;
-        b=Cp06vvTa0iMxwIgd0sLKWNz7IlgbiyUJpH5KfZDXtpekQHfgjEyO3AlC3oKcaVrIgJ
-         jGkmsS1NHhxnYZDwyy8rdSw5+LvAGeOCb84fFYKq4zJ/sFAjTxJbJKwUWTVFGMMNCmZz
-         GWRSYaOeOoC0aUyYmB7wS0ngqyL0D67l3nbgvuhLtF7FnoytlRc3h2CnKS/On4GbyCim
-         uKTf+gq7eqqZ3ZPAeLM2sde7fouvqXrKpseLcEGVqz6EbFBl2r1mN08xz3PETdhvhHSl
-         WLGnHTBh1kYuQC78vzOWStqN1CTdk119RYb7JjbZ7t5K/ardSmV57TnPTwX4Uo6ntktQ
-         xd9A==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:message-id:in-reply-to
-         :references:subject:mime-version:content-transfer-encoding
-         :content-disposition;
-        bh=SFA7u8wGrhuNAiC8Mfv5hmPhk1Pwh9Vhw0wRtWg7eqI=;
-        b=hjbZ4B/Mn25hZZdvPwc26s8Vfm+Ktzu69R/IQ3kS29Alks3ck3IZxmFls4Kxoo50nG
-         ruRqIHlw1IifsnvsQmVf1N+5Hp0z9zzQuPEv9NuWX8FLPaKQP03Y4xvGMZea1CMdGya7
-         SVWgzcbUv9QW1AD9Hs2aUjF2OFBIjPpJNhXMZ4FSOeCZIX4RBPmLugBy4kA0GpIL/2xo
-         xVusyGsIak4cHNvrj0/KUvR7FVV4kGhRi1nC9c9q4146zTMzRbEZCweoStof6XJ0Ryv2
-         gQqF3m+qGhcSpnM71F+RB/16yENBbyi4lofXjPzFl7C3q7WDfj48Ifsq4PyH41wocj/r
-         wDNQ==
-X-Gm-Message-State: AOAM531WehHARf3XUYce/zz39ppKD8l5qx0UTEez2l4oM9daS3usa0/n
-        iOOO4w6oVme7xpYlyIHpd5U=
-X-Google-Smtp-Source: ABdhPJwj/dK0zdTw+LLLaa2zgH1XHnll6Tvo3sTWMfIR97OQdaBLxRrnYhv+4zrRwDZ4DMt3aLXVkA==
-X-Received: by 2002:a0c:f3d3:: with SMTP id f19mr3134400qvm.27.1607002209691;
-        Thu, 03 Dec 2020 05:30:09 -0800 (PST)
-Received: from dwls-dell (186-241-187-114.user.veloxzone.com.br. [186.241.187.114])
-        by smtp.gmail.com with ESMTPSA id g63sm1322409qkf.80.2020.12.03.05.30.07
-        (version=TLS1_2 cipher=ECDHE-ECDSA-AES128-GCM-SHA256 bits=128/128);
-        Thu, 03 Dec 2020 05:30:08 -0800 (PST)
-Date:   Thu, 3 Dec 2020 10:30:05 -0300
-From:   "Daniel W. S. Almeida" <dwlsalmeida@gmail.com>
-To:     Dan Carpenter <dan.carpenter@oracle.com>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        "=?utf-8?Q?linux-media=40vger.kernel.org?=" 
-        <linux-media@vger.kernel.org>,
-        "=?utf-8?Q?kernel-janitors=40vger.kernel.org?=" 
-        <kernel-janitors@vger.kernel.org>
-Message-ID: <2213CCBF-DD8A-4897-9CF7-3FBFA8520979@getmailspring.com>
-In-Reply-To: <X8ilBh7cBIqSpP6Y@mwanda>
-References: <X8ilBh7cBIqSpP6Y@mwanda>
-Subject: Re: [PATCH] media: vidtv: fix use after free in
- vidtv_channel_si_destroy()
-X-Mailer: Mailspring
+        id S1730750AbgLCN6P (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 08:58:15 -0500
+Received: from aserp2120.oracle.com ([141.146.126.78]:43532 "EHLO
+        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726112AbgLCN6O (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 08:58:14 -0500
+Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
+        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B3Dt4S5149893;
+        Thu, 3 Dec 2020 13:56:58 GMT
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
+ : subject : message-id : references : mime-version : content-type :
+ in-reply-to; s=corp-2020-01-29;
+ bh=+1N8mqMKsZKiLOq1eUSX0dnvawOP7u5ut7g73azXomY=;
+ b=0dyHqQ1pMp4quGYHNjh3i9g8fesNeIdEzusvADrEG5XgmFsUlZaxIHa3JpFKb3dcI4zv
+ SM8Wgl9InEv40buevN1Ohjyh2YzEKeBjEfLYQYD+FlKVmBTLowSPxR4psC9X1rjEUcTc
+ d6THaS98YgnXnqYRZV2LGTntwCoW15nmzmx8ft2ZJKVLEIviU2ooSPORmtfJ7e8tS+Dw
+ /sD7GEv8cVmuqkXSop8KX/KQzqeiGT0qmRidb4hIMDBDoLbWEwLfeEd01UA5fuYrzhzs
+ VYqQ1jarH8v9h0YRYtmhNznG8s8dsTZ1AcXfTxm7zItCkfCXlsrEDtX1a3uILmB1dCt/ bw== 
+Received: from userp3020.oracle.com (userp3020.oracle.com [156.151.31.79])
+        by aserp2120.oracle.com with ESMTP id 353egkx092-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
+        Thu, 03 Dec 2020 13:56:58 +0000
+Received: from pps.filterd (userp3020.oracle.com [127.0.0.1])
+        by userp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B3DuMfG036368;
+        Thu, 3 Dec 2020 13:56:58 GMT
+Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
+        by userp3020.oracle.com with ESMTP id 3540aw5muw-1
+        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
+        Thu, 03 Dec 2020 13:56:57 +0000
+Received: from abhmp0008.oracle.com (abhmp0008.oracle.com [141.146.116.14])
+        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0B3DuoaH011497;
+        Thu, 3 Dec 2020 13:56:50 GMT
+Received: from kadam (/102.36.221.92)
+        by default (Oracle Beehive Gateway v4.0)
+        with ESMTP ; Thu, 03 Dec 2020 05:56:50 -0800
+Date:   Thu, 3 Dec 2020 16:56:40 +0300
+From:   Dan Carpenter <dan.carpenter@oracle.com>
+To:     Greg KH <greg@kroah.com>
+Cc:     "Enrico Weigelt, metux IT consult" <info@metux.net>,
+        devel@driverdev.osuosl.org, f.fainelli@gmail.com,
+        sbranden@broadcom.com, rjui@broadcom.com, mchehab@kernel.org,
+        speakup@linux-speakup.org, linux-kernel@vger.kernel.org,
+        rcy@google.com, rspringer@google.com,
+        laurent.pinchart@ideasonboard.com, netdev@vger.kernel.org,
+        bcm-kernel-feedback-list@broadcom.com, toddpoynor@google.com,
+        nsaenzjulienne@suse.de, linux-media@vger.kernel.org
+Subject: Re: [PATCH 01/11] drivers: staging: speakup: remove unneeded
+ MODULE_VERSION() call
+Message-ID: <20201203135640.GS2767@kadam>
+References: <20201203124803.23390-1-info@metux.net>
+ <X8jnO5cPUQGEK9cr@kroah.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset="utf-8"
-Content-Transfer-Encoding: 7bit
+Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <X8jnO5cPUQGEK9cr@kroah.com>
+User-Agent: Mutt/1.9.4 (2018-02-28)
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9823 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxlogscore=999 bulkscore=0
+ phishscore=0 mlxscore=0 adultscore=0 malwarescore=0 suspectscore=0
+ spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012030084
+X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9823 signatures=668682
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 mlxscore=0 bulkscore=0 suspectscore=0
+ phishscore=0 mlxlogscore=999 lowpriorityscore=0 malwarescore=0
+ priorityscore=1501 spamscore=0 impostorscore=0 clxscore=1011 adultscore=0
+ classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
+ definitions=main-2012030084
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Dan,
-
-> This code frees "m->si.pat" and then dereferences it on the next line.
+On Thu, Dec 03, 2020 at 02:25:15PM +0100, Greg KH wrote:
+> On Thu, Dec 03, 2020 at 01:47:53PM +0100, Enrico Weigelt, metux IT consult wrote:
+> > Remove MODULE_VERSION(), as it doesn't seem to serve any practical
+> > purpose. For in-tree drivers, the kernel version matters.
+> > 
+> > The drivers have received lots of changes, without the module version
+> > (or the underlying DRV_VERSION macro) ever changed, since the code
+> > landed in the kernel tree. So, it doesn't seem to have any practical
+> > meaning anymore.
+> > 
+> > Signed-off-by: Enrico Weigelt <info@metux.net>
+> > ---
+> >  drivers/accessibility/speakup/main.c           | 1 -
 > 
-> Fixes: 039b7caed173 ("media: vidtv: add a PID entry for the NIT table")
-> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
-> ---
-> drivers/media/test-drivers/vidtv/vidtv_channel.c | 4 ++--
-> 1 file changed, 2 insertions(+), 2 deletions(-)
+> <snip>
+> 
+> Yous subject line is odd, these are not "staging" drivers anymore, so
+> why do you say they are there?
 
+Also putting "drivers:" in the subject always seems superfluous.
 
-IIRC there has been a similar patch [1] that has already been accepted
-by Mauro..
-
-
-[1]: https://patchwork.linuxtv.org/project/linux-media/patch/20201127132832.15239-1-colin.king@canonical.com/
-
--- thanks
--- Daniel
-
-
+regards,
+dan carpenter
 
