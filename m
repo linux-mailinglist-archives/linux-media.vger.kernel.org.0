@@ -2,59 +2,47 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 990902CDC82
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 18:36:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 4FA8A2CDC8B
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 18:38:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726929AbgLCRfo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 12:35:44 -0500
-Received: from mail.kernel.org ([198.145.29.99]:43434 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726730AbgLCRfn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Dec 2020 12:35:43 -0500
-X-Gm-Message-State: AOAM532jsIrQy4mR1yyA6vrMRaxH0pygwrBnqcEnqgOYX5HQTWyGwSdo
-        KraH9O/Guqfd8mqZ833WhC0laxChrwIvDkfo2DQ=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607016900;
-        bh=pTLWWajKCApEb3a6OTKMdxmv0i593JBoN5KVFJy5OS4=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=dugfXI2GN4qYoStkWhzAxCIofNSHORLgdTZZTskA1zhVtjhB4dxZSNL36Ztf/1V1K
-         4UHlqPY5plCA58Zio4XHKOnrMwWBpNxeC+lxlAjXO7vlRne3HLH31BL/G/bTtMV6SS
-         uqMVSrkujcwmww0cstUCILKobsJB8HFYW7IL6UMvBlpLh5zhjbFWj13yWpjhygTaDw
-         F+6V6XcE/yIbbwziSui/qT03zVSnT+Dw7zvKbmKAzCC/UuU8HW4xnc8ZlzBS+4/Xqe
-         hUQYNGVjgkOQgS8+JXxM/h0anf4c0sufl4mJ5jt++aUg2lSJ6vlyOEg41Uq7AvI7DH
-         fZEOMd5kI2RrA==
-X-Google-Smtp-Source: ABdhPJzB94PLEhdlReMA733axjnUxN/hLeP74VqPowubMz4iL6qzeTsjhSxo48a+OvtE5frmoX/zH3lfXSdsTzV/Zq4=
-X-Received: by 2002:a19:ecf:: with SMTP id 198mr1741695lfo.193.1607016898236;
- Thu, 03 Dec 2020 09:34:58 -0800 (PST)
-MIME-Version: 1.0
-References: <20201110174036.220883-1-jacopo@jmondi.org> <20201110174036.220883-3-jacopo@jmondi.org>
- <20201202212031.GY4351@valkosipuli.retiisi.org.uk> <20201203164417.y3vrabzjhalhahmh@uno.localdomain>
- <20201203172519.GG4351@valkosipuli.retiisi.org.uk>
-In-Reply-To: <20201203172519.GG4351@valkosipuli.retiisi.org.uk>
-From:   Chen-Yu Tsai <wens@kernel.org>
-Date:   Fri, 4 Dec 2020 01:34:45 +0800
-X-Gmail-Original-Message-ID: <CAGb2v652BAv9qqrcyy8EJgm7pp2_uXFHN=o4MUdTKaE2=tD94Q@mail.gmail.com>
-Message-ID: <CAGb2v652BAv9qqrcyy8EJgm7pp2_uXFHN=o4MUdTKaE2=tD94Q@mail.gmail.com>
-Subject: Re: [PATCH v4 2/5] dt-bindings: media: Document BCM283x CSI2/CCP2 receiver
-To:     Sakari Ailus <sakari.ailus@iki.fi>,
-        Jacopo Mondi <jacopo@jmondi.org>
-Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
-        naush@raspberrypi.com,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        id S1728773AbgLCRiK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 12:38:10 -0500
+Received: from relay2-d.mail.gandi.net ([217.70.183.194]:53353 "EHLO
+        relay2-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728925AbgLCRiK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 12:38:10 -0500
+X-Originating-IP: 2.224.242.101
+Received: from uno.localdomain (2-224-242-101.ip172.fastwebnet.it [2.224.242.101])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay2-d.mail.gandi.net (Postfix) with ESMTPSA id 7B75140007;
+        Thu,  3 Dec 2020 17:37:24 +0000 (UTC)
+Date:   Thu, 3 Dec 2020 18:37:33 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Sakari Ailus <sakari.ailus@iki.fi>
+Cc:     linux-media@vger.kernel.org, naush@raspberrypi.com,
+        dave.stevenson@raspberrypi.com, laurent.pinchart@ideasonboard.com,
         kieran.bingham@ideasonboard.com, niklas.soderlund@ragnatech.se,
-        dafna.hirschfeld@collabora.com, Hans Verkuil <hverkuil@xs4all.nl>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        mchehab+huawei@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+        dafna.hirschfeld@collabora.com, hverkuil@xs4all.nl,
+        nsaenzjulienne@suse.de, mchehab+huawei@kernel.org
+Subject: Re: [PATCH v4 2/5] dt-bindings: media: Document BCM283x CSI2/CCP2
+ receiver
+Message-ID: <20201203173733.wmdjr2cpii3ab75s@uno.localdomain>
+References: <20201110174036.220883-1-jacopo@jmondi.org>
+ <20201110174036.220883-3-jacopo@jmondi.org>
+ <20201202212031.GY4351@valkosipuli.retiisi.org.uk>
+ <20201203164417.y3vrabzjhalhahmh@uno.localdomain>
+ <20201203172519.GG4351@valkosipuli.retiisi.org.uk>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <20201203172519.GG4351@valkosipuli.retiisi.org.uk>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+Hi Sakari,
 
-On Fri, Dec 4, 2020 at 1:27 AM Sakari Ailus <sakari.ailus@iki.fi> wrote:
->
+On Thu, Dec 03, 2020 at 07:25:19PM +0200, Sakari Ailus wrote:
 > Hi Jacopo,
 >
 > On Thu, Dec 03, 2020 at 05:44:17PM +0100, Jacopo Mondi wrote:
@@ -127,36 +115,17 @@ On Fri, Dec 4, 2020 at 1:27 AM Sakari Ailus <sakari.ailus@iki.fi> wrote:
 > account (assuming they can't told apart at runtime). In that case you could
 > just do the check in the driver. I think some Allwinner CSI-2 / parallel
 > receivers use that.
+>
 
-What we do is we use the first SoC that introduced the hardware block
-in the compatible string. For subsequent SoCs, if there is any doubt
-that the hardware might be different, then a SoC-specific compatible
-string is added in front. If the hardware ends up being the same, then
-the new compatible doesn't get used. If the hardware ends up different,
-then the new compatible string gets added to the driver to deal with
-the difference.
+There might be difference, I don't know, but as of now the driver does
+not need to tell them apart. I agree if we ever find a SoC-specific
+different then supporting old DTBS with a single compatible might get
+tricky.
 
-If the hardware ends up being *incompatible*, then you have to remove
-the old compatible string, and only keep the SoC-specific one.
+I'll defer this to Dave, he knows how many SoC uses this IP and if
+they will ever have to be told apart.
 
-So in your case you would have:
-
-  brcm,bcm2835-unicam
-
-and
-
-  brcm,bcm2711-unicam + brcm,bcm2835-unicam
-
-assuming the hardware is the same or at least backward-compatible.
-
-If you know a priori that the hardware is 100% the same, then you
-can choose whatever compatible you like, subject to approval from
-the DT binding maintainers I suppose.
-
-
-Regards
-ChenYu
-
+> >
 > > > > +
 > > > > +  reg:
 > > > > +    items:
@@ -203,6 +172,9 @@ ChenYu
 >
 > Right, and this is what this property describes.
 >
+
+Ack to keep it then ?
+
 > Going back to my earlier question, doesn't the number of lanes available in
 > the SoC depend on the SoC where this block is integrated, which could be
 > indicated by a compatible string?
@@ -261,6 +233,24 @@ ChenYu
 >
 > See e.g. Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml for an
 > example. It got merged earlier today.
+
+Ah! maximum: 8. I was about to reply to Rob's video-interfaces
+conversion and this might need to be pointed out.
+I was also about to ask it it's an issue if the bindings validation
+does not catch arrays as: [1, 3] as the constraint of being
+monotonically increasing values is expressed in words only. I guess
+it's fine, the alternative syntax is awful:
+
+            anyOf:
+              - items:
+                - const: 1
+                - const: 2
+              - items:
+                - const: 1
+                - const: 2
+                - const: 3
+                - const: 4
+
 >
 > --
 > Kind regards,
