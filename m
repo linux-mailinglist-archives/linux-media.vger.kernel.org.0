@@ -2,111 +2,100 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E04482CC9DA
-	for <lists+linux-media@lfdr.de>; Wed,  2 Dec 2020 23:46:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 1B27D2CCAE8
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 01:14:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387634AbgLBWpi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 17:45:38 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35234 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729017AbgLBWph (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 17:45:37 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 175FFC0613D6;
-        Wed,  2 Dec 2020 14:44:57 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id f190so792273wme.1;
-        Wed, 02 Dec 2020 14:44:57 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=vdTl/tO55LNkeiiltDbdm9E3cNr4surJ/KWqPgGlQ+w=;
-        b=FhpDMy4U0u3jnxgW7ug36N7+Jc6N/+ASAARIqCwhJYxHYeEYlC0rcX4JZvUc0A7Fa5
-         GDe225eJML3Jf55abQojZyeS7bwIto2KD8Qq7iqMFDR1cLdinOzP3Bwu7GGoGUbiHEpn
-         7se+JIkDr4xlPisgATpeYSXnbJJkTUKm12H7rJKdWOyEeR94fWvbkv7xMwPXK5YjzV/G
-         9BehnW5BzUgQ7ZDo79hh5W74Jv3TK0aSWzFBkk3nmCTEoDKHJPZVTSOSpIPWsuCOGJXL
-         a1FSTNLpGtAwnOUcY0fxnSq/SuESJRrzZ7I+GLJc8pX4HtJBd3lW4vOnXdKLlyDQjlWs
-         FMlg==
+        id S1727293AbgLCANr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 2 Dec 2020 19:13:47 -0500
+Received: from mail-io1-f52.google.com ([209.85.166.52]:37596 "EHLO
+        mail-io1-f52.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725885AbgLCANr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 2 Dec 2020 19:13:47 -0500
+Received: by mail-io1-f52.google.com with SMTP id p187so244529iod.4;
+        Wed, 02 Dec 2020 16:13:31 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
          :content-transfer-encoding;
-        bh=vdTl/tO55LNkeiiltDbdm9E3cNr4surJ/KWqPgGlQ+w=;
-        b=OJsI9U+7jmr9q1wcnGgldw8xCI+raE4V20ZNNO1hU8Hjt9n9lo+TucW82ewUzPa406
-         2h96u46Pcx4WUty4BgjK6/MDxzw+DOKxkEi2t5YWsfA/+6xr2qZqmW8/kf7CLBD9Mqa8
-         eUMPmlkyIG3oHaUo6aWuHOM8tWBwraL17XR2jau14dKxwpkHVkbm5ujkQlP7ubYS13IF
-         RCXcAGZCa1U0CZv96ZHG/i/Qtdnub4MqfcpUezIym156bEozbj3KiK9tmet7MFh4C+Lc
-         DSfY9VpS0IN+fOvwEkEqdDNJ9RW6KdNn5qVVrAvaFJC2mYpb/AHZKp4JZvmjm6n8kIjT
-         fjug==
-X-Gm-Message-State: AOAM531oCDFSmDTKDVlKC3ljutgxK3eG07m/MbrEunukJIINp8eSrX1T
-        qhMxNsCqHASz4+TfCjukBok=
-X-Google-Smtp-Source: ABdhPJw/qp3tZp0seRrB7VFgc+jnjawf1eKT0qM8T9Hp1F9XpQyy5E1DLpO2yx8CD1WGeC+2RhDYrg==
-X-Received: by 2002:a1c:9d8b:: with SMTP id g133mr143249wme.189.1606949095868;
-        Wed, 02 Dec 2020 14:44:55 -0800 (PST)
-Received: from [192.168.1.211] ([2.31.224.80])
-        by smtp.gmail.com with ESMTPSA id h20sm244946wmb.29.2020.12.02.14.44.54
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 02 Dec 2020 14:44:55 -0800 (PST)
-Subject: Re: [PATCH 13/18] ipu3-cio2: Add functionality allowing software_node
- connections to sensors on platforms designed for Windows
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org,
-        mika.westerberg@linux.intel.com, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, wsa@kernel.org, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jorhand@linux.microsoft.com, kitakar@gmail.com,
-        heikki.krogerus@linux.intel.com
-References: <20201130133129.1024662-1-djrscally@gmail.com>
- <20201130133129.1024662-14-djrscally@gmail.com>
- <20201130170955.GN14465@pendragon.ideasonboard.com>
- <b5cc6bbd-f679-7023-fde0-de2acb65a3c2@gmail.com>
- <20201201223053.GB4569@pendragon.ideasonboard.com>
- <20201202103851.GC852@paasikivi.fi.intel.com>
- <cb68e265-0e6c-4079-e835-f004e6a46dfb@gmail.com>
- <20201202120251.GB4077@smile.fi.intel.com>
-From:   Dan Scally <djrscally@gmail.com>
-Message-ID: <7c74abe1-bc42-2eec-e7f8-9f51fb99820f@gmail.com>
-Date:   Wed, 2 Dec 2020 22:44:54 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        bh=DjdSLtOzBPosggV3jRDhGiSxaYkS7MRdHVLaRRWPza0=;
+        b=Vc/729mjE2DpwE0jldO/8qLXh7OwXO+acC8dElUEim4YbtjhzKlcf8MiHJpx+DoxhO
+         LLT473D/AeEyEQM+/Yh9TV5PYwsOeNhH0oNuIzxNV5ouQNNcPSlXWMt4bFNKpiz20tWE
+         wOVJt1zbxXDGS73iZp9zNCfWoHB85lBw9CkGfbnYhBHzA5oN3RezCmhioHaA91IXjl+k
+         EogKs9aoabzF2r1HGuSxJuRDxLvXiqaiqH6Jw7miYEUP/G0yfQ7mDkrU7Q9FCJREKbzp
+         5hdzNDHmEigeGLqAwK+qSM21+5HC6eHupOHvsdaYvmfJ6az9FurFNLr5XJJ5pxdmftxG
+         OKWQ==
+X-Gm-Message-State: AOAM530neCMse1fptYixlOvGjRboEi4/0I9ZHYm4RXtr73EfriS2vrMo
+        21P26GXo7cbuSyhAjzHbYw==
+X-Google-Smtp-Source: ABdhPJy2RDVShTjGBIAhbo1eYuIMmc4l/8Eoj6HOn0KOlrhRqAOF2Z9VUyFAC3VmjgThA+YUFikqHQ==
+X-Received: by 2002:a6b:ea08:: with SMTP id m8mr977376ioc.140.1606954386186;
+        Wed, 02 Dec 2020 16:13:06 -0800 (PST)
+Received: from xps15.herring.priv ([64.188.179.253])
+        by smtp.googlemail.com with ESMTPSA id n7sm174830ioa.34.2020.12.02.16.13.04
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Dec 2020 16:13:05 -0800 (PST)
+From:   Rob Herring <robh@kernel.org>
+To:     Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Subject: [PATCH v2 0/2] dt-bindings: media: Convert video-interfaces.txt to schemas
+Date:   Wed,  2 Dec 2020 17:13:00 -0700
+Message-Id: <20201203001302.3407476-1-robh@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20201202120251.GB4077@smile.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/12/2020 12:02, Andy Shevchenko wrote:
-> On Wed, Dec 02, 2020 at 10:53:05AM +0000, Dan Scally wrote:
->> On 02/12/2020 10:38, Sakari Ailus wrote:
-> 
-> ...
-> 
->>>>> Argh, thanks, this is the curse of using VS code on multiple machines...
->>>> I recommend vim ;-)
->>> What is VS code? Very Serious Code?
->>
->> Visual Studio Code - it has some nice features, but the
->> facepalm-to-productivity ratio is a bit high.
-> 
-> Perhaps you can submit an issue report on GitHub. I found VS Code pretty nice
-> to be with Linux kernel development.
+This series converts video-interfaces.txt to DT schema which in turn is
+based on converting the graph binding to a schema. All the media users
+are converted to use the graph and video-interfaces schemas.
 
-Yeah I like it too; it's the one I've stuck with despite the annoyances
-I find. It has some super handy features for someone who doesn't know
-most of the kernel APIs very well yet. Writing up the issues is on my
-to-do list but I hate to do it without at least putting some effort into
-figuring out what the problem is and I so far didn't get round to that yet
+Based on media tree commit a3f132df0e5f. This is dependent on dt-schema
+changes not yet committed[1]. Please review those too.
+
+Rob
+
+[1] https://github.com/devicetree-org/dt-schema/tree/of-graph
+
+Rob Herring (2):
+  media: dt-bindings: Convert video-interfaces.txt properties to schemas
+  dt-bindings: media: Use graph and video-interfaces schemas
+
+ .../media/allwinner,sun4i-a10-csi.yaml        |  11 +-
+ .../media/allwinner,sun6i-a31-csi.yaml        |  12 +-
+ .../bindings/media/i2c/adv7180.yaml           |  35 +-
+ .../bindings/media/i2c/adv7604.yaml           |  37 +-
+ .../bindings/media/i2c/aptina,mt9v111.yaml    |   4 +-
+ .../bindings/media/i2c/imi,rdacm2x-gmsl.yaml  |  30 +-
+ .../devicetree/bindings/media/i2c/imx219.yaml |  21 +-
+ .../bindings/media/i2c/maxim,max9286.yaml     | 101 +--
+ .../devicetree/bindings/media/i2c/ov5647.yaml |  20 +-
+ .../devicetree/bindings/media/i2c/ov8856.yaml |  21 +-
+ .../bindings/media/i2c/ovti,ov2680.yaml       |   6 +-
+ .../bindings/media/i2c/ovti,ov772x.yaml       |   9 +-
+ .../bindings/media/i2c/sony,imx214.yaml       |  25 +-
+ .../bindings/media/i2c/sony,imx274.yaml       |   3 +-
+ .../bindings/media/marvell,mmp2-ccic.yaml     |  15 +-
+ .../bindings/media/nxp,imx7-csi.yaml          |   5 +-
+ .../bindings/media/nxp,imx7-mipi-csi2.yaml    |  32 +-
+ .../bindings/media/renesas,ceu.yaml           |  17 +-
+ .../bindings/media/renesas,csi2.yaml          |  54 +-
+ .../bindings/media/renesas,vin.yaml           | 113 +---
+ .../bindings/media/rockchip-isp1.yaml         |  40 +-
+ .../bindings/media/st,stm32-dcmi.yaml         |  18 +-
+ .../devicetree/bindings/media/ti,cal.yaml     |  55 +-
+ .../media/video-interface-devices.yaml        | 405 +++++++++++
+ .../bindings/media/video-interfaces.txt       | 640 +-----------------
+ .../bindings/media/video-interfaces.yaml      | 344 ++++++++++
+ .../bindings/media/xilinx/xlnx,csi2rxss.yaml  |  39 +-
+ 27 files changed, 901 insertions(+), 1211 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/video-interface-devices.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/video-interfaces.yaml
+
+--
+2.25.1
