@@ -2,179 +2,257 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 325682CDDA9
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 19:34:06 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2DD42CDE27
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 20:00:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388274AbgLCSaC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 13:30:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49292 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727599AbgLCSaB (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 13:30:01 -0500
-Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 98407C061A4E;
-        Thu,  3 Dec 2020 10:29:15 -0800 (PST)
-Received: by mail-pl1-x643.google.com with SMTP id f1so1606918plt.12;
-        Thu, 03 Dec 2020 10:29:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=+WyCqEHFRXG/znTaYwcRSAz+ikU4KUuDWRGTqiuEseI=;
-        b=Jq1AeVxjxylFag35gbpDoPu6RWql4w6olyXkAzkSvgiJXX/z5a/6KalXnelP8oFs7U
-         hQ/rQwIzWJ7TgKd79uqjVwE26bchVNuMP+6FJegdEdSKA0xJZyYM0417c0moxtGUVFiq
-         iq0Op36EaHeARncOUAKj+VBrfPm9/l8AFhky13Tpib9uOkMVmPcUZKOkCoCcNndgPBfN
-         BD3VK01aF2hL4MZRrs7A16UjaoM6GhfmNU7UTiPE9Zb56W59bW+BMl/JUz5ts5/cmQw9
-         3XuTGWJqvkraNhgLLm7DDat/9WTe6nRIv7V0Sa5MOO1nbjGyLagXPFijR58IMNo+v1Zi
-         bn/w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=+WyCqEHFRXG/znTaYwcRSAz+ikU4KUuDWRGTqiuEseI=;
-        b=hT2DeMoFR+auy4MqbkEicqub9gDzVszBC/vGEOP+0Lzx4oI6vtHuWI6gDfalNDK5UF
-         HoEwe43nPG4lejX12CT4UgSMadg4hSKGnpS5ODb8E4rlzmDnPFFw0vJDB4+MRTjZ0uQ8
-         T8Ju1OfsJmz29kGN+XEGSq8PT1lOTG2X/dwdh79iduVh04SmNEZQ2dZe2RB0iENBnf5l
-         l0uzThV2YR3kac9teqL6V2Xa5hFy6Os0Xg9KylE+3GVlt2MZROkDtsGkv6mK5JditF2I
-         eJQibe/fNGKZCjhDrIo0hUd8Tfo1+degpdy8/BMcJXOzt5tolNKRzu1wmpzSUYKkIshc
-         ckJQ==
-X-Gm-Message-State: AOAM530plHFunP9KsrH/OHgBr2JGFVYwQzaKbemy0N2/uMItSlYTuO3V
-        RSqV0Lx/pePiw3SDxwswSVOnix9/hdQn6Y4+Y+I=
-X-Google-Smtp-Source: ABdhPJw76gw7sWSLM4C/6LEnb1g+m3GERIOLPxkx5+zN/CF8v9kUqWUvnYpr3RBnylk3CWwPcZLba5heZ9xnwtU6OrU=
-X-Received: by 2002:a17:90a:34cb:: with SMTP id m11mr364955pjf.181.1607020155055;
- Thu, 03 Dec 2020 10:29:15 -0800 (PST)
+        id S1726998AbgLCS7s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 13:59:48 -0500
+Received: from mx2.suse.de ([195.135.220.15]:39110 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726222AbgLCS7r (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Dec 2020 13:59:47 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id F1275AC2E;
+        Thu,  3 Dec 2020 18:59:05 +0000 (UTC)
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     linaro-mm-sig@lists.linaro.org, hdegoede@redhat.com,
+        dri-devel@lists.freedesktop.org, airlied@redhat.com,
+        christian.koenig@amd.com, linux-media@vger.kernel.org
+References: <20201203140259.26580-1-tzimmermann@suse.de>
+ <20201203140259.26580-8-tzimmermann@suse.de>
+ <20201203152601.GB401619@phenom.ffwll.local>
+From:   Thomas Zimmermann <tzimmermann@suse.de>
+Subject: Re: [PATCH v2 7/7] dma-buf: Write down some rules for vmap usage
+Message-ID: <ee2abd93-0dfe-53a3-0038-5edc58c3ec92@suse.de>
+Date:   Thu, 3 Dec 2020 19:59:04 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
 MIME-Version: 1.0
-References: <9af089ea-2532-68ac-5d22-97a669ccec91@canonical.com>
- <CAHp75Ve7Sdf=Zy5N1LN_w22=YwPgWWR-FZtrQcAkOF=ViT2Kbw@mail.gmail.com> <8eb453c7-a221-e741-5fe5-655e59075f34@canonical.com>
-In-Reply-To: <8eb453c7-a221-e741-5fe5-655e59075f34@canonical.com>
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-Date:   Thu, 3 Dec 2020 20:30:03 +0200
-Message-ID: <CAHp75VffBjhvuZ1Uy5Eo5qSiZ4w-+dhH5cR_XgmqGvxtrMd3uQ@mail.gmail.com>
-Subject: Re: media: i2c: add OV02A10 image sensor driver
-To:     Colin Ian King <colin.king@canonical.com>
-Cc:     Dongchun Zhu <dongchun.zhu@mediatek.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        "moderated list:ARM/Mediatek SoC support" 
-        <linux-mediatek@lists.infradead.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <20201203152601.GB401619@phenom.ffwll.local>
+Content-Type: multipart/signed; micalg=pgp-sha256;
+ protocol="application/pgp-signature";
+ boundary="VssPZWBOORIM5b9f8itA7ItuC8H1jqYO6"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 3, 2020 at 8:24 PM Colin Ian King <colin.king@canonical.com> wrote:
-> On 03/12/2020 18:10, Andy Shevchenko wrote:
-> > On Thu, Dec 3, 2020 at 8:03 PM Colin Ian King <colin.king@canonical.com> wrote:
-> >
-> >> Static analysis on linux-next with Coverity has detected an issue with
-> >> the following commit:
-> >
-> > If you want to fix it properly, see my comments below...
-> >
-> >> 529 static int ov02a10_s_stream(struct v4l2_subdev *sd, int on)
-> >> 530 {
-> >> 531        struct ov02a10 *ov02a10 = to_ov02a10(sd);
-> >> 532        struct i2c_client *client =
-> >> v4l2_get_subdevdata(&ov02a10->subdev);
-> >>
-> >>    1. var_decl: Declaring variable ret without initializer.
-> >>
-> >> 533        int ret;
-> >> 534
-> >> 535        mutex_lock(&ov02a10->mutex);
-> >> 536
-> >>
-> >>    2. Condition ov02a10->streaming == on, taking true branch.
-> >>
-> >> 537        if (ov02a10->streaming == on)
-> >>
-> >>    3. Jumping to label unlock_and_return.
-> >>
-> >> 538                goto unlock_and_return;
-> >> 539
-> >> 540        if (on) {
-> >> 541                ret = pm_runtime_get_sync(&client->dev);
-> >> 542                if (ret < 0) {
-> >
-> >> 543                        pm_runtime_put_noidle(&client->dev);
-> >> 544                        goto unlock_and_return;
-> >
-> > Instead of two above:
-> >                        goto err_rpm_put;
-> >
-> >> 545                }
-> >> 546
-> >> 547                ret = __ov02a10_start_stream(ov02a10);
-> >> 548                if (ret) {
-> >> 549                        __ov02a10_stop_stream(ov02a10);
-> >> 550                        ov02a10->streaming = !on;
-> >> 551                        goto err_rpm_put;
-> >> 552                }
-> >> 553        } else {
-> >> 554                __ov02a10_stop_stream(ov02a10);
-> >> 555                pm_runtime_put(&client->dev);
-> >> 556        }
-> >> 557
-> >> 558        ov02a10->streaming = on;
-> >
-> > (1)
-> >
-> >> 559        mutex_unlock(&ov02a10->mutex);
-> >> 560
-> >> 561        return 0;
-> >> 562
-> >> 563 err_rpm_put:
-> >> 564        pm_runtime_put(&client->dev);
-> >
-> >> 565 unlock_and_return:
-> >
-> > Should be moved to (1).
-> >
-> >> 566        mutex_unlock(&ov02a10->mutex);
-> >> 567
-> >>
-> >> Uninitialized scalar variable (UNINIT)
-> >>     4. uninit_use: Using uninitialized value ret.
-> >>
-> >> 568        return ret;
-> >> 569 }
-> >>
-> >> Variable ret has not been initialized, so the error return value is a
-> >> garbage value. It should be initialized with some appropriate negative
-> >> error code, or ret could be removed and the return should return a
-> >> literal value of a error code.
-> >>
-> >> I was unsure what value is appropriate to fix this, so instead I'm
-> >> reporting this issue.
-> >
-> Not sure I fully understand how that fixes it.
+This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
+--VssPZWBOORIM5b9f8itA7ItuC8H1jqYO6
+Content-Type: multipart/mixed; boundary="vmhedsiPmkJS4pKaUezB1f0518yO38X5q";
+ protected-headers="v1"
+From: Thomas Zimmermann <tzimmermann@suse.de>
+To: Daniel Vetter <daniel@ffwll.ch>
+Cc: linaro-mm-sig@lists.linaro.org, hdegoede@redhat.com,
+ dri-devel@lists.freedesktop.org, airlied@redhat.com,
+ christian.koenig@amd.com, linux-media@vger.kernel.org
+Message-ID: <ee2abd93-0dfe-53a3-0038-5edc58c3ec92@suse.de>
+Subject: Re: [PATCH v2 7/7] dma-buf: Write down some rules for vmap usage
+References: <20201203140259.26580-1-tzimmermann@suse.de>
+ <20201203140259.26580-8-tzimmermann@suse.de>
+ <20201203152601.GB401619@phenom.ffwll.local>
+In-Reply-To: <20201203152601.GB401619@phenom.ffwll.local>
 
-If you are not sure and have no means to test, then don't bother. This
-is not the priority driver anyway.
+--vmhedsiPmkJS4pKaUezB1f0518yO38X5q
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: quoted-printable
 
->  Given that ret is
-> currently not initialized when we hit:
->
->          if (ov02a10->streaming == on)
->                 goto unlock_and_return;
->
-> either we initialize ret to 0 at the start of the function, or do:
->
->          if (ov02a10->streaming == on) {
->                 ret = 0;
->                 goto unlock_and_return;
->         }
->
-> (assuming the intention is to return zero for this specific case).
+Hi
 
-No, please read my message again.
+Am 03.12.20 um 16:26 schrieb Daniel Vetter:
+> On Thu, Dec 03, 2020 at 03:02:59PM +0100, Thomas Zimmermann wrote:
+>> Dma-buf's vmap and vunmap callbacks are undocumented and various
+>> exporters currently have slightly different semantics for them. Add
+>> documentation on how to implement and use these interfaces correctly.
+>>
+>> v2:
+>> 	* document vmap semantics in struct dma_buf_ops
+>> 	* add TODO item for reviewing and maybe fixing dma-buf exporters
+>>
+>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+>=20
+> I still don't think this works, we're breaking dma_buf_vmap for everyon=
+e
+> else here.
 
--- 
-With Best Regards,
-Andy Shevchenko
+I removed the text on the importer. These notes for callers in the docs=20
+are more or less a consequence of the exporter semantics.
+
+I thought we at least agreed on the exporter semantics in the other=20
+thread, didn't we?
+
+What I'm trying to do is to write dome some rules for exporters, even if =
+
+not all exporters follow them.
+
+Given the circumstances, we should leave out this patch from the patchset=
+=2E
+
+Best regards
+Thomas
+
+>=20
+>> ---
+>>   Documentation/gpu/todo.rst | 15 +++++++++++++
+>>   include/drm/drm_gem.h      |  4 ++++
+>>   include/linux/dma-buf.h    | 45 ++++++++++++++++++++++++++++++++++++=
+++
+>>   3 files changed, 64 insertions(+)
+>>
+>> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
+>> index 009d8e6c7e3c..32bb797a84fc 100644
+>> --- a/Documentation/gpu/todo.rst
+>> +++ b/Documentation/gpu/todo.rst
+>> @@ -505,6 +505,21 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>,=
+ Christian K=C3=B6nig, Daniel Vette
+>>   Level: Intermediate
+>>  =20
+>>  =20
+>> +Enforce rules for dma-buf vmap and pin ops
+>> +------------------------------------------
+>> +
+>> +Exporter implementations of vmap and pin in struct dma_buf_ops (and c=
+onsequently
+>> +struct drm_gem_object_funcs) use a variety of locking semantics. Some=
+ rely on
+>> +the caller holding the dma-buf's reservation lock, some do their own =
+locking,
+>> +some don't require any locking. VRAM helpers even used to pin as part=
+ of vmap.
+>> +
+>> +We need to review each exporter and enforce the documented rules.
+>> +
+>> +Contact: Christian K=C3=B6nig, Daniel Vetter, Thomas Zimmermann <tzim=
+mermann@suse.de>
+>> +
+>> +Level: Advanced
+>> +
+>> +
+>>   Core refactorings
+>>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+>>  =20
+>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+>> index 5e6daa1c982f..1864c6a721b1 100644
+>> --- a/include/drm/drm_gem.h
+>> +++ b/include/drm/drm_gem.h
+>> @@ -138,6 +138,8 @@ struct drm_gem_object_funcs {
+>>   	 * drm_gem_dmabuf_vmap() helper.
+>>   	 *
+>>   	 * This callback is optional.
+>> +	 *
+>> +	 * See also struct dma_buf_ops.vmap
+>>   	 */
+>>   	int (*vmap)(struct drm_gem_object *obj, struct dma_buf_map *map);
+>>  =20
+>> @@ -148,6 +150,8 @@ struct drm_gem_object_funcs {
+>>   	 * drm_gem_dmabuf_vunmap() helper.
+>>   	 *
+>>   	 * This callback is optional.
+>> +	 *
+>> +	 * See also struct dma_buf_ops.vunmap
+>>   	 */
+>>   	void (*vunmap)(struct drm_gem_object *obj, struct dma_buf_map *map)=
+;
+>>  =20
+>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+>> index cf72699cb2bc..dc81fdc01dda 100644
+>> --- a/include/linux/dma-buf.h
+>> +++ b/include/linux/dma-buf.h
+>> @@ -267,7 +267,52 @@ struct dma_buf_ops {
+>>   	 */
+>>   	int (*mmap)(struct dma_buf *, struct vm_area_struct *vma);
+>>  =20
+>> +	/**
+>> +	 * @vmap:
+>=20
+> There's already a @vmap and @vunamp kerneldoc at the top comment, that
+> needs to be removed.
+> -Daniel
+>=20
+>> +	 *
+>> +	 * Returns a virtual address for the buffer.
+>> +	 *
+>> +	 * Notes to callers:
+>> +	 *
+>> +	 * - Callers must hold the struct dma_buf.resv lock before calling
+>> +	 *   this interface.
+>> +	 *
+>> +	 * - Callers must provide means to prevent the mappings from going
+>> +	 *   stale, such as holding the reservation lock or providing a
+>> +	 *   move-notify callback to the exporter.
+>> +	 *
+>> +	 * Notes to implementors:
+>> +	 *
+>> +	 * - Implementations must expect pairs of @vmap and @vunmap to be
+>> +	 *   called frequently and should optimize for this case.
+>> +	 *
+>> +	 * - Implementations should avoid additional operations, such as
+>> +	 *   pinning.
+>> +	 *
+>> +	 * - Implementations may expect the caller to hold the dma-buf's
+>> +	 *   reservation lock to protect against concurrent calls and
+>> +	 *   relocation.
+>> +	 *
+>> +	 * - Implementations may provide additional guarantees, such as work=
+ing
+>> +	 *   without holding the reservation lock.
+>> +	 *
+>> +	 * This callback is optional.
+>> +	 *
+>> +	 * Returns:
+>> +	 *
+>> +	 * 0 on success or a negative error code on failure.
+>> +	 */
+>>   	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+>> +
+>> +	/**
+>> +	 * @vunmap:
+>> +	 *
+>> +	 * Releases the address previously returned by @vmap.
+>> +	 *
+>> +	 * This callback is optional.
+>> +	 *
+>> +	 * See also @vmap()
+>> +	 */
+>>   	void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
+>>   };
+>>  =20
+>> --=20
+>> 2.29.2
+>>
+>=20
+
+--=20
+Thomas Zimmermann
+Graphics Driver Developer
+SUSE Software Solutions Germany GmbH
+Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+(HRB 36809, AG N=C3=BCrnberg)
+Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+
+
+--vmhedsiPmkJS4pKaUezB1f0518yO38X5q--
+
+--VssPZWBOORIM5b9f8itA7ItuC8H1jqYO6
+Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
+Content-Description: OpenPGP digital signature
+Content-Disposition: attachment; filename="OpenPGP_signature"
+
+-----BEGIN PGP SIGNATURE-----
+
+wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/JNXgFAwAAAAAACgkQlh/E3EQov+Cf
+gg/8D7k2P90vQjC2lAAkzKYkD36iSszn6huMEMpsQ7D/GD+F4JleE/Y/qfaQZFb7l7HhogXc5eP2
+d8LHmR+i990GAi4a+Go9HWTNofUlQrlKRy+CV65Nrd1dnyFCuctBAjyZx1lpQlcH22vA6hmpMWjf
+vvySO/qfyMMYGxfgrD5X7zUYcNqF3ZgAGHcfCkELeGdynBEm+Y2dbOpH/JMMTU/pnJoJliBVD6p7
+m4PboAQDhB2vJ45HoykT4k+yn7oQpzW8mapTr5Fbs9A4UyvzLNnjB9mJmQaY1WiOCglsiObSznWs
+h27r8jOnl14OEux8MthEfzI8cSq/a+nsw3w+0DOuPxch11qv1q46mv+Bajy+fO0HUcQYZxPCYpb0
+dCuXNDUzGE1I4D54rdpVswRsOpqUzhtA/3FypVNOWy2jTbsY2m13rkIunE+ye8cFbsndWY5BvHSo
+lz3m4K39beVwS3PUgq3DuoDUHH4XDKym9Zqfe7rCoHVTZ/KE2WzZvrBojG+Pt4NFtIcwwrVKg6el
+JcYhMFEhuLh122GKYP/1v3r2dgA0b5HVFpndmZbS0s/pzXgSKMM2TTlVAiNAxmXWe75QoesYqsNs
+61X75D80IIYsuJhfgFkyVFlp+VztHlZK49YZPth71FEVytjLuNG3rhR80N/3J+Umcq7l7ZRtIqUW
+6Es=
+=aTrj
+-----END PGP SIGNATURE-----
+
+--VssPZWBOORIM5b9f8itA7ItuC8H1jqYO6--
