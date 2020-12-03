@@ -2,191 +2,137 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2D4F32CD4D6
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 12:44:37 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D22532CD4E2
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 12:49:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730284AbgLCLnj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 06:43:39 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42574 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727069AbgLCLnj (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 06:43:39 -0500
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9F428C061A4D
-        for <linux-media@vger.kernel.org>; Thu,  3 Dec 2020 03:42:58 -0800 (PST)
-Received: by mail-wm1-x342.google.com with SMTP id v14so2474173wml.1
-        for <linux-media@vger.kernel.org>; Thu, 03 Dec 2020 03:42:58 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=raspberrypi.com; s=google;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=iD48VB81NN4I5q21Vy1Q7V0BWEYlEg8ANFvbfRsvo1w=;
-        b=jRP/qwkEHEXaoU3vsKvj0a76Oi2yc3WKhjsE+loPCqeNS7N2N8NvK6+N8uJ6TLiwxp
-         +zYplge7udDbiCWu1DR4an7Z8LlD7A79EyGW/wlh9jP3A/QyPUdad/jsF9u7ouh3yyY0
-         CM2/edJ/eeJx0M7c6YbotqiKb8kacoCl8lIKWqDJHqOH+Ceh9qN1oq5wKsiaYm744kkG
-         q7ab/Yyt/sqUYhW30x/QYhle4JaUaXwrO6vMb6h5Y43rPQ9IJfCAYc+w8G7z98NrDhBQ
-         eLQHdhu26NltEFTmyyvgrWJQ5M3bLp4I1RAFA5DryGoRGFxYgS0BTGsjGN0+HS15o/Xl
-         nvqQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=iD48VB81NN4I5q21Vy1Q7V0BWEYlEg8ANFvbfRsvo1w=;
-        b=FCQsTZT9RzGgjQUzTZ3OMW9ZLT0asb4Zdj3Gvs2FiR9hemsdq6Uu+RlKg0SwRQUD3x
-         6d8id/E8j9LcltClo+t4tRIRXn7z2y/CsDNog5a+ROVKfzZn0oaLVbA/AZzhdzMItTZK
-         11tJKUSIovwdaf9Cj7aYRiV5uwfCqU6InKPYjil7FEY5IW5IjtX2jcvQY68sJMGwuyvm
-         dPol7bQewJxrrvSuo+LCfV6/hDh3CwuQdhTddQd7q4EBjgn/RVbnk5KbMSXtZAasapdt
-         mixj7UCPDGPvukEhZxNVHgJqC3Z9qzNKrE9W1CZsG/54T2Mx4KfXAVhjywzcBVirAudF
-         l0FA==
-X-Gm-Message-State: AOAM533XJdbR5nVXeN2paALsimHmHWbgGLeAjYQ2AihZQ12dH7ArzrRW
-        c3/MaUdKAhNR+SgdR5JK2v2HD2IPvIFl5jrZkAOkMuqigLrmEw==
-X-Google-Smtp-Source: ABdhPJzGCckT1K2CZlyiHXcsmrA7FfJx14VB2PUmGVPkSSArCiMdOBtxwFmUVgKCeUC2l5XIeQwh14wgesejEoLAIdk=
-X-Received: by 2002:a1c:bc88:: with SMTP id m130mr2948688wmf.82.1606995777276;
- Thu, 03 Dec 2020 03:42:57 -0800 (PST)
+        id S1728903AbgLCLsh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 06:48:37 -0500
+Received: from mx2.suse.de ([195.135.220.15]:51776 "EHLO mx2.suse.de"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726710AbgLCLsg (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Dec 2020 06:48:36 -0500
+X-Virus-Scanned: by amavisd-new at test-mx.suse.de
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
+        t=1606996070; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
+         mime-version:mime-version:content-type:content-type:
+         in-reply-to:in-reply-to:references:references;
+        bh=WdKmdYnwmnj2SC50EKwyFiX7FW/+oQeHbUAT/XBMu74=;
+        b=Z3WBmDj49gC8U1gp2kb3oi8QpP7B85jdgQlpkvQcvulESDp0PXpILM5nZz/hp5jw9+/afT
+        8hPFNYJ5G4JqUUSMaYgIeXW6dYQHvyjSu2UDffeIr/zW/ADnaQ5faqZE9Uq4gJGgqTCaSQ
+        kils5BbwPWFohjg0fKAXoMG9UqDj1mg=
+Received: from relay2.suse.de (unknown [195.135.221.27])
+        by mx2.suse.de (Postfix) with ESMTP id D83D9AC75;
+        Thu,  3 Dec 2020 11:47:49 +0000 (UTC)
+Date:   Thu, 3 Dec 2020 12:47:48 +0100
+From:   Michal Hocko <mhocko@suse.com>
+To:     David Hildenbrand <david@redhat.com>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, hyesoo.yu@samsung.com,
+        willy@infradead.org, iamjoonsoo.kim@lge.com, vbabka@suse.cz,
+        surenb@google.com, pullip.cho@samsung.com, joaodias@google.com,
+        hridya@google.com, sumit.semwal@linaro.org, john.stultz@linaro.org,
+        Brian.Starkey@arm.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, robh@kernel.org,
+        christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org
+Subject: Re: [PATCH v2 2/4] mm: introduce cma_alloc_bulk API
+Message-ID: <20201203114748.GB17338@dhcp22.suse.cz>
+References: <8f006a4a-c21d-9db3-5493-fb1cc651b0cf@redhat.com>
+ <20201202154915.GU17338@dhcp22.suse.cz>
+ <X8e9tSwcsrEsAv1O@google.com>
+ <20201202164834.GV17338@dhcp22.suse.cz>
+ <X8fU1ddmsSfuV6sD@google.com>
+ <20201202185107.GW17338@dhcp22.suse.cz>
+ <X8fqU82GXmu57f7V@google.com>
+ <f0e980cb-cc74-82e8-6ccf-09030a96103a@redhat.com>
+ <20201203082810.GX17338@dhcp22.suse.cz>
+ <c5209dce-dc30-6d8d-e8f8-c5412b072310@redhat.com>
 MIME-Version: 1.0
-References: <20201110174036.220883-1-jacopo@jmondi.org> <20201110174036.220883-6-jacopo@jmondi.org>
- <20201202220635.GC4351@valkosipuli.retiisi.org.uk>
-In-Reply-To: <20201202220635.GC4351@valkosipuli.retiisi.org.uk>
-From:   Dave Stevenson <dave.stevenson@raspberrypi.com>
-Date:   Thu, 3 Dec 2020 11:42:38 +0000
-Message-ID: <CAPY8ntC42KJ-8SB2JbG=bbHKOD7u7qs8kqTJZ7unz63nxpXtZQ@mail.gmail.com>
-Subject: Re: [PATCH v4 5/5] media: bcm2835-unicam: Add TODO file
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     Jacopo Mondi <jacopo@jmondi.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Naushir Patuck <naush@raspberrypi.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        "cc: Kieran Bingham" <kieran.bingham@ideasonboard.com>,
-        =?UTF-8?Q?Niklas_S=C3=B6derlund?= <niklas.soderlund@ragnatech.se>,
-        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Nicolas Saenz Julienne <nsaenzjulienne@suse.de>,
-        mchehab+huawei@kernel.org
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <c5209dce-dc30-6d8d-e8f8-c5412b072310@redhat.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Sakari
+On Thu 03-12-20 10:47:02, David Hildenbrand wrote:
+> On 03.12.20 09:28, Michal Hocko wrote:
+[...]
+> > I think we should aim at easy and very highlevel behavior:
+> > - GFP_NOWAIT - unsupported currently IIRC but something that something
+> >   that should be possible to implement. Isolation is non blocking,
+> >   migration could be skipped
+> > - GFP_KERNEL - default behavior whatever that means
+> > - GFP_NORETRY - opportunistic allocation as lightweight as we can get.
+> >   Failures to be expected also for transient reasons.
+> > - GFP_RETRY_MAYFAIL - try hard but not as hard as to trigger disruption
+> >   (e.g. via oom killer).
+> 
+> I think we currently see demand for 3 modes for alloc_contig_range()
+> 
+> a) normal
+> 
+> As is. Try, but don't try too hard. E.g., drain LRU, drain PCP, retry a
+> couple of times. Failures in some cases (short-term pinning, PCP races)
+> are still possible and acceptable.
+> 
+> GFP_RETRY_MAYFAIL ?
 
-On Wed, 2 Dec 2020 at 22:07, Sakari Ailus <sakari.ailus@iki.fi> wrote:
->
-> Hi Jacopo,
->
-> On Tue, Nov 10, 2020 at 06:40:36PM +0100, Jacopo Mondi wrote:
-> > The bcm2835-unicam driver is currently in staging mainly for
-> > two reasons:
-> > - Handling of CSI-2 embedded data
-> > - Usage of both media controller API and subdev kAPI
-> >
-> > Provide a more detailed description of the currently on-going design
-> > discussions in the associated TODO file.
-> >
-> > Signed-off-by: Jacopo Mondi <jacopo@jmondi.org>
-> > ---
-> >  drivers/staging/media/bcm2835-unicam/TODO | 37 +++++++++++++++++++++++
-> >  1 file changed, 37 insertions(+)
-> >  create mode 100644 drivers/staging/media/bcm2835-unicam/TODO
-> >
-> > diff --git a/drivers/staging/media/bcm2835-unicam/TODO b/drivers/staging/media/bcm2835-unicam/TODO
-> > new file mode 100644
-> > index 0000000000000..c7840872eea4c
-> > --- /dev/null
-> > +++ b/drivers/staging/media/bcm2835-unicam/TODO
-> > @@ -0,0 +1,37 @@
-> > +BCM2835 Unicam driver TODO list
-> > +===============================
-> > +
-> > +The unicam driver could be considered ready to be moved out of the staging
-> > +directory in terms of code quality and expected functionalities.
-> > +
-> > +However there currently are two design issues that suggest the driver is
-> > +better kept in staging for the time being.
-> > +
-> > +CSI-2 Embedded data support:
-> > +----------------------------
-> > +
-> > +The RaspberryPi camera stack and camera applications rely on the availability of
-> > +the sensor produced CSI-2 embedded data, whose support is currently not
-> > +finalized in mainline Linux.
-> > +
-> > +The driver conditionally registers an additional video device node
-> > +'unicam-embedded' with a single sink pad which connects to the sensor
-> > +sub-device source pad #1 to expose ancillary data.
-> > +
-> > +Currently none of the mainline sensor drivers register more than a single pad,
-> > +and consequentially no embedded data from the sensor are exposed to userspace.
-> > +
-> > +The current implementation is then subject to changes depending on how support
-> > +for CSI-2 embedded data gets finalized in Linux.
->
-> Are you looking to use out-of-tree sensor drivers that have two pads? I'd
-> rather see sensor drivers merged to mainline proper.
->
-> But as noted in the other e-mail, we need VC / stream support so this needs
-> to be addressed for reasons not related to Unicam.
+normal shouldn't really require anybody to think about gfp flags hard.
+That to most people really means GFP_KERNEL.
 
-There's a downstream patch for imx219 that adds the second pad [1].
-The imx477 driver that is currently only out-of-tree also supports it,
-and should be upstreamed once this first wave of patches have got
-somewhere.
+> E.g., "Allocations with this flag may fail, but only when there is
+> genuinely little unused memory." - current description does not match at
+> all. When allocating ranges things behave completely different.
+> 
+> 
+> b) fast
+> 
+> Try, but fail fast. Leave optimizations that can improve the result to
+> the caller. E.g., don't drain LRU, don't drain PCP, don't retry.
+> Frequent failures are expected and acceptable.
+> 
+> __GFP_NORETRY ?
+> 
+> E.g., "The VM implementation will try only very lightweight memory
+> direct reclaim to get some memory under memory pressure" - again, I
+> think current description does not really match.
 
-[1] https://github.com/raspberrypi/linux/commit/fa8131cb1399f2c22de3f29e08ec1658db76552b
-It's on the rpi-5.10.y branch too, but that is still being frequently
-rebased so no stable commit hashes
+Agreed. As mentioned above this would be an opportunistic allocation
+mode.
 
-> > +
-> > +Media controller support:
-> > +-------------------------
-> > +
-> > +Due to compatibility reasons with the existing RaspberryPi software ecosystem
-> > +the unicam driver implements the media controller interface to allow the
-> > +enumeration of the connected entities but handles the configuration of the
-> > +sensor sub-device using the v4l2-subdev kAPI instead of delegating that to
-> > +user-space.
-> > +
-> > +Discussions are on-going on how this should be better handled (driver option,
-> > +KConfig option etc etc).
->
-> That's a fair use case. There are two ways to handle it, either in the
-> kernel where the choice affects how the user space looks like. You have an
-> option of module parameter or Kconfig option there, and both are true
-> annoyances.
->
-> Another option is to work around it in the user space, wrapping the IOCTL
-> calls. This way no kernel build or module load time parameters would be
-> needed to switch between the two sets of user space programs.
->
-> We probably can't decide it now, but could an MC-only driver + user space
-> compatibility layer be an option here?
+ 
+> c) hard
+> 
+> Try hard, E.g., temporarily disabling the PCP. Certainly not
+> __GFP_NOFAIL, that would be highly dangerous. So no flags / GFP_KERNEL?
 
-Iff the user-space compatibility layer worked with all standard users
-(eg v4l2-ctl, FFmpeg and Gstreamer), then it's plausible, but is that
-realistic?
+NOFAIL semantic is out of question. Should we have a mode to try harder
+than the default? I dunno. Do we have users? I think RETRY_MAYFAIL is a
+middle ground between the default and NORETRY which is just too easy to
+fail. This is the case for the allocator as well. And from what I have
+seen people are already using MAYFAIL in order to prevent oom killer so
+this is a generally recognized pattern.
 
-The non-MC approach is mainly for things like the TC358743 HDMI->CSI
-bridge and ADV728x-M chips where MC adds nothing, and they do just
-work with the likes of FFmpeg and Gstreamer.
-Image sensors are generally going to be used under libcamera umbrella,
-so there MC works.
+> > - __GFP_THIS_NODE - stick to a node without fallback
+> > - we can support zone modifiers although there is no existing user.
+> > - __GFP_NOWARN - obvious
+> > 
+> > And that is it. Or maybe I am seeing that oversimplified.
+> > 
+> 
+> Again, I think most flags make sense for the migration target allocation
+>  path and mainly deal with OOM situations and reclaim. For the migration
+> path - which is specific to the alloc_contig_range() allocater - they
+> don't really apply and create more confusion than they actually help - IMHO.
 
-Kconfig isn't an option for us as one kernel build needs to support
-all potential source devices via DT / runtime changes alone.
+Migration is really an implementation detail of this interface. You
+shouldn't be even thinking that there is a migration underneath not even
+mention to actually trying to control it. But well, we might end up
+disagreeing here. What actually matters is existing users of the
+interface.
 
-I haven't looked in detail at what the previous VC / stream patches
-proposed as the API for passing the configuration. We only need MC for
-the more complex use cases, so if that VC/stream API usage can be
-detected at probe then we can switch to MC. It doesn't seem
-unreasonable to expect any sensor drivers to be upgraded to correctly
-use the new API even if they don't actually produce embedded data.
-We also want MC for ADV748x HDMI&analog->CSI bridges that expose
-multiple subdevs, but there we can look at the upstream endpoint and
-see if it has any sink pads. Sink pads mean MC is needed. (I now have
-a board with an ADV7482 on, so when time allows I'm intending to have
-an experiment with it).
-Use a module parameter as a last resort should the detection fail, or
-I guess if you want to override the detected setting for some reason
-(a simple sensor being used outside of libcamera for example).
-
-Cheers.
-  Dave
+-- 
+Michal Hocko
+SUSE Labs
