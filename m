@@ -2,1333 +2,194 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3DD1C2CD2D2
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 10:48:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 125A82CD2D8
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 10:48:58 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728692AbgLCJrZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 04:47:25 -0500
-Received: from lb2-smtp-cloud8.xs4all.net ([194.109.24.25]:38567 "EHLO
-        lb2-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725902AbgLCJrZ (ORCPT
+        id S1730150AbgLCJsm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 04:48:42 -0500
+Received: from us-smtp-delivery-124.mimecast.com ([63.128.21.124]:59626 "EHLO
+        us-smtp-delivery-124.mimecast.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726070AbgLCJsl (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Dec 2020 04:47:25 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id klBvka7Ck2G8DklBykitwD; Thu, 03 Dec 2020 10:46:27 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606988787; bh=gNBMjCUqAACTS4BkU+GFXDowUvaS5ejr9AovJaYsMQQ=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=nkYRGJGz3C2FqlD8g/0BMlEp/+HVaKb+IRxKOA+yjVe5WMcoIGgd7HaCmIPzrmzXW
-         2KjVA+0VOmrtjL9lLGbR7fZ1lGM//1S3slRVVcgTB0KRNFeTJs3stidEDTyUnjYD27
-         Jsq8fBvWIG9wvovLJ1BeHFXw3gCW0dN8r2jH2aa88MJa3fRKM1inxBGwW3Lft3gGmm
-         pJwOV4tejAY+ocT78wqhkTkzt+A/qqcdlIjp/Nm2286Zp97UHS9aH8fMUSbERB6Qb/
-         Ays+eGesCvIH4YkcEDllu9pHXkc7mFbAyfvhCej8DAK9tV6RgAOW0zpyOE1RaKbSa4
-         F+/z4VuHAUMgw==
-Subject: Re: [PATCH v5 13/14] media: uapi: move H264 stateless controls out of
- staging
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        kernel@collabora.com, Jonas Karlman <jonas@kwiboo.se>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        Maxime Ripard <mripard@kernel.org>,
-        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-References: <20201126093618.137292-1-ezequiel@collabora.com>
- <20201126093618.137292-14-ezequiel@collabora.com>
- <20201203102855.0cc6a695@coco.lan>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <9dc1fcaf-cf72-b7f4-b4c8-c951eaff5389@xs4all.nl>
-Date:   Thu, 3 Dec 2020 10:46:23 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Thu, 3 Dec 2020 04:48:41 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=redhat.com;
+        s=mimecast20190719; t=1606988834;
+        h=from:from:reply-to:subject:subject:date:date:message-id:message-id:
+         to:to:cc:cc:mime-version:mime-version:content-type:content-type:
+         content-transfer-encoding:content-transfer-encoding:
+         in-reply-to:in-reply-to:references:references;
+        bh=nmv2c/m904JsV4MmCRDhQqX5isjeRuAKPuEeYSe68E0=;
+        b=IP4lfzCn/FIkfBTJveoL8aMYxEI6kI4IsXEasM/zJGyjKdA8ziU0crm4jHJqBnVRBNH8wK
+        1qFtNfchbjDM6GTLpf7yihn6TLD6iLK3IEaMPiQ8b6AWwPVRtq1Ol5yU+GVkOFbUHz/Fix
+        B77es6hZmOqAq9/bNaEtty6hux60p0Q=
+Received: from mimecast-mx01.redhat.com (mimecast-mx01.redhat.com
+ [209.132.183.4]) (Using TLS) by relay.mimecast.com with ESMTP id
+ us-mta-356-QzVy-pg6OUCfjbpkjQUCRA-1; Thu, 03 Dec 2020 04:47:10 -0500
+X-MC-Unique: QzVy-pg6OUCfjbpkjQUCRA-1
+Received: from smtp.corp.redhat.com (int-mx01.intmail.prod.int.phx2.redhat.com [10.5.11.11])
+        (using TLSv1.2 with cipher AECDH-AES256-SHA (256/256 bits))
+        (No client certificate requested)
+        by mimecast-mx01.redhat.com (Postfix) with ESMTPS id D1A128042C6;
+        Thu,  3 Dec 2020 09:47:07 +0000 (UTC)
+Received: from [10.36.113.250] (ovpn-113-250.ams2.redhat.com [10.36.113.250])
+        by smtp.corp.redhat.com (Postfix) with ESMTP id CF75A189C4;
+        Thu,  3 Dec 2020 09:47:03 +0000 (UTC)
+Subject: Re: [PATCH v2 2/4] mm: introduce cma_alloc_bulk API
+To:     Michal Hocko <mhocko@suse.com>
+Cc:     Minchan Kim <minchan@kernel.org>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>, hyesoo.yu@samsung.com,
+        willy@infradead.org, iamjoonsoo.kim@lge.com, vbabka@suse.cz,
+        surenb@google.com, pullip.cho@samsung.com, joaodias@google.com,
+        hridya@google.com, sumit.semwal@linaro.org, john.stultz@linaro.org,
+        Brian.Starkey@arm.com, linux-media@vger.kernel.org,
+        devicetree@vger.kernel.org, robh@kernel.org,
+        christian.koenig@amd.com, linaro-mm-sig@lists.linaro.org
+References: <20201201175144.3996569-1-minchan@kernel.org>
+ <20201201175144.3996569-3-minchan@kernel.org>
+ <8f006a4a-c21d-9db3-5493-fb1cc651b0cf@redhat.com>
+ <20201202154915.GU17338@dhcp22.suse.cz> <X8e9tSwcsrEsAv1O@google.com>
+ <20201202164834.GV17338@dhcp22.suse.cz> <X8fU1ddmsSfuV6sD@google.com>
+ <20201202185107.GW17338@dhcp22.suse.cz> <X8fqU82GXmu57f7V@google.com>
+ <f0e980cb-cc74-82e8-6ccf-09030a96103a@redhat.com>
+ <20201203082810.GX17338@dhcp22.suse.cz>
+From:   David Hildenbrand <david@redhat.com>
+Organization: Red Hat GmbH
+Message-ID: <c5209dce-dc30-6d8d-e8f8-c5412b072310@redhat.com>
+Date:   Thu, 3 Dec 2020 10:47:02 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-In-Reply-To: <20201203102855.0cc6a695@coco.lan>
+In-Reply-To: <20201203082810.GX17338@dhcp22.suse.cz>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfPWBv95ktTe1P6XzEkkInSBP7QjgEjVht8HH6CiXa15DAh4c6Cr0evR9sUoc+ArwCi5Vv2Jq2z/OG09QxD+p0l1RnqIm3Bwu14jjRYUzbqj/41w8dehL
- zjTzNfYGvQ/MaPxGNdz+FSKFsAVh7x9UTN16B2ZzcKcVJmp+NWHmbtz9xPkxj5QjndHHMo5ceQk/iDx+3YjWVA4aZX3rLUAZavV8PfSPL8exF8THKlrbiv1b
- 0aOIGYsXmb6LEmpVJYciV/1fpgrj0WF2fsjKwj5zHx7HKsruzbbSnmc8+9YLiWX7Ln+u4cYYtoEQp6D0JHve1VNkxGmAB3ys4QSqeHBr4XOphrQPPiP0e/FH
- bxCXDH3gjEbmAy6DACYUsdGRRQ0lBiQ0OSnRTDkvU1Tu1PKV8STajSd/QIj2gfldfgQCus0a21rVSNd9bWq5v6IlI80M+xPT2VpIauOUeyJfTMavyEErw1b6
- PoGfkTJgyGdQjVRcoy/ORa5oyKTWzRO9xPEB1Bx8F1cwjGB51N6oZuxrmuyzyz+WpOfuzaWU6Jnr+m7EZHFMvbpJ1DIs/fEIwElgsA==
+X-Scanned-By: MIMEDefang 2.79 on 10.5.11.11
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/12/2020 10:28, Mauro Carvalho Chehab wrote:
-> Em Thu, 26 Nov 2020 06:36:17 -0300
-> Ezequiel Garcia <ezequiel@collabora.com> escreveu:
-> 
->> The H264 stateless controls is ready to be part
->> of the stable uAPI.
+On 03.12.20 09:28, Michal Hocko wrote:
+> On Wed 02-12-20 21:22:36, David Hildenbrand wrote:
+>> On 02.12.20 20:26, Minchan Kim wrote:
+>>> On Wed, Dec 02, 2020 at 07:51:07PM +0100, Michal Hocko wrote:
+> [...]
+>>>> I am still not sure a specific flag is a good interface. Really can this
+>>>> be gfp_mask instead?
+>>>
+>>> I am not strong(even, I did it with GFP_NORETRY) but David wanted to
+>>> have special mode and I agreed when he mentioned ALLOC_CONTIG_HARD as
+>>> one of options in future(it would be hard to indicate that mode with
+>>> gfp flags).
 >>
->> Re-number the control IDs, move them to the newly
->> created stateless control class, and updates all
->> the drivers accordingly.
+>> I can't tell regarding the CMA interface, but for the alloc_contig()
+>> interface I think modes make sense. Yes, it's different to other
+>> allocaters, but the contig range allocater is different already. E.g.,
+>> the CMA allocater mostly hides "which exact PFNs you try to allocate".
 > 
-> 
-> Hmm... renumber and rename will break uAPI!
-> 
-> Nack.
-> 
-> If this is really needed, a backward-compatible logic should
-> be provided.
+> Yes, alloc_contig_range is a low level API but it already has a gfp_mask
+> parameter. Adding yet another allocation mode sounds like API
+> convolution to me.
 
-The H.264 stateless 'uAPI' was staging and marked explicitly in the V4L2
-specification that it will change and is unstable. And it has in fact
-changed several times.
+Well, if another parameter is a concern, we can introduce
 
-By renumbering these control IDs it in fact avoids any possible confusion
-if someone based their work on the unstable uAPI.
+alloc_contig_range_fast()
 
-Note that these control IDs were *never* exported as a public API,
-they were only defined in kernel-local headers (h264-ctrls.h). So
-applications that wanted to use this staging API had to manually copy
-that header.
-
-In other words, there never was a public API for this since the H.264
-header was never exported.
-
-Regards,
-
-	Hans
+instead.
 
 > 
-> Regards,
-> Mauro
-> 
+>> In the contig range allocater, gfp flags are currently used to express
+>> how to allocate pages used as migration targets. I don't think mangling
+>> in other gfp flags (or even overloading them) makes things a lot
+>> clearer. E.g., GFP_NORETRY: don't retry to allocate migration targets?
+>> don't retry to migrate pages? both?
 >>
->> Signed-off-by: Ezequiel Garcia <ezequiel@collabora.com>
->> Tested-by: Jernej Skrabec <jernej.skrabec@siol.net>
->> ---
->>  drivers/media/v4l2-core/v4l2-ctrls.c          |  36 +-
->>  drivers/staging/media/hantro/hantro_drv.c     |  26 +-
->>  drivers/staging/media/hantro/hantro_h264.c    |   8 +-
->>  drivers/staging/media/rkvdec/rkvdec-h264.c    |   8 +-
->>  drivers/staging/media/rkvdec/rkvdec.c         |  26 +-
->>  drivers/staging/media/sunxi/cedrus/cedrus.c   |  24 +-
->>  .../staging/media/sunxi/cedrus/cedrus_dec.c   |  12 +-
->>  include/media/h264-ctrls.h                    | 404 ------------------
->>  include/media/v4l2-ctrls.h                    |   1 -
->>  include/uapi/linux/v4l2-controls.h            | 381 +++++++++++++++++
->>  include/uapi/linux/videodev2.h                |   6 +
->>  11 files changed, 457 insertions(+), 475 deletions(-)
->>  delete mode 100644 include/media/h264-ctrls.h
+>> As I said, other aspects might be harder to model (e.g., don't drain
+>> LRU) and hiding them behind generic gfp flags (e.g., GFP_NORETRY) feels
+>> wrong.
 >>
->> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
->> index 2a5e3d3cc756..88231ba7b0fa 100644
->> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
->> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
->> @@ -693,9 +693,9 @@ const char * const *v4l2_ctrl_get_menu(u32 id)
->>  		return h264_fp_arrangement_type;
->>  	case V4L2_CID_MPEG_VIDEO_H264_FMO_MAP_TYPE:
->>  		return h264_fmo_map_type;
->> -	case V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE:
->> +	case V4L2_CID_STATELESS_H264_DECODE_MODE:
->>  		return h264_decode_mode;
->> -	case V4L2_CID_MPEG_VIDEO_H264_START_CODE:
->> +	case V4L2_CID_STATELESS_H264_START_CODE:
->>  		return h264_start_code;
->>  	case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:
->>  		return mpeg_mpeg2_level;
->> @@ -920,14 +920,6 @@ const char *v4l2_ctrl_get_name(u32 id)
->>  	case V4L2_CID_MPEG_VIDEO_H264_I_FRAME_MAX_QP:		return "H264 I-Frame Maximum QP Value";
->>  	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MIN_QP:		return "H264 P-Frame Minimum QP Value";
->>  	case V4L2_CID_MPEG_VIDEO_H264_P_FRAME_MAX_QP:		return "H264 P-Frame Maximum QP Value";
->> -	case V4L2_CID_MPEG_VIDEO_H264_SPS:			return "H264 Sequence Parameter Set";
->> -	case V4L2_CID_MPEG_VIDEO_H264_PPS:			return "H264 Picture Parameter Set";
->> -	case V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX:		return "H264 Scaling Matrix";
->> -	case V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS:		return "H264 Slice Parameters";
->> -	case V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS:		return "H264 Decode Parameters";
->> -	case V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE:		return "H264 Decode Mode";
->> -	case V4L2_CID_MPEG_VIDEO_H264_START_CODE:		return "H264 Start Code";
->> -	case V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS:		return "H264 Prediction Weight Table";
->>  	case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:			return "MPEG2 Level";
->>  	case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:			return "MPEG2 Profile";
->>  	case V4L2_CID_MPEG_VIDEO_MPEG4_I_FRAME_QP:		return "MPEG4 I-Frame QP Value";
->> @@ -1185,6 +1177,14 @@ const char *v4l2_ctrl_get_name(u32 id)
->>  	/* Stateless Codec controls */
->>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
->>  	case V4L2_CID_CODEC_STATELESS_CLASS:	return "Stateless Codec Controls";
->> +	case V4L2_CID_STATELESS_H264_DECODE_MODE:		return "H264 Decode Mode";
->> +	case V4L2_CID_STATELESS_H264_START_CODE:		return "H264 Start Code";
->> +	case V4L2_CID_STATELESS_H264_SPS:			return "H264 Sequence Parameter Set";
->> +	case V4L2_CID_STATELESS_H264_PPS:			return "H264 Picture Parameter Set";
->> +	case V4L2_CID_STATELESS_H264_SCALING_MATRIX:		return "H264 Scaling Matrix";
->> +	case V4L2_CID_STATELESS_H264_PRED_WEIGHTS:		return "H264 Prediction Weight Table";
->> +	case V4L2_CID_STATELESS_H264_SLICE_PARAMS:		return "H264 Slice Parameters";
->> +	case V4L2_CID_STATELESS_H264_DECODE_PARAMS:		return "H264 Decode Parameters";
->>  	default:
->>  		return NULL;
->>  	}
->> @@ -1310,8 +1310,6 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->>  	case V4L2_CID_MPEG_VIDEO_H264_VUI_SAR_IDC:
->>  	case V4L2_CID_MPEG_VIDEO_H264_SEI_FP_ARRANGEMENT_TYPE:
->>  	case V4L2_CID_MPEG_VIDEO_H264_FMO_MAP_TYPE:
->> -	case V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE:
->> -	case V4L2_CID_MPEG_VIDEO_H264_START_CODE:
->>  	case V4L2_CID_MPEG_VIDEO_MPEG2_LEVEL:
->>  	case V4L2_CID_MPEG_VIDEO_MPEG2_PROFILE:
->>  	case V4L2_CID_MPEG_VIDEO_MPEG4_LEVEL:
->> @@ -1342,6 +1340,8 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->>  	case V4L2_CID_MPEG_VIDEO_HEVC_LOOP_FILTER_MODE:
->>  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:
->>  	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:
->> +	case V4L2_CID_STATELESS_H264_DECODE_MODE:
->> +	case V4L2_CID_STATELESS_H264_START_CODE:
->>  	case V4L2_CID_CAMERA_ORIENTATION:
->>  		*type = V4L2_CTRL_TYPE_MENU;
->>  		break;
->> @@ -1436,22 +1436,22 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->>  	case V4L2_CID_MPEG_VIDEO_FWHT_PARAMS:
->>  		*type = V4L2_CTRL_TYPE_FWHT_PARAMS;
->>  		break;
->> -	case V4L2_CID_MPEG_VIDEO_H264_SPS:
->> +	case V4L2_CID_STATELESS_H264_SPS:
->>  		*type = V4L2_CTRL_TYPE_H264_SPS;
->>  		break;
->> -	case V4L2_CID_MPEG_VIDEO_H264_PPS:
->> +	case V4L2_CID_STATELESS_H264_PPS:
->>  		*type = V4L2_CTRL_TYPE_H264_PPS;
->>  		break;
->> -	case V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX:
->> +	case V4L2_CID_STATELESS_H264_SCALING_MATRIX:
->>  		*type = V4L2_CTRL_TYPE_H264_SCALING_MATRIX;
->>  		break;
->> -	case V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS:
->> +	case V4L2_CID_STATELESS_H264_SLICE_PARAMS:
->>  		*type = V4L2_CTRL_TYPE_H264_SLICE_PARAMS;
->>  		break;
->> -	case V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS:
->> +	case V4L2_CID_STATELESS_H264_DECODE_PARAMS:
->>  		*type = V4L2_CTRL_TYPE_H264_DECODE_PARAMS;
->>  		break;
->> -	case V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS:
->> +	case V4L2_CID_STATELESS_H264_PRED_WEIGHTS:
->>  		*type = V4L2_CTRL_TYPE_H264_PRED_WEIGHTS;
->>  		break;
->>  	case V4L2_CID_MPEG_VIDEO_VP8_FRAME_HEADER:
->> diff --git a/drivers/staging/media/hantro/hantro_drv.c b/drivers/staging/media/hantro/hantro_drv.c
->> index 3cd00cc0a364..e5f200e64993 100644
->> --- a/drivers/staging/media/hantro/hantro_drv.c
->> +++ b/drivers/staging/media/hantro/hantro_drv.c
->> @@ -231,7 +231,7 @@ queue_init(void *priv, struct vb2_queue *src_vq, struct vb2_queue *dst_vq)
->>  
->>  static int hantro_try_ctrl(struct v4l2_ctrl *ctrl)
->>  {
->> -	if (ctrl->id == V4L2_CID_MPEG_VIDEO_H264_SPS) {
->> +	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
->>  		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
->>  
->>  		if (sps->chroma_format_idc > 1)
->> @@ -304,39 +304,39 @@ static const struct hantro_ctrl controls[] = {
->>  	}, {
->>  		.codec = HANTRO_H264_DECODER,
->>  		.cfg = {
->> -			.id = V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS,
->> +			.id = V4L2_CID_STATELESS_H264_DECODE_PARAMS,
->>  		},
->>  	}, {
->>  		.codec = HANTRO_H264_DECODER,
->>  		.cfg = {
->> -			.id = V4L2_CID_MPEG_VIDEO_H264_SPS,
->> +			.id = V4L2_CID_STATELESS_H264_SPS,
->>  			.ops = &hantro_ctrl_ops,
->>  		},
->>  	}, {
->>  		.codec = HANTRO_H264_DECODER,
->>  		.cfg = {
->> -			.id = V4L2_CID_MPEG_VIDEO_H264_PPS,
->> +			.id = V4L2_CID_STATELESS_H264_PPS,
->>  		},
->>  	}, {
->>  		.codec = HANTRO_H264_DECODER,
->>  		.cfg = {
->> -			.id = V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX,
->> +			.id = V4L2_CID_STATELESS_H264_SCALING_MATRIX,
->>  		},
->>  	}, {
->>  		.codec = HANTRO_H264_DECODER,
->>  		.cfg = {
->> -			.id = V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE,
->> -			.min = V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED,
->> -			.def = V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED,
->> -			.max = V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED,
->> +			.id = V4L2_CID_STATELESS_H264_DECODE_MODE,
->> +			.min = V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
->> +			.def = V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
->> +			.max = V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
->>  		},
->>  	}, {
->>  		.codec = HANTRO_H264_DECODER,
->>  		.cfg = {
->> -			.id = V4L2_CID_MPEG_VIDEO_H264_START_CODE,
->> -			.min = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
->> -			.def = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
->> -			.max = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
->> +			.id = V4L2_CID_STATELESS_H264_START_CODE,
->> +			.min = V4L2_STATELESS_H264_START_CODE_ANNEX_B,
->> +			.def = V4L2_STATELESS_H264_START_CODE_ANNEX_B,
->> +			.max = V4L2_STATELESS_H264_START_CODE_ANNEX_B,
->>  		},
->>  	}, {
->>  		.codec = HANTRO_H264_DECODER,
->> diff --git a/drivers/staging/media/hantro/hantro_h264.c b/drivers/staging/media/hantro/hantro_h264.c
->> index b1bdc00ac262..ed6eaf11d96f 100644
->> --- a/drivers/staging/media/hantro/hantro_h264.c
->> +++ b/drivers/staging/media/hantro/hantro_h264.c
->> @@ -344,22 +344,22 @@ int hantro_h264_dec_prepare_run(struct hantro_ctx *ctx)
->>  	hantro_start_prepare_run(ctx);
->>  
->>  	ctrls->scaling =
->> -		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX);
->> +		hantro_get_ctrl(ctx, V4L2_CID_STATELESS_H264_SCALING_MATRIX);
->>  	if (WARN_ON(!ctrls->scaling))
->>  		return -EINVAL;
->>  
->>  	ctrls->decode =
->> -		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS);
->> +		hantro_get_ctrl(ctx, V4L2_CID_STATELESS_H264_DECODE_PARAMS);
->>  	if (WARN_ON(!ctrls->decode))
->>  		return -EINVAL;
->>  
->>  	ctrls->sps =
->> -		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_H264_SPS);
->> +		hantro_get_ctrl(ctx, V4L2_CID_STATELESS_H264_SPS);
->>  	if (WARN_ON(!ctrls->sps))
->>  		return -EINVAL;
->>  
->>  	ctrls->pps =
->> -		hantro_get_ctrl(ctx, V4L2_CID_MPEG_VIDEO_H264_PPS);
->> +		hantro_get_ctrl(ctx, V4L2_CID_STATELESS_H264_PPS);
->>  	if (WARN_ON(!ctrls->pps))
->>  		return -EINVAL;
->>  
->> diff --git a/drivers/staging/media/rkvdec/rkvdec-h264.c b/drivers/staging/media/rkvdec/rkvdec-h264.c
->> index 7cc3b478a5f4..76e97cbe2512 100644
->> --- a/drivers/staging/media/rkvdec/rkvdec-h264.c
->> +++ b/drivers/staging/media/rkvdec/rkvdec-h264.c
->> @@ -1067,16 +1067,16 @@ static void rkvdec_h264_run_preamble(struct rkvdec_ctx *ctx,
->>  	struct v4l2_ctrl *ctrl;
->>  
->>  	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
->> -			      V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS);
->> +			      V4L2_CID_STATELESS_H264_DECODE_PARAMS);
->>  	run->decode_params = ctrl ? ctrl->p_cur.p : NULL;
->>  	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
->> -			      V4L2_CID_MPEG_VIDEO_H264_SPS);
->> +			      V4L2_CID_STATELESS_H264_SPS);
->>  	run->sps = ctrl ? ctrl->p_cur.p : NULL;
->>  	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
->> -			      V4L2_CID_MPEG_VIDEO_H264_PPS);
->> +			      V4L2_CID_STATELESS_H264_PPS);
->>  	run->pps = ctrl ? ctrl->p_cur.p : NULL;
->>  	ctrl = v4l2_ctrl_find(&ctx->ctrl_hdl,
->> -			      V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX);
->> +			      V4L2_CID_STATELESS_H264_SCALING_MATRIX);
->>  	run->scaling_matrix = ctrl ? ctrl->p_cur.p : NULL;
->>  
->>  	rkvdec_run_preamble(ctx, &run->base);
->> diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
->> index fe65f55d3b49..aa4f8c287618 100644
->> --- a/drivers/staging/media/rkvdec/rkvdec.c
->> +++ b/drivers/staging/media/rkvdec/rkvdec.c
->> @@ -29,7 +29,7 @@
->>  
->>  static int rkvdec_try_ctrl(struct v4l2_ctrl *ctrl)
->>  {
->> -	if (ctrl->id == V4L2_CID_MPEG_VIDEO_H264_SPS) {
->> +	if (ctrl->id == V4L2_CID_STATELESS_H264_SPS) {
->>  		const struct v4l2_ctrl_h264_sps *sps = ctrl->p_new.p_h264_sps;
->>  		/*
->>  		 * TODO: The hardware supports 10-bit and 4:2:2 profiles,
->> @@ -56,31 +56,31 @@ static const struct v4l2_ctrl_ops rkvdec_ctrl_ops = {
->>  static const struct rkvdec_ctrl_desc rkvdec_h264_ctrl_descs[] = {
->>  	{
->>  		.mandatory = true,
->> -		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS,
->> +		.cfg.id = V4L2_CID_STATELESS_H264_DECODE_PARAMS,
->>  	},
->>  	{
->>  		.mandatory = true,
->> -		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_SPS,
->> +		.cfg.id = V4L2_CID_STATELESS_H264_SPS,
->>  		.cfg.ops = &rkvdec_ctrl_ops,
->>  	},
->>  	{
->>  		.mandatory = true,
->> -		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_PPS,
->> +		.cfg.id = V4L2_CID_STATELESS_H264_PPS,
->>  	},
->>  	{
->> -		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX,
->> +		.cfg.id = V4L2_CID_STATELESS_H264_SCALING_MATRIX,
->>  	},
->>  	{
->> -		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE,
->> -		.cfg.min = V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED,
->> -		.cfg.max = V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED,
->> -		.cfg.def = V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED,
->> +		.cfg.id = V4L2_CID_STATELESS_H264_DECODE_MODE,
->> +		.cfg.min = V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
->> +		.cfg.max = V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
->> +		.cfg.def = V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
->>  	},
->>  	{
->> -		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_START_CODE,
->> -		.cfg.min = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
->> -		.cfg.def = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
->> -		.cfg.max = V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
->> +		.cfg.id = V4L2_CID_STATELESS_H264_START_CODE,
->> +		.cfg.min = V4L2_STATELESS_H264_START_CODE_ANNEX_B,
->> +		.cfg.def = V4L2_STATELESS_H264_START_CODE_ANNEX_B,
->> +		.cfg.max = V4L2_STATELESS_H264_START_CODE_ANNEX_B,
->>  	},
->>  	{
->>  		.cfg.id = V4L2_CID_MPEG_VIDEO_H264_PROFILE,
->> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus.c b/drivers/staging/media/sunxi/cedrus/cedrus.c
->> index 97000f0e0011..233b487cefde 100644
->> --- a/drivers/staging/media/sunxi/cedrus/cedrus.c
->> +++ b/drivers/staging/media/sunxi/cedrus/cedrus.c
->> @@ -45,60 +45,60 @@ static const struct cedrus_control cedrus_controls[] = {
->>  	},
->>  	{
->>  		.cfg = {
->> -			.id	= V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS,
->> +			.id	= V4L2_CID_STATELESS_H264_DECODE_PARAMS,
->>  		},
->>  		.codec		= CEDRUS_CODEC_H264,
->>  		.required	= true,
->>  	},
->>  	{
->>  		.cfg = {
->> -			.id	= V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS,
->> +			.id	= V4L2_CID_STATELESS_H264_SLICE_PARAMS,
->>  		},
->>  		.codec		= CEDRUS_CODEC_H264,
->>  		.required	= true,
->>  	},
->>  	{
->>  		.cfg = {
->> -			.id	= V4L2_CID_MPEG_VIDEO_H264_SPS,
->> +			.id	= V4L2_CID_STATELESS_H264_SPS,
->>  		},
->>  		.codec		= CEDRUS_CODEC_H264,
->>  		.required	= true,
->>  	},
->>  	{
->>  		.cfg = {
->> -			.id	= V4L2_CID_MPEG_VIDEO_H264_PPS,
->> +			.id	= V4L2_CID_STATELESS_H264_PPS,
->>  		},
->>  		.codec		= CEDRUS_CODEC_H264,
->>  		.required	= true,
->>  	},
->>  	{
->>  		.cfg = {
->> -			.id	= V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX,
->> +			.id	= V4L2_CID_STATELESS_H264_SCALING_MATRIX,
->>  		},
->>  		.codec		= CEDRUS_CODEC_H264,
->>  		.required	= false,
->>  	},
->>  	{
->>  		.cfg = {
->> -			.id	= V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS,
->> +			.id	= V4L2_CID_STATELESS_H264_PRED_WEIGHTS,
->>  		},
->>  		.codec		= CEDRUS_CODEC_H264,
->>  		.required	= false,
->>  	},
->>  	{
->>  		.cfg = {
->> -			.id	= V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE,
->> -			.max	= V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_BASED,
->> -			.def	= V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_BASED,
->> +			.id	= V4L2_CID_STATELESS_H264_DECODE_MODE,
->> +			.max	= V4L2_STATELESS_H264_DECODE_MODE_SLICE_BASED,
->> +			.def	= V4L2_STATELESS_H264_DECODE_MODE_SLICE_BASED,
->>  		},
->>  		.codec		= CEDRUS_CODEC_H264,
->>  		.required	= false,
->>  	},
->>  	{
->>  		.cfg = {
->> -			.id	= V4L2_CID_MPEG_VIDEO_H264_START_CODE,
->> -			.max	= V4L2_MPEG_VIDEO_H264_START_CODE_NONE,
->> -			.def	= V4L2_MPEG_VIDEO_H264_START_CODE_NONE,
->> +			.id	= V4L2_CID_STATELESS_H264_START_CODE,
->> +			.max	= V4L2_STATELESS_H264_START_CODE_NONE,
->> +			.def	= V4L2_STATELESS_H264_START_CODE_NONE,
->>  		},
->>  		.codec		= CEDRUS_CODEC_H264,
->>  		.required	= false,
->> diff --git a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
->> index 6385026d1b6b..639ad348ddec 100644
->> --- a/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
->> +++ b/drivers/staging/media/sunxi/cedrus/cedrus_dec.c
->> @@ -48,17 +48,17 @@ void cedrus_device_run(void *priv)
->>  
->>  	case V4L2_PIX_FMT_H264_SLICE:
->>  		run.h264.decode_params = cedrus_find_control_data(ctx,
->> -			V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS);
->> +			V4L2_CID_STATELESS_H264_DECODE_PARAMS);
->>  		run.h264.pps = cedrus_find_control_data(ctx,
->> -			V4L2_CID_MPEG_VIDEO_H264_PPS);
->> +			V4L2_CID_STATELESS_H264_PPS);
->>  		run.h264.scaling_matrix = cedrus_find_control_data(ctx,
->> -			V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX);
->> +			V4L2_CID_STATELESS_H264_SCALING_MATRIX);
->>  		run.h264.slice_params = cedrus_find_control_data(ctx,
->> -			V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS);
->> +			V4L2_CID_STATELESS_H264_SLICE_PARAMS);
->>  		run.h264.sps = cedrus_find_control_data(ctx,
->> -			V4L2_CID_MPEG_VIDEO_H264_SPS);
->> +			V4L2_CID_STATELESS_H264_SPS);
->>  		run.h264.pred_weights = cedrus_find_control_data(ctx,
->> -			V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS);
->> +			V4L2_CID_STATELESS_H264_PRED_WEIGHTS);
->>  		break;
->>  
->>  	case V4L2_PIX_FMT_HEVC_SLICE:
->> diff --git a/include/media/h264-ctrls.h b/include/media/h264-ctrls.h
->> deleted file mode 100644
->> index c15fed956bf5..000000000000
->> --- a/include/media/h264-ctrls.h
->> +++ /dev/null
->> @@ -1,404 +0,0 @@
->> -/* SPDX-License-Identifier: GPL-2.0 */
->> -/*
->> - * These are the H.264 state controls for use with stateless H.264
->> - * codec drivers.
->> - *
->> - * It turns out that these structs are not stable yet and will undergo
->> - * more changes. So keep them private until they are stable and ready to
->> - * become part of the official public API.
->> - */
->> -
->> -#ifndef _H264_CTRLS_H_
->> -#define _H264_CTRLS_H_
->> -
->> -#include <linux/videodev2.h>
->> -
->> -/*
->> - * Maximum DPB size, as specified by section 'A.3.1 Level limits
->> - * common to the Baseline, Main, and Extended profiles'.
->> - */
->> -#define V4L2_H264_NUM_DPB_ENTRIES 16
->> -
->> -#define V4L2_H264_REF_LIST_LEN (2 * V4L2_H264_NUM_DPB_ENTRIES)
->> -
->> -/*
->> - * This is put insanely high to avoid conflicting with controls that
->> - * would be added during the phase where those controls are not
->> - * stable. It should be fixed eventually.
->> - */
->> -#define V4L2_CID_MPEG_VIDEO_H264_SPS		(V4L2_CID_CODEC_BASE+1000)
->> -#define V4L2_CID_MPEG_VIDEO_H264_PPS		(V4L2_CID_CODEC_BASE+1001)
->> -#define V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX	(V4L2_CID_CODEC_BASE+1002)
->> -#define V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS	(V4L2_CID_CODEC_BASE+1003)
->> -#define V4L2_CID_MPEG_VIDEO_H264_DECODE_PARAMS	(V4L2_CID_CODEC_BASE+1004)
->> -#define V4L2_CID_MPEG_VIDEO_H264_DECODE_MODE	(V4L2_CID_CODEC_BASE+1005)
->> -#define V4L2_CID_MPEG_VIDEO_H264_START_CODE	(V4L2_CID_CODEC_BASE+1006)
->> -#define V4L2_CID_MPEG_VIDEO_H264_PRED_WEIGHTS	(V4L2_CID_CODEC_BASE+1007)
->> -
->> -/**
->> - * enum v4l2_mpeg_video_h264_decode_mode - Decoding mode
->> - *
->> - * @V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_BASED: indicates that decoding
->> - * is performed one slice at a time. In this mode,
->> - * V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS must contain the parsed slice
->> - * parameters and the OUTPUT buffer must contain a single slice.
->> - * V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF feature is used
->> - * in order to support multislice frames.
->> - * @V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED: indicates that
->> - * decoding is performed per frame. The OUTPUT buffer must contain
->> - * all slices and also both fields. This mode is typically supported
->> - * by device drivers that are able to parse the slice(s) header(s)
->> - * in hardware. When this mode is selected,
->> - * V4L2_CID_MPEG_VIDEO_H264_SLICE_PARAMS is not used.
->> - */
->> -enum v4l2_mpeg_video_h264_decode_mode {
->> -	V4L2_MPEG_VIDEO_H264_DECODE_MODE_SLICE_BASED,
->> -	V4L2_MPEG_VIDEO_H264_DECODE_MODE_FRAME_BASED,
->> -};
->> -
->> -/**
->> - * enum v4l2_mpeg_video_h264_start_code - Start code
->> - *
->> - * @V4L2_MPEG_VIDEO_H264_START_CODE_NONE: slices are passed
->> - * to the driver without any start code.
->> - * @V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B: slices are passed
->> - * to the driver with an Annex B start code prefix
->> - * (legal start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001).
->> - * This mode is typically supported by device drivers that parse
->> - * the start code in hardware.
->> - */
->> -enum v4l2_mpeg_video_h264_start_code {
->> -	V4L2_MPEG_VIDEO_H264_START_CODE_NONE,
->> -	V4L2_MPEG_VIDEO_H264_START_CODE_ANNEX_B,
->> -};
->> -
->> -#define V4L2_H264_SPS_CONSTRAINT_SET0_FLAG			0x01
->> -#define V4L2_H264_SPS_CONSTRAINT_SET1_FLAG			0x02
->> -#define V4L2_H264_SPS_CONSTRAINT_SET2_FLAG			0x04
->> -#define V4L2_H264_SPS_CONSTRAINT_SET3_FLAG			0x08
->> -#define V4L2_H264_SPS_CONSTRAINT_SET4_FLAG			0x10
->> -#define V4L2_H264_SPS_CONSTRAINT_SET5_FLAG			0x20
->> -
->> -#define V4L2_H264_SPS_FLAG_SEPARATE_COLOUR_PLANE		0x01
->> -#define V4L2_H264_SPS_FLAG_QPPRIME_Y_ZERO_TRANSFORM_BYPASS	0x02
->> -#define V4L2_H264_SPS_FLAG_DELTA_PIC_ORDER_ALWAYS_ZERO		0x04
->> -#define V4L2_H264_SPS_FLAG_GAPS_IN_FRAME_NUM_VALUE_ALLOWED	0x08
->> -#define V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY			0x10
->> -#define V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD		0x20
->> -#define V4L2_H264_SPS_FLAG_DIRECT_8X8_INFERENCE			0x40
->> -
->> -#define V4L2_H264_SPS_HAS_CHROMA_FORMAT(sps) \
->> -	((sps)->profile_idc == 100 || (sps)->profile_idc == 110 || \
->> -	 (sps)->profile_idc == 122 || (sps)->profile_idc == 244 || \
->> -	 (sps)->profile_idc == 44  || (sps)->profile_idc == 83  || \
->> -	 (sps)->profile_idc == 86  || (sps)->profile_idc == 118 || \
->> -	 (sps)->profile_idc == 128 || (sps)->profile_idc == 138 || \
->> -	 (sps)->profile_idc == 139 || (sps)->profile_idc == 134 || \
->> -	 (sps)->profile_idc == 135)
->> -
->> -/**
->> - * struct v4l2_ctrl_h264_sps - H264 sequence parameter set
->> - *
->> - * All the members on this sequence parameter set structure match the
->> - * sequence parameter set syntax as specified by the H264 specification.
->> - *
->> - * @profile_idc: see H264 specification.
->> - * @constraint_set_flags: see H264 specification.
->> - * @level_idc: see H264 specification.
->> - * @seq_parameter_set_id: see H264 specification.
->> - * @chroma_format_idc: see H264 specification.
->> - * @bit_depth_luma_minus8: see H264 specification.
->> - * @bit_depth_chroma_minus8: see H264 specification.
->> - * @log2_max_frame_num_minus4: see H264 specification.
->> - * @pic_order_cnt_type: see H264 specification.
->> - * @log2_max_pic_order_cnt_lsb_minus4: see H264 specification.
->> - * @max_num_ref_frames: see H264 specification.
->> - * @num_ref_frames_in_pic_order_cnt_cycle: see H264 specification.
->> - * @offset_for_ref_frame: see H264 specification.
->> - * @offset_for_non_ref_pic: see H264 specification.
->> - * @offset_for_top_to_bottom_field: see H264 specification.
->> - * @pic_width_in_mbs_minus1: see H264 specification.
->> - * @pic_height_in_map_units_minus1: see H264 specification.
->> - * @flags: see V4L2_H264_SPS_FLAG_{}.
->> - */
->> -struct v4l2_ctrl_h264_sps {
->> -	__u8 profile_idc;
->> -	__u8 constraint_set_flags;
->> -	__u8 level_idc;
->> -	__u8 seq_parameter_set_id;
->> -	__u8 chroma_format_idc;
->> -	__u8 bit_depth_luma_minus8;
->> -	__u8 bit_depth_chroma_minus8;
->> -	__u8 log2_max_frame_num_minus4;
->> -	__u8 pic_order_cnt_type;
->> -	__u8 log2_max_pic_order_cnt_lsb_minus4;
->> -	__u8 max_num_ref_frames;
->> -	__u8 num_ref_frames_in_pic_order_cnt_cycle;
->> -	__s32 offset_for_ref_frame[255];
->> -	__s32 offset_for_non_ref_pic;
->> -	__s32 offset_for_top_to_bottom_field;
->> -	__u16 pic_width_in_mbs_minus1;
->> -	__u16 pic_height_in_map_units_minus1;
->> -	__u32 flags;
->> -};
->> -
->> -#define V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE				0x0001
->> -#define V4L2_H264_PPS_FLAG_BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT	0x0002
->> -#define V4L2_H264_PPS_FLAG_WEIGHTED_PRED				0x0004
->> -#define V4L2_H264_PPS_FLAG_DEBLOCKING_FILTER_CONTROL_PRESENT		0x0008
->> -#define V4L2_H264_PPS_FLAG_CONSTRAINED_INTRA_PRED			0x0010
->> -#define V4L2_H264_PPS_FLAG_REDUNDANT_PIC_CNT_PRESENT			0x0020
->> -#define V4L2_H264_PPS_FLAG_TRANSFORM_8X8_MODE				0x0040
->> -#define V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT			0x0080
->> -
->> -/**
->> - * struct v4l2_ctrl_h264_pps - H264 picture parameter set
->> - *
->> - * Except where noted, all the members on this picture parameter set
->> - * structure match the sequence parameter set syntax as specified
->> - * by the H264 specification.
->> - *
->> - * In particular, V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT flag
->> - * has a specific meaning. This flag should be set if a non-flat
->> - * scaling matrix applies to the picture. In this case, applications
->> - * are expected to use V4L2_CID_MPEG_VIDEO_H264_SCALING_MATRIX,
->> - * to pass the values of the non-flat matrices.
->> - *
->> - * @pic_parameter_set_id: see H264 specification.
->> - * @seq_parameter_set_id: see H264 specification.
->> - * @num_slice_groups_minus1: see H264 specification.
->> - * @num_ref_idx_l0_default_active_minus1: see H264 specification.
->> - * @num_ref_idx_l1_default_active_minus1: see H264 specification.
->> - * @weighted_bipred_idc: see H264 specification.
->> - * @pic_init_qp_minus26: see H264 specification.
->> - * @pic_init_qs_minus26: see H264 specification.
->> - * @chroma_qp_index_offset: see H264 specification.
->> - * @second_chroma_qp_index_offset: see H264 specification.
->> - * @flags: see V4L2_H264_PPS_FLAG_{}.
->> - */
->> -struct v4l2_ctrl_h264_pps {
->> -	__u8 pic_parameter_set_id;
->> -	__u8 seq_parameter_set_id;
->> -	__u8 num_slice_groups_minus1;
->> -	__u8 num_ref_idx_l0_default_active_minus1;
->> -	__u8 num_ref_idx_l1_default_active_minus1;
->> -	__u8 weighted_bipred_idc;
->> -	__s8 pic_init_qp_minus26;
->> -	__s8 pic_init_qs_minus26;
->> -	__s8 chroma_qp_index_offset;
->> -	__s8 second_chroma_qp_index_offset;
->> -	__u16 flags;
->> -};
->> -
->> -/**
->> - * struct v4l2_ctrl_h264_scaling_matrix - H264 scaling matrices
->> - *
->> - * @scaling_list_4x4: scaling matrix after applying the inverse
->> - * scanning process. Expected list order is Intra Y, Intra Cb,
->> - * Intra Cr, Inter Y, Inter Cb, Inter Cr. The values on each
->> - * scaling list are expected in raster scan order.
->> - * @scaling_list_8x8: scaling matrix after applying the inverse
->> - * scanning process. Expected list order is Intra Y, Inter Y,
->> - * Intra Cb, Inter Cb, Intra Cr, Inter Cr. The values on each
->> - * scaling list are expected in raster scan order.
->> - *
->> - * Note that the list order is different for the 4x4 and 8x8
->> - * matrices as per the H264 specification, see table 7-2 "Assignment
->> - * of mnemonic names to scaling list indices and specification of
->> - * fall-back rule".
->> - */
->> -struct v4l2_ctrl_h264_scaling_matrix {
->> -	__u8 scaling_list_4x4[6][16];
->> -	__u8 scaling_list_8x8[6][64];
->> -};
->> -
->> -struct v4l2_h264_weight_factors {
->> -	__s16 luma_weight[32];
->> -	__s16 luma_offset[32];
->> -	__s16 chroma_weight[32][2];
->> -	__s16 chroma_offset[32][2];
->> -};
->> -
->> -#define V4L2_H264_CTRL_PRED_WEIGHTS_REQUIRED(pps, slice) \
->> -	((((pps)->flags & V4L2_H264_PPS_FLAG_WEIGHTED_PRED) && \
->> -	 ((slice)->slice_type == V4L2_H264_SLICE_TYPE_P || \
->> -	  (slice)->slice_type == V4L2_H264_SLICE_TYPE_SP)) || \
->> -	 ((pps)->weighted_bipred_idc == 1 && \
->> -	  (slice)->slice_type == V4L2_H264_SLICE_TYPE_B))
->> -
->> -/**
->> - * struct v4l2_ctrl_h264_pred_weights - Prediction weight table
->> - *
->> - * Prediction weight table, which matches the syntax specified
->> - * by the H264 specification.
->> - *
->> - * @luma_log2_weight_denom: see H264 specification.
->> - * @chroma_log2_weight_denom: see H264 specification.
->> - * @weight_factors: luma and chroma weight factors.
->> - */
->> -struct v4l2_ctrl_h264_pred_weights {
->> -	__u16 luma_log2_weight_denom;
->> -	__u16 chroma_log2_weight_denom;
->> -	struct v4l2_h264_weight_factors weight_factors[2];
->> -};
->> -
->> -#define V4L2_H264_SLICE_TYPE_P				0
->> -#define V4L2_H264_SLICE_TYPE_B				1
->> -#define V4L2_H264_SLICE_TYPE_I				2
->> -#define V4L2_H264_SLICE_TYPE_SP				3
->> -#define V4L2_H264_SLICE_TYPE_SI				4
->> -
->> -#define V4L2_H264_SLICE_FLAG_DIRECT_SPATIAL_MV_PRED	0x01
->> -#define V4L2_H264_SLICE_FLAG_SP_FOR_SWITCH		0x02
->> -
->> -#define V4L2_H264_TOP_FIELD_REF				0x1
->> -#define V4L2_H264_BOTTOM_FIELD_REF			0x2
->> -#define V4L2_H264_FRAME_REF				0x3
->> -
->> -/**
->> - * struct v4l2_h264_reference - H264 picture reference
->> - *
->> - * @fields: indicates how the picture is referenced.
->> - * Valid values are V4L2_H264_{}_REF.
->> - * @index: index into v4l2_ctrl_h264_decode_params.dpb[].
->> - */
->> -struct v4l2_h264_reference {
->> -	__u8 fields;
->> -	__u8 index;
->> -};
->> -
->> -/**
->> - * struct v4l2_ctrl_h264_slice_params - H264 slice parameters
->> - *
->> - * This structure holds the H264 syntax elements that are specified
->> - * as non-invariant for the slices in a given frame.
->> - *
->> - * Slice invariant syntax elements are contained in struct
->> - * v4l2_ctrl_h264_decode_params. This is done to reduce the API surface
->> - * on frame-based decoders, where slice header parsing is done by the
->> - * hardware.
->> - *
->> - * Slice invariant syntax elements are specified in specification section
->> - * "7.4.3 Slice header semantics".
->> - *
->> - * Except where noted, the members on this struct match the slice header syntax.
->> - *
->> - * @header_bit_size: offset in bits to slice_data() from the beginning of this slice.
->> - * @first_mb_in_slice: see H264 specification.
->> - * @slice_type: see H264 specification.
->> - * @colour_plane_id: see H264 specification.
->> - * @redundant_pic_cnt: see H264 specification.
->> - * @cabac_init_idc: see H264 specification.
->> - * @slice_qp_delta: see H264 specification.
->> - * @slice_qs_delta: see H264 specification.
->> - * @disable_deblocking_filter_idc: see H264 specification.
->> - * @slice_alpha_c0_offset_div2: see H264 specification.
->> - * @slice_beta_offset_div2: see H264 specification.
->> - * @num_ref_idx_l0_active_minus1: see H264 specification.
->> - * @num_ref_idx_l1_active_minus1: see H264 specification.
->> - * @reserved: padding field. Should be zeroed by applications.
->> - * @ref_pic_list0: reference picture list 0 after applying the per-slice modifications.
->> - * @ref_pic_list1: reference picture list 1 after applying the per-slice modifications.
->> - * @flags: see V4L2_H264_SLICE_FLAG_{}.
->> - */
->> -struct v4l2_ctrl_h264_slice_params {
->> -	__u32 header_bit_size;
->> -	__u32 first_mb_in_slice;
->> -	__u8 slice_type;
->> -	__u8 colour_plane_id;
->> -	__u8 redundant_pic_cnt;
->> -	__u8 cabac_init_idc;
->> -	__s8 slice_qp_delta;
->> -	__s8 slice_qs_delta;
->> -	__u8 disable_deblocking_filter_idc;
->> -	__s8 slice_alpha_c0_offset_div2;
->> -	__s8 slice_beta_offset_div2;
->> -	__u8 num_ref_idx_l0_active_minus1;
->> -	__u8 num_ref_idx_l1_active_minus1;
->> -
->> -	__u8 reserved;
->> -
->> -	struct v4l2_h264_reference ref_pic_list0[V4L2_H264_REF_LIST_LEN];
->> -	struct v4l2_h264_reference ref_pic_list1[V4L2_H264_REF_LIST_LEN];
->> -
->> -	__u32 flags;
->> -};
->> -
->> -#define V4L2_H264_DPB_ENTRY_FLAG_VALID		0x01
->> -#define V4L2_H264_DPB_ENTRY_FLAG_ACTIVE		0x02
->> -#define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM	0x04
->> -#define V4L2_H264_DPB_ENTRY_FLAG_FIELD		0x08
->> -
->> -/**
->> - * struct v4l2_h264_dpb_entry - H264 decoded picture buffer entry
->> - *
->> - * @reference_ts: timestamp of the V4L2 capture buffer to use as reference.
->> - * The timestamp refers to the timestamp field in struct v4l2_buffer.
->> - * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
->> - * @pic_num: matches PicNum variable assigned during the reference
->> - * picture lists construction process.
->> - * @frame_num: frame identifier which matches frame_num syntax element.
->> - * @fields: indicates how the DPB entry is referenced. Valid values are
->> - * V4L2_H264_{}_REF.
->> - * @reserved: padding field. Should be zeroed by applications.
->> - * @top_field_order_cnt: matches TopFieldOrderCnt picture value.
->> - * @bottom_field_order_cnt: matches BottomFieldOrderCnt picture value.
->> - * Note that picture field is indicated by v4l2_buffer.field.
->> - * @flags: see V4L2_H264_DPB_ENTRY_FLAG_{}.
->> - */
->> -struct v4l2_h264_dpb_entry {
->> -	__u64 reference_ts;
->> -	__u32 pic_num;
->> -	__u16 frame_num;
->> -	__u8 fields;
->> -	__u8 reserved[5];
->> -	__s32 top_field_order_cnt;
->> -	__s32 bottom_field_order_cnt;
->> -	__u32 flags;
->> -};
->> -
->> -#define V4L2_H264_DECODE_PARAM_FLAG_IDR_PIC		0x01
->> -#define V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC		0x02
->> -#define V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD	0x04
->> -
->> -/**
->> - * struct v4l2_ctrl_h264_decode_params - H264 decoding parameters
->> - *
->> - * @dpb: decoded picture buffer.
->> - * @nal_ref_idc: slice header syntax element.
->> - * @frame_num: slice header syntax element.
->> - * @top_field_order_cnt: matches TopFieldOrderCnt picture value.
->> - * @bottom_field_order_cnt: matches BottomFieldOrderCnt picture value.
->> - * Note that picture field is indicated by v4l2_buffer.field.
->> - * @idr_pic_id: slice header syntax element.
->> - * @pic_order_cnt_lsb: slice header syntax element.
->> - * @delta_pic_order_cnt_bottom: slice header syntax element.
->> - * @delta_pic_order_cnt0: slice header syntax element.
->> - * @delta_pic_order_cnt1: slice header syntax element.
->> - * @dec_ref_pic_marking_bit_size: size in bits of dec_ref_pic_marking()
->> - * syntax element.
->> - * @pic_order_cnt_bit_size: size in bits of pic order count syntax.
->> - * @slice_group_change_cycle: slice header syntax element.
->> - * @reserved: padding field. Should be zeroed by applications.
->> - * @flags: see V4L2_H264_DECODE_PARAM_FLAG_{}.
->> - */
->> -struct v4l2_ctrl_h264_decode_params {
->> -	struct v4l2_h264_dpb_entry dpb[V4L2_H264_NUM_DPB_ENTRIES];
->> -	__u16 nal_ref_idc;
->> -	__u16 frame_num;
->> -	__s32 top_field_order_cnt;
->> -	__s32 bottom_field_order_cnt;
->> -	__u16 idr_pic_id;
->> -	__u16 pic_order_cnt_lsb;
->> -	__s32 delta_pic_order_cnt_bottom;
->> -	__s32 delta_pic_order_cnt0;
->> -	__s32 delta_pic_order_cnt1;
->> -	__u32 dec_ref_pic_marking_bit_size;
->> -	__u32 pic_order_cnt_bit_size;
->> -	__u32 slice_group_change_cycle;
->> -
->> -	__u32 reserved;
->> -	__u32 flags;
->> -};
->> -
->> -#endif
->> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
->> index 4fbace0fc7e5..d25b38f78229 100644
->> --- a/include/media/v4l2-ctrls.h
->> +++ b/include/media/v4l2-ctrls.h
->> @@ -19,7 +19,6 @@
->>   */
->>  #include <media/mpeg2-ctrls.h>
->>  #include <media/fwht-ctrls.h>
->> -#include <media/h264-ctrls.h>
->>  #include <media/vp8-ctrls.h>
->>  #include <media/hevc-ctrls.h>
->>  
->> diff --git a/include/uapi/linux/v4l2-controls.h b/include/uapi/linux/v4l2-controls.h
->> index 90478ecc2f81..3f24663fba4a 100644
->> --- a/include/uapi/linux/v4l2-controls.h
->> +++ b/include/uapi/linux/v4l2-controls.h
->> @@ -1183,6 +1183,387 @@ enum v4l2_detect_md_mode {
->>  #define V4L2_CID_CODEC_STATELESS_BASE          (V4L2_CTRL_CLASS_CODEC_STATELESS | 0x900)
->>  #define V4L2_CID_CODEC_STATELESS_CLASS         (V4L2_CTRL_CLASS_CODEC_STATELESS | 1)
->>  
->> +#define V4L2_CID_STATELESS_H264_DECODE_MODE	(V4L2_CID_CODEC_STATELESS_BASE + 0)
->> +/**
->> + * enum v4l2_stateless_h264_decode_mode - Decoding mode
->> + *
->> + * @V4L2_STATELESS_H264_DECODE_MODE_SLICE_BASED: indicates that decoding
->> + * is performed one slice at a time. In this mode,
->> + * V4L2_CID_STATELESS_H264_SLICE_PARAMS must contain the parsed slice
->> + * parameters and the OUTPUT buffer must contain a single slice.
->> + * V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF feature is used
->> + * in order to support multislice frames.
->> + * @V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED: indicates that
->> + * decoding is performed per frame. The OUTPUT buffer must contain
->> + * all slices and also both fields. This mode is typically supported
->> + * by device drivers that are able to parse the slice(s) header(s)
->> + * in hardware. When this mode is selected,
->> + * V4L2_CID_STATELESS_H264_SLICE_PARAMS is not used.
->> + */
->> +enum v4l2_stateless_h264_decode_mode {
->> +	V4L2_STATELESS_H264_DECODE_MODE_SLICE_BASED,
->> +	V4L2_STATELESS_H264_DECODE_MODE_FRAME_BASED,
->> +};
->> +
->> +#define V4L2_CID_STATELESS_H264_START_CODE	(V4L2_CID_CODEC_STATELESS_BASE + 1)
->> +/**
->> + * enum v4l2_stateless_h264_start_code - Start code
->> + *
->> + * @V4L2_STATELESS_H264_START_CODE_NONE: slices are passed
->> + * to the driver without any start code.
->> + * @V4L2_STATELESS_H264_START_CODE_ANNEX_B: slices are passed
->> + * to the driver with an Annex B start code prefix
->> + * (legal start codes can be 3-bytes 0x000001 or 4-bytes 0x00000001).
->> + * This mode is typically supported by device drivers that parse
->> + * the start code in hardware.
->> + */
->> +enum v4l2_stateless_h264_start_code {
->> +	V4L2_STATELESS_H264_START_CODE_NONE,
->> +	V4L2_STATELESS_H264_START_CODE_ANNEX_B,
->> +};
->> +
->> +#define V4L2_H264_SPS_CONSTRAINT_SET0_FLAG			0x01
->> +#define V4L2_H264_SPS_CONSTRAINT_SET1_FLAG			0x02
->> +#define V4L2_H264_SPS_CONSTRAINT_SET2_FLAG			0x04
->> +#define V4L2_H264_SPS_CONSTRAINT_SET3_FLAG			0x08
->> +#define V4L2_H264_SPS_CONSTRAINT_SET4_FLAG			0x10
->> +#define V4L2_H264_SPS_CONSTRAINT_SET5_FLAG			0x20
->> +
->> +#define V4L2_H264_SPS_FLAG_SEPARATE_COLOUR_PLANE		0x01
->> +#define V4L2_H264_SPS_FLAG_QPPRIME_Y_ZERO_TRANSFORM_BYPASS	0x02
->> +#define V4L2_H264_SPS_FLAG_DELTA_PIC_ORDER_ALWAYS_ZERO		0x04
->> +#define V4L2_H264_SPS_FLAG_GAPS_IN_FRAME_NUM_VALUE_ALLOWED	0x08
->> +#define V4L2_H264_SPS_FLAG_FRAME_MBS_ONLY			0x10
->> +#define V4L2_H264_SPS_FLAG_MB_ADAPTIVE_FRAME_FIELD		0x20
->> +#define V4L2_H264_SPS_FLAG_DIRECT_8X8_INFERENCE			0x40
->> +
->> +#define V4L2_H264_SPS_HAS_CHROMA_FORMAT(sps) \
->> +	((sps)->profile_idc == 100 || (sps)->profile_idc == 110 || \
->> +	 (sps)->profile_idc == 122 || (sps)->profile_idc == 244 || \
->> +	 (sps)->profile_idc == 44  || (sps)->profile_idc == 83  || \
->> +	 (sps)->profile_idc == 86  || (sps)->profile_idc == 118 || \
->> +	 (sps)->profile_idc == 128 || (sps)->profile_idc == 138 || \
->> +	 (sps)->profile_idc == 139 || (sps)->profile_idc == 134 || \
->> +	 (sps)->profile_idc == 135)
->> +
->> +#define V4L2_CID_STATELESS_H264_SPS		(V4L2_CID_CODEC_STATELESS_BASE + 2)
->> +/**
->> + * struct v4l2_ctrl_h264_sps - H264 sequence parameter set
->> + *
->> + * All the members on this sequence parameter set structure match the
->> + * sequence parameter set syntax as specified by the H264 specification.
->> + *
->> + * @profile_idc: see H264 specification.
->> + * @constraint_set_flags: see H264 specification.
->> + * @level_idc: see H264 specification.
->> + * @seq_parameter_set_id: see H264 specification.
->> + * @chroma_format_idc: see H264 specification.
->> + * @bit_depth_luma_minus8: see H264 specification.
->> + * @bit_depth_chroma_minus8: see H264 specification.
->> + * @log2_max_frame_num_minus4: see H264 specification.
->> + * @pic_order_cnt_type: see H264 specification.
->> + * @log2_max_pic_order_cnt_lsb_minus4: see H264 specification.
->> + * @max_num_ref_frames: see H264 specification.
->> + * @num_ref_frames_in_pic_order_cnt_cycle: see H264 specification.
->> + * @offset_for_ref_frame: see H264 specification.
->> + * @offset_for_non_ref_pic: see H264 specification.
->> + * @offset_for_top_to_bottom_field: see H264 specification.
->> + * @pic_width_in_mbs_minus1: see H264 specification.
->> + * @pic_height_in_map_units_minus1: see H264 specification.
->> + * @flags: see V4L2_H264_SPS_FLAG_{}.
->> + */
->> +struct v4l2_ctrl_h264_sps {
->> +	__u8 profile_idc;
->> +	__u8 constraint_set_flags;
->> +	__u8 level_idc;
->> +	__u8 seq_parameter_set_id;
->> +	__u8 chroma_format_idc;
->> +	__u8 bit_depth_luma_minus8;
->> +	__u8 bit_depth_chroma_minus8;
->> +	__u8 log2_max_frame_num_minus4;
->> +	__u8 pic_order_cnt_type;
->> +	__u8 log2_max_pic_order_cnt_lsb_minus4;
->> +	__u8 max_num_ref_frames;
->> +	__u8 num_ref_frames_in_pic_order_cnt_cycle;
->> +	__s32 offset_for_ref_frame[255];
->> +	__s32 offset_for_non_ref_pic;
->> +	__s32 offset_for_top_to_bottom_field;
->> +	__u16 pic_width_in_mbs_minus1;
->> +	__u16 pic_height_in_map_units_minus1;
->> +	__u32 flags;
->> +};
->> +
->> +#define V4L2_H264_PPS_FLAG_ENTROPY_CODING_MODE				0x0001
->> +#define V4L2_H264_PPS_FLAG_BOTTOM_FIELD_PIC_ORDER_IN_FRAME_PRESENT	0x0002
->> +#define V4L2_H264_PPS_FLAG_WEIGHTED_PRED				0x0004
->> +#define V4L2_H264_PPS_FLAG_DEBLOCKING_FILTER_CONTROL_PRESENT		0x0008
->> +#define V4L2_H264_PPS_FLAG_CONSTRAINED_INTRA_PRED			0x0010
->> +#define V4L2_H264_PPS_FLAG_REDUNDANT_PIC_CNT_PRESENT			0x0020
->> +#define V4L2_H264_PPS_FLAG_TRANSFORM_8X8_MODE				0x0040
->> +#define V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT			0x0080
->> +
->> +#define V4L2_CID_STATELESS_H264_PPS		(V4L2_CID_CODEC_STATELESS_BASE + 3)
->> +/**
->> + * struct v4l2_ctrl_h264_pps - H264 picture parameter set
->> + *
->> + * Except where noted, all the members on this picture parameter set
->> + * structure match the sequence parameter set syntax as specified
->> + * by the H264 specification.
->> + *
->> + * In particular, V4L2_H264_PPS_FLAG_SCALING_MATRIX_PRESENT flag
->> + * has a specific meaning. This flag should be set if a non-flat
->> + * scaling matrix applies to the picture. In this case, applications
->> + * are expected to use V4L2_CID_STATELESS_H264_SCALING_MATRIX,
->> + * to pass the values of the non-flat matrices.
->> + *
->> + * @pic_parameter_set_id: see H264 specification.
->> + * @seq_parameter_set_id: see H264 specification.
->> + * @num_slice_groups_minus1: see H264 specification.
->> + * @num_ref_idx_l0_default_active_minus1: see H264 specification.
->> + * @num_ref_idx_l1_default_active_minus1: see H264 specification.
->> + * @weighted_bipred_idc: see H264 specification.
->> + * @pic_init_qp_minus26: see H264 specification.
->> + * @pic_init_qs_minus26: see H264 specification.
->> + * @chroma_qp_index_offset: see H264 specification.
->> + * @second_chroma_qp_index_offset: see H264 specification.
->> + * @flags: see V4L2_H264_PPS_FLAG_{}.
->> + */
->> +struct v4l2_ctrl_h264_pps {
->> +	__u8 pic_parameter_set_id;
->> +	__u8 seq_parameter_set_id;
->> +	__u8 num_slice_groups_minus1;
->> +	__u8 num_ref_idx_l0_default_active_minus1;
->> +	__u8 num_ref_idx_l1_default_active_minus1;
->> +	__u8 weighted_bipred_idc;
->> +	__s8 pic_init_qp_minus26;
->> +	__s8 pic_init_qs_minus26;
->> +	__s8 chroma_qp_index_offset;
->> +	__s8 second_chroma_qp_index_offset;
->> +	__u16 flags;
->> +};
->> +
->> +#define V4L2_CID_STATELESS_H264_SCALING_MATRIX	(V4L2_CID_CODEC_STATELESS_BASE + 4)
->> +/**
->> + * struct v4l2_ctrl_h264_scaling_matrix - H264 scaling matrices
->> + *
->> + * @scaling_list_4x4: scaling matrix after applying the inverse
->> + * scanning process. Expected list order is Intra Y, Intra Cb,
->> + * Intra Cr, Inter Y, Inter Cb, Inter Cr. The values on each
->> + * scaling list are expected in raster scan order.
->> + * @scaling_list_8x8: scaling matrix after applying the inverse
->> + * scanning process. Expected list order is Intra Y, Inter Y,
->> + * Intra Cb, Inter Cb, Intra Cr, Inter Cr. The values on each
->> + * scaling list are expected in raster scan order.
->> + *
->> + * Note that the list order is different for the 4x4 and 8x8
->> + * matrices as per the H264 specification, see table 7-2 "Assignment
->> + * of mnemonic names to scaling list indices and specification of
->> + * fall-back rule".
->> + */
->> +struct v4l2_ctrl_h264_scaling_matrix {
->> +	__u8 scaling_list_4x4[6][16];
->> +	__u8 scaling_list_8x8[6][64];
->> +};
->> +
->> +struct v4l2_h264_weight_factors {
->> +	__s16 luma_weight[32];
->> +	__s16 luma_offset[32];
->> +	__s16 chroma_weight[32][2];
->> +	__s16 chroma_offset[32][2];
->> +};
->> +
->> +#define V4L2_H264_CTRL_PRED_WEIGHTS_REQUIRED(pps, slice) \
->> +	((((pps)->flags & V4L2_H264_PPS_FLAG_WEIGHTED_PRED) && \
->> +	 ((slice)->slice_type == V4L2_H264_SLICE_TYPE_P || \
->> +	  (slice)->slice_type == V4L2_H264_SLICE_TYPE_SP)) || \
->> +	 ((pps)->weighted_bipred_idc == 1 && \
->> +	  (slice)->slice_type == V4L2_H264_SLICE_TYPE_B))
->> +
->> +#define V4L2_CID_STATELESS_H264_PRED_WEIGHTS	(V4L2_CID_CODEC_STATELESS_BASE + 5)
->> +/**
->> + * struct v4l2_ctrl_h264_pred_weights - Prediction weight table
->> + *
->> + * Prediction weight table, which matches the syntax specified
->> + * by the H264 specification.
->> + *
->> + * @luma_log2_weight_denom: see H264 specification.
->> + * @chroma_log2_weight_denom: see H264 specification.
->> + * @weight_factors: luma and chroma weight factors.
->> + */
->> +struct v4l2_ctrl_h264_pred_weights {
->> +	__u16 luma_log2_weight_denom;
->> +	__u16 chroma_log2_weight_denom;
->> +	struct v4l2_h264_weight_factors weight_factors[2];
->> +};
->> +
->> +#define V4L2_H264_SLICE_TYPE_P				0
->> +#define V4L2_H264_SLICE_TYPE_B				1
->> +#define V4L2_H264_SLICE_TYPE_I				2
->> +#define V4L2_H264_SLICE_TYPE_SP				3
->> +#define V4L2_H264_SLICE_TYPE_SI				4
->> +
->> +#define V4L2_H264_SLICE_FLAG_DIRECT_SPATIAL_MV_PRED	0x01
->> +#define V4L2_H264_SLICE_FLAG_SP_FOR_SWITCH		0x02
->> +
->> +#define V4L2_H264_TOP_FIELD_REF				0x1
->> +#define V4L2_H264_BOTTOM_FIELD_REF			0x2
->> +#define V4L2_H264_FRAME_REF				0x3
->> +
->> +/**
->> + * struct v4l2_h264_reference - H264 picture reference
->> + *
->> + * @fields: indicates how the picture is referenced.
->> + * Valid values are V4L2_H264_{}_REF.
->> + * @index: index into v4l2_ctrl_h264_decode_params.dpb[].
->> + */
->> +struct v4l2_h264_reference {
->> +	__u8 fields;
->> +	__u8 index;
->> +};
->> +
->> +/*
->> + * Maximum DPB size, as specified by section 'A.3.1 Level limits
->> + * common to the Baseline, Main, and Extended profiles'.
->> + */
->> +#define V4L2_H264_NUM_DPB_ENTRIES 16
->> +#define V4L2_H264_REF_LIST_LEN (2 * V4L2_H264_NUM_DPB_ENTRIES)
->> +
->> +#define V4L2_CID_STATELESS_H264_SLICE_PARAMS	(V4L2_CID_CODEC_STATELESS_BASE + 6)
->> +/**
->> + * struct v4l2_ctrl_h264_slice_params - H264 slice parameters
->> + *
->> + * This structure holds the H264 syntax elements that are specified
->> + * as non-invariant for the slices in a given frame.
->> + *
->> + * Slice invariant syntax elements are contained in struct
->> + * v4l2_ctrl_h264_decode_params. This is done to reduce the API surface
->> + * on frame-based decoders, where slice header parsing is done by the
->> + * hardware.
->> + *
->> + * Slice invariant syntax elements are specified in specification section
->> + * "7.4.3 Slice header semantics".
->> + *
->> + * Except where noted, the members on this struct match the slice header syntax.
->> + *
->> + * @header_bit_size: offset in bits to slice_data() from the beginning of this slice.
->> + * @first_mb_in_slice: see H264 specification.
->> + * @slice_type: see H264 specification.
->> + * @colour_plane_id: see H264 specification.
->> + * @redundant_pic_cnt: see H264 specification.
->> + * @cabac_init_idc: see H264 specification.
->> + * @slice_qp_delta: see H264 specification.
->> + * @slice_qs_delta: see H264 specification.
->> + * @disable_deblocking_filter_idc: see H264 specification.
->> + * @slice_alpha_c0_offset_div2: see H264 specification.
->> + * @slice_beta_offset_div2: see H264 specification.
->> + * @num_ref_idx_l0_active_minus1: see H264 specification.
->> + * @num_ref_idx_l1_active_minus1: see H264 specification.
->> + * @reserved: padding field. Should be zeroed by applications.
->> + * @ref_pic_list0: reference picture list 0 after applying the per-slice modifications.
->> + * @ref_pic_list1: reference picture list 1 after applying the per-slice modifications.
->> + * @flags: see V4L2_H264_SLICE_FLAG_{}.
->> + */
->> +struct v4l2_ctrl_h264_slice_params {
->> +	__u32 header_bit_size;
->> +	__u32 first_mb_in_slice;
->> +	__u8 slice_type;
->> +	__u8 colour_plane_id;
->> +	__u8 redundant_pic_cnt;
->> +	__u8 cabac_init_idc;
->> +	__s8 slice_qp_delta;
->> +	__s8 slice_qs_delta;
->> +	__u8 disable_deblocking_filter_idc;
->> +	__s8 slice_alpha_c0_offset_div2;
->> +	__s8 slice_beta_offset_div2;
->> +	__u8 num_ref_idx_l0_active_minus1;
->> +	__u8 num_ref_idx_l1_active_minus1;
->> +
->> +	__u8 reserved;
->> +
->> +	struct v4l2_h264_reference ref_pic_list0[V4L2_H264_REF_LIST_LEN];
->> +	struct v4l2_h264_reference ref_pic_list1[V4L2_H264_REF_LIST_LEN];
->> +
->> +	__u32 flags;
->> +};
->> +
->> +#define V4L2_H264_DPB_ENTRY_FLAG_VALID		0x01
->> +#define V4L2_H264_DPB_ENTRY_FLAG_ACTIVE		0x02
->> +#define V4L2_H264_DPB_ENTRY_FLAG_LONG_TERM	0x04
->> +#define V4L2_H264_DPB_ENTRY_FLAG_FIELD		0x08
->> +
->> +/**
->> + * struct v4l2_h264_dpb_entry - H264 decoded picture buffer entry
->> + *
->> + * @reference_ts: timestamp of the V4L2 capture buffer to use as reference.
->> + * The timestamp refers to the timestamp field in struct v4l2_buffer.
->> + * Use v4l2_timeval_to_ns() to convert the struct timeval to a __u64.
->> + * @pic_num: matches PicNum variable assigned during the reference
->> + * picture lists construction process.
->> + * @frame_num: frame identifier which matches frame_num syntax element.
->> + * @fields: indicates how the DPB entry is referenced. Valid values are
->> + * V4L2_H264_{}_REF.
->> + * @reserved: padding field. Should be zeroed by applications.
->> + * @top_field_order_cnt: matches TopFieldOrderCnt picture value.
->> + * @bottom_field_order_cnt: matches BottomFieldOrderCnt picture value.
->> + * Note that picture field is indicated by v4l2_buffer.field.
->> + * @flags: see V4L2_H264_DPB_ENTRY_FLAG_{}.
->> + */
->> +struct v4l2_h264_dpb_entry {
->> +	__u64 reference_ts;
->> +	__u32 pic_num;
->> +	__u16 frame_num;
->> +	__u8 fields;
->> +	__u8 reserved[5];
->> +	__s32 top_field_order_cnt;
->> +	__s32 bottom_field_order_cnt;
->> +	__u32 flags;
->> +};
->> +
->> +#define V4L2_H264_DECODE_PARAM_FLAG_IDR_PIC		0x01
->> +#define V4L2_H264_DECODE_PARAM_FLAG_FIELD_PIC		0x02
->> +#define V4L2_H264_DECODE_PARAM_FLAG_BOTTOM_FIELD	0x04
->> +
->> +#define V4L2_CID_STATELESS_H264_DECODE_PARAMS	(V4L2_CID_CODEC_STATELESS_BASE + 7)
->> +/**
->> + * struct v4l2_ctrl_h264_decode_params - H264 decoding parameters
->> + *
->> + * @dpb: decoded picture buffer.
->> + * @nal_ref_idc: slice header syntax element.
->> + * @frame_num: slice header syntax element.
->> + * @top_field_order_cnt: matches TopFieldOrderCnt picture value.
->> + * @bottom_field_order_cnt: matches BottomFieldOrderCnt picture value.
->> + * Note that picture field is indicated by v4l2_buffer.field.
->> + * @idr_pic_id: slice header syntax element.
->> + * @pic_order_cnt_lsb: slice header syntax element.
->> + * @delta_pic_order_cnt_bottom: slice header syntax element.
->> + * @delta_pic_order_cnt0: slice header syntax element.
->> + * @delta_pic_order_cnt1: slice header syntax element.
->> + * @dec_ref_pic_marking_bit_size: size in bits of dec_ref_pic_marking()
->> + * syntax element.
->> + * @pic_order_cnt_bit_size: size in bits of pic order count syntax.
->> + * @slice_group_change_cycle: slice header syntax element.
->> + * @reserved: padding field. Should be zeroed by applications.
->> + * @flags: see V4L2_H264_DECODE_PARAM_FLAG_{}.
->> + */
->> +struct v4l2_ctrl_h264_decode_params {
->> +	struct v4l2_h264_dpb_entry dpb[V4L2_H264_NUM_DPB_ENTRIES];
->> +	__u16 nal_ref_idc;
->> +	__u16 frame_num;
->> +	__s32 top_field_order_cnt;
->> +	__s32 bottom_field_order_cnt;
->> +	__u16 idr_pic_id;
->> +	__u16 pic_order_cnt_lsb;
->> +	__s32 delta_pic_order_cnt_bottom;
->> +	__s32 delta_pic_order_cnt0;
->> +	__s32 delta_pic_order_cnt1;
->> +	__u32 dec_ref_pic_marking_bit_size;
->> +	__u32 pic_order_cnt_bit_size;
->> +	__u32 slice_group_change_cycle;
->> +
->> +	__u32 reserved;
->> +	__u32 flags;
->> +};
->> +
->>  
->>  /* MPEG-compression definitions kept for backwards compatibility */
->>  #ifndef __KERNEL__
->> diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
->> index 485654fd2a7e..76231ca6e101 100644
->> --- a/include/uapi/linux/videodev2.h
->> +++ b/include/uapi/linux/videodev2.h
->> @@ -1734,6 +1734,12 @@ struct v4l2_ext_control {
->>  		__u16 __user *p_u16;
->>  		__u32 __user *p_u32;
->>  		struct v4l2_area __user *p_area;
->> +		struct v4l2_ctrl_h264_sps __user *p_h264_sps;
->> +		struct v4l2_ctrl_h264_pps *p_h264_pps;
->> +		struct v4l2_ctrl_h264_scaling_matrix __user *p_h264_scaling_matrix;
->> +		struct v4l2_ctrl_h264_pred_weights __user *p_h264_pred_weights;
->> +		struct v4l2_ctrl_h264_slice_params __user *p_h264_slice_params;
->> +		struct v4l2_ctrl_h264_decode_params __user *p_h264_decode_params;
->>  		void __user *ptr;
->>  	};
->>  } __attribute__ ((packed));
+>> With the mode, we're expressing details for the necessary page
+>> migration. Suggestions on how to model that are welcome.
 > 
+> The question is whether the caller should really have such an intimate
+> knowledge and control of the alloc_contig_range implementation. This all
+> are implementation details. Should really anybody think about how many
+> times migration retries or control LRU draining? Those can change in the
+
+The question is not "how many times", rather "if at all". I can
+understand the possible performance improvements by letting the caller
+handle things (lru draining, pcp draining) like that when issuing
+gazillions of alloc_contig_range() calls.
+
+> future and I do not think we really want to go over all users grown over
+> that time and try to deduce what was the intention behind.
+
+That's why I think we need a clear mechanism to express the expected
+behavior - something we can properly document and users can actually
+understand to optimize for - and we can fix them up when the documented
+behavior changes. Mangling this into somewhat-fitting gfp flags makes
+the interface harder to use and more error-prone IMHO.
+
 > 
+> I think we should aim at easy and very highlevel behavior:
+> - GFP_NOWAIT - unsupported currently IIRC but something that something
+>   that should be possible to implement. Isolation is non blocking,
+>   migration could be skipped
+> - GFP_KERNEL - default behavior whatever that means
+> - GFP_NORETRY - opportunistic allocation as lightweight as we can get.
+>   Failures to be expected also for transient reasons.
+> - GFP_RETRY_MAYFAIL - try hard but not as hard as to trigger disruption
+>   (e.g. via oom killer).
+
+I think we currently see demand for 3 modes for alloc_contig_range()
+
+a) normal
+
+As is. Try, but don't try too hard. E.g., drain LRU, drain PCP, retry a
+couple of times. Failures in some cases (short-term pinning, PCP races)
+are still possible and acceptable.
+
+GFP_RETRY_MAYFAIL ?
+
+E.g., "Allocations with this flag may fail, but only when there is
+genuinely little unused memory." - current description does not match at
+all. When allocating ranges things behave completely different.
+
+
+b) fast
+
+Try, but fail fast. Leave optimizations that can improve the result to
+the caller. E.g., don't drain LRU, don't drain PCP, don't retry.
+Frequent failures are expected and acceptable.
+
+__GFP_NORETRY ?
+
+E.g., "The VM implementation will try only very lightweight memory
+direct reclaim to get some memory under memory pressure" - again, I
+think current description does not really match.
+
+
+c) hard
+
+Try hard, E.g., temporarily disabling the PCP. Certainly not
+__GFP_NOFAIL, that would be highly dangerous. So no flags / GFP_KERNEL?
+
 > 
-> Thanks,
-> Mauro
+> - __GFP_THIS_NODE - stick to a node without fallback
+> - we can support zone modifiers although there is no existing user.
+> - __GFP_NOWARN - obvious
 > 
+> And that is it. Or maybe I am seeing that oversimplified.
+> 
+
+Again, I think most flags make sense for the migration target allocation
+ path and mainly deal with OOM situations and reclaim. For the migration
+path - which is specific to the alloc_contig_range() allocater - they
+don't really apply and create more confusion than they actually help - IMHO.
+
+-- 
+Thanks,
+
+David / dhildenb
 
