@@ -2,145 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B81432CD9EE
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 16:14:26 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5BB6D2CDA19
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 16:26:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727444AbgLCPMl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 10:12:41 -0500
-Received: from mail-il1-f194.google.com ([209.85.166.194]:35053 "EHLO
-        mail-il1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726330AbgLCPMl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 10:12:41 -0500
-Received: by mail-il1-f194.google.com with SMTP id t13so2230071ilp.2;
-        Thu, 03 Dec 2020 07:12:25 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=T2NXqCKj/vyKRDvXLPBjyutHi/gmz0N+XyWPmKZhldc=;
-        b=IoBX+in2gvhcDjQ6N/9hRel968T280ddh9jJKfn89qA1EtRlQGswSXSw/rBm5/2AzE
-         tGRGY0jgXcIUV1EDu+U4gAW0cj3q8bI3ZxaeOTyQ7+Jpi8RyPclkLdT3lwpOfwg65r3F
-         Vo0JGZsGPjFih/OlR3bmLEzT8e7G76LcyCADteP3tDOmymHtu+ef0yIiOA3lHNntqAtm
-         kByMRYUhFt5eNDPie+bTjD6erHMiL5/SkgdGcYmXr+Qv3AJ6R0MHAv1liKH6g+pRqSv/
-         gYrZKOip9OMSu8PccvQIZtXDi1g/EbslMXRXcqR/OYJgbY038y7rr9WSed0K1rM/ROUP
-         wlJQ==
-X-Gm-Message-State: AOAM5331fv8ECYQA+fLy9iw5vXxEcprM1/zfYqWovv/UqP4tEyL5pKLS
-        2P3x6GR0uo5b8CQCGcyK8/JbXO0J9Q==
-X-Google-Smtp-Source: ABdhPJwSc+Am97WYw1M1RsUP2sk9x4PlemQ1b5N14TfVMYyWV2HNmruqM7AXd/qrW3AyLSF5jBECkw==
-X-Received: by 2002:a92:cb43:: with SMTP id f3mr3198069ilq.50.1607008320283;
-        Thu, 03 Dec 2020 07:12:00 -0800 (PST)
-Received: from xps15 ([64.188.179.253])
-        by smtp.gmail.com with ESMTPSA id p18sm988330ile.27.2020.12.03.07.11.58
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 03 Dec 2020 07:11:59 -0800 (PST)
-Received: (nullmailer pid 392062 invoked by uid 1000);
-        Thu, 03 Dec 2020 15:11:57 -0000
-Date:   Thu, 3 Dec 2020 08:11:57 -0700
-From:   Rob Herring <robh@kernel.org>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     devicetree@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH] media: dt-bindings: schema indentation fixes
-Message-ID: <20201203151157.GB2644458@robh.at.kernel.org>
-References: <20201112224951.166313-1-robh@kernel.org>
+        id S1728459AbgLCP0T (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 10:26:19 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48850 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726751AbgLCP0R (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 10:26:17 -0500
+Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7CA57C061A4E
+        for <linux-media@vger.kernel.org>; Thu,  3 Dec 2020 07:25:37 -0800 (PST)
+Received: from valkosipuli.localdomain (unknown [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 5CD25634C24
+        for <linux-media@vger.kernel.org>; Thu,  3 Dec 2020 17:24:21 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1kkqSz-0003Ej-Pi
+        for linux-media@vger.kernel.org; Thu, 03 Dec 2020 17:24:21 +0200
+Date:   Thu, 3 Dec 2020 17:24:21 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL for 5.11] CCS PLL feature support improvements
+Message-ID: <20201203152421.GF4351@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201112224951.166313-1-robh@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Nov 12, 2020 at 04:49:51PM -0600, Rob Herring wrote:
-> Fix a few new indentation warnings found with yamllint (now integrated
-> into the checks).
-> 
-> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Jacopo Mondi <jacopo@jmondi.org>
-> Cc: Ricardo Ribalda <ribalda@kernel.org>
-> Cc: linux-media@vger.kernel.org
-> Signed-off-by: Rob Herring <robh@kernel.org>
-> ---
+Hi Mauro,
 
-Ping! This should go via the media tree.
+This set adds support for additional CCS PLL features which effectively
+allows supporting modern devices from mid-range and up.
 
->  .../devicetree/bindings/media/i2c/adv7604.yaml       |  4 ++--
->  .../devicetree/bindings/media/i2c/ovti,ov772x.yaml   | 12 ++++++------
->  .../devicetree/bindings/media/i2c/sony,imx214.yaml   | 12 ++++++------
->  3 files changed, 14 insertions(+), 14 deletions(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/adv7604.yaml b/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
-> index 3897af540ddd..407baddfaa1d 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
-> @@ -21,8 +21,8 @@ properties:
->    compatible:
->      items:
->        - enum:
-> -        - adi,adv7611
-> -        - adi,adv7612
-> +          - adi,adv7611
-> +          - adi,adv7612
->  
->    reg:
->      minItems: 1
-> diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-> index 63b3779d7289..6866c2cdac50 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-> @@ -75,18 +75,18 @@ properties:
->                  bus-type:
->                    const: 6
->              then:
-> -                properties:
-> -                  hsync-active: false
-> -                  vsync-active: false
-> +              properties:
-> +                hsync-active: false
-> +                vsync-active: false
->  
->            - if:
->                properties:
->                  bus-width:
->                    const: 10
->              then:
-> -                properties:
-> -                  data-shift:
-> -                    const: 0
-> +              properties:
-> +                data-shift:
-> +                  const: 0
->  
->          required:
->            - bus-type
-> diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> index 0f5e25fa4e9d..1a3590dd0e98 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-> @@ -68,13 +68,13 @@ properties:
->              description: See ../video-interfaces.txt
->              anyOf:
->                - items:
-> -                - const: 1
-> -                - const: 2
-> +                  - const: 1
-> +                  - const: 2
->                - items:
-> -                - const: 1
-> -                - const: 2
-> -                - const: 3
-> -                - const: 4
-> +                  - const: 1
-> +                  - const: 2
-> +                  - const: 3
-> +                  - const: 4
->  
->            link-frequencies:
->              $ref: /schemas/types.yaml#/definitions/uint64-array
-> -- 
-> 2.25.1
-> 
+I have one more set to post to the list, but I guess that may need to wait
+for 5.12. Also, feel free to postpone this until 5.12 if needed.
+
+Please pull.
+
+
+The following changes since commit 63288c829b1a5991d8f8c15cab596108ed206ba6:
+
+  media: pixfmt-compressed.rst: fix 'bullet' formatting (2020-12-03 12:27:34 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/sailus/media_tree.git tags/ccs-v4-pll-cphy-2-signed
+
+for you to fetch changes up to 13c167095b90f5260774a59798e1c7c05d0d82d7:
+
+  ccs: Add support for obtaining C-PHY configuration from firmware (2020-12-03 15:54:50 +0200)
+
+----------------------------------------------------------------
+CCS PLL feature support improvements
+
+----------------------------------------------------------------
+Sakari Ailus (38):
+      ccs-pll: Don't use div_u64 to divide a 32-bit number
+      ccs-pll: Split limits and PLL configuration into front and back parts
+      ccs-pll: Use correct VT divisor for calculating VT SYS divisor
+      ccs-pll: End search if there are no better values available
+      ccs-pll: Remove parallel bus support
+      ccs-pll: Differentiate between CSI-2 D-PHY and C-PHY
+      ccs-pll: Move the flags field down, away from 8-bit fields
+      ccs-pll: Document the structs in the header as well as the function
+      ccs-pll: Use the BIT macro
+      ccs-pll: Begin calculation from OP system clock frequency
+      ccs-pll: Fix condition for pre-PLL divider lower bound
+      ccs-pll: Avoid overflow in pre-PLL divisor lower bound search
+      ccs-pll: Fix comment on check against maximum PLL multiplier
+      ccs-pll: Fix check for PLL multiplier upper bound
+      ccs-pll: Use explicit 32-bit unsigned type
+      ccs-pll: Add support for lane speed model
+      ccs: Add support for lane speed model
+      ccs-pll: Add support for decoupled OP domain calculation
+      ccs-pll: Add support for extended input PLL clock divider
+      ccs-pll: Support two cycles per pixel on OP domain
+      ccs-pll: Add support flexible OP PLL pixel clock divider
+      ccs-pll: Add sanity checks
+      ccs-pll: Add C-PHY support
+      ccs-pll: Split off VT subtree calculation
+      ccs-pll: Check for derating and overrating, support non-derating sensors
+      ccs-pll: Better separate OP and VT sub-tree calculation
+      ccs-pll: Print relevant information on PLL tree
+      ccs-pll: Rework bounds checks
+      ccs-pll: Make VT divisors 16-bit
+      ccs-pll: Fix VT post-PLL divisor calculation
+      ccs-pll: Separate VT divisor limit calculation from the rest
+      ccs-pll: Add trivial dual PLL support
+      ccs: Dual PLL support
+      ccs-pll: Add support for DDR OP system and pixel clocks
+      ccs: Add support for DDR OP SYS and OP PIX clocks
+      ccs: Print written register values
+      ccs-pll: Print pixel rates
+      ccs: Add support for obtaining C-PHY configuration from firmware
+
+ drivers/media/i2c/ccs-pll.c            | 986 +++++++++++++++++++++++----------
+ drivers/media/i2c/ccs-pll.h            | 177 ++++--
+ drivers/media/i2c/ccs/ccs-core.c       | 161 ++++--
+ drivers/media/i2c/ccs/ccs-quirk.c      |   5 +-
+ drivers/media/i2c/ccs/ccs-reg-access.c |   4 +
+ 5 files changed, 974 insertions(+), 359 deletions(-)
+
+
+-- 
+Sakari Ailus
