@@ -2,178 +2,105 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 419DA2CCDEF
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 05:32:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DF9692CCE2F
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 06:03:08 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726427AbgLCEb1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 2 Dec 2020 23:31:27 -0500
-Received: from lb2-smtp-cloud7.xs4all.net ([194.109.24.28]:42025 "EHLO
-        lb2-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726412AbgLCEb1 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Wed, 2 Dec 2020 23:31:27 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id kgGRkV7tNYbdWkgGSkYw72; Thu, 03 Dec 2020 05:30:44 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1606969844; bh=5JRHfTZARS+G5PvZuNDLKNKpX3M6DpuuayydG7soArM=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=vYqPo4ypoMwERMIge/Jf3hh928WaeOvLRex+4EhSzRFkUaYxNjxQqlDJP8z+xrQur
-         p0H0j6p/2PyDWoqHuCb+/BRtyr1+Z0MNKpC5ENzvgK08k/cfL/PYR5gjexu4+rVr1O
-         NFUq9OG9QHarw7f62WIBZDIFqvLiIUkfNwL8BN3DE8KqenZugRrbei38OLLNS7GIug
-         ZjwFfIGd5HqHOqz7a7d8LJCy0EC7GaEJvYsrg5mvtKkJy6LjtM7IF0zg7op07Mqwq2
-         e73mFjHHpT/7rUGnHAAdcUAZpNGr60V9Ywx3GLy5l0875bJ0jE0ZHN28wiyq5aFEKM
-         Np4n+65TqqgIg==
-Message-ID: <cdd1c991afdc79ff16e67f681cc9045c@smtp-cloud7.xs4all.net>
-Date:   Thu, 03 Dec 2020 05:30:43 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfCUhyt5GliszEH6KQUsJ3CEBP5mpJgO9XDxZZBx1v6z9zxNplkomlPCNuHPAJOp9uaRAK02f/OBN+0yB27UHM3PUzaEipdPhfqXBimqhfMcp63vGHMr2
- flxBZIJRb97kDW8e70JW6EiPkOQZz5Lc9q/3kn1JMlmnH1k0WtzJyej/HkxxeeEi/3b4eYKZRecqTaW7hfr8daifbs50n8R+xPRqV61+KPuCiSl8e4GNdncV
- dBaXKIcN+MaRjF50X6TaOA==
+        id S1726552AbgLCFBc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 00:01:32 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36754 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726075AbgLCFBb (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 00:01:31 -0500
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B524FC061A4D
+        for <linux-media@vger.kernel.org>; Wed,  2 Dec 2020 21:00:45 -0800 (PST)
+Received: by mail-ed1-x542.google.com with SMTP id u19so705438edx.2
+        for <linux-media@vger.kernel.org>; Wed, 02 Dec 2020 21:00:45 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=date:from:to:cc:subject:message-id:reply-to:references:mime-version
+         :content-disposition:in-reply-to:user-agent;
+        bh=5NNaXJOk01qhGUb9+Tf9vx/xU9F1a/zPS9qUg4yZakc=;
+        b=l8L6M0kV1QEyDkdawf+aGXLdD7ptua+PHPa1AlHQmDSD4mry1mHkZsQMTzGx1Avume
+         RaewhQzHo3JZU+nLmX6jJ5mD28aZUNfGxskjgmJUSbsmAAnSw2t7YYEHwu9V5QYze0wn
+         ymT3yNfbvwLXvsaTgtHwV3hvn7D1lE1+Xd1FgDBKs0mG8ENn3FFCGFScOfCDZRQrRuOg
+         KWZBKnR8IDD7T+duoZsHxS2+8pce0iVMDg5+eQOXwRarqeh+3cnQV7qGQ64xrr4Teupr
+         As1KlX45lXdMEZytLkpfE3j2dEA69Hb/CF/XBPrrSHJ1ppzgs70SwvyerC4zVg3w+ofc
+         dVyw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:reply-to
+         :references:mime-version:content-disposition:in-reply-to:user-agent;
+        bh=5NNaXJOk01qhGUb9+Tf9vx/xU9F1a/zPS9qUg4yZakc=;
+        b=dawjDuR5vse5xtxZRtq+znobUueLuf3wH+ZKfAjFN8aRiVu4q9U6PgwfClO50PTQux
+         7LzMLeiyb0MYyju/SLLiq6o2cBnT9kSnjMRbEXhx4FqPYACqSx4thD0Lra88/+NRUTlm
+         LNd0Yg10uXHbMbuUVYbnKv1JVoheKNVAMIwXxZioMSBfdt4I2r9NQntm7bqxiCBzvX16
+         qqRc1voXtFOJjihPwUC4mC8JKLzL/hjMfgeoa6fs4ONCCYfYWURPLn3VLf/OqsOmjho4
+         8yvOO8L6ufaGyXCo5W+NpbWg1axKNzXJdxkva2gUbT3d78+NayAIQuZ3eqOeujj9xY+h
+         KHOQ==
+X-Gm-Message-State: AOAM5327Ohn6MebxEj3HE+OToH6yf3LuMbOGi7rj4hSxVDdHQn8N38dh
+        DriZL8G5f8+tMOEB0Bei1xzUkBv/0tc=
+X-Google-Smtp-Source: ABdhPJwSsnX9iv/q6A/b0WqsCXEfcT+xl5Ck1gkQGxfLU/gs0wBAYcoLFgcbaatGiePRa3df0FNDjw==
+X-Received: by 2002:a50:eb96:: with SMTP id y22mr1255472edr.91.1606971644550;
+        Wed, 02 Dec 2020 21:00:44 -0800 (PST)
+Received: from localhost (p200300d1ff26ac00bc770815c12f0169.dip0.t-ipconnect.de. [2003:d1:ff26:ac00:bc77:815:c12f:169])
+        by smtp.gmail.com with ESMTPSA id a10sm465941ejk.92.2020.12.02.21.00.43
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Wed, 02 Dec 2020 21:00:43 -0800 (PST)
+Date:   Thu, 3 Dec 2020 06:00:40 +0100
+From:   Sebastian Fricke <sebastian.fricke.linux@gmail.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     linux-media@vger.kernel.org, martinax.krasteva@linux.intel.com
+Subject: Re: [PATCH 2/2] Documentation: v4l: Document that link_validate op
+ is valid for sink only
+Message-ID: <20201203050040.godctaxtvafpvaw3@basti.Speedport_W_724V_Typ_A_05011603_06_001>
+Reply-To: Sebastian Fricke <sebastian.fricke.linux@gmail.com>
+References: <20201202181955.18165-1-sakari.ailus@linux.intel.com>
+ <20201202181955.18165-3-sakari.ailus@linux.intel.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Disposition: inline
+In-Reply-To: <20201202181955.18165-3-sakari.ailus@linux.intel.com>
+User-Agent: NeoMutt/20180716
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+Thank you.
 
-Results of the daily build of media_tree:
+On 02.12.2020 20:19, Sakari Ailus wrote:
+>The link_validate pad op will only be called on sink pads. Document this.
+>
+>Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>---
+> Documentation/driver-api/media/v4l2-subdev.rst | 11 ++++++-----
+> 1 file changed, 6 insertions(+), 5 deletions(-)
+>
+>diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
+>index d4cba0d6c4ca..6d5c799c49fe 100644
+>--- a/Documentation/driver-api/media/v4l2-subdev.rst
+>+++ b/Documentation/driver-api/media/v4l2-subdev.rst
+>@@ -122,11 +122,12 @@ Don't forget to cleanup the media entity before the sub-device is destroyed:
+>
+> 	media_entity_cleanup(&sd->entity);
+>
+>-In that case, the subdev driver may set the link_validate field to provide
+>-its own link validation function. The link validation function is called for
+>-every link in the pipeline where both of the ends of the links are V4L2
+>-sub-devices. The driver is still responsible for validating the correctness
+>-of the format configuration between sub-devices and video nodes.
+>+If a sub-device driver implements sink pads, the subdev driver may set the
+>+link_validate field in :c:type:`v4l2_subdev_pad_ops`to provide its own link
+>+validation function. For every link in the pipeline, the link_validate pad
+>+operation of the sink end of the link is called. In both cases the driver is
 
-date:			Thu Dec  3 05:00:11 CET 2020
-media-tree git hash:	1ed36ecd1459b653cced8929bfb37dba94b64c5d
-media_build git hash:	c722c0310db9d6274b707b23cc41245ac44931dd
-v4l-utils git hash:	0aee9991e0c005f8af7b08e20bfee47855451b5c
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7041-g6193b3b71
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 3dd6b6732eda88bb08431b65b6c0815182cbf180
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+s/In both cases the driver/In both cases, the driver/
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-mips: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: ERRORS
-linux-3.10.108-x86_64: ERRORS
-linux-3.11.10-i686: ERRORS
-linux-3.11.10-x86_64: ERRORS
-linux-3.12.74-i686: ERRORS
-linux-3.12.74-x86_64: ERRORS
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.238-i686: ERRORS
-linux-4.4.238-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.238-i686: ERRORS
-linux-4.9.238-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.200-i686: ERRORS
-linux-4.14.200-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: ERRORS
-linux-4.16.18-x86_64: ERRORS
-linux-4.17.19-i686: ERRORS
-linux-4.17.19-x86_64: ERRORS
-linux-4.18.20-i686: ERRORS
-linux-4.18.20-x86_64: ERRORS
-linux-4.19.149-i686: ERRORS
-linux-4.19.149-x86_64: ERRORS
-linux-4.20.17-i686: ERRORS
-linux-4.20.17-x86_64: ERRORS
-linux-5.0.21-i686: ERRORS
-linux-5.0.21-x86_64: ERRORS
-linux-5.1.21-i686: ERRORS
-linux-5.1.21-x86_64: ERRORS
-linux-5.2.21-i686: ERRORS
-linux-5.2.21-x86_64: ERRORS
-linux-5.3.18-i686: ERRORS
-linux-5.3.18-x86_64: ERRORS
-linux-5.4.69-i686: ERRORS
-linux-5.4.69-x86_64: ERRORS
-linux-5.5.19-i686: ERRORS
-linux-5.5.19-x86_64: ERRORS
-linux-5.6.19-i686: ERRORS
-linux-5.6.19-x86_64: ERRORS
-linux-5.7.19-i686: ERRORS
-linux-5.7.19-x86_64: ERRORS
-linux-5.8.13-i686: ERRORS
-linux-5.8.13-x86_64: ERRORS
-linux-5.9.1-i686: ERRORS
-linux-5.9.1-x86_64: ERRORS
-linux-5.10-rc1-i686: ERRORS
-linux-5.10-rc1-x86_64: ERRORS
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 4
-sparse: ERRORS
-smatch: ERRORS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Thursday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Thursday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+>+still responsible for validating the correctness of the format configuration
+>+between sub-devices and video nodes.
+>
+> If link_validate op is not set, the default function
+> :c:func:`v4l2_subdev_link_validate_default` is used instead. This function
+>-- 
+>2.27.0
+>
