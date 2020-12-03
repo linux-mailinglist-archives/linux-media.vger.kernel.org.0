@@ -2,76 +2,69 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2AE462CE240
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 23:57:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 788792CE258
+	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 00:10:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387771AbgLCW4z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 17:56:55 -0500
-Received: from mga09.intel.com ([134.134.136.24]:19998 "EHLO mga09.intel.com"
+        id S1728922AbgLCXIX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 18:08:23 -0500
+Received: from mail.kernel.org ([198.145.29.99]:33834 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725912AbgLCW4z (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Dec 2020 17:56:55 -0500
-IronPort-SDR: sqq01kPgv1iP7xrNursPixfHS1txqIFibS0X7aypE0rv1nifyWc9nrp6VTssH+GTLK/3qejBmS
- uDDMzCUS8I9A==
-X-IronPort-AV: E=McAfee;i="6000,8403,9824"; a="173449010"
-X-IronPort-AV: E=Sophos;i="5.78,390,1599548400"; 
-   d="scan'208";a="173449010"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from fmsmga003.fm.intel.com ([10.253.24.29])
-  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2020 14:55:14 -0800
-IronPort-SDR: BlLXb2daAGH6gO1pWQ05HxS+B4qkaFHe+vTk8wuk0phOB3AhT6jWHSL+HxwhLyTSWKtjiBuru4
- 1xLtmtAiVUtQ==
-X-IronPort-AV: E=Sophos;i="5.78,390,1599548400"; 
-   d="scan'208";a="374097572"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by fmsmga003-auth.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2020 14:55:12 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 100FF21E1A; Fri,  4 Dec 2020 00:55:10 +0200 (EET)
-Date:   Fri, 4 Dec 2020 00:55:10 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Arnd Bergmann <arnd@kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Arnd Bergmann <arnd@arndb.de>, linux-media@vger.kernel.org,
-        linux-kernel@vger.kernel.org
-Subject: Re: [PATCH] media: smiapp: avoid printing an uninitialized variable
-Message-ID: <20201203225509.GP852@paasikivi.fi.intel.com>
-References: <20201203222828.1029943-1-arnd@kernel.org>
+        id S1726179AbgLCXIX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Dec 2020 18:08:23 -0500
+From:   Arnd Bergmann <arnd@kernel.org>
+Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
+To:     Benoit Parrot <bparrot@ti.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Arnd Bergmann <arnd@arndb.de>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] media: ti-vpe: cal: avoid FIELD_GET assertion
+Date:   Fri,  4 Dec 2020 00:07:30 +0100
+Message-Id: <20201203230738.1481199-1-arnd@kernel.org>
+X-Mailer: git-send-email 2.27.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201203222828.1029943-1-arnd@kernel.org>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Arnd,
+From: Arnd Bergmann <arnd@arndb.de>
 
-Thanks for the patch.
+FIELD_GET() must only be used with a mask that is a compile-time
+constant:
 
-On Thu, Dec 03, 2020 at 11:28:16PM +0100, Arnd Bergmann wrote:
-> From: Arnd Bergmann <arnd@arndb.de>
-> 
-> There is no intialization for the 'reg' variable, so printing
-> it produces undefined behavior as well as a compile-time warning:
-> 
-> drivers/media/i2c/ccs/ccs-core.c:314:49: error: variable 'reg' is uninitialized when used here [-Werror,-Wuninitialized]
->                         "0x%8.8x %s pixels: %d %s (pixelcode %u)\n", reg,
-> 
-> Remove the variable and stop printing it.
-> 
-> Fixes: b24cc2a18c50 ("media: smiapp: Rename as "ccs"")
+drivers/media/platform/ti-vpe/cal.h: In function 'cal_read_field':
+include/linux/compiler_types.h:320:38: error: call to '__compiletime_assert_247' declared with attribute error: FIELD_GET: mask is not constant
+include/linux/bitfield.h:46:3: note: in expansion of macro 'BUILD_BUG_ON_MSG'
+   46 |   BUILD_BUG_ON_MSG(!__builtin_constant_p(_mask),  \
+      |   ^~~~~~~~~~~~~~~~
+drivers/media/platform/ti-vpe/cal.h:220:9: note: in expansion of macro 'FIELD_GET'
+  220 |  return FIELD_GET(mask, cal_read(cal, offset));
+      |         ^~~~~~~~~
 
-The patch introducing this was 
+The problem here is that the function is not always inlined. Mark it
+__always_inline to avoid the problem.
 
-fd9065812c7b ("media: smiapp: Obtain frame descriptor from CCS limits")
+Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+---
+ drivers/media/platform/ti-vpe/cal.h | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
 
-so I'll use it instead. Also s/smiapp/ccs/ in the subject.
-
-Interesting that GCC 8.3 didn't complain.
-
+diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
+index 4123405ee0cf..20d07311d222 100644
+--- a/drivers/media/platform/ti-vpe/cal.h
++++ b/drivers/media/platform/ti-vpe/cal.h
+@@ -215,7 +215,7 @@ static inline void cal_write(struct cal_dev *cal, u32 offset, u32 val)
+ 	iowrite32(val, cal->base + offset);
+ }
+ 
+-static inline u32 cal_read_field(struct cal_dev *cal, u32 offset, u32 mask)
++static __always_inline u32 cal_read_field(struct cal_dev *cal, u32 offset, u32 mask)
+ {
+ 	return FIELD_GET(mask, cal_read(cal, offset));
+ }
 -- 
-Kind regards,
+2.27.0
 
-Sakari Ailus
