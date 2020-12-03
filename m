@@ -2,165 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 284712CD88B
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 15:06:16 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB4492CD8D1
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 15:18:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389027AbgLCOGN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 09:06:13 -0500
-Received: from mx2.suse.de ([195.135.220.15]:36562 "EHLO mx2.suse.de"
+        id S1730933AbgLCORr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 09:17:47 -0500
+Received: from retiisi.eu ([95.216.213.190]:42304 "EHLO hillosipuli.retiisi.eu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727242AbgLCOGN (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Dec 2020 09:06:13 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id A03B6AC6A;
-        Thu,  3 Dec 2020 14:05:31 +0000 (UTC)
-Subject: Re: [PATCH v2 0/7] drm/vram-helper: Lock GEM BOs while they are
- mapped
-To:     airlied@redhat.com, daniel@ffwll.ch,
-        maarten.lankhorst@linux.intel.com, mripard@kernel.org,
-        hdegoede@redhat.com, christian.koenig@amd.com,
-        sumit.semwal@linaro.org
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org
-References: <20201203140259.26580-1-tzimmermann@suse.de>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <6665380f-34ab-1a12-5e91-ed2a3b08d58c@suse.de>
-Date:   Thu, 3 Dec 2020 15:05:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S1730709AbgLCORr (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Dec 2020 09:17:47 -0500
+Received: from valkosipuli.localdomain (unknown [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 0D2A7634C24
+        for <linux-media@vger.kernel.org>; Thu,  3 Dec 2020 16:15:51 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1kkpOh-0003Ab-Ga
+        for linux-media@vger.kernel.org; Thu, 03 Dec 2020 16:15:51 +0200
+Date:   Thu, 3 Dec 2020 16:15:51 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     linux-media@vger.kernel.org
+Subject: [GIT PULL for 5.11] Revert a DT binding update patch that requires
+ changes
+Message-ID: <20201203141551.GE4351@valkosipuli.retiisi.org.uk>
 MIME-Version: 1.0
-In-Reply-To: <20201203140259.26580-1-tzimmermann@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="dkbQa55aa9CMLAyD29PlhVxn7ZNfWQLNf"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---dkbQa55aa9CMLAyD29PlhVxn7ZNfWQLNf
-Content-Type: multipart/mixed; boundary="mwMelpGe05OU4EKH5oN38ktdQ0fNFbkcb";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: airlied@redhat.com, daniel@ffwll.ch, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, hdegoede@redhat.com, christian.koenig@amd.com,
- sumit.semwal@linaro.org
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org
-Message-ID: <6665380f-34ab-1a12-5e91-ed2a3b08d58c@suse.de>
-Subject: Re: [PATCH v2 0/7] drm/vram-helper: Lock GEM BOs while they are
- mapped
-References: <20201203140259.26580-1-tzimmermann@suse.de>
-In-Reply-To: <20201203140259.26580-1-tzimmermann@suse.de>
+Hi Mauro,
 
---mwMelpGe05OU4EKH5oN38ktdQ0fNFbkcb
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+This pull request reverts a single patch in my previous non-CCS pull
+request. It got merged too early, and requires changes.
+
+Please pull.
 
 
+The following changes since commit 63288c829b1a5991d8f8c15cab596108ed206ba6:
 
-Am 03.12.20 um 15:02 schrieb Thomas Zimmermann:
-> GEM VRAM helpers used to pin the BO in their implementation of vmap, so=
+  media: pixfmt-compressed.rst: fix 'bullet' formatting (2020-12-03 12:27:34 +0100)
 
-> that they could not be relocated. In a recent discussion, [1] it became=
+are available in the Git repository at:
 
+  git://linuxtv.org/sailus/media_tree.git tags/for-5.11-5-signed
 
-Grrr, [1] was again supposed to point to the discussion at
+for you to fetch changes up to 614a88612036d6c4b9d7399324da7edd36614129:
 
-   https://patchwork.freedesktop.org/patch/400054/?series=3D83765&rev=3D1=
+  Revert "media: dt-bindings: media: Use OF graph schema" (2020-12-03 15:58:46 +0200)
 
+----------------------------------------------------------------
+V4L2 driver patches for 5.11
 
-> clear that this is incorrect and that vmap should rather repend on the
-> reservation lock to prevent relocation. This patchset addresses the iss=
-ue.
->=20
-> Version 2 of the patchset is a significant rework. In particular, the
-> helper function drm_gem_vram_vmap_unlocked() is gone and importers now
-> acquire the reservation locks by themselves. I took Christian's A-bs on=
-ly
-> for patches that were not affected.
->=20
-> Patches 1 and 2 prepare the ast cursor code for the later changes.
->=20
-> Patch 3 pushes the BO locking into callers of vmap and vunmap. Besides
-> the VRAM helpers, this affects ast, vboxvideo and the generic fbdev
-> emulation.
->=20
-> Patches 4 to 6 clean up afterwards. BO pinning is not required any long=
-er
-> and the VRAM-internal helpers are not needed.
->=20
-> Patch 7 adds documentation to vmap and vunmap in struct dma_buf_ops. It=
+----------------------------------------------------------------
+Sakari Ailus (1):
+      Revert "media: dt-bindings: media: Use OF graph schema"
 
-> hopefully reflects the discussion on the patchset's version 1.
->=20
-> Tested on ast with GEM VRAM and also on mgag200 to verify that the fbde=
-v
-> change does not interfere with GEM SHMEM.
->=20
-> v2:
-> 	* make importers acquire resv locks by themselves
-> 	* document dma-buf vamp/vunmap ops
->=20
-> Thomas Zimmermann (7):
->    drm/ast: Don't pin cursor source BO explicitly during update
->    drm/ast: Only map cursor BOs during updates
->    drm/vram-helper: Move BO locking from vmap code into callers
->    drm/vram-helper: Remove pinning from drm_gem_vram_{vmap,vunmap}()
->    drm/vram-helper: Remove vmap reference counting
->    drm/vram-helper: Simplify vmap implementation
->    dma-buf: Write down some rules for vmap usage
->=20
->   Documentation/gpu/todo.rst            | 15 +++++
->   drivers/gpu/drm/ast/ast_cursor.c      | 70 +++++++++++++---------
->   drivers/gpu/drm/ast/ast_drv.h         |  2 -
->   drivers/gpu/drm/drm_client.c          | 31 ++++++++++
->   drivers/gpu/drm/drm_fb_helper.c       | 10 +++-
->   drivers/gpu/drm/drm_gem_vram_helper.c | 85 ++++++--------------------=
--
->   drivers/gpu/drm/vboxvideo/vbox_mode.c | 11 ++--
->   include/drm/drm_client.h              |  2 +
->   include/drm/drm_gem.h                 |  4 ++
->   include/drm/drm_gem_vram_helper.h     | 17 +-----
->   include/linux/dma-buf.h               | 45 ++++++++++++++
->   11 files changed, 175 insertions(+), 117 deletions(-)
->=20
-> --
-> 2.29.2
->=20
+ .../bindings/media/allwinner,sun4i-a10-csi.yaml    |  1 -
+ .../bindings/media/allwinner,sun6i-a31-csi.yaml    |  1 -
+ .../devicetree/bindings/media/i2c/adv7180.yaml     | 31 +++++++--
+ .../devicetree/bindings/media/i2c/adv7604.yaml     | 32 +++++++--
+ .../bindings/media/i2c/aptina,mt9v111.yaml         |  2 +-
+ .../bindings/media/i2c/imi,rdacm2x-gmsl.yaml       | 25 ++++++-
+ .../devicetree/bindings/media/i2c/imx219.yaml      |  4 --
+ .../bindings/media/i2c/maxim,max9286.yaml          | 76 +++++++++++++++++-----
+ .../devicetree/bindings/media/i2c/ov5647.yaml      |  5 +-
+ .../devicetree/bindings/media/i2c/ov8856.yaml      |  5 +-
+ .../devicetree/bindings/media/i2c/ovti,ov772x.yaml |  1 -
+ .../devicetree/bindings/media/i2c/sony,imx214.yaml |  1 -
+ .../devicetree/bindings/media/i2c/sony,imx274.yaml |  3 +-
+ .../bindings/media/marvell,mmp2-ccic.yaml          |  1 -
+ .../devicetree/bindings/media/renesas,ceu.yaml     |  1 -
+ .../devicetree/bindings/media/renesas,csi2.yaml    | 36 ++++++++--
+ .../devicetree/bindings/media/renesas,vin.yaml     |  7 +-
+ .../devicetree/bindings/media/st,stm32-dcmi.yaml   |  7 +-
+ .../devicetree/bindings/media/ti,cal.yaml          | 15 +++--
+ .../bindings/media/xilinx/xlnx,csi2rxss.yaml       | 21 +++++-
+ 20 files changed, 214 insertions(+), 61 deletions(-)
 
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---mwMelpGe05OU4EKH5oN38ktdQ0fNFbkcb--
-
---dkbQa55aa9CMLAyD29PlhVxn7ZNfWQLNf
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/I8KoFAwAAAAAACgkQlh/E3EQov+Bk
-5A/+OyMbzLG9nxTg4sZA2IKtd1zWhvcWLZZQloMtqM1aOmv5UHLpCP50SNnNOMk2VAtJxwk4hXxq
-iy0458/N26VpQ+7QQMGrqLAItXbTPwHAPMxuCqLUUgNvLyRZxlTqJCNRw1FuWfFXDPEXFFhD8Lfw
-NJlOgd3yhuAXJ6oFjowG1XdZotWrr+agF0X1KNxBXYLH/5FUN9CcqZd5sBLieYOOo0W5wTnotQY2
-8D9r9AAkuVaXNtkjoCDnJwNfNwBICBszmPP6DJ6fujED8uDyeSB2zGXaUJ1L9JAcu5zWyy2F2BQD
-UXvztibqEp56xJlcYu4dpcjELxv/8QhZcs+19Rn/5HyJpucEuZ3xiFbUnr5It/QPejUN9WS08GWf
-i/zHYPjEYqtFAR5ZRvGhhCZkafDrh7mW5F628tZitP6VVzwKOnbOFDb2r3kR2O4qd+uzB3ZfbjYu
-j1kBWM7w+VErk8gyFkqnij7RYgzsNq89mmZN4Y5sbwRtJq147GeU92Wl7c3m+uWSgPF2+yIDLO4/
-NE/qc9V9jD0n3aUb8Wzys+lOGc8eFJMZ11Ze4GVff6ClLkYrXo+DQ/YnGsnGJTqxd9vZyeW265se
-KwuIPFqTh/sNHU0vF5W7aGWPQ/qEuNTX7eD3ejt9rJTsJPE2rx+d7EUVRL4cs6xUpK9iFB0N7lxW
-les=
-=D+kl
------END PGP SIGNATURE-----
-
---dkbQa55aa9CMLAyD29PlhVxn7ZNfWQLNf--
+-- 
+Sakari Ailus
