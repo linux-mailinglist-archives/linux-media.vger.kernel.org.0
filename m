@@ -2,158 +2,129 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1C2C52CD52D
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 13:08:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 21E132CD57C
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 13:28:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387922AbgLCMI2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 07:08:28 -0500
-Received: from mail.kernel.org ([198.145.29.99]:37502 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727845AbgLCMI2 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Dec 2020 07:08:28 -0500
-Date:   Thu, 3 Dec 2020 13:07:43 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1606997266;
-        bh=8Ir5V28DgmdFdEzE4gzj8CANt2YcALqsoTejwYqc+8Q=;
-        h=From:To:Cc:Subject:In-Reply-To:References:From;
-        b=p5OvQmtJXwRB+yfSsKTIchgr1nDKzN+pKQqy7tONLGon81DVGHDL0an7Q260QYWFP
-         0bqa1XxC8mpVfnbmb5ZHT9qbmBNOgxkU4OsvGv1aH9Dw2LCvBi8FiIq9MaVTdhCzq2
-         hLsCqW68VjsuXcHbsPoBdZ3z7GhxOt6T1PmFjoDm7tzhA+HZUHYr0HlPGFnBjU1gkd
-         CaIVgc9q3BfQdllGLcdkBw2mXnOOFqqxHdki9EQwoIfgorwCmSTaP4DCzoXR0A38Tl
-         mjrE49Ioc2DKgwxH6eZ8nNj3Wg1Q9JmB9Gk/d++VA/EHQIr7yMkWxoptGeZ6VKgBtf
-         qjEdc4Ad49jOw==
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Ezequiel Garcia <ezequiel@collabora.com>
-Subject: Re: [PATCH 5/6] vidioc-g-ext-ctrls.rst: add missing 'struct' before
- the types
-Message-ID: <20201203130743.1a6a62ca@coco.lan>
-In-Reply-To: <66240aa3-1916-dd7d-83bc-367dc8675c40@xs4all.nl>
-References: <20201126132717.1216907-1-hverkuil-cisco@xs4all.nl>
-        <20201126132717.1216907-6-hverkuil-cisco@xs4all.nl>
-        <20201203114928.2e21964b@coco.lan>
-        <66240aa3-1916-dd7d-83bc-367dc8675c40@xs4all.nl>
-X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
+        id S1730408AbgLCM0S (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 07:26:18 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:49156 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730297AbgLCM0R (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 07:26:17 -0500
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5D89AC061A4E;
+        Thu,  3 Dec 2020 04:25:37 -0800 (PST)
+Received: by mail-wr1-x444.google.com with SMTP id p8so1683621wrx.5;
+        Thu, 03 Dec 2020 04:25:37 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=xQY5AbzujeliSiWY2E/G4LEsHJG3L2qcBmGWXG44TV4=;
+        b=CQnUcBAS2skp/TXF3SD6blZcjbwS5Rl+nd+ZnQB+o8GST+cCkfbQxi+NvgnrOYj9b1
+         Mz8lbBe3WDUMywvVP7qv0EygFJ4OoklVewUKFA91MaLqxKAD/wL0j+WxVPC8pkc/KnJD
+         tCo8XmVsSNexBZzpQ3+a8C26iRe/wYsAxXz2nnwoUYHdb2kcXPBNRjiZoRGU6oFo7G+4
+         m7I3yik0vBvBKew9GlWXjsrSi8WinBSsv102KAVI/Yugw90oYNQIAXMQI4HZ5jv2jQeX
+         nbway0x6c3pwxG7WVxOMPcDupcZT01ALcVJyjfHswc5H5ORmDDFjd/e9fzhLHAIGJ8bb
+         5naA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=xQY5AbzujeliSiWY2E/G4LEsHJG3L2qcBmGWXG44TV4=;
+        b=nk/nNlF3KEPrrFBZGIi5xkNvGIW2WOMVGNBosl2FW24jjVB/82e8nQ0VaUPuEWHG5f
+         BvkyweqW+ZJdC+Rt7NWKfMWK0Xo8IxcL0cQYVUkUG3FiOMEusJs2P2LfHBSIwYWs74ZP
+         P83ZjRy2ZbRqhPFZPHSBXVnj5z58kSDpwiUquICixvjuR0fj3yUHjcVSLGNZxrURolPm
+         1XzJOOkC/9Ts/hvmdEAo3mHam/ZqSl9fscdxfo8ARsOnJhCMhzHVOA5KRe8Ch+zcTLtp
+         +hvHWRn0akxv7nkDPWCIh7MiNerXUKMNxlRmMKfAs8UwkVnIPNO6CAk6J+yhL1D9irGX
+         pqNA==
+X-Gm-Message-State: AOAM533y6K/+oLVGkZVL+RxevjmHHdDQ1SuHCF02U1/bn+sqdWbH4JYR
+        szJRZpxnkh+dXVNkqxQTLQY=
+X-Google-Smtp-Source: ABdhPJyKOeFWO0jrA2mT1UQ2VqaNnYXsenWU01+yH9N1p3sy7QqnRJnqZoNYkhxfeEqPxNnBrcYZKA==
+X-Received: by 2002:a5d:5704:: with SMTP id a4mr3535666wrv.170.1606998335845;
+        Thu, 03 Dec 2020 04:25:35 -0800 (PST)
+Received: from [192.168.1.211] ([2.31.225.57])
+        by smtp.gmail.com with ESMTPSA id o67sm1361569wmo.31.2020.12.03.04.25.34
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Thu, 03 Dec 2020 04:25:35 -0800 (PST)
+Subject: Re: [PATCH 18/18] ipu3: Add driver for dummy INT3472 ACPI device
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
+        lenb@kernel.org, gregkh@linuxfoundation.org,
+        mika.westerberg@linux.intel.com, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, wsa@kernel.org, yong.zhi@intel.com,
+        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        tian.shu.qiu@intel.com, mchehab@kernel.org, robert.moore@intel.com,
+        erik.kaneda@intel.com, pmladek@suse.com, rostedt@goodmis.org,
+        sergey.senozhatsky@gmail.com, linux@rasmusvillemoes.dk,
+        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jorhand@linux.microsoft.com, kitakar@gmail.com,
+        heikki.krogerus@linux.intel.com
+References: <20201130133129.1024662-1-djrscally@gmail.com>
+ <20201130133129.1024662-19-djrscally@gmail.com>
+ <20201130200719.GB4077@smile.fi.intel.com>
+ <20201130233232.GD25713@pendragon.ideasonboard.com>
+ <20201201184925.GJ4077@smile.fi.intel.com>
+ <4181e6a6-a60f-0a2b-1b46-13a2359d8753@gmail.com>
+ <20201202093952.GU4077@smile.fi.intel.com>
+From:   Dan Scally <djrscally@gmail.com>
+Message-ID: <56008891-9b86-f318-aae0-1ea36bc2a0eb@gmail.com>
+Date:   Thu, 3 Dec 2020 12:25:33 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 7bit
+In-Reply-To: <20201202093952.GU4077@smile.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Em Thu, 3 Dec 2020 11:52:29 +0100
-Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
-
-> On 03/12/2020 11:49, Mauro Carvalho Chehab wrote:
-> > Em Thu, 26 Nov 2020 14:27:16 +0100
-> > Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
-> >   
-> >> Add 'struct' to clarify that these are pointers to structs.  
-> > 
-> > This patch is actually wrong :-)
-> > 
-> > It is incompatible with Sphinx 3.
-> >   
-> >>
-> >> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> >> ---
-> >>  .../userspace-api/media/v4l/vidioc-g-ext-ctrls.rst | 14 +++++++-------
-> >>  1 file changed, 7 insertions(+), 7 deletions(-)
-> >>
-> >> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> >> index 726d6a97325f..5b1fc62ade0d 100644
-> >> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> >> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
-> >> @@ -180,31 +180,31 @@ still cause this situation.
-> >>        - ``p_u32``
-> >>        - A pointer to a matrix control of unsigned 32-bit values. Valid if
-> >>  	this control is of type ``V4L2_CTRL_TYPE_U32``.
-> >> -    * - :c:type:`v4l2_area` *
-> >> +    * - struct :c:type:`v4l2_area` *  
-> > 
-> > 
-> > See, with Sphinx 3, :c:type: can only be used for typedefs and defines.
-> > 
-> > The right markup for struct is:
-> > 
-> > 	:c:struct:
-> > 
-> > Actually, due to automarkup.py extension, I would just rename them to:
-> > 
-> > 	struct foo
-> > 
-> > And let the automarkup code to use the right markup, as it will ensure
-> > that the proper dialect will be used, no matter what Sphinx version 
-> > will be used to produce the docs.
-> > 
-> > So, I'll drop this patch from the series. I'll propose a new one
-> > instead, after testing with multiple versions of Sphinx.  
+On 02/12/2020 09:39, Andy Shevchenko wrote:
+> On Tue, Dec 01, 2020 at 08:59:53PM +0000, Dan Scally wrote:
+>> On 01/12/2020 18:49, Andy Shevchenko wrote:
 > 
-> 'git grep struct.*:c:type Documentation' shows a lot of those incorrect
-> markups. Perhaps make a media-wide patch to fix this? Otherwise people
-> will just keep copy-and-pasting the same incorrect markup.
-
-Hmm... looking at Documentation/sphinx/parse-headers.pl, it seems
-that the logic is not declaring structs using a Sphinx3 compatible
-format, but, instead, using :c:type: everywhere.
-
-So, I guess I'll just merge those two patches as-is, and then
-work on a media-wide patchset.
-
+> ...
 > 
-> Regards,
+>>> Seems we can do this, by locating intel_int3472.c under PDx86 hood and dropping
+>>> ACPI ID table from TPS68470 MFD driver. The PMIC can be instantiated via
+>>> i2c_acpi_new_device() (IIRC the API name).
+>>>
+>>> And actually it makes more sense since it's not and MFD and should not be there.
+>>>
+>>> (Dan, patch wise the one creates intel_int3472.c followed by another one that
+>>>  moves ACPI ID from PMIC and introduces its instantiation via I²C board info
+>>>  structure)
+>>
+>> I'm mostly following this, but why would we need an i2c_board_info or
+>> i2c_acpi_new_device()? The INT3472 entries that refer to actual tps68470
+>> devices do have an I2cSerialBusV2 enumerated in _CRS so in their case
+>> there's an i2c device registered with the kernel already.
 > 
-> 	Hans
+> Because as we discussed already we can't have two drivers for the same ID
+> without a big disruption in the driver(s).
 > 
-> > 
-> > Regards,
-> > Mauro
-> > 
-> > 
-> >   
-> >>        - ``p_area``
-> >>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
-> >>          of type ``V4L2_CTRL_TYPE_AREA``.
-> >> -    * - :c:type:`v4l2_ctrl_h264_sps` *
-> >> +    * - struct :c:type:`v4l2_ctrl_h264_sps` *
-> >>        - ``p_h264_sps``
-> >>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
-> >>          of type ``V4L2_CTRL_TYPE_H264_SPS``.
-> >> -    * - :c:type:`v4l2_ctrl_h264_pps` *
-> >> +    * - struct :c:type:`v4l2_ctrl_h264_pps` *
-> >>        - ``p_h264_pps``
-> >>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_pps`. Valid if this control is
-> >>          of type ``V4L2_CTRL_TYPE_H264_PPS``.
-> >> -    * - :c:type:`v4l2_ctrl_h264_scaling_matrix` *
-> >> +    * - struct :c:type:`v4l2_ctrl_h264_scaling_matrix` *
-> >>        - ``p_h264_scaling_matrix``
-> >>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_scaling_matrix`. Valid if this control is
-> >>          of type ``V4L2_CTRL_TYPE_H264_SCALING_MATRIX``.
-> >> -    * - :c:type:`v4l2_ctrl_h264_pred_weights` *
-> >> +    * - struct :c:type:`v4l2_ctrl_h264_pred_weights` *
-> >>        - ``p_h264_pred_weights``
-> >>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_pred_weights`. Valid if this control is
-> >>          of type ``V4L2_CTRL_TYPE_H264_PRED_WEIGHTS``.
-> >> -    * - :c:type:`v4l2_ctrl_h264_slice_params` *
-> >> +    * - struct :c:type:`v4l2_ctrl_h264_slice_params` *
-> >>        - ``p_h264_slice_params``
-> >>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_slice_params`. Valid if this control is
-> >>          of type ``V4L2_CTRL_TYPE_H264_SLICE_PARAMS``.
-> >> -    * - :c:type:`v4l2_ctrl_h264_decode_params` *
-> >> +    * - struct :c:type:`v4l2_ctrl_h264_decode_params` *
-> >>        - ``p_h264_decode_params``
-> >>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_decode_params`. Valid if this control is
-> >>          of type ``V4L2_CTRL_TYPE_H264_DECODE_PARAMS``.  
-> > 
-> > 
-> > 
-> > Thanks,
-> > Mauro
-> >   
+> If you have a single point of enumeration, it will make things much easier
+> (refer to the same intel_cht_int33fe driver you mentioned earlier).
 > 
+> I just realize that the name of int3472 should follow the same pattern, i.e.
+> intel_skl_int3472.c
+
+Ah! I didn't read intel_cht_int33fe_common.c before, just the typec.c.
+Having reviewed common I think I'm clear on the method now, thank you :)
 
 
+>> I think we need those things when we get round to handling the
+>> VCM/EEPROM that's hidden within the sensor's ACPI entry, but I've not
+>> done any work on that yet at all.
+> 
+> Let's consider this later — one step at a time.
 
-Thanks,
-Mauro
+Agree!
+
