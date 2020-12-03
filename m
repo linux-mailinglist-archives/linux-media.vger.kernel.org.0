@@ -2,143 +2,235 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 65E152CD59D
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 13:38:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 324472CD614
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 13:52:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388939AbgLCMh5 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 07:37:57 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:50950 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730341AbgLCMh4 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 07:37:56 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 10EF8C061A4E;
-        Thu,  3 Dec 2020 04:37:16 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id f190so3793423wme.1;
-        Thu, 03 Dec 2020 04:37:15 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=uk5+3A50BKKrMe8dcsIhh3qZvhpNAaEd/JfhfBn8IXw=;
-        b=q7y+Vd47osGtMcv46hfU0vM/RbDSaK5XG42iKSzCOiu9jTUvjtxLUDMwhZrLQ1na2e
-         AzcBsrG6q3urJmJAldvuxEz26dhJ286yQhIr4YG0uQvh5gOBaQj/vmQ/FueJ3/x6EF0n
-         6MbyMQhJcEthlr8Jpvxq2wK0ps9MOOKoCuyU8vvADN/K9BdLQU16Pp6XPwOSD8mDpmKj
-         zumDDVtcLXw92FiCK9S4RbJ8wAxDxwTauSR+DTh5139KP0qwK8xcM4zDL/DeE+HUNLkD
-         ZpKW7Wtwcl8qFWPzLqUiXsKrbpihp4V+Ruh/zEOU06uTp4KY8wXEWITz3BcMtaSvj30I
-         FHnw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=uk5+3A50BKKrMe8dcsIhh3qZvhpNAaEd/JfhfBn8IXw=;
-        b=Qdk1F5SMz3AMEUOLenKrP/sILWHLoRpvcNCIvjc4nLOSL7Rgc1/ZnLohfW5aGSO53L
-         jQ8OH8CnxtnXLCtjH+N3x8hw7vicvnOq8LxZammLswpbpAenl+YEnTVa5JUIszA7/PcQ
-         Ef901mIO69ZeEBSkbkMhQy8CMUUL/JYd0Ss2YYDtT2JZPqQfurH/0ZJP160FfTiUYyfS
-         Ddg1j0/tsjLlZlpS4aewQAyJ5BkJCm6TqyN3ZB6w1InHZhaItGhIoNolhXmZjlg2Zfgp
-         Xigl5gs25degtqC/n/mGzrBnNBlLqNKCxLw9oEKXz6qinUjfJum5QcGs2G/SwYjvh/B7
-         U1IA==
-X-Gm-Message-State: AOAM531glSq/l1vqBTVTITsolx1Q1Tc0qtVq6UvjuP8I21CxorSAsDLJ
-        GDjECh+z89kEn2wKCfuTS+Q=
-X-Google-Smtp-Source: ABdhPJxy6ahurwH+Xr2faCWCbOWV6UkZC4ykHZnhCc3dzsg8ESd5WoP1EG/9zXKnXzI5Dh07hLMiaA==
-X-Received: by 2002:a1c:2182:: with SMTP id h124mr3107484wmh.25.1606999034747;
-        Thu, 03 Dec 2020 04:37:14 -0800 (PST)
-Received: from [192.168.1.211] ([2.31.225.57])
-        by smtp.gmail.com with ESMTPSA id b4sm1623772wrr.30.2020.12.03.04.37.13
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 03 Dec 2020 04:37:14 -0800 (PST)
-Subject: Re: [PATCH 18/18] ipu3: Add driver for dummy INT3472 ACPI device
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org,
-        mika.westerberg@linux.intel.com, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, wsa@kernel.org, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jorhand@linux.microsoft.com, kitakar@gmail.com,
-        heikki.krogerus@linux.intel.com
-References: <20201130133129.1024662-1-djrscally@gmail.com>
- <20201130133129.1024662-19-djrscally@gmail.com>
- <20201130200719.GB4077@smile.fi.intel.com>
- <20201130233232.GD25713@pendragon.ideasonboard.com>
- <20201201155513.GB852@paasikivi.fi.intel.com>
- <20201201183758.GE3085@pendragon.ideasonboard.com>
- <20201202110956.GD852@paasikivi.fi.intel.com>
- <20201202124228.GF4486@pendragon.ideasonboard.com>
- <20201202150858.GF4077@smile.fi.intel.com>
-From:   Dan Scally <djrscally@gmail.com>
-Message-ID: <8c9e8818-6b5b-d5a5-b091-dab2d34ee0ee@gmail.com>
-Date:   Thu, 3 Dec 2020 12:37:12 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
-MIME-Version: 1.0
-In-Reply-To: <20201202150858.GF4077@smile.fi.intel.com>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+        id S1730573AbgLCMve (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 07:51:34 -0500
+Received: from mout.kundenserver.de ([212.227.126.131]:44283 "EHLO
+        mout.kundenserver.de" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1730502AbgLCMut (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 07:50:49 -0500
+Received: from orion.localdomain ([95.118.71.13]) by mrelayeu.kundenserver.de
+ (mreue012 [212.227.15.167]) with ESMTPSA (Nemesis) id
+ 1N2jO8-1k1WXp1v8W-0135VV; Thu, 03 Dec 2020 13:48:05 +0100
+From:   "Enrico Weigelt, metux IT consult" <info@metux.net>
+To:     linux-kernel@vger.kernel.org
+Cc:     rspringer@google.com, toddpoynor@google.com, benchan@chromium.org,
+        rcy@google.com, laurent.pinchart@ideasonboard.com,
+        mchehab@kernel.org, f.fainelli@gmail.com, rjui@broadcom.com,
+        sbranden@broadcom.com, bcm-kernel-feedback-list@broadcom.com,
+        nsaenzjulienne@suse.de, speakup@linux-speakup.org,
+        devel@driverdev.osuosl.org, linux-media@vger.kernel.org,
+        netdev@vger.kernel.org
+Subject: [PATCH 01/11] drivers: staging: speakup: remove unneeded MODULE_VERSION() call
+Date:   Thu,  3 Dec 2020 13:47:53 +0100
+Message-Id: <20201203124803.23390-1-info@metux.net>
+X-Mailer: git-send-email 2.11.0
+X-Provags-ID: V03:K1:2y8lEqcYnL2cBhFNRzxmlZlDfDvW7WCjo5V1dlbOXb4jKG4jY/S
+ cb/XYaDxgxA9QzRw281fwgHAFnH/0j5LuCB/mq02pO6YDeRPkBXxvWQQ/oWiJYeo/IWK49C
+ 0JLh8zQo6WOt91WRQ0hLcy8eX+9GAHOXHv35ilU6VjIQ3kFLDeiHl6vjvJ0JKMlVrCaV3wn
+ OWeqrvLscDtIia9z0W5QA==
+X-Spam-Flag: NO
+X-UI-Out-Filterresults: notjunk:1;V03:K0:8YQQZCRYH6M=:4eWnAdVI6COiV7xTKFuxgz
+ 5Sqp7KuEo5o0qsnXsPM9Fx36tkR7kIExtV/EXzBviWdFSZfF/y3vazsyQP0pPp8M8bedP6XVd
+ yziv+FqEbzIlKnBe80IwphhKgto91CITmXj+kcF1RYoOiV294Ip8lvHAXUusjWRTSQ43dgPRF
+ Rvi3a8c7TWrTMM89KrdaSNX/AShcmiwe9eL/YHuYTDboTURoyFJcMFMx8f2WeQalRngCHa/+Z
+ RjupiXkrznWEpRusR+nd8mhSZw/F+CxEgjulKP4otcESBHuXiwzP69zFkcmv3Kz0nmgWFPY94
+ TWs7eTGM1J3pIESuTtzVoLt6B1aAT4yXGwfKm9SYR7r1XdrcneAFQIIkRuosYPFP/IZflKKck
+ kVz3bmHCFoS08FLYw7iDlSijY2xsXCs5OgM+ZolpcjNy87yM47NiDv/fe4Mt8
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 02/12/2020 15:08, Andy Shevchenko wrote:
-> On Wed, Dec 02, 2020 at 02:42:28PM +0200, Laurent Pinchart wrote:
->> On Wed, Dec 02, 2020 at 01:09:56PM +0200, Sakari Ailus wrote:
->>> On Tue, Dec 01, 2020 at 08:37:58PM +0200, Laurent Pinchart wrote:
-> 
-> ...
-> 
->> I think we should consider ACPI to be a hack in the first place :-)
-> 
-> I feel that about DT (and all chaos around it) but it's not a topic here.
-> 
->>> Could this be just one more platform device for each of the three cases (or
->>> one for the two latter; I'm not quite sure yet)?
->>
->> Using MFD for this seems a bit overkill to me. I won't care much as I
->> won't maintain those drivers, but the current situation is complex
->> enough, it was hard for me to understand how things worked. Adding yet
->> another layer with another platform device won't make it any simpler.
->>
->> If we want to split this in two, I'd rather have a tps68470 driver on
->> one side, without ACPI op region support, but registering regulators,
->> GPIOs and clocks (without using separate drivers and devices for these
->> three features), and an INT3472 driver on the other side, with all the
->> ACPI glue and hacks. The tps68470 code could possibly even be structured
->> in such a way that it would be used as a library by the INT3472 driver
->> instead of requiring a separate platform device.
-> 
-> I'm afraid TPS68470 is MFD in hardware and its representation in the MFD is
-> fine. What we need is to move IN3472 pieces out from it.
-> 
-> And I agree with your proposal in general.
+Remove MODULE_VERSION(), as it doesn't seem to serve any practical
+purpose. For in-tree drivers, the kernel version matters.
 
-Way back when I first joined this project we thought we needed i2c
-drivers for driving the tps68470's clks and regulators. Tsuchiya found
-some in an old Intel tree; they needed some minor tweaks but nothing
-drastic. And I think they're designed to work with the mfd driver that's
-already in the kernel.
+The drivers have received lots of changes, without the module version
+(or the underlying DRV_VERSION macro) ever changed, since the code
+landed in the kernel tree. So, it doesn't seem to have any practical
+meaning anymore.
 
-So, can we do this by just checking (in a new
-platform/x86/intel_skl_int3472.c) for a CLDB buffer in the PMIC, and
-calling devm_mfd_add_devices() with either the GPIO and OpRegion drivers
-(if no CLDB buffer found) or with the GPIO, clk and regulator drivers
-(If there's a CLDB and it's not a discrete PMIC). Or else, using the
-code from this patch directly in the platform driver if the CLDB says
-it's a discrete PMIC?
+Signed-off-by: Enrico Weigelt <info@metux.net>
+---
+ drivers/accessibility/speakup/main.c           | 1 -
+ drivers/accessibility/speakup/speakup_acntpc.c | 1 -
+ drivers/accessibility/speakup/speakup_acntsa.c | 1 -
+ drivers/accessibility/speakup/speakup_apollo.c | 2 --
+ drivers/accessibility/speakup/speakup_audptr.c | 2 --
+ drivers/accessibility/speakup/speakup_bns.c    | 2 --
+ drivers/accessibility/speakup/speakup_decext.c | 1 -
+ drivers/accessibility/speakup/speakup_decpc.c  | 1 -
+ drivers/accessibility/speakup/speakup_dectlk.c | 1 -
+ drivers/accessibility/speakup/speakup_dtlk.c   | 2 --
+ drivers/accessibility/speakup/speakup_dummy.c  | 2 --
+ drivers/accessibility/speakup/speakup_keypc.c  | 1 -
+ drivers/accessibility/speakup/speakup_ltlk.c   | 2 --
+ drivers/accessibility/speakup/speakup_soft.c   | 1 -
+ drivers/accessibility/speakup/speakup_spkout.c | 2 --
+ drivers/accessibility/speakup/speakup_txprt.c  | 2 --
+ 16 files changed, 24 deletions(-)
 
->>> The GPIO regulator case is relatively safe, but the real PMICs require
->>> regulator voltage control as well as enabling and disabling the regulators.
->>> That probably requires either schematics or checking the register values at
->>> runtime on Windows (i.e. finding out which system you're dealing with, at
->>> runtime).
-> 
+diff --git a/drivers/accessibility/speakup/main.c b/drivers/accessibility/speakup/main.c
+index 48019660a096..d512f4775ae1 100644
+--- a/drivers/accessibility/speakup/main.c
++++ b/drivers/accessibility/speakup/main.c
+@@ -46,7 +46,6 @@ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_AUTHOR("Daniel Drake <dsd@gentoo.org>");
+ MODULE_DESCRIPTION("Speakup console speech");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(SPEAKUP_VERSION);
+ 
+ char *synth_name;
+ module_param_named(synth, synth_name, charp, 0444);
+diff --git a/drivers/accessibility/speakup/speakup_acntpc.c b/drivers/accessibility/speakup/speakup_acntpc.c
+index c94328a5bd4a..4d9ebf8b3460 100644
+--- a/drivers/accessibility/speakup/speakup_acntpc.c
++++ b/drivers/accessibility/speakup/speakup_acntpc.c
+@@ -315,5 +315,4 @@ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_AUTHOR("David Borowski");
+ MODULE_DESCRIPTION("Speakup support for Accent PC synthesizer");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+ 
+diff --git a/drivers/accessibility/speakup/speakup_acntsa.c b/drivers/accessibility/speakup/speakup_acntsa.c
+index 3a863dc61286..1dc2fd99043f 100644
+--- a/drivers/accessibility/speakup/speakup_acntsa.c
++++ b/drivers/accessibility/speakup/speakup_acntsa.c
+@@ -140,5 +140,4 @@ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_AUTHOR("David Borowski");
+ MODULE_DESCRIPTION("Speakup support for Accent SA synthesizer");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+ 
+diff --git a/drivers/accessibility/speakup/speakup_apollo.c b/drivers/accessibility/speakup/speakup_apollo.c
+index 0877b4044c28..ce215fb3f7ff 100644
+--- a/drivers/accessibility/speakup/speakup_apollo.c
++++ b/drivers/accessibility/speakup/speakup_apollo.c
+@@ -204,5 +204,3 @@ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_AUTHOR("David Borowski");
+ MODULE_DESCRIPTION("Speakup support for Apollo II synthesizer");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+-
+diff --git a/drivers/accessibility/speakup/speakup_audptr.c b/drivers/accessibility/speakup/speakup_audptr.c
+index e6a6a9665d8f..e4733215b5a9 100644
+--- a/drivers/accessibility/speakup/speakup_audptr.c
++++ b/drivers/accessibility/speakup/speakup_audptr.c
+@@ -167,5 +167,3 @@ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_AUTHOR("David Borowski");
+ MODULE_DESCRIPTION("Speakup support for Audapter synthesizer");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+-
+diff --git a/drivers/accessibility/speakup/speakup_bns.c b/drivers/accessibility/speakup/speakup_bns.c
+index 76dfa3f7c058..6783b007c020 100644
+--- a/drivers/accessibility/speakup/speakup_bns.c
++++ b/drivers/accessibility/speakup/speakup_bns.c
+@@ -124,5 +124,3 @@ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_AUTHOR("David Borowski");
+ MODULE_DESCRIPTION("Speakup support for Braille 'n Speak synthesizers");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+-
+diff --git a/drivers/accessibility/speakup/speakup_decext.c b/drivers/accessibility/speakup/speakup_decext.c
+index 7408eb29cf38..efe7ccbfbf05 100644
+--- a/drivers/accessibility/speakup/speakup_decext.c
++++ b/drivers/accessibility/speakup/speakup_decext.c
+@@ -236,5 +236,4 @@ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_AUTHOR("David Borowski");
+ MODULE_DESCRIPTION("Speakup support for DECtalk External synthesizers");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+ 
+diff --git a/drivers/accessibility/speakup/speakup_decpc.c b/drivers/accessibility/speakup/speakup_decpc.c
+index 96f24c848cc5..60da9ec9949c 100644
+--- a/drivers/accessibility/speakup/speakup_decpc.c
++++ b/drivers/accessibility/speakup/speakup_decpc.c
+@@ -492,4 +492,3 @@ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_AUTHOR("David Borowski");
+ MODULE_DESCRIPTION("Speakup support for DECtalk PC synthesizers");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+diff --git a/drivers/accessibility/speakup/speakup_dectlk.c b/drivers/accessibility/speakup/speakup_dectlk.c
+index 780214b5ca16..dc5e91c7a2c9 100644
+--- a/drivers/accessibility/speakup/speakup_dectlk.c
++++ b/drivers/accessibility/speakup/speakup_dectlk.c
+@@ -307,5 +307,4 @@ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_AUTHOR("David Borowski");
+ MODULE_DESCRIPTION("Speakup support for DECtalk Express synthesizers");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+ 
+diff --git a/drivers/accessibility/speakup/speakup_dtlk.c b/drivers/accessibility/speakup/speakup_dtlk.c
+index dbebed0eeeec..265ab003627e 100644
+--- a/drivers/accessibility/speakup/speakup_dtlk.c
++++ b/drivers/accessibility/speakup/speakup_dtlk.c
+@@ -386,5 +386,3 @@ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_AUTHOR("David Borowski");
+ MODULE_DESCRIPTION("Speakup support for DoubleTalk PC synthesizers");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+-
+diff --git a/drivers/accessibility/speakup/speakup_dummy.c b/drivers/accessibility/speakup/speakup_dummy.c
+index e393438af81b..f3b38dc04499 100644
+--- a/drivers/accessibility/speakup/speakup_dummy.c
++++ b/drivers/accessibility/speakup/speakup_dummy.c
+@@ -130,5 +130,3 @@ module_spk_synth(synth_dummy);
+ MODULE_AUTHOR("Samuel Thibault <samuel.thibault@ens-lyon.org>");
+ MODULE_DESCRIPTION("Speakup support for text console");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+-
+diff --git a/drivers/accessibility/speakup/speakup_keypc.c b/drivers/accessibility/speakup/speakup_keypc.c
+index 414827e888fc..8110ddea8ef3 100644
+--- a/drivers/accessibility/speakup/speakup_keypc.c
++++ b/drivers/accessibility/speakup/speakup_keypc.c
+@@ -314,5 +314,4 @@ module_spk_synth(synth_keypc);
+ MODULE_AUTHOR("David Borowski");
+ MODULE_DESCRIPTION("Speakup support for Keynote Gold PC synthesizers");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+ 
+diff --git a/drivers/accessibility/speakup/speakup_ltlk.c b/drivers/accessibility/speakup/speakup_ltlk.c
+index 3c59519a871f..d506380d7235 100644
+--- a/drivers/accessibility/speakup/speakup_ltlk.c
++++ b/drivers/accessibility/speakup/speakup_ltlk.c
+@@ -171,5 +171,3 @@ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_AUTHOR("David Borowski");
+ MODULE_DESCRIPTION("Speakup support for DoubleTalk LT/LiteTalk synthesizers");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+-
+diff --git a/drivers/accessibility/speakup/speakup_soft.c b/drivers/accessibility/speakup/speakup_soft.c
+index 9a7029539f35..7c97444744ea 100644
+--- a/drivers/accessibility/speakup/speakup_soft.c
++++ b/drivers/accessibility/speakup/speakup_soft.c
+@@ -427,4 +427,3 @@ module_spk_synth(synth_soft);
+ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_DESCRIPTION("Speakup userspace software synthesizer support");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+diff --git a/drivers/accessibility/speakup/speakup_spkout.c b/drivers/accessibility/speakup/speakup_spkout.c
+index 6e933bf1de2e..dbaec515d94e 100644
+--- a/drivers/accessibility/speakup/speakup_spkout.c
++++ b/drivers/accessibility/speakup/speakup_spkout.c
+@@ -135,5 +135,3 @@ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_AUTHOR("David Borowski");
+ MODULE_DESCRIPTION("Speakup support for Speak Out synthesizers");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+-
+diff --git a/drivers/accessibility/speakup/speakup_txprt.c b/drivers/accessibility/speakup/speakup_txprt.c
+index a7326f226a5e..687efe2f02e6 100644
+--- a/drivers/accessibility/speakup/speakup_txprt.c
++++ b/drivers/accessibility/speakup/speakup_txprt.c
+@@ -123,5 +123,3 @@ MODULE_AUTHOR("Kirk Reiser <kirk@braille.uwo.ca>");
+ MODULE_AUTHOR("David Borowski");
+ MODULE_DESCRIPTION("Speakup support for Transport synthesizers");
+ MODULE_LICENSE("GPL");
+-MODULE_VERSION(DRV_VERSION);
+-
+-- 
+2.11.0
 
