@@ -2,126 +2,99 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4AB472CD63E
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 13:58:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 270AB2CD6AB
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 14:26:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730473AbgLCM6h (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 07:58:37 -0500
-Received: from mga17.intel.com ([192.55.52.151]:26619 "EHLO mga17.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1730341AbgLCM6g (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Dec 2020 07:58:36 -0500
-IronPort-SDR: 3ulvvhFUWS16jhJZBd7Iyw5kVwQ/PRWBapEdFlGyMZcqE6vZKkdBgW0wgZXd2WcsYOpB8J7F26
- j5zcRRHCGSFQ==
-X-IronPort-AV: E=McAfee;i="6000,8403,9823"; a="153013155"
-X-IronPort-AV: E=Sophos;i="5.78,389,1599548400"; 
-   d="scan'208";a="153013155"
-X-Amp-Result: SKIPPED(no attachment in message)
-X-Amp-File-Uploaded: False
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga107.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2020 04:56:55 -0800
-IronPort-SDR: nReJWWs/9btKLFypc6qvzMJ/nhk9baKi1UlgqEzVYypbcP9P6MLJLiuEHz8ib6Dg7fHkX9Vj7Z
- JselxOpdF/9A==
-X-IronPort-AV: E=Sophos;i="5.78,389,1599548400"; 
-   d="scan'208";a="361778349"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2020 04:56:48 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kkoBB-00Bkut-1Z; Thu, 03 Dec 2020 14:57:49 +0200
-Date:   Thu, 3 Dec 2020 14:57:49 +0200
-From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Dan Scally <djrscally@gmail.com>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org,
-        mika.westerberg@linux.intel.com, linus.walleij@linaro.org,
-        bgolaszewski@baylibre.com, wsa@kernel.org, yong.zhi@intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org,
-        laurent.pinchart+renesas@ideasonboard.com,
-        jorhand@linux.microsoft.com, kitakar@gmail.com,
-        heikki.krogerus@linux.intel.com
-Subject: Re: [PATCH 18/18] ipu3: Add driver for dummy INT3472 ACPI device
-Message-ID: <20201203125749.GV4077@smile.fi.intel.com>
-References: <20201130133129.1024662-1-djrscally@gmail.com>
- <20201130133129.1024662-19-djrscally@gmail.com>
- <20201130200719.GB4077@smile.fi.intel.com>
- <20201130233232.GD25713@pendragon.ideasonboard.com>
- <20201201155513.GB852@paasikivi.fi.intel.com>
- <20201201183758.GE3085@pendragon.ideasonboard.com>
- <20201202110956.GD852@paasikivi.fi.intel.com>
- <20201202124228.GF4486@pendragon.ideasonboard.com>
- <20201202150858.GF4077@smile.fi.intel.com>
- <8c9e8818-6b5b-d5a5-b091-dab2d34ee0ee@gmail.com>
+        id S1730725AbgLCNY4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 08:24:56 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:57107 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1730533AbgLCNYz (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Dec 2020 08:24:55 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 3A7215803EB;
+        Thu,  3 Dec 2020 08:24:09 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute1.internal (MEProxy); Thu, 03 Dec 2020 08:24:09 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=TIrQvB3UrbufB/GyXub/EtdF/K7
+        1e6rUtngpjAms+UI=; b=ZLIDlDHeAU1tKCcbMe3fBkWwIMdX26uYk8+UPkJ94sd
+        KxxedTHTYUr+G6ogpB2nnSgV6Vbi2j5HemALBtFNWlR/n1NQrOGre4P9rUP62FwW
+        yBZ9j79D7jR1dGk42sYYYY74x0KN3CitVkwn08gqF9Zc09GoY7cYKa/bI5tfgQLR
+        ICEjLxgiY/O0ahT5MV6ogK1Xq1T7EkdSgiPMnggw+lFt7CeBO5A9RphsiZTRl9KS
+        HaIF22EVLDtCI0+mZi14FZme8606SpCsGdRASnepRlkvFXOTmYnaarJYxMAPiwu4
+        bSl1jaBk0Ajn3tCI03AP8lSsurfhloRXeG3ODhhUrGQ==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=TIrQvB
+        3UrbufB/GyXub/EtdF/K71e6rUtngpjAms+UI=; b=kj8Vw1pYu5t4qjQqPe8A8Z
+        iTxnV0PjwrJ+wrKDn5gK6uhFfZmPaJ6Ox6ttwKzH/iOt3OQsZeP3Ji9yn8vZjr2f
+        e/D/dA9fAVhXXSJYe0nFBMP8b6tWM3/Q8wouRJkmrmgba7i/VLo8oTaOTMovxPN9
+        mGdvOglQfuVTvqkEy3/alSXZH1TtU/rWmcwndMb/NrCtKqb6zA9rlBEg7ua32x4z
+        Z/fH8OMpHHMKr+xnhoeLQf2rlmsQuF4pxrWB/F7aelwlLzcghzK5U7cz7afzQUXW
+        NH6EU6CekucaxD6rpZx7CgrU60V4xVpdmAoXheNIgxe1PPMtwBCMOfoJOzyU/ljQ
+        ==
+X-ME-Sender: <xms:9-bIX2JkrJc_idGOXw7CJ0Efs1Xrw2Glr-GZAlv7mOU_1Qsq6VZZyg>
+    <xme:9-bIX7ulMuhkk1uvbX4CL9t_Y3KezJP4t-UP2UozEuT6JsRO43nl1JV7DT-ZWDL3c
+    iJbIb5mpfIVUQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeiiedghedvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesthdtre
+    dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
+    necuggftrfgrthhtvghrnhepveeuheejgfffgfeivddukedvkedtleelleeghfeljeeiue
+    eggeevueduudekvdetnecukfhppeekfedrkeeirdejgedrieegnecuvehluhhsthgvrhfu
+    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtoh
+    hm
+X-ME-Proxy: <xmx:9-bIX9IAit820Ldv33Vx9Ua7TvUDsr2s0yP72w8tNHoQB3wNZRyfgw>
+    <xmx:9-bIX8_Zy08d821_6TB9NYEmrE08EnnPc5yxHln1xQysJJ3H07SDVA>
+    <xmx:9-bIX-wWnb7BJW7CkZUOFN2TWGVPRj6MOef8KPlBhelkLEnARbsBWA>
+    <xmx:-ebIXz61tF8SSagFmVsGikb66R3ACi6YeXeDoVMjFaRN9ddN1wellQ>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 2B38124005B;
+        Thu,  3 Dec 2020 08:24:07 -0500 (EST)
+Date:   Thu, 3 Dec 2020 14:25:15 +0100
+From:   Greg KH <greg@kroah.com>
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        toddpoynor@google.com, sbranden@broadcom.com, rjui@broadcom.com,
+        speakup@linux-speakup.org, rcy@google.com, f.fainelli@gmail.com,
+        rspringer@google.com, laurent.pinchart@ideasonboard.com,
+        netdev@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+        mchehab@kernel.org, nsaenzjulienne@suse.de,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 01/11] drivers: staging: speakup: remove unneeded
+ MODULE_VERSION() call
+Message-ID: <X8jnO5cPUQGEK9cr@kroah.com>
+References: <20201203124803.23390-1-info@metux.net>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <8c9e8818-6b5b-d5a5-b091-dab2d34ee0ee@gmail.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+In-Reply-To: <20201203124803.23390-1-info@metux.net>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 03, 2020 at 12:37:12PM +0000, Dan Scally wrote:
-> On 02/12/2020 15:08, Andy Shevchenko wrote:
-> > On Wed, Dec 02, 2020 at 02:42:28PM +0200, Laurent Pinchart wrote:
-> >> On Wed, Dec 02, 2020 at 01:09:56PM +0200, Sakari Ailus wrote:
-> >>> On Tue, Dec 01, 2020 at 08:37:58PM +0200, Laurent Pinchart wrote:
-> > 
-> > ...
-> > 
-> >> I think we should consider ACPI to be a hack in the first place :-)
-> > 
-> > I feel that about DT (and all chaos around it) but it's not a topic here.
-> > 
-> >>> Could this be just one more platform device for each of the three cases (or
-> >>> one for the two latter; I'm not quite sure yet)?
-> >>
-> >> Using MFD for this seems a bit overkill to me. I won't care much as I
-> >> won't maintain those drivers, but the current situation is complex
-> >> enough, it was hard for me to understand how things worked. Adding yet
-> >> another layer with another platform device won't make it any simpler.
-> >>
-> >> If we want to split this in two, I'd rather have a tps68470 driver on
-> >> one side, without ACPI op region support, but registering regulators,
-> >> GPIOs and clocks (without using separate drivers and devices for these
-> >> three features), and an INT3472 driver on the other side, with all the
-> >> ACPI glue and hacks. The tps68470 code could possibly even be structured
-> >> in such a way that it would be used as a library by the INT3472 driver
-> >> instead of requiring a separate platform device.
-> > 
-> > I'm afraid TPS68470 is MFD in hardware and its representation in the MFD is
-> > fine. What we need is to move IN3472 pieces out from it.
-> > 
-> > And I agree with your proposal in general.
+On Thu, Dec 03, 2020 at 01:47:53PM +0100, Enrico Weigelt, metux IT consult wrote:
+> Remove MODULE_VERSION(), as it doesn't seem to serve any practical
+> purpose. For in-tree drivers, the kernel version matters.
 > 
-> Way back when I first joined this project we thought we needed i2c
-> drivers for driving the tps68470's clks and regulators. Tsuchiya found
-> some in an old Intel tree; they needed some minor tweaks but nothing
-> drastic. And I think they're designed to work with the mfd driver that's
-> already in the kernel.
+> The drivers have received lots of changes, without the module version
+> (or the underlying DRV_VERSION macro) ever changed, since the code
+> landed in the kernel tree. So, it doesn't seem to have any practical
+> meaning anymore.
 > 
-> So, can we do this by just checking (in a new
-> platform/x86/intel_skl_int3472.c) for a CLDB buffer in the PMIC, and
-> calling devm_mfd_add_devices() with either the GPIO and OpRegion drivers
-> (if no CLDB buffer found) or with the GPIO, clk and regulator drivers
-> (If there's a CLDB and it's not a discrete PMIC). Or else, using the
-> code from this patch directly in the platform driver if the CLDB says
-> it's a discrete PMIC?
+> Signed-off-by: Enrico Weigelt <info@metux.net>
+> ---
+>  drivers/accessibility/speakup/main.c           | 1 -
 
-Lee, who is a maintainer of MFD, is quite sensitive about this.
-I don't think he would approve this (however I see 8 drivers
-that are using MFD API out of drivers/mfd).
+<snip>
 
--- 
-With Best Regards,
-Andy Shevchenko
+Yous subject line is odd, these are not "staging" drivers anymore, so
+why do you say they are there?
 
+thanks,
 
+greg k-h
