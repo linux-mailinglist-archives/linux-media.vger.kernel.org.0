@@ -2,156 +2,87 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 84C8E2CD3B4
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 11:35:46 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CE79F2CD3F0
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 11:45:38 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2388796AbgLCKdh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 05:33:37 -0500
-Received: from alexa-out.qualcomm.com ([129.46.98.28]:36077 "EHLO
-        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2388608AbgLCKdh (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 05:33:37 -0500
-Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
-  by alexa-out.qualcomm.com with ESMTP; 03 Dec 2020 02:32:42 -0800
-X-QCInternal: smtphost
-Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
-  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 03 Dec 2020 02:32:40 -0800
-X-QCInternal: smtphost
-Received: from c-rojay-linux.qualcomm.com ([10.206.21.80])
-  by ironmsg01-blr.qualcomm.com with ESMTP; 03 Dec 2020 16:02:02 +0530
-Received: by c-rojay-linux.qualcomm.com (Postfix, from userid 88981)
-        id DD11A2833; Thu,  3 Dec 2020 16:02:00 +0530 (IST)
-From:   Roja Rani Yarubandi <rojay@codeaurora.org>
-To:     wsa@kernel.org
-Cc:     swboyd@chromium.org, dianders@chromium.org,
-        saiprakash.ranjan@codeaurora.org, gregkh@linuxfoundation.org,
-        mka@chromium.org, akashast@codeaurora.org,
-        msavaliy@qti.qualcomm.com, skakit@codeaurora.org,
-        vkaur@codeaurora.org, pyarlaga@codeaurora.org,
-        rnayak@codeaurora.org, agross@kernel.org,
-        bjorn.andersson@linaro.org, linux-arm-msm@vger.kernel.org,
-        linux-i2c@vger.kernel.org, linux-kernel@vger.kernel.org,
-        sumit.semwal@linaro.org, linux-media@vger.kernel.org,
-        Roja Rani Yarubandi <rojay@codeaurora.org>
-Subject: [RESEND PATCH V6 2/2] i2c: i2c-qcom-geni: Add shutdown callback for i2c
-Date:   Thu,  3 Dec 2020 16:01:56 +0530
-Message-Id: <20201203103156.32595-3-rojay@codeaurora.org>
-X-Mailer: git-send-email 2.29.0
-In-Reply-To: <20201203103156.32595-1-rojay@codeaurora.org>
-References: <20201203103156.32595-1-rojay@codeaurora.org>
+        id S1730258AbgLCKon (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 05:44:43 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:52000 "EHLO www.linuxtv.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1729194AbgLCKon (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Dec 2020 05:44:43 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kkm5i-003HqA-54; Thu, 03 Dec 2020 10:44:02 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1kkm8s-0007lP-Cz; Thu, 03 Dec 2020 10:47:18 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL FOR v5.11] Add pine64 keymap (#69683)
+Date:   Thu,  3 Dec 2020 10:47:18 +0000
+Message-Id: <20201203104718.29802-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201203103043.GA13676@gofer.mess.org>
+References: 
 MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-If the hardware is still accessing memory after SMMU translation
-is disabled (as part of smmu shutdown callback), then the
-IOVAs (I/O virtual address) which it was using will go on the bus
-as the physical addresses which will result in unknown crashes
-like NoC/interconnect errors.
+From: builder@linuxtv.org
 
-So, implement shutdown callback to i2c driver to stop on-going transfer
-and unmap DMA mappings during system "reboot" or "shutdown".
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20201203103043.GA13676@gofer.mess.org/
+Build log: https://builder.linuxtv.org/job/patchwork/79700/
+Build time: 00:03:46
+Link: https://lore.kernel.org/linux-media/20201203103043.GA13676@gofer.mess.org
 
-Fixes: 37692de5d523 ("i2c: i2c-qcom-geni: Add bus driver for the Qualcomm GENI I2C controller")
-Signed-off-by: Roja Rani Yarubandi <rojay@codeaurora.org>
----
-Changes in V2:
- - As per Stephen's comments added seperate function for stop transfer,
-   fixed minor nitpicks.
- - As per Stephen's comments, changed commit text.
+gpg: Signature made Thu 03 Dec 2020 10:22:19 AM UTC
+gpg:                using RSA key A624251A26084A9ED9E4C8B6425F639D3960FA9E
+gpg:                issuer "sean@mess.org"
+gpg: Good signature from "Sean Young <sean@mess.org>" [full]
 
-Changes in V3:
- - As per Stephen's comments, squashed patch 1 into patch 2, added Fixes tag.
- - As per Akash's comments, included FIFO case in stop_xfer, fixed minor nitpicks.
+Summary: got 1/1 patches with issues, being 1 at build time, plus one error when buinding PDF document
 
-Changes in V4:
- - As per Stephen's comments cleaned up geni_i2c_stop_xfer function,
-   added dma_buf in geni_i2c_dev struct to call i2c_put_dma_safe_msg_buf()
-   from other functions, removed "iova" check in geni_se_rx_dma_unprep()
-   and geni_se_tx_dma_unprep() functions.
- - Added two helper functions geni_i2c_rx_one_msg_done() and
-   geni_i2c_tx_one_msg_done() to unwrap the things after rx/tx FIFO/DMA
-   transfers, so that the same can be used in geni_i2c_stop_xfer() function
-   during shutdown callback. Updated commit text accordingly.
- - Checking whether it is tx/rx transfer using I2C_M_RD which is valid for both
-   FIFO and DMA cases, so dropped DMA_RX_ACTIVE and DMA_TX_ACTIVE bit checking
+Error/warnings:
 
-Changes in V5:
- - As per Stephen's comments, added spin_lock_irqsave & spin_unlock_irqsave in
-   geni_i2c_stop_xfer() function.
+patches/0001-media-rc-add-keymap-for-pine64-remote.patch:
 
-Changes in V6:
- - As per Stephen's comments, taken care of unsafe lock order in
-   geni_i2c_stop_xfer().
- - Moved spin_lock/unlock to geni_i2c_rx_msg_cleanup() and
-   geni_i2c_tx_msg_cleanup() functions.
+    allmodconfig: return code #512:
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-core.c:32:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	In file included from ../drivers/media/i2c/ccs/ccs.h:19,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:17:
+	../drivers/media/i2c/ccs/ccs-data.h:40:1: warning: "/*" within comment [-Wcomment]
+	../drivers/media/i2c/ccs/ccs-reg-access.c:207:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:210:11: error: dereferencing pointer to incomplete type ‘struct ccs_reg’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:380:37: error: increment of pointer to an incomplete type ‘struct ccs_reg’
+	In file included from ../include/linux/kernel.h:14,
+	                 from ../include/linux/unaligned/access_ok.h:5,
+	                 from ../arch/x86/include/asm/unaligned.h:9,
+	                 from ../drivers/media/i2c/ccs/ccs-reg-access.c:12:
+	../include/linux/minmax.h:42:2: error: first argument to ‘__builtin_choose_expr’ not a constant
+	../include/linux/minmax.h:51:19: note: in expansion of macro ‘__careful_cmp’
+	../drivers/media/i2c/ccs/ccs-reg-access.c:388:14: note: in expansion of macro ‘min’
+	make[4]: *** [../scripts/Makefile.build:283: drivers/media/i2c/ccs/ccs-reg-access.o] Error 1
+	make[3]: *** [../scripts/Makefile.build:500: drivers/media/i2c/ccs] Error 2
+	make[2]: *** [../scripts/Makefile.build:500: drivers/media/i2c] Error 2
+	make[2]: *** Waiting for unfinished jobs....
+	make[1]: *** [/var/lib/jenkins/workspace/patchwork/Makefile:1797: drivers/media] Error 2
+	make: *** [Makefile:185: __sub-make] Error 2
 
- drivers/i2c/busses/i2c-qcom-geni.c | 35 ++++++++++++++++++++++++++++++
- 1 file changed, 35 insertions(+)
+   checkpatch.pl:
+	$ cat patches/0001-media-rc-add-keymap-for-pine64-remote.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:34: WARNING: DT binding docs and includes should be a separate patch. See: Documentation/devicetree/bindings/submitting-patches.rst
+	-:47: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
 
-diff --git a/drivers/i2c/busses/i2c-qcom-geni.c b/drivers/i2c/busses/i2c-qcom-geni.c
-index bfbc80f65006..9a6bd7a0a56f 100644
---- a/drivers/i2c/busses/i2c-qcom-geni.c
-+++ b/drivers/i2c/busses/i2c-qcom-geni.c
-@@ -385,6 +385,33 @@ static void geni_i2c_tx_msg_cleanup(struct geni_i2c_dev *gi2c,
- 	spin_unlock_irqrestore(&gi2c->lock, flags);
- }
- 
-+static void geni_i2c_stop_xfer(struct geni_i2c_dev *gi2c)
-+{
-+	int ret;
-+	u32 geni_status;
-+	struct i2c_msg *cur;
-+
-+	/* Resume device, as runtime suspend can happen anytime during transfer */
-+	ret = pm_runtime_get_sync(gi2c->se.dev);
-+	if (ret < 0) {
-+		dev_err(gi2c->se.dev, "Failed to resume device: %d\n", ret);
-+		return;
-+	}
-+
-+	geni_status = readl_relaxed(gi2c->se.base + SE_GENI_STATUS);
-+	if (!(geni_status & M_GENI_CMD_ACTIVE))
-+		goto out;
-+
-+	cur = gi2c->cur;
-+	geni_i2c_abort_xfer(gi2c);
-+	if (cur->flags & I2C_M_RD)
-+		geni_i2c_rx_msg_cleanup(gi2c, cur);
-+	else
-+		geni_i2c_tx_msg_cleanup(gi2c, cur);
-+out:
-+	pm_runtime_put_sync_suspend(gi2c->se.dev);
-+}
-+
- static int geni_i2c_rx_one_msg(struct geni_i2c_dev *gi2c, struct i2c_msg *msg,
- 				u32 m_param)
- {
-@@ -664,6 +691,13 @@ static int geni_i2c_remove(struct platform_device *pdev)
- 	return 0;
- }
- 
-+static void  geni_i2c_shutdown(struct platform_device *pdev)
-+{
-+	struct geni_i2c_dev *gi2c = platform_get_drvdata(pdev);
-+
-+	geni_i2c_stop_xfer(gi2c);
-+}
-+
- static int __maybe_unused geni_i2c_runtime_suspend(struct device *dev)
- {
- 	int ret;
-@@ -728,6 +762,7 @@ MODULE_DEVICE_TABLE(of, geni_i2c_dt_match);
- static struct platform_driver geni_i2c_driver = {
- 	.probe  = geni_i2c_probe,
- 	.remove = geni_i2c_remove,
-+	.shutdown = geni_i2c_shutdown,
- 	.driver = {
- 		.name = "geni_i2c",
- 		.pm = &geni_i2c_pm_ops,
--- 
-QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
-of Code Aurora Forum, hosted by The Linux Foundation
+
+Error #512 when building PDF docs
 
