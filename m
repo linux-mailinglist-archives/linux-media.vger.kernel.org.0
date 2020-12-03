@@ -2,194 +2,128 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id EF1872CD3F3
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 11:47:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 77FD32CD3FA
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 11:51:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387766AbgLCKqn convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Thu, 3 Dec 2020 05:46:43 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:52184 "EHLO www.linuxtv.org"
+        id S2388425AbgLCKuQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 05:50:16 -0500
+Received: from mail.kernel.org ([198.145.29.99]:44582 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2387662AbgLCKqn (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Dec 2020 05:46:43 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kkm7c-003HtJ-V8; Thu, 03 Dec 2020 10:46:01 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kkmAn-0007mD-D5; Thu, 03 Dec 2020 10:49:17 +0000
-Date:   Thu, 3 Dec 2020 10:49:17 +0000 (UTC)
-From:   Jenkins Builder Robot <jenkins@linuxtv.org>
-To:     mchehab@kernel.org, linux-media@vger.kernel.org
-Message-ID: <1088277320.5.1606992557362@builder.linuxtv.org>
-Subject: Build failed in Jenkins: media-build #3315
+        id S2387662AbgLCKuP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Dec 2020 05:50:15 -0500
+Date:   Thu, 3 Dec 2020 11:49:28 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1606992574;
+        bh=GLyVgCREPOnpXng3xvQ091Dp35N849qmXqe6QBMqu6Q=;
+        h=From:To:Cc:Subject:In-Reply-To:References:From;
+        b=c3Pd7Q3Kli0+PQItsPTPvDGYtG4XGDJAfPyl3iBf9b0s3K1Z+7ia3+w9vDGGd2ouu
+         g93xezPARaauYhE/4X3jfnh2orJXkbkoU0NGdUwH/vX5P/VgSIWzpMy3AsuSuuEcv8
+         F5rD4ozAjk0aImzIwnpBY1q2/D+qHUZB0HT+kKXodviw9M/y+C5qH6OWarg3aiG52w
+         f0mpUX2hLrt+QuUjCZREahbN9XurmwhKE/diKG+c0i85NIsleiRKXdtTJAHj942VRU
+         bqN5tCFNdwR5IRVcS+L1Omd+txVfomDjOYZkNQKrsi7/RIQ+SGIS22ryOfLOP9JJbF
+         ZVJQusLzpvh4g==
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     linux-media@vger.kernel.org,
+        Ezequiel Garcia <ezequiel@collabora.com>
+Subject: Re: [PATCH 5/6] vidioc-g-ext-ctrls.rst: add missing 'struct' before
+ the types
+Message-ID: <20201203114928.2e21964b@coco.lan>
+In-Reply-To: <20201126132717.1216907-6-hverkuil-cisco@xs4all.nl>
+References: <20201126132717.1216907-1-hverkuil-cisco@xs4all.nl>
+        <20201126132717.1216907-6-hverkuil-cisco@xs4all.nl>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8BIT
-X-Instance-Identity: MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApAf928QubrKEjMQ0IZR0WWXn8zG7uTdH33F2Idx4Xmlp6Z138NdNMQYNG71OKzmvn3/E1G4rpd9JsMls16nRZ2NAPgOWX0qfFr6HyOoQklLGZt+vkOFb0BvmBFfdI+00J5B1SPupxv4pT3bDLSiwbBNCOLY4sdB0gG1ng14mzu47G8zmH6l2ZE/9urEd6OLFhzrb6ym4vlkCE8uvNJAdAWbeafd1plHSLdU/TVqHMZELuM0wt9khqhUOkfE+dHr7h6DNrkFpvm/8j/5wTuy98ZwwWimP+pfjSQMgKrhXjwHcJJa2N9v1HdwrwlUaRYuA6o8fwUHNC9vLj7cCXM3qiwIDAQAB
-X-Jenkins-Job: media-build
-X-Jenkins-Result: FAILURE
-Auto-submitted: auto-generated
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-See <https://builder.linuxtv.org/job/media-build/3315/display/redirect?page=changes>
+Em Thu, 26 Nov 2020 14:27:16 +0100
+Hans Verkuil <hverkuil-cisco@xs4all.nl> escreveu:
 
-Changes:
+> Add 'struct' to clarify that these are pointers to structs.
 
-[hverkuil-cisco] Update ccs.patch
+This patch is actually wrong :-)
+
+It is incompatible with Sphinx 3.
+
+> 
+> Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+> ---
+>  .../userspace-api/media/v4l/vidioc-g-ext-ctrls.rst | 14 +++++++-------
+>  1 file changed, 7 insertions(+), 7 deletions(-)
+> 
+> diff --git a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> index 726d6a97325f..5b1fc62ade0d 100644
+> --- a/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> +++ b/Documentation/userspace-api/media/v4l/vidioc-g-ext-ctrls.rst
+> @@ -180,31 +180,31 @@ still cause this situation.
+>        - ``p_u32``
+>        - A pointer to a matrix control of unsigned 32-bit values. Valid if
+>  	this control is of type ``V4L2_CTRL_TYPE_U32``.
+> -    * - :c:type:`v4l2_area` *
+> +    * - struct :c:type:`v4l2_area` *
 
 
-------------------------------------------
-Started by an SCM change
-Running as SYSTEM
-Building remotely on slave1 in workspace <https://builder.linuxtv.org/job/media-build/ws/>
-The recommended git tool is: NONE
-No credentials specified
- > git rev-parse --is-inside-work-tree # timeout=10
-Fetching changes from the remote Git repository
- > git config remote.origin.url git://linuxtv.org/media_build.git # timeout=10
-Fetching upstream changes from git://linuxtv.org/media_build.git
- > git --version # timeout=10
- > git --version # 'git version 2.20.1'
- > git fetch --tags --force --progress -- git://linuxtv.org/media_build.git +refs/heads/*:refs/remotes/origin/* # timeout=10
- > git rev-parse refs/remotes/origin/master^{commit} # timeout=10
-Checking out Revision d782f3d9d307a1e32e09c321ed8c74e16886c736 (refs/remotes/origin/master)
- > git config core.sparsecheckout # timeout=10
- > git checkout -f d782f3d9d307a1e32e09c321ed8c74e16886c736 # timeout=10
-Commit message: "Update ccs.patch"
- > git rev-list --no-walk 01f1bdde39beb457fe12c5b0657dd6509652671c # timeout=10
-[media-build] $ /bin/sh -xe /tmp/jenkins12032143018931445819.sh
-+ ./build
-Checking if the needed tools for Debian GNU/Linux 10 (buster) are available
-Needed package dependencies are met.
+See, with Sphinx 3, :c:type: can only be used for typedefs and defines.
 
-************************************************************
-* This script will download the latest tarball and build it*
-* Assuming that your kernel is compatible with the latest  *
-* drivers. If not, you'll need to add some extra backports,*
-* ./backports/<kernel> directory.                          *
-* It will also update this tree to be sure that all compat *
-* bits are there, to avoid compilation failures            *
-************************************************************
-************************************************************
-* All drivers and build system are under GPLv2 License     *
-* Firmware files are under the license terms found at:     *
-* http://www.linuxtv.org/downloads/firmware/               *
-* Please abort in the next 5 secs if you don't agree with  *
-* the license                                              *
-************************************************************
+The right markup for struct is:
 
-Not aborted. It means that the licence was agreed. Proceeding...
+	:c:struct:
 
-****************************
-Updating the building system
-****************************
-From git://linuxtv.org/media_build
- * branch                      master     -> FETCH_HEAD
-Already up to date.
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-wget http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 -O linux-media.tar.bz2.md5.tmp
---2020-12-03 10:46:52--  http://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Resolving linuxtv.org (linuxtv.org)... 130.149.80.248
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:80... connected.
-HTTP request sent, awaiting response... 301 Moved Permanently
-Location: https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5 [following]
---2020-12-03 10:46:52--  https://linuxtv.org/downloads/drivers/linux-media-LATEST.tar.bz2.md5
-Connecting to linuxtv.org (linuxtv.org)|130.149.80.248|:443... connected.
-HTTP request sent, awaiting response... 200 OK
-Length: 105 [application/x-bzip2]
-Saving to: ‘linux-media.tar.bz2.md5.tmp’
+Actually, due to automarkup.py extension, I would just rename them to:
 
-     0K                                                       100%  176M=0s
+	struct foo
 
-2020-12-03 10:46:52 (176 MB/s) - ‘linux-media.tar.bz2.md5.tmp’ saved [105/105]
+And let the automarkup code to use the right markup, as it will ensure
+that the proper dialect will be used, no matter what Sphinx version 
+will be used to produce the docs.
 
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-tar xfj linux-media.tar.bz2
-rm -f .patches_applied .linked_dir .git_log.md5
-make: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-**********************************************************
-* Downloading firmwares from linuxtv.org.                *
-**********************************************************
-firmware/dvb-usb-vp702x-01.fw
-firmware/dvb-usb-vp7045-01.fw
-firmware/dvb-fe-bcm3510-01.fw
-firmware/as102_data2_st.hex
-firmware/dvb-usb-terratec-h7-drxk.fw
-firmware/isdbt_nova_12mhz.inp
-firmware/Boot.S
-firmware/dvb_nova_12mhz_b0.inp
-firmware/dvb-fe-xc4000-1.4.1.fw
-firmware/sms1xxx-hcw-55xxx-isdbt-02.fw
-firmware/sms1xxx-nova-a-dvbt-01.fw
-firmware/dvb-usb-avertv-a800-02.fw
-firmware/cmmb_venice_12mhz.inp
-firmware/dvb-fe-xc5000c-4.1.30.7.fw
-firmware/v4l-cx23418-cpu.fw
-firmware/v4l-cx23885-enc-broken.fw
-firmware/dvb-fe-drxj-mc-vsb-1.0.8.fw
-firmware/dvb_nova_12mhz.inp
-firmware/dvb-usb-dib0700-1.20.fw
-firmware/tdmb_nova_12mhz.inp
-firmware/as102_data1_st.hex
-firmware/dvb-fe-or51132-vsb.fw
-firmware/dvb-usb-it9135-02.fw
-firmware/v4l-cx23418-apu.fw
-firmware/dvb-ttpci-01.fw-261f
-firmware/v4l-cx23418-dig.fw
-firmware/dvb-ttpci-01.fw-261c
-firmware/dvb-usb-bluebird-01.fw
-firmware/dvb-fe-or51211.fw
-firmware/dvb-fe-or51132-qam.fw
-firmware/sms1xxx-stellar-dvbt-01.fw
-firmware/dvb-usb-dibusb-5.0.0.11.fw
-firmware/dvb-fe-drxj-mc-vsb-qam-1.0.8.fw
-firmware/dvb-usb-terratec-h5-drxk.fw
-firmware/dvb-usb-wt220u-02.fw
-firmware/v4l-cx23885-enc.fw
-firmware/dvb-ttpci-01.fw-2622
-firmware/dvb-usb-wt220u-01.fw
-firmware/v4l-cx25840.fw
-firmware/dvb-fe-drxj-mc-1.0.8.fw
-firmware/v4l-cx231xx-avcore-01.fw
-firmware/dvb-usb-dtt200u-01.fw
-firmware/dvb-usb-dibusb-6.0.0.8.fw
-firmware/sms1xxx-nova-b-dvbt-01.fw
-firmware/dvb-fe-xc5000-1.6.114.fw
-firmware/cmmb_vega_12mhz.inp
-firmware/dvb-usb-it9135-01.fw
-firmware/isdbt_nova_12mhz_b0.inp
-firmware/dvb-ttpci-01.fw-261a
-firmware/dvb-ttpci-01.fw-261b
-firmware/dvb-ttpci-01.fw-261d
-firmware/README
-firmware/isdbt_rio.inp
-firmware/dvb-usb-umt-010-02.fw
-firmware/sms1xxx-hcw-55xxx-dvbt-02.fw
-firmware/dvb-usb-terratec-h7-az6007.fw
-firmware/v4l-cx23885-avcore-01.fw
-******************
-* Start building *
-******************
-make -C <https://builder.linuxtv.org/job/media-build/ws/v4l> allyesconfig
-make[1]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make[2]: Entering directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-Applying patches for kernel 4.19.0-5-amd64
-patch -s -f -N -p1 -i ../backports/api_version.patch
-patch -s -f -N -p1 -i ../backports/pr_fmt.patch
-patch -s -f -N -p1 -i ../backports/debug.patch
-patch -s -f -N -p1 -i ../backports/drx39xxj.patch
-patch -s -f -N -p1 -i ../backports/ccs.patch
-1 out of 1 hunk FAILED
-make[2]: *** [Makefile:132: apply_patches] Error 1
-make[2]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/linux'>
-make[1]: *** [Makefile:378: allyesconfig] Error 2
-make[1]: Leaving directory '<https://builder.linuxtv.org/job/media-build/ws/v4l'>
-make: *** [Makefile:26: allyesconfig] Error 2
-can't select all drivers at ./build line 531
-Build step 'Execute shell' marked build as failure
+So, I'll drop this patch from the series. I'll propose a new one
+instead, after testing with multiple versions of Sphinx.
+
+Regards,
+Mauro
+
+
+
+>        - ``p_area``
+>        - A pointer to a struct :c:type:`v4l2_area`. Valid if this control is
+>          of type ``V4L2_CTRL_TYPE_AREA``.
+> -    * - :c:type:`v4l2_ctrl_h264_sps` *
+> +    * - struct :c:type:`v4l2_ctrl_h264_sps` *
+>        - ``p_h264_sps``
+>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_sps`. Valid if this control is
+>          of type ``V4L2_CTRL_TYPE_H264_SPS``.
+> -    * - :c:type:`v4l2_ctrl_h264_pps` *
+> +    * - struct :c:type:`v4l2_ctrl_h264_pps` *
+>        - ``p_h264_pps``
+>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_pps`. Valid if this control is
+>          of type ``V4L2_CTRL_TYPE_H264_PPS``.
+> -    * - :c:type:`v4l2_ctrl_h264_scaling_matrix` *
+> +    * - struct :c:type:`v4l2_ctrl_h264_scaling_matrix` *
+>        - ``p_h264_scaling_matrix``
+>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_scaling_matrix`. Valid if this control is
+>          of type ``V4L2_CTRL_TYPE_H264_SCALING_MATRIX``.
+> -    * - :c:type:`v4l2_ctrl_h264_pred_weights` *
+> +    * - struct :c:type:`v4l2_ctrl_h264_pred_weights` *
+>        - ``p_h264_pred_weights``
+>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_pred_weights`. Valid if this control is
+>          of type ``V4L2_CTRL_TYPE_H264_PRED_WEIGHTS``.
+> -    * - :c:type:`v4l2_ctrl_h264_slice_params` *
+> +    * - struct :c:type:`v4l2_ctrl_h264_slice_params` *
+>        - ``p_h264_slice_params``
+>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_slice_params`. Valid if this control is
+>          of type ``V4L2_CTRL_TYPE_H264_SLICE_PARAMS``.
+> -    * - :c:type:`v4l2_ctrl_h264_decode_params` *
+> +    * - struct :c:type:`v4l2_ctrl_h264_decode_params` *
+>        - ``p_h264_decode_params``
+>        - A pointer to a struct :c:type:`v4l2_ctrl_h264_decode_params`. Valid if this control is
+>          of type ``V4L2_CTRL_TYPE_H264_DECODE_PARAMS``.
+
+
+
+Thanks,
+Mauro
