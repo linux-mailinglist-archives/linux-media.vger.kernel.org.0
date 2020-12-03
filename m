@@ -2,257 +2,108 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2DD42CDE27
-	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 20:00:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D883B2CDE2B
+	for <lists+linux-media@lfdr.de>; Thu,  3 Dec 2020 20:00:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726998AbgLCS7s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 13:59:48 -0500
-Received: from mx2.suse.de ([195.135.220.15]:39110 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726222AbgLCS7r (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Dec 2020 13:59:47 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id F1275AC2E;
-        Thu,  3 Dec 2020 18:59:05 +0000 (UTC)
-To:     Daniel Vetter <daniel@ffwll.ch>
-Cc:     linaro-mm-sig@lists.linaro.org, hdegoede@redhat.com,
-        dri-devel@lists.freedesktop.org, airlied@redhat.com,
-        christian.koenig@amd.com, linux-media@vger.kernel.org
-References: <20201203140259.26580-1-tzimmermann@suse.de>
- <20201203140259.26580-8-tzimmermann@suse.de>
- <20201203152601.GB401619@phenom.ffwll.local>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Subject: Re: [PATCH v2 7/7] dma-buf: Write down some rules for vmap usage
-Message-ID: <ee2abd93-0dfe-53a3-0038-5edc58c3ec92@suse.de>
-Date:   Thu, 3 Dec 2020 19:59:04 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S1727275AbgLCTAo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 14:00:44 -0500
+Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:19125 "EHLO
+        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727010AbgLCTAo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 14:00:44 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fc935b30008>; Thu, 03 Dec 2020 11:00:03 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL105.nvidia.com
+ (172.20.187.12) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Thu, 3 Dec
+ 2020 19:00:00 +0000
+Received: from skomatineni-linux.nvidia.com (172.20.13.39) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Thu, 3 Dec 2020 18:59:59 +0000
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>
+CC:     <bparrot@ti.com>, <mchehab@kernel.org>,
+        <linux-media@vger.kernel.org>, <linux-tegra@vger.kernel.org>,
+        <devicetree@vger.kernel.org>, <linux-kernel@vger.kernel.org>
+Subject: [PATCH v3 00/13] tegra-video: Add support for capturing from HDMI-to-CSI bridge
+Date:   Thu, 3 Dec 2020 10:59:49 -0800
+Message-ID: <1607022002-26575-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-In-Reply-To: <20201203152601.GB401619@phenom.ffwll.local>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="VssPZWBOORIM5b9f8itA7ItuC8H1jqYO6"
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1607022003; bh=jY8Zlq4FoiBPbmHJITN+zE+SOrzIlCzgHph0zo6yb4A=;
+        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:X-NVConfidentiality:
+         MIME-Version:Content-Type;
+        b=nLsr6NYcKctwUlBuM2L0NmRx/gQPsSJeMlUhiUPvpuOBaKJvWSH7cGCR3FtQnh9co
+         lCzusKT4s19M/6gJz/GEu0U0cWA0g5ta70JSH8wTepG4W+lmxIko/0yOBWfO/1vyaj
+         AMsIw1ibEVxH6lItHUBRrvNHYVu8I1BCMI9Uvc5hpwjEcOnQr3KUA8x8V0oCDhxUjK
+         LhRURrIjGTGt9+4mi6hYgUO1J5wuVNL4L7fCGh00liB6GZjkcTfFAoMTtSN+t1d2W6
+         /Vq1XlUWK1umZUGi/sDAyTJeIuJ2/xfl/Dhj0i2yxnSnbXxF++gpOEUsJWCwvyaP4f
+         sX5ooMF6BHs6w==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---VssPZWBOORIM5b9f8itA7ItuC8H1jqYO6
-Content-Type: multipart/mixed; boundary="vmhedsiPmkJS4pKaUezB1f0518yO38X5q";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: Daniel Vetter <daniel@ffwll.ch>
-Cc: linaro-mm-sig@lists.linaro.org, hdegoede@redhat.com,
- dri-devel@lists.freedesktop.org, airlied@redhat.com,
- christian.koenig@amd.com, linux-media@vger.kernel.org
-Message-ID: <ee2abd93-0dfe-53a3-0038-5edc58c3ec92@suse.de>
-Subject: Re: [PATCH v2 7/7] dma-buf: Write down some rules for vmap usage
-References: <20201203140259.26580-1-tzimmermann@suse.de>
- <20201203140259.26580-8-tzimmermann@suse.de>
- <20201203152601.GB401619@phenom.ffwll.local>
-In-Reply-To: <20201203152601.GB401619@phenom.ffwll.local>
+This series includes below changes to allow capturing from HDMI-to-CSI bridges.
+- Add DV timing, EDID and log status V4L2 IOCTLs
+- Subscribe V4L2_EVENT_SOURCE_CHANGE
+- Implement V4L2 device notify callback to report queue error on source change
+  during active streaming.
+- Add support for NV16 V4L2 Pixel format.
+- Add x8 capture by multiple ports gang up for 4K captures from HDMI-to-CSI
+  bridges.
 
---vmhedsiPmkJS4pKaUezB1f0518yO38X5q
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
+Note: These patches are tested with TC358840 HDMI-to-CSI bridge.
 
-Hi
+This series also include below fixes
+- Allow format change for subdevs that don't have crop support.
+- Correct V4L2 Pixel format for RGB888_1X24
+- Enable VI pixel transform for YUV and RGB formats.
 
-Am 03.12.20 um 16:26 schrieb Daniel Vetter:
-> On Thu, Dec 03, 2020 at 03:02:59PM +0100, Thomas Zimmermann wrote:
->> Dma-buf's vmap and vunmap callbacks are undocumented and various
->> exporters currently have slightly different semantics for them. Add
->> documentation on how to implement and use these interfaces correctly.
->>
->> v2:
->> 	* document vmap semantics in struct dma_buf_ops
->> 	* add TODO item for reviewing and maybe fixing dma-buf exporters
->>
->> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
->=20
-> I still don't think this works, we're breaking dma_buf_vmap for everyon=
-e
-> else here.
+Delta between patch versions:
+[v3]:	Includes below changes based on v2 feedback
+	- Correct V4L2 pixel formats for RGB and YUV.
+	- Sets V4L2_IN_CAP_DV_TIMINGS capability for v4l2 input.
+	- Updates V4L2_FWNODE_CSI2_MAX_DATA_LANES to 8 and uses
+	  data-lanes property of Tegra CSI device graph endpoint
+	  for 8 lanes.
+	- Added V4L2 custom control V4L2_CID_TEGRA_SYNCPT_TIMEOUT_RETRY
+	  for HDMI-to-CSI bridge debug purposes.
 
-I removed the text on the importer. These notes for callers in the docs=20
-are more or less a consequence of the exporter semantics.
-
-I thought we at least agreed on the exporter semantics in the other=20
-thread, didn't we?
-
-What I'm trying to do is to write dome some rules for exporters, even if =
-
-not all exporters follow them.
-
-Given the circumstances, we should leave out this patch from the patchset=
-=2E
-
-Best regards
-Thomas
-
->=20
->> ---
->>   Documentation/gpu/todo.rst | 15 +++++++++++++
->>   include/drm/drm_gem.h      |  4 ++++
->>   include/linux/dma-buf.h    | 45 ++++++++++++++++++++++++++++++++++++=
-++
->>   3 files changed, 64 insertions(+)
->>
->> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.rst
->> index 009d8e6c7e3c..32bb797a84fc 100644
->> --- a/Documentation/gpu/todo.rst
->> +++ b/Documentation/gpu/todo.rst
->> @@ -505,6 +505,21 @@ Contact: Thomas Zimmermann <tzimmermann@suse.de>,=
- Christian K=C3=B6nig, Daniel Vette
->>   Level: Intermediate
->>  =20
->>  =20
->> +Enforce rules for dma-buf vmap and pin ops
->> +------------------------------------------
->> +
->> +Exporter implementations of vmap and pin in struct dma_buf_ops (and c=
-onsequently
->> +struct drm_gem_object_funcs) use a variety of locking semantics. Some=
- rely on
->> +the caller holding the dma-buf's reservation lock, some do their own =
-locking,
->> +some don't require any locking. VRAM helpers even used to pin as part=
- of vmap.
->> +
->> +We need to review each exporter and enforce the documented rules.
->> +
->> +Contact: Christian K=C3=B6nig, Daniel Vetter, Thomas Zimmermann <tzim=
-mermann@suse.de>
->> +
->> +Level: Advanced
->> +
->> +
->>   Core refactorings
->>   =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
->>  =20
->> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
->> index 5e6daa1c982f..1864c6a721b1 100644
->> --- a/include/drm/drm_gem.h
->> +++ b/include/drm/drm_gem.h
->> @@ -138,6 +138,8 @@ struct drm_gem_object_funcs {
->>   	 * drm_gem_dmabuf_vmap() helper.
->>   	 *
->>   	 * This callback is optional.
->> +	 *
->> +	 * See also struct dma_buf_ops.vmap
->>   	 */
->>   	int (*vmap)(struct drm_gem_object *obj, struct dma_buf_map *map);
->>  =20
->> @@ -148,6 +150,8 @@ struct drm_gem_object_funcs {
->>   	 * drm_gem_dmabuf_vunmap() helper.
->>   	 *
->>   	 * This callback is optional.
->> +	 *
->> +	 * See also struct dma_buf_ops.vunmap
->>   	 */
->>   	void (*vunmap)(struct drm_gem_object *obj, struct dma_buf_map *map)=
-;
->>  =20
->> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
->> index cf72699cb2bc..dc81fdc01dda 100644
->> --- a/include/linux/dma-buf.h
->> +++ b/include/linux/dma-buf.h
->> @@ -267,7 +267,52 @@ struct dma_buf_ops {
->>   	 */
->>   	int (*mmap)(struct dma_buf *, struct vm_area_struct *vma);
->>  =20
->> +	/**
->> +	 * @vmap:
->=20
-> There's already a @vmap and @vunamp kerneldoc at the top comment, that
-> needs to be removed.
-> -Daniel
->=20
->> +	 *
->> +	 * Returns a virtual address for the buffer.
->> +	 *
->> +	 * Notes to callers:
->> +	 *
->> +	 * - Callers must hold the struct dma_buf.resv lock before calling
->> +	 *   this interface.
->> +	 *
->> +	 * - Callers must provide means to prevent the mappings from going
->> +	 *   stale, such as holding the reservation lock or providing a
->> +	 *   move-notify callback to the exporter.
->> +	 *
->> +	 * Notes to implementors:
->> +	 *
->> +	 * - Implementations must expect pairs of @vmap and @vunmap to be
->> +	 *   called frequently and should optimize for this case.
->> +	 *
->> +	 * - Implementations should avoid additional operations, such as
->> +	 *   pinning.
->> +	 *
->> +	 * - Implementations may expect the caller to hold the dma-buf's
->> +	 *   reservation lock to protect against concurrent calls and
->> +	 *   relocation.
->> +	 *
->> +	 * - Implementations may provide additional guarantees, such as work=
-ing
->> +	 *   without holding the reservation lock.
->> +	 *
->> +	 * This callback is optional.
->> +	 *
->> +	 * Returns:
->> +	 *
->> +	 * 0 on success or a negative error code on failure.
->> +	 */
->>   	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
->> +
->> +	/**
->> +	 * @vunmap:
->> +	 *
->> +	 * Releases the address previously returned by @vmap.
->> +	 *
->> +	 * This callback is optional.
->> +	 *
->> +	 * See also @vmap()
->> +	 */
->>   	void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
->>   };
->>  =20
->> --=20
->> 2.29.2
->>
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+[v2]:	v1 + additional patch for x8 capture support
 
 
---vmhedsiPmkJS4pKaUezB1f0518yO38X5q--
+Sowjanya Komatineni (13):
+  media: tegra-video: Use zero crop settings if subdev has no
+    get_selection
+  media: tegra-video: Enable VI pixel transform for YUV and RGB formats
+  media: tegra-video: Fix V4L2 pixel format RGB and YUV
+  media: tegra-video: Add support for V4L2_PIX_FMT_NV16
+  media: tegra-video: Add DV timing support
+  media: tegra-video: Add support for EDID ioctl ops
+  media: tegra-video: Add support for VIDIOC_LOG_STATUS ioctl
+  media: tegra-video: Add support for V4L2_EVENT_SOURCE_CHANGE
+  media: tegra-video: Implement V4L2 device notify callback
+  media: v4l2-fwnode: Update V4L2_FWNODE_CSI2_MAX_DATA_LANES to 8
+  dt-bindings: tegra: Update csi data-lanes to maximum 8 lanes
+  media: tegra-video: Add support for x8 captures with gang ports
+  media: tegra-video: Add custom V4L2 control
+    V4L2_CID_TEGRA_SYNCPT_TIMEOUT_RETRY
 
---VssPZWBOORIM5b9f8itA7ItuC8H1jqYO6
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
+ .../display/tegra/nvidia,tegra20-host1x.txt        |   4 +-
+ drivers/media/platform/ti-vpe/cal-camerarx.c       |   2 +-
+ drivers/staging/media/tegra-video/csi.c            |  35 ++-
+ drivers/staging/media/tegra-video/csi.h            |  14 +-
+ drivers/staging/media/tegra-video/tegra210.c       | 340 ++++++++++++++-------
+ drivers/staging/media/tegra-video/vi.c             | 338 +++++++++++++++++---
+ drivers/staging/media/tegra-video/vi.h             |  23 +-
+ drivers/staging/media/tegra-video/video.c          |  18 ++
+ include/media/v4l2-fwnode.h                        |   2 +-
+ 9 files changed, 615 insertions(+), 161 deletions(-)
 
------BEGIN PGP SIGNATURE-----
+-- 
+2.7.4
 
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/JNXgFAwAAAAAACgkQlh/E3EQov+Cf
-gg/8D7k2P90vQjC2lAAkzKYkD36iSszn6huMEMpsQ7D/GD+F4JleE/Y/qfaQZFb7l7HhogXc5eP2
-d8LHmR+i990GAi4a+Go9HWTNofUlQrlKRy+CV65Nrd1dnyFCuctBAjyZx1lpQlcH22vA6hmpMWjf
-vvySO/qfyMMYGxfgrD5X7zUYcNqF3ZgAGHcfCkELeGdynBEm+Y2dbOpH/JMMTU/pnJoJliBVD6p7
-m4PboAQDhB2vJ45HoykT4k+yn7oQpzW8mapTr5Fbs9A4UyvzLNnjB9mJmQaY1WiOCglsiObSznWs
-h27r8jOnl14OEux8MthEfzI8cSq/a+nsw3w+0DOuPxch11qv1q46mv+Bajy+fO0HUcQYZxPCYpb0
-dCuXNDUzGE1I4D54rdpVswRsOpqUzhtA/3FypVNOWy2jTbsY2m13rkIunE+ye8cFbsndWY5BvHSo
-lz3m4K39beVwS3PUgq3DuoDUHH4XDKym9Zqfe7rCoHVTZ/KE2WzZvrBojG+Pt4NFtIcwwrVKg6el
-JcYhMFEhuLh122GKYP/1v3r2dgA0b5HVFpndmZbS0s/pzXgSKMM2TTlVAiNAxmXWe75QoesYqsNs
-61X75D80IIYsuJhfgFkyVFlp+VztHlZK49YZPth71FEVytjLuNG3rhR80N/3J+Umcq7l7ZRtIqUW
-6Es=
-=aTrj
------END PGP SIGNATURE-----
-
---VssPZWBOORIM5b9f8itA7ItuC8H1jqYO6--
