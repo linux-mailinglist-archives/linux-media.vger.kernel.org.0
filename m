@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A19BD2CF79C
-	for <lists+linux-media@lfdr.de>; Sat,  5 Dec 2020 00:39:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id CEDA92CF7B9
+	for <lists+linux-media@lfdr.de>; Sat,  5 Dec 2020 00:55:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727084AbgLDXiM (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Dec 2020 18:38:12 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37674 "EHLO
+        id S1726111AbgLDXwd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Dec 2020 18:52:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39850 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726061AbgLDXiL (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Dec 2020 18:38:11 -0500
+        with ESMTP id S1725847AbgLDXwd (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Dec 2020 18:52:33 -0500
 Received: from mail-oo1-xc44.google.com (mail-oo1-xc44.google.com [IPv6:2607:f8b0:4864:20::c44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 03C0EC0613D1;
-        Fri,  4 Dec 2020 15:37:46 -0800 (PST)
-Received: by mail-oo1-xc44.google.com with SMTP id l10so1806705ooh.1;
-        Fri, 04 Dec 2020 15:37:45 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B4C81C061A4F;
+        Fri,  4 Dec 2020 15:51:52 -0800 (PST)
+Received: by mail-oo1-xc44.google.com with SMTP id y3so1815045ooq.2;
+        Fri, 04 Dec 2020 15:51:52 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=date:from:to:cc:subject:message-id:mime-version:content-disposition
          :user-agent;
-        bh=Hu+wkWbpBPezTyvSb2of+Vm89E29WSOkpzM3YXzuj38=;
-        b=s53gSZHTQH7cvBh/vdbdcsZagopkO0fpu0/tXRVjv8ut6GBOgL1RMR7uIa4erod7Cb
-         ZTetW+yb4/iMe3tZD/5+xe+GBAZmZcCK+XWwUf1/5j1o+cyuwkvFJ8ccg+c9DkvAlyCD
-         DXgCwg5ApY8QF/d6IbAYylT5lEFbjTA57ODJhMZCNBQW2N4rVYYoNoTfFC6PJY3h799o
-         HP1MzkRsZjPhyYeaTQ5nUcucJQ+SJDtBCFL8qkne6XIAgqeI9w5fCEBHv+E5cSOrqhjK
-         jAYlyCZf8AwEvRhlswdLZ2tyvYmpPcKdtaxW+4OToSUFbAySWyvZaUpg5bURW0gGR0/Y
-         G2Ig==
+        bh=xEkMnTiVHY+tC4E6hkhP6genGPHTd0rY7OtoiGotd8g=;
+        b=rd0aiJ3ctb+1EhFlogqQIof+oUylf8/J7pGvmiqigxpJDioooFy/xANBc1OnaBeSVn
+         vGfoaF0At8VJukQuiv7UX5YLX4AMwQ7B+ZlkTzzAvrBKADUjhAn/gjezQADZg+HNqYg6
+         SyJYpebRTj+vQoWUWKel1L0jqNSoRHaPfflS6YryvVP269mn1ubj9QAG/LmzOf/5vheU
+         FvZBOxmRLjs0BLo8VzmrYZ7zM0mvwQxfL2lZPWz/eNrjWO8ZJYZZCeJBzjPelR2kHqfq
+         5HhiFF9mh75NBYgIe+UQdJc55+zhINqzuTByWRyVMK3iDfhewsAb7faQgsIDfGnUNh7P
+         Nwxw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:mime-version
          :content-disposition:user-agent;
-        bh=Hu+wkWbpBPezTyvSb2of+Vm89E29WSOkpzM3YXzuj38=;
-        b=I/Q572pQcifArllBIY7U+I5DLQh315tufgAYie06m3gIwAbxlV+McbmP0tfAMIHjfC
-         JAsuxMdWS+BJD7+axOev/Af4wPHXg/V7tHoCeDInJv44z2nnE7XvUZXA5S6GrP1fFXGy
-         ap/oHC7g5x6SReBpBqsYyqIXvOQnd50FAeWr7GEZVpNvnFO3+0fcjJ70O4U9OQ75CYOo
-         S1tK5eEXsJHGiDaeLSww1dzURFXrHa5WHwRVeI0bH9iuZ3UYxUYIVKE80sYaA2t4bmAM
-         wx1rcaB/s+6I1l44l0UgKMmyHcI8ejEJ93hgDBZyZrsVwtk8c76W1/suDHScv6hCYG2m
-         vKMA==
-X-Gm-Message-State: AOAM530mvIxjUOCjCKv5LRp8SUXFP6W0xhasTSUHS08AhYxQ6lc7H4i2
-        ygEeog/p4Zaj92wViAy0uWflut+SyKn7FA==
-X-Google-Smtp-Source: ABdhPJzUH98nCflQCCHuadj2dET80eZLyv6NF8U5XbXxt95V+Oap0UpJh05+04/E7GpWUZU0MpSJwA==
-X-Received: by 2002:a05:6820:131:: with SMTP id i17mr5320675ood.18.1607125065377;
-        Fri, 04 Dec 2020 15:37:45 -0800 (PST)
+        bh=xEkMnTiVHY+tC4E6hkhP6genGPHTd0rY7OtoiGotd8g=;
+        b=WWGZAEwIQ+oOfJ4aITY8++WUGANKDYYkfz9hFS8O0oiNfLUXzmzBmVRQNNdlAbs4/B
+         orOB37JF77aPefFS2BJRyn/ISqiv1DO0mmDdhOe5wxpKfKI3kxpbz1H9WwsBbzDX0jtD
+         w4juYU1kmagY0nGoRDoC3SlGIqujsFpBtjLt1goMvT7mZwiXA3zMVIHLCZXn8WrcgIjR
+         NpfnU3PFWXTnrwAycoE4OagWx1EPbbeyZbnR4gm5ppZKfMVhKFwIJ5eh6PJ7S30DaDG6
+         9yP7xyRysq7EB66ytwkYg+X0khNgSAnTP2X5OuU4oUyuUixdnor5MBofkvD7y53ewnZp
+         naHQ==
+X-Gm-Message-State: AOAM533d7zU7gavW35Gsq/zYcu1Ujpb6yEr7CUx3ncs705A5ySSGzrRP
+        KsRoFE06YV+LSNP+x8Bx0KKTrM98Vmj/Kg==
+X-Google-Smtp-Source: ABdhPJypWDrjey6sPHgLyA6MYay2DhOehGE8F6wPc7fjNGF9WQu/jt2OVGaDwMyEY3yUKKD2D+Zebg==
+X-Received: by 2002:a4a:4988:: with SMTP id z130mr2777945ooa.34.1607125911964;
+        Fri, 04 Dec 2020 15:51:51 -0800 (PST)
 Received: from linuxmint-midtower-pc ([135.26.31.16])
-        by smtp.gmail.com with ESMTPSA id l5sm990439oig.46.2020.12.04.15.37.44
+        by smtp.gmail.com with ESMTPSA id l12sm1026266ooe.27.2020.12.04.15.51.51
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Dec 2020 15:37:44 -0800 (PST)
-Date:   Fri, 4 Dec 2020 17:37:43 -0600
+        Fri, 04 Dec 2020 15:51:51 -0800 (PST)
+Date:   Fri, 4 Dec 2020 17:51:50 -0600
 From:   Travis Carter <traviscarter2@gmail.com>
-To:     ezequiel@collabora.com, mchehab@kernel.org,
+To:     ezequiel@collabora.com, p.zabel@pengutronix.de, mchehab@kernel.org,
         gregkh@linuxfoundation.org
-Cc:     devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org
-Subject: [PATCH] staging:rkvdec: Fixed "replace comma with semicolon" Warning:
-Message-ID: <20201204233743.GA8530@linuxmint-midtower-pc>
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Subject: [PATCH] staging:hantro: Fixed "replace comma with semicolon" Warning:
+Message-ID: <20201204235150.GA8626@linuxmint-midtower-pc>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
@@ -64,26 +64,26 @@ List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Corrected the following Warning:
-drivers/staging/media/rkvdec/rkvdec.c:133: WARNING: Possible comma where semicolon could be used
+drivers/staging/media/hantro/hantro_v4l2.c:319: WARNING: Possible comma where semicolon could be used
 
 Signed-off-by: Travis Carter <traviscarter2@gmail.com>
 ---
- drivers/staging/media/rkvdec/rkvdec.c | 2 +-
+ drivers/staging/media/hantro/hantro_v4l2.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
 
-diff --git a/drivers/staging/media/rkvdec/rkvdec.c b/drivers/staging/media/rkvdec/rkvdec.c
-index d25c4a37e2af..66572066e7a0 100644
---- a/drivers/staging/media/rkvdec/rkvdec.c
-+++ b/drivers/staging/media/rkvdec/rkvdec.c
-@@ -130,7 +130,7 @@ static void rkvdec_reset_fmt(struct rkvdec_ctx *ctx, struct v4l2_format *f,
- 	memset(f, 0, sizeof(*f));
- 	f->fmt.pix_mp.pixelformat = fourcc;
- 	f->fmt.pix_mp.field = V4L2_FIELD_NONE;
--	f->fmt.pix_mp.colorspace = V4L2_COLORSPACE_REC709,
-+	f->fmt.pix_mp.colorspace = V4L2_COLORSPACE_REC709;
- 	f->fmt.pix_mp.ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
- 	f->fmt.pix_mp.quantization = V4L2_QUANTIZATION_DEFAULT;
- 	f->fmt.pix_mp.xfer_func = V4L2_XFER_FUNC_DEFAULT;
+diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+index b668a82d40ad..e1081c16f56a 100644
+--- a/drivers/staging/media/hantro/hantro_v4l2.c
++++ b/drivers/staging/media/hantro/hantro_v4l2.c
+@@ -316,7 +316,7 @@ hantro_reset_fmt(struct v4l2_pix_format_mplane *fmt,
+ 
+ 	fmt->pixelformat = vpu_fmt->fourcc;
+ 	fmt->field = V4L2_FIELD_NONE;
+-	fmt->colorspace = V4L2_COLORSPACE_JPEG,
++	fmt->colorspace = V4L2_COLORSPACE_JPEG;
+ 	fmt->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+ 	fmt->quantization = V4L2_QUANTIZATION_DEFAULT;
+ 	fmt->xfer_func = V4L2_XFER_FUNC_DEFAULT;
 -- 
 2.17.1
 
