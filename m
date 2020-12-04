@@ -2,129 +2,114 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4E2142CE975
-	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 09:23:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5C96C2CE98C
+	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 09:28:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726122AbgLDIXB (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Dec 2020 03:23:01 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34254 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725866AbgLDIXA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Dec 2020 03:23:00 -0500
-X-Gm-Message-State: AOAM533u8qp4warYnaliKs4L1gnxZT5uXjKYFLEHCxsov/e/vQxsaaWh
-        fwnTHEFW2XT4ZjvJsXOj0PuIKGgBcBHq3mvrfT4=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607070139;
-        bh=2hCU16u8xdgK+1WRUVeeUfn1ZGZIrA6XHXnWa4B43Ws=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=h4Q7Sa7DoFD2o2/4Tu0jkpK5D/EijEerH1ihEOloYkaFXaCVsUF23qNUERELqxG3G
-         bZvfwDXDP+VjTTqW20jYjz5Jw8ZR009/7IQ6dHfEZzbd+PUmj0GGb9prKqvyY0CW9Y
-         yV4g94/ccG0e/5dQoxJF4DAKP4eFQXUOhpkoilRSDoxR68czPx5Znoi9mRptSIHCwl
-         COBThqd/i8MdcDyCu7POFXJS9GknBKBfSEKvZuHy54AAInO9Gn6H6LfXoz10Wo4OXz
-         KZu6OkvnmiwTg+C2fFIJdUE+EM0bY1WiSrBfcfs47rKI7V6UztSPPP9OtpDv9HTksS
-         2ejQOYIS7mL+Q==
-X-Google-Smtp-Source: ABdhPJxs+Au9ZXbkEKqkIFc+iYxn/D/2u3KSa+IfdKMx2o4fDVnF4lOKi/heqBPu4O3BvmX7cKSQyOP8MbSTPeGfxR0=
-X-Received: by 2002:a05:6808:9a9:: with SMTP id e9mr2437405oig.4.1607070138915;
- Fri, 04 Dec 2020 00:22:18 -0800 (PST)
+        id S1729074AbgLDI2A (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Dec 2020 03:28:00 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:37980 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727056AbgLDI2A (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Dec 2020 03:28:00 -0500
+Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 9D45DC061A51
+        for <linux-media@vger.kernel.org>; Fri,  4 Dec 2020 00:27:19 -0800 (PST)
+Received: by mail-ed1-x543.google.com with SMTP id d18so4933593edt.7
+        for <linux-media@vger.kernel.org>; Fri, 04 Dec 2020 00:27:19 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=chromium.org; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=ruXnnoPhLWZefsxaYBBLcufmNUTnKI++ZsmmBsbkXoQ=;
+        b=AIGmeqXFKWcMnd0CaRU7VGuoQ6uBtBfpY0HjtA4OlX5XB4+riFjIuqIqjw+qhiIQU1
+         ghVGolqoPjd0pIoGJK+8cd8NuK/XGB7lZZu5NYhaeNAHLXadSXamoDFGSCxfvafBujwV
+         Cp4UGESm8DOKaEuzzdYKxBgK/jpCkaC0koh3k=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=ruXnnoPhLWZefsxaYBBLcufmNUTnKI++ZsmmBsbkXoQ=;
+        b=ChsjeKRPbdkCyH5pZpusWv00kA+4yXUvYc7LLawj89jGUpBwpcXAAUyoQfM/FIfITg
+         0SueAtSAxvf5R1pQs99VJ+ncTmrMH7eDOQWyl0o+sriGFoRe5pK1rVTqrDc7PRQyIdQf
+         TVeiVUQvIHq46IJZpw00XAX0B/Dlrpr09vL7BLmgha5jivcfbc+zwW+1SFEDUY4CKu7p
+         Z8SM3BEBzRfKOoIrP0DwZLCylaA9OzyhLwpT2t+ouJ3frunn2IUGwTRjo8M2jit46hmf
+         9tUv3dwRcXzs7tZTLygw0C61KqQ6PI0erpDriDX8YrrEwM/z1awJpZ20cA6+Uob/94kB
+         jA9w==
+X-Gm-Message-State: AOAM531vH91U5oTj1WG23hK+U6cdFWlZFWwDFIi6uO8XzDXVxPw3DoGr
+        xQEv8jCBi17xtEtmqilv6LHUIm6No5KUbg==
+X-Google-Smtp-Source: ABdhPJxVipx5OcwjBp/z49qUYoRQ3FszzKAhKvLRNEqyNtpCbnsroE06gXsSFW/E2QB8Zct4t5FlcA==
+X-Received: by 2002:a50:ed17:: with SMTP id j23mr6545041eds.218.1607070437442;
+        Fri, 04 Dec 2020 00:27:17 -0800 (PST)
+Received: from mail-ed1-f47.google.com (mail-ed1-f47.google.com. [209.85.208.47])
+        by smtp.gmail.com with ESMTPSA id 2sm2550938ejw.65.2020.12.04.00.27.15
+        for <linux-media@vger.kernel.org>
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Fri, 04 Dec 2020 00:27:15 -0800 (PST)
+Received: by mail-ed1-f47.google.com with SMTP id v22so4936419edt.9
+        for <linux-media@vger.kernel.org>; Fri, 04 Dec 2020 00:27:15 -0800 (PST)
+X-Received: by 2002:a50:99dd:: with SMTP id n29mr6739912edb.259.1607070434703;
+ Fri, 04 Dec 2020 00:27:14 -0800 (PST)
 MIME-Version: 1.0
-References: <20201203222956.1091606-1-arnd@kernel.org> <1607047828.4733.172.camel@mhfsdcap03>
-In-Reply-To: <1607047828.4733.172.camel@mhfsdcap03>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Fri, 4 Dec 2020 09:22:02 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a0ZA4cLNL3kVN9qKjHyhWJXOA2LtsEakN0V9rcTBQaVNw@mail.gmail.com>
-Message-ID: <CAK8P3a0ZA4cLNL3kVN9qKjHyhWJXOA2LtsEakN0V9rcTBQaVNw@mail.gmail.com>
-Subject: Re: [PATCH] media: i2c: fix an uninitialized error code
-To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+References: <20201203231505.1483971-1-arnd@kernel.org>
+In-Reply-To: <20201203231505.1483971-1-arnd@kernel.org>
+From:   Alexandre Courbot <acourbot@chromium.org>
+Date:   Fri, 4 Dec 2020 17:26:59 +0900
+X-Gmail-Original-Message-ID: <CAPBb6MUNsoQ76hi618G6i0djBoRzVvYKkTd8PovNQRacZ06LWA@mail.gmail.com>
+Message-ID: <CAPBb6MUNsoQ76hi618G6i0djBoRzVvYKkTd8PovNQRacZ06LWA@mail.gmail.com>
+Subject: Re: [PATCH] media: mtk-vcodec: add remoteproc dependency
+To:     Arnd Bergmann <arnd@kernel.org>
 Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Nathan Chancellor <natechancellor@gmail.com>,
-        Nick Desaulniers <ndesaulniers@google.com>,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Yunfei Dong <yunfei.dong@mediatek.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Tiffany Lin <tiffany.lin@mediatek.com>,
         Arnd Bergmann <arnd@arndb.de>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Krzysztof Kozlowski <krzk@kernel.org>,
+        Helen Koike <helen.koike@collabora.com>,
         Linux Media Mailing List <linux-media@vger.kernel.org>,
-        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
-        clang-built-linux <clang-built-linux@googlegroups.com>,
-        tfiga@google.com, sj.huang@mediatek.com
+        LKML <linux-kernel@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 4, 2020 at 3:10 AM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
+On Fri, Dec 4, 2020 at 8:15 AM Arnd Bergmann <arnd@kernel.org> wrote:
 >
-> Hi Arnd,
+> From: Arnd Bergmann <arnd@arndb.de>
 >
-> Thanks for the patch.
+> The SCP firmware can only be built if CONFIG_REMOTEPROC is
+> enabled:
 >
-> On Thu, 2020-12-03 at 23:29 +0100, Arnd Bergmann wrote:
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > Clang points out that the error handling in ov02a10_s_stream() is
-> > broken, and just returns a random error code:
-> >
-> > drivers/media/i2c/ov02a10.c:537:6: warning: variable 'ret' is used uninitialized whenever 'if' condition is true [-Wsometimes-uninitialized]
-> >         if (ov02a10->streaming == on)
-> >             ^~~~~~~~~~~~~~~~~~~~~~~~
-> > drivers/media/i2c/ov02a10.c:568:9: note: uninitialized use occurs here
-> >         return ret;
-> >                ^~~
-> > drivers/media/i2c/ov02a10.c:537:2: note: remove the 'if' if its condition is always false
-> >         if (ov02a10->streaming == on)
-> >         ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-> > drivers/media/i2c/ov02a10.c:533:9: note: initialize the variable 'ret' to silence this warning
-> >         int ret;
-> >
-> > I assume that -EBUSY is the intended error code, so use that.
-> >
-> > Fixes: 91807efbe8ec ("media: i2c: add OV02A10 image sensor driver")
-> > Signed-off-by: Arnd Bergmann <arnd@arndb.de>
-> > ---
-> >  drivers/media/i2c/ov02a10.c | 4 +++-
-> >  1 file changed, 3 insertions(+), 1 deletion(-)
-> >
-> > diff --git a/drivers/media/i2c/ov02a10.c b/drivers/media/i2c/ov02a10.c
-> > index 391718136ade..7ee9c904d9b5 100644
-> > --- a/drivers/media/i2c/ov02a10.c
-> > +++ b/drivers/media/i2c/ov02a10.c
-> > @@ -534,8 +534,10 @@ static int ov02a10_s_stream(struct v4l2_subdev *sd, int on)
-> >
-> >       mutex_lock(&ov02a10->mutex);
-> >
-> > -     if (ov02a10->streaming == on)
-> > +     if (ov02a10->streaming == on) {
-> > +             ret = -EBUSY;
-> >               goto unlock_and_return;
-> > +     }
-> >
-> >       if (on) {
-> >               ret = pm_runtime_get_sync(&client->dev);
->
-> Only if sensor fails to stream on, ret can return a negative error code.
-> Thus ret above needs to be initialized to '0'.
+> WARNING: unmet direct dependencies detected for MTK_SCP
+>   Depends on [n]: REMOTEPROC [=n] && (ARCH_MEDIATEK [=y] || COMPILE_TEST [=y])
+>   Selected by [y]:
+>   - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK [=y] || COMPILE_TEST [=y])
 
-Ok, I sent a version 2.
+Despite setting these same options I cannot reproduce this warning on
+a merge of master + media. Which tree are you using?
 
-> Also you could fix the clang error like this.
 >
-> static int ov02a10_s_stream(struct v4l2_subdev *sd, int on)
-> {
->         struct ov02a10 *ov02a10 = to_ov02a10(sd);
->         ...
->         int ret = 0;
+> Add this as a dependency for mtk-vcodec.
 >
->         ...
->         if (ov02a10->streaming == on)
->                 goto unlock_and_return;
+> Fixes: c7244811b1c9 ("media: mtk-vcodec: add SCP firmware ops")
+> Signed-off-by: Arnd Bergmann <arnd@arndb.de>
+> ---
+>  drivers/media/platform/Kconfig | 1 +
+>  1 file changed, 1 insertion(+)
 >
->         ...
-> }
-
-Sorry, I should have removed the last line of the output from
-clang that suggested doing that. Initializing a local variable
-in the declaration is generally a bad idea precisely because it
-prevents the compiler from warning about a case like this where
-the author forgot to set the correct error value.
-
-We should really fix clang to not propagate that nonsense.
-
-        Arnd
+> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
+> index ffffef2267f4..295f74c3c04b 100644
+> --- a/drivers/media/platform/Kconfig
+> +++ b/drivers/media/platform/Kconfig
+> @@ -276,6 +276,7 @@ config VIDEO_MEDIATEK_VCODEC
+>         # our dependencies, to avoid missing symbols during link.
+>         depends on VIDEO_MEDIATEK_VPU || !VIDEO_MEDIATEK_VPU
+>         depends on MTK_SCP || !MTK_SCP
+> +       depends on REMOTEPROC
+>         select VIDEOBUF2_DMA_CONTIG
+>         select V4L2_MEM2MEM_DEV
+>         select VIDEO_MEDIATEK_VCODEC_VPU if VIDEO_MEDIATEK_VPU
+> --
+> 2.27.0
+>
