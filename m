@@ -2,178 +2,181 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7C39A2CE70B
-	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 05:41:33 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 36CAE2CE825
+	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 07:25:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726598AbgLDEkl (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 23:40:41 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:42343 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726242AbgLDEkl (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 3 Dec 2020 23:40:41 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id l2svkdspnYbdWl2swkdP3L; Fri, 04 Dec 2020 05:39:58 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1607056798; bh=50TolsNQsrYxM4b/NkMScMtlz6XAZV+JjrpBP0ESGpk=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=udq4cu+YDxn88PSWmBRlIHKfLRnQBtrrnt/zV/puhC8LxFnHBQIvDPotZMpeGcY5n
-         ZZSYi8WgwS6476eUoXGRQ/5J6axaPbuOfC2CYtsEmnfrIGTpIjBlk7+v9Rxd6zcDfk
-         3d658qr91y0kFXd4od/Gl0xMq0LWNCuBVyR8q79cPeVK4iJsIwec+lerQsQnXW+Pdy
-         4T9aEaJhTgr6lY32w/l2thmHuCSsYBjC+ZSAKk9UeUI1KowValhPxFe3D99Ry3ncbX
-         qrDEEw2kmxNVuYTgL/3NWMrNu6+4UY4bvEgKQx1uBYexp9azWpwiV37VV/iBp/DSqn
-         w/Dwa367S3JZg==
-Message-ID: <7dca588f10c681f2931946d8ed47b631@smtp-cloud7.xs4all.net>
-Date:   Fri, 04 Dec 2020 05:39:57 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfBefZKr/yzMdc+SqSVNqZLq3TnxowTkocbfJSx0wc7W3HNLPJkmNMaWPv77UESGhFWGcWGh/J702244XxSUbOmX7vs7wp79oTKlrpyp4zbRL+MasJjs5
- vTFiSWGXjUdPo9M9liVDw302uyJwkm7H+OEW8UCtj62+NkeQto2DRIZyqnRGCFNTOcbPJoBJLUXYgi/bFbdj7WWnGpUnil94Z01Eld/4OConXK3mQCMf6x1j
- 21iF2SCVrQfLCVqLPhorGw==
+        id S1726473AbgLDGYV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Dec 2020 01:24:21 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47086 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725372AbgLDGYV (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Dec 2020 01:24:21 -0500
+Received: from mail-wr1-x434.google.com (mail-wr1-x434.google.com [IPv6:2a00:1450:4864:20::434])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D687FC061A51
+        for <linux-media@vger.kernel.org>; Thu,  3 Dec 2020 22:23:40 -0800 (PST)
+Received: by mail-wr1-x434.google.com with SMTP id u12so4198409wrt.0
+        for <linux-media@vger.kernel.org>; Thu, 03 Dec 2020 22:23:40 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=98JkySW9/YPknIOP/vurrpriMRdU3Eb0izq2wDpGtMs=;
+        b=ptlG2MEbVrPb2egLQW7XfjoIdnyFnJSEl5UOV3qQqSXT/R/9N5qJh785SkNjtSVafY
+         eI5+ODstgUwiwtYUySnaBR+Yc1TSrmYFb2p77jCtkDub+G4YAANIA4qjFRAhpF4pinjq
+         LBn9eCES70H/Rleg6etUGUaH+6TfwXpTH1aiEgsI17gT5vxOTf7YgafJSYqTzU47+L9h
+         1mYojfdBNMc5Nxn2K1fD7nSv7OS0k/ioAJRfHKXjUYOfdSa1Ltc+FU7t5+ncTAfoxUXT
+         +vKLY4WHsptaZu5r0T7cOSJZIIzN96EYHHwaR8qyEVg7PZzCkfd9x/Q8cTa+wXS4yPaq
+         x2gw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=98JkySW9/YPknIOP/vurrpriMRdU3Eb0izq2wDpGtMs=;
+        b=YrFHk5JqIPPNzLG/na6g+8Avwu88J3QDkTVXUm7t9qXonrpZTR7b2b8i1Ttr10aWjL
+         mr6Cvu7zpmyCg3cosMW2ke3z6UosrlwGLgfvJR0LetYOX25XGNwk0nLvecq+Wkv7opCA
+         3Rswld45EG5AKOkFefTSHFaXZWWajVzk8xUkkg0K4SW9adj8ITyEAwQX2r69sundwOZ4
+         3TOLwr2ImndC+yVfbpsK3fziMsk7+3BxctRPcpFvJC23gQ1e64DSc+teL1HOq/ZIgW+i
+         J+xzRGjn4yR74fiQ+SOuOZblVUK38BmNeEAxaumO/SXyMwMd8+nW3QoziByUWhoeKp0n
+         IDgA==
+X-Gm-Message-State: AOAM5330uDc7CMCwWyjBu1242WhHiBJWAlMTF9NiAkizk30QU5cUv4C1
+        gpVVQ6djqjIyCZUV4WQCmAD9LKmDTLWRWPewS98r2ubgNBc=
+X-Google-Smtp-Source: ABdhPJzEy0kjlzbhbJ4HskVgZqUeu1kU8i5mODdxRXXs4BAgs5Hjr/NV8JA3TzwWGgwm85BkW3SiHNkFcJ5K0AD0aOI=
+X-Received: by 2002:adf:e54f:: with SMTP id z15mr3093292wrm.159.1607063018670;
+ Thu, 03 Dec 2020 22:23:38 -0800 (PST)
+MIME-Version: 1.0
+References: <9af089ea-2532-68ac-5d22-97a669ccec91@canonical.com>
+ <CAHp75Ve7Sdf=Zy5N1LN_w22=YwPgWWR-FZtrQcAkOF=ViT2Kbw@mail.gmail.com> <1607049966.4733.189.camel@mhfsdcap03>
+In-Reply-To: <1607049966.4733.189.camel@mhfsdcap03>
+From:   Tomasz Figa <tfiga@google.com>
+Date:   Fri, 4 Dec 2020 15:23:28 +0900
+Message-ID: <CAAFQd5C0_v7hyvu7BHtkH_ecYUXPGTGq75Xrr63b3Fe81r=tuA@mail.gmail.com>
+Subject: Re: media: i2c: add OV02A10 image sensor driver
+To:     Dongchun Zhu <dongchun.zhu@mediatek.com>
+Cc:     Andy Shevchenko <andy.shevchenko@gmail.com>,
+        Colin Ian King <colin.king@canonical.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        Sj Huang <sj.huang@mediatek.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On Fri, Dec 4, 2020 at 11:47 AM Dongchun Zhu <dongchun.zhu@mediatek.com> wrote:
+>
+> Hi Andy,
+>
+> On Thu, 2020-12-03 at 20:10 +0200, Andy Shevchenko wrote:
+> > On Thu, Dec 3, 2020 at 8:03 PM Colin Ian King <colin.king@canonical.com> wrote:
+> >
+> > > Static analysis on linux-next with Coverity has detected an issue with
+> > > the following commit:
+> >
+> > If you want to fix it properly, see my comments below...
+> >
+> > > 529 static int ov02a10_s_stream(struct v4l2_subdev *sd, int on)
+> > > 530 {
+> > > 531        struct ov02a10 *ov02a10 = to_ov02a10(sd);
+> > > 532        struct i2c_client *client =
+> > > v4l2_get_subdevdata(&ov02a10->subdev);
+> > >
+> > >    1. var_decl: Declaring variable ret without initializer.
+> > >
+> > > 533        int ret;
+> > > 534
+> > > 535        mutex_lock(&ov02a10->mutex);
+> > > 536
+> > >
+> > >    2. Condition ov02a10->streaming == on, taking true branch.
+> > >
+> > > 537        if (ov02a10->streaming == on)
+> > >
+> > >    3. Jumping to label unlock_and_return.
+> > >
+> > > 538                goto unlock_and_return;
+> > > 539
+> > > 540        if (on) {
+> > > 541                ret = pm_runtime_get_sync(&client->dev);
+> > > 542                if (ret < 0) {
+> >
+> > > 543                        pm_runtime_put_noidle(&client->dev);
+> > > 544                        goto unlock_and_return;
+> >
+> > Instead of two above:
+>
+> From the document, pm_runtime_put_noidle is to decrease the runtime PM
+> usage counter of a device unless it is 0 already; while pm_runtime_put
+> would additionally run pm_request_idle to turn off the power if usage
+> counter is zero.
+>
+> So here maybe we can really use pm_runtime_put instead of
+> pm_runtime_put_noidle, although it seems that 'pm_runtime_get_sync' and
+> 'pm_runtime_put_noidle' often appear in pairs.
+>
 
-Results of the daily build of media_tree:
+In an error state (e.g. if pm_runtime_get_sync() fails),
+pm_runtime_put() would decrement the usage counter and call rpm_idle()
+which would instantly return an error code. The end result would be
+the same, except that pm_runtime_put() would return a non-zero error
+code, but we ignore it anyway. However strange it looks, this seems to
+be an API guarantee, so Andy's suggestion is correct.
 
-date:			Fri Dec  4 05:00:14 CET 2020
-media-tree git hash:	63288c829b1a5991d8f8c15cab596108ed206ba6
-media_build git hash:	d782f3d9d307a1e32e09c321ed8c74e16886c736
-v4l-utils git hash:	24b88169ff86674aa18b5897cbd1e608a603fa79
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7041-g6193b3b71
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 77c8542b1c2caa2a7e96c4dad0335336b522c616
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Best regards,
+Tomasz
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: ERRORS
-linux-3.13.11-x86_64: ERRORS
-linux-3.14.79-i686: ERRORS
-linux-3.14.79-x86_64: ERRORS
-linux-3.15.10-i686: ERRORS
-linux-3.15.10-x86_64: ERRORS
-linux-3.16.81-i686: ERRORS
-linux-3.16.81-x86_64: ERRORS
-linux-3.17.8-i686: ERRORS
-linux-3.17.8-x86_64: ERRORS
-linux-3.18.136-i686: ERRORS
-linux-3.18.136-x86_64: ERRORS
-linux-3.19.8-i686: ERRORS
-linux-3.19.8-x86_64: ERRORS
-linux-4.0.9-i686: ERRORS
-linux-4.0.9-x86_64: ERRORS
-linux-4.1.52-i686: ERRORS
-linux-4.1.52-x86_64: ERRORS
-linux-4.2.8-i686: ERRORS
-linux-4.2.8-x86_64: ERRORS
-linux-4.3.6-i686: ERRORS
-linux-4.3.6-x86_64: ERRORS
-linux-4.4.238-i686: ERRORS
-linux-4.4.238-x86_64: ERRORS
-linux-4.5.7-i686: ERRORS
-linux-4.5.7-x86_64: ERRORS
-linux-4.6.7-i686: ERRORS
-linux-4.6.7-x86_64: ERRORS
-linux-4.7.10-i686: ERRORS
-linux-4.7.10-x86_64: ERRORS
-linux-4.8.17-i686: ERRORS
-linux-4.8.17-x86_64: ERRORS
-linux-4.9.238-i686: ERRORS
-linux-4.9.238-x86_64: ERRORS
-linux-4.10.17-i686: ERRORS
-linux-4.10.17-x86_64: ERRORS
-linux-4.11.12-i686: ERRORS
-linux-4.11.12-x86_64: ERRORS
-linux-4.12.14-i686: ERRORS
-linux-4.12.14-x86_64: ERRORS
-linux-4.13.16-i686: ERRORS
-linux-4.13.16-x86_64: ERRORS
-linux-4.14.200-i686: ERRORS
-linux-4.14.200-x86_64: ERRORS
-linux-4.15.18-i686: ERRORS
-linux-4.15.18-x86_64: ERRORS
-linux-4.16.18-i686: WARNINGS
-linux-4.16.18-x86_64: WARNINGS
-linux-4.17.19-i686: WARNINGS
-linux-4.17.19-x86_64: WARNINGS
-linux-4.18.20-i686: WARNINGS
-linux-4.18.20-x86_64: WARNINGS
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: WARNINGS
-linux-4.20.17-x86_64: WARNINGS
-linux-5.0.21-i686: WARNINGS
-linux-5.0.21-x86_64: WARNINGS
-linux-5.1.21-i686: WARNINGS
-linux-5.1.21-x86_64: WARNINGS
-linux-5.2.21-i686: WARNINGS
-linux-5.2.21-x86_64: WARNINGS
-linux-5.3.18-i686: WARNINGS
-linux-5.3.18-x86_64: WARNINGS
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: WARNINGS
-linux-5.5.19-x86_64: WARNINGS
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: OK: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 0
-virtme-32: ERRORS: Final Summary: 2779, Succeeded: 2778, Failed: 1, Warnings: 1
-sparse: ERRORS
-smatch: ERRORS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Friday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Friday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+> >                        goto err_rpm_put;
+> >
+> > > 545                }
+> > > 546
+> > > 547                ret = __ov02a10_start_stream(ov02a10);
+> > > 548                if (ret) {
+> > > 549                        __ov02a10_stop_stream(ov02a10);
+> > > 550                        ov02a10->streaming = !on;
+> > > 551                        goto err_rpm_put;
+> > > 552                }
+> > > 553        } else {
+> > > 554                __ov02a10_stop_stream(ov02a10);
+> > > 555                pm_runtime_put(&client->dev);
+> > > 556        }
+> > > 557
+> > > 558        ov02a10->streaming = on;
+> >
+> > (1)
+> >
+> > > 559        mutex_unlock(&ov02a10->mutex);
+> > > 560
+> > > 561        return 0;
+> > > 562
+> > > 563 err_rpm_put:
+> > > 564        pm_runtime_put(&client->dev);
+> >
+> > > 565 unlock_and_return:
+> >
+> > Should be moved to (1).
+> >
+> > > 566        mutex_unlock(&ov02a10->mutex);
+> > > 567
+> > >
+> > > Uninitialized scalar variable (UNINIT)
+> > >     4. uninit_use: Using uninitialized value ret.
+> > >
+> > > 568        return ret;
+> > > 569 }
+> > >
+> > > Variable ret has not been initialized, so the error return value is a
+> > > garbage value. It should be initialized with some appropriate negative
+> > > error code, or ret could be removed and the return should return a
+> > > literal value of a error code.
+> > >
+> > > I was unsure what value is appropriate to fix this, so instead I'm
+> > > reporting this issue.
+> >
+>
