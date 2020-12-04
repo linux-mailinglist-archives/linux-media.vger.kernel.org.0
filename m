@@ -2,353 +2,113 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6BDD02CE5E3
-	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 03:46:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 3D5A02CE5EB
+	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 03:48:26 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727116AbgLDCo3 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 21:44:29 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:8247 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726112AbgLDCo0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 21:44:26 -0500
-Received: from DGGEMS411-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CnH7b2Y2tzkkxZ;
-        Fri,  4 Dec 2020 10:43:07 +0800 (CST)
-Received: from thunder-town.china.huawei.com (10.174.177.9) by
- DGGEMS411-HUB.china.huawei.com (10.3.19.211) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 4 Dec 2020 10:43:34 +0800
-From:   Zhen Lei <thunder.leizhen@huawei.com>
-To:     Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        "NXP Linux Team" <linux-imx@nxp.com>,
-        David Airlie <airlied@linux.ie>,
-        "Daniel Vetter" <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Thierry Reding" <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        id S1726147AbgLDCrE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 21:47:04 -0500
+Received: from mailgw02.mediatek.com ([1.203.163.81]:25004 "EHLO
+        mailgw02.mediatek.com" rhost-flags-OK-FAIL-OK-FAIL) by vger.kernel.org
+        with ESMTP id S1725847AbgLDCrE (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 21:47:04 -0500
+X-UUID: 6638b150d4d6461e8fb3934bd011f25a-20201204
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; d=mediatek.com; s=dk;
+        h=Content-Transfer-Encoding:MIME-Version:Content-Type:References:In-Reply-To:Date:CC:To:From:Subject:Message-ID; bh=HFCQ5ohxF0aLV8mEa0u/JoA63IqNHij1i7SP2mutPLU=;
+        b=Opazqa7xIWUWg4IjFor2cnt6TLiWWwNsQiz62cT1opLdc1Gsrk0OH57dLd5bt6znyWqGFHrrik355TfT6HJ52STU7gtTOBd8vnDDuGXOMEjVQ93XZ8Nnf6RunUcW2UqHZvsdd0ULLLpfteDvaVIlWELgQ5hMO9+Kea+AOiorlfM=;
+X-UUID: 6638b150d4d6461e8fb3934bd011f25a-20201204
+Received: from mtkcas34.mediatek.inc [(172.27.4.253)] by mailgw02.mediatek.com
+        (envelope-from <dongchun.zhu@mediatek.com>)
+        (mailgw01.mediatek.com ESMTP with TLSv1.2 ECDHE-RSA-AES256-SHA384 256/256)
+        with ESMTP id 948566401; Fri, 04 Dec 2020 10:46:15 +0800
+Received: from MTKCAS36.mediatek.inc (172.27.4.186) by MTKMBS31N1.mediatek.inc
+ (172.27.4.69) with Microsoft SMTP Server (TLS) id 15.0.1497.2; Fri, 4 Dec
+ 2020 10:46:07 +0800
+Received: from [10.17.3.153] (10.17.3.153) by MTKCAS36.mediatek.inc
+ (172.27.4.170) with Microsoft SMTP Server id 15.0.1497.2 via Frontend
+ Transport; Fri, 4 Dec 2020 10:46:05 +0800
+Message-ID: <1607049966.4733.189.camel@mhfsdcap03>
+Subject: Re: media: i2c: add OV02A10 image sensor driver
+From:   Dongchun Zhu <dongchun.zhu@mediatek.com>
+To:     Andy Shevchenko <andy.shevchenko@gmail.com>
+CC:     Colin Ian King <colin.king@canonical.com>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "Ricardo Ribalda" <ribalda@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Matthias Brugger" <matthias.bgg@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        "Mark Brown" <broonie@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
+        Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        Matthias Brugger <matthias.bgg@gmail.com>,
         linux-media <linux-media@vger.kernel.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-mediatek <linux-mediatek@lists.infradead.org>,
-        alsa-devel <alsa-devel@alsa-project.org>
-CC:     Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH 1/1] dt-bindings: eliminate yamllint warnings
-Date:   Fri, 4 Dec 2020 10:42:26 +0800
-Message-ID: <20201204024226.1222-2-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20201204024226.1222-1-thunder.leizhen@huawei.com>
-References: <20201204024226.1222-1-thunder.leizhen@huawei.com>
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        "moderated list:ARM/Mediatek SoC support" 
+        <linux-mediatek@lists.infradead.org>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        <tfiga@google.com>, <sj.huang@mediatek.com>,
+        <dongchun.zhu@mediatek.com>
+Date:   Fri, 4 Dec 2020 10:46:06 +0800
+In-Reply-To: <CAHp75Ve7Sdf=Zy5N1LN_w22=YwPgWWR-FZtrQcAkOF=ViT2Kbw@mail.gmail.com>
+References: <9af089ea-2532-68ac-5d22-97a669ccec91@canonical.com>
+         <CAHp75Ve7Sdf=Zy5N1LN_w22=YwPgWWR-FZtrQcAkOF=ViT2Kbw@mail.gmail.com>
+Content-Type: text/plain; charset="UTF-8"
+X-Mailer: Evolution 3.10.4-0ubuntu2 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.174.177.9]
-X-CFilter-Loop: Reflected
+X-TM-SNTS-SMTP: B9D516F0823BDF1801AF36AFAB9F17DA8860BE715019026247D88428AAF69A9E2000:8
+X-MTK:  N
+Content-Transfer-Encoding: base64
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-All warnings are related only to "wrong indentation", except one:
-Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml:4:1: \
-[error] missing document start "---" (document-start)
-
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-Cc: Rob Herring <robh+dt@kernel.org>
-Cc: Michael Turquette <mturquette@baylibre.com>
-Cc: Stephen Boyd <sboyd@kernel.org>
-Cc: Shawn Guo <shawnguo@kernel.org>
-Cc: Sascha Hauer <s.hauer@pengutronix.de>
-Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-Cc: Fabio Estevam <festevam@gmail.com>
-Cc: NXP Linux Team <linux-imx@nxp.com>
-Cc: David Airlie <airlied@linux.ie>
-Cc: Daniel Vetter <daniel@ffwll.ch>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: Thierry Reding <thierry.reding@gmail.com>
-Cc: Sam Ravnborg <sam@ravnborg.org>
-Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc: Ricardo Ribalda <ribalda@kernel.org>
-Cc: Ulf Hansson <ulf.hansson@linaro.org>
-Cc: Matthias Brugger <matthias.bgg@gmail.com>
-Cc: Liam Girdwood <lgirdwood@gmail.com>
-Cc: Mark Brown <broonie@kernel.org>
----
- .../devicetree/bindings/clock/imx8qxp-lpcg.yaml    | 20 ++++++++---------
- .../bindings/display/bridge/analogix,anx7625.yaml  |  4 ++--
- .../bindings/display/bridge/intel,keembay-dsi.yaml |  4 ++--
- .../bindings/display/intel,keembay-msscam.yaml     |  4 ++--
- .../bindings/display/panel/novatek,nt36672a.yaml   |  2 +-
- .../devicetree/bindings/media/i2c/adv7604.yaml     |  4 ++--
- .../devicetree/bindings/media/i2c/mipi-ccs.yaml    | 11 ++++-----
- .../devicetree/bindings/media/i2c/ovti,ov772x.yaml | 12 +++++-----
- .../devicetree/bindings/media/i2c/sony,imx214.yaml | 12 +++++-----
- Documentation/devicetree/bindings/mmc/mtk-sd.yaml  | 26 +++++++++++-----------
- .../sound/mt8192-mt6359-rt1015-rt5682.yaml         |  4 ++--
- 11 files changed, 52 insertions(+), 51 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/clock/imx8qxp-lpcg.yaml b/Documentation/devicetree/bindings/clock/imx8qxp-lpcg.yaml
-index e709e530e17a27a..940486ef1051d10 100644
---- a/Documentation/devicetree/bindings/clock/imx8qxp-lpcg.yaml
-+++ b/Documentation/devicetree/bindings/clock/imx8qxp-lpcg.yaml
-@@ -29,18 +29,18 @@ properties:
-       - const: fsl,imx8qxp-lpcg
-       - items:
-           - enum:
--            - fsl,imx8qm-lpcg
-+              - fsl,imx8qm-lpcg
-           - const: fsl,imx8qxp-lpcg
-       - enum:
--        - fsl,imx8qxp-lpcg-adma
--        - fsl,imx8qxp-lpcg-conn
--        - fsl,imx8qxp-lpcg-dc
--        - fsl,imx8qxp-lpcg-dsp
--        - fsl,imx8qxp-lpcg-gpu
--        - fsl,imx8qxp-lpcg-hsio
--        - fsl,imx8qxp-lpcg-img
--        - fsl,imx8qxp-lpcg-lsio
--        - fsl,imx8qxp-lpcg-vpu
-+          - fsl,imx8qxp-lpcg-adma
-+          - fsl,imx8qxp-lpcg-conn
-+          - fsl,imx8qxp-lpcg-dc
-+          - fsl,imx8qxp-lpcg-dsp
-+          - fsl,imx8qxp-lpcg-gpu
-+          - fsl,imx8qxp-lpcg-hsio
-+          - fsl,imx8qxp-lpcg-img
-+          - fsl,imx8qxp-lpcg-lsio
-+          - fsl,imx8qxp-lpcg-vpu
-         deprecated: true
-   reg:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-index 60585a4fc22bc9f..9392b5502a3293c 100644
---- a/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml
-@@ -49,8 +49,8 @@ properties:
-           Video port for panel or connector.
- 
-     required:
--        - port@0
--        - port@1
-+      - port@0
-+      - port@1
- 
- required:
-   - compatible
-diff --git a/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml b/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
-index ab5be26252240ea..35c9dfd866501a0 100644
---- a/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
-+++ b/Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml
-@@ -39,10 +39,10 @@ properties:
- 
-     properties:
-       '#address-cells':
--       const: 1
-+        const: 1
- 
-       '#size-cells':
--       const: 0
-+        const: 0
- 
-       port@0:
-         type: object
-diff --git a/Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml b/Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml
-index 40caa61188098c2..a222b52d8b8ff6b 100644
---- a/Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml
-+++ b/Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml
-@@ -18,8 +18,8 @@ description: |
- properties:
-   compatible:
-     items:
--     - const: intel,keembay-msscam
--     - const: syscon
-+      - const: intel,keembay-msscam
-+      - const: syscon
- 
-   reg:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml b/Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml
-index d2170de6b72302f..2f5df1d235aea8a 100644
---- a/Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml
-+++ b/Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml
-@@ -22,7 +22,7 @@ properties:
-   compatible:
-     items:
-       - enum:
--         - tianma,fhd-video
-+          - tianma,fhd-video
-       - const: novatek,nt36672a
-     description: This indicates the panel manufacturer of the panel that is
-       in turn using the NT36672A panel driver. This compatible string
-diff --git a/Documentation/devicetree/bindings/media/i2c/adv7604.yaml b/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
-index 81f17e719d87da5..693f31daf5aa699 100644
---- a/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/adv7604.yaml
-@@ -21,8 +21,8 @@ properties:
-   compatible:
-     items:
-       - enum:
--        - adi,adv7611
--        - adi,adv7612
-+          - adi,adv7611
-+          - adi,adv7612
- 
-   reg:
-     minItems: 1
-diff --git a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
-index 1d90767a61962b3..41400ecbbb35eac 100644
---- a/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml
-@@ -1,6 +1,7 @@
- # SPDX-License-Identifier: (GPL-2.0-only OR BSD-2-Clause)
- # Copyright (C) 2014--2020 Intel Corporation
--
-+%YAML 1.2
-+---
- $id: http://devicetree.org/schemas/media/i2c/mipi-ccs.yaml#
- $schema: http://devicetree.org/meta-schemas/core.yaml#
- 
-@@ -26,11 +27,11 @@ properties:
-   compatible:
-     oneOf:
-       - items:
--        - const: mipi-ccs-1.1
--        - const: mipi-ccs
-+          - const: mipi-ccs-1.1
-+          - const: mipi-ccs
-       - items:
--        - const: mipi-ccs-1.0
--        - const: mipi-ccs
-+          - const: mipi-ccs-1.0
-+          - const: mipi-ccs
-       - const: nokia,smia
- 
-   reg:
-diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-index 450e5bd64312ddf..eedc560837d2c80 100644
---- a/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml
-@@ -76,18 +76,18 @@ properties:
-                 bus-type:
-                   const: 6
-             then:
--                properties:
--                  hsync-active: false
--                  vsync-active: false
-+              properties:
-+                hsync-active: false
-+                vsync-active: false
- 
-           - if:
-               properties:
-                 bus-width:
-                   const: 10
-             then:
--                properties:
--                  data-shift:
--                    const: 0
-+              properties:
-+                data-shift:
-+                  const: 0
- 
-         required:
-           - bus-type
-diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-index 884bd3527e0a430..0599df605a4f8a6 100644
---- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-@@ -69,13 +69,13 @@ properties:
-             description: See ../video-interfaces.txt
-             anyOf:
-               - items:
--                - const: 1
--                - const: 2
-+                  - const: 1
-+                  - const: 2
-               - items:
--                - const: 1
--                - const: 2
--                - const: 3
--                - const: 4
-+                  - const: 1
-+                  - const: 2
-+                  - const: 3
-+                  - const: 4
- 
-           link-frequencies:
-             $ref: /schemas/types.yaml#/definitions/uint64-array
-diff --git a/Documentation/devicetree/bindings/mmc/mtk-sd.yaml b/Documentation/devicetree/bindings/mmc/mtk-sd.yaml
-index 030e3fdce49293a..01630b0ecea773e 100644
---- a/Documentation/devicetree/bindings/mmc/mtk-sd.yaml
-+++ b/Documentation/devicetree/bindings/mmc/mtk-sd.yaml
-@@ -17,21 +17,21 @@ properties:
-   compatible:
-     oneOf:
-       - enum:
--        - mediatek,mt2701-mmc
--        - mediatek,mt2712-mmc
--        - mediatek,mt6779-mmc
--        - mediatek,mt7620-mmc
--        - mediatek,mt7622-mmc
--        - mediatek,mt8135-mmc
--        - mediatek,mt8173-mmc
--        - mediatek,mt8183-mmc
--        - mediatek,mt8516-mmc
-+          - mediatek,mt2701-mmc
-+          - mediatek,mt2712-mmc
-+          - mediatek,mt6779-mmc
-+          - mediatek,mt7620-mmc
-+          - mediatek,mt7622-mmc
-+          - mediatek,mt8135-mmc
-+          - mediatek,mt8173-mmc
-+          - mediatek,mt8183-mmc
-+          - mediatek,mt8516-mmc
-       - items:
--        - const: mediatek,mt7623-mmc
--        - const: mediatek,mt2701-mmc
-+          - const: mediatek,mt7623-mmc
-+          - const: mediatek,mt2701-mmc
-       - items:
--        - const: mediatek,mt8192-mmc
--        - const: mediatek,mt8183-mmc
-+          - const: mediatek,mt8192-mmc
-+          - const: mediatek,mt8183-mmc
- 
-   clocks:
-     description:
-diff --git a/Documentation/devicetree/bindings/sound/mt8192-mt6359-rt1015-rt5682.yaml b/Documentation/devicetree/bindings/sound/mt8192-mt6359-rt1015-rt5682.yaml
-index bf8c8ba25009dcc..54650823b29a41d 100644
---- a/Documentation/devicetree/bindings/sound/mt8192-mt6359-rt1015-rt5682.yaml
-+++ b/Documentation/devicetree/bindings/sound/mt8192-mt6359-rt1015-rt5682.yaml
-@@ -7,8 +7,8 @@ $schema: http://devicetree.org/meta-schemas/core.yaml#
- title: Mediatek MT8192 with MT6359, RT1015 and RT5682 ASoC sound card driver
- 
- maintainers:
--   - Jiaxin Yu <jiaxin.yu@mediatek.com>
--   - Shane Chien <shane.chien@mediatek.com>
-+  - Jiaxin Yu <jiaxin.yu@mediatek.com>
-+  - Shane Chien <shane.chien@mediatek.com>
- 
- description:
-   This binding describes the MT8192 sound card.
--- 
-1.8.3
-
+SGkgQW5keSwNCg0KT24gVGh1LCAyMDIwLTEyLTAzIGF0IDIwOjEwICswMjAwLCBBbmR5IFNoZXZj
+aGVua28gd3JvdGU6DQo+IE9uIFRodSwgRGVjIDMsIDIwMjAgYXQgODowMyBQTSBDb2xpbiBJYW4g
+S2luZyA8Y29saW4ua2luZ0BjYW5vbmljYWwuY29tPiB3cm90ZToNCj4gDQo+ID4gU3RhdGljIGFu
+YWx5c2lzIG9uIGxpbnV4LW5leHQgd2l0aCBDb3Zlcml0eSBoYXMgZGV0ZWN0ZWQgYW4gaXNzdWUg
+d2l0aA0KPiA+IHRoZSBmb2xsb3dpbmcgY29tbWl0Og0KPiANCj4gSWYgeW91IHdhbnQgdG8gZml4
+IGl0IHByb3Blcmx5LCBzZWUgbXkgY29tbWVudHMgYmVsb3cuLi4NCj4gDQo+ID4gNTI5IHN0YXRp
+YyBpbnQgb3YwMmExMF9zX3N0cmVhbShzdHJ1Y3QgdjRsMl9zdWJkZXYgKnNkLCBpbnQgb24pDQo+
+ID4gNTMwIHsNCj4gPiA1MzEgICAgICAgIHN0cnVjdCBvdjAyYTEwICpvdjAyYTEwID0gdG9fb3Yw
+MmExMChzZCk7DQo+ID4gNTMyICAgICAgICBzdHJ1Y3QgaTJjX2NsaWVudCAqY2xpZW50ID0NCj4g
+PiB2NGwyX2dldF9zdWJkZXZkYXRhKCZvdjAyYTEwLT5zdWJkZXYpOw0KPiA+DQo+ID4gICAgMS4g
+dmFyX2RlY2w6IERlY2xhcmluZyB2YXJpYWJsZSByZXQgd2l0aG91dCBpbml0aWFsaXplci4NCj4g
+Pg0KPiA+IDUzMyAgICAgICAgaW50IHJldDsNCj4gPiA1MzQNCj4gPiA1MzUgICAgICAgIG11dGV4
+X2xvY2soJm92MDJhMTAtPm11dGV4KTsNCj4gPiA1MzYNCj4gPg0KPiA+ICAgIDIuIENvbmRpdGlv
+biBvdjAyYTEwLT5zdHJlYW1pbmcgPT0gb24sIHRha2luZyB0cnVlIGJyYW5jaC4NCj4gPg0KPiA+
+IDUzNyAgICAgICAgaWYgKG92MDJhMTAtPnN0cmVhbWluZyA9PSBvbikNCj4gPg0KPiA+ICAgIDMu
+IEp1bXBpbmcgdG8gbGFiZWwgdW5sb2NrX2FuZF9yZXR1cm4uDQo+ID4NCj4gPiA1MzggICAgICAg
+ICAgICAgICAgZ290byB1bmxvY2tfYW5kX3JldHVybjsNCj4gPiA1MzkNCj4gPiA1NDAgICAgICAg
+IGlmIChvbikgew0KPiA+IDU0MSAgICAgICAgICAgICAgICByZXQgPSBwbV9ydW50aW1lX2dldF9z
+eW5jKCZjbGllbnQtPmRldik7DQo+ID4gNTQyICAgICAgICAgICAgICAgIGlmIChyZXQgPCAwKSB7
+DQo+IA0KPiA+IDU0MyAgICAgICAgICAgICAgICAgICAgICAgIHBtX3J1bnRpbWVfcHV0X25vaWRs
+ZSgmY2xpZW50LT5kZXYpOw0KPiA+IDU0NCAgICAgICAgICAgICAgICAgICAgICAgIGdvdG8gdW5s
+b2NrX2FuZF9yZXR1cm47DQo+IA0KPiBJbnN0ZWFkIG9mIHR3byBhYm92ZToNCg0KRnJvbSB0aGUg
+ZG9jdW1lbnQsIHBtX3J1bnRpbWVfcHV0X25vaWRsZSBpcyB0byBkZWNyZWFzZSB0aGUgcnVudGlt
+ZSBQTQ0KdXNhZ2UgY291bnRlciBvZiBhIGRldmljZSB1bmxlc3MgaXQgaXMgMCBhbHJlYWR5OyB3
+aGlsZSBwbV9ydW50aW1lX3B1dA0Kd291bGQgYWRkaXRpb25hbGx5IHJ1biBwbV9yZXF1ZXN0X2lk
+bGUgdG8gdHVybiBvZmYgdGhlIHBvd2VyIGlmIHVzYWdlDQpjb3VudGVyIGlzIHplcm8uDQoNClNv
+IGhlcmUgbWF5YmUgd2UgY2FuIHJlYWxseSB1c2UgcG1fcnVudGltZV9wdXQgaW5zdGVhZCBvZg0K
+cG1fcnVudGltZV9wdXRfbm9pZGxlLCBhbHRob3VnaCBpdCBzZWVtcyB0aGF0ICdwbV9ydW50aW1l
+X2dldF9zeW5jJyBhbmQNCidwbV9ydW50aW1lX3B1dF9ub2lkbGUnIG9mdGVuIGFwcGVhciBpbiBw
+YWlycy4NCg0KPiAgICAgICAgICAgICAgICAgICAgICAgIGdvdG8gZXJyX3JwbV9wdXQ7DQo+IA0K
+PiA+IDU0NSAgICAgICAgICAgICAgICB9DQo+ID4gNTQ2DQo+ID4gNTQ3ICAgICAgICAgICAgICAg
+IHJldCA9IF9fb3YwMmExMF9zdGFydF9zdHJlYW0ob3YwMmExMCk7DQo+ID4gNTQ4ICAgICAgICAg
+ICAgICAgIGlmIChyZXQpIHsNCj4gPiA1NDkgICAgICAgICAgICAgICAgICAgICAgICBfX292MDJh
+MTBfc3RvcF9zdHJlYW0ob3YwMmExMCk7DQo+ID4gNTUwICAgICAgICAgICAgICAgICAgICAgICAg
+b3YwMmExMC0+c3RyZWFtaW5nID0gIW9uOw0KPiA+IDU1MSAgICAgICAgICAgICAgICAgICAgICAg
+IGdvdG8gZXJyX3JwbV9wdXQ7DQo+ID4gNTUyICAgICAgICAgICAgICAgIH0NCj4gPiA1NTMgICAg
+ICAgIH0gZWxzZSB7DQo+ID4gNTU0ICAgICAgICAgICAgICAgIF9fb3YwMmExMF9zdG9wX3N0cmVh
+bShvdjAyYTEwKTsNCj4gPiA1NTUgICAgICAgICAgICAgICAgcG1fcnVudGltZV9wdXQoJmNsaWVu
+dC0+ZGV2KTsNCj4gPiA1NTYgICAgICAgIH0NCj4gPiA1NTcNCj4gPiA1NTggICAgICAgIG92MDJh
+MTAtPnN0cmVhbWluZyA9IG9uOw0KPiANCj4gKDEpDQo+IA0KPiA+IDU1OSAgICAgICAgbXV0ZXhf
+dW5sb2NrKCZvdjAyYTEwLT5tdXRleCk7DQo+ID4gNTYwDQo+ID4gNTYxICAgICAgICByZXR1cm4g
+MDsNCj4gPiA1NjINCj4gPiA1NjMgZXJyX3JwbV9wdXQ6DQo+ID4gNTY0ICAgICAgICBwbV9ydW50
+aW1lX3B1dCgmY2xpZW50LT5kZXYpOw0KPiANCj4gPiA1NjUgdW5sb2NrX2FuZF9yZXR1cm46DQo+
+IA0KPiBTaG91bGQgYmUgbW92ZWQgdG8gKDEpLg0KPiANCj4gPiA1NjYgICAgICAgIG11dGV4X3Vu
+bG9jaygmb3YwMmExMC0+bXV0ZXgpOw0KPiA+IDU2Nw0KPiA+DQo+ID4gVW5pbml0aWFsaXplZCBz
+Y2FsYXIgdmFyaWFibGUgKFVOSU5JVCkNCj4gPiAgICAgNC4gdW5pbml0X3VzZTogVXNpbmcgdW5p
+bml0aWFsaXplZCB2YWx1ZSByZXQuDQo+ID4NCj4gPiA1NjggICAgICAgIHJldHVybiByZXQ7DQo+
+ID4gNTY5IH0NCj4gPg0KPiA+IFZhcmlhYmxlIHJldCBoYXMgbm90IGJlZW4gaW5pdGlhbGl6ZWQs
+IHNvIHRoZSBlcnJvciByZXR1cm4gdmFsdWUgaXMgYQ0KPiA+IGdhcmJhZ2UgdmFsdWUuIEl0IHNo
+b3VsZCBiZSBpbml0aWFsaXplZCB3aXRoIHNvbWUgYXBwcm9wcmlhdGUgbmVnYXRpdmUNCj4gPiBl
+cnJvciBjb2RlLCBvciByZXQgY291bGQgYmUgcmVtb3ZlZCBhbmQgdGhlIHJldHVybiBzaG91bGQg
+cmV0dXJuIGENCj4gPiBsaXRlcmFsIHZhbHVlIG9mIGEgZXJyb3IgY29kZS4NCj4gPg0KPiA+IEkg
+d2FzIHVuc3VyZSB3aGF0IHZhbHVlIGlzIGFwcHJvcHJpYXRlIHRvIGZpeCB0aGlzLCBzbyBpbnN0
+ZWFkIEknbQ0KPiA+IHJlcG9ydGluZyB0aGlzIGlzc3VlLg0KPiANCg0K
 
