@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6B7CF2CEBB3
-	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 11:05:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 980E52CEBBA
+	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 11:05:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2387870AbgLDKDa (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Dec 2020 05:03:30 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52768 "EHLO
+        id S2387939AbgLDKDi (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Dec 2020 05:03:38 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:52782 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2387837AbgLDKD2 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Dec 2020 05:03:28 -0500
-Received: from mail-ed1-x543.google.com (mail-ed1-x543.google.com [IPv6:2a00:1450:4864:20::543])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D873BC08C5F2
-        for <linux-media@vger.kernel.org>; Fri,  4 Dec 2020 02:02:09 -0800 (PST)
-Received: by mail-ed1-x543.google.com with SMTP id d18so5201142edt.7
-        for <linux-media@vger.kernel.org>; Fri, 04 Dec 2020 02:02:09 -0800 (PST)
+        with ESMTP id S2387969AbgLDKDh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Dec 2020 05:03:37 -0500
+Received: from mail-ed1-x542.google.com (mail-ed1-x542.google.com [IPv6:2a00:1450:4864:20::542])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5761FC08E860
+        for <linux-media@vger.kernel.org>; Fri,  4 Dec 2020 02:02:12 -0800 (PST)
+Received: by mail-ed1-x542.google.com with SMTP id r5so5172681eda.12
+        for <linux-media@vger.kernel.org>; Fri, 04 Dec 2020 02:02:12 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=linaro.org; s=google;
         h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=LyeOql6QYmpd/1nhWP8WR5ehn5BlBeFQlh24gAVBRhU=;
-        b=qgzeAQEaUfEMnYTzNM6py9Wnux2p0x09OoGjBhg6NOU+FMrXss1qgfQ2Uo9T7VGEFY
-         16Bg01jAAwONWqA+zIP0xQdFQ+WuV9G5+CWhheMyc0v/q9uLo9HhQldX2zN2V6chcSSs
-         NFQ4OVqUn8nKlV5wiYdOnU+C7sXxPsTFJXehDaoz0XvfMVi8MDhNjTnuqxKT6/GjUOpj
-         5BipSy7smzfy9UHC2OpEr3RC/830bP9YW0DDPkivv2ZAoPd+i7x4Jbt/HrXKB6oWCXdI
-         dcTHH0KTii8Jlnw61wrgR7lo7b6KuMu49VfvcBxEtQfd7RTrsAhboI0uD0dojTGwgNjp
-         fDjA==
+        bh=QyipFjHgAmocE8ormLtvsmE4o3Jh7LHKovtmyPj5YlM=;
+        b=ZBf9b1W6r6l4f2RQfTOX0527qxCRZgPZInel8c4Q3Gj3IbZSvLi0LqxtupwL0sXUHd
+         ehbvyWp7+aGYI2XDYwTSmR99t9iAqNd9XhFBuFquRE4Gd1HFYJZnZLOdoGikFj1aXRel
+         NER8UoatYNhrNWio8TbZbi9T+zBPqz+02hgOQBz6g9AaAnGsIJE3AMNFogRW4MyxYsjV
+         +Y8dMGWhm5Y/2cNmXMrJ9sCpNzKdDxLJp6B46NMkzdhJjiyP9Doox6bsRM5XATY7lf0/
+         bTA0u5OfG0oIUiHrJwm2VyURrlHLVlVHbA17tm8R5rEAnCUA7PmEqwKMvQgot/VxbGG+
+         fosg==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
          :references;
-        bh=LyeOql6QYmpd/1nhWP8WR5ehn5BlBeFQlh24gAVBRhU=;
-        b=lE/cqxA+iJI+BX43qIoo1nvBLs1Ejdsl3rvW2mJyeMq4Gwvnie8aojtLN9U5CMaMM1
-         foBxuQYYVwuP3zzDC0svbOwXhptUcBTaWNh4kAwCqsAaEbq7/qo/WDBU4Mvl0nTpm2QA
-         xRXcS8ZgwxrMgdU6r5a0o8vlQgf6FvArr5Bv+5qOaj+13m/xU5wzCrXVcaOwmbBqJGiR
-         iS8RrelK4ln+pWE2gn5Ym+wwbWykyonwj4bBXNEoxV/XqXgc9dYcr6opy7zeDld6bbF4
-         mww9Myhs7ihy8yDQ4G4YcHbh9j8lslu1bUkGHV53S8WtdR5a091bZhdVk1dQ39j6BTJq
-         xPXQ==
-X-Gm-Message-State: AOAM531hpuLvrD3vjwVx+295pkrgXoefgvDCykMouruhnXBkVmPVNSr6
-        Ile6QSF4wQBmdV08gy6ubiklYwCgRAGG08WV
-X-Google-Smtp-Source: ABdhPJz/Sxg/WJbiIXiuRLe60U4NP4zuCBjEEmLjA7ER1WbD/7Lje9Cv0tsJd0eR4snOoctKKAK0DQ==
-X-Received: by 2002:a50:b941:: with SMTP id m59mr6871336ede.371.1607076128347;
-        Fri, 04 Dec 2020 02:02:08 -0800 (PST)
+        bh=QyipFjHgAmocE8ormLtvsmE4o3Jh7LHKovtmyPj5YlM=;
+        b=X7XjTWgi+7r/ZnqD00Ais8/DLDuUVoXSCs5czhcJCdY1dxVwo+Roe7tu/rJE5e9vaB
+         sOQH4zaSVhj4cg3+CVSont1EsBIftCzLj8dMiS3AdAtoMMpIUMhlulGoIePQILdiXMXS
+         FTiEkXGcNWJ23WEJg2At38+KeM9VmyrJd6nOuk/lf2W/2eBe7/jivBO99V0x9+nMwlce
+         8whvbRKCBsQyXPDjzFg+DfoUjuHyfAA3oCTQ1OUxiK5gVe5/bYt9cKJAUs2vcnyO1/mc
+         QPTw106JoOyzlEHS6VHuvL++9LOta1Oyp01RlyM/yhY7BaOcsBr/s9SHYM6W+jGNUdKU
+         Q0CA==
+X-Gm-Message-State: AOAM533icHesqPoAptqltekbUvswYcrSF50FVQhwQBMWalsgMvJT/pus
+        eGtG9XpYrpLb+0uDj2u1aTeGeYjHzLX/Q41/
+X-Google-Smtp-Source: ABdhPJyYTg8kwFLyrDBUIa+TKRZpk9wxumWXzQyNxJGm+Yh/z6nP9bGPgalMXl24jQ3598vQ84NwNA==
+X-Received: by 2002:a05:6402:1b1e:: with SMTP id by30mr5474668edb.75.1607076130701;
+        Fri, 04 Dec 2020 02:02:10 -0800 (PST)
 Received: from localhost.localdomain (hst-221-106.medicom.bg. [84.238.221.106])
-        by smtp.gmail.com with ESMTPSA id p35sm3238242edd.58.2020.12.04.02.02.07
+        by smtp.gmail.com with ESMTPSA id p35sm3238242edd.58.2020.12.04.02.02.09
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 04 Dec 2020 02:02:07 -0800 (PST)
+        Fri, 04 Dec 2020 02:02:10 -0800 (PST)
 From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
 To:     linux-media@vger.kernel.org, linux-arm-msm@vger.kernel.org,
         linux-kernel@vger.kernel.org
 Cc:     dikshita@codeaurora.org, Alexandre Courbot <acourbot@chromium.org>,
         Vikash Garodia <vgarodia@codeaurora.org>,
         Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v2 2/4] venus: Limit HFI sessions to the maximum supported
-Date:   Fri,  4 Dec 2020 12:01:37 +0200
-Message-Id: <20201204100139.6216-3-stanimir.varbanov@linaro.org>
+Subject: [PATCH v2 3/4] media: venus: request for interrupt from venus
+Date:   Fri,  4 Dec 2020 12:01:38 +0200
+Message-Id: <20201204100139.6216-4-stanimir.varbanov@linaro.org>
 X-Mailer: git-send-email 2.17.1
 In-Reply-To: <20201204100139.6216-1-stanimir.varbanov@linaro.org>
 References: <20201204100139.6216-1-stanimir.varbanov@linaro.org>
@@ -62,83 +62,315 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Currently we rely on firmware to return error when we reach the maximum
-supported number of sessions. But this errors are happened at reqbuf
-time which is a bit later. The more reasonable way looks like is to
-return the error on driver open.
+From: Vikash Garodia <vgarodia@codeaurora.org>
 
-To achieve that modify hfi_session_create to return error when we reach
-maximum count of sessions and thus refuse open.
+For synchronous commands, update the message queue variable.
+This would inform video firmware to raise interrupt on host
+CPU whenever there is a response for such commands.
 
+Signed-off-by: Vikash Garodia <vgarodia@codeaurora.org>
 Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
 ---
- drivers/media/platform/qcom/venus/core.h       |  1 +
- drivers/media/platform/qcom/venus/hfi.c        | 16 +++++++++++++---
- drivers/media/platform/qcom/venus/hfi_parser.c |  3 +++
- 3 files changed, 17 insertions(+), 3 deletions(-)
+ drivers/media/platform/qcom/venus/hfi_venus.c | 77 +++++++++++--------
+ 1 file changed, 44 insertions(+), 33 deletions(-)
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index f03ed427accd..775d7bf6587d 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -96,6 +96,7 @@ struct venus_format {
- #define MAX_CAP_ENTRIES		32
- #define MAX_ALLOC_MODE_ENTRIES	16
- #define MAX_CODEC_NUM		32
-+#define MAX_SESSIONS		16
- 
- struct raw_formats {
- 	u32 buftype;
-diff --git a/drivers/media/platform/qcom/venus/hfi.c b/drivers/media/platform/qcom/venus/hfi.c
-index 638ed5cfe05e..8786609d269e 100644
---- a/drivers/media/platform/qcom/venus/hfi.c
-+++ b/drivers/media/platform/qcom/venus/hfi.c
-@@ -175,6 +175,8 @@ static int wait_session_msg(struct venus_inst *inst)
- int hfi_session_create(struct venus_inst *inst, const struct hfi_inst_ops *ops)
- {
- 	struct venus_core *core = inst->core;
-+	bool max;
-+	int ret;
- 
- 	if (!ops)
- 		return -EINVAL;
-@@ -184,11 +186,19 @@ int hfi_session_create(struct venus_inst *inst, const struct hfi_inst_ops *ops)
- 	inst->ops = ops;
- 
- 	mutex_lock(&core->lock);
--	list_add_tail(&inst->list, &core->instances);
--	atomic_inc(&core->insts_count);
-+
-+	max = atomic_add_unless(&core->insts_count, 1,
-+				core->max_sessions_supported);
-+	if (!max) {
-+		ret = -EAGAIN;
-+	} else {
-+		list_add_tail(&inst->list, &core->instances);
-+		ret = 0;
-+	}
-+
- 	mutex_unlock(&core->lock);
- 
--	return 0;
-+	return ret;
+diff --git a/drivers/media/platform/qcom/venus/hfi_venus.c b/drivers/media/platform/qcom/venus/hfi_venus.c
+index 4be4a75ddcb6..3d16afc461bb 100644
+--- a/drivers/media/platform/qcom/venus/hfi_venus.c
++++ b/drivers/media/platform/qcom/venus/hfi_venus.c
+@@ -372,7 +372,7 @@ static void venus_soft_int(struct venus_hfi_device *hdev)
  }
- EXPORT_SYMBOL_GPL(hfi_session_create);
  
-diff --git a/drivers/media/platform/qcom/venus/hfi_parser.c b/drivers/media/platform/qcom/venus/hfi_parser.c
-index 363ee2a65453..52898633a8e6 100644
---- a/drivers/media/platform/qcom/venus/hfi_parser.c
-+++ b/drivers/media/platform/qcom/venus/hfi_parser.c
-@@ -276,6 +276,9 @@ u32 hfi_parser(struct venus_core *core, struct venus_inst *inst, void *buf,
- 		words_count--;
+ static int venus_iface_cmdq_write_nolock(struct venus_hfi_device *hdev,
+-					 void *pkt)
++					 void *pkt, bool sync)
+ {
+ 	struct device *dev = hdev->core->dev;
+ 	struct hfi_pkt_hdr *cmd_packet;
+@@ -394,18 +394,29 @@ static int venus_iface_cmdq_write_nolock(struct venus_hfi_device *hdev,
+ 		return ret;
  	}
  
-+	if (!core->max_sessions_supported)
-+		core->max_sessions_supported = MAX_SESSIONS;
++	if (sync) {
++		/*
++		 * Inform video hardware to raise interrupt for synchronous
++		 * commands
++		 */
++		queue = &hdev->queues[IFACEQ_MSG_IDX];
++		queue->qhdr->rx_req = 1;
++		/* ensure rx_req is updated in memory */
++		wmb();
++	}
 +
- 	parser_fini(inst, codecs, domain);
+ 	if (rx_req)
+ 		venus_soft_int(hdev);
  
- 	return HFI_ERR_NONE;
+ 	return 0;
+ }
+ 
+-static int venus_iface_cmdq_write(struct venus_hfi_device *hdev, void *pkt)
++static int venus_iface_cmdq_write(struct venus_hfi_device *hdev, void *pkt, bool sync)
+ {
+ 	int ret;
+ 
+ 	mutex_lock(&hdev->lock);
+-	ret = venus_iface_cmdq_write_nolock(hdev, pkt);
++	ret = venus_iface_cmdq_write_nolock(hdev, pkt, sync);
+ 	mutex_unlock(&hdev->lock);
+ 
+ 	return ret;
+@@ -428,7 +439,7 @@ static int venus_hfi_core_set_resource(struct venus_core *core, u32 id,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = venus_iface_cmdq_write(hdev, pkt);
++	ret = venus_iface_cmdq_write(hdev, pkt, false);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -778,7 +789,7 @@ static int venus_sys_set_debug(struct venus_hfi_device *hdev, u32 debug)
+ 
+ 	pkt_sys_debug_config(pkt, HFI_DEBUG_MODE_QUEUE, debug);
+ 
+-	ret = venus_iface_cmdq_write(hdev, pkt);
++	ret = venus_iface_cmdq_write(hdev, pkt, false);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -795,7 +806,7 @@ static int venus_sys_set_coverage(struct venus_hfi_device *hdev, u32 mode)
+ 
+ 	pkt_sys_coverage_config(pkt, mode);
+ 
+-	ret = venus_iface_cmdq_write(hdev, pkt);
++	ret = venus_iface_cmdq_write(hdev, pkt, false);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -816,7 +827,7 @@ static int venus_sys_set_idle_message(struct venus_hfi_device *hdev,
+ 
+ 	pkt_sys_idle_indicator(pkt, enable);
+ 
+-	ret = venus_iface_cmdq_write(hdev, pkt);
++	ret = venus_iface_cmdq_write(hdev, pkt, false);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -834,7 +845,7 @@ static int venus_sys_set_power_control(struct venus_hfi_device *hdev,
+ 
+ 	pkt_sys_power_control(pkt, enable);
+ 
+-	ret = venus_iface_cmdq_write(hdev, pkt);
++	ret = venus_iface_cmdq_write(hdev, pkt, false);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -885,14 +896,14 @@ static int venus_sys_set_default_properties(struct venus_hfi_device *hdev)
+ 	return ret;
+ }
+ 
+-static int venus_session_cmd(struct venus_inst *inst, u32 pkt_type)
++static int venus_session_cmd(struct venus_inst *inst, u32 pkt_type, bool sync)
+ {
+ 	struct venus_hfi_device *hdev = to_hfi_priv(inst->core);
+ 	struct hfi_session_pkt pkt;
+ 
+ 	pkt_session_cmd(&pkt, pkt_type, inst);
+ 
+-	return venus_iface_cmdq_write(hdev, &pkt);
++	return venus_iface_cmdq_write(hdev, &pkt, sync);
+ }
+ 
+ static void venus_flush_debug_queue(struct venus_hfi_device *hdev)
+@@ -922,7 +933,7 @@ static int venus_prepare_power_collapse(struct venus_hfi_device *hdev,
+ 
+ 	pkt_sys_pc_prep(&pkt);
+ 
+-	ret = venus_iface_cmdq_write(hdev, &pkt);
++	ret = venus_iface_cmdq_write(hdev, &pkt, false);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1064,13 +1075,13 @@ static int venus_core_init(struct venus_core *core)
+ 
+ 	venus_set_state(hdev, VENUS_STATE_INIT);
+ 
+-	ret = venus_iface_cmdq_write(hdev, &pkt);
++	ret = venus_iface_cmdq_write(hdev, &pkt, false);
+ 	if (ret)
+ 		return ret;
+ 
+ 	pkt_sys_image_version(&version_pkt);
+ 
+-	ret = venus_iface_cmdq_write(hdev, &version_pkt);
++	ret = venus_iface_cmdq_write(hdev, &version_pkt, false);
+ 	if (ret)
+ 		dev_warn(dev, "failed to send image version pkt to fw\n");
+ 
+@@ -1099,7 +1110,7 @@ static int venus_core_ping(struct venus_core *core, u32 cookie)
+ 
+ 	pkt_sys_ping(&pkt, cookie);
+ 
+-	return venus_iface_cmdq_write(hdev, &pkt);
++	return venus_iface_cmdq_write(hdev, &pkt, false);
+ }
+ 
+ static int venus_core_trigger_ssr(struct venus_core *core, u32 trigger_type)
+@@ -1112,7 +1123,7 @@ static int venus_core_trigger_ssr(struct venus_core *core, u32 trigger_type)
+ 	if (ret)
+ 		return ret;
+ 
+-	return venus_iface_cmdq_write(hdev, &pkt);
++	return venus_iface_cmdq_write(hdev, &pkt, false);
+ }
+ 
+ static int venus_session_init(struct venus_inst *inst, u32 session_type,
+@@ -1130,7 +1141,7 @@ static int venus_session_init(struct venus_inst *inst, u32 session_type,
+ 	if (ret)
+ 		goto err;
+ 
+-	ret = venus_iface_cmdq_write(hdev, &pkt);
++	ret = venus_iface_cmdq_write(hdev, &pkt, true);
+ 	if (ret)
+ 		goto err;
+ 
+@@ -1151,7 +1162,7 @@ static int venus_session_end(struct venus_inst *inst)
+ 			dev_warn(dev, "fw coverage msg ON failed\n");
+ 	}
+ 
+-	return venus_session_cmd(inst, HFI_CMD_SYS_SESSION_END);
++	return venus_session_cmd(inst, HFI_CMD_SYS_SESSION_END, true);
+ }
+ 
+ static int venus_session_abort(struct venus_inst *inst)
+@@ -1160,7 +1171,7 @@ static int venus_session_abort(struct venus_inst *inst)
+ 
+ 	venus_flush_debug_queue(hdev);
+ 
+-	return venus_session_cmd(inst, HFI_CMD_SYS_SESSION_ABORT);
++	return venus_session_cmd(inst, HFI_CMD_SYS_SESSION_ABORT, true);
+ }
+ 
+ static int venus_session_flush(struct venus_inst *inst, u32 flush_mode)
+@@ -1173,22 +1184,22 @@ static int venus_session_flush(struct venus_inst *inst, u32 flush_mode)
+ 	if (ret)
+ 		return ret;
+ 
+-	return venus_iface_cmdq_write(hdev, &pkt);
++	return venus_iface_cmdq_write(hdev, &pkt, true);
+ }
+ 
+ static int venus_session_start(struct venus_inst *inst)
+ {
+-	return venus_session_cmd(inst, HFI_CMD_SESSION_START);
++	return venus_session_cmd(inst, HFI_CMD_SESSION_START, true);
+ }
+ 
+ static int venus_session_stop(struct venus_inst *inst)
+ {
+-	return venus_session_cmd(inst, HFI_CMD_SESSION_STOP);
++	return venus_session_cmd(inst, HFI_CMD_SESSION_STOP, true);
+ }
+ 
+ static int venus_session_continue(struct venus_inst *inst)
+ {
+-	return venus_session_cmd(inst, HFI_CMD_SESSION_CONTINUE);
++	return venus_session_cmd(inst, HFI_CMD_SESSION_CONTINUE, false);
+ }
+ 
+ static int venus_session_etb(struct venus_inst *inst,
+@@ -1205,7 +1216,7 @@ static int venus_session_etb(struct venus_inst *inst,
+ 		if (ret)
+ 			return ret;
+ 
+-		ret = venus_iface_cmdq_write(hdev, &pkt);
++		ret = venus_iface_cmdq_write(hdev, &pkt, false);
+ 	} else if (session_type == VIDC_SESSION_TYPE_ENC) {
+ 		struct hfi_session_empty_buffer_uncompressed_plane0_pkt pkt;
+ 
+@@ -1213,7 +1224,7 @@ static int venus_session_etb(struct venus_inst *inst,
+ 		if (ret)
+ 			return ret;
+ 
+-		ret = venus_iface_cmdq_write(hdev, &pkt);
++		ret = venus_iface_cmdq_write(hdev, &pkt, false);
+ 	} else {
+ 		ret = -EINVAL;
+ 	}
+@@ -1232,7 +1243,7 @@ static int venus_session_ftb(struct venus_inst *inst,
+ 	if (ret)
+ 		return ret;
+ 
+-	return venus_iface_cmdq_write(hdev, &pkt);
++	return venus_iface_cmdq_write(hdev, &pkt, false);
+ }
+ 
+ static int venus_session_set_buffers(struct venus_inst *inst,
+@@ -1252,7 +1263,7 @@ static int venus_session_set_buffers(struct venus_inst *inst,
+ 	if (ret)
+ 		return ret;
+ 
+-	return venus_iface_cmdq_write(hdev, pkt);
++	return venus_iface_cmdq_write(hdev, pkt, false);
+ }
+ 
+ static int venus_session_unset_buffers(struct venus_inst *inst,
+@@ -1272,17 +1283,17 @@ static int venus_session_unset_buffers(struct venus_inst *inst,
+ 	if (ret)
+ 		return ret;
+ 
+-	return venus_iface_cmdq_write(hdev, pkt);
++	return venus_iface_cmdq_write(hdev, pkt, true);
+ }
+ 
+ static int venus_session_load_res(struct venus_inst *inst)
+ {
+-	return venus_session_cmd(inst, HFI_CMD_SESSION_LOAD_RESOURCES);
++	return venus_session_cmd(inst, HFI_CMD_SESSION_LOAD_RESOURCES, true);
+ }
+ 
+ static int venus_session_release_res(struct venus_inst *inst)
+ {
+-	return venus_session_cmd(inst, HFI_CMD_SESSION_RELEASE_RESOURCES);
++	return venus_session_cmd(inst, HFI_CMD_SESSION_RELEASE_RESOURCES, true);
+ }
+ 
+ static int venus_session_parse_seq_hdr(struct venus_inst *inst, u32 seq_hdr,
+@@ -1299,7 +1310,7 @@ static int venus_session_parse_seq_hdr(struct venus_inst *inst, u32 seq_hdr,
+ 	if (ret)
+ 		return ret;
+ 
+-	ret = venus_iface_cmdq_write(hdev, pkt);
++	ret = venus_iface_cmdq_write(hdev, pkt, false);
+ 	if (ret)
+ 		return ret;
+ 
+@@ -1320,7 +1331,7 @@ static int venus_session_get_seq_hdr(struct venus_inst *inst, u32 seq_hdr,
+ 	if (ret)
+ 		return ret;
+ 
+-	return venus_iface_cmdq_write(hdev, pkt);
++	return venus_iface_cmdq_write(hdev, pkt, false);
+ }
+ 
+ static int venus_session_set_property(struct venus_inst *inst, u32 ptype,
+@@ -1339,7 +1350,7 @@ static int venus_session_set_property(struct venus_inst *inst, u32 ptype,
+ 	if (ret)
+ 		return ret;
+ 
+-	return venus_iface_cmdq_write(hdev, pkt);
++	return venus_iface_cmdq_write(hdev, pkt, false);
+ }
+ 
+ static int venus_session_get_property(struct venus_inst *inst, u32 ptype)
+@@ -1352,7 +1363,7 @@ static int venus_session_get_property(struct venus_inst *inst, u32 ptype)
+ 	if (ret)
+ 		return ret;
+ 
+-	return venus_iface_cmdq_write(hdev, &pkt);
++	return venus_iface_cmdq_write(hdev, &pkt, true);
+ }
+ 
+ static int venus_resume(struct venus_core *core)
 -- 
 2.17.1
 
