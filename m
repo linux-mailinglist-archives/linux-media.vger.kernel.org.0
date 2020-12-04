@@ -2,75 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4493F2CEDBF
-	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 13:11:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7B3F62CEDFF
+	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 13:23:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1730141AbgLDMLA (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Dec 2020 07:11:00 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:44140 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728306AbgLDMK5 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Dec 2020 07:10:57 -0500
-Received: from hillosipuli.retiisi.eu (unknown [IPv6:2a01:4f9:c010:4572::e8:2])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 80D01C0613D1
-        for <linux-media@vger.kernel.org>; Fri,  4 Dec 2020 04:10:16 -0800 (PST)
-Received: from valkosipuli.localdomain (unknown [IPv6:fd35:1bc8:1a6:d3d5::80:2])
-        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
-         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
-        (No client certificate requested)
-        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id E37E4634C24
-        for <linux-media@vger.kernel.org>; Fri,  4 Dec 2020 14:08:56 +0200 (EET)
-Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
-        (envelope-from <sakari.ailus@retiisi.org.uk>)
-        id 1kl9tR-0003Oc-BE
-        for linux-media@vger.kernel.org; Fri, 04 Dec 2020 14:08:57 +0200
-Date:   Fri, 4 Dec 2020 14:08:57 +0200
-From:   Sakari Ailus <sakari.ailus@iki.fi>
-To:     linux-media@vger.kernel.org
-Subject: [GIT PULL for 5.11] Some fixes to the recently merged stuff
-Message-ID: <20201204120857.GJ4351@valkosipuli.retiisi.org.uk>
+        id S1728608AbgLDMWj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Dec 2020 07:22:39 -0500
+Received: from mga07.intel.com ([134.134.136.100]:3476 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1725999AbgLDMWi (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 4 Dec 2020 07:22:38 -0500
+IronPort-SDR: krJX55iqO7GdhJHN/jEosKG/Y05OvKVv7eX8eRxTMWrS4vilDBzrCe51rEMKHdDwfR1q4TRcB6
+ DH6U+VmWX8Xg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9824"; a="237482896"
+X-IronPort-AV: E=Sophos;i="5.78,392,1599548400"; 
+   d="scan'208";a="237482896"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2020 04:20:58 -0800
+IronPort-SDR: /d+LXz0A4iHgXP9FL2gNhnGvq2HAX63+fQEJaUryJGu/FU/f8hln+ALdNOOu53tsDKuZsHqz4q
+ pnAXAT4oxS2g==
+X-IronPort-AV: E=Sophos;i="5.78,392,1599548400"; 
+   d="scan'208";a="336355415"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga006-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2020 04:20:56 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 9326320676; Fri,  4 Dec 2020 14:20:54 +0200 (EET)
+Date:   Fri, 4 Dec 2020 14:20:54 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Sebastian Fricke <sebastian.fricke.linux@gmail.com>
+Cc:     linux-media@vger.kernel.org, martinax.krasteva@linux.intel.com
+Subject: Re: [PATCH 2/2] Documentation: v4l: Document that link_validate op
+ is valid for sink only
+Message-ID: <20201204122054.GU852@paasikivi.fi.intel.com>
+References: <20201202181955.18165-1-sakari.ailus@linux.intel.com>
+ <20201202181955.18165-3-sakari.ailus@linux.intel.com>
+ <20201203050040.godctaxtvafpvaw3@basti.Speedport_W_724V_Typ_A_05011603_06_001>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <20201203050040.godctaxtvafpvaw3@basti.Speedport_W_724V_Typ_A_05011603_06_001>
 User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Mauro,
+Hi Sebastian,
 
-Here are a few fixes for patches recently merged, the CCS and the OV02A01
-sensor drivers.
+On Thu, Dec 03, 2020 at 06:00:40AM +0100, Sebastian Fricke wrote:
+> Thank you.
+> 
+> On 02.12.2020 20:19, Sakari Ailus wrote:
+> > The link_validate pad op will only be called on sink pads. Document this.
+> > 
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > ---
+> > Documentation/driver-api/media/v4l2-subdev.rst | 11 ++++++-----
+> > 1 file changed, 6 insertions(+), 5 deletions(-)
+> > 
+> > diff --git a/Documentation/driver-api/media/v4l2-subdev.rst b/Documentation/driver-api/media/v4l2-subdev.rst
+> > index d4cba0d6c4ca..6d5c799c49fe 100644
+> > --- a/Documentation/driver-api/media/v4l2-subdev.rst
+> > +++ b/Documentation/driver-api/media/v4l2-subdev.rst
+> > @@ -122,11 +122,12 @@ Don't forget to cleanup the media entity before the sub-device is destroyed:
+> > 
+> > 	media_entity_cleanup(&sd->entity);
+> > 
+> > -In that case, the subdev driver may set the link_validate field to provide
+> > -its own link validation function. The link validation function is called for
+> > -every link in the pipeline where both of the ends of the links are V4L2
+> > -sub-devices. The driver is still responsible for validating the correctness
+> > -of the format configuration between sub-devices and video nodes.
+> > +If a sub-device driver implements sink pads, the subdev driver may set the
+> > +link_validate field in :c:type:`v4l2_subdev_pad_ops`to provide its own link
+> > +validation function. For every link in the pipeline, the link_validate pad
+> > +operation of the sink end of the link is called. In both cases the driver is
+> 
+> s/In both cases the driver/In both cases, the driver/
 
-Please pull.
+Is there any particular reason for this change? I think it's fine as it
+was. :-)
 
-
-The following changes since commit 63288c829b1a5991d8f8c15cab596108ed206ba6:
-
-  media: pixfmt-compressed.rst: fix 'bullet' formatting (2020-12-03 12:27:34 +0100)
-
-are available in the Git repository at:
-
-  git://linuxtv.org/sailus/media_tree.git tags/for-5.11-6-signed
-
-for you to fetch changes up to e8cf4c4cd9ce5ca27bc35a52eaf246ec43c4cc9b:
-
-  ccs: Fix return value from probe (2020-12-04 13:52:14 +0200)
-
-----------------------------------------------------------------
-V4L2 patches for 5.11
-
-----------------------------------------------------------------
-Arnd Bergmann (2):
-      media: i2c: fix an uninitialized error code
-      media: ccs: avoid printing an uninitialized variable
-
-Sakari Ailus (1):
-      ccs: Fix return value from probe
-
- drivers/media/i2c/ccs/ccs-core.c | 5 ++---
- drivers/media/i2c/ov02a10.c      | 4 +++-
- 2 files changed, 5 insertions(+), 4 deletions(-)
+> 
+> > +still responsible for validating the correctness of the format configuration
+> > +between sub-devices and video nodes.
+> > 
+> > If link_validate op is not set, the default function
+> > :c:func:`v4l2_subdev_link_validate_default` is used instead. This function
 
 -- 
+Regards,
+
 Sakari Ailus
