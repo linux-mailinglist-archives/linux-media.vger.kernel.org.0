@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0497D2CEB2E
-	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 10:42:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B611B2CEB25
+	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 10:42:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729720AbgLDJkp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Dec 2020 04:40:45 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:8649 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726330AbgLDJko (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Dec 2020 04:40:44 -0500
-Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.58])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CnSMx3j5Lz15XWR;
-        Fri,  4 Dec 2020 17:39:25 +0800 (CST)
+        id S2387649AbgLDJki (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Dec 2020 04:40:38 -0500
+Received: from szxga07-in.huawei.com ([45.249.212.35]:9381 "EHLO
+        szxga07-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726330AbgLDJkh (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Dec 2020 04:40:37 -0500
+Received: from DGGEMS408-HUB.china.huawei.com (unknown [172.30.72.59])
+        by szxga07-in.huawei.com (SkyGuard) with ESMTP id 4CnSMy1H6Jz77x8;
+        Fri,  4 Dec 2020 17:39:26 +0800 (CST)
 Received: from thunder-town.china.huawei.com (10.174.177.9) by
  DGGEMS408-HUB.china.huawei.com (10.3.19.208) with Microsoft SMTP Server id
- 14.3.487.0; Fri, 4 Dec 2020 17:39:43 +0800
+ 14.3.487.0; Fri, 4 Dec 2020 17:39:44 +0800
 From:   Zhen Lei <thunder.leizhen@huawei.com>
 To:     Philipp Zabel <p.zabel@pengutronix.de>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
@@ -35,10 +35,12 @@ To:     Philipp Zabel <p.zabel@pengutronix.de>,
         devicetree <devicetree@vger.kernel.org>,
         linux-kernel <linux-kernel@vger.kernel.org>
 CC:     Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH 0/5] fix dt_binding_check warnings
-Date:   Fri, 4 Dec 2020 17:38:08 +0800
-Message-ID: <20201204093813.1275-1-thunder.leizhen@huawei.com>
+Subject: [PATCH 1/5] media: dt-bindings: add the required property 'additionalProperties'
+Date:   Fri, 4 Dec 2020 17:38:09 +0800
+Message-ID: <20201204093813.1275-2-thunder.leizhen@huawei.com>
 X-Mailer: git-send-email 2.26.0.windows.1
+In-Reply-To: <20201204093813.1275-1-thunder.leizhen@huawei.com>
+References: <20201204093813.1275-1-thunder.leizhen@huawei.com>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 7BIT
 Content-Type:   text/plain; charset=US-ASCII
@@ -48,42 +50,45 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-These patches is based on the latest linux-next code.
+When I do dt_binding_check for any YAML file, below wanring is always
+reported:
 
-When I do dt_binding_check for any YAML file, below wanrings is always reported:
+xxx/media/coda.yaml: 'additionalProperties' is a required property
+xxx/media/coda.yaml: ignoring, error in schema:
+warning: no schema found in file: xxx/media/coda.yaml
 
-/root/linux-next/Documentation/devicetree/bindings/serial/litex,liteuart.yaml: 'additionalProperties' is a required property
-/root/linux-next/Documentation/devicetree/bindings/soc/mediatek/devapc.yaml: 'additionalProperties' is a required property
-/root/linux-next/Documentation/devicetree/bindings/soc/litex/litex,soc-controller.yaml: 'additionalProperties' is a required property
-/root/linux-next/Documentation/devicetree/bindings/media/coda.yaml: 'additionalProperties' is a required property
-/root/linux-next/Documentation/devicetree/bindings/media/coda.yaml: ignoring, error in schema:
-warning: no schema found in file: ./Documentation/devicetree/bindings/media/coda.yaml
-/root/linux-next/Documentation/devicetree/bindings/serial/litex,liteuart.yaml: ignoring, error in schema:
-warning: no schema found in file: ./Documentation/devicetree/bindings/serial/litex,liteuart.yaml
-/root/linux-next/Documentation/devicetree/bindings/soc/mediatek/devapc.yaml: ignoring, error in schema:
-warning: no schema found in file: ./Documentation/devicetree/bindings/soc/mediatek/devapc.yaml
-/root/linux-next/Documentation/devicetree/bindings/soc/litex/litex,soc-controller.yaml: ignoring, error in schema:
-warning: no schema found in file: ./Documentation/devicetree/bindings/soc/litex/litex,soc-controller.yaml
-/root/linux-next/Documentation/devicetree/bindings/mfd/iqs62x.example.dt.yaml: pwmleds: 'panel' does not match any of the regexes: '^led(-[0-9a-f]+)?$', 'pinctrl-[0-9]+'
-        From schema: /root/linux-next/Documentation/devicetree/bindings/leds/leds-pwm.yaml
+There are three properties defined in allOf, they should be explicitly
+declared. Otherwise, "additionalProperties: false" will prohibit them.
 
-I have done the dtbs_check for all 5 yaml files on both arm32 and arm64.
+Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+---
+ Documentation/devicetree/bindings/media/coda.yaml | 6 ++++++
+ 1 file changed, 6 insertions(+)
 
-
-Zhen Lei (5):
-  media: dt-bindings: add the required property 'additionalProperties'
-  dt-bindings: serial: add the required property 'additionalProperties'
-  dt-bindings: soc: add the required property 'additionalProperties'
-  dt-bindings: devapc: add the required property 'additionalProperties'
-  dt-bindings: mfd: correct the node name of the panel led
-
- Documentation/devicetree/bindings/media/coda.yaml                   | 6 ++++++
- Documentation/devicetree/bindings/mfd/iqs62x.yaml                   | 2 +-
- Documentation/devicetree/bindings/serial/litex,liteuart.yaml        | 2 ++
- .../devicetree/bindings/soc/litex/litex,soc-controller.yaml         | 2 ++
- Documentation/devicetree/bindings/soc/mediatek/devapc.yaml          | 2 ++
- 5 files changed, 13 insertions(+), 1 deletion(-)
-
+diff --git a/Documentation/devicetree/bindings/media/coda.yaml b/Documentation/devicetree/bindings/media/coda.yaml
+index 7bac0057faf7319..199b0826cd01cb6 100644
+--- a/Documentation/devicetree/bindings/media/coda.yaml
++++ b/Documentation/devicetree/bindings/media/coda.yaml
+@@ -52,6 +52,10 @@ properties:
+     description: phandle pointing to the SRAM device node
+     maxItems: 1
+ 
++  interrupts: true
++  interrupt-names: true
++  power-domains: true
++
+ required:
+   - compatible
+   - reg
+@@ -96,6 +100,8 @@ allOf:
+           description: phandle pointing to the PU power domain
+           maxItems: 1
+ 
++additionalProperties: false
++
+ examples:
+   - |
+     vpu: video-codec@63ff4000 {
 -- 
 1.8.3
 
