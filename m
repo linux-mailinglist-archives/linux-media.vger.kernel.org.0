@@ -2,111 +2,172 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1D2602CE669
-	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 04:21:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E2FF52CE6F5
+	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 05:13:06 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726982AbgLDDUp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 3 Dec 2020 22:20:45 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:8642 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725847AbgLDDUo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Thu, 3 Dec 2020 22:20:44 -0500
-Received: from DGGEMS404-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4CnHxZ59R5z15XCk;
-        Fri,  4 Dec 2020 11:19:30 +0800 (CST)
-Received: from [127.0.0.1] (10.174.177.9) by DGGEMS404-HUB.china.huawei.com
- (10.3.19.204) with Microsoft SMTP Server id 14.3.487.0; Fri, 4 Dec 2020
- 11:19:54 +0800
-Subject: Re: [PATCH 0/1] dt-bindings: eliminate yamllint warnings
-To:     Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        "Pengutronix Kernel Team" <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        "NXP Linux Team" <linux-imx@nxp.com>,
-        David Airlie <airlied@linux.ie>,
-        "Daniel Vetter" <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        "Thierry Reding" <thierry.reding@gmail.com>,
-        Sam Ravnborg <sam@ravnborg.org>,
-        "Hans Verkuil" <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        "Ricardo Ribalda" <ribalda@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        "Matthias Brugger" <matthias.bgg@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        "Mark Brown" <broonie@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-mediatek <linux-mediatek@lists.infradead.org>,
-        alsa-devel <alsa-devel@alsa-project.org>
-References: <20201204024226.1222-1-thunder.leizhen@huawei.com>
-From:   "Leizhen (ThunderTown)" <thunder.leizhen@huawei.com>
-Message-ID: <5dba4db6-dc66-44a8-ac4c-c5fe288c3430@huawei.com>
-Date:   Fri, 4 Dec 2020 11:19:52 +0800
-User-Agent: Mozilla/5.0 (Windows NT 10.0; WOW64; rv:60.0) Gecko/20100101
- Thunderbird/60.7.0
+        id S1726171AbgLDEMq (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 3 Dec 2020 23:12:46 -0500
+Received: from mga07.intel.com ([134.134.136.100]:33248 "EHLO mga07.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726038AbgLDEMq (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 3 Dec 2020 23:12:46 -0500
+IronPort-SDR: 1+BDqrZWQ68WIwna6nQGg/Scqdu+wHtxRIms1bJcPRSFzQ0JnpmizllaKi2s7Ktu4IVcbIEJna
+ /8uniigDi/eA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9824"; a="237442633"
+X-IronPort-AV: E=Sophos;i="5.78,391,1599548400"; 
+   d="scan'208";a="237442633"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga006.jf.intel.com ([10.7.209.51])
+  by orsmga105.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 03 Dec 2020 20:12:04 -0800
+IronPort-SDR: 9nR1W+yxK4smfpDQu2IqBRdp9d2mZ96+kOoBxyFFVLhXU6WJ4n8PjfAtd92Yv9bOgAwVwl5sYZ
+ aiWl8kDAQ2cA==
+X-ExtLoop1: 1
+X-IronPort-AV: E=Sophos;i="5.78,391,1599548400"; 
+   d="scan'208";a="336216368"
+Received: from lkp-server02.sh.intel.com (HELO 2c2f8f825ef9) ([10.239.97.151])
+  by orsmga006.jf.intel.com with ESMTP; 03 Dec 2020 20:12:02 -0800
+Received: from kbuild by 2c2f8f825ef9 with local (Exim 4.92)
+        (envelope-from <lkp@intel.com>)
+        id 1kl2Ru-00000b-5J; Fri, 04 Dec 2020 04:12:02 +0000
+Date:   Fri, 04 Dec 2020 12:11:22 +0800
+From:   kernel test robot <lkp@intel.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     linux-media@vger.kernel.org
+Subject: [ragnatech:media-tree] BUILD SUCCESS
+ fb1f3a1befdb43a40255d35d50ac49a332232fc0
+Message-ID: <5fc9b6ea.h/TjFAMYTtR6e+O3%lkp@intel.com>
+User-Agent: Heirloom mailx 12.5 6/20/10
 MIME-Version: 1.0
-In-Reply-To: <20201204024226.1222-1-thunder.leizhen@huawei.com>
-Content-Type: text/plain; charset="utf-8"
-Content-Language: en-US
+Content-Type: text/plain; charset=us-ascii
 Content-Transfer-Encoding: 7bit
-X-Originating-IP: [10.174.177.9]
-X-CFilter-Loop: Reflected
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Sorry, Forgot to say: This patch is based on the latest linux-next code.
+tree/branch: git://git.ragnatech.se/linux  media-tree
+branch HEAD: fb1f3a1befdb43a40255d35d50ac49a332232fc0  media: pixfmt-compressed.rst: fix 'bullet' formatting
 
+elapsed time: 1035m
 
-On 2020/12/4 10:42, Zhen Lei wrote:
-> There're too many people, I just send to the maintainer, reviewer, supporter.
-> 
-> Eliminate below warnings:
-> ./Documentation/devicetree/bindings/clock/imx8qxp-lpcg.yaml:32:13: [warning] wrong indentation: expected 14 but found 12 (indentation)
-> ./Documentation/devicetree/bindings/clock/imx8qxp-lpcg.yaml:35:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-> ./Documentation/devicetree/bindings/display/intel,keembay-msscam.yaml:21:6: [warning] wrong indentation: expected 6 but found 5 (indentation)
-> ./Documentation/devicetree/bindings/display/bridge/analogix,anx7625.yaml:52:9: [warning] wrong indentation: expected 6 but found 8 (indentation)
-> ./Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml:42:8: [warning] wrong indentation: expected 8 but found 7 (indentation)
-> ./Documentation/devicetree/bindings/display/bridge/intel,keembay-dsi.yaml:45:8: [warning] wrong indentation: expected 8 but found 7 (indentation)
-> ./Documentation/devicetree/bindings/display/panel/novatek,nt36672a.yaml:25:10: [warning] wrong indentation: expected 10 but found 9 (indentation)
-> ./Documentation/devicetree/bindings/media/i2c/adv7604.yaml:24:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-> ./Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml:4:1: [error] missing document start "---" (document-start)
-> ./Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml:29:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-> ./Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml:32:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-> ./Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml:79:17: [warning] wrong indentation: expected 14 but found 16 (indentation)
-> ./Documentation/devicetree/bindings/media/i2c/ovti,ov772x.yaml:88:17: [warning] wrong indentation: expected 14 but found 16 (indentation)
-> ./Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml:72:17: [warning] wrong indentation: expected 18 but found 16 (indentation)
-> ./Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml:75:17: [warning] wrong indentation: expected 18 but found 16 (indentation)
-> ./Documentation/devicetree/bindings/mmc/mtk-sd.yaml:20:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-> ./Documentation/devicetree/bindings/mmc/mtk-sd.yaml:30:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-> ./Documentation/devicetree/bindings/mmc/mtk-sd.yaml:33:9: [warning] wrong indentation: expected 10 but found 8 (indentation)
-> ./Documentation/devicetree/bindings/sound/mt8192-mt6359-rt1015-rt5682.yaml:10:4: [warning] wrong indentation: expected 2 but found 3 (indentation)
-> 
-> 
-> Zhen Lei (1):
->   dt-bindings: eliminate yamllint warnings
-> 
->  .../devicetree/bindings/clock/imx8qxp-lpcg.yaml    | 20 ++++++++---------
->  .../bindings/display/bridge/analogix,anx7625.yaml  |  4 ++--
->  .../bindings/display/bridge/intel,keembay-dsi.yaml |  4 ++--
->  .../bindings/display/intel,keembay-msscam.yaml     |  4 ++--
->  .../bindings/display/panel/novatek,nt36672a.yaml   |  2 +-
->  .../devicetree/bindings/media/i2c/adv7604.yaml     |  4 ++--
->  .../devicetree/bindings/media/i2c/mipi-ccs.yaml    | 11 ++++-----
->  .../devicetree/bindings/media/i2c/ovti,ov772x.yaml | 12 +++++-----
->  .../devicetree/bindings/media/i2c/sony,imx214.yaml | 12 +++++-----
->  Documentation/devicetree/bindings/mmc/mtk-sd.yaml  | 26 +++++++++++-----------
->  .../sound/mt8192-mt6359-rt1015-rt5682.yaml         |  4 ++--
->  11 files changed, 52 insertions(+), 51 deletions(-)
-> 
+configs tested: 110
+configs skipped: 3
 
+The following configs have been built successfully.
+More configs may be tested in the coming days.
+
+gcc tested configs:
+arm                                 defconfig
+arm64                            allyesconfig
+arm                              allyesconfig
+arm                              allmodconfig
+arm64                               defconfig
+arm                         shannon_defconfig
+mips                     decstation_defconfig
+mips                         mpc30x_defconfig
+mips                           ci20_defconfig
+riscv                            alldefconfig
+powerpc                      ppc6xx_defconfig
+arm                            hisi_defconfig
+arm                            dove_defconfig
+arc                     nsimosci_hs_defconfig
+arm                          imote2_defconfig
+nds32                            alldefconfig
+mips                      fuloong2e_defconfig
+sh                           se7724_defconfig
+powerpc                      obs600_defconfig
+arm                          pcm027_defconfig
+sh                          sdk7786_defconfig
+powerpc                 mpc832x_mds_defconfig
+ia64                            zx1_defconfig
+arm                            mps2_defconfig
+arm                          simpad_defconfig
+arm                          collie_defconfig
+nios2                         3c120_defconfig
+powerpc                     asp8347_defconfig
+arc                           tb10x_defconfig
+c6x                              alldefconfig
+arm                           h3600_defconfig
+mips                          malta_defconfig
+powerpc                     sequoia_defconfig
+um                            kunit_defconfig
+ia64                             allmodconfig
+ia64                                defconfig
+ia64                             allyesconfig
+m68k                             allmodconfig
+m68k                                defconfig
+m68k                             allyesconfig
+nios2                               defconfig
+arc                              allyesconfig
+nds32                             allnoconfig
+c6x                              allyesconfig
+nds32                               defconfig
+nios2                            allyesconfig
+csky                                defconfig
+alpha                               defconfig
+alpha                            allyesconfig
+xtensa                           allyesconfig
+h8300                            allyesconfig
+arc                                 defconfig
+sh                               allmodconfig
+parisc                              defconfig
+s390                             allyesconfig
+parisc                           allyesconfig
+s390                                defconfig
+i386                             allyesconfig
+sparc                            allyesconfig
+sparc                               defconfig
+i386                               tinyconfig
+i386                                defconfig
+mips                             allyesconfig
+mips                             allmodconfig
+powerpc                          allyesconfig
+powerpc                          allmodconfig
+powerpc                           allnoconfig
+x86_64               randconfig-a004-20201204
+x86_64               randconfig-a006-20201204
+x86_64               randconfig-a002-20201204
+x86_64               randconfig-a001-20201204
+x86_64               randconfig-a005-20201204
+x86_64               randconfig-a003-20201204
+i386                 randconfig-a005-20201204
+i386                 randconfig-a004-20201204
+i386                 randconfig-a001-20201204
+i386                 randconfig-a002-20201204
+i386                 randconfig-a006-20201204
+i386                 randconfig-a003-20201204
+i386                 randconfig-a004-20201203
+i386                 randconfig-a005-20201203
+i386                 randconfig-a001-20201203
+i386                 randconfig-a002-20201203
+i386                 randconfig-a006-20201203
+i386                 randconfig-a003-20201203
+x86_64               randconfig-a016-20201203
+x86_64               randconfig-a012-20201203
+x86_64               randconfig-a014-20201203
+x86_64               randconfig-a013-20201203
+x86_64               randconfig-a015-20201203
+x86_64               randconfig-a011-20201203
+i386                 randconfig-a014-20201203
+i386                 randconfig-a013-20201203
+i386                 randconfig-a011-20201203
+i386                 randconfig-a015-20201203
+i386                 randconfig-a012-20201203
+i386                 randconfig-a016-20201203
+riscv                    nommu_k210_defconfig
+riscv                            allyesconfig
+riscv                    nommu_virt_defconfig
+riscv                             allnoconfig
+riscv                               defconfig
+riscv                          rv32_defconfig
+riscv                            allmodconfig
+x86_64                                   rhel
+x86_64                           allyesconfig
+x86_64                    rhel-7.6-kselftests
+x86_64                              defconfig
+x86_64                               rhel-8.3
+x86_64                                  kexec
+
+---
+0-DAY CI Kernel Test Service, Intel Corporation
+https://lists.01.org/hyperkitty/list/kbuild-all@lists.01.org
