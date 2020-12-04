@@ -2,61 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E83F12CEE00
-	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 13:23:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 84B312CEE5D
+	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 13:51:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728666AbgLDMWw (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Dec 2020 07:22:52 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:55338 "EHLO www.linuxtv.org"
+        id S1730163AbgLDMus (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Dec 2020 07:50:48 -0500
+Received: from retiisi.eu ([95.216.213.190]:51284 "EHLO hillosipuli.retiisi.eu"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725999AbgLDMWw (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Dec 2020 07:22:52 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1klA6F-004kJN-2h; Fri, 04 Dec 2020 12:22:11 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1klA9P-0001qb-LP; Fri, 04 Dec 2020 12:25:27 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL for 5.11] Some fixes to the recently merged stuff (#69768)
-Date:   Fri,  4 Dec 2020 12:25:27 +0000
-Message-Id: <20201204122527.7060-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201204120857.GJ4351@valkosipuli.retiisi.org.uk>
-References: 
+        id S1729010AbgLDMus (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 4 Dec 2020 07:50:48 -0500
+Received: from valkosipuli.localdomain (unknown [IPv6:fd35:1bc8:1a6:d3d5::80:2])
+        (using TLSv1.3 with cipher TLS_AES_256_GCM_SHA384 (256/256 bits)
+         key-exchange ECDHE (P-256) server-signature RSA-PSS (4096 bits) server-digest SHA256)
+        (No client certificate requested)
+        by hillosipuli.retiisi.eu (Postfix) with ESMTPS id 511E1634C24;
+        Fri,  4 Dec 2020 14:48:48 +0200 (EET)
+Received: from sailus by valkosipuli.localdomain with local (Exim 4.92)
+        (envelope-from <sakari.ailus@retiisi.org.uk>)
+        id 1klAW0-0003Ou-Pn; Fri, 04 Dec 2020 14:48:48 +0200
+Date:   Fri, 4 Dec 2020 14:48:48 +0200
+From:   Sakari Ailus <sakari.ailus@iki.fi>
+To:     Sowjanya Komatineni <skomatineni@nvidia.com>
+Cc:     thierry.reding@gmail.com, jonathanh@nvidia.com, hverkuil@xs4all.nl,
+        robh+dt@kernel.org, bparrot@ti.com, mchehab@kernel.org,
+        linux-media@vger.kernel.org, linux-tegra@vger.kernel.org,
+        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH v3 10/13] media: v4l2-fwnode: Update
+ V4L2_FWNODE_CSI2_MAX_DATA_LANES to 8
+Message-ID: <20201204124848.GK4351@valkosipuli.retiisi.org.uk>
+References: <1607022002-26575-1-git-send-email-skomatineni@nvidia.com>
+ <1607022002-26575-11-git-send-email-skomatineni@nvidia.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <1607022002-26575-11-git-send-email-skomatineni@nvidia.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+On Thu, Dec 03, 2020 at 10:59:59AM -0800, Sowjanya Komatineni wrote:
+> Some CSI2 receivers support 8 data lanes.
+> 
+> So, this patch updates CSI2 maximum data lanes to be 8.
+> 
+> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20201204120857.GJ4351@valkosipuli.retiisi.org.uk/
-Build log: https://builder.linuxtv.org/job/patchwork/79854/
-Build time: 00:03:50
-Link: https://lore.kernel.org/linux-media/20201204120857.GJ4351@valkosipuli.retiisi.org.uk
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
 
-gpg: Signature made Fri 04 Dec 2020 11:52:40 AM UTC
-gpg:                using DSA key 53AC58A5F5948636C04A1BF8141DFA54A1EC8DEA
-gpg:                issuer "sakari.ailus@linux.intel.com"
-gpg: Can't check signature: No public key
-
-Summary: got 1/3 patches with issues, being 0 at build time, plus one error when buinding PDF document
-
-Error/warnings:
-
-patches/0002-media-ccs-avoid-printing-an-uninitialized-variable.patch:
-
-   checkpatch.pl:
-	$ cat patches/0002-media-ccs-avoid-printing-an-uninitialized-variable.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:6: WARNING: 'intialization' may be misspelled - perhaps 'initialization'?
-
-
-Error #512 when building PDF docs
-
+-- 
+Sakari Ailus
