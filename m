@@ -2,82 +2,112 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8E0BE2CF0EB
-	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 16:43:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id AB8FB2CF105
+	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 16:47:48 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729859AbgLDPmd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 4 Dec 2020 10:42:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:41104 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727153AbgLDPmd (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 4 Dec 2020 10:42:33 -0500
-X-Gm-Message-State: AOAM530YkqfRFnrf2VKKdb5wN0pGOlq4VRm9iNcmKvMW1CZbc+D+jKyp
-        tckSHS4YpukFVhp09QICKi9J6d5Mukp39vLTePs=
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
-        s=k20201202; t=1607096512;
-        bh=9zvhmddp4oVetTxnivsCkI0/R9z67GT3zT8WlaXkVs8=;
-        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
-        b=a+GDm5Ix/7H3gCi4tvga6Vr9YSjg1xp0CFWgcMFbdS+3hNVP7u1M35vanHsQUrfPl
-         6VisB/C/Vt33UndIVZQqONq9DzZvH4INxBoB0v5yrAnTm5v9LogyOLmdOX4epoWTx7
-         p+4qd8B5aYqqly1/iTDA5VZ58t21AjjljAgc1LSZ7d5KbkXfHAT8bvgY5xQBNGbUnq
-         /BHFSr5d1xiky5jrkWFT690m8Ahs974G3k8pJtyhrIcVUHUBlf9hAQc2NXaPnmenfm
-         hz5NG/Cgvnfiop6ZsUTWS9LYi/zw5wL2pxfiVgGXvra0uNUMk0g3EitUBKkny14yp6
-         B3izfRuX6w7Pw==
-X-Google-Smtp-Source: ABdhPJySpja6tqIbIN2DGQqo9ynqKJIG4D3U0MvhUPnJ5m4MPZB05rBkBQoYbrY5EW3BYzhdurB9LEF3TWFIfftVCpY=
-X-Received: by 2002:aca:cf0a:: with SMTP id f10mr3443981oig.11.1607096511900;
- Fri, 04 Dec 2020 07:41:51 -0800 (PST)
+        id S1730651AbgLDPrU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Dec 2020 10:47:20 -0500
+Received: from new4-smtp.messagingengine.com ([66.111.4.230]:57543 "EHLO
+        new4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725987AbgLDPrS (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 4 Dec 2020 10:47:18 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.nyi.internal (Postfix) with ESMTP id 9982A580144;
+        Fri,  4 Dec 2020 10:46:32 -0500 (EST)
+Received: from mailfrontend1 ([10.202.2.162])
+  by compute4.internal (MEProxy); Fri, 04 Dec 2020 10:46:32 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=kroah.com; h=
+        date:from:to:cc:subject:message-id:references:mime-version
+        :content-type:in-reply-to; s=fm2; bh=0e7pP2gtmRQ29hprbKu2oy4kdew
+        zAhRmyRinSUbFXGI=; b=ZqOkCU/Elo9/DT91sFqoy4VDx/hJNiSyNsU2qc8PyT2
+        l16vgpTu3T+wSQ1hQzcH9FtxzkLK9LXd2DzAFjC1PXrkCB8xaq0zX6exxxmqT9Cf
+        TEmd4yVvVjSrgeO7mxOxPwlaCu0Lyc1quCfbWtaAqsy5u9D4a5EHeP2ps9iY8Hvj
+        EksqeAmlET0KyrUTbCXVT1IPJHJWHkukpmPS9f/FTQIY60fqzoDfZd0gcBy3dzWh
+        9Xb7/Xz9HsIClfQCtD+ibO0CrnQjcrP5q48qzmhFAh4HbPD3th9qX1mfbWGDT0pB
+        YNhiDdx2CiQwAByCXTGzir900BEeUNJoJh26a1xp50w==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-type:date:from:in-reply-to
+        :message-id:mime-version:references:subject:to:x-me-proxy
+        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=0e7pP2
+        gtmRQ29hprbKu2oy4kdewzAhRmyRinSUbFXGI=; b=k6H8oTSs6ROTEyzgDLjEKi
+        2lAZr2+iu5gtcm3wQSwiHZKUBW80StyHcmzxfkOmBay+hU0qjmoqGOf2YLZE8LbR
+        jYODpeYwaG/brVh0Jvqqj6DHZrxAcLk2s5qvZm3uN6BURRrBqtapu4C/693rHkmO
+        c68oCvTLIf2pBoLWj19FW8tNisTVrfyFGE+I57LsEfPI5Fc84EC1FMknBRV8OQuZ
+        uAE4gcfdRQ4d0NzorJQbGoKlyyaNdiCEnuMPw/Z8QWUf51nDCpTnKjBTcVXlMazR
+        tRAotxJBpxHYLftkoFGXCGQDT3EymOJYmidDiNSNv7ssd0g87ntgzMacdEYyg45w
+        ==
+X-ME-Sender: <xms:11nKXx5EFci9Q17YW9szG0v0H8Z-OSzOqUI2Qj-8LV00u7odRUSaKg>
+    <xme:11nKXyvJnWMTX-1UFfAPDhySw4RAITDEa03fUQSthB4gwbyGmi22GCexd7rhlgSw_
+    h_L0mSppfLFcQ>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudeikedgkeduucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucenucfjughrpeffhffvuffkfhggtggujgesthdtre
+    dttddtvdenucfhrhhomhepifhrvghgucfmjfcuoehgrhgvgheskhhrohgrhhdrtghomheq
+    necuggftrfgrthhtvghrnhepveeuheejgfffgfeivddukedvkedtleelleeghfeljeeiue
+    eggeevueduudekvdetnecukfhppeekfedrkeeirdejgedrieegnecuvehluhhsthgvrhfu
+    ihiivgeptdenucfrrghrrghmpehmrghilhhfrhhomhepghhrvghgsehkrhhorghhrdgtoh
+    hm
+X-ME-Proxy: <xmx:11nKXxip3DyQYkY2WZKFwWZU2JejKDs6RREPa9XpmB5LHscX2OpScQ>
+    <xmx:11nKX9rq2U8zSxgENDMmoi5XXFOlHAfQQRa8j7ny06kac5cIRGkdzg>
+    <xmx:11nKX-vVKeR2uvsEI9RSvKLLdy5SupdUDp8hJ8ch-jgaGWBcKc9Qzw>
+    <xmx:2FnKX9wqPWg4zTQCCL6d_pNIsIS_Y-RGvrNQDjVEFooGMRmPEl-7Cg>
+Received: from localhost (83-86-74-64.cable.dynamic.v4.ziggo.nl [83.86.74.64])
+        by mail.messagingengine.com (Postfix) with ESMTPA id DD5E124005E;
+        Fri,  4 Dec 2020 10:46:30 -0500 (EST)
+Date:   Fri, 4 Dec 2020 16:47:48 +0100
+From:   Greg KH <greg@kroah.com>
+To:     "Enrico Weigelt, metux IT consult" <info@metux.net>
+Cc:     linux-kernel@vger.kernel.org, devel@driverdev.osuosl.org,
+        toddpoynor@google.com, sbranden@broadcom.com, rjui@broadcom.com,
+        speakup@linux-speakup.org, rcy@google.com, f.fainelli@gmail.com,
+        rspringer@google.com, laurent.pinchart@ideasonboard.com,
+        netdev@vger.kernel.org, bcm-kernel-feedback-list@broadcom.com,
+        mchehab@kernel.org, nsaenzjulienne@suse.de,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH 04/11] drivers: staging: goldfish: remove unneeded
+ MODULE_VERSION() call
+Message-ID: <X8paJN2bDNFZppr1@kroah.com>
+References: <20201203124803.23390-1-info@metux.net>
+ <20201203124803.23390-4-info@metux.net>
 MIME-Version: 1.0
-References: <20201203231505.1483971-1-arnd@kernel.org> <CAPBb6MUNsoQ76hi618G6i0djBoRzVvYKkTd8PovNQRacZ06LWA@mail.gmail.com>
-In-Reply-To: <CAPBb6MUNsoQ76hi618G6i0djBoRzVvYKkTd8PovNQRacZ06LWA@mail.gmail.com>
-From:   Arnd Bergmann <arnd@kernel.org>
-Date:   Fri, 4 Dec 2020 16:41:35 +0100
-X-Gmail-Original-Message-ID: <CAK8P3a3e+22WiJuV6APJ+vRZjPsbZw+=recE2dje_gjtfQ3gWA@mail.gmail.com>
-Message-ID: <CAK8P3a3e+22WiJuV6APJ+vRZjPsbZw+=recE2dje_gjtfQ3gWA@mail.gmail.com>
-Subject: Re: [PATCH] media: mtk-vcodec: add remoteproc dependency
-To:     Alexandre Courbot <acourbot@chromium.org>
-Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Yunfei Dong <yunfei.dong@mediatek.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Tiffany Lin <tiffany.lin@mediatek.com>,
-        Arnd Bergmann <arnd@arndb.de>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Jernej Skrabec <jernej.skrabec@siol.net>,
-        Krzysztof Kozlowski <krzk@kernel.org>,
-        Helen Koike <helen.koike@collabora.com>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        LKML <linux-kernel@vger.kernel.org>
-Content-Type: text/plain; charset="UTF-8"
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201203124803.23390-4-info@metux.net>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 4, 2020 at 9:26 AM Alexandre Courbot <acourbot@chromium.org> wrote:
->
-> On Fri, Dec 4, 2020 at 8:15 AM Arnd Bergmann <arnd@kernel.org> wrote:
-> >
-> > From: Arnd Bergmann <arnd@arndb.de>
-> >
-> > The SCP firmware can only be built if CONFIG_REMOTEPROC is
-> > enabled:
-> >
-> > WARNING: unmet direct dependencies detected for MTK_SCP
-> >   Depends on [n]: REMOTEPROC [=n] && (ARCH_MEDIATEK [=y] || COMPILE_TEST [=y])
-> >   Selected by [y]:
-> >   - VIDEO_MEDIATEK_VCODEC [=y] && MEDIA_SUPPORT [=y] && MEDIA_PLATFORM_SUPPORT [=y] && V4L_MEM2MEM_DRIVERS [=y] && (MTK_IOMMU [=y] || COMPILE_TEST [=y]) && VIDEO_DEV [=y] && VIDEO_V4L2 [=y] && (ARCH_MEDIATEK [=y] || COMPILE_TEST [=y])
->
-> Despite setting these same options I cannot reproduce this warning on
-> a merge of master + media. Which tree are you using?
+On Thu, Dec 03, 2020 at 01:47:56PM +0100, Enrico Weigelt, metux IT consult wrote:
+> Remove MODULE_VERSION(), as it doesn't seem to have much practical purpose.
+> For in-kernel drivers, the kernel version matters. The driver received lots
+> of changes, but version number has remained the same since it's introducing
+> into mainline, seven years ago. So, it doesn't seem to have much practical
+> meaning anymore.
+> 
+> Signed-off-by: Enrico Weigelt <info@metux.net>
+> ---
+>  drivers/staging/goldfish/goldfish_audio.c | 1 -
+>  1 file changed, 1 deletion(-)
+> 
+> diff --git a/drivers/staging/goldfish/goldfish_audio.c b/drivers/staging/goldfish/goldfish_audio.c
+> index 0c65a0121dde..4a23f40e549a 100644
+> --- a/drivers/staging/goldfish/goldfish_audio.c
+> +++ b/drivers/staging/goldfish/goldfish_audio.c
+> @@ -24,7 +24,6 @@
+>  MODULE_AUTHOR("Google, Inc.");
+>  MODULE_DESCRIPTION("Android QEMU Audio Driver");
+>  MODULE_LICENSE("GPL");
+> -MODULE_VERSION("1.0");
+>  
+>  struct goldfish_audio {
+>  	char __iomem *reg_base;
 
-Sorry about the noise. I was testing this on earlier this week on v5.10-rc5,
-but your commit 2da185d6fe96 ("media: mtk-vcodec: fix build breakage
-when one of VPU or SCP is enabled") has made it into mainline in the
-meantime and fixed the issue.
+This file isn't even in my tree, are you sure you made this patch series
+against the correct branch/tree?
 
-I had rebased my patches onto linux-next before sending them out to
-make sure everything still works, but did not check that it was still
-broken without it. Clearly my patch must have conflicted with yours
-during the rebase, which should have told me to recheck.
+Please fix this series up and resend.
 
-Please disregard my fix.
+thanks,
 
-       Arnd
+greg k-h
