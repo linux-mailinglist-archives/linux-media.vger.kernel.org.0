@@ -2,78 +2,140 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D47E2CEC97
-	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 11:58:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A9F6F2CECC4
+	for <lists+linux-media@lfdr.de>; Fri,  4 Dec 2020 12:10:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727977AbgLDK5c convert rfc822-to-8bit (ORCPT
-        <rfc822;lists+linux-media@lfdr.de>); Fri, 4 Dec 2020 05:57:32 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:32866 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726599AbgLDK5c (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Fri, 4 Dec 2020 05:57:32 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B43E3C061A4F
-        for <linux-media@vger.kernel.org>; Fri,  4 Dec 2020 02:56:51 -0800 (PST)
-Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1kl8lS-0004Tj-Og; Fri, 04 Dec 2020 11:56:38 +0100
-Received: from pza by lupine with local (Exim 4.92)
-        (envelope-from <p.zabel@pengutronix.de>)
-        id 1kl8lM-0006gu-8p; Fri, 04 Dec 2020 11:56:32 +0100
-Message-ID: <2c36ef4c2d022f6f83ec5c78a951d5e76f95378e.camel@pengutronix.de>
-Subject: Re: [PATCH 1/5] media: dt-bindings: add the required property
- 'additionalProperties'
-From:   Philipp Zabel <p.zabel@pengutronix.de>
-To:     Zhen Lei <thunder.leizhen@huawei.com>,
+        id S1729856AbgLDLJc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 4 Dec 2020 06:09:32 -0500
+Received: from mga09.intel.com ([134.134.136.24]:21129 "EHLO mga09.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1727365AbgLDLJc (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 4 Dec 2020 06:09:32 -0500
+IronPort-SDR: WZLq3z8TOyvwfisPSHwo8pWG64zSUvddTz0RFBvaRzUET6IR//gfxcSCeF1qU3IJxoYLr7D3rw
+ O907lhuUMulA==
+X-IronPort-AV: E=McAfee;i="6000,8403,9824"; a="173516662"
+X-IronPort-AV: E=Sophos;i="5.78,392,1599548400"; 
+   d="scan'208";a="173516662"
+X-Amp-Result: SKIPPED(no attachment in message)
+X-Amp-File-Uploaded: False
+Received: from orsmga008.jf.intel.com ([10.7.209.65])
+  by orsmga102.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2020 03:07:51 -0800
+IronPort-SDR: lzFhlukNmmwDvtbz9Dq6o1uD2dV9zVnDIuDH8UG5MJ0p6ukADGF8buhMEVxVpQk5f8b0B2O5DR
+ K0FmkASxlG1g==
+X-IronPort-AV: E=Sophos;i="5.78,392,1599548400"; 
+   d="scan'208";a="362149921"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 04 Dec 2020 03:07:49 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id D928F20676; Fri,  4 Dec 2020 13:07:46 +0200 (EET)
+Date:   Fri, 4 Dec 2020 13:07:46 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
+        Maxime Ripard <mripard@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Karol Gugala <kgugala@antmicro.com>,
-        Mateusz Holenko <mholenko@antmicro.com>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Pawel Czarnecki <pczarnecki@internships.antmicro.com>,
-        Stafford Horne <shorne@gmail.com>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Lee Jones <lee.jones@linaro.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-serial <linux-serial@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-mediatek <linux-mediatek@lists.infradead.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-Date:   Fri, 04 Dec 2020 11:56:32 +0100
-In-Reply-To: <20201204093813.1275-2-thunder.leizhen@huawei.com>
-References: <20201204093813.1275-1-thunder.leizhen@huawei.com>
-         <20201204093813.1275-2-thunder.leizhen@huawei.com>
-Content-Type: text/plain; charset="UTF-8"
-Content-Transfer-Encoding: 8BIT
-User-Agent: Evolution 3.30.5-1.1 
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org
+Subject: Re: [PATCH v2 1/2] media: dt-bindings: Convert video-interfaces.txt
+ properties to schemas
+Message-ID: <20201204110746.GQ852@paasikivi.fi.intel.com>
+References: <20201203001302.3407476-1-robh@kernel.org>
+ <20201203001302.3407476-2-robh@kernel.org>
 MIME-Version: 1.0
-X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
-X-SA-Exim-Mail-From: p.zabel@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201203001302.3407476-2-robh@kernel.org>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 2020-12-04 at 17:38 +0800, Zhen Lei wrote:
-> When I do dt_binding_check for any YAML file, below wanring is always
-> reported:
-> 
-> xxx/media/coda.yaml: 'additionalProperties' is a required property
-> xxx/media/coda.yaml: ignoring, error in schema:
-> warning: no schema found in file: xxx/media/coda.yaml
-> 
-> There are three properties defined in allOf, they should be explicitly
-> declared. Otherwise, "additionalProperties: false" will prohibit them.
-> 
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
+Hi Rob,
 
-Thank you, there already is a patch to fix this:
+On Wed, Dec 02, 2020 at 05:13:01PM -0700, Rob Herring wrote:
+> Convert video-interfaces.txt to DT schema. As it contains a mixture of
+> device level and endpoint properties, split it up into 2 schemas.
+> 
+> Binding schemas will need to reference both the graph.yaml and
+> video-interfaces.yaml schemas. The exact schema depends on how many
+> ports and endpoints for the binding. A single port with a single
+> endpoint looks similar to this:
+> 
+>   port:
+>     $ref: /schemas/graph.yaml#/$defs/port-base
+> 
+>     properties:
+>       endpoint:
+>         $ref: video-interfaces.yaml#
+>         unevaluatedProperties: false
+> 
+>         properties:
+>           bus-width:
+>             enum: [ 8, 10, 12, 16 ]
+> 
+>           pclk-sample: true
+>           hsync-active: true
+>           vsync-active: true
+> 
+>         required:
+>           - bus-width
+> 
+>     additionalProperties: false
+> 
+> Cc: Guennadi Liakhovetski <g.liakhovetski@gmx.de>
+> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
+> Cc: Jacopo Mondi <jacopo@jmondi.org>
+> Signed-off-by: Rob Herring <robh@kernel.org>
+> ---
+> I need acks for dual licensing from the listed maintainers.
 
-https://lore.kernel.org/linux-media/20201117200752.4004368-1-robh@kernel.org/
+Thanks for doing the conversion. I'm fine with the license change made by
+this patch on my contributions. Therefore,
 
-regards
-Philipp
+Acked-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+
+But please also see my comments below.
+
+...
+
+> +  data-lanes:
+> +    $ref: /schemas/types.yaml#/definitions/uint32-array
+> +    minItems: 1
+> +    maxItems: 4
+
+The spec, I believe, specifies maximum of four lanes, but there are
+implementations that have eight lanes. So I'd use 8 as the maximum instead.
+
+> +    items:
+> +      # Assume up to 4 data and 1 clock lane
+> +      maximum: 4
+> +    description:
+> +      An array of physical data lane indexes. Position of an entry determines
+> +      the logical lane number, while the value of an entry indicates physical
+> +      lane, e.g. for 2-lane MIPI CSI-2 bus we could have "data-lanes = <1 2>;",
+> +      assuming the clock lane is on hardware lane 0. If the hardware does not
+> +      support lane reordering, monotonically incremented values shall be used
+> +      from 0 or 1 onwards, depending on whether or not there is also a clock
+> +      lane. This property is valid for serial busses only (e.g. MIPI CSI-2).
+> +
+> +  clock-lanes:
+> +    $ref: /schemas/types.yaml#/definitions/uint32
+> +    # Assume up to 4 data and 1 clock lane
+> +    maximum: 4
+
+There are always zero or one clock lanes, depending on the bus-type. I
+think we could better document this but I think it should be separate from
+this patch.
+
+> +    description:
+> +      Physical clock lane index. Position of an entry determines
+> +      the logical lane number, while the value of an entry indicates physical
+> +      lane, e.g. for a MIPI CSI-2 bus we could have "clock-lanes = <0>;", which
+> +      places the clock lane on hardware lane 0. This property is valid for
+> +      serial busses only (e.g. MIPI CSI-2).
+
+-- 
+Kind regards,
+
+Sakari Ailus
