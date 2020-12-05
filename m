@@ -2,244 +2,291 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0F4742CFAF2
-	for <lists+linux-media@lfdr.de>; Sat,  5 Dec 2020 11:13:08 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D66012CFDE2
+	for <lists+linux-media@lfdr.de>; Sat,  5 Dec 2020 19:53:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728877AbgLEKGv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Dec 2020 05:06:51 -0500
-Received: from mail-pl1-f200.google.com ([209.85.214.200]:52624 "EHLO
-        mail-pl1-f200.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727988AbgLEKFb (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Dec 2020 05:05:31 -0500
-Received: by mail-pl1-f200.google.com with SMTP id x11so4512711plo.19
-        for <linux-media@vger.kernel.org>; Sat, 05 Dec 2020 02:05:09 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:date:in-reply-to:message-id:subject
-         :from:to;
-        bh=X3Q4iorsKYAg9y8vXtf4DLwQF963WQWAtNd5Uoco39g=;
-        b=HnoWp2lq6s6q6hLtxrT8i5HtLuME9tb21oVCS8vWnSpCSGNvqhNVYM1yagpeQ/CUKA
-         h12xuGF6lMPBonsrYcSpp6Eke4memHmKCCnzzq7HgKTyKQcD+dN6B42t0gUNJTS04QDr
-         BxCfNH6IAecIQJHoYs3COjGpB+Tw0LFmhAM/vpw3kazFmGrYeE49DceCFRdmo3q6ETZS
-         yQi2CR95+QAZrl6YnvYIDr7A4Sj0oYVV+GYZiJlM9+LUB6BPYcD7yiprZXeP/+A5UYKN
-         2yvRyb6FK5759WtZX/wKVXcp2zmbSE0O5R9R7Kc+PCtntOFN1+Cd0q3cd+qIAF6ONe8T
-         dT0Q==
-X-Gm-Message-State: AOAM532OeKY8gAcLtslIuK/iwjgwlMkn0IdQBErhes0TMsCRTKbXO+iE
-        1kVMTime1syBnrM2cT2ItuvA1em+Q1N/1oHDqLfL8URbMnNo
-X-Google-Smtp-Source: ABdhPJyIeLqIvkfYrLstDpLLu/VrkVVKWih7ED1QleNkOGFPkm2EVerw3KmsY2MTopRvoR9B9OvBQ7+ssvi8Eqaumb0FJ5lw+28A
+        id S1728273AbgLESpe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Dec 2020 13:45:34 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:38659 "EHLO
+        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726844AbgLEQrp (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 5 Dec 2020 11:47:45 -0500
+Received: from compute1.internal (compute1.nyi.internal [10.202.2.41])
+        by mailnew.west.internal (Postfix) with ESMTP id 0EAEE764;
+        Sat,  5 Dec 2020 11:32:08 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute1.internal (MEProxy); Sat, 05 Dec 2020 11:32:10 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=sholland.org; h=
+        to:cc:references:from:subject:message-id:date:mime-version
+        :in-reply-to:content-type:content-transfer-encoding; s=fm1; bh=x
+        NUdODL65lR5S1XXZ1801IZLJZ+2fkKKMPiqtEeplEk=; b=TsbUXV+Ft57FpkUPV
+        THSaIOis/gi+FjJeym7xUu14WLJfaxrYJkjABd3mXnx2H9FFFoNxzaLKIF5WwVaC
+        OrdvOv7s8EjYK0LZ79lG8b8K4Ai+a0kUtH/yqUXcc5VPI1sl9qmnecNWkevYrFUP
+        31cwO74/y3OpO/Wn2Xgp0jcW4Al9m7I871lXXySJPpB1un3+dTwPzOg5bc6l/vet
+        tf+hZybsnEI+B3NcULLLEMHIyYhW8lfzi/ibV/wG38UPelDYVh1J1ctqRuFOVqv0
+        iY5LFtUVsc3uiYJtYw2u1J/KgU7KgX0SuTOheqGLvKEGXP8L0AOQQZ8QMsKZmujw
+        hjJHg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:content-type
+        :date:from:in-reply-to:message-id:mime-version:references
+        :subject:to:x-me-proxy:x-me-proxy:x-me-sender:x-me-sender
+        :x-sasl-enc; s=fm1; bh=xNUdODL65lR5S1XXZ1801IZLJZ+2fkKKMPiqtEepl
+        Ek=; b=BdNh+MC0OOTuzVk5POPma17FWA1t8oZsV/qiP5MDIEIYk4NxQ9EoDRgRN
+        HdwV5Ggb3+FHFC6Z4oY9EqVN2gVzc/HIBse+LzLEBAhHx3iqo39Op84h3jy1EyGs
+        x3D8Ws+sxBe8hUnsS/bl4cwVxtU+kX36Bzb0hnJA/de3Xrcz067Ei1pvuO/gspAF
+        JhNWCMxaJC6ez5ydKi3bwI5LhXQJMUktn16v8HNZjlahoQ0xunAhYbwGochjhMR/
+        xk+80Y0JRmZ3o/PP1oYAOtuIvK+UzPZkDy5XYGQfiOSeWm9SZQcL018Z8ByrQpMm
+        oDCmijVZrYZz/5WRJPW5uszgXDEIg==
+X-ME-Sender: <xms:BrbLXwHMd0Vgdwqe7ayHWqEnk3k2J91CyjJpgyDdr_4CFQgQJS5_0w>
+    <xme:BrbLX8nKtFh6-5al4c-mZ-wPukRzQSbJd58GVN4Az67WqZEqLWsvRbuKJnvzHj1wI
+    ri2oKt1p16m23Bdmg>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudejtddgledvucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhepvfhfhffukffffgggjggtgfesthekredttdefjeenucfhrhhomhepufgrmhhu
+    vghlucfjohhllhgrnhguuceoshgrmhhuvghlsehshhholhhlrghnugdrohhrgheqnecugg
+    ftrfgrthhtvghrnhepteelvddugfehtefgueegueeiieevfeehleefjeelhefgffejteej
+    tdeltdfgfeetnecuffhomhgrihhnpehgihhthhhusgdrtghomhdpihhnfhhrrgguvggrug
+    drohhrghenucfkphepjedtrddufeehrddugeekrdduhedunecuvehluhhsthgvrhfuihii
+    vgeptdenucfrrghrrghmpehmrghilhhfrhhomhepshgrmhhuvghlsehshhholhhlrghnug
+    drohhrgh
+X-ME-Proxy: <xmx:BrbLXzlxQVs5H0vKhCm_UZKoASzHWbk8ilrGwiDJoyX0hxYAZc1fJA>
+    <xmx:BrbLX9vmg9-erJuBu0zTsSxXbDkXclPxTnVwpEcZv9eeg1EQ9u0Sng>
+    <xmx:BrbLX2mOB3OUNZBsbAIrhaqQc7iGVJDeFCgBa5l4F_38EhIUFZYBLg>
+    <xmx:CLbLX-tOYYpy1qwJ3naJfD7b2sk6VldMnUwMev9GThYfsziNzK2uenJlASI>
+Received: from [70.135.148.151] (70-135-148-151.lightspeed.stlsmo.sbcglobal.net [70.135.148.151])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 2A0C91080069;
+        Sat,  5 Dec 2020 11:32:06 -0500 (EST)
+To:     Chen-Yu Tsai <wens@csie.org>,
+        Martin Cerveny <M.Cerveny@computer.org>
+Cc:     devel@driverdev.osuosl.org,
+        devicetree <devicetree@vger.kernel.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Mark Brown <broonie@kernel.org>,
+        linux-kernel <linux-kernel@vger.kernel.org>,
+        Maxime Ripard <mripard@kernel.org>,
+        Paul Kocialkowski <paul.kocialkowski@bootlin.com>,
+        Rob Herring <robh+dt@kernel.org>,
+        Icenowy Zheng <icenowy@aosc.io>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Lee Jones <lee.jones@linaro.org>,
+        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>
+References: <20201116125617.7597-1-m.cerveny@computer.org>
+ <20201116125617.7597-4-m.cerveny@computer.org>
+ <CAGb2v66T9aakxRQNBbA+=EC-d5EpmUrZSK5xTW=orK6Z7PyG9Q@mail.gmail.com>
+ <alpine.GSO.2.00.2012031617500.7044@dmz.c-home.cz>
+ <CAGb2v65Kb1BrdwKjMv9w1CNQpe=ExpN1d-yUSvZ6TA=fvgE5og@mail.gmail.com>
+From:   Samuel Holland <samuel@sholland.org>
+Subject: Re: [PATCH v3 3/6] ARM: dts: sun8i: v3s: Add node for system control
+Message-ID: <f09e7beb-bcf6-83b2-4148-b6d5218ff5ee@sholland.org>
+Date:   Sat, 5 Dec 2020 10:32:05 -0600
+User-Agent: Mozilla/5.0 (X11; Linux ppc64; rv:78.0) Gecko/20100101
+ Thunderbird/78.4.0
 MIME-Version: 1.0
-X-Received: by 2002:a5d:9b8f:: with SMTP id r15mr10323367iom.35.1607162229535;
- Sat, 05 Dec 2020 01:57:09 -0800 (PST)
-Date:   Sat, 05 Dec 2020 01:57:09 -0800
-In-Reply-To: <0000000000002e09ef05b44f501a@google.com>
-X-Google-Appengine-App-Id: s~syzkaller
-X-Google-Appengine-App-Id-Alias: syzkaller
-Message-ID: <000000000000c9bba405b5b49d6d@google.com>
-Subject: Re: KMSAN: uninit-value in dvb_usb_adapter_dvb_init (2)
-From:   syzbot <syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com>
-To:     glider@google.com, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org, mchehab@kernel.org,
-        syzkaller-bugs@googlegroups.com
-Content-Type: text/plain; charset="UTF-8"
+In-Reply-To: <CAGb2v65Kb1BrdwKjMv9w1CNQpe=ExpN1d-yUSvZ6TA=fvgE5og@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-syzbot has found a reproducer for the following issue on:
+On 12/3/20 10:44 AM, Chen-Yu Tsai wrote:
+> On Fri, Dec 4, 2020 at 12:25 AM Martin Cerveny <martin@c-home.cz> wrote:
+>>
+>> Hello.
+>>
+>> On Thu, 3 Dec 2020, Chen-Yu Tsai wrote:
+>>
+>>> Hi,
+>>>
+>>> On Mon, Nov 16, 2020 at 8:57 PM Martin Cerveny <m.cerveny@computer.org> wrote:
+>>>>
+>>>> Allwinner V3s has system control and SRAM C1 region similar to H3.
+>>>>
+>>>> Signed-off-by: Martin Cerveny <m.cerveny@computer.org>
+>>>> ---
+>>>>  arch/arm/boot/dts/sun8i-v3s.dtsi | 14 ++++++++++++++
+>>>>  1 file changed, 14 insertions(+)
+>>>>
+>>>> diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+>>>> index 0c7341676921..70193512c222 100644
+>>>> --- a/arch/arm/boot/dts/sun8i-v3s.dtsi
+>>>> +++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+>>>> @@ -161,6 +161,20 @@ syscon: system-control@1c00000 {
+>>>>                         #address-cells = <1>;
+>>>>                         #size-cells = <1>;
+>>>>                         ranges;
+>>>> +
+>>>> +                       sram_c: sram@1d00000 {
+>>>> +                               compatible = "mmio-sram";
+>>>> +                               reg = <0x01d00000 0x80000>;
+>>>
+>>> How was this address derived? Did you check that there is actually SRAM here?
+>>
+>> Yes, I did some checking (mmap). But I repeated measurement and found
+>> mirrored regions:
+>>
+>> - SRAM_C is mirrored from 0x0000_4000 (primary location) to 0x01d0_4000 (size 0xb000)
+>>    (probably exact size is 0xb0c0)
+>> - rest of 0x01d0_0000 are discontinuously filled with R/W register sets
+>>    (probably some internals registers from VE) that I thought to be SRAM too
+>> - register SRAM_CTRL_REG0==0x01c00_0000 (value 0x7fff_ffff) switch whole
+>>    region 0x01d0_0000-0x01df_ffff __AND__ 0x0000_4000-0x0000_ffff
+>> - VE/cedrus code use this regions indirectly
+>>    (VE_AVC_SRAM_PORT_OFFSET/VE_AVC_SRAM_PORT_DATA...)
+>>    and it is not influenced by "true" SRAM mapping or size
+> 
+> Could you add this to your commit log? That would make the information
+> available to others, and you could mention that you only added the
+> location that is contiguous SRAM without the interspersed registers.
+> 
+> So based on this, and what we've seen with the H616, I'm guessing
+> 0x01d0_0000 - 0x01df_ffff exposes all the internal guts of the VE,
+> while SRAM C @ 0x4000 just maps a small portion out.
+> 
+>> -> so I suppose to better use only SRAM_C lower definition:
+> 
+> Yes that would be more appropriate, as it matches the manual, and as you
+> mentioned, is *real* SRAM.
 
-HEAD commit:    73d62e81 kmsan: random: prevent boot-time reports in _mix_..
-git tree:       https://github.com/google/kmsan.git master
-console output: https://syzkaller.appspot.com/x/log.txt?x=170babf7500000
-kernel config:  https://syzkaller.appspot.com/x/.config?x=eef728deea880383
-dashboard link: https://syzkaller.appspot.com/bug?extid=e27b4fd589762b0b9329
-compiler:       clang version 11.0.0 (https://github.com/llvm/llvm-project.git ca2dcbd030eadbf0aa9b660efe864ff08af6e18b)
-syz repro:      https://syzkaller.appspot.com/x/repro.syz?x=158833f7500000
-C reproducer:   https://syzkaller.appspot.com/x/repro.c?x=102a3437500000
+My reading of the manual and comments in the BSP U-Boot is that the high
+address near the VE registers is the "real" address. The alternate SRAM
+mapping just past the end of SRAM A1 exists specifically so the boot ROM
+can load boot0/TOC0 images larger than would fit in SRAM A1.
 
-IMPORTANT: if you fix the issue, please add the following tag to the commit:
-Reported-by: syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com
+I don't have a copy of the V3s BROM, but here's the logic from the
+beginning of the H6 SBROM, which first enables the VE bus clock and
+reset before mapping the SRAM:
 
-dvb-usb: bulk message failed: -22 (5/0)
-dvb-usb: bulk message failed: -22 (5/0)
-dvb-usb: bulk message failed: -22 (5/0)
-=====================================================
-BUG: KMSAN: uninit-value in mac_address_string+0x1040/0x1170 lib/vsprintf.c:1281
-CPU: 1 PID: 3485 Comm: kworker/1:2 Not tainted 5.10.0-rc4-syzkaller #0
-Hardware name: Google Google Compute Engine/Google Compute Engine, BIOS Google 01/01/2011
-Workqueue: usb_hub_wq hub_event
-Call Trace:
- __dump_stack lib/dump_stack.c:77 [inline]
- dump_stack+0x21c/0x280 lib/dump_stack.c:118
- kmsan_report+0xf7/0x1e0 mm/kmsan/kmsan_report.c:118
- __msan_warning+0x5f/0xa0 mm/kmsan/kmsan_instr.c:197
- mac_address_string+0x1040/0x1170 lib/vsprintf.c:1281
- pointer+0x9fe/0x1ca0 lib/vsprintf.c:2241
- vsnprintf+0x1a4f/0x3610 lib/vsprintf.c:2622
- vscnprintf+0xbe/0x1c0 lib/vsprintf.c:2721
- vprintk_store+0xff/0x14a0 kernel/printk/printk.c:1954
- vprintk_emit+0x2ae/0x820 kernel/printk/printk.c:2018
- vprintk_default+0x86/0xa0 kernel/printk/printk.c:2052
- vprintk_func+0x2ed/0x2f0 kernel/printk/printk_safe.c:393
- printk+0x180/0x1cd kernel/printk/printk.c:2083
- dvb_usb_adapter_dvb_init+0x818/0x1300 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:166
- dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:83 [inline]
- dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
- dvb_usb_device_init+0x27fd/0x3350 drivers/media/usb/dvb-usb/dvb-usb-init.c:287
- nova_t_probe+0x73/0x80 drivers/media/usb/dvb-usb/nova-t-usb2.c:156
- usb_probe_interface+0xfcc/0x1520 drivers/usb/core/driver.c:396
- really_probe+0xebd/0x2420 drivers/base/dd.c:558
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2936
- usb_set_configuration+0x39cf/0x4010 drivers/usb/core/message.c:2159
- usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:238
- usb_probe_device+0x317/0x570 drivers/usb/core/driver.c:293
- really_probe+0xebd/0x2420 drivers/base/dd.c:558
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2936
- usb_new_device+0x1bd6/0x2a30 drivers/usb/core/hub.c:2554
- hub_port_connect drivers/usb/core/hub.c:5222 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5362 [inline]
- port_event drivers/usb/core/hub.c:5508 [inline]
- hub_event+0x5bc9/0x8890 drivers/usb/core/hub.c:5590
- process_one_work+0x121c/0x1fc0 kernel/workqueue.c:2272
- worker_thread+0x10cc/0x2740 kernel/workqueue.c:2418
- kthread+0x51c/0x560 kernel/kthread.c:292
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+; VE_BGR_REG |= BIT(16)
+     2dc:  e59f113c  ldr r1, [pc, #316] ; 420
+     2e0:  e5912000  ldr r2, [r1]
+     2e4:  e3a03801  mov r3, #65536 ; 0x10000
+     2e8:  e1822003  orr r2, r2, r3
+     2ec:  e5812000  str r2, [r1]
+; VE_BGR_REG |= BIT(0)
+     2f0:  e59f1128  ldr r1, [pc, #296] ; 420
+     2f4:  e5912000  ldr r2, [r1]
+     2f8:  e3a03001  mov r3, #1
+     2fc:  e1822003  orr r2, r2, r3
+     300:  e5812000  str r2, [r1]
+; SRAM_CTRL_REG0 &= BIT(31)
+     304:  e3a01403  mov r1, #50331648 ; 0x3000000
+     308:  e5912000  ldr r2, [r1]
+     30c:  e3c220ff  bic r2, r2, #255 ; 0xff
+     310:  e3c22cff  bic r2, r2, #65280 ; 0xff00
+     314:  e3c228ff  bic r2, r2, #16711680 ; 0xff0000
+     318:  e3c2247f  bic r2, r2, #2130706432 ; 0x7f000000
+     31c:  e5812000  str r2, [r1]
+; SRAM_CTRL_REG1 = BIT(24) | BIT(0)
+     320:  e59f10fc  ldr r1, [pc, #252] ; 424
+     324:  e3a02401  mov r2, #16777216 ; 0x1000000
+     328:  e1822003  orr r2, r2, r3
+     32c:  e5812000  str r2, [r1]
+...
+     420:  .word 0300169c
+     424:  .word 03000004
 
-Uninit was stored to memory at:
- kmsan_save_stack_with_flags mm/kmsan/kmsan.c:121 [inline]
- kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:289
- __msan_chain_origin+0x57/0xa0 mm/kmsan/kmsan_instr.c:147
- nova_t_read_mac_address+0x2d4/0x2f0 drivers/media/usb/dvb-usb/nova-t-usb2.c:144
- dvb_usb_adapter_dvb_init+0x774/0x1300 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:165
- dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:83 [inline]
- dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
- dvb_usb_device_init+0x27fd/0x3350 drivers/media/usb/dvb-usb/dvb-usb-init.c:287
- nova_t_probe+0x73/0x80 drivers/media/usb/dvb-usb/nova-t-usb2.c:156
- usb_probe_interface+0xfcc/0x1520 drivers/usb/core/driver.c:396
- really_probe+0xebd/0x2420 drivers/base/dd.c:558
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2936
- usb_set_configuration+0x39cf/0x4010 drivers/usb/core/message.c:2159
- usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:238
- usb_probe_device+0x317/0x570 drivers/usb/core/driver.c:293
- really_probe+0xebd/0x2420 drivers/base/dd.c:558
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2936
- usb_new_device+0x1bd6/0x2a30 drivers/usb/core/hub.c:2554
- hub_port_connect drivers/usb/core/hub.c:5222 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5362 [inline]
- port_event drivers/usb/core/hub.c:5508 [inline]
- hub_event+0x5bc9/0x8890 drivers/usb/core/hub.c:5590
- process_one_work+0x121c/0x1fc0 kernel/workqueue.c:2272
- worker_thread+0x10cc/0x2740 kernel/workqueue.c:2418
- kthread+0x51c/0x560 kernel/kthread.c:292
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+Then U-Boot SPL[1] sets the SRAM back to "normal mode" before turning
+off the VE gating and reset:
 
-Uninit was stored to memory at:
- kmsan_save_stack_with_flags mm/kmsan/kmsan.c:121 [inline]
- kmsan_internal_chain_origin+0xad/0x130 mm/kmsan/kmsan.c:289
- __msan_chain_origin+0x57/0xa0 mm/kmsan/kmsan_instr.c:147
- dibusb_read_eeprom_byte+0x513/0x540 drivers/media/usb/dvb-usb/dibusb-common.c:233
- nova_t_read_mac_address+0x1e3/0x2f0 drivers/media/usb/dvb-usb/nova-t-usb2.c:142
- dvb_usb_adapter_dvb_init+0x774/0x1300 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:165
- dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:83 [inline]
- dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
- dvb_usb_device_init+0x27fd/0x3350 drivers/media/usb/dvb-usb/dvb-usb-init.c:287
- nova_t_probe+0x73/0x80 drivers/media/usb/dvb-usb/nova-t-usb2.c:156
- usb_probe_interface+0xfcc/0x1520 drivers/usb/core/driver.c:396
- really_probe+0xebd/0x2420 drivers/base/dd.c:558
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2936
- usb_set_configuration+0x39cf/0x4010 drivers/usb/core/message.c:2159
- usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:238
- usb_probe_device+0x317/0x570 drivers/usb/core/driver.c:293
- really_probe+0xebd/0x2420 drivers/base/dd.c:558
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2936
- usb_new_device+0x1bd6/0x2a30 drivers/usb/core/hub.c:2554
- hub_port_connect drivers/usb/core/hub.c:5222 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5362 [inline]
- port_event drivers/usb/core/hub.c:5508 [inline]
- hub_event+0x5bc9/0x8890 drivers/usb/core/hub.c:5590
- process_one_work+0x121c/0x1fc0 kernel/workqueue.c:2272
- worker_thread+0x10cc/0x2740 kernel/workqueue.c:2418
- kthread+0x51c/0x560 kernel/kthread.c:292
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
+	//VE SRAM:set sram to normal mode, default boot mode
+	reg_val = readl(SUNXI_SYSCRL_BASE+0X0004);
+	reg_val &= ~(0x1<<24);
+	writel(reg_val, SUNXI_SYSCRL_BASE+0X0004);
 
-Uninit was created at:
- kmsan_save_stack_with_flags mm/kmsan/kmsan.c:121 [inline]
- kmsan_internal_poison_shadow+0x5c/0xf0 mm/kmsan/kmsan.c:104
- kmsan_slab_alloc+0x8d/0xe0 mm/kmsan/kmsan_hooks.c:76
- slab_alloc_node mm/slub.c:2906 [inline]
- slab_alloc mm/slub.c:2915 [inline]
- kmem_cache_alloc_trace+0x869/0x1020 mm/slub.c:2932
- kmalloc include/linux/slab.h:552 [inline]
- dibusb_read_eeprom_byte+0xad/0x540 drivers/media/usb/dvb-usb/dibusb-common.c:226
- nova_t_read_mac_address+0x1e3/0x2f0 drivers/media/usb/dvb-usb/nova-t-usb2.c:142
- dvb_usb_adapter_dvb_init+0x774/0x1300 drivers/media/usb/dvb-usb/dvb-usb-dvb.c:165
- dvb_usb_adapter_init drivers/media/usb/dvb-usb/dvb-usb-init.c:83 [inline]
- dvb_usb_init drivers/media/usb/dvb-usb/dvb-usb-init.c:173 [inline]
- dvb_usb_device_init+0x27fd/0x3350 drivers/media/usb/dvb-usb/dvb-usb-init.c:287
- nova_t_probe+0x73/0x80 drivers/media/usb/dvb-usb/nova-t-usb2.c:156
- usb_probe_interface+0xfcc/0x1520 drivers/usb/core/driver.c:396
- really_probe+0xebd/0x2420 drivers/base/dd.c:558
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2936
- usb_set_configuration+0x39cf/0x4010 drivers/usb/core/message.c:2159
- usb_generic_driver_probe+0x138/0x300 drivers/usb/core/generic.c:238
- usb_probe_device+0x317/0x570 drivers/usb/core/driver.c:293
- really_probe+0xebd/0x2420 drivers/base/dd.c:558
- driver_probe_device+0x293/0x390 drivers/base/dd.c:738
- __device_attach_driver+0x63f/0x830 drivers/base/dd.c:844
- bus_for_each_drv+0x2ca/0x3f0 drivers/base/bus.c:431
- __device_attach+0x538/0x860 drivers/base/dd.c:912
- device_initial_probe+0x4a/0x60 drivers/base/dd.c:959
- bus_probe_device+0x177/0x3d0 drivers/base/bus.c:491
- device_add+0x399e/0x3f20 drivers/base/core.c:2936
- usb_new_device+0x1bd6/0x2a30 drivers/usb/core/hub.c:2554
- hub_port_connect drivers/usb/core/hub.c:5222 [inline]
- hub_port_connect_change drivers/usb/core/hub.c:5362 [inline]
- port_event drivers/usb/core/hub.c:5508 [inline]
- hub_event+0x5bc9/0x8890 drivers/usb/core/hub.c:5590
- process_one_work+0x121c/0x1fc0 kernel/workqueue.c:2272
- worker_thread+0x10cc/0x2740 kernel/workqueue.c:2418
- kthread+0x51c/0x560 kernel/kthread.c:292
- ret_from_fork+0x1f/0x30 arch/x86/entry/entry_64.S:296
-=====================================================
+	//VE gating&VE Bus Reset :brom set them, but not require now
+	reg_val = readl(CCMU_VE_BGR_REG);
+	reg_val &= ~(0x1<<0);
+	reg_val &= ~(0x1<<16);
+	writel(reg_val, CCMU_VE_BGR_REG);
+
+Other SoCs have a similar code to unmap SRAM C[2]. The AHB1 bus clock
+frequency limitation makes sense given that it has to go through the VE
+hardware block to get to the SRAM.
+
+In fact, the AHB1 clock limitation when using the low mapping should be
+reason enough to prefer the high mapping.
+
+Cheers,
+Samuel
+
+[1]:
+https://github.com/Allwinner-Homlet/H6-BSP4.9-brandy/blob/master/u-boot-2014.07/board/sunxi/sun50iw6p1/sun50iw6p1.c#L60
+[2]:
+https://github.com/Allwinner-Homlet/H6-BSP4.9-brandy/blob/master/u-boot-2014.07/board/sunxi/sun8iw10p1/sun8iw10p1.c#L75
+
+>> ---
+>> diff --git a/arch/arm/boot/dts/sun8i-v3s.dtsi b/arch/arm/boot/dts/sun8i-v3s.dtsi
+>> index e8f304125e2d..90d703e5b73b 100644
+>> --- a/arch/arm/boot/dts/sun8i-v3s.dtsi
+>> +++ b/arch/arm/boot/dts/sun8i-v3s.dtsi
+>> @@ -162,17 +162,17 @@ syscon: system-control@1c00000 {
+>>                         #size-cells = <1>;
+>>                         ranges;
+>>
+>> -                       sram_c: sram@1d00000 {
+>> +                       sram_c: sram@4000 {
+>>                                 compatible = "mmio-sram";
+>> -                               reg = <0x01d00000 0x80000>;
+>> +                               reg = <0x4000 0xb000>;
+>>                                 #address-cells = <1>;
+>>                                 #size-cells = <1>;
+>> -                               ranges = <0 0x01d00000 0x80000>;
+>> +                               ranges = <0 0 0x4000 0xb000>;
+>>
+>>                                 ve_sram: sram-section@0 {
+>>                                         compatible = "allwinner,sun8i-v3s-sram-c1",
+>>                                                      "allwinner,sun4i-a10-sram-c1";
+>> -                                       reg = <0x000000 0x80000>;
+>> +                                       reg = <0x0 0xb000>;
+>>                                 };
+>>                         };
+>>                 };
+>> ---
+>>
+>> Does someone have accessible specific documentation of VE/cedrus for V3s ?
+> 
+> I doubt such information exists.
+> 
+> 
+> Regards
+> ChenYu
+> 
+>> Regards, Martin
+>>
+>>> ChenYu
+>>>
+>>>> +                               #address-cells = <1>;
+>>>> +                               #size-cells = <1>;
+>>>> +                               ranges = <0 0x01d00000 0x80000>;
+>>>> +
+>>>> +                               ve_sram: sram-section@0 {
+>>>> +                                       compatible = "allwinner,sun8i-v3s-sram-c1",
+>>>> +                                                    "allwinner,sun4i-a10-sram-c1";
+>>>> +                                       reg = <0x000000 0x80000>;
+>>>> +                               };
+>>>> +                       };
+>>>>                 };
+>>>>
+>>>>                 tcon0: lcd-controller@1c0c000 {
+>>>> --
+>>>> 2.25.1
+>>>>
+>>>>
+>>>> _______________________________________________
+>>>> linux-arm-kernel mailing list
+>>>> linux-arm-kernel@lists.infradead.org
+>>>> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+>>>
+> 
+> _______________________________________________
+> linux-arm-kernel mailing list
+> linux-arm-kernel@lists.infradead.org
+> http://lists.infradead.org/mailman/listinfo/linux-arm-kernel
+> 
 
