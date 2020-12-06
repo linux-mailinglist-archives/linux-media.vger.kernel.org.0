@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D87932D0841
-	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 00:55:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C628B2D0842
+	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 00:55:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728429AbgLFXzX (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Dec 2020 18:55:23 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60442 "EHLO
+        id S1728444AbgLFXz0 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 6 Dec 2020 18:55:26 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60444 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727040AbgLFXzX (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Dec 2020 18:55:23 -0500
+        with ESMTP id S1728356AbgLFXz0 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Dec 2020 18:55:26 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 20C0C335;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8DD0445D;
         Mon,  7 Dec 2020 00:54:00 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1607298840;
-        bh=gv3E7zqEGBKsQAxxGg8zD2HtYrnPI6Gp/VT0tW7b7oQ=;
+        bh=NKakrBP9tbnXV3q7HDffXzjsOWC3zitxb2bC9I3Rswo=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=ktBoL3/0vLfK9m1uSynhsfcqa9eZLWp0Qas6JyW4zZctvzCgE8san0lK8Hmyx++ia
-         /UyJytto2WONX8n4LFSwoy9RgHuieyEyRFYY7tanyU3Ao9+UpBsy3gLYEqp5ov2QWd
-         oFCsK/LPnezRCsrFB0gQzh8zMOY4x7xxoIgx+Xrs=
+        b=QwesSDkJW13aN24c1Jy0A2SmP0gZJPfbk1mVbBp77PERUSIZR99v1D3i1gT/CRsVR
+         WvUCrnx8M5WJlaHkNfA5rtfuxoaXQS2uC8mFe7ENurfi5louVZJTiwxNid9p3b2GcW
+         f+Y9qXnjJw4hNsOridhJar4zfZEvEovfh9t/PEEc=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH v3 02/24] media: ti-vpe: cal: Drop cal_ctx m_fmt field
-Date:   Mon,  7 Dec 2020 01:53:31 +0200
-Message-Id: <20201206235353.26968-3-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 03/24] media: ti-vpe: cal: Move format handling to cal.c and expose helpers
+Date:   Mon,  7 Dec 2020 01:53:32 +0200
+Message-Id: <20201206235353.26968-4-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201206235353.26968-1-laurent.pinchart@ideasonboard.com>
 References: <20201206235353.26968-1-laurent.pinchart@ideasonboard.com>
@@ -37,80 +37,303 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The struct cal_ctx m_fmt field stores the media bus format for the
-context input. Only the format 'field' field is used, store it in the
-video format instead, and drop m_fmt.
+The cal_formats array contain the description of all formats supported
+by the hardware. It's currently used by the V4L2 video device operations
+only, but will be needed by the CAMERARX subdev code too. Move it from
+cal-video.c to cal.c and add helper functions to access it.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Benoit Parrot <bparrot@ti.com>
 ---
- drivers/media/platform/ti-vpe/cal-video.c | 10 +++++-----
- drivers/media/platform/ti-vpe/cal.c       |  2 +-
- drivers/media/platform/ti-vpe/cal.h       |  4 +---
- 3 files changed, 7 insertions(+), 9 deletions(-)
+ drivers/media/platform/ti-vpe/cal-video.c | 105 +-----------------
+ drivers/media/platform/ti-vpe/cal.c       | 127 ++++++++++++++++++++++
+ drivers/media/platform/ti-vpe/cal.h       |   5 +
+ 3 files changed, 134 insertions(+), 103 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-index 0a1a11692208..f57767e79ca5 100644
+index f57767e79ca5..355bb365daf0 100644
 --- a/drivers/media/platform/ti-vpe/cal-video.c
 +++ b/drivers/media/platform/ti-vpe/cal-video.c
-@@ -387,10 +387,10 @@ static int cal_s_fmt_vid_cap(struct file *file, void *priv,
+@@ -26,107 +26,6 @@
  
- 	v4l2_fill_pix_format(&ctx->v_fmt.fmt.pix, &mbus_fmt);
- 	ctx->v_fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
--	ctx->v_fmt.fmt.pix.pixelformat  = fmt->fourcc;
-+	ctx->v_fmt.fmt.pix.pixelformat = fmt->fourcc;
-+	ctx->v_fmt.fmt.pix.field = mbus_fmt.field;
- 	cal_calc_format_size(ctx, fmt, &ctx->v_fmt);
- 	ctx->fmt = fmt;
--	ctx->m_fmt = mbus_fmt;
- 	*f = ctx->v_fmt;
+ #include "cal.h"
  
- 	return 0;
-@@ -775,13 +775,13 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
- 		return -EINVAL;
- 	}
+-/* ------------------------------------------------------------------
+- *	Format Handling
+- * ------------------------------------------------------------------
+- */
+-
+-static const struct cal_fmt cal_formats[] = {
+-	{
+-		.fourcc		= V4L2_PIX_FMT_YUYV,
+-		.code		= MEDIA_BUS_FMT_YUYV8_2X8,
+-		.bpp		= 16,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_UYVY,
+-		.code		= MEDIA_BUS_FMT_UYVY8_2X8,
+-		.bpp		= 16,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_YVYU,
+-		.code		= MEDIA_BUS_FMT_YVYU8_2X8,
+-		.bpp		= 16,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_VYUY,
+-		.code		= MEDIA_BUS_FMT_VYUY8_2X8,
+-		.bpp		= 16,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_RGB565, /* gggbbbbb rrrrrggg */
+-		.code		= MEDIA_BUS_FMT_RGB565_2X8_LE,
+-		.bpp		= 16,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_RGB565X, /* rrrrrggg gggbbbbb */
+-		.code		= MEDIA_BUS_FMT_RGB565_2X8_BE,
+-		.bpp		= 16,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_RGB555, /* gggbbbbb arrrrrgg */
+-		.code		= MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE,
+-		.bpp		= 16,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_RGB555X, /* arrrrrgg gggbbbbb */
+-		.code		= MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE,
+-		.bpp		= 16,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_RGB24, /* rgb */
+-		.code		= MEDIA_BUS_FMT_RGB888_2X12_LE,
+-		.bpp		= 24,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_BGR24, /* bgr */
+-		.code		= MEDIA_BUS_FMT_RGB888_2X12_BE,
+-		.bpp		= 24,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_RGB32, /* argb */
+-		.code		= MEDIA_BUS_FMT_ARGB8888_1X32,
+-		.bpp		= 32,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_SBGGR8,
+-		.code		= MEDIA_BUS_FMT_SBGGR8_1X8,
+-		.bpp		= 8,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_SGBRG8,
+-		.code		= MEDIA_BUS_FMT_SGBRG8_1X8,
+-		.bpp		= 8,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_SGRBG8,
+-		.code		= MEDIA_BUS_FMT_SGRBG8_1X8,
+-		.bpp		= 8,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_SRGGB8,
+-		.code		= MEDIA_BUS_FMT_SRGGB8_1X8,
+-		.bpp		= 8,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_SBGGR10,
+-		.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
+-		.bpp		= 10,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_SGBRG10,
+-		.code		= MEDIA_BUS_FMT_SGBRG10_1X10,
+-		.bpp		= 10,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_SGRBG10,
+-		.code		= MEDIA_BUS_FMT_SGRBG10_1X10,
+-		.bpp		= 10,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_SRGGB10,
+-		.code		= MEDIA_BUS_FMT_SRGGB10_1X10,
+-		.bpp		= 10,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_SBGGR12,
+-		.code		= MEDIA_BUS_FMT_SBGGR12_1X12,
+-		.bpp		= 12,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_SGBRG12,
+-		.code		= MEDIA_BUS_FMT_SGBRG12_1X12,
+-		.bpp		= 12,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_SGRBG12,
+-		.code		= MEDIA_BUS_FMT_SGRBG12_1X12,
+-		.bpp		= 12,
+-	}, {
+-		.fourcc		= V4L2_PIX_FMT_SRGGB12,
+-		.code		= MEDIA_BUS_FMT_SRGGB12_1X12,
+-		.bpp		= 12,
+-	},
+-};
+-
+ /*  Print Four-character-code (FOURCC) */
+ static char *fourcc_to_str(u32 fmt)
+ {
+@@ -726,7 +625,7 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
+ 	int ret = 0;
  
--	/* Save current subdev format */
-+	/* Save current format */
- 	v4l2_fill_pix_format(&ctx->v_fmt.fmt.pix, &mbus_fmt);
- 	ctx->v_fmt.type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
--	ctx->v_fmt.fmt.pix.pixelformat  = fmt->fourcc;
-+	ctx->v_fmt.fmt.pix.pixelformat = fmt->fourcc;
-+	ctx->v_fmt.fmt.pix.field = mbus_fmt.field;
- 	cal_calc_format_size(ctx, fmt, &ctx->v_fmt);
- 	ctx->fmt = fmt;
--	ctx->m_fmt = mbus_fmt;
+ 	/* Enumerate sub device formats and enable all matching local formats */
+-	ctx->active_fmt = devm_kcalloc(ctx->cal->dev, ARRAY_SIZE(cal_formats),
++	ctx->active_fmt = devm_kcalloc(ctx->cal->dev, cal_num_formats,
+ 				       sizeof(*ctx->active_fmt), GFP_KERNEL);
+ 	ctx->num_active_fmt = 0;
  
- 	return 0;
- }
+@@ -744,7 +643,7 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
+ 			"subdev %s: code: %04x idx: %u\n",
+ 			ctx->phy->sensor->name, mbus_code.code, j);
+ 
+-		for (k = 0; k < ARRAY_SIZE(cal_formats); k++) {
++		for (k = 0; k < cal_num_formats; k++) {
+ 			const struct cal_fmt *fmt = &cal_formats[k];
+ 
+ 			if (mbus_code.code == fmt->code) {
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index f6e42b2c022a..34a344b7f08a 100644
+index 34a344b7f08a..b9ee535513e8 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -314,7 +314,7 @@ static inline void cal_schedule_next_buffer(struct cal_ctx *ctx)
- static inline void cal_process_buffer_complete(struct cal_ctx *ctx)
- {
- 	ctx->cur_frm->vb.vb2_buf.timestamp = ktime_get_ns();
--	ctx->cur_frm->vb.field = ctx->m_fmt.field;
-+	ctx->cur_frm->vb.field = ctx->v_fmt.fmt.pix.field;
- 	ctx->cur_frm->vb.sequence = ctx->sequence++;
+@@ -43,6 +43,133 @@ unsigned int cal_debug;
+ module_param_named(debug, cal_debug, uint, 0644);
+ MODULE_PARM_DESC(debug, "activates debug info");
  
- 	vb2_buffer_done(&ctx->cur_frm->vb.vb2_buf, VB2_BUF_STATE_DONE);
++/* ------------------------------------------------------------------
++ *	Format Handling
++ * ------------------------------------------------------------------
++ */
++
++const struct cal_fmt cal_formats[] = {
++	{
++		.fourcc		= V4L2_PIX_FMT_YUYV,
++		.code		= MEDIA_BUS_FMT_YUYV8_2X8,
++		.bpp		= 16,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_UYVY,
++		.code		= MEDIA_BUS_FMT_UYVY8_2X8,
++		.bpp		= 16,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_YVYU,
++		.code		= MEDIA_BUS_FMT_YVYU8_2X8,
++		.bpp		= 16,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_VYUY,
++		.code		= MEDIA_BUS_FMT_VYUY8_2X8,
++		.bpp		= 16,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_RGB565, /* gggbbbbb rrrrrggg */
++		.code		= MEDIA_BUS_FMT_RGB565_2X8_LE,
++		.bpp		= 16,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_RGB565X, /* rrrrrggg gggbbbbb */
++		.code		= MEDIA_BUS_FMT_RGB565_2X8_BE,
++		.bpp		= 16,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_RGB555, /* gggbbbbb arrrrrgg */
++		.code		= MEDIA_BUS_FMT_RGB555_2X8_PADHI_LE,
++		.bpp		= 16,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_RGB555X, /* arrrrrgg gggbbbbb */
++		.code		= MEDIA_BUS_FMT_RGB555_2X8_PADHI_BE,
++		.bpp		= 16,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_RGB24, /* rgb */
++		.code		= MEDIA_BUS_FMT_RGB888_2X12_LE,
++		.bpp		= 24,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_BGR24, /* bgr */
++		.code		= MEDIA_BUS_FMT_RGB888_2X12_BE,
++		.bpp		= 24,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_RGB32, /* argb */
++		.code		= MEDIA_BUS_FMT_ARGB8888_1X32,
++		.bpp		= 32,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SBGGR8,
++		.code		= MEDIA_BUS_FMT_SBGGR8_1X8,
++		.bpp		= 8,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SGBRG8,
++		.code		= MEDIA_BUS_FMT_SGBRG8_1X8,
++		.bpp		= 8,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SGRBG8,
++		.code		= MEDIA_BUS_FMT_SGRBG8_1X8,
++		.bpp		= 8,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SRGGB8,
++		.code		= MEDIA_BUS_FMT_SRGGB8_1X8,
++		.bpp		= 8,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SBGGR10,
++		.code		= MEDIA_BUS_FMT_SBGGR10_1X10,
++		.bpp		= 10,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SGBRG10,
++		.code		= MEDIA_BUS_FMT_SGBRG10_1X10,
++		.bpp		= 10,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SGRBG10,
++		.code		= MEDIA_BUS_FMT_SGRBG10_1X10,
++		.bpp		= 10,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SRGGB10,
++		.code		= MEDIA_BUS_FMT_SRGGB10_1X10,
++		.bpp		= 10,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SBGGR12,
++		.code		= MEDIA_BUS_FMT_SBGGR12_1X12,
++		.bpp		= 12,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SGBRG12,
++		.code		= MEDIA_BUS_FMT_SGBRG12_1X12,
++		.bpp		= 12,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SGRBG12,
++		.code		= MEDIA_BUS_FMT_SGRBG12_1X12,
++		.bpp		= 12,
++	}, {
++		.fourcc		= V4L2_PIX_FMT_SRGGB12,
++		.code		= MEDIA_BUS_FMT_SRGGB12_1X12,
++		.bpp		= 12,
++	},
++};
++
++const unsigned int cal_num_formats = ARRAY_SIZE(cal_formats);
++
++const struct cal_fmt *cal_format_by_fourcc(u32 fourcc)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(cal_formats); ++i) {
++		if (cal_formats[i].fourcc == fourcc)
++			return &cal_formats[i];
++	}
++
++	return NULL;
++}
++
++const struct cal_fmt *cal_format_by_code(u32 code)
++{
++	unsigned int i;
++
++	for (i = 0; i < ARRAY_SIZE(cal_formats); ++i) {
++		if (cal_formats[i].code == code)
++			return &cal_formats[i];
++	}
++
++	return NULL;
++}
++
+ /* ------------------------------------------------------------------
+  *	Platform Data
+  * ------------------------------------------------------------------
 diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-index 9bb6cc1bdbcc..955dacd878e7 100644
+index 955dacd878e7..6e6bdf8af3d0 100644
 --- a/drivers/media/platform/ti-vpe/cal.h
 +++ b/drivers/media/platform/ti-vpe/cal.h
-@@ -164,9 +164,7 @@ struct cal_ctx {
- 	/* video capture */
- 	const struct cal_fmt	*fmt;
- 	/* Used to store current pixel format */
--	struct v4l2_format		v_fmt;
--	/* Used to store current mbus frame format */
--	struct v4l2_mbus_framefmt	m_fmt;
-+	struct v4l2_format	v_fmt;
+@@ -244,6 +244,11 @@ static inline void cal_set_field(u32 *valp, u32 field, u32 mask)
+ 	*valp = val;
+ }
  
- 	/* Current subdev enumerated format */
- 	const struct cal_fmt	**active_fmt;
++extern const struct cal_fmt cal_formats[];
++extern const unsigned int cal_num_formats;
++const struct cal_fmt *cal_format_by_fourcc(u32 fourcc);
++const struct cal_fmt *cal_format_by_code(u32 code);
++
+ void cal_quickdump_regs(struct cal_dev *cal);
+ 
+ void cal_camerarx_disable(struct cal_camerarx *phy);
 -- 
 Regards,
 
