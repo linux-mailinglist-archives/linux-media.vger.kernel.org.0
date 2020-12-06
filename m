@@ -2,100 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 52C562CFE20
-	for <lists+linux-media@lfdr.de>; Sat,  5 Dec 2020 20:21:45 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4D352D008F
+	for <lists+linux-media@lfdr.de>; Sun,  6 Dec 2020 05:41:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726875AbgLETTr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 5 Dec 2020 14:19:47 -0500
-Received: from asavdk4.altibox.net ([109.247.116.15]:53692 "EHLO
-        asavdk4.altibox.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726359AbgLETTa (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sat, 5 Dec 2020 14:19:30 -0500
-Received: from ravnborg.org (unknown [188.228.123.71])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by asavdk4.altibox.net (Postfix) with ESMTPS id 694A6804C8;
-        Sat,  5 Dec 2020 20:18:37 +0100 (CET)
-Date:   Sat, 5 Dec 2020 20:18:35 +0100
-From:   Sam Ravnborg <sam@ravnborg.org>
-To:     Zhen Lei <thunder.leizhen@huawei.com>
-Cc:     Rob Herring <robh+dt@kernel.org>,
-        Michael Turquette <mturquette@baylibre.com>,
-        Stephen Boyd <sboyd@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        David Airlie <airlied@linux.ie>,
-        Daniel Vetter <daniel@ffwll.ch>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Thierry Reding <thierry.reding@gmail.com>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Ricardo Ribalda <ribalda@kernel.org>,
-        Ulf Hansson <ulf.hansson@linaro.org>,
-        Matthias Brugger <matthias.bgg@gmail.com>,
-        Liam Girdwood <lgirdwood@gmail.com>,
-        Mark Brown <broonie@kernel.org>,
-        linux-clk <linux-clk@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        linux-mmc <linux-mmc@vger.kernel.org>,
-        linux-mediatek <linux-mediatek@lists.infradead.org>,
-        alsa-devel <alsa-devel@alsa-project.org>
-Subject: Re: [PATCH 1/1] dt-bindings: eliminate yamllint warnings
-Message-ID: <20201205191835.GC332836@ravnborg.org>
-References: <20201204024226.1222-1-thunder.leizhen@huawei.com>
- <20201204024226.1222-2-thunder.leizhen@huawei.com>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201204024226.1222-2-thunder.leizhen@huawei.com>
-X-CMAE-Score: 0
-X-CMAE-Analysis: v=2.3 cv=Itgwjo3g c=1 sm=1 tr=0
-        a=S6zTFyMACwkrwXSdXUNehg==:117 a=S6zTFyMACwkrwXSdXUNehg==:17
-        a=kj9zAlcOel0A:10 a=i0EeH86SAAAA:8 a=VwQbUJbxAAAA:8 a=IpJZQVW2AAAA:8
-        a=pGLkceISAAAA:8 a=8AirrxEcAAAA:8 a=KKAkSRfTAAAA:8 a=7gkXJVJtAAAA:8
-        a=QyXUC8HyAAAA:8 a=ds-h48H8TGFLVGBnORYA:9 a=CjuIK1q_8ugA:10
-        a=AjGcO6oz07-iQ99wixmX:22 a=IawgGOuG5U0WyFbmm1f5:22
-        a=ST-jHhOKWsTCqRlWije3:22 a=cvBusfyB2V15izCimMoJ:22
-        a=E9Po1WZjFZOl8hwRPBS3:22
+        id S1726218AbgLFEjs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 5 Dec 2020 23:39:48 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:58043 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725980AbgLFEjr (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Sat, 5 Dec 2020 23:39:47 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id llp9k8MJXarN7llpAkwnis; Sun, 06 Dec 2020 05:39:05 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1607229545; bh=KkaSNVtgJ0oDoLJsDz/lSXHVER0gniKsL+j+23zGuh4=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=QO4vZ1xfnwhpPz7pwU8xH3gBCYKR0HZ87zxgmbOKFIh3swW6XB+nv94LGYoTWrWOh
+         QckbNTGhSeRSlwQl6dyyIMDWH9pBx/x+24oi8AjyQGtBH5TOf8qJyhdgcHDSrBkGHf
+         emEwcCqeK2IBK5zjbe4jJzbmT2Fy351n/f1RjVqLvqflHrLK2IQa69MmRS10PznH3S
+         OcVwuaR4s8iqgXfmYFYfMyCafqShEfp9BkAeWawU5AXo6UB1VdbQh+h5a2rOCpXzem
+         rUdwjOuq71UY+N8cCYxOz2Sqmh9c1kkin0ZzoeVOq6np91M9s7hdg6L5DWkOx2ST1N
+         UTqsu0zRUvzzw==
+Message-ID: <cc8a5fa78380645c67261eacba19d4d9@smtp-cloud9.xs4all.net>
+Date:   Sun, 06 Dec 2020 05:39:03 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfEWI6E7pINNQgTngehjl0MLyPpgpXauJapjkqV3NL7bjgqRsJlxILzsPDM3up3sRV3RijeP6an1hE4tNb9GlMNVxL4tUETH8iIPK5Xd/Ubvp2rSYA2nA
+ 0SNQn8GpMq9kNU66PRQQdqcTCzZNDScMB3hpysVmCY5Mclp+0cwCDIXnmNfLS2trIS9mg4ITETtbk/zatWMvsH0U4bn1BTsh++XoCGOs7kfWTQp0FKKTR/H+
+ 6anYlIGkAQZUUudcw2MfQg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 04, 2020 at 10:42:26AM +0800, Zhen Lei wrote:
-> All warnings are related only to "wrong indentation", except one:
-> Documentation/devicetree/bindings/media/i2c/mipi-ccs.yaml:4:1: \
-> [error] missing document start "---" (document-start)
-> 
-> Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
-> Cc: Rob Herring <robh+dt@kernel.org>
-> Cc: Michael Turquette <mturquette@baylibre.com>
-> Cc: Stephen Boyd <sboyd@kernel.org>
-> Cc: Shawn Guo <shawnguo@kernel.org>
-> Cc: Sascha Hauer <s.hauer@pengutronix.de>
-> Cc: Pengutronix Kernel Team <kernel@pengutronix.de>
-> Cc: Fabio Estevam <festevam@gmail.com>
-> Cc: NXP Linux Team <linux-imx@nxp.com>
-> Cc: David Airlie <airlied@linux.ie>
-> Cc: Daniel Vetter <daniel@ffwll.ch>
-> Cc: Sumit Semwal <sumit.semwal@linaro.org>
-> Cc: Thierry Reding <thierry.reding@gmail.com>
-> Cc: Sam Ravnborg <sam@ravnborg.org>
-> Cc: Hans Verkuil <hverkuil-cisco@xs4all.nl>
-> Cc: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Cc: Sakari Ailus <sakari.ailus@linux.intel.com>
-> Cc: Ricardo Ribalda <ribalda@kernel.org>
-> Cc: Ulf Hansson <ulf.hansson@linaro.org>
-> Cc: Matthias Brugger <matthias.bgg@gmail.com>
-> Cc: Liam Girdwood <lgirdwood@gmail.com>
-> Cc: Mark Brown <broonie@kernel.org>
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-For the bindings/display/* parts:
-Acked-by: Sam Ravnborg <sam@ravnborg.org>
+Results of the daily build of media_tree:
+
+date:			Sun Dec  6 05:00:10 CET 2020
+media-tree git hash:	63288c829b1a5991d8f8c15cab596108ed206ba6
+media_build git hash:	7263ea8c29df8c6d5c903de0b1e50d1dbf9bf80d
+v4l-utils git hash:	24b88169ff86674aa18b5897cbd1e608a603fa79
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7041-g6193b3b71
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 77c8542b1c2caa2a7e96c4dad0335336b522c616
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
+
+linux-git-sh: OK
+linux-git-arm-at91: OK
+linux-git-arm-davinci: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-arm-pxa: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: WARNINGS
+linux-4.12.14-x86_64: WARNINGS
+linux-4.13.16-i686: WARNINGS
+linux-4.13.16-x86_64: WARNINGS
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: WARNINGS
+linux-4.15.18-x86_64: WARNINGS
+linux-4.16.18-i686: WARNINGS
+linux-4.16.18-x86_64: WARNINGS
+linux-4.17.19-i686: WARNINGS
+linux-4.17.19-x86_64: WARNINGS
+linux-4.18.20-i686: WARNINGS
+linux-4.18.20-x86_64: WARNINGS
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: WARNINGS
+linux-4.20.17-x86_64: WARNINGS
+linux-5.0.21-i686: WARNINGS
+linux-5.0.21-x86_64: WARNINGS
+linux-5.1.21-i686: WARNINGS
+linux-5.1.21-x86_64: WARNINGS
+linux-5.2.21-i686: WARNINGS
+linux-5.2.21-x86_64: WARNINGS
+linux-5.3.18-i686: WARNINGS
+linux-5.3.18-x86_64: WARNINGS
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: WARNINGS
+linux-5.5.19-x86_64: WARNINGS
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10-rc1-i686: OK
+linux-5.10-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 2
+sparse: ERRORS
+smatch: ERRORS
+
+Detailed results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
+
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
