@@ -2,25 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2478C2D07DE
+	by mail.lfdr.de (Postfix) with ESMTP id B517B2D07DF
 	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 00:06:19 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728467AbgLFXFu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Dec 2020 18:05:50 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:59894 "EHLO
+        id S1728473AbgLFXGD (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 6 Dec 2020 18:06:03 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:59798 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726046AbgLFXFt (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Dec 2020 18:05:49 -0500
+        with ESMTP id S1726046AbgLFXGD (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Dec 2020 18:06:03 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 149D9156E;
-        Mon,  7 Dec 2020 00:03:37 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DE4B71576;
+        Mon,  7 Dec 2020 00:03:38 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1607295817;
-        bh=bG3fULcz6NvSVyC+QxL4/fZ0xFmxr9pMZlFOgjjDfrQ=;
+        s=mail; t=1607295819;
+        bh=J3PtZ68QJr2dm9jOD63vItKftcjk5VnJNEy+EMupDL8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=VJhvhK5DiWlLs5CgHfjn17qh5gf1HuSuef1jlZrUtVDWJeUyle79Fk53CZma7MTut
-         Pqy3TpBLnpNJPhMPerp507TnOPTpLml7OmCJ6OB9bQsmlJ8EnPy2BIZDKN4lso6fW2
-         WlmDVz7D6HK6qDY52n2NVV4gDJY07slC4sKoaXJ4=
+        b=Ly3KOT4F3hsY//RPEVnXW/fYl2cqzugn6bQ/4NE52VnwGbR5DbDgwop6lNRHQbAE3
+         NNILxDLpsZndIuloasY/o8x7/QagnyedIN5w6X7/PVghAMMuXFB1P1btf+taR04zAd
+         zsup0EN1f6tc41RyIk5nrv/EQjAzwvXXPjVmU+xY=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
@@ -28,9 +28,9 @@ Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
         Dylan Yip <dylany@xilinx.com>,
         Vishal Sagar <vsagar@xilinx.com>,
         Nicolas Dufresne <nicolas@ndufresne.ca>
-Subject: [PATCH v4 15/16] media: doc: pixfmt-yuv: Move all semi-planar YUV formats to common file
-Date:   Mon,  7 Dec 2020 01:03:15 +0200
-Message-Id: <20201206230316.1221-16-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v4 16/16] media: doc: pixfmt-yuv: Move all planar YUV formats to common file
+Date:   Mon,  7 Dec 2020 01:03:16 +0200
+Message-Id: <20201206230316.1221-17-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201206230316.1221-1-laurent.pinchart@ideasonboard.com>
 References: <20201206230316.1221-1-laurent.pinchart@ideasonboard.com>
@@ -41,71 +41,646 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Semi-planar pixel formats are documented in separate files. This
-duplicates information, as those formats share comon traits. Consolidate
-them in a single file and summarize their descriptions in a single
-table.
+Planar pixel formats are documented in separate files. This duplicates
+information, as those formats share comon traits. Consolidate them in a
+single file and summarize their descriptions in a single table.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 ---
- .../userspace-api/media/v4l/pixfmt-nv12.rst   |  76 ---
- .../userspace-api/media/v4l/pixfmt-nv12m.rst  |  88 ----
- .../userspace-api/media/v4l/pixfmt-nv12mt.rst |  60 ---
- .../userspace-api/media/v4l/pixfmt-nv16.rst   |  84 ----
- .../userspace-api/media/v4l/pixfmt-nv16m.rst  |  88 ----
- .../userspace-api/media/v4l/pixfmt-nv24.rst   |  95 ----
- .../media/v4l/pixfmt-yuv-planar.rst           | 463 ++++++++++++++++++
- .../userspace-api/media/v4l/yuv-formats.rst   |   7 +-
- 8 files changed, 464 insertions(+), 497 deletions(-)
- delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv12.rst
- delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv12m.rst
- delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv12mt.rst
- delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv16.rst
- delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv16m.rst
- delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv24.rst
- create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+Changes since v2:
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-nv12.rst b/Documentation/userspace-api/media/v4l/pixfmt-nv12.rst
+- Fix planes ordering for YVU420M and YVU444M
+---
+ .../media/v4l/pixfmt-yuv-planar.rst           | 487 ++++++++++++++++++
+ .../userspace-api/media/v4l/pixfmt-yuv410.rst |  72 ---
+ .../media/v4l/pixfmt-yuv411p.rst              |  80 ---
+ .../userspace-api/media/v4l/pixfmt-yuv420.rst |  81 ---
+ .../media/v4l/pixfmt-yuv420m.rst              |  90 ----
+ .../media/v4l/pixfmt-yuv422m.rst              | 101 ----
+ .../media/v4l/pixfmt-yuv422p.rst              |  89 ----
+ .../media/v4l/pixfmt-yuv444m.rst              | 110 ----
+ .../userspace-api/media/v4l/yuv-formats.rst   |   7 -
+ 9 files changed, 487 insertions(+), 630 deletions(-)
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv410.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv411p.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv420.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv420m.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv422m.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv422p.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv444m.rst
+
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+index 0ca01270bde5..7d4d39201a3f 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+@@ -461,3 +461,490 @@ number of lines as the luma plane.
+       - Cr\ :sub:`32`
+       - Cb\ :sub:`33`
+       - Cr\ :sub:`33`
++
++
++Fully Planar YUV Formats
++========================
++
++These formats store the Y, Cb and Cr components in three separate planes. The
++luma plane comes first, and the order of the two chroma planes varies between
++formats. The two chroma planes always use the same subsampling.
++
++For memory contiguous formats, the number of padding pixels at the end of the
++chroma lines is identical to the padding of the luma lines. The chroma line
++stride (in bytes) is thus equal to the luma line stride divided by the
++horizontal subsampling factor. Vertical subsampling doesn't affect the line
++stride.
++
++For non-contiguous formats, no constraints are enforced by the format on the
++relationship between the luma and chroma line padding and stride.
++
++All components are stored with the same number of bits per component.
++
++.. flat-table:: Overview of Fully Planar YUV Formats
++    :header-rows:  1
++    :stub-columns: 0
++
++    * - Identifier
++      - Code
++      - Bits per component
++      - Subsampling
++      - Planes order [4]_
++      - Contiguous [5]_
++
++    * - V4L2_PIX_FMT_YUV410
++      - 'YUV9'
++      - 8
++      - 4:1:0
++      - Y, Cb, Cr
++      - Yes
++    * - V4L2_PIX_FMT_YVU410
++      - 'YVU9'
++      - 8
++      - 4:1:0
++      - Y, Cr, Cb
++      - Yes
++    * - V4L2_PIX_FMT_YUV411P
++      - '411P'
++      - 8
++      - 4:1:1
++      - Y, Cb, Cr
++      - Yes
++    * - V4L2_PIX_FMT_YUV420M
++      - 'YM12'
++      - 8
++      - 4:2:0
++      - Y, Cb, Cr
++      - No
++    * - V4L2_PIX_FMT_YVU420M
++      - 'YM21'
++      - 8
++      - 4:2:0
++      - Y, Cr, Cb
++      - No
++    * - V4L2_PIX_FMT_YUV420
++      - 'YU12'
++      - 8
++      - 4:2:0
++      - Y, Cb, Cr
++      - Yes
++    * - V4L2_PIX_FMT_YVU420
++      - 'YV12'
++      - 8
++      - 4:2:0
++      - Y, Cr, Cb
++      - Yes
++    * - V4L2_PIX_FMT_YUV422P
++      - '422P'
++      - 8
++      - 4:2:2
++      - Y, Cb, Cr
++      - Yes
++    * - V4L2_PIX_FMT_YUV422M
++      - 'YM16'
++      - 8
++      - 4:2:2
++      - Y, Cb, Cr
++      - No
++    * - V4L2_PIX_FMT_YVU422M
++      - 'YM61'
++      - 8
++      - 4:2:2
++      - Y, Cr, Cb
++      - No
++    * - V4L2_PIX_FMT_YUV444M
++      - 'YM24'
++      - 8
++      - 4:4:4
++      - Y, Cb, Cr
++      - No
++    * - V4L2_PIX_FMT_YVU444M
++      - 'YM42'
++      - 8
++      - 4:4:4
++      - Y, Cr, Cb
++      - No
++
++.. note::
++
++   .. [4] Order of luma and chroma planes
++   .. [5] Indicates if planes have to be contiguous in memory or can be
++      disjoint
++
++
++**Color Sample Location:**
++Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
++horizontally.
++
++.. _V4L2-PIX-FMT-YUV410:
++.. _V4L2-PIX-FMT-YVU410:
++
++YUV410 and YVU410
++-----------------
++
++Planar YUV 4:1:0 formats. The chroma planes are subsampled by 4 in each
++direction. Chroma lines contain a quarter of the number of pixels and bytes of
++the luma lines, and the chroma planes contain a quarter of the number of lines
++of the luma plane.
++
++.. flat-table:: Sample 4x4 YUV410 Image
++    :header-rows:  0
++    :stub-columns: 0
++
++    * - start + 0:
++      - Y'\ :sub:`00`
++      - Y'\ :sub:`01`
++      - Y'\ :sub:`02`
++      - Y'\ :sub:`03`
++    * - start + 4:
++      - Y'\ :sub:`10`
++      - Y'\ :sub:`11`
++      - Y'\ :sub:`12`
++      - Y'\ :sub:`13`
++    * - start + 8:
++      - Y'\ :sub:`20`
++      - Y'\ :sub:`21`
++      - Y'\ :sub:`22`
++      - Y'\ :sub:`23`
++    * - start + 12:
++      - Y'\ :sub:`30`
++      - Y'\ :sub:`31`
++      - Y'\ :sub:`32`
++      - Y'\ :sub:`33`
++    * - start + 16:
++      - Cr\ :sub:`00`
++    * - start + 17:
++      - Cb\ :sub:`00`
++
++
++.. _V4L2-PIX-FMT-YUV411P:
++
++YUV411P
++-------
++
++Planar YUV 4:1:1 formats. The chroma planes are subsampled by 4 in the
++horizontal direction. Chroma lines contain a quarter of the number of pixels
++and bytes of the luma lines, and the chroma planes contain the same number of
++lines as the luma plane.
++
++.. flat-table:: Sample 4x4 YUV411P Image
++    :header-rows:  0
++    :stub-columns: 0
++
++    * - start + 0:
++      - Y'\ :sub:`00`
++      - Y'\ :sub:`01`
++      - Y'\ :sub:`02`
++      - Y'\ :sub:`03`
++    * - start + 4:
++      - Y'\ :sub:`10`
++      - Y'\ :sub:`11`
++      - Y'\ :sub:`12`
++      - Y'\ :sub:`13`
++    * - start + 8:
++      - Y'\ :sub:`20`
++      - Y'\ :sub:`21`
++      - Y'\ :sub:`22`
++      - Y'\ :sub:`23`
++    * - start + 12:
++      - Y'\ :sub:`30`
++      - Y'\ :sub:`31`
++      - Y'\ :sub:`32`
++      - Y'\ :sub:`33`
++    * - start + 16:
++      - Cb\ :sub:`00`
++    * - start + 17:
++      - Cb\ :sub:`10`
++    * - start + 18:
++      - Cb\ :sub:`20`
++    * - start + 19:
++      - Cb\ :sub:`30`
++    * - start + 20:
++      - Cr\ :sub:`00`
++    * - start + 21:
++      - Cr\ :sub:`10`
++    * - start + 22:
++      - Cr\ :sub:`20`
++    * - start + 23:
++      - Cr\ :sub:`30`
++
++
++.. _V4L2-PIX-FMT-YUV420:
++.. _V4L2-PIX-FMT-YVU420:
++.. _V4L2-PIX-FMT-YUV420M:
++.. _V4L2-PIX-FMT-YVU420M:
++
++YUV420, YVU420, YUV420M and YVU420M
++-----------------------------------
++
++Planar YUV 4:2:0 formats. The chroma planes are subsampled by 2 in each
++direction. Chroma lines contain half of the number of pixels and bytes of the
++luma lines, and the chroma planes contain half of the number of lines of the
++luma plane.
++
++.. flat-table:: Sample 4x4 YUV420 Image
++    :header-rows:  0
++    :stub-columns: 0
++
++    * - start + 0:
++      - Y'\ :sub:`00`
++      - Y'\ :sub:`01`
++      - Y'\ :sub:`02`
++      - Y'\ :sub:`03`
++    * - start + 4:
++      - Y'\ :sub:`10`
++      - Y'\ :sub:`11`
++      - Y'\ :sub:`12`
++      - Y'\ :sub:`13`
++    * - start + 8:
++      - Y'\ :sub:`20`
++      - Y'\ :sub:`21`
++      - Y'\ :sub:`22`
++      - Y'\ :sub:`23`
++    * - start + 12:
++      - Y'\ :sub:`30`
++      - Y'\ :sub:`31`
++      - Y'\ :sub:`32`
++      - Y'\ :sub:`33`
++    * - start + 16:
++      - Cr\ :sub:`00`
++      - Cr\ :sub:`01`
++    * - start + 18:
++      - Cr\ :sub:`10`
++      - Cr\ :sub:`11`
++    * - start + 20:
++      - Cb\ :sub:`00`
++      - Cb\ :sub:`01`
++    * - start + 22:
++      - Cb\ :sub:`10`
++      - Cb\ :sub:`11`
++
++.. flat-table:: Sample 4x4 YUV420M Image
++    :header-rows:  0
++    :stub-columns: 0
++
++    * - start0 + 0:
++      - Y'\ :sub:`00`
++      - Y'\ :sub:`01`
++      - Y'\ :sub:`02`
++      - Y'\ :sub:`03`
++    * - start0 + 4:
++      - Y'\ :sub:`10`
++      - Y'\ :sub:`11`
++      - Y'\ :sub:`12`
++      - Y'\ :sub:`13`
++    * - start0 + 8:
++      - Y'\ :sub:`20`
++      - Y'\ :sub:`21`
++      - Y'\ :sub:`22`
++      - Y'\ :sub:`23`
++    * - start0 + 12:
++      - Y'\ :sub:`30`
++      - Y'\ :sub:`31`
++      - Y'\ :sub:`32`
++      - Y'\ :sub:`33`
++    * -
++    * - start1 + 0:
++      - Cb\ :sub:`00`
++      - Cb\ :sub:`01`
++    * - start1 + 2:
++      - Cb\ :sub:`10`
++      - Cb\ :sub:`11`
++    * -
++    * - start2 + 0:
++      - Cr\ :sub:`00`
++      - Cr\ :sub:`01`
++    * - start2 + 2:
++      - Cr\ :sub:`10`
++      - Cr\ :sub:`11`
++
++
++.. _V4L2-PIX-FMT-YUV422P:
++.. _V4L2-PIX-FMT-YUV422M:
++.. _V4L2-PIX-FMT-YVU422M:
++
++YUV422P, YUV422M and YVU422M
++----------------------------
++
++Planar YUV 4:2:2 formats. The chroma planes are subsampled by 2 in the
++horizontal direction. Chroma lines contain half of the number of pixels and
++bytes of the luma lines, and the chroma planes contain the same number of lines
++as the luma plane.
++
++.. flat-table:: Sample 4x4 YUV422P Image
++    :header-rows:  0
++    :stub-columns: 0
++
++    * - start + 0:
++      - Y'\ :sub:`00`
++      - Y'\ :sub:`01`
++      - Y'\ :sub:`02`
++      - Y'\ :sub:`03`
++    * - start + 4:
++      - Y'\ :sub:`10`
++      - Y'\ :sub:`11`
++      - Y'\ :sub:`12`
++      - Y'\ :sub:`13`
++    * - start + 8:
++      - Y'\ :sub:`20`
++      - Y'\ :sub:`21`
++      - Y'\ :sub:`22`
++      - Y'\ :sub:`23`
++    * - start + 12:
++      - Y'\ :sub:`30`
++      - Y'\ :sub:`31`
++      - Y'\ :sub:`32`
++      - Y'\ :sub:`33`
++    * - start + 16:
++      - Cb\ :sub:`00`
++      - Cb\ :sub:`01`
++    * - start + 18:
++      - Cb\ :sub:`10`
++      - Cb\ :sub:`11`
++    * - start + 20:
++      - Cb\ :sub:`20`
++      - Cb\ :sub:`21`
++    * - start + 22:
++      - Cb\ :sub:`30`
++      - Cb\ :sub:`31`
++    * - start + 24:
++      - Cr\ :sub:`00`
++      - Cr\ :sub:`01`
++    * - start + 26:
++      - Cr\ :sub:`10`
++      - Cr\ :sub:`11`
++    * - start + 28:
++      - Cr\ :sub:`20`
++      - Cr\ :sub:`21`
++    * - start + 30:
++      - Cr\ :sub:`30`
++      - Cr\ :sub:`31`
++
++.. flat-table:: Sample 4x4 YUV422M Image
++    :header-rows:  0
++    :stub-columns: 0
++
++    * - start0 + 0:
++      - Y'\ :sub:`00`
++      - Y'\ :sub:`01`
++      - Y'\ :sub:`02`
++      - Y'\ :sub:`03`
++    * - start0 + 4:
++      - Y'\ :sub:`10`
++      - Y'\ :sub:`11`
++      - Y'\ :sub:`12`
++      - Y'\ :sub:`13`
++    * - start0 + 8:
++      - Y'\ :sub:`20`
++      - Y'\ :sub:`21`
++      - Y'\ :sub:`22`
++      - Y'\ :sub:`23`
++    * - start0 + 12:
++      - Y'\ :sub:`30`
++      - Y'\ :sub:`31`
++      - Y'\ :sub:`32`
++      - Y'\ :sub:`33`
++    * -
++    * - start1 + 0:
++      - Cb\ :sub:`00`
++      - Cb\ :sub:`01`
++    * - start1 + 2:
++      - Cb\ :sub:`10`
++      - Cb\ :sub:`11`
++    * - start1 + 4:
++      - Cb\ :sub:`20`
++      - Cb\ :sub:`21`
++    * - start1 + 6:
++      - Cb\ :sub:`30`
++      - Cb\ :sub:`31`
++    * -
++    * - start2 + 0:
++      - Cr\ :sub:`00`
++      - Cr\ :sub:`01`
++    * - start2 + 2:
++      - Cr\ :sub:`10`
++      - Cr\ :sub:`11`
++    * - start2 + 4:
++      - Cr\ :sub:`20`
++      - Cr\ :sub:`21`
++    * - start2 + 6:
++      - Cr\ :sub:`30`
++      - Cr\ :sub:`31`
++
++
++.. _V4L2-PIX-FMT-YUV444M:
++.. _V4L2-PIX-FMT-YVU444M:
++
++YUV444M and YVU444M
++-------------------
++
++Planar YUV 4:4:4 formats. The chroma planes are no subsampled. Chroma lines
++contain the same number of pixels and bytes of the luma lines, and the chroma
++planes contain the same number of lines as the luma plane.
++
++.. flat-table:: Sample 4x4 YUV444M Image
++    :header-rows:  0
++    :stub-columns: 0
++
++    * - start0 + 0:
++      - Y'\ :sub:`00`
++      - Y'\ :sub:`01`
++      - Y'\ :sub:`02`
++      - Y'\ :sub:`03`
++    * - start0 + 4:
++      - Y'\ :sub:`10`
++      - Y'\ :sub:`11`
++      - Y'\ :sub:`12`
++      - Y'\ :sub:`13`
++    * - start0 + 8:
++      - Y'\ :sub:`20`
++      - Y'\ :sub:`21`
++      - Y'\ :sub:`22`
++      - Y'\ :sub:`23`
++    * - start0 + 12:
++      - Y'\ :sub:`30`
++      - Y'\ :sub:`31`
++      - Y'\ :sub:`32`
++      - Y'\ :sub:`33`
++    * -
++    * - start1 + 0:
++      - Cb\ :sub:`00`
++      - Cb\ :sub:`01`
++      - Cb\ :sub:`02`
++      - Cb\ :sub:`03`
++    * - start1 + 4:
++      - Cb\ :sub:`10`
++      - Cb\ :sub:`11`
++      - Cb\ :sub:`12`
++      - Cb\ :sub:`13`
++    * - start1 + 8:
++      - Cb\ :sub:`20`
++      - Cb\ :sub:`21`
++      - Cb\ :sub:`22`
++      - Cb\ :sub:`23`
++    * - start1 + 12:
++      - Cb\ :sub:`20`
++      - Cb\ :sub:`21`
++      - Cb\ :sub:`32`
++      - Cb\ :sub:`33`
++    * -
++    * - start2 + 0:
++      - Cr\ :sub:`00`
++      - Cr\ :sub:`01`
++      - Cr\ :sub:`02`
++      - Cr\ :sub:`03`
++    * - start2 + 4:
++      - Cr\ :sub:`10`
++      - Cr\ :sub:`11`
++      - Cr\ :sub:`12`
++      - Cr\ :sub:`13`
++    * - start2 + 8:
++      - Cr\ :sub:`20`
++      - Cr\ :sub:`21`
++      - Cr\ :sub:`22`
++      - Cr\ :sub:`23`
++    * - start2 + 12:
++      - Cr\ :sub:`30`
++      - Cr\ :sub:`31`
++      - Cr\ :sub:`32`
++      - Cr\ :sub:`33`
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv410.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv410.rst
 deleted file mode 100644
-index 692117bf83ad..000000000000
---- a/Documentation/userspace-api/media/v4l/pixfmt-nv12.rst
+index d79cd46d5055..000000000000
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv410.rst
 +++ /dev/null
-@@ -1,76 +0,0 @@
+@@ -1,72 +0,0 @@
 -.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
 -
--.. _V4L2-PIX-FMT-NV12:
--.. _V4L2-PIX-FMT-NV21:
+-.. _V4L2-PIX-FMT-YVU410:
+-.. _v4l2-pix-fmt-yuv410:
 -
--******************************************************
--V4L2_PIX_FMT_NV12 ('NV12'), V4L2_PIX_FMT_NV21 ('NV21')
--******************************************************
+-**********************************************************
+-V4L2_PIX_FMT_YVU410 ('YVU9'), V4L2_PIX_FMT_YUV410 ('YUV9')
+-**********************************************************
 -
 -
--V4L2_PIX_FMT_NV21
--Formats with ½ horizontal and vertical chroma resolution, also known as
--YUV 4:2:0. One luminance and one chrominance plane with alternating
--chroma samples as opposed to ``V4L2_PIX_FMT_YVU420``
+-V4L2_PIX_FMT_YUV410
+-Planar formats with ¼ horizontal and vertical chroma resolution, also
+-known as YUV 4:1:0
 -
 -
 -Description
 -===========
 -
--These are two-plane versions of the YUV 4:2:0 format. The three
--components are separated into two sub-images or planes. The Y plane is
--first. The Y plane has one byte per pixel. For ``V4L2_PIX_FMT_NV12``, a
--combined CbCr plane immediately follows the Y plane in memory. The CbCr
--plane is the same width, in bytes, as the Y plane (and of the image),
--but is half as tall in pixels. Each CbCr pair belongs to four pixels.
--For example, Cb\ :sub:`0`/Cr\ :sub:`0` belongs to Y'\ :sub:`00`,
--Y'\ :sub:`01`, Y'\ :sub:`10`, Y'\ :sub:`11`. ``V4L2_PIX_FMT_NV21`` is
--the same except the Cb and Cr bytes are swapped, the CrCb plane starts
--with a Cr byte.
+-These are planar formats, as opposed to a packed format. The three
+-components are separated into three sub-images or planes. The Y plane is
+-first. The Y plane has one byte per pixel. For ``V4L2_PIX_FMT_YVU410``,
+-the Cr plane immediately follows the Y plane in memory. The Cr plane is
+-¼ the width and ¼ the height of the Y plane (and of the image). Each Cr
+-belongs to 16 pixels, a four-by-four square of the image. Following the
+-Cr plane is the Cb plane, just like the Cr plane.
+-``V4L2_PIX_FMT_YUV410`` is the same, except the Cb plane comes first,
+-then the Cr plane.
 -
--If the Y plane has pad bytes after each row, then the CbCr plane has as
--many pad bytes after its rows.
+-If the Y plane has pad bytes after each row, then the Cr and Cb planes
+-have ¼ as many pad bytes after their rows. In other words, four Cx rows
+-(including padding) are exactly as long as one Y row (including
+-padding).
 -
 -**Byte Order.**
 -Each cell is one byte.
+-
+-
+-
+-
+-.. flat-table::
+-    :header-rows:  0
+-    :stub-columns: 0
+-
+-    * - start + 0:
+-      - Y'\ :sub:`00`
+-      - Y'\ :sub:`01`
+-      - Y'\ :sub:`02`
+-      - Y'\ :sub:`03`
+-    * - start + 4:
+-      - Y'\ :sub:`10`
+-      - Y'\ :sub:`11`
+-      - Y'\ :sub:`12`
+-      - Y'\ :sub:`13`
+-    * - start + 8:
+-      - Y'\ :sub:`20`
+-      - Y'\ :sub:`21`
+-      - Y'\ :sub:`22`
+-      - Y'\ :sub:`23`
+-    * - start + 12:
+-      - Y'\ :sub:`30`
+-      - Y'\ :sub:`31`
+-      - Y'\ :sub:`32`
+-      - Y'\ :sub:`33`
+-    * - start + 16:
+-      - Cr\ :sub:`00`
+-    * - start + 17:
+-      - Cb\ :sub:`00`
+-
+-
+-**Color Sample Location:**
+-Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
+-horizontally and vertically.
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv411p.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv411p.rst
+deleted file mode 100644
+index 8a70eeca8d83..000000000000
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv411p.rst
++++ /dev/null
+@@ -1,80 +0,0 @@
+-.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+-
+-.. _V4L2-PIX-FMT-YUV411P:
+-
+-*****************************
+-V4L2_PIX_FMT_YUV411P ('411P')
+-*****************************
+-
+-
+-Format with ¼ horizontal chroma resolution, also known as YUV 4:1:1.
+-Planar layout as opposed to ``V4L2_PIX_FMT_Y41P``
+-
+-
+-Description
+-===========
+-
+-This format is not commonly used. This is a planar format similar to the
+-4:2:2 planar format except with half as many chroma. The three
+-components are separated into three sub-images or planes. The Y plane is
+-first. The Y plane has one byte per pixel. The Cb plane immediately
+-follows the Y plane in memory. The Cb plane is ¼ the width of the Y
+-plane (and of the image). Each Cb belongs to 4 pixels all on the same
+-row. For example, Cb\ :sub:`0` belongs to Y'\ :sub:`00`, Y'\ :sub:`01`,
+-Y'\ :sub:`02` and Y'\ :sub:`03`. Following the Cb plane is the Cr plane,
+-just like the Cb plane.
+-
+-If the Y plane has pad bytes after each row, then the Cr and Cb planes
+-have ¼ as many pad bytes after their rows. In other words, four C x rows
+-(including padding) is exactly as long as one Y row (including padding).
+-
+-**Byte Order.**
+-Each cell is one byte.
+-
 -
 -
 -.. flat-table::
@@ -134,72 +709,164 @@ index 692117bf83ad..000000000000
 -      - Y'\ :sub:`33`
 -    * - start + 16:
 -      - Cb\ :sub:`00`
--      - Cr\ :sub:`00`
--      - Cb\ :sub:`01`
--      - Cr\ :sub:`01`
--    * - start + 20:
+-    * - start + 17:
 -      - Cb\ :sub:`10`
+-    * - start + 18:
+-      - Cb\ :sub:`20`
+-    * - start + 19:
+-      - Cb\ :sub:`30`
+-    * - start + 20:
+-      - Cr\ :sub:`00`
+-    * - start + 21:
 -      - Cr\ :sub:`10`
--      - Cb\ :sub:`11`
--      - Cr\ :sub:`11`
+-    * - start + 22:
+-      - Cr\ :sub:`20`
+-    * - start + 23:
+-      - Cr\ :sub:`30`
 -
 -
 -**Color Sample Location:**
 -Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
--horizontally and vertically.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-nv12m.rst b/Documentation/userspace-api/media/v4l/pixfmt-nv12m.rst
+-horizontally.
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv420.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv420.rst
 deleted file mode 100644
-index 002b361d5a9b..000000000000
---- a/Documentation/userspace-api/media/v4l/pixfmt-nv12m.rst
+index a36ec8d6d8a4..000000000000
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv420.rst
 +++ /dev/null
-@@ -1,88 +0,0 @@
+@@ -1,81 +0,0 @@
 -.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
 -
--.. _V4L2-PIX-FMT-NV12M:
--.. _v4l2-pix-fmt-nv12mt-16x16:
--.. _V4L2-PIX-FMT-NV21M:
+-.. _V4L2-PIX-FMT-YVU420:
+-.. _V4L2-PIX-FMT-YUV420:
 -
--***********************************************************************************
--V4L2_PIX_FMT_NV12M ('NM12'), V4L2_PIX_FMT_NV21M ('NM21'), V4L2_PIX_FMT_NV12MT_16X16
--***********************************************************************************
+-**********************************************************
+-V4L2_PIX_FMT_YVU420 ('YV12'), V4L2_PIX_FMT_YUV420 ('YU12')
+-**********************************************************
 -
 -
--V4L2_PIX_FMT_NV21M
--V4L2_PIX_FMT_NV12MT_16X16
--Variation of ``V4L2_PIX_FMT_NV12`` and ``V4L2_PIX_FMT_NV21`` with planes
--non contiguous in memory.
+-V4L2_PIX_FMT_YUV420
+-Planar formats with ½ horizontal and vertical chroma resolution, also
+-known as YUV 4:2:0
 -
 -
 -Description
 -===========
 -
--This is a multi-planar, two-plane version of the YUV 4:2:0 format. The
--three components are separated into two sub-images or planes.
--``V4L2_PIX_FMT_NV12M`` differs from ``V4L2_PIX_FMT_NV12`` in that the
--two planes are non-contiguous in memory, i.e. the chroma plane do not
--necessarily immediately follows the luma plane. The luminance data
--occupies the first plane. The Y plane has one byte per pixel. In the
--second plane there is a chrominance data with alternating chroma
--samples. The CbCr plane is the same width, in bytes, as the Y plane (and
--of the image), but is half as tall in pixels. Each CbCr pair belongs to
--four pixels. For example, Cb\ :sub:`0`/Cr\ :sub:`0` belongs to
--Y'\ :sub:`00`, Y'\ :sub:`01`, Y'\ :sub:`10`, Y'\ :sub:`11`.
--``V4L2_PIX_FMT_NV12MT_16X16`` is the tiled version of
--``V4L2_PIX_FMT_NV12M`` with 16x16 macroblock tiles. Here pixels are
--arranged in 16x16 2D tiles and tiles are arranged in linear order in
--memory. ``V4L2_PIX_FMT_NV21M`` is the same as ``V4L2_PIX_FMT_NV12M``
--except the Cb and Cr bytes are swapped, the CrCb plane starts with a Cr
--byte.
+-These are planar formats, as opposed to a packed format. The three
+-components are separated into three sub- images or planes. The Y plane
+-is first. The Y plane has one byte per pixel. For
+-``V4L2_PIX_FMT_YVU420``, the Cr plane immediately follows the Y plane in
+-memory. The Cr plane is half the width and half the height of the Y
+-plane (and of the image). Each Cr belongs to four pixels, a two-by-two
+-square of the image. For example, Cr\ :sub:`0` belongs to Y'\ :sub:`00`,
+-Y'\ :sub:`01`, Y'\ :sub:`10`, and Y'\ :sub:`11`. Following the Cr plane
+-is the Cb plane, just like the Cr plane. ``V4L2_PIX_FMT_YUV420`` is the
+-same except the Cb plane comes first, then the Cr plane.
 -
--``V4L2_PIX_FMT_NV12M`` is intended to be used only in drivers and
--applications that support the multi-planar API, described in
--:ref:`planar-apis`.
--
--If the Y plane has pad bytes after each row, then the CbCr plane has as
--many pad bytes after its rows.
+-If the Y plane has pad bytes after each row, then the Cr and Cb planes
+-have half as many pad bytes after their rows. In other words, two Cx
+-rows (including padding) is exactly as long as one Y row (including
+-padding).
 -
 -**Byte Order.**
 -Each cell is one byte.
+-
+-
+-
+-
+-.. flat-table::
+-    :header-rows:  0
+-    :stub-columns: 0
+-
+-    * - start + 0:
+-      - Y'\ :sub:`00`
+-      - Y'\ :sub:`01`
+-      - Y'\ :sub:`02`
+-      - Y'\ :sub:`03`
+-    * - start + 4:
+-      - Y'\ :sub:`10`
+-      - Y'\ :sub:`11`
+-      - Y'\ :sub:`12`
+-      - Y'\ :sub:`13`
+-    * - start + 8:
+-      - Y'\ :sub:`20`
+-      - Y'\ :sub:`21`
+-      - Y'\ :sub:`22`
+-      - Y'\ :sub:`23`
+-    * - start + 12:
+-      - Y'\ :sub:`30`
+-      - Y'\ :sub:`31`
+-      - Y'\ :sub:`32`
+-      - Y'\ :sub:`33`
+-    * - start + 16:
+-      - Cr\ :sub:`00`
+-      - Cr\ :sub:`01`
+-    * - start + 18:
+-      - Cr\ :sub:`10`
+-      - Cr\ :sub:`11`
+-    * - start + 20:
+-      - Cb\ :sub:`00`
+-      - Cb\ :sub:`01`
+-    * - start + 22:
+-      - Cb\ :sub:`10`
+-      - Cb\ :sub:`11`
+-
+-
+-**Color Sample Location:**
+-Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
+-horizontally and vertically.
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv420m.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv420m.rst
+deleted file mode 100644
+index c2cf17b9743c..000000000000
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv420m.rst
++++ /dev/null
+@@ -1,90 +0,0 @@
+-.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+-
+-.. _V4L2-PIX-FMT-YUV420M:
+-.. _v4l2-pix-fmt-yvu420m:
+-
+-************************************************************
+-V4L2_PIX_FMT_YUV420M ('YM12'), V4L2_PIX_FMT_YVU420M ('YM21')
+-************************************************************
+-
+-
+-V4L2_PIX_FMT_YVU420M
+-Variation of ``V4L2_PIX_FMT_YUV420`` and ``V4L2_PIX_FMT_YVU420`` with
+-planes non contiguous in memory.
+-
+-
+-Description
+-===========
+-
+-This is a multi-planar format, as opposed to a packed format. The three
+-components are separated into three sub-images or planes.
+-
+-The Y plane is first. The Y plane has one byte per pixel. For
+-``V4L2_PIX_FMT_YUV420M`` the Cb data constitutes the second plane which
+-is half the width and half the height of the Y plane (and of the image).
+-Each Cb belongs to four pixels, a two-by-two square of the image. For
+-example, Cb\ :sub:`0` belongs to Y'\ :sub:`00`, Y'\ :sub:`01`,
+-Y'\ :sub:`10`, and Y'\ :sub:`11`. The Cr data, just like the Cb plane,
+-is in the third plane.
+-
+-``V4L2_PIX_FMT_YVU420M`` is the same except the Cr data is stored in the
+-second plane and the Cb data in the third plane.
+-
+-If the Y plane has pad bytes after each row, then the Cb and Cr planes
+-have half as many pad bytes after their rows. In other words, two Cx
+-rows (including padding) is exactly as long as one Y row (including
+-padding).
+-
+-``V4L2_PIX_FMT_YUV420M`` and ``V4L2_PIX_FMT_YVU420M`` are intended to be
+-used only in drivers and applications that support the multi-planar API,
+-described in :ref:`planar-apis`.
+-
+-**Byte Order.**
+-Each cell is one byte.
+-
+-
+-
 -
 -.. flat-table::
 -    :header-rows:  0
@@ -228,124 +895,169 @@ index 002b361d5a9b..000000000000
 -    * -
 -    * - start1 + 0:
 -      - Cb\ :sub:`00`
--      - Cr\ :sub:`00`
 -      - Cb\ :sub:`01`
--      - Cr\ :sub:`01`
--    * - start1 + 4:
+-    * - start1 + 2:
 -      - Cb\ :sub:`10`
--      - Cr\ :sub:`10`
 -      - Cb\ :sub:`11`
+-    * -
+-    * - start2 + 0:
+-      - Cr\ :sub:`00`
+-      - Cr\ :sub:`01`
+-    * - start2 + 2:
+-      - Cr\ :sub:`10`
 -      - Cr\ :sub:`11`
 -
 -
 -**Color Sample Location:**
 -Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
 -horizontally and vertically.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-nv12mt.rst b/Documentation/userspace-api/media/v4l/pixfmt-nv12mt.rst
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv422m.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv422m.rst
 deleted file mode 100644
-index 46f63d793ec5..000000000000
---- a/Documentation/userspace-api/media/v4l/pixfmt-nv12mt.rst
+index f92b54853fc9..000000000000
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv422m.rst
 +++ /dev/null
-@@ -1,60 +0,0 @@
+@@ -1,101 +0,0 @@
 -.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
 -
--.. _V4L2-PIX-FMT-NV12MT:
+-.. _V4L2-PIX-FMT-YUV422M:
+-.. _v4l2-pix-fmt-yvu422m:
 -
--****************************
--V4L2_PIX_FMT_NV12MT ('TM12')
--****************************
+-************************************************************
+-V4L2_PIX_FMT_YUV422M ('YM16'), V4L2_PIX_FMT_YVU422M ('YM61')
+-************************************************************
 -
--Formats with ½ horizontal and vertical chroma resolution. This format
--has two planes - one for luminance and one for chrominance. Chroma
--samples are interleaved. The difference to ``V4L2_PIX_FMT_NV12`` is the
--memory layout. Pixels are grouped in macroblocks of 64x32 size. The
--order of macroblocks in memory is also not standard.
+-
+-V4L2_PIX_FMT_YVU422M
+-Planar formats with ½ horizontal resolution, also known as YUV and YVU
+-4:2:2
 -
 -
 -Description
 -===========
 -
--This is the two-plane versions of the YUV 4:2:0 format where data is
--grouped into 64x32 macroblocks. The three components are separated into
--two sub-images or planes. The Y plane has one byte per pixel and pixels
--are grouped into 64x32 macroblocks. The CbCr plane has the same width,
--in bytes, as the Y plane (and the image), but is half as tall in pixels.
--The chroma plane is also grouped into 64x32 macroblocks.
+-This is a multi-planar format, as opposed to a packed format. The three
+-components are separated into three sub-images or planes.
 -
--Width of the buffer has to be aligned to the multiple of 128, and height
--alignment is 32. Every four adjacent buffers - two horizontally and two
--vertically are grouped together and are located in memory in Z or
--flipped Z order.
+-The Y plane is first. The Y plane has one byte per pixel. For
+-``V4L2_PIX_FMT_YUV422M`` the Cb data constitutes the second plane which
+-is half the width of the Y plane (and of the image). Each Cb belongs to
+-two pixels. For example, Cb\ :sub:`0` belongs to Y'\ :sub:`00`,
+-Y'\ :sub:`01`. The Cr data, just like the Cb plane, is in the third
+-plane.
 -
--Layout of macroblocks in memory is presented in the following figure.
+-``V4L2_PIX_FMT_YVU422M`` is the same except the Cr data is stored in the
+-second plane and the Cb data in the third plane.
 -
+-If the Y plane has pad bytes after each row, then the Cb and Cr planes
+-have half as many pad bytes after their rows. In other words, two Cx
+-rows (including padding) is exactly as long as one Y row (including
+-padding).
 -
--.. _nv12mt:
--
--.. kernel-figure:: nv12mt.svg
--    :alt:    nv12mt.svg
--    :align:  center
--
--    V4L2_PIX_FMT_NV12MT macroblock Z shape memory layout
--
--The requirement that width is multiple of 128 is implemented because,
--the Z shape cannot be cut in half horizontally. In case the vertical
--resolution of macroblocks is odd then the last row of macroblocks is
--arranged in a linear order.
--
--In case of chroma the layout is identical. Cb and Cr samples are
--interleaved. Height of the buffer is aligned to 32.
--
--
--.. _nv12mt_ex:
--
--.. kernel-figure:: nv12mt_example.svg
--    :alt:    nv12mt_example.svg
--    :align:  center
--
--    Example V4L2_PIX_FMT_NV12MT memory layout of macroblocks
--
--Memory layout of macroblocks of ``V4L2_PIX_FMT_NV12MT`` format in most
--extreme case.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-nv16.rst b/Documentation/userspace-api/media/v4l/pixfmt-nv16.rst
-deleted file mode 100644
-index e6307843d848..000000000000
---- a/Documentation/userspace-api/media/v4l/pixfmt-nv16.rst
-+++ /dev/null
-@@ -1,84 +0,0 @@
--.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
--
--.. _V4L2-PIX-FMT-NV16:
--.. _V4L2-PIX-FMT-NV61:
--
--******************************************************
--V4L2_PIX_FMT_NV16 ('NV16'), V4L2_PIX_FMT_NV61 ('NV61')
--******************************************************
--
--V4L2_PIX_FMT_NV61
--Formats with ½ horizontal chroma resolution, also known as YUV 4:2:2.
--One luminance and one chrominance plane with alternating chroma samples
--as opposed to ``V4L2_PIX_FMT_YVU420``
--
--
--Description
--===========
--
--These are two-plane versions of the YUV 4:2:2 format. The three
--components are separated into two sub-images or planes. The Y plane is
--first. The Y plane has one byte per pixel. For ``V4L2_PIX_FMT_NV16``, a
--combined CbCr plane immediately follows the Y plane in memory. The CbCr
--plane is the same width and height, in bytes, as the Y plane (and of the
--image). Each CbCr pair belongs to two pixels. For example,
--Cb\ :sub:`0`/Cr\ :sub:`0` belongs to Y'\ :sub:`00`, Y'\ :sub:`01`.
--``V4L2_PIX_FMT_NV61`` is the same except the Cb and Cr bytes are
--swapped, the CrCb plane starts with a Cr byte.
--
--If the Y plane has pad bytes after each row, then the CbCr plane has as
--many pad bytes after its rows.
+-``V4L2_PIX_FMT_YUV422M`` and ``V4L2_PIX_FMT_YVU422M`` are intended to be
+-used only in drivers and applications that support the multi-planar API,
+-described in :ref:`planar-apis`.
 -
 -**Byte Order.**
 -Each cell is one byte.
+-
+-
+-
+-
+-.. flat-table::
+-    :header-rows:  0
+-    :stub-columns: 0
+-
+-    * - start0 + 0:
+-      - Y'\ :sub:`00`
+-      - Y'\ :sub:`01`
+-      - Y'\ :sub:`02`
+-      - Y'\ :sub:`03`
+-    * - start0 + 4:
+-      - Y'\ :sub:`10`
+-      - Y'\ :sub:`11`
+-      - Y'\ :sub:`12`
+-      - Y'\ :sub:`13`
+-    * - start0 + 8:
+-      - Y'\ :sub:`20`
+-      - Y'\ :sub:`21`
+-      - Y'\ :sub:`22`
+-      - Y'\ :sub:`23`
+-    * - start0 + 12:
+-      - Y'\ :sub:`30`
+-      - Y'\ :sub:`31`
+-      - Y'\ :sub:`32`
+-      - Y'\ :sub:`33`
+-    * -
+-    * - start1 + 0:
+-      - Cb\ :sub:`00`
+-      - Cb\ :sub:`01`
+-    * - start1 + 2:
+-      - Cb\ :sub:`10`
+-      - Cb\ :sub:`11`
+-    * - start1 + 4:
+-      - Cb\ :sub:`20`
+-      - Cb\ :sub:`21`
+-    * - start1 + 6:
+-      - Cb\ :sub:`30`
+-      - Cb\ :sub:`31`
+-    * -
+-    * - start2 + 0:
+-      - Cr\ :sub:`00`
+-      - Cr\ :sub:`01`
+-    * - start2 + 2:
+-      - Cr\ :sub:`10`
+-      - Cr\ :sub:`11`
+-    * - start2 + 4:
+-      - Cr\ :sub:`20`
+-      - Cr\ :sub:`21`
+-    * - start2 + 6:
+-      - Cr\ :sub:`30`
+-      - Cr\ :sub:`31`
+-
+-
+-**Color Sample Location:**
+-Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
+-horizontally.
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv422p.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv422p.rst
+deleted file mode 100644
+index 33e6b923e325..000000000000
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv422p.rst
++++ /dev/null
+@@ -1,89 +0,0 @@
+-.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
+-
+-.. _V4L2-PIX-FMT-YUV422P:
+-
+-*****************************
+-V4L2_PIX_FMT_YUV422P ('422P')
+-*****************************
+-
+-
+-Format with ½ horizontal chroma resolution, also known as YUV 4:2:2.
+-Planar layout as opposed to ``V4L2_PIX_FMT_YUYV``
+-
+-
+-Description
+-===========
+-
+-This format is not commonly used. This is a planar version of the YUYV
+-format. The three components are separated into three sub-images or
+-planes. The Y plane is first. The Y plane has one byte per pixel. The Cb
+-plane immediately follows the Y plane in memory. The Cb plane is half
+-the width of the Y plane (and of the image). Each Cb belongs to two
+-pixels. For example, Cb\ :sub:`0` belongs to Y'\ :sub:`00`,
+-Y'\ :sub:`01`. Following the Cb plane is the Cr plane, just like the Cb
+-plane.
+-
+-If the Y plane has pad bytes after each row, then the Cr and Cb planes
+-have half as many pad bytes after their rows. In other words, two Cx
+-rows (including padding) is exactly as long as one Y row (including
+-padding).
+-
+-**Byte Order.**
+-Each cell is one byte.
+-
+-
 -
 -
 -.. flat-table::
@@ -374,66 +1086,72 @@ index e6307843d848..000000000000
 -      - Y'\ :sub:`33`
 -    * - start + 16:
 -      - Cb\ :sub:`00`
--      - Cr\ :sub:`00`
 -      - Cb\ :sub:`01`
--      - Cr\ :sub:`01`
--    * - start + 20:
+-    * - start + 18:
 -      - Cb\ :sub:`10`
--      - Cr\ :sub:`10`
 -      - Cb\ :sub:`11`
--      - Cr\ :sub:`11`
--    * - start + 24:
+-    * - start + 20:
 -      - Cb\ :sub:`20`
--      - Cr\ :sub:`20`
 -      - Cb\ :sub:`21`
--      - Cr\ :sub:`21`
--    * - start + 28:
+-    * - start + 22:
 -      - Cb\ :sub:`30`
--      - Cr\ :sub:`30`
 -      - Cb\ :sub:`31`
+-    * - start + 24:
+-      - Cr\ :sub:`00`
+-      - Cr\ :sub:`01`
+-    * - start + 26:
+-      - Cr\ :sub:`10`
+-      - Cr\ :sub:`11`
+-    * - start + 28:
+-      - Cr\ :sub:`20`
+-      - Cr\ :sub:`21`
+-    * - start + 30:
+-      - Cr\ :sub:`30`
 -      - Cr\ :sub:`31`
 -
 -
 -**Color Sample Location:**
 -Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
 -horizontally.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-nv16m.rst b/Documentation/userspace-api/media/v4l/pixfmt-nv16m.rst
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv444m.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv444m.rst
 deleted file mode 100644
-index 58e97205d41f..000000000000
---- a/Documentation/userspace-api/media/v4l/pixfmt-nv16m.rst
+index 7c03cc5b07d9..000000000000
+--- a/Documentation/userspace-api/media/v4l/pixfmt-yuv444m.rst
 +++ /dev/null
-@@ -1,88 +0,0 @@
+@@ -1,110 +0,0 @@
 -.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
 -
--.. _V4L2-PIX-FMT-NV16M:
--.. _v4l2-pix-fmt-nv61m:
+-.. _V4L2-PIX-FMT-YUV444M:
+-.. _v4l2-pix-fmt-yvu444m:
 -
--********************************************************
--V4L2_PIX_FMT_NV16M ('NM16'), V4L2_PIX_FMT_NV61M ('NM61')
--********************************************************
+-************************************************************
+-V4L2_PIX_FMT_YUV444M ('YM24'), V4L2_PIX_FMT_YVU444M ('YM42')
+-************************************************************
 -
--V4L2_PIX_FMT_NV61M
--Variation of ``V4L2_PIX_FMT_NV16`` and ``V4L2_PIX_FMT_NV61`` with planes
--non contiguous in memory.
+-
+-V4L2_PIX_FMT_YVU444M
+-Planar formats with full horizontal resolution, also known as YUV and
+-YVU 4:4:4
 -
 -
 -Description
 -===========
 -
--This is a multi-planar, two-plane version of the YUV 4:2:2 format. The
--three components are separated into two sub-images or planes.
--``V4L2_PIX_FMT_NV16M`` differs from ``V4L2_PIX_FMT_NV16`` in that the
--two planes are non-contiguous in memory, i.e. the chroma plane does not
--necessarily immediately follow the luma plane. The luminance data
--occupies the first plane. The Y plane has one byte per pixel. In the
--second plane there is chrominance data with alternating chroma samples.
--The CbCr plane is the same width and height, in bytes, as the Y plane.
--Each CbCr pair belongs to two pixels. For example,
--Cb\ :sub:`0`/Cr\ :sub:`0` belongs to Y'\ :sub:`00`, Y'\ :sub:`01`.
--``V4L2_PIX_FMT_NV61M`` is the same as ``V4L2_PIX_FMT_NV16M`` except the
--Cb and Cr bytes are swapped, the CrCb plane starts with a Cr byte.
+-This is a multi-planar format, as opposed to a packed format. The three
+-components are separated into three sub-images or planes.
 -
--``V4L2_PIX_FMT_NV16M`` and ``V4L2_PIX_FMT_NV61M`` are intended to be
+-The Y plane is first. The Y plane has one byte per pixel. For
+-``V4L2_PIX_FMT_YUV444M`` the Cb data constitutes the second plane which
+-is the same width and height as the Y plane (and as the image). The Cr
+-data, just like the Cb plane, is in the third plane.
+-
+-``V4L2_PIX_FMT_YVU444M`` is the same except the Cr data is stored in the
+-second plane and the Cb data in the third plane.
+-
+-If the Y plane has pad bytes after each row, then the Cb and Cr planes
+-have the same number of pad bytes after their rows.
+-
+-``V4L2_PIX_FMT_YUV444M`` and ``V4L2_PIX_FMT_YUV444M`` are intended to be
 -used only in drivers and applications that support the multi-planar API,
 -described in :ref:`planar-apis`.
 -
@@ -468,621 +1186,64 @@ index 58e97205d41f..000000000000
 -    * -
 -    * - start1 + 0:
 -      - Cb\ :sub:`00`
--      - Cr\ :sub:`00`
+-      - Cb\ :sub:`01`
 -      - Cb\ :sub:`02`
--      - Cr\ :sub:`02`
+-      - Cb\ :sub:`03`
 -    * - start1 + 4:
 -      - Cb\ :sub:`10`
--      - Cr\ :sub:`10`
+-      - Cb\ :sub:`11`
 -      - Cb\ :sub:`12`
--      - Cr\ :sub:`12`
+-      - Cb\ :sub:`13`
 -    * - start1 + 8:
 -      - Cb\ :sub:`20`
--      - Cr\ :sub:`20`
+-      - Cb\ :sub:`21`
 -      - Cb\ :sub:`22`
--      - Cr\ :sub:`22`
+-      - Cb\ :sub:`23`
 -    * - start1 + 12:
--      - Cb\ :sub:`30`
--      - Cr\ :sub:`30`
+-      - Cb\ :sub:`20`
+-      - Cb\ :sub:`21`
 -      - Cb\ :sub:`32`
+-      - Cb\ :sub:`33`
+-    * -
+-    * - start2 + 0:
+-      - Cr\ :sub:`00`
+-      - Cr\ :sub:`01`
+-      - Cr\ :sub:`02`
+-      - Cr\ :sub:`03`
+-    * - start2 + 4:
+-      - Cr\ :sub:`10`
+-      - Cr\ :sub:`11`
+-      - Cr\ :sub:`12`
+-      - Cr\ :sub:`13`
+-    * - start2 + 8:
+-      - Cr\ :sub:`20`
+-      - Cr\ :sub:`21`
+-      - Cr\ :sub:`22`
+-      - Cr\ :sub:`23`
+-    * - start2 + 12:
+-      - Cr\ :sub:`30`
+-      - Cr\ :sub:`31`
 -      - Cr\ :sub:`32`
+-      - Cr\ :sub:`33`
 -
 -
 -**Color Sample Location:**
--Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
--horizontally.
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-nv24.rst b/Documentation/userspace-api/media/v4l/pixfmt-nv24.rst
-deleted file mode 100644
-index bf1b94062fc2..000000000000
---- a/Documentation/userspace-api/media/v4l/pixfmt-nv24.rst
-+++ /dev/null
-@@ -1,95 +0,0 @@
--.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
--
--.. _V4L2-PIX-FMT-NV24:
--.. _V4L2-PIX-FMT-NV42:
--
--******************************************************
--V4L2_PIX_FMT_NV24 ('NV24'), V4L2_PIX_FMT_NV42 ('NV42')
--******************************************************
--
--V4L2_PIX_FMT_NV42
--Formats with full horizontal and vertical chroma resolutions, also known
--as YUV 4:4:4. One luminance and one chrominance plane with alternating
--chroma samples as opposed to ``V4L2_PIX_FMT_YVU420``
--
--
--Description
--===========
--
--These are two-plane versions of the YUV 4:4:4 format. The three
--components are separated into two sub-images or planes. The Y plane is
--first, with each Y sample stored in one byte per pixel. For
--``V4L2_PIX_FMT_NV24``, a combined CbCr plane immediately follows the Y
--plane in memory. The CbCr plane has the same width and height, in
--pixels, as the Y plane (and the image). Each line contains one CbCr pair
--per pixel, with each Cb and Cr sample stored in one byte.
--``V4L2_PIX_FMT_NV42`` is the same except that the Cb and Cr samples are
--swapped, the CrCb plane starts with a Cr sample.
--
--If the Y plane has pad bytes after each row, then the CbCr plane has
--twice as many pad bytes after its rows.
--
--**Byte Order.**
--Each cell is one byte.
--
--
--.. flat-table::
--    :header-rows:  0
--    :stub-columns: 0
--
--    * - start + 0:
--      - Y'\ :sub:`00`
--      - Y'\ :sub:`01`
--      - Y'\ :sub:`02`
--      - Y'\ :sub:`03`
--    * - start + 4:
--      - Y'\ :sub:`10`
--      - Y'\ :sub:`11`
--      - Y'\ :sub:`12`
--      - Y'\ :sub:`13`
--    * - start + 8:
--      - Y'\ :sub:`20`
--      - Y'\ :sub:`21`
--      - Y'\ :sub:`22`
--      - Y'\ :sub:`23`
--    * - start + 12:
--      - Y'\ :sub:`30`
--      - Y'\ :sub:`31`
--      - Y'\ :sub:`32`
--      - Y'\ :sub:`33`
--    * - start + 16:
--      - Cb\ :sub:`00`
--      - Cr\ :sub:`00`
--      - Cb\ :sub:`01`
--      - Cr\ :sub:`01`
--      - Cb\ :sub:`02`
--      - Cr\ :sub:`02`
--      - Cb\ :sub:`03`
--      - Cr\ :sub:`03`
--    * - start + 24:
--      - Cb\ :sub:`10`
--      - Cr\ :sub:`10`
--      - Cb\ :sub:`11`
--      - Cr\ :sub:`11`
--      - Cb\ :sub:`12`
--      - Cr\ :sub:`12`
--      - Cb\ :sub:`13`
--      - Cr\ :sub:`13`
--    * - start + 32:
--      - Cb\ :sub:`20`
--      - Cr\ :sub:`20`
--      - Cb\ :sub:`21`
--      - Cr\ :sub:`21`
--      - Cb\ :sub:`22`
--      - Cr\ :sub:`22`
--      - Cb\ :sub:`23`
--      - Cr\ :sub:`23`
--    * - start + 40:
--      - Cb\ :sub:`30`
--      - Cr\ :sub:`30`
--      - Cb\ :sub:`31`
--      - Cr\ :sub:`31`
--      - Cb\ :sub:`32`
--      - Cr\ :sub:`32`
--      - Cb\ :sub:`33`
--      - Cr\ :sub:`33`
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-new file mode 100644
-index 000000000000..0ca01270bde5
---- /dev/null
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
-@@ -0,0 +1,463 @@
-+.. SPDX-License-Identifier: GFDL-1.1-no-invariants-or-later
-+
-+.. planar-yuv:
-+
-+******************
-+Planar YUV formats
-+******************
-+
-+Planar formats split luma and chroma data in separate memory regions. They
-+exist in two variants:
-+
-+- Semi-planar formats use two planes. The first plane is the luma plane and
-+  stores the Y components. The second plane is the chroma plane and stores the
-+  Cb and Cr components interleaved.
-+
-+- Fully planar formats use three planes to store the Y, Cb and Cr components
-+  separately.
-+
-+Within a plane, components are stored in pixel order, which may be linear or
-+tiled. Padding may be supported at the end of the lines, and the line stride of
-+the chroma planes may be constrained by the line stride of the luma plane.
-+
-+Some planar formats allow planes to be placed in independent memory locations.
-+They are identified by an 'M' suffix in their name (such as in
-+``V4L2_PIX_FMT_NV12M``). Those formats are intended to be used only in drivers
-+and applications that support the multi-planar API, described in
-+:ref:`planar-apis`. Unless explicitly documented as supporting non-contiguous
-+planes, formats require the planes to follow each other immediately in memory.
-+
-+
-+Semi-Planar YUV Formats
-+=======================
-+
-+These formats are commonly referred to as NV formats (NV12, NV16, ...). They
-+use two planes, and store the luma components in the first plane and the chroma
-+components in the second plane. The Cb and Cr components are interleaved in the
-+chroma plane, with Cb and Cr always stored in pairs. The chroma order is
-+exposed as different formats.
-+
-+For memory contiguous formats, the number of padding pixels at the end of the
-+chroma lines is identical to the padding of the luma lines. Without horizontal
-+subsampling, the chroma line stride (in bytes) is thus equal to twice the luma
-+line stride. With horizontal subsampling by 2, the chroma line stride is equal
-+to the luma line stride. Vertical subsampling doesn't affect the line stride.
-+
-+For non-contiguous formats, no constraints are enforced by the format on the
-+relationship between the luma and chroma line padding and stride.
-+
-+All components are stored with the same number of bits per component.
-+
-+.. flat-table:: Overview of Semi-Planar YUV Formats
-+    :header-rows:  1
-+    :stub-columns: 0
-+
-+    * - Identifier
-+      - Code
-+      - Bits per component
-+      - Subsampling
-+      - Chroma order [1]_
-+      - Contiguous [2]_
-+      - Tiling [3]_
-+    * - V4L2_PIX_FMT_NV12
-+      - 'NV12'
-+      - 8
-+      - 4:2:0
-+      - Cb, Cr
-+      - Yes
-+      - Linear
-+    * - V4L2_PIX_FMT_NV21
-+      - 'NV21'
-+      - 8
-+      - 4:2:0
-+      - Cr, Cr
-+      - Yes
-+      - Linear
-+    * - V4L2_PIX_FMT_NV12M
-+      - 'NM12'
-+      - 8
-+      - 4:2:0
-+      - Cb, Cr
-+      - No
-+      - Linear
-+    * - V4L2_PIX_FMT_NV21M
-+      - 'NM21'
-+      - 8
-+      - 4:2:0
-+      - Cr, Cr
-+      - No
-+      - Linear
-+    * - V4L2_PIX_FMT_NV12MT
-+      - 'TM12'
-+      - 8
-+      - 4:2:0
-+      - Cb, Cr
-+      - No
-+      - 64x32 macroblocks
-+
-+        Horizontal Z order
-+    * - V4L2_PIX_FMT_NV12MT_16X16
-+      - 'VM12'
-+      - 8
-+      - 4:2:2
-+      - Cb, Cr
-+      - No
-+      - 16x16 macroblocks
-+    * - V4L2_PIX_FMT_NV16
-+      - 'NV16'
-+      - 8
-+      - 4:2:2
-+      - Cb, Cr
-+      - Yes
-+      - Linear
-+    * - V4L2_PIX_FMT_NV61
-+      - 'NV61'
-+      - 8
-+      - 4:2:2
-+      - Cr, Cr
-+      - Yes
-+      - Linear
-+    * - V4L2_PIX_FMT_NV16M
-+      - 'NM16'
-+      - 8
-+      - 4:2:2
-+      - Cb, Cr
-+      - No
-+      - Linear
-+    * - V4L2_PIX_FMT_NV61M
-+      - 'NM61'
-+      - 8
-+      - 4:2:2
-+      - Cr, Cr
-+      - No
-+      - Linear
-+    * - V4L2_PIX_FMT_NV24
-+      - 'NV24'
-+      - 8
-+      - 4:4:4
-+      - Cb, Cr
-+      - Yes
-+      - Linear
-+    * - V4L2_PIX_FMT_NV42
-+      - 'NV42'
-+      - 8
-+      - 4:4:4
-+      - Cr, Cr
-+      - Yes
-+      - Linear
-+
-+.. note::
-+
-+   .. [1] Order of chroma samples in the second plane
-+   .. [2] Indicates if planes have to be contiguous in memory or can be
-+      disjoint
-+   .. [3] Macroblock size in pixels
-+
-+
-+**Color Sample Location:**
-+Chroma samples are :ref:`interstitially sited<yuv-chroma-centered>`
-+horizontally.
-+
-+
-+.. _V4L2-PIX-FMT-NV12:
-+.. _V4L2-PIX-FMT-NV21:
-+.. _V4L2-PIX-FMT-NV12M:
-+.. _V4L2-PIX-FMT-NV21M:
-+
-+NV12, NV21, NV12M and NV21M
-+---------------------------
-+
-+Semi-planar YUV 4:2:0 formats. The chroma plane is subsampled by 2 in each
-+direction. Chroma lines contain half the number of pixels and the same number
-+of bytes as luma lines, and the chroma plane contains half the number of lines
-+of the luma plane.
-+
-+.. flat-table:: Sample 4x4 NV12 Image
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - start + 0:
-+      - Y'\ :sub:`00`
-+      - Y'\ :sub:`01`
-+      - Y'\ :sub:`02`
-+      - Y'\ :sub:`03`
-+    * - start + 4:
-+      - Y'\ :sub:`10`
-+      - Y'\ :sub:`11`
-+      - Y'\ :sub:`12`
-+      - Y'\ :sub:`13`
-+    * - start + 8:
-+      - Y'\ :sub:`20`
-+      - Y'\ :sub:`21`
-+      - Y'\ :sub:`22`
-+      - Y'\ :sub:`23`
-+    * - start + 12:
-+      - Y'\ :sub:`30`
-+      - Y'\ :sub:`31`
-+      - Y'\ :sub:`32`
-+      - Y'\ :sub:`33`
-+    * - start + 16:
-+      - Cb\ :sub:`00`
-+      - Cr\ :sub:`00`
-+      - Cb\ :sub:`01`
-+      - Cr\ :sub:`01`
-+    * - start + 20:
-+      - Cb\ :sub:`10`
-+      - Cr\ :sub:`10`
-+      - Cb\ :sub:`11`
-+      - Cr\ :sub:`11`
-+
-+.. flat-table:: Sample 4x4 NV12M Image
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - start0 + 0:
-+      - Y'\ :sub:`00`
-+      - Y'\ :sub:`01`
-+      - Y'\ :sub:`02`
-+      - Y'\ :sub:`03`
-+    * - start0 + 4:
-+      - Y'\ :sub:`10`
-+      - Y'\ :sub:`11`
-+      - Y'\ :sub:`12`
-+      - Y'\ :sub:`13`
-+    * - start0 + 8:
-+      - Y'\ :sub:`20`
-+      - Y'\ :sub:`21`
-+      - Y'\ :sub:`22`
-+      - Y'\ :sub:`23`
-+    * - start0 + 12:
-+      - Y'\ :sub:`30`
-+      - Y'\ :sub:`31`
-+      - Y'\ :sub:`32`
-+      - Y'\ :sub:`33`
-+    * -
-+    * - start1 + 0:
-+      - Cb\ :sub:`00`
-+      - Cr\ :sub:`00`
-+      - Cb\ :sub:`01`
-+      - Cr\ :sub:`01`
-+    * - start1 + 4:
-+      - Cb\ :sub:`10`
-+      - Cr\ :sub:`10`
-+      - Cb\ :sub:`11`
-+      - Cr\ :sub:`11`
-+
-+
-+.. _V4L2-PIX-FMT-NV12MT:
-+.. _V4L2-PIX-FMT-NV12MT-16X16:
-+
-+NV12MT and MV12MT_16X16
-+-----------------------
-+
-+Semi-planar YUV 4:2:0 formats, using macroblock tiling. The chroma plane is
-+subsampled by 2 in each direction. Chroma lines contain half the number of
-+pixels and the same number of bytes as luma lines, and the chroma plane
-+contains half the number of lines of the luma plane.
-+
-+``V4L2_PIX_FMT_NV12MT_16X16`` stores pixel in 2D 16x16 macroblocks, and stores
-+macroblocks linearly in memory. The line stride and image height must be
-+aligned to a multiple of 16. The layouts of the luma and chroma planes are
-+identical.
-+
-+``V4L2_PIX_FMT_NV12MT`` stores pixels in 2D 64x32 macroblocks, and stores 2x2
-+groups of macroblocks in Z-order in memory, alternating Z and mirrored Z shapes
-+horizontally.  The line stride must be a multiple of 128 pixels to ensure an
-+integer number of Z shapes. The image height must be a multiple of 32 pixels.
-+If the vertical resolution is an odd number of macroblocks, the last row of
-+macroblocks is stored in linear order. The layouts of the luma and chroma
-+planes are identical.
-+
-+.. _nv12mt:
-+
-+.. kernel-figure:: nv12mt.svg
-+    :alt:    nv12mt.svg
-+    :align:  center
-+
-+    V4L2_PIX_FMT_NV12MT macroblock Z shape memory layout
-+
-+.. _nv12mt_ex:
-+
-+.. kernel-figure:: nv12mt_example.svg
-+    :alt:    nv12mt_example.svg
-+    :align:  center
-+
-+    Example V4L2_PIX_FMT_NV12MT memory layout of macroblocks
-+
-+
-+.. _V4L2-PIX-FMT-NV16:
-+.. _V4L2-PIX-FMT-NV61:
-+.. _V4L2-PIX-FMT-NV16M:
-+.. _V4L2-PIX-FMT-NV61M:
-+
-+NV16, NV61, NV16M and NV61M
-+---------------------------
-+
-+Semi-planar YUV 4:2:2 formats. The chroma plane is subsampled by 2 in the
-+horizontal direction. Chroma lines contain half the number of pixels and the
-+same number of bytes as luma lines, and the chroma plane contains the same
-+number of lines as the luma plane.
-+
-+.. flat-table:: Sample 4x4 NV16 Image
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - start + 0:
-+      - Y'\ :sub:`00`
-+      - Y'\ :sub:`01`
-+      - Y'\ :sub:`02`
-+      - Y'\ :sub:`03`
-+    * - start + 4:
-+      - Y'\ :sub:`10`
-+      - Y'\ :sub:`11`
-+      - Y'\ :sub:`12`
-+      - Y'\ :sub:`13`
-+    * - start + 8:
-+      - Y'\ :sub:`20`
-+      - Y'\ :sub:`21`
-+      - Y'\ :sub:`22`
-+      - Y'\ :sub:`23`
-+    * - start + 12:
-+      - Y'\ :sub:`30`
-+      - Y'\ :sub:`31`
-+      - Y'\ :sub:`32`
-+      - Y'\ :sub:`33`
-+    * - start + 16:
-+      - Cb\ :sub:`00`
-+      - Cr\ :sub:`00`
-+      - Cb\ :sub:`01`
-+      - Cr\ :sub:`01`
-+    * - start + 20:
-+      - Cb\ :sub:`10`
-+      - Cr\ :sub:`10`
-+      - Cb\ :sub:`11`
-+      - Cr\ :sub:`11`
-+    * - start + 24:
-+      - Cb\ :sub:`20`
-+      - Cr\ :sub:`20`
-+      - Cb\ :sub:`21`
-+      - Cr\ :sub:`21`
-+    * - start + 28:
-+      - Cb\ :sub:`30`
-+      - Cr\ :sub:`30`
-+      - Cb\ :sub:`31`
-+      - Cr\ :sub:`31`
-+
-+.. flat-table:: Sample 4x4 NV16M Image
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - start0 + 0:
-+      - Y'\ :sub:`00`
-+      - Y'\ :sub:`01`
-+      - Y'\ :sub:`02`
-+      - Y'\ :sub:`03`
-+    * - start0 + 4:
-+      - Y'\ :sub:`10`
-+      - Y'\ :sub:`11`
-+      - Y'\ :sub:`12`
-+      - Y'\ :sub:`13`
-+    * - start0 + 8:
-+      - Y'\ :sub:`20`
-+      - Y'\ :sub:`21`
-+      - Y'\ :sub:`22`
-+      - Y'\ :sub:`23`
-+    * - start0 + 12:
-+      - Y'\ :sub:`30`
-+      - Y'\ :sub:`31`
-+      - Y'\ :sub:`32`
-+      - Y'\ :sub:`33`
-+    * -
-+    * - start1 + 0:
-+      - Cb\ :sub:`00`
-+      - Cr\ :sub:`00`
-+      - Cb\ :sub:`02`
-+      - Cr\ :sub:`02`
-+    * - start1 + 4:
-+      - Cb\ :sub:`10`
-+      - Cr\ :sub:`10`
-+      - Cb\ :sub:`12`
-+      - Cr\ :sub:`12`
-+    * - start1 + 8:
-+      - Cb\ :sub:`20`
-+      - Cr\ :sub:`20`
-+      - Cb\ :sub:`22`
-+      - Cr\ :sub:`22`
-+    * - start1 + 12:
-+      - Cb\ :sub:`30`
-+      - Cr\ :sub:`30`
-+      - Cb\ :sub:`32`
-+      - Cr\ :sub:`32`
-+
-+
-+.. _V4L2-PIX-FMT-NV24:
-+.. _V4L2-PIX-FMT-NV42:
-+
-+NV24 and NV42
-+-------------
-+
-+Semi-planar YUV 4:4:4 formats. The chroma plane is subsampled by 2 in the
-+horizontal direction. Chroma lines contain half the number of pixels and the
-+same number of bytes as luma lines, and the chroma plane contains the same
-+number of lines as the luma plane.
-+
-+.. flat-table:: Sample 4x4 NV24 Image
-+    :header-rows:  0
-+    :stub-columns: 0
-+
-+    * - start + 0:
-+      - Y'\ :sub:`00`
-+      - Y'\ :sub:`01`
-+      - Y'\ :sub:`02`
-+      - Y'\ :sub:`03`
-+    * - start + 4:
-+      - Y'\ :sub:`10`
-+      - Y'\ :sub:`11`
-+      - Y'\ :sub:`12`
-+      - Y'\ :sub:`13`
-+    * - start + 8:
-+      - Y'\ :sub:`20`
-+      - Y'\ :sub:`21`
-+      - Y'\ :sub:`22`
-+      - Y'\ :sub:`23`
-+    * - start + 12:
-+      - Y'\ :sub:`30`
-+      - Y'\ :sub:`31`
-+      - Y'\ :sub:`32`
-+      - Y'\ :sub:`33`
-+    * - start + 16:
-+      - Cb\ :sub:`00`
-+      - Cr\ :sub:`00`
-+      - Cb\ :sub:`01`
-+      - Cr\ :sub:`01`
-+      - Cb\ :sub:`02`
-+      - Cr\ :sub:`02`
-+      - Cb\ :sub:`03`
-+      - Cr\ :sub:`03`
-+    * - start + 24:
-+      - Cb\ :sub:`10`
-+      - Cr\ :sub:`10`
-+      - Cb\ :sub:`11`
-+      - Cr\ :sub:`11`
-+      - Cb\ :sub:`12`
-+      - Cr\ :sub:`12`
-+      - Cb\ :sub:`13`
-+      - Cr\ :sub:`13`
-+    * - start + 32:
-+      - Cb\ :sub:`20`
-+      - Cr\ :sub:`20`
-+      - Cb\ :sub:`21`
-+      - Cr\ :sub:`21`
-+      - Cb\ :sub:`22`
-+      - Cr\ :sub:`22`
-+      - Cb\ :sub:`23`
-+      - Cr\ :sub:`23`
-+    * - start + 40:
-+      - Cb\ :sub:`30`
-+      - Cr\ :sub:`30`
-+      - Cb\ :sub:`31`
-+      - Cr\ :sub:`31`
-+      - Cb\ :sub:`32`
-+      - Cr\ :sub:`32`
-+      - Cb\ :sub:`33`
-+      - Cr\ :sub:`33`
+-Chroma samples are :ref:`co-sited<yuv-chroma-cosited>`.
 diff --git a/Documentation/userspace-api/media/v4l/yuv-formats.rst b/Documentation/userspace-api/media/v4l/yuv-formats.rst
-index 7179d715f8a7..517499056f3b 100644
+index 517499056f3b..24b34cdfa6fe 100644
 --- a/Documentation/userspace-api/media/v4l/yuv-formats.rst
 +++ b/Documentation/userspace-api/media/v4l/yuv-formats.rst
-@@ -265,6 +265,7 @@ image.
-     :maxdepth: 1
- 
-     pixfmt-packed-yuv
-+    pixfmt-yuv-planar
-     pixfmt-yuv-luma
+@@ -270,11 +270,4 @@ image.
      pixfmt-y8i
      pixfmt-y12i
-@@ -276,10 +277,4 @@ image.
-     pixfmt-yuv410
-     pixfmt-yuv422p
-     pixfmt-yuv411p
--    pixfmt-nv12
--    pixfmt-nv12m
--    pixfmt-nv12mt
--    pixfmt-nv16
--    pixfmt-nv16m
--    pixfmt-nv24
+     pixfmt-uv8
+-    pixfmt-yuv420
+-    pixfmt-yuv420m
+-    pixfmt-yuv422m
+-    pixfmt-yuv444m
+-    pixfmt-yuv410
+-    pixfmt-yuv422p
+-    pixfmt-yuv411p
      pixfmt-m420
 -- 
 Regards,
