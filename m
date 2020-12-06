@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 7BE2A2D085C
+	by mail.lfdr.de (Postfix) with ESMTP id E84F42D085D
 	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 00:58:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728701AbgLFX56 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Dec 2020 18:57:58 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60442 "EHLO
+        id S1728703AbgLFX6O (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 6 Dec 2020 18:58:14 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60444 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728695AbgLFX55 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Dec 2020 18:57:57 -0500
+        with ESMTP id S1726400AbgLFX6N (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Dec 2020 18:58:13 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 8727918D2;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id F3B3F19B0;
         Mon,  7 Dec 2020 00:54:09 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1607298849;
-        bh=u1VJInksnE3kTfxsWeu0db89Iu/hN4jqiCtRWsxTb28=;
+        s=mail; t=1607298850;
+        bh=R8WQBbj9+nO3JH2rv+uPcIB/tVvwtoJMpn9i13IsDLs=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=XQgsatlHN05Ng/NqcvfUPaIO0BnmmYiQ6zihCOtKozhcbOyi5euF3BzMjejx1a2l9
-         IYnwLqyBkzaIzut5s+I6PORv8DrOMOCNJ6DDYZOyZAY55MTy0pN/QL8klINaOD6ars
-         pBRMqNDttEz2k3TTudh3+r7BAaDt6iKiZ4LKxQH0=
+        b=mYaP+hUWTgmOcnMtFeaG+552v7o0Aw/OvaFPCjfBkWCWKZmI+KL/YyzSvpFMERyHS
+         rZm3jZyu7y6JCpHPX9HwSIo3STCBZVcYW/A9OJKURUAA/aKKdTrF4OZgq3eOTa/SeO
+         del6sWEdYD2YXCdx5CqZRkbWZ1wfedMcVJ5yXHqk=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH v3 21/24] media: ti-vpe: cal: Set cal_dmaqueue.pending to NULL when no pending buffer
-Date:   Mon,  7 Dec 2020 01:53:50 +0200
-Message-Id: <20201206235353.26968-22-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 22/24] media: ti-vpe: cal: Store buffer DMA address in dma_addr_t
+Date:   Mon,  7 Dec 2020 01:53:51 +0200
+Message-Id: <20201206235353.26968-23-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201206235353.26968-1-laurent.pinchart@ideasonboard.com>
 References: <20201206235353.26968-1-laurent.pinchart@ideasonboard.com>
@@ -37,84 +37,68 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-When a pending buffer becomes active, the cal_dmaqueue.active field is
-updated, but the pending field keeps the same value until a new buffer
-becomes pending. This requires handling the special case of
-pending == active in different places. Simplify the code by setting the
-pending field to NULL when the pending buffer becomes active. Buffers
-are now simply moved from queue to pending and from pending to active.
+dma_addr_t is the correct type to store DMA addresses. Replace incorrect
+usage of unsigned long and unsigned int.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Benoit Parrot <bparrot@ti.com>
 ---
- drivers/media/platform/ti-vpe/cal-video.c | 14 ++++++++------
- drivers/media/platform/ti-vpe/cal.c       |  6 +++---
- 2 files changed, 11 insertions(+), 9 deletions(-)
+ drivers/media/platform/ti-vpe/cal-video.c | 2 +-
+ drivers/media/platform/ti-vpe/cal.c       | 6 +++---
+ drivers/media/platform/ti-vpe/cal.h       | 2 +-
+ 3 files changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-index 34dfe38dc960..438447728b46 100644
+index 438447728b46..511767dd69bd 100644
 --- a/drivers/media/platform/ti-vpe/cal-video.c
 +++ b/drivers/media/platform/ti-vpe/cal-video.c
-@@ -491,12 +491,15 @@ static void cal_release_buffers(struct cal_ctx *ctx,
- 		vb2_buffer_done(&buf->vb.vb2_buf, state);
- 	}
- 
--	if (ctx->dma.pending != ctx->dma.active)
-+	if (ctx->dma.pending) {
- 		vb2_buffer_done(&ctx->dma.pending->vb.vb2_buf, state);
--	vb2_buffer_done(&ctx->dma.active->vb.vb2_buf, state);
-+		ctx->dma.pending = NULL;
-+	}
- 
--	ctx->dma.active = NULL;
--	ctx->dma.pending = NULL;
-+	if (ctx->dma.active) {
-+		vb2_buffer_done(&ctx->dma.active->vb.vb2_buf, state);
-+		ctx->dma.active = NULL;
-+	}
- 
- 	spin_unlock_irq(&ctx->dma.lock);
- }
-@@ -510,12 +513,11 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+@@ -508,7 +508,7 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
+ {
+ 	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
+ 	struct cal_buffer *buf;
+-	unsigned long addr;
++	dma_addr_t addr;
+ 	int ret;
  
  	spin_lock_irq(&ctx->dma.lock);
- 	buf = list_first_entry(&ctx->dma.queue, struct cal_buffer, list);
--	ctx->dma.active = buf;
- 	ctx->dma.pending = buf;
- 	list_del(&buf->list);
- 	spin_unlock_irq(&ctx->dma.lock);
- 
--	addr = vb2_dma_contig_plane_dma_addr(&ctx->dma.active->vb.vb2_buf, 0);
-+	addr = vb2_dma_contig_plane_dma_addr(&buf->vb.vb2_buf, 0);
- 	ctx->sequence = 0;
- 	ctx->dma.state = CAL_DMA_RUNNING;
- 
 diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-index 3e0a69bb7fe5..547dffcfe68f 100644
+index 547dffcfe68f..3cf625262d32 100644
 --- a/drivers/media/platform/ti-vpe/cal.c
 +++ b/drivers/media/platform/ti-vpe/cal.c
-@@ -485,8 +485,7 @@ static inline void cal_irq_wdma_start(struct cal_ctx *ctx)
- 		 */
- 		cal_ctx_wr_dma_disable(ctx);
- 		ctx->dma.state = CAL_DMA_STOP_PENDING;
--	} else if (!list_empty(&ctx->dma.queue) &&
--		   ctx->dma.active == ctx->dma.pending) {
-+	} else if (!list_empty(&ctx->dma.queue) && !ctx->dma.pending) {
- 		/*
- 		 * Otherwise, if a new buffer is available, queue it to the
+@@ -406,9 +406,9 @@ void cal_ctx_wr_dma_config(struct cal_ctx *ctx)
+ 	ctx_dbg(3, ctx, "CAL_CTRL = 0x%08x\n", cal_read(ctx->cal, CAL_CTRL));
+ }
+ 
+-void cal_ctx_wr_dma_addr(struct cal_ctx *ctx, unsigned int dmaaddr)
++void cal_ctx_wr_dma_addr(struct cal_ctx *ctx, dma_addr_t addr)
+ {
+-	cal_write(ctx->cal, CAL_WR_DMA_ADDR(ctx->index), dmaaddr);
++	cal_write(ctx->cal, CAL_WR_DMA_ADDR(ctx->index), addr);
+ }
+ 
+ void cal_ctx_wr_dma_disable(struct cal_ctx *ctx)
+@@ -491,7 +491,7 @@ static inline void cal_irq_wdma_start(struct cal_ctx *ctx)
  		 * hardware.
-@@ -519,9 +518,10 @@ static inline void cal_irq_wdma_end(struct cal_ctx *ctx)
- 	}
+ 		 */
+ 		struct cal_buffer *buf;
+-		unsigned long addr;
++		dma_addr_t addr;
  
- 	/* If a new buffer was queued, complete the current buffer. */
--	if (ctx->dma.active != ctx->dma.pending) {
-+	if (ctx->dma.pending) {
- 		buf = ctx->dma.active;
- 		ctx->dma.active = ctx->dma.pending;
-+		ctx->dma.pending = NULL;
- 	}
- 
- 	spin_unlock(&ctx->dma.lock);
+ 		buf = list_first_entry(&ctx->dma.queue, struct cal_buffer,
+ 				       list);
+diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
+index 9d3cbc13f915..26916f72fd60 100644
+--- a/drivers/media/platform/ti-vpe/cal.h
++++ b/drivers/media/platform/ti-vpe/cal.h
+@@ -299,7 +299,7 @@ void cal_camerarx_destroy(struct cal_camerarx *phy);
+ void cal_ctx_csi2_config(struct cal_ctx *ctx);
+ void cal_ctx_pix_proc_config(struct cal_ctx *ctx);
+ void cal_ctx_wr_dma_config(struct cal_ctx *ctx);
+-void cal_ctx_wr_dma_addr(struct cal_ctx *ctx, unsigned int dmaaddr);
++void cal_ctx_wr_dma_addr(struct cal_ctx *ctx, dma_addr_t addr);
+ void cal_ctx_wr_dma_disable(struct cal_ctx *ctx);
+ int cal_ctx_wr_dma_stop(struct cal_ctx *ctx);
+ void cal_ctx_enable_irqs(struct cal_ctx *ctx);
 -- 
 Regards,
 
