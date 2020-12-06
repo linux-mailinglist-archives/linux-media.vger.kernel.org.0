@@ -2,147 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id F26B52D02C4
-	for <lists+linux-media@lfdr.de>; Sun,  6 Dec 2020 11:29:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C13E42D0640
+	for <lists+linux-media@lfdr.de>; Sun,  6 Dec 2020 18:19:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727357AbgLFK2s (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Dec 2020 05:28:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36288 "EHLO
+        id S1727132AbgLFRTZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 6 Dec 2020 12:19:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42714 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727202AbgLFK2r (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Dec 2020 05:28:47 -0500
-Received: from mail-ej1-x629.google.com (mail-ej1-x629.google.com [IPv6:2a00:1450:4864:20::629])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 4C4B7C08E861
-        for <linux-media@vger.kernel.org>; Sun,  6 Dec 2020 02:27:48 -0800 (PST)
-Received: by mail-ej1-x629.google.com with SMTP id ce23so11411767ejb.8
-        for <linux-media@vger.kernel.org>; Sun, 06 Dec 2020 02:27:48 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references;
-        bh=pU/BEnvHNZor0iOPVM1/S+HqmPaJIMs/busMwuezIyY=;
-        b=b5a/HopZcTOmVh+DQlV7Q5Fplz2QY6DKujQjBu/qcTQfqIS3A/E1426hN3+2sazCXs
-         m+UP0HIXmKSjeZcnkQJvNKFhVWfNHnc3BErhnyimNiyV23vaWhxknn4s9qfVhKBlA2CG
-         Q2uPXXJ8OCZx76afynB+N5ckWJM0/TXlOaWgSirqVHS6zX84xdlgI94UesSS1UVd5Xpz
-         CX3RKbO98vx++VHGbFVGU3hK2S0kaRrD+AdUltTQU7CI1FB/kIO618i02k9bXfPvJYRh
-         yURxoekvQjwLYaSazatZo//nVYImDQ6AQSBrEakYDFHLK1D7k1pfKYFOyspK/rIDew0I
-         Lj0w==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references;
-        bh=pU/BEnvHNZor0iOPVM1/S+HqmPaJIMs/busMwuezIyY=;
-        b=R7h1zRFM3ywU+CY0HvNMZ0jvcUQoKpsdPgah3f9XH6EwVHGXGM0cgEKoN0ntHOQXnQ
-         Eywdf1BzcE903BlfivHSGIrAgxkpYyhxv3AMDsZaIksIQhU2bxLU7UV9t72DLhD4jR7l
-         hUpQ+ROwaQIG/E16QucBjXmzp052eqY7b4/2AOnOYTD8OYMFTuBRUy0ym/2/FvmXYtIl
-         bqspOdwxfy4+YXHsdp7TAvmn9MU2zx34eTdHh9ZUozc9go8Mtdjwv183uqmBSdWtyNXl
-         E7MlkRLn8TpYTW8Nz/ipk04bDYONrnobPlY2xkWWYCWrRcTiArilheNOzzn3UN6KsuKe
-         r+kQ==
-X-Gm-Message-State: AOAM533xSLc8dAIogioLljxe1fhnNY1S9OdERHH6h+17V2tPPAJfQrSc
-        rixrszkD0BBAxsxx7a4npXCoOzCfj5/dqU2s
-X-Google-Smtp-Source: ABdhPJzXuBijI/Qs1l+neDIo/NCCBqMc6zjMVX1WW4Sj311JbA8DINf9lAsCJ0idkex36y7FaU+4OQ==
-X-Received: by 2002:a17:906:7ac7:: with SMTP id k7mr14437474ejo.454.1607250466782;
-        Sun, 06 Dec 2020 02:27:46 -0800 (PST)
-Received: from localhost.localdomain (hst-221-17.medicom.bg. [84.238.221.17])
-        by smtp.gmail.com with ESMTPSA id d4sm8464736edq.36.2020.12.06.02.27.45
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Dec 2020 02:27:46 -0800 (PST)
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-To:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>,
-        Maheshwar Ajja <majja@codeaurora.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Subject: [PATCH v2 4/4] venus: venc: Add support for AUD NALU control
-Date:   Sun,  6 Dec 2020 12:27:17 +0200
-Message-Id: <20201206102717.19000-5-stanimir.varbanov@linaro.org>
-X-Mailer: git-send-email 2.17.1
-In-Reply-To: <20201206102717.19000-1-stanimir.varbanov@linaro.org>
-References: <20201206102717.19000-1-stanimir.varbanov@linaro.org>
+        with ESMTP id S1726410AbgLFRTZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Dec 2020 12:19:25 -0500
+Received: from mxf2.seznam.cz (mxf2.seznam.cz [IPv6:2a02:598:2::123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id CE7DCC0613D1;
+        Sun,  6 Dec 2020 09:18:39 -0800 (PST)
+Received: from email.seznam.cz
+        by email-smtpc25a.ng.seznam.cz (email-smtpc25a.ng.seznam.cz [10.23.18.34])
+        id 1bebbfac40e5ebc51a4273f2;
+        Sun, 06 Dec 2020 18:18:21 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz; s=beta;
+        t=1607275101; bh=hNpVWi7xybD7pNQIgL7OSBGGIcO5ZoO5YUxC5+BpAJI=;
+        h=Received:Subject:To:Cc:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=hpMWLqdXJzPpUjwhhevquRpuYvrPROGViISXrFVSBFfZF3x24MJJSbXmA1qQah/Ks
+         SuzX9o1zvMwC0y6HG3jCYqbfbVX0qoutn22pGhEOWeUz2bnMn7UI1aHYfuA2ydsAjg
+         /v5yMtWcFH22wZVUiaSXIZnq2Agwr6n7I3HKV6Ag=
+Received: from [192.168.1.213] (ip-228-128.dynamic.ccinternet.cz [212.69.128.228])
+        by email-relay2.ng.seznam.cz (Seznam SMTPD 1.3.122) with ESMTP;
+        Sun, 06 Dec 2020 18:18:19 +0100 (CET)  
+Subject: Re: [PATCH 1/3] media: i2c: imx219: add support for specifying
+ clock-frequencies
+To:     Geert Uytterhoeven <geert@linux-m68k.org>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Sascha Hauer <s.hauer@pengutronix.de>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux ARM <linux-arm-kernel@lists.infradead.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>
+References: <20201205183355.6488-1-michael.srba@seznam.cz>
+ <CAMuHMdXLQeTWGmAk9a3uE0VgPmTUsjbNn36q9-228eZufuYZ6w@mail.gmail.com>
+From:   Michael Srba <Michael.Srba@seznam.cz>
+Message-ID: <e87727ea-8cb4-9d68-22de-cb9aea080c34@seznam.cz>
+Date:   Sun, 6 Dec 2020 18:18:17 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.0
+MIME-Version: 1.0
+In-Reply-To: <CAMuHMdXLQeTWGmAk9a3uE0VgPmTUsjbNn36q9-228eZufuYZ6w@mail.gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add support for Access Unit Delimiter control into encoder.
+On 05. 12. 20 19:54, Geert Uytterhoeven wrote:
+> Hi Michael,
+>
+> On Sat, Dec 5, 2020 at 7:36 PM <michael.srba@seznam.cz> wrote:
+>> From: Michael Srba <Michael.Srba@seznam.cz>
+>>
+>> This patch adds 1% tolerance on input clock, similar to other camera sensor
+>> drivers. It also allows for specifying the actual clock in the device tree,
+>> instead of relying on it being already set to the right frequency (which is
+>> often not the case).
+>>
+>> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
+> Thanks for your patch!
+>
+>> --- a/drivers/media/i2c/imx219.c
+>> +++ b/drivers/media/i2c/imx219.c
+>> @@ -1443,13 +1443,26 @@ static int imx219_probe(struct i2c_client *client)
+>>                 return PTR_ERR(imx219->xclk);
+>>         }
+>>
+>> -       imx219->xclk_freq = clk_get_rate(imx219->xclk);
+>> -       if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
+>> +       ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency", &imx219->xclk_freq);
+>> +       if (ret) {
+>> +               dev_err(dev, "could not get xclk frequency\n");
+>> +               return ret;
+> This breaks compatibility with existing DTBs, which do not have the
+> clock-frequency property.
+> For backwards compatibility, you should assume the default 24 MHz
+> instead of returning an error.
+Good point, will do.
 
-Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
----
- drivers/media/platform/qcom/venus/core.h       |  1 +
- drivers/media/platform/qcom/venus/venc.c       | 14 ++++++++++++++
- drivers/media/platform/qcom/venus/venc_ctrls.c |  8 +++++++-
- 3 files changed, 22 insertions(+), 1 deletion(-)
+>> +       }
+>> +
+>> +       /* this driver currently expects 24MHz; allow 1% tolerance */
+>> +       if (imx219->xclk_freq < 23760000 || imx219->xclk_freq > 24240000) {
+>>                 dev_err(dev, "xclk frequency not supported: %d Hz\n",
+>>                         imx219->xclk_freq);
+>>                 return -EINVAL;
+>>         }
+>>
+>> +       ret = clk_set_rate(imx219->xclk, imx219->xclk_freq);
+>> +       if (ret) {
+>> +               dev_err(dev, "could not set xclk frequency\n");
+>> +               return ret;
+>> +       }
+>> +
+>> +
+>>         ret = imx219_get_regulators(imx219);
+>>         if (ret) {
+>>                 dev_err(dev, "failed to get regulators\n");
+> Gr{oetje,eeting}s,
+>
+>                         Geert
+>
 
-diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
-index 097fca39eb79..f105a34ded5a 100644
---- a/drivers/media/platform/qcom/venus/core.h
-+++ b/drivers/media/platform/qcom/venus/core.h
-@@ -243,6 +243,7 @@ struct venc_controls {
- 
- 	u32 header_mode;
- 	u32 intra_refresh_period;
-+	bool aud_enable;
- 
- 	struct {
- 		u32 h264;
-diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-index 615d90612ebc..99e0a82a31e0 100644
---- a/drivers/media/platform/qcom/venus/venc.c
-+++ b/drivers/media/platform/qcom/venus/venc.c
-@@ -745,6 +745,20 @@ static int venc_set_properties(struct venus_inst *inst)
- 			return ret;
- 	}
- 
-+	if (inst->fmt_cap->pixfmt == V4L2_PIX_FMT_H264 ||
-+	    inst->fmt_cap->pixfmt == V4L2_PIX_FMT_HEVC) {
-+		struct hfi_enable en = {};
-+
-+		ptype = HFI_PROPERTY_PARAM_VENC_H264_GENERATE_AUDNAL;
-+
-+		if (ctr->aud_enable)
-+			en.enable = 1;
-+
-+		ret = hfi_session_set_property(inst, ptype, &en);
-+		if (ret)
-+			return ret;
-+	}
-+
- 	return 0;
- }
- 
-diff --git a/drivers/media/platform/qcom/venus/venc_ctrls.c b/drivers/media/platform/qcom/venus/venc_ctrls.c
-index 801026fab89d..a1aa56c74bc5 100644
---- a/drivers/media/platform/qcom/venus/venc_ctrls.c
-+++ b/drivers/media/platform/qcom/venus/venc_ctrls.c
-@@ -211,6 +211,9 @@ static int venc_op_s_ctrl(struct v4l2_ctrl *ctrl)
- 	case V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD:
- 		ctr->intra_refresh_period = ctrl->val;
- 		break;
-+	case V4L2_CID_MPEG_VIDEO_AU_DELIMITER:
-+		ctr->aud_enable = ctrl->val;
-+		break;
- 	default:
- 		return -EINVAL;
- 	}
-@@ -226,7 +229,7 @@ int venc_ctrl_init(struct venus_inst *inst)
- {
- 	int ret;
- 
--	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 34);
-+	ret = v4l2_ctrl_handler_init(&inst->ctrl_handler, 35);
- 	if (ret)
- 		return ret;
- 
-@@ -381,6 +384,9 @@ int venc_ctrl_init(struct venus_inst *inst)
- 			  V4L2_CID_MPEG_VIDEO_INTRA_REFRESH_PERIOD, 0,
- 			  ((4096 * 2304) >> 8), 1, 0);
- 
-+	v4l2_ctrl_new_std(&inst->ctrl_handler, &venc_ctrl_ops,
-+			  V4L2_CID_MPEG_VIDEO_AU_DELIMITER, 0, 1, 1, 0);
-+
- 	ret = inst->ctrl_handler.error;
- 	if (ret)
- 		goto err;
--- 
-2.17.1
-
+Michael
