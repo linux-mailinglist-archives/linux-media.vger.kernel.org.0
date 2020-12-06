@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CE2842D0854
-	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 00:57:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 519562D0855
+	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 00:57:35 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728683AbgLFX5Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S1728684AbgLFX5Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Sun, 6 Dec 2020 18:57:24 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60444 "EHLO
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60442 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728051AbgLFX5X (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Dec 2020 18:57:23 -0500
+        with ESMTP id S1728669AbgLFX5Y (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Dec 2020 18:57:24 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17343185F;
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 85F171873;
         Mon,  7 Dec 2020 00:54:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
         s=mail; t=1607298847;
-        bh=3iPSV3Za/k7JwD3RqrCEcFWC4nSCpj3/42+90/PejTc=;
+        bh=WNYbMTkzmjiPxJc6MD1riLKekiP8d/TpYywK21+hhE8=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=JYV7823UK/YzJYrc6CW/bryFspHeGHDB0oQfxmtMGckFX3m4rycx49ckMg+3UJPLE
-         EY2g/DGRrAw4iPqSHWWq1HjqAR7hyO9/c1FxoogADeProVHMvUvSWZlHrAhQODZEOh
-         vmmqaJz6Ou3qRABOCrz2UjGZiYUo31xIfB+kRolA=
+        b=a6RjDiRWMopQw1j4QOMww2x5Nhno9skGP38YGOSoWEuJq3zU0PhfjGnNmZk1+6CVn
+         cuce+Jy8DGN6WGDE5QLFF4OUXZ9APqisKUVgXAvAnXi/io5ONiHR+twPU4l+7OEQw2
+         m+9zzRyM486uaCEANuqhJ8Q7uMnI82bc/WLA1lFo=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH v3 16/24] media: ti-vpe: cal: Drop V4L2_CAP_READWRITE
-Date:   Mon,  7 Dec 2020 01:53:45 +0200
-Message-Id: <20201206235353.26968-17-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 17/24] media: ti-vpe: cal: Drop unneeded check in cal_calc_format_size()
+Date:   Mon,  7 Dec 2020 01:53:46 +0200
+Message-Id: <20201206235353.26968-18-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201206235353.26968-1-laurent.pinchart@ideasonboard.com>
 References: <20201206235353.26968-1-laurent.pinchart@ideasonboard.com>
@@ -37,51 +37,60 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The V4L2 read/write API is inefficient and makes little sense for
-devices that handle frame-based formats. Applications shouldn't use it,
-drop its support from the driver.
+The cal_calc_format_size() function checks that the passed fmtinfo
+argument is not NULL. All callers ensure that the pointer is valid. Drop
+the check.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Benoit Parrot <bparrot@ti.com>
 ---
-Changes since v2:
-
-- Drop .read handler
----
- drivers/media/platform/ti-vpe/cal-video.c | 6 ++----
- 1 file changed, 2 insertions(+), 4 deletions(-)
+ drivers/media/platform/ti-vpe/cal-video.c | 16 +++++-----------
+ 1 file changed, 5 insertions(+), 11 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-index 7eec0a57b141..32dd4d9ca212 100644
+index 32dd4d9ca212..ad1e85189831 100644
 --- a/drivers/media/platform/ti-vpe/cal-video.c
 +++ b/drivers/media/platform/ti-vpe/cal-video.c
-@@ -393,7 +393,6 @@ static const struct v4l2_file_operations cal_fops = {
- 	.owner		= THIS_MODULE,
- 	.open           = v4l2_fh_open,
- 	.release        = vb2_fop_release,
--	.read           = vb2_fop_read,
- 	.poll		= vb2_fop_poll,
- 	.unlocked_ioctl = video_ioctl2, /* V4L2 ioctl handler */
- 	.mmap           = vb2_fop_mmap,
-@@ -595,8 +594,7 @@ static const struct video_device cal_videodev = {
- 	.ioctl_ops	= &cal_ioctl_ops,
- 	.minor		= -1,
- 	.release	= video_device_release_empty,
--	.device_caps	= V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
--			  V4L2_CAP_READWRITE,
-+	.device_caps	= V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING,
- };
+@@ -146,17 +146,12 @@ static int __subdev_set_format(struct cal_ctx *ctx,
+ 	return 0;
+ }
  
- static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
-@@ -731,7 +729,7 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
+-static int cal_calc_format_size(struct cal_ctx *ctx,
+-				const struct cal_format_info *fmtinfo,
+-				struct v4l2_format *f)
++static void cal_calc_format_size(struct cal_ctx *ctx,
++				 const struct cal_format_info *fmtinfo,
++				 struct v4l2_format *f)
+ {
+ 	u32 bpl, max_width;
  
- 	/* Initialize the vb2 queue. */
- 	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
--	q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_READ;
-+	q->io_modes = VB2_MMAP | VB2_DMABUF;
- 	q->drv_priv = ctx;
- 	q->buf_struct_size = sizeof(struct cal_buffer);
- 	q->ops = &cal_video_qops;
+-	if (!fmtinfo) {
+-		ctx_dbg(3, ctx, "No cal_fmt provided!\n");
+-		return -EINVAL;
+-	}
+-
+ 	/*
+ 	 * Maximum width is bound by the DMA max width in bytes.
+ 	 * We need to recalculate the actual maxi width depending on the
+@@ -177,8 +172,6 @@ static int cal_calc_format_size(struct cal_ctx *ctx,
+ 		__func__, fourcc_to_str(f->fmt.pix.pixelformat),
+ 		f->fmt.pix.width, f->fmt.pix.height,
+ 		f->fmt.pix.bytesperline, f->fmt.pix.sizeimage);
+-
+-	return 0;
+ }
+ 
+ static int cal_g_fmt_vid_cap(struct file *file, void *priv,
+@@ -247,7 +240,8 @@ static int cal_try_fmt_vid_cap(struct file *file, void *priv,
+ 	 * updated properly during s_fmt
+ 	 */
+ 	f->fmt.pix.colorspace = ctx->v_fmt.fmt.pix.colorspace;
+-	return cal_calc_format_size(ctx, fmtinfo, f);
++	cal_calc_format_size(ctx, fmtinfo, f);
++	return 0;
+ }
+ 
+ static int cal_s_fmt_vid_cap(struct file *file, void *priv,
 -- 
 Regards,
 
