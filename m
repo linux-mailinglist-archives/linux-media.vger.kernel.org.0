@@ -2,32 +2,32 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 61B252D0853
+	by mail.lfdr.de (Postfix) with ESMTP id CE2842D0854
 	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 00:57:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728680AbgLFX5I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Dec 2020 18:57:08 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:60442 "EHLO
+        id S1728683AbgLFX5Y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 6 Dec 2020 18:57:24 -0500
+Received: from perceval.ideasonboard.com ([213.167.242.64]:60444 "EHLO
         perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728669AbgLFX5I (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Dec 2020 18:57:08 -0500
+        with ESMTP id S1728051AbgLFX5X (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Dec 2020 18:57:23 -0500
 Received: from pendragon.lan (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 5BF10185C;
-        Mon,  7 Dec 2020 00:54:06 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 17343185F;
+        Mon,  7 Dec 2020 00:54:07 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1607298846;
-        bh=yJTPZj8e4DGBe/mBy+K+pJTzr6hJZOqqdGNaFU7LXrk=;
+        s=mail; t=1607298847;
+        bh=3iPSV3Za/k7JwD3RqrCEcFWC4nSCpj3/42+90/PejTc=;
         h=From:To:Cc:Subject:Date:In-Reply-To:References:From;
-        b=FfhEJdQMjJAJDgLpy2m4cz8Qvw0zlFdpKdxUg7rlUha35W6NML2O+C0TnLR/vYnEa
-         6+ZWWiNucajJSL4OTemsvk2+hhdSQ5qsELROud7Fgw2t+GG1NFAi4evNRjpIYbZF8X
-         J/1Ukisbb0rZ3yGX176TyKOGrnBK8xfO4le38xbA=
+        b=JYV7823UK/YzJYrc6CW/bryFspHeGHDB0oQfxmtMGckFX3m4rycx49ckMg+3UJPLE
+         EY2g/DGRrAw4iPqSHWWq1HjqAR7hyO9/c1FxoogADeProVHMvUvSWZlHrAhQODZEOh
+         vmmqaJz6Ou3qRABOCrz2UjGZiYUo31xIfB+kRolA=
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 To:     linux-media@vger.kernel.org
 Cc:     Tomi Valkeinen <tomi.valkeinen@ti.com>,
         Benoit Parrot <bparrot@ti.com>
-Subject: [PATCH v3 15/24] media: ti-vpe: cal: Share buffer release code between start and stop
-Date:   Mon,  7 Dec 2020 01:53:44 +0200
-Message-Id: <20201206235353.26968-16-laurent.pinchart@ideasonboard.com>
+Subject: [PATCH v3 16/24] media: ti-vpe: cal: Drop V4L2_CAP_READWRITE
+Date:   Mon,  7 Dec 2020 01:53:45 +0200
+Message-Id: <20201206235353.26968-17-laurent.pinchart@ideasonboard.com>
 X-Mailer: git-send-email 2.27.0
 In-Reply-To: <20201206235353.26968-1-laurent.pinchart@ideasonboard.com>
 References: <20201206235353.26968-1-laurent.pinchart@ideasonboard.com>
@@ -37,105 +37,51 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The cal_start_streaming() and cal_stop_streaming() functions duplicate
-the same buffer release logic. split it to a separate function to share
-the code.
+The V4L2 read/write API is inefficient and makes little sense for
+devices that handle frame-based formats. Applications shouldn't use it,
+drop its support from the driver.
 
 Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
 Reviewed-by: Benoit Parrot <bparrot@ti.com>
 ---
- drivers/media/platform/ti-vpe/cal-video.c | 55 +++++++++++------------
- 1 file changed, 26 insertions(+), 29 deletions(-)
+Changes since v2:
+
+- Drop .read handler
+---
+ drivers/media/platform/ti-vpe/cal-video.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
 
 diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-index de0ba6128715..7eec0a57b141 100644
+index 7eec0a57b141..32dd4d9ca212 100644
 --- a/drivers/media/platform/ti-vpe/cal-video.c
 +++ b/drivers/media/platform/ti-vpe/cal-video.c
-@@ -486,11 +486,34 @@ static void cal_buffer_queue(struct vb2_buffer *vb)
- 	spin_unlock_irqrestore(&ctx->slock, flags);
- }
+@@ -393,7 +393,6 @@ static const struct v4l2_file_operations cal_fops = {
+ 	.owner		= THIS_MODULE,
+ 	.open           = v4l2_fh_open,
+ 	.release        = vb2_fop_release,
+-	.read           = vb2_fop_read,
+ 	.poll		= vb2_fop_poll,
+ 	.unlocked_ioctl = video_ioctl2, /* V4L2 ioctl handler */
+ 	.mmap           = vb2_fop_mmap,
+@@ -595,8 +594,7 @@ static const struct video_device cal_videodev = {
+ 	.ioctl_ops	= &cal_ioctl_ops,
+ 	.minor		= -1,
+ 	.release	= video_device_release_empty,
+-	.device_caps	= V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING |
+-			  V4L2_CAP_READWRITE,
++	.device_caps	= V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING,
+ };
  
-+static void cal_release_buffers(struct cal_ctx *ctx,
-+				enum vb2_buffer_state state)
-+{
-+	struct cal_buffer *buf, *tmp;
-+
-+	/* Release all active buffers. */
-+	spin_lock_irq(&ctx->slock);
-+
-+	list_for_each_entry_safe(buf, tmp, &ctx->vidq.active, list) {
-+		list_del(&buf->list);
-+		vb2_buffer_done(&buf->vb.vb2_buf, state);
-+	}
-+
-+	if (ctx->next_frm != ctx->cur_frm)
-+		vb2_buffer_done(&ctx->next_frm->vb.vb2_buf, state);
-+	vb2_buffer_done(&ctx->cur_frm->vb.vb2_buf, state);
-+
-+	ctx->cur_frm = NULL;
-+	ctx->next_frm = NULL;
-+
-+	spin_unlock_irq(&ctx->slock);
-+}
-+
- static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
- {
- 	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
- 	struct cal_dmaqueue *dma_q = &ctx->vidq;
--	struct cal_buffer *buf, *tmp;
-+	struct cal_buffer *buf;
- 	unsigned long addr;
- 	int ret;
+ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
+@@ -731,7 +729,7 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
  
-@@ -533,46 +556,20 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
- 	cal_ctx_disable_irqs(ctx);
- 	ctx->dma_state = CAL_DMA_STOPPED;
- 
--	spin_lock_irq(&ctx->slock);
--	vb2_buffer_done(&ctx->cur_frm->vb.vb2_buf, VB2_BUF_STATE_QUEUED);
--	ctx->cur_frm = NULL;
--	ctx->next_frm = NULL;
--	list_for_each_entry_safe(buf, tmp, &dma_q->active, list) {
--		list_del(&buf->list);
--		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_QUEUED);
--	}
--	spin_unlock_irq(&ctx->slock);
-+	cal_release_buffers(ctx, VB2_BUF_STATE_QUEUED);
- 	return ret;
- }
- 
- static void cal_stop_streaming(struct vb2_queue *vq)
- {
- 	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
--	struct cal_dmaqueue *dma_q = &ctx->vidq;
--	struct cal_buffer *buf, *tmp;
- 
- 	cal_ctx_wr_dma_stop(ctx);
- 	cal_ctx_disable_irqs(ctx);
- 
- 	v4l2_subdev_call(&ctx->phy->subdev, video, s_stream, 0);
- 
--	/* Release all active buffers */
--	spin_lock_irq(&ctx->slock);
--	list_for_each_entry_safe(buf, tmp, &dma_q->active, list) {
--		list_del(&buf->list);
--		vb2_buffer_done(&buf->vb.vb2_buf, VB2_BUF_STATE_ERROR);
--	}
--
--	if (ctx->cur_frm == ctx->next_frm) {
--		vb2_buffer_done(&ctx->cur_frm->vb.vb2_buf, VB2_BUF_STATE_ERROR);
--	} else {
--		vb2_buffer_done(&ctx->cur_frm->vb.vb2_buf, VB2_BUF_STATE_ERROR);
--		vb2_buffer_done(&ctx->next_frm->vb.vb2_buf,
--				VB2_BUF_STATE_ERROR);
--	}
--	ctx->cur_frm = NULL;
--	ctx->next_frm = NULL;
--	spin_unlock_irq(&ctx->slock);
-+	cal_release_buffers(ctx, VB2_BUF_STATE_ERROR);
- 
- 	pm_runtime_put_sync(ctx->cal->dev);
- }
+ 	/* Initialize the vb2 queue. */
+ 	q->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
+-	q->io_modes = VB2_MMAP | VB2_DMABUF | VB2_READ;
++	q->io_modes = VB2_MMAP | VB2_DMABUF;
+ 	q->drv_priv = ctx;
+ 	q->buf_struct_size = sizeof(struct cal_buffer);
+ 	q->ops = &cal_video_qops;
 -- 
 Regards,
 
