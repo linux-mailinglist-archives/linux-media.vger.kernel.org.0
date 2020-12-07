@@ -2,88 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0E23F2D09AD
-	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 05:28:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6C6562D0A7A
+	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 07:00:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728775AbgLGE1g (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 6 Dec 2020 23:27:36 -0500
-Received: from szxga04-in.huawei.com ([45.249.212.190]:8705 "EHLO
-        szxga04-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726484AbgLGE1f (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Sun, 6 Dec 2020 23:27:35 -0500
-Received: from DGGEMS401-HUB.china.huawei.com (unknown [172.30.72.60])
-        by szxga04-in.huawei.com (SkyGuard) with ESMTP id 4Cq9H94WdwzkmHl;
-        Mon,  7 Dec 2020 12:26:13 +0800 (CST)
-Received: from thunder-town.china.huawei.com (10.174.177.9) by
- DGGEMS401-HUB.china.huawei.com (10.3.19.201) with Microsoft SMTP Server id
- 14.3.487.0; Mon, 7 Dec 2020 12:26:44 +0800
-From:   Zhen Lei <thunder.leizhen@huawei.com>
-To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        id S1725874AbgLGGAo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Dec 2020 01:00:44 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45926 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725773AbgLGGAo (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Dec 2020 01:00:44 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A75C0613D1
+        for <linux-media@vger.kernel.org>; Sun,  6 Dec 2020 22:00:03 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <sha@pengutronix.de>)
+        id 1km9Yx-0003Dh-4W; Mon, 07 Dec 2020 06:59:55 +0100
+Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <sha@pengutronix.de>)
+        id 1km9Yu-00024l-PM; Mon, 07 Dec 2020 06:59:52 +0100
+Date:   Mon, 7 Dec 2020 06:59:52 +0100
+From:   Sascha Hauer <s.hauer@pengutronix.de>
+To:     michael.srba@seznam.cz
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
         Rob Herring <robh+dt@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Jacopo Mondi <jacopo@jmondi.org>,
-        "Ricardo Ribalda" <ribalda@kernel.org>,
         Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
         Pengutronix Kernel Team <kernel@pengutronix.de>,
         Fabio Estevam <festevam@gmail.com>,
         NXP Linux Team <linux-imx@nxp.com>,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        linux-media <linux-media@vger.kernel.org>,
-        devicetree <devicetree@vger.kernel.org>,
-        linux-kernel <linux-kernel@vger.kernel.org>
-CC:     Zhen Lei <thunder.leizhen@huawei.com>
-Subject: [PATCH 4/4] dt-bindings: media: imx214: eliminate yamllint warnings
-Date:   Mon, 7 Dec 2020 12:24:00 +0800
-Message-ID: <20201207042400.1498-5-thunder.leizhen@huawei.com>
-X-Mailer: git-send-email 2.26.0.windows.1
-In-Reply-To: <20201207042400.1498-1-thunder.leizhen@huawei.com>
-References: <20201207042400.1498-1-thunder.leizhen@huawei.com>
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+Subject: Re: [PATCH v2 1/3] media: i2c: imx219: add support for specifying
+ clock-frequencies
+Message-ID: <20201207055952.GB14307@pengutronix.de>
+References: <20201206172720.9406-1-michael.srba@seznam.cz>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.174.177.9]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201206172720.9406-1-michael.srba@seznam.cz>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 06:33:53 up 4 days, 18:00, 39 users,  load average: 0.07, 0.11, 0.14
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: sha@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Eliminate the following yamllint warnings:
-./Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-:72:17: [warning] wrong indentation: expected 18 but found 16 (indentation)
-:75:17: [warning] wrong indentation: expected 18 but found 16 (indentation)
+Hi Michael,
 
-Signed-off-by: Zhen Lei <thunder.leizhen@huawei.com>
----
- Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml | 12 ++++++------
- 1 file changed, 6 insertions(+), 6 deletions(-)
+On Sun, Dec 06, 2020 at 06:27:18PM +0100, michael.srba@seznam.cz wrote:
+> From: Michael Srba <Michael.Srba@seznam.cz>
+> 
+> This patch adds 1% tolerance on input clock, similar to other camera sensor
+> drivers. It also allows for specifying the actual clock in the device tree,
+> instead of relying on it being already set to the right frequency (which is
+> often not the case).
+> 
+> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
+> 
+> ---
+> 
+> changes since v1: default to exactly 24MHz when `clock-frequency` is not present
+> 
+> ---
+>  drivers/media/i2c/imx219.c | 19 +++++++++++++++++--
+>  1 file changed, 17 insertions(+), 2 deletions(-)
+> 
+> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+> index f64c0ef7a897..b6500e2ab19e 100644
+> --- a/drivers/media/i2c/imx219.c
+> +++ b/drivers/media/i2c/imx219.c
+> @@ -1443,13 +1443,28 @@ static int imx219_probe(struct i2c_client *client)
+>  		return PTR_ERR(imx219->xclk);
+>  	}
+>  
+> -	imx219->xclk_freq = clk_get_rate(imx219->xclk);
+> -	if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
+> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency", &imx219->xclk_freq);
+> +	if (ret) {
+> +		dev_warn(dev, "could not get xclk frequency\n");
+> +
+> +		/* default to 24MHz */
+> +		imx219->xclk_freq = 24000000;
+> +	}
+> +
+> +	/* this driver currently expects 24MHz; allow 1% tolerance */
+> +	if (imx219->xclk_freq < 23760000 || imx219->xclk_freq > 24240000) {
+>  		dev_err(dev, "xclk frequency not supported: %d Hz\n",
+>  			imx219->xclk_freq);
+>  		return -EINVAL;
+>  	}
+>  
+> +	ret = clk_set_rate(imx219->xclk, imx219->xclk_freq);
+> +	if (ret) {
+> +		dev_err(dev, "could not set xclk frequency\n");
+> +		return ret;
+> +	}
 
-diff --git a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-index 884bd3527e0a430..0599df605a4f8a6 100644
---- a/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-+++ b/Documentation/devicetree/bindings/media/i2c/sony,imx214.yaml
-@@ -69,13 +69,13 @@ properties:
-             description: See ../video-interfaces.txt
-             anyOf:
-               - items:
--                - const: 1
--                - const: 2
-+                  - const: 1
-+                  - const: 2
-               - items:
--                - const: 1
--                - const: 2
--                - const: 3
--                - const: 4
-+                  - const: 1
-+                  - const: 2
-+                  - const: 3
-+                  - const: 4
- 
-           link-frequencies:
-             $ref: /schemas/types.yaml#/definitions/uint64-array
+clk_set_rate() returns successfully when the rate change has succeeded.
+It tells you nothing about the actual rate that has been set. The rate
+could be very different from what you want to get, depending on what the
+hardware is able to archieve. There's clk_round_rate() that tells you
+which rate you'll get when you call clk_set_rate() with that value.
+You would have to call clk_round_rate() first and see if you are happy
+with the result, afterwards set the rate. From that view it doesn't make
+much sense to check the device tree if a number between 23760000 and
+24240000 is specified there, the clk api will do rounding anyway.
+
+Also there's the assigned-clocks device tree binding, see
+Documentation/devicetree/bindings/clock/clock-bindings.txt. This allows
+you to set the desired clock rate directly in the device tree. All
+that's left to do in the driver is to replace the check for the exact
+rate with a check which allows a certain tolerance.
+
+Sascha
+
 -- 
-1.8.3
-
-
+Pengutronix e.K.                           |                             |
+Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
+31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
+Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
