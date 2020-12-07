@@ -2,135 +2,135 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6C6562D0A7A
-	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 07:00:54 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E5C8F2D0A8F
+	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 07:14:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725874AbgLGGAo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Dec 2020 01:00:44 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45926 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725773AbgLGGAo (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Dec 2020 01:00:44 -0500
-Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id B7A75C0613D1
-        for <linux-media@vger.kernel.org>; Sun,  6 Dec 2020 22:00:03 -0800 (PST)
-Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
-        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <sha@pengutronix.de>)
-        id 1km9Yx-0003Dh-4W; Mon, 07 Dec 2020 06:59:55 +0100
-Received: from sha by ptx.hi.pengutronix.de with local (Exim 4.92)
-        (envelope-from <sha@pengutronix.de>)
-        id 1km9Yu-00024l-PM; Mon, 07 Dec 2020 06:59:52 +0100
-Date:   Mon, 7 Dec 2020 06:59:52 +0100
-From:   Sascha Hauer <s.hauer@pengutronix.de>
-To:     michael.srba@seznam.cz
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH v2 1/3] media: i2c: imx219: add support for specifying
- clock-frequencies
-Message-ID: <20201207055952.GB14307@pengutronix.de>
-References: <20201206172720.9406-1-michael.srba@seznam.cz>
-MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201206172720.9406-1-michael.srba@seznam.cz>
-X-Sent-From: Pengutronix Hildesheim
-X-URL:  http://www.pengutronix.de/
-X-IRC:  #ptxdist @freenode
-X-Accept-Language: de,en
-X-Accept-Content-Type: text/plain
-X-Uptime: 06:33:53 up 4 days, 18:00, 39 users,  load average: 0.07, 0.11, 0.14
-User-Agent: Mutt/1.10.1 (2018-07-13)
-X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
-X-SA-Exim-Mail-From: sha@pengutronix.de
-X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
-X-PTX-Original-Recipient: linux-media@vger.kernel.org
+        id S1725981AbgLGGOc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Dec 2020 01:14:32 -0500
+Received: from alexa-out.qualcomm.com ([129.46.98.28]:38827 "EHLO
+        alexa-out.qualcomm.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725681AbgLGGOc (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Dec 2020 01:14:32 -0500
+Received: from ironmsg-lv-alpha.qualcomm.com ([10.47.202.13])
+  by alexa-out.qualcomm.com with ESMTP; 06 Dec 2020 22:13:51 -0800
+X-QCInternal: smtphost
+Received: from ironmsg01-blr.qualcomm.com ([10.86.208.130])
+  by ironmsg-lv-alpha.qualcomm.com with ESMTP/TLS/AES256-SHA; 06 Dec 2020 22:13:49 -0800
+X-QCInternal: smtphost
+Received: from c-mansur-linux.qualcomm.com ([10.204.90.208])
+  by ironmsg01-blr.qualcomm.com with ESMTP; 07 Dec 2020 11:43:35 +0530
+Received: by c-mansur-linux.qualcomm.com (Postfix, from userid 461723)
+        id B4BC2210BA; Mon,  7 Dec 2020 11:43:34 +0530 (IST)
+From:   dikshita@codeaurora.org
+To:     linux-media@vger.kernel.org, stanimir.varbanov@linaro.org
+Cc:     linux-kernel@vger.kernel.org, linux-arm-msm@vger.kernel.org,
+        vgarodia@codeaurora.org, Dikshita Agarwal <dikshita@codeaurora.org>
+Subject: [PATCH v3] venus: core: add support to dump FW region
+Date:   Mon,  7 Dec 2020 11:43:30 +0530
+Message-Id: <1607321610-25052-1-git-send-email-dikshita@codeaurora.org>
+X-Mailer: git-send-email 2.7.4
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Michael,
+From: Dikshita Agarwal <dikshita@codeaurora.org>
 
-On Sun, Dec 06, 2020 at 06:27:18PM +0100, michael.srba@seznam.cz wrote:
-> From: Michael Srba <Michael.Srba@seznam.cz>
-> 
-> This patch adds 1% tolerance on input clock, similar to other camera sensor
-> drivers. It also allows for specifying the actual clock in the device tree,
-> instead of relying on it being already set to the right frequency (which is
-> often not the case).
-> 
-> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
-> 
-> ---
-> 
-> changes since v1: default to exactly 24MHz when `clock-frequency` is not present
-> 
-> ---
->  drivers/media/i2c/imx219.c | 19 +++++++++++++++++--
->  1 file changed, 17 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
-> index f64c0ef7a897..b6500e2ab19e 100644
-> --- a/drivers/media/i2c/imx219.c
-> +++ b/drivers/media/i2c/imx219.c
-> @@ -1443,13 +1443,28 @@ static int imx219_probe(struct i2c_client *client)
->  		return PTR_ERR(imx219->xclk);
->  	}
->  
-> -	imx219->xclk_freq = clk_get_rate(imx219->xclk);
-> -	if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
-> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency", &imx219->xclk_freq);
-> +	if (ret) {
-> +		dev_warn(dev, "could not get xclk frequency\n");
-> +
-> +		/* default to 24MHz */
-> +		imx219->xclk_freq = 24000000;
-> +	}
-> +
-> +	/* this driver currently expects 24MHz; allow 1% tolerance */
-> +	if (imx219->xclk_freq < 23760000 || imx219->xclk_freq > 24240000) {
->  		dev_err(dev, "xclk frequency not supported: %d Hz\n",
->  			imx219->xclk_freq);
->  		return -EINVAL;
->  	}
->  
-> +	ret = clk_set_rate(imx219->xclk, imx219->xclk_freq);
-> +	if (ret) {
-> +		dev_err(dev, "could not set xclk frequency\n");
-> +		return ret;
-> +	}
+Add support to dump video FW region during FW crash
+using devcoredump helpers.
 
-clk_set_rate() returns successfully when the rate change has succeeded.
-It tells you nothing about the actual rate that has been set. The rate
-could be very different from what you want to get, depending on what the
-hardware is able to archieve. There's clk_round_rate() that tells you
-which rate you'll get when you call clk_set_rate() with that value.
-You would have to call clk_round_rate() first and see if you are happy
-with the result, afterwards set the rate. From that view it doesn't make
-much sense to check the device tree if a number between 23760000 and
-24240000 is specified there, the clk api will do rounding anyway.
+Signed-off-by: Dikshita Agarwal <dikshita@codeaurora.org>
+---
+ drivers/media/platform/qcom/venus/core.c     | 31 ++++++++++++++++++++++++++++
+ drivers/media/platform/qcom/venus/core.h     |  2 ++
+ drivers/media/platform/qcom/venus/firmware.c |  3 +++
+ 3 files changed, 36 insertions(+)
 
-Also there's the assigned-clocks device tree binding, see
-Documentation/devicetree/bindings/clock/clock-bindings.txt. This allows
-you to set the desired clock rate directly in the device tree. All
-that's left to do in the driver is to replace the check for the exact
-rate with a check which allows a certain tolerance.
-
-Sascha
-
+diff --git a/drivers/media/platform/qcom/venus/core.c b/drivers/media/platform/qcom/venus/core.c
+index 5102403..f23923d 100644
+--- a/drivers/media/platform/qcom/venus/core.c
++++ b/drivers/media/platform/qcom/venus/core.c
+@@ -7,8 +7,10 @@
+ #include <linux/interconnect.h>
+ #include <linux/ioctl.h>
+ #include <linux/delay.h>
++#include <linux/devcoredump.h>
+ #include <linux/list.h>
+ #include <linux/module.h>
++#include <linux/of_address.h>
+ #include <linux/of_device.h>
+ #include <linux/platform_device.h>
+ #include <linux/slab.h>
+@@ -22,6 +24,33 @@
+ #include "firmware.h"
+ #include "pm_helpers.h"
+ 
++static void venus_coredump(struct venus_core *core)
++{
++	struct device *dev;
++	phys_addr_t mem_phys;
++	size_t mem_size;
++	void *mem_va;
++	void *data;
++
++	dev = core->dev;
++	mem_phys = core->fw.mem_phys;
++	mem_size = core->fw.mem_size;
++
++	mem_va = memremap(mem_phys, mem_size, MEMREMAP_WC);
++	if (!mem_va)
++		return;
++
++	data = vmalloc(mem_size);
++	if (!data) {
++		memunmap(mem_va);
++		return;
++	}
++
++	memcpy(data, mem_va, mem_size);
++	dev_coredumpv(dev, data, mem_size, GFP_KERNEL);
++	memunmap(mem_va);
++}
++
+ static void venus_event_notify(struct venus_core *core, u32 event)
+ {
+ 	struct venus_inst *inst;
+@@ -67,6 +96,8 @@ static void venus_sys_error_handler(struct work_struct *work)
+ 
+ 	venus_shutdown(core);
+ 
++	venus_coredump(core);
++
+ 	pm_runtime_put_sync(core->dev);
+ 
+ 	while (core->pmdomains[0] && pm_runtime_active(core->pmdomains[0]))
+diff --git a/drivers/media/platform/qcom/venus/core.h b/drivers/media/platform/qcom/venus/core.h
+index 842a294..8122f23 100644
+--- a/drivers/media/platform/qcom/venus/core.h
++++ b/drivers/media/platform/qcom/venus/core.h
+@@ -171,6 +171,8 @@ struct venus_core {
+ 		struct device *dev;
+ 		struct iommu_domain *iommu_domain;
+ 		size_t mapped_mem_size;
++		phys_addr_t mem_phys;
++		size_t mem_size;
+ 	} fw;
+ 	struct mutex lock;
+ 	struct list_head instances;
+diff --git a/drivers/media/platform/qcom/venus/firmware.c b/drivers/media/platform/qcom/venus/firmware.c
+index 9a9c097..f3d91d23 100644
+--- a/drivers/media/platform/qcom/venus/firmware.c
++++ b/drivers/media/platform/qcom/venus/firmware.c
+@@ -201,6 +201,9 @@ int venus_boot(struct venus_core *core)
+ 		return -EINVAL;
+ 	}
+ 
++	core->fw.mem_size = mem_size;
++	core->fw.mem_phys = mem_phys;
++
+ 	if (core->use_tz)
+ 		ret = qcom_scm_pas_auth_and_reset(VENUS_PAS_ID);
+ 	else
 -- 
-Pengutronix e.K.                           |                             |
-Steuerwalder Str. 21                       | http://www.pengutronix.de/  |
-31137 Hildesheim, Germany                  | Phone: +49-5121-206917-0    |
-Amtsgericht Hildesheim, HRA 2686           | Fax:   +49-5121-206917-5555 |
+QUALCOMM INDIA, on behalf of Qualcomm Innovation Center, Inc. is a member 
+of Code Aurora Forum, hosted by The Linux Foundation
+
