@@ -2,24 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 237762D1982
-	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 20:32:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 494002D198B
+	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 20:32:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726435AbgLGTaE (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Dec 2020 14:30:04 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58858 "EHLO
+        id S1726738AbgLGTbU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Dec 2020 14:31:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59054 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725808AbgLGTaC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Dec 2020 14:30:02 -0500
-X-Greylist: delayed 129 seconds by postgrey-1.37 at lindbergh.monkeyblade.net; Mon, 07 Dec 2020 11:29:22 PST
+        with ESMTP id S1725995AbgLGTbT (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Dec 2020 14:31:19 -0500
 Received: from faui03.informatik.uni-erlangen.de (faui03.informatik.uni-erlangen.de [IPv6:2001:638:a000:4130:131:188:30:103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A135BC061793;
-        Mon,  7 Dec 2020 11:29:22 -0800 (PST)
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 63B16C061794;
+        Mon,  7 Dec 2020 11:30:39 -0800 (PST)
 Received: from cipterm0.informatik.uni-erlangen.de (cipterm0.cip.cs.fau.de [131.188.30.90])
-        by faui03.informatik.uni-erlangen.de (Postfix) with ESMTP id 31FE924008B;
-        Mon,  7 Dec 2020 20:29:21 +0100 (CET)
+        by faui03.informatik.uni-erlangen.de (Postfix) with ESMTP id BE275240D5F;
+        Mon,  7 Dec 2020 20:29:56 +0100 (CET)
 Received: by cipterm0.informatik.uni-erlangen.de (Postfix, from userid 67858)
-        id 280D43280304; Mon,  7 Dec 2020 20:29:21 +0100 (CET)
+        id BBDB33280304; Mon,  7 Dec 2020 20:29:56 +0100 (CET)
 From:   Philipp Gerlesberger <Philipp.Gerlesberger@fau.de>
 To:     linux-kernel@vger.kernel.org
 Cc:     Philipp Gerlesberger <Philipp.Gerlesberger@fau.de>,
@@ -27,9 +26,9 @@ Cc:     Philipp Gerlesberger <Philipp.Gerlesberger@fau.de>,
         mchehab@kernel.org, sakari.ailus@linux.intel.com,
         gregkh@linuxfoundation.org,
         ij72uhux@stud.informatik.uni-erlangen.de, linux-kernel@i4.cs.fau.de
-Subject: [PATCH 01/12] media: atomsip: Convert comments to C99 initializers
-Date:   Mon,  7 Dec 2020 20:26:27 +0100
-Message-Id: <20201207192638.15219-2-Philipp.Gerlesberger@fau.de>
+Subject: [PATCH 02/12] media: atomisp: Fix Block Comments
+Date:   Mon,  7 Dec 2020 20:26:29 +0100
+Message-Id: <20201207192638.15219-3-Philipp.Gerlesberger@fau.de>
 X-Mailer: git-send-email 2.20.1
 In-Reply-To: <20201207192638.15219-1-Philipp.Gerlesberger@fau.de>
 References: <20201207192638.15219-1-Philipp.Gerlesberger@fau.de>
@@ -39,69 +38,39 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The struct initalizers have been changed as recommended on
-https://kernelnewbies.org/KernelJanitors/Todo
+Block comments should use * on subsequent lines and
+should use a trailing */ on a separate line.
 
 Co-developed-by: Andrey Khlopkov <ij72uhux@stud.informatik.uni-erlangen.de>
 Signed-off-by: Andrey Khlopkov <ij72uhux@stud.informatik.uni-erlangen.de>
 Signed-off-by: Philipp Gerlesberger <Philipp.Gerlesberger@fau.de>
 ---
- .../atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c  | 30 +++++++++----------
- 1 file changed, 15 insertions(+), 15 deletions(-)
+ .../staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c   | 5 +++--
+ 1 file changed, 3 insertions(+), 2 deletions(-)
 
 diff --git a/drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c b/drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c
-index b4f53be18e7f..af61d05e88d3 100644
+index af61d05e88d3..4ba5b8f88a7d 100644
 --- a/drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c
 +++ b/drivers/staging/media/atomisp/pci/runtime/rmgr/src/rmgr_vbuf.c
-@@ -31,33 +31,33 @@ static struct ia_css_rmgr_vbuf_handle handle_table[NUM_HANDLES];
-  * @brief VBUF resource pool - refpool
-  */
- static struct ia_css_rmgr_vbuf_pool refpool = {
--	false,			/* copy_on_write */
--	false,			/* recycle */
--	0,			/* size */
--	0,			/* index */
--	NULL,			/* handles */
-+	.copy_on_write	= false,
-+	.recycle	= false,
-+	.size		= 0,
-+	.index		= 0,
-+	.handles	= NULL,
- };
- 
- /*
-  * @brief VBUF resource pool - writepool
-  */
- static struct ia_css_rmgr_vbuf_pool writepool = {
--	true,			/* copy_on_write */
--	false,			/* recycle */
--	0,			/* size */
--	0,			/* index */
--	NULL,			/* handles */
-+	.copy_on_write	= true,
-+	.recycle	= false,
-+	.size		= 0,
-+	.index		= 0,
-+	.handles	= NULL,
- };
- 
- /*
-  * @brief VBUF resource pool - hmmbufferpool
-  */
- static struct ia_css_rmgr_vbuf_pool hmmbufferpool = {
--	true,			/* copy_on_write */
--	true,			/* recycle */
--	32,			/* size */
--	0,			/* index */
--	NULL,			/* handles */
-+	.copy_on_write	= true,
-+	.recycle	= true,
-+	.size		= 32,
-+	.index		= 0,
-+	.handles	= NULL,
- };
- 
- struct ia_css_rmgr_vbuf_pool *vbuf_ref = &refpool;
+@@ -98,7 +98,7 @@ void ia_css_rmgr_refcount_retain_vbuf(struct ia_css_rmgr_vbuf_handle **handle)
+ 			}
+ 		}
+ 		/* if the loop dus not break and *handle == NULL
+-		   this is an error handle and report it.
++		 * this is an error handle and report it.
+ 		 */
+ 		if (!*handle) {
+ 			ia_css_debug_dtrace(IA_CSS_DEBUG_ERROR,
+@@ -253,7 +253,8 @@ void rmgr_pop_handle(struct ia_css_rmgr_vbuf_pool *pool,
+ 			*handle = pool->handles[i];
+ 			pool->handles[i] = NULL;
+ 			/* dont release, we are returning it...
+-			   ia_css_rmgr_refcount_release_vbuf(handle); */
++			 * ia_css_rmgr_refcount_release_vbuf(handle);
++			 */
+ 			return;
+ 		}
+ 	}
 -- 
 2.20.1
 
