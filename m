@@ -2,112 +2,283 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 816E62D0E63
-	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 11:48:44 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 75A2A2D0ED9
+	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 12:20:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726380AbgLGKsZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Dec 2020 05:48:25 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:46271 "EHLO
+        id S1726217AbgLGLTm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Dec 2020 06:19:42 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:49413 "EHLO
         lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726214AbgLGKsZ (ORCPT
+        by vger.kernel.org with ESMTP id S1726322AbgLGLTm (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Dec 2020 05:48:25 -0500
+        Mon, 7 Dec 2020 06:19:42 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id mE3OkFNsIarN7mE3SkzDir; Mon, 07 Dec 2020 11:47:42 +0100
+        id mEXfkFZitarN7mEXikzLAS; Mon, 07 Dec 2020 12:18:59 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1607338062; bh=gWVo8YX1VQxSsOSI04pPBsnfOvUw7NtMunA1qyzkVps=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
+        t=1607339939; bh=cDW2r5fF1HAIDDwKn7uJtN04s7Dj72XgdjLzBpxKarA=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=jKT/DwFs1uxnlPjVbuxcBc5m36tgdSbbBheMmi5rQbE/2Nlq/zWY4tTjVlvcf5Dyz
-         oCr3qxpIELZgr6ldAsAloZ2oU1vnHrpTd5pkVUE7CQhocWJPqJuBC41kWSjhaOnO+H
-         0ZjJ3GJHq0XiHdoiojc8thNUGtjROedHn1s18kAY2k2iKsle5rgDfuG9D3cIyiZ1sl
-         6K+OpjgG8+rnJUk/qzXN5E20ax0F+tVO4OpMKanuUMMqgPj5GtFc8codZ8Z6ynxKDp
-         rzsdp7+WoDml73Y7EzIh3WZpXK+UDL5OBkgGHXxeryJ2vrXFG/4jiGlvcIZQj+16zi
-         e3SVhAVoaW4uw==
-Subject: Re: [PATCH v3 10/13] media: v4l2-fwnode: Update
- V4L2_FWNODE_CSI2_MAX_DATA_LANES to 8
-To:     Sowjanya Komatineni <skomatineni@nvidia.com>,
-        thierry.reding@gmail.com, jonathanh@nvidia.com,
-        sakari.ailus@iki.fi, robh+dt@kernel.org
-Cc:     bparrot@ti.com, mchehab@kernel.org, linux-media@vger.kernel.org,
-        linux-tegra@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-References: <1607022002-26575-1-git-send-email-skomatineni@nvidia.com>
- <1607022002-26575-11-git-send-email-skomatineni@nvidia.com>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <845dfd4a-fa11-625c-78a3-cc8adc68bfc7@xs4all.nl>
-Date:   Mon, 7 Dec 2020 11:47:38 +0100
+        b=LTp4qYTVp66KgX/XbFl/Va2ODIjqwMf8fp+gOxbjFyngTqPcTBio1bQyDfBx1y0Q3
+         9BamWFw0baNPC6rxoGWskpngs4kqjZU0KDtnQn4NPsmlSJqS52Ch09rUL7sfFI8MqY
+         Spxj3eoFZGk9N2fEPGHAA2PNtzhDMX51L+w2x6yLm8+ae2vZzumoYvfhdgRqXeugp6
+         5ao5yAQ73PSfa2rRJH8ZfmTVF3yL+0S6lxsUWsN7lSdL3iAeGq+C7HAAR+b3frO5oI
+         i7El+korvuuhCdJYVGsTEUDkfU+Xz4Kw+blffCB4WEz7dLcqwrGrFZ6uM7ADrV63B8
+         +AZRxIP/Xr8PQ==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Subject: [PATCH] imx274: remove composition support, add
+ V4L2_SEL_TGT_CROP_DEFAULT
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        "Eugen.Hristev@microchip.com" <Eugen.Hristev@microchip.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>
+Message-ID: <7940b65c-b5d8-0167-3262-4282f10e873c@xs4all.nl>
+Date:   Mon, 7 Dec 2020 12:18:55 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <1607022002-26575-11-git-send-email-skomatineni@nvidia.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfKlT91V/9qHoNEbQguLdjtrxEusCqooMka1R1Z25DwFG17wT85odnqoeRsm++0Zzch7a8bH+1di0wpastSoZvVELgKJHd/ZJy5CDBZfTD4bwan22gYMV
- C7KxBboHLhb1Yptt6u1/jkYzVOvNlqcQQRybr6eFb39d5eGgLihAdmflsBBbDI/pCvtlypxfrRcaEUW8TO+2TXec3MfbNPqzxlYDnOJ1ouBYRK53ergZUGEb
- 97/E/JWkam3FjIZhszOQPO8hYKAm7GN3JUc2ofaYgv/d4rjS8bYFAB4ADiFkt8kt++1yW3sVIzwHdyNOogRa8Ynr9KKXEWQt4N9VgH3zjhWbZdMR8TZwEdTX
- aMOtQwlkHub9zJxCo/HQDifMk5m+tep8yWzezayO24YeCUnqtlYlYIKvwtuWZP5PBJR4EXTIcF/GYhAGcjYFP7qZCLb7itRjYKMDmYYrzzLryFSPwYPREY6U
- oyFjX8XMBNMidSuLoqqaj6wM8cJb5gEfzaze1MzYRaLj2LSzdDXPb61Grf0PBun3ntGl/2OGXTS/58LXblSEQmlH8Mem3aBwPagSPERyztfL6JT9pGiViHJE
- C8E=
+X-CMAE-Envelope: MS4xfKYyR29CqHikPZB9/BtclIPjFRsMBEmQG9pNZVvNFJlntbtOYOE0RZJ4fODLFAuxclF8gIv4btRzW4icWNjksEO3ABu2xtBzEyi6ZNo/ZoptITwsS3O+
+ jo74aQQYHWP6uwfys5xyzYQCFmxrL817a66UQNy+WGGWQVX94N9I6chNooEvZwnU1DBPq/vZGgfwpIuHCm63mRCNs129LLlt2TXHKu33mK0/SWUuax8CPYdx
+ 75oQj8x9U/IfkzPkWrQreB3q2Bews5bbadgPrb8QKyQWj87rfbEkptUiOOqzDEGD/FwkPGB5lMMbCMXFK+xq5aSuwgOtqrkF/Lhxk2GFiwIXANQuqY2J6fqS
+ deA4lY9F
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 03/12/2020 19:59, Sowjanya Komatineni wrote:
-> Some CSI2 receivers support 8 data lanes.
-> 
-> So, this patch updates CSI2 maximum data lanes to be 8.
-> 
-> Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
-> ---
->  drivers/media/platform/ti-vpe/cal-camerarx.c | 2 +-
->  include/media/v4l2-fwnode.h                  | 2 +-
->  2 files changed, 2 insertions(+), 2 deletions(-)
-> 
-> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> index 806cbf1..47e2143 100644
-> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
-> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> @@ -534,7 +534,7 @@ static int cal_camerarx_parse_dt(struct cal_camerarx *phy)
->  {
->  	struct v4l2_fwnode_endpoint *endpoint = &phy->endpoint;
->  	struct device_node *ep_node;
-> -	char data_lanes[V4L2_FWNODE_CSI2_MAX_DATA_LANES * 2];
-> +	char data_lanes[V4L2_FWNODE_CSI2_MAX_DATA_LANES];
->  	unsigned int i;
->  	int ret;
->  
+This driver does not support composition, only cropping.
+Composition means that the sensor can output e.g. 1920x1080,
+but can compose a cropped 1280x720 image in the middle of the
+1920x1080 canvas, filling in the unused area with a background
+color.
 
-I'm not so sure about this change: it relies on the implicit knowledge that
-this cal driver can handle only 4 lanes max, so that doubling
-V4L2_FWNODE_CSI2_MAX_DATA_LANES is the same as the old 'V4L2_FWNODE_CSI2_MAX_DATA_LANES * 2'.
+That's not supported at all. So drop the bogus composition support.
 
-I think we should either keep the existing code (which means data_lanes
-is now larger than needed, so stack usage increases by 8 bytes), or perhaps
-create a new define for this driver like CAL_MAX_DATA_LANES and use that.
+Support for V4L2_SEL_TGT_CROP_DEFAULT was missing in imx274_get_selection,
+which meant that VIDIOC_CROPCAP couldn't be emulated and that caused a
+v4l2-compliance failure. Add support for this target to fix this.
 
-In my opinion the original code should just be kept, but I've CC-ed Laurent
-on this to hear what he thinks.
+Signed-off-by: Hans Verkuil <hverkuil-cisco@xs4all.nl>
+---
+This patch has been in my queue for almost half a year. I thought I had
+posted it before, but apparently not. Apologies for that.
+---
+ drivers/media/i2c/imx274.c | 125 +++++++++++--------------------------
+ 1 file changed, 36 insertions(+), 89 deletions(-)
 
-Regards,
+diff --git a/drivers/media/i2c/imx274.c b/drivers/media/i2c/imx274.c
+index 54642d5f2d5b..abb2f8d4895f 100644
+--- a/drivers/media/i2c/imx274.c
++++ b/drivers/media/i2c/imx274.c
+@@ -980,11 +980,11 @@ static int imx274_binning_goodness(struct stimx274 *imx274,
+ }
 
-	Hans
+ /**
+- * Helper function to change binning and set both compose and format.
++ * Helper function to change binning and set both crop and format.
+  *
+  * We have two entry points to change binning: set_fmt and
+- * set_selection(COMPOSE). Both have to compute the new output size
+- * and set it in both the compose rect and the frame format size. We
++ * set_selection(CROP). Both have to compute the new output size
++ * and set it in both the crop rect and the frame format size. We
+  * also need to do the same things after setting cropping to restore
+  * 1:1 binning.
+  *
+@@ -1003,12 +1003,12 @@ static int imx274_binning_goodness(struct stimx274 *imx274,
+  * @flags:  Selection flags from struct v4l2_subdev_selection, or 0 if not
+  *          available (when called from set_fmt)
+  */
+-static int __imx274_change_compose(struct stimx274 *imx274,
+-				   struct v4l2_subdev_pad_config *cfg,
+-				   u32 which,
+-				   u32 *width,
+-				   u32 *height,
+-				   u32 flags)
++static int __imx274_change_crop_fmt(struct stimx274 *imx274,
++				    struct v4l2_subdev_pad_config *cfg,
++				    u32 which,
++				    u32 *width,
++				    u32 *height,
++				    u32 flags)
+ {
+ 	struct device *dev = &imx274->client->dev;
+ 	const struct v4l2_rect *cur_crop;
+@@ -1099,14 +1099,14 @@ static int imx274_set_fmt(struct v4l2_subdev *sd,
 
-> diff --git a/include/media/v4l2-fwnode.h b/include/media/v4l2-fwnode.h
-> index 4e1f6e1d..92401c1 100644
-> --- a/include/media/v4l2-fwnode.h
-> +++ b/include/media/v4l2-fwnode.h
-> @@ -25,7 +25,7 @@ struct fwnode_handle;
->  struct v4l2_async_notifier;
->  struct v4l2_async_subdev;
->  
-> -#define V4L2_FWNODE_CSI2_MAX_DATA_LANES	4
-> +#define V4L2_FWNODE_CSI2_MAX_DATA_LANES	8
->  
->  /**
->   * struct v4l2_fwnode_bus_mipi_csi2 - MIPI CSI-2 bus data structure
-> 
+ 	mutex_lock(&imx274->lock);
+
+-	err = __imx274_change_compose(imx274, cfg, format->which,
+-				      &fmt->width, &fmt->height, 0);
++	err = __imx274_change_crop_fmt(imx274, cfg, format->which,
++				       &fmt->width, &fmt->height, 0);
+
+ 	if (err)
+ 		goto out;
+
+ 	/*
+-	 * __imx274_change_compose already set width and height in the
++	 * __imx274_change_crop_fmt already set width and height in the
+ 	 * applicable format, but we need to keep all other format
+ 	 * values, so do a full copy here
+ 	 */
+@@ -1127,14 +1127,12 @@ static int imx274_get_selection(struct v4l2_subdev *sd,
+ 				struct v4l2_subdev_selection *sel)
+ {
+ 	struct stimx274 *imx274 = to_imx274(sd);
+-	const struct v4l2_rect *src_crop;
+-	const struct v4l2_mbus_framefmt *src_fmt;
+-	int ret = 0;
+
+ 	if (sel->pad != 0)
+ 		return -EINVAL;
+
+-	if (sel->target == V4L2_SEL_TGT_CROP_BOUNDS) {
++	if (sel->target == V4L2_SEL_TGT_CROP_BOUNDS ||
++	    sel->target == V4L2_SEL_TGT_CROP_DEFAULT) {
+ 		sel->r.left = 0;
+ 		sel->r.top = 0;
+ 		sel->r.width = IMX274_MAX_WIDTH;
+@@ -1142,57 +1140,42 @@ static int imx274_get_selection(struct v4l2_subdev *sd,
+ 		return 0;
+ 	}
+
+-	if (sel->which == V4L2_SUBDEV_FORMAT_TRY) {
+-		src_crop = &cfg->try_crop;
+-		src_fmt = &cfg->try_fmt;
+-	} else {
+-		src_crop = &imx274->crop;
+-		src_fmt = &imx274->format;
+-	}
++	if (sel->target != V4L2_SEL_TGT_CROP)
++		return -EINVAL;
+
+ 	mutex_lock(&imx274->lock);
+-
+-	switch (sel->target) {
+-	case V4L2_SEL_TGT_CROP:
+-		sel->r = *src_crop;
+-		break;
+-	case V4L2_SEL_TGT_COMPOSE_BOUNDS:
+-		sel->r.top = 0;
+-		sel->r.left = 0;
+-		sel->r.width = src_crop->width;
+-		sel->r.height = src_crop->height;
+-		break;
+-	case V4L2_SEL_TGT_COMPOSE:
+-		sel->r.top = 0;
+-		sel->r.left = 0;
+-		sel->r.width = src_fmt->width;
+-		sel->r.height = src_fmt->height;
+-		break;
+-	default:
+-		ret = -EINVAL;
+-	}
++	if (sel->which == V4L2_SUBDEV_FORMAT_TRY)
++		sel->r = cfg->try_crop;
++	else
++		sel->r = imx274->crop;
+
+ 	mutex_unlock(&imx274->lock);
+
+-	return ret;
++	return 0;
+ }
+
+-static int imx274_set_selection_crop(struct stimx274 *imx274,
+-				     struct v4l2_subdev_pad_config *cfg,
+-				     struct v4l2_subdev_selection *sel)
++static int imx274_set_selection(struct v4l2_subdev *sd,
++				struct v4l2_subdev_pad_config *cfg,
++				struct v4l2_subdev_selection *sel)
+ {
++	struct stimx274 *imx274 = to_imx274(sd);
+ 	struct v4l2_rect *tgt_crop;
+ 	struct v4l2_rect new_crop;
+ 	bool size_changed;
+-
+ 	/*
+ 	 * h_step could be 12 or 24 depending on the binning. But we
+ 	 * won't know the binning until we choose the mode later in
+-	 * __imx274_change_compose(). Thus let's be safe and use the
++	 * __imx274_change_crop_fmt(). Thus let's be safe and use the
+ 	 * most conservative value in all cases.
+ 	 */
+ 	const u32 h_step = 24;
+
++	if (sel->pad != 0)
++		return -EINVAL;
++
++	if (sel->target != V4L2_SEL_TGT_CROP)
++		return -EINVAL;
++
+ 	new_crop.width = min_t(u32,
+ 			       IMX274_ROUND(sel->r.width, h_step, sel->flags),
+ 			       IMX274_MAX_WIDTH);
+@@ -1224,56 +1207,20 @@ static int imx274_set_selection_crop(struct stimx274 *imx274,
+ 	size_changed = (new_crop.width != tgt_crop->width ||
+ 			new_crop.height != tgt_crop->height);
+
+-	/* __imx274_change_compose needs the new size in *tgt_crop */
++	/* __imx274_change_crop_fmt needs the new size in *tgt_crop */
+ 	*tgt_crop = new_crop;
+
+ 	/* if crop size changed then reset the output image size */
+ 	if (size_changed)
+-		__imx274_change_compose(imx274, cfg, sel->which,
+-					&new_crop.width, &new_crop.height,
+-					sel->flags);
++		__imx274_change_crop_fmt(imx274, cfg, sel->which,
++					 &new_crop.width, &new_crop.height,
++					 sel->flags);
+
+ 	mutex_unlock(&imx274->lock);
+
+ 	return 0;
+ }
+
+-static int imx274_set_selection(struct v4l2_subdev *sd,
+-				struct v4l2_subdev_pad_config *cfg,
+-				struct v4l2_subdev_selection *sel)
+-{
+-	struct stimx274 *imx274 = to_imx274(sd);
+-
+-	if (sel->pad != 0)
+-		return -EINVAL;
+-
+-	if (sel->target == V4L2_SEL_TGT_CROP)
+-		return imx274_set_selection_crop(imx274, cfg, sel);
+-
+-	if (sel->target == V4L2_SEL_TGT_COMPOSE) {
+-		int err;
+-
+-		mutex_lock(&imx274->lock);
+-		err =  __imx274_change_compose(imx274, cfg, sel->which,
+-					       &sel->r.width, &sel->r.height,
+-					       sel->flags);
+-		mutex_unlock(&imx274->lock);
+-
+-		/*
+-		 * __imx274_change_compose already set width and
+-		 * height in set->r, we still need to set top-left
+-		 */
+-		if (!err) {
+-			sel->r.top = 0;
+-			sel->r.left = 0;
+-		}
+-
+-		return err;
+-	}
+-
+-	return -EINVAL;
+-}
+-
+ static int imx274_apply_trimming(struct stimx274 *imx274)
+ {
+ 	u32 h_start;
+-- 
+2.29.2
 
