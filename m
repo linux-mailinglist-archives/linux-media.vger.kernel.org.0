@@ -2,82 +2,103 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6700D2D0DD9
-	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 11:16:22 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7D54D2D0DEB
+	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 11:22:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726267AbgLGKQV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Dec 2020 05:16:21 -0500
-Received: from www.linuxtv.org ([130.149.80.248]:60846 "EHLO www.linuxtv.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1725802AbgLGKQV (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Dec 2020 05:16:21 -0500
-Received: from builder.linuxtv.org ([140.211.167.10])
-        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
-        (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kmDYS-008wtv-5i; Mon, 07 Dec 2020 10:15:40 +0000
-Received: from [127.0.0.1] (helo=builder.linuxtv.org)
-        by builder.linuxtv.org with esmtp (Exim 4.92)
-        (envelope-from <jenkins@linuxtv.org>)
-        id 1kmDbd-0007pU-G2; Mon, 07 Dec 2020 10:18:57 +0000
-From:   Jenkins <jenkins@linuxtv.org>
-To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
-Cc:     builder@linuxtv.org
-Subject: Re: [GIT PULL FOR v5.11 or v5.12] Rework RGB and YUV pixel formats (#69836)
-Date:   Mon,  7 Dec 2020 10:18:56 +0000
-Message-Id: <20201207101856.30055-1-jenkins@linuxtv.org>
-X-Mailer: git-send-email 2.20.1
-In-Reply-To: <203c4f5f-8d4c-caad-9384-9f55d037ff9e@xs4all.nl>
-References: 
+        id S1726459AbgLGKWR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Dec 2020 05:22:17 -0500
+Received: from lb1-smtp-cloud9.xs4all.net ([194.109.24.22]:60325 "EHLO
+        lb1-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725852AbgLGKWR (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Dec 2020 05:22:17 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id mDe7kFEDwarN7mDeAkz7qe; Mon, 07 Dec 2020 11:21:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1607336495; bh=L1Bgkiyyo3V7YJvEXdX6aU51DtPuoog00qmagaSsNRc=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=kWsl6sYWzghaB/Z1eiaaOjPK6F2GDLvchuX9nAqZuP/3Z9eq6QHoQWaOvbwBr/6oJ
+         CuXopTyXgQDBTlqnhd/arJyxSGh9SkYWvY01ACGda9dGLguFP7hll2QMrlrH4JqGdR
+         SnqELxZY+ZXpIQYAeXVMEJjLq0Ya9gmoAaohgRyHFIBBbg39/Z1zvQmuGFNRtK38iu
+         UNVlXoQJZNW9a/BAipMJoSbUSzu8mcNMBvKeY1hHFo6YIx5OOg3Lr+bNGOM4m7JXxT
+         Ash9CctVbHgknSYc4/9JFlQSjSD7Q3Xtk18G/bFnwtmC1oBjw4IILV4eTnGENG08g9
+         74t5pgftK194A==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.12] ti-vpe: cal: prepare for adding MC support
+Message-ID: <b5f50e63-0c79-d613-fc8b-c3a529dcd446@xs4all.nl>
+Date:   Mon, 7 Dec 2020 11:21:31 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfPrmqtypqjHLVKXAVMWg7no+YeS3puyYm69c7/t16MIwWm6IqwPGzvOlOVTEVdcnoBT1jPEAEtNLXi8TQRYV0RBrq30gmTze+vRpbTbPeeYX3Vy7y1U/
+ KX/TAXQUfOa0ysxdsuVeIqUTvrh/ohopdrkr0rP2/R2SlmyihBAOBbAZBf+qnjviap9Wet/hNAOclRYarLdHOSCnEv6e39+dxWqNx2QWV6PRd/5ahykrMVhr
+ oX1Xc2clE9lVqYsqpq77bg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-From: builder@linuxtv.org
+This PR merges all except for the final patch of the ti-vpe cal MC series:
 
-Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/203c4f5f-8d4c-caad-9384-9f55d037ff9e@xs4all.nl/
-Build log: https://builder.linuxtv.org/job/patchwork/80272/
-Build time: 00:17:05
-Link: https://lore.kernel.org/linux-media/203c4f5f-8d4c-caad-9384-9f55d037ff9e@xs4all.nl
+https://patchwork.linuxtv.org/project/linux-media/cover/20201206235353.26968-1-laurent.pinchart@ideasonboard.com/
 
-gpg: Signature made Mon 07 Dec 2020 09:32:27 AM UTC
-gpg:                using RSA key AAA7FFBA4D2D77EF4CAEA1421326E0CD23ABDCE5
-gpg: Good signature from "Hans Verkuil <hverkuil-cisco@xs4all.nl>" [unknown]
-gpg:                 aka "Hans Verkuil <hverkuil@xs4all.nl>" [full]
-gpg: Note: This key has expired!
-Primary key fingerprint: 052C DE7B C215 053B 689F  1BCA BD2D 6148 6614 3B4C
-     Subkey fingerprint: AAA7 FFBA 4D2D 77EF 4CAE  A142 1326 E0CD 23AB DCE5
+It is very likely that by the time this PR can be merged there will be a v2
+of this PR containing the last patch as well, but for now I want to post this
+to ensure that at least these patches will be merged.
 
-Summary: got 4/16 patches with issues, being 0 at build time, plus one error when buinding PDF document
+Regards,
 
-Error/warnings:
+	Hans
 
-patches/0010-media-doc-pixfmt-yuv-Move-all-packed-YUV-formats-to-.patch:
+The following changes since commit 63288c829b1a5991d8f8c15cab596108ed206ba6:
 
-   checkpatch.pl:
-	$ cat patches/0010-media-doc-pixfmt-yuv-Move-all-packed-YUV-formats-to-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:204: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+  media: pixfmt-compressed.rst: fix 'bullet' formatting (2020-12-03 12:27:34 +0100)
 
-patches/0014-media-doc-pixfmt-yuv-Move-all-luma-only-YUV-formats-.patch:
+are available in the Git repository at:
 
-   checkpatch.pl:
-	$ cat patches/0014-media-doc-pixfmt-yuv-Move-all-luma-only-YUV-formats-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:35: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.12a
 
-patches/0015-media-doc-pixfmt-yuv-Move-all-semi-planar-YUV-format.patch:
+for you to fetch changes up to e385a8f247331d5a1fd1cbe51ef8032106445f66:
 
-   checkpatch.pl:
-	$ cat patches/0015-media-doc-pixfmt-yuv-Move-all-semi-planar-YUV-format.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:32: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+  media: ti-vpe: cal: Simplify the context API (2020-12-07 10:50:08 +0100)
 
-patches/0016-media-doc-pixfmt-yuv-Move-all-planar-YUV-formats-to-.patch:
+----------------------------------------------------------------
+Tag branch
 
-   checkpatch.pl:
-	$ cat patches/0016-media-doc-pixfmt-yuv-Move-all-planar-YUV-formats-to-.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
-	-:527: WARNING: added, moved or deleted file(s), does MAINTAINERS need updating?
+----------------------------------------------------------------
+Laurent Pinchart (23):
+      media: ti-vpe: cal: Create subdev for CAMERARX
+      media: ti-vpe: cal: Drop cal_ctx m_fmt field
+      media: ti-vpe: cal: Move format handling to cal.c and expose helpers
+      media: ti-vpe: cal: Rename MAX_(WIDTH|HEIGHT)_* macros with CAL_ prefix
+      media: ti-vpe: cal: Replace hardcoded BIT() value with macro
+      media: ti-vpe: cal: Iterate over correct number of CAMERARX instances
+      media: ti-vpe: cal: Implement subdev ops for CAMERARX
+      media: ti-vpe: cal: Use CAMERARX subdev s_stream op in video device code
+      media: ti-vpe: cal: Don't pass format to cal_ctx_wr_dma_config()
+      media: ti-vpe: cal: Rename struct cal_fmt to cal_format_info
+      media: ti-vpe: cal: Refactor interrupt enable/disable
+      media: ti-vpe: cal: Fold PPI enable in CAMERARX .s_stream()
+      media: ti-vpe: cal: Stop write DMA without disabling PPI
+      media: ti-vpe: cal: Use spin_lock_irq() when starting or stopping stream
+      media: ti-vpe: cal: Share buffer release code between start and stop
+      media: ti-vpe: cal: Drop V4L2_CAP_READWRITE
+      media: ti-vpe: cal: Drop unneeded check in cal_calc_format_size()
+      media: ti-vpe: cal: Remove DMA queue empty check at start streaming time
+      media: ti-vpe: cal: Use list_first_entry()
+      media: ti-vpe: cal: Group all DMA queue fields in struct cal_dmaqueue
+      media: ti-vpe: cal: Set cal_dmaqueue.pending to NULL when no pending buffer
+      media: ti-vpe: cal: Store buffer DMA address in dma_addr_t
+      media: ti-vpe: cal: Simplify the context API
 
-
-Error #512 when building PDF docs
-
+ drivers/media/platform/ti-vpe/cal-camerarx.c | 373 +++++++++++++++++++++++++++++++++++++++++++++++++++++--------------
+ drivers/media/platform/ti-vpe/cal-video.c    | 394 ++++++++++++++++++++++++-----------------------------------------------
+ drivers/media/platform/ti-vpe/cal.c          | 385 +++++++++++++++++++++++++++++++++++++++++++++++++++++++--------------
+ drivers/media/platform/ti-vpe/cal.h          | 103 +++++++++++++------
+ 4 files changed, 809 insertions(+), 446 deletions(-)
