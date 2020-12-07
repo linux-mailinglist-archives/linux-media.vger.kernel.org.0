@@ -2,100 +2,155 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5C36B2D0D51
-	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 10:47:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EFFA42D0D5D
+	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 10:50:03 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726578AbgLGJqp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Dec 2020 04:46:45 -0500
-Received: from mail-wr1-f68.google.com ([209.85.221.68]:37538 "EHLO
-        mail-wr1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726016AbgLGJqp (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Dec 2020 04:46:45 -0500
-Received: by mail-wr1-f68.google.com with SMTP id i2so12099796wrs.4;
-        Mon, 07 Dec 2020 01:46:29 -0800 (PST)
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
-         :mime-version:content-disposition:in-reply-to;
-        bh=+iF0UwoQAartcj9GjM2K27xCIppkWZEbeKDby1umTRA=;
-        b=kEOMav7yiTi7yu7SFc+uHlJH+CMewtyrdifSNhWva6XVN94cQ4Ryu2k+oWr0zrYZzU
-         sug7wvc4r3YfmQxpgpU5HGULmQgj2KQTIVIfnkYDXxPu5e3mtrvopZFweFDAnOmOHSv2
-         UyuGGZob/Tw9ioZ6wCG+NnGkGi6Xg6nMnlxt82aShi+M1G7VtIuezn9U2C+l3G74nHTs
-         CKgtJ6I6OcQLjOI14FwgElrQbWDq6Irux/Fo2Ttshrl5DFGBe+yWRgNtruNnCjzRQRCx
-         U/MYB0Qf6Eu6tj6Ebpy1Qrwbx+RP5b+mCh/Qh+tKy5R6oxBobk0WCJBrRBA2LbgRfNjh
-         okhQ==
-X-Gm-Message-State: AOAM533dMNTqddh9kpXFog5dBfWUnUwA1xYiN83VD5BDUUa922LsJrMT
-        tm//Zp9lyQhf8jR8GSyp8E8=
-X-Google-Smtp-Source: ABdhPJyCaP912scxnKcpThPiSEtSZ45ZAhoLAsJQ+Nrb/u370zr8R3PaD4ObvRiKmhkcxaawBn2GjA==
-X-Received: by 2002:adf:ecd0:: with SMTP id s16mr18090846wro.415.1607334363529;
-        Mon, 07 Dec 2020 01:46:03 -0800 (PST)
-Received: from kozik-lap (adsl-84-226-167-205.adslplus.ch. [84.226.167.205])
-        by smtp.googlemail.com with ESMTPSA id r13sm14218808wrm.25.2020.12.07.01.46.02
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 07 Dec 2020 01:46:02 -0800 (PST)
-Date:   Mon, 7 Dec 2020 10:46:00 +0100
-From:   Krzysztof Kozlowski <krzk@kernel.org>
-To:     michael.srba@seznam.cz
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Sascha Hauer <s.hauer@pengutronix.de>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-Subject: Re: [PATCH 2/3] media: dt-bindings: media: i2c: imx219: document
- clock-frequency property
-Message-ID: <20201207094600.GB17448@kozik-lap>
-References: <20201205183355.6488-1-michael.srba@seznam.cz>
- <20201205183355.6488-2-michael.srba@seznam.cz>
+        id S1726178AbgLGJtf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Dec 2020 04:49:35 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:57253 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725800AbgLGJtf (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 7 Dec 2020 04:49:35 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud9.xs4all.net with ESMTPA
+        id mD8TkF28FarN7mD8Wkz0Vr; Mon, 07 Dec 2020 10:48:53 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1607334533; bh=qjVe3c70pGyTCA/ReOAOmOvLLmBuawMnV6ApSaMNo8g=;
+        h=To:From:Subject:Message-ID:Date:MIME-Version:Content-Type:From:
+         Subject;
+        b=Y2HeaXDoIHyXgpw/FGrpFYl41nyWfLBz21c7fg39yZcQ7BqsTighwu4fWQyR+sShV
+         HCHb+SXnlvcEox2pveYlkaAttBE676W6IZv9tl2/b9h7Lkf5BwtgEpnPUGmIWZ9ALR
+         qfNLqcLf2SMFss2T0YaK3mgZ6pELrU2q/zEN3SIChnhl1HbNYQw9lJ0+/Ne3z0Ftjp
+         bvB0CzrecLt2iSkoWF++4Qr6riLgFG+Iy3XCwHXdp5SGqMR0LQUB/9sHGOuZ+Q8KMo
+         XREbghN80Cmyb7VZ5xtNXh+7Xs8Fuc+28KXRMcTtKmSBNTYpxa0cZSvMMdUQa/Di7V
+         rpgUGJlri7jbA==
+To:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Subject: [GIT PULL FOR v5.11 or v5.12] Rework RGB and YUV pixel formats
+ documentation
+Message-ID: <203c4f5f-8d4c-caad-9384-9f55d037ff9e@xs4all.nl>
+Date:   Mon, 7 Dec 2020 10:48:49 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.12.0
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201205183355.6488-2-michael.srba@seznam.cz>
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
+X-CMAE-Envelope: MS4xfE/GHYx+7o6C04CcMRaC/cJxHhWMZ2xEUtqRBPXlmDam/nQm+fiJOlGN6kb95MIX20Hs5qjh8eOoduWbR72maYjU1mplboRFy/WLCyTvdui6rFzNKj3a
+ w94NX6M396QO4o+zniHE7RfXAHizb/lUbV4nlR62LwWlIlYAhFs1LAlUGKt9E0zsBTHwFmTkhwPVFQv9mJKTFoi/v5HRa49m7J4EvPtMSsnRjcX8oEzQe99f
+ iIkOwpWgscTKS6z17okgZQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, Dec 05, 2020 at 07:33:54PM +0100, michael.srba@seznam.cz wrote:
-> From: Michael Srba <Michael.Srba@seznam.cz>
-> 
-> This patch documents the clock-frequency property, which allows the driver
-> to change the clock frequency from it's default value.
-> 
-> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
-> ---
->  Documentation/devicetree/bindings/media/i2c/imx219.yaml | 8 +++++++-
->  1 file changed, 7 insertions(+), 1 deletion(-)
-> 
-> diff --git a/Documentation/devicetree/bindings/media/i2c/imx219.yaml b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> index dfc4d29a4f04..666b8a9da5be 100644
-> --- a/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> +++ b/Documentation/devicetree/bindings/media/i2c/imx219.yaml
-> @@ -27,6 +27,10 @@ properties:
->    clocks:
->      maxItems: 1
->  
-> +  clock-frequency:
-> +    description:
-> +      Frequency of the input clock in Hertz.
-> +
->    VDIG-supply:
->      description:
->        Digital I/O voltage supply, 1.8 volts
-> @@ -78,6 +82,7 @@ required:
->    - compatible
->    - reg
->    - clocks
-> +  - clock-frequency
+See the cover letter for all the details:
 
-Although you can make the field required in bindings, your driver
-implementation must support older DTBs.
+https://patchwork.linuxtv.org/project/linux-media/cover/20201206230316.1221-1-laurent.pinchart@ideasonboard.com/
 
-Best regards,
-Krzysztof
+This is really nice work, so I hope it can still make the cut for v5.11.
+
+No code was changed, only videodev.h was modified but that only removed a comment
+and moved two pixfmt definitions around.
+
+Regards,
+
+	Hans
+
+The following changes since commit 63288c829b1a5991d8f8c15cab596108ed206ba6:
+
+  media: pixfmt-compressed.rst: fix 'bullet' formatting (2020-12-03 12:27:34 +0100)
+
+are available in the Git repository at:
+
+  git://linuxtv.org/hverkuil/media_tree.git tags/br-v5.11f
+
+for you to fetch changes up to 07a3faa17031f878927b41e551bb9eee9684f590:
+
+  media: doc: pixfmt-yuv: Move all planar YUV formats to common file (2020-12-07 10:12:01 +0100)
+
+----------------------------------------------------------------
+Tag branch
+
+----------------------------------------------------------------
+Laurent Pinchart (16):
+      media: videodev2.h: Remove unneeded comment about 4CC value
+      media: videodev2.h: Move HI240 format to vendor-specific section
+      media: videodev2.h: Move HM12 format to YUV semi-planar section
+      media: doc: pixfmt-rgb: Remove layout table for packed RGB formats
+      media: doc: pixfmt-rgb: Add title for deprecated formats
+      media: doc: pixfmt-rgb: Clarify naming scheme for RGB formats
+      media: doc: pixfmt-rgb: Make 8 bits per component table more compact
+      media: doc: pixfmt-rgb: Replace '-' with 'X' to denote padding
+      media: doc: pixfmt-yuv: Document subsampling in more details
+      media: doc: pixfmt-yuv: Move all packed YUV formats to common file
+      media: doc: pixfmt-packed-yuv: Fill padding bits with 'X'
+      media: doc: pixfmt-packed-yuv: Express 4:4:4 formats in a more compact way
+      media: doc: pixfmt-packed-yuv: Clarify naming scheme for 4:4:4 formats
+      media: doc: pixfmt-yuv: Move all luma-only YUV formats to common file
+      media: doc: pixfmt-yuv: Move all semi-planar YUV formats to common file
+      media: doc: pixfmt-yuv: Move all planar YUV formats to common file
+
+ Documentation/userspace-api/media/v4l/pixfmt-grey.rst       |  44 ---
+ Documentation/userspace-api/media/v4l/pixfmt-m420.rst       |  59 +---
+ Documentation/userspace-api/media/v4l/pixfmt-nv12.rst       | 129 --------
+ Documentation/userspace-api/media/v4l/pixfmt-nv12m.rst      | 144 ---------
+ Documentation/userspace-api/media/v4l/pixfmt-nv12mt.rst     |  60 ----
+ Documentation/userspace-api/media/v4l/pixfmt-nv16.rst       | 153 ---------
+ Documentation/userspace-api/media/v4l/pixfmt-nv16m.rst      | 157 ----------
+ Documentation/userspace-api/media/v4l/pixfmt-nv24.rst       |  95 ------
+ Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst | 412 ++++++++++++------------
+ Documentation/userspace-api/media/v4l/pixfmt-rgb.rst        | 671 +++++++++++----------------------------
+ Documentation/userspace-api/media/v4l/pixfmt-uyvy.rst       | 110 -------
+ Documentation/userspace-api/media/v4l/pixfmt-vyuy.rst       | 108 -------
+ Documentation/userspace-api/media/v4l/pixfmt-y10.rst        |  65 ----
+ Documentation/userspace-api/media/v4l/pixfmt-y10b.rst       |  33 --
+ Documentation/userspace-api/media/v4l/pixfmt-y10p.rst       |  43 ---
+ Documentation/userspace-api/media/v4l/pixfmt-y12.rst        |  65 ----
+ Documentation/userspace-api/media/v4l/pixfmt-y14.rst        |  65 ----
+ Documentation/userspace-api/media/v4l/pixfmt-y16-be.rst     |  69 ----
+ Documentation/userspace-api/media/v4l/pixfmt-y16.rst        |  69 ----
+ Documentation/userspace-api/media/v4l/pixfmt-y41p.rst       | 151 ---------
+ Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst   | 126 ++++++++
+ Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst | 950 ++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+ Documentation/userspace-api/media/v4l/pixfmt-yuv410.rst     | 127 --------
+ Documentation/userspace-api/media/v4l/pixfmt-yuv411p.rst    | 115 -------
+ Documentation/userspace-api/media/v4l/pixfmt-yuv420.rst     | 143 ---------
+ Documentation/userspace-api/media/v4l/pixfmt-yuv420m.rst    | 152 ---------
+ Documentation/userspace-api/media/v4l/pixfmt-yuv422m.rst    | 141 ---------
+ Documentation/userspace-api/media/v4l/pixfmt-yuv422p.rst    | 129 --------
+ Documentation/userspace-api/media/v4l/pixfmt-yuv444m.rst    | 141 ---------
+ Documentation/userspace-api/media/v4l/pixfmt-yuyv.rst       | 118 -------
+ Documentation/userspace-api/media/v4l/pixfmt-yvyu.rst       | 108 -------
+ Documentation/userspace-api/media/v4l/yuv-formats.rst       | 278 +++++++++++++++--
+ include/uapi/linux/videodev2.h                              |  14 +-
+ 33 files changed, 1714 insertions(+), 3530 deletions(-)
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-grey.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv12.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv12m.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv12mt.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv16.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv16m.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-nv24.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-uyvy.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-vyuy.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y10.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y10b.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y10p.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y12.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y14.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y16-be.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y16.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-y41p.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv-luma.rst
+ create mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv-planar.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv410.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv411p.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv420.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv420m.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv422m.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv422p.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuv444m.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yuyv.rst
+ delete mode 100644 Documentation/userspace-api/media/v4l/pixfmt-yvyu.rst
