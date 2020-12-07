@@ -2,306 +2,202 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 2224F2D0CED
-	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 10:23:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DB2462D0D02
+	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 10:29:25 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726178AbgLGJWP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Dec 2020 04:22:15 -0500
-Received: from lb2-smtp-cloud9.xs4all.net ([194.109.24.26]:53635 "EHLO
-        lb2-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1725879AbgLGJWP (ORCPT
+        id S1726151AbgLGJ2a (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Dec 2020 04:28:30 -0500
+Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:41481 "EHLO
+        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1725772AbgLGJ23 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 7 Dec 2020 04:22:15 -0500
+        Mon, 7 Dec 2020 04:28:29 -0500
 Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
         by smtp-cloud9.xs4all.net with ESMTPA
-        id mChzkErxoarN7mCi2kyuL6; Mon, 07 Dec 2020 10:21:31 +0100
+        id mCo3kEuGNarN7mCo6kyvsD; Mon, 07 Dec 2020 10:27:47 +0100
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1607332891; bh=oSCg3yJxMJQQ6m7F583Nskhr2sGJjX1CENnPPvDyjM8=;
+        t=1607333267; bh=pXoSd1LJf+h4kTwYFlIt+3xU2COxKO0phKdWSN/cJIU=;
         h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
          Subject;
-        b=jO2zQOpuDen1NKuiSx06R9QRPk0gTQ8i/jid/tgEwIXGljE7gO+XdpSzOMBYdh7BB
-         8Pic1t4gx3HAqUIPS6tGF0BgIqwQ18L4b3m92F1iUdWyF/IXbsdRJiZGeLE/Tf+JGe
-         eGMm3S3GsSyLkCG9f0v65OjFFe2itpErRRaCVj2XsAXniKijz+n7TnKPhD6d8gQPat
-         NxSyEKgPoWYdyzbwFHaF3Mr0e686rD/nLFazpVnXr/P2yPq5TAbvhx3Uc9g9NOFx6N
-         K05Hbh17lKuO18uVLB2UBhRjCS5Rv49SOzsex88tFZEEUB/SPKjL8EiKlLGOZgVutA
-         6pHN5rOBj4spA==
-Subject: Re: [PATCH v2 1/3] v4l: Add HDR10 static metadata controls
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org
-Cc:     Ezequiel Garcia <ezequiel@collabora.com>,
-        Nicolas Dufresne <nicolas.dufresne@collabora.com>
-References: <20201123230257.31690-1-stanimir.varbanov@linaro.org>
- <20201123230257.31690-2-stanimir.varbanov@linaro.org>
- <17035750-c01e-1601-756b-6c2c87e6b828@xs4all.nl>
- <c0346859-91b2-90b9-16b6-f0c364351562@linaro.org>
-From:   Hans Verkuil <hverkuil-cisco@xs4all.nl>
-Message-ID: <3d6a99b2-5467-d6ce-f602-f81da615c912@xs4all.nl>
-Date:   Mon, 7 Dec 2020 10:21:27 +0100
+        b=tX64a5Q5tnRUYB2zoNbQO2gTpRJHqonLACE3Zv+XAej7zVTGz7DrHx54+/kBtybeQ
+         9ZwzGnnVKAZziRak2ubQCvbvu2C3YYIqQEKRD7zCCK9FB1oWGyr0apVIYIihhtKsXu
+         PQ7LiMjMHlQBQfTtcXqmSrNgJfplQcblCGqaNV8PjKgUX4V+1262l1Rj9lYFT8Vdel
+         M4XI00pZZRvXm1igskYdbmzrVQFgcuNtr3NOcWDuvktDyNPWSokgU1x0TqXJB7e8FT
+         xJoRXtSL29bKF+I5r7LQgu3p1iY9uaaJYxLHUMR26vYNT0Tgyhor8M8JXWqZvz81Sh
+         r2BedCDCMIkPA==
+Subject: Re: [PATCH v2 108/108] media: ti-vpe: cal: Implement media controller
+ centric API
+To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-media@vger.kernel.org,
+        Tomi Valkeinen <tomi.valkeinen@ti.com>,
+        Benoit Parrot <bparrot@ti.com>
+References: <20200706183709.12238-1-laurent.pinchart@ideasonboard.com>
+ <20200706183709.12238-109-laurent.pinchart@ideasonboard.com>
+ <5266cec4-33ba-ba91-d55e-ff22a9b3e013@xs4all.nl>
+ <X81oLy7T2K1UmltD@pendragon.ideasonboard.com>
+From:   Hans Verkuil <hverkuil@xs4all.nl>
+Message-ID: <1a2d722b-e200-2409-3d52-f8df1cff84c7@xs4all.nl>
+Date:   Mon, 7 Dec 2020 10:27:43 +0100
 User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
  Thunderbird/68.12.0
 MIME-Version: 1.0
-In-Reply-To: <c0346859-91b2-90b9-16b6-f0c364351562@linaro.org>
+In-Reply-To: <X81oLy7T2K1UmltD@pendragon.ideasonboard.com>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfOb52Pj9tHgVLJmMcrUDTFJXL2y4RPfOTe9s0dnvhZub/vosZ10gQKfETrADVwUxF4cNOPOXj8Tje2pJj6Lo6W8w3UIzRe2uFdLnrBABZcYao5uP42Ry
- ULJbVtBr66uCPCsQYu9UsVLk5mdlIg3wWg5Rp8WyNE0l75n7J32Hm2235ldiEbRNxmj5DmJPGzjtzxNd4lstNrf/SsyoO8lTN9oJrL6hoXPhOt6oSfRpO6X8
- iGckrFylT5hUpjmnEP/lW/PhYtkVU+86tFJI5XLtXtMYZ8m5NM5gAFQNcvQ0IYqyeF2LmYhtD1L1bTY17e3kykgN5jSsVk7i5zc/xrgzbfX+qJdi0Ng42Guv
- Kj6WKCROq5+/FADSNFatfYM8UqTBzzzD5PhE/+y1o5UmdlPay6AN1quyVEuZ3grEpo5BhNhX
+X-CMAE-Envelope: MS4xfNMY6LDuhbCrOVgo6/KVbwMF4LCBXwl5HE4QFnXdvt3W0KKIu/I+tY1VPmRmBlloIJpJ+n+IujJUjkiNdhT1gNW9IOUeCd0yVwTZ7KdDOeVyRPX6sGXf
+ S9ymHfIazEZuKibsBZlzWnZd1P0p1Hjdv/R/9QVcOgozb8D4RQgmwMn1bxhfXZQvJd8kMEo7BR5ONnOezqwezXnl0hP6eTas4XDwB2mLZnxhTrtBc8/zKN0w
+ HUUtkQtSyuGjaqFq5NkFm/81SUhVvKzMuqzFj1R34C54ujVP2HXvpVR+XFyoYGdUwgQJo+MGYPBlimZJ2LpOng==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 07/12/2020 10:06, Stanimir Varbanov wrote:
+On 07/12/2020 00:24, Laurent Pinchart wrote:
+> Hi Hans,
 > 
-> 
-> On 12/2/20 1:12 PM, Hans Verkuil wrote:
->> On 24/11/2020 00:02, Stanimir Varbanov wrote:
->>> Add Content light level and Mastering display colour volume v4l2
->>> compounf controls, relevant payload structures and validation.
+> On Tue, Nov 03, 2020 at 12:02:41PM +0100, Hans Verkuil wrote:
+>> Hi Laurent,
 >>
->> compounf -> compound
+>> This was still on my TODO list to review. Of the other patch only my comment
+>> for 100/108 needs to be addressed in a v3.
 >>
->>>
->>> Signed-off-by: Stanimir Varbanov <stanimir.varbanov@linaro.org>
->>> ---
->>>  drivers/media/v4l2-core/v4l2-ctrls.c | 62 ++++++++++++++++++++++++++++
->>>  include/media/hdr10-ctrls.h          | 55 ++++++++++++++++++++++++
->>>  include/media/v4l2-ctrls.h           |  3 ++
->>>  3 files changed, 120 insertions(+)
->>>  create mode 100644 include/media/hdr10-ctrls.h
->>>
->>> diff --git a/drivers/media/v4l2-core/v4l2-ctrls.c b/drivers/media/v4l2-core/v4l2-ctrls.c
->>> index ad47d00e28d6..028630576401 100644
->>> --- a/drivers/media/v4l2-core/v4l2-ctrls.c
->>> +++ b/drivers/media/v4l2-core/v4l2-ctrls.c
->>> @@ -1024,6 +1024,9 @@ const char *v4l2_ctrl_get_name(u32 id)
->>>  	case V4L2_CID_MPEG_VIDEO_HEVC_DECODE_MODE:		return "HEVC Decode Mode";
->>>  	case V4L2_CID_MPEG_VIDEO_HEVC_START_CODE:		return "HEVC Start Code";
+>> I have just one comment for this patch:
+>>
+>> On 06/07/2020 20:37, Laurent Pinchart wrote:
+>>
+>>> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
+>>> index 293cbac905b3..2ce2b6404c92 100644
+>>> --- a/drivers/media/platform/ti-vpe/cal.c
+>>> +++ b/drivers/media/platform/ti-vpe/cal.c
+>>> @@ -43,6 +43,10 @@ unsigned int cal_debug;
+>>>  module_param_named(debug, cal_debug, uint, 0644);
+>>>  MODULE_PARM_DESC(debug, "activates debug info");
 >>>  
->>> +	case V4L2_CID_MPEG_VIDEO_HDR10_CLL_INFO:		return "HDR10 Content Light Info";
->>> +	case V4L2_CID_MPEG_VIDEO_HDR10_MASTERING_DISPLAY:	return "HDR10 Mastering Display";
->>> +
->>>  	/* CAMERA controls */
->>>  	/* Keep the order of the 'case's the same as in v4l2-controls.h! */
->>>  	case V4L2_CID_CAMERA_CLASS:		return "Camera Controls";
->>> @@ -1461,6 +1464,12 @@ void v4l2_ctrl_fill(u32 id, const char **name, enum v4l2_ctrl_type *type,
->>>  	case V4L2_CID_MPEG_VIDEO_HEVC_SLICE_PARAMS:
->>>  		*type = V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS;
->>>  		break;
->>> +	case V4L2_CID_MPEG_VIDEO_HDR10_CLL_INFO:
->>> +		*type = V4L2_CTRL_TYPE_HDR10_CLL_INFO;
->>> +		break;
->>> +	case V4L2_CID_MPEG_VIDEO_HDR10_MASTERING_DISPLAY:
->>> +		*type = V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY;
->>> +		break;
->>>  	case V4L2_CID_UNIT_CELL_SIZE:
->>>  		*type = V4L2_CTRL_TYPE_AREA;
->>>  		*flags |= V4L2_CTRL_FLAG_READ_ONLY;
->>> @@ -1775,6 +1784,7 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->>>  	struct v4l2_ctrl_hevc_sps *p_hevc_sps;
->>>  	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
->>>  	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
->>> +	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
->>>  	struct v4l2_area *area;
->>>  	void *p = ptr.p + idx * ctrl->elem_size;
->>>  	unsigned int i;
->>> @@ -1934,6 +1944,52 @@ static int std_validate_compound(const struct v4l2_ctrl *ctrl, u32 idx,
->>>  		zero_padding(*p_hevc_slice_params);
->>>  		break;
->>>  
->>> +	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
->>> +		break;
->>> +
->>> +	case V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY:
->>> +		p_hdr10_mastering = p;
->>> +
->>> +		for (i = 0; i < 3; ++i) {
->>> +			if (p_hdr10_mastering->display_primaries_x[i] <
->>> +				V4L2_HDR10_MASTERING_PRIMARIES_X_LOW ||
->>> +			    p_hdr10_mastering->display_primaries_x[i] >
->>> +				V4L2_HDR10_MASTERING_PRIMARIES_X_HIGH ||
->>> +			    p_hdr10_mastering->display_primaries_y[i] <
->>> +				V4L2_HDR10_MASTERING_PRIMARIES_Y_LOW ||
->>> +			    p_hdr10_mastering->display_primaries_y[i] >
->>> +				V4L2_HDR10_MASTERING_PRIMARIES_Y_HIGH)
->>> +				return -EINVAL;
->>> +		}
->>> +
->>> +		if (p_hdr10_mastering->white_point_x <
->>> +			V4L2_HDR10_MASTERING_WHITE_POINT_X_LOW ||
->>> +		    p_hdr10_mastering->white_point_x >
->>> +			V4L2_HDR10_MASTERING_WHITE_POINT_X_HIGH ||
->>> +		    p_hdr10_mastering->white_point_y <
->>> +			V4L2_HDR10_MASTERING_WHITE_POINT_Y_LOW ||
->>> +		    p_hdr10_mastering->white_point_y >
->>> +			V4L2_HDR10_MASTERING_WHITE_POINT_Y_HIGH)
->>> +			return -EINVAL;
->>> +
->>> +		if (p_hdr10_mastering->max_luminance <
->>> +			V4L2_HDR10_MASTERING_MAX_LUMA_LOW ||
->>> +		    p_hdr10_mastering->max_luminance >
->>> +			V4L2_HDR10_MASTERING_MAX_LUMA_HIGH ||
->>> +		    p_hdr10_mastering->min_luminance <
->>> +			V4L2_HDR10_MASTERING_MIN_LUMA_LOW ||
->>> +		    p_hdr10_mastering->min_luminance >
->>> +			V4L2_HDR10_MASTERING_MIN_LUMA_HIGH)
->>> +			return -EINVAL;
->>> +
->>> +		if (p_hdr10_mastering->max_luminance ==
->>> +			V4L2_HDR10_MASTERING_MAX_LUMA_LOW &&
->>> +		    p_hdr10_mastering->min_luminance ==
->>> +			V4L2_HDR10_MASTERING_MIN_LUMA_HIGH)
->>> +			return -EINVAL;
->>> +
->>> +		break;
->>> +
->>>  	case V4L2_CTRL_TYPE_AREA:
->>>  		area = p;
->>>  		if (!area->width || !area->height)
->>> @@ -2626,6 +2682,12 @@ static struct v4l2_ctrl *v4l2_ctrl_new(struct v4l2_ctrl_handler *hdl,
->>>  	case V4L2_CTRL_TYPE_HEVC_SLICE_PARAMS:
->>>  		elem_size = sizeof(struct v4l2_ctrl_hevc_slice_params);
->>>  		break;
->>> +	case V4L2_CTRL_TYPE_HDR10_CLL_INFO:
->>> +		elem_size = sizeof(struct v4l2_ctrl_hdr10_cll_info);
->>> +		break;
->>> +	case V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY:
->>> +		elem_size = sizeof(struct v4l2_ctrl_hdr10_mastering_display);
->>> +		break;
->>>  	case V4L2_CTRL_TYPE_AREA:
->>>  		elem_size = sizeof(struct v4l2_area);
->>>  		break;
->>> diff --git a/include/media/hdr10-ctrls.h b/include/media/hdr10-ctrls.h
->>> new file mode 100644
->>> index 000000000000..f6f77edc0b60
->>> --- /dev/null
->>> +++ b/include/media/hdr10-ctrls.h
->>> @@ -0,0 +1,55 @@
->>> +/* SPDX-License-Identifier: GPL-2.0 */
->>> +/*
->>> + * These are the HEVC state controls for use with stateless HEVC
->>> + * codec drivers.
->>> + *
->>> + * It turns out that these structs are not stable yet and will undergo
->>> + * more changes. So keep them private until they are stable and ready to
->>> + * become part of the official public API.
->>> + */
->>> +
->>> +#ifndef _HDR10_CTRLS_H_
->>> +#define _HDR10_CTRLS_H_
->>> +
->>> +/*
->>> + * Content light level information.
->>> + * Source Rec. ITU-T H.265 v7 (11/2019) HEVC; D.2.35
->>> + */
->>> +#define V4L2_CID_MPEG_VIDEO_HDR10_CLL_INFO	(V4L2_CID_MPEG_BASE + 1017)
->>> +#define V4L2_CTRL_TYPE_HDR10_CLL_INFO		0x0123
->>> +
->>> +struct v4l2_ctrl_hdr10_cll_info {
->>> +	__u16 max_content_light_level;
->>> +	__u16 max_pic_average_light_level;
->>> +};
->>> +
->>> +/*
->>> + * Mastering display colour volume.
->>> + * Source Rec. ITU-T H.265 v7 (11/2019) HEVC; D.2.28
->>> + */
->>> +#define V4L2_CID_MPEG_VIDEO_HDR10_MASTERING_DISPLAY (V4L2_CID_MPEG_BASE + 1018)
+>>> +bool cal_mc_api;
+>>> +module_param_named(mc_api, cal_mc_api, bool, 0444);
+>>> +MODULE_PARM_DESC(mc_api, "activates the MC API");
 >>
->> I don't think this should be part of the codec control class. It is also needed
->> for HDMI receivers, for example.
->>
->> I think it is better to create a new "Colorimetry" control class for controls like
->> this.
+>> I think it would be very useful if a Kconfig option is added that selects
+>> the default of cal_mc_api. If you know that you want the MC API, then you
+>> can select the option and that will be the default.
 > 
-> I guess in this case I need to create a new ext-ctrls-colorimetry.rst,
-> right?
+> I expect this to spread to more drivers (the R-Car VIN driver already
+> supports two different APIs based on the SoC generation, which is an
+> entirely artificial split), either upstream, or in downstream kernels
+> (the Raspberry Pi unicam driver, for instance, may move to the MC API
+> for upstream, and retain video-node-centric behaviour controlled by an
+> option downstream). We should thus think about how we want to handle
+> this globally.
+> 
+> Personally, I think new drivers for embedded SoCs should use the MC API
+> only. By embedded, I mean here any system where the sensor needs to be
 
-Yes.
+I agree.
+
+> controlled directly by a subdev driver. The rationale is that we'll see
+> an increasing number of sensors exposing multiple subdevs, which would
+> require complex logic in the kernel if they were to be controlled
+> through video nodes only. Such logic would also need to implement
+> heuristics that will not be a good match for all use cases. This can
+> only work with a proper solution to support MC-based drivers in
+> userspace, and fortunately we're getting there :-)
+> 
+> Even if we mandate an MC-centric approach for new drivers, we will need
+> to deal with backward compatibility for both drivers that are currently
+> in-tree and need to move to the MC API (we have a known number of such
+> drivers, which shouldn't grow if we don't accept new ones), and for
+> drivers that are currently available through vendor kernels and don't
+> implement the MC API. The latter category is technically not our
+> problem, but ensuring that vendors will be able to preserve backward
+> compatibility with the existing user base will help getting drivers
+> mainlined, so it benefits us too. The solution for downstream kernel
+> should be the same as for existing upstream drivers (unless someone has
+> a good reason that would require a different solution).
+> 
+> So, if we consider that this problem will become more widespread, how do
+> we deal with it ? Do we need to select the API globally at the subsystem
+> level, per driver, or per device instance ? Should it be a compile-time
+> option only, a runtime option only, or a runtime option with a
+> compile-time default ? Controlling the option at runtime would be best I
+> believe, as that provides additional flexibility without much complexity
+> increase. Per-device compile-time selection (both for the option and for
+> its default value) would be difficult, I'd prefer ruling that out.
+
+I agree.
 
 > 
->>
->> But I advise that you wait until this PR is merged:
->> https://patchwork.linuxtv.org/project/linux-media/patch/d68da172-b251-000f-653d-38a8a4c7b715@xs4all.nl/
->>
->> Note that you also need to add validation support for this to std_validate_compound()
->> and possibly add initialization to std_init_compound() is v4l2-ctrls.c.
+> The only compile-time option would thus be either a subsystem-wide
+> default, or a per-driver default. The former seems of limited use to me.
+> What are the use cases for the latter, what default value would we pick
+> for the Kconfig option, and how do we expect distributions to select an
+> option ? I'm trying to figure out here whether that kernel option would
+> really be useful, or would just make the kernel configuration more
+> complex without a real use case.
+
+I would prefer a per-driver Kconfig option for the default behavior.
+The 'default' value of this option would be MC-centric, so distros need to
+think about this when they change it. It makes perfect sense IMHO for distros
+like Raspbian to change this value to video-centric. You don't want to have
+to mess with setting module options as a distro. Same for any custom kernel
+that people make for specific hardware.
+
 > 
-> The patch has validation for mastering display already. But I wonder do
-> we really need this validation because CTA-861-G is more liberal about
-> the values comparing with Rec. ITU-T H.265. Or the other option is to
-> combine both of them?
+>> It is probably best if you rebase this series, fix 100/108 and (hopefully)
+>> this patch and post it as a v3. I'll take it.
+> 
+> Working on it now. If that's OK with you, I'll leave the Kconfig change
+> out for this patch for now, it can easily be done on top after we
+> finalize the discussion and won't cause any regression.
 
-After thinking about this a bit more, validation makes no sense for decoders
-or HDMI/DP receivers: you have no control over the contents of this data in
-those cases, it should just contain what you receive as-is, and if you receive
-buggy data, then userspace has to decide what to do with that.
-
-This is something that should be documented, I think. You have to be aware as
-userspace that the data needs to be checked for validity.
-
-For encoders and HDMI/DP output validation would make sense, but I think that
-for now we should just drop validation altogether.
+I agree.
 
 Regards,
 
 	Hans
 
 > 
->>
->> Regards,
->>
->> 	Hans
->>
->>> +#define V4L2_CTRL_TYPE_HDR10_MASTERING_DISPLAY	0x0124
 >>> +
->>> +#define V4L2_HDR10_MASTERING_PRIMARIES_X_LOW	5
->>> +#define V4L2_HDR10_MASTERING_PRIMARIES_X_HIGH	37000
->>> +#define V4L2_HDR10_MASTERING_PRIMARIES_Y_LOW	5
->>> +#define V4L2_HDR10_MASTERING_PRIMARIES_Y_HIGH	42000
->>> +#define V4L2_HDR10_MASTERING_WHITE_POINT_X_LOW	5
->>> +#define V4L2_HDR10_MASTERING_WHITE_POINT_X_HIGH	37000
->>> +#define V4L2_HDR10_MASTERING_WHITE_POINT_Y_LOW	5
->>> +#define V4L2_HDR10_MASTERING_WHITE_POINT_Y_HIGH	42000
->>> +#define V4L2_HDR10_MASTERING_MAX_LUMA_LOW	50000
->>> +#define V4L2_HDR10_MASTERING_MAX_LUMA_HIGH	100000000
->>> +#define V4L2_HDR10_MASTERING_MIN_LUMA_LOW	1
->>> +#define V4L2_HDR10_MASTERING_MIN_LUMA_HIGH	50000
+>>>  /* ------------------------------------------------------------------
+>>>   *	Format Handling
+>>>   * ------------------------------------------------------------------
+>>> @@ -660,13 +664,17 @@ static int cal_async_notifier_complete(struct v4l2_async_notifier *notifier)
+>>>  {
+>>>  	struct cal_dev *cal = container_of(notifier, struct cal_dev, notifier);
+>>>  	unsigned int i;
+>>> +	int ret = 0;
+>>>  
+>>>  	for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
+>>>  		if (cal->ctx[i])
+>>>  			cal_ctx_v4l2_register(cal->ctx[i]);
+>>>  	}
+>>>  
+>>> -	return 0;
+>>> +	if (cal_mc_api)
+>>> +		ret = v4l2_device_register_subdev_nodes(&cal->v4l2_dev);
 >>> +
->>> +struct v4l2_ctrl_hdr10_mastering_display {
->>> +	__u16 display_primaries_x[3];
->>> +	__u16 display_primaries_y[3];
->>> +	__u16 white_point_x;
->>> +	__u16 white_point_y;
->>> +	__u32 max_luminance;
->>> +	__u32 min_luminance;
->>> +};
->>> +
->>> +#endif
->>> diff --git a/include/media/v4l2-ctrls.h b/include/media/v4l2-ctrls.h
->>> index 4fbace0fc7e5..81bd026fc1ea 100644
->>> --- a/include/media/v4l2-ctrls.h
->>> +++ b/include/media/v4l2-ctrls.h
->>> @@ -19,6 +19,7 @@
->>>   */
->>>  #include <media/mpeg2-ctrls.h>
->>>  #include <media/fwht-ctrls.h>
->>> +#include <media/hdr10-ctrls.h>
->>>  #include <media/h264-ctrls.h>
->>>  #include <media/vp8-ctrls.h>
->>>  #include <media/hevc-ctrls.h>
->>> @@ -80,6 +81,8 @@ union v4l2_ctrl_ptr {
->>>  	struct v4l2_ctrl_hevc_sps *p_hevc_sps;
->>>  	struct v4l2_ctrl_hevc_pps *p_hevc_pps;
->>>  	struct v4l2_ctrl_hevc_slice_params *p_hevc_slice_params;
->>> +	struct v4l2_ctrl_hdr10_cll_info *p_hdr10_cll;
->>> +	struct v4l2_ctrl_hdr10_mastering_display *p_hdr10_mastering;
->>>  	struct v4l2_area *p_area;
->>>  	void *p;
->>>  	const void *p_const;
->>>
->>
+>>> +	return ret;
+>>>  }
+>>>  
+>>>  static const struct v4l2_async_notifier_operations cal_async_notifier_ops = {
+>>> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
+>>> index 2d935691bf75..f5609216b7c6 100644
+>>> --- a/drivers/media/platform/ti-vpe/cal.h
+>>> +++ b/drivers/media/platform/ti-vpe/cal.h
+>>> @@ -160,6 +160,7 @@ struct cal_camerarx {
+>>>  	struct device_node	*sensor_ep_node;
+>>>  	struct device_node	*sensor_node;
+>>>  	struct v4l2_subdev	*sensor;
+>>> +	struct media_pipeline	pipe;
+>>>  
+>>>  	struct v4l2_subdev	subdev;
+>>>  	struct media_pad	pads[2];
+>>> @@ -224,6 +225,7 @@ struct cal_ctx {
+>>>  
+>>>  extern unsigned int cal_debug;
+>>>  extern int cal_video_nr;
+>>> +extern bool cal_mc_api;
+>>>  
+>>>  #define cal_dbg(level, cal, fmt, arg...)				\
+>>>  	do {								\
 > 
 
