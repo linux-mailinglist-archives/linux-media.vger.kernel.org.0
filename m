@@ -2,91 +2,77 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id CC4442D0A9E
-	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 07:17:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6855C2D0AEF
+	for <lists+linux-media@lfdr.de>; Mon,  7 Dec 2020 08:03:12 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1725947AbgLGGRC (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Dec 2020 01:17:02 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:48440 "EHLO
+        id S1725973AbgLGHCZ convert rfc822-to-8bit (ORCPT
+        <rfc822;lists+linux-media@lfdr.de>); Mon, 7 Dec 2020 02:02:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:55364 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725681AbgLGGRC (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Dec 2020 01:17:02 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 054BDC0613D0;
-        Sun,  6 Dec 2020 22:16:22 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id 131so8751031pfb.9;
-        Sun, 06 Dec 2020 22:16:22 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iiHJeltxaabT79se0AWHJdVn8cjl0nsmIZ6SNfEY33k=;
-        b=mEEWtm2safQCv+8NZSg8SePHN/i5Nco09W1+dg1OrFiwGxiCJ78IAsNDJRx6s6F3L3
-         gPvdwDxazf9opyNo+VgzCNupjvPsMz9BqNEKRdRVO9y+02OESF7aLC4JE8f6FEjvJ9PF
-         UiRsYLc/ndFJqlgqSn7KOtBVyRA22D1GqulCpUwK5Uvbt68tlU6I6XpbKfbBggjFuM0i
-         A26oV1jxxP0trhvDjeay0ppO6cj12bIGqpU6cMQxG3M/pJYi8a5klvnI7wYz9mJbrB+T
-         AHpR44Q7d6iOUijRVGuokBBtTRcwjFjAaDtuxFp6YWG/UKKbPXfDaKVaTHnN6h7EL8HQ
-         HhOQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=iiHJeltxaabT79se0AWHJdVn8cjl0nsmIZ6SNfEY33k=;
-        b=W0UYW3MfNQo1YPm3K3OsT97NXWkDHa0hLUxJcFTG8zt4AIHPb2TFf2nl66UmquF5xI
-         8qpmgNFu/X5PKHmEg2TlAL7CKQJsT7+QWZDb286uHPp5HOKRTyydAOd6gVix/QXumIWX
-         kWLY/Khh4n+vL7zKI7WGLsMppjuQZ83YinC/kD7Te42mzqgUppJ4qXOQUa6zYSFudv95
-         3IWWozUsKXIlPzHjwqIoWzR7ZHwZym8+o4vZkoJFSUSC5jlAgXNqhpWCckm/YP2wRxbO
-         1RaHc/yIiTxrxRAa9wJmFf+dD7u50Xty1IKfDmZ27XTAOCGDhMzwjH3t4pFeeUM5N3b/
-         zyvA==
-X-Gm-Message-State: AOAM530xNiji45ynmgdjM4BdOqSGMIxoqKeFj5IhfrBi41gm8BjIUl3F
-        f8DWS/nhj+aQnmcYzwIIj7giJVu6hiCTMOPJ
-X-Google-Smtp-Source: ABdhPJxFk3QPKHQ9NUbh0kp8oNB+EHmXYJ3+kzsk3A3yR4fj0lmjc/CVUI76eEC4at7+YMr3wyiu+w==
-X-Received: by 2002:a63:4516:: with SMTP id s22mr17486246pga.45.1607321781483;
-        Sun, 06 Dec 2020 22:16:21 -0800 (PST)
-Received: from localhost.localdomain ([49.207.214.127])
-        by smtp.gmail.com with ESMTPSA id y24sm12555028pfn.176.2020.12.06.22.16.18
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Sun, 06 Dec 2020 22:16:20 -0800 (PST)
-From:   Anant Thazhemadam <anant.thazhemadam@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Anant Thazhemadam <anant.thazhemadam@gmail.com>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com
-Subject: [PATCH] media: usb: dvd-usb: fix uninit-value bug in dibusb_read_eeprom_byte()
-Date:   Mon,  7 Dec 2020 11:46:06 +0530
-Message-Id: <20201207061606.163403-1-anant.thazhemadam@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        with ESMTP id S1725681AbgLGHCZ (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Dec 2020 02:02:25 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 318ABC0613D0
+        for <linux-media@vger.kernel.org>; Sun,  6 Dec 2020 23:01:45 -0800 (PST)
+Received: from lupine.hi.pengutronix.de ([2001:67c:670:100:3ad5:47ff:feaf:1a17] helo=lupine)
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kmAWf-0000VH-Pl; Mon, 07 Dec 2020 08:01:37 +0100
+Received: from pza by lupine with local (Exim 4.92)
+        (envelope-from <p.zabel@pengutronix.de>)
+        id 1kmAWc-00026h-TV; Mon, 07 Dec 2020 08:01:34 +0100
+Message-ID: <8b01e4a320c9af9e6502e870e0ce44338542b100.camel@pengutronix.de>
+Subject: Re: [PATCH] staging:hantro: Fixed "replace comma with semicolon"
+ Warning:
+From:   Philipp Zabel <p.zabel@pengutronix.de>
+To:     Travis Carter <traviscarter2@gmail.com>, ezequiel@collabora.com,
+        mchehab@kernel.org, gregkh@linuxfoundation.org
+Cc:     linux-media@vger.kernel.org, linux-rockchip@lists.infradead.org,
+        devel@driverdev.osuosl.org, linux-kernel@vger.kernel.org
+Date:   Mon, 07 Dec 2020 08:01:34 +0100
+In-Reply-To: <20201204235150.GA8626@linuxmint-midtower-pc>
+References: <20201204235150.GA8626@linuxmint-midtower-pc>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: 8BIT
+User-Agent: Evolution 3.30.5-1.1 
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+X-SA-Exim-Connect-IP: 2001:67c:670:100:3ad5:47ff:feaf:1a17
+X-SA-Exim-Mail-From: p.zabel@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-In dibusb_read_eeprom_byte(), if dibusb_i2c_msg() fails, val gets
-assigned an value that's not properly initialized.
-Using kzalloc() in place of kmalloc() for the buffer fixes this issue,
-as the val can now be set to 0 in the event dibusb_i2c_msg() fails.
+Hi Travis,
 
-Reported-by: syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com
-Tested-by: syzbot+e27b4fd589762b0b9329@syzkaller.appspotmail.com
-Signed-off-by: Anant Thazhemadam <anant.thazhemadam@gmail.com>
----
- drivers/media/usb/dvb-usb/dibusb-common.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+On Fri, 2020-12-04 at 17:51 -0600, Travis Carter wrote:
+> Corrected the following Warning:
+> drivers/staging/media/hantro/hantro_v4l2.c:319: WARNING: Possible comma where semicolon could be used
+> 
+> Signed-off-by: Travis Carter <traviscarter2@gmail.com>
+> ---
+>  drivers/staging/media/hantro/hantro_v4l2.c | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/drivers/staging/media/hantro/hantro_v4l2.c b/drivers/staging/media/hantro/hantro_v4l2.c
+> index b668a82d40ad..e1081c16f56a 100644
+> --- a/drivers/staging/media/hantro/hantro_v4l2.c
+> +++ b/drivers/staging/media/hantro/hantro_v4l2.c
+> @@ -316,7 +316,7 @@ hantro_reset_fmt(struct v4l2_pix_format_mplane *fmt,
+>  
+>  	fmt->pixelformat = vpu_fmt->fourcc;
+>  	fmt->field = V4L2_FIELD_NONE;
+> -	fmt->colorspace = V4L2_COLORSPACE_JPEG,
+> +	fmt->colorspace = V4L2_COLORSPACE_JPEG;
+>  	fmt->ycbcr_enc = V4L2_YCBCR_ENC_DEFAULT;
+>  	fmt->quantization = V4L2_QUANTIZATION_DEFAULT;
+>  	fmt->xfer_func = V4L2_XFER_FUNC_DEFAULT;
 
-diff --git a/drivers/media/usb/dvb-usb/dibusb-common.c b/drivers/media/usb/dvb-usb/dibusb-common.c
-index 02b51d1a1b67..aff60c10cb0b 100644
---- a/drivers/media/usb/dvb-usb/dibusb-common.c
-+++ b/drivers/media/usb/dvb-usb/dibusb-common.c
-@@ -223,7 +223,7 @@ int dibusb_read_eeprom_byte(struct dvb_usb_device *d, u8 offs, u8 *val)
- 	u8 *buf;
- 	int rc;
- 
--	buf = kmalloc(2, GFP_KERNEL);
-+	buf = kzalloc(2, GFP_KERNEL);
- 	if (!buf)
- 		return -ENOMEM;
- 
--- 
-2.25.1
+Thank you,
 
+Reviewed-by: Philipp Zabel <p.zabel@pengutronix.de>
+
+regards
+Philipp
