@@ -2,51 +2,51 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 297BD2D20CE
-	for <lists+linux-media@lfdr.de>; Tue,  8 Dec 2020 03:28:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 7E1682D20FC
+	for <lists+linux-media@lfdr.de>; Tue,  8 Dec 2020 03:41:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727558AbgLHC2b (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 7 Dec 2020 21:28:31 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:39398 "EHLO
+        id S1727866AbgLHCkt (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 7 Dec 2020 21:40:49 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41266 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727179AbgLHC2b (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Dec 2020 21:28:31 -0500
-Received: from mail-qv1-xf44.google.com (mail-qv1-xf44.google.com [IPv6:2607:f8b0:4864:20::f44])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 1F4C0C061749;
-        Mon,  7 Dec 2020 18:27:51 -0800 (PST)
-Received: by mail-qv1-xf44.google.com with SMTP id 62so7605185qva.11;
-        Mon, 07 Dec 2020 18:27:51 -0800 (PST)
+        with ESMTP id S1727075AbgLHCks (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Mon, 7 Dec 2020 21:40:48 -0500
+Received: from mail-qt1-x844.google.com (mail-qt1-x844.google.com [IPv6:2607:f8b0:4864:20::844])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A0E6CC061749;
+        Mon,  7 Dec 2020 18:40:08 -0800 (PST)
+Received: by mail-qt1-x844.google.com with SMTP id u21so11035985qtw.11;
+        Mon, 07 Dec 2020 18:40:08 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=jms.id.au; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=M6BrLtQzjtTPKyMV2O2fXe6jMdLz4xz3CFXS9fstNao=;
-        b=RRnyDGHry2kQNjUragxCULNdKfvOQy05D2huodFRwOLiedS2MAL2DIFE3DlnqgS9jU
-         Gfv0qINCbzTr6zM45qlfrJm5Pr6kMt1aLvWXSdupuZti//5M3Xtwo0OTCcvjHAkk/jCi
-         lbI21+EYXua/3dz7BFK5CrbVUNhRk+MkC2wvk=
+        bh=JY14U8S62/FWXFTqIYq8u7QrCXxJofc9nJgVqZeSkFc=;
+        b=nQmn7fAPmH9tazVlHIrlKmVuehOaj2oDM8avnT77YOd4Fn0Pjf9jpg47UVqPQQnt5B
+         Jr0gFbSAmUKhfmhrfVfUzq1dMMlICeXjcBShehFjOPwwnM156HxMHugJKCoMIwbpkBZu
+         7BpMichxgtUuktYqaYvBPIYldxMJCwfbLUR98=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=M6BrLtQzjtTPKyMV2O2fXe6jMdLz4xz3CFXS9fstNao=;
-        b=FcDIsYx7vSVzF3nrpIpXepKdpN+iKcvr00VQhHZ0jpfCqJnG2CFCaAGpXtMep5L4da
-         hykVegOWxFNIEnIcs6LVR4/7K7UeGhAc7w4PKyYcMYlomOnbcfXfiJA1MLjbJc9dUCmS
-         GqXt+JsIJKGjCtfA6LdhGOt3CX7EN6wrKOlqCpn6e24fDFLPqn5upAxvzamyqghB0gxS
-         qoSTrEDM4GmU08g7EYM8AaLALtz2JL7eBEsuZJV7QJMWTazs81CPBCN4si6lCa53qBmH
-         DO8WONUUrlozAsefGyeJ51Kv9+xFDXlROHE1n7vApc90TixDEYrPSs6SZPIV5hciHN/r
-         pujA==
-X-Gm-Message-State: AOAM533f0Vt7QKizlYE8JO8fD+VCgQgXEDQDjwHw4dkIBqswzE1kEBgl
-        D+TrZl2XY4pgEzgmyvQf6AtDDEtG4F7JUqzJYY4=
-X-Google-Smtp-Source: ABdhPJw29BFw6jgelfIVlOcw2Z1gxH77700UF44YtT2QPZke6I7PlgTaW6fFCR0Fh+6gLBi8JEUGte5SLQPrKOTCZig=
-X-Received: by 2002:a05:6214:c66:: with SMTP id t6mr19745975qvj.43.1607394470213;
- Mon, 07 Dec 2020 18:27:50 -0800 (PST)
+        bh=JY14U8S62/FWXFTqIYq8u7QrCXxJofc9nJgVqZeSkFc=;
+        b=SzsAaDKvH4w8A9jLZy7EgA/Rp+Ruy+nqT+uMgKLBNvR46h6wdM/+6OgTpkFpyj0ydW
+         smJc2iYBaRobMIf7E/YkMJLp7B44NYxquCsRJXgXVCqa9S2ks2jDOdmkzYwBRAq1sjZe
+         L8ULV6vRYFuW/Hpkm/8ooNbhPP0FUouok4rnveujy4xweKSh99u/cUY4mnuqefYcnqdT
+         jYfGBqBxkj74H/ut8e6FTPAaPpKqLs4ij5BDXOvao6m4mg8GJsLZwIDeAvECpgbmGFLm
+         OJpjOT+jDUgRQA6BvUXiVb3ds1AJ6+m7b+tWVLHOA9+K3R1/ilFhbmFZtL+eZO4zfoSc
+         1Jxg==
+X-Gm-Message-State: AOAM533AD7WtenWXgiztrDiTpECHaBtgPueNpEHJjcrJaqY8d+GAiDPV
+        H2TkgCU0qm8UHh46pHbYvz7ojGMDZU6QXg9DZN0=
+X-Google-Smtp-Source: ABdhPJyDbHNixeBukE5aPiglwr8vok7aJbSl6NlxqkJDSsm2S3NFATjBBkwB3FAEVtYFHvMfrSyk6o27aydT32p/XHU=
+X-Received: by 2002:aed:2d65:: with SMTP id h92mr10793058qtd.263.1607395207466;
+ Mon, 07 Dec 2020 18:40:07 -0800 (PST)
 MIME-Version: 1.0
-References: <20201207164240.15436-1-jae.hyun.yoo@linux.intel.com> <20201207164240.15436-2-jae.hyun.yoo@linux.intel.com>
-In-Reply-To: <20201207164240.15436-2-jae.hyun.yoo@linux.intel.com>
+References: <20201207164240.15436-1-jae.hyun.yoo@linux.intel.com> <20201207164240.15436-3-jae.hyun.yoo@linux.intel.com>
+In-Reply-To: <20201207164240.15436-3-jae.hyun.yoo@linux.intel.com>
 From:   Joel Stanley <joel@jms.id.au>
-Date:   Tue, 8 Dec 2020 02:27:37 +0000
-Message-ID: <CACPK8Xf-5YDB2ofA+ivn8AtKLmVABD2PQ7p678cppu0hka63xQ@mail.gmail.com>
-Subject: Re: [PATCH 1/2] clk: ast2600: fix reset settings for eclk and vclk
+Date:   Tue, 8 Dec 2020 02:39:55 +0000
+Message-ID: <CACPK8Xd3dz1WLGNGqMiAZxhMEeGHbkPtvO2rYQ36Kbj=Uvy-jA@mail.gmail.com>
+Subject: Re: [PATCH 2/2] media: aspeed: fix clock handling logic
 To:     Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
 Cc:     Andrew Jeffery <andrew@aj.id.au>,
         Eddie James <eajames@linux.ibm.com>,
@@ -64,43 +64,86 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 On Mon, 7 Dec 2020 at 16:33, Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com> wrote:
 >
-> Video engine reset setting should be coupled with eclk to match it
-> with the setting for previous Aspeed SoCs which is defined in
-> clk-aspeed.c since all Aspeed SoCs are sharing a single video engine
-> driver. Also, reset bit 6 is defined as 'Video Engine' reset in
-> datasheet so it should be de-asserted when eclk is enabled. This
-> commit fixes the setting.
+> Video engine uses eclk and vclk for its clock sources and its reset
+> control is coupled with eclk so the current clock enabling sequence works
+> like below.
 >
-> Fixes: d3d04f6c330a ("clk: Add support for AST2600 SoC")
+>  Enable eclk
+>  De-assert Video Engine reset
+>  10ms delay
+>  Enable vclk
+
+This is the case after " clk: ast2600: fix reset settings for eclk and
+vclk" is applied, correct? Without that patch applied the reset
+sequence is correct by accident for the 2600, but it will be wrong for
+the 2500?
+
+> It introduces improper reset on the Video Engine hardware and eventually
+> the hardware generates unexpected DMA memory transfers that can corrupt
+> memory region in random and sporadic patterns. This issue is observed
+> very rarely on some specific AST2500 SoCs but it causes a critical
+> kernel panic with making a various shape of signature so it's extremely
+> hard to debug.
+
+I wasn't sure what you meant by "various shape of signature". Can you
+elaborate, and/or share with us some examples of the signature?
+
+> Moreover, the issue is observed even when the video
+> engine is not actively used because udevd turns on the video engine
+> hardware for a short time to make a query in every boot.
+>
+> To fix this issue, this commit changes the clock handling logic to make
+> the reset de-assertion triggered after enabling both eclk and vclk. Also,
+> it adds clk_unprepare call for a case when probe fails.
+>
+> Fixes: d2b4387f3bdf ("media: platform: Add Aspeed Video Engine driver")
 > Signed-off-by: Jae Hyun Yoo <jae.hyun.yoo@linux.intel.com>
+
+The code change looks correct and should be applied to stable.
 
 Reviewed-by: Joel Stanley <joel@jms.id.au>
 
-This fix should go to stable too.
-
-Thanks Jae.
-
 > ---
->  drivers/clk/clk-ast2600.c | 4 ++--
->  1 file changed, 2 insertions(+), 2 deletions(-)
+>  drivers/media/platform/aspeed-video.c | 9 ++++++---
+>  1 file changed, 6 insertions(+), 3 deletions(-)
 >
-> diff --git a/drivers/clk/clk-ast2600.c b/drivers/clk/clk-ast2600.c
-> index 177368cac6dd..882da16575d4 100644
-> --- a/drivers/clk/clk-ast2600.c
-> +++ b/drivers/clk/clk-ast2600.c
-> @@ -60,10 +60,10 @@ static void __iomem *scu_g6_base;
->  static const struct aspeed_gate_data aspeed_g6_gates[] = {
->         /*                                  clk rst  name               parent   flags */
->         [ASPEED_CLK_GATE_MCLK]          = {  0, -1, "mclk-gate",        "mpll",  CLK_IS_CRITICAL }, /* SDRAM */
-> -       [ASPEED_CLK_GATE_ECLK]          = {  1, -1, "eclk-gate",        "eclk",  0 },   /* Video Engine */
-> +       [ASPEED_CLK_GATE_ECLK]          = {  1,  6, "eclk-gate",        "eclk",  0 },   /* Video Engine */
->         [ASPEED_CLK_GATE_GCLK]          = {  2,  7, "gclk-gate",        NULL,    0 },   /* 2D engine */
->         /* vclk parent - dclk/d1clk/hclk/mclk */
-> -       [ASPEED_CLK_GATE_VCLK]          = {  3,  6, "vclk-gate",        NULL,    0 },   /* Video Capture */
-> +       [ASPEED_CLK_GATE_VCLK]          = {  3, -1, "vclk-gate",        NULL,    0 },   /* Video Capture */
->         [ASPEED_CLK_GATE_BCLK]          = {  4,  8, "bclk-gate",        "bclk",  0 }, /* PCIe/PCI */
->         /* From dpll */
->         [ASPEED_CLK_GATE_DCLK]          = {  5, -1, "dclk-gate",        NULL,    CLK_IS_CRITICAL }, /* DAC */
+> diff --git a/drivers/media/platform/aspeed-video.c b/drivers/media/platform/aspeed-video.c
+> index c46a79eace98..db072ff2df70 100644
+> --- a/drivers/media/platform/aspeed-video.c
+> +++ b/drivers/media/platform/aspeed-video.c
+> @@ -514,8 +514,8 @@ static void aspeed_video_off(struct aspeed_video *video)
+>         aspeed_video_write(video, VE_INTERRUPT_STATUS, 0xffffffff);
+>
+>         /* Turn off the relevant clocks */
+> -       clk_disable(video->vclk);
+>         clk_disable(video->eclk);
+> +       clk_disable(video->vclk);
+>
+>         clear_bit(VIDEO_CLOCKS_ON, &video->flags);
+>  }
+> @@ -526,8 +526,8 @@ static void aspeed_video_on(struct aspeed_video *video)
+>                 return;
+>
+>         /* Turn on the relevant clocks */
+> -       clk_enable(video->eclk);
+>         clk_enable(video->vclk);
+> +       clk_enable(video->eclk);
+>
+>         set_bit(VIDEO_CLOCKS_ON, &video->flags);
+>  }
+> @@ -1719,8 +1719,11 @@ static int aspeed_video_probe(struct platform_device *pdev)
+>                 return rc;
+>
+>         rc = aspeed_video_setup_video(video);
+> -       if (rc)
+> +       if (rc) {
+> +               clk_unprepare(video->vclk);
+> +               clk_unprepare(video->eclk);
+>                 return rc;
+> +       }
+>
+>         return 0;
+>  }
 > --
 > 2.17.1
 >
