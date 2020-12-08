@@ -2,121 +2,246 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5218D2D36F9
-	for <lists+linux-media@lfdr.de>; Wed,  9 Dec 2020 00:36:35 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id E08E32D3711
+	for <lists+linux-media@lfdr.de>; Wed,  9 Dec 2020 00:43:29 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1731777AbgLHXg1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Dec 2020 18:36:27 -0500
-Received: from mga06.intel.com ([134.134.136.31]:64449 "EHLO mga06.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731719AbgLHXg0 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 8 Dec 2020 18:36:26 -0500
-IronPort-SDR: nMJuteYfHNTv3V8A6wnKsLCJLceyuIC6Ss0yJVlGm7twjFYE4uVfXog7LIYmkBf3GEPlazdfnl
- JpWeuK7/bUsg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9829"; a="235587088"
-X-IronPort-AV: E=Sophos;i="5.78,404,1599548400"; 
-   d="scan'208";a="235587088"
-Received: from orsmga007.jf.intel.com ([10.7.209.58])
-  by orsmga104.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 15:34:41 -0800
-IronPort-SDR: h5bnpUi2zZitS92VDr0+o5KfWLNrRGYdOOddyybbuHgxD3WgHCqDTVmAgcvboXHf2j8tX/q13w
- EoufAQvO/V2A==
-X-IronPort-AV: E=Sophos;i="5.78,404,1599548400"; 
-   d="scan'208";a="375334145"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga007-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 08 Dec 2020 15:34:38 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 81FF520867; Wed,  9 Dec 2020 01:34:36 +0200 (EET)
-Date:   Wed, 9 Dec 2020 01:34:36 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
-Cc:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Thomas Petazzoni <thomas.petazzoni@bootlin.com>
-Subject: Re: [PATCH v4 2/2] media: i2c: Add support for the OV5648 image
- sensor
-Message-ID: <20201208233436.GF25763@paasikivi.fi.intel.com>
-References: <20201128143350.531460-1-paul.kocialkowski@bootlin.com>
- <20201128143350.531460-3-paul.kocialkowski@bootlin.com>
+        id S1731808AbgLHXmS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Dec 2020 18:42:18 -0500
+Received: from mail-ot1-f68.google.com ([209.85.210.68]:46824 "EHLO
+        mail-ot1-f68.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725906AbgLHXmL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Dec 2020 18:42:11 -0500
+Received: by mail-ot1-f68.google.com with SMTP id w3so431307otp.13;
+        Tue, 08 Dec 2020 15:41:55 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=mCzrahJfQzjNGyApJxp330Y639Yd1mbxLODK6PjseoQ=;
+        b=Wrpj1V1N3Vx0P6AMGEWIVjhs3g7Aq8QQXAvfnpPScUH5A8Dm5TQDcEgBxD4JWgpQ/6
+         zgidSaxXnfpHUW0sAHQ5gTzHdv2XnII0Ncdju1x3IOFoIM0FOT1SGbfl8Sgk9z9Mzsaz
+         Vj3BnkycNioaD+Ol4LOqIRMLAACzmuewoR53m25iofGncksVFqzO+cGn2R/oDHGKT5Ce
+         pHtx06JJvLbpdrq33TBRbP/LOEjumG1nzoCeaGkLuLckNJv+vi9pKBSUi/sQX8xblDJs
+         fg/OSJZI4GJ2ULPfKVXArFRQmd25iMdt9NZaJW56xmL08XzQ6ZWX6oncRArXFPChJgDc
+         w+zg==
+X-Gm-Message-State: AOAM533oGeAo4MDTFk7jqoBcRD85Mc7C0uvR8DtVPfcIM4OhLJt2uL6N
+        VgcNCm4cOuML0oS6yfj2xQ==
+X-Google-Smtp-Source: ABdhPJyWhVNI/C53Lkge1VqK7cYq8nLg5rgXAvJRTD/JdewfYLumeU4nJgeCLYUAEw0d3qtY0FuK2g==
+X-Received: by 2002:a9d:73d1:: with SMTP id m17mr420711otk.187.1607470889716;
+        Tue, 08 Dec 2020 15:41:29 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id p4sm79330oib.24.2020.12.08.15.41.28
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Tue, 08 Dec 2020 15:41:28 -0800 (PST)
+Received: (nullmailer pid 3334104 invoked by uid 1000);
+        Tue, 08 Dec 2020 23:41:27 -0000
+Date:   Tue, 8 Dec 2020 17:41:27 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Wendy Liang <wendy.liang@xilinx.com>
+Cc:     michal.simek@xilinx.com, arnd@arndb.de, gregkh@linuxfoundation.org,
+        sumit.semwal@linaro.org, christian.koenig@amd.com,
+        derek.kiernan@xilinx.com, dragan.cvetic@xilinx.com,
+        rajan.vaja@xilinx.com, tejas.patel@xilinx.com,
+        manish.narani@xilinx.com, ravi.patel@xilinx.com,
+        devicetree@vger.kernel.org, linux-arm-kernel@lists.infradead.org,
+        linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
+        dri-devel@lists.freedesktop.org
+Subject: Re: [PATCH v3 1/9] dt-binding: soc: xilinx: ai-engine: Add AI engine
+ binding
+Message-ID: <20201208234127.GA3303888@robh.at.kernel.org>
+References: <1606722505-16194-1-git-send-email-wendy.liang@xilinx.com>
+ <1606722505-16194-2-git-send-email-wendy.liang@xilinx.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201128143350.531460-3-paul.kocialkowski@bootlin.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+In-Reply-To: <1606722505-16194-2-git-send-email-wendy.liang@xilinx.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Paul,
+On Sun, Nov 29, 2020 at 11:48:17PM -0800, Wendy Liang wrote:
+> Xilinx AI engine array can be partitioned statically for different
+> applications. In the device tree, there will be device node for the AI
+> engine device, and device nodes for the statically configured AI engine
+> partitions. Each of the statically configured partition has a partition
+> ID in the system.
+>
+> Signed-off-by: Wendy Liang <wendy.liang@xilinx.com>
+> ---
+>  .../bindings/soc/xilinx/xlnx,ai-engine.yaml        | 126 +++++++++++++++++++++
+>  1 file changed, 126 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
+> 
+> diff --git a/Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml b/Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
+> new file mode 100644
+> index 0000000..1de5623
+> --- /dev/null
+> +++ b/Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
+> @@ -0,0 +1,126 @@
+> +# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
+> +%YAML 1.2
+> +---
+> +$id: http://devicetree.org/schemas/soc/xilinx/xlnx,ai-engine.yaml#
+> +$schema: http://devicetree.org/meta-schemas/core.yaml#
+> +
+> +title: Xilinx AI Engine
+> +
+> +maintainers:
+> +  - Wendy Liang <wendy.liang@xilinx.com>
+> +
+> +description: |+
 
-On Sat, Nov 28, 2020 at 03:33:50PM +0100, Paul Kocialkowski wrote:
-...
-> +	if (ret)
-> +		goto error_ctrls;
-> +
-> +	/* V4L2 subdev register */
-> +
-> +	ret = v4l2_async_register_subdev_sensor_common(subdev);
+You don't need '|' unless there's formatting to preserve.
 
-The driver's device node may be already available to the user here...
-
-> +	if (ret)
-> +		goto error_ctrls;
+> +  The Xilinx AI Engine is a tile processor with many cores (up to 400) that
+> +  can run in parallel. The data routing between cores is configured through
+> +  internal switches, and shim tiles interface with external interconnect, such
+> +  as memory or PL.
 > +
-> +	/* Runtime PM */
-> +
-> +	pm_runtime_enable(sensor->dev);
-> +	pm_runtime_set_suspended(sensor->dev);
+> +properties:
+> +  compatible:
+> +    const: xlnx,ai-engine-v1.0
 
-but runtime PM is enabled here.
-
-This needs to be done in a different order. Otherwise chances are that the
-device node is accessed before the device is powered on.
+This is soft logic? If not, don't use version numbers.
 
 > +
-> +	return 0;
-> +
-> +error_ctrls:
-> +	v4l2_ctrl_handler_free(&sensor->ctrls.handler);
-> +
-> +error_mutex:
-> +	mutex_destroy(&sensor->mutex);
-> +
-> +error_entity:
-> +	media_entity_cleanup(&sensor->subdev.entity);
-> +
-> +error_endpoint:
-> +	v4l2_fwnode_endpoint_free(&sensor->endpoint);
-> +
-> +	return ret;
-> +}
-> +
-> +static int ov5648_remove(struct i2c_client *client)
-> +{
-> +	struct v4l2_subdev *subdev = i2c_get_clientdata(client);
-> +	struct ov5648_sensor *sensor = ov5648_subdev_sensor(subdev);
-> +
-> +	clk_rate_exclusive_put(sensor->xvclk);
-> +
-> +	v4l2_async_unregister_subdev(subdev);
-> +	mutex_destroy(&sensor->mutex);
-> +	media_entity_cleanup(&subdev->entity);
-> +	v4l2_device_unregister_subdev(subdev);
-> +	pm_runtime_disable(sensor->dev);
-> +
-> +	ov5648_sensor_power(sensor, false);
+> +  reg:
+> +    description: |
+> +      Physical base address and length of the device registers.
 
-This needs to go, too, as there's no corresponding operation that powered
-on the device.
+That's every 'reg' property. Drop.
 
-Also don't forget to release the control handler.
+> +      The AI engine address space assigned to Linux is defined by Xilinx
+> +      platform design tool.
+> +
+> +  '#address-cells':
+> +    enum: [2]
 
-I believe these apply to both of the two drivers.
+const: 2
 
--- 
-Kind regards,
+> +    description: |
+> +      size of cell to describe AI engine range of tiles address.
+> +      It is the location of the starting tile of the range.
+> +      As the AI engine tiles are 2D array, the location of a tile
+> +      is presented as (column, row), the address cell is 2.
+> +
+> +  '#size-cells':
+> +    enum: [2]
+> +    description: |
+> +      size of cell to describe AI engine range of tiles size.
+> +      As the AI engine tiles are 2D array, the size cell is 2.
+> +
+> +  power-domains:
+> +    maxItems: 1
+> +    description: phandle to the associated power domain
+> +
+> +  interrupts:
+> +    maxItems: 3
+> +
+> +  interrupt-names:
+> +    description: |
+> +      Should be "interrupt1", "interrupt2" or "interrupt3".
 
-Sakari Ailus
+Really, not useful names. If you do have names, they should be a schema, 
+not freeform text.
+
+> +
+> +required:
+> +  - compatible
+> +  - reg
+> +  - '#address-cells'
+> +  - '#size-cells'
+> +  - power-domains
+> +  - interrupt-parent
+
+Generally, never required because it could be in the parent node.
+
+> +  - interrupts
+> +  - interrupt-names
+> +
+> +patternProperties:
+> +  "^aie_partition@[0-9]+$":
+
+aie-partition@
+
+The unit-address is just the 1st cell of reg (the row)? Or needs to be 
+row and column, in which case you'd want something like '@0,0'. Also, 
+unit-address values are typically hex, not decimal.
+
+> +    type: object
+> +    description: |
+> +      AI engine partition which is a group of column based tiles of the AI
+> +      engine device. Each AI engine partition is isolated from the other
+> +      AI engine partitions. An AI engine partition is defined by Xilinx
+> +      platform design tools. Each partition has a SHIM row and core tiles rows.
+> +      A SHIM row contains SHIM tiles which are the interface to external
+> +      components. AXI master can access AI engine registers, push data to and
+> +      fetch data from AI engine through the SHIM tiles. Core tiles are the
+> +      compute tiles.
+> +
+> +    properties:
+> +      reg:
+> +        description: |
+> +          It describes the group of tiles of the AI engine partition. It needs
+> +          to include the SHIM row. The format is defined by the parent AI engine
+> +          device node's '#address-cells' and '#size-cells' properties. e.g. a v1
+> +          AI engine device has 2D tiles array, the first row is SHIM row. A
+> +          partition which has 50 columns and 8 rows of core tiles and 1 row of
+> +          SHIM tiles will be presented as <0 0 50 9>.
+
+You should be able to write some constraints like max row and column 
+values?
+
+> +
+> +      label:
+> +        maxItems: 1
+
+'label' is not an array. Why do you need label?
+
+> +
+> +      xlnx,partition-id:
+> +        $ref: /schemas/types.yaml#/definitions/uint32
+> +        description: |
+> +          AI engine partition ID, which is defined by Xilinx platform design
+> +          tool to identify the AI engine partition in the system.
+
+I find the use of 'reg' a bit odd here. Maybe using 'reg' for partition 
+would make more sense? Which is more closely associated with how you 
+address the partition?
+
+> +
+> +    required:
+> +      - reg
+> +      - xlnx,partition-id
+> +    additionalProperties: false
+> +
+> +additionalProperties: false
+> +
+> +examples:
+> +  - |
+> +    bus {
+> +      #address-cells = <2>;
+> +      #size-cells = <2>;
+> +
+> +      ai_engine: ai-engine@20000000000 {
+> +        compatible = "xlnx,ai-engine-v1.0";
+> +        reg = <0x200 0x0 0x1 0x0>;
+> +        #address-cells = <2>;
+> +        #size-cells = <2>;
+> +        power-domains = <&versal_firmware 0x18224072>;
+> +        interrupt-parent = <&gic>;
+> +        interrupts = <0x0 0x94 0x4>,
+> +                     <0x0 0x95 0x4>,
+> +                     <0x0 0x96 0x4>;
+> +        interrupt-names = "interrupt1", "interrupt2", "interrupt3";
+> +
+> +        aie_partition0: aie_partition@0 {
+> +                /* 50 columns and 8 core tile rows + 1 SHIM row */
+> +                reg = <0 0 50 9>;
+> +                xlnx,partition-id = <1>;
+> +        };
+> +      };
+> +    };
+> -- 
+> 2.7.4
+> 
