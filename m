@@ -2,23 +2,23 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B931C2D341F
-	for <lists+linux-media@lfdr.de>; Tue,  8 Dec 2020 21:51:34 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 991C72D341B
+	for <lists+linux-media@lfdr.de>; Tue,  8 Dec 2020 21:51:32 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729546AbgLHUaJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Dec 2020 15:30:09 -0500
-Received: from mail-dm6nam12on2050.outbound.protection.outlook.com ([40.107.243.50]:60903
-        "EHLO NAM12-DM6-obe.outbound.protection.outlook.com"
+        id S1729553AbgLHU3o (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Dec 2020 15:29:44 -0500
+Received: from mail-bn8nam12on2072.outbound.protection.outlook.com ([40.107.237.72]:55680
+        "EHLO NAM12-BN8-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1729527AbgLHUaJ (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 8 Dec 2020 15:30:09 -0500
+        id S1729430AbgLHU3o (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 8 Dec 2020 15:29:44 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=KndSvkfMOkJoVydiZsGp/88+3mUx0gS82l/efbZ4mm0YVGs72hVZGgw5QP96rCO/rFuNzygqZwTmro4DNHdArnQRssFAqBw/wEVSODoI80B0ZIZhm/8fCMbX1Vnp17szyf3E5KXaJnbOv9H8OnmK02QZD9nETflKedpLM2abD0VHehUnl4kIvNgAswfWHiYOZ3k5WOWh1su/QQNycLjbk1btXepUjCRn2RfG+6nuDAM/1KTlBkNezYvjVI1FcGzaju5r8E9YqYb1G9BS8jqMAwtCyQO7ROwCd+/v+B7Fpf7X3AuzzFHtfamriY3lJ7/2nxcRJk/zSrmzkyvc5A6XKA==
+ b=hftHyCSJyCql8oVAMIPsa8Gi909L8QC+/A2NeqZdgYZ8ptm0H/27ltUw/MD1jSwKQ9Li4Nu5jOcNh2Ja+tVxA4cRPogMLbHo4R3ZB/rm1vNUklM6VKRU18pVq4ZlmkraUAy+nyiQkb1Jd4JjBzEYmZePXUxNpjrlKqe8ezlLYCKxXL7vQB9HRt/LJXat13otgEiFvVkEfi7ny7lTqYvrGpA/jFlZmyAqZD4LKbmEMP1BsxaTzF4zKBNt7NA2HpyrkxI/yDYtojvbT06UjB+73E20hdJsfyRkrsuyK1hFnNo5tbW4Xz/OiU9SaBIZep/g201l+w9a7RkUsjiXKFrhJQ==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yWGPpR4B1KfvbOokxE3Racb5yMfG6N5fZZRT2xb2Nhk=;
- b=HwrU0l+JVKc6yCaSaaZpF74gGY9Y65z+V8Lc4ymur54thOiE1fOfrQfw73bWzOd6gvZaoJgeUaRafpEdFSZ4xPp8PkEv4zlIGw1qYBx2NUWtnCfdH4TmBCQmFQvDLD4nWbBcngH+yOAi6fDpiK/YJusv1uJLvM7jJD9iOcPE3OydrIWS5ym6+23K6wz5B8ktMWT1RLtgZrcmKrLzLghMrV8VAaav2AplccuG0izJCavNGImLYWvwOjDQQbguMZeA9dYIC+U2OdAO+kqh9/d/EeA1+ELDs0fO63293nwDyzxnBeEEwmgNa/x2mdEYEzCghyoMTHls+CFsXojFRPzJHw==
+ bh=e7y1utmo7nFGbx/1JBFfUHlLsgPefosbU4R6GHtddmE=;
+ b=BF7ohelIzEEa0U7C11v7baPCLzZgxKW2BLigDi5G62jHuU3SRn3/NhgXPaTdeIpoD6WbQDpXjgqa1ZNkzGxs4TwOnVvzstjiQP8YfSIb/yV26MsCoRXcJfOLGzh50FLkd0cunJjhGN7wOuQ/LwN6+/C8O3YF2cQNpmEyRJimyrKZkRnJpZBhz528inyiK3JLlbN1lxTPan/U93U9QQRS7ZKVudBYeg696StX1RHJrA1Gy2xA3hlBj0rwcKPn8ZPXK7DvS02rhCqZR+rIDIlB8e3vvUrpNIVGUBdCD2AZnhQgI2afQmTrtzNlR/Ip7fQlGUSYE9pyE6EIqZcGG1f8gw==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
  149.199.62.198) smtp.rcpttodomain=lists.linaro.org smtp.mailfrom=xilinx.com;
  dmarc=bestguesspass action=none header.from=xilinx.com; dkim=none (message
@@ -26,18 +26,18 @@ ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass (sender ip is
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
  d=xilinx.onmicrosoft.com; s=selector2-xilinx-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=yWGPpR4B1KfvbOokxE3Racb5yMfG6N5fZZRT2xb2Nhk=;
- b=YSSChMwpIIPN7vAwl7w+gWleIJ+arrIeZQeOcfb/gHdfMLWBTWUoVvz4j4CrHQGGlT8/ojrK4KegqaT6oSfmLdRQ1MX1jc2wKzmZR7/EXPNWHGD5S2eEy9/yMi98BmG4girVmaZZdaDOlRa66lkKpRD3DEXu5BSgtkWl3NfP+Pg=
-Received: from DM6PR03CA0050.namprd03.prod.outlook.com (2603:10b6:5:100::27)
- by SN6PR02MB4607.namprd02.prod.outlook.com (2603:10b6:805:b3::16) with
+ bh=e7y1utmo7nFGbx/1JBFfUHlLsgPefosbU4R6GHtddmE=;
+ b=cJtFeVcrHGSzX2+THVUapJuseBdDtskahIvr7sThgHuXh3tWCcofM2hE3komq0OpVFvA4YeedkNyoAFjA7aQtyB3WtZHs/9q9bOix16tTUvD0mLvnBPw5fwOcFF9jw3oeVC1xRCwSjG3Yu56FyEJ2N+xVBjIgXkyVCbQpGEEudI=
+Received: from DM5PR20CA0036.namprd20.prod.outlook.com (2603:10b6:3:13d::22)
+ by BY5PR02MB6963.namprd02.prod.outlook.com (2603:10b6:a03:236::19) with
  Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17; Tue, 8 Dec
- 2020 19:55:00 +0000
-Received: from CY1NAM02FT046.eop-nam02.prod.protection.outlook.com
- (2603:10b6:5:100:cafe::8e) by DM6PR03CA0050.outlook.office365.com
- (2603:10b6:5:100::27) with Microsoft SMTP Server (version=TLS1_2,
- cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.17 via Frontend
- Transport; Tue, 8 Dec 2020 19:55:00 +0000
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3632.18; Tue, 8 Dec
+ 2020 19:57:47 +0000
+Received: from CY1NAM02FT031.eop-nam02.prod.protection.outlook.com
+ (2603:10b6:3:13d:cafe::14) by DM5PR20CA0036.outlook.office365.com
+ (2603:10b6:3:13d::22) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend
+ Transport; Tue, 8 Dec 2020 19:57:47 +0000
 X-MS-Exchange-Authentication-Results: spf=pass (sender IP is 149.199.62.198)
  smtp.mailfrom=xilinx.com; lists.linaro.org; dkim=none (message not signed)
  header.d=none;lists.linaro.org; dmarc=bestguesspass action=none
@@ -46,16 +46,16 @@ Received-SPF: Pass (protection.outlook.com: domain of xilinx.com designates
  149.199.62.198 as permitted sender) receiver=protection.outlook.com;
  client-ip=149.199.62.198; helo=xsj-pvapexch01.xlnx.xilinx.com;
 Received: from xsj-pvapexch01.xlnx.xilinx.com (149.199.62.198) by
- CY1NAM02FT046.mail.protection.outlook.com (10.152.74.232) with Microsoft SMTP
+ CY1NAM02FT031.mail.protection.outlook.com (10.152.75.180) with Microsoft SMTP
  Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.20.3632.21 via Frontend Transport; Tue, 8 Dec 2020 19:54:59 +0000
-Received: from xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) by
+ 15.20.3632.21 via Frontend Transport; Tue, 8 Dec 2020 19:57:47 +0000
+Received: from xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) by
  xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server
  (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256) id
- 15.1.1913.5; Tue, 8 Dec 2020 11:54:58 -0800
+ 15.1.1913.5; Tue, 8 Dec 2020 11:57:46 -0800
 Received: from smtp.xilinx.com (172.19.127.96) by
- xsj-pvapexch02.xlnx.xilinx.com (172.19.86.41) with Microsoft SMTP Server id
- 15.1.1913.5 via Frontend Transport; Tue, 8 Dec 2020 11:54:58 -0800
+ xsj-pvapexch01.xlnx.xilinx.com (172.19.86.40) with Microsoft SMTP Server id
+ 15.1.1913.5 via Frontend Transport; Tue, 8 Dec 2020 11:57:46 -0800
 Envelope-to: hyun.kwon@xilinx.com,
  ravi.patel@xilinx.com,
  manish.narani@xilinx.com,
@@ -77,10 +77,10 @@ Envelope-to: hyun.kwon@xilinx.com,
  arnd@arndb.de,
  robh+dt@kernel.org,
  nicolas@ndufresne.ca
-Received: from [10.23.125.57] (port=51435)
+Received: from [10.23.125.57] (port=51520)
         by smtp.xilinx.com with esmtp (Exim 4.90)
         (envelope-from <wendy.liang@xilinx.com>)
-        id 1kmj4c-0006yB-Ns; Tue, 08 Dec 2020 11:54:58 -0800
+        id 1kmj7K-00079w-0p; Tue, 08 Dec 2020 11:57:46 -0800
 Subject: Re: [PATCH 2/9] misc: Add Xilinx AI engine device driver
 To:     Nicolas Dufresne <nicolas@ndufresne.ca>,
         Wendy Liang <wendy.liang@xilinx.com>, <robh+dt@kernel.org>,
@@ -100,8 +100,8 @@ References: <1605686780-17886-1-git-send-email-wendy.liang@xilinx.com>
  <1605686780-17886-3-git-send-email-wendy.liang@xilinx.com>
  <5c310d188d2a75480452f5b5a9310e8e049f20f6.camel@ndufresne.ca>
 From:   Jiaying Liang <wendy.liang@xilinx.com>
-Message-ID: <bbe17ef2-c983-24a3-b346-034a491261b2@xilinx.com>
-Date:   Tue, 8 Dec 2020 11:54:57 -0800
+Message-ID: <fe7685ff-95c6-9305-9dc9-cbf712c2e48d@xilinx.com>
+Date:   Tue, 8 Dec 2020 11:57:45 -0800
 User-Agent: Mozilla/5.0 (Macintosh; Intel Mac OS X 10.15; rv:78.0)
  Gecko/20100101 Thunderbird/78.5.0
 MIME-Version: 1.0
@@ -112,25 +112,25 @@ Content-Language: en-US
 X-EOPAttributedMessage: 0
 X-MS-Office365-Filtering-HT: Tenant
 X-MS-PublicTrafficType: Email
-X-MS-Office365-Filtering-Correlation-Id: 42e504fd-695f-441e-6682-08d89bb32551
-X-MS-TrafficTypeDiagnostic: SN6PR02MB4607:
-X-Microsoft-Antispam-PRVS: <SN6PR02MB460753CAD97028A5A023C4D5B0CD0@SN6PR02MB4607.namprd02.prod.outlook.com>
+X-MS-Office365-Filtering-Correlation-Id: 2af74b87-3f47-4577-695a-08d89bb38927
+X-MS-TrafficTypeDiagnostic: BY5PR02MB6963:
+X-Microsoft-Antispam-PRVS: <BY5PR02MB696334C21BA323E6C8B2BA4DB0CD0@BY5PR02MB6963.namprd02.prod.outlook.com>
 X-Auto-Response-Suppress: DR, RN, NRN, OOF, AutoReply
 X-MS-Oob-TLC-OOBClassifiers: OLM:5797;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: F3T0rISDuLV/BBYXJvlC1Vgh6j1cyFgoF8fYxYcVFKuYabq1d1TJMsYMHJlIDvPkO+bXz9VHqaoITQoCWPMTBf/W0d8rBSOCowxoNH02FoVx9G1x88H2I1EbIYmc0XYcHteKdkwuK7Rs4nQjQ8DPol9oaBQCWqXot8TWpyJk/ARJqU67fS0I5a9XjEYO1XkPIp5HKxO5t4vtQhtgrqk1W5142Exv/NbOH0FMankKKsEuwbUMcSDllHIQsU3eDBe4Uml/YGSnQFQuyT7AjlVpSXII9L8NlGsdW7/rdm8L9Tgfa4GAClLjhHL50XowbbZe7334ssAQKN2/rznHiTUGCyWEl3wrH96+ULEd7STOUpqPwwliWPzDXjcJNm7S4jU0foDuys/sWzBbqlF3ZmyHV0HDUUxdVUr7jnNm8OdPJeBzG4bW7/k2B16srdpcucjAOcAklwksnyQmvqzGmZH4dK8+BgYtsbEsl+sFj6bxug3m2+uQCfg1QrkLGrLXzsthHur9fHEdww9FHedKiLUcNM6mnAv/2oSDKs0Tv2cLuDg=
-X-Forefront-Antispam-Report: CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(376002)(136003)(346002)(46966005)(5660300002)(26005)(7636003)(47076004)(30864003)(8676002)(8936002)(186003)(9786002)(53546011)(82310400003)(966005)(426003)(31686004)(4326008)(107886003)(70586007)(2616005)(2906002)(54906003)(6636002)(31696002)(508600001)(110136005)(83380400001)(356005)(66574015)(7416002)(336012)(70206006)(921005)(36906005)(36756003)(50156003)(43740500002)(559001)(579004);DIR:OUT;SFP:1101;
+X-Microsoft-Antispam-Message-Info: yXGK017FqRIEvy7fS9DwV2fv6L/rp/HZ/U8Bcx1T6iS+hTX3vtJoopUKx+5WZSphQe3+KKW3gjFd4DASe51eISYtq+54vuHQUYjml1+cLoUOv1c6w7T/+d5QCKYETwX3Gs5gGF85C6ElRi9F4deGW2zMyB/LAZDi3/VIwyuY6Pj5z6fQz2tWrIEHoPXFtgyOvS0AfTmJUbuEUdlGBxyDbmfbJmv85vlRmbork2RxGTDMj/bAikJk75VW2Xlc1kMflMgjrfK7NE9bxwykN57Hcn2NoIe/2uHCV2DvD4NMMU0TbJvx2Akf15LBJjY2WCrGE4IThBNktZNPrqd0Mi5JmofG1t7UYXoROQ13Q/AF5/mEhzXVoGtsSXs5+SuHFfDN9TtyABQ9UeKJKqn2a0CX79iEbLCrK9QRE4XYmgu7d9UDbAeqLFulPUSYfBhUMcxZyDeObkMXSWO3Jx3uNq5vyz5o4CgruiU3Zy/Aj6rpcaMZeymK15sCihedFoNZcw7IbyENGfk/DjkTEfp3Yqm8kexNOFcYsTVJhmQB9+RaN28=
+X-Forefront-Antispam-Report: CIP:149.199.62.198;CTRY:US;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:xsj-pvapexch01.xlnx.xilinx.com;PTR:unknown-62-198.xilinx.com;CAT:NONE;SFS:(4636009)(136003)(346002)(376002)(46966005)(508600001)(921005)(2906002)(8936002)(36756003)(53546011)(336012)(356005)(8676002)(36906005)(6636002)(66574015)(70206006)(107886003)(7636003)(54906003)(83380400001)(426003)(9786002)(966005)(2616005)(82310400003)(26005)(4326008)(47076004)(70586007)(5660300002)(7416002)(186003)(31686004)(110136005)(31696002)(30864003)(50156003)(43740500002)(579004)(559001);DIR:OUT;SFP:1101;
 X-OriginatorOrg: xilinx.com
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 19:54:59.9818
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 08 Dec 2020 19:57:47.4778
  (UTC)
-X-MS-Exchange-CrossTenant-Network-Message-Id: 42e504fd-695f-441e-6682-08d89bb32551
+X-MS-Exchange-CrossTenant-Network-Message-Id: 2af74b87-3f47-4577-695a-08d89bb38927
 X-MS-Exchange-CrossTenant-Id: 657af505-d5df-48d0-8300-c31994686c5c
 X-MS-Exchange-CrossTenant-OriginalAttributedTenantConnectingIp: TenantId=657af505-d5df-48d0-8300-c31994686c5c;Ip=[149.199.62.198];Helo=[xsj-pvapexch01.xlnx.xilinx.com]
-X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT046.eop-nam02.prod.protection.outlook.com
+X-MS-Exchange-CrossTenant-AuthSource: CY1NAM02FT031.eop-nam02.prod.protection.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Anonymous
 X-MS-Exchange-CrossTenant-FromEntityHeader: HybridOnPrem
-X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN6PR02MB4607
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY5PR02MB6963
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
@@ -151,12 +151,12 @@ On 12/8/20 9:12 AM, Nicolas Dufresne wrote:
 > Hi there, it's nice to see an effort to upstream an AI driver. I'm a little
 > worried this driver is not obvious to use from it's source code itself. So you
 > have reference to some Open Source code that demonstrate it's usage ?
-
 We have AI engine library which provides a cross platforms APIs for other
 
 libraries/application to use the hardware. Here is the source code:
 
-https://github.com/Xilinx/embeddedsw/tree/master/XilinxProcessorIPLib/drivers/aienginev2/src
+https://github.com/Xilinx/embeddedsw/tree/master/XilinxProcessorIPLib/drivers/aienginev2/src 
+
 
 The cross platforms AI engine library runs in LInux userspace it defines 
 how to
@@ -168,8 +168,6 @@ manage errors from device.
 Best Regards,
 
 Wendy
-
-
 >
 >> Signed-off-by: Wendy Liang <wendy.liang@xilinx.com>
 >> Signed-off-by: Hyun Kwon <hyun.kwon@xilinx.com>
