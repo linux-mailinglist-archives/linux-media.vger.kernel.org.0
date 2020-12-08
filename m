@@ -2,720 +2,270 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C1CF2D2F46
-	for <lists+linux-media@lfdr.de>; Tue,  8 Dec 2020 17:18:01 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8796C2D2FC2
+	for <lists+linux-media@lfdr.de>; Tue,  8 Dec 2020 17:34:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729252AbgLHQQ1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 8 Dec 2020 11:16:27 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:55128 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726810AbgLHQQ0 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Dec 2020 11:16:26 -0500
+        id S1730385AbgLHQeL (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 8 Dec 2020 11:34:11 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56870 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728602AbgLHQeL (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Tue, 8 Dec 2020 11:34:11 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id BF367C061793
+        for <linux-media@vger.kernel.org>; Tue,  8 Dec 2020 08:33:30 -0800 (PST)
 Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 1839D335;
-        Tue,  8 Dec 2020 17:15:42 +0100 (CET)
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id D2752335;
+        Tue,  8 Dec 2020 17:33:27 +0100 (CET)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1607444142;
-        bh=sGVysyl5B8Abr2RK3b9/PXvSK6C++EzwrH+qL/qcZcI=;
+        s=mail; t=1607445208;
+        bh=xtcEqt9f0TDBN30yHVDgwlxOYwIBZWXiCW+sndVHygQ=;
         h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=XEc6umbSh5i1sOUSQR0BJJiY7ZKSclnZEaNxT8eullZKUyxYD7AXqBXptXVxAGdH0
-         oYetzByaRCasl3hEmWZ3whhTOvGYGx5xOlw1ldpoPPe7V499AgP/Gf7uKdzsGYDTzL
-         EXog7bEjmPFNK27YIGH5kCLkOP6ADZ75uXRXeJ14=
-Date:   Tue, 8 Dec 2020 18:15:39 +0200
+        b=DoOETZIDr3I2YqRmvxhDkrtw4h80vytbcDqxIfaYl3GDEx8jw9J4NmbUe+RKBXGm2
+         oTeJZRegdT1Jy/DZLcylpbQxeI9/a3pOxhyGUXetho0jVtPC1YVpn3dGlTlt+5i7br
+         ns+0NaI8en/YbCl314OdyEjDN1G0mXHNbfwL0/bs=
+Date:   Tue, 8 Dec 2020 18:33:24 +0200
 From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Hans Verkuil <hverkuil@xs4all.nl>
-Cc:     linux-media@vger.kernel.org,
-        Tomi Valkeinen <tomi.valkeinen@ti.com>,
-        Benoit Parrot <bparrot@ti.com>
-Subject: Re: [PATCH v3 24/24] media: ti-vpe: cal: Implement media controller
- centric API
-Message-ID: <X8+mq486bL/St/vT@pendragon.ideasonboard.com>
-References: <20201206235353.26968-1-laurent.pinchart@ideasonboard.com>
- <20201206235353.26968-25-laurent.pinchart@ideasonboard.com>
- <d3a0f5e3-d94a-8c67-63e7-b5dfb5f8ea5d@xs4all.nl>
- <X87AHVETKz0CrzQq@pendragon.ideasonboard.com>
- <7792f746-7e49-006c-e02d-bc36a48d3247@xs4all.nl>
+To:     Hans Verkuil <hverkuil-cisco@xs4all.nl>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        "Eugen.Hristev@microchip.com" <Eugen.Hristev@microchip.com>,
+        Sowjanya Komatineni <skomatineni@nvidia.com>,
+        Luca Ceresoli <luca@lucaceresoli.net>
+Subject: Re: [PATCH] imx274: remove composition support, add
+ V4L2_SEL_TGT_CROP_DEFAULT
+Message-ID: <X8+q1EgvwAsHMTKJ@pendragon.ideasonboard.com>
+References: <7940b65c-b5d8-0167-3262-4282f10e873c@xs4all.nl>
+ <20201207124655.GY852@paasikivi.fi.intel.com>
+ <a61e6644-cb94-6ec9-f0e0-1c256bedb0ed@xs4all.nl>
+ <20201207134258.GB852@paasikivi.fi.intel.com>
+ <20201207145313.GC852@paasikivi.fi.intel.com>
+ <692d3668-03b3-9b45-52ca-a1c05e2a6e1a@xs4all.nl>
+ <20201208114600.GD25763@paasikivi.fi.intel.com>
+ <fb4481e8-7a67-352c-3424-847ff3e1ee39@xs4all.nl>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=utf-8
 Content-Disposition: inline
-In-Reply-To: <7792f746-7e49-006c-e02d-bc36a48d3247@xs4all.nl>
+In-Reply-To: <fb4481e8-7a67-352c-3424-847ff3e1ee39@xs4all.nl>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
 Hi Hans,
 
-On Tue, Dec 08, 2020 at 09:58:39AM +0100, Hans Verkuil wrote:
-> On 08/12/2020 00:51, Laurent Pinchart wrote:
-> > On Mon, Dec 07, 2020 at 11:11:33AM +0100, Hans Verkuil wrote:
-> >> On 07/12/2020 00:53, Laurent Pinchart wrote:
-> >>> The CAL driver is video node centric, it controls the whole device
-> >>> through the video device nodes. This limits the possible use cases as it
-> >>> can't support sources that are more complex than a single subdev. To
-> >>> support more complex hardware pipelines, implement support for the media
-> >>> controller centric API. The exposed API can be selected through a module
-> >>> parameter.
-> >>>
-> >>> Signed-off-by: Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-> >>> ---
-> >>> Changes since v1:
-> >>>
-> >>> - Fix parameter name and description in MODULE_PARM_DESC()
-> >>> ---
-> >>>  drivers/media/platform/ti-vpe/cal-camerarx.c |   1 +
-> >>>  drivers/media/platform/ti-vpe/cal-video.c    | 356 ++++++++++++++-----
-> >>>  drivers/media/platform/ti-vpe/cal.c          |  10 +-
-> >>>  drivers/media/platform/ti-vpe/cal.h          |   2 +
-> >>>  4 files changed, 288 insertions(+), 81 deletions(-)
-> >>>
-> >>> diff --git a/drivers/media/platform/ti-vpe/cal-camerarx.c b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> >>> index 1920f36137b8..8abf887c47d6 100644
-> >>> --- a/drivers/media/platform/ti-vpe/cal-camerarx.c
-> >>> +++ b/drivers/media/platform/ti-vpe/cal-camerarx.c
-> >>> @@ -830,6 +830,7 @@ struct cal_camerarx *cal_camerarx_create(struct cal_dev *cal,
-> >>>  	sd = &phy->subdev;
-> >>>  	v4l2_subdev_init(sd, &cal_camerarx_subdev_ops);
-> >>>  	sd->entity.function = MEDIA_ENT_F_VID_IF_BRIDGE;
-> >>> +	sd->flags = V4L2_SUBDEV_FL_HAS_DEVNODE;
-> >>>  	snprintf(sd->name, sizeof(sd->name), "CAMERARX%u", instance);
-> >>>  	sd->dev = cal->dev;
-> >>>  
-> >>> diff --git a/drivers/media/platform/ti-vpe/cal-video.c b/drivers/media/platform/ti-vpe/cal-video.c
-> >>> index 779f1e1bc529..119a17fb97bc 100644
-> >>> --- a/drivers/media/platform/ti-vpe/cal-video.c
-> >>> +++ b/drivers/media/platform/ti-vpe/cal-video.c
-> >>> @@ -40,40 +40,10 @@ static char *fourcc_to_str(u32 fmt)
-> >>>  }
-> >>>  
-> >>>  /* ------------------------------------------------------------------
-> >>> - *	V4L2 Video IOCTLs
-> >>> + *	V4L2 Common IOCTLs
-> >>>   * ------------------------------------------------------------------
-> >>>   */
-> >>>  
-> >>> -static const struct cal_format_info *find_format_by_pix(struct cal_ctx *ctx,
-> >>> -							u32 pixelformat)
-> >>> -{
-> >>> -	const struct cal_format_info *fmtinfo;
-> >>> -	unsigned int k;
-> >>> -
-> >>> -	for (k = 0; k < ctx->num_active_fmt; k++) {
-> >>> -		fmtinfo = ctx->active_fmt[k];
-> >>> -		if (fmtinfo->fourcc == pixelformat)
-> >>> -			return fmtinfo;
-> >>> -	}
-> >>> -
-> >>> -	return NULL;
-> >>> -}
-> >>> -
-> >>> -static const struct cal_format_info *find_format_by_code(struct cal_ctx *ctx,
-> >>> -							 u32 code)
-> >>> -{
-> >>> -	const struct cal_format_info *fmtinfo;
-> >>> -	unsigned int k;
-> >>> -
-> >>> -	for (k = 0; k < ctx->num_active_fmt; k++) {
-> >>> -		fmtinfo = ctx->active_fmt[k];
-> >>> -		if (fmtinfo->code == code)
-> >>> -			return fmtinfo;
-> >>> -	}
-> >>> -
-> >>> -	return NULL;
-> >>> -}
-> >>> -
-> >>>  static int cal_querycap(struct file *file, void *priv,
-> >>>  			struct v4l2_capability *cap)
-> >>>  {
-> >>> @@ -87,6 +57,51 @@ static int cal_querycap(struct file *file, void *priv,
-> >>>  	return 0;
-> >>>  }
-> >>>  
-> >>> +static int cal_g_fmt_vid_cap(struct file *file, void *priv,
-> >>> +			     struct v4l2_format *f)
-> >>> +{
-> >>> +	struct cal_ctx *ctx = video_drvdata(file);
-> >>> +
-> >>> +	*f = ctx->v_fmt;
-> >>> +
-> >>> +	return 0;
-> >>> +}
-> >>> +
-> >>> +/* ------------------------------------------------------------------
-> >>> + *	V4L2 Video Node Centric IOCTLs
-> >>> + * ------------------------------------------------------------------
-> >>> + */
-> >>> +
-> >>> +static const struct cal_format_info *find_format_by_pix(struct cal_ctx *ctx,
-> >>> +							u32 pixelformat)
-> >>> +{
-> >>> +	const struct cal_format_info *fmtinfo;
-> >>> +	unsigned int k;
-> >>> +
-> >>> +	for (k = 0; k < ctx->num_active_fmt; k++) {
-> >>> +		fmtinfo = ctx->active_fmt[k];
-> >>> +		if (fmtinfo->fourcc == pixelformat)
-> >>> +			return fmtinfo;
-> >>> +	}
-> >>> +
-> >>> +	return NULL;
-> >>> +}
-> >>> +
-> >>> +static const struct cal_format_info *find_format_by_code(struct cal_ctx *ctx,
-> >>> +							 u32 code)
-> >>> +{
-> >>> +	const struct cal_format_info *fmtinfo;
-> >>> +	unsigned int k;
-> >>> +
-> >>> +	for (k = 0; k < ctx->num_active_fmt; k++) {
-> >>> +		fmtinfo = ctx->active_fmt[k];
-> >>> +		if (fmtinfo->code == code)
-> >>> +			return fmtinfo;
-> >>> +	}
-> >>> +
-> >>> +	return NULL;
-> >>> +}
-> >>> +
-> >>>  static int cal_enum_fmt_vid_cap(struct file *file, void  *priv,
-> >>>  				struct v4l2_fmtdesc *f)
-> >>>  {
-> >>> @@ -174,16 +189,6 @@ static void cal_calc_format_size(struct cal_ctx *ctx,
-> >>>  		f->fmt.pix.bytesperline, f->fmt.pix.sizeimage);
-> >>>  }
-> >>>  
-> >>> -static int cal_g_fmt_vid_cap(struct file *file, void *priv,
-> >>> -			     struct v4l2_format *f)
-> >>> -{
-> >>> -	struct cal_ctx *ctx = video_drvdata(file);
-> >>> -
-> >>> -	*f = ctx->v_fmt;
-> >>> -
-> >>> -	return 0;
-> >>> -}
-> >>> -
-> >>>  static int cal_try_fmt_vid_cap(struct file *file, void *priv,
-> >>>  			       struct v4l2_format *f)
-> >>>  {
-> >>> @@ -383,16 +388,7 @@ static int cal_enum_frameintervals(struct file *file, void *priv,
-> >>>  	return 0;
-> >>>  }
-> >>>  
-> >>> -static const struct v4l2_file_operations cal_fops = {
-> >>> -	.owner		= THIS_MODULE,
-> >>> -	.open           = v4l2_fh_open,
-> >>> -	.release        = vb2_fop_release,
-> >>> -	.poll		= vb2_fop_poll,
-> >>> -	.unlocked_ioctl = video_ioctl2, /* V4L2 ioctl handler */
-> >>> -	.mmap           = vb2_fop_mmap,
-> >>> -};
-> >>> -
-> >>> -static const struct v4l2_ioctl_ops cal_ioctl_ops = {
-> >>> +static const struct v4l2_ioctl_ops cal_ioctl_video_ops = {
-> >>>  	.vidioc_querycap      = cal_querycap,
-> >>>  	.vidioc_enum_fmt_vid_cap  = cal_enum_fmt_vid_cap,
-> >>>  	.vidioc_g_fmt_vid_cap     = cal_g_fmt_vid_cap,
-> >>> @@ -418,7 +414,153 @@ static const struct v4l2_ioctl_ops cal_ioctl_ops = {
-> >>>  };
-> >>>  
-> >>>  /* ------------------------------------------------------------------
-> >>> - *	videobuf2 Operations
-> >>> + *	V4L2 Media Controller Centric IOCTLs
-> >>> + * ------------------------------------------------------------------
-> >>> + */
-> >>> +
-> >>> +static int cal_mc_enum_fmt_vid_cap(struct file *file, void  *priv,
-> >>> +				   struct v4l2_fmtdesc *f)
-> >>> +{
-> >>> +	if (f->index >= cal_num_formats)
-> >>> +		return -EINVAL;
-> >>> +
-> >>> +	f->pixelformat = cal_formats[f->index].fourcc;
-> >>> +	f->type = V4L2_BUF_TYPE_VIDEO_CAPTURE;
-> >>> +
-> >>> +	return 0;
-> >>> +}
-> >>> +
-> >>> +static void cal_mc_try_fmt(struct cal_ctx *ctx, struct v4l2_format *f,
-> >>> +			   const struct cal_format_info **info)
-> >>> +{
-> >>> +	struct v4l2_pix_format *format = &f->fmt.pix;
-> >>> +	const struct cal_format_info *fmtinfo;
-> >>> +	unsigned int bpp;
-> >>> +
-> >>> +	/*
-> >>> +	 * Default to the first format is the requested pixel format code isn't
-> >>> +	 * supported.
-> >>> +	 */
-> >>> +	fmtinfo = cal_format_by_fourcc(f->fmt.pix.pixelformat);
-> >>> +	if (!fmtinfo)
-> >>> +		fmtinfo = &cal_formats[0];
-> >>> +
-> >>> +	/*
-> >>> +	 * Clamp the size, update the pixel format. The field and colorspace are
-> >>> +	 * accepted as-is, except for V4L2_FIELD_ANY that is turned into
-> >>> +	 * V4L2_FIELD_NONE.
-> >>> +	 */
-> >>> +	bpp = ALIGN(fmtinfo->bpp, 8);
-> >>> +
-> >>> +	format->width = clamp_t(unsigned int, format->width,
-> >>> +				CAL_MIN_WIDTH_BYTES * 8 / bpp,
-> >>> +				CAL_MAX_WIDTH_BYTES * 8 / bpp);
-> >>> +	format->height = clamp_t(unsigned int, format->height,
-> >>> +				 CAL_MIN_HEIGHT_LINES, CAL_MAX_HEIGHT_LINES);
-> >>> +	format->pixelformat = fmtinfo->fourcc;
-> >>> +
-> >>> +	if (format->field == V4L2_FIELD_ANY)
-> >>> +		format->field = V4L2_FIELD_NONE;
-> >>> +
-> >>> +	/*
-> >>> +	 * Calculate the number of bytes per line and the image size. The
-> >>> +	 * hardware stores the stride as a number of 16 bytes words, in a
-> >>> +	 * signed 15-bit value. Only 14 bits are thus usable.
-> >>> +	 */
-> >>> +	format->bytesperline = ALIGN(clamp(format->bytesperline,
-> >>> +					   format->width * bpp / 8,
-> >>> +					   ((1U << 14) - 1) * 16), 16);
-> >>> +
-> >>> +	format->sizeimage = format->height * format->bytesperline;
-> >>> +
-> >>> +	if (info)
-> >>> +		*info = fmtinfo;
-> >>> +
-> >>> +	ctx_dbg(3, ctx, "%s: %s %ux%u (bytesperline %u sizeimage %u)\n",
-> >>> +		__func__, fourcc_to_str(format->pixelformat),
-> >>> +		format->width, format->height,
-> >>> +		format->bytesperline, format->sizeimage);
-> >>> +}
-> >>> +
-> >>> +static int cal_mc_try_fmt_vid_cap(struct file *file, void *priv,
-> >>> +				  struct v4l2_format *f)
-> >>> +{
-> >>> +	struct cal_ctx *ctx = video_drvdata(file);
-> >>> +
-> >>> +	cal_mc_try_fmt(ctx, f, NULL);
-> >>> +	return 0;
-> >>> +}
-> >>> +
-> >>> +static int cal_mc_s_fmt_vid_cap(struct file *file, void *priv,
-> >>> +				struct v4l2_format *f)
-> >>> +{
-> >>> +	struct cal_ctx *ctx = video_drvdata(file);
-> >>> +	const struct cal_format_info *fmtinfo;
-> >>> +
-> >>> +	if (vb2_is_busy(&ctx->vb_vidq)) {
-> >>> +		ctx_dbg(3, ctx, "%s device busy\n", __func__);
-> >>> +		return -EBUSY;
-> >>> +	}
-> >>> +
-> >>> +	cal_mc_try_fmt(ctx, f, &fmtinfo);
-> >>> +
-> >>> +	ctx->v_fmt = *f;
-> >>> +	ctx->fmtinfo = fmtinfo;
-> >>> +
-> >>> +	return 0;
-> >>> +}
-> >>> +
-> >>> +static int cal_mc_enum_framesizes(struct file *file, void *fh,
-> >>> +				  struct v4l2_frmsizeenum *fsize)
-> >>> +{
-> >>> +	struct cal_ctx *ctx = video_drvdata(file);
-> >>> +	const struct cal_format_info *fmtinfo;
-> >>> +	unsigned int bpp;
-> >>> +
-> >>> +	if (fsize->index > 0)
-> >>> +		return -EINVAL;
-> >>> +
-> >>> +	fmtinfo = cal_format_by_fourcc(fsize->pixel_format);
-> >>> +	if (!fmtinfo) {
-> >>> +		ctx_dbg(3, ctx, "Invalid pixel format 0x%08x\n",
-> >>> +			fsize->pixel_format);
-> >>> +		return -EINVAL;
-> >>> +	}
-> >>> +
-> >>> +	bpp = ALIGN(fmtinfo->bpp, 8);
-> >>> +
-> >>> +	fsize->type = V4L2_FRMSIZE_TYPE_STEPWISE;
-> >>> +	fsize->stepwise.min_width = CAL_MIN_WIDTH_BYTES * 8 / bpp;
-> >>> +	fsize->stepwise.max_width = CAL_MAX_WIDTH_BYTES * 8 / bpp;
-> >>> +	fsize->stepwise.step_width = 64 / bpp;
-> >>> +	fsize->stepwise.min_height = CAL_MIN_HEIGHT_LINES;
-> >>> +	fsize->stepwise.max_height = CAL_MAX_HEIGHT_LINES;
-> >>> +	fsize->stepwise.step_height = 1;
-> >>> +
-> >>> +	return 0;
-> >>> +}
-> >>> +
-> >>> +static const struct v4l2_ioctl_ops cal_ioctl_mc_ops = {
-> >>> +	.vidioc_querycap      = cal_querycap,
-> >>> +	.vidioc_enum_fmt_vid_cap  = cal_mc_enum_fmt_vid_cap,
-> >>> +	.vidioc_g_fmt_vid_cap     = cal_g_fmt_vid_cap,
-> >>> +	.vidioc_try_fmt_vid_cap   = cal_mc_try_fmt_vid_cap,
-> >>> +	.vidioc_s_fmt_vid_cap     = cal_mc_s_fmt_vid_cap,
-> >>> +	.vidioc_enum_framesizes   = cal_mc_enum_framesizes,
-> >>> +	.vidioc_reqbufs       = vb2_ioctl_reqbufs,
-> >>> +	.vidioc_create_bufs   = vb2_ioctl_create_bufs,
-> >>> +	.vidioc_prepare_buf   = vb2_ioctl_prepare_buf,
-> >>> +	.vidioc_querybuf      = vb2_ioctl_querybuf,
-> >>> +	.vidioc_qbuf          = vb2_ioctl_qbuf,
-> >>> +	.vidioc_dqbuf         = vb2_ioctl_dqbuf,
-> >>> +	.vidioc_expbuf        = vb2_ioctl_expbuf,
-> >>> +	.vidioc_streamon      = vb2_ioctl_streamon,
-> >>> +	.vidioc_streamoff     = vb2_ioctl_streamoff,
-> >>> +	.vidioc_log_status    = v4l2_ctrl_log_status,
-> >>> +};
-> >>> +
-> >>> +/* ------------------------------------------------------------------
-> >>> + *	videobuf2 Common Operations
-> >>>   * ------------------------------------------------------------------
-> >>>   */
-> >>>  
-> >>> @@ -504,6 +646,26 @@ static void cal_release_buffers(struct cal_ctx *ctx,
-> >>>  	spin_unlock_irq(&ctx->dma.lock);
-> >>>  }
-> >>>  
-> >>> +/* ------------------------------------------------------------------
-> >>> + *	videobuf2 Operations
-> >>> + * ------------------------------------------------------------------
-> >>> + */
-> >>> +
-> >>> +static int cal_video_check_format(struct cal_ctx *ctx)
-> >>> +{
-> >>> +	const struct v4l2_mbus_framefmt *format;
-> >>> +
-> >>> +	format = &ctx->phy->formats[CAL_CAMERARX_PAD_SOURCE];
-> >>> +
-> >>> +	if (ctx->fmtinfo->code != format->code ||
-> >>> +	    ctx->v_fmt.fmt.pix.height != format->height ||
-> >>> +	    ctx->v_fmt.fmt.pix.width != format->width ||
-> >>> +	    ctx->v_fmt.fmt.pix.field != format->field)
-> >>> +		return -EPIPE;
-> >>> +
-> >>> +	return 0;
-> >>> +}
-> >>> +
-> >>>  static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
-> >>>  {
-> >>>  	struct cal_ctx *ctx = vb2_get_drv_priv(vq);
-> >>> @@ -511,6 +673,23 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
-> >>>  	dma_addr_t addr;
-> >>>  	int ret;
-> >>>  
-> >>> +	ret = media_pipeline_start(&ctx->vdev.entity, &ctx->phy->pipe);
-> >>> +	if (ret < 0) {
-> >>> +		ctx_err(ctx, "Failed to start media pipeline: %d\n", ret);
-> >>> +		return ret;
-> >>> +	}
-> >>> +
-> >>> +	/*
-> >>> +	 * Verify that the currently configured format matches the output of
-> >>> +	 * the connected CAMERARX.
-> >>> +	 */
-> >>> +	ret = cal_video_check_format(ctx);
-> >>> +	if (ret < 0) {
-> >>> +		ctx_dbg(3, ctx,
-> >>> +			"Format mismatch between CAMERARX and video node\n");
-> >>> +		goto error_pipeline;
-> >>> +	}
-> >>> +
-> >>>  	spin_lock_irq(&ctx->dma.lock);
-> >>>  	buf = list_first_entry(&ctx->dma.queue, struct cal_buffer, list);
-> >>>  	ctx->dma.pending = buf;
-> >>> @@ -526,18 +705,21 @@ static int cal_start_streaming(struct vb2_queue *vq, unsigned int count)
-> >>>  
-> >>>  	ret = v4l2_subdev_call(&ctx->phy->subdev, video, s_stream, 1);
-> >>>  	if (ret)
-> >>> -		goto err;
-> >>> +		goto error_stop;
-> >>>  
-> >>>  	if (cal_debug >= 4)
-> >>>  		cal_quickdump_regs(ctx->cal);
-> >>>  
-> >>>  	return 0;
-> >>>  
-> >>> -err:
-> >>> +error_stop:
-> >>>  	cal_ctx_stop(ctx);
-> >>>  	pm_runtime_put_sync(ctx->cal->dev);
-> >>>  
-> >>> +error_pipeline:
-> >>> +	media_pipeline_stop(&ctx->vdev.entity);
-> >>>  	cal_release_buffers(ctx, VB2_BUF_STATE_QUEUED);
-> >>> +
-> >>>  	return ret;
-> >>>  }
-> >>>  
-> >>> @@ -552,6 +734,8 @@ static void cal_stop_streaming(struct vb2_queue *vq)
-> >>>  	pm_runtime_put_sync(ctx->cal->dev);
-> >>>  
-> >>>  	cal_release_buffers(ctx, VB2_BUF_STATE_ERROR);
-> >>> +
-> >>> +	media_pipeline_stop(&ctx->vdev.entity);
-> >>>  }
-> >>>  
-> >>>  static const struct vb2_ops cal_video_qops = {
-> >>> @@ -569,13 +753,13 @@ static const struct vb2_ops cal_video_qops = {
-> >>>   * ------------------------------------------------------------------
-> >>>   */
-> >>>  
-> >>> -static const struct video_device cal_videodev = {
-> >>> -	.name		= CAL_MODULE_NAME,
-> >>> -	.fops		= &cal_fops,
-> >>> -	.ioctl_ops	= &cal_ioctl_ops,
-> >>> -	.minor		= -1,
-> >>> -	.release	= video_device_release_empty,
-> >>> -	.device_caps	= V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING,
-> >>> +static const struct v4l2_file_operations cal_fops = {
-> >>> +	.owner		= THIS_MODULE,
-> >>> +	.open           = v4l2_fh_open,
-> >>> +	.release        = vb2_fop_release,
-> >>> +	.poll		= vb2_fop_poll,
-> >>> +	.unlocked_ioctl = video_ioctl2, /* V4L2 ioctl handler */
-> >>> +	.mmap           = vb2_fop_mmap,
-> >>>  };
-> >>>  
-> >>>  static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
-> >>> @@ -649,19 +833,22 @@ static int cal_ctx_v4l2_init_formats(struct cal_ctx *ctx)
-> >>>  
-> >>>  int cal_ctx_v4l2_register(struct cal_ctx *ctx)
-> >>>  {
-> >>> -	struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
-> >>>  	struct video_device *vfd = &ctx->vdev;
-> >>>  	int ret;
-> >>>  
-> >>> -	ret = cal_ctx_v4l2_init_formats(ctx);
-> >>> -	if (ret)
-> >>> -		return ret;
-> >>> +	if (!cal_mc_api) {
-> >>> +		struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
-> >>>  
-> >>> -	ret = v4l2_ctrl_add_handler(hdl, ctx->phy->sensor->ctrl_handler, NULL,
-> >>> -				    true);
-> >>> -	if (ret < 0) {
-> >>> -		ctx_err(ctx, "Failed to add sensor ctrl handler\n");
-> >>> -		return ret;
-> >>> +		ret = cal_ctx_v4l2_init_formats(ctx);
-> >>> +		if (ret)
-> >>> +			return ret;
-> >>> +
-> >>> +		ret = v4l2_ctrl_add_handler(hdl, ctx->phy->sensor->ctrl_handler,
-> >>> +					    NULL, true);
-> >>> +		if (ret < 0) {
-> >>> +			ctx_err(ctx, "Failed to add sensor ctrl handler\n");
-> >>> +			return ret;
-> >>> +		}
-> >>>  	}
-> >>>  
-> >>>  	ret = video_register_device(vfd, VFL_TYPE_VIDEO, cal_video_nr);
-> >>> @@ -698,7 +885,6 @@ void cal_ctx_v4l2_unregister(struct cal_ctx *ctx)
-> >>>  
-> >>>  int cal_ctx_v4l2_init(struct cal_ctx *ctx)
-> >>>  {
-> >>> -	struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
-> >>>  	struct video_device *vfd = &ctx->vdev;
-> >>>  	struct vb2_queue *q = &ctx->vb_vidq;
-> >>>  	int ret;
-> >>> @@ -725,10 +911,14 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
-> >>>  		return ret;
-> >>>  
-> >>>  	/* Initialize the video device and media entity. */
-> >>> -	*vfd = cal_videodev;
-> >>> +	vfd->fops = &cal_fops;
-> >>> +	vfd->device_caps = V4L2_CAP_VIDEO_CAPTURE | V4L2_CAP_STREAMING
-> >>> +			 | (cal_mc_api ? V4L2_CAP_IO_MC : 0);
-> >>>  	vfd->v4l2_dev = &ctx->cal->v4l2_dev;
-> >>>  	vfd->queue = q;
-> >>>  	snprintf(vfd->name, sizeof(vfd->name), "CAL output %u", ctx->index);
-> >>> +	vfd->release = video_device_release_empty;
-> >>> +	vfd->ioctl_ops = cal_mc_api ? &cal_ioctl_mc_ops : &cal_ioctl_video_ops;
-> >>>  	vfd->lock = &ctx->mutex;
-> >>>  	video_set_drvdata(vfd, ctx);
-> >>>  
-> >>> @@ -737,15 +927,19 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
-> >>>  	if (ret < 0)
-> >>>  		return ret;
-> >>>  
-> >>> -	/* Initialize the control handler. */
-> >>> -	ret = v4l2_ctrl_handler_init(hdl, 11);
-> >>> -	if (ret < 0) {
-> >>> -		ctx_err(ctx, "Failed to init ctrl handler\n");
-> >>> -		goto error;
-> >>> +	if (!cal_mc_api) {
-> >>> +		/* Initialize the control handler. */
-> >>> +		struct v4l2_ctrl_handler *hdl = &ctx->ctrl_handler;
-> >>> +
-> >>> +		ret = v4l2_ctrl_handler_init(hdl, 11);
-> >>> +		if (ret < 0) {
-> >>> +			ctx_err(ctx, "Failed to init ctrl handler\n");
-> >>> +			goto error;
-> >>> +		}
-> >>> +
-> >>> +		vfd->ctrl_handler = hdl;
-> >>>  	}
+On Tue, Dec 08, 2020 at 01:44:59PM +0100, Hans Verkuil wrote:
+> On 08/12/2020 12:46, Sakari Ailus wrote:
+> > On Tue, Dec 08, 2020 at 10:47:29AM +0100, Hans Verkuil wrote:
+> >> On 07/12/2020 15:53, Sakari Ailus wrote:
+> >>> On Mon, Dec 07, 2020 at 03:42:58PM +0200, Sakari Ailus wrote:
+> >>>> Hi Hans,
+> >>>>
+> >>>> On Mon, Dec 07, 2020 at 02:16:39PM +0100, Hans Verkuil wrote:
+> >>>>> On 07/12/2020 13:46, Sakari Ailus wrote:
+> >>>>>> Hi Hans,
+> >>>>>>
+> >>>>>> Thanks for the patch.
+> >>>>>>
+> >>>>>> On Mon, Dec 07, 2020 at 12:18:55PM +0100, Hans Verkuil wrote:
+> >>>>>>> This driver does not support composition, only cropping.
+> >>>>>>> Composition means that the sensor can output e.g. 1920x1080,
+> >>>>>>> but can compose a cropped 1280x720 image in the middle of the
+> >>>>>>> 1920x1080 canvas, filling in the unused area with a background
+> >>>>>>> color.
+> >>>>>>
+> >>>>>> That's how this would work on V4L2 video nodes...
+> >>>>>>
+> >>>>>>>
+> >>>>>>> That's not supported at all. So drop the bogus composition support.
+> >>>>>>
+> >>>>>> But this is a sub-device driver. On sub-devices the COMPOSE target is used
+> >>>>>> for configuring scaling, binning and sub-sampling. I don't know about the
+> >>>>>> capabilities of this particular driver but the code
+> >>>>>> (__imx274_change_compose function in particular) looks very much such that
+> >>>>>> it does support binning.
+> >>>>>>
+> >>>>>
+> >>>>> That should be done via set_fmt. There you select the output width and height.
+> >>>>>
+> >>>>> So if set_fmt sets 1920x1080, and the crop is 960x540, then you scale (or
+> >>>>> do binning/sub-sampling). Compose means composing the image into a larger
+> >>>>> canvas. For this driver the compose rectangle is always equal to the
+> >>>>> format, so set_selection(COMPOSE) is identical to set_fmt().
+> >>>>>
+> >>>>> If it was real composition, then there would have to be a try_compose as
+> >>>>> well, just as there is a try_crop. Instead set_selection(COMPOSE) fills in
+> >>>>
+> >>>> On sub-devices there's a try context that's file handle specific.
 > >>
-> >> I think it is a good idea if the probe() function will log whether this
-> >> driver is in MC or video centric mode.
+> >> I know, but that isn't used here.
 > > 
-> > Would a debug message be fine ? I usually try to make the probe function
-> > silent by default to avoid adding to the already large boot time log.
+> > What exactly are you referring to? The imx274 driver does at least appear
+> > to do just that.
 > 
-> I now realized that you set V4L2_CAP_IO_MC in the MC case, and that's easy
-> to check with v4l2-ctl -D, so userspace does have an easy method to see
-> whether or not it is MC-centric. So just ignore my comment, the code is fine
-> as it is now.
+> No, it doesn't. Just grep for try_compose, you won't find it. Only try_fmt and
+> try_crop.
 > 
+> >>>>> try_fmt. Clearly wrong.
+> >>>>
+> >>>> Not more than using set_fmt if you look at the documentation:
+> >>>>
+> >>>> <URL:https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/dev-subdev.html#order-of-configuration-and-format-propagation>
+> >>>>
+> >>>> In this case it's just on the sink pad, as the sub-device exports no source
+> >>>> pads. I think there are probably a few such drivers around.
+> >>
+> >> Which example are you referring to? 4.5 or 4.6?
+> >>
+> >> 4.5 is closest to what a sensor is, except you won't have a sink pad. Here you crop
+> >> from the sensor image, and to scale it up/down to the source media bus format
+> >> width and height (if the hardware supports that, of course).
+> >>
+> >> There is no composition. If composition was supported, then the crop rectangle
+> >> would be scaled up/down to the composition rectangle, which would be a rectangle
 > > 
-> >>>  
-> >>> -	vfd->ctrl_handler = hdl;
-> >>> -
-> >>>  	return 0;
-> >>>  
-> >>>  error:
-> >>> @@ -755,6 +949,8 @@ int cal_ctx_v4l2_init(struct cal_ctx *ctx)
-> >>>  
-> >>>  void cal_ctx_v4l2_cleanup(struct cal_ctx *ctx)
-> >>>  {
-> >>> -	v4l2_ctrl_handler_free(&ctx->ctrl_handler);
-> >>> +	if (!cal_mc_api)
-> >>> +		v4l2_ctrl_handler_free(&ctx->ctrl_handler);
-> >>> +
-> >>>  	media_entity_cleanup(&ctx->vdev.entity);
-> >>>  }
-> >>> diff --git a/drivers/media/platform/ti-vpe/cal.c b/drivers/media/platform/ti-vpe/cal.c
-> >>> index 293cbac905b3..2ce2b6404c92 100644
-> >>> --- a/drivers/media/platform/ti-vpe/cal.c
-> >>> +++ b/drivers/media/platform/ti-vpe/cal.c
-> >>> @@ -43,6 +43,10 @@ unsigned int cal_debug;
-> >>>  module_param_named(debug, cal_debug, uint, 0644);
-> >>>  MODULE_PARM_DESC(debug, "activates debug info");
-> >>>  
-> >>> +bool cal_mc_api;
-> >>> +module_param_named(mc_api, cal_mc_api, bool, 0444);
-> >>> +MODULE_PARM_DESC(mc_api, "activates the MC API");
-> >>> +
-> >>
-> >> I noticed that this defaults to video centric.
-> >>
-> >> To come back to the discussion of the v2 of this patch, I believe we
-> >> need to decide what to do here so we have a good template for future
-> >> drivers that need this.
-> >>
-> >> My opinion is that you want a Kconfig option to set the default for
-> >> this, so this becomes something like this:
-> >>
-> >> bool cal_mc_api = CONFIG_TI_CAL_MC_API;
-> >>
-> >> What do you think?
-> >>
-> >> I will make a PR for v5.12 for patches 1-23, but I would like to have this
-> >> remaining issue resolved before merging this final patch.
-> >>
-> >> I do think that a Kconfig option is very desirable, but whether the default
-> >> of this option should be y or n is less clear. Since this driver has always
-> >> been video-centric I can imagine that it makes sense to set it to n. But
-> >> for e.g. a new driver like the tegra-video driver (currently in staging),
-> >> it would make sense to set it to y since it is a new driver. Ditto for the
-> >> rpi camera driver.
-> > 
-> > For this driver I think video-centric mode is the best default to start
-> > with, to avoid changing the behaviour all of a sudden. We can switch it
-> > to MC-centric by default later if desired, after userspace gets a chance
-> > to adapt.
+> > I'm not claiming there is composition, but the COMPOSE targets are also
+> > used when the device supports scaling, not composition. This has been so
+> > from the very beginning, and cannot (and should not) be changed at this
+> > point.
 > 
-> Fair enough.
+> No, that's not true.
 > 
-> > 
-> >> In that case the rule would be that for new mainline drivers the default
-> >> should always be y (MC-centric), but if the driver was already in mainline
-> >> and MC support is added (like for this driver), then the default remains n
-> >> for backwards compatibility.
-> > 
-> > I think that for new drivers we shouldn't support video-centric mode at
-> > all. It should only be supported in downstream (vendor) kernels, and
-> > only if backward compatibility with existing userspace needs to be
-> > ensured. The unicam driver, for instance, fits in that category. Drivers
-> > whose development is ongoing (or hasn't started) should only use the MC
-> > API. Whether the option should be y or n by default would then be a
-> > vendor decision, it wouldn't affect upstream.
-> 
-> No, that I strongly disagree with. Vendors would have to carry those patches
-> for a long time, and if past experience is any guide, they will mess it up.
-> Or even refuse to upgrade to the mainline code because it is too much hassle
-> and instead keep using their own driver.
-> 
-> In my opinion the mainline driver should be MC-centric, and it is up to the
-> vendor to decide whether video-centric is also supported: this should only
-> be done if there is a long history of video-centric behavior in the past.
-> In that case a Kconfig option is needed to select MC, and in the mainline
-> kernel this should default to y for such new drivers.
-> 
-> In both Raspbian and Linux4Tegra video-centric has been the norm for many
-> years, so there are many userspace applications that expect that behavior.
-> You want those distros to use the mainline driver (eventually...) since
-> those distros are widely used so you also get a large installed base and
-> (hopefully) bug reports and bug fixes for the driver. If you decide to
-> require the distro to carry a patch to turn a driver into a video-centric
-> variant, then I am afraid they will not bother upgrading to the mainline
-> driver and just keep their own driver.
+> If that were true, then lots of sensor drivers would all support TGT_COMPOSE, but
+> they don't.
 
-For Raspberry Pi, and the Unicam driver in particular, that won't be
-possible. A video-centric API will require quite a few hacks that
-shouldn't be upstreamed, in particular to support multiple CSI-2 data
-types. The current implementation uses two sink pad in the CSI-2
-receiver subdevs to model the image and embedded data multiplexed over
-the CSI-2 virtual channel. This requires corresponding changes to sensor
-drivers to use two source pads. Sakari has reviewed this, and the
-implementation will need to move to the V4L2 multiplexed streams support
-API (which has been proposed but not merged yet), and I can't see this
-working well with a video-centric approach.
+Lots of sensor drivers simply don't support any scaling, either because
+the hardware doesn't, or because the driver doesn't implement it.
 
-I suspect the same would apply to any CSI-2 receiver, and thus to Tegra
-as well, but I can't comment on that as I'm not familiar with the
-hardware and driver.
-
-> In any case, I really like your approach, all I want is a Kconfig option
-> and it is good to go.
+> Without true composition then the scaling is just between the crop rectangle (if any)
+> and the mediabus format. I.e. try_crop and try_fmt.
 > 
-> >>>  /* ------------------------------------------------------------------
-> >>>   *	Format Handling
-> >>>   * ------------------------------------------------------------------
-> >>> @@ -660,13 +664,17 @@ static int cal_async_notifier_complete(struct v4l2_async_notifier *notifier)
-> >>>  {
-> >>>  	struct cal_dev *cal = container_of(notifier, struct cal_dev, notifier);
-> >>>  	unsigned int i;
-> >>> +	int ret = 0;
-> >>>  
-> >>>  	for (i = 0; i < ARRAY_SIZE(cal->ctx); ++i) {
-> >>>  		if (cal->ctx[i])
-> >>>  			cal_ctx_v4l2_register(cal->ctx[i]);
-> >>>  	}
-> >>>  
-> >>> -	return 0;
-> >>> +	if (cal_mc_api)
-> >>> +		ret = v4l2_device_register_subdev_nodes(&cal->v4l2_dev);
-> >>> +
-> >>> +	return ret;
-> >>>  }
-> >>>  
-> >>>  static const struct v4l2_async_notifier_operations cal_async_notifier_ops = {
-> >>> diff --git a/drivers/media/platform/ti-vpe/cal.h b/drivers/media/platform/ti-vpe/cal.h
-> >>> index 60f5f7480b17..199692610fb9 100644
-> >>> --- a/drivers/media/platform/ti-vpe/cal.h
-> >>> +++ b/drivers/media/platform/ti-vpe/cal.h
-> >>> @@ -160,6 +160,7 @@ struct cal_camerarx {
-> >>>  	struct device_node	*sensor_ep_node;
-> >>>  	struct device_node	*sensor_node;
-> >>>  	struct v4l2_subdev	*sensor;
-> >>> +	struct media_pipeline	pipe;
-> >>>  
-> >>>  	struct v4l2_subdev	subdev;
-> >>>  	struct media_pad	pads[2];
-> >>> @@ -224,6 +225,7 @@ struct cal_ctx {
-> >>>  
-> >>>  extern unsigned int cal_debug;
-> >>>  extern int cal_video_nr;
-> >>> +extern bool cal_mc_api;
-> >>>  
-> >>>  #define cal_dbg(level, cal, fmt, arg...)				\
-> >>>  	do {								\
+> Otherwise it would be very confusing since that would allow userspace to set both
+> the format size and the compose rectangle to different sizes, and which will then
+> be picked? Without true composition one would have to override the other, which
+> makes no sense.
+> 
+> >> inside the source media bus format. Any pixels outside of that composition rectangle
+> >> would have to be filled with some background color. A video device would use composition
+> >> to write to a rectangle inside a memory buffer, a subdev device would use composition
+> >> in the same way, except it would just generate background pixels for anything outside
+> >> of the composition rectangle on the source pad.
+> >>
+> >> It is very, very rare for sensors or video receivers that support composition. They
+> >> typically support crop and they may support scaling of some sort, and that's it.
+> >>
+> >> This imx274 driver certainly does not support composition. It's plain wrong. And if
+> >> you look at the code carefully you'll see that the 'composition' just sets the source
+> >> media bus format.
+> >>
+> >> There are (besides imx274) only two sensor drivers that claim to support composition:
+> >> ccs and s5k5baf. The latter might actually be real since it has an embedded SoC ISP.
+> >> It is lacking a control to set the background color, though.
+> >>
+> >> CCS is a pipeline with scalers, binners, etc., but I am not so sure it actually supports
+> >> composition: can it compose the image inside a larger image that will go out on a source
+> >> pad?
+> >>
+> >> BTW, how do you test CCS? Do you run v4l2-compliance? I see no support for the
+> >> CROP/COMPOSE_DEFAULT selection, which suggests to me that v4l2-compliance will likely
+> >> protest. In order to implement the old VIDIOC_CROPCAP ioctl using the new selection
+> >> API you need both _BOUNDS and _DEFAULT selection targets. v4l2-compliance checks for
+> >> that.
+> > 
+> > The selection targets are documented in the spec but none has been
+> > mandatory. Some dependencies would be reasonable, for instance to require
+> > CROP_BOUNDS when CROP is supported. But these are not in the spec now, and
+> > v4l2-compliance shouldn't require them unless this is documented so in the
+> > spec.
+> 
+> CROPCAP returns the bound and default rectangles. It can only do that if the
+> selection API can return those rectangles. CROPCAP is required if cropping is
+> supported, see:
+> 
+> https://hverkuil.home.xs4all.nl/spec/userspace-api/v4l/vidioc-cropcap.html
+> 
+> "This ioctl must be implemented for video capture or output devices that support
+>  cropping and/or scaling and/or have non-square pixels, and for overlay devices."
+> 
+> So this IS in the spec. It is trivial to implement since in almost all cases
+> DEFAULT and BOUNDS are identical. Drivers do not implement cropcap directly
+> anymore, but the cropcap implementation in v4l2-ioctl.c just requests the
+> BOUNDS and DEFAULT selection targets. Video drivers typically just pass that
+> request on to the subdev driver.
+> 
+> It is how I found that issue: v4l2-compliance fails on that with the imx274
+> since it doesn't implement the CROP_DEFAULT target.
+> 
+> >>>> Which sub-device drivers configure scaling based on set_fmt? I'm only aware
+> >>>> of omap3isp which pre-dates the selection API.
+> >>>
+> >>> That said, there are a lot of drivers that pick the entire configuration
+> >>> (cropping (digital and analogue), binning, scaling and sub-samplink) just
+> >>> based on set_fmt. It's what drivers to as there are no good solutions for
+> >>> the current API, but for the user it's pretty awful.
+> >>>
+> >>
+> >> No, that's nothing to do with composition. The CCS driver creates a chain of
+> >> subdevs, one for each step (scaling, binning), and so you can control it precisely.
+> >> But I am pretty sure that each step will be like the 4.5 example: you receive
+> >> an image on the sink pad, you can optionally crop that, and the result is scaled
+> >> up/down to the source media bus format. There is no composition taking place.
+> > 
+> > Again, that's not how it works.
+> > 
+> > I also want to stress this is how it has always worked: the sub-device
+> > selection support was merged with the CCS driver that was the first user.
+> > There's simply no way to re-purpose interfaces now, after a decade of use
+> > in the mainline kernel.
+> 
+> So if I set the composition rectangle to 1280x720 and with (top, left) at
+> (128,128), and I set the media bus format to 1920x1080, and then try to
+> validate the pipeline, what will happen?
+
+The subdev driver will modify the format on the source pad to 1280x720
+in the .set_fmt() handler. This is how subdevs operate, they propagate
+changes internally (but not across links), and update requested
+selection rectangles and formats based on the configuration of the
+previous elements of the subdev.
+
+> Anyway, I'm talking about the imx274 driver, not the ccs driver. I believe
+> the ccs driver is wrong, but it has been wrong since the beginning, so there
+> is a reason to keep it.
+> 
+> In the imx274 this composition support was added in commit 39dd23dc9d4c in July
+> 2018, so if you prefer to keep it to prevent breakage, then that is a valid
+> reason. In that case I'll rework the patch to just add support for CROP_DEFAULT.
+> But it is hopelessly wrong: both SUBDEV_S_FMT and S_SELECTION(COMPOSE) set
+> try_fmt for V4L2_SUBDEV_FORMAT_TRY. I.e., they do the same thing.
+> 
+> Basically this is a degenerate case where the composition rectangle must always
+> remain the same as the format width/height, and changing one will change the other.
+> This makes S_SELECTION(COMPOSE) pointless. Worse, it suggests to userspace that
+> the driver supports true composition, when it really doesn't.
+
+Changing the composition rectangle will change the format, but changing
+the format won't modify the composition rectangle, the change to the
+format will instead be adjusted based on the composition rectangle.
+
+We have, in mainline, different drivers that use different mechanism to
+configure scaling. Some use the compose rectangle, and some use the
+output format. If we want to repurpose the compose selection rectangle,
+it has to be done in the context of an overhaul of the scaling API,
+taking the whole issue into account (considering all of binning,
+skipping and scaling), and figuring out how to handle existing userspace
+without any breakage. Note that this doesn't only apply to sensors, but
+also to scalers in other components (such as ISPs), so these must be
+taken into account as well.
+
+> >> Or in other words, the composition rectangle always matches the source media bus
+> >> format. But there is no point exposing that, it would just be confusing to userspace.
+> >>
+> >> The only possible use-case that I can see is similar to example 4.6 (except with
+> >> one source pad, not two): there you scale from the sink crop to the sink compose
+> >> rectangle, then do a source crop and output that to the source pad. But that only
+> >> makes sense if you can actually do a source crop in the hardware. If you can't, then
+> >> it again reduces to just a sink crop and scaling to the source media bus format.
+> >>
+> >> In any case, imx274 definitely doesn't do composition, so that should be removed.
 
 -- 
 Regards,
