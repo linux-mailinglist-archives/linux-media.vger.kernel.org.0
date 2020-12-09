@@ -2,57 +2,58 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B09D32D3BB0
-	for <lists+linux-media@lfdr.de>; Wed,  9 Dec 2020 07:52:36 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 952D12D3BB2
+	for <lists+linux-media@lfdr.de>; Wed,  9 Dec 2020 07:52:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728275AbgLIGvo (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Dec 2020 01:51:44 -0500
-Received: from aserp2120.oracle.com ([141.146.126.78]:34756 "EHLO
-        aserp2120.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728115AbgLIGvg (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Dec 2020 01:51:36 -0500
-Received: from pps.filterd (aserp2120.oracle.com [127.0.0.1])
-        by aserp2120.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B96oRUC110277;
-        Wed, 9 Dec 2020 06:50:49 GMT
+        id S1728277AbgLIGwY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Dec 2020 01:52:24 -0500
+Received: from aserp2130.oracle.com ([141.146.126.79]:48970 "EHLO
+        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728115AbgLIGwY (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Dec 2020 01:52:24 -0500
+Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
+        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B96p0jO080922;
+        Wed, 9 Dec 2020 06:51:40 GMT
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=bO9vq2BabX1qbgsUehlStd1AchTSLN9TIq3pAbaa1CI=;
- b=VHJVzV7ZHgn54PYg8C/ghw9zAnPbtK6MKQR4JttSLZU2TBPDJze4U+74DW5w2AdnXCx2
- UI4s9pthoQReQ6kcp5BDDFPIVRMjjEEAcjQlau1eXYb/X5ex25BsSoDUqcx5D7lEOM18
- /NSrx2KtXsteXsDWfKOzP/t6Nc4SD1tHhg6LiiRFVMITwc9Y0elca8vpkt8HZuW/uWLx
- 5ut5jtlr6MfSRKC8+kyyN3XZ9/8C+xvu9P0xhB5CYhjJrilaRxZX7+sR5ZLhWOrsdJGl
- rVnuyY5PtG6NVt0/VR2CIduHVd/4W3Ii8VPO2CxV0HLOMWNSdoLocuBbzdBPH8GiJQdy dA== 
+ : subject : message-id : mime-version : content-type : in-reply-to;
+ s=corp-2020-01-29; bh=S5IryjJJiQc2fiGGUNupwVeT+Tnsnpct2OafSGvBGzQ=;
+ b=kk/kX+xyRAw3EbzbT7ixbPio1O1+pFKhixTgJHRCc+HBuMqqyf3ZMBI5aqQoJ/9ZVVIW
+ aCRKhRox/WKSiyGoB+kUKIR2rfRQvkMk9kSNv/Ma93rd5KnCq9xzwPWRm/gcCAyJFaGM
+ k0YkrpNbuX1ItyFqApiAMV8BjfxR5Lyq8TZ4442Jr2mrHdRstmcEOt3bJPop9/jAoBJK
+ Pygek8BxJl8EtbEdxo1UGraFReM6g803/mpHDAXPPSz3z3suwMvqG51/voWnkTcXJvDx
+ DMRWDlljo03SLEd+xizPJj4Qp2+n9+LUSM12YwTL48eOibhV2Pm7AwfNdcN2C3pWkJu1 Iw== 
 Received: from aserp3020.oracle.com (aserp3020.oracle.com [141.146.126.70])
-        by aserp2120.oracle.com with ESMTP id 35825m6hxd-1
+        by aserp2130.oracle.com with ESMTP id 357yqbxmsu-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Wed, 09 Dec 2020 06:50:49 +0000
+        Wed, 09 Dec 2020 06:51:40 +0000
 Received: from pps.filterd (aserp3020.oracle.com [127.0.0.1])
-        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B96obL4138894;
-        Wed, 9 Dec 2020 06:50:49 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by aserp3020.oracle.com with ESMTP id 358m3ytkb9-1
+        by aserp3020.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0B96oa0b138719;
+        Wed, 9 Dec 2020 06:51:40 GMT
+Received: from userv0122.oracle.com (userv0122.oracle.com [156.151.31.75])
+        by aserp3020.oracle.com with ESMTP id 358m3ytn19-1
         (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Wed, 09 Dec 2020 06:50:49 +0000
-Received: from abhmp0007.oracle.com (abhmp0007.oracle.com [141.146.116.13])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0B96ojNJ011197;
-        Wed, 9 Dec 2020 06:50:45 GMT
+        Wed, 09 Dec 2020 06:51:39 +0000
+Received: from abhmp0018.oracle.com (abhmp0018.oracle.com [141.146.116.24])
+        by userv0122.oracle.com (8.14.4/8.14.4) with ESMTP id 0B96pcuT006883;
+        Wed, 9 Dec 2020 06:51:38 GMT
 Received: from mwanda (/102.36.221.92)
         by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Tue, 08 Dec 2020 22:50:44 -0800
-Date:   Wed, 9 Dec 2020 09:50:34 +0300
+        with ESMTP ; Tue, 08 Dec 2020 22:51:37 -0800
+Date:   Wed, 9 Dec 2020 09:51:30 +0300
 From:   Dan Carpenter <dan.carpenter@oracle.com>
 To:     Robert Foss <robert.foss@linaro.org>,
-        Andrey Konovalov <andrey.konovalov@linaro.org>
-Cc:     Todor Tomov <todor.too@gmail.com>, Andy Gross <agross@kernel.org>,
+        Todor Tomov <todor.too@gmail.com>
+Cc:     Andy Gross <agross@kernel.org>,
         Bjorn Andersson <bjorn.andersson@linaro.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-media@vger.kernel.org, kernel-janitors@vger.kernel.org
-Subject: [PATCH 1/2] media: camss: Fix signedness bug in video_enum_fmt()
-Message-ID: <X9BzujGgPAM/s+rG@mwanda>
+        Hans Verkuil <hansverk@cisco.com>, linux-media@vger.kernel.org,
+        kernel-janitors@vger.kernel.org
+Subject: [PATCH 2/2] media: camss: missing error code in msm_video_register()
+Message-ID: <X9Bz8pRFNhR2x11I@mwanda>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
+In-Reply-To: <X9BzujGgPAM/s+rG@mwanda>
 X-Mailer: git-send-email haha only kidding
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829 signatures=668683
 X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwarescore=0 adultscore=0
@@ -60,42 +61,35 @@ X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 spamscore=0 malwa
  classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
  definitions=main-2012090046
 X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9829 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 adultscore=0 bulkscore=0
- phishscore=0 mlxlogscore=999 clxscore=1011 priorityscore=1501 mlxscore=0
- spamscore=0 lowpriorityscore=0 malwarescore=0 impostorscore=0
- classifier=spam adjust=0 reason=mlx scancount=1 engine=8.12.0-2009150000
- definitions=main-2012090046
+X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 suspectscore=0 mlxlogscore=999
+ clxscore=1011 malwarescore=0 bulkscore=0 phishscore=0 adultscore=0
+ spamscore=0 priorityscore=1501 mlxscore=0 lowpriorityscore=0
+ impostorscore=0 classifier=spam adjust=0 reason=mlx scancount=1
+ engine=8.12.0-2009150000 definitions=main-2012090046
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This test has a problem because we want to know if "k" is -1 or a
-positive value less than "f->index".  But the "f->index" variable is a
-u32 so if "k == -1" then -1 gets type promoted to UINT_MAX which is
-larger than "f->index".  I've added an explicit test to check for -1.
+This error path returns success but it should return -EINVAL.
 
-Fixes: a3d412d4b9f3 ("media: Revert "media: camss: Make use of V4L2_CAP_IO_MC"")
+Fixes: cba3819d1e93 ("media: camss: Format configuration per hardware version")
 Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
 ---
-I could equally well have casted "k < (int)f->index" but I feel like
-this is more explicit and readable.
-
- drivers/media/platform/qcom/camss/camss-video.c | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ drivers/media/platform/qcom/camss/camss-video.c | 1 +
+ 1 file changed, 1 insertion(+)
 
 diff --git a/drivers/media/platform/qcom/camss/camss-video.c b/drivers/media/platform/qcom/camss/camss-video.c
-index bd9334af1c73..2fa3214775d5 100644
+index 2fa3214775d5..97cea7c4d769 100644
 --- a/drivers/media/platform/qcom/camss/camss-video.c
 +++ b/drivers/media/platform/qcom/camss/camss-video.c
-@@ -579,7 +579,7 @@ static int video_enum_fmt(struct file *file, void *fh, struct v4l2_fmtdesc *f)
- 			break;
+@@ -961,6 +961,7 @@ int msm_video_register(struct camss_video *video, struct v4l2_device *v4l2_dev,
+ 			video->nformats = ARRAY_SIZE(formats_rdi_8x96);
+ 		}
+ 	} else {
++		ret = -EINVAL;
+ 		goto error_video_register;
  	}
  
--	if (k < f->index)
-+	if (k == -1 || k < f->index)
- 		/*
- 		 * All the unique pixel formats matching the arguments
- 		 * have been enumerated (k >= 0 and f->index > 0), or
 -- 
 2.29.2
 
