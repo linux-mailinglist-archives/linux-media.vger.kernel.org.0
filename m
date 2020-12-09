@@ -2,290 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 88DB72D4452
-	for <lists+linux-media@lfdr.de>; Wed,  9 Dec 2020 15:29:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9635F2D458B
+	for <lists+linux-media@lfdr.de>; Wed,  9 Dec 2020 16:38:02 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732999AbgLIO2c (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Dec 2020 09:28:32 -0500
-Received: from mx2.suse.de ([195.135.220.15]:41986 "EHLO mx2.suse.de"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1729949AbgLIO2W (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Wed, 9 Dec 2020 09:28:22 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 5D5AEAD29;
-        Wed,  9 Dec 2020 14:27:40 +0000 (UTC)
-Subject: Re: [PATCH v3 3/8] dma-buf: Add vmap_local and vnumap_local
- operations
-To:     daniel@ffwll.ch, christian.koenig@amd.com, airlied@linux.ie,
-        sumit.semwal@linaro.org, maarten.lankhorst@linux.intel.com,
-        mripard@kernel.org, kraxel@redhat.com, hdegoede@redhat.com,
-        sean@poorly.run, eric@anholt.net, sam@ravnborg.org
-Cc:     dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
-        linaro-mm-sig@lists.linaro.org,
-        virtualization@lists.linux-foundation.org
-References: <20201209142527.26415-1-tzimmermann@suse.de>
- <20201209142527.26415-4-tzimmermann@suse.de>
-From:   Thomas Zimmermann <tzimmermann@suse.de>
-Message-ID: <fab0fe22-45dc-4420-66b4-3a566b816c79@suse.de>
-Date:   Wed, 9 Dec 2020 15:27:38 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.0
+        id S1728759AbgLIPhP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Dec 2020 10:37:15 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:46914 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726576AbgLIPhO (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Dec 2020 10:37:14 -0500
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 68A4BC061793
+        for <linux-media@vger.kernel.org>; Wed,  9 Dec 2020 07:36:34 -0800 (PST)
+Received: by mail-wr1-x444.google.com with SMTP id r7so2211653wrc.5
+        for <linux-media@vger.kernel.org>; Wed, 09 Dec 2020 07:36:34 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=baylibre-com.20150623.gappssmtp.com; s=20150623;
+        h=subject:to:cc:references:from:autocrypt:organization:message-id
+         :date:user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=QcpPX3yoYNcNs1DtgpF/quC1xAKZ6RFXP7cOqf3ALFM=;
+        b=pBBkC+bFFqEI1touvhyYUEIg/R2AQ8JmMv4p040jE/nlai4VE/BMBg6truyAS5zz+G
+         DRPU+PIjwPpWufzcITMZdlGnektIqCT3rWQ6sBtDy9H5QzYN7tC/SDWy0X4oSMrwG1Cb
+         qynpEsI2svUxLmZuCPinZyY/gJonpws3mvliwx6C5xBwDHxYcpKxQ34GZg7i/c3LkpxM
+         FCs0TlfG5DmQVG7Ac6+ocqr8ytl6ZRmIkv6j4z79Y7xAUoDSmGYg+UATyvHanQu+j0t9
+         aHPGKnD5RF1iQhD3PTw06iVTIILrg7YoSid6u7QG2keZ5MG5/KTm1w0+z/V+FkQJXotR
+         uy9g==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:autocrypt
+         :organization:message-id:date:user-agent:mime-version:in-reply-to
+         :content-language:content-transfer-encoding;
+        bh=QcpPX3yoYNcNs1DtgpF/quC1xAKZ6RFXP7cOqf3ALFM=;
+        b=surkLNbtmbvc/7Q/ZpCMzE+Wlsr33qWEAiI41LEkffUjBs88CFa5X1+OvTJP4+dY9a
+         XYBoLaso9HAlmQxzd49JbyT4MOKlVugmyR4eP81fC9+TICR6x9hQeBi71EiwCB46d1ez
+         ad58KtqH4+iazQtOng6YdW9dCXp3uyHyDa4iIo9bNT9yRvssujw6XDkbfQPJCV6eBMaS
+         ZVhgdSmEpdHFdbb3tECCIik1ItezipnYh7qvTGlSda8WtD0hfl0cIwgofxSu/CRH6RDz
+         GXj/6tfqaUPVQJHX6uMrSVQV6gq+TuLiMtwChskMYON5qJGz0GCq50yQdvdhAMydUQgO
+         /5Ng==
+X-Gm-Message-State: AOAM532aIfq3pp0NKdcDxRs1EwhRojaw8ILP5UmNOzLcbiJvPJ4WHi2c
+        i2ERPAq4fAXh4RdB9xDmGvTVvw==
+X-Google-Smtp-Source: ABdhPJwL+3/MN6lQUywNHXA6s5i36eQPuMdeMC+JrIYJFdteUjdCIX8yVHsV505yxgD/Dh7kwrndDQ==
+X-Received: by 2002:adf:e541:: with SMTP id z1mr3325650wrm.143.1607528192904;
+        Wed, 09 Dec 2020 07:36:32 -0800 (PST)
+Received: from ?IPv6:2a01:e35:2ec0:82b0:9030:bf2b:a79a:2f88? ([2a01:e35:2ec0:82b0:9030:bf2b:a79a:2f88])
+        by smtp.gmail.com with ESMTPSA id h20sm4544435wrb.21.2020.12.09.07.36.31
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Wed, 09 Dec 2020 07:36:32 -0800 (PST)
+Subject: Re: [PATCH] media: MAINTAINERS: correct entry in Amlogic GE2D driver
+ section
+To:     Lukas Bulwahn <lukas.bulwahn@gmail.com>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org, linux-amlogic@lists.infradead.org
+Cc:     Joe Perches <joe@perches.com>,
+        Ralf Ramsauer <ralf.ramsauer@oth-regensburg.de>,
+        kernel-janitors@vger.kernel.org, linux-kernel@vger.kernel.org
+References: <20201209074658.11557-1-lukas.bulwahn@gmail.com>
+From:   Neil Armstrong <narmstrong@baylibre.com>
+Autocrypt: addr=narmstrong@baylibre.com; prefer-encrypt=mutual; keydata=
+ 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
+ ZaTUOEkgIor5losDrePdPgE=
+Organization: Baylibre
+Message-ID: <d1d0e624-d9d2-fb67-35cd-8be99360b400@baylibre.com>
+Date:   Wed, 9 Dec 2020 16:36:30 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
 MIME-Version: 1.0
-In-Reply-To: <20201209142527.26415-4-tzimmermann@suse.de>
-Content-Type: multipart/signed; micalg=pgp-sha256;
- protocol="application/pgp-signature";
- boundary="OA6RCknbOgcXsd6XvZQKnTWiNat1O9M3v"
+In-Reply-To: <20201209074658.11557-1-lukas.bulwahn@gmail.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This is an OpenPGP/MIME signed message (RFC 4880 and 3156)
---OA6RCknbOgcXsd6XvZQKnTWiNat1O9M3v
-Content-Type: multipart/mixed; boundary="aGWGSbVmo8qRQRE6BtFJDPl69hq2YXjmn";
- protected-headers="v1"
-From: Thomas Zimmermann <tzimmermann@suse.de>
-To: daniel@ffwll.ch, christian.koenig@amd.com, airlied@linux.ie,
- sumit.semwal@linaro.org, maarten.lankhorst@linux.intel.com,
- mripard@kernel.org, kraxel@redhat.com, hdegoede@redhat.com, sean@poorly.run,
- eric@anholt.net, sam@ravnborg.org
-Cc: dri-devel@lists.freedesktop.org, linux-media@vger.kernel.org,
- linaro-mm-sig@lists.linaro.org, virtualization@lists.linux-foundation.org
-Message-ID: <fab0fe22-45dc-4420-66b4-3a566b816c79@suse.de>
-Subject: Re: [PATCH v3 3/8] dma-buf: Add vmap_local and vnumap_local
- operations
-References: <20201209142527.26415-1-tzimmermann@suse.de>
- <20201209142527.26415-4-tzimmermann@suse.de>
-In-Reply-To: <20201209142527.26415-4-tzimmermann@suse.de>
-
---aGWGSbVmo8qRQRE6BtFJDPl69hq2YXjmn
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: quoted-printable
-
-Hi
-
-Am 09.12.20 um 15:25 schrieb Thomas Zimmermann:
-> The existing dma-buf calls dma_buf_vmap() and dma_buf_vunmap() are
-> allowed to pin the buffer or acquire the buffer's reservation object
-> lock.
->=20
-> This is a problem for callers that only require a short-term mapping
-> of the buffer without the pinning, or callers that have special locking=
-
-> requirements. These may suffer from unnecessary overhead or interfere
-> with regular pin operations.
->=20
-> The new interfaces dma_buf_vmap_local(), dma_buf_vunmapo_local(), and
-> their rsp callbacks in struct dma_buf_ops provide an alternative withou=
-t
-> pinning or reservation locking. Callers are responsible for these
-> operations.
->=20
-> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
-
-Before merging, this patch would get a Suggested-by tag to give Daniel=20
-credit. I only notices after hitting the send button.
-
-Best regards
-Thomas
-
+On 09/12/2020 08:46, Lukas Bulwahn wrote:
+> Commit aa821b2b9269 ("media: MAINTAINERS: Add myself as maintainer of the
+> Amlogic GE2D driver") introduced a new MAINTAINERS section, but the file
+> entry points to the wrong location.
+> 
+> Hence, ./scripts/get_maintainer.pl --self-test=patterns warns:
+> 
+>   warning: no file matches    F:    drivers/media/meson/ge2d/
+> 
+> Adjust the entry to the actual location of the driver.
+> 
+> Signed-off-by: Lukas Bulwahn <lukas.bulwahn@gmail.com>
 > ---
->   drivers/dma-buf/dma-buf.c | 80 ++++++++++++++++++++++++++++++++++++++=
-+
->   include/linux/dma-buf.h   | 34 +++++++++++++++++
->   2 files changed, 114 insertions(+)
->=20
-> diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-> index e63684d4cd90..be9f80190a66 100644
-> --- a/drivers/dma-buf/dma-buf.c
-> +++ b/drivers/dma-buf/dma-buf.c
-> @@ -1265,6 +1265,86 @@ void dma_buf_vunmap(struct dma_buf *dmabuf, stru=
-ct dma_buf_map *map)
->   }
->   EXPORT_SYMBOL_GPL(dma_buf_vunmap);
->  =20
-> +/**
-> + * dma_buf_vmap_local - Create virtual mapping for the buffer object i=
-nto kernel
-> + * address space.
-> + * @dmabuf:	[in]	buffer to vmap
-> + * @map:	[out]	returns the vmap pointer
-> + *
-> + * This call may fail due to lack of virtual mapping address space.
-> + * These calls are optional in drivers. The intended use for them
-> + * is for mapping objects linear in kernel space for high use objects.=
+> applies on next-20201208, not on current master
+> 
+> Neil, please ack.
+> Hans, Mauro, please pick this minor non-urgent fix-up for your -next tree.
+> 
+>  MAINTAINERS | 2 +-
+>  1 file changed, 1 insertion(+), 1 deletion(-)
+> 
+> diff --git a/MAINTAINERS b/MAINTAINERS
+> index 5b20babb9f7b..d66bf50fc640 100644
+> --- a/MAINTAINERS
+> +++ b/MAINTAINERS
+> @@ -11520,7 +11520,7 @@ L:	linux-amlogic@lists.infradead.org
+>  S:	Supported
+>  T:	git git://linuxtv.org/media_tree.git
+>  F:	Documentation/devicetree/bindings/media/amlogic,axg-ge2d.yaml
+> -F:	drivers/media/meson/ge2d/
+> +F:	drivers/media/platform/meson/ge2d/
+>  
+>  MESON NAND CONTROLLER DRIVER FOR AMLOGIC SOCS
+>  M:	Liang Yang <liang.yang@amlogic.com>
+> 
 
-> + * Please attempt to use kmap/kunmap before thinking about these inter=
-faces.
-> + *
-> + * Returns:
-> + * 0 on success, or a negative errno code otherwise.
-> + */
-> +int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map *map=
-)
-> +{
-> +	struct dma_buf_map ptr;
-> +	int ret =3D 0;
-> +
-> +	dma_buf_map_clear(map);
-> +
-> +	if (WARN_ON(!dmabuf))
-> +		return -EINVAL;
-> +
-> +	dma_resv_assert_held(dmabuf->resv);
-> +
-> +	if (!dmabuf->ops->vmap_local)
-> +		return -EINVAL;
-> +
-> +	mutex_lock(&dmabuf->lock);
-> +	if (dmabuf->vmapping_counter) {
-> +		dmabuf->vmapping_counter++;
-> +		BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
-> +		*map =3D dmabuf->vmap_ptr;
-> +		goto out_unlock;
-> +	}
-> +
-> +	BUG_ON(dma_buf_map_is_set(&dmabuf->vmap_ptr));
-> +
-> +	ret =3D dmabuf->ops->vmap_local(dmabuf, &ptr);
-> +	if (WARN_ON_ONCE(ret))
-> +		goto out_unlock;
-> +
-> +	dmabuf->vmap_ptr =3D ptr;
-> +	dmabuf->vmapping_counter =3D 1;
-> +
-> +	*map =3D dmabuf->vmap_ptr;
-> +
-> +out_unlock:
-> +	mutex_unlock(&dmabuf->lock);
-> +	return ret;
-> +}
-> +EXPORT_SYMBOL_GPL(dma_buf_vmap_local);
-> +
-> +/**
-> + * dma_buf_vunmap_local - Unmap a vmap obtained by dma_buf_vmap_local.=
-
-> + * @dmabuf:	[in]	buffer to vunmap
-> + * @map:	[in]	vmap pointer to vunmap
-> + */
-> +void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct dma_buf_map *=
-map)
-> +{
-> +	if (WARN_ON(!dmabuf))
-> +		return;
-> +
-> +	dma_resv_assert_held(dmabuf->resv);
-> +
-> +	BUG_ON(dma_buf_map_is_null(&dmabuf->vmap_ptr));
-> +	BUG_ON(dmabuf->vmapping_counter =3D=3D 0);
-> +	BUG_ON(!dma_buf_map_is_equal(&dmabuf->vmap_ptr, map));
-> +
-> +	mutex_lock(&dmabuf->lock);
-> +	if (--dmabuf->vmapping_counter =3D=3D 0) {
-> +		if (dmabuf->ops->vunmap_local)
-> +			dmabuf->ops->vunmap_local(dmabuf, map);
-> +		dma_buf_map_clear(&dmabuf->vmap_ptr);
-> +	}
-> +	mutex_unlock(&dmabuf->lock);
-> +}
-> +EXPORT_SYMBOL_GPL(dma_buf_vunmap_local);
-> +
->   #ifdef CONFIG_DEBUG_FS
->   static int dma_buf_debug_show(struct seq_file *s, void *unused)
->   {
-> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-> index cf72699cb2bc..f66580d23a9b 100644
-> --- a/include/linux/dma-buf.h
-> +++ b/include/linux/dma-buf.h
-> @@ -269,6 +269,38 @@ struct dma_buf_ops {
->  =20
->   	int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
->   	void (*vunmap)(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> +
-> +	/**
-> +	 * @vmap_local:
-> +	 *
-> +	 * Creates a virtual mapping for the buffer into kernel address space=
-=2E
-> +	 *
-> +	 * This callback establishes short-term mappings for situations where=
-
-> +	 * callers only use the buffer for a bounded amount of time; such as
-> +	 * updates to the framebuffer or reading back contained information.
-> +	 * In contrast to the regular @vmap callback, vmap_local does never p=
-in
-> +	 * the buffer to a specific domain or acquire the buffer's reservatio=
-n
-> +	 * lock.
-> +	 *
-> +	 * This is called with the dmabuf->resv object locked. Callers must h=
-old
-> +	 * the lock until after removing the mapping with @vunmap_local.
-> +	 *
-> +	 * This callback is optional.
-> +	 *
-> +	 * Returns:
-> +	 *
-> +	 * 0 on success or a negative error code on failure.
-> +	 */
-> +	int (*vmap_local)(struct dma_buf *dmabuf, struct dma_buf_map *map);
-> +
-> +	/**
-> +	 * @vunmap_local:
-> +	 *
-> +	 * Removes a virtual mapping that wa sestablished by @vmap_local.
-> +	 *
-> +	 * This callback is optional.
-> +	 */
-> +	void (*vunmap_local)(struct dma_buf *dmabuf, struct dma_buf_map *map)=
-;
->   };
->  =20
->   /**
-> @@ -506,4 +538,6 @@ int dma_buf_mmap(struct dma_buf *, struct vm_area_s=
-truct *,
->   		 unsigned long);
->   int dma_buf_vmap(struct dma_buf *dmabuf, struct dma_buf_map *map);
->   void dma_buf_vunmap(struct dma_buf *dmabuf, struct dma_buf_map *map);=
-
-> +int dma_buf_vmap_local(struct dma_buf *dmabuf, struct dma_buf_map *map=
-);
-> +void dma_buf_vunmap_local(struct dma_buf *dmabuf, struct dma_buf_map *=
-map);
->   #endif /* __DMA_BUF_H__ */
->=20
-
---=20
-Thomas Zimmermann
-Graphics Driver Developer
-SUSE Software Solutions Germany GmbH
-Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
-(HRB 36809, AG N=C3=BCrnberg)
-Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
-
-
---aGWGSbVmo8qRQRE6BtFJDPl69hq2YXjmn--
-
---OA6RCknbOgcXsd6XvZQKnTWiNat1O9M3v
-Content-Type: application/pgp-signature; name="OpenPGP_signature.asc"
-Content-Description: OpenPGP digital signature
-Content-Disposition: attachment; filename="OpenPGP_signature"
-
------BEGIN PGP SIGNATURE-----
-
-wsF5BAABCAAjFiEExndm/fpuMUdwYFFolh/E3EQov+AFAl/Q3toFAwAAAAAACgkQlh/E3EQov+DI
-uxAAhx4iJU/FHPsmAupxKsb/vMp8tSvFIXnVLMYth6sFzmQQDwdaJEHeF0meLcdyZmJyxPUCoIhy
-ZddFxjFfThu5tY3JssNtxDd2vkOy7CDpLnsyho/LZwXJ0MgKhl19DlDSvywtJz4gHq56d3S7J3U2
-Wtud6Ie54Q7xapck9gp45g67g4/9nVbsRCeMkCLlnslG6VfzQ7MoPVk223NIL5wUDKL7kdIFuOLX
-ubpj9LWlciUyhmEjqS0lznSgxyrhpBV7uCk2Jb9NGGM9BmdWLwwr+OSjBQhrLFEc1/uygvZVWEGn
-gjpA6u76uQaC2WIXuf1nuvg6kjN6h4c6irq5NtFxQ6uUmUFRNz47UlRQCqYFUuo5xEf4rfws7x2K
-0xduAmzjZ6nRoHO1mxjAOKrHhHuE0OpGru03zTSeV0As9dPmC/vDhyEnwGCelWgXLwIsfslcLIDf
-tG4ZUVLS3YXlROsRAKh84k4Bvm+0nv6qjk03AJJcCt3lSscWUTYYLAo14/Y/I4DbujSjdzjqjSD2
-GHYk9pnHjD7bZvb0ui6K0PME/6RSzoAmTl+Haec/e+6e8qgactS2vSQ69Aq9y1qryoctQpAhqYWu
-OGU/GoFn6X45SG5VmQjqR6YCvUfWLm6dgnaFr/00aiLRU+V6ov0wJU9TasQsWktM91ToVSFqba4d
-X+U=
-=G2uP
------END PGP SIGNATURE-----
-
---OA6RCknbOgcXsd6XvZQKnTWiNat1O9M3v--
+Acked-by: Neil Armstrong <narmstrong@baylibre.com>
