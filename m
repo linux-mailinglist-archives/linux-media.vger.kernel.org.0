@@ -2,172 +2,463 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id E2BF42D3F56
-	for <lists+linux-media@lfdr.de>; Wed,  9 Dec 2020 10:59:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 45F592D3FC2
+	for <lists+linux-media@lfdr.de>; Wed,  9 Dec 2020 11:19:24 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729559AbgLIJ6z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Wed, 9 Dec 2020 04:58:55 -0500
-Received: from relay1-d.mail.gandi.net ([217.70.183.193]:16281 "EHLO
-        relay1-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1729007AbgLIJ6z (ORCPT
-        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Dec 2020 04:58:55 -0500
-X-Originating-IP: 93.34.118.233
-Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
-        (Authenticated sender: jacopo@jmondi.org)
-        by relay1-d.mail.gandi.net (Postfix) with ESMTPSA id DA8FB240004;
-        Wed,  9 Dec 2020 09:58:09 +0000 (UTC)
-Date:   Wed, 9 Dec 2020 10:58:19 +0100
-From:   Jacopo Mondi <jacopo@jmondi.org>
-To:     kholk11@gmail.com
-Cc:     mchehab@kernel.org, robh+dt@kernel.org,
-        marijn.suijten@somainline.org, konrad.dybcio@somainline.org,
-        martin.botka@somainline.org, devicetree@vger.kernel.org,
-        linux-media@vger.kernel.org, phone-devel@vger.kernel.org,
-        linux-kernel@vger.kernel.org, sakari.ailus@iki.fi,
-        andrey.konovalov@linaro.org,
-        angelogioacchino.delregno@somainline.org
-Subject: Re: [PATCH v3 1/2] media: i2c: Add driver for the Sony Exmor-RS
- IMX300 camera sensor
-Message-ID: <20201209095819.w6lfpga2gqvu2ujn@uno.localdomain>
-References: <20201127223047.2764643-1-kholk11@gmail.com>
- <20201127223047.2764643-2-kholk11@gmail.com>
+        id S1729858AbgLIKRe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Wed, 9 Dec 2020 05:17:34 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:54014 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1729637AbgLIKRe (ORCPT
+        <rfc822;linux-media@vger.kernel.org>); Wed, 9 Dec 2020 05:17:34 -0500
+Received: from mail-oi1-x22e.google.com (mail-oi1-x22e.google.com [IPv6:2607:f8b0:4864:20::22e])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3234CC0613CF
+        for <linux-media@vger.kernel.org>; Wed,  9 Dec 2020 02:16:54 -0800 (PST)
+Received: by mail-oi1-x22e.google.com with SMTP id d27so1198253oic.0
+        for <linux-media@vger.kernel.org>; Wed, 09 Dec 2020 02:16:54 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=5jXo/q6+qwTl1NPuVbve/kl4wpM3ah5dbawXMCz/xag=;
+        b=UYnb/u6fvFSuzzBQgD/qkWDiBMTdxYDcGIE6Y0gHVsRslpQ6b7c6EZ94X/rK29U9hh
+         wp8CzJJOY7P97r7CVbMSFwY1/A531jaztkuLlzWGk7hpZChLBZg5lve8AeeL9MerwOo2
+         Bdc4tWrVB0wmTe8baSpC7Uab8gLZs9a5xfaoE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=5jXo/q6+qwTl1NPuVbve/kl4wpM3ah5dbawXMCz/xag=;
+        b=k3Ij5lzIr/URBOa1XTjDBri5yUtQ0HGH1uE5v1yl8NGexCu6G8ZglQiFgelVMCw+bK
+         BAkjb2i8RoBXvLwogNR8iDI2oUA1AQq8C5aYwzTpS+KRlJdZn1UkYVyNZ11D2gVeBqrr
+         gF6ibm9qLBT6UScTsVtPugJwA1XFOu4+PtuAOBa6N9Z4L7npkgfwzOBo+QxO4x7K0fNG
+         SBNEBd6svrs5/SQI5N5wO8wuDdOCaWAl1WEwaFAWZYKTfciG5BSliXnomumFYptvOGW6
+         zUd5G2QlD2emiowfvwItUQ3Jk6j5UsjPE4xSA1m5tzKxuBH3RtGPYC4EuHusVPtS5soM
+         szyw==
+X-Gm-Message-State: AOAM532a+vxGylAIz52MMDFPEde5B24qLL+dI4Gp3UeSrfzkkzCNMSxM
+        b0IX63bKNsZa+fUw7iUBGZ+vQ0BvwAvkwa8AJSD5nQ==
+X-Google-Smtp-Source: ABdhPJzquLpBKuJTV79YWIDWh02uTkUHdjYWzRycuWxaVEBmh0Gkdu8MdQJIowQ4vKRgPdn56701QXuXblfUShlj/dg=
+X-Received: by 2002:aca:4e11:: with SMTP id c17mr1166636oib.14.1607509013389;
+ Wed, 09 Dec 2020 02:16:53 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <20201127223047.2764643-2-kholk11@gmail.com>
+References: <20201203140259.26580-1-tzimmermann@suse.de> <20201203140259.26580-8-tzimmermann@suse.de>
+ <20201203152601.GB401619@phenom.ffwll.local> <ee2abd93-0dfe-53a3-0038-5edc58c3ec92@suse.de>
+ <20201203204129.GC401619@phenom.ffwll.local> <a253129d-c0e3-c864-fa0c-111338d25e25@suse.de>
+ <4fc93de9-cd26-58b0-d398-ac97577ffa92@amd.com> <20201209001321.GF401619@phenom.ffwll.local>
+ <8ef5d69a-b5b3-31d0-b011-8860b60f35eb@suse.de>
+In-Reply-To: <8ef5d69a-b5b3-31d0-b011-8860b60f35eb@suse.de>
+From:   Daniel Vetter <daniel@ffwll.ch>
+Date:   Wed, 9 Dec 2020 11:16:42 +0100
+Message-ID: <CAKMK7uE-GwdR-=7aDbf3nsrENd167ucgZ+eaeaq+WMcNAiH0YA@mail.gmail.com>
+Subject: Re: [PATCH v2 7/7] dma-buf: Write down some rules for vmap usage
+To:     Thomas Zimmermann <tzimmermann@suse.de>
+Cc:     =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Hans de Goede <hdegoede@redhat.com>,
+        Dave Airlie <airlied@redhat.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hello,
-
-On Fri, Nov 27, 2020 at 11:30:46PM +0100, kholk11@gmail.com wrote:
-> From: AngeloGioacchino Del Regno <kholk11@gmail.com>
+On Wed, Dec 9, 2020 at 10:32 AM Thomas Zimmermann <tzimmermann@suse.de> wro=
+te:
 >
-> This is a custom multi-aspect 25MegaPixels sensor from Sony,
-> found in many Sony Xperia smartphones from various eras.
+> Hi
 >
-> The camera assembly for this sensor usually (at least in Xperia
-> phones) has a lens that does not cover the entire sensor area,
-> which means that the real corners are blind and that, in many
-> lighting conditions, some more pixels in the corners are very
-> getting obscured (as no decent amount of light can get in)...
-> so, the maximum resolution that can produce a good image is:
-> - In 4:3 aspect ratio, 5520x4160 (23.0MP)
-> - In 16:9 aspect ratio, 5984x3392 (20.3MP).
+> Am 09.12.20 um 01:13 schrieb Daniel Vetter:
+> > On Fri, Dec 04, 2020 at 09:47:08AM +0100, Christian K=C3=B6nig wrote:
+> >> Am 04.12.20 um 09:32 schrieb Thomas Zimmermann:
+> >>> Hi
+> >>>
+> >>> Am 03.12.20 um 21:41 schrieb Daniel Vetter:
+> >>>> On Thu, Dec 03, 2020 at 07:59:04PM +0100, Thomas Zimmermann wrote:
+> >>>>> Hi
+> >>>>>
+> >>>>> Am 03.12.20 um 16:26 schrieb Daniel Vetter:
+> >>>>>> On Thu, Dec 03, 2020 at 03:02:59PM +0100, Thomas Zimmermann wrote:
+> >>>>>>> Dma-buf's vmap and vunmap callbacks are undocumented and various
+> >>>>>>> exporters currently have slightly different semantics for them. A=
+dd
+> >>>>>>> documentation on how to implement and use these interfaces correc=
+tly.
+> >>>>>>>
+> >>>>>>> v2:
+> >>>>>>>      * document vmap semantics in struct dma_buf_ops
+> >>>>>>>      * add TODO item for reviewing and maybe fixing dma-buf expor=
+ters
+> >>>>>>>
+> >>>>>>> Signed-off-by: Thomas Zimmermann <tzimmermann@suse.de>
+> >>>>>>
+> >>>>>> I still don't think this works, we're breaking dma_buf_vmap
+> >>>>>> for everyone
+> >>>>>> else here.
+> >>>>>
+> >>>>> I removed the text on the importer. These notes for callers in
+> >>>>> the docs are
+> >>>>> more or less a consequence of the exporter semantics.
+> >>>>
+> >>>> Callers are importers, so I'm not seeing how that fixes anything.
+> >>>>
+> >>>>> I thought we at least agreed on the exporter semantics in the
+> >>>>> other thread,
+> >>>>> didn't we?
+> >>>>>
+> >>>>> What I'm trying to do is to write dome some rules for exporters,
+> >>>>> even if not
+> >>>>> all exporters follow them.
+> >>>>
+> >>>> This is a standard interface, everyone needs to follow the same
+> >>>> rules. And
+> >>>> if they change, we need to make sure nothing breaks and we're not
+> >>>> creating
+> >>>> issues.
+> >>>>
+> >>>> In the past the rule was the dma_buf_vmap was allowed to take the
+> >>>> dma_resv_lock, and that the buffer should be pinned. Now some ttm
+> >>>> drivers
+> >>>> didn't ever bother with the pinning, and mostly got away with that
+> >>>> because
+> >>>> drm_prime helpers do the pinning by default at attach time, and most
+> >>>> users
+> >>>> do call dma_buf_attach.
+> >>>>
+> >>>> But if you look through dma-buf docs nothing ever said you have to d=
+o a
+> >>>> dummy attachment before you call dma_buf_vmap, that's just slightly
+> >>>> crappy
+> >>>> implementations that didn't blow up yet.
+> >>>
+> >>> I had a patch for adding pin to radeon's implementation of vmap. [1]
+> >>> Christian told me to not do this; instead just get the lock in the fb=
+dev
+> >>> code. His advise almost seems the opposite of what you're telling me
+> >>> here.
+> >>
+> >> I think what Daniel suggests here is that we need to smoothly transiti=
+on the
+> >> code from making assumptions to having a straight interface where impo=
+rters
+> >> explicitly say when stuff is locked and when stuff is pinned.
+> >>
+> >> I've started this with the attach interface by adding a new dynamic ap=
+proach
+> >> to that, but you probably need to carry on here with that for vmap as =
+well.
+> >>
+> >> When that is done we can migrate every exporter over to the new dynami=
+c
+> >> approach.
+> >>
+> >>>
+> >>> For the GEM VRAM helpers, that implicit pin in vmap gave me headaches=
+.
+> >>> Because scanouts can only be done from VRAM, which is badly suited fo=
+r
+> >>> exporting. So I ended up with an implicit pin that pins the buffer to
+> >>> whatever domain it currently is. I got away with it because GEM VRAM =
+BOs
+> >>> are not sharable among devices; fbdev is the only user of that
+> >>> functionality and only pins for short periods of time.
+> >>>
+> >>> I suspect that fixing TTM-based drivers by adding an implicit pin wou=
+ld
+> >>> result in a similar situation. Whatever domain it ends up pinning, so=
+me
+> >>> functionality might not be compatible with that.
+> >>
+> >> Correct, exactly that's the problem.
+> >>
+> >>>
+> >>>>
+> >>>>> Given the circumstances, we should leave out this patch from the
+> >>>>> patchset.
+> >>>>
+> >>>> So the defacto rules are already a big mess, but that's not a good
+> >>>> excuse
+> >>>> to make it worse.
+> >>>>
+> >>>> What I had in mind is that we split dma_buf_vmap up into two variant=
+s:
+> >>>>
+> >>>> - The current one, which should guarantee that the buffer is pinned.
+> >>>>     Because that's what all current callers wanted, before the fbdev=
+ code
+> >>>>     started allowing non-pinned buffers.
+> >>>
+> >>> Can we add an explicit pin operation to dma_buf_vmap() to enforce the
+> >>> semantics?
+> >>
+> >> At least I would be fine with that. For now amdgpu is the only exporte=
+r who
+> >> implements the explicit pin/unpin semantics anyway.
+> >
+> > Yup, I think that makes sense (if it works). Maybe we could use somethi=
+ng
+> > like:
+> >
+> > a) dma_buf pin exists, driver is dynamic. This means dma_buf_vmap needs=
+ to
+> > first pin, then call ->vmap. dma_buf_vmap_local otoh can directly call
+> > ->vmap since the exporter relies on either a pin or dma_resv_lock.
+> >
+> > b) dma_buf pin not implement, driver is a legacy pile. dma_buf_vmap wil=
+l
+> > pin (somewhere at least, or rely on some implicit pin), dma_buf_vmap_lo=
+cal
+> > doesn't work and should fail.
 >
-> This sensor supports high frame rates (>=60FPS) when in binning
-> mode and both RAW8 and RAW10 output modes.
-> In this version of the driver, support has been provided for the
-> following resolutions:
->     W x H     SZ   MAX_FPS  BINNING
-> - 5520x4160 23.0MP   23       No
-> - 5984x3392 20.3MP   26       No
-> - 2992x1696  3.8MP   60       Yes
-> - 1424x800   1.2MP   120      Yes
+> I think I read in the dma-buf documentation that pin is supposed to put
+> the BO in a domain that is suitable for scanout. Now I don't really
+> trust this to work. Amdgpu, radeon and nouveau put it into the GTT
+> region. Qxl appears to put it wherever it is.
+
+Uh that sounds wrong, or at least not the full complexity. ->pin's
+main use right now is to freeze the dma-buf into system memory when
+there's a non-dynamic attachement for a dynamic exporter. There's also
+a dma_buf_pin call in amdgpu, and I think that only works for scanout
+on integrated gpu. Pinning to vram would break sharing for all
+existing dma-buf users.
+
+Christian can you perhaps explain when amdgpu uses dma_buf_pin()?
+
+My take is the ->pin callback should clarify that it should pin into
+system memory, for legacy (non-dynamic) dma-buf users. And
+dma_buf_pin() should gain some kerneldoc which then states that "This
+should only be used in limited use cases like scanout and not for
+temporary pin operations." I think the problem with this kerneldoc is
+simply that it tries to document the exporter and importer side of the
+contract in one place and makes a mess of it, plus leaves the actual
+importer side function undocumented. I think the kerneldoc also
+predates the final patch version, and we didn't update it fully.
+
+> > I think for less transition work fbdev helpers could first try
+> > dma_resv_lock + dma_buf_vmap_local, if that fails, drop the dma_resv_lo=
+ck
+> > and do the pinning dma_buf_vmap. That way we don't have to convert shme=
+m
+> > helpers over to dma_resv locking, which should help.
 >
-> Note 1: The "standard" camera assy for IMX300 also contains an
-> actuator (to focus the image), but this driver only manages the
-> actual image sensor.
+> I have meanwhile made a patchset that updates helpers for cma, shmem and
+> vram with vmap_local; and converts fbdev emulation as well. It needs a
+> bit more testing before being posted.
+
+Nice, even better!
+-Daniel
+
+> Best regards
+> Thomas
 >
-> Note 2: The command tables for this sensor were reverse
-> engineered from a downstream "userspace driver" that has been
-> released in various versions on various Xperia smartphones.
-> Register layout seems to be only vaguely similar to IMX219,
-> which has a public datasheet from where some names for the
-> figured out registers were taken and added to the driver:
-> these names are probably not the right ones, but they surely
-> represent the intended thing.
+> >
+> > And ttm drivers would do the new clean interface, so at least everyone
+> > using dma_resv today is all fine. Intel's conversion to dma_resv lock i=
+s
+> > in-flight, but that needs a conversion to the dynamic interface anyway,
+> > the current code splats. And dynamic brings means explicit pin/unpin
+> > callbacks, so should be good too.
+> > -Daniel
+> >
+> >>
+> >> Regards,
+> >> Christian.
+> >>
+> >>>
+> >>> Best regards
+> >>> Thomas
+> >>>
+> >>> [1] https://patchwork.freedesktop.org/patch/400054/?series=3D83765&re=
+v=3D1
+> >>>
+> >>>>
+> >>>> - The new one, which allows vmapping with just dma_resv locked, and
+> >>>> should
+> >>>>     have some caching in exporters.
+> >>>>
+> >>>> Breaking code and then adding todos about that is kinda not so cool
+> >>>> approach here imo.
+> >>>>
+> >>>> Also I guess ttm_bo_vmap should have a check that either the buffer =
+is
+> >>>> pinned, or dma_resv_lock is held.
+> >>>>
+> >>>> Cheers, Daniel
+> >>>>
+> >>>>
+> >>>>
+> >>>>>
+> >>>>> Best regards
+> >>>>> Thomas
+> >>>>>
+> >>>>>>
+> >>>>>>> ---
+> >>>>>>>     Documentation/gpu/todo.rst | 15 +++++++++++++
+> >>>>>>>     include/drm/drm_gem.h      |  4 ++++
+> >>>>>>>     include/linux/dma-buf.h    | 45
+> >>>>>>> ++++++++++++++++++++++++++++++++++++++
+> >>>>>>>     3 files changed, 64 insertions(+)
+> >>>>>>>
+> >>>>>>> diff --git a/Documentation/gpu/todo.rst b/Documentation/gpu/todo.=
+rst
+> >>>>>>> index 009d8e6c7e3c..32bb797a84fc 100644
+> >>>>>>> --- a/Documentation/gpu/todo.rst
+> >>>>>>> +++ b/Documentation/gpu/todo.rst
+> >>>>>>> @@ -505,6 +505,21 @@ Contact: Thomas Zimmermann
+> >>>>>>> <tzimmermann@suse.de>, Christian K=C3=B6nig, Daniel Vette
+> >>>>>>>     Level: Intermediate
+> >>>>>>> +Enforce rules for dma-buf vmap and pin ops
+> >>>>>>> +------------------------------------------
+> >>>>>>> +
+> >>>>>>> +Exporter implementations of vmap and pin in struct
+> >>>>>>> dma_buf_ops (and consequently
+> >>>>>>> +struct drm_gem_object_funcs) use a variety of locking
+> >>>>>>> semantics. Some rely on
+> >>>>>>> +the caller holding the dma-buf's reservation lock, some
+> >>>>>>> do their own locking,
+> >>>>>>> +some don't require any locking. VRAM helpers even used
+> >>>>>>> to pin as part of vmap.
+> >>>>>>> +
+> >>>>>>> +We need to review each exporter and enforce the documented rules=
+.
+> >>>>>>> +
+> >>>>>>> +Contact: Christian K=C3=B6nig, Daniel Vetter, Thomas
+> >>>>>>> Zimmermann <tzimmermann@suse.de>
+> >>>>>>> +
+> >>>>>>> +Level: Advanced
+> >>>>>>> +
+> >>>>>>> +
+> >>>>>>>     Core refactorings
+> >>>>>>>     =3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D=3D
+> >>>>>>> diff --git a/include/drm/drm_gem.h b/include/drm/drm_gem.h
+> >>>>>>> index 5e6daa1c982f..1864c6a721b1 100644
+> >>>>>>> --- a/include/drm/drm_gem.h
+> >>>>>>> +++ b/include/drm/drm_gem.h
+> >>>>>>> @@ -138,6 +138,8 @@ struct drm_gem_object_funcs {
+> >>>>>>>          * drm_gem_dmabuf_vmap() helper.
+> >>>>>>>          *
+> >>>>>>>          * This callback is optional.
+> >>>>>>> +     *
+> >>>>>>> +     * See also struct dma_buf_ops.vmap
+> >>>>>>>          */
+> >>>>>>>         int (*vmap)(struct drm_gem_object *obj, struct
+> >>>>>>> dma_buf_map *map);
+> >>>>>>> @@ -148,6 +150,8 @@ struct drm_gem_object_funcs {
+> >>>>>>>          * drm_gem_dmabuf_vunmap() helper.
+> >>>>>>>          *
+> >>>>>>>          * This callback is optional.
+> >>>>>>> +     *
+> >>>>>>> +     * See also struct dma_buf_ops.vunmap
+> >>>>>>>          */
+> >>>>>>>         void (*vunmap)(struct drm_gem_object *obj, struct
+> >>>>>>> dma_buf_map *map);
+> >>>>>>> diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
+> >>>>>>> index cf72699cb2bc..dc81fdc01dda 100644
+> >>>>>>> --- a/include/linux/dma-buf.h
+> >>>>>>> +++ b/include/linux/dma-buf.h
+> >>>>>>> @@ -267,7 +267,52 @@ struct dma_buf_ops {
+> >>>>>>>          */
+> >>>>>>>         int (*mmap)(struct dma_buf *, struct vm_area_struct *vma)=
+;
+> >>>>>>> +    /**
+> >>>>>>> +     * @vmap:
+> >>>>>>
+> >>>>>> There's already a @vmap and @vunamp kerneldoc at the top comment, =
+that
+> >>>>>> needs to be removed.
+> >>>>>> -Daniel
+> >>>>>>
+> >>>>>>> +     *
+> >>>>>>> +     * Returns a virtual address for the buffer.
+> >>>>>>> +     *
+> >>>>>>> +     * Notes to callers:
+> >>>>>>> +     *
+> >>>>>>> +     * - Callers must hold the struct dma_buf.resv lock
+> >>>>>>> before calling
+> >>>>>>> +     *   this interface.
+> >>>>>>> +     *
+> >>>>>>> +     * - Callers must provide means to prevent the
+> >>>>>>> mappings from going
+> >>>>>>> +     *   stale, such as holding the reservation lock or providin=
+g a
+> >>>>>>> +     *   move-notify callback to the exporter.
+> >>>>>>> +     *
+> >>>>>>> +     * Notes to implementors:
+> >>>>>>> +     *
+> >>>>>>> +     * - Implementations must expect pairs of @vmap and
+> >>>>>>> @vunmap to be
+> >>>>>>> +     *   called frequently and should optimize for this case.
+> >>>>>>> +     *
+> >>>>>>> +     * - Implementations should avoid additional operations, suc=
+h as
+> >>>>>>> +     *   pinning.
+> >>>>>>> +     *
+> >>>>>>> +     * - Implementations may expect the caller to hold the dma-b=
+uf's
+> >>>>>>> +     *   reservation lock to protect against concurrent calls an=
+d
+> >>>>>>> +     *   relocation.
+> >>>>>>> +     *
+> >>>>>>> +     * - Implementations may provide additional
+> >>>>>>> guarantees, such as working
+> >>>>>>> +     *   without holding the reservation lock.
+> >>>>>>> +     *
+> >>>>>>> +     * This callback is optional.
+> >>>>>>> +     *
+> >>>>>>> +     * Returns:
+> >>>>>>> +     *
+> >>>>>>> +     * 0 on success or a negative error code on failure.
+> >>>>>>> +     */
+> >>>>>>>         int (*vmap)(struct dma_buf *dmabuf, struct dma_buf_map *m=
+ap);
+> >>>>>>> +
+> >>>>>>> +    /**
+> >>>>>>> +     * @vunmap:
+> >>>>>>> +     *
+> >>>>>>> +     * Releases the address previously returned by @vmap.
+> >>>>>>> +     *
+> >>>>>>> +     * This callback is optional.
+> >>>>>>> +     *
+> >>>>>>> +     * See also @vmap()
+> >>>>>>> +     */
+> >>>>>>>         void (*vunmap)(struct dma_buf *dmabuf, struct
+> >>>>>>> dma_buf_map *map);
+> >>>>>>>     };
+> >>>>>>> --
+> >>>>>>> 2.29.2
+> >>>>>>>
+> >>>>>>
+> >>>>>
+> >>>>> --
+> >>>>> Thomas Zimmermann
+> >>>>> Graphics Driver Developer
+> >>>>> SUSE Software Solutions Germany GmbH
+> >>>>> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> >>>>> (HRB 36809, AG N=C3=BCrnberg)
+> >>>>> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
+> >>>>>
+> >>>>
+> >>>>
+> >>>>
+> >>>>
+> >>>
+> >>
+> >
 >
-> Signed-off-by: AngeloGioacchino Del Regno <kholk11@gmail.com>
-
-Just a few drive-by comments, as I'm looking at selection targets for
-other imx sensors and I've noticed this one on the list
-
-> ---
->  drivers/media/i2c/Kconfig  |   13 +
->  drivers/media/i2c/Makefile |    1 +
->  drivers/media/i2c/imx300.c | 3081 ++++++++++++++++++++++++++++++++++++
->  3 files changed, 3095 insertions(+)
->  create mode 100644 drivers/media/i2c/imx300.c
+> --
+> Thomas Zimmermann
+> Graphics Driver Developer
+> SUSE Software Solutions Germany GmbH
+> Maxfeldstr. 5, 90409 N=C3=BCrnberg, Germany
+> (HRB 36809, AG N=C3=BCrnberg)
+> Gesch=C3=A4ftsf=C3=BChrer: Felix Imend=C3=B6rffer
 >
 
-[snip]
 
-> +/*
-> + * ** IMX300 native and active pixel array size **
-> + *
-> + * Being this a multi-aspect sensor, the following native W/H apply, but
-> + * beware: the module assembly usually has a (round) lens that is shadowing
-> + * or covering the corners of the (square) image sensor, so the maximum
-> + * output resolution must be lower than the maximum sensor resolution
-> + * otherwise we get something like a view from a porthole... :)
-> + *
-> + * For 4:3  aspect ratio, max is: 5984x4140 (25MP)
-> + * For 16:9 aspect ratio, max is: 5984x3392 (20.3MP)
-> + */
-
-These are the sizes
-
-> +#define IMX300_NATIVE_WIDTH		5980U
-> +#define IMX300_NATIVE_HEIGHT		4140U
-> +#define IMX300_PIXEL_ARRAY_LEFT		0U
-> +#define IMX300_PIXEL_ARRAY_TOP		0U
-> +#define IMX300_PIXEL_ARRAY_WIDTH	5520U
-> +#define IMX300_PIXEL_ARRAY_HEIGHT	4160U
-
-And here is how they are applied to selection targets
-
-> +	case V4L2_SEL_TGT_CROP: {
-> +		struct imx300 *imx300 = to_imx300(sd);
-> +
-> +		mutex_lock(&imx300->mutex);
-> +		sel->r = *__imx300_get_pad_crop(imx300, cfg, sel->pad,
-> +						sel->which);
-> +		mutex_unlock(&imx300->mutex);
-> +
-> +		return 0;
-> +	}
-> +
-> +	case V4L2_SEL_TGT_NATIVE_SIZE:
-> +		sel->r.top = 0;
-> +		sel->r.left = 0;
-> +		sel->r.width = IMX300_NATIVE_WIDTH;
-> +		sel->r.height = IMX300_NATIVE_HEIGHT;
-> +
-> +		return 0;
-> +
-> +	case V4L2_SEL_TGT_CROP_DEFAULT:
-> +		sel->r.top = IMX300_PIXEL_ARRAY_TOP;
-> +		sel->r.left = IMX300_PIXEL_ARRAY_LEFT;
-> +		sel->r.width = IMX300_PIXEL_ARRAY_WIDTH;
-> +		sel->r.height = IMX300_PIXEL_ARRAY_HEIGHT;
-> +
-> +		return 0;
-> +	}
-> +
-
-1) CROP_DEFAULT should be contained in NATIVE_SIZE (actually all
-targets are contained in NATIVE_SIZE, and are defined relatively to
-it). This means that IMX300_PIXEL_ARRAY_HEIGHT > IMX300_NATIVE_HEIGHT
-is probably wrong.
-
-2) You need to specify CROP_BOUNDS too. If the driver does not support
-reading optically black pixels using the selection API, it should be
-identical to CROP_DEFAULT (v4l2-compliance should report that, see
-https://git.linuxtv.org/media_tree.git/commit/?id=1ed36ecd1459b653cced8929bfb37dba94b64c5d
-
-3) CROP_DEFAULT (and BOUNDS) should report the sensor readable active
-area. You have one mode where the TGT_CROP rectangle width is bigger
-than the CROP_DEFAULT (and BOUNDS) rectangle width (5984 > 5520). I
-think 5984 should probably be made the CROP_DEFAULT (and BOUNDS) width
-then, as the 5984 mode's width implies the 464 pixels exceeding 5520
-are readable and valid for image capture.
-
-It's not easy to get these right with a datasheet sometimes, without
-one it quickly becomes a matter of guessing. But even if the values are
-computed as 'best effort' we should try to respect the relationships
-between the different selection targets.
-
-Thanks
-  j
+--=20
+Daniel Vetter
+Software Engineer, Intel Corporation
+http://blog.ffwll.ch
