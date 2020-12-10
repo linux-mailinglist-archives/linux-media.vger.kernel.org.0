@@ -2,141 +2,101 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5AD1C2D5A4F
-	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 13:20:32 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 05ED42D5B2E
+	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 14:06:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728714AbgLJMSu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Dec 2020 07:18:50 -0500
-Received: from perceval.ideasonboard.com ([213.167.242.64]:52628 "EHLO
-        perceval.ideasonboard.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727287AbgLJMSm (ORCPT
+        id S2387816AbgLJNEz (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Dec 2020 08:04:55 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47522 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1731240AbgLJNEy (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Dec 2020 07:18:42 -0500
-Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
-        by perceval.ideasonboard.com (Postfix) with ESMTPSA id 274E096;
-        Thu, 10 Dec 2020 13:17:54 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
-        s=mail; t=1607602674;
-        bh=i2an+VSMzbuWYlaZxKs/SkMtGcqBdaAE/lbZpEsMeoo=;
-        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
-        b=TLYuh8V/NSpD0JiMcj+2dXNMqfBHWaY6Vnf6KRImzzjgAbGRa6hL86zKF3hTRhMMb
-         ultaLjqIbVsjpRkeawrX8mp2g+9mEvIT7j4X/+VPXfmpQYKiG+/0AcPaW83Za/B0eC
-         qDPlMefDCwptRHrc1B7PDE8BDU3DL7/LIqIvPFlc=
-Date:   Thu, 10 Dec 2020 14:17:49 +0200
-From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-To:     Martin Kepplinger <martin.kepplinger@puri.sm>
-Cc:     "rogerio.silva@nxp.com" <rogerio.silva@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "slongerbeam@gmail.com" <slongerbeam@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org, NXP Linux Team <linux-imx@nxp.com>,
-        "kernel@puri.sm" <kernel@puri.sm>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>
-Subject: Re: question: CSI on imx8mq with (any) CSI2 camera / experience with
- mx6s_capture?
-Message-ID: <X9IR7dXOkX2XBCtx@pendragon.ideasonboard.com>
-References: <9e09ca8b-d1bc-eaa9-d296-c4ee98882c06@puri.sm>
- <X9HpL/qlFxmZi9Vt@pendragon.ideasonboard.com>
+        Thu, 10 Dec 2020 08:04:54 -0500
+Received: from mail-pg1-x544.google.com (mail-pg1-x544.google.com [IPv6:2607:f8b0:4864:20::544])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id ABF3FC0613D6;
+        Thu, 10 Dec 2020 05:04:14 -0800 (PST)
+Received: by mail-pg1-x544.google.com with SMTP id o4so4179122pgj.0;
+        Thu, 10 Dec 2020 05:04:14 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc;
+        bh=92Wh2LQtBXzTX4NkNdCAHhIqaKi2BFUPf+cbDuzZ2dM=;
+        b=FBMPE2JaoBmrOk3y40Mrmo8b1Mvkmv7ogxXi/Fxml/kMrLZjoWb3g6V1eeHeaSuBf6
+         lpP6yv9RhhduV0xpST+COmF6of3lXMi9gdBpiz16bzy7tscOk2EdY8Oa5EJll5qrMII7
+         rMGmNJmTsIg+86qlY0EF9tEuPhIopz0sTxiYSrPJFA6wQi510LFJQxKGBH90CVlOjT6T
+         8wisBOIVM8xpVLOUpvDc7PeJTu5hKYlpznhQVb0wdXzBuzeI9ZnTyEII/X+zoEuZTOmy
+         e0q+nZlanVaFzW9lBFv9yM/QNrG+7Fhf+HYGlM59T7cJlFye0iospfsZZ+1JLXWmD0Sp
+         t2IQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=92Wh2LQtBXzTX4NkNdCAHhIqaKi2BFUPf+cbDuzZ2dM=;
+        b=H3tWHBd0rSkIVcg99qFd6KcJNbxHElVdKAoHnyeNgu3afc1dwxAJlOb7wyNUWsu0nL
+         jU/tn1T7+sPYLlfG2MxrKgFAsHTzdGCJXjn6gq2Nu/31VPgzWV9rj7VX9O1hgcm0H+NL
+         GNR8/unGpqJL+ujpWdX/vdXvSWN98WBJPrI7ixDf6KOJiMF1nyDGc1z/rQVVWLXfZHu+
+         kF1bVXI7zqXlfaiZd6lpdbBgc6+Qk7LtditmVuH5w4X1XG4h0eOJR3o08FrlF0dEnvTu
+         WUvX8Eb1+k0qbncQUVtoVrmhH8ZkjEb7aGeGND05v18uysXokeLkPMYuDtLfIRGGfpxG
+         lOFA==
+X-Gm-Message-State: AOAM5331z9D9CVBytrM7oyo9y48+HxNqGmvohqUVYCeD+6uXkOUqOrYR
+        VsG3JBlQZzoY59YdXA29/Av2//c7CGCyWc5MBj0=
+X-Google-Smtp-Source: ABdhPJx6pQh8UTUI6wTm+2am3BYMKhPGQWSY4Ulu5ZwL6w0nVgmYWZh7f4gx79f7WBvYQAFphvYasrY2UUg54Dkc8U8=
+X-Received: by 2002:a17:90a:34cb:: with SMTP id m11mr7555981pjf.181.1607605454205;
+ Thu, 10 Dec 2020 05:04:14 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=utf-8
-Content-Disposition: inline
-In-Reply-To: <X9HpL/qlFxmZi9Vt@pendragon.ideasonboard.com>
+References: <20201113105441.1427-1-sakari.ailus@linux.intel.com> <X9Hdg3lJm+TZAQGX@alley>
+In-Reply-To: <X9Hdg3lJm+TZAQGX@alley>
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+Date:   Thu, 10 Dec 2020 15:05:02 +0200
+Message-ID: <CAHp75VcY_b7uaGWoEa1Y6YDk0MmmzC4hV2yx8zVT7J-fD67Hyg@mail.gmail.com>
+Subject: Re: [PATCH v5 1/1] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+To:     Petr Mladek <pmladek@suse.com>
+Cc:     Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joe Perches <joe@perches.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Martin,
+On Thu, Dec 10, 2020 at 2:16 PM Petr Mladek <pmladek@suse.com> wrote:
+> On Fri 2020-11-13 12:54:41, Sakari Ailus wrote:
+> > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
+> > pixel formats denoted by fourccs. The fourcc encoding is the same for both
+> > so the same implementation can be used.
+> >
+> > Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+>
+> Andy, Rasmus,
+>
+> the last version looks fine to me. I am going to push it.
+> Please, speak up if you are against it.
 
-On Thu, Dec 10, 2020 at 11:24:00AM +0200, Laurent Pinchart wrote:
-> On Thu, Dec 10, 2020 at 09:17:48AM +0100, Martin Kepplinger wrote:
-> > hi,
-> > 
-> > TL;DR: did you use the NXP "mx6s_capture" csi bridge driver with other 
-> > cameras?
-> 
-> I've recently worked on camera support for i.MX8MM (whose camera IP
-> cores are, if not identical, very similar to the i.MX8MQ's). The least I
-> can say is that it was painful :-(
-> 
-> I'm using an MT9M114 sensor, which can produce RAW8, RAW10 and YUV and
-> has a CSI-2 interface. My first use case is to capture RAW10, which
-> isn't supported by the mx6s_capture driver.
-> 
-> > I try to use a CSI2 camera (hi846 I'm writing a driver for) on imx8mq: 
-> > Using NXP's CSI bridge driver
-> > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/mxc/capture/mx6s_capture.c?h=imx_5.4.0_8dxlphantom_er 
-> > as well as the CSI driver itself:
-> > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.0_8dxlphantom_er 
-> > works fine when using the ov5640 camera with this driver:
-> > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/mxc/capture/ov5640_mipi_v2.c?h=imx_5.4.0_8dxlphantom_er
-> > 
-> > (I realize there is a CSI bridge driver in staging, but that need more 
-> > work to be actually used. Of course after this the goal is to fix and 
-> > use it; and mainline a CSI phy driver too.)
-> 
-> I have lots of patches for this driver, which I've developed on i.MX7D
-> for a separate project. I'd like to mainline them, but this is blocked
-> by one last issue that I haven't been able to solve yet. In a nutshell,
-> the CSI writes two consecutive frames in each buffer, overflowing the
-> allocated memory. The registers that control the buffer size seem to be
-> programmed correctly as far as I can tell. I've reported this issue to
-> NXP but haven't received any feedback yet.
-> 
-> I've also added support for i.MX8MM to this driver, but haven't been
-> able to capture RAW8, RAW10 or YUV successfully. YUV produces the "best
-> images", but seems to drop 3 out of 4 consecutive pixels. The sensor
-> driver has been tested successfully on i.MX6 so I don't think it's the
-> most likely cause of issues, but I can't rule out bugs on that side
-> either. The i.MX8 reference manuals describe the MIPI_CSI and CSI IP
-> cores but doesn't tell much about how the two are connected, so I have
-> lots of unanswered questions about the register fields that control the
-> interface between those IP cores. I'm pretty sure there are issues in
-> that area of the drivers, but I've tested all combinations I could think
-> of, without luck.
-> 
-> > Now I use said NXP's CSI drivers on mainline without problems with the 
-> > ov5640. For the hi846 (as an example), I want to use a different 
-> > pixelformat and CSI media bus format. Describing, say, 
-> > MEDIA_BUS_FMT_SBGGR10_1X10 in the driver lets mx6s_capture find it; but 
-> > as soon as I try to add a different pixelformat than V4L2_PIX_FMT_UYVY in:
-> > https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/mxc/capture/mx6s_capture.c?h=imx_5.4.0_8dxlphantom_er#n244
-> > streaming won't start anymore: "not negotiated, -4" and the 
-> > "mx6s_vidioc_enum_framesizes" ioctl is not called anymore. Why so?
-> 
-> That will likely be the easy part of the problem. The NXP driver doesn't
-> support RAW10 at all, so you will have to add that, and I don't think it
-> will be easy.
-> 
-> I'll push my development branch shortly if you're interested in trying
-> the mainline driver.
+My concerns are:
+- not so standard format of representation (why not to use
+string_escape_mem() helper?) or is it?
+- no compatibility with generic 4cc
+  (I would rather have an additional specifier here for v4l2 cases.
+OTOH generic %p4cc to me sounds like an equivalent to %4pEh (but we
+have similar cases with MAC where %6ph is the same as %pM).
 
-	git://linuxtv.org/pinchartl/media.git imx/csi/imx8
-
-The topmost patches are random debugging tests.
-
-> > I didn't find much when comparing strace from "gst-launch-1.0 v4l2src ! 
-> > video/x-raw,width=1280,height=720 ! videoconvert ! xvimagesink" (which 
-> > is how I test).
-> > 
-> > When I simply use V4L2_PIX_FMT_UYVY I *do* get interrupts (in mx6s) but 
-> > only "FIELD0_INT" (and drawing at this point suggests that buffer 1 is 
-> > not yet full and "distorted" in a wrong format, which could explain why 
-> > DMA is never completed in order to create a full frame).
-> > 
-> > Now this is details, but the hi846 camera uses a 10bit CSI format and 
-> > therefore I need to set PIXEL_BIT in cr1 too, but when I do that for 
-> > example, I don't get "FIELD0_INT" anymore (only SFF_OR_INT and of course 
-> > the "base address switching Change Err").
-> > 
-> > Do you have experience with using this driver with other cameras and can 
-> > point me in a direction that might help me?
-> > 
-> > If you want to look at the work-in-progress driver:
-> > https://source.puri.sm/martin.kepplinger/linux-next/-/blob/hi846/drivers/media/i2c/hi846.c
+But I'm not insisting on them, consider it like just my 2 cents to the
+discussion.
 
 -- 
-Regards,
-
-Laurent Pinchart
+With Best Regards,
+Andy Shevchenko
