@@ -2,158 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 01AD82D692A
-	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 21:53:14 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9B8612D6987
+	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 22:17:50 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404570AbgLJUwm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Dec 2020 15:52:42 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35680 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393558AbgLJUwb (ORCPT
+        id S2393914AbgLJVRJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Dec 2020 16:17:09 -0500
+Received: from mail-ot1-f49.google.com ([209.85.210.49]:42003 "EHLO
+        mail-ot1-f49.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2391281AbgLJVRI (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Dec 2020 15:52:31 -0500
-Received: from mxf2.seznam.cz (mxf2.seznam.cz [IPv6:2a02:598:2::123])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2175CC0613D3;
-        Thu, 10 Dec 2020 12:51:43 -0800 (PST)
-Received: from email.seznam.cz
-        by email-smtpc25a.ng.seznam.cz (email-smtpc25a.ng.seznam.cz [10.23.18.34])
-        id 14be179e4fb043f71517dbc0;
-        Thu, 10 Dec 2020 21:51:24 +0100 (CET)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz; s=beta;
-        t=1607633484; bh=uVI8DKBCKgq5GbOjTJGcesmmho5CB7T5xPqxJqxGoBE=;
-        h=Received:Subject:To:Cc:References:From:Message-ID:Date:User-Agent:
-         MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
-         Content-Language;
-        b=DOYrZsTuj6+Aw2wzWcKSqSn9uJkohGDyC9xOPjcz+C5aW4+WFNJOczbkqq7yO41ty
-         z/KL1uT5kID1YIXNgJBcKw3DoQS/76hQt971mvjJvBdT2CoGTqus6RkqB9qTRVUlwv
-         Qlb3UI9DdCTtMFsKQMk3lupp1vtDU05HpOrxs97M=
-Received: from [192.168.1.213] (ip-228-128.dynamic.ccinternet.cz [212.69.128.228])
-        by email-relay6.ng.seznam.cz (Seznam SMTPD 1.3.122) with ESMTP;
-        Thu, 10 Dec 2020 21:51:22 +0100 (CET)  
-Subject: Re: [PATCH v2 1/3] media: i2c: imx219: add support for specifying
- clock-frequencies
-To:     Sascha Hauer <s.hauer@pengutronix.de>
-Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Thu, 10 Dec 2020 16:17:08 -0500
+Received: by mail-ot1-f49.google.com with SMTP id 11so6295199oty.9;
+        Thu, 10 Dec 2020 13:16:53 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=DjdSLtOzBPosggV3jRDhGiSxaYkS7MRdHVLaRRWPza0=;
+        b=Ir6X0GAaZupMCdxz6P7oH9BCoj0nx7X0djSY6IG1cokyy8dxwS0EwlbdYwiPgYyWno
+         w0NWrNFGOXZVjzucK8h5R5xs6vsEdV2H0tsPWj4ptlRPGm8jkN5RcTZr5ZogCdJdcXvU
+         R3cKfvWUOs6KcNu7aqEbptOoR71nT7pZHUdoIxaPgeDy1AEEkrMVb93ni6npzY0pyNlC
+         2Uv6/ZwOgoHvrYYUg/keXF+YoXNEfFtKbGs8F3w5OiwdF28nnTpxMEOt2KomAKeWq41n
+         pkHtHgHQrwflmuSmvif5KoyxpysyAGW1kw4qF8dGiPvAdrNhpA5+B9Tam2lp2d4/tEUf
+         +A4w==
+X-Gm-Message-State: AOAM530cTLMFBmL6s22VtS3tab4gDu60sispG/qKEeK//CktVSr3Bb/X
+        pt+eOlp1TWa0cOc6vuZAKn/NjsLmFQ==
+X-Google-Smtp-Source: ABdhPJx+TvfFP3n7D3tdcANwKWQLDP74aXtIfa+ZKxBkmCwEwNqjtcb54c1aALYdQQtyPDjJVVTLLg==
+X-Received: by 2002:a05:6830:1ad4:: with SMTP id r20mr1644647otc.354.1607634987577;
+        Thu, 10 Dec 2020 13:16:27 -0800 (PST)
+Received: from xps15.herring.priv (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.googlemail.com with ESMTPSA id m21sm1260217oos.28.2020.12.10.13.16.25
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Dec 2020 13:16:26 -0800 (PST)
+From:   Rob Herring <robh@kernel.org>
+To:     Guennadi Liakhovetski <g.liakhovetski@gmx.de>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Maxime Ripard <mripard@kernel.org>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Rob Herring <robh+dt@kernel.org>,
-        Shawn Guo <shawnguo@kernel.org>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Fabio Estevam <festevam@gmail.com>,
-        NXP Linux Team <linux-imx@nxp.com>,
-        Geert Uytterhoeven <geert+renesas@glider.be>,
-        Magnus Damm <magnus.damm@gmail.com>,
-        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
-        linux-arm-kernel@lists.infradead.org,
-        linux-renesas-soc@vger.kernel.org
-References: <20201206172720.9406-1-michael.srba@seznam.cz>
- <20201207055952.GB14307@pengutronix.de>
-From:   Michael Srba <Michael.Srba@seznam.cz>
-Message-ID: <222f5118-72ac-d291-f8d9-743d5c45c4ea@seznam.cz>
-Date:   Thu, 10 Dec 2020 21:51:20 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        Jacopo Mondi <jacopo@jmondi.org>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>
+Cc:     devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH v2 0/2] dt-bindings: media: Convert video-interfaces.txt to schemas
+Date:   Thu, 10 Dec 2020 15:16:20 -0600
+Message-Id: <20201210211625.3070388-1-robh@kernel.org>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-In-Reply-To: <20201207055952.GB14307@pengutronix.de>
-Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+This series converts video-interfaces.txt to DT schema which in turn is
+based on converting the graph binding to a schema. All the media users
+are converted to use the graph and video-interfaces schemas.
 
-sorry for late reply.
+Based on media tree commit a3f132df0e5f. This is dependent on dt-schema
+changes not yet committed[1]. Please review those too.
 
-I copied this approach from looking at other camera sensor drivers,
-and it seemed less "ugly" to me than using assigned-rates (I will be
-upstreaming required dts changes for Samsung Galaxy A3 (2015), so the
-dts feeling "proper" is important to me).
+Rob
 
-I however am not qualified to make that decision, so if you believe
-that the assigned-rates approach is cleaner and more suitable for mainline,
-I will try to adjust my internal filter for what is "more proper" :)
+[1] https://github.com/devicetree-org/dt-schema/tree/of-graph
 
-As for rounding, the issue is that it seems to like to round up, instead
-of trying to find the closest possible value. I *guess* trying to set
-the lower barrier might work out in practice, but it seems kind of ugly.
+Rob Herring (2):
+  media: dt-bindings: Convert video-interfaces.txt properties to schemas
+  dt-bindings: media: Use graph and video-interfaces schemas
 
-All in all, what I did seemed like the cleanest option to me, and it was
-an approach that other drivers also use. But if you believe there is
-a cleaner approach, I will be more than happy to do something else,
-though I would appreciate an explanation of why it is cleaner so that
-I can make better decisions in the future.
+ .../media/allwinner,sun4i-a10-csi.yaml        |  11 +-
+ .../media/allwinner,sun6i-a31-csi.yaml        |  12 +-
+ .../bindings/media/i2c/adv7180.yaml           |  35 +-
+ .../bindings/media/i2c/adv7604.yaml           |  37 +-
+ .../bindings/media/i2c/aptina,mt9v111.yaml    |   4 +-
+ .../bindings/media/i2c/imi,rdacm2x-gmsl.yaml  |  30 +-
+ .../devicetree/bindings/media/i2c/imx219.yaml |  21 +-
+ .../bindings/media/i2c/maxim,max9286.yaml     | 101 +--
+ .../devicetree/bindings/media/i2c/ov5647.yaml |  20 +-
+ .../devicetree/bindings/media/i2c/ov8856.yaml |  21 +-
+ .../bindings/media/i2c/ovti,ov2680.yaml       |   6 +-
+ .../bindings/media/i2c/ovti,ov772x.yaml       |   9 +-
+ .../bindings/media/i2c/sony,imx214.yaml       |  25 +-
+ .../bindings/media/i2c/sony,imx274.yaml       |   3 +-
+ .../bindings/media/marvell,mmp2-ccic.yaml     |  15 +-
+ .../bindings/media/nxp,imx7-csi.yaml          |   5 +-
+ .../bindings/media/nxp,imx7-mipi-csi2.yaml    |  32 +-
+ .../bindings/media/renesas,ceu.yaml           |  17 +-
+ .../bindings/media/renesas,csi2.yaml          |  54 +-
+ .../bindings/media/renesas,vin.yaml           | 113 +---
+ .../bindings/media/rockchip-isp1.yaml         |  40 +-
+ .../bindings/media/st,stm32-dcmi.yaml         |  18 +-
+ .../devicetree/bindings/media/ti,cal.yaml     |  55 +-
+ .../media/video-interface-devices.yaml        | 405 +++++++++++
+ .../bindings/media/video-interfaces.txt       | 640 +-----------------
+ .../bindings/media/video-interfaces.yaml      | 344 ++++++++++
+ .../bindings/media/xilinx/xlnx,csi2rxss.yaml  |  39 +-
+ 27 files changed, 901 insertions(+), 1211 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/video-interface-devices.yaml
+ create mode 100644 Documentation/devicetree/bindings/media/video-interfaces.yaml
 
-Best regards,
-Michael
-
-On 07. 12. 20 6:59, Sascha Hauer wrote:
-> Hi Michael,
->
-> On Sun, Dec 06, 2020 at 06:27:18PM +0100, michael.srba@seznam.cz wrote:
->> From: Michael Srba <Michael.Srba@seznam.cz>
->>
->> This patch adds 1% tolerance on input clock, similar to other camera sensor
->> drivers. It also allows for specifying the actual clock in the device tree,
->> instead of relying on it being already set to the right frequency (which is
->> often not the case).
->>
->> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
->>
->> ---
->>
->> changes since v1: default to exactly 24MHz when `clock-frequency` is not present
->>
->> ---
->>  drivers/media/i2c/imx219.c | 19 +++++++++++++++++--
->>  1 file changed, 17 insertions(+), 2 deletions(-)
->>
->> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
->> index f64c0ef7a897..b6500e2ab19e 100644
->> --- a/drivers/media/i2c/imx219.c
->> +++ b/drivers/media/i2c/imx219.c
->> @@ -1443,13 +1443,28 @@ static int imx219_probe(struct i2c_client *client)
->>  		return PTR_ERR(imx219->xclk);
->>  	}
->>  
->> -	imx219->xclk_freq = clk_get_rate(imx219->xclk);
->> -	if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
->> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency", &imx219->xclk_freq);
->> +	if (ret) {
->> +		dev_warn(dev, "could not get xclk frequency\n");
->> +
->> +		/* default to 24MHz */
->> +		imx219->xclk_freq = 24000000;
->> +	}
->> +
->> +	/* this driver currently expects 24MHz; allow 1% tolerance */
->> +	if (imx219->xclk_freq < 23760000 || imx219->xclk_freq > 24240000) {
->>  		dev_err(dev, "xclk frequency not supported: %d Hz\n",
->>  			imx219->xclk_freq);
->>  		return -EINVAL;
->>  	}
->>  
->> +	ret = clk_set_rate(imx219->xclk, imx219->xclk_freq);
->> +	if (ret) {
->> +		dev_err(dev, "could not set xclk frequency\n");
->> +		return ret;
->> +	}
-> clk_set_rate() returns successfully when the rate change has succeeded.
-> It tells you nothing about the actual rate that has been set. The rate
-> could be very different from what you want to get, depending on what the
-> hardware is able to archieve. There's clk_round_rate() that tells you
-> which rate you'll get when you call clk_set_rate() with that value.
-> You would have to call clk_round_rate() first and see if you are happy
-> with the result, afterwards set the rate. From that view it doesn't make
-> much sense to check the device tree if a number between 23760000 and
-> 24240000 is specified there, the clk api will do rounding anyway.
->
-> Also there's the assigned-clocks device tree binding, see
-> Documentation/devicetree/bindings/clock/clock-bindings.txt. This allows
-> you to set the desired clock rate directly in the device tree. All
-> that's left to do in the driver is to replace the check for the exact
-> rate with a check which allows a certain tolerance.
->
-> Sascha
->
-
+--
+2.25.1
