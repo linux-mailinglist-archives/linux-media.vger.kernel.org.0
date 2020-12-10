@@ -2,87 +2,138 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4F8AB2D56E6
-	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 10:22:30 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D4ABA2D5709
+	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 10:26:05 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732271AbgLJJU1 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Dec 2020 04:20:27 -0500
-Received: from lb3-smtp-cloud8.xs4all.net ([194.109.24.29]:60545 "EHLO
-        lb3-smtp-cloud8.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1730983AbgLJJUZ (ORCPT
+        id S1728403AbgLJJYs (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Dec 2020 04:24:48 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:41820 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727217AbgLJJYs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Dec 2020 04:20:25 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud8.xs4all.net with ESMTPA
-        id nI6okc0mkkpopnI6tkaoyW; Thu, 10 Dec 2020 10:19:39 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1607591979; bh=Hzd2nJZK/krPgmjKFBSUAetg6WF9qGW8IV6Rhr6mRps=;
-        h=Subject:To:From:Message-ID:Date:MIME-Version:Content-Type:From:
-         Subject;
-        b=hM9i9A1ySOcnx66fgfCy0m5SI2Kyva/OFEQBoJfC/EnYP5j6fpnFWuqNp63CllwJ9
-         i24hCun1wNAAPwL6SH3ulwimGbpEb+Ln9aygIXPLeg9EEBEZk2Gr5AUP2E9w11chHC
-         s4iYUtGNjv0Klp8qdEBXvZdOM+IeUda1npKoJKMJaATx1LgHrHKwa/L8uX1Zebr19L
-         o/dhkTYMaaJmS5BV5AqK/05M0Oe5+6pwDr6NIMgdzOeCwbqneOgQqxEOmRKSctz7Qr
-         +0DlkJ/mDUQ8/CCR+o1DlE8N0uaxN4PwIaFDKLtWyNG1iI9nZ4aiWDiiPzDTQHJPzP
-         Erzsw7ZP3ohRA==
-Subject: Re: HEIC encoder/decoder
-To:     Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>
-References: <5c5cd205-5c7f-1450-1f84-7d0e573dc90f@linaro.org>
-From:   Hans Verkuil <hverkuil@xs4all.nl>
-Message-ID: <fcc1f01b-8dbf-bb6e-87d5-95a484261dc7@xs4all.nl>
-Date:   Thu, 10 Dec 2020 10:19:34 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.12.0
+        Thu, 10 Dec 2020 04:24:48 -0500
+Received: from perceval.ideasonboard.com (perceval.ideasonboard.com [IPv6:2001:4b98:dc2:55:216:3eff:fef7:d647])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 8254AC0613CF
+        for <linux-media@vger.kernel.org>; Thu, 10 Dec 2020 01:24:07 -0800 (PST)
+Received: from pendragon.ideasonboard.com (62-78-145-57.bb.dnainternet.fi [62.78.145.57])
+        by perceval.ideasonboard.com (Postfix) with ESMTPSA id DEDF825E;
+        Thu, 10 Dec 2020 10:24:03 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=ideasonboard.com;
+        s=mail; t=1607592244;
+        bh=VnVpoVCzjQofdzJM5LjB75ojt6ZX2nHo+4v+tm/Rh5c=;
+        h=Date:From:To:Cc:Subject:References:In-Reply-To:From;
+        b=W4o94JOXAUnKLwJc/tNuyHQLARnSn8kOWiEcvVChC6S4G4NLx2rMBqhgtLTEKsBTl
+         WAb4DLAkVBuS7amfWobio/53vPBGrqko/9UZgsKBYqUSCUCg4iIla0NsjBhwPAjdKU
+         26QQXtMNJOK1IPnWfDpTAlSmnOvAQJ1DyHBn03rw=
+Date:   Thu, 10 Dec 2020 11:23:59 +0200
+From:   Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+To:     Martin Kepplinger <martin.kepplinger@puri.sm>
+Cc:     "rogerio.silva@nxp.com" <rogerio.silva@nxp.com>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        "slongerbeam@gmail.com" <slongerbeam@gmail.com>,
+        Fabio Estevam <festevam@gmail.com>,
+        "linux-arm-kernel@lists.infradead.org" 
+        <linux-arm-kernel@lists.infradead.org>,
+        linux-media@vger.kernel.org, NXP Linux Team <linux-imx@nxp.com>,
+        "kernel@puri.sm" <kernel@puri.sm>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>
+Subject: Re: question: CSI on imx8mq with (any) CSI2 camera / experience with
+ mx6s_capture?
+Message-ID: <X9HpL/qlFxmZi9Vt@pendragon.ideasonboard.com>
+References: <9e09ca8b-d1bc-eaa9-d296-c4ee98882c06@puri.sm>
 MIME-Version: 1.0
-In-Reply-To: <5c5cd205-5c7f-1450-1f84-7d0e573dc90f@linaro.org>
 Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
-X-CMAE-Envelope: MS4xfE75mDPpKDvYZGTYHjUsrbUMnU3HCi9ihX2zBf3VdbxRSrIh79qevhMsk1g/fFawTVm2ZRDw/RJo+pd7LRn5Ph+Ha5dzoL8g4Clzd7twS9d356xUF41p
- o4OTz15ERxPL39/fIM3HK38xkVyLd/gu+BsHx+bAanlpt7bwAKCCdelh7GGEhAREr1Gh80s2GPraS8t0Q+AGI921HJBCygrF8zql3Rp0nsKA/+JmiV0AmSYr
- W1mPqgeQvZo0TH8R5FN7Nr9zeVu2M1KT6Hbd9KQbK0A=
+Content-Disposition: inline
+In-Reply-To: <9e09ca8b-d1bc-eaa9-d296-c4ee98882c06@puri.sm>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10/12/2020 00:10, Stanimir Varbanov wrote:
-> Hello,
+Hi Martin,
+
+On Thu, Dec 10, 2020 at 09:17:48AM +0100, Martin Kepplinger wrote:
+> hi,
 > 
-> I have to implement HEIC image encoder (and later decoder) in Venus
-> driver and I wonder how to distinguish image vs video encoding using
-> HEVC and possibly AVC codecs.
+> TL;DR: did you use the NXP "mx6s_capture" csi bridge driver with other 
+> cameras?
+
+I've recently worked on camera support for i.MX8MM (whose camera IP
+cores are, if not identical, very similar to the i.MX8MQ's). The least I
+can say is that it was painful :-(
+
+I'm using an MT9M114 sensor, which can produce RAW8, RAW10 and YUV and
+has a CSI-2 interface. My first use case is to capture RAW10, which
+isn't supported by the mx6s_capture driver.
+
+> I try to use a CSI2 camera (hi846 I'm writing a driver for) on imx8mq: 
+> Using NXP's CSI bridge driver
+> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/mxc/capture/mx6s_capture.c?h=imx_5.4.0_8dxlphantom_er 
+> as well as the CSI driver itself:
+> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.0_8dxlphantom_er 
+> works fine when using the ov5640 camera with this driver:
+> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/mxc/capture/ov5640_mipi_v2.c?h=imx_5.4.0_8dxlphantom_er
 > 
-> I could imagine those two options:
+> (I realize there is a CSI bridge driver in staging, but that need more 
+> work to be actually used. Of course after this the goal is to fix and 
+> use it; and mainline a CSI phy driver too.)
+
+I have lots of patches for this driver, which I've developed on i.MX7D
+for a separate project. I'd like to mainline them, but this is blocked
+by one last issue that I haven't been able to solve yet. In a nutshell,
+the CSI writes two consecutive frames in each buffer, overflowing the
+allocated memory. The registers that control the buffer size seem to be
+programmed correctly as far as I can tell. I've reported this issue to
+NXP but haven't received any feedback yet.
+
+I've also added support for i.MX8MM to this driver, but haven't been
+able to capture RAW8, RAW10 or YUV successfully. YUV produces the "best
+images", but seems to drop 3 out of 4 consecutive pixels. The sensor
+driver has been tested successfully on i.MX6 so I don't think it's the
+most likely cause of issues, but I can't rule out bugs on that side
+either. The i.MX8 reference manuals describe the MIPI_CSI and CSI IP
+cores but doesn't tell much about how the two are connected, so I have
+lots of unanswered questions about the register fields that control the
+interface between those IP cores. I'm pretty sure there are issues in
+that area of the drivers, but I've tested all combinations I could think
+of, without luck.
+
+> Now I use said NXP's CSI drivers on mainline without problems with the 
+> ov5640. For the hi846 (as an example), I want to use a different 
+> pixelformat and CSI media bus format. Describing, say, 
+> MEDIA_BUS_FMT_SBGGR10_1X10 in the driver lets mx6s_capture find it; but 
+> as soon as I try to add a different pixelformat than V4L2_PIX_FMT_UYVY in:
+> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/mxc/capture/mx6s_capture.c?h=imx_5.4.0_8dxlphantom_er#n244
+> streaming won't start anymore: "not negotiated, -4" and the 
+> "mx6s_vidioc_enum_framesizes" ioctl is not called anymore. Why so?
+
+That will likely be the easy part of the problem. The NXP driver doesn't
+support RAW10 at all, so you will have to add that, and I don't think it
+will be easy.
+
+I'll push my development branch shortly if you're interested in trying
+the mainline driver.
+
+> I didn't find much when comparing strace from "gst-launch-1.0 v4l2src ! 
+> video/x-raw,width=1280,height=720 ! videoconvert ! xvimagesink" (which 
+> is how I test).
 > 
-> * introduce a new compressed format V4L2_PIX_FMT_HEVC_IMAGE and reuse
-> video encoder as of now, or
-
-This option seems to be the correct one. It is also in line with how JPEG
-is used.
-
-I wonder if it should be called V4L2_PIX_FMT_HEIC instead, but it's not
-entirely clear to me from the wikipedia page what that makes sense or not.
-
+> When I simply use V4L2_PIX_FMT_UYVY I *do* get interrupts (in mx6s) but 
+> only "FIELD0_INT" (and drawing at this point suggests that buffer 1 is 
+> not yet full and "distorted" in a wrong format, which could explain why 
+> DMA is never completed in order to create a full frame).
 > 
-> * make a separate video node which supports HEVC with profiles Main
-> Still Picture and Main 10 Still picture only. The problem here is that
-> AVC doesn't provide profiles for still pictures, and in this case the
-> driver cannot distinguish what the client wants video or image
-> encoding/decoding.
+> Now this is details, but the hi846 camera uses a 10bit CSI format and 
+> therefore I need to set PIXEL_BIT in cr1 too, but when I do that for 
+> example, I don't get "FIELD0_INT" anymore (only SFF_OR_INT and of course 
+> the "base address switching Change Err").
+> 
+> Do you have experience with using this driver with other cameras and can 
+> point me in a direction that might help me?
+> 
+> If you want to look at the work-in-progress driver:
+> https://source.puri.sm/martin.kepplinger/linux-next/-/blob/hi846/drivers/media/i2c/hi846.c
 
-That's too messy. A separate pixel format for still images works well.
-There is a huge difference between HEVC and HEIC since with HEIC each
-frame (like JPEG) is independently encoded/decoded, so the driver behaves
-differently. It makes perfect sense to use a separate pixel format for this.
-
+-- 
 Regards,
 
-	Hans
-
-> 
-> It is a bit more complicated but I'd like to receive comments / ideas at
-> what would be the best way.
-> 
-
+Laurent Pinchart
