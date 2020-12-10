@@ -2,28 +2,25 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1E8DB2D58C3
-	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 12:03:13 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 23FE32D58D5
+	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 12:03:31 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389241AbgLJK5d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        id S2389233AbgLJK5d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
         Thu, 10 Dec 2020 05:57:33 -0500
-Received: from mail.kernel.org ([198.145.29.99]:56398 "EHLO mail.kernel.org"
+Received: from mail.kernel.org ([198.145.29.99]:56388 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2389164AbgLJK5V (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        id S2389224AbgLJK5V (ORCPT <rfc822;linux-media@vger.kernel.org>);
         Thu, 10 Dec 2020 05:57:21 -0500
 From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
 To:     Linux Media Mailing List <linux-media@vger.kernel.org>
 Cc:     linuxarm@huawei.com, mauro.chehab@huawei.com,
         Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        Bingbu Cao <bingbu.cao@intel.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sakari Ailus <sakari.ailus@linux.intel.com>,
-        Tianshu Qiu <tian.shu.qiu@intel.com>,
-        Yong Zhi <yong.zhi@intel.com>, linux-kernel@vger.kernel.org
-Subject: [PATCH 09/13] media: docs: pixfmt: use section titles for bayer formats
-Date:   Thu, 10 Dec 2020 11:55:48 +0100
-Message-Id: <835582a357e5e7fa298ace9eb02984b7d0eba0b7.1607597287.git.mchehab+huawei@kernel.org>
+        linux-kernel@vger.kernel.org
+Subject: [PATCH 10/13] media: buffer.rst: fix a PDF output issue
+Date:   Thu, 10 Dec 2020 11:55:49 +0100
+Message-Id: <fbde561f4ee2157f882450c0b03254a73b113f42.1607597287.git.mchehab+huawei@kernel.org>
 X-Mailer: git-send-email 2.29.2
 In-Reply-To: <cover.1607597287.git.mchehab+huawei@kernel.org>
 References: <cover.1607597287.git.mchehab+huawei@kernel.org>
@@ -34,75 +31,54 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The bayer formats have a subtitle, specifying how many bits
-they use. Add a title markup to those, as otherwise they
-look weird, specially at the PDF output.
+Sphinx/LaTeX doesn't work well with literal blocks.
+Due to that, V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF ends
+being writing outside the table (and even outside the page).
+
+We need to not only change the table size and font size, but
+also to change the message, in order to avoid this bug.
+
+So, improve the text a little bit, while ensuring that the
+literal will be written at the beginning of the second line.
 
 Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- Documentation/userspace-api/media/v4l/pixfmt-srggb10-ipu3.rst | 2 ++
- Documentation/userspace-api/media/v4l/pixfmt-srggb14.rst      | 2 ++
- Documentation/userspace-api/media/v4l/pixfmt-srggb16.rst      | 2 ++
- Documentation/userspace-api/media/v4l/pixfmt-srggb8.rst       | 3 ++-
- 4 files changed, 8 insertions(+), 1 deletion(-)
+ Documentation/userspace-api/media/v4l/buffer.rst | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
 
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-srggb10-ipu3.rst b/Documentation/userspace-api/media/v4l/pixfmt-srggb10-ipu3.rst
-index 15f1900cd914..5d4d260db7b5 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-srggb10-ipu3.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-srggb10-ipu3.rst
-@@ -9,7 +9,9 @@
- V4L2_PIX_FMT_IPU3_SBGGR10 ('ip3b'), V4L2_PIX_FMT_IPU3_SGBRG10 ('ip3g'), V4L2_PIX_FMT_IPU3_SGRBG10 ('ip3G'), V4L2_PIX_FMT_IPU3_SRGGB10 ('ip3r')
- **********************************************************************************************************************************************
+diff --git a/Documentation/userspace-api/media/v4l/buffer.rst b/Documentation/userspace-api/media/v4l/buffer.rst
+index 1b0fdc160533..4194ebac2d6a 100644
+--- a/Documentation/userspace-api/media/v4l/buffer.rst
++++ b/Documentation/userspace-api/media/v4l/buffer.rst
+@@ -452,16 +452,16 @@ Buffer Flags
  
-+====================
- 10-bit Bayer formats
-+====================
+ .. raw:: latex
  
- Description
- ===========
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-srggb14.rst b/Documentation/userspace-api/media/v4l/pixfmt-srggb14.rst
-index 7e5d45f30cab..4f5120a6c678 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-srggb14.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-srggb14.rst
-@@ -11,7 +11,9 @@ V4L2_PIX_FMT_SRGGB14 ('RG14'), V4L2_PIX_FMT_SGRBG14 ('GR14'), V4L2_PIX_FMT_SGBRG
- ***************************************************************************************************************************
+-    \small
++    \footnotesize
  
+-.. tabularcolumns:: |p{7.0cm}|p{2.1cm}|p{8.4cm}|
++.. tabularcolumns:: |p{6.5cm}|p{1.8cm}|p{9.0cm}|
  
-+========================================
- 14-bit Bayer formats expanded to 16 bits
-+========================================
+ .. cssclass:: longtable
  
+ .. flat-table::
+     :header-rows:  0
+     :stub-columns: 0
+-    :widths:       3 1 4
++    :widths:       65 18 70
  
- Description
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-srggb16.rst b/Documentation/userspace-api/media/v4l/pixfmt-srggb16.rst
-index 93a210e22592..2f2f1ef430d9 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-srggb16.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-srggb16.rst
-@@ -11,7 +11,9 @@ V4L2_PIX_FMT_SRGGB16 ('RG16'), V4L2_PIX_FMT_SGRBG16 ('GR16'), V4L2_PIX_FMT_SGBRG
- ***************************************************************************************************************************
+     * .. _`V4L2-BUF-FLAG-MAPPED`:
  
+@@ -585,7 +585,7 @@ Buffer Flags
  
-+====================
- 16-bit Bayer formats
-+====================
- 
- 
- Description
-diff --git a/Documentation/userspace-api/media/v4l/pixfmt-srggb8.rst b/Documentation/userspace-api/media/v4l/pixfmt-srggb8.rst
-index 81e72f115994..02061c5a9778 100644
---- a/Documentation/userspace-api/media/v4l/pixfmt-srggb8.rst
-+++ b/Documentation/userspace-api/media/v4l/pixfmt-srggb8.rst
-@@ -10,8 +10,9 @@ V4L2_PIX_FMT_SRGGB8 ('RGGB'), V4L2_PIX_FMT_SGRBG8 ('GRBG'), V4L2_PIX_FMT_SGBRG8
- ***************************************************************************************************************************
- 
- 
-+===================
- 8-bit Bayer formats
--
-+===================
- 
- Description
- ===========
+       - ``V4L2_BUF_FLAG_M2M_HOLD_CAPTURE_BUF``
+       - 0x00000200
+-      - Only valid if ``V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF`` is
++      - Only valid if :c:type:`struct v4l2_requestbuffers` flag ``V4L2_BUF_CAP_SUPPORTS_M2M_HOLD_CAPTURE_BUF`` is
+ 	set. It is typically used with stateless decoders where multiple
+ 	output buffers each decode to a slice of the decoded frame.
+ 	Applications can set this flag when queueing the output buffer
 -- 
 2.29.2
 
