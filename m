@@ -2,184 +2,169 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 8C7E72D618D
-	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 17:21:09 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 284D22D61DC
+	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 17:31:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392309AbgLJQHY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Dec 2020 11:07:24 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:47536 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392300AbgLJQHV (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Dec 2020 11:07:21 -0500
-Received: from mail-pf1-x442.google.com (mail-pf1-x442.google.com [IPv6:2607:f8b0:4864:20::442])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 43807C0613CF;
-        Thu, 10 Dec 2020 08:06:41 -0800 (PST)
-Received: by mail-pf1-x442.google.com with SMTP id t7so4505596pfh.7;
-        Thu, 10 Dec 2020 08:06:41 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=sender:date:from:to:cc:subject:message-id:references:mime-version
-         :content-disposition:in-reply-to;
-        bh=+JSgMk2msbA8mHhf4SGmCfSpNmhQM7k91wlY8aggnvo=;
-        b=j6AmNaHh6jI8xHLs6St/LuzF1qubwmIAXp//PcGOpi+4I3NnuTBnRQ8QTmUXKM+Lbt
-         aliY45/zIeMV9SfcWL9uIzNvoDhjVZ9VDdH+AfABnE7roj06cshHS6IZdH3Me3Ri71iC
-         EccUS9OY+FNNq8d2ooxOz8IZxpWH6vKzKgNOpWhw1bvxlEZnjwCU7SuweO6xxXgeK4tV
-         f9kTE2dc+8//bZdrWkU3P/HO0vQC2q9AcPoqCni+Vk4GJM2GUu8tBxY35Oej0xtd65He
-         jdKfXaAoHGMEezYcuxlTgwcjdG0E/ZmQrtzD+jPotuxodIDMYp5rlVMjc8LMdbn6Yqp0
-         rLEw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:sender:date:from:to:cc:subject:message-id
-         :references:mime-version:content-disposition:in-reply-to;
-        bh=+JSgMk2msbA8mHhf4SGmCfSpNmhQM7k91wlY8aggnvo=;
-        b=hzXY8JuSMqW18L3YDj8XOyTA/hNR0iroLnV+egqbiGPKMGfRMVKOchyawabZKGEHUj
-         iQHunqQ9N69JZJJ0eVHGCn8Pm8L2WgRroOB4uEHY8zBhY0hdcC3Io7iY5f7cvkbR8Z+o
-         PUqdfDv4pW5T4T3KQ3x5cD5chtPyiBjOG+oJbxYPXTVMv0Hs1OQoG6VRY4IjGSFKucc7
-         s80wuaGeO+zMAZtHPyNZy3nmK8yT11iOGFGckpRER0OTrs3LSALyj4/R0zb10R/UEEJZ
-         nMcpnyrtwf502hWUn4/2mKZEDMvJXsFoC4TdJXnUB5pTKzmoCrqT533qlnzscjscdQuB
-         Wfpw==
-X-Gm-Message-State: AOAM531uH0TrB7qJ1osYFQ70BmRmB1JRvx7TAz6KW2vZkB8s3MHyfXOP
-        YMwj8sYmWUeA5u1fa9m5Vws=
-X-Google-Smtp-Source: ABdhPJyacNBT7X4OevsSO0bCcLV9+8O4gwMJexjecYnLGPFoA/pI4ihWL3JWMpxMwAHQK6Fyy4lDmA==
-X-Received: by 2002:a17:90a:4402:: with SMTP id s2mr8387612pjg.37.1607616400810;
-        Thu, 10 Dec 2020 08:06:40 -0800 (PST)
-Received: from google.com ([2620:15c:211:201:7220:84ff:fe09:5e58])
-        by smtp.gmail.com with ESMTPSA id y2sm6340909pfe.10.2020.12.10.08.06.37
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 08:06:39 -0800 (PST)
-Sender: Minchan Kim <minchan.kim@gmail.com>
-Date:   Thu, 10 Dec 2020 08:06:36 -0800
-From:   Minchan Kim <minchan@kernel.org>
-To:     John Stultz <john.stultz@linaro.org>
-Cc:     Hyesoo Yu <hyesoo.yu@samsung.com>,
-        Andrew Morton <akpm@linux-foundation.org>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-mm <linux-mm@kvack.org>,
-        Matthew Wilcox <willy@infradead.org>, david@redhat.com,
-        iamjoonsoo.kim@lge.com, vbabka@suse.cz,
-        Suren Baghdasaryan <surenb@google.com>,
-        KyongHo Cho <pullip.cho@samsung.com>,
-        John Dias <joaodias@google.com>,
-        Hridya Valsaraju <hridya@google.com>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        Brian Starkey <Brian.Starkey@arm.com>,
-        linux-media <linux-media@vger.kernel.org>,
-        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
-        <devicetree@vger.kernel.org>, Rob Herring <robh@kernel.org>,
-        Christian Koenig <christian.koenig@amd.com>,
-        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
-        <linaro-mm-sig@lists.linaro.org>,
-        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
-Subject: Re: [PATCH 4/4] dma-heap: Devicetree binding for chunk heap
-Message-ID: <X9JHjPTdxv6Z7lCW@google.com>
-References: <20201117181935.3613581-1-minchan@kernel.org>
- <20201117181935.3613581-5-minchan@kernel.org>
- <CGME20201118030110epcas2p1105a09711ea2c123f19f413b32372764@epcas2p1.samsung.com>
- <CALAqxLWqDLHpOHNEayvhDjJeXjEk_uneH2=d9fy8M87EjKfReA@mail.gmail.com>
- <20201119011431.GA136599@KEI>
- <CALAqxLV=r-V6u8hq2fTmxq855nT7QPkkjyAYdPeZRkYPBi_CKg@mail.gmail.com>
- <X9Fjd+eSStUJskOV@google.com>
- <CALAqxLWthd8bEDRMWmuOf8dOCW8=cFao9HBawKGuRhQZkdgXXw@mail.gmail.com>
+        id S2392288AbgLJQah (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Dec 2020 11:30:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:54358 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2392278AbgLJQaY (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Dec 2020 11:30:24 -0500
+Date:   Thu, 10 Dec 2020 17:29:38 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607617783;
+        bh=wKoP18O5gMPLwquu/buxQ4EvFVAv2YOC8QSG6GaC+jQ=;
+        h=From:To:Cc:Subject:In-Reply-To:References:From;
+        b=Oh2ptG4ZVLCMhVKtFV4GX1Gr3/bKm6NIJvSboVEyeZe8uQ6hHt+N5rAoM6rTaduxl
+         HBY/f7WQvd8dGxp7rx23DFyZvq88hR0kzzYMIih8BJkGprPE1CD86gtYhYH89Fx1DJ
+         IMagpqVjLXGhdAvmefQ+Mt5yMPxbzdltgskX9uuEt4moX1l7Q4dJ6QpI+ZzCfGJoaz
+         UlHTa7aAni8ENe685aHLxDw1KIk+XFDpx/zx5jguM7xY8yo3ZZHPd/zmLN4z2+C7Z/
+         dZcf2NkEnqo8uLifUlVUC7moDPP4zQYh5J9ys9/4VC7Owhv/8l6YSuF/KxfzKku3ZU
+         /+zpsr0pxkbYg==
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     "Jonathan Corbet" <corbet@lwn.net>,
+        Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Masahiro Yamada <masahiroy@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH RFC] docs: experimental: build PDF with rst2pdf
+Message-ID: <20201210172938.3b3086b6@coco.lan>
+In-Reply-To: <a29b97f95cae490cb83da28410fade13d880f365.1607616056.git.mchehab+huawei@kernel.org>
+References: <20201210074845.4eb67f22@lwn.net>
+        <a29b97f95cae490cb83da28410fade13d880f365.1607616056.git.mchehab+huawei@kernel.org>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <CALAqxLWthd8bEDRMWmuOf8dOCW8=cFao9HBawKGuRhQZkdgXXw@mail.gmail.com>
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 12:15:15AM -0800, John Stultz wrote:
-> On Wed, Dec 9, 2020 at 3:53 PM Minchan Kim <minchan@kernel.org> wrote:
-> > On Wed, Nov 18, 2020 at 07:19:07PM -0800, John Stultz wrote:
-> > > The CMA heap currently only registers the default CMA heap, as we
-> > > didn't want to expose all CMA regions and there's otherwise no way to
-> > > pick and choose.
-> >
-> > Yub.
-> >
-> > dma-buf really need a way to make exclusive CMA area. Otherwise, default
-> > CMA would be shared among drivers and introduce fragmentation easily
-> > since we couldn't control other drivers. In such aspect, I don't think
-> > current cma-heap works if userspace needs big memory chunk.
-> 
-> Yes, the default CMA region is not always optimal.
-> 
-> That's why I was hopeful for Kunihiko Hayashi's patch to allow for
-> exposing specific cma regions:
->   https://lore.kernel.org/lkml/1594948208-4739-1-git-send-email-hayashi.kunihiko@socionext.com/
-> 
-> I think it would be a good solution, but all we need is *some* driver
-> which can be considered the primary user/owner of the cma region which
-> would then explicitly export it via the dmabuf heaps.
-> 
-> > Here, the problem is there is no in-kernel user to bind the specific
-> > CMA area because the owner will be random in userspace via dma-buf
-> > interface.
-> 
-> Well, while I agree that conceptually the dmabuf heaps allow for
-> allocations for multi-device pipelines, and thus are not tied to
-> specific devices. I do think that the memory types exposed are likely
-> to have specific devices/drivers in the pipeline that it matters most
-> to. So I don't see a big issue with the in-kernel driver registering a
-> specific CMA region as a dmabuf heap.
+Em Thu, 10 Dec 2020 17:01:19 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> escreveu:
 
-Then, I am worry about that we spread out dma_heap_add_cma to too many
-drivers since kernel doesn't how userspace will use it.
-For example, system 1 could have device A-B-C pipeline so they added
-it A driver. After that, system 2 could have device B-C-D pipeline
-so they add dma_heap_add_cma into B device.
+> Add an experimental PDF builder using rst2pdf
+> 
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-> 
-> > > > Is there a reason to use dma-heap framework to add cma-area for specific device ?
-> > > >
-> > > > Even if some in-tree users register dma-heap with cma-area, the buffers could be allocated in user-land and these could be shared among other devices.
-> > > > For exclusive access, I guess, the device don't need to register dma-heap for cma area.
-> > > >
-> > >
-> > > It's not really about exclusive access. More just that if you want to
-> > > bind a memory reservation/region (cma or otherwise), at least for DTS,
-> > > it needs to bind with some device in DT.
-> > >
-> > > Then the device driver can register that region with a heap driver.
-> > > This avoids adding new Linux-specific software bindings to DT. It
-> > > becomes a driver implementation detail instead. The primary user of
-> > > the heap type would probably be a practical pick (ie the display or
-> > > isp driver).
-> >
-> > If it's the only solution, we could create some dummy driver which has
-> > only module_init and bind it from there but I don't think it's a good
-> > idea.
-> 
-> Yea, an un-upstreamable dummy driver is maybe what it devolves to in
-> the worst case. But I suspect it would be cleaner for a display or ISP
-> driver that benefits most from the heap type to add the reserved
-> memory reference to their DT node, and on init for them to register
-> the region with the dmabuf heap code.
+I opened an issue at:
 
-As I mentioned above, it could be a display at this moment but it could
-be different driver next time. If I miss your point, let me know.
+https://github.com/rst2pdf/rst2pdf/issues/958
 
-Thanks for the review, John.
+Let's hope someone at rst2pdf could help fixing this ;-)
 
+Regards,
+Mauro
+
+
+> ---
+>  Documentation/Makefile                     |  5 +++++
+>  Documentation/conf.py                      | 21 +++++++++++++++------
+>  Documentation/userspace-api/media/Makefile |  1 +
+>  Makefile                                   |  4 ++--
+>  4 files changed, 23 insertions(+), 8 deletions(-)
 > 
-> 
-> > > The other potential solution Rob has suggested is that we create some
-> > > tag for the memory reservation (ie: like we do with cma: "reusable"),
-> > > which can be used to register the region to a heap. But this has the
-> > > problem that each tag has to be well defined and map to a known heap.
-> >
-> > Do you think that's the only solution to make progress for this feature?
-> > Then, could you elaborate it a bit more or any other ideas from dma-buf
-> > folks?
-> 
-> I'm skeptical of that DT tag approach working out, as we'd need a new
-> DT binding for the new tag name, and we'd have to do so for each new
-> heap type that needs this (so non-default cma, your chunk heap,
-> whatever other similar heap types that use reserved regions folks come
-> up with).  Having *some* driver take ownership for the reserved region
-> and register it with the appropriate heap type seems much
-> cleaner/flexible and avoids mucking with the DT ABI.
-> 
-> thanks
-> -john
+> diff --git a/Documentation/Makefile b/Documentation/Makefile
+> index 61a7310b49e0..c3c8fb10f94e 100644
+> --- a/Documentation/Makefile
+> +++ b/Documentation/Makefile
+> @@ -115,6 +115,10 @@ pdfdocs: latexdocs
+>  
+>  endif # HAVE_PDFLATEX
+>  
+> +rst2pdf:
+> +	@$(srctree)/scripts/sphinx-pre-install --version-check
+> +	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),pdf,$(var)))
+> +
+>  epubdocs:
+>  	@$(srctree)/scripts/sphinx-pre-install --version-check
+>  	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
+> @@ -140,6 +144,7 @@ dochelp:
+>  	@echo  '  htmldocs        - HTML'
+>  	@echo  '  latexdocs       - LaTeX'
+>  	@echo  '  pdfdocs         - PDF'
+> +	@echo  '  rst2pdf         - PDF, using experimental rst2pdf support'
+>  	@echo  '  epubdocs        - EPUB'
+>  	@echo  '  xmldocs         - XML'
+>  	@echo  '  linkcheckdocs   - check for broken external links'
+> diff --git a/Documentation/conf.py b/Documentation/conf.py
+> index 66e121df59cd..6f2788aac81e 100644
+> --- a/Documentation/conf.py
+> +++ b/Documentation/conf.py
+> @@ -123,6 +123,12 @@ if (major == 1 and minor > 3) or (major > 1):
+>  else:
+>      extensions.append("sphinx.ext.pngmath")
+>  
+> +# Enable experimental rst2pdf, if available
+> +try:
+> +    extensions.append("rst2pdf.pdfbuilder")
+> +except:
+> +    sys.stderr.write('rst2pdf extension not available.\n')
+> +
+>  # Add any paths that contain templates here, relative to this directory.
+>  templates_path = ['_templates']
+>  
+> @@ -614,12 +620,15 @@ epub_exclude_files = ['search.html']
+>  #
+>  # See the Sphinx chapter of https://ralsina.me/static/manual.pdf
+>  #
+> -# FIXME: Do not add the index file here; the result will be too big. Adding
+> -# multiple PDF files here actually tries to get the cross-referencing right
+> -# *between* PDF files.
+> -pdf_documents = [
+> -    ('kernel-documentation', u'Kernel', u'Kernel', u'J. Random Bozo'),
+> -]
+> +
+> +# Add all LaTeX files to PDF documents as well
+> +pdf_documents = []
+> +for l in latex_documents:
+> +    doc = l[0]
+> +    fn = l[1].replace(".tex", "")
+> +    name = l[2]
+> +    authors = l[3]
+> +    pdf_documents.append((doc, fn, name, authors))
+>  
+>  # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
+>  # the Docs). In a normal build, these are supplied from the Makefile via command
+> diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
+> index 81a4a1a53bce..8c6b3ac4ecb0 100644
+> --- a/Documentation/userspace-api/media/Makefile
+> +++ b/Documentation/userspace-api/media/Makefile
+> @@ -59,6 +59,7 @@ all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
+>  html: all
+>  epub: all
+>  xml: all
+> +pdf: all
+>  latex: $(IMGPDF) all
+>  linkcheck:
+>  
+> diff --git a/Makefile b/Makefile
+> index 43ecedeb3f02..db4043578eec 100644
+> --- a/Makefile
+> +++ b/Makefile
+> @@ -264,7 +264,7 @@ no-dot-config-targets := $(clean-targets) \
+>  			 cscope gtags TAGS tags help% %docs check% coccicheck \
+>  			 $(version_h) headers headers_% archheaders archscripts \
+>  			 %asm-generic kernelversion %src-pkg dt_binding_check \
+> -			 outputmakefile
+> +			 outputmakefile rst2pdf
+>  no-sync-config-targets := $(no-dot-config-targets) %install kernelrelease
+>  single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.s %.symtypes %/
+>  
+> @@ -1654,7 +1654,7 @@ $(help-board-dirs): help-%:
+>  
+>  # Documentation targets
+>  # ---------------------------------------------------------------------------
+> -DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
+> +DOC_TARGETS := xmldocs latexdocs pdfdocs rst2pdf htmldocs epubdocs cleandocs \
+>  	       linkcheckdocs dochelp refcheckdocs
+>  PHONY += $(DOC_TARGETS)
+>  $(DOC_TARGETS):
+
+
+
+Thanks,
+Mauro
