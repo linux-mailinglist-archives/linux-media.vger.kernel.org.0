@@ -2,134 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0D19F2D5CEA
-	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 15:07:58 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 761762D5D2E
+	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 15:10:18 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389612AbgLJNxV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Dec 2020 08:53:21 -0500
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:38417 "EHLO
-        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389342AbgLJNsx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Dec 2020 08:48:53 -0500
-Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.west.internal (Postfix) with ESMTP id E9AE6ECB;
-        Thu, 10 Dec 2020 08:47:09 -0500 (EST)
-Received: from mailfrontend2 ([10.202.2.163])
-  by compute6.internal (MEProxy); Thu, 10 Dec 2020 08:47:11 -0500
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        from:to:cc:subject:date:message-id:in-reply-to:references
-        :mime-version:content-transfer-encoding; s=fm1; bh=33oSiXdSZylYg
-        pfeTrEZ/L2Seb+RHHNfFg6qHXNR8Pk=; b=swk7Bi/P4wIR3VlSMdEv/9KS3rr4V
-        aq0v9ZpPbYSMmDq5AxKktSYa3PAGoqyeWzvu/h5dXmPeJ2lKnETbuSyVKolqW520
-        Qyfdiy8ox2lsaxuryW0yufCB+RFIg3pW+ElNlSHulWIFxqAEMbXKV+ZlEzZzZ08X
-        PcEKe7pwd6ZNL6423olam3aiFe6mEELvehMDkJqdLo7mSWlQUkf41EGEKdeI+Qyh
-        7g4WH9YhDyHN95cYMxRtILGAQKDXPQ4fQ3jXNtW5r/juPCfaV12HcnYOkBIbhKQm
-        vvCx7cQNe+9BiuKi0DujoMnX3G6psNuYvDNz4c0rIeVAdNS3tAJFMUtaA==
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:date:from
-        :in-reply-to:message-id:mime-version:references:subject:to
-        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
-        fm1; bh=33oSiXdSZylYgpfeTrEZ/L2Seb+RHHNfFg6qHXNR8Pk=; b=XHheXdQB
-        6j/CQnuMdhrFYhCcbGlpXRn3IKOzI+vUPTHSstdi5oIx2Pw71rWt5FSKUby5FinS
-        xM/s57nXtFEyGeCVuj9jWzGyxVw8HO2J82KjwVLknKiD9askNNHxxFr/w6sbgaI+
-        1vCWLkQ8hYnwIE6RPJnE0wi/PEvNeutWWfTUynZ/5R/n5NcmW3pe3bXrzc+bWhvB
-        FfZ3K7N6p0W9FXnDZp9arWkjrHXOylaq5N+3NrDTsA4ZqOmB/MOoem+eWf7+fARD
-        UJ0+x4h1Pr50gqL+wwFjYXeW0XzJ+8RiOJld3vn8wQMUtKElnuipnCN+StIZ26p9
-        bom5bzNzItk52w==
-X-ME-Sender: <xms:3SbSX02saM-OZ7rau-hiS6q9JlleN-oxSilg-8VKD5SY3C0Cq2AtYw>
-    <xme:3SbSX5KVRJCbr1IezwmxG1rjmOVE-iAdmII-zuzSjYwE2YAY_SMS1qGJmDJER0DAn
-    ljAZD4cisQ6lfHt56s>
-X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudektddgheeiucetufdoteggodetrfdotf
-    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
-    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
-    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
-    htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
-    hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgepfeenuc
-    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
-X-ME-Proxy: <xmx:3SbSXx0n15eoh-5_mO32jnYACWB-qNk-bLuBDuo-WTt8yjC6UIys-A>
-    <xmx:3SbSX1mYaaI99bClyRWzqckUvnZotM123AF54MfTpSa4KrUZ2KtFNQ>
-    <xmx:3SbSX0jHp0Mfa-eGAzVRxf5qZNy8QQ0yosmjf-ZFHu6STKM3OLHKeA>
-    <xmx:3SbSX8euGKauDykmwaWjhrex1jcbF1qMQP9DdaPaLDj0XENvihZ65cJGjbA>
-Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id 3E3CE108005B;
-        Thu, 10 Dec 2020 08:47:09 -0500 (EST)
-From:   Maxime Ripard <maxime@cerno.tech>
-To:     Eric Anholt <eric@anholt.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Maxime Ripard <maxime@cerno.tech>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>
-Cc:     Jason Cooper <jason@lakedaemon.net>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org,
-        Marc Zyngier <maz@kernel.org>, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
+        id S2390014AbgLJOIP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Dec 2020 09:08:15 -0500
+Received: from mga01.intel.com ([192.55.52.88]:29475 "EHLO mga01.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1733261AbgLJOIP (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Dec 2020 09:08:15 -0500
+IronPort-SDR: Aklkd2ouG1w1YKPIky2mX0d4GaeXzcPfZ/p5Z6fenn0Zowc8u8X6QfJRBwvH2jKQmp6I/r08xe
+ DD4fPKCfWGBw==
+X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="192578543"
+X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; 
+   d="scan'208";a="192578543"
+Received: from orsmga002.jf.intel.com ([10.7.209.21])
+  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2020 06:07:07 -0800
+IronPort-SDR: EoDdnLpI+SqnpnRvYnVV7QWUxkweGYOsEBD78Q4+q9L3qi7LLueBvmqYxBZEz3AzFl+ps4cJza
+ lVT8w83o2SFA==
+X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; 
+   d="scan'208";a="348822288"
+Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
+  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2020 06:07:04 -0800
+Received: from andy by smile with local (Exim 4.94)
+        (envelope-from <andy.shevchenko@gmail.com>)
+        id 1knMc1-00DR1Y-Ma; Thu, 10 Dec 2020 16:08:05 +0200
+Date:   Thu, 10 Dec 2020 16:08:05 +0200
+From:   Andy Shevchenko <andy.shevchenko@gmail.com>
+To:     Sakari Ailus <sakari.ailus@linux.intel.com>
+Cc:     Petr Mladek <pmladek@suse.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-rpi-kernel@lists.infradead.org,
-        dri-devel@lists.freedesktop.org
-Subject: [PATCH 14/15] ARM: dts: bcm2711: Add the BSC interrupt controller
-Date:   Thu, 10 Dec 2020 14:46:47 +0100
-Message-Id: <20201210134648.272857-15-maxime@cerno.tech>
-X-Mailer: git-send-email 2.28.0
-In-Reply-To: <20201210134648.272857-1-maxime@cerno.tech>
-References: <20201210134648.272857-1-maxime@cerno.tech>
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
+        Steven Rostedt <rostedt@goodmis.org>,
+        Joe Perches <joe@perches.com>,
+        Jani Nikula <jani.nikula@linux.intel.com>,
+        Rasmus Villemoes <linux@rasmusvillemoes.dk>
+Subject: Re: [PATCH v5 1/1] lib/vsprintf: Add support for printing V4L2 and
+ DRM fourccs
+Message-ID: <20201210140805.GI4077@smile.fi.intel.com>
+References: <20201113105441.1427-1-sakari.ailus@linux.intel.com>
+ <X9Hdg3lJm+TZAQGX@alley>
+ <CAHp75VcY_b7uaGWoEa1Y6YDk0MmmzC4hV2yx8zVT7J-fD67Hyg@mail.gmail.com>
+ <20201210135526.GH25763@paasikivi.fi.intel.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201210135526.GH25763@paasikivi.fi.intel.com>
+Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The BSC controllers used for the HDMI DDC have an interrupt controller
-shared between both instances. Let's add it to avoid polling.
+On Thu, Dec 10, 2020 at 03:55:27PM +0200, Sakari Ailus wrote:
+> On Thu, Dec 10, 2020 at 03:05:02PM +0200, Andy Shevchenko wrote:
+> > On Thu, Dec 10, 2020 at 2:16 PM Petr Mladek <pmladek@suse.com> wrote:
+> > > On Fri 2020-11-13 12:54:41, Sakari Ailus wrote:
+> > > > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
+> > > > pixel formats denoted by fourccs. The fourcc encoding is the same for both
+> > > > so the same implementation can be used.
+> > > >
+> > > > Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
+> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+> > >
+> > > Andy, Rasmus,
+> > >
+> > > the last version looks fine to me. I am going to push it.
+> > > Please, speak up if you are against it.
+> > 
+> > My concerns are:
+> > - not so standard format of representation (why not to use
+> > string_escape_mem() helper?) or is it?
+> 
+> The format string may contain spaces that are not meant to be printed.
+> Other unprintable chacaters should not be present (at least not in V4L2
+> pixelformats). The hexadecimal representation is there to convey the
+> numerical value and that originally came from DRM, not V4L2.
 
-Signed-off-by: Maxime Ripard <maxime@cerno.tech>
----
- arch/arm/boot/dts/bcm2711.dtsi | 12 ++++++++++++
- 1 file changed, 12 insertions(+)
+Yes, but I mean that we usually anticipate the escaped characters in a form of
+'\xNN' (hex) or '\NNN' (octal). The format '(NN)' is quite unusual to me.
 
-diff --git a/arch/arm/boot/dts/bcm2711.dtsi b/arch/arm/boot/dts/bcm2711.dtsi
-index 4847dd305317..8bb46ae76a92 100644
---- a/arch/arm/boot/dts/bcm2711.dtsi
-+++ b/arch/arm/boot/dts/bcm2711.dtsi
-@@ -308,6 +308,14 @@ dvp: clock@7ef00000 {
- 			#reset-cells = <1>;
- 		};
- 
-+		bsc_intr: interrupt-controller@7ef00040 {
-+			compatible = "brcm,bcm2711-l2-intc", "brcm,l2-intc";
-+			reg = <0x7ef00040 0x30>;
-+			interrupts = <GIC_SPI 117 IRQ_TYPE_LEVEL_HIGH>;
-+			interrupt-controller;
-+			#interrupt-cells = <1>;
-+		};
-+
- 		hdmi0: hdmi@7ef00700 {
- 			compatible = "brcm,bcm2711-hdmi0";
- 			reg = <0x7ef00700 0x300>,
-@@ -341,6 +349,8 @@ ddc0: i2c@7ef04500 {
- 			reg = <0x7ef04500 0x100>, <0x7ef00b00 0x300>;
- 			reg-names = "bsc", "auto-i2c";
- 			clock-frequency = <97500>;
-+			interrupt-parent = <&bsc_intr>;
-+			interrupts = <0>;
- 			status = "disabled";
- 		};
- 
-@@ -377,6 +387,8 @@ ddc1: i2c@7ef09500 {
- 			reg = <0x7ef09500 0x100>, <0x7ef05b00 0x300>;
- 			reg-names = "bsc", "auto-i2c";
- 			clock-frequency = <97500>;
-+			interrupt-parent = <&bsc_intr>;
-+			interrupts = <1>;
- 			status = "disabled";
- 		};
- 	};
+> > - no compatibility with generic 4cc
+> >   (I would rather have an additional specifier here for v4l2 cases.
+> 
+> What do you mean by "generic 4cc"? There are two users of 4cc codes in the
+> kernel that I know of: V4L2 and DRM. Something that does not refer to
+> in-memory pixel formats?
+
+Of course. Everything else. 4cc is a generic term to describe something which
+is of 4 characters long [1]. It's not limited by media file formats. And
+moreover some (chip) vendors are using it as well (Synopsys).
+Microsoft uses 4cc in CSRT ACPI table for vendor field and so on...
+
+[1]: https://en.wikipedia.org/wiki/FourCC
+
 -- 
-2.28.0
+With Best Regards,
+Andy Shevchenko
+
 
