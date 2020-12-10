@@ -2,107 +2,74 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 761762D5D2E
-	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 15:10:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 432772D5EE2
+	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 16:03:13 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2390014AbgLJOIP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Dec 2020 09:08:15 -0500
-Received: from mga01.intel.com ([192.55.52.88]:29475 "EHLO mga01.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1733261AbgLJOIP (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Dec 2020 09:08:15 -0500
-IronPort-SDR: Aklkd2ouG1w1YKPIky2mX0d4GaeXzcPfZ/p5Z6fenn0Zowc8u8X6QfJRBwvH2jKQmp6I/r08xe
- DD4fPKCfWGBw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9830"; a="192578543"
-X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; 
-   d="scan'208";a="192578543"
-Received: from orsmga002.jf.intel.com ([10.7.209.21])
-  by fmsmga101.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2020 06:07:07 -0800
-IronPort-SDR: EoDdnLpI+SqnpnRvYnVV7QWUxkweGYOsEBD78Q4+q9L3qi7LLueBvmqYxBZEz3AzFl+ps4cJza
- lVT8w83o2SFA==
-X-IronPort-AV: E=Sophos;i="5.78,408,1599548400"; 
-   d="scan'208";a="348822288"
-Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga002-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 10 Dec 2020 06:07:04 -0800
-Received: from andy by smile with local (Exim 4.94)
-        (envelope-from <andy.shevchenko@gmail.com>)
-        id 1knMc1-00DR1Y-Ma; Thu, 10 Dec 2020 16:08:05 +0200
-Date:   Thu, 10 Dec 2020 16:08:05 +0200
-From:   Andy Shevchenko <andy.shevchenko@gmail.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     Petr Mladek <pmladek@suse.com>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dri-devel <dri-devel@lists.freedesktop.org>,
-        Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joe Perches <joe@perches.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH v5 1/1] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <20201210140805.GI4077@smile.fi.intel.com>
-References: <20201113105441.1427-1-sakari.ailus@linux.intel.com>
- <X9Hdg3lJm+TZAQGX@alley>
- <CAHp75VcY_b7uaGWoEa1Y6YDk0MmmzC4hV2yx8zVT7J-fD67Hyg@mail.gmail.com>
- <20201210135526.GH25763@paasikivi.fi.intel.com>
+        id S1729979AbgLJPCg (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Dec 2020 10:02:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35504 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389357AbgLJOuI (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Dec 2020 09:50:08 -0500
+Received: from ms.lwn.net (ms.lwn.net [IPv6:2600:3c01:e000:3a1::42])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 400EFC061793
+        for <linux-media@vger.kernel.org>; Thu, 10 Dec 2020 06:49:28 -0800 (PST)
+Received: from lwn.net (localhost [127.0.0.1])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
+        (No client certificate requested)
+        by ms.lwn.net (Postfix) with ESMTPSA id 1CD882DC;
+        Thu, 10 Dec 2020 14:48:46 +0000 (UTC)
+DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net 1CD882DC
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
+        t=1607611726; bh=sC0Gf4Xe3WsWr5Sn8762hoEqMXZBZPx8IRseLLdaRe4=;
+        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
+        b=eGD8bPi3IZvW78p9sLQ/CMQfPnevkvjLq7lYzPj+vyFMORZvDyyHZ9s36nIct9qQ2
+         B2N1zDNil8y/Ubw4Yx0P1l3Ks7osVAqYoERF60MSzPgUcyZ0HAcnjrHiu9dBixVJXP
+         KrNj40SDABGRMk0ITi1sbQHz4LdjowhcQmpWQ8M5a6ectgriy9/LvWiUwwpgdnecSV
+         ncIz50MhXMzHALLSJFULC/AQTf32tv1hfsqp45HfaoS+LDXOfEQqgI/tW7y4KsGIa/
+         DvFMw9fpKiU7SQKYsPMVNurzqnsXFfzMWuHQZaRacR8uqiffU974G6P2RYmNdTI08S
+         IixhD3V9a0h6A==
+Date:   Thu, 10 Dec 2020 07:48:45 -0700
+From:   Jonathan Corbet <corbet@lwn.net>
+To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>,
+        linuxarm@huawei.com, mauro.chehab@huawei.com,
+        linux-doc@vger.kernel.org, linux-kernel@vger.kernel.org
+Subject: Re: [PATCH 01/13] docs: conf.py: fix sphinx version detection for
+ margin set
+Message-ID: <20201210074845.4eb67f22@lwn.net>
+In-Reply-To: <0e610cbb57e85864b23d2b8fffa65c6b137daaac.1607597287.git.mchehab+huawei@kernel.org>
+References: <cover.1607597287.git.mchehab+huawei@kernel.org>
+        <0e610cbb57e85864b23d2b8fffa65c6b137daaac.1607597287.git.mchehab+huawei@kernel.org>
+Organization: LWN.net
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201210135526.GH25763@paasikivi.fi.intel.com>
-Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Thu, Dec 10, 2020 at 03:55:27PM +0200, Sakari Ailus wrote:
-> On Thu, Dec 10, 2020 at 03:05:02PM +0200, Andy Shevchenko wrote:
-> > On Thu, Dec 10, 2020 at 2:16 PM Petr Mladek <pmladek@suse.com> wrote:
-> > > On Fri 2020-11-13 12:54:41, Sakari Ailus wrote:
-> > > > Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
-> > > > pixel formats denoted by fourccs. The fourcc encoding is the same for both
-> > > > so the same implementation can be used.
-> > > >
-> > > > Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> > > > Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
-> > >
-> > > Andy, Rasmus,
-> > >
-> > > the last version looks fine to me. I am going to push it.
-> > > Please, speak up if you are against it.
-> > 
-> > My concerns are:
-> > - not so standard format of representation (why not to use
-> > string_escape_mem() helper?) or is it?
+On Thu, 10 Dec 2020 11:55:40 +0100
+Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+
+> The PDF generator has a logic to detect the proper way to
+> setup the page margins. By default, the page has about
+> 14.8 cm, which is too short to display some tables and literal
+> blocks. So, previous patches changed it to be around 17.5 cm,
+> but the logic only works with Sphinx version 1.x.x.
 > 
-> The format string may contain spaces that are not meant to be printed.
-> Other unprintable chacaters should not be present (at least not in V4L2
-> pixelformats). The hexadecimal representation is there to convey the
-> numerical value and that originally came from DRM, not V4L2.
-
-Yes, but I mean that we usually anticipate the escaped characters in a form of
-'\xNN' (hex) or '\NNN' (octal). The format '(NN)' is quite unusual to me.
-
-> > - no compatibility with generic 4cc
-> >   (I would rather have an additional specifier here for v4l2 cases.
+> Fix it.
 > 
-> What do you mean by "generic 4cc"? There are two users of 4cc codes in the
-> kernel that I know of: V4L2 and DRM. Something that does not refer to
-> in-memory pixel formats?
+> Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 
-Of course. Everything else. 4cc is a generic term to describe something which
-is of 4 characters long [1]. It's not limited by media file formats. And
-moreover some (chip) vendors are using it as well (Synopsys).
-Microsoft uses 4cc in CSRT ACPI table for vendor field and so on...
+Acked-by: Jonathan Corbet <corbet@lwn.net>
 
-[1]: https://en.wikipedia.org/wiki/FourCC
+Feel free to route this one with the rest of the set.
 
--- 
-With Best Regards,
-Andy Shevchenko
+Someday it might be nice to isolate all of the latex stuff into
+conf-latex.py or some such so most of us don't have to look at it..:)
 
+Thanks,
 
+jon
