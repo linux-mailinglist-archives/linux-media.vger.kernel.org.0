@@ -2,54 +2,54 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04C412D63D3
-	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 18:42:18 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2B5D02D63DD
+	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 18:44:11 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391073AbgLJRlr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Dec 2020 12:41:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34190 "EHLO
+        id S2391123AbgLJRng (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Dec 2020 12:43:36 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:34386 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728868AbgLJRlo (ORCPT
+        with ESMTP id S2392468AbgLJRm5 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Dec 2020 12:41:44 -0500
-Received: from mail-pl1-x641.google.com (mail-pl1-x641.google.com [IPv6:2607:f8b0:4864:20::641])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id A606BC0613CF;
-        Thu, 10 Dec 2020 09:41:04 -0800 (PST)
-Received: by mail-pl1-x641.google.com with SMTP id u4so3121205plr.12;
-        Thu, 10 Dec 2020 09:41:04 -0800 (PST)
+        Thu, 10 Dec 2020 12:42:57 -0500
+Received: from mail-pl1-x643.google.com (mail-pl1-x643.google.com [IPv6:2607:f8b0:4864:20::643])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 279F1C061793;
+        Thu, 10 Dec 2020 09:42:17 -0800 (PST)
+Received: by mail-pl1-x643.google.com with SMTP id j1so3143276pld.3;
+        Thu, 10 Dec 2020 09:42:17 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=gmail.com; s=20161025;
         h=subject:to:cc:references:from:message-id:date:user-agent
          :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=wg76jedNfKc/TU9UzquktTGoQhYb+6rN7M9SWX71cGQ=;
-        b=U7xYP0DnAGJ++RJDicbYFohdbSw6+4dEKbL51GuDiOEwWCZ0sGYVcyfWyA7DPDyXch
-         fc4vCdHmT2NtlE+Qvg/EFIw279PSUtxpDLsQ5CuCXmWrGsd8jlB18i9ODl3dGSRkRLCD
-         184DyMd70p7xoWHzIdSrmEq5CBjpn6Hs9mgdfZTHpUdcS6MYj1yxqNS2jCciljxd7T/9
-         sxBnbXUCV+k3qicWrYFZCKtSUrKemak5JorceOLmJ6A+C8Qkv1LFd96fsoRNfBGR+2pV
-         4xXbbJ+6/vfv/zzldGFWywDgN3k5Etc2mDqMKeWOu3X8asj9O+CO9JcvuIZ/QpeiU3+g
-         Ptqg==
+        bh=xhC+Epifyxy2M2mKUYAu18Eq66Rlf4culR13M+Jrfco=;
+        b=ZJ2ObQpYtkzEbRFv40oN+F65lAU6Ej9gKrE5tQPiv7ix/LuBkcvUf+qMUh+Yzoxr0g
+         CyVLZ1mG/UZfuxW/V3MMPsaTBSe2CWI0mDNMfEr7mKEWwiKc4c3ZI8/xXiy/OOpRRB/j
+         2IZpMCpurtGq6tzatn7TAJI7V3OuMaXrfCFpdbKTT1pfnFN4C5I4tNdDjJ+tPlKhyxqi
+         przoNGt/m24R6bKMKywSL6UEGQQjXmxvANoK31VrYtoQFG7CIFwswmQLapaXt4wK37sA
+         xHQJydZjUT4lKZk5SMNC/6y1kHtTG0Wl7+At0IEZBHpFHOPwp1+ijx3ZwuhElpY/pmj7
+         20Cw==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:subject:to:cc:references:from:message-id:date
          :user-agent:mime-version:in-reply-to:content-language
          :content-transfer-encoding;
-        bh=wg76jedNfKc/TU9UzquktTGoQhYb+6rN7M9SWX71cGQ=;
-        b=peqjjtsNtMlD6yVve+NVcyK4nR9lYnHr3JczIiqUJ0c/AxyECkfhwV8cLF1+GASuyM
-         iMSZZkL1Sp2qlTOSKiBg6Adhx/bDjAQAkAPYqSKV/V8PRUNry/OJ6ahFxNr41ui4l4zq
-         5uoUcq0eavRK3W/63NoHYz+R8dEhV3vgOsWVjbbH219KmS9lb75HuUkpDZE0bE5Nx97H
-         DXqx3mszW9/le+d7aOnh5iGxDKtCsBaOCSaF6U41K/bHj+R9mnKvX2ww4Q6p2p56CN8O
-         dXuz+D9x+I/Dcw6/o8UgkL+5QhJZPBuv5mbNAclO0ew07f/+MSAnKDiWB+oxKHBVWgVG
-         7l4w==
-X-Gm-Message-State: AOAM530Dp49rWU1bsA/LREqIIxIH20Allqv4RafDpv6heK5Yio1818oE
-        ZBRWcQCMC8NHBzurKV6xKvE=
-X-Google-Smtp-Source: ABdhPJy7sT9hqz16lIdJ9LTYu1ADeOZPUOYqL5kRiMhi+q82kvjQrH7ZjNig1UfhjJlmQh3ETeYDbQ==
-X-Received: by 2002:a17:902:10e:b029:d8:d11d:9613 with SMTP id 14-20020a170902010eb02900d8d11d9613mr1407576plb.26.1607622064190;
-        Thu, 10 Dec 2020 09:41:04 -0800 (PST)
+        bh=xhC+Epifyxy2M2mKUYAu18Eq66Rlf4culR13M+Jrfco=;
+        b=rhCbL9CTI1ypUFL6GwNzUQlwHNW8dQuxDOvmr+R2hJiSBlhmf2VMpQJ9vJ2oQRdwxd
+         am675JNYibZZwkQVGfGDtd5nLpMbG5Nhd+2p7/YDUpfSOKLHKcPqoAVCHgw+aIh8begk
+         UgpNrKlb9nvTQXLxekL224iAxBhvETb9F2R0FADIuCkg3nUDg5MA6Mm9qa4E/EotdI+e
+         BILOiRttlB/7VtlKe6VEwdsiPg9ZcAY1DtTu+Ee9z+YQMlSkFbVPBiMTlKs8GWmKLMof
+         i+gaQ77mP1XlZeueq1iqBFkAgM79HqlWGAn3WfULU8PcQBP5F53YzeCZVQeE328aOrP3
+         d3mg==
+X-Gm-Message-State: AOAM530YvE/hGxDWFtNsQveW07P+afYfsqcev0u0AL1AdUlvYwPPX/lc
+        VCbmKfUiBhb+NU4nILDqIdc=
+X-Google-Smtp-Source: ABdhPJzIx+7sRPBlNWy2an1r0b10BKDTDvE4FtqZry01Hi8E5wwZE9KecaPEs1U2F02OehoELDCOeA==
+X-Received: by 2002:a17:902:8b8c:b029:d8:de6f:ed35 with SMTP id ay12-20020a1709028b8cb02900d8de6fed35mr7278561plb.36.1607622136734;
+        Thu, 10 Dec 2020 09:42:16 -0800 (PST)
 Received: from [10.230.29.166] ([192.19.223.252])
-        by smtp.gmail.com with ESMTPSA id g85sm6912510pfb.4.2020.12.10.09.41.01
+        by smtp.gmail.com with ESMTPSA id x188sm6704941pfd.43.2020.12.10.09.42.13
         (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Thu, 10 Dec 2020 09:41:03 -0800 (PST)
-Subject: Re: [PATCH 14/15] ARM: dts: bcm2711: Add the BSC interrupt controller
+        Thu, 10 Dec 2020 09:42:16 -0800 (PST)
+Subject: Re: [PATCH 15/15] ARM: dts: bcm2711: Add the CEC interrupt controller
 To:     Maxime Ripard <maxime@cerno.tech>, Eric Anholt <eric@anholt.net>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
         Thomas Zimmermann <tzimmermann@suse.de>,
@@ -67,14 +67,14 @@ Cc:     Jason Cooper <jason@lakedaemon.net>,
         linux-rpi-kernel@lists.infradead.org,
         dri-devel@lists.freedesktop.org
 References: <20201210134648.272857-1-maxime@cerno.tech>
- <20201210134648.272857-15-maxime@cerno.tech>
+ <20201210134648.272857-16-maxime@cerno.tech>
 From:   Florian Fainelli <f.fainelli@gmail.com>
-Message-ID: <46411f3a-9b0b-9bf6-8795-77fc11988f79@gmail.com>
-Date:   Thu, 10 Dec 2020 09:41:00 -0800
+Message-ID: <bd2c5b93-2ee3-23ff-5852-e3537619e0ae@gmail.com>
+Date:   Thu, 10 Dec 2020 09:42:12 -0800
 User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:78.0) Gecko/20100101
  Firefox/78.0 Thunderbird/78.5.1
 MIME-Version: 1.0
-In-Reply-To: <20201210134648.272857-15-maxime@cerno.tech>
+In-Reply-To: <20201210134648.272857-16-maxime@cerno.tech>
 Content-Type: text/plain; charset=utf-8
 Content-Language: en-US
 Content-Transfer-Encoding: 7bit
@@ -85,8 +85,11 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 
 On 12/10/2020 5:46 AM, Maxime Ripard wrote:
-> The BSC controllers used for the HDMI DDC have an interrupt controller
-> shared between both instances. Let's add it to avoid polling.
+> The CEC and hotplug interrupts go through an interrupt controller shared
+> between the two HDMI controllers.
+> 
+> Let's add that interrupt controller and the interrupts for both HDMI
+> controllers
 > 
 > Signed-off-by: Maxime Ripard <maxime@cerno.tech>
 
