@@ -2,59 +2,59 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 440252D5CE4
-	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 15:07:55 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C9B42D5D1B
+	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 15:08:23 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389191AbgLJNsJ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Dec 2020 08:48:09 -0500
-Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:58539 "EHLO
+        id S1732994AbgLJNrv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Dec 2020 08:47:51 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:52439 "EHLO
         wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2389116AbgLJNsB (ORCPT
+        by vger.kernel.org with ESMTP id S1726253AbgLJNrq (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Dec 2020 08:48:01 -0500
+        Thu, 10 Dec 2020 08:47:46 -0500
 Received: from compute6.internal (compute6.nyi.internal [10.202.2.46])
-        by mailnew.west.internal (Postfix) with ESMTP id E6032EC5;
+        by mailnew.west.internal (Postfix) with ESMTP id E2BA3EC4;
         Thu, 10 Dec 2020 08:46:53 -0500 (EST)
-Received: from mailfrontend1 ([10.202.2.162])
+Received: from mailfrontend2 ([10.202.2.163])
   by compute6.internal (MEProxy); Thu, 10 Dec 2020 08:46:55 -0500
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
-        from:to:cc:subject:date:message-id:content-type:mime-version
-        :content-transfer-encoding; s=fm1; bh=2mM5F5w/Ms2f3FSkqgC6qFfGU2
-        pI+9dyJwvXJa0dfw4=; b=oT3FsbRn/eSIi6+XjN4UOcKIUtXQ27V/bIJ88VFOhe
-        o/l+NmXvIFKUPGKr6kasRabnz+khP/DhNi3tfZ5LZifZs7+Hb4QYxDNehYmVRaOo
-        /CilS3jbLfvcY2/MOqiahNvGe3QAkDM1Xg53iPeOzAA0Ctnb/ser7v63o6FTffr4
-        upDsVdMUKde9f/zEED2IOve30b5AjZNbRybHJ848HQRjBjj6RkfuvrB4oyiUdQWI
-        xVdonOm9KMHCGOGawKXk9k1I+bb+5aWC4wtCM8wcaN0F3t4MfVIgAvTTSDgpDkIU
-        rKsNViHGBo6ucP1h0uBkxmUVmw9p9S6eniqjTEe5Ew/g==
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding; s=fm1; bh=xUPcbQNT0o/CK
+        S0rMi5Iv5Xji1UkV8zkkBcQWdsfXpY=; b=JMm31KUvz7mbDQ0boB7bou0KEzH3Q
+        PgsQy9GAKfAQMD+NjNairgVlTogOqHJjnGqDBOwycXJ7uY5sttSrckTs/X1m6w0m
+        Df3KubKJmlXKlxphjOU34C2Vv/lCq+DLweNjThcArLH94cgu4rGOUAietZXV55kl
+        Sd9KtpIUfwTm1ZyzbESo0+0jaSXG6F0s5NISKjZUNntHJSut8wN72DBvF2Obtb0h
+        ktBRDQZ/7/TzLeINAqOn7j1nzC3HQnEPiXqVp9/35QYtc7bmUTXQj76qVdsrv25V
+        DLyhpMGiQiII+f5XKTQj6S+KhjL5PRuGbhFsfsQ8IdVqQQum1vUcyIqgQ==
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
-        messagingengine.com; h=cc:content-transfer-encoding:content-type
-        :date:from:message-id:mime-version:subject:to:x-me-proxy
-        :x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=fm1; bh=2mM5F5
-        w/Ms2f3FSkqgC6qFfGU2pI+9dyJwvXJa0dfw4=; b=NZFpj4GjOVx1ot5iFlReP2
-        EJQ4fYtaDe+yKTyQYxC7zEIBg8F5oF5tDgDUL3rE4+4FalyFYGHzuQ5mRY+9lb3p
-        EWNKhxCch4UiKc0Fv5nbrEFTC7BMQbm63lBYbzSXeZCu+AjM9c3A3MusUTnlqGn4
-        dATKqqaX0Ie7WHqcXeDh/+pCuyrGFA62c2n2jJr0XI4fQNcRKGFNEVKL9kpj3TPo
-        uZ7O5MwVecgkLq31Q6yVypTP4ZbvvXC4FvDpgCMgmvtgvrRqiNvOsSipml9k4pzb
-        d/dQYtwT35j8Omfh5TtRBgHNKbQuQMChOelpnmqyFcr8OAyxRL4cqBykAVaGcgWA
-        ==
-X-ME-Sender: <xms:ySbSXxXb3A0YNpRtNGCizods-XSYjdgdO0aY9pYxgDOBJuGU3eyZDg>
-    <xme:ySbSXxlCMMlT3_maeubL39gXgMZuZtrk8shpue-BPSCG2b1Tisgrg6O0wXIDv7vG7
-    m1xszTUM-q81XFqI00>
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :in-reply-to:message-id:mime-version:references:subject:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; bh=xUPcbQNT0o/CKS0rMi5Iv5Xji1UkV8zkkBcQWdsfXpY=; b=mSvmhvww
+        3jLyyDHXeLC9oECwRdgfJCfrQPh4XFSyFweQ5u9E+4alfGZBGGWh0NOvh2g7aqbi
+        xSKWqBDj1orLZkFlYcq6NFRqg3KsRImcfoer7V11VgM+wR3MT1qZTZcEZR8dKwA5
+        XM4sTo4EiscX1eYFw8HBqnA6BjmNd2DqNskCsFBhxuF/M7jDoToSaPSKsP40reEm
+        u2FrTQBBojEjhfTSMbmTdT2mhd0iLmm7BxHQYUECDEyPYyXOQWx5xOik64RJz/9B
+        wNW74ba0rZRMdUhes2hO2HyCGItWPY/1tU4pvkI0X7yjkGeFnHA70B4Nsii/+Iut
+        YRQCaQ5Tf4sASg==
+X-ME-Sender: <xms:yybSX_j0e4yGW2dtTLl_q73iv_z3BqtIl72BUAxELajiGGeTdpF4_A>
+    <xme:yybSX8A5dFvyR5vgcEmj5jqqTDWfTcy8ZktXSmZKIxObJlUpNWV7-wvfySnIQK5sD
+    2vtnXgOAUdlHyky-I0>
 X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudektddgheeiucetufdoteggodetrfdotf
     fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
     uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
-    cujfgurhephffvufffkffotggggfesthhqredtredtjeenucfhrhhomhepofgrgihimhgv
-    ucftihhprghrugcuoehmrgigihhmvgestggvrhhnohdrthgvtghhqeenucggtffrrghtth
-    gvrhhnpeetieekgfffkeegkeeltdehudetteejgfekueevhffhteegudfgkedtueegfffg
-    feenucfkphepledtrdekledrieekrdejieenucevlhhushhtvghrufhiiigvpedtnecurf
-    grrhgrmhepmhgrihhlfhhrohhmpehmrgigihhmvgestggvrhhnohdrthgvtghh
-X-ME-Proxy: <xmx:ySbSX9byWpkZzSqnVffJufTazefJB6MaTcZqVV4cOuX30Qz5A4PfxA>
-    <xmx:ySbSX0UVEbjLAJD7SjPCt3kCgpIl5GhDjtBEkLJP81pV0f-L7v0VWw>
-    <xmx:ySbSX7nQQWb6pVFEv5UUGfN65_7c9EMbuOaNUsokBSYXkmMsvslHcw>
-    <xmx:zSbSXzmukvgaILRgABTSaws0XcYXHh9cqlFyolM3zWB4KJdJy-Fof7F1SEs>
+    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
+    hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:yybSX_FuvxD896r7flb3CVR6m2ytShP7CPii8l9wCUGyGz5dQbJVwA>
+    <xmx:yybSX8QuPqhLh74EJmLRXRSy41leD8sTULW-FHvcgbC91EGuBPVmuw>
+    <xmx:yybSX8zFcdFeTo-8DMTUjHmJoBMy4DscnTOqIxhLwB8xL2C2ZAa06A>
+    <xmx:zSbSX4DDaQpSR38Y6He26jGLlHI1ZUwdGvLSBl4nQ-n_U-Sfyqf1-UNNiOk>
 Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
-        by mail.messagingengine.com (Postfix) with ESMTPA id A8723240062;
-        Thu, 10 Dec 2020 08:46:49 -0500 (EST)
+        by mail.messagingengine.com (Postfix) with ESMTPA id 154541080059;
+        Thu, 10 Dec 2020 08:46:51 -0500 (EST)
 From:   Maxime Ripard <maxime@cerno.tech>
 To:     Eric Anholt <eric@anholt.net>,
         Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
@@ -73,154 +73,39 @@ Cc:     Jason Cooper <jason@lakedaemon.net>,
         Dave Stevenson <dave.stevenson@raspberrypi.com>,
         linux-rpi-kernel@lists.infradead.org,
         dri-devel@lists.freedesktop.org
-Subject: [PATCH 00/15] drm/vc4: hdmi: Add CEC support for the BCM2711
-Date:   Thu, 10 Dec 2020 14:46:33 +0100
-Message-Id: <20201210134648.272857-1-maxime@cerno.tech>
+Subject: [PATCH 01/15] irqchip: Allow to compile bcmstb on other platforms
+Date:   Thu, 10 Dec 2020 14:46:34 +0100
+Message-Id: <20201210134648.272857-2-maxime@cerno.tech>
 X-Mailer: git-send-email 2.28.0
-Content-Type: text/plain; charset="utf-8"
+In-Reply-To: <20201210134648.272857-1-maxime@cerno.tech>
+References: <20201210134648.272857-1-maxime@cerno.tech>
 MIME-Version: 1.0
-Content-Transfer-Encoding: quoted-printable
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,=0D
-=0D
-Here's a series introducing the CEC support for the BCM2711 found on the=0D
-RaspberryPi4.=0D
-=0D
-The BCM2711 HDMI controller uses a similar layout for the CEC registers, th=
-e=0D
-main difference being that the interrupt handling part is now shared betwee=
-n=0D
-both HDMI controllers.=0D
-=0D
-This series is mainly about fixing a couple of bugs, reworking the driver t=
-o=0D
-support having two different interrupts, one for each direction, provided b=
-y an=0D
-external irqchip, and enables the irqchip driver for the controller we have=
-.=0D
-=0D
-This has been tested on an RPi3 and RPi4, but requires the latest firmware.=
-=0D
-It's is based on the 10 and 12 bpc series.=0D
-=0D
-Here is the cec-compliance output:=0D
-=0D
-$ cec-ctl --tuner -p 1.0.0.0=0D
-The CEC adapter doesn't allow setting the physical address manually, ignore=
- this option.=0D
-=0D
-Driver Info:=0D
-	Driver Name                : vc4_hdmi=0D
-	Adapter Name               : vc4=0D
-	Capabilities               : 0x0000010e=0D
-		Logical Addresses=0D
-		Transmit=0D
-		Passthrough=0D
-	Driver version             : 5.10.0=0D
-	Available Logical Addresses: 1=0D
-	Physical Address           : 1.0.0.0=0D
-	Logical Address Mask       : 0x0008=0D
-	CEC Version                : 2.0=0D
-	Vendor ID                  : 0x000c03 (HDMI)=0D
-	OSD Name                   : Tuner=0D
-	Logical Addresses          : 1 (Allow RC Passthrough)=0D
-=0D
-	  Logical Address          : 3 (Tuner 1)=0D
-	    Primary Device Type    : Tuner=0D
-	    Logical Address Type   : Tuner=0D
-	    All Device Types       : Tuner=0D
-	    RC TV Profile          : None=0D
-	    Device Features        :=0D
-		None=0D
-=0D
-$ cec-compliance=0D
-cec-compliance SHA                 : not available=0D
-Driver Info:=0D
-	Driver Name                : vc4_hdmi=0D
-	Adapter Name               : vc4=0D
-	Capabilities               : 0x0000010e=0D
-		Logical Addresses=0D
-		Transmit=0D
-		Passthrough=0D
-	Driver version             : 5.10.0=0D
-	Available Logical Addresses: 1=0D
-	Physical Address           : 1.0.0.0=0D
-	Logical Address Mask       : 0x0008=0D
-	CEC Version                : 2.0=0D
-	Vendor ID                  : 0x000c03 (HDMI)=0D
-	OSD Name                   : Tuner=0D
-	Logical Addresses          : 1 (Allow RC Passthrough)=0D
-=0D
-	  Logical Address          : 3 (Tuner 1)=0D
-	    Primary Device Type    : Tuner=0D
-	    Logical Address Type   : Tuner=0D
-	    All Device Types       : Tuner=0D
-	    RC TV Profile          : None=0D
-	    Device Features        :=0D
-		None=0D
-=0D
-Compliance test for vc4_hdmi device /dev/cec0:=0D
-=0D
-    The test results mean the following:=0D
-        OK                  Supported correctly by the device.=0D
-        OK (Not Supported)  Not supported and not mandatory for the device.=
-=0D
-        OK (Presumed)       Presumably supported.  Manually check to confir=
-m.=0D
-        OK (Unexpected)     Supported correctly but is not expected to be s=
-upported for this device.=0D
-        OK (Refused)        Supported by the device, but was refused.=0D
-        FAIL                Failed and was expected to be supported by this=
- device.=0D
-=0D
-Find remote devices:=0D
-	Polling: OK=0D
-=0D
-Network topology:=0D
-	System Information for device 0 (TV) from device 3 (Tuner 1):=0D
-		CEC Version                : 2.0=0D
-		Physical Address           : 0.0.0.0=0D
-		Primary Device Type        : TV=0D
-		Vendor ID                  : 0x000c03 (HDMI)=0D
-		OSD Name                   : 'test-124'=0D
-		Power Status               : Tx, OK, Rx, OK, Feature Abort=0D
-=0D
-Total for vc4_hdmi device /dev/cec0: 1, Succeeded: 1, Failed: 0, Warnings: =
-0=0D
-=0D
-Let me know what you think,=0D
-Maxime=0D
-=0D
-Dom Cobley (5):=0D
-  drm/vc4: hdmi: Move hdmi reset to bind=0D
-  drm/vc4: hdmi: Fix register offset with longer CEC messages=0D
-  drm/vc4: hdmi: Fix up CEC registers=0D
-  drm/vc4: hdmi: Restore cec physical address on reconnect=0D
-  drm/vc4: hdmi: Remove cec_available flag=0D
-=0D
-Maxime Ripard (10):=0D
-  irqchip: Allow to compile bcmstb on other platforms=0D
-  drm/vc4: hdmi: Compute the CEC clock divider from the clock rate=0D
-  drm/vc4: hdmi: Update the CEC clock divider on HSM rate change=0D
-  drm/vc4: hdmi: Introduce a CEC clock=0D
-  drm/vc4: hdmi: Split the interrupt handlers=0D
-  drm/vc4: hdmi: Support BCM2711 CEC interrupt setup=0D
-  drm/vc4: hdmi: Don't register the CEC adapter if there's no interrupts=0D
-  dt-binding: display: bcm2711-hdmi: Add CEC and hotplug interrupts=0D
-  ARM: dts: bcm2711: Add the BSC interrupt controller=0D
-  ARM: dts: bcm2711: Add the CEC interrupt controller=0D
-=0D
- .../bindings/display/brcm,bcm2711-hdmi.yaml   |  20 +-=0D
- arch/arm/boot/dts/bcm2711.dtsi                |  30 +++=0D
- drivers/gpu/drm/vc4/vc4_hdmi.c                | 224 +++++++++++++-----=0D
- drivers/gpu/drm/vc4/vc4_hdmi.h                |  11 +-=0D
- drivers/gpu/drm/vc4/vc4_hdmi_regs.h           |   4 +-=0D
- drivers/irqchip/Kconfig                       |   2 +-=0D
- 6 files changed, 232 insertions(+), 59 deletions(-)=0D
-=0D
--- =0D
-2.28.0=0D
-=0D
+The BCM2711 uses a number of instances of the bcmstb-l2 controller in its
+display engine. Let's allow the driver to be enabled through KConfig.
+
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/irqchip/Kconfig | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/drivers/irqchip/Kconfig b/drivers/irqchip/Kconfig
+index c6098eee0c7c..f1e58de117dc 100644
+--- a/drivers/irqchip/Kconfig
++++ b/drivers/irqchip/Kconfig
+@@ -131,7 +131,7 @@ config BCM7120_L2_IRQ
+ 	select IRQ_DOMAIN
+ 
+ config BRCMSTB_L2_IRQ
+-	bool
++	bool "Broadcom STB L2 Interrupt Controller"
+ 	select GENERIC_IRQ_CHIP
+ 	select IRQ_DOMAIN
+ 
+-- 
+2.28.0
+
