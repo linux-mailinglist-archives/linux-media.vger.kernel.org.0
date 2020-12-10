@@ -2,200 +2,158 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 4D0192D68AB
-	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 21:29:27 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 01AD82D692A
+	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 21:53:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403826AbgLJU2t (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Dec 2020 15:28:49 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:60238 "EHLO
+        id S2404570AbgLJUwm (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Dec 2020 15:52:42 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:35680 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393773AbgLJU2e (ORCPT
+        with ESMTP id S2393558AbgLJUwb (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Dec 2020 15:28:34 -0500
-Received: from mail-qk1-x743.google.com (mail-qk1-x743.google.com [IPv6:2607:f8b0:4864:20::743])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 088F5C0613CF
-        for <linux-media@vger.kernel.org>; Thu, 10 Dec 2020 12:27:53 -0800 (PST)
-Received: by mail-qk1-x743.google.com with SMTP id 186so6243398qkj.3
-        for <linux-media@vger.kernel.org>; Thu, 10 Dec 2020 12:27:52 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ndufresne-ca.20150623.gappssmtp.com; s=20150623;
-        h=message-id:subject:from:to:cc:date:in-reply-to:references
-         :user-agent:mime-version:content-transfer-encoding;
-        bh=2yU/ULzZGzoxGdODrtqwGusCxzP8sapz85WKyQ2V8co=;
-        b=HYqgASm+okd+NzqIr06oKlbrNAAT12/0o3IR9ApdaP4+VTnMOOgceoOaWPYx+8vaFF
-         bhIy1x8JezjFl4gQQIOmhwvO5FqNq5Wz5/xmELOKmwx0bPomjZSgK88RAVsppxBuGgcj
-         hM3cmLEL/t6CWII4tY6ejq6XzWSa0sTGBhwGBhvUK78HpoTOnguGBCkLUO1mxGwh5A4z
-         SCoT4jrxRZgzkkYDUyQOuhPFLZNhRh56N0E2q+XQKOsDlEv/bRBhQFol+GKQl91RNwUD
-         Wid+8+z9gXSfpEDp836yZ8FnEwfwEz66u6l/oyn0BH4dBoFFKgyfdhonn6O3+aiSkR6t
-         TFGQ==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:message-id:subject:from:to:cc:date:in-reply-to
-         :references:user-agent:mime-version:content-transfer-encoding;
-        bh=2yU/ULzZGzoxGdODrtqwGusCxzP8sapz85WKyQ2V8co=;
-        b=WHfwprdEtOqrR2jacFed3apNSM1C0AaIcPDm/bamGW2wLBWB0u9XnFUO7eZfTKD9dV
-         pidaeq9eOLb7FtGTeX8G2/kqust3BnVWWw4DR8Q4U7YQTwlm1Xp7Ry9l9sQTBoWddIuG
-         BLdSjtlKmzg/TjIO4O7x1Bmw+J8ea7WI24YRo5xEL4BR4oYC8vbJgn9vrr6/Ti5Mj93B
-         YmPfWlDY+NsDDTsevOSVobSalTUcWrV+3YAPwPxh+PhQQUcYNlHKQQXlbuJonKEp0zLC
-         qnWAidiiCl8DzeEAvnqFuDBlafRts1P5mz9ust0rd4CdZejr7t3XZyrH4/4QLNIfcM0F
-         ef2g==
-X-Gm-Message-State: AOAM531DP0IT96WGIKxFRmU8cVtAhE054uJ1ycxK36agI2YlLvJEK85v
-        h+iNWLyTynL6srpULrQn+Ov3Nw==
-X-Google-Smtp-Source: ABdhPJxcOk6P6oyb4cOw+FiftkymLzU5X+iadGgVx4XnNz88ywHiqt81C6ydESZoNIZlcX0Zm5NYAQ==
-X-Received: by 2002:a37:a155:: with SMTP id k82mr11177722qke.290.1607632072209;
-        Thu, 10 Dec 2020 12:27:52 -0800 (PST)
-Received: from nicolas-tpx395.localdomain (173-246-12-168.qc.cable.ebox.net. [173.246.12.168])
-        by smtp.gmail.com with ESMTPSA id n9sm4205547qti.75.2020.12.10.12.27.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Thu, 10 Dec 2020 12:27:51 -0800 (PST)
-Message-ID: <366ab6d001fd2f2db41e011d7348b0b54d4a8be1.camel@ndufresne.ca>
-Subject: Re: How to get last frames in encode sequence returned by v4l2
- encoder driver without V4L2_ENC_CMD_STOP
-From:   Nicolas Dufresne <nicolas@ndufresne.ca>
-To:     Tomasz Figa <tfiga@chromium.org>
-Cc:     Hirokazu Honda <hiroh@chromium.org>,
-        Alexandre Courbot <acourbot@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        J Kardatzke <jkardatzke@chromium.org>
-Date:   Thu, 10 Dec 2020 15:27:49 -0500
-In-Reply-To: <CAAFQd5AraF6sf79=q848VO1tWTWj6VaeG5sa38u_k4avkTPBGA@mail.gmail.com>
-References: <CAO5uPHN-30N8Hv8exx6bzMQQDbLGJpfQobZ_pzDtqC83k3nCMQ@mail.gmail.com>
-         <CAPBb6MXQjG8p2dh9T+GpFncu8WAUwjsWw=ggSMW7QdP0NQrskQ@mail.gmail.com>
-         <CAO5uPHNGNwXadtRY6CYghsCYaPNCxOkxYR98CYvPfF0ZrqSPHw@mail.gmail.com>
-         <3d557792606109728235db6b1a15d7313cce4096.camel@ndufresne.ca>
-         <CAAFQd5BUsrjw8S_w1U03G8f-=93FFTBcCfu-Cg6bwxN9JPWnWg@mail.gmail.com>
-         <210906667a4f582c81ec8375a586a5ba47b93881.camel@ndufresne.ca>
-         <CAAFQd5AraF6sf79=q848VO1tWTWj6VaeG5sa38u_k4avkTPBGA@mail.gmail.com>
-Content-Type: text/plain; charset="UTF-8"
-User-Agent: Evolution 3.38.1 (3.38.1-1.fc33) 
+        Thu, 10 Dec 2020 15:52:31 -0500
+Received: from mxf2.seznam.cz (mxf2.seznam.cz [IPv6:2a02:598:2::123])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 2175CC0613D3;
+        Thu, 10 Dec 2020 12:51:43 -0800 (PST)
+Received: from email.seznam.cz
+        by email-smtpc25a.ng.seznam.cz (email-smtpc25a.ng.seznam.cz [10.23.18.34])
+        id 14be179e4fb043f71517dbc0;
+        Thu, 10 Dec 2020 21:51:24 +0100 (CET)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=seznam.cz; s=beta;
+        t=1607633484; bh=uVI8DKBCKgq5GbOjTJGcesmmho5CB7T5xPqxJqxGoBE=;
+        h=Received:Subject:To:Cc:References:From:Message-ID:Date:User-Agent:
+         MIME-Version:In-Reply-To:Content-Type:Content-Transfer-Encoding:
+         Content-Language;
+        b=DOYrZsTuj6+Aw2wzWcKSqSn9uJkohGDyC9xOPjcz+C5aW4+WFNJOczbkqq7yO41ty
+         z/KL1uT5kID1YIXNgJBcKw3DoQS/76hQt971mvjJvBdT2CoGTqus6RkqB9qTRVUlwv
+         Qlb3UI9DdCTtMFsKQMk3lupp1vtDU05HpOrxs97M=
+Received: from [192.168.1.213] (ip-228-128.dynamic.ccinternet.cz [212.69.128.228])
+        by email-relay6.ng.seznam.cz (Seznam SMTPD 1.3.122) with ESMTP;
+        Thu, 10 Dec 2020 21:51:22 +0100 (CET)  
+Subject: Re: [PATCH v2 1/3] media: i2c: imx219: add support for specifying
+ clock-frequencies
+To:     Sascha Hauer <s.hauer@pengutronix.de>
+Cc:     Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>,
+        Shawn Guo <shawnguo@kernel.org>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Fabio Estevam <festevam@gmail.com>,
+        NXP Linux Team <linux-imx@nxp.com>,
+        Geert Uytterhoeven <geert+renesas@glider.be>,
+        Magnus Damm <magnus.damm@gmail.com>,
+        linux-media@vger.kernel.org, devicetree@vger.kernel.org,
+        linux-arm-kernel@lists.infradead.org,
+        linux-renesas-soc@vger.kernel.org
+References: <20201206172720.9406-1-michael.srba@seznam.cz>
+ <20201207055952.GB14307@pengutronix.de>
+From:   Michael Srba <Michael.Srba@seznam.cz>
+Message-ID: <222f5118-72ac-d291-f8d9-743d5c45c4ea@seznam.cz>
+Date:   Thu, 10 Dec 2020 21:51:20 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+In-Reply-To: <20201207055952.GB14307@pengutronix.de>
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Le jeudi 10 décembre 2020 à 13:20 +0900, Tomasz Figa a écrit :
-> On Thu, Dec 10, 2020 at 1:59 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
-> > 
-> > Le mercredi 09 décembre 2020 à 18:51 +0900, Tomasz Figa a écrit :
-> > > On Wed, Dec 9, 2020 at 1:43 AM Nicolas Dufresne <nicolas@ndufresne.ca>
-> > > wrote:
-> > > > 
-> > > > Le vendredi 27 novembre 2020 à 03:13 +0900, Hirokazu Honda a écrit :
-> > > > > HI Alexandre,
-> > > > > 
-> > > > > On Tue, Nov 24, 2020 at 7:17 PM Alexandre Courbot <
-> > > > > acourbot@chromium.org>
-> > > > > wrote:
-> > > > > > 
-> > > > > > Hi Hiro,
-> > > > > > 
-> > > > > > On Fri, Nov 13, 2020 at 6:04 PM Hirokazu Honda <hiroh@chromium.org>
-> > > > > > wrote:
-> > > > > > > 
-> > > > > > > Hi,
-> > > > > > > 
-> > > > > > > According to the official v4l2 encoder driver usage description
-> > > > > > > [1],
-> > > > > > > v4l2 steatful encoder driver doesn't have a guarantee when frames
-> > > > > > > fed
-> > > > > > > to a driver will be returned.
-> > > > > > > To make sure all pending frames are output by the driver, an app
-> > > > > > > must
-> > > > > > > call VIDIOC_ENCODER_CMD with cmd=V4L2_ENC_CMD_STOP.
-> > > > > > > However, it is not mandatory to support the command in the current
-> > > > > > > v4l2 stateful encoder API specification.
-> > > > > > > An app can check it by VIDIOC_TRY_ENCODER_CMD beforehand.
-> > > > > > > My question is when an app has to get all the frames of an encoder
-> > > > > > > sequence, how we can achieve this without V4L2_ENC_CMD_STOP
-> > > > > > > support.
-> > > > > > > This demand is natural and in fact WebCodecs [2] requires this.
-> > > > > > > 
-> > > > > > > I think there are two options,
-> > > > > > > 1.) Ensure that a driver will eventually output frames if it
-> > > > > > > doesn't
-> > > > > > > support V4L2_ENC_CMD_STOP.
-> > > > > > > 2.) Change V4L2_ENC_CMD_STOP support to be mandatory
-> > > > > > 
-> > > > > > Unless I am missing the part of the spec that says the contrary,
-> > > > > > V4L2_ENC_CMD_STOP is part of the encoder specification, and thus is
-> > > > > > mandatory. Some older drivers might not have support for it, in such
-> > > > > > cases the correct course of action would be to fix them.
-> > > > > > 
-> > > > > 
-> > > > > I researched the API documents.
-> > > > > The statement that the support is mandatory to stateful encoders is
-> > > > > added from the latest document v5.9 [1],
-> > > > > It states optional in the API document of v4.19 and v5.8.
-> > > > > Hence my question is obsolete.
-> > > > > 
-> > > > > [1]
-> > > > > https://www.kernel.org/doc/html/v5.9/userspace-api/media/v4l/vidioc-encoder-cmd.html
-> > > > > [2]
-> > > > > https://www.kernel.org/doc/html/v4.19/media/uapi/v4l/vidioc-encoder-cmd.html
-> > > > > [3]
-> > > > > https://www.kernel.org/doc/html/v5.8/userspace-api/media/v4l/vidioc-encoder-cmd.html?highlight=v4l2_enc_cmd_stop
-> > > > 
-> > > > In historical drivers (Samsung MFC and perhaps Venus ?) an empty payload
-> > > > buffer
-> > > > was used to signal draining. This approach was never documented and had
-> > > > issues.
-> > > > It is still supported by MFC driver so that older Chromium / Android
-> > > > code
-> > > > don't
-> > > > fail on it (even though I doubt it has ever been retested since).
-> > > > 
-> > > 
-> > > FWIW, Chromium has not been relying on this for a long time already.
-> > > 
-> > > That said, I think the question here is about a different class of
-> > > devices. I can imagine some encoders just simply always consuming the
-> > > input buffers as they come and produce corresponding bitstream buffers
-> > > as soon as possible, in a 1:1 relationship. In that case, there would
-> > > be no need for any explicit drain, because one can track which buffers
-> > > came already and infer whether the encoding completed for the source
-> > > buffer of interest.
-> > 
-> > I believe we decided to make this mantory to all stateless decoder (it makes
-> > userspace life easier). But JPEG decoders predates the spec, so I suspect a
-> > JPEG
-> > decoding userspace should behave as you describe to actually work with
-> > existing
-> > drivers. I would rather encourage having CMD_STOP in all stateless decoder,
-> > even
-> > JPEG.
-> > 
-> 
-> Note that this thread is about encoders.
+Hi,
 
-Sorry about that, but does it makes any difference ? The encoders for H.264 and
-HEVC needs to reorder from display to encoded order. That means it will hold on
-bitstream buffers. Also, it's an M2M V4L2 device, so it has queues, and you'd
-have to do more work in userspace if you had two code path to drain the
-asynchronous queues.
+sorry for late reply.
 
-> 
-> > > 
-> > > Best regards,
-> > > Tomasz
-> > > 
-> > > > > 
-> > > > > Best Regards,
-> > > > > -Hiro
-> > > > > > > 
-> > > > > > > Any comments are appreciated.
-> > > > > > > Thanks so much in advance.
-> > > > > > > 
-> > > > > > > [1]
-> > > > > > > https://www.kernel.org/doc/html/latest/userspace-api/media/v4l/dev-encoder.html#drain
-> > > > > > > [2] https://web.dev/webcodecs/
-> > > > > > > 
-> > > > > > > Sincerely,
-> > > > > > > -Hiro
-> > > > 
-> > > > 
-> > 
-> > 
+I copied this approach from looking at other camera sensor drivers,
+and it seemed less "ugly" to me than using assigned-rates (I will be
+upstreaming required dts changes for Samsung Galaxy A3 (2015), so the
+dts feeling "proper" is important to me).
 
+I however am not qualified to make that decision, so if you believe
+that the assigned-rates approach is cleaner and more suitable for mainline,
+I will try to adjust my internal filter for what is "more proper" :)
+
+As for rounding, the issue is that it seems to like to round up, instead
+of trying to find the closest possible value. I *guess* trying to set
+the lower barrier might work out in practice, but it seems kind of ugly.
+
+All in all, what I did seemed like the cleanest option to me, and it was
+an approach that other drivers also use. But if you believe there is
+a cleaner approach, I will be more than happy to do something else,
+though I would appreciate an explanation of why it is cleaner so that
+I can make better decisions in the future.
+
+Best regards,
+Michael
+
+On 07. 12. 20 6:59, Sascha Hauer wrote:
+> Hi Michael,
+>
+> On Sun, Dec 06, 2020 at 06:27:18PM +0100, michael.srba@seznam.cz wrote:
+>> From: Michael Srba <Michael.Srba@seznam.cz>
+>>
+>> This patch adds 1% tolerance on input clock, similar to other camera sensor
+>> drivers. It also allows for specifying the actual clock in the device tree,
+>> instead of relying on it being already set to the right frequency (which is
+>> often not the case).
+>>
+>> Signed-off-by: Michael Srba <Michael.Srba@seznam.cz>
+>>
+>> ---
+>>
+>> changes since v1: default to exactly 24MHz when `clock-frequency` is not present
+>>
+>> ---
+>>  drivers/media/i2c/imx219.c | 19 +++++++++++++++++--
+>>  1 file changed, 17 insertions(+), 2 deletions(-)
+>>
+>> diff --git a/drivers/media/i2c/imx219.c b/drivers/media/i2c/imx219.c
+>> index f64c0ef7a897..b6500e2ab19e 100644
+>> --- a/drivers/media/i2c/imx219.c
+>> +++ b/drivers/media/i2c/imx219.c
+>> @@ -1443,13 +1443,28 @@ static int imx219_probe(struct i2c_client *client)
+>>  		return PTR_ERR(imx219->xclk);
+>>  	}
+>>  
+>> -	imx219->xclk_freq = clk_get_rate(imx219->xclk);
+>> -	if (imx219->xclk_freq != IMX219_XCLK_FREQ) {
+>> +	ret = fwnode_property_read_u32(dev_fwnode(dev), "clock-frequency", &imx219->xclk_freq);
+>> +	if (ret) {
+>> +		dev_warn(dev, "could not get xclk frequency\n");
+>> +
+>> +		/* default to 24MHz */
+>> +		imx219->xclk_freq = 24000000;
+>> +	}
+>> +
+>> +	/* this driver currently expects 24MHz; allow 1% tolerance */
+>> +	if (imx219->xclk_freq < 23760000 || imx219->xclk_freq > 24240000) {
+>>  		dev_err(dev, "xclk frequency not supported: %d Hz\n",
+>>  			imx219->xclk_freq);
+>>  		return -EINVAL;
+>>  	}
+>>  
+>> +	ret = clk_set_rate(imx219->xclk, imx219->xclk_freq);
+>> +	if (ret) {
+>> +		dev_err(dev, "could not set xclk frequency\n");
+>> +		return ret;
+>> +	}
+> clk_set_rate() returns successfully when the rate change has succeeded.
+> It tells you nothing about the actual rate that has been set. The rate
+> could be very different from what you want to get, depending on what the
+> hardware is able to archieve. There's clk_round_rate() that tells you
+> which rate you'll get when you call clk_set_rate() with that value.
+> You would have to call clk_round_rate() first and see if you are happy
+> with the result, afterwards set the rate. From that view it doesn't make
+> much sense to check the device tree if a number between 23760000 and
+> 24240000 is specified there, the clk api will do rounding anyway.
+>
+> Also there's the assigned-clocks device tree binding, see
+> Documentation/devicetree/bindings/clock/clock-bindings.txt. This allows
+> you to set the desired clock rate directly in the device tree. All
+> that's left to do in the driver is to replace the check for the exact
+> rate with a check which allows a certain tolerance.
+>
+> Sascha
+>
 
