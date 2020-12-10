@@ -2,122 +2,161 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 208DA2D5309
-	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 06:09:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5DD1C2D552D
+	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 09:17:49 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1726185AbgLJFJS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Dec 2020 00:09:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59192 "EHLO
+        id S2387601AbgLJIQI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Dec 2020 03:16:08 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:59542 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1725812AbgLJFJL (ORCPT
+        with ESMTP id S1732133AbgLJIQH (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Dec 2020 00:09:11 -0500
-Received: from mail-ed1-x544.google.com (mail-ed1-x544.google.com [IPv6:2a00:1450:4864:20::544])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id EACDAC061793
-        for <linux-media@vger.kernel.org>; Wed,  9 Dec 2020 21:08:30 -0800 (PST)
-Received: by mail-ed1-x544.google.com with SMTP id k4so4127832edl.0
-        for <linux-media@vger.kernel.org>; Wed, 09 Dec 2020 21:08:30 -0800 (PST)
+        Thu, 10 Dec 2020 03:16:07 -0500
+Received: from mail-ot1-x342.google.com (mail-ot1-x342.google.com [IPv6:2607:f8b0:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 7FF1FC0613D6
+        for <linux-media@vger.kernel.org>; Thu, 10 Dec 2020 00:15:27 -0800 (PST)
+Received: by mail-ot1-x342.google.com with SMTP id w3so4086896otp.13
+        for <linux-media@vger.kernel.org>; Thu, 10 Dec 2020 00:15:27 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=chromium.org; s=google;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=zIfFQBOsh+7ls9naclLfM4tNpPscvjI/PilgL+vju80=;
-        b=OJwNzSYc2vCkYXbkQd7LaHDTEMYMM5zXanNUx+E3D/B5JMCvXpeln9sFRbAtrO0NNr
-         Izz7NOcf8psUjJddvGEXsi13gr9RKws2ogr0RKU/WmwdiD/UcxAep/TcH7HnZ2LkzsgN
-         lp6FPFsI3g81m6nM8MV7t4CUPWDM12b8EnOx4=
+        bh=olWrAE9JSl9kyhmzpxdnQFXpcomh9eOZ+RfshA6M+Yw=;
+        b=p6vfVBFEHoqspcfUNgn7sdgCPUwg36wBSjUfb4RLyJ5vULAwLKN8GmiD6e33Ac8VER
+         FHjrYoCNFIe95KV0RX2o8nIfoYplxquDDBIrmfd7JKKvmFFKtM7pWvdbEurFdl0S+ixF
+         a9WQ7JW4DjKNcbPrKFxaHPTaUsgn16vKzBa02kR0EjoU02V4pI6BZwvElTZfSnsE5U47
+         FO9QCOfjziR2mf4UreXeSdxMFAqv2P08icJDjBfNGQoS1VkLg1peKe+fS9PJGTp6YjU4
+         nnDn4b9KTTXh4iWvfxY5u22uy3SpZLdJHQwIhSObuqCNepIpcwc+QkYtjVkMO+J6fFF4
+         xlCA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=zIfFQBOsh+7ls9naclLfM4tNpPscvjI/PilgL+vju80=;
-        b=pq7PUps/FVxjMjHQDVPkExFfsIxaC27YaLu6Pk8T/5d2VAQWGUuj+cTMvYM7yhv4aB
-         xVxEqSc/YCBYr21GDt+rW07qmSSL7TY5pHae6sIkx23j4w1ntlcV/ToCQUjde+HBoe3u
-         piHCUfQN0XSgTcvkAxtuoBz68LeHXIyQ+E+kdgGVZPJV7T898kuZGJNcv49a1xUaqHnO
-         QLbPx1G01p1mU+tsvq2vpFsPIxV75gktCQnHq7dblM+bkgKSgNobCVn2UacTlMoU8L8m
-         uNZoWwDDVO8uTtozFGybeZVnb02fW0l4j2ijdKggKF9BZKstsZkjO3XLu+xEGDIkrLiA
-         rY+w==
-X-Gm-Message-State: AOAM53309pGScxBNIQHKNsiDmRj39iXReLC7IKjz35X6/pM8ypia1uoq
-        IizT4iE0mYndONTFU2eIfRs8eoWyMyHmNV0Q
-X-Google-Smtp-Source: ABdhPJx0nrQ3OHzMgDEYOdWsINxcQw+gv+S49qlxEvErMFohX7ebPAN+qW3FoXxKgUpPib9V2A1Qyg==
-X-Received: by 2002:a05:6402:b88:: with SMTP id cf8mr5242686edb.140.1607576909447;
-        Wed, 09 Dec 2020 21:08:29 -0800 (PST)
-Received: from mail-wm1-f49.google.com (mail-wm1-f49.google.com. [209.85.128.49])
-        by smtp.gmail.com with ESMTPSA id k15sm3326939ejc.79.2020.12.09.21.08.25
-        for <linux-media@vger.kernel.org>
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Wed, 09 Dec 2020 21:08:25 -0800 (PST)
-Received: by mail-wm1-f49.google.com with SMTP id g25so2064210wmh.1
-        for <linux-media@vger.kernel.org>; Wed, 09 Dec 2020 21:08:25 -0800 (PST)
-X-Received: by 2002:a1c:5447:: with SMTP id p7mr6054359wmi.116.1607576905237;
- Wed, 09 Dec 2020 21:08:25 -0800 (PST)
+        bh=olWrAE9JSl9kyhmzpxdnQFXpcomh9eOZ+RfshA6M+Yw=;
+        b=LZxIniDKhJaJZABWh/HQdAJhqfSP3qe22yhSGTsOhHI/cLMgQfDbrVurZxkS/8uSml
+         EMmWjXOotQ7LzlF5k/I3pcGng9H3B7k0jzfKX4t/pnMIrpHXN7+lE32sZfYLIBBnszmc
+         Yz5fc5q+4aL0Ny85AwkF7iJ/OFK3+iqvUx+QzQQj9tH1D9HU7mE8THd+snKt/8rXt8Tb
+         I4gZ7HA0tkglZcdTsVKLiQ/LXJ6sx43WQ8df6yg+9vNdjLSXJeiNPAzjaCnBlyrKkRZM
+         ISwCysR7lnMu0/wEmowX7EepVOVQYA7BuylgPMF+g7vqK1QaHuLNEADGF+87Nzn30Q/A
+         vQBg==
+X-Gm-Message-State: AOAM531743CZB97qs6ym6itV7FKS9KCEELagsBhMNXjl5UuEi3IzIwv+
+        +vnm0KjDqDWL8trYn4zhVrrF60d8+pTXXZ9B+S8UsA==
+X-Google-Smtp-Source: ABdhPJzESi9phEemd0Mo7b+JZyuIKDL6cbPIDC8u/pLidmYe6NDQenscRoW5LI/oInq9snMQmz4nqWLuWYa3ePUC+pk=
+X-Received: by 2002:a05:6830:1411:: with SMTP id v17mr1298573otp.352.1607588126592;
+ Thu, 10 Dec 2020 00:15:26 -0800 (PST)
 MIME-Version: 1.0
-References: <20201125221917.150463-1-ribalda@chromium.org> <20201130083410.GD32234@lst.de>
- <20201201033658.GE3723071@google.com> <20201201144916.GA14682@lst.de>
- <CAAFQd5BBEbmENrrZ-vMK9cKOap19XWmfcxwrxKfjWx-wEew8rg@mail.gmail.com>
- <20201209111235.GA22806@lst.de> <6b34596d-34c4-bd99-c5a7-5a4742c5b886@arm.com>
-In-Reply-To: <6b34596d-34c4-bd99-c5a7-5a4742c5b886@arm.com>
-From:   Tomasz Figa <tfiga@chromium.org>
-Date:   Thu, 10 Dec 2020 14:08:14 +0900
-X-Gmail-Original-Message-ID: <CAAFQd5CJreyn7KSn-kphPzC5v18qCuBq5yGwW+ushrg=azJGRg@mail.gmail.com>
-Message-ID: <CAAFQd5CJreyn7KSn-kphPzC5v18qCuBq5yGwW+ushrg=azJGRg@mail.gmail.com>
-Subject: Re: [PATCH v3 5/6] media: uvcvideo: Use dma_alloc_noncontiguos API
-To:     Robin Murphy <robin.murphy@arm.com>, Christoph Hellwig <hch@lst.de>
-Cc:     Sergey Senozhatsky <sergey.senozhatsky.work@gmail.com>,
-        Ricardo Ribalda <ribalda@chromium.org>,
-        Marek Szyprowski <m.szyprowski@samsung.com>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        IOMMU DRIVERS <iommu@lists.linux-foundation.org>,
-        Joerg Roedel <joro@8bytes.org>,
-        Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Sergey Senozhatsky <senozhatsky@google.com>
+References: <20201117181935.3613581-1-minchan@kernel.org> <20201117181935.3613581-5-minchan@kernel.org>
+ <CGME20201118030110epcas2p1105a09711ea2c123f19f413b32372764@epcas2p1.samsung.com>
+ <CALAqxLWqDLHpOHNEayvhDjJeXjEk_uneH2=d9fy8M87EjKfReA@mail.gmail.com>
+ <20201119011431.GA136599@KEI> <CALAqxLV=r-V6u8hq2fTmxq855nT7QPkkjyAYdPeZRkYPBi_CKg@mail.gmail.com>
+ <X9Fjd+eSStUJskOV@google.com>
+In-Reply-To: <X9Fjd+eSStUJskOV@google.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Thu, 10 Dec 2020 00:15:15 -0800
+Message-ID: <CALAqxLWthd8bEDRMWmuOf8dOCW8=cFao9HBawKGuRhQZkdgXXw@mail.gmail.com>
+Subject: Re: [PATCH 4/4] dma-heap: Devicetree binding for chunk heap
+To:     Minchan Kim <minchan@kernel.org>
+Cc:     Hyesoo Yu <hyesoo.yu@samsung.com>,
+        Andrew Morton <akpm@linux-foundation.org>,
+        LKML <linux-kernel@vger.kernel.org>,
+        linux-mm <linux-mm@kvack.org>,
+        Matthew Wilcox <willy@infradead.org>, david@redhat.com,
+        iamjoonsoo.kim@lge.com, vbabka@suse.cz,
+        Suren Baghdasaryan <surenb@google.com>,
+        KyongHo Cho <pullip.cho@samsung.com>,
+        John Dias <joaodias@google.com>,
+        Hridya Valsaraju <hridya@google.com>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        Brian Starkey <Brian.Starkey@arm.com>,
+        linux-media <linux-media@vger.kernel.org>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>, Rob Herring <robh@kernel.org>,
+        Christian Koenig <christian.koenig@amd.com>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Kunihiko Hayashi <hayashi.kunihiko@socionext.com>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Wed, Dec 9, 2020 at 10:05 PM Robin Murphy <robin.murphy@arm.com> wrote:
+On Wed, Dec 9, 2020 at 3:53 PM Minchan Kim <minchan@kernel.org> wrote:
+> On Wed, Nov 18, 2020 at 07:19:07PM -0800, John Stultz wrote:
+> > The CMA heap currently only registers the default CMA heap, as we
+> > didn't want to expose all CMA regions and there's otherwise no way to
+> > pick and choose.
 >
-> On 2020-12-09 11:12, Christoph Hellwig wrote:
-> > On Tue, Dec 08, 2020 at 01:54:00PM +0900, Tomasz Figa wrote:
-> >> >From the media perspective, it would be good to have the vmap
-> >> optional, similarly to the DMA_ATTR_NO_KERNEL_MAPPING attribute for
-> >> coherent allocations. Actually, in the media drivers, the need to have
-> >> a kernel mapping of the DMA buffers corresponds to a minority of the
-> >> drivers. Most of them only need to map them to the userspace.
-> >>
-> >> Nevertheless, that minority actually happens to be quite widely used,
-> >> e.g. the uvcvideo driver, so we can't go to the other extreme and just
-> >> drop the vmap at all.
+> Yub.
+>
+> dma-buf really need a way to make exclusive CMA area. Otherwise, default
+> CMA would be shared among drivers and introduce fragmentation easily
+> since we couldn't control other drivers. In such aspect, I don't think
+> current cma-heap works if userspace needs big memory chunk.
+
+Yes, the default CMA region is not always optimal.
+
+That's why I was hopeful for Kunihiko Hayashi's patch to allow for
+exposing specific cma regions:
+  https://lore.kernel.org/lkml/1594948208-4739-1-git-send-email-hayashi.kunihiko@socionext.com/
+
+I think it would be a good solution, but all we need is *some* driver
+which can be considered the primary user/owner of the cma region which
+would then explicitly export it via the dmabuf heaps.
+
+> Here, the problem is there is no in-kernel user to bind the specific
+> CMA area because the owner will be random in userspace via dma-buf
+> interface.
+
+Well, while I agree that conceptually the dmabuf heaps allow for
+allocations for multi-device pipelines, and thus are not tied to
+specific devices. I do think that the memory types exposed are likely
+to have specific devices/drivers in the pipeline that it matters most
+to. So I don't see a big issue with the in-kernel driver registering a
+specific CMA region as a dmabuf heap.
+
+> > > Is there a reason to use dma-heap framework to add cma-area for specific device ?
+> > >
+> > > Even if some in-tree users register dma-heap with cma-area, the buffers could be allocated in user-land and these could be shared among other devices.
+> > > For exclusive access, I guess, the device don't need to register dma-heap for cma area.
+> > >
 > >
-> > My main problem is that the DMA_ATTR_NO_KERNEL_MAPPING makes a mess
-> > of an API.  I'd much rather have low-level API that returns the
-> > discontiguous allocations and another one that vmaps them rather
-> > than starting to overload arguments like in dma_alloc_attrs with
-> > DMA_ATTR_NO_KERNEL_MAPPING.
-
-Okay, makes sense. Actually, a separate mapping function makes it
-possible to defer creating the mapping to when (and if) it is really
-needed.
-
+> > It's not really about exclusive access. More just that if you want to
+> > bind a memory reservation/region (cma or otherwise), at least for DTS,
+> > it needs to bind with some device in DT.
+> >
+> > Then the device driver can register that region with a heap driver.
+> > This avoids adding new Linux-specific software bindings to DT. It
+> > becomes a driver implementation detail instead. The primary user of
+> > the heap type would probably be a practical pick (ie the display or
+> > isp driver).
 >
-> Agreed - if iommu-dma's dma_alloc_coherent() ends up as little more than
-> a thin wrapper around those two functions I think that would be a good
-> sign. It also seems like it might be a good idea for this API to use
-> scatterlists rather than page arrays as it's fundamental format, to help
-> reduce impedance with dma-buf -
+> If it's the only solution, we could create some dummy driver which has
+> only module_init and bind it from there but I don't think it's a good
+> idea.
 
-True.
+Yea, an un-upstreamable dummy driver is maybe what it devolves to in
+the worst case. But I suspect it would be cleaner for a display or ISP
+driver that benefits most from the heap type to add the reserved
+memory reference to their DT node, and on init for them to register
+the region with the dmabuf heap code.
 
-> if we can end up with a wider redesign
-> that also gets rid of dma_get_sgtable(), all the better!
 
-That would also require taking care of the old dma_alloc_attrs() API.
-I guess it could return an already mapped sgtable, with only 1 mapped
-entry and as many following entries as needed to describe the physical
-pages. To be honest, I'd say this is far out of scope of this
-discussion, though.
+> > The other potential solution Rob has suggested is that we create some
+> > tag for the memory reservation (ie: like we do with cma: "reusable"),
+> > which can be used to register the region to a heap. But this has the
+> > problem that each tag has to be well defined and map to a known heap.
+>
+> Do you think that's the only solution to make progress for this feature?
+> Then, could you elaborate it a bit more or any other ideas from dma-buf
+> folks?
 
-Best regards,
-Tomasz
+I'm skeptical of that DT tag approach working out, as we'd need a new
+DT binding for the new tag name, and we'd have to do so for each new
+heap type that needs this (so non-default cma, your chunk heap,
+whatever other similar heap types that use reserved regions folks come
+up with).  Having *some* driver take ownership for the reserved region
+and register it with the appropriate heap type seems much
+cleaner/flexible and avoids mucking with the DT ABI.
+
+thanks
+-john
