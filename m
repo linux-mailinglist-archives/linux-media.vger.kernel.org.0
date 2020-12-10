@@ -2,153 +2,123 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id D8B202D5B66
-	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 14:14:00 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id DC8232D5C64
+	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 14:53:33 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2389103AbgLJNNc (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Dec 2020 08:13:32 -0500
-Received: from comms.puri.sm ([159.203.221.185]:49000 "EHLO comms.puri.sm"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2388611AbgLJNNW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Dec 2020 08:13:22 -0500
-Received: from localhost (localhost [127.0.0.1])
-        by comms.puri.sm (Postfix) with ESMTP id DA0ABE0E50;
-        Thu, 10 Dec 2020 05:12:38 -0800 (PST)
-Received: from comms.puri.sm ([127.0.0.1])
-        by localhost (comms.puri.sm [127.0.0.1]) (amavisd-new, port 10024)
-        with ESMTP id 8LlYA2yhJuS9; Thu, 10 Dec 2020 05:12:36 -0800 (PST)
-To:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>
-Cc:     "rogerio.silva@nxp.com" <rogerio.silva@nxp.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        "slongerbeam@gmail.com" <slongerbeam@gmail.com>,
-        Fabio Estevam <festevam@gmail.com>,
-        "linux-arm-kernel@lists.infradead.org" 
-        <linux-arm-kernel@lists.infradead.org>,
-        linux-media@vger.kernel.org, NXP Linux Team <linux-imx@nxp.com>,
-        "kernel@puri.sm" <kernel@puri.sm>,
-        Pengutronix Kernel Team <kernel@pengutronix.de>
-References: <9e09ca8b-d1bc-eaa9-d296-c4ee98882c06@puri.sm>
- <X9HpL/qlFxmZi9Vt@pendragon.ideasonboard.com>
- <X9IR7dXOkX2XBCtx@pendragon.ideasonboard.com>
-From:   Martin Kepplinger <martin.kepplinger@puri.sm>
-Subject: Re: question: CSI on imx8mq with (any) CSI2 camera / experience with
- mx6s_capture?
-Message-ID: <195b62c5-5238-a75e-3206-c54efc309e94@puri.sm>
-Date:   Thu, 10 Dec 2020 14:12:30 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
-In-Reply-To: <X9IR7dXOkX2XBCtx@pendragon.ideasonboard.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
+        id S2389621AbgLJNxW (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Dec 2020 08:53:22 -0500
+Received: from wnew4-smtp.messagingengine.com ([64.147.123.18]:35563 "EHLO
+        wnew4-smtp.messagingengine.com" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S2389333AbgLJNsv (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Dec 2020 08:48:51 -0500
+Received: from compute4.internal (compute4.nyi.internal [10.202.2.44])
+        by mailnew.west.internal (Postfix) with ESMTP id CC067EAA;
+        Thu, 10 Dec 2020 08:46:58 -0500 (EST)
+Received: from mailfrontend2 ([10.202.2.163])
+  by compute4.internal (MEProxy); Thu, 10 Dec 2020 08:47:00 -0500
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=cerno.tech; h=
+        from:to:cc:subject:date:message-id:in-reply-to:references
+        :mime-version:content-transfer-encoding; s=fm1; bh=9zT4SpUh2O9xg
+        fXQcQB0u+zTC7OafgG+M5FT6pVoNfg=; b=VULlHb9jbwXMgeHYzRNqxqcW9SDI7
+        bHEI8QFkUOeFuDfI+gyMqT99YnC/os9n6kF3AQ8F9kzWnzXfBHvPJuR9RChkYIze
+        lCmuM13Sp9aWo7Y08fy0LdW4BTfd3cvsRXJH3ayA/3u5pBgX5zzsIkhKdVaELt8L
+        879fL1mmTTSVJHYREQgbgA7uvSVm1pUBJgM++ldhu1asZklBspA1lkBmLE7Fi7P8
+        epMwNVtFNxJ9SwffaxpF1niUI6JGRIanCxQpI6T6tbX1l3EqhxK27EwNzV7h+PWW
+        vETsO3PYguSDH99iKgsk1jXnK1hyKJuc0HyFMnYnkY90ckMwTu3LtFEyg==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=
+        messagingengine.com; h=cc:content-transfer-encoding:date:from
+        :in-reply-to:message-id:mime-version:references:subject:to
+        :x-me-proxy:x-me-proxy:x-me-sender:x-me-sender:x-sasl-enc; s=
+        fm1; bh=9zT4SpUh2O9xgfXQcQB0u+zTC7OafgG+M5FT6pVoNfg=; b=XsU0O7xx
+        J0K/JerxzxpfuUBpLgjubCgq/b6Bqaa2gp6L/XDMKGBqSFkOfGawuennNy5Cf5t9
+        bnjD3z5BKASkho1mZgA/vSLX0dH9pTmQpO8QWPoPDU78LjbwvPKnicjweZv3n1Pd
+        BjMehmcnxz+3d5/j7UH0lBfZ/LQ56jjsE8PAZrKcKdepbbUveWHsvOVLqK1H+5dZ
+        N9CoD60JmV6JDsh+lQYKBZXBbibWN38/lbF4XWEfL1sqINPn1N2q9eRqwFOPrJB8
+        TIFFq3SSVGmHkUxQi6llCz0Fp/4J/ubPCMgfNdDo86Wm1jU+z0j9vRp30ww0cY7w
+        MYJTYDuHBJJegA==
+X-ME-Sender: <xms:0ibSX8MX3CqqxVyhS5B-IjPIfTBov5rWeTxt8cjkG0LzhDRwrpS_VQ>
+    <xme:0ibSXzYGdRAZTYBYR1_NSorUXYfW0a9gbWRMew1JDtjujpk3z4chgrWXoiRKhi3nY
+    cAHw1M-IDdtJ9TsaVk>
+X-ME-Proxy-Cause: gggruggvucftvghtrhhoucdtuddrgedujedrudektddgheehucetufdoteggodetrfdotf
+    fvucfrrhhofhhilhgvmecuhfgrshhtofgrihhlpdfqfgfvpdfurfetoffkrfgpnffqhgen
+    uceurghilhhouhhtmecufedttdenucesvcftvggtihhpihgvnhhtshculddquddttddmne
+    cujfgurhephffvufffkffojghfggfgsedtkeertdertddtnecuhfhrohhmpeforgigihhm
+    vgcutfhiphgrrhguuceomhgrgihimhgvsegtvghrnhhordhtvggthheqnecuggftrfgrth
+    htvghrnhepvdekleevfeffkeejhfffueelteelfeduieefheduudfggffhhfffheevveeh
+    hedvnecukfhppeeltddrkeelrdeikedrjeeinecuvehluhhsthgvrhfuihiivgeptdenuc
+    frrghrrghmpehmrghilhhfrhhomhepmhgrgihimhgvsegtvghrnhhordhtvggthh
+X-ME-Proxy: <xmx:0ibSXz8lN3zrwRSS2L5WNvIzmJqL1qOqvnI3xRWxWJkPVjN-By_nrQ>
+    <xmx:0ibSX8Rc0d6fIDy8LuUJoZ-rke9Ef9QfciqYyyG6fAS70sdKsIL5Pw>
+    <xmx:0ibSX1fQ0uibyiL1aQhItbUaq65bIYvmd6Q7FAHkdH72p7Dm88GsGQ>
+    <xmx:0ibSXx8ScEJ_joiADrk3jnjAhpOo_IPXXIOd9j5fmSNqNho2g7bZXOWWyEo>
+Received: from localhost (lfbn-tou-1-1502-76.w90-89.abo.wanadoo.fr [90.89.68.76])
+        by mail.messagingengine.com (Postfix) with ESMTPA id 0E0CD108005F;
+        Thu, 10 Dec 2020 08:46:57 -0500 (EST)
+From:   Maxime Ripard <maxime@cerno.tech>
+To:     Eric Anholt <eric@anholt.net>,
+        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Maxime Ripard <maxime@cerno.tech>,
+        Daniel Vetter <daniel.vetter@intel.com>,
+        David Airlie <airlied@linux.ie>
+Cc:     Jason Cooper <jason@lakedaemon.net>,
+        bcm-kernel-feedback-list@broadcom.com,
+        linux-arm-kernel@lists.infradead.org,
+        Marc Zyngier <maz@kernel.org>, linux-media@vger.kernel.org,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Thomas Gleixner <tglx@linutronix.de>,
+        Dave Stevenson <dave.stevenson@raspberrypi.com>,
+        linux-rpi-kernel@lists.infradead.org,
+        dri-devel@lists.freedesktop.org
+Subject: [PATCH 06/15] drm/vc4: hdmi: Compute the CEC clock divider from the clock rate
+Date:   Thu, 10 Dec 2020 14:46:39 +0100
+Message-Id: <20201210134648.272857-7-maxime@cerno.tech>
+X-Mailer: git-send-email 2.28.0
+In-Reply-To: <20201210134648.272857-1-maxime@cerno.tech>
+References: <20201210134648.272857-1-maxime@cerno.tech>
+MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 10.12.20 13:17, Laurent Pinchart wrote:
-> Hi Martin,
-> 
-> On Thu, Dec 10, 2020 at 11:24:00AM +0200, Laurent Pinchart wrote:
->> On Thu, Dec 10, 2020 at 09:17:48AM +0100, Martin Kepplinger wrote:
->>> hi,
->>>
->>> TL;DR: did you use the NXP "mx6s_capture" csi bridge driver with other
->>> cameras?
->>
->> I've recently worked on camera support for i.MX8MM (whose camera IP
->> cores are, if not identical, very similar to the i.MX8MQ's). The least I
->> can say is that it was painful :-(
->>
->> I'm using an MT9M114 sensor, which can produce RAW8, RAW10 and YUV and
->> has a CSI-2 interface. My first use case is to capture RAW10, which
->> isn't supported by the mx6s_capture driver.
+The CEC clock divider needs to output a frequency of 40kHz from the HSM
+rate on the BCM2835. The driver used to have a fixed frequency for it,
+but that changed and we now need to compute it dynamically to maintain
+the proper rate.
 
-so did you successfully use the NXP mx6s_capture driver with that sensor 
-too?
+Fixes: cd4cb49dc5bb ("drm/vc4: hdmi: Adjust HSM clock rate depending on pixel rate")
+Signed-off-by: Maxime Ripard <maxime@cerno.tech>
+---
+ drivers/gpu/drm/vc4/vc4_hdmi.c | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
 
->>
->>> I try to use a CSI2 camera (hi846 I'm writing a driver for) on imx8mq:
->>> Using NXP's CSI bridge driver
->>> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/mxc/capture/mx6s_capture.c?h=imx_5.4.0_8dxlphantom_er
->>> as well as the CSI driver itself:
->>> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/imx8/mxc-mipi-csi2_yav.c?h=imx_5.4.0_8dxlphantom_er
->>> works fine when using the ov5640 camera with this driver:
->>> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/mxc/capture/ov5640_mipi_v2.c?h=imx_5.4.0_8dxlphantom_er
->>>
->>> (I realize there is a CSI bridge driver in staging, but that need more
->>> work to be actually used. Of course after this the goal is to fix and
->>> use it; and mainline a CSI phy driver too.)
->>
->> I have lots of patches for this driver, which I've developed on i.MX7D
->> for a separate project. I'd like to mainline them, but this is blocked
->> by one last issue that I haven't been able to solve yet. In a nutshell,
->> the CSI writes two consecutive frames in each buffer, overflowing the
->> allocated memory. The registers that control the buffer size seem to be
->> programmed correctly as far as I can tell. I've reported this issue to
->> NXP but haven't received any feedback yet.
+diff --git a/drivers/gpu/drm/vc4/vc4_hdmi.c b/drivers/gpu/drm/vc4/vc4_hdmi.c
+index eff3bac562c6..0c53d7427d15 100644
+--- a/drivers/gpu/drm/vc4/vc4_hdmi.c
++++ b/drivers/gpu/drm/vc4/vc4_hdmi.c
+@@ -1586,6 +1586,7 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
+ {
+ 	struct cec_connector_info conn_info;
+ 	struct platform_device *pdev = vc4_hdmi->pdev;
++	u16 clk_cnt;
+ 	u32 value;
+ 	int ret;
+ 
+@@ -1611,8 +1612,9 @@ static int vc4_hdmi_cec_init(struct vc4_hdmi *vc4_hdmi)
+ 	 * divider: the hsm_clock rate and this divider setting will
+ 	 * give a 40 kHz CEC clock.
+ 	 */
++	clk_cnt = clk_get_rate(vc4_hdmi->hsm_clock) / CEC_CLOCK_FREQ;
+ 	value |= VC4_HDMI_CEC_ADDR_MASK |
+-		 (4091 << VC4_HDMI_CEC_DIV_CLK_CNT_SHIFT);
++		 (clk_cnt << VC4_HDMI_CEC_DIV_CLK_CNT_SHIFT);
+ 	HDMI_WRITE(HDMI_CEC_CNTRL_1, value);
+ 	ret = devm_request_threaded_irq(&pdev->dev, platform_get_irq(pdev, 0),
+ 					vc4_cec_irq_handler,
+-- 
+2.28.0
 
-that's different from where I am. So you don't get any interrupt (EOF or 
-other) when only *one* frame is written into one buffer?
-
->>
->> I've also added support for i.MX8MM to this driver, but haven't been
->> able to capture RAW8, RAW10 or YUV successfully. YUV produces the "best
->> images", but seems to drop 3 out of 4 consecutive pixels. The sensor
->> driver has been tested successfully on i.MX6 so I don't think it's the
->> most likely cause of issues, but I can't rule out bugs on that side
->> either. The i.MX8 reference manuals describe the MIPI_CSI and CSI IP
->> cores but doesn't tell much about how the two are connected, so I have
->> lots of unanswered questions about the register fields that control the
->> interface between those IP cores. I'm pretty sure there are issues in
->> that area of the drivers, but I've tested all combinations I could think
->> of, without luck.
->>
->>> Now I use said NXP's CSI drivers on mainline without problems with the
->>> ov5640. For the hi846 (as an example), I want to use a different
->>> pixelformat and CSI media bus format. Describing, say,
->>> MEDIA_BUS_FMT_SBGGR10_1X10 in the driver lets mx6s_capture find it; but
->>> as soon as I try to add a different pixelformat than V4L2_PIX_FMT_UYVY in:
->>> https://source.codeaurora.org/external/imx/linux-imx/tree/drivers/media/platform/mxc/capture/mx6s_capture.c?h=imx_5.4.0_8dxlphantom_er#n244
->>> streaming won't start anymore: "not negotiated, -4" and the
->>> "mx6s_vidioc_enum_framesizes" ioctl is not called anymore. Why so?
->>
->> That will likely be the easy part of the problem. The NXP driver doesn't
->> support RAW10 at all, so you will have to add that, and I don't think it
->> will be easy.
-
-the staging driver (imx7-media-csi) sets PIXEL_BIT (cr1) and 
-BIT_MIPI_DATA_FORMAT_RAW10 (cr18) which I hoped to be enough for 
-supporting RAW10. What else do you think is missing?
-
->>
->> I'll push my development branch shortly if you're interested in trying
->> the mainline driver.
-> 
-> 	git://linuxtv.org/pinchartl/media.git imx/csi/imx8
-> 
-> The topmost patches are random debugging tests.
-
-Thanks a lot. I'll definitely have a look and try running imx7-media-csi 
-once more.
-
-> 
->>> I didn't find much when comparing strace from "gst-launch-1.0 v4l2src !
->>> video/x-raw,width=1280,height=720 ! videoconvert ! xvimagesink" (which
->>> is how I test).
->>>
->>> When I simply use V4L2_PIX_FMT_UYVY I *do* get interrupts (in mx6s) but
->>> only "FIELD0_INT" (and drawing at this point suggests that buffer 1 is
->>> not yet full and "distorted" in a wrong format, which could explain why
->>> DMA is never completed in order to create a full frame).
->>>
->>> Now this is details, but the hi846 camera uses a 10bit CSI format and
->>> therefore I need to set PIXEL_BIT in cr1 too, but when I do that for
->>> example, I don't get "FIELD0_INT" anymore (only SFF_OR_INT and of course
->>> the "base address switching Change Err").
->>>
->>> Do you have experience with using this driver with other cameras and can
->>> point me in a direction that might help me?
->>>
->>> If you want to look at the work-in-progress driver:
->>> https://source.puri.sm/martin.kepplinger/linux-next/-/blob/hi846/drivers/media/i2c/hi846.c
-> 
