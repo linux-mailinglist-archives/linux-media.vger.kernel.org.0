@@ -2,64 +2,66 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C1BBA2D5989
-	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 12:45:02 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 6A9992D594D
+	for <lists+linux-media@lfdr.de>; Thu, 10 Dec 2020 12:34:34 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728457AbgLJLno (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Dec 2020 06:43:44 -0500
-Received: from mx2.suse.de ([195.135.220.15]:40654 "EHLO mx2.suse.de"
+        id S2389476AbgLJLeF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Dec 2020 06:34:05 -0500
+Received: from www.linuxtv.org ([130.149.80.248]:47818 "EHLO www.linuxtv.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1727043AbgLJLnj (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Dec 2020 06:43:39 -0500
-X-Virus-Scanned: by amavisd-new at test-mx.suse.de
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=suse.com; s=susede1;
-        t=1607600572; h=from:from:reply-to:date:date:message-id:message-id:to:to:cc:cc:
-         mime-version:mime-version:content-type:content-type:
-         in-reply-to:in-reply-to:references:references;
-        bh=b5dIRaLNX6aRE22CFde/Fg59anE9N6upllD4rSYJw5o=;
-        b=ELHSvPFtseK9UMLnXhb2ow62vSI8w05u9PAFKm0KHoq7zWYpKtNbKhCKd2pll+hOhQ75zx
-        bjPzNTc8x/ZG965OrAustYCiXDFh654zaDVSi9AQziGZaluHdplpaSHI9z3FVvpRax9iwT
-        j9BmKFaFHeu+K3MqOUpbqM24+9jN8zI=
-Received: from relay2.suse.de (unknown [195.135.221.27])
-        by mx2.suse.de (Postfix) with ESMTP id 339BAAD6B;
-        Thu, 10 Dec 2020 11:42:51 +0000 (UTC)
-Date:   Thu, 10 Dec 2020 09:34:11 +0100
-From:   Petr Mladek <pmladek@suse.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     linux-kernel@vger.kernel.org, linux-media@vger.kernel.org,
-        Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        dri-devel@lists.freedesktop.org, hverkuil@xs4all.nl,
-        laurent.pinchart@ideasonboard.com, mchehab@kernel.org,
-        Sergey Senozhatsky <sergey.senozhatsky@gmail.com>,
-        Steven Rostedt <rostedt@goodmis.org>,
-        Joe Perches <joe@perches.com>,
-        Jani Nikula <jani.nikula@linux.intel.com>,
-        Rasmus Villemoes <linux@rasmusvillemoes.dk>
-Subject: Re: [PATCH v5 1/1] lib/vsprintf: Add support for printing V4L2 and
- DRM fourccs
-Message-ID: <X9Hdg3lJm+TZAQGX@alley>
-References: <20201113105441.1427-1-sakari.ailus@linux.intel.com>
+        id S2389474AbgLJLdu (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Dec 2020 06:33:50 -0500
+Received: from builder.linuxtv.org ([140.211.167.10])
+        by www.linuxtv.org with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1knKBz-00DWr1-5c; Thu, 10 Dec 2020 11:33:03 +0000
+Received: from [127.0.0.1] (helo=builder.linuxtv.org)
+        by builder.linuxtv.org with esmtp (Exim 4.92)
+        (envelope-from <jenkins@linuxtv.org>)
+        id 1knKFC-0008LR-2j; Thu, 10 Dec 2020 11:36:22 +0000
+From:   Jenkins <jenkins@linuxtv.org>
+To:     mchehab+samsung@kernel.org, linux-media@vger.kernel.org
+Cc:     builder@linuxtv.org
+Subject: Re: [GIT PULL for v5.10] media fixes (#69927)
+Date:   Thu, 10 Dec 2020 11:36:21 +0000
+Message-Id: <20201210113621.32036-1-jenkins@linuxtv.org>
+X-Mailer: git-send-email 2.20.1
+In-Reply-To: <20201210121818.2d5c0353@coco.lan>
+References: 
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201113105441.1427-1-sakari.ailus@linux.intel.com>
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri 2020-11-13 12:54:41, Sakari Ailus wrote:
-> Add a printk modifier %p4cc (for pixel format) for printing V4L2 and DRM
-> pixel formats denoted by fourccs. The fourcc encoding is the same for both
-> so the same implementation can be used.
-> 
-> Suggested-by: Mauro Carvalho Chehab <mchehab@kernel.org>
-> Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
+From: builder@linuxtv.org
 
-Andy, Rasmus,
+Pull request: https://patchwork.linuxtv.org/project/linux-media/patch/20201210121818.2d5c0353@coco.lan/
+Build log: https://builder.linuxtv.org/job/patchwork/80710/
+Build time: 00:05:03
+Link: https://lore.kernel.org/linux-media/20201210121818.2d5c0353@coco.lan
 
-the last version looks fine to me. I am going to push it.
-Please, speak up if you are against it.
+gpg: Signature made Thu 10 Dec 2020 11:10:56 AM UTC
+gpg:                using RSA key F909AE68FC11DF09C1755C00085F3EBD8EE4E115
+gpg: Good signature from "Mauro Carvalho Chehab <mchehab+huawei@kernel.org>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@kernel.org>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <m.chehab@samsung.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@osg.samsung.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab@s-opensource.com>" [ultimate]
+gpg:                 aka "Mauro Carvalho Chehab <mchehab+samsung@kernel.org>" [ultimate]
+gpg:                 aka "[jpeg image of size 3594]" [ultimate]
 
-Best Regards,
-Petr
+Summary: got 1/7 patches with issues, being 0 at build time, plus one error when buinding PDF document
+
+Error/warnings:
+
+patches/0005-media-next-media-vidtv-fix-a-read-from-an-object-aft.patch:
+
+   checkpatch.pl:
+	$ cat patches/0005-media-next-media-vidtv-fix-a-read-from-an-object-aft.patch | formail -c | ./scripts/checkpatch.pl --terse --mailback --no-summary --strict
+	-:13: WARNING: Possible unwrapped commit description (prefer a maximum 75 chars per line)
+
+
+Error #512 when building PDF docs
+
