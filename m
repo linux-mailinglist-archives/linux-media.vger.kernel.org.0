@@ -2,107 +2,110 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 0B4242D7BC8
-	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 18:00:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EA92A2D7C4F
+	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 18:08:20 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1732166AbgLKQ6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Dec 2020 11:58:54 -0500
-Received: from mga04.intel.com ([192.55.52.120]:12577 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1731237AbgLKQ6I (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Dec 2020 11:58:08 -0500
-IronPort-SDR: yojei51635MzC4VMpnzNoI0WjjU8wHhJOC97cOLLq3NlSa3G9aTkUrC31DhCq/O+/2dTX0l52Z
- kCpI2WDK6uAg==
-X-IronPort-AV: E=McAfee;i="6000,8403,9832"; a="171896334"
-X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; 
-   d="scan'208";a="171896334"
-Received: from orsmga003.jf.intel.com ([10.7.209.27])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2020 08:56:18 -0800
-IronPort-SDR: jhUNGyw/A2QaJXoGHWr2U10B/0JdxbtNLtfRq9Pvnc+Zzfir4kYk8ksp+y3ps8vLwhuF0Beuic
- xz9YRDaFYYiA==
-X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; 
-   d="scan'208";a="334177371"
-Received: from paasikivi.fi.intel.com ([10.237.72.42])
-  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2020 08:56:16 -0800
-Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
-        id 3818420473; Fri, 11 Dec 2020 18:56:14 +0200 (EET)
-Date:   Fri, 11 Dec 2020 18:56:14 +0200
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-Cc:     kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org,
-        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: drivers/media/pci/intel/ipu3/ipu3-cio2.c:163:56: warning:
- implicit conversion from 'unsigned long' to 'u16' (aka 'unsigned short')
- changes value from 131072 to 0
-Message-ID: <20201211165614.GC26370@paasikivi.fi.intel.com>
-References: <202011211600.bZyprrVg-lkp@intel.com>
- <20201123104018.GX4077@smile.fi.intel.com>
+        id S2394257AbgLKRFY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Dec 2020 12:05:24 -0500
+Received: from hqnvemgate25.nvidia.com ([216.228.121.64]:3866 "EHLO
+        hqnvemgate25.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389589AbgLKRD2 (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Dec 2020 12:03:28 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate25.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        id <B5fd3a6380000>; Fri, 11 Dec 2020 09:02:48 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 11 Dec
+ 2020 17:02:47 +0000
+Received: from skomatineni-linux.nvidia.com (172.20.145.6) by mail.nvidia.com
+ (172.20.187.15) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
+ Transport; Fri, 11 Dec 2020 17:02:47 +0000
+From:   Sowjanya Komatineni <skomatineni@nvidia.com>
+To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
+        <jonathanh@nvidia.com>, <hverkuil@xs4all.nl>,
+        <sakari.ailus@iki.fi>, <robh+dt@kernel.org>
+CC:     <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
+        <linux-tegra@vger.kernel.org>, <devicetree@vger.kernel.org>,
+        <linux-kernel@vger.kernel.org>
+Subject: [PATCH v4 00/13] tegra-video: Add support for capturing from HDMI-to-CSI bridge
+Date:   Fri, 11 Dec 2020 09:02:29 -0800
+Message-ID: <1607706162-1548-1-git-send-email-skomatineni@nvidia.com>
+X-Mailer: git-send-email 2.7.4
+X-NVConfidentiality: public
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-In-Reply-To: <20201123104018.GX4077@smile.fi.intel.com>
-User-Agent: Mutt/1.10.1 (2018-07-13)
+Content-Type: text/plain
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
+        t=1607706168; bh=5/l5Vv3hV3HKJV6+zO0Bg1pZmZoapB8SxAZ/Utb3q3g=;
+        h=From:To:CC:Subject:Date:Message-ID:X-Mailer:X-NVConfidentiality:
+         MIME-Version:Content-Type;
+        b=bmfve5afHK4ACVxIPq8quNgC+PRM1acsQg0Lh/FdM/5Dg3EF2DTG3zkcNSo2mQ5hg
+         kR+jCGeITufRc8cvSFSUzaFNBMyQaBOYHBHMfsxPCvjPw+KqoeBy5w1fNRXr+fXmoD
+         e6XFgCRgHs/jioYogbQsgbJF2tLCjILEmgj6aBUNNalYDF2JrTMgNYyHBShYCa2Kjt
+         3FpnY1WK08UxqiAMjelYp5vYCQh0+WhqHXshlPm5waARYeTJLleBGVkUHhYt6h77b5
+         a+0dR7BmehKD5q9Xc+eomr9RNm4UpGJ9n7VLD7nkpcOAEJqg4aguGfM6Xj6Z33FTAe
+         QW2iKWZtOteWA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Andy,
+This series includes below changes to allow capturing from HDMI-to-CSI bridges.
+- Add DV timing, EDID and log status V4L2 IOCTLs
+- Subscribe V4L2_EVENT_SOURCE_CHANGE
+- Implement V4L2 device notify callback to report queue error on source change
+  during active streaming.
+- Add support for NV16 V4L2 Pixel format.
+- Add x8 capture by multiple ports gang up for 4K captures from HDMI-to-CSI
+  bridges.
 
-On Mon, Nov 23, 2020 at 12:40:18PM +0200, Andy Shevchenko wrote:
-> On Sat, Nov 21, 2020 at 04:23:05PM +0800, kernel test robot wrote:
-> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
-> > head:   27bba9c532a8d21050b94224ffd310ad0058c353
-> > commit: 7b285f41f7376dc37e7fad1e803995fd39f42848 media: ipu3-cio2: Introduce CIO2_LOP_ENTRIES constant
-> > date:   2 months ago
-> > config: arm64-randconfig-r031-20201121 (attached as .config)
-> > compiler: clang version 12.0.0 (https://github.com/llvm/llvm-project bec968cbb367dd03439c89c1d4ef968ef662d7c0)
-> > reproduce (this is a W=1 build):
-> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
-> >         chmod +x ~/bin/make.cross
-> >         # install arm64 cross compiling tool for clang build
-> >         # apt-get install binutils-aarch64-linux-gnu
-> >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7b285f41f7376dc37e7fad1e803995fd39f42848
-> >         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
-> >         git fetch --no-tags linus master
-> >         git checkout 7b285f41f7376dc37e7fad1e803995fd39f42848
-> >         # save the attached .config to linux build tree
-> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm64 
-> > 
-> > If you fix the issue, kindly add following tag as appropriate
-> > Reported-by: kernel test robot <lkp@intel.com>
-> > 
-> > All warnings (new ones prefixed by >>):
-> > 
-> > >> drivers/media/pci/intel/ipu3/ipu3-cio2.c:163:56: warning: implicit conversion from 'unsigned long' to 'u16' (aka 'unsigned short') changes value from 131072 to 0 [-Wconstant-conversion]
-> >            entry[1].second_entry.num_of_pages = CIO2_LOP_ENTRIES * CIO2_MAX_LOPS;
-> >                                               ~ ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
-> >    1 warning generated.
-> 
-> Okay, now we have an interesting case. The IP is quite unlikely be used on
-> ARM64, but my patches made the clear picture about use of PAGE_SIZE here.
-> 
-> So, I see at least the following options to mitigate the above, i.e.:
->  1/ reduce driver scope to X86
->  2/ fix the variables to be wider type to be able to hold PAGE_SIZE > 4k
->  3/ switch to custom PAGE_SIZE / _SHIFT / _MASK and accompanying macros
-> 
-> And I still consider 3/ is silly move because as we see the driver was
-> never assumed to work with big page sizes (besides unsigned short type
-> here, PAGE_SHIFT and PAGE_MASK in the original code was as is and on ARM64
-> they compiled to 0 values w/o warnings, effectively make the driver
-> improperly functioning anyway).
+Note: These patches are tested with TC358840 HDMI-to-CSI bridge.
 
-Apologies for the late answer.
+This series also include below fixes
+- Allow format change for subdevs that don't have crop support.
+- Correct V4L2 Pixel format for RGB888_1X24
+- Enable VI pixel transform for YUV and RGB formats.
 
-I think I'd favour the first option. It's not really useful to be able to
-compile this elsewhere; as such the driver doesn't do anything special that
-would make it prone to breakage through changes elsewhere.
+Delta between patch versions:
+[v4]:	Includes v3 minor feedback
 
-Would you like to send a patch? :-)
+[v3]:	Includes below changes based on v2 feedback
+	- Correct V4L2 pixel formats for RGB and YUV.
+	- Sets V4L2_IN_CAP_DV_TIMINGS capability for v4l2 input.
+	- Updates V4L2_FWNODE_CSI2_MAX_DATA_LANES to 8 and uses
+	  data-lanes property of Tegra CSI device graph endpoint
+	  for 8 lanes.
+	- Added V4L2 custom control V4L2_CID_TEGRA_SYNCPT_TIMEOUT_RETRY
+	  for HDMI-to-CSI bridge debug purposes.
+
+[v2]:	v1 + additional patch for x8 capture support
+
+
+Sowjanya Komatineni (13):
+  media: tegra-video: Use zero crop settings if subdev has no
+    get_selection
+  media: tegra-video: Enable VI pixel transform for YUV and RGB formats
+  media: tegra-video: Fix V4L2 pixel format RGB and YUV
+  media: tegra-video: Add support for V4L2_PIX_FMT_NV16
+  media: tegra-video: Add DV timing support
+  media: tegra-video: Add support for EDID ioctl ops
+  media: tegra-video: Add support for VIDIOC_LOG_STATUS ioctl
+  media: tegra-video: Add support for V4L2_EVENT_SOURCE_CHANGE
+  media: tegra-video: Implement V4L2 device notify callback
+  media: v4l2-fwnode: Update V4L2_FWNODE_CSI2_MAX_DATA_LANES to 8
+  dt-bindings: tegra: Update csi data-lanes to maximum 8 lanes
+  media: tegra-video: Add support for x8 captures with gang ports
+  media: tegra-video: Add custom V4L2 control
+    V4L2_CID_TEGRA_SYNCPT_TIMEOUT_RETRY
+
+ .../display/tegra/nvidia,tegra20-host1x.txt        |   4 +-
+ drivers/staging/media/tegra-video/csi.c            |  35 ++-
+ drivers/staging/media/tegra-video/csi.h            |  14 +-
+ drivers/staging/media/tegra-video/tegra210.c       | 340 ++++++++++++++-------
+ drivers/staging/media/tegra-video/vi.c             | 338 +++++++++++++++++---
+ drivers/staging/media/tegra-video/vi.h             |  23 +-
+ drivers/staging/media/tegra-video/video.c          |  18 ++
+ include/media/v4l2-fwnode.h                        |   2 +-
+ 8 files changed, 614 insertions(+), 160 deletions(-)
 
 -- 
-Kind regards,
+2.7.4
 
-Sakari Ailus
