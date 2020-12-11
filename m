@@ -2,24 +2,24 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B31662D7C28
-	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 18:05:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5172C2D7C1D
+	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 18:04:59 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393760AbgLKREN (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Dec 2020 12:04:13 -0500
-Received: from hqnvemgate24.nvidia.com ([216.228.121.143]:2291 "EHLO
-        hqnvemgate24.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2389598AbgLKRD3 (ORCPT
+        id S2405109AbgLKREP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Dec 2020 12:04:15 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:5324 "EHLO
+        hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2393576AbgLKRDw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Dec 2020 12:03:29 -0500
-Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate24.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
+        Fri, 11 Dec 2020 12:03:52 -0500
+Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
         id <B5fd3a6390000>; Fri, 11 Dec 2020 09:02:49 -0800
 Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
  (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 11 Dec
- 2020 17:02:48 +0000
+ 2020 17:02:49 +0000
 Received: from skomatineni-linux.nvidia.com (172.20.145.6) by mail.nvidia.com
  (172.20.187.15) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
- Transport; Fri, 11 Dec 2020 17:02:48 +0000
+ Transport; Fri, 11 Dec 2020 17:02:49 +0000
 From:   Sowjanya Komatineni <skomatineni@nvidia.com>
 To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
         <jonathanh@nvidia.com>, <hverkuil@xs4all.nl>,
@@ -27,9 +27,9 @@ To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
 CC:     <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
         <linux-tegra@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 02/13] media: tegra-video: Enable VI pixel transform for YUV and RGB formats
-Date:   Fri, 11 Dec 2020 09:02:31 -0800
-Message-ID: <1607706162-1548-3-git-send-email-skomatineni@nvidia.com>
+Subject: [PATCH v4 03/13] media: tegra-video: Fix V4L2 pixel format RGB and YUV
+Date:   Fri, 11 Dec 2020 09:02:32 -0800
+Message-ID: <1607706162-1548-4-git-send-email-skomatineni@nvidia.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1607706162-1548-1-git-send-email-skomatineni@nvidia.com>
 References: <1607706162-1548-1-git-send-email-skomatineni@nvidia.com>
@@ -37,65 +37,62 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1607706169; bh=3KvReLIRXcuW/kRnBsqtVyD+GiWXJeSQRRku54/yeMg=;
+        t=1607706170; bh=imcyi/Wf5bWSKWY3rp4OOsZll/aHA+UXIksKEb6CDQY=;
         h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
          References:X-NVConfidentiality:MIME-Version:Content-Type;
-        b=dT0/BYwE9AfZF5CrldrAWJVtDVccMVBbJIay7rjv18tiGJtmGnc6QH3T/ikiX90kQ
-         BiOtVxUHJRvUrO5JPlmAJ9HxTfBmHbX4lIj+XBHx3a58RYKktnvUcjoNa9ytlVPxqV
-         yu3bT20c6i26/337HRkJMH1A+89cMUAynmRWsu5cvXxAuF6w4b1IjU+F8pJb0KI3E3
-         bTiqlWL1wverKjK+D7KMq1mm5RHKx4PloCbFSivzp8kOVQCoktFTbyCGNAjMejPN5o
-         xucLh8z4vBoFALe9cjtrjmKU4CEfg5kAs++ZbeVzPnV9+kjGFXFavTrekuw0W3HasJ
-         kdBpI72ejumCg==
+        b=aBicalSEA11LNNKZFXiYpkLT0K99Wd8ij7bmTA8MgcxBd13Dhkj3NwByl6tP3Nz6b
+         I3XlADhMOZrPQfrVyM+i7oCYO6F5empL0t0DZzuzKYCZnAqhTKPyqDRDX6V3eI7ah0
+         hhpZWKBDgB157Qywvgf0hVja5vo/8JnwBEfvB3WnSPb5cgGk/rXFgKZ9C9N56RnGY+
+         cNWr7IxaXoPldNi8J34UJ2tQy8W1Q2tV4UvGPempy0jLe3KToiEJJvaRY2eUliZIDT
+         8PeMXmiUK/HveLLLLTMeMdejq4LhXjENShLexQRYLvyKUEpAXAf1fwSpI308vVMT75
+         QshyQMC/yvkIA==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-VI Pixel transforms converts source pixel data to selected
-destination pixel formats in memory and aligns properly.
+V4L2 pixel format is incorrect for RGB and YUV formats.
 
-YUV and RGB formats need this pixel transform to be enabled.
-
-RAW formats use T_R16_I destination pixel format in memory and
-does not need pixel transform as they support direct write to
-memory.
-
-So, this patch enables pixel transform for YUV and RGB and keeps
-it bypass for RAW formats.
+This patch fixes it.
 
 Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 ---
- drivers/staging/media/tegra-video/tegra210.c | 15 ++++++++++++++-
- 1 file changed, 14 insertions(+), 1 deletion(-)
+ drivers/staging/media/tegra-video/tegra210.c | 20 ++++++++++----------
+ 1 file changed, 10 insertions(+), 10 deletions(-)
 
 diff --git a/drivers/staging/media/tegra-video/tegra210.c b/drivers/staging/media/tegra-video/tegra210.c
-index ac066c0..6b23aa7 100644
+index 6b23aa7..68f09e4 100644
 --- a/drivers/staging/media/tegra-video/tegra210.c
 +++ b/drivers/staging/media/tegra-video/tegra210.c
-@@ -178,10 +178,23 @@ static int tegra_channel_capture_setup(struct tegra_vi_channel *chan)
- 	u32 format = chan->fmtinfo->img_fmt;
- 	u32 data_type = chan->fmtinfo->img_dt;
- 	u32 word_count = (width * chan->fmtinfo->bit_width) / 8;
-+	u32 bypass_pixel_transform = BIT(BYPASS_PXL_TRANSFORM_OFFSET);
-+
-+	/*
-+	 * VI Pixel transformation unit converts source pixels data format
-+	 * into selected destination pixel format and aligns properly while
-+	 * interfacing with memory packer.
-+	 * This pixel transformation should be enabled for YUV and RGB
-+	 * formats and should be bypassed for RAW formats as RAW formats
-+	 * only support direct to memory.
-+	 */
-+	if (chan->pg_mode || data_type == TEGRA_IMAGE_DT_YUV422_8 ||
-+	    data_type == TEGRA_IMAGE_DT_RGB888)
-+		bypass_pixel_transform = 0;
+@@ -619,19 +619,19 @@ static const struct tegra_video_format tegra210_video_formats[] = {
+ 	TEGRA210_VIDEO_FMT(RAW12, 12, SGBRG12_1X12, 2, T_R16_I, SGBRG12),
+ 	TEGRA210_VIDEO_FMT(RAW12, 12, SBGGR12_1X12, 2, T_R16_I, SBGGR12),
+ 	/* RGB888 */
+-	TEGRA210_VIDEO_FMT(RGB888, 24, RGB888_1X24, 4, T_A8R8G8B8, RGB24),
++	TEGRA210_VIDEO_FMT(RGB888, 24, RGB888_1X24, 4, T_A8R8G8B8, XBGR32),
+ 	TEGRA210_VIDEO_FMT(RGB888, 24, RGB888_1X32_PADHI, 4, T_A8B8G8R8,
+-			   XBGR32),
++			   RGBX32),
+ 	/* YUV422 */
+-	TEGRA210_VIDEO_FMT(YUV422_8, 16, UYVY8_1X16, 2, T_U8_Y8__V8_Y8, UYVY),
+-	TEGRA210_VIDEO_FMT(YUV422_8, 16, VYUY8_1X16, 2, T_V8_Y8__U8_Y8, VYUY),
+-	TEGRA210_VIDEO_FMT(YUV422_8, 16, YUYV8_1X16, 2, T_Y8_U8__Y8_V8, YUYV),
+-	TEGRA210_VIDEO_FMT(YUV422_8, 16, YVYU8_1X16, 2, T_Y8_V8__Y8_U8, YVYU),
++	TEGRA210_VIDEO_FMT(YUV422_8, 16, UYVY8_1X16, 2, T_U8_Y8__V8_Y8, YVYU),
++	TEGRA210_VIDEO_FMT(YUV422_8, 16, VYUY8_1X16, 2, T_V8_Y8__U8_Y8, YUYV),
++	TEGRA210_VIDEO_FMT(YUV422_8, 16, YUYV8_1X16, 2, T_Y8_U8__Y8_V8, VYUY),
++	TEGRA210_VIDEO_FMT(YUV422_8, 16, YVYU8_1X16, 2, T_Y8_V8__Y8_U8, UYVY),
+ 	TEGRA210_VIDEO_FMT(YUV422_8, 16, UYVY8_1X16, 1, T_Y8__V8U8_N422, NV16),
+-	TEGRA210_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 2, T_U8_Y8__V8_Y8, UYVY),
+-	TEGRA210_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 2, T_V8_Y8__U8_Y8, VYUY),
+-	TEGRA210_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 2, T_Y8_U8__Y8_V8, YUYV),
+-	TEGRA210_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 2, T_Y8_V8__Y8_U8, YVYU),
++	TEGRA210_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 2, T_U8_Y8__V8_Y8, YVYU),
++	TEGRA210_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 2, T_V8_Y8__U8_Y8, YUYV),
++	TEGRA210_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 2, T_Y8_U8__Y8_V8, VYUY),
++	TEGRA210_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 2, T_Y8_V8__Y8_U8, UYVY),
+ };
  
- 	vi_csi_write(chan, TEGRA_VI_CSI_ERROR_STATUS, 0xffffffff);
- 	vi_csi_write(chan, TEGRA_VI_CSI_IMAGE_DEF,
--		     ((chan->pg_mode ? 0 : 1) << BYPASS_PXL_TRANSFORM_OFFSET) |
-+		     bypass_pixel_transform |
- 		     (format << IMAGE_DEF_FORMAT_OFFSET) |
- 		     IMAGE_DEF_DEST_MEM);
- 	vi_csi_write(chan, TEGRA_VI_CSI_IMAGE_DT, data_type);
+ /* Tegra210 VI operations */
 -- 
 2.7.4
 
