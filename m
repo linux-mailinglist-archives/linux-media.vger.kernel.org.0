@@ -2,150 +2,84 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 984642D6D56
-	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 02:24:48 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 2C0C52D6E62
+	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 04:13:44 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404616AbgLKBWf (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Thu, 10 Dec 2020 20:22:35 -0500
-Received: from foss.arm.com ([217.140.110.172]:49880 "EHLO foss.arm.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2394792AbgLKBWW (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Thu, 10 Dec 2020 20:22:22 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 554C21534;
-        Thu, 10 Dec 2020 17:20:39 -0800 (PST)
-Received: from localhost.localdomain (unknown [172.31.20.19])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id 2E0DC3F66B;
-        Thu, 10 Dec 2020 17:20:36 -0800 (PST)
-From:   Andre Przywara <andre.przywara@arm.com>
-To:     Maxime Ripard <mripard@kernel.org>, Chen-Yu Tsai <wens@csie.org>,
-        Jernej Skrabec <jernej.skrabec@siol.net>
-Cc:     Icenowy Zheng <icenowy@aosc.xyz>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        Rob Herring <robh@kernel.org>,
-        =?UTF-8?q?Cl=C3=A9ment=20P=C3=A9ron?= <peron.clem@gmail.com>,
-        Shuosheng Huang <huangshuosheng@allwinnertech.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        linux-arm-kernel@lists.infradead.org, linux-kernel@vger.kernel.org,
-        linux-sunxi@googlegroups.com,
-        Gregory CLEMENT <gregory.clement@bootlin.com>,
+        id S2392159AbgLKDNK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Thu, 10 Dec 2020 22:13:10 -0500
+Received: from mail-oo1-f65.google.com ([209.85.161.65]:41028 "EHLO
+        mail-oo1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2389864AbgLKDMu (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Thu, 10 Dec 2020 22:12:50 -0500
+Received: by mail-oo1-f65.google.com with SMTP id q6so1021228ooo.8;
+        Thu, 10 Dec 2020 19:12:35 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:date:from:to:cc:subject:message-id:references
+         :mime-version:content-disposition:in-reply-to;
+        bh=20FUrkWgYAPacYXxuWXY+xSuM7UzPwHMJmdN/diicTY=;
+        b=AGNFSUdDPq9/57f9mlK/N+NsHz3h8CYkH1WiBVo7JEzWScDSBLw+VL/ls6ZP7D81WK
+         /+HnmCvcTo9tJquaSqXe8lyhWS25rYy50gmX9TsJ0WiUhbGlFNFGPwk5fNrJ25R8AR9F
+         Ck6oxh/S/YPSdWhuPQbgVXZsKHI88/YvaEAwtuZ+3YFvePG8jUqyBO6ZWazTe72v6qsU
+         1uv9fkvhTqgNRGUb5ZY88nijAtfXNV48msEWGroUWBULcdYoCsmBf91h2o9+Ncz8chyZ
+         OAgKxXvyA6AztpAmtML+deSRgFHHM5vczS2a5wX9vWRR0+MARDKYYf+p7iqZjWGJDCO8
+         rb6A==
+X-Gm-Message-State: AOAM533xlnLqMjpzVCjigYFnoLtBzGgE9Il1jbEwlzKV5+lHMGUhdAp4
+        B07GxQkPlmTShPaqb4abdQ==
+X-Google-Smtp-Source: ABdhPJwohjal/Q+JcqCNbtBwiT+Ur1QE8QEtsOSmxZ6JD0zWUlTAcOoTlEyI60ZGWGKBfLTL5wWqQA==
+X-Received: by 2002:a4a:bc8d:: with SMTP id m13mr8457514oop.63.1607656329889;
+        Thu, 10 Dec 2020 19:12:09 -0800 (PST)
+Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
+        by smtp.gmail.com with ESMTPSA id o63sm1500679ooa.10.2020.12.10.19.12.07
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Thu, 10 Dec 2020 19:12:08 -0800 (PST)
+Received: (nullmailer pid 3555218 invoked by uid 1000);
+        Fri, 11 Dec 2020 03:12:07 -0000
+Date:   Thu, 10 Dec 2020 21:12:07 -0600
+From:   Rob Herring <robh@kernel.org>
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     linux-media@vger.kernel.org,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Helen Koike <helen.koike@collabora.com>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
         Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>,
-        Mark Brown <broonie@kernel.org>, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, linux-rtc@vger.kernel.org,
-        linux-spi@vger.kernel.org, devicetree@vger.kernel.org
-Subject: [PATCH v2 18/21] dt-bindings: allwinner: Add H616 compatible strings
-Date:   Fri, 11 Dec 2020 01:19:31 +0000
-Message-Id: <20201211011934.6171-19-andre.przywara@arm.com>
-X-Mailer: git-send-email 2.14.1
-In-Reply-To: <20201211011934.6171-1-andre.przywara@arm.com>
-References: <20201211011934.6171-1-andre.przywara@arm.com>
+        Vinod Koul <vkoul@kernel.org>,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        linux-arm-kernel@lists.infradead.org, linux-doc@vger.kernel.org,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        Chen-Yu Tsai <wens@csie.org>, Rob Herring <robh+dt@kernel.org>,
+        devicetree@vger.kernel.org, devel@driverdev.osuosl.org,
+        linux-sunxi@googlegroups.com, Jonathan Corbet <corbet@lwn.net>,
+        Maxime Ripard <mripard@kernel.org>,
+        Jernej Skrabec <jernej.skrabec@siol.net>,
+        kevin.lhopital@hotmail.com, linux-kernel@vger.kernel.org,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Yong Deng <yong.deng@magewell.com>,
+        Kishon Vijay Abraham I <kishon@ti.com>
+Subject: Re: [PATCH v2 16/19] dt-bindings: media: Add A83T MIPI CSI-2
+ bindings documentation
+Message-ID: <20201211031207.GA3555125@robh.at.kernel.org>
+References: <20201128142839.517949-1-paul.kocialkowski@bootlin.com>
+ <20201128142839.517949-17-paul.kocialkowski@bootlin.com>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201128142839.517949-17-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add simple "allwinner,sun50i-h616-xxx" compatible names to existing
-bindings, and pair them with an existing fallback compatible string,
-as the devices are compatible.
-This covers I2C, infrared, RTC and SPI.
+On Sat, 28 Nov 2020 15:28:36 +0100, Paul Kocialkowski wrote:
+> This introduces YAML bindings documentation for the A83T MIPI CSI-2
+> controller.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+> ---
+>  .../media/allwinner,sun8i-a83t-mipi-csi2.yaml | 147 ++++++++++++++++++
+>  1 file changed, 147 insertions(+)
+>  create mode 100644 Documentation/devicetree/bindings/media/allwinner,sun8i-a83t-mipi-csi2.yaml
+> 
 
-Use enums to group all compatible devices together.
-
-Signed-off-by: Andre Przywara <andre.przywara@arm.com>
----
- .../bindings/i2c/marvell,mv64xxx-i2c.yaml     | 21 +++++++------------
- .../media/allwinner,sun4i-a10-ir.yaml         | 16 ++++++--------
- .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml |  3 +++
- .../bindings/spi/allwinner,sun6i-a31-spi.yaml |  1 +
- 4 files changed, 17 insertions(+), 24 deletions(-)
-
-diff --git a/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml b/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-index 5b5ae402f97a..eb72dd571def 100644
---- a/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-+++ b/Documentation/devicetree/bindings/i2c/marvell,mv64xxx-i2c.yaml
-@@ -18,21 +18,14 @@ properties:
-           - const: allwinner,sun4i-a10-i2c
-       - const: allwinner,sun6i-a31-i2c
-       - items:
--          - const: allwinner,sun8i-a23-i2c
-+          - enum:
-+              - allwinner,sun8i-a23-i2c
-+              - allwinner,sun8i-a83t-i2c
-+              - allwinner,sun50i-a64-i2c
-+              - allwinner,sun50i-a100-i2c
-+              - allwinner,sun50i-h6-i2c
-+              - allwinner,sun50i-h616-i2c
-           - const: allwinner,sun6i-a31-i2c
--      - items:
--          - const: allwinner,sun8i-a83t-i2c
--          - const: allwinner,sun6i-a31-i2c
--      - items:
--          - const: allwinner,sun50i-a64-i2c
--          - const: allwinner,sun6i-a31-i2c
--      - items:
--          - const: allwinner,sun50i-a100-i2c
--          - const: allwinner,sun6i-a31-i2c
--      - items:
--          - const: allwinner,sun50i-h6-i2c
--          - const: allwinner,sun6i-a31-i2c
--
-       - const: marvell,mv64xxx-i2c
-       - const: marvell,mv78230-i2c
-       - const: marvell,mv78230-a0-i2c
-diff --git a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
-index 5fa19d4aeaf3..6d8395d6bca0 100644
---- a/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
-+++ b/Documentation/devicetree/bindings/media/allwinner,sun4i-a10-ir.yaml
-@@ -20,16 +20,12 @@ properties:
-       - const: allwinner,sun5i-a13-ir
-       - const: allwinner,sun6i-a31-ir
-       - items:
--          - const: allwinner,sun8i-a83t-ir
--          - const: allwinner,sun6i-a31-ir
--      - items:
--          - const: allwinner,sun8i-r40-ir
--          - const: allwinner,sun6i-a31-ir
--      - items:
--          - const: allwinner,sun50i-a64-ir
--          - const: allwinner,sun6i-a31-ir
--      - items:
--          - const: allwinner,sun50i-h6-ir
-+          - enum:
-+              - allwinner,sun8i-a83t-ir
-+              - allwinner,sun8i-r40-ir
-+              - allwinner,sun50i-a64-ir
-+              - allwinner,sun50i-h6-ir
-+              - allwinner,sun50i-h616-ir
-           - const: allwinner,sun6i-a31-ir
- 
-   reg:
-diff --git a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-index 37c2a601c3fa..97928efd2bc9 100644
---- a/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-+++ b/Documentation/devicetree/bindings/rtc/allwinner,sun6i-a31-rtc.yaml
-@@ -26,6 +26,9 @@ properties:
-           - const: allwinner,sun50i-a64-rtc
-           - const: allwinner,sun8i-h3-rtc
-       - const: allwinner,sun50i-h6-rtc
-+      - items:
-+          - const: allwinner,sun50i-h616-rtc
-+          - const: allwinner,sun50i-h6-rtc
- 
-   reg:
-     maxItems: 1
-diff --git a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-index 7866a655d81c..908248260afa 100644
---- a/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-+++ b/Documentation/devicetree/bindings/spi/allwinner,sun6i-a31-spi.yaml
-@@ -25,6 +25,7 @@ properties:
-           - enum:
-               - allwinner,sun8i-r40-spi
-               - allwinner,sun50i-h6-spi
-+              - allwinner,sun50i-h616-spi
-           - const: allwinner,sun8i-h3-spi
- 
-   reg:
--- 
-2.17.5
-
+Reviewed-by: Rob Herring <robh@kernel.org>
