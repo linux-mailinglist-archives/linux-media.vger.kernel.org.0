@@ -2,49 +2,49 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9DD562D7A70
+	by mail.lfdr.de (Postfix) with ESMTP id 313452D7A6F
 	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 17:02:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406667AbgLKQAV (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Dec 2020 11:00:21 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58560 "EHLO
+        id S2406349AbgLKQAO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Dec 2020 11:00:14 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58566 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406341AbgLKP7i (ORCPT
+        with ESMTP id S2406342AbgLKP7i (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 11 Dec 2020 10:59:38 -0500
-Received: from mail-wm1-x343.google.com (mail-wm1-x343.google.com [IPv6:2a00:1450:4864:20::343])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 83BB8C0613CF
-        for <linux-media@vger.kernel.org>; Fri, 11 Dec 2020 07:58:50 -0800 (PST)
-Received: by mail-wm1-x343.google.com with SMTP id y23so9073704wmi.1
-        for <linux-media@vger.kernel.org>; Fri, 11 Dec 2020 07:58:50 -0800 (PST)
+Received: from mail-wr1-x444.google.com (mail-wr1-x444.google.com [IPv6:2a00:1450:4864:20::444])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC9C1C0613D3
+        for <linux-media@vger.kernel.org>; Fri, 11 Dec 2020 07:58:51 -0800 (PST)
+Received: by mail-wr1-x444.google.com with SMTP id r7so9532883wrc.5
+        for <linux-media@vger.kernel.org>; Fri, 11 Dec 2020 07:58:51 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MaHCZAdgD/UD/VQUsOk2P9+31rgrVdxvdPUjva6U0D0=;
-        b=dBiIfNYv+sMwwUJpozHRM5Ij3tA0ayCxirzqnF22PWNj+NAgWx2+A30gj3+An9jk8l
-         K62Ha4GLOamQH54m1DNhnJr9j9kadnh/Vhy0XC4OsT49MhrZo68UfgdDrXb239AjwCuy
-         NNm7q83o+jzUmSfkAxRiZuuBXUlVBT3HX5R5w=
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=WhXmefZSTvpDKo6owjq5Ccn4MusL6HQNqDzqvbjA8sQ=;
+        b=cNOr3dLxtzI2QvQqYFVEzfqa8VVJ4YiIkHOgGFULgtgCffkobMbFsvN1yFSxmZ9BA8
+         3TloSl+PNgRPLIa4Y/DYnCWRHNkWxcFpym/HLTeNjIPss3UJJgaSw10FfmmIQHlJgveE
+         kIwZ0qf7O/BGvw4nocPe8a+sUMFSDS0MdlEHw=
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=MaHCZAdgD/UD/VQUsOk2P9+31rgrVdxvdPUjva6U0D0=;
-        b=lcCzNcX79wjQgGFvsi0MILnGAjU0y1ZO+gs1bsA2fU3bAhhHX57orzxrGz/k8uzz5f
-         1UhoBNH4rOA6tovgn/xX03B2WhNFyJ4vc8YfUGbJfeNXnPhlllx92habjNCUvuj4tNMx
-         nuggr6KyP7m18wq8nAwhhHAyMrkwlps3wdXcFFC/uJRYBUWcgKggHu/5BYCwsCVuFOSd
-         s/1XRG2cebnxuRep52NRN4m/A4Y+UGERszHtd8Kw0bvT4+pPVjeEH+wvpnbJZUyDk1pt
-         sO/tKTp6ue7M/tii4hR8HeAMkou/BECiHjazYexFDiLfK0gy/oPdAY9nOMXzf/7nEQGM
-         jWyg==
-X-Gm-Message-State: AOAM532JHljw/CnNkGH5Cb2dYf6SjQIIFNHAVkq9hphsIgGflbi32EB4
-        ryjYarXYW/F6bWxwj9cS5EhNEHgwstBQxw==
-X-Google-Smtp-Source: ABdhPJzp6riLVmKPkMw3+mlDUkh18/Y4i0QR8rA3Sfj5Yv5uXpu0DO9HIJGbDkZWtipf8LC0u1OFZw==
-X-Received: by 2002:a7b:c091:: with SMTP id r17mr10687617wmh.129.1607702329299;
-        Fri, 11 Dec 2020 07:58:49 -0800 (PST)
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=WhXmefZSTvpDKo6owjq5Ccn4MusL6HQNqDzqvbjA8sQ=;
+        b=sdZYp5suQ8SRnGEO4cO8Z0hJxsqpFuisB65dDhgClt4IKa+4d7bwLluqK8Ye0WUbOD
+         cpDXUTgXkNznhc6rZhvz/r27cTBhDFX7zdl+/D4+cPQuqbmMRC0I3AExXYMluPSJcUzp
+         ML6dKzPhMkmv6A41qPT/nLFocGmKoCGBkw8Hn83dBC6BBfTOqcn7J3GvmsXSjpGf4G5L
+         1rn6/IFtUGFXR0yFRzKfipCCAb460vONkW/SrRPWFUfyVyR7lcziU+ZsXtt/iBV03ImZ
+         ItSYi95glFHjgR18LFtYW73CJoDgOuBylxLr3+ZZtzzG9Rgtd8uI1rQo7s4QwchkFv/Y
+         P9Zg==
+X-Gm-Message-State: AOAM5321xY2IHI2wa1AKXvw3p3Vr3lV0juzk2MGz4Ayk14c7gfHHhqdv
+        STvxhnV4CakLsa/f0r8s+PqE+g==
+X-Google-Smtp-Source: ABdhPJx7XkrQjyR6z/zdr9E40WSHhaMnGSXMi/aJH+IRKynp9hSMVKO5IZBtxkA1arAvCDv7CHd8XQ==
+X-Received: by 2002:adf:a441:: with SMTP id e1mr14535904wra.385.1607702330609;
+        Fri, 11 Dec 2020 07:58:50 -0800 (PST)
 Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id z21sm14828241wmk.20.2020.12.11.07.58.48
+        by smtp.gmail.com with ESMTPSA id z21sm14828241wmk.20.2020.12.11.07.58.49
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Dec 2020 07:58:48 -0800 (PST)
+        Fri, 11 Dec 2020 07:58:49 -0800 (PST)
 From:   Daniel Vetter <daniel.vetter@ffwll.ch>
 To:     DRI Development <dri-devel@lists.freedesktop.org>
 Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
@@ -54,10 +54,12 @@ Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
         Sumit Semwal <sumit.semwal@linaro.org>,
         =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
         linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 1/4] dma-buf: Remove kmap kerneldoc vestiges
-Date:   Fri, 11 Dec 2020 16:58:40 +0100
-Message-Id: <20201211155843.3348718-1-daniel.vetter@ffwll.ch>
+Subject: [PATCH 2/4] dma-buf: some kerneldoc formatting fixes
+Date:   Fri, 11 Dec 2020 16:58:41 +0100
+Message-Id: <20201211155843.3348718-2-daniel.vetter@ffwll.ch>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201211155843.3348718-1-daniel.vetter@ffwll.ch>
+References: <20201211155843.3348718-1-daniel.vetter@ffwll.ch>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -65,8 +67,8 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Also try to clarify a bit when dma_buf_begin/end_cpu_access should
-be called.
+Noticed while reviewing the output. Adds a bunch more links and fixes
+the function interface quoting.
 
 Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
 Cc: Thomas Zimmermann <tzimmermann@suse.de>
@@ -75,107 +77,136 @@ Cc: "Christian König" <christian.koenig@amd.com>
 Cc: linux-media@vger.kernel.org
 Cc: linaro-mm-sig@lists.linaro.org
 ---
- drivers/dma-buf/dma-buf.c | 20 ++++++++++++++------
- include/linux/dma-buf.h   | 25 +++++++++----------------
- 2 files changed, 23 insertions(+), 22 deletions(-)
+ drivers/dma-buf/dma-buf.c | 31 ++++++++++++++++++-------------
+ include/linux/dma-buf.h   |  6 +++---
+ 2 files changed, 21 insertions(+), 16 deletions(-)
 
 diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index e63684d4cd90..a12fdffa130f 100644
+index a12fdffa130f..e1fa6c6f02c4 100644
 --- a/drivers/dma-buf/dma-buf.c
 +++ b/drivers/dma-buf/dma-buf.c
-@@ -1001,15 +1001,15 @@ EXPORT_SYMBOL_GPL(dma_buf_move_notify);
-  *   vmalloc space might be limited and result in vmap calls failing.
+@@ -480,7 +480,7 @@ static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
   *
-  *   Interfaces::
-+ *
-  *      void \*dma_buf_vmap(struct dma_buf \*dmabuf)
-  *      void dma_buf_vunmap(struct dma_buf \*dmabuf, void \*vaddr)
+  * 4. Once a driver is done with a shared buffer it needs to call
+  *    dma_buf_detach() (after cleaning up any mappings) and then release the
+- *    reference acquired with dma_buf_get by calling dma_buf_put().
++ *    reference acquired with dma_buf_get() by calling dma_buf_put().
   *
-  *   The vmap call can fail if there is no vmap support in the exporter, or if
-- *   it runs out of vmalloc space. Fallback to kmap should be implemented. Note
-- *   that the dma-buf layer keeps a reference count for all vmap access and
-- *   calls down into the exporter's vmap function only when no vmapping exists,
-- *   and only unmaps it once. Protection against concurrent vmap/vunmap calls is
-- *   provided by taking the dma_buf->lock mutex.
-+ *   it runs out of vmalloc space. Note that the dma-buf layer keeps a reference
-+ *   count for all vmap access and calls down into the exporter's vmap function
-+ *   only when no vmapping exists, and only unmaps it once. Protection against
-+ *   concurrent vmap/vunmap calls is provided by taking the &dma_buf.lock mutex.
+  * For the detailed semantics exporters are expected to implement see
+  * &dma_buf_ops.
+@@ -496,9 +496,10 @@ static struct file *dma_buf_getfile(struct dma_buf *dmabuf, int flags)
+  *			by the exporter. see &struct dma_buf_export_info
+  *			for further details.
   *
-  * - For full compatibility on the importer side with existing userspace
-  *   interfaces, which might already support mmap'ing buffers. This is needed in
-@@ -1098,6 +1098,11 @@ static int __dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-  * dma_buf_end_cpu_access(). Only when cpu access is braketed by both calls is
-  * it guaranteed to be coherent with other DMA access.
+- * Returns, on success, a newly created dma_buf object, which wraps the
+- * supplied private data and operations for dma_buf_ops. On either missing
+- * ops, or error in allocating struct dma_buf, will return negative error.
++ * Returns, on success, a newly created struct dma_buf object, which wraps the
++ * supplied private data and operations for struct dma_buf_ops. On either
++ * missing ops, or error in allocating struct dma_buf, will return negative
++ * error.
   *
-+ * This function will also wait for any DMA transactions tracked through
-+ * implicit synchronization in &dma_buf.resv. For DMA transactions with explicit
-+ * synchronization this function will only ensure cache coherency, callers must
-+ * ensure synchronization with such DMA transactions on their own.
-+ *
-  * Can return negative error values, returns 0 on success.
+  * For most cases the easiest way to create @exp_info is through the
+  * %DEFINE_DMA_BUF_EXPORT_INFO macro.
+@@ -584,7 +585,7 @@ struct dma_buf *dma_buf_export(const struct dma_buf_export_info *exp_info)
+ EXPORT_SYMBOL_GPL(dma_buf_export);
+ 
+ /**
+- * dma_buf_fd - returns a file descriptor for the given dma_buf
++ * dma_buf_fd - returns a file descriptor for the given struct dma_buf
+  * @dmabuf:	[in]	pointer to dma_buf for which fd is required.
+  * @flags:      [in]    flags to give to fd
+  *
+@@ -608,10 +609,10 @@ int dma_buf_fd(struct dma_buf *dmabuf, int flags)
+ EXPORT_SYMBOL_GPL(dma_buf_fd);
+ 
+ /**
+- * dma_buf_get - returns the dma_buf structure related to an fd
+- * @fd:	[in]	fd associated with the dma_buf to be returned
++ * dma_buf_get - returns the struct dma_buf related to an fd
++ * @fd:	[in]	fd associated with the struct dma_buf to be returned
+  *
+- * On success, returns the dma_buf structure associated with an fd; uses
++ * On success, returns the struct dma_buf associated with an fd; uses
+  * file's refcounting done by fget to increase refcount. returns ERR_PTR
+  * otherwise.
   */
- int dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
-@@ -1199,7 +1204,10 @@ EXPORT_SYMBOL_GPL(dma_buf_mmap);
-  * This call may fail due to lack of virtual mapping address space.
-  * These calls are optional in drivers. The intended use for them
-  * is for mapping objects linear in kernel space for high use objects.
-- * Please attempt to use kmap/kunmap before thinking about these interfaces.
-+ *
-+ * To ensure coherency users must call dma_buf_begin_cpu_access() and
-+ * dma_buf_end_cpu_access() around any cpu access performed through this
-+ * mapping.
+@@ -653,8 +654,7 @@ void dma_buf_put(struct dma_buf *dmabuf)
+ EXPORT_SYMBOL_GPL(dma_buf_put);
+ 
+ /**
+- * dma_buf_dynamic_attach - Add the device to dma_buf's attachments list; optionally,
+- * calls attach() of dma_buf_ops to allow device-specific attach functionality
++ * dma_buf_dynamic_attach - Add the device to dma_buf's attachments list
+  * @dmabuf:		[in]	buffer to attach device to.
+  * @dev:		[in]	device to be attached.
+  * @importer_ops:	[in]	importer operations for the attachment
+@@ -663,6 +663,9 @@ EXPORT_SYMBOL_GPL(dma_buf_put);
+  * Returns struct dma_buf_attachment pointer for this attachment. Attachments
+  * must be cleaned up by calling dma_buf_detach().
   *
-  * Returns 0 on success, or a negative errno code otherwise.
++ * Optionally this calls &dma_buf_ops.attach to allow device-specific attach
++ * functionality.
++ *
+  * Returns:
+  *
+  * A pointer to newly created &dma_buf_attachment on success, or a negative
+@@ -769,12 +772,13 @@ struct dma_buf_attachment *dma_buf_attach(struct dma_buf *dmabuf,
+ EXPORT_SYMBOL_GPL(dma_buf_attach);
+ 
+ /**
+- * dma_buf_detach - Remove the given attachment from dmabuf's attachments list;
+- * optionally calls detach() of dma_buf_ops for device-specific detach
++ * dma_buf_detach - Remove the given attachment from dmabuf's attachments list
+  * @dmabuf:	[in]	buffer to detach from.
+  * @attach:	[in]	attachment to be detached; is free'd after this call.
+  *
+  * Clean up a device attachment obtained by calling dma_buf_attach().
++ *
++ * Optionally this calls &dma_buf_ops.detach for device-specific detach.
   */
+ void dma_buf_detach(struct dma_buf *dmabuf, struct dma_buf_attachment *attach)
+ {
+@@ -1061,11 +1065,12 @@ EXPORT_SYMBOL_GPL(dma_buf_move_notify);
+  *   shootdowns would increase the complexity quite a bit.
+  *
+  *   Interface::
++ *
+  *      int dma_buf_mmap(struct dma_buf \*, struct vm_area_struct \*,
+  *		       unsigned long);
+  *
+  *   If the importing subsystem simply provides a special-purpose mmap call to
+- *   set up a mapping in userspace, calling do_mmap with dma_buf->file will
++ *   set up a mapping in userspace, calling do_mmap with &dma_buf.file will
+  *   equally achieve that for a dma-buf object.
+  */
+ 
 diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index cf72699cb2bc..7eca37c8b10c 100644
+index 7eca37c8b10c..43802a31b25d 100644
 --- a/include/linux/dma-buf.h
 +++ b/include/linux/dma-buf.h
-@@ -183,24 +183,19 @@ struct dma_buf_ops {
- 	 * @begin_cpu_access:
+@@ -85,10 +85,10 @@ struct dma_buf_ops {
+ 	/**
+ 	 * @pin:
  	 *
- 	 * This is called from dma_buf_begin_cpu_access() and allows the
--	 * exporter to ensure that the memory is actually available for cpu
--	 * access - the exporter might need to allocate or swap-in and pin the
--	 * backing storage. The exporter also needs to ensure that cpu access is
--	 * coherent for the access direction. The direction can be used by the
--	 * exporter to optimize the cache flushing, i.e. access with a different
-+	 * exporter to ensure that the memory is actually coherent for cpu
-+	 * access. The exporter also needs to ensure that cpu access is coherent
-+	 * for the access direction. The direction can be used by the exporter
-+	 * to optimize the cache flushing, i.e. access with a different
- 	 * direction (read instead of write) might return stale or even bogus
- 	 * data (e.g. when the exporter needs to copy the data to temporary
- 	 * storage).
+-	 * This is called by dma_buf_pin and lets the exporter know that the
++	 * This is called by dma_buf_pin() and lets the exporter know that the
+ 	 * DMA-buf can't be moved any more.
  	 *
--	 * This callback is optional.
-+	 * Note that this is both called through the DMA_BUF_IOCTL_SYNC IOCTL
-+	 * command for userspace mappings established through @mmap, and also
-+	 * for kernel mappings established with @vmap.
+-	 * This is called with the dmabuf->resv object locked and is mutual
++	 * This is called with the &dmabuf.resv object locked and is mutual
+ 	 * exclusive with @cache_sgt_mapping.
  	 *
--	 * FIXME: This is both called through the DMA_BUF_IOCTL_SYNC command
--	 * from userspace (where storage shouldn't be pinned to avoid handing
--	 * de-factor mlock rights to userspace) and for the kernel-internal
--	 * users of the various kmap interfaces, where the backing storage must
--	 * be pinned to guarantee that the atomic kmap calls can succeed. Since
--	 * there's no in-kernel users of the kmap interfaces yet this isn't a
--	 * real problem.
-+	 * This callback is optional.
+ 	 * This callback is optional and should only be used in limited use
+@@ -103,7 +103,7 @@ struct dma_buf_ops {
+ 	/**
+ 	 * @unpin:
  	 *
- 	 * Returns:
+-	 * This is called by dma_buf_unpin and lets the exporter know that the
++	 * This is called by dma_buf_unpin() and lets the exporter know that the
+ 	 * DMA-buf can be moved again.
  	 *
-@@ -216,9 +211,7 @@ struct dma_buf_ops {
- 	 *
- 	 * This is called from dma_buf_end_cpu_access() when the importer is
- 	 * done accessing the CPU. The exporter can use this to flush caches and
--	 * unpin any resources pinned in @begin_cpu_access.
--	 * The result of any dma_buf kmap calls after end_cpu_access is
--	 * undefined.
-+	 * undo anything else done in @begin_cpu_access.
- 	 *
- 	 * This callback is optional.
- 	 *
+ 	 * This is called with the dmabuf->resv object locked and is mutual
 -- 
 2.29.2
 
