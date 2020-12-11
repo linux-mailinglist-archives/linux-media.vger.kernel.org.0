@@ -2,59 +2,132 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1B1E62D82B3
-	for <lists+linux-media@lfdr.de>; Sat, 12 Dec 2020 00:24:49 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C00632D82FB
+	for <lists+linux-media@lfdr.de>; Sat, 12 Dec 2020 00:57:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2407130AbgLKXXF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Dec 2020 18:23:05 -0500
-Received: from retiisi.eu ([95.216.213.190]:49052 "EHLO hillosipuli.retiisi.eu"
+        id S2407191AbgLKXzj (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Dec 2020 18:55:39 -0500
+Received: from mail.kernel.org ([198.145.29.99]:52758 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2407127AbgLKXWz (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Dec 2020 18:22:55 -0500
-Received: from lanttu.localdomain (lanttu-e.localdomain [192.168.1.64])
-        by hillosipuli.retiisi.eu (Postfix) with ESMTP id 9D721634C89
-        for <linux-media@vger.kernel.org>; Sat, 12 Dec 2020 01:20:45 +0200 (EET)
-From:   Sakari Ailus <sakari.ailus@linux.intel.com>
-To:     linux-media@vger.kernel.org
-Subject: [PATCH 1/1] Documentation: media: Update pixel rate formula for C-PHY
-Date:   Sat, 12 Dec 2020 01:13:27 +0200
-Message-Id: <20201211231327.30416-1-sakari.ailus@linux.intel.com>
-X-Mailer: git-send-email 2.29.2
+        id S2404293AbgLKXzV (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Dec 2020 18:55:21 -0500
+Date:   Sat, 12 Dec 2020 00:54:35 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1607730881;
+        bh=SCz8bzPsELDUq0lGSB7IHwi2nUf6eCFNm8SUjmyOLOI=;
+        h=From:To:Cc:Subject:In-Reply-To:References:From;
+        b=ZEHV91Um2wvOW33SMCUsi/9yIfdGDU2ugjj4kQyE0l1pnHF7WaR1ez/vGMvlRgJ5U
+         LPn2ZHoZoSy951pnGE/4G9Rm6bCvVm/ebLXFcxHfWdjVjW/8/xG1hLQyNwWY5Ij0Da
+         TIlEnlVIK7bsecL32JA/kUUv7nr1+8vehp6qPReUnWkSio5fgBAWHvGCRvp/WbKY61
+         viCkMcHkeJvxHU7i2XIuZoqhOXJTLNYu7LoSMxKaXk22mOnN9lnijwJ0cW7h/WC9zo
+         J4kg+jZVQQ2NeeODD88csRTTjIc+u3JzP/c2ORoBKaXEJrJuEN4Vaf6vNLD00mbuzR
+         TE5gTw5Hm1rRA==
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+To:     Jonathan Corbet <corbet@lwn.net>
+Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: Re: [PATCH RFC v2] docs: experimental: build PDF with rst2pdf
+Message-ID: <20201212005435.0e1a0871@coco.lan>
+In-Reply-To: <20201211134859.5ab8e0c2@lwn.net>
+References: <20201210172938.3b3086b6@coco.lan>
+        <b73c93c6946ab324443608fac62333b7e327a7e4.1607675494.git.mchehab+huawei@kernel.org>
+        <20201211134859.5ab8e0c2@lwn.net>
+X-Mailer: Claws Mail 3.17.8 (GTK+ 2.24.32; x86_64-redhat-linux-gnu)
 MIME-Version: 1.0
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=US-ASCII
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Update the formula to calculate the pixel rate on the link for C-PHY.
+Em Fri, 11 Dec 2020 13:48:59 -0700
+Jonathan Corbet <corbet@lwn.net> escreveu:
 
-Signed-off-by: Sakari Ailus <sakari.ailus@linux.intel.com>
----
- Documentation/driver-api/media/csi2.rst | 4 +++-
- 1 file changed, 3 insertions(+), 1 deletion(-)
+> On Fri, 11 Dec 2020 09:33:32 +0100
+> Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+> 
+> > Add an experimental PDF builder using rst2pdf
+> > 
+> > Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+> > ---
+> > 
+> > Please notice that 18 documents (of a total of 71) won't build with 
+> > rst2pdf. There's an opened issue about that at:
+> > 
+> >     https://github.com/rst2pdf/rst2pdf/issues/958
+> > 
+> > v2: usage of SPHINXDIRS was fixed.
+> > 
+> > 
+> >  Documentation/Makefile                     |  5 +++++
+> >  Documentation/conf.py                      | 21 +++++++++++++++------
+> >  Documentation/sphinx/load_config.py        | 12 ++++++++++++
+> >  Documentation/userspace-api/media/Makefile |  1 +
+> >  Makefile                                   |  4 ++--
+> >  5 files changed, 35 insertions(+), 8 deletions(-)  
+> 
+> So I would dearly love to have rst2pdf working.
+> 
+> I applied this, then tried to see what would happen if I ran a build
+> without having rst2pdf installed:
+> 
+> > 1108 meer kernel: make htmldocs
+> >   SPHINX  htmldocs --> file:///stuff/k/git/kernel/Documentation/output
+> > make[2]: Nothing to be done for 'html'.
+> > WARNING: The kernel documentation build process
+> >         support for Sphinx v3.0 and above is brand new. Be prepared for
+> >         possible issues in the generated output.
+> >         enabling CJK for LaTeX builder
+> > 
+> > Extension error:
+> > Could not import extension rst2pdf.pdfbuilder (exception: No module named 'rst2pdf')
+> > make[1]: *** [Documentation/Makefile:91: htmldocs] Error 2
+> > make: *** [Makefile:1663: htmldocs] Error 2  
+> 
+> Methinks it's perhaps not quite ready for linux-next yet :)
 
-diff --git a/Documentation/driver-api/media/csi2.rst b/Documentation/driver-api/media/csi2.rst
-index e3bbc6baf0f0..11c52b0be8b8 100644
---- a/Documentation/driver-api/media/csi2.rst
-+++ b/Documentation/driver-api/media/csi2.rst
-@@ -35,7 +35,7 @@ ability to start and stop the stream.
- 
- The value of the V4L2_CID_PIXEL_RATE is calculated as follows::
- 
--	pixel_rate = link_freq * 2 * nr_of_lanes / bits_per_sample
-+	pixel_rate = link_freq * 2 * nr_of_lanes * 16 / k / bits_per_sample
- 
- where
- 
-@@ -53,6 +53,8 @@ where
-      - Two bits are transferred per clock cycle per lane.
-    * - bits_per_sample
-      - Number of bits per sample.
-+   * - k
-+     - 16 for D-PHY and 7 for C-PHY
- 
- The transmitter drivers must, if possible, configure the CSI-2
- transmitter to *LP-11 mode* whenever the transmitter is powered on but
--- 
-2.29.2
+Well, I haven't test this.
 
+I'm not an usual python programmer, so, don't know much about its 
+specifics... Yet, I would be expecting that something like this:
+
+	try:
+	    extensions.append("rst2pdf.pdfbuilder")
+	except:
+	    sys.stderr.write('rst2pdf extension not available.\n')
+	
+
+Would avoid it to crash, if the extension is not available.
+Silly me :-)
+
+Still, I suspect that it should not be hard to modify the above to
+avoid the crash. 
+
+I shouldn't be doing much development those days, as I'm taking
+some vacations, after sending media stuff for 5.11. 
+
+So, if you have a better idea about how to optionally probe an
+extension, feel free to modify my patch.
+
+
+> With rst2pdf installed I get a bunch of zero-length files, as promised.
+> Pretty much none of the larger "books" make it through.  
+
+Yeah. I guess one of the issues is with tables that don't fit into
+a single page.
+
+Yet, devicetree book is empty. That sounds really weird, as there are
+few files on it, and I didn't see anything uncommon on the rst files.
+
+> It's a start,
+> though.  I'll happily apply this as a step forward once it doesn't break
+> the docs build if rst2pdf is missing.
+
+Sounds like a plan.
+
+Thanks,
+Mauro
