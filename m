@@ -2,178 +2,102 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id C7FA02D71D7
-	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 09:35:56 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 8BA512D724E
+	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 09:54:40 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391036AbgLKIeh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Dec 2020 03:34:37 -0500
-Received: from mail.kernel.org ([198.145.29.99]:34638 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2391068AbgLKIeT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Dec 2020 03:34:19 -0500
-From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
-To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
-Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
-        "Jonathan Corbet" <corbet@lwn.net>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        id S2392928AbgLKIxU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Dec 2020 03:53:20 -0500
+Received: from mx3.molgen.mpg.de ([141.14.17.11]:37633 "EHLO mx1.molgen.mpg.de"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S2403782AbgLKIww (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Dec 2020 03:52:52 -0500
+Received: from [192.168.0.2] (ip5f5af423.dynamic.kabel-deutschland.de [95.90.244.35])
+        (using TLSv1.2 with cipher ECDHE-RSA-AES128-GCM-SHA256 (128/128 bits))
+        (No client certificate requested)
+        (Authenticated sender: pmenzel)
+        by mx.molgen.mpg.de (Postfix) with ESMTPSA id 2B61220647B77;
+        Fri, 11 Dec 2020 09:52:09 +0100 (CET)
+Subject: Re: [PATCH v2] media: em28xx: Support TerraTec G3
+To:     Sean Young <sean@mess.org>
+Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         linux-media@vger.kernel.org
-Subject: [PATCH RFC v2] docs: experimental: build PDF with rst2pdf
-Date:   Fri, 11 Dec 2020 09:33:32 +0100
-Message-Id: <b73c93c6946ab324443608fac62333b7e327a7e4.1607675494.git.mchehab+huawei@kernel.org>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201210172938.3b3086b6@coco.lan>
-References: <20201210172938.3b3086b6@coco.lan>
+References: <20200524120745.5867-1-pmenzel@molgen.mpg.de>
+ <20200624091338.GA27920@gofer.mess.org>
+From:   Paul Menzel <pmenzel@molgen.mpg.de>
+Message-ID: <aa7ca0ba-b537-7685-1b8d-3ec6d30ba552@molgen.mpg.de>
+Date:   Fri, 11 Dec 2020 09:52:08 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:78.0) Gecko/20100101
+ Thunderbird/78.5.1
 MIME-Version: 1.0
+In-Reply-To: <20200624091338.GA27920@gofer.mess.org>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
 Content-Transfer-Encoding: 8bit
-Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Add an experimental PDF builder using rst2pdf
-
-Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
----
-
-Please notice that 18 documents (of a total of 71) won't build with 
-rst2pdf. There's an opened issue about that at:
-
-    https://github.com/rst2pdf/rst2pdf/issues/958
-
-v2: usage of SPHINXDIRS was fixed.
+Dear Sean,
 
 
- Documentation/Makefile                     |  5 +++++
- Documentation/conf.py                      | 21 +++++++++++++++------
- Documentation/sphinx/load_config.py        | 12 ++++++++++++
- Documentation/userspace-api/media/Makefile |  1 +
- Makefile                                   |  4 ++--
- 5 files changed, 35 insertions(+), 8 deletions(-)
-
-diff --git a/Documentation/Makefile b/Documentation/Makefile
-index 61a7310b49e0..c3c8fb10f94e 100644
---- a/Documentation/Makefile
-+++ b/Documentation/Makefile
-@@ -115,6 +115,10 @@ pdfdocs: latexdocs
- 
- endif # HAVE_PDFLATEX
- 
-+rst2pdf:
-+	@$(srctree)/scripts/sphinx-pre-install --version-check
-+	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),pdf,$(var)))
-+
- epubdocs:
- 	@$(srctree)/scripts/sphinx-pre-install --version-check
- 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
-@@ -140,6 +144,7 @@ dochelp:
- 	@echo  '  htmldocs        - HTML'
- 	@echo  '  latexdocs       - LaTeX'
- 	@echo  '  pdfdocs         - PDF'
-+	@echo  '  rst2pdf         - PDF, using experimental rst2pdf support'
- 	@echo  '  epubdocs        - EPUB'
- 	@echo  '  xmldocs         - XML'
- 	@echo  '  linkcheckdocs   - check for broken external links'
-diff --git a/Documentation/conf.py b/Documentation/conf.py
-index 66e121df59cd..6f2788aac81e 100644
---- a/Documentation/conf.py
-+++ b/Documentation/conf.py
-@@ -123,6 +123,12 @@ if (major == 1 and minor > 3) or (major > 1):
- else:
-     extensions.append("sphinx.ext.pngmath")
- 
-+# Enable experimental rst2pdf, if available
-+try:
-+    extensions.append("rst2pdf.pdfbuilder")
-+except:
-+    sys.stderr.write('rst2pdf extension not available.\n')
-+
- # Add any paths that contain templates here, relative to this directory.
- templates_path = ['_templates']
- 
-@@ -614,12 +620,15 @@ epub_exclude_files = ['search.html']
- #
- # See the Sphinx chapter of https://ralsina.me/static/manual.pdf
- #
--# FIXME: Do not add the index file here; the result will be too big. Adding
--# multiple PDF files here actually tries to get the cross-referencing right
--# *between* PDF files.
--pdf_documents = [
--    ('kernel-documentation', u'Kernel', u'Kernel', u'J. Random Bozo'),
--]
-+
-+# Add all LaTeX files to PDF documents as well
-+pdf_documents = []
-+for l in latex_documents:
-+    doc = l[0]
-+    fn = l[1].replace(".tex", "")
-+    name = l[2]
-+    authors = l[3]
-+    pdf_documents.append((doc, fn, name, authors))
- 
- # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
- # the Docs). In a normal build, these are supplied from the Makefile via command
-diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
-index eeb394b39e2c..8266afd438aa 100644
---- a/Documentation/sphinx/load_config.py
-+++ b/Documentation/sphinx/load_config.py
-@@ -43,6 +43,18 @@ def loadConfig(namespace):
- 
-             namespace['latex_documents'] = new_latex_docs
- 
-+            new_pdf_docs = []
-+            pdf_documents = namespace['pdf_documents']
-+
-+            for l in pdf_documents:
-+                if l[0].find(dir + '/') == 0:
-+                    has = True
-+                    fn = l[0][len(dir) + 1:]
-+                    new_pdf_docs.append((fn, l[1], l[2], l[3]))
-+                    break
-+
-+            namespace['pdf_documents'] = new_pdf_docs
-+
-         # If there is an extra conf.py file, load it
-         if os.path.isfile(config_file):
-             sys.stdout.write("load additional sphinx-config: %s\n" % config_file)
-diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
-index 81a4a1a53bce..8c6b3ac4ecb0 100644
---- a/Documentation/userspace-api/media/Makefile
-+++ b/Documentation/userspace-api/media/Makefile
-@@ -59,6 +59,7 @@ all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
- html: all
- epub: all
- xml: all
-+pdf: all
- latex: $(IMGPDF) all
- linkcheck:
- 
-diff --git a/Makefile b/Makefile
-index 43ecedeb3f02..db4043578eec 100644
---- a/Makefile
-+++ b/Makefile
-@@ -264,7 +264,7 @@ no-dot-config-targets := $(clean-targets) \
- 			 cscope gtags TAGS tags help% %docs check% coccicheck \
- 			 $(version_h) headers headers_% archheaders archscripts \
- 			 %asm-generic kernelversion %src-pkg dt_binding_check \
--			 outputmakefile
-+			 outputmakefile rst2pdf
- no-sync-config-targets := $(no-dot-config-targets) %install kernelrelease
- single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.s %.symtypes %/
- 
-@@ -1654,7 +1654,7 @@ $(help-board-dirs): help-%:
- 
- # Documentation targets
- # ---------------------------------------------------------------------------
--DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
-+DOC_TARGETS := xmldocs latexdocs pdfdocs rst2pdf htmldocs epubdocs cleandocs \
- 	       linkcheckdocs dochelp refcheckdocs
- PHONY += $(DOC_TARGETS)
- $(DOC_TARGETS):
--- 
-2.29.2
+I am sorry for the late reply.
 
 
+Am 24.06.20 um 11:13 schrieb Sean Young:
+> On Sun, May 24, 2020 at 02:07:46PM +0200, Paul Menzel wrote:
+>> Add the USB vendor and product ID of the TerraTec G3 [1], so Linux
+>> detects the device.
+> 
+> Does the device work, i.e. audio, composite and s-video? Or is it
+> only detected?
+
+Testing this quickly with a self-built Linux kernel, after plugging it 
+in, I couldn’t find a V4L device created for testing.
+
+> [ 5298.437946] usb 1-3: new high-speed USB device number 4 using xhci_hcd
+> [ 5298.584284] usb 1-3: config 1 interface 0 altsetting 1 endpoint 0x82 has invalid wMaxPacketSize 0
+> [ 5298.584286] usb 1-3: config 1 interface 0 altsetting 1 endpoint 0x84 has invalid wMaxPacketSize 0
+> [ 5298.584288] usb 1-3: config 1 interface 0 altsetting 2 endpoint 0x84 has invalid wMaxPacketSize 0
+> [ 5298.584289] usb 1-3: config 1 interface 0 altsetting 3 endpoint 0x84 has invalid wMaxPacketSize 0
+> [ 5298.584291] usb 1-3: config 1 interface 0 altsetting 4 endpoint 0x84 has invalid wMaxPacketSize 0
+> [ 5298.584292] usb 1-3: config 1 interface 0 altsetting 5 endpoint 0x84 has invalid wMaxPacketSize 0
+> [ 5298.584294] usb 1-3: config 1 interface 0 altsetting 6 endpoint 0x84 has invalid wMaxPacketSize 0
+> [ 5298.584295] usb 1-3: config 1 interface 0 altsetting 7 endpoint 0x84 has invalid wMaxPacketSize 0
+> [ 5298.599286] usb 1-3: New USB device found, idVendor=0ccd, idProduct=10a7, bcdDevice= 1.00
+> [ 5298.599288] usb 1-3: New USB device strings: Mfr=2, Product=1, SerialNumber=0
+> [ 5298.599290] usb 1-3: Product: TerraTec G3
+> [ 5298.599291] usb 1-3: Manufacturer: TerraTec Electronic GmbH
+> [ 5298.620437] mc: Linux media interface: v0.10
+> [ 5298.628547] videodev: Linux video capture interface: v2.00
+> [ 5298.633969] em28xx 1-3:1.0: New device TerraTec Electronic GmbH TerraTec G3 @ 480 Mbps (0ccd:10a7, interface 0, class 0)
+> [ 5298.633971] em28xx 1-3:1.0: Video interface 0 found: isoc
+> [ 5298.693271] em28xx 1-3:1.0: chip ID is em2860
+> [ 5298.855294] em28xx 1-3:1.0: EEPROM ID = 1a eb 67 95, EEPROM hash = 0xd7a2f285
+> [ 5298.855296] em28xx 1-3:1.0: EEPROM info:
+> [ 5298.855297] em28xx 1-3:1.0:  AC97 audio (5 sample rates)
+> [ 5298.855298] em28xx 1-3:1.0:  500mA max power
+> [ 5298.855300] em28xx 1-3:1.0:  Table at offset 0x06, strings=0x1a9e, 0x346a, 0x0000
+> [ 5298.925978] em28xx 1-3:1.0: Identified as Terratec Grabby (card=67)
+> [ 5298.925981] em28xx 1-3:1.0: analog set to isoc mode.
+> [ 5298.926102] em28xx 1-3:1.1: audio device (0ccd:10a7): interface 1, class 1
+> [ 5298.926110] em28xx 1-3:1.2: audio device (0ccd:10a7): interface 2, class 1
+> [ 5298.926122] usbcore: registered new interface driver em28xx
+> [ 5298.939683] em28xx 1-3:1.0: Registering V4L2 extension
+> [ 5298.969288] em28xx 1-3:1.0: Config register raw data: 0x50
+> [ 5298.999281] em28xx 1-3:1.0: AC97 vendor ID = 0x83847650
+> [ 5299.014280] em28xx 1-3:1.0: AC97 features = 0x6a90
+> [ 5299.014281] em28xx 1-3:1.0: Empia 202 AC97 audio processor detected
+> [ 5300.929118] usb 1-3: Decoder not found
+> [ 5300.929121] em28xx 1-3:1.0: failed to create media graph
+> [ 5300.929124] em28xx 1-3:1.0: V4L2 device vbi0 deregistered
+> [ 5300.929204] em28xx 1-3:1.0: V4L2 device video0 deregistered
+> [ 5300.929270] em28xx: Registered (Em28xx v4l2 Extension) extension
+
+Can you see from the logs, what is missing? Can I force loading em28xx 
+without the patch with the standard Debian Linux kernel to rule out it’s 
+related to my Linux kernel configuration?
+
+
+Kind regards,
+
+Paul
