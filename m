@@ -2,95 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 37DEA2D71BF
-	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 09:33:17 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id C7FA02D71D7
+	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 09:35:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1729722AbgLKIb6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Dec 2020 03:31:58 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45938 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1728423AbgLKIbx (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Dec 2020 03:31:53 -0500
-Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E47A8C0613CF;
-        Fri, 11 Dec 2020 00:31:12 -0800 (PST)
-Received: by mail-pj1-x1043.google.com with SMTP id l23so1971103pjg.1;
-        Fri, 11 Dec 2020 00:31:12 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BvXfqmrNJagCH+GbSgfFYVoOHFPlLGvLrR6QFrYlfo0=;
-        b=JREI7iGfFOa9A7qYLjV/3iCghgcy2ZGlfv2kndOL5KF3YExuqirtUbwP6dIyZgoGDW
-         xEdsHJM4m3lLOOBBuyHeHmzJfeahQV8aU79qiUBmyh/XfunEzandeK5G3NUESt3AWFcD
-         a3ezSMUd+nR4hOuPGZpjmPcOjFQCEE5g7xRh9Kp4CGmPYMDh8XXvH5YQcT1Lhcai3Y+4
-         E7IoAbLXCh+ZKqcc2Am5URYpCPMSQWDUJBpD+lZwnbO4zZD1nwmlUqkP8kWFWCvZ/jcp
-         2kyerygUYyukX490yhTeGKq7bs+4TmFxr4PYUBV7gvSe6zrBY93YjH+CHkmkZhhtPNf3
-         TeeA==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
-         :content-transfer-encoding;
-        bh=BvXfqmrNJagCH+GbSgfFYVoOHFPlLGvLrR6QFrYlfo0=;
-        b=Suc5Qbo8Aner/rRZhx+qPI/RmHZCX2luVjUILGpnijHnegkj6c5jTkHn4Ze55H/HwV
-         eY2jXN9TUMHiX3PalvkjfLXEL7MmWVHINO6nR/MIokkXBPo0gCQ+KUtV92tu2NBcZwR7
-         rCmKv3DXn6yZRkpnBJp3EAZOCkOu7ce+W2rlEtWHNRfhSgEhN+j/JtIb70ntqe0f+A8V
-         cVFfNgdA1Bw9acuVmlv8KD0YxhOzJFqjTgLASeEror2L6Ikvshwqt7vIM9wxkEKqSF3f
-         ByRMUb7G5aLIMgjDqrp+p60r27SgjwLr3Jm/kejc7DN5MtWCZeASNOaCYlztTwj8GdFh
-         HARA==
-X-Gm-Message-State: AOAM533aKt+WgWYoS1/IJHkeYBzrbtWlg/IbZ66n6i1d4hIFni8bIKj5
-        5zYPDfo50DjfC6sDL8JT2A==
-X-Google-Smtp-Source: ABdhPJyOOAIrp8s+Q92SAtzPfWarGNJC7la9Thn+Qb4fkzGaURu9ZwsTmXIzBVaRMZF+WNorDPs2Fw==
-X-Received: by 2002:a17:90b:8d8:: with SMTP id ds24mr11800440pjb.134.1607675472478;
-        Fri, 11 Dec 2020 00:31:12 -0800 (PST)
-Received: from localhost.localdomain (59-125-13-244.HINET-IP.hinet.net. [59.125.13.244])
-        by smtp.gmail.com with ESMTPSA id l66sm8885410pgl.24.2020.12.11.00.31.09
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Dec 2020 00:31:11 -0800 (PST)
-From:   Peilin Ye <yepeilin.cs@gmail.com>
-To:     Mauro Carvalho Chehab <mchehab@kernel.org>
-Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Sean Young <sean@mess.org>, Brad Love <brad@nextdimension.cc>,
-        Wolfram Sang <wsa+renesas@sang-engineering.com>,
-        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Peilin Ye <yepeilin.cs@gmail.com>
-Subject: [PATCH] media: dvbdev: Fix memory leak in dvb_media_device_free()
-Date:   Fri, 11 Dec 2020 03:30:39 -0500
-Message-Id: <20201211083039.521617-1-yepeilin.cs@gmail.com>
-X-Mailer: git-send-email 2.25.1
+        id S2391036AbgLKIeh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Dec 2020 03:34:37 -0500
+Received: from mail.kernel.org ([198.145.29.99]:34638 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S2391068AbgLKIeT (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Dec 2020 03:34:19 -0500
+From:   Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
+Authentication-Results: mail.kernel.org; dkim=permerror (bad message/signature format)
+To:     Linux Doc Mailing List <linux-doc@vger.kernel.org>
+Cc:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>,
+        "Jonathan Corbet" <corbet@lwn.net>,
+        Masahiro Yamada <masahiroy@kernel.org>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Michal Marek <michal.lkml@markovi.net>,
+        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
+        linux-media@vger.kernel.org
+Subject: [PATCH RFC v2] docs: experimental: build PDF with rst2pdf
+Date:   Fri, 11 Dec 2020 09:33:32 +0100
+Message-Id: <b73c93c6946ab324443608fac62333b7e327a7e4.1607675494.git.mchehab+huawei@kernel.org>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201210172938.3b3086b6@coco.lan>
+References: <20201210172938.3b3086b6@coco.lan>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
+Sender: Mauro Carvalho Chehab <mchehab@kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-dvb_media_device_free() is leaking memory. Free `dvbdev->adapter->conn`
-before setting it to NULL, as documented in include/media/media-device.h:
-"The media_entity instance itself must be freed explicitly by the driver
-if required."
+Add an experimental PDF builder using rst2pdf
 
-Cc: stable@vger.kernel.org
-Fixes: 0230d60e4661 ("[media] dvbdev: Add RF connector if needed")
-Reported-by: syzbot+7f09440acc069a0d38ac@syzkaller.appspotmail.com
-Link: https://syzkaller.appspot.com/bug?id=9bbe4b842c98f0ed05c5eed77a226e9de33bf298
-Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+Signed-off-by: Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
 ---
- drivers/media/dvb-core/dvbdev.c | 1 +
- 1 file changed, 1 insertion(+)
 
-diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
-index 959fa2820259..ec9ebff28552 100644
---- a/drivers/media/dvb-core/dvbdev.c
-+++ b/drivers/media/dvb-core/dvbdev.c
-@@ -241,6 +241,7 @@ static void dvb_media_device_free(struct dvb_device *dvbdev)
+Please notice that 18 documents (of a total of 71) won't build with 
+rst2pdf. There's an opened issue about that at:
+
+    https://github.com/rst2pdf/rst2pdf/issues/958
+
+v2: usage of SPHINXDIRS was fixed.
+
+
+ Documentation/Makefile                     |  5 +++++
+ Documentation/conf.py                      | 21 +++++++++++++++------
+ Documentation/sphinx/load_config.py        | 12 ++++++++++++
+ Documentation/userspace-api/media/Makefile |  1 +
+ Makefile                                   |  4 ++--
+ 5 files changed, 35 insertions(+), 8 deletions(-)
+
+diff --git a/Documentation/Makefile b/Documentation/Makefile
+index 61a7310b49e0..c3c8fb10f94e 100644
+--- a/Documentation/Makefile
++++ b/Documentation/Makefile
+@@ -115,6 +115,10 @@ pdfdocs: latexdocs
  
- 	if (dvbdev->adapter->conn) {
- 		media_device_unregister_entity(dvbdev->adapter->conn);
-+		kfree(dvbdev->adapter->conn);
- 		dvbdev->adapter->conn = NULL;
- 		kfree(dvbdev->adapter->conn_pads);
- 		dvbdev->adapter->conn_pads = NULL;
+ endif # HAVE_PDFLATEX
+ 
++rst2pdf:
++	@$(srctree)/scripts/sphinx-pre-install --version-check
++	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,pdf,$(var),pdf,$(var)))
++
+ epubdocs:
+ 	@$(srctree)/scripts/sphinx-pre-install --version-check
+ 	@+$(foreach var,$(SPHINXDIRS),$(call loop_cmd,sphinx,epub,$(var),epub,$(var)))
+@@ -140,6 +144,7 @@ dochelp:
+ 	@echo  '  htmldocs        - HTML'
+ 	@echo  '  latexdocs       - LaTeX'
+ 	@echo  '  pdfdocs         - PDF'
++	@echo  '  rst2pdf         - PDF, using experimental rst2pdf support'
+ 	@echo  '  epubdocs        - EPUB'
+ 	@echo  '  xmldocs         - XML'
+ 	@echo  '  linkcheckdocs   - check for broken external links'
+diff --git a/Documentation/conf.py b/Documentation/conf.py
+index 66e121df59cd..6f2788aac81e 100644
+--- a/Documentation/conf.py
++++ b/Documentation/conf.py
+@@ -123,6 +123,12 @@ if (major == 1 and minor > 3) or (major > 1):
+ else:
+     extensions.append("sphinx.ext.pngmath")
+ 
++# Enable experimental rst2pdf, if available
++try:
++    extensions.append("rst2pdf.pdfbuilder")
++except:
++    sys.stderr.write('rst2pdf extension not available.\n')
++
+ # Add any paths that contain templates here, relative to this directory.
+ templates_path = ['_templates']
+ 
+@@ -614,12 +620,15 @@ epub_exclude_files = ['search.html']
+ #
+ # See the Sphinx chapter of https://ralsina.me/static/manual.pdf
+ #
+-# FIXME: Do not add the index file here; the result will be too big. Adding
+-# multiple PDF files here actually tries to get the cross-referencing right
+-# *between* PDF files.
+-pdf_documents = [
+-    ('kernel-documentation', u'Kernel', u'Kernel', u'J. Random Bozo'),
+-]
++
++# Add all LaTeX files to PDF documents as well
++pdf_documents = []
++for l in latex_documents:
++    doc = l[0]
++    fn = l[1].replace(".tex", "")
++    name = l[2]
++    authors = l[3]
++    pdf_documents.append((doc, fn, name, authors))
+ 
+ # kernel-doc extension configuration for running Sphinx directly (e.g. by Read
+ # the Docs). In a normal build, these are supplied from the Makefile via command
+diff --git a/Documentation/sphinx/load_config.py b/Documentation/sphinx/load_config.py
+index eeb394b39e2c..8266afd438aa 100644
+--- a/Documentation/sphinx/load_config.py
++++ b/Documentation/sphinx/load_config.py
+@@ -43,6 +43,18 @@ def loadConfig(namespace):
+ 
+             namespace['latex_documents'] = new_latex_docs
+ 
++            new_pdf_docs = []
++            pdf_documents = namespace['pdf_documents']
++
++            for l in pdf_documents:
++                if l[0].find(dir + '/') == 0:
++                    has = True
++                    fn = l[0][len(dir) + 1:]
++                    new_pdf_docs.append((fn, l[1], l[2], l[3]))
++                    break
++
++            namespace['pdf_documents'] = new_pdf_docs
++
+         # If there is an extra conf.py file, load it
+         if os.path.isfile(config_file):
+             sys.stdout.write("load additional sphinx-config: %s\n" % config_file)
+diff --git a/Documentation/userspace-api/media/Makefile b/Documentation/userspace-api/media/Makefile
+index 81a4a1a53bce..8c6b3ac4ecb0 100644
+--- a/Documentation/userspace-api/media/Makefile
++++ b/Documentation/userspace-api/media/Makefile
+@@ -59,6 +59,7 @@ all: $(IMGDOT) $(BUILDDIR) ${TARGETS}
+ html: all
+ epub: all
+ xml: all
++pdf: all
+ latex: $(IMGPDF) all
+ linkcheck:
+ 
+diff --git a/Makefile b/Makefile
+index 43ecedeb3f02..db4043578eec 100644
+--- a/Makefile
++++ b/Makefile
+@@ -264,7 +264,7 @@ no-dot-config-targets := $(clean-targets) \
+ 			 cscope gtags TAGS tags help% %docs check% coccicheck \
+ 			 $(version_h) headers headers_% archheaders archscripts \
+ 			 %asm-generic kernelversion %src-pkg dt_binding_check \
+-			 outputmakefile
++			 outputmakefile rst2pdf
+ no-sync-config-targets := $(no-dot-config-targets) %install kernelrelease
+ single-targets := %.a %.i %.ko %.lds %.ll %.lst %.mod %.o %.s %.symtypes %/
+ 
+@@ -1654,7 +1654,7 @@ $(help-board-dirs): help-%:
+ 
+ # Documentation targets
+ # ---------------------------------------------------------------------------
+-DOC_TARGETS := xmldocs latexdocs pdfdocs htmldocs epubdocs cleandocs \
++DOC_TARGETS := xmldocs latexdocs pdfdocs rst2pdf htmldocs epubdocs cleandocs \
+ 	       linkcheckdocs dochelp refcheckdocs
+ PHONY += $(DOC_TARGETS)
+ $(DOC_TARGETS):
 -- 
-2.25.1
+2.29.2
+
 
