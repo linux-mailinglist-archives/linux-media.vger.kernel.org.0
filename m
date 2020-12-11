@@ -2,89 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 04C2B2D71B9
-	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 09:27:28 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 37DEA2D71BF
+	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 09:33:17 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2436922AbgLKI0I (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Dec 2020 03:26:08 -0500
-Received: from mga04.intel.com ([192.55.52.120]:54519 "EHLO mga04.intel.com"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2436929AbgLKIZ6 (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Dec 2020 03:25:58 -0500
-IronPort-SDR: rbU1ZWPFqYRhr37SQGrjNbUN7AF7eEuW7VIpz2m/N5LlL4bfJnBRae18KiPfkV7qaQwC1AmIHi
- cP1XPyDc5Vew==
-X-IronPort-AV: E=McAfee;i="6000,8403,9831"; a="171833704"
-X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; 
-   d="scan'208";a="171833704"
-Received: from orsmga008.jf.intel.com ([10.7.209.65])
-  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2020 00:24:07 -0800
-IronPort-SDR: XE+342oezvdlXiIo8E8dCGWsWJ1fCNaKga7uCy3EJY4PeJI3X9Gpc/DFDQ9OVeTUQfrBw06wNX
- Z8usK1NLLTcg==
-X-IronPort-AV: E=Sophos;i="5.78,410,1599548400"; 
-   d="scan'208";a="365306384"
-Received: from mkrastex-mobl.ger.corp.intel.com (HELO mkrastexMOBL) ([10.104.80.6])
-  by orsmga008-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2020 00:24:03 -0800
-From:   "Martina Krasteva" <martinax.krasteva@linux.intel.com>
-To:     "'Rob Herring'" <robh@kernel.org>
-Cc:     <robh+dt@kernel.org>, <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>,
-        <daniele.alessandrelli@linux.intel.com>,
-        <gjorgjix.rosikopulos@linux.intel.com>,
-        <devicetree@vger.kernel.org>, <sakari.ailus@linux.intel.com>,
-        <paul.j.murphy@linux.intel.com>
-References: <20201207160109.490-1-martinax.krasteva@linux.intel.com> <20201207160109.490-2-martinax.krasteva@linux.intel.com> <20201210035143.GA1627250@robh.at.kernel.org>
-In-Reply-To: <20201210035143.GA1627250@robh.at.kernel.org>
-Subject: RE: [PATCH v3 1/2] dt-bindings: media: Add bindings for imx334
-Date:   Fri, 11 Dec 2020 08:23:59 -0000
-Message-ID: <010e01d6cf96$fdeb7940$f9c26bc0$@linux.intel.com>
+        id S1729722AbgLKIb6 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Dec 2020 03:31:58 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:45938 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728423AbgLKIbx (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Dec 2020 03:31:53 -0500
+Received: from mail-pj1-x1043.google.com (mail-pj1-x1043.google.com [IPv6:2607:f8b0:4864:20::1043])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id E47A8C0613CF;
+        Fri, 11 Dec 2020 00:31:12 -0800 (PST)
+Received: by mail-pj1-x1043.google.com with SMTP id l23so1971103pjg.1;
+        Fri, 11 Dec 2020 00:31:12 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BvXfqmrNJagCH+GbSgfFYVoOHFPlLGvLrR6QFrYlfo0=;
+        b=JREI7iGfFOa9A7qYLjV/3iCghgcy2ZGlfv2kndOL5KF3YExuqirtUbwP6dIyZgoGDW
+         xEdsHJM4m3lLOOBBuyHeHmzJfeahQV8aU79qiUBmyh/XfunEzandeK5G3NUESt3AWFcD
+         a3ezSMUd+nR4hOuPGZpjmPcOjFQCEE5g7xRh9Kp4CGmPYMDh8XXvH5YQcT1Lhcai3Y+4
+         E7IoAbLXCh+ZKqcc2Am5URYpCPMSQWDUJBpD+lZwnbO4zZD1nwmlUqkP8kWFWCvZ/jcp
+         2kyerygUYyukX490yhTeGKq7bs+4TmFxr4PYUBV7gvSe6zrBY93YjH+CHkmkZhhtPNf3
+         TeeA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:mime-version
+         :content-transfer-encoding;
+        bh=BvXfqmrNJagCH+GbSgfFYVoOHFPlLGvLrR6QFrYlfo0=;
+        b=Suc5Qbo8Aner/rRZhx+qPI/RmHZCX2luVjUILGpnijHnegkj6c5jTkHn4Ze55H/HwV
+         eY2jXN9TUMHiX3PalvkjfLXEL7MmWVHINO6nR/MIokkXBPo0gCQ+KUtV92tu2NBcZwR7
+         rCmKv3DXn6yZRkpnBJp3EAZOCkOu7ce+W2rlEtWHNRfhSgEhN+j/JtIb70ntqe0f+A8V
+         cVFfNgdA1Bw9acuVmlv8KD0YxhOzJFqjTgLASeEror2L6Ikvshwqt7vIM9wxkEKqSF3f
+         ByRMUb7G5aLIMgjDqrp+p60r27SgjwLr3Jm/kejc7DN5MtWCZeASNOaCYlztTwj8GdFh
+         HARA==
+X-Gm-Message-State: AOAM533aKt+WgWYoS1/IJHkeYBzrbtWlg/IbZ66n6i1d4hIFni8bIKj5
+        5zYPDfo50DjfC6sDL8JT2A==
+X-Google-Smtp-Source: ABdhPJyOOAIrp8s+Q92SAtzPfWarGNJC7la9Thn+Qb4fkzGaURu9ZwsTmXIzBVaRMZF+WNorDPs2Fw==
+X-Received: by 2002:a17:90b:8d8:: with SMTP id ds24mr11800440pjb.134.1607675472478;
+        Fri, 11 Dec 2020 00:31:12 -0800 (PST)
+Received: from localhost.localdomain (59-125-13-244.HINET-IP.hinet.net. [59.125.13.244])
+        by smtp.gmail.com with ESMTPSA id l66sm8885410pgl.24.2020.12.11.00.31.09
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Fri, 11 Dec 2020 00:31:11 -0800 (PST)
+From:   Peilin Ye <yepeilin.cs@gmail.com>
+To:     Mauro Carvalho Chehab <mchehab@kernel.org>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Sean Young <sean@mess.org>, Brad Love <brad@nextdimension.cc>,
+        Wolfram Sang <wsa+renesas@sang-engineering.com>,
+        linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Peilin Ye <yepeilin.cs@gmail.com>
+Subject: [PATCH] media: dvbdev: Fix memory leak in dvb_media_device_free()
+Date:   Fri, 11 Dec 2020 03:30:39 -0500
+Message-Id: <20201211083039.521617-1-yepeilin.cs@gmail.com>
+X-Mailer: git-send-email 2.25.1
 MIME-Version: 1.0
-Content-Type: text/plain;
-        charset="us-ascii"
-Content-Transfer-Encoding: 7bit
-X-Mailer: Microsoft Outlook 16.0
-Thread-Index: AQGsqVwHu/71coFvg7c0oMYy8kQsOgFDl0OsAW5z5eWqMEqxUA==
-Content-Language: en-us
-dlp-product: dlpe-windows
-dlp-version: 11.5.1.3
-dlp-reaction: no-action
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Thank you, Rob
+dvb_media_device_free() is leaking memory. Free `dvbdev->adapter->conn`
+before setting it to NULL, as documented in include/media/media-device.h:
+"The media_entity instance itself must be freed explicitly by the driver
+if required."
 
-> -----Original Message-----
-> From: Rob Herring <robh@kernel.org>
-> Sent: Thursday, December 10, 2020 3:52 AM
-> To: Martina Krasteva <martinax.krasteva@linux.intel.com>
-> Cc: robh+dt@kernel.org; mchehab@kernel.org; linux-media@vger.kernel.org;
-> daniele.alessandrelli@linux.intel.com;
-gjorgjix.rosikopulos@linux.intel.com;
-> devicetree@vger.kernel.org; sakari.ailus@linux.intel.com;
-> paul.j.murphy@linux.intel.com
-> Subject: Re: [PATCH v3 1/2] dt-bindings: media: Add bindings for imx334
-> 
-> On Mon, 07 Dec 2020 16:01:07 +0000, Martina Krasteva wrote:
-> > From: Martina Krasteva <martinax.krasteva@intel.com>
-> >
-> > - Add dt-bindings documentation for Sony imx334 sensor driver.
-> > - Add MAINTAINERS entry for Sony imx334 binding documentation.
-> >
-> > Signed-off-by: Martina Krasteva <martinax.krasteva@intel.com>
-> > Reviewed-by: Gjorgji Rosikopulos <gjorgjix.rosikopulos@intel.com>
-> > Acked-by: Daniele Alessandrelli <daniele.alessandrelli@intel.com>
-> > Acked-by: Paul J. Murphy <paul.j.murphy@intel.com>
-> > ---
-> >  .../devicetree/bindings/media/i2c/sony,imx334.yaml | 62
-> ++++++++++++++++++++++
-> >  MAINTAINERS                                        |  8 +++
-> >  2 files changed, 70 insertions(+)
-> >  create mode 100644
-> Documentation/devicetree/bindings/media/i2c/sony,imx334.yaml
-> >
-> 
-> Reviewed-by: Rob Herring <robh@kernel.org>
+Cc: stable@vger.kernel.org
+Fixes: 0230d60e4661 ("[media] dvbdev: Add RF connector if needed")
+Reported-by: syzbot+7f09440acc069a0d38ac@syzkaller.appspotmail.com
+Link: https://syzkaller.appspot.com/bug?id=9bbe4b842c98f0ed05c5eed77a226e9de33bf298
+Signed-off-by: Peilin Ye <yepeilin.cs@gmail.com>
+---
+ drivers/media/dvb-core/dvbdev.c | 1 +
+ 1 file changed, 1 insertion(+)
 
-Best Regards,
-Martina
+diff --git a/drivers/media/dvb-core/dvbdev.c b/drivers/media/dvb-core/dvbdev.c
+index 959fa2820259..ec9ebff28552 100644
+--- a/drivers/media/dvb-core/dvbdev.c
++++ b/drivers/media/dvb-core/dvbdev.c
+@@ -241,6 +241,7 @@ static void dvb_media_device_free(struct dvb_device *dvbdev)
+ 
+ 	if (dvbdev->adapter->conn) {
+ 		media_device_unregister_entity(dvbdev->adapter->conn);
++		kfree(dvbdev->adapter->conn);
+ 		dvbdev->adapter->conn = NULL;
+ 		kfree(dvbdev->adapter->conn_pads);
+ 		dvbdev->adapter->conn_pads = NULL;
+-- 
+2.25.1
 
