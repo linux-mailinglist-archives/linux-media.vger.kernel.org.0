@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 3FBCE2D79BA
-	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 16:47:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id D0ECD2D79CE
+	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 16:48:56 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2404369AbgLKPpu (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Dec 2020 10:45:50 -0500
-Received: from relay7-d.mail.gandi.net ([217.70.183.200]:57817 "EHLO
+        id S2404443AbgLKPpv (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Dec 2020 10:45:51 -0500
+Received: from relay7-d.mail.gandi.net ([217.70.183.200]:34881 "EHLO
         relay7-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2392900AbgLKPpV (ORCPT
+        with ESMTP id S2392907AbgLKPp1 (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Dec 2020 10:45:21 -0500
+        Fri, 11 Dec 2020 10:45:27 -0500
 X-Originating-IP: 93.29.109.196
 Received: from localhost.localdomain (196.109.29.93.rev.sfr.net [93.29.109.196])
         (Authenticated sender: paul.kocialkowski@bootlin.com)
-        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 2F8FC20007;
-        Fri, 11 Dec 2020 15:44:36 +0000 (UTC)
+        by relay7-d.mail.gandi.net (Postfix) with ESMTPSA id 1B1A720005;
+        Fri, 11 Dec 2020 15:44:39 +0000 (UTC)
 From:   Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 To:     linux-media@vger.kernel.org, devicetree@vger.kernel.org,
         linux-kernel@vger.kernel.org, linux-arm-kernel@lists.infradead.org
@@ -29,11 +29,15 @@ Cc:     Mauro Carvalho Chehab <mchehab@kernel.org>,
         Hans Verkuil <hverkuil@xs4all.nl>,
         Sakari Ailus <sakari.ailus@linux.intel.com>,
         Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
-        kevin.lhopital@hotmail.com
-Subject: [PATCH v4 0/3] media: i2c: OV8865 image sensor support
-Date:   Fri, 11 Dec 2020 16:44:25 +0100
-Message-Id: <20201211154428.153762-1-paul.kocialkowski@bootlin.com>
+        kevin.lhopital@hotmail.com,
+        =?UTF-8?q?K=C3=A9vin=20L=27h=C3=B4pital?= 
+        <kevin.lhopital@bootlin.com>, Rob Herring <robh@kernel.org>
+Subject: [PATCH v4 1/3] dt-bindings: media: i2c: Add OV8865 bindings documentation
+Date:   Fri, 11 Dec 2020 16:44:26 +0100
+Message-Id: <20201211154428.153762-2-paul.kocialkowski@bootlin.com>
 X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201211154428.153762-1-paul.kocialkowski@bootlin.com>
+References: <20201211154428.153762-1-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -41,54 +45,148 @@ Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This series adds support for the OV8865 image sensor, as a V4L2 subdev
-driver. Although an initial series was submitted by Kévin L'hôpital some
-weeks ago, this version is significantly new and should be considered a
-new series.
+This introduces YAML bindings documentation for the OV8865
+image sensor.
 
-The final patch (not for merge) shows how to enable the OV8865 on the
-Banana Pi Camera Board v2 with the Banana Pi M3.
-
-Changes since v3:
-- Removed debug read in write helper;
-- Squashed tailing function calls in return;
-- Added Kconfig depend on PM since it's not optional;
-- Reordered runtime PM in init;
-- Reworked runtime PM order and added ctrls handler free in exit.
-
-Changes since v2:
-- Added link-frequencies endpoint property support;
-- Marked avdd-supply as non-optional (no internal regulator);
-- Used NULL ctrl ops for pixel rate and link freq;
-- Extra cosmetic changes.
-
-Changes since v1:
-- Used runtime pm;
-- Used assigned-clock-rate;
-- Removed clock name;
-- Returned closest size in set_fmt;
-- Removed unneeded references to v4l2 controls;
-- Removed unneeded structure packing attribute;
-- Removed i2c device table;
-- Dual-licensed bindings;
-- Used SPDX tags.
-
-Kévin L'hôpital (1):
-  ARM: dts: sun8i: a83t: bananapi-m3: Enable MIPI CSI-2 with OV8865
-
-Paul Kocialkowski (2):
-  dt-bindings: media: i2c: Add OV8865 bindings documentation
-  media: i2c: Add support for the OV8865 image sensor
-
- .../bindings/media/i2c/ovti,ov8865.yaml       |  124 +
- arch/arm/boot/dts/sun8i-a83t-bananapi-m3.dts  |  102 +
- drivers/media/i2c/Kconfig                     |   13 +
- drivers/media/i2c/Makefile                    |    1 +
- drivers/media/i2c/ov8865.c                    | 2981 +++++++++++++++++
- 5 files changed, 3221 insertions(+)
+Co-developed-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
+Signed-off-by: Kévin L'hôpital <kevin.lhopital@bootlin.com>
+Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Reviewed-by: Rob Herring <robh@kernel.org>
+---
+ .../bindings/media/i2c/ovti,ov8865.yaml       | 124 ++++++++++++++++++
+ 1 file changed, 124 insertions(+)
  create mode 100644 Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
- create mode 100644 drivers/media/i2c/ov8865.c
 
+diff --git a/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+new file mode 100644
+index 000000000000..c0ba28aa30c4
+--- /dev/null
++++ b/Documentation/devicetree/bindings/media/i2c/ovti,ov8865.yaml
+@@ -0,0 +1,124 @@
++# SPDX-License-Identifier: (GPL-2.0 OR BSD-2-Clause)
++%YAML 1.2
++---
++$id: http://devicetree.org/schemas/media/i2c/ovti,ov8865.yaml#
++$schema: http://devicetree.org/meta-schemas/core.yaml#
++
++title: OmniVision OV8865 Image Sensor Device Tree Bindings
++
++maintainers:
++  - Paul Kocialkowski <paul.kocialkowski@bootlin.com>
++
++properties:
++  compatible:
++    const: ovti,ov8865
++
++  reg:
++    maxItems: 1
++
++  clocks:
++    items:
++      - description: EXTCLK Clock
++
++  assigned-clocks:
++    maxItems: 1
++
++  assigned-clock-rates:
++    maxItems: 1
++
++  dvdd-supply:
++    description: Digital Domain Power Supply
++
++  avdd-supply:
++    description: Analog Domain Power Supply
++
++  dovdd-supply:
++    description: I/O Domain Power Supply
++
++  powerdown-gpios:
++    maxItems: 1
++    description: Power Down Pin GPIO Control (active low)
++
++  reset-gpios:
++    maxItems: 1
++    description: Reset Pin GPIO Control (active low)
++
++  port:
++    type: object
++    description: MIPI CSI-2 transmitter port
++
++    properties:
++      endpoint:
++        type: object
++
++        properties:
++          remote-endpoint: true
++
++          link-frequencies:
++            $ref: /schemas/types.yaml#/definitions/uint64-array
++            description: Allowed MIPI CSI-2 link frequencies
++
++          data-lanes:
++            minItems: 1
++            maxItems: 4
++
++        required:
++          - data-lanes
++          - link-frequencies
++          - remote-endpoint
++
++    required:
++      - endpoint
++
++required:
++  - compatible
++  - reg
++  - clocks
++  - assigned-clocks
++  - assigned-clock-rates
++  - dvdd-supply
++  - avdd-supply
++  - dovdd-supply
++  - port
++
++additionalProperties: false
++
++examples:
++  - |
++    #include <dt-bindings/clock/sun8i-a83t-ccu.h>
++    #include <dt-bindings/gpio/gpio.h>
++
++    i2c2 {
++        #address-cells = <1>;
++        #size-cells = <0>;
++
++        ov8865: camera@36 {
++            compatible = "ovti,ov8865";
++            reg = <0x36>;
++
++            pinctrl-names = "default";
++            pinctrl-0 = <&csi_mclk_pin>;
++
++            clocks = <&ccu CLK_CSI_MCLK>;
++            assigned-clocks = <&ccu CLK_CSI_MCLK>;
++            assigned-clock-rates = <24000000>;
++
++            avdd-supply = <&reg_ov8865_avdd>;
++            dovdd-supply = <&reg_ov8865_dovdd>;
++            dvdd-supply = <&reg_ov8865_dvdd>;
++
++            powerdown-gpios = <&pio 4 17 GPIO_ACTIVE_LOW>; /* PE17 */
++            reset-gpios = <&pio 4 16 GPIO_ACTIVE_LOW>; /* PE16 */
++
++            port {
++                ov8865_out_mipi_csi2: endpoint {
++                    data-lanes = <1 2 3 4>;
++                    link-frequencies = /bits/ 64 <360000000>;
++
++                    remote-endpoint = <&mipi_csi2_in_ov8865>;
++                };
++            };
++        };
++    };
++
++...
 -- 
 2.29.2
 
