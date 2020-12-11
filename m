@@ -2,163 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 164422D7A71
-	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 17:02:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B4242D7BC8
+	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 18:00:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2406661AbgLKQAr (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Dec 2020 11:00:47 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:58576 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2406345AbgLKP7i (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Dec 2020 10:59:38 -0500
-Received: from mail-wm1-x344.google.com (mail-wm1-x344.google.com [IPv6:2a00:1450:4864:20::344])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 536EDC061793
-        for <linux-media@vger.kernel.org>; Fri, 11 Dec 2020 07:58:54 -0800 (PST)
-Received: by mail-wm1-x344.google.com with SMTP id q75so9047193wme.2
-        for <linux-media@vger.kernel.org>; Fri, 11 Dec 2020 07:58:54 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=243Gvg3EOSmTTvBu4o4RKVn/UX2SWUWrVcKX752oh38=;
-        b=Id21eySxih7XsO5kncW+YAXadbd1FJRP3AnY8TzDzyRyz5vVVokfWt6LARnKv+mD6i
-         xuXPXb4DkBzcRfsCwW9KZQ9udP/p+NrzbHAjO1Qv2ykiye5kdGDuJOGNzC/uPI1NH/0R
-         gPKG1sdfMW2SydMRmu4eAZjGA3/gSSRFu/ySs=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=243Gvg3EOSmTTvBu4o4RKVn/UX2SWUWrVcKX752oh38=;
-        b=iYp42eROacNZwaOCfNuxWtYZsguygyU5wZ2QlKkiH5yWcvCBHYipfpD1vlV4y3fyrL
-         I4fyquFlC/ms5S0++A46YcfHcTVHe5J40q4+oJzYwwKi3DGTISsXCrLYmUoE+GMk4uQH
-         ld+XHyztnKzq0jc0Q2APbRwu3GvaJSMv4sVCH/03d4vkW4QX6f8XRzIuFZ7HkSSyN1lf
-         NSiZ8bpDvejoMq2W8XTZLi1DlwrPB18Zup7Osia7VkBlRxRe+uEjkzaTQFuAmpEGlWJf
-         KkvmqLuJqtpnhoH3/YBeLAyi11tsPYJyc2blBpPXd2QaFZv7M3/VzdFmgME7g7Xb6YT2
-         XvYg==
-X-Gm-Message-State: AOAM533DHh9qs911qbWCP3ETYp3cC1keouAi9u+Ra0OY9wkSdTZ8ZGZH
-        xYPsmct6uEOlEAa95dosoQmucg==
-X-Google-Smtp-Source: ABdhPJyuJvI2Mjy8AtPGb0Iyw00NTdMFlmVvHC+yg+8Gjr8dEU+KJmhpBUiwqBVmfmlnpv1AVmn/+w==
-X-Received: by 2002:a1c:4904:: with SMTP id w4mr13987630wma.140.1607702333034;
-        Fri, 11 Dec 2020 07:58:53 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id z21sm14828241wmk.20.2020.12.11.07.58.51
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Fri, 11 Dec 2020 07:58:52 -0800 (PST)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH 4/4] dma-buf: doc polish for pin/unpin
-Date:   Fri, 11 Dec 2020 16:58:43 +0100
-Message-Id: <20201211155843.3348718-4-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201211155843.3348718-1-daniel.vetter@ffwll.ch>
-References: <20201211155843.3348718-1-daniel.vetter@ffwll.ch>
+        id S1732166AbgLKQ6y (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Dec 2020 11:58:54 -0500
+Received: from mga04.intel.com ([192.55.52.120]:12577 "EHLO mga04.intel.com"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1731237AbgLKQ6I (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Dec 2020 11:58:08 -0500
+IronPort-SDR: yojei51635MzC4VMpnzNoI0WjjU8wHhJOC97cOLLq3NlSa3G9aTkUrC31DhCq/O+/2dTX0l52Z
+ kCpI2WDK6uAg==
+X-IronPort-AV: E=McAfee;i="6000,8403,9832"; a="171896334"
+X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; 
+   d="scan'208";a="171896334"
+Received: from orsmga003.jf.intel.com ([10.7.209.27])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2020 08:56:18 -0800
+IronPort-SDR: jhUNGyw/A2QaJXoGHWr2U10B/0JdxbtNLtfRq9Pvnc+Zzfir4kYk8ksp+y3ps8vLwhuF0Beuic
+ xz9YRDaFYYiA==
+X-IronPort-AV: E=Sophos;i="5.78,411,1599548400"; 
+   d="scan'208";a="334177371"
+Received: from paasikivi.fi.intel.com ([10.237.72.42])
+  by orsmga003-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 11 Dec 2020 08:56:16 -0800
+Received: by paasikivi.fi.intel.com (Postfix, from userid 1000)
+        id 3818420473; Fri, 11 Dec 2020 18:56:14 +0200 (EET)
+Date:   Fri, 11 Dec 2020 18:56:14 +0200
+From:   Sakari Ailus <sakari.ailus@linux.intel.com>
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>
+Cc:     kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org,
+        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        linux-media@vger.kernel.org
+Subject: Re: drivers/media/pci/intel/ipu3/ipu3-cio2.c:163:56: warning:
+ implicit conversion from 'unsigned long' to 'u16' (aka 'unsigned short')
+ changes value from 131072 to 0
+Message-ID: <20201211165614.GC26370@paasikivi.fi.intel.com>
+References: <202011211600.bZyprrVg-lkp@intel.com>
+ <20201123104018.GX4077@smile.fi.intel.com>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <20201123104018.GX4077@smile.fi.intel.com>
+User-Agent: Mutt/1.10.1 (2018-07-13)
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Motivated by a discussion with Christian and Thomas: Try to untangle a
-bit what's relevant for importers and what's relevant for exporters.
+Hi Andy,
 
-Also add an assert that really only dynamic importers use the api
-function, anything else doesn't make sense.
+On Mon, Nov 23, 2020 at 12:40:18PM +0200, Andy Shevchenko wrote:
+> On Sat, Nov 21, 2020 at 04:23:05PM +0800, kernel test robot wrote:
+> > tree:   https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git master
+> > head:   27bba9c532a8d21050b94224ffd310ad0058c353
+> > commit: 7b285f41f7376dc37e7fad1e803995fd39f42848 media: ipu3-cio2: Introduce CIO2_LOP_ENTRIES constant
+> > date:   2 months ago
+> > config: arm64-randconfig-r031-20201121 (attached as .config)
+> > compiler: clang version 12.0.0 (https://github.com/llvm/llvm-project bec968cbb367dd03439c89c1d4ef968ef662d7c0)
+> > reproduce (this is a W=1 build):
+> >         wget https://raw.githubusercontent.com/intel/lkp-tests/master/sbin/make.cross -O ~/bin/make.cross
+> >         chmod +x ~/bin/make.cross
+> >         # install arm64 cross compiling tool for clang build
+> >         # apt-get install binutils-aarch64-linux-gnu
+> >         # https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git/commit/?id=7b285f41f7376dc37e7fad1e803995fd39f42848
+> >         git remote add linus https://git.kernel.org/pub/scm/linux/kernel/git/torvalds/linux.git
+> >         git fetch --no-tags linus master
+> >         git checkout 7b285f41f7376dc37e7fad1e803995fd39f42848
+> >         # save the attached .config to linux build tree
+> >         COMPILER_INSTALL_PATH=$HOME/0day COMPILER=clang make.cross ARCH=arm64 
+> > 
+> > If you fix the issue, kindly add following tag as appropriate
+> > Reported-by: kernel test robot <lkp@intel.com>
+> > 
+> > All warnings (new ones prefixed by >>):
+> > 
+> > >> drivers/media/pci/intel/ipu3/ipu3-cio2.c:163:56: warning: implicit conversion from 'unsigned long' to 'u16' (aka 'unsigned short') changes value from 131072 to 0 [-Wconstant-conversion]
+> >            entry[1].second_entry.num_of_pages = CIO2_LOP_ENTRIES * CIO2_MAX_LOPS;
+> >                                               ~ ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
+> >    1 warning generated.
+> 
+> Okay, now we have an interesting case. The IP is quite unlikely be used on
+> ARM64, but my patches made the clear picture about use of PAGE_SIZE here.
+> 
+> So, I see at least the following options to mitigate the above, i.e.:
+>  1/ reduce driver scope to X86
+>  2/ fix the variables to be wider type to be able to hold PAGE_SIZE > 4k
+>  3/ switch to custom PAGE_SIZE / _SHIFT / _MASK and accompanying macros
+> 
+> And I still consider 3/ is silly move because as we see the driver was
+> never assumed to work with big page sizes (besides unsigned short type
+> here, PAGE_SHIFT and PAGE_MASK in the original code was as is and on ARM64
+> they compiled to 0 values w/o warnings, effectively make the driver
+> improperly functioning anyway).
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/dma-buf/dma-buf.c | 19 ++++++++++++++++---
- include/linux/dma-buf.h   |  8 +++++---
- 2 files changed, 21 insertions(+), 6 deletions(-)
+Apologies for the late answer.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index 00d5afe904cc..1065545e9ca1 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -809,9 +809,15 @@ EXPORT_SYMBOL_GPL(dma_buf_detach);
- 
- /**
-  * dma_buf_pin - Lock down the DMA-buf
-- *
-  * @attach:	[in]	attachment which should be pinned
-  *
-+ * Only dynamic importers (who set up @attach with dma_buf_dynamic_attach()) may
-+ * call this, and only for limited use cases like scanout and not for temporary
-+ * pin operations. It is not permitted to allow userspace to pin arbitrary
-+ * amounts of buffers through this interface.
-+ *
-+ * Buffers must be unpinned by calling dma_buf_unpin().
-+ *
-  * Returns:
-  * 0 on success, negative error code on failure.
-  */
-@@ -820,6 +826,8 @@ int dma_buf_pin(struct dma_buf_attachment *attach)
- 	struct dma_buf *dmabuf = attach->dmabuf;
- 	int ret = 0;
- 
-+	WARN_ON(!dma_buf_attachment_is_dynamic(attach));
-+
- 	dma_resv_assert_held(dmabuf->resv);
- 
- 	if (dmabuf->ops->pin)
-@@ -830,14 +838,19 @@ int dma_buf_pin(struct dma_buf_attachment *attach)
- EXPORT_SYMBOL_GPL(dma_buf_pin);
- 
- /**
-- * dma_buf_unpin - Remove lock from DMA-buf
-- *
-+ * dma_buf_unpin - Unpin a DMA-buf
-  * @attach:	[in]	attachment which should be unpinned
-+ *
-+ * This unpins a buffer pinned by dma_buf_pin() and allows the exporter to move
-+ * any mapping of @attach again and inform the importer through
-+ * &dma_buf_attach_ops.move_notify.
-  */
- void dma_buf_unpin(struct dma_buf_attachment *attach)
- {
- 	struct dma_buf *dmabuf = attach->dmabuf;
- 
-+	WARN_ON(!dma_buf_attachment_is_dynamic(attach));
-+
- 	dma_resv_assert_held(dmabuf->resv);
- 
- 	if (dmabuf->ops->unpin)
-diff --git a/include/linux/dma-buf.h b/include/linux/dma-buf.h
-index 43802a31b25d..628681bf6c99 100644
---- a/include/linux/dma-buf.h
-+++ b/include/linux/dma-buf.h
-@@ -86,13 +86,15 @@ struct dma_buf_ops {
- 	 * @pin:
- 	 *
- 	 * This is called by dma_buf_pin() and lets the exporter know that the
--	 * DMA-buf can't be moved any more.
-+	 * DMA-buf can't be moved any more. The exporter should pin the buffer
-+	 * into system memory to make sure it is generally accessible by other
-+	 * devices.
- 	 *
- 	 * This is called with the &dmabuf.resv object locked and is mutual
- 	 * exclusive with @cache_sgt_mapping.
- 	 *
--	 * This callback is optional and should only be used in limited use
--	 * cases like scanout and not for temporary pin operations.
-+	 * This is called automatically for non-dynamic importers from
-+	 * dma_buf_attach().
- 	 *
- 	 * Returns:
- 	 *
+I think I'd favour the first option. It's not really useful to be able to
+compile this elsewhere; as such the driver doesn't do anything special that
+would make it prone to breakage through changes elsewhere.
+
+Would you like to send a patch? :-)
+
 -- 
-2.29.2
+Kind regards,
 
+Sakari Ailus
