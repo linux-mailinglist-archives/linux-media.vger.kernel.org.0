@@ -2,21 +2,21 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 5172C2D7C1D
-	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 18:04:59 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 56C162D7C1F
+	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 18:05:00 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2405109AbgLKREP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Dec 2020 12:04:15 -0500
-Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:5324 "EHLO
+        id S2393989AbgLKREO (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Dec 2020 12:04:14 -0500
+Received: from hqnvemgate26.nvidia.com ([216.228.121.65]:5325 "EHLO
         hqnvemgate26.nvidia.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393576AbgLKRDw (ORCPT
+        with ESMTP id S2393569AbgLKRDw (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
         Fri, 11 Dec 2020 12:03:52 -0500
 Received: from hqmail.nvidia.com (Not Verified[216.228.121.13]) by hqnvemgate26.nvidia.com (using TLS: TLSv1.2, AES256-SHA)
-        id <B5fd3a6390000>; Fri, 11 Dec 2020 09:02:49 -0800
-Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL109.nvidia.com
- (172.20.187.15) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 11 Dec
- 2020 17:02:49 +0000
+        id <B5fd3a63a0000>; Fri, 11 Dec 2020 09:02:50 -0800
+Received: from HQMAIL109.nvidia.com (172.20.187.15) by HQMAIL101.nvidia.com
+ (172.20.187.10) with Microsoft SMTP Server (TLS) id 15.0.1473.3; Fri, 11 Dec
+ 2020 17:02:50 +0000
 Received: from skomatineni-linux.nvidia.com (172.20.145.6) by mail.nvidia.com
  (172.20.187.15) with Microsoft SMTP Server id 15.0.1473.3 via Frontend
  Transport; Fri, 11 Dec 2020 17:02:49 +0000
@@ -27,9 +27,9 @@ To:     <skomatineni@nvidia.com>, <thierry.reding@gmail.com>,
 CC:     <mchehab@kernel.org>, <linux-media@vger.kernel.org>,
         <linux-tegra@vger.kernel.org>, <devicetree@vger.kernel.org>,
         <linux-kernel@vger.kernel.org>
-Subject: [PATCH v4 03/13] media: tegra-video: Fix V4L2 pixel format RGB and YUV
-Date:   Fri, 11 Dec 2020 09:02:32 -0800
-Message-ID: <1607706162-1548-4-git-send-email-skomatineni@nvidia.com>
+Subject: [PATCH v4 04/13] media: tegra-video: Add support for V4L2_PIX_FMT_NV16
+Date:   Fri, 11 Dec 2020 09:02:33 -0800
+Message-ID: <1607706162-1548-5-git-send-email-skomatineni@nvidia.com>
 X-Mailer: git-send-email 2.7.4
 In-Reply-To: <1607706162-1548-1-git-send-email-skomatineni@nvidia.com>
 References: <1607706162-1548-1-git-send-email-skomatineni@nvidia.com>
@@ -37,62 +37,77 @@ X-NVConfidentiality: public
 MIME-Version: 1.0
 Content-Type: text/plain
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=nvidia.com; s=n1;
-        t=1607706170; bh=imcyi/Wf5bWSKWY3rp4OOsZll/aHA+UXIksKEb6CDQY=;
+        t=1607706170; bh=KU4kkKyfxjB47xZSqJdcMrFYTj+ssTxcvqFUoz12xtg=;
         h=From:To:CC:Subject:Date:Message-ID:X-Mailer:In-Reply-To:
          References:X-NVConfidentiality:MIME-Version:Content-Type;
-        b=aBicalSEA11LNNKZFXiYpkLT0K99Wd8ij7bmTA8MgcxBd13Dhkj3NwByl6tP3Nz6b
-         I3XlADhMOZrPQfrVyM+i7oCYO6F5empL0t0DZzuzKYCZnAqhTKPyqDRDX6V3eI7ah0
-         hhpZWKBDgB157Qywvgf0hVja5vo/8JnwBEfvB3WnSPb5cgGk/rXFgKZ9C9N56RnGY+
-         cNWr7IxaXoPldNi8J34UJ2tQy8W1Q2tV4UvGPempy0jLe3KToiEJJvaRY2eUliZIDT
-         8PeMXmiUK/HveLLLLTMeMdejq4LhXjENShLexQRYLvyKUEpAXAf1fwSpI308vVMT75
-         QshyQMC/yvkIA==
+        b=ABaHukVU4Xw2KaV01j2NGOy1SpqVHzk0Exabkc/i9WLHnIxIQ7KF+grQvvoRkYi4b
+         Vko6c304ochmhGtLc25M34t2MmYhS+c5gZt96ydeTSiTuK5rHgiGXfqoRYMyonTPC2
+         MP0XX0sd7RYnmrHKUBaFPl1xSRYxIr4u6qH83JAXlFrVuMDXnELFdtFksJUjPygpsk
+         qNZTE+HFgrDm4urgBnjMCqlKxj/tgAG8WU3cwcbi5fdEMW4z8Yu9Yl4faEp+6StbGD
+         g2U8lMDCmPCAUd3x0ujZg1sUUhxAXmgOHVjcojgdi+KxB7Dhk5pha/4aDSAIRBWiwT
+         Trp5BfIOl4ZwQ==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-V4L2 pixel format is incorrect for RGB and YUV formats.
+NV16 are two-plane versions of YUV422 format.
 
-This patch fixes it.
+VI/CSI surface0 registers corresponds to first Y plane and
+surface1 registers corresponds to seconds UV plane.
+
+This patch updates image size for NV16 format to include both planes
+and programs VI/CSI surface1 registers for UV plane capture.
 
 Signed-off-by: Sowjanya Komatineni <skomatineni@nvidia.com>
 ---
- drivers/staging/media/tegra-video/tegra210.c | 20 ++++++++++----------
- 1 file changed, 10 insertions(+), 10 deletions(-)
+ drivers/staging/media/tegra-video/tegra210.c | 13 +++++++++++++
+ drivers/staging/media/tegra-video/vi.c       |  2 ++
+ 2 files changed, 15 insertions(+)
 
 diff --git a/drivers/staging/media/tegra-video/tegra210.c b/drivers/staging/media/tegra-video/tegra210.c
-index 6b23aa7..68f09e4 100644
+index 68f09e4..b731aa5 100644
 --- a/drivers/staging/media/tegra-video/tegra210.c
 +++ b/drivers/staging/media/tegra-video/tegra210.c
-@@ -619,19 +619,19 @@ static const struct tegra_video_format tegra210_video_formats[] = {
- 	TEGRA210_VIDEO_FMT(RAW12, 12, SGBRG12_1X12, 2, T_R16_I, SGBRG12),
- 	TEGRA210_VIDEO_FMT(RAW12, 12, SBGGR12_1X12, 2, T_R16_I, SBGGR12),
- 	/* RGB888 */
--	TEGRA210_VIDEO_FMT(RGB888, 24, RGB888_1X24, 4, T_A8R8G8B8, RGB24),
-+	TEGRA210_VIDEO_FMT(RGB888, 24, RGB888_1X24, 4, T_A8R8G8B8, XBGR32),
- 	TEGRA210_VIDEO_FMT(RGB888, 24, RGB888_1X32_PADHI, 4, T_A8B8G8R8,
--			   XBGR32),
-+			   RGBX32),
- 	/* YUV422 */
--	TEGRA210_VIDEO_FMT(YUV422_8, 16, UYVY8_1X16, 2, T_U8_Y8__V8_Y8, UYVY),
--	TEGRA210_VIDEO_FMT(YUV422_8, 16, VYUY8_1X16, 2, T_V8_Y8__U8_Y8, VYUY),
--	TEGRA210_VIDEO_FMT(YUV422_8, 16, YUYV8_1X16, 2, T_Y8_U8__Y8_V8, YUYV),
--	TEGRA210_VIDEO_FMT(YUV422_8, 16, YVYU8_1X16, 2, T_Y8_V8__Y8_U8, YVYU),
-+	TEGRA210_VIDEO_FMT(YUV422_8, 16, UYVY8_1X16, 2, T_U8_Y8__V8_Y8, YVYU),
-+	TEGRA210_VIDEO_FMT(YUV422_8, 16, VYUY8_1X16, 2, T_V8_Y8__U8_Y8, YUYV),
-+	TEGRA210_VIDEO_FMT(YUV422_8, 16, YUYV8_1X16, 2, T_Y8_U8__Y8_V8, VYUY),
-+	TEGRA210_VIDEO_FMT(YUV422_8, 16, YVYU8_1X16, 2, T_Y8_V8__Y8_U8, UYVY),
- 	TEGRA210_VIDEO_FMT(YUV422_8, 16, UYVY8_1X16, 1, T_Y8__V8U8_N422, NV16),
--	TEGRA210_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 2, T_U8_Y8__V8_Y8, UYVY),
--	TEGRA210_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 2, T_V8_Y8__U8_Y8, VYUY),
--	TEGRA210_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 2, T_Y8_U8__Y8_V8, YUYV),
--	TEGRA210_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 2, T_Y8_V8__Y8_U8, YVYU),
-+	TEGRA210_VIDEO_FMT(YUV422_8, 16, UYVY8_2X8, 2, T_U8_Y8__V8_Y8, YVYU),
-+	TEGRA210_VIDEO_FMT(YUV422_8, 16, VYUY8_2X8, 2, T_V8_Y8__U8_Y8, YUYV),
-+	TEGRA210_VIDEO_FMT(YUV422_8, 16, YUYV8_2X8, 2, T_Y8_U8__Y8_V8, VYUY),
-+	TEGRA210_VIDEO_FMT(YUV422_8, 16, YVYU8_2X8, 2, T_Y8_V8__Y8_U8, UYVY),
- };
+@@ -287,6 +287,7 @@ static int tegra_channel_capture_frame(struct tegra_vi_channel *chan,
+ {
+ 	u32 thresh, value, frame_start, mw_ack_done;
+ 	int bytes_per_line = chan->format.bytesperline;
++	u32 sizeimage = chan->format.sizeimage;
+ 	int err;
  
- /* Tegra210 VI operations */
+ 	/* program buffer address by using surface 0 */
+@@ -296,6 +297,18 @@ static int tegra_channel_capture_frame(struct tegra_vi_channel *chan,
+ 	vi_csi_write(chan, TEGRA_VI_CSI_SURFACE0_STRIDE, bytes_per_line);
+ 
+ 	/*
++	 * Program surface 1 for UV plane with offset sizeimage from Y plane.
++	 */
++	if (chan->fmtinfo->fourcc == V4L2_PIX_FMT_NV16) {
++		vi_csi_write(chan, TEGRA_VI_CSI_SURFACE1_OFFSET_MSB,
++			     ((u64)buf->addr + sizeimage / 2) >> 32);
++		vi_csi_write(chan, TEGRA_VI_CSI_SURFACE1_OFFSET_LSB,
++			     buf->addr + sizeimage / 2);
++		vi_csi_write(chan, TEGRA_VI_CSI_SURFACE1_STRIDE,
++			     bytes_per_line);
++	}
++
++	/*
+ 	 * Tegra VI block interacts with host1x syncpt for synchronizing
+ 	 * programmed condition of capture state and hardware operation.
+ 	 * Frame start and Memory write acknowledge syncpts has their own
+diff --git a/drivers/staging/media/tegra-video/vi.c b/drivers/staging/media/tegra-video/vi.c
+index 7edd35c..525c087 100644
+--- a/drivers/staging/media/tegra-video/vi.c
++++ b/drivers/staging/media/tegra-video/vi.c
+@@ -484,6 +484,8 @@ static void tegra_channel_fmt_align(struct tegra_vi_channel *chan,
+ 
+ 	pix->bytesperline = clamp(bpl, min_bpl, max_bpl);
+ 	pix->sizeimage = pix->bytesperline * pix->height;
++	if (pix->pixelformat == V4L2_PIX_FMT_NV16)
++		pix->sizeimage *= 2;
+ }
+ 
+ static int __tegra_channel_try_format(struct tegra_vi_channel *chan,
 -- 
 2.7.4
 
