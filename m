@@ -2,217 +2,175 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 6EC482D7F88
-	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 20:41:20 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 555D22D7FE9
+	for <lists+linux-media@lfdr.de>; Fri, 11 Dec 2020 21:24:54 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393878AbgLKTk2 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Dec 2020 14:40:28 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:36080 "EHLO
+        id S2394408AbgLKUXp (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Dec 2020 15:23:45 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42670 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2393841AbgLKTkJ (ORCPT
+        with ESMTP id S2391314AbgLKUXT (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Dec 2020 14:40:09 -0500
-Received: from mail-oi1-x242.google.com (mail-oi1-x242.google.com [IPv6:2607:f8b0:4864:20::242])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 3155FC061793
-        for <linux-media@vger.kernel.org>; Fri, 11 Dec 2020 11:39:29 -0800 (PST)
-Received: by mail-oi1-x242.google.com with SMTP id k2so11073134oic.13
-        for <linux-media@vger.kernel.org>; Fri, 11 Dec 2020 11:39:29 -0800 (PST)
+        Fri, 11 Dec 2020 15:23:19 -0500
+Received: from mail-lj1-x243.google.com (mail-lj1-x243.google.com [IPv6:2a00:1450:4864:20::243])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 418EBC0611CA
+        for <linux-media@vger.kernel.org>; Fri, 11 Dec 2020 12:21:56 -0800 (PST)
+Received: by mail-lj1-x243.google.com with SMTP id f11so12353693ljm.8
+        for <linux-media@vger.kernel.org>; Fri, 11 Dec 2020 12:21:56 -0800 (PST)
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
+        d=linaro.org; s=google;
         h=mime-version:references:in-reply-to:from:date:message-id:subject:to
          :cc;
-        bh=s+awO2pr5ClNOCamyu789YlXSRozxdskX216w6cl2f8=;
-        b=OvDJplID/dYzRWRamwAVmHKXJiH7h7PuuYrp23AFNRL34x6i3YU2r+Wb/mZGIYpxoa
-         2tYYlHM/TmjusEYzJy5hMT4oI7Ra8iLYw980lepj+jLvYjMY3D/eEuT1wkF1aXcoma7z
-         gz4bANTGz1SALkF11S4YzZJPpAWHky2LiHNuQ=
+        bh=lMZxDCK3EHPV415eTfAWmt24gOYNu8m5s7i1OWUhO90=;
+        b=zZbDT1KGkvTMeQKEnAfTOSZjzsYrkD4Tgz8brLNeq6Lh4awBtr+xmRlRiafzhVoJIR
+         rqZvyx3xlXzyBSSyeI8F5oswzPW8NDb/y8mCdCiO+2PVQmZ1VYdPdg9ovC+UpKmBL3b2
+         2APVlSMD+d0xwnH0u4wSXvQUH52WMhUtGXxFcyJ/ULZoBF0Bma5GMAbrADaEHVKdC+vs
+         yuYscH4GMdsTvkz8FK+ogTr6Cvov9VDoJ8KnU6qqK+4jvwheJG61Rjb45YA5Kdeoq61A
+         mE+xnJEqqQ/d1F9pCzWkPAJmQaI8EDY71YJp4QmUKzSAz+va4cy/SYHk1S1JqX08YyIZ
+         lebA==
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:mime-version:references:in-reply-to:from:date
          :message-id:subject:to:cc;
-        bh=s+awO2pr5ClNOCamyu789YlXSRozxdskX216w6cl2f8=;
-        b=BkwvJQ2MUYqqBkapBKjmUzoDBZaRejBNvdNisAxW6y3LU64yfIhbYYhor404kq9tkN
-         AxYLWv3omw6Rv1Pqhsd4ZXhEmv3FE6iYhhVX2ZfFsSFy1FcVaDZL0pScArETfJhAKYVw
-         xgq0R5Y+X02yBdn7ufZUYY02a/Vh8rNlLv5BoHD2Qnl+L4vT968RpGyMd7dFtEOPDqPU
-         9VrikrqnBxHP9HeX8Icx4IFFTLzGtrvW0WdooYgMTcdd/tDZPmN3BhA8XKBv17wwcUey
-         +VIThhN24Fnqb6XDdeGhni5jMyZijASTqpLZb3gdblAMkZzEB8CaAQpbGvT4AKtBFnDm
-         +m9g==
-X-Gm-Message-State: AOAM533sSHTGUD8Wj5qKDH+Lr4RBczXCzI3nv/UMqeagm2XTnJKHebck
-        ts6GyfUFW7NWk2BSSxVvKKm4Y39H41YzuxI8Nl8FEA==
-X-Google-Smtp-Source: ABdhPJx6UGUfdeWodzKFL8AUOZe212yOefuiLcRZ8MxKzIdIKTheoFzCGHQ0qFdoiOS1V9jAVyyTpF5t5mzHbTEiGas=
-X-Received: by 2002:aca:54d8:: with SMTP id i207mr10359071oib.101.1607715568446;
- Fri, 11 Dec 2020 11:39:28 -0800 (PST)
+        bh=lMZxDCK3EHPV415eTfAWmt24gOYNu8m5s7i1OWUhO90=;
+        b=CTog/abRPFuOhHZVD5QqEbXYbVvllcwcmWwSmRgTsa3GPlqM2utBhHrmYxJOw7iNKU
+         C6AdeMePb05DLVjcbbsSazRaKe2EvaAHC7cNAIdRFuVxf8ui2gT8CVXoGk7wDkj51R73
+         fgC4ChT3Z6ngnBzYxNMu/dm6ucqx8utH9gu6gaHHEsCsxiunMBKXidn0WsXFyEHyIclD
+         1UMwMa1wLVq8gwvMOHEuRsHr6vwCZHaXedpFV1ZIAjzovi4GiNp8DGz084Gr7XlQLFVq
+         cQq/0/W0RnIRclS+JAIw4uQUMz1QqfxFPfSev98J06tqUjTZCsuF9JBCg10sPhetxy6+
+         ztvg==
+X-Gm-Message-State: AOAM5318KVOHkShN9mO1ZPbv8XxzGil/3YRjZndRdBgx3aDdr34S0ilE
+        yX6j059U1BkVyRJCl6BgJB0mXowLFVOFrGSKVmZawg==
+X-Google-Smtp-Source: ABdhPJxICfsPv5gZgl9FHRPwfpWkwc/udxsFzWzWt2wOYhJdXcGUw9M3QJjshG3dpf6olNAdPGyY3xr3ppjhjL1s6XM=
+X-Received: by 2002:a05:651c:286:: with SMTP id b6mr5684677ljo.232.1607718114626;
+ Fri, 11 Dec 2020 12:21:54 -0800 (PST)
 MIME-Version: 1.0
-References: <1606722505-16194-1-git-send-email-wendy.liang@xilinx.com> <CADnq5_NZrqkouXCFKWc2wv483nc=x4cXXjFCqcEmkUYZpNeMUQ@mail.gmail.com>
-In-Reply-To: <CADnq5_NZrqkouXCFKWc2wv483nc=x4cXXjFCqcEmkUYZpNeMUQ@mail.gmail.com>
-From:   Daniel Vetter <daniel@ffwll.ch>
-Date:   Fri, 11 Dec 2020 20:39:17 +0100
-Message-ID: <CAKMK7uFjwmm9W3RFVdQ=EOqHvWeD5ZPA7zP86O_sxxBv3n4jjw@mail.gmail.com>
-Subject: Re: [PATCH v3 0/9] Xilinx AI engine kernel driver
-To:     Alex Deucher <alexdeucher@gmail.com>
-Cc:     Wendy Liang <wendy.liang@xilinx.com>, tejas.patel@xilinx.com,
-        ravi.patel@xilinx.com, rajan.vaja@xilinx.com,
-        Arnd Bergmann <arnd@arndb.de>,
-        devicetree <devicetree@vger.kernel.org>,
-        Greg KH <gregkh@linuxfoundation.org>,
-        Dragan Cvetic <dragan.cvetic@xilinx.com>,
-        Michal Simek <michal.simek@xilinx.com>,
-        Maling list - DRI developers 
-        <dri-devel@lists.freedesktop.org>,
-        Rob Herring <robh+dt@kernel.org>, manish.narani@xilinx.com,
-        linux-arm-kernel <linux-arm-kernel@lists.infradead.org>,
-        Derek Kiernan <derek.kiernan@xilinx.com>,
-        Christian Koenig <christian.koenig@amd.com>,
-        LKML <linux-kernel@vger.kernel.org>,
-        linux-media <linux-media@vger.kernel.org>
+References: <20201210044400.1080308-1-hridya@google.com> <b5adfe46-8615-5821-d092-2b93feed5b79@amd.com>
+ <X9H0JREcdxDsMtLX@kroah.com> <20201210102727.GE401619@phenom.ffwll.local>
+ <X9H+3AP1q39aMxeb@kroah.com> <CAKMK7uFD3fE01Li3JOpHpzP7313OT3xpcjBwzSVjrCGAmab2Zg@mail.gmail.com>
+ <X9IPhEkcZO+Ut5RH@kroah.com> <CAKMK7uEM636NjEcxLfsKJa9H71i0mkQ3dsT3yWwHTcVFk4r+Sg@mail.gmail.com>
+In-Reply-To: <CAKMK7uEM636NjEcxLfsKJa9H71i0mkQ3dsT3yWwHTcVFk4r+Sg@mail.gmail.com>
+From:   John Stultz <john.stultz@linaro.org>
+Date:   Fri, 11 Dec 2020 12:21:43 -0800
+Message-ID: <CALAqxLWr7NgVszBMxTV=_LXKC3a24YzwXKjSdXuLdP5xKGue1w@mail.gmail.com>
+Subject: Re: [PATCH] dmabuf: Add the capability to expose DMA-BUF stats in sysfs
+To:     Daniel Vetter <daniel@ffwll.ch>
+Cc:     Greg KH <gregkh@linuxfoundation.org>,
+        Android Kernel Team <kernel-team@android.com>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        dri-devel <dri-devel@lists.freedesktop.org>,
+        "moderated list:DMA BUFFER SHARING FRAMEWORK" 
+        <linaro-mm-sig@lists.linaro.org>,
+        Hridya Valsaraju <hridya@google.com>,
+        Suren Baghdasaryan <surenb@google.com>,
+        =?UTF-8?Q?Christian_K=C3=B6nig?= <christian.koenig@amd.com>,
+        "open list:DMA BUFFER SHARING FRAMEWORK" 
+        <linux-media@vger.kernel.org>
 Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi all
-
-On Fri, Dec 11, 2020 at 8:03 PM Alex Deucher <alexdeucher@gmail.com> wrote:
+On Thu, Dec 10, 2020 at 5:10 AM Daniel Vetter <daniel@ffwll.ch> wrote:
+> On Thu, Dec 10, 2020 at 1:06 PM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > On Thu, Dec 10, 2020 at 12:26:01PM +0100, Daniel Vetter wrote:
+> > > On Thu, Dec 10, 2020 at 11:55 AM Greg KH <gregkh@linuxfoundation.org> wrote:
+> > > > On Thu, Dec 10, 2020 at 11:27:27AM +0100, Daniel Vetter wrote:
+> > > > > This only shows shared memory, so it does smell a lot like $specific_issue
+> > > > > and we're designing a narrow solution for that and then have to carry it
+> > > > > forever.
+> > > >
+> > > > I think the "issue" is that this was a feature from ion that people
+> > > > "missed" in the dmabuf move.  Taking away the ability to see what kind
+> > > > of allocations were being made didn't make a lot of debugging tools
+> > > > happy :(
+> > >
+> > > If this is just for dma-heaps then why don't we add the stuff back
+> > > over there? It reinforces more that the android gpu stack and the
+> > > non-android gpu stack on linux are fairly different in fundamental
+> > > ways, but that's not really new.
+> >
+> > Back "over where"?
+> >
+> > dma-bufs are not only used for the graphics stack on android from what I
+> > can tell, so this shouldn't be a gpu-specific issue.
 >
-> On Mon, Nov 30, 2020 at 3:25 AM Wendy Liang <wendy.liang@xilinx.com> wrote:
-> >
-> > AI engine is the acceleration engine provided by Xilinx. These engines
-> > provide high compute density for vector-based algorithms, and flexible
-> > custom compute and data movement. It has core tiles for compute and
-> > shim tiles to interface the FPGA fabric.
-> >
-> > You can check the AI engine architecture document for more hardware details:
-> > https://www.xilinx.com/support/documentation/architecture-manuals/am009-versal-ai-engine.pdf
-> >
-> > This patch series adds a Linux kernel driver to manage the Xilinx AI
-> > engine array device and AI engine partitions (groups of AI engine tiles
-> > dedicated to an application).
->
-> Hi Wendy,
->
-> I think it would be good to provide an overview of how your stack
-> works in general.  That would give reviewers a better handle on how
-> all of this fits together.  I'd suggest including an overview in the
-> cover letter and also in the commit message and/or as a comment in the
-> code in one of the patches.  I'm not really an expert when it comes to
-> FPGAs, but this basically looks like a pretty low level interface to
-> set up the data fabric for a kernel that will run on the soft logic or
-> maybe the microcontroller on the board.  It doesn't have to be super
-> detailed, just a nice flow for how you might use this.  E.g.,
->
-> Userspace uses ioctls X, Y, Z to configure the data fabric for the
-> FPGA kernel.  The kernels can run on... .  DMA access to system memory
-> for data sets can be allocated using ioctl A.  DMA access is limited
-> by... . The user can then load the FPGA kernel on to one of the
-> engines using ioctl B and finally they can kick off the whole thing
-> using ioctl C.  FPGA kernels are compiled using YYY toolchain and use
-> use the following runtime (link to runtime) to configure the data
-> fabric using ioctls X, Y, Z.
+> dma-buf heaps exist because android, mostly because google mandates
+> it.
 
-At least for drm drivers we ideally have that as a .rst file in
-Documentation/. With that you can even do full svg graphs, or just dot
-graphs, of the overall stack if you really want to go overboard :-)
+So, I don't think that's fair.
 
-> It would also be good to go over the security implications of the
-> design.  E.g., can the FPGA kernel(s) access the DMA engine directly,
-> or is it limited to just the DMA regions set up by the ioctls?  Also,
-> does the hardware and software design allow for multiple users?  If
-> so, how does that work?
+dma-buf heaps and ION before exist because it solves a problem they
+have for allocating shared buffers for multiple complicated
+multi-device pipelines where the various devices have constraints.
+It's not strictly required[1], as your next point makes clear (along
+with ChromeOS's Android not using it).
 
-I've also seen indications that there's some on-chip or on-card
-memory. How that's planned to be used and whether we want to manage
-this (maybe even with something like ttm) would be good to understand.
+> There's not a whole lot (meaning zero) of actually open gpu stacks
+> around that run on android and use dma-buf heaps like approved google
+> systems, largely because the gralloc implementation in mesa just
+> doesnt.
 
-All excellent questions from Alex, just figured I add some more.
+So yes, db845c currently uses the gbm_gralloc, which doesn't use
+dmabuf heaps or ION.
 
-Cheers, Daniel
+That said, the resulting system still uses quite a number of dmabufs,
+as Hridya's patch shows:
+==> /sys/kernel/dmabuf/28435/exporter_name <==
+drm
+==> /sys/kernel/dmabuf/28435/dev_map_info <==
+==> /sys/kernel/dmabuf/28435/size <==
+16384
+==> /sys/kernel/dmabuf/28161/exporter_name <==
+drm
+==> /sys/kernel/dmabuf/28161/dev_map_info <==
+==> /sys/kernel/dmabuf/28161/size <==
+524288
+==> /sys/kernel/dmabuf/30924/exporter_name <==
+drm
+==> /sys/kernel/dmabuf/30924/dev_map_info <==
+==> /sys/kernel/dmabuf/30924/size <==
+8192
+==> /sys/kernel/dmabuf/26880/exporter_name <==
+drm
+==> /sys/kernel/dmabuf/26880/dev_map_info <==
+==> /sys/kernel/dmabuf/26880/size <==
+262144
+...
 
-> Thanks,
->
-> Alex
->
->
-> >
-> > v3:
-> > * unlock AIE dev mutex after failed to gain the partition lock in
-> >   errors handing
-> > * replace pointer with __u64 and enum with __u32 in ioctl
-> >
-> > v2:
-> > * Fix dtschema check errors
-> > * Fix test bot warning on interrupt implementation. Removed set but
-> >   unused  varaible.
-> > * Fix compilation unused function warning of firmware change in case
-> >   ZynqMP firmware is not configured
-> > * There are other warning on ZynqMP firmware reported from testbot
-> >   which is not introduced by this patch set.
-> >   "[PATCH] firmware: xlnx-zynqmp: fix compilation warning" is submitted
-> >   for those fixes.
-> >
-> >
-> > Izhar Ameer Shaikh (1):
-> >   firmware: xilinx: Add IOCTL support for AIE ISR Clear
-> >
-> > Nishad Saraf (2):
-> >   misc: xilinx-ai-engine: Add support to request device management
-> >     services
-> >   misc: xilinx-ai-engine: Add support for servicing error interrupts
-> >
-> > Wendy Liang (6):
-> >   dt-binding: soc: xilinx: ai-engine: Add AI engine binding
-> >   misc: Add Xilinx AI engine device driver
-> >   misc: xilinx-ai-engine: Implement AI engine cleanup sequence
-> >   misc: xilinx-ai-engine: expose AI engine tile memories to userspace
-> >   misc: xilinx-ai-engine: add setting shim dma bd operation
-> >   misc: xilinx-ai-engine: add request and release tiles
-> >
-> >  .../bindings/soc/xilinx/xlnx,ai-engine.yaml        | 126 ++++
-> >  MAINTAINERS                                        |   8 +
-> >  drivers/firmware/xilinx/zynqmp.c                   |  14 +
-> >  drivers/misc/Kconfig                               |  12 +
-> >  drivers/misc/Makefile                              |   1 +
-> >  drivers/misc/xilinx-ai-engine/Makefile             |  16 +
-> >  drivers/misc/xilinx-ai-engine/ai-engine-aie.c      | 608 +++++++++++++++++++
-> >  drivers/misc/xilinx-ai-engine/ai-engine-clock.c    | 245 ++++++++
-> >  drivers/misc/xilinx-ai-engine/ai-engine-dev.c      | 496 ++++++++++++++++
-> >  drivers/misc/xilinx-ai-engine/ai-engine-dma.c      | 481 +++++++++++++++
-> >  drivers/misc/xilinx-ai-engine/ai-engine-internal.h | 519 ++++++++++++++++
-> >  .../misc/xilinx-ai-engine/ai-engine-interrupt.c    | 659 +++++++++++++++++++++
-> >  drivers/misc/xilinx-ai-engine/ai-engine-mem.c      | 275 +++++++++
-> >  drivers/misc/xilinx-ai-engine/ai-engine-part.c     | 635 ++++++++++++++++++++
-> >  drivers/misc/xilinx-ai-engine/ai-engine-res.c      | 219 +++++++
-> >  drivers/misc/xilinx-ai-engine/ai-engine-reset.c    | 159 +++++
-> >  include/linux/firmware/xlnx-zynqmp.h               |   8 +
-> >  include/uapi/linux/xlnx-ai-engine.h                | 238 ++++++++
-> >  18 files changed, 4719 insertions(+)
-> >  create mode 100644 Documentation/devicetree/bindings/soc/xilinx/xlnx,ai-engine.yaml
-> >  create mode 100644 drivers/misc/xilinx-ai-engine/Makefile
-> >  create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-aie.c
-> >  create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-clock.c
-> >  create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-dev.c
-> >  create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-dma.c
-> >  create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-internal.h
-> >  create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-interrupt.c
-> >  create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-mem.c
-> >  create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-part.c
-> >  create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-res.c
-> >  create mode 100644 drivers/misc/xilinx-ai-engine/ai-engine-reset.c
-> >  create mode 100644 include/uapi/linux/xlnx-ai-engine.h
-> >
-> > --
-> > 2.7.4
-> >
-> > _______________________________________________
-> > dri-devel mailing list
-> > dri-devel@lists.freedesktop.org
-> > https://lists.freedesktop.org/mailman/listinfo/dri-devel
-> _______________________________________________
-> dri-devel mailing list
-> dri-devel@lists.freedesktop.org
-> https://lists.freedesktop.org/mailman/listinfo/dri-devel
+So even when devices are not using dma-buf heaps (which I get, you
+have an axe to grind with :), having some way to collect useful stats
+for dmabufs in use can be valuable.
 
+(Also one might note, the db845c also doesn't have many constrained
+devices, and we've not yet enabled hw codec support or camera
+pipelines, so it avoids much of the complexity that ION/dma-buf heaps
+was created to solve)
 
+> So if android needs some quick debug output in sysfs, we can just add
+> that in dma-buf heaps, for android only, problem solved. And much less
+> annoying review to make sure it actually fits into the wider ecosystem
+> because as-is (and I'm not seeing that chance anytime soon), dma-buf
+> heaps is for android only. dma-buf at large isn't, so merging a debug
+> output sysfs api that's just for android but misses a ton of the more
+> generic features and semantics of dma-buf is not great.
 
--- 
-Daniel Vetter
-Software Engineer, Intel Corporation
-http://blog.ffwll.ch
+The intent behind this patch is *not* to create more Android-specific
+logic, but to provide useful information generically.  Indeed, Android
+does use dmabufs heavily for passing buffers around, and your point
+that not all systems handle graphics buffers that way is valid, and
+it's important we don't bake any Android-isms into the interface. But
+being able to collect data about the active dmabufs in a system is
+useful, regardless of how regardless of how the dma-buf was allocated.
+
+So I'd much rather see your feedback on how we expose other aspects of
+dmabufs (dma_resv, exporter devices, attachment links) integrated,
+rather then trying to ghettoize it as android-only and limit it to the
+dmabuf heaps, where I don't think it makes as much sense to add.
+
+thanks
+-john
+
+[1] Out of the box, the codec2 code added a few years back does
+directly call to ION (and now dmabuf heaps) for system buffers, but it
+can be configured differently as it's used in ChromeOS's Android too.
