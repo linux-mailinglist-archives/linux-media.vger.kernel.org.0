@@ -2,94 +2,95 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 392A42D8337
-	for <lists+linux-media@lfdr.de>; Sat, 12 Dec 2020 01:06:21 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0E9BC2D83D7
+	for <lists+linux-media@lfdr.de>; Sat, 12 Dec 2020 02:29:53 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2394938AbgLLAEn (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Fri, 11 Dec 2020 19:04:43 -0500
-Received: from ms.lwn.net ([45.79.88.28]:48070 "EHLO ms.lwn.net"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2393137AbgLLAEc (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Fri, 11 Dec 2020 19:04:32 -0500
-X-Greylist: delayed 11692 seconds by postgrey-1.27 at vger.kernel.org; Fri, 11 Dec 2020 19:04:32 EST
-Received: from lwn.net (localhost [127.0.0.1])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by ms.lwn.net (Postfix) with ESMTPSA id B39E67C0;
-        Sat, 12 Dec 2020 00:03:51 +0000 (UTC)
-DKIM-Filter: OpenDKIM Filter v2.11.0 ms.lwn.net B39E67C0
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=lwn.net; s=20201203;
-        t=1607731432; bh=o++ZPZqcqfuEVZJsJirVpVOijN/mx4tZnsSRtY15qIk=;
-        h=Date:From:To:Cc:Subject:In-Reply-To:References:From;
-        b=qBh0TvjL2YDOaZBh9ywPwJCPKqhfTLFImC/0QxbXsfldcSbB/waTdnk2GRSV7JqWC
-         6Sz1G8nL8rGZMDCI1aE6iEjsM6rdnmfkPojETyrSKina6bX00opP9MqIGIsUHXl2gj
-         MgWv+LzF913n+ZzFPJ+f+mRA6SmPZESH8iKSrGyv02Ew2TxlXh91/6x0PE3OM8Q0f+
-         W2iiM+WgTqRdMiihOq/V6x0WfvEbfEo3VGnyYqD+UFkn+v+Jwu+PpqRGOiu0wWJ953
-         Qj/9UrT+WXrLzJBBbRAlTFftCl9v13x+x3bKKlWWIPufSRHuFGDeGG55oLsTp1mLlr
-         PF0Hkf3Nb9Q5w==
-Date:   Fri, 11 Dec 2020 17:03:50 -0700
-From:   Jonathan Corbet <corbet@lwn.net>
-To:     Mauro Carvalho Chehab <mchehab+huawei@kernel.org>
-Cc:     Linux Doc Mailing List <linux-doc@vger.kernel.org>,
-        Masahiro Yamada <masahiroy@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Michal Marek <michal.lkml@markovi.net>,
-        linux-kbuild@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-media@vger.kernel.org
-Subject: Re: [PATCH RFC v2] docs: experimental: build PDF with rst2pdf
-Message-ID: <20201211170350.4f27ad8d@lwn.net>
-In-Reply-To: <20201212005435.0e1a0871@coco.lan>
-References: <20201210172938.3b3086b6@coco.lan>
-        <b73c93c6946ab324443608fac62333b7e327a7e4.1607675494.git.mchehab+huawei@kernel.org>
-        <20201211134859.5ab8e0c2@lwn.net>
-        <20201212005435.0e1a0871@coco.lan>
-Organization: LWN.net
+        id S2437075AbgLLB0d (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Fri, 11 Dec 2020 20:26:33 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33094 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2406208AbgLLB0U (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Fri, 11 Dec 2020 20:26:20 -0500
+Received: from mail-yb1-xb33.google.com (mail-yb1-xb33.google.com [IPv6:2607:f8b0:4864:20::b33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id DC1E6C0613CF
+        for <linux-media@vger.kernel.org>; Fri, 11 Dec 2020 17:25:39 -0800 (PST)
+Received: by mail-yb1-xb33.google.com with SMTP id w127so9769587ybw.8
+        for <linux-media@vger.kernel.org>; Fri, 11 Dec 2020 17:25:39 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=google.com; s=20161025;
+        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
+         :cc:content-transfer-encoding;
+        bh=Ai0BLCdtUmhlpBaSMMCx1Kob7CcfHmXEvSFoszX6oWU=;
+        b=bnv/zo3JQQ4m5EVEO3R3Os8fOBYlecMyyA0Pd19ACf0XC787wXh8y06YEa2m2/RITU
+         oJqiHbyEk4HL93GYWZjbCCQ3llaBcmI7kcF9YC2BGgqe6p6HxpwNaEu0oaOj+7JOmU6m
+         /Jv9X1qNgtAV3CHutrI+RWk+t9Xj2jqyUkFNmqQPeXbsaW6v2y7UbJo4P9HlNhXu6GDb
+         d8LxaW3RQa6fzk3c6KZVfF25X7gnEjmTDUj31oq/Trk431pjwZnAUrPrTg8BoHn+TlKI
+         CusFEJbCURlRlhXHHc+IVct8/Auy8IV+hnRXd4Lso0VM3tmUv8vK+9vCiSTCokDdvoDY
+         VrZw==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc:content-transfer-encoding;
+        bh=Ai0BLCdtUmhlpBaSMMCx1Kob7CcfHmXEvSFoszX6oWU=;
+        b=YcqqADZn3JttOgcOwASMiP39svY6yN6L+1rJcyTlImcUT3e/yFP3RrefAWtIzLPK0a
+         MU1wvEZl4VDWBUZ54iO2M5Fj2Jw7PwdoCp13/0kB4Cj65YANMdcxfsR0I0hpio3GdUxJ
+         r/6iaECminTAvWw3tjEyqmoLTGXhdvxGTh3NpAXHE4X0FewlStnMkjtm2ZrMKPaAah1t
+         5AhU0mf8EfSYAK8No3uzymm5wyOf1pbkMDVEP8LXsmilawFK4qdejZ/uf9TBAVNTEVBO
+         O+hbQrzNEo9KoWuGWDh75E4kVIRRiXhrue02QbvYlaEwReH5JeOCCE4v3OK9Ng7UV9Ci
+         +eSg==
+X-Gm-Message-State: AOAM530Z1EcZju8owJH3hPz8iunxPvRJrqjw7fnrv3FGB8cpePNKZ7Fn
+        Bd/vsG0gPaTodbvNPypZ+Lfoi/CuPBtmUxyCBcKKFWu661+Fiw==
+X-Google-Smtp-Source: ABdhPJzUZyoOcprt2cBLPdRWLHrXT+FSnhAOyPtsePuiatufsWWMuev+ATrvrs2fBAyUgJVcFv84xYXUBrvcsU+ea20=
+X-Received: by 2002:a25:7584:: with SMTP id q126mr22431840ybc.236.1607736338834;
+ Fri, 11 Dec 2020 17:25:38 -0800 (PST)
 MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII
-Content-Transfer-Encoding: 8bit
+References: <CAMfZQbyxZPENgRans0KS5sHTLCj1dXRMcE8ewyksoSNesaa+vA@mail.gmail.com>
+ <3d8e7798dfe3ed96526b17fc0451862430f5a735.camel@ndufresne.ca>
+In-Reply-To: <3d8e7798dfe3ed96526b17fc0451862430f5a735.camel@ndufresne.ca>
+From:   Fritz Koenig <frkoenig@google.com>
+Date:   Fri, 11 Dec 2020 17:25:27 -0800
+Message-ID: <CAMfZQbz+YcD8D-hwu7b2K6=s4jJkE-v+L2KfQAPwR0RZP3j2LA@mail.gmail.com>
+Subject: Re: Changing encoding properties
+To:     Nicolas Dufresne <nicolas@ndufresne.ca>
+Cc:     Linux Media Mailing List <linux-media@vger.kernel.org>
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Sat, 12 Dec 2020 00:54:35 +0100
-Mauro Carvalho Chehab <mchehab+huawei@kernel.org> wrote:
+On Wed, Dec 9, 2020 at 8:26 AM Nicolas Dufresne <nicolas@ndufresne.ca> wrot=
+e:
+>
+> Le lundi 30 novembre 2020 =C3=A0 11:10 -0800, Fritz Koenig a =C3=A9crit :
+> > When can bitrate, etc., be changed by VIDIOC_TRY_EXT_CTRLS?  Any time
+> > during encode?  Only before VIDIOC_STREAMON?
+> >
+> > My understanding is that VIDIOC_STREAMON should start actually
+> > processing frames, everything before then is configuration.  If
+> > something needs to be adjusted then VIDIOC_STREAMOFF should be called,
+> > changes made, and then VIDIOC_STREAMON again.  Is this correct?
+>
+> Bitrate is paticular is expected to be changeable at runtime (in STREAMON
+> state). But a firmware may not support it, hence a driver is allowed to r=
+eturn
+> EBUSY (iirc).
+>
+> Changing the bitrate without producing a new keyframe (whath cycling
+> STREAMOFF/ON would cause) is a highly common use case while encoding for =
+live
+> streaming.
+>
+Thanks. That makes sense.
 
-> I'm not an usual python programmer, so, don't know much about its 
-> specifics... Yet, I would be expecting that something like this:
-> 
-> 	try:
-> 	    extensions.append("rst2pdf.pdfbuilder")
-> 	except:
-> 	    sys.stderr.write('rst2pdf extension not available.\n')
-> 	
-> 
-> Would avoid it to crash, if the extension is not available.
-> Silly me :-)
-
-No, that's not going to do it, for a couple of reasons.  First being that
-all it's doing is appending a string to a list, which pretty much always
-succeeds.  The attempt to actually import the module happens later.
-
-...and you won't catch that either because it isn't actually throwing an
-exception, it's just noting the problem and giving up.
-
-The right solution is probably something like this:
-
-	try:
-	    import rst2pdf
-	    extensions.append('rst2pdf.pdfbuilder')
-	except ModuleNotFoundError:
-	    pass # no rst2pdf for you
-
-This is totally untested, of course.
-
-[Incidentally, a blank "except:" clause like the one you had is, in my
-experience, a bad idea.  That will catch *anything*, leading to hiding all
-kinds of bugs.  Not that I've ever committed such a faux pas and suffered
-the consequences myself...no...never...honest...]
-
-I'll mess with this a bit more later.
-
-Thanks,
-
-jon
+> This of course should be documented.
+>
+> >
+> > I didn't see anything in the documentation about this.
+> >
+> > Thanks.
+> >
+> > -Fritz
+>
+>
