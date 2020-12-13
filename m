@@ -2,114 +2,178 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 069252D8B00
-	for <lists+linux-media@lfdr.de>; Sun, 13 Dec 2020 03:46:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id A267A2D8B4A
+	for <lists+linux-media@lfdr.de>; Sun, 13 Dec 2020 05:40:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2391863AbgLMCps (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Dec 2020 21:45:48 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:56270 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726522AbgLMCpk (ORCPT
+        id S2392472AbgLMEkG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sat, 12 Dec 2020 23:40:06 -0500
+Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:44345 "EHLO
+        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1726141AbgLMEkF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Dec 2020 21:45:40 -0500
-Received: from mail-ej1-x644.google.com (mail-ej1-x644.google.com [IPv6:2a00:1450:4864:20::644])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 504EEC0613D3
-        for <linux-media@vger.kernel.org>; Sat, 12 Dec 2020 18:45:00 -0800 (PST)
-Received: by mail-ej1-x644.google.com with SMTP id n26so17763653eju.6
-        for <linux-media@vger.kernel.org>; Sat, 12 Dec 2020 18:45:00 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gateworks-com.20150623.gappssmtp.com; s=20150623;
-        h=mime-version:references:in-reply-to:from:date:message-id:subject:to
-         :cc;
-        bh=qj4vHoLSdnXRzxFDaM1rTn6MykdZjxoQ+fx8S8K3Z3I=;
-        b=l/tj1eBiuTTT/x1IgZZmBggiXl1fGwGtWS6s2vrNc8bPTuk73VKm9lwPhov57VCUzQ
-         LL2nz22acuaJ/8L9+UBnPxkN9GKqq7vlNd9BtKP1jduRW7EmZEKlCUqtYs8qOKYASkiK
-         lKp4vOCLxKg5Q2vLA5u7a6H4NsWWGn0nAYdztmhe5NKQYE9p2SWiADre/a3T7MVOh2kx
-         Wa3Yku6vQOxVttRbqFRcthLBRJR5yCTvtro5l6IUv4cy+wGvjB5BiiFLoEMGohWd5sL9
-         IHW3xdwJpH7F8qN+/xjWLsdXVhuE/TI5ToMpVGPZp12IMBMlras+8Bl1Ru6rnJ5zWU37
-         yvTw==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
-         :message-id:subject:to:cc;
-        bh=qj4vHoLSdnXRzxFDaM1rTn6MykdZjxoQ+fx8S8K3Z3I=;
-        b=CJANlVbps2ehbCKucQvxx2Yvu/pz3vJQL742i3nYJxXP87KJNbz0Zh0KCCrJgsOswK
-         p7tL+r/uqblAoniDEB1aHd/vD4xiHV/h+h83wESnMB6Sj+8zo2RccOrf7RgFF3Ui/Uiq
-         lM8R5cwliORrA8KQ0ahUMpVTXkldQj0TLgkOt+NqSSRVL6ecQ+YqYSEFWxZXicCOsl53
-         Co4UEmMMlrLgECjd9tXqt79zuB5s60mT4zf29uSlzPKeR+8MnitVC0ylfkuAVxAaEIvM
-         CKkWaD8TlLaocJCBwuFhrNmS5XjvFUMbKsD6ult5SsAiNAbI1Qb/npkUTAh6IN2lf0Vm
-         VSPA==
-X-Gm-Message-State: AOAM533/LzKmru2fYmCuxfxp5dlkj55xMpfqe4zk/xNSbEcX4rZrbpjr
-        V/1kwOsrv+8CBf0cU0I70Q0LhlB4G3ZDzuXfYDkMYg==
-X-Google-Smtp-Source: ABdhPJxKM9/iG4OB32LL/mpd2xf/u0Cew4G5Bk7Hx2utjWLH2Bl3pDG7cVds17eUjp7tU+aHJYMySy1DUp37ssjPrPI=
-X-Received: by 2002:a17:906:7cc6:: with SMTP id h6mr16810353ejp.161.1607827499009;
- Sat, 12 Dec 2020 18:44:59 -0800 (PST)
-MIME-Version: 1.0
-References: <CAOMZO5BQbED4-P-R8xsh1_c02E4DUxQdc+P=46rt=L+mYFsrRA@mail.gmail.com>
- <387f60ecefaa04678df95cb1c3af6a4010c6d9d8.camel@ndufresne.ca> <CAOMZO5B_r7Vi4VhX2i7Wjz-E05EnpR3vi1i3i01UEfPFiE+pgg@mail.gmail.com>
-In-Reply-To: <CAOMZO5B_r7Vi4VhX2i7Wjz-E05EnpR3vi1i3i01UEfPFiE+pgg@mail.gmail.com>
-From:   Tim Harvey <tharvey@gateworks.com>
-Date:   Sat, 12 Dec 2020 18:44:47 -0800
-Message-ID: <CAJ+vNU35AB0Mggbrz5_9xz8U7u1hGCCdr5Pvo_y5BOPEOsbhLg@mail.gmail.com>
-Subject: Re: imx6 capture via ADV7280
-To:     Fabio Estevam <festevam@gmail.com>
-Cc:     Nicolas Dufresne <nicolas@ndufresne.ca>,
-        Steve Longerbeam <slongerbeam@gmail.com>,
-        Philipp Zabel <p.zabel@pengutronix.de>,
-        linux-media <linux-media@vger.kernel.org>,
-        Discussion of the development of and with GStreamer 
-        <gstreamer-devel@lists.freedesktop.org>
-Content-Type: text/plain; charset="UTF-8"
+        Sat, 12 Dec 2020 23:40:05 -0500
+Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
+        by smtp-cloud7.xs4all.net with ESMTPA
+        id oJAIkmaklRhMFoJAJk5onl; Sun, 13 Dec 2020 05:39:23 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
+        t=1607834363; bh=E/VSsQtD63CKSUU+GVkhF3e4qa/nct7RYrb2M2abVlY=;
+        h=Message-ID:Date:From:To:Subject:From:Subject;
+        b=OCLtBgtDQh+XYMgNB4HXjIWlT5PfKaEqB3XzH1+jgx+KrhQN0gSeYTXyvnPn3q6RH
+         ykjBjQfcDzr63WpA/xQ7CS6el4J9BntFKUfs/CcADI4KuBIUIdErZIqydmPmlVrL1W
+         lnMHoxWlXTxpNLc29UDIpJlEPmFMAyAx9abhG6OZJ7zlF6DvAsX3GCcwQOszx1OzgW
+         SYNUfZVps68XmbJxRQzGX/2P+y2KQW6ViJ1rgTy6efld8Cg7vvmw06d+OvkVOi6h8y
+         5j0Qw4uIat+pFdWa6UmdgE0Fdle7nGEmYZK19lL9pkU9lAs429ucD6b/6WBq4uiQOF
+         L0CvGWJRQphfg==
+Message-ID: <93c9a196871a742615773fd5f03db7b9@smtp-cloud7.xs4all.net>
+Date:   Sun, 13 Dec 2020 05:39:22 +0100
+From:   "Hans Verkuil" <hverkuil@xs4all.nl>
+To:     linux-media@vger.kernel.org
+Subject: cron job: media_tree daily build: ERRORS
+X-CMAE-Envelope: MS4xfIxLu/Utu+QUe3IJ3NTqDxYtLFQxqaQy3DWQCJvuqi+P0JCyJJNI0iGs7/f8gWRlEn30gJJWZjSEy2Gk8dUqKeHmALwB7JXxRuZ+A/EuiMKvmBOZ+P5j
+ JXW6gPCT/gPBqv2v/G3hn1NaTnznDgWRC0nAhrvGzSbwHylWWMXXNqK9x5Sqmh9VcMP34oAgSTUw9lJX/Dm0l7Zn/1OPv9QJ9R9T89CTizRjdpfNLRUe2ATc
+ BT8zV1fIrUVkBZE0AWy4Tg==
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Nov 27, 2020 at 7:58 AM Fabio Estevam <festevam@gmail.com> wrote:
->
-> Hi Nicolas,
->
-> On Thu, Nov 26, 2020 at 3:25 PM Nicolas Dufresne <nicolas@ndufresne.ca> wrote:
->
-> > I support kmssink ask for progressive frames, while v4l2src can only produce
-> > interlaced. There is likely something to improve there, but meanwhile, consider
-> > usign deinterlace element.
->
-> Thanks for your feedback. I am configuring the links like this now:
->
-> media-ctl -l "'adv7180 0-0020':0 -> 'ipu1_csi1_mux':4[1]"
-> media-ctl -l "'ipu1_csi1_mux':5 -> 'ipu1_csi1':0[1]"
-> media-ctl -l "'ipu1_csi1':1 -> 'ipu1_vdic':0[1]"
-> media-ctl -l "'ipu1_vdic':2 -> 'ipu1_ic_prp':0[1]"
-> media-ctl -l "'ipu1_ic_prp':2 -> 'ipu1_ic_prpvf':0[1]"
-> media-ctl -l "'ipu1_ic_prpvf':1 -> 'ipu1_ic_prpvf capture':0[1]"
-> media-ctl -V "'adv7180 0-0020':0 [fmt:UYVY2X8/640x480 field:seq-tb]"
-> media-ctl -V "'ipu1_csi1_mux':5 [fmt:UYVY2X8/640x480]"
-> media-ctl -V "'ipu1_csi1':1 [fmt:AYUV32/640x480]"
-> media-ctl -V "'ipu1_vdic':2 [fmt:AYUV32/640x480 field:none]"
-> media-ctl -V "'ipu1_ic_prp':2 [fmt:AYUV32/640x480 field:none]"
-> media-ctl -V "'ipu1_ic_prpvf':1 [fmt:AYUV32/640x480 field:none]"
-> v4l2-ctl -d2 --set-fmt-video=field=none
->
-> gst-launch-1.0 v4l2src device=/dev/video2 ! kmssink:
->
-> And the Gstreamer pipeline works now.
->
+This message is generated daily by a cron job that builds media_tree for
+the kernels and architectures in the list below.
 
-Fabio,
+Results of the daily build of media_tree:
 
-I wanted to take a look at this as you are using an adv7280 with the
-adv7180 driver and I previously had found using the adv7280 on an
-imx6q/dl there was a difference in the output format for the adv7280
-that caused an issue with the imx6 format [1].
+date:			Sun Dec 13 05:00:10 CET 2020
+media-tree git hash:	7ea4d23293300ca2f225595849a4fe444fb80ea4
+media_build git hash:	174c4cc0037aed1f719b91dfc9e9cc09d53de87c
+v4l-utils git hash:	e0e4114f971407acfdf1e8173c86e2e08fa01077
+edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
+gcc version:		i686-linux-gcc (GCC) 10.2.0
+sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
+sparse version:		v0.6.3-1-g58d3c1ca
+smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
+smatch version:		v0.5.0-7041-g6193b3b71
+build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
+build-scripts git hash: 77c8542b1c2caa2a7e96c4dad0335336b522c616
+host hardware:		x86_64
+host os:		5.7.0-1-amd64
 
-I have also still have to patch imx-media-csi.c to skip the first few
-frames in order to sync properly on bt656 sources [2].
+linux-git-sh: OK
+linux-git-arm-davinci: OK
+linux-git-arm-pxa: OK
+linux-git-arm-at91: OK
+linux-git-powerpc64: OK
+linux-git-arm-stm32: OK
+linux-git-mips: OK
+linux-git-arm64: OK
+linux-git-arm-multi: OK
+linux-git-i686: OK
+linux-git-x86_64: OK
+Check COMPILE_TEST: OK
+Check for strcpy/strncpy/strlcpy: OK
+linux-3.10.108-i686: OK
+linux-3.10.108-x86_64: OK
+linux-3.11.10-i686: OK
+linux-3.11.10-x86_64: OK
+linux-3.12.74-i686: OK
+linux-3.12.74-x86_64: OK
+linux-3.13.11-i686: OK
+linux-3.13.11-x86_64: OK
+linux-3.14.79-i686: OK
+linux-3.14.79-x86_64: OK
+linux-3.15.10-i686: OK
+linux-3.15.10-x86_64: OK
+linux-3.16.81-i686: OK
+linux-3.16.81-x86_64: OK
+linux-3.17.8-i686: OK
+linux-3.17.8-x86_64: OK
+linux-3.18.136-i686: OK
+linux-3.18.136-x86_64: OK
+linux-3.19.8-i686: OK
+linux-3.19.8-x86_64: OK
+linux-4.0.9-i686: OK
+linux-4.0.9-x86_64: OK
+linux-4.1.52-i686: OK
+linux-4.1.52-x86_64: OK
+linux-4.2.8-i686: OK
+linux-4.2.8-x86_64: OK
+linux-4.3.6-i686: OK
+linux-4.3.6-x86_64: OK
+linux-4.4.238-i686: OK
+linux-4.4.238-x86_64: OK
+linux-4.5.7-i686: OK
+linux-4.5.7-x86_64: OK
+linux-4.6.7-i686: OK
+linux-4.6.7-x86_64: OK
+linux-4.7.10-i686: OK
+linux-4.7.10-x86_64: OK
+linux-4.8.17-i686: OK
+linux-4.8.17-x86_64: OK
+linux-4.9.238-i686: OK
+linux-4.9.238-x86_64: OK
+linux-4.10.17-i686: OK
+linux-4.10.17-x86_64: OK
+linux-4.11.12-i686: OK
+linux-4.11.12-x86_64: OK
+linux-4.12.14-i686: OK
+linux-4.12.14-x86_64: OK
+linux-4.13.16-i686: OK
+linux-4.13.16-x86_64: OK
+linux-4.14.200-i686: OK
+linux-4.14.200-x86_64: OK
+linux-4.15.18-i686: OK
+linux-4.15.18-x86_64: OK
+linux-4.16.18-i686: WARNINGS
+linux-4.16.18-x86_64: WARNINGS
+linux-4.17.19-i686: WARNINGS
+linux-4.17.19-x86_64: WARNINGS
+linux-4.18.20-i686: WARNINGS
+linux-4.18.20-x86_64: WARNINGS
+linux-4.19.149-i686: OK
+linux-4.19.149-x86_64: OK
+linux-4.20.17-i686: WARNINGS
+linux-4.20.17-x86_64: WARNINGS
+linux-5.0.21-i686: WARNINGS
+linux-5.0.21-x86_64: WARNINGS
+linux-5.1.21-i686: WARNINGS
+linux-5.1.21-x86_64: WARNINGS
+linux-5.2.21-i686: WARNINGS
+linux-5.2.21-x86_64: WARNINGS
+linux-5.3.18-i686: WARNINGS
+linux-5.3.18-x86_64: WARNINGS
+linux-5.4.69-i686: OK
+linux-5.4.69-x86_64: OK
+linux-5.5.19-i686: WARNINGS
+linux-5.5.19-x86_64: WARNINGS
+linux-5.6.19-i686: OK
+linux-5.6.19-x86_64: OK
+linux-5.7.19-i686: OK
+linux-5.7.19-x86_64: OK
+linux-5.8.13-i686: OK
+linux-5.8.13-x86_64: OK
+linux-5.9.1-i686: OK
+linux-5.9.1-x86_64: OK
+linux-5.10-rc1-i686: OK
+linux-5.10-rc1-x86_64: OK
+apps: OK
+spec-git: OK
+virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
+virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
+sparse: ERRORS
+smatch: ERRORS
 
-Did you have any patches in the imx-media or adv7180 drivers to deal
-with these issues I run into?
+Detailed results are available here:
 
-Best Regards,
+http://www.xs4all.nl/~hverkuil/logs/Sunday.log
 
-Tim
-[1] - https://patchwork.kernel.org/project/linux-media/patch/20190827215539.1286-1-mmichilot@gateworks.com
-[2] - https://github.com/Gateworks/linux-imx6/commit/959fbd4
+Detailed regression test results are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
+http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
+
+Full logs are available here:
+
+http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
+
+The Media Infrastructure API from this daily build is here:
+
+http://www.xs4all.nl/~hverkuil/spec/index.html
