@@ -2,178 +2,122 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A267A2D8B4A
-	for <lists+linux-media@lfdr.de>; Sun, 13 Dec 2020 05:40:39 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 725B52D90FB
+	for <lists+linux-media@lfdr.de>; Sun, 13 Dec 2020 23:52:22 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2392472AbgLMEkG (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sat, 12 Dec 2020 23:40:06 -0500
-Received: from lb3-smtp-cloud7.xs4all.net ([194.109.24.31]:44345 "EHLO
-        lb3-smtp-cloud7.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S1726141AbgLMEkF (ORCPT
+        id S2405459AbgLMWtZ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Sun, 13 Dec 2020 17:49:25 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42144 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1728955AbgLMWtZ (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sat, 12 Dec 2020 23:40:05 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud7.xs4all.net with ESMTPA
-        id oJAIkmaklRhMFoJAJk5onl; Sun, 13 Dec 2020 05:39:23 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1607834363; bh=E/VSsQtD63CKSUU+GVkhF3e4qa/nct7RYrb2M2abVlY=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=OCLtBgtDQh+XYMgNB4HXjIWlT5PfKaEqB3XzH1+jgx+KrhQN0gSeYTXyvnPn3q6RH
-         ykjBjQfcDzr63WpA/xQ7CS6el4J9BntFKUfs/CcADI4KuBIUIdErZIqydmPmlVrL1W
-         lnMHoxWlXTxpNLc29UDIpJlEPmFMAyAx9abhG6OZJ7zlF6DvAsX3GCcwQOszx1OzgW
-         SYNUfZVps68XmbJxRQzGX/2P+y2KQW6ViJ1rgTy6efld8Cg7vvmw06d+OvkVOi6h8y
-         5j0Qw4uIat+pFdWa6UmdgE0Fdle7nGEmYZK19lL9pkU9lAs429ucD6b/6WBq4uiQOF
-         L0CvGWJRQphfg==
-Message-ID: <93c9a196871a742615773fd5f03db7b9@smtp-cloud7.xs4all.net>
-Date:   Sun, 13 Dec 2020 05:39:22 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfIxLu/Utu+QUe3IJ3NTqDxYtLFQxqaQy3DWQCJvuqi+P0JCyJJNI0iGs7/f8gWRlEn30gJJWZjSEy2Gk8dUqKeHmALwB7JXxRuZ+A/EuiMKvmBOZ+P5j
- JXW6gPCT/gPBqv2v/G3hn1NaTnznDgWRC0nAhrvGzSbwHylWWMXXNqK9x5Sqmh9VcMP34oAgSTUw9lJX/Dm0l7Zn/1OPv9QJ9R9T89CTizRjdpfNLRUe2ATc
- BT8zV1fIrUVkBZE0AWy4Tg==
+        Sun, 13 Dec 2020 17:49:25 -0500
+Received: from mail-wr1-x443.google.com (mail-wr1-x443.google.com [IPv6:2a00:1450:4864:20::443])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id F0202C0613CF;
+        Sun, 13 Dec 2020 14:48:44 -0800 (PST)
+Received: by mail-wr1-x443.google.com with SMTP id y17so14592074wrr.10;
+        Sun, 13 Dec 2020 14:48:44 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20161025;
+        h=subject:to:cc:references:from:message-id:date:user-agent
+         :mime-version:in-reply-to:content-language:content-transfer-encoding;
+        bh=/WorH3BnykMxRTvls0BDQbtEUswMG/rB3w2zpNBPDJ4=;
+        b=bVQjfb6v6Vmy52tG903p9j8aSsoKAVtCyvWNu6QxISsUzJkl3rhsxgTOdA91pbDdEx
+         6Dy5pGneJizXvZqR1n67PIm8/Gy4otg0Lp4y3oL7tO1lx18qLTgHD7guWfHNDrU3p+BQ
+         h/A1gd2+oQyR7UyZsEVXOzv/cXIIQKxq93wdcjYZqtx9haI3nFF4bQAiYKtEq8PLd/v5
+         KILnHmIp43IUhPSUno+kQgS6ppYOW3rO4t7E3PvQ6n4LkMSlu9MAh7yvd3UdnOrQIBsE
+         8yY7ZNMv8ZorlksHWrxJbWNep7u/dsMOTP47eDGrtClSdZJXhh6dUtFxxRM/pgFmo7DB
+         SdkQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
+         :user-agent:mime-version:in-reply-to:content-language
+         :content-transfer-encoding;
+        bh=/WorH3BnykMxRTvls0BDQbtEUswMG/rB3w2zpNBPDJ4=;
+        b=osPqUES/GP8FjKyj0Lr9M4oPDa+tO9FAfU/tXKY6TOUEQADsWckQUidp87PPMqlwHM
+         RcXQ4CnsNEbA5MIAY7/YSB7afGzYlWmliXEqVvczIBVezAL/3adyC8bB2ZnefQa5yQ0J
+         iqgqIt1FMJCQZ2hoMnq217YD3AdCm+yLTjeeOgLqPe7qYMHEVNsHpSq0+8JNpQDosUFS
+         1G8eok1aZXcq/iHfVtseR3Mjo3Ie0TNkRgzFvZ1hBqiiO2QcE7/rAYIAsUr+f8Kfi42o
+         E2L3PXtr7PHRlSA68d3VIPse1LfpdkTfT0CunwUbsBHpfb7F8vcULbin9ApJckFSyHu5
+         H3xw==
+X-Gm-Message-State: AOAM533ITu4vXEdPdgHZWja9QFspZKh1cG0KEGPif3oSgAopQ2IJ/FZR
+        Y/wwUd+z0XUOl9fWPs2kOqs=
+X-Google-Smtp-Source: ABdhPJxd/kl+xA0aHJWlDHhHlvpnfNUYRoSkXF/Sx8DbHXoI/4Gr9adJHVY9orF5gWFX9kmMvGczRQ==
+X-Received: by 2002:adf:f605:: with SMTP id t5mr25416354wrp.39.1607899723586;
+        Sun, 13 Dec 2020 14:48:43 -0800 (PST)
+Received: from [192.168.1.158] ([2.29.208.56])
+        by smtp.gmail.com with ESMTPSA id y130sm29246086wmc.22.2020.12.13.14.48.40
+        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
+        Sun, 13 Dec 2020 14:48:42 -0800 (PST)
+Subject: Re: [PATCH 18/18] ipu3: Add driver for dummy INT3472 ACPI device
+To:     Andy Shevchenko <andriy.shevchenko@linux.intel.com>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>
+Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
+        lenb@kernel.org, gregkh@linuxfoundation.org,
+        mika.westerberg@linux.intel.com, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, wsa@kernel.org, yong.zhi@intel.com,
+        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        tian.shu.qiu@intel.com, mchehab@kernel.org, robert.moore@intel.com,
+        erik.kaneda@intel.com, pmladek@suse.com, rostedt@goodmis.org,
+        sergey.senozhatsky@gmail.com, linux@rasmusvillemoes.dk,
+        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jorhand@linux.microsoft.com, kitakar@gmail.com,
+        heikki.krogerus@linux.intel.com
+References: <20201130133129.1024662-1-djrscally@gmail.com>
+ <20201130133129.1024662-19-djrscally@gmail.com>
+ <20201130200719.GB4077@smile.fi.intel.com>
+ <20201130233232.GD25713@pendragon.ideasonboard.com>
+ <20201201184925.GJ4077@smile.fi.intel.com>
+From:   Daniel Scally <djrscally@gmail.com>
+Message-ID: <6f3b0d7b-1ce7-aaf1-63c6-08a22dc77791@gmail.com>
+Date:   Sun, 13 Dec 2020 22:48:39 +0000
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20201201184925.GJ4077@smile.fi.intel.com>
+Content-Type: text/plain; charset=utf-8
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
+On 01/12/2020 18:49, Andy Shevchenko wrote:
+>>>> +	table_entry = (struct gpiod_lookup)GPIO_LOOKUP_IDX(acpi_dev_name(adev),
+>>>> +							   ares->data.gpio.pin_table[0],
+>>>> +							   func, 0, GPIO_ACTIVE_HIGH);
+>>>
+>>> You won't need this if you have regular INT3472 platform driver.
+>>> Simple call there _DSM to map resources to the type and use devm_gpiod_get on
+>>> consumer behalf. Thus, previous patch is not needed.
+>>
+>> How does the consumer (the camera sensor) retrieve the GPIO though ? The
+>> _DSM is in the PMIC device object, while the real consumer is the camera
+>> sensor.
+> 
+> 1. A GPIO proxy
+> 2. A custom GPIO lookup tables
+> 3. An fwnode passing to the sensor (via swnodes graph)
+> 
+> First may issue deferred probe, while second needs some ordering tricks I guess.
+> Third one should also provide an ACPI GPIO mapping table or so to make the
+> consumer rely on names rather than custom numbers.
+> 
+> Perhaps someone may propose other solutions.
 
-Results of the daily build of media_tree:
+Hi Andy
 
-date:			Sun Dec 13 05:00:10 CET 2020
-media-tree git hash:	7ea4d23293300ca2f225595849a4fe444fb80ea4
-media_build git hash:	174c4cc0037aed1f719b91dfc9e9cc09d53de87c
-v4l-utils git hash:	e0e4114f971407acfdf1e8173c86e2e08fa01077
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7041-g6193b3b71
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 77c8542b1c2caa2a7e96c4dad0335336b522c616
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Sorry; some more clarification here if you have time please:
 
-linux-git-sh: OK
-linux-git-arm-davinci: OK
-linux-git-arm-pxa: OK
-linux-git-arm-at91: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: WARNINGS
-linux-4.16.18-x86_64: WARNINGS
-linux-4.17.19-i686: WARNINGS
-linux-4.17.19-x86_64: WARNINGS
-linux-4.18.20-i686: WARNINGS
-linux-4.18.20-x86_64: WARNINGS
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: WARNINGS
-linux-4.20.17-x86_64: WARNINGS
-linux-5.0.21-i686: WARNINGS
-linux-5.0.21-x86_64: WARNINGS
-linux-5.1.21-i686: WARNINGS
-linux-5.1.21-x86_64: WARNINGS
-linux-5.2.21-i686: WARNINGS
-linux-5.2.21-x86_64: WARNINGS
-linux-5.3.18-i686: WARNINGS
-linux-5.3.18-x86_64: WARNINGS
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: WARNINGS
-linux-5.5.19-x86_64: WARNINGS
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: WARNINGS: Final Summary: 2943, Succeeded: 2943, Failed: 0, Warnings: 1
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 1
-sparse: ERRORS
-smatch: ERRORS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Sunday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Sunday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+1. Do you mean here, register a new gpio_chip providing GPIOs to the
+sensors, and just have the .set() callback for that function set the
+corresponding line against the INT3472 device?
+2. I thought custom GPIO lookup tables was what I was doing, are you
+referring to something else?
+3. I guess you mean something like of_find_gpio() and acpi_find_gpio()
+here? As far as I can see there isn't currently a swnodes
+equivalent...we could just pass it via reference of course but it would
+mean the sensor drivers would all need to account for that.
