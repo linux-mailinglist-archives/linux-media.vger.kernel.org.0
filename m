@@ -2,207 +2,71 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 408EE2D93A4
-	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 08:31:47 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B9B7F2D93A6
+	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 08:33:27 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438928AbgLNHbb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Dec 2020 02:31:31 -0500
-Received: from bhuna.collabora.co.uk ([46.235.227.227]:35944 "EHLO
-        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726970AbgLNHbW (ORCPT
+        id S2439014AbgLNHct (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Dec 2020 02:32:49 -0500
+Received: from mail-oi1-f194.google.com ([209.85.167.194]:35027 "EHLO
+        mail-oi1-f194.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2439000AbgLNHcs (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Dec 2020 02:31:22 -0500
-Received: from [127.0.0.1] (localhost [127.0.0.1])
-        (Authenticated sender: dafna)
-        with ESMTPSA id 511631F42CCC
-Subject: Re: [PATCH v3] media: rkisp1: isp: Add the enum_frame_size ioctl
-To:     Sebastian Fricke <sebastian.fricke.linux@gmail.com>,
-        linux-media@vger.kernel.org
-Cc:     helen.koike@collabora.com, Hans Verkuil <hverkuil@xs4all.nl>,
-        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
-        Tomasz Figa <tfiga@chromium.org>
-References: <20201212185306.19135-1-sebastian.fricke.linux@gmail.com>
-From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
-Message-ID: <4f93fbf8-94c1-0fbd-732e-ae27e990ffb2@collabora.com>
-Date:   Mon, 14 Dec 2020 08:30:32 +0100
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        Mon, 14 Dec 2020 02:32:48 -0500
+Received: by mail-oi1-f194.google.com with SMTP id s2so18240894oij.2;
+        Sun, 13 Dec 2020 23:32:33 -0800 (PST)
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:mime-version:references:in-reply-to:from:date
+         :message-id:subject:to:cc;
+        bh=BftzBGcfKzrdavGS134SjsPLLF2ruabtKuv1iEkU87M=;
+        b=aHSCat1cWxgTaolbj/QgwAHvB8PxX0QHYNACP6wj/l6vKhIEI3zcgG9hjw8TUPA5Y7
+         msavVzjnfPB7BCQS3ciIs3UlCG+9JW245W+g6Ch+wPFFICMkISF0IZzyUOGT2RINt4fi
+         PLS8zR5oSBUlT3nl4j1dZ8Id8AiLiWEVZ5jRoYBzSa2WIpOWthmBvrKnlLk1IdZiiZOH
+         LbcHKxE1sKOUuk6tFkIk94tJLzpy2/iutRzDeR6VoL+oJXZzDx2hdJp6Qm77DsFCgQ5y
+         m9Evao3GRZdPRpxM9D/xPAHHkWoct5grIxn3kpJCC0HjZnylLrSTYmX9XthJ16L3vMA1
+         8zYA==
+X-Gm-Message-State: AOAM530VyA2Cm0Vy7ES83Bezwu5q0Zl7KZaw5Y4xvbYr2zar3jEQpffx
+        1B/bqQsSjSeZYPGaant0lYVyJ0A4R/MskqDRRAc=
+X-Google-Smtp-Source: ABdhPJyK95q4KGKvFo9ijVGJmhONVBgouh2E4UAW95p/Qanb/0y6OOaTboohbFwChAeAnqCiwLmCHDMVBfOe7y5EPzA=
+X-Received: by 2002:aca:ec09:: with SMTP id k9mr17359385oih.153.1607931127977;
+ Sun, 13 Dec 2020 23:32:07 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <20201212185306.19135-1-sebastian.fricke.linux@gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+References: <20201212174119.120027-1-christophe.jaillet@wanadoo.fr>
+In-Reply-To: <20201212174119.120027-1-christophe.jaillet@wanadoo.fr>
+From:   Geert Uytterhoeven <geert@linux-m68k.org>
+Date:   Mon, 14 Dec 2020 08:31:56 +0100
+Message-ID: <CAMuHMdUJVN3ywmSfCDKT05k24hxNtn5C8TdO6nyscUFiCy441w@mail.gmail.com>
+Subject: Re: [PATCH] media: vsp1: Fix an error handling path in the probe function
+To:     Christophe JAILLET <christophe.jaillet@wanadoo.fr>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        kernel-janitors@vger.kernel.org
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
+On Sun, Dec 13, 2020 at 5:22 PM Christophe JAILLET
+<christophe.jaillet@wanadoo.fr> wrote:
+> A previous 'rcar_fcp_get()' call must be undone in the error handling path,
+> as already done in the remove function.
+>
+> Fixes: 94fcdf829793 ("[media] v4l: vsp1: Add FCP support")
+> Signed-off-by: Christophe JAILLET <christophe.jaillet@wanadoo.fr>
 
+Reviewed-by: Geert Uytterhoeven <geert+renesas@glider.be>
 
-Am 12.12.20 um 19:53 schrieb Sebastian Fricke:
-> Implement the VIDIOC_SUBDEV_ENUM_FRAME_SIZE ioctl for the isp entity,
-> check if the mbus code is valid for the given pad.
-> This call is not available for the parameter or metadata pads of the RkISP1.
-> 
-> Signed-off-by: Sebastian Fricke <sebastian.fricke.linux@gmail.com>
-> ---
-> 
-> v1: https://patchwork.kernel.org/project/linux-media/patch/20201206053935.24028-1-sebastian.fricke.linux@gmail.com/
-> v2: https://patchwork.kernel.org/project/linux-media/patch/20201207184358.3793-1-sebastian.fricke.linux@gmail.com/
-> 
-> Changes since v2:
->      - Change the return code for the parameter and metadata pads to -ENOTTY instead of -EINVAL
->        as this reports that the pad doesn't support the ioctl
->      - Highlight more clearly that this patch is for the isp entity of the rkisp1, within the commit description
->        as well as in the commit title
->      - Add the correct v4l2-complience output to the patch mail
-> 
-> Changes since v1:
->      - Replace the custom bus code check with the `rkisp1_isp_mbus_info_get`
->        function
->      - Add a missing line break above the function
-> 
-> I have tested this patch with the following script:
-> http://paste.debian.net/1176614/
-> 
-> The results on my NanoPC-T4 (Linux nanopct4 5.10.0-rc6-rockchip64):
-> 
-> pad 0 = RKISP1_ISP_PAD_SINK_VIDEO
-> pad 1 = RKISP1_ISP_PAD_SINK_PARAMS
-> pad 2 = RKISP1_ISP_PAD_SOURCE_VIDEO
-> pad 3 = RKISP1_ISP_PAD_SOURCE_STATS
-> 
-> basti@nanopct4:~$ python3 rkisp1_enum_frame_size_test.py
-> TEST  0: pad 0 - code 0x300f - size 32x32 - 4032x3024
-> TEST  1: pad 0 - code 0x3007 - size 32x32 - 4032x3024
-> TEST  2: pad 0 - code 0x300e - size 32x32 - 4032x3024
-> TEST  3: pad 0 - code 0x300a - size 32x32 - 4032x3024
-> TEST  4: pad 0 - code 0x3012 - size 32x32 - 4032x3024
-> TEST  5: pad 0 - code 0x3008 - size 32x32 - 4032x3024
-> TEST  6: pad 0 - code 0x3010 - size 32x32 - 4032x3024
-> TEST  7: pad 0 - code 0x3011 - size 32x32 - 4032x3024
-> TEST  8: pad 0 - code 0x3014 - size 32x32 - 4032x3024
-> TEST  9: pad 0 - code 0x3001 - size 32x32 - 4032x3024
-> TEST 10: pad 0 - code 0x3013 - size 32x32 - 4032x3024
-> TEST 11: pad 0 - code 0x3002 - size 32x32 - 4032x3024
-> TEST 12: pad 0 - code 0x2011 - size 32x32 - 4032x3024
-> TEST 13: pad 0 - code 0x2012 - size 32x32 - 4032x3024
-> TEST 14: pad 0 - code 0x200f - size 32x32 - 4032x3024
-> TEST 15: pad 0 - code 0x2010 - size 32x32 - 4032x3024
-> TEST 16: pad 1 - code 0x7001 - size /
-> TEST 17: pad 2 - code 0x2008 - size 32x32 - 4032x3024
-> TEST 18: pad 2 - code 0x300f - size 32x32 - 4032x3024
-> TEST 19: pad 2 - code 0x3007 - size 32x32 - 4032x3024
-> TEST 20: pad 2 - code 0x300e - size 32x32 - 4032x3024
-> TEST 21: pad 2 - code 0x300a - size 32x32 - 4032x3024
-> TEST 22: pad 2 - code 0x3012 - size 32x32 - 4032x3024
-> TEST 23: pad 2 - code 0x3008 - size 32x32 - 4032x3024
-> TEST 24: pad 2 - code 0x3010 - size 32x32 - 4032x3024
-> TEST 25: pad 2 - code 0x3011 - size 32x32 - 4032x3024
-> TEST 26: pad 2 - code 0x3014 - size 32x32 - 4032x3024
-> TEST 27: pad 2 - code 0x3001 - size 32x32 - 4032x3024
-> TEST 28: pad 2 - code 0x3013 - size 32x32 - 4032x3024
-> TEST 29: pad 2 - code 0x3002 - size 32x32 - 4032x3024
-> TEST 30: pad 3 - code 0x7001 - size /
-> TEST 31: pad 0 - code 0xdead - size / (test with an invalid media bus code)
-> TEST 32: pad 6 - code 0x300f - size / (test with an invalid pad)
-> TEST 33: pad 0 - code 0x2008 - size / (test with a format that is not supported by the pad)
-> TEST 34: pad 2 - code 0x2010 - size / (test with a format that is not supported by the pad)
-> 
-> And here is the output from `v4l2-compliance --device /dev/v4l-subdev0`:
-> Media Driver Info:
-> 	Driver name      : rkisp1
-> ...
-> 	Name             : rkisp1_isp
-> 
-> ...
-> 
-> Sub-Device ioctls (Sink Pad 0):
-> 	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
-> 	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
->      ...
-> 
-> Sub-Device ioctls (Sink Pad 1):
-> 	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
-> 		fail: v4l2-test-subdevs.cpp(303): fmt.width == 0 || fmt.width > 65536
-> 		fail: v4l2-test-subdevs.cpp(348): checkMBusFrameFmt(node, fmt.format)
-> 	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
-> 		fail: v4l2-test-subdevs.cpp(303): fmt.width == 0 || fmt.width > 65536
-> 		fail: v4l2-test-subdevs.cpp(348): checkMBusFrameFmt(node, fmt.format)
->      ...
-> 
-> Sub-Device ioctls (Source Pad 2):
-> 	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
-> 	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
->      ...
-> 
-> Sub-Device ioctls (Source Pad 3):
-> 	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
-> 		fail: v4l2-test-subdevs.cpp(303): fmt.width == 0 || fmt.width > 65536
-> 		fail: v4l2-test-subdevs.cpp(348): checkMBusFrameFmt(node, fmt.format)
-> 	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
-> 		fail: v4l2-test-subdevs.cpp(303): fmt.width == 0 || fmt.width > 65536
-> 		fail: v4l2-test-subdevs.cpp(348): checkMBusFrameFmt(node, fmt.format)
->      ...
-> ...
-> As reported by Dafna Hirschfeld from v2 the errors on pad 1 & 3 are caused by a
-> problem within v4l2-utils.
-> 
-> ---
->   .../platform/rockchip/rkisp1/rkisp1-isp.c     | 34 +++++++++++++++++++
->   1 file changed, 34 insertions(+)
-> 
-> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> index 889982d8ca41..2e5b57e3aedc 100644
-> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
-> @@ -600,6 +600,39 @@ static int rkisp1_isp_enum_mbus_code(struct v4l2_subdev *sd,
->   	return -EINVAL;
->   }
->   
-> +static int rkisp1_isp_enum_frame_size(struct v4l2_subdev *sd,
-> +				      struct v4l2_subdev_pad_config *cfg,
-> +				      struct v4l2_subdev_frame_size_enum *fse)
-> +{
-> +	const struct rkisp1_isp_mbus_info *mbus_info;
-> +
-> +	if (fse->pad == RKISP1_ISP_PAD_SINK_PARAMS ||
-> +	    fse->pad == RKISP1_ISP_PAD_SOURCE_STATS)
-> +		return -ENOTTY;
-> +
-> +	if (fse->index > 0)
-> +		return -EINVAL;
-> +
-> +	mbus_info = rkisp1_isp_mbus_info_get(fse->code);
-> +	if (!mbus_info)
-> +		return -EINVAL;
-> +
-> +	if (!(mbus_info->direction & RKISP1_ISP_SD_SINK) &&
-> +	    fse->pad == RKISP1_ISP_PAD_SINK_VIDEO)
-> +		return -EINVAL;
-> +
-> +	if (!(mbus_info->direction & RKISP1_ISP_SD_SRC) &&
-> +	    fse->pad == RKISP1_ISP_PAD_SOURCE_VIDEO)
-> +		return -EINVAL;
-> +
-> +	fse->min_width = RKISP1_ISP_MIN_WIDTH;
-> +	fse->max_width = RKISP1_ISP_MAX_WIDTH;
-> +	fse->min_height = RKISP1_ISP_MIN_HEIGHT;
-> +	fse->max_height = RKISP1_ISP_MAX_HEIGHT;
-> +
-> +	return 0;
-> +}
-> +
->   static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
->   				  struct v4l2_subdev_pad_config *cfg)
->   {
-> @@ -880,6 +913,7 @@ static int rkisp1_subdev_link_validate(struct media_link *link)
->   
->   static const struct v4l2_subdev_pad_ops rkisp1_isp_pad_ops = {
->   	.enum_mbus_code = rkisp1_isp_enum_mbus_code,
-> +	.enum_frame_size = rkisp1_isp_enum_frame_size,
->   	.get_selection = rkisp1_isp_get_selection,
->   	.set_selection = rkisp1_isp_set_selection,
->   	.init_cfg = rkisp1_isp_init_config,
-> 
+Gr{oetje,eeting}s,
 
-Acked-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+                        Geert
+
+-- 
+Geert Uytterhoeven -- There's lots of Linux beyond ia32 -- geert@linux-m68k.org
+
+In personal conversations with technical people, I call myself a hacker. But
+when I'm talking to journalists I just say "programmer" or something like that.
+                                -- Linus Torvalds
