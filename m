@@ -2,71 +2,53 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 87D972D9939
-	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 14:49:51 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9249B2D994C
+	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 14:57:52 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2403852AbgLNNtK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Dec 2020 08:49:10 -0500
-Received: from szxga05-in.huawei.com ([45.249.212.191]:9606 "EHLO
-        szxga05-in.huawei.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726321AbgLNNs7 (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Dec 2020 08:48:59 -0500
-Received: from DGGEMS410-HUB.china.huawei.com (unknown [172.30.72.59])
-        by szxga05-in.huawei.com (SkyGuard) with ESMTP id 4CvjPX43THzM4m1;
-        Mon, 14 Dec 2020 21:47:28 +0800 (CST)
-Received: from ubuntu.network (10.175.138.68) by
- DGGEMS410-HUB.china.huawei.com (10.3.19.210) with Microsoft SMTP Server id
- 14.3.498.0; Mon, 14 Dec 2020 21:48:07 +0800
-From:   Zheng Yongjun <zhengyongjun3@huawei.com>
-To:     <tvboxspy@gmail.com>, <mchehab@kernel.org>,
-        <linux-media@vger.kernel.org>, <linux-kernel@vger.kernel.org>
-CC:     Zheng Yongjun <zhengyongjun3@huawei.com>
-Subject: [PATCH -next] media/dvb-frontends/m88rs2000: Delete useless kfree code
-Date:   Mon, 14 Dec 2020 21:48:35 +0800
-Message-ID: <20201214134835.5101-1-zhengyongjun3@huawei.com>
-X-Mailer: git-send-email 2.22.0
+        id S1728558AbgLNN4Z (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Dec 2020 08:56:25 -0500
+Received: from mail.kernel.org ([198.145.29.99]:48678 "EHLO mail.kernel.org"
+        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
+        id S1726296AbgLNN4Y (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 14 Dec 2020 08:56:24 -0500
+Date:   Mon, 14 Dec 2020 14:56:49 +0100
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=linuxfoundation.org;
+        s=korg; t=1607954144;
+        bh=KoUkRaTRm8OzevwgD6ukwjI1VQVT0ST0XiqvYr+hzZU=;
+        h=From:To:Cc:Subject:References:In-Reply-To:From;
+        b=iDzpd1WNErkCXv/XA44/VzLdrHA0H9Jytq2iHRauco1tPSzwz/luGvCpKu76cLAAn
+         4basZYhXgk1mK4Sno9gBNJKCVcI66EYbIz4bN2is9hCT9EMTP/LTaV5+UnTmc2NXfN
+         SIMBujbM2KgKe1arf7LsJQa7qMgLsUzq2B3BNUfA=
+From:   "gregkh@linuxfoundation.org" <gregkh@linuxfoundation.org>
+To:     David Laight <David.Laight@aculab.com>
+Cc:     'Philipp Gerlesberger' <Philipp.Gerlesberger@fau.de>,
+        "linux-kernel@vger.kernel.org" <linux-kernel@vger.kernel.org>,
+        "ij72uhux@stud.informatik.uni-erlangen.de" 
+        <ij72uhux@stud.informatik.uni-erlangen.de>,
+        "linux-media@vger.kernel.org" <linux-media@vger.kernel.org>,
+        "devel@driverdev.osuosl.org" <devel@driverdev.osuosl.org>,
+        "linux-kernel@i4.cs.fau.de" <linux-kernel@i4.cs.fau.de>,
+        "sakari.ailus@linux.intel.com" <sakari.ailus@linux.intel.com>,
+        "mchehab@kernel.org" <mchehab@kernel.org>
+Subject: Re: [PATCH v2 09/12] media: atomisp: Fix PARENTHESIS_ALIGNMENT
+Message-ID: <X9dvIVc5evB8cfEr@kroah.com>
+References: <20201214110358.7102-10-Philipp.Gerlesberger@fau.de>
+ <61d5f8315efc42238a5516b1dc496760@AcuMS.aculab.com>
 MIME-Version: 1.0
-Content-Transfer-Encoding: 7BIT
-Content-Type:   text/plain; charset=US-ASCII
-X-Originating-IP: [10.175.138.68]
-X-CFilter-Loop: Reflected
+Content-Type: text/plain; charset=us-ascii
+Content-Disposition: inline
+In-Reply-To: <61d5f8315efc42238a5516b1dc496760@AcuMS.aculab.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The parameter of kfree function is NULL, so kfree code is useless, delete it.
+On Mon, Dec 14, 2020 at 11:49:56AM +0000, David Laight wrote:
+> From: Philipp Gerlesberger
+> > Sent: 14 December 2020 11:04
+> > 
+> > You can sum up the two lines, because the maximum line length of
+> > 100 columns is not exceeded.
+> 
+> IIRC the 80 column limit is preferred.
 
-Signed-off-by: Zheng Yongjun <zhengyongjun3@huawei.com>
----
- drivers/media/dvb-frontends/m88rs2000.c | 7 +------
- 1 file changed, 1 insertion(+), 6 deletions(-)
-
-diff --git a/drivers/media/dvb-frontends/m88rs2000.c b/drivers/media/dvb-frontends/m88rs2000.c
-index 39cbb3ea1c9d..daeaf0049ccd 100644
---- a/drivers/media/dvb-frontends/m88rs2000.c
-+++ b/drivers/media/dvb-frontends/m88rs2000.c
-@@ -787,7 +787,7 @@ struct dvb_frontend *m88rs2000_attach(const struct m88rs2000_config *config,
- 	/* allocate memory for the internal state */
- 	state = kzalloc(sizeof(struct m88rs2000_state), GFP_KERNEL);
- 	if (state == NULL)
--		goto error;
-+		return NULL;
- 
- 	/* setup the state */
- 	state->config = config;
-@@ -801,11 +801,6 @@ struct dvb_frontend *m88rs2000_attach(const struct m88rs2000_config *config,
- 			sizeof(struct dvb_frontend_ops));
- 	state->frontend.demodulator_priv = state;
- 	return &state->frontend;
--
--error:
--	kfree(state);
--
--	return NULL;
- }
- EXPORT_SYMBOL(m88rs2000_attach);
- 
--- 
-2.22.0
-
+Not anymore, checkpatch has changed.
