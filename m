@@ -2,92 +2,107 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 1CB382D9C7A
-	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 17:23:52 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 9C91A2D9D6C
+	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 18:18:15 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2440143AbgLNQVY (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Dec 2020 11:21:24 -0500
-Received: from mail.kernel.org ([198.145.29.99]:55610 "EHLO mail.kernel.org"
-        rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S2440140AbgLNQVT (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Dec 2020 11:21:19 -0500
-Received: from disco-boy.misterjones.org (disco-boy.misterjones.org [51.254.78.96])
-        (using TLSv1.2 with cipher ECDHE-RSA-AES256-GCM-SHA384 (256/256 bits))
-        (No client certificate requested)
-        by mail.kernel.org (Postfix) with ESMTPSA id D69A2225AB;
-        Mon, 14 Dec 2020 16:20:38 +0000 (UTC)
-Received: from disco-boy.misterjones.org ([51.254.78.96] helo=www.loen.fr)
-        by disco-boy.misterjones.org with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_128_GCM_SHA256
-        (Exim 4.94)
-        (envelope-from <maz@kernel.org>)
-        id 1koqaS-001DWu-Nn; Mon, 14 Dec 2020 16:20:36 +0000
-MIME-Version: 1.0
-Content-Type: text/plain; charset=US-ASCII;
- format=flowed
-Content-Transfer-Encoding: 7bit
-Date:   Mon, 14 Dec 2020 16:20:36 +0000
-From:   Marc Zyngier <maz@kernel.org>
-To:     Maxime Ripard <maxime@cerno.tech>
-Cc:     Eric Anholt <eric@anholt.net>,
-        Maarten Lankhorst <maarten.lankhorst@linux.intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
+        id S2408435AbgLNRRQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Dec 2020 12:17:16 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42744 "EHLO
+        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408436AbgLNRRK (ORCPT
+        <rfc822;linux-media@vger.kernel.org>);
+        Mon, 14 Dec 2020 12:17:10 -0500
+Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D922DC0613D3
+        for <linux-media@vger.kernel.org>; Mon, 14 Dec 2020 09:16:29 -0800 (PST)
+Received: by mail-wm1-x342.google.com with SMTP id y23so15993650wmi.1
+        for <linux-media@vger.kernel.org>; Mon, 14 Dec 2020 09:16:29 -0800 (PST)
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=ffwll.ch; s=google;
+        h=from:to:cc:subject:date:message-id:in-reply-to:references
+         :mime-version:content-transfer-encoding;
+        bh=CRN0z60un1ifSPLbySVjb7+rlXQHLXQ5MW3xHVZvsMM=;
+        b=URqQYIJXeztX8BOCxtBMlauz1+Vynw9xFyndnNiXU0aLHkS9SuvL7+/CwyT17GWAIL
+         d9ZYiNmkWt+rwFCve9O7Hyg8Pc4rT7DKTTmeVu/JJIQFC4pHDE2+BuZa9Dunn9W7JjVE
+         +mOqu4hqxI8tbCzM5gJ3X8BJdllgPMez8y3GE=
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20161025;
+        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
+         :references:mime-version:content-transfer-encoding;
+        bh=CRN0z60un1ifSPLbySVjb7+rlXQHLXQ5MW3xHVZvsMM=;
+        b=HEKIFk0gj28dRXbnfkIImKG6qNhQ1hJM+TkizYkW1jMBmXdvvnvkJ2SiTcfiHKRa/K
+         jkUuCXBzM0Qf0e9UnUpRKNTpGhsm4aOv52anSsbZYhNT2SS7VtuMUc/33c/9RAVHSg+V
+         FbC3lSrq3fLyfuhWsxCm65kcedvVX+GtJvfD1Xrg3z5/Kx5kqvJhrbkR9AdE+39C4m0B
+         426Wq2xY5fqQhlUGiFqaS2Xg2trT0NZZ0v4fw7FZuXsCfiX1kAfk/C2PTvR8nJ4Rqt20
+         65yZM7wxbsRi35oCCXHHUdbM/XAJ59cS0w+d07u3aKB6CDtD71evjZ7d33b5SEhpbuJs
+         HIVw==
+X-Gm-Message-State: AOAM533fNQR9YW5W/zvzCKUb0GXccNR5BiPWri+uavl1nlM3bMs04NF5
+        Eoc/8Q6CWhy0fGHcgZrsQ7sU7A==
+X-Google-Smtp-Source: ABdhPJyGfZtDmUmapTM+sOrlmOBNqPBbHYPIUUmXhWR281DX6bsCafZ7lmMKmmEBZoTwqyWsC5MzCg==
+X-Received: by 2002:a1c:e445:: with SMTP id b66mr29461172wmh.187.1607966188676;
+        Mon, 14 Dec 2020 09:16:28 -0800 (PST)
+Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
+        by smtp.gmail.com with ESMTPSA id q1sm31197005wrj.8.2020.12.14.09.16.27
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Mon, 14 Dec 2020 09:16:27 -0800 (PST)
+From:   Daniel Vetter <daniel.vetter@ffwll.ch>
+To:     DRI Development <dri-devel@lists.freedesktop.org>
+Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
+        Daniel Vetter <daniel.vetter@ffwll.ch>,
         Daniel Vetter <daniel.vetter@intel.com>,
-        David Airlie <airlied@linux.ie>,
-        bcm-kernel-feedback-list@broadcom.com,
-        linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Thomas Gleixner <tglx@linutronix.de>,
-        Dave Stevenson <dave.stevenson@raspberrypi.com>,
-        linux-rpi-kernel@lists.infradead.org,
-        dri-devel@lists.freedesktop.org
-Subject: Re: [PATCH 01/15] irqchip: Allow to compile bcmstb on other platforms
-In-Reply-To: <20201214152731.mgoo2hvlu6uoi5md@gilmour>
-References: <20201210134648.272857-1-maxime@cerno.tech>
- <20201210134648.272857-2-maxime@cerno.tech>
- <e0f1aed2b0007eab6e9192ac73fd411f@kernel.org>
- <20201214152731.mgoo2hvlu6uoi5md@gilmour>
-User-Agent: Roundcube Webmail/1.4.9
-Message-ID: <05aff5990faee6060696e98afb8b3a27@kernel.org>
-X-Sender: maz@kernel.org
-X-SA-Exim-Connect-IP: 51.254.78.96
-X-SA-Exim-Rcpt-To: maxime@cerno.tech, eric@anholt.net, maarten.lankhorst@linux.intel.com, tzimmermann@suse.de, daniel.vetter@intel.com, airlied@linux.ie, bcm-kernel-feedback-list@broadcom.com, linux-arm-kernel@lists.infradead.org, linux-media@vger.kernel.org, hverkuil-cisco@xs4all.nl, linux-kernel@vger.kernel.org, mchehab@kernel.org, tglx@linutronix.de, dave.stevenson@raspberrypi.com, linux-rpi-kernel@lists.infradead.org, dri-devel@lists.freedesktop.org
-X-SA-Exim-Mail-From: maz@kernel.org
-X-SA-Exim-Scanned: No (on disco-boy.misterjones.org); SAEximRunCond expanded to false
+        Thomas Zimmermann <tzimmermann@suse.de>,
+        Sumit Semwal <sumit.semwal@linaro.org>,
+        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
+        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
+Subject: [PATCH] dma-buf: begin/end_cpu might lock the dma_resv lock
+Date:   Mon, 14 Dec 2020 18:16:22 +0100
+Message-Id: <20201214171622.3868883-1-daniel.vetter@ffwll.ch>
+X-Mailer: git-send-email 2.29.2
+In-Reply-To: <20201211155843.3348718-3-daniel.vetter@ffwll.ch>
+References: <20201211155843.3348718-3-daniel.vetter@ffwll.ch>
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi Maxime,
+At least amdgpu and i915 do, so lets just document this as the rule.
 
-On 2020-12-14 15:27, Maxime Ripard wrote:
-> Hi Marc,
-> 
-> On Thu, Dec 10, 2020 at 05:59:09PM +0000, Marc Zyngier wrote:
+v2: Works better with less typos (intel-gfx-ci)
 
-[...]
+Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
+Cc: Thomas Zimmermann <tzimmermann@suse.de>
+Cc: Sumit Semwal <sumit.semwal@linaro.org>
+Cc: "Christian König" <christian.koenig@amd.com>
+Cc: linux-media@vger.kernel.org
+Cc: linaro-mm-sig@lists.linaro.org
+---
+ drivers/dma-buf/dma-buf.c | 4 ++++
+ 1 file changed, 4 insertions(+)
 
->> I'm always sceptical of making interrupt controllers user-selectable.
->> Who is going to know that they need to pick that one?
->> 
->> I'd be much more in favour of directly selecting this symbol
->> from DRM_VC4_HDMI_CEC, since there is an obvious dependency.
-> 
-> It's a bit weird to me that the HDMI CEC support selects it, since that
-> interrupt controller is external and here no matter what.
-
- From glancing at the series, I was under the impression that these
-controllers were there for the sole benefit of the HDMI controllers.
-Is there anything else connected to them?
-
-> Would selecting it from the ARCH_* Kconfig option work for you?
-
-Sure. My only ask is that the low level plumbing is selected without
-requiring any user guesswork.
-
-Thanks,
-
-         M.
+diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
+index e1fa6c6f02c4..a0a02ef888da 100644
+--- a/drivers/dma-buf/dma-buf.c
++++ b/drivers/dma-buf/dma-buf.c
+@@ -1118,6 +1118,8 @@ int dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
+ 	if (WARN_ON(!dmabuf))
+ 		return -EINVAL;
+ 
++	might_lock(&dmabuf->resv->lock.base);
++
+ 	if (dmabuf->ops->begin_cpu_access)
+ 		ret = dmabuf->ops->begin_cpu_access(dmabuf, direction);
+ 
+@@ -1151,6 +1153,8 @@ int dma_buf_end_cpu_access(struct dma_buf *dmabuf,
+ 
+ 	WARN_ON(!dmabuf);
+ 
++	might_lock(&dmabuf->resv->lock.base);
++
+ 	if (dmabuf->ops->end_cpu_access)
+ 		ret = dmabuf->ops->end_cpu_access(dmabuf, direction);
+ 
 -- 
-Jazz is not dead. It just smells funny...
+2.29.2
+
