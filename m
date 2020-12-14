@@ -2,109 +2,68 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 74D022D97C0
-	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 12:58:05 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 0B1132D9806
+	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 13:33:21 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438782AbgLNL4G (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Dec 2020 06:56:06 -0500
-Received: from aserp2130.oracle.com ([141.146.126.79]:38008 "EHLO
-        aserp2130.oracle.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2407754AbgLNL4E (ORCPT
+        id S1729614AbgLNMc4 (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Dec 2020 07:32:56 -0500
+Received: from vps.shalomsite.com ([198.38.90.177]:35216 "EHLO
+        vps.shalomsite.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1725815AbgLNMcz (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Dec 2020 06:56:04 -0500
-Received: from pps.filterd (aserp2130.oracle.com [127.0.0.1])
-        by aserp2130.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BEBnqdT194622;
-        Mon, 14 Dec 2020 11:55:01 GMT
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=oracle.com; h=date : from : to : cc
- : subject : message-id : mime-version : content-type; s=corp-2020-01-29;
- bh=ZzFpPc4CJ210UKiC7Jc33w0aFo2TJ7hiZ01nPuzs1ow=;
- b=zZEY1a/sfl3M5xxxTch5GEvLRgqmZikHi7jrGsWw+PDj/Z/0UiTz4iMCFcnZQEHMPo8q
- 2MlyqMnZS3ajk1of11TDD2mIU+DsmhfvSRV8IzFkd4Nho3Db50w3t5csfzvgMbG52/hc
- /IRwGN2rCXuz3gOMWMng7ML7C6o/sO8f4j+btbe5BOYtSNc9Gnvoz2Qw1pGJJ+vW+DWH
- weFaTJulgvFNByIurHM0KsQLIMx/Ct52v3uFJVOk4D2T+5taZVR8EdLlO3vRhcI6YWVW
- sc8IgNKeYgv1Cfut+1bwNUyaUrCiB9a5eivKUgHLrYU2zEnT7cf3xR35ux73JZqAuvV/ 1A== 
-Received: from userp3030.oracle.com (userp3030.oracle.com [156.151.31.80])
-        by aserp2130.oracle.com with ESMTP id 35ckcb4wwy-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=FAIL);
-        Mon, 14 Dec 2020 11:55:01 +0000
-Received: from pps.filterd (userp3030.oracle.com [127.0.0.1])
-        by userp3030.oracle.com (8.16.0.42/8.16.0.42) with SMTP id 0BEBo3I6003407;
-        Mon, 14 Dec 2020 11:55:01 GMT
-Received: from aserv0121.oracle.com (aserv0121.oracle.com [141.146.126.235])
-        by userp3030.oracle.com with ESMTP id 35d7sud7rq-1
-        (version=TLSv1.2 cipher=ECDHE-RSA-AES256-GCM-SHA384 bits=256 verify=OK);
-        Mon, 14 Dec 2020 11:55:00 +0000
-Received: from abhmp0019.oracle.com (abhmp0019.oracle.com [141.146.116.25])
-        by aserv0121.oracle.com (8.14.4/8.13.8) with ESMTP id 0BEBsxIq031229;
-        Mon, 14 Dec 2020 11:54:59 GMT
-Received: from mwanda (/102.36.221.92)
-        by default (Oracle Beehive Gateway v4.0)
-        with ESMTP ; Mon, 14 Dec 2020 03:54:59 -0800
-Date:   Mon, 14 Dec 2020 14:54:47 +0300
-From:   Dan Carpenter <dan.carpenter@oracle.com>
-To:     Michael Tretter <m.tretter@pengutronix.de>
-Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
-        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
-        Chuhong Yuan <hslester96@gmail.com>,
-        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
-        kernel-janitors@vger.kernel.org
-Subject: [PATCH] media: allegro: Fix use after free on error
-Message-ID: <X9dShwq8PrThDpn9@mwanda>
+        Mon, 14 Dec 2020 07:32:55 -0500
+X-Greylist: delayed 2108 seconds by postgrey-1.27 at vger.kernel.org; Mon, 14 Dec 2020 07:32:55 EST
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed;
+        d=menergy-uae.com; s=default; h=Content-Transfer-Encoding:Content-Type:
+        MIME-Version:Date:Message-ID:Subject:From:To:Sender:Reply-To:Cc:Content-ID:
+        Content-Description:Resent-Date:Resent-From:Resent-Sender:Resent-To:Resent-Cc
+        :Resent-Message-ID:In-Reply-To:References:List-Id:List-Help:List-Unsubscribe:
+        List-Subscribe:List-Post:List-Owner:List-Archive;
+        bh=Sld5rz1wGmxms0H+t0PHqnwAMngZN5vXXUrm2SLdIFg=; b=C9qprxFodU+/joOHtZvugZz7Zy
+        ESSF56KMSUbH89xvmYu5ztXGue4toGHZSMHPlOP+EJNETvWFHOcMJebt07reU2/buGUTD33n4TKlg
+        4q1vWR+9wKscCt3lhyfiA+0MVp+6+uXouo6W2d6t4iHOuTy2Eqx2aaDJvTla5ARsBfPg=;
+Received: from fixed-187-191-0-13.totalplay.net ([187.191.0.13]:56810 helo=menergy-uae.com)
+        by vps.shalomsite.com with esmtpsa  (TLS1.2) tls TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384
+        (Exim 4.93)
+        (envelope-from <info@menergy-uae.com>)
+        id 1komTR-00080n-Ax; Mon, 14 Dec 2020 11:57:06 +0000
+To:     "shakthimaan" <shakthimaan@gmail.com>,
+        "franzschrober" <franzschrober@yahoo.de>,
+        "linux media" <linux-media@vger.kernel.org>,
+        "kaffeine user" <kaffeine-user@lists.sourceforge.net>,
+        "pkg kde extras" <pkg-kde-extras@lists.alioth.debian.org>,
+        "sdl" <sdl@lists.libsdl.org>,
+        "Martin Gerhardy" <martin.gerhardy@gmail.com>
+From:   Franz Schrober <info@menergy-uae.com>
+Subject: =?UTF-8?Q?FW=3AFranz_Schrober?=
+Message-ID: <d700130f-8744-43bc-bd30-8e474caa7e9c@menergy-uae.com>
+Date:   Mon, 14 Dec 2020 07:47:11 -0400
+User-Agent: Mozilla/5.0 (Windows NT 6.3; WOW64; rv:60.0) Gecko/20100101
+ Thunderbird/60.3.1
 MIME-Version: 1.0
-Content-Type: text/plain; charset=us-ascii
-Content-Disposition: inline
-X-Mailer: git-send-email haha only kidding
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9834 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 phishscore=0 bulkscore=0
- mlxlogscore=999 spamscore=0 mlxscore=0 suspectscore=0 malwarescore=0
- adultscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012140084
-X-Proofpoint-Virus-Version: vendor=nai engine=6000 definitions=9834 signatures=668683
-X-Proofpoint-Spam-Details: rule=notspam policy=default score=0 bulkscore=0 mlxlogscore=999
- priorityscore=1501 mlxscore=0 suspectscore=0 adultscore=0 phishscore=0
- malwarescore=0 impostorscore=0 lowpriorityscore=0 clxscore=1011
- spamscore=0 classifier=spam adjust=0 reason=mlx scancount=1
- engine=8.12.0-2009150000 definitions=main-2012140084
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Transfer-Encoding: 7bit
+Content-Language: en-US
+X-AntiAbuse: This header was added to track abuse, please include it with any abuse report
+X-AntiAbuse: Primary Hostname - vps.shalomsite.com
+X-AntiAbuse: Original Domain - vger.kernel.org
+X-AntiAbuse: Originator/Caller UID/GID - [47 12] / [47 12]
+X-AntiAbuse: Sender Address Domain - menergy-uae.com
+X-Get-Message-Sender-Via: vps.shalomsite.com: authenticated_id: info@menergy-uae.com
+X-Authenticated-Sender: vps.shalomsite.com: info@menergy-uae.com
+X-Source: 
+X-Source-Args: 
+X-Source-Dir: 
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-The "channel" is added to the "dev->channels" but then if
-v4l2_m2m_ctx_init() fails then we free "channel" but it's still on the
-list so it could lead to a use after free.  Let's not add it to the
-list until after v4l2_m2m_ctx_init() succeeds.
+https://bit.ly/3qCOHPF
 
-Fixes: cc62c74749a3 ("media: allegro: add missed checks in allegro_open()")
-Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
----
-From static analysis.  Not tested.
 
- drivers/staging/media/allegro-dvt/allegro-core.c | 3 +--
- 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
-index 9f718f43282b..640451134072 100644
---- a/drivers/staging/media/allegro-dvt/allegro-core.c
-+++ b/drivers/staging/media/allegro-dvt/allegro-core.c
-@@ -2483,8 +2483,6 @@ static int allegro_open(struct file *file)
- 	INIT_LIST_HEAD(&channel->buffers_reference);
- 	INIT_LIST_HEAD(&channel->buffers_intermediate);
- 
--	list_add(&channel->list, &dev->channels);
--
- 	channel->fh.m2m_ctx = v4l2_m2m_ctx_init(dev->m2m_dev, channel,
- 						allegro_queue_init);
- 
-@@ -2493,6 +2491,7 @@ static int allegro_open(struct file *file)
- 		goto error;
- 	}
- 
-+	list_add(&channel->list, &dev->channels);
- 	file->private_data = &channel->fh;
- 	v4l2_fh_add(&channel->fh);
- 
--- 
-2.29.2
 
+
+
+
+Franz Schrober
