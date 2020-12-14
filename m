@@ -2,178 +2,207 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 42A932D924F
-	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 05:44:03 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 408EE2D93A4
+	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 08:31:47 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2438636AbgLNEmP (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Sun, 13 Dec 2020 23:42:15 -0500
-Received: from lb3-smtp-cloud9.xs4all.net ([194.109.24.30]:46405 "EHLO
-        lb3-smtp-cloud9.xs4all.net" rhost-flags-OK-OK-OK-OK)
-        by vger.kernel.org with ESMTP id S2438632AbgLNEmG (ORCPT
+        id S2438928AbgLNHbb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Dec 2020 02:31:31 -0500
+Received: from bhuna.collabora.co.uk ([46.235.227.227]:35944 "EHLO
+        bhuna.collabora.co.uk" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1726970AbgLNHbW (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Sun, 13 Dec 2020 23:42:06 -0500
-Received: from cust-b5b5937f ([IPv6:fc0c:c16d:66b8:757f:c639:739b:9d66:799d])
-        by smtp-cloud9.xs4all.net with ESMTPA
-        id offkkMynk6PzIofflke1TJ; Mon, 14 Dec 2020 05:41:21 +0100
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=xs4all.nl; s=s2;
-        t=1607920882; bh=+eS35Qau5vI7NFEdEzMt8kJJ1bQEn4L0K2EDBzMpCu0=;
-        h=Message-ID:Date:From:To:Subject:From:Subject;
-        b=m8ikXsKzKJnuMnOXip5r6m+30KOGXZLaor5S2Ih+s9M1wxU1zp772Y7uuLeK2fSq4
-         KSpv7mPjDfoHFcNKu1Bqzh7fQZkf76Wk+d2KsjMM91lodk7CKnjEQ/Fp/9PBCwVUk3
-         ITAHkau56ZFME/6GXhbq42cXqPjhC2W6rEliGsRLmSYL8n6nXzT+zLIqmNsOJ4M6XI
-         QaFDGFxbpmJU86LqoHQBmoiS0H+Lc2awIO+XH0gaqDSb/SdHaslgFqH0aGSZMFDHhc
-         Fci6eqQ6MSXTGKvRPK4AD+t04pTw2+arkF45+gTYrgTTq8gnl+h7nmyQltRxZQAYmq
-         BI6jnOnHVwC0A==
-Message-ID: <f58ffe4245d14992475d60c9a5f76328@smtp-cloud9.xs4all.net>
-Date:   Mon, 14 Dec 2020 05:41:20 +0100
-From:   "Hans Verkuil" <hverkuil@xs4all.nl>
-To:     linux-media@vger.kernel.org
-Subject: cron job: media_tree daily build: ERRORS
-X-CMAE-Envelope: MS4xfMtw5cRf/HhCNL+8ls7lOxlY8z9MGMXv6RieyVhOeiH16gVK/48mjc6tPaPpfn2lf6xs2ajeezhV2myhUrWWRYfODXA0MDY5yasju4C9n++iuUVlVSme
- mMnreTk4UUEXi/i/Qvf+tBbght/6pYAGc+gWM8phWBICEqgirDpHp+xsp+cePp5qeHRTX0QjO4IT3A6053whmrJneweOonKoWuqoG2Kbw8BlVwxhCgZaNN4c
- hR55GvYLInBOeaXBxRx3dQ==
+        Mon, 14 Dec 2020 02:31:22 -0500
+Received: from [127.0.0.1] (localhost [127.0.0.1])
+        (Authenticated sender: dafna)
+        with ESMTPSA id 511631F42CCC
+Subject: Re: [PATCH v3] media: rkisp1: isp: Add the enum_frame_size ioctl
+To:     Sebastian Fricke <sebastian.fricke.linux@gmail.com>,
+        linux-media@vger.kernel.org
+Cc:     helen.koike@collabora.com, Hans Verkuil <hverkuil@xs4all.nl>,
+        Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        Tomasz Figa <tfiga@chromium.org>
+References: <20201212185306.19135-1-sebastian.fricke.linux@gmail.com>
+From:   Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
+Message-ID: <4f93fbf8-94c1-0fbd-732e-ae27e990ffb2@collabora.com>
+Date:   Mon, 14 Dec 2020 08:30:32 +0100
+User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
+ Thunderbird/68.10.0
+MIME-Version: 1.0
+In-Reply-To: <20201212185306.19135-1-sebastian.fricke.linux@gmail.com>
+Content-Type: text/plain; charset=utf-8; format=flowed
+Content-Language: en-US
+Content-Transfer-Encoding: 7bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-This message is generated daily by a cron job that builds media_tree for
-the kernels and architectures in the list below.
 
-Results of the daily build of media_tree:
 
-date:			Mon Dec 14 05:00:11 CET 2020
-media-tree git hash:	7ea4d23293300ca2f225595849a4fe444fb80ea4
-media_build git hash:	174c4cc0037aed1f719b91dfc9e9cc09d53de87c
-v4l-utils git hash:	e0e4114f971407acfdf1e8173c86e2e08fa01077
-edid-decode git hash:	f20c85d7b4c537e0d458f85c4da9f45cd3c0fbd2
-gcc version:		i686-linux-gcc (GCC) 10.2.0
-sparse repo:            https://git.linuxtv.org/mchehab/sparse.git
-sparse version:		v0.6.3-1-g58d3c1ca
-smatch repo:            https://git.linuxtv.org/mchehab/smatch.git
-smatch version:		v0.5.0-7041-g6193b3b71
-build-scripts repo:     https://git.linuxtv.org/hverkuil/build-scripts.git
-build-scripts git hash: 77c8542b1c2caa2a7e96c4dad0335336b522c616
-host hardware:		x86_64
-host os:		5.7.0-1-amd64
+Am 12.12.20 um 19:53 schrieb Sebastian Fricke:
+> Implement the VIDIOC_SUBDEV_ENUM_FRAME_SIZE ioctl for the isp entity,
+> check if the mbus code is valid for the given pad.
+> This call is not available for the parameter or metadata pads of the RkISP1.
+> 
+> Signed-off-by: Sebastian Fricke <sebastian.fricke.linux@gmail.com>
+> ---
+> 
+> v1: https://patchwork.kernel.org/project/linux-media/patch/20201206053935.24028-1-sebastian.fricke.linux@gmail.com/
+> v2: https://patchwork.kernel.org/project/linux-media/patch/20201207184358.3793-1-sebastian.fricke.linux@gmail.com/
+> 
+> Changes since v2:
+>      - Change the return code for the parameter and metadata pads to -ENOTTY instead of -EINVAL
+>        as this reports that the pad doesn't support the ioctl
+>      - Highlight more clearly that this patch is for the isp entity of the rkisp1, within the commit description
+>        as well as in the commit title
+>      - Add the correct v4l2-complience output to the patch mail
+> 
+> Changes since v1:
+>      - Replace the custom bus code check with the `rkisp1_isp_mbus_info_get`
+>        function
+>      - Add a missing line break above the function
+> 
+> I have tested this patch with the following script:
+> http://paste.debian.net/1176614/
+> 
+> The results on my NanoPC-T4 (Linux nanopct4 5.10.0-rc6-rockchip64):
+> 
+> pad 0 = RKISP1_ISP_PAD_SINK_VIDEO
+> pad 1 = RKISP1_ISP_PAD_SINK_PARAMS
+> pad 2 = RKISP1_ISP_PAD_SOURCE_VIDEO
+> pad 3 = RKISP1_ISP_PAD_SOURCE_STATS
+> 
+> basti@nanopct4:~$ python3 rkisp1_enum_frame_size_test.py
+> TEST  0: pad 0 - code 0x300f - size 32x32 - 4032x3024
+> TEST  1: pad 0 - code 0x3007 - size 32x32 - 4032x3024
+> TEST  2: pad 0 - code 0x300e - size 32x32 - 4032x3024
+> TEST  3: pad 0 - code 0x300a - size 32x32 - 4032x3024
+> TEST  4: pad 0 - code 0x3012 - size 32x32 - 4032x3024
+> TEST  5: pad 0 - code 0x3008 - size 32x32 - 4032x3024
+> TEST  6: pad 0 - code 0x3010 - size 32x32 - 4032x3024
+> TEST  7: pad 0 - code 0x3011 - size 32x32 - 4032x3024
+> TEST  8: pad 0 - code 0x3014 - size 32x32 - 4032x3024
+> TEST  9: pad 0 - code 0x3001 - size 32x32 - 4032x3024
+> TEST 10: pad 0 - code 0x3013 - size 32x32 - 4032x3024
+> TEST 11: pad 0 - code 0x3002 - size 32x32 - 4032x3024
+> TEST 12: pad 0 - code 0x2011 - size 32x32 - 4032x3024
+> TEST 13: pad 0 - code 0x2012 - size 32x32 - 4032x3024
+> TEST 14: pad 0 - code 0x200f - size 32x32 - 4032x3024
+> TEST 15: pad 0 - code 0x2010 - size 32x32 - 4032x3024
+> TEST 16: pad 1 - code 0x7001 - size /
+> TEST 17: pad 2 - code 0x2008 - size 32x32 - 4032x3024
+> TEST 18: pad 2 - code 0x300f - size 32x32 - 4032x3024
+> TEST 19: pad 2 - code 0x3007 - size 32x32 - 4032x3024
+> TEST 20: pad 2 - code 0x300e - size 32x32 - 4032x3024
+> TEST 21: pad 2 - code 0x300a - size 32x32 - 4032x3024
+> TEST 22: pad 2 - code 0x3012 - size 32x32 - 4032x3024
+> TEST 23: pad 2 - code 0x3008 - size 32x32 - 4032x3024
+> TEST 24: pad 2 - code 0x3010 - size 32x32 - 4032x3024
+> TEST 25: pad 2 - code 0x3011 - size 32x32 - 4032x3024
+> TEST 26: pad 2 - code 0x3014 - size 32x32 - 4032x3024
+> TEST 27: pad 2 - code 0x3001 - size 32x32 - 4032x3024
+> TEST 28: pad 2 - code 0x3013 - size 32x32 - 4032x3024
+> TEST 29: pad 2 - code 0x3002 - size 32x32 - 4032x3024
+> TEST 30: pad 3 - code 0x7001 - size /
+> TEST 31: pad 0 - code 0xdead - size / (test with an invalid media bus code)
+> TEST 32: pad 6 - code 0x300f - size / (test with an invalid pad)
+> TEST 33: pad 0 - code 0x2008 - size / (test with a format that is not supported by the pad)
+> TEST 34: pad 2 - code 0x2010 - size / (test with a format that is not supported by the pad)
+> 
+> And here is the output from `v4l2-compliance --device /dev/v4l-subdev0`:
+> Media Driver Info:
+> 	Driver name      : rkisp1
+> ...
+> 	Name             : rkisp1_isp
+> 
+> ...
+> 
+> Sub-Device ioctls (Sink Pad 0):
+> 	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+> 	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+>      ...
+> 
+> Sub-Device ioctls (Sink Pad 1):
+> 	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+> 		fail: v4l2-test-subdevs.cpp(303): fmt.width == 0 || fmt.width > 65536
+> 		fail: v4l2-test-subdevs.cpp(348): checkMBusFrameFmt(node, fmt.format)
+> 	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+> 		fail: v4l2-test-subdevs.cpp(303): fmt.width == 0 || fmt.width > 65536
+> 		fail: v4l2-test-subdevs.cpp(348): checkMBusFrameFmt(node, fmt.format)
+>      ...
+> 
+> Sub-Device ioctls (Source Pad 2):
+> 	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+> 	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+>      ...
+> 
+> Sub-Device ioctls (Source Pad 3):
+> 	test Try VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+> 		fail: v4l2-test-subdevs.cpp(303): fmt.width == 0 || fmt.width > 65536
+> 		fail: v4l2-test-subdevs.cpp(348): checkMBusFrameFmt(node, fmt.format)
+> 	test Active VIDIOC_SUBDEV_ENUM_MBUS_CODE/FRAME_SIZE/FRAME_INTERVAL: OK
+> 		fail: v4l2-test-subdevs.cpp(303): fmt.width == 0 || fmt.width > 65536
+> 		fail: v4l2-test-subdevs.cpp(348): checkMBusFrameFmt(node, fmt.format)
+>      ...
+> ...
+> As reported by Dafna Hirschfeld from v2 the errors on pad 1 & 3 are caused by a
+> problem within v4l2-utils.
+> 
+> ---
+>   .../platform/rockchip/rkisp1/rkisp1-isp.c     | 34 +++++++++++++++++++
+>   1 file changed, 34 insertions(+)
+> 
+> diff --git a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> index 889982d8ca41..2e5b57e3aedc 100644
+> --- a/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> +++ b/drivers/media/platform/rockchip/rkisp1/rkisp1-isp.c
+> @@ -600,6 +600,39 @@ static int rkisp1_isp_enum_mbus_code(struct v4l2_subdev *sd,
+>   	return -EINVAL;
+>   }
+>   
+> +static int rkisp1_isp_enum_frame_size(struct v4l2_subdev *sd,
+> +				      struct v4l2_subdev_pad_config *cfg,
+> +				      struct v4l2_subdev_frame_size_enum *fse)
+> +{
+> +	const struct rkisp1_isp_mbus_info *mbus_info;
+> +
+> +	if (fse->pad == RKISP1_ISP_PAD_SINK_PARAMS ||
+> +	    fse->pad == RKISP1_ISP_PAD_SOURCE_STATS)
+> +		return -ENOTTY;
+> +
+> +	if (fse->index > 0)
+> +		return -EINVAL;
+> +
+> +	mbus_info = rkisp1_isp_mbus_info_get(fse->code);
+> +	if (!mbus_info)
+> +		return -EINVAL;
+> +
+> +	if (!(mbus_info->direction & RKISP1_ISP_SD_SINK) &&
+> +	    fse->pad == RKISP1_ISP_PAD_SINK_VIDEO)
+> +		return -EINVAL;
+> +
+> +	if (!(mbus_info->direction & RKISP1_ISP_SD_SRC) &&
+> +	    fse->pad == RKISP1_ISP_PAD_SOURCE_VIDEO)
+> +		return -EINVAL;
+> +
+> +	fse->min_width = RKISP1_ISP_MIN_WIDTH;
+> +	fse->max_width = RKISP1_ISP_MAX_WIDTH;
+> +	fse->min_height = RKISP1_ISP_MIN_HEIGHT;
+> +	fse->max_height = RKISP1_ISP_MAX_HEIGHT;
+> +
+> +	return 0;
+> +}
+> +
+>   static int rkisp1_isp_init_config(struct v4l2_subdev *sd,
+>   				  struct v4l2_subdev_pad_config *cfg)
+>   {
+> @@ -880,6 +913,7 @@ static int rkisp1_subdev_link_validate(struct media_link *link)
+>   
+>   static const struct v4l2_subdev_pad_ops rkisp1_isp_pad_ops = {
+>   	.enum_mbus_code = rkisp1_isp_enum_mbus_code,
+> +	.enum_frame_size = rkisp1_isp_enum_frame_size,
+>   	.get_selection = rkisp1_isp_get_selection,
+>   	.set_selection = rkisp1_isp_set_selection,
+>   	.init_cfg = rkisp1_isp_init_config,
+> 
 
-linux-git-sh: OK
-linux-git-arm-at91: OK
-linux-git-arm-davinci: OK
-linux-git-powerpc64: OK
-linux-git-arm-stm32: OK
-linux-git-arm-pxa: OK
-linux-git-mips: OK
-linux-git-arm64: OK
-linux-git-arm-multi: OK
-linux-git-i686: OK
-linux-git-x86_64: OK
-Check COMPILE_TEST: OK
-Check for strcpy/strncpy/strlcpy: OK
-linux-3.10.108-i686: OK
-linux-3.10.108-x86_64: OK
-linux-3.11.10-i686: OK
-linux-3.11.10-x86_64: OK
-linux-3.12.74-i686: OK
-linux-3.12.74-x86_64: OK
-linux-3.13.11-i686: OK
-linux-3.13.11-x86_64: OK
-linux-3.14.79-i686: OK
-linux-3.14.79-x86_64: OK
-linux-3.15.10-i686: OK
-linux-3.15.10-x86_64: OK
-linux-3.16.81-i686: OK
-linux-3.16.81-x86_64: OK
-linux-3.17.8-i686: OK
-linux-3.17.8-x86_64: OK
-linux-3.18.136-i686: OK
-linux-3.18.136-x86_64: OK
-linux-3.19.8-i686: OK
-linux-3.19.8-x86_64: OK
-linux-4.0.9-i686: OK
-linux-4.0.9-x86_64: OK
-linux-4.1.52-i686: OK
-linux-4.1.52-x86_64: OK
-linux-4.2.8-i686: OK
-linux-4.2.8-x86_64: OK
-linux-4.3.6-i686: OK
-linux-4.3.6-x86_64: OK
-linux-4.4.238-i686: OK
-linux-4.4.238-x86_64: OK
-linux-4.5.7-i686: OK
-linux-4.5.7-x86_64: OK
-linux-4.6.7-i686: OK
-linux-4.6.7-x86_64: OK
-linux-4.7.10-i686: OK
-linux-4.7.10-x86_64: OK
-linux-4.8.17-i686: OK
-linux-4.8.17-x86_64: OK
-linux-4.9.238-i686: OK
-linux-4.9.238-x86_64: OK
-linux-4.10.17-i686: OK
-linux-4.10.17-x86_64: OK
-linux-4.11.12-i686: OK
-linux-4.11.12-x86_64: OK
-linux-4.12.14-i686: OK
-linux-4.12.14-x86_64: OK
-linux-4.13.16-i686: OK
-linux-4.13.16-x86_64: OK
-linux-4.14.200-i686: OK
-linux-4.14.200-x86_64: OK
-linux-4.15.18-i686: OK
-linux-4.15.18-x86_64: OK
-linux-4.16.18-i686: WARNINGS
-linux-4.16.18-x86_64: WARNINGS
-linux-4.17.19-i686: WARNINGS
-linux-4.17.19-x86_64: WARNINGS
-linux-4.18.20-i686: WARNINGS
-linux-4.18.20-x86_64: WARNINGS
-linux-4.19.149-i686: OK
-linux-4.19.149-x86_64: OK
-linux-4.20.17-i686: WARNINGS
-linux-4.20.17-x86_64: WARNINGS
-linux-5.0.21-i686: WARNINGS
-linux-5.0.21-x86_64: WARNINGS
-linux-5.1.21-i686: WARNINGS
-linux-5.1.21-x86_64: WARNINGS
-linux-5.2.21-i686: WARNINGS
-linux-5.2.21-x86_64: WARNINGS
-linux-5.3.18-i686: WARNINGS
-linux-5.3.18-x86_64: WARNINGS
-linux-5.4.69-i686: OK
-linux-5.4.69-x86_64: OK
-linux-5.5.19-i686: WARNINGS
-linux-5.5.19-x86_64: WARNINGS
-linux-5.6.19-i686: OK
-linux-5.6.19-x86_64: OK
-linux-5.7.19-i686: OK
-linux-5.7.19-x86_64: OK
-linux-5.8.13-i686: OK
-linux-5.8.13-x86_64: OK
-linux-5.9.1-i686: OK
-linux-5.9.1-x86_64: OK
-linux-5.10-rc1-i686: OK
-linux-5.10-rc1-x86_64: OK
-apps: OK
-spec-git: OK
-virtme: ERRORS: Final Summary: 2943, Succeeded: 2942, Failed: 1, Warnings: 2
-virtme-32: WARNINGS: Final Summary: 2779, Succeeded: 2779, Failed: 0, Warnings: 3
-sparse: ERRORS
-smatch: ERRORS
-
-Detailed results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.log
-
-Detailed regression test results are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-32.log
-http://www.xs4all.nl/~hverkuil/logs/Monday-test-media-dmesg.log
-
-Full logs are available here:
-
-http://www.xs4all.nl/~hverkuil/logs/Monday.tar.bz2
-
-The Media Infrastructure API from this daily build is here:
-
-http://www.xs4all.nl/~hverkuil/spec/index.html
+Acked-by: Dafna Hirschfeld <dafna.hirschfeld@collabora.com>
