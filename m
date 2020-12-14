@@ -2,24 +2,22 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DC5552D9725
-	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 12:13:41 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id F10AF2D9721
+	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 12:13:39 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2393552AbgLNLMh (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Dec 2020 06:12:37 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42754 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1730550AbgLNLLU (ORCPT
+        id S2388111AbgLNLLe (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Dec 2020 06:11:34 -0500
+Received: from faui03.informatik.uni-erlangen.de ([131.188.30.103]:36556 "EHLO
+        faui03.informatik.uni-erlangen.de" rhost-flags-OK-OK-OK-OK)
+        by vger.kernel.org with ESMTP id S1729479AbgLNLLV (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Dec 2020 06:11:20 -0500
-Received: from faui03.informatik.uni-erlangen.de (faui03.informatik.uni-erlangen.de [IPv6:2001:638:a000:4130:131:188:30:103])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 09CAEC0613D3;
-        Mon, 14 Dec 2020 03:10:22 -0800 (PST)
+        Mon, 14 Dec 2020 06:11:21 -0500
+X-Greylist: delayed 483 seconds by postgrey-1.27 at vger.kernel.org; Mon, 14 Dec 2020 06:11:06 EST
 Received: from cipterm0.informatik.uni-erlangen.de (cipterm0.cip.cs.fau.de [IPv6:2001:638:a000:4130:131:188:30:90])
-        by faui03.informatik.uni-erlangen.de (Postfix) with ESMTP id 75EA12409E1;
+        by faui03.informatik.uni-erlangen.de (Postfix) with ESMTP id 7D615240B55;
         Mon, 14 Dec 2020 12:10:20 +0100 (CET)
 Received: by cipterm0.informatik.uni-erlangen.de (Postfix, from userid 67858)
-        id 6720B328043D; Mon, 14 Dec 2020 12:03:00 +0100 (CET)
+        id D1D893280440; Mon, 14 Dec 2020 12:05:05 +0100 (CET)
 From:   Philipp Gerlesberger <Philipp.Gerlesberger@fau.de>
 To:     linux-kernel@vger.kernel.org
 Cc:     Philipp Gerlesberger <Philipp.Gerlesberger@fau.de>,
@@ -27,42 +25,40 @@ Cc:     Philipp Gerlesberger <Philipp.Gerlesberger@fau.de>,
         linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
         linux-kernel@i4.cs.fau.de, gregkh@linuxfoundation.org,
         sakari.ailus@linux.intel.com, mchehab@kernel.org
-Subject: [PATCH v2 12/12] media: atomisp: Fix LOGICAL_CONTINUATIONS
-Date:   Mon, 14 Dec 2020 12:01:56 +0100
-Message-Id: <20201214110156.6152-13-Philipp.Gerlesberger@fau.de>
+Subject: [PATCH v2 09/12] media: atomisp: Fix PARENTHESIS_ALIGNMENT
+Date:   Mon, 14 Dec 2020 12:03:55 +0100
+Message-Id: <20201214110358.7102-10-Philipp.Gerlesberger@fau.de>
 X-Mailer: git-send-email 2.20.1
-In-Reply-To: <20201214110156.6152-1-Philipp.Gerlesberger@fau.de>
-References: <20201214110156.6152-1-Philipp.Gerlesberger@fau.de>
 MIME-Version: 1.0
 Content-Transfer-Encoding: 8bit
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Logical continuations should be on the previous line
+You can sum up the two lines, because the maximum line length of
+100 columns is not exceeded.
 
 Co-developed-by: Andrey Khlopkov <ij72uhux@stud.informatik.uni-erlangen.de>
 Signed-off-by: Andrey Khlopkov <ij72uhux@stud.informatik.uni-erlangen.de>
 Signed-off-by: Philipp Gerlesberger <Philipp.Gerlesberger@fau.de>
 ---
- drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c | 4 ++--
- 1 file changed, 2 insertions(+), 2 deletions(-)
+ drivers/staging/media/atomisp/pci/runtime/spctrl/src/spctrl.c | 3 +--
+ 1 file changed, 1 insertion(+), 2 deletions(-)
 
-diff --git a/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c b/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
-index 2f1c2df59f71..7d44070c7114 100644
---- a/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
-+++ b/drivers/staging/media/atomisp/pci/runtime/queue/src/queue.c
-@@ -24,8 +24,8 @@
-  *****************************************************************************/
- int ia_css_queue_local_init(ia_css_queue_t *qhandle, ia_css_queue_local_t *desc)
+diff --git a/drivers/staging/media/atomisp/pci/runtime/spctrl/src/spctrl.c b/drivers/staging/media/atomisp/pci/runtime/spctrl/src/spctrl.c
+index 753a99703f1e..38f86764ccfc 100644
+--- a/drivers/staging/media/atomisp/pci/runtime/spctrl/src/spctrl.c
++++ b/drivers/staging/media/atomisp/pci/runtime/spctrl/src/spctrl.c
+@@ -37,8 +37,7 @@ static struct spctrl_context_info spctrl_cofig_info[N_SP_ID];
+ static bool spctrl_loaded[N_SP_ID] = {0};
+ 
+ /* Load firmware */
+-int ia_css_spctrl_load_fw(sp_ID_t sp_id,
+-				      ia_css_spctrl_cfg *spctrl_cfg)
++int ia_css_spctrl_load_fw(sp_ID_t sp_id, ia_css_spctrl_cfg *spctrl_cfg)
  {
--	if (NULL == qhandle || NULL == desc
--	    || NULL == desc->cb_elems || NULL == desc->cb_desc) {
-+	if (NULL == qhandle || NULL == desc ||
-+	    NULL == desc->cb_elems || NULL == desc->cb_desc) {
- 		/* Invalid parameters, return error*/
- 		return -EINVAL;
- 	}
+ 	ia_css_ptr code_addr = mmgr_NULL;
+ 	struct ia_css_sp_init_dmem_cfg *init_dmem_cfg;
 -- 
 2.20.1
 
