@@ -2,90 +2,115 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id B484C2D9B03
-	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 16:33:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 5EC9D2D9B21
+	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 16:36:14 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2437287AbgLNPat (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Dec 2020 10:30:49 -0500
-Received: from mga12.intel.com ([192.55.52.136]:59116 "EHLO mga12.intel.com"
+        id S2407329AbgLNPeK (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Dec 2020 10:34:10 -0500
+Received: from mga04.intel.com ([192.55.52.120]:30982 "EHLO mga04.intel.com"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726321AbgLNPak (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Dec 2020 10:30:40 -0500
-IronPort-SDR: 78DfHj6F2AkDum15ulwjEvESvPK9IgExTqfE0KMsltc2bxCf8uAPzyJ46pQemAGaYXvKoz/+yT
- sZdmYuv8fsuw==
-X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="153956437"
+        id S2393522AbgLNPeA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Mon, 14 Dec 2020 10:34:00 -0500
+IronPort-SDR: gVNBJJXkFZzNdbQbxUzAs5ewxYV324hQS7eyIwpMU1yulLOdGXV4i3Af+fiZWJ33tR1WudOkgX
+ vpVaJZoFUK/g==
+X-IronPort-AV: E=McAfee;i="6000,8403,9834"; a="172158481"
 X-IronPort-AV: E=Sophos;i="5.78,420,1599548400"; 
-   d="scan'208";a="153956437"
-Received: from orsmga004.jf.intel.com ([10.7.209.38])
-  by fmsmga106.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2020 07:28:55 -0800
-IronPort-SDR: OPwsMQMavvnOkLnZ56LPyn7D6nn+yVWXLjMMuRKhic8gvmnwEXWCNPBGokfcYN/1iDaM2LVPLt
- 9bOuV6UByL8g==
+   d="scan'208";a="172158481"
+Received: from orsmga001.jf.intel.com ([10.7.209.18])
+  by fmsmga104.fm.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2020 07:32:14 -0800
+IronPort-SDR: /HG8w61mTEl4KCXsgO03xHjFiK4b90Og4EnBaLT5jruDhCYt3dgNTnMCqVWOM3o59KCNoNzbR4
+ 8HLWPKW8qunQ==
 X-IronPort-AV: E=Sophos;i="5.78,420,1599548400"; 
-   d="scan'208";a="487149117"
+   d="scan'208";a="411288740"
 Received: from smile.fi.intel.com (HELO smile) ([10.237.68.40])
-  by orsmga004-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2020 07:28:53 -0800
+  by orsmga001-auth.jf.intel.com with ESMTP/TLS/ECDHE-RSA-AES256-GCM-SHA384; 14 Dec 2020 07:32:05 -0800
 Received: from andy by smile with local (Exim 4.94)
         (envelope-from <andriy.shevchenko@linux.intel.com>)
-        id 1kopnP-00EIcQ-3k; Mon, 14 Dec 2020 17:29:55 +0200
-Date:   Mon, 14 Dec 2020 17:29:55 +0200
+        id 1kopqU-00EIeN-LK; Mon, 14 Dec 2020 17:33:06 +0200
+Date:   Mon, 14 Dec 2020 17:33:06 +0200
 From:   Andy Shevchenko <andriy.shevchenko@linux.intel.com>
-To:     Sakari Ailus <sakari.ailus@linux.intel.com>
-Cc:     kernel test robot <lkp@intel.com>, kbuild-all@lists.01.org,
-        clang-built-linux@googlegroups.com, linux-kernel@vger.kernel.org,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        linux-media@vger.kernel.org
-Subject: Re: drivers/media/pci/intel/ipu3/ipu3-cio2.c:163:56: warning:
- implicit conversion from 'unsigned long' to 'u16' (aka 'unsigned short')
- changes value from 131072 to 0
-Message-ID: <20201214152955.GH4077@smile.fi.intel.com>
-References: <202011211600.bZyprrVg-lkp@intel.com>
- <20201123104018.GX4077@smile.fi.intel.com>
- <20201211165614.GC26370@paasikivi.fi.intel.com>
+To:     Daniel Scally <djrscally@gmail.com>
+Cc:     Laurent Pinchart <laurent.pinchart@ideasonboard.com>,
+        linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
+        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
+        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
+        lenb@kernel.org, gregkh@linuxfoundation.org,
+        mika.westerberg@linux.intel.com, linus.walleij@linaro.org,
+        bgolaszewski@baylibre.com, wsa@kernel.org, yong.zhi@intel.com,
+        sakari.ailus@linux.intel.com, bingbu.cao@intel.com,
+        tian.shu.qiu@intel.com, mchehab@kernel.org, robert.moore@intel.com,
+        erik.kaneda@intel.com, pmladek@suse.com, rostedt@goodmis.org,
+        sergey.senozhatsky@gmail.com, linux@rasmusvillemoes.dk,
+        kieran.bingham+renesas@ideasonboard.com, jacopo+renesas@jmondi.org,
+        laurent.pinchart+renesas@ideasonboard.com,
+        jorhand@linux.microsoft.com, kitakar@gmail.com,
+        heikki.krogerus@linux.intel.com
+Subject: Re: [PATCH 18/18] ipu3: Add driver for dummy INT3472 ACPI device
+Message-ID: <20201214153306.GI4077@smile.fi.intel.com>
+References: <20201130133129.1024662-1-djrscally@gmail.com>
+ <20201130133129.1024662-19-djrscally@gmail.com>
+ <20201130200719.GB4077@smile.fi.intel.com>
+ <20201130233232.GD25713@pendragon.ideasonboard.com>
+ <20201201184925.GJ4077@smile.fi.intel.com>
+ <6f3b0d7b-1ce7-aaf1-63c6-08a22dc77791@gmail.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201211165614.GC26370@paasikivi.fi.intel.com>
+In-Reply-To: <6f3b0d7b-1ce7-aaf1-63c6-08a22dc77791@gmail.com>
 Organization: Intel Finland Oy - BIC 0357606-4 - Westendinkatu 7, 02160 Espoo
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, Dec 11, 2020 at 06:56:14PM +0200, Sakari Ailus wrote:
-> On Mon, Nov 23, 2020 at 12:40:18PM +0200, Andy Shevchenko wrote:
-> > On Sat, Nov 21, 2020 at 04:23:05PM +0800, kernel test robot wrote:
-
-...
-
-> > > All warnings (new ones prefixed by >>):
-> > > 
-> > > >> drivers/media/pci/intel/ipu3/ipu3-cio2.c:163:56: warning: implicit conversion from 'unsigned long' to 'u16' (aka 'unsigned short') changes value from 131072 to 0 [-Wconstant-conversion]
-> > >            entry[1].second_entry.num_of_pages = CIO2_LOP_ENTRIES * CIO2_MAX_LOPS;
-> > >                                               ~ ~~~~~~~~~~~~~~~~~^~~~~~~~~~~~~~~
-> > >    1 warning generated.
+On Sun, Dec 13, 2020 at 10:48:39PM +0000, Daniel Scally wrote:
+> On 01/12/2020 18:49, Andy Shevchenko wrote:
+> >>>> +	table_entry = (struct gpiod_lookup)GPIO_LOOKUP_IDX(acpi_dev_name(adev),
+> >>>> +							   ares->data.gpio.pin_table[0],
+> >>>> +							   func, 0, GPIO_ACTIVE_HIGH);
+> >>>
+> >>> You won't need this if you have regular INT3472 platform driver.
+> >>> Simple call there _DSM to map resources to the type and use devm_gpiod_get on
+> >>> consumer behalf. Thus, previous patch is not needed.
+> >>
+> >> How does the consumer (the camera sensor) retrieve the GPIO though ? The
+> >> _DSM is in the PMIC device object, while the real consumer is the camera
+> >> sensor.
 > > 
-> > Okay, now we have an interesting case. The IP is quite unlikely be used on
-> > ARM64, but my patches made the clear picture about use of PAGE_SIZE here.
+> > 1. A GPIO proxy
+> > 2. A custom GPIO lookup tables
+> > 3. An fwnode passing to the sensor (via swnodes graph)
 > > 
-> > So, I see at least the following options to mitigate the above, i.e.:
-> >  1/ reduce driver scope to X86
-> >  2/ fix the variables to be wider type to be able to hold PAGE_SIZE > 4k
-> >  3/ switch to custom PAGE_SIZE / _SHIFT / _MASK and accompanying macros
+> > First may issue deferred probe, while second needs some ordering tricks I guess.
+> > Third one should also provide an ACPI GPIO mapping table or so to make the
+> > consumer rely on names rather than custom numbers.
 > > 
-> > And I still consider 3/ is silly move because as we see the driver was
-> > never assumed to work with big page sizes (besides unsigned short type
-> > here, PAGE_SHIFT and PAGE_MASK in the original code was as is and on ARM64
-> > they compiled to 0 values w/o warnings, effectively make the driver
-> > improperly functioning anyway).
+> > Perhaps someone may propose other solutions.
 > 
-> Apologies for the late answer.
+> Hi Andy
 > 
-> I think I'd favour the first option. It's not really useful to be able to
-> compile this elsewhere; as such the driver doesn't do anything special that
-> would make it prone to breakage through changes elsewhere.
-> 
-> Would you like to send a patch? :-)
+> Sorry; some more clarification here if you have time please:
 
-Done.
+No problem, thanks for discussing this.
+
+> 1. Do you mean here, register a new gpio_chip providing GPIOs to the
+> sensors, and just have the .set() callback for that function set the
+> corresponding line against the INT3472 device?
+
+Yes. On one hand it should be a consumer (*gpiod_get*() family of APIs),
+on the other it should be provider of known (artificial) GPIO chip.
+
+> 2. I thought custom GPIO lookup tables was what I was doing, are you
+> referring to something else?
+
+I think so, i.e. nothing else from high point of view.
+
+> 3. I guess you mean something like of_find_gpio() and acpi_find_gpio()
+> here? As far as I can see there isn't currently a swnodes
+> equivalent...we could just pass it via reference of course but it would
+> mean the sensor drivers would all need to account for that.
+
+Theoretically we may provide GPIOs as swnodes. In that case the consumer will
+get them as usual But I think it may be too complicated / over engineered.
 
 -- 
 With Best Regards,
