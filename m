@@ -2,107 +2,121 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 9C91A2D9D6C
-	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 18:18:15 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 880F42D9D6E
+	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 18:18:16 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2408435AbgLNRRQ (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Dec 2020 12:17:16 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42744 "EHLO
+        id S2408439AbgLNRRU (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Dec 2020 12:17:20 -0500
+Received: from lindbergh.monkeyblade.net ([23.128.96.19]:42772 "EHLO
         lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2408436AbgLNRRK (ORCPT
+        with ESMTP id S2408434AbgLNRRU (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Dec 2020 12:17:10 -0500
-Received: from mail-wm1-x342.google.com (mail-wm1-x342.google.com [IPv6:2a00:1450:4864:20::342])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id D922DC0613D3
-        for <linux-media@vger.kernel.org>; Mon, 14 Dec 2020 09:16:29 -0800 (PST)
-Received: by mail-wm1-x342.google.com with SMTP id y23so15993650wmi.1
-        for <linux-media@vger.kernel.org>; Mon, 14 Dec 2020 09:16:29 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=ffwll.ch; s=google;
-        h=from:to:cc:subject:date:message-id:in-reply-to:references
-         :mime-version:content-transfer-encoding;
-        bh=CRN0z60un1ifSPLbySVjb7+rlXQHLXQ5MW3xHVZvsMM=;
-        b=URqQYIJXeztX8BOCxtBMlauz1+Vynw9xFyndnNiXU0aLHkS9SuvL7+/CwyT17GWAIL
-         d9ZYiNmkWt+rwFCve9O7Hyg8Pc4rT7DKTTmeVu/JJIQFC4pHDE2+BuZa9Dunn9W7JjVE
-         +mOqu4hqxI8tbCzM5gJ3X8BJdllgPMez8y3GE=
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:from:to:cc:subject:date:message-id:in-reply-to
-         :references:mime-version:content-transfer-encoding;
-        bh=CRN0z60un1ifSPLbySVjb7+rlXQHLXQ5MW3xHVZvsMM=;
-        b=HEKIFk0gj28dRXbnfkIImKG6qNhQ1hJM+TkizYkW1jMBmXdvvnvkJ2SiTcfiHKRa/K
-         jkUuCXBzM0Qf0e9UnUpRKNTpGhsm4aOv52anSsbZYhNT2SS7VtuMUc/33c/9RAVHSg+V
-         FbC3lSrq3fLyfuhWsxCm65kcedvVX+GtJvfD1Xrg3z5/Kx5kqvJhrbkR9AdE+39C4m0B
-         426Wq2xY5fqQhlUGiFqaS2Xg2trT0NZZ0v4fw7FZuXsCfiX1kAfk/C2PTvR8nJ4Rqt20
-         65yZM7wxbsRi35oCCXHHUdbM/XAJ59cS0w+d07u3aKB6CDtD71evjZ7d33b5SEhpbuJs
-         HIVw==
-X-Gm-Message-State: AOAM533fNQR9YW5W/zvzCKUb0GXccNR5BiPWri+uavl1nlM3bMs04NF5
-        Eoc/8Q6CWhy0fGHcgZrsQ7sU7A==
-X-Google-Smtp-Source: ABdhPJyGfZtDmUmapTM+sOrlmOBNqPBbHYPIUUmXhWR281DX6bsCafZ7lmMKmmEBZoTwqyWsC5MzCg==
-X-Received: by 2002:a1c:e445:: with SMTP id b66mr29461172wmh.187.1607966188676;
-        Mon, 14 Dec 2020 09:16:28 -0800 (PST)
-Received: from phenom.ffwll.local ([2a02:168:57f4:0:efd0:b9e5:5ae6:c2fa])
-        by smtp.gmail.com with ESMTPSA id q1sm31197005wrj.8.2020.12.14.09.16.27
-        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 09:16:27 -0800 (PST)
-From:   Daniel Vetter <daniel.vetter@ffwll.ch>
-To:     DRI Development <dri-devel@lists.freedesktop.org>
-Cc:     Intel Graphics Development <intel-gfx@lists.freedesktop.org>,
-        Daniel Vetter <daniel.vetter@ffwll.ch>,
-        Daniel Vetter <daniel.vetter@intel.com>,
-        Thomas Zimmermann <tzimmermann@suse.de>,
-        Sumit Semwal <sumit.semwal@linaro.org>,
-        =?UTF-8?q?Christian=20K=C3=B6nig?= <christian.koenig@amd.com>,
-        linux-media@vger.kernel.org, linaro-mm-sig@lists.linaro.org
-Subject: [PATCH] dma-buf: begin/end_cpu might lock the dma_resv lock
-Date:   Mon, 14 Dec 2020 18:16:22 +0100
-Message-Id: <20201214171622.3868883-1-daniel.vetter@ffwll.ch>
-X-Mailer: git-send-email 2.29.2
-In-Reply-To: <20201211155843.3348718-3-daniel.vetter@ffwll.ch>
-References: <20201211155843.3348718-3-daniel.vetter@ffwll.ch>
+        Mon, 14 Dec 2020 12:17:20 -0500
+Received: from metis.ext.pengutronix.de (metis.ext.pengutronix.de [IPv6:2001:67c:670:201:290:27ff:fe1d:cc33])
+        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id C61DDC061793
+        for <linux-media@vger.kernel.org>; Mon, 14 Dec 2020 09:16:39 -0800 (PST)
+Received: from ptx.hi.pengutronix.de ([2001:67c:670:100:1d::c0])
+        by metis.ext.pengutronix.de with esmtps (TLS1.3:ECDHE_RSA_AES_256_GCM_SHA384:256)
+        (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1korSW-0004ht-Dr; Mon, 14 Dec 2020 18:16:28 +0100
+Received: from mtr by ptx.hi.pengutronix.de with local (Exim 4.92)
+        (envelope-from <mtr@pengutronix.de>)
+        id 1korSV-0004k3-In; Mon, 14 Dec 2020 18:16:27 +0100
+Date:   Mon, 14 Dec 2020 18:16:27 +0100
+From:   Michael Tretter <m.tretter@pengutronix.de>
+To:     Dan Carpenter <dan.carpenter@oracle.com>
+Cc:     Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Chuhong Yuan <hslester96@gmail.com>,
+        linux-media@vger.kernel.org, devel@driverdev.osuosl.org,
+        kernel-janitors@vger.kernel.org
+Subject: Re: [PATCH] media: allegro: Fix use after free on error
+Message-ID: <20201214171627.GE1861@pengutronix.de>
+Mail-Followup-To: Michael Tretter <m.tretter@pengutronix.de>,
+        Dan Carpenter <dan.carpenter@oracle.com>,
+        Pengutronix Kernel Team <kernel@pengutronix.de>,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Hans Verkuil <hverkuil-cisco@xs4all.nl>,
+        Chuhong Yuan <hslester96@gmail.com>, linux-media@vger.kernel.org,
+        devel@driverdev.osuosl.org, kernel-janitors@vger.kernel.org
+References: <X9dShwq8PrThDpn9@mwanda>
 MIME-Version: 1.0
-Content-Type: text/plain; charset=UTF-8
-Content-Transfer-Encoding: 8bit
+Content-Type: text/plain; charset=utf-8
+Content-Disposition: inline
+In-Reply-To: <X9dShwq8PrThDpn9@mwanda>
+X-Sent-From: Pengutronix Hildesheim
+X-URL:  http://www.pengutronix.de/
+X-IRC:  #ptxdist @freenode
+X-Accept-Language: de,en
+X-Accept-Content-Type: text/plain
+X-Uptime: 17:36:29 up 12 days,  5:03, 46 users,  load average: 0.08, 0.09,
+ 0.86
+User-Agent: Mutt/1.10.1 (2018-07-13)
+X-SA-Exim-Connect-IP: 2001:67c:670:100:1d::c0
+X-SA-Exim-Mail-From: mtr@pengutronix.de
+X-SA-Exim-Scanned: No (on metis.ext.pengutronix.de); SAEximRunCond expanded to false
+X-PTX-Original-Recipient: linux-media@vger.kernel.org
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-At least amdgpu and i915 do, so lets just document this as the rule.
+On Mon, 14 Dec 2020 14:54:47 +0300, Dan Carpenter wrote:
+> The "channel" is added to the "dev->channels" but then if
+> v4l2_m2m_ctx_init() fails then we free "channel" but it's still on the
+> list so it could lead to a use after free.  Let's not add it to the
+> list until after v4l2_m2m_ctx_init() succeeds.
 
-v2: Works better with less typos (intel-gfx-ci)
+Thanks.
 
-Signed-off-by: Daniel Vetter <daniel.vetter@intel.com>
-Cc: Thomas Zimmermann <tzimmermann@suse.de>
-Cc: Sumit Semwal <sumit.semwal@linaro.org>
-Cc: "Christian König" <christian.koenig@amd.com>
-Cc: linux-media@vger.kernel.org
-Cc: linaro-mm-sig@lists.linaro.org
----
- drivers/dma-buf/dma-buf.c | 4 ++++
- 1 file changed, 4 insertions(+)
+The patch conflicts with the series that moves the driver from staging to
+mainline [0]. I'm not sure, which patch should go in first.
 
-diff --git a/drivers/dma-buf/dma-buf.c b/drivers/dma-buf/dma-buf.c
-index e1fa6c6f02c4..a0a02ef888da 100644
---- a/drivers/dma-buf/dma-buf.c
-+++ b/drivers/dma-buf/dma-buf.c
-@@ -1118,6 +1118,8 @@ int dma_buf_begin_cpu_access(struct dma_buf *dmabuf,
- 	if (WARN_ON(!dmabuf))
- 		return -EINVAL;
- 
-+	might_lock(&dmabuf->resv->lock.base);
-+
- 	if (dmabuf->ops->begin_cpu_access)
- 		ret = dmabuf->ops->begin_cpu_access(dmabuf, direction);
- 
-@@ -1151,6 +1153,8 @@ int dma_buf_end_cpu_access(struct dma_buf *dmabuf,
- 
- 	WARN_ON(!dmabuf);
- 
-+	might_lock(&dmabuf->resv->lock.base);
-+
- 	if (dmabuf->ops->end_cpu_access)
- 		ret = dmabuf->ops->end_cpu_access(dmabuf, direction);
- 
--- 
-2.29.2
+It is also correct to not change the order of list_del and
+v4l2_m2m_ctx_release in allegro_release. The list is used to relate messages
+from the VCU to their destination channel and this should be possible until
+the context has been released and no further messages are expected for that
+channel.
 
+[0] https://lore.kernel.org/linux-media/20201202133040.1954837-1-m.tretter@pengutronix.de/
+
+> 
+> Fixes: cc62c74749a3 ("media: allegro: add missed checks in allegro_open()")
+> Signed-off-by: Dan Carpenter <dan.carpenter@oracle.com>
+
+Reviewed-by: Michael Tretter <m.tretter@pengutronix.de>
+
+> ---
+> From static analysis.  Not tested.
+> 
+>  drivers/staging/media/allegro-dvt/allegro-core.c | 3 +--
+>  1 file changed, 1 insertion(+), 2 deletions(-)
+> 
+> diff --git a/drivers/staging/media/allegro-dvt/allegro-core.c b/drivers/staging/media/allegro-dvt/allegro-core.c
+> index 9f718f43282b..640451134072 100644
+> --- a/drivers/staging/media/allegro-dvt/allegro-core.c
+> +++ b/drivers/staging/media/allegro-dvt/allegro-core.c
+> @@ -2483,8 +2483,6 @@ static int allegro_open(struct file *file)
+>  	INIT_LIST_HEAD(&channel->buffers_reference);
+>  	INIT_LIST_HEAD(&channel->buffers_intermediate);
+>  
+> -	list_add(&channel->list, &dev->channels);
+> -
+>  	channel->fh.m2m_ctx = v4l2_m2m_ctx_init(dev->m2m_dev, channel,
+>  						allegro_queue_init);
+>  
+> @@ -2493,6 +2491,7 @@ static int allegro_open(struct file *file)
+>  		goto error;
+>  	}
+>  
+> +	list_add(&channel->list, &dev->channels);
+>  	file->private_data = &channel->fh;
+>  	v4l2_fh_add(&channel->fh);
+>  
+> -- 
+> 2.29.2
+> 
+> 
