@@ -2,88 +2,106 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 94DA32DA3C7
-	for <lists+linux-media@lfdr.de>; Mon, 14 Dec 2020 23:58:10 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 46C252DA3FC
+	for <lists+linux-media@lfdr.de>; Tue, 15 Dec 2020 00:14:45 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S2441326AbgLNW5F (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Mon, 14 Dec 2020 17:57:05 -0500
-Received: from mail-ot1-f65.google.com ([209.85.210.65]:34485 "EHLO
-        mail-ot1-f65.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S2441315AbgLNW44 (ORCPT
+        id S2408949AbgLNXNR (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Mon, 14 Dec 2020 18:13:17 -0500
+Received: from mail-oi1-f193.google.com ([209.85.167.193]:39697 "EHLO
+        mail-oi1-f193.google.com" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S2408924AbgLNXNO (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Mon, 14 Dec 2020 17:56:56 -0500
-Received: by mail-ot1-f65.google.com with SMTP id a109so17486403otc.1;
-        Mon, 14 Dec 2020 14:56:40 -0800 (PST)
+        Mon, 14 Dec 2020 18:13:14 -0500
+Received: by mail-oi1-f193.google.com with SMTP id w124so18074441oia.6;
+        Mon, 14 Dec 2020 15:12:59 -0800 (PST)
 X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
         d=1e100.net; s=20161025;
         h=x-gm-message-state:date:from:to:cc:subject:message-id:references
          :mime-version:content-disposition:in-reply-to;
-        bh=6eV+/H1+wuql5Xj175B7CxNiRq52AmncCnPannTivxU=;
-        b=n3W4VjXTlZqubB9cX6CaLRjRvKNvwDkeqODi6O2W5sgAyiunW5ufkPn2UNhK1B6vB+
-         uzRrh2Y44HMqPdKkzPaaXVVms8nLXjsvyhxgJ2hpYH1Bj/1wCg/9f5L6r4/iMEDU9NH3
-         9MXZ/W18UXJG4MImvnqHGXgbm7Uqw0+h3j2N8gJptb+EvSVd+1QszMFrcfjPHnDWUTl4
-         A0m96F3SboloSzencuzWvF858q4y/jyNSymlvWQdljC9IvPJt/xOqVVoYuN/8wkyxWOL
-         SIQnp7irm44iosmy2wFjIebeTNu7PIUCfTdJh5qGzqTvwy7SPLL7mQPHHKI4zPbZ+Zov
-         nXtQ==
-X-Gm-Message-State: AOAM533qpBFBQe+443otamBeX+Cqs3NabILLTvTzkUzD+zB0199bWgO3
-        +FwRDyWSGnHxQkAgZY6nDA==
-X-Google-Smtp-Source: ABdhPJwDM6U4udpEYiXAy2gSlbztGdngQOcnWX4uPjrYbFwopnc0V36ZUTQRqWQ5M1hiz15LkX+/Lw==
-X-Received: by 2002:a05:6830:4b9:: with SMTP id l25mr20777707otd.218.1607986575094;
-        Mon, 14 Dec 2020 14:56:15 -0800 (PST)
+        bh=xEzETSLwFb14jsmrw0FlyX7cWx9XxZAaCfC6Tl6Q1gM=;
+        b=OLh66mHEF4OxGlq+ZYHC/k28Wvc1y2sgqQe5j7jrkHI+1/qSYJ5/h44hwVCEJypJbh
+         NUGToZGcNfyO/tX1yDZYdG+xgK8xzy+ljp+3BZQoeoCiD3SH5NUWciWMo830U6gZaTa7
+         3fVem+h7PLlgXYPnq6GKmbKkdHhr9kV/HMy37WE+gT771C1dg9+mYC2EnHrdFOvwclGn
+         O589F7OrlmUnJOlKxUpfYR77QZhGlxQ4QVRig/Qoa0otv7mqhiI6NxZeu1YTa70skPHR
+         ggRO3lTWyX+U0k1h6A1Be1Uxt4qyaYBvqn3dlk6waEHd8lE1o3rVm9KeZXKAFJQ62RYr
+         qYVQ==
+X-Gm-Message-State: AOAM5302ztfkPAZLaNTHWoWABa61qm7EIiDwPeEhFstoeq92XmDe87kW
+        owT9dB2w4M/v1tUP3DT/aw==
+X-Google-Smtp-Source: ABdhPJzA/b4BevvSdW2BPBsRNI6l4NaGaCBla97jZ3xzwyR9BVSTVxGIWmfwoPP1/8/7Q5HiUv26Hw==
+X-Received: by 2002:aca:3554:: with SMTP id c81mr15514729oia.23.1607987553638;
+        Mon, 14 Dec 2020 15:12:33 -0800 (PST)
 Received: from xps15 (24-155-109-49.dyn.grandenetworks.net. [24.155.109.49])
-        by smtp.gmail.com with ESMTPSA id a18sm4611657oia.29.2020.12.14.14.56.13
+        by smtp.gmail.com with ESMTPSA id i82sm4612225oif.33.2020.12.14.15.12.31
         (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
-        Mon, 14 Dec 2020 14:56:14 -0800 (PST)
-Received: (nullmailer pid 2536446 invoked by uid 1000);
-        Mon, 14 Dec 2020 22:56:12 -0000
-Date:   Mon, 14 Dec 2020 16:56:12 -0600
+        Mon, 14 Dec 2020 15:12:32 -0800 (PST)
+Received: (nullmailer pid 2557998 invoked by uid 1000);
+        Mon, 14 Dec 2020 23:12:31 -0000
+Date:   Mon, 14 Dec 2020 17:12:31 -0600
 From:   Rob Herring <robh@kernel.org>
-To:     Andre Przywara <andre.przywara@arm.com>
-Cc:     linux-media@vger.kernel.org, linux-rtc@vger.kernel.org,
-        =?iso-8859-1?Q?Cl=E9ment_P=E9ron?= <peron.clem@gmail.com>,
-        Linus Walleij <linus.walleij@linaro.org>,
-        linux-sunxi@googlegroups.com, Chen-Yu Tsai <wens@csie.org>,
-        Icenowy Zheng <icenowy@aosc.xyz>, linux-i2c@vger.kernel.org,
-        Gregory CLEMENT <gregory.clement@bootlin.com>,
-        devicetree@vger.kernel.org, linux-kernel@vger.kernel.org,
-        Mark Brown <broonie@kernel.org>,
-        Maxime Ripard <mripard@kernel.org>,
-        Mauro Carvalho Chehab <mchehab@kernel.org>,
-        Shuosheng Huang <huangshuosheng@allwinnertech.com>,
-        Yangtao Li <tiny.windzz@gmail.com>,
-        Alessandro Zummo <a.zummo@towertech.it>,
-        linux-arm-kernel@lists.infradead.org,
+To:     Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+Cc:     Maxime Ripard <mripard@kernel.org>,
+        Rob Herring <robh+dt@kernel.org>, linux-sunxi@googlegroups.com,
+        linux-media@vger.kernel.org, linux-doc@vger.kernel.org,
+        Jonathan Corbet <corbet@lwn.net>,
+        Kishon Vijay Abraham I <kishon@ti.com>,
         Jernej Skrabec <jernej.skrabec@siol.net>,
-        linux-spi@vger.kernel.org,
-        Alexandre Belloni <alexandre.belloni@bootlin.com>
-Subject: Re: [PATCH v2 18/21] dt-bindings: allwinner: Add H616 compatible
- strings
-Message-ID: <20201214225612.GA2536414@robh.at.kernel.org>
-References: <20201211011934.6171-1-andre.przywara@arm.com>
- <20201211011934.6171-19-andre.przywara@arm.com>
+        Greg Kroah-Hartman <gregkh@linuxfoundation.org>,
+        Thomas Petazzoni <thomas.petazzoni@bootlin.com>,
+        Vinod Koul <vkoul@kernel.org>, linux-kernel@vger.kernel.org,
+        Philipp Zabel <p.zabel@pengutronix.de>,
+        Hans Verkuil <hans.verkuil@cisco.com>,
+        kevin.lhopital@hotmail.com,
+        Helen Koike <helen.koike@collabora.com>,
+        Sakari Ailus <sakari.ailus@linux.intel.com>,
+        devicetree@vger.kernel.org, Chen-Yu Tsai <wens@csie.org>,
+        Dafna Hirschfeld <dafna.hirschfeld@collabora.com>,
+        Yong Deng <yong.deng@magewell.com>,
+        linux-arm-kernel@lists.infradead.org,
+        Mauro Carvalho Chehab <mchehab@kernel.org>,
+        devel@driverdev.osuosl.org
+Subject: Re: [PATCH v3 06/15] dt-bindings: media: sun6i-a31-csi: Add MIPI
+ CSI-2 input port
+Message-ID: <20201214231231.GA2555279@robh.at.kernel.org>
+References: <20201211155708.154710-1-paul.kocialkowski@bootlin.com>
+ <20201211155708.154710-7-paul.kocialkowski@bootlin.com>
 MIME-Version: 1.0
 Content-Type: text/plain; charset=us-ascii
 Content-Disposition: inline
-In-Reply-To: <20201211011934.6171-19-andre.przywara@arm.com>
+In-Reply-To: <20201211155708.154710-7-paul.kocialkowski@bootlin.com>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On Fri, 11 Dec 2020 01:19:31 +0000, Andre Przywara wrote:
-> Add simple "allwinner,sun50i-h616-xxx" compatible names to existing
-> bindings, and pair them with an existing fallback compatible string,
-> as the devices are compatible.
-> This covers I2C, infrared, RTC and SPI.
+On Fri, 11 Dec 2020 16:56:59 +0100, Paul Kocialkowski wrote:
+> The A31 CSI controller supports two distinct input interfaces:
+> parallel and an external MIPI CSI-2 bridge. The parallel interface
+> is often connected to a set of hardware pins while the MIPI CSI-2
+> bridge is an internal FIFO-ish link. As a result, these two inputs
+> are distinguished as two different ports.
 > 
-> Use enums to group all compatible devices together.
+> Note that only one of the two may be present on a controller instance.
+> For example, the V3s has one controller dedicated to MIPI-CSI2 and one
+> dedicated to parallel.
 > 
-> Signed-off-by: Andre Przywara <andre.przywara@arm.com>
+> Update the binding with an explicit ports node that holds two distinct
+> port nodes: one for parallel input and one for MIPI CSI-2.
+> 
+> This is backward-compatible with the single-port approach that was
+> previously taken for representing the parallel interface port, which
+> stays enumerated as fwnode port 0.
+> 
+> Note that additional ports may be added in the future, especially to
+> support feeding the CSI controller's output to the ISP.
+> 
+> Signed-off-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
 > ---
->  .../bindings/i2c/marvell,mv64xxx-i2c.yaml     | 21 +++++++------------
->  .../media/allwinner,sun4i-a10-ir.yaml         | 16 ++++++--------
->  .../bindings/rtc/allwinner,sun6i-a31-rtc.yaml |  3 +++
->  .../bindings/spi/allwinner,sun6i-a31-spi.yaml |  1 +
->  4 files changed, 17 insertions(+), 24 deletions(-)
+>  .../media/allwinner,sun6i-a31-csi.yaml        | 88 ++++++++++++++++---
+>  1 file changed, 75 insertions(+), 13 deletions(-)
 > 
 
-Acked-by: Rob Herring <robh@kernel.org>
+Reviewed-by: Rob Herring <robh@kernel.org>
+
+Though, it may need updating to use video-interfaces and graph 
+schemas[1] depending what lands first.
+
+[1] https://lore.kernel.org/linux-devicetree/20201210211625.3070388-4-robh@kernel.org/
