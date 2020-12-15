@@ -2,228 +2,371 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id DBD782DABBB
-	for <lists+linux-media@lfdr.de>; Tue, 15 Dec 2020 12:19:40 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id 827CC2DABCE
+	for <lists+linux-media@lfdr.de>; Tue, 15 Dec 2020 12:24:07 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728560AbgLOLRd (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Dec 2020 06:17:33 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:40780 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1727167AbgLOLRc (ORCPT
-        <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Dec 2020 06:17:32 -0500
-Received: from mail-ed1-x541.google.com (mail-ed1-x541.google.com [IPv6:2a00:1450:4864:20::541])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 82C93C06179C
-        for <linux-media@vger.kernel.org>; Tue, 15 Dec 2020 03:16:51 -0800 (PST)
-Received: by mail-ed1-x541.google.com with SMTP id r5so20550484eda.12
-        for <linux-media@vger.kernel.org>; Tue, 15 Dec 2020 03:16:51 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=linaro.org; s=google;
-        h=subject:to:cc:references:from:message-id:date:user-agent
-         :mime-version:in-reply-to:content-language:content-transfer-encoding;
-        bh=9bNzWa77clAXXw3WuHzQU/iKItvBAyb0MCpe4O/Qk0w=;
-        b=wYmNDrjnN8OS/Im9x5G/shkodwQ55HU+2LzJjuAayUdo89qcLVBlgvxbLzLTdGrspq
-         /Rl13LsRzs3HbOBoRgbB4du25rf02G5QDuzwDu6awR9rNGgV6iX2KAiYiHF65ayEXvXz
-         ZL8WGqKs6hUt5xmpO7j5RUFDl3OQJ9qvVRt0EDZu65k87erReZ8oBgoP1FFrjgwnylB/
-         6gQdJvdCCWH2KsCGYtqAvh8prid2PmiEGe7EC4RJIvFBiRW1TVb+8qJj4t8XS2TnjDnh
-         tV0zD4+9OcBIhO5p7+aqn2lnfu+LBS6ebJpjb5rJnArhu3ulLRXiK3i+aIiDr9Pbvypb
-         n94g==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:to:cc:references:from:message-id:date
-         :user-agent:mime-version:in-reply-to:content-language
-         :content-transfer-encoding;
-        bh=9bNzWa77clAXXw3WuHzQU/iKItvBAyb0MCpe4O/Qk0w=;
-        b=YaEVUG5gYs7Nt8NqaoQ120ambb/KofFqF+IPONQDPTbt3Pedwc9r+gQlaQTAjsUzGL
-         bT9pfrBNADI267Gbn306KO3F5sD/qsDJV5HMwiWiiJQ9fqEPopQfLXPWLdZu5uy4w5Hr
-         667XlH2ZQ+4HPh5EkSpQFlkhMT9vxFm4hD3Y/TEZyCS1Ptfv0u3VLCfXVKejOyacQsTI
-         +vLtW7AA5Q9H5GIie+M8waU12hOig/RFqF0Rt5YtagQaOrK0NsQtYJTjAaibRe/hMZSu
-         jBzMrNNGfOoacc5iXKgZ9f7rBibDDwwCG9jCl47MyjSqJ59LIAWXHsGmkSWgS2trPyNl
-         vG0Q==
-X-Gm-Message-State: AOAM5313DGpQFzPXHcx66WNZcrLKZddpTpPAdnE5bVfu14mj+nzzDN8X
-        PMTr/svxGygMvSI7pMf3Qfj91Q==
-X-Google-Smtp-Source: ABdhPJxVDdyAXqKbiJLC27uMRO9Y5S+YBQQgqGrjIcYHWvctTA3M47GV9OLU0mdpmVKsk0oCHG2PGA==
-X-Received: by 2002:aa7:dc5a:: with SMTP id g26mr29132901edu.35.1608031010204;
-        Tue, 15 Dec 2020 03:16:50 -0800 (PST)
-Received: from [192.168.0.3] (hst-221-86.medicom.bg. [84.238.221.86])
-        by smtp.googlemail.com with ESMTPSA id pv24sm1110392ejb.101.2020.12.15.03.16.49
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Dec 2020 03:16:49 -0800 (PST)
-Subject: Re: [PATCH] media: venus: use contig vb2 ops
-To:     Alexandre Courbot <acourbot@chromium.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>,
-        Tomasz Figa <tfiga@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>
-Cc:     linux-media@vger.kernel.org, linux-kernel@vger.kernel.org,
-        linux-arm-msm@vger.kernel.org, Robin Murphy <robin.murphy@arm.com>
-References: <20201214125703.866998-1-acourbot@chromium.org>
-From:   Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Message-ID: <5319c101-f4a4-9c99-b15d-4999366f7a63@linaro.org>
-Date:   Tue, 15 Dec 2020 13:16:48 +0200
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        id S1728712AbgLOLUF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Dec 2020 06:20:05 -0500
+Received: from mail-eopbgr130055.outbound.protection.outlook.com ([40.107.13.55]:20100
+        "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
+        rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
+        id S1725535AbgLOLUA (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Dec 2020 06:20:00 -0500
+ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
+ b=B+qYrSbYxkAP9hHDKQJPvFUiWcL1scTL+kR8zUPJYtGsOPtLXuffUbX/eLkRnt2C/kAIzGKr6YyR0/L6SppnkGvXSf0mjxiCuiP8bIlW1ibdnosWbJurcYJ5vWmSFDoV8WxL83o43/WU6iBHWxmIzku5+KmYOIZnZIgS1OAGL+5SfoAe6xzsod0Aogy6phaezzec7pgAkP72Tik4V19f9giWPpn3tJwG7Kj1nAhIQ1qzffn7LPl6gAHblGP6VAacXa011ez8GNL3NpIfh2USFy8Er2ghbrV5UhyttgnuK6ywBBJRhQdr9RJ6281hZdSk6ogVftANTBLOsNYsUc4zpA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector9901;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=00uPYq4FtUPWwBUcD/h17YgM3cTVg4TaN5h8Wl7vukc=;
+ b=UUI4nVbRnVtXq9TyUrqXds81WBiFbNKkpP/8NlaJNcRjhxKgYXZe9NewwtBM8q1eRX/GVrRqlfAqvBp5GAhEvQzZvugE4PDN2T3GpLv64J33hVzZLvCFSmbUuCZStHL2aJ3q64nzQSB5A45A6Qfz3loFJNUEa0qi4i7uRSPYAZf2ydTPv9/N+euRpJQKYmA3f8BcgMDiaVUCqgcRIa14bXkeA4E43wWV5LMUtw+oDO2aesFFSPBiS8az5jRLuCy7U4iRQT8KuD1ZmJde1tNlwlXWMRXliAdAVvxKGIeo5KntKpWqArNNcTS4LAAqqcQShIMQaHkQPNcvZ4QV+o1wjw==
+ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
+ smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
+ dkim=pass header.d=oss.nxp.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
+ s=selector2-NXP1-onmicrosoft-com;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
+ bh=00uPYq4FtUPWwBUcD/h17YgM3cTVg4TaN5h8Wl7vukc=;
+ b=btnigJkvmI0azrO3PJpwTrWj/pk7N5r0XzLoOw/dxHhpZ3oUb/s5P0ZkdCMFGXz1VivkvTNDStMjuY8uV7TQ5mKPe+tYHwRG6/OBBsuGvI77m600nrxzOOb0bv9/gt2kh03S3+rrL8fM4cEC0zgHOXU96ILzBwGqGXYYnhieHJY=
+Authentication-Results: kernel.org; dkim=none (message not signed)
+ header.d=none;kernel.org; dmarc=none action=none header.from=oss.nxp.com;
+Received: from AM5PR04MB3137.eurprd04.prod.outlook.com (2603:10a6:206:c::18)
+ by AM5PR0402MB2737.eurprd04.prod.outlook.com (2603:10a6:203:95::16) with
+ Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.17; Tue, 15 Dec
+ 2020 11:19:05 +0000
+Received: from AM5PR04MB3137.eurprd04.prod.outlook.com
+ ([fe80::2d75:aaf5:5aa6:5de9]) by AM5PR04MB3137.eurprd04.prod.outlook.com
+ ([fe80::2d75:aaf5:5aa6:5de9%6]) with mapi id 15.20.3654.024; Tue, 15 Dec 2020
+ 11:19:05 +0000
+From:   "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>
+To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, shawnguo@kernel.org,
+        robh+dt@kernel.org, p.zabel@pengutronix.de
+Cc:     paul.kocialkowski@bootlin.com, linux-media@vger.kernel.org,
+        linux-kernel@vger.kernel.org, linux-imx@nxp.com,
+        s.hauer@pengutronix.de, aisheng.dong@nxp.com,
+        daniel.baluta@nxp.com, robert.chiras@nxp.com,
+        laurentiu.palcu@nxp.com, mark.rutland@arm.com,
+        devicetree@vger.kernel.org, ezequiel@collabora.com,
+        laurent.pinchart+renesas@ideasonboard.com,
+        niklas.soderlund+renesas@ragnatech.se,
+        dafna.hirschfeld@collabora.com,
+        Mirela Rabulea <mirela.rabulea@nxp.com>
+Subject: [PATCH v6 0/9] Add V4L2 driver for i.MX8 JPEG Encoder/Decoder
+Date:   Tue, 15 Dec 2020 13:18:34 +0200
+Message-Id: <20201215111843.30269-1-mirela.rabulea@oss.nxp.com>
+X-Mailer: git-send-email 2.17.1
+Content-Type: text/plain
+X-Originating-IP: [79.115.51.151]
+X-ClientProxiedBy: VI1PR09CA0178.eurprd09.prod.outlook.com
+ (2603:10a6:800:120::32) To AM5PR04MB3137.eurprd04.prod.outlook.com
+ (2603:10a6:206:c::18)
 MIME-Version: 1.0
-In-Reply-To: <20201214125703.866998-1-acourbot@chromium.org>
-Content-Type: text/plain; charset=utf-8
-Content-Language: en-US
-Content-Transfer-Encoding: 7bit
+X-MS-Exchange-MessageSentRepresentingType: 1
+Received: from fsr-ub1664-134.ea.freescale.net (79.115.51.151) by VI1PR09CA0178.eurprd09.prod.outlook.com (2603:10a6:800:120::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend Transport; Tue, 15 Dec 2020 11:19:04 +0000
+X-MS-PublicTrafficType: Email
+X-MS-Office365-Filtering-HT: Tenant
+X-MS-Office365-Filtering-Correlation-Id: b7803bba-954d-4a3c-4512-08d8a0eb3c03
+X-MS-TrafficTypeDiagnostic: AM5PR0402MB2737:
+X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
+X-MS-Exchange-Transport-Forked: True
+X-Microsoft-Antispam-PRVS: <AM5PR0402MB27377B6E51AA21EE5703C848CEC60@AM5PR0402MB2737.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
+X-MS-Exchange-SenderADCheck: 1
+X-Microsoft-Antispam: BCL:0;
+X-Microsoft-Antispam-Message-Info: 4kzFmDMD7phdVZ0EICJNJWDwoZ/Dp0DPt+kYAkQWhfkiuN6g3GPXU1yRXAmNATTsO3miEruV7Jbx+Npw+tRDfsRpnJBddjzW7clfL3dtzg03k89+fB2Wb1AFOGdATrmCmx0AD2L+7IKAPcLbJHV01R1IMu1V2fBUAF0MmQ32dIWsyar70u6xPEiFEcSo1bVyUHK+bTHTFeMTaV2Mm+1IOqwYrZNmkkRQqnzj4NgSbF7T1YX5vdJbmCEhj9YgciJEi6kaTuNF0+YWy00xBVKSdTpM15P0cfr78w0NPfK+D+4Rsfttoef/e0T2xGDfgQ2lBRl+w5TBTY/FqSPby+l4Ww==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM5PR04MB3137.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6666004)(2616005)(16526019)(8936002)(52116002)(2906002)(1076003)(956004)(66946007)(6486002)(66556008)(66476007)(498600001)(6512007)(86362001)(8676002)(7416002)(83380400001)(4001150100001)(6506007)(186003)(4326008)(26005)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?euFB99BGSsZZvHohzop9I1AZx8uoKIHFwFlMpAeOxi23KOcqhO+VG1jkqQ8c?=
+ =?us-ascii?Q?CoS2VIb98scvHj32gHzP6t7LMhwnJGrbj6/F+NkgIZHXPVigJW5+H+zbWay7?=
+ =?us-ascii?Q?S2xpAIA4YPvpahNeFiAVoPUY1dD9O0KWB1jAYmEeVg01ctfOdOHPjKESVnK5?=
+ =?us-ascii?Q?/tbHdP2C+E7cIzHugo+IodVm+72o0+nORz+HRJRpoFDl2Vlq7mo1mGa+FYJy?=
+ =?us-ascii?Q?Uw1bvWEWcxhBcLHBfSyfRhe63J61qh2n/8L6rp9OrHfYp+o80qFo595FSKYw?=
+ =?us-ascii?Q?Ah7QV4XU2HbosxjYlimYW5ute4CYtMzCf09yWbSPwDYyiEd9res5GtUizQfi?=
+ =?us-ascii?Q?CGBzRuV1JsPzquRCKKWvYOHtsKI5ByRyUxHPgHoifgpVGxW60E1ods29QeNG?=
+ =?us-ascii?Q?uyd55c1Riio9Y5HjpMr7dJXC/AG3rHG576/bH6/h6PaBC+9rWqYLhVKZLV5x?=
+ =?us-ascii?Q?wVTNJGpWqyIsQq/EEPpiNF+aDKXqroNIHWU25mINId/qFPfJtiKn8KTPpr+x?=
+ =?us-ascii?Q?i8Kgys2UOpA9ipMJ7TJ5/Xjq7CnA3aZOitqKioekSVISXu6XhI+J/iloGbpm?=
+ =?us-ascii?Q?oIMB6AfVox7l3kSgl5sFMjYV7+4anUy7agV/WFMWAcHsVoS8t5R1Va2BXLQD?=
+ =?us-ascii?Q?PZd3+TEhD1IHuN+lOX1MUkqxcTsyQo0089KO/oICsj6iw9KHTbgsnTQfDtBa?=
+ =?us-ascii?Q?uJ3V2SsWQaQTgZC+8Q+gSYqozqnRfWB33W3KUGi2/pWPD9xVQz93u0k/Yfsy?=
+ =?us-ascii?Q?EVmjSczVp7/c3hjnfjm7E3jK3EEYyw8Ch0El15nIjG4kA8sEr3kmOKCwwgId?=
+ =?us-ascii?Q?uBSJTFqTWec92y7YNLM2PcvIwsU1le6O/p5yqGxhhQt47OES4J/nVNRIRLC4?=
+ =?us-ascii?Q?2ERdXznz+gntetIluEYhKc0bpaEUaZtda3MrgQ128JYB28Aq0ejnhg5DX7fF?=
+ =?us-ascii?Q?YsyAR5q2i0RnSfNcgm28WX9E4fB7xhBlghyqE6tdlZGQ/fBj4pmFLEdjT30h?=
+ =?us-ascii?Q?ARzT?=
+X-OriginatorOrg: oss.nxp.com
+X-MS-Exchange-CrossTenant-AuthSource: AM5PR04MB3137.eurprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Internal
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2020 11:19:05.6541
+ (UTC)
+X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
+X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
+X-MS-Exchange-CrossTenant-Network-Message-Id: b7803bba-954d-4a3c-4512-08d8a0eb3c03
+X-MS-Exchange-CrossTenant-MailboxType: HOSTED
+X-MS-Exchange-CrossTenant-UserPrincipalName: P5ngPHkUVlIi9+OGMbZd+mgnsa5Bo5pWxPOBwERJUpfXgPCLmrekEKJdjOXraXtGV/DgkFbio83NSi+5iqhUFg==
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0402MB2737
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-Hi,
+From: Mirela Rabulea <mirela.rabulea@nxp.com>
 
-Cc: Robin
+This patch set adds the V4L2 driver for i.MX8QXP/QM JPEG encoder/decoder
+and it's dependencies.
+The driver was tested on i.MX8QXP, using a unit test application and
+the v4l2-compliance tool, including the  streaming tests for decoder & encoder.
 
-On 12/14/20 2:57 PM, Alexandre Courbot wrote:
-> This driver uses the SG vb2 ops, but effectively only ever accesses the
-> first entry of the SG table, indicating that it expects a flat layout.
-> Switch it to use the contiguous ops to make sure this expected invariant
+The output of latest v4l2-compliance on i.MX8QXP, decoder & encoder:
 
-Under what circumstances the sg table will has nents > 1? I came down to
-[1] but not sure I got it right.
+root@imx8qxpmek:/unit_tests/JPEG# ./v4l2-compliance-master -d /dev/video0 -s
+v4l2-compliance 1.21.0-4686, 64 bits, 64-bit time_t
+v4l2-compliance SHA: e0e4114f9714 2020-12-10 13:23:07
 
-I'm afraid that for systems with low amount of system memory and when
-the memory become fragmented, the driver will not work. That's why I
-started with sg allocator.
+Compliance test for mxc-jpeg decode device /dev/video0:
 
-[1]
-https://elixir.bootlin.com/linux/v5.10.1/source/drivers/iommu/dma-iommu.c#L782
+Driver Info:
+	Driver name      : mxc-jpeg decode
+	Card type        : mxc-jpeg decoder
+	Bus info         : platform:58400000.jpegdec
+	Driver version   : 5.10.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+	Detected JPEG Decoder
 
-> is always enforced. Since the device is supposed to be behind an IOMMU
-> this should have little to none practical consequences beyond making the
-> driver not rely on a particular behavior of the SG implementation.
-> 
-> Reported-by: Tomasz Figa <tfiga@chromium.org>
-> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
-> ---
-> Hi everyone,
-> 
-> It probably doesn't hurt to fix this issue before some actual issue happens.
-> I have tested this patch on Chrome OS and playback was just as fine as with
-> the SG ops.
-> 
->  drivers/media/platform/Kconfig              | 2 +-
->  drivers/media/platform/qcom/venus/helpers.c | 9 ++-------
->  drivers/media/platform/qcom/venus/vdec.c    | 6 +++---
->  drivers/media/platform/qcom/venus/venc.c    | 6 +++---
->  4 files changed, 9 insertions(+), 14 deletions(-)
-> 
-> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
-> index 35a18d388f3f..d9d7954111f2 100644
-> --- a/drivers/media/platform/Kconfig
-> +++ b/drivers/media/platform/Kconfig
-> @@ -533,7 +533,7 @@ config VIDEO_QCOM_VENUS
->  	depends on INTERCONNECT || !INTERCONNECT
->  	select QCOM_MDT_LOADER if ARCH_QCOM
->  	select QCOM_SCM if ARCH_QCOM
-> -	select VIDEOBUF2_DMA_SG
-> +	select VIDEOBUF2_DMA_CONTIG
->  	select V4L2_MEM2MEM_DEV
->  	help
->  	  This is a V4L2 driver for Qualcomm Venus video accelerator
-> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
-> index 50439eb1ffea..859d260f002b 100644
-> --- a/drivers/media/platform/qcom/venus/helpers.c
-> +++ b/drivers/media/platform/qcom/venus/helpers.c
-> @@ -7,7 +7,7 @@
->  #include <linux/mutex.h>
->  #include <linux/slab.h>
->  #include <linux/kernel.h>
-> -#include <media/videobuf2-dma-sg.h>
-> +#include <media/videobuf2-dma-contig.h>
->  #include <media/v4l2-mem2mem.h>
->  #include <asm/div64.h>
->  
-> @@ -1284,14 +1284,9 @@ int venus_helper_vb2_buf_init(struct vb2_buffer *vb)
->  	struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
->  	struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->  	struct venus_buffer *buf = to_venus_buffer(vbuf);
-> -	struct sg_table *sgt;
-> -
-> -	sgt = vb2_dma_sg_plane_desc(vb, 0);
-> -	if (!sgt)
-> -		return -EFAULT;
->  
->  	buf->size = vb2_plane_size(vb, 0);
-> -	buf->dma_addr = sg_dma_address(sgt->sgl);
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
 
-Can we do it:
+Allow for multiple opens:
+	test second /dev/video0 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
 
-	if (WARN_ON(sgt->nents > 1))
-		return -EFAULT;
+	test invalid ioctls: OK
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
 
-I understand that logically using dma-sg when the flat layout is
-expected by the hardware is wrong, but I haven't seen issues until now.
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
 
-> +	buf->dma_addr = vb2_dma_contig_plane_dma_addr(vb, 0);
->  
->  	if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
->  		list_add_tail(&buf->reg_list, &inst->registeredbufs);
-> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
-> index 8488411204c3..3fb277c81aca 100644
-> --- a/drivers/media/platform/qcom/venus/vdec.c
-> +++ b/drivers/media/platform/qcom/venus/vdec.c
-> @@ -13,7 +13,7 @@
->  #include <media/v4l2-event.h>
->  #include <media/v4l2-ctrls.h>
->  #include <media/v4l2-mem2mem.h>
-> -#include <media/videobuf2-dma-sg.h>
-> +#include <media/videobuf2-dma-contig.h>
->  
->  #include "hfi_venus_io.h"
->  #include "hfi_parser.h"
-> @@ -1461,7 +1461,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
->  	src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->  	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->  	src_vq->ops = &vdec_vb2_ops;
-> -	src_vq->mem_ops = &vb2_dma_sg_memops;
-> +	src_vq->mem_ops = &vb2_dma_contig_memops;
->  	src_vq->drv_priv = inst;
->  	src_vq->buf_struct_size = sizeof(struct venus_buffer);
->  	src_vq->allow_zero_bytesused = 1;
-> @@ -1475,7 +1475,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
->  	dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->  	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->  	dst_vq->ops = &vdec_vb2_ops;
-> -	dst_vq->mem_ops = &vb2_dma_sg_memops;
-> +	dst_vq->mem_ops = &vb2_dma_contig_memops;
->  	dst_vq->drv_priv = inst;
->  	dst_vq->buf_struct_size = sizeof(struct venus_buffer);
->  	dst_vq->allow_zero_bytesused = 1;
-> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
-> index 1c61602c5de1..a09550cd1dba 100644
-> --- a/drivers/media/platform/qcom/venus/venc.c
-> +++ b/drivers/media/platform/qcom/venus/venc.c
-> @@ -10,7 +10,7 @@
->  #include <linux/pm_runtime.h>
->  #include <linux/slab.h>
->  #include <media/v4l2-mem2mem.h>
-> -#include <media/videobuf2-dma-sg.h>
-> +#include <media/videobuf2-dma-contig.h>
->  #include <media/v4l2-ioctl.h>
->  #include <media/v4l2-event.h>
->  #include <media/v4l2-ctrls.h>
-> @@ -1001,7 +1001,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
->  	src_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
->  	src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->  	src_vq->ops = &venc_vb2_ops;
-> -	src_vq->mem_ops = &vb2_dma_sg_memops;
-> +	src_vq->mem_ops = &vb2_dma_contig_memops;
->  	src_vq->drv_priv = inst;
->  	src_vq->buf_struct_size = sizeof(struct venus_buffer);
->  	src_vq->allow_zero_bytesused = 1;
-> @@ -1017,7 +1017,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
->  	dst_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
->  	dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->  	dst_vq->ops = &venc_vb2_ops;
-> -	dst_vq->mem_ops = &vb2_dma_sg_memops;
-> +	dst_vq->mem_ops = &vb2_dma_contig_memops;
->  	dst_vq->drv_priv = inst;
->  	dst_vq->buf_struct_size = sizeof(struct venus_buffer);
->  	dst_vq->allow_zero_bytesused = 1;
-> 
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	Video Capture Multiplanar: Captured 58 buffers    
+	test MMAP (no poll): OK
+	Video Capture Multiplanar: Captured 58 buffers    
+	test MMAP (select): OK
+	Video Capture Multiplanar: Captured 58 buffers    
+	test MMAP (epoll): OK
+	test USERPTR (no poll): OK (Not Supported)
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for mxc-jpeg decode device /dev/video0: 52, Succeeded: 52, Failed: 0, Warnings: 0
+
+root@imx8qxpmek:/unit_tests/JPEG# ./v4l2-compliance-master -d /dev/video1 -s
+v4l2-compliance 1.21.0-4686, 64 bits, 64-bit time_t
+v4l2-compliance SHA: e0e4114f9714 2020-12-10 13:23:07
+
+Compliance test for mxc-jpeg decode device /dev/video1:
+
+Driver Info:
+	Driver name      : mxc-jpeg decode
+	Card type        : mxc-jpeg decoder
+	Bus info         : platform:58450000.jpegenc
+	Driver version   : 5.10.0
+	Capabilities     : 0x84204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+		Device Capabilities
+	Device Caps      : 0x04204000
+		Video Memory-to-Memory Multiplanar
+		Streaming
+		Extended Pix Format
+	Detected JPEG Encoder
+
+Required ioctls:
+	test VIDIOC_QUERYCAP: OK
+
+Allow for multiple opens:
+	test second /dev/video1 open: OK
+	test VIDIOC_QUERYCAP: OK
+	test VIDIOC_G/S_PRIORITY: OK
+	test for unlimited opens: OK
+
+	test invalid ioctls: OK
+Debug ioctls:
+	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
+	test VIDIOC_LOG_STATUS: OK (Not Supported)
+
+Input ioctls:
+	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
+	test VIDIOC_ENUMAUDIO: OK (Not Supported)
+	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDIO: OK (Not Supported)
+	Inputs: 0 Audio Inputs: 0 Tuners: 0
+
+Output ioctls:
+	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
+	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
+	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
+	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
+	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
+	Outputs: 0 Audio Outputs: 0 Modulators: 0
+
+Input/Output configuration ioctls:
+	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
+	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
+	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
+	test VIDIOC_G/S_EDID: OK (Not Supported)
+
+Control ioctls:
+	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
+	test VIDIOC_QUERYCTRL: OK (Not Supported)
+	test VIDIOC_G/S_CTRL: OK (Not Supported)
+	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
+	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
+	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
+	Standard Controls: 0 Private Controls: 0
+
+Format ioctls:
+	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
+	test VIDIOC_G/S_PARM: OK (Not Supported)
+	test VIDIOC_G_FBUF: OK (Not Supported)
+	test VIDIOC_G_FMT: OK
+	test VIDIOC_TRY_FMT: OK
+	test VIDIOC_S_FMT: OK
+	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
+	test Cropping: OK (Not Supported)
+	test Composing: OK (Not Supported)
+	test Scaling: OK (Not Supported)
+
+Codec ioctls:
+	test VIDIOC_(TRY_)ENCODER_CMD: OK
+	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
+	test VIDIOC_(TRY_)DECODER_CMD: OK
+
+Buffer ioctls:
+	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
+	test VIDIOC_EXPBUF: OK
+	test Requests: OK (Not Supported)
+
+Test input 0:
+
+Streaming ioctls:
+	test read/write: OK (Not Supported)
+	test blocking wait: OK
+	Video Capture Multiplanar: Captured 58 buffers    
+	test MMAP (no poll): OK
+	Video Capture Multiplanar: Captured 58 buffers    
+	test MMAP (select): OK
+	Video Capture Multiplanar: Captured 58 buffers    
+	test MMAP (epoll): OK
+	test USERPTR (no poll): OK (Not Supported)
+	test USERPTR (select): OK (Not Supported)
+	test DMABUF: Cannot test, specify --expbuf-device
+
+Total for mxc-jpeg decode device /dev/video1: 52, Succeeded: 52, Failed: 0, Warnings: 0
+
+Mirela Rabulea (9):
+  media: v4l: Add packed YUV444 24bpp pixel format
+  media: dt-bindings: Add bindings for i.MX8QXP/QM JPEG driver
+  media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG Encoder/Decoder
+  arm64: dts: imx8qxp: Add jpeg encoder/decoder nodes
+  Add maintainer for IMX jpeg v4l2 driver
+  media: Add parsing for APP14 data segment in jpeg helpers
+  media: Quit parsing stream if doesn't start with SOI
+  media: Avoid parsing quantization and huffman tables
+  media: imx-jpeg: Use v4l2 jpeg helpers in mxc-jpeg
+
+ .../bindings/media/nxp,imx8-jpeg.yaml         |   84 +
+ .../media/v4l/pixfmt-packed-yuv.rst           |   10 +
+ MAINTAINERS                                   |    8 +
+ arch/arm64/boot/dts/freescale/imx8qxp.dtsi    |   35 +
+ drivers/media/platform/Kconfig                |    2 +
+ drivers/media/platform/Makefile               |    1 +
+ drivers/media/platform/imx-jpeg/Kconfig       |   11 +
+ drivers/media/platform/imx-jpeg/Makefile      |    3 +
+ drivers/media/platform/imx-jpeg/mxc-jpeg-hw.c |  168 ++
+ drivers/media/platform/imx-jpeg/mxc-jpeg-hw.h |  140 ++
+ drivers/media/platform/imx-jpeg/mxc-jpeg.c    | 2193 +++++++++++++++++
+ drivers/media/platform/imx-jpeg/mxc-jpeg.h    |  180 ++
+ drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
+ drivers/media/v4l2-core/v4l2-jpeg.c           |   58 +-
+ include/media/v4l2-jpeg.h                     |   18 +
+ include/uapi/linux/videodev2.h                |    1 +
+ 16 files changed, 2906 insertions(+), 7 deletions(-)
+ create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
+ create mode 100644 drivers/media/platform/imx-jpeg/Kconfig
+ create mode 100644 drivers/media/platform/imx-jpeg/Makefile
+ create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg-hw.c
+ create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg-hw.h
+ create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg.c
+ create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg.h
 
 -- 
-regards,
-Stan
+2.17.1
+
