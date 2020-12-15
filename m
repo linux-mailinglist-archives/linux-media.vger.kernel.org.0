@@ -2,236 +2,120 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id A56612DAE0B
-	for <lists+linux-media@lfdr.de>; Tue, 15 Dec 2020 14:34:42 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id B26FC2DAE4A
+	for <lists+linux-media@lfdr.de>; Tue, 15 Dec 2020 14:50:37 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727348AbgLONdI (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Dec 2020 08:33:08 -0500
-Received: from foss.arm.com ([217.140.110.172]:41240 "EHLO foss.arm.com"
+        id S1727997AbgLONuT (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Dec 2020 08:50:19 -0500
+Received: from mail.kernel.org ([198.145.29.99]:58998 "EHLO mail.kernel.org"
         rhost-flags-OK-OK-OK-OK) by vger.kernel.org with ESMTP
-        id S1726266AbgLONdI (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Dec 2020 08:33:08 -0500
-Received: from usa-sjc-imap-foss1.foss.arm.com (unknown [10.121.207.14])
-        by usa-sjc-mx-foss1.foss.arm.com (Postfix) with ESMTP id 05BE730E;
-        Tue, 15 Dec 2020 05:32:22 -0800 (PST)
-Received: from [10.57.34.90] (unknown [10.57.34.90])
-        by usa-sjc-imap-foss1.foss.arm.com (Postfix) with ESMTPSA id B7AF73F66B;
-        Tue, 15 Dec 2020 05:32:20 -0800 (PST)
-Subject: Re: [PATCH] media: venus: use contig vb2 ops
-To:     Tomasz Figa <tfiga@chromium.org>,
-        Stanimir Varbanov <stanimir.varbanov@linaro.org>
-Cc:     Alexandre Courbot <acourbot@chromium.org>,
-        Fritz Koenig <frkoenig@chromium.org>,
-        Linux Media Mailing List <linux-media@vger.kernel.org>,
-        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
-        linux-arm-msm <linux-arm-msm@vger.kernel.org>
-References: <20201214125703.866998-1-acourbot@chromium.org>
- <5319c101-f4a4-9c99-b15d-4999366f7a63@linaro.org>
- <CAAFQd5AQ8VHiRYkzkd5ZJBPT5_5WO0tyQrwqBEfnMVKYiTugTA@mail.gmail.com>
-From:   Robin Murphy <robin.murphy@arm.com>
-Message-ID: <a5ff886b-34fc-7616-3f86-6aed3f5b7677@arm.com>
-Date:   Tue, 15 Dec 2020 13:32:16 +0000
-User-Agent: Mozilla/5.0 (Windows NT 10.0; rv:78.0) Gecko/20100101
- Thunderbird/78.5.1
+        id S1726844AbgLONuN (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Dec 2020 08:50:13 -0500
+X-Gm-Message-State: AOAM530/lLb4vZRsy2dfnBxZoELggSFnMR20RXD79GLrHmjGs0GxUhKb
+        0yrYa/K1Wxxuyqux384jkXfin7V9nxjmEYxS5Q==
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/simple; d=kernel.org;
+        s=k20201202; t=1608040171;
+        bh=1IMbW6DcnKL8W48aPBvi3J2CKA3F7ooAmZekZr9m+L0=;
+        h=References:In-Reply-To:From:Date:Subject:To:Cc:From;
+        b=HTlC43YJ+fLFivFeqZJrNSvXJmIwUuO2fDRjtyPCJ7F+4WTLxZxKq9aBQrwKiTcc3
+         NuRf3//DqITqA9N/Dcp1Z5lr04c8E860zj0NyMXmaicXuFXS27x6fqvFyQKc1GOru3
+         2SXE4QzUrrj9cBmjoXKcph0b4L9xCCOGdjpo+mDXm6SqABTnxhZ7f5RqzuWxVcnagj
+         sBLadlh0rhr+AAwfDKWmlxp+ySzujgV/bGGlAY5d/JpOvvnu1GyjcwDSvx6XUKrvlW
+         7cCni0zV9BU2tqKf9cjeV8Rd9E3HQuZbnLMDFuwnlGGQs+9ZiuZmhWYvG7PWiRHxEP
+         aXPaULd7uU9Fw==
+X-Google-Smtp-Source: ABdhPJxeSn5V2lNIzJOznNBcsMQo5d0IxoNQaeQ4VnHLUv/oXb7MgUGmNleynG5tLxUE24Cj719pHTH+rRKYuDU0dKQ=
+X-Received: by 2002:a05:6214:c23:: with SMTP id a3mr37646233qvd.4.1608040170394;
+ Tue, 15 Dec 2020 05:49:30 -0800 (PST)
 MIME-Version: 1.0
-In-Reply-To: <CAAFQd5AQ8VHiRYkzkd5ZJBPT5_5WO0tyQrwqBEfnMVKYiTugTA@mail.gmail.com>
-Content-Type: text/plain; charset=utf-8; format=flowed
-Content-Language: en-GB
-Content-Transfer-Encoding: 7bit
+References: <20201116135305.81319-1-jacopo+renesas@jmondi.org>
+ <20201116135305.81319-3-jacopo+renesas@jmondi.org> <20201130220048.GA3104550@robh.at.kernel.org>
+ <20201215111420.zpc67jkary3l5j4z@uno.localdomain> <CAMuHMdX1bzRqZEvXod3QNx+SNybP85wpQ66=bxyQJ4kAoo6X1g@mail.gmail.com>
+ <20201215120809.l4qrwdfoq5jpsfi5@uno.localdomain>
+In-Reply-To: <20201215120809.l4qrwdfoq5jpsfi5@uno.localdomain>
+From:   Rob Herring <robh@kernel.org>
+Date:   Tue, 15 Dec 2020 07:49:18 -0600
+X-Gmail-Original-Message-ID: <CAL_Jsq+u4tqxdWGvSFu+SiuM3dA1g0tpWZHnnz0zSjoMnhPWXA@mail.gmail.com>
+Message-ID: <CAL_Jsq+u4tqxdWGvSFu+SiuM3dA1g0tpWZHnnz0zSjoMnhPWXA@mail.gmail.com>
+Subject: Re: [PATCH v5 2/8] dt-bindings: media: max9286: Document 'maxim,initial-reverse-channel-mV'
+To:     Jacopo Mondi <jacopo@jmondi.org>
+Cc:     Geert Uytterhoeven <geert@linux-m68k.org>,
+        Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>,
+        Laurent Pinchart <laurent.pinchart+renesas@ideasonboard.com>,
+        =?UTF-8?Q?Niklas_S=C3=B6derlund?= 
+        <niklas.soderlund+renesas@ragnatech.se>,
+        "open list:OPEN FIRMWARE AND FLATTENED DEVICE TREE BINDINGS" 
+        <devicetree@vger.kernel.org>,
+        Linux Media Mailing List <linux-media@vger.kernel.org>,
+        Linux-Renesas <linux-renesas-soc@vger.kernel.org>,
+        Linux Kernel Mailing List <linux-kernel@vger.kernel.org>,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        Sergei Shtylyov <sergei.shtylyov@gmail.com>
+Content-Type: text/plain; charset="UTF-8"
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 2020-12-15 11:47, Tomasz Figa wrote:
-> On Tue, Dec 15, 2020 at 8:16 PM Stanimir Varbanov
-> <stanimir.varbanov@linaro.org> wrote:
->>
->> Hi,
->>
->> Cc: Robin
->>
->> On 12/14/20 2:57 PM, Alexandre Courbot wrote:
->>> This driver uses the SG vb2 ops, but effectively only ever accesses the
->>> first entry of the SG table, indicating that it expects a flat layout.
->>> Switch it to use the contiguous ops to make sure this expected invariant
->>
->> Under what circumstances the sg table will has nents > 1? I came down to
->> [1] but not sure I got it right.
->>
->> I'm afraid that for systems with low amount of system memory and when
->> the memory become fragmented, the driver will not work. That's why I
->> started with sg allocator.
-> 
-> It is exactly the opposite. The vb2-dma-contig allocator is "contig"
-> in terms of the DMA (aka IOVA) address space. In other words, it
-> guarantees that having one DMA address and length fully describes the
-> buffer. This seems to be the requirement of the hardware/firmware
-> handled by the venus driver. If the device is behind an IOMMU, which
-> is the case for the SoCs in question, the underlying DMA ops will
-> actually allocate a discontiguous set of pages, so it has nothing to
-> do to system memory amount or fragmentation. If for some reason the
-> IOMMU can't be used, there is no way around, the memory needs to be
-> contiguous because of the hardware/firmware/driver expectation.
-> 
-> On the other hand, the vb2-dma-sg allocator doesn't have any
-> continuity guarantees for the DMA, or any other, address space.
+On Tue, Dec 15, 2020 at 6:08 AM Jacopo Mondi <jacopo@jmondi.org> wrote:
+>
+> Hi Geert,
+>
+> On Tue, Dec 15, 2020 at 12:44:17PM +0100, Geert Uytterhoeven wrote:
+> > Hi Jacopo,
+> >
+> > On Tue, Dec 15, 2020 at 12:14 PM Jacopo Mondi <jacopo@jmondi.org> wrote:
+> > > On Mon, Nov 30, 2020 at 03:00:48PM -0700, Rob Herring wrote:
+> > > > On Mon, Nov 16, 2020 at 02:52:59PM +0100, Jacopo Mondi wrote:
+> > > > > Document the 'initial-reverse-channel-mV' vendor property in the
+> > > > > bindings document of the max9286 driver.
+> > > > >
+> > > > > The newly introduced property allows to specifying the initial
+> > > > > configuration of the GMSL reverse control channel to accommodate
+> > > > > remote serializers pre-programmed with the high threshold power
+> > > > > supply noise immunity enabled.
+> > > > >
+> > > > > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > > > > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > > > > ---
+> > > > >  .../bindings/media/i2c/maxim,max9286.yaml     | 23 +++++++++++++++++++
+> > > > >  1 file changed, 23 insertions(+)
+> > > > >
+> > > > > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > > > > index 9ea827092fdd..f61234d204fa 100644
+> > > > > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > > > > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > > > > @@ -51,6 +51,26 @@ properties:
+> > > > >    '#gpio-cells':
+> > > > >      const: 2
+> > > > >
+> > > > > +  maxim,initial-reverse-channel-mV:
+> > > >
+> > > > Use standard unit suffix.
+> > > >
+> > >
+> > > Which one ? :)
+> >
+> > Documentation/devicetree/bindings/property-units.txt
+> >
+>
+> Oh, I had no idea we have this.
+> It's been here since a long time it seems, my bad
+>         Date:   Mon Feb 8 10:55:55 2016
+>
+> > > I see in v5.10 one 'mV', three 'mv', one 'millivolts', several
+> > > 'microvolts'.
+> > >
+> > > I'll go with the majority and make this
+> > > 'maxim,initial-reverse-channel-mv'
+> >
+> > Wrong guess ;-)
+> >
+>
+> Maybe a stupid question, but the fact only 'microvolts' is listed, is
+> an implied suggestion to use 'millivolts' for simmetry or to express
+> the value in micro volts ?
 
-Yes, intuitively one would assume that the sg code was for devices with 
-native scatter-gather capability that can deal with an actual set of 
-buffer descriptors, rather than just a single pointer (which is the 
-original purpose of scatterlists, after all). I've always been slightly 
-puzzled why the two seem to be quite so similar.
+Use microvolts. Not having every possible unit is on purpose.
 
-> The
-> current code works fine, because it calls dma_map_sg() on the whole
-> set of pages and that ends up mapping it contiguously in the IOVA
-> space, but that's just an implementation detail, not an API guarantee.
-
-Oh, the fun we've had over that implementation detail! :P
-
-Robin.
-
-> Best regards,
-> Tomasz
-> 
->>
->> [1]
->> https://elixir.bootlin.com/linux/v5.10.1/source/drivers/iommu/dma-iommu.c#L782
->>
->>> is always enforced. Since the device is supposed to be behind an IOMMU
->>> this should have little to none practical consequences beyond making the
->>> driver not rely on a particular behavior of the SG implementation.
->>>
->>> Reported-by: Tomasz Figa <tfiga@chromium.org>
->>> Signed-off-by: Alexandre Courbot <acourbot@chromium.org>
->>> ---
->>> Hi everyone,
->>>
->>> It probably doesn't hurt to fix this issue before some actual issue happens.
->>> I have tested this patch on Chrome OS and playback was just as fine as with
->>> the SG ops.
->>>
->>>   drivers/media/platform/Kconfig              | 2 +-
->>>   drivers/media/platform/qcom/venus/helpers.c | 9 ++-------
->>>   drivers/media/platform/qcom/venus/vdec.c    | 6 +++---
->>>   drivers/media/platform/qcom/venus/venc.c    | 6 +++---
->>>   4 files changed, 9 insertions(+), 14 deletions(-)
->>>
->>> diff --git a/drivers/media/platform/Kconfig b/drivers/media/platform/Kconfig
->>> index 35a18d388f3f..d9d7954111f2 100644
->>> --- a/drivers/media/platform/Kconfig
->>> +++ b/drivers/media/platform/Kconfig
->>> @@ -533,7 +533,7 @@ config VIDEO_QCOM_VENUS
->>>        depends on INTERCONNECT || !INTERCONNECT
->>>        select QCOM_MDT_LOADER if ARCH_QCOM
->>>        select QCOM_SCM if ARCH_QCOM
->>> -     select VIDEOBUF2_DMA_SG
->>> +     select VIDEOBUF2_DMA_CONTIG
->>>        select V4L2_MEM2MEM_DEV
->>>        help
->>>          This is a V4L2 driver for Qualcomm Venus video accelerator
->>> diff --git a/drivers/media/platform/qcom/venus/helpers.c b/drivers/media/platform/qcom/venus/helpers.c
->>> index 50439eb1ffea..859d260f002b 100644
->>> --- a/drivers/media/platform/qcom/venus/helpers.c
->>> +++ b/drivers/media/platform/qcom/venus/helpers.c
->>> @@ -7,7 +7,7 @@
->>>   #include <linux/mutex.h>
->>>   #include <linux/slab.h>
->>>   #include <linux/kernel.h>
->>> -#include <media/videobuf2-dma-sg.h>
->>> +#include <media/videobuf2-dma-contig.h>
->>>   #include <media/v4l2-mem2mem.h>
->>>   #include <asm/div64.h>
->>>
->>> @@ -1284,14 +1284,9 @@ int venus_helper_vb2_buf_init(struct vb2_buffer *vb)
->>>        struct venus_inst *inst = vb2_get_drv_priv(vb->vb2_queue);
->>>        struct vb2_v4l2_buffer *vbuf = to_vb2_v4l2_buffer(vb);
->>>        struct venus_buffer *buf = to_venus_buffer(vbuf);
->>> -     struct sg_table *sgt;
->>> -
->>> -     sgt = vb2_dma_sg_plane_desc(vb, 0);
->>> -     if (!sgt)
->>> -             return -EFAULT;
->>>
->>>        buf->size = vb2_plane_size(vb, 0);
->>> -     buf->dma_addr = sg_dma_address(sgt->sgl);
->>
->> Can we do it:
->>
->>          if (WARN_ON(sgt->nents > 1))
->>                  return -EFAULT;
->>
->> I understand that logically using dma-sg when the flat layout is
->> expected by the hardware is wrong, but I haven't seen issues until now.
->>
->>> +     buf->dma_addr = vb2_dma_contig_plane_dma_addr(vb, 0);
->>>
->>>        if (vb->type == V4L2_BUF_TYPE_VIDEO_CAPTURE_MPLANE)
->>>                list_add_tail(&buf->reg_list, &inst->registeredbufs);
->>> diff --git a/drivers/media/platform/qcom/venus/vdec.c b/drivers/media/platform/qcom/venus/vdec.c
->>> index 8488411204c3..3fb277c81aca 100644
->>> --- a/drivers/media/platform/qcom/venus/vdec.c
->>> +++ b/drivers/media/platform/qcom/venus/vdec.c
->>> @@ -13,7 +13,7 @@
->>>   #include <media/v4l2-event.h>
->>>   #include <media/v4l2-ctrls.h>
->>>   #include <media/v4l2-mem2mem.h>
->>> -#include <media/videobuf2-dma-sg.h>
->>> +#include <media/videobuf2-dma-contig.h>
->>>
->>>   #include "hfi_venus_io.h"
->>>   #include "hfi_parser.h"
->>> @@ -1461,7 +1461,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
->>>        src_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->>>        src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->>>        src_vq->ops = &vdec_vb2_ops;
->>> -     src_vq->mem_ops = &vb2_dma_sg_memops;
->>> +     src_vq->mem_ops = &vb2_dma_contig_memops;
->>>        src_vq->drv_priv = inst;
->>>        src_vq->buf_struct_size = sizeof(struct venus_buffer);
->>>        src_vq->allow_zero_bytesused = 1;
->>> @@ -1475,7 +1475,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
->>>        dst_vq->io_modes = VB2_MMAP | VB2_DMABUF;
->>>        dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->>>        dst_vq->ops = &vdec_vb2_ops;
->>> -     dst_vq->mem_ops = &vb2_dma_sg_memops;
->>> +     dst_vq->mem_ops = &vb2_dma_contig_memops;
->>>        dst_vq->drv_priv = inst;
->>>        dst_vq->buf_struct_size = sizeof(struct venus_buffer);
->>>        dst_vq->allow_zero_bytesused = 1;
->>> diff --git a/drivers/media/platform/qcom/venus/venc.c b/drivers/media/platform/qcom/venus/venc.c
->>> index 1c61602c5de1..a09550cd1dba 100644
->>> --- a/drivers/media/platform/qcom/venus/venc.c
->>> +++ b/drivers/media/platform/qcom/venus/venc.c
->>> @@ -10,7 +10,7 @@
->>>   #include <linux/pm_runtime.h>
->>>   #include <linux/slab.h>
->>>   #include <media/v4l2-mem2mem.h>
->>> -#include <media/videobuf2-dma-sg.h>
->>> +#include <media/videobuf2-dma-contig.h>
->>>   #include <media/v4l2-ioctl.h>
->>>   #include <media/v4l2-event.h>
->>>   #include <media/v4l2-ctrls.h>
->>> @@ -1001,7 +1001,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
->>>        src_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
->>>        src_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->>>        src_vq->ops = &venc_vb2_ops;
->>> -     src_vq->mem_ops = &vb2_dma_sg_memops;
->>> +     src_vq->mem_ops = &vb2_dma_contig_memops;
->>>        src_vq->drv_priv = inst;
->>>        src_vq->buf_struct_size = sizeof(struct venus_buffer);
->>>        src_vq->allow_zero_bytesused = 1;
->>> @@ -1017,7 +1017,7 @@ static int m2m_queue_init(void *priv, struct vb2_queue *src_vq,
->>>        dst_vq->io_modes = VB2_MMAP | VB2_USERPTR | VB2_DMABUF;
->>>        dst_vq->timestamp_flags = V4L2_BUF_FLAG_TIMESTAMP_COPY;
->>>        dst_vq->ops = &venc_vb2_ops;
->>> -     dst_vq->mem_ops = &vb2_dma_sg_memops;
->>> +     dst_vq->mem_ops = &vb2_dma_contig_memops;
->>>        dst_vq->drv_priv = inst;
->>>        dst_vq->buf_struct_size = sizeof(struct venus_buffer);
->>>        dst_vq->allow_zero_bytesused = 1;
->>>
->>
->> --
->> regards,
->> Stan
+Rob
