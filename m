@@ -2,42 +2,42 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 827CC2DABCE
-	for <lists+linux-media@lfdr.de>; Tue, 15 Dec 2020 12:24:07 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id BFDD62DABF0
+	for <lists+linux-media@lfdr.de>; Tue, 15 Dec 2020 12:28:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1728712AbgLOLUF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Dec 2020 06:20:05 -0500
-Received: from mail-eopbgr130055.outbound.protection.outlook.com ([40.107.13.55]:20100
+        id S1728747AbgLOLUb (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Dec 2020 06:20:31 -0500
+Received: from mail-eopbgr130083.outbound.protection.outlook.com ([40.107.13.83]:62016
         "EHLO EUR01-HE1-obe.outbound.protection.outlook.com"
         rhost-flags-OK-OK-OK-FAIL) by vger.kernel.org with ESMTP
-        id S1725535AbgLOLUA (ORCPT <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Dec 2020 06:20:00 -0500
+        id S1725535AbgLOLUX (ORCPT <rfc822;linux-media@vger.kernel.org>);
+        Tue, 15 Dec 2020 06:20:23 -0500
 ARC-Seal: i=1; a=rsa-sha256; s=arcselector9901; d=microsoft.com; cv=none;
- b=B+qYrSbYxkAP9hHDKQJPvFUiWcL1scTL+kR8zUPJYtGsOPtLXuffUbX/eLkRnt2C/kAIzGKr6YyR0/L6SppnkGvXSf0mjxiCuiP8bIlW1ibdnosWbJurcYJ5vWmSFDoV8WxL83o43/WU6iBHWxmIzku5+KmYOIZnZIgS1OAGL+5SfoAe6xzsod0Aogy6phaezzec7pgAkP72Tik4V19f9giWPpn3tJwG7Kj1nAhIQ1qzffn7LPl6gAHblGP6VAacXa011ez8GNL3NpIfh2USFy8Er2ghbrV5UhyttgnuK6ywBBJRhQdr9RJ6281hZdSk6ogVftANTBLOsNYsUc4zpA==
+ b=njh0hlS8SarXhbMTKEk5+TLSaIMLqc2fxHKSZh+pkcgeXsVZDEQ+nWvqmbFy8rW3gnPMGjPwEbwaz2P8aaR93giSoX7S9XZkxoAOB+tYfreWavAPE8ddTpI7SlbwlIyGRPIqYexhgq6geVm8syVcXLp2G8dVaVVR/+r6QUAWL+YOU+StOBEIjFVuuMevRfQ+1W49AyxXuo659ZBhH4oY5D+3xcPBQRiC54aDgZMcnA9Q4TucabS+NdsmZkeI4RdD3mjjqYXWqIn2O0YiOdomme9Sr4BL/qx/SCj1Gj4SdauSLGrdbTfSrxS1ExPLRT2p1eN5OOQibikwZYvF4FPzNw==
 ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
  s=arcselector9901;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=00uPYq4FtUPWwBUcD/h17YgM3cTVg4TaN5h8Wl7vukc=;
- b=UUI4nVbRnVtXq9TyUrqXds81WBiFbNKkpP/8NlaJNcRjhxKgYXZe9NewwtBM8q1eRX/GVrRqlfAqvBp5GAhEvQzZvugE4PDN2T3GpLv64J33hVzZLvCFSmbUuCZStHL2aJ3q64nzQSB5A45A6Qfz3loFJNUEa0qi4i7uRSPYAZf2ydTPv9/N+euRpJQKYmA3f8BcgMDiaVUCqgcRIa14bXkeA4E43wWV5LMUtw+oDO2aesFFSPBiS8az5jRLuCy7U4iRQT8KuD1ZmJde1tNlwlXWMRXliAdAVvxKGIeo5KntKpWqArNNcTS4LAAqqcQShIMQaHkQPNcvZ4QV+o1wjw==
+ bh=4fjSSztFyXmrWlXW+9CELpnV1LCInU/n3kAg5nfEWgI=;
+ b=bpiMFH7ejxjkxf2B5nw8+D8HlCSVmYRDudA2oA4JLgsrCi6BMv9HuiRF9rJRa6HTZMz9BpkMtkxy4gTxbFJz5GpCBFvZNvAAvIRshNC8FQAV6Mx3V2JzZwyEX+P07bwUws8vSVSpAbzLDFL1jlR9dw62Bp4mOgyJaucZdznTyEdKlxmpxvnr4GcoZRjrapWAn9/XZHhE4tq5vIvizgTaKon9qaB64NIQS7uzN2PwwMLUuvJcLn9JjK6X0/su2zWhfCCoU/ijKftSvK7eKyuDDJo14aVKCy7yYHSTo7S+HrPmswXqCx7fBV/+C2q1RICnxpm75frDNUaEoseR6Jx4RQ==
 ARC-Authentication-Results: i=1; mx.microsoft.com 1; spf=pass
  smtp.mailfrom=oss.nxp.com; dmarc=pass action=none header.from=oss.nxp.com;
  dkim=pass header.d=oss.nxp.com; arc=none
 DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed; d=NXP1.onmicrosoft.com;
  s=selector2-NXP1-onmicrosoft-com;
  h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-SenderADCheck;
- bh=00uPYq4FtUPWwBUcD/h17YgM3cTVg4TaN5h8Wl7vukc=;
- b=btnigJkvmI0azrO3PJpwTrWj/pk7N5r0XzLoOw/dxHhpZ3oUb/s5P0ZkdCMFGXz1VivkvTNDStMjuY8uV7TQ5mKPe+tYHwRG6/OBBsuGvI77m600nrxzOOb0bv9/gt2kh03S3+rrL8fM4cEC0zgHOXU96ILzBwGqGXYYnhieHJY=
+ bh=4fjSSztFyXmrWlXW+9CELpnV1LCInU/n3kAg5nfEWgI=;
+ b=BnvbBlfYb7QSDhKC+5xSh4OjjmLZ9xNwYnyEi+j8RcqTgNlg5+rj/eg2Qa3y9L4I28JAauUNKYiRpiMWU68PPBr5E4DToxUu2O2ucVTsQBUEQfxqeWO5z9pU7YlxaJnu0r7S+lyonG7FAPJzBwq2NxQbjMa2Yws1I1Vi5N+5zqg=
 Authentication-Results: kernel.org; dkim=none (message not signed)
  header.d=none;kernel.org; dmarc=none action=none header.from=oss.nxp.com;
 Received: from AM5PR04MB3137.eurprd04.prod.outlook.com (2603:10a6:206:c::18)
  by AM5PR0402MB2737.eurprd04.prod.outlook.com (2603:10a6:203:95::16) with
  Microsoft SMTP Server (version=TLS1_2,
  cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.17; Tue, 15 Dec
- 2020 11:19:05 +0000
+ 2020 11:19:09 +0000
 Received: from AM5PR04MB3137.eurprd04.prod.outlook.com
  ([fe80::2d75:aaf5:5aa6:5de9]) by AM5PR04MB3137.eurprd04.prod.outlook.com
  ([fe80::2d75:aaf5:5aa6:5de9%6]) with mapi id 15.20.3654.024; Tue, 15 Dec 2020
- 11:19:05 +0000
+ 11:19:09 +0000
 From:   "Mirela Rabulea (OSS)" <mirela.rabulea@oss.nxp.com>
 To:     mchehab@kernel.org, hverkuil-cisco@xs4all.nl, shawnguo@kernel.org,
         robh+dt@kernel.org, p.zabel@pengutronix.de
@@ -51,10 +51,12 @@ Cc:     paul.kocialkowski@bootlin.com, linux-media@vger.kernel.org,
         niklas.soderlund+renesas@ragnatech.se,
         dafna.hirschfeld@collabora.com,
         Mirela Rabulea <mirela.rabulea@nxp.com>
-Subject: [PATCH v6 0/9] Add V4L2 driver for i.MX8 JPEG Encoder/Decoder
-Date:   Tue, 15 Dec 2020 13:18:34 +0200
-Message-Id: <20201215111843.30269-1-mirela.rabulea@oss.nxp.com>
+Subject: [PATCH v6 1/9] media: v4l: Add packed YUV444 24bpp pixel format
+Date:   Tue, 15 Dec 2020 13:18:35 +0200
+Message-Id: <20201215111843.30269-2-mirela.rabulea@oss.nxp.com>
 X-Mailer: git-send-email 2.17.1
+In-Reply-To: <20201215111843.30269-1-mirela.rabulea@oss.nxp.com>
+References: <20201215111843.30269-1-mirela.rabulea@oss.nxp.com>
 Content-Type: text/plain
 X-Originating-IP: [79.115.51.151]
 X-ClientProxiedBy: VI1PR09CA0178.eurprd09.prod.outlook.com
@@ -62,47 +64,47 @@ X-ClientProxiedBy: VI1PR09CA0178.eurprd09.prod.outlook.com
  (2603:10a6:206:c::18)
 MIME-Version: 1.0
 X-MS-Exchange-MessageSentRepresentingType: 1
-Received: from fsr-ub1664-134.ea.freescale.net (79.115.51.151) by VI1PR09CA0178.eurprd09.prod.outlook.com (2603:10a6:800:120::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend Transport; Tue, 15 Dec 2020 11:19:04 +0000
+Received: from fsr-ub1664-134.ea.freescale.net (79.115.51.151) by VI1PR09CA0178.eurprd09.prod.outlook.com (2603:10a6:800:120::32) with Microsoft SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.3654.12 via Frontend Transport; Tue, 15 Dec 2020 11:19:08 +0000
 X-MS-PublicTrafficType: Email
 X-MS-Office365-Filtering-HT: Tenant
-X-MS-Office365-Filtering-Correlation-Id: b7803bba-954d-4a3c-4512-08d8a0eb3c03
+X-MS-Office365-Filtering-Correlation-Id: b6e7f218-79bf-4b30-d6f9-08d8a0eb3e72
 X-MS-TrafficTypeDiagnostic: AM5PR0402MB2737:
 X-MS-Exchange-SharedMailbox-RoutingAgent-Processed: True
 X-MS-Exchange-Transport-Forked: True
-X-Microsoft-Antispam-PRVS: <AM5PR0402MB27377B6E51AA21EE5703C848CEC60@AM5PR0402MB2737.eurprd04.prod.outlook.com>
-X-MS-Oob-TLC-OOBClassifiers: OLM:3173;
+X-Microsoft-Antispam-PRVS: <AM5PR0402MB2737277FDB53BAD8C526F21ACEC60@AM5PR0402MB2737.eurprd04.prod.outlook.com>
+X-MS-Oob-TLC-OOBClassifiers: OLM:238;
 X-MS-Exchange-SenderADCheck: 1
 X-Microsoft-Antispam: BCL:0;
-X-Microsoft-Antispam-Message-Info: 4kzFmDMD7phdVZ0EICJNJWDwoZ/Dp0DPt+kYAkQWhfkiuN6g3GPXU1yRXAmNATTsO3miEruV7Jbx+Npw+tRDfsRpnJBddjzW7clfL3dtzg03k89+fB2Wb1AFOGdATrmCmx0AD2L+7IKAPcLbJHV01R1IMu1V2fBUAF0MmQ32dIWsyar70u6xPEiFEcSo1bVyUHK+bTHTFeMTaV2Mm+1IOqwYrZNmkkRQqnzj4NgSbF7T1YX5vdJbmCEhj9YgciJEi6kaTuNF0+YWy00xBVKSdTpM15P0cfr78w0NPfK+D+4Rsfttoef/e0T2xGDfgQ2lBRl+w5TBTY/FqSPby+l4Ww==
-X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM5PR04MB3137.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6666004)(2616005)(16526019)(8936002)(52116002)(2906002)(1076003)(956004)(66946007)(6486002)(66556008)(66476007)(498600001)(6512007)(86362001)(8676002)(7416002)(83380400001)(4001150100001)(6506007)(186003)(4326008)(26005)(5660300002);DIR:OUT;SFP:1101;
-X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?euFB99BGSsZZvHohzop9I1AZx8uoKIHFwFlMpAeOxi23KOcqhO+VG1jkqQ8c?=
- =?us-ascii?Q?CoS2VIb98scvHj32gHzP6t7LMhwnJGrbj6/F+NkgIZHXPVigJW5+H+zbWay7?=
- =?us-ascii?Q?S2xpAIA4YPvpahNeFiAVoPUY1dD9O0KWB1jAYmEeVg01ctfOdOHPjKESVnK5?=
- =?us-ascii?Q?/tbHdP2C+E7cIzHugo+IodVm+72o0+nORz+HRJRpoFDl2Vlq7mo1mGa+FYJy?=
- =?us-ascii?Q?Uw1bvWEWcxhBcLHBfSyfRhe63J61qh2n/8L6rp9OrHfYp+o80qFo595FSKYw?=
- =?us-ascii?Q?Ah7QV4XU2HbosxjYlimYW5ute4CYtMzCf09yWbSPwDYyiEd9res5GtUizQfi?=
- =?us-ascii?Q?CGBzRuV1JsPzquRCKKWvYOHtsKI5ByRyUxHPgHoifgpVGxW60E1ods29QeNG?=
- =?us-ascii?Q?uyd55c1Riio9Y5HjpMr7dJXC/AG3rHG576/bH6/h6PaBC+9rWqYLhVKZLV5x?=
- =?us-ascii?Q?wVTNJGpWqyIsQq/EEPpiNF+aDKXqroNIHWU25mINId/qFPfJtiKn8KTPpr+x?=
- =?us-ascii?Q?i8Kgys2UOpA9ipMJ7TJ5/Xjq7CnA3aZOitqKioekSVISXu6XhI+J/iloGbpm?=
- =?us-ascii?Q?oIMB6AfVox7l3kSgl5sFMjYV7+4anUy7agV/WFMWAcHsVoS8t5R1Va2BXLQD?=
- =?us-ascii?Q?PZd3+TEhD1IHuN+lOX1MUkqxcTsyQo0089KO/oICsj6iw9KHTbgsnTQfDtBa?=
- =?us-ascii?Q?uJ3V2SsWQaQTgZC+8Q+gSYqozqnRfWB33W3KUGi2/pWPD9xVQz93u0k/Yfsy?=
- =?us-ascii?Q?EVmjSczVp7/c3hjnfjm7E3jK3EEYyw8Ch0El15nIjG4kA8sEr3kmOKCwwgId?=
- =?us-ascii?Q?uBSJTFqTWec92y7YNLM2PcvIwsU1le6O/p5yqGxhhQt47OES4J/nVNRIRLC4?=
- =?us-ascii?Q?2ERdXznz+gntetIluEYhKc0bpaEUaZtda3MrgQ128JYB28Aq0ejnhg5DX7fF?=
- =?us-ascii?Q?YsyAR5q2i0RnSfNcgm28WX9E4fB7xhBlghyqE6tdlZGQ/fBj4pmFLEdjT30h?=
- =?us-ascii?Q?ARzT?=
+X-Microsoft-Antispam-Message-Info: 0UGXzk4bAVB8DydHAtREkjZ1CdeJXLGIkQuGm2ywZYAFnlf79aAI1CZFvdmXSVtDfAuimTaymU/8XRdYrvqe8WKW5dpfRm1eT0Gf3UCGq+P0zz5oKxIZ+uwd9ewMJA/uuY+K7Tq8QIXGowA/LKDmB2XkJg0NH8S6lS4mS0E3G5joVP81YCVeRQIBlqzPqjqvmQEAGVHI9o5ZEtaDGnDAKLROsSOSnn6phNQcpEbeJhXEeWjSI6LVdHx6q4k7hM5rB6T3TwhaeWJi1qwOnL3FE2vAr2rS4vQ5EiAjLcAuFiHNYTUnxBcPoU2gwowjgby3FHSHK6G/TxuUJJaGEaE19Q==
+X-Forefront-Antispam-Report: CIP:255.255.255.255;CTRY:;LANG:en;SCL:1;SRV:;IPV:NLI;SFV:NSPM;H:AM5PR04MB3137.eurprd04.prod.outlook.com;PTR:;CAT:NONE;SFS:(4636009)(366004)(6666004)(2616005)(16526019)(8936002)(52116002)(2906002)(1076003)(19627235002)(956004)(66946007)(6486002)(66556008)(66476007)(498600001)(6512007)(86362001)(8676002)(7416002)(83380400001)(6506007)(186003)(4326008)(26005)(5660300002);DIR:OUT;SFP:1101;
+X-MS-Exchange-AntiSpam-MessageData: =?us-ascii?Q?OMKowvX+lw+/KUuFmzL/k0JqJPEItHwfbgKkG8e4C2PbaZWcD4cqNuVYNzWR?=
+ =?us-ascii?Q?bcT19/rEhH/HQXVFNHnQmKVZL6H8iGnyUi++CnBrPlhO7PxaRffrT+KCFQg0?=
+ =?us-ascii?Q?ebquZLl5xnU1lBUmxD9zwW9Zgb3fEbIPKqHQwpOPtqydcLG+BfamzD3sjueE?=
+ =?us-ascii?Q?Nsqan6UOI7GZPZ5tr2uJp0TfnM6/iW04eahPa7lS3mu9uR40Q0gBX/oElXwt?=
+ =?us-ascii?Q?BBYQXo5HIX92eDBC+dZvpyEmAUMcZD6baVt+QQKchRy0AMt7LX7QdqfXs9Lh?=
+ =?us-ascii?Q?DRW6ktBx31+vDvVDdMdO354MYOtCMwfWzhItbJ0xaZR/a9zqV0yt26db1ACX?=
+ =?us-ascii?Q?evj1tJU9FQ/CPUCOsEDBj/XWUvbkuZyQEYGsWiTWmxnrJYNvQJxt0YhOdCu5?=
+ =?us-ascii?Q?APP2HAqv+gylEl9EZ71JOEQ73qhf+XHXzw8D2HH8WX0uj+sfjp3WJMldppPZ?=
+ =?us-ascii?Q?R2738L7JLGQO4HoWlPOEjliwETr6GoVjtdoEvGzhYje3Avgx9McJZhcoOBRz?=
+ =?us-ascii?Q?+uSzYUsvr0YxDzohE7Vc54265Z3yTDPN8QIjz6vHIReq6OjOgv/JfW7grra5?=
+ =?us-ascii?Q?bqF5/aa/hbE1i+sw4VVMlVGTo1wq9q87BeuWy64SBuNvRAlJ4YM7DOMbFmm5?=
+ =?us-ascii?Q?vLwPKc0U2WoNHmHVwq3Iz2strNxfDrAhoYXKhcZqlKr+pUO3tzB/pYFHkJk5?=
+ =?us-ascii?Q?Xv+QRK7XgWiMnv5nIUS+CW8yTrEePI95361t24eGIxzy2PN/Ormq6cqBvDmL?=
+ =?us-ascii?Q?FWb+6NieVZdQqgndc907cCB2qfotRmBOy8uMqsVRSnQ1V41XIVGaYTvyLhC1?=
+ =?us-ascii?Q?ofMwWFlBnAy68GWGPOSF06FGoEURD5eV0WpCl39Y9JapMmo1/rraF8JGEZra?=
+ =?us-ascii?Q?tgOjClZu752DNRaEh3ah2NNQy3QJAnlfqxyArAeCD5+cuYk64Q1uDpKrc9r9?=
+ =?us-ascii?Q?oqGiEkIV6XV1RFyAEAokvZt8aIRuLnID/SHctVhgggEJgPzJvk2QVikvSn8N?=
+ =?us-ascii?Q?R4aa?=
 X-OriginatorOrg: oss.nxp.com
 X-MS-Exchange-CrossTenant-AuthSource: AM5PR04MB3137.eurprd04.prod.outlook.com
 X-MS-Exchange-CrossTenant-AuthAs: Internal
-X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2020 11:19:05.6541
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 15 Dec 2020 11:19:09.7178
  (UTC)
 X-MS-Exchange-CrossTenant-FromEntityHeader: Hosted
 X-MS-Exchange-CrossTenant-Id: 686ea1d3-bc2b-4c6f-a92c-d99c5c301635
-X-MS-Exchange-CrossTenant-Network-Message-Id: b7803bba-954d-4a3c-4512-08d8a0eb3c03
+X-MS-Exchange-CrossTenant-Network-Message-Id: b6e7f218-79bf-4b30-d6f9-08d8a0eb3e72
 X-MS-Exchange-CrossTenant-MailboxType: HOSTED
-X-MS-Exchange-CrossTenant-UserPrincipalName: P5ngPHkUVlIi9+OGMbZd+mgnsa5Bo5pWxPOBwERJUpfXgPCLmrekEKJdjOXraXtGV/DgkFbio83NSi+5iqhUFg==
+X-MS-Exchange-CrossTenant-UserPrincipalName: CmW9yZoVjZxrm+TwGG7aQJMSTQUCeP1oy7/QSGANRFktD9whJd+3P9nnoAsNLGwqgXU5dJq1IjFvf45ceUgx7w==
 X-MS-Exchange-Transport-CrossTenantHeadersStamped: AM5PR0402MB2737
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
@@ -110,263 +112,72 @@ X-Mailing-List: linux-media@vger.kernel.org
 
 From: Mirela Rabulea <mirela.rabulea@nxp.com>
 
-This patch set adds the V4L2 driver for i.MX8QXP/QM JPEG encoder/decoder
-and it's dependencies.
-The driver was tested on i.MX8QXP, using a unit test application and
-the v4l2-compliance tool, including the  streaming tests for decoder & encoder.
+The added format is V4L2_PIX_FMT_YUV24, this is a packed
+YUV 4:4:4 format, with 8 bits for each component, 24 bits
+per sample.
 
-The output of latest v4l2-compliance on i.MX8QXP, decoder & encoder:
+This format is used by the i.MX 8QuadMax and i.MX 8DualXPlus/8QuadXPlus
+JPEG encoder/decoder.
 
-root@imx8qxpmek:/unit_tests/JPEG# ./v4l2-compliance-master -d /dev/video0 -s
-v4l2-compliance 1.21.0-4686, 64 bits, 64-bit time_t
-v4l2-compliance SHA: e0e4114f9714 2020-12-10 13:23:07
+Signed-off-by: Mirela Rabulea <mirela.rabulea@nxp.com>
+Reviewed-by: Paul Kocialkowski <paul.kocialkowski@bootlin.com>
+---
+Changes in v6:
+  Updates due to Laurent Pinchart's commit:
+  2f2a387e9fa4 media: doc: pixfmt-packed-yuv: Express 4:4:4 formats in a more compact way
 
-Compliance test for mxc-jpeg decode device /dev/video0:
+  Added V4L2_PIX_FMT_YUV24 in the "Packed YUV Image Formats (8bpc)" table
 
-Driver Info:
-	Driver name      : mxc-jpeg decode
-	Card type        : mxc-jpeg decoder
-	Bus info         : platform:58400000.jpegdec
-	Driver version   : 5.10.0
-	Capabilities     : 0x84204000
-		Video Memory-to-Memory Multiplanar
-		Streaming
-		Extended Pix Format
-		Device Capabilities
-	Device Caps      : 0x04204000
-		Video Memory-to-Memory Multiplanar
-		Streaming
-		Extended Pix Format
-	Detected JPEG Decoder
+ .../userspace-api/media/v4l/pixfmt-packed-yuv.rst      | 10 ++++++++++
+ drivers/media/v4l2-core/v4l2-ioctl.c                   |  1 +
+ include/uapi/linux/videodev2.h                         |  1 +
+ 3 files changed, 12 insertions(+)
 
-Required ioctls:
-	test VIDIOC_QUERYCAP: OK
-
-Allow for multiple opens:
-	test second /dev/video0 open: OK
-	test VIDIOC_QUERYCAP: OK
-	test VIDIOC_G/S_PRIORITY: OK
-	test for unlimited opens: OK
-
-	test invalid ioctls: OK
-Debug ioctls:
-	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-	test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-	test VIDIOC_QUERYCTRL: OK (Not Supported)
-	test VIDIOC_G/S_CTRL: OK (Not Supported)
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 0 Private Controls: 0
-
-Format ioctls:
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-	test VIDIOC_G/S_PARM: OK (Not Supported)
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK
-	test VIDIOC_TRY_FMT: OK
-	test VIDIOC_S_FMT: OK
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-	test Cropping: OK (Not Supported)
-	test Composing: OK (Not Supported)
-	test Scaling: OK
-
-Codec ioctls:
-	test VIDIOC_(TRY_)ENCODER_CMD: OK
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK
-
-Buffer ioctls:
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-	test VIDIOC_EXPBUF: OK
-	test Requests: OK (Not Supported)
-
-Test input 0:
-
-Streaming ioctls:
-	test read/write: OK (Not Supported)
-	test blocking wait: OK
-	Video Capture Multiplanar: Captured 58 buffers    
-	test MMAP (no poll): OK
-	Video Capture Multiplanar: Captured 58 buffers    
-	test MMAP (select): OK
-	Video Capture Multiplanar: Captured 58 buffers    
-	test MMAP (epoll): OK
-	test USERPTR (no poll): OK (Not Supported)
-	test USERPTR (select): OK (Not Supported)
-	test DMABUF: Cannot test, specify --expbuf-device
-
-Total for mxc-jpeg decode device /dev/video0: 52, Succeeded: 52, Failed: 0, Warnings: 0
-
-root@imx8qxpmek:/unit_tests/JPEG# ./v4l2-compliance-master -d /dev/video1 -s
-v4l2-compliance 1.21.0-4686, 64 bits, 64-bit time_t
-v4l2-compliance SHA: e0e4114f9714 2020-12-10 13:23:07
-
-Compliance test for mxc-jpeg decode device /dev/video1:
-
-Driver Info:
-	Driver name      : mxc-jpeg decode
-	Card type        : mxc-jpeg decoder
-	Bus info         : platform:58450000.jpegenc
-	Driver version   : 5.10.0
-	Capabilities     : 0x84204000
-		Video Memory-to-Memory Multiplanar
-		Streaming
-		Extended Pix Format
-		Device Capabilities
-	Device Caps      : 0x04204000
-		Video Memory-to-Memory Multiplanar
-		Streaming
-		Extended Pix Format
-	Detected JPEG Encoder
-
-Required ioctls:
-	test VIDIOC_QUERYCAP: OK
-
-Allow for multiple opens:
-	test second /dev/video1 open: OK
-	test VIDIOC_QUERYCAP: OK
-	test VIDIOC_G/S_PRIORITY: OK
-	test for unlimited opens: OK
-
-	test invalid ioctls: OK
-Debug ioctls:
-	test VIDIOC_DBG_G/S_REGISTER: OK (Not Supported)
-	test VIDIOC_LOG_STATUS: OK (Not Supported)
-
-Input ioctls:
-	test VIDIOC_G/S_TUNER/ENUM_FREQ_BANDS: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_S_HW_FREQ_SEEK: OK (Not Supported)
-	test VIDIOC_ENUMAUDIO: OK (Not Supported)
-	test VIDIOC_G/S/ENUMINPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDIO: OK (Not Supported)
-	Inputs: 0 Audio Inputs: 0 Tuners: 0
-
-Output ioctls:
-	test VIDIOC_G/S_MODULATOR: OK (Not Supported)
-	test VIDIOC_G/S_FREQUENCY: OK (Not Supported)
-	test VIDIOC_ENUMAUDOUT: OK (Not Supported)
-	test VIDIOC_G/S/ENUMOUTPUT: OK (Not Supported)
-	test VIDIOC_G/S_AUDOUT: OK (Not Supported)
-	Outputs: 0 Audio Outputs: 0 Modulators: 0
-
-Input/Output configuration ioctls:
-	test VIDIOC_ENUM/G/S/QUERY_STD: OK (Not Supported)
-	test VIDIOC_ENUM/G/S/QUERY_DV_TIMINGS: OK (Not Supported)
-	test VIDIOC_DV_TIMINGS_CAP: OK (Not Supported)
-	test VIDIOC_G/S_EDID: OK (Not Supported)
-
-Control ioctls:
-	test VIDIOC_QUERY_EXT_CTRL/QUERYMENU: OK (Not Supported)
-	test VIDIOC_QUERYCTRL: OK (Not Supported)
-	test VIDIOC_G/S_CTRL: OK (Not Supported)
-	test VIDIOC_G/S/TRY_EXT_CTRLS: OK (Not Supported)
-	test VIDIOC_(UN)SUBSCRIBE_EVENT/DQEVENT: OK (Not Supported)
-	test VIDIOC_G/S_JPEGCOMP: OK (Not Supported)
-	Standard Controls: 0 Private Controls: 0
-
-Format ioctls:
-	test VIDIOC_ENUM_FMT/FRAMESIZES/FRAMEINTERVALS: OK
-	test VIDIOC_G/S_PARM: OK (Not Supported)
-	test VIDIOC_G_FBUF: OK (Not Supported)
-	test VIDIOC_G_FMT: OK
-	test VIDIOC_TRY_FMT: OK
-	test VIDIOC_S_FMT: OK
-	test VIDIOC_G_SLICED_VBI_CAP: OK (Not Supported)
-	test Cropping: OK (Not Supported)
-	test Composing: OK (Not Supported)
-	test Scaling: OK (Not Supported)
-
-Codec ioctls:
-	test VIDIOC_(TRY_)ENCODER_CMD: OK
-	test VIDIOC_G_ENC_INDEX: OK (Not Supported)
-	test VIDIOC_(TRY_)DECODER_CMD: OK
-
-Buffer ioctls:
-	test VIDIOC_REQBUFS/CREATE_BUFS/QUERYBUF: OK
-	test VIDIOC_EXPBUF: OK
-	test Requests: OK (Not Supported)
-
-Test input 0:
-
-Streaming ioctls:
-	test read/write: OK (Not Supported)
-	test blocking wait: OK
-	Video Capture Multiplanar: Captured 58 buffers    
-	test MMAP (no poll): OK
-	Video Capture Multiplanar: Captured 58 buffers    
-	test MMAP (select): OK
-	Video Capture Multiplanar: Captured 58 buffers    
-	test MMAP (epoll): OK
-	test USERPTR (no poll): OK (Not Supported)
-	test USERPTR (select): OK (Not Supported)
-	test DMABUF: Cannot test, specify --expbuf-device
-
-Total for mxc-jpeg decode device /dev/video1: 52, Succeeded: 52, Failed: 0, Warnings: 0
-
-Mirela Rabulea (9):
-  media: v4l: Add packed YUV444 24bpp pixel format
-  media: dt-bindings: Add bindings for i.MX8QXP/QM JPEG driver
-  media: imx-jpeg: Add V4L2 driver for i.MX8 JPEG Encoder/Decoder
-  arm64: dts: imx8qxp: Add jpeg encoder/decoder nodes
-  Add maintainer for IMX jpeg v4l2 driver
-  media: Add parsing for APP14 data segment in jpeg helpers
-  media: Quit parsing stream if doesn't start with SOI
-  media: Avoid parsing quantization and huffman tables
-  media: imx-jpeg: Use v4l2 jpeg helpers in mxc-jpeg
-
- .../bindings/media/nxp,imx8-jpeg.yaml         |   84 +
- .../media/v4l/pixfmt-packed-yuv.rst           |   10 +
- MAINTAINERS                                   |    8 +
- arch/arm64/boot/dts/freescale/imx8qxp.dtsi    |   35 +
- drivers/media/platform/Kconfig                |    2 +
- drivers/media/platform/Makefile               |    1 +
- drivers/media/platform/imx-jpeg/Kconfig       |   11 +
- drivers/media/platform/imx-jpeg/Makefile      |    3 +
- drivers/media/platform/imx-jpeg/mxc-jpeg-hw.c |  168 ++
- drivers/media/platform/imx-jpeg/mxc-jpeg-hw.h |  140 ++
- drivers/media/platform/imx-jpeg/mxc-jpeg.c    | 2193 +++++++++++++++++
- drivers/media/platform/imx-jpeg/mxc-jpeg.h    |  180 ++
- drivers/media/v4l2-core/v4l2-ioctl.c          |    1 +
- drivers/media/v4l2-core/v4l2-jpeg.c           |   58 +-
- include/media/v4l2-jpeg.h                     |   18 +
- include/uapi/linux/videodev2.h                |    1 +
- 16 files changed, 2906 insertions(+), 7 deletions(-)
- create mode 100644 Documentation/devicetree/bindings/media/nxp,imx8-jpeg.yaml
- create mode 100644 drivers/media/platform/imx-jpeg/Kconfig
- create mode 100644 drivers/media/platform/imx-jpeg/Makefile
- create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg-hw.c
- create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg-hw.h
- create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg.c
- create mode 100644 drivers/media/platform/imx-jpeg/mxc-jpeg.h
-
+diff --git a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+index eb551b57557e..4515f713decf 100644
+--- a/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
++++ b/Documentation/userspace-api/media/v4l/pixfmt-packed-yuv.rst
+@@ -220,6 +220,16 @@ the second byte and Y'\ :sub:`7-0` in the third byte.
+       - Y'\ :sub:`7-0`
+       - X\ :sub:`7-0`
+ 
++    * .. _V4L2-PIX-FMT-YUV24:
++
++      - ``V4L2_PIX_FMT_YUV24``
++      - 'YUV3'
++
++      - Y'\ :sub:`7-0`
++      - Cb\ :sub:`7-0`
++      - Cr\ :sub:`7-0`
++      - -\
++
+ .. note::
+ 
+     - The alpha component is expected to contain a meaningful value that can be
+diff --git a/drivers/media/v4l2-core/v4l2-ioctl.c b/drivers/media/v4l2-core/v4l2-ioctl.c
+index 3198abdd538c..611768409d0b 100644
+--- a/drivers/media/v4l2-core/v4l2-ioctl.c
++++ b/drivers/media/v4l2-core/v4l2-ioctl.c
+@@ -1304,6 +1304,7 @@ static void v4l_fill_fmtdesc(struct v4l2_fmtdesc *fmt)
+ 	case V4L2_PIX_FMT_YUV444:	descr = "16-bit A/XYUV 4-4-4-4"; break;
+ 	case V4L2_PIX_FMT_YUV555:	descr = "16-bit A/XYUV 1-5-5-5"; break;
+ 	case V4L2_PIX_FMT_YUV565:	descr = "16-bit YUV 5-6-5"; break;
++	case V4L2_PIX_FMT_YUV24:	descr = "24-bit YUV 4:4:4 8-8-8"; break;
+ 	case V4L2_PIX_FMT_YUV32:	descr = "32-bit A/XYUV 8-8-8-8"; break;
+ 	case V4L2_PIX_FMT_AYUV32:	descr = "32-bit AYUV 8-8-8-8"; break;
+ 	case V4L2_PIX_FMT_XYUV32:	descr = "32-bit XYUV 8-8-8-8"; break;
+diff --git a/include/uapi/linux/videodev2.h b/include/uapi/linux/videodev2.h
+index 79dbde3bcf8d..9e4359be04eb 100644
+--- a/include/uapi/linux/videodev2.h
++++ b/include/uapi/linux/videodev2.h
+@@ -586,6 +586,7 @@ struct v4l2_pix_format {
+ #define V4L2_PIX_FMT_YUV444  v4l2_fourcc('Y', '4', '4', '4') /* 16  xxxxyyyy uuuuvvvv */
+ #define V4L2_PIX_FMT_YUV555  v4l2_fourcc('Y', 'U', 'V', 'O') /* 16  YUV-5-5-5     */
+ #define V4L2_PIX_FMT_YUV565  v4l2_fourcc('Y', 'U', 'V', 'P') /* 16  YUV-5-6-5     */
++#define V4L2_PIX_FMT_YUV24   v4l2_fourcc('Y', 'U', 'V', '3') /* 24  YUV-8-8-8     */
+ #define V4L2_PIX_FMT_YUV32   v4l2_fourcc('Y', 'U', 'V', '4') /* 32  YUV-8-8-8-8   */
+ #define V4L2_PIX_FMT_AYUV32  v4l2_fourcc('A', 'Y', 'U', 'V') /* 32  AYUV-8-8-8-8  */
+ #define V4L2_PIX_FMT_XYUV32  v4l2_fourcc('X', 'Y', 'U', 'V') /* 32  XYUV-8-8-8-8  */
 -- 
 2.17.1
 
