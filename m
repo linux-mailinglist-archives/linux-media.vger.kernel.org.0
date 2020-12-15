@@ -2,126 +2,127 @@ Return-Path: <linux-media-owner@vger.kernel.org>
 X-Original-To: lists+linux-media@lfdr.de
 Delivered-To: lists+linux-media@lfdr.de
 Received: from vger.kernel.org (vger.kernel.org [23.128.96.18])
-	by mail.lfdr.de (Postfix) with ESMTP id 788AD2DAAF3
-	for <lists+linux-media@lfdr.de>; Tue, 15 Dec 2020 11:34:04 +0100 (CET)
+	by mail.lfdr.de (Postfix) with ESMTP id EDDB32DABB4
+	for <lists+linux-media@lfdr.de>; Tue, 15 Dec 2020 12:16:51 +0100 (CET)
 Received: (majordomo@vger.kernel.org) by vger.kernel.org via listexpand
-        id S1727774AbgLOKdS (ORCPT <rfc822;lists+linux-media@lfdr.de>);
-        Tue, 15 Dec 2020 05:33:18 -0500
-Received: from lindbergh.monkeyblade.net ([23.128.96.19]:33912 "EHLO
-        lindbergh.monkeyblade.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
-        with ESMTP id S1726709AbgLOKdF (ORCPT
+        id S1728444AbgLOLPF (ORCPT <rfc822;lists+linux-media@lfdr.de>);
+        Tue, 15 Dec 2020 06:15:05 -0500
+Received: from relay4-d.mail.gandi.net ([217.70.183.196]:41885 "EHLO
+        relay4-d.mail.gandi.net" rhost-flags-OK-OK-OK-OK) by vger.kernel.org
+        with ESMTP id S1727783AbgLOLPF (ORCPT
         <rfc822;linux-media@vger.kernel.org>);
-        Tue, 15 Dec 2020 05:33:05 -0500
-Received: from mail-wm1-x341.google.com (mail-wm1-x341.google.com [IPv6:2a00:1450:4864:20::341])
-        by lindbergh.monkeyblade.net (Postfix) with ESMTPS id 5CCA5C06179C;
-        Tue, 15 Dec 2020 02:32:19 -0800 (PST)
-Received: by mail-wm1-x341.google.com with SMTP id c133so4387370wme.4;
-        Tue, 15 Dec 2020 02:32:19 -0800 (PST)
-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=gmail.com; s=20161025;
-        h=subject:from:to:cc:references:message-id:date:user-agent
-         :mime-version:in-reply-to:content-transfer-encoding:content-language;
-        bh=zM12Vu2WHRPOJz6hUWWLoP76rHHBWWIXvKZ62qMZpOo=;
-        b=Ql5S7sxstdmE3XGP6QmWP0l1O9dxtvqCl/284IlCrUCXxpNOrcC0QhvH5hsY2qDorn
-         2unlqivrj9Afdl+JM6qHZ9zR8tWIxZDexIyb/QwtWi1Vhs76RX0HqtUNd+SZubvAvtUC
-         i8vtQkdk+d2BrVi+FE5xFNRT9/GPcjTe3fxyKUswyttdj1dBwf/2r4wUqxM0dG6px1AX
-         jGa004iWa7wV8WsFMQqu1MF2OVKdic3gNA5ZnJ2qtGkKSMHcAj8p8HEamYhVz9wPHzzk
-         u4PaqR71RCuR48pyK7kIsqWttGnHo0wqzi17IilT1MpnknokiKL59i2MzhJEc4VF+LPv
-         Xkfg==
-X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
-        d=1e100.net; s=20161025;
-        h=x-gm-message-state:subject:from:to:cc:references:message-id:date
-         :user-agent:mime-version:in-reply-to:content-transfer-encoding
-         :content-language;
-        bh=zM12Vu2WHRPOJz6hUWWLoP76rHHBWWIXvKZ62qMZpOo=;
-        b=MA9SdzFd3d5K4PTRtWKwpSFiwLEpm7ma37CrX9HqNlLl6taFwK3A4/Q/wJdr52S2No
-         dsx/recqfgqq4EjWlb6imF9DqLYfozolIXZx+aZczpiye77yc1wSn+KDS/3i9vzVJcQl
-         59MQvAEuUsW0XMmkiVBhapB6DjfIuD3sWyb8qXE3RSkD2QUMLtufZGJ3jU1ys0gDJhvj
-         rnzMQXG60ntYhFSeUMrxkpqHW3CAmd2C6s4n31m2Bk5k9E8C/5pOtWy91ms7g1Nd6vq1
-         vyphKO0NyK0v8TZ7TamCN2v6baKnbgcVU4y5dYpOudUmnp35mI8ADNjyTL3hgTGwVi+W
-         MhQA==
-X-Gm-Message-State: AOAM531mmFkCh9V1adiwJUDoEJaZfYc4u2B8zEOy50DspSKDdLnDEBcN
-        NZhPHvfzE4Upkyvc8Rojyuo=
-X-Google-Smtp-Source: ABdhPJwZ82yXRV2xba7TcgkEC4E5GvoMBYDenAO+wt6vgbm4LkRqezVikCXN+mePBO1G2X+9RsAANQ==
-X-Received: by 2002:a1c:a9c8:: with SMTP id s191mr3348516wme.89.1608028338138;
-        Tue, 15 Dec 2020 02:32:18 -0800 (PST)
-Received: from [192.168.1.211] ([2.29.208.56])
-        by smtp.gmail.com with ESMTPSA id e17sm35548101wrw.84.2020.12.15.02.32.16
-        (version=TLS1_3 cipher=TLS_AES_128_GCM_SHA256 bits=128/128);
-        Tue, 15 Dec 2020 02:32:17 -0800 (PST)
-Subject: Re: [PATCH 13/18] ipu3-cio2: Add functionality allowing software_node
- connections to sensors on platforms designed for Windows
-From:   Daniel Scally <djrscally@gmail.com>
-To:     Sakari Ailus <sakari.ailus@iki.fi>
-Cc:     linux-kernel@vger.kernel.org, linux-acpi@vger.kernel.org,
-        linux-gpio@vger.kernel.org, linux-i2c@vger.kernel.org,
-        linux-media@vger.kernel.org, devel@acpica.org, rjw@rjwysocki.net,
-        lenb@kernel.org, gregkh@linuxfoundation.org,
-        mika.westerberg@linux.intel.com, andriy.shevchenko@linux.intel.com,
-        linus.walleij@linaro.org, bgolaszewski@baylibre.com,
-        wsa@kernel.org, yong.zhi@intel.com, sakari.ailus@linux.intel.com,
-        bingbu.cao@intel.com, tian.shu.qiu@intel.com, mchehab@kernel.org,
-        robert.moore@intel.com, erik.kaneda@intel.com, pmladek@suse.com,
-        rostedt@goodmis.org, sergey.senozhatsky@gmail.com,
-        linux@rasmusvillemoes.dk, kieran.bingham+renesas@ideasonboard.com,
-        jacopo+renesas@jmondi.org,
+        Tue, 15 Dec 2020 06:15:05 -0500
+X-Originating-IP: 93.34.118.233
+Received: from uno.localdomain (93-34-118-233.ip49.fastwebnet.it [93.34.118.233])
+        (Authenticated sender: jacopo@jmondi.org)
+        by relay4-d.mail.gandi.net (Postfix) with ESMTPSA id A9617E000D;
+        Tue, 15 Dec 2020 11:14:09 +0000 (UTC)
+Date:   Tue, 15 Dec 2020 12:14:20 +0100
+From:   Jacopo Mondi <jacopo@jmondi.org>
+To:     Rob Herring <robh@kernel.org>
+Cc:     Jacopo Mondi <jacopo+renesas@jmondi.org>,
+        kieran.bingham+renesas@ideasonboard.com,
         laurent.pinchart+renesas@ideasonboard.com,
-        jorhand@linux.microsoft.com, kitakar@gmail.com,
-        heikki.krogerus@linux.intel.com
-References: <20201130133129.1024662-1-djrscally@gmail.com>
- <20201130133129.1024662-14-djrscally@gmail.com>
- <20201130203551.GP4351@valkosipuli.retiisi.org.uk>
- <5238fc28-350b-a785-0a33-edeba9dfb096@gmail.com>
-Message-ID: <aff13cfd-5664-8b49-d188-ac1e2adec0b9@gmail.com>
-Date:   Tue, 15 Dec 2020 10:32:16 +0000
-User-Agent: Mozilla/5.0 (X11; Linux x86_64; rv:68.0) Gecko/20100101
- Thunderbird/68.10.0
+        niklas.soderlund+renesas@ragnatech.se, geert@linux-m68k.org,
+        devicetree@vger.kernel.org, linux-media@vger.kernel.org,
+        linux-renesas-soc@vger.kernel.org, linux-kernel@vger.kernel.org,
+        Hyun Kwon <hyunk@xilinx.com>,
+        Manivannan Sadhasivam <manivannan.sadhasivam@linaro.org>,
+        sergei.shtylyov@gmail.com
+Subject: Re: [PATCH v5 2/8] dt-bindings: media: max9286: Document
+ 'maxim,initial-reverse-channel-mV'
+Message-ID: <20201215111420.zpc67jkary3l5j4z@uno.localdomain>
+References: <20201116135305.81319-1-jacopo+renesas@jmondi.org>
+ <20201116135305.81319-3-jacopo+renesas@jmondi.org>
+ <20201130220048.GA3104550@robh.at.kernel.org>
 MIME-Version: 1.0
-In-Reply-To: <5238fc28-350b-a785-0a33-edeba9dfb096@gmail.com>
 Content-Type: text/plain; charset=utf-8
-Content-Transfer-Encoding: 7bit
-Content-Language: en-US
+Content-Disposition: inline
+In-Reply-To: <20201130220048.GA3104550@robh.at.kernel.org>
 Precedence: bulk
 List-ID: <linux-media.vger.kernel.org>
 X-Mailing-List: linux-media@vger.kernel.org
 
-On 15/12/2020 10:28, Daniel Scally wrote:
-> Morning Sakari
+Hello,
+
+On Mon, Nov 30, 2020 at 03:00:48PM -0700, Rob Herring wrote:
+> On Mon, Nov 16, 2020 at 02:52:59PM +0100, Jacopo Mondi wrote:
+> > Document the 'initial-reverse-channel-mV' vendor property in the
+> > bindings document of the max9286 driver.
+> >
+> > The newly introduced property allows to specifying the initial
+> > configuration of the GMSL reverse control channel to accommodate
+> > remote serializers pre-programmed with the high threshold power
+> > supply noise immunity enabled.
+> >
+> > Reviewed-by: Kieran Bingham <kieran.bingham+renesas@ideasonboard.com>
+> > Signed-off-by: Jacopo Mondi <jacopo+renesas@jmondi.org>
+> > ---
+> >  .../bindings/media/i2c/maxim,max9286.yaml     | 23 +++++++++++++++++++
+> >  1 file changed, 23 insertions(+)
+> >
+> > diff --git a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > index 9ea827092fdd..f61234d204fa 100644
+> > --- a/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > +++ b/Documentation/devicetree/bindings/media/i2c/maxim,max9286.yaml
+> > @@ -51,6 +51,26 @@ properties:
+> >    '#gpio-cells':
+> >      const: 2
+> >
+> > +  maxim,initial-reverse-channel-mV:
 >
-> On 30/11/2020 20:35, Sakari Ailus wrote:
->>> +/*
->>> + * Extend this array with ACPI Hardware ID's of devices known to be working.
->>> + * Do not add a HID for a sensor that is not actually supported.
->>> + */
->>> +static const char * const cio2_supported_devices[] = {
->>> +	"INT33BE",
->>> +	"OVTI2680",
->> I guess we don't have the known-good frequencies for the CSI-2 bus in
->> firmware?
->>
->> One option would be to put there what the drivers currently use. This
->> assumes the support for these devices is, well, somewhat opportunistic but
->> I guess there's no way around that right now at least.
->>
->> As the systems are laptops, they're likely somewhat less prone to EMI
->> issues to begin with than mobile phones anyway.
-> Just looking at this; we're currently using this with the ov2680 driver
-> that's in mainline currently (with very minor tweaks) plus a
-> hacked-into-roughly-working version of the atomisp-ov5693 driver (ACPI
-> ID INT33BE = ov5693 physical device). Neither of those drivers lists any
-> link frequencies, nor provides a link frequency control for v4l2 to work
-> with.
+> Use standard unit suffix.
 >
-> On the other hand, the ov5648 [1] and ov8865 [2] drivers which Paul has
-> submitted recently
 
+Which one ? :)
+I see in v5.10 one 'mV', three 'mv', one 'millivolts', several
+'microvolts'.
 
-Forgot to actually link these:
+I'll go with the majority and make this
+'maxim,initial-reverse-channel-mv'
 
+Thanks
+   j
 
-[1]
-https://lore.kernel.org/linux-media/20201211154027.153535-1-paul.kocialkowski@bootlin.com/T/#m5eb18611b7df1538ed4924422583b62cc61dbfae
-
-[2]
-https://lore.kernel.org/linux-media/20201211154428.153762-1-paul.kocialkowski@bootlin.com/T/#m6d4fd5e590b1c4583d4a74f5ae938ea011408640
-
+> > +    $ref: '/schemas/types.yaml#/definitions/uint32'
+> > +    minimum: 30
+> > +    maximum: 200
+> > +    default: 170
+> > +    description: |
+> > +      Initial amplitude of the reverse control channel, in millivolts.
+> > +
+> > +      The initial amplitude shall be adjusted to a value compatible with the
+> > +      configuration of the connected remote serializer.
+> > +
+> > +      Some camera modules (for example RDACM20) include an on-board MCU that
+> > +      pre-programs the embedded serializer with power supply noise immunity
+> > +      (high-threshold) enabled. A typical value of the deserializer's reverse
+> > +      channel amplitude to communicate with pre-programmed serializers is 170mV.
+> > +
+> > +      A typical value for the reverse channel amplitude to communicate with
+> > +      a remote serializer whose high-threshold noise immunity is not enabled
+> > +      is 100mV.
+> > +
+> >    ports:
+> >      type: object
+> >      description: |
+> > @@ -221,6 +241,7 @@ required:
+> >    - ports
+> >    - i2c-mux
+> >    - gpio-controller
+> > +  - maxim,initial-reverse-channel-mV
+> >
+> >  additionalProperties: false
+> >
+> > @@ -243,6 +264,8 @@ examples:
+> >          gpio-controller;
+> >          #gpio-cells = <2>;
+> >
+> > +        maxim,initial-reverse-channel-mV = <170>;
+> > +
+> >          ports {
+> >            #address-cells = <1>;
+> >            #size-cells = <0>;
+> > --
+> > 2.29.1
+> >
